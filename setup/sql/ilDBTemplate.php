@@ -149,7 +149,7 @@ $pk_fields = array("obj_id","field_id");
 $ilDB->addPrimaryKey("adv_md_values", $pk_fields);
 
 $in_fields = array("obj_id");
-$ilDB->addIndex("adv_md_values", $in_fields, "i1");
+$ilDB->addIndex("adv_md_values", $in_fields, "i1", false);
 
 
 //
@@ -259,7 +259,7 @@ $fields = array (
 $ilDB->createTable("benchmark", $fields);
 
 $in_fields = array("module","benchmark");
-$ilDB->addIndex("benchmark", $in_fields, "i1");
+$ilDB->addIndex("benchmark", $in_fields, "i1", false);
 
 
 //
@@ -365,10 +365,10 @@ $fields = array (
 $ilDB->createTable("bookmark_tree", $fields);
 
 $in_fields = array("child");
-$ilDB->addIndex("bookmark_tree", $in_fields, "i1");
+$ilDB->addIndex("bookmark_tree", $in_fields, "i1", false);
 
 $in_fields = array("parent");
-$ilDB->addIndex("bookmark_tree", $in_fields, "i2");
+$ilDB->addIndex("bookmark_tree", $in_fields, "i2", false);
 
 $ilDB->insert("bookmark_tree", array(
 'tree' => array('integer', '6'), 'child' => array('integer', '1'), 'parent' => array('integer', '0'), 'lft' => array('integer', '1'), 'rgt' => array('integer', '2'), 'depth' => array('integer', '1')));
@@ -802,7 +802,7 @@ $pk_fields = array("crs_grp_id");
 $ilDB->addPrimaryKey("crs_groupings", $pk_fields);
 
 $in_fields = array("crs_id");
-$ilDB->addIndex("crs_groupings", $in_fields, "i1");
+$ilDB->addIndex("crs_groupings", $in_fields, "i1", false);
 
 
 //
@@ -1015,7 +1015,7 @@ $fields = array (
 $ilDB->createTable("ctrl_calls", $fields);
 
 $in_fields = array("parent");
-$ilDB->addIndex("ctrl_calls", $in_fields, "i1");
+$ilDB->addIndex("ctrl_calls", $in_fields, "i1", false);
 
 $ilDB->insert("ctrl_calls", array(
 'parent' => array('text', 'ilobjsearchsettingsgui'), 'child' => array('text', 'ilpermissiongui'), 'comp_prefix' => array('text', '')));
@@ -3330,7 +3330,7 @@ $fields = array (
 $ilDB->createTable("desktop_item", $fields);
 
 $in_fields = array("user_id");
-$ilDB->addIndex("desktop_item", $in_fields, "i1");
+$ilDB->addIndex("desktop_item", $in_fields, "i1", false);
 
 
 //
@@ -3457,7 +3457,7 @@ $pk_fields = array("obj_id");
 $ilDB->addPrimaryKey("exc_data", $pk_fields);
 
 $in_fields = array("instruction");
-$ilDB->addIndex("exc_data", $in_fields, "i1");
+$ilDB->addIndex("exc_data", $in_fields, "i1", true);
 
 
 //
@@ -3590,10 +3590,10 @@ $pk_fields = array("returned_id");
 $ilDB->addPrimaryKey("exc_returned", $pk_fields);
 
 $in_fields = array("obj_id");
-$ilDB->addIndex("exc_returned", $in_fields, "i1");
+$ilDB->addIndex("exc_returned", $in_fields, "i1", false);
 
 $in_fields = array("user_id");
-$ilDB->addIndex("exc_returned", $in_fields, "i2");
+$ilDB->addIndex("exc_returned", $in_fields, "i2", false);
 
 $ilDB->createSequence("exc_returned", 1);
 
@@ -3961,10 +3961,10 @@ $pk_fields = array("id");
 $ilDB->addPrimaryKey("glossary_term", $pk_fields);
 
 $in_fields = array("glo_id");
-$ilDB->addIndex("glossary_term", $in_fields, "i1");
+$ilDB->addIndex("glossary_term", $in_fields, "i1", false);
 
 $in_fields = array("term");
-$ilDB->addIndex("glossary_term", $in_fields, "i2");
+$ilDB->addIndex("glossary_term", $in_fields, "i2", true);
 
 $ilDB->createSequence("glossary_term", 1);
 
@@ -4027,7 +4027,7 @@ $pk_fields = array("id");
 $ilDB->addPrimaryKey("history", $pk_fields);
 
 $in_fields = array("obj_id","obj_type");
-$ilDB->addIndex("history", $in_fields, "i1");
+$ilDB->addIndex("history", $in_fields, "i1", false);
 
 $ilDB->createSequence("history", 1);
 
@@ -4413,13 +4413,13 @@ $fields = array (
 $ilDB->createTable("il_log", $fields);
 
 $in_fields = array("created");
-$ilDB->addIndex("il_log", $in_fields, "i1");
+$ilDB->addIndex("il_log", $in_fields, "i1", false);
 
 $in_fields = array("module");
-$ilDB->addIndex("il_log", $in_fields, "i2");
+$ilDB->addIndex("il_log", $in_fields, "i2", false);
 
 $in_fields = array("log_level");
-$ilDB->addIndex("il_log", $in_fields, "i3");
+$ilDB->addIndex("il_log", $in_fields, "i3", false);
 
 
 //
@@ -5513,13 +5513,13 @@ $fields = array (
 $ilDB->createTable("il_request_token", $fields);
 
 $in_fields = array("user_id");
-$ilDB->addIndex("il_request_token", $in_fields, "i1");
+$ilDB->addIndex("il_request_token", $in_fields, "i1", false);
 
 $in_fields = array("session_id");
-$ilDB->addIndex("il_request_token", $in_fields, "i2");
+$ilDB->addIndex("il_request_token", $in_fields, "i2", false);
 
 $in_fields = array("token");
-$ilDB->addIndex("il_request_token", $in_fields, "i3");
+$ilDB->addIndex("il_request_token", $in_fields, "i3", false);
 
 $ilDB->insert("il_request_token", array(
 'user_id' => array('integer', '6'), 'token' => array('text', '4c72e08bb010d633ecb160b21b4c8c11'), 'stamp' => array('timestamp', '2009-02-09 18:01:40'), 'session_id' => array('text', '8c666c9b2ae18876d56143db8abaf2a8')));
@@ -5566,7 +5566,7 @@ $pk_fields = array("server_id","keyword");
 $ilDB->addPrimaryKey("ldap_attribute_mapping", $pk_fields);
 
 $in_fields = array("server_id");
-$ilDB->addIndex("ldap_attribute_mapping", $in_fields, "i1");
+$ilDB->addIndex("ldap_attribute_mapping", $in_fields, "i1", false);
 
 
 //
@@ -5956,10 +5956,10 @@ $pk_fields = array("module","identifier","lang_key");
 $ilDB->addPrimaryKey("lng_data", $pk_fields);
 
 $in_fields = array("module");
-$ilDB->addIndex("lng_data", $in_fields, "i1");
+$ilDB->addIndex("lng_data", $in_fields, "i1", false);
 
 $in_fields = array("lang_key");
-$ilDB->addIndex("lng_data", $in_fields, "i2");
+$ilDB->addIndex("lng_data", $in_fields, "i2", false);
 
 
 //
@@ -6326,10 +6326,10 @@ $pk_fields = array("id");
 $ilDB->addPrimaryKey("note", $pk_fields);
 
 $in_fields = array("author");
-$ilDB->addIndex("note", $in_fields, "i1");
+$ilDB->addIndex("note", $in_fields, "i1", false);
 
 $in_fields = array("rep_obj_id","obj_id","obj_type");
-$ilDB->addIndex("note", $in_fields, "i2");
+$ilDB->addIndex("note", $in_fields, "i2", false);
 
 $ilDB->createSequence("note", 1);
 
@@ -6392,13 +6392,13 @@ $pk_fields = array("obj_id");
 $ilDB->addPrimaryKey("object_data", $pk_fields);
 
 $in_fields = array("type");
-$ilDB->addIndex("object_data", $in_fields, "i1");
+$ilDB->addIndex("object_data", $in_fields, "i1", false);
 
 $in_fields = array("title");
-$ilDB->addIndex("object_data", $in_fields, "i2");
+$ilDB->addIndex("object_data", $in_fields, "i2", false);
 
 $in_fields = array("title","description");
-$ilDB->addIndex("object_data", $in_fields, "i3");
+$ilDB->addIndex("object_data", $in_fields, "i3", false);
 
 $ilDB->createSequence("object_data", 181);
 
@@ -6874,10 +6874,10 @@ $pk_fields = array("ref_id");
 $ilDB->addPrimaryKey("object_reference", $pk_fields);
 
 $in_fields = array("obj_id");
-$ilDB->addIndex("object_reference", $in_fields, "i1");
+$ilDB->addIndex("object_reference", $in_fields, "i1", false);
 
 $in_fields = array("deleted");
-$ilDB->addIndex("object_reference", $in_fields, "i2");
+$ilDB->addIndex("object_reference", $in_fields, "i2", false);
 
 $ilDB->createSequence("object_reference", 38);
 
@@ -7013,7 +7013,7 @@ $pk_fields = array("rol_id","parent");
 $ilDB->addPrimaryKey("rbac_fa", $pk_fields);
 
 $in_fields = array("parent");
-$ilDB->addIndex("rbac_fa", $in_fields, "i1");
+$ilDB->addIndex("rbac_fa", $in_fields, "i1", false);
 
 $ilDB->insert("rbac_fa", array(
 'rol_id' => array('integer', '2'), 'parent' => array('integer', '8'), 'assign' => array('text', 'y'), 'protected' => array('text', 'y')));
@@ -7115,7 +7115,7 @@ $pk_fields = array("ops_id");
 $ilDB->addPrimaryKey("rbac_operations", $pk_fields);
 
 $in_fields = array("operation");
-$ilDB->addIndex("rbac_operations", $in_fields, "i1");
+$ilDB->addIndex("rbac_operations", $in_fields, "i1", false);
 
 $ilDB->createSequence("rbac_operations", 69);
 
@@ -7325,7 +7325,7 @@ $pk_fields = array("rol_id","ref_id");
 $ilDB->addPrimaryKey("rbac_pa", $pk_fields);
 
 $in_fields = array("ref_id");
-$ilDB->addIndex("rbac_pa", $in_fields, "i1");
+$ilDB->addIndex("rbac_pa", $in_fields, "i1", false);
 
 $ilDB->insert("rbac_pa", array(
 'rol_id' => array('integer', '5'), 'ops_id' => array('text', 'a:2:{i:0;i:3;i:1;i:2;}'), 'ref_id' => array('integer', '1')));
@@ -8654,16 +8654,16 @@ $fields = array (
 $ilDB->createTable("rbac_templates", $fields);
 
 $in_fields = array("rol_id");
-$ilDB->addIndex("rbac_templates", $in_fields, "i1");
+$ilDB->addIndex("rbac_templates", $in_fields, "i1", false);
 
 $in_fields = array("type");
-$ilDB->addIndex("rbac_templates", $in_fields, "i2");
+$ilDB->addIndex("rbac_templates", $in_fields, "i2", false);
 
 $in_fields = array("ops_id");
-$ilDB->addIndex("rbac_templates", $in_fields, "i3");
+$ilDB->addIndex("rbac_templates", $in_fields, "i3", false);
 
 $in_fields = array("parent");
-$ilDB->addIndex("rbac_templates", $in_fields, "i4");
+$ilDB->addIndex("rbac_templates", $in_fields, "i4", false);
 
 $ilDB->insert("rbac_templates", array(
 'rol_id' => array('integer', '3'), 'type' => array('text', 'grp'), 'ops_id' => array('integer', '32'), 'parent' => array('integer', '8')));
@@ -11967,10 +11967,10 @@ $pk_fields = array("usr_id","rol_id");
 $ilDB->addPrimaryKey("rbac_ua", $pk_fields);
 
 $in_fields = array("usr_id");
-$ilDB->addIndex("rbac_ua", $in_fields, "i1");
+$ilDB->addIndex("rbac_ua", $in_fields, "i1", false);
 
 $in_fields = array("rol_id");
-$ilDB->addIndex("rbac_ua", $in_fields, "i2");
+$ilDB->addIndex("rbac_ua", $in_fields, "i2", false);
 
 $ilDB->insert("rbac_ua", array(
 'usr_id' => array('integer', '6'), 'rol_id' => array('integer', '2')));
@@ -12123,7 +12123,7 @@ $pk_fields = array("role_item_id");
 $ilDB->addPrimaryKey("role_desktop_items", $pk_fields);
 
 $in_fields = array("role_item_id","role_id");
-$ilDB->addIndex("role_desktop_items", $in_fields, "i1");
+$ilDB->addIndex("role_desktop_items", $in_fields, "i1", false);
 
 $ilDB->createSequence("role_desktop_items", 1);
 
@@ -12536,13 +12536,13 @@ $fields = array (
 $ilDB->createTable("tree", $fields);
 
 $in_fields = array("child");
-$ilDB->addIndex("tree", $in_fields, "i1");
+$ilDB->addIndex("tree", $in_fields, "i1", false);
 
 $in_fields = array("parent");
-$ilDB->addIndex("tree", $in_fields, "i2");
+$ilDB->addIndex("tree", $in_fields, "i2", false);
 
 $in_fields = array("tree");
-$ilDB->addIndex("tree", $in_fields, "i3");
+$ilDB->addIndex("tree", $in_fields, "i3", false);
 
 $ilDB->insert("tree", array(
 'tree' => array('integer', '1'), 'child' => array('integer', '1'), 'parent' => array('integer', '0'), 'lft' => array('integer', '1'), 'rgt' => array('integer', '140'), 'depth' => array('integer', '1')));
@@ -13079,7 +13079,7 @@ $pk_fields = array("usr_id");
 $ilDB->addPrimaryKey("usr_data", $pk_fields);
 
 $in_fields = array("login","passwd");
-$ilDB->addIndex("usr_data", $in_fields, "i1");
+$ilDB->addIndex("usr_data", $in_fields, "i1", false);
 
 $ilDB->insert("usr_data", array(
 'usr_id' => array('integer', '6'), 'login' => array('text', 'root'), 'passwd' => array('text', 'dfa8327f5bfa4c672a04f9b38e348a70'), 'firstname' => array('text', 'root'), 'lastname' => array('text', 'user'), 'title' => array('text', ''), 'gender' => array('text', 'm'), 'email' => array('text', 'ilias@yourserver.com'), 'institution' => array('text', ''), 'street' => array('text', ''), 'city' => array('text', ''), 'zipcode' => array('text', ''), 'country' => array('text', ''), 'phone_office' => array('text', ''), 'last_login' => array('timestamp', '2009-02-25 17:03:02'), 'last_update' => array('timestamp', '2003-09-30 19:50:01'), 'create_date' => array('timestamp', ''), 'hobby' => array('text', ''), 'department' => array('text', ''), 'phone_home' => array('text', ''), 'phone_mobile' => array('text', ''), 'fax' => array('text', ''), 'i2passwd' => array('text', ''), 'time_limit_owner' => array('integer', '7'), 'time_limit_unlimited' => array('integer', '1'), 'time_limit_from' => array('integer', '0'), 'time_limit_until' => array('integer', '0'), 'time_limit_message' => array('integer', '0'), 'referral_comment' => array('text', ''), 'matriculation' => array('text', ''), 'active' => array('integer', '1'), 'approve_date' => array('timestamp', ''), 'agree_date' => array('timestamp', ''), 'ilinc_id' => array('integer', ''), 'ilinc_login' => array('text', ''), 'ilinc_passwd' => array('text', ''), 'client_ip' => array('text', ''), 'auth_mode' => array('text', 'default'), 'profile_incomplete' => array('integer', '0'), 'ext_account' => array('text', ''), 'im_icq' => array('text', ''), 'im_yahoo' => array('text', ''), 'im_msn' => array('text', ''), 'im_aim' => array('text', ''), 'im_skype' => array('text', ''), 'feed_hash' => array('text', ''), 'delicious' => array('text', ''), 'latitude' => array('text', ''), 'longitude' => array('text', ''), 'loc_zoom' => array('integer', '0'), 'login_attempts' => array('integer', '0'), 'last_password_change' => array('integer', '1217068076'), 'im_jabber' => array('text', ''), 'im_voip' => array('text', '')));
@@ -13253,10 +13253,10 @@ $pk_fields = array("session_id");
 $ilDB->addPrimaryKey("usr_session", $pk_fields);
 
 $in_fields = array("expires");
-$ilDB->addIndex("usr_session", $in_fields, "i1");
+$ilDB->addIndex("usr_session", $in_fields, "i1", false);
 
 $in_fields = array("user_id");
-$ilDB->addIndex("usr_session", $in_fields, "i2");
+$ilDB->addIndex("usr_session", $in_fields, "i2", false);
 
 $ilDB->insert("usr_session", array(
 'session_id' => array('text', 'd0729d6493c6b11c4c863824edeaae50'), 'expires' => array('integer', '1235209231'), 'data' => array('clob', '_authhttpa2e4822a98337283e39f7b60acf85ec9|a:10:{s:12:"challengekey";s:32:"a7e93aaa626419154de00e228d8f801f";s:4:"data";a:0:{}s:9:"sessionip";s:13:"192.168.2.103";s:16:"sessionuseragent";s:97:"Mozilla/5.0 (Macintosh; U; Intel Mac OS X 10.4; en-US; rv:1.9.0.6) Gecko/2009011912 Firefox/3.0.6";s:19:"sessionforwardedfor";s:0:"";s:15:"challengecookie";s:32:"ebdf4610e545b17cd4ace51c84aeb5c5";s:10:"registered";b:1;s:8:"username";s:4:"root";s:9:"timestamp";i:1235204889;s:4:"idle";i:1235205631;}lang|s:2:"en";locator_data|a:0:{}locator_level|i:-1;il_help_targets|a:0:{}post_vars|a:0:{}referer|s:48:"/ilias3/ilias.php?baseClass=ilPersonalDesktopGUI";AccountId|s:1:"6";tbl_limit|i:10;il_pd_history|b:0;pdusers_0_blnav|N;il_rep_mode|s:4:"flat";il_rep_ref_id|i:1;search_last_class|s:11:"ilsearchgui";search|a:4:{s:4:"type";N;s:11:"combination";N;s:6:"string";N;s:7:"details";N;}expand|a:1:{i:0;s:1:"1";}'), 'ctime' => array('integer', '1235205631'), 'user_id' => array('integer', '6')));
@@ -13268,7 +13268,7 @@ $ilDB->insert("usr_session", array(
 'session_id' => array('text', '945ba21fe3cb599cfaa8f800308693c7'), 'expires' => array('integer', '1235467540'), 'data' => array('clob', '_authhttpa2e4822a98337283e39f7b60acf85ec9|a:0:{}lang|s:2:"en";locator_data|a:0:{}locator_level|i:-1;il_help_targets|a:0:{}post_vars|a:4:{s:9:"sendLogin";s:1:"1";s:8:"username";s:4:"alex";s:8:"password";s:8:"kalstert";s:9:"butSubmit";s:6:"Submit";}referer|s:113:"/ilias3/login.php?lang=en&client_id=empty&cmd=post&cmdClass=ilstartupgui&cmdNode=1&baseClass=ilStartUpGUI&rtoken=";'), 'ctime' => array('integer', '1235463940'), 'user_id' => array('integer', '0')));
 
 $ilDB->insert("usr_session", array(
-'session_id' => array('text', '1a4bd4b9206796b74c850ddfd9a05cae'), 'expires' => array('integer', '1235581384'), 'data' => array('clob', '_authhttpa2e4822a98337283e39f7b60acf85ec9|a:10:{s:12:"challengekey";s:32:"a7e93aaa626419154de00e228d8f801f";s:4:"data";a:0:{}s:9:"sessionip";s:15:"192.168.116.102";s:16:"sessionuseragent";s:97:"Mozilla/5.0 (Macintosh; U; Intel Mac OS X 10.4; en-US; rv:1.9.0.6) Gecko/2009011912 Firefox/3.0.6";s:19:"sessionforwardedfor";s:0:"";s:15:"challengecookie";s:32:"49eed9caa356e083d244b4f705f7bb3a";s:10:"registered";b:1;s:8:"username";s:4:"root";s:9:"timestamp";i:1235577740;s:4:"idle";i:1235577782;}lang|s:2:"en";locator_data|a:0:{}locator_level|i:-1;il_help_targets|a:0:{}post_vars|a:0:{}referer|s:48:"/ilias3/ilias.php?baseClass=ilPersonalDesktopGUI";AccountId|s:1:"6";tbl_limit|i:10;il_pd_history|b:0;pdusers_0_blnav|N;'), 'ctime' => array('integer', '1235577784'), 'user_id' => array('integer', '6')));
+'session_id' => array('text', '1a4bd4b9206796b74c850ddfd9a05cae'), 'expires' => array('integer', '1235582335'), 'data' => array('clob', '_authhttpa2e4822a98337283e39f7b60acf85ec9|a:10:{s:12:"challengekey";s:32:"a7e93aaa626419154de00e228d8f801f";s:4:"data";a:0:{}s:9:"sessionip";s:15:"192.168.116.102";s:16:"sessionuseragent";s:97:"Mozilla/5.0 (Macintosh; U; Intel Mac OS X 10.4; en-US; rv:1.9.0.6) Gecko/2009011912 Firefox/3.0.6";s:19:"sessionforwardedfor";s:0:"";s:15:"challengecookie";s:32:"49eed9caa356e083d244b4f705f7bb3a";s:10:"registered";b:1;s:8:"username";s:4:"root";s:9:"timestamp";i:1235577740;s:4:"idle";i:1235578730;}lang|s:2:"en";locator_data|a:0:{}locator_level|i:-1;il_help_targets|a:0:{}post_vars|a:0:{}referer|s:48:"/ilias3/ilias.php?baseClass=ilPersonalDesktopGUI";AccountId|s:1:"6";tbl_limit|i:10;il_pd_history|b:0;pdusers_0_blnav|N;'), 'ctime' => array('integer', '1235578735'), 'user_id' => array('integer', '6')));
 
 
 //
@@ -13350,7 +13350,7 @@ $pk_fields = array("obj_id","ts","parent_obj_id","action");
 $ilDB->addPrimaryKey("write_event", $pk_fields);
 
 $in_fields = array("parent_obj_id","ts");
-$ilDB->addIndex("write_event", $in_fields, "i1");
+$ilDB->addIndex("write_event", $in_fields, "i1", false);
 
 $ilDB->insert("write_event", array(
 'obj_id' => array('integer', '7'), 'parent_obj_id' => array('integer', '9'), 'usr_id' => array('integer', '-1'), 'action' => array('text', 'create'), 'ts' => array('timestamp', '2002-06-26 23:24:06')));
