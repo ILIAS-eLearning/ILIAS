@@ -8175,4 +8175,13 @@ ALTER TABLE `adv_md_values` CHANGE `value` `value` VARCHAR( 4000 ) NULL;
 <?php
 	$ilMySQLAbstraction->performAbstraction('adv_md_values');
 ?>
-  
+
+<#1735>
+<?php
+	$ilMySQLAbstraction->performAbstraction('glossary_definition');
+?>
+<#1736>
+<?php
+	$ilMySQLAbstraction->performAbstraction('glossary_term');
+?>
+

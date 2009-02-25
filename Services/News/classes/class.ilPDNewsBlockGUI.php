@@ -59,7 +59,7 @@ class ilPDNewsBlockGUI extends ilNewsForContextBlockGUI
 		$this->setAvailableDetailLevels(3);
 
 		$this->dynamic = false;
-		
+
 		// store current access check results
 		$this->acc_results = $ilAccess->getResults();
 		
@@ -270,7 +270,13 @@ class ilPDNewsBlockGUI extends ilNewsForContextBlockGUI
 			return "";
 		}
 
-		return ilBlockGUI::getHTML();
+		$en = "";
+		if ($ilUser->getPref("il_feed_js") == "n")
+		{
+			$en = $this->getJSEnabler();
+		}
+
+		return ilBlockGUI::getHTML().$en;
 	}
 	
 
@@ -334,87 +340,6 @@ class ilPDNewsBlockGUI extends ilNewsForContextBlockGUI
 			$lng->txt("selected_items_back"));
 	}
 
-	function getDynamic()
-	{
-		global $ilCtrl, $ilUser;
-		
-		if ($ilCtrl->getCmd() == "hideNotifications" ||
-			$ilCtrl->getCmd() == "showNotifications")
-		{
-			return false;
-		}
-		
-		if ($ilCtrl->getCmdClass() != "ilcolumngui" && $ilCtrl->getCmd() != "enableJS")
-		{
-			if ($_SESSION["il_feed_js"] != "n" &&
-				($ilUser->getPref("il_feed_js") != "n" || $_SESSION["il_feed_js"] == "y"))
-			{
-				// do not get feed dynamically, if cache hit is given.
-//				if (!$this->feed->checkCacheHit())
-//				{
-					return true;
-//				}
-			}
-		}
-		
-		return false;
-	}
-
-	function getDynamicReload()
-	{
-		global $ilCtrl, $lng;
-		
-		$ilCtrl->setParameterByClass("ilcolumngui", "block_id",
-			"block_pdnews_".$this->getBlockId());
-
-		$rel_tpl = new ilTemplate("tpl.dynamic_reload.html", true, true, "Services/News");
-		$rel_tpl->setVariable("TXT_LOADING", $lng->txt("news_loading_news"));
-		$rel_tpl->setVariable("BLOCK_ID", "block_pdnews_".$this->getBlockId());
-		$rel_tpl->setVariable("TARGET", 
-			$ilCtrl->getLinkTargetByClass("ilcolumngui", "updateBlock", "", true));
-			
-		// no JS
-		$rel_tpl->setVariable("TXT_NEWS_CLICK_HERE", $lng->txt("news_no_js_click_here"));
-		$rel_tpl->setVariable("TARGET_NO_JS",
-			$ilCtrl->getLinkTargetByClass("ilpdnewsblockgui", "disableJS"));
-
-		return $rel_tpl->get();
-	}
-	
-	function getJSEnabler()
-	{
-		global $ilCtrl, $lng;
-		
-		$ilCtrl->setParameterByClass("ilcolumngui", "block_id",
-			"block_pdnews_".$this->getBlockId());
-
-		$rel_tpl = new ilTemplate("tpl.js_enabler.html", true, true, "Services/News");
-		$rel_tpl->setVariable("BLOCK_ID", "block_pdnews_".$this->getBlockId());
-		$rel_tpl->setVariable("TARGET", 
-			$ilCtrl->getLinkTargetByClass("ilpdnewsblockgui", "enableJS", true));
-			
-		return $rel_tpl->get();
-	}
-	
-	
-	function disableJS()
-	{
-		global $ilCtrl, $ilUser;
-		
-		$_SESSION["il_feed_js"] = "n";
-		$ilUser->writePref("il_feed_js", "n");
-		$ilCtrl->redirectByClass("ilpersonaldesktopgui", "show");
-	}
-	
-	function enableJS()
-	{
-		global $ilUser;
-		
-		$_SESSION["il_feed_js"] = "y";
-		$ilUser->writePref("il_feed_js", "y");
-		echo $this->getHTML();
-		exit;
-	}
 	
 	/**
 	* show news
@@ -422,10 +347,10 @@ class ilPDNewsBlockGUI extends ilNewsForContextBlockGUI
 	function showNews()
 	{
 		// workaround for dynamic mode (if cache is disabled, showNews has no data)
-		if (empty(self::$st_data))
-		{
-			$this->setData($this->getNewsData());
-		}
+//		if (empty(self::$st_data))
+//		{
+//			$this->setData($this->getNewsData());
+//		}
 
 		return parent::showNews();
 	}

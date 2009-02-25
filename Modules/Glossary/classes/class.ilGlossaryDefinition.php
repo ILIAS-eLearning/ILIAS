@@ -3,7 +3,7 @@
 	+-----------------------------------------------------------------------------+
 	| ILIAS open source                                                           |
 	+-----------------------------------------------------------------------------+
-	| Copyright (c) 1998-2001 ILIAS open source, University of Cologne            |
+	| Copyright (c) 1998-2009 ILIAS open source, University of Cologne            |
 	|                                                                             |
 	| This program is free software; you can redistribute it and/or               |
 	| modify it under the terms of the GNU General Public License                 |
@@ -70,9 +70,10 @@ class ilGlossaryDefinition
 	{
 		global $ilDB;
 		
-		$q = "SELECT * FROM glossary_definition WHERE id = ".$ilDB->quote($this->id);
-		$def_set = $this->ilias->db->query($q);
-		$def_rec = $def_set->fetchRow(DB_FETCHMODE_ASSOC);
+		$q = "SELECT * FROM glossary_definition WHERE id = ".
+			$ilDB->quote($this->id, "integer");
+		$def_set = $ilDB->query($q);
+		$def_rec = $ilDB->fetchAssoc($def_set);
 
 		$this->setTermId($def_rec["term_id"]);
 		$this->setShortText($def_rec["short_text"]);
@@ -178,32 +179,34 @@ class ilGlossaryDefinition
 		
 		$term =& new ilGlossaryTerm($this->getTermId());
 
+		$this->setId($ilDB->nextId("glossary_definition"));
+		
 		// lock glossary_definition table
-		$q = "LOCK TABLES glossary_definition WRITE";
-		$this->ilias->db->query($q);
+		ilDB::_lockTables(array('glossary_definition' => 'WRITE'));
 
 		// get maximum definition number
-		$q = "SELECT max(nr) AS max_nr FROM glossary_definition WHERE term_id = ".$ilDB->quote($this->getTermId());
-		$max_set = $this->ilias->db->query($q);
-		$max_rec = $max_set->fetchRow(DB_FETCHMODE_ASSOC);
+		$q = "SELECT max(nr) AS max_nr FROM glossary_definition WHERE term_id = ".
+			$ilDB->quote($this->getTermId(), "integer");
+		$max_set = $ilDB->query($q);
+		$max_rec = $ilDB->fetchAssoc($max_set);
 		$max = (int) $max_rec["max_nr"];
 
 		// insert new definition record
-		$q = "INSERT INTO glossary_definition (term_id, short_text, nr)".
-			" VALUES (".$ilDB->quote($this->getTermId()).",".
-			$ilDB->quote($this->getShortText()).", ".$ilDB->quote(($max + 1)).")";
-		$this->ilias->db->query($q);
+		$ilDB->manipulate("INSERT INTO glossary_definition (id, term_id, short_text, nr)".
+			" VALUES (".
+			$ilDB->quote($this->getId(), "integer").",".
+			$ilDB->quote($this->getTermId(), "integer").",".
+			$ilDB->quote($this->getShortText(), "text").", ".
+			$ilDB->quote(($max + 1), "integer").")");
 
 		// unlock glossary definition table
-		$q = "UNLOCK TABLES";
-		$this->ilias->db->query($q);
-
-		$this->setId($this->ilias->db->getLastInsertId());
+		ilDB::_unlockTables();
 
 		// get number
-		$q = "SELECT nr FROM glossary_definition WHERE id = ".$ilDB->quote($this->id);
-		$def_set = $this->ilias->db->query($q);
-		$def_rec = $def_set->fetchRow(DB_FETCHMODE_ASSOC);
+		$q = "SELECT nr FROM glossary_definition WHERE id = ".
+			$ilDB->quote($this->id, "integer");
+		$def_set = $ilDB->query($q);
+		$def_rec = $ilDB->fetchAssoc($def_set);
 		$this->setNr($def_rec["nr"]);
 
 		// meta data will be created by
@@ -224,30 +227,27 @@ class ilGlossaryDefinition
 		global $ilDB;
 		
 		// lock glossary_definition table
-		$q = "LOCK TABLES glossary_definition WRITE";
-		$this->ilias->db->query($q);
+		ilDB::_lockTables(array('glossary_definition' => 'WRITE'));
 
 		// be sure to get the right number
-		$q = "SELECT * FROM glossary_definition WHERE id = ".$ilDB->quote($this->id);
-		$def_set = $this->ilias->db->query($q);
-		$def_rec = $def_set->fetchRow(DB_FETCHMODE_ASSOC);
+		$q = "SELECT * FROM glossary_definition WHERE id = ".
+			$ilDB->quote($this->id, "integer");
+		$def_set = $ilDB->query($q);
+		$def_rec = $ilDB->fetchAssoc($def_set);
 		$this->setNr($def_rec["nr"]);
 
 		// update numbers of other definitions
-		$q = "UPDATE glossary_definition SET ".
+		$ilDB->manipulate("UPDATE glossary_definition SET ".
 			" nr = nr - 1 ".
-			" WHERE term_id = ".$ilDB->quote($this->getTermId())." ".
-			" AND nr > ".$ilDB->quote($this->getNr());
-		$this->ilias->db->query($q);
+			" WHERE term_id = ".$ilDB->quote($this->getTermId(), "integer")." ".
+			" AND nr > ".$ilDB->quote($this->getNr(), "integer"));
 
 		// delete current definition
-		$q = "DELETE FROM glossary_definition ".
-			" WHERE id = ".$ilDB->quote($this->getId())." ";
-		$this->ilias->db->query($q);
+		$$ilDB->manipulate("DELETE FROM glossary_definition ".
+			" WHERE id = ".$ilDB->quote($this->getId(), "integer"));
 
 		// unlock glossary_definition table
-		$q = "UNLOCK TABLES";
-		$this->ilias->db->query($q);
+		ilDB::_unlockTables();
 
 		// delete page and meta data
 		$this->page_object->delete();
@@ -267,40 +267,35 @@ class ilGlossaryDefinition
 		global $ilDB;
 		
 		// lock glossary_definition table
-		$q = "LOCK TABLES glossary_definition WRITE";
-		$this->ilias->db->query($q);
+		ilDB::_lockTables(array('glossary_definition' => 'WRITE'));
 
 		// be sure to get the right number
-		$q = "SELECT * FROM glossary_definition WHERE id = ".$ilDB->quote($this->id);
-		$def_set = $this->ilias->db->query($q);
-		$def_rec = $def_set->fetchRow(DB_FETCHMODE_ASSOC);
+		$q = "SELECT * FROM glossary_definition WHERE id = ".
+			$ilDB->quote($this->id, "integer");
+		$def_set = $ilDB->query($q);
+		$def_rec = $ilDB->fetchAssoc($def_set);
 		$this->setNr($def_rec["nr"]);
 
 		if ($this->getNr() < 2)
 		{
-			$q = "UNLOCK TABLES";
-			$this->ilias->db->query($q);
+			ilDB::_unlockTables();
 			return;
 		}
 
 		// update numbers of other definitions
-		$q = "UPDATE glossary_definition SET ".
+		$ilDB->manipulate("UPDATE glossary_definition SET ".
 			" nr = nr + 1 ".
-			" WHERE term_id = ".$ilDB->quote($this->getTermId())." ".
-			" AND nr = ".$ilDB->quote(($this->getNr() - 1));
-		$this->ilias->db->query($q);
+			" WHERE term_id = ".$ilDB->quote($this->getTermId(), "integer")." ".
+			" AND nr = ".$ilDB->quote(($this->getNr() - 1), "integer"));
 
 		// delete current definition
-		$q = "UPDATE glossary_definition SET ".
+		$ilDB->manipulate("UPDATE glossary_definition SET ".
 			" nr = nr - 1 ".
-			" WHERE term_id = ".$ilDB->quote($this->getTermId())." ".
-			" AND id = ".$ilDB->quote($this->getId());
-		$this->ilias->db->query($q);
+			" WHERE term_id = ".$ilDB->quote($this->getTermId(), "integer")." ".
+			" AND id = ".$ilDB->quote($this->getId(), "integer"));
 
 		// unlock glossary_definition table
-		$q = "UNLOCK TABLES";
-		$this->ilias->db->query($q);
-
+		ilDB::_unlockTables();
 	}
 
 
@@ -309,45 +304,41 @@ class ilGlossaryDefinition
 		global $ilDB;
 		
 		// lock glossary_definition table
-		$q = "LOCK TABLES glossary_definition WRITE";
-		$this->ilias->db->query($q);
+		ilDB::_lockTables(array('glossary_definition' => 'WRITE'));
 
 		// be sure to get the right number
-		$q = "SELECT * FROM glossary_definition WHERE id = ".$ilDB->quote($this->id);
-		$def_set = $this->ilias->db->query($q);
-		$def_rec = $def_set->fetchRow(DB_FETCHMODE_ASSOC);
+		$q = "SELECT * FROM glossary_definition WHERE id = ".
+			$ilDB->quote($this->id, "integer");
+		$def_set = $ilDB->query($q);
+		$def_rec = $ilDB->fetchAssoc($def_set);
 		$this->setNr($def_rec["nr"]);
 
 		// get max number
 		$q = "SELECT max(nr) as max_nr FROM glossary_definition WHERE term_id = ".
-			$ilDB->quote($this->getTermId());
-		$max_set = $this->ilias->db->query($q);
-		$max_rec = $max_set->fetchRow(DB_FETCHMODE_ASSOC);
+			$ilDB->quote($this->getTermId(), "integer");
+		$max_set = $ilDB->query($q);
+		$max_rec = $ilDB->fetchAssoc($max_set);
 
 		if ($this->getNr() >= $max_rec["max_nr"])
 		{
-			$q = "UNLOCK TABLES";
-			$this->ilias->db->query($q);
+			ilDB::_unlockTables();
 			return;
 		}
 
 		// update numbers of other definitions
-		$q = "UPDATE glossary_definition SET ".
+		$ilDB->manipulate("UPDATE glossary_definition SET ".
 			" nr = nr - 1 ".
-			" WHERE term_id = ".$ilDB->quote($this->getTermId())." ".
-			" AND nr = ".$ilDB->quote(($this->getNr() + 1));
-		$this->ilias->db->query($q);
+			" WHERE term_id = ".$ilDB->quote($this->getTermId(), "integer")." ".
+			" AND nr = ".$ilDB->quote(($this->getNr() + 1), "integer"));
 
 		// delete current definition
-		$q = "UPDATE glossary_definition SET ".
+		$ilDB->manipulate("UPDATE glossary_definition SET ".
 			" nr = nr + 1 ".
-			" WHERE term_id = ".$ilDB->quote($this->getTermId())." ".
-			" AND id = ".$ilDB->quote($this->getId());
-		$this->ilias->db->query($q);
+			" WHERE term_id = ".$ilDB->quote($this->getTermId(), "integer")." ".
+			" AND id = ".$ilDB->quote($this->getId(), "integer"));
 
 		// unlock glossary_definition table
-		$q = "UNLOCK TABLES";
-		$this->ilias->db->query($q);
+		ilDB::_unlockTables();
 
 	}
 
@@ -358,12 +349,11 @@ class ilGlossaryDefinition
 		
 		$this->updateMetaData();
 
-		$q = "UPDATE glossary_definition SET ".
-			" term_id = ".$ilDB->quote($this->getTermId()).", ".
-			" nr = ".$ilDB->quote($this->getNr()).", ".
-			" short_text = ".$ilDB->quote($this->getShortText())." ".
-			" WHERE id = ".$ilDB->quote($this->getId());
-		$this->ilias->db->query($q);
+		$ilDB->manipulate("UPDATE glossary_definition SET ".
+			" term_id = ".$ilDB->quote($this->getTermId(), "integer").", ".
+			" nr = ".$ilDB->quote($this->getNr(), "integer").", ".
+			" short_text = ".$ilDB->quote($this->getShortText(), "text")." ".
+			" WHERE id = ".$ilDB->quote($this->getId(), "integer"));
 	}
 
 	function updateShortText()
@@ -403,10 +393,11 @@ class ilGlossaryDefinition
 		global $ilDB;
 		
 	    $defs = array();
-		$q = "SELECT * FROM glossary_definition WHERE term_id = ".$ilDB->quote($a_term_id).
+		$q = "SELECT * FROM glossary_definition WHERE term_id = ".
+			$ilDB->quote($a_term_id, "integer").
 			" ORDER BY nr";
 		$def_set = $ilDB->query($q);
-		while ($def_rec = $def_set->fetchRow(DB_FETCHMODE_ASSOC))
+		while ($def_rec = $ilDB->fetchAssoc($def_set))
 		{
 			$defs[] = array("term_id" => $def_rec["term_id"],
 				"page_id" => $def_rec["page_id"], "id" => $def_rec["id"],
@@ -595,9 +586,10 @@ class ilGlossaryDefinition
 	{
 		global $ilDB;
 		
-		$q = "SELECT * FROM glossary_definition WHERE id = ".$ilDB->quote($a_def_id);
+		$q = "SELECT * FROM glossary_definition WHERE id = ".
+			$ilDB->quote($a_def_id, "integer");
 		$def_set = $ilDB->query($q);
-		$def_rec = $def_set->fetchRow(DB_FETCHMODE_ASSOC);
+		$def_rec = $ilDB->fetchAssoc($def_set);
 
 		return $def_rec["term_id"];
 	}

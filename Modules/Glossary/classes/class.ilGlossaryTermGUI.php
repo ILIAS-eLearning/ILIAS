@@ -3,7 +3,7 @@
 	+-----------------------------------------------------------------------------+
 	| ILIAS open source                                                           |
 	+-----------------------------------------------------------------------------+
-	| Copyright (c) 1998-2006 ILIAS open source, University of Cologne            |
+	| Copyright (c) 1998-2008 ILIAS open source, University of Cologne            |
 	|                                                                             |
 	| This program is free software; you can redistribute it and/or               |
 	| modify it under the terms of the GNU General Public License                 |
@@ -432,10 +432,12 @@ class ilGlossaryTermGUI
 		$this->tpl->setVariable("TXT_TERM", $this->term->getTerm());
 
 		$definition =& new ilGlossaryDefinition($_GET["def"]);
-		$page =& new ilPageObject("gdf", $definition->getId());
-		$page_gui =& new ilPageObjectGUI($page);
+		//$page =& new ilPageObject("gdf", $definition->getId());
+		$page_gui =& new ilPageObjectGUI("gdf", $definition->getId());
 		$page_gui->setTemplateOutput(false);
 		$page_gui->setSourcecodeDownloadScript("ilias.php?baseClass=ilGlossaryPresentationGUI&amp;ref_id=".$_GET["ref_id"]);
+		$page_gui->setFileDownloadLink("ilias.php?baseClass=ilGlossaryPresentationGUI&amp;ref_id=".$_GET["ref_id"]);
+		$page_gui->setFullscreenLink("ilias.php?baseClass=ilGlossaryPresentationGUI&amp;ref_id=".$_GET["ref_id"]);
 		$output = $page_gui->preview();
 
 		$this->tpl->setCurrentBlock("definition");

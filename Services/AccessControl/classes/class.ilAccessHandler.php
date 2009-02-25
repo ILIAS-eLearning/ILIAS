@@ -3,7 +3,7 @@
 	+-----------------------------------------------------------------------------+
 	| ILIAS open source                                                           |
 	+-----------------------------------------------------------------------------+
-	| Copyright (c) 1998-2001 ILIAS open source, University of Cologne            |
+	| Copyright (c) 1998-2009 ILIAS open source, University of Cologne            |
 	|                                                                             |
 	| This program is free software; you can redistribute it and/or               |
 	| modify it under the terms of the GNU General Public License                 |
@@ -358,15 +358,23 @@ class ilAccessHandler
 
 		$ilBench->start("AccessControl", "2000_checkAccess_in_tree");
 
+//		if (isset($this->is_in_tree[$a_ref_id]))
+//		{
+//			$ilBench->stop("AccessControl", "2000_checkAccess_in_tree");
+//			return $this->is_in_tree[$a_ref_id];
+//		}
+
 		if(!$tree->isInTree($a_ref_id) or $tree->isDeleted($a_ref_id))
 		{
 			$this->current_info->addInfoItem(IL_DELETED, $lng->txt("object_deleted"));
 			$this->storeAccessResult($a_permission, $a_cmd, $a_ref_id, false,$a_user_id);
 			$ilBench->stop("AccessControl", "2000_checkAccess_in_tree");
+//			$this->is_in_tree[$a_ref_id] = false;
 
 			return false;
 		}
 
+//		$this->is_in_tree[$a_ref_id] = true;
 		$this->storeAccessResult($a_permission, $a_cmd, $a_ref_id, true,$a_user_id);		
 		$ilBench->stop("AccessControl", "2000_checkAccess_in_tree");
 		return true;
@@ -391,7 +399,15 @@ class ilAccessHandler
 				$ilErr->raiseError($message,$ilErr->MESSAGE);
 		}
 		
+//		if (isset($this->stored_rbac_access[$a_user_id."-".$a_permission."-".$a_ref_id]))
+//		{
+//			$access = $this->stored_rbac_access[$a_user_id."-".$a_permission."-".$a_ref_id];//
+//		}
+//		else
+//		{
 		$access = $this->rbacsystem->checkAccessOfUser($a_user_id, $a_permission, $a_ref_id);
+//			$this->stored_rbac_access[$a_user_id."-".$a_permission."-".$a_ref_id] = $access;
+//		}
 
 		if (!$access)
 		{
@@ -414,7 +430,16 @@ class ilAccessHandler
 //echo "<br>dopathcheck";
 		//echo "pathCheck<br/>";
 		$ilBench->start("AccessControl", "3100_checkAccess_check_parents_get_path");
+
+//		if (isset($this->stored_path[$a_ref_id]))
+//		{
+//			$path = $this->stored_path[$a_ref_id];
+//		}
+//		else
+//		{
 		$path = $tree->getPathId($a_ref_id);
+//			$this->stored_path[$a_ref_id] = $path;
+//		}
 		$ilBench->stop("AccessControl", "3100_checkAccess_check_parents_get_path");
 
 		$tmp_info = $this->current_info;
