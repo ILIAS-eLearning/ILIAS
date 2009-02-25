@@ -8221,4 +8221,11 @@ ALTER TABLE `object_translation` CHANGE `description` `description` VARCHAR( 400
 	$ilMySQLAbstraction->performAbstraction('object_translation');
 ?>
 
+<#1747>
+ALTER TABLE il_news_item MODIFY content_type CHAR(5) DEFAULT 'text';
+ALTER TABLE il_news_item MODIFY visibility CHAR(6) DEFAULT 'users';
+<#1748>
+<?php
+	$ilMySQLAbstraction->performAbstraction('il_news_item');
+?>
 
