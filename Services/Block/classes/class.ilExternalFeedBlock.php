@@ -3,7 +3,7 @@
 	+-----------------------------------------------------------------------------+
 	| ILIAS open source                                                           |
 	+-----------------------------------------------------------------------------+
-	| Copyright (c) 1998-2006 ILIAS open source, University of Cologne            |
+	| Copyright (c) 1998-2009 ILIAS open source, University of Cologne            |
 	|                                                                             |
 	| This program is free software; you can redistribute it and/or               |
 	| modify it under the terms of the GNU General Public License                 |
@@ -83,9 +83,9 @@ class ilExternalFeedBlock extends ilCustomBlock
 			" id".
 			", feed_url".
 			" ) VALUES (".
-			$ilDB->quote($this->getId())
-			.",".$ilDB->quote($this->getFeedUrl()).")";
-		$ilDB->query($query);
+			$ilDB->quote($this->getId(), "integer")
+			.",".$ilDB->quote($this->getFeedUrl(), "text").")";
+		$ilDB->manipulate($query);
 
 	}
 
@@ -100,9 +100,9 @@ class ilExternalFeedBlock extends ilCustomBlock
 		parent::read();
 		
 		$query = "SELECT * FROM il_external_feed_block WHERE id = ".
-			$ilDB->quote($this->getId());
+			$ilDB->quote($this->getId(), "integer");
 		$set = $ilDB->query($query);
-		$rec = $set->fetchRow(DB_FETCHMODE_ASSOC);
+		$rec = $ilDB->fetchAssoc($set);
 
 		$this->setFeedUrl($rec["feed_url"]);
 
@@ -119,10 +119,10 @@ class ilExternalFeedBlock extends ilCustomBlock
 		parent::update();
 		
 		$query = "UPDATE il_external_feed_block SET ".
-			" feed_url = ".$ilDB->quote($this->getFeedUrl()).
-			" WHERE id = ".$ilDB->quote($this->getId());
+			" feed_url = ".$ilDB->quote($this->getFeedUrl(), "text").
+			" WHERE id = ".$ilDB->quote($this->getId(), "integer");
 		
-		$ilDB->query($query);
+		$ilDB->manipulate($query);
 
 	}
 
@@ -137,7 +137,7 @@ class ilExternalFeedBlock extends ilCustomBlock
 		parent::delete();
 		
 		$query = "DELETE FROM il_external_feed_block".
-			" WHERE id = ".$ilDB->quote($this->getId());
+			" WHERE id = ".$ilDB->quote($this->getId(), "integer");
 		
 		$ilDB->query($query);
 
