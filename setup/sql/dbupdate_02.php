@@ -8199,4 +8199,10 @@ ALTER TABLE `history` MODIFY `info_params` VARCHAR(4000);
 <?php
 	$ilMySQLAbstraction->performAbstraction('il_external_feed_block');
 ?>
+<#1741>
+ALTER TABLE `il_html_block` MODIFY `content` VARCHAR(4000);
+<#1742>
+<?php
+	$ilMySQLAbstraction->performAbstraction('il_html_block');
+?>
 

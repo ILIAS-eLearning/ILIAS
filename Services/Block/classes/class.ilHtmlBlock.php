@@ -3,7 +3,7 @@
 	+-----------------------------------------------------------------------------+
 	| ILIAS open source                                                           |
 	+-----------------------------------------------------------------------------+
-	| Copyright (c) 1998-2006 ILIAS open source, University of Cologne            |
+	| Copyright (c) 1998-2009 ILIAS open source, University of Cologne            |
 	|                                                                             |
 	| This program is free software; you can redistribute it and/or               |
 	| modify it under the terms of the GNU General Public License                 |
@@ -83,9 +83,9 @@ class ilHtmlBlock extends ilCustomBlock
 			" id".
 			", content".
 			" ) VALUES (".
-			$ilDB->quote($this->getId())
-			.",".$ilDB->quote($this->getContent()).")";
-		$ilDB->query($query);
+			$ilDB->quote($this->getId(), "integer")
+			.",".$ilDB->quote($this->getContent(), "text").")";
+		$ilDB->manipulate($query);
 		
 
 	}
@@ -101,9 +101,9 @@ class ilHtmlBlock extends ilCustomBlock
 		parent::read();
 		
 		$query = "SELECT * FROM il_html_block WHERE id = ".
-			$ilDB->quote($this->getId());
+			$ilDB->quote($this->getId(), "integer");
 		$set = $ilDB->query($query);
-		$rec = $set->fetchRow(DB_FETCHMODE_ASSOC);
+		$rec = $ilDB->fetchAssoc($set);
 
 		$this->setContent($rec["content"]);
 
@@ -120,10 +120,10 @@ class ilHtmlBlock extends ilCustomBlock
 		parent::update();
 		
 		$query = "UPDATE il_html_block SET ".
-			" content = ".$ilDB->quote($this->getContent()).
-			" WHERE id = ".$ilDB->quote($this->getId());
+			" content = ".$ilDB->quote($this->getContent(), "text").
+			" WHERE id = ".$ilDB->quote($this->getId(), "integer");
 		
-		$ilDB->query($query);
+		$ilDB->manipulate($query);
 
 	}
 
@@ -138,9 +138,9 @@ class ilHtmlBlock extends ilCustomBlock
 		parent::delete();
 		
 		$query = "DELETE FROM il_html_block".
-			" WHERE id = ".$ilDB->quote($this->getId());
+			" WHERE id = ".$ilDB->quote($this->getId(), "integer");
 		
-		$ilDB->query($query);
+		$ilDB->manipulate($query);
 
 	}
 
