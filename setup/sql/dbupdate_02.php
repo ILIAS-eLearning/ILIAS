@@ -8167,3 +8167,12 @@ ALTER TABLE `adv_md_record` CHANGE `description` `description` VARCHAR( 4000 ) N
 <?php
 	$ilMySQLAbstraction->performAbstraction('adv_md_substitutions');
 ?>
+
+<#1733>
+ALTER TABLE `adv_md_values` CHANGE `value` `value` VARCHAR( 4000 ) NULL;
+
+<#1734>
+<?php
+	$ilMySQLAbstraction->performAbstraction('adv_md_values');
+?>
+  
