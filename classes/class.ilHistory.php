@@ -3,7 +3,7 @@
 	+-----------------------------------------------------------------------------+
 	| ILIAS open source                                                           |
 	+-----------------------------------------------------------------------------+
-	| Copyright (c) 1998-2006 ILIAS open source, University of Cologne            |
+	| Copyright (c) 1998-2009 ILIAS open source, University of Cologne            |
 	|                                                                             |
 	| This program is free software; you can redistribute it and/or               |
 	| modify it under the terms of the GNU General Public License                 |
@@ -69,10 +69,10 @@ class ilHistory
 		
 		// get last entry of object
 		$last_entry_sql = "SELECT * FROM history WHERE ".
-			" obj_id = ".$ilDB->quote($a_obj_id)." AND ".
-			" obj_type = ".$ilDB->quote($a_obj_type)." ORDER BY hdate DESC limit 1";
+			" obj_id = ".$ilDB->quote($a_obj_id, "integer")." AND ".
+			" obj_type = ".$ilDB->quote($a_obj_type, "text")." ORDER BY hdate DESC";
 		$last_entry_set = $ilDB->query($last_entry_sql);
-		$last_entry = $last_entry_set->fetchRow(DB_FETCHMODE_ASSOC);
+		$last_entry = $ilDB->fetchAssoc($last_entry_set);
 		
 		// note: insert is forced if last entry already has a comment and a 
 		// new comment is given too OR
@@ -82,8 +82,21 @@ class ilHistory
 			|| !$a_update_last || $a_action != $last_entry["action"]
 			|| $ilUser->getId() != $last_entry["usr_id"])
 		{
-			$query = "INSERT INTO history (obj_id, obj_type, action, hdate, usr_id, info_params, user_comment) VALUES ".
+			$id = $ilDB->nextId("history");
+			$ilDB->insert("history", array(
+				"id" => array("integer", $id),
+				"obj_id" => array("integer", $a_obj_id),
+				"obj_type" => array("text", $a_obj_type),
+				"action" => array("text", $a_action),
+				"hdate" => array("timestamp", ilUtil::now()),
+				"usr_id" => array("integer", $ilUser->getId()),
+				"info_params" => array("text", $a_info_params),
+				"user_comment" => array("clob", $a_user_comment)
+				));
+				
+			/*$query = "INSERT INTO history (id, obj_id, obj_type, action, hdate, usr_id, info_params, user_comment) VALUES ".
 				"(".
+				$ilDB->quote($id).", ".
 				$ilDB->quote($a_obj_id).", ".
 				$ilDB->quote($a_obj_type).", ".
 				$ilDB->quote($a_action).", ".
@@ -92,7 +105,7 @@ class ilHistory
 				$ilDB->quote($a_info_params).", ".
 				$ilDB->quote($a_user_comment).
 				")";
-			$ilDB->query($query);
+			$ilDB->query($query);*/
 		}
 		else
 		{
@@ -100,14 +113,27 @@ class ilHistory
 			// if it is set (this means, user comment has been empty
 			// because if old and new comment are given, an INSERT is forced
 			// see if statement above)
-			$uc_str = ($a_user_comment != "")
-				? ", user_comment = ".$ilDB->quote($a_user_comment)
-				: "";
-			$query = "UPDATE history SET ".
+			//$uc_str = ($a_user_comment != "")
+			//	? ", user_comment = ".$ilDB->quote($a_user_comment)
+			//	: "";
+			/*$query = "UPDATE history SET ".
 				" hdate = now() ".
 				$uc_str.
 				" WHERE id = ".$ilDB->quote($last_entry["id"]);
-			$ilDB->query($query);
+			$ilDB->query($query);*/
+			
+			$fields = array(
+				"hdate" => array("timestamp", ilUtil::now())
+				);
+			if ($a_user_comment != "")
+			{
+				$fields["user_comment"] = array("clob", $a_user_comment);
+			}
+
+			$ilDB->update("history", $fields, array(
+				"id" => array("integer", $id)
+				));
+
 		}
 		
 	}
@@ -130,14 +156,14 @@ class ilHistory
 		}
 		
 		$query = "SELECT * FROM history WHERE obj_id = ".
-			$ilDB->quote($a_obj_id)." AND ".
-			"obj_type = ".$ilDB->quote($a_obj_type).
+			$ilDB->quote($a_obj_id, "integer")." AND ".
+			"obj_type = ".$ilDB->quote($a_obj_type, "text").
 			" ORDER BY hdate DESC";
 
 		$hist_set = $ilDB->query($query);
 
 		$hist_items = array();
-		while ($hist_rec = $hist_set->fetchRow(DB_FETCHMODE_ASSOC))
+		while ($hist_rec = $ilDB->fetchAssoc($hist_set))
 		{
 			$hist_items[] = array("date" => $hist_rec["hdate"],
 				"user_id" => $hist_rec["usr_id"],
@@ -152,13 +178,13 @@ class ilHistory
 
 		if ($a_obj_type == "lm" || $a_obj_type == "dbk")
 		{
-			$query = "SELECT h.*, l.title as title FROM history as h, lm_data as l WHERE ".
-				" l.lm_id = ".$ilDB->quote($a_obj_id)." AND ".
+			$query = "SELECT h.*, l.title as title FROM history h, lm_data l WHERE ".
+				" l.lm_id = ".$ilDB->quote($a_obj_id, "integer")." AND ".
 				" l.obj_id = h.obj_id ".
 				" ORDER BY h.hdate DESC";
 				
 			$hist_set = $ilDB->query($query);
-			while ($hist_rec = $hist_set->fetchRow(DB_FETCHMODE_ASSOC))
+			while ($hist_rec = $ilDB->fetchAssoc($hist_set))
 			{
 				$hist_items[] = array("date" => $hist_rec["hdate"],
 					"user_id" => $hist_rec["usr_id"],
@@ -198,8 +224,9 @@ class ilHistory
 	{
 		global $ilDB;
 
-		$q = "DELETE FROM history WHERE obj_id = ".$ilDB->quote($a_obj_id);
-		$r = $ilDB->query($q);
+		$q = "DELETE FROM history WHERE obj_id = ".
+			$ilDB->quote($a_obj_id, "integer");
+		$r = $ilDB->manipulate($q);
 		
 		return true;
 	}
@@ -215,11 +242,25 @@ class ilHistory
 	{
 		global $ilDB;
 
-		$q = "SELECT * FROM history WHERE obj_id = ".$ilDB->quote($a_src_id);
+		$q = "SELECT * FROM history WHERE obj_id = ".
+			$ilDB->quote($a_src_id, "integer");
 		$r = $ilDB->query($q);
 		
-		while ($row = $r->fetchRow(DB_FETCHMODE_OBJECT))
+		while ($row = $ilDB->fetchObject($r))
 		{
+			$id = $ilDB->nextId("history");
+			$ilDB->insert("history", array(
+				"id" => array("integer", $id),
+				"obj_id" => array("integer", $a_dst_id),
+				"obj_type" => array("text", $row->obj_type),
+				"action" => array("text", $row->action),
+				"hdate" => array("timestamp", ilUtil::now()),
+				"usr_id" => array("integer", $row->usr_id),
+				"info_params" => array("text", $row->info_params),
+				"user_comment" => array("clob", $row->user_comment)
+				));
+
+			/*
 			$q = "INSERT INTO history (obj_id, obj_type, action, hdate, usr_id, info_params, user_comment) VALUES ".
 				 "(".
 					$ilDB->quote($a_dst_id).", ".
@@ -231,7 +272,7 @@ class ilHistory
 					$ilDB->quote($row->user_comment).
 				 ")";
 
-			$ilDB->query($q);
+			$ilDB->query($q);*/
 		}
 		
 		return true;
@@ -246,10 +287,11 @@ class ilHistory
 	{
 		global $ilDB;
 
-		$q = "SELECT * FROM history WHERE id = ".$ilDB->quote($a_hist_entry_id);
+		$q = "SELECT * FROM history WHERE id = ".
+			$ilDB->quote($a_hist_entry_id, "integer");
 		$r = $ilDB->query($q);
 		
-		return $r->fetchRow(DB_FETCHMODE_ASSOC);
+		return $ilDB->fetchAssoc($r);
 	}
 } // END class.ilHistory
 ?>
