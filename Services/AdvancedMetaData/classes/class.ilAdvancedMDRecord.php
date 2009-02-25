@@ -123,8 +123,8 @@ class ilAdvancedMDRecord
 		
 		global $ilDB;
 		
-		$query = "SELECT title FROm adv_md_record ".
-			"WHERE record_id = ".$ilDB->quote($a_record_id)." ";
+		$query = "SELECT title FROM adv_md_record ".
+			"WHERE record_id = ".$ilDB->quote($a_record_id ,'integer')." ";
 		$res = $ilDB->query($query);
 		$row = $res->fetchRow(DB_FETCHMODE_OBJECT);
 		
@@ -144,7 +144,7 @@ class ilAdvancedMDRecord
 		global $ilDB;
 		
 		$query = "SELECT record_id FROM adv_md_record ".
-			"WHERE import_id = ".$ilDB->quote($a_ilias_id)." ";
+			"WHERE import_id = ".$ilDB->quote($a_ilias_id ,'text')." ";
 		$res = $ilDB->query($query);
 		while($row = $res->fetchRow(DB_FETCHMODE_OBJECT))
 		{
@@ -176,8 +176,8 @@ class ilAdvancedMDRecord
 	{
 		global $ilDB;
 		
-		$query = "SELECT DISTINCT(obj_type) FROM adv_md_record_objs AS amo ".
-			"JOIN adv_md_record AS amr ON amo.record_id = amr.record_id ".
+		$query = "SELECT DISTINCT(obj_type) FROM adv_md_record_objs amo ".
+			"JOIN adv_md_record amr ON amo.record_id = amr.record_id ".
 			"WHERE active = 1 ";
 		$res = $ilDB->query($query);
 		while($row = $res->fetchRow(DB_FETCHMODE_OBJECT))
@@ -245,10 +245,10 @@ class ilAdvancedMDRecord
 
 		$records = array();
 		
-		$query = "SELECT amro.record_id AS record_id FROM adv_md_record_objs AS amro ".
-			"JOIN adv_md_record AS amr ON amr.record_id = amro.record_id ".
+		$query = "SELECT amro.record_id record_id FROM adv_md_record_objs amro ".
+			"JOIN adv_md_record amr ON amr.record_id = amro.record_id ".
 			"WHERE active = 1 ".
-			"AND obj_type = ".$ilDB->quote($a_obj_type)." ";
+			"AND obj_type = ".$ilDB->quote($a_obj_type ,'text')." ";
 		
 		$res = $ilDB->query($query);
 		while($row = $res->fetchRow(DB_FETCHMODE_OBJECT))
@@ -276,8 +276,8 @@ class ilAdvancedMDRecord
 		ilAdvancedMDFieldDefinition::_deleteByRecordId($a_record_id);
 		
 		$query = "DELETE FROM adv_md_record ".
-			"WHERE record_id = ".$ilDB->quote($a_record_id)." ";
-		$ilDB->query($query);
+			"WHERE record_id = ".$ilDB->quote($a_record_id ,'integer')." ";
+		$res = $ilDB->manipulate($query);
 		
 		$query = "DELETE FROM adv_md_record_objs ".
 			"WHERE record_id = ".$ilDB->quote($a_record_id)." ";
@@ -304,22 +304,29 @@ class ilAdvancedMDRecord
 	 */
 	public function save()
 	{
+	 	global $ilDB;
+	 	
 	 	// Save import id if given
-	 	$query = "INSERT INTO adv_md_record ".
-	 		"SET import_id = ".$this->db->quote($this->getImportId()).", ".
-	 		"active = ".$this->db->quote($this->isActive()).", ".
-	 		"title = ".$this->db->quote($this->getTitle()).", ".
-	 		"description = ".$this->db->quote($this->getDescription())." ";
-	 	$this->db->query($query);
-	 	$this->record_id = $this->db->getLastInsertId();
+	 	$next_id = $ilDB->nextId('adv_md_record');
+	 	
+	 	$query = "INSERT INTO adv_md_record (record_id,import_id,active,title,description) ".
+	 		"VALUES(".
+	 		$ilDB->quote('record_id','integer').", ".
+			$this->db->quote($this->getImportId(),'text').", ".
+	 		$this->db->quote($this->isActive() ,'integer').", ".
+	 		$this->db->quote($this->getTitle() ,'text').", ".
+	 		$this->db->quote($this->getDescription() ,'text')." ".
+	 		")";
+		$res = $ilDB->manipulate($query);
+	 	$this->record_id = $next_id;
 
 	 	if(!strlen($this->getImportId()))
 	 	{
 		 	// set import id to default value
 		 	$query = "UPDATE adv_md_record ".
-		 		"SET import_id = ".$this->db->quote($this->generateImportId())." ".
-		 		"WHERE record_id = ".$this->db->quote($this->record_id)." ";
-		 	$res = $this->db->query($query);
+		 		"SET import_id = ".$this->db->quote($this->generateImportId() ,'text')." ".
+		 		"WHERE record_id = ".$this->db->quote($this->record_id ,'integer')." ";
+			$res = $ilDB->manipulate($query);
 	 	}
 
 	 	foreach($this->getAssignedObjectTypes() as $type)
@@ -339,13 +346,15 @@ class ilAdvancedMDRecord
 	 */
 	public function update()
 	{
+	 	global $ilDB;
+	 	
 	 	$query = "UPDATE adv_md_record ".
-	 		"SET active = ".$this->db->quote($this->isActive()).", ".
-	 		"title = ".$this->db->quote($this->getTitle()).", ".
-	 		"description = ".$this->db->quote($this->getDescription())." ".
-	 		"WHERE record_id = ".$this->db->quote($this->getRecordId())." ";
-		$this->db->query($query);
-		
+	 		"SET active = ".$this->db->quote($this->isActive() ,'integer').", ".
+	 		"title = ".$this->db->quote($this->getTitle() ,'text').", ".
+	 		"description = ".$this->db->quote($this->getDescription() ,'text')." ".
+	 		"WHERE record_id = ".$this->db->quote($this->getRecordId() ,'integer')." ";
+		$res = $ilDB->manipulate($query);
+				
 		// Delete assignments
 	 	$query = "DELETE FROM adv_md_record_objs ".
 	 		"WHERE record_id = ".$this->db->quote($this->getRecordId())." ";
@@ -556,8 +565,10 @@ class ilAdvancedMDRecord
 	 */
 	private function read()
 	{
+	 	global $ilDB;
+	 	
 	 	$query = "SELECT * FROM adv_md_record ".
-	 		"WHERE record_id = ".$this->db->quote($this->getRecordId())." ";
+	 		"WHERE record_id = ".$this->db->quote($this->getRecordId() ,'integer')." ";
 	 	$res = $this->db->query($query);
 	 	while($row = $res->fetchRow(DB_FETCHMODE_OBJECT))
 		{
