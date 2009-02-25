@@ -713,7 +713,7 @@ class ilObjUser extends ilObject
 
 		$ilDB->manipulateF("UPDATE usr_data SET ".
 			 "last_login = ".$ilDB->now().
-			 "WHERE usr_id = %s",
+			 " WHERE usr_id = %s",
 			 array("integer"), array($this->id));
 	}
 
@@ -3051,8 +3051,8 @@ class ilObjUser extends ilObject
 			$foundsurveys = array();
 			foreach($a_types as $a_type)
 			{
-				$item_set = $ilDB->queryF("SELECT obj.obj_id, obj.description, oref.ref_id, obj.title FROM desktop_item AS it, object_reference AS oref ".
-					", object_data AS obj WHERE ".
+				$item_set = $ilDB->queryF("SELECT obj.obj_id, obj.description, oref.ref_id, obj.title FROM desktop_item it, object_reference oref ".
+					", object_data obj WHERE ".
 					"it.item_id = oref.ref_id AND ".
 					"oref.obj_id = obj.obj_id AND ".
 					"it.type = %s AND ".

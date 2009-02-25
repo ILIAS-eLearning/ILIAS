@@ -87,13 +87,24 @@ class ilDBOracle extends ilDB
 	{
 	}
 
+/*	function manipulate($sql)
+	{
+//echo "1";
+//if (!is_int(strpos($sql, "frm_thread_access")))
+//{
+//echo "2";
+		return parent::manipulate($sql);
+//}
+//echo "3";
+	}*/
+
 	/**
 	* now()
 	* @todo fix this
 	*/
 	function now()
 	{
-		return "now()";
+		return "LOCALTIMESTAMP";
 	}
 	
 	/**
