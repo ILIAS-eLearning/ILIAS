@@ -8011,7 +8011,7 @@ ALTER TABLE `crs_items` CHANGE `timing_end` `timing_end` INT( 11 ) NOT NULL DEFA
 ?>
 <#1697>
 <?php
-	$ilDB->modifyTableColumn('write_event','ts', array("type" => "timestamp", "default" => null, "notnull" => false));
+	//$ilDB->modifyTableColumn('write_event','ts', array("type" => "timestamp", "default" => null, "notnull" => false));
 ?>
 
 <#1698>
