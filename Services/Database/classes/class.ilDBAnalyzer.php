@@ -197,7 +197,7 @@ class ilDBAnalyzer
 	* @param	string		table name
 	* @return	array		indices information array
 	*/
-	function getIndicesInformation($a_table)
+	function getIndicesInformation($a_table, $a_abstract_table = false)
 	{
 		//$constraints = $this->manager->listTableConstraints($a_table);
 		$indexes = $this->manager->listTableIndexes($a_table);
@@ -223,7 +223,10 @@ class ilDBAnalyzer
 			{
 				$i["name"] = $c;
 				$i["fulltext"] = false;
-				if ($mysql_info[$i["name"]]["Index_type"] == "FULLTEXT")
+				$suffix = ($a_abstract_table)
+					? "_idx"
+					: "";
+				if ($mysql_info[$i["name"].$suffix]["Index_type"] == "FULLTEXT")
 				{
 					$i["fulltext"] = true;
 				}

@@ -295,12 +295,20 @@ echo "<br>4"; flush();
 	*/
 	function buildAddIndexStatements($a_table, $a_file = "")
 	{
-		$ind = $this->analyzer->getIndicesInformation($a_table);
+		$ind = $this->analyzer->getIndicesInformation($a_table, true);
 
 		if (is_array($ind))
 		{
 			foreach ($ind as $i)
 			{
+				if ($i["fulltext"])
+				{
+					$ft = ", true";
+				}
+				else
+				{
+					$ft = ", false";
+				}
 				$in_st = "\n".'$in_fields = array(';
 				$sep = "";
 				foreach ($i["fields"] as $f => $pos)
@@ -309,7 +317,7 @@ echo "<br>4"; flush();
 					$sep = ",";
 				}
 				$in_st.= ");\n";
-				$in_st.= '$ilDB->addIndex("'.$a_table.'", $in_fields, "'.$i["name"].'");'."\n";
+				$in_st.= '$ilDB->addIndex("'.$a_table.'", $in_fields, "'.$i["name"].'"'.$ft.');'."\n";
 				
 				if ($a_file == "")
 				{
