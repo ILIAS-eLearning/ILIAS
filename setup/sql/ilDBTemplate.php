@@ -6,6 +6,232 @@ function setupILIASDatabase()
 
 
 //
+// adv_md_record
+//
+$fields = array (
+	"record_id" => array (
+		"notnull" => true
+		,"length" => 1
+		,"unsigned" => false
+		,"default" => "0"
+		,"type" => "integer"
+	)
+	,"import_id" => array (
+		"notnull" => false
+		,"length" => 64
+		,"fixed" => false
+		,"type" => "text"
+	)
+	,"active" => array (
+		"notnull" => true
+		,"length" => 1
+		,"unsigned" => false
+		,"default" => "0"
+		,"type" => "integer"
+	)
+	,"title" => array (
+		"notnull" => false
+		,"length" => 128
+		,"fixed" => false
+		,"type" => "text"
+	)
+	,"description" => array (
+		"notnull" => false
+		,"length" => 4000
+		,"fixed" => false
+		,"type" => "text"
+	)
+);
+$ilDB->createTable("adv_md_record", $fields);
+
+$pk_fields = array("record_id");
+$ilDB->addPrimaryKey("adv_md_record", $pk_fields);
+
+$ilDB->createSequence("adv_md_record", 1);
+
+
+//
+// adv_md_record_objs
+//
+$fields = array (
+	"record_id" => array (
+		"notnull" => true
+		,"length" => 1
+		,"unsigned" => false
+		,"default" => "0"
+		,"type" => "integer"
+	)
+	,"obj_type" => array (
+		"notnull" => true
+		,"length" => 6
+		,"default" => ""
+		,"fixed" => true
+		,"type" => "text"
+	)
+);
+$ilDB->createTable("adv_md_record_objs", $fields);
+
+$pk_fields = array("record_id","obj_type");
+$ilDB->addPrimaryKey("adv_md_record_objs", $pk_fields);
+
+
+//
+// adv_md_substitutions
+//
+$fields = array (
+	"obj_type" => array (
+		"notnull" => true
+		,"length" => 4
+		,"default" => ""
+		,"fixed" => false
+		,"type" => "text"
+	)
+	,"substitution" => array (
+		"notnull" => false
+		,"type" => "clob"
+	)
+	,"hide_description" => array (
+		"notnull" => true
+		,"length" => 1
+		,"unsigned" => false
+		,"default" => "0"
+		,"type" => "integer"
+	)
+	,"hide_field_names" => array (
+		"notnull" => true
+		,"length" => 1
+		,"unsigned" => false
+		,"default" => "0"
+		,"type" => "integer"
+	)
+);
+$ilDB->createTable("adv_md_substitutions", $fields);
+
+$pk_fields = array("obj_type");
+$ilDB->addPrimaryKey("adv_md_substitutions", $pk_fields);
+
+
+//
+// adv_md_values
+//
+$fields = array (
+	"obj_id" => array (
+		"notnull" => true
+		,"length" => 4
+		,"unsigned" => false
+		,"default" => "0"
+		,"type" => "integer"
+	)
+	,"field_id" => array (
+		"notnull" => true
+		,"length" => 4
+		,"unsigned" => false
+		,"default" => "0"
+		,"type" => "integer"
+	)
+	,"value" => array (
+		"notnull" => false
+		,"length" => 4000
+		,"fixed" => false
+		,"type" => "text"
+	)
+	,"disabled" => array (
+		"notnull" => true
+		,"length" => 1
+		,"unsigned" => false
+		,"default" => "0"
+		,"type" => "integer"
+	)
+);
+$ilDB->createTable("adv_md_values", $fields);
+
+$pk_fields = array("obj_id","field_id");
+$ilDB->addPrimaryKey("adv_md_values", $pk_fields);
+
+$in_fields = array("obj_id");
+$ilDB->addIndex("adv_md_values", $in_fields, "i1");
+
+
+//
+// adv_mdf_definition
+//
+$fields = array (
+	"field_id" => array (
+		"notnull" => true
+		,"length" => 4
+		,"unsigned" => false
+		,"default" => "0"
+		,"type" => "integer"
+	)
+	,"record_id" => array (
+		"notnull" => true
+		,"length" => 4
+		,"unsigned" => false
+		,"default" => "0"
+		,"type" => "integer"
+	)
+	,"import_id" => array (
+		"notnull" => false
+		,"length" => 32
+		,"fixed" => false
+		,"type" => "text"
+	)
+	,"position" => array (
+		"notnull" => true
+		,"length" => 4
+		,"unsigned" => false
+		,"default" => "0"
+		,"type" => "integer"
+	)
+	,"field_type" => array (
+		"notnull" => true
+		,"length" => 1
+		,"unsigned" => false
+		,"default" => "0"
+		,"type" => "integer"
+	)
+	,"field_values" => array (
+		"notnull" => false
+		,"length" => 4000
+		,"fixed" => false
+		,"type" => "text"
+	)
+	,"title" => array (
+		"notnull" => false
+		,"length" => 255
+		,"fixed" => false
+		,"type" => "text"
+	)
+	,"description" => array (
+		"notnull" => false
+		,"length" => 2000
+		,"fixed" => false
+		,"type" => "text"
+	)
+	,"searchable" => array (
+		"notnull" => true
+		,"length" => 1
+		,"unsigned" => false
+		,"default" => "0"
+		,"type" => "integer"
+	)
+	,"required" => array (
+		"notnull" => true
+		,"length" => 1
+		,"unsigned" => false
+		,"default" => "0"
+		,"type" => "integer"
+	)
+);
+$ilDB->createTable("adv_mdf_definition", $fields);
+
+$pk_fields = array("field_id");
+$ilDB->addPrimaryKey("adv_mdf_definition", $pk_fields);
+
+$ilDB->createSequence("adv_mdf_definition", 1);
+
+
+//
 // benchmark
 //
 $fields = array (
@@ -3108,6 +3334,307 @@ $ilDB->addIndex("desktop_item", $in_fields, "i1");
 
 
 //
+// ecs_events
+//
+$fields = array (
+	"event_id" => array (
+		"notnull" => true
+		,"length" => 4
+		,"unsigned" => false
+		,"default" => "0"
+		,"type" => "integer"
+	)
+	,"type" => array (
+		"notnull" => false
+		,"length" => 32
+		,"fixed" => true
+		,"type" => "text"
+	)
+	,"id" => array (
+		"notnull" => true
+		,"length" => 4
+		,"unsigned" => false
+		,"default" => "0"
+		,"type" => "integer"
+	)
+	,"op" => array (
+		"notnull" => false
+		,"length" => 32
+		,"fixed" => true
+		,"type" => "text"
+	)
+);
+$ilDB->createTable("ecs_events", $fields);
+
+$pk_fields = array("event_id");
+$ilDB->addPrimaryKey("ecs_events", $pk_fields);
+
+$ilDB->createSequence("ecs_events", 1);
+
+
+//
+// ecs_export
+//
+$fields = array (
+	"obj_id" => array (
+		"notnull" => true
+		,"length" => 4
+		,"unsigned" => false
+		,"default" => "0"
+		,"type" => "integer"
+	)
+	,"econtent_id" => array (
+		"notnull" => true
+		,"length" => 4
+		,"unsigned" => false
+		,"default" => "0"
+		,"type" => "integer"
+	)
+);
+$ilDB->createTable("ecs_export", $fields);
+
+$pk_fields = array("obj_id");
+$ilDB->addPrimaryKey("ecs_export", $pk_fields);
+
+
+//
+// ecs_import
+//
+$fields = array (
+	"obj_id" => array (
+		"notnull" => true
+		,"length" => 4
+		,"unsigned" => false
+		,"default" => "0"
+		,"type" => "integer"
+	)
+	,"mid" => array (
+		"notnull" => true
+		,"length" => 4
+		,"unsigned" => false
+		,"default" => "0"
+		,"type" => "integer"
+	)
+	,"econtent_id" => array (
+		"notnull" => true
+		,"length" => 4
+		,"unsigned" => false
+		,"default" => "0"
+		,"type" => "integer"
+	)
+);
+$ilDB->createTable("ecs_import", $fields);
+
+$pk_fields = array("obj_id");
+$ilDB->addPrimaryKey("ecs_import", $pk_fields);
+
+
+//
+// exc_data
+//
+$fields = array (
+	"obj_id" => array (
+		"notnull" => true
+		,"length" => 4
+		,"unsigned" => false
+		,"default" => "0"
+		,"type" => "integer"
+	)
+	,"instruction" => array (
+		"notnull" => false
+		,"type" => "clob"
+	)
+	,"time_stamp" => array (
+		"notnull" => false
+		,"length" => 4
+		,"unsigned" => false
+		,"type" => "integer"
+	)
+);
+$ilDB->createTable("exc_data", $fields);
+
+$pk_fields = array("obj_id");
+$ilDB->addPrimaryKey("exc_data", $pk_fields);
+
+$in_fields = array("instruction");
+$ilDB->addIndex("exc_data", $in_fields, "i1");
+
+
+//
+// exc_members
+//
+$fields = array (
+	"obj_id" => array (
+		"notnull" => true
+		,"length" => 4
+		,"unsigned" => false
+		,"default" => "0"
+		,"type" => "integer"
+	)
+	,"usr_id" => array (
+		"notnull" => true
+		,"length" => 4
+		,"unsigned" => false
+		,"default" => "0"
+		,"type" => "integer"
+	)
+	,"notice" => array (
+		"notnull" => false
+		,"length" => 4000
+		,"fixed" => false
+		,"type" => "text"
+	)
+	,"returned" => array (
+		"notnull" => true
+		,"length" => 1
+		,"unsigned" => false
+		,"default" => "0"
+		,"type" => "integer"
+	)
+	,"solved" => array (
+		"notnull" => false
+		,"length" => 1
+		,"unsigned" => false
+		,"type" => "integer"
+	)
+	,"status_time" => array (
+		"notnull" => false
+		,"type" => "timestamp"
+	)
+	,"sent" => array (
+		"notnull" => false
+		,"length" => 1
+		,"unsigned" => false
+		,"type" => "integer"
+	)
+	,"sent_time" => array (
+		"notnull" => false
+		,"type" => "timestamp"
+	)
+	,"feedback_time" => array (
+		"notnull" => false
+		,"type" => "timestamp"
+	)
+	,"feedback" => array (
+		"notnull" => true
+		,"length" => 1
+		,"unsigned" => false
+		,"default" => "0"
+		,"type" => "integer"
+	)
+	,"status" => array (
+		"notnull" => false
+		,"length" => 9
+		,"default" => "notgraded"
+		,"fixed" => true
+		,"type" => "text"
+	)
+);
+$ilDB->createTable("exc_members", $fields);
+
+$pk_fields = array("obj_id","usr_id");
+$ilDB->addPrimaryKey("exc_members", $pk_fields);
+
+
+//
+// exc_returned
+//
+$fields = array (
+	"returned_id" => array (
+		"notnull" => true
+		,"length" => 4
+		,"unsigned" => false
+		,"default" => "0"
+		,"type" => "integer"
+	)
+	,"obj_id" => array (
+		"notnull" => true
+		,"length" => 4
+		,"unsigned" => false
+		,"default" => "0"
+		,"type" => "integer"
+	)
+	,"user_id" => array (
+		"notnull" => true
+		,"length" => 4
+		,"unsigned" => false
+		,"default" => "0"
+		,"type" => "integer"
+	)
+	,"filename" => array (
+		"notnull" => false
+		,"length" => 1000
+		,"fixed" => false
+		,"type" => "text"
+	)
+	,"filetitle" => array (
+		"notnull" => false
+		,"length" => 1000
+		,"fixed" => false
+		,"type" => "text"
+	)
+	,"mimetype" => array (
+		"notnull" => false
+		,"length" => 40
+		,"fixed" => false
+		,"type" => "text"
+	)
+	,"ts" => array (
+		"notnull" => false
+		,"type" => "timestamp"
+	)
+);
+$ilDB->createTable("exc_returned", $fields);
+
+$pk_fields = array("returned_id");
+$ilDB->addPrimaryKey("exc_returned", $pk_fields);
+
+$in_fields = array("obj_id");
+$ilDB->addIndex("exc_returned", $in_fields, "i1");
+
+$in_fields = array("user_id");
+$ilDB->addIndex("exc_returned", $in_fields, "i2");
+
+$ilDB->createSequence("exc_returned", 1);
+
+
+//
+// exc_usr_tutor
+//
+$fields = array (
+	"obj_id" => array (
+		"notnull" => true
+		,"length" => 4
+		,"unsigned" => false
+		,"default" => "0"
+		,"type" => "integer"
+	)
+	,"usr_id" => array (
+		"notnull" => true
+		,"length" => 4
+		,"unsigned" => false
+		,"default" => "0"
+		,"type" => "integer"
+	)
+	,"tutor_id" => array (
+		"notnull" => true
+		,"length" => 4
+		,"unsigned" => false
+		,"default" => "0"
+		,"type" => "integer"
+	)
+	,"download_time" => array (
+		"notnull" => false
+		,"type" => "timestamp"
+	)
+);
+$ilDB->createTable("exc_usr_tutor", $fields);
+
+$pk_fields = array("obj_id","usr_id","tutor_id");
+$ilDB->addPrimaryKey("exc_usr_tutor", $pk_fields);
+
+
+//
 // feedback_items
 //
 $fields = array (
@@ -3252,6 +3779,257 @@ $fields = array (
 	)
 );
 $ilDB->createTable("feedback_results", $fields);
+
+
+//
+// file_based_lm
+//
+$fields = array (
+	"id" => array (
+		"notnull" => true
+		,"length" => 4
+		,"unsigned" => false
+		,"default" => "0"
+		,"type" => "integer"
+	)
+	,"is_online" => array (
+		"notnull" => false
+		,"length" => 1
+		,"default" => "n"
+		,"fixed" => true
+		,"type" => "text"
+	)
+	,"startfile" => array (
+		"notnull" => false
+		,"length" => 200
+		,"fixed" => false
+		,"type" => "text"
+	)
+);
+$ilDB->createTable("file_based_lm", $fields);
+
+$pk_fields = array("id");
+$ilDB->addPrimaryKey("file_based_lm", $pk_fields);
+
+
+//
+// glossary
+//
+$fields = array (
+	"id" => array (
+		"notnull" => true
+		,"length" => 4
+		,"unsigned" => false
+		,"default" => "0"
+		,"type" => "integer"
+	)
+	,"is_online" => array (
+		"notnull" => false
+		,"length" => 1
+		,"default" => "n"
+		,"fixed" => true
+		,"type" => "text"
+	)
+	,"virtual" => array (
+		"notnull" => false
+		,"length" => 7
+		,"default" => "none"
+		,"fixed" => true
+		,"type" => "text"
+	)
+	,"public_html_file" => array (
+		"notnull" => false
+		,"length" => 50
+		,"fixed" => false
+		,"type" => "text"
+	)
+	,"public_xml_file" => array (
+		"notnull" => false
+		,"length" => 50
+		,"fixed" => false
+		,"type" => "text"
+	)
+	,"glo_menu_active" => array (
+		"notnull" => false
+		,"length" => 1
+		,"default" => "y"
+		,"fixed" => true
+		,"type" => "text"
+	)
+	,"downloads_active" => array (
+		"notnull" => false
+		,"length" => 1
+		,"default" => "n"
+		,"fixed" => true
+		,"type" => "text"
+	)
+);
+$ilDB->createTable("glossary", $fields);
+
+$pk_fields = array("id");
+$ilDB->addPrimaryKey("glossary", $pk_fields);
+
+
+//
+// glossary_definition
+//
+$fields = array (
+	"id" => array (
+		"notnull" => true
+		,"length" => 4
+		,"unsigned" => false
+		,"default" => "0"
+		,"type" => "integer"
+	)
+	,"term_id" => array (
+		"notnull" => true
+		,"length" => 4
+		,"unsigned" => false
+		,"default" => "0"
+		,"type" => "integer"
+	)
+	,"short_text" => array (
+		"notnull" => false
+		,"length" => 200
+		,"fixed" => false
+		,"type" => "text"
+	)
+	,"nr" => array (
+		"notnull" => true
+		,"length" => 4
+		,"unsigned" => false
+		,"default" => "0"
+		,"type" => "integer"
+	)
+);
+$ilDB->createTable("glossary_definition", $fields);
+
+$pk_fields = array("id");
+$ilDB->addPrimaryKey("glossary_definition", $pk_fields);
+
+$ilDB->createSequence("glossary_definition", 1);
+
+
+//
+// glossary_term
+//
+$fields = array (
+	"id" => array (
+		"notnull" => true
+		,"length" => 4
+		,"unsigned" => false
+		,"default" => "0"
+		,"type" => "integer"
+	)
+	,"glo_id" => array (
+		"notnull" => true
+		,"length" => 4
+		,"unsigned" => false
+		,"default" => "0"
+		,"type" => "integer"
+	)
+	,"term" => array (
+		"notnull" => false
+		,"length" => 200
+		,"fixed" => false
+		,"type" => "text"
+	)
+	,"language" => array (
+		"notnull" => false
+		,"length" => 2
+		,"fixed" => true
+		,"type" => "text"
+	)
+	,"import_id" => array (
+		"notnull" => false
+		,"length" => 50
+		,"fixed" => false
+		,"type" => "text"
+	)
+	,"create_date" => array (
+		"notnull" => false
+		,"type" => "timestamp"
+	)
+	,"last_update" => array (
+		"notnull" => false
+		,"type" => "timestamp"
+	)
+);
+$ilDB->createTable("glossary_term", $fields);
+
+$pk_fields = array("id");
+$ilDB->addPrimaryKey("glossary_term", $pk_fields);
+
+$in_fields = array("glo_id");
+$ilDB->addIndex("glossary_term", $in_fields, "i1");
+
+$in_fields = array("term");
+$ilDB->addIndex("glossary_term", $in_fields, "i2");
+
+$ilDB->createSequence("glossary_term", 1);
+
+
+//
+// history
+//
+$fields = array (
+	"id" => array (
+		"notnull" => true
+		,"length" => 4
+		,"unsigned" => false
+		,"default" => "0"
+		,"type" => "integer"
+	)
+	,"obj_id" => array (
+		"notnull" => true
+		,"length" => 4
+		,"unsigned" => false
+		,"default" => "0"
+		,"type" => "integer"
+	)
+	,"obj_type" => array (
+		"notnull" => false
+		,"length" => 8
+		,"fixed" => false
+		,"type" => "text"
+	)
+	,"action" => array (
+		"notnull" => false
+		,"length" => 20
+		,"fixed" => false
+		,"type" => "text"
+	)
+	,"hdate" => array (
+		"notnull" => false
+		,"type" => "timestamp"
+	)
+	,"usr_id" => array (
+		"notnull" => true
+		,"length" => 4
+		,"unsigned" => false
+		,"default" => "0"
+		,"type" => "integer"
+	)
+	,"info_params" => array (
+		"notnull" => false
+		,"length" => 4000
+		,"fixed" => false
+		,"type" => "text"
+	)
+	,"user_comment" => array (
+		"notnull" => false
+		,"type" => "clob"
+	)
+);
+$ilDB->createTable("history", $fields);
+
+$pk_fields = array("id");
+$ilDB->addPrimaryKey("history", $pk_fields);
+
+$in_fields = array("obj_id","obj_type");
+$ilDB->addIndex("history", $in_fields, "i1");
+
+$ilDB->createSequence("history", 1);
 
 
 //
@@ -3555,6 +4333,56 @@ $ilDB->createSequence("il_custom_block", 1);
 
 
 //
+// il_external_feed_block
+//
+$fields = array (
+	"id" => array (
+		"notnull" => true
+		,"length" => 4
+		,"unsigned" => false
+		,"default" => "0"
+		,"type" => "integer"
+	)
+	,"feed_url" => array (
+		"notnull" => false
+		,"length" => 250
+		,"fixed" => false
+		,"type" => "text"
+	)
+);
+$ilDB->createTable("il_external_feed_block", $fields);
+
+$pk_fields = array("id");
+$ilDB->addPrimaryKey("il_external_feed_block", $pk_fields);
+
+$ilDB->createSequence("il_external_feed_block", 1);
+
+
+//
+// il_html_block
+//
+$fields = array (
+	"id" => array (
+		"notnull" => true
+		,"length" => 4
+		,"unsigned" => false
+		,"default" => "0"
+		,"type" => "integer"
+	)
+	,"content" => array (
+		"notnull" => false
+		,"length" => 4000
+		,"fixed" => false
+		,"type" => "text"
+	)
+);
+$ilDB->createTable("il_html_block", $fields);
+
+$pk_fields = array("id");
+$ilDB->addPrimaryKey("il_html_block", $pk_fields);
+
+
+//
 // il_log
 //
 $fields = array (
@@ -3592,6 +4420,52 @@ $ilDB->addIndex("il_log", $in_fields, "i2");
 
 $in_fields = array("log_level");
 $ilDB->addIndex("il_log", $in_fields, "i3");
+
+
+//
+// il_media_cast_data
+//
+$fields = array (
+	"id" => array (
+		"notnull" => true
+		,"length" => 4
+		,"unsigned" => false
+		,"default" => "0"
+		,"type" => "integer"
+	)
+	,"is_online" => array (
+		"notnull" => false
+		,"length" => 1
+		,"unsigned" => false
+		,"default" => "0"
+		,"type" => "integer"
+	)
+	,"public_files" => array (
+		"notnull" => false
+		,"length" => 1
+		,"unsigned" => false
+		,"default" => "0"
+		,"type" => "integer"
+	)
+	,"downloadable" => array (
+		"notnull" => false
+		,"length" => 1
+		,"unsigned" => false
+		,"default" => "0"
+		,"type" => "integer"
+	)
+	,"def_access" => array (
+		"notnull" => false
+		,"length" => 1
+		,"unsigned" => false
+		,"default" => "0"
+		,"type" => "integer"
+	)
+);
+$ilDB->createTable("il_media_cast_data", $fields);
+
+$pk_fields = array("id");
+$ilDB->addPrimaryKey("il_media_cast_data", $pk_fields);
 
 
 //
@@ -4722,7 +5596,9 @@ $fields = array (
 	)
 	,"dn" => array (
 		"notnull" => false
-		,"type" => "clob"
+		,"length" => 1000
+		,"fixed" => false
+		,"type" => "text"
 	)
 	,"attribute" => array (
 		"notnull" => false
@@ -6431,7 +7307,9 @@ $fields = array (
 	)
 	,"ops_id" => array (
 		"notnull" => false
-		,"type" => "clob"
+		,"length" => 4000
+		,"fixed" => false
+		,"type" => "text"
 	)
 	,"ref_id" => array (
 		"notnull" => true
@@ -6450,58 +7328,58 @@ $in_fields = array("ref_id");
 $ilDB->addIndex("rbac_pa", $in_fields, "i1");
 
 $ilDB->insert("rbac_pa", array(
-'rol_id' => array('integer', '5'), 'ops_id' => array('clob', 'a:2:{i:0;i:3;i:1;i:2;}'), 'ref_id' => array('integer', '1')));
+'rol_id' => array('integer', '5'), 'ops_id' => array('text', 'a:2:{i:0;i:3;i:1;i:2;}'), 'ref_id' => array('integer', '1')));
 
 $ilDB->insert("rbac_pa", array(
-'rol_id' => array('integer', '14'), 'ops_id' => array('clob', 'a:2:{i:0;i:3;i:1;i:2;}'), 'ref_id' => array('integer', '1')));
+'rol_id' => array('integer', '14'), 'ops_id' => array('text', 'a:2:{i:0;i:3;i:1;i:2;}'), 'ref_id' => array('integer', '1')));
 
 $ilDB->insert("rbac_pa", array(
-'rol_id' => array('integer', '4'), 'ops_id' => array('clob', 'a:2:{i:0;i:3;i:1;i:2;}'), 'ref_id' => array('integer', '1')));
+'rol_id' => array('integer', '4'), 'ops_id' => array('text', 'a:2:{i:0;i:3;i:1;i:2;}'), 'ref_id' => array('integer', '1')));
 
 $ilDB->insert("rbac_pa", array(
-'rol_id' => array('integer', '2'), 'ops_id' => array('clob', 'a:1:{i:0;s:2:"51";}'), 'ref_id' => array('integer', '22')));
+'rol_id' => array('integer', '2'), 'ops_id' => array('text', 'a:1:{i:0;s:2:"51";}'), 'ref_id' => array('integer', '22')));
 
 $ilDB->insert("rbac_pa", array(
-'rol_id' => array('integer', '3'), 'ops_id' => array('clob', 'a:1:{i:0;s:2:"51";}'), 'ref_id' => array('integer', '22')));
+'rol_id' => array('integer', '3'), 'ops_id' => array('text', 'a:1:{i:0;s:2:"51";}'), 'ref_id' => array('integer', '22')));
 
 $ilDB->insert("rbac_pa", array(
-'rol_id' => array('integer', '4'), 'ops_id' => array('clob', 'a:1:{i:0;s:2:"51";}'), 'ref_id' => array('integer', '22')));
+'rol_id' => array('integer', '4'), 'ops_id' => array('text', 'a:1:{i:0;s:2:"51";}'), 'ref_id' => array('integer', '22')));
 
 $ilDB->insert("rbac_pa", array(
-'rol_id' => array('integer', '5'), 'ops_id' => array('clob', 'a:1:{i:0;s:2:"51";}'), 'ref_id' => array('integer', '22')));
+'rol_id' => array('integer', '5'), 'ops_id' => array('text', 'a:1:{i:0;s:2:"51";}'), 'ref_id' => array('integer', '22')));
 
 $ilDB->insert("rbac_pa", array(
-'rol_id' => array('integer', '14'), 'ops_id' => array('clob', 'a:1:{i:0;s:2:"51";}'), 'ref_id' => array('integer', '22')));
+'rol_id' => array('integer', '14'), 'ops_id' => array('text', 'a:1:{i:0;s:2:"51";}'), 'ref_id' => array('integer', '22')));
 
 $ilDB->insert("rbac_pa", array(
-'rol_id' => array('integer', '80'), 'ops_id' => array('clob', 'a:1:{i:0;s:2:"51";}'), 'ref_id' => array('integer', '22')));
+'rol_id' => array('integer', '80'), 'ops_id' => array('text', 'a:1:{i:0;s:2:"51";}'), 'ref_id' => array('integer', '22')));
 
 $ilDB->insert("rbac_pa", array(
-'rol_id' => array('integer', '81'), 'ops_id' => array('clob', 'a:1:{i:0;s:2:"51";}'), 'ref_id' => array('integer', '22')));
+'rol_id' => array('integer', '81'), 'ops_id' => array('text', 'a:1:{i:0;s:2:"51";}'), 'ref_id' => array('integer', '22')));
 
 $ilDB->insert("rbac_pa", array(
-'rol_id' => array('integer', '82'), 'ops_id' => array('clob', 'a:1:{i:0;s:2:"51";}'), 'ref_id' => array('integer', '22')));
+'rol_id' => array('integer', '82'), 'ops_id' => array('text', 'a:1:{i:0;s:2:"51";}'), 'ref_id' => array('integer', '22')));
 
 $ilDB->insert("rbac_pa", array(
-'rol_id' => array('integer', '83'), 'ops_id' => array('clob', 'a:1:{i:0;s:2:"51";}'), 'ref_id' => array('integer', '22')));
+'rol_id' => array('integer', '83'), 'ops_id' => array('text', 'a:1:{i:0;s:2:"51";}'), 'ref_id' => array('integer', '22')));
 
 $ilDB->insert("rbac_pa", array(
-'rol_id' => array('integer', '110'), 'ops_id' => array('clob', 'a:1:{i:0;s:2:"51";}'), 'ref_id' => array('integer', '22')));
+'rol_id' => array('integer', '110'), 'ops_id' => array('text', 'a:1:{i:0;s:2:"51";}'), 'ref_id' => array('integer', '22')));
 
 $ilDB->insert("rbac_pa", array(
-'rol_id' => array('integer', '111'), 'ops_id' => array('clob', 'a:1:{i:0;s:2:"51";}'), 'ref_id' => array('integer', '22')));
+'rol_id' => array('integer', '111'), 'ops_id' => array('text', 'a:1:{i:0;s:2:"51";}'), 'ref_id' => array('integer', '22')));
 
 $ilDB->insert("rbac_pa", array(
-'rol_id' => array('integer', '112'), 'ops_id' => array('clob', 'a:1:{i:0;s:2:"51";}'), 'ref_id' => array('integer', '22')));
+'rol_id' => array('integer', '112'), 'ops_id' => array('text', 'a:1:{i:0;s:2:"51";}'), 'ref_id' => array('integer', '22')));
 
 $ilDB->insert("rbac_pa", array(
-'rol_id' => array('integer', '134'), 'ops_id' => array('clob', 'a:3:{i:0;i:52;i:1;i:3;i:2;i:2;}'), 'ref_id' => array('integer', '24')));
+'rol_id' => array('integer', '134'), 'ops_id' => array('text', 'a:3:{i:0;i:52;i:1;i:3;i:2;i:2;}'), 'ref_id' => array('integer', '24')));
 
 $ilDB->insert("rbac_pa", array(
-'rol_id' => array('integer', '5'), 'ops_id' => array('clob', 'a:1:{i:0;i:30;}'), 'ref_id' => array('integer', '12')));
+'rol_id' => array('integer', '5'), 'ops_id' => array('text', 'a:1:{i:0;i:30;}'), 'ref_id' => array('integer', '12')));
 
 $ilDB->insert("rbac_pa", array(
-'rol_id' => array('integer', '4'), 'ops_id' => array('clob', 'a:1:{i:0;i:30;}'), 'ref_id' => array('integer', '12')));
+'rol_id' => array('integer', '4'), 'ops_id' => array('text', 'a:1:{i:0;i:30;}'), 'ref_id' => array('integer', '12')));
 
 
 //
@@ -11336,7 +12214,7 @@ $ilDB->insert("settings", array(
 'module' => array('text', 'common'), 'keyword' => array('text', 'convert_path'), 'value' => array('clob', '')));
 
 $ilDB->insert("settings", array(
-'module' => array('text', 'common'), 'keyword' => array('text', 'db_version'), 'value' => array('clob', '1697')));
+'module' => array('text', 'common'), 'keyword' => array('text', 'db_version'), 'value' => array('clob', '1744')));
 
 $ilDB->insert("settings", array(
 'module' => array('text', 'common'), 'keyword' => array('text', 'ilias_version'), 'value' => array('clob', '3.2.3 2004-11-22')));
@@ -11761,6 +12639,109 @@ $ilDB->insert("tree", array(
 
 
 //
+// udf_data
+//
+$fields = array (
+	"usr_id" => array (
+		"notnull" => true
+		,"length" => 4
+		,"unsigned" => false
+		,"default" => "0"
+		,"type" => "integer"
+	)
+);
+$ilDB->createTable("udf_data", $fields);
+
+$pk_fields = array("usr_id");
+$ilDB->addPrimaryKey("udf_data", $pk_fields);
+
+$ilDB->insert("udf_data", array(
+'usr_id' => array('integer', '6')));
+
+$ilDB->insert("udf_data", array(
+'usr_id' => array('integer', '13')));
+
+
+//
+// udf_definition
+//
+$fields = array (
+	"field_id" => array (
+		"notnull" => true
+		,"length" => 4
+		,"unsigned" => false
+		,"default" => "0"
+		,"type" => "integer"
+	)
+	,"field_name" => array (
+		"notnull" => false
+		,"length" => 255
+		,"fixed" => true
+		,"type" => "text"
+	)
+	,"field_type" => array (
+		"notnull" => true
+		,"length" => 1
+		,"unsigned" => false
+		,"default" => "0"
+		,"type" => "integer"
+	)
+	,"field_values" => array (
+		"notnull" => false
+		,"type" => "clob"
+	)
+	,"visible" => array (
+		"notnull" => true
+		,"length" => 1
+		,"unsigned" => false
+		,"default" => "0"
+		,"type" => "integer"
+	)
+	,"changeable" => array (
+		"notnull" => true
+		,"length" => 1
+		,"unsigned" => false
+		,"default" => "0"
+		,"type" => "integer"
+	)
+	,"required" => array (
+		"notnull" => true
+		,"length" => 1
+		,"unsigned" => false
+		,"default" => "0"
+		,"type" => "integer"
+	)
+	,"searchable" => array (
+		"notnull" => true
+		,"length" => 1
+		,"unsigned" => false
+		,"default" => "0"
+		,"type" => "integer"
+	)
+	,"export" => array (
+		"notnull" => true
+		,"length" => 1
+		,"unsigned" => false
+		,"default" => "0"
+		,"type" => "integer"
+	)
+	,"course_export" => array (
+		"notnull" => true
+		,"length" => 1
+		,"unsigned" => false
+		,"default" => "0"
+		,"type" => "integer"
+	)
+);
+$ilDB->createTable("udf_definition", $fields);
+
+$pk_fields = array("field_id");
+$ilDB->addPrimaryKey("udf_definition", $pk_fields);
+
+$ilDB->createSequence("udf_definition", 1);
+
+
+//
 // usr_data
 //
 $fields = array (
@@ -12101,10 +13082,56 @@ $in_fields = array("login","passwd");
 $ilDB->addIndex("usr_data", $in_fields, "i1");
 
 $ilDB->insert("usr_data", array(
-'usr_id' => array('integer', '6'), 'login' => array('text', 'root'), 'passwd' => array('text', 'dfa8327f5bfa4c672a04f9b38e348a70'), 'firstname' => array('text', 'root'), 'lastname' => array('text', 'user'), 'title' => array('text', ''), 'gender' => array('text', 'm'), 'email' => array('text', 'ilias@yourserver.com'), 'institution' => array('text', ''), 'street' => array('text', ''), 'city' => array('text', ''), 'zipcode' => array('text', ''), 'country' => array('text', ''), 'phone_office' => array('text', ''), 'last_login' => array('timestamp', '2009-02-23 15:48:47'), 'last_update' => array('timestamp', '2003-09-30 19:50:01'), 'create_date' => array('timestamp', ''), 'hobby' => array('text', ''), 'department' => array('text', ''), 'phone_home' => array('text', ''), 'phone_mobile' => array('text', ''), 'fax' => array('text', ''), 'i2passwd' => array('text', ''), 'time_limit_owner' => array('integer', '7'), 'time_limit_unlimited' => array('integer', '1'), 'time_limit_from' => array('integer', '0'), 'time_limit_until' => array('integer', '0'), 'time_limit_message' => array('integer', '0'), 'referral_comment' => array('text', ''), 'matriculation' => array('text', ''), 'active' => array('integer', '1'), 'approve_date' => array('timestamp', ''), 'agree_date' => array('timestamp', ''), 'ilinc_id' => array('integer', ''), 'ilinc_login' => array('text', ''), 'ilinc_passwd' => array('text', ''), 'client_ip' => array('text', ''), 'auth_mode' => array('text', 'default'), 'profile_incomplete' => array('integer', '0'), 'ext_account' => array('text', ''), 'im_icq' => array('text', ''), 'im_yahoo' => array('text', ''), 'im_msn' => array('text', ''), 'im_aim' => array('text', ''), 'im_skype' => array('text', ''), 'feed_hash' => array('text', ''), 'delicious' => array('text', ''), 'latitude' => array('text', ''), 'longitude' => array('text', ''), 'loc_zoom' => array('integer', '0'), 'login_attempts' => array('integer', '0'), 'last_password_change' => array('integer', '1217068076'), 'im_jabber' => array('text', ''), 'im_voip' => array('text', '')));
+'usr_id' => array('integer', '6'), 'login' => array('text', 'root'), 'passwd' => array('text', 'dfa8327f5bfa4c672a04f9b38e348a70'), 'firstname' => array('text', 'root'), 'lastname' => array('text', 'user'), 'title' => array('text', ''), 'gender' => array('text', 'm'), 'email' => array('text', 'ilias@yourserver.com'), 'institution' => array('text', ''), 'street' => array('text', ''), 'city' => array('text', ''), 'zipcode' => array('text', ''), 'country' => array('text', ''), 'phone_office' => array('text', ''), 'last_login' => array('timestamp', '2009-02-25 17:03:02'), 'last_update' => array('timestamp', '2003-09-30 19:50:01'), 'create_date' => array('timestamp', ''), 'hobby' => array('text', ''), 'department' => array('text', ''), 'phone_home' => array('text', ''), 'phone_mobile' => array('text', ''), 'fax' => array('text', ''), 'i2passwd' => array('text', ''), 'time_limit_owner' => array('integer', '7'), 'time_limit_unlimited' => array('integer', '1'), 'time_limit_from' => array('integer', '0'), 'time_limit_until' => array('integer', '0'), 'time_limit_message' => array('integer', '0'), 'referral_comment' => array('text', ''), 'matriculation' => array('text', ''), 'active' => array('integer', '1'), 'approve_date' => array('timestamp', ''), 'agree_date' => array('timestamp', ''), 'ilinc_id' => array('integer', ''), 'ilinc_login' => array('text', ''), 'ilinc_passwd' => array('text', ''), 'client_ip' => array('text', ''), 'auth_mode' => array('text', 'default'), 'profile_incomplete' => array('integer', '0'), 'ext_account' => array('text', ''), 'im_icq' => array('text', ''), 'im_yahoo' => array('text', ''), 'im_msn' => array('text', ''), 'im_aim' => array('text', ''), 'im_skype' => array('text', ''), 'feed_hash' => array('text', ''), 'delicious' => array('text', ''), 'latitude' => array('text', ''), 'longitude' => array('text', ''), 'loc_zoom' => array('integer', '0'), 'login_attempts' => array('integer', '0'), 'last_password_change' => array('integer', '1217068076'), 'im_jabber' => array('text', ''), 'im_voip' => array('text', '')));
 
 $ilDB->insert("usr_data", array(
 'usr_id' => array('integer', '13'), 'login' => array('text', 'anonymous'), 'passwd' => array('text', '294de3557d9d00b3d2d8a1e6aab028cf'), 'firstname' => array('text', 'anonymous'), 'lastname' => array('text', 'anonymous'), 'title' => array('text', ''), 'gender' => array('text', 'm'), 'email' => array('text', 'nomail'), 'institution' => array('text', ''), 'street' => array('text', ''), 'city' => array('text', ''), 'zipcode' => array('text', ''), 'country' => array('text', ''), 'phone_office' => array('text', ''), 'last_login' => array('timestamp', '2003-08-15 11:03:36'), 'last_update' => array('timestamp', '2003-08-15 10:07:30'), 'create_date' => array('timestamp', '2003-08-15 10:07:30'), 'hobby' => array('text', ''), 'department' => array('text', ''), 'phone_home' => array('text', ''), 'phone_mobile' => array('text', ''), 'fax' => array('text', ''), 'i2passwd' => array('text', ''), 'time_limit_owner' => array('integer', '7'), 'time_limit_unlimited' => array('integer', '1'), 'time_limit_from' => array('integer', '0'), 'time_limit_until' => array('integer', '0'), 'time_limit_message' => array('integer', '0'), 'referral_comment' => array('text', ''), 'matriculation' => array('text', ''), 'active' => array('integer', '1'), 'approve_date' => array('timestamp', ''), 'agree_date' => array('timestamp', ''), 'ilinc_id' => array('integer', ''), 'ilinc_login' => array('text', ''), 'ilinc_passwd' => array('text', ''), 'client_ip' => array('text', ''), 'auth_mode' => array('text', 'local'), 'profile_incomplete' => array('integer', '0'), 'ext_account' => array('text', ''), 'im_icq' => array('text', ''), 'im_yahoo' => array('text', ''), 'im_msn' => array('text', ''), 'im_aim' => array('text', ''), 'im_skype' => array('text', ''), 'feed_hash' => array('text', ''), 'delicious' => array('text', ''), 'latitude' => array('text', ''), 'longitude' => array('text', ''), 'loc_zoom' => array('integer', '0'), 'login_attempts' => array('integer', '0'), 'last_password_change' => array('integer', '1217068076'), 'im_jabber' => array('text', ''), 'im_voip' => array('text', '')));
+
+
+//
+// usr_new_account_mail
+//
+$fields = array (
+	"lang" => array (
+		"notnull" => true
+		,"length" => 5
+		,"default" => ""
+		,"fixed" => false
+		,"type" => "text"
+	)
+	,"subject" => array (
+		"notnull" => false
+		,"length" => 200
+		,"fixed" => false
+		,"type" => "text"
+	)
+	,"body" => array (
+		"notnull" => false
+		,"type" => "clob"
+	)
+	,"sal_f" => array (
+		"notnull" => false
+		,"length" => 200
+		,"fixed" => false
+		,"type" => "text"
+	)
+	,"sal_m" => array (
+		"notnull" => false
+		,"length" => 200
+		,"fixed" => false
+		,"type" => "text"
+	)
+	,"sal_g" => array (
+		"notnull" => false
+		,"length" => 200
+		,"fixed" => false
+		,"type" => "text"
+	)
+);
+$ilDB->createTable("usr_new_account_mail", $fields);
+
+$pk_fields = array("lang");
+$ilDB->addPrimaryKey("usr_new_account_mail", $pk_fields);
 
 
 //
@@ -12238,7 +13265,10 @@ $ilDB->insert("usr_session", array(
 'session_id' => array('text', '1cead060d582f8d2d18aa70abeb9a94f'), 'expires' => array('integer', '1235399248'), 'data' => array('clob', '_authhttpa2e4822a98337283e39f7b60acf85ec9|a:10:{s:12:"challengekey";s:32:"a7e93aaa626419154de00e228d8f801f";s:4:"data";a:0:{}s:9:"sessionip";s:15:"192.168.116.102";s:16:"sessionuseragent";s:97:"Mozilla/5.0 (Macintosh; U; Intel Mac OS X 10.4; en-US; rv:1.9.0.6) Gecko/2009011912 Firefox/3.0.6";s:19:"sessionforwardedfor";s:0:"";s:15:"challengecookie";s:32:"4587156b58abbb0a0f1e44ea15d7d50a";s:10:"registered";b:1;s:8:"username";s:4:"root";s:9:"timestamp";i:1235394171;s:4:"idle";i:1235395644;}lang|s:2:"en";locator_data|a:0:{}locator_level|i:-1;il_help_targets|a:0:{}post_vars|a:0:{}referer|s:48:"/ilias3/ilias.php?baseClass=ilPersonalDesktopGUI";AccountId|s:1:"6";tbl_limit|i:10;il_pd_history|b:0;pdusers_0_blnav|N;'), 'ctime' => array('integer', '1235395648'), 'user_id' => array('integer', '6')));
 
 $ilDB->insert("usr_session", array(
-'session_id' => array('text', '1f70d99f58be5a312db029618e4633af'), 'expires' => array('integer', '1235404128'), 'data' => array('clob', '_authhttpa2e4822a98337283e39f7b60acf85ec9|a:10:{s:12:"challengekey";s:32:"a7e93aaa626419154de00e228d8f801f";s:4:"data";a:0:{}s:9:"sessionip";s:15:"192.168.116.102";s:16:"sessionuseragent";s:97:"Mozilla/5.0 (Macintosh; U; Intel Mac OS X 10.4; en-US; rv:1.9.0.6) Gecko/2009011912 Firefox/3.0.6";s:19:"sessionforwardedfor";s:0:"";s:15:"challengecookie";s:32:"c9bf83d177651f809bbabacf49a99e26";s:10:"registered";b:1;s:8:"username";s:4:"root";s:9:"timestamp";i:1235400527;s:4:"idle";i:1235400528;}lang|s:2:"en";locator_data|a:0:{}locator_level|i:-1;il_help_targets|a:0:{}post_vars|a:0:{}referer|s:48:"/ilias3/ilias.php?baseClass=ilPersonalDesktopGUI";AccountId|s:1:"6";tbl_limit|i:10;il_pd_history|b:0;pdusers_0_blnav|N;'), 'ctime' => array('integer', '1235400528'), 'user_id' => array('integer', '6')));
+'session_id' => array('text', '945ba21fe3cb599cfaa8f800308693c7'), 'expires' => array('integer', '1235467540'), 'data' => array('clob', '_authhttpa2e4822a98337283e39f7b60acf85ec9|a:0:{}lang|s:2:"en";locator_data|a:0:{}locator_level|i:-1;il_help_targets|a:0:{}post_vars|a:4:{s:9:"sendLogin";s:1:"1";s:8:"username";s:4:"alex";s:8:"password";s:8:"kalstert";s:9:"butSubmit";s:6:"Submit";}referer|s:113:"/ilias3/login.php?lang=en&client_id=empty&cmd=post&cmdClass=ilstartupgui&cmdNode=1&baseClass=ilStartUpGUI&rtoken=";'), 'ctime' => array('integer', '1235463940'), 'user_id' => array('integer', '0')));
+
+$ilDB->insert("usr_session", array(
+'session_id' => array('text', '1a4bd4b9206796b74c850ddfd9a05cae'), 'expires' => array('integer', '1235581384'), 'data' => array('clob', '_authhttpa2e4822a98337283e39f7b60acf85ec9|a:10:{s:12:"challengekey";s:32:"a7e93aaa626419154de00e228d8f801f";s:4:"data";a:0:{}s:9:"sessionip";s:15:"192.168.116.102";s:16:"sessionuseragent";s:97:"Mozilla/5.0 (Macintosh; U; Intel Mac OS X 10.4; en-US; rv:1.9.0.6) Gecko/2009011912 Firefox/3.0.6";s:19:"sessionforwardedfor";s:0:"";s:15:"challengecookie";s:32:"49eed9caa356e083d244b4f705f7bb3a";s:10:"registered";b:1;s:8:"username";s:4:"root";s:9:"timestamp";i:1235577740;s:4:"idle";i:1235577782;}lang|s:2:"en";locator_data|a:0:{}locator_level|i:-1;il_help_targets|a:0:{}post_vars|a:0:{}referer|s:48:"/ilias3/ilias.php?baseClass=ilPersonalDesktopGUI";AccountId|s:1:"6";tbl_limit|i:10;il_pd_history|b:0;pdusers_0_blnav|N;'), 'ctime' => array('integer', '1235577784'), 'user_id' => array('integer', '6')));
 
 
 //
@@ -12310,7 +13340,7 @@ $fields = array (
 	)
 	,"ts" => array (
 		"notnull" => true
-		,"default" => "0000-00-00 00:00:00"
+		,"default" => "1970-01-01 00:00:00"
 		,"type" => "timestamp"
 	)
 );
