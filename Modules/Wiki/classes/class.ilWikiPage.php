@@ -3,7 +3,7 @@
 	+-----------------------------------------------------------------------------+
 	| ILIAS open source                                                           |
 	+-----------------------------------------------------------------------------+
-	| Copyright (c) 1998-2005 ILIAS open source, University of Cologne            |
+	| Copyright (c) 1998-2009 ILIAS open source, University of Cologne            |
 	|                                                                             |
 	| This program is free software; you can redistribute it and/or               |
 	| modify it under the terms of the GNU General Public License                 |
@@ -90,17 +90,18 @@ class ilWikiPage extends ilPageObject
 	{
 		global $ilDB;
 
+		$id = $ilDB->nextId("il_wiki_page");
+		$this->setId($id);
 		$query = "INSERT INTO il_wiki_page (".
-			"title".
+			"id".
+			", title".
 			", wiki_id".
 			" ) VALUES (".
-			$ilDB->quote($this->getTitle())
-			.",".$ilDB->quote($this->getWikiId())
+			$ilDB->quote($this->getId(), "integer")
+			.",".$ilDB->quote($this->getTitle(), "text")
+			.",".$ilDB->quote($this->getWikiId(), "integer")
 			.")";
-		$ilDB->query($query);
-		
-		$id = $ilDB->getLastInsertId();
-		$this->setId($id);
+		$ilDB->manipulate($query);
 		
 		// create page object
 		parent::create();
@@ -120,10 +121,10 @@ class ilWikiPage extends ilPageObject
 		
 		// update wiki page data
 		$query = "UPDATE il_wiki_page SET ".
-			" title = ".$ilDB->quote($this->getTitle()).
-			",wiki_id = ".$ilDB->quote($this->getWikiId()).
-			" WHERE id = ".$ilDB->quote($this->getId());
-		$ilDB->query($query);
+			" title = ".$ilDB->quote($this->getTitle(), "text").
+			",wiki_id = ".$ilDB->quote($this->getWikiId(), "integer").
+			" WHERE id = ".$ilDB->quote($this->getId(), "integer");
+		$ilDB->manipulate($query);
 		parent::update($a_validate, $a_no_history);
 
 		return true;
@@ -137,9 +138,9 @@ class ilWikiPage extends ilPageObject
 		global $ilDB;
 		
 		$query = "SELECT * FROM il_wiki_page WHERE id = ".
-			$ilDB->quote($this->getId());
+			$ilDB->quote($this->getId(), "integer");
 		$set = $ilDB->query($query);
-		$rec = $set->fetchRow(DB_FETCHMODE_ASSOC);
+		$rec = $ilDB->fetchAssoc($set);
 
 		$this->setTitle($rec["title"]);
 		$this->setWikiId($rec["wiki_id"]);
@@ -171,9 +172,9 @@ class ilWikiPage extends ilPageObject
 		
 		// delete record of table il_wiki_data
 		$query = "DELETE FROM il_wiki_page".
-			" WHERE id = ".$ilDB->quote($this->getId());
+			" WHERE id = ".$ilDB->quote($this->getId(), "integer");
 
-		$ilDB->query($query);
+		$ilDB->manipulate($query);
 		
 		// delete co page
 		parent::delete();
@@ -181,11 +182,15 @@ class ilWikiPage extends ilPageObject
 		// make links of other pages to this page a missing link
 		foreach($linking_pages as $lp)
 		{
-			$st = $ilDB->prepareManip("REPLACE INTO il_wiki_missing_page ".
+			$ilDB->manipulateF("DELETE FROM il_wiki_missing_page ".
+				" WHERE wiki_id = %s AND source_id = %s AND target_name = %s ",
+				array("integer", "integer", "text"),
+				array($this->getWikiId(), $lp["id"], $this->getTitle()));
+			$ilDB->manipulateF("INSERT INTO il_wiki_missing_page ".
 				"(wiki_id, source_id, target_name) VALUES ".
-				"(?,?,?)", array("integer", "integer", "text"));
-			$ilDB->execute($st, array($this->getWikiId(), $lp["id"],
-				$this->getTitle()));
+				"(%s,%s,%s)",
+				array("integer", "integer", "text"),
+				array($this->getWikiId(), $lp["id"], $this->getTitle()));
 		}
 
 		return true;
@@ -202,10 +207,10 @@ class ilWikiPage extends ilPageObject
 		
 		// delete record of table il_wiki_data
 		$query = "SELECT * FROM il_wiki_page".
-			" WHERE wiki_id = ".$ilDB->quote($a_wiki_id);
+			" WHERE wiki_id = ".$ilDB->quote($a_wiki_id, "integer");
 		$set = $ilDB->query($query);
 		
-		while($rec = $set->fetchRow(DB_FETCHMODE_ASSOC))
+		while($rec = $ilDB->fetchAssoc($set))
 		{
 			$wiki_page = new ilWikiPage($rec["id"]);
 			$wiki_page->delete();
@@ -222,10 +227,10 @@ class ilWikiPage extends ilPageObject
 		$a_title = ilWikiUtil::makeDbTitle($a_title);
 		
 		$query = "SELECT * FROM il_wiki_page".
-			" WHERE wiki_id = ".$ilDB->quote($a_wiki_id).
-			" AND title = ".$ilDB->quote($a_title);
+			" WHERE wiki_id = ".$ilDB->quote($a_wiki_id, "integer").
+			" AND title = ".$ilDB->quote($a_title, "text");
 		$set = $ilDB->query($query);
-		if($rec = $set->fetchRow(DB_FETCHMODE_ASSOC))
+		if($rec = $ilDB->fetchAssoc($set))
 		{
 			return true;
 		}
@@ -243,10 +248,10 @@ class ilWikiPage extends ilPageObject
 		$a_title = ilWikiUtil::makeDbTitle($a_title);
 		
 		$query = "SELECT * FROM il_wiki_page".
-			" WHERE wiki_id = ".$ilDB->quote($a_wiki_id).
-			" AND title = ".$ilDB->quote($a_title);
+			" WHERE wiki_id = ".$ilDB->quote($a_wiki_id, "integer").
+			" AND title = ".$ilDB->quote($a_title, "text");
 		$set = $ilDB->query($query);
-		if($rec = $set->fetchRow(DB_FETCHMODE_ASSOC))
+		if($rec = $ilDB->fetchAssoc($set))
 		{
 			return $rec["id"];
 		}
@@ -262,9 +267,9 @@ class ilWikiPage extends ilPageObject
 		global $ilDB;
 		
 		$query = "SELECT * FROM il_wiki_page".
-			" WHERE id = ".$ilDB->quote($a_page_id);
+			" WHERE id = ".$ilDB->quote($a_page_id, "integer");
 		$set = $ilDB->query($query);
-		if($rec = $set->fetchRow(DB_FETCHMODE_ASSOC))
+		if($rec = $ilDB->fetchAssoc($set))
 		{
 			return $rec["title"];
 		}
@@ -284,11 +289,11 @@ class ilWikiPage extends ilPageObject
 		$pages = parent::getAllPages("wpg", $a_wiki_id);
 		
 		$query = "SELECT * FROM il_wiki_page".
-			" WHERE wiki_id = ".$ilDB->quote($a_wiki_id).
+			" WHERE wiki_id = ".$ilDB->quote($a_wiki_id, "integer").
 			" ORDER BY title";
 		$set = $ilDB->query($query);
 		
-		while($rec = $set->fetchRow(DB_FETCHMODE_ASSOC))
+		while($rec = $ilDB->fetchAssoc($set))
 		{
 			if (isset($pages[$rec["id"]]))
 			{
@@ -319,14 +324,14 @@ class ilWikiPage extends ilPageObject
 		}
 		// get wiki page record
 		$query = "SELECT * FROM il_wiki_page wp, page_object p".
-			" WHERE wp.id IN (".implode(",",ilUtil::quoteArray($ids)).")".
-			" AND wp.id = p.page_id AND p.parent_type = 'wpg'".
-			" AND wp.wiki_id = ".$ilDB->quote($a_wiki_id).
+			" WHERE ".$ilDB->in("wp.id", $ids, false, "integer").
+			" AND wp.id = p.page_id AND p.parent_type = ".$ilDB->quote("wpg", "text").
+			" AND wp.wiki_id = ".$ilDB->quote($a_wiki_id, "integer").
 			" ORDER BY title";
 		$set = $ilDB->query($query);
 		
 		$pages = array();
-		while ($rec = $set->fetchRow(DB_FETCHMODE_ASSOC))
+		while ($rec = $ilDB->fetchAssoc($set))
 		{
 			$pages[] = array_merge($rec, array("user" => $rec["last_change_user"],
 				"date" => $rec["last_change"]));
@@ -363,11 +368,11 @@ class ilWikiPage extends ilPageObject
 			}
 			// delete record of table il_wiki_data
 			$query = "SELECT count(*) AS cnt FROM il_wiki_page".
-				" WHERE id IN (".implode(",",ilUtil::quoteArray($ids)).")".
-				" AND wiki_id = ".$ilDB->quote($a_wiki_id).
+				" WHERE ".$ilDB->in("id", $ids, false, "integer").
+				" AND wiki_id = ".$ilDB->quote($a_wiki_id, "integer").
 				" ORDER BY title";
 			$set = $ilDB->query($query);
-			$rec = $set->fetchRow(DB_FETCHMODE_ASSOC);
+			$rec = $ilDB->fetchAssoc($set);
 			if ($rec["cnt"] == 0 &&
 				ilObjWiki::_lookupStartPage($a_wiki_id) != $page["title"])
 			{
@@ -389,14 +394,13 @@ class ilWikiPage extends ilPageObject
 		
 		$a_title = ilWikiUtil::makeDbTitle($a_title);
 		
-		// delete record of table il_wiki_data
-		$query = "SELECT * FROM il_wiki_page".
-			" WHERE wiki_id = ".$ilDB->quote($a_wiki_id).
-			" AND title = ".$ilDB->quote($a_title);
+		$query = "SELECT id FROM il_wiki_page".
+			" WHERE wiki_id = ".$ilDB->quote($a_wiki_id, "integer").
+			" AND title = ".$ilDB->quote($a_title, "text");
 		$set = $ilDB->query($query);
 		
 		$pages = array();
-		if ($rec = $set->fetchRow(DB_FETCHMODE_ASSOC))
+		if ($rec = $ilDB->fetchAssoc($set))
 		{
 			return true;
 		}
@@ -452,9 +456,10 @@ class ilWikiPage extends ilPageObject
 		
 		// Check, whether ANOTHER page links to this page as a "missing" page
 		// (this is the case, when this page is created newly)
-		$stmt = $ilDB->prepare("SELECT * FROM il_wiki_missing_page WHERE ".
-			" wiki_id = ? AND target_name = ?", array("integer", "text"));
-		$set = $ilDB->execute($stmt, array($this->getWikiId(), $this->getTitle()));
+		$set = $ilDB->queryF("SELECT * FROM il_wiki_missing_page WHERE ".
+			" wiki_id = %s AND target_name = %s",
+			array("integer", "text"),
+			array($this->getWikiId(), $this->getTitle()));
 		while ($anmiss = $ilDB->fetchAssoc($set))	// insert internal links instead 
 		{
 			ilInternalLink::_saveLink("wpg:pg", $anmiss["source_id"], "wpg",
@@ -462,17 +467,19 @@ class ilWikiPage extends ilPageObject
 		}
 		
 		// now remove the missing page entries
-		$stmt = $ilDB->prepareManip("DELETE FROM il_wiki_missing_page WHERE ".
-			" wiki_id = ? AND target_name = ?", array("integer", "text"));
-		$ilDB->execute($stmt, array($this->getWikiId(), $this->getTitle()));
+		$ilDB->manipulateF("DELETE FROM il_wiki_missing_page WHERE ".
+			" wiki_id = %s AND target_name = %s",
+			array("integer", "text"),
+			array($this->getWikiId(), $this->getTitle()));
 		
 		
 		// *** STEP 3: This Page -> Other Pages ***
 		
 		// remove the exising "missing page" links for THIS page (they will be re-inserted below)
-		$stmt = $ilDB->prepareManip("DELETE FROM il_wiki_missing_page WHERE ".
-			" wiki_id = ? AND source_id = ?", array("integer", "integer"));
-		$ilDB->execute($stmt, array($this->getWikiId(), $this->getId()));
+		$ilDB->manipulateF("DELETE FROM il_wiki_missing_page WHERE ".
+			" wiki_id = %s AND source_id = %s",
+			array("integer", "integer"),
+			array($this->getWikiId(), $this->getId()));
 		
 		// collect the wiki links of the page
 		include_once("./Modules/Wiki/classes/class.ilWikiUtil.php");
@@ -489,9 +496,14 @@ class ilWikiPage extends ilPageObject
 			}
 			else		// save missing link for non-existing page
 			{
-				$stmt = $ilDB->prepareManip("REPLACE INTO il_wiki_missing_page (wiki_id, source_id, target_name)".
-					" VALUES (?,?,?)", array("integer", "integer", "text"));
-				$ilDB->execute($stmt, array($this->getWikiId(), $this->getId(), $wlink));
+				$ilDB->manipulateF("DELETE FROM il_wiki_missing_page WHERE".
+					" wiki_id = %s AND source_id = %s AND target_name = %s",
+					array("integer", "integer", "text"),
+					array($this->getWikiId(), $this->getId(), $wlink));
+				$ilDB->manipulateF("INSERT INTO il_wiki_missing_page (wiki_id, source_id, target_name)".
+					" VALUES (%s,%s,%s)",
+					array("integer", "integer", "text"),
+					array($this->getWikiId(), $this->getId(), $wlink));
 			}
 		}
 	}
@@ -503,11 +515,11 @@ class ilWikiPage extends ilPageObject
 	{
 		global $ilDB;
 		
-		$query = "SELECT * FROM il_wiki_page".
-			" WHERE wiki_id = ".$ilDB->quote($a_wiki_id).
-			" AND title = ".$ilDB->quote($a_title);
+		$query = "SELECT id FROM il_wiki_page".
+			" WHERE wiki_id = ".$ilDB->quote($a_wiki_id, "integer").
+			" AND title = ".$ilDB->quote($a_title, "text");
 		$set = $ilDB->query($query);
-		if($rec = $set->fetchRow(DB_FETCHMODE_ASSOC))
+		if($rec = $ilDB->fetchAssoc($set))
 		{
 			return $rec["id"];
 		}
@@ -524,15 +536,15 @@ class ilWikiPage extends ilPageObject
 	{
 		global $ilDB;
 		
-		$query = "SELECT wp.*, po.view_cnt as cnt FROM il_wiki_page as wp, page_object as po".
-			" WHERE wp.wiki_id = ".$ilDB->quote($a_wiki_id).
+		$query = "SELECT wp.*, po.view_cnt as cnt FROM il_wiki_page wp, page_object po".
+			" WHERE wp.wiki_id = ".$ilDB->quote($a_wiki_id, "integer").
 			" AND wp.id = po.page_id ".
 			" AND po.parent_type = 'wpg' ".
 			" ORDER BY po.view_cnt";
 		$set = $ilDB->query($query);
 		
 		$pages = array();
-		while($rec = $set->fetchRow(DB_FETCHMODE_ASSOC))
+		while($rec = $ilDB->fetchAssoc($set))
 		{
 			$pages[] = $rec;
 		}
@@ -551,9 +563,9 @@ class ilWikiPage extends ilPageObject
 		
 		// delete record of table il_wiki_data
 		$query = "SELECT count(*) as cnt FROM il_wiki_page".
-			" WHERE wiki_id = ".$ilDB->quote($a_wiki_id);
+			" WHERE wiki_id = ".$ilDB->quote($a_wiki_id, "integer");
 		$s = $ilDB->query($query);
-		$r = $s->fetchRow(DB_FETCHMODE_ASSOC);
+		$r = $ilDB->fetchAssoc($s);
 		
 		return $r["cnt"];
 	}
@@ -577,11 +589,11 @@ class ilWikiPage extends ilPageObject
 		$rand = rand(1, $cnt);
 		
 		// delete record of table il_wiki_data
+		$ilDB->setLimit(1, $rand);
 		$query = "SELECT title FROM il_wiki_page".
-			" WHERE wiki_id = ".$ilDB->quote($a_wiki_id).
-			" LIMIT $rand, 1";
+			" WHERE wiki_id = ".$ilDB->quote($a_wiki_id, "integer");
 		$s = $ilDB->query($query);
-		$r = $s->fetchRow(DB_FETCHMODE_ASSOC);
+		$r = $ilDB->fetchAssoc($s);
 		
 		return $r["title"];
 	}
