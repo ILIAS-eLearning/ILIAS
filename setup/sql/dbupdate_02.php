@@ -8248,3 +8248,7 @@ ALTER TABLE il_news_item MODIFY visibility CHAR(6) DEFAULT 'users';
 <?php
 	$ilMySQLAbstraction->performAbstraction('il_wiki_contributor');
 ?>
+<#1754>
+<?php
+	$ilMySQLAbstraction->performAbstraction('il_wiki_data');
+?>

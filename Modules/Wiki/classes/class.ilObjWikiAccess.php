@@ -151,9 +151,10 @@ class ilObjWikiAccess extends ilObjectAccess
 	{
 		global $ilDB;
 
-		$q = "SELECT * FROM il_wiki_data WHERE id = ".$ilDB->quote($a_id);
+		$q = "SELECT * FROM il_wiki_data WHERE id = ".
+			$ilDB->quote($a_id, "integer");
 		$wk_set = $ilDB->query($q);
-		$wk_rec = $wk_set->fetchRow(DB_FETCHMODE_ASSOC);
+		$wk_rec = $ilDB->fetchAssoc($wk_set);
 
 		return $wk_rec["is_online"];
 	}
@@ -167,9 +168,10 @@ class ilObjWikiAccess extends ilObjectAccess
 	{
 		global $ilDB;
 
-		$q = "SELECT * FROM il_wiki_data WHERE id = ".$ilDB->quote($a_id);
+		$q = "SELECT * FROM il_wiki_data WHERE id = ".
+			$ilDB->quote($a_id, "integer");
 		$wk_set = $ilDB->query($q);
-		$wk_rec = $wk_set->fetchRow(DB_FETCHMODE_ASSOC);
+		$wk_rec = $ilDB->fetchAssoc($wk_set);
 
 		return $wk_rec["public_files"];
 	}
