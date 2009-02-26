@@ -54,8 +54,8 @@ class ilCache
 	{
 		global $ilDB;
 		$query = sprintf("SELECT * FROM data_cache WHERE module = %s AND keyword = %s",
-			$ilDB->quote($this->module),
-			$ilDB->quote($a_keyword)
+			$ilDB->quote($this->module,'text'),
+			$ilDB->quote($a_keyword,'text')
 		);
 		$res = $ilDB->query($query);
 
@@ -83,8 +83,8 @@ class ilCache
 	{
 		global $ilDB;
 		$query = sprintf("SELECT * FROM data_cache WHERE module = %s AND keyword = %s",
-			$ilDB->quote($a_module),
-			$ilDB->quote($a_keyword)
+			$ilDB->quote($a_module ,'text'),
+			$ilDB->quote($a_keyword ,'text')
 		);
 		$res = $ilDB->query($query);
 
@@ -112,9 +112,9 @@ class ilCache
 		
 		$module = (strlen($a_module) ? $a_module : $this->module);
 		$query = sprintf("DELETE FROM data_cache WHERE module = %s",
-			$ilDB->quote($module)
+			$ilDB->quote($module ,'text')
 		);
-		$ilDB->query($query);
+		$res = $ilDB->manipulate($query);
 	}
 	
 	/**
@@ -127,10 +127,10 @@ class ilCache
 		global $ilDB;
 
 		$query = sprintf("DELETE FROM data_cache WHERE keyword = %s AND module = %s",
-			$ilDB->quote($a_keyword),
-			$ilDB->quote($this->module)
+			$ilDB->quote($a_keyword ,'text'),
+			$ilDB->quote($this->module ,'text')
 		);
-		$ilDB->query($query);
+		$res = $ilDB->manipulate($query);
 	}
 	
 	/**
@@ -145,17 +145,17 @@ class ilCache
 		global $ilDB, $ilLog;
 		
 		$sql = sprintf("DELETE FROM data_cache WHERE keyword = %s AND module = %s",
-			$ilDB->quote($a_key),
-			$ilDB->quote($this->module)
+			$ilDB->quote($a_key ,'text'),
+			$ilDB->quote($this->module ,'text')
 		);
-		$ilDB->query($sql);
+		$res = $ilDB->manipulate($sql);
 
-		$sql = sprintf("INSERT INTO data_cache (module, keyword, value) VALUES (%s, %s, %s)",
-			$ilDB->quote($this->module),
-			$ilDB->quote($a_key),
-			$ilDB->quote($a_val)
-		);
-		$ilDB->query($sql);
+		$values = array(
+			'module'	=> array('text',$this->module),
+			'keyword'	=> array('text',$a_key),
+			'value'		=> array('clob',$a_val)
+			);
+		$ilDB->insert('data_cache',$values);
 	}
 
 }
