@@ -3,7 +3,7 @@
 	+-----------------------------------------------------------------------------+
 	| ILIAS open source                                                           |
 	+-----------------------------------------------------------------------------+
-	| Copyright (c) 1998-2008 ILIAS open source, University of Cologne            |
+	| Copyright (c) 1998-2009 ILIAS open source, University of Cologne            |
 	|                                                                             |
 	| This program is free software; you can redistribute it and/or               |
 	| modify it under the terms of the GNU General Public License                 |
@@ -49,33 +49,32 @@ class ilTagging
 	{
 		global $ilDB;
 		
-		$q = "DELETE FROM il_tag WHERE ".
-			"user_id = ".$ilDB->quote($a_user_id)." AND ".
-			"obj_id = ".$ilDB->quote($a_obj_id)." AND ".
-			"obj_type = ".$ilDB->quote($a_obj_type)." AND ".
-			"sub_obj_id = ".$ilDB->quote($a_sub_obj_id)." AND ".
-			"sub_obj_type = ".$ilDB->quote($a_sub_obj_type);
-		$ilDB->query($q);
+		$ilDB->manipulate("DELETE FROM il_tag WHERE ".
+			"user_id = ".$ilDB->quote($a_user_id, "integer")." AND ".
+			"obj_id = ".$ilDB->quote($a_obj_id, "integer")." AND ".
+			"obj_type = ".$ilDB->quote($a_obj_type, "text")." AND ".
+			"sub_obj_id = ".$ilDB->quote((int) $a_sub_obj_id, "integer")." AND ".
+			$ilDB->equals("sub_obj_type", $a_sub_obj_type, "text", true));
+			//"sub_obj_type = ".$ilDB->quote($a_sub_obj_type, "text"));
 		
 		if (is_array($a_tags))
 		{
 			$inserted = array();
 			foreach($a_tags as $tag)
 			{
-				if (!in_array($tag, $inserted))
+				if (!in_array(strtolower($tag), $inserted))
 				{
 					$tag = str_replace(" ", "_", trim($tag));
-					$q = "REPLACE INTO il_tag (user_id, obj_id, obj_type,".
+					$ilDB->manipulate("INSERT INTO il_tag (user_id, obj_id, obj_type,".
 						"sub_obj_id, sub_obj_type, tag) VALUES (".
-						$ilDB->quote($a_user_id).",".
-						$ilDB->quote($a_obj_id).",".
-						$ilDB->quote($a_obj_type).",".
-						$ilDB->quote($a_sub_obj_id).",".
-						$ilDB->quote($a_sub_obj_type).",".
-						$ilDB->quote($tag).")";
-					$ilDB->query($q);
+						$ilDB->quote($a_user_id, "integer").",".
+						$ilDB->quote($a_obj_id, "integer").",".
+						$ilDB->quote($a_obj_type, "text").",".
+						$ilDB->quote((int) $a_sub_obj_id, "integer").",".
+						$ilDB->quote($a_sub_obj_type, "text").",".
+						$ilDB->quote($tag, "text").")");
 
-					$inserted[] = $tag;
+					$inserted[] = strtolower($tag);
 				}
 			}
 		}
@@ -96,15 +95,15 @@ class ilTagging
 		global $ilDB;
 		
 		$q = "SELECT * FROM il_tag WHERE ".
-			"user_id = ".$ilDB->quote($a_user_id)." AND ".
-			"obj_id = ".$ilDB->quote($a_obj_id)." AND ".
-			"obj_type = ".$ilDB->quote($a_obj_type)." AND ".
-			"sub_obj_id = ".$ilDB->quote($a_sub_obj_id)." AND ".
-			"sub_obj_type = ".$ilDB->quote($a_sub_obj_type).
+			"user_id = ".$ilDB->quote($a_user_id, "integer")." AND ".
+			"obj_id = ".$ilDB->quote($a_obj_id, "integer")." AND ".
+			"obj_type = ".$ilDB->quote($a_obj_type, "text")." AND ".
+			"sub_obj_id = ".$ilDB->quote((int) $a_sub_obj_id, "integer")." AND ".
+			$ilDB->equals("sub_obj_type", $a_sub_obj_type, "text", true).
 			" ORDER BY tag ASC";
 		$set = $ilDB->query($q);
 		$tags = array();
-		while($rec = $set->fetchRow(DB_FETCHMODE_ASSOC))
+		while($rec = $ilDB->fetchAssoc($set))
 		{
 			$tags[] = $rec["tag"];
 		}
@@ -126,19 +125,19 @@ class ilTagging
 		global $ilDB;
 		
 		$online_str = ($a_only_online)
-			? $online_str = " AND is_offline = ".$ilDB->quote(0)." "
+			? $online_str = " AND is_offline = ".$ilDB->quote(0, "integer")." "
 			: "";
 		
 		$q = "SELECT count(user_id) as cnt, tag FROM il_tag WHERE ".
-			"obj_id = ".$ilDB->quote($a_obj_id)." AND ".
-			"obj_type = ".$ilDB->quote($a_obj_type)." AND ".
-			"sub_obj_id = ".$ilDB->quote($a_sub_obj_id)." AND ".
-			"sub_obj_type = ".$ilDB->quote($a_sub_obj_type).
+			"obj_id = ".$ilDB->quote($a_obj_id, "integer")." AND ".
+			"obj_type = ".$ilDB->quote($a_obj_type, "text")." AND ".
+			"sub_obj_id = ".$ilDB->quote($a_sub_obj_id, "integer")." AND ".
+			$ilDB->equals("sub_obj_type", $a_sub_obj_type, "text", true).
 			$online_str.
 			"GROUP BY tag ORDER BY tag ASC";
 		$set = $ilDB->query($q);
 		$tags = array();
-		while($rec = $set->fetchRow(DB_FETCHMODE_ASSOC))
+		while($rec = $ilDB->fetchAssoc($set))
 		{
 			$tags[] = $rec;
 		}
@@ -156,14 +155,13 @@ class ilTagging
 		global $ilDB;
 
 		$online_str = ($a_only_online)
-			? $online_str = " AND is_offline = ".$ilDB->quote(0)." "
+			? $online_str = " AND is_offline = ".$ilDB->quote(0, "integer")." "
 			: "";
 
-		$st = $ilDB->prepare("SELECT count(*) as cnt, tag FROM il_tag WHERE ".
-			"user_id = ? ".
+		$set = $ilDB->query("SELECT count(*) as cnt, tag FROM il_tag WHERE ".
+			"user_id = ".$ilDB->quote($a_user_id, "integer")." ".
 			$online_str.
-			" GROUP BY tag ORDER BY cnt DESC", array("integer"));
-		$set = $ilDB->execute($st, array($a_user_id));
+			" GROUP BY tag ORDER BY cnt DESC");
 		$tags = array();
 		$cnt = 1;
 		while(($rec = $ilDB->fetchAssoc($set)) &&
@@ -187,12 +185,12 @@ class ilTagging
 		global $ilDB;
 		
 		$q = "SELECT * FROM il_tag WHERE ".
-			"user_id = ".$ilDB->quote($a_user_id).
-			" AND tag = ".$ilDB->quote($a_tag);
+			"user_id = ".$ilDB->quote($a_user_id, "integer").
+			" AND tag = ".$ilDB->quote($a_tag, "text");
 
 		$set = $ilDB->query($q);
 		$objects = array();
-		while($rec = $set->fetchRow(DB_FETCHMODE_ASSOC))
+		while($rec = $ilDB->fetchAssoc($set))
 		{
 			if (ilObject::_exists($rec["obj_id"]))
 			{
@@ -244,14 +242,14 @@ class ilTagging
 	{
 		global $ilDB;
 		
-		$st = $ilDB->prepareManip("UPDATE il_tag SET is_offline = ? ".
+		$ilDB->manipulateF("UPDATE il_tag SET is_offline = %s ".
 			"WHERE ".
-			"obj_id = ? AND ".
-			"obj_type = ? AND ".
-			"sub_obj_id = ? AND ".
-			"sub_obj_type = ? ", array("boolean", "integer", "text", "integer", "text"));
-		$ilDB->execute($st, array($a_offline,
-			$a_obj_id, $a_obj_type, $a_sub_obj_id, $a_sub_obj_type));
+			"obj_id = %s AND ".
+			"obj_type = %s AND ".
+			"sub_obj_id = %s AND ".
+			$ilDB->equals("sub_obj_type", $a_sub_obj_type, "text", true),
+			array("boolean", "integer", "text", "integer"),
+			array($a_offline, $a_obj_id, $a_obj_type, $a_sub_obj_id));
 	}
 
 	/**
@@ -266,13 +264,14 @@ class ilTagging
 	{
 		global $ilDB;
 		
-		$st = $ilDB->prepareManip("DELETE FROM il_tag ".
+		$ilDB->manipulateF("DELETE FROM il_tag ".
 			"WHERE ".
-			"obj_id = ? AND ".
-			"obj_type = ? AND ".
-			"sub_obj_id = ? AND ".
-			"sub_obj_type = ? ", array("integer", "text", "integer", "text"));
-		$ilDB->execute($st, array($a_obj_id, $a_obj_type, $a_sub_obj_id, $a_sub_obj_type));
+			"obj_id = %s AND ".
+			"obj_type = %s AND ".
+			"sub_obj_id = %s AND ".
+			$ilDB->equals("sub_obj_type", $a_sub_obj_type, "text", true),
+			array("integer", "text", "integer"),
+			array($a_obj_id, $a_obj_type, $a_sub_obj_id));
 	}
 
 }
