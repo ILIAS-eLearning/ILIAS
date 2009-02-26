@@ -225,13 +225,8 @@ class ilAuthContainerLDAP extends Auth_Container_LDAP
 		$ilBench->start('Auth','LDAPLoginObserver');
 		$user_data = array_change_key_case($this->_auth_obj->getAuthData(),CASE_LOWER);
 		
-		// user is authenticated
-		// Now we trust the username received from ldap and use it as external account name,
-		// to avoid problems with leading/trailing whitespace characters
-		$a_username = isset($user_data[$this->server->getUserAttribute()]) ?
-			$user_data[$this->server->getUserAttribute()] :
-			trim($a_username);
-		
+		$a_username = $this->extractUserName($user_data);
+
 		$user_data['ilInternalAccount'] = ilObjUser::_checkExternalAuthAccount("ldap",$a_username);
 		$users[$a_username] = $user_data;
 		
@@ -314,6 +309,35 @@ class ilAuthContainerLDAP extends Auth_Container_LDAP
 			$this->_auth_obj->start();
 		}
 	}
+	
+	/**
+	 *  
+	 * @param
+	 * @return string	ldap username
+	 */
+	protected function extractUserName($a_user_data)
+	{
+		$a_username = isset($a_user_data[$this->server->getUserAttribute()]) ? 
+			$a_user_data[$this->server->getUserAttribute()] :
+			trim($a_username);
+		
+		// Support for multiple user attributes
+		if(!is_array($a_username))
+		{
+			return $a_username;
+		}
+		foreach($a_username as $name)
+		{
+			// User found with authentication method 'ldap'
+			if(ilObjUser::_checkExternalAuthAccount("ldap",$a_username))
+			{
+				return trim($name);
+			}
+		}
+		// No existing user found  => return first name
+		return $a_username[0];				
+	}
+	
 	
 }
 
