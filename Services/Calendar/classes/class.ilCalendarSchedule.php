@@ -237,7 +237,7 @@ class ilCalendarSchedule
 	 */
 	public function getChangedEvents($a_include_subitem_calendars = false)
 	{
-		global $ilUser;
+		global $ilUser,$ilDB;
 		
 		include_once('./Services/Calendar/classes/class.ilCalendarCategories.php');
 		$cats = ilCalendarCategories::_getInstance($ilUser->getId())->getCategories($a_include_subitem_calendars);
@@ -252,9 +252,9 @@ class ilCalendarSchedule
 		
 		
 		$query = "SELECT ce.cal_id AS cal_id FROM cal_entries AS ce  ".
-			"JOIN cal_category_assignments AS ca ON ca.cal_id = ce.cal_id ".
+			"JOIN cal_cat_assignments ca ON ca.cal_id = ce.cal_id ".
 			"WHERE last_update > '".$start->get(IL_CAL_DATETIME)."' ".
-			"AND ca.cat_id IN (".implode(',',ilUtil::quoteArray($cats)).') '.
+			"AND ".$ilDB->in('ca.cat_id',$cats,false,'integer').' '.
 			"ORDER BY last_update";
 		$res = $this->db->query($query);
 		
@@ -276,7 +276,7 @@ class ilCalendarSchedule
 	 */
 	protected function getEvents()
 	{
-		global $ilUser;
+		global $ilUser,$ilDB;
 		
 		include_once('./Services/Calendar/classes/class.ilCalendarCategories.php');
 		$cats = ilCalendarCategories::_getInstance($ilUser->getId())->getCategories($this->enabledSubitemCalendars());
@@ -287,13 +287,13 @@ class ilCalendarSchedule
 		}
 
 		// TODO: optimize
-		$query = "SELECT ce.cal_id AS cal_id FROM cal_entries AS ce LEFT JOIN cal_recurrence_rules AS crr USING (cal_id) ".
-			"JOIN cal_category_assignments AS ca ON ca.cal_id = ce.cal_id ".
+		$query = "SELECT ce.cal_id cal_id FROM cal_entries ce LEFT JOIN cal_recurrence_rules crr USING (cal_id) ".
+			"JOIN cal_cat_assignments ca ON ca.cal_id = ce.cal_id ".
 			"WHERE ((start <= ".$this->db->quote($this->end->get(IL_CAL_DATETIME,'','UTC'))." ".
 			"AND end >= ".$this->db->quote($this->start->get(IL_CAL_DATETIME,'','UTC')).") ".
 			"OR (start <= ".$this->db->quote($this->end->get(IL_CAL_DATETIME,'','UTC'))." ".
 			"AND NOT rule_id IS NULL)) ".
-			"AND ca.cat_id IN (".implode(',',ilUtil::quoteArray($cats)).') '.
+			"AND ".$ilDB->in('ca.cat_id',$cats,false,'integer')." ".
 			"ORDER BY start";
 		$res = $this->db->query($query);
 		
