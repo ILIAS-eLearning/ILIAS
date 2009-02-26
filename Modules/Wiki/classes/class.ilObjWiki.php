@@ -3,7 +3,7 @@
 	+-----------------------------------------------------------------------------+
 	| ILIAS open source                                                           |
 	+-----------------------------------------------------------------------------+
-	| Copyright (c) 1998-2008 ILIAS open source, University of Cologne            |
+	| Copyright (c) 1998-2009 ILIAS open source, University of Cologne            |
 	|                                                                             |
 	| This program is free software; you can redistribute it and/or               |
 	| modify it under the terms of the GNU General Public License                 |
@@ -160,22 +160,14 @@ class ilObjWiki extends ilObject
 
 		parent::create();
 		
-		$query = "INSERT INTO il_wiki_data (".
-			" id".
-			", is_online".
-			", startpage".
-			", short".
-			", rating".
-			", introduction".
-			" ) VALUES (".
-			$ilDB->quote($this->getId())
-			.",".$ilDB->quote($this->getOnline())
-			.",".$ilDB->quote($this->getStartPage())
-			.",".$ilDB->quote($this->getShortTitle())
-			.",".$ilDB->quote($this->getRating())
-			.",".$ilDB->quote($this->getIntroduction())
-			.")";
-		$ilDB->query($query);
+		$ilDB->insert("il_wiki_data", array(
+			"id" => array("integer", $this->getId()),
+			"is_online" => array("integer", (int) $this->getOnline()),
+			"startpage" => array("text", $this->getStartPage()),
+			"short" => array("text", $this->getShortTitle()),
+			"rating" => array("integer", (int) $this->getRating()),
+			"introduction" => array("clob", $this->getIntroduction())
+			));
 		
 		// create start page
 		if ($this->getStartPage() != "")
@@ -204,19 +196,15 @@ class ilObjWiki extends ilObject
 			return false;
 		}
 		
-		// update wiki data
-		$st = $ilDB->prepareManip("UPDATE il_wiki_data SET ".
-			" is_online = ?, startpage = ?, short = ?, ".
-			" rating = ?, introduction = ? ".
-			" WHERE id = ?",
-			array("boolean","text","text","boolean","text","integer")); 
-		$ilDB->execute($st, array(
-			$this->getOnline(),
-			$this->getStartPage(),
-			$this->getShortTitle(),
-			$this->getRating(),
-			$this->getIntroduction(),
-			$this->getId()));
+		$ilDB->update("il_wiki_data", array(
+			"is_online" => array("integer", $this->getOnline()),
+			"startpage" => array("text", $this->getStartPage()),
+			"short" => array("text", $this->getShortTitle()),
+			"rating" => array("integer", $this->getRating()),
+			"introduction" => array("clob", $this->getIntroduction())
+			), array(
+			"id" => array("integer", $this->getId())
+			));
 
 		// check whether start page exists
 		include_once("./Modules/Wiki/classes/class.ilWikiPage.php");
@@ -241,9 +229,9 @@ class ilObjWiki extends ilObject
 		parent::read();
 		
 		$query = "SELECT * FROM il_wiki_data WHERE id = ".
-			$ilDB->quote($this->getId());
+			$ilDB->quote($this->getId(), "integer");
 		$set = $ilDB->query($query);
-		$rec = $set->fetchRow(DB_FETCHMODE_ASSOC);
+		$rec = $ilDB->fetchAssoc($set);
 
 		$this->setOnline($rec["is_online"]);
 		$this->setStartPage($rec["startpage"]);
@@ -272,8 +260,8 @@ class ilObjWiki extends ilObject
 				
 		// delete record of table il_wiki_data
 		$query = "DELETE FROM il_wiki_data".
-			" WHERE id = ".$ilDB->quote($this->getId());
-		$ilDB->query($query);
+			" WHERE id = ".$ilDB->quote($this->getId(), "integer");
+		$ilDB->manipulate($query);
 		
 		include_once("./Modules/Wiki/classes/class.ilWikiPage.php");
 		ilWikiPage::deleteAllPagesOfWiki($this->getId());
@@ -288,9 +276,8 @@ class ilObjWiki extends ilObject
 	{
 		global $ilDB;
 		
-		$st = $ilDB->prepare("SELECT * FROM il_wiki_data WHERE short = ?",
-			array("text"));
-		$res = $ilDB->execute($st, array($a_short_title));
+		$res = $ilDB->queryF("SELECT id FROM il_wiki_data WHERE short = %s",
+			array("text"), array($a_short_title));
 		if ($ilDB->fetchAssoc($res))
 		{
 			return false;
@@ -415,10 +402,10 @@ class ilObjWiki extends ilObject
 	{
 		global $ilDB;
 
-		$query = "SELECT * FROM il_wiki_data WHERE id = ".
-			$ilDB->quote($a_wiki_id);
+		$query = "SELECT $a_field FROM il_wiki_data WHERE id = ".
+			$ilDB->quote($a_wiki_id, "integer");
 		$set = $ilDB->query($query);
-		$rec = $set->fetchRow(DB_FETCHMODE_ASSOC);
+		$rec = $ilDB->fetchAssoc($set);
 		return $rec[$a_field];
 	}
 
