@@ -8266,3 +8266,9 @@ ALTER TABLE il_news_item MODIFY visibility CHAR(6) DEFAULT 'users';
 	$ilMySQLAbstraction->performAbstraction('cal_categories');
 ?>
 
+<#1757>
+<?php
+	$ilMySQLAbstraction->performAbstraction('cal_categories_hidden');
+?>
+
+
