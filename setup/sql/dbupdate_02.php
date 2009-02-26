@@ -8311,10 +8311,15 @@ ALTER TABLE `cal_entries` CHANGE `location` `location` VARCHAR( 4000 ) NULL;
 <#1769>
 ALTER TABLE `cal_recurrence_rules` CHANGE `freq_until_date` `freq_until_date` DATETIME NULL;
 
-<#1770>  
+<#1770>
 <?php
 	$ilMySQLAbstraction->performAbstraction('cal_recurrence_rules');
 ?>
-
-  
-
+<#1771>
+<?php
+	$ilMySQLAbstraction->performAbstraction('il_wiki_missing_page');
+?>
+<#1772>
+<?php
+	$ilMySQLAbstraction->performAbstraction('il_wiki_page');
+?>
