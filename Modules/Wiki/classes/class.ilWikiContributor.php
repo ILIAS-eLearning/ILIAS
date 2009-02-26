@@ -3,7 +3,7 @@
 	+-----------------------------------------------------------------------------+
 	| ILIAS open source                                                           |
 	+-----------------------------------------------------------------------------+
-	| Copyright (c) 1998-2008 ILIAS open source, University of Cologne            |
+	| Copyright (c) 1998-2009 ILIAS open source, University of Cologne            |
 	|                                                                             |
 	| This program is free software; you can redistribute it and/or               |
 	| modify it under the terms of the GNU General Public License                 |
@@ -47,10 +47,10 @@ class ilWikiContributor
 	{
 		global $ilDB;
 
-		$st = $ilDB->prepare("SELECT status FROM il_wiki_contributor ".
-			"WHERE wiki_id = ? and user_id = ?",
-			array("integer", "integer"));
-		$set = $ilDB->execute($st, array($a_obj_id, $a_user_id));
+		$set = $ilDB->queryF("SELECT status FROM il_wiki_contributor ".
+			"WHERE wiki_id = %s and user_id = %s",
+			array("integer", "integer"),
+			array($a_obj_id, $a_user_id));
 		if($row = $ilDB->fetchAssoc($set))
 		{
 			return $row["status"];
@@ -69,10 +69,10 @@ class ilWikiContributor
 	{
 		global $ilDB;
 
-		$st = $ilDB->prepare("SELECT status_time FROM il_wiki_contributor ".
-			"WHERE wiki_id = ? and user_id = ?",
-			array("integer", "integer"));
-		$set = $ilDB->execute($st, array($a_obj_id, $a_user_id));
+		$set = $ilDB->queryF("SELECT status_time FROM il_wiki_contributor ".
+			"WHERE wiki_id = %s and user_id = %s",
+			array("integer", "integer"),
+			array($a_obj_id, $a_user_id));
 		if($row = $ilDB->fetchAssoc($set))
 		{
 			return $row["status_time"];
@@ -93,11 +93,14 @@ class ilWikiContributor
 	{
 		global $ilDB;
 
-		$st = $ilDB->prepareManip("REPLACE INTO il_wiki_contributor (status, wiki_id, user_id) ".
-			"VALUES (?,?,?)",
-			array("integer", "integer", "integer"));
+		$ilDB->manipulate("DELETE FROM il_wiki_contributor WHERE ".
+			" wiki_id = ".$ilDB->quote($a_obj_id, "integer").
+			" AND user_id = ".$ilDB->quote($a_user_id, "integer"));
 
-		$ilDB->execute($st, array($a_status, $a_obj_id, $a_user_id));
+		$ilDB->manipulateF("INSERT INTO il_wiki_contributor (status, wiki_id, user_id, status_time) ".
+			"VALUES (%s,%s,%s,%s)",
+			array("integer", "integer", "integer", "timestamp"),
+			array($a_status, $a_obj_id, $a_user_id, ilUtil::now()));
 	}
 
 }

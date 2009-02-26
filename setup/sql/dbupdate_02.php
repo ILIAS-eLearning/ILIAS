@@ -8240,4 +8240,11 @@ ALTER TABLE il_news_item MODIFY visibility CHAR(6) DEFAULT 'users';
 <?php
 	$ilMySQLAbstraction->performAbstraction('il_rating');
 ?>
-
+<#1752>
+<?php
+	$ilMySQLAbstraction->performAbstraction('il_tag');
+?>
+<#1753>
+<?php
+	$ilMySQLAbstraction->performAbstraction('il_wiki_contributor');
+?>
