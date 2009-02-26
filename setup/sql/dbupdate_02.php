@@ -8271,4 +8271,10 @@ ALTER TABLE il_news_item MODIFY visibility CHAR(6) DEFAULT 'users';
 	$ilMySQLAbstraction->performAbstraction('cal_categories_hidden');
 ?>
 
+<#1758>
+RENAME TABLE `cal_category_assignments` TO `cal_cat_assignments`;
 
+<#1759>
+<?php
+	$ilMySQLAbstraction->performAbstraction('cal_cat_assignments');
+?>

@@ -64,8 +64,8 @@ class ilCalendarCategoryAssignments
 	{
 		global $ilDB;
 		
-		$query = "SELECT cat_id FROM cal_category_assignments ".
-			"WHERE cal_id = ".$ilDB->quote($a_cal_id)." ";
+		$query = "SELECT cat_id FROM cal_cat_assignments ".
+			"WHERE cal_id = ".$ilDB->quote($a_cal_id ,'integer')." ";
 		$res = $ilDB->query($query);
 		while($row = $res->fetchRow(DB_FETCHMODE_OBJECT))
 		{
@@ -103,8 +103,8 @@ class ilCalendarCategoryAssignments
 	{
 		global $ilDB;
 		
-		$query = "SELECT * FROM cal_category_assignments ".
-			"WHERE cat_id IN ( ".implode(',',ilUtil::quoteArray($a_cat_id))." )";
+		$query = "SELECT * FROM cal_cat_assignments ".
+			"WHERE ".$ilDB->in('cat_id',$a_cat_id,false,'integer');
 			
 		$res = $ilDB->query($query);
 		while($row = $res->fetchRow(DB_FETCHMODE_OBJECT))
@@ -127,7 +127,7 @@ class ilCalendarCategoryAssignments
 		global $ilDB;
 		
 		$query = "SELECT ce.cal_id FROM cal_categories cc ".
-			"JOIN cal_category_assignments cca ON cc.cat_id = cca.cat_id ".
+			"JOIN cal_cat_assignments cca ON cc.cat_id = cca.cat_id ".
 			"JOIN cal_entries ce ON cca.cal_id = ce.cal_id ".
 			"WHERE auto_generated = 1 ".
 			"AND obj_id = ".$ilDB->quote($a_obj_id ,'integer')." ";
@@ -150,9 +150,9 @@ class ilCalendarCategoryAssignments
 	{
 		global $ilDB;
 		
-		$query = "DELETE FROM cal_category_assignments ".
-			"WHERE cal_id = ".$ilDB->quote($a_app_id)." ";
-		$res = $ilDB->query($query);
+		$query = "DELETE FROM cal_cat_assignments ".
+			"WHERE cal_id = ".$ilDB->quote($a_app_id ,'integer')." ";
+		$res = $ilDB->manipulate($query);
 		
 		return true;
 	}
@@ -169,9 +169,9 @@ class ilCalendarCategoryAssignments
 	{
 		global $ilDB;
 		
-		$query = "DELETE FROM cal_category_assignments ".
-			"WHERE cat_id = ".$ilDB->quote($a_cat_id)." ";
-		$res = $ilDB->query($query);
+		$query = "DELETE FROM cal_cat_assignments ".
+			"WHERE cat_id = ".$ilDB->quote($a_cat_id ,'integer')." ";
+		$res = $ilDB->manipulate($query);
 		return true;
 	}
 	
@@ -206,10 +206,14 @@ class ilCalendarCategoryAssignments
 	 */
 	public function addAssignment($a_cal_cat_id)
 	{
-		$query = "INSERT INTO cal_category_assignments ".
-			"SET cal_id = ".$this->db->quote($this->cal_entry_id).", ".
-			"cat_id = ".$this->db->quote($a_cal_cat_id)." ";
-		$this->db->query($query);
+		global $ilDB;
+		
+		$query = "INSERT INTO cal_cat_assignments (cal_id,cat_id) ".
+			"VALUES ( ".
+			$this->db->quote($this->cal_entry_id ,'integer').", ".
+			$this->db->quote($a_cal_cat_id ,'integer')." ".
+			")";
+		$res = $ilDB->manipulate($query);
 		$this->assignments[] = (int) $a_cal_cat_id;
 		
 		return true;
@@ -224,10 +228,12 @@ class ilCalendarCategoryAssignments
 	 */
 	public function deleteAssignment($a_cat_id)
 	{
-		$query = "DELETE FROM cal_category_assignments ".
-			"WHERE cal_id = ".$this->db->quote($this->cal_entry_id).", ".
-			"AND cat_id = ".$this->db->quote($a_cat_id)." ";
-		$this->db->query($query);
+		global $ilDB;
+		
+		$query = "DELETE FROM cal_cat_assignments ".
+			"WHERE cal_id = ".$this->db->quote($this->cal_entry_id ,'integer').", ".
+			"AND cat_id = ".$this->db->quote($a_cat_id ,'integer')." ";
+		$res = $ilDB->manipulate($query);
 		
 		if(($key = array_search($a_cat_id,$this->assignments)) !== false)
 		{
@@ -243,9 +249,11 @@ class ilCalendarCategoryAssignments
 	 */
 	public function deleteAssignments()
 	{
-		$query = "DELETE FROM cal_category_assignments ".
-			"WHERE cal_id = ".$this->db->quote($this->cal_entry_id)." ";
-		$this->db->query($query);
+		global $ilDB;
+		
+		$query = "DELETE FROM cal_cat_assignments ".
+			"WHERE cal_id = ".$this->db->quote($this->cal_entry_id ,'integer')." ";
+		$res = $ilDB->manipulate($query);
 		return true;
 	}
 
@@ -258,9 +266,11 @@ class ilCalendarCategoryAssignments
 	 */
 	private function read()
 	{
-		$query = "SELECT * FROM cal_category_assignments ".
-			"WHERE cal_id = ".$this->db->quote($this->cal_entry_id)." ";
-			
+		global $ilDB;
+
+		$query = "SELECT * FROM cal_cat_assignments ".
+			"WHERE cal_id = ".$this->db->quote($this->cal_entry_id ,'integer')." ";
+		
 		$res = $this->db->query($query);
 		while($row = $res->fetchRow(DB_FETCHMODE_OBJECT))
 		{
