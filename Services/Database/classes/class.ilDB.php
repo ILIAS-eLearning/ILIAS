@@ -416,7 +416,8 @@ if ($this->getDBType() == "mysql")
 	* @param	array		definition array: array("col1" => array("type" => "text", ...))
 	* @param	boolean		drop table automatically, if it already exists
 	*/
-	function createTable($a_name, $a_definition_array, $a_drop_table = false)
+	function createTable($a_name, $a_definition_array, $a_drop_table = false,
+		$a_ignore_erros = false)
 	{
 		// (removed options; should only be activated restricted, if necessary
 		if ($a_options == "")
@@ -425,14 +426,14 @@ if ($this->getDBType() == "mysql")
 		}
 		
 		// check table name
-		if (!$this->checkTableName($a_name))
+		if (!$this->checkTableName($a_name) && !$a_ignore_erros)
 		{
 			$this->raisePearError("ilDB Error: createTable(".$a_name.")<br />".
 				$this->error_str);
 		}
 		
 		// check definition array
-		if (!$this->checkTableColumns($a_definition_array))
+		if (!$this->checkTableColumns($a_definition_array) && !$a_ignore_erros)
 		{
 			$this->raisePearError("ilDB Error: createTable(".$a_name.")<br />".
 				$this->error_str);

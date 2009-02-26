@@ -6687,6 +6687,7 @@ if(!$ilDB->tableColumnExists('usr_search','root'))
 				"login" => array("type" => "text", "length" => 80, "fixed" => false, "notnull" => true),
 				"date" => array("type" => "integer", "length" => 4, "notnull" => true)
 			)
+			, false, true
 		);
 		$ilDB->addPrimaryKey("loginname_history", array("usr_id", "login", "date"));
 	}
@@ -7240,6 +7241,7 @@ $ilCtrlStructureReader->getStructure();
 				"textsize" => array(
 					"type" => "float", "notnull" => false)
 				)
+			, false, true
 			);
 		$ilDB->addPrimaryKey("qpl_question_orderinghorizontal", array("question_fi"));
 	}
@@ -7474,6 +7476,7 @@ if ($res->numRows() == 0)
 				"maxsize" => array(
 					"type" => "float", "notnull" => false)
 				)
+			, false, true
 			);
 		$ilDB->addPrimaryKey("qpl_question_fileupload", array("question_fi"));
 	}
