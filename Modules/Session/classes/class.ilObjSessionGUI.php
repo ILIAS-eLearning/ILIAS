@@ -372,6 +372,13 @@ class ilObjSessionGUI extends ilObjectGUI
 		}
 		$this->createRecurringSessions();
 
+		// call crs items for creating a new entry for the new session
+		// Otherwise the sorting of sessions is wrong.
+		// TODO find a better solution
+		include_once './Modules/Course/classes/class.ilCourseItems.php';
+		$tmp_course = ilObjectFactory::getInstanceByRefId((int) $_GET['ref_id'],false);
+		$items = new ilCourseItems($tmp_course);
+
 		ilUtil::sendInfo($this->lng->txt('event_add_new_event'),true);
 		$this->ctrl->returnToParent($this);
 		return true;
