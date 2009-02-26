@@ -83,8 +83,8 @@ class ilCalendarHidden
 		global $ilDB;
 		
 		$query = "DELETE FROM cal_categories_hidden ".
-			"WHERE cat_id = ".$ilDB->quote($a_cat_id)." ";
-		$ilDB->query($query);
+			"WHERE cat_id = ".$ilDB->quote($a_cat_id ,'integer')." ";
+		$res = $ilDB->manipulate($query);
 	}
 	
 	/**
@@ -100,8 +100,8 @@ class ilCalendarHidden
 		global $ilDB;
 		
 		$query = "DELETE FROM cal_categories_hidden ".
-			"WHERE user_id = ".$ilDB->quote($a_user_id)." ";
-		$ilDB->query($query);
+			"WHERE user_id = ".$ilDB->quote($a_user_id ,'integer')." ";
+		$res = $ilDB->manipulate($query);
 	}
 	
 	/**
@@ -159,13 +159,17 @@ class ilCalendarHidden
 	 */
 	public function save()
 	{
+		global $ilDB;
+		
 		$this->delete();
 		foreach($this->hidden as $hidden)
 		{
-			$query = "INSERT INTO cal_categories_hidden ".
-				"SET user_id = ".$this->db->quote($this->user_id).", ".
-				"cat_id = ".$this->db->quote($hidden)." ";
-			$this->db->query($query);
+			$query = "INSERT INTO cal_categories_hidden (usr_id,cat_id) ".
+				"VALUES ( ".
+				$this->db->quote($this->user_id ,'integer').", ".
+				$this->db->quote($hidden ,'integer')." ".
+				")";
+			$res = $ilDB->manipulate($query);
 		}
 		return true;
 	}
@@ -179,18 +183,20 @@ class ilCalendarHidden
 	 */
 	public function delete($a_cat_id = null)
 	{
+		global $ilDB;
+		
 		if($a_cat_id)
 		{
 			$query = "DELETE FROM cal_categories_hidden ".
-				"WHERE user_id = ".$this->db->quote($this->user_id)." ".
-				"AND cat_id = ".$this->db->quote($a_cat_id)." ";
+				"WHERE user_id = ".$this->db->quote($this->user_id ,'integer')." ".
+				"AND cat_id = ".$this->db->quote($a_cat_id ,'integer')." ";
 		}
 		else
 		{
 			$query = "DELETE FROM cal_categories_hidden ".
-				"WHERE user_id = ".$this->db->quote($this->user_id)." ";
+				"WHERE user_id = ".$this->db->quote($this->user_id ,'integer')." ";
 		}
-		$this->db->query($query);
+		$res = $ilDB->manipulate($query);
 		return true;
 	}
 	
@@ -202,8 +208,10 @@ class ilCalendarHidden
 	 */
 	protected function read()
 	{
+		global $ilDB;
+		
 		$query = "SELECT * FROM cal_categories_hidden ".
-			"WHERE user_id = ".$this->db->quote($this->user_id)." ";
+			"WHERE user_id = ".$this->db->quote($this->user_id ,'integer')." ";
 		$res = $this->db->query($query);
 		while($row = $res->fetchRow(DB_FETCHMODE_OBJECT))
 		{
