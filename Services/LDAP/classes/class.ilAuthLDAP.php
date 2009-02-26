@@ -96,8 +96,8 @@ class ilAuthLDAP extends Auth
 	 */
 	protected function loginObserver($a_username)
 	{
-		global $ilBench;
-                global $ilLog;
+		global $ilBench,$ilLog;
+		
 		$ilLog->write(__METHOD__.': logged in as '.$a_username.
 			', remote:'.$_SERVER['REMOTE_ADDR'].':'.$_SERVER['REMOTE_PORT'].
 			', server:'.$_SERVER['SERVER_ADDR'].':'.$_SERVER['SERVER_PORT']
@@ -106,12 +106,8 @@ class ilAuthLDAP extends Auth
 		$ilBench->start('Auth','LDAPLoginObserver');
 		$user_data = array_change_key_case($this->getAuthData(),CASE_LOWER);
 		
-		// user is authenticated
-		// Now we trust the username received from ldap and use it as external account name,
-		// to avoid problems with leading/trailing whitespace characters
-		$a_username = isset($user_data[$this->ldap_server->getUserAttribute()]) ?
-			$user_data[$this->ldap_server->getUserAttribute()] :
-			trim($a_username);
+		
+		$a_username = $this->extractUserName($user_data);
 		
 		$user_data['ilInternalAccount'] = ilObjUser::_checkExternalAuthAccount("ldap",$a_username);
 		$users[$a_username] = $user_data;
@@ -155,6 +151,11 @@ class ilAuthLDAP extends Auth
 			$ilBench->stop('Auth','LDAPLoginObserver');
 			return;
 		}
+		
+		$id = ilObjUser::_lookupId($user_data['ilInternalAccount']);
+		include_once './Services/AuthShibboleth/classes/class.ilShibbolethRoleAssignmentRules.php';
+		ilShibbolethRoleAssignmentRules::updateAssignments($id,$user_data);
+
 		// Finally setAuth
 		$this->setAuth($user_data['ilInternalAccount']);
 		$ilBench->stop('Auth','LDAPLoginObserver');
@@ -254,6 +255,34 @@ class ilAuthLDAP extends Auth
 	 	}
 		$ilLog->write(__METHOD__.': PEAR Log not installed. Logging disabled');
 	 	
+	}
+	
+	/**
+	 *  
+	 * @param
+	 * @return string	ldap username
+	 */
+	protected function extractUserName($a_user_data)
+	{
+		$a_username = isset($a_user_data[$this->ldap_server->getUserAttribute()]) ? 
+			$a_user_data[$this->ldap_server->getUserAttribute()] :
+			trim($a_username);
+		
+		// Support for multiple user attributes
+		if(!is_array($a_username))
+		{
+			return $a_username;
+		}
+		foreach($a_username as $name)
+		{
+			// User found with authentication method 'ldap'
+			if(ilObjUser::_checkExternalAuthAccount("ldap",$a_username))
+			{
+				return trim($name);
+			}
+		}
+		// No existing user found  => return first name
+		return $a_username[0];				
 	}
 	
 }
