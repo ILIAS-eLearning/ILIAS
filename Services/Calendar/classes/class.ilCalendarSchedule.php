@@ -250,10 +250,9 @@ class ilCalendarSchedule
 		$start = new ilDate(date('Y-m-d',time()),IL_CAL_DATE);
 		$start->increment(IL_CAL_MONTH,-1);
 		
-		
-		$query = "SELECT ce.cal_id AS cal_id FROM cal_entries AS ce  ".
+		$query = "SELECT ce.cal_id cal_id FROM cal_entries ce  ".
 			"JOIN cal_cat_assignments ca ON ca.cal_id = ce.cal_id ".
-			"WHERE last_update > '".$start->get(IL_CAL_DATETIME)."' ".
+			"WHERE last_update > ".$ilDB->quote($start->get(IL_CAL_DATETIME),'timestamp')." ".
 			"AND ".$ilDB->in('ca.cat_id',$cats,false,'integer').' '.
 			"ORDER BY last_update";
 		$res = $this->db->query($query);
@@ -289,12 +288,12 @@ class ilCalendarSchedule
 		// TODO: optimize
 		$query = "SELECT ce.cal_id cal_id FROM cal_entries ce LEFT JOIN cal_recurrence_rules crr USING (cal_id) ".
 			"JOIN cal_cat_assignments ca ON ca.cal_id = ce.cal_id ".
-			"WHERE ((start <= ".$this->db->quote($this->end->get(IL_CAL_DATETIME,'','UTC'))." ".
-			"AND end >= ".$this->db->quote($this->start->get(IL_CAL_DATETIME,'','UTC')).") ".
-			"OR (start <= ".$this->db->quote($this->end->get(IL_CAL_DATETIME,'','UTC'))." ".
+			"WHERE ((starta <= ".$this->db->quote($this->end->get(IL_CAL_DATETIME,'','UTC'),'timestamp')." ".
+			"AND enda >= ".$this->db->quote($this->start->get(IL_CAL_DATETIME,'','UTC'),'timestamp').") ".
+			"OR (starta <= ".$this->db->quote($this->end->get(IL_CAL_DATETIME,'','UTC'),'timestamp')." ".
 			"AND NOT rule_id IS NULL)) ".
 			"AND ".$ilDB->in('ca.cat_id',$cats,false,'integer')." ".
-			"ORDER BY start";
+			"ORDER BY starta";
 		$res = $this->db->query($query);
 		
 		while($row = $res->fetchRow(DB_FETCHMODE_OBJECT))

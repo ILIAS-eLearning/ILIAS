@@ -8278,3 +8278,35 @@ RENAME TABLE `cal_category_assignments` TO `cal_cat_assignments`;
 <?php
 	$ilMySQLAbstraction->performAbstraction('cal_cat_assignments');
 ?>
+
+<#1760>
+ALTER TABLE `cal_entries` CHANGE `informations` `informations` VARCHAR( 4000 ) NULL;
+
+<#1761>
+ALTER TABLE `cal_entries` CHANGE `end` `end` DATETIME NULL;
+
+<#1762>
+ALTER TABLE `cal_entries` CHANGE `start` `start` DATETIME NULL;
+
+<#1763>
+ALTER TABLE `cal_entries` CHANGE `last_update` `last_update` DATETIME NULL;
+
+<#1764>
+ALTER TABLE `cal_entries` CHANGE `start` `starta` DATETIME NULL DEFAULT NULL;
+
+<#1765>
+ALTER TABLE `cal_entries` CHANGE `end` `enda` DATETIME NULL DEFAULT NULL;
+
+<#1766>
+ALTER TABLE `cal_entries` CHANGE `description` `description` VARCHAR( 4000 ) NULL;
+
+<#1767>
+ALTER TABLE `cal_entries` CHANGE `location` `location` VARCHAR( 4000 ) NULL;
+  
+<#1768>
+<?php
+	$ilMySQLAbstraction->performAbstraction('cal_entries');
+?>
+
+  
+
