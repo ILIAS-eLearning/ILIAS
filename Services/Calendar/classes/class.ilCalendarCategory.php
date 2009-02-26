@@ -75,8 +75,8 @@ class ilCalendarCategory
 	 	global $ilDB;
 	 	
 	 	$query = "SELECT cat_id FROM cal_categories ".
-	 		"WHERE obj_id = ".$ilDB->quote($a_obj_id)." ".
-	 		"AND type = ".$ilDB->quote(self::TYPE_OBJ);
+	 		"WHERE obj_id = ".$ilDB->quote($a_obj_id ,'integer')." ".
+	 		"AND type = ".$ilDB->quote(self::TYPE_OBJ ,'integer');
 	 	$res = $ilDB->query($query);
 	 	while($row = $res->fetchRow(DB_FETCHMODE_OBJECT))
 	 	{
@@ -206,14 +206,21 @@ class ilCalendarCategory
 	 */
 	public function add()
 	{
-		$query = "INSERT INTO cal_categories ".
-			"SET obj_id = ".$this->db->quote($this->getObjId()).", ".
-			"color = ".$this->db->quote($this->getColor()).", ".
-			"type = ".$this->db->quote($this->getType()).", ".
-			"title = ".$this->db->quote($this->getTitle())." ";
-			
-		$this->db->query($query);
-		$this->cat_id = $this->db->getLastInsertId();
+		global $ilDB;
+
+		$next_id = $ilDB->nextId('cal_categories');
+		
+		$query = "INSERT INTO cal_categories (cat_id,obj_id,color,type,title) ".
+			"VALUES ( ".
+			$ilDB->quote($next_id,'integer').", ".
+			$this->db->quote($this->getObjId() ,'integer').", ".
+			$this->db->quote($this->getColor() ,'text').", ".
+			$this->db->quote($this->getType() ,'integer').", ".
+			$this->db->quote($this->getTitle() ,'text')." ".
+			")";
+		$res = $ilDB->manipulate($query);
+
+		$this->cat_id = $next_id;
 		return $this->cat_id;
 	}
 	
@@ -225,13 +232,15 @@ class ilCalendarCategory
 	 */
 	public function update()
 	{
+		global $ilDB;
+		
 		$query = "UPDATE cal_categories ".
-			"SET obj_id = ".$this->db->quote($this->getObjId()).", ".
-			"color = ".$this->db->quote($this->getColor()).", ".
-			"type = ".$this->db->quote($this->getType()).", ".
-			"title = ".$this->db->quote($this->getTitle())." ".
-			"WHERE cat_id = ".$this->db->quote($this->cat_id)." ";
-		$this->db->query($query);
+			"SET obj_id = ".$this->db->quote($this->getObjId() ,'integer').", ".
+			"color = ".$this->db->quote($this->getColor() ,'text').", ".
+			"type = ".$this->db->quote($this->getType() ,'integer').", ".
+			"title = ".$this->db->quote($this->getTitle() ,'text')." ".
+			"WHERE cat_id = ".$this->db->quote($this->cat_id ,'integer')." ";
+		$res = $ilDB->manipulate($query);
 		return true;
 	}
 
@@ -243,9 +252,11 @@ class ilCalendarCategory
 	 */
 	public function delete()
 	{
+		global $ilDB;
+		
 		$query = "DELETE FROM cal_categories ".
-			"WHERE cat_id = ".$this->db->quote($this->cat_id)." ";
-		$this->db->query($query);
+			"WHERE cat_id = ".$this->db->quote($this->cat_id ,'integer')." ";
+		$res = $ilDB->manipulate($query);
 
 		include_once('./Services/Calendar/classes/class.ilCalendarHidden.php');
 		ilCalendarHidden::_deleteCategories($this->cat_id);
@@ -277,13 +288,15 @@ class ilCalendarCategory
 	 */
 	private function read()
 	{
+		global $ilDB;
+		
 		if(!$this->cat_id)
 		{
 			return true;
 		}
 		
 		$query = "SELECT * FROM cal_categories ".
-			"WHERE cat_id = ".$this->db->quote($this->getCategoryID())." ";
+			"WHERE cat_id = ".$this->db->quote($this->getCategoryID() ,'integer')." ";
 		$res = $this->db->query($query);
 		while($row = $res->fetchRow(DB_FETCHMODE_OBJECT))
 		{
