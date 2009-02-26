@@ -103,8 +103,8 @@ class ilCalendarRecurrence
 		global $ilDB;
 		
 		$query = "DELETE FROM cal_recurrence_rules ".
-			"WHERE cal_id = ".$ilDB->quote($a_cal_id)." ";
-		$res = $ilDB->query($query);
+			"WHERE cal_id = ".$ilDB->quote($a_cal_id ,'integer')." ";
+		$res = $ilDB->manipulate($query);
 	}
 	
 	/**
@@ -602,26 +602,33 @@ class ilCalendarRecurrence
 	 */
 	public function save()
 	{
+		global $ilDB;
+
 	 	$until_date = is_null($this->getFrequenceUntilDate()) ? 
-	 		0 : 
+	 		null : 
 	 		$this->getFrequenceUntilDate()->get(IL_CAL_DATETIME,'','UTC');
+	 	$next_id = $ilDB->nextId('cal_recurrence_rules');
 	 	
-	 	$query = "INSERT INTO cal_recurrence_rules ".
-	 		"SET cal_id = ".$this->db->quote($this->cal_id).", ".
-	 		"cal_recurrence = 1,".
-	 		"freq_type = ".$this->db->quote($this->getFrequenceType()).", ".
-	 		"freq_until_date = ".$this->db->quote($until_date).", ".
-			"freq_until_count = ".$this->db->quote($this->getFrequenceUntilCount()).", ".
-			"intervall = ".$this->db->quote($this->getInterval()).", ".
-			"byday = ".$this->db->quote($this->getBYDAY()).", ".
-			"byweekno = ".$this->db->quote($this->getBYWEEKNO()).", ".
-			"bymonth = ".$this->db->quote($this->getBYMONTH()).", ".
-			"bymonthday = ".$this->db->quote($this->getBYMONTHDAY()).", ".
-			"byyearday = ".$this->db->quote($this->getBYYEARDAY()).", ".
-			"bysetpos = ".$this->db->quote($this->getBYSETPOS()).", ".
-			"weekstart = ".$this->db->quote($this->getWeekstart())." ";
-		$res = $this->db->query($query);
-		$this->recurrence_id = $this->db->getLastInsertId();
+	 	$query = "INSERT INTO cal_recurrence_rules (rule_id,cal_id,cal_recurrence,freq_type,freq_until_date,freq_until_count,intervall, ".
+			"byday,byweekno,bymonth,bymonthday,byyearday,bysetpos,weekstart) ".
+			"VALUES( ".
+			$ilDB->quote($next_id,'integer').", ".
+	 		$this->db->quote($this->cal_id ,'integer').", ".
+	 		$ilDB->quote(1,'integer').", ".
+	 		$ilDB->quote($this->getFrequenceType() ,'text').", ".
+	 		$this->db->quote($until_date,'timestamp').", ".
+			$this->db->quote($this->getFrequenceUntilCount() ,'integer').", ".
+			$this->db->quote($this->getInterval() ,'integer').", ".
+			$this->db->quote($this->getBYDAY() ,'text').", ".
+			$this->db->quote($this->getBYWEEKNO() ,'text').", ".
+			$this->db->quote($this->getBYMONTH() ,'text').", ".
+			$this->db->quote($this->getBYMONTHDAY() ,'text').", ".
+			$this->db->quote($this->getBYYEARDAY() ,'text').", ".
+			$this->db->quote($this->getBYSETPOS() ,'text').", ".
+			$this->db->quote($this->getWeekstart() ,'text')." ".
+			")";
+		$res = $ilDB->manipulate($query);
+		$this->recurrence_id = $next_id;
 		return true;
 	}
 	
@@ -633,26 +640,28 @@ class ilCalendarRecurrence
 	 */
 	public function update()
 	{
+	 	global $ilDB;
+	 	
 	 	$until_date = is_null($this->getFrequenceUntilDate()) ? 
-	 		0 : 
+	 		null : 
 	 		$this->getFrequenceUntilDate()->get(IL_CAL_DATETIME,'','UTC');
 
 	 	$query = "UPDATE cal_recurrence_rules SET ".
-	 		"cal_id = ".$this->db->quote($this->cal_id).", ".
+	 		"cal_id = ".$this->db->quote($this->cal_id ,'integer').", ".
 	 		"cal_recurrence = 1,".
-	 		"freq_type = ".$this->db->quote($this->getFrequenceType()).", ".
-	 		"freq_until_date = ".$this->db->quote($until_date).", ".
-			"freq_until_count = ".$this->db->quote($this->getFrequenceUntilCount()).", ".
-			"intervall = ".$this->db->quote($this->getInterval()).", ".
-			"byday = ".$this->db->quote($this->getBYDAY()).", ".
-			"byweekno = ".$this->db->quote($this->getBYWEEKNO()).", ".
-			"bymonth = ".$this->db->quote($this->getBYMONTH()).", ".
-			"bymonthday = ".$this->db->quote($this->getBYMONTHDAY()).", ".
-			"byyearday = ".$this->db->quote($this->getBYYEARDAY()).", ".
-			"bysetpos = ".$this->db->quote($this->getBYSETPOS()).", ".
-			"weekstart = ".$this->db->quote($this->getWeekstart())." ".
-			"WHERE rule_id = ".$this->db->quote($this->recurrence_id)." ";
-		$this->db->query($query);
+	 		"freq_type = ".$this->db->quote($this->getFrequenceType() ,'text').", ".
+	 		"freq_until_date = ".$this->db->quote($until_date ,'timestamp').", ".
+			"freq_until_count = ".$this->db->quote($this->getFrequenceUntilCount() ,'integer').", ".
+			"intervall = ".$this->db->quote($this->getInterval() ,'integer').", ".
+			"byday = ".$this->db->quote($this->getBYDAY() ,'text').", ".
+			"byweekno = ".$this->db->quote($this->getBYWEEKNO() ,'text').", ".
+			"bymonth = ".$this->db->quote($this->getBYMONTH() ,'text').", ".
+			"bymonthday = ".$this->db->quote($this->getBYMONTHDAY() ,'text').", ".
+			"byyearday = ".$this->db->quote($this->getBYYEARDAY() ,'text').", ".
+			"bysetpos = ".$this->db->quote($this->getBYSETPOS() ,'text').", ".
+			"weekstart = ".$this->db->quote($this->getWeekstart() ,'text')." ".
+			"WHERE rule_id = ".$this->db->quote($this->recurrence_id ,'integer')." ";
+		$res = $ilDB->manipulate($query);
 		return true;
 	}
 	
@@ -664,9 +673,11 @@ class ilCalendarRecurrence
 	 */
 	public function delete()
 	{
+	 	global $ilDB;
+	 	
 	 	$query = "DELETE FROM cal_recurrence_rules ".
-	 		"WHERE rule_id = ".$this->db->quote($this->recurrence_id);
-	 	$this->db->query($query);
+	 		"WHERE rule_id = ".$this->db->quote($this->recurrence_id ,'integer');
+	 	$res = $ilDB->manipulate($query);
 	 	return true;
 	}
 
@@ -678,8 +689,10 @@ class ilCalendarRecurrence
 	 */
 	private function read()
 	{
+	 	global $ilDB;
+	 	
 	 	$query = "SELECT * FROM cal_recurrence_rules ".
-	 		"WHERE rule_id = ".$this->db->quote($this->recurrence_id)." ";
+	 		"WHERE rule_id = ".$this->db->quote($this->recurrence_id ,'integer')." ";
 	 	$res = $this->db->query($query);
 	 	while($row = $res->fetchRow(DB_FETCHMODE_OBJECT))
 	 	{
@@ -687,7 +700,7 @@ class ilCalendarRecurrence
 	 		$this->recurrence_type = $row->cal_recurrence;
 	 		$this->freq_type = $row->freq_type;
 	 		
-	 		if($row->freq_until_date != '0000-00-00 00:00:00')
+	 		if($row->freq_until_date != null)
 	 		{
 		 		$this->freq_until_date = new ilDateTime($row->freq_until_date,IL_CAL_DATETIME,'UTC');
 	 		}

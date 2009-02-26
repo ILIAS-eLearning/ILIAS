@@ -8308,5 +8308,13 @@ ALTER TABLE `cal_entries` CHANGE `location` `location` VARCHAR( 4000 ) NULL;
 	$ilMySQLAbstraction->performAbstraction('cal_entries');
 ?>
 
+<#1769>
+ALTER TABLE `cal_recurrence_rules` CHANGE `freq_until_date` `freq_until_date` DATETIME NULL;
+
+<#1770>  
+<?php
+	$ilMySQLAbstraction->performAbstraction('cal_recurrence_rules');
+?>
+
   
 
