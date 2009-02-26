@@ -1,4 +1,4 @@
-<#865>
+ds<#865>
 <?php
 $ilCtrlStructureReader->getStructure();
 ?>
@@ -8259,5 +8259,10 @@ ALTER TABLE il_news_item MODIFY visibility CHAR(6) DEFAULT 'users';
 <#1755>
 <?php
 	$ilMySQLAbstraction->performAbstraction('data_cache');
+?>
+
+<#1756>
+<?php
+	$ilMySQLAbstraction->performAbstraction('cal_categories');
 ?>
 

@@ -101,8 +101,8 @@ class ilCalendarCategories
 		global $ilDB;
 		
 		$query = "SELECT cat_id FROM cal_categories  ".
-			"WHERE obj_id = ".$ilDB->quote($a_obj_id)." ".
-			"AND type = ".$ilDB->quote(ilCalendarCategory::TYPE_OBJ)." ";
+			"WHERE obj_id = ".$ilDB->quote($a_obj_id ,'integer')." ".
+			"AND type = ".$ilDB->quote(ilCalendarCategory::TYPE_OBJ ,'integer')." ";
 			
 		$res = $ilDB->query($query);
 		while($row = $res->fetchRow(DB_FETCHMODE_OBJECT))
@@ -126,9 +126,9 @@ class ilCalendarCategories
 		global $ilDB;
 		
 		$query = "SELECT * FROM cal_categories ".
-			"WHERE cat_id = ".$ilDB->quote($a_cal_id)." ".
-			"AND obj_id = ".$ilDB->quote($a_usr_id)." ".
-			"AND type = ".$ilDB->quote(ilCalendarCategory::TYPE_USR)." ";
+			"WHERE cat_id = ".$ilDB->quote($a_cal_id ,'integer')." ".
+			"AND obj_id = ".$ilDB->quote($a_usr_id ,'integer')." ".
+			"AND type = ".$ilDB->quote(ilCalendarCategory::TYPE_USR ,'integer')." ";
 		$res = $ilDB->query($query);
 		return $res->numRows() ? true : false;
 	}
@@ -419,7 +419,7 @@ class ilCalendarCategories
 		
 		// global categories
 		$query = "SELECT * FROM cal_categories ".
-			"WHERE type = ".$this->db->quote(ilCalendarCategory::TYPE_GLOBAL)." ".
+			"WHERE type = ".$this->db->quote(ilCalendarCategory::TYPE_GLOBAL ,'integer')." ".
 			"ORDER BY title ";
 
 		$res = $this->db->query($query);
@@ -446,11 +446,12 @@ class ilCalendarCategories
 	protected function readPrivateCalendars()
 	{
 		global $ilUser;
+		global $ilDB;
 
 		// First read private calendars of user
 		$query = "SELECT cat_id FROM cal_categories ".
-			"WHERE type = ".$this->db->quote(ilCalendarCategory::TYPE_USR)." ".
-			"AND obj_id = ".$this->db->quote($this->user_id)." ";
+			"WHERE type = ".$this->db->quote(ilCalendarCategory::TYPE_USR ,'integer')." ".
+			"AND obj_id = ".$this->db->quote($this->user_id ,'integer')." ";
 		$res = $this->db->query($query);
 		while($row = $res->fetchRow(DB_FETCHMODE_OBJECT))
 		{
@@ -467,8 +468,8 @@ class ilCalendarCategories
 		
 		// user categories
 		$query = "SELECT * FROM cal_categories ".
-			"WHERE type = ".$this->db->quote(ilCalendarCategory::TYPE_USR)." ".
-			"AND cat_id IN (".implode(',',ilUtil::quoteArray($cat_ids)).') '.
+			"WHERE type = ".$this->db->quote(ilCalendarCategory::TYPE_USR ,'integer')." ".
+			"AND ".$ilDB->in('cat_id',$cat_ids,false,'integer')." ".
 			"ORDER BY title ";
 			
 		$res = $this->db->query($query);
@@ -495,6 +496,7 @@ class ilCalendarCategories
 	protected function readSelectedCategories($a_obj_ids)
 	{
 		global $ilAccess,$tree;
+		global $ilDB;
 		
 		if(!count($a_obj_ids))
 		{
@@ -502,8 +504,8 @@ class ilCalendarCategories
 		}
 
 		$query = "SELECT * FROM cal_categories ".
-			"WHERE type = ".$this->db->quote(ilCalendarCategory::TYPE_OBJ)." ".
-			"AND obj_id IN (".implode(',',ilUtil::quoteArray($a_obj_ids)).') '.
+			"WHERE type = ".$this->db->quote(ilCalendarCategory::TYPE_OBJ ,'integer')." ".
+			"AND ".$ilDB->in('obj_id',$a_obj_ids,false,'integer')." ".
 			"ORDER BY title ";
 		
 		$res = $this->db->query($query);

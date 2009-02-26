@@ -119,6 +119,8 @@ class ilCalendarAppointmentColors
 	 */
 	private function read()
 	{
+		global $ilDB;
+
 		// Store assignment of subitem categories
 		foreach($this->categories->getCategoriesInfo() as $c_data)
 		{
@@ -133,9 +135,10 @@ class ilCalendarAppointmentColors
 			$this->cat_substitutions[$c_data['cat_id']] = $c_data['cat_id'];
 		}
 		
-		$query = "SELECT cat.cat_id,cat.color, ass.cal_id  FROM cal_categories AS cat ".
-			"JOIN cal_category_assignments AS ass USING (cat_id) ".
-			"WHERE cat.cat_id IN (".implode(',',ilUtil::quoteArray($this->categories->getCategories(true))).")";
+		$query = "SELECT cat.cat_id,cat.color, ass.cal_id  FROM cal_categories cat ".
+			"JOIN cal_category_assignments ass USING (cat_id) ".
+			"WHERE ".$ilDB->in('cat.cat_id',$this->categories->getCategories(true),false,'integer');
+
 		$res = $this->db->query($query);
 		while($row = $res->fetchRow(DB_FETCHMODE_OBJECT))
 		{
