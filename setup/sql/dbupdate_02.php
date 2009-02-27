@@ -8336,4 +8336,9 @@ ALTER TABLE `cal_shared` CHANGE `create_date` `create_date` DATETIME NULL;
 <?php
 	$ilMySQLAbstraction->performAbstraction('cal_shared_status');
 ?>
+
+<#1776>
+<?php
+	$ilMySQLAbstraction->performAbstraction('container_settings');
+?>
   
