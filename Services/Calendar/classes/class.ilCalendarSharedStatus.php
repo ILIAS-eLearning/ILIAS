@@ -95,8 +95,8 @@ class ilCalendarSharedStatus
 		global $ilDB;
 		
 		$query = "SELECT cal_id FROM cal_shared_status ".
-			"WHERE status = ".$ilDB->quote(self::STATUS_ACCEPTED)." ".
-			"AND usr_id = ".$ilDB->quote($a_usr_id)." ";
+			"WHERE status = ".$ilDB->quote(self::STATUS_ACCEPTED ,'integer')." ".
+			"AND usr_id = ".$ilDB->quote($a_usr_id ,'integer')." ";
 		$res = $ilDB->query($query);
 		while($row = $res->fetchRow(DB_FETCHMODE_OBJECT))
 		{
@@ -119,8 +119,8 @@ class ilCalendarSharedStatus
 		global $ilDB;
 		
 		$query = "SELECT * FROM cal_shared_status ".
-			"WHERE usr_id = ".$ilDB->quote($a_usr_id)." ".
-			"AND cal_id = ".$ilDB->quote($a_calendar_id)." ";
+			"WHERE usr_id = ".$ilDB->quote($a_usr_id ,'integer')." ".
+			"AND cal_id = ".$ilDB->quote($a_calendar_id ,'integer')." ";
 		$res = $ilDB->query($query);
 		return $res->numRows() ? true : false;
 	}
@@ -135,11 +135,11 @@ class ilCalendarSharedStatus
 	 */
 	public static function deleteUser($a_usr_id)
 	{
-		global $ilUser;
+		global $ilUser,$ilDB;
 		
 		$query = "DELETE FROM cal_shared_status ".
-			"WHERE usr_id = ".$ilDB->quote($a_usr_id)." ";
-		$ilDB->query($query);
+			"WHERE usr_id = ".$ilDB->quote($a_usr_id ,'integer')." ";
+		$res = $ilDB->manipulate($query);
 		return true;
 	}
 	
@@ -156,8 +156,8 @@ class ilCalendarSharedStatus
 		global $ilDB;
 		
 		$query = "DELETE FROM cal_shared_status ".
-			"WHERE cal_id = ".$ilDB->quote($a_calendar_id)." ";
-		$ilDB->query($query);
+			"WHERE cal_id = ".$ilDB->quote($a_calendar_id ,'integer')." ";
+		$res = $ilDB->manipulate($query);
 		return true;
 	}
 	
@@ -178,9 +178,9 @@ class ilCalendarSharedStatus
 		if(ilObject::_lookupType($a_id) == 'usr')
 		{
 			$query = "DELETE FROM cal_shared_status ".
-				"WHERE cal_id = ".$ilDB->quote($a_calendar_id)." ".
-				"AND usr_id = ".$ilDB->quote($a_id)." ";
-			$ilDB->query($query);
+				"WHERE cal_id = ".$ilDB->quote($a_calendar_id ,'integer')." ".
+				"AND usr_id = ".$ilDB->quote($a_id ,'integer')." ";
+			$res = $ilDB->manipulate($query);
 			
 		}
 		elseif(ilObject::_lookupType($a_id) == 'role')
@@ -193,9 +193,9 @@ class ilCalendarSharedStatus
 			}
 			
 			$query = "DELETE FROM cal_shared_status ".
-				"WHERE cal_id = ".$ilDB->quote($a_calendar_id)." ".
-				"AND usr_id IN (".implode(',',ilUtil::quoteArray($assigned_users)).") ";
-			$ilDB->query($query);
+				"WHERE cal_id = ".$ilDB->quote($a_calendar_id ,'integer')." ".
+				"AND ".$ilDB->in('usr_id',$assigned_users,false,'integer');
+			$res = $ilDB->manipulate($query);
 			
 		}		
 		
@@ -213,13 +213,17 @@ class ilCalendarSharedStatus
 	 */
 	public function accept($a_calendar_id)
 	{
+		global $ilDB;
+		
 		self::deleteStatus($this->usr_id,$a_calendar_id);
 		
-		$query = "INSERT INTO cal_shared_status ".
-			"SET cal_id = ".$this->db->quote($a_calendar_id).", ".
-			"usr_id = ".$this->db->quote($this->usr_id).", ".
-			"status = ".$this->db->quote(self::STATUS_ACCEPTED)." ";
-		$this->db->query($query);
+		$query = "INSERT INTO cal_shared_status (cal_id,usr_id,status) ".
+			"VALUES ( ".
+			$this->db->quote($a_calendar_id ,'integer').", ".
+			$this->db->quote($this->usr_id ,'integer').", ".
+			$this->db->quote(self::STATUS_ACCEPTED ,'integer')." ".
+			")";
+		$res = $ilDB->manipulate($query);
 		
 		$this->calendars[$a_calendar_id] = self::STATUS_ACCEPTED;
 		
@@ -235,13 +239,17 @@ class ilCalendarSharedStatus
 	 */
 	public function decline($a_calendar_id)
 	{
+		global $ilDB;
+
 		self::deleteStatus($this->usr_id,$a_calendar_id);
 		
-		$query = "INSERT INTO cal_shared_status ".
-			"SET cal_id = ".$this->db->quote($a_calendar_id).", ".
-			"usr_id = ".$this->db->quote($this->usr_id).", ".
-			"status = ".$this->db->quote(self::STATUS_DECLINED)." ";
-		$this->db->query($query);
+		$query = "INSERT INTO cal_shared_status (cal_id,usr_id,status) ".
+			"VALUES ( ".
+			$this->db->quote($a_calendar_id ,'integer').", ".
+			$this->db->quote($this->usr_id ,'integer').", ".
+			$this->db->quote(self::STATUS_DECLINED ,'integer')." ".
+			")";
+		$res = $ilDB->manipulate($query);
 		
 		$this->calendars[$a_calendar_id] = self::STATUS_DECLINED;
 
@@ -257,8 +265,10 @@ class ilCalendarSharedStatus
 	 */
 	protected function read()
 	{
+		global $ilDB;
+		
 		$query = "SELECT * FROM cal_shared_status ".
-			"WHERE usr_id = ".$this->db->quote($this->usr_id)." ";
+			"WHERE usr_id = ".$this->db->quote($this->usr_id ,'integer')." ";
 		$res = $this->db->query($query);
 		while($row = $res->fetchRow(DB_FETCHMODE_OBJECT))
 		{
