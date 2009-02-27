@@ -8323,3 +8323,12 @@ ALTER TABLE `cal_recurrence_rules` CHANGE `freq_until_date` `freq_until_date` DA
 <?php
 	$ilMySQLAbstraction->performAbstraction('il_wiki_page');
 ?>
+
+<#1773>
+ALTER TABLE `cal_shared` CHANGE `create_date` `create_date` DATETIME NULL;
+
+<#1774>
+<?php
+	$ilMySQLAbstraction->performAbstraction('cal_shared');
+?>
+  
