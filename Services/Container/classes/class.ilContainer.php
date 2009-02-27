@@ -172,8 +172,8 @@ class ilContainer extends ilObject
 		global $ilDB;
 		
 		$q = "SELECT * FROM container_settings WHERE ".
-				" id = ".$ilDB->quote($a_id)." AND ".
-				" keyword = ".$ilDB->quote($a_keyword);
+				" id = ".$ilDB->quote($a_id ,'integer')." AND ".
+				" keyword = ".$ilDB->quote($a_keyword ,'text');
 		$set = $ilDB->query($q);
 		$rec = $set->fetchRow(DB_FETCHMODE_ASSOC);
 		
@@ -184,12 +184,17 @@ class ilContainer extends ilObject
 	{
 		global $ilDB;
 		
-		$q = "REPLACE INTO container_settings (id, keyword, value) VALUES".
-			" (".$ilDB->quote($a_id).", ".
-			$ilDB->quote($a_keyword).", ".
-			$ilDB->quote($a_value).")";
-
-		$ilDB->query($q);
+		$query = "DELETE FROM container_settings WHERE ".
+			"id = ".$ilDB->quote($a_id,'integer')." ".
+			"AND keyword = ".$ilDB->quote($a_keyword,'text');
+		$res = $ilDB->manipulate($query);
+		
+		$query = "INSERT INTO container_settings (id, keyword, value) VALUES (".
+			$ilDB->quote($a_id ,'integer').", ".
+			$ilDB->quote($a_keyword ,'text').", ".
+			$ilDB->quote($a_value ,'text').
+			")";
+		$res = $ilDB->manipulate($query);
 	}
 	
 	/**
