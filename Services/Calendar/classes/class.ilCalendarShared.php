@@ -71,8 +71,8 @@ class ilCalendarShared
 	{
 		global $ilDB;
 		
-		$query = "DELETE FROM cal_shared WHERE cal_id ".$ilDB->quote($a_cal_id)." ";
-		$ilDB->query($query);
+		$query = "DELETE FROM cal_shared WHERE cal_id ".$ilDB->quote($a_cal_id ,'integer')." ";
+		$res = $ilDB->manipulate($query);
 		return true;
 	}
 	
@@ -88,8 +88,8 @@ class ilCalendarShared
 	{
 		global $ilDB;
 		
-		$query = "DELETE FROM cal_shared WHERE obj_id = ".$ilDB->quote($a_usr_id)." ";
-		$ilDB->query($query);
+		$query = "DELETE FROM cal_shared WHERE obj_id = ".$ilDB->quote($a_user_id ,'integer')." ";
+		$res = $ilDB->manipulate($query);
 		return true;
 		
 		// TODO: delete also cal_shared_user_status
@@ -109,7 +109,7 @@ class ilCalendarShared
 		global $ilDB,$rbacreview;
 		
 		$query = 'SELECT * FROM cal_shared '.
-			"WHERE cal_id = ".$ilDB->quote($a_calendar_id)." ";
+			"WHERE cal_id = ".$ilDB->quote($a_calendar_id ,'integer')." ";
 		$res = $ilDB->query($query);
 		while($row = $res->fetchRow(DB_FETCHMODE_OBJECT))
 		{
@@ -155,8 +155,8 @@ class ilCalendarShared
 		}
 
 		$query = "SELECT * FROM cal_shared ".
-			"WHERE obj_type = ".$ilDB->quote(self::TYPE_USR)." ".
-			"AND obj_id = ".$ilDB->quote($a_usr_id)." ".
+			"WHERE obj_type = ".$ilDB->quote(self::TYPE_USR ,'integer')." ".
+			"AND obj_id = ".$ilDB->quote($a_usr_id ,'integer')." ".
 			"ORDER BY create_date";
 		$res = $ilDB->query($query);
 		$calendars = array();
@@ -172,8 +172,8 @@ class ilCalendarShared
 		$assigned_roles = $rbacreview->assignedRoles($ilUser->getId());
 		
 		$query = "SELECT * FROM cal_shared ".
-			"WHERE obj_type = ".$ilDB->quote(self::TYPE_ROLE)." ".
-			"AND obj_id IN (".implode(",",ilUtil::quoteArray($assigned_roles)).") ";
+			"WHERE obj_type = ".$ilDB->quote(self::TYPE_ROLE ,'integer')." ".
+			"AND ".$ilDB->in('obj_id',$assigned_roles,false ,'integer');
 
 		$res = $ilDB->query($query);
 		while($row = $res->fetchRow(DB_FETCHMODE_OBJECT))
@@ -265,16 +265,20 @@ class ilCalendarShared
 	 */
 	public function share($a_obj_id,$a_type)
 	{
+		global $ilDB;
+		
 		if($this->isShared($a_obj_id))
 		{
 			return false;
 		}
-		$query = "INSERT INTO cal_shared ".
-			"SET cal_id = ".$this->db->quote($this->getCalendarId()).", ".
-			"obj_id = ".$this->db->quote($a_obj_id).", ".
-			"obj_type = ".$this->db->quote($a_type).", ".
-			"create_date = NOW()";
-		$this->db->query($query);
+		$query = "INSERT INTO cal_shared (cal_id,obj_id,obj_type,create_date) ".
+			"VALUES ( ".
+			$this->db->quote($this->getCalendarId() ,'integer').", ".
+			$this->db->quote($a_obj_id ,'integer').", ".
+			$this->db->quote($a_type ,'integer').", ".
+			$ilDB->now()." ".
+			")";
+		$res = $ilDB->manipulate($query);
 		
 		$this->read();
 		return true;
@@ -289,13 +293,15 @@ class ilCalendarShared
 	 */
 	public function stopSharing($a_obj_id)
 	{
+		global $ilDB;
+		
 		if(!$this->isShared($a_obj_id))
 		{
 			return false; 
 		}
-		$query = "DELETE FROM cal_shared WHERE cal_id = ".$this->db->quote($this->getCalendarId())." ".
-			"AND obj_id = ".$this->db->quote($a_obj_id)." ";
-		$this->db->query($query);
+		$query = "DELETE FROM cal_shared WHERE cal_id = ".$this->db->quote($this->getCalendarId() ,'integer')." ".
+			"AND obj_id = ".$this->db->quote($a_obj_id ,'integer')." ";
+		$res = $ilDB->manipulate($query);
 		
 		include_once('./Services/Calendar/classes/class.ilCalendarSharedStatus.php');
 		ilCalendarSharedStatus::deleteStatus($a_obj_id,$this->getCalendarId());
@@ -313,9 +319,11 @@ class ilCalendarShared
 	 */
 	protected function read()
 	{
+		global $ilDB;
+		
 		$this->shared = $this->shared_users = $this->shared_roles = array();
 		
-		$query = "SELECT * FROM cal_shared WHERE cal_id = ".$this->db->quote($this->getCalendarId());
+		$query = "SELECT * FROM cal_shared WHERE cal_id = ".$this->db->quote($this->getCalendarId() ,'integer');
 		$res = $this->db->query($query);
 		while($row = $res->fetchRow(DB_FETCHMODE_OBJECT))
 		{
