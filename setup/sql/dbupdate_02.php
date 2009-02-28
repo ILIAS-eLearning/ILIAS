@@ -8384,4 +8384,8 @@ ALTER TABLE media_item MODIFY caption VARCHAR(3000);
 <?php
 	$ilMySQLAbstraction->performAbstraction('media_item');
 ?>
+<#1789>
+<?php
+	$ilMySQLAbstraction->performAbstraction('mep_tree');
+?>
 

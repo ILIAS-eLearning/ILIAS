@@ -3,7 +3,7 @@
 	+-----------------------------------------------------------------------------+
 	| ILIAS open source                                                           |
 	+-----------------------------------------------------------------------------+
-	| Copyright (c) 1998-2001 ILIAS open source, University of Cologne            |
+	| Copyright (c) 1998-2009 ILIAS open source, University of Cologne            |
 	|                                                                             |
 	| This program is free software; you can redistribute it and/or               |
 	| modify it under the terms of the GNU General Public License                 |
@@ -2484,7 +2484,7 @@ restore starts here
 			$this->media_pool_ids = array();
 			$query = "SELECT child FROM mep_tree ";
 			$res = $ilDB->query($query);
-			while($row = $res->fetchRow(DB_FETCHMODE_OBJECT))
+			while($row = $ilDB->fetchObject($res))
 			{
 				$this->media_pool_ids[] = $row->child;
 			}
