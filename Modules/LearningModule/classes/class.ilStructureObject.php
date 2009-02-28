@@ -201,8 +201,8 @@ class ilStructureObject extends ilLMObject
 			{
 				// get chapter tree node
 				$query = "SELECT * FROM lm_tree WHERE child = ".
-					$ilDB->quote($a_st_id)." AND lm_id = ".
-					$ilDB->quote($st_rec["lm_id"]);
+					$ilDB->quote($a_st_id, "integer")." AND lm_id = ".
+					$ilDB->quote($st_rec["lm_id"], "integer");
 				$tree_set = $ilDB->query($query);
 				$tree_node = $tree_set->fetchRow(DB_FETCHMODE_ASSOC);
 				$depth = $tree_node["depth"];
@@ -212,8 +212,8 @@ class ilStructureObject extends ilLMObject
 				{
 					// get next parent tree node
 					$query = "SELECT * FROM lm_tree WHERE child = ".
-						$ilDB->quote($tree_node["parent"])." AND lm_id = ".
-						$ilDB->quote($st_rec["lm_id"]);
+						$ilDB->quote($tree_node["parent"], "integer")." AND lm_id = ".
+						$ilDB->quote($st_rec["lm_id"], "integer");
 					$tree_set = $ilDB->query($query);
 					$tree_node = $tree_set->fetchRow(DB_FETCHMODE_ASSOC);
 					$seq = $tree->getChildSequenceNumber($tree_node, "st");
