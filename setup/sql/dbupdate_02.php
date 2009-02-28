@@ -8352,4 +8352,11 @@ ALTER TABLE lm_data MODIFY active CHAR(1) DEFAULT 'y';
 <?php
 	$ilMySQLAbstraction->performAbstraction('lm_data');
 ?>
+<#1780>
+ALTER TABLE lm_menu MODIFY link_type CHAR(6) DEFAULT 'extern';
+ALTER TABLE lm_menu MODIFY active CHAR(1) DEFAULT 'n';
+<#1781>
+<?php
+	$ilMySQLAbstraction->performAbstraction('lm_menu');
+?>
 
