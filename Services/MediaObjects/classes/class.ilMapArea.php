@@ -3,7 +3,7 @@
 	+-----------------------------------------------------------------------------+
 	| ILIAS open source                                                           |
 	+-----------------------------------------------------------------------------+
-	| Copyright (c) 1998-2001 ILIAS open source, University of Cologne            |
+	| Copyright (c) 1998-2009 ILIAS open source, University of Cologne            |
 	|                                                                             |
 	| This program is free software; you can redistribute it and/or               |
 	| modify it under the terms of the GNU General Public License                 |
@@ -98,17 +98,17 @@ class ilMapArea
 		$q = "INSERT INTO map_area (item_id, nr, shape, ".
 			"coords, link_type, title, href, target, type, target_frame) ".
 			" VALUES (".
-			$ilDB->quote($this->getItemId()).",".
-			$ilDB->quote($this->getNr()).",".
-			$ilDB->quote($this->getShape()).",".
-			$ilDB->quote($this->getCoords()).",".
-			$ilDB->quote($this->getLinkType()).",".
-			$ilDB->quote($this->getTitle()).",".
-			$ilDB->quote($this->getHref()).",".
-			$ilDB->quote($this->getTarget()).",".
-			$ilDB->quote($this->getType()).",".
-			$ilDB->quote($this->getTargetFrame()).")";
-			$ilDB->query($q);
+			$ilDB->quote($this->getItemId(), "integer").",".
+			$ilDB->quote($this->getNr(), "integer").",".
+			$ilDB->quote($this->getShape(), "text").",".
+			$ilDB->quote($this->getCoords(), "text").",".
+			$ilDB->quote($this->getLinkType(), "text").",".
+			$ilDB->quote($this->getTitle(), "text").",".
+			$ilDB->quote($this->getHref(), "text").",".
+			$ilDB->quote($this->getTarget(), "text").",".
+			$ilDB->quote($this->getType(), "text").",".
+			$ilDB->quote($this->getTargetFrame(), "text").")";
+		$ilDB->manipulate($q);
 	}
 
 	/**
@@ -122,10 +122,10 @@ class ilMapArea
 	{
 		global $ilDB;
 		
-		$q = "SELECT max(nr) AS max_nr FROM map_area WHERE item_id=".
-			$ilDB->quote($a_item_id);
+		$q = "SELECT max(nr) AS max_nr FROM map_area WHERE item_id = ".
+			$ilDB->quote($a_item_id, "integer");
 		$max_set = $ilDB->query($q);
-		$max_rec = $max_set->fetchRow(DB_FETCHMODE_ASSOC);
+		$max_rec = $ilDB->fetchAssoc($max_set);
 
 		return $max_rec["max_nr"];
 	}
@@ -137,11 +137,11 @@ class ilMapArea
 	{
 		global $ilDB;
 		
-		$q = "SELECT * FROM map_area WHERE item_id=".
-			$ilDB->quote($this->getItemId()).
-			" AND nr=".$ilDB->quote($this->getNr());
+		$q = "SELECT * FROM map_area WHERE item_id = ".
+			$ilDB->quote($this->getItemId(), "integer").
+			" AND nr = ".$ilDB->quote($this->getNr(), "integer");
 		$area_set = $ilDB->query($q);
-		$area_rec = $area_set->fetchRow(DB_FETCHMODE_ASSOC);
+		$area_rec = $ilDB->fetchAssoc($area_set);
 
 		$this->setShape($area_rec["shape"]);
 //echo $area_rec["Shape"];
@@ -162,18 +162,17 @@ class ilMapArea
 	{
 		global $ilDB;
 
-		$q = "UPDATE map_area SET shape = ".$ilDB->quote($this->getShape()).
-			", coords = ".$ilDB->quote($this->getCoords()).
-			", link_type = ".$ilDB->quote($this->getLinkType()).
-			", title = ".$ilDB->quote($this->getTitle()).
-			", href = ".$ilDB->quote($this->getHref()).
-			", target = ".$ilDB->quote($this->getTarget()).
-			", type = ".$ilDB->quote($this->getType()).
-			", target_frame = ".$ilDB->quote($this->getTargetFrame()).
-			" WHERE item_id = ".$ilDB->quote($this->getItemId())." AND nr = ".
-				$ilDB->quote($this->getNr());
-		$ilDB->query($q);
-//echo "<br>$q<br>";
+		$q = "UPDATE map_area SET shape = ".$ilDB->quote($this->getShape(), "text").
+			", coords = ".$ilDB->quote($this->getCoords(), "text").
+			", link_type = ".$ilDB->quote($this->getLinkType(), "text").
+			", title = ".$ilDB->quote($this->getTitle(), "text").
+			", href = ".$ilDB->quote($this->getHref(), "text").
+			", target = ".$ilDB->quote($this->getTarget(), "text").
+			", type = ".$ilDB->quote($this->getType(), "text").
+			", target_frame = ".$ilDB->quote($this->getTargetFrame(), "text").
+			" WHERE item_id = ".$ilDB->quote($this->getItemId(), "integer").
+			" AND nr = ".$ilDB->quote($this->getNr(), "integer");
+		$ilDB->manipulate($q);
 	}
 
 	/**
@@ -184,9 +183,10 @@ class ilMapArea
 		global $ilDB;
 
 //echo "maparea::resolve<br>";
-		$q = "SELECT * FROM map_area WHERE item_id=".$ilDB->quote($a_item_id);
+		$q = "SELECT * FROM map_area WHERE item_id = ".
+			$ilDB->quote($a_item_id, "integer");
 		$area_set = $ilDB->query($q);
-		while ($area_rec = $area_set->fetchRow(DB_FETCHMODE_ASSOC))
+		while ($area_rec = $ilDB->fetchAssoc($area_set))
 		{
 			$target = $area_rec["target"];
 			$type = $area_rec["type"];
@@ -198,9 +198,11 @@ class ilMapArea
 				$new_target = ilInternalLink::_getIdForImportId($type, $target);
 				if ($new_target !== false)
 				{
-					$query = "UPDATE map_area SET target= ".$ilDB->quote($new_target)." ".
-						"WHERE item_id= ".$ilDB->quote($item_id)." AND nr=".$ilDB->quote($nr);
-					$ilDB->query($query);
+					$query = "UPDATE map_area SET ".
+						"target = ".$ilDB->quote($new_target, "text")." ".
+						"WHERE item_id = ".$ilDB->quote($item_id, "integer").
+						" AND nr = ".$ilDB->quote($nr, "integer");
+					$ilDB->manipulate($query);
 				}
 			}
 		}
@@ -215,12 +217,13 @@ class ilMapArea
 	{
 		global $ilDB;
 		
-		$q = "SELECT * FROM map_area WHERE item_id=".$ilDB->quote($a_item_id);
+		$q = "SELECT * FROM map_area WHERE item_id = ".
+			$ilDB->quote($a_item_id, "integer");
 		$area_set = $ilDB->query($q);
 
 		$links = array();
 
-		while ($area_rec = $area_set->fetchRow(DB_FETCHMODE_ASSOC))
+		while ($area_rec = $ilDB->fetchAssoc($area_set))
 		{
 			$target = $area_rec["target"];
 			$type = $area_rec["type"];
@@ -244,12 +247,12 @@ class ilMapArea
 		global $ilDB;
 
 		$q = "SELECT * FROM map_area WHERE ".
-			" link_type = ".$ilDB->quote($a_type).
-			" AND target = ".$ilDB->quote($a_target);
+			" link_type = ".$ilDB->quote($a_type, "text").
+			" AND target = ".$ilDB->quote($a_target, "text");
 		$set = $ilDB->query($q);
 		
 		$mobs = array();
-		while($rec = $set->fetchRow(DB_FETCHMODE_ASSOC))
+		while($rec = $ilDB->fetchAssoc($set))
 		{
 			$mob_id = ilMediaItem::_lookupMobId($rec["item_id"]);
 			$mobs[$mob_id] = $mob_id;
