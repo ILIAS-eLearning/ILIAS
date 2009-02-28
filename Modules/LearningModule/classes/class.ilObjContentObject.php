@@ -1127,9 +1127,10 @@ class ilObjContentObject extends ilObject
 		$nodes = $tree->getSubtree($tree->getNodeData($tree->getRootId()));
 		foreach ($nodes as $node)
 		{
-			$q = "SELECT * FROM lm_data WHERE obj_id = ".$ilDB->quote($node["child"]);
+			$q = "SELECT * FROM lm_data WHERE obj_id = ".
+				$ilDB->quote($node["child"], "integer");
 			$obj_set = $ilDB->query($q);
-			$obj_rec = $obj_set->fetchRow(DB_FETCHMODE_ASSOC);
+			$obj_rec = $ilDB->fetchAssoc($obj_set);
 			if (!$obj_rec)
 			{
 				$node_data = $tree->getNodeData($node["child"]);
@@ -1141,9 +1142,10 @@ class ilObjContentObject extends ilObject
 		$nodes = $tree->getSubtree($tree->getNodeData($tree->getRootId()));
 		foreach ($nodes as $node)
 		{
-			$q = "SELECT * FROM lm_data WHERE obj_id = ".$ilDB->quote($node["parent"]);
+			$q = "SELECT * FROM lm_data WHERE obj_id = ".
+				$ilDB->quote($node["parent"], "integer");
 			$obj_set = $ilDB->query($q);
-			$obj_rec = $obj_set->fetchRow(DB_FETCHMODE_ASSOC);
+			$obj_rec = $ilDB->fetchAssoc($obj_set);
 			if ($obj_rec["type"] == "pg")
 			{
 				$node_data = $tree->getNodeData($node["child"]);

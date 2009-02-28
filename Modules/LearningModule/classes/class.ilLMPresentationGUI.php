@@ -311,13 +311,14 @@ class ilLMPresentationGUI
 				$objRow["obj_id"] = ilObject::_lookupObjId($_GET["ref_id"]);
 				$_GET["obj_id"] = $objRow["obj_id"];
 
-				$query = "SELECT * FROM lm_data WHERE lm_id = ".$ilDB->quote($objRow["obj_id"]).
+				$query = "SELECT * FROM lm_data WHERE lm_id = ".
+					$ilDB->quote($objRow["obj_id"], "integer").
 					" AND type='pg' ";
-				$result = $this->ilias->db->query($query);
+				$result = $ilDB->query($query);
 
 				$page = 0;
 				$showpage = 0;
-				while (is_array($row = $result->fetchRow(DB_FETCHMODE_ASSOC)) )
+				while (is_array($row = $ilDB->fetchAssoc($result)) )
 				{
 
 					$page++;

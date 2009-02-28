@@ -8341,4 +8341,15 @@ ALTER TABLE `cal_shared` CHANGE `create_date` `create_date` DATETIME NULL;
 <?php
 	$ilMySQLAbstraction->performAbstraction('container_settings');
 ?>
-  
+<#1777>
+<?php
+	$ilMySQLAbstraction->performAbstraction('int_link');
+?>
+<#1778>
+ALTER TABLE lm_data MODIFY public_access CHAR(1) DEFAULT 'n';
+ALTER TABLE lm_data MODIFY active CHAR(1) DEFAULT 'y';
+<#1779>
+<?php
+	$ilMySQLAbstraction->performAbstraction('lm_data');
+?>
+

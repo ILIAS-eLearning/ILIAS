@@ -3,7 +3,7 @@
 	+-----------------------------------------------------------------------------+
 	| ILIAS open source                                                           |
 	+-----------------------------------------------------------------------------+
-	| Copyright (c) 1998-2006 ILIAS open source, University of Cologne            |
+	| Copyright (c) 1998-2009 ILIAS open source, University of Cologne            |
 	|                                                                             |
 	| This program is free software; you can redistribute it and/or               |
 	| modify it under the terms of the GNU General Public License                 |
@@ -96,83 +96,6 @@ class ilContObjectExport
 	{
 		return $this->inst_id;
 	}
-
-    /**
-    *   exports lm_data-table to xml-structure
-    *
-    *   @param  integer $depth
-    *   @param  integer $left   left border of nested-set-structure
-    *   @param  integer $right  right border of nested-set-structure
-    *   @access public
-    *   @return string  xml-structure
-    */
-/*
-    function exportRekursiv($depth, $left, $right)
-	{
-		// Jetzt alle lm_data anhand der obj_id auslesen.
-		$query = "SELECT  *
-			FROM lm_tree, lm_data
-			WHERE lm_tree.lm_id = ".$this->cont_obj->getId()."
-			AND   lm_tree.child = lm_data.obj_id
-			AND   ( lm_data.type =  'st' OR lm_data.type =  'pg' )
-			AND lm_tree.depth = $depth
-			AND lm_tree.lft>$left and lm_tree.rgt<$right
-			ORDER BY lm_tree.lft";
-
-        $result = $this->db->query($query);
-
-        while (is_array($row = $result->fetchRow(DB_FETCHMODE_ASSOC)) )
-		{
-			if ($row["type"] == "st")
-			{
-				$xml .= "<StructureObject>";
-
-				$nested = new ilNestedSetXML();
-				$xml .= $nested->export($row["obj_id"],"st");
-				$xml .= "\n";
-
-				$xml .= $this->exportRekursiv($depth+1, $row["lft"], $row["rgt"]);
-
-				$xml .= "</StructureObject>";
-			}
-
-			if ($row["type"] == "pg")
-			{
-
-                $query = "SELECT * FROM page_object WHERE page_id='".$row["obj_id"]."' ";
-				$result2 = $this->db->query($query);
-
-				$row2 = $result2->fetchRow(DB_FETCHMODE_ASSOC);
-
-				$PO = $row2["content"]."\n";
-
-				if (stristr($PO,"MediaObject"))
-				{
-
-					$dom = domxml_open_mem($PO);
-					$xpc = xpath_new_context($dom);
-					$path = "//MediaObject/MediaAlias";
-					$res =& xpath_eval($xpc, $path);
-					for($i = 0; $i < count($res->nodeset); $i++)
-					{
-						$id_arr = explode("_", $res->nodeset[$i]->get_attribute("OriginId"));
-						$mob_id = $id_arr[count($id_arr) - 1];
-						$this->mob_ids[$mob_id] = true;
-					}
-				}
-
-				$nested = new ilNestedSetXML();
-				$mdxml = $nested->export($row["obj_id"],"pg");
-
-				$PO = str_replace("<PageObject>","<PageObject>\n$mdxml\n",$PO);
-
-				$xml .= $PO;
-
-			}
-		}
-		return($xml);
-	}
-*/
 
 	/**
 	*   build export file (complete zip file)

@@ -3,7 +3,7 @@
 	+-----------------------------------------------------------------------------+
 	| ILIAS open source                                                           |
 	+-----------------------------------------------------------------------------+
-	| Copyright (c) 1998-2008 ILIAS open source, University of Cologne            |
+	| Copyright (c) 1998-2009 ILIAS open source, University of Cologne            |
 	|                                                                             |
 	| This program is free software; you can redistribute it and/or               |
 	| modify it under the terms of the GNU General Public License                 |
@@ -202,9 +202,10 @@ class ilLMObject
 		if(!isset($this->data_record))
 		{
 			$ilBench->start("ContentPresentation", "ilLMObject_read_getData");
-			$query = "SELECT * FROM lm_data WHERE obj_id = ".$ilDB->quote($this->id);
-			$obj_set = $this->ilias->db->query($query);
-			$this->data_record = $obj_set->fetchRow(DB_FETCHMODE_ASSOC);
+			$query = "SELECT * FROM lm_data WHERE obj_id = ".
+				$ilDB->quote($this->id, "integer");
+			$obj_set = $ilDB->query($query);
+			$this->data_record = $ilDB->fetchAssoc($obj_set);
 			$ilBench->stop("ContentPresentation", "ilLMObject_read_getData");
 		}
 
@@ -241,9 +242,10 @@ class ilLMObject
 	{
 		global $ilDB;
 
-		$query = "SELECT * FROM lm_data WHERE obj_id = ".$ilDB->quote($a_obj_id);
+		$query = "SELECT * FROM lm_data WHERE obj_id = ".
+			$ilDB->quote($a_obj_id, "integer");
 		$obj_set = $ilDB->query($query);
-		$obj_rec = $obj_set->fetchRow(DB_FETCHMODE_ASSOC);
+		$obj_rec = $ilDB->fetchAssoc($obj_set);
 
 		return $obj_rec["title"];
 	}
@@ -252,9 +254,10 @@ class ilLMObject
 	{
 		global $ilDB;
 
-		$query = "SELECT * FROM lm_data WHERE obj_id = ".$ilDB->quote($a_obj_id);
+		$query = "SELECT * FROM lm_data WHERE obj_id = ".
+			$ilDB->quote($a_obj_id, "integer");
 		$obj_set = $ilDB->query($query);
-		$obj_rec = $obj_set->fetchRow(DB_FETCHMODE_ASSOC);
+		$obj_rec = $ilDB->fetchAssoc($obj_set);
 
 		return $obj_rec["type"];
 	}
@@ -265,9 +268,9 @@ class ilLMObject
 		global $ilDB;
 
 		$query = "UPDATE lm_data SET ".
-			" title = ".$ilDB->quote($a_title).
-			" WHERE obj_id = ".$ilDB->quote($a_obj_id);
-		$ilDB->query($query);
+			" title = ".$ilDB->quote($a_title, "text").
+			" WHERE obj_id = ".$ilDB->quote($a_obj_id, "integer");
+		$ilDB->manipulate($query);
 	}
 
 
@@ -345,11 +348,11 @@ class ilLMObject
 
 		$q = "UPDATE lm_data ".
 			"SET ".
-			"import_id = ".$ilDB->quote($a_import_id).",".
-			"last_update = now() ".
-			"WHERE obj_id = ".$ilDB->quote($a_id);
+			"import_id = ".$ilDB->quote($a_import_id, "text").",".
+			"last_update = ".$ilDB->now()." ".
+			"WHERE obj_id = ".$ilDB->quote($a_id, "integer");
 
-		$ilDB->query($q);
+		$ilDB->manipulate($q);
 	}
 
 	function create($a_upload = false)
@@ -357,12 +360,16 @@ class ilLMObject
 		global $ilDB;
 
 		// insert object data
-		$query = "INSERT INTO lm_data (title, type, lm_id, import_id, create_date) ".
-			"VALUES (".$ilDB->quote($this->getTitle()).",".$ilDB->quote($this->getType()).", ".
-			$ilDB->quote($this->getLMId()).",".$ilDB->quote($this->getImportId()).
-			", now())";
-		$this->ilias->db->query($query);
-		$this->setId($this->ilias->db->getLastInsertId());
+		$this->setId($ilDB->nextId("lm_data"));
+		$query = "INSERT INTO lm_data (obj_id, title, type, lm_id, import_id, create_date) ".
+			"VALUES (".
+			$ilDB->quote($this->getId(), "integer").",".
+			$ilDB->quote($this->getTitle(), "text").",".
+			$ilDB->quote($this->getType(), "text").", ".
+			$ilDB->quote($this->getLMId(), "integer").",".
+			$ilDB->quote($this->getImportId(), "text").
+			", ".$ilDB->now().")";
+		$ilDB->manipulate($query);
 
 		// create history entry
 		include_once("classes/class.ilHistory.php");
@@ -386,11 +393,11 @@ class ilLMObject
 		$this->updateMetaData();
 
 		$query = "UPDATE lm_data SET ".
-			" lm_id = ".$ilDB->quote($this->getLMId()).
-			" ,title = ".$ilDB->quote($this->getTitle()).
-			" WHERE obj_id = ".$ilDB->quote($this->getId());
+			" lm_id = ".$ilDB->quote($this->getLMId(), "integer").
+			" ,title = ".$ilDB->quote($this->getTitle(), "text").
+			" WHERE obj_id = ".$ilDB->quote($this->getId(), "integer");
 
-		$ilDB->query($query);
+		$ilDB->manipulate($query);
 	}
 
 
@@ -430,20 +437,20 @@ class ilLMObject
 		
 		// get all st entries of cont_obj
 		$q = "SELECT obj_id FROM lm_data " . 
-			 "WHERE lm_id = ".$ilDB->quote($a_cont_obj_id)." " .
+			 "WHERE lm_id = ".$ilDB->quote($a_cont_obj_id, "integer")." " .
 			 "AND type = 'st'";
 		$r = $ilDB->query($q);
 		
 		// add chapters with a public page to a_pages
-		while ($row = $r->fetchRow())
+		while ($row = $ilDB->fetchAssoc($r))
 		{
-			$childs = $lm_tree->getChilds($row[0]);
+			$childs = $lm_tree->getChilds($row["obj_id"]);
 			
 			foreach ($childs as $page)
 			{
 				if ($page["type"] == "pg" and in_array($page["obj_id"],$a_pages))
 				{
-					array_push($a_pages, $row[0]);
+					array_push($a_pages, $row["obj_id"]);
 					break;
 				}
 			}
@@ -452,13 +459,13 @@ class ilLMObject
 		// update public access status of all pages of cont_obj
 		$q = "UPDATE lm_data SET " .
 			 "public_access = CASE " .
-			 "WHEN obj_id IN (".implode(',',ilUtil::quoteArray($a_pages)).") " .
-			 "THEN 'y' ".
-			 "ELSE 'n' ".
+			 "WHEN ".$ilDB->in("obj_id", $a_pages, false, "integer")." ".
+			 "THEN ".$ilDB->quote("y", "text").
+			 "ELSE ".$ilDB->quote("n", "text").
 			 "END " .
-			 "WHERE lm_id = ".$ilDB->quote($a_cont_obj_id)." " .
-			 "AND type IN ('pg','st')";
-		$ilDB->query($q);
+			 "WHERE lm_id = ".$ilDB->quote($a_cont_obj_id, "integer")." " .
+			 "AND ".$ilDB->in("type", array("pg", "st"), false, "text");
+		$ilDB->manipulate($q);
 		
 		return true;
 	}
@@ -489,11 +496,12 @@ class ilLMObject
 			}
 		}
 
-		$q = "SELECT public_access FROM lm_data WHERE obj_id=".$ilDB->quote($a_node_id);
+		$q = "SELECT public_access FROM lm_data WHERE obj_id=".
+			$ilDB->quote($a_node_id, "integer");
 		$r = $ilDB->query($q);
-		$row = $r->fetchRow();
+		$row = $ilDB->fetchAssoc($r);
 		
-		return ilUtil::yn2tf($row[0]);
+		return ilUtil::yn2tf($row["public_access"]);
 	}
 
 	/**
@@ -503,8 +511,9 @@ class ilLMObject
 	{
 		global $ilDB;
 		
-		$query = "DELETE FROM lm_data WHERE obj_id= ".$ilDB->quote($this->getId());
-		$this->ilias->db->query($query);
+		$query = "DELETE FROM lm_data WHERE obj_id = ".
+			$ilDB->quote($this->getId(), "integer");
+		$ilDB->manipulate($query);
 
 		$this->deleteMetaData();
 	}
@@ -524,10 +533,11 @@ class ilLMObject
 	{
 		global $ilDB;
 		
-		$q = "SELECT * FROM lm_data WHERE import_id = ".$ilDB->quote($a_import_id)." ".
-			" ORDER BY create_date DESC LIMIT 1";
+		$q = "SELECT obj_id FROM lm_data WHERE import_id = ".
+			$ilDB->quote($a_import_id, "text")." ".
+			" ORDER BY create_date DESC";
 		$obj_set = $ilDB->query($q);
-		while ($obj_rec = $obj_set->fetchRow(DB_FETCHMODE_ASSOC))
+		while ($obj_rec = $ilDB->fetchAssoc($obj_set))
 		{
 			$lm_id = ilLMObject::_lookupContObjID($obj_rec["obj_id"]);
 
@@ -554,12 +564,13 @@ class ilLMObject
 	{
 		global $ilDB;
 		
-		$q = "SELECT * FROM lm_data WHERE import_id = ".$ilDB->quote($a_import_id)." ".
+		$q = "SELECT * FROM lm_data WHERE import_id = ".
+			$ilDB->quote($a_import_id, "text")." ".
 			" ORDER BY create_date DESC";
 		$obj_set = $ilDB->query($q);
 		
 		$items = array();
-		while ($obj_rec = $obj_set->fetchRow(DB_FETCHMODE_ASSOC))
+		while ($obj_rec = $ilDB->fetchAssoc($obj_set))
 		{
 			// check, whether lm is not trashed
 			if (ilObject::_hasUntrashedReference($obj_rec["lm_id"]))
@@ -588,9 +599,10 @@ class ilLMObject
 			$a_id = ilInternalLink::_extractObjIdOfTarget($a_id);
 		}
 		
-		$q = "SELECT * FROM lm_data WHERE obj_id = ".$ilDB->quote($a_id);
+		$q = "SELECT * FROM lm_data WHERE obj_id = ".
+			$ilDB->quote($a_id, "integer");
 		$obj_set = $ilDB->query($q);
-		if ($obj_rec = $obj_set->fetchRow(DB_FETCHMODE_ASSOC))
+		if ($obj_rec = $ilDB->fetchAssoc($obj_set))
 		{
 			return true;
 		}
@@ -609,15 +621,15 @@ class ilLMObject
 		global $ilDB;
 		
 		$type_str = ($type != "")
-			? "AND type = ".$ilDB->quote($type)." "
+			? "AND type = ".$ilDB->quote($type, "text")." "
 			: "";
 		$query = "SELECT * FROM lm_data ".
-			"WHERE lm_id= ".$ilDB->quote($lm_id)." ".
+			"WHERE lm_id= ".$ilDB->quote($lm_id, "integer")." ".
 			$type_str." ".
 			"ORDER BY title";
 		$obj_set = $ilDB->query($query);
 		$obj_list = array();
-		while($obj_rec = $obj_set->fetchRow(DB_FETCHMODE_ASSOC))
+		while($obj_rec = $ilDB->fetchAssoc($obj_set))
 		{
 			$obj_list[] = array("obj_id" => $obj_rec["obj_id"],
 								"title" => $obj_rec["title"],
@@ -637,13 +649,13 @@ class ilLMObject
 		include_once './classes/class.ilNestedSetXML.php';
 
 		$query = "SELECT * FROM lm_data ".
-			"WHERE lm_id= ".$ilDB->quote($a_cobj->getId())." ";
-		$obj_set = $this->ilias->db->query($query);
+			"WHERE lm_id= ".$ilDB->quote($a_cobj->getId(), "integer");
+		$obj_set = $ilDB->query($query);
 
 		require_once("./Modules/LearningModule/classes/class.ilLMObjectFactory.php");
-		while($obj_rec = $obj_set->fetchRow(DB_FETCHMODE_ASSOC))
+		while ($obj_rec = $ilDB->fetchAssoc($obj_set))
 		{
-			$lm_obj =& ilLMObjectFactory::getInstance($a_cobj, $obj_rec["obj_id"],false);
+			$lm_obj = ilLMObjectFactory::getInstance($a_cobj, $obj_rec["obj_id"],false);
 
 			if (is_object($lm_obj))
 			{
@@ -661,42 +673,13 @@ class ilLMObject
 	{
 		global $ilDB;
 
-		$query = "SELECT * FROM lm_data WHERE obj_id = ".$ilDB->quote($a_id)."";
+		$query = "SELECT * FROM lm_data WHERE obj_id = ".
+			$ilDB->quote($a_id, "integer");
 		$obj_set = $ilDB->query($query);
-		$obj_rec = $obj_set->fetchRow(DB_FETCHMODE_ASSOC);
+		$obj_rec = $ilDB->fetchAssoc($obj_set);
 
 		return $obj_rec["lm_id"];
 	}
-
-	/**
-	* lookup activation status
-	*/
-/*
-	function _lookupActive($a_id)
-	{
-		global $ilDB;
-
-		$query = "SELECT * FROM lm_data WHERE obj_id = ".$ilDB->quote($a_id);
-		$obj_set = $ilDB->query($query);
-		$obj_rec = $obj_set->fetchRow(DB_FETCHMODE_ASSOC);
-
-		return ilUtil::yn2tf($obj_rec["active"]);
-	}
-*/
-	/**
-	* write activation status
-	*/
-/*
-	function _writeActive($a_id, $a_active)
-	{
-		global $ilDB;
-
-		$query = "UPDATE lm_data ".
-			" SET active = ".$ilDB->quote(ilUtil::tf2yn($a_active)).
-			" WHERE obj_id = ".$ilDB->quote($a_id);
-		$ilDB->query($query);
-	}
-*/
 
 	/**
 	* put this object into content object tree

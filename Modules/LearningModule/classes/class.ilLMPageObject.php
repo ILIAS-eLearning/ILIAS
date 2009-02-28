@@ -3,7 +3,7 @@
 	+-----------------------------------------------------------------------------+
 	| ILIAS open source                                                           |
 	+-----------------------------------------------------------------------------+
-	| Copyright (c) 1998-2001 ILIAS open source, University of Cologne            |
+	| Copyright (c) 1998-2009 ILIAS open source, University of Cologne            |
 	|                                                                             |
 	| This program is free software; you can redistribute it and/or               |
 	| modify it under the terms of the GNU General Public License                 |
@@ -408,9 +408,10 @@ class ilLMPageObject extends ilLMObject
 		global $ilDB;
 
 		// select
-		$query = "SELECT * FROM lm_data WHERE obj_id = ".$ilDB->quote($a_pg_id);
+		$query = "SELECT * FROM lm_data WHERE obj_id = ".
+			$ilDB->quote($a_pg_id, "integer");
 		$pg_set = $ilDB->query($query);
-		$pg_rec = $pg_set->fetchRow(DB_FETCHMODE_ASSOC);
+		$pg_rec = $ilDB->fetchAssoc($pg_set);
 
 		if($a_mode == IL_NO_HEADER)
 		{
