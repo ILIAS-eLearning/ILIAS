@@ -909,9 +909,9 @@ class ilObjMediaObject extends ilObject
 
 		// get usages in media pools
 		$q = "SELECT DISTINCT mep_id FROM mep_tree WHERE child = ".
-			$ilDB->quote($a_id);
+			$ilDB->quote($a_id, "integer");
 		$us_set = $ilDB->query($q);
-		while($us_rec = $us_set->fetchRow(DB_FETCHMODE_ASSOC))
+		while($us_rec = $ilDB->fetchAssoc($us_set))
 		{
 			$ret[] = array("type" => "mep",
 				"id" => $us_rec["mep_id"]);
