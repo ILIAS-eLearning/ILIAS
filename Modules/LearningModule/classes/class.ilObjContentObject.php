@@ -429,8 +429,9 @@ class ilObjContentObject extends ilObject
 		$ilDB->manipulate($q);
 
 		// delete lm menu entries
-		$q = "DELETE FROM lm_menu WHERE lm_id = ".$ilDB->quote($this->getId());
-		$this->ilias->db->query($q);
+		$q = "DELETE FROM lm_menu WHERE lm_id = ".
+			$ilDB->quote($this->getId(), "integer");
+		$ilDB->manipulate($q);
 
 		return true;
 	}

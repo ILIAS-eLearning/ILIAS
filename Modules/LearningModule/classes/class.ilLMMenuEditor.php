@@ -3,7 +3,7 @@
 	+-----------------------------------------------------------------------------+
 	| ILIAS open source                                                           |
 	+-----------------------------------------------------------------------------+
-	| Copyright (c) 1998-2001 ILIAS open source, University of Cologne            |
+	| Copyright (c) 1998-2009 ILIAS open source, University of Cologne            |
 	|                                                                             |
 	| This program is free software; you can redistribute it and/or               |
 	| modify it under the terms of the GNU General Public License                 |
@@ -102,15 +102,19 @@ class ilLMMenuEditor
 
 	function create()
 	{
-		$q = "INSERT INTO lm_menu (lm_id,link_type,title,target,link_ref_id) ".
+		global $ilDB;
+		
+		$id = $ilDB->nextId("lm_menu");
+		$q = "INSERT INTO lm_menu (id, lm_id,link_type,title,target,link_ref_id) ".
 			 "VALUES ".
 			 "(".
-			 $this->db->quote($this->getObjId()).",".
-			 $this->db->quote($this->getLinkType()).",".
- 			 $this->db->quote($this->getTitle()).",".
- 			 $this->db->quote($this->getTarget()).",".
-			 $this->db->quote($this->getLinkRefId()).")";
-		$r = $this->db->query($q);
+			 $ilDB->quote($id, "integer").",".
+			 $ilDB->quote((int) $this->getObjId(), "integer").",".
+			 $ilDB->quote($this->getLinkType(), "text").",".
+ 			 $ilDB->quote($this->getTitle(), "text").",".
+ 			 $ilDB->quote($this->getTarget(), "text").",".
+			 $ilDB->quote((int) $this->getLinkRefId(), "integer").")";
+		$r = $ilDB->manipulate($q);
 		
 		return true;
 	}
@@ -123,16 +127,16 @@ class ilLMMenuEditor
 		
 		if ($a_only_active === true)
 		{
-			$and = " AND active = 'y'";
+			$and = " AND active = ".$ilDB->quote("y", "text");
 		}
 		
 		$q = "SELECT * FROM lm_menu ".
-			 "WHERE lm_id = ".$ilDB->quote($this->lm_id).
+			 "WHERE lm_id = ".$ilDB->quote($this->lm_id, "integer").
 			 $and;
 			 
-		$r = $this->db->query($q);
+		$r = $ilDB->query($q);
 
-		while($row = $r->fetchRow(DB_FETCHMODE_OBJECT))
+		while($row = $ilDB->fetchObject($r))
 		{
 			$entries[] = array('id'		=> $row->id,
 							   'title'	=> $row->title,
@@ -152,13 +156,16 @@ class ilLMMenuEditor
 	 */
 	function delete($a_id)
 	{
+		global $ilDB;
+		
 		if (!$a_id)
 		{
 			return false;
 		}
 		
-		$q = "DELETE FROM lm_menu WHERE id = ".$this->db->quote($a_id);
-		$this->db->query($q);
+		$q = "DELETE FROM lm_menu WHERE id = ".
+			$ilDB->quote($a_id, "integer");
+		$ilDB->manipulate($q);
 		
 		return true;
 	}
@@ -172,27 +179,30 @@ class ilLMMenuEditor
 		global $ilDB;
 		
 		$q = "UPDATE lm_menu SET ".
-			" link_type = ".$ilDB->quote($this->getLinkType()).",".
-			" title = ".$ilDB->quote($this->getTitle()).",".
-			" target = ".$ilDB->quote($this->getTarget()).",".
-			" link_ref_id = ".$ilDB->quote($this->getLinkRefId()).
-			" WHERE id = ".$ilDB->quote($this->getEntryId());
-		$r = $this->db->query($q);
+			" link_type = ".$ilDB->quote($this->getLinkType(), "text").",".
+			" title = ".$ilDB->quote($this->getTitle(), "text").",".
+			" target = ".$ilDB->quote($this->getTarget(), "text").",".
+			" link_ref_id = ".$ilDB->quote((int) $this->getLinkRefId(), "integer").
+			" WHERE id = ".$ilDB->quote($this->getEntryId(), "integer");
+		$r = $ilDB->manipulate($q);
 		
 		return true;
 	}
 	
 	function readEntry($a_id)
 	{
+		global $ilDB;
+		
 		if (!$a_id)
 		{
 			return false;
 		}
 		
-		$q = "SELECT * FROM lm_menu WHERE id = ".$this->db->quote($a_id);
-		$r = $this->db->query($q);
+		$q = "SELECT * FROM lm_menu WHERE id = ".
+			$ilDB->quote($a_id, "integer");
+		$r = $ilDB->query($q);
 
-		$row = $this->db->getRow($q,DB_FETCHMODE_OBJECT);
+		$row = $ilDB->fetchObject($r);
 		
 		$this->setTitle($row->title);
 		$this->setTarget($row->target);
@@ -218,12 +228,12 @@ class ilLMMenuEditor
 		// update active status
 		$q = "UPDATE lm_menu SET " .
 			 "active = CASE " .
-			 "WHEN id IN (".implode(',',ilUtil::quoteArray($a_entries)).") " .
-			 "THEN 'y' ".
-			 "ELSE 'n' ".
+			 "WHEN ".$ilDB->in("id", $a_entries, false, "integer")." ".
+			 "THEN ".$ilDB->quote("y", "text")." ".
+			 "ELSE ".$ilDB->quote("n", "text")." ".
 			 "END " .
-			 "WHERE lm_id = ".$ilDB->quote($this->lm_id);
-		$this->db->query($q);
+			 "WHERE lm_id = ".$ilDB->quote($this->lm_id, "integer");
+		$ilDB->manipulate($q);
 	}
 	
 }
