@@ -1338,7 +1338,7 @@ class ilObjUser extends ilObject
 
 		//query
 		$q = "SELECT * FROM lo_access ".
-			"WHERE usr_id= ".$ilDB->quote($this->id, "integer")." ".
+			"WHERE usr_id= ".$ilDB->quote((int) $this->id, "integer")." ".
 			"ORDER BY timestamp DESC";
 		$rst = $ilDB->query($q);
 
@@ -1368,7 +1368,7 @@ class ilObjUser extends ilObject
 
 		//query
 		$q = "SELECT * FROM lo_access ".
-			"WHERE usr_id= ".$ilDB->quote($this->id, "integer")." ";
+			"WHERE usr_id= ".$ilDB->quote((int) $this->id, "integer")." ";
 		$rst = $ilDB->query($q);
 
 		// fill array

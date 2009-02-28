@@ -8367,4 +8367,8 @@ ALTER TABLE lm_menu MODIFY active CHAR(1) DEFAULT 'n';
 <?php
 	$ilMySQLAbstraction->performAbstraction('lo_access');
 ?>
+<#1784>
+<?php
+	$ilMySQLAbstraction->performAbstraction('map_area');
+?>
 
