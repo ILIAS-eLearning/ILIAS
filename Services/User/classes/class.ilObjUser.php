@@ -1338,13 +1338,13 @@ class ilObjUser extends ilObject
 
 		//query
 		$q = "SELECT * FROM lo_access ".
-			"WHERE usr_id= ".$ilDB->quote($this->id)." ".
+			"WHERE usr_id= ".$ilDB->quote($this->id, "integer")." ".
 			"ORDER BY timestamp DESC";
-		$rst = $this->ilias->db->query($q);
+		$rst = $ilDB->query($q);
 
 		// fill array
 		$result = array();
-		while($record = $rst->fetchRow(DB_FETCHMODE_OBJECT))
+		while($record = $ilDB->fetchObject($rst))
 		{
 			$result[] = array(
 			"timestamp"	=>	$record->timestamp,
@@ -1368,8 +1368,8 @@ class ilObjUser extends ilObject
 
 		//query
 		$q = "SELECT * FROM lo_access ".
-			"WHERE usr_id= ".$ilDB->quote($this->id)." ";
-		$rst = $this->ilias->db->query($q);
+			"WHERE usr_id= ".$ilDB->quote($this->id, "integer")." ";
+		$rst = $ilDB->query($q);
 
 		// fill array
 		$result = array();

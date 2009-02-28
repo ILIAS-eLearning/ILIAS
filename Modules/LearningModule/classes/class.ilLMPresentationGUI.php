@@ -253,18 +253,21 @@ class ilLMPresentationGUI
 		
 		// first check if an entry for this user and this lm already exist, when so, delete
 		$q = "DELETE FROM lo_access ".
-			"WHERE usr_id = ".$ilDB->quote($usr_id)." ".
-			"AND lm_id = ".$ilDB->quote($lm_id);
-		$this->ilias->db->query($q);
+			"WHERE usr_id = ".$ilDB->quote($usr_id, "integer")." ".
+			"AND lm_id = ".$ilDB->quote($lm_id, "integer");
+		$ilDB->manipulate($q);
 		$title = (is_object($this->lm))?$this->lm->getTitle():"- no title -";
 		// insert new entry
 		$pg_title = "";
 		$q = "INSERT INTO lo_access ".
 			"(timestamp,usr_id,lm_id,obj_id,lm_title) ".
 			"VALUES ".
-			"(now(),".$ilDB->quote($usr_id).",".$ilDB->quote($lm_id).",".
-			$ilDB->quote($obj_id).",".$ilDB->quote($title).")";
-		$this->ilias->db->query($q);
+			"(".$ilDB->now().",".
+			$ilDB->quote($usr_id, "integer").",".
+			$ilDB->quote($lm_id, "integer").",".
+			$ilDB->quote($obj_id, "integer").",".
+			$ilDB->quote($title, "text").")";
+		$ilDB->manipulate($q);
 	}
 
     /**
