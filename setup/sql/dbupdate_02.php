@@ -8363,4 +8363,8 @@ ALTER TABLE lm_menu MODIFY active CHAR(1) DEFAULT 'n';
 <?php
 	$ilMySQLAbstraction->performAbstraction('lm_tree');
 ?>
+<#1783>
+<?php
+	$ilMySQLAbstraction->performAbstraction('lo_access');
+?>
 
