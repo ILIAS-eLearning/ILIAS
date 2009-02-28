@@ -3,7 +3,7 @@
 	+-----------------------------------------------------------------------------+
 	| ILIAS open source                                                           |
 	+-----------------------------------------------------------------------------+
-	| Copyright (c) 1998-2006 ILIAS open source, University of Cologne            |
+	| Copyright (c) 1998-2009 ILIAS open source, University of Cologne            |
 	|                                                                             |
 	| This program is free software; you can redistribute it and/or               |
 	| modify it under the terms of the GNU General Public License                 |
@@ -186,9 +186,10 @@ class ilStructureObject extends ilLMObject
 		global $ilDB;
 
 		// get chapter data
-		$query = "SELECT * FROM lm_data WHERE obj_id = ".$ilDB->quote($a_st_id);
+		$query = "SELECT * FROM lm_data WHERE obj_id = ".
+			$ilDB->quote($a_st_id, "integer");
 		$st_set = $ilDB->query($query);
-		$st_rec = $st_set->fetchRow(DB_FETCHMODE_ASSOC);
+		$st_rec = $ilDB->fetchAssoc($st_set);
 
 		$tree = new ilTree($st_rec["lm_id"]);
 		$tree->setTableNames('lm_tree','lm_data');

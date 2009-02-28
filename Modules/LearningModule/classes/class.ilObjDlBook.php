@@ -81,14 +81,15 @@ class ilObjDlBook extends ilObjContentObject
 		// Jetzt alle lm_data anhand der obj_id auslesen.
 		$query = "SELECT  *
                   FROM lm_tree, lm_data
-                  WHERE lm_tree.lm_id = ".$ilDB->quote($obj_id)." 
+                  WHERE lm_tree.lm_id = ".$ilDB->quote($obj_id, "integer")." 
                   AND   lm_tree.child = lm_data.obj_id 
                   AND   ( lm_data.type =  'st' OR lm_data.type =  'pg' )
-                  AND lm_tree.depth = ".$ilDB->quote($depth)."
-                  AND lm_tree.lft > ".$ilDB->quote($left)." and lm_tree.rgt < ".$ilDB->quote($right)."
+                  AND lm_tree.depth = ".$ilDB->quote($depth, "integer")."
+                  AND lm_tree.lft > ".$ilDB->quote($left, "integer").
+				  " and lm_tree.rgt < ".$ilDB->quote($right, "integer")."
                   ORDER BY lm_tree.lft";
-        $result = $this->ilias->db->query($query);
-        while (is_array($row = $result->fetchRow(DB_FETCHMODE_ASSOC)) ) 
+        $result = $ilDB->query($query);
+        while (is_array($row = $ilDB->fetchAssoc($result)) ) 
 		{
 			if ($row["type"] == "st") 
 			{
@@ -176,13 +177,13 @@ class ilObjDlBook extends ilObjContentObject
 
 		$query = "SELECT  *
                   FROM lm_tree, lm_data
-                  WHERE lm_tree.lm_id = ".$ilDB->quote($obj_id)."
+                  WHERE lm_tree.lm_id = ".$ilDB->quote($obj_id, "integer")."
                   AND   lm_tree.child = lm_data.obj_id
                   AND   ( lm_data.type =  'du' )
                   AND lm_tree.depth = 1
                   ORDER BY lm_tree.lft";
-        $result = $this->ilias->db->query($query);
-        $treeData = $result->fetchRow(DB_FETCHMODE_ASSOC);
+        $result = $ilDB->query($query);
+        $treeData = $ilDB->fetchAssoc($result);
 
         $xml .= $this->exportRekursiv($obj_id,2, $treeData["lft"], $treeData["rgt"]);
 

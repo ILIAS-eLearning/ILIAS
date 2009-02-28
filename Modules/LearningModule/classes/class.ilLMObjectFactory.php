@@ -3,7 +3,7 @@
 	+-----------------------------------------------------------------------------+
 	| ILIAS open source                                                           |
 	+-----------------------------------------------------------------------------+
-	| Copyright (c) 1998-2001 ILIAS open source, University of Cologne            |
+	| Copyright (c) 1998-2009 ILIAS open source, University of Cologne            |
 	|                                                                             |
 	| This program is free software; you can redistribute it and/or               |
 	| modify it under the terms of the GNU General Public License                 |
@@ -40,9 +40,10 @@ class ilLMObjectFactory
 	{
 		global $ilias, $ilDB;
 
-		$query = "SELECT * FROM lm_data WHERE obj_id = ".$ilDB->quote($a_id);
-		$obj_set = $ilias->db->query($query);
-		$obj_rec = $obj_set->fetchRow(DB_FETCHMODE_ASSOC);
+		$query = "SELECT * FROM lm_data WHERE obj_id = ".
+			$ilDB->quote($a_id, "integer");
+		$obj_set = $ilDB->query($query);
+		$obj_rec = $ilDB->fetchAssoc($obj_set);
 
 		switch($obj_rec["type"])
 		{

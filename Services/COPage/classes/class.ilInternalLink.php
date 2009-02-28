@@ -3,7 +3,7 @@
 	+-----------------------------------------------------------------------------+
 	| ILIAS open source                                                           |
 	+-----------------------------------------------------------------------------+
-	| Copyright (c) 1998-2008 ILIAS open source, University of Cologne            |
+	| Copyright (c) 1998-2009 ILIAS open source, University of Cologne            |
 	|                                                                             |
 	| This program is free software; you can redistribute it and/or               |
 	| modify it under the terms of the GNU General Public License                 |
@@ -43,9 +43,10 @@ class ilInternalLink
 	{
 		global $ilias, $ilDB;
 
-		$q = "DELETE FROM int_link WHERE source_type=".$ilDB->quote($a_source_type).
-			" AND source_id=".$ilDB->quote($a_source_id);
-		$ilias->db->query($q);
+		$q = "DELETE FROM int_link WHERE source_type = ".
+			$ilDB->quote($a_source_type, "text")." AND source_id=".
+			$ilDB->quote((int) $a_source_id, "integer");
+		$ilDB->manipulate($q);
 	}
 
 	/**
@@ -59,10 +60,10 @@ class ilInternalLink
 	{
 		global $ilias, $ilDB;
 
-		$st = $ilDB->prepareManip("DELETE FROM int_link WHERE target_type = ? ".
-			" AND target_id = ? AND target_inst = ? ",
-			array("text", "integer", "integer"));
-		$ilDB->execute($st, array($a_target_type, $a_target_id, $a_target_inst));
+		$ilDB->manipulateF("DELETE FROM int_link WHERE target_type = %s ".
+			" AND target_id = %s AND target_inst = %s ",
+			array("text", "integer", "integer"),
+			array($a_target_type, (int) $a_target_id, (int) $a_target_inst));
 	}
 
 	/**
@@ -78,13 +79,19 @@ class ilInternalLink
 	{
 		global $ilias, $ilDB;
 
-		$q = "REPLACE INTO int_link (source_type, source_id, target_type, target_id, target_inst) VALUES".
-			" (".$ilDB->quote($a_source_type).
-			",".$ilDB->quote($a_source_id).
-			",".$ilDB->quote($a_target_type).
-			",".$ilDB->quote($a_target_id).
-			",".$ilDB->quote($a_target_inst).")";
-		$ilias->db->query($q);
+		$ilDB->manipulate("DELETE FROM int_link WHERE ".
+			"source_type = ".$ilDB->quote($a_source_type, "text")." AND ".
+			"source_id = ".$ilDB->quote((int) $a_source_id, "integer")." AND ".
+			"target_type = ".$ilDB->quote($a_target_type, "text")." AND ".
+			"target_id = ".$ilDB->quote((int) $a_target_id, "integer")." AND ".
+			"target_inst = ".$ilDB->quote((int) $a_target_inst, "integer"));
+		$ilDB->manipulate("INSERT INTO int_link ".
+			"(source_type, source_id, target_type, target_id, target_inst) VALUES (".
+			$ilDB->quote($a_source_type, "text").",".
+			$ilDB->quote((int) $a_source_id, "integer").",".
+			$ilDB->quote($a_target_type, "text").",".
+			$ilDB->quote((int) $a_target_id, "integer").",".
+			$ilDB->quote((int) $a_target_inst, "integer").")");
 	}
 
 	/**
@@ -101,12 +108,12 @@ class ilInternalLink
 		global $ilias, $ilDB;
 
 		$q = "SELECT * FROM int_link WHERE ".
-			"target_type = ".$ilDB->quote($a_target_type)." AND ".
-			"target_id = ".$ilDB->quote($a_target_id)." AND ".
-			"target_inst = ".$ilDB->quote($a_target_inst);
-		$source_set = $ilias->db->query($q);
+			"target_type = ".$ilDB->quote($a_target_type, "text")." AND ".
+			"target_id = ".$ilDB->quote((int) $a_target_id, "integer")." AND ".
+			"target_inst = ".$ilDB->quote((int) $a_target_inst, "integer");
+		$source_set = $ilDB->query($q);
 		$sources = array();
-		while ($source_rec = $source_set->fetchRow(DB_FETCHMODE_ASSOC))
+		while ($source_rec = $ilDB->fetchAssoc($source_set))
 		{
 			$sources[$source_rec["source_type"].":".$source_rec["source_id"]] =
 				array("type" => $source_rec["source_type"], "id" => $source_rec["source_id"]);
@@ -128,12 +135,12 @@ class ilInternalLink
 		global $ilDB;
 
 		$q = "SELECT * FROM int_link WHERE ".
-			"source_type = ".$ilDB->quote($a_source_type)." AND ".
-			"source_id = ".$ilDB->quote($a_source_id);
+			"source_type = ".$ilDB->quote($a_source_type, "text")." AND ".
+			"source_id = ".$ilDB->quote((int) $a_source_id, "integer");
 
 		$target_set = $ilDB->query($q);
 		$targets = array();
-		while ($target_rec = $target_set->fetchRow(DB_FETCHMODE_ASSOC))
+		while ($target_rec = $ilDB->fetchAssoc($target_set))
 		{
 			$targets[$target_rec["target_type"].":".$target_rec["target_id"].":".$target_rec["target_inst"]] =
 				array("type" => $target_rec["target_type"], "id" => $target_rec["target_id"],
