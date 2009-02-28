@@ -8388,4 +8388,10 @@ ALTER TABLE media_item MODIFY caption VARCHAR(3000);
 <?php
 	$ilMySQLAbstraction->performAbstraction('mep_tree');
 ?>
+<#1790>
+ALTER TABLE mob_parameter MODIFY value VARCHAR(2000);
+<#1791>
+<?php
+	$ilMySQLAbstraction->performAbstraction('mob_parameter');
+?>
 
