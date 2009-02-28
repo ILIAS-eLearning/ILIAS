@@ -1,4 +1,4 @@
-ds<#865>
+<#865>
 <?php
 $ilCtrlStructureReader->getStructure();
 ?>
@@ -8370,5 +8370,18 @@ ALTER TABLE lm_menu MODIFY active CHAR(1) DEFAULT 'n';
 <#1784>
 <?php
 	$ilMySQLAbstraction->performAbstraction('map_area');
+?>
+<#1785>
+ALTER TABLE media_item MODIFY halign CHAR(10) DEFAULT 'Left';
+ALTER TABLE media_item MODIFY purpose CHAR(20) DEFAULT 'Standard';
+ALTER TABLE media_item MODIFY location_type CHAR(10) DEFAULT 'LocalFile';
+ALTER TABLE media_item MODIFY tried_thumb CHAR(1) DEFAULT 'n';
+<#1786>
+ALTER TABLE media_item MODIFY param VARCHAR(2000);
+<#1787>
+ALTER TABLE media_item MODIFY caption VARCHAR(3000);
+<#1788>
+<?php
+	$ilMySQLAbstraction->performAbstraction('media_item');
 ?>
 

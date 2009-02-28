@@ -205,11 +205,12 @@ class ilObjDlBook extends ilObjContentObject
 
                 $xml .= "<MediaObject>";
 
-                $query = "SELECT * FROM media_item WHERE mob_id= ".$ilDB->quote($key)." ";
+                $query = "SELECT * FROM media_item WHERE mob_id= ".
+					$ilDB->quote($key, "integer")." ";
                 //vd($query);
                 $first = true;
-                $result = $this->ilias->db->query($query);
-                while (is_array($row = $result->fetchRow(DB_FETCHMODE_ASSOC)) )
+                $result = $ilDB->query($query);
+                while (is_array($row = $ilDB->fetchRow($result)) )
                 {
                     if($first) 
                     {

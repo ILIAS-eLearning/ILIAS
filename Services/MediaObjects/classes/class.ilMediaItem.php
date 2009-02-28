@@ -130,22 +130,24 @@ class ilMediaItem
 	{
 		global $ilDB;
 
-		$query = "INSERT INTO media_item (mob_id, purpose, location, ".
+		$item_id = $ilDB->nextId("media_item");
+		$query = "INSERT INTO media_item (id,mob_id, purpose, location, ".
 			"location_type, format, width, ".
 			"height, halign, caption, nr) VALUES ".
-			"(".$ilDB->quote($this->getMobId()).",".
-			$ilDB->quote($this->getPurpose()).",".
-			$ilDB->quote($this->getLocation()).",".
-			$ilDB->quote($this->getLocationType()).",".
-			$ilDB->quote($this->getFormat()).",".
-			$ilDB->quote($this->getWidth()).",".
-			$ilDB->quote($this->getHeight()).",".
-			$ilDB->quote($this->getHAlign()).",".
-			$ilDB->quote($this->getCaption()).",".
-			$ilDB->quote($this->getNr()).")";
-		$this->ilias->db->query($query);
-#echo "create_mob:$query:<br>";
-		$item_id = $this->ilias->db->getLastInsertId();
+			"(".
+			$ilDB->quote($item_id, "integer").",".
+			$ilDB->quote($this->getMobId(), "integer").",".
+			$ilDB->quote($this->getPurpose(), "text").",".
+			$ilDB->quote($this->getLocation(), "text").",".
+			$ilDB->quote($this->getLocationType(), "text").",".
+			$ilDB->quote($this->getFormat(), "text").",".
+			$ilDB->quote($this->getWidth(), "text").",".
+			$ilDB->quote($this->getHeight(), "text").",".
+			$ilDB->quote($this->getHAlign(), "text").",".
+			$ilDB->quote($this->getCaption(), "text").",".
+			$ilDB->quote($this->getNr(), "integer").")";
+		$ilDB->manipulate($query);
+		
 		$this->setId($item_id);
 
 		// create mob parameters
@@ -176,18 +178,18 @@ class ilMediaItem
 		global $ilDB;
 
 		$query = "UPDATE media_item SET ".
-			" mob_id = ".$ilDB->quote($this->getMobId()).",".
-			" purpose = ".$ilDB->quote($this->getPurpose()).",".
-			" location = ".$ilDB->quote($this->getLocation()).",".
-			" location_type = ".$ilDB->quote($this->getLocationType()).",".
-			" format = ".$ilDB->quote($this->getFormat()).",".
-			" width = ".$ilDB->quote($this->getWidth()).",".
-			" height = ".$ilDB->quote($this->getHeight()).",".
-			" halign = ".$ilDB->quote($this->getHAlign()).",".
-			" caption = ".$ilDB->quote($this->getCaption()).",".
-			" nr = ".$ilDB->quote($this->getNr()).
-			" WHERE id = ".$ilDB->quote($this->getId());
-		$this->ilias->db->query($query);
+			" mob_id = ".$ilDB->quote($this->getMobId(), "integer").",".
+			" purpose = ".$ilDB->quote($this->getPurpose(), "text").",".
+			" location = ".$ilDB->quote($this->getLocation(), "text").",".
+			" location_type = ".$ilDB->quote($this->getLocationType(), "text").",".
+			" format = ".$ilDB->quote($this->getFormat(), "text").",".
+			" width = ".$ilDB->quote($this->getWidth(), "text").",".
+			" height = ".$ilDB->quote($this->getHeight(), "text").",".
+			" halign = ".$ilDB->quote($this->getHAlign(), "text").",".
+			" caption = ".$ilDB->quote($this->getCaption(), "text").",".
+			" nr = ".$ilDB->quote($this->getNr(), "integer").
+			" WHERE id = ".$ilDB->quote($this->getId(), "integer");
+		$ilDB->manipulate($query);
 
 		// delete mob parameters
 		$query = "DELETE FROM mob_parameter WHERE med_item_id = ".
@@ -218,17 +220,19 @@ class ilMediaItem
 		$query = "";
 		if($item_id > 0)
 		{
-			$query = "SELECT * FROM media_item WHERE id = ".$ilDB->quote($this->getId());
+			$query = "SELECT * FROM media_item WHERE id = ".
+				$ilDB->quote($this->getId(), "integer");
 		}
 		else if ($mob_id > 0 && $nr > 0)
 		{
-			$query = "SELECT * FROM media_item WHERE mob_id = ".$ilDB->quote($this->getMobId())." ".
-				"AND nr=".$ilDB->quote($this->getNr());
+			$query = "SELECT * FROM media_item WHERE mob_id = ".
+				$ilDB->quote($this->getMobId(), "integer")." ".
+				"AND nr=".$ilDB->quote($this->getNr(), "integer");
 		}
 		if ($query != "")
 		{
-			$item_set = $this->ilias->db->query($query);
-			$item_rec = $item_set->fetchRow(DB_FETCHMODE_ASSOC);
+			$item_set = $ilDB->query($query);
+			$item_rec = $ilDB->fetchAssoc($item_set);
 
 			$this->setLocation($item_rec["location"]);
 			$this->setLocationType($item_rec["location_type"]);
@@ -270,11 +274,11 @@ class ilMediaItem
 	{
 		global $ilDB;
 		
-		$q = "UPDATE media_item SET tried_thumb=".
-			$ilDB->quote($a_tried).
-			" WHERE id = ".$ilDB->quote($this->getId());
+		$q = "UPDATE media_item SET tried_thumb = ".
+			$ilDB->quote($a_tried, "text").
+			" WHERE id = ".$ilDB->quote($this->getId(), "integer");
 			
-		$ilDB->query($q);
+		$ilDB->manipulate($q);
 	}
 
 	/**
@@ -288,10 +292,11 @@ class ilMediaItem
 		global $ilDB;
 		
 		// read media_object record
-		$query = "SELECT * FROM media_item WHERE mob_id = ".$ilDB->quote($a_mob_id)." ".
-			"AND purpose = ".$ilDB->quote($a_purpose);
+		$query = "SELECT * FROM media_item WHERE mob_id = ".
+			$ilDB->quote($a_mob_id, "integer")." ".
+			"AND purpose = ".$ilDB->quote($a_purpose, "text");
 		$set = $ilDB->query($query);
-		if ($rec = $set->fetchRow(DB_FETCHMODE_ASSOC))
+		if ($rec = $ilDB->fetchAssoc($set))
 		{
 			return $rec["location"];
 		}
@@ -309,9 +314,10 @@ class ilMediaItem
 		global $ilDB;
 		
 		// read media_object record
-		$query = "SELECT * FROM media_item WHERE id = ".$ilDB->quote($a_med_id);
+		$query = "SELECT * FROM media_item WHERE id = ".
+			$ilDB->quote($a_med_id, "integer");
 		$set = $ilDB->query($query);
-		if ($rec = $set->fetchRow(DB_FETCHMODE_ASSOC))
+		if ($rec = $ilDB->fetchAssoc($set))
 		{
 			return $rec["mob_id"];
 		}
@@ -330,11 +336,12 @@ class ilMediaItem
 		global $ilDB;
 		
 		// read media_object record
-		$query = "SELECT * FROM media_item WHERE mob_id = ".$ilDB->quote($a_mobId)." ".
-			"AND purpose=" . $ilDB->quote($a_purpose) . " ORDER BY nr";
+		$query = "SELECT * FROM media_item WHERE mob_id = ".
+			$ilDB->quote($a_mobId, "integer")." ".
+			"AND purpose=" . $ilDB->quote($a_purpose, "text")." ORDER BY nr";
 		$item_set = $ilDB->query($query);
 		
-		while ($item_rec = $item_set->fetchRow(DB_FETCHMODE_ASSOC))
+		while ($item_rec = $ilDB->fetchAssoc($item_set))
 		{
 			return $item_rec;
 		}
@@ -351,10 +358,11 @@ class ilMediaItem
 		global $ilDB;
 		
 		// read media_object record
-		$query = "SELECT * FROM media_item WHERE mob_id = ".$ilDB->quote($a_mob->getId())." ".
+		$query = "SELECT * FROM media_item WHERE mob_id = ".
+			$ilDB->quote($a_mob->getId(), "integer")." ".
 			"ORDER BY nr";
-		$item_set = $this->ilias->db->query($query);
-		while ($item_rec = $item_set->fetchRow(DB_FETCHMODE_ASSOC))
+		$item_set = $ilDB->query($query);
+		while ($item_rec = $ilDB->fetchAssoc($item_set))
 		{
 			$media_item =& new ilMediaItem();
 			$media_item->setNr($item_rec["nr"]);
@@ -401,9 +409,9 @@ class ilMediaItem
 		
 		// iterate all media items ob mob
 		$query = "SELECT * FROM media_item WHERE mob_id = ".
-			$ilDB->quote($a_mob_id);
-		$item_set = $this->ilias->db->query($query);
-		while ($item_rec = $item_set->fetchRow(DB_FETCHMODE_ASSOC))
+			$ilDB->quote($a_mob_id, "integer");
+		$item_set = $ilDB->query($query);
+		while ($item_rec = $ilDB->fetchAssoc($item_set))
 		{
 			// delete all parameters of media item
 			$query = "DELETE FROM mob_parameter WHERE med_item_id = ".
@@ -418,8 +426,8 @@ class ilMediaItem
 
 		// delete media items
 		$query = "DELETE FROM media_item WHERE mob_id = ".
-			$ilDB->quote($a_mob_id);
-		$this->ilias->db->query($query);
+			$ilDB->quote($a_mob_id, "integer");
+		$ilDB->manipulate($query);
 	}
 
 	function setPurpose($a_purpose)
@@ -1079,10 +1087,11 @@ class ilMediaItem
 		
 //echo "mediaItems::resolve<br>";
 		// read media_object record
-		$query = "SELECT * FROM media_item WHERE mob_id = ".$ilDB->quote($a_mob_id)." ".
+		$query = "SELECT * FROM media_item WHERE mob_id = ".
+			$ilDB->quote($a_mob_id, "integer")." ".
 			"ORDER BY nr";
-		$item_set = $this->ilias->db->query($query);
-		while ($item_rec = $item_set->fetchRow(DB_FETCHMODE_ASSOC))
+		$item_set = $ilDB->query($query);
+		while ($item_rec = $ilDB->fetchAssoc($item_set))
 		{
 			ilMapArea::_resolveIntLinks($item_rec["id"]);
 		}
@@ -1099,11 +1108,11 @@ class ilMediaItem
 		
 		// read media_items records
 		$query = "SELECT * FROM media_item WHERE mob_id = ".
-			$ilDB->quote($a_mob_id)." ORDER BY nr";
+			$ilDB->quote($a_mob_id, "integer")." ORDER BY nr";
 
-		$item_set = $this->ilias->db->query($query);
+		$item_set = $ilDB->query($query);
 		$links = array();
-		while ($item_rec = $item_set->fetchRow(DB_FETCHMODE_ASSOC))
+		while ($item_rec = $ilDB->fetchAssoc($item_set))
 		{
 			$map_links = ilMapArea::_getIntLinks($item_rec["id"]);
 			foreach($map_links as $key => $map_link)

@@ -3,7 +3,7 @@
 	+-----------------------------------------------------------------------------+
 	| ILIAS open source                                                           |
 	+-----------------------------------------------------------------------------+
-	| Copyright (c) 1998-2001 ILIAS open source, University of Cologne            |
+	| Copyright (c) 1998-2009 ILIAS open source, University of Cologne            |
 	|                                                                             |
 	| This program is free software; you can redistribute it and/or               |
 	| modify it under the terms of the GNU General Public License                 |
@@ -927,12 +927,12 @@ class ilObjMediaObject extends ilObject
 		
 
 		// get usages in map areas
-		$q = "SELECT DISTINCT mob_id FROM media_item as it, map_area as area ".
+		$q = "SELECT DISTINCT mob_id FROM media_item it, map_area area ".
 			" WHERE area.item_id = it.id ".
-			" AND area.link_type='int' ".
-			" AND area.target = ".$ilDB->quote("il__mob_".$a_id);
+			" AND area.link_type = ".$ilDB->quote("int", "text")." ".
+			" AND area.target = ".$ilDB->quote("il__mob_".$a_id, "text");
 		$us_set = $ilDB->query($q);
-		while($us_rec = $us_set->fetchRow(DB_FETCHMODE_ASSOC))
+		while($us_rec = $ilDB->fetchAssoc($us_set))
 		{
 			$ret[] = array("type" => "map",
 				"id" => $us_rec["mob_id"]);
