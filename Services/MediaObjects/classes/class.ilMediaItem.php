@@ -35,7 +35,6 @@ require_once("Services/MediaObjects/classes/class.ilMapArea.php");
 */
 class ilMediaItem
 {
-	var $ilias;
 	var $id;
 	var $purpose;
 	var $location;
@@ -56,9 +55,6 @@ class ilMediaItem
 
 	function ilMediaItem($a_id = 0)
 	{
-		global $ilias;
-
-		$this->ilias =& $ilias;
 		$this->parameters = array();
 		$this->mapareas = array();
 		$this->map_cnt = 0;
@@ -155,10 +151,10 @@ class ilMediaItem
 		foreach($params as $name => $value)
 		{
 			$query = "INSERT INTO mob_parameter (med_item_id, name, value) VALUES ".
-				"(".$ilDB->quote($item_id).",".
-				$ilDB->quote($name).",".
-				$ilDB->quote($value).")";
-			$this->ilias->db->query($query);
+				"(".$ilDB->quote($item_id, "integer").",".
+				$ilDB->quote($name, "text").",".
+				$ilDB->quote($value, "text").")";
+			$ilDB->manipulate($query);
 		}
 
 		// create map areas
@@ -193,17 +189,17 @@ class ilMediaItem
 
 		// delete mob parameters
 		$query = "DELETE FROM mob_parameter WHERE med_item_id = ".
-			$ilDB->quote($this->getId());
+			$ilDB->quote($this->getId(), "integer");
 
 		// create mob parameters
 		$params = $this->getParameters();
 		foreach($params as $name => $value)
 		{
 			$query = "INSERT INTO mob_parameter (med_item_id, name, value) VALUES ".
-				"(".$ilDB->quote($this->getId()).",".
-				$ilDB->quote($name).",".
-				$ilDB->quote($value).")";
-			$this->ilias->db->query($query);
+				"(".$ilDB->quote($this->getId(), "integer").",".
+				$ilDB->quote($name, "text").",".
+				$ilDB->quote($value, "text").")";
+			$ilDB->manipulate($query);
 		}
 	}
 
@@ -249,9 +245,9 @@ class ilMediaItem
 
 			// get item parameter
 			$query = "SELECT * FROM mob_parameter WHERE med_item_id = ".
-				$ilDB->quote($this->getId());
-			$par_set = $this->ilias->db->query($query);
-			while ($par_rec = $par_set->fetchRow(DB_FETCHMODE_ASSOC))
+				$ilDB->quote($this->getId(), "integer");
+			$par_set = $ilDB->query($query);
+			while ($par_rec = $ilDB->fetchAssoc($par_set))
 			{
 				$this->setParameter($par_rec["name"], $par_rec["value"]);
 			}
@@ -380,9 +376,9 @@ class ilMediaItem
 
 			// get item parameter
 			$query = "SELECT * FROM mob_parameter WHERE med_item_id = ".
-				$ilDB->quote($item_rec["id"]);
-			$par_set = $this->ilias->db->query($query);
-			while ($par_rec = $par_set->fetchRow(DB_FETCHMODE_ASSOC))
+				$ilDB->quote($item_rec["id"], "integer");
+			$par_set = $ilDB->query($query);
+			while ($par_rec = $ilDB->fetchAssoc($par_set))
 			{
 				$media_item->setParameter($par_rec["name"], $par_rec["value"]);
 			}
@@ -415,8 +411,8 @@ class ilMediaItem
 		{
 			// delete all parameters of media item
 			$query = "DELETE FROM mob_parameter WHERE med_item_id = ".
-				$ilDB->quote($item_rec["id"]);
-			$this->ilias->db->query($query);
+				$ilDB->quote($item_rec["id"], "integer");
+			$ilDB->manipulate($query);
 
 			// delete all map areas of media item
 			$query = "DELETE FROM map_area WHERE item_id = ".
