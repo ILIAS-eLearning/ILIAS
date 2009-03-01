@@ -824,9 +824,10 @@ class ilObjMediaObject extends ilObject
 		global $ilDB;
 		
 		$q = "DELETE FROM mob_usage WHERE usage_type = ".
-			$ilDB->quote($a_type)." AND usage_id= ".$ilDB->quote($a_id).
-			" AND usage_hist_nr = ".$ilDB->quote($a_usage_hist_nr);
-		$ilDB->query($q);
+			$ilDB->quote($a_type, "text").
+			" AND usage_id= ".$ilDB->quote($a_id, "integer").
+			" AND usage_hist_nr = ".$ilDB->quote($a_usage_hist_nr, "integer");
+		$ilDB->manipulate($q);
 	}
 
 	/**
@@ -837,12 +838,12 @@ class ilObjMediaObject extends ilObject
 		global $ilDB;
 
 		$q = "SELECT * FROM mob_usage WHERE ".
-			"usage_type = ".$ilDB->quote($a_type)." AND ".
-			"usage_id = ".$ilDB->quote($a_id)." AND ".
-			"usage_hist_nr = ".$ilDB->quote($a_usage_hist_nr);
+			"usage_type = ".$ilDB->quote($a_type, "text")." AND ".
+			"usage_id = ".$ilDB->quote($a_id, "integer")." AND ".
+			"usage_hist_nr = ".$ilDB->quote($a_usage_hist_nr, "integer");
 		$mobs = array();
 		$mob_set = $ilDB->query($q);
-		while($mob_rec = $mob_set->fetchRow(DB_FETCHMODE_ASSOC))
+		while($mob_rec = $ilDB->fetchAssoc($mob_set))
 		{
 			$mobs[$mob_rec["id"]] = $mob_rec["id"];
 		}
@@ -856,11 +857,18 @@ class ilObjMediaObject extends ilObject
 	{
 		global $ilDB;
 		
-		$q = "REPLACE INTO mob_usage (id, usage_type, usage_id, usage_hist_nr) VALUES".
-			" (".$ilDB->quote($a_mob_id).",".
-			$ilDB->quote($a_type).",".$ilDB->quote($a_id).",".
-			$ilDB->quote($a_usage_hist_nr).")";
-		$ilDB->query($q);
+		$q = "DELETE FROM mob_usage WHERE ".
+			" id = ".$ilDB->quote((int) $a_mob_id, "integer")." AND ".
+			" usage_type = ".$ilDB->quote($a_type, "text")." AND ".
+			" usage_id = ".$ilDB->quote((int) $a_id, "integer")." AND ".
+			" usage_hist_nr = ".$ilDB->quote((int) $a_usage_hist_nr, "integer");
+		$ilDB->manipulate($q);
+		$q = "INSERT INTO mob_usage (id, usage_type, usage_id, usage_hist_nr) VALUES".
+			" (".$ilDB->quote((int) $a_mob_id, "integer").",".
+			$ilDB->quote($a_type, "text").",".
+			$ilDB->quote((int) $a_id, "integer").",".
+			$ilDB->quote((int) $a_usage_hist_nr, "integer").")";
+		$ilDB->manipulate($q);
 	}
 
 	/**
@@ -871,11 +879,11 @@ class ilObjMediaObject extends ilObject
 		global $ilDB;
 		
 		$q = "DELETE FROM mob_usage WHERE ".
-			" id = ".$ilDB->quote($a_mob_id)." AND ".
-			" usage_type = ".$ilDB->quote($a_type)." AND ".
-			" usage_id = ".$ilDB->quote($a_id)." AND ".
-			" usage_hist_nr = ".$ilDB->quote($a_usage_hist_nr);
-		$ilDB->query($q);
+			" id = ".$ilDB->quote((int) $a_mob_id, "integer")." AND ".
+			" usage_type = ".$ilDB->quote($a_type, "text")." AND ".
+			" usage_id = ".$ilDB->quote((int) $a_id, "integer")." AND ".
+			" usage_hist_nr = ".$ilDB->quote((int) $a_usage_hist_nr, "integer");
+		$ilDB->manipulate($q);
 	}
 
 	/**
@@ -897,10 +905,10 @@ class ilObjMediaObject extends ilObject
 
 		// get usages in learning modules
 		$q = "SELECT * FROM mob_usage WHERE id = ".
-			$ilDB->quote($a_id);
+			$ilDB->quote($a_id, "integer");
 		$us_set = $ilDB->query($q);
 		$ret = array();
-		while($us_rec = $us_set->fetchRow(DB_FETCHMODE_ASSOC))
+		while($us_rec = $ilDB->fetchAssoc($us_set))
 		{
 			$ret[] = array("type" => $us_rec["usage_type"],
 				"id" => $us_rec["usage_id"],
