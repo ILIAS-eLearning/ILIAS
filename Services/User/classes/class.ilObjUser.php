@@ -3,7 +3,7 @@
 	+-----------------------------------------------------------------------------+
 	| ILIAS open source                                                           |
 	+-----------------------------------------------------------------------------+
-	| Copyright (c) 1998-2006 ILIAS open source, University of Cologne            |
+	| Copyright (c) 1998-2009 ILIAS open source, University of Cologne            |
 	|                                                                             |
 	| This program is free software; you can redistribute it and/or               |
 	| modify it under the terms of the GNU General Public License                 |
@@ -3106,7 +3106,7 @@ class ilObjUser extends ilObject
 				"(item_id, type, user_id, title, parent, insert_time, order_nr) VALUES ".
 				" (%s,%s,%s,%s,%s,%s,%s)",
 				array("integer", "text", "integer", "text", "integer", "timestamp", "integer"),
-				array($a_item_id, $a_type, $this->getId(), $a_title, $a_parent, $a_time, $a_order_nr));
+				array($a_item_id, $a_type, $this->getId(), $a_title, (int) $a_parent, $a_time, (int) $a_order_nr));
 		}
 		else
 		{
@@ -3170,19 +3170,19 @@ class ilObjUser extends ilObject
 		$par = "";
 		if ($a_top_nodes_only)
 		{
-			$par = " AND parent = ".$ilDB->quote(0)." ";
+			$par = " AND parent = ".$ilDB->quote(0, "integer")." ";
 		}
 		
 		$type_str = ($a_type != "")
-			? " AND type = ".$ilDB->quote($a_type)." "
+			? " AND type = ".$ilDB->quote($a_type, "text")." "
 			: "";
 		$q = "SELECT * FROM personal_clipboard WHERE ".
-			"user_id = ".$ilDB->quote($this->getId())." ".
+			"user_id = ".$ilDB->quote($this->getId(), "integer")." ".
 			$type_str.$par.
 			" ORDER BY order_nr";
-		$objs = $this->ilias->db->query($q);
+		$objs = $ilDB->query($q);
 		$objects = array();
-		while ($obj = $objs->fetchRow(DB_FETCHMODE_ASSOC))
+		while ($obj = $ilDB->fetchAssoc($objs))
 		{
 			if ($obj["type"] == "mob")
 			{
@@ -3206,9 +3206,9 @@ class ilObjUser extends ilObject
 			"user_id = %s AND parent = %s AND insert_time = %s ".
 			" ORDER BY order_nr",
 			array("integer", "integer", "timestamp"),
-			array($ilUser->getId(), $a_parent, $a_insert_time));
+			array($ilUser->getId(), (int) $a_parent, $a_insert_time));
 		$objects = array();
-		while ($obj = $objs->fetchRow(DB_FETCHMODE_ASSOC))
+		while ($obj = $ilDB->fetchAssoc($objs))
 		{
 			if ($obj["type"] == "mob")
 			{
@@ -3233,11 +3233,11 @@ class ilObjUser extends ilObject
 		global $ilDB;
 
 		$q = "SELECT DISTINCT user_id FROM personal_clipboard WHERE ".
-			"item_id = ".$ilDB->quote($a_id)." AND ".
-			"type = ".$ilDB->quote($a_type);
+			"item_id = ".$ilDB->quote($a_id, "integer")." AND ".
+			"type = ".$ilDB->quote($a_type, "text");
 		$user_set = $ilDB->query($q);
 		$users = array();
-		while ($user_rec = $user_set->fetchRow(DB_FETCHMODE_ASSOC))
+		while ($user_rec = $ilDB->fetchAssoc($user_set))
 		{
 			$users[] = $user_rec["user_id"];
 		}
@@ -3257,9 +3257,10 @@ class ilObjUser extends ilObject
 		global $ilDB;
 
 		$q = "DELETE FROM personal_clipboard WHERE ".
-			"item_id = ".$ilDB->quote($a_item_id)." AND type = ".$ilDB->quote($a_type)." ".
-			" AND user_id = ".$ilDB->quote($this->getId());
-		$this->ilias->db->query($q);
+			"item_id = ".$ilDB->quote($a_item_id, "integer").
+			" AND type = ".$ilDB->quote($a_type, "text")." ".
+			" AND user_id = ".$ilDB->quote($this->getId(), "integer");
+		$ilDB->manipulate($q);
 	}
 
 	function _getImportedUserId($i2_id)

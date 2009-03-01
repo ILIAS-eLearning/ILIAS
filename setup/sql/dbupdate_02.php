@@ -8394,4 +8394,12 @@ ALTER TABLE mob_parameter MODIFY value VARCHAR(2000);
 <?php
 	$ilMySQLAbstraction->performAbstraction('mob_parameter');
 ?>
+<#1792>
+<?php
+	$ilMySQLAbstraction->performAbstraction('mob_usage');
+?>
+<#1793>
+<?php
+	$ilMySQLAbstraction->performAbstraction('personal_clipboard');
+?>
 
