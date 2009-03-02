@@ -8419,3 +8419,30 @@ ALTER TABLE mob_parameter MODIFY value VARCHAR(2000);
 	$ilMySQLAbstraction->performAbstraction('style_folder_styles');
 ?>
 
+<#1798>
+ALTER TABLE `container_sorting` ADD `pos` INT NOT NULL ;
+
+<#1799>
+<?php
+
+$query = "UPDATE container_sorting SET pos = 100 * position";
+$ilDB->query($query);
+
+?>
+
+<#1800>
+ALTER TABLE `container_sorting` DROP position;
+
+<#1801>
+ALTER TABLE `container_sorting` CHANGE `pos` `position` INT( 11 ) NOT NULL;
+
+<#1802>
+ALTER TABLE `container_sorting` DROP parent_type;
+
+<#1803>
+ALTER TABLE `container_sorting` DROP parent_id;
+
+<#1804>
+<?php
+	$ilMySQLAbstraction->performAbstraction('container_sorting');
+?>
