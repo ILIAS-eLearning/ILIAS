@@ -77,7 +77,7 @@ class ilContainerSortingSettings
 				
 		
 		$query = "SELECT * FROM container_sorting_settings ".
-			"WHERE obj_id = ".$ilDB->quote($a_obj_id)." ";
+			"WHERE obj_id = ".$ilDB->quote($a_obj_id ,'integer')." ";
 		$res = $ilDB->query($query);
 		
 		while($row = $res->fetchRow(DB_FETCHMODE_OBJECT))
@@ -114,15 +114,20 @@ class ilContainerSortingSettings
 		global $ilDB;
 		
 		$query = "SELECT sort_mode FROM container_sorting_settings ".
-			"WHERE obj_id = ".$ilDB->quote($a_old_id)." ";
+			"WHERE obj_id = ".$ilDB->quote($a_old_id ,'integer')." ";
 		$res = $ilDB->query($query);
 		while($row = $res->fetchRow())
 		{
-			$query = "REPLACE INTO container_sorting_settings ".
-				"SET obj_id = ".$ilDB->quote($a_new_id).", ".
-				"sort_mode = ".$ilDB->quote($row[0])." ";
-				
-			$ilDB->query($query);
+			$query = "DELETE FROM container_sorting_settings ".
+				"WHERE obj_id = ".$ilDB->quote($a_new_id)." ";
+			$ilDB->manipulate($query);
+
+			$query = "INSERT INTO container_sorting_settings  (obj_id,sort_mode) ".
+				"VALUES( ".
+				$ilDB->quote($a_new_id ,'integer').", ".
+				$ilDB->quote($row[0] ,'integer')." ".
+				")";
+			$ilDB->manipulate($query);
 		}
 		return true;
 	}
@@ -158,10 +163,13 @@ class ilContainerSortingSettings
 	 */
 	public function update()
 	{
-		$query = "REPLACE INTO container_sorting_settings ".
-			"SET obj_id = ".$this->db->quote($this->obj_id).", ".
-			"sort_mode = ".$this->db->quote($this->sort_mode)." ";
-		$this->db->query($query);
+		global $ilDB;
+		
+		$query = "DELETE FROM container_sorting_settings ".
+			"WHERE obj_id = ".$ilDB->quote($this->obj_id,'integer');
+		$res = $ilDB->manipulate($query);
+		
+		$this->save();
 	}
 
 	/**
@@ -172,10 +180,14 @@ class ilContainerSortingSettings
 	 */
 	public function save()
 	{
-	 	$query = "INSERT INTO container_sorting_settings ".
-	 		"SET obj_id = ".$this->db->quote($this->obj_id).", ".
-	 		"sort_mode = ".$this->db->quote($this->sort_mode)." ";
-	 	$this->db->query($query);
+		global $ilDB;
+
+		$query = "INSERT INTO container_sorting_settings (obj_id,sort_mode) ".
+			"VALUES ( ".
+			$this->db->quote($this->obj_id ,'integer').", ".
+			$this->db->quote($this->sort_mode ,'integer')." ".
+			")";
+		$res = $ilDB->manipulate($query);
 	}
 	
 	/**
@@ -193,7 +205,8 @@ class ilContainerSortingSettings
 	 	}
 	 	
 	 	$query = "SELECT * FROM container_sorting_settings ".
-	 		"WHERE obj_id = ".$this->db->quote($this->obj_id)." ";
+	 		"WHERE obj_id = ".$this->db->quote($this->obj_id ,'integer')." ";
+	 		
 	 	$res = $this->db->query($query);
 	 	while($row = $res->fetchRow(DB_FETCHMODE_OBJECT))
 	 	{

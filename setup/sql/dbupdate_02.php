@@ -8446,3 +8446,8 @@ ALTER TABLE `container_sorting` DROP parent_id;
 <?php
 	$ilMySQLAbstraction->performAbstraction('container_sorting');
 ?>
+
+<#1805>
+<?php
+	$ilMySQLAbstraction->performAbstraction('container_sorting_settings');
+?>
