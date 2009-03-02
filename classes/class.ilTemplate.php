@@ -1081,7 +1081,7 @@ class ilTemplate extends ilTemplateX
 	*/
 	function setTitle($a_title)
 	{
-		$a_title = ilUtil::stripScriptHTML($a_title);		
+		$this->title = ilUtil::stripScriptHTML($a_title);
 		$this->header_page_title = $a_title;
 	}
 	
