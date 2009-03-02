@@ -9075,3 +9075,4 @@ common#:#save_customer_address_info#:#If enabled, the customers billing address 
 common#:#bookings#:#Bookings
 forum#:#frm_sure_delete_threads#:#Are you sure you want to delete the following threads?
 search#:#lucene_more_hits_link#:#%s more hits...
+dateplaner#:#cal_rec_err_limit#:#Please enter a valid number of appointments.

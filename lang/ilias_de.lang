@@ -9134,3 +9134,4 @@ assessment#:#maxsize#:#Maximale Dateigröße
 assessment#:#maxsize_info#:#Geben Sie die maximale Größe in Bytes an, die eine hochgeladene Datei haben darf. Wenn Sie das Feld leer lassen, wird die Einstellung des zugrunde liegenden Systems verwendet.
 forum#:#frm_sure_delete_threads#:#Sind Sie sicher, dass die folgenden Themen gelöscht werden sollen?
 search#:#lucene_more_hits_link#:#%s weitere Treffer...
+dateplaner#:#cal_rec_err_limit#:#Bitte geben Sie eine Anzahl von Terminen ein.
