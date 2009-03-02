@@ -144,7 +144,7 @@ class ilCalendarInboxSharedTableGUI extends ilTable2GUI
 			$calendars[$counter]['obj_type'] = $data['obj_type'];
 			$calendars[$counter]['name'] = $tmp_calendar->getTitle();
 			$calendars[$counter]['owner'] = $tmp_calendar->getObjId();
-			$calendars[$counter]['apps'] = count(ilCalendarCategoryAssignments::_getAssignedAppointments($data['cal_id']));
+			$calendars[$counter]['apps'] = count(ilCalendarCategoryAssignments::_getAssignedAppointments(array($data['cal_id'])));
 			$calendars[$counter]['accepted'] = $status->isAccepted($data['cal_id']);
 			$calendars[$counter]['declined'] = $status->isDeclined($data['cal_id']);
 			
