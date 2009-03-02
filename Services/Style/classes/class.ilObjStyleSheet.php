@@ -3,7 +3,7 @@
 	+-----------------------------------------------------------------------------+
 	| ILIAS open source                                                           |
 	+-----------------------------------------------------------------------------+
-	| Copyright (c) 1998-2006 ILIAS open source, University of Cologne            |
+	| Copyright (c) 1998-2009 ILIAS open source, University of Cologne            |
 	|                                                                             |
 	| This program is free software; you can redistribute it and/or               |
 	| modify it under the terms of the GNU General Public License                 |
@@ -474,9 +474,10 @@ class ilObjStyleSheet extends ilObject
 	{
 		global $ilDB;
 
-		$q = "UPDATE style_data SET uptodate = ".$ilDB->quote((int) $a_up_to_date).
-			" WHERE id = ".$ilDB->quote($a_id);
-		$ilDB->query($q);
+		$q = "UPDATE style_data SET uptodate = ".
+			$ilDB->quote((int) $a_up_to_date, "integer").
+			" WHERE id = ".$ilDB->quote($a_id, "integer");
+		$ilDB->manipulate($q);
 	}
 
 	/**
@@ -486,10 +487,10 @@ class ilObjStyleSheet extends ilObject
 	{
 		global $ilDB;
 		
-		$q = "SELECT * FROM style_data ".
-			" WHERE id = ".$ilDB->quote($a_id);
+		$q = "SELECT uptodate FROM style_data ".
+			" WHERE id = ".$ilDB->quote($a_id, "integer");
 		$res = $ilDB->query($q);
-		$sty = $res->fetchRow(DB_FETCHMODE_ASSOC);
+		$sty = $ilDB->fetchAssoc($res);
 		
 		return (boolean) $sty["uptodate"];
 	}
@@ -501,9 +502,10 @@ class ilObjStyleSheet extends ilObject
 	{
 		global $ilDB;
 
-		$q = "UPDATE style_data SET standard = ".$ilDB->quote((int) $a_std).
-			" WHERE id = ".$ilDB->quote($a_id);
-		$ilDB->query($q);
+		$q = "UPDATE style_data SET standard = ".
+			$ilDB->quote((int) $a_std, "integer").
+			" WHERE id = ".$ilDB->quote($a_id, "integer");
+		$ilDB->manipulate($q);
 	}
 
 	/**
@@ -513,9 +515,10 @@ class ilObjStyleSheet extends ilObject
 	{
 		global $ilDB;
 
-		$q = "UPDATE style_data SET category = ".$ilDB->quote((int) $a_scope).
-			" WHERE id = ".$ilDB->quote($a_id);
-		$ilDB->query($q);
+		$q = "UPDATE style_data SET category = ".
+			$ilDB->quote((int) $a_scope, "integer").
+			" WHERE id = ".$ilDB->quote($a_id, "integer");
+		$ilDB->manipulate($q);
 	}
 
 	/**
@@ -526,9 +529,9 @@ class ilObjStyleSheet extends ilObject
 		global $ilDB;
 		
 		$q = "SELECT * FROM style_data ".
-			" WHERE id = ".$ilDB->quote($a_id);
+			" WHERE id = ".$ilDB->quote($a_id, "integer");
 		$res = $ilDB->query($q);
-		$sty = $res->fetchRow(DB_FETCHMODE_ASSOC);
+		$sty = $ilDB->fetchAssoc($res);
 		
 		return (boolean) $sty["standard"];
 	}
@@ -540,9 +543,10 @@ class ilObjStyleSheet extends ilObject
 	{
 		global $ilDB;
 
-		$q = "UPDATE style_data SET active = ".$ilDB->quote((int) $a_active).
-			" WHERE id = ".$ilDB->quote($a_id);
-		$ilDB->query($q);
+		$q = "UPDATE style_data SET active = ".
+			$ilDB->quote((int) $a_active, "integer").
+			" WHERE id = ".$ilDB->quote($a_id, "integer");
+		$ilDB->manipulate($q);
 	}
 
 	/**
@@ -553,9 +557,9 @@ class ilObjStyleSheet extends ilObject
 		global $ilDB;
 		
 		$q = "SELECT * FROM style_data ".
-			" WHERE id = ".$ilDB->quote($a_id);
+			" WHERE id = ".$ilDB->quote($a_id, "integer");
 		$res = $ilDB->query($q);
-		$sty = $res->fetchRow(DB_FETCHMODE_ASSOC);
+		$sty = $ilDB->fetchAssoc($res);
 		
 		return (boolean) $sty["active"];
 	}
@@ -580,7 +584,7 @@ class ilObjStyleSheet extends ilObject
 			" WHERE standard = 1".$and_str;
 		$res = $ilDB->query($q);
 		$styles = array();
-		while($sty = $res->fetchRow(DB_FETCHMODE_ASSOC))
+		while($sty = $ilDB->fetchAssoc($res))
 		{
 			if (!$a_exclude_default_style || $default_style != $sty["id"])
 			{
@@ -721,9 +725,10 @@ class ilObjStyleSheet extends ilObject
 			
 			// get style characteristics records
 			$chars = array();
-			$q = "SELECT * FROM style_char WHERE style_id = ".$ilDB->quote($a_from_style);
+			$q = "SELECT * FROM style_char WHERE style_id = ".
+				$ilDB->quote($a_from_style, "integer");
 			$par_set = $ilDB->query($q);
-			while($par_rec = $par_set->fetchRow(DB_FETCHMODE_ASSOC))
+			while($par_rec = $ilDB->fetchAssoc($par_set))
 			{
 				$chars[] = array("type" => $par_rec["type"], "characteristic" => $par_rec["characteristic"]);
 			}
@@ -745,17 +750,17 @@ class ilObjStyleSheet extends ilObject
 			foreach ($chars as $char)
 			{
 				$q = "INSERT INTO style_char (style_id, type, characteristic) VALUES ".
-					"(".$ilDB->quote($this->getId()).",".
-					$ilDB->quote($char["type"]).",".
-					$ilDB->quote($char["characteristic"]).")";
-				$ilDB->query($q);
+					"(".$ilDB->quote($this->getId(), "integer").",".
+					$ilDB->quote($char["type"], "text").",".
+					$ilDB->quote($char["characteristic"], "text").")";
+				$ilDB->manipulate($q);
 			}
 			
 			// add style_data record
 			$q = "INSERT INTO style_data (id, uptodate, category) VALUES ".
-				"(".$ilDB->quote($this->getId()).", 0,".
-				$ilDB->quote($this->getScope()).")";
-			$ilDB->query($q);
+				"(".$ilDB->quote($this->getId(), "integer").", 0,".
+				$ilDB->quote((int) $this->getScope(), "integer").")";
+			$ilDB->manipulate($q);
 			
 			// copy images
 			$from_style = new ilObjStyleSheet($a_from_style);
@@ -783,9 +788,10 @@ class ilObjStyleSheet extends ilObject
 		if (empty($core_styles[$a_type.".".$a_tag.".".$a_class]))
 		{
 			// delete characteristic record
-			$st = $ilDB->prepareManip("DELETE FROM style_char WHERE style_id = ? AND type = ? AND characteristic = ?",
-				array("integer", "text", "text"));
-			$ilDB->execute($st, array($this->getId(), $a_type, $a_class));
+			$st = $ilDB->manipulateF(
+				"DELETE FROM style_char WHERE style_id = %s AND type = %s AND characteristic = %s",
+				array("integer", "text", "text"),
+				array($this->getId(), $a_type, $a_class));
 			
 			// delete parameter records
 			$st = $ilDB->prepareManip("DELETE FROM style_parameter WHERE style_id = ? AND tag = ? AND type = ? AND class = ?",
@@ -804,10 +810,10 @@ class ilObjStyleSheet extends ilObject
 	{
 		global $ilDB;
 		
-		// delete characteristic record
-		$st = $ilDB->prepare("SELECT * FROM style_char WHERE style_id = ? AND characteristic = ? AND type = ?",
-			array("integer", "text", "text"));
-		$set = $ilDB->execute($st, array($this->getId(), $a_char, $a_style_type));
+		$set = $ilDB->queryF(
+			"SELECT style_id FROM style_char WHERE style_id = %s AND characteristic = %s AND type = %s",
+			array("integer", "text", "text"),
+			array($this->getId(), $a_char, $a_style_type));
 		if ($rec = $ilDB->fetchAssoc($set))
 		{
 			return true;
@@ -823,9 +829,10 @@ class ilObjStyleSheet extends ilObject
 		global $ilDB;
 		
 		// delete characteristic record
-		$st = $ilDB->prepareManip("INSERT INTO style_char (style_id, type, characteristic)".
-			" VALUES (?,?,?) ", array("integer", "text", "text"));
-		$ilDB->execute($st, array($this->getId(), $a_type, $a_char));
+		$ilDB->manipulateF("INSERT INTO style_char (style_id, type, characteristic)".
+			" VALUES (%s,%s,%s) ",
+			array("integer", "text", "text"),
+			array($this->getId(), $a_type, $a_char));
 		
 		$this->setUpToDate(false);
 		$this->_writeUpToDate($this->getId(), false);
@@ -1098,8 +1105,9 @@ class ilObjStyleSheet extends ilObject
 		ilObjContentObject::_deleteStyleAssignments($this->getId());
 		
 		// delete style data record
-		$q = "DELETE FROM style_data WHERE id = ".$ilDB->quote($this->getId());
-		$ilDB->query($q);
+		$q = "DELETE FROM style_data WHERE id = ".
+			$ilDB->quote($this->getId(), "integer");
+		$ilDB->manipulate($q);
 
 	}
 
@@ -1142,19 +1150,21 @@ class ilObjStyleSheet extends ilObject
 			$this->style[] = $tag;
 		}
 		
-		$q = "SELECT * FROM style_data WHERE id = ".$ilDB->quote($this->getId());
+		$q = "SELECT * FROM style_data WHERE id = ".
+			$ilDB->quote($this->getId(), "integer");
 		$res = $ilDB->query($q);
-		$sty = $res->fetchRow(DB_FETCHMODE_ASSOC);
+		$sty = $ilDB->fetchAssoc($res);
 		$this->setUpToDate((boolean) $sty["uptodate"]);
 		$this->setScope($sty["category"]);
 		
 		// get style characteristics records
 		$this->chars = array();
 		$this->chars_by_type = array();
-		$q = "SELECT * FROM style_char WHERE style_id = ".$ilDB->quote($this->getId()).
+		$q = "SELECT * FROM style_char WHERE style_id = ".
+			$ilDB->quote($this->getId(), "integer").
 			" ORDER BY type ASC, characteristic ASC";
 		$par_set = $ilDB->query($q);
-		while($par_rec = $par_set->fetchRow(DB_FETCHMODE_ASSOC))
+		while($par_rec = $ilDB->fetchAssoc($par_set))
 		{
 			$this->chars[] = array("type" => $par_rec["type"], "class" => $par_rec["characteristic"]);
 			$this->chars_by_type[$par_rec["type"]][] = $par_rec["characteristic"];
@@ -1346,8 +1356,9 @@ class ilObjStyleSheet extends ilObject
 		$this->writeCSSFile();
 		
 		$q = "UPDATE style_data ".
-			"SET category = ".$ilDB->quote($this->getScope());
-		$ilDB->query($q);
+			"SET category = ".$ilDB->quote((int) $this->getScope(), "integer").
+			" WHERE id = ".$ilDB->quote($this->getId(), "integer");
+		$ilDB->manipulate($q);
 	}
 
 	/**
@@ -1696,10 +1707,10 @@ class ilObjStyleSheet extends ilObject
 				if ($char["type"] != "")
 				{
 					$q = "INSERT INTO style_char (style_id, type, characteristic) VALUES ".
-						"(".$ilDB->quote($this->getId()).",".
-						$ilDB->quote($char["type"]).",".
-						$ilDB->quote($char["class"]).")";
-					$this->ilias->db->query($q);
+						"(".$ilDB->quote($this->getId(), "integer").",".
+						$ilDB->quote($char["type"], "text").",".
+						$ilDB->quote($char["class"], "text").")";
+					$ilDB->manipulate($q);
 					$this->is_3_10_skin = false;
 				}
 			}
@@ -1707,8 +1718,8 @@ class ilObjStyleSheet extends ilObject
 		
 		// add style_data record
 		$q = "INSERT INTO style_data (id, uptodate) VALUES ".
-			"(".$ilDB->quote($this->getId()).", 0)";
-		$ilDB->query($q);
+			"(".$ilDB->quote($this->getId(), "integer").", 0)";
+		$ilDB->manipulate($q);
 
 		$this->update();
 		$this->read();
@@ -1898,17 +1909,19 @@ class ilObjStyleSheet extends ilObject
 			foreach($core_styles as $cs)
 			{
 				// check, whether core style class exists
-				$st = $ilDB->prepare("SELECT * FROM style_char WHERE style_id = ? ".
-					"AND type = ? AND characteristic = ?",
-					array("integer", "text", "text"));
-				$set = $ilDB->execute($st, array($id, $cs["type"], $cs["class"]));
+				$set = $ilDB->queryF("SELECT * FROM style_char WHERE style_id = %s ".
+					"AND type = %s AND characteristic = %s",
+					array("integer", "text", "text"),
+					array($id, $cs["type"], $cs["class"]));
 				
 				// if not, add core style class
 				if (!($rec = $ilDB->fetchAssoc($set)))
 				{
-					$st = $ilDB->prepareManip("INSERT INTO style_char (style_id, type, characteristic) ".
-						" VALUES (?,?,?) ", array("integer", "text", "text"));
-					$ilDB->execute($st, array($id, $cs["type"], $cs["class"]));
+					$ilDB->manipulateF(
+						"INSERT INTO style_char (style_id, type, characteristic) ".
+						" VALUES (?,?,?) ",
+						array("integer", "text", "text"),
+						array($id, $cs["type"], $cs["class"]));
 					
 					$xpath = new DOMXPath($bdom);
 					$par_nodes = $xpath->query("/StyleSheet/Style[@Tag = '".$cs["tag"]."' and @Type='".
