@@ -8414,4 +8414,8 @@ ALTER TABLE mob_parameter MODIFY value VARCHAR(2000);
 <?php
 	$ilMySQLAbstraction->performAbstraction('style_char');
 ?>
+<#1797>
+<?php
+	$ilMySQLAbstraction->performAbstraction('style_folder_styles');
+?>
 

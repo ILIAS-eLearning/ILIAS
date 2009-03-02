@@ -3,7 +3,7 @@
 	+-----------------------------------------------------------------------------+
 	| ILIAS open source                                                           |
 	+-----------------------------------------------------------------------------+
-	| Copyright (c) 1998-2005 ILIAS open source, University of Cologne            |
+	| Copyright (c) 1998-2009 ILIAS open source, University of Cologne            |
 	|                                                                             |
 	| This program is free software; you can redistribute it and/or               |
 	| modify it under the terms of the GNU General Public License                 |
@@ -89,14 +89,14 @@ class ilObjStyleSheetFolder extends ilObject
 
 		// save styles of style folder
 		$q = "DELETE FROM style_folder_styles WHERE folder_id = ".
-			$ilDB->quote($this->getId());
-		$ilDB->query($q);
+			$ilDB->quote((int) $this->getId(), "integer");
+		$ilDB->manipulate($q);
 		foreach($this->styles as $style)
 		{
 			$q = "INSERT INTO style_folder_styles (folder_id, style_id) VALUES".
-				"(".$ilDB->quote($this->getId()).", ".
-				$ilDB->quote($style["id"]).")";
-			$ilDB->query($q);
+				"(".$ilDB->quote((int) $this->getId(), "integer").", ".
+				$ilDB->quote((int) $style["id"], "integer").")";
+			$ilDB->manipulate($q);
 		}
 		
 		return true;
