@@ -8402,4 +8402,16 @@ ALTER TABLE mob_parameter MODIFY value VARCHAR(2000);
 <?php
 	$ilMySQLAbstraction->performAbstraction('personal_clipboard');
 ?>
+<#1794>
+<?php
+	$ilMySQLAbstraction->performAbstraction('settings_deactivated_styles');
+?>
+<#1795>
+<?php
+	$ilMySQLAbstraction->performAbstraction('style_data');
+?>
+<#1796>
+<?php
+	$ilMySQLAbstraction->performAbstraction('style_char');
+?>
 
