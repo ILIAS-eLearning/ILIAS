@@ -314,6 +314,10 @@ class ilObjGroupGUI extends ilContainerGUI
 		
 		// IMPORT
 		$this->tpl->setVariable('IMP_FORMACTION',$this->ctrl->getFormAction($this));
+		$this->tpl->setVariable("TYPE_IMG",
+			ilUtil::getImagePath("icon_grp.gif"));
+		$this->tpl->setVariable("ALT_IMG", $this->lng->txt("obj_grp"));
+		
 		$this->tpl->setVariable("TXT_REQUIRED_FLD", $this->lng->txt("required_field"));
 		$this->tpl->setVariable("TXT_IMPORT_CRS", $this->lng->txt("import_grp"));
 		$this->tpl->setVariable("TXT_CRS_FILE", $this->lng->txt("file"));
@@ -2435,7 +2439,7 @@ class ilObjGroupGUI extends ilContainerGUI
 		{
 			case 'create':
 				$this->form->setTitle($this->lng->txt('grp_new'));
-				$this->form->setTitleIcon(ilUtil::getImagePath('icon_grp_s.gif'));
+				$this->form->setTitleIcon(ilUtil::getImagePath('icon_grp.gif'));
 		
 				$this->form->addCommandButton('save',$this->lng->txt('grp_new'));
 				$this->form->addCommandButton('cancel',$this->lng->txt('cancel'));
@@ -2443,7 +2447,7 @@ class ilObjGroupGUI extends ilContainerGUI
 			
 			case 'edit':
 				$this->form->setTitle($this->lng->txt('grp_edit'));
-				$this->form->setTitleIcon(ilUtil::getImagePath('icon_grp_s.gif'));
+				$this->form->setTitleIcon(ilUtil::getImagePath('icon_grp.gif'));
 			
 				$this->form->addCommandButton('update',$this->lng->txt('save'));
 				$this->form->addCommandButton('cancel',$this->lng->txt('cancel'));
@@ -2451,7 +2455,7 @@ class ilObjGroupGUI extends ilContainerGUI
 
 			case 'update_group_type':
 				$this->form->setTitle($this->lng->txt('grp_edit'));
-				$this->form->setTitleIcon(ilUtil::getImagePath('icon_grp_s.gif'));
+				$this->form->setTitleIcon(ilUtil::getImagePath('icon_grp.gif'));
 
 				$this->form->addCommandButton('updateGroupType',$this->lng->txt('grp_change_type'));
 				$this->form->addCommandButton('cancel',$this->lng->txt('cancel'));
