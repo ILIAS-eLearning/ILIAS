@@ -105,9 +105,9 @@ class ilContainerSorting
 		$mappings = ilCopyWizardOptions::_getInstance($a_copy_id)->getMappings(); 
 		
 		$query = "SELECT * FROM container_sorting ".
-			"WHERE obj_id = ".$ilDB->quote($this->obj_id);
+			"WHERE obj_id = ".$ilDB->quote($this->obj_id, 'integer');
+
 		$res = $ilDB->query($query);
- 		#$ilLog->write(__METHOD__.': Query is: '.$query);
 		while($row = $res->fetchRow(DB_FETCHMODE_OBJECT))
 		{
 	 		if(!isset($mappings[$row->child_id]) or !$mappings[$row->child_id])
@@ -115,16 +115,20 @@ class ilContainerSorting
 				#$ilLog->write(__METHOD__.': No mapping found for:'.$row->child_id);
 	 			continue;
 	 		}
+
+			$query = "DELETE FROM container_sorting ".
+				"WHERE obj_id = ".$ilDB->quote($target_obj_id,'integer')." ".
+				"AND child_id = ".$ilDB->quote($mappings[$row->child_id],'integer')." ";
+			$res = $ilDB->manipulate($query);
 	 		
 	 		// Add new value
-	 		$query = "REPLACE INTO container_sorting ".
-	 			"SET obj_id = ".$ilDB->quote($target_obj_id).", ".
-	 			"parent_type = '', ".
-	 			"parent_id = 0, ".
-	 			"child_id = ".$ilDB->quote($mappings[$row->child_id]).", ".
-	 			"position = ".$ilDB->quote($row->position);
-	 		$ilDB->query($query);
-	 		#$ilLog->write(__METHOD__.': Query is: '.$query);
+	 		$query = "INSERT INTO container_sorting (obj_id,child_id,position) ".
+	 			"VALUES( ".
+				$ilDB->quote($target_obj_id ,'integer').", ".
+	 			$ilDB->quote($mappings[$row->child_id] ,'integer').", ".
+	 			$ilDB->quote($row->position)." ".
+	 			")";
+			$res = $ilDB->manipulate($query);
 		}
 		return true;		
 	}
@@ -254,17 +258,14 @@ class ilContainerSorting
 	 	{
 	 		if(!is_array($position))
 	 		{
-	 			$items[$key] = (float) $position;
+	 			$items[$key] = $position * 100;
 	 		}
-	 		else
-	 		{
-				foreach($position as $parent_id => $items)
-				{
-					$this->saveItems($key,$parent_id,$items ? $items : array());
-				}
-	 		}
+			else
+			{
+				$ilLog->write(__METHOD__.': Deprecated call');
+			}
 	 	}
-	 	$this->saveItems('',0,$items ? $items : array());
+	 	$this->saveItems($items ? $items : array());
 	}
 	
 	
@@ -277,17 +278,25 @@ class ilContainerSorting
 	 * @param array array of items
 	 * @return
 	 */
-	protected function saveItems($a_parent_type,$a_parent_id,$a_items)
+	protected function saveItems($a_items)
 	{
+		global $ilDB;
+		
 		foreach($a_items as $child_id => $position)
 		{
-			$query = "REPLACE INTO container_sorting SET ".
-				"obj_id = ".$this->db->quote($this->obj_id).", ".
-				"parent_type = ".$this->db->quote($a_parent_type).", ".
-				"parent_id = ".$this->db->quote($a_parent_id).", ".
-				"child_id = ".$this->db->quote($child_id).", ".
-				"position = ".$this->db->quote($position);
-			$res = $this->db->query($query);
+			$query = "DELETE FROM container_sorting ".
+				"WHERE obj_id = ".$ilDB->quote($this->obj_id,'integer')." ".
+				"AND child_id = ".$ilDB->quote($child_id,'integer')." ";
+			$res = $ilDB->manipulate($query);
+	 		
+	 		// Add new value
+	 		$query = "INSERT INTO container_sorting (obj_id,child_id,position) ".
+	 			"VALUES( ".
+				$ilDB->quote($this->obj_id ,'integer').", ".
+	 			$ilDB->quote($child_id,'integer').", ".
+	 			$ilDB->quote($position, 'integer')." ".
+	 			")";
+			$res = $ilDB->manipulate($query);
 		}
 		return true;
 	}
@@ -311,7 +320,7 @@ class ilContainerSorting
 	 	$this->sorting_mode = ilContainerSortingSettings::_lookupSortMode($this->obj_id);
 	 	
 	 	$query = "SELECT * FROM container_sorting ".
-	 		"WHERE obj_id = ".$this->db->quote($this->obj_id)." ORDER BY position";
+	 		"WHERE obj_id = ".$this->db->quote($this->obj_id ,'integer')." ORDER BY position";
 	 	$res = $this->db->query($query);
 	 	while($row = $res->fetchRow(DB_FETCHMODE_OBJECT))
 	 	{
