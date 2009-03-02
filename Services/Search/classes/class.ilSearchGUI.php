@@ -673,7 +673,7 @@ class ilSearchGUI extends ilSearchBaseGUI
 					break;
 					
 				case 'wiki':
-					$filter[] = 'wiki';
+					$filter[] = 'wpg';
 					break;
 			}
 		}
