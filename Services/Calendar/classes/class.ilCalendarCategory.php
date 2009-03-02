@@ -262,7 +262,7 @@ class ilCalendarCategory
 		ilCalendarHidden::_deleteCategories($this->cat_id);
 		
 		include_once('./Services/Calendar/classes/class.ilCalendarCategoryAssignments.php');
-		foreach(ilCalendarCategoryAssignments::_getAssignedAppointments($this->cat_id) as $app_id)
+		foreach(ilCalendarCategoryAssignments::_getAssignedAppointments(array($this->cat_id)) as $app_id)
 		{
 			include_once('./Services/Calendar/classes/class.ilCalendarEntry.php');
 			ilCalendarEntry::_delete($app_id);
