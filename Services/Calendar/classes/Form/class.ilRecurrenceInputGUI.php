@@ -35,6 +35,9 @@ include_once('./Services/Calendar/classes/class.ilCalendarUserSettings.php');
 
 class ilRecurrenceInputGUI extends ilCustomInputGUI
 {
+	const REC_LIMITED = 2;
+	const REC_UNLIMITED = 1;
+	
 	protected $lng;
 	
 	protected $recurrence;
@@ -77,6 +80,22 @@ class ilRecurrenceInputGUI extends ilCustomInputGUI
 	 */
 	public function checkInput()
 	{
+		global $lng;
+		
+		if($_POST['frequence'] == 'NONE')
+		{
+			return true;
+		}
+		
+		if(!isset($_POST['until_type']) or $_POST['until_type'] == REC_LIMITED)
+		{
+			if($_POST['count'] <= 0 or $_POST['count'] >= 100)
+			{
+				$this->setAlert($lng->txt("cal_rec_err_limit"));
+				return false;
+			}
+		}
+
 		return true;
 	}
 	
