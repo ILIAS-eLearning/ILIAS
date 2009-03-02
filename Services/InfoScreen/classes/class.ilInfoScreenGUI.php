@@ -506,21 +506,20 @@ class ilInfoScreenGUI
 		// owner
 		if ($ilUser->getId() != ANONYMOUS_USER_ID)
 		{
-			if (ilObjUser::_lookupEmail($a_obj->getOwner()) === false)
+			include_once 'classes/class.ilObjectFactory.php';
+			if(!$ownerObj = ilObjectFactory::getInstanceByObjId($a_obj->getOwner(),false))
 			{
-				$this->addProperty($lng->txt("owner"),$lng->txt('deleted_user_account'));
+				$ownerObj = ilObjectFactory::getInstanceByObjId(6);	
+			} 
+
+			if ($ownerObj->hasPublicProfile()) 
+			{
+				$ilCtrl->setParameterByClass("ilpublicuserprofilegui", "user_id", $ownerObj->getId());				
+				$this->addProperty($lng->txt("owner"),$ownerObj->getPublicName(),$ilCtrl->getLinkTargetByClass("ilpublicuserprofilegui", "getHTML"));
 			}
-			else
+			else 
 			{
-				$ownerObj = new ilObjUser($a_obj->getOwner());
-				if ($ownerObj->hasPublicProfile()) 
-				{
-					$ilCtrl->setParameterByClass("ilpublicuserprofilegui", "user_id", $ownerObj->getId());				
-					$this->addProperty($lng->txt("owner"),$ownerObj->getPublicName(),$ilCtrl->getLinkTargetByClass("ilpublicuserprofilegui", "getHTML"));
-				} else 
-				{
-					$this->addProperty($lng->txt("owner"),$ownerObj->getPublicName());	
-				}
+				$this->addProperty($lng->txt("owner"),$ownerObj->getPublicName());	
 			}
 		}
 
