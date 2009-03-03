@@ -3,7 +3,7 @@
 	+-----------------------------------------------------------------------------+
 	| ILIAS open source                                                           |
 	+-----------------------------------------------------------------------------+
-	| Copyright (c) 1998-2006 ILIAS open source, University of Cologne            |
+	| Copyright (c) 1998-2009 ILIAS open source, University of Cologne            |
 	|                                                                             |
 	| This program is free software; you can redistribute it and/or               |
 	| modify it under the terms of the GNU General Public License                 |
@@ -100,13 +100,43 @@ class ilXHTMLPage
 		global $ilDB;
 		
 		$set = $ilDB->query("SELECT * FROM xhtml_page WHERE id = ".
-			$ilDB->quote($this->getId()));
-		if ($rec = $set->fetchRow(DB_FETCHMODE_ASSOC))
+			$ilDB->quote($this->getId(), "integer"));
+		if ($rec = $ilDB->fetchAssoc($set))
 		{
 			$this->setContent($rec["content"]);
 		}
 	}
 	
+	/**
+	* Lookup Content
+	*/
+	function _lookupContent($a_id)
+	{
+		global $ilDB;
+		
+		$set = $ilDB->query("SELECT content FROM xhtml_page WHERE id = ".
+			$ilDB->quote($a_id, "integer"));
+		if ($rec = $ilDB->fetchAssoc($set))
+		{
+			return $rec["content"];
+		}
+	}
+
+	/**
+	* Lookup Saved Content
+	*/
+	function _lookupSavedContent($a_id)
+	{
+		global $ilDB;
+		
+		$set = $ilDB->query("SELECT save_content FROM xhtml_page WHERE id = ".
+			$ilDB->quote($a_id, "integer"));
+		if ($rec = $ilDB->fetchAssoc($set))
+		{
+			return $rec["save_content"];
+		}
+	}
+
 	/**
 	* Save the page.
 	*/
@@ -116,18 +146,21 @@ class ilXHTMLPage
 		
 		if ($this->getId() > 0)
 		{
-			$ilDB->query("UPDATE xhtml_page SET ".
-				" save_content = content ".
-				" WHERE id = ".$ilDB->quote($this->getId()));
-			$ilDB->query("UPDATE xhtml_page SET ".
-				"content = ".$ilDB->quote($this->getContent()).
-				" WHERE id = ".$ilDB->quote($this->getId()));
+			$old_content = ilXHTMLPage::_lookupContent($this->getId());
+			$ilDB->update("xhtml_page", array(
+				"content" => array("clob", $this->getContent()),
+				"save_content" => array("clob", $old_content)
+				), array (
+				"id" => array("integer", $this->getId())
+				));
 		}
 		else
 		{
-			$ilDB->query("INSERT INTO xhtml_page (content) VALUES ".
-				"(".$ilDB->quote($this->getContent()).")");
-			$this->setId($ilDB->getLastInsertId());
+			$this->setId($ilDB->nextId("xhtml_page"));
+			$ilDB->insert("xhtml_page", array(
+				"id" => array("integer", $this->getId()),
+				"content" => array("clob", $this->getContent())
+				));
 		}
 	}
 	
@@ -140,12 +173,14 @@ class ilXHTMLPage
 		
 		if ($this->getId() > 0)
 		{
-			$ilDB->query("UPDATE xhtml_page SET ".
-				" content = save_content ".
-				" WHERE id = ".$ilDB->quote($this->getId()));
-			$ilDB->query("UPDATE xhtml_page SET ".
-				" save_content = ".$ilDB->quote($this->getContent()).
-				" WHERE id = ".$ilDB->quote($this->getId()));
+			$content = ilXHTMLPage::_lookupContent($this->getId());
+			$save_content = ilXHTMLPage::_lookupSavedContent($this->getId());
+			$ilDB->update("xhtml_page", array(
+				"content" => array("clob", $save_content),
+				"save_content" => array("clob", $content)
+				), array (
+				"id" => array("integer", $this->getId())
+				));
 		}
 	}
 
@@ -158,13 +193,8 @@ class ilXHTMLPage
 		
 		if ($this->getId() > 0)
 		{
-			$ilDB->query("UPDATE xhtml_page SET ".
-				" save_content = content ".
-				" WHERE id = ".$ilDB->quote($this->getId()));
-			$ilDB->query("UPDATE xhtml_page SET ".
-				" content = ".$ilDB->quote("").
-				" WHERE id = ".$ilDB->quote($this->getId()));
 			$this->setContent("");
+			$this->save();
 		}
 	}
 
