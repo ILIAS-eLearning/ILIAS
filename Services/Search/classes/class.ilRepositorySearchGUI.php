@@ -464,7 +464,7 @@ class ilRepositorySearchGUI
 		$counter = 0;
 		foreach($user_ids as $usr_id)
 		{
-			if(!is_object($tmp_obj = ilObjectFactory::getInstanceByObjId($usr_id,false)))
+			if(!is_object($tmp_obj = ilObjectFactory::getInstanceByObjId($usr_id,false)) or $tmp_obj->getType() != 'usr')
 			{
 				continue;
 			}
@@ -517,7 +517,7 @@ class ilRepositorySearchGUI
 			{
 				continue;
 			}
-			if(!$tmp_obj = ilObjectFactory::getInstanceByObjId($role_id,false))
+			if(!$tmp_obj = ilObjectFactory::getInstanceByObjId($role_id,false) or $tmp_obj->getType() != 'role')
 			{
 				continue;
 			}
