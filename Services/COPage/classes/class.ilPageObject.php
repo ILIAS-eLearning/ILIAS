@@ -207,11 +207,12 @@ class ilPageObject
 		}
 		else
 		{
-			$query = "SELECT * FROM page_history WHERE page_id = ".$ilDB->quote($this->id)." ".
-				"AND parent_type=".$ilDB->quote($this->getParentType()).
-				" AND nr = ".$ilDB->quote($this->old_nr);
-			$pg_set = $this->ilias->db->query($query);
-			$this->page_record = $pg_set->fetchRow(DB_FETCHMODE_ASSOC);
+			$query = "SELECT * FROM page_history WHERE ".
+				"page_id = ".$ilDB->quote($this->id, "integer")." ".
+				"AND parent_type=".$ilDB->quote($this->getParentType(), "text").
+				" AND nr = ".$ilDB->quote((int) $this->old_nr, "integer");
+			$pg_set = $ilDB->query($query);
+			$this->page_record = $ilDB->fetchAssoc($pg_set);
 		}
 		if (!$this->page_record)
 		{
@@ -1761,13 +1762,13 @@ if ($_GET["pgEdMediaMode"] != "") {echo "ilPageObject::error media"; exit;}
 
 			// write history entry
 			$old_set = $ilDB->query("SELECT * FROM page_object WHERE ".
-				"page_id = ".$ilDB->quote($this->getId())." AND ".
-				"parent_type = ".$ilDB->quote($this->getParentType()));
+				"page_id = ".$ilDB->quote($this->getId(), "integer")." AND ".
+				"parent_type = ".$ilDB->quote($this->getParentType(), "text"));
 			$last_nr_set = $ilDB->query("SELECT max(nr) as mnr FROM page_history WHERE ".
-				"page_id = ".$ilDB->quote($this->getId())." AND ".
-				"parent_type = ".$ilDB->quote($this->getParentType()));
-			$last_nr = $last_nr_set->fetchRow(DB_FETCHMODE_ASSOC);
-			if ($old_rec = $old_set->fetchRow(DB_FETCHMODE_ASSOC))
+				"page_id = ".$ilDB->quote($this->getId(), "integer")." AND ".
+				"parent_type = ".$ilDB->quote($this->getParentType(), "text"));
+			$last_nr = $ilDB->fetchAssoc($last_nr_set);
+			if ($old_rec = $ilDB->fetchAssoc($old_set))
 			{
 				// only save, if something has changed
 				if (($content != $old_rec["content"]) && !$a_no_history &&
@@ -1775,7 +1776,21 @@ if ($_GET["pgEdMediaMode"] != "") {echo "ilPageObject::error media"; exit;}
 				{
 					if ($old_rec["content"] != "<PageObject></PageObject>")
 					{
-						$h_query = "REPLACE INTO page_history ".
+						$ilDB->manipulateF("DELETE FROM page_history WHERE ".
+							"page_id = %s AND parent_type = %s AND hdate = %s",
+							array("integer", "text", "timestamp"),
+							array($old_rec["page_id"], $old_rec["parent_type"], $old_rec["last_change"]));
+						$ilDB->insert("page_history", array(
+							"page_id" => 		array("integer", $old_rec["page_id"]),
+							"parent_type" => 	array("text", $old_rec["parent_type"]),
+							"hdate" => 			array("timestamp", $old_rec["last_change"]),
+							"parent_id" => 		array("integer", $old_rec["parent_id"]),
+							"content" => 		array("clob", $old_rec["content"]),
+							"user_id" => 		array("integer", $old_rec["last_change_user"]),
+							"ilias_version" => 	array("text", ILIAS_VERSION_NUMERIC),
+							"nr" => 			array("integer", (int) $last_nr["mnr"] + 1)
+							));
+						/*$h_query = "REPLACE INTO page_history ".
 							"(page_id, parent_type, hdate, parent_id, content, user_id, ilias_version, nr) VALUES (".
 							$ilDB->quote($old_rec["page_id"]).",".
 							$ilDB->quote($old_rec["parent_type"]).",".
@@ -1786,7 +1801,7 @@ if ($_GET["pgEdMediaMode"] != "") {echo "ilPageObject::error media"; exit;}
 							$ilDB->quote(ILIAS_VERSION_NUMERIC).",".
 							$ilDB->quote($last_nr["mnr"] + 1).")";
 //echo "<br><br>+$a_no_history+$h_query";
-						$ilDB->query($h_query);
+						$ilDB->query($h_query);*/
 						$this->saveMobUsage($old_rec["content"], $last_nr["mnr"] + 1);
 						$this->saveFileUsage($old_rec["content"], $last_nr["mnr"] + 1);
 						$this->history_saved = true;		// only save one time
@@ -2975,19 +2990,20 @@ if ($_GET["pgEdMediaMode"] != "") {echo "ilPageObject::error media"; exit;}
 		global $ilDB;
 		
 		$h_query = "SELECT * FROM page_history ".
-			" WHERE page_id = ".$ilDB->quote($this->getId()).
-			" AND parent_type = ".$ilDB->quote($this->getParentType()).
+			" WHERE page_id = ".$ilDB->quote($this->getId(), "integer").
+			" AND parent_type = ".$ilDB->quote($this->getParentType(), "text").
 			" ORDER BY hdate DESC";
 		
 		$hset = $ilDB->query($h_query);
 		$hentries = array();
 
-		while ($hrec = $hset->fetchRow(DB_FETCHMODE_ASSOC))
+		while ($hrec = $ilDB->fetchAssoc($hset))
 		{
-			$hrec["sortkey"] = $hrec["nr"];
+			$hrec["sortkey"] = (int) $hrec["nr"];
+			$hrec["user"] = (int) $hrec["user_id"];
 			$hentries[] = $hrec;
 		}
-		
+//var_dump($hentries);
 		return $hentries;
 	}
 	
@@ -2998,11 +3014,11 @@ if ($_GET["pgEdMediaMode"] != "") {echo "ilPageObject::error media"; exit;}
 	{
 		global $ilDB;
 		
-		$st = $ilDB->prepare("SELECT * FROM page_history ".
-			" WHERE page_id = ? ".
-			" AND parent_type = ? ".
-			" AND nr = ?", array("integer", "text", "integer"));
-		$res = $ilDB->execute($st,
+		$res = $ilDB->queryF("SELECT * FROM page_history ".
+			" WHERE page_id = %s ".
+			" AND parent_type = %s ".
+			" AND nr = %s",
+			array("integer", "text", "integer"),
 			array($this->getId(), $this->getParentType(), $a_old_nr));
 		if ($hrec = $ilDB->fetchAssoc($res))
 		{
@@ -3024,79 +3040,45 @@ if ($_GET["pgEdMediaMode"] != "") {echo "ilPageObject::error media"; exit;}
 		global $ilDB;
 		
 		// determine previous entry
-		$st = $ilDB->prepare("SELECT MAX(nr) mnr FROM page_history ".
-			" WHERE page_id = ".$ilDB->quote($this->getId()).
-			" AND parent_type = ".$ilDB->quote($this->getParentType()).
-			" AND nr < ?", array("integer"));
-		$res = $ilDB->execute($st, array($a_nr));
+		$res = $ilDB->query("SELECT MAX(nr) mnr FROM page_history ".
+			" WHERE page_id = ".$ilDB->quote($this->getId(), "integer").
+			" AND parent_type = ".$ilDB->quote($this->getParentType(), "text").
+			" AND nr < ".$ilDB->quote((int) $a_nr, "integer"));
 		$row = $ilDB->fetchAssoc($res);
 		if ($row["mnr"] > 0)
 		{
-			$st = $ilDB->prepare("SELECT * FROM page_history ".
-				" WHERE page_id = ".$ilDB->quote($this->getId()).
-				" AND parent_type = ".$ilDB->quote($this->getParentType()).
-				" AND nr = ?", array("integer"));
-			$res = $ilDB->execute($st, array($row["mnr"]));
+			$res = $ilDB->query("SELECT * FROM page_history ".
+				" WHERE page_id = ".$ilDB->quote($this->getId(), "integer").
+				" AND parent_type = ".$ilDB->quote($this->getParentType(), "text").
+				" AND nr = ".$ilDB->quote((int) $row["mnr"], "integer"));
 			$row = $ilDB->fetchAssoc($res);
 			$ret["previous"] = $row;
 		}
 		
 		// determine next entry
-		$st = $ilDB->prepare("SELECT MIN(nr) mnr FROM page_history ".
-			" WHERE page_id = ".$ilDB->quote($this->getId()).
-			" AND parent_type = ".$ilDB->quote($this->getParentType()).
-			" AND nr > ?", array("integer"));
-		$res = $ilDB->execute($st, array($a_nr));
+		$res = $ilDB->query("SELECT MIN(nr) mnr FROM page_history ".
+			" WHERE page_id = ".$ilDB->quote($this->getId(), "integer").
+			" AND parent_type = ".$ilDB->quote($this->getParentType(), "text").
+			" AND nr > ".$ilDB->quote((int) $a_nr, "integer"));
 		$row = $ilDB->fetchAssoc($res);
 		if ($row["mnr"] > 0)
 		{
-			$st = $ilDB->prepare("SELECT * FROM page_history ".
-				" WHERE page_id = ".$ilDB->quote($this->getId()).
-				" AND parent_type = ".$ilDB->quote($this->getParentType()).
-				" AND nr = ?", array("integer"));
-			$res = $ilDB->execute($st, array($row["mnr"]));
+			$res = $ilDB->query("SELECT * FROM page_history ".
+				" WHERE page_id = ".$ilDB->quote($this->getId(), "integer").
+				" AND parent_type = ".$ilDB->quote($this->getParentType(), "text").
+				" AND nr = ".$ilDB->quote((int) $row["mnr"], "integer"));
 			$row = $ilDB->fetchAssoc($res);
 			$ret["next"] = $row;
 		}
 
 		// current
-		$st = $ilDB->prepare("SELECT * FROM page_history ".
-			" WHERE page_id = ".$ilDB->quote($this->getId()).
-			" AND parent_type = ".$ilDB->quote($this->getParentType()).
-			" AND nr = ?", array("integer"));
-		$res = $ilDB->execute($st, array($a_nr));
+		$res = $ilDB->query("SELECT * FROM page_history ".
+			" WHERE page_id = ".$ilDB->quote($this->getId(), "integer").
+			" AND parent_type = ".$ilDB->quote($this->getParentType(), "text").
+			" AND nr = ".$ilDB->quote((int) $a_nr, "integer"));
 		$row = $ilDB->fetchAssoc($res);
 		$ret["current"] = $row;
 
-/*
-		$h_query = "SELECT * FROM page_history ".
-			" WHERE page_id = ".$ilDB->quote($this->getId()).
-			" AND parent_type = ".$ilDB->quote($this->getParentType()).
-			" AND nr = (".
-				$ilDB->quote($a_nr - 1).",".$ilDB->quote($a_nr).",".$ilDB->quote($a_nr + 1).")".
-			" ORDER BY hdate DESC";
-		
-		$hset = $ilDB->query($h_query);
-		$ret = array();
-
-		while ($hrec = $hset->fetchRow(DB_FETCHMODE_ASSOC))
-		{
-			switch ($hrec["nr"])
-			{
-				case ($a_nr - 1):
-					$ret["previous"] = $hrec;
-					break;
-					
-				case ($a_nr):
-					$ret["current"] = $hrec;
-					break;
-
-				case ($a_nr + 1):
-					$ret["next"] = $hrec;
-					break;
-			}
-		}
-*/
 		return $ret;
 	}
 	
@@ -3225,10 +3207,17 @@ if ($_GET["pgEdMediaMode"] != "") {echo "ilPageObject::error media"; exit;}
 				"user" => $page["last_change_user"]);
 		}
 
+		$and_str = "";
+		if ($a_period > 0)
+		{
+			$limit_ts = date('Y-m-d H:i:s', time() - ($a_period * 24 * 60 * 60));
+			$and_str = " AND hdate >= ".$ilDB->quote($limit_ts, "timestamp")." ";
+		}
+
 		$q = "SELECT * FROM page_history ".
-			" WHERE parent_id = ".$ilDB->quote($a_parent_id).
-			" AND parent_type = ".$ilDB->quote($a_parent_type).
-			" AND (TO_DAYS(now()) - TO_DAYS(hdate)) <= ".((int)$a_period);
+			" WHERE parent_id = ".$ilDB->quote($a_parent_id, "integer").
+			" AND parent_type = ".$ilDB->quote($a_parent_type, "text").
+			$and_str;
 		$set = $ilDB->query($q);
 		while ($page = $set->fetchRow(DB_FETCHMODE_ASSOC))
 		{
@@ -3322,11 +3311,11 @@ if ($_GET["pgEdMediaMode"] != "") {echo "ilPageObject::error media"; exit;}
 			$contributors[$page["last_change_user"]][$page["page_id"]] = 1;
 		}
 
-		$st = $ilDB->prepare("SELECT count(*) as cnt, page_id, user_id FROM page_history ".
-			" WHERE parent_id = ? AND parent_type = ? AND user_id != ? ".
+		$set = $ilDB->queryF("SELECT count(*) as cnt, page_id, user_id FROM page_history ".
+			" WHERE parent_id = %s AND parent_type = %s AND user_id != %s ".
 			" GROUP BY page_id, user_id ",
-			array("integer", "text", "integer"));
-		$set = $ilDB->execute($st, array($a_parent_id, $a_parent_type, 0));
+			array("integer", "text", "integer"),
+			array($a_parent_id, $a_parent_type, 0));
 		while ($hpage = $ilDB->fetchAssoc($set))
 		{
 			$contributors[$hpage["user_id"]][$hpage["page_id"]] =
@@ -3366,11 +3355,11 @@ if ($_GET["pgEdMediaMode"] != "") {echo "ilPageObject::error media"; exit;}
 			$contributors[$page["last_change_user"]] = 1;
 		}
 
-		$st = $ilDB->prepare("SELECT count(*) as cnt, page_id, user_id FROM page_history ".
-			" WHERE page_id = ? AND parent_type = ? AND user_id != ? ".
-			" GROUP BY user_id ",
-			array("integer", "text", "integer"));
-		$set = $ilDB->execute($st, array($a_page_id, $a_parent_type, 0));
+		$set = $ilDB->queryF("SELECT count(*) as cnt, page_id, user_id FROM page_history ".
+			" WHERE page_id = %s AND parent_type = %s AND user_id != %s ".
+			" GROUP BY user_id, page_id ",
+			array("integer", "text", "integer"),
+			array($a_page_id, $a_parent_type, 0));
 		while ($hpage = $ilDB->fetchAssoc($set))
 		{
 			$contributors[$hpage["user_id"]] =

@@ -8542,4 +8542,8 @@ ALTER TABLE `il_meta_format` CHANGE `format` `format` VARCHAR( 4000 ) NULL DEFAU
 <?php
 	$ilMySQLAbstraction->performAbstraction('il_meta_format');
 ?>
+<#1827>
+<?php
+	$ilMySQLAbstraction->performAbstraction('page_history');
+?>
 
