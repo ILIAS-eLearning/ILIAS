@@ -8471,3 +8471,17 @@ ALTER TABLE `container_sorting` DROP parent_id;
 <?php
 	$ilMySQLAbstraction->performAbstraction('il_subscribers');
 ?>
+
+
+<#1810>
+RENAME TABLE `il_md_copyright_selections`  TO `il_md_cpr_selections`;
+
+<#1811>
+ALTER TABLE `il_md_cpr_selections` CHANGE `copyright_and_other_restrictions` `cpr_restrictions` TINYINT( 1 ) NOT NULL DEFAULT '1';
+
+<#1812>
+<?php
+	$ilMySQLAbstraction->performAbstraction('il_md_cpr_selections');
+?>
+ 
+

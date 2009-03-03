@@ -69,7 +69,7 @@ class ilMDCopyrightSelectionEntry
 	{
 		global $ilDB;
 		
-		$query = "SELECT entry_id FROM il_md_copyright_selections ";
+		$query = "SELECT entry_id FROM il_md_cpr_selections ";
 		$res = $ilDB->query($query);
 		while($row = $res->fetchRow(DB_FETCHMODE_OBJECT))
 		{
@@ -95,7 +95,7 @@ class ilMDCopyrightSelectionEntry
 			return $a_cp_string;
 		}
 				
-		$query = "SELECT copyright FROM il_md_copyright_selections ".
+		$query = "SELECT copyright FROM il_md_cpr_selections ".
 			"WHERE entry_id = ".$ilDB->quote($entry_id)." ";
 		$res = $ilDB->query($query);
 		$row = $res->fetchRow(DB_FETCHMODE_OBJECT);
@@ -290,16 +290,20 @@ class ilMDCopyrightSelectionEntry
 	 */
 	public function add()
 	{
-	 	$query = "INSERT INTO il_md_copyright_selections ".
-	 		"SET title = ".$this->db->quote($this->getTitle()).", ".
-	 		"description = ".$this->db->quote($this->getDescription()).", ".
-	 		"copyright = ".$this->db->quote($this->getCopyright()).", ".
-	 		"language = ".$this->db->quote($this->getLanguage()).", ".
-	 		"costs = ".$this->db->quote($this->getCosts()).", ".
-	 		"copyright_and_other_restrictions = ".$this->db->quote($this->getCopyrightAndOtherRestrictions())." ";
-	 	$this->db->query($query);
-	 	$this->entry_id = $this->db->getLastInsertId();
-		
+	 	global $ilDB;
+	 	
+	 	$next_id = $ilDB->nextId('il_md_cpr_selections');
+	 	
+	 	$ilDB->insert('il_md_cpr_selections',array(
+	 		'entry_id'			=> array('integer',$next_id),
+	 		'title'				=> array('text',$this->getTitle()),
+	 		'description'		=> array('clob',$this->getDescription()),
+	 		'copyright'			=> array('clob',$this->getCopyright()),
+	 		'language'			=> array('text',$this->getLanguage()),
+	 		'costs'				=> array('integer',$this->getCosts()),
+	 		'cpr_restrictions'	=> array('integer',$this->getCopyrightAndOtherRestrictions())
+	 	));
+	 	$this->entry_id = $next_id;
 		return true;
 	}
 	
@@ -311,16 +315,19 @@ class ilMDCopyrightSelectionEntry
 	 */
 	public function update()
 	{
-	 	$query = "UPDATE il_md_copyright_selections ".
-	 		"SET title = ".$this->db->quote($this->getTitle()).", ".
-	 		"description = ".$this->db->quote($this->getDescription()).", ".
-	 		"copyright = ".$this->db->quote($this->getCopyright()).", ".
-	 		"language = ".$this->db->quote($this->getLanguage()).", ".
-	 		"costs = ".$this->db->quote($this->getCosts()).", ".
-	 		"copyright_and_other_restrictions = ".$this->db->quote($this->getCopyrightAndOtherRestrictions())." ".
-	 		"WHERE entry_id = ".$this->db->quote($this->getEntryId())." ";
-		
-	 	$this->db->query($query);
+		global $ilDB;
+
+	 	$ilDB->update('il_md_cpr_selections',array(
+	 		'title'				=> array('text',$this->getTitle()),
+	 		'description'		=> array('clob',$this->getDescription()),
+	 		'copyright'			=> array('clob',$this->getCopyright()),
+	 		'language'			=> array('text',$this->getLanguage()),
+	 		'costs'				=> array('integer',$this->getCosts()),
+	 		'cpr_restrictions'	=> array('integer',$this->getCopyrightAndOtherRestrictions())
+		 	),array(
+		 		'entry_id'			=> array('integer',$this->getEntryId())
+	 	));
+		return true;	 		
 	}
 	
 	/**
@@ -331,9 +338,11 @@ class ilMDCopyrightSelectionEntry
 	 */
 	public function delete()
 	{
-	 	$query = "DELETE FROM il_md_copyright_selections ".
-	 		"WHERE entry_id = ".$this->db->quote($this->getEntryId())." ";
-	 	$this->db->query($query);
+	 	global $ilDB;
+	 	
+	 	$query = "DELETE FROM il_md_cpr_selections ".
+	 		"WHERE entry_id = ".$this->db->quote($this->getEntryId() ,'integer')." ";
+	 	$res = $ilDB->manipulate($query);
 			
 	}	
 	
@@ -362,8 +371,10 @@ class ilMDCopyrightSelectionEntry
 	 */
 	private function read()
 	{
-	 	$query = "SELECT * FROM il_md_copyright_selections ".
-	 		"WHERE entry_id = ".$this->db->quote($this->entry_id)." ";
+	 	global $ilDB;
+	 	
+	 	$query = "SELECT * FROM il_md_cpr_selections ".
+	 		"WHERE entry_id = ".$this->db->quote($this->entry_id ,'integer')." ";
 	 	$res = $this->db->query($query);
 	 	while($row = $res->fetchRow(DB_FETCHMODE_OBJECT))
 	 	{
