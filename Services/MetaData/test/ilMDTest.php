@@ -204,5 +204,27 @@ class ilMDTest extends PHPUnit_Framework_TestCase
 		$con->delete();
 	}
 
+	/**
+	 * test Entity 
+	 * @return
+	 */
+	public function testEntity()
+	{
+		include_once './Services/MetaData/classes/class.ilMDEntity.php';
+		include_once 'Services/MetaData/classes/class.ilMDLanguageItem.php';
+
+		$con = new ilMDEntity(1,2,'xxx');
+		$con->setEntity('Easy');
+		$ret = $con->save();		 
+		$this->assertGreaterThan(0,$ret);
+		
+		$con->setEntity('Medium');
+		$con->update();
+		$con->read();
+		$desc = $con->getEntity();
+		$this->assertEquals('Medium',$desc);
+		
+		$con->delete();
+	}
 }
 ?>
