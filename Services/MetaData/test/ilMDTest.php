@@ -107,5 +107,30 @@ class ilMDTest extends PHPUnit_Framework_TestCase
 		$ann->delete();
 	}
 	
+	/**
+	 * test classification 
+	 * @param
+	 * @return
+	 */
+	public function testClassification()
+	{
+		include_once './Services/MetaData/classes/class.ilMDClassification.php';
+		include_once 'Services/MetaData/classes/class.ilMDLanguageItem.php';
+		
+		$ann = new ilMDClassification(1,2,'xxx');
+		$ann->setDescription("desc");
+		$ann->setDescriptionLanguage(new ilMDLanguageItem('en'));
+		$ann->setPurpose('purp');
+		$ret = $ann->save();			 
+		$this->assertGreaterThan(0,$ret);
+		
+		$ann->setDescription('desc2');
+		$ann->update();
+		$ann->read();
+		$desc = $ann->getDescription();
+		$this->assertEquals('desc2',$desc);
+		
+		$ann->delete();
+	}
 }
 ?>

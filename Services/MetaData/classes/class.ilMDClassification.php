@@ -152,12 +152,14 @@ class ilMDClassification extends ilMDBase
 
 	function save()
 	{
-		if($this->db->autoExecute('il_meta_classification',
-								  $this->__getFields(),
-								  DB_AUTOQUERY_INSERT))
+		global $ilDB;
+		
+		$fields = $this->__getFields();
+		$fields['meta_classification_id'] = array('integer',$next_id = $ilDB->nextId('il_meta_classification'));
+		
+		if($this->db->insert('il_meta_classification',$fields))
 		{
-			$this->setMetaId($this->db->getLastInsertId());
-
+			$this->setMetaId($next_id);
 			return $this->getMetaId();
 		}
 		return false;
@@ -169,10 +171,9 @@ class ilMDClassification extends ilMDBase
 		
 		if($this->getMetaId())
 		{
-			if($this->db->autoExecute('il_meta_classification',
-									  $this->__getFields(),
-									  DB_AUTOQUERY_UPDATE,
-									  "meta_classification_id = ".$ilDB->quote($this->getMetaId())))
+			if($this->db->update('il_meta_classification',
+									$this->__getFields(),
+									array("meta_classification_id" => array('integer',$this->getMetaId()))))
 			{
 				return true;
 			}
@@ -187,9 +188,8 @@ class ilMDClassification extends ilMDBase
 		if($this->getMetaId())
 		{
 			$query = "DELETE FROM il_meta_classification ".
-				"WHERE meta_classification_id = ".$ilDB->quote($this->getMetaId());
-			
-			$this->db->query($query);
+				"WHERE meta_classification_id = ".$ilDB->quote($this->getMetaId() ,'integer');
+			$res = $ilDB->manipulate($query);			
 
 			foreach($this->getTaxonPathIds() as $id)
 			{
@@ -210,12 +210,12 @@ class ilMDClassification extends ilMDBase
 
 	function __getFields()
 	{
-		return array('rbac_id'	=> $this->getRBACId(),
-					 'obj_id'	=> $this->getObjId(),
-					 'obj_type'	=> $this->getObjType(),
-					 'purpose'	=> $this->getPurpose(),
-					 'description' => $this->getDescription(),
-					 'description_language' => $this->getDescriptionLanguageCode());
+		return array('rbac_id'	=> array('integer',$this->getRBACId()),
+					 'obj_id'	=> array('integer',$this->getObjId()),
+					 'obj_type'	=> array('text',$this->getObjType()),
+					 'purpose'	=> array('text',$this->getPurpose()),
+					 'description' => array('text',$this->getDescription()),
+					 'description_language' => array('text',$this->getDescriptionLanguageCode()));
 	}
 
 	function read()
@@ -227,7 +227,7 @@ class ilMDClassification extends ilMDBase
 		if($this->getMetaId())
 		{
 			$query = "SELECT * FROM il_meta_classification ".
-				"WHERE meta_classification_id = ".$ilDB->quote($this->getMetaId());
+				"WHERE meta_classification_id = ".$ilDB->quote($this->getMetaId() ,'integer');
 
 			$res = $this->db->query($query);
 			while($row = $res->fetchRow(DB_FETCHMODE_OBJECT))
@@ -298,8 +298,8 @@ class ilMDClassification extends ilMDBase
 		global $ilDB;
 
 		$query = "SELECT meta_classification_id FROM il_meta_classification ".
-			"WHERE rbac_id = ".$ilDB->quote($a_rbac_id)." ".
-			"AND obj_id = ".$ilDB->quote($a_obj_id);
+			"WHERE rbac_id = ".$ilDB->quote($a_rbac_id ,'integer')." ".
+			"AND obj_id = ".$ilDB->quote($a_obj_id ,'integer');
 
 
 		$res = $ilDB->query($query);
