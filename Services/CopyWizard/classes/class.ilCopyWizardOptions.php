@@ -97,7 +97,7 @@ class ilCopyWizardOptions
 		global $ilDB;
 		
 		$query = "SELECT * FROM copy_wizard_options ".
-			" WHERE copy_id  = ".$ilDB->quote($a_copy_id)." ";
+			"WHERE copy_id  = ".$ilDB->quote($a_copy_id ,'integer')." ";
 		$res = $ilDB->query($query);
 		return $res->numRows() ? false : true;
 	}
@@ -113,14 +113,14 @@ class ilCopyWizardOptions
 	{
 		global $ilDB;
 		
-	 	$query = "SELECT MAX(copy_id) as latest FROM copy_wizard_options ";
+	 	$query = "SELECT MAX(copy_id) latest FROM copy_wizard_options ";
 	 	$res = $ilDB->query($query);
 	 	$row = $res->fetchRow(DB_FETCHMODE_OBJECT);
 	 	
-	 	$query = "INSERT INTO copy_wizard_options ".
-	 		"SET copy_id = ".$ilDB->quote($row->latest + 1);
-	 	$ilDB->query($query);
-	 	
+		$ilDB->insert("copy_wizard_options", array(
+			"copy_id" => array("integer", $row->latest + 1),
+			"source_id" => array("integer", 0)
+			));
 	 	return $row->latest + 1;
 	}
 	
@@ -133,11 +133,14 @@ class ilCopyWizardOptions
 	 */
 	public function saveOwner($a_user_id)
 	{
-	 	$query = "INSERT INTO copy_wizard_options ".
-	 		"SET copy_id = ".$this->db->quote($this->getCopyId()).", ".
-	 		"source_id = ".$this->db->quote(self::OWNER_KEY).", ".
-	 		"options = ".$this->db->quote(serialize(array($a_user_id)))."";
-	 	$this->db->query($query);
+		global $ilDB;
+
+		$ilDB->insert("copy_wizard_options", array(
+			"copy_id" 	=> array("integer", $this->getCopyId()),
+			"source_id" => array("integer", self::OWNER_KEY),
+			"options"	=> array('clob',serialize(array($a_user_id)))
+			));
+
 		return true;
 	}
 	
@@ -150,11 +153,14 @@ class ilCopyWizardOptions
 	 */
 	public function saveRoot($a_root)
 	{
-	 	$query = "INSERT INTO copy_wizard_options ".
-	 		"SET copy_id = ".$this->db->quote($this->getCopyId()).", ".
-	 		"source_id = ".$this->db->quote(self::ROOT_NODE).", ".
-	 		"options = ".$this->db->quote(serialize(array($a_root)))."";
-	 	$this->db->query($query);
+		global $ilDB;
+
+		$ilDB->insert("copy_wizard_options", array(
+			"copy_id" 	=> array("integer", $this->getCopyId()),
+			"source_id" => array("integer", self::ROOT_NODE),
+			"options"	=> array('clob',serialize(array($a_root)))
+			));
+
 		return true;
 		
 	}
@@ -180,12 +186,15 @@ class ilCopyWizardOptions
 	 */
 	public function disableSOAP()
 	{
-		$this->options[self::DISABLE_SOAP] = 1;		
-	 	$query = "INSERT INTO copy_wizard_options ".
-	 		"SET copy_id = ".$this->db->quote($this->getCopyId()).", ".
-	 		"source_id = ".$this->db->quote(self::DISABLE_SOAP).", ".
-	 		"options = ".$this->db->quote(serialize(array(1)))."";
-	 	$this->db->query($query);
+		global $ilDB;
+		
+		$this->options[self::DISABLE_SOAP] = 1;
+		
+		$ilDB->insert("copy_wizard_options", array(
+			"copy_id" 	=> array("integer", $this->getCopyId()),
+			"source_id" => array("integer", self::DISABLE_SOAP),
+			"options"	=> array('clob',serialize(array(1)))
+			));
 	}
 	
 	/**
@@ -258,20 +267,24 @@ class ilCopyWizardOptions
 	 */
 	public function storeTree($a_source_id)
 	{
+		global $ilDB;
+		
 		$this->readTree($a_source_id);
 		$a_tree_structure = $this->tmp_tree;
 		
-	 	$query = "UPDATE copy_wizard_options ".
-			"SET options = ".$this->db->quote(serialize($a_tree_structure))." ".
-			"WHERE copy_id = ".$this->db->quote($this->copy_id)." ".
-			"AND source_id = 0 ";
-		$res = $this->db->query($query);
+		$ilDB->update("copy_wizard_options", array(
+			"options"	=> array('clob',serialize($a_tree_structure))
+			), array(
+			"copy_id"	=> array('integer',$this->getCopyId()),
+			"source_id"	=> array('integer',0
+		)));
 
-	 	$query = "INSERT INTO copy_wizard_options ".
-			"SET options = ".$this->db->quote(serialize($a_tree_structure)).", ".
-			"copy_id = ".$this->db->quote($this->copy_id).", ".
-			"source_id = -1 ";
-		$res = $this->db->query($query);
+		$ilDB->insert('copy_wizard_options',array(
+			'copy_id'	=> array('integer',$this->getCopyId()),
+			'source_id'	=> array('integer',-1),
+			'options'	=> array('clob',serialize($a_tree_structure))
+			));
+
 		return true; 
 	}
 	
@@ -322,18 +335,21 @@ class ilCopyWizardOptions
 	 */
 	public function dropFirstNodeById($a_id)
 	{
+		global $ilDB;
+		
 		if(!isset($this->options[$a_id]) or !is_array($this->options[$a_id]))
 		{
 			return false;
 		}
 		
 		$this->options[$a_id] = array_slice($this->options[$a_id],1);
-		$query = "UPDATE copy_wizard_options ".
-			"SET options = ".$this->db->quote(serialize($this->options[$a_id]))." ".
-			"WHERE copy_id = ".$this->db->quote($this->copy_id)." ".
-			"AND source_id = ".$this->db->quote($a_id)." ";
-			;
-		$this->db->query($query);
+		
+		$ilDB->update('copy_wizard_options',array(
+			'options'	=> array('clob',serialize($this->options[$a_id]))
+			),array(
+			'copy_id'	=> array('integer',$this->getCopyId()),
+			'source_id'	=> array('integer',$a_id)));
+		
 		$this->read();
 		// check for role_folder
 		if(($node = $this->fetchFirstNodeById($a_id)) === false)
@@ -395,21 +411,23 @@ class ilCopyWizardOptions
 	 */
 	public function addEntry($a_source_id,$a_options)
 	{
+		global $ilDB;
+
 		if(!is_array($a_options))
 		{
 			return false;
 		}
 		
 		$query = "DELETE FROM copy_wizard_options ".
-			"WHERE copy_id = ".$this->db->quote($this->copy_id)." ".
-			"AND source_id = ".$this->db->quote($a_source_id);
-		$this->db->query($query);
+			"WHERE copy_id = ".$this->db->quote($this->copy_id ,'integer')." ".
+			"AND source_id = ".$this->db->quote($a_source_id ,'integer');
+		$res = $ilDB->manipulate($query);
 
-		$query 	= "INSERT INTO copy_wizard_options ".
-			"SET copy_id = ".$this->db->quote($this->copy_id).", ".
-			"source_id = ".$this->db->quote($a_source_id).", ".
-			"options = ".$this->db->quote(serialize($a_options))." ";
-		$res = $this->db->query($query);
+		$ilDB->insert('copy_wizard_options',array(
+			'copy_id'	=> array('integer',$this->copy_id),
+			'source_id'	=> array('integer',$a_source_id),
+			'options'	=> array('clob',serialize($a_options))
+		));
 		return true;
 	}
 	
@@ -423,8 +441,10 @@ class ilCopyWizardOptions
 	 */
 	public function appendMapping($a_source_id,$a_target_id)
 	{
+		global $ilDB;
+		
 		$query = "SELECT * FROM copy_wizard_options ".
-			"WHERE copy_id = ".$this->db->quote($this->copy_id)." ".
+			"WHERE copy_id = ".$this->db->quote($this->copy_id ,'integer')." ".
 			"AND source_id = -2 ";
 		$res = $this->db->query($query);
 		$mappings = array();
@@ -434,11 +454,18 @@ class ilCopyWizardOptions
 		}
 		$mappings[$a_source_id] = $a_target_id;
 		
-		$query = "REPLACE INTO copy_wizard_options ".
-			"SET copy_id = ".$this->db->quote($this->copy_id).", ".
-			"source_id = -2, ".
-			"options = ".$this->db->quote(serialize($mappings))."";
-		$this->db->query($query);
+		$query = "DELETE FROM copy_wizard_options ".
+			"WHERE copy_id = ".$ilDB->quote($this->getCopyId(),'integer')." ".
+			"AND source_id = -2 ";
+		$res = $ilDB->manipulate($query);
+		
+		
+		$ilDB->insert('copy_wizard_options', array(
+			'copy_id'	=> array('integer',$this->getCopyId()),
+			'source_id'	=> array('integer',-2),
+			'options'	=> array('clob',serialize($mappings))
+		));
+		
 		return true;				
 	}
 	
@@ -465,9 +492,11 @@ class ilCopyWizardOptions
 	 */
 	public function deleteAll()
 	{
+	 	global $ilDB;
+	 	
 	 	$query = "DELETE FROM copy_wizard_options ".
-	 		"WHERE copy_id = ".$this->db->quote($this->copy_id);
-	 	$this->db->query($query);
+	 		"WHERE copy_id = ".$this->db->quote($this->copy_id ,'integer');
+	 	$res = $ilDB->manipulate($query);
 	}
 	
 	/**
@@ -479,8 +508,10 @@ class ilCopyWizardOptions
 	 */
 	public function read()
 	{
+	 	global $ilDB;
+	 	
 	 	$query = "SELECT * FROM copy_wizard_options ".
-	 		"WHERE copy_id = ".$this->db->quote($this->copy_id);
+	 		"WHERE copy_id = ".$this->db->quote($this->copy_id ,'integer');
 	 	$res = $this->db->query($query);
 	 	
 	 	$this->options = array();
