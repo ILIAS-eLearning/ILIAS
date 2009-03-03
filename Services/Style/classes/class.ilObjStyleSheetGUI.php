@@ -3,7 +3,7 @@
 	+-----------------------------------------------------------------------------+
 	| ILIAS open source                                                           |
 	+-----------------------------------------------------------------------------+
-	| Copyright (c) 1998-2005 ILIAS open source, University of Cologne            |
+	| Copyright (c) 1998-2009 ILIAS open source, University of Cologne            |
 	|                                                                             |
 	| This program is free software; you can redistribute it and/or               |
 	| modify it under the terms of the GNU General Public License                 |
@@ -818,9 +818,9 @@ class ilObjStyleSheetGUI extends ilObjectGUI
 		
 		// check correct file type
 		$info = pathinfo($_FILES["stylefile"]["name"]);
-		if (strtolower($info["extension"]) != "zip")
+		if (strtolower($info["extension"]) != "zip" && strtolower($info["extension"]) != "xml")
 		{
-			$this->ilias->raiseError("File must be a zip file!",$this->ilias->error_obj->MESSAGE);
+			$this->ilias->raiseError("File must be a zip or xml file!",$this->ilias->error_obj->MESSAGE);
 		}
 
 		$class_name = "ilObjStyleSheet";

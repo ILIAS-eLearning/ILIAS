@@ -714,9 +714,10 @@ class ilObjStyleSheet extends ilObject
 		{
 			// get style parameter records
 			$def = array();
-			$q = "SELECT * FROM style_parameter WHERE style_id = ".$ilDB->quote($a_from_style);
+			$q = "SELECT * FROM style_parameter WHERE style_id = ".
+				$ilDB->quote($a_from_style, "integer");
 			$par_set = $ilDB->query($q);
-			while($par_rec = $par_set->fetchRow(DB_FETCHMODE_ASSOC))
+			while($par_rec = $ilDB->fetchAssoc($par_set))
 			{
 				$def[] = array("tag" => $par_rec["tag"], "class" => $par_rec["class"],
 					"parameter" => $par_rec["parameter"], "value" => $par_rec["value"],
@@ -736,14 +737,17 @@ class ilObjStyleSheet extends ilObject
 			// default style settings
 			foreach ($def as $sty)
 			{
-				$q = "INSERT INTO style_parameter (style_id, tag, class, parameter, value, type) VALUES ".
-					"(".$ilDB->quote($this->getId()).",".
-					$ilDB->quote($sty["tag"]).",".
-					$ilDB->quote($sty["class"]).",".
-					$ilDB->quote($sty["parameter"]).",".
-					$ilDB->quote($sty["value"]).",".
-					$ilDB->quote($sty["type"]).")";
-				$ilDB->query($q);
+				$id = $ilDB->nextId("style_parameter");
+				$q = "INSERT INTO style_parameter (id, style_id, tag, class, parameter, value, type) VALUES ".
+					"(".
+					$ilDB->quote($id, "integer").",".
+					$ilDB->quote($this->getId(), "integer").",".
+					$ilDB->quote($sty["tag"], "text").",".
+					$ilDB->quote($sty["class"], "text").",".
+					$ilDB->quote($sty["parameter"], "text").",".
+					$ilDB->quote($sty["value"], "text").",".
+					$ilDB->quote($sty["type"], "text").")";
+				$ilDB->manipulate($q);
 			}
 			
 			// insert style characteristics
@@ -794,9 +798,9 @@ class ilObjStyleSheet extends ilObject
 				array($this->getId(), $a_type, $a_class));
 			
 			// delete parameter records
-			$st = $ilDB->prepareManip("DELETE FROM style_parameter WHERE style_id = ? AND tag = ? AND type = ? AND class = ?",
-				array("integer", "text", "text", "text"));
-			$ilDB->execute($st, array($this->getId(), $a_tag, $a_type, $a_class));
+			$st = $ilDB->manipulateF("DELETE FROM style_parameter WHERE style_id = %s AND tag = %s AND type = %s AND class = %s",
+				array("integer", "text", "text", "text"),
+				array($this->getId(), $a_tag, $a_type, $a_class));
 		}
 		
 		$this->setUpToDate(false);
@@ -894,11 +898,17 @@ class ilObjStyleSheet extends ilObject
 		$avail_params = $this->getAvailableParameters();
 		$tag = explode(".", $a_tag);
 		$value = $avail_params[$a_par][0];
-		$q = "INSERT INTO style_parameter (style_id, type, tag, class, parameter, value) VALUES ".
-			"(".$ilDB->quote($this->getId()).",".$ilDB->quote($a_type).",".$ilDB->quote($tag[0]).",".
-			$ilDB->quote($tag[1]).
-			",".$ilDB->quote($a_par).",".$ilDB->quote($value).")";
-		$this->ilias->db->query($q);
+		$id = $ilDB->nextId("style_parameter");
+		$q = "INSERT INTO style_parameter (id,style_id, type, tag, class, parameter, value) VALUES ".
+			"(".
+			$ilDB->quote($id, "integer").",".
+			$ilDB->quote($this->getId(), "integer").",".
+			$ilDB->quote($a_type, "text").",".
+			$ilDB->quote($tag[0], "text").",".
+			$ilDB->quote($tag[1], "text").",".
+			$ilDB->quote($a_par, "text").",".
+			$ilDB->quote($value, "text").")";
+		$ilDB->manipulate($q);
 		$this->read();
 		$this->writeCSSFile();
 	}
@@ -1043,8 +1053,9 @@ class ilObjStyleSheet extends ilObject
 	{
 		global $ilDB;
 		
-		$q = "DELETE FROM style_parameter WHERE id = ".$ilDB->quote($a_id);
-		$this->ilias->db->query($q);
+		$q = "DELETE FROM style_parameter WHERE id = ".
+			$ilDB->quote($a_id, "integer");
+		$ilDB->query($q);
 	}
 
 	/**
@@ -1056,13 +1067,13 @@ class ilObjStyleSheet extends ilObject
 		global $ilDB;
 		
 		$q = "DELETE FROM style_parameter WHERE ".
-			" style_id = ".$ilDB->quote($this->getId())." AND ".
-			" tag = ".$ilDB->quote($a_tag)." AND ".
-			" class = ".$ilDB->quote($a_class)." AND ".
-			" type = ".$ilDB->quote($a_type)." AND ".
-			" parameter = ".$ilDB->quote($a_par);
+			" style_id = ".$ilDB->quote($this->getId(), "integer")." AND ".
+			" tag = ".$ilDB->quote($a_tag, "text")." AND ".
+			" class = ".$ilDB->quote($a_class, "text")." AND ".
+			" ".$ilDB->equals("type", $a_type, "text", true)." AND ".
+			" parameter = ".$ilDB->quote($a_par, "text");
 
-		$this->ilias->db->query($q);
+		$ilDB->manipulate($q);
 	}
 
 	/**
@@ -1090,8 +1101,9 @@ class ilObjStyleSheet extends ilObject
 		}
 
 		// delete style parameter
-		$q = "DELETE FROM style_parameter WHERE style_id = ".$ilDB->quote($this->getId());
-		$ilDB->query($q);
+		$q = "DELETE FROM style_parameter WHERE style_id = ".
+			$ilDB->quote($this->getId(), "integer");
+		$ilDB->manipulate($q);
 		
 		// delete style file
 		$css_file_name = ilUtil::getWebspaceDir()."/css/style_".$this->getId().".css";
@@ -1122,13 +1134,13 @@ class ilObjStyleSheet extends ilObject
 		parent::read();
 
 		$q = "SELECT * FROM style_parameter WHERE style_id = ".
-			$ilDB->quote($this->getId())." ORDER BY tag, class, type ";
-		$style_set = $this->ilias->db->query($q);
+			$ilDB->quote($this->getId(), "integer")." ORDER BY tag, class, type ";
+		$style_set = $ilDB->query($q);
 		$ctag = "";
 		$cclass = "";
 		$ctype = "";
 		$this->style = array();
-		while($style_rec = $style_set->fetchRow(DB_FETCHMODE_ASSOC))
+		while($style_rec = $ilDB->fetchAssoc($style_set))
 		{
 			if ($style_rec["tag"] != $ctag || $style_rec["class"] != $cclass
 				|| $style_rec["type"] != $ctype)
@@ -1371,54 +1383,60 @@ class ilObjStyleSheet extends ilObject
 	{
 		global $ilDB;
 				
-		$q = "UPDATE style_parameter SET VALUE=".
-			$ilDB->quote($a_value)." WHERE id = ".
-			$ilDB->quote($a_id);
-		$style_set = $this->ilias->db->query($q);
+		$q = "UPDATE style_parameter SET VALUE = ".
+			$ilDB->quote($a_value, "text")." WHERE id = ".
+			$ilDB->quote($a_id, "integer");
+		$style_set = $ilDB->manipulate($q);
 	}
 	
 	/**
-	* update style parameter per tag/class/parameter
+	* Set style parameter per tag/class/parameter
 	*
 	*/
 	function replaceStylePar($a_tag, $a_class, $a_par, $a_val, $a_type)
 	{
+		ilObjStyleSheet::_replaceStylePar($this->getId(), $a_tag, $a_class, $a_par, $a_val, $a_type);
+	}
+	
+	function _replaceStylePar($style_id, $a_tag, $a_class, $a_par, $a_val, $a_type)
+	{
 		global $ilDB;
 		
-//echo "<br>A*$a_type*";
-		
 		$q = "SELECT * FROM style_parameter WHERE ".
-			" style_id = ".$ilDB->quote($this->getId())." AND ".
-			" tag = ".$ilDB->quote($a_tag)." AND ".
-			" class = ".$ilDB->quote($a_class)." AND ".
-			" type = ".$ilDB->quote($a_type)." AND ".
-			" parameter = ".$ilDB->quote($a_par);
+			" style_id = ".$ilDB->quote($style_id, "integer")." AND ".
+			" tag = ".$ilDB->quote($a_tag, "text")." AND ".
+			" class = ".$ilDB->quote($a_class, "text")." AND ".
+			" ".$ilDB->equals("type", $a_type, "text", true)." AND ".
+			" parameter = ".$ilDB->quote($a_par, "text");
 		
 		$set = $ilDB->query($q);
 		
 		if ($rec = $set->fetchRow())
 		{
 			$q = "UPDATE style_parameter SET ".
-				" value = ".$ilDB->quote($a_val)." WHERE ".
-				" style_id = ".$ilDB->quote($this->getId())." AND ".
-				" tag = ".$ilDB->quote($a_tag)." AND ".
-				" class = ".$ilDB->quote($a_class)." AND ".
-				" type = ".$ilDB->quote($a_type)." AND ".
-				" parameter = ".$ilDB->quote($a_par);
+				" value = ".$ilDB->quote($a_val, "text")." WHERE ".
+				" style_id = ".$ilDB->quote($style_id, "integer")." AND ".
+				" tag = ".$ilDB->quote($a_tag, "text")." AND ".
+				" class = ".$ilDB->quote($a_class, "text")." AND ".
+				" ".$ilDB->equals("type", $a_type, "text", true)." AND ".
+				" parameter = ".$ilDB->quote($a_par, "text");
 
-			$ilDB->query($q);
+			$ilDB->manipulate($q);
 		}
 		else
 		{
-			$q = "INSERT INTO style_parameter (value, style_id, tag,  class, type, parameter) VALUES ".
-				" (".$ilDB->quote($a_val).",".
-				" ".$ilDB->quote($this->getId()).",".
-				" ".$ilDB->quote($a_tag).",".
-				" ".$ilDB->quote($a_class).",".
-				" ".$ilDB->quote($a_type).",".
-				" ".$ilDB->quote($a_par).")";
+			$id = $ilDB->nextId("style_parameter");
+			$q = "INSERT INTO style_parameter (id, value, style_id, tag,  class, type, parameter) VALUES ".
+				" (".
+				$ilDB->quote($id, "integer").",".
+				$ilDB->quote($a_val, "text").",".
+				" ".$ilDB->quote($this->getId(), "integer").",".
+				" ".$ilDB->quote($a_tag, "text").",".
+				" ".$ilDB->quote($a_class, "text").",".
+				" ".$ilDB->quote($a_type, "text").",".
+				" ".$ilDB->quote($a_par, "text").")";
 
-			$ilDB->query($q);
+			$ilDB->manipulate($q);
 		}
 	}
 
@@ -1687,14 +1705,17 @@ class ilObjStyleSheet extends ilObject
 		{
 			foreach($style as $tag)
 			{
-				$q = "INSERT INTO style_parameter (style_id, tag, class, parameter, type, value) VALUES ".
-					"(".$ilDB->quote($this->getId()).",".
-					$ilDB->quote($tag["tag"]).",".
-					$ilDB->quote($tag["class"]).
-					",".$ilDB->quote($tag["parameter"]).",".
-					$ilDB->quote($tag["type"]).",".
-					$ilDB->quote($tag["value"]).")";
-				$this->ilias->db->query($q);
+				$id = $ilDB->nextId("style_parameter");
+				$q = "INSERT INTO style_parameter (id,style_id, tag, class, parameter, type, value) VALUES ".
+					"(".
+					$ilDB->quote($id, "integer").",".
+					$ilDB->quote($this->getId(), "integer").",".
+					$ilDB->quote($tag["tag"], "text").",".
+					$ilDB->quote($tag["class"], "text").",".
+					$ilDB->quote($tag["parameter"], "text").",".
+					$ilDB->quote($tag["type"], "text").",".
+					$ilDB->quote($tag["value"], "text").")";
+				$ilDB->manipulate($q);
 			}
 		}
 		
@@ -1919,7 +1940,7 @@ class ilObjStyleSheet extends ilObject
 				{
 					$ilDB->manipulateF(
 						"INSERT INTO style_char (style_id, type, characteristic) ".
-						" VALUES (?,?,?) ",
+						" VALUES (%s,%s,%s) ",
 						array("integer", "text", "text"),
 						array($id, $cs["type"], $cs["class"]));
 					
@@ -1929,18 +1950,20 @@ class ilObjStyleSheet extends ilObject
 					foreach ($par_nodes as $par_node)
 					{
 						// check whether style parameter exists
-						$st = $ilDB->prepare("SELECT * FROM style_parameter WHERE style_id = ? ".
-							"AND type = ? AND class = ? AND tag = ? AND parameter = ?",
-							array("integer", "text", "text", "text", "text"));
-						$set = $ilDB->execute($st, array($id, $cs["type"], $cs["class"],
+						$set = $ilDB->queryF("SELECT * FROM style_parameter WHERE style_id = %s ".
+							"AND type = %s AND class = %s AND tag = %s AND parameter = %s",
+							array("integer", "text", "text", "text", "text"),
+							array($id, $cs["type"], $cs["class"],
 							$cs["tag"], $par_node->getAttribute("Name")));
 							
 						// if not, create style parameter
 						if (!($rec = $ilDB->fetchAssoc($set)))
 						{
-							$st = $ilDB->prepareManip("INSERT INTO style_parameter (style_id, type, class, tag, parameter, value) ".
-								" VALUES (?,?,?,?,?,?)", array("integer", "text", "text", "text", "text", "text"));
-							$ilDB->execute($st, array($id, $cs["type"], $cs["class"], $cs["tag"],
+							$spid = $ilDB->nextId("style_parameter");
+							$st = $ilDB->manipulateF("INSERT INTO style_parameter (id, style_id, type, class, tag, parameter, value) ".
+								" VALUES (%s,%s,%s,%s,%s,%s,%s)",
+								array("integer", "integer", "text", "text", "text", "text", "text"),
+								array($spid, $id, $cs["type"], $cs["class"], $cs["tag"],
 								$par_node->getAttribute("Name"), $par_node->getAttribute("Value")));
 						}
 					}
