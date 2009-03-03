@@ -363,7 +363,7 @@ class ilMD extends ilMDBase
 			$query = "DELETE FROM ".$table." ".
 				"WHERE rbac_id = ".$ilDB->quote($this->getRBACId())." ".
 				"AND obj_id = ".$ilDB->quote($this->getObjId());
-			$res = $ilDB->manipulate($query);
+			$res = $ilDB->query($query);
 		}
 		
 		return true;
@@ -399,7 +399,7 @@ class ilMD extends ilMDBase
 		{
 			$query = "DELETE FROM ".$table." ".
 				"WHERE obj_type = ".$ilDB->quote($a_type)." ";
-			$res = $ilDB->manipulate($query);
+			$res = $ilDB->query($query);
 		}
 		
 		return true;

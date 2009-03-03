@@ -180,5 +180,29 @@ class ilMDTest extends PHPUnit_Framework_TestCase
 		
 		$con->delete();
 	}
+
+	/**
+	 * test Educational 
+	 * @return
+	 */
+	public function testEducational()
+	{
+		include_once './Services/MetaData/classes/class.ilMDEducational.php';
+		include_once 'Services/MetaData/classes/class.ilMDLanguageItem.php';
+
+		$con = new ilMDEducational(1,2,'xxx');
+		$con->setDifficulty('Easy');
+		$ret = $con->save();		 
+		$this->assertGreaterThan(0,$ret);
+		
+		$con->setDifficulty('Medium');
+		$con->update();
+		$con->read();
+		$desc = $con->getDifficulty();
+		$this->assertEquals('Medium',$desc);
+		
+		$con->delete();
+	}
+
 }
 ?>

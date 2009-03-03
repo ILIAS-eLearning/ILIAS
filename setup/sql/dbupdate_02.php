@@ -8513,4 +8513,12 @@ ALTER TABLE `il_meta_contribute` CHANGE `date` `date` VARCHAR( 4000 ) NULL DEFAU
 <?php
 	$ilMySQLAbstraction->performAbstraction('il_meta_description');
 ?>
+
+<#1820>
+ALTER TABLE `il_meta_educational` CHANGE `typical_learning_time` `typical_learning_time` VARCHAR( 4000 ) NULL DEFAULT NULL;
+
+<#1821>
+<?php
+	$ilMySQLAbstraction->performAbstraction('il_meta_educational');
+?>
   
