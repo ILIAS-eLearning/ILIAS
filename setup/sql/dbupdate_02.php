@@ -8529,7 +8529,17 @@ ALTER TABLE `il_meta_entity` CHANGE `entity` `entity` VARCHAR( 4000 ) NULL DEFAU
 <?php
 	$ilMySQLAbstraction->performAbstraction('il_meta_entity');
 ?>
+
 <#1824>
 <?php
 	$ilMySQLAbstraction->performAbstraction('xhtml_page');
 ?>
+
+<#1825>
+ALTER TABLE `il_meta_format` CHANGE `format` `format` VARCHAR( 4000 ) NULL DEFAULT NULL;  
+  
+<#1826>
+<?php
+	$ilMySQLAbstraction->performAbstraction('il_meta_format');
+?>
+

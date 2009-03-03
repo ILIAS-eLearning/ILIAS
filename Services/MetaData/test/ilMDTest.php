@@ -226,5 +226,27 @@ class ilMDTest extends PHPUnit_Framework_TestCase
 		
 		$con->delete();
 	}
+	/**
+	 * test Format 
+	 * @return
+	 */
+	public function testFormat()
+	{
+		include_once './Services/MetaData/classes/class.ilMDFormat.php';
+		include_once 'Services/MetaData/classes/class.ilMDLanguageItem.php';
+
+		$con = new ilMDFormat(1,2,'xxx');
+		$con->setFormat('Easy');
+		$ret = $con->save();		 
+		$this->assertGreaterThan(0,$ret);
+		
+		$con->setFormat('Medium');
+		$con->update();
+		$con->read();
+		$desc = $con->getFormat();
+		$this->assertEquals('Medium',$desc);
+		
+		$con->delete();
+	}
 }
 ?>
