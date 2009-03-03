@@ -3,7 +3,7 @@
         +-----------------------------------------------------------------------------+
         | ILIAS open source                                                           |
         +-----------------------------------------------------------------------------+
-        | Copyright (c) 1998-2006 ILIAS open source, University of Cologne            |
+        | Copyright (c) 1998-2009 ILIAS open source, University of Cologne            |
         |                                                                             |
         | This program is free software; you can redistribute it and/or               |
         | modify it under the terms of the GNU General Public License                 |
@@ -123,6 +123,7 @@ class ilColorPickerInputGUI extends ilTextInputGUI
 		// handle named colors
 		switch ($a_value)
 		{
+			// html4 colors
 			case "black": $a_value = "000000"; break;
 			case "maroon": $a_value = "800000"; break;
 			case "green": $a_value = "008000"; break;
@@ -139,6 +140,9 @@ class ilColorPickerInputGUI extends ilTextInputGUI
 			case "fuchsia": $a_value = "ff00ff"; break;
 			case "aqua": $a_value = "00ffff"; break;
 			case "white": $a_value = "ffffff"; break;
+			
+			// other colors used by ILIAS, supported by modern browsers
+			case "brown": $a_value = "a52a2a"; break;
 		}
 		
 		// handle rgb values

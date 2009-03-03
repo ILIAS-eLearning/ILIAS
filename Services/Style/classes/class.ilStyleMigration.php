@@ -37,8 +37,8 @@ class ilStyleMigration
 	{
 		global $ilDB;
 		
-		$st = $ilDB->prepare("SELECT DISTINCT style_id, tag, class FROM style_parameter WHERE type = ''");
-		$set = $ilDB->execute($st);
+		$set = $ilDB->query("SELECT DISTINCT style_id, tag, class FROM style_parameter
+			WHERE ".$ilDB->equals("type", "", "text", true));
 		while ($rec = $ilDB->fetchAssoc($set))
 		{
 //echo "<br><b>".$rec["tag"]."-".$rec["class"]."-</b>";
@@ -114,24 +114,20 @@ class ilStyleMigration
 			{
 				if (count($types) > 0)
 				{
-					$st = $ilDB->prepareManip("UPDATE style_parameter SET type = ? ".
-						" WHERE style_id = ? AND class = ? AND type = ?",
-						array("text", "integer", "text", "text"));
-					$ilDB->execute($st,
+					$ilDB->manipulateF("UPDATE style_parameter SET type = %s ".
+						" WHERE style_id = %s AND class = %s AND type = %s",
+						array("text", "integer", "text", "text"),
 						array($types[0], $rec["style_id"], $rec["class"], ""));
 //echo "<br>2-".$types[0]."-".$rec["style_id"]."-".$rec["class"]."-";
 
 					// links extra handling
 					if ($types[0] == "link")
 					{
-						$st = $ilDB->prepareManip("UPDATE style_parameter SET type = ? ".
-							" WHERE style_id = ? AND (class = ? OR class = ?) AND type = ?",
-							array("text", "integer", "text", "text", "text"));
-						$ilDB->execute($st,
+						$ilDB->manipulateF("UPDATE style_parameter SET type = %s ".
+							" WHERE style_id = %s AND (class = %s OR class = %s) AND type = %s",
+							array("text", "integer", "text", "text", "text"),
 							array($types[0], $rec["style_id"], $rec["class"].":visited",
 							$rec["class"].":hover", ""));
-//echo "<br>4-".$types[0]."-".$rec["style_id"]."-".$rec["class"].":visited"."-".
-//	$rec["class"].":hover";
 					}
 				}
 //echo "A";
@@ -140,19 +136,17 @@ class ilStyleMigration
 //echo "B";
 					// select all records of first type and add second type 
 					// records if necessary.
-					$st = $ilDB->prepare("SELECT * FROM style_parameter ".
-						" WHERE style_id = ? AND class = ? AND type = ?",
-						array("integer", "text", "text"));
-					$set2 = $ilDB->execute($st,
+					$set2 = $ilDB->queryF("SELECT * FROM style_parameter ".
+						" WHERE style_id = %s AND class = %s AND type = %s",
+						array("integer", "text", "text"),
 						array($rec["style_id"], $rec["class"], $types[0]));
 					while ($rec2 = $ilDB->fetchAssoc($set2))
 					{
 //echo "C";
 						// check if second type already exists
-						$st = $ilDB->prepare("SELECT * FROM style_parameter ".
-							" WHERE style_id = ? AND tag = ? AND class = ? AND type = ? AND parameter = ?",
-							array("integer", "text", "text", "text", "text", "text"));
-						$set3 = $ilDB->execute($st,
+						$set3 = $ilDB->queryF("SELECT * FROM style_parameter ".
+							" WHERE style_id = %s AND tag = %s AND class = %s AND type = %s AND parameter = %s",
+							array("integer", "text", "text", "text", "text", "text"),
 							array($rec["style_id"], $rec["tag"], $rec["class"], $types[1], $rec["parameter"]));
 						if ($rec3 = $ilDB->fetchAssoc($set3))
 						{
@@ -161,15 +155,13 @@ class ilStyleMigration
 						else
 						{
 //echo "D";
+							$id = $ilDB->nextId("style_parameter");
 							$st = $ilDB->prepareManip("INSERT INTO style_parameter ".
-								" (style_id, tag, class, parameter, value, type) VALUES ".
-								" (?,?,?,?,?,?) ",
-								array("integer", "text", "text", "text", "text", "text"));
-							$ilDB->execute($st,
-								array($rec2["style_id"], $rec2["tag"], $rec2["class"],
+								" (id,style_id, tag, class, parameter, value, type) VALUES ".
+								" (%s,%s,%s,%s,%s,%s,%s) ",
+								array("integer","integer", "text", "text", "text", "text", "text"),
+								array($id, $rec2["style_id"], $rec2["tag"], $rec2["class"],
 									$rec2["parameter"], $rec2["value"], $types[1]));
-//echo "<br>3-".$rec2["style_id"]."-".$rec2["tag"]."-".$rec2["class"]."-".
-								$rec2["parameter"]."-"."-".$rec2["value"]."-".$types[1]."-";
 						}
 					}
 				}
