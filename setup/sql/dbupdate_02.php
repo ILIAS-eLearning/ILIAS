@@ -8529,5 +8529,7 @@ ALTER TABLE `il_meta_entity` CHANGE `entity` `entity` VARCHAR( 4000 ) NULL DEFAU
 <?php
 	$ilMySQLAbstraction->performAbstraction('il_meta_entity');
 ?>
-  
-  
+<#1824>
+<?php
+	$ilMySQLAbstraction->performAbstraction('xhtml_page');
+?>
