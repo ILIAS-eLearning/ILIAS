@@ -994,9 +994,14 @@ class ilParticipants
 	{
 		global $ilDB;
 
-		$query = "INSERT INTO il_subscribers ".
-			" VALUES (".$ilDB->quote($a_usr_id).",".$ilDB->quote($this->obj_id).",'', ".$ilDB->quote(time()).")";
-		$res = $this->ilDB->query($query);
+		$query = "INSERT INTO il_subscribers (usr_id,obj_id,subject,sub_time) ".
+			" VALUES (".
+			$ilDB->quote($a_usr_id ,'integer').",".
+			$ilDB->quote($this->obj_id ,'integer').", ".
+			$ilDB->quote('','text').", ".
+			$ilDB->quote(time() ,'integer').
+			")";
+		$res = $ilDB->manipulate($query);
 
 		return true;
 	}
@@ -1012,11 +1017,10 @@ class ilParticipants
 		global $ilDB;
 
 		$query = "UPDATE il_subscribers ".
-			"SET sub_time = ".$ilDB->quote($a_subtime)." ".
-			"WHERE usr_id = ".$ilDB->quote($a_usr_id)." ".
-			"AND obj_id = ".$ilDB->quote($this->obj_id)." ";
-
-		$ilDB->query($query);
+			"SET sub_time = ".$ilDB->quote($a_subtime ,'integer')." ".
+			"WHERE usr_id = ".$ilDB->quote($a_usr_id ,'integer')." ".
+			"AND obj_id = ".$ilDB->quote($this->obj_id ,'integer')." ";
+		$res = $ilDB->manipulate($query);
 
 		return true;
 	}
@@ -1033,10 +1037,10 @@ class ilParticipants
 		global $ilDB;
 		
 		$query = "UPDATE il_subscribers ".
-			"SET subject = ".$ilDB->quote($a_subject)." ".
-			"WHERE usr_id = ".$ilDB->quote($a_usr_id)." ".
-			"AND obj_id = ".$ilDB->quote($this->obj_id)." ";
-		$ilDB->query($query);
+			"SET subject = ".$ilDB->quote($a_subject ,'text')." ".
+			"WHERE usr_id = ".$ilDB->quote($a_usr_id ,'integer')." ".
+			"AND obj_id = ".$ilDB->quote($this->obj_id ,'integer')." ";
+		$res = $ilDB->manipulate($query);
 		return true;
 	}
 
@@ -1051,10 +1055,9 @@ class ilParticipants
 		global $ilDB;
 
 		$query = "DELETE FROM il_subscribers ".
-			"WHERE usr_id = ".$a_usr_id." ".
-			"AND obj_id = ".$ilDB->quote($this->obj_id)." ";
-
-		$res = $ilDB->query($query);
+			"WHERE usr_id = ".$ilDB->quote($a_usr_id ,'integer')." ".
+			"AND obj_id = ".$ilDB->quote($this->obj_id ,'integer')." ";
+		$res = $ilDB->manipulate($query);
 
 		return true;
 	}
@@ -1099,11 +1102,10 @@ class ilParticipants
 		global $ilDB;
 
 		$query = "SELECT * FROM il_subscribers ".
-			"WHERE usr_id = ".$ilDB->quote($a_usr_id)." ".
-			"AND obj_id = ".$ilDB->quote($this->obj_id)."";
+			"WHERE usr_id = ".$ilDB->quote($a_usr_id ,'integer')." ".
+			"AND obj_id = ".$ilDB->quote($this->obj_id ,'integer')."";
 
 		$res = $ilDB->query($query);
-
 		while($row = $res->fetchRow(DB_FETCHMODE_OBJECT))
 		{
 			return true;
@@ -1122,11 +1124,10 @@ class ilParticipants
 		global $ilDB;
 
 		$query = "SELECT * FROM il_subscribers ".
-			"WHERE usr_id = ".$ilDB->quote($a_usr_id)." ".
-			"AND obj_id = ".$ilDB->quote($a_obj_id)."";
+			"WHERE usr_id = ".$ilDB->quote($a_usr_id ,'integer')." ".
+			"AND obj_id = ".$ilDB->quote($a_obj_id ,'integer')."";
 
 		$res = $ilDB->query($query);
-
 		while($row = $res->fetchRow(DB_FETCHMODE_OBJECT))
 		{
 			return true;
@@ -1146,7 +1147,7 @@ class ilParticipants
 		$this->subscribers = array();
 
 		$query = "SELECT usr_id FROM il_subscribers ".
-			"WHERE obj_id = ".$ilDB->quote($this->obj_id)." ".
+			"WHERE obj_id = ".$ilDB->quote($this->obj_id ,'integer')." ".
 			"ORDER BY sub_time ";
 
 		$res = $this->ilDB->query($query);
@@ -1172,8 +1173,8 @@ class ilParticipants
 		global $ilDB;
 
 		$query = "SELECT * FROM il_subscribers ".
-			"WHERE obj_id = ".$ilDB->quote($this->obj_id)." ".
-			"AND usr_id = ".$ilDB->quote($a_usr_id)."";
+			"WHERE obj_id = ".$ilDB->quote($this->obj_id ,'integer')." ".
+			"AND usr_id = ".$ilDB->quote($a_usr_id ,'integer')."";
 
 		$res = $this->ilDB->query($query);
 		while($row = $res->fetchRow(DB_FETCHMODE_OBJECT))

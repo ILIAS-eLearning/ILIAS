@@ -41,7 +41,7 @@ class ilMembershipTest extends PHPUnit_Framework_TestCase
 	}
 	
 	/**
-	 * RBAC FA tests 
+	 * Waiting list tes
 	 * @param
 	 * @return
 	 */
@@ -66,6 +66,32 @@ class ilMembershipTest extends PHPUnit_Framework_TestCase
 		
 		$wait->addToList(111111);
 		ilWaitingList::_deleteUser(111111);
+	}
+	
+	/**
+	 *  
+	 * @param
+	 * @return
+	 */
+	public function testSubscription()
+	{
+		include_once './Services/Membership/classes/class.ilParticipants.php';
+		include_once './Modules/Course/classes/class.ilCourseParticipants.php';
+		
+		$part = ilCourseParticipants::_getInstanceByObjId(999999);
+		$part->addSubscriber(111111);
+		$part->updateSubscriptionTime(111111,time());
+		$part->updateSubject(111111,'hallo');
+		
+		$is = $part->isSubscriber(111111);
+		$this->assertEquals($is,true);
+		
+		$is = ilParticipants::_isSubscriber(999999,111111);
+		$this->assertEquals($is,true);
+		
+		$part->deleteSubscriber(111111);
+		$is = $part->isSubscriber(111111);
+		$this->assertEquals($is,false);
 	}
 }
 ?>
