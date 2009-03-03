@@ -8488,3 +8488,7 @@ ALTER TABLE `il_md_cpr_selections` CHANGE `copyright_and_other_restrictions` `cp
 	$ilMySQLAbstraction->performAbstraction('usr_pwassist');
 ?>
 
+<#1814>
+<?php
+	$ilMySQLAbstraction->performAbstraction('il_meta_annotation');
+?>
