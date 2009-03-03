@@ -85,12 +85,12 @@ function db_pwassist_create_id()
 */
 function db_pwassist_session_read($pwassist_id)
 {
-	global $ilias;
+	global $ilDB;
 
 	$q = "SELECT * FROM usr_pwassist ".
-	"WHERE pwassist_id = '".addslashes($pwassist_id)."'";
-	$r = $ilias->db->query($q);
-	$data = $r->fetchRow(DB_FETCHMODE_ASSOC);
+		"WHERE pwassist_id = ".$ilDB->quote($pwassist_id, "text");
+	$r = $ilDB->query($q);
+	$data = $ilDB->fetchAssoc($r);
 
 	return $data;
 }
@@ -105,12 +105,12 @@ function db_pwassist_session_read($pwassist_id)
 **/
 function db_pwassist_session_find($user_id)
 {
-	global $ilias;
+	global $ilDB;
 
 	$q = "SELECT * FROM usr_pwassist ".
-		"WHERE user_id = '".addslashes($user_id)."'";
-	$r = $ilias->db->query($q);
-	$data = $r->fetchRow(DB_FETCHMODE_ASSOC);
+		"WHERE user_id = ".$ilDB->quote($user_id, "integer");
+	$r = $ilDB->query($q);
+	$data = $ilDB->fetchAssoc($r);
 
 	return $data;
 }
@@ -124,19 +124,20 @@ function db_pwassist_session_find($user_id)
 */
 function db_pwassist_session_write($pwassist_id, $maxlifetime, $user_id)
 {
-	global $ilias;
+	global $ilDB;
+
+	$q = "DELETE FROM usr_pwassist ".
+		 "WHERE pwassist_id = ".$ilDB->quote($pwassist_id, "text");
+	$ilDB->manipulate($q);
 
 	$ctime = time();
 	$expires = $ctime + $maxlifetime;
-	$q = "REPLACE INTO usr_pwassist ".
-		 "(pwassist_id, expires, user_id,  ctime) ".
-		 "VALUES('".
-			addslashes($pwassist_id)."','".
-			$expires."','".
-			addslashes($user_id)."','".
-			$ctime."')";
-	$ilias->db->query($q);	 
-		 
+	$ilDB->manipulateF("INSERT INTO usr_pwassist ".
+		"(pwassist_id, expires, user_id,  ctime) ".
+		"VALUES (%s,%s,%s,%s)",
+		array("text", "integer", "integer", "integer"),
+		array($pwassist_id, $expires, $user_id, $ctime));	 
+
 	return true;
 }
 
@@ -147,11 +148,11 @@ function db_pwassist_session_write($pwassist_id, $maxlifetime, $user_id)
 */
 function db_pwassist_session_destroy($pwassist_id)
 {
-	global $ilias;
+	global $ilDB;
 
 	$q = "DELETE FROM usr_pwassist ".
-		 "WHERE pwassist_id = '".addslashes($pwassist_id)."'";
-	$ilias->db->query($q);
+		 "WHERE pwassist_id = ".$ilDB->quote($pwassist_id, "text");
+	$ilDB->manipulate($q);
   
 	return true;
 }
@@ -162,11 +163,11 @@ function db_pwassist_session_destroy($pwassist_id)
 */
 function db_pwassist_session_gc()
 {
-	global $pear_session_db,$ilias;
+	global $pear_session_db,$ilDB;
 
 	$q = "DELETE FROM usr_pwassist ".
-		 "WHERE expires < ".time();
-	$ilias->db->query($q);
+		 "WHERE expires < ".$ilDB->quote(time(), "integer");
+	$ilDB->manipulate($q);
 	
 	return true;
 }

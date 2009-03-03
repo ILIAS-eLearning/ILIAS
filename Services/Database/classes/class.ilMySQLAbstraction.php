@@ -108,6 +108,9 @@ class ilMySQLAbstraction
 
 		// get indices information
 		$indices = $this->analyzer->getIndicesInformation($a_table_name);
+
+		// get constraints information
+		$constraints = $this->analyzer->getConstraintsInformation($a_table_name);
 		
 		// get field information
 		$fields = $this->analyzer->getFieldInformation($a_table_name);
@@ -122,9 +125,13 @@ class ilMySQLAbstraction
 			$this->removePrimaryKey($a_table_name, $pk);
 			$this->storeStep($a_table_name, 30);
 	
-			// remove indices (@todo: fulltext index handling)
+			// remove indices
 			$this->removeIndices($a_table_name, $indices);
 			$this->storeStep($a_table_name, 40);
+
+			// remove constraints
+			$this->removeConstraints($a_table_name, $constraints);
+			$this->storeStep($a_table_name, 45);
 		}
 		
 		// alter table using mdb2 field types
@@ -157,6 +164,13 @@ class ilMySQLAbstraction
 		if (!$this->getTestMode())
 		{
 			$this->storeStep($a_table_name, 80);
+		}
+
+		// add constraints
+		$this->addConstraints($a_table_name, $constraints);
+		if (!$this->getTestMode())
+		{
+			$this->storeStep($a_table_name, 85);
 		}
 		
 		// add "auto increment" sequence
@@ -368,6 +382,26 @@ class ilMySQLAbstraction
 	}
 	
 	/**
+	* Remove Constraints
+	*
+	* @param	string		table name
+	* @param	array		constraints information
+	*/
+	function removeConstraints($a_table, $a_constraints)
+	{
+		if (is_array($a_constraints))
+		{
+			foreach($a_constraints as $c)
+			{
+				if ($c["type"] == "unique")
+				{
+					$this->il_db->query("ALTER TABLE `".$a_table."` DROP INDEX `".$c["name"]."`");
+				}
+			}
+		}
+	}
+
+	/**
 	* Use abstract types as delivered by MDB2 to alter table
 	* and make it use only MDB2 known types.
 	*
@@ -538,6 +572,47 @@ class ilMySQLAbstraction
 		}
 	}
 	
+	/**
+	* Add constraints
+	*
+	* @param	string		table name
+	* @param	array		constraints information
+	*/
+	function addConstraints($a_table, $a_constraints)
+	{
+		if (is_array($a_constraints))
+		{
+			$all_valid = true;
+
+			foreach ($a_constraints as $c)
+			{
+				if (strlen($c["name"]) > 3)
+				{
+					$all_valid = false;
+				}
+			}
+			
+			$cnt = 1;
+			foreach ($a_constraints as $c)
+			{
+				if (is_array($c["fields"]))
+				{
+					if (!$all_valid)
+					{
+						$c["name"] = "c".$cnt;
+					}
+					$fields = array();
+					foreach ($c["fields"] as $f => $pos)
+					{
+						$fields[] = strtolower($f);
+					}
+					$this->il_db->addUniqueConstraint($a_table, $fields, strtolower($c["name"]));
+					$cnt++;
+				}
+			}
+		}
+	}
+
 	/**
 	* This is only used on tables that have already been abstracted
 	* but missed the "full treatment".

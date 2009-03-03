@@ -444,6 +444,7 @@ echo "<br>4"; flush();
 	{
 		$fields = $this->analyzer->getFieldInformation($a_table);
 		$indices = $this->analyzer->getIndicesInformation($a_table);
+		$constraints = $this->analyzer->getConstraintsInformation($a_table);
 		$pk = $this->analyzer->getPrimaryKeyInformation($a_table);
 		$auto = $this->analyzer->getAutoIncrementField($a_table);
 		$has_sequence = $this->analyzer->hasSequence($a_table);
@@ -476,6 +477,28 @@ echo "<br>4"; flush();
 				$indices_output = true;
 			}
 			$a_tpl->setCurrentBlock("index_table");
+			$a_tpl->parseCurrentBlock();
+		}
+
+		// constraints
+		$constraints_output = false;
+		if (is_array($constraints) && count($constraints) > 0 && !$this->filter["skip_constraints"])
+		{
+			foreach ($constraints as $index => $def)
+			{
+				$f2 = array();
+				foreach ($def["fields"] as $f => $pos)
+				{
+					$f2[] = $f;
+				}
+				$a_tpl->setCurrentBlock("constraint");
+				$a_tpl->setVariable("VAL_CONSTRAINT", $def["name"]);
+				$a_tpl->setVariable("VAL_CTYPE", $def["type"]);
+				$a_tpl->setVariable("VAL_CFIELDS", implode($f2, ", "));
+				$a_tpl->parseCurrentBlock();
+				$constraints_output = true;
+			}
+			$a_tpl->setCurrentBlock("constraint_table");
 			$a_tpl->parseCurrentBlock();
 		}
 
@@ -555,7 +578,7 @@ echo "<br>4"; flush();
 		}
 		
 		// table information
-		if ($indices_output || $fields_output)
+		if ($indices_output || $fields_output || $constraints_output)
 		{
 			$a_tpl->setCurrentBlock("table");
 			$a_tpl->setVariable("TXT_TABLE_NAME", strtolower($a_table));

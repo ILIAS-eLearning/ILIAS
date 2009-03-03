@@ -192,7 +192,7 @@ class ilDBAnalyzer
 	/**
 	* Get information on indices of a table.
 	* Primary key is NOT included!
-	* Fulltext indices are included but not marked (@todo)
+	* Fulltext indices are included and marked.
 	*
 	* @param	string		table name
 	* @return	array		indices information array
@@ -241,6 +241,41 @@ class ilDBAnalyzer
 		}
 
 		return $ind;
+	}
+
+	/**
+	* Get information on constraints of a table.
+	* Primary key is NOT included!
+	* Fulltext indices are included and marked.
+	*
+	* @param	string		table name
+	* @return	array		indices information array
+	*/
+	function getConstraintsInformation($a_table, $a_abstract_table = false)
+	{
+		$constraints = $this->manager->listTableConstraints($a_table);
+
+		$cons = array();
+		foreach ($constraints as $c)
+		{
+			$info = $this->reverse->getTableConstraintDefinition($a_table, $c);
+//var_dump($info);
+			$i = array();
+			if ($info["unique"])
+			{
+				$i["name"] = $c;
+				$i["type"] = "unique";
+				foreach ($info["fields"] as $k => $f)
+				{
+					$i["fields"][$k] = array(
+						"position" => $f["position"],
+						"sorting" => $f["sorting"]);
+				}
+				$cons[] = $i;
+			}
+		}
+
+		return $cons;
 	}
 
 	/**

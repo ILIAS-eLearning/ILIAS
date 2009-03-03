@@ -8483,5 +8483,8 @@ ALTER TABLE `il_md_cpr_selections` CHANGE `copyright_and_other_restrictions` `cp
 <?php
 	$ilMySQLAbstraction->performAbstraction('il_md_cpr_selections');
 ?>
- 
+<#1813>
+<?php
+	$ilMySQLAbstraction->performAbstraction('usr_pwassist');
+?>
 
