@@ -212,7 +212,7 @@ class ilMDUtilSelect
 		}
 
 
-		$query = "SELECT DISTINCT(format) as forma from il_meta_format ORDER BY format LIMIT 200";
+		$query = "SELECT DISTINCT(format) forma from il_meta_format ORDER BY format";
 		$res = $ilDB->query($query);
 		if(!$res->numRows())
 		{
