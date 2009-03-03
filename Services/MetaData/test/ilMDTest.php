@@ -156,5 +156,29 @@ class ilMDTest extends PHPUnit_Framework_TestCase
 		
 		$con->delete();
 	}
+
+	/**
+	 * test Description 
+	 * @return
+	 */
+	public function testDescription()
+	{
+		include_once './Services/MetaData/classes/class.ilMDDescription.php';
+		include_once 'Services/MetaData/classes/class.ilMDLanguageItem.php';
+
+		$con = new ilMDDescription(1,2,'xxx');
+		$con->setDescription('date');
+		$con->setDescriptionLanguage(new ilMDLanguageItem('en'));
+		$ret = $con->save();		 
+		$this->assertGreaterThan(0,$ret);
+		
+		$con->setDescription('desc2');
+		$con->update();
+		$con->read();
+		$desc = $con->getDescription();
+		$this->assertEquals('desc2',$desc);
+		
+		$con->delete();
+	}
 }
 ?>

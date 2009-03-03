@@ -8509,3 +8509,8 @@ ALTER TABLE `il_meta_contribute` CHANGE `date` `date` VARCHAR( 4000 ) NULL DEFAU
 	$ilMySQLAbstraction->performAbstraction('il_meta_contribute');
 ?>
   
+<#1819>
+<?php
+	$ilMySQLAbstraction->performAbstraction('il_meta_description');
+?>
+  

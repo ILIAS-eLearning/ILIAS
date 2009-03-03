@@ -66,12 +66,14 @@ class ilMDDescription extends ilMDBase
 
 	function save()
 	{
-		if($this->db->autoExecute('il_meta_description',
-								  $this->__getFields(),
-								  DB_AUTOQUERY_INSERT))
+		global $ilDB;
+		
+		$fields = $this->__getFields();
+		$fields['meta_description_id'] = array('integer',$next_id = $ilDB->nextId('il_meta_description'));
+		
+		if($this->db->insert('il_meta_description',$fields))
 		{
-			$this->setMetaId($this->db->getLastInsertId());
-
+			$this->setMetaId($next_id);
 			return $this->getMetaId();
 		}
 		return false;
@@ -83,10 +85,9 @@ class ilMDDescription extends ilMDBase
 		
 		if($this->getMetaId())
 		{
-			if($this->db->autoExecute('il_meta_description',
-									  $this->__getFields(),
-									  DB_AUTOQUERY_UPDATE,
-									  "meta_description_id = ".$ilDB->quote($this->getMetaId())))
+			if($this->db->update('il_meta_description',
+									$this->__getFields(),
+									array("meta_description_id" => array('integer',$this->getMetaId()))))
 			{
 				return true;
 			}
@@ -101,9 +102,8 @@ class ilMDDescription extends ilMDBase
 		if($this->getMetaId())
 		{
 			$query = "DELETE FROM il_meta_description ".
-				"WHERE meta_description_id = ".$ilDB->quote($this->getMetaId());
-			
-			$this->db->query($query);
+				"WHERE meta_description_id = ".$ilDB->quote($this->getMetaId() ,'integer');
+			$res = $ilDB->manipulate($query);
 			
 			return true;
 		}
@@ -113,13 +113,13 @@ class ilMDDescription extends ilMDBase
 
 	function __getFields()
 	{
-		return array('rbac_id'	=> $this->getRBACId(),
-					 'obj_id'	=> $this->getObjId(),
-					 'obj_type'	=> $this->getObjType(),
-					 'parent_type' => $this->getParentType(),
-					 'parent_id' => $this->getParentId(),
-					 'description'	=> $this->getDescription(),
-					 'description_language' => $this->getDescriptionLanguageCode());
+		return array('rbac_id'	=> array('integer',$this->getRBACId()),
+					 'obj_id'	=> array('integer',$this->getObjId()),
+					 'obj_type'	=> array('text',$this->getObjType()),
+					 'parent_type' => array('text',$this->getParentType()),
+					 'parent_id' => array('integer',$this->getParentId()),
+					 'description'	=> array('clob',$this->getDescription()),
+					 'description_language' => array('text',$this->getDescriptionLanguageCode()));
 	}
 
 	function read()
@@ -131,7 +131,7 @@ class ilMDDescription extends ilMDBase
 		if($this->getMetaId())
 		{
 			$query = "SELECT * FROM il_meta_description ".
-				"WHERE meta_description_id = ".$ilDB->quote($this->getMetaId());
+				"WHERE meta_description_id = ".$ilDB->quote($this->getMetaId() ,'integer');
 
 			$res = $this->db->query($query);
 			while($row = $res->fetchRow(DB_FETCHMODE_OBJECT))
