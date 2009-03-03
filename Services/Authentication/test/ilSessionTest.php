@@ -69,5 +69,43 @@ class ilSettingTest extends PHPUnit_Framework_TestCase
 		}
 		$this->assertEquals("exists-write-get-duplicate-destroy-destroyExp-destroyByUser-", $result);
 	}
+	
+	public function testPasswordAssisstanceSession()
+	{
+		global $ilUser;
+		
+		include_once("./include/inc.pwassist_session_handler.php");
+		
+		$result = "";
+		
+		// write session
+		db_pwassist_session_write("12345", 60, $ilUser->getId());
+		
+		// find
+		$res = db_pwassist_session_find($ilUser->getId());
+		if ($res["pwassist_id"] == "12345")
+		{
+			$result.= "find-";
+		}
+		
+		// read
+		$res = db_pwassist_session_read("12345");
+		if ($res["user_id"] == $ilUser->getId())
+		{
+			$result.= "read-";
+		}
+		
+		// destroy
+		db_pwassist_session_destroy("12345");
+		$res = db_pwassist_session_read("12345");
+		if (!$res)
+		{
+			$result.= "destroy-";
+		}
+
+		db_pwassist_session_gc();
+
+		$this->assertEquals("find-read-destroy-", $result);
+	}
 }
 ?>
