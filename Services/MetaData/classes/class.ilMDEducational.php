@@ -333,15 +333,16 @@ class ilMDEducational extends ilMDBase
 	
 	function save()
 	{
-		if($this->db->autoExecute('il_meta_educational',
-								  $this->__getFields(),
-								  DB_AUTOQUERY_INSERT))
-		{
-			$this->setMetaId($this->db->getLastInsertId());
+		global $ilDB;
 
+		$fields = $this->__getFields();
+		$fields['meta_educational_id'] = array('integer',$next_id = $ilDB->nextId('il_meta_educational'));
+		
+		if($this->db->insert('il_meta_educational',$fields))
+		{
+			$this->setMetaId($next_id);
 			return $this->getMetaId();
 		}
-
 		return false;
 	}
 
@@ -351,10 +352,9 @@ class ilMDEducational extends ilMDBase
 		
 		if($this->getMetaId())
 		{
-			if($this->db->autoExecute('il_meta_educational',
-									  $this->__getFields(),
-									  DB_AUTOQUERY_UPDATE,
-									  "meta_educational_id = ".$ilDB->quote($this->getMetaId())))
+			if($this->db->update('il_meta_educational',
+									$this->__getFields(),
+									array("meta_educational_id" => array('integer',$this->getMetaId()))))
 			{
 				return true;
 			}
@@ -370,8 +370,7 @@ class ilMDEducational extends ilMDBase
 		{
 			$query = "DELETE FROM il_meta_educational ".
 				"WHERE meta_educational_id = ".$ilDB->quote($this->getMetaId());
-			
-			$this->db->query($query);
+			$res = $ilDB->manipulate($query);
 
 			foreach($this->getTypicalAgeRangeIds() as $id)
 			{
@@ -398,17 +397,17 @@ class ilMDEducational extends ilMDBase
 
 	function __getFields()
 	{
-		return array('rbac_id'	=> $this->getRBACId(),
-					 'obj_id'	=> $this->getObjId(),
-					 'obj_type'	=> $this->getObjType(),
-					 'interactivity_type' => $this->getInteractivityType(),
-					 'learning_resource_type' => $this->getLearningResourceType(),
-					 'interactivity_level' => $this->getInteractivityLevel(),
-					 'semantic_density' => $this->getSemanticDensity(),
-					 'intended_end_user_role' => $this->getIntendedEndUserRole(),
-					 'context' => $this->getContext(),
-					 'difficulty' => $this->getDifficulty(),
-					 'typical_learning_time' => $this->getTypicalLearningTime());
+		return array('rbac_id'	=> array('integer',$this->getRBACId()),
+					 'obj_id'	=> array('integer',$this->getObjId()),
+					 'obj_type'	=> array('integer',$this->getObjType()),
+					 'interactivity_type' => array('text',$this->getInteractivityType()),
+					 'learning_resource_type' => array('text',$this->getLearningResourceType()),
+					 'interactivity_level' => array('text',$this->getInteractivityLevel()),
+					 'semantic_density' => array('text',$this->getSemanticDensity()),
+					 'intended_end_user_role' => array('text',$this->getIntendedEndUserRole()),
+					 'context' => array('text',$this->getContext()),
+					 'difficulty' => array('text',$this->getDifficulty()),
+					 'typical_learning_time' => array('text',$this->getTypicalLearningTime()));
 	}
 
 	function read()
@@ -419,7 +418,7 @@ class ilMDEducational extends ilMDBase
 		{
 
 			$query = "SELECT * FROM il_meta_educational ".
-				"WHERE meta_educational_id = ".$ilDB->quote($this->getMetaId());
+				"WHERE meta_educational_id = ".$ilDB->quote($this->getMetaId() ,'integer');
 
 		
 			$res = $this->db->query($query);
@@ -509,8 +508,8 @@ class ilMDEducational extends ilMDBase
 		global $ilDB;
 
 		$query = "SELECT meta_educational_id FROM il_meta_educational ".
-			"WHERE rbac_id = ".$ilDB->quote($a_rbac_id)." ".
-			"AND obj_id = ".$ilDB->quote($a_obj_id);
+			"WHERE rbac_id = ".$ilDB->quote($a_rbac_id ,'integer')." ".
+			"AND obj_id = ".$ilDB->quote($a_obj_id ,'integer');
 
 		$res = $ilDB->query($query);
 		while($row = $res->fetchRow(DB_FETCHMODE_OBJECT))
@@ -527,8 +526,8 @@ class ilMDEducational extends ilMDBase
 		$a_obj_id = $a_obj_id ? $a_obj_id : $a_rbac_id;
 
 		$query = "SELECT typical_learning_time FROM il_meta_educational ".
-			"WHERE rbac_id = ".$ilDB->quote($a_rbac_id)." ".
-			"AND obj_id = ".$ilDB->quote($a_obj_id);
+			"WHERE rbac_id = ".$ilDB->quote($a_rbac_id ,'integer')." ".
+			"AND obj_id = ".$ilDB->quote($a_obj_id ,'integer');
 		$res = $ilDB->query($query);
 		while($row = $res->fetchRow(DB_FETCHMODE_OBJECT))
 		{
