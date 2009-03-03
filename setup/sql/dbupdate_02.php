@@ -8492,3 +8492,11 @@ ALTER TABLE `il_md_cpr_selections` CHANGE `copyright_and_other_restrictions` `cp
 <?php
 	$ilMySQLAbstraction->performAbstraction('il_meta_annotation');
 ?>
+
+<#1815>
+ALTER TABLE `il_meta_classification` CHANGE `description` `description` VARCHAR( 4000 ) NULL DEFAULT NULL;  
+
+<#1816>
+<?php
+	$ilMySQLAbstraction->performAbstraction('il_meta_classification');
+?>
