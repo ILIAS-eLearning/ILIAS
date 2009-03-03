@@ -836,6 +836,39 @@ if ($this->getDBType() == "mysql")
 	}
 
 	/**
+	* Add a unique constraint to a table
+	*
+	* @param	string		table name
+	* @param	array		fields being unique
+	* @param	string		index name
+	*/
+	function addUniqueConstraint($a_table, $a_fields, $a_name = "con")
+	{
+		$manager = $this->db->loadModule('Manager');
+		
+		// check index name
+		if (!$this->checkIndexName($a_name))
+		{
+			$this->raisePearError("ilDB Error: addUniqueConstraint(".$a_table.",".$a_name.")<br />".
+				$this->error_str);
+		}
+		
+		$fields = array();
+		foreach ($a_fields as $f)
+		{
+			$fields[$f] = array();
+		}
+		$definition = array (
+			'unique' => true,
+			'fields' => $fields
+		);
+		
+		$r = $manager->createConstraint($a_table, $this->constraintName($a_table, $a_name), $definition);
+
+		return $this->handleError($r, "addUniqueConstraint(".$a_table.")");
+	}
+
+	/**
 	* Create a sequence for a table
 	*/
 	function createSequence($a_table_name, $a_start = 1)
