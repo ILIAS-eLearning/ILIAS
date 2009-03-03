@@ -80,5 +80,32 @@ class ilMDTest extends PHPUnit_Framework_TestCase
 		$cpr->delete();
 	}
 	
+	/**
+	 * test annotation 
+	 * @param
+	 * @return
+	 */
+	public function testAnnotation()
+	{
+		include_once './Services/MetaData/classes/class.ilMDAnnotation.php';
+		include_once 'Services/MetaData/classes/class.ilMDLanguageItem.php';
+		
+		$ann = new ilMDAnnotation(1,2,'xxx');
+		$ann->setDescription("desc");
+		$ann->setDescriptionLanguage(new ilMDLanguageItem('en'));
+		$ann->setEntity('ent');
+		$ann->setDate('date');
+		$ret = $ann->save();			 
+		$this->assertGreaterThan(0,$ret);
+		
+		$ann->setDescription('desc2');
+		$ann->update();
+		$ann->read();
+		$desc = $ann->getDescription();
+		$this->assertEquals('desc2',$desc);
+		
+		$ann->delete();
+	}
+	
 }
 ?>
