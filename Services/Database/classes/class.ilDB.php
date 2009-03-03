@@ -353,15 +353,29 @@ if ($this->getDBType() == "mysql")
 	*/
 	function handleError($a_res, $a_info = "", $a_level = "")
 	{
+		global $ilLog;
+		
 		if (MDB2::isError($a_res))
 		{
 			if ($a_level == "")
 			{
 				$a_level = $this->error_class->FATAL;
 			}
+			
+			// Show stack
+	 		try
+	 		{
+	 			throw new Exception();
+	 		}
+	 		catch(Exception $e)
+	 		{
+		 		$stack = $e->getTraceAsString();
+	 		}
 
+			$ilLog->logStack();
 			$this->raisePearError("ilDB Error: ".$a_info."<br />".
-				$a_res->getMessage()."<br />".$a_res->getUserInfo(), $a_level);
+				$a_res->getMessage()."<br />".$a_res->getUserInfo()."<br />".$stack, $a_level);
+			
 		}
 		
 		return $a_res;
@@ -1332,6 +1346,7 @@ if ($this->getDBType() == "mysql")
 			$st = $this->db->prepare("INSERT INTO ".$a_table." (".implode($fields,",").") VALUES (".
 				implode($placeholders2,",").")", $types, MDB2_PREPARE_MANIP, $lob);
 			$r = $st->execute($field_values);
+			
 			
 			//$r = $this->db->extended->autoExecute($a_table, $field_values, MDB2_AUTOQUERY_INSERT, null, $types);
 			$this->handleError($r, "insert / prepare/execute(".$a_table.")");
