@@ -132,5 +132,29 @@ class ilMDTest extends PHPUnit_Framework_TestCase
 		
 		$ann->delete();
 	}
+	
+	/**
+	 * test contribute 
+	 * @return
+	 */
+	public function testContribute()
+	{
+		include_once './Services/MetaData/classes/class.ilMDContribute.php';
+		include_once 'Services/MetaData/classes/class.ilMDLanguageItem.php';
+
+		$con = new ilMDContribute(1,2,'xxx');
+		$con->setDate('date');
+		$con->setRole('ScriptWriter');
+		$ret = $con->save();		 
+		$this->assertGreaterThan(0,$ret);
+		
+		$con->setDate('desc2');
+		$con->update();
+		$con->read();
+		$desc = $con->getDate();
+		$this->assertEquals('desc2',$desc);
+		
+		$con->delete();
+	}
 }
 ?>
