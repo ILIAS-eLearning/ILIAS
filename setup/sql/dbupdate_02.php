@@ -8500,3 +8500,12 @@ ALTER TABLE `il_meta_classification` CHANGE `description` `description` VARCHAR(
 <?php
 	$ilMySQLAbstraction->performAbstraction('il_meta_classification');
 ?>
+
+<#1817>
+ALTER TABLE `il_meta_contribute` CHANGE `date` `date` VARCHAR( 4000 ) NULL DEFAULT NULL;
+
+<#1818>
+<?php
+	$ilMySQLAbstraction->performAbstraction('il_meta_contribute');
+?>
+  
