@@ -8461,3 +8461,8 @@ ALTER TABLE `container_sorting` DROP parent_id;
 <?php
 	$ilMySQLAbstraction->performAbstraction('copy_wizard_options');
 ?>
+
+<#1808>
+<?php
+	$ilMySQLAbstraction->performAbstraction('crs_waiting_list');
+?>

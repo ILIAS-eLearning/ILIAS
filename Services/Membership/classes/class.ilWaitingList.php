@@ -66,8 +66,8 @@ abstract class ilWaitingList
 	{
 		global $ilDB;
 
-		$query = "DELETE FROM crs_waiting_list WHERE obj_id = ".$ilDB->quote($a_obj_id)." ";
-		$ilDB->query($query);
+		$query = "DELETE FROM crs_waiting_list WHERE obj_id = ".$ilDB->quote($a_obj_id ,'integer')." ";
+		$res = $ilDB->manipulate($query);
 
 		return true;
 	}
@@ -83,8 +83,8 @@ abstract class ilWaitingList
 	{
 		global $ilDB;
 
-		$query = "DELETE FROM crs_waiting_list WHERE usr_id = ".$ilDB->quote($a_usr_id)."";
-		$ilDB->query($query);
+		$query = "DELETE FROM crs_waiting_list WHERE usr_id = ".$ilDB->quote($a_usr_id ,'integer');
+		$res = $ilDB->manipulate($query);
 
 		return true;
 	}	
@@ -115,12 +115,13 @@ abstract class ilWaitingList
 		{
 			return false;
 		}
-		$query = "INSERT INTO crs_waiting_list ".
-			"SET obj_id = ".$ilDB->quote($this->getObjId()).", ".
-			"usr_id = ".$ilDB->quote($a_usr_id).", ".
-			"sub_time = ".$ilDB->quote(time())." ";
-
-		$this->db->query($query);
+		$query = "INSERT INTO crs_waiting_list (obj_id,usr_id,sub_time) ".
+			"VALUES (".
+			$ilDB->quote($this->getObjId() ,'integer').", ".
+			$ilDB->quote($a_usr_id ,'integer').", ".
+			$ilDB->quote(time() ,'integer')." ".
+			")";
+		$res = $ilDB->manipulate($query);
 		$this->read();
 
 		return true;
@@ -138,11 +139,10 @@ abstract class ilWaitingList
 		global $ilDB;
 		
 		$query = "UPDATE crs_waiting_list ".
-			"SET sub_time = ".$ilDB->quote($a_subtime)." ".
-			"WHERE usr_id = ".$ilDB->quote($a_usr_id)." ".
-			"AND obj_id = ".$ilDB->quote($this->getObjId())." ";
-
-		$this->db->query($query);
+			"SET sub_time = ".$ilDB->quote($a_subtime ,'integer')." ".
+			"WHERE usr_id = ".$ilDB->quote($a_usr_id ,'integer')." ".
+			"AND obj_id = ".$ilDB->quote($this->getObjId() ,'integer')." ";
+		$res = $ilDB->manipulate($query);
 		return true;
 	}
 
@@ -158,10 +158,9 @@ abstract class ilWaitingList
 		global $ilDB;
 		
 		$query = "DELETE FROM crs_waiting_list ".
-			" WHERE obj_id = ".$ilDB->quote($this->getObjId())." ".
-			" AND usr_id = ".$ilDB->quote($a_usr_id)." ";
-
-		$this->db->query($query);
+			" WHERE obj_id = ".$ilDB->quote($this->getObjId() ,'integer')." ".
+			" AND usr_id = ".$ilDB->quote($a_usr_id ,'integer')." ";
+		$res = $ilDB->manipulate($query);
 		$this->read();
 
 		return true;
@@ -250,7 +249,7 @@ abstract class ilWaitingList
 		$this->users = array();
 
 		$query = "SELECT * FROM crs_waiting_list ".
-			"WHERE obj_id = ".$ilDB->quote($this->getObjId())." ORDER BY sub_time";
+			"WHERE obj_id = ".$ilDB->quote($this->getObjId() ,'integer')." ORDER BY sub_time";
 
 		$res = $this->db->query($query);
 		$counter = 0;
