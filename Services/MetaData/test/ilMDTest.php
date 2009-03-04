@@ -226,6 +226,7 @@ class ilMDTest extends PHPUnit_Framework_TestCase
 		
 		$con->delete();
 	}
+
 	/**
 	 * test Format 
 	 * @return
@@ -244,6 +245,29 @@ class ilMDTest extends PHPUnit_Framework_TestCase
 		$con->update();
 		$con->read();
 		$desc = $con->getFormat();
+		$this->assertEquals('Medium',$desc);
+		
+		$con->delete();
+	}
+
+	/**
+	 * test General 
+	 * @return
+	 */
+	public function testGeneral()
+	{
+		include_once './Services/MetaData/classes/class.ilMDGeneral.php';
+		include_once 'Services/MetaData/classes/class.ilMDLanguageItem.php';
+
+		$con = new ilMDGeneral(1,2,'xxx');
+		$con->setCoverage('Easy');
+		$ret = $con->save();		 
+		$this->assertGreaterThan(0,$ret);
+		
+		$con->setCoverage('Medium');
+		$con->update();
+		$con->read();
+		$desc = $con->getCoverage();
 		$this->assertEquals('Medium',$desc);
 		
 		$con->delete();
