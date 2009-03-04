@@ -433,5 +433,28 @@ class ilMDTest extends PHPUnit_Framework_TestCase
 		
 		$con->delete();
 	}
+
+	/**
+	 * test MetaData
+	 * @return
+	 */
+	public function testRelation()
+	{
+		include_once './Services/MetaData/classes/class.ilMDRelation.php';
+		include_once 'Services/MetaData/classes/class.ilMDLanguageItem.php';
+
+		$con = new ilMDRelation(1,2,'xxx');
+		$con->setKind('IsVersionOf');
+		$ret = $con->save();		 
+		$this->assertGreaterThan(0,$ret);
+		
+		$con->setKind('HasVersion');
+		$con->update();
+		$con->read();
+		$desc = $con->getKind();
+		$this->assertEquals('HasVersion',$desc);
+		
+		$con->delete();
+	}
 }
 ?>
