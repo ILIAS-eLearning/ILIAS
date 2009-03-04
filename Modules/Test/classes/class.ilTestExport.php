@@ -501,9 +501,19 @@ class ilTestExport
 			}
 		}
 		// test participant result export
+		$usernames = array();
 		foreach ($data->getParticipants() as $active_id => $userdata) 
 		{
 			$username = (!is_null($userdata) && ilExcelUtils::_convert_text($userdata->getName())) ? ilExcelUtils::_convert_text($userdata->getName()) : "ID $active_id";
+			if (array_key_exists($username, $usernames))
+			{
+				$usernames[$username]++;
+				$username .= " ($i)";
+			}
+			else
+			{
+				$usernames[$username] = 1;
+			}
 			$resultsheet =& $workbook->addWorksheet($username);
 			if (method_exists($resultsheet, "writeString"))
 			{
