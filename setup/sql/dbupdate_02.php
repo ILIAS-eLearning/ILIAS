@@ -8601,4 +8601,11 @@ ALTER TABLE `il_meta_lifecycle` CHANGE `meta_version` `meta_version` VARCHAR( 40
 	$ilMySQLAbstraction->performAbstraction('il_meta_lifecycle');
 ?>
 
+<#1842>
+ALTER TABLE `il_meta_location` CHANGE `location` `location` VARCHAR( 4000 ) NULL DEFAULT NULL;
+
+<#1843>
+<?php
+	$ilMySQLAbstraction->performAbstraction('il_meta_location');
+?>
   

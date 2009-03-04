@@ -387,5 +387,28 @@ class ilMDTest extends PHPUnit_Framework_TestCase
 		
 		$con->delete();
 	}
+
+	/**
+	 * test lifecycle
+	 * @return
+	 */
+	public function testLocation()
+	{
+		include_once './Services/MetaData/classes/class.ilMDLocation.php';
+		include_once 'Services/MetaData/classes/class.ilMDLanguageItem.php';
+
+		$con = new ilMDLocation(1,2,'xxx');
+		$con->setLocation(1);
+		$ret = $con->save();		 
+		$this->assertGreaterThan(0,$ret);
+		
+		$con->setLocation(2);
+		$con->update();
+		$con->read();
+		$desc = $con->getLocation();
+		$this->assertEquals(2,$desc);
+		
+		$con->delete();
+	}
 }
 ?>
