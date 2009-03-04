@@ -8608,4 +8608,9 @@ ALTER TABLE `il_meta_location` CHANGE `location` `location` VARCHAR( 4000 ) NULL
 <?php
 	$ilMySQLAbstraction->performAbstraction('il_meta_location');
 ?>
+
+<#1844>
+<?php
+	$ilMySQLAbstraction->performAbstraction('il_meta_meta_data');
+?>
   

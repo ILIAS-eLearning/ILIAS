@@ -141,12 +141,14 @@ class ilMDMetaMetadata extends ilMDBase
 
 	function save()
 	{
-		if($this->db->autoExecute('il_meta_meta_data',
-								  $this->__getFields(),
-								  DB_AUTOQUERY_INSERT))
+		global $ilDB;
+		
+		$fields = $this->__getFields();
+		$fields['meta_meta_data_id'] = array('integer',$next_id = $ilDB->nextId('il_meta_meta_data'));
+		
+		if($this->db->insert('il_meta_meta_data',$fields))
 		{
-			$this->setMetaId($this->db->getLastInsertId());
-
+			$this->setMetaId($next_id);
 			return $this->getMetaId();
 		}
 		return false;
@@ -158,10 +160,9 @@ class ilMDMetaMetadata extends ilMDBase
 		
 		if($this->getMetaId())
 		{
-			if($this->db->autoExecute('il_meta_meta_data',
-									  $this->__getFields(),
-									  DB_AUTOQUERY_UPDATE,
-									  "meta_meta_data_id = ".$ilDB->quote($this->getMetaId())))
+			if($this->db->update('il_meta_meta_data',
+									$this->__getFields(),
+									array("meta_meta_data_id" => array('integer',$this->getMetaId()))))
 			{
 				return true;
 			}
@@ -176,9 +177,8 @@ class ilMDMetaMetadata extends ilMDBase
 		if($this->getMetaId())
 		{
 			$query = "DELETE FROM il_meta_meta_data ".
-				"WHERE meta_meta_data_id = ".$ilDB->quote($this->getMetaId());
-			
-			$this->db->query($query);
+				"WHERE meta_meta_data_id = ".$ilDB->quote($this->getMetaId() ,'integer');
+			$res = $ilDB->manipulate($query);
 			
 
 			foreach($this->getIdentifierIds() as $id)
@@ -201,11 +201,11 @@ class ilMDMetaMetadata extends ilMDBase
 
 	function __getFields()
 	{
-		return array('rbac_id'	=> $this->getRBACId(),
-					 'obj_id'	=> $this->getObjId(),
-					 'obj_type'	=> ilUtil::prepareDBString($this->getObjType()),
-					 'meta_data_scheme'	=> $this->getMetaDataScheme(),
-					 'language' => $this->getLanguageCode());
+		return array('rbac_id'	=> array('integer',$this->getRBACId()),
+					 'obj_id'	=> array('integer',$this->getObjId()),
+					 'obj_type'	=> array('text',$this->getObjType()),
+					 'meta_data_scheme'	=> array('text',$this->getMetaDataScheme()),
+					 'language' => array('text',$this->getLanguageCode()));
 	}
 
 	function read()
@@ -219,7 +219,7 @@ class ilMDMetaMetadata extends ilMDBase
 		{
 
 			$query = "SELECT * FROM il_meta_meta_data ".
-				"WHERE meta_meta_data_id = ".$ilDB->quote($this->getMetaId());
+				"WHERE meta_meta_data_id = ".$ilDB->quote($this->getMetaId() ,'integer');
 
 		
 			$res = $this->db->query($query);
@@ -290,8 +290,8 @@ class ilMDMetaMetadata extends ilMDBase
 		global $ilDB;
 
 		$query = "SELECT meta_meta_data_id FROM il_meta_meta_data ".
-			"WHERE rbac_id = ".$ilDB->quote($a_rbac_id)." ".
-			"AND obj_id = ".$ilDB->quote($a_obj_id);
+			"WHERE rbac_id = ".$ilDB->quote($a_rbac_id ,'integer')." ".
+			"AND obj_id = ".$ilDB->quote($a_obj_id ,'integer');
 
 		$res = $ilDB->query($query);
 		while($row = $res->fetchRow(DB_FETCHMODE_OBJECT))

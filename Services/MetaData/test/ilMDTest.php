@@ -389,7 +389,7 @@ class ilMDTest extends PHPUnit_Framework_TestCase
 	}
 
 	/**
-	 * test lifecycle
+	 * test Location
 	 * @return
 	 */
 	public function testLocation()
@@ -407,6 +407,29 @@ class ilMDTest extends PHPUnit_Framework_TestCase
 		$con->read();
 		$desc = $con->getLocation();
 		$this->assertEquals(2,$desc);
+		
+		$con->delete();
+	}
+
+	/**
+	 * test MetaData
+	 * @return
+	 */
+	public function testMetaMetadata()
+	{
+		include_once './Services/MetaData/classes/class.ilMDMetaMetadata.php';
+		include_once 'Services/MetaData/classes/class.ilMDLanguageItem.php';
+
+		$con = new ilMDMetaMetadata(1,2,'xxx');
+		$con->setMetaDataScheme(1);
+		$ret = $con->save();		 
+		$this->assertGreaterThan(0,$ret);
+		
+		$con->setMetaDataScheme(2);
+		$con->update();
+		$con->read();
+		$desc = $con->getMetaDataScheme();
+		$this->assertEquals('LOM v 1.0',$desc);
 		
 		$con->delete();
 	}
