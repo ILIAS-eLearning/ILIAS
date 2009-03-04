@@ -66,12 +66,14 @@ class ilMDKeyword extends ilMDBase
 
 	function save()
 	{
-		if($this->db->autoExecute('il_meta_keyword',
-								  $this->__getFields(),
-								  DB_AUTOQUERY_INSERT))
+		global $ilDB;
+		
+		$fields = $this->__getFields();
+		$fields['meta_keyword_id'] = array('integer',$next_id = $ilDB->nextId('il_meta_keyword'));
+		
+		if($this->db->insert('il_meta_keyword',$fields))
 		{
-			$this->setMetaId($this->db->getLastInsertId());
-
+			$this->setMetaId($next_id);
 			return $this->getMetaId();
 		}
 		return false;
@@ -83,10 +85,9 @@ class ilMDKeyword extends ilMDBase
 		
 		if($this->getMetaId())
 		{
-			if($this->db->autoExecute('il_meta_keyword',
-									  $this->__getFields(),
-									  DB_AUTOQUERY_UPDATE,
-									  "meta_keyword_id = ".$ilDB->quote($this->getMetaId())))
+			if($this->db->update('il_meta_keyword',
+									$this->__getFields(),
+									array("meta_keyword_id" => array('integer',$this->getMetaId()))))
 			{
 				return true;
 			}
@@ -101,9 +102,8 @@ class ilMDKeyword extends ilMDBase
 		if($this->getMetaId())
 		{
 			$query = "DELETE FROM il_meta_keyword ".
-				"WHERE meta_keyword_id = ".$ilDB->quote($this->getMetaId());
-			
-			$this->db->query($query);
+				"WHERE meta_keyword_id = ".$ilDB->quote($this->getMetaId() ,'integer');
+			$res = $ilDB->manipulate($query);			
 			
 			return true;
 		}
@@ -113,13 +113,13 @@ class ilMDKeyword extends ilMDBase
 
 	function __getFields()
 	{
-		return array('rbac_id'	=> $this->getRBACId(),
-					 'obj_id'	=> $this->getObjId(),
-					 'obj_type'	=> $this->getObjType(),
-					 'parent_type' => $this->getParentType(),
-					 'parent_id' => $this->getParentId(),
-					 'keyword'	=> $this->getKeyword(),
-					 'keyword_language' => $this->getKeywordLanguageCode());
+		return array('rbac_id'	=> array('integer',$this->getRBACId()),
+					 'obj_id'	=> array('integer', $this->getObjId()),
+					 'obj_type'	=> array('text', $this->getObjType()),
+					 'parent_type' => array('text', $this->getParentType()),
+					 'parent_id' => array('integer', $this->getParentId()),
+					 'keyword'	=> array('text', $this->getKeyword()),
+					 'keyword_language' => array('text', $this->getKeywordLanguageCode()));
 	}
 
 	function read()
@@ -131,7 +131,7 @@ class ilMDKeyword extends ilMDBase
 		if($this->getMetaId())
 		{
 			$query = "SELECT * FROM il_meta_keyword ".
-				"WHERE meta_keyword_id = ".$ilDB->quote($this->getMetaId());
+				"WHERE meta_keyword_id = ".$ilDB->quote($this->getMetaId() ,'integer');
 
 			$res = $this->db->query($query);
 			while($row = $res->fetchRow(DB_FETCHMODE_OBJECT))
@@ -168,10 +168,10 @@ class ilMDKeyword extends ilMDBase
 		global $ilDB;
 
 		$query = "SELECT meta_keyword_id FROM il_meta_keyword ".
-			"WHERE rbac_id = ".$ilDB->quote($a_rbac_id)." ".
-			"AND obj_id = ".$ilDB->quote($a_obj_id)." ".
-			"AND parent_id = ".$ilDB->quote($a_parent_id)." ".
-			"AND parent_type = ".$ilDB->quote($a_parent_type)." ".
+			"WHERE rbac_id = ".$ilDB->quote($a_rbac_id ,'integer')." ".
+			"AND obj_id = ".$ilDB->quote($a_obj_id ,'integer')." ".
+			"AND parent_id = ".$ilDB->quote($a_parent_id ,'integer')." ".
+			"AND parent_type = ".$ilDB->quote($a_parent_type ,'text')." ".
 			"ORDER BY meta_keyword_id ";
 
 		$res = $ilDB->query($query);
@@ -198,9 +198,9 @@ class ilMDKeyword extends ilMDBase
 		
 		$query = "SELECT keyword,keyword_language ".
 			"FROM il_meta_keyword ".
-			"WHERE rbac_id = ".$ilDB->quote($a_rbac_id)." ".
-			"AND obj_id = ".$ilDB->quote($a_obj_id)." ".
-			"AND obj_type = ".$ilDB->quote($a_type)." ";
+			"WHERE rbac_id = ".$ilDB->quote($a_rbac_id ,'integer')." ".
+			"AND obj_id = ".$ilDB->quote($a_obj_id ,'integer')." ".
+			"AND obj_type = ".$ilDB->quote($a_type ,'text')." ";
 		$res = $ilDB->query($query);
 		while($row = $res->fetchRow(DB_FETCHMODE_OBJECT))
 		{

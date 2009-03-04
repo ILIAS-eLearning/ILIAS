@@ -1097,7 +1097,7 @@ class ilObject
 		{
 			// Update long description
 			$res = $ilDB->query("SELECT * FROM object_description WHERE obj_id = ".
-				$ilDB->quote($a_obj_id).'integer');
+				$ilDB->quote($a_obj_id,'integer'));
 
 			if($res->numRows())
 			{

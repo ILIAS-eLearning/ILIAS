@@ -8579,3 +8579,12 @@ ALTER TABLE `il_meta_identifier_` CHANGE `entry` `entry` VARCHAR( 4000 ) NULL DE
 <?php
 	$ilMySQLAbstraction->performAbstraction('il_meta_identifier_');
 ?>
+
+<#1837>
+ALTER TABLE `il_meta_keyword` CHANGE `keyword` `keyword` VARCHAR( 4000 ) NULL DEFAULT NULL;
+
+<#1838>
+<?php
+	$ilMySQLAbstraction->performAbstraction('il_meta_keyword');
+?>
+  
