@@ -7899,7 +7899,7 @@ cmps#:#cmps_rep_object#:#Objekttyp im Magazin
 cmps#:#cmps_add_new_rank#:#Position in der Auswahlliste für hinzuzufügende Objekte
 cmps#:#cmps_plugin_dirs#:#Plugin-Verzeichnisse
 cmps#:#cmps_plugin_lang_prefixes#:#Plugin-Sprachpräfixe
-common#:#obj_cmps_desc#:#ALlgemeine Einstellungen für Module, Dienste und Plugins.
+common#:#obj_cmps_desc#:#Allgemeine Einstellungen für Module, Dienste und Plugins.
 cmps#:#cmps_edit_settings#:#Einstellungen
 cmps#:#cmps_modules#:#Module
 cmps#:#cmps_plugins#:#Plugins
