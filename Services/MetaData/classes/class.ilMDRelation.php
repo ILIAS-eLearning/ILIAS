@@ -132,12 +132,14 @@ class ilMDRelation extends ilMDBase
 
 	function save()
 	{
-		if($this->db->autoExecute('il_meta_relation',
-								  $this->__getFields(),
-								  DB_AUTOQUERY_INSERT))
+		global $ilDB;
+		
+		$fields = $this->__getFields();
+		$fields['meta_relation_id'] = array('integer',$next_id = $ilDB->nextId('il_meta_relation'));
+		
+		if($this->db->insert('il_meta_relation',$fields))
 		{
-			$this->setMetaId($this->db->getLastInsertId());
-
+			$this->setMetaId($next_id);
 			return $this->getMetaId();
 		}
 		return false;
@@ -149,10 +151,9 @@ class ilMDRelation extends ilMDBase
 		
 		if($this->getMetaId())
 		{
-			if($this->db->autoExecute('il_meta_relation',
-									  $this->__getFields(),
-									  DB_AUTOQUERY_UPDATE,
-									  "meta_relation_id = ".$ilDB->quote($this->getMetaId())))
+			if($this->db->update('il_meta_relation',
+									$this->__getFields(),
+									array("meta_relation_id" => array('integer',$this->getMetaId()))))
 			{
 				return true;
 			}
@@ -167,9 +168,8 @@ class ilMDRelation extends ilMDBase
 		if($this->getMetaId())
 		{
 			$query = "DELETE FROM il_meta_relation ".
-				"WHERE meta_relation_id = ".$ilDB->quote($this->getMetaId());
-			
-			$this->db->query($query);
+				"WHERE meta_relation_id = ".$ilDB->quote($this->getMetaId() ,'integer');
+			$res = $ilDB->manipulate($query);
 
 			foreach($this->getIdentifier_Ids() as $id)
 			{
@@ -190,10 +190,10 @@ class ilMDRelation extends ilMDBase
 
 	function __getFields()
 	{
-		return array('rbac_id'	=> $this->getRBACId(),
-					 'obj_id'	=> $this->getObjId(),
-					 'obj_type'	=> $this->getObjType(),
-					 'kind'		=> $this->getKind());
+		return array('rbac_id'	=> array('integer',$this->getRBACId()),
+					 'obj_id'	=> array('integer',$this->getObjId()),
+					 'obj_type'	=> array('text',$this->getObjType()),
+					 'kind'		=> array('text',$this->getKind()));
 	}
 
 	function read()
@@ -203,7 +203,7 @@ class ilMDRelation extends ilMDBase
 		if($this->getMetaId())
 		{
 			$query = "SELECT * FROM il_meta_relation ".
-				"WHERE meta_relation_id = ".$ilDB->quote($this->getMetaId());
+				"WHERE meta_relation_id = ".$ilDB->quote($this->getMetaId() ,'integer');
 
 			$res = $this->db->query($query);
 			while($row = $res->fetchRow(DB_FETCHMODE_OBJECT))
@@ -269,8 +269,8 @@ class ilMDRelation extends ilMDBase
 		global $ilDB;
 
 		$query = "SELECT meta_relation_id FROM il_meta_relation ".
-			"WHERE rbac_id = ".$ilDB->quote($a_rbac_id)." ".
-			"AND obj_id = ".$ilDB->quote($a_obj_id);
+			"WHERE rbac_id = ".$ilDB->quote($a_rbac_id ,'integer')." ".
+			"AND obj_id = ".$ilDB->quote($a_obj_id ,'integer');
 
 		$res = $ilDB->query($query);
 		while($row = $res->fetchRow(DB_FETCHMODE_OBJECT))
