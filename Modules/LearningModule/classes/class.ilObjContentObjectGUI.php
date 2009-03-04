@@ -1026,6 +1026,10 @@ class ilObjContentObjectGUI extends ilObjectGUI
 	function addBibItem()
 	{
 		$this->setTabs();
+		
+		// questionable workaround to make this old stuff work
+		$this->ctrl->setParameter($this, ilCtrl::IL_RTOKEN_NAME, $this->ctrl->getRequestToken());
+
 		$this->addBibItemObject($this->ctrl->getLinkTarget($this));
 	}
 
@@ -1057,6 +1061,10 @@ class ilObjContentObjectGUI extends ilObjectGUI
 	function deleteBibItem()
 	{
 		$this->setTabs();
+		
+		// questionable workaround to make this old stuff work
+		$this->ctrl->setParameter($this, ilCtrl::IL_RTOKEN_NAME, $this->ctrl->getRequestToken());
+
 		$this->deleteBibItemObject($this->ctrl->getLinkTarget($this));
 	}
 
@@ -1089,6 +1097,10 @@ class ilObjContentObjectGUI extends ilObjectGUI
 	function editBibItem()
 	{
 		$this->setTabs();
+		
+		// questionable workaround to make this old stuff work
+		$this->ctrl->setParameter($this, ilCtrl::IL_RTOKEN_NAME, $this->ctrl->getRequestToken());
+		
 		$this->editBibItemObject($this->ctrl->getLinkTarget($this));
 	}
 
@@ -1122,6 +1134,10 @@ class ilObjContentObjectGUI extends ilObjectGUI
 	function saveBibItem()
 	{
 		$this->setTabs();
+
+		// questionable workaround to make this old stuff work
+		$this->ctrl->setParameter($this, ilCtrl::IL_RTOKEN_NAME, $this->ctrl->getRequestToken());
+
 		$this->saveBibItemObject($this->ctrl->getLinkTarget($this));
 	}
 
