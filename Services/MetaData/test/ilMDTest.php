@@ -364,5 +364,28 @@ class ilMDTest extends PHPUnit_Framework_TestCase
 		
 		$con->delete();
 	}
+
+	/**
+	 * test lifecycle
+	 * @return
+	 */
+	public function testLifecycle()
+	{
+		include_once './Services/MetaData/classes/class.ilMDLifecycle.php';
+		include_once 'Services/MetaData/classes/class.ilMDLanguageItem.php';
+
+		$con = new ilMDLifecycle(1,2,'xxx');
+		$con->setVersion(1);
+		$ret = $con->save();		 
+		$this->assertGreaterThan(0,$ret);
+		
+		$con->setVersion(2);
+		$con->update();
+		$con->read();
+		$desc = $con->getVersion();
+		$this->assertEquals(2,$desc);
+		
+		$con->delete();
+	}
 }
 ?>
