@@ -52,9 +52,9 @@ class ilMDOrComposite extends ilMDRequirement
 		
 		if(!$this->or_composite_id)
 		{
-			$query = "SELECT MAX(or_composite_id) AS orc FROM il_meta_requirement ".
-				"WHERE rbac_id = ".$ilDB->quote($this->getRBACId())." ".
-				"AND obj_id = ".$ilDB->quote($this->getObjId())." ".
+			$query = "SELECT MAX(or_composite_id) orc FROM il_meta_requirement ".
+				"WHERE rbac_id = ".$ilDB->quote($this->getRBACId() ,'integer')." ".
+				"AND obj_id = ".$ilDB->quote($this->getObjId() ,'integer')." ".
 				"GROUP BY or_composite_id";
 
 			$res = $this->db->query($query);
@@ -155,11 +155,11 @@ class ilMDOrComposite extends ilMDRequirement
 	{
 		global $ilDB;
 
-		$query = "SELECT DISTINCT(or_composite_id) AS or_composite_id FROM il_meta_requirement ".
-			"WHERE rbac_id = ".$ilDB->quote($a_rbac_id)." ".
-			"AND obj_id = ".$ilDB->quote($a_obj_id)." ".
-			"AND parent_id = ".$ilDB->quote($a_parent_id)." ".
-			"AND parent_type = ".$ilDB->quote($a_parent_type)." ".
+		$query = "SELECT DISTINCT(or_composite_id) or_composite_id FROM il_meta_requirement ".
+			"WHERE rbac_id = ".$ilDB->quote($a_rbac_id ,'integer')." ".
+			"AND obj_id = ".$ilDB->quote($a_obj_id ,'integer')." ".
+			"AND parent_id = ".$ilDB->quote($a_parent_id ,'integer')." ".
+			"AND parent_type = ".$ilDB->quote($a_parent_type ,'text')." ".
 			"AND or_composite_id > 0 ";
 
 		$res = $ilDB->query($query);
