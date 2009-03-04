@@ -107,13 +107,13 @@ class ilMDIdentifier extends ilMDBase
 
 	function __getFields()
 	{
-		return array('rbac_id'	=> $this->getRBACId(),
-					 'obj_id'	=> $this->getObjId(),
-					 'obj_type'	=> $this->getObjType(),
-					 'parent_type' => $this->getParentType(),
-					 'parent_id' => $this->getParentId(),
-					 'catalog'	=> $this->getCatalog(),
-					 'entry'	=> $this->getEntry());
+		return array('rbac_id'	=> array('integer',$this->getRBACId()),
+					 'obj_id'	=> array('integer',$this->getObjId()),
+					 'obj_type'	=> array('text',$this->getObjType()),
+					 'parent_type' => array('text',$this->getParentType()),
+					 'parent_id' => array('integer',$this->getParentId()),
+					 'catalog'	=> array('text',$this->getCatalog()),
+					 'entry'	=> array('text',$this->getEntry()));
 
 	}
 
