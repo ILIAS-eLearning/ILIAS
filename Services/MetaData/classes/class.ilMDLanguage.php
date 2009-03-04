@@ -54,11 +54,12 @@ class ilMDLanguage extends ilMDBase
 		
 		$lang = '';
 		$query = "SELECT language FROM il_meta_language ".
-			"WHERE rbac_id = ".$ilDB->quote($a_rbac_id)." ".
-			"AND obj_id = ".$ilDB->quote($a_obj_id)." ".
-			"AND obj_type = ".$ilDB->quote($a_obj_type)." ".
+			"WHERE rbac_id = ".$ilDB->quote($a_rbac_id ,'integer')." ".
+			"AND obj_id = ".$ilDB->quote($a_obj_id ,'integer')." ".
+			"AND obj_type = ".$ilDB->quote($a_obj_type ,'text')." ".
 			"AND parent_type = 'meta_general' ".
-			"ORDER BY meta_language_id LIMIT 1 ";
+			"ORDER BY meta_language_id ";
+		$ilDB->setLimit(1);
 		$res = $ilDB->query($query);
 		while($row = $res->fetchRow(DB_FETCHMODE_OBJECT))
 		{
@@ -86,12 +87,14 @@ class ilMDLanguage extends ilMDBase
 
 	function save()
 	{
-		if($this->db->autoExecute('il_meta_language',
-								  $this->__getFields(),
-								  DB_AUTOQUERY_INSERT))
+		global $ilDB;
+		
+		$fields = $this->__getFields();
+		$fields['meta_language_id'] = array('integer',$next_id = $ilDB->nextId('il_meta_language'));
+		
+		if($this->db->insert('il_meta_language',$fields))
 		{
-			$this->setMetaId($this->db->getLastInsertId());
-
+			$this->setMetaId($next_id);
 			return $this->getMetaId();
 		}
 		return false;
@@ -103,10 +106,9 @@ class ilMDLanguage extends ilMDBase
 		
 		if($this->getMetaId())
 		{
-			if($this->db->autoExecute('il_meta_language',
-									  $this->__getFields(),
-									  DB_AUTOQUERY_UPDATE,
-									  "meta_language_id = ".$ilDB->quote($this->getMetaId())))
+			if($this->db->update('il_meta_language',
+									$this->__getFields(),
+									array("meta_language_id" => array('integer',$this->getMetaId()))))
 			{
 				return true;
 			}
@@ -121,9 +123,8 @@ class ilMDLanguage extends ilMDBase
 		if($this->getMetaId())
 		{
 			$query = "DELETE FROM il_meta_language ".
-				"WHERE meta_language_id = ".$ilDB->quote($this->getMetaId());
-			
-			$this->db->query($query);
+				"WHERE meta_language_id = ".$ilDB->quote($this->getMetaId() ,'integer');
+			$res = $ilDB->manipulate($query);
 			
 			return true;
 		}
@@ -133,12 +134,12 @@ class ilMDLanguage extends ilMDBase
 
 	function __getFields()
 	{
-		return array('rbac_id'	=> $this->getRBACId(),
-					 'obj_id'	=> $this->getObjId(),
-					 'obj_type'	=> ilUtil::prepareDBString($this->getObjType()),
-					 'parent_type' => $this->getParentType(),
-					 'parent_id' => $this->getParentId(),
-					 'language' => $this->getLanguageCode());
+		return array('rbac_id'	=> array('integer',$this->getRBACId()),
+					 'obj_id'	=> array('integer',$this->getObjId()),
+					 'obj_type'	=> array('text',$this->getObjType()),
+					 'parent_type' => array('text',$this->getParentType()),
+					 'parent_id' => array('integer',$this->getParentId()),
+					 'language' => array('text',$this->getLanguageCode()));
 	}
 
 	function read()
@@ -150,7 +151,7 @@ class ilMDLanguage extends ilMDBase
 		if($this->getMetaId())
 		{
 			$query = "SELECT * FROM il_meta_language ".
-				"WHERE meta_language_id = ".$ilDB->quote($this->getMetaId());
+				"WHERE meta_language_id = ".$ilDB->quote($this->getMetaId() ,'integer');
 
 			$res = $this->db->query($query);
 			while($row = $res->fetchRow(DB_FETCHMODE_OBJECT))
@@ -186,10 +187,10 @@ class ilMDLanguage extends ilMDBase
 		global $ilDB;
 
 		$query = "SELECT meta_language_id FROM il_meta_language ".
-			"WHERE rbac_id = ".$ilDB->quote($a_rbac_id)." ".
-			"AND obj_id = ".$ilDB->quote($a_obj_id)." ".
-			"AND parent_id = ".$ilDB->quote($a_parent_id)." ".
-			"AND parent_type = ".$ilDB->quote($a_parent_type);
+			"WHERE rbac_id = ".$ilDB->quote($a_rbac_id ,'integer')." ".
+			"AND obj_id = ".$ilDB->quote($a_obj_id ,'integer')." ".
+			"AND parent_id = ".$ilDB->quote($a_parent_id ,'integer')." ".
+			"AND parent_type = ".$ilDB->quote($a_parent_type ,'text');
 
 		$res = $ilDB->query($query);
 		while($row = $res->fetchRow(DB_FETCHMODE_OBJECT))
