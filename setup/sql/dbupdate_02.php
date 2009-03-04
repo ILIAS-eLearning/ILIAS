@@ -8558,3 +8558,13 @@ ALTER TABLE `il_meta_general` CHANGE `coverage` `coverage` VARCHAR( 4000 ) NULL 
 	$ilMySQLAbstraction->performAbstraction('il_meta_general');
 ?>
 
+<#1831>
+ALTER TABLE `il_meta_identifier` CHANGE `catalog` `catalog` VARCHAR( 4000 ) NULL DEFAULT NULL;
+
+<#1832>
+ALTER TABLE `il_meta_identifier` CHANGE `entry` `entry` VARCHAR( 4000 ) NULL DEFAULT NULL; 
+
+<#1833>  
+<?php
+	$ilMySQLAbstraction->performAbstraction('il_meta_identifier');
+?>
