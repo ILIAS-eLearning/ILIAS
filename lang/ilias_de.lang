@@ -1713,7 +1713,7 @@ common#:#cron_forum_notification_desc#:#Wenn diese Option eingeschaltet ist, wer
 common#:#cron_forum_notification_directly#:#sofort bei Neueintrag
 common#:#cron_forum_notification_never#:#nie
 common#:#cron_forum_notification#:#Foren-Benachrichtigungen versenden
-common#:#cron_jobs_desc#:#Ein Cron-Job ist ein automatisierter Prozeß, der zu bestimmten vorgegebenen Zeitpunkten abläuft. Sie finden Informationen zur Aktivierung dieser Cron-Jobs in der Installationsanleitung.
+common#:#cron_jobs_desc#:#Ein Cron-Job ist ein automatisierter Prozess, der zu bestimmten vorgegebenen Zeitpunkten abläuft. Sie finden Informationen zur Aktivierung dieser Cron-Jobs in der Installationsanleitung.
 common#:#cron_mail_notification#:#Mail-Benachrichtigungen versenden
 common#:#cron_mail_notification_never#:#nie
 common#:#cron_mail_notification_cron#:#regelmäßig per Cron-Job
@@ -4306,7 +4306,7 @@ content#:#cont_resources#:#Ressourcen
 content#:#cont_rvalue#:#Wert
 content#:#cont_saved_map_area#:#Link-Bereich gespeichert.
 content#:#cont_saved_map_data#:#Image-Map gespeichert.
-content#:#cont_sc_auto_review#:#Nach Abschluß Lesson-Modus auf 'review' setzen.
+content#:#cont_sc_auto_review#:#Nach Abschluss Lesson-Modus auf 'review' setzen.
 content#:#cont_sc_less_mode_browse#:#Anzeigen (Browse)
 content#:#cont_sc_less_mode_normal#:#Normal
 content#:#cont_sc_stat_browsed#:#Besucht
@@ -4693,11 +4693,11 @@ crs#:#crs_objectives_chapter_assignment#:#Kapitel-Zuordnung
 crs#:#crs_objectives_deassign_question_sure#:#Sind Sie sicher, dass die folgende Zuordnung entfernt werden soll?
 crs#:#crs_objectives_deleted#:#Die Lernziele wurden entfernt.
 crs#:#crs_objectives_edit_question_assignments#:#Fragenzuordnung bearbeiten
-crs#:#crs_objectives_info_final#:#Leider haben Sie noch nicht alle Lernziele diese Kurses erfüllt. <br />Bitte wählen Sie die rot markierten Lernziele eins nach dem anderen aus und bearbeiten Sie die zugehörigen Materialen. <br />Wenn Sie alle rot markierten Lernziele überprüft haben, können Sie den Abschlußtest erneut durchführen.
+crs#:#crs_objectives_info_final#:#Leider haben Sie noch nicht alle Lernziele diese Kurses erfüllt. <br />Bitte wählen Sie die rot markierten Lernziele eins nach dem anderen aus und bearbeiten Sie die zugehörigen Materialen. <br />Wenn Sie alle rot markierten Lernziele überprüft haben, können Sie den Abschlusstest erneut durchführen.
 crs#:#crs_objectives_info_finished#:#Gratulation, Sie haben alle Lernziele dieses Kurses erreicht.
 crs#:#crs_objectives_info_none#:#Das Folgende ist eine Auflistung aller Lernziele diese Kurses. <br />Bitte wählen Sie ein Lernziel nach dem anderen aus und bearbeiten Sie die zugehörigen Materialien.
-crs#:#crs_objectives_info_pretest_non_suggest#:#Dies sind die Ergebnisse Ihrer Selbsteinschätzung. <br />Demnach haben Sie alle Lernziele erreicht. Sie können nun den Abschlußtest durchführen.
-crs#:#crs_objectives_info_pretest#:#Dies sind die Ergebnisse Ihrer Selbsteinschätzung. <br />Bitte wählen Sie die rot markierten Lernziele eins nach dem anderen aus und bearbeiten Sie die zugehörigen Materialien. Wenn Sie alle Lernziele bearbeitet haben, können Sie den Abschlußtest durchführen.
+crs#:#crs_objectives_info_pretest_non_suggest#:#Dies sind die Ergebnisse Ihrer Selbsteinschätzung. <br />Demnach haben Sie alle Lernziele erreicht. Sie können nun den Abschlusstest durchführen.
+crs#:#crs_objectives_info_pretest#:#Dies sind die Ergebnisse Ihrer Selbsteinschätzung. <br />Bitte wählen Sie die rot markierten Lernziele eins nach dem anderen aus und bearbeiten Sie die zugehörigen Materialien. Wenn Sie alle Lernziele bearbeitet haben, können Sie den Abschlusstest durchführen.
 crs#:#crs_objectives_lm_assignment#:#Zuordnung von Kursmaterialien
 crs#:#crs_objectives_max_points#:#Maximale Punktzahl
 crs#:#crs_objectives_no_question_selected#:#Bitte wählen Sie mindestens eine Frage aus.
@@ -5696,7 +5696,7 @@ meta#:#meta_c_BS#:#Bahamas
 meta#:#meta_c_BT#:#Bhutan
 meta#:#meta_c_BV#:#Bouvet Island
 meta#:#meta_c_BW#:#Botswana
-meta#:#meta_c_BY#:#Weißrußland
+meta#:#meta_c_BY#:#Weißrussland
 meta#:#meta_c_BZ#:#Belize
 meta#:#meta_c_CA#:#Kanada
 meta#:#meta_c_CC#:#Kokos (Keeling) Inseln
@@ -6184,7 +6184,7 @@ meta#:#meta_teacher#:#Lehrer
 meta#:#meta_technical#:#Technische Angaben
 meta#:#meta_technicalimplementer#:#Technische Umsetzung
 meta#:#meta_technicalvalidator#:#Technische Überpfüfung
-meta#:#meta_terminator#:#Schlußredakteur
+meta#:#meta_terminator#:#Schlussredakteur
 meta#:#meta_title#:#Titel
 meta#:#meta_training#:#Training
 meta#:#meta_type#:#Typ
@@ -6749,7 +6749,7 @@ style#:#sty_border_style#:#Rahmentyp
 style#:#sty_border_width#:#Rahmendicke
 style#:#sty_border#:#Rahmen
 style#:#sty_bottom#:#Unten
-style#:#sty_clear#:#Textumfluß beenden
+style#:#sty_clear#:#Textumfluss beenden
 style#:#sty_color#:#Farbe
 style#:#sty_confirm_del_ind_styles_desc#:#Alle Lernmodule mit individuellen Stylesheets werden dem Stil '%s' zugeordnet. Die individuellen Lernmodul-Stylesheets werden damit auch gelöscht. Wollen Sie fortfahren?
 style#:#sty_confirm_del_ind_styles#:#Bestätige Löschen der individuellen Lernmodul-Stylesheets
