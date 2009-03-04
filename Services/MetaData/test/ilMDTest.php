@@ -456,5 +456,28 @@ class ilMDTest extends PHPUnit_Framework_TestCase
 		
 		$con->delete();
 	}
+
+	/**
+	 * test MetaData
+	 * @return
+	 */
+	public function testRequirement()
+	{
+		include_once './Services/MetaData/classes/class.ilMDRequirement.php';
+		include_once 'Services/MetaData/classes/class.ilMDLanguageItem.php';
+
+		$con = new ilMDRequirement(1,2,'xxx');
+		$con->setBrowserName('Amaya');
+		$ret = $con->save();		 
+		$this->assertGreaterThan(0,$ret);
+		
+		$con->setBrowserName('Opera');
+		$con->update();
+		$con->read();
+		$desc = $con->getBrowserName();
+		$this->assertEquals('Opera',$desc);
+		
+		$con->delete();
+	}
 }
 ?>

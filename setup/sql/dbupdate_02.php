@@ -8618,4 +8618,27 @@ ALTER TABLE `il_meta_location` CHANGE `location` `location` VARCHAR( 4000 ) NULL
 <?php
 	$ilMySQLAbstraction->performAbstraction('il_meta_relation');
 ?>
+
+<#1846>
+ALTER TABLE `il_meta_requirement` CHANGE `operating_system_minimum_version` `operating_system_minimum_version` CHAR( 255 ) NULL DEFAULT NULL;
+
+<#1847>
+ALTER TABLE `il_meta_requirement` CHANGE `operating_system_maximum_version` `operating_system_maximum_version` CHAR( 255 ) NULL DEFAULT NULL;  
+  
+<#1848>
+ALTER TABLE `il_meta_requirement` CHANGE `browser_minimum_version` `browser_minimum_version` CHAR( 255 ) NULL DEFAULT NULL;
+
+<#1849>
+ALTER TABLE `il_meta_requirement` CHANGE `browser_maximum_version` `browser_maximum_version` CHAR( 255 ) NULL DEFAULT NULL;
+
+<#1850>
+ALTER TABLE `il_meta_requirement` CHANGE `operating_system_minimum_version` `os_min_version` CHAR( 255 ) NULL DEFAULT NULL;  
+
+<#1851>
+ALTER TABLE `il_meta_requirement` CHANGE `operating_system_maximum_version` `os_max_version` CHAR( 255 ) NULL DEFAULT NULL;  
+
+<#1852>
+<?php
+	$ilMySQLAbstraction->performAbstraction('il_meta_requirement');
+?>
   
