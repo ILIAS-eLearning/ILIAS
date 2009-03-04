@@ -58,35 +58,38 @@ abstract class ilSubItemListGUI
 	/**
 	 * set show details.
 	 * Show all subitem links for a specific object 
+	 * As long as static::setShowDetails is not possible this method is final
 	 *
 	 * @return
 	 * @param	int		$a_obj_id	object id
 	 * @static
 	 */
-	 public static function setShowDetails($a_obj_id)
+	 public static final function setShowDetails($a_obj_id)
 	 {
 		$_SESSION['lucene_search']['details'][$a_obj_id] = true;
 	 }
 	 
 	/**
-	 * reset details 
+	 * reset details
+	 * As long as static::resetDetails is not possible this method is final
 	 *
 	 * @return
 	 * @static
 	 */
-	public static function resetDetails()
+	public static final function resetDetails()
 	{
 		$_SESSION['lucene_search']['details'] = array();
 	}
 	
 	/**
 	 * enabled show details 
+	 * As long as static::enableDetails is not possible this method is final
 	 *
 	 * @param	int		$a_obj_id	object id
 	 * @return	bool
 	 * @static
 	 */
-	public static function enabledDetails($a_obj_id)
+	public static final function enabledDetails($a_obj_id)
 	{
 		return isset($_SESSION['lucene_search']['details'][$a_obj_id]) and $_SESSION['lucene_search']['details'][$a_obj_id]; 
 	}
@@ -200,6 +203,7 @@ abstract class ilSubItemListGUI
 		
 		$ilCtrl->setParameterByClass('illucenesearchgui','details',(int) $this->getObjId());
 		$link = $ilCtrl->getLinkTargetByClass('illucenesearchgui','');
+		$ilCtrl->clearParametersByClass('illucenesearchgui');
 		
 		$this->tpl->setCurrentBlock('choose_details');
 		$this->tpl->setVariable('LUC_DETAILS_LINK',$link);
