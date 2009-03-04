@@ -8547,3 +8547,14 @@ ALTER TABLE `il_meta_format` CHANGE `format` `format` VARCHAR( 4000 ) NULL DEFAU
 	$ilMySQLAbstraction->performAbstraction('page_history');
 ?>
 
+<#1828>
+ALTER TABLE `il_meta_general` CHANGE `title` `title` VARCHAR( 4000 ) NULL DEFAULT NULL;
+
+<#1829>
+ALTER TABLE `il_meta_general` CHANGE `coverage` `coverage` VARCHAR( 4000 ) NULL DEFAULT NULL;
+
+<#1830>  
+<?php
+	$ilMySQLAbstraction->performAbstraction('il_meta_general');
+?>
+
