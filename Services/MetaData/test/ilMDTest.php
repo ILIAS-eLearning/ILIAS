@@ -272,5 +272,28 @@ class ilMDTest extends PHPUnit_Framework_TestCase
 		
 		$con->delete();
 	}
+
+	/**
+	 * test Identifier 
+	 * @return
+	 */
+	public function testIdentifier()
+	{
+		include_once './Services/MetaData/classes/class.ilMDIdentifier.php';
+		include_once 'Services/MetaData/classes/class.ilMDLanguageItem.php';
+
+		$con = new ilMDIdentifier(1,2,'xxx');
+		$con->setCatalog('Easy');
+		$ret = $con->save();		 
+		$this->assertGreaterThan(0,$ret);
+		
+		$con->setCatalog('Medium');
+		$con->update();
+		$con->read();
+		$desc = $con->getCatalog();
+		$this->assertEquals('Medium',$desc);
+		
+		$con->delete();
+	}
 }
 ?>
