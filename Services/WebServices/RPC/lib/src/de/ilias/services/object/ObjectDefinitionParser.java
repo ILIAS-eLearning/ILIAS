@@ -24,6 +24,8 @@ package de.ilias.services.object;
 
 import java.io.File;
 import java.io.IOException;
+import java.io.PrintWriter;
+import java.io.StringWriter;
 import java.util.Vector;
 
 import javax.xml.parsers.DocumentBuilder;
@@ -47,7 +49,7 @@ import de.ilias.services.settings.LocalSettings;
  */
 public class ObjectDefinitionParser {
 
-	protected Logger logger = Logger.getLogger(ObjectDefinition.class);
+	protected Logger logger = Logger.getLogger(ObjectDefinitionParser.class);
 	private Vector<File> objectPropertyFiles = new Vector<File>();
 	private ClientSettings settings;
 	private ObjectDefinitions definitions;
@@ -123,16 +125,24 @@ public class ObjectDefinitionParser {
 			throw new ObjectDefinitionException(e);
 		}
 		catch (ParserConfigurationException e) {
-			e.printStackTrace();
+			StringWriter writer = new StringWriter();
+			e.printStackTrace(new PrintWriter(writer));
+			logger.error(writer.toString());
 		} 
 		catch (SAXException e) {
-			e.printStackTrace();
+			StringWriter writer = new StringWriter();
+			e.printStackTrace(new PrintWriter(writer));
+			logger.error(writer.toString());
 		} 
 		catch (ClassCastException e) {
-			e.printStackTrace();
+			StringWriter writer = new StringWriter();
+			e.printStackTrace(new PrintWriter(writer));
+			logger.error(writer.toString());
 		}
 		catch (Exception e) {
-			e.printStackTrace();
+			StringWriter writer = new StringWriter();
+			e.printStackTrace(new PrintWriter(writer));
+			logger.error(writer.toString());
 		}
 	}
 

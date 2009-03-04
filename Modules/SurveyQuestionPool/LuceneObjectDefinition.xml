@@ -2,5 +2,14 @@
 <ObjectDefinition xmlns:xi="http://www.w3.org/2001/XInclude" type="spl">
 	<Document type="default">
 		<xi:include href="../../Services/Object/LuceneDataSource.xml" />
+		<xi:include href="../../Services/Tagging/LuceneDataSource.xml" />
+		<DataSource type="JDBC" action="append">
+			<Query>
+				SELECT introduction FROM survey_survey
+				WHERE obj_fi IN(?);
+			</Query>
+			<Param format="list" type="int" value="objId" />
+			<Field store="YES" index="ANALYZED" column="introduction" name="propertyLow" />
+		</DataSource>
 	</Document>
 </ObjectDefinition>
