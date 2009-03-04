@@ -8568,3 +8568,14 @@ ALTER TABLE `il_meta_identifier` CHANGE `entry` `entry` VARCHAR( 4000 ) NULL DEF
 <?php
 	$ilMySQLAbstraction->performAbstraction('il_meta_identifier');
 ?>
+
+<#1834>
+ALTER TABLE `il_meta_identifier_` CHANGE `catalog` `catalog` VARCHAR( 4000 ) NULL DEFAULT NULL;
+
+<#1835>
+ALTER TABLE `il_meta_identifier_` CHANGE `entry` `entry` VARCHAR( 4000 ) NULL DEFAULT NULL; 
+
+<#1836>  
+<?php
+	$ilMySQLAbstraction->performAbstraction('il_meta_identifier_');
+?>
