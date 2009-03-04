@@ -8588,3 +8588,8 @@ ALTER TABLE `il_meta_keyword` CHANGE `keyword` `keyword` VARCHAR( 4000 ) NULL DE
 	$ilMySQLAbstraction->performAbstraction('il_meta_keyword');
 ?>
   
+<#1839>
+<?php
+	$ilMySQLAbstraction->performAbstraction('il_meta_language');
+?>
+  
