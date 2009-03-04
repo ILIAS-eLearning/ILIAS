@@ -318,5 +318,28 @@ class ilMDTest extends PHPUnit_Framework_TestCase
 		
 		$con->delete();
 	}
+
+	/**
+	 * test Keyword 
+	 * @return
+	 */
+	public function testKeyword()
+	{
+		include_once './Services/MetaData/classes/class.ilMDKeyword.php';
+		include_once 'Services/MetaData/classes/class.ilMDLanguageItem.php';
+
+		$con = new ilMDKeyword(1,2,'xxx');
+		$con->setKeyword('Easy');
+		$ret = $con->save();		 
+		$this->assertGreaterThan(0,$ret);
+		
+		$con->setKeyword('Medium');
+		$con->update();
+		$con->read();
+		$desc = $con->getKeyword();
+		$this->assertEquals('Medium',$desc);
+		
+		$con->delete();
+	}
 }
 ?>
