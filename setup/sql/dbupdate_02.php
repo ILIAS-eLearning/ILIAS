@@ -8592,4 +8592,13 @@ ALTER TABLE `il_meta_keyword` CHANGE `keyword` `keyword` VARCHAR( 4000 ) NULL DE
 <?php
 	$ilMySQLAbstraction->performAbstraction('il_meta_language');
 ?>
+
+<#1840>
+ALTER TABLE `il_meta_lifecycle` CHANGE `meta_version` `meta_version` VARCHAR( 4000 ) NULL DEFAULT NULL;
+
+<#1841>
+<?php
+	$ilMySQLAbstraction->performAbstraction('il_meta_lifecycle');
+?>
+
   
