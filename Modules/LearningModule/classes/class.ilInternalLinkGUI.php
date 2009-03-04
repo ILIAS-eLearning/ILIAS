@@ -534,7 +534,8 @@ class ilInternalLinkGUI
 					{
 						case "link":
 							require_once("./Services/MediaObjects/classes/class.ilObjMediaObjectGUI.php");
-							ilObjMediaObjectGUI::_recoverParameters();
+							require_once("./Services/MediaObjects/classes/class.ilImageMapEditorGUI.php");
+							ilImageMapEditorGUI::_recoverParameters();
 							$tpl->setCurrentBlock("link_row");
 							$tpl->setVariable("ROWCLASS", "tblrow2");
 							$tpl->setVariable("TXT_CHAPTER", $term["term"]);
