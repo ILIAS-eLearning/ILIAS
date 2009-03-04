@@ -2,20 +2,24 @@
 <ObjectDefinition xmlns:xi="http://www.w3.org/2001/XInclude" type="glo">
 	<Document type="default">
 		<xi:include href="../../Services/Object/LuceneDataSource.xml" />
+		<xi:include href="../../Services/Tagging/LuceneDataSource.xml" />
 	</Document>
 	<Document type="subItem">
 		<DataSource type="JDBC" action="create">
 			<Query>
-				SELECT term,short_text,glo_id,term_id
+				SELECT term,content,glo_id,id
 				FROM glossary_term gt
-				JOIN glossary_definition gd ON gt.id = term_id
+				JOIN page_object po ON gt.id = page_id
 				WHERE glo_id IN (?)
+				AND po.parent_type = 'gdf';
 			</Query>
 			<Param format="list" type="int" value="objId" />
 			<Field store="YES" index="ANALYZED" column="term" name="propertyHigh" />
-			<Field store="YES" index="ANALYZED" column="short_text" name="propertyMedium" />
+			<Field store="YES" index="ANALYZED" column="content" name="propertyMedium">
+				<Transformer name="ContentObjectTransformer" />
+			</Field>
 			<Field store="YES" index="NOT_ANALYZED" column="glo_id" name="objId" global="NO" />
-			<Field store="YES" index="NOT_ANALYZED" column="term_id" name="subItem" />
+			<Field store="YES" index="NOT_ANALYZED" column="id" name="subItem" />
 		</DataSource>
 	</Document>
 </ObjectDefinition>

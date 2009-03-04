@@ -2,6 +2,7 @@
 <ObjectDefinition xmlns:xi="http://www.w3.org/2001/XInclude" type="lm">
 	<Document type="default">
 		<xi:include href="../../Services/Object/LuceneDataSource.xml" />
+		<xi:include href="../../Services/Tagging/LuceneDataSource.xml" />
 	</Document>
 	<Document type="subItem">
 		<DataSource type="JDBC" action="create">

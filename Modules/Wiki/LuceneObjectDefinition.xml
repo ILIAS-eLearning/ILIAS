@@ -2,5 +2,6 @@
 <ObjectDefinition xmlns:xi="http://www.w3.org/2001/XInclude" type="wiki">
 	<Document type="default">
 		<xi:include href="../../Services/Object/LuceneDataSource.xml" />
+		<xi:include href="../../Services/Tagging/LuceneDataSource.xml" />
 	</Document>
 </ObjectDefinition>

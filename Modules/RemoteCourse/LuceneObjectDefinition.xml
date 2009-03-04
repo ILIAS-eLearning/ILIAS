@@ -2,6 +2,7 @@
 <ObjectDefinition xmlns:xi="http://www.w3.org/2001/XInclude" type="rcrs">
 	<Document type="default">
 		<xi:include href="../../Services/Object/LuceneDataSource.xml" />
+		<xi:include href="../../Services/Tagging/LuceneDataSource.xml" />
 		<DataSource type="JDBC" action="append">
 			<Query>
 				SELECT local_information, organization
