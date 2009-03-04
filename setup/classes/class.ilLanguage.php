@@ -528,7 +528,7 @@ class ilLanguage
 		{
 			$ilDB->manipulate("DELETE FROM lng_data WHERE lang_key = ".
 				$ilDB->quote($a_lang_key, "text").
-				" AND local_change = IS NULL");
+				" AND local_change IS NULL");
 		}
 	}
 
