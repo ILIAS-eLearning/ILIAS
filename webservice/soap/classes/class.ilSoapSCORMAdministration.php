@@ -149,7 +149,7 @@ class ilSoapSCORMAdministration extends ilSoapAdministration
 			include_once("Services/Tracking/classes/class.ilObjUserTracking.php");
 			if (ilObjUserTracking::_enabledLearningProgress())
 			{
-				include_once "./Services/tracking/classes/class.ilLPStatusWrapper.php";
+				include_once "./Services/Tracking/classes/class.ilLPStatusWrapper.php";
 				$completed_user_ids_array = ilLPStatusWrapper::_getCompleted($obj_id);
 				if (in_array($usr_id, $completed_user_ids_array))
 				{
