@@ -60,7 +60,7 @@ class ilLuceneSearchResultFilter
 	 	include_once('Services/Search/classes/class.ilUserSearchCache.php');
 	 	$this->cache = ilUserSearchCache::_getInstance($this->getUserId());
 	 	
-	 	$this->offset = $this->settings->getMaxHits() * $this->cache->getResultPageNumber();
+	 	$this->offset = $this->settings->getMaxHits() * ($this->cache->getResultPageNumber() - 1);
 	}
 	
 	/**
@@ -234,6 +234,7 @@ class ilLuceneSearchResultFilter
 													  $obj_id))
 				{
 					++$counter;
+					$offset_counter++;
 					$this->append($ref_id,$obj_id);
 					$this->cache->appendToChecked($ref_id,$obj_id);
 					break;
