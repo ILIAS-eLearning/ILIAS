@@ -188,7 +188,7 @@ class ilObjectTest extends PHPUnit_Framework_TestCase
 		$d2 = ilObject::_lookupDeletedDate($ref_id);
 		ilObject::_resetDeletedDate($ref_id);
 		$d3 = ilObject::_lookupDeletedDate($ref_id);
-		if ($d1 != $d2 && $d1 == $d3 && $d3 == "0000-00-00 00:00:00")
+		if ($d1 != $d2 && $d1 == $d3 && $d3 == null)
 		{
 			$value.= "dd1-";
 		}
@@ -280,7 +280,7 @@ class ilObjectTest extends PHPUnit_Framework_TestCase
 		$bool = ilObject::_resetDeletedDate(1);
 		$date = ilObject::_lookupDeletedDate(1);
 		
-		$this->assertEquals($date,'0000-00-00 00:00:00');
+		$this->assertEquals($date, null);
 		
 		
 	}

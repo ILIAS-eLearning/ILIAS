@@ -21,14 +21,14 @@
 	+-----------------------------------------------------------------------------+
 */
 
-class ilServicesAdministrationSuite extends PHPUnit_Framework_TestSuite
+class ilServicesAuthenticationSuite extends PHPUnit_Framework_TestSuite
 {
     public static function suite()
     {
-		$suite = new ilServicesAdministrationSuite();
+		$suite = new ilServicesAuthenticationSuite();
 		
-		include_once("./Services/Administration/test/ilSettingTest.php");
-		$suite->addTestSuite("ilSettingTest");
+		include_once("./Services/Authentication/test/ilSessionTest.php");
+		$suite->addTestSuite("ilSessionTest");
 		
 		return $suite;
     }

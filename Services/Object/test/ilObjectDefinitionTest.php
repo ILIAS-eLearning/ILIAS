@@ -21,7 +21,7 @@
 	+-----------------------------------------------------------------------------+
 */
 
-class ilSettingTest extends PHPUnit_Framework_TestCase
+class ilObjectDefinitionTest extends PHPUnit_Framework_TestCase
 {
 	protected $backupGlobals = FALSE;
 
