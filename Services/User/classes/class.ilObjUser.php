@@ -3759,7 +3759,7 @@ class ilObjUser extends ilObject
 	{
 		global $ilDB;
 
-		$query = "INSERT INTO usr_defined_data ".
+		$query = "INSERT INTO udf_data ".
 			"SET usr_id = ".$ilDB->quote($this->getId(),'integer');
 		$res = $ilDB->manipulate($query);
 
@@ -3770,7 +3770,7 @@ class ilObjUser extends ilObject
 	{
 		global $ilDB;
 
-		$query = "DELETE FROM usr_defined_data ".
+		$query = "DELETE FROM udf_data ".
 			"WHERE usr_id = ".$ilDB->quote($this->getId(),'integer');
 		$res = $ilDB->manipulate($query);
 
