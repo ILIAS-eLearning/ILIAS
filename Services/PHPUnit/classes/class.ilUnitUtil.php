@@ -36,7 +36,7 @@ class ilUnitUtil
 		define("IL_PHPUNIT_TEST", true);
 		session_id("phpunittest");
 		$_SESSION = array();
-		include_once("./Services/PHPUnit/config/cfg.phpunit.php");
+		include("./Services/PHPUnit/config/cfg.phpunit.php");
 		include_once("./include/inc.header.php");
 		$ilUnitUtil = new ilUnitUtil;
 		PEAR::setErrorHandling(PEAR_ERROR_CALLBACK, array($ilUnitUtil, "errorHandler"));
