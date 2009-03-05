@@ -45,6 +45,7 @@ class ilUnitUtil
 	function errorHandler($a_error_obj)
 	{
 		var_dump($a_error_obj);
+		exit;
 	}
 }
 ?>

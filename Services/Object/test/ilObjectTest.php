@@ -204,7 +204,7 @@ class ilObjectTest extends PHPUnit_Framework_TestCase
 		global $tree;
 		
 		$obj = new ilObject();
-		$obj->setType("");				// otherwise type check will fail
+		$obj->setType("xxx");				// otherwise type check will fail
 		$obj->setTitle("TestObject");
 		$obj->setDescription("TestDescription");
 		$obj->setImportId("imp_44");
