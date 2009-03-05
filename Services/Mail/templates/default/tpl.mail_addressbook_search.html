@@ -5,7 +5,8 @@
 			<tr class="tblheader" valign="top">
 				<th id="header1" class="std" width="1%">&nbsp;</th>
 				<th id="header2" class="std"><b>{CRS_TXT_COURSES}</b></th>
-				<th id="header3" class="std" ><b>{CRS_TXT_NO_MEMBERS}</b></th>
+				<th id="header3" class="std" ><b>{CRS_TXT_COURSES_PATHS}</b></th>
+				<th id="header4" class="std" ><b>{CRS_TXT_NO_MEMBERS}</b></th>
 				<td class="std" colspan="2">&nbsp;</td>
 			</tr>
 		</thead>
@@ -14,7 +15,8 @@
 			<tr class="{LOOP_CRS_CSSROW}">
 				<td headers="header1" class="std" valign="top"><input type="checkbox" name="search_crs[]" value="{LOOP_CRS_ID}"/></td>
 				<td headers="header2" class="std" valign="top">{LOOP_CRS_NAME}<!-- BEGIN caption_asterisk -->*<!-- END caption_asterisk --></td>
-				<td headers="header3" class="std" valign="top">{LOOP_CRS_NO_MEMBERS}</td>
+				<td headers="header3" class="std" valign="top">{LOOP_CRS_PATH}</td>
+				<td headers="header4" class="std" valign="top">{LOOP_CRS_NO_MEMBERS}</td>
 				<td class="std" colspan="2">&nbsp;</td>
 			</tr>
 		<!-- END loop_crs -->
@@ -28,7 +30,8 @@
 			<tr class="tblheader" valign="top">
 				<th id="header1" class="std" width="1%">&nbsp;</th>
 				<th id="header2" class="std"><b>{GRP_TXT_GROUPS}</b></th>
-				<th id="header3" class="std"><b>{GRP_TXT_NO_MEMBERS}</b></th>
+				<th id="header3" class="std"><b>{GRP_TXT_GROUPS_PATHS}</b></th>				
+				<th id="header4" class="std"><b>{GRP_TXT_NO_MEMBERS}</b></th>
 				<td class="std" colspan="2">&nbsp;</td>
 			</tr>
 		</thead>
@@ -37,7 +40,8 @@
 			<tr class="{LOOP_GRP_CSSROW}">
 				<td headers="header1" class="std" valign="top" align="center"><input type="checkbox" name="search_grp[]" value="{LOOP_GRP_ID}" /></td>
 				<td headers="header2" class="std" valign="top">{LOOP_GRP_NAME}</td>
-				<td headers="header3" class="std" valign="top">{LOOP_GRP_NO_MEMBERS}</td>
+				<td headers="header3" class="std" valign="top">{LOOP_GRP_PATH}</td>				
+				<td headers="header4" class="std" valign="top">{LOOP_GRP_NO_MEMBERS}</td>
 				<td class="std" colspan="2">&nbsp;</td>
 			</tr>
 		<!-- END loop_grp -->
