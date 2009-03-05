@@ -39,6 +39,14 @@ class ilObjUserTest extends PHPUnit_Framework_TestCase
 	{
 		include_once("./Services/User/classes/class.ilObjUser.php");
 		
+		
+		// delete all aatestuser from previous runs
+		while (($i = ilObjUser::_lookupId("aatestuser")) > 0)
+		{
+			$user = new ilObjUser($i);
+			$user->delete();
+		}
+		
 		$user = new ilObjUser();
 		
 		// creation
