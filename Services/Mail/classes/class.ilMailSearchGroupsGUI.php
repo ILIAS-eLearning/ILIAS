@@ -285,7 +285,7 @@ class ilMailSearchGroupsGUI
 	 */
 	public function showMyGroups()
 	{
-		global $lng, $ilUser, $ilObjDataCache;
+		global $lng, $ilUser, $ilObjDataCache, $tree;
 
 		$this->tpl->addBlockFile('ADM_CONTENT', 'adm_content', 'tpl.mail_addressbook_search.html', 'Services/Mail');
 		$this->tpl->setVariable('HEADER', $this->lng->txt('mail'));
@@ -308,6 +308,7 @@ class ilMailSearchGroupsGUI
 			count($grp_ids) > 0)
 		{				
 			$this->tpl->setVariable('GRP_TXT_GROUPS',$lng->txt('mail_my_groups'));
+			$this->tpl->setVariable('GRP_TXT_GROUPS_PATHS',$lng->txt('path'));
 			$this->tpl->setVariable('GRP_TXT_NO_MEMBERS',$lng->txt('grp_count_members'));
 		
 			foreach($grp_ids as $grp_id) 
@@ -316,12 +317,28 @@ class ilMailSearchGroupsGUI
 				{
 					$oGroupParticipants = ilGroupParticipants::_getInstanceByObjId($grp_id);
 					$grp_members = $oGroupParticipants->getParticipants();
+					
+					$ref_ids = ilObject::_getAllReferences($grp_id);
+					$ref_id = current($ref_ids);				
+					$path_arr = $tree->getPathFull($ref_id, $tree->getRootId());
+					$path_counter = 0;
+					$path = '';
+					foreach($path_arr as $data)
+					{
+						if($path_counter++)
+						{
+							$path .= " -> ";
+						}
+						$path .= $data['title'];
+					}
+					$path = $this->lng->txt('path').': '.$path;
 	
 					$this->tpl->setCurrentBlock('loop_grp');
 					$this->tpl->setVariable('LOOP_GRP_CSSROW', ++$counter % 2 ? 'tblrow1' : 'tblrow2');
 					$this->tpl->setVariable('LOOP_GRP_ID', $grp_id);
 					$this->tpl->setVariable('LOOP_GRP_NAME', $ilObjDataCache->lookupTitle($grp_id));
 					$this->tpl->setVariable('LOOP_GRP_NO_MEMBERS', count($grp_members));
+					$this->tpl->setVariable('LOOP_GRP_PATH', $path);
 					$this->tpl->parseCurrentBlock();
 				}
 			}

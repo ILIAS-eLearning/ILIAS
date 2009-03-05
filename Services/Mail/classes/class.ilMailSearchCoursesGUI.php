@@ -132,6 +132,7 @@ class ilMailSearchCoursesGUI
 		foreach ($_POST["search_crs"] as $crs_id)
 		{
 			$ref_ids = ilObject::_getAllReferences($crs_id);
+
 			foreach ($ref_ids as $ref_id)
 			{
 				$roles = $rbacreview->getAssignableChildRoles($ref_id);
@@ -288,10 +289,10 @@ class ilMailSearchCoursesGUI
 	 */
 	public function showMyCourses()
 	{
-		global $lng, $ilUser, $ilObjDataCache;
+		global $lng, $ilUser, $ilObjDataCache, $tree;
 
 		include_once 'Modules/Course/classes/class.ilCourseParticipants.php';
-
+	
 		$this->tpl->addBlockFile('ADM_CONTENT', 'adm_content', 'tpl.mail_addressbook_search.html', 'Services/Mail');
 		$this->tpl->setVariable('HEADER', $this->lng->txt('mail'));
 		
@@ -307,19 +308,20 @@ class ilMailSearchCoursesGUI
 
 		include_once 'Modules/Course/classes/class.ilCourseParticipants.php';
 		$crs_ids = ilCourseParticipants::_getMembershipByType($ilUser->getId(), 'crs');
-	
+
 		$counter = 0;
 		if (is_array($crs_ids) &&
 			count($crs_ids) > 0)
 		{
-				
+	
 			$this->tpl->setVariable('CRS_TXT_COURSES', $lng->txt('mail_my_courses'));
+			$this->tpl->setVariable('CRS_TXT_COURSES_PATHS', $lng->txt('path'));
 			$this->tpl->setVariable('CRS_TXT_NO_MEMBERS', $lng->txt('crs_count_members'));
 		
 			$num_courses_hidden_members = 0;
 		
 			foreach($crs_ids as $crs_id) 
-			{
+			{		
 				if(ilObject::_hasUntrashedReference($crs_id))
 				{				
 					$oCrsParticipants = ilCourseParticipants::_getInstanceByObjId($crs_id);
@@ -335,12 +337,28 @@ class ilMailSearchCoursesGUI
 						$this->tpl->parseCurrentBlock();
 					}
 					unset($oTmpCrs);
-		
+					
+					$ref_ids = ilObject::_getAllReferences($crs_id);
+					$ref_id = current($ref_ids);				
+					$path_arr = $tree->getPathFull($ref_id, $tree->getRootId());
+					$path_counter = 0;
+					$path = '';
+					foreach($path_arr as $data)
+					{
+						if($path_counter++)
+						{
+							$path .= " -> ";
+						}
+						$path .= $data['title'];
+					}
+					$path = $this->lng->txt('path').': '.$path;
+					
 					$this->tpl->setCurrentBlock('loop_crs');
 					$this->tpl->setVariable('LOOP_CRS_CSSROW', ++$counter % 2 ? 'tblrow1' : 'tblrow2');
 					$this->tpl->setVariable('LOOP_CRS_ID', $crs_id);
 					$this->tpl->setVariable('LOOP_CRS_NAME', $ilObjDataCache->lookupTitle($crs_id));
 					$this->tpl->setVariable('LOOP_CRS_NO_MEMBERS', count($crs_members));
+					$this->tpl->setVariable('LOOP_CRS_PATH', $path);
 					$this->tpl->parseCurrentBlock();
 				}
 			}
