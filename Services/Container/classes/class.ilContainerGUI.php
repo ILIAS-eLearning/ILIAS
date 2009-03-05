@@ -232,7 +232,7 @@ class ilContainerGUI extends ilObjectGUI
 		//$page_gui->setTemplateTargetVar("ADM_CONTENT");
 		$page_gui->setLinkXML($link_xml);
 		$page_gui->setFileDownloadLink($this->ctrl->getLinkTarget($this, "downloadFile"));
-		$page_gui->setFullscreenLink($this->ctrl->getLinkTarget($this, "showMediaFullscreen"));
+		//$page_gui->setFullscreenLink($this->ctrl->getLinkTarget($this, "showMediaFullscreen"));
 		//$page_gui->setLinkParams($this->ctrl->getUrlParameterString()); // todo
 		$page_gui->setSourcecodeDownloadScript($this->ctrl->getLinkTarget($this, ""));
 		$page_gui->setPresentationTitle("");
