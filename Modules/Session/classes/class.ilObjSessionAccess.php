@@ -70,19 +70,20 @@ class ilObjSessionAccess
 	{
 		global $ilUser, $lng, $rbacsystem, $ilAccess;
 		
+		$a_user_id = $a_user_id ? $a_user_id : $ilUser->getId();
 		switch($a_cmd)
 		{
 			case 'register':
 				if(self::_lookupRegistration($a_obj_id))
 				{
-					return !self::_lookupRegistered($a_usr_id,$a_obj_id);
+					return !self::_lookupRegistered($a_user_id,$a_obj_id);
 				}
 				return false;
 				
 			case 'unregister':
 				if(self::_lookupRegistration($a_obj_id))
 				{
-					return self::_lookupRegistered($a_usr_id,$a_obj_id);
+					return self::_lookupRegistered($a_user_id,$a_obj_id);
 				}
 				return false;
 		}
