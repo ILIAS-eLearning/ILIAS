@@ -8641,4 +8641,20 @@ ALTER TABLE `il_meta_requirement` CHANGE `operating_system_maximum_version` `os_
 <?php
 	$ilMySQLAbstraction->performAbstraction('il_meta_requirement');
 ?>
-  
+<#1853>
+CREATE TABLE `payment_news` (
+  `news_id` int(11) NOT NULL,
+  `news_title` varchar(200) default NULL,
+  `news_content` varchar(4000) default NULL,
+  `creation_date` datetime default NULL,
+  `update_date` datetime default NULL,
+  `visibility` varchar(8) default 'users',
+  `user_id` int(11) NOT NULL,
+  PRIMARY KEY  (`news_id`),
+  KEY `c_date` (`creation_date`)
+) ENGINE=MyISAM  DEFAULT CHARSET=utf8;
+
+<#1854>
+ CREATE  TABLE `payment_news_seq` (  `sequence` int( 11  )  NOT  NULL  auto_increment ,
+ PRIMARY  KEY (  `sequence`  )  ) ENGINE  =  MyISAM  DEFAULT CHARSET  = utf8;   
+ 

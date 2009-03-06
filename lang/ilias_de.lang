@@ -9135,3 +9135,14 @@ assessment#:#maxsize_info#:#Geben Sie die maximale Größe in Bytes an, die eine
 forum#:#frm_sure_delete_threads#:#Sind Sie sicher, dass die folgenden Themen gelöscht werden sollen?
 search#:#lucene_more_hits_link#:#%s weitere Treffer...
 dateplaner#:#cal_rec_err_limit#:#Bitte geben Sie eine Anzahl von Terminen ein.
+payment#:#payment_news#:#Shop Nachrichten
+payment#:#payment_news_add_news#:#Shop Nachricht hinzufügen
+payment#:#payment_news_created#:#Shop Nachricht hinzugefügt
+payment#:#payment_news_no_news_items#:#No news available
+payment#:#payment_news_delete_sure#:#Sind Sie sicher, dass Sie diese Shop Nachricht löschen möchten?
+payment#:#payment_news_deleted#:#Die Nachricht wurde gelöscht
+payment#:#payment_news_updated#:#Die Nachricht wurde gespeichert
+payment#:#payment_news_settings#:#Shop Nachrichten Einstellungen
+payment#:#payment_news_archive_period#:#Archiv-Zeitraum
+payment#:#payment_news_archive_period_info#:#Anzahl der Tage, nach denen eine Nachricht ins Archiv verschoben wird
+payment#:#payment_news_settings_saved#:#Die Einstellungen wurden gespeichert
