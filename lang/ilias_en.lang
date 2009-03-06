@@ -9076,3 +9076,14 @@ common#:#bookings#:#Bookings
 forum#:#frm_sure_delete_threads#:#Are you sure you want to delete the following threads?
 search#:#lucene_more_hits_link#:#%s more hits...
 dateplaner#:#cal_rec_err_limit#:#Please enter a valid number of appointments.
+payment#:#payment_news#:#Shop News
+payment#:#payment_news_add_news#:#Add Shop News 
+payment#:#payment_news_created#:#Shop news added
+payment#:#payment_news_no_news_items#:#No news available
+payment#:#payment_news_delete_sure#:#Are you sure, you want to delete this shop news?
+payment#:#payment_news_deleted#:#Shop news deleted
+payment#:#payment_news_updated#:#The news have been saved
+payment#:#payment_news_settings#:#Shop News Settings
+payment#:#payment_news_archive_period#:#Archive-Period
+payment#:#payment_news_archive_period_info#:#Time period to define when news move to archive 
+payment#:#payment_news_settings_saved#:#The settings have been saved
