@@ -35,6 +35,7 @@ include_once('./Services/Calendar/classes/class.ilCalendarSettings.php');
 class ilDatePresentation
 {
 	public static $use_relative_dates = true;
+	private static $lang = null;
 	
 	public static $today = null;
 	public static $tomorrow = null;
@@ -62,6 +63,45 @@ class ilDatePresentation
 		return self::$use_relative_dates;
 	}
 	
+	/**
+	 * set language 
+	 *
+	 * @return
+	 * @static
+	 */
+	public static function setLanguage($a_lng)
+	{
+		self::$lang = $a_lng;
+	}
+	
+	/**
+	 * set language 
+	 *
+	 * @return
+	 * @static
+	 */
+	public static function getLanguage()
+	{
+		global $lng;
+		
+		return self::$lang ? self::$lang : $lng; 		
+	}
+	
+	/**
+	 * reset to defaults 
+	 *
+	 * @return
+	 * @static
+	 */
+	public static function resetToDefaults()
+	{
+		global $lng;
+		
+		self::setLanguage($lng);
+		self::setUseRelativeDates(true);
+	}
+	
+	
 	
 	/**
 	 * Format a date
@@ -76,7 +116,7 @@ class ilDatePresentation
 		
 		if($date->isNull())
 		{
-			return $lng->txt('no_date');
+			return self::getLanguage()->txt('no_date');
 		}
 		
 		$has_time = !is_a($date,'ilDate');
@@ -94,15 +134,15 @@ class ilDatePresentation
 
 		if(self::isToday($date) and self::useRelativeDates())
 		{
-			$date_str = $lng->txt('today');
+			$date_str = self::getLanguage()->txt('today');
 		}
 		elseif(self::isTomorrow($date) and self::useRelativeDates())
 		{
-			$date_str = $lng->txt('tomorrow');
+			$date_str = self::getLanguage()->txt('tomorrow');
 		}
 		elseif(self::isYesterday($date) and self::useRelativeDates())
 		{
-			$date_str = $lng->txt('yesterday');
+			$date_str = self::getLanguage()->txt('yesterday');
 		}
 		else
 		{
@@ -206,7 +246,6 @@ class ilDatePresentation
 		{
 			self::$today = new ilDateTime(time(),IL_CAL_UNIX,$ilUser->getTimeZone());
 		}
-		
 		return ilDateTime::_equals(self::$today,$date,IL_CAL_DAY,$ilUser->getTimeZone());
 	}
 	

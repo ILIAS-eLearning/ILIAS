@@ -3873,7 +3873,12 @@ class ilObjUser extends ilObject
 		}
 		if(strlen($this->getCreateDate()))
 		{
-			$body .= ($language->txt("create_date").": ".ilFormat::formatDate($this->getCreateDate(), "datetime", true)."\n");
+			ilDatePresentation::setUseRelativeDates(false);
+			ilDatePresentation::setLanguage($language);
+			$date = ilDatePresentation::formatDate(new ilDateTime($this->getCreateDate(),IL_CAL_DATETIME));
+			ilDatePresentation::resetToDefaults();
+			
+			$body .= ($language->txt("create_date").": ".$date."\n");
 		}
 
 		foreach($rbacreview->getGlobalRoles() as $role)
@@ -3895,10 +3900,19 @@ class ilObjUser extends ilObject
 		}
 		else
 		{
+			ilDatePresentation::setUseRelativeDates(false);
+			ilDatePresentation::setLanguage($language);
+			$period = ilDatePresentation::formatPeriod(new ilDateTime($this->getTimeLimitFrom(),IL_CAL_UNIX),
+				new ilDateTime($this->getTimeLimitUntil(),IL_CAL_UNIX));
+			ilDatePresentation::resetToDefaults();
+			
+			$body .= $language->txt('time_limit').': '.$period; 
+			/*
 			$body .= ($language->txt('time_limit').": ".$language->txt('crs_from')." ".
 					  ilFormat::formatUnixTime($this->getTimeLimitFrom(), true)." ".
 					  $language->txt('crs_to')." ".
 					  ilFormat::formatUnixTime($this->getTimeLimitUntil(), true)."\n");
+			*/
 		}
 		return $body;
 	}

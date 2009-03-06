@@ -25,10 +25,13 @@
 /**
 * Class format
 * functions for converting date, time & money output to country specific formats
+* 
+* DEPRECATED use ilDate ilDateTime and ilDatePresentation.
 *
 * @author Sascha Hofmann <shofmann@databay.de>
 * @author Peter Gabriel <pgabriel@databay.de> 
 * @version $Id$
+* @deprecated since version 3.10 - 05.03.2009
 *
 */
 
@@ -300,6 +303,7 @@ class ilFormat
 	* @param	string	format mode (datetime, time or date)
 	* @param	boolean	relative date output
 	* @return	string	formatted date
+	* @deprecated since 3.10 - 05.03.2009
 	*/
 	function fmtDateTime($a_str,$a_dateformat,$a_timeformat,$a_mode = "datetime", $a_relative = TRUE)
 	{
@@ -419,7 +423,7 @@ class ilFormat
 		}
 	}
 	
-	/*
+	/**
 	* format a date according to the user language 
 	* shortcut for Format::fmtDateTime
 	* @access	public
@@ -428,6 +432,7 @@ class ilFormat
 	* @param boolean Relative date output
 	* @return	string	formatted date
 	* @see		Format::fmtDateTime
+	* @deprecated since 3.10 - 05.03.2009
 	*/
 	function formatDate($a_date,$a_mode = "datetime", $a_omit_seconds = false, $a_relative = TRUE)
 	{
