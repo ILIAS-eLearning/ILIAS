@@ -239,6 +239,8 @@ abstract class ilDB extends PEAR
 		// set empty value portability to PEAR::DB behaviour
 		if (!$this->isDbError($this->db))
 		{
+			$this->db->setOption('portability', MDB2_PORTABILITY_ALL);
+/*
 if ($this->getDBType() == "mysql")
 {
 			$cur = ($this->db->getOption("portability") & MDB2_PORTABILITY_EMPTY_TO_NULL);
@@ -246,7 +248,8 @@ if ($this->getDBType() == "mysql")
 
 			$cur = ($this->db->getOption("portability") & MDB2_PORTABILITY_FIX_CASE);
 			$this->db->setOption("portability", $this->db->getOption("portability") - $cur);
-}
+}*/
+
 		}
 
 		//check error

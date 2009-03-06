@@ -129,11 +129,10 @@ class ilDBMySQL extends ilDB
 		// NOTE: Two sourcecodes use this or a similar handling:
 		// - classes/class.ilDB.php
 		// - setup/classes/class.ilClient.php
-		if ($this->isMysql4_1OrHigher())
-		{
-			$this->query("SET NAMES utf8");
-			$this->query("SET SESSION SQL_MODE = ''");
-		}
+
+		$this->query("SET NAMES utf8");
+		$this->query("SET SESSION SQL_MODE = 'ONLY_FULL_GROUP_BY'");
+
 	}
 
 	/**

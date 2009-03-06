@@ -105,6 +105,10 @@ class ilAdministrationExplorer extends ilExplorer
 	{
 		global $ilCtrl, $objDefinition;
 
+		if ($a_type == "" || $a_type == "xxx")
+		{
+			return;
+		}
 		if ($_GET["admin_mode"] == "settings" && $a_node_id == ROOT_FOLDER_ID)
 		{
 			$this->ctrl->setParameterByClass("iladministrationgui", "ref_id", ROOT_FOLDER_ID);
@@ -163,6 +167,13 @@ class ilAdministrationExplorer extends ilExplorer
 	function isVisible($a_ref_id,$a_type)
 	{
 		global $rbacsystem, $ilBench;
+
+		// these objects may exist due to test cases that didnt clear
+		// data properly
+		if ($a_type == "" || $a_type == "xxx")
+		{
+			return false;
+		}
 		
 		$ilBench->start("Explorer", "setOutput_isVisible");
 		$visible = $rbacsystem->checkAccess('visible',$a_ref_id);

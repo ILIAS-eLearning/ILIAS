@@ -644,9 +644,13 @@ class ilRbacReview
 			// Note the use of the HAVING clause: For large trees with many
 			// local roles, this query performs much faster when the IN
             // condition is inside of the HAVING clause.
+			// (alex: Unfortunately using having in this way is non-standard SQL)
+			/*$q = "SELECT * FROM tree ".
+				 "WHERE parent = ".$ilDB->quote($path)." ".
+				 "HAVING child ".$in;*/
 			$q = "SELECT * FROM tree ".
 				 "WHERE parent = ".$ilDB->quote($path)." ".
-				 "HAVING child ".$in;
+				 "AND child ".$in;
 			$r = $this->ilDB->query($q);
 
 			while ($row = $r->fetchRow(DB_FETCHMODE_OBJECT))

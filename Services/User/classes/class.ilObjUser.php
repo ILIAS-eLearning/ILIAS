@@ -4390,7 +4390,7 @@ class ilObjUser extends ilObject
 			"FROM usr_session ".
 			"LEFT JOIN usr_data ON user_id=usr_id ".$where.
 			"AND expires > %s ".
-			"GROUP BY user_id ".
+			"GROUP BY user_id,firstname,lastname,title,login,last_login ".
 			"ORDER BY lastname, firstname", $type_array, $val_array);
 
 		while ($user = $ilDB->fetchAssoc($r))
@@ -4451,7 +4451,7 @@ class ilObjUser extends ilObject
 				"WHERE user_id = ".$ilDB->quote($a_user_id, "integer")." ".
 				" AND NOT agree_date IS NULL ".
 				"AND expires > ".$ilDB->quote(time(), "integer")." ".
-				"GROUP BY user_id";
+				"GROUP BY user_id,ctime,firstname,lastname,title,login,last_login";
 			$r = $ilDB->query($q);
 		}
 		else
@@ -4469,7 +4469,7 @@ class ilObjUser extends ilObject
 				"AND fa.assign = ".$ilDB->quote("y", "text")." ".
 				" AND NOT ud.agree_date IS NULL ".
 				"AND ".$ilDB->in("od.obj_id", $groups_and_courses_of_user, false, "integer")." ".
-				"GROUP BY s.user_id ".
+				"GROUP BY s.user_id,s.ctime,ud.firstname,ud.lastname,ud.title,ud.login,ud.last_login ".
 				"ORDER BY ud.lastname, ud.firstname";
 			$r = $ilDB->query($q);
 		}
