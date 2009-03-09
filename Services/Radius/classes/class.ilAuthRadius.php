@@ -27,6 +27,11 @@ include_once('Auth/Auth.php');
 /** 
 * Auth Radius overwrites PEAR Auth to perform Radius authentication with specific ILIAS options
 * 
+* FIXME - Cass ilAuthContainerRadius contains duplicates of the code of this class in the
+*       functions loginObserver, failedLoginObserver, and initRadiusAttributeToUser. If you do changes in
+*       these functions, you MUST do corresponding changes in ilAuthContainerRadius.
+*       In a future revision of ILIAS, the class ilAuthRadius should be removed.
+*
 * @author Stefan Meyer <smeyer@databay.de>
 * @version $Id$
 * 
