@@ -5202,8 +5202,8 @@ crs#:#crs_view_objective#:#Objective Oriented View
 cntr#:#cntr_old_editor_warning#:#The maintenance of this editor will be discontinued in a future major releases of ILIAS. You may still use it to edit the content of this page now. But we recommend to switch to the standard page editor of ILIAS when possible.
 cntr#:#cntr_old_editor_open_standard_editor#:#Open Standard Editor
 cntr#:#cntr_back_to_old_editor#:#Back to Old Editor
-cntr#:#cntr_switch_to_new_editor_message#:#This is the supported standard editor. Please use it to setup the content page. If you click the following link, the content presentation in the repository will switch from the old editor's content to this page.
-cntr#:#cntr_switch_to_new_editor_cmd#:#Switch to this page for presentation
+cntr#:#cntr_switch_to_new_editor_message#:#This is the supported standard editor. The content from the old editor cannot be transferred. Please start adding new page content below. If you click the following link, the new content will be used.
+cntr#:#cntr_switch_to_new_editor_cmd#:#Switch to new content of this page. Old content will be removed.
 cntr#:#cntr_switched_editor#:#Switched to new content.
 cntr#:#cntr_view_sessions#:#Sessions View
 cntr#:#cntr_view_simple#:#Simple View
