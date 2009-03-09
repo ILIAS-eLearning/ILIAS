@@ -616,6 +616,7 @@ class ilDAVServer extends HTTP_WebDAV_Server
 		}
 		if (count($objectPath) > 2)
 		{
+			$shortenedPath = '/ref_'.
 				$objectPath[count($objectPath) - 1]->getRefId();
 		} else {
 			$shortenedPath = $fullPath;
