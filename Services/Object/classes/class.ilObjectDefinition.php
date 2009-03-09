@@ -216,8 +216,9 @@ class ilObjectDefinition extends ilSaxParser
 		{
 			if (!isset($this->root_trans_type))
 			{
-				$q = "SELECT count(*) cnt FROM object_translation WHERE obj_id = ".
-					$ilDB->quote(ROOT_FOLDER_ID,'integer');
+				$q = "SELECT count(obj_id) cnt FROM object_translation WHERE obj_id = ".
+					$ilDB->quote(ROOT_FOLDER_ID,'integer')." ".
+					"GROUP BY obj_id";
 				$set = $ilDB->query($q);
 				$rec = $set->fetchRow(DB_FETCHMODE_ASSOC);
 				if($rec["cnt"] > 0)
