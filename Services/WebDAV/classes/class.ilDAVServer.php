@@ -616,9 +616,7 @@ class ilDAVServer extends HTTP_WebDAV_Server
 		}
 		if (count($objectPath) > 2)
 		{
-			$shortenedPath = '/ref_'.
-				$objectPath[count($objectPath) - 2]->getRefId().'/'.
-				$this->davUrlEncode($objectPath[count($objectPath) - 1]->getResourceName());
+				$objectPath[count($objectPath) - 1]->getRefId();
 		} else {
 			$shortenedPath = $fullPath;
 		}
@@ -638,7 +636,7 @@ class ilDAVServer extends HTTP_WebDAV_Server
 				;
 		$webfolderURI_Nautilus = ($this->isWebDAVoverHTTPS() ? "davs" : "dav").
 				substr($this->base_uri, strrpos($this->base_uri,':')).
-				$fullPath
+				$shortenedPath
 				;
 		header('Content-Type: text/html; charset=UTF-8');
 

@@ -105,6 +105,14 @@ class ilObjRootDAV extends ilObjectDAV
 	{
 		return "collection";
 	}
+	/**
+	 * Returns 'cat' as the ilias object type for collections that can be
+     * created as children of this object.
+	 */
+	function getILIASCollectionType()
+	{
+		return 'cat';
+	}
 
 	/**
 	 * Returns the mime type of the content of this object.
@@ -131,27 +139,6 @@ class ilObjRootDAV extends ilObjectDAV
 		global $tree;
 		$this->data = $tree->getNodeData($this->getRefId());
 	}
-        function isPermitted($actions,$type='')
-        {
-		// All users have "visible" and "read" access to the root folder
-		// We must disallow all other actions. Specifically Mac OS X
-		// attempts to create lots of hidden files and directories on
-		// the root folder. We do not want these, so we disallow
-		// the "create" action even to system administrators.
-		$a = explode(',',$actions);
-		foreach ($a as $action)
-		{
-			switch ($action)
-			{
-				case 'read' :
-				case 'visible' :
-					break;
-				default :
-					return false;
-			}
-		}
-		return true;
-        }
 }
 // END WebDAV
 ?>
