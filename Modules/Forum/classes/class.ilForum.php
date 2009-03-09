@@ -1217,7 +1217,7 @@ class ilForum
 		$data = array();
 		$data_types = array();
 
-		$query = 'SELECT *, MAX(pos_date) post_date 
+		$query = 'SELECT thr_pk, MAX(pos_date) post_date 
 				  FROM frm_threads
 				  LEFT JOIN frm_posts ON pos_thr_fk = thr_pk';
 		

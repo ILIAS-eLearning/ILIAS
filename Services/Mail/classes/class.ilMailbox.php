@@ -318,22 +318,24 @@ class ilMailbox
 
 		// CHECK FOR SYSTEM MAIL
 		$res = $ilDB->queryf('
-			SELECT count(*) as cnt FROM mail 
+			SELECT count(mail_id) as cnt FROM mail 
 			WHERE folder_id = %s 
 			AND user_id = %s
-			AND m_status = %s',
+			AND m_status = %s
+			GROUP BY mail_id',
 			array('integer', 'integer', 'text'),
 			array('0', $a_user_id, 'unread'));
 		
 		$row = $res->fetchRow(DB_FETCHMODE_OBJECT);
 					
 		$res2 = $ilDB->queryf('
-			SELECT count(*) as cnt FROM mail AS m,mail_obj_data AS mo 
+			SELECT count(mail_id) as cnt FROM mail AS m,mail_obj_data AS mo 
 		 	WHERE m.user_id = mo.user_id 
 		 	AND m.folder_id = mo.obj_id 
 		 	AND mo.type = %s
 			AND m.user_id = %s
-	 		AND m.m_status = %s',
+	 		AND m.m_status = %s
+	 		GROUP BY mail_id',
 			array('text', 'integer', 'text'),
 			array('inbox', $a_user_id, 'unread'));
 			
