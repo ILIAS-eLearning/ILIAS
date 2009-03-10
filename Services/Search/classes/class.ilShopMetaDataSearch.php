@@ -130,7 +130,7 @@ class ilShopMetaDataSearch extends ilAbstractSearch
 		}
 		
 		$query .= $where." ".$in.' ';
-		$query .= " GROUP BY il_meta_entity.obj_id ";
+		$query .= " GROUP BY il_meta_entity.obj_id,rbac_id,obj_type,il_meta_entity.entity ";
 
 		$res = $this->db->query($query);
 		while($row = $res->fetchRow(DB_FETCHMODE_OBJECT))
@@ -160,7 +160,7 @@ class ilShopMetaDataSearch extends ilAbstractSearch
 		}
 		
 		$query .= $where." ".$in.' ';
-		$query .= " GROUP BY il_meta_keyword.obj_id ";
+		$query .= " GROUP BY il_meta_keyword.obj_id,rbac_id,obj_type,il_meta_keyword.keyword ";
 
 		$res = $this->db->query($query);
 		while($row = $res->fetchRow(DB_FETCHMODE_OBJECT))
@@ -190,7 +190,7 @@ class ilShopMetaDataSearch extends ilAbstractSearch
 		}
 		
 		$query .= $where." ".$in.' ';
-		$query .= " GROUP BY il_meta_general.obj_id ";
+		$query .= " GROUP BY il_meta_general.obj_id,rbac_id,obj_type,il_meta_general.title ";
 
 		$res = $this->db->query($query);
 		while($row = $res->fetchRow(DB_FETCHMODE_OBJECT))
@@ -220,7 +220,7 @@ class ilShopMetaDataSearch extends ilAbstractSearch
 		}
 		
 		$query .= $where." ".$in.' ';
-		$query .= " GROUP BY il_meta_description.obj_id ";
+		$query .= " GROUP BY il_meta_description.obj_id,rbac_id,obj_type,il_meta_description.description ";
 
 		$res = $this->db->query($query);
 		while($row = $res->fetchRow(DB_FETCHMODE_OBJECT))
