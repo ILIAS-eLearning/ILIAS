@@ -222,7 +222,7 @@ class ilPaypalSettings
 			SET paypal = %s
 			WHERE settings_id = %s',
 			array('text', 'integer'), 
-			array('', $this->getSettingsId()));
+			array('NULL', $this->getSettingsId()));
 
 					
 		$this->settings = array();
@@ -258,12 +258,15 @@ class ilPaypalSettings
 		}
 		else
 		{
+			$next_id = $ilDB->nextId('payment_settings');
 			$statement = $ilDB->manipulateF('
 				INSERT INTO payment_settings
-				SET paypal = %s',
-				array('text'), array(serialize($values)));
+				( 	settings_id,
+					paypal) 
+				VALUES (%s, %s)',
+				array('integer','text'), array($next_id, serialize($values)));
 			
-			$this->setSettingsId($this->db->getLastInsertId());
+			//$this->setSettingsId($this->db->getLastInsertId());
 			
 		}
 	}	

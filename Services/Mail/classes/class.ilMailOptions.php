@@ -97,9 +97,15 @@ class ilMailOptions
 
 		$statement = $ilDB->manipulateF('
 			INSERT INTO '.$this->table_mail_options.'
+			(	user_id, 
+				linebreak, 
+				signature, 
+				incoming_type, 
+				cronjob_notification
+			)
 			VALUES(%s, %s, %s, %s, %s)', 
 			array('integer', 'integer', 'text', 'integer', 'integer'),
-			array($this->user_id, DEFAULT_LINEBREAK,'', $incomingMail, '0'));
+			array($this->user_id, DEFAULT_LINEBREAK, NULL, $incomingMail, '0'));
 		
 		return true;
     }

@@ -848,8 +848,10 @@ class ilForumTopic
 			{
 				$statement = $this->db->manipulateF('
 					INSERT INTO frm_notification
-					SET	user_id = %s, 
-						thread_id = %s',
+					(	user_id,
+						thread_id
+					)
+					VALUES(%s, %s)',
 					array('integer', 'integer'),
 					array($a_user_id, $this->id));
 					

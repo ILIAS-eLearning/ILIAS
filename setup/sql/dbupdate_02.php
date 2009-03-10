@@ -8658,3 +8658,54 @@ CREATE TABLE `payment_news` (
  CREATE  TABLE `payment_news_seq` (  `sequence` int( 11  )  NOT  NULL  auto_increment ,
  PRIMARY  KEY (  `sequence`  )  ) ENGINE  =  MyISAM  DEFAULT CHARSET  = utf8;   
  
+<#1855> 
+ALTER TABLE `mail_options` MODIFY `signature` VARCHAR( 4000 ) NULL DEFAULT NULL;
+
+<#1856> 
+<?php
+	$ilMySQLAbstraction->performAbstraction('mail_options');
+?>
+
+<#1857> 
+ALTER TABLE `mail` MODIFY `rcp_to` VARCHAR( 4000 ) NULL DEFAULT NULL;
+<#1858>
+ALTER TABLE `mail` MODIFY `rcp_cc` VARCHAR( 4000 ) NULL DEFAULT NULL;
+<#1859>
+ALTER TABLE `mail` MODIFY `rcp_bcc` VARCHAR( 4000 ) NULL DEFAULT NULL;
+<#1860>
+ALTER TABLE `mail` MODIFY `m_message` VARCHAR( 4000 ) NULL DEFAULT NULL;
+<#1861>
+ALTER TABLE `mail` MODIFY `import_name` VARCHAR( 4000 ) NULL DEFAULT NULL;
+<#1862>
+<?php
+	$ilMySQLAbstraction->performAbstraction('mail');
+?>
+
+<#1863>
+<?php
+	$ilMySQLAbstraction->performAbstraction('mail_obj_data');
+?>
+
+<#1864>
+<?php
+	$ilMySQLAbstraction->performAbstraction('chat_invitations');
+?>
+
+<#1865>
+<?php
+	$ilMySQLAbstraction->performAbstraction('frm_thread_access');
+?> 
+<#1866>
+ALTER TABLE `payment_settings` MODIFY `address` VARCHAR( 4000 ) NULL DEFAULT NULL;
+<#1867>
+ALTER TABLE `payment_settings` MODIFY `bank_data` VARCHAR( 4000 ) NULL DEFAULT NULL;
+<#1868>
+ALTER TABLE `payment_settings` MODIFY `add_info` VARCHAR( 4000 ) NULL DEFAULT NULL;
+<#1869>
+ALTER TABLE `payment_settings` MODIFY `paypal` VARCHAR( 4000 ) NULL DEFAULT NULL;
+<#1870>
+ALTER TABLE `payment_settings` MODIFY `bmf` VARCHAR( 4000 ) NULL DEFAULT NULL;
+<#1871>
+<?php
+	$ilMySQLAbstraction->performAbstraction('payment_settings');
+?>

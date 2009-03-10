@@ -556,12 +556,13 @@ class ilMail
 	{
 		global $ilDB;
 		
+		$ilDB->setLimit(1);
 		$res = $ilDB->queryf("
-			SELECT b.* FROM " . $this->table_mail ." AS a 
-			INNER JOIN ".$this->table_mail ." AS b ON b.folder_id = a.folder_id 
+			SELECT b.* FROM " . $this->table_mail ." a 
+			INNER JOIN ".$this->table_mail ." b ON b.folder_id = a.folder_id 
 			AND b.user_id = a.user_id AND b.send_time > a.send_time 
-			WHERE a.user_id = %s				 
-			AND a.mail_id = %s ORDER BY b.send_time ASC LIMIT 1",
+			WHERE a.user_id = %s	
+			AND a.mail_id = %s ORDER BY b.send_time ASC",			 
 			array('integer', 'integer'),
 			array($this->user_id, $a_mail_id));
 
@@ -573,13 +574,14 @@ class ilMail
 	function getNextMail($a_mail_id)
 	{
 		global $ilDB;
-
+	
+		$ilDB->setLimit(1);
 		$res = $ilDB->queryf("
-			SELECT b.* FROM " . $this->table_mail ." AS a 
-			INNER JOIN ".$this->table_mail ." AS b ON b.folder_id = a.folder_id 
+			SELECT b.* FROM " . $this->table_mail ." a 
+			INNER JOIN ".$this->table_mail ." b ON b.folder_id = a.folder_id 
 			AND b.user_id = a.user_id AND b.send_time < a.send_time 
-			WHERE a.user_id = %s				 
-			AND a.mail_id = %s ORDER BY b.send_time DESC LIMIT 1",
+			WHERE a.user_id = %s
+			AND a.mail_id = %s ORDER BY b.send_time DESC",				 
 			array('integer', 'integer'),
 			array($this->user_id, $a_mail_id));
 		
@@ -1006,24 +1008,50 @@ class ilMail
 		global $ilDB, $log;
 		//$log->write('class.ilMail->sendInternalMail to user_id:'.$a_rcp_to.' '.$a_m_message);
 
-		if ($a_use_placeholders) $a_m_message = $this->replacePlaceholders($a_m_message, $a_user_id);
-
+		if ($a_use_placeholders)
+		{
+			$a_m_message = $this->replacePlaceholders($a_m_message, $a_user_id);
+		}
+		else
+		{
+			$a_use_placeholders = '0';
+		}
+		
+		/**/
+		if(!$a_user_id)		$a_user_id = '0';
+		if(!$a_folder_id)	$a_folder_id = '0';
+		if(!$a_sender_id)	$a_sender_id = NULL;
+		if(!$a_attachments)	$a_attachments = NULL;
+		if(!$a_rcp_to)		$a_rcp_to = NULL;
+		if(!$a_rcp_cc)		$a_rcp_cc = NULL;
+		if(!$a_rcp_bcc)		$a_rcp_bcc = NULL;
+		if(!$a_status)		$a_status = NULL;
+		if(!$a_m_type)		$a_m_type = NULL;
+		if(!$a_m_email)		$a_m_email = NULL;
+		if(!$a_m_subject)	$a_m_subject = NULL;
+		if(!$a_m_message)	$a_m_message = NULL;
+		/**/
+		
+		$next_id = $ilDB->nextId($this->table_mail);
 		$statement = $ilDB->manipulateF('
 			INSERT INTO '. $this->table_mail .'
-			SET user_id = %s,
-			folder_id = %s,
-			sender_id = %s,
-			attachments = %s,
-			send_time = %s,
-			rcp_to = %s,
-			rcp_cc = %s,
-			rcp_bcc = %s,
-			m_status = %s,
-			m_type = %s,
-			m_email = %s,
-			m_subject = %s,
-			m_message = %s',
+			(	mail_id,
+				user_id,
+				folder_id,
+				sender_id,
+				attachments,
+				send_time,
+				rcp_to,
+				rcp_cc,
+				rcp_bcc,
+				m_status,
+				m_type,
+				m_email,
+				m_subject,
+				m_message)
+			VALUES( %s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s)',
 			array(	'integer',
+					'integer',
 					'integer', 
 					'integer', 
 					'text', 
@@ -1037,22 +1065,23 @@ class ilMail
 					'text', 
 					'text' 
 			),
-			array($a_user_id,
-						$a_folder_id,
-						$a_sender_id,
-						serialize($a_attachments),
-						date('Y-m-d H:i:s', time()),
-						$a_rcp_to,
-						$a_rcp_cc,
-						$a_rcp_bcc,
-						$a_status,
-						serialize($a_m_type),
-						$a_m_email,
-						$a_m_subject,
-						$a_m_message
+			array(	$next_id,
+					$a_user_id,
+					$a_folder_id,
+					$a_sender_id,
+					serialize($a_attachments),
+					date('Y-m-d H:i:s', time()),
+					$a_rcp_to,
+					$a_rcp_cc,
+					$a_rcp_bcc,
+					$a_status,
+					serialize($a_m_type),
+					$a_m_email,
+					$a_m_subject,
+					$a_m_message
 		));
 		
-		return $ilDB->getLastInsertId();
+		return $nex_id; //$ilDB->getLastInsertId();
 		
 	}
 	
@@ -1685,6 +1714,17 @@ class ilMail
 	{
 		global $ilDB;
 
+		/**/
+		if(!$a_attachments) $a_attachments = NULL;
+		if(!$a_rcp_to) $a_rcp_to = NULL;
+		if(!$a_rcp_cc) $a_rcp_cc = NULL;
+		if(!$a_rcp_bcc) $a_rcp_bcc = NULL;
+		if(!$a_m_type) $a_m_type = NULL;
+		if(!$a_m_email) $a_m_email = NULL;
+		if(!$a_m_message) $a_m_message = NULL;
+		if(!$a_use_placeholders) $a_use_placeholders = '0';		
+		/**/
+		
 		$statement = $ilDB->manipulateF('
 			DELETE FROM '. $this->table_mail_saved .'
 			WHERE user_id = %s',
@@ -1692,17 +1732,19 @@ class ilMail
 
 		$statement = $ilDB->manipulateF('
 			INSERT INTO '. $this->table_mail_saved .'
-			SET user_id = %s,
-				attachments = %s,
-				rcp_to = %s,
-				rcp_cc = %s,
-				rcp_bcc = %s,
-				m_type = %s,
-				m_email =%s,
-				m_subject = %s,
-				m_message = %s,
-				use_placeholders = %s',
-				array('integer',
+			( 	user_id,
+				attachments,
+				rcp_to,
+				rcp_cc,
+				rcp_bcc,
+				m_type,
+				m_email,
+				m_subject,
+				m_message,
+				use_placeholders
+			)
+			VALUES (%s ,%s, %s, %s, %s, %s, %s, %s, %s, %s)',
+			array('integer',
 				'text',
 				'text',
 				'text',
@@ -1712,17 +1754,17 @@ class ilMail
 				'text',
 				'text',
 				'integer'
-				),
-				array(	$a_user_id,
-						serialize($a_attachments),
-						$a_rcp_to,
-						$a_rcp_cc,
-						$a_rcp_bcc,
-						serialize($a_m_type),
-						'',
-						$a_m_subject,
-						$a_m_message,
-						$a_use_placeholders
+			),
+			array(	$a_user_id,
+					serialize($a_attachments),
+					$a_rcp_to,
+					$a_rcp_cc,
+					$a_rcp_bcc,
+					serialize($a_m_type),
+					$a_m_email,
+					$a_m_subject,
+					$a_m_message,
+					$a_use_placeholders
 		));
 		
 		$this->getSavedData();
