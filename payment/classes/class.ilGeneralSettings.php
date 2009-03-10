@@ -113,13 +113,13 @@ class ilGeneralSettings
 					'integer', 
 					'integer',
 					'integer'),
-			array(	'',
-					'',
-					'',
-					'',
-					'',
-					'',
-					'',
+			array(	NULL,
+					NULL,
+					NULL,
+					NULL,
+					NULL,
+					NULL,
+					NULL,
 					'1',
 					'asc',
 					'0',
@@ -137,7 +137,24 @@ class ilGeneralSettings
 		global $ilDB;
 
 		if ($this->getSettingsId())
-		{		
+		{	
+			/**/
+			if(!$a_values['currency_unit']) 	$a_values['currency_unit'] = NULL;
+			if(!$a_values['currency_subunit']) 	$a_values['currency_subunit'] = NULL;
+			if(!$a_values['address']) 			$a_values['address'] = NULL;
+			if(!$a_values['bank_data']) 		$a_values['bank_data'] = NULL;
+			if(!$a_values['add_info']) 			$a_values['add_info'] = NULL;
+			if(!$a_values['vat_rate']) 			$a_values['vat_rate'] = NULL;
+			if(!$a_values['pdf_path']) 			$a_values['pdf_path'] = NULL;
+			
+			if(!$a_values['topics_allow_custom_sorting']) $a_values['topics_allow_custom_sorting'] = 0;
+			if(!$a_values['topics_sorting_type']) 		$a_values['topics_sorting_type'] = 0;
+			if(!$a_values['topics_sorting_direction']) 	$a_values['topics_sorting_direction'] = NULL;
+			if(!$a_values['shop_enabled']) 				$a_values['shop_enabled'] = 0;
+			if(!$a_values['max_hits']) 					$a_values['max_hits'] = 0;
+			if(!$a_values['save_customer_address_enabled']) $a_values['save_customer_address_enabled'] = 0;	
+			
+			/**/				
 			
 			$statement = $this->db->manipulateF('
 				UPDATE payment_settings
@@ -190,22 +207,47 @@ class ilGeneralSettings
 		}
 		else
 		{ 
+			
+			/**/
+			if(!$a_values['currency_unit']) 	$a_values['currency_unit'] = NULL;
+			if(!$a_values['currency_subunit']) 	$a_values['currency_subunit'] = NULL;
+			if(!$a_values['address']) 			$a_values['address'] = NULL;
+			if(!$a_values['bank_data']) 		$a_values['bank_data'] = NULL;
+			if(!$a_values['add_info']) 			$a_values['add_info'] = NULL;
+			if(!$a_values['vat_rate']) 			$a_values['vat_rate'] = NULL;
+			if(!$a_values['pdf_path']) 			$a_values['pdf_path'] = NULL;
+			
+			if(!$a_values['topics_allow_custom_sorting']) $a_values['topics_allow_custom_sorting'] = 0;
+			if(!$a_values['topics_sorting_type']) 		$a_values['topics_sorting_type'] = 0;
+			if(!$a_values['topics_sorting_direction']) 	$a_values['topics_sorting_direction'] = NULL;
+			if(!$a_values['shop_enabled']) 				$a_values['shop_enabled'] = 0;
+			if(!$a_values['max_hits']) 					$a_values['max_hits'] = 0;
+			if(!$a_values['save_customer_address_enabled']) $a_values['save_customer_address_enabled'] = 0;	
+			
+			/**/
+			
+			
+			$next_id = $ilDB->nextId('payment_settings');
 			$statement = $this->db->manipulateF('
 				INSERT INTO payment_settings
-				SET currency_unit = %s,
-					currency_subunit = %s,
-					address = %s,
-					bank_data = %s,
-					add_info = %s,
-					vat_rate = %s,
-					pdf_path = %s,
-					topics_allow_custom_sorting = %s,
-					topics_sorting_type = %s,
-					topics_sorting_direction = %s,
-					shop_enabled = %s,
-					max_hits = %s,
-					save_customer_address_enabled = %s',
-				array( 'text', 
+				( 	settings_id,
+					currency_unit,
+					currency_subunit,
+					address,
+					bank_data,
+					add_info,
+					vat_rate,
+					pdf_path,
+					topics_allow_custom_sorting,
+					topics_sorting_type,
+					topics_sorting_direction,
+					shop_enabled,
+					max_hits,
+					save_customer_address_enabled
+				)
+				VALUES (%s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s)',
+				array( 'integer',
+						'text', 
 						'text', 
 						'text', 
 						'text', 
@@ -219,6 +261,7 @@ class ilGeneralSettings
 						'integer', 
 						'integer'),
 				array(
+					$next_id,
 					$a_values['currency_unit'],
 					$a_values['currency_subunit'],
 					$a_values['address'],
@@ -235,7 +278,7 @@ class ilGeneralSettings
 					)
 			);
 			
-			$this->setSettingsId($this->db->getLastInsertId());
+			//$this->setSettingsId($this->db->getLastInsertId());
 		}		
 
 		$this->__getSettings();

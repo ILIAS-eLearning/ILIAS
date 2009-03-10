@@ -285,7 +285,7 @@ class ilMailbox
 		}
 
 		$res = $ilDB->queryf('
-			SELECT m.mail_id FROM mail AS m,mail_obj_data AS mo 
+			SELECT m.mail_id FROM mail m,mail_obj_data mo 
 			WHERE m.user_id = mo.user_id 
 			AND m.folder_id = mo.obj_id 
 			AND mo.type = %s
@@ -318,7 +318,7 @@ class ilMailbox
 
 		// CHECK FOR SYSTEM MAIL
 		$res = $ilDB->queryf('
-			SELECT count(mail_id) as cnt FROM mail 
+			SELECT count(mail_id) cnt FROM mail 
 			WHERE folder_id = %s 
 			AND user_id = %s
 			AND m_status = %s
@@ -329,7 +329,7 @@ class ilMailbox
 		$row = $res->fetchRow(DB_FETCHMODE_OBJECT);
 					
 		$res2 = $ilDB->queryf('
-			SELECT count(mail_id) as cnt FROM mail AS m,mail_obj_data AS mo 
+			SELECT count(mail_id) as cnt FROM mail m,mail_obj_data mo 
 		 	WHERE m.user_id = mo.user_id 
 		 	AND m.folder_id = mo.obj_id 
 		 	AND mo.type = %s
@@ -353,31 +353,40 @@ class ilMailbox
 	{
 		global $ilDB;
 
-		$root_id = $this->getLastInsertId();
+/*		$root_id = $this->getLastInsertId();
 		++$root_id;
-	
+*/
+		$root_id = $ilDB->nextId($this->table_mail_obj_data);
+		
 		$res = $ilDB->manipulateF('
 			INSERT INTO '. $this->table_mail_obj_data .' 
-			SET user_id = %s,
-				title = %s,
-				type = %s',
-			array('integer', 'text', 'text'),
-			array($this->user_id, 'a_root', 'root'));
+			(	obj_id,
+				user_id,
+				title,
+				type
+			)
+			VALUES( %s, %s, %s, %s)',
+			array('integer','integer', 'text', 'text'),
+			array($root_id, $this->user_id, 'a_root', 'root'));
 		
 		$this->mtree->addTree($this->user_id,$root_id);
 		
 		foreach ($this->default_folder as $key => $folder)
 		{
-			$last_id = $this->getLastInsertId();
+			/*$last_id = $this->getLastInsertId();
 			++$last_id;
-
+			*/
+			$last_id = $ilDB->nextId($this->table_mail_obj_data);
 			$statement = $ilDB->manipulateF('
 				INSERT INTO '. $this->table_mail_obj_data .' 
-				SET user_id = %s,
-					title = %s,
-					type = %s',
-				array('integer', 'text', 'text'),
-				array($this->user_id, $key, $folder));
+				(	obj_id,
+					user_id,
+					title,
+					type
+				)
+				VALUES( %s, %s, %s, %s)',
+				array('integer','integer', 'text', 'text'),
+				array($last_id,$this->user_id, $key, $folder));
 			
 			$this->mtree->insertNode($last_id,$root_id);
 		}
@@ -398,19 +407,25 @@ class ilMailbox
 			return 0;
 		}
 		// ENTRY IN mail_obj_data
-
+		$next_id = $ilDB->nextId($this->table_mail_obj_data);
 		$statement = $ilDB->manipulateF('
 			INSERT INTO '. $this->table_mail_obj_data .'
-			 	 SET user_id = %s,
-				 title = %s,
-			 	 type = %s',
-			array('integer', 'text', 'text'),
-			array($this->user_id, $a_folder_name, 'user_folder'));
+			(	obj_id,
+			 	user_id,
+				title,
+			 	type 
+			 )
+			 VALUES(%s,%s,%s,%s)',
+			array('integer','integer', 'text', 'text'),
+			array($next_id, $this->user_id, $a_folder_name, 'user_folder'));
 		
 		// ENTRY IN mail_tree
-		$new_id = $this->getLastInsertId();
+		/*	$new_id = $this->getLastInsertId();
 		$this->mtree->insertNode($new_id,$a_parent_id);
-
+		*/	
+		$new_id = $ilDB->nextId($this->table_mail_obj_data);	
+		$this->mtree->insertNode($new_id,$a_parent_id);	
+		
 		return $new_id;
 	}
 

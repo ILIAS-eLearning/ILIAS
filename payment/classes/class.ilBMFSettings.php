@@ -266,7 +266,7 @@ class ilBMFSettings
 			SET bmf = %s
 			WHERE settings_id = %s',
 			array('text', 'integer'),
-			array('', $this->getSettingsId())
+			array('NULL', $this->getSettingsId())
 		);
 
 	}
@@ -307,14 +307,17 @@ class ilBMFSettings
 		}
 		else
 		{
+			$next_id = $ilDB->nextId('payment_settings');
 			$statement = $this->db->manipulateF('
 				INSERT into payment_settings
-				SET bmf = %s',
-				array('text'),
-				array(serialize($values))				
+				(	settings_id,
+					bmf)
+				VALUES (%s, %s)',
+				array('integer','text'),
+				array($next_id, serialize($values))				
 			);
 
-			$this->setSettingsId($this->db->getLastInsertId());
+			//$this->setSettingsId($this->db->getLastInsertId());
 		}		
 	}	
 }

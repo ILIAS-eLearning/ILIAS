@@ -69,7 +69,7 @@ class ilMailingLists
 	public function getAll()
 	{
 		$res = $this->db->queryf('
-			SELECT * FROM addressbook_mailing_lists
+			SELECT * FROM addressbook_mlist
 			WHERE 1
 			AND user_id = %s',
 			array('integer'), array($this->user->getId()));

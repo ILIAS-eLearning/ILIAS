@@ -260,7 +260,7 @@ class ilShopNewsItem
 	public function update()
 	{		
 		$updatedate = new ilDateTime(time(), IL_CAL_UNIX);	
-		vd($updatedate->get(IL_CAL_DATETIME));
+
 		if((int)$this->getId())
 		{
 			$query = 'UPDATE payment_news 

@@ -372,14 +372,15 @@ class ilObjForum extends ilObject
 		{
 			$res = $ilDB->manipulateF('
 				INSERT INTO frm_thread_access 
-				SET access_last = %s,
-					access_old = %s,
-				 	usr_id = %s,
-				 	obj_id = %s,
-				 	thread_id = %s',
+				(	access_last,
+					access_old,
+				 	usr_id,
+				 	obj_id,
+				 	thread_id)
+				VALUES (%s,%s,%s,%s,%s)',
 				array('timestamp', 'integer', 'integer', 'integer', 'integer'),
 				array(time(), '0', $a_usr_id, $this->getId(), $a_thread_id));
-			
+				
 		}			
 
 		return true;
@@ -507,18 +508,20 @@ class ilObjForum extends ilObject
 
 		$statement = $ilDB->manipulateF('
 			INSERT INTO frm_data 
-			SET top_frm_fk = %s,
-				top_name = %s,				
-				top_description = %s,
-				top_num_posts = %s,
-				top_num_threads = %s,
-				top_last_post = %s,
-				top_mods = %s,
-				top_date = %s,
-				visits = %s,
-				top_update = %s,
-				update_user = %s,
-				top_usr_id = %s',
+			(top_frm_fk,
+				top_name,
+				top_description,
+				top_num_posts,
+				top_num_threads,
+				top_last_post,
+				top_mods,
+				top_date,
+				visits,
+				top_update,
+				update_user,
+				top_usr_id
+			)
+			VALUES(%s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s)',
 				array(	'integer', 
 						'text', 
 						'text', 

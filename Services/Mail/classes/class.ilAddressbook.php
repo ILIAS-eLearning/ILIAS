@@ -271,7 +271,7 @@ class ilAddressbook
 		global $ilDB;
 		
 		$statement = $ilDB->manipulateF('
-			DELETE FROM addressbook_mailing_lists_assignments
+			DELETE FROM addressbook_mlist_ass
 			WHERE addr_id = %s',
 			array('integer'), array($a_addr_id));
 		

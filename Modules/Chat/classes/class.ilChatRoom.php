@@ -3,7 +3,7 @@
 	+-----------------------------------------------------------------------------+
 	| ILIAS open source                                                           |
 	+-----------------------------------------------------------------------------+
-	| Copyright (c) 1998-2001 ILIAS open source, University of Cologne            |
+	| Copyright (c) 1998-2009 ILIAS open source, University of Cologne            |
 	|                                                                             |
 	| This program is free software; you can redistribute it and/or               |
 	| modify it under the terms of the GNU General Public License                 |
@@ -154,8 +154,13 @@ class ilChatRoom
 		else
 		{
 			$res = $ilDB->manipulateF(
-				'INSERT INTO chat_invitations (chat_id, room_id, guest_id, invitation_time) '.
-				'VALUES(%s, %s, %s, %s)',
+				'INSERT INTO chat_invitations 
+				(	chat_id, 
+					room_id, 
+					guest_id, 
+					invitation_time
+				)
+				VALUES (%s, %s, %s, %s)',
 				array('integer', 'integer', 'integer', 'integer'),
 				array($this->getObjId(), $this->getRoomId(), $a_id, time()));
 
@@ -288,10 +293,12 @@ class ilChatRoom
 		
 		$res = $ilDB->manipulateF('
 			INSERT INTO chat_user
-			SET usr_id = %s,
-				room_id = %s,
-				chat_id = %s,
-				last_conn_timestamp = %s',
+			(	usr_id,
+				room_id,
+				chat_id,
+				last_conn_timestamp
+			)
+			VALUES(%s, %s, %s, %s)',
 			array('integer', 'integer', 'integer', 'integer'),
 			array($this->getUserId(), $this->getRoomId(), $this->getObjId(), time()));
 
@@ -560,9 +567,10 @@ class ilChatRoom
 
 		$res = $ilDB->manipulateF('
 			INSERT INTO chat_rooms 
-			SET title = %s,
-			chat_id = %s,
-			owner = %s',
+			(	title,
+				chat_id,
+				owner)
+			VALUES(%s,%s,%s)',
 			array('text', 'integer', 'integer'),
 			array($this->getTitle(), $this->getObjId(), $this->getOwnerId()));
 		
@@ -590,7 +598,7 @@ class ilChatRoom
 		$data_values = array();
 		$query = 'SELECT DISTINCT(cr.room_id) room_id, owner, title, cr.chat_id chat_id 
 				FROM chat_rooms cr NATURAL LEFT JOIN chat_invitations 
-				WHERE (owner = %s)OR (guest_id = %s)';
+				WHERE (owner = %s) OR (guest_id = %s)';
 		
 		array_push($data_types, 'integer', 'integer');
 		array_push($data_values, $this->getUserId(), $this->getUserId());
@@ -773,10 +781,11 @@ class ilChatRoom
 
 			$res = $ilDB->manipulateF('
 			INSERT INTO chat_room_messages
-			SET chat_id = %s,
-				room_id = %s,
-				message = %s,
-				commit_timestamp = %s',
+			(	chat_id,
+				room_id,
+				message,
+				commit_timestamp)
+			VALUES(%s, %s, %s, %s)',
 			array('integer', 'integer', 'text', 'timestamp'),
 			 array($this->getObjId(), $this->getRoomId(), $message, date('Y-m-d H:i:s', time())));
 			
@@ -787,9 +796,10 @@ class ilChatRoom
 
 			$res = $ilDB->manipulateF('
 				INSERT INTO chat_record_data
-				SET record_id = %s,
-					message = %s,
-					msg_time  = %s',
+				(	record_id,
+					message,
+					msg_time)
+				VALUES(%s, %s, %s)',
 				array('integer', 'text', 'integer'),
 				array($this->chat_record->getRecordId(), $message, time()));
 		}
