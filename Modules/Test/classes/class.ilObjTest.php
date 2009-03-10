@@ -1816,8 +1816,6 @@ class ilObjTest extends ilObject
 /**
 * Returns an array containing the random questionpools saved to the database
 *
-* Returns an array containing the random questionpools saved to the database
-*
 * @access public
 * @return array All saved random questionpools
 * @see $questions
@@ -1828,13 +1826,13 @@ class ilObjTest extends ilObject
 
 		$qpls = array();
 		$counter = 0;
-		$query = sprintf("SELECT tst_test_random.*, qpl_questionpool.questioncount FROM tst_test_random, qpl_questionpool WHERE tst_test_random.test_fi = %s AND tst_test_random.questionpool_fi = qpl_questionpool.obj_fi ORDER BY test_random_id",
-			$ilDB->quote($this->getTestId() . "")
+		$result = $ilDB->queryF("SELECT tst_test_random.*, qpl_questionpool.questioncount FROM tst_test_random, qpl_questionpool WHERE tst_test_random.test_fi = %s AND tst_test_random.questionpool_fi = qpl_questionpool.obj_fi ORDER BY test_random_id",
+			array("integer"),
+			array($this->getTestId())
 		);
-		$result = $ilDB->query($query);
 		if ($result->numRows())
 		{
-			while ($row = $result->fetchRow(MDB2_FETCHMODE_ASSOC))
+			while ($row = $ilDB->fetchAssoc($result))
 			{
 				$qpls[$counter] = array(
 					"index" => $counter,

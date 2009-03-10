@@ -155,7 +155,7 @@ class ilObjSAHSLearningModuleListGUI extends ilObjectListGUI
 	*/
 	function getProperties()
 	{
-		global $lng, $rbacsystem, $ilUser, $tree;
+		global $lng, $rbacsystem;
 
 		$props = array();
 

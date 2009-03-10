@@ -305,21 +305,19 @@ class ilObjQuestionPool extends ilObject
 	/**
 	* Loads a ilObjQuestionpool object from a database
 	*
-	* Loads a ilObjQuestionpool object from a database
-	*
 	* @access public
 	*/
 	function loadFromDb()
 	{
 		global $ilDB;
 		
-		$query = sprintf("SELECT * FROM qpl_questionpool WHERE obj_fi = %s",
-			$ilDB->quote($this->getId() . "")
+		$result = $ilDB->queryF("SELECT * FROM qpl_questionpool WHERE obj_fi = %s",
+			array('integer'),
+			array($this->getId())
 		);
-		$result = $ilDB->query($query);
 		if ($result->numRows() == 1)
 		{
-			$row = $result->fetchRow(MDB2_FETCHMODE_ASSOC);
+			$row = $ilDB->fetchAssoc($result);
 			$this->setOnline($row["isonline"]);
 		}
 	}
@@ -327,43 +325,30 @@ class ilObjQuestionPool extends ilObject
 /**
 * Saves a ilObjQuestionpool object to a database
 * 
-* Saves a ilObjQuestionpool object to a database
-*
 * @access public
 */
   function saveToDb()
   {
 		global $ilDB;
 		
-		$query = sprintf("SELECT * FROM qpl_questionpool WHERE obj_fi = %s",
-			$ilDB->quote($this->getId() . "")
+		$result = $ilDB->queryF("SELECT id_questionpool FROM qpl_questionpool WHERE obj_fi = %s",
+			array('integer'),
+			array($this->getId())
 		);
-		$result = $ilDB->query($query);
 		if ($result->numRows() == 1)
 		{
-			$query = sprintf("UPDATE qpl_questionpool SET isonline = %s WHERE obj_fi = %s",
-				$ilDB->quote($this->getOnline() . ""),
-				$ilDB->quote($this->getId() . "")
+			$result = $ilDB->manipulateF("UPDATE qpl_questionpool SET isonline = %s, tstamp = %s WHERE obj_fi = %s",
+				array('text','integer','integer'),
+				array($this->getOnline(), time(), $this->getId())
 			);
-			$result = $ilDB->query($query);
-			if (PEAR::isError($result)) 
-			{
-				global $ilias;
-				$ilias->raiseError($result->getMessage());
-			}
 		}
 		else
 		{
-			$query = sprintf("INSERT INTO qpl_questionpool (isonline, obj_fi) VALUES (%s, %s)",
-				$ilDB->quote($this->getOnline() . ""),
-				$ilDB->quote($this->getId() . "")
+			$next_id = $ilDB->nextId('qpl_questionpool');
+			$result = $ilDB->manipulateF("INSERT INTO qpl_questionpool (id_questionpool, isonline, tstamp, obj_fi) VALUES (%s, %s, %s, %s)",
+				array('integer','text','integer','integer'),
+				array($next_id, $this->getOnline(), time(), $this->getId())
 			);
-			$result = $ilDB->query($query);
-			if (PEAR::isError($result)) 
-			{
-				global $ilias;
-				$ilias->raiseError($result->getMessage());
-			}
 		}
 	}
 	
@@ -1176,20 +1161,21 @@ class ilObjQuestionPool extends ilObject
 		
 		if ($is_reference)
 		{
-			$query = sprintf("SELECT qpl_questionpool.isonline FROM qpl_questionpool,object_reference WHERE object_reference.ref_id = %s AND object_reference.obj_id = qpl_questionpool.obj_fi",
-				$ilDB->quote($a_obj_id . "")
+			$result = $ilDB->queryF("SELECT qpl_questionpool.isonline FROM qpl_questionpool,object_reference WHERE object_reference.ref_id = %s AND object_reference.obj_id = qpl_questionpool.obj_fi",
+				array('integer'),
+				array($a_obj_id)
 			);
 		}
 		else
 		{
-			$query = sprintf("SELECT isonline FROM qpl_questionpool WHERE obj_fi = %s",
-				$ilDB->quote($a_obj_id . "")
+			$result = $ilDB->queryF("SELECT isonline FROM qpl_questionpool WHERE obj_fi = %s",
+				array('integer'),
+				array($a_obj_id)
 			);
 		}
-		$result = $ilDB->query($query);
 		if ($result->numRows() == 1)
 		{
-			$row = $result->fetchRow(MDB2_FETCHMODE_ASSOC);
+			$row = $ilDB->fetchAssoc($result);
 			return $row["isonline"];
 		}
 		return 0;
@@ -1572,19 +1558,20 @@ class ilObjQuestionPool extends ilObject
 			}
 			if ($could_be_offline)
 			{
-				$statement = $ilDB->prepare("SELECT qpl_questionpool.*, object_data.title FROM qpl_questionpool, object_data WHERE qpl_questionpool.obj_fi = object_data.obj_id AND $in ORDER BY object_data.title",
-					$paramtypes
+				$result = $ilDB->queryF("SELECT qpl_questionpool.*, object_data.title FROM qpl_questionpool, object_data WHERE qpl_questionpool.obj_fi = object_data.obj_id AND $in ORDER BY object_data.title",
+					$paramtypes,
+					$paramvalues
 				);
 			}
 			else
 			{
 				array_push($paramtypes, "text");
 				array_push($paramvalues, "1");
-				$statement = $ilDB->prepare("SELECT qpl_questionpool.*, object_data.title FROM qpl_questionpool, object_data WHERE qpl_questionpool.obj_fi = object_data.obj_id AND $in AND qpl_questionpool.isonline = ? ORDER BY object_data.title",
-					$paramtypes
+				$result = $ilDB->queryF("SELECT qpl_questionpool.*, object_data.title FROM qpl_questionpool, object_data WHERE qpl_questionpool.obj_fi = object_data.obj_id AND $in AND qpl_questionpool.isonline = ? ORDER BY object_data.title",
+					$paramtypes,
+					$paramvalues
 				);
 			}
-			$result = $ilDB->execute($statement, $paramvalues);
 			while ($row = $ilDB->fetchAssoc($result))
 			{
 				$add = TRUE;
@@ -1735,11 +1722,10 @@ class ilObjQuestionPool extends ilObject
 	public static function _updateQuestionCount($object_id)
 	{
 		global $ilDB;
-		$query = sprintf("UPDATE qpl_questionpool SET questioncount = %s WHERE obj_fi = %s",
-			$ilDB->quote(ilObjQuestionPool::_getQuestionCount($object_id, TRUE)),
-			$ilDB->quote($object_id)
+		$result = $ilDB->manipulateF("UPDATE qpl_questionpool SET questioncount = %s, tstamp = %s WHERE obj_fi = %s",
+			array('integer','integer','integer'),
+			array(ilObjQuestionPool::_getQuestionCount($object_id, TRUE), time(), $object_id)
 		);
-		$result = $ilDB->query($query);
 	}
 	
 	/**
