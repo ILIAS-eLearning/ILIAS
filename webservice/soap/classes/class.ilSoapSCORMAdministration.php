@@ -138,56 +138,7 @@ class ilSoapSCORMAdministration extends ilSoapAdministration
 
 		$result = false;
 		include_once("./Modules/ScormAicc/classes/class.ilObjSAHSLearningModuleAccess.php");
-
-		if (ilObjSAHSLearningModuleAccess::_lookupCertificate($obj_id))
-		{
-			$lpdata = false;
-			$completed = false;
-			include_once "./Modules/ScormAicc/classes/class.ilObjSAHSLearningModule.php";
-			$type = ilObjSAHSLearningModule::_lookupSubType($obj_id);
-
-			include_once("Services/Tracking/classes/class.ilObjUserTracking.php");
-			if (ilObjUserTracking::_enabledLearningProgress())
-			{
-				include_once "./Services/Tracking/classes/class.ilLPStatusWrapper.php";
-				$completed_user_ids_array = ilLPStatusWrapper::_getCompleted($obj_id);
-				if (in_array($usr_id, $completed_user_ids_array))
-				{
-					$completed = true;
-				}
-				$lpdata = true;
-			}
-
-			switch ($type)
-			{
-				case "scorm":
-					if (!$lpdata)
-					{
-						include_once "./Modules/ScormAicc/classes/class.ilObjSCORMLearningModule.php";
-						$completed = ilObjSCORMLearningModule::_getCourseCompletionForUser($obj_id, $usr_id);
-					}
-					if ($completed)
-					{
-						$result = true;
-					}
-					break;
-				case "scorm2004":
-					if (!$lpdata)
-					{
-						include_once "./Modules/Scorm2004/classes/class.ilObjSCORM2004LearningModule.php";
-						$completed = ilObjSCORM2004LearningModule::_getCourseCompletionForUser($obj_id, $usr_id);
-					}
-					if ($completed)
-					{
-						$result = true;
-					}
-					
-					
-					break;
-				default:
-					break;
-			}
-		}
+		$result = ilObjSAHSLearningModuleAccess::_lookupUserCertificate($obj_id, $usr_id);
 
 		return $result;
 	}
