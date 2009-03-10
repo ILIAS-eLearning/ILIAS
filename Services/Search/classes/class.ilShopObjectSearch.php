@@ -3,7 +3,7 @@
 	+-----------------------------------------------------------------------------+
 	| ILIAS open source                                                           |
 	+-----------------------------------------------------------------------------+
-	| Copyright (c) 1998-2008 ILIAS open source, University of Cologne            |
+	| Copyright (c) 1998-2009 ILIAS open source, University of Cologne            |
 	|                                                                             |
 	| This program is free software; you can redistribute it and/or               |
 	| modify it under the terms of the GNU General Public License                 |
@@ -72,9 +72,9 @@ class ilShopObjectSearch extends ilAbstractSearch
 					
 		$query .= $where." ".$in.' ';		
 		
-		$query .= " GROUP BY object_data.obj_id ";		
+		$query .= " GROUP BY object_data.obj_id,object_data.type,object_data.title,object_data.description ";		
 		$query .= " ORDER BY object_data.obj_id DESC ";
-		
+
 		$res = $this->db->query($query);
 		while($row = $res->fetchRow(DB_FETCHMODE_OBJECT))
 		{
