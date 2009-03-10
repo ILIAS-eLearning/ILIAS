@@ -368,12 +368,15 @@ class ilCourseObjectiveResult
 		}
 
 		// Read reachable points
-		$query = "SELECT question_id,points FROM qpl_questions ".
-			"WHERE question_id IN(".implode(",",ilUtil::quoteArray($objectives['all_questions'])).")";
-		$res = $ilDB->query($query);
-		while($row = $res->fetchRow(DB_FETCHMODE_OBJECT))
+		$types = $ilDB->addTypesToArray(array(), 'integer', count($objectives['all_questions']));
+		$placeholders = $ilDB->addTypesToArray(array(), '%s', count($objectives['all_questions']));
+		$res = $ilDB->queryF("SELECT question_id,points FROM qpl_questions WHERE question_id IN(". implode(",", $placeholders) .")",
+			$types,
+			$objectives['all_questions']
+		);
+		while($row = $ilDB->fetchAssoc($res))
 		{
-			$objectives['all_question_points'][$row->question_id]['max_points'] = $row->points;
+			$objectives['all_question_points'][$row['question_id']]['max_points'] = $row['points'];
 		}
 		// Read reached points
 		$query = "SELECT question_fi, MAX(points) as reached FROM tst_test_result JOIN tst_active ".
