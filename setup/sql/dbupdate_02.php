@@ -8761,3 +8761,53 @@ if (!$ilDB->tableColumnExists("qpl_numeric_range", "tstamp"))
 <?php
 $ilMySQLAbstraction->performAbstraction('qpl_numeric_range');
 ?>
+<#1876>
+<?php
+$res = $ilDB->manipulate("ALTER TABLE `qpl_questions` ADD `tstamp` INT NOT NULL DEFAULT '0'");
+?>
+<#1877>
+<?php
+$res = $ilDB->manipulate("ALTER TABLE `qpl_questions` ADD `tstampcreated` INT NOT NULL DEFAULT '0'");
+?>
+<#1878>
+<?php
+$res = $ilDB->query("SELECT question_id, " . $ilDB->quoteIdentifier("TIMESTAMP") . " + 0 timestamp14, created FROM qpl_questions");
+if ($res->numRows())
+{
+	while ($row = $ilDB->fetchAssoc($res))
+	{
+		preg_match("/(\\d{4})(\\d{2})(\\d{2})(\\d{2})(\\d{2})(\\d{2})/", $row['timestamp14'], $matches);
+		preg_match("/(\\d{4})(\\d{2})(\\d{2})(\\d{2})(\\d{2})(\\d{2})/", $row['created'], $matchescreated);
+		$tstamp = mktime((int)$matches[4], (int)$matches[5], (int)$matches[6], (int)$matches[2], (int)$matches[3], (int)$matches[1]);
+		$created = mktime((int)$matchescreated[4], (int)$matchescreated[5], (int)$matchescreated[6], (int)$matchescreated[2], (int)$matchescreated[3], (int)$matchescreated[1]);
+		$ilDB->manipulateF("UPDATE qpl_questions SET tstamp = %s, tstampcreated = %s WHERE question_id = %s",
+			array("integer", "integer", "integer"),
+			array($tstamp, $created, $row['question_id'])
+		);
+	}
+}
+?>
+<#1879>
+<?php
+$ilDB->manipulate("ALTER TABLE `qpl_questions` DROP " . $ilDB->quoteIdentifier("TIMESTAMP"));
+?>
+<#1880>
+<?php
+$ilDB->manipulate("ALTER TABLE `qpl_questions` DROP created");
+?>
+<#1881>
+<?php
+$ilDB->manipulate("ALTER TABLE `qpl_questions` CHANGE `tstampcreated` `created` INT NOT NULL default '0'");
+?>
+<#1882>
+<?php
+$ilDB->manipulate("ALTER TABLE `qpl_questions` CHANGE `description` `description` VARCHAR(1000) NULL default NULL");
+?>
+<#1883>
+<?php
+$ilDB->manipulate("ALTER TABLE `qpl_questions` CHANGE `question_text` `question_text` VARCHAR(4000) NOT NULL");
+?>
+<#1884>
+<?php
+$ilMySQLAbstraction->performAbstraction('qpl_questions');
+?>

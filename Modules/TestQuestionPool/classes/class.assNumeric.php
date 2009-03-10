@@ -207,22 +207,19 @@ class assNumeric extends assQuestion
 			// Write Ranges to the database
 			
 			// 1. delete old ranges
-			$query = sprintf("DELETE FROM qpl_numeric_range WHERE question_fi = %s",
-				$ilDB->quote($this->id)
+			$result = $ilDB->manipulateF("DELETE FROM qpl_numeric_range WHERE question_fi = %s",
+				array('integer'),
+				array($this->id)
 			);
-			$result = $ilDB->query($query);
 
 			// 2. write ranges
 			foreach ($this->ranges as $key => $range)
 			{
-				$query = sprintf("INSERT INTO qpl_numeric_range (range_id, question_fi, lowerlimit, upperlimit, points, aorder, lastchange) VALUES (NULL, %s, %s, %s, %s, %s, NULL)",
-				$ilDB->quote($this->id),
-				$ilDB->quote($range->getLowerLimit()),
-				$ilDB->quote($range->getUpperLimit() . ""),
-				$ilDB->quote($range->getPoints() . ""),
-				$ilDB->quote($range->getOrder() . "")
+				$next_id = $ilDB->nextId('qpl_numeric_range');
+				$answer_result = $ilDB->manipulateF("INSERT INTO qpl_numeric_range (range_id, question_fi, lowerlimit, upperlimit, points, aorder, tstamp) VALUES (%s, %s, %s, %s, %s, %s, %s)",
+					array('integer','integer', 'text', 'text', 'float', 'integer', 'integer'),
+					array($next_id, $this->id, $range->getLowerLimit(), $range->getUpperLimit(), $range->getPoints(), $range->getOrder(), time())
 				);
-				$answer_result = $ilDB->query($query);
 			}
 		}
 		parent::saveToDb($original_id);
@@ -262,16 +259,15 @@ class assNumeric extends assQuestion
 			$this->maxchars = $data->maxNumOfChars;
 			$this->setEstimatedWorkingTime(substr($data->working_time, 0, 2), substr($data->working_time, 3, 2), substr($data->working_time, 6, 2));
 
-			$query = sprintf("SELECT * FROM qpl_numeric_range WHERE question_fi = %s ORDER BY aorder ASC",
-				$ilDB->quote($question_id)
+			$result = $ilDB->queryF("SELECT * FROM qpl_numeric_range WHERE question_fi = %s ORDER BY aorder ASC",
+				array('integer'),
+				array($question_id)
 			);
-
-			$result = $ilDB->query($query);
 
 			include_once "./Modules/TestQuestionPool/classes/class.assNumericRange.php";
 			if ($result->numRows() > 0)
 			{
-				while ($data = $result->fetchRow(MDB2_FETCHMODE_ASSOC))
+				while ($data = $ilDB->fetchAssoc($result))
 				{
 					array_push($this->ranges, new assNumericRange($data["lowerlimit"], $data["upperlimit"], $data["points"], $data["aorder"]));
 				}

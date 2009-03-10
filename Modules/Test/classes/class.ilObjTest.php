@@ -1566,8 +1566,6 @@ class ilObjTest extends ilObject
 /**
 * Returns the question id of the duplicate of a question which is already in use in a random test
 *
-* Returns the question id of the duplicate of a question which is already in use in a random test
-*
 * @param integer $question_id Question ID of the original question
 * @param integer $active_id Active ID of the user
 * @return mixed The question ID of the duplicate or FALSE if no duplicate was found
@@ -1578,15 +1576,14 @@ class ilObjTest extends ilObject
 	{
 		global $ilDB;
 
-		$query = sprintf("SELECT qpl_questions.question_id FROM qpl_questions, tst_test_random_question WHERE qpl_questions.original_id = %s AND tst_test_random_question.question_fi = qpl_questions.question_id AND tst_test_random_question.active_fi = %s",
-			$ilDB->quote($question_id . ""),
-			$ilDB->quote($active_id . "")
+		$result = $ilDB->queryF("SELECT qpl_questions.question_id FROM qpl_questions, tst_test_random_question WHERE qpl_questions.original_id = %s AND tst_test_random_question.question_fi = qpl_questions.question_id AND tst_test_random_question.active_fi = %s",
+			array('integer', 'integer'),
+			array($question_id, $active_id)
 		);
-		$result = $ilDB->query($query);
 		$num = $result->numRows();
 		if ($num > 0)
 		{
-			$row = $result->fetchRow(MDB2_FETCHMODE_ASSOC);
+			$row = $ilDB->fetchAssoc($result);
 			return $row["question_id"];
 		}
 		else
@@ -1950,34 +1947,35 @@ function loadQuestions($active_id = "", $pass = NULL)
 		{
 			$pass = $this->_getPass($active_id);
 		}
-		$query = sprintf("SELECT tst_test_random_question.* FROM tst_test_random_question, qpl_questions WHERE tst_test_random_question.active_fi = %s AND qpl_questions.question_id = tst_test_random_question.question_fi AND tst_test_random_question.pass = %s ORDER BY sequence",
-			$ilDB->quote($active_id . ""),
-			$ilDB->quote($pass . "")
+		$result = $ilDB->queryF("SELECT tst_test_random_question.* FROM tst_test_random_question, qpl_questions WHERE tst_test_random_question.active_fi = %s AND qpl_questions.question_id = tst_test_random_question.question_fi AND tst_test_random_question.pass = %s ORDER BY sequence",
+			array('integer', 'integer'),
+			array($active_id, $pass)
 		);
-		$result = $ilDB->query($query);
 		// The following is a fix for random tests prior to ILIAS 3.8. If someone started a random test in ILIAS < 3.8, there
 		// is only one test pass (pass = 0) in tst_test_random_question while with ILIAS 3.8 there are questions for every test pass.
 		// To prevent problems with tests started in an older version and continued in ILIAS 3.8, the first pass should be taken if
 		// no questions are present for a newer pass.
 		if ($result->numRows() == 0)
 		{
-			$query = sprintf("SELECT tst_test_random_question.* FROM tst_test_random_question, qpl_questions WHERE tst_test_random_question.active_fi = %s AND qpl_questions.question_id = tst_test_random_question.question_fi AND tst_test_random_question.pass = 0 ORDER BY sequence",
-				$ilDB->quote($active_id . "")
+			$result = $ilDB->queryF("SELECT tst_test_random_question.* FROM tst_test_random_question, qpl_questions WHERE tst_test_random_question.active_fi = %s AND qpl_questions.question_id = tst_test_random_question.question_fi AND tst_test_random_question.pass = 0 ORDER BY sequence",
+				array('integer'),
+				array($active_id)
 			);
 			$result = $ilDB->query($query);
 		}
 	}
 	else
 	{
-		$query = sprintf("SELECT tst_test_question.* FROM tst_test_question, qpl_questions WHERE tst_test_question.test_fi = %s AND qpl_questions.question_id = tst_test_question.question_fi ORDER BY sequence",
-			$ilDB->quote($this->test_id . "")
+		$result = $ilDB->queryF("SELECT tst_test_question.* FROM tst_test_question, qpl_questions WHERE tst_test_question.test_fi = %s AND qpl_questions.question_id = tst_test_question.question_fi ORDER BY sequence",
+			array('integer'),
+			array($this->test_id)
 		);
 		$result = $ilDB->query($query);
 	}
 	$index = 1;
-	while ($data = $result->fetchRow(MDB2_FETCHMODE_OBJECT))
+	while ($data = $ilDB->fetchAssoc($result))
 	{
-		$this->questions[$index++] = $data->question_fi;
+		$this->questions[$index++] = $data["question_fi"];
 	}
 }
 
@@ -3767,11 +3765,12 @@ function loadQuestions($active_id = "", $pass = NULL)
 		if (!$this->isRandomTest())
 		{
 			global $ilDB;
-			$query = sprintf("SELECT qpl_questions.title FROM tst_test_question, qpl_questions WHERE tst_test_question.test_fi = %s AND tst_test_question.question_fi = qpl_questions.question_id ORDER BY tst_test_question.sequence",
-				$ilDB->quote($this->getTestId() . "")
+			$result = $ilDB->queryF("SELECT qpl_questions.title FROM tst_test_question, qpl_questions WHERE tst_test_question.test_fi = %s AND tst_test_question.question_fi = qpl_questions.question_id ORDER BY tst_test_question.sequence",
+				array('integer'),
+				array($this->getTestId())
 			);
 			$result = $ilDB->query($query);
-			while ($row = $result->fetchRow(MDB2_FETCHMODE_ASSOC))
+			while ($row = $ilDB->fetchAssoc($result))
 			{
 				array_push($titles, $row["title"]);
 			}
@@ -3815,11 +3814,12 @@ function loadQuestions($active_id = "", $pass = NULL)
 	{
 		global $ilDB;
 
-		$query = sprintf("SELECT qpl_questions.*, qpl_question_type.type_tag FROM qpl_questions, qpl_question_type WHERE qpl_questions.question_id = %s AND qpl_questions.question_type_fi = qpl_question_type.question_type_id",
-			$ilDB->quote("$question_id")
+		$result = sprintf("SELECT qpl_questions.*, qpl_question_type.type_tag FROM qpl_questions, qpl_question_type WHERE qpl_questions.question_id = %s AND qpl_questions.question_type_fi = qpl_question_type.question_type_id",
+			array('integer'),
+			array($question_id)
 		);
-    $result = $ilDB->query($query);
-		$row = $result->fetchRow(MDB2_FETCHMODE_OBJECT);
+		$result = $ilDB->query($query);
+		$row = $ilDB->fetchObject($result);
 		return $row;
 	}
 
@@ -3841,27 +3841,27 @@ function loadQuestions($active_id = "", $pass = NULL)
 		if ($this->isRandomTest())
 		{
 			if (is_null($pass)) $pass = 0;
-			$query = sprintf("SELECT qpl_questions.original_id FROM qpl_questions, tst_test_random_question WHERE tst_test_random_question.active_fi = %s AND tst_test_random_question.question_fi = qpl_questions.question_id AND tst_test_random_question.pass = %s",
-				$ilDB->quote($active_id . ""),
-				$ilDB->quote($pass . "")
+			$result = $ilDB->queryF("SELECT qpl_questions.original_id FROM qpl_questions, tst_test_random_question WHERE tst_test_random_question.active_fi = %s AND tst_test_random_question.question_fi = qpl_questions.question_id AND tst_test_random_question.pass = %s",
+				array('integer','integer'),
+				array($active_id, $pass)
 			);
 		}
 		else
 		{
-			$query = sprintf("SELECT qpl_questions.original_id FROM qpl_questions, tst_test_question WHERE tst_test_question.test_fi = %s AND tst_test_question.question_fi = qpl_questions.question_id",
-				$ilDB->quote($this->getTestId())
+			$result = $ilDB->queryF("SELECT qpl_questions.original_id FROM qpl_questions, tst_test_question WHERE tst_test_question.test_fi = %s AND tst_test_question.question_fi = qpl_questions.question_id",
+				array('integer'),
+				array($this->getTestId())
 			);
 		}
 		$result = $ilDB->query($query);
-		while ($data = $result->fetchRow(MDB2_FETCHMODE_OBJECT)) {
+		while ($data = $ilDB->fetchObject($result)) 
+		{
 			array_push($existing_questions, $data->original_id);
 		}
 		return $existing_questions;
 	}
 
 /**
-* Returns the question type of a question with a given id
-*
 * Returns the question type of a question with a given id
 *
 * @param integer $question_id The database id of the question
@@ -3872,19 +3872,22 @@ function loadQuestions($active_id = "", $pass = NULL)
 	{
 		global $ilDB;
 
-    if ($question_id < 1)
-      return -1;
-    $query = sprintf("SELECT type_tag FROM qpl_questions, qpl_question_type WHERE qpl_questions.question_id = %s AND qpl_questions.question_type_fi = qpl_question_type.question_type_id",
-      $ilDB->quote($question_id)
-    );
-    $result = $ilDB->query($query);
-    if ($result->numRows() == 1) {
-      $data = $result->fetchRow(MDB2_FETCHMODE_OBJECT);
-      return $data->type_tag;
-    } else {
-      return "";
-    }
-  }
+		if ($question_id < 1) return -1;
+		$result = ilDB->queryF("SELECT type_tag FROM qpl_questions, qpl_question_type WHERE qpl_questions.question_id = %s AND qpl_questions.question_type_fi = qpl_question_type.question_type_id",
+			array('integer'),
+			array($question_id)
+		);
+		$result = $ilDB->query($query);
+		if ($result->numRows() == 1) 
+		{
+			$data = $ilDB->fetchObject($result);
+			return $data->type_tag;
+		} 
+		else 
+		{
+			return "";
+		}
+	}
 
 /**
 * Write the initial entry for the tests working time to the database
@@ -4008,18 +4011,31 @@ function loadQuestions($active_id = "", $pass = NULL)
 			{
 				$pass = $this->_getPass($active_id);
 			}
-			$query = sprintf("SELECT qpl_questions.* FROM qpl_questions, tst_test_random_question WHERE tst_test_random_question.question_fi = qpl_questions.question_id AND tst_test_random_question.active_fi = %s AND tst_test_random_question.pass = %s AND qpl_questions.question_id IN ('" . join($this->questions, "','") . "')",
-				$ilDB->quote($active_id . ""),
-				$ilDB->quote($pass . "")
+			$values = array($active_id, $pass);
+			$values = array_merge($values, $this->questions);
+			$types = array('integer','integer');
+			$types = $ilDB->addTypesToArray($types, 'integer', count($this->questions));
+			$phs = array('%s','%s');
+			$phs = $ilDB->addTypesToArray($phs, '%s', count($this->questions));			
+			$result = $ilDB->queryF("SELECT qpl_questions.* FROM qpl_questions, tst_test_random_question WHERE tst_test_random_question.question_fi = qpl_questions.question_id AND tst_test_random_question.active_fi = %s AND tst_test_random_question.pass = %s AND qpl_questions.question_id IN (" . join($phs, ",") . ")",
+				$types,
+				$values
 			);
 		}
 		else
 		{
 			if (count($this->questions) == 0) return $result_array;
-			$query = "SELECT qpl_questions.* FROM qpl_questions, tst_test_question WHERE tst_test_question.question_fi = qpl_questions.question_id AND qpl_questions.question_id IN ('" . join($this->questions, "','") . "')";
+			$types = array();
+			$types = $ilDB->addTypesToArray($types, 'integer', count($this->questions));
+			$phs = array();
+			$phs = $ilDB->addTypesToArray($phs, '%s', count($this->questions));			
+			$result = $ilDB->queryF("SELECT qpl_questions.* FROM qpl_questions, tst_test_question WHERE tst_test_question.question_fi = qpl_questions.question_id AND qpl_questions.question_id IN (" . join($phs, ",") . ")",
+				$types,
+				$this->questions
+			);
 		}
 		$result = $ilDB->query($query);
-		while ($row = $result->fetchRow(MDB2_FETCHMODE_ASSOC))
+		while ($row = $ilDB->fetchAssoc($result))
 		{
 			$result_array[$row["question_id"]] = $row;
 		}
@@ -4772,8 +4788,6 @@ function loadQuestions($active_id = "", $pass = NULL)
 	/**
 	* Retrieves all the assigned questions for all test passes of a test participant
 	*
-	* Retrieves all the assigned questions for all test passes of a test participant
-	*
 	* @return array An associated array containing the questions
 	* @access public
 	*/
@@ -4866,16 +4880,16 @@ function loadQuestions($active_id = "", $pass = NULL)
 		include_once "./Modules/Test/classes/class.ilTestEvaluationUserData.php";
 		include_once "./Modules/Test/classes/class.ilTestEvaluationData.php";
 		$data = new ilTestEvaluationData($this);
-		$query = sprintf("SELECT tst_test_result.*, qpl_questions.original_id, qpl_questions.title AS questiontitle, " .
-			"qpl_questions.points AS maxpoints " .
+		$result = $ilDB->queryF("SELECT tst_test_result.*, qpl_questions.original_id, qpl_questions.title questiontitle, " .
+			"qpl_questions.points maxpoints " .
 			"FROM tst_test_result, qpl_questions, tst_active " .
 			"WHERE tst_active.active_id = tst_test_result.active_fi " .
 			"AND qpl_questions.question_id = tst_test_result.question_fi " .
 			"AND tst_active.test_fi = %s " .
-			"ORDER BY active_id, pass, TIMESTAMP",
-			$ilDB->quote($this->getTestId() . "")
+			"ORDER BY active_id, pass, tstamp",
+			array('integer'),
+			array($this->getTestId())
 		);
-		$result = $ilDB->query($query);
 		$pass = NULL;
 		$checked = array();
 		$datasets = 0;
@@ -4890,20 +4904,20 @@ function loadQuestions($active_id = "", $pass = NULL)
 			{
 				for ($testpass = 0; $testpass <= $data->getParticipant($active_id)->getLastPass(); $testpass++)
 				{
-					$query = sprintf("SELECT tst_test_random_question.sequence, tst_test_random_question.question_fi, qpl_questions.original_id, " .
+					$ilDB->setLimit($this->getQuestionCount(), 0);
+					$result = $ilDB->queryF("SELECT tst_test_random_question.sequence, tst_test_random_question.question_fi, qpl_questions.original_id, " .
 						"tst_test_random_question.pass, qpl_questions.points, qpl_questions.title " .
 						"FROM tst_test_random_question, qpl_questions " .
 						"WHERE tst_test_random_question.question_fi = qpl_questions.question_id " .
 						"AND tst_test_random_question.pass = %s " .
-						"AND tst_test_random_question.active_fi = %s ORDER BY tst_test_random_question.sequence LIMIT 0, %s",
-						$ilDB->quote($testpass . ""),
-						$ilDB->quote($active_id . ""),
-						$this->getQuestionCount()
+						"AND tst_test_random_question.active_fi = %s ORDER BY tst_test_random_question.sequence",
+						array('integer','integer'),
+						array($testpass, $active_id)
 					);
 					$result = $ilDB->query($query);
 					if ($result->numRows())
 					{
-						while ($row = $result->fetchRow(DB_FETCHMODE_ASSOC))
+						while ($row = $ilDB->fetchAssoc($result))
 						{
 							$tpass = array_key_exists("pass", $row) ? $row["pass"] : 0;
 							$data->getParticipant($active_id)->addQuestion($row["original_id"] ? $row["original_id"] : $row["question_fi"], $row["question_fi"], $row["points"], $row["sequence"], $tpass);
@@ -4914,26 +4928,26 @@ function loadQuestions($active_id = "", $pass = NULL)
 			}
 			else
 			{
-				$query = sprintf("SELECT tst_test_question.sequence, tst_test_question.question_fi, " .
+				$result = $ilDB->queryF("SELECT tst_test_question.sequence, tst_test_question.question_fi, " .
 					"qpl_questions.points, qpl_questions.title, qpl_questions.original_id " .
 					"FROM tst_test_question, tst_active, qpl_questions " .
 					"WHERE tst_test_question.question_fi = qpl_questions.question_id " .
 					"AND tst_active.active_id = %s AND tst_active.test_fi = tst_test_question.test_fi ORDER BY tst_test_question.sequence",
-					$ilDB->quote($active_id . "")
+					array('integer'),
+					array($active_id)
 				);
-				$result = $ilDB->query($query);
 				if ($result->numRows())
 				{
 					$questionsbysequence = array();
-					while ($row = $result->fetchRow(DB_FETCHMODE_ASSOC))
+					while ($row = $ilDB->fetchAssoc($result))
 					{
 						$questionsbysequence[$row["sequence"]] = $row;
 					}
-					$sequery = sprintf("SELECT * FROM tst_sequence WHERE active_fi = %s",
-						$ilDB->quote($active_id)
+					$seqresult = $ilDB->queryF("SELECT * FROM tst_sequence WHERE active_fi = %s",
+						array('integer'),
+						array($active_id)
 					);
-					$seqresult = $ilDB->query($sequery);
-					while ($seqrow = $seqresult->fetchRow(DB_FETCHMODE_ASSOC))
+					while ($seqrow = $ilDB->fetchAssoc($seqresult))
 					{
 						$questionsequence = unserialize($seqrow["sequence"]);
 						foreach ($questionsequence as $sidx => $seq)
@@ -4976,28 +4990,29 @@ function loadQuestions($active_id = "", $pass = NULL)
 		$random = ilObjTest::_lookupRandomTestFromActiveId($active_id);
 		if ($random)
 		{
-			$query = sprintf("SELECT tst_test_random_question.pass, COUNT(tst_test_random_question.question_fi) AS qcount, " .
-				"SUM(qpl_questions.points) AS qsum FROM tst_test_random_question, qpl_questions " .
+			$result = $ilDB->queryF("SELECT tst_test_random_question.pass, COUNT(tst_test_random_question.question_fi) qcount, " .
+				"SUM(qpl_questions.points) qsum FROM tst_test_random_question, qpl_questions " .
 				"WHERE tst_test_random_question.question_fi = qpl_questions.question_id AND " .
 				"tst_test_random_question.active_fi = %s and pass = %s GROUP BY tst_test_random_question.active_fi, " .
-				"tst_test_random_question.pass",
-				$ilDB->quote($active_id),
-				$ilDB->quote($pass)
+				"tst_test_random_question.pass, qcount, qsum",
+				array('integer', 'integer'),
+				array($active_id, $pass)
 			);
 		}
 		else
 		{
-			$query = sprintf("SELECT COUNT(tst_test_question.question_fi) AS qcount, " .
-				"SUM(qpl_questions.points) AS qsum FROM tst_test_question, qpl_questions, tst_active " .
+			$result = $ilDB->queryF("SELECT COUNT(tst_test_question.question_fi) qcount, " .
+				"SUM(qpl_questions.points) qsum FROM tst_test_question, qpl_questions, tst_active " .
 				"WHERE tst_test_question.question_fi = qpl_questions.question_id AND tst_test_question.test_fi = tst_active.test_fi AND " .
-				"tst_active.active_id = %s GROUP BY tst_test_question.test_fi",
-				$ilDB->quote($active_id)
+				"tst_active.active_id = %s GROUP BY tst_test_question.test_fi, qcount, qsum",
+				array('integer'),
+				array($active_id)
 			);
 		}
 		$result = $ilDB->query($query);
 		if ($result->numRows())
 		{
-			$row = $result->fetchRow(DB_FETCHMODE_ASSOC);
+			$row = $ilDB->fetchAssoc($result);
 			return array("count" => $row["qcount"], "points" => $row["qsum"]);
 		}
 		else
@@ -5045,20 +5060,20 @@ function loadQuestions($active_id = "", $pass = NULL)
 	{
 		global $ilDB;
 		
-		$query = sprintf("SELECT usr_data.usr_id, usr_data.firstname, usr_data.lastname, usr_data.title, usr_data.login, " .
-			"tst_test_result.*, qpl_questions.original_id, qpl_questions.title AS questiontitle, " .
-			"qpl_questions.points AS maxpoints " .
+		$result = $ilDB->queryF("SELECT usr_data.usr_id, usr_data.firstname, usr_data.lastname, usr_data.title, usr_data.login, " .
+			"tst_test_result.*, qpl_questions.original_id, qpl_questions.title questiontitle, " .
+			"qpl_questions.points maxpoints " .
 			"FROM tst_test_result, qpl_questions, tst_active " .
 			"LEFT JOIN usr_data ON tst_active.user_fi = usr_data.usr_id " .
 			"WHERE tst_active.active_id = tst_test_result.active_fi " .
 			"AND qpl_questions.question_id = tst_test_result.question_fi " .
 			"AND tst_active.test_fi = %s " .
-			"ORDER BY active_id, pass, TIMESTAMP",
-			$ilDB->quote($test_id . "")
+			"ORDER BY active_id, pass, tstamp",
+			array('integer'),
+			array($test_id)
 		);
-		$result = $ilDB->query($query);
 		$overview = array();
-		while ($row = $result->fetchRow(MDB2_FETCHMODE_ASSOC))
+		while ($row = $ilDB->fetchAssoc($result))
 		{
 			if (!array_key_exists($row["active_fi"], $overview))
 			{
@@ -5086,8 +5101,6 @@ function loadQuestions($active_id = "", $pass = NULL)
 	/**
 	* Creates an associated array with the results for a given participant of a test
 	*
-	* Creates an associated array with the results for a given participant of a test
-	*
 	* @param integer $active_id The active id of the participant
 	* @return array An associated array containing the results
 	* @access public
@@ -5096,19 +5109,18 @@ function loadQuestions($active_id = "", $pass = NULL)
 	{
 		global $ilDB;
 		
-		$query = sprintf("SELECT usr_data.usr_id, usr_data.firstname, usr_data.lastname, usr_data.title, usr_data.login, " .
-			"tst_test_result.*, qpl_questions.original_id, qpl_questions.title AS questiontitle, " .
-			"qpl_questions.points AS maxpoints " .
+		$result = $ilDB->queryF("SELECT usr_data.usr_id, usr_data.firstname, usr_data.lastname, usr_data.title, usr_data.login, " .
+			"tst_test_result.*, qpl_questions.original_id, qpl_questions.title questiontitle, " .
+			"qpl_questions.points maxpoints " .
 			"FROM tst_test_result, qpl_questions, tst_active " .
 			"LEFT JOIN usr_data ON tst_active.user_fi = usr_data.usr_id " .
 			"WHERE tst_active.active_id = tst_test_result.active_fi " .
 			"AND qpl_questions.question_id = tst_test_result.question_fi " .
 			"AND tst_active.test_fi = %s AND tst_active.active_id = %s" .
-			"ORDER BY active_id, pass, TIMESTAMP",
-			$ilDB->quote($this->getTestId() . ""),
-			$ilDB->quote($active_id . "")
+			"ORDER BY active_id, pass, tstamp",
+			array('integer', 'integer'),
+			array($this->getTestId(), $active_id)
 		);
-		$result = $ilDB->query($query);
 		$overview = array();
 		while ($row = $result->fetchRow(MDB2_FETCHMODE_ASSOC))
 		{
@@ -5316,10 +5328,10 @@ function loadQuestions($active_id = "", $pass = NULL)
 		if (($questionpool != 0) && (!$use_obj_id)) $questionpool = ilObject::_lookupObjId($questionpool);
 
 		// get original ids of all existing questions in the test
-		$statement = $ilDB->prepare("SELECT qpl_questions.original_id FROM qpl_questions, tst_test_question WHERE qpl_questions.question_id = tst_test_question.question_fi AND qpl_questions.owner > 0 AND tst_test_question.test_fi = ?",
-			array("integer")
+		$result = $ilDB->queryF("SELECT qpl_questions.original_id FROM qpl_questions, tst_test_question WHERE qpl_questions.question_id = tst_test_question.question_fi AND qpl_questions.owner > 0 AND tst_test_question.test_fi = %s",
+			array("integer"),
+			array($this->getTestId())
 		);
-		$result = $ilDB->execute($statement, array($this->getTestId()));
 		$original_ids = array();
 		$paramtypes = array();
 		$paramvalues = array();
@@ -5335,14 +5347,13 @@ function loadQuestions($active_id = "", $pass = NULL)
 			$available_pools = array_keys(ilObjQuestionPool::_getAvailableQuestionpools($use_object_id = TRUE, $equal_points = FALSE, $could_be_offline = FALSE, $showPath = FALSE, $with_questioncount = FALSE, "read", ilObject::_lookupOwner($this->getId())));
 			$available = "";
 			$constraint_qpls = "";
+			$phs = array();
 			if (count($available_pools))
 			{
-				foreach ($available_pools as $pool_id)
-				{
-					array_push($paramtypes, 'integer');
-					array_push($paramvalues, $pool_id);
-				}
-				$available = " AND " . $ilDB->in('obj_fi', $available_pools);
+				$paramtypes = $ilDB->addTypesToArray($paramtypes, 'integer', count($available_pools));
+				$phs = $ilDB->addTypesToArray($phs, '%s', count($available_pools));
+				$paramvalues = array_merge($paramvalues, $available_pools);
+				$available = " AND obj_fi IN (" . implode(",", $phs) . ")";
 			}
 			else
 			{
@@ -5357,12 +5368,14 @@ function loadQuestions($active_id = "", $pass = NULL)
 			{
 				if (count($qpls) > 0)
 				{
+					$phs = array();
+					$paramtypes = $ilDB->addTypesToArray($paramtypes, 'integer', count($qpls));
+					$phs = $ilDB->addTypesToArray($phs, '%s', count($qpls));
 					foreach ($qpls as $idx => $arr)
 					{
-						array_push($paramtypes, 'integer');
 						array_push($paramvalues, $arr["qpl"]);
 					}
-					$constraint_qpls = " AND " . $ilDB->in('obj_fi', $qpls);
+					$constraint_qpls = " AND obj_fi IN (" . implode(",", $phs) . ")";
 				}
 			}
 		}
@@ -5380,27 +5393,26 @@ function loadQuestions($active_id = "", $pass = NULL)
 		$original_clause = "";
 		if (count($original_ids))
 		{
-			foreach ($original_ids as $original_id)
-			{
-				array_push($paramtypes, 'integer');
-				array_push($paramvalues, $original_id);
-			}
-			$original_clause = " AND " . $ilDB->in('question_id', $original_ids, true);
+			$phs = array();
+			$paramtypes = $ilDB->addTypesToArray($paramtypes, 'integer', count($original_ids));
+			$paramvalues = array_merge($paramvalues, $original_ids);
+			$phs = $ilDB->addTypesToArray($phs, '%s', count($original_ids));
+			$original_clause = " AND question_id NOT IN (" . implode(",", $phs) . ")";
 		}
 
 		if ($questionpool == 0)
 		{
-			$statement = $ilDB->prepare("SELECT question_id FROM qpl_questions WHERE ISNULL(original_id) $available $constraint_qpls AND owner > ? AND complete = ? $original_clause",
-				$paramtypes
+			$result = $ilDB->queryF("SELECT question_id FROM qpl_questions WHERE ISNULL(original_id) $available $constraint_qpls AND owner > %s AND complete = %s $original_clause",
+				$paramtypes,
+				$paramvalues
 			);
-			$result = $ilDB->execute($statement, $paramvalues);
 		}
 		else
 		{
-			$statement = $ilDB->prepare("SELECT question_id FROM qpl_questions WHERE ISNULL(original_id) AND obj_fi = ? AND owner > ? AND complete = ? $original_clause",
-				$paramtypes
+			$result = $ilDB->queryF("SELECT question_id FROM qpl_questions WHERE ISNULL(original_id) AND obj_fi = %s AND owner > %s AND complete = %s $original_clause",
+				$paramtypes,
+				$paramvalues
 			);
-			$result = $ilDB->execute($statement, $paramvalues);
 		}
 		$found_ids = array();
 		while ($row = $ilDB->fetchAssoc($result))
@@ -5614,16 +5626,16 @@ function loadQuestions($active_id = "", $pass = NULL)
 				switch($sel_filter_type) 
 				{
 					case "title":
-						$where .= " AND qpl_questions.title LIKE " . $ilDB->quote("%" . $filter_text . "%");
+						$where .= " AND " . $ilDB->like('qpl_questions.title', 'text', "%" . $filter_text . "%");
 						break;
 					case "comment":
-						$where .= " AND qpl_questions.description LIKE " . $ilDB->quote("%" . $filter_text . "%");
+						$where .= " AND " . $ilDB->like('qpl_questions.description', 'text', "%" . $filter_text . "%");
 						break;
 					case "author":
-						$where .= " AND qpl_questions.author LIKE " . $ilDB->quote("%" . $filter_text . "%");
+						$where .= " AND " . $ilDB->like('qpl_questions.author', 'text', "%" . $filter_text . "%");
 						break;
 					case "qpl":
-						$where .= " AND object_data.title LIKE " . $ilDB->quote("%" . $filter_text . "%");
+						$where .= " AND " . $ilDB->like('object_data.title', 'text', "%" . $filter_text . "%");
 						break;
 				}
 			}
@@ -5631,12 +5643,12 @@ function loadQuestions($active_id = "", $pass = NULL)
 
 		if ($filter_question_type && (strcmp($filter_question_type, "all") != 0))
 		{
-			$where .= " AND qpl_question_type.type_tag = " . $ilDB->quote($filter_question_type);
+			$where .= " AND qpl_question_type.type_tag = " . $ilDB->quote($filter_question_type, 'text');
 		}
 
 		if ($filter_questionpool && (strcmp($filter_questionpool, "all") != 0))
 		{
-			$where .= " AND qpl_questions.obj_fi = $filter_questionpool";
+			$where .= " AND qpl_questions.obj_fi = " . $ilDB->quote($filter_questionpool, 'integer');
 		}
 
 		// build sort order for sql query
