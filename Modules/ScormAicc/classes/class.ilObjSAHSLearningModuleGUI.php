@@ -461,7 +461,7 @@ class ilObjSAHSLearningModuleGUI extends ilObjectGUI
 		$allowed = false;
 		$last_access = 0;
 		include_once "./Modules/ScormAicc/classes/class.ilObjSAHSLearningModuleAccess.php";
-		if (ilObjSAHSLearningModuleAccess::_lookupCertificate($this->object->getId()))
+		if (ilObjSAHSLearningModuleAccess::_lookupUserCertificate($this->object->getId()))
 		{
 			include_once "./Modules/ScormAicc/classes/class.ilObjSAHSLearningModule.php";
 			$type = ilObjSAHSLearningModule::_lookupSubType($this->object->getId());
@@ -469,19 +469,13 @@ class ilObjSAHSLearningModuleGUI extends ilObjectGUI
 			{
 				case "scorm":
 					include_once "./Modules/ScormAicc/classes/class.ilObjSCORMLearningModule.php";
-					if (ilObjSCORMLearningModule::_getCourseCompletionForUser($this->object->getId(), $ilUser->getId()))
-					{
-						$allowed = true;
-						$last_access = ilObjSCORMLearningModule::_lookupLastAccess($this->object->getId(), $ilUser->getId());
-					}
+					$allowed = true;
+					$last_access = ilObjSCORMLearningModule::_lookupLastAccess($this->object->getId(), $ilUser->getId());
 					break;
 				case "scorm2004":
 					include_once "./Modules/Scorm2004/classes/class.ilObjSCORM2004LearningModule.php";
-					if (ilObjSCORM2004LearningModule::_getCourseCompletionForUser($this->object->getId(), $ilUser->getId()))
-					{
-						$allowed = true;
-						$last_access = ilObjSCORM2004LearningModule::_lookupLastAccess($this->object->getId(), $ilUser->getId());
-					}
+					$allowed = true;
+					$last_access = ilObjSCORM2004LearningModule::_lookupLastAccess($this->object->getId(), $ilUser->getId());
 					break;
 				default:
 					break;

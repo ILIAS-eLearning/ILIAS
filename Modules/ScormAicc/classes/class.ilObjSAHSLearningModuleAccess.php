@@ -200,6 +200,58 @@ class ilObjSAHSLearningModuleAccess extends ilObjectAccess
 		$scormSetting = new ilSetting("scorm");
 		return ($scormSetting->get("certificate_" . $a_id) == 1) ? true : false;
 	}
+	
+	/**
+		* Checks whether a certificate exists for the active user or not
+		* @param int obj_id Object ID of the SCORM Learning Module
+		* @param int usr_id Object ID of the user. If not given, the active user will be taken
+		* @return true/false
+		*/
+	public static function _lookupUserCertificate($obj_id, $usr_id = 0)
+	{
+		global $ilUser;
+		$uid = ($usr_id) ? $usr_id : $ilUser->getId();
+		
+		$completed = false;
+		// check for certificates
+		if (ilObjSAHSLearningModuleAccess::_lookupCertificate($obj_id))
+		{
+			$lpdata = false;
+			include_once "./Modules/ScormAicc/classes/class.ilObjSAHSLearningModule.php";
+			$type = ilObjSAHSLearningModule::_lookupSubType($obj_id);
+			include_once("Services/Tracking/classes/class.ilObjUserTracking.php");
+			if (ilObjUserTracking::_enabledLearningProgress())
+			{
+				include_once "./Services/Tracking/classes/class.ilLPStatusWrapper.php";
+				$completed_user_ids_array = ilLPStatusWrapper::_getCompleted($obj_id);
+				if (in_array($uid, $completed_user_ids_array))
+				{
+					$completed = true;
+				}
+				$lpdata = true;
+			}
+			switch ($type)
+			{
+				case "scorm":
+					if (!$lpdata)
+					{
+						include_once "./Modules/ScormAicc/classes/class.ilObjSCORMLearningModule.php";
+						$completed = ilObjSCORMLearningModule::_getCourseCompletionForUser($obj_id, $uid);
+					}
+					break;
+				case "scorm2004":
+					if (!$lpdata)
+					{
+						include_once "./Modules/Scorm2004/classes/class.ilObjSCORM2004LearningModule.php";
+						$completed = ilObjSCORM2004LearningModule::_getCourseCompletionForUser($obj_id, $uid);
+					}
+					break;
+				default:
+					break;
+			}
+		}
+		return $completed;
+	}
 }
 
 ?>

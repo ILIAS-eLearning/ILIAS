@@ -560,10 +560,10 @@ class ilObjSCORMLearningModule extends ilObjSAHSLearningModule
 			
 		$scos = array();
 		//get all SCO's of this object
-		$query = "SELECT *,scorm_object.obj_id AS scoid FROM scorm_object,sc_item,sc_resource ".
+		$query = "SELECT scorm_object.obj_id,scorm_object.title,scorm_object.type,scorm_object.slm_id,scorm_object.obj_id scoid FROM scorm_object,sc_item,sc_resource ".
 				  "WHERE(scorm_object.slm_id=".$ilDB->quote($this->getID())." AND scorm_object.obj_id=sc_item.obj_id ".
 			      "AND sc_item.identifierref=sc_resource.import_id AND sc_resource.scormtype='sco') ".
-				  "GROUP BY scorm_object.obj_id";
+				  "GROUP BY scorm_object.obj_id,scorm_object.title,scorm_object.type,scorm_object.slm_id";
 								
 		$val_set = $ilDB->query($query);
 				
@@ -671,10 +671,10 @@ class ilObjSCORMLearningModule extends ilObjSAHSLearningModule
 		
 		$scos = array();
 		//get all SCO's of this object
-		$query = "SELECT *,scorm_object.obj_id AS scoid FROM scorm_object,sc_item,sc_resource ". 
+		$query = "SELECT scorm_object.obj_id,scorm_object.title,scorm_object.type,scorm_object.slm_id,scorm_object.obj_id scoid FROM scorm_object,sc_item,sc_resource ". 
 							       "WHERE(scorm_object.slm_id=".$ilDB->quote($this->getID())."AND scorm_object.obj_id=sc_item.obj_id ".
 								   "AND sc_item.identifierref=sc_resource.import_id AND sc_resource.scormtype='sco') ".
-								   "GROUP BY scorm_object.obj_id";
+								  "GROUP BY scorm_object.obj_id,scorm_object.title,scorm_object.type,scorm_object.slm_id";
 	    $val_set = $ilDB->query($query);
  		if (count($val_set)<1) {
 			return -1;
@@ -832,10 +832,10 @@ class ilObjSCORMLearningModule extends ilObjSAHSLearningModule
 		
 		$scos = array();
 
-		$query = "SELECT *,scorm_object.obj_id AS scoid FROM scorm_object,sc_item,sc_resource ".
+		$query = "SELECT scorm_object.obj_id,scorm_object.title,scorm_object.type,scorm_object.slm_id,scorm_object.obj_id scoid FROM scorm_object,sc_item,sc_resource ".
 			"WHERE(scorm_object.slm_id=".$ilDB->quote($a_id)." AND scorm_object.obj_id=sc_item.obj_id ".
 			"AND sc_item.identifierref=sc_resource.import_id AND sc_resource.scormtype='sco') ".
-			"GROUP BY scorm_object.obj_id";
+		  "GROUP BY scorm_object.obj_id,scorm_object.title,scorm_object.type,scorm_object.slm_id";
 		$val_set = $ilDB->query($query);
 
 		while ($val_rec = $val_set->fetchRow(DB_FETCHMODE_ASSOC)) 
@@ -895,10 +895,10 @@ class ilObjSCORMLearningModule extends ilObjSAHSLearningModule
 		
 		$scos = array();
 		//get all SCO's of this object
-		$query = "SELECT *,scorm_object.obj_id AS scoid FROM scorm_object,sc_item,sc_resource ".
+		$query = "SELECT scorm_object.obj_id,scorm_object.title,scorm_object.type,scorm_object.slm_id,scorm_object.obj_id scoid FROM scorm_object,sc_item,sc_resource ".
 		  		 "WHERE(scorm_object.slm_id=".$ilDB->quote($this->getID())." AND scorm_object.obj_id=sc_item.obj_id ".
 				 "AND sc_item.identifierref=sc_resource.import_id AND sc_resource.scormtype='sco') ".
-			     "GROUP BY scorm_object.obj_id";
+				  "GROUP BY scorm_object.obj_id,scorm_object.title,scorm_object.type,scorm_object.slm_id";
 
 		$val_set = $ilDB->query($query);
 
