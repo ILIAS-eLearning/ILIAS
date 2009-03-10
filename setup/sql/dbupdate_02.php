@@ -8709,3 +8709,29 @@ ALTER TABLE `payment_settings` MODIFY `bmf` VARCHAR( 4000 ) NULL DEFAULT NULL;
 <?php
 	$ilMySQLAbstraction->performAbstraction('payment_settings');
 ?>
+<#1872>
+<?php
+if (!$ilDB->tableColumnExists("qpl_questionpool", "tstamp"))
+{
+	$query = "ALTER TABLE `qpl_questionpool` ADD `tstamp` INT NOT NULL DEFAULT '0'";
+	$res = $ilDB->manipulate($query);
+	$res = $ilDB->query("SELECT id_questionpool, " . $ilDB->quoteIdentifier("TIMESTAMP") . " + 0 timestamp14 FROM qpl_questionpool");
+	if ($res->numRows())
+	{
+		while ($row = $ilDB->fetchAssoc($res))
+		{
+			preg_match("/(\\d{4})(\\d{2})(\\d{2})(\\d{2})(\\d{2})(\\d{2})/", $row['timestamp14'], $matches);
+			$tstamp = mktime((int)$matches[4], (int)$matches[5], (int)$matches[6], (int)$matches[2], (int)$matches[3], (int)$matches[1]);
+			$ilDB->manipulateF("UPDATE qpl_questionpool SET tstamp = %s WHERE id_questionpool = %s",
+				array("integer", "integer"),
+				array($tstamp, $row['id_questionpool'])
+			);
+		}
+	}
+	$ilDB->manipulate("ALTER TABLE `qpl_questionpool` DROP `TIMESTAMP`");
+}
+?>
+<#1873>
+<?php
+$ilMySQLAbstraction->performAbstraction('qpl_questionpool');
+?>
