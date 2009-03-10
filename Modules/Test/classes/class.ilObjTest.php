@@ -1215,7 +1215,7 @@ class ilObjTest extends ilObject
 				"reporting_date, starting_time, ending_time, complete, ects_output, ects_a, ects_b, ects_c, ects_d, ects_e, " .
 				"ects_fx, random_test, random_question_count, count_system, mc_scoring, score_cutting, pass_scoring, " .
 				"shuffle_questions, results_presentation, show_summary, password, allowedUsers, " .
-				"allowedUsersTimeGap, certificate_visibility, created, TIMESTAMP) " .
+				"allowedUsersTimeGap, certificate_visibility, created, tstamp) " .
 				"VALUES (NULL, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, " .
 				"%s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, NULL)",
 				$ilDB->quote($this->getId() . ""),
@@ -1479,10 +1479,9 @@ class ilObjTest extends ilObject
 		$result = $ilDB->query($query);
 		// create new category relations
 		foreach ($this->questions as $key => $value) {
-			$query = sprintf("INSERT INTO tst_test_question (test_question_id, test_fi, question_fi, sequence, TIMESTAMP) VALUES (NULL, %s, %s, %s, NULL)",
-				$ilDB->quote($this->getTestId() . ""),
-				$ilDB->quote($value . ""),
-				$ilDB->quote($key . "")
+			$result = ilDB->manipulateF("INSERT INTO tst_test_question (test_question_id, test_fi, question_fi, sequence, tstamp) VALUES (NULL, %s, %s, %s, %s)",
+				array('integer', 'integer', 'integer', 'integer'),
+				array($this->getTestId(), $value, $key, time())
 			);
 			$result = $ilDB->query($query);
 		}
@@ -1553,13 +1552,10 @@ class ilObjTest extends ilObject
 				$duplicate_id = $this->duplicateQuestionForTest($question_id);
 			}
 
-			$query = sprintf("INSERT INTO tst_test_random_question (test_random_question_id, active_fi, question_fi, sequence, pass, TIMESTAMP) VALUES (NULL, %s, %s, %s, %s, NULL)",
-				$ilDB->quote($active_id . ""),
-				$ilDB->quote($duplicate_id . ""),
-				$ilDB->quote(($result->numRows()+1) . ""),
-				$ilDB->quote($pass . "")
+			$result = ilDB->manipulateF("INSERT INTO tst_test_random_question (test_random_question_id, active_fi, question_fi, sequence, pass, tstamp) VALUES (NULL, %s, %s, %s, %s, %s)",
+				array('integer','integer','integer','integer','integer'),
+				array($active_id, $duplicate_id, $result->numRows()+1, $pass)
 			);
-			$result = $ilDB->query($query);
 		}
 	}
 
@@ -1796,12 +1792,10 @@ class ilObjTest extends ilObject
 				{
 					$value["count"] = $count;
 				}
-				$query = sprintf("INSERT INTO tst_test_random (test_random_id, test_fi, questionpool_fi, num_of_q, TIMESTAMP) VALUES (NULL, %s, %s, %s, NULL)",
-					$ilDB->quote($this->getTestId() . ""),
-					$ilDB->quote($value["qpl"] . ""),
-					$ilDB->quote(sprintf("%d", $value["count"]) . "")
+				$result = $ilDB->manipulateF("INSERT INTO tst_test_random (test_random_id, test_fi, questionpool_fi, num_of_q, tstamp) VALUES (NULL, %s, %s, %s, %s)",
+					array('integer', 'integer', 'integer', 'integer'),
+					array($this->getTestId(), $value["qpl"], sprintf("%d", $value["count"]), time())
 				);
-				$result = $ilDB->query($query);
 				if (ilObjAssessmentFolder::_enabledAssessmentLogging())
 				{
 					$this->logAction(sprintf($this->lng->txtlng("assessment", "log_random_question_pool_added", ilObjAssessmentFolder::_getLogLanguage()), $value["title"] . " (" . $value["qpl"] . ")", $value["count"]));
@@ -3722,12 +3716,10 @@ function loadQuestions($active_id = "", $pass = NULL)
 			$sequence = $data->seq + 1;
 		}
 
-		$query = sprintf("INSERT INTO tst_test_question (test_question_id, test_fi, question_fi, sequence, TIMESTAMP) VALUES (NULL, %s, %s, %s, NULL)",
-			$ilDB->quote($this->getTestId()),
-			$ilDB->quote($duplicate_id),
-			$ilDB->quote($sequence)
-			);
-		$result = $ilDB->query($query);
+		$result = $ilDB->manipulateF("INSERT INTO tst_test_question (test_question_id, test_fi, question_fi, sequence, tstamp) VALUES (NULL, %s, %s, %s, %s)",
+			array('integer','integer','integer','integer'),
+			array($this->getTestId(), $duplicate_id, $sequence, time())
+		);
 		if (PEAR::isError($result)) 
 		{
 			global $ilias;
@@ -3901,13 +3893,10 @@ function loadQuestions($active_id = "", $pass = NULL)
 	{
 		global $ilDB;
 
-		$q = sprintf("INSERT INTO tst_times (times_id, active_fi, started, finished, pass, TIMESTAMP) VALUES (NULL, %s, %s, %s, %s, NULL)",
-			$ilDB->quote($active_id),
-			$ilDB->quote(strftime("%Y-%m-%d %H:%M:%S")),
-			$ilDB->quote(strftime("%Y-%m-%d %H:%M:%S")),
-			$ilDB->quote($pass)
+		$affectedRows = $ilDB->manipulateF("INSERT INTO tst_times (times_id, active_fi, started, finished, pass, tstamp) VALUES (NULL, %s, %s, %s, %s, %s)",
+			array('integer', 'timedate', 'timedate', 'integer', 'integer'),
+			array($active_id, strftime("%Y-%m-%d %H:%M:%S"), strftime("%Y-%m-%d %H:%M:%S"), $pass, time())
 		);
-		$result = $ilDB->query($q);
 		return $ilDB->getLastInsertId();
 	}
 
@@ -5678,7 +5667,7 @@ function loadQuestions($active_id = "", $pass = NULL)
 				$images["created"] = " <img src=\"" . ilUtil::getImagePath(strtolower($sortorder) . "_order.gif") . "\" alt=\"" . $this->lng->txt(strtolower($sortorder) . "ending_order")."\" />";
 				break;
 			case "updated":
-				$order = " ORDER BY timestamp14 $sortorder";
+				$order = " ORDER BY tstamp $sortorder";
 				$images["updated"] = " <img src=\"" . ilUtil::getImagePath(strtolower($sortorder) . "_order.gif") . "\" alt=\"" . $this->lng->txt(strtolower($sortorder) . "ending_order")."\" />";
 				break;
 			case "qpl":
@@ -5696,7 +5685,7 @@ function loadQuestions($active_id = "", $pass = NULL)
 		$available = "";
 		if (count($available_pools))
 		{
-			$available = " AND qpl_questions.obj_fi IN ('" . join($available_pools, "','") . "')";
+			$available = " AND " . $ilDB->in('qpl_questions.obj_fi', $available_pools, false, 'integer');
 		}
 		else
 		{
@@ -5704,16 +5693,16 @@ function loadQuestions($active_id = "", $pass = NULL)
 		}
 		if ($completeonly)
 		{
-			$available .= " AND qpl_questions.complete = " . $ilDB->quote("1");
+			$available .= " AND qpl_questions.complete = " . $ilDB->quote("1", 'text');
 		}
 
 		// get all questions in the test
-		$query = sprintf("SELECT qpl_questions.original_id, qpl_questions.TIMESTAMP + 0 AS timestamp14 FROM qpl_questions, tst_test_question WHERE qpl_questions.question_id = tst_test_question.question_fi AND tst_test_question.test_fi = %s",
-			$ilDB->quote($this->getTestId() . "")
+		$result = $ilDB->queryF("SELECT qpl_questions.original_id, qpl_questions.tstamp FROM qpl_questions, tst_test_question WHERE qpl_questions.question_id = tst_test_question.question_fi AND tst_test_question.test_fi = %s",
+			array('integer'),
+			array($this->getTestId())
 		);
-		$result = $ilDB->query($query);
 		$original_ids = array();
-		while ($row = $result->fetchRow(DB_FETCHMODE_ARRAY))
+		while ($row = $ilDB->fetchAssoc($result))
 		{
 			if (strcmp($row[0], "") != 0)
 			{
@@ -5723,11 +5712,10 @@ function loadQuestions($active_id = "", $pass = NULL)
 		$original_clause = " ISNULL(qpl_questions.original_id)";
 		if (count($original_ids))
 		{
-			$original_clause = " ISNULL(qpl_questions.original_id) AND qpl_questions.question_id NOT IN ('" . join($original_ids, "','") . "')";
+			$original_clause = " ISNULL(qpl_questions.original_id) AND " . $ilDB->in('qpl_questions.question_id',  $original_ids, true, 'integer');
 		}
 
-		$query = "SELECT qpl_questions.question_id, qpl_questions.TIMESTAMP + 0 AS timestamp14 FROM qpl_questions, qpl_question_type, object_data WHERE $original_clause$available AND object_data.obj_id = qpl_questions.obj_fi AND qpl_questions.owner > 0 AND qpl_questions.question_type_fi = qpl_question_type.question_type_id $where$order$limit";
-    $query_result = $ilDB->query($query);
+		$query_result = $ilDB->query("SELECT qpl_questions.question_id, qpl_questions.tstamp FROM qpl_questions, qpl_question_type, object_data WHERE $original_clause$available AND object_data.obj_id = qpl_questions.obj_fi AND qpl_questions.owner > 0 AND qpl_questions.question_type_fi = qpl_question_type.question_type_id $where$order$limit");
 		$max = $query_result->numRows();
 		if ($startrow > $max -1)
 		{
@@ -5737,13 +5725,12 @@ function loadQuestions($active_id = "", $pass = NULL)
 		{
 			$startrow = 0;
 		}
-		$limit = " LIMIT $startrow, $maxentries";
-		$query = "SELECT qpl_questions.*, qpl_questions.TIMESTAMP + 0 AS timestamp14, qpl_question_type.type_tag, qpl_question_type.plugin FROM qpl_questions, qpl_question_type, object_data WHERE $original_clause $available AND object_data.obj_id = qpl_questions.obj_fi AND qpl_questions.owner > 0 AND qpl_questions.question_type_fi = qpl_question_type.question_type_id $where$order$limit";
-		$query_result = $ilDB->query($query);
+		$ilDB->setLimit($maxentries, $startrow);
+		$query_result = $ilDB->query("SELECT qpl_questions.*, qpl_questions.tstamp, qpl_question_type.type_tag, qpl_question_type.plugin FROM qpl_questions, qpl_question_type, object_data WHERE $original_clause $available AND object_data.obj_id = qpl_questions.obj_fi AND qpl_questions.owner > 0 AND qpl_questions.question_type_fi = qpl_question_type.question_type_id $where$order");
 		$rows = array();
 		if ($query_result->numRows())
 		{
-			while ($row = $query_result->fetchRow(MDB2_FETCHMODE_ASSOC))
+			while ($row = $ilDB->fetchAssoc($query_result))
 			{
 				if ($row["plugin"])
 				{
@@ -6806,12 +6793,10 @@ function loadQuestions($active_id = "", $pass = NULL)
 			{
 				while ($row = $result->fetchRow(MDB2_FETCHMODE_ASSOC))
 				{
-					$query = sprintf("INSERT INTO tst_test_random (test_random_id, test_fi, questionpool_fi, num_of_q, TIMESTAMP) VALUES (NULL, %s, %s, %s, NULL)",
-						$ilDB->quote($new_id . ""),
-						$ilDB->quote($row["questionpool_fi"] . ""),
-						$ilDB->quote($row["num_of_q"] . "")
+					$insertresult = $ilDB->manipulateF("INSERT INTO tst_test_random (test_random_id, test_fi, questionpool_fi, num_of_q, tstamp) VALUES (NULL, %s, %s, %s, %s)",
+						array('integer', 'integer', 'integer', 'integer'),
+						array($new_id, $row["questionpool_fi"], $row["num_of_q"], time())
 					);
-					$insertresult = $ilDB->query($query);
 				}
 			}
 		}
@@ -6981,15 +6966,15 @@ function loadQuestions($active_id = "", $pass = NULL)
 
 		$num = 0;
 
-		$query = sprintf("SELECT * FROM tst_tests WHERE test_id = %s",
-			$ilDB->quote($test_id . "")
+		$result = $ilDB->queryF("SELECT * FROM tst_tests WHERE test_id = %s",
+			array('integer'),
+			array($test_id)
 		);
-		$result = $ilDB->query($query);
 		if (!$result->numRows())
 		{
 			return 0;
 		}
-		$test = $result->fetchRow(MDB2_FETCHMODE_ASSOC);
+		$test = $ilDB->fetchAssoc($result);
 
 		if ($test["random_test"] == 1)
 		{
@@ -7001,12 +6986,12 @@ function loadQuestions($active_id = "", $pass = NULL)
 			$result = $ilDB->query($query);
 			if ($result->numRows())
 			{
-				while ($row = $result->fetchRow(MDB2_FETCHMODE_ASSOC))
+				while ($row = $ilDB->fetchAssoc($result))
 				{
-					$countquery = sprintf("SELECT question_id FROM qpl_questions WHERE obj_fi =  %s AND qpl_questions.owner > 0 AND original_id IS NULL",
-						$ilDB->quote($row["questionpool_fi"] . "")
+					$countresult = $ilDB->queryF("SELECT question_id FROM qpl_questions WHERE obj_fi =  %s AND qpl_questions.owner > 0 AND original_id IS NULL",
+						array('integer'),
+						$row["questionpool_fi"]
 					);
-					$countresult = $ilDB->query($countquery);
 					$contains = $countresult->numRows();
 					$qpls[$counter] = array(
 						"index" => $counter,
@@ -7240,13 +7225,14 @@ function loadQuestions($active_id = "", $pass = NULL)
 		$res = "";
 		if ($question_id)
 		{
-			$query = sprintf("SELECT question_text FROM qpl_questions WHERE question_id = %s",
-				$ilDB->quote($question_id . "")
+			$result = $ilDB->queryF("SELECT question_text FROM qpl_questions WHERE question_id = %s",
+				array('integer'),
+				array($question_id)
 			);
 			$result = $ilDB->query($query);
 			if ($result->numRows() == 1)
 			{
-				$row = $result->fetchRow(MDB2_FETCHMODE_ASSOC);
+				$row = $ilDB->fetchAssoc($result);
 				$res = $row["question_text"];
 			}
 		}
@@ -7378,11 +7364,10 @@ function loadQuestions($active_id = "", $pass = NULL)
 		$filtered_participants = array();
 		foreach ($participants as $active_id => $participant)
 		{
-			$statement = $ilDB->prepare("SELECT tst_test_result.manual FROM tst_test_result,qpl_questions WHERE tst_test_result.question_fi = qpl_questions.question_id AND qpl_questions.question_type_fi IN (" . join($scoring, ",") . ") AND tst_test_result.active_fi = ?", 
-				array("integer")
+			$result = $ilDB->queryF("SELECT tst_test_result.manual FROM tst_test_result,qpl_questions WHERE tst_test_result.question_fi = qpl_questions.question_id AND " . $ilDB->in('qpl_questions.question_type_fi', $scoring, false, 'integer') . " AND tst_test_result.active_fi = %s", 
+				array("integer"),
+				array($active_id)
 			);
-			$data = array($active_id);
-			$result = $ilDB->execute($statement, $data);
 			$count = $result->numRows();
 			if ($count > 0)
 			{
@@ -8029,15 +8014,15 @@ function loadQuestions($active_id = "", $pass = NULL)
 	{
 		global $ilDB;
 		if (is_null($pass)) $pass = 0;
-		$query = sprintf("SELECT tst_test_result.TIMESTAMP + 0 AS timestamp14 FROM tst_test_result WHERE active_fi = %s AND pass = %s ORDER BY tst_test_result.TIMESTAMP DESC",
-			$ilDB->quote($active_id . ""),
-			$ilDB->quote($pass . "")
+		$result = $ilDB->queryF("SELECT tst_test_result.tstamp FROM tst_test_result WHERE active_fi = %s AND pass = %s ORDER BY tst_test_result.tstamp DESC",
+			array('integer', 'integer'),
+			array($active_id, $pass)
 		);
 		$result = $ilDB->query($query);
 		if ($result->numRows())
 		{
-			$row = $result->fetchRow(MDB2_FETCHMODE_ASSOC);
-			return $row["timestamp14"];
+			$row = $ilDB->fetchAssoc($result);
+			return date("YmdHIs", $row["tstamp"]);
 		}
 		else
 		{
@@ -8273,12 +8258,12 @@ function loadQuestions($active_id = "", $pass = NULL)
 	function &getTestQuestions()
 	{
 		global $ilDB;
-		$query = sprintf("SELECT qpl_questions.*, qpl_question_type.type_tag FROM qpl_questions, qpl_question_type, tst_test_question WHERE qpl_questions.question_type_fi = qpl_question_type.question_type_id AND tst_test_question.test_fi = %s AND tst_test_question.question_fi = qpl_questions.question_id ORDER BY sequence",
-			$ilDB->quote($this->getTestId() . "")
+		$query_result = $ilDB->queryF("SELECT qpl_questions.*, qpl_question_type.type_tag FROM qpl_questions, qpl_question_type, tst_test_question WHERE qpl_questions.question_type_fi = qpl_question_type.question_type_id AND tst_test_question.test_fi = %s AND tst_test_question.question_fi = qpl_questions.question_id ORDER BY sequence",
+			array('integer'),
+			array($this->getTestId())
 		);
-		$query_result = $ilDB->query($query);
 		$removableQuestions = array();
-		while ($row = $query_result->fetchRow(MDB2_FETCHMODE_ASSOC))
+		while ($row = $ilDB->fetchAssoc($query_result))
 		{
 			array_push($removableQuestions, $row);
 		}
@@ -8982,11 +8967,10 @@ function loadQuestions($active_id = "", $pass = NULL)
 			$now = mktime();
 			$time_border = $now - $time_gap;
 			$str_time_border = strftime("%Y%m%d%H%M%S", $time_border);
-			$query = sprintf("SELECT DISTINCT tst_times.active_fi FROM tst_times, tst_active WHERE tst_times.TIMESTAMP > %s AND tst_times.active_fi = tst_active.active_id AND tst_active.test_fi = %s",
-				$ilDB->quote($str_time_border),
-				$ilDB->quote($this->getTestId() . "")
+			$result = $ilDB->queryF("SELECT DISTINCT tst_times.active_fi FROM tst_times, tst_active WHERE tst_times.tstamp > %s AND tst_times.active_fi = tst_active.active_id AND tst_active.test_fi = %s",
+				array('integer', 'integer'),
+				array($time_border, $this->getTestId())
 			);
-			$result = $ilDB->query($query);
 			if ($result->numRows() >= $nr_of_users)
 			{
 				include_once "./Modules/Test/classes/class.ilObjAssessmentFolder.php";
