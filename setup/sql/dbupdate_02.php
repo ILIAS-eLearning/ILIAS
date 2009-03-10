@@ -8735,3 +8735,29 @@ if (!$ilDB->tableColumnExists("qpl_questionpool", "tstamp"))
 <?php
 $ilMySQLAbstraction->performAbstraction('qpl_questionpool');
 ?>
+<#1874>
+<?php
+if (!$ilDB->tableColumnExists("qpl_numeric_range", "tstamp"))
+{
+	$query = "ALTER TABLE `qpl_numeric_range` ADD `tstamp` INT NOT NULL DEFAULT '0'";
+	$res = $ilDB->manipulate($query);
+	$res = $ilDB->query("SELECT range_id, lastchange + 0 timestamp14 FROM qpl_numeric_range");
+	if ($res->numRows())
+	{
+		while ($row = $ilDB->fetchAssoc($res))
+		{
+			preg_match("/(\\d{4})(\\d{2})(\\d{2})(\\d{2})(\\d{2})(\\d{2})/", $row['timestamp14'], $matches);
+			$tstamp = mktime((int)$matches[4], (int)$matches[5], (int)$matches[6], (int)$matches[2], (int)$matches[3], (int)$matches[1]);
+			$ilDB->manipulateF("UPDATE qpl_numeric_range SET tstamp = %s WHERE range_id = %s",
+				array("integer", "integer"),
+				array($tstamp, $row['range_id'])
+			);
+		}
+	}
+	$ilDB->manipulate("ALTER TABLE `qpl_numeric_range` DROP lastchange");
+}
+?>
+<#1875>
+<?php
+$ilMySQLAbstraction->performAbstraction('qpl_numeric_range');
+?>
