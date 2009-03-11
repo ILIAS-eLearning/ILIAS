@@ -189,7 +189,7 @@ class assTextSubset extends assQuestion
 			)
 		);
 
-		$affectedRows = $ilDB->manipulateF("DELETE FROM qpl_answer_textsubset WHERE question_fi = %s",
+		$affectedRows = $ilDB->manipulateF("DELETE FROM qpl_a_textsubset WHERE question_fi = %s",
 			array('integer'),
 			array($this->getId())
 		);
@@ -197,8 +197,8 @@ class assTextSubset extends assQuestion
 		foreach ($this->answers as $key => $value)
 		{
 			$answer_obj = $this->answers[$key];
-			$next_id = $ilDB->nextId('qpl_answer_textsubset');
-			$query = sprintf("INSERT INTO qpl_answer_textsubset (answer_id, question_fi, answertext, points, aorder, tstamp) VALUES (%s, %s, %s, %s, %s, %s)",
+			$next_id = $ilDB->nextId('qpl_a_textsubset');
+			$query = sprintf("INSERT INTO qpl_a_textsubset (answer_id, question_fi, answertext, points, aorder, tstamp) VALUES (%s, %s, %s, %s, %s, %s)",
 				array('integer', 'integer', 'text', 'float', 'integer', 'integer'),
 				array(
 					$next_id,
@@ -248,7 +248,7 @@ class assTextSubset extends assQuestion
 		}
 
 
-		$result = $ilDB->queryF("SELECT * FROM qpl_answer_textsubset WHERE question_fi = %s ORDER BY aorder ASC",
+		$result = $ilDB->queryF("SELECT * FROM qpl_a_textsubset WHERE question_fi = %s ORDER BY aorder ASC",
 			array('integer'),
 			array($question_id)
 		);
@@ -733,7 +733,7 @@ class assTextSubset extends assQuestion
 	*/
 	function getAdditionalTableName()
 	{
-		return "qpl_question_textsubset";
+		return "qpl_qst_textsubset";
 	}
 
 	/**
@@ -744,7 +744,7 @@ class assTextSubset extends assQuestion
 	*/
 	function getAnswerTableName()
 	{
-		return "qpl_answer_textsubset";
+		return "qpl_a_textsubset";
 	}
 
 	/**

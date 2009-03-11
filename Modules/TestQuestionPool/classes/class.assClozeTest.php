@@ -189,7 +189,7 @@ class assClozeTest extends assQuestion
 			// open the cloze gaps with all answers
 			include_once "./Modules/TestQuestionPool/classes/class.assAnswerCloze.php";
 			include_once "./Modules/TestQuestionPool/classes/class.assClozeGap.php";
-			$result = $ilDB->queryF("SELECT * FROM qpl_answer_cloze WHERE question_fi = ? ORDER BY gap_id, aorder ASC",
+			$result = $ilDB->queryF("SELECT * FROM qpl_a_cloze WHERE question_fi = ? ORDER BY gap_id, aorder ASC",
 				array("integer"),
 				array($question_id)
 			);
@@ -351,7 +351,7 @@ class assClozeTest extends assQuestion
 			);
 		}
 
-		$affectedRows = $ilDB->manipulateF("DELETE FROM qpl_answer_cloze WHERE question_fi = %s",
+		$affectedRows = $ilDB->manipulateF("DELETE FROM qpl_a_cloze WHERE question_fi = %s",
 			array("integer"),
 			array($this->getId())
 		);
@@ -364,7 +364,7 @@ class assClozeTest extends assQuestion
 				switch ($gap->getType())
 				{
 					case CLOZE_TEXT:
-						$affectedRows = $ilDB->manipulateF("INSERT INTO qpl_answer_cloze (answer_id, question_fi, gap_id, answertext, points, aorder, cloze_type) VALUES (NULL, %s, %s, %s, %s, %s, %s)",
+						$affectedRows = $ilDB->manipulateF("INSERT INTO qpl_a_cloze (answer_id, question_fi, gap_id, answertext, points, aorder, cloze_type) VALUES (NULL, %s, %s, %s, %s, %s, %s)",
 							array(
 								"integer", 
 								"integer",
@@ -384,7 +384,7 @@ class assClozeTest extends assQuestion
 						);
 						break;
 					case CLOZE_SELECT:
-						$affectedRows = $ilDB->manipulateF("INSERT INTO qpl_answer_cloze (answer_id, question_fi, gap_id, answertext, points, aorder, cloze_type, shuffle) VALUES (NULL, %s, %s, %s, %s, %s, %s, %s)",
+						$affectedRows = $ilDB->manipulateF("INSERT INTO qpl_a_cloze (answer_id, question_fi, gap_id, answertext, points, aorder, cloze_type, shuffle) VALUES (NULL, %s, %s, %s, %s, %s, %s, %s)",
 							array(
 								"integer", 
 								"integer",
@@ -406,7 +406,7 @@ class assClozeTest extends assQuestion
 						);
 						break;
 					case CLOZE_NUMERIC:
-						$affectedRows = $ilDB->manipulateF("INSERT INTO qpl_answer_cloze (answer_id, question_fi, gap_id, answertext, points, aorder, cloze_type, lowerlimit, upperlimit) VALUES (NULL, %s, %s, %s, %s, %s, %s, %s, %s)",
+						$affectedRows = $ilDB->manipulateF("INSERT INTO qpl_a_cloze (answer_id, question_fi, gap_id, answertext, points, aorder, cloze_type, lowerlimit, upperlimit) VALUES (NULL, %s, %s, %s, %s, %s, %s, %s, %s)",
 							array(
 								"integer", 
 								"integer",
@@ -1364,7 +1364,7 @@ class assClozeTest extends assQuestion
 	*/
 	function getAdditionalTableName()
 	{
-		return "qpl_question_cloze";
+		return "qpl_qst_cloze";
 	}
 
 	/**
@@ -1375,7 +1375,7 @@ class assClozeTest extends assQuestion
 	*/
 	function getAnswerTableName()
 	{
-		return "qpl_answer_cloze";
+		return "qpl_a_cloze";
 	}
 	
 	/**

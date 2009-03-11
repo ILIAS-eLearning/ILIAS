@@ -928,7 +928,7 @@ class assJavaApplet extends assQuestion
 	*/
 	function getAdditionalTableName()
 	{
-		return "qpl_question_javaapplet";
+		return "qpl_qst_javaapplet";
 	}
 
 	/**

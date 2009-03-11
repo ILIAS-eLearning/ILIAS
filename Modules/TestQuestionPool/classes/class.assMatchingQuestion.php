@@ -204,7 +204,7 @@ class assMatchingQuestion extends assQuestion
 		);
 
 		// delete old terms
-		$affectedRows = $ilDB->manipulateF("DELETE FROM qpl_answer_matching_term WHERE question_fi = %s",
+		$affectedRows = $ilDB->manipulateF("DELETE FROM qpl_a_mterm WHERE question_fi = %s",
 			array('integer'),
 			array($this->getId())
 		);
@@ -214,8 +214,8 @@ class assMatchingQuestion extends assQuestion
 		$matchingpairs = $this->getMatchingPairs();
 		foreach ($this->terms as $key => $value)
 		{
-			$next_id = $ilDB->nextId('qpl_answer_matching_term');
-			$affectedRows = $ilDB->manipulateF("INSERT INTO qpl_answer_matching_term (term_id, question_fi, term) VALUES (%s, %s, %s)",
+			$next_id = $ilDB->nextId('qpl_a_mterm');
+			$affectedRows = $ilDB->manipulateF("INSERT INTO qpl_a_mterm (term_id, question_fi, term) VALUES (%s, %s, %s)",
 				array('integer','integer','text'),
 				array($next_id, $this->getId(), $value)
 			);
@@ -224,7 +224,7 @@ class assMatchingQuestion extends assQuestion
 		}
 
 		// alte Antworten löschen
-		$affectedRows = $ilDB->manipulateF("DELETE FROM qpl_answer_matching WHERE question_fi = %s",
+		$affectedRows = $ilDB->manipulateF("DELETE FROM qpl_a_matching WHERE question_fi = %s",
 			array('integer'),
 			array($this->getId())
 		);
@@ -235,8 +235,8 @@ class assMatchingQuestion extends assQuestion
 			$matching_obj = $matchingpairs[$key];
 			$term = $this->terms[$matching_obj->getTermId()];
 			$termindex = array_search($term, $newterms);
-			$next_id = $ilDB->nextId('qpl_answer_matching');
-			$affectedRows = $ilDB->manipulateF("INSERT INTO qpl_answer_matching (answer_id, question_fi, points, term_fi, matchingtext, matching_order, tstamp) VALUES (%s, %s, %s, %s, %s, %s, %s)",
+			$next_id = $ilDB->nextId('qpl_a_matching');
+			$affectedRows = $ilDB->manipulateF("INSERT INTO qpl_a_matching (answer_id, question_fi, points, term_fi, matchingtext, matching_order, tstamp) VALUES (%s, %s, %s, %s, %s, %s, %s)",
 				array('integer','integer','float','integer','text','integer','integer'),
 				array(
 					$next_id,
@@ -305,7 +305,7 @@ class assMatchingQuestion extends assQuestion
 			$this->setEstimatedWorkingTime(substr($data["working_time"], 0, 2), substr($data["working_time"], 3, 2), substr($data["working_time"], 6, 2));
 		}
 
-		$result = $ilDB->queryF("SELECT * FROM qpl_answer_matching_term WHERE question_fi = %s ORDER BY term ASC",
+		$result = $ilDB->queryF("SELECT * FROM qpl_a_mterm WHERE question_fi = %s ORDER BY term ASC",
 			array('integer'),
 			array($question_id)
 		);
@@ -319,7 +319,7 @@ class assMatchingQuestion extends assQuestion
 			}
 		}
 
-		$result = $ilDB->queryF("SELECT qpl_answer_matching.*, qpl_answer_matching_term.term FROM qpl_answer_matching, qpl_answer_matching_term WHERE qpl_answer_matching.question_fi = %s AND qpl_answer_matching_term.term_id = qpl_answer_matching.term_fi ORDER BY answer_id ASC",
+		$result = $ilDB->queryF("SELECT qpl_a_matching.*, qpl_a_mterm.term FROM qpl_a_matching, qpl_a_mterm WHERE qpl_a_matching.question_fi = %s AND qpl_a_mterm.term_id = qpl_a_matching.term_fi ORDER BY answer_id ASC",
 			array('integer'),
 			array($question_id)
 		);
@@ -1097,7 +1097,7 @@ class assMatchingQuestion extends assQuestion
 	*/
 	function getAdditionalTableName()
 	{
-		return "qpl_question_matching";
+		return "qpl_qst_matching";
 	}
 
 	/**
@@ -1108,7 +1108,7 @@ class assMatchingQuestion extends assQuestion
 	*/
 	function getAnswerTableName()
 	{
-		return array("qpl_answer_matching", "qpl_answer_matching_term");
+		return array("qpl_a_matching", "qpl_a_mterm");
 	}
 
 	/**

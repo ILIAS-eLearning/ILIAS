@@ -207,7 +207,7 @@ class assImagemapQuestion extends assQuestion
 			)
 		);
 
-		$affectedRows = $ilDB->manipulateF("DELETE FROM qpl_answer_imagemap WHERE question_fi = %s",
+		$affectedRows = $ilDB->manipulateF("DELETE FROM qpl_a_imagemap WHERE question_fi = %s",
 			array("integer"),
 			array($this->getId())
 		);
@@ -216,8 +216,8 @@ class assImagemapQuestion extends assQuestion
 		foreach ($this->answers as $key => $value)
 		{
 			$answer_obj = $this->answers[$key];
-			$next_id = $ilDB->nextId('qpl_answer_imagemap');
-			$affectedRows = $ilDB->manipulateF("INSERT INTO qpl_answer_imagemap (answer_id, question_fi, answertext, points, aorder, coords, area) VALUES (%s, %s, %s, %s, %s, %s, %s)",
+			$next_id = $ilDB->nextId('qpl_a_imagemap');
+			$affectedRows = $ilDB->manipulateF("INSERT INTO qpl_a_imagemap (answer_id, question_fi, answertext, points, aorder, coords, area) VALUES (%s, %s, %s, %s, %s, %s, %s)",
 				array("integer","integer","text","float","integer","text","text"),
 				array($next_id, $this->id, $answer_obj->getAnswertext(), $answer_obj->getPoints(), $answer_obj->getOrder(), $answer_obj->getCoords(), $answer_obj->getArea())
 			);
@@ -384,7 +384,7 @@ class assImagemapQuestion extends assQuestion
 			$this->setImageFilename($data["image_file"]);
 			$this->setEstimatedWorkingTime(substr($data["working_time"], 0, 2), substr($data["working_time"], 3, 2), substr($data["working_time"], 6, 2));
 
-			$result = $ilDB->queryF("SELECT * FROM qpl_answer_imagemap WHERE question_fi = %s ORDER BY aorder ASC",
+			$result = $ilDB->queryF("SELECT * FROM qpl_a_imagemap WHERE question_fi = %s ORDER BY aorder ASC",
 				array("integer"),
 				array($question_id)
 			);
@@ -791,7 +791,7 @@ class assImagemapQuestion extends assQuestion
 	*/
 	function getAdditionalTableName()
 	{
-		return "qpl_question_imagemap";
+		return "qpl_qst_imagemap";
 	}
 
 	/**
@@ -804,7 +804,7 @@ class assImagemapQuestion extends assQuestion
 	*/
 	function getAnswerTableName()
 	{
-		return "qpl_answer_imagemap";
+		return "qpl_a_imagemap";
 	}
 
 	/**
@@ -818,15 +818,15 @@ class assImagemapQuestion extends assQuestion
 	{
 		global $ilDB;
 		
-		$affectedRows = $ilDB->manipulateF("DELETE FROM qpl_feedback_imagemap WHERE question_fi = %s AND answer = %s",
+		$affectedRows = $ilDB->manipulateF("DELETE FROM qpl_fb_imap WHERE question_fi = %s AND answer = %s",
 			array("integer","integer"),
 			array($this->getId(), $answer_index)
 		);
 		if (strlen($feedback))
 		{
 			include_once("./Services/RTE/classes/class.ilRTE.php");
-			$next_id = $ilDB->nextId('qpl_feedback_imagemap');
-			$affectedRows = $ilDB->manipulateF("INSERT INTO qpl_feedback_imagemap (feedback_id, question_fi, answer, feedback, tstamp) VALUES (%s, %s, %s, %s, %s)",
+			$next_id = $ilDB->nextId('qpl_fb_imap');
+			$affectedRows = $ilDB->manipulateF("INSERT INTO qpl_fb_imap (feedback_id, question_fi, answer, feedback, tstamp) VALUES (%s, %s, %s, %s, %s)",
 				array("integer","integer","integer","text","integer"),
 				array($next_id, $this->getId(), $answer_index, ilRTE::_replaceMediaObjectImageSrc($feedback, 0), time())
 			);
@@ -845,13 +845,13 @@ class assImagemapQuestion extends assQuestion
 		$feedback = "";
 
 		// delete generic feedback of the original
-		$affectedRows = $ilDB->manipulateF("DELETE FROM qpl_feedback_imagemap WHERE question_fi = %s",
+		$affectedRows = $ilDB->manipulateF("DELETE FROM qpl_fb_imap WHERE question_fi = %s",
 			array('integer'),
 			array($this->original_id)
 		);
 			
 		// get generic feedback of the actual question
-		$result = $ilDB->queryF("SELECT * FROM qpl_feedback_imagemap WHERE question_fi = %s",
+		$result = $ilDB->queryF("SELECT * FROM qpl_fb_imap WHERE question_fi = %s",
 			array("integer"),
 			array($this->getId())
 		);
@@ -861,8 +861,8 @@ class assImagemapQuestion extends assQuestion
 		{
 			while ($row = $ilDB->fetchAssoc($result))
 			{
-				$next_id = $ilDB->nextId('qpl_feedback_imagemap');
-				$affectedRows = $ilDB->manipulateF("INSERT INTO qpl_feedback_imagemap (feedback_id, question_fi, answer, feedback, tstamp) VALUES (%s, %s, %s, %s, %s)",
+				$next_id = $ilDB->nextId('qpl_fb_imap');
+				$affectedRows = $ilDB->manipulateF("INSERT INTO qpl_fb_imap (feedback_id, question_fi, answer, feedback, tstamp) VALUES (%s, %s, %s, %s, %s)",
 					array("integer","integer","integer","text","integer"),
 					array($next_id, $this->original_id, $row["answer"], $row["feedback"], time())
 				);
@@ -882,7 +882,7 @@ class assImagemapQuestion extends assQuestion
 		global $ilDB;
 		
 		$feedback = "";
-		$result = $ilDB->queryF("SELECT * FROM qpl_feedback_imagemap WHERE question_fi = %s AND answer = %s",
+		$result = $ilDB->queryF("SELECT * FROM qpl_fb_imap WHERE question_fi = %s AND answer = %s",
 			array('integer','integer'),
 			array($this->getId(), $answer_index)
 		);
@@ -906,7 +906,7 @@ class assImagemapQuestion extends assQuestion
 		global $ilDB;
 		
 		$feedback = "";
-		$result = $ilDB->queryF("SELECT * FROM qpl_feedback_imagemap WHERE question_fi = %s",
+		$result = $ilDB->queryF("SELECT * FROM qpl_fb_imap WHERE question_fi = %s",
 			array('integer'),
 			array($original_id)
 		);
@@ -914,8 +914,8 @@ class assImagemapQuestion extends assQuestion
 		{
 			while ($row = $ilDB->fetchAssoc($result))
 			{
-				$next_id = $ilDB->nextId('qpl_feedback_imagemap');
-				$affectedRows = $ilDB->manipulateF("INSERT INTO qpl_feedback_imagemap (feedback_id, question_fi, answer, feedback, tstamp) VALUES (%s, %s, %s, %s, %s)",
+				$next_id = $ilDB->nextId('qpl_fb_imap');
+				$affectedRows = $ilDB->manipulateF("INSERT INTO qpl_fb_imap (feedback_id, question_fi, answer, feedback, tstamp) VALUES (%s, %s, %s, %s, %s)",
 					array("integer","integer","integer","text","integer"),
 					array($next_id, $this->getId(), $row["answer"], $row["feedback"], time())
 				);

@@ -3806,7 +3806,7 @@ function loadQuestions($active_id = "", $pass = NULL)
 	{
 		global $ilDB;
 
-		$result = sprintf("SELECT qpl_questions.*, qpl_question_type.type_tag FROM qpl_questions, qpl_question_type WHERE qpl_questions.question_id = %s AND qpl_questions.question_type_fi = qpl_question_type.question_type_id",
+		$result = sprintf("SELECT qpl_questions.*, qpl_qst_type.type_tag FROM qpl_questions, qpl_qst_type WHERE qpl_questions.question_id = %s AND qpl_questions.question_type_fi = qpl_qst_type.question_type_id",
 			array('integer'),
 			array($question_id)
 		);
@@ -3865,7 +3865,7 @@ function loadQuestions($active_id = "", $pass = NULL)
 		global $ilDB;
 
 		if ($question_id < 1) return -1;
-		$result = ilDB->queryF("SELECT type_tag FROM qpl_questions, qpl_question_type WHERE qpl_questions.question_id = %s AND qpl_questions.question_type_fi = qpl_question_type.question_type_id",
+		$result = ilDB->queryF("SELECT type_tag FROM qpl_questions, qpl_qst_type WHERE qpl_questions.question_id = %s AND qpl_questions.question_type_fi = qpl_qst_type.question_type_id",
 			array('integer'),
 			array($question_id)
 		);
@@ -5630,7 +5630,7 @@ function loadQuestions($active_id = "", $pass = NULL)
 
 		if ($filter_question_type && (strcmp($filter_question_type, "all") != 0))
 		{
-			$where .= " AND qpl_question_type.type_tag = " . $ilDB->quote($filter_question_type, 'text');
+			$where .= " AND qpl_qst_type.type_tag = " . $ilDB->quote($filter_question_type, 'text');
 		}
 
 		if ($filter_questionpool && (strcmp($filter_questionpool, "all") != 0))
@@ -5713,7 +5713,7 @@ function loadQuestions($active_id = "", $pass = NULL)
 			$original_clause = " ISNULL(qpl_questions.original_id) AND " . $ilDB->in('qpl_questions.question_id',  $original_ids, true, 'integer');
 		}
 
-		$query_result = $ilDB->query("SELECT qpl_questions.question_id, qpl_questions.tstamp FROM qpl_questions, qpl_question_type, object_data WHERE $original_clause$available AND object_data.obj_id = qpl_questions.obj_fi AND qpl_questions.owner > 0 AND qpl_questions.question_type_fi = qpl_question_type.question_type_id $where$order$limit");
+		$query_result = $ilDB->query("SELECT qpl_questions.question_id, qpl_questions.tstamp FROM qpl_questions, qpl_qst_type, object_data WHERE $original_clause$available AND object_data.obj_id = qpl_questions.obj_fi AND qpl_questions.owner > 0 AND qpl_questions.question_type_fi = qpl_qst_type.question_type_id $where$order$limit");
 		$max = $query_result->numRows();
 		if ($startrow > $max -1)
 		{
@@ -5724,7 +5724,7 @@ function loadQuestions($active_id = "", $pass = NULL)
 			$startrow = 0;
 		}
 		$ilDB->setLimit($maxentries, $startrow);
-		$query_result = $ilDB->query("SELECT qpl_questions.*, qpl_questions.tstamp, qpl_question_type.type_tag, qpl_question_type.plugin FROM qpl_questions, qpl_question_type, object_data WHERE $original_clause $available AND object_data.obj_id = qpl_questions.obj_fi AND qpl_questions.owner > 0 AND qpl_questions.question_type_fi = qpl_question_type.question_type_id $where$order");
+		$query_result = $ilDB->query("SELECT qpl_questions.*, qpl_questions.tstamp, qpl_qst_type.type_tag, qpl_qst_type.plugin FROM qpl_questions, qpl_qst_type, object_data WHERE $original_clause $available AND object_data.obj_id = qpl_questions.obj_fi AND qpl_questions.owner > 0 AND qpl_questions.question_type_fi = qpl_qst_type.question_type_id $where$order");
 		$rows = array();
 		if ($query_result->numRows())
 		{
@@ -8256,7 +8256,7 @@ function loadQuestions($active_id = "", $pass = NULL)
 	function &getTestQuestions()
 	{
 		global $ilDB;
-		$query_result = $ilDB->queryF("SELECT qpl_questions.*, qpl_question_type.type_tag FROM qpl_questions, qpl_question_type, tst_test_question WHERE qpl_questions.question_type_fi = qpl_question_type.question_type_id AND tst_test_question.test_fi = %s AND tst_test_question.question_fi = qpl_questions.question_id ORDER BY sequence",
+		$query_result = $ilDB->queryF("SELECT qpl_questions.*, qpl_qst_type.type_tag FROM qpl_questions, qpl_qst_type, tst_test_question WHERE qpl_questions.question_type_fi = qpl_qst_type.question_type_id AND tst_test_question.test_fi = %s AND tst_test_question.question_fi = qpl_questions.question_id ORDER BY sequence",
 			array('integer'),
 			array($this->getTestId())
 		);

@@ -622,7 +622,7 @@ class assFileUpload extends assQuestion
 	*/
 	public function getAdditionalTableName()
 	{
-		return "qpl_question_fileupload";
+		return "qpl_qst_fileupload";
 	}
 	
 	/**

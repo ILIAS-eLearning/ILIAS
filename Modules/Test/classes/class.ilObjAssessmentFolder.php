@@ -285,7 +285,7 @@ class ilObjAssessmentFolder extends ilObject
 	{
 		global $ilDB;
 		
-		$query = "SELECT * FROM qpl_question_type";
+		$query = "SELECT * FROM qpl_qst_type";
 		$result = $ilDB->query($query);
 		$dbtypes = array();
 		while ($row = $result->fetchRow(DB_FETCHMODE_ASSOC))
