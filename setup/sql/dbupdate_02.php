@@ -9029,11 +9029,11 @@ $ilDB->manipulate("ALTER TABLE `qpl_answer_matching_term` CHANGE `term` `term` V
 ?>
 <#1927>
 <?php
-$ilDB->manipulate("RENAME TABLE `qpl_answer_matching_term` TO `qpl_answer_mterm`");
+$ilDB->manipulate("RENAME TABLE `qpl_answer_matching_term` TO `qpl_a_mterm`");
 ?>
 <#1928>
 <?php
-$ilMySQLAbstraction->performAbstraction('qpl_answer_mterm');
+$ilMySQLAbstraction->performAbstraction('qpl_a_mterm');
 ?>
 <#1929>
 <?php
