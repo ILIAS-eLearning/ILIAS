@@ -209,7 +209,14 @@ class ilDBAnalyzer
 			$set = $this->il_db->query("SHOW INDEX FROM ".$a_table);
 			while ($rec = $this->il_db->fetchAssoc($set))
 			{
-				$mysql_info[$rec["Key_name"]] = $rec;
+				if (!empty ($rec["Key_name"]))
+				{
+					$mysql_info[$rec["Key_name"]] = $rec;
+				}
+				else
+				{
+					$mysql_info[$rec["key_name"]] = $rec;
+				}
 			}
 		}
 		
@@ -226,7 +233,11 @@ class ilDBAnalyzer
 				$suffix = ($a_abstract_table)
 					? "_idx"
 					: "";
-				if ($mysql_info[$i["name"].$suffix]["Index_type"] == "FULLTEXT")
+
+				if ($mysql_info[$i["name"]]["Index_type"] == "FULLTEXT" ||
+					$mysql_info[$i["name"]."_idx"]["Index_type"] == "FULLTEXT" ||
+					$mysql_info[$i["name"]]["index_type"] == "FULLTEXT" ||
+					$mysql_info[$i["name"]."_idx"]["index_type"] == "FULLTEXT")
 				{
 					$i["fulltext"] = true;
 				}
