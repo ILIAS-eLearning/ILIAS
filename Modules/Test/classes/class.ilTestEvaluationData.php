@@ -108,19 +108,19 @@ class ilTestEvaluationData
 		global $ilDB;
 		include_once "./Modules/Test/classes/class.ilTestEvaluationPassData.php";
 		include_once "./Modules/Test/classes/class.ilTestEvaluationUserData.php";
-		$query = sprintf("SELECT usr_data.usr_id, usr_data.firstname, usr_data.lastname, usr_data.title, usr_data.login, " .
+		$result = $ilDB->queryF("SELECT usr_data.usr_id, usr_data.firstname, usr_data.lastname, usr_data.title, usr_data.login, " .
 			"tst_pass_result.* FROM tst_pass_result, tst_active " .
 			"LEFT JOIN usr_data ON tst_active.user_fi = usr_data.usr_id " .
 			"WHERE tst_active.active_id = tst_pass_result.active_fi " .
 			"AND tst_active.test_fi = %s " .
-			"ORDER BY usr_data.lastname, usr_data.firstname, active_id, pass, TIMESTAMP",
-			$ilDB->quote($this->getTest()->getTestId() . "")
+			"ORDER BY usr_data.lastname, usr_data.firstname, active_id, pass, tstamp",
+			array('integer'),
+			array($this->getTest()->getTestId())
 		);
-		$result = $ilDB->query($query);
 		$pass = NULL;
 		$checked = array();
 		$thissets = 0;
-		while ($row = $result->fetchRow(DB_FETCHMODE_ASSOC))
+		while ($row = $ilDB->fetchAssoc($result))
 		{
 			$thissets++;
 			$remove = FALSE;

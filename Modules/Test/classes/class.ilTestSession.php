@@ -35,15 +35,11 @@ class ilTestSession
 	/**
 	* The unique identifier of the test session
 	*
-	* The unique identifier of the test session
-	*
 	* @var integer
 	*/
 	var $active_id;
 
 	/**
-	* The user id of the participant
-	*
 	* The user id of the participant
 	*
 	* @var integer
@@ -53,15 +49,11 @@ class ilTestSession
 	/**
 	* The anonymous id of the participant
 	*
-	* The anonymous id of the participant
-	*
 	* @var integer
 	*/
 	var $anonymous_id;
 
 	/**
-	* The database id of the test
-	*
 	* The database id of the test
 	*
 	* @var integer
@@ -71,8 +63,6 @@ class ilTestSession
 	/**
 	* The last sequence of the participant
 	*
-	* The last sequence of the participant
-	*
 	* @var integer
 	*/
 	var $lastsequence;
@@ -80,15 +70,11 @@ class ilTestSession
 	/**
 	* Indicates if the test was submitted already
 	*
-	* Indicates if the test was submitted already
-	*
 	* @var boolean
 	*/
 	var $submitted;
 
 	/**
-	* The timestamp of the test submission
-	*
 	* The timestamp of the test submission
 	*
 	* @var string
@@ -123,33 +109,42 @@ class ilTestSession
 	{
 		global $ilDB, $ilLog;
 		
-		$submitted = ($this->isSubmitted()) ? "1" : "0";
-		$submittedTimestamp = (strlen($this->getSubmittedTimestamp())) ? $ilDB->quote($this->getSubmittedTimestamp()) : "NULL";
+		$submitted = ($this->isSubmitted()) ? 1 : 0;
 		if ($this->active_id > 0)
 		{
-			$query = sprintf("UPDATE tst_active SET lastindex = %s, tries = %s, submitted = %s, submittimestamp = %s WHERE active_id = %s",
-				$ilDB->quote($this->getLastSequence() . ""),
-				$ilDB->quote($this->getPass() . ""),
-				$ilDB->quote($submitted . ""),
-				$submittedTimestamp,
-				$ilDB->quote($this->getActiveId() . "")
+			$affectedRows = $ilDB->manipulateF("UPDATE tst_active SET lastindex = %s, tries = %s, submitted = %s, submittimestamp = %s, tstamp = %s WHERE active_id = %s",
+				array('integer', 'integer', 'integer', 'timestamp', 'integer', 'integer'),
+				array(
+					$this->getLastSequence(),
+					$this->getPass(),
+					$submitted,
+					(strlen($this->getSubmittedTimestamp())) ? $this->getSubmittedTimestamp() : NULL,
+					time(),
+					$this->getActiveId()
+				)
 			);
 			$result = $ilDB->query($query);
 		}
 		else
 		{
-			$anonymous_id = ($this->getAnonymousId()) ? $ilDB->quote($this->getAnonymousId() . "") : "NULL";
-			$query = sprintf("INSERT INTO tst_active (active_id, user_fi, anonymous_id, test_fi, lastindex, tries, submitted, submittimestamp) VALUES (NULL, %s, %s, %s, %s, %s, %s, %s)",
-				$ilDB->quote($this->getUserId() . ""),
-				$anonymous_id,
-				$ilDB->quote($this->getTestId() . ""),
-				$ilDB->quote($this->getLastSequence() . ""),
-				$ilDB->quote($this->getPass() . ""),
-				$ilDB->quote($submitted . ""),
-				$submittedTimestamp
+			$anonymous_id = ($this->getAnonymousId()) ? $this->getAnonymousId() : NULL;
+			$next_id = $ilDB->nextId('tst_active');
+			$affectedRows = $ilDB->manipulateF("INSERT INTO tst_active (active_id, user_fi, anonymous_id, test_fi, lastindex, tries, submitted, submittimestamp, tstamp) VALUES (%s, %s, %s, %s, %s, %s, %s, %s, %s)",
+				array('integer', 'integer', 'text', 'integer', 'integer', 'integer', 'integer', 'timestamp', 'integer'),
+				array(
+					$next_id,
+					$this->getUserId(),
+					$anonymous_id,
+					$this->getTestId(),
+					$this->getLastSequence(),
+					$this->getPass(),
+					$submitted,
+					(strlen($this->getSubmittedTimestamp())) ? $this->getSubmittedTimestamp() : NULL,
+					time()
+				)
 			);
 			$result = $ilDB->query($query);
-			$this->active_id = $ilDB->getLastInsertId();
+			$this->active_id = $next_id;
 		}
 	}
 	
@@ -164,18 +159,16 @@ class ilTestSession
 		}
 		if (($_SESSION["AccountId"] == ANONYMOUS_USER_ID) && (strlen($_SESSION["tst_access_code"][$test_id])))
 		{
-			$query = sprintf("SELECT * FROM tst_active WHERE user_fi = %s AND test_fi = %s AND anonymous_id = %s",
-				$ilDB->quote($user_id),
-				$ilDB->quote($test_id),
-				$ilDB->quote($_SESSION["tst_access_code"][$test_id])
+			$result = $ilDB->queryF("SELECT * FROM tst_active WHERE user_fi = %s AND test_fi = %s AND anonymous_id = %s",
+				array('integer','integer','text'),
+				array($user_id, $test_id, $_SESSION["tst_access_code"][$test_id])
 			);
 		}
 		else if (strlen($anonymous_id))
 		{
-			$query = sprintf("SELECT * FROM tst_active WHERE user_fi = %s AND test_fi = %s AND anonymous_id = %s",
-				$ilDB->quote($user_id),
-				$ilDB->quote($test_id),
-				$ilDB->quote($anonymous_id)
+			$result = $ilDB->queryF("SELECT * FROM tst_active WHERE user_fi = %s AND test_fi = %s AND anonymous_id = %s",
+				array('integer','integer','text'),
+				array($user_id, $test_id, $anonymous_id)
 			);
 		}
 		else
@@ -184,15 +177,14 @@ class ilTestSession
 			{
 				return NULL;
 			}
-			$query = sprintf("SELECT * FROM tst_active WHERE user_fi = %s AND test_fi = %s",
-				$ilDB->quote($user_id),
-				$ilDB->quote($test_id)
+			$result = $ilDB->queryF("SELECT * FROM tst_active WHERE user_fi = %s AND test_fi = %s",
+				array('integer','integer'),
+				array($user_id, $test_id)
 			);
 		}
-		$result = $ilDB->query($query);
 		if ($result->numRows())
 		{
-			$row = $result->fetchRow(MDB2_FETCHMODE_ASSOC);
+			$row = $ilDB->fetchAssoc($result);
 			$this->active_id = $row["active_id"];
 			$this->user_id = $row["user_fi"];
 			$this->anonymous_id = $row["anonymous_id"];
@@ -207,21 +199,19 @@ class ilTestSession
 	/**
 	* Loads the session data for a given active id
 	*
-	* Loads the session data for a given active id
-	*
 	* @param integer $active_id The database id of the test session
 	* @access private
 	*/
 	private function loadFromDb($active_id)
 	{
 		global $ilDB;
-		$query = sprintf("SELECT * FROM tst_active WHERE active_id = %s", 
-			$ilDB->quote($active_id . "")
+		$result = sprintf("SELECT * FROM tst_active WHERE active_id = %s", 
+			array('integer'),
+			array($active_id)
 		);
-		$result = $ilDB->query($query);
 		if ($result->numRows())
 		{
-			$row = $result->fetchRow(MDB2_FETCHMODE_ASSOC);
+			$row = $ilDB->fetchAssoc($result);
 			$this->active_id = $row["active_id"];
 			$this->user_id = $row["user_fi"];
 			$this->anonymous_id = $row["anonymous_id"];

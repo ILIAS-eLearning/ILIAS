@@ -58,7 +58,6 @@ class ilTestExport
 		$this->lng =& $lng;
 
 		$settings = $this->ilias->getAllSettings();
-		//$this->inst_id = $settings["inst_id"];
 		$this->inst_id = IL_INST_ID;
 
 		$date = time();

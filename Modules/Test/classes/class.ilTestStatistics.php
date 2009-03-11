@@ -55,8 +55,6 @@ class ilTestStatistics
 	/**
 	* Returns the statistics object
 	*
-	* Returns the statistics object
-	*
 	* @return object ilStatistics object
 	* @access public
 	* @see $statistics
@@ -67,8 +65,6 @@ class ilTestStatistics
 	}
 
 	/**
-	* Instanciates the statistics object
-	*
 	* Instanciates the statistics object
 	*
 	* @access private

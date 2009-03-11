@@ -48,15 +48,11 @@ class ilObjTest extends ilObject
 /**
 * The database id of the additional test data dataset
 *
-* The database id of the additional test data dataset
-*
 * @var integer
 */
   var $test_id;
 
 /**
-* Defines if the test will be placed on users personal desktops
-*
 * Defines if the test will be placed on users personal desktops
 *
 * @var integer
@@ -65,8 +61,6 @@ class ilObjTest extends ilObject
 
 
 /**
-* Contains the name of the author
-*
 * A text representation of the authors name. The name of the author must
 * not necessary be the name of the owner.
 *
@@ -75,8 +69,6 @@ class ilObjTest extends ilObject
   var $author;
 
 /**
-* Contains the metadata of the test
-*
 * A reference to an IMS compatible matadata set
 *
 * @var object
@@ -84,8 +76,6 @@ class ilObjTest extends ilObject
   var $metadata;
 
 /**
-* Contains the test questions
-*
 * An array which contains all the test questions
 *
 * @var array
@@ -93,8 +83,6 @@ class ilObjTest extends ilObject
   var $questions;
 
 /**
-* A textual introduction for the test
-*
 * An introduction text to give users more information
 * on the test.
 *
@@ -105,15 +93,11 @@ class ilObjTest extends ilObject
 /**
 * Defines the mark schema
 *
-* Defines the mark schema
-*
 * @var object
 */
   var $mark_schema;
 
 /**
-* Defines the sequence settings for the test user
-*
 * Defines the sequence settings for the test user. There are two values:
 * TEST_FIXED_SEQUENCE (=0) and TEST_POSTPONE (=1). The default value is
 * TEST_FIXED_SEQUENCE.
@@ -123,8 +107,6 @@ class ilObjTest extends ilObject
   var $sequence_settings;
 
 /**
-* Defines the score reporting for the test
-*
 * Defines the score reporting for the test. There are two values:
 * REPORT_AFTER_TEST (=1), REPORT_ALWAYS (=2) AND REPORT_AFTER_DATE (=3). The default
 * value is REPORT_AFTER_TEST. If the score reporting is set to
@@ -136,8 +118,6 @@ class ilObjTest extends ilObject
   var $score_reporting;
 
 /**
-* Defines the question verification type for the test
-*
 * Defines the question verification type for the test. When set to 1
 * a instant verification button will be offered during the test to verify
 * the question solution
@@ -149,15 +129,11 @@ class ilObjTest extends ilObject
 /**
 * Defines wheather or not the reached points are shown as answer feedback
 *
-* Defines wheather or not the reached points are shown as answer feedback
-*
 * @var integer
 */
 	var $answer_feedback_points;
 
 /**
-* A time/date value to set the earliest reporting time for the test score
-*
 * A time/date value to set the earliest reporting time for the test score.
 * If you set this attribute, the sequence settings will be set to REPORT_AFTER_TEST
 * automatically. If $reporting_date is not set, the user will get a direct feedback.
@@ -170,15 +146,11 @@ class ilObjTest extends ilObject
 /**
 * Contains the evaluation data settings the tutor defines for the user
 *
-* Contains the evaluation data settings the tutor defines for the user
-*
 * @var object
 */
   var $evaluation_data;
 
 /**
-* Number of tries the user is allowed to do
-*
 * Number of tries the user is allowed to do. If set to 0, the user has
 * infinite tries.
 *
@@ -188,8 +160,6 @@ class ilObjTest extends ilObject
 
 /**
 * Tells ILIAS to use the previous answers of a learner in a later test pass
-*
-* Tells ILIAS to use the previous answers of a learner in a later test pass
 * The default is 1 which shows the previous answers in the next pass.
 *
 * @var integer
@@ -197,8 +167,6 @@ class ilObjTest extends ilObject
 	var $use_previous_answers;
 
 /**
-* Tells ILIAS how to deal with the test titles
-*
 * Tells ILIAS how to deal with the test titles. The test title will be shown with
 * the full title and the points when title_output is 0. When title_output is 1,
 * the available points will be hidden and when title_output is 2, the full title
@@ -209,8 +177,6 @@ class ilObjTest extends ilObject
   var $title_output;
 
 /**
-* The maximum processing time as hh:mm:ss string
-*
 * The maximum processing time as hh:mm:ss string the user is allowed to do.
 *
 * @var integer
@@ -218,8 +184,6 @@ class ilObjTest extends ilObject
   var $processing_time;
 
 /**
-* The state of the processing time
-*
 * Contains 0 if the processing time is disabled, 1 if the processing time is enabled
 *
 * @var integer
@@ -227,8 +191,6 @@ class ilObjTest extends ilObject
 	var $enable_processing_time;
 
 /**
-* Indicates wheather the maximum processing time should be reset for a new test pass or not
-*
 * Contains 0 if the processing time should not be reset, 1 if the processing time should be reset
 *
 * @var integer
@@ -236,8 +198,6 @@ class ilObjTest extends ilObject
 	var $reset_processing_time;
 
 /**
-* The starting time of the test
-*
 * The starting time in database timestamp format which defines the earliest starting time for the test
 *
 * @var string
@@ -245,8 +205,6 @@ class ilObjTest extends ilObject
   var $starting_time;
 
 /**
-* The ending time of the test
-*
 * The ending time in database timestamp format which defines the latest ending time for the test
 *
 * @var string
@@ -256,15 +214,11 @@ class ilObjTest extends ilObject
 /**
 * Indicates if ECTS grades will be used
 *
-* Indicates if ECTS grades will be used
-*
 * @var integer
 */
   var $ects_output;
 
 /**
-* Contains the percentage of maximum points a failed user needs to get the FX ECTS grade
-*
 * Contains the percentage of maximum points a failed user needs to get the FX ECTS grade
 *
 * @var float
@@ -274,15 +228,11 @@ class ilObjTest extends ilObject
 /**
 * The percentiles of the ECTS grades for this test
 *
-* The percentiles of the ECTS grades for this test
-*
 * @var array
 */
   var $ects_grades;
 
 /**
-* Indicates if the questions of the test are generated by a random generator
-*
 * Indicates if the questions of the test are generated by a random generator.
 * If $random_test is 0, the questions are generated a the conventional way,
 * if $random_test is 1 a random generator is used.
@@ -292,8 +242,6 @@ class ilObjTest extends ilObject
 	var $random_test;
 
 /**
-* Determines the number of questions which should be taken for a random test
-*
 * Determines the number of questions which should be taken for a random test
 *
 * @var integer
@@ -570,8 +518,6 @@ class ilObjTest extends ilObject
 	}
 
 /**
-* Creates a database reference id for the object
-*
 * Creates a database reference id for the object (saves the object
 * to the database and creates a reference id in the database)
 *
@@ -621,80 +567,78 @@ class ilObjTest extends ilObject
 /**
 * Deletes the test and all related objects, files and database entries
 *
-* Deletes the test and all related objects, files and database entries
-*
 * @access	public
 */
 	function deleteTest()
 	{
 		global $ilDB;
 
-		$query = sprintf("SELECT active_id FROM tst_active WHERE test_fi = %s",
-			$ilDB->quote($this->getTestId())
+		$result = $ilDB->queryF("SELECT active_id FROM tst_active WHERE test_fi = %s",
+			array('integer'),
+			array($this->getTestId())
 		);
-		$result = $ilDB->query($query);
 		$active_array = array();
-		while ($row = $result->fetchRow(MDB2_FETCHMODE_ASSOC))
+		while ($row = $ilDB->fetchAssoc($result))
 		{
 			array_push($active_array, $row["active_id"]);
 		}
 
-		$query = sprintf("DELETE FROM tst_active WHERE test_fi = %s",
-			$ilDB->quote($this->getTestId())
+		$affectedRows = $ilDB->manipulateF("DELETE FROM tst_active WHERE test_fi = %s",
+			array('integer'),
+			array($this->getTestId())
 		);
-		$result = $ilDB->query($query);
 
 		if (count($active_array))
 		{
 			foreach ($active_array as $active_id)
 			{
-				$query = sprintf("DELETE FROM tst_times WHERE active_fi = %s",
-					$ilDB->quote($active_id)
+				$affectedRows = $ilDB->manipulateF("DELETE FROM tst_times WHERE active_fi = %s",
+					array('integer'),
+					array($active_id)
 				);
-				$result = $ilDB->query($query);
 
-				$query = sprintf("DELETE FROM tst_sequence WHERE active_fi = %s",
-					$ilDB->quote($active_id)
+				$affectedRows = $ilDB->manipulateF("DELETE FROM tst_sequence WHERE active_fi = %s",
+					array('integer'),
+					array($active_id)
 				);
-				$result = $ilDB->query($query);
 			}
 		}
 
-		$query = sprintf("DELETE FROM tst_mark WHERE test_fi = %s",
-			$ilDB->quote($this->getTestId())
+		$affectedRows = $ilDB->manipulateF("DELETE FROM tst_mark WHERE test_fi = %s",
+			array('integer'),
+			array($this->getTestId())
 		);
-		$result = $ilDB->query($query);
 
-		$query = sprintf("SELECT question_fi FROM tst_test_question WHERE test_fi = %s",
-			$ilDB->quote($this->getTestId())
+		$result = $ilDB->queryF("SELECT question_fi FROM tst_test_question WHERE test_fi = %s",
+			array('integer'),
+			array($this->getTestId())
 		);
-		$result = $ilDB->query($query);
-		while ($row = $result->fetchRow(MDB2_FETCHMODE_OBJECT))
+		while ($row = $ilDB->fetchAssoc($result))
 		{
-			$this->removeQuestion($row->question_fi);
+			$this->removeQuestion($row["question_fi"]);
 		}
 
-		$query = sprintf("DELETE FROM tst_tests WHERE test_id = %s",
-			$ilDB->quote($this->getTestId())
+		$affectedRows = $ilDB->manipulateF("DELETE FROM tst_tests WHERE test_id = %s",
+			array('integer'),
+			array($this->getTestId())
 		);
-		$result = $ilDB->query($query);
 
-		$query = sprintf("DELETE FROM tst_test_random WHERE test_fi = %s",
-			$ilDB->quote($this->getTestId())
+		$affectedRows = $ilDB->manipulateF("DELETE FROM tst_test_random WHERE test_fi = %s",
+			array('integer'),
+			array($this->getTestId())
 		);
-		$result = $ilDB->query($query);
 
-		$query = sprintf("DELETE FROM tst_test_rnd_qst USING tst_test_rnd_qst, tst_active WHERE tst_active.test_fi = %s AND tst_active.active_id = tst_test_rnd_qst.active_fi",
-			$ilDB->quote($this->getTestId())
+		$affectedRows = $ilDB->manipulateF("DELETE FROM tst_test_rnd_qst USING tst_test_rnd_qst, tst_active WHERE tst_active.test_fi = %s AND tst_active.active_id = tst_test_rnd_qst.active_fi",
+			array('integer'),
+			array($this->getTestId())
 		);
-		$result = $ilDB->query($query);
 
 		$this->removeAllTestEditings();
 
-		$query = sprintf("DELETE FROM tst_test_question WHERE test_fi = %s",
-			$ilDB->quote($this->getTestId())
+		$affectedRows = $ilDB->manipulateF("DELETE FROM tst_test_question WHERE test_fi = %s",
+			array('integer'),
+			array($this->getTestId())
 		);
-		$result = $ilDB->query($query);
 
 		// delete export files
 		include_once "./Services/Utilities/classes/class.ilUtil.php";
@@ -731,18 +675,7 @@ class ilObjTest extends ilObject
 	function initDefaultRoles()
 	{
 		global $rbacadmin;
-
-		// create a local role folder
-		//$rfoldObj = $this->createRoleFolder("Local roles","Role Folder of forum obj_no.".$this->getId());
-
-		// create moderator role and assign role to rolefolder...
-		//$roleObj = $rfoldObj->createRole("Moderator","Moderator of forum obj_no.".$this->getId());
-		//$roles[] = $roleObj->getId();
-
-		//unset($rfoldObj);
-		//unset($roleObj);
-
-		return $roles ? $roles : array();
+		return array();
 	}
 
 	/**
@@ -846,8 +779,6 @@ class ilObjTest extends ilObject
 /**
 * Get the location of the export directory for the test
 *
-* Get the location of the export directory for the test
-*
 * @access	public
 */
 	function getExportDirectory()
@@ -858,8 +789,6 @@ class ilObjTest extends ilObject
 	}
 
 /**
-* Get a list of the already exported files in the export directory
-*
 * Get a list of the already exported files in the export directory
 *
 * @return array A list of file names
@@ -934,8 +863,6 @@ class ilObjTest extends ilObject
 /**
 * Get the import directory location of the test
 *
-* Get the import directory location of the test
-*
 * @return string The location of the import directory or false if the directory doesn't exist
 * @access	public
 */
@@ -982,8 +909,6 @@ class ilObjTest extends ilObject
 /**
 * Get the import directory location of the test
 *
-* Get the import directory location of the test
-*
 * @return string The location of the import directory or false if the directory doesn't exist
 * @access	public
 */
@@ -1002,8 +927,6 @@ class ilObjTest extends ilObject
 	}
 
 /**
-* Returns true, if a test is complete for use
-*
 * Returns true, if a test is complete for use
 *
 * @return boolean True, if the test is complete for use, otherwise false
@@ -1041,8 +964,6 @@ class ilObjTest extends ilObject
 /**
 * Returns true, if a test is complete for use
 *
-* Returns true, if a test is complete for use
-*
 * @return boolean True, if the test is complete for use, otherwise false
 * @access public
 */
@@ -1056,14 +977,13 @@ class ilObjTest extends ilObject
 /**
 * Saves the ECTS status (output of ECTS grades in a test) to the database
 *
-* Saves the ECTS status (output of ECTS grades in a test) to the database
-*
 * @access public
 */
 	function saveECTSStatus($ects_output = 0, $fx_support = "", $ects_a = 90, $ects_b = 65, $ects_c = 35, $ects_d = 10, $ects_e = 0)
 	{
-    global $ilDB;
-    if ($this->test_id > 0) {
+		global $ilDB;
+		if ($this->test_id > 0) 
+		{
 			$fx_support = preg_replace("/,/", ".", $fx_support);
 			if (preg_match("/\d+/", $fx_support))
 			{
@@ -1071,19 +991,13 @@ class ilObjTest extends ilObject
 			}
 			else
 			{
-				$fx_support = "NULL";
+				$fx_support = NULL;
 			}
-      $query = sprintf("UPDATE tst_tests SET ects_output = %s, ects_a = %s, ects_b = %s, ects_c = %s, ects_d = %s, ects_e = %s, ects_fx = %s WHERE test_id = %s",
-				$ilDB->quote("$ects_output"),
-				$ilDB->quote($ects_a . ""),
-				$ilDB->quote($ects_b . ""),
-				$ilDB->quote($ects_c . ""),
-				$ilDB->quote($ects_d . ""),
-				$ilDB->quote($ects_e . ""),
-        $fx_support,
-				$this->getTestId()
-      );
-      $result = $ilDB->query($query);
+			$affectedRows = $ilDB->manipulateF("UPDATE tst_tests SET ects_output = %s, ects_a = %s, ects_b = %s, ects_c = %s, ects_d = %s, ects_e = %s, ects_fx = %s WHERE test_id = %s",
+				array('text','float','float','float','float','float','float','integer'),
+				array($ects_output, $ects_a, $ects_b, $ects_c, $ects_d, $ects_e, $fx_support, $this->getTestId())
+			);
+			$result = $ilDB->query($query);
 			$this->ects_output = $ects_output;
 			$this->ects_fx = $fx_support;
 		}
@@ -1092,32 +1006,27 @@ class ilObjTest extends ilObject
 /**
 * Checks if the test is complete and saves the status in the database
 *
-* Checks if the test is complete and saves the status in the database
-*
 * @access public
 */
 	function saveCompleteStatus()
 	{
-    global $ilDB;
+		global $ilDB;
 
 		$complete = 0;
 		if ($this->isComplete())
 		{
 			$complete = 1;
 		}
-    if ($this->test_id > 0)
+		if ($this->test_id > 0)
 		{
-      $query = sprintf("UPDATE tst_tests SET complete = %s WHERE test_id = %s",
-				$ilDB->quote("$complete"),
-        $ilDB->quote($this->test_id)
-      );
-      $result = $ilDB->query($query);
+			$affectedRows = $ilDB->manipulateF("UPDATE tst_tests SET complete = %s WHERE test_id = %s",
+				array('text','integer'),
+				array($complete, $this->test_id)
+			);
 		}
 	}
 	
 	/**
-	* Returns the content of all RTE enabled text areas in the test
-	*
 	* Returns the content of all RTE enabled text areas in the test
 	*
 	* @access private
@@ -1131,8 +1040,6 @@ class ilObjTest extends ilObject
 	}
 	
 	/**
-	* Cleans up the media objects for all text fields in a test which are using an RTE field
-	*
 	* Cleans up the media objects for all text fields in a test which are using an RTE field
 	*
 	* @access private
@@ -1149,14 +1056,12 @@ class ilObjTest extends ilObject
 			$this->getId());
 	}
 
-/**
-* Saves a ilObjTest object to a database
-*
-* Saves a ilObjTest object to a database (experimental)
-*
-* @param object $db A pear DB object
-* @access public
-*/
+	/**
+	* Saves a ilObjTest object to a database
+	*
+	* @param object $db A pear DB object
+	* @access public
+	*/
 	function saveToDb($properties_only = FALSE)
 	{
 		global $ilDB, $ilLog;
@@ -1388,7 +1293,8 @@ class ilObjTest extends ilObject
 					$aresult = $ilDB->query($query);
 					while ($row = $aresult->fetchRow(MDB2_FETCHMODE_ASSOC))
 					{
-						$newquery = sprintf("UPDATE tst_active SET submitted = 1, submittimestamp = NOW() WHERE active_id = %s",
+						$newquery = sprintf("UPDATE tst_active SET submitted = 1, submittimestamp = %s WHERE active_id = %s",
+							$ilDB->quote(date('Y-m-d H:i:s'))
 							$ilDB->quote($row["active_id"] . "")
 						);
 						$newresult = $ilDB->query($newquery);
@@ -7663,7 +7569,8 @@ function loadQuestions($active_id = "", $pass = NULL)
 	{
 		global $ilDB, $ilLog;
 
-		$query = sprintf("UPDATE tst_active SET submitted = 1, submittimestamp = NOW() WHERE test_fi = %s AND user_fi = %s",
+		$query = sprintf("UPDATE tst_active SET submitted = 1, submittimestamp = %s WHERE test_fi = %s AND user_fi = %s",
+			$ilDB->quote(date('Y-m-d H:i:s')),
 			$ilDB->quote($this->getTestId() . ""),
 			$ilDB->quote($user_id . "")
 		);
