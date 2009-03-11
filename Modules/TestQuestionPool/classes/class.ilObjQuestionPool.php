@@ -1078,7 +1078,6 @@ class ilObjQuestionPool extends ilObject
 				array($questionpool_id)
 			);
 		}
-		$result = $ilDB->query($query);
 		$row = $ilDB->fetchAssoc($result);
 		return $row["question_count"];
 	}

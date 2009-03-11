@@ -189,7 +189,7 @@ class assClozeTest extends assQuestion
 			// open the cloze gaps with all answers
 			include_once "./Modules/TestQuestionPool/classes/class.assAnswerCloze.php";
 			include_once "./Modules/TestQuestionPool/classes/class.assClozeGap.php";
-			$result = $ilDB->queryF("SELECT * FROM qpl_a_cloze WHERE question_fi = ? ORDER BY gap_id, aorder ASC",
+			$result = $ilDB->queryF("SELECT * FROM qpl_a_cloze WHERE question_fi = %s ORDER BY gap_id, aorder ASC",
 				array("integer"),
 				array($question_id)
 			);
@@ -1244,7 +1244,7 @@ class assClozeTest extends assQuestion
 									"integer",
 									"text",
 									"text",
-									"integer"
+									"integer",
 									"integer"
 								),
 								array(

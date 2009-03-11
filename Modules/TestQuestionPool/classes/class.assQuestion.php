@@ -2797,7 +2797,7 @@ class assQuestion
 	{
 		global $ilDB;
 
-		$result = $ilDB->queryF("SELECT question_id FROM qpl_questions WHERE original_id = ?",
+		$result = $ilDB->queryF("SELECT question_id FROM qpl_questions WHERE original_id = %s",
 			array("integer"),
 			array($this->getId())
 		);
@@ -2810,7 +2810,7 @@ class assQuestion
 		foreach ($ids as $question_id)
 		{
 			// check non random tests
-			$result = $ilDB->queryF("SELECT tst_tests.obj_fi FROM tst_tests, tst_test_question WHERE tst_test_question.question_fi = ? AND tst_test_question.test_fi = tst_tests.test_id",
+			$result = $ilDB->queryF("SELECT tst_tests.obj_fi FROM tst_tests, tst_test_question WHERE tst_test_question.question_fi = %s AND tst_test_question.test_fi = tst_tests.test_id",
 				array("integer"),
 				array($question_id)
 			);
@@ -2819,7 +2819,7 @@ class assQuestion
 				$instances[$row['obj_fi']] = ilObject::_lookupTitle($row['obj_fi']);
 			}
 			// check random tests
-			$result = $ilDB->queryF("SELECT tst_tests.obj_fi FROM tst_tests, tst_test_random_question, tst_active WHERE tst_test_random_question.active_fi = tst_active.active_id AND tst_test_random_question.question_fi = ? AND tst_tests.test_id = tst_active.test_fi",
+			$result = $ilDB->queryF("SELECT tst_tests.obj_fi FROM tst_tests, tst_test_random_question, tst_active WHERE tst_test_random_question.active_fi = tst_active.active_id AND tst_test_random_question.question_fi = %s AND tst_tests.test_id = tst_active.test_fi",
 				array("integer"),
 				array($question_id)
 			);

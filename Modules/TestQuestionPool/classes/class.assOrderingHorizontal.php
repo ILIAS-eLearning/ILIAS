@@ -147,7 +147,7 @@ class assOrderingHorizontal extends assQuestion
 		);
 
 		$affectedRows = $ilDB->manipulateF("INSERT INTO " . $this->getAdditionalTableName() . " (question_fi, ordertext, textsize) VALUES (%s, %s, %s)", 
-			array("integer", "text", "float")
+			array("integer", "text", "float"),
 			array(
 				$this->getId(),
 				$this->getOrderText(),
