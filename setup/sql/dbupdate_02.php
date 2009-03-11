@@ -8911,3 +8911,223 @@ $ilDB->manipulate("ALTER TABLE `qpl_suggested_solutions` DROP " . $ilDB->quoteId
 <?php
 $ilMySQLAbstraction->performAbstraction('qpl_suggested_solutions');
 ?>
+<#1907>
+<?php
+$res = $ilDB->manipulate("ALTER TABLE `qpl_answer_cloze` ADD `tstamp` INT NOT NULL DEFAULT '0'");
+?>
+<#1908>
+<?php
+$res = $ilDB->query("SELECT answer_id, lastchange + 0 timestamp14 FROM qpl_answer_cloze");
+if ($res->numRows())
+{
+	while ($row = $ilDB->fetchAssoc($res))
+	{
+		preg_match("/(\\d{4})(\\d{2})(\\d{2})(\\d{2})(\\d{2})(\\d{2})/", $row['timestamp14'], $matches);
+		$tstamp = mktime((int)$matches[4], (int)$matches[5], (int)$matches[6], (int)$matches[2], (int)$matches[3], (int)$matches[1]);
+		$ilDB->manipulateF("UPDATE qpl_answer_cloze SET tstamp = %s WHERE answer_id = %s",
+			array("integer", "integer"),
+			array($tstamp, $row['answer_id'])
+		);
+	}
+}
+?>
+<#1909>
+<?php
+$ilDB->manipulate("ALTER TABLE `qpl_answer_cloze` DROP lastchange");
+?>
+<#1910>
+<?php
+$ilDB->manipulate("ALTER TABLE `qpl_answer_cloze` CHANGE `answer_id` `answer_id` INT NOT NULL AUTO_INCREMENT");
+?>
+<#1911>
+<?php
+$ilDB->manipulate("ALTER TABLE `qpl_answer_cloze` CHANGE `answertext` `answertext` VARCHAR(1000) NULL DEFAULT NULL");
+?>
+<#1912>
+<?php
+$ilMySQLAbstraction->performAbstraction('qpl_answer_cloze');
+?>
+<#1913>
+<?php
+$res = $ilDB->manipulate("ALTER TABLE `qpl_answer_imagemap` ADD `tstamp` INT NOT NULL DEFAULT '0'");
+?>
+<#1914>
+<?php
+$res = $ilDB->query("SELECT answer_id, lastchange + 0 timestamp14 FROM qpl_answer_imagemap");
+if ($res->numRows())
+{
+	while ($row = $ilDB->fetchAssoc($res))
+	{
+		preg_match("/(\\d{4})(\\d{2})(\\d{2})(\\d{2})(\\d{2})(\\d{2})/", $row['timestamp14'], $matches);
+		$tstamp = mktime((int)$matches[4], (int)$matches[5], (int)$matches[6], (int)$matches[2], (int)$matches[3], (int)$matches[1]);
+		$ilDB->manipulateF("UPDATE qpl_answer_imagemap SET tstamp = %s WHERE answer_id = %s",
+			array("integer", "integer"),
+			array($tstamp, $row['answer_id'])
+		);
+	}
+}
+?>
+<#1915>
+<?php
+$ilDB->manipulate("ALTER TABLE `qpl_answer_imagemap` DROP lastchange");
+?>
+<#1916>
+<?php
+$ilDB->manipulate("ALTER TABLE `qpl_answer_imagemap` CHANGE `answer_id` `answer_id` INT NOT NULL AUTO_INCREMENT");
+?>
+<#1917>
+<?php
+$ilDB->manipulate("ALTER TABLE `qpl_answer_imagemap` CHANGE `answertext` `answertext` VARCHAR(4000) NULL DEFAULT NULL");
+?>
+<#1918>
+<?php
+$ilDB->manipulate("ALTER TABLE `qpl_answer_imagemap` CHANGE `coords` `coords` VARCHAR(4000) NULL DEFAULT NULL");
+?>
+<#1919>
+<?php
+$ilMySQLAbstraction->performAbstraction('qpl_answer_imagemap');
+?>
+<#1920>
+<?php
+$res = $ilDB->manipulate("ALTER TABLE `qpl_answer_matching` ADD `tstamp` INT NOT NULL DEFAULT '0'");
+?>
+<#1921>
+<?php
+$res = $ilDB->query("SELECT answer_id, lastchange + 0 timestamp14 FROM qpl_answer_matching");
+if ($res->numRows())
+{
+	while ($row = $ilDB->fetchAssoc($res))
+	{
+		preg_match("/(\\d{4})(\\d{2})(\\d{2})(\\d{2})(\\d{2})(\\d{2})/", $row['timestamp14'], $matches);
+		$tstamp = mktime((int)$matches[4], (int)$matches[5], (int)$matches[6], (int)$matches[2], (int)$matches[3], (int)$matches[1]);
+		$ilDB->manipulateF("UPDATE qpl_answer_matching SET tstamp = %s WHERE answer_id = %s",
+			array("integer", "integer"),
+			array($tstamp, $row['answer_id'])
+		);
+	}
+}
+?>
+<#1922>
+<?php
+$ilDB->manipulate("ALTER TABLE `qpl_answer_matching` DROP lastchange");
+?>
+<#1923>
+<?php
+$ilDB->manipulate("ALTER TABLE `qpl_answer_matching` CHANGE `answer_id` `answer_id` INT NOT NULL AUTO_INCREMENT");
+?>
+<#1924>
+<?php
+$ilDB->manipulate("ALTER TABLE `qpl_answer_matching` CHANGE `matchingtext` `matchingtext` VARCHAR(1000) NULL DEFAULT NULL");
+?>
+<#1925>
+<?php
+$ilMySQLAbstraction->performAbstraction('qpl_answer_matching');
+?>
+<#1926>
+<?php
+$ilDB->manipulate("ALTER TABLE `qpl_answer_matching_term` CHANGE `term` `term` VARCHAR(1000) NULL DEFAULT NULL");
+?>
+<#1927>
+<?php
+$ilDB->manipulate("RENAME TABLE `qpl_answer_matching_term` TO `qpl_answer_mterm`");
+?>
+<#1928>
+<?php
+$ilMySQLAbstraction->performAbstraction('qpl_answer_mterm');
+?>
+<#1929>
+<?php
+$ilDB->manipulate("RENAME TABLE `qpl_question_cloze` TO `qpl_qst_cloze`");
+?>
+<#1930>
+<?php
+$ilDB->manipulate("RENAME TABLE `qpl_question_essay` TO `qpl_qst_essay`");
+?>
+<#1931>
+<?php
+$ilDB->manipulate("RENAME TABLE `qpl_question_fileupload` TO `qpl_qst_fileupload`");
+?>
+<#1932>
+<?php
+$ilDB->manipulate("RENAME TABLE `qpl_question_flash` TO `qpl_qst_flash`");
+?>
+<#1933>
+<?php
+$ilDB->manipulate("RENAME TABLE `qpl_question_imagemap` TO `qpl_qst_imagemap`");
+?>
+<#1934>
+<?php
+$ilDB->manipulate("RENAME TABLE `qpl_question_javaapplet` TO `qpl_qst_javaapplet`");
+?>
+<#1935>
+<?php
+$ilDB->manipulate("RENAME TABLE `qpl_question_matching` TO `qpl_qst_matching`");
+?>
+<#1936>
+<?php
+$ilDB->manipulate("RENAME TABLE `qpl_question_multiplechoice` TO `qpl_qst_mc`");
+?>
+<#1937>
+<?php
+$ilDB->manipulate("RENAME TABLE `qpl_question_numeric` TO `qpl_qst_numeric`");
+?>
+<#1938>
+<?php
+$ilDB->manipulate("RENAME TABLE `qpl_question_ordering` TO `qpl_qst_ordering`");
+?>
+<#1939>
+<?php
+$ilDB->manipulate("RENAME TABLE `qpl_question_orderinghorizontal` TO `qpl_qst_horder`");
+?>
+<#1940>
+<?php
+$ilDB->manipulate("RENAME TABLE `qpl_question_singlechoice` TO `qpl_qst_sc`");
+?>
+<#1941>
+<?php
+$ilDB->manipulate("RENAME TABLE `qpl_question_textsubset` TO `qpl_qst_textsubset`");
+?>
+<#1942>
+<?php
+$ilDB->manipulate("RENAME TABLE `qpl_suggested_solutions` TO `qpl_sol_sug`");
+?>
+<#1943>
+<?php
+$ilDB->manipulate("RENAME TABLE `qpl_suggested_solutions_seq` TO `qpl_sol_sug_seq`");
+?>
+<#1944>
+<?php
+$ilDB->manipulate("RENAME TABLE `qpl_question_type` TO `qpl_qst_type`");
+?>
+<#1945>
+<?php
+$ilDB->manipulate("RENAME TABLE `qpl_numeric_range` TO `qpl_num_range`");
+?>
+<#1946>
+<?php
+$ilDB->manipulate("RENAME TABLE `qpl_numeric_range_seq` TO `qpl_num_range_seq`");
+?>
+<#1947>
+<?php
+$ilDB->manipulate("RENAME TABLE `qpl_answer_cloze` TO `qpl_a_cloze`");
+?>
+<#1948>
+<?php
+$ilDB->manipulate("RENAME TABLE `qpl_answer_cloze_seq` TO `qpl_a_cloze_seq`");
+?>
+<#1949>
+<?php
+$ilDB->manipulate("RENAME TABLE `qpl_answer_imagemap` TO `qpl_a_imagemap`");
+?>
+<#1950>
+<?php
+$ilDB->manipulate("RENAME TABLE `qpl_answer_imagemap_seq` TO `qpl_a_imagemap_seq`");
+?>
+<#1951>
+<?php
+$ilDB->manipulate("RENAME TABLE `qpl_answer_matching` TO `qpl_a_matching`");
+?>
+<#1952>
+<?php
+$ilDB->manipulate("RENAME TABLE `qpl_answer_matching_seq` TO `qpl_a_matching_seq`");
+?>
