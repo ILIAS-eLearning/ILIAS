@@ -164,7 +164,7 @@ class assFileUpload extends assQuestion
 	public function loadFromDb($question_id)
 	{
 		global $ilDB;
-		$result = $ilDB->prepare("SELECT qpl_questions.*, " . $this->getAdditionalTableName() . ".* FROM qpl_questions, " . $this->getAdditionalTableName() . " WHERE qpl_questions.question_id = %s AND qpl_questions.question_id = " . $this->getAdditionalTableName() . ".question_fi",
+		$result = $ilDB->queryF("SELECT qpl_questions.*, " . $this->getAdditionalTableName() . ".* FROM qpl_questions, " . $this->getAdditionalTableName() . " WHERE qpl_questions.question_id = %s AND qpl_questions.question_id = " . $this->getAdditionalTableName() . ".question_fi",
 			array("integer"),
 			array($question_id)
 		);

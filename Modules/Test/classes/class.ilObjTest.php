@@ -1479,7 +1479,7 @@ class ilObjTest extends ilObject
 		$result = $ilDB->query($query);
 		// create new category relations
 		foreach ($this->questions as $key => $value) {
-			$result = ilDB->manipulateF("INSERT INTO tst_test_question (test_question_id, test_fi, question_fi, sequence, tstamp) VALUES (NULL, %s, %s, %s, %s)",
+			$result = $ilDB->manipulateF("INSERT INTO tst_test_question (test_question_id, test_fi, question_fi, sequence, tstamp) VALUES (NULL, %s, %s, %s, %s)",
 				array('integer', 'integer', 'integer', 'integer'),
 				array($this->getTestId(), $value, $key, time())
 			);
@@ -1552,7 +1552,7 @@ class ilObjTest extends ilObject
 				$duplicate_id = $this->duplicateQuestionForTest($question_id);
 			}
 
-			$result = ilDB->manipulateF("INSERT INTO tst_test_random_question (test_random_question_id, active_fi, question_fi, sequence, pass, tstamp) VALUES (NULL, %s, %s, %s, %s, %s)",
+			$result = $ilDB->manipulateF("INSERT INTO tst_test_random_question (test_random_question_id, active_fi, question_fi, sequence, pass, tstamp) VALUES (NULL, %s, %s, %s, %s, %s)",
 				array('integer','integer','integer','integer','integer'),
 				array($active_id, $duplicate_id, $result->numRows()+1, $pass)
 			);
@@ -2977,15 +2977,9 @@ function loadQuestions($active_id = "", $pass = NULL)
 
 		$use_previous_answers = 1;
 
-		$statement = $ilDB->prepare("SELECT tst_tests.use_previous_answers FROM tst_tests, tst_active WHERE tst_tests.test_id = tst_active.test_fi AND tst_active.active_id = ?",
-			array(
-				"integer"
-			)
-		);
-		$result = $ilDB->execute($statement, 
-			array(
-				$active_id
-			)
+		$result = $ilDB->queryF("SELECT tst_tests.use_previous_answers FROM tst_tests, tst_active WHERE tst_tests.test_id = tst_active.test_fi AND tst_active.active_id = %s",
+			array("integer"),
+			array($active_id)
 		);
 		if ($result->numRows())
 		{
@@ -3865,7 +3859,7 @@ function loadQuestions($active_id = "", $pass = NULL)
 		global $ilDB;
 
 		if ($question_id < 1) return -1;
-		$result = ilDB->queryF("SELECT type_tag FROM qpl_questions, qpl_qst_type WHERE qpl_questions.question_id = %s AND qpl_questions.question_type_fi = qpl_qst_type.question_type_id",
+		$result = $ilDB->queryF("SELECT type_tag FROM qpl_questions, qpl_qst_type WHERE qpl_questions.question_id = %s AND qpl_questions.question_type_fi = qpl_qst_type.question_type_id",
 			array('integer'),
 			array($question_id)
 		);
