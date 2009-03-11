@@ -140,7 +140,7 @@ class assOrderingQuestion extends assQuestion
 			$affectedRows = $ilDB->manipulateF("INSERT INTO qpl_questions (question_id, question_type_fi, obj_fi, title, description, author, owner, question_text, points, working_time, complete, created, original_id, tstamp) VALUES (%s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s)", 
 				array("integer","integer", "integer", "text", "text", "text", "integer", "text", "float", "time", "text", "integer","integer","integer"),
 				array(
-					$next_id
+					$next_id,
 					$this->getQuestionTypeID(), 
 					$this->getObjId(), 
 					$this->getTitle(), 

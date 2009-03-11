@@ -545,7 +545,7 @@ function _getQuestionCount($test_id)
 		$test_id = $row["test_fi"];
 
 		$result = $ilDB->queryF("SELECT obj_fi FROM tst_tests WHERE test_id = %s",
-			array("integer")
+			array("integer"),
 			array($test_id)
 		);
 		$row = $ilDB->fetchAssoc($result);
