@@ -211,8 +211,6 @@ class assQuestion
 	}
 
 	/**
-	* Creates a question from a QTI file
-	*
 	* Receives parameters from a QTI parser and creates a valid ILIAS question object
 	*
 	* @param object $item The QTI item object
@@ -248,8 +246,6 @@ class assQuestion
 	/**
 	* Returns true, if a question is complete for use
 	*
-	* Returns true, if a question is complete for use
-	*
 	* @return boolean True, if the question is complete for use, otherwise false
 	* @access public
 	*/
@@ -261,8 +257,6 @@ class assQuestion
 	/**
 	* Returns TRUE if the question title exists in the database
 	*
-	* Returns TRUE if the question title exists in the database
-	*
 	* @param string $title The title of the question
 	* @return boolean The result of the title check
 	* @access public
@@ -271,21 +265,14 @@ class assQuestion
 	{
 		global $ilDB;
 		
-		$query = sprintf("SELECT * FROM qpl_questions WHERE obj_fi = %s AND title = %s",
-			$ilDB->quote($questionpool_id . ""),
-			$ilDB->quote($title)
-			);
-		$result = $ilDB->query($query);
-		if ($result->numRows() == 1)
-		{
-			return TRUE;
-		}
-		return FALSE;
+		$result = $ilDB->queryF("SELECT * FROM qpl_questions WHERE obj_fi = %s AND title = %s",
+			array('integer','text'),
+			array($questionpool_id, $title)
+		);
+		return ($result->numRows() == 1) ? TRUE : FALSE;
 	}
 
 	/**
-	* Sets the title string
-	*
 	* Sets the title string of the assQuestion object
 	*
 	* @param string $title A title string to describe the question
@@ -298,8 +285,6 @@ class assQuestion
 	}
 
 	/**
-	* Sets the id
-	*
 	* Sets the id of the assQuestion object
 	*
 	* @param integer $id A unique integer value
@@ -312,8 +297,6 @@ class assQuestion
 	}
 
 	/**
-	* Sets the test id
-	*
 	* Sets the test id of the assQuestion object
 	*
 	* @param integer $id A unique integer value
@@ -326,8 +309,6 @@ class assQuestion
 	}
 
 	/**
-	* Sets the comment
-	*
 	* Sets the comment string of the assQuestion object
 	*
 	* @param string $comment A comment string to describe the question
@@ -342,8 +323,6 @@ class assQuestion
 	/**
 	* Sets the output type
 	*
-	* Sets the output type
-	*
 	* @param integer $outputType The output type of the question
 	* @access public
 	* @see $outputType
@@ -355,8 +334,6 @@ class assQuestion
 
 
 	/**
-	* Sets the shuffle flag
-	*
 	* Sets the shuffle flag
 	*
 	* @param boolean $shuffle A flag indicating whether the answers are shuffled or not
@@ -378,8 +355,6 @@ class assQuestion
 	/**
 	* Sets the estimated working time of a question
 	*
-	* Sets the estimated working time of a question
-	*
 	* @param integer $hour Hour
 	* @param integer $min Minutes
 	* @param integer $sec Seconds
@@ -392,8 +367,6 @@ class assQuestion
 	}
 
 	/**
-	* returns TRUE if the key occurs in an array
-	*
 	* returns TRUE if the key occurs in an array
 	*
 	* @param string $arraykey A key to an element in array
@@ -416,8 +389,6 @@ class assQuestion
 	}
 
 	/**
-	* Sets the authors name
-	*
 	* Sets the authors name of the assQuestion object
 	*
 	* @param string $author A string containing the name of the questions author
@@ -434,8 +405,6 @@ class assQuestion
 	}
 
 	/**
-	* Sets the creator/owner
-	*
 	* Sets the creator/owner ID of the assQuestion object
 	*
 	* @param integer $owner A numerical ID to identify the owner/creator
@@ -448,8 +417,6 @@ class assQuestion
 	}
 
 	/**
-	* Gets the title string
-	*
 	* Gets the title string of the assQuestion object
 	*
 	* @return string The title string to describe the question
@@ -462,8 +429,6 @@ class assQuestion
 	}
 
 	/**
-	* Gets the id
-	*
 	* Gets the id of the assQuestion object
 	*
 	* @return integer The id of the assQuestion object
@@ -478,8 +443,6 @@ class assQuestion
 	/**
 	* Gets the shuffle flag
 	*
-	* Gets the shuffle flag
-	*
 	* @return boolean The shuffle flag
 	* @access public
 	* @see $shuffle
@@ -490,8 +453,6 @@ class assQuestion
 	}
 
 	/**
-	* Gets the test id
-	*
 	* Gets the test id of the assQuestion object
 	*
 	* @return integer The test id of the assQuestion object
@@ -504,8 +465,6 @@ class assQuestion
 	}
 
 	/**
-	* Gets the comment
-	*
 	* Gets the comment string of the assQuestion object
 	*
 	* @return string The comment string to describe the question
@@ -520,8 +479,6 @@ class assQuestion
 	/**
 	* Gets the output type
 	*
-	* Gets the output type
-	*
 	* @return integer The output type of the question
 	* @access public
 	* @see $outputType
@@ -534,8 +491,6 @@ class assQuestion
 	/**
 	* Returns true if the question type supports JavaScript output
 	*
-	* Returns true if the question type supports JavaScript output
-	*
 	* @return boolean TRUE if the question type supports JavaScript output, FALSE otherwise
 	* @access public
 	*/
@@ -545,8 +500,6 @@ class assQuestion
 	}
 
 	/**
-	* Gets the estimated working time of a question
-	*
 	* Gets the estimated working time of a question
 	*
 	* @return array Estimated Working Time of a question
@@ -563,8 +516,6 @@ class assQuestion
 	}
 
 	/**
-	* Gets the authors name
-	*
 	* Gets the authors name of the assQuestion object
 	*
 	* @return string The string containing the name of the questions author
@@ -577,8 +528,6 @@ class assQuestion
 	}
 
 	/**
-	* Gets the creator/owner
-	*
 	* Gets the creator/owner ID of the assQuestion object
 	*
 	* @return integer The numerical ID to identify the owner/creator
@@ -593,8 +542,6 @@ class assQuestion
 	/**
 	* Get the object id of the container object
 	*
-	* Get the object id of the container object
-	*
 	* @return integer The object id of the container object
 	* @access public
 	* @see $obj_id
@@ -605,8 +552,6 @@ class assQuestion
 	}
 
 	/**
-	* Set the object id of the container object
-	*
 	* Set the object id of the container object
 	*
 	* @param integer $obj_id The object id of the container object
@@ -635,49 +580,10 @@ class assQuestion
 		$this->page->create();
 	}
 
-	/**
-	* Insert the question into a test
-	*
-	* Insert the question into a test
-	*
-	* @param integer $test_id The database id of the test
-	* @access private
-	*/
-	function insertIntoTest($test_id)
-	{
-		global $ilDB;
-		
-		// get maximum sequence index in test
-		$query = sprintf("SELECT MAX(sequence) AS seq FROM dum_test_question WHERE test_fi=%s",
-			$ilDB->quote($test_id)
-			);
-		$result = $ilDB->query($query);
-		$sequence = 1;
-		if ($result->numRows() == 1)
-		{
-			$data = $result->fetchRow(MDB2_FETCHMODE_OBJECT);
-			$sequence = $data->seq + 1;
-		}
-		$query = sprintf("INSERT INTO dum_test_question (test_question_id, test_fi, question_fi, sequence, TIMESTAMP) VALUES (NULL, %s, %s, %s, NULL)",
-			$ilDB->quote($test_id),
-			$ilDB->quote($this->getId()),
-			$ilDB->quote($sequence)
-			);
-		$result = $ilDB->query($query);
-		if (PEAR::isError($result)) 
-		{
-			global $ilias;
-			$ilias->raiseError($result->getMessage());
-		}
-	}
-
 /**
 * Returns the maximum points, a learner can reach answering the question
 *
-* Returns the maximum points, a learner can reach answering the question
-*
 * @param integer $question_id The database Id of the question
-* @access public
 * @see $points
 */
   function _getMaximumPoints($question_id) 
@@ -685,13 +591,13 @@ class assQuestion
 		global $ilDB;
 
 		$points = 0;
-		$query = sprintf("SELECT points FROM qpl_questions WHERE question_id = %s",
-			$ilDB->quote($question_id . "")
+		$result = $ilDB->queryF("SELECT points FROM qpl_questions WHERE question_id = %s",
+			array('integer'),
+			array($question_id)
 		);
-		$result = $ilDB->query($query);
 		if ($result->numRows() == 1)
 		{
-			$row = $result->fetchRow(MDB2_FETCHMODE_ASSOC);
+			$row = $ilDB->fetchAssoc($result);
 			$points = $row["points"];
 		}
 		return $points;
@@ -700,23 +606,20 @@ class assQuestion
 	/**
 	* Returns question information from the database
 	*
-	* Returns question information from the database
-	*
 	* @param integer $question_id The database Id of the question
 	* @return array The database row containing the question data
-	* @access public static
 	*/
 	function &_getQuestionInfo($question_id)
 	{
 		global $ilDB;
 
-		$query = sprintf("SELECT qpl_questions.*, qpl_question_type.type_tag FROM qpl_question_type, qpl_questions WHERE qpl_questions.question_id = %s AND qpl_questions.question_type_fi = qpl_question_type.question_type_id",
-			$ilDB->quote($question_id . "")
+		$result = $ilDB->queryF("SELECT qpl_questions.*, qpl_question_type.type_tag FROM qpl_question_type, qpl_questions WHERE qpl_questions.question_id = %s AND qpl_questions.question_type_fi = qpl_question_type.question_type_id",
+			array('integer'),
+			array($question_id)
 		);
-		$result = $ilDB->query($query);
 		if ($result->numRows())
 		{
-			return $result->fetchRow(MDB2_FETCHMODE_ASSOC);
+			return $ilDB->fetchAssoc($result);
 		}
 		else return array();
 	}
@@ -731,10 +634,10 @@ class assQuestion
 	{
 		global $ilDB;
 
-		$query = sprintf("SELECT suggested_solution_id FROM qpl_suggested_solutions WHERE question_fi = %s",
-			$ilDB->quote($question_id . "")
+		$result = $ilDB->queryF("SELECT suggested_solution_id FROM qpl_suggested_solutions WHERE question_fi = %s",
+			array('integer'),
+			array($question_id)
 		);
-		$result = $ilDB->query($query);
 		return $result->numRows();
 	}
 
@@ -777,8 +680,6 @@ class assQuestion
 /**
 * Returns a suggested solution for a given subquestion index
 *
-* Returns a suggested solution for a given subquestion index
-*
 * @param integer $question_id The database Id of the question
 * @param integer $subquestion_index The index of a subquestion (i.e. a close test gap). Usually 0
 * @return array A suggested solution array containing the internal link
@@ -788,14 +689,13 @@ class assQuestion
 	{
 		global $ilDB;
 
-		$query = sprintf("SELECT * FROM qpl_suggested_solutions WHERE question_fi = %s AND subquestion_index = %s",
-			$ilDB->quote($question_id . ""),
-			$ilDB->quote($subquestion_index . "")
+		$result = $ilDB->queryF("SELECT * FROM qpl_suggested_solutions WHERE question_fi = %s AND subquestion_index = %s",
+			array('integer','integer'),
+			array($question_id, $subquestion_index)
 		);
-		$result = $ilDB->query($query);
 		if ($result->numRows() == 1)
 		{
-			$row = $result->fetchRow(MDB2_FETCHMODE_ASSOC);
+			$row = $ilDB->fetchAssoc($result);
 			return array(
 				"internal_link" => $row["internal_link"],
 				"import_id" => $row["import_id"]
@@ -820,12 +720,9 @@ class assQuestion
 	/**
 	* Returns the points, a learner has reached answering the question
 	*
-	* Returns the points, a learner has reached answering the question
-	*
 	* @param integer $user_id The database ID of the learner
 	* @param integer $test_id The database Id of the test containing the question
 	* @param integer $question_id The database Id of the question
-	* @access public static
 	*/
 	function _getReachedPoints($active_id, $question_id, $pass = NULL)
 	{
@@ -837,23 +734,19 @@ class assQuestion
 			include_once "./Modules/TestQuestionPool/classes/class.assQuestion.php";
 			$pass = assQuestion::_getSolutionMaxPass($question_id, $active_id);
 		}
-		$query = sprintf("SELECT * FROM tst_test_result WHERE active_fi = %s AND question_fi = %s AND pass = %s",
-			$ilDB->quote($active_id . ""),
-			$ilDB->quote($question_id . ""),
-			$ilDB->quote($pass . "")
+		$result = $ilDB->queryF("SELECT * FROM tst_test_result WHERE active_fi = %s AND question_fi = %s AND pass = %s",
+			array('integer','integer','integer'),
+			array($active_id, $question_id, $pass)
 		);
-		$result = $ilDB->query($query);
 		if ($result->numRows() == 1)
 		{
-			$row = $result->fetchRow(MDB2_FETCHMODE_ASSOC);
+			$row = $ilDB->fetchAssoc($result);
 			$points = $row["points"];
 		}
 		return $points;
 	}
 
 	/**
-	* Returns the points, a learner has reached answering the question
-	*
 	* Returns the points, a learner has reached answering the question
 	* This is the fast way to get the points directly from the database.
 	*
@@ -867,8 +760,6 @@ class assQuestion
 	}
 	
 	/**
-	* Returns the maximum points, a learner can reach answering the question
-	*
 	* Returns the maximum points, a learner can reach answering the question
 	*
 	* @access public
@@ -896,26 +787,27 @@ class assQuestion
 		}
 		$reached_points = $this->calculateReachedPoints($active_id, $pass);
 
-		$statement = $ilDB->prepareManip("DELETE FROM tst_test_result WHERE active_fi = ? AND question_fi = ? AND pass = ?",
-			array("integer", "integer", "integer")
+		$affectedRows = $ilDB->manipulateF("DELETE FROM tst_test_result WHERE active_fi = %s AND question_fi = %s AND pass = %s",
+			array("integer", "integer", "integer"),
+			array(
+				$active_id,
+				$this->getId(),
+				$pass
+			)
 		);
-		$data = array(
-			$active_id,
-			$this->getId(),
-			$pass
-		);
-		$affectedRows = $ilDB->execute($statement, $data);
 
-		$statement = $ilDB->prepareManip("INSERT INTO tst_test_result (active_fi, question_fi, pass, points) VALUES (?, ?, ?, ?)", 
-			array("integer", "integer", "integer", "float")
+		$next_id = $ilDB->nextId("tst_test_result");
+		$affectedRows = $ilDB->manipulateF("INSERT INTO tst_test_result (test_result_id, active_fi, question_fi, pass, points, tstamp) VALUES (%s, %s, %s, %s, %s, %s)", 
+			array("integer","integer", "integer", "integer", "float", "integer"),
+			array(
+				$next_id,
+				$active_id,
+				$this->getId(),
+				$pass,
+				$reached_points,
+				time()
+			)
 		);
-		$data = array(
-			$active_id,
-			$this->getId(),
-			$pass,
-			$reached_points
-		);
-		$affectedRows = $ilDB->execute($statement, $data);
 		include_once ("./Modules/Test/classes/class.ilObjAssessmentFolder.php");
 		if (ilObjAssessmentFolder::_enabledAssessmentLogging())
 		{
@@ -949,29 +841,43 @@ class assQuestion
 		$data = ilObjTest::_getQuestionCountAndPointsForPassOfParticipant($active_id, $pass);
 		$time = ilObjTest::_getWorkingTimeOfParticipantForPass($active_id, $pass);
 		// update test pass results
-		$query = sprintf("SELECT SUM(points) AS reachedpoints, COUNT(question_fi) AS answeredquestions FROM tst_test_result WHERE active_fi = %s AND pass = %s",
-			$ilDB->quote($active_id . ""),
-			$ilDB->quote($pass . "")
+		$result = $ilDB->queryF("SELECT SUM(points) reachedpoints, COUNT(question_fi) answeredquestions FROM tst_test_result WHERE active_fi = %s AND pass = %s",
+			array('integer','integer'),
+			array($active_id, $pass)
 		);
-		$result = $ilDB->query($query);
 		if ($result->numRows() > 0)
 		{
-			$row = $result->fetchRow(MDB2_FETCHMODE_ASSOC);
-			$newresultquery = sprintf("REPLACE INTO tst_test_pass_result SET active_fi = %s, pass = %s, points = %s, maxpoints = %s, questioncount = %s, answeredquestions = %s, workingtime = %s",
-				$ilDB->quote($active_id . ""),
-				$ilDB->quote($pass . ""),
-				$ilDB->quote((($row["reachedpoints"]) ? $row["reachedpoints"] : 0) . ""),
-				$ilDB->quote($data["points"]),
-				$ilDB->quote($data["count"]),
-				$ilDB->quote($row["answeredquestions"]),
-				$ilDB->quote($time)
+			$row = $ilDB->fetchAssoc($result);
+			$affectedRows = $ilDB->manipulateF("DELETE FROM tst_test_pass_result WHERE active_fi = %s AND pass = %s",
+				array('integer','integer'),
+				array($active_id, $pass)
 			);
-			$ilDB->query($newresultquery);
+			$affectedRows = $ilDB->manipulateF("INSERT INTO tst_test_pass_result (active_fi, pass, points, maxpoints, questioncount, answeredquestions, workingtime, tstamp) VALUES (%s,%s,%s,%s,%s,%s,%s,%s)",
+				array(
+					'integer',
+					'integer',
+					'float',
+					'float',
+					'integer',
+					'integer',
+					'integer',
+					'integer'
+				),
+				array(
+					$active_id,
+					$pass,
+					($row["reachedpoints"]) ? $row["reachedpoints"] : 0,
+					$data["points"],
+					$data["count"],
+					$row["answeredquestions"],
+					$time,
+					time()
+				)
+			);
 		}
 	}
+	
 /**
-* Logs an action into the Test&Assessment log
-* 
 * Logs an action into the Test&Assessment log
 *
 * @param string $logtext The log text
@@ -994,8 +900,6 @@ class assQuestion
 	}
 	
 /**
-* Logs an action into the Test&Assessment log
-* 
 * Logs an action into the Test&Assessment log
 *
 * @param string $logtext The log text
@@ -1051,8 +955,6 @@ class assQuestion
 	}
 
 	/**
-	* Returns the image path for web accessable images of a question
-	*
 	* Returns the image path for web accessable images of a question.
 	* The image path is under the CLIENT_WEB_DIR in assessment/REFERENCE_ID_OF_QUESTION_POOL/ID_OF_QUESTION/images
 	*
@@ -1063,8 +965,6 @@ class assQuestion
 	}
 	
 	/**
-	* Returns the image path for web accessable images of a question
-	*
 	* Returns the image path for web accessable images of a question.
 	* The image path is under the CLIENT_WEB_DIR in assessment/REFERENCE_ID_OF_QUESTION_POOL/ID_OF_QUESTION/images
 	*
@@ -1076,8 +976,6 @@ class assQuestion
 	}
 
 	/**
-	* Returns the image path for web accessable flash files of a question
-	*
 	* Returns the image path for web accessable flash files of a question.
 	* The image path is under the CLIENT_WEB_DIR in assessment/REFERENCE_ID_OF_QUESTION_POOL/ID_OF_QUESTION/flash
 	*
@@ -1089,8 +987,6 @@ class assQuestion
 	}
 
 	/**
-	* Returns the web image path for web accessable java applets of a question
-	*
 	* Returns the web image path for web accessable java applets of a question.
 	* The image path is under the web accessable data dir in assessment/REFERENCE_ID_OF_QUESTION_POOL/ID_OF_QUESTION/java
 	*
@@ -1116,8 +1012,6 @@ class assQuestion
 	}
 
 	/**
-	* Returns the web image path for web accessable images of a question
-	*
 	* Returns the web image path for web accessable images of a question.
 	* The image path is under the web accessable data dir in assessment/REFERENCE_ID_OF_QUESTION_POOL/ID_OF_QUESTION/images
 	*
@@ -1131,8 +1025,6 @@ class assQuestion
 	}
 
 	/**
-	* Returns the web image path for web accessable flash applications of a question
-	*
 	* Returns the web image path for web accessable flash applications of a question.
 	* The image path is under the web accessable data dir in assessment/REFERENCE_ID_OF_QUESTION_POOL/ID_OF_QUESTION/flash
 	*
@@ -1146,8 +1038,6 @@ class assQuestion
 	}
 	
 	/**
-	* Loads solutions of a given user from the database an returns it
-	*
 	* Loads solutions of a given user from the database an returns it
 	*
 	* @param integer $test_id The database id of the test containing this question
@@ -1165,13 +1055,11 @@ class assQuestion
 			$pass = $this->getSolutionMaxPass($active_id);
 		}		
 
-		$query = sprintf("SELECT * FROM tst_solutions WHERE active_fi = %s AND question_fi = %s AND pass = %s",
-			$ilDB->quote($active_id . ""),
-			$ilDB->quote($this->getId() . ""),
-			$ilDB->quote($pass . "")
+		$result = $ilDB->queryF("SELECT * FROM tst_solutions WHERE active_fi = %s AND question_fi = %s AND pass = %s",
+			array('integer','integer','integer'),
+			array($active_id, $this->getId(), $pass)
 		);
-		$result = $ilDB->query($query);
-		while	($row = $result->fetchRow(MDB2_FETCHMODE_ASSOC))
+		while	($row = $ilDB->fetchAssoc($result))
 		{
 			array_push($values, $row);
 		}
@@ -1182,8 +1070,6 @@ class assQuestion
 	/**
 	* Checks whether the question is in use or not
 	*
-	* Checks whether the question is in use or not
-	*
 	* @return boolean The number of datasets which are affected by the use of the query.
 	* @access public
 	*/
@@ -1191,26 +1077,24 @@ class assQuestion
 	{
 		global $ilDB;
 		
-		if ($question_id < 1) $question_id = $this->id;
-		$query = sprintf("SELECT COUNT(qpl_questions.question_id) AS question_count FROM qpl_questions, tst_test_question WHERE qpl_questions.original_id = %s AND qpl_questions.question_id = tst_test_question.question_fi",
-			$ilDB->quote($question_id . "")
+		if ($question_id < 1) $question_id = $this->getId();
+		$result = $ilDB->queryF("SELECT COUNT(qpl_questions.question_id) question_count FROM qpl_questions, tst_test_question WHERE qpl_questions.original_id = %s AND qpl_questions.question_id = tst_test_question.question_fi",
+			array('integer'),
+			array($question_id)
 		);
-		$result = $ilDB->query($query);
-		$row = $result->fetchRow(MDB2_FETCHMODE_ASSOC);
+		$row = $ilDB->fetchAssoc($result);
 		$count = $row["question_count"];
 
-		$query = sprintf("SELECT DISTINCT tst_active.test_fi, qpl_questions.question_id FROM qpl_questions, tst_test_random_question, tst_active WHERE qpl_questions.original_id = %s AND qpl_questions.question_id = tst_test_random_question.question_fi AND tst_test_random_question.active_fi = tst_active.active_id",
-			$ilDB->quote($question_id . "")
+		$result = $ilDB->queryF("SELECT DISTINCT tst_active.test_fi, qpl_questions.question_id FROM qpl_questions, tst_test_random_question, tst_active WHERE qpl_questions.original_id = %s AND qpl_questions.question_id = tst_test_random_question.question_fi AND tst_test_random_question.active_fi = tst_active.active_id",
+			array('integer'),
+			array($question_id)
 		);
-		$result = $ilDB->query($query);
 		$count += $result->numRows();
 
 		return $count;
 	}
 
 	/**
-	* Checks whether the question is a clone of another question or not
-	*
 	* Checks whether the question is a clone of another question or not
 	*
 	* @return boolean TRUE if the question is a clone, otherwise FALSE
@@ -1221,24 +1105,15 @@ class assQuestion
 		global $ilDB;
 		
 		if ($question_id < 1) $question_id = $this->id;
-		$query = sprintf("SELECT original_id FROM qpl_questions WHERE question_id = %s",
-			$ilDB->quote($question_id . "")
+		$result = $ilDB->queryF("SELECT original_id FROM qpl_questions WHERE question_id = %s",
+			array('integer'),
+			array($question_id)
 		);
-		$result = $ilDB->query($query);
-		$row = $result->fetchRow(MDB2_FETCHMODE_OBJECT);
-		if ($row->original_id > 0)
-		{
-			return TRUE;
-		}
-		else
-		{
-			return FALSE;
-		}
+		$row = $ilDB->fetchAssoc($result);
+		return ($row["original_id"] > 0) ? TRUE : FALSE;
 	}
 
 	/**
-	* Shuffles the values of a given array
-	*
 	* Shuffles the values of a given array
 	*
 	* @param array $array An array which should be shuffled
@@ -1274,18 +1149,15 @@ class assQuestion
 	{
 		global $ilDB;
 
-		$query = sprintf("SELECT qpl_question_type.type_tag FROM qpl_question_type, qpl_questions WHERE qpl_questions.question_id = %s AND qpl_questions.question_type_fi = qpl_question_type.question_type_id",
-			$ilDB->quote($question_id));
-
-		$result = $ilDB->query($query);
-		$data = $result->fetchRow(MDB2_FETCHMODE_OBJECT);
-
-		return $data->type_tag;
+		$result = $ilDB->queryF("SELECT qpl_question_type.type_tag FROM qpl_question_type, qpl_questions WHERE qpl_questions.question_id = %s AND qpl_questions.question_type_fi = qpl_question_type.question_type_id",
+			array('integer'),
+			array($question_id)
+		);
+		$data = $ilDB->fetchAssoc($result);
+		return $data["type_tag"];
 	}
 
 	/**
-	* Returns the name of the additional question data table in the database
-	*
 	* Returns the name of the additional question data table in the database
 	*
 	* @return string The additional table name
@@ -1299,8 +1171,6 @@ class assQuestion
 	/**
 	* Returns the name of the answer table in the database
 	*
-	* Returns the name of the answer table in the database
-	*
 	* @return string The answer table name
 	* @access public
 	*/
@@ -1310,8 +1180,6 @@ class assQuestion
 	}
 
 	/**
-	* Deletes datasets from answers tables
-	*
 	* Deletes datasets from answers tables
 	*
 	* @param integer $question_id The question id which should be deleted in the answers table
@@ -1327,10 +1195,10 @@ class assQuestion
 			{
 				if (strlen($table))
 				{
-					$query = sprintf("DELETE FROM $table WHERE question_fi = %s",
-						$ilDB->quote($question_id . "")
+					$affectedRows = $ilDB->manipulateF("DELETE FROM $table WHERE question_fi = %s",
+						array('integer'),
+						array($question_id)
 					);
-					$result = $ilDB->query($query);
 				}
 			}
 		}
@@ -1338,17 +1206,15 @@ class assQuestion
 		{
 			if (strlen($answer_table_name))
 			{
-				$query = sprintf("DELETE FROM $answer_table_name WHERE question_fi = %s",
-					$ilDB->quote($question_id . "")
+				$affectedRows = $ilDB->manipulateF("DELETE FROM $answer_table_name WHERE question_fi = %s",
+					array('integer'),
+					array($question_id)
 				);
-				$result = $ilDB->query($query);
 			}
 		}
 	}
 
 	/**
-	* Deletes datasets from the additional question table in the database
-	*
 	* Deletes datasets from the additional question table in the database
 	*
 	* @param integer $question_id The question id which should be deleted in the additional question table
@@ -1364,10 +1230,10 @@ class assQuestion
 			{
 				if (strlen($table))
 				{
-					$query = sprintf("DELETE FROM $table WHERE question_fi = %s",
-						$ilDB->quote($question_id . "")
+					$affectedRows = $ilDB->manipulateF("DELETE FROM $table WHERE question_fi = %s",
+						array('integer'),
+						array($question_id)
 					);
-					$result = $ilDB->query($query);
 				}
 			}
 		}
@@ -1375,10 +1241,10 @@ class assQuestion
 		{
 			if (strlen($additional_table_name))
 			{
-				$query = sprintf("DELETE FROM $additional_table_name WHERE question_fi = %s",
-					$ilDB->quote($question_id . "")
+				$affectedRows = $ilDB->manipulateF("DELETE FROM $additional_table_name WHERE question_fi = %s",
+					array('integer'),
+					array($question_id)
 				);
-				$result = $ilDB->query($query);
 			}
 		}
 	}
@@ -1409,13 +1275,13 @@ class assQuestion
 		if ($question_id < 1)
 		return;
 
-		$query = sprintf("SELECT obj_fi FROM qpl_questions WHERE question_id = %s",
-			$ilDB->quote($question_id)
-			);
-    	$result = $ilDB->query($query);
+		$result = $ilDB->queryF("SELECT obj_fi FROM qpl_questions WHERE question_id = %s",
+			array('integer'),
+			array($question_id)
+		);
 		if ($result->numRows() == 1)
 		{
-			$row = $result->fetchRow(MDB2_FETCHMODE_ASSOC);
+			$row = $ilDB->fetchAssoc($result);
 			$obj_id = $row["obj_fi"];
 		}
 		else
@@ -1424,21 +1290,25 @@ class assQuestion
 		}
 
 		$this->deletePageOfQuestion($question_id);
-		$query = sprintf("DELETE FROM qpl_questions WHERE question_id = %s",
-			$ilDB->quote($question_id)
+		$affectedRows = $ilDB->manipulateF("DELETE FROM qpl_questions WHERE question_id = %s",
+			array('integer'),
+			array($question_id)
 		);
-		$result = $ilDB->query($query);
 		
 		$this->deleteAdditionalTableData($question_id);
 		$this->deleteAnswers($question_id);
 
 		// delete the question in the tst_test_question table (list of test questions)
-		$querydelete = sprintf("DELETE FROM tst_test_question WHERE question_fi = %s", $ilDB->quote($question_id));
-		$deleteresult = $ilDB->query($querydelete);
+		$affectedRows = $ilDB->manipulateF("DELETE FROM tst_test_question WHERE question_fi = %s", 
+			array('integer'),
+			array($question_id)
+		);
 
 		// delete suggested solutions contained in the question
-		$querydelete = sprintf("DELETE FROM qpl_suggested_solutions WHERE question_fi = %s", $ilDB->quote($question_id));
-		$deleteresult = $ilDB->query($querydelete);
+		$affectedRows = $ilDB->manipulatedF("DELETE FROM qpl_suggested_solutions WHERE question_fi = %s", 
+			array('integer'),
+			array($question_id)
+		);
 				
 		$directory = CLIENT_WEB_DIR . "/assessment/" . $obj_id . "/$question_id";
 		if (preg_match("/\d+/", $obj_id) and preg_match("/\d+/", $question_id) and is_dir($directory))
@@ -1484,26 +1354,21 @@ class assQuestion
 		global $ilDB;
 
 		// get all question references to the question id
-		$query = sprintf("SELECT question_id FROM qpl_questions WHERE original_id = %s OR question_id = %s",
-			$ilDB->quote($a_q_id),
-			$ilDB->quote($a_q_id)
+		$result = $ilDB->queryF("SELECT question_id FROM qpl_questions WHERE original_id = %s OR question_id = %s",
+			array('integer','integer'),
+			array($a_q_id, $a_q_id)
 		);
-
-		$result = $ilDB->query($query);
-
 		if ($result->numRows() == 0)
 		{
 			return 0;
 		}
 		$found_id = array();
-		while ($row = $result->fetchRow(MDB2_FETCHMODE_OBJECT))
+		while ($row = $ilDB->fetchAssoc($result))
 		{
-			array_push($found_id, $row->question_id);
+			array_push($found_id, $row["question_id"]);
 		}
 
-		$query = sprintf("SELECT * FROM tst_test_result WHERE question_fi IN ('%s')",
-			join($found_id, "','"));
-		$result = $ilDB->query($query);
+		$result = $ilDB->query("SELECT * FROM tst_test_result WHERE " . $ilDB->in('question_fi', $found_id, false, 'integer');
 
 		return $result->numRows();
 	}
@@ -1518,29 +1383,26 @@ class assQuestion
 	function _getTotalRightAnswers($a_q_id)
 	{
 		global $ilDB;
-		$query = sprintf("SELECT question_id FROM qpl_questions WHERE original_id = %s OR question_id = %s",
-			$ilDB->quote($a_q_id),
-			$ilDB->quote($a_q_id)
+		$result = $ilDB->queryF("SELECT question_id FROM qpl_questions WHERE original_id = %s OR question_id = %s",
+			array('integer','integer'),
+			array($a_q_id, $a_q_id)
 		);
-		$result = $ilDB->query($query);
 		if ($result->numRows() == 0)
 		{
 			return 0;
 		}
 		$found_id = array();
-		while ($row = $result->fetchRow(MDB2_FETCHMODE_OBJECT))
+		while ($row = $ilDB->fetchAssoc($result))
 		{
-			array_push($found_id, $row->question_id);
+			array_push($found_id, $row["question_id"]);
 		}
-		$query = sprintf("SELECT * FROM tst_test_result WHERE question_fi IN ('%s')",
-			join($found_id, "','"));
-		$result = $ilDB->query($query);
+		$result = $ilDB->query("SELECT * FROM tst_test_result WHERE " . $ilDB->in('question_fi', $found_id, false, 'integer');
 		$answers = array();
-		while ($row = $result->fetchRow(MDB2_FETCHMODE_OBJECT))
+		while ($row = $ilDB->fetchAssoc($result))
 		{
-			$reached = $row->points; 
+			$reached = $row["points"]; 
 			include_once "./Modules/TestQuestionPool/classes/class.assQuestion.php";
-			$max = assQuestion::_getMaximumPoints($row->question_fi);
+			$max = assQuestion::_getMaximumPoints($row["question_fi"]);
 			array_push($answers, array("reached" => $reached, "max" => $max));
 		}
 		$max = 0.0;
@@ -1568,13 +1430,13 @@ class assQuestion
 	function _getTitle($a_q_id)
 	{
 		global $ilDB;
-		$query = sprintf("SELECT title FROM qpl_questions WHERE question_id = %s",
-			$ilDB->quote($a_q_id)
+		$result = $ilDB->queryF("SELECT title FROM qpl_questions WHERE question_id = %s",
+			array('integer'),
+			array($a_q_id)
 		);
-		$result = $ilDB->query($query);
 		if ($result->numRows() == 1)
 		{
-			$row = $result->fetchRow(MDB2_FETCHMODE_ASSOC);
+			$row = $ilDB->fetchAssoc($result);
 			return $row["title"];
 		}
 		else
@@ -1626,57 +1488,58 @@ class assQuestion
 
 /**
 * Returns the question type of a question with a given id
-* 
-* Returns the question type of a question with a given id
 *
 * @param integer $question_id The database id of the question
 * @result string The question type string
 * @access private
 */
-  function _getQuestionType($question_id) {
+	function _getQuestionType($question_id) 
+	{
 		global $ilDB;
 
-    if ($question_id < 1)
-      return "";
-
-    $query = sprintf("SELECT type_tag FROM qpl_questions, qpl_question_type WHERE qpl_questions.question_id = %s AND qpl_questions.question_type_fi = qpl_question_type.question_type_id",
-      $ilDB->quote($question_id)
-    );
-    $result = $ilDB->query($query);
-    if ($result->numRows() == 1) {
-      $data = $result->fetchRow(MDB2_FETCHMODE_OBJECT);
-      return $data->type_tag;
-    } else {
-      return "";
-    }
-  }
+		if ($question_id < 1) return "";
+		$result = $ilDB->queryF("SELECT type_tag FROM qpl_questions, qpl_question_type WHERE qpl_questions.question_id = %s AND qpl_questions.question_type_fi = qpl_question_type.question_type_id",
+			array('integer'),
+			array($question_id)
+		);
+		if ($result->numRows() == 1) 
+		{
+			$data = $ilDB->fetchAssoc($result);
+			return $data["type_tag"];
+		}
+		else 
+		{
+			return "";
+		}
+	}
 
 /**
-* Returns the question title of a question with a given id
-* 
 * Returns the question title of a question with a given id
 *
 * @param integer $question_id The database id of the question
 * @result string The question title
 * @access private
 */
-  function _getQuestionTitle($question_id) {
+	function _getQuestionTitle($question_id) 
+	{
 		global $ilDB;
+		
+		if ($question_id < 1) return "";
 
-    if ($question_id < 1)
-      return "";
-
-    $query = sprintf("SELECT title FROM qpl_questions WHERE qpl_questions.question_id = %s",
-      $ilDB->quote($question_id)
-    );
-    $result = $ilDB->query($query);
-    if ($result->numRows() == 1) {
-      $data = $result->fetchRow(MDB2_FETCHMODE_ASSOC);
-      return $data["title"];
-    } else {
-      return "";
-    }
-  }
+		$result = $ilDB->query("SELECT title FROM qpl_questions WHERE qpl_questions.question_id = %s",
+			array('integer'),
+			array($question_id)
+		);
+		if ($result->numRows() == 1) 
+		{
+			$data = $ilDB->fetchAssoc($result);
+			return $data["title"];
+		}
+		else 
+		{
+			return "";
+		}
+	}
 
 	function setOriginalId($original_id)
 	{
@@ -1691,8 +1554,6 @@ class assQuestion
 /**
 * Loads the question from the database
 *
-* Loads the question from the database
-*
 * @param integer $question_id A unique key which defines the question in the database
 * @access public
 */
@@ -1700,15 +1561,15 @@ class assQuestion
 	{
 		global $ilDB;
 		
-		$query = sprintf("SELECT * FROM qpl_suggested_solutions WHERE question_fi = %s",
-			$ilDB->quote($this->getId() . "")
+		$result = $ilDB->queryF("SELECT * FROM qpl_suggested_solutions WHERE question_fi = %s",
+			array('integer'),
+			array($this->getId())
 		);
-		$result = $ilDB->query($query);
 		$this->suggested_solutions = array();
 		if ($result->numRows())
 		{
 			include_once("./Services/RTE/classes/class.ilRTE.php");
-			while ($row = $result->fetchRow(MDB2_FETCHMODE_ASSOC))
+			while ($row = $ilDB->fetchAssoc($result))
 			{
 				$value = (is_array(unserialize($row["value"]))) ? unserialize($row["value"]) : ilRTE::_replaceMediaObjectImageSrc($row["value"], 1);
 				$this->suggested_solutions[$row["subquestion_index"]] = array(
@@ -1739,26 +1600,27 @@ class assQuestion
 		$obj_id = ($this->getObjId() <= 0) ? (ilObject::_lookupObjId((strlen($_GET["ref_id"])) ? $_GET["ref_id"] : $_POST["sel_qpl"])) : $this->getObjId();
 		if ($obj_id > 0)
 		{
-			$statement = $ilDB->prepareManip("INSERT INTO qpl_questions (question_id, question_type_fi, obj_fi, title, description, author, owner, question_text, points, working_time, complete, created, original_id, TIMESTAMP) VALUES (NULL, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, NULL)", 
-				array("integer", "integer", "text", "text", "text", "integer", "text", "float", "time", "text", "timestamp")
+			$next_id = $ilDB->nextId("qpl_questions");
+			$affectedRows = $ilDB->manipulateF("INSERT INTO qpl_questions (question_id, question_type_fi, obj_fi, title, description, author, owner, question_text, points, working_time, complete, created, original_id, tstamp) VALUES (%s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s)", 
+				array("integer","integer", "integer", "text", "text", "text", "integer", "text", "float", "time", "text", "integer", "integer", "integer"),
+				array(
+					$next_id,
+					$this->getQuestionTypeID(), 
+					$obj_id, 
+					NULL, 
+					NULL, 
+					$this->getAuthor(), 
+					0, 
+					NULL, 
+					0,
+					$estw_time,
+					$complete,
+					time(),
+					NULL,
+					0
+				)
 			);
-			$data = array(
-				$this->getQuestionTypeID(), 
-				$obj_id, 
-				"", 
-				"", 
-				$this->getAuthor(), 
-				0, 
-				"", 
-				0,
-				$estw_time,
-				$complete,
-				$created,
-				NULL
-			);
-			$affectedRows = $ilDB->execute($statement, $data);
-			$id = $ilDB->getLastInsertId();
-			$this->setId($id);
+			$this->setId($next_id);
 			// create page object of question
 			$this->createPageObject();
 		}
@@ -1784,11 +1646,10 @@ class assQuestion
 		ilObjQuestionPool::_updateQuestionCount($this->obj_id);
 
 			// update the question time stamp
-		$query = sprintf("UPDATE qpl_questions SET TIMESTAMP = NULL, owner = %s WHERE question_id = %s",
-			$ilDB->quote(($this->getOwner() <= 0) ? $this->ilias->account->id : $this->getOwner()),
-			$ilDB->quote($this->getId())
+		$affectedRows = $ilDB->manipulateF("UPDATE qpl_questions SET tstamp = %s, owner = %s WHERE question_id = %s",
+			array('integer','integer', 'integer'),
+			array(time(), ($this->getOwner() <= 0) ? $this->ilias->account->id : $this->getOwner(), $this->getId())
 		);
-		$ilDB->query($query);
 	}
 	
 	/**
@@ -1816,10 +1677,10 @@ class assQuestion
 	{
 		global $ilDB;
 		// delete the links in the qpl_suggested_solutions table
-		$query = sprintf("DELETE FROM qpl_suggested_solutions WHERE question_fi = %s",
-			$ilDB->quote($this->getId() . "")
+		$affectedRows = $ilDB->manipulateF("DELETE FROM qpl_suggested_solutions WHERE question_fi = %s",
+			array('integer'),
+			array($this->getId())
 		);
-		$result = $ilDB->query($query);
 		// delete the links in the int_link table
 		include_once "./Services/COPage/classes/class.ilInternalLink.php";
 		ilInternalLink::_deleteAllLinksOfSource("qst", $this->getId());
@@ -1828,8 +1689,6 @@ class assQuestion
 	}
 	
 /**
-* Returns a suggested solution for a given subquestion index
-*
 * Returns a suggested solution for a given subquestion index
 *
 * @param integer $subquestion_index The index of a subquestion (i.e. a close test gap). Usually 0
@@ -1849,8 +1708,6 @@ class assQuestion
 	}
 
 /**
-* Returns the title of a suggested solution at a given subquestion_index
-*
 * Returns the title of a suggested solution at a given subquestion_index.
 * This can be usable for displaying suggested solutions
 *
@@ -1873,8 +1730,6 @@ class assQuestion
 	}
 
 /**
-* Sets a suggested solution for the question
-*
 * Sets a suggested solution for the question.
 * If there is more than one subquestion (i.e. close questions) may enter a subquestion index.
 *
@@ -1997,26 +1852,28 @@ class assQuestion
 
 		$id = (strlen($original_id) && is_numeric($original_id)) ? $original_id : $this->getId();
 		include_once "./Services/COPage/classes/class.ilInternalLink.php";
-		$query = sprintf("DELETE FROM qpl_suggested_solutions WHERE question_fi = %s",
-			$ilDB->quote($id . "")
+		$affectedRows = $ilDB->manipulateF("DELETE FROM qpl_suggested_solutions WHERE question_fi = %s",
+			array('integer'),
+			array($id)
 		);
-		$result = $ilDB->query($query);
 		ilInternalLink::_deleteAllLinksOfSource("qst", $id);
 		include_once("./Services/RTE/classes/class.ilRTE.php");
 		foreach ($this->suggested_solutions as $index => $solution)
 		{
-			$statement = $ilDB->prepareManip("INSERT INTO qpl_suggested_solutions (question_fi, type, value, internal_link, import_id, subquestion_index) VALUES (?, ?, ?, ?, ?, ?)", 
-				array("integer", "text", "text", "text", "text", "integer")
+			$next_id = $ilDB->nextId('qpl_suggested_solutions');
+			$affectedRows = $ilDB->manipulateF("INSERT INTO qpl_suggested_solutions (suggested_solution_id, question_fi, type, value, internal_link, import_id, subquestion_index, tstamp) VALUES (%s, %s, %s, %s, %s, %s, %s, %s)", 
+				array("integer","integer", "text", "text", "text", "text", "integer","integer"),
+				array(
+					$next_id,
+					$id,
+					$solution["type"],
+					ilRTE::_replaceMediaObjectImageSrc((is_array($solution["value"])) ? serialize($solution["value"]) : $solution["value"], 0),
+					$solution["internal_link"],
+					NULL,
+					$index,
+					time()
+				)
 			);
-			$data = array(
-				$id,
-				$solution["type"],
-				ilRTE::_replaceMediaObjectImageSrc((is_array($solution["value"])) ? serialize($solution["value"]) : $solution["value"], 0),
-				$solution["internal_link"],
-				"",
-				$index
-			);
-			$affectedRows = $ilDB->execute($statement, $data);
 			if (preg_match("/il_(\d*?)_(\w+)_(\d+)/", $solution["internal_link"], $matches))
 			{
 				ilInternalLink::_saveLink("qst", $id, $matches[2], $matches[3], $matches[1]);
@@ -2039,28 +1896,29 @@ class assQuestion
 	{
 		global $ilDB;
 
-		$statement = $ilDB->prepareManip("DELETE FROM qpl_suggested_solutions WHERE question_fi = ? AND subquestion_index = ?", 
-			array("integer", "integer")
+		$affectedRows = $ilDB->manipulateF("DELETE FROM qpl_suggested_solutions WHERE question_fi = %s AND subquestion_index = %s", 
+			array("integer", "integer"),
+			array(
+				$this->getId(), 
+				$subquestion_index
+			)
 		);
-		$data = array(
-			$this->getId(), 
-			$subquestion_index
-		);
-		$affectedRows = $ilDB->execute($statement, $data);
-
-		$statement = $ilDB->prepareManip("INSERT INTO qpl_suggested_solutions (question_fi, type, value, internal_link, import_id, subquestion_index) VALUES (?, ?, ?, ?, ?, ?)", 
-			array("integer", "text", "text", "text", "text", "integer")
-		);
+		
+		$next_id = $ilDB->nextId('qpl_suggested_solutions');
 		include_once("./Services/RTE/classes/class.ilRTE.php");
-		$data = array(
-			$this->getId(),
-			$type,
-			ilRTE::_replaceMediaObjectImageSrc((is_array($value)) ? serialize($value) : $value, 0),
-			$solution_id,
-			"",
-			$subquestion_index
+		$affectedRows = $ilDB->manipulateF("INSERT INTO qpl_suggested_solutions (suggested_solution_id, question_fi, type, value, internal_link, import_id, subquestion_index, tstamp) VALUES (%s, %s, %s, %s, %s, %s, %s, %s)", 
+			array("integer","integer", "text", "text", "text", "text", "integer","integer"),
+			array(
+				$next_id,
+				$this->getId(),
+				$type,
+				ilRTE::_replaceMediaObjectImageSrc((is_array($value)) ? serialize($value) : $value, 0),
+				$solution_id,
+				NULL,
+				$subquestion_index,
+				time()
+			)			
 		);
-		$affectedRows = $ilDB->execute($statement, $data);
 		if ($affectedRows == 1)
 		{
 			$this->suggested_solutions["subquestion_index"] = array(
@@ -2114,13 +1972,13 @@ class assQuestion
 	{
 		global $ilDB;
 		$resolvedlinks = 0;
-		$query = sprintf("SELECT * FROM qpl_suggested_solutions WHERE question_fi = %s",
-			$ilDB->quote($question_id . "")
+		$result = $ilDB->queryF("SELECT * FROM qpl_suggested_solutions WHERE question_fi = %s",
+			array('integer'),
+			array($question_id)
 		);
-		$result = $ilDB->query($query);
 		if ($result->numRows())
 		{
-			while ($row = $result->fetchRow(MDB2_FETCHMODE_ASSOC))
+			while ($row = $ilDB->fetchAssoc($result))
 			{
 				$internal_link = $row["internal_link"];
 				include_once "./Modules/TestQuestionPool/classes/class.assQuestion.php";
@@ -2128,11 +1986,10 @@ class assQuestion
 				if (strcmp($internal_link, $resolved_link) != 0)
 				{
 					// internal link was resolved successfully
-					$queryupdate = sprintf("UPDATE qpl_suggested_solutions SET internal_link = %s WHERE suggested_solution_id = %s",
-						$ilDB->quote($resolved_link),
-						$ilDB->quote($row["suggested_solution_id"] . "")
+					$affectedRows = $ilDB->manipulateF("UPDATE qpl_suggested_solutions SET internal_link = %s WHERE suggested_solution_id = %s",
+						array('text','integer'),
+						array($resolved_link, $row["suggested_solution_id"])
 					);
-					$updateresult = $ilDB->query($queryupdate);
 					$resolvedlinks++;
 				}
 			}
@@ -2145,10 +2002,10 @@ class assQuestion
 			include_once "./Services/COPage/classes/class.ilInternalLink.php";
 			ilInternalLink::_deleteAllLinksOfSource("qst", $question_id);
 
-			$query = sprintf("SELECT * FROM qpl_suggested_solutions WHERE question_fi = %s",
-				$ilDB->quote($question_id . "")
+			$result = $ilDB->queryF("SELECT * FROM qpl_suggested_solutions WHERE question_fi = %s",
+				array('integer'),
+				array($question_id)
 			);
-			$result = $ilDB->query($query);
 			if ($result->numRows())
 			{
 				while ($row = $result->fetchRow(MDB2_FETCHMODE_ASSOC))
@@ -2201,8 +2058,6 @@ class assQuestion
 /**
 * Returns the original id of a question
 *
-* Returns the original id of a question
-*
 * @param integer $question_id The database id of the question
 * @return integer The database id of the original question
 * @access public
@@ -2210,13 +2065,13 @@ class assQuestion
 	function _getOriginalId($question_id)
 	{
 		global $ilDB;
-		$query = sprintf("SELECT * FROM qpl_questions WHERE question_id = %s",
-			$ilDB->quote($question_id . "")
+		$result = $ilDB->queryF("SELECT * FROM qpl_questions WHERE question_id = %s",
+			array('integer'),
+			array($question_id)
 		);
-		$result = $ilDB->query($query);
 		if ($result->numRows() > 0)
 		{
-			$row = $result->fetchRow(MDB2_FETCHMODE_ASSOC);
+			$row = $ilDB->fetchAssoc($result);
 			if ($row["original_id"] > 0)
 			{
 				return $row["original_id"];
@@ -2276,10 +2131,10 @@ class assQuestion
 			return false;
 		}
 		
-		$query = sprintf("SELECT question_id FROM qpl_questions WHERE question_id = %s",
-			$ilDB->quote($question_id)
+		$result = $ilDB->queryF("SELECT question_id FROM qpl_questions WHERE question_id = %s",
+			array('integer'),
+			array($question_id)
 		);
-    $result = $ilDB->query($query);
 		if ($result->numRows() == 1)
 		{
 			return true;
@@ -2342,8 +2197,6 @@ class assQuestion
 /**
 * Returns the maximum pass a users question solution
 *
-* Returns the maximum pass a users question solution
-*
 * @param return integer The maximum pass of the users solution
 * @access public
 */
@@ -2369,14 +2222,13 @@ class assQuestion
 		// with the above solution, only the answered questions of the last pass are counted
 		global $ilDB;
 
-		$query = sprintf("SELECT MAX(pass) as maxpass FROM tst_test_result WHERE active_fi = %s AND question_fi = %s",
-			$ilDB->quote($active_id . ""),
-			$ilDB->quote($question_id . "")
+		$result = $ilDB->queryF("SELECT MAX(pass) maxpass FROM tst_test_result WHERE active_fi = %s AND question_fi = %s",
+			array('integer','integer'),
+			array($active_id, $question_id)
 		);
-    $result = $ilDB->query($query);
 		if ($result->numRows() == 1)
 		{
-			$row = $result->fetchRow(MDB2_FETCHMODE_ASSOC);
+			$row = $ilDB->fetchAssoc($result);
 			return $row["maxpass"];
 		}
 		else
@@ -2402,13 +2254,13 @@ class assQuestion
 			return false;
 		}
 		
-		$query = sprintf("SELECT obj_fi FROM qpl_questions WHERE question_id = %s",
-			$ilDB->quote($question_id . "")
+		$result = $ilDB->queryF("SELECT obj_fi FROM qpl_questions WHERE question_id = %s",
+			array('integer'),
+			array($question_id)
 		);
-    $result = $ilDB->query($query);
 		if ($result->numRows() == 1)
 		{
-			$row = $result->fetchRow(MDB2_FETCHMODE_ASSOC);
+			$row = $ilDB->fetchAssoc($result);
 			$qpl_object_id = $row["obj_fi"];
 			include_once "./Modules/TestQuestionPool/classes/class.ilObjQuestionPool.php";
 			return ilObjQuestionPool::_isWriteable($qpl_object_id, $user_id);
@@ -2430,10 +2282,10 @@ class assQuestion
 		global $ilDB;
 		
 		if ($question_id < 1) return 0;
-		$query = sprintf("SELECT test_random_question_id FROM tst_test_random_question WHERE question_fi = %s",
-			$ilDB->quote($question_id . "")
+		$result = $ilDB->queryF("SELECT test_random_question_id FROM tst_test_random_question WHERE question_fi = %s",
+			array('integer'),
+			array($question_id)
 		);
-		$result = $ilDB->query($query);
 		return $result->numRows();
 	}
 
@@ -2486,12 +2338,10 @@ class assQuestion
 			include_once "./Modules/TestQuestionPool/classes/class.assQuestion.php";
 			$pass = assQuestion::_getSolutionMaxPass($question_id, $active_id);
 		}
-		$query = sprintf("SELECT solution_id FROM tst_solutions WHERE active_fi = %s AND question_fi = %s AND pass = %s",
-			$ilDB->quote($active_id . ""),
-			$ilDB->quote($question_id . ""),
-			$ilDB->quote($pass . "")
+		$result = $ilDB->queryF("SELECT solution_id FROM tst_solutions WHERE active_fi = %s AND question_fi = %s AND pass = %s",
+			array('integer','integer','integer'),
+			array($active_id, $question_id, $pass)
 		);
-		$result = $ilDB->query($query);
 		if ($result->numRows())
 		{
 			return TRUE;
@@ -2531,11 +2381,13 @@ class assQuestion
 	{
 		global $ilDB;
 
-		$query = "SELECT DISTINCT(question_fi) FROM tst_test_result JOIN tst_active ".
+		$res = $ilDB->queryF("SELECT DISTINCT(question_fi) FROM tst_test_result JOIN tst_active ".
 			"ON (active_id = active_fi) ".
-			"WHERE question_fi IN ('".implode("','",$a_question_ids)."') ".
-			"AND user_fi = '".$a_user_id."'";
-		$res = $ilDB->query($query);
+			"WHERE " . $ilDB->in('question_fi', $a_question_ids, false, 'integer') .
+			" AND user_fi = %s",
+			array('integer'),
+			array($a_user_id)
+		);
 		return ($res->numRows() == count($a_question_ids)) ? true : false;
 	}
 	
@@ -2677,40 +2529,27 @@ class assQuestion
 
 			// retrieve the already given points
 			$old_points = 0;
-			$query = sprintf("SELECT points FROM tst_test_result WHERE active_fi = %s AND question_fi = %s AND pass = %s",
-				$ilDB->quote($active_id . ""),
-				$ilDB->quote($question_id . ""),
-				$ilDB->quote($pass . "")
+			$result = $ilDB->queryF("SELECT points FROM tst_test_result WHERE active_fi = %s AND question_fi = %s AND pass = %s",
+				array('integer','integer','integer'),
+				array($active_id, $question_id, $pass)
 			);
-			$result = $ilDB->query($query);
 			$manual = ($manualscoring) ? 1 : 0;
 			if ($result->numRows())
 			{
-				$row = $result->fetchRow(MDB2_FETCHMODE_ASSOC);
+				$row = $ilDB->fetchAssoc($result);
 				$old_points = $row["points"];
-				$query = sprintf("UPDATE tst_test_result SET points = %s, manual = %s WHERE active_fi = %s AND question_fi = %s AND pass = %s",
-					$ilDB->quote($points . ""),
-					$ilDB->quote($manual . ""),
-					$ilDB->quote($active_id . ""),
-					$ilDB->quote($question_id . ""),
-					$ilDB->quote($pass . "")
+				$affectedRows = $ilDB->manipulateF("UPDATE tst_test_result SET points = %s, manual = %s, tstamp = %s WHERE active_fi = %s AND question_fi = %s AND pass = %s",
+					array('float', 'integer', 'integer', 'integer', 'integer', 'integer'),
+					array($points, $manual, time(), $active_id, $question_id, $pass)
 				);
 			}
 			else
 			{
-				$query = sprintf("INSERT INTO tst_test_result (active_fi, question_fi, points, pass, manual) VALUES (%s, %s, %s, %s, %s)",
-					$ilDB->quote($active_id . ""),
-					$ilDB->quote($question_id . ""),
-					$ilDB->quote($points . ""),
-					$ilDB->quote($pass . ""),
-					$ilDB->quote($manual . "")
+				$next_id = $ilDB->nextId('tst_test_result');
+				$affectedRows = $ilDB->manipulateF("INSERT INTO tst_test_result (test_result_id, active_fi, question_fi, points, pass, manual, tstamp) VALUES (%s, %s, %s, %s, %s, %s, %s)",
+					array('integer', 'integer','integer', 'float', 'integer', 'integer','integer'),
+					array($next_id, $active_id, $question_id, $points, $pass, $manual, time())
 				);
-			}
-			$result = $ilDB->query($query);
-			if (PEAR::isError($result)) 
-			{
-				global $ilias;
-				$ilias->raiseError($result->getMessage());
 			}
 			assQuestion::_updateTestPassResults($active_id, $pass);
 			// finally update objective result
@@ -2783,13 +2622,13 @@ class assQuestion
 	{
 		global $ilDB;
 		
-		$query = sprintf("SELECT question_type_id FROM qpl_question_type WHERE type_tag = %s",
-			$ilDB->quote($this->getQuestionType() . "")
+		$result = $ilDB->queryF("SELECT question_type_id FROM qpl_question_type WHERE type_tag = %s",
+			array('text'),
+			array($this->getQuestionType())
 		);
-		$result = $ilDB->query($query);
 		if ($result->numRows() == 1)
 		{
-			$row = $result->fetchRow(MDB2_FETCHMODE_ASSOC);
+			$row = $ilDB->fetchAssoc($result);
 			return $row["question_type_id"];
 		}
 		return 0;
@@ -2818,20 +2657,18 @@ class assQuestion
 				$correctness = 1;
 				break;
 		}
-		$query = sprintf("DELETE FROM qpl_feedback_generic WHERE question_fi = %s AND correctness = %s",
-			$ilDB->quote($this->getId() . ""),
-			$ilDB->quote($correctness . "")
+		$affectedRows = $ilDB->manipulateF("DELETE FROM qpl_feedback_generic WHERE question_fi = %s AND correctness = %s",
+			array('integer', 'text'),
+			array($this->getId(), $correctness)
 		);
-		$result = $ilDB->query($query);
 		if (strlen($feedback))
 		{
 			include_once("./Services/RTE/classes/class.ilRTE.php");
-			$query = sprintf("INSERT INTO qpl_feedback_generic VALUES (NULL, %s, %s, %s, NULL)",
-				$ilDB->quote($this->getId() . ""),
-				$ilDB->quote($correctness . ""),
-				$ilDB->quote(ilRTE::_replaceMediaObjectImageSrc($feedback, 0))
+			$next_id = $ilDB->nextId('qpl_feedback_generic');
+			$affectedRows = $ilDB->manipulateF("INSERT INTO qpl_feedback_generic (feedback_id, question_fi, correctness, feedback, tstamp) VALUES (%s, %s, %s, %s, %s)",
+				array('integer','integer','text','text','integer'),
+				array($next_id, $this->getId(), $correctness, ilRTE::_replaceMediaObjectImageSrc($feedback, 0), time())
 			);
-			$result = $ilDB->query($query);
 		}
 	}
 	
@@ -2849,14 +2686,13 @@ class assQuestion
 		global $ilDB;
 		
 		$feedback = "";
-		$query = sprintf("SELECT * FROM qpl_feedback_generic WHERE question_fi = %s AND correctness = %s",
-			$ilDB->quote($this->getId() . ""),
-			$ilDB->quote($correctness . "")
+		$result = $ilDB->queryF("SELECT * FROM qpl_feedback_generic WHERE question_fi = %s AND correctness = %s",
+			array('integer', 'text'),
+			array($this->getId(), $correctness)
 		);
-		$result = $ilDB->query($query);
 		if ($result->numRows())
 		{
-			$row = $result->fetchRow(MDB2_FETCHMODE_ASSOC);
+			$row = $ilDB->fetchAssoc($result);
 			include_once("./Services/RTE/classes/class.ilRTE.php");
 			$feedback = ilRTE::_replaceMediaObjectImageSrc($row["feedback"], 1);
 		}
@@ -2874,20 +2710,19 @@ class assQuestion
 		global $ilDB;
 		
 		$feedback = "";
-		$query = sprintf("SELECT * FROM qpl_feedback_generic WHERE question_fi = %s",
-			$ilDB->quote($original_id . "")
+		$result = $ilDB->queryF("SELECT * FROM qpl_feedback_generic WHERE question_fi = %s",
+			array('integer'),
+			array($original_id)
 		);
-		$result = $ilDB->query($query);
 		if ($result->numRows())
 		{
-			while ($row = $result->fetchRow(MDB2_FETCHMODE_ASSOC))
+			while ($row = $ilDB->fetchAssoc($result))
 			{
-				$duplicatequery = sprintf("INSERT INTO qpl_feedback_generic VALUES (NULL, %s, %s, %s, NULL)",
-					$ilDB->quote($this->getId() . ""),
-					$ilDB->quote($row["correctness"] . ""),
-					$ilDB->quote($row["feedback"] . "")
+				$next_id = $ilDB->nextId('qpl_feedback_generic');
+				$affectedRows = $ilDB->manipulateF("INSERT INTO qpl_feedback_generic (feedback_id, question_fi, correctness, feedback, tstamp) VALUES (%s, %s, %s, %s, %s)",
+					array('integer','integer','text','text','integer'),
+					array($next_id, $this->getId(), $row["correctness"], $row["feedback"], time())
 				);
-				$duplicateresult = $ilDB->query($duplicatequery);
 			}
 		}
 	}
@@ -2899,28 +2734,27 @@ class assQuestion
 		$feedback = "";
 
 		// delete generic feedback of the original
-		$deletequery = sprintf("DELETE FROM qpl_feedback_generic WHERE question_fi = %s",
-			$ilDB->quote($this->original_id . "")
+		$affectedRows = $ilDB->manipulateF("DELETE FROM qpl_feedback_generic WHERE question_fi = %s",
+			array('integer'),
+			array($this->original_id)
 		);
-		$result = $ilDB->query($deletequery);
 			
 		// get generic feedback of the actual question
-		$query = sprintf("SELECT * FROM qpl_feedback_generic WHERE question_fi = %s",
-			$ilDB->quote($this->getId() . "")
+		$result = $ilDB->queryF("SELECT * FROM qpl_feedback_generic WHERE question_fi = %s",
+			array('integer'),
+			array($this->getId())
 		);
-		$result = $ilDB->query($query);
 
 		// save generic feedback to the original
 		if ($result->numRows())
 		{
-			while ($row = $result->fetchRow(MDB2_FETCHMODE_ASSOC))
+			while ($row = $ilDB->fetchAssoc($result))
 			{
-				$duplicatequery = sprintf("INSERT INTO qpl_feedback_generic VALUES (NULL, %s, %s, %s, NULL)",
-					$ilDB->quote($this->original_id . ""),
-					$ilDB->quote($row["correctness"] . ""),
-					$ilDB->quote($row["feedback"] . "")
+				$next_id = $ilDB->nextId('qpl_feedback_generic');
+				$affectedRows = $ilDB->manipulateF("INSERT INTO qpl_feedback_generic (feedback_id, question_fi, correctness, feedback, tstamp) VALUES (%s, %s, %s, %s, %s)",
+					array('integer','integer','text','text','integer'),
+					array($next_id, $this->original_id, $row["correctness"], $row["feedback"], time())
 				);
-				$duplicateresult = $ilDB->query($duplicatequery);
 			}
 		}
 	}
@@ -2963,10 +2797,10 @@ class assQuestion
 	{
 		global $ilDB;
 
-		$statement = $ilDB->prepare("SELECT question_id FROM qpl_questions WHERE original_id = ?",
-			array("integer")
+		$result = $ilDB->queryF("SELECT question_id FROM qpl_questions WHERE original_id = ?",
+			array("integer"),
+			array($this->getId())
 		);
-		$result = $ilDB->execute($statement, array($this->getId()));
 		$instances = array();
 		$ids = array();
 		while ($row = $ilDB->fetchAssoc($result))
@@ -2976,19 +2810,19 @@ class assQuestion
 		foreach ($ids as $question_id)
 		{
 			// check non random tests
-			$statement = $ilDB->prepare("SELECT tst_tests.obj_fi FROM tst_tests, tst_test_question WHERE tst_test_question.question_fi = ? AND tst_test_question.test_fi = tst_tests.test_id",
-				array("integer")
+			$result = $ilDB->queryF("SELECT tst_tests.obj_fi FROM tst_tests, tst_test_question WHERE tst_test_question.question_fi = ? AND tst_test_question.test_fi = tst_tests.test_id",
+				array("integer"),
+				array($question_id)
 			);
-			$result = $ilDB->execute($statement, array($question_id));
 			while ($row = $ilDB->fetchAssoc($result))
 			{
 				$instances[$row['obj_fi']] = ilObject::_lookupTitle($row['obj_fi']);
 			}
 			// check random tests
-			$statement = $ilDB->prepare("SELECT tst_tests.obj_fi FROM tst_tests, tst_test_random_question, tst_active WHERE tst_test_random_question.active_fi = tst_active.active_id AND tst_test_random_question.question_fi = ? AND tst_tests.test_id = tst_active.test_fi",
-				array("integer")
+			$result = $ilDB->queryF("SELECT tst_tests.obj_fi FROM tst_tests, tst_test_random_question, tst_active WHERE tst_test_random_question.active_fi = tst_active.active_id AND tst_test_random_question.question_fi = ? AND tst_tests.test_id = tst_active.test_fi",
+				array("integer"),
+				array($question_id)
 			);
-			$result = $ilDB->execute($statement, array($question_id));
 			while ($row = $ilDB->fetchAssoc($result))
 			{
 				$instances[$row['obj_fi']] = ilObject::_lookupTitle($row['obj_fi']);
@@ -3027,13 +2861,13 @@ class assQuestion
 	function getActiveUserData($active_id)
 	{
 		global $ilDB;
-		$query = sprintf("SELECT * FROM tst_active WHERE active_id = %s",
-			$ilDB->quote($active_id . "")
+		$result = $ilDB->queryF("SELECT * FROM tst_active WHERE active_id = %s",
+			array('integer'),
+			array($active_id)
 		);
-		$result = $ilDB->query($query);
 		if ($result->numRows())
 		{
-			$row = $result->fetchRow(MDB2_FETCHMODE_ASSOC);
+			$row = $ilDB->fetchAssoc($result);
 			return array("user_id" => $row["user_fi"], "test_id" => $row["test_fi"]);
 		}
 		else

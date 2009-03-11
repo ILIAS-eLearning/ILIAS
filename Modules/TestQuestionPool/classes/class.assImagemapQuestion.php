@@ -144,116 +144,89 @@ class assImagemapQuestion extends assQuestion
 
 		$estw_time = $this->getEstimatedWorkingTime();
 		$estw_time = sprintf("%02d:%02d:%02d", $estw_time['h'], $estw_time['m'], $estw_time['s']);
-		if ($original_id)
-		{
-			$original_id = $ilDB->quote($original_id);
-		}
-		else
-		{
-			$original_id = "NULL";
-		}
 
 		// cleanup RTE images which are not inserted into the question text
 		include_once("./Services/RTE/classes/class.ilRTE.php");
 		if ($this->id == -1)
 		{
 			// Neuen Datensatz schreiben
-			$now = getdate();
-			$question_type = $this->getQuestionTypeID();
-			$created = sprintf("%04d%02d%02d%02d%02d%02d", $now['year'], $now['mon'], $now['mday'], $now['hours'], $now['minutes'], $now['seconds']);
-			$query = sprintf("INSERT INTO qpl_questions (question_id, question_type_fi, obj_fi, title, description, author, owner, question_text, working_time, points, complete, created, original_id, TIMESTAMP) VALUES (NULL, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, NULL)",
-				$ilDB->quote($question_type),
-				$ilDB->quote($this->obj_id),
-				$ilDB->quote($this->title),
-				$ilDB->quote($this->comment),
-				$ilDB->quote($this->author),
-				$ilDB->quote($this->owner),
-				$ilDB->quote(ilRTE::_replaceMediaObjectImageSrc($this->question, 0)),
-				$ilDB->quote($estw_time),
-				$ilDB->quote($this->getMaximumPoints() . ""),
-				$ilDB->quote("$complete"),
-				$ilDB->quote($created),
-				$original_id
+			$next_id = $ilDB->nextId('qpl_questions');
+			$affectedRows = $ilDB->manipulateF("INSERT INTO qpl_questions (question_id, question_type_fi, obj_fi, title, description, author, owner, question_text, points, working_time, complete, created, original_id, tstamp) VALUES (%s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s)", 
+				array("integer","integer", "integer", "text", "text", "text", "integer", "text", "float", "time", "text", "integer","integer","integer"),
+				array(
+					$next_id
+					$this->getQuestionTypeID(), 
+					$this->getObjId(), 
+					$this->getTitle(), 
+					$this->getComment(), 
+					$this->getAuthor(), 
+					$this->getOwner(), 
+					ilRTE::_replaceMediaObjectImageSrc($this->getQuestion(), 0), 
+					$this->getMaximumPoints(),
+					$estw_time,
+					$complete,
+					time(),
+					($original_id) ? $original_id : NULL,
+					time()
+				)
 			);
-			$result = $ilDB->query($query);
-			if (PEAR::isError($result)) 
-			{
-				global $ilias;
-				$ilias->raiseError($result->getMessage());
-			}
-			else
-			{
-				$this->id = $ilDB->getLastInsertId();
-				$insertquery = sprintf("INSERT INTO qpl_question_imagemap (question_fi, image_file) VALUES (%s, %s)",
-					$ilDB->quote($this->id . ""),
-					$ilDB->quote($this->image_filename)
-				);
-				$ilDB->query($insertquery);
-				// create page object of question
-				$this->createPageObject();
-
-				if ($this->getTestId() > 0)
-				{
-					$this->insertIntoTest($this->getTestId());
-				}
-			}
+			$this->setId($next_id);
+			// create page object of question
+			$this->createPageObject();
 		}
 		else
 		{
 			// Vorhandenen Datensatz aktualisieren
-			$query = sprintf("UPDATE qpl_questions SET obj_fi = %s, title = %s, description = %s, author = %s, question_text = %s, working_time = %s, points = %s, complete = %s WHERE question_id = %s",
-				$ilDB->quote($this->obj_id. ""),
-				$ilDB->quote($this->title),
-				$ilDB->quote($this->comment),
-				$ilDB->quote($this->author),
-				$ilDB->quote(ilRTE::_replaceMediaObjectImageSrc($this->question, 0)),
-				$ilDB->quote($estw_time),
-				$ilDB->quote($this->getMaximumPoints() . ""),
-				$ilDB->quote("$complete"),
-				$ilDB->quote($this->id)
+			$affectedRows = $ilDB->manipulateF("UPDATE qpl_questions SET obj_fi = %s, title = %s, description = %s, author = %s, question_text = %s, points = %s, working_time=%s, complete = %s, tstamp = %s WHERE question_id = %s", 
+				array("integer", "text", "text", "text", "text", "float", "time", "text", "integer", "integer"),
+				array(
+					$this->getObjId(), 
+					$this->getTitle(), 
+					$this->getComment(), 
+					$this->getAuthor(), 
+					ilRTE::_replaceMediaObjectImageSrc($this->getQuestion(), 0), 
+					$this->getMaximumPoints(),
+					$estw_time,
+					$complete,
+					time(),
+					$this->getId()
+				)
 			);
-			$result = $ilDB->query($query);
-			$query = sprintf("UPDATE qpl_question_imagemap SET image_file = %s WHERE question_fi = %s",
-				$ilDB->quote($this->image_filename),
-				$ilDB->quote($this->id)
-			);
-			$result = $ilDB->query($query);
-				
 		}
 
-		if (PEAR::isError($result)) 
+		// save additional data
+		$affectedRows = $ilDB->manipulateF("DELETE FROM " . $this->getAdditionalTableName() . " WHERE question_fi = %s", 
+			array("integer"),
+			array($this->getId())
+		);
+		$affectedRows = $ilDB->manipulateF("INSERT INTO " . $this->getAdditionalTableName() . " (question_fi, image_file) VALUES (%s, %s)", 
+			array("integer", "text"),
+			array(
+				$this->getId(),
+				$this->image_filename
+			)
+		);
+
+		$affectedRows = $ilDB->manipulateF("DELETE FROM qpl_answer_imagemap WHERE question_fi = %s",
+			array("integer"),
+			array($this->getId())
+		);
+
+		// Anworten wegschreiben
+		foreach ($this->answers as $key => $value)
 		{
-			global $ilias;
-			$ilias->raiseError($result->getMessage());
-		}
-		else
-		{
-			$query = sprintf("DELETE FROM qpl_answer_imagemap WHERE question_fi = %s",
-				$ilDB->quote($this->id)
+			$answer_obj = $this->answers[$key];
+			$next_id = $ilDB->nextId('qpl_answer_imagemap');
+			$affectedRows = $ilDB->manipulateF("INSERT INTO qpl_answer_imagemap (answer_id, question_fi, answertext, points, aorder, coords, area) VALUES (%s, %s, %s, %s, %s, %s, %s)",
+				array("integer","integer","text","float","integer","text","text"),
+				array($next_id, $this->id, $answer_obj->getAnswertext(), $answer_obj->getPoints(), $answer_obj->getOrder(), $answer_obj->getCoords(), $answer_obj->getArea())
 			);
-			$result = $ilDB->query($query);
-			// Anworten wegschreiben
-			foreach ($this->answers as $key => $value)
-			{
-				$answer_obj = $this->answers[$key];
-				//print "id:".$this->id." answer tex:".$answer_obj->getAnswertext()." answer_obj->getOrder():".$answer_obj->getOrder()." answer_obj->getCoords():".$answer_obj->getCoords()." answer_obj->getArea():".$answer_obj->getArea();
-				$query = sprintf("INSERT INTO qpl_answer_imagemap (answer_id, question_fi, answertext, points, aorder, coords, area) VALUES (NULL, %s, %s, %s, %s, %s, %s)",
-					$ilDB->quote($this->id),
-					$ilDB->quote($answer_obj->getAnswertext() . ""),
-					$ilDB->quote($answer_obj->getPoints() . ""),
-					$ilDB->quote($answer_obj->getOrder() . ""),
-					$ilDB->quote($answer_obj->getCoords() . ""),
-					$ilDB->quote($answer_obj->getArea() . "")
-					);
-				$answer_result = $ilDB->query($query);
-				}
 		}
+
 		parent::saveToDb($original_id);
 	}
 
 /**
-* Duplicates an assImagemapQuestion
-*
 * Duplicates an assImagemapQuestion
 *
 * @access public
@@ -391,37 +364,36 @@ class assImagemapQuestion extends assQuestion
 	{
 		global $ilDB;
 
-		$query = sprintf("SELECT qpl_questions.*, qpl_question_imagemap.* FROM qpl_questions, qpl_question_imagemap WHERE question_id = %s AND qpl_questions.question_id = qpl_question_imagemap.question_fi",
-			$ilDB->quote($question_id)
+		$result = $ilDB->queryF("SELECT qpl_questions.*, " . $this->getAdditionalTableName() . ".* FROM qpl_questions, " . $this->getAdditionalTableName() . " WHERE question_id = %s AND qpl_questions.question_id = " . $this->getAdditionalTableName() . ".question_fi",
+			array("integer"),
+			array($question_id)
 		);
-		$result = $ilDB->query($query);
 		if ($result->numRows() == 1)
 		{
-			$data = $result->fetchRow(MDB2_FETCHMODE_OBJECT);
-			$this->id = $question_id;
-			$this->obj_id = $data->obj_fi;
-			$this->title = $data->title;
-			$this->comment = $data->description;
-			$this->author = $data->author;
-			$this->original_id = $data->original_id;
-			$this->solution_hint = $data->solution_hint;
-			$this->owner = $data->owner;
+			$data = $ilDB->fetchAssoc($result);
+			$this->setId($question_id);
+			$this->setObjId($data["obj_fi"]);
+			$this->setTitle($data["title"]);
+			$this->setComment($data["description"]);
+			$this->setOriginalId($data["original_id"]);
+			$this->setAuthor($data["author"]);
+			$this->setPoints($data["points"]);
+			$this->setOwner($data["owner"]);
 			include_once("./Services/RTE/classes/class.ilRTE.php");
-			$this->question = ilRTE::_replaceMediaObjectImageSrc($data->question_text, 1);
-			$this->image_filename = $data->image_file;
-			$this->points = $data->points;
-			$this->setEstimatedWorkingTime(substr($data->working_time, 0, 2), substr($data->working_time, 3, 2), substr($data->working_time, 6, 2));
+			$this->setQuestion(ilRTE::_replaceMediaObjectImageSrc($data["question_text"], 1));
+			$this->setImageFilename($data["image_file"]);
+			$this->setEstimatedWorkingTime(substr($data["working_time"], 0, 2), substr($data["working_time"], 3, 2), substr($data["working_time"], 6, 2));
 
-			$query = sprintf("SELECT * FROM qpl_answer_imagemap WHERE question_fi = %s ORDER BY aorder ASC",
-				$ilDB->quote($question_id)
+			$result = $ilDB->queryF("SELECT * FROM qpl_answer_imagemap WHERE question_fi = %s ORDER BY aorder ASC",
+				array("integer"),
+				array($question_id)
 			);
-			$result = $ilDB->query($query);
 			include_once "./Modules/TestQuestionPool/classes/class.assAnswerImagemap.php";
 			if ($result->numRows() > 0)
 			{
-				while ($data = $result->fetchRow(MDB2_FETCHMODE_OBJECT)) 
+				while ($data = $ilDB->fetchAssoc($result)) 
 				{
-					array_push($this->answers, new ASS_AnswerImagemap($data->answertext, $data->points, $data->aorder, $data->coords, $data->area));
+					array_push($this->answers, new ASS_AnswerImagemap($data["answertext"], $data["points"], $data["aorder"], $data["coords"], $data["area"]));
 				}
 			}
 		}
@@ -700,17 +672,15 @@ class assImagemapQuestion extends assQuestion
 		{
 			$pass = $this->getSolutionMaxPass($active_id);
 		}
-		$query = sprintf("SELECT * FROM tst_solutions WHERE active_fi = %s AND question_fi = %s AND pass = %s",
-			$ilDB->quote($active_id . ""),
-			$ilDB->quote($this->getId() . ""),
-			$ilDB->quote($pass . "")
+		$result = $ilDB->queryF("SELECT * FROM tst_solutions WHERE active_fi = %s AND question_fi = %s AND pass = %s",
+			array("integer","integer","integer"),
+			array($active_id, $this->getId(), $pass)
 		);
-		$result = $ilDB->query($query);
-		while ($data = $result->fetchRow(MDB2_FETCHMODE_OBJECT))
+		while ($data = $ilDB->fetchAssoc($result))
 		{
-			if (strcmp($data->value1, "") != 0)
+			if (strcmp($data["value1"], "") != 0)
 			{
-				array_push($found_values, $data->value1);
+				array_push($found_values, $data["value1"]);
 			}
 		}
 		$points = 0;
@@ -750,23 +720,26 @@ class assImagemapQuestion extends assQuestion
 			$pass = ilObjTest::_getPass($active_id);
 		}
 		
-		$query = sprintf("DELETE FROM tst_solutions WHERE active_fi = %s AND question_fi = %s AND pass = %s",
-			$ilDB->quote($active_id . ""),
-			$ilDB->quote($this->getId() . ""),
-			$ilDB->quote($pass . "")
+		$affectedRows = $ilDB->manipulateF("DELETE FROM tst_solutions WHERE active_fi = %s AND question_fi = %s AND pass = %s",
+			array("integer","integer","integer"),
+			array($active_id, $this->getId(), $pass)
 		);
-		$result = $ilDB->query($query);
 
 		if (strlen($_GET["selImage"]))
 		{
-			$query = sprintf("INSERT INTO tst_solutions (solution_id, active_fi, question_fi, value1, value2, pass, TIMESTAMP) VALUES (NULL, %s, %s, %s, NULL, %s, NULL)",
-				$ilDB->quote($active_id),
-				$ilDB->quote($this->getId()),
-				$ilDB->quote($_GET["selImage"]),
-				$ilDB->quote($pass . "")
+			$next_id = $ilDB->nextId('tst_solutions');
+			$affectedRows = $ilDB->manipulateF("INSERT INTO tst_solutions (solution_id, active_fi, question_fi, value1, value2, pass, tstamp) VALUES (%s, %s, %s, %s, NULL, %s, %s)",
+				array("integer","integer","integer","text","integer","integer"),
+				array(
+					$next_id,
+					$active_id,
+					$this->getId(),
+					$_GET["selImage"],
+					$pass,
+					time()
+				)
 			);
 
-			$result = $ilDB->query($query);
 			include_once ("./Modules/Test/classes/class.ilObjAssessmentFolder.php");
 			if (ilObjAssessmentFolder::_enabledAssessmentLogging())
 			{
@@ -837,8 +810,6 @@ class assImagemapQuestion extends assQuestion
 	/**
 	* Saves feedback for a single selected answer to the database
 	*
-	* Saves feedback for a single selected answer to the database
-	*
 	* @param integer $answer_index The index of the answer
 	* @param string $feedback Feedback text
 	* @access public
@@ -847,26 +818,22 @@ class assImagemapQuestion extends assQuestion
 	{
 		global $ilDB;
 		
-		$query = sprintf("DELETE FROM qpl_feedback_imagemap WHERE question_fi = %s AND answer = %s",
-			$ilDB->quote($this->getId() . ""),
-			$ilDB->quote($answer_index . "")
+		$affectedRows = $ilDB->manipulateF("DELETE FROM qpl_feedback_imagemap WHERE question_fi = %s AND answer = %s",
+			array("integer","integer"),
+			array($this->getId(), $answer_index)
 		);
-		$result = $ilDB->query($query);
 		if (strlen($feedback))
 		{
 			include_once("./Services/RTE/classes/class.ilRTE.php");
-			$query = sprintf("INSERT INTO qpl_feedback_imagemap VALUES (NULL, %s, %s, %s, NULL)",
-				$ilDB->quote($this->getId() . ""),
-				$ilDB->quote($answer_index . ""),
-				$ilDB->quote(ilRTE::_replaceMediaObjectImageSrc($feedback, 0))
+			$next_id = $ilDB->nextId('qpl_feedback_imagemap');
+			$affectedRows = $ilDB->manipulateF("INSERT INTO qpl_feedback_imagemap (feedback_id, question_fi, answer, feedback, tstamp) VALUES (%s, %s, %s, %s, %s)",
+				array("integer","integer","integer","text","integer"),
+				array($next_id, $this->getId(), $answer_index, ilRTE::_replaceMediaObjectImageSrc($feedback, 0), time())
 			);
-			$result = $ilDB->query($query);
 		}
 	}
 
 	/**
-	* Synchronizes the single answer feedback with an original question
-	*
 	* Synchronizes the single answer feedback with an original question
 	*
 	* @access public
@@ -878,35 +845,32 @@ class assImagemapQuestion extends assQuestion
 		$feedback = "";
 
 		// delete generic feedback of the original
-		$deletequery = sprintf("DELETE FROM qpl_feedback_imagemap WHERE question_fi = %s",
-			$ilDB->quote($this->original_id . "")
+		$affectedRows = $ilDB->manipulateF("DELETE FROM qpl_feedback_imagemap WHERE question_fi = %s",
+			array('integer'),
+			array($this->original_id)
 		);
-		$result = $ilDB->query($deletequery);
 			
 		// get generic feedback of the actual question
-		$query = sprintf("SELECT * FROM qpl_feedback_imagemap WHERE question_fi = %s",
-			$ilDB->quote($this->getId() . "")
+		$result = $ilDB->queryF("SELECT * FROM qpl_feedback_imagemap WHERE question_fi = %s",
+			array("integer"),
+			array($this->getId())
 		);
-		$result = $ilDB->query($query);
 
 		// save generic feedback to the original
 		if ($result->numRows())
 		{
-			while ($row = $result->fetchRow(MDB2_FETCHMODE_ASSOC))
+			while ($row = $ilDB->fetchAssoc($result))
 			{
-				$duplicatequery = sprintf("INSERT INTO qpl_feedback_imagemap VALUES (NULL, %s, %s, %s, NULL)",
-					$ilDB->quote($this->original_id . ""),
-					$ilDB->quote($row["answer"] . ""),
-					$ilDB->quote($row["feedback"] . "")
+				$next_id = $ilDB->nextId('qpl_feedback_imagemap');
+				$affectedRows = $ilDB->manipulateF("INSERT INTO qpl_feedback_imagemap (feedback_id, question_fi, answer, feedback, tstamp) VALUES (%s, %s, %s, %s, %s)",
+					array("integer","integer","integer","text","integer"),
+					array($next_id, $this->original_id, $row["answer"], $row["feedback"], time())
 				);
-				$duplicateresult = $ilDB->query($duplicatequery);
 			}
 		}
 	}
 
 	/**
-	* Returns the feedback for a single selected answer
-	*
 	* Returns the feedback for a single selected answer
 	*
 	* @param integer $answer_index The index of the answer
@@ -918,14 +882,13 @@ class assImagemapQuestion extends assQuestion
 		global $ilDB;
 		
 		$feedback = "";
-		$query = sprintf("SELECT * FROM qpl_feedback_imagemap WHERE question_fi = %s AND answer = %s",
-			$ilDB->quote($this->getId() . ""),
-			$ilDB->quote($answer_index . "")
+		$result = $ilDB->queryF("SELECT * FROM qpl_feedback_imagemap WHERE question_fi = %s AND answer = %s",
+			array('integer','integer'),
+			array($this->getId(), $answer_index)
 		);
-		$result = $ilDB->query($query);
 		if ($result->numRows())
 		{
-			$row = $result->fetchRow(MDB2_FETCHMODE_ASSOC);
+			$row = $ilDB->fetchAssoc($result);
 			include_once("./Services/RTE/classes/class.ilRTE.php");
 			$feedback = ilRTE::_replaceMediaObjectImageSrc($row["feedback"], 1);
 		}
@@ -933,8 +896,6 @@ class assImagemapQuestion extends assQuestion
 	}
 
 	/**
-	* Duplicates the answer specific feedback
-	*
 	* Duplicates the answer specific feedback
 	*
 	* @param integer $original_id The database ID of the original question
@@ -945,20 +906,19 @@ class assImagemapQuestion extends assQuestion
 		global $ilDB;
 		
 		$feedback = "";
-		$query = sprintf("SELECT * FROM qpl_feedback_imagemap WHERE question_fi = %s",
-			$ilDB->quote($original_id . "")
+		$result = $ilDB->queryF("SELECT * FROM qpl_feedback_imagemap WHERE question_fi = %s",
+			array('integer'),
+			array($original_id)
 		);
-		$result = $ilDB->query($query);
 		if ($result->numRows())
 		{
-			while ($row = $result->fetchRow(MDB2_FETCHMODE_ASSOC))
+			while ($row = $ilDB->fetchAssoc($result))
 			{
-				$duplicatequery = sprintf("INSERT INTO qpl_feedback_imagemap VALUES (NULL, %s, %s, %s, NULL)",
-					$ilDB->quote($this->getId() . ""),
-					$ilDB->quote($row["answer"] . ""),
-					$ilDB->quote($row["feedback"] . "")
+				$next_id = $ilDB->nextId('qpl_feedback_imagemap');
+				$affectedRows = $ilDB->manipulateF("INSERT INTO qpl_feedback_imagemap (feedback_id, question_fi, answer, feedback, tstamp) VALUES (%s, %s, %s, %s, %s)",
+					array("integer","integer","integer","text","integer"),
+					array($next_id, $this->getId(), $row["answer"], $row["feedback"], time())
 				);
-				$duplicateresult = $ilDB->query($duplicatequery);
 			}
 		}
 	}

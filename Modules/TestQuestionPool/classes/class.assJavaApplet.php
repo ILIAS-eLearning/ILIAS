@@ -282,85 +282,69 @@ class assJavaApplet extends assQuestion
 		$estw_time = $this->getEstimatedWorkingTime();
 		$estw_time = sprintf("%02d:%02d:%02d", $estw_time['h'], $estw_time['m'], $estw_time['s']);
 
-		if ($original_id)
-		{
-			$original_id = $ilDB->quote($original_id);
-		}
-		else
-		{
-			$original_id = "NULL";
-		}
-
 		// cleanup RTE images which are not inserted into the question text
 		include_once("./Services/RTE/classes/class.ilRTE.php");
 		if ($this->id == -1)
 		{
 			// Neuen Datensatz schreiben
-			$now = getdate();
-			$question_type = $this->getQuestionTypeID();
-			$created = sprintf("%04d%02d%02d%02d%02d%02d", $now['year'], $now['mon'], $now['mday'], $now['hours'], $now['minutes'], $now['seconds']);
-			$query = sprintf("INSERT INTO qpl_questions (question_id, question_type_fi, obj_fi, title, description, author, owner, question_text, points, working_time, complete, created, original_id, TIMESTAMP) VALUES (NULL, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, NULL)",
-				$ilDB->quote($question_type . ""),
-				$ilDB->quote($this->obj_id . ""),
-				$ilDB->quote($this->title . ""),
-				$ilDB->quote($this->comment . ""),
-				$ilDB->quote($this->author . ""),
-				$ilDB->quote($this->owner . ""),
-				$ilDB->quote(ilRTE::_replaceMediaObjectImageSrc($this->question, 0)),
-				$ilDB->quote($this->points . ""),
-				$ilDB->quote($estw_time . ""),
-				$ilDB->quote($complete . ""),
-				$ilDB->quote($created . ""),
-				$original_id
+			$next_id = $ilDB->nextId('qpl_questions');
+			$affectedRows = $ilDB->manipulateF("INSERT INTO qpl_questions (question_id, question_type_fi, obj_fi, title, description, author, owner, question_text, points, working_time, complete, created, original_id, tstamp) VALUES (%s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s)", 
+				array("integer","integer", "integer", "text", "text", "text", "integer", "text", "float", "time", "text", "integer","integer","integer"),
+				array(
+					$next_id
+					$this->getQuestionTypeID(), 
+					$this->getObjId(), 
+					$this->getTitle(), 
+					$this->getComment(), 
+					$this->getAuthor(), 
+					$this->getOwner(), 
+					ilRTE::_replaceMediaObjectImageSrc($this->getQuestion(), 0), 
+					$this->getMaximumPoints(),
+					$estw_time,
+					$complete,
+					time(),
+					($original_id) ? $original_id : NULL,
+					time()
+				)
 			);
-
-			$result = $ilDB->query($query);
-			if (PEAR::isError($result)) 
-			{
-				global $ilias;
-				$ilias->raiseError($result->getMessage());
-			}
-			else
-			{
-				$this->id = $ilDB->getLastInsertId();
-				$query = sprintf("INSERT INTO qpl_question_javaapplet (question_fi, image_file, params) VALUES (%s, %s, %s)",
-					$ilDB->quote($this->id . ""),
-					$ilDB->quote($this->javaapplet_filename . ""),
-					$ilDB->quote($params . "")
-				);
-				$ilDB->query($query);
-
-				// create page object of question
-				$this->createPageObject();
-
-				if ($this->getTestId() > 0)
-				{
-					$this->insertIntoTest($this->getTestId());
-				}
-			}
+			$this->setId($next_id);
+			// create page object of question
+			$this->createPageObject();
 		}
 		else
 		{
 			// Vorhandenen Datensatz aktualisieren
-			$query = sprintf("UPDATE qpl_questions SET obj_fi = %s, title = %s, description = %s, author = %s, question_text = %s, points = %s, working_time=%s, complete = %s WHERE question_id = %s",
-				$ilDB->quote($this->obj_id. ""),
-				$ilDB->quote($this->title . ""),
-				$ilDB->quote($this->comment . ""),
-				$ilDB->quote($this->author . ""),
-				$ilDB->quote(ilRTE::_replaceMediaObjectImageSrc($this->question, 0)),
-				$ilDB->quote($this->points . ""),
-				$ilDB->quote($estw_time . ""),
-				$ilDB->quote($complete . ""),
-				$ilDB->quote($this->id . "")
+			$affectedRows = $ilDB->manipulateF("UPDATE qpl_questions SET obj_fi = %s, title = %s, description = %s, author = %s, question_text = %s, points = %s, working_time=%s, complete = %s, tstamp = %s WHERE question_id = %s", 
+				array("integer", "text", "text", "text", "text", "float", "time", "text", "integer", "integer"),
+				array(
+					$this->getObjId(), 
+					$this->getTitle(), 
+					$this->getComment(), 
+					$this->getAuthor(), 
+					ilRTE::_replaceMediaObjectImageSrc($this->getQuestion(), 0), 
+					$this->getMaximumPoints(),
+					$estw_time,
+					$complete,
+					time(),
+					$this->getId()
+				)
 			);
-			$result = $ilDB->query($query);
-			$query = sprintf("UPDATE qpl_question_javaapplet SET image_file = %s, params = %s WHERE question_fi = %s",
-				$ilDB->quote($this->javaapplet_filename . ""),
-				$ilDB->quote($params . ""),
-				$ilDB->quote($this->id . "")
-			);
-			$result = $ilDB->query($query);
 		}
+
+		// save additional data
+		$affectedRows = $ilDB->manipulateF("DELETE FROM " . $this->getAdditionalTableName() . " WHERE question_fi = %s", 
+			array("integer"),
+			array($this->getId())
+		);
+		$affectedRows = $ilDB->manipulateF("INSERT INTO " . $this->getAdditionalTableName() . " (question_fi, image_file, params) VALUES (%s, %s, %s)", 
+			array("integer", "text", "text"),
+			array(
+				$this->getId(),
+				$this->javaapplet_filename,
+				$params
+			)
+		);
+
 		parent::saveToDb($original_id);
 	}
 
@@ -377,28 +361,26 @@ class assJavaApplet extends assQuestion
 	{
 		global $ilDB;
 
-    $query = sprintf("SELECT qpl_questions.*, qpl_question_javaapplet.* FROM qpl_questions, qpl_question_javaapplet WHERE question_id = %s AND qpl_questions.question_id = qpl_question_javaapplet.question_fi",
-			$ilDB->quote($question_id)
+		$result = $ilDB->queryF("SELECT qpl_questions.*, " . $this->getAdditionalTableName() . ".* FROM qpl_questions, " . $this->getAdditionalTableName() . " WHERE question_id = %s AND qpl_questions.question_id = " . $this->getAdditionalTableName() . ".question_fi",
+			array("integer"),
+			array($question_id)
 		);
-		$result = $ilDB->query($query);
-
 		if ($result->numRows() == 1)
 		{
-			$data = $result->fetchRow(MDB2_FETCHMODE_OBJECT);
-			$this->id = $question_id;
-			$this->title = $data->title;
-			$this->comment = $data->description;
-			$this->obj_id = $data->obj_fi;
-			$this->author = $data->author;
-			$this->points = $data->points;
-			$this->owner = $data->owner;
-			$this->original_id = $data->original_id;
-			$this->javaapplet_filename = $data->image_file;
+			$data = $ilDB->fetchAssoc($result);
+			$this->setId($question_id);
+			$this->setObjId($data["obj_fi"]);
+			$this->setTitle($data["title"]);
+			$this->setComment($data["description"]);
+			$this->setOriginalId($data["original_id"]);
+			$this->setAuthor($data["author"]);
+			$this->setPoints($data["points"]);
+			$this->setOwner($data["owner"]);
 			include_once("./Services/RTE/classes/class.ilRTE.php");
-			$this->question = ilRTE::_replaceMediaObjectImageSrc($data->question_text, 1);
-			$this->solution_hint = $data->solution_hint;
-			$this->splitParams($data->params);
-			$this->setEstimatedWorkingTime(substr($data->working_time, 0, 2), substr($data->working_time, 3, 2), substr($data->working_time, 6, 2));
+			$this->setQuestion(ilRTE::_replaceMediaObjectImageSrc($data["question_text"], 1));
+			$this->setJavaAppletFilename($data["image_file"]);
+			$this->splitParams($data["params"]);
+			$this->setEstimatedWorkingTime(substr($data["working_time"], 0, 2), substr($data["working_time"], 3, 2), substr($data["working_time"], 6, 2));
 		}
 		parent::loadFromDb($question_id);
 	}
@@ -689,16 +671,14 @@ class assJavaApplet extends assQuestion
 		{
 			$pass = $this->getSolutionMaxPass($active_id);
 		}
-		$query = sprintf("SELECT * FROM tst_solutions WHERE active_fi = %s AND question_fi = %s AND pass = %s",
-			$ilDB->quote($active_id . ""),
-			$ilDB->quote($this->getId() . ""),
-			$ilDB->quote($pass . "")
+		$result = $ilDB->queryF("SELECT points FROM tst_solutions WHERE active_fi = %s AND question_fi = %s AND pass = %s",
+			array('integer','integer','integer'),
+			array($active_id, $this->getId(), $pass)
 		);
-		$result = $ilDB->query($query);
 		$points = 0;
-		while ($data = $result->fetchRow(MDB2_FETCHMODE_OBJECT))
+		while ($data = $ilDB->fetchAssoc($result))
 		{
-			$points += $data->points;
+			$points += $data["points"];
 		}
 
 		$points = parent::calculateReachedPoints($active_id, $pass = NULL, $points);
@@ -723,27 +703,25 @@ class assJavaApplet extends assQuestion
 		{
 			$pass = $this->getSolutionMaxPass($active_id);
 		}
-		$query = sprintf("SELECT * FROM tst_solutions WHERE active_fi = %s AND question_fi = %s AND pass = %s",
-			$ilDB->quote($active_id . ""),
-			$ilDB->quote($this->getId() . ""),
-			$ilDB->quote($pass . "")
+		$result = $ilDB->queryF("SELECT * FROM tst_solutions WHERE active_fi = %s AND question_fi = %s AND pass = %s",
+			array('integer','integer','integer'),
+			array($active_id, $this->getId(), $pass)
 		);
-		$result = $ilDB->query($query);
 		$counter = 1;
 		$user_result = array();
-		while ($data = $result->fetchRow(MDB2_FETCHMODE_OBJECT))
+		while ($data = $ilDB->fetchAssoc($result))
 		{
 			$true = 0;
-			if ($data->points > 0)
+			if ($data["points"] > 0)
 			{
 				$true = 1;
 			}
 			$solution = array(
-				"order" => "$counter",
-				"points" => "$data->points",
-				"true" => "$true",
-				"value1" => "$data->value1",
-				"value2" => "$data->value2",
+				"order" => $counter,
+				"points" => $data["points"],
+				"true" => $true,
+				"value1" => $data["value1"],
+				"value2" => $data["value2"],
 			);
 			$counter++;
 			array_push($user_result, $solution);
@@ -752,8 +730,6 @@ class assJavaApplet extends assQuestion
 	}
 
 	/**
-	* Adds a new parameter value to the parameter list
-	*
 	* Adds a new parameter value to the parameter list
 	*
 	* @param string $name The name of the parameter value
@@ -777,8 +753,6 @@ class assJavaApplet extends assQuestion
 	/**
 	* Adds a new parameter value to the parameter list at a given index
 	*
-	* Adds a new parameter value to the parameter list at a given index
-	*
 	* @param integer $index The index at which the parameter should be inserted
 	* @param string $name The name of the parameter value
 	* @param string $value The value of the parameter value
@@ -791,8 +765,6 @@ class assJavaApplet extends assQuestion
 	}
 
 	/**
-	* Removes a parameter value from the parameter list
-	*
 	* Removes a parameter value from the parameter list
 	*
 	* @param string $name The name of the parameter value
@@ -814,8 +786,6 @@ class assJavaApplet extends assQuestion
 	/**
 	* Returns the paramter at a given index
 	*
-	* Returns the paramter at a given index
-	*
 	* @param intege $index The index value of the parameter
 	* @return array The parameter at the given index
 	* @access public
@@ -831,8 +801,6 @@ class assJavaApplet extends assQuestion
 	}
 
 	/**
-	* Returns the index of an applet parameter
-	*
 	* Returns the index of an applet parameter
 	*
 	* @param string $name The name of the parameter value
@@ -855,8 +823,6 @@ class assJavaApplet extends assQuestion
 	/**
 	* Returns the number of additional applet parameters
 	*
-	* Returns the number of additional applet parameters
-	*
 	* @return integer The number of additional applet parameters
 	* @access public
 	* @see $parameters
@@ -869,8 +835,6 @@ class assJavaApplet extends assQuestion
 	/**
 	* Removes all applet parameters
 	*
-	* Removes all applet parameters
-	*
 	* @access public
 	* @see $parameters
 	*/
@@ -880,8 +844,6 @@ class assJavaApplet extends assQuestion
 	}
 
 	/**
-	* Saves the learners input of the question to the database
-	*
 	* Saves the learners input of the question to the database
 	*
 	* @param integer $test_id The database id of the test containing this question
@@ -898,8 +860,6 @@ class assJavaApplet extends assQuestion
 	/**
 	* Gets the java applet file name
 	*
-	* Gets the java applet file name
-	*
 	* @return string The java applet file of the assJavaApplet object
 	* @access public
 	* @see $javaapplet_filename
@@ -910,8 +870,6 @@ class assJavaApplet extends assQuestion
 	}
 
 	/**
-	* Sets the java applet file name
-	*
 	* Sets the java applet file name
 	*
 	* @param string $javaapplet_file.
@@ -954,8 +912,6 @@ class assJavaApplet extends assQuestion
 	/**
 	* Returns the question type of the question
 	*
-	* Returns the question type of the question
-	*
 	* @return integer The question type of the question
 	* @access public
 	*/
@@ -965,8 +921,6 @@ class assJavaApplet extends assQuestion
 	}
 
 	/**
-	* Returns the name of the additional question data table in the database
-	*
 	* Returns the name of the additional question data table in the database
 	*
 	* @return string The additional table name

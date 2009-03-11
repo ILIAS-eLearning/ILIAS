@@ -61,8 +61,6 @@ class assQuestionTypeTemplate extends assQuestion
 	/**
 	* Returns true, if a question is complete for use
 	*
-	* Returns true, if a question is complete for use
-	*
 	* @return boolean True, if the question is complete for use, otherwise false
 	* @access public
 	*/
@@ -85,8 +83,6 @@ class assQuestionTypeTemplate extends assQuestion
 	/**
 	* Saves a the question object in the ILIAS database
 	*
-	* Saves a the question object in the ILIAS database
-	*
 	* @param integer $original_id The question ID of the question from which this question is cloned
 	* @access public
 	*/
@@ -107,89 +103,68 @@ class assQuestionTypeTemplate extends assQuestion
 		$estw_time = $this->getEstimatedWorkingTime();
 		$estw_time = sprintf("%02d:%02d:%02d", $estw_time['h'], $estw_time['m'], $estw_time['s']);
 
-		if ($original_id)
+		// cleanup RTE images which are not inserted into the question text
+		include_once("./Services/RTE/classes/class.ilRTE.php");
+		if ($this->id == -1)
 		{
-			$original_id = $ilDB->quote($original_id);
+			// Neuen Datensatz schreiben
+			$next_id = $ilDB->nextId('qpl_questions');
+			$affectedRows = $ilDB->manipulateF("INSERT INTO qpl_questions (question_id, question_type_fi, obj_fi, title, description, author, owner, question_text, points, working_time, complete, created, original_id, tstamp) VALUES (%s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s)", 
+				array("integer","integer", "integer", "text", "text", "text", "integer", "text", "float", "time", "text", "integer","integer","integer"),
+				array(
+					$next_id
+					$this->getQuestionTypeID(), 
+					$this->getObjId(), 
+					$this->getTitle(), 
+					$this->getComment(), 
+					$this->getAuthor(), 
+					$this->getOwner(), 
+					ilRTE::_replaceMediaObjectImageSrc($this->getQuestion(), 0), 
+					$this->getMaximumPoints(),
+					$estw_time,
+					$complete,
+					time(),
+					($original_id) ? $original_id : NULL,
+					time()
+				)
+			);
+			$this->setId($next_id);
+			// create page object of question
+			$this->createPageObject();
 		}
 		else
 		{
-			$original_id = "NULL";
+			// Vorhandenen Datensatz aktualisieren
+			$affectedRows = $ilDB->manipulateF("UPDATE qpl_questions SET obj_fi = %s, title = %s, description = %s, author = %s, question_text = %s, points = %s, working_time=%s, complete = %s, tstamp = %s WHERE question_id = %s", 
+				array("integer", "text", "text", "text", "text", "float", "time", "text", "integer", "integer"),
+				array(
+					$this->getObjId(), 
+					$this->getTitle(), 
+					$this->getComment(), 
+					$this->getAuthor(), 
+					ilRTE::_replaceMediaObjectImageSrc($this->getQuestion(), 0), 
+					$this->getMaximumPoints(),
+					$estw_time,
+					$complete,
+					time(),
+					$this->getId()
+				)
+			);
 		}
 
-		if ($this->getId() == -1)
-		{
-			// create a new dataset
-			$now = getdate();
-			$created = sprintf("%04d%02d%02d%02d%02d%02d", $now['year'], $now['mon'], $now['mday'], $now['hours'], $now['minutes'], $now['seconds']);
-			$query = sprintf("INSERT INTO qpl_questions (question_id, question_type_fi, obj_fi, title, comment, author, owner, question_text, points, working_time, complete, created, original_id, TIMESTAMP) VALUES (NULL, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, NULL)",
-				$ilDB->quote("1"),
-				$ilDB->quote($this->obj_id),
-				$ilDB->quote($this->title),
-				$ilDB->quote($this->comment),
-				$ilDB->quote($this->author),
-				$ilDB->quote($this->owner),
-				$ilDB->quote($this->question),
-				$ilDB->quote($this->getMaximumPoints() . ""),
-				$ilDB->quote($estw_time),
-				$ilDB->quote("$complete"),
-				$ilDB->quote($created),
-				$original_id
-			);
-			$result = $ilDB->query($query);
-			
-			if (PEAR::isError($result)) 
-			{
-				global $ilias;
-				$ilias->raiseError($result->getMessage());
-			}
-			else
-			{
-				// maybe you have more fields than the qpl_question table offers.
-				// so you have to write this content in your question type table which
-				// could look like the following code
-				
-				$this->setId($ilDB->getLastInsertId());
-				$query = sprintf("INSERT INTO qpl_question_mytype (question_fi, myattribute) VALUES (%s, %s)",
-					$ilDB->quote($this->getId() . ""),
-					$ilDB->quote($this->getMyAttribute())
-				);
-				$ilDB->query($query);
+		// save additional data
+		$affectedRows = $ilDB->manipulateF("DELETE FROM " . $this->getAdditionalTableName() . " WHERE question_fi = %s", 
+			array("integer"),
+			array($this->getId())
+		);
 
-				// create a page object of question (always necessary!!!!!)
-				$this->createPageObject();
-
-				// this is used then the question should be inserted into a test
-				if ($this->getTestId() > 0)
-				{
-					$this->insertIntoTest($this->getTestId());
-				}
-			}
-		}
-		else
-		{
-			// update an existing dataset
-			$query = sprintf("UPDATE qpl_questions SET obj_fi = %s, title = %s, comment = %s, author = %s, question_text = %s, points = %s, working_time=%s, complete = %s WHERE question_id = %s",
-				$ilDB->quote($this->obj_id. ""),
-				$ilDB->quote($this->title),
-				$ilDB->quote($this->comment),
-				$ilDB->quote($this->author),
-				$ilDB->quote($this->question),
-				$ilDB->quote($this->getMaximumPoints() . ""),
-				$ilDB->quote($estw_time),
-				$ilDB->quote("$complete"),
-				$ilDB->quote($this->getId())
-			);
-			$result = $ilDB->query($query);
-			
-			// maybe you have more fields than the qpl_question table offers.
-			// so you have to write this content in your question type table which
-			// could look like the following code
-			$query = sprintf("UPDATE qpl_question_mytype SET myattribute = %s WHERE question_fi = %s",
-				$ilDB->quote($this->getMyAttribute()),
-				$ilDB->quote($this->getId() . "")
-			);
-			$result = $ilDB->query($query);
-		}
+		$affectedRows = $ilDB->manipulateF("INSERT INTO " . $this->getAdditionalTableName() . " (question_fi, shuffle) VALUES (%s, %s)", 
+			array("integer", "text"),
+			array(
+				$this->getId(),
+				$this->shuffle
+			)
+		);
 
 		// call the save method of the parent class (assQuestion)
 		// to store the suggested solutions
@@ -212,18 +187,26 @@ class assQuestionTypeTemplate extends assQuestion
 		// the following code is example code and you have to exchange it with your own code:
 		global $ilDB;
 
-		$hasimages = 0;
-    $query = sprintf("SELECT qpl_questions.*, qpl_question_mytype.* FROM qpl_questions, qpl_question_mytype WHERE question_id = %s AND qpl_questions.question_id = qpl_question_mytype.question_fi",
-			$ilDB->quote($question_id)
+		$result = $ilDB->queryF("SELECT qpl_questions.*, " . $this->getAdditionalTableName() . ".* FROM qpl_questions, " . $this->getAdditionalTableName() . " WHERE question_id = %s AND qpl_questions.question_id = " . $this->getAdditionalTableName() . ".question_fi",
+			array("integer"),
+			array($question_id)
 		);
-		$result = $ilDB->query($query);
 		if ($result->numRows() == 1)
 		{
-			$data = $result->fetchRow(MDB2_FETCHMODE_ASSOC);
+			$data = $ilDB->fetchAssoc($result);
 			$this->setId($question_id);
+			$this->setObjId($data["obj_fi"]);
 			$this->setTitle($data["title"]);
-			$this->setComment($data["comment"]);
-			// ... and so on
+			$this->setComment($data["description"]);
+			$this->setOriginalId($data["original_id"]);
+			$this->setAuthor($data["author"]);
+			$this->setPoints($data["points"]);
+			$this->setOwner($data["owner"]);
+			include_once("./Services/RTE/classes/class.ilRTE.php");
+			$this->setQuestion(ilRTE::_replaceMediaObjectImageSrc($data["question_text"], 1));
+			$this->setEstimatedWorkingTime(substr($data["working_time"], 0, 2), substr($data["working_time"], 3, 2), substr($data["working_time"], 6, 2));
+			// ...
+			// ...
 		}
 
 		// call the parent class to load the suggested solutions
@@ -231,8 +214,6 @@ class assQuestionTypeTemplate extends assQuestion
 	}
 
 	/**
-	* Duplicates a question
-	*
 	* Duplicates a question
 	*
 	* @access public
@@ -288,8 +269,6 @@ class assQuestionTypeTemplate extends assQuestion
 	/**
 	* Copies the question into another question pool
 	*
-	* Copies the question into another question pool
-	*
 	* @param integer $target_questionpool The ID of the target question pool
 	* @param string $title A new title of the question, if given
 	* @access public
@@ -330,8 +309,6 @@ class assQuestionTypeTemplate extends assQuestion
 	/**
 	* Returns the maximum points, a learner can reach answering the question
 	*
-	* Returns the maximum points, a learner can reach answering the question
-	*
 	* @access public
 	* @see $points
 	*/
@@ -346,8 +323,6 @@ class assQuestionTypeTemplate extends assQuestion
 	}
 
 	/**
-	* Returns the points, a learner has reached answering the question
-	*
 	* Returns the points, a learner has reached answering the question
 	* The points are calculated from the given answers including checks
 	* for all special scoring options in the test container.
@@ -371,17 +346,16 @@ class assQuestionTypeTemplate extends assQuestion
 		{
 			$pass = $this->getSolutionMaxPass($active_id);
 		}
-		$query = sprintf("SELECT * FROM tst_solutions WHERE active_fi = %s AND question_fi = %s AND pass = %s",
-			$ilDB->quote($active_id . ""),
-			$ilDB->quote($this->getId() . ""),
-			$ilDB->quote($pass . "")
+		$result = $ilDB->queryF("SELECT * FROM tst_solutions WHERE active_fi = %s AND question_fi = %s AND pass = %s",
+			array('integer','integer','integer'),
+			array($active_id, $this->getId(), $pass)
 		);
-		$result = $ilDB->query($query);
-		
-		// no you have to do something with the values
-		
-		$points = .... some calculations
+		while ($data = $ilDB->fetchAssoc($result))
+		{
+			// now you have to do something with the values
 
+			// $points = .... some calculations
+		}
 		// then call the calculateReachedPoints method of the parent class to check
 		// for special test settings
 		$points = parent::calculateReachedPoints($active_id, $pass = NULL, $points);
@@ -389,8 +363,6 @@ class assQuestionTypeTemplate extends assQuestion
 	}
 	
 	/**
-	* Saves the learners input of the question to the database
-	*
 	* Saves the learners input of the question to the database
 	*
 	* @param integer $active_id The active ID of the tst_active database table
@@ -417,23 +389,13 @@ class assQuestionTypeTemplate extends assQuestion
 		$activepass = ilObjTest::_getPass($active_id);
 		$entered_values = 0;
 
-		$query = sprintf("SELECT * FROM tst_solutions WHERE active_fi = %s AND question_fi = %s AND pass = %s",
-			$ilDB->quote($active_id . ""),
-			$ilDB->quote($this->getId() . ""),
-			$ilDB->quote($activepass . "")
+		$affectedRows = $ilDB->manipulateF("DELETE FROM tst_solutions WHERE active_fi = %s AND question_fi = %s AND pass = %s",
+			array('integer','integer','integer'),
+			array($active_id, $this->getId(), $pass)
 		);
-		$result = $ilDB->query($query);
-		$row = $result->fetchRow(MDB2_FETCHMODE_OBJECT);
-		$update = $row->solution_id;
-		if ($update)
-		{
-			// update your dataset in the tst_solutions table
-		}
-		else
-		{
-			// create a new dataset in the tst_solutions table from the
-			// POST values of the user
-		}
+
+		// create a new dataset in the tst_solutions table from the
+		// POST values of the user
 		
 		// call the saveWorkingData method of the parent class
 		// This method calls the calculateReachedPoints method and saves
@@ -447,8 +409,6 @@ class assQuestionTypeTemplate extends assQuestion
 	/**
 	* Synchronizes the "original" of the question with the question data
 	*
-	* Synchronizes the "original" of the question with the question data
-	*
 	* @access public
 	*/
 	function syncWithOriginal()
@@ -460,8 +420,6 @@ class assQuestionTypeTemplate extends assQuestion
 	}
 
 	/**
-	* Returns the question type of the question
-	*
 	* Returns the question type of the question which is the database
 	* ID of the qpl_question_type database table entry of this question type
 	*
@@ -476,8 +434,6 @@ class assQuestionTypeTemplate extends assQuestion
 	/**
 	* Returns the name of the additional question data table in the database (if one exists)
 	*
-	* Returns the name of the additional question data table in the database (if one exists)
-	*
 	* @return string The additional table name
 	* @access public
 	*/
@@ -487,8 +443,6 @@ class assQuestionTypeTemplate extends assQuestion
 	}
 	
 	/**
-	* Returns the name of the additional answer table in the database (if one exists)
-	*
 	* Returns the name of the additional answer table in the database (if one exists)
 	*
 	* @return string The answer table name

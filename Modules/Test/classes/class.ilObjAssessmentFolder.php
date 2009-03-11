@@ -388,7 +388,7 @@ class ilObjAssessmentFolder extends ilObject
 		$log = array();
 		if ($test_only == TRUE)
 		{
-			$query = sprintf("SELECT *, TIMESTAMP + 0 AS timestamp14 FROM ass_log WHERE obj_fi = %s AND TIMESTAMP + 0 > %s AND TIMESTAMP + 0 < %s AND test_only = %s ORDER BY timestamp14",
+			$query = sprintf("SELECT *, TIMESTAMP + 0 timestamp14 FROM ass_log WHERE obj_fi = %s AND TIMESTAMP + 0 > %s AND TIMESTAMP + 0 < %s AND test_only = %s ORDER BY timestamp14",
 				$this->ilias->db->quote($test_id . ""),
 				$this->ilias->db->quote($ts_from . ""),
 				$this->ilias->db->quote($ts_to . ""),
@@ -397,7 +397,7 @@ class ilObjAssessmentFolder extends ilObject
 		}
 		else
 		{
-			$query = sprintf("SELECT *, TIMESTAMP + 0 AS timestamp14 FROM ass_log WHERE obj_fi = %s AND TIMESTAMP + 0 > %s AND TIMESTAMP + 0 < %s ORDER BY timestamp14",
+			$query = sprintf("SELECT *, TIMESTAMP + 0 timestamp14 FROM ass_log WHERE obj_fi = %s AND TIMESTAMP + 0 > %s AND TIMESTAMP + 0 < %s ORDER BY timestamp14",
 				$this->ilias->db->quote($test_id . ""),
 				$this->ilias->db->quote($ts_from . ""),
 				$this->ilias->db->quote($ts_to . "")
@@ -442,7 +442,7 @@ class ilObjAssessmentFolder extends ilObject
 		$log = array();
 		if ($test_only == TRUE)
 		{
-			$query = sprintf("SELECT *, TIMESTAMP + 0 AS timestamp14 FROM ass_log WHERE obj_fi = %s AND TIMESTAMP + 0 > %s AND TIMESTAMP + 0 < %s AND test_only = %s ORDER BY timestamp14",
+			$query = sprintf("SELECT *, TIMESTAMP + 0 timestamp14 FROM ass_log WHERE obj_fi = %s AND TIMESTAMP + 0 > %s AND TIMESTAMP + 0 < %s AND test_only = %s ORDER BY timestamp14",
 				$ilDB->quote($test_id . ""),
 				$ilDB->quote($ts_from . ""),
 				$ilDB->quote($ts_to . ""),
@@ -451,7 +451,7 @@ class ilObjAssessmentFolder extends ilObject
 		}
 		else
 		{
-			$query = sprintf("SELECT *, TIMESTAMP + 0 AS timestamp14 FROM ass_log WHERE obj_fi = %s AND TIMESTAMP + 0 > %s AND TIMESTAMP + 0 < %s ORDER BY timestamp14",
+			$query = sprintf("SELECT *, TIMESTAMP + 0 timestamp14 FROM ass_log WHERE obj_fi = %s AND TIMESTAMP + 0 > %s AND TIMESTAMP + 0 < %s ORDER BY timestamp14",
 				$ilDB->quote($test_id . ""),
 				$ilDB->quote($ts_from . ""),
 				$ilDB->quote($ts_to . "")
@@ -508,7 +508,7 @@ class ilObjAssessmentFolder extends ilObject
 	*/
 	function getNrOfLogEntries($test_obj_id)
 	{
-		$query = sprintf("SELECT COUNT(obj_fi) AS logcount FROM ass_log WHERE obj_fi = %s",
+		$query = sprintf("SELECT COUNT(obj_fi) logcount FROM ass_log WHERE obj_fi = %s",
 			$this->ilias->db->quote($test_obj_id . "")
 		);
 		$result = $this->ilias->db->query($query);

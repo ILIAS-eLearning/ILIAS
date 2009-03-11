@@ -104,70 +104,63 @@ class assFlashQuestion extends assQuestion
 		if ($this->id == -1)
 		{
 			// Neuen Datensatz schreiben
-			$now = getdate();
-			$created = sprintf("%04d%02d%02d%02d%02d%02d", $now['year'], $now['mon'], $now['mday'], $now['hours'], $now['minutes'], $now['seconds']);
-			
-			$statement = $ilDB->prepareManip("INSERT INTO qpl_questions (question_id, question_type_fi, obj_fi, title, description, author, owner, question_text, points, working_time, complete, created, original_id, TIMESTAMP) VALUES (NULL, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, NULL)", 
-				array("integer", "integer", "text", "text", "text", "integer", "text", "float", "time", "text", "timestamp")
+			$next_id = $ilDB->nextId('qpl_questions');
+			$affectedRows = $ilDB->manipulateF("INSERT INTO qpl_questions (question_id, question_type_fi, obj_fi, title, description, author, owner, question_text, points, working_time, complete, created, original_id, tstamp) VALUES (%s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s)", 
+				array("integer","integer", "integer", "text", "text", "text", "integer", "text", "float", "time", "text", "integer","integer","integer"),
+				array(
+					$next_id
+					$this->getQuestionTypeID(), 
+					$this->getObjId(), 
+					$this->getTitle(), 
+					$this->getComment(), 
+					$this->getAuthor(), 
+					$this->getOwner(), 
+					ilRTE::_replaceMediaObjectImageSrc($this->getQuestion(), 0), 
+					$this->getMaximumPoints(),
+					$estw_time,
+					$complete,
+					time(),
+					($original_id) ? $original_id : NULL,
+					time()
+				)
 			);
-			$data = array(
-				$this->getQuestionTypeID(), 
-				$this->getObjId(), 
-				$this->getTitle(), 
-				$this->getComment(), 
-				$this->getAuthor(), 
-				$this->getOwner(), 
-				ilRTE::_replaceMediaObjectImageSrc($this->question, 0), 
-				$this->getMaximumPoints(),
-				$estw_time,
-				$complete,
-				$created,
-				($original_id) ? $original_id : NULL
-			);
-			$affectedRows = $ilDB->execute($statement, $data);
-			$this->setId($ilDB->getLastInsertId());
+			$this->setId($next_id);
 			// create page object of question
 			$this->createPageObject();
-
-			if ($this->getTestId() > 0)
-			{
-				$this->insertIntoTest($this->getTestId());
-			}
 		}
 		else
 		{
 			// Vorhandenen Datensatz aktualisieren
-			$statement = $ilDB->prepareManip("UPDATE qpl_questions SET obj_fi = ?, title = ?, description = ?, author = ?, question_text = ?, points = ?, working_time=?, complete = ? WHERE question_id = ?", 
-				array("integer", "text", "text", "text", "text", "float", "time", "text", "integer")
+			$affectedRows = $ilDB->manipulateF("UPDATE qpl_questions SET obj_fi = %s, title = %s, description = %s, author = %s, question_text = %s, points = %s, working_time=%s, complete = %s, tstamp = %s WHERE question_id = %s", 
+				array("integer", "text", "text", "text", "text", "float", "time", "text", "integer", "integer"),
+				array(
+					$this->getObjId(), 
+					$this->getTitle(), 
+					$this->getComment(), 
+					$this->getAuthor(), 
+					ilRTE::_replaceMediaObjectImageSrc($this->question, 0), 
+					$this->getMaximumPoints(),
+					$estw_time,
+					$complete,
+					time(),
+					$this->getId()
+				)
 			);
-			$data = array(
-				$this->getObjId(), 
-				$this->getTitle(), 
-				$this->getComment(), 
-				$this->getAuthor(), 
-				ilRTE::_replaceMediaObjectImageSrc($this->question, 0), 
-				$this->getMaximumPoints(),
-				$estw_time,
-				$complete,
-				$this->getId()
-			);
-			$affectedRows = $ilDB->execute($statement, $data);
 		}
 		// save additional data
-		$statement = $ilDB->prepareManip("DELETE FROM " . $this->getAdditionalTableName() . " WHERE question_fi = ?", 
-			array("integer")
+		$affectedRows = $ilDB->manipulateF("DELETE FROM " . $this->getAdditionalTableName() . " WHERE question_fi = %s", 
+			array("integer"),
+			array($this->getId())
 		);
-		$data = array($this->getId());
-		$affectedRows = $ilDB->execute($statement, $data);
-		$statement = $ilDB->prepareManip("INSERT INTO " . $this->getAdditionalTableName() . " (question_fi, width, height, applet, params) VALUES (?, ?, ?, ?, ?)", 
-			array("integer", "integer", "integer", "text")
-		);
-		$data = array(
-			$this->getId(),
-			(strlen($this->getWidth())) ? $this->getWidth() : 550,
-			(strlen($this->getHeight())) ? $this->getHeight() : 400,
-			$this->getApplet(),
-			serialize($this->getParameters())
+		$affectedRows = $ilDB->manipulateF("INSERT INTO " . $this->getAdditionalTableName() . " (question_fi, width, height, applet, params) VALUES (%s, %s, %s, %s, %s)", 
+			array("integer", "integer", "integer", "text"),
+			array(
+				$this->getId(),
+				(strlen($this->getWidth())) ? $this->getWidth() : 550,
+				(strlen($this->getHeight())) ? $this->getHeight() : 400,
+				$this->getApplet(),
+				serialize($this->getParameters())
+			)
 		);
 		if ($_SESSION["flash_upload_filename"])
 		{
@@ -176,7 +169,6 @@ class assFlashQuestion extends assQuestion
 			@rename($_SESSION["flash_upload_filename"], $path . $this->getApplet());
 			unset($_SESSION["flash_upload_filename"]);
 		}
-		$affectedRows = $ilDB->execute($statement, $data);
 
 		parent::saveToDb();
 	}
@@ -191,10 +183,10 @@ class assFlashQuestion extends assQuestion
 	function loadFromDb($question_id)
 	{
 		global $ilDB;
-		$statement = $ilDB->prepare("SELECT qpl_questions.* FROM qpl_questions WHERE question_id = ?",
-			array("integer")
+		$result = $ilDB->queryF("SELECT qpl_questions.* FROM qpl_questions WHERE question_id = %s",
+			array("integer"),
+			array($question_id)
 		);
-		$result = $ilDB->execute($statement, array($question_id));
 		if ($result->numRows() == 1)
 		{
 			$data = $ilDB->fetchAssoc($result);
@@ -212,10 +204,10 @@ class assFlashQuestion extends assQuestion
 			$this->setQuestion(ilRTE::_replaceMediaObjectImageSrc($data["question_text"], 1));
 			$this->setEstimatedWorkingTime(substr($data["working_time"], 0, 2), substr($data["working_time"], 3, 2), substr($data["working_time"], 6, 2));
 			// load additional data
-			$statement = $ilDB->prepare("SELECT * FROM " . $this->getAdditionalTableName() . " WHERE question_fi = ?",
-				array("integer")
+			$result = $ilDB->queryF("SELECT * FROM " . $this->getAdditionalTableName() . " WHERE question_fi = %s",
+				array("integer"),
+				array($question_id)
 			);
-			$result = $ilDB->execute($statement, array($question_id));
 			if ($result->numRows() == 1)
 			{
 				$data = $ilDB->fetchAssoc($result);
@@ -399,10 +391,10 @@ class assFlashQuestion extends assQuestion
 		{
 			$pass = $this->getSolutionMaxPass($active_id);
 		}
-		$statement = $ilDB->prepare("SELECT * FROM tst_solutions WHERE active_fi = ? AND question_fi = ? AND pass = ?",
-			array("integer", "integer", "integer")
+		$result = $ilDB->queryF("SELECT * FROM tst_solutions WHERE active_fi = %s AND question_fi = %s AND pass = %s",
+			array("integer", "integer", "integer"),
+			array($active_id, $this->getId(), $pass)
 		);
-		$result = $ilDB->execute($statement, array($active_id, $this->getId(), $pass));
 
 		$points = 0;
 		while ($data = $ilDB->fetchAssoc($result))

@@ -3704,7 +3704,7 @@ function loadQuestions($active_id = "", $pass = NULL)
 		$duplicate_id = $this->duplicateQuestionForTest($question_id);
 
 		// get maximum sequence index in test
-		$query = sprintf("SELECT MAX(sequence) AS seq FROM tst_test_question WHERE test_fi=%s",
+		$query = sprintf("SELECT MAX(sequence) seq FROM tst_test_question WHERE test_fi=%s",
 			$ilDB->quote($this->getTestId())
 			);
 		$result = $ilDB->query($query);
@@ -3934,13 +3934,13 @@ function loadQuestions($active_id = "", $pass = NULL)
 
 		if (is_null($pass))
 		{
-			$query = sprintf("SELECT * FROM tst_solutions WHERE active_fi = %s AND pass = 0 GROUP BY question_fi",
+			$query = sprintf("SELECT question_fi FROM tst_solutions WHERE active_fi = %s AND pass = 0 GROUP BY question_fi",
 				$ilDB->quote($active_id . "")
 			);
 		}
 		else
 		{
-			$query = sprintf("SELECT * FROM tst_solutions WHERE active_fi = %s AND pass = %s GROUP BY question_fi",
+			$query = sprintf("SELECT question_fi FROM tst_solutions WHERE active_fi = %s AND pass = %s GROUP BY question_fi",
 				$ilDB->quote($active_id . ""),
 				$ilDB->quote($pass . "")
 			);
@@ -4785,13 +4785,13 @@ function loadQuestions($active_id = "", $pass = NULL)
 		global $ilDB;
 		if ($this->isRandomTest())
 		{
+			$ilDB->setLimit($this->getQuestionCount(), 0);
 			$query = sprintf("SELECT tst_test_random_question.sequence, tst_test_random_question.question_fi, " .
 				"tst_test_random_question.pass, qpl_questions.points " .
 				"FROM tst_test_random_question, qpl_questions " .
 				"WHERE tst_test_random_question.question_fi = qpl_questions.question_id " .
-				"AND tst_test_random_question.active_fi = %s ORDER BY tst_test_random_question.sequence LIMIT 0, %s",
-				$ilDB->quote($active_id . ""),
-				$this->getQuestionCount()
+				"AND tst_test_random_question.active_fi = %s ORDER BY tst_test_random_question.sequence",
+				$ilDB->quote($active_id . "")
 			);
 		}
 		else
@@ -4819,8 +4819,6 @@ function loadQuestions($active_id = "", $pass = NULL)
 	/**
 	* Retrieves all the assigned questions for a test participant in a given test pass
 	*
-	* Retrieves all the assigned questions for a test participant in a given test pass
-	*
 	* @return array An associated array containing the questions
 	* @access public
 	*/
@@ -4829,15 +4827,15 @@ function loadQuestions($active_id = "", $pass = NULL)
 		global $ilDB;
 		if ($this->isRandomTest())
 		{
+			$ilDB->setLimit($this->getQuestionCount(), 0);
 			$query = sprintf("SELECT tst_test_random_question.sequence, tst_test_random_question.question_fi, " .
 				"qpl_questions.points " .
 				"FROM tst_test_random_question, qpl_questions " .
 				"WHERE tst_test_random_question.question_fi = qpl_questions.question_id " .
 				"AND tst_test_random_question.active_fi = %s AND tst_test_random_question.pass = %s " .
-				"ORDER BY tst_test_random_question.sequence LIMIT 0, %s",
+				"ORDER BY tst_test_random_question.sequence",
 				$ilDB->quote($active_id . ""),
-				$ilDB->quote($pass . ""),
-				$this->getQuestionCount()
+				$ilDB->quote($pass . "")
 			);
 		}
 		else
@@ -7257,7 +7255,7 @@ function loadQuestions($active_id = "", $pass = NULL)
 		{
 			if (is_numeric($user_id))
 			{
-				$query = sprintf("SELECT tst_active.active_id, tst_active.tries, usr_id, '' AS login, %s AS lastname, '' AS firstname, tst_invited_user.clientip, " .
+				$query = sprintf("SELECT tst_active.active_id, tst_active.tries, usr_id, '' login, %s lastname, '' firstname, tst_invited_user.clientip, " .
 					"tst_active.submitted as test_finished, matriculation, IF(tst_active.active_id IS NULL,0,1) as test_started " .
 					"FROM usr_data, tst_invited_user " .
 					"LEFT JOIN tst_active ON tst_active.user_fi = tst_invited_user.user_fi AND tst_active.test_fi = tst_invited_user.test_fi " .
@@ -7271,7 +7269,7 @@ function loadQuestions($active_id = "", $pass = NULL)
 			}
 			else
 			{
-				$query = sprintf("SELECT tst_active.active_id, usr_id, '' AS login, %s AS lastname, '' AS firstname, tst_invited_user.clientip, " .
+				$query = sprintf("SELECT tst_active.active_id, usr_id, '' login, %s lastname, '' firstname, tst_invited_user.clientip, " .
 					"tst_active.submitted as test_finished, matriculation, IF(tst_active.active_id IS NULL,0,1) as test_started " .
 					"FROM usr_data, tst_invited_user " .
 					"LEFT JOIN tst_active ON tst_active.user_fi = tst_invited_user.user_fi AND tst_active.test_fi = tst_invited_user.test_fi " .
@@ -7328,7 +7326,7 @@ function loadQuestions($active_id = "", $pass = NULL)
 
 		if ($this->getAnonymity())
 		{
-			$q = sprintf("SELECT tst_active.active_id, tst_active.tries, tst_active.user_fi AS usr_id, '' AS login, %s AS lastname, '' AS firstname, tst_active.submitted as test_finished, usr_data.matriculation, usr_data.active, IF(tst_active.active_id IS NULL,0,1) as test_started ".
+			$q = sprintf("SELECT tst_active.active_id, tst_active.tries, tst_active.user_fi usr_id, '' login, %s lastname, '' firstname, tst_active.submitted as test_finished, usr_data.matriculation, usr_data.active, IF(tst_active.active_id IS NULL,0,1) as test_started ".
 				"FROM tst_active LEFT JOIN usr_data ON tst_active.user_fi = usr_data.usr_id WHERE tst_active.test_fi = %s ORDER BY usr_data.lastname " . strtoupper($name_sort_order),
 				$ilDB->quote($this->lng->txt("unknown")),
 				$ilDB->quote($this->getTestId())
@@ -7336,7 +7334,7 @@ function loadQuestions($active_id = "", $pass = NULL)
 		}
 		else
 		{
-			$q = sprintf("SELECT tst_active.active_id, tst_active.tries, tst_active.user_fi AS usr_id, usr_data.login, usr_data.lastname, usr_data.firstname, tst_active.submitted as test_finished, usr_data.matriculation, usr_data.active, IF(tst_active.active_id IS NULL,0,1) as test_started ".
+			$q = sprintf("SELECT tst_active.active_id, tst_active.tries, tst_active.user_fi usr_id, usr_data.login, usr_data.lastname, usr_data.firstname, tst_active.submitted as test_finished, usr_data.matriculation, usr_data.active, IF(tst_active.active_id IS NULL,0,1) as test_started ".
 				"FROM tst_active LEFT JOIN usr_data ON tst_active.user_fi = usr_data.usr_id WHERE tst_active.test_fi = %s ORDER BY usr_data.lastname " . strtoupper($name_sort_order),
 				$ilDB->quote($this->getTestId())
 			);
@@ -7450,7 +7448,7 @@ function loadQuestions($active_id = "", $pass = NULL)
 
 		if ($this->getAnonymity())
 		{
-			$query = sprintf("SELECT usr_id, '' AS login, %s AS lastname, '' AS firstname, client_ip as clientip FROM usr_data WHERE usr_id IN ('%s') ORDER BY login",
+			$query = sprintf("SELECT usr_id, '' login, %s lastname, '' firstname, client_ip as clientip FROM usr_data WHERE usr_id IN ('%s') ORDER BY login",
 				$ilDB->quote($this->lng->txt("unknown")),
 				join ($ids,"','")
 			);
@@ -9972,7 +9970,7 @@ function loadQuestions($active_id = "", $pass = NULL)
 	{
 		global $ilDB;
 		
-		$set = $ilDB->query("SELECT t.obj_fi AS obj_id FROM tst_test_question AS q, tst_tests AS t WHERE".
+		$set = $ilDB->query("SELECT t.obj_fi obj_id FROM tst_test_question q, tst_tests t WHERE".
 			" q.test_fi = t.test_id AND q.question_fi = ".$ilDB->quote($a_q_id));
 		$rec = $set->fetchRow(DB_FETCHMODE_ASSOC);
 		return $rec["obj_id"];

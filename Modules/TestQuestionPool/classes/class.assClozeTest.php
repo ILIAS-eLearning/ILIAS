@@ -162,15 +162,9 @@ class assClozeTest extends assQuestion
 	function loadFromDb($question_id)
 	{
 		global $ilDB;
-		$statement = $ilDB->prepare("SELECT qpl_questions.*, " . $this->getAdditionalTableName() . ".* FROM qpl_questions, " . $this->getAdditionalTableName() . " WHERE question_id = ? AND qpl_questions.question_id = " . $this->getAdditionalTableName() . ".question_fi",
-			array(
-				"integer"
-			)
-		);
-		$result = $ilDB->execute($statement, 
-			array(
-				$question_id
-			)
+		$result = $ilDB->queryF("SELECT qpl_questions.*, " . $this->getAdditionalTableName() . ".* FROM qpl_questions, " . $this->getAdditionalTableName() . " WHERE question_id = %s AND qpl_questions.question_id = " . $this->getAdditionalTableName() . ".question_fi",
+			array("integer"),
+			array($question_id)
 		);
 		if ($result->numRows() == 1)
 		{
@@ -195,15 +189,9 @@ class assClozeTest extends assQuestion
 			// open the cloze gaps with all answers
 			include_once "./Modules/TestQuestionPool/classes/class.assAnswerCloze.php";
 			include_once "./Modules/TestQuestionPool/classes/class.assClozeGap.php";
-			$statement = $ilDB->prepare("SELECT * FROM qpl_answer_cloze WHERE question_fi = ? ORDER BY gap_id, aorder ASC",
-				array(
-					"integer" 
-				)
-			);
-			$result = $ilDB->execute($statement, 
-				array(
-					$question_id
-				)
+			$result = $ilDB->queryF("SELECT * FROM qpl_answer_cloze WHERE question_fi = ? ORDER BY gap_id, aorder ASC",
+				array("integer"),
+				array($question_id)
 			);
 			if ($result->numRows() > 0)
 			{
@@ -261,9 +249,7 @@ class assClozeTest extends assQuestion
 	/**
 	* Saves a assClozeTest object to a database
 	*
-	* Saves a assClozeTest object to a database (experimental)
-	*
-	* @param object $db A pear DB object
+	* @param integer $original_id ID of the original question
 	* @access public
 	*/
 	function saveToDb($original_id = "")
@@ -281,70 +267,48 @@ class assClozeTest extends assQuestion
 		include_once("./Services/RTE/classes/class.ilRTE.php");
 		if ($this->id == -1)
 		{
-			$now = getdate();
-			$created = sprintf("%04d%02d%02d%02d%02d%02d", $now['year'], $now['mon'], $now['mday'], $now['hours'], $now['minutes'], $now['seconds']);
-			$statement = $ilDB->prepareManip("INSERT INTO qpl_questions (question_id, question_type_fi, obj_fi, title, description, points, author, " .
-				"owner, question_text, working_time, complete, created, original_id, TIMESTAMP) " .
-				"VALUES (NULL, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, NULL)",
+			$next_id = $ilDB->nextId('qpl_questions');
+			$affectedRows = $ilDB->manipulateF("INSERT INTO qpl_questions (question_id, question_type_fi, obj_fi, title, description, author, owner, question_text, points, working_time, complete, created, original_id, tstamp) VALUES (%s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s)", 
+				array("integer","integer", "integer", "text", "text", "text", "integer", "text", "float", "time", "text", "integer","integer","integer"),
 				array(
-					"integer", 
-					"integer",
-					"text",
-					"text",
-					"float",
-					"text",
-					"integer",
-					"text",
-					"time",
-					"text",
-					"text",
-					"integer"
+					$next_id
+					$this->getQuestionTypeID(), 
+					$this->getObjId(), 
+					$this->getTitle(), 
+					$this->getComment(), 
+					$this->getAuthor(), 
+					$this->getOwner(), 
+					ilRTE::_replaceMediaObjectImageSrc($this->getClozeText(), 0),
+					$this->getMaximumPoints(),
+					$estw_time,
+					$complete,
+					time(),
+					($original_id) ? $original_id : NULL,
+					time()
 				)
 			);
-			$data = array(
-				$this->getQuestionTypeID(),
-				$this->getObjId(),
-				$this->getTitle(),
-				$this->getComment(),
-				$this->getMaximumPoints(),
-				$this->getAuthor(),
-				$this->getOwner(),
-				ilRTE::_replaceMediaObjectImageSrc($this->getClozeText(), 0),
-				$estw_time,
-				($this->isComplete()) ? "1" : "0",
-				$created,
-				($original_id > 0) ? $original_id : NULL
-			);
-			$affectedRows = $ilDB->execute($statement, $data);
-
-			$this->setId($ilDB->getLastInsertId());
-			$statement = $ilDB->prepareManip("INSERT INTO " . $this->getAdditionalTableName() . " (question_fi, textgap_rating, identical_scoring, fixed_textlen) VALUES (?, ?, ?, ?)",
+			$this->setId($next_id);
+			$affectedRows = $ilDB->manipulateF("INSERT INTO " . $this->getAdditionalTableName() . " (question_fi, textgap_rating, identical_scoring, fixed_textlen) VALUES (%s, %s, %s, %s)",
 				array(
 					"integer", 
 					"text",
 					"text",
 					"integer"
+				),
+				array(
+					$this->getId(),
+					$this->getTextgapRating(),
+					$this->getIdenticalScoring(),
+					$this->getFixedTextLength() ? $this->getFixedTextLength() : NULL
 				)
 			);
-			$data = array(
-				$this->getId(),
-				$this->getTextgapRating(),
-				$this->getIdenticalScoring(),
-				$this->getFixedTextLength() ? $this->getFixedTextLength() : NULL
-			);
-			$affectedRows = $ilDB->execute($statement, $data);
 
 			$this->createPageObject();
-
-			if ($this->getTestId() > 0)
-			{
-				$this->insertIntoTest($this->getTestId());
-			}
 		}
 		else
 		{
-			$statement = $ilDB->prepareManip("UPDATE qpl_questions SET obj_fi = ?, title = ?, description = ?, points = ?, author = ?,  " .
-				"question_text = ?, working_time = ?, complete = ? WHERE question_id = ?",
+			$affectedRows = $ilDB->manipulateF("UPDATE qpl_questions SET obj_fi = %s, title = %s, description = %s, points = %s, author = %s,  " .
+				"question_text = %s, working_time = %s, complete = %s, tstamp = %s WHERE question_id = %s",
 				array(
 					"integer",
 					"text",
@@ -354,48 +318,43 @@ class assClozeTest extends assQuestion
 					"text",
 					"time",
 					"text",
+					"integer",
 					"integer"
+				),
+				array(
+					$this->getObjId(),
+					$this->getTitle(),
+					$this->getComment(),
+					$this->getMaximumPoints(),
+					$this->getAuthor(),
+					ilRTE::_replaceMediaObjectImageSrc($this->getClozeText(), 0),
+					$estw_time,
+					($this->isComplete()) ? "1" : "0",
+					time(),
+					$this->getId(),
 				)
 			);
-			$data = array(
-				$this->getObjId(),
-				$this->getTitle(),
-				$this->getComment(),
-				$this->getMaximumPoints(),
-				$this->getAuthor(),
-				ilRTE::_replaceMediaObjectImageSrc($this->getClozeText(), 0),
-				$estw_time,
-				($this->isComplete()) ? "1" : "0",
-				$this->getId()
-			);
-			$affectedRows = $ilDB->execute($statement, $data);
 
-			$statement = $ilDB->prepareManip("UPDATE " . $this->getAdditionalTableName() . " SET textgap_rating = ?, fixed_textlen = ?, identical_scoring = ? WHERE question_fi = ?",
+			$affectedRows = $ilDB->manipulateF("UPDATE " . $this->getAdditionalTableName() . " SET textgap_rating = %s, fixed_textlen = %s, identical_scoring = %s WHERE question_fi = %s",
 				array(
 					"text", 
 					"integer",
 					"text",
 					"integer"
+				),
+				array(
+					$this->getTextgapRating(),
+					$this->getFixedTextLength() ? $this->getFixedTextLength() : NULL,
+					$this->getIdenticalScoring(),
+					$this->getId()
 				)
 			);
-			$data = array(
-				$this->getTextgapRating(),
-				$this->getFixedTextLength() ? $this->getFixedTextLength() : NULL,
-				$this->getIdenticalScoring(),
-				$this->getId()
-			);
-			$affectedRows = $ilDB->execute($statement, $data);
 		}
 
-		$statement = $ilDB->prepareManip("DELETE FROM qpl_answer_cloze WHERE question_fi = ?",
-			array(
-				"integer"
-			)
+		$affectedRows = $ilDB->manipulateF("DELETE FROM qpl_answer_cloze WHERE question_fi = %s",
+			array("integer"),
+			array($this->getId())
 		);
-		$data = array(
-			$this->getId()
-		);
-		$affectedRows = $ilDB->execute($statement, $data);
 		
 		foreach ($this->gaps as $key => $gap)
 		{
@@ -405,7 +364,7 @@ class assClozeTest extends assQuestion
 				switch ($gap->getType())
 				{
 					case CLOZE_TEXT:
-						$statement = $ilDB->prepareManip("INSERT INTO qpl_answer_cloze (answer_id, question_fi, gap_id, answertext, points, aorder, cloze_type) VALUES (NULL, ?, ?, ?, ?, ?, ?)",
+						$affectedRows = $ilDB->manipulateF("INSERT INTO qpl_answer_cloze (answer_id, question_fi, gap_id, answertext, points, aorder, cloze_type) VALUES (NULL, %s, %s, %s, %s, %s, %s)",
 							array(
 								"integer", 
 								"integer",
@@ -413,19 +372,19 @@ class assClozeTest extends assQuestion
 								"float",
 								"integer",
 								"text"
+							),
+							array(
+								$this->getId(),
+								$key,
+								strlen($item->getAnswertext()) ? $item->getAnswertext() : "",
+								$item->getPoints(),
+								$item->getOrder(),
+								$gap->getType()
 							)
-						);
-						$data = array(
-							$this->getId(),
-							$key,
-							strlen($item->getAnswertext()) ? $item->getAnswertext() : "",
-							$item->getPoints(),
-							$item->getOrder(),
-							$gap->getType()
 						);
 						break;
 					case CLOZE_SELECT:
-						$statement = $ilDB->prepareManip("INSERT INTO qpl_answer_cloze (answer_id, question_fi, gap_id, answertext, points, aorder, cloze_type, shuffle) VALUES (NULL, ?, ?, ?, ?, ?, ?, ?)",
+						$affectedRows = $ilDB->manipulateF("INSERT INTO qpl_answer_cloze (answer_id, question_fi, gap_id, answertext, points, aorder, cloze_type, shuffle) VALUES (NULL, %s, %s, %s, %s, %s, %s, %s)",
 							array(
 								"integer", 
 								"integer",
@@ -434,20 +393,20 @@ class assClozeTest extends assQuestion
 								"integer",
 								"text",
 								"text"
+							),
+							array(
+								$this->getId(),
+								$key,
+								strlen($item->getAnswertext()) ? $item->getAnswertext() : "",
+								$item->getPoints(),
+								$item->getOrder(),
+								$gap->getType(),
+								($gap->getShuffle()) ? "1" : "0"
 							)
-						);
-						$data = array(
-							$this->getId(),
-							$key,
-							strlen($item->getAnswertext()) ? $item->getAnswertext() : "",
-							$item->getPoints(),
-							$item->getOrder(),
-							$gap->getType(),
-							($gap->getShuffle()) ? "1" : "0"
 						);
 						break;
 					case CLOZE_NUMERIC:
-						$statement = $ilDB->prepareManip("INSERT INTO qpl_answer_cloze (answer_id, question_fi, gap_id, answertext, points, aorder, cloze_type, lowerlimit, upperlimit) VALUES (NULL, ?, ?, ?, ?, ?, ?, ?, ?)",
+						$affectedRows = $ilDB->manipulateF("INSERT INTO qpl_answer_cloze (answer_id, question_fi, gap_id, answertext, points, aorder, cloze_type, lowerlimit, upperlimit) VALUES (NULL, %s, %s, %s, %s, %s, %s, %s, %s)",
 							array(
 								"integer", 
 								"integer",
@@ -457,21 +416,20 @@ class assClozeTest extends assQuestion
 								"text",
 								"text",
 								"text"
+							),
+							array(
+								$this->getId(),
+								$key,
+								strlen($item->getAnswertext()) ? $item->getAnswertext() : "",
+								$item->getPoints(),
+								$item->getOrder(),
+								$gap->getType(),
+								($eval->e($item->getLowerBound() !== FALSE) && strlen($item->getLowerBound()) > 0) ? $item->getLowerBound() : "0",
+								($eval->e($item->getUpperBound() !== FALSE)  && strlen($item->getUpperBound()) > 0) ? $item->getUpperBound() : "0"
 							)
-						);
-						$data = array(
-							$this->getId(),
-							$key,
-							strlen($item->getAnswertext()) ? $item->getAnswertext() : "",
-							$item->getPoints(),
-							$item->getOrder(),
-							$gap->getType(),
-							($eval->e($item->getLowerBound() !== FALSE) && strlen($item->getLowerBound()) > 0) ? $item->getLowerBound() : "0",
-							($eval->e($item->getUpperBound() !== FALSE)  && strlen($item->getUpperBound()) > 0) ? $item->getUpperBound() : "0"
 						);
 						break;
 				}
-				$affectedRows = $ilDB->execute($statement, $data);
 			}
 		}
 		parent::saveToDb($original_id);
@@ -1117,14 +1075,12 @@ class assClozeTest extends assQuestion
 		{
 			$pass = $this->getSolutionMaxPass($active_id);
 		}
-		$statement = $ilDB->prepare("SELECT * FROM tst_solutions WHERE active_fi = ? AND question_fi = ? AND pass = ?",
+		$result = $ilDB->queryF("SELECT * FROM tst_solutions WHERE active_fi = %s AND question_fi = %s AND pass = %s",
 			array(
 				"integer", 
 				"integer",
 				"integer"
-			)
-		);
-		$result = $ilDB->execute($statement, 
+			),
 			array(
 				$active_id,
 				$this->getId(),
@@ -1250,19 +1206,18 @@ class assClozeTest extends assQuestion
 			$pass = ilObjTest::_getPass($active_id);
 		}
 
-		$statement = $ilDB->prepareManip("DELETE FROM tst_solutions WHERE active_fi = ? AND question_fi = ? AND pass = ?",
+		$affectedRows = $ilDB->manipulateF("DELETE FROM tst_solutions WHERE active_fi = %s AND question_fi = %s AND pass = %s",
 			array(
 				"integer", 
 				"integer",
 				"integer"
+			),
+			array(
+				$active_id,
+				$this->getId(),
+				$pass
 			)
 		);
-		$data = array(
-			$active_id,
-			$this->getId(),
-			$pass
-		);
-		$affectedRows = $ilDB->execute($statement, $data);
 
 		$entered_values = 0;
 		foreach ($_POST as $key => $value) 
@@ -1281,23 +1236,27 @@ class assClozeTest extends assQuestion
 							{
 								$value = str_replace(",", ".", $value);
 							}
-							$statement = $ilDB->prepareManip("INSERT INTO tst_solutions (solution_id, active_fi, question_fi, value1, value2, pass, TIMESTAMP) VALUES (NULL, ?, ?, ?, ?, ?, NULL)",
+							$next_id = $ilDB->nextId("tst_solutions");
+							$affectedRows = $ilDB->manipulateF("INSERT INTO tst_solutions (solution_id, active_fi, question_fi, value1, value2, pass, tstamp) VALUES (%s, %s, %s, %s, %s, %s, %s)",
 								array(
+									"integer",
 									"integer", 
 									"integer",
 									"text",
 									"text",
 									"integer"
+									"integer"
+								),
+								array(
+									$next_id,
+									$active_id,
+									$this->getId(),
+									trim($matches[1]),
+									trim($value),
+									$pass,
+									time()
 								)
 							);
-							$data = array(
-								$active_id,
-								$this->getId(),
-								trim($matches[1]),
-								trim($value),
-								$pass
-							);
-							$affectedRows = $ilDB->execute($statement, $data);
 							$entered_values++;
 						}
 					}

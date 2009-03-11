@@ -92,8 +92,6 @@ class ilObjTestAccess extends ilObjectAccess
 	/**
 	* Returns the maximum number of points available for a test pass
 	*
-	* Returns the maximum number of points available for a test pass
-	*
 	* @param boolean $random TRUE if the test is a random test, otherwise FALSE
 	* @param int $test_id The test id
 	* @param int $pass The test pass
@@ -105,27 +103,25 @@ class ilObjTestAccess extends ilObjectAccess
 		$max = 0;
 		if ($random)
 		{
-			$query = sprintf("SELECT SUM(qpl_questions.points) AS maxpoints FROM tst_test_random_question, qpl_questions, tst_active WHERE tst_active.active_id = tst_test_random_question.active_fi AND tst_test_random_question.question_fi = qpl_questions.question_id AND tst_active.test_fi = %s AND tst_test_random_question.pass = %s AND tst_active.user_fi = %s",
-				$ilDB->quote($test_id . ""),
-				$ilDB->quote($pass . ""),
-				$ilDB->quote($user_id . "")
+			$result = $ilDB->queryF("SELECT SUM(qpl_questions.points) maxpoints FROM tst_test_random_question, qpl_questions, tst_active WHERE tst_active.active_id = tst_test_random_question.active_fi AND tst_test_random_question.question_fi = qpl_questions.question_id AND tst_active.test_fi = %s AND tst_test_random_question.pass = %s AND tst_active.user_fi = %s",
+				array('integer','integer','integer'),
+				array($test_id, $pass, $user_id)
 			);
-			$result = $ilDB->query($query);
 			if ($result->numRows())
 			{
-				$row = $result->fetchRow(MDB2_FETCHMODE_ASSOC);
+				$row = $ilDB->fetchAssoc($result);
 				$max = $row["maxpoints"];
 			}
 		}
 		else
 		{
-			$query = sprintf("SELECT SUM(qpl_questions.points) AS maxpoints FROM tst_test_question, qpl_questions WHERE tst_test_question.question_fi = qpl_questions.question_id AND tst_test_question.test_fi = %s",
-				$ilDB->quote($test_id . "")
+			$result = $ilDB->queryF("SELECT SUM(qpl_questions.points) maxpoints FROM tst_test_question, qpl_questions WHERE tst_test_question.question_fi = qpl_questions.question_id AND tst_test_question.test_fi = %s",
+				array('integer'),
+				array($test_id)
 			);
-			$result = $ilDB->query($query);
 			if ($result->numRows())
 			{
-				$row = $result->fetchRow(MDB2_FETCHMODE_ASSOC);
+				$row = $ilDB->fetchAssoc($result);
 				$max = $row["maxpoints"];
 			}
 		}
@@ -135,8 +131,6 @@ class ilObjTestAccess extends ilObjectAccess
 	/**
 	* Returns TRUE if the user with the user id $user_id passed the test with the object id $a_obj_id
 	*
-	* Returns TRUE if the user with the user id $user_id passed the test with the object id $a_obj_id
-	*
 	* @param int $user_id The user id
 	* @param int $a_obj_id The object id
 	* @return boolean TRUE if the user passed the test, FALSE otherwise
@@ -144,13 +138,12 @@ class ilObjTestAccess extends ilObjectAccess
 	function _isPassed($user_id, $a_obj_id)
 	{
 		global $ilDB;
-		$query = sprintf("SELECT tst_test_pass_result.*, tst_tests.pass_scoring, tst_tests.random_test, tst_tests.test_id FROM tst_test_pass_result, tst_active, tst_tests WHERE tst_active.test_fi = tst_tests.test_id AND tst_active.user_fi = %s AND tst_tests.obj_fi = %s AND tst_test_pass_result.active_fi = tst_active.active_id ORDER BY tst_test_pass_result.pass",
-			$ilDB->quote($user_id . ""),
-			$ilDB->quote($a_obj_id . "")
+		$result = $ilDB->queryF("SELECT tst_test_pass_result.*, tst_tests.pass_scoring, tst_tests.random_test, tst_tests.test_id FROM tst_test_pass_result, tst_active, tst_tests WHERE tst_active.test_fi = tst_tests.test_id AND tst_active.user_fi = %s AND tst_tests.obj_fi = %s AND tst_test_pass_result.active_fi = tst_active.active_id ORDER BY tst_test_pass_result.pass",
+			array('integer','integer'),
+			array($user_id, $a_obj_id)
 		);
-		$result = $ilDB->query($query);
 		$points = array();
-		while ($row = $result->fetchRow(MDB2_FETCHMODE_ASSOC))
+		while ($row = $ilDB->fetchAssoc($result))
 		{
 			array_push($points, $row);
 		}
@@ -243,21 +236,16 @@ class ilObjTestAccess extends ilObjectAccess
 	{
 		global $ilDB;
 
-		$q = sprintf("SELECT * FROM tst_tests WHERE obj_fi=%s",
-			$ilDB->quote($a_obj_id)
+		$result = $ilDB->queryF("SELECT complete FROM tst_tests WHERE obj_fi=%s",
+			array('integer'),
+			array($a_obj_id)
 		);
-		$result = $ilDB->query($q);
 		if ($result->numRows() == 1)
 		{
-			$row = $result->fetchRow(MDB2_FETCHMODE_OBJECT);
+			$row = $ilDB->fetchAssoc($result);
 		}
 
-		if (!$row->complete)
-		{
-			return false;
-		}
-
-		return true;
+		return ($row['complete']) ? true : false;
 	}
 
 /**
@@ -273,20 +261,16 @@ class ilObjTestAccess extends ilObjectAccess
 	{
 		global $ilDB;
 
-		$query = sprintf("SELECT active_id FROM tst_active WHERE user_fi = %s AND test_fi = %s AND tries > '0'",
-			$ilDB->quote($a_user_id . ""),
-			$ilDB->quote(ilObjTestAccess::_getTestIDFromObjectID($a_obj_id) . "")
+		$res = $ilDB->queryF("SELECT active_id FROM tst_active WHERE user_fi = %s AND test_fi = %s AND tries > '0'",
+			array('integer','integer'),
+			array($a_user_id, ilObjTestAccess::_getTestIDFromObjectID($a_obj_id))
 		);
-		$res = $ilDB->query($query);
-
 		return $res->numRows() ? true : false;
 	}
 
 /**
 * Returns the ILIAS test id for a given object id
 * 
-* Returns the ILIAS test id for a given object id
-*
 * @param integer $object_id The object id
 * @return mixed The ILIAS test id or FALSE if the query was not successful
 * @access public
@@ -295,13 +279,13 @@ class ilObjTestAccess extends ilObjectAccess
 	{
 		global $ilDB;
 		$test_id = FALSE;
-		$query = sprintf("SELECT test_id FROM tst_tests WHERE obj_fi = %s",
-			$ilDB->quote($object_id . "")
+		$result = $ilDB->queryF("SELECT test_id FROM tst_tests WHERE obj_fi = %s",
+			array('integer'),
+			array($object_id)
 		);
-		$result = $ilDB->query($query);
 		if ($result->numRows())
 		{
-			$row = $result->fetchRow(MDB2_FETCHMODE_ASSOC);
+			$row = $ilDB->fetchAssoc($result);
 			$test_id = $row["test_id"];
 		}
 		return $test_id;
@@ -316,28 +300,28 @@ class ilObjTestAccess extends ilObjectAccess
 		$questions = array();
 		
 		global $ilDB;
-		$query = sprintf("SELECT test_fi FROM tst_active WHERE active_id = %s",
-			$ilDB->quote($active_id . "")
+		$result = $ilDB->queryF("SELECT test_fi FROM tst_active WHERE active_id = %s",
+			array('integer'),
+			array($active_id)
 		);
-		$result = $ilDB->query($query);
 		$test_id = "";
 		if ($result->numRows())
 		{
-			$row = $result->fetchRow(MDB2_FETCHMODE_ASSOC);
+			$row = $ilDB->fetchAssoc($result);
 			$test_id = $row["test_fi"];
 		}
 		else
 		{
 			return $questions;
 		}
-		$query = sprintf("SELECT qpl_questions.question_id, qpl_questions.points FROM qpl_questions, tst_test_question WHERE tst_test_question.question_fi = qpl_questions.question_id AND tst_test_question.test_fi = %s ORDER BY tst_test_question.sequence",
-			$ilDB->quote($test_id . "")
+		$result = $ilDB->queryF("SELECT qpl_questions.question_id, qpl_questions.points FROM qpl_questions, tst_test_question WHERE tst_test_question.question_fi = qpl_questions.question_id AND tst_test_question.test_fi = %s ORDER BY tst_test_question.sequence",
+			array('integer'),
+			array($test_id)
 		);
-		$result = $ilDB->query($query);
 		if ($result->numRows())
 		{
 			// standard test
-			while ($row = $result->fetchRow(MDB2_FETCHMODE_ASSOC))
+			while ($row = $ilDB->fetchAssoc($result))
 			{
 				array_push($questions, $row);
 			}
@@ -345,14 +329,13 @@ class ilObjTestAccess extends ilObjectAccess
 		else
 		{
 			// random test
-			$query = sprintf("SELECT qpl_questions.question_id, qpl_questions.points FROM qpl_questions, tst_test_random_question WHERE tst_test_random_question.question_fi = qpl_questions.question_id AND tst_test_random_question.active_fi = %s AND tst_test_random_question.pass = %s ORDER BY tst_test_random_question.sequence",
-				$ilDB->quote($active_id . ""),
-				$ilDB->quote($pass . "")
+			$result = $ilDB->queryF("SELECT qpl_questions.question_id, qpl_questions.points FROM qpl_questions, tst_test_random_question WHERE tst_test_random_question.question_fi = qpl_questions.question_id AND tst_test_random_question.active_fi = %s AND tst_test_random_question.pass = %s ORDER BY tst_test_random_question.sequence",
+				array('integer','integer'),
+				array($active_id, $pass)
 			);
-			$result = $ilDB->query($query);
 			if ($result->numRows())
 			{
-				while ($row = $result->fetchRow(MDB2_FETCHMODE_ASSOC))
+				while ($row = $ilDB->fetchAssoc($result))
 				{
 					array_push($questions, $row);
 				}
@@ -364,8 +347,6 @@ class ilObjTestAccess extends ilObjectAccess
 /**
 * Returns true, if a test is complete for use
 *
-* Returns true, if a test is complete for use
-*
 * @return boolean True, if the test is complete for use, otherwise false
 * @access public
 */
@@ -374,14 +355,14 @@ class ilObjTestAccess extends ilObjectAccess
 		global $ilDB;
 		
 		$test_id = ilObjTestAccess::_getTestIDFromObjectID($a_obj_id);
-		$query = sprintf("SELECT tst_mark.*, tst_tests.* FROM tst_tests, tst_mark WHERE tst_mark.test_fi = tst_tests.test_id AND tst_tests.test_id = %s",
-			$ilDB->quote($test_id . "")
+		$result = $ilDB->queryF("SELECT tst_mark.*, tst_tests.* FROM tst_tests, tst_mark WHERE tst_mark.test_fi = tst_tests.test_id AND tst_tests.test_id = %s",
+			array('integer'),
+			array($test_id)
 		);
-		$result = $ilDB->query($query);
 		$found = $result->numRows();
 		if ($found)
 		{
-			$row = $result->fetchRow(MDB2_FETCHMODE_ASSOC);
+			$row = $ilDB->fetchAssoc($result);
 			// check for at least: title, author and minimum of 1 mark step
 			if ((strlen($row["title"])) &&
 				(strlen($row["author"])) &&
@@ -421,8 +402,6 @@ class ilObjTestAccess extends ilObjectAccess
 	/**
 	* Returns the database content of a test with a given id
 	*
-	* Returns the database content of a test with a given id
-	*
 	* @param int $test_id Database id of the test
 	* @return array An associative array with the contents of the tst_tests database row
 	* @access public
@@ -430,21 +409,18 @@ class ilObjTestAccess extends ilObjectAccess
 	function &_getTestData($test_id)
 	{
 		global $ilDB;
-		$query = sprintf("SELECT * FROM tst_tests WHERE test_id = %s",
-			$ilDB->quote($test_id . "")
+		$result = $ilDB->queryF("SELECT * FROM tst_tests WHERE test_id = %s",
+			array('integer'),
+			array($test_id)
 		);
-		$result = $ilDB->query($query);
 		if (!$result->numRows())
 		{
 			return 0;
 		}
-		$test = $result->fetchRow(MDB2_FETCHMODE_ASSOC);
-		return $test;
+		return $ilDB->fetchAssoc($result);
 	}
 	
 /**
-* Calculates the number of questions in a test
-*
 * Calculates the number of questions in a test
 *
 * @return int The number of questions in the test
@@ -466,31 +442,29 @@ function _getQuestionCount($test_id)
 		}
 		else
 		{
-			$query = sprintf("SELECT SUM(num_of_q) AS questioncount FROM tst_test_random WHERE test_fi = %s ORDER BY test_random_id",
-				$ilDB->quote($test_id . "")
+			$result = $ilDB->queryF("SELECT SUM(num_of_q) questioncount FROM tst_test_random WHERE test_fi = %s ORDER BY test_random_id",
+				array('integer'),
+				array($test_id)
 			);
-			$result = $ilDB->query($query);
 			if ($result->numRows())
 			{
-				$row = $result->fetchRow(MDB2_FETCHMODE_ASSOC);
+				$row = $ilDB->fetchAssoc($result);
 				$num = $row["questioncount"];
 			}
 		}
 	}
 	else
 	{
-		$query = sprintf("SELECT test_question_id FROM tst_test_question WHERE test_fi = %s",
-			$ilDB->quote($test_id . "")
+		$result = $ilDB->queryF("SELECT test_question_id FROM tst_test_question WHERE test_fi = %s",
+			array('integer'),
+			array($test_id)
 		);
-		$result = $ilDB->query($query);
 		$num = $result->numRows();
 	}
 	return $num;
 }
 	
 /**
-* Checks if a user is allowd to run an online exam
-*
 * Checks if a user is allowd to run an online exam
 *
 * @return mixed true if the user is allowed to run the online exam or if the test isn't an online exam, an alert message if the test is an online exam and the user is not allowed to run it
@@ -500,23 +474,22 @@ function _getQuestionCount($test_id)
 	{
 		global $ilDB, $lng;
 		
-		$query = sprintf("SELECT tst_tests.* FROM tst_tests WHERE tst_tests.obj_fi = %s",
-			$ilDB->quote($a_test_id . "")
+		$result = $ilDB->queryF("SELECT tst_tests.* FROM tst_tests WHERE tst_tests.obj_fi = %s",
+			array('integer'),
+			array($a_test_id)
 		);
-		$result = $ilDB->query($query);
 		if ($result->numRows())
 		{
-			$row = $result->fetchRow(MDB2_FETCHMODE_ASSOC);
+			$row = $ilDB->fetchAssoc($result);
 			if ($row["fixed_participants"])
 			{
-				$query = sprintf("SELECT * FROM tst_invited_user WHERE test_fi = %s AND user_fi = %s",
-					$ilDB->quote($row["test_id"] . ""),
-					$ilDB->quote($a_user_id . "")
+				$result = $ilDB->queryF("SELECT * FROM tst_invited_user WHERE test_fi = %s AND user_fi = %s",
+					array('integer','integer'),
+					array($row["test_id"], $a_user_id)
 				);
-				$result = $ilDB->query($query);
 				if ($result->numRows())
 				{
-					$row = $result->fetchRow(MDB2_FETCHMODE_ASSOC);
+					$row = $ilDB->fetchAssoc($result);
 					if (trim($row['clientip']) != "")
 					{
 						$row['clientip'] = preg_replace("/[^0-9.?*,:]+/","",$row['clientip']);
@@ -563,29 +536,17 @@ function _getQuestionCount($test_id)
 	{
 		global $lng, $ilDB;
 
-		$statement = $ilDB->prepare("SELECT user_fi, test_fi FROM tst_active WHERE active_id = ?",
-			array(
-				"integer"
-			)
-		);
-		$result = $ilDB->execute($statement, 
-			array(
-				$active_id
-			)
+		$result = $ilDB->queryF("SELECT user_fi, test_fi FROM tst_active WHERE active_id = %s",
+			array("integer"),
+			array($active_id)
 		);
 		$row = $ilDB->fetchAssoc($result);
 		$user_id = $row["user_fi"];
 		$test_id = $row["test_fi"];
 
-		$statement = $ilDB->prepare("SELECT obj_fi FROM tst_tests WHERE test_id = ?",
-			array(
-				"integer"
-			)
-		);
-		$result = $ilDB->execute($statement, 
-			array(
-				$test_id
-			)
+		$result = $ilDB->queryF("SELECT obj_fi FROM tst_tests WHERE test_id = %s",
+			array("integer")
+			array($test_id)
 		);
 		$row = $ilDB->fetchAssoc($result);
 		$obj_id = $row["obj_fi"];
@@ -621,8 +582,6 @@ function _getQuestionCount($test_id)
 
 /**
 * Returns an array containing the users who passed the test
-* 
-* Returns an array containing the users who passed the test
 *
 * @return array An array containing the users who passed the test.
 *         Format of the values of the resulting array:
@@ -640,22 +599,21 @@ function _getQuestionCount($test_id)
 		global $ilDB;
 
 		$passed_users = array();
-		$query = sprintf("SELECT tst_active.user_fi FROM tst_active, tst_tests WHERE tst_tests.test_id = tst_active.test_fi AND tst_tests.obj_fi = %s",
-			$ilDB->quote($a_obj_id . "")
+		$userresult = $ilDB->queryF("SELECT tst_active.user_fi FROM tst_active, tst_tests WHERE tst_tests.test_id = tst_active.test_fi AND tst_tests.obj_fi = %s",
+			array('integer'),
+			array($a_obj_id)
 		);
-		$userresult = $ilDB->query($query);
 		if ($userresult->numRows())
 		{
-			while ($userrow = $userresult->fetchRow(MDB2_FETCHMODE_ASSOC))
+			while ($userrow = $ilDB->fetchAssoc($userresult))
 			{
 				$user_id = $userrow["user_fi"];
-				$query = sprintf("SELECT tst_test_pass_result.*, tst_tests.pass_scoring, tst_tests.random_test, tst_tests.test_id FROM tst_test_pass_result, tst_active, tst_tests WHERE tst_active.test_fi = tst_tests.test_id AND tst_active.user_fi = %s AND tst_tests.obj_fi = %s AND tst_test_pass_result.active_fi = tst_active.active_id ORDER BY tst_test_pass_result.pass",
-					$ilDB->quote($user_id . ""),
-					$ilDB->quote($a_obj_id . "")
+				$result = $ilDB->query("SELECT tst_test_pass_result.*, tst_tests.pass_scoring, tst_tests.random_test, tst_tests.test_id FROM tst_test_pass_result, tst_active, tst_tests WHERE tst_active.test_fi = tst_tests.test_id AND tst_active.user_fi = %s AND tst_tests.obj_fi = %s AND tst_test_pass_result.active_fi = tst_active.active_id ORDER BY tst_test_pass_result.pass",
+					array('integer','integer'),
+					array($user_id, $a_obj_id)
 				);
-				$result = $ilDB->query($query);
 				$points = array();
-				while ($row = $result->fetchRow(MDB2_FETCHMODE_ASSOC))
+				while ($row = $ilDB->fetchAssoc($result))
 				{
 					array_push($points, $row);
 				}

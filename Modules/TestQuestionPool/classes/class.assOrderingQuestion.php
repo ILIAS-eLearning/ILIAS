@@ -97,8 +97,6 @@ class assOrderingQuestion extends assQuestion
 	/**
 	* Returns true, if a ordering question is complete for use
 	*
-	* Returns true, if a ordering question is complete for use
-	*
 	* @return boolean True, if the ordering question is complete for use, otherwise false
 	* @access public
 	*/
@@ -133,136 +131,116 @@ class assOrderingQuestion extends assQuestion
 		$estw_time = $this->getEstimatedWorkingTime();
 		$estw_time = sprintf("%02d:%02d:%02d", $estw_time['h'], $estw_time['m'], $estw_time['s']);
 
-		if ($original_id)
-		{
-			$original_id = $ilDB->quote($original_id);
-		}
-		else
-		{
-			$original_id = "NULL";
-		}
-
+		// cleanup RTE images which are not inserted into the question text
 		include_once("./Services/RTE/classes/class.ilRTE.php");
 		if ($this->id == -1)
 		{
 			// Neuen Datensatz schreiben
-			$now = getdate();
-			$question_type = $this->getQuestionTypeID();
-			$created = sprintf("%04d%02d%02d%02d%02d%02d", $now['year'], $now['mon'], $now['mday'], $now['hours'], $now['minutes'], $now['seconds']);
-			$query = sprintf("INSERT INTO qpl_questions (question_id, question_type_fi, obj_fi, title, description, author, owner, question_text, working_time, points, complete, created, original_id, TIMESTAMP) VALUES (NULL, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, NULL)",
-				$ilDB->quote($question_type . ""),
-				$ilDB->quote($this->obj_id . ""),
-				$ilDB->quote($this->title . ""),
-				$ilDB->quote($this->comment . ""),
-				$ilDB->quote($this->author . ""),
-				$ilDB->quote($this->owner . ""),
-				$ilDB->quote(ilRTE::_replaceMediaObjectImageSrc($this->question, 0)),
-				$ilDB->quote($estw_time . ""),
-				$ilDB->quote($this->getMaximumPoints() . ""),
-				$ilDB->quote($complete . ""),
-				$ilDB->quote($created . ""),
-				$original_id
+			$next_id = $ilDB->nextId('qpl_questions');
+			$affectedRows = $ilDB->manipulateF("INSERT INTO qpl_questions (question_id, question_type_fi, obj_fi, title, description, author, owner, question_text, points, working_time, complete, created, original_id, tstamp) VALUES (%s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s)", 
+				array("integer","integer", "integer", "text", "text", "text", "integer", "text", "float", "time", "text", "integer","integer","integer"),
+				array(
+					$next_id
+					$this->getQuestionTypeID(), 
+					$this->getObjId(), 
+					$this->getTitle(), 
+					$this->getComment(), 
+					$this->getAuthor(), 
+					$this->getOwner(), 
+					ilRTE::_replaceMediaObjectImageSrc($this->getQuestion(), 0), 
+					$this->getMaximumPoints(),
+					$estw_time,
+					$complete,
+					time(),
+					($original_id) ? $original_id : NULL,
+					time()
+				)
 			);
-			$result = $ilDB->query($query);
-			if (PEAR::isError($result)) 
-			{
-				global $ilias;
-				$ilias->raiseError($result->getMessage());
-			}
-			else
-			{
-				$this->id = $ilDB->getLastInsertId();
-				$query = sprintf("INSERT INTO qpl_question_ordering (question_fi, ordering_type, thumb_geometry, element_height) VALUES (%s, %s, %s, %s)",
-					$ilDB->quote($this->id . ""),
-					$ilDB->quote($this->ordering_type . ""),
-					$ilDB->quote($this->getThumbGeometry(). ""),
-					($this->getElementHeight() > 20) ? $ilDB->quote($this->getElementHeight(). "") : "NULL"
-				);
-				$ilDB->query($query);
-
-				// create page object of question
-				$this->createPageObject();
-
-				if ($this->getTestId() > 0)
-				{
-					$this->insertIntoTest($this->getTestId());
-				}
-			}
+			$this->setId($next_id);
+			// create page object of question
+			$this->createPageObject();
 		}
 		else
 		{
 			// Vorhandenen Datensatz aktualisieren
-			$query = sprintf("UPDATE qpl_questions SET obj_fi = %s, title = %s, description = %s, author = %s, question_text = %s, working_time = %s, points = %s, complete = %s WHERE question_id = %s",
-				$ilDB->quote($this->obj_id. ""),
-				$ilDB->quote($this->title . ""),
-				$ilDB->quote($this->comment . ""),
-				$ilDB->quote($this->author . ""),
-				$ilDB->quote(ilRTE::_replaceMediaObjectImageSrc($this->question, 0)),
-				$ilDB->quote($estw_time . ""),
-				$ilDB->quote($this->getMaximumPoints() . ""),
-				$ilDB->quote($complete . ""),
-				$ilDB->quote($this->id . "")
+			$affectedRows = $ilDB->manipulateF("UPDATE qpl_questions SET obj_fi = %s, title = %s, description = %s, author = %s, question_text = %s, points = %s, working_time=%s, complete = %s, tstamp = %s WHERE question_id = %s", 
+				array("integer", "text", "text", "text", "text", "float", "time", "text", "integer", "integer"),
+				array(
+					$this->getObjId(), 
+					$this->getTitle(), 
+					$this->getComment(), 
+					$this->getAuthor(), 
+					ilRTE::_replaceMediaObjectImageSrc($this->getQuestion(), 0), 
+					$this->getMaximumPoints(),
+					$estw_time,
+					$complete,
+					time(),
+					$this->getId()
+				)
 			);
-			$result = $ilDB->query($query);
-			$query = sprintf("UPDATE qpl_question_ordering SET ordering_type = %s, thumb_geometry = %s, element_height = %s WHERE question_fi = %s",
-				$ilDB->quote($this->ordering_type . ""),
-				$ilDB->quote($this->getThumbGeometry(). ""),
-				($this->getElementHeight() > 20) ? $ilDB->quote($this->getElementHeight(). "") : "NULL",
-				$ilDB->quote($this->id . "")
-			);
-			$result = $ilDB->query($query);
 		}
-		if (PEAR::isError($result)) 
+
+		// save additional data
+		$affectedRows = $ilDB->manipulateF("DELETE FROM " . $this->getAdditionalTableName() . " WHERE question_fi = %s", 
+			array("integer"),
+			array($this->getId())
+		);
+
+		$affectedRows = $ilDB->manipulateF("INSERT INTO " . $this->getAdditionalTableName() . " (question_fi, ordering_type, thumb_geometry, element_height) VALUES (%s, %s, %s, %s)", 
+			array("integer", "text","integer","integer"),
+			array(
+				$this->getId(),
+				$this->ordering_type,
+				$this->getThumbGeometry(),
+				($this->getElementHeight() > 20) ? $this->getElementHeight() : NULL
+			)
+		);
+
+		$affectedRows = $ilDB->manipulateF("DELETE FROM qpl_answer_ordering WHERE question_fi = %s",
+			array('integer'),
+			array($this->getId())
+		);
+
+		// Anworten wegschreiben
+		foreach ($this->answers as $key => $value)
 		{
-			global $ilias;
-			$ilias->raiseError($result->getMessage());
-		}
-		else
-		{
-			// Antworten schreiben
-			// alte Antworten löschen
-			$query = sprintf("DELETE FROM qpl_answer_ordering WHERE question_fi = %s",
-				$ilDB->quote($this->id)
+			$answer_obj = $this->answers[$key];
+			$next_id = $ilDB->nextId('qpl_answer_ordering');
+			$affectedRows = $ilDB->manipulateF("INSERT INTO qpl_answer_ordering (answer_id, question_fi, answertext, solution_order, random_id, tstamp) VALUES (%s, %s, %s, %s, %s, %s)",
+				array('integer','integer','text','integer','integer','integer'),
+				array(
+					$next_id,
+					$this->getId(),
+					ilRTE::_replaceMediaObjectImageSrc($answer_obj->getAnswertext(), 0),
+					$key,
+					$answer_obj->getRandomID(),
+					time()
+				)
 			);
-			$result = $ilDB->query($query);
+		}
 
-			// Anworten wegschreiben
-			foreach ($this->answers as $key => $value)
+		if ($this->getOrderingType() == OQ_PICTURES)
+		{
+			if (count($this->getAnswers()))
 			{
-				$answer_obj = $this->answers[$key];
-				$query = sprintf("INSERT INTO qpl_answer_ordering (answer_id, question_fi, answertext, solution_order, random_id) VALUES (NULL, %s, %s, %s, %s)",
-					$ilDB->quote($this->id),
-					$ilDB->quote(ilRTE::_replaceMediaObjectImageSrc($answer_obj->getAnswertext(), 0)),
-					$ilDB->quote($key . ""),
-					$ilDB->quote($answer_obj->getRandomID() . "")
-				);
-				$answer_result = $ilDB->query($query);
-			}
-
-			if ($this->getOrderingType() == OQ_PICTURES)
-			{
-				if (count($this->getAnswers()))
+				if (@file_exists($this->getImagePath() . $this->getAnswer(0)->getAnswertext()  . ".thumb.jpg"))
 				{
-					if (@file_exists($this->getImagePath() . $this->getAnswer(0)->getAnswertext()  . ".thumb.jpg"))
+					$size = getimagesize($this->getImagePath() . $this->getAnswer(0)->getAnswertext()  . ".thumb.jpg");
+					$max = ($size[0] > $size[1]) ? $size[0] : $size[1];
+					if ($this->getThumbGeometry() != $max)
 					{
-						$size = getimagesize($this->getImagePath() . $this->getAnswer(0)->getAnswertext()  . ".thumb.jpg");
-						$max = ($size[0] > $size[1]) ? $size[0] : $size[1];
-						if ($this->getThumbGeometry() != $max)
-						{
-							$this->rebuildThumbnails();
-						}
+						$this->rebuildThumbnails();
 					}
 				}
 			}
 		}
+
 		$this->cleanImagefiles();
 		parent::saveToDb($original_id);
 	}
 
 	/**
 	* Loads a assOrderingQuestion object from a database
-	*
-	* Loads a assOrderingQuestion object from a database (experimental)
 	*
 	* @param object $db A pear DB object
 	* @param integer $question_id A unique key which defines the multiple choice test in the database
@@ -272,50 +250,49 @@ class assOrderingQuestion extends assQuestion
 	{
 		global $ilDB;
 
-    $query = sprintf("SELECT qpl_questions.*, qpl_question_ordering.* FROM qpl_questions, qpl_question_ordering WHERE question_id = %s AND qpl_questions.question_id = qpl_question_ordering.question_fi",
-			$ilDB->quote($question_id)
+		$result = $ilDB->queryF("SELECT qpl_questions.*, " . $this->getAdditionalTableName() . ".* FROM qpl_questions, " . $this->getAdditionalTableName() . " WHERE question_id = %s AND qpl_questions.question_id = " . $this->getAdditionalTableName() . ".question_fi",
+			array("integer"),
+			array($question_id)
 		);
-		$result = $ilDB->query($query);
 		if ($result->numRows() == 1)
 		{
-			$data = $result->fetchRow(MDB2_FETCHMODE_OBJECT);
-			$this->id = $question_id;
-			$this->title = $data->title;
-			$this->obj_id = $data->obj_fi;
-			$this->comment = $data->description;
-			$this->original_id = $data->original_id;
-			$this->author = $data->author;
-			$this->owner = $data->owner;
+			$data = $ilDB->fetchAssoc($result);
+			$this->setId($question_id);
+			$this->setObjId($data["obj_fi"]);
+			$this->setTitle($data["title"]);
+			$this->setComment($data["description"]);
+			$this->setOriginalId($data["original_id"]);
+			$this->setAuthor($data["author"]);
+			$this->setPoints($data["points"]);
+			$this->setOwner($data["owner"]);
 			include_once("./Services/RTE/classes/class.ilRTE.php");
-			$this->question = ilRTE::_replaceMediaObjectImageSrc($data->question_text, 1);
-			$this->solution_hint = $data->solution_hint;
-			$this->ordering_type = $data->ordering_type;
-			$this->points = $data->points;
-			$this->thumb_geometry = $data->thumb_geometry;
-			$this->element_height = $data->element_height;
-			$this->setEstimatedWorkingTime(substr($data->working_time, 0, 2), substr($data->working_time, 3, 2), substr($data->working_time, 6, 2));
+			$this->setQuestion(ilRTE::_replaceMediaObjectImageSrc($data["question_text"], 1));
+			$this->ordering_type = $data["ordering_type"];
+			$this->thumb_geometry = $data["thumb_geometry"];
+			$this->element_height = $data["element_height"];
+			$this->setEstimatedWorkingTime(substr($data["working_time"], 0, 2), substr($data["working_time"], 3, 2), substr($data["working_time"], 6, 2));
+		}
 
-			$query = sprintf("SELECT * FROM qpl_answer_ordering WHERE question_fi = %s ORDER BY solution_order ASC",
-				$ilDB->quote($question_id)
-			);
-			$result = $ilDB->query($query);
-			include_once "./Modules/TestQuestionPool/classes/class.assAnswerOrdering.php";
-			if ($result->numRows() > 0)
+		$result = $ilDB->queryF("SELECT * FROM qpl_answer_ordering WHERE question_fi = %s ORDER BY aorder ASC",
+			array('integer'),
+			array($question_id)
+		);
+
+		include_once "./Modules/TestQuestionPool/classes/class.assAnswerOrdering.php";
+		if ($result->numRows() > 0)
+		{
+			while ($data = $ilDB->fetchAssoc($result))
 			{
-				while ($data = $result->fetchRow(MDB2_FETCHMODE_OBJECT))
-				{
-					include_once("./Services/RTE/classes/class.ilRTE.php");
-					$data->answertext = ilRTE::_replaceMediaObjectImageSrc($data->answertext, 1);
-					array_push($this->answers, new ASS_AnswerOrdering($data->answertext, $data->random_id));
-				}
+				include_once("./Services/RTE/classes/class.ilRTE.php");
+				$data["answertext"] = ilRTE::_replaceMediaObjectImageSrc($data["answertext"], 1);
+				array_push($this->answers, new ASS_AnswerOrdering($data["answertext"], $data["random_id"]));
 			}
 		}
+
 		parent::loadFromDb($question_id);
 	}
 	
 	/**
-	* Duplicates an assOrderingQuestion
-	*
 	* Duplicates an assOrderingQuestion
 	*
 	* @access public
@@ -368,8 +345,6 @@ class assOrderingQuestion extends assQuestion
 	}
 
 	/**
-	* Copies an assOrderingQuestion object
-	*
 	* Copies an assOrderingQuestion object
 	*
 	* @access public
@@ -456,8 +431,6 @@ class assOrderingQuestion extends assQuestion
 	/**
 	* Sets the ordering question type
 	*
-	* Sets the ordering question type
-	*
 	* @param integer $ordering_type The question ordering type
 	* @access public
 	* @see $ordering_type
@@ -468,8 +441,6 @@ class assOrderingQuestion extends assQuestion
 	}
 	
 	/**
-	* Returns the ordering question type
-	*
 	* Returns the ordering question type
 	*
 	* @return integer The ordering question type
@@ -533,8 +504,6 @@ class assOrderingQuestion extends assQuestion
 	}
 
 	/**
-	* Returns an ordering answer
-	*
 	* Returns an ordering answer with a given index. The index of the first
 	* answer is 0, the index of the second answer is 1 and so on.
 	*
@@ -552,8 +521,6 @@ class assOrderingQuestion extends assQuestion
 	}
 
 	/**
-	* Deletes an answer
-	*
 	* Deletes an answer with a given index. The index of the first
 	* answer is 0, the index of the second answer is 1 and so on.
 	*
@@ -589,8 +556,6 @@ class assOrderingQuestion extends assQuestion
 	/**
 	* Deletes all answers
 	*
-	* Deletes all answers
-	*
 	* @access public
 	* @see $answers
 	*/
@@ -600,8 +565,6 @@ class assOrderingQuestion extends assQuestion
 	}
 
 	/**
-	* Returns the number of answers
-	*
 	* Returns the number of answers
 	*
 	* @return integer The number of answers of the ordering question
@@ -614,8 +577,6 @@ class assOrderingQuestion extends assQuestion
 	}
 
 	/**
-	* Returns the maximum solution order
-	*
 	* Returns the maximum solution order of all ordering answers
 	*
 	* @return integer The maximum solution order of all ordering answers
@@ -643,8 +604,6 @@ class assOrderingQuestion extends assQuestion
 
 	/**
 	* Returns the points, a learner has reached answering the question
-	*
-	* Returns the points, a learner has reached answering the question
 	* The points are calculated from the given answers including checks
 	* for all special scoring options in the test container.
 	*
@@ -662,18 +621,16 @@ class assOrderingQuestion extends assQuestion
 		{
 			$pass = $this->getSolutionMaxPass($active_id);
 		}
-		$query = sprintf("SELECT * FROM tst_solutions WHERE active_fi = %s AND question_fi = %s AND pass = %s",
-			$ilDB->quote($active_id . ""),
-			$ilDB->quote($this->getId() . ""),
-			$ilDB->quote($pass . "")
+		$result = $ilDB->queryF("SELECT * FROM tst_solutions WHERE active_fi = %s AND question_fi = %s AND pass = %s",
+			array('integer','integer','integer'),
+			array($active_id, $this->getId(), $pass)
 		);
-		$result = $ilDB->query($query);
 		$user_order = array();
-		while ($data = $result->fetchRow(MDB2_FETCHMODE_OBJECT))
+		while ($data = $ilDB->fetchAssoc($result))
 		{
-			if ((strcmp($data->value1, "") != 0) && (strcmp($data->value2, "") != 0))
+			if ((strcmp($data["value1"], "") != 0) && (strcmp($data["value2"], "") != 0))
 			{
-				$user_order[$data->value2] = $data->value1;
+				$user_order[$data["value2"]] = $data["value1"];
 			}
 		}
 		ksort($user_order);
@@ -814,8 +771,6 @@ class assOrderingQuestion extends assQuestion
 	/**
 	* Checks the data to be saved for consistency
 	*
-	* Checks the data to be saved for consistency
-	*
   * @return boolean True, if the check was ok, False otherwise
 	* @access public
 	* @see $answers
@@ -854,8 +809,6 @@ class assOrderingQuestion extends assQuestion
 	/**
 	* Saves the learners input of the question to the database
 	*
-	* Saves the learners input of the question to the database
-	*
 	* @param integer $test_id The database id of the test containing this question
   * @return boolean Indicates the save status (true if saved successful, false otherwise)
 	* @access public
@@ -876,12 +829,10 @@ class assOrderingQuestion extends assQuestion
 				$pass = ilObjTest::_getPass($active_id);
 			}
 
-			$query = sprintf("DELETE FROM tst_solutions WHERE active_fi = %s AND question_fi = %s AND pass = %s",
-				$ilDB->quote($active_id . ""),
-				$ilDB->quote($this->getId() . ""),
-				$ilDB->quote($pass . "")
+			$affectedRows = $ilDB->manipulateF("DELETE FROM tst_solutions WHERE active_fi = %s AND question_fi = %s AND pass = %s",
+				array('integer','integer','integer'),
+				array($active_id, $this->getId(), $pass)
 			);
-			$result = $ilDB->query($query);
 			if (array_key_exists("orderresult", $_POST))
 			{
 				$orderresult = $_POST["orderresult"];
@@ -898,14 +849,19 @@ class assOrderingQuestion extends assQuestion
 							{
 								if ($answer->getRandomID() == $randomid)
 								{
-									$query = sprintf("INSERT INTO tst_solutions (solution_id, active_fi, question_fi, value1, value2, pass, TIMESTAMP) VALUES (NULL, %s, %s, %s, %s, %s, NULL)",
-										$ilDB->quote($active_id . ""),
-										$ilDB->quote($this->getId() . ""),
-										$ilDB->quote($answeridx . ""),
-										$ilDB->quote(trim($ordervalue) . ""),
-										$ilDB->quote($pass . "")
+									$next_id = $ilDB->nextId('tst_solutions');
+									$query = sprintf("INSERT INTO tst_solutions (solution_id, active_fi, question_fi, value1, value2, pass, tstamp) VALUES (%s, %s, %s, %s, %s, %s, %s)",
+										array('integer','integer','integer','text','text','integer','integer'),
+										array(
+											$next_id,
+											$active_id,
+											$this->getId(),
+											$answeridx,
+											trim($ordervalue),
+											$pass,
+											time()
+										)
 									);
-									$result = $ilDB->query($query);
 									$ordervalue++;
 									$entered_values++;
 								}
@@ -928,14 +884,19 @@ class assOrderingQuestion extends assQuestion
 								{
 									if ($answer->getRandomID() == $matches[1])
 									{
-										$query = sprintf("INSERT INTO tst_solutions (solution_id, active_fi, question_fi, value1, value2, pass, TIMESTAMP) VALUES (NULL, %s, %s, %s, %s, %s, NULL)",
-											$ilDB->quote($active_id . ""),
-											$ilDB->quote($this->getId() . ""),
-											$ilDB->quote($answeridx . ""),
-											$ilDB->quote($value . ""),
-											$ilDB->quote($pass . "")
+										$next_id = $ilDB->nextId('tst_solutions');
+										$query = sprintf("INSERT INTO tst_solutions (solution_id, active_fi, question_fi, value1, value2, pass, tstamp) VALUES (%s, %s, %s, %s, %s, %s, %s)",
+											array('integer','integer','integer','text','text','integer','integer'),
+											array(
+												$next_id,
+												$active_id,
+												$this->getId(),
+												$answeridx,
+												$value,
+												$pass,
+												time()
+											)
 										);
-										$result = $ilDB->query($query);
 										$entered_values++;
 									}
 								}
@@ -968,8 +929,6 @@ class assOrderingQuestion extends assQuestion
 	/**
 	* Returns the question type of the question
 	*
-	* Returns the question type of the question
-	*
 	* @return integer The question type of the question
 	* @access public
 	*/
@@ -981,8 +940,6 @@ class assOrderingQuestion extends assQuestion
 	/**
 	* Returns the name of the additional question data table in the database
 	*
-	* Returns the name of the additional question data table in the database
-	*
 	* @return string The additional table name
 	* @access public
 	*/
@@ -992,8 +949,6 @@ class assOrderingQuestion extends assQuestion
 	}
 
 	/**
-	* Returns the name of the answer table in the database
-	*
 	* Returns the name of the answer table in the database
 	*
 	* @return string The answer table name
@@ -1028,8 +983,6 @@ class assOrderingQuestion extends assQuestion
 	}
 
 	/**
-	* Returns true if the question type supports JavaScript output
-	*
 	* Returns true if the question type supports JavaScript output
 	*
 	* @return boolean TRUE if the question type supports JavaScript output, FALSE otherwise
