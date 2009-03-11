@@ -109,9 +109,9 @@ class ilTestEvaluationData
 		include_once "./Modules/Test/classes/class.ilTestEvaluationPassData.php";
 		include_once "./Modules/Test/classes/class.ilTestEvaluationUserData.php";
 		$query = sprintf("SELECT usr_data.usr_id, usr_data.firstname, usr_data.lastname, usr_data.title, usr_data.login, " .
-			"tst_test_pass_result.* FROM tst_test_pass_result, tst_active " .
+			"tst_pass_result.* FROM tst_pass_result, tst_active " .
 			"LEFT JOIN usr_data ON tst_active.user_fi = usr_data.usr_id " .
-			"WHERE tst_active.active_id = tst_test_pass_result.active_fi " .
+			"WHERE tst_active.active_id = tst_pass_result.active_fi " .
 			"AND tst_active.test_fi = %s " .
 			"ORDER BY usr_data.lastname, usr_data.firstname, active_id, pass, TIMESTAMP",
 			$ilDB->quote($this->getTest()->getTestId() . "")

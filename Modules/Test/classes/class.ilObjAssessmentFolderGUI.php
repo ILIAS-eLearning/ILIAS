@@ -335,8 +335,8 @@ class ilObjAssessmentFolderGUI extends ilObjectGUI
 				);
 				array_push($csv, ilUtil::processCSVRow($row, TRUE, $separator));
 			}
-			$ts_from = sprintf("%04d%02d%02d%02d%02d%02d", $_POST["log_from_date"]["y"], $_POST["log_from_date"]["m"], $_POST["log_from_date"]["d"], $_POST["log_from_time"]["h"], $_POST["log_from_time"]["m"], 0);
-			$ts_to = sprintf("%04d%02d%02d%02d%02d%02d", $_POST["log_to_date"]["y"], $_POST["log_to_date"]["m"], $_POST["log_to_date"]["d"], $_POST["log_to_time"]["h"], $_POST["log_to_time"]["m"], 0);
+			$ts_from = mktime($_POST["log_from_time"]["h"], $_POST["log_from_time"]["m"], 0, $_POST["log_from_date"]["m"], $_POST["log_from_date"]["d"], $_POST["log_from_date"]["y"]);
+			$ts_to = mktime($_POST["log_to_time"]["h"], $_POST["log_to_time"]["m"], 0, $_POST["log_to_date"]["m"], $_POST["log_to_date"]["d"], $_POST["log_to_date"]["y"]);
 			$log_output =& $this->object->getLog($ts_from, $ts_to, $_POST["sel_test"]);
 			$users = array();
 			foreach ($log_output as $key => $log)

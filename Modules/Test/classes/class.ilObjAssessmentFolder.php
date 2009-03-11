@@ -100,18 +100,7 @@ class ilObjAssessmentFolder extends ilObject
 	function initDefaultRoles()
 	{
 		global $rbacadmin;
-
-		// create a local role folder
-		//$rfoldObj = $this->createRoleFolder("Local roles","Role Folder of forum obj_no.".$this->getId());
-
-		// create moderator role and assign role to rolefolder...
-		//$roleObj = $rfoldObj->createRole("Moderator","Moderator of forum obj_no.".$this->getId());
-		//$roles[] = $roleObj->getId();
-
-		//unset($rfoldObj);
-		//unset($roleObj);
-
-		return $roles ? $roles : array();
+		return array();
 	}
 
 	/**
@@ -285,10 +274,9 @@ class ilObjAssessmentFolder extends ilObject
 	{
 		global $ilDB;
 		
-		$query = "SELECT * FROM qpl_qst_type";
-		$result = $ilDB->query($query);
+		$result = $ilDB->query("SELECT * FROM qpl_qst_type");
 		$dbtypes = array();
-		while ($row = $result->fetchRow(DB_FETCHMODE_ASSOC))
+		while ($row = $ilDB->fetchAssoc($result))
 		{
 			$dbtypes[$row["question_type_id"]] = $row["type_tag"];
 		}
@@ -323,8 +311,6 @@ class ilObjAssessmentFolder extends ilObject
 	/**
 	* Add an assessment log entry
 	*
-	* Add an assessment log entry
-	*
 	* @param integer $user_id The user id of the acting user
 	* @param integer $object_id The database id of the modified test object
 	* @param string $logtext The textual description for the log entry
@@ -335,47 +321,28 @@ class ilObjAssessmentFolder extends ilObject
 	function _addLog($user_id, $object_id, $logtext, $question_id = "", $original_id = "", $test_only = FALSE, $ref_id = NULL)
 	{
 		global $ilUser, $ilDB;
-		if (strlen($question_id) == 0)
-		{
-			$question_id = "NULL";
-		}
-		else
-		{
-			$question_id = $ilDB->quote($question_id . "");
-		}
-		if (strlen($original_id) == 0)
-		{
-			$original_id = "NULL";
-		}
-		else
-		{
-			$original_id = $ilDB->quote($original_id . "");
-		}
-		$only = "0";
-		if ($test_only == TRUE)
-		{
-			$only = "1";
-		}
-		$test_ref_id = "NULL";
-		if ($ref_id > 0)
-		{
-			$test_ref_id = $ilDB->quote($ref_id . "");
-		}
-		$query = sprintf("INSERT INTO ass_log (ass_log_id, user_fi, obj_fi, logtext, question_fi, original_fi, test_only, ref_id, TIMESTAMP) VALUES (NULL, %s, %s, %s, %s, %s, %s, %s, NULL)",
-			$ilDB->quote($user_id . ""),
-			$ilDB->quote($object_id . ""),
-			$ilDB->quote($logtext . ""),
-			$question_id,
-			$original_id,
-			$ilDB->quote($only . ""),
-			$test_ref_id
+		if (strlen($question_id) == 0) $question_id = NULL;
+		if (strlen($original_id) == 0) $original_id = NULL;
+		if (strlen($test_ref_id) == 0) $test_ref_id = NULL;
+		$only = ($test_only == TRUE) ? 1 : 0;
+		$next_id = $ilDB->nextId('ass_log');
+		$affectedRows = $ilDB->manipulateF("INSERT INTO ass_log (ass_log_id, user_fi, obj_fi, logtext, question_fi, original_fi, test_only, ref_id, tstamp) VALUES (%s, %s, %s, %s, %s, %s, %s, %s, %s)",
+			array('integer', 'integer', 'integer', 'text', 'integer', 'integer', 'text', 'integer', 'integer'),
+			array(
+				$next_id,
+				$user_id,
+				$object_id,
+				$logtext,
+				$question_id,
+				$original_id,
+				$only,
+				$test_ref_id,
+				time()
 		);
 		$result = $ilDB->query($query);
 	}
 	
 	/**
-	* Retrieve assessment log datasets from the database
-	*
 	* Retrieve assessment log datasets from the database
 	*
 	* @param string $ts_from Timestamp of the starting date/time period
@@ -388,29 +355,34 @@ class ilObjAssessmentFolder extends ilObject
 		$log = array();
 		if ($test_only == TRUE)
 		{
-			$query = sprintf("SELECT *, TIMESTAMP + 0 timestamp14 FROM ass_log WHERE obj_fi = %s AND TIMESTAMP + 0 > %s AND TIMESTAMP + 0 < %s AND test_only = %s ORDER BY timestamp14",
-				$this->ilias->db->quote($test_id . ""),
-				$this->ilias->db->quote($ts_from . ""),
-				$this->ilias->db->quote($ts_to . ""),
-				$this->ilias->db->quote("1")
+			$result = $ilDB->queryF("SELECT * FROM ass_log WHERE obj_fi = %s AND tstamp > %s AND tstamp < %s AND test_only = %s ORDER BY tstamp",
+				array('integer','integer','integer','text'),
+				array(
+					$test_id,
+					$ts_from,
+					$ts_to,
+					1
+				)
 			);
 		}
 		else
 		{
-			$query = sprintf("SELECT *, TIMESTAMP + 0 timestamp14 FROM ass_log WHERE obj_fi = %s AND TIMESTAMP + 0 > %s AND TIMESTAMP + 0 < %s ORDER BY timestamp14",
-				$this->ilias->db->quote($test_id . ""),
-				$this->ilias->db->quote($ts_from . ""),
-				$this->ilias->db->quote($ts_to . "")
+			$result = $ilDB->queryF("SELECT * FROM ass_log WHERE obj_fi = %s AND tstamp > %s AND tstamp < %s ORDER BY tstamp",
+				array('integer','integer','integer'),
+				array(
+					$test_id,
+					$ts_from,
+					$ts_to
+				)
 			);
 		}
-		$result = $this->ilias->db->query($query);
-		while ($row = $result->fetchRow(DB_FETCHMODE_ASSOC))
+		while ($row = $ilDB->fetchAssoc($result))
 		{
-			if (!array_key_exists($row["timestamp14"], $log))
+			if (!array_key_exists($row["tstamp"], $log))
 			{
-				$log[$row["timestamp14"]] = array();
+				$log[$row["tstamp"]] = array();
 			}
-			array_push($log[$row["timestamp14"]], $row);
+			array_push($log[$row["tstamp"]], $row);
 		}
 		krsort($log);
 		// flatten array
@@ -428,8 +400,6 @@ class ilObjAssessmentFolder extends ilObject
 	/**
 	* Retrieve assessment log datasets from the database
 	*
-	* Retrieve assessment log datasets from the database
-	*
 	* @param string $ts_from Timestamp of the starting date/time period
 	* @param string $ts_to Timestamp of the ending date/time period
 	* @param integer $test_id Database id of the ILIAS test object
@@ -442,27 +412,23 @@ class ilObjAssessmentFolder extends ilObject
 		$log = array();
 		if ($test_only == TRUE)
 		{
-			$query = sprintf("SELECT *, TIMESTAMP + 0 timestamp14 FROM ass_log WHERE obj_fi = %s AND TIMESTAMP + 0 > %s AND TIMESTAMP + 0 < %s AND test_only = %s ORDER BY timestamp14",
-				$ilDB->quote($test_id . ""),
-				$ilDB->quote($ts_from . ""),
-				$ilDB->quote($ts_to . ""),
-				$ilDB->quote("1")
+			$result = $ilDB->queryF("SELECT * FROM ass_log WHERE obj_fi = %s AND tstamp > %s AND tstamp < %s AND test_only = %s ORDER BY tstamp",
+				array('integer', 'integer', 'integer', 'text'),
+				array($test_id, $ts_from, $ts_to, 1)
 			);
 		}
 		else
 		{
-			$query = sprintf("SELECT *, TIMESTAMP + 0 timestamp14 FROM ass_log WHERE obj_fi = %s AND TIMESTAMP + 0 > %s AND TIMESTAMP + 0 < %s ORDER BY timestamp14",
-				$ilDB->quote($test_id . ""),
-				$ilDB->quote($ts_from . ""),
-				$ilDB->quote($ts_to . "")
+			$result = $ilDB->queryF("SELECT * FROM ass_log WHERE obj_fi = %s AND tstamp > %s AND tstamp < %s ORDER BY tstamp",
+				array('integer', 'integer', 'integer'),
+				array($test_id, $ts_from, $ts_to)
 			);
 		}
-		$result = $ilDB->query($query);
-		while ($row = $result->fetchRow(DB_FETCHMODE_ASSOC))
+		while ($row = $ilDB->fetchAssoc($result))
 		{
-			if (!array_key_exists($row["timestamp14"], $log))
+			if (!array_key_exists($row["tstamp"], $log))
 			{
-				$log[$row["timestamp14"]] = array();
+				$log[$row["tstamp"]] = array();
 			}
 			$type_href = "";
 			if (array_key_exists("ref_id", $row))
@@ -501,20 +467,18 @@ class ilObjAssessmentFolder extends ilObject
 	/**
 	* Returns the number of log entries for a given test id
 	*
-	* Returns the number of log entries for a given test id
-	*
 	* @param integer $test_obj_id Database id of the ILIAS test object
 	* @return integer The number of log entries for the test object
 	*/
 	function getNrOfLogEntries($test_obj_id)
 	{
-		$query = sprintf("SELECT COUNT(obj_fi) logcount FROM ass_log WHERE obj_fi = %s",
-			$this->ilias->db->quote($test_obj_id . "")
+		$result = $ilDB->queryF("SELECT COUNT(obj_fi) logcount FROM ass_log WHERE obj_fi = %s",
+			array('integer'),
+			array($test_obj_id)
 		);
-		$result = $this->ilias->db->query($query);
 		if ($result->numRows())
 		{
-			$row = $result->fetchRow(DB_FETCHMODE_ASSOC);
+			$row = $ilDB->fetchAssoc($result);
 			return $row["logcount"];
 		}
 		else
@@ -524,8 +488,6 @@ class ilObjAssessmentFolder extends ilObject
 	}
 	
 	/**
-	* Returns the full path output of an object
-	*
 	* Returns the full path output of an object
 	*
 	* @param integer $ref_id The reference id of the object
@@ -554,8 +516,6 @@ class ilObjAssessmentFolder extends ilObject
 	/**
 	* Deletes the log entries for a given array of test object IDs
 	*
-	* Deletes the log entries for a given array of test object IDs
-	*
 	* @param array $a_array An array containing the object IDs of the tests
 	*/
 	function deleteLogEntries($a_array)
@@ -565,8 +525,9 @@ class ilObjAssessmentFolder extends ilObject
 		
 		foreach ($a_array as $object_id)
 		{
-			$query = sprintf("DELETE FROM ass_log WHERE obj_fi = %s",
-				$ilDB->quote($object_id . "")
+			$affectedRows = $ilDB->manipulateF("DELETE FROM ass_log WHERE obj_fi = %s",
+				array('integer'),
+				array($object_id)
 			);
 			$ilDB->query($query);
 			$this->_addLog($ilUser->getId(), $object_id, $this->lng->txt("assessment_log_deleted"));

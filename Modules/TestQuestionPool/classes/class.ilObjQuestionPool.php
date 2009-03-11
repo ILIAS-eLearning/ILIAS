@@ -1358,7 +1358,7 @@ class ilObjQuestionPool extends ilObject
 						);
 
 						// 3. replace the question id in the question list of random tests
-						$affectedRows = $ilDB->manipulateF("UPDATE tst_test_random_question SET question_fi = %s WHERE question_fi = %s",
+						$affectedRows = $ilDB->manipulateF("UPDATE tst_test_rnd_qst SET question_fi = %s WHERE question_fi = %s",
 							array('integer','integer'),
 							array($duplicate_id, $row["question_id"])
 						);
