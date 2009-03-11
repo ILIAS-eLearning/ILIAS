@@ -133,32 +133,31 @@ class ilTestSequence
 		$this->questions = array();
 		if ($this->isRandomTest)
 		{
-			$query = sprintf("SELECT tst_test_random_question.* FROM tst_test_random_question, qpl_questions WHERE tst_test_random_question.active_fi = %s AND qpl_questions.question_id = tst_test_random_question.question_fi AND tst_test_random_question.pass = %s ORDER BY sequence",
-				$ilDB->quote($this->active_id . ""),
-				$ilDB->quote($this->pass . "")
+			$result = $ilDB->queryF("SELECT tst_test_random_question.* FROM tst_test_random_question, qpl_questions WHERE tst_test_random_question.active_fi = %s AND qpl_questions.question_id = tst_test_random_question.question_fi AND tst_test_random_question.pass = %s ORDER BY sequence",
+				array('integer','integer'),
+				array($this->active_id, $this->pass)
 			);
-			$result = $ilDB->query($query);
 			// The following is a fix for random tests prior to ILIAS 3.8. If someone started a random test in ILIAS < 3.8, there
 			// is only one test pass (pass = 0) in tst_test_random_question while with ILIAS 3.8 there are questions for every test pass.
 			// To prevent problems with tests started in an older version and continued in ILIAS 3.8, the first pass should be taken if
 			// no questions are present for a newer pass.
 			if ($result->numRows() == 0)
 			{
-				$query = sprintf("SELECT tst_test_random_question.* FROM tst_test_random_question, qpl_questions WHERE tst_test_random_question.active_fi = %s AND qpl_questions.question_id = tst_test_random_question.question_fi AND tst_test_random_question.pass = 0 ORDER BY sequence",
-					$ilDB->quote($this->active_id . "")
+				$result = $ilDB->queryF("SELECT tst_test_random_question.* FROM tst_test_random_question, qpl_questions WHERE tst_test_random_question.active_fi = %s AND qpl_questions.question_id = tst_test_random_question.question_fi AND tst_test_random_question.pass = 0 ORDER BY sequence",
+					array('integer'),
+					array($this->active_id)
 				);
-				$result = $ilDB->query($query);
 			}
 		}
 		else
 		{
-			$query = sprintf("SELECT tst_test_question.* FROM tst_test_question, qpl_questions, tst_active WHERE tst_active.active_id = %s AND tst_test_question.test_fi = tst_active.test_fi AND qpl_questions.question_id = tst_test_question.question_fi ORDER BY tst_test_question.sequence",
-				$ilDB->quote($this->active_id . "")
+			$result = $ilDB->queryF("SELECT tst_test_question.* FROM tst_test_question, qpl_questions, tst_active WHERE tst_active.active_id = %s AND tst_test_question.test_fi = tst_active.test_fi AND qpl_questions.question_id = tst_test_question.question_fi ORDER BY tst_test_question.sequence",
+				array('integer'),
+				array($this->active_id)
 			);
-			$result = $ilDB->query($query);
 		}
 		$index = 1;
-		while ($data = $result->fetchRow(MDB2_FETCHMODE_ASSOC))
+		while ($data = $ilDB->fetchAssoc($result))
 		{
 			$this->questions[$index++] = $data["question_fi"];
 		}
@@ -167,22 +166,19 @@ class ilTestSequence
 	/**
 	* Loads the sequence data for a given active id
 	*
-	* Returns the filesystem path of the certificate
-	*
 	* @return string The filesystem path of the certificate
 	* @access private
 	*/
 	private function loadFromDb()
 	{
 		global $ilDB;
-		$query = sprintf("SELECT * FROM tst_sequence WHERE active_fi = %s AND pass = %s", 
-			$ilDB->quote($this->active_id . ""),
-			$ilDB->quote($this->pass . "")
+		$result = $ilDB->queryF("SELECT * FROM tst_sequence WHERE active_fi = %s AND pass = %s", 
+			array('integer','integer'),
+			array($this->active_id, $this->pass)
 		);
-		$result = $ilDB->query($query);
 		if ($result->numRows())
 		{
-			$row = $result->fetchRow(MDB2_FETCHMODE_ASSOC);
+			$row = $ilDB->fetchAssoc($result);
 			$this->sequencedata = array(
 				"sequence" => unserialize($row["sequence"]),
 				"postponed" => unserialize($row["postponed"]),
@@ -195,8 +191,6 @@ class ilTestSequence
 	}
 	
 	/**
-	* Saves the sequence data for a given pass to the database
-	*
 	* Saves the sequence data for a given pass to the database
 	*
 	* @access public

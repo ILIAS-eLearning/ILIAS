@@ -83,8 +83,6 @@ class assNumeric extends assQuestion
 	/**
 	* Returns true, if a numeric question is complete for use
 	*
-	* Returns true, if a numeric question is complete for use
-	*
 	* @return boolean True, if the numeric question is complete for use, otherwise false
 	* @access public
 	*/
@@ -103,8 +101,6 @@ class assNumeric extends assQuestion
 	/**
 	* Saves a assNumeric object to a database
 	*
-	* Saves a assNumeric object to a database (experimental)
-	*
 	* @param object $db A pear DB object
 	* @access public
 	*/
@@ -120,115 +116,92 @@ class assNumeric extends assQuestion
 		$estw_time = $this->getEstimatedWorkingTime();
 		$estw_time = sprintf("%02d:%02d:%02d", $estw_time['h'], $estw_time['m'], $estw_time['s']);
 
-		if ($original_id)
-		{
-			$original_id = $ilDB->quote($original_id);
-		}
-		else
-		{
-			$original_id = "NULL";
-		}
-
 		// cleanup RTE images which are not inserted into the question text
 		include_once("./Services/RTE/classes/class.ilRTE.php");
 		if ($this->id == -1)
 		{
 			// Neuen Datensatz schreiben
-			$now = getdate();
-			$question_type = $this->getQuestionTypeID();
-			$created = sprintf("%04d%02d%02d%02d%02d%02d", $now['year'], $now['mon'], $now['mday'], $now['hours'], $now['minutes'], $now['seconds']);
-			$query = sprintf("INSERT INTO qpl_questions (question_id, question_type_fi, obj_fi, title, description, author, owner, question_text, points, working_time, complete, created, original_id, TIMESTAMP) VALUES (NULL, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, NULL)",
-				$ilDB->quote($question_type),
-				$ilDB->quote($this->obj_id),
-				$ilDB->quote($this->title),
-				$ilDB->quote($this->comment),
-				$ilDB->quote($this->author),
-				$ilDB->quote($this->owner),
-				$ilDB->quote(ilRTE::_replaceMediaObjectImageSrc($this->question, 0)),
-				$ilDB->quote($this->getMaximumPoints() . ""),
-				$ilDB->quote($estw_time),
-				$ilDB->quote("$complete"),
-				$ilDB->quote($created),
-				$original_id
+			$next_id = $ilDB->nextId('qpl_questions');
+			$affectedRows = $ilDB->manipulateF("INSERT INTO qpl_questions (question_id, question_type_fi, obj_fi, title, description, author, owner, question_text, points, working_time, complete, created, original_id, tstamp) VALUES (%s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s)", 
+				array("integer","integer", "integer", "text", "text", "text", "integer", "text", "float", "time", "text", "integer","integer","integer"),
+				array(
+					$next_id
+					$this->getQuestionTypeID(), 
+					$this->getObjId(), 
+					$this->getTitle(), 
+					$this->getComment(), 
+					$this->getAuthor(), 
+					$this->getOwner(), 
+					ilRTE::_replaceMediaObjectImageSrc($this->getQuestion(), 0), 
+					$this->getMaximumPoints(),
+					$estw_time,
+					$complete,
+					time(),
+					($original_id) ? $original_id : NULL,
+					time()
+				)
 			);
-			$result = $ilDB->query($query);
-			
-			if (PEAR::isError($result)) 
-			{
-				global $ilias;
-				$ilias->raiseError($result->getMessage());
-			}
-			else
-			{
-				$this->id = $ilDB->getLastInsertId();
-				$query = sprintf("INSERT INTO qpl_question_numeric (question_fi, maxNumOfChars) VALUES (%s, %s)",
-					$ilDB->quote($this->id . ""),
-					$ilDB->quote($this->getMaxChars() . "")
-				);
-				$ilDB->query($query);
-
-				// create page object of question
-				$this->createPageObject();
-
-				if ($this->getTestId() > 0)
-				{
-				$this->insertIntoTest($this->getTestId());
-				}
-			}
+			$this->setId($next_id);
+			// create page object of question
+			$this->createPageObject();
 		}
 		else
 		{
 			// Vorhandenen Datensatz aktualisieren
-			$query = sprintf("UPDATE qpl_questions SET obj_fi = %s, title = %s, description = %s, author = %s, question_text = %s, points = %s, working_time=%s, complete = %s WHERE question_id = %s",
-				$ilDB->quote($this->obj_id. ""),
-				$ilDB->quote($this->title),
-				$ilDB->quote($this->comment),
-				$ilDB->quote($this->author),
-				$ilDB->quote(ilRTE::_replaceMediaObjectImageSrc($this->question, 0)),
-				$ilDB->quote($this->getMaximumPoints() . ""),
-				$ilDB->quote($estw_time),
-				$ilDB->quote("$complete"),
-				$ilDB->quote($this->id)
+			$affectedRows = $ilDB->manipulateF("UPDATE qpl_questions SET obj_fi = %s, title = %s, description = %s, author = %s, question_text = %s, points = %s, working_time=%s, complete = %s, tstamp = %s WHERE question_id = %s", 
+				array("integer", "text", "text", "text", "text", "float", "time", "text", "integer", "integer"),
+				array(
+					$this->getObjId(), 
+					$this->getTitle(), 
+					$this->getComment(), 
+					$this->getAuthor(), 
+					ilRTE::_replaceMediaObjectImageSrc($this->getQuestion(), 0), 
+					$this->getMaximumPoints(),
+					$estw_time,
+					$complete,
+					time(),
+					$this->getId()
+				)
 			);
-			$result = $ilDB->query($query);
-			$query = sprintf("UPDATE qpl_question_numeric SET maxNumOfChars = %s WHERE question_fi = %s",
-				$ilDB->quote($this->getMaxChars() . ""),
-				$ilDB->quote($this->id . "")
-			);
-			$result = $ilDB->query($query);
 		}
-		if (PEAR::isError($result)) 
-		{
-			global $ilias;
-			$ilias->raiseError($result->getMessage());
-		}
-		else
-		{
-			// Write Ranges to the database
-			
-			// 1. delete old ranges
-			$result = $ilDB->manipulateF("DELETE FROM qpl_numeric_range WHERE question_fi = %s",
-				array('integer'),
-				array($this->id)
-			);
 
-			// 2. write ranges
-			foreach ($this->ranges as $key => $range)
-			{
-				$next_id = $ilDB->nextId('qpl_numeric_range');
-				$answer_result = $ilDB->manipulateF("INSERT INTO qpl_numeric_range (range_id, question_fi, lowerlimit, upperlimit, points, aorder, tstamp) VALUES (%s, %s, %s, %s, %s, %s, %s)",
-					array('integer','integer', 'text', 'text', 'float', 'integer', 'integer'),
-					array($next_id, $this->id, $range->getLowerLimit(), $range->getUpperLimit(), $range->getPoints(), $range->getOrder(), time())
-				);
-			}
+		// save additional data
+		$affectedRows = $ilDB->manipulateF("DELETE FROM " . $this->getAdditionalTableName() . " WHERE question_fi = %s", 
+			array("integer"),
+			array($this->getId())
+		);
+
+		$affectedRows = $ilDB->manipulateF("INSERT INTO " . $this->getAdditionalTableName() . " (question_fi, maxNumOfChars) VALUES (%s, %s)", 
+			array("integer", "integer"),
+			array(
+				$this->getId(),
+				$this->getMaxChars()
+			)
+		);
+
+		// Write Ranges to the database
+		
+		// 1. delete old ranges
+		$result = $ilDB->manipulateF("DELETE FROM qpl_numeric_range WHERE question_fi = %s",
+			array('integer'),
+			array($this->getId())
+		);
+
+		// 2. write ranges
+		foreach ($this->ranges as $key => $range)
+		{
+			$next_id = $ilDB->nextId('qpl_numeric_range');
+			$answer_result = $ilDB->manipulateF("INSERT INTO qpl_numeric_range (range_id, question_fi, lowerlimit, upperlimit, points, aorder, tstamp) VALUES (%s, %s, %s, %s, %s, %s, %s)",
+				array('integer','integer', 'text', 'text', 'float', 'integer', 'integer'),
+				array($next_id, $this->id, $range->getLowerLimit(), $range->getUpperLimit(), $range->getPoints(), $range->getOrder(), time())
+			);
 		}
+
 		parent::saveToDb($original_id);
 	}
 
 	/**
 	* Loads a assNumeric object from a database
-	*
-	* Loads a assNumeric object from a database (experimental)
 	*
 	* @param object $db A pear DB object
 	* @param integer $question_id A unique key which defines the multiple choice test in the database
@@ -238,47 +211,46 @@ class assNumeric extends assQuestion
 	{
 		global $ilDB;
 		
-    $query = sprintf("SELECT qpl_questions.*, qpl_question_numeric.* FROM qpl_questions, qpl_question_numeric WHERE question_id = %s AND qpl_questions.question_id = qpl_question_numeric.question_fi",
-			$ilDB->quote($question_id)
+		$result = $ilDB->queryF("SELECT qpl_questions.*, " . $this->getAdditionalTableName() . ".* FROM qpl_questions, " . $this->getAdditionalTableName() . " WHERE question_id = %s AND qpl_questions.question_id = " . $this->getAdditionalTableName() . ".question_fi",
+			array("integer"),
+			array($question_id)
 		);
-		$result = $ilDB->query($query);
 		if ($result->numRows() == 1)
 		{
-			$data = $result->fetchRow(MDB2_FETCHMODE_OBJECT);
-			$this->id = $question_id;
-			$this->title = $data->title;
-			$this->comment = $data->description;
-			$this->solution_hint = $data->solution_hint;
-			$this->original_id = $data->original_id;
-			$this->obj_id = $data->obj_fi;
-			$this->author = $data->author;
-			$this->owner = $data->owner;
-			$this->points = $data->points;
+			$data = $ilDB->fetchAssoc($result);
+			$this->setId($question_id);
+			$this->setObjId($data["obj_fi"]);
+			$this->setTitle($data["title"]);
+			$this->setComment($data["description"]);
+			$this->setOriginalId($data["original_id"]);
+			$this->setAuthor($data["author"]);
+			$this->setPoints($data["points"]);
+			$this->setOwner($data["owner"]);
 			include_once("./Services/RTE/classes/class.ilRTE.php");
-			$this->question = ilRTE::_replaceMediaObjectImageSrc($data->question_text, 1);
-			$this->maxchars = $data->maxNumOfChars;
-			$this->setEstimatedWorkingTime(substr($data->working_time, 0, 2), substr($data->working_time, 3, 2), substr($data->working_time, 6, 2));
+			$this->setQuestion(ilRTE::_replaceMediaObjectImageSrc($data["question_text"], 1));
+			$this->setMaxChars($data["maxNumOfChars"]);
+			$this->setEstimatedWorkingTime(substr($data["working_time"], 0, 2), substr($data["working_time"], 3, 2), substr($data["working_time"], 6, 2));
+		}
 
-			$result = $ilDB->queryF("SELECT * FROM qpl_numeric_range WHERE question_fi = %s ORDER BY aorder ASC",
-				array('integer'),
-				array($question_id)
-			);
 
-			include_once "./Modules/TestQuestionPool/classes/class.assNumericRange.php";
-			if ($result->numRows() > 0)
+		$result = $ilDB->queryF("SELECT * FROM qpl_numeric_range WHERE question_fi = %s ORDER BY aorder ASC",
+			array('integer'),
+			array($question_id)
+		);
+
+		include_once "./Modules/TestQuestionPool/classes/class.assNumericRange.php";
+		if ($result->numRows() > 0)
+		{
+			while ($data = $ilDB->fetchAssoc($result))
 			{
-				while ($data = $ilDB->fetchAssoc($result))
-				{
-					array_push($this->ranges, new assNumericRange($data["lowerlimit"], $data["upperlimit"], $data["points"], $data["aorder"]));
-				}
+				array_push($this->ranges, new assNumericRange($data["lowerlimit"], $data["upperlimit"], $data["points"], $data["aorder"]));
 			}
 		}
+
 		parent::loadFromDb($question_id);
 	}
 
 	/**
-	* Adds a range to the numeric question
-	*
 	* Adds a range to the numeric question. An assNumericRange object will be
 	* created and assigned to the array $this->ranges
 	*
@@ -326,8 +298,6 @@ class assNumeric extends assQuestion
 	}
 
 	/**
-	* Duplicates an assNumericQuestion
-	*
 	* Duplicates an assNumericQuestion
 	*
 	* @access public
@@ -382,8 +352,6 @@ class assNumeric extends assQuestion
 	/**
 	* Copies an assNumeric object
 	*
-	* Copies an assNumeric object
-	*
 	* @access public
 	*/
 	function copyObject($target_questionpool, $title = "")
@@ -420,8 +388,6 @@ class assNumeric extends assQuestion
 	/**
 	* Returns the number of ranges
 	*
-	* Returns the number of ranges
-	*
 	* @return integer The number of ranges of the numeric question
 	* @access public
 	* @see $ranges
@@ -432,8 +398,6 @@ class assNumeric extends assQuestion
 	}
 
 	/**
-	* Returns a range
-	*
 	* Returns a range with a given index. The index of the first
 	* range is 0, the index of the second range is 1 and so on.
 	*
@@ -452,8 +416,6 @@ class assNumeric extends assQuestion
 	}
 
 	/**
-	* Deletes a range
-	*
 	* Deletes a range with a given index. The index of the first
 	* range is 0, the index of the second range is 1 and so on.
 	*
@@ -480,8 +442,6 @@ class assNumeric extends assQuestion
 	/**
 	* Deletes all ranges
 	*
-	* Deletes all ranges
-	*
 	* @access public
 	* @see $ranges
 	*/
@@ -491,8 +451,6 @@ class assNumeric extends assQuestion
 	}
 
 	/**
-	* Returns the maximum points, a learner can reach answering the question
-	*
 	* Returns the maximum points, a learner can reach answering the question
 	*
 	* @access public
@@ -512,8 +470,6 @@ class assNumeric extends assQuestion
 	}
 
 	/**
-	* Returns the range with the maximum points, a learner can reach answering the question
-	*
 	* Returns the range with the maximum points, a learner can reach answering the question
 	*
 	* @access public
@@ -536,8 +492,6 @@ class assNumeric extends assQuestion
 
 	/**
 	* Returns the points, a learner has reached answering the question
-	*
-	* Returns the points, a learner has reached answering the question
 	* The points are calculated from the given answers including checks
 	* for all special scoring options in the test container.
 	*
@@ -554,16 +508,14 @@ class assNumeric extends assQuestion
 		{
 			$pass = $this->getSolutionMaxPass($active_id);
 		}
-		$query = sprintf("SELECT * FROM tst_solutions WHERE active_fi = %s AND question_fi = %s AND pass = %s",
-			$ilDB->quote($active_id . ""),
-			$ilDB->quote($this->getId() . ""),
-			$ilDB->quote($pass . "")
+		$result = $ilDB->queryF("SELECT * FROM tst_solutions WHERE active_fi = %s AND question_fi = %s AND pass = %s",
+			array('integer','integer','integer'),
+			array($active_id, $this->getId(), $pass)
 		);
-		$result = $ilDB->query($query);
-		$data = $result->fetchRow(MDB2_FETCHMODE_ASSOC);
+		$data = $ilDB->fetchAssoc($result);
 		
 		$enteredvalue = $data["value1"];
-		//if (!is_numeric($enteredvalue)) return 0;
+
 		$points = 0;
 		foreach ($this->ranges as $key => $range)
 		{
@@ -581,8 +533,6 @@ class assNumeric extends assQuestion
 	}
 	
 	/**
-	* Saves the learners input of the question to the database
-	*
 	* Saves the learners input of the question to the database
 	*
 	* @param integer $test_id The database id of the test containing this question
@@ -613,44 +563,46 @@ class assNumeric extends assQuestion
 			ilUtil::sendInfo($this->lng->txt("err_no_numeric_value"), true);
 			$returnvalue = false;
 		}
-		$query = sprintf("SELECT * FROM tst_solutions WHERE active_fi = %s AND question_fi = %s AND pass = %s",
-			$ilDB->quote($active_id . ""),
-			$ilDB->quote($this->getId() . ""),
-			$ilDB->quote($pass . "")
+		$result = $ilDB->queryF("SELECT solution_id FROM tst_solutions WHERE active_fi = %s AND question_fi = %s AND pass = %s",
+			array('integer','integer','integer'),
+			array($active_id, $this->getId(), $pass)
 		);
-		$result = $ilDB->query($query);
-		$row = $result->fetchRow(MDB2_FETCHMODE_OBJECT);
-		$update = $row->solution_id;
+		$row = $ilDB->fetchAssoc($result);
+		$update = $row["solution_id"];
 		if ($update)
 		{
 			if (strlen($numeric_result))
 			{
-				$query = sprintf("UPDATE tst_solutions SET value1 = %s WHERE solution_id = %s",
-					$ilDB->quote(trim($numeric_result)),
-					$ilDB->quote($update)
+				$affectedRows = $ilDB->manipulateF("UPDATE tst_solutions SET value1 = %s WHERE solution_id = %s",
+					array('text','integer'),
+					array(trim($numeric_result), $update)
 				);
-				$result = $ilDB->query($query);
 				$entered_values++;
 			}
 			else
 			{
-				$query = sprintf("DELETE FROM tst_solutions WHERE solution_id = %s",
-					$ilDB->quote($update)
+				$affectedRows = $ilDB->manipulateF("DELETE FROM tst_solutions WHERE solution_id = %s",
+					array('integer'),
+					array($update)
 				);
-				$result = $ilDB->query($query);
 			}
 		}
 		else
 		{
 			if (strlen($numeric_result))
 			{
-				$query = sprintf("INSERT INTO tst_solutions (solution_id, active_fi, question_fi, value1, value2, pass, TIMESTAMP) VALUES (NULL, %s, %s, %s, NULL, %s, NULL)",
-					$ilDB->quote($active_id),
-					$ilDB->quote($this->getId()),
-					$ilDB->quote(trim($numeric_result)),
-					$ilDB->quote($pass . "")
+				$next_id = $ilDB->nextId('tst_solutions');
+				$query = sprintf("INSERT INTO tst_solutions (solution_id, active_fi, question_fi, value1, value2, pass, tstamp) VALUES (%s, %s, %s, %s, NULL, %s, %s)",
+					array('integer','integer','integer','text','integer','integer'),
+					array(
+						$next_id,
+						$active_id,
+						$this->getId(),
+						trim($numeric_result),
+						$pass,
+						time()
+					)
 				);
-				$result = $ilDB->query($query);
 				$entered_values++;
 			}
 		}
@@ -678,8 +630,6 @@ class assNumeric extends assQuestion
 	/**
 	* Returns the question type of the question
 	*
-	* Returns the question type of the question
-	*
 	* @return integer The question type of the question
 	* @access public
 	*/
@@ -689,8 +639,6 @@ class assNumeric extends assQuestion
 	}
 	
 	/**
-	* Returns the maximum number of characters for the numeric input field
-	*
 	* Returns the maximum number of characters for the numeric input field
 	*
 	* @return integer The maximum number of characters
@@ -704,8 +652,6 @@ class assNumeric extends assQuestion
 	/**
 	* Sets the maximum number of characters for the numeric input field
 	*
-	* Sets the maximum number of characters for the numeric input field
-	*
 	* @param integer $maxchars The maximum number of characters
 	* @access public
 	*/
@@ -715,8 +661,6 @@ class assNumeric extends assQuestion
 	}
 	
 	/**
-	* Returns the name of the additional question data table in the database
-	*
 	* Returns the name of the additional question data table in the database
 	*
 	* @return string The additional table name

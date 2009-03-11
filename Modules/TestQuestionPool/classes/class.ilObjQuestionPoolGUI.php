@@ -1001,8 +1001,8 @@ class ilObjQuestionPoolGUI extends ilObjectGUI
 			$this->tpl->setVariable("IMG_ASSESSMENT", ilUtil::getImagePath("assessment.gif", "Modules/TestQuestionPool"));
 			$this->tpl->setVariable("QUESTION_AUTHOR", $data["author"]);
 			include_once "./classes/class.ilFormat.php";
-			$this->tpl->setVariable("QUESTION_CREATED", ilDatePresentation::formatDate(new ilDate($data['created'],IL_CAL_TIMESTAMP)));
-			$this->tpl->setVariable("QUESTION_UPDATED", ilDatePresentation::formatDate(new ilDate($data["timestamp14"],IL_CAL_TIMESTAMP)));
+			$this->tpl->setVariable("QUESTION_CREATED", ilDatePresentation::formatDate(new ilDate($data['created'],IL_CAL_UNIX)));
+			$this->tpl->setVariable("QUESTION_UPDATED", ilDatePresentation::formatDate(new ilDate($data["tstamp"],IL_CAL_UNIX)));
 			$this->tpl->setVariable("COLOR_CLASS", $colors[$counter % 2]);
 			$this->tpl->setVariable("QUESTION_POINTS", $points);
 			$this->tpl->parseCurrentBlock();
@@ -1207,8 +1207,8 @@ class ilObjQuestionPoolGUI extends ilObjectGUI
 			$this->tpl->setVariable("TEXT_DESCRIPTION", ilUtil::prepareFormOutput($row["comment"]));
 			$this->tpl->setVariable("TEXT_QUESTIONTYPE", assQuestion::_getQuestionTypeName($row["type_tag"]));
 			$this->tpl->setVariable("TEXT_AUTHOR", $row["author"]);
-			$this->tpl->setVariable("TEXT_CREATED", ilDatePresentation::formatDate(new ilDate($row["created"],IL_CAL_TIMESTAMP)));
-			$this->tpl->setVariable("TEXT_UPDATED", ilDatePresentation::formatDate(new ilDate($row["timestamp14"],IL_CAL_TIMESTAMP)));
+			$this->tpl->setVariable("TEXT_CREATED", ilDatePresentation::formatDate(new ilDate($row["created"],IL_CAL_UNIX)));
+			$this->tpl->setVariable("TEXT_UPDATED", ilDatePresentation::formatDate(new ilDate($row["tstamp"],IL_CAL_UNIX)));
 			$this->tpl->parseCurrentBlock();
 			$counter++;
 		}

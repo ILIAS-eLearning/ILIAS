@@ -105,8 +105,6 @@ class assMatchingQuestion extends assQuestion
 	/**
 	* Returns true, if a matching question is complete for use
 	*
-	* Returns true, if a matching question is complete for use
-	*
 	* @return boolean True, if the matching question is complete for use, otherwise false
 	* @access public
 	*/
@@ -125,8 +123,6 @@ class assMatchingQuestion extends assQuestion
 	/**
 	* Saves a assMatchingQuestion object to a database
 	*
-	* Saves a assMatchingQuestion object to a database (experimental)
-	*
 	* @param object $db A pear DB object
 	* @access public
 	*/
@@ -142,141 +138,116 @@ class assMatchingQuestion extends assQuestion
 		$estw_time = $this->getEstimatedWorkingTime();
 		$estw_time = sprintf("%02d:%02d:%02d", $estw_time['h'], $estw_time['m'], $estw_time['s']);
 
-		if ($original_id)
-		{
-			$original_id = $ilDB->quote($original_id);
-		}
-		else
-		{
-			$original_id = "NULL";
-		}
-
 		// cleanup RTE images which are not inserted into the question text
 		include_once("./Services/RTE/classes/class.ilRTE.php");
 		if ($this->id == -1)
 		{
 			// Neuen Datensatz schreiben
-			$now = getdate();
-			$question_type = $this->getQuestionTypeID();
-			$created = sprintf("%04d%02d%02d%02d%02d%02d", $now['year'], $now['mon'], $now['mday'], $now['hours'], $now['minutes'], $now['seconds']);
-			$query = sprintf("INSERT INTO qpl_questions (question_id, question_type_fi, obj_fi, title, description, author, owner, question_text, working_time, points, complete, created, original_id, TIMESTAMP) VALUES (NULL, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, NULL)",
-				$ilDB->quote($question_type. ""),
-				$ilDB->quote($this->obj_id. ""),
-				$ilDB->quote($this->title. ""),
-				$ilDB->quote($this->comment. ""),
-				$ilDB->quote($this->author. ""),
-				$ilDB->quote($this->owner. ""),
-				$ilDB->quote(ilRTE::_replaceMediaObjectImageSrc($this->question, 0)),
-				$ilDB->quote($estw_time. ""),
-				$ilDB->quote($this->getMaximumPoints() . ""),
-				$ilDB->quote($complete. ""),
-				$ilDB->quote($created. ""),
-				$original_id
+			$next_id = $ilDB->nextId('qpl_questions');
+			$affectedRows = $ilDB->manipulateF("INSERT INTO qpl_questions (question_id, question_type_fi, obj_fi, title, description, author, owner, question_text, points, working_time, complete, created, original_id, tstamp) VALUES (%s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s)", 
+				array("integer","integer", "integer", "text", "text", "text", "integer", "text", "float", "time", "text", "integer","integer","integer"),
+				array(
+					$next_id
+					$this->getQuestionTypeID(), 
+					$this->getObjId(), 
+					$this->getTitle(), 
+					$this->getComment(), 
+					$this->getAuthor(), 
+					$this->getOwner(), 
+					ilRTE::_replaceMediaObjectImageSrc($this->getQuestion(), 0), 
+					$this->getMaximumPoints(),
+					$estw_time,
+					$complete,
+					time(),
+					($original_id) ? $original_id : NULL,
+					time()
+				)
 			);
-
-			$result = $ilDB->query($query);
-			if (PEAR::isError($result)) 
-			{
-				global $ilias;
-				$ilias->raiseError($result->getMessage());
-			}
-			else
-			{
-				$this->id = $ilDB->getLastInsertId();
-				$query = sprintf("INSERT INTO qpl_question_matching (question_fi, shuffle, matching_type, thumb_geometry, element_height) VALUES (%s, %s, %s, %s, %s)",
-					$ilDB->quote($this->id . ""),
-					$ilDB->quote($this->shuffle . ""),
-					$ilDB->quote($this->matching_type. ""),
-					$ilDB->quote($this->getThumbGeometry(). ""),
-					($this->getElementHeight() > 20) ? $ilDB->quote($this->getElementHeight(). "") : "NULL"
-				);
-				$ilDB->query($query);
-
-				// create page object of question
-				$this->createPageObject();
-
-				// Falls die Frage in einen Test eingefügt werden soll, auch diese Verbindung erstellen
-				if ($this->getTestId() > 0)
-				{
-					$this->insertIntoTest($this->getTestId());
-				}
-			}
+			$this->setId($next_id);
+			// create page object of question
+			$this->createPageObject();
 		}
 		else
 		{
 			// Vorhandenen Datensatz aktualisieren
-			$query = sprintf("UPDATE qpl_questions SET obj_fi = %s, title = %s, description = %s, author = %s, question_text = %s, working_time=%s, points = %s, complete = %s WHERE question_id = %s",
-				$ilDB->quote($this->obj_id. ""),
-				$ilDB->quote($this->title. ""),
-				$ilDB->quote($this->comment. ""),
-				$ilDB->quote($this->author. ""),
-				$ilDB->quote(ilRTE::_replaceMediaObjectImageSrc($this->question, 0)),
-				$ilDB->quote($estw_time. ""),
-				$ilDB->quote($this->getMaximumPoints() . ""),
-				$ilDB->quote($complete. ""),
-				$ilDB->quote($this->id. "")
+			$affectedRows = $ilDB->manipulateF("UPDATE qpl_questions SET obj_fi = %s, title = %s, description = %s, author = %s, question_text = %s, points = %s, working_time=%s, complete = %s, tstamp = %s WHERE question_id = %s", 
+				array("integer", "text", "text", "text", "text", "float", "time", "text", "integer", "integer"),
+				array(
+					$this->getObjId(), 
+					$this->getTitle(), 
+					$this->getComment(), 
+					$this->getAuthor(), 
+					ilRTE::_replaceMediaObjectImageSrc($this->getQuestion(), 0), 
+					$this->getMaximumPoints(),
+					$estw_time,
+					$complete,
+					time(),
+					$this->getId()
+				)
 			);
-			$result = $ilDB->query($query);
-			$query = sprintf("UPDATE qpl_question_matching SET shuffle = %s, matching_type = %s, thumb_geometry = %s, element_height = %s WHERE question_fi = %s",
-				$ilDB->quote($this->shuffle . ""),
-				$ilDB->quote($this->matching_type. ""),
-				$ilDB->quote($this->getThumbGeometry(). ""),
-				($this->getElementHeight() > 20) ? $ilDB->quote($this->getElementHeight(). "") : "NULL",
-				$ilDB->quote($this->id . "")
-			);
-			$result = $ilDB->query($query);
 		}
 
-		if (PEAR::isError($result)) 
+		// save additional data
+		$affectedRows = $ilDB->manipulateF("DELETE FROM " . $this->getAdditionalTableName() . " WHERE question_fi = %s", 
+			array("integer"),
+			array($this->getId())
+		);
+		$affectedRows = $ilDB->manipulateF("INSERT INTO " . $this->getAdditionalTableName() . " (question_fi, shuffle, matching_type, thumb_geometry, element_height) VALUES (%s, %s, %s, %s, %s)", 
+			array("integer", "text", "text","integer","integer"),
+			array(
+				$this->getId(),
+				$this->shuffle,
+				$this->matching_type,
+				$this->getThumbGeometry(),
+				($this->getElementHeight() > 20) ? $this->getElementHeight() : NULL
+			)
+		);
+
+		// delete old terms
+		$affectedRows = $ilDB->manipulateF("DELETE FROM qpl_answer_matching_term WHERE question_fi = %s",
+			array('integer'),
+			array($this->getId())
+		);
+		
+		// write terms
+		$newterms = array();
+		$matchingpairs = $this->getMatchingPairs();
+		foreach ($this->terms as $key => $value)
 		{
-			global $ilias;
-			$ilias->raiseError($result->getMessage());
+			$next_id = $ilDB->nextId('qpl_answer_matching_term');
+			$affectedRows = $ilDB->manipulateF("INSERT INTO qpl_answer_matching_term (term_id, question_fi, term) VALUES (%s, %s, %s)",
+				array('integer','integer','text'),
+				array($next_id, $this->getId(), $value)
+			);
+			$newTermID = $next_id;
+			$newterms[$newTermID] = $value;
 		}
-		else
+
+		// alte Antworten löschen
+		$affectedRows = $ilDB->manipulateF("DELETE FROM qpl_answer_matching WHERE question_fi = %s",
+			array('integer'),
+			array($this->getId())
+		);
+
+		// Anworten wegschreiben
+		foreach ($matchingpairs as $key => $value)
 		{
-			// Antworten schreiben
-			
-			// delete old terms
-			$query = sprintf("DELETE FROM qpl_answer_matching_term WHERE question_fi = %s",
-				$ilDB->quote($this->id)
+			$matching_obj = $matchingpairs[$key];
+			$term = $this->terms[$matching_obj->getTermId()];
+			$termindex = array_search($term, $newterms);
+			$next_id = $ilDB->nextId('qpl_answer_matching');
+			$affectedRows = $ilDB->manipulateF("INSERT INTO qpl_answer_matching (answer_id, question_fi, points, term_fi, matchingtext, matching_order, tstamp) VALUES (%s, %s, %s, %s, %s, %s, %s)",
+				array('integer','integer','float','integer','text','integer','integer'),
+				array(
+					$next_id,
+					$this->getId(),
+					$matching_obj->getPoints(),
+					$termindex,
+					$matching_obj->getDefinition(),
+					$matching_obj->getDefinitionId(),
+					time()
+				)
 			);
-			$result = $ilDB->query($query);
-			
-			// write terms
-			$newterms = array();
-			$matchingpairs = $this->getMatchingPairs();
-			foreach ($this->terms as $key => $value)
-			{
-				$query = sprintf("INSERT INTO qpl_answer_matching_term (term_id, question_fi, term) VALUES (NULL, %s, %s)",
-					$ilDB->quote($this->getId()),
-					$ilDB->quote($value . "")
-				);
-				$term_result = $ilDB->query($query);
-				$newTermID = $ilDB->getLastInsertId();
-				$newterms[$newTermID] = $value;
-			}
-
-			// alte Antworten löschen
-			$query = sprintf("DELETE FROM qpl_answer_matching WHERE question_fi = %s",
-				$ilDB->quote($this->id)
-			);
-			$result = $ilDB->query($query);
-
-			// Anworten wegschreiben
-			foreach ($matchingpairs as $key => $value)
-			{
-				$matching_obj = $matchingpairs[$key];
-				$term = $this->terms[$matching_obj->getTermId()];
-				$termindex = array_search($term, $newterms);
-				$query = sprintf("INSERT INTO qpl_answer_matching (answer_id, question_fi, points, term_fi, matchingtext, matching_order) VALUES (NULL, %s, %s, %s, %s, %s)",
-					$ilDB->quote($this->id),
-					$ilDB->quote($matching_obj->getPoints() . ""),
-					$ilDB->quote($termindex . ""),
-					$ilDB->quote($matching_obj->getDefinition() . ""),
-					$ilDB->quote($matching_obj->getDefinitionId() . "")
-				);
-				$matching_result = $ilDB->query($query);
-			}
 		}
 		
 		if ($this->getMatchingType() == MT_TERMS_PICTURES)
@@ -302,8 +273,6 @@ class assMatchingQuestion extends assQuestion
 	/**
 	* Loads a assMatchingQuestion object from a database
 	*
-	* Loads a assMatchingQuestion object from a database (experimental)
-	*
 	* @param object $db A pear DB object
 	* @param integer $question_id A unique key which defines the multiple choice test in the database
 	* @access public
@@ -312,65 +281,63 @@ class assMatchingQuestion extends assQuestion
 	{
 		global $ilDB;
 
-		$query = sprintf("SELECT qpl_questions.*, qpl_question_matching.* FROM qpl_questions, qpl_question_matching WHERE question_id = %s AND qpl_questions.question_id = qpl_question_matching.question_fi",
-			$ilDB->quote($question_id)
+		$result = $ilDB->queryF("SELECT qpl_questions.*, " . $this->getAdditionalTableName() . ".* FROM qpl_questions, " . $this->getAdditionalTableName() . " WHERE question_id = %s AND qpl_questions.question_id = " . $this->getAdditionalTableName() . ".question_fi",
+			array("integer"),
+			array($question_id)
 		);
-		$result = $ilDB->query($query);
 		if ($result->numRows() == 1)
 		{
-			$data = $result->fetchRow(MDB2_FETCHMODE_OBJECT);
-			$this->id = $question_id;
-			$this->title = $data->title;
-			$this->comment = $data->description;
-			$this->author = $data->author;
-			$this->solution_hint = $data->solution_hint;
-			$this->obj_id = $data->obj_fi;
-			$this->original_id = $data->original_id;
-			$this->owner = $data->owner;
-			$this->matching_type = $data->matching_type;
-			$this->thumb_geometry = $data->thumb_geometry;
-			$this->element_height = $data->element_height;
+			$data = $ilDB->fetchAssoc($result);
+			$this->setId($question_id);
+			$this->setObjId($data["obj_fi"]);
+			$this->setTitle($data["title"]);
+			$this->setComment($data["description"]);
+			$this->setOriginalId($data["original_id"]);
+			$this->setAuthor($data["author"]);
+			$this->setPoints($data["points"]);
+			$this->setOwner($data["owner"]);
 			include_once("./Services/RTE/classes/class.ilRTE.php");
-			$this->question = ilRTE::_replaceMediaObjectImageSrc($data->question_text, 1);
-			$this->points = $data->points;
-			$this->shuffle = $data->shuffle;
-			$this->setEstimatedWorkingTime(substr($data->working_time, 0, 2), substr($data->working_time, 3, 2), substr($data->working_time, 6, 2));
+			$this->setQuestion(ilRTE::_replaceMediaObjectImageSrc($data["question_text"], 1));
+			$this->setMatchingType($data["matching_type"]);
+			$this->setThumbGeometry($data["thumb_geometry"]);
+			$this->setElementHeight($data["element_height"]);
+			$this->setShuffle($data["shuffle"]);
+			$this->setEstimatedWorkingTime(substr($data["working_time"], 0, 2), substr($data["working_time"], 3, 2), substr($data["working_time"], 6, 2));
+		}
 
-			$query = sprintf("SELECT * FROM qpl_answer_matching_term WHERE question_fi = %s ORDER BY term ASC",
-				$ilDB->quote($question_id)
-			);
-			$result = $ilDB->query($query);
-			include_once "./Modules/TestQuestionPool/classes/class.assAnswerMatching.php";
-			$this->terms = array();
-			if ($result->numRows() > 0)
+		$result = $ilDB->queryF("SELECT * FROM qpl_answer_matching_term WHERE question_fi = %s ORDER BY term ASC",
+			array('integer'),
+			array($question_id)
+		);
+		include_once "./Modules/TestQuestionPool/classes/class.assAnswerMatching.php";
+		$this->terms = array();
+		if ($result->numRows() > 0)
+		{
+			while ($data = $ilDB->fetchAssoc($result))
 			{
-				while ($data = $result->fetchRow(MDB2_FETCHMODE_OBJECT))
-				{
-					array_push($this->terms, $data->term);
-				}
-			}
-
-			$query = sprintf("SELECT qpl_answer_matching.*, qpl_answer_matching_term.term FROM qpl_answer_matching, qpl_answer_matching_term WHERE qpl_answer_matching.question_fi = %s AND qpl_answer_matching_term.term_id = qpl_answer_matching.term_fi ORDER BY answer_id ASC",
-				$ilDB->quote($question_id)
-			);
-			$result = $ilDB->query($query);
-			include_once "./Modules/TestQuestionPool/classes/class.assAnswerMatching.php";
-			if ($result->numRows() > 0)
-			{
-				while ($data = $result->fetchRow(MDB2_FETCHMODE_OBJECT))
-				{
-					$index = array_search($data->term, $this->getTerms());
-					array_push($this->matchingpairs, new ASS_AnswerMatching($data->points, $index, $data->matchingtext, $data->matching_order));
-				}
+				array_push($this->terms, $data["term"]);
 			}
 		}
+
+		$result = $ilDB->queryF("SELECT qpl_answer_matching.*, qpl_answer_matching_term.term FROM qpl_answer_matching, qpl_answer_matching_term WHERE qpl_answer_matching.question_fi = %s AND qpl_answer_matching_term.term_id = qpl_answer_matching.term_fi ORDER BY answer_id ASC",
+			array('integer'),
+			array($question_id)
+		);
+		include_once "./Modules/TestQuestionPool/classes/class.assAnswerMatching.php";
+		if ($result->numRows() > 0)
+		{
+			while ($data = $ilDB->fetchAssoc($result))
+			{
+				$index = array_search($data->term, $this->getTerms());
+				array_push($this->matchingpairs, new ASS_AnswerMatching($data["points"], $index, $data["matchingtext"], $data["matching_order"]));
+			}
+		}
+
 		parent::loadFromDb($question_id);
 	}
 
 	
 	/**
-	* Duplicates an assMatchingQuestion
-	*
 	* Duplicates an assMatchingQuestion
 	*
 	* @access public
@@ -423,8 +390,6 @@ class assMatchingQuestion extends assQuestion
 	}
 
 	/**
-	* Copies an assMatchingQuestion
-	*
 	* Copies an assMatchingQuestion
 	*
 	* @access public
@@ -518,8 +483,6 @@ class assMatchingQuestion extends assQuestion
 	/**
 	* Sets the matching question type
 	*
-	* Sets the matching question type
-	*
 	* @param integer $matching_type The question matching type
 	* @access public
 	* @see $matching_type
@@ -530,8 +493,6 @@ class assMatchingQuestion extends assQuestion
 	}
 
 	/**
-	* Returns the matching question type
-	*
 	* Returns the matching question type
 	*
 	* @return integer The matching question type
@@ -586,8 +547,6 @@ class assMatchingQuestion extends assQuestion
 		}
 	}
 	/**
-	* Adds an matching pair for an matching question
-	*
 	* Adds an matching pair for an matching choice question. The students have to fill in an order for the matching pair.
 	* The matching pair is an ASS_AnswerMatching object that will be created and assigned to the array $this->matchingpairs.
 	*
@@ -616,8 +575,6 @@ class assMatchingQuestion extends assQuestion
 	}
 
 	/**
-	* Returns a matching pair
-	*
 	* Returns a matching pair with a given index. The index of the first
 	* matching pair is 0, the index of the second matching pair is 1 and so on.
 	*
@@ -632,8 +589,6 @@ class assMatchingQuestion extends assQuestion
 	}
 	
 	/**
-	* Returns a matching pair
-	*
 	* Returns a matching pair with a given index. The index of the first
 	* matching pair is 0, the index of the second matching pair is 1 and so on.
 	*
@@ -688,8 +643,6 @@ class assMatchingQuestion extends assQuestion
 	/**
 	* Deletes all matching pairs
 	*
-	* Deletes all matching pairs
-	*
 	* @access public
 	* @see $matchingpairs
 	*/
@@ -699,8 +652,6 @@ class assMatchingQuestion extends assQuestion
 	}
 
 	/**
-	* Returns the number of matching pairs
-	*
 	* Returns the number of matching pairs
 	*
 	* @return integer The number of matching pairs of the matching question
@@ -715,21 +666,16 @@ class assMatchingQuestion extends assQuestion
 	/**
 	* Returns the terms of the matching question
 	*
-	* Returns the terms of the matching question
-	*
 	* @return array An array containing the terms (sorted alphabetically)
 	* @access public
 	* @see $terms
 	*/
 	function getTerms()
 	{
-//		natcasesort($this->terms);
 		return $this->terms;
 	}
 	
 	/**
-	* Returns a term with a given ID
-	*
 	* Returns a term with a given ID
 	*
 	* @param string $id The id of the term
@@ -743,8 +689,6 @@ class assMatchingQuestion extends assQuestion
 	}
 	
 	/**
-	* Returns the number of terms
-	*
 	* Returns the number of terms
 	*
 	* @return integer The number of terms
@@ -796,8 +740,6 @@ class assMatchingQuestion extends assQuestion
 	/**
 	* Deletes all terms
 	*
-	* Deletes all terms
-	*
 	* @access public
 	* @see $terms
 	*/
@@ -826,8 +768,6 @@ class assMatchingQuestion extends assQuestion
 	/**
 	* Sets a specific term
 	*
-	* Sets a specific term
-	*
 	* @param string $term The text of the term
 	* @param string $index The index of the term
 	* @access public
@@ -840,8 +780,6 @@ class assMatchingQuestion extends assQuestion
 	}
 
 	/**
-	* Returns the points, a learner has reached answering the question
-	*
 	* Returns the points, a learner has reached answering the question
 	* The points are calculated from the given answers including checks
 	* for all special scoring options in the test container.
@@ -860,18 +798,16 @@ class assMatchingQuestion extends assQuestion
 		{
 			$pass = $this->getSolutionMaxPass($active_id);
 		}
-		$query = sprintf("SELECT * FROM tst_solutions WHERE active_fi = %s AND question_fi = %s AND pass = %s",
-			$ilDB->quote($active_id . ""),
-			$ilDB->quote($this->getId() . ""),
-			$ilDB->quote($pass . "")
+		$result = $ilDB->queryF("SELECT * FROM tst_solutions WHERE active_fi = %s AND question_fi = %s AND pass = %s",
+			array('integer','integer','integer'),
+			array($active_id, $this->getId(), $pass)
 		);
-		$result = $ilDB->query($query);
-		while ($data = $result->fetchRow(MDB2_FETCHMODE_OBJECT))
+		while ($data = $ilDB->fetchAssoc($result))
 		{
-			if (strcmp($data->value1, "") != 0)
+			if (strcmp($data["value1"], "") != 0)
 			{
-				array_push($found_value1, $data->value1);
-				array_push($found_value2, $data->value2);
+				array_push($found_value1, $data["value1"]);
+				array_push($found_value2, $data["value2"]);
 			}
 		}
 		$points = 0;
@@ -891,8 +827,6 @@ class assMatchingQuestion extends assQuestion
 	}
 
 	/**
-	* Returns the maximum points, a learner can reach answering the question
-	*
 	* Returns the maximum points, a learner can reach answering the question
 	*
 	* @access public
@@ -984,8 +918,6 @@ class assMatchingQuestion extends assQuestion
 	/**
 	* Checks the data to be saved for consistency
 	*
-	* Checks the data to be saved for consistency
-	*
   * @return boolean True, if the check was ok, False otherwise
 	* @access public
 	* @see $answers
@@ -1017,8 +949,6 @@ class assMatchingQuestion extends assQuestion
 	/**
 	* Saves the learners input of the question to the database
 	*
-	* Saves the learners input of the question to the database
-	*
 	* @param integer $test_id The database id of the test containing this question
   * @return boolean Indicates the save status (true if saved successful, false otherwise)
 	* @access public
@@ -1039,12 +969,10 @@ class assMatchingQuestion extends assQuestion
 				$pass = ilObjTest::_getPass($active_id);
 			}
 			
-			$query = sprintf("DELETE FROM tst_solutions WHERE active_fi = %s AND question_fi = %s AND pass = %s",
-				$ilDB->quote($active_id . ""),
-				$ilDB->quote($this->getId() . ""),
-				$ilDB->quote($pass . "")
+			$affectedRows = $ilDB->manipulateF("DELETE FROM tst_solutions WHERE active_fi = %s AND question_fi = %s AND pass = %s",
+				array('integer','integer','integer'),
+				array($active_id, $this->getId(), $pass)
 			);
-			$result = $ilDB->query($query);
 			foreach ($_POST as $key => $value)
 			{
 				if (preg_match("/^sel_matching_(\d+)/", $key, $matches))
@@ -1052,14 +980,19 @@ class assMatchingQuestion extends assQuestion
 					if ($value > -1) // -1 is the unselected value in the non javascript version
 					{
 						$entered_values++;
-						$query = sprintf("INSERT INTO tst_solutions (solution_id, active_fi, question_fi, value1, value2, pass, TIMESTAMP) VALUES (NULL, %s, %s, %s, %s, %s, NULL)",
-							$ilDB->quote($active_id),
-							$ilDB->quote($this->getId()),
-							$ilDB->quote(trim($value)),
-							$ilDB->quote(trim($matches[1])),
-							$ilDB->quote($pass . "")
+						$next_id = $ilDB->nextId('tst_solutions');
+						$query = sprintf("INSERT INTO tst_solutions (solution_id, active_fi, question_fi, value1, value2, pass, tstamp) VALUES (%s, %s, %s, %s, %s, %s, %s)",
+							array('integer','integer','integer','text','text','integer','integer'),
+							array(
+								$next_id,
+								$active_id,
+								$this->getId(),
+								trim($value),
+								trim($matches[1]),
+								$pass,
+								time()
+							)
 						);
-						$result = $ilDB->query($query);
 					}
 				}
 			}
@@ -1125,8 +1058,6 @@ class assMatchingQuestion extends assQuestion
 	/**
 	* Sets the shuffle flag
 	*
-	* Sets the shuffle flag
-	*
 	* @param boolean $shuffle A flag indicating whether the answers are shuffled or not
 	* @access public
 	* @see $shuffle
@@ -1150,8 +1081,6 @@ class assMatchingQuestion extends assQuestion
 	/**
 	* Returns the question type of the question
 	*
-	* Returns the question type of the question
-	*
 	* @return integer The question type of the question
 	* @access public
 	*/
@@ -1163,8 +1092,6 @@ class assMatchingQuestion extends assQuestion
 	/**
 	* Returns the name of the additional question data table in the database
 	*
-	* Returns the name of the additional question data table in the database
-	*
 	* @return string The additional table name
 	* @access public
 	*/
@@ -1174,8 +1101,6 @@ class assMatchingQuestion extends assQuestion
 	}
 
 	/**
-	* Returns the name of the answer table in the database
-	*
 	* Returns the name of the answer table in the database
 	*
 	* @return string The answer table name
@@ -1204,8 +1129,6 @@ class assMatchingQuestion extends assQuestion
 	}
 
 	/**
-	* Returns true if the question type supports JavaScript output
-	*
 	* Returns true if the question type supports JavaScript output
 	*
 	* @return boolean TRUE if the question type supports JavaScript output, FALSE otherwise

@@ -71,8 +71,6 @@ class ilObjQuestionPool extends ilObject
 	}
 
 /**
-* Creates a database reference id for the object
-* 
 * Creates a database reference id for the object (saves the object 
 * to the database and creates a reference id in the database)
 *
@@ -141,22 +139,6 @@ class ilObjQuestionPool extends ilObject
 	*/
 	function delete()
 	{
-/*		$questions =& $this->getAllQuestions();
-		$used_questions = 0;
-		include_once "./Modules/TestQuestionPool/classes/class.assQuestion.php";
-		foreach ($questions as $question_id)
-		{
-			if (assQuestion::_isUsedInRandomTest($question_id))
-			{
-				$used_questions++;
-			}
-		}
-		
-		if ($used_questions)
-		{
-			return false;
-		}
-*/		
 		// always call parent delete function first!!
 		if (!parent::delete())
 		{
@@ -196,8 +178,6 @@ class ilObjQuestionPool extends ilObject
 	}
 
 	/**
-	* init default roles settings
-	*
 	* If your module does not require any default roles, delete this method
 	* (For an example how this method is used, look at ilObjForum)
 	*
@@ -206,19 +186,7 @@ class ilObjQuestionPool extends ilObject
 	*/
 	function initDefaultRoles()
 	{
-		global $rbacadmin;
-
-		// create a local role folder
-		//$rfoldObj = $this->createRoleFolder("Local roles","Role Folder of forum obj_no.".$this->getId());
-
-		// create moderator role and assign role to rolefolder...
-		//$roleObj = $rfoldObj->createRole("Moderator","Moderator of forum obj_no.".$this->getId());
-		//$roles[] = $roleObj->getId();
-
-		//unset($rfoldObj);
-		//unset($roleObj);
-
-		return $roles ? $roles : array();
+		return array();
 	}
 
 	/**
@@ -290,8 +258,6 @@ class ilObjQuestionPool extends ilObject
 	/**
 	* Deletes a question from the question pool
 	*
-	* Deletes a question from the question pool
-	*
 	* @param integer $question_id The database id of the question
 	* @access private
 	*/
@@ -355,8 +321,6 @@ class ilObjQuestionPool extends ilObject
 	/**
 	* Returns the question type of a question with a given id
 	*
-	* Returns the question type of a question with a given id
-	*
 	* @param integer $question_id The database id of the question
 	* @result string The question type string
 	* @access private
@@ -370,14 +334,14 @@ class ilObjQuestionPool extends ilObject
 			return;
 		}
 
-		$query = sprintf("SELECT qpl_question_type.type_tag FROM qpl_questions, qpl_question_type WHERE qpl_questions.question_type_fi = qpl_question_type.question_type_id AND qpl_questions.question_id = %s",
-			$ilDB->quote($question_id));
-
-		$result = $ilDB->query($query);
+		$result = $ilDB->queryF("SELECT qpl_question_type.type_tag FROM qpl_questions, qpl_question_type WHERE qpl_questions.question_type_fi = qpl_question_type.question_type_id AND qpl_questions.question_id = %s",
+			array('integer'),
+			array($question_id)
+		);
 		if ($result->numRows() == 1)
 		{
-			$data = $result->fetchRow(MDB2_FETCHMODE_OBJECT);
-			return $data->type_tag;
+			$data = $ilDB->fetchAssoc($result);
+			return $data["type_tag"];
 		}
 		else
 		{
@@ -424,8 +388,6 @@ class ilObjQuestionPool extends ilObject
 	/**
 	* Checks whether the question is in use or not
 	*
-	* Checks whether the question is in use or not
-	*
 	* @param integer $question_id The question id of the question to be checked
 	* @return boolean The number of datasets which are affected by the use of the query.
 	* @access public
@@ -434,13 +396,12 @@ class ilObjQuestionPool extends ilObject
 	{
 		global $ilDB;
 		
-		$query = sprintf("SELECT COUNT(solution_id) AS solution_count FROM tst_solutions WHERE question_fi = %s",
-			$ilDB->quote("$question_id"));
-
-		$result = $ilDB->query($query);
-		$row = $result->fetchRow(MDB2_FETCHMODE_OBJECT);
-
-		return $row->solution_count;
+		$result = $ilDB->queryF("SELECT COUNT(solution_id) solution_count FROM tst_solutions WHERE question_fi = %s",
+			array('integer'),
+			array($question_id)
+		);
+		$row = $ilDB->fetchAssoc($result);
+		return $row["solution_count"];
 	}
 
 	function &createQuestion($question_type, $question_id = -1)
@@ -454,8 +415,6 @@ class ilObjQuestionPool extends ilObject
 	}
 
 	/**
-	* Duplicates a question for a questionpool
-	*
 	* Duplicates a question for a questionpool
 	*
 	* @param integer $question_id The database id of the question
@@ -480,8 +439,6 @@ class ilObjQuestionPool extends ilObject
 	}
 	
 	/**
-	* Copies a question into another question pool
-	*
 	* Copies a question into another question pool
 	*
 	* @param integer $question_id Database id of the question
@@ -516,8 +473,6 @@ class ilObjQuestionPool extends ilObject
 	/**
 	* Calculates the data for the output of the questionpool
 	*
-	* Calculates the data for the output of the questionpool
-	*
 	* @access public
 	*/
 	function getQuestionsTable($sort, $sortorder, $filter_text, $sel_filter_type, $startrow = 0)
@@ -531,13 +486,13 @@ class ilObjQuestionPool extends ilObject
 			switch($sel_filter_type)
 			{
 				case "title":
-					$where = " AND qpl_questions.title LIKE " . $ilDB->quote("%" . $filter_text . "%");
+					$where = " AND " . $ilDB->like('qpl_questions.title', 'text', "%" . $filter_text . "%");
 					break;
 				case "comment":
-					$where = " AND qpl_questions.description LIKE " . $ilDB->quote("%" . $filter_text . "%");
+					$where = " AND " . $ilDB->like('qpl_questions.description', 'text', "%" . $filter_text . "%");
 					break;
 				case "author":
-					$where = " AND qpl_questions.author LIKE " . $ilDB->quote("%" . $filter_text . "%");
+					$where = " AND " . $ilDB->like('qpl_questions.author', 'text', "%" . $filter_text . "%");
 					break;
 			}
 		}
@@ -569,7 +524,7 @@ class ilObjQuestionPool extends ilObject
 				$images["created"] = " <img src=\"" . ilUtil::getImagePath(strtolower($sortorder) . "_order.gif") . "\" alt=\"" . $this->lng->txt(strtolower($sortorder) . "ending_order")."\" />";
 				break;
 			case "updated":
-				$order = " ORDER BY timestamp14 $sortorder";
+				$order = " ORDER BY qpl_questions.tstamp";
 				$images["updated"] = " <img src=\"" . ilUtil::getImagePath(strtolower($sortorder) . "_order.gif") . "\" alt=\"" . $this->lng->txt(strtolower($sortorder) . "ending_order")."\" />";
 				break;
 		}
@@ -578,8 +533,10 @@ class ilObjQuestionPool extends ilObject
 		{
 			$maxentries = 9999;
 		}
-		$query = "SELECT qpl_questions.question_id, qpl_questions.TIMESTAMP + 0 AS timestamp14 FROM qpl_questions, qpl_question_type WHERE ISNULL(qpl_questions.original_id) AND qpl_questions.question_type_fi = qpl_question_type.question_type_id AND qpl_questions.owner > 0 AND qpl_questions.obj_fi = " . $this->getId() . " $where$order$limit";
-		$query_result = $ilDB->query($query);
+		$query_result = $ilDB->queryF("SELECT qpl_questions.question_id, qpl_questions.tstamp FROM qpl_questions, qpl_question_type WHERE ISNULL(qpl_questions.original_id) AND qpl_questions.question_type_fi = qpl_question_type.question_type_id AND qpl_questions.owner > 0 AND qpl_questions.obj_fi = %s $where$order$limit",
+			array('integer'),
+			array($this->getId())
+		);
 		$max = $query_result->numRows();
 		if ($startrow > $max -1)
 		{
@@ -589,13 +546,15 @@ class ilObjQuestionPool extends ilObject
 		{
 			$startrow = 0;
 		}
-		$limit = " LIMIT $startrow, $maxentries";
-		$query = "SELECT qpl_questions.*, qpl_questions.TIMESTAMP + 0 AS timestamp14, qpl_question_type.type_tag, qpl_question_type.plugin FROM qpl_questions, qpl_question_type WHERE ISNULL(qpl_questions.original_id) AND qpl_questions.owner > 0 AND qpl_questions.question_type_fi = qpl_question_type.question_type_id AND qpl_questions.obj_fi = " . $this->getId() . " $where$order$limit";
-		$query_result = $ilDB->query($query);
+		$ilDB->setLimit($maxentries, $startrow);
+		$query_result = $ilDB->queryF("SELECT qpl_questions.*, qpl_question_type.type_tag, qpl_question_type.plugin FROM qpl_questions, qpl_question_type WHERE ISNULL(qpl_questions.original_id) AND qpl_questions.owner > 0 AND qpl_questions.question_type_fi = qpl_question_type.question_type_id AND qpl_questions.obj_fi = %s $where$order$limit",
+			array('integer'),
+			array($this->getId())
+		);
 		$rows = array();
 		if ($query_result->numRows())
 		{
-			while ($row = $query_result->fetchRow(MDB2_FETCHMODE_ASSOC))
+			while ($row = $ilDB->fetchAssoc($query_result))
 			{
 				if ($row["plugin"])
 				{
@@ -634,8 +593,6 @@ class ilObjQuestionPool extends ilObject
 	/**
 	* Calculates the data for the print view of the questionpool
 	*
-	* Calculates the data for the print view of the questionpool
-	*
 	* @access public
 	*/
 	function &getPrintviewQuestions($sort)
@@ -662,15 +619,17 @@ class ilObjQuestionPool extends ilObject
 				$order = " ORDER BY created,title";
 				break;
 			case "updated":
-				$order = " ORDER BY timestamp14,title";
+				$order = " ORDER BY tstamp,title";
 				break;
 		}
-		$query = "SELECT qpl_questions.*, qpl_questions.TIMESTAMP + 0 AS timestamp14, qpl_question_type.type_tag, qpl_question_type.plugin FROM qpl_questions, qpl_question_type WHERE ISNULL(qpl_questions.original_id) AND qpl_questions.owner > 0 AND qpl_questions.question_type_fi = qpl_question_type.question_type_id AND qpl_questions.obj_fi = " . $this->getId() . " $order";
-		$query_result = $ilDB->query($query);
+		$query_result = $ilDB->queryF("SELECT qpl_questions.*, qpl_question_type.type_tag, qpl_question_type.plugin FROM qpl_questions, qpl_question_type WHERE ISNULL(qpl_questions.original_id) AND qpl_questions.owner > 0 AND qpl_questions.question_type_fi = qpl_question_type.question_type_id AND qpl_questions.obj_fi = %s $order",
+			array('integer'),
+			array($this->getId())
+		);
 		$rows = array();
 		if ($query_result->numRows())
 		{
-			while ($row = $query_result->fetchRow(MDB2_FETCHMODE_ASSOC))
+			while ($row = $ilDB->fetchAssoc($query_result))
 			{
 				if ($row["plugin"])
 				{
@@ -1004,22 +963,18 @@ class ilObjQuestionPool extends ilObject
 	/**
 	* Retrieve an array containing all question ids of the questionpool
 	*
-	* Retrieve an array containing all question ids of the questionpool
-	*
 	* @return array An array containing all question ids of the questionpool
 	*/
 	function &getAllQuestions()
 	{
 		global $ilDB;
 		
-		$query = sprintf("SELECT question_id FROM qpl_questions WHERE obj_fi = %s AND qpl_questions.owner > 0 AND original_id IS NULL",
-			$ilDB->quote($this->getId())
+		$result = $ilDB->queryF("SELECT question_id FROM qpl_questions WHERE obj_fi = %s AND qpl_questions.owner > 0 AND original_id IS NULL",
+			array('integer'),
+			array($this->getId())
 		);
-
-		$result = $ilDB->query($query);
 		$questions = array();
-
-		while ($row = $result->fetchRow(MDB2_FETCHMODE_ASSOC))
+		while ($row = $ilDB->fetchAssoc($result))
 		{
 			array_push($questions, $row["question_id"]);
 		}
@@ -1030,15 +985,14 @@ class ilObjQuestionPool extends ilObject
 	{
 		global $ilDB;
 		
-		$query = sprintf("SELECT question_id, qpl_question_type.type_tag, qpl_question_type.plugin FROM qpl_questions, qpl_question_type WHERE ISNULL(original_id) AND qpl_questions.owner > 0 AND obj_fi = %s AND complete = %s AND qpl_questions.question_type_fi = qpl_question_type.question_type_id",
-			$ilDB->quote($this->getId()),
-			$ilDB->quote("1")
+		$query_result = $ilDB->queryF("SELECT question_id, qpl_question_type.type_tag, qpl_question_type.plugin FROM qpl_questions, qpl_question_type WHERE ISNULL(original_id) AND qpl_questions.owner > 0 AND obj_fi = %s AND complete = %s AND qpl_questions.question_type_fi = qpl_question_type.question_type_id",
+			array('integer','text'),
+			array($this->getId(), 1)
 		);
-		$query_result = $ilDB->query($query);
 		$questions = array();
 		if ($query_result->numRows())
 		{
-			while ($row = $query_result->fetchRow(MDB2_FETCHMODE_ASSOC))
+			while ($row = $ilDB->fetchAssoc($query_result))
 			{
 				if ($row["plugin"])
 				{
@@ -1075,8 +1029,6 @@ class ilObjQuestionPool extends ilObject
 	/**
 	* Returns a QTI xml representation of a list of questions
 	*
-	* Returns a QTI xml representation of a list of questions
-	*
 	* @param array $questions An array containing the question ids of the questions
 	* @return string The QTI xml representation of the questions
 	* @access public
@@ -1104,8 +1056,6 @@ class ilObjQuestionPool extends ilObject
 	/**
 	* Returns the number of questions in a question pool
 	*
-	* Returns the number of questions in a question pool
-	*
 	* @param integer $questonpool_id Object id of the questionpool to examine
 	* @param boolean $complete_questions_only If set to TRUE, returns only the number of complete questions in the questionpool. Default is FALSE
 	* @return integer The number of questions in the questionpool object
@@ -1114,21 +1064,26 @@ class ilObjQuestionPool extends ilObject
 	function _getQuestionCount($questionpool_id, $complete_questions_only = FALSE)
 	{
 		global $ilDB;
-		$query = sprintf("SELECT COUNT(question_id) AS question_count FROM qpl_questions WHERE obj_fi = %s AND qpl_questions.owner > 0 AND ISNULL(original_id)",
-			$ilDB->quote($questionpool_id . "")
-		);
 		if ($complete_questions_only)
 		{
-			$query .= " AND complete = '1'";
+			$result = $ilDB->queryF("SELECT COUNT(question_id) question_count FROM qpl_questions WHERE obj_fi = %s AND qpl_questions.owner > 0 AND ISNULL(original_id) AND complete = %s",
+				array('integer', 'text'),
+				array($questionpool_id, 1)
+			);
+		}
+		else
+		{
+			$result = $ilDB->queryF("SELECT COUNT(question_id) question_count FROM qpl_questions WHERE obj_fi = %s AND qpl_questions.owner > 0 AND ISNULL(original_id)",
+				array('integer'),
+				array($questionpool_id)
+			);
 		}
 		$result = $ilDB->query($query);
-		$row = $result->fetchRow(MDB2_FETCHMODE_ASSOC);
+		$row = $ilDB->fetchAssoc($result);
 		return $row["question_count"];
 	}
 	
 	/**
-	* Sets the questionpool online status
-	*
 	* Sets the questionpool online status
 	*
 	* @param integer $a_online_status Online status of the questionpool
@@ -1184,8 +1139,6 @@ class ilObjQuestionPool extends ilObject
 	/**
 	* Checks a question pool for questions with the same maximum points
 	*
-	* Checks a question pool for questions with the same maximum points
-	*
 	* @param integer $a_obj_id Object id of the question pool
 	* @access private
 	*/
@@ -1195,13 +1148,13 @@ class ilObjQuestionPool extends ilObject
 		
 		if ($is_reference)
 		{
-			$query = sprintf("SELECT count(DISTINCT qpl_questions.points) AS equal_points FROM qpl_questions, object_reference WHERE object_reference.ref_id = %s AND qpl_questions.owner > 0 AND object_reference.obj_id = qpl_questions.obj_fi AND qpl_questions.original_id IS NULL",
+			$query = sprintf("SELECT count(DISTINCT qpl_questions.points) equal_points FROM qpl_questions, object_reference WHERE object_reference.ref_id = %s AND qpl_questions.owner > 0 AND object_reference.obj_id = qpl_questions.obj_fi AND qpl_questions.original_id IS NULL",
 				$ilDB->quote($a_obj_id . "")
 			);
 		}
 		else
 		{
-			$query = sprintf("SELECT count(DISTINCT points) AS equal_points FROM qpl_questions WHERE obj_fi = %s AND qpl_questions.owner > 0 AND qpl_questions.original_id IS NULL",
+			$query = sprintf("SELECT count(DISTINCT points) equal_points FROM qpl_questions WHERE obj_fi = %s AND qpl_questions.owner > 0 AND qpl_questions.original_id IS NULL",
 				$ilDB->quote($a_obj_id . "")
 			);
 		}
@@ -1224,8 +1177,6 @@ class ilObjQuestionPool extends ilObject
 	/**
 	* Copies/Moves a question from the clipboard
 	*
-	* Copies/Moves a question from the clipboard
-	*
 	* @access private
 	*/
 	function pasteFromClipboard()
@@ -1238,29 +1189,27 @@ class ilObjQuestionPool extends ilObject
 			{
 				if (strcmp($question_object["action"], "move") == 0)
 				{
-					$query = sprintf("SELECT obj_fi FROM qpl_questions WHERE question_id = %s",
-						$ilDB->quote($question_object["question_id"])
+					$result = $ilDB->queryF("SELECT obj_fi FROM qpl_questions WHERE question_id = %s",
+						array('integer'),
+						array($question_object["question_id"])
 					);
-					$result = $ilDB->query($query);
 					if ($result->numRows() == 1)
 					{
 						include_once "./Services/COPage/classes/class.ilPageObject.php";
 						$page = new ilPageObject("qpl", $question_object["question_id"]);
-						$row = $result->fetchRow(MDB2_FETCHMODE_ASSOC);
+						$row = $ilDB->fetchAssoc($result);
 						$source_questionpool = $row["obj_fi"];
 						// change the questionpool id in the qpl_questions table
-						$query = sprintf("UPDATE qpl_questions SET obj_fi = %s WHERE question_id = %s",
-							$ilDB->quote($this->getId() . ""),
-							$ilDB->quote($question_object["question_id"])
+						$affectedRows = $ilDB->manipulateF("UPDATE qpl_questions SET obj_fi = %s WHERE question_id = %s",
+							array('integer','integer'),
+							array($this->getId(), $question_object["question_id"])
 						);
-						$ilDB->query($query);
 						
 						// change page object of question and set the correct parent id
-						$query = sprintf("UPDATE page_object SET parent_id = %s WHERE page_id = %s",
-							$ilDB->quote($this->getId() . ""),
-							$ilDB->quote($question_object["question_id"])
+						$affectedRows = $ilDB->manipulateF("UPDATE page_object SET parent_id = %s WHERE page_id = %s",
+							array('integer', 'integer'),
+							array($this->getId(), $question_object["question_id"])
 						);
-						$ilDB->query($query);
 						
 						// move question data to the new target directory
 						$source_path = CLIENT_WEB_DIR . "/assessment/" . $source_questionpool . "/" . $question_object["question_id"] . "/";
@@ -1292,8 +1241,6 @@ class ilObjQuestionPool extends ilObject
 	/**
 	* Copies a question to the clipboard
 	*
-	* Copies a question to the clipboard
-	*
 	* @param integer $question_id Object id of the question
 	* @access private
 	*/
@@ -1307,8 +1254,6 @@ class ilObjQuestionPool extends ilObject
 	}
 	
 	/**
-	* Moves a question to the clipboard
-	*
 	* Moves a question to the clipboard
 	*
 	* @param integer $question_id Object id of the question
@@ -1351,8 +1296,6 @@ class ilObjQuestionPool extends ilObject
 	
 /**
 * Returns an array containing the qpl_question and qpl_question_type fields for an array of question ids
-* 
-* Returns an array containing the qpl_question and qpl_question_type fields for an array of question ids
 *
 * @param array $question_ids An array containing the question ids
 * @return array An array containing the details of the requested questions
@@ -1363,13 +1306,10 @@ class ilObjQuestionPool extends ilObject
 		global $ilDB;
 		
 		$result = array();
-		$whereclause = join($question_ids, " OR qpl_questions.question_id = ");
-		$whereclause = " AND (qpl_questions.question_id = " . $whereclause . ")";
-		$query = "SELECT qpl_questions.*, qpl_question_type.type_tag FROM qpl_questions, qpl_question_type WHERE qpl_questions.question_type_fi = qpl_question_type.question_type_id$whereclause ORDER BY qpl_questions.title";
-		$query_result = $ilDB->query($query);
+		$query_result = $ilDB->query("SELECT qpl_questions.*, qpl_question_type.type_tag FROM qpl_questions, qpl_question_type WHERE qpl_questions.question_type_fi = qpl_question_type.question_type_id AND " . $ilDB->in('qpl_questions.question_id', $question_ids, false, 'integer') . " ORDER BY qpl_questions.title");
 		if ($query_result->numRows())
 		{
-			while ($row = $query_result->fetchRow(MDB2_FETCHMODE_ASSOC))
+			while ($row = $ilDB->fetchAssoc($query_result))
 			{
 				array_push($result, $row);
 			}
@@ -1378,9 +1318,6 @@ class ilObjQuestionPool extends ilObject
 	}
 
 /**
-* Returns an array containing the qpl_question and qpl_question_type fields
-* of deleteable questions for an array of question ids
-* 
 * Returns an array containing the qpl_question and qpl_question_type fields
 * of deleteable questions for an array of question ids
 *
@@ -1393,15 +1330,11 @@ class ilObjQuestionPool extends ilObject
 		global $ilDB, $ilLog;
 		
 		$result = array();
-		$whereclause = join($question_ids, " OR qpl_questions.question_id = ");
-		$whereclause = " AND (qpl_questions.question_id = " . $whereclause . ")";
-		$query = "SELECT qpl_questions.*, qpl_question_type.type_tag FROM qpl_questions, qpl_question_type WHERE qpl_questions.question_type_fi = qpl_question_type.question_type_id$whereclause ORDER BY qpl_questions.title";
-		$ilLog->write($query);
-		$query_result = $ilDB->query($query);
+		$query_result = $ilDB->query("SELECT qpl_questions.*, qpl_question_type.type_tag FROM qpl_questions, qpl_question_type WHERE qpl_questions.question_type_fi = qpl_question_type.question_type_id AND " . $ilDB->in('qpl_questions.question_id', $question_ids, false, 'integer') . " ORDER BY qpl_questions.title");
 		if ($query_result->numRows())
 		{
 			include_once "./Modules/TestQuestionPool/classes/class.assQuestion.php";
-			while ($row = $query_result->fetchRow(MDB2_FETCHMODE_ASSOC))
+			while ($row = $ilDB->fetchAssoc($query_result))
 			{
 				if (!assQuestion::_isUsedInRandomTest($row["question_id"]))
 				{
@@ -1420,30 +1353,27 @@ class ilObjQuestionPool extends ilObject
 					if ($duplicate_id > 0)
 					{
 						// 2. replace the question id in the solutions
-						$query = sprintf("UPDATE tst_solutions SET question_fi = %s WHERE question_fi = %s",
-							$ilDB->quote($duplicate_id),
-							$ilDB->quote($row["question_id"])
+						$affectedRows = $ilDB->manipulateF("UPDATE tst_solutions SET question_fi = %s WHERE question_fi = %s",
+							array('integer','integer'),
+							array($duplicate_id, $row["question_id"])
 						);
-						$ilDB->query($query);
 
 						// 3. replace the question id in the question list of random tests
-						$query = sprintf("UPDATE tst_test_random_question SET question_fi = %s WHERE question_fi = %s",
-							$ilDB->quote($duplicate_id),
-							$ilDB->quote($row["question_id"])
+						$affectedRows = $ilDB->manipulateF("UPDATE tst_test_random_question SET question_fi = %s WHERE question_fi = %s",
+							array('integer','integer'),
+							array($duplicate_id, $row["question_id"])
 						);
-						$ilDB->query($query);
 
 						// 4. replace the question id in the test results
-						$query = sprintf("UPDATE tst_test_result SET question_fi = %s WHERE question_fi = %s",
-							$ilDB->quote($duplicate_id),
-							$ilDB->quote($row["question_id"])
+						$affectedRows = $ilDB->manipulateF("UPDATE tst_test_result SET question_fi = %s WHERE question_fi = %s",
+							array('integer','integer'),
+							array($duplicate_id, $row["question_id"])
 						);
-						$ilDB->query($query);
 
 						// 5. replace the question id in the test&assessment log
-						$query = sprintf("UPDATE ass_log SET question_fi = %s WHERE question_fi = %s",
-							$ilDB->quote($duplicate_id),
-							$ilDB->quote($row["question_id"])
+						$affectedRows = $ilDB->manipulateF("UPDATE ass_log SET question_fi = %s WHERE question_fi = %s",
+							array('integer','integer'),
+							array($duplicate_id, $row["question_id"])
 						);
 						$ilDB->query($query);
 
@@ -1459,9 +1389,6 @@ class ilObjQuestionPool extends ilObject
 /**
 * Returns an array containing the qpl_question and qpl_question_type fields
 * of questions which are used in a random test for an array of question ids
-* 
-* Returns an array containing the qpl_question and qpl_question_type fields
-* of questions which are used in a random test for an array of question ids
 *
 * @param array $question_ids An array containing the question ids
 * @return array An array containing the details of the requested questions
@@ -1472,14 +1399,11 @@ class ilObjQuestionPool extends ilObject
 		global $ilDB;
 		
 		$result = array();
-		$whereclause = join($question_ids, " OR qpl_questions.question_id = ");
-		$whereclause = " AND (qpl_questions.question_id = " . $whereclause . ")";
-		$query = "SELECT qpl_questions.*, qpl_question_type.type_tag FROM qpl_questions, qpl_question_type WHERE qpl_questions.question_type_fi = qpl_question_type.question_type_id$whereclause ORDER BY qpl_questions.title";
-		$query_result = $ilDB->query($query);
+		$query_result = $ilDB->query("SELECT qpl_questions.*, qpl_question_type.type_tag FROM qpl_questions, qpl_question_type WHERE qpl_questions.question_type_fi = qpl_question_type.question_type_id AND " . $ilDB->in('qpl_questions.question_id', $question_ids, false, 'integer') . " ORDER BY qpl_questions.title");
 		if ($query_result->numRows())
 		{
 			include_once "./Modules/TestQuestionPool/classes/class.assQuestion.php";
-			while ($row = $query_result->fetchRow(MDB2_FETCHMODE_ASSOC))
+			while ($row = $ilDB->fetchAssoc($query_result))
 			{
 				if (assQuestion::_isUsedInRandomTest($row["question_id"]))
 				{
@@ -1492,8 +1416,6 @@ class ilObjQuestionPool extends ilObject
 
 
 	/**
-	* Retrieves the full path to a question pool with a given reference id
-	*
 	* Retrieves the full path to a question pool with a given reference id
 	*
 	* @return string The full path to the question pool including the locator
@@ -1525,8 +1447,6 @@ class ilObjQuestionPool extends ilObject
 /**
 * Returns the available question pools for the active user
 *
-* Returns the available question pools for the active user
-*
 * @return array The available question pools
 * @access public
 */
@@ -1548,7 +1468,7 @@ class ilObjQuestionPool extends ilObject
 		if (count($obj_ids))
 		{
 			$query = "";
-			$in = $ilDB->in('object_data.obj_id', $obj_ids);
+			$in = $ilDB->in('object_data.obj_id', $obj_ids, false, 'integer');
 			$paramtypes = array();
 			$paramvalues = array();
 			foreach ($obj_ids as $obj_id)
@@ -1567,7 +1487,7 @@ class ilObjQuestionPool extends ilObject
 			{
 				array_push($paramtypes, "text");
 				array_push($paramvalues, "1");
-				$result = $ilDB->queryF("SELECT qpl_questionpool.*, object_data.title FROM qpl_questionpool, object_data WHERE qpl_questionpool.obj_fi = object_data.obj_id AND $in AND qpl_questionpool.isonline = ? ORDER BY object_data.title",
+				$result = $ilDB->queryF("SELECT qpl_questionpool.*, object_data.title FROM qpl_questionpool, object_data WHERE qpl_questionpool.obj_fi = object_data.obj_id AND $in AND qpl_questionpool.isonline = %s ORDER BY object_data.title",
 					$paramtypes,
 					$paramvalues
 				);
@@ -1610,19 +1530,18 @@ class ilObjQuestionPool extends ilObject
 		global $ilDB;
 		
 		$questions = array();
-		$query = sprintf("SELECT qpl_questions.question_id FROM qpl_questions WHERE ISNULL(qpl_questions.original_id) AND qpl_questions.owner > 0 AND qpl_questions.obj_fi = %s",
-			$ilDB->quote($this->getId() . "")
+		$result = $ilDB->queryF("SELECT qpl_questions.question_id FROM qpl_questions WHERE ISNULL(qpl_questions.original_id) AND qpl_questions.owner > 0 AND qpl_questions.obj_fi = %s",
+			array('integer'),
+			array($this->getId())
 		);
-		$result = $ilDB->query($query);
-		while ($row = $result->fetchRow(MDB2_FETCHMODE_ASSOC))
+		while ($row = $ilDB->fetchAssoc($result))
 		{
 			array_push($questions, $row["question_id"]);
 		}
 		return $questions;
 	}
+	
 /**
-* Creates a 1:1 copy of the object and places the copy in a given repository
-* 
 * Creates a 1:1 copy of the object and places the copy in a given repository
 *
 * @access public
@@ -1663,10 +1582,9 @@ class ilObjQuestionPool extends ilObject
 		include_once "./Modules/Test/classes/class.ilObjAssessmentFolder.php";
 		$forbidden_types = ilObjAssessmentFolder::_getForbiddenQuestionTypes();
 		$lng->loadLanguageModule("assessment");
-		$query = "SELECT * FROM qpl_question_type";
-		$result = $ilDB->query($query);
+		$result = $ilDB->query("SELECT * FROM qpl_question_type");
 		$types = array();
-		while ($row = $result->fetchRow(MDB2_FETCHMODE_ASSOC))
+		while ($row = $ilDB->fetchAssoc($result))
 		{
 			if ($all_tags || (!in_array($row["question_type_id"], $forbidden_types)))
 			{
@@ -1700,11 +1618,11 @@ class ilObjQuestionPool extends ilObject
 		global $ilDB;
 		
 		$questions = array();
-		$query = sprintf("SELECT qpl_questions.*, qpl_questions.TIMESTAMP+0 AS timestamp14, qpl_question_type.* FROM qpl_questions, qpl_question_type WHERE ISNULL(qpl_questions.original_id) AND qpl_questions.obj_fi = %s AND qpl_questions.owner > 0 AND qpl_questions.question_type_fi = qpl_question_type.question_type_id",
-			$ilDB->quote($this->getId() . "")
+		$result = $ilDB->queryF("SELECT qpl_questions.*, qpl_question_type.* FROM qpl_questions, qpl_question_type WHERE ISNULL(qpl_questions.original_id) AND qpl_questions.obj_fi = %s AND qpl_questions.owner > 0 AND qpl_questions.question_type_fi = qpl_question_type.question_type_id",
+			array('integer'),
+			array($this->getId())
 		);
-		$result = $ilDB->query($query);
-		while ($row = $result->fetchRow(MDB2_FETCHMODE_ASSOC))
+		while ($row = $ilDB->fetchAssoc($result))
 		{
 			array_push($questions, $row);
 		}
@@ -1712,8 +1630,6 @@ class ilObjQuestionPool extends ilObject
 	}
 	
 	/**
-	* Updates the number of available questions for a question pool in the database
-	*
 	* Updates the number of available questions for a question pool in the database
 	*
 	* @param integer $object_id Object id of the questionpool to examine
@@ -1754,13 +1670,10 @@ class ilObjQuestionPool extends ilObject
 	{
 		global $ilDB;
 		
-		$statement = $ilDB->prepare("SELECT question_id FROM qpl_questions WHERE owner = ?", 
-			array("integer", "timestamp")
+		$result = $ilDB->queryF("SELECT question_id FROM qpl_questions WHERE owner = %s", 
+			array("integer"),
+			array(0)
 		);
-		$data = array(
-			0
-		);
-		$result = $ilDB->execute($statement, $data);
 		while ($data = $ilDB->fetchAssoc($result))
 		{
 			$this->deleteQuestion($data["question_id"]);

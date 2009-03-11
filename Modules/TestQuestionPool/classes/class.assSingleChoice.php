@@ -108,8 +108,6 @@ class assSingleChoice extends assQuestion
 	/**
 	* Saves a assSingleChoice object to a database
 	*
-	* Saves a assSingleChoice object to a database (experimental)
-	*
 	* @param object $db A pear DB object
 	* @access public
 	*/
@@ -125,116 +123,95 @@ class assSingleChoice extends assQuestion
 		$estw_time = $this->getEstimatedWorkingTime();
 		$estw_time = sprintf("%02d:%02d:%02d", $estw_time['h'], $estw_time['m'], $estw_time['s']);
 
-		if ($original_id)
-		{
-			$original_id = $ilDB->quote($original_id);
-		}
-		else
-		{
-			$original_id = "NULL";
-		}
-
-		include_once("./Services/RTE/classes/class.ilRTE.php");
-		if ($this->id == -1)
-		{
-			// Neuen Datensatz schreiben
-			$now = getdate();
-			$created = sprintf("%04d%02d%02d%02d%02d%02d", $now['year'], $now['mon'], $now['mday'], $now['hours'], $now['minutes'], $now['seconds']);
-			
-			$query = sprintf("INSERT INTO qpl_questions (question_id, question_type_fi, obj_fi, title, description, author, owner, question_text, points, working_time, complete, created, original_id, TIMESTAMP) VALUES (NULL, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, NULL)",
-				$ilDB->quote($this->getQuestionTypeID() . ""),
-				$ilDB->quote($this->obj_id),
-				$ilDB->quote($this->title),
-				$ilDB->quote($this->comment),
-				$ilDB->quote($this->author),
-				$ilDB->quote($this->owner),
-				$ilDB->quote(ilRTE::_replaceMediaObjectImageSrc($this->question, 0)),
-				$ilDB->quote($this->getMaximumPoints() . ""),
-				$ilDB->quote($estw_time),
-				$ilDB->quote("$complete"),
-				$ilDB->quote($created),
-				$original_id
-			);
-			$result = $ilDB->query($query);
-			if (PEAR::isError($result)) 
+			// cleanup RTE images which are not inserted into the question text
+			include_once("./Services/RTE/classes/class.ilRTE.php");
+			if ($this->id == -1)
 			{
-				global $ilias;
-				$ilias->raiseError($result->getMessage());
+				// Neuen Datensatz schreiben
+				$next_id = $ilDB->nextId('qpl_questions');
+				$affectedRows = $ilDB->manipulateF("INSERT INTO qpl_questions (question_id, question_type_fi, obj_fi, title, description, author, owner, question_text, points, working_time, complete, created, original_id, tstamp) VALUES (%s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s)", 
+					array("integer","integer", "integer", "text", "text", "text", "integer", "text", "float", "time", "text", "integer","integer","integer"),
+					array(
+						$next_id
+						$this->getQuestionTypeID(), 
+						$this->getObjId(), 
+						$this->getTitle(), 
+						$this->getComment(), 
+						$this->getAuthor(), 
+						$this->getOwner(), 
+						ilRTE::_replaceMediaObjectImageSrc($this->getQuestion(), 0), 
+						$this->getMaximumPoints(),
+						$estw_time,
+						$complete,
+						time(),
+						($original_id) ? $original_id : NULL,
+						time()
+					)
+				);
+				$this->setId($next_id);
+				// create page object of question
+				$this->createPageObject();
 			}
 			else
 			{
-				$this->id = $ilDB->getLastInsertId();
-				$query = sprintf("INSERT INTO qpl_question_singlechoice (question_fi, shuffle) VALUES (%s, %s)",
-					$ilDB->quote($this->id . ""),
-					$ilDB->quote("$this->shuffle")
+				// Vorhandenen Datensatz aktualisieren
+				$affectedRows = $ilDB->manipulateF("UPDATE qpl_questions SET obj_fi = %s, title = %s, description = %s, author = %s, question_text = %s, points = %s, working_time=%s, complete = %s, tstamp = %s WHERE question_id = %s", 
+					array("integer", "text", "text", "text", "text", "float", "time", "text", "integer", "integer"),
+					array(
+						$this->getObjId(), 
+						$this->getTitle(), 
+						$this->getComment(), 
+						$this->getAuthor(), 
+						ilRTE::_replaceMediaObjectImageSrc($this->getQuestion(), 0), 
+						$this->getMaximumPoints(),
+						$estw_time,
+						$complete,
+						time(),
+						$this->getId()
+					)
 				);
-				$ilDB->query($query);
-
-				// create page object of question
-				$this->createPageObject();
-
-				if ($this->getTestId() > 0)
-				{
-				$this->insertIntoTest($this->getTestId());
-				}
 			}
-			
-		}
-		else
-		{
-			// Vorhandenen Datensatz aktualisieren
-			$query = sprintf("UPDATE qpl_questions SET obj_fi = %s, title = %s, description = %s, author = %s, question_text = %s, points = %s, working_time=%s, complete = %s WHERE question_id = %s",
-				$ilDB->quote($this->obj_id. ""),
-				$ilDB->quote($this->title),
-				$ilDB->quote($this->comment),
-				$ilDB->quote($this->author),
-				$ilDB->quote(ilRTE::_replaceMediaObjectImageSrc($this->question, 0)),
-				$ilDB->quote($this->getMaximumPoints() . ""),
-				$ilDB->quote($estw_time),
-				$ilDB->quote("$complete"),
-				$ilDB->quote($this->id)
-			);
-			$result = $ilDB->query($query);
-			$query = sprintf("UPDATE qpl_question_singlechoice SET shuffle = %s WHERE question_fi = %s",
-				$ilDB->quote("$this->shuffle"),
-				$ilDB->quote($this->id . "")
-			);
-			$result = $ilDB->query($query);
-		}
-		if (PEAR::isError($result)) 
-		{
-			global $ilias;
-			$ilias->raiseError($result->getMessage());
-		}
-		else
-		{
-			// Antworten schreiben
-			// alte Antworten löschen
-			$query = sprintf("DELETE FROM qpl_answer_singlechoice WHERE question_fi = %s",
-				$ilDB->quote($this->id)
-			);
-			$result = $ilDB->query($query);
 
-			// Anworten wegschreiben
-			foreach ($this->answers as $key => $value)
-			{
-				$answer_obj = $this->answers[$key];
-				$query = sprintf("INSERT INTO qpl_answer_singlechoice (answer_id, question_fi, answertext, points, aorder, imagefile) VALUES (NULL, %s, %s, %s, %s, %s)",
-					$ilDB->quote($this->id),
-					$ilDB->quote(ilRTE::_replaceMediaObjectImageSrc($answer_obj->getAnswertext(), 0)),
-					$ilDB->quote($answer_obj->getPoints() . ""),
-					$ilDB->quote($answer_obj->getOrder() . ""),
-					$ilDB->quote($answer_obj->getImage() . "")
-				);
-				$answer_result = $ilDB->query($query);
-			}
+			// save additional data
+			$affectedRows = $ilDB->manipulateF("DELETE FROM " . $this->getAdditionalTableName() . " WHERE question_fi = %s", 
+				array("integer"),
+				array($this->getId())
+			);
+
+			$affectedRows = $ilDB->manipulateF("INSERT INTO " . $this->getAdditionalTableName() . " (question_fi, shuffle) VALUES (%s, %s)", 
+				array("integer", "text"),
+				array(
+					$this->getId(),
+					$this->shuffle
+				)
+			);
+
+		$affectedRows = $ilDB->manipulateF("DELETE FROM qpl_answer_singlechoice WHERE question_fi = %s",
+			array('integer'),
+			array($this->getId())
+		);
+
+		foreach ($this->answers as $key => $value)
+		{
+			$answer_obj = $this->answers[$key];
+			$next_id = $ilDB->nextId('qpl_answer_singlechoice');
+			$affectedRows = $ilDB->manipulateF("INSERT INTO qpl_answer_singlechoice (answer_id, question_fi, answertext, points, aorder, imagefile) VALUES (%s, %s, %s, %s, %s, %s)",
+				array('integer','integer','text','float','integer','text'),
+				array(
+					$next_id,
+					$this->getId(),
+					ilRTE::_replaceMediaObjectImageSrc($answer_obj->getAnswertext(), 0),
+					$answer_obj->getPoints(),
+					$answer_obj->getOrder(),
+					$answer_obj->getImage()
+				)
+			);
 		}
+
 		parent::saveToDb($original_id);
 	}
 
 	/**
-	* Loads a assSingleChoice object from a database
-	*
 	* Loads a assSingleChoice object from a database
 	*
 	* @param object $db A pear DB object
@@ -246,56 +223,54 @@ class assSingleChoice extends assQuestion
 		global $ilDB;
 
 		$hasimages = 0;
-    $query = sprintf("SELECT qpl_questions.*, qpl_question_singlechoice.* FROM qpl_questions, qpl_question_singlechoice WHERE question_id = %s AND qpl_questions.question_id = qpl_question_singlechoice.question_fi",
-		$ilDB->quote($question_id));
-		$result = $ilDB->query($query);
+
+		$result = $ilDB->queryF("SELECT qpl_questions.*, " . $this->getAdditionalTableName() . ".* FROM qpl_questions, " . $this->getAdditionalTableName() . " WHERE question_id = %s AND qpl_questions.question_id = " . $this->getAdditionalTableName() . ".question_fi",
+			array("integer"),
+			array($question_id)
+		);
 		if ($result->numRows() == 1)
 		{
-			$data = $result->fetchRow(MDB2_FETCHMODE_OBJECT);
-			$this->id = $question_id;
-			$this->title = $data->title;
-			$this->comment = $data->description;
-			$this->solution_hint = $data->solution_hint;
-			$this->original_id = $data->original_id;
-			$this->obj_id = $data->obj_fi;
-			$this->author = $data->author;
-			$this->owner = $data->owner;
-			$this->points = $data->points;
+			$data = $ilDB->fetchAssoc($result);
+			$this->setId($question_id);
+			$this->setObjId($data["obj_fi"]);
+			$this->setTitle($data["title"]);
+			$this->setComment($data["description"]);
+			$this->setOriginalId($data["original_id"]);
+			$this->setAuthor($data["author"]);
+			$this->setPoints($data["points"]);
+			$this->setOwner($data["owner"]);
 			include_once("./Services/RTE/classes/class.ilRTE.php");
-			$this->question = ilRTE::_replaceMediaObjectImageSrc($data->question_text, 1);
-			$this->setShuffle($data->shuffle);
-			$this->setEstimatedWorkingTime(substr($data->working_time, 0, 2), substr($data->working_time, 3, 2), substr($data->working_time, 6, 2));
-
-			$query = sprintf("SELECT * FROM qpl_answer_singlechoice WHERE question_fi = %s ORDER BY aorder ASC",
-				$ilDB->quote($question_id));
-
-			$result = $ilDB->query($query);
-
-			include_once "./Modules/TestQuestionPool/classes/class.assAnswerBinaryStateImage.php";
-			if ($result->numRows() > 0)
-			{
-				while ($data = $result->fetchRow(MDB2_FETCHMODE_OBJECT))
-				{
-					$imagefilename = $this->getImagePath() . $data->imagefile;
-					if (!@file_exists($imagefilename))
-					{
-						$data->imagefile = "";
-					}
-					include_once("./Services/RTE/classes/class.ilRTE.php");
-					$data->answertext = ilRTE::_replaceMediaObjectImageSrc($data->answertext, 1);
-					if (strlen($data->imagefile)) $hasimages = 1;
-					array_push($this->answers, new ASS_AnswerBinaryStateImage($data->answertext, $data->points, $data->aorder, 1, $data->imagefile));
-				}
-			}
+			$this->setQuestion(ilRTE::_replaceMediaObjectImageSrc($data["question_text"], 1));
+			$this->setShuffle($data["shuffle"]);
+			$this->setEstimatedWorkingTime(substr($data["working_time"], 0, 2), substr($data["working_time"], 3, 2), substr($data["working_time"], 6, 2));
 		}
 
+		$result = $ilDB->queryF("SELECT * FROM qpl_answer_singlechoice WHERE question_fi = %s ORDER BY aorder ASC",
+			array('integer'),
+			array($question_id)
+		);
+		include_once "./Modules/TestQuestionPool/classes/class.assAnswerBinaryStateImage.php";
+		if ($result->numRows() > 0)
+		{
+			while ($data = $ilDB->fetchAssoc($result))
+			{
+				$imagefilename = $this->getImagePath() . $data["imagefile"];
+				if (!@file_exists($imagefilename))
+				{
+					$data["imagefile"] = "";
+				}
+				include_once("./Services/RTE/classes/class.ilRTE.php");
+				$data["answertext"] = ilRTE::_replaceMediaObjectImageSrc($data["answertext"], 1);
+				if (strlen($data["imagefile"])) $hasimages = 1;
+				array_push($this->answers, new ASS_AnswerBinaryStateImage($data["answertext"], $data["points"], $data["aorder"], 1, $data["imagefile"]));
+			}
+		}
 		$this->setGraphicalAnswerSetting($hasimages);
+
 		parent::loadFromDb($question_id);
 	}
 
 	/**
-	* Duplicates an assSingleChoiceQuestion
-	*
 	* Duplicates an assSingleChoiceQuestion
 	*
 	* @access public
@@ -354,8 +329,6 @@ class assSingleChoice extends assQuestion
 	/**
 	* Copies an assSingleChoice object
 	*
-	* Copies an assSingleChoice object
-	*
 	* @access public
 	*/
 	function copyObject($target_questionpool, $title = "")
@@ -394,8 +367,6 @@ class assSingleChoice extends assQuestion
 	}
 
 	/**
-	* Gets the single choice output type
-	*
 	* Gets the single choice output type which is either OUTPUT_ORDER (=0) or OUTPUT_RANDOM (=1).
 	*
 	* @return integer The output type of the assSingleChoice object
@@ -408,8 +379,6 @@ class assSingleChoice extends assQuestion
 	}
 
 	/**
-	* Sets the single choice output type
-	*
 	* Sets the output type of the assSingleChoice object
 	*
 	* @param integer $output_type A nonnegative integer value specifying the output type. It is OUTPUT_ORDER (=0) or OUTPUT_RANDOM (=1).
@@ -422,8 +391,6 @@ class assSingleChoice extends assQuestion
 	}
 
 	/**
-	* Adds a possible answer for a single choice question
-	*
 	* Adds a possible answer for a single choice question. A ASS_AnswerBinaryStateImage object will be
 	* created and assigned to the array $this->answers.
 	*
@@ -475,8 +442,6 @@ class assSingleChoice extends assQuestion
 	/**
 	* Returns the number of answers
 	*
-	* Returns the number of answers
-	*
 	* @return integer The number of answers of the multiple choice question
 	* @access public
 	* @see $answers
@@ -487,8 +452,6 @@ class assSingleChoice extends assQuestion
 	}
 
 	/**
-	* Returns an answer
-	*
 	* Returns an answer with a given index. The index of the first
 	* answer is 0, the index of the second answer is 1 and so on.
 	*
@@ -507,8 +470,6 @@ class assSingleChoice extends assQuestion
 	}
 
 	/**
-	* Deletes an answer
-	*
 	* Deletes an answer with a given index. The index of the first
 	* answer is 0, the index of the second answer is 1 and so on.
 	*
@@ -537,8 +498,6 @@ class assSingleChoice extends assQuestion
 	/**
 	* Deletes all answers
 	*
-	* Deletes all answers
-	*
 	* @access public
 	* @see $answers
 	*/
@@ -548,8 +507,6 @@ class assSingleChoice extends assQuestion
 	}
 
 	/**
-	* Returns the maximum points, a learner can reach answering the question
-	*
 	* Returns the maximum points, a learner can reach answering the question
 	*
 	* @access public
@@ -570,8 +527,6 @@ class assSingleChoice extends assQuestion
 
 	/**
 	* Returns the points, a learner has reached answering the question
-	*
-	* Returns the points, a learner has reached answering the question
 	* The points are calculated from the given answers including checks
 	* for all special scoring options in the test container.
 	*
@@ -588,17 +543,15 @@ class assSingleChoice extends assQuestion
 		{
 			$pass = $this->getSolutionMaxPass($active_id);
 		}
-		$query = sprintf("SELECT * FROM tst_solutions WHERE active_fi = %s AND question_fi = %s AND pass = %s",
-			$ilDB->quote($active_id . ""),
-			$ilDB->quote($this->getId() . ""),
-			$ilDB->quote($pass . "")
+		$result = $ilDB->queryF("SELECT * FROM tst_solutions WHERE active_fi = %s AND question_fi = %s AND pass = %s",
+			array('integer','integer','integer'),
+			array($active_id, $this->getId(), $pass)
 		);
-		$result = $ilDB->query($query);
-		while ($data = $result->fetchRow(MDB2_FETCHMODE_OBJECT))
+		while ($data = $ilDB->fetchAssoc($result))
 		{
-			if (strcmp($data->value1, "") != 0)
+			if (strcmp($data["value1"], "") != 0)
 			{
-				array_push($found_values, $data->value1);
+				array_push($found_values, $data["value1"]);
 			}
 		}
 		$points = 0;
@@ -620,8 +573,6 @@ class assSingleChoice extends assQuestion
 	/**
 	* Saves the learners input of the question to the database
 	*
-	* Saves the learners input of the question to the database
-	*
 	* @param integer $test_id The database id of the test containing this question
   * @return boolean Indicates the save status (true if saved successful, false otherwise)
 	* @access public
@@ -639,44 +590,47 @@ class assSingleChoice extends assQuestion
 		}
 		$entered_values = 0;
 
-		$query = sprintf("SELECT * FROM tst_solutions WHERE active_fi = %s AND question_fi = %s AND pass = %s",
-			$ilDB->quote($active_id . ""),
-			$ilDB->quote($this->getId() . ""),
-			$ilDB->quote($pass . "")
+		$result = $ilDB->queryF("SELECT solution_id FROM tst_solutions WHERE active_fi = %s AND question_fi = %s AND pass = %s",
+			array('integer','integer','integer'),
+			array($active_id, $this->getId(), $pass)
 		);
-		$result = $ilDB->query($query);
-		$row = $result->fetchRow(MDB2_FETCHMODE_OBJECT);
-		$update = $row->solution_id;
+		$row = $ilDB->fetchAssoc($result);
+		$update = $row["solution_id"];
+		
 		if ($update)
 		{
 			if (strlen($_POST["multiple_choice_result"]))
 			{
-				$query = sprintf("UPDATE tst_solutions SET value1 = %s WHERE solution_id = %s",
-					$ilDB->quote($_POST["multiple_choice_result"]),
-					$ilDB->quote($update)
+				$affectedRows = $ilDb->manipulateF("UPDATE tst_solutions SET value1 = %s WHERE solution_id = %s",
+					array('text','integer'),
+					array($_POST["multiple_choice_result"], $update)
 				);
-				$result = $ilDB->query($query);
 				$entered_values++;
 			}
 			else
 			{
-				$query = sprintf("DELETE FROM tst_solutions WHERE solution_id = %s",
-					$ilDB->quote($update)
+				$affectedRows = $ilDB->manipulateF("DELETE FROM tst_solutions WHERE solution_id = %s",
+					array('integer'),
+					array($update)
 				);
-				$result = $ilDB->query($query);
 			}
 		}
 		else
 		{
 			if (strlen($_POST["multiple_choice_result"]))
 			{
-				$query = sprintf("INSERT INTO tst_solutions (solution_id, active_fi, question_fi, value1, value2, pass, TIMESTAMP) VALUES (NULL, %s, %s, %s, NULL, %s, NULL)",
-					$ilDB->quote($active_id),
-					$ilDB->quote($this->getId()),
-					$ilDB->quote($_POST["multiple_choice_result"]),
-					$ilDB->quote($pass . "")
+				$next_id = $ilDB->nextId('tst_solutions');
+				$query = sprintf("INSERT INTO tst_solutions (solution_id, active_fi, question_fi, value1, value2, pass, tstamp) VALUES (%s, %s, %s, %s, NULL, %s, %s)",
+					array('integer','integer','integer','text','integer','integer'),
+					array(
+						$next_id,
+						$active_id,
+						$this->getId(),
+						$_POST["multiple_choice_result"],
+						$pass,
+						time()
+					)
 				);
-				$result = $ilDB->query($query);
 				$entered_values++;
 			}
 		}
@@ -703,8 +657,6 @@ class assSingleChoice extends assQuestion
 	/**
 	* Synchronizes the single answer feedback with an original question
 	*
-	* Synchronizes the single answer feedback with an original question
-	*
 	* @access public
 	*/
 	function syncFeedbackSingleAnswers()
@@ -714,28 +666,33 @@ class assSingleChoice extends assQuestion
 		$feedback = "";
 
 		// delete generic feedback of the original
-		$deletequery = sprintf("DELETE FROM qpl_feedback_singlechoice WHERE question_fi = %s",
-			$ilDB->quote($this->original_id . "")
+		$affectedRows = $ilDB->manipulateF("DELETE FROM qpl_feedback_singlechoice WHERE question_fi = %s",
+			array('integer'),
+			array($this->original_id)
 		);
-		$result = $ilDB->query($deletequery);
 			
 		// get generic feedback of the actual question
-		$query = sprintf("SELECT * FROM qpl_feedback_singlechoice WHERE question_fi = %s",
-			$ilDB->quote($this->getId() . "")
+		$result = sprintf("SELECT * FROM qpl_feedback_singlechoice WHERE question_fi = %s",
+			array('integer'),
+			array($this->getId())
 		);
-		$result = $ilDB->query($query);
 
 		// save generic feedback to the original
 		if ($result->numRows())
 		{
-			while ($row = $result->fetchRow(MDB2_FETCHMODE_ASSOC))
+			while ($row = $ilDB->fetchAssoc($result))
 			{
-				$duplicatequery = sprintf("INSERT INTO qpl_feedback_singlechoice VALUES (NULL, %s, %s, %s, NULL)",
-					$ilDB->quote($this->original_id . ""),
-					$ilDB->quote($row["answer"] . ""),
-					$ilDB->quote($row["feedback"] . "")
+				$next_id = $ilDB->nextId('qpl_feedback_singlechoice');
+				$affectedRows = $ilDB->manipulateF("INSERT INTO qpl_feedback_singlechoice (feedback_id, question_fi, answer, feedback, tstamp) VALUES (%s, %s, %s, %s, %s)",
+					array('integer','integer','integer','text','integer'),
+					array(
+						$next_id,
+						$this->original_id,
+						$row["answer"],
+						$row["feedback"],
+						time()
+					)
 				);
-				$duplicateresult = $ilDB->query($duplicatequery);
 			}
 		}
 	}
@@ -753,8 +710,6 @@ class assSingleChoice extends assQuestion
 	/**
 	* Returns the question type of the question
 	*
-	* Returns the question type of the question
-	*
 	* @return integer The question type of the question
 	* @access public
 	*/
@@ -766,8 +721,6 @@ class assSingleChoice extends assQuestion
 	/**
 	* Returns the name of the additional question data table in the database
 	*
-	* Returns the name of the additional question data table in the database
-	*
 	* @return string The additional table name
 	* @access public
 	*/
@@ -777,8 +730,6 @@ class assSingleChoice extends assQuestion
 	}
 	
 	/**
-	* Returns the name of the answer table in the database
-	*
 	* Returns the name of the answer table in the database
 	*
 	* @return string The answer table name
@@ -808,8 +759,6 @@ class assSingleChoice extends assQuestion
 	}
 
 	/**
-	* Sets the image file
-	*
 	* Sets the image file and uploads the image to the object's image directory.
 	*
 	* @param string $image_filename Name of the original image file
@@ -854,8 +803,6 @@ class assSingleChoice extends assQuestion
 	}
 	
 	/**
-	* Deletes an image file
-	*
 	* Deletes an image file
 	*
 	* @param string $image_filename Name of the image file to delete
@@ -969,8 +916,6 @@ class assSingleChoice extends assQuestion
 	/**
 	* Saves feedback for a single selected answer to the database
 	*
-	* Saves feedback for a single selected answer to the database
-	*
 	* @param integer $answer_index The index of the answer
 	* @param string $feedback Feedback text
 	* @access public
@@ -978,27 +923,29 @@ class assSingleChoice extends assQuestion
 	function saveFeedbackSingleAnswer($answer_index, $feedback)
 	{
 		global $ilDB;
-		
-		$query = sprintf("DELETE FROM qpl_feedback_singlechoice WHERE question_fi = %s AND answer = %s",
-			$ilDB->quote($this->getId() . ""),
-			$ilDB->quote($answer_index . "")
+
+		$affectedRows = $ilDB->manipulateF("DELETE FROM qpl_feedback_singlechoice WHERE question_fi = %s AND answer = %s",
+			array('integer','integer'),
+			array($this->getId(), $answer_index)
 		);
-		$result = $ilDB->query($query);
 		if (strlen($feedback))
 		{
 			include_once("./Services/RTE/classes/class.ilRTE.php");
-			$query = sprintf("INSERT INTO qpl_feedback_singlechoice VALUES (NULL, %s, %s, %s, NULL)",
-				$ilDB->quote($this->getId() . ""),
-				$ilDB->quote($answer_index . ""),
-				$ilDB->quote(ilRTE::_replaceMediaObjectImageSrc($feedback, 0))
+			$next_id = $ilDB->nextId('qpl_feedback_singlechoice');
+			$affectedRows = $ilDB->manipulateF("INSERT INTO qpl_feedback_singlechoice (feedback_id, question_fi, answer, feedback, tstamp) VALUES (%s, %s, %s, %s, %s)",
+				array('integer','integer','integer','text','integer'),
+				array(
+					$next_id,
+					$this->getId(),
+					$answer_index,
+					ilRTE::_replaceMediaObjectImageSrc($feedback, 0),
+					time()
+				)
 			);
-			$result = $ilDB->query($query);
 		}
 	}
 
 	/**
-	* Returns the feedback for a single selected answer
-	*
 	* Returns the feedback for a single selected answer
 	*
 	* @param integer $answer_index The index of the answer
@@ -1010,14 +957,13 @@ class assSingleChoice extends assQuestion
 		global $ilDB;
 		
 		$feedback = "";
-		$query = sprintf("SELECT * FROM qpl_feedback_singlechoice WHERE question_fi = %s AND answer = %s",
-			$ilDB->quote($this->getId() . ""),
-			$ilDB->quote($answer_index . "")
+		$result = $ilDB->queryF("SELECT * FROM qpl_feedback_singlechoice WHERE question_fi = %s AND answer = %s",
+			array('integer','integer'),
+			array($this->getId(), $answer_index)
 		);
-		$result = $ilDB->query($query);
 		if ($result->numRows())
 		{
-			$row = $result->fetchRow(MDB2_FETCHMODE_ASSOC);
+			$row = $ilDB->fetchAssoc($result);
 			include_once("./Services/RTE/classes/class.ilRTE.php");
 			$feedback = ilRTE::_replaceMediaObjectImageSrc($row["feedback"], 1);
 		}
@@ -1027,30 +973,33 @@ class assSingleChoice extends assQuestion
 	/**
 	* Duplicates the answer specific feedback
 	*
-	* Duplicates the answer specific feedback
-	*
 	* @param integer $original_id The database ID of the original question
 	* @access public
 	*/
 	function duplicateFeedbackAnswer($original_id)
 	{
 		global $ilDB;
-		
+
 		$feedback = "";
-		$query = sprintf("SELECT * FROM qpl_feedback_singlechoice WHERE question_fi = %s",
-			$ilDB->quote($original_id . "")
+		$result = $ilDB->queryF("SELECT * FROM qpl_feedback_singlechoice WHERE question_fi = %s",
+			array('integer'),
+			array($original_id)
 		);
-		$result = $ilDB->query($query);
 		if ($result->numRows())
 		{
-			while ($row = $result->fetchRow(MDB2_FETCHMODE_ASSOC))
+			while ($row = $ilDB->fetchAssoc($result))
 			{
-				$duplicatequery = sprintf("INSERT INTO qpl_feedback_singlechoice VALUES (NULL, %s, %s, %s, NULL)",
-					$ilDB->quote($this->getId() . ""),
-					$ilDB->quote($row["answer"] . ""),
-					$ilDB->quote($row["feedback"] . "")
+				$next_id = $ilDB->nextId('qpl_feedback_singlechoice');
+				$affectedRows = $ilDB->manipulateF("INSERT INTO qpl_feedback_singlechoice (feedback_id, question_fi, answer, feedback, tstamp) VALUES (%s, %s, %s, %s, %s)",
+					array('integer','integer','integer','text','integer'),
+					array(
+						$next_id,
+						$this->getId(),
+						$row["answer"],
+						$row["feedback"],
+						time()
+					)
 				);
-				$duplicateresult = $ilDB->query($duplicatequery);
 			}
 		}
 	}

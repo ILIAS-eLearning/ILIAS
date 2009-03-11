@@ -97,71 +97,64 @@ class assOrderingHorizontal extends assQuestion
 		if ($this->id == -1)
 		{
 			// Neuen Datensatz schreiben
-			$now = getdate();
-			$created = sprintf("%04d%02d%02d%02d%02d%02d", $now['year'], $now['mon'], $now['mday'], $now['hours'], $now['minutes'], $now['seconds']);
-			
-			$statement = $ilDB->prepareManip("INSERT INTO qpl_questions (question_id, question_type_fi, obj_fi, title, description, author, owner, question_text, points, working_time, complete, created, original_id, TIMESTAMP) VALUES (NULL, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, NULL)", 
-				array("integer", "integer", "text", "text", "text", "integer", "text", "float", "time", "text", "timestamp")
+			$next_id = $ilDB->nextId('qpl_questions');
+			$affectedRows = $ilDB->manipulateF("INSERT INTO qpl_questions (question_id, question_type_fi, obj_fi, title, description, author, owner, question_text, points, working_time, complete, created, original_id, tstamp) VALUES (%s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s)", 
+				array("integer","integer", "integer", "text", "text", "text", "integer", "text", "float", "time", "text", "integer","integer","integer"),
+				array(
+					$next_id
+					$this->getQuestionTypeID(), 
+					$this->getObjId(), 
+					$this->getTitle(), 
+					$this->getComment(), 
+					$this->getAuthor(), 
+					$this->getOwner(), 
+					ilRTE::_replaceMediaObjectImageSrc($this->getQuestion(), 0), 
+					$this->getMaximumPoints(),
+					$estw_time,
+					$complete,
+					time(),
+					($original_id) ? $original_id : NULL,
+					time()
+				)
 			);
-			$data = array(
-				$this->getQuestionTypeID(), 
-				$this->getObjId(), 
-				$this->getTitle(), 
-				$this->getComment(), 
-				$this->getAuthor(), 
-				$this->getOwner(), 
-				ilRTE::_replaceMediaObjectImageSrc($this->question, 0), 
-				$this->getMaximumPoints(),
-				$estw_time,
-				$complete,
-				$created,
-				($original_id) ? $original_id : NULL
-			);
-			$affectedRows = $ilDB->execute($statement, $data);
-			$this->setId($ilDB->getLastInsertId());
+			$this->setId($next_id);
 			// create page object of question
 			$this->createPageObject();
-
-			if ($this->getTestId() > 0)
-			{
-				$this->insertIntoTest($this->getTestId());
-			}
 		}
 		else
 		{
 			// Vorhandenen Datensatz aktualisieren
-			$statement = $ilDB->prepareManip("UPDATE qpl_questions SET obj_fi = ?, title = ?, description = ?, author = ?, question_text = ?, points = ?, working_time=?, complete = ? WHERE question_id = ?", 
-				array("integer", "text", "text", "text", "text", "float", "time", "text", "integer")
+			$affectedRows = $ilDB->manipulateF("UPDATE qpl_questions SET obj_fi = %s, title = %s, description = %s, author = %s, question_text = %s, points = %s, working_time=%s, complete = %s, tstamp = %s WHERE question_id = %s", 
+				array("integer", "text", "text", "text", "text", "float", "time", "text", "integer", "integer"),
+				array(
+					$this->getObjId(), 
+					$this->getTitle(), 
+					$this->getComment(), 
+					$this->getAuthor(), 
+					ilRTE::_replaceMediaObjectImageSrc($this->getQuestion(), 0), 
+					$this->getMaximumPoints(),
+					$estw_time,
+					$complete,
+					time(),
+					$this->getId()
+				)
 			);
-			$data = array(
-				$this->getObjId(), 
-				$this->getTitle(), 
-				$this->getComment(), 
-				$this->getAuthor(), 
-				ilRTE::_replaceMediaObjectImageSrc($this->question, 0), 
-				$this->getMaximumPoints(),
-				$estw_time,
-				$complete,
-				$this->getId()
-			);
-			$affectedRows = $ilDB->execute($statement, $data);
 		}
 		// save additional data
-	
-		$statement = $ilDB->prepareManip("DELETE FROM " . $this->getAdditionalTableName() . " WHERE question_fi = ?", 
-			array("integer")
+		$affectedRows = $ilDB->manipulateF("DELETE FROM " . $this->getAdditionalTableName() . " WHERE question_fi = %s", 
+			array("integer"),
+			array($this->getId())
 		);
-		$data = array($this->getId());
-		$affectedRows = $ilDB->execute($statement, $data);
-		$statement = $ilDB->prepareManip("INSERT INTO " . $this->getAdditionalTableName() . " (question_fi, ordertext, textsize) VALUES (?, ?, ?)", 
+
+		$affectedRows = $ilDB->manipulateF("INSERT INTO " . $this->getAdditionalTableName() . " (question_fi, ordertext, textsize) VALUES (%s, %s, %s)", 
 			array("integer", "text", "float")
+			array(
+				$this->getId(),
+				$this->getOrderText(),
+				($this->getTextSize() < 10) ? NULL : $this->getTextSize()
+			)
 		);
-		$data = array(
-			$this->getId(),
-			$this->getOrderText(),
-			($this->getTextSize() < 10) ? NULL : $this->getTextSize()
-		);
-		$affectedRows = $ilDB->execute($statement, $data);
+	
 		parent::saveToDb();
 	}
 
@@ -174,29 +167,29 @@ class assOrderingHorizontal extends assQuestion
 	public function loadFromDb($question_id)
 	{
 		global $ilDB;
-		$statement = $ilDB->prepare("SELECT qpl_questions.*, " . $this->getAdditionalTableName() . ".* FROM qpl_questions, " . $this->getAdditionalTableName() . " WHERE qpl_questions.question_id = ? AND qpl_questions.question_id = " . $this->getAdditionalTableName() . ".question_fi",
-			array("integer")
+
+		$result = $ilDB->queryF("SELECT qpl_questions.*, " . $this->getAdditionalTableName() . ".* FROM qpl_questions, " . $this->getAdditionalTableName() . " WHERE question_id = %s AND qpl_questions.question_id = " . $this->getAdditionalTableName() . ".question_fi",
+			array("integer"),
+			array($question_id)
 		);
-		$result = $ilDB->execute($statement, array($question_id));
 		if ($result->numRows() == 1)
 		{
 			$data = $ilDB->fetchAssoc($result);
 			$this->setId($question_id);
+			$this->setObjId($data["obj_fi"]);
 			$this->setTitle($data["title"]);
 			$this->setComment($data["description"]);
-			$this->setSuggestedSolution($data["solution_hint"]);
 			$this->setOriginalId($data["original_id"]);
-			$this->setObjId($data["obj_fi"]);
 			$this->setAuthor($data["author"]);
-			$this->setOwner($data["owner"]);
 			$this->setPoints($data["points"]);
-
+			$this->setOwner($data["owner"]);
 			include_once("./Services/RTE/classes/class.ilRTE.php");
 			$this->setQuestion(ilRTE::_replaceMediaObjectImageSrc($data["question_text"], 1));
-			$this->setEstimatedWorkingTime(substr($data["working_time"], 0, 2), substr($data["working_time"], 3, 2), substr($data["working_time"], 6, 2));
 			$this->setOrderText($data["ordertext"]);
 			$this->setTextSize($data["textsize"]);
+			$this->setEstimatedWorkingTime(substr($data["working_time"], 0, 2), substr($data["working_time"], 3, 2), substr($data["working_time"], 6, 2));
 		}
+
 		parent::loadFromDb($question_id);
 	}
 
@@ -312,11 +305,10 @@ class assOrderingHorizontal extends assQuestion
 		{
 			$pass = $this->getSolutionMaxPass($active_id);
 		}
-		$statement = $ilDB->prepare("SELECT * FROM tst_solutions WHERE active_fi = ? AND question_fi = ? AND pass = ?",
-			array("integer", "integer", "integer")
+		$result = $ilDB->queryF("SELECT * FROM tst_solutions WHERE active_fi = %s AND question_fi = %s AND pass = %s",
+			array('integer','integer','integer'),
+			array($active_id, $this->getId(), $pass)
 		);
-		$result = $ilDB->execute($statement, array($active_id, $this->getId(), $pass));
-
 		$points = 0;
 		$data = $ilDB->fetchAssoc($result);
 		if (strcmp($data["value1"], join($this->getOrderingElements(), "{::}")) == 0)
@@ -345,30 +337,26 @@ class assOrderingHorizontal extends assQuestion
 			$pass = ilObjTest::_getPass($active_id);
 		}
 
-		$statement = $ilDB->prepareManip("DELETE FROM tst_solutions WHERE active_fi = ? AND question_fi = ? AND pass = ?", 
-			array("integer", "integer", "integer")
+		$affectedRows = $ilDB->manipulateF("DELETE FROM tst_solutions WHERE active_fi = %s AND question_fi = %s AND pass = %s",
+			array('integer','integer','integer'),
+			array($active_id, $this->getId(), $pass)
 		);
-		$data = array(
-			$active_id, 
-			$this->getId(), 
-			$pass
-		);
-		$affectedRows = $ilDB->execute($statement, $data);
 		
 		$entered_values = false;
 		if (strlen($_POST["orderresult"]))
 		{
-			$statement = $ilDB->prepareManip("INSERT INTO tst_solutions (solution_id, active_fi, question_fi, value1, value2, pass, TIMESTAMP) VALUES (NULL, ?, ?, ?, ?, ?, NULL)", 
-				array("integer", "integer", "text", "text", "integer")
+			$next_id = $ilDB->nextId('tst_solutions');
+			$query = sprintf("INSERT INTO tst_solutions (solution_id, active_fi, question_fi, value1, value2, pass, tstamp) VALUES (%s, %s, %s, %s, NULL, %s, %s)",
+				array('integer','integer','integer','text','integer','integer'),
+				array(
+					$next_id,
+					$active_id,
+					$this->getId(),
+					$_POST["orderresult"],
+					$pass,
+					time()
+				)
 			);
-			$data = array(
-				$active_id, 
-				$this->getId(),
-				$_POST["orderresult"],
-				NULL,
-				$pass
-			);
-			$affectedRows = $ilDB->execute($statement, $data);
 			$entered_values = true;
 		}
 		if ($entered_values)
