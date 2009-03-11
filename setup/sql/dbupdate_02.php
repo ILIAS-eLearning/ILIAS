@@ -8811,3 +8811,103 @@ $ilDB->manipulate("ALTER TABLE `qpl_questions` CHANGE `question_text` `question_
 <?php
 $ilMySQLAbstraction->performAbstraction('qpl_questions');
 ?>
+<#1885>
+<?php
+$ilMySQLAbstraction->performAbstraction('qpl_question_cloze');
+?>
+<#1886>
+<?php
+$ilDB->manipulate("ALTER TABLE `qpl_question_essay` CHANGE `keywords` `keywords` VARCHAR(4000) NULL DEFAULT NULL");
+?>
+<#1887>
+<?php
+$ilMySQLAbstraction->performAbstraction('qpl_question_essay');
+?>
+<#1888>
+<?php
+$ilMySQLAbstraction->performAbstraction('qpl_question_fileupload');
+?>
+<#1889>
+<?php
+$ilDB->manipulate("ALTER TABLE `qpl_question_flash` CHANGE `params` `params` VARCHAR(4000) NULL DEFAULT NULL");
+?>
+<#1890>
+<?php
+$ilMySQLAbstraction->performAbstraction('qpl_question_flash');
+?>
+<#1891>
+<?php
+$ilMySQLAbstraction->performAbstraction('qpl_question_imagemap');
+?>
+<#1892>
+<?php
+$ilDB->manipulate("ALTER TABLE `qpl_question_javaapplet` CHANGE `params` `params` VARCHAR(4000) NULL DEFAULT NULL");
+?>
+<#1893>
+<?php
+$ilMySQLAbstraction->performAbstraction('qpl_question_javaapplet');
+?>
+<#1894>
+<?php
+$ilMySQLAbstraction->performAbstraction('qpl_question_matching');
+?>
+<#1895>
+<?php
+$ilMySQLAbstraction->performAbstraction('qpl_question_multiplechoice');
+?>
+<#1896>
+<?php
+$ilMySQLAbstraction->performAbstraction('qpl_question_numeric');
+?>
+<#1897>
+<?php
+$ilMySQLAbstraction->performAbstraction('qpl_question_ordering');
+?>
+<#1898>
+<?php
+$ilMySQLAbstraction->performAbstraction('qpl_question_orderinghorizontal');
+?>
+<#1899>
+<?php
+$ilMySQLAbstraction->performAbstraction('qpl_question_singlechoice');
+?>
+<#1900>
+<?php
+$ilMySQLAbstraction->performAbstraction('qpl_question_textsubset');
+?>
+<#1901>
+<?php
+$ilMySQLAbstraction->performAbstraction('qpl_question_type');
+?>
+<#1902>
+<?php
+$ilDB->manipulate("ALTER TABLE `qpl_suggested_solutions` CHANGE `value` `value` VARCHAR(4000) NULL DEFAULT NULL");
+?>
+<#1903>
+<?php
+$res = $ilDB->manipulate("ALTER TABLE `qpl_suggested_solutions` ADD `tstamp` INT NOT NULL DEFAULT '0'");
+?>
+<#1904>
+<?php
+$res = $ilDB->query("SELECT suggested_solution_id, " . $ilDB->quoteIdentifier("TIMESTAMP") . " + 0 timestamp14 FROM qpl_suggested_solutions");
+if ($res->numRows())
+{
+	while ($row = $ilDB->fetchAssoc($res))
+	{
+		preg_match("/(\\d{4})(\\d{2})(\\d{2})(\\d{2})(\\d{2})(\\d{2})/", $row['timestamp14'], $matches);
+		$tstamp = mktime((int)$matches[4], (int)$matches[5], (int)$matches[6], (int)$matches[2], (int)$matches[3], (int)$matches[1]);
+		$ilDB->manipulateF("UPDATE qpl_suggested_solutions SET tstamp = %s WHERE suggested_solution_id = %s",
+			array("integer", "integer"),
+			array($tstamp, $row['suggested_solution_id'])
+		);
+	}
+}
+?>
+<#1905>
+<?php
+$ilDB->manipulate("ALTER TABLE `qpl_suggested_solutions` DROP " . $ilDB->quoteIdentifier("TIMESTAMP"));
+?>
+<#1906>
+<?php
+$ilMySQLAbstraction->performAbstraction('qpl_suggested_solutions');
+?>
