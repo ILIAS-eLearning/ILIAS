@@ -35,15 +35,11 @@ class ilTestSequence
 	/**
 	* An array containing the sequence data
 	*
-	* An array containing the sequence data
-	*
 	* @var array
 	*/
 	var $sequencedata;
 
 	/**
-	* The mapping of the sequence numbers to the questions
-	*
 	* The mapping of the sequence numbers to the questions
 	*
 	* @var array
@@ -53,8 +49,6 @@ class ilTestSequence
 	/**
 	* The active id of the sequence data
 	*
-	* The active id of the sequence data
-	*
 	* @var integer
 	*/
 	var $active_id;
@@ -62,15 +56,11 @@ class ilTestSequence
 	/**
 	* The pass of the current sequence
 	*
-	* The pass of the current sequence
-	*
 	* @var integer
 	*/
 	var $pass;
 
 	/**
-	* Indicates wheather the active test is a random test or not
-	*
 	* Indicates wheather the active test is a random test or not
 	*
 	* @var boolean
@@ -120,8 +110,6 @@ class ilTestSequence
 	}
 	
 	/**
-	* Loads the question mapping
-	*
 	* Loads the question mapping
 	*
 	* @access private
@@ -199,25 +187,33 @@ class ilTestSequence
 	{
 		global $ilDB;
 		
-		$postponed = "NULL";
+		$postponed = NULL;
 		if ((is_array($this->sequencedata["postponed"])) && (count($this->sequencedata["postponed"])))
 		{
 			$postponed = $ilDB->quote(serialize($this->sequencedata["postponed"]));
 		}
-		$hidden = "NULL";
+		$hidden = NULL;
 		if ((is_array($this->sequencedata["hidden"])) && (count($this->sequencedata["hidden"])))
 		{
 			$hidden = $ilDB->quote(serialize($this->sequencedata["hidden"]));
 		}
 		
-		$query = sprintf("REPLACE INTO tst_sequence (active_fi, pass, sequence, postponed, hidden) VALUES (%s, %s, %s, %s, %s)",
-			$ilDB->quote($this->active_id . ""),
-			$ilDB->quote($this->pass . ""),
-			$ilDB->quote(serialize($this->sequencedata["sequence"])),
-			$postponed,
-			$hidden
+		$affectedRows = $ilDB->manipulateF("DELETE FROM tst_sequence WHERE active_fi = %s AND pass = %s",
+			array('integer','integer'),
+			array($this->active_id, $this->pass)
 		);
-		$result = $ilDB->query($query);
+		
+		$affectedRows = $ilDB->manipulateF("INSERT INTO tst_sequence (active_fi, pass, sequence, postponed, hidden, tstamp) VALUES (%s, %s, %s, %s, %s, %s)",
+			array('integer','integer','text','text','text', 'integer'),
+			array(
+				$this->active_id,
+				$this->pass,
+				serialize($this->sequencedata["sequence"]),
+				$postponed,
+				$hidden,
+				time()
+			)
+		);
 	}
 	
 	function postponeQuestion($question_id)
