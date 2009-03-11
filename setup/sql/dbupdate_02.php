@@ -9443,3 +9443,423 @@ $ilDB->manipulate("RENAME TABLE `qpl_feedback_singlechoice` TO `qpl_fb_sc`");
 <?php
 $ilMySQLAbstraction->performAbstraction('qpl_fb_sc');
 ?>
+<#2007>
+<?php
+$ilDB->manipulate("ALTER TABLE `tst_active` CHANGE `active_id` `active_id` INT NOT NULL AUTO_INCREMENT");
+?>
+<#2008>
+<?php
+$ilDB->manipulate("ALTER TABLE `tst_active` CHANGE `sequence` `sequence` VARCHAR(4000) NULL DEFAULT NULL");
+?>
+<#2009>
+<?php
+$ilDB->manipulate("ALTER TABLE `tst_active` CHANGE `postponed` `postponed` VARCHAR(4000) NULL DEFAULT NULL");
+?>
+<#2010>
+<?php
+$res = $ilDB->manipulate("ALTER TABLE `tst_active` ADD `tstamp` INT NOT NULL DEFAULT '0'");
+?>
+<#2011>
+<?php
+$res = $ilDB->query("SELECT active_id, " . $ilDB->quoteIdentifier("TIMESTAMP") . " + 0 timestamp14 FROM tst_active");
+if ($res->numRows())
+{
+	while ($row = $ilDB->fetchAssoc($res))
+	{
+		preg_match("/(\\d{4})(\\d{2})(\\d{2})(\\d{2})(\\d{2})(\\d{2})/", $row['timestamp14'], $matches);
+		$tstamp = mktime((int)$matches[4], (int)$matches[5], (int)$matches[6], (int)$matches[2], (int)$matches[3], (int)$matches[1]);
+		$ilDB->manipulateF("UPDATE tst_active SET tstamp = %s WHERE active_id = %s",
+			array("integer", "integer"),
+			array($tstamp, $row['active_id'])
+		);
+	}
+}
+?>
+<#2012>
+<?php
+$ilDB->manipulate("ALTER TABLE `tst_active` DROP " . $ilDB->quoteIdentifier("TIMESTAMP"));
+?>
+<#2013>
+<?php
+$ilDB->manipulate("RENAME TABLE `tst_active_qst_sol_settings` TO `tst_qst_solved`");
+?>
+<#2014>
+<?php
+$res = $ilDB->manipulate("ALTER TABLE `tst_invited_user` ADD `tstamp` INT NOT NULL DEFAULT '0'");
+?>
+<#2015>
+<?php
+$res = $ilDB->query("SELECT test_fi, user_fi, " . $ilDB->quoteIdentifier("TIMESTAMP") . " + 0 timestamp14 FROM tst_invited_user");
+if ($res->numRows())
+{
+	while ($row = $ilDB->fetchAssoc($res))
+	{
+		preg_match("/(\\d{4})(\\d{2})(\\d{2})(\\d{2})(\\d{2})(\\d{2})/", $row['timestamp14'], $matches);
+		$tstamp = mktime((int)$matches[4], (int)$matches[5], (int)$matches[6], (int)$matches[2], (int)$matches[3], (int)$matches[1]);
+		$ilDB->manipulateF("UPDATE tst_invited_user SET tstamp = %s WHERE test_fi = %s AND user_fi = %s",
+			array("integer", "integer", "integer"),
+			array($tstamp, $row['test_fi'], $row['user_fi'])
+		);
+	}
+}
+?>
+<#2016>
+<?php
+$ilDB->manipulate("ALTER TABLE `tst_invited_user` DROP " . $ilDB->quoteIdentifier("TIMESTAMP"));
+?>
+<#2017>
+<?php
+$res = $ilDB->manipulate("ALTER TABLE `tst_manual_feedback` ADD `tstamp` INT NOT NULL DEFAULT '0'");
+?>
+<#2018>
+<?php
+$res = $ilDB->query("SELECT manual_feedback_id, lastchange + 0 timestamp14 FROM tst_manual_feedback");
+if ($res->numRows())
+{
+	while ($row = $ilDB->fetchAssoc($res))
+	{
+		preg_match("/(\\d{4})(\\d{2})(\\d{2})(\\d{2})(\\d{2})(\\d{2})/", $row['timestamp14'], $matches);
+		$tstamp = mktime((int)$matches[4], (int)$matches[5], (int)$matches[6], (int)$matches[2], (int)$matches[3], (int)$matches[1]);
+		$ilDB->manipulateF("UPDATE tst_manual_feedback SET tstamp = %s WHERE manual_feedback_id = %s",
+			array("integer", "integer"),
+			array($tstamp, $row['manual_feedback_id'])
+		);
+	}
+}
+?>
+<#2019>
+<?php
+$ilDB->manipulate("ALTER TABLE `tst_manual_feedback` DROP lastchange");
+?>
+<#2020>
+<?php
+$ilDB->manipulate("ALTER TABLE `tst_manual_feedback` CHANGE `feedback` `feedback` VARCHAR(4000) NULL DEFAULT NULL");
+?>
+<#2021>
+<?php
+$ilDB->manipulate("RENAME TABLE `tst_manual_feedback` TO `tst_manual_fb`");
+?>
+<#2022>
+<?php
+$res = $ilDB->manipulate("ALTER TABLE `tst_mark` ADD `tstamp` INT NOT NULL DEFAULT '0'");
+?>
+<#2023>
+<?php
+$res = $ilDB->query("SELECT mark_id, " . $ilDB->quoteIdentifier("TIMESTAMP") . " + 0 timestamp14 FROM tst_mark");
+if ($res->numRows())
+{
+	while ($row = $ilDB->fetchAssoc($res))
+	{
+		preg_match("/(\\d{4})(\\d{2})(\\d{2})(\\d{2})(\\d{2})(\\d{2})/", $row['timestamp14'], $matches);
+		$tstamp = mktime((int)$matches[4], (int)$matches[5], (int)$matches[6], (int)$matches[2], (int)$matches[3], (int)$matches[1]);
+		$ilDB->manipulateF("UPDATE tst_mark SET tstamp = %s WHERE mark_id = %s",
+			array("integer", "integer"),
+			array($tstamp, $row['mark_id'])
+		);
+	}
+}
+?>
+<#2024>
+<?php
+$ilDB->manipulate("ALTER TABLE `tst_mark` DROP " . $ilDB->quoteIdentifier("TIMESTAMP"));
+?>
+<#2025>
+<?php
+$ilDB->manipulate("ALTER TABLE `tst_mark` CHANGE `mark_id` `mark_id` INT NOT NULL AUTO_INCREMENT");
+?>
+<#2026>
+<?php
+$res = $ilDB->manipulate("ALTER TABLE `tst_sequence` ADD `tstamp` INT NOT NULL DEFAULT '0'");
+?>
+<#2027>
+<?php
+$res = $ilDB->query("SELECT active_fi, pass, lastchange + 0 timestamp14 FROM tst_sequence");
+if ($res->numRows())
+{
+	while ($row = $ilDB->fetchAssoc($res))
+	{
+		preg_match("/(\\d{4})(\\d{2})(\\d{2})(\\d{2})(\\d{2})(\\d{2})/", $row['timestamp14'], $matches);
+		$tstamp = mktime((int)$matches[4], (int)$matches[5], (int)$matches[6], (int)$matches[2], (int)$matches[3], (int)$matches[1]);
+		$ilDB->manipulateF("UPDATE tst_sequence SET tstamp = %s WHERE active_fi = %s AND pass = %s",
+			array("integer", "integer", "integer"),
+			array($tstamp, $row['active_fi'], $row['pass'])
+		);
+	}
+}
+?>
+<#2028>
+<?php
+$ilDB->manipulate("ALTER TABLE `tst_sequence` DROP lastchange");
+?>
+<#2029>
+<?php
+$ilDB->manipulate("ALTER TABLE `tst_sequence` CHANGE `sequence` `sequence` VARCHAR(4000) NULL DEFAULT NULL");
+?>
+<#2030>
+<?php
+$ilDB->manipulate("ALTER TABLE `tst_sequence` CHANGE `postponed` `postponed` VARCHAR(4000) NULL DEFAULT NULL");
+?>
+<#2031>
+<?php
+$ilDB->manipulate("ALTER TABLE `tst_sequence` CHANGE `hidden` `hidden` VARCHAR(4000) NULL DEFAULT NULL");
+?>
+<#2032>
+<?php
+$res = $ilDB->manipulate("ALTER TABLE `tst_solutions` ADD `tstamp` INT NOT NULL DEFAULT '0'");
+?>
+<#2033>
+<?php
+$res = $ilDB->query("SELECT solution_id, " . $ilDB->quoteIdentifier("TIMESTAMP") . " + 0 timestamp14 FROM tst_solutions");
+if ($res->numRows())
+{
+	while ($row = $ilDB->fetchAssoc($res))
+	{
+		preg_match("/(\\d{4})(\\d{2})(\\d{2})(\\d{2})(\\d{2})(\\d{2})/", $row['timestamp14'], $matches);
+		$tstamp = mktime((int)$matches[4], (int)$matches[5], (int)$matches[6], (int)$matches[2], (int)$matches[3], (int)$matches[1]);
+		$ilDB->manipulateF("UPDATE tst_solutions SET tstamp = %s WHERE solution_id = %s",
+			array("integer", "integer"),
+			array($tstamp, $row['solution_id'])
+		);
+	}
+}
+?>
+<#2034>
+<?php
+$ilDB->manipulate("ALTER TABLE `tst_solutions` DROP " . $ilDB->quoteIdentifier("TIMESTAMP"));
+?>
+<#2035>
+<?php
+$ilDB->manipulate("ALTER TABLE `tst_solutions` CHANGE `solution_id` `solution_id` INT NOT NULL AUTO_INCREMENT");
+?>
+<#2036>
+<?php
+$ilDB->manipulate("ALTER TABLE `tst_solutions` CHANGE `value1` `value1` VARCHAR(4000) NULL DEFAULT NULL");
+?>
+<#2037>
+<?php
+$ilDB->manipulate("ALTER TABLE `tst_solutions` CHANGE `value2` `value2` VARCHAR(4000) NULL DEFAULT NULL");
+?>
+<#2038>
+<?php
+$res = $ilDB->manipulate("ALTER TABLE `tst_tests` ADD `tstamp` INT NOT NULL DEFAULT '0'");
+?>
+<#2039>
+<?php
+$res = $ilDB->query("SELECT test_id, " . $ilDB->quoteIdentifier("TIMESTAMP") . " + 0 timestamp14 FROM tst_tests");
+if ($res->numRows())
+{
+	while ($row = $ilDB->fetchAssoc($res))
+	{
+		preg_match("/(\\d{4})(\\d{2})(\\d{2})(\\d{2})(\\d{2})(\\d{2})/", $row['timestamp14'], $matches);
+		$tstamp = mktime((int)$matches[4], (int)$matches[5], (int)$matches[6], (int)$matches[2], (int)$matches[3], (int)$matches[1]);
+		$ilDB->manipulateF("UPDATE tst_tests SET tstamp = %s WHERE test_id = %s",
+			array("integer", "integer"),
+			array($tstamp, $row['test_id'])
+		);
+	}
+}
+?>
+<#2040>
+<?php
+$ilDB->manipulate("ALTER TABLE `tst_tests` DROP " . $ilDB->quoteIdentifier("TIMESTAMP"));
+?>
+<#2041>
+<?php
+$ilDB->manipulate("ALTER TABLE `tst_tests` CHANGE `test_id` `test_id` INT NOT NULL AUTO_INCREMENT");
+?>
+<#2042>
+<?php
+$ilDB->manipulate("ALTER TABLE `tst_tests` CHANGE `introduction` `introduction` VARCHAR(4000) NULL DEFAULT NULL");
+?>
+<#2043>
+<?php
+$ilDB->manipulate("ALTER TABLE `tst_tests` CHANGE `finalstatement` `finalstatement` VARCHAR(4000) NULL DEFAULT NULL");
+?>
+<#2044>
+<?php
+$res = $ilDB->manipulate("ALTER TABLE `tst_test_defaults` ADD `tstamp` INT NOT NULL DEFAULT '0'");
+?>
+<#2045>
+<?php
+$res = $ilDB->query("SELECT test_defaults_id, lastchange + 0 timestamp14 FROM tst_test_defaults");
+if ($res->numRows())
+{
+	while ($row = $ilDB->fetchAssoc($res))
+	{
+		preg_match("/(\\d{4})(\\d{2})(\\d{2})(\\d{2})(\\d{2})(\\d{2})/", $row['timestamp14'], $matches);
+		$tstamp = mktime((int)$matches[4], (int)$matches[5], (int)$matches[6], (int)$matches[2], (int)$matches[3], (int)$matches[1]);
+		$ilDB->manipulateF("UPDATE tst_test_defaults SET tstamp = %s WHERE test_defaults_id = %s",
+			array("integer", "integer"),
+			array($tstamp, $row['test_defaults_id'])
+		);
+	}
+}
+?>
+<#2046>
+<?php
+$ilDB->manipulate("ALTER TABLE `tst_test_defaults` DROP lastchange");
+?>
+<#2047>
+<?php
+$ilDB->manipulate("ALTER TABLE `tst_test_defaults` CHANGE `defaults` `defaults` VARCHAR(4000) NULL DEFAULT NULL");
+?>
+<#2048>
+<?php
+$ilDB->manipulate("ALTER TABLE `tst_test_defaults` CHANGE `marks` `marks` VARCHAR(4000) NULL DEFAULT NULL");
+?>
+<#2049>
+<?php
+$res = $ilDB->manipulate("ALTER TABLE `tst_test_pass_result` ADD `tstamp` INT NOT NULL DEFAULT '0'");
+?>
+<#2050>
+<?php
+$res = $ilDB->query("SELECT active_fi, pass, " . $ilDB->quoteIdentifier("TIMESTAMP") . " + 0 timestamp14 FROM tst_test_pass_result");
+if ($res->numRows())
+{
+	while ($row = $ilDB->fetchAssoc($res))
+	{
+		preg_match("/(\\d{4})(\\d{2})(\\d{2})(\\d{2})(\\d{2})(\\d{2})/", $row['timestamp14'], $matches);
+		$tstamp = mktime((int)$matches[4], (int)$matches[5], (int)$matches[6], (int)$matches[2], (int)$matches[3], (int)$matches[1]);
+		$ilDB->manipulateF("UPDATE tst_test_pass_result SET tstamp = %s WHERE active_fi = %s AND pass = %s",
+			array("integer", "integer", "integer"),
+			array($tstamp, $row['active_fi'], $row["pass"])
+		);
+	}
+}
+?>
+<#2051>
+<?php
+$ilDB->manipulate("ALTER TABLE `tst_test_pass_result` DROP " . $ilDB->quoteIdentifier("TIMESTAMP"));
+?>
+<#2052>
+<?php
+$ilDB->manipulate("RENAME TABLE `tst_test_pass_result` TO `tst_pass_result`");
+?>
+<#2053>
+<?php
+$res = $ilDB->manipulate("ALTER TABLE `tst_test_question` ADD `tstamp` INT NOT NULL DEFAULT '0'");
+?>
+<#2054>
+<?php
+$res = $ilDB->query("SELECT test_question_id, " . $ilDB->quoteIdentifier("TIMESTAMP") . " + 0 timestamp14 FROM tst_test_question");
+if ($res->numRows())
+{
+	while ($row = $ilDB->fetchAssoc($res))
+	{
+		preg_match("/(\\d{4})(\\d{2})(\\d{2})(\\d{2})(\\d{2})(\\d{2})/", $row['timestamp14'], $matches);
+		$tstamp = mktime((int)$matches[4], (int)$matches[5], (int)$matches[6], (int)$matches[2], (int)$matches[3], (int)$matches[1]);
+		$ilDB->manipulateF("UPDATE tst_test_question SET tstamp = %s WHERE test_question_id = %s",
+			array("integer", "integer"),
+			array($tstamp, $row['test_question_id'])
+		);
+	}
+}
+?>
+<#2055>
+<?php
+$ilDB->manipulate("ALTER TABLE `tst_test_question` DROP " . $ilDB->quoteIdentifier("TIMESTAMP"));
+?>
+<#2056>
+<?php
+$res = $ilDB->manipulate("ALTER TABLE `tst_test_random` ADD `tstamp` INT NOT NULL DEFAULT '0'");
+?>
+<#2057>
+<?php
+$res = $ilDB->query("SELECT test_random_id, " . $ilDB->quoteIdentifier("TIMESTAMP") . " + 0 timestamp14 FROM tst_test_random");
+if ($res->numRows())
+{
+	while ($row = $ilDB->fetchAssoc($res))
+	{
+		preg_match("/(\\d{4})(\\d{2})(\\d{2})(\\d{2})(\\d{2})(\\d{2})/", $row['timestamp14'], $matches);
+		$tstamp = mktime((int)$matches[4], (int)$matches[5], (int)$matches[6], (int)$matches[2], (int)$matches[3], (int)$matches[1]);
+		$ilDB->manipulateF("UPDATE tst_test_random SET tstamp = %s WHERE test_random_id = %s",
+			array("integer", "integer"),
+			array($tstamp, $row['test_random_id'])
+		);
+	}
+}
+?>
+<#2058>
+<?php
+$ilDB->manipulate("ALTER TABLE `tst_test_random` DROP " . $ilDB->quoteIdentifier("TIMESTAMP"));
+?>
+<#2059>
+<?php
+$res = $ilDB->manipulate("ALTER TABLE `tst_test_random_question` ADD `tstamp` INT NOT NULL DEFAULT '0'");
+?>
+<#2060>
+<?php
+$res = $ilDB->query("SELECT test_random_question_id, " . $ilDB->quoteIdentifier("TIMESTAMP") . " + 0 timestamp14 FROM tst_test_random_question");
+if ($res->numRows())
+{
+	while ($row = $ilDB->fetchAssoc($res))
+	{
+		preg_match("/(\\d{4})(\\d{2})(\\d{2})(\\d{2})(\\d{2})(\\d{2})/", $row['timestamp14'], $matches);
+		$tstamp = mktime((int)$matches[4], (int)$matches[5], (int)$matches[6], (int)$matches[2], (int)$matches[3], (int)$matches[1]);
+		$ilDB->manipulateF("UPDATE tst_test_random_question SET tstamp = %s WHERE test_random_question_id = %s",
+			array("integer", "integer"),
+			array($tstamp, $row['test_random_question_id'])
+		);
+	}
+}
+?>
+<#2061>
+<?php
+$ilDB->manipulate("ALTER TABLE `tst_test_random_question` DROP " . $ilDB->quoteIdentifier("TIMESTAMP"));
+?>
+<#2062>
+<?php
+$ilDB->manipulate("RENAME TABLE `tst_test_random_question` TO `tst_test_rnd_qst`");
+?>
+<#2063>
+<?php
+$res = $ilDB->manipulate("ALTER TABLE `tst_test_result` ADD `tstamp` INT NOT NULL DEFAULT '0'");
+?>
+<#2064>
+<?php
+$res = $ilDB->query("SELECT test_result_id, " . $ilDB->quoteIdentifier("TIMESTAMP") . " + 0 timestamp14 FROM tst_test_result");
+if ($res->numRows())
+{
+	while ($row = $ilDB->fetchAssoc($res))
+	{
+		preg_match("/(\\d{4})(\\d{2})(\\d{2})(\\d{2})(\\d{2})(\\d{2})/", $row['timestamp14'], $matches);
+		$tstamp = mktime((int)$matches[4], (int)$matches[5], (int)$matches[6], (int)$matches[2], (int)$matches[3], (int)$matches[1]);
+		$ilDB->manipulateF("UPDATE tst_test_result SET tstamp = %s WHERE test_result_id = %s",
+			array("integer", "integer"),
+			array($tstamp, $row['test_result_id'])
+		);
+	}
+}
+?>
+<#2065>
+<?php
+$ilDB->manipulate("ALTER TABLE `tst_test_result` DROP " . $ilDB->quoteIdentifier("TIMESTAMP"));
+?>
+<#2066>
+<?php
+$ilDB->manipulate("ALTER TABLE `tst_test_result` CHANGE `test_result_id` `test_result_id` INT NOT NULL AUTO_INCREMENT");
+?>
+<#2067>
+<?php
+$res = $ilDB->manipulate("ALTER TABLE `tst_times` ADD `tstamp` INT NOT NULL DEFAULT '0'");
+?>
+<#2068>
+<?php
+$res = $ilDB->query("SELECT times_id, " . $ilDB->quoteIdentifier("TIMESTAMP") . " + 0 timestamp14 FROM tst_times");
+if ($res->numRows())
+{
+	while ($row = $ilDB->fetchAssoc($res))
+	{
+		preg_match("/(\\d{4})(\\d{2})(\\d{2})(\\d{2})(\\d{2})(\\d{2})/", $row['timestamp14'], $matches);
+		$tstamp = mktime((int)$matches[4], (int)$matches[5], (int)$matches[6], (int)$matches[2], (int)$matches[3], (int)$matches[1]);
+		$ilDB->manipulateF("UPDATE tst_times SET tstamp = %s WHERE times_id = %s",
+			array("integer", "integer"),
+			array($tstamp, $row['times_id'])
+		);
+	}
+}
+?>
+<#2069>
+<?php
+$ilDB->manipulate("ALTER TABLE `tst_times` DROP " . $ilDB->quoteIdentifier("TIMESTAMP"));
+?>

@@ -103,7 +103,7 @@ class ilObjTestAccess extends ilObjectAccess
 		$max = 0;
 		if ($random)
 		{
-			$result = $ilDB->queryF("SELECT SUM(qpl_questions.points) maxpoints FROM tst_test_random_question, qpl_questions, tst_active WHERE tst_active.active_id = tst_test_random_question.active_fi AND tst_test_random_question.question_fi = qpl_questions.question_id AND tst_active.test_fi = %s AND tst_test_random_question.pass = %s AND tst_active.user_fi = %s",
+			$result = $ilDB->queryF("SELECT SUM(qpl_questions.points) maxpoints FROM tst_test_rnd_qst, qpl_questions, tst_active WHERE tst_active.active_id = tst_test_rnd_qst.active_fi AND tst_test_rnd_qst.question_fi = qpl_questions.question_id AND tst_active.test_fi = %s AND tst_test_rnd_qst.pass = %s AND tst_active.user_fi = %s",
 				array('integer','integer','integer'),
 				array($test_id, $pass, $user_id)
 			);
@@ -138,7 +138,7 @@ class ilObjTestAccess extends ilObjectAccess
 	function _isPassed($user_id, $a_obj_id)
 	{
 		global $ilDB;
-		$result = $ilDB->queryF("SELECT tst_test_pass_result.*, tst_tests.pass_scoring, tst_tests.random_test, tst_tests.test_id FROM tst_test_pass_result, tst_active, tst_tests WHERE tst_active.test_fi = tst_tests.test_id AND tst_active.user_fi = %s AND tst_tests.obj_fi = %s AND tst_test_pass_result.active_fi = tst_active.active_id ORDER BY tst_test_pass_result.pass",
+		$result = $ilDB->queryF("SELECT tst_pass_result.*, tst_tests.pass_scoring, tst_tests.random_test, tst_tests.test_id FROM tst_pass_result, tst_active, tst_tests WHERE tst_active.test_fi = tst_tests.test_id AND tst_active.user_fi = %s AND tst_tests.obj_fi = %s AND tst_pass_result.active_fi = tst_active.active_id ORDER BY tst_pass_result.pass",
 			array('integer','integer'),
 			array($user_id, $a_obj_id)
 		);
@@ -329,7 +329,7 @@ class ilObjTestAccess extends ilObjectAccess
 		else
 		{
 			// random test
-			$result = $ilDB->queryF("SELECT qpl_questions.question_id, qpl_questions.points FROM qpl_questions, tst_test_random_question WHERE tst_test_random_question.question_fi = qpl_questions.question_id AND tst_test_random_question.active_fi = %s AND tst_test_random_question.pass = %s ORDER BY tst_test_random_question.sequence",
+			$result = $ilDB->queryF("SELECT qpl_questions.question_id, qpl_questions.points FROM qpl_questions, tst_test_rnd_qst WHERE tst_test_rnd_qst.question_fi = qpl_questions.question_id AND tst_test_rnd_qst.active_fi = %s AND tst_test_rnd_qst.pass = %s ORDER BY tst_test_rnd_qst.sequence",
 				array('integer','integer'),
 				array($active_id, $pass)
 			);
@@ -608,7 +608,7 @@ function _getQuestionCount($test_id)
 			while ($userrow = $ilDB->fetchAssoc($userresult))
 			{
 				$user_id = $userrow["user_fi"];
-				$result = $ilDB->query("SELECT tst_test_pass_result.*, tst_tests.pass_scoring, tst_tests.random_test, tst_tests.test_id FROM tst_test_pass_result, tst_active, tst_tests WHERE tst_active.test_fi = tst_tests.test_id AND tst_active.user_fi = %s AND tst_tests.obj_fi = %s AND tst_test_pass_result.active_fi = tst_active.active_id ORDER BY tst_test_pass_result.pass",
+				$result = $ilDB->query("SELECT tst_pass_result.*, tst_tests.pass_scoring, tst_tests.random_test, tst_tests.test_id FROM tst_pass_result, tst_active, tst_tests WHERE tst_active.test_fi = tst_tests.test_id AND tst_active.user_fi = %s AND tst_tests.obj_fi = %s AND tst_pass_result.active_fi = tst_active.active_id ORDER BY tst_pass_result.pass",
 					array('integer','integer'),
 					array($user_id, $a_obj_id)
 				);

@@ -3816,7 +3816,7 @@ class ilObjTestGUI extends ilObjectGUI
 		if ($ilAccess->checkAccess("write", "", $this->ref_id))
 		{
 			include_once "./Modules/Test/classes/class.ilObjAssessmentFolder.php";
-			$log =& ilObjAssessmentFolder::_getLog("19700101000000", strftime("%Y%m%d%H%M%S"), $this->object->getId(), TRUE);
+			$log =& ilObjAssessmentFolder::_getLog(0, time(), $this->object->getId(), TRUE);
 			if (count($log))
 			{
 				$tblrow = array("tblrow1", "tblrow2");

@@ -848,11 +848,11 @@ class assQuestion
 		if ($result->numRows() > 0)
 		{
 			$row = $ilDB->fetchAssoc($result);
-			$affectedRows = $ilDB->manipulateF("DELETE FROM tst_test_pass_result WHERE active_fi = %s AND pass = %s",
+			$affectedRows = $ilDB->manipulateF("DELETE FROM tst_pass_result WHERE active_fi = %s AND pass = %s",
 				array('integer','integer'),
 				array($active_id, $pass)
 			);
-			$affectedRows = $ilDB->manipulateF("INSERT INTO tst_test_pass_result (active_fi, pass, points, maxpoints, questioncount, answeredquestions, workingtime, tstamp) VALUES (%s,%s,%s,%s,%s,%s,%s,%s)",
+			$affectedRows = $ilDB->manipulateF("INSERT INTO tst_pass_result (active_fi, pass, points, maxpoints, questioncount, answeredquestions, workingtime, tstamp) VALUES (%s,%s,%s,%s,%s,%s,%s,%s)",
 				array(
 					'integer',
 					'integer',
@@ -1085,7 +1085,7 @@ class assQuestion
 		$row = $ilDB->fetchAssoc($result);
 		$count = $row["question_count"];
 
-		$result = $ilDB->queryF("SELECT DISTINCT tst_active.test_fi, qpl_questions.question_id FROM qpl_questions, tst_test_random_question, tst_active WHERE qpl_questions.original_id = %s AND qpl_questions.question_id = tst_test_random_question.question_fi AND tst_test_random_question.active_fi = tst_active.active_id",
+		$result = $ilDB->queryF("SELECT DISTINCT tst_active.test_fi, qpl_questions.question_id FROM qpl_questions, tst_test_rnd_qst, tst_active WHERE qpl_questions.original_id = %s AND qpl_questions.question_id = tst_test_rnd_qst.question_fi AND tst_test_rnd_qst.active_fi = tst_active.active_id",
 			array('integer'),
 			array($question_id)
 		);
@@ -2282,7 +2282,7 @@ class assQuestion
 		global $ilDB;
 		
 		if ($question_id < 1) return 0;
-		$result = $ilDB->queryF("SELECT test_random_question_id FROM tst_test_random_question WHERE question_fi = %s",
+		$result = $ilDB->queryF("SELECT test_random_question_id FROM tst_test_rnd_qst WHERE question_fi = %s",
 			array('integer'),
 			array($question_id)
 		);
@@ -2819,7 +2819,7 @@ class assQuestion
 				$instances[$row['obj_fi']] = ilObject::_lookupTitle($row['obj_fi']);
 			}
 			// check random tests
-			$result = $ilDB->queryF("SELECT tst_tests.obj_fi FROM tst_tests, tst_test_random_question, tst_active WHERE tst_test_random_question.active_fi = tst_active.active_id AND tst_test_random_question.question_fi = %s AND tst_tests.test_id = tst_active.test_fi",
+			$result = $ilDB->queryF("SELECT tst_tests.obj_fi FROM tst_tests, tst_test_rnd_qst, tst_active WHERE tst_test_rnd_qst.active_fi = tst_active.active_id AND tst_test_rnd_qst.question_fi = %s AND tst_tests.test_id = tst_active.test_fi",
 				array("integer"),
 				array($question_id)
 			);
