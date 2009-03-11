@@ -421,7 +421,7 @@ class assQuestionTypeTemplate extends assQuestion
 
 	/**
 	* Returns the question type of the question which is the database
-	* ID of the qpl_question_type database table entry of this question type
+	* ID of the qpl_qst_type database table entry of this question type
 	*
 	* @return integer The question type of the question
 	* @access public

@@ -9131,3 +9131,315 @@ $ilDB->manipulate("RENAME TABLE `qpl_answer_matching` TO `qpl_a_matching`");
 <?php
 $ilDB->manipulate("RENAME TABLE `qpl_answer_matching_seq` TO `qpl_a_matching_seq`");
 ?>
+<#1953>
+<?php
+$res = $ilDB->manipulate("ALTER TABLE `qpl_answer_multiplechoice` ADD `tstamp` INT NOT NULL DEFAULT '0'");
+?>
+<#1954>
+<?php
+$res = $ilDB->query("SELECT answer_id, lastchange + 0 timestamp14 FROM qpl_answer_multiplechoice");
+if ($res->numRows())
+{
+	while ($row = $ilDB->fetchAssoc($res))
+	{
+		preg_match("/(\\d{4})(\\d{2})(\\d{2})(\\d{2})(\\d{2})(\\d{2})/", $row['timestamp14'], $matches);
+		$tstamp = mktime((int)$matches[4], (int)$matches[5], (int)$matches[6], (int)$matches[2], (int)$matches[3], (int)$matches[1]);
+		$ilDB->manipulateF("UPDATE qpl_answer_multiplechoice SET tstamp = %s WHERE answer_id = %s",
+			array("integer", "integer"),
+			array($tstamp, $row['answer_id'])
+		);
+	}
+}
+?>
+<#1955>
+<?php
+$ilDB->manipulate("ALTER TABLE `qpl_answer_multiplechoice` DROP lastchange");
+?>
+<#1956>
+<?php
+$ilDB->manipulate("ALTER TABLE `qpl_answer_multiplechoice` CHANGE `answer_id` `answer_id` INT NOT NULL AUTO_INCREMENT");
+?>
+<#1957>
+<?php
+$ilDB->manipulate("ALTER TABLE `qpl_answer_multiplechoice` CHANGE `answertext` `answertext` VARCHAR(1000) NULL DEFAULT NULL");
+?>
+<#1958>
+<?php
+$ilDB->manipulate("ALTER TABLE `qpl_answer_multiplechoice` CHANGE `imagefile` `imagefile` VARCHAR(1000) NULL DEFAULT NULL");
+?>
+<#1959>
+<?php
+$ilDB->manipulate("RENAME TABLE `qpl_answer_multiplechoice` TO `qpl_a_mc`");
+?>
+<#1960>
+<?php
+$ilMySQLAbstraction->performAbstraction('qpl_a_mc');
+?>
+<#1961>
+<?php
+$res = $ilDB->manipulate("ALTER TABLE `qpl_answer_ordering` ADD `tstamp` INT NOT NULL DEFAULT '0'");
+?>
+<#1962>
+<?php
+$res = $ilDB->query("SELECT answer_id, lastchange + 0 timestamp14 FROM qpl_answer_ordering");
+if ($res->numRows())
+{
+	while ($row = $ilDB->fetchAssoc($res))
+	{
+		preg_match("/(\\d{4})(\\d{2})(\\d{2})(\\d{2})(\\d{2})(\\d{2})/", $row['timestamp14'], $matches);
+		$tstamp = mktime((int)$matches[4], (int)$matches[5], (int)$matches[6], (int)$matches[2], (int)$matches[3], (int)$matches[1]);
+		$ilDB->manipulateF("UPDATE qpl_answer_ordering SET tstamp = %s WHERE answer_id = %s",
+			array("integer", "integer"),
+			array($tstamp, $row['answer_id'])
+		);
+	}
+}
+?>
+<#1963>
+<?php
+$ilDB->manipulate("ALTER TABLE `qpl_answer_ordering` DROP lastchange");
+?>
+<#1964>
+<?php
+$ilDB->manipulate("ALTER TABLE `qpl_answer_ordering` CHANGE `answer_id` `answer_id` INT NOT NULL AUTO_INCREMENT");
+?>
+<#1965>
+<?php
+$ilDB->manipulate("ALTER TABLE `qpl_answer_ordering` CHANGE `answertext` `answertext` VARCHAR(1000) NULL DEFAULT NULL");
+?>
+<#1966>
+<?php
+$ilDB->manipulate("RENAME TABLE `qpl_answer_ordering` TO `qpl_a_ordering`");
+?>
+<#1967>
+<?php
+$ilMySQLAbstraction->performAbstraction('qpl_a_ordering');
+?>
+<#1968>
+<?php
+$res = $ilDB->manipulate("ALTER TABLE `qpl_answer_singlechoice` ADD `tstamp` INT NOT NULL DEFAULT '0'");
+?>
+<#1969>
+<?php
+$res = $ilDB->query("SELECT answer_id, lastchange + 0 timestamp14 FROM qpl_answer_singlechoice");
+if ($res->numRows())
+{
+	while ($row = $ilDB->fetchAssoc($res))
+	{
+		preg_match("/(\\d{4})(\\d{2})(\\d{2})(\\d{2})(\\d{2})(\\d{2})/", $row['timestamp14'], $matches);
+		$tstamp = mktime((int)$matches[4], (int)$matches[5], (int)$matches[6], (int)$matches[2], (int)$matches[3], (int)$matches[1]);
+		$ilDB->manipulateF("UPDATE qpl_answer_singlechoice SET tstamp = %s WHERE answer_id = %s",
+			array("integer", "integer"),
+			array($tstamp, $row['answer_id'])
+		);
+	}
+}
+?>
+<#1970>
+<?php
+$ilDB->manipulate("ALTER TABLE `qpl_answer_singlechoice` DROP lastchange");
+?>
+<#1971>
+<?php
+$ilDB->manipulate("ALTER TABLE `qpl_answer_singlechoice` CHANGE `answer_id` `answer_id` INT NOT NULL AUTO_INCREMENT");
+?>
+<#1972>
+<?php
+$ilDB->manipulate("ALTER TABLE `qpl_answer_singlechoice` CHANGE `answertext` `answertext` VARCHAR(1000) NULL DEFAULT NULL");
+?>
+<#1973>
+<?php
+$ilDB->manipulate("ALTER TABLE `qpl_answer_singlechoice` CHANGE `imagefile` `imagefile` VARCHAR(1000) NULL DEFAULT NULL");
+?>
+<#1974>
+<?php
+$ilDB->manipulate("RENAME TABLE `qpl_answer_singlechoice` TO `qpl_a_sc`");
+?>
+<#1975>
+<?php
+$ilMySQLAbstraction->performAbstraction('qpl_a_sc');
+?>
+<#1976>
+<?php
+$res = $ilDB->manipulate("ALTER TABLE `qpl_answer_textsubset` ADD `tstamp` INT NOT NULL DEFAULT '0'");
+?>
+<#1977>
+<?php
+$res = $ilDB->query("SELECT answer_id, lastchange + 0 timestamp14 FROM qpl_answer_textsubset");
+if ($res->numRows())
+{
+	while ($row = $ilDB->fetchAssoc($res))
+	{
+		preg_match("/(\\d{4})(\\d{2})(\\d{2})(\\d{2})(\\d{2})(\\d{2})/", $row['timestamp14'], $matches);
+		$tstamp = mktime((int)$matches[4], (int)$matches[5], (int)$matches[6], (int)$matches[2], (int)$matches[3], (int)$matches[1]);
+		$ilDB->manipulateF("UPDATE qpl_answer_textsubset SET tstamp = %s WHERE answer_id = %s",
+			array("integer", "integer"),
+			array($tstamp, $row['answer_id'])
+		);
+	}
+}
+?>
+<#1978>
+<?php
+$ilDB->manipulate("ALTER TABLE `qpl_answer_textsubset` DROP lastchange");
+?>
+<#1979>
+<?php
+$ilDB->manipulate("ALTER TABLE `qpl_answer_textsubset` CHANGE `answer_id` `answer_id` INT NOT NULL AUTO_INCREMENT");
+?>
+<#1980>
+<?php
+$ilDB->manipulate("ALTER TABLE `qpl_answer_textsubset` CHANGE `answertext` `answertext` VARCHAR(1000) NULL DEFAULT NULL");
+?>
+<#1981>
+<?php
+$ilDB->manipulate("RENAME TABLE `qpl_answer_textsubset` TO `qpl_a_textsubset`");
+?>
+<#1982>
+<?php
+$ilMySQLAbstraction->performAbstraction('qpl_a_textsubset');
+?>
+<#1983>
+<?php
+$res = $ilDB->manipulate("ALTER TABLE `qpl_feedback_generic` ADD `tstamp` INT NOT NULL DEFAULT '0'");
+?>
+<#1984>
+<?php
+$res = $ilDB->query("SELECT feedback_id, lastchange + 0 timestamp14 FROM qpl_feedback_generic");
+if ($res->numRows())
+{
+	while ($row = $ilDB->fetchAssoc($res))
+	{
+		preg_match("/(\\d{4})(\\d{2})(\\d{2})(\\d{2})(\\d{2})(\\d{2})/", $row['timestamp14'], $matches);
+		$tstamp = mktime((int)$matches[4], (int)$matches[5], (int)$matches[6], (int)$matches[2], (int)$matches[3], (int)$matches[1]);
+		$ilDB->manipulateF("UPDATE qpl_feedback_generic SET tstamp = %s WHERE feedback_id = %s",
+			array("integer", "integer"),
+			array($tstamp, $row['feedback_id'])
+		);
+	}
+}
+?>
+<#1985>
+<?php
+$ilDB->manipulate("ALTER TABLE `qpl_feedback_generic` DROP lastchange");
+?>
+<#1986>
+<?php
+$ilDB->manipulate("ALTER TABLE `qpl_feedback_generic` CHANGE `feedback` `feedback` VARCHAR(4000) NULL DEFAULT NULL");
+?>
+<#1987>
+<?php
+$ilDB->manipulate("RENAME TABLE `qpl_feedback_generic` TO `qpl_fb_generic`");
+?>
+<#1988>
+<?php
+$ilMySQLAbstraction->performAbstraction('qpl_fb_generic');
+?>
+<#1989>
+<?php
+$res = $ilDB->manipulate("ALTER TABLE `qpl_feedback_imagemap` ADD `tstamp` INT NOT NULL DEFAULT '0'");
+?>
+<#1990>
+<?php
+$res = $ilDB->query("SELECT feedback_id, lastchange + 0 timestamp14 FROM qpl_feedback_imagemap");
+if ($res->numRows())
+{
+	while ($row = $ilDB->fetchAssoc($res))
+	{
+		preg_match("/(\\d{4})(\\d{2})(\\d{2})(\\d{2})(\\d{2})(\\d{2})/", $row['timestamp14'], $matches);
+		$tstamp = mktime((int)$matches[4], (int)$matches[5], (int)$matches[6], (int)$matches[2], (int)$matches[3], (int)$matches[1]);
+		$ilDB->manipulateF("UPDATE qpl_feedback_imagemap SET tstamp = %s WHERE feedback_id = %s",
+			array("integer", "integer"),
+			array($tstamp, $row['feedback_id'])
+		);
+	}
+}
+?>
+<#1991>
+<?php
+$ilDB->manipulate("ALTER TABLE `qpl_feedback_imagemap` DROP lastchange");
+?>
+<#1992>
+<?php
+$ilDB->manipulate("ALTER TABLE `qpl_feedback_imagemap` CHANGE `feedback` `feedback` VARCHAR(4000) NULL DEFAULT NULL");
+?>
+<#1993>
+<?php
+$ilDB->manipulate("RENAME TABLE `qpl_feedback_imagemap` TO `qpl_fb_imap`");
+?>
+<#1994>
+<?php
+$ilMySQLAbstraction->performAbstraction('qpl_fb_imap');
+?>
+<#1995>
+<?php
+$res = $ilDB->manipulate("ALTER TABLE `qpl_feedback_multiplechoice` ADD `tstamp` INT NOT NULL DEFAULT '0'");
+?>
+<#1996>
+<?php
+$res = $ilDB->query("SELECT feedback_id, lastchange + 0 timestamp14 FROM qpl_feedback_multiplechoice");
+if ($res->numRows())
+{
+	while ($row = $ilDB->fetchAssoc($res))
+	{
+		preg_match("/(\\d{4})(\\d{2})(\\d{2})(\\d{2})(\\d{2})(\\d{2})/", $row['timestamp14'], $matches);
+		$tstamp = mktime((int)$matches[4], (int)$matches[5], (int)$matches[6], (int)$matches[2], (int)$matches[3], (int)$matches[1]);
+		$ilDB->manipulateF("UPDATE qpl_feedback_multiplechoice SET tstamp = %s WHERE feedback_id = %s",
+			array("integer", "integer"),
+			array($tstamp, $row['feedback_id'])
+		);
+	}
+}
+?>
+<#1997>
+<?php
+$ilDB->manipulate("ALTER TABLE `qpl_feedback_multiplechoice` DROP lastchange");
+?>
+<#1998>
+<?php
+$ilDB->manipulate("ALTER TABLE `qpl_feedback_multiplechoice` CHANGE `feedback` `feedback` VARCHAR(4000) NULL DEFAULT NULL");
+?>
+<#1999>
+<?php
+$ilDB->manipulate("RENAME TABLE `qpl_feedback_multiplechoice` TO `qpl_fb_mc`");
+?>
+<#2000>
+<?php
+$ilMySQLAbstraction->performAbstraction('qpl_fb_mc');
+?>
+<#2001>
+<?php
+$res = $ilDB->manipulate("ALTER TABLE `qpl_feedback_singlechoice` ADD `tstamp` INT NOT NULL DEFAULT '0'");
+?>
+<#2002>
+<?php
+$res = $ilDB->query("SELECT feedback_id, lastchange + 0 timestamp14 FROM qpl_feedback_singlechoice");
+if ($res->numRows())
+{
+	while ($row = $ilDB->fetchAssoc($res))
+	{
+		preg_match("/(\\d{4})(\\d{2})(\\d{2})(\\d{2})(\\d{2})(\\d{2})/", $row['timestamp14'], $matches);
+		$tstamp = mktime((int)$matches[4], (int)$matches[5], (int)$matches[6], (int)$matches[2], (int)$matches[3], (int)$matches[1]);
+		$ilDB->manipulateF("UPDATE qpl_feedback_singlechoice SET tstamp = %s WHERE feedback_id = %s",
+			array("integer", "integer"),
+			array($tstamp, $row['feedback_id'])
+		);
+	}
+}
+?>
+<#2003>
+<?php
+$ilDB->manipulate("ALTER TABLE `qpl_feedback_singlechoice` DROP lastchange");
+?>
+<#2004>
+<?php
+$ilDB->manipulate("ALTER TABLE `qpl_feedback_singlechoice` CHANGE `feedback` `feedback` VARCHAR(4000) NULL DEFAULT NULL");
+?>
+<#2005>
+<?php
+$ilDB->manipulate("RENAME TABLE `qpl_feedback_singlechoice` TO `qpl_fb_sc`");
+?>
+<#2006>
+<?php
+$ilMySQLAbstraction->performAbstraction('qpl_fb_sc');
+?>

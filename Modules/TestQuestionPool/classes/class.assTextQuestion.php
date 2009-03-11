@@ -684,7 +684,7 @@ class assTextQuestion extends assQuestion
 	*/
 	function getAdditionalTableName()
 	{
-		return "qpl_question_essay";
+		return "qpl_qst_essay";
 	}
 
 	/**

@@ -396,7 +396,7 @@ class assOrderingHorizontal extends assQuestion
 	*/
 	public function getAdditionalTableName()
 	{
-		return "qpl_question_orderinghorizontal";
+		return "qpl_qst_horder";
 	}
 	
 	/**

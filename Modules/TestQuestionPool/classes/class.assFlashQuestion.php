@@ -473,7 +473,7 @@ class assFlashQuestion extends assQuestion
 	*/
 	function getAdditionalTableName()
 	{
-		return "qpl_question_flash";
+		return "qpl_qst_flash";
 	}
 	
 	/**

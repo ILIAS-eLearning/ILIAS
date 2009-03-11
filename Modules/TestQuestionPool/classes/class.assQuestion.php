@@ -613,7 +613,7 @@ class assQuestion
 	{
 		global $ilDB;
 
-		$result = $ilDB->queryF("SELECT qpl_questions.*, qpl_question_type.type_tag FROM qpl_question_type, qpl_questions WHERE qpl_questions.question_id = %s AND qpl_questions.question_type_fi = qpl_question_type.question_type_id",
+		$result = $ilDB->queryF("SELECT qpl_questions.*, qpl_qst_type.type_tag FROM qpl_qst_type, qpl_questions WHERE qpl_questions.question_id = %s AND qpl_questions.question_type_fi = qpl_qst_type.question_type_id",
 			array('integer'),
 			array($question_id)
 		);
@@ -634,7 +634,7 @@ class assQuestion
 	{
 		global $ilDB;
 
-		$result = $ilDB->queryF("SELECT suggested_solution_id FROM qpl_suggested_solutions WHERE question_fi = %s",
+		$result = $ilDB->queryF("SELECT suggested_solution_id FROM qpl_sol_sug WHERE question_fi = %s",
 			array('integer'),
 			array($question_id)
 		);
@@ -689,7 +689,7 @@ class assQuestion
 	{
 		global $ilDB;
 
-		$result = $ilDB->queryF("SELECT * FROM qpl_suggested_solutions WHERE question_fi = %s AND subquestion_index = %s",
+		$result = $ilDB->queryF("SELECT * FROM qpl_sol_sug WHERE question_fi = %s AND subquestion_index = %s",
 			array('integer','integer'),
 			array($question_id, $subquestion_index)
 		);
@@ -1149,7 +1149,7 @@ class assQuestion
 	{
 		global $ilDB;
 
-		$result = $ilDB->queryF("SELECT qpl_question_type.type_tag FROM qpl_question_type, qpl_questions WHERE qpl_questions.question_id = %s AND qpl_questions.question_type_fi = qpl_question_type.question_type_id",
+		$result = $ilDB->queryF("SELECT qpl_qst_type.type_tag FROM qpl_qst_type, qpl_questions WHERE qpl_questions.question_id = %s AND qpl_questions.question_type_fi = qpl_qst_type.question_type_id",
 			array('integer'),
 			array($question_id)
 		);
@@ -1305,7 +1305,7 @@ class assQuestion
 		);
 
 		// delete suggested solutions contained in the question
-		$affectedRows = $ilDB->manipulatedF("DELETE FROM qpl_suggested_solutions WHERE question_fi = %s", 
+		$affectedRows = $ilDB->manipulatedF("DELETE FROM qpl_sol_sug WHERE question_fi = %s", 
 			array('integer'),
 			array($question_id)
 		);
@@ -1498,7 +1498,7 @@ class assQuestion
 		global $ilDB;
 
 		if ($question_id < 1) return "";
-		$result = $ilDB->queryF("SELECT type_tag FROM qpl_questions, qpl_question_type WHERE qpl_questions.question_id = %s AND qpl_questions.question_type_fi = qpl_question_type.question_type_id",
+		$result = $ilDB->queryF("SELECT type_tag FROM qpl_questions, qpl_qst_type WHERE qpl_questions.question_id = %s AND qpl_questions.question_type_fi = qpl_qst_type.question_type_id",
 			array('integer'),
 			array($question_id)
 		);
@@ -1561,7 +1561,7 @@ class assQuestion
 	{
 		global $ilDB;
 		
-		$result = $ilDB->queryF("SELECT * FROM qpl_suggested_solutions WHERE question_fi = %s",
+		$result = $ilDB->queryF("SELECT * FROM qpl_sol_sug WHERE question_fi = %s",
 			array('integer'),
 			array($this->getId())
 		);
@@ -1676,8 +1676,8 @@ class assQuestion
 	function deleteSuggestedSolutions()
 	{
 		global $ilDB;
-		// delete the links in the qpl_suggested_solutions table
-		$affectedRows = $ilDB->manipulateF("DELETE FROM qpl_suggested_solutions WHERE question_fi = %s",
+		// delete the links in the qpl_sol_sug table
+		$affectedRows = $ilDB->manipulateF("DELETE FROM qpl_sol_sug WHERE question_fi = %s",
 			array('integer'),
 			array($this->getId())
 		);
@@ -1852,7 +1852,7 @@ class assQuestion
 
 		$id = (strlen($original_id) && is_numeric($original_id)) ? $original_id : $this->getId();
 		include_once "./Services/COPage/classes/class.ilInternalLink.php";
-		$affectedRows = $ilDB->manipulateF("DELETE FROM qpl_suggested_solutions WHERE question_fi = %s",
+		$affectedRows = $ilDB->manipulateF("DELETE FROM qpl_sol_sug WHERE question_fi = %s",
 			array('integer'),
 			array($id)
 		);
@@ -1860,8 +1860,8 @@ class assQuestion
 		include_once("./Services/RTE/classes/class.ilRTE.php");
 		foreach ($this->suggested_solutions as $index => $solution)
 		{
-			$next_id = $ilDB->nextId('qpl_suggested_solutions');
-			$affectedRows = $ilDB->manipulateF("INSERT INTO qpl_suggested_solutions (suggested_solution_id, question_fi, type, value, internal_link, import_id, subquestion_index, tstamp) VALUES (%s, %s, %s, %s, %s, %s, %s, %s)", 
+			$next_id = $ilDB->nextId('qpl_sol_sug');
+			$affectedRows = $ilDB->manipulateF("INSERT INTO qpl_sol_sug (suggested_solution_id, question_fi, type, value, internal_link, import_id, subquestion_index, tstamp) VALUES (%s, %s, %s, %s, %s, %s, %s, %s)", 
 				array("integer","integer", "text", "text", "text", "text", "integer","integer"),
 				array(
 					$next_id,
@@ -1896,7 +1896,7 @@ class assQuestion
 	{
 		global $ilDB;
 
-		$affectedRows = $ilDB->manipulateF("DELETE FROM qpl_suggested_solutions WHERE question_fi = %s AND subquestion_index = %s", 
+		$affectedRows = $ilDB->manipulateF("DELETE FROM qpl_sol_sug WHERE question_fi = %s AND subquestion_index = %s", 
 			array("integer", "integer"),
 			array(
 				$this->getId(), 
@@ -1904,9 +1904,9 @@ class assQuestion
 			)
 		);
 		
-		$next_id = $ilDB->nextId('qpl_suggested_solutions');
+		$next_id = $ilDB->nextId('qpl_sol_sug');
 		include_once("./Services/RTE/classes/class.ilRTE.php");
-		$affectedRows = $ilDB->manipulateF("INSERT INTO qpl_suggested_solutions (suggested_solution_id, question_fi, type, value, internal_link, import_id, subquestion_index, tstamp) VALUES (%s, %s, %s, %s, %s, %s, %s, %s)", 
+		$affectedRows = $ilDB->manipulateF("INSERT INTO qpl_sol_sug (suggested_solution_id, question_fi, type, value, internal_link, import_id, subquestion_index, tstamp) VALUES (%s, %s, %s, %s, %s, %s, %s, %s)", 
 			array("integer","integer", "text", "text", "text", "text", "integer","integer"),
 			array(
 				$next_id,
@@ -1972,7 +1972,7 @@ class assQuestion
 	{
 		global $ilDB;
 		$resolvedlinks = 0;
-		$result = $ilDB->queryF("SELECT * FROM qpl_suggested_solutions WHERE question_fi = %s",
+		$result = $ilDB->queryF("SELECT * FROM qpl_sol_sug WHERE question_fi = %s",
 			array('integer'),
 			array($question_id)
 		);
@@ -1986,7 +1986,7 @@ class assQuestion
 				if (strcmp($internal_link, $resolved_link) != 0)
 				{
 					// internal link was resolved successfully
-					$affectedRows = $ilDB->manipulateF("UPDATE qpl_suggested_solutions SET internal_link = %s WHERE suggested_solution_id = %s",
+					$affectedRows = $ilDB->manipulateF("UPDATE qpl_sol_sug SET internal_link = %s WHERE suggested_solution_id = %s",
 						array('text','integer'),
 						array($resolved_link, $row["suggested_solution_id"])
 					);
@@ -2002,7 +2002,7 @@ class assQuestion
 			include_once "./Services/COPage/classes/class.ilInternalLink.php";
 			ilInternalLink::_deleteAllLinksOfSource("qst", $question_id);
 
-			$result = $ilDB->queryF("SELECT * FROM qpl_suggested_solutions WHERE question_fi = %s",
+			$result = $ilDB->queryF("SELECT * FROM qpl_sol_sug WHERE question_fi = %s",
 				array('integer'),
 				array($question_id)
 			);
@@ -2622,7 +2622,7 @@ class assQuestion
 	{
 		global $ilDB;
 		
-		$result = $ilDB->queryF("SELECT question_type_id FROM qpl_question_type WHERE type_tag = %s",
+		$result = $ilDB->queryF("SELECT question_type_id FROM qpl_qst_type WHERE type_tag = %s",
 			array('text'),
 			array($this->getQuestionType())
 		);
@@ -2657,15 +2657,15 @@ class assQuestion
 				$correctness = 1;
 				break;
 		}
-		$affectedRows = $ilDB->manipulateF("DELETE FROM qpl_feedback_generic WHERE question_fi = %s AND correctness = %s",
+		$affectedRows = $ilDB->manipulateF("DELETE FROM qpl_fb_generic WHERE question_fi = %s AND correctness = %s",
 			array('integer', 'text'),
 			array($this->getId(), $correctness)
 		);
 		if (strlen($feedback))
 		{
 			include_once("./Services/RTE/classes/class.ilRTE.php");
-			$next_id = $ilDB->nextId('qpl_feedback_generic');
-			$affectedRows = $ilDB->manipulateF("INSERT INTO qpl_feedback_generic (feedback_id, question_fi, correctness, feedback, tstamp) VALUES (%s, %s, %s, %s, %s)",
+			$next_id = $ilDB->nextId('qpl_fb_generic');
+			$affectedRows = $ilDB->manipulateF("INSERT INTO qpl_fb_generic (feedback_id, question_fi, correctness, feedback, tstamp) VALUES (%s, %s, %s, %s, %s)",
 				array('integer','integer','text','text','integer'),
 				array($next_id, $this->getId(), $correctness, ilRTE::_replaceMediaObjectImageSrc($feedback, 0), time())
 			);
@@ -2686,7 +2686,7 @@ class assQuestion
 		global $ilDB;
 		
 		$feedback = "";
-		$result = $ilDB->queryF("SELECT * FROM qpl_feedback_generic WHERE question_fi = %s AND correctness = %s",
+		$result = $ilDB->queryF("SELECT * FROM qpl_fb_generic WHERE question_fi = %s AND correctness = %s",
 			array('integer', 'text'),
 			array($this->getId(), $correctness)
 		);
@@ -2710,7 +2710,7 @@ class assQuestion
 		global $ilDB;
 		
 		$feedback = "";
-		$result = $ilDB->queryF("SELECT * FROM qpl_feedback_generic WHERE question_fi = %s",
+		$result = $ilDB->queryF("SELECT * FROM qpl_fb_generic WHERE question_fi = %s",
 			array('integer'),
 			array($original_id)
 		);
@@ -2718,8 +2718,8 @@ class assQuestion
 		{
 			while ($row = $ilDB->fetchAssoc($result))
 			{
-				$next_id = $ilDB->nextId('qpl_feedback_generic');
-				$affectedRows = $ilDB->manipulateF("INSERT INTO qpl_feedback_generic (feedback_id, question_fi, correctness, feedback, tstamp) VALUES (%s, %s, %s, %s, %s)",
+				$next_id = $ilDB->nextId('qpl_fb_generic');
+				$affectedRows = $ilDB->manipulateF("INSERT INTO qpl_fb_generic (feedback_id, question_fi, correctness, feedback, tstamp) VALUES (%s, %s, %s, %s, %s)",
 					array('integer','integer','text','text','integer'),
 					array($next_id, $this->getId(), $row["correctness"], $row["feedback"], time())
 				);
@@ -2734,13 +2734,13 @@ class assQuestion
 		$feedback = "";
 
 		// delete generic feedback of the original
-		$affectedRows = $ilDB->manipulateF("DELETE FROM qpl_feedback_generic WHERE question_fi = %s",
+		$affectedRows = $ilDB->manipulateF("DELETE FROM qpl_fb_generic WHERE question_fi = %s",
 			array('integer'),
 			array($this->original_id)
 		);
 			
 		// get generic feedback of the actual question
-		$result = $ilDB->queryF("SELECT * FROM qpl_feedback_generic WHERE question_fi = %s",
+		$result = $ilDB->queryF("SELECT * FROM qpl_fb_generic WHERE question_fi = %s",
 			array('integer'),
 			array($this->getId())
 		);
@@ -2750,8 +2750,8 @@ class assQuestion
 		{
 			while ($row = $ilDB->fetchAssoc($result))
 			{
-				$next_id = $ilDB->nextId('qpl_feedback_generic');
-				$affectedRows = $ilDB->manipulateF("INSERT INTO qpl_feedback_generic (feedback_id, question_fi, correctness, feedback, tstamp) VALUES (%s, %s, %s, %s, %s)",
+				$next_id = $ilDB->nextId('qpl_fb_generic');
+				$affectedRows = $ilDB->manipulateF("INSERT INTO qpl_fb_generic (feedback_id, question_fi, correctness, feedback, tstamp) VALUES (%s, %s, %s, %s, %s)",
 					array('integer','integer','text','text','integer'),
 					array($next_id, $this->original_id, $row["correctness"], $row["feedback"], time())
 				);

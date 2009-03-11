@@ -181,7 +181,7 @@ class assMultipleChoice extends assQuestion
 			)
 		);
 
-	$affectedRows = $ilDB->manipulateF("DELETE FROM qpl_answer_multiplechoice WHERE question_fi = %s",
+	$affectedRows = $ilDB->manipulateF("DELETE FROM qpl_a_mc WHERE question_fi = %s",
 		array('integer'),
 		array($this->getId())
 	);
@@ -189,8 +189,8 @@ class assMultipleChoice extends assQuestion
 	foreach ($this->answers as $key => $value)
 	{
 		$answer_obj = $this->answers[$key];
-		$next_id = $ilDB->nextId('qpl_answer_multiplechoice');
-		$affectedRows = $ilDB->manipulateF("INSERT INTO qpl_answer_multiplechoice (answer_id, question_fi, answertext, points, points_unchecked, aorder, imagefile, tstamp) VALUES (%s, %s, %s, %s, %s, %s, %s, %s)",
+		$next_id = $ilDB->nextId('qpl_a_mc');
+		$affectedRows = $ilDB->manipulateF("INSERT INTO qpl_a_mc (answer_id, question_fi, answertext, points, points_unchecked, aorder, imagefile, tstamp) VALUES (%s, %s, %s, %s, %s, %s, %s, %s)",
 			array('integer','integer','text','float','float','integer','text', 'integer'),
 			array(
 				$next_id,
@@ -241,7 +241,7 @@ class assMultipleChoice extends assQuestion
 			$this->setEstimatedWorkingTime(substr($data["working_time"], 0, 2), substr($data["working_time"], 3, 2), substr($data["working_time"], 6, 2));
 		}
 
-		$result = $ilDB->queryF("SELECT * FROM qpl_answer_multiplechoice WHERE question_fi = %s ORDER BY aorder ASC",
+		$result = $ilDB->queryF("SELECT * FROM qpl_a_mc WHERE question_fi = %s ORDER BY aorder ASC",
 			array('integer'),
 			array($question_id)
 		);
@@ -658,13 +658,13 @@ class assMultipleChoice extends assQuestion
 		$feedback = "";
 
 		// delete generic feedback of the original
-		$affectedRows = $ilDB->manipulateF("DELETE FROM qpl_feedback_multiplechoice WHERE question_fi = %s",
+		$affectedRows = $ilDB->manipulateF("DELETE FROM qpl_fb_mc WHERE question_fi = %s",
 			array('integer'),
 			array($this->original_id)
 		);
 			
 		// get generic feedback of the actual question
-		$result = sprintf("SELECT * FROM qpl_feedback_multiplechoice WHERE question_fi = %s",
+		$result = sprintf("SELECT * FROM qpl_fb_mc WHERE question_fi = %s",
 			array('integer'),
 			array($this->getId())
 		);
@@ -673,8 +673,8 @@ class assMultipleChoice extends assQuestion
 		{
 			while ($row = $ilDB->fetchAssoc($result))
 			{
-				$next_id = $ilDB->nextId('qpl_feedback_multiplechoice');
-				$affectedRows = $ilDB->manipulateF("INSERT INTO qpl_feedback_multiplechoice (feedback_id, question_fi, answer, feedback, tstamp) VALUES (%s, %s, %s, %s, %s)",
+				$next_id = $ilDB->nextId('qpl_fb_mc');
+				$affectedRows = $ilDB->manipulateF("INSERT INTO qpl_fb_mc (feedback_id, question_fi, answer, feedback, tstamp) VALUES (%s, %s, %s, %s, %s)",
 					array('integer','integer','integer','text','integer'),
 					array(
 						$next_id,
@@ -717,7 +717,7 @@ class assMultipleChoice extends assQuestion
 	*/
 	function getAdditionalTableName()
 	{
-		return "qpl_question_multiplechoice";
+		return "qpl_qst_mc";
 	}
 	
 	/**
@@ -728,7 +728,7 @@ class assMultipleChoice extends assQuestion
 	*/
 	function getAnswerTableName()
 	{
-		return "qpl_answer_multiplechoice";
+		return "qpl_a_mc";
 	}
 	
 	function getGraphicalAnswerSetting()
@@ -915,15 +915,15 @@ class assMultipleChoice extends assQuestion
 	{
 		global $ilDB;
 		
-		$affectedRows = $ilDB->manipulateF("DELETE FROM qpl_feedback_multiplechoice WHERE question_fi = %s AND answer = %s",
+		$affectedRows = $ilDB->manipulateF("DELETE FROM qpl_fb_mc WHERE question_fi = %s AND answer = %s",
 			array('integer','integer'),
 			array($this->getId(), $answer_index)
 		);
 		if (strlen($feedback))
 		{
 			include_once("./Services/RTE/classes/class.ilRTE.php");
-			$next_id = $ilDB->nextId('qpl_feedback_multiplechoice');
-			$affectedRows = $ilDB->manipulateF("INSERT INTO qpl_feedback_multiplechoice (feedback_id, question_fi, answer, feedback, tstamp) VALUES (%s, %s, %s, %s, %s)",
+			$next_id = $ilDB->nextId('qpl_fb_mc');
+			$affectedRows = $ilDB->manipulateF("INSERT INTO qpl_fb_mc (feedback_id, question_fi, answer, feedback, tstamp) VALUES (%s, %s, %s, %s, %s)",
 				array('integer','integer','integer','text','integer'),
 				array(
 					$next_id,
@@ -948,7 +948,7 @@ class assMultipleChoice extends assQuestion
 		global $ilDB;
 		
 		$feedback = "";
-		$result = $ilDB->queryF("SELECT * FROM qpl_feedback_multiplechoice WHERE question_fi = %s AND answer = %s",
+		$result = $ilDB->queryF("SELECT * FROM qpl_fb_mc WHERE question_fi = %s AND answer = %s",
 			array('integer','integer'),
 			array($this->getId(), $answer_index)
 		);
@@ -972,7 +972,7 @@ class assMultipleChoice extends assQuestion
 		global $ilDB;
 		
 		$feedback = "";
-		$result = $ilDB->queryF("SELECT * FROM qpl_feedback_multiplechoice WHERE question_fi = %s",
+		$result = $ilDB->queryF("SELECT * FROM qpl_fb_mc WHERE question_fi = %s",
 			array('integer'),
 			array($original_id)
 		);
@@ -980,8 +980,8 @@ class assMultipleChoice extends assQuestion
 		{
 			while ($row = $ilDB->fetchAssoc($result))
 			{
-				$next_id = $ilDB->nextId('qpl_feedback_multiplechoice');
-				$affectedRows = $ilDB->manipulateF("INSERT INTO qpl_feedback_multiplechoice (feedback_id, question_fi, answer, feedback, tstamp) VALUES (%s, %s, %s, %s, %s)",
+				$next_id = $ilDB->nextId('qpl_fb_mc');
+				$affectedRows = $ilDB->manipulateF("INSERT INTO qpl_fb_mc (feedback_id, question_fi, answer, feedback, tstamp) VALUES (%s, %s, %s, %s, %s)",
 					array('integer','integer','integer','text','integer'),
 					array(
 						$next_id,
