@@ -1368,7 +1368,7 @@ class assQuestion
 			array_push($found_id, $row["question_id"]);
 		}
 
-		$result = $ilDB->query("SELECT * FROM tst_test_result WHERE " . $ilDB->in('question_fi', $found_id, false, 'integer');
+		$result = $ilDB->query("SELECT * FROM tst_test_result WHERE " . $ilDB->in('question_fi', $found_id, false, 'integer'));
 
 		return $result->numRows();
 	}
@@ -1396,7 +1396,7 @@ class assQuestion
 		{
 			array_push($found_id, $row["question_id"]);
 		}
-		$result = $ilDB->query("SELECT * FROM tst_test_result WHERE " . $ilDB->in('question_fi', $found_id, false, 'integer');
+		$result = $ilDB->query("SELECT * FROM tst_test_result WHERE " . $ilDB->in('question_fi', $found_id, false, 'integer'));
 		$answers = array();
 		while ($row = $ilDB->fetchAssoc($result))
 		{
