@@ -735,7 +735,7 @@ class ilObjTest extends ilObject
 		{
 			$parent_obj =& $this->ilias->obj_factory->getInstanceByRefId($a_node_id);
 			$parent_type = $parent_obj->getType();
-			if($parent_type == $this->getType())
+			if ($parent_type == $this->getType())
 			{
 				$a_node_id = (int) $tree->getParentId($a_node_id);
 			}
@@ -754,7 +754,7 @@ class ilObjTest extends ilObject
 		include_once "./Services/Utilities/classes/class.ilUtil.php";
 		$tst_data_dir = ilUtil::getDataDir()."/tst_data";
 		ilUtil::makeDir($tst_data_dir);
-		if(!is_writable($tst_data_dir))
+		if (!is_writable($tst_data_dir))
 		{
 			$this->ilias->raiseError("Test Data Directory (".$tst_data_dir
 				.") not writeable.",$this->ilias->error_obj->MESSAGE);
@@ -763,14 +763,14 @@ class ilObjTest extends ilObject
 		// create learning module directory (data_dir/lm_data/lm_<id>)
 		$tst_dir = $tst_data_dir."/tst_".$this->getId();
 		ilUtil::makeDir($tst_dir);
-		if(!@is_dir($tst_dir))
+		if (!@is_dir($tst_dir))
 		{
 			$this->ilias->raiseError("Creation of Test Directory failed.",$this->ilias->error_obj->MESSAGE);
 		}
 		// create Export subdirectory (data_dir/lm_data/lm_<id>/Export)
 		$export_dir = $tst_dir."/export";
 		ilUtil::makeDir($export_dir);
-		if(!@is_dir($export_dir))
+		if (!@is_dir($export_dir))
 		{
 			$this->ilias->raiseError("Creation of Export Directory failed.",$this->ilias->error_obj->MESSAGE);
 		}
@@ -845,7 +845,7 @@ class ilObjTest extends ilObject
 		$tst_data_dir = ilUtil::getDataDir()."/tst_data";
 		ilUtil::makeDir($tst_data_dir);
 
-		if(!is_writable($tst_data_dir))
+		if (!is_writable($tst_data_dir))
 		{
 			$ilias->raiseError("Test data directory (".$tst_data_dir
 				.") not writeable.",$ilias->error_obj->FATAL);
@@ -854,7 +854,7 @@ class ilObjTest extends ilObject
 		// create test directory (data_dir/tst_data/tst_import)
 		$tst_dir = $tst_data_dir."/tst_import";
 		ilUtil::makeDir($tst_dir);
-		if(!@is_dir($tst_dir))
+		if (!@is_dir($tst_dir))
 		{
 			$ilias->raiseError("Creation of test import directory failed.",$ilias->error_obj->FATAL);
 		}
@@ -870,7 +870,7 @@ class ilObjTest extends ilObject
 	{
 		include_once "./Services/Utilities/classes/class.ilUtil.php";
 		$import_dir = ilUtil::getDataDir()."/tst_data/tst_import";
-		if(@is_dir($import_dir))
+		if (@is_dir($import_dir))
 		{
 			return $import_dir;
 		}
@@ -891,7 +891,7 @@ class ilObjTest extends ilObject
 		$tst_data_dir = ilUtil::getDataDir()."/tst_data";
 		ilUtil::makeDir($tst_data_dir);
 
-		if(!is_writable($tst_data_dir))
+		if (!is_writable($tst_data_dir))
 		{
 			$this->ilias->raiseError("Test Data Directory (".$tst_data_dir
 				.") not writeable.",$this->ilias->error_obj->FATAL);
@@ -900,7 +900,7 @@ class ilObjTest extends ilObject
 		// create test directory (data_dir/tst_data/tst_import)
 		$tst_dir = $tst_data_dir."/tst_import";
 		ilUtil::makeDir($tst_dir);
-		if(!@is_dir($tst_dir))
+		if (!@is_dir($tst_dir))
 		{
 			$ilias->raiseError("Creation of test import directory failed.",$ilias->error_obj->FATAL);
 		}
@@ -916,7 +916,7 @@ class ilObjTest extends ilObject
 	{
 		include_once "./Services/Utilities/classes/class.ilUtil.php";
 		$import_dir = ilUtil::getDataDir()."/tst_data/tst_import";
-		if(@is_dir($import_dir))
+		if (@is_dir($import_dir))
 		{
 			return $import_dir;
 		}
@@ -1418,8 +1418,6 @@ class ilObjTest extends ilObject
 /**
 * Saves a random question to the database
 *
-* Saves a random question to the database
-*
 * @access public
 * @see $questions
 */
@@ -1429,11 +1427,10 @@ class ilObjTest extends ilObject
 		global $ilDB;
 
 		if (is_null($pass)) $pass = 0;
-		$query = sprintf("SELECT test_random_question_id FROM tst_test_rnd_qst WHERE active_fi = %s AND pass = %s",
-			$ilDB->quote($active_id . ""),
-			$ilDB->quote($pass . "")
+		$result = $ilDB->queryF("SELECT test_random_question_id FROM tst_test_rnd_qst WHERE active_fi = %s AND pass = %s",
+			array('integer','integer'),
+			array($active_id, $pass)
 		);
-		$result = $ilDB->query($query);
 		if ($result->numRows() < $maxcount)
 		{
 			$duplicate_id = $this->getRandomQuestionDuplicate($question_id, $active_id);
@@ -1441,10 +1438,10 @@ class ilObjTest extends ilObject
 			{
 				$duplicate_id = $this->duplicateQuestionForTest($question_id);
 			}
-
-			$result = $ilDB->manipulateF("INSERT INTO tst_test_rnd_qst (test_random_question_id, active_fi, question_fi, sequence, pass, tstamp) VALUES (NULL, %s, %s, %s, %s, %s)",
-				array('integer','integer','integer','integer','integer'),
-				array($active_id, $duplicate_id, $result->numRows()+1, $pass)
+			$next_id = $ilDB->nextId('tst_test_rnd_qst');
+			$result = $ilDB->manipulateF("INSERT INTO tst_test_rnd_qst (test_random_question_id, active_fi, question_fi, sequence, pass, tstamp) VALUES (%s, %s, %s, %s, %s, %s)",
+				array('integer','integer','integer','integer','integer','integer'),
+				array($next_id,$active_id, $duplicate_id, $result->numRows()+1, $pass)
 			);
 		}
 	}
@@ -1481,25 +1478,20 @@ class ilObjTest extends ilObject
 /**
 * Calculates the number of user results for a specific test pass
 *
-* Calculates the number of user results for a specific test pass
-*
 * @access private
 */
 	function getNrOfResultsForPass($active_id, $pass)
 	{
 		global $ilDB;
 
-		$query = sprintf("SELECT test_result_id FROM tst_test_result WHERE active_fi = %s AND pass = %s",
-			$ilDB->quote($active_id . ""),
-			$ilDB->quote($pass . "")
+		$result = $ilDB->queryF("SELECT test_result_id FROM tst_test_result WHERE active_fi = %s AND pass = %s",
+			array('integer','integer'),
+			array($active_id, $pass)
 		);
-		$result = $ilDB->query($query);
 		return $result->numRows();
 	}
 
 	/**
-	* Checkes wheather a random test has already created questions for a given pass or not
-	*
 	* Checkes wheather a random test has already created questions for a given pass or not
 	*
 	* @access private
@@ -1510,19 +1502,11 @@ class ilObjTest extends ilObject
 	function hasRandomQuestionsForPass($active_id, $pass)
 	{
 		global $ilDB;
-		$query = sprintf("SELECT test_random_question_id FROM tst_test_rnd_qst WHERE active_fi = %s AND pass = %s",
-				$ilDB->quote($active_id . ""),
-				$ilDB->quote($pass . "")
-			);
-		$result = $ilDB->query($query);
-		if ($result->numRows() > 0)
-		{
-			return TRUE;
-		}
-		else
-		{
-			return FALSE;
-		}
+		$result = $ilDB->queryF("SELECT test_random_question_id FROM tst_test_rnd_qst WHERE active_fi = %s AND pass = %s",
+			array('integer','integer'),
+			array($active_id, $pass)
+		);
+		return ($result->numRows() > 0) ? true : false;
 	}
 
 	/**
@@ -1622,36 +1606,29 @@ class ilObjTest extends ilObject
 	/**
 	* Saves the total amount of a tests random questions to the database
 	*
-	* Saves the total amount of a tests random questions to the database
-	*
 	* @param integer $total_questions The amount of random questions
 	* @access public
 	*/
-	function saveRandomQuestionCount($total_questions = "NULL")
+	function saveRandomQuestionCount($total_questions = NULL)
 	{
 		global $ilDB;
 
-		if (strcmp($total_questions, "NULL") != 0)
+		if (strlen($total_questions))
 		{
 			$this->setRandomQuestionCount($total_questions);
-			$total_questions = $ilDB->quote($total_questions);
 		}
-		$query = sprintf("UPDATE tst_tests SET random_question_count = %s WHERE test_id = %s",
-			$total_questions,
-			$ilDB->quote($this->getTestId() . "")
+		$affectedRows = $ilDB->manipulateF("UPDATE tst_tests SET random_question_count = %s, tstamp = %s WHERE test_id = %s",
+			array('integer', 'integer', 'integer'),
+			array($this->getRandomQuestionCount(), time(), $this->getTestId())
 		);
-		$result = $ilDB->query($query);
 		include_once ("./Modules/Test/classes/class.ilObjAssessmentFolder.php");
 		if (ilObjAssessmentFolder::_enabledAssessmentLogging())
 		{
-			if (strcmp($total_questions, "NULL") == 0) $total_questions = '0';
-			$this->logAction(sprintf($this->lng->txtlng("assessment", "log_total_amount_of_questions", ilObjAssessmentFolder::_getLogLanguage()), $total_questions));
+			$this->logAction(sprintf($this->lng->txtlng("assessment", "log_total_amount_of_questions", ilObjAssessmentFolder::_getLogLanguage()), $this->getRandomQuestionCount()));
 		}
 	}
 
 /**
-* Saves the question pools used for a random test
-*
 * Saves the question pools used for a random test
 *
 * @param array $qpl_array An array containing the questionpool id's
@@ -1664,16 +1641,17 @@ class ilObjTest extends ilObject
 
 		include_once ("./Modules/Test/classes/class.ilObjAssessmentFolder.php");
 		// delete existing random questionpools
-    $query = sprintf("DELETE FROM tst_test_random WHERE test_fi = %s",
-			$ilDB->quote($this->getTestId())
+		$affectedRows = $ilDB->manipulateF("DELETE FROM tst_test_random WHERE test_fi = %s",
+			array('integer'),
+			array($this->getTestId())
 		);
-		$result = $ilDB->query($query);
 		if (ilObjAssessmentFolder::_enabledAssessmentLogging())
 		{
 			$this->logAction($this->lng->txtlng("assessment", "log_random_question_pool_deleted", ilObjAssessmentFolder::_getLogLanguage()));
 		}
 		// create new random questionpools
-		foreach ($qpl_array as $key => $value) {
+		foreach ($qpl_array as $key => $value) 
+		{
 			if ($value["qpl"] > -1)
 			{
 				include_once "./Modules/TestQuestionPool/classes/class.ilObjQuestionPool.php";
@@ -1682,9 +1660,10 @@ class ilObjTest extends ilObject
 				{
 					$value["count"] = $count;
 				}
-				$result = $ilDB->manipulateF("INSERT INTO tst_test_random (test_random_id, test_fi, questionpool_fi, num_of_q, tstamp) VALUES (NULL, %s, %s, %s, %s)",
-					array('integer', 'integer', 'integer', 'integer'),
-					array($this->getTestId(), $value["qpl"], sprintf("%d", $value["count"]), time())
+				$next_id = $ilDB->nextId('tst_test_random');
+				$result = $ilDB->manipulateF("INSERT INTO tst_test_random (test_random_id, test_fi, questionpool_fi, num_of_q, tstamp) VALUES (%s, %s, %s, %s, %s)",
+					array('integer','integer', 'integer', 'integer', 'integer'),
+					array($next_id, $this->getTestId(), $value["qpl"], sprintf("%d", $value["count"]), time())
 				);
 				if (ilObjAssessmentFolder::_enabledAssessmentLogging())
 				{
@@ -1730,8 +1709,6 @@ class ilObjTest extends ilObject
 	/**
 	* Loads a ilObjTest object from a database
 	*
-	* Loads a ilObjTest object from a database
-	*
 	* @param object $db A pear DB object
 	* @param integer $test_id A unique key which defines the test in the database
 	* @access public
@@ -1740,63 +1717,65 @@ class ilObjTest extends ilObject
 	{
 		global $ilDB;
 
-		$query = sprintf("SELECT * FROM tst_tests WHERE obj_fi = %s",
-		$ilDB->quote($this->getId())
-			);
-		$result = $ilDB->query($query);
+		$result = $ilDB->queryF("SELECT * FROM tst_tests WHERE obj_fi = %s",
+			array('integer'),
+			array($this->getId())
+		);
 		if ($result->numRows() == 1)
 		{
-			$data = $result->fetchRow(MDB2_FETCHMODE_OBJECT);
-			$this->test_id = $data->test_id;
+			$data = $ilDB->fetchObject($result);
+			$this->setTestId($data->test_id);
 			if (strlen($this->getAuthor()) == 0)
 			{
 				$this->saveAuthorToMetadata($data->author);
 			}
-			$this->author = $this->getAuthor();
+			$this->setAuthor($data->author);
 			include_once("./Services/RTE/classes/class.ilRTE.php");
-			$this->introduction = ilRTE::_replaceMediaObjectImageSrc($data->introduction, 1);
+			$this->setIntroduction(ilRTE::_replaceMediaObjectImageSrc($data->introduction, 1));
 			$this->setFinalStatement(ilRTE::_replaceMediaObjectImageSrc($data->finalstatement, 1));
 			$this->setShowInfo($data->showinfo);
 			$this->setForceJS($data->forcejs);
 			$this->setCustomStyle($data->customstyle);
 			$this->setShowFinalStatement($data->showfinalstatement);
-			$this->sequence_settings = $data->sequence_settings;
-			$this->score_reporting = $data->score_reporting;
-			$this->instant_verification = $data->instant_verification;
-			$this->answer_feedback_points = $data->answer_feedback_points;
-			$this->answer_feedback = $data->answer_feedback;
-			$this->anonymity = $data->anonymity;
-			$this->show_cancel = $data->show_cancel;
-			$this->show_marker = $data->show_marker;
-			$this->fixed_participants = $data->fixed_participants;
-			$this->nr_of_tries = $data->nr_of_tries;
+			$this->setSequenceSettings($data->sequence_settings);
+			$this->setScoreReporting($data->score_reporting);
+			$this->setInstantFeedbackSolution($data->instant_verification);
+			$this->setAnswerFeedbackPoints($data->answer_feedback_points);
+			$this->setAnswerFeedback($data->answer_feedback);
+			$this->setAnonymity($data->anonymity);
+			$this->setShowCancel($data->show_cancel);
+			$this->setShowMarker($data->show_marker);
+			$this->setFixedParticipants($data->fixed_participants);
+			$this->setNrOfTries($data->nr_of_tries);
 			$this->setKiosk($data->kiosk);
 			$this->setUsePreviousAnswers($data->use_previous_answers);
 			$this->setTitleOutput($data->title_output);
-			$this->processing_time = $data->processing_time;
-			$this->enable_processing_time = $data->enable_processing_time;
-			$this->reset_processing_time = $data->reset_processing_time;
-			$this->reporting_date = $data->reporting_date;
+			$this->setProcessingTime($data->processing_time);
+			$this->setEnableProcessingTime($data->enable_processing_time);
+			$this->setResetProcessingTime($data->reset_processing_time);
+			$this->setReportingDate($data->reporting_date);
 			$this->setShuffleQuestions($data->shuffle_questions);
 			$this->setResultsPresentation($data->results_presentation);
 			$this->setListOfQuestionsSettings($data->show_summary);
-			$this->starting_time = $data->starting_time;
-			$this->ending_time = $data->ending_time;
-			$this->ects_output = $data->ects_output;
-			$this->ects_grades = array(
-				"A" => $data->ects_a,
-				"B" => $data->ects_b,
-				"C" => $data->ects_c,
-				"D" => $data->ects_d,
-				"E" => $data->ects_e
+			$this->setStartingTime($data->starting_time);
+			$this->setEndingTime($data->ending_time);
+			$this->setECTSOutput($data->ects_output);
+			$this->setECTSGrades(
+				array(
+					"A" => $data->ects_a,
+					"B" => $data->ects_b,
+					"C" => $data->ects_c,
+					"D" => $data->ects_d,
+					"E" => $data->ects_e
+				)
 			);
-			$this->ects_fx = $data->ects_fx;
-			$this->random_test = $data->random_test;
-			$this->random_question_count = $data->random_question_count;
+			$this->setECTSFX($data->ects_fx);
+			$this->setRandomTest($data->random_test);
+			$this->setRandomQuestionCount($data->random_question_count);
 			$this->mark_schema->flush();
-			$this->mark_schema->loadFromDb($this->test_id);
-			$this->count_system = $data->count_system;
-			$this->mc_scoring = $data->mc_scoring;
+			$this->mark_schema->loadFromDb($this->getTestId());
+			$this->setCountSystem($data->count_system);
+			$this->setMCScoring($data->mc_scoring);
 			$this->setScoreCutting($data->score_cutting);
 			$this->setPassword($data->password);
 			$this->setAllowedUsers($data->allowedUsers);
@@ -1808,8 +1787,6 @@ class ilObjTest extends ilObject
 	}
 
 /**
-* Load the test question id's from the database
-*
 * Load the test question id's from the database
 *
 * @param integer $user_id The user id of the test user (necessary for random tests)
@@ -1862,18 +1839,16 @@ function loadQuestions($active_id = "", $pass = NULL)
 }
 
 /**
-* Sets the introduction
-*
 * Sets the introduction text of the ilObjTest object
 *
 * @param string $introduction An introduction string for the test
 * @access public
 * @see $introduction
 */
-  function setIntroduction($introduction = "")
+	function setIntroduction($introduction = "")
 	{
-    $this->introduction = $introduction;
-  }
+		$this->introduction = $introduction;
+	}
 
 	/**
 	* Sets the final statement text of the ilObjTest object
@@ -2098,10 +2073,10 @@ function loadQuestions($active_id = "", $pass = NULL)
 * @access public
 * @see $test_id
 */
-  function getTestId()
+	function getTestId()
 	{
-    return $this->test_id;
-  }
+		return $this->test_id;
+	}
 
 	/**
 	* Indicates if ECTS grades output is presented in this test
@@ -2185,10 +2160,10 @@ function loadQuestions($active_id = "", $pass = NULL)
 * @access public
 * @see $sequence_settings
 */
-  function setSequenceSettings($sequence_settings = 0)
+	function setSequenceSettings($sequence_settings = 0)
 	{
-    $this->sequence_settings = $sequence_settings;
-  }
+		$this->sequence_settings = $sequence_settings;
+	}
 
 /**
 * Sets the score reporting of the ilObjTest object
@@ -2197,10 +2172,10 @@ function loadQuestions($active_id = "", $pass = NULL)
 * @access public
 * @see $score_reporting
 */
-  function setScoreReporting($score_reporting = 0)
+	function setScoreReporting($score_reporting = 0)
 	{
-    $this->score_reporting = $score_reporting;
-  }
+		$this->score_reporting = $score_reporting;
+	}
 
 /**
 * Sets the instant feedback for the solution
@@ -2245,13 +2220,11 @@ function loadQuestions($active_id = "", $pass = NULL)
 /**
 * Sets the answer specific feedback of reached points for the test
 *
-* Sets the answer specific feedback of reached points for the test
-*
 * @param integer $answer_feedback_points If 1, answer specific feedback will show the reached points after answering a question
 * @access public
 * @see $answer_feedback_points
 */
-  function setAnswerFeedbackPoints($answer_feedback_points = 0)
+	function setAnswerFeedbackPoints($answer_feedback_points = 0)
 	{
 		switch ($answer_feedback_points)
 		{
@@ -2262,47 +2235,41 @@ function loadQuestions($active_id = "", $pass = NULL)
 				$this->answer_feedback_points = 0;
 				break;
 		}
-  }
+	}
 
 /**
-* Sets the random test indicator
-*
 * Sets the random test indicator
 *
 * @param integer $a_random_test The random test indicator (0 = no random test, 1 = random test)
 * @access public
 * @see $random_test
 */
-  function setRandomTest($a_random_test = 0)
+	function setRandomTest($a_random_test = 0)
 	{
-    $this->random_test = $a_random_test;
-  }
+		$this->random_test = $a_random_test;
+	}
 
 /**
-* Sets the random question count
-*
 * Sets the random question count
 *
 * @param integer $a_random_question_count The random question count
 * @access public
 * @see $random_question_count
 */
-  function setRandomQuestionCount($a_random_question_count = "")
+	function setRandomQuestionCount($a_random_question_count = "")
 	{
-    $this->random_question_count = $a_random_question_count;
-  }
+		$this->random_question_count = $a_random_question_count;
+	}
 
 /**
-* Sets the reporting date
-*
 * Sets the reporting date of the ilObjTest object
 *
 * @param timestamp $reporting_date The date and time the score reporting is available
 * @access public
 * @see $reporting_date
 */
-  function setReportingDate($reporting_date)
-  {
+	function setReportingDate($reporting_date)
+	{
 		if (!$reporting_date)
 		{
 			$this->reporting_date = "";
@@ -2312,7 +2279,7 @@ function loadQuestions($active_id = "", $pass = NULL)
 		{
 			$this->reporting_date = $reporting_date;
 		}
-  }
+	}
 
 /**
 * Gets the sequence settings of the ilObjTest object
@@ -2345,10 +2312,10 @@ function loadQuestions($active_id = "", $pass = NULL)
 * @access public
 * @see $instant_verification
 */
-  function getInstantFeedbackSolution()
+	function getInstantFeedbackSolution()
 	{
-    return ($this->instant_verification) ? $this->instant_verification : 0;
-  }
+		return ($this->instant_verification) ? $this->instant_verification : 0;
+	}
 
 /**
 * Returns 1 if answer specific feedback is activated
@@ -2357,10 +2324,10 @@ function loadQuestions($active_id = "", $pass = NULL)
 * @access public
 * @see $answer_feedback
 */
-  function getAnswerFeedback()
+	function getAnswerFeedback()
 	{
-    return ($this->answer_feedback) ? $this->answer_feedback : 0;
-  }
+		return ($this->answer_feedback) ? $this->answer_feedback : 0;
+	}
 
 /**
 * Returns 1 if answer specific feedback as reached points is activated
@@ -2396,13 +2363,13 @@ function loadQuestions($active_id = "", $pass = NULL)
 	function _getCountSystem($active_id)
 	{
 		global $ilDB;
-		$query = sprintf("SELECT tst_tests.count_system FROM tst_tests, tst_active WHERE tst_active.active_id = %s AND tst_active.test_fi = tst_tests.test_id",
-			$ilDB->quote($active_id)
+		$result = $ilDB->queryF("SELECT tst_tests.count_system FROM tst_tests, tst_active WHERE tst_active.active_id = %s AND tst_active.test_fi = tst_tests.test_id",
+			array('integer'),
+			array($active_id)
 		);
-		$result = $ilDB->query($query);
 		if ($result->numRows())
 		{
-			$row = $result->fetchRow(MDB2_FETCHMODE_ASSOC);
+			$row = $ilDB->fetchAssoc($result);
 			return $row["count_system"];
 		}
 		return FALSE;
@@ -2466,13 +2433,13 @@ function loadQuestions($active_id = "", $pass = NULL)
 	function _getPassScoring($active_id)
 	{
 		global $ilDB;
-		$query = sprintf("SELECT tst_tests.pass_scoring FROM tst_tests, tst_active WHERE tst_tests.test_id = tst_active.test_fi AND tst_active.active_id = %s",
-			$ilDB->quote($active_id . "")
+		$result = $ilDB->queryF("SELECT tst_tests.pass_scoring FROM tst_tests, tst_active WHERE tst_tests.test_id = tst_active.test_fi AND tst_active.active_id = %s",
+			array('integer'),
+			array($active_id)
 		);
-		$result = $ilDB->query($query);
 		if ($result->numRows())
 		{
-			$row = $result->fetchRow(MDB2_FETCHMODE_ASSOC);
+			$row = $ilDB->fetchAssoc($result);
 			return $row["pass_scoring"];
 		}
 		return 0;
@@ -2488,13 +2455,13 @@ function loadQuestions($active_id = "", $pass = NULL)
 	function _getMCScoring($active_id)
 	{
 		global $ilDB;
-		$query = sprintf("SELECT tst_tests.mc_scoring FROM tst_tests, tst_active WHERE tst_active.active_id = %s AND tst_active.test_fi = tst_tests.test_id",
-			$ilDB->quote($active_id)
+		$result = $ilDB->queryF("SELECT tst_tests.mc_scoring FROM tst_tests, tst_active WHERE tst_active.active_id = %s AND tst_active.test_fi = tst_tests.test_id",
+			array('integer'),
+			array($active_id)
 		);
-		$result = $ilDB->query($query);
 		if ($result->numRows())
 		{
-			$row = $result->fetchRow(MDB2_FETCHMODE_ASSOC);
+			$row = $ilDB->fetchAssoc($result);
 			return $row["mc_scoring"];
 		}
 		return FALSE;
@@ -2510,13 +2477,13 @@ function loadQuestions($active_id = "", $pass = NULL)
 	function _getScoreCutting($active_id)
 	{
 		global $ilDB;
-		$query = sprintf("SELECT tst_tests.score_cutting FROM tst_tests, tst_active WHERE tst_active.active_id = %s AND tst_tests.test_id = tst_active.test_fi",
-			$ilDB->quote($active_id)
+		$result = $ilDB->queryF("SELECT tst_tests.score_cutting FROM tst_tests, tst_active WHERE tst_active.active_id = %s AND tst_tests.test_id = tst_active.test_fi",
+			array('integer'),
+			array($active_id)
 		);
-		$result = $ilDB->query($query);
 		if ($result->numRows())
 		{
-			$row = $result->fetchRow(MDB2_FETCHMODE_ASSOC);
+			$row = $ilDB->fetchAssoc($result);
 			return $row["score_cutting"];
 		}
 		return FALSE;
@@ -2728,13 +2695,13 @@ function loadQuestions($active_id = "", $pass = NULL)
 	{
 		global $ilDB;
 
-		$query = sprintf("SELECT tst_tests.title_output FROM tst_tests, tst_active WHERE tst_tests.test_id = tst_active.test_fi AND tst_active.active_id = %s",
-			$ilDB->quote($active_id . "")
+		$result = $ilDB->queryF("SELECT tst_tests.title_output FROM tst_tests, tst_active WHERE tst_tests.test_id = tst_active.test_fi AND tst_active.active_id = %s",
+			array('integer'),
+			array($active_id)
 		);
-		$result = $ilDB->query($query);
 		if ($result->numRows())
 		{
-			$row = $result->fetchRow(MDB2_FETCHMODE_ASSOC);
+			$row = $ilDB->fetchAssoc($result);
 			return $row["title_output"];
 		}
 		return 0;
@@ -3109,35 +3076,40 @@ function loadQuestions($active_id = "", $pass = NULL)
 		// remove the question from tst_solutions
 		if ($question_id)
 		{
-			$query = sprintf("DELETE FROM tst_solutions USING tst_solutions, tst_active where tst_solutions.active_fi = tst_active.active_id AND tst_active.test_fi = %s AND tst_solutions.question_fi = %s",
-				$ilDB->quote($this->getTestId()),
-				$ilDB->quote($question_id)
+			$affectedRows = $ilDB->manipulateF("DELETE FROM tst_solutions USING tst_solutions, tst_active WHERE tst_solutions.active_fi = tst_active.active_id AND tst_active.test_fi = %s AND tst_solutions.question_fi = %s",
+				array('integer','integer'),
+				array($this->getTestId(), $question_id)
 			);
-			$query2 = sprintf("DELETE FROM tst_qst_solved USING tst_qst_solved, tst_active where tst_qst_solved.active_fi = tst_active.active_id AND tst_active.test_fi = %s AND tst_qst_solved.question_fi = %s",
-				$ilDB->quote($this->getTestId()),
-				$ilDB->quote($question_id)
+			$affectedRows = $ilDB->manipulateF("DELETE FROM tst_qst_solved USING tst_qst_solved, tst_active WHERE tst_qst_solved.active_fi = tst_active.active_id AND tst_active.test_fi = %s AND tst_qst_solved.question_fi = %s",
+				array('integer','integer'),
+				array($this->getTestId(), $question_id)
 			);
-			$query3 = sprintf("DELETE FROM tst_test_result USING tst_test_result, tst_active WHERE tst_active.test_fi = %s AND tst_test_result.question_fi = %s AND tst_active.active_id = tst_test_result.active_fi",
-				$ilDB->quote($this->getTestId()),
-				$ilDB->quote($question_id)
+			$affectedRows = $ilDB->manipulateF("DELETE FROM tst_test_result USING tst_test_result, tst_active WHERE tst_active.test_fi = %s AND tst_test_result.question_fi = %s AND tst_active.active_id = tst_test_result.active_fi",
+				array('integer','integer'),
+				array($this->getTestId(), $question_id)
 			);
-			$query4 = sprintf("DELETE FROM tst_pass_result USING tst_pass_result, tst_active WHERE tst_active.test_fi = %s AND tst_active.active_id = tst_pass_result.active_fi",
-				$ilDB->quote($this->getTestId())
+			$affectedRows = $ilDB->manipulateF("DELETE FROM tst_pass_result USING tst_pass_result, tst_active WHERE tst_active.test_fi = %s AND tst_active.active_id = tst_pass_result.active_fi",
+				array('integer'),
+				array($this->getTestId())
 			);
 		} 
 		else 
 		{
-			$query = sprintf("DELETE FROM tst_solutions USING tst_solutions, tst_active where tst_solutions.active_fi = tst_active.active_id AND tst_active.test_fi = %s",
-				$ilDB->quote($this->getTestId())
+			$affectedRows = $ilDB->manipulateF("DELETE FROM tst_solutions USING tst_solutions, tst_active WHERE tst_solutions.active_fi = tst_active.active_id AND tst_active.test_fi = %s",
+				array('integer'),
+				array($this->getTestId())
 			);
-			$query2 = sprintf("DELETE FROM tst_qst_solved USING tst_qst_solved, tst_active where tst_qst_solved.active_fi = tst_active.active_id AND tst_active.test_fi = %s",
-				$ilDB->quote($this->getTestId())
+			$affectedRows = $ilDB->manipulateF("DELETE FROM tst_qst_solved USING tst_qst_solved, tst_active WHERE tst_qst_solved.active_fi = tst_active.active_id AND tst_active.test_fi = %s",
+				array('integer'),
+				array($this->getTestId())
 			);
-			$query3 = sprintf("DELETE FROM tst_test_result USING tst_test_result, tst_active WHERE tst_active.test_fi = %s AND tst_active.active_id = tst_test_result.active_fi",
-				$ilDB->quote($this->getTestId())
+			$affectedRows = $ilDB->manipulateF("DELETE FROM tst_test_result USING tst_test_result, tst_active WHERE tst_active.test_fi = %s AND tst_active.active_id = tst_test_result.active_fi",
+				array('integer'),
+				array($this->getTestId())
 			);
-			$query4 = sprintf("DELETE FROM tst_pass_result USING tst_pass_result, tst_active WHERE tst_active.test_fi = %s AND tst_active.active_id = tst_pass_result.active_fi",
-				$ilDB->quote($this->getTestId())
+			$affectedRows = $ilDB->manipulateF("DELETE FROM tst_pass_result USING tst_pass_result, tst_active WHERE tst_active.test_fi = %s AND tst_active.active_id = tst_pass_result.active_fi",
+				array('integer'),
+				array($this->getTestId())
 			);
 			include_once ("./Modules/Test/classes/class.ilObjAssessmentFolder.php");
 			if (ilObjAssessmentFolder::_enabledAssessmentLogging())
@@ -3145,34 +3117,30 @@ function loadQuestions($active_id = "", $pass = NULL)
 				$this->logAction($this->lng->txtlng("assessment", "log_user_data_removed", ilObjAssessmentFolder::_getLogLanguage()));
 			}
 		}
-		$query5 = sprintf("DELETE FROM tst_sequence USING tst_sequence, tst_active WHERE tst_active.test_fi = %s AND tst_active.active_id = tst_sequence.active_fi",
-			$ilDB->quote($this->getTestId())
+		$affectedRows = $ilDB->manipulateF("DELETE FROM tst_sequence USING tst_sequence, tst_active WHERE tst_active.test_fi = %s AND tst_active.active_id = tst_sequence.active_fi",
+			array('integer'),
+			array($this->getTestId())
 		);
-		$result = $ilDB->query($query);
-		$result = $ilDB->query($query2);
-		$result = $ilDB->query($query3);
-		$result = $ilDB->query($query4);
-		$result = $ilDB->query($query5);
 
 		if ($this->isRandomTest())
 		{
-			$query = sprintf("DELETE FROM tst_test_rnd_qst USING tst_test_rnd_qst, tst_active WHERE tst_active.test_fi = %s AND tst_test_rnd_qst.active_fi = tst_active.active_id",
-				$ilDB->quote($this->getTestId())
+			$affectedRows = $ilDB->manipulateF("DELETE FROM tst_test_rnd_qst USING tst_test_rnd_qst, tst_active WHERE tst_active.test_fi = %s AND tst_test_rnd_qst.active_fi = tst_active.active_id",
+				array('integer'),
+				array($this->getTestId())
 			);
-			$result = $ilDB->query($query);
 		}
 
 		// remove test_active entries, because test has changed
-		$query = sprintf("DELETE FROM tst_active WHERE test_fi = %s",
-			$ilDB->quote($this->getTestId())
+		$affectedRows = $ilDB->manipulateF("DELETE FROM tst_active WHERE test_fi = %s",
+			array('integer'),
+			array($this->getTestId())
 		);
-		$result = $ilDB->query($query);
 
 		// remove saved user passwords
-		$query = sprintf("DELETE FROM usr_pref WHERE keyword = %s",
-			$ilDB->quote("tst_password_".$this->getTestId(), "text")
+		$affectedRows = $ilDB->manipulateF("DELETE FROM usr_pref WHERE keyword = %s",
+			array('text'),
+			array("tst_password_".$this->getTestId())
 		);
-		$result = $ilDB->manipulate($query);
 	}
 
 	function removeSelectedTestResults($active_ids)
@@ -3182,29 +3150,29 @@ function loadQuestions($active_id = "", $pass = NULL)
 		// remove the question from tst_solutions
 		foreach ($active_ids as $active_id)
 		{
-			$query = sprintf("DELETE FROM tst_solutions WHERE active_fi = %s",
-				$ilDB->quote($active_id . "")
+			$affectedRows = $ilDB->manipulateF("DELETE FROM tst_solutions WHERE active_fi = %s",
+				array('integer'),
+				array($active_id)
 			);
-			$query2 = sprintf("DELETE FROM tst_qst_solved WHERE active_fi = %s",
-				$ilDB->quote($active_id . "")
+			$affectedRows = $ilDB->manipulateF("DELETE FROM tst_qst_solved WHERE active_fi = %s",
+				array('integer'),
+				array($active_id)
 			);
-			$query3 = sprintf("DELETE FROM tst_test_result WHERE active_fi = %s",
-				$ilDB->quote($active_id . "")
+			$affectedRows = $ilDB->manipulateF("DELETE FROM tst_test_result WHERE active_fi = %s",
+				array('integer'),
+				array($active_id)
 			);
-			$query4 = sprintf("DELETE FROM tst_pass_result WHERE active_fi = %s",
-				$ilDB->quote($active_id . "")
+			$affectedRows = $ilDB->manipulateF("DELETE FROM tst_pass_result WHERE active_fi = %s",
+				array('integer'),
+				array($active_id)
 			);
-			$result = $ilDB->query($query);
-			$result = $ilDB->query($query2);
-			$result = $ilDB->query($query3);
-			$result = $ilDB->query($query4);
 
 			if ($this->isRandomTest())
 			{
-				$query = sprintf("DELETE FROM tst_test_rnd_qst WHERE active_fi = %s",
-					$ilDB->quote($active_id . "")
+				$affectedRows = $ilDB->manipulateF("DELETE FROM tst_test_rnd_qst WHERE active_fi = %s",
+					array('integer'),
+					array($active_id)
 				);
-				$result = $ilDB->query($query);
 			}
 
 			include_once ("./Modules/Test/classes/class.ilObjAssessmentFolder.php");
@@ -3219,24 +3187,23 @@ function loadQuestions($active_id = "", $pass = NULL)
 		{
 			$usr_id = $this->_getUserIdFromActiveId($active_id);
 
-			$query = sprintf("DELETE FROM tst_active WHERE active_id = %s",
-				$ilDB->quote($active_id . "")
+			$affectedRows = $ilDB->manipulateF("DELETE FROM tst_active WHERE active_id = %s",
+				array('integer'),
+				array($active_id)
 			);
-			$result = $ilDB->query($query);
 
-			$query = sprintf("DELETE FROM tst_sequence WHERE active_fi = %s",
-				$ilDB->quote($active_id)
+			$affectedRows = $ilDB->manipulateF("DELETE FROM tst_sequence WHERE active_fi = %s",
+				array('integer'),
+				array($active_id)
 			);
-			$result = $ilDB->query($query);
 
 			// remove saved user password
 			if ($usr_id > 0)
 			{
-				$query = sprintf("DELETE FROM usr_pref WHERE usr_id = %s AND keyword = %s",
-					$ilDB->quote($usr_id, "integer"),
-					$ilDB->quote("tst_password_".$this->getTestId(), "text")
+				$affectedRows = $ilDB->manipulateF("DELETE FROM usr_pref WHERE usr_id = %s AND keyword = %s",
+					array('integer', 'text'),
+					array($usr_id, "tst_password_".$this->getTestId())
 				);
-				$result = $ilDB->manipulate($query);
 			}
 		}
 	}
@@ -3248,29 +3215,29 @@ function loadQuestions($active_id = "", $pass = NULL)
 		$active_id = $this->getActiveIdOfUser($user_id);
 
 		// remove the question from tst_solutions
-		$query = sprintf("DELETE FROM tst_solutions WHERE active_fi = %s",
-			$ilDB->quote($active_id . "")
+		$affectedRows = $ilDB->manipulateF("DELETE FROM tst_solutions WHERE active_fi = %s",
+			array('integer'),
+			array($active_id)
 		);
-		$query2 = sprintf("DELETE FROM tst_qst_solved WHERE active_fi = %s",
-			$ilDB->quote($active_id . "")
+		$affectedRows = $ilDB->manipulateF("DELETE FROM tst_qst_solved WHERE active_fi = %s",
+			array('integer'),
+			array($active_id)
 		);
-		$query3 = sprintf("DELETE FROM tst_test_result WHERE active_fi = %s",
-			$ilDB->quote($active_id . "")
+		$affectedRows = $ilDB->manipulateF("DELETE FROM tst_test_result WHERE active_fi = %s",
+			array('integer'),
+			array($active_id)
 		);
-		$query4 = sprintf("DELETE FROM tst_pass_result WHERE active_fi = %s",
-			$ilDB->quote($active_id . "")
+		$affectedRows = $ilDB->manipulateF("DELETE FROM tst_pass_result WHERE active_fi = %s",
+			array('integer'),
+			array($active_id)
 		);
-		$result = $ilDB->query($query);
-		$result = $ilDB->query($query2);
-		$result = $ilDB->query($query3);
-		$result = $ilDB->query($query4);
 
 		if ($this->isRandomTest())
 		{
-			$query = sprintf("DELETE FROM tst_test_rnd_qst WHERE active_fi = %s",
-				$ilDB->quote($active_id . "")
+			$affectedRows = $ilDB->manipulateF("DELETE FROM tst_test_rnd_qst WHERE active_fi = %s",
+				array('integer'),
+				array($active_id)
 			);
-			$result = $ilDB->query($query);
 		}
 
 		include_once ("./Modules/Test/classes/class.ilObjAssessmentFolder.php");
@@ -3279,25 +3246,24 @@ function loadQuestions($active_id = "", $pass = NULL)
 			$this->logAction(sprintf($this->lng->txtlng("assessment", "log_selected_user_data_removed", ilObjAssessmentFolder::_getLogLanguage()), $this->userLookupFullName($this->_getUserIdFromActiveId($active_id))));
 		}
 
-		$query = sprintf("DELETE FROM tst_sequence WHERE active_fi = %s",
-			$ilDB->quote($active_id)
+		$affectedRows = $ilDB->manipulateF("DELETE FROM tst_sequence WHERE active_fi = %s",
+			array('integer'),
+			array($active_id)
 		);
-		$result = $ilDB->query($query);
 
 		// remove test_active entry
-		$query = sprintf("DELETE FROM tst_active WHERE active_id = %s",
-			$ilDB->quote($active_id . "")
+		$affectedRows = $ilDB->manipulateF("DELETE FROM tst_active WHERE active_id = %s",
+			array('integer'),
+			array($active_id)
 		);
-		$result = $ilDB->query($query);
 
 		// remove saved user password
 		if ($user_id > 0)
 		{
-			$query = sprintf("DELETE FROM usr_pref WHERE usr_id = %s AND keyword = %s",
-				$ilDB->quote($user_id, "integer"),
-				$ilDB->quote("tst_password_".$this->getTestId(), "text")
+			$affectedRows = $ilDB->manipulateF("DELETE FROM usr_pref WHERE usr_id = %s AND keyword = %s",
+				array('integer', 'text'),
+				array($user_id, "tst_password_".$this->getTestId())
 			);
-			$result = $ilDB->manipulate($query);
 		}
 	}
 
@@ -3313,32 +3279,29 @@ function loadQuestions($active_id = "", $pass = NULL)
 		global $ilDB;
 
 		// Move a question up in sequence
-		$query = sprintf("SELECT * FROM tst_test_question WHERE test_fi=%s AND question_fi=%s",
-			$ilDB->quote($this->getTestId()),
-			$ilDB->quote($question_id)
+		$result = $ilDB->queryF("SELECT * FROM tst_test_question WHERE test_fi=%s AND question_fi=%s",
+			array('integer', 'integer'),
+			array($this->getTestId(), $question_id)
 		);
-		$result = $ilDB->query($query);
-		$data = $result->fetchRow(MDB2_FETCHMODE_OBJECT);
-		if ($data->sequence > 1) {
+		$data = $ilDB->fetchObject($result);
+		if ($data->sequence > 1) 
+		{
 			// OK, it's not the top question, so move it up
-			$query = sprintf("SELECT * FROM tst_test_question WHERE test_fi=%s AND sequence=%s",
-				$ilDB->quote($this->getTestId()),
-				$ilDB->quote($data->sequence - 1)
+			$result = $ilDB->queryF("SELECT * FROM tst_test_question WHERE test_fi=%s AND sequence=%s",
+				array('integer','integer'),
+				array($this->getTestId(), $data->sequence - 1)
 			);
-			$result = $ilDB->query($query);
-			$data_previous = $result->fetchRow(MDB2_FETCHMODE_OBJECT);
+			$data_previous = $ilDB->fetchObject($result);
 			// change previous dataset
-			$query = sprintf("UPDATE tst_test_question SET sequence=%s WHERE test_question_id=%s",
-				$ilDB->quote($data->sequence),
-				$ilDB->quote($data_previous->test_question_id)
+			$affectedRows = $ilDB->manipulateF("UPDATE tst_test_question SET sequence=%s WHERE test_question_id=%s",
+				array('integer','integer'),
+				array($data->sequence, $data_previous->test_question_id)
 			);
-			$result = $ilDB->query($query);
 			// move actual dataset up
-			$query = sprintf("UPDATE tst_test_question SET sequence=%s WHERE test_question_id=%s",
-				$ilDB->quote($data->sequence - 1),
-				$ilDB->quote($data->test_question_id)
+			$affectedRows = $ilDB->manipulateF("UPDATE tst_test_question SET sequence=%s WHERE test_question_id=%s",
+				array('integer','integer'),
+				array($data->sequence - 1, $data->test_question_id)
 			);
-			$result = $ilDB->query($query);
 			include_once ("./Modules/Test/classes/class.ilObjAssessmentFolder.php");
 			if (ilObjAssessmentFolder::_enabledAssessmentLogging())
 			{
@@ -3360,33 +3323,29 @@ function loadQuestions($active_id = "", $pass = NULL)
 		global $ilDB;
 
 		// Move a question down in sequence
-		$query = sprintf("SELECT * FROM tst_test_question WHERE test_fi=%s AND question_fi=%s",
-			$ilDB->quote($this->getTestId()),
-			$ilDB->quote($question_id)
+		$result = $ilDB->queryF("SELECT * FROM tst_test_question WHERE test_fi=%s AND question_fi=%s",
+			array('integer','integer'),
+			array($this->getTestId(), $question_id)
 		);
-		$result = $ilDB->query($query);
-		$data = $result->fetchRow(MDB2_FETCHMODE_OBJECT);
-		$query = sprintf("SELECT * FROM tst_test_question WHERE test_fi=%s AND sequence=%s",
-			$ilDB->quote($this->getTestId()),
-			$ilDB->quote($data->sequence + 1)
+		$data = $ilDB->fetchObject($result);
+		$result = $ilDB->queryF("SELECT * FROM tst_test_question WHERE test_fi=%s AND sequence=%s",
+			array('integer','integer'),
+			array($this->getTestId(), $data->sequence + 1)
 		);
-		$result = $ilDB->query($query);
 		if ($result->numRows() == 1)
 		{
 			// OK, it's not the last question, so move it down
-			$data_next = $result->fetchRow(MDB2_FETCHMODE_OBJECT);
+			$data_next = $ilDB->fetchObject($result);
 			// change next dataset
-			$query = sprintf("UPDATE tst_test_question SET sequence=%s WHERE test_question_id=%s",
-				$ilDB->quote($data->sequence),
-				$ilDB->quote($data_next->test_question_id)
+			$affectedRows = $ilDB->manipulateF("UPDATE tst_test_question SET sequence=%s WHERE test_question_id=%s",
+				array('integer','integer'),
+				array($data->sequence, $data_next->test_question_id)
 			);
-			$result = $ilDB->query($query);
 			// move actual dataset down
-			$query = sprintf("UPDATE tst_test_question SET sequence=%s WHERE test_question_id=%s",
-				$ilDB->quote($data->sequence + 1),
-				$ilDB->quote($data->test_question_id)
+			$affectedRows = $ilDB->manipulateF("UPDATE tst_test_question SET sequence=%s WHERE test_question_id=%s",
+				array('integer','integer'),
+				array($data->sequence + 1, $data->test_question_id)
 			);
-			$result = $ilDB->query($query);
 			include_once ("./Modules/Test/classes/class.ilObjAssessmentFolder.php");
 			if (ilObjAssessmentFolder::_enabledAssessmentLogging())
 			{
@@ -3425,28 +3384,24 @@ function loadQuestions($active_id = "", $pass = NULL)
 		$duplicate_id = $this->duplicateQuestionForTest($question_id);
 
 		// get maximum sequence index in test
-		$query = sprintf("SELECT MAX(sequence) seq FROM tst_test_question WHERE test_fi=%s",
-			$ilDB->quote($this->getTestId())
-			);
-		$result = $ilDB->query($query);
+		$result = $ilDB->queryF("SELECT MAX(sequence) seq FROM tst_test_question WHERE test_fi=%s",
+			array('integer'),
+			array($this->getTestId())
+		);
 		$sequence = 1;
 
 		if ($result->numRows() == 1)
 		{
-			$data = $result->fetchRow(MDB2_FETCHMODE_OBJECT);
+			$data = $ilDB->fetchObject($result);
 			$sequence = $data->seq + 1;
 		}
 
-		$result = $ilDB->manipulateF("INSERT INTO tst_test_question (test_question_id, test_fi, question_fi, sequence, tstamp) VALUES (NULL, %s, %s, %s, %s)",
-			array('integer','integer','integer','integer'),
-			array($this->getTestId(), $duplicate_id, $sequence, time())
+		$next_id = $ilDB->nextId('tst_test_question');
+		$affectedRows = $ilDB->manipulateF("INSERT INTO tst_test_question (test_question_id, test_fi, question_fi, sequence, tstamp) VALUES (%s, %s, %s, %s, %s)",
+			array('integer', 'integer','integer','integer','integer'),
+			array($next_id, $this->getTestId(), $duplicate_id, $sequence, time())
 		);
-		if (PEAR::isError($result)) 
-		{
-			global $ilias;
-			$ilias->raiseError($result->getMessage());
-		}
-		else
+		if ($affectedRows == 1) 
 		{
 			include_once ("./Modules/Test/classes/class.ilObjAssessmentFolder.php");
 			if (ilObjAssessmentFolder::_enabledAssessmentLogging())
@@ -3455,10 +3410,10 @@ function loadQuestions($active_id = "", $pass = NULL)
 			}
 		}
 		// remove test_active entries, because test has changed
-		$query = sprintf("DELETE FROM tst_active WHERE test_fi = %s",
-			$ilDB->quote($this->getTestId())
-			);
-		$result = $ilDB->query($query);
+		$affectedRows = $ilDB->manipulateF("DELETE FROM tst_active WHERE test_fi = %s",
+			array('integer'),
+			array($this->getTestId())
+		);
 		$this->loadQuestions();
 		$this->saveCompleteStatus();
 	}
@@ -3521,11 +3476,10 @@ function loadQuestions($active_id = "", $pass = NULL)
 	{
 		global $ilDB;
 
-		$result = sprintf("SELECT qpl_questions.*, qpl_qst_type.type_tag FROM qpl_questions, qpl_qst_type WHERE qpl_questions.question_id = %s AND qpl_questions.question_type_fi = qpl_qst_type.question_type_id",
+		$result = $ilDB->queryF("SELECT qpl_questions.*, qpl_qst_type.type_tag FROM qpl_questions, qpl_qst_type WHERE qpl_questions.question_id = %s AND qpl_questions.question_type_fi = qpl_qst_type.question_type_id",
 			array('integer'),
 			array($question_id)
 		);
-		$result = $ilDB->query($query);
 		$row = $ilDB->fetchObject($result);
 		return $row;
 	}
@@ -3558,7 +3512,6 @@ function loadQuestions($active_id = "", $pass = NULL)
 				array($this->getTestId())
 			);
 		}
-		$result = $ilDB->query($query);
 		while ($data = $ilDB->fetchObject($result)) 
 		{
 			array_push($existing_questions, $data->original_id);
@@ -3582,7 +3535,6 @@ function loadQuestions($active_id = "", $pass = NULL)
 			array('integer'),
 			array($question_id)
 		);
-		$result = $ilDB->query($query);
 		if ($result->numRows() == 1) 
 		{
 			$data = $ilDB->fetchObject($result);
@@ -3604,9 +3556,10 @@ function loadQuestions($active_id = "", $pass = NULL)
 	{
 		global $ilDB;
 
-		$affectedRows = $ilDB->manipulateF("INSERT INTO tst_times (times_id, active_fi, started, finished, pass, tstamp) VALUES (NULL, %s, %s, %s, %s, %s)",
-			array('integer', 'timedate', 'timedate', 'integer', 'integer'),
-			array($active_id, strftime("%Y-%m-%d %H:%M:%S"), strftime("%Y-%m-%d %H:%M:%S"), $pass, time())
+		$next_id = $ilDB->nextId('tst_times');
+		$affectedRows = $ilDB->manipulateF("INSERT INTO tst_times (times_id, active_fi, started, finished, pass, tstamp) VALUES (%s, %s, %s, %s, %s, %s)",
+			array('integer', 'integer', 'timestamp', 'timestamp', 'integer', 'integer'),
+			array($next_id, $active_id, strftime("%Y-%m-%d %H:%M:%S"), strftime("%Y-%m-%d %H:%M:%S"), $pass, time())
 		);
 		return $ilDB->getLastInsertId();
 	}
@@ -3621,11 +3574,10 @@ function loadQuestions($active_id = "", $pass = NULL)
 	{
 		global $ilDB;
 
-		$q = sprintf("UPDATE tst_times SET finished = %s WHERE times_id = %s",
-			$ilDB->quote(strftime("%Y-%m-%d %H:%M:%S")),
-			$ilDB->quote($times_id)
+		$affectedRows = $ilDB->manipulateF("UPDATE tst_times SET finished = %s, tstamp = %s WHERE times_id = %s",
+			array('timestamp', 'integer', 'integer'),
+			array(strftime("%Y-%m-%d %H:%M:%S"), time(), $times_id)
 		);
-		$result = $ilDB->query($q);
 	}
 
 /**
@@ -3641,22 +3593,22 @@ function loadQuestions($active_id = "", $pass = NULL)
 
 		if (is_null($pass))
 		{
-			$query = sprintf("SELECT question_fi FROM tst_solutions WHERE active_fi = %s AND pass = 0 GROUP BY question_fi",
-				$ilDB->quote($active_id . "")
+			$result = $ilDB->queryF("SELECT question_fi FROM tst_solutions WHERE active_fi = %s AND pass = %s GROUP BY question_fi",
+				array('integer','integer'),
+				array($active_id, 0)
 			);
 		}
 		else
 		{
-			$query = sprintf("SELECT question_fi FROM tst_solutions WHERE active_fi = %s AND pass = %s GROUP BY question_fi",
-				$ilDB->quote($active_id . ""),
-				$ilDB->quote($pass . "")
+			$result = $ilDB->queryF("SELECT question_fi FROM tst_solutions WHERE active_fi = %s AND pass = %s GROUP BY question_fi",
+				array('integer','integer'),
+				array($active_id, $pass)
 			);
 		}
-		$result = $ilDB->query($query);
 		$result_array = array();
-		while ($row = $result->fetchRow(MDB2_FETCHMODE_OBJECT))
+		while ($row = $ilDB->fetchAssoc($result))
 		{
-			array_push($result_array, $row->question_fi);
+			array_push($result_array, $row["question_fi"]);
 		}
 		return $result_array;
 	}
@@ -3703,30 +3655,16 @@ function loadQuestions($active_id = "", $pass = NULL)
 			{
 				$pass = $this->_getPass($active_id);
 			}
-			$values = array($active_id, $pass);
-			$values = array_merge($values, $this->questions);
-			$types = array('integer','integer');
-			$types = $ilDB->addTypesToArray($types, 'integer', count($this->questions));
-			$phs = array('%s','%s');
-			$phs = $ilDB->addTypesToArray($phs, '%s', count($this->questions));			
-			$result = $ilDB->queryF("SELECT qpl_questions.* FROM qpl_questions, tst_test_rnd_qst WHERE tst_test_rnd_qst.question_fi = qpl_questions.question_id AND tst_test_rnd_qst.active_fi = %s AND tst_test_rnd_qst.pass = %s AND qpl_questions.question_id IN (" . join($phs, ",") . ")",
-				$types,
-				$values
+			$result = $ilDB->queryF("SELECT qpl_questions.* FROM qpl_questions, tst_test_rnd_qst WHERE tst_test_rnd_qst.question_fi = qpl_questions.question_id AND tst_test_rnd_qst.active_fi = %s AND tst_test_rnd_qst.pass = %s AND " . $ilDB->in('qpl_questions.question_id', $this->questions, false, 'integer'),
+				array('integer','integer'),
+				array($active_id, $pass)
 			);
 		}
 		else
 		{
 			if (count($this->questions) == 0) return $result_array;
-			$types = array();
-			$types = $ilDB->addTypesToArray($types, 'integer', count($this->questions));
-			$phs = array();
-			$phs = $ilDB->addTypesToArray($phs, '%s', count($this->questions));			
-			$result = $ilDB->queryF("SELECT qpl_questions.* FROM qpl_questions, tst_test_question WHERE tst_test_question.question_fi = qpl_questions.question_id AND qpl_questions.question_id IN (" . join($phs, ",") . ")",
-				$types,
-				$this->questions
-			);
+			$result = $ilDB->query("SELECT qpl_questions.* FROM qpl_questions, tst_test_question WHERE tst_test_question.question_fi = qpl_questions.question_id AND " . $ilDB->in('qpl_questions.question_id', $this->questions, false, 'integer'));
 		}
-		$result = $ilDB->query($query);
 		while ($row = $ilDB->fetchAssoc($result))
 		{
 			$result_array[$row["question_id"]] = $row;
@@ -3750,18 +3688,16 @@ function loadQuestions($active_id = "", $pass = NULL)
 			if (!$user_id) $user_id = $ilUser->getId();
 			if (($_SESSION["AccountId"] == ANONYMOUS_USER_ID) && (strlen($_SESSION["tst_access_code"][$this->getTestId()])))
 			{
-				$query = sprintf("SELECT active_id FROM tst_active WHERE user_fi = %s AND test_fi = %s AND anonymous_id = %s",
-					$ilDB->quote($user_id),
-					$ilDB->quote($this->test_id),
-					$ilDB->quote($_SESSION["tst_access_code"][$this->getTestId()])
+				$result = $ilDB->queryF("SELECT active_id FROM tst_active WHERE user_fi = %s AND test_fi = %s AND anonymous_id = %s",
+					array('integer','integer','text'),
+					array($user_id, $this->test_id, $_SESSION["tst_access_code"][$this->getTestId()])
 				);
 			}
 			else if (strlen($anonymous_id))
 			{
-				$query = sprintf("SELECT active_id FROM tst_active WHERE user_fi = %s AND test_fi = %s AND anonymous_id = %s",
-					$ilDB->quote($user_id),
-					$ilDB->quote($this->test_id),
-					$ilDB->quote($anonymous_id)
+				$result = $ilDB->queryF("SELECT active_id FROM tst_active WHERE user_fi = %s AND test_fi = %s AND anonymous_id = %s",
+					array('integer','integer','text'),
+					array($user_id, $this->test_id, $anonymous_id)
 				);
 			}
 			else
@@ -3770,15 +3706,14 @@ function loadQuestions($active_id = "", $pass = NULL)
 				{
 					return NULL;
 				}
-				$query = sprintf("SELECT active_id FROM tst_active WHERE user_fi = %s AND test_fi = %s",
-					$ilDB->quote($user_id),
-					$ilDB->quote($this->test_id)
+				$result = $ilDB->queryF("SELECT active_id FROM tst_active WHERE user_fi = %s AND test_fi = %s",
+					array('integer','integer'),
+					array($user_id, $this->test_id)
 				);
 			}
-			$result = $ilDB->query($query);
 			if ($result->numRows())
 			{
-				$row = $result->fetchRow(MDB2_FETCHMODE_ASSOC);
+				$row = $ilDB->fetchAssoc($result);
 				return $row["active_id"];
 			}
 			else
@@ -3807,15 +3742,13 @@ function loadQuestions($active_id = "", $pass = NULL)
 		{
 			return "";
 		}
-		$query = sprintf("SELECT tst_active.active_id FROM tst_active WHERE user_fi = %s AND test_fi = %s",
-			$ilDB->quote($user_id . ""),
-			$ilDB->quote($test_id . "")
+		$result = $ilDB->queryF("SELECT tst_active.active_id FROM tst_active WHERE user_fi = %s AND test_fi = %s",
+			array('integer', 'integer'),
+			array($user_id, $test_id)
 		);
-
-		$result = $ilDB->query($query);
 		if ($result->numRows()) 
 		{
-			$row = $result->fetchRow(MDB2_FETCHMODE_ASSOC);
+			$row = $ilDB->fetchAssoc($result);
 			return $row["active_id"];
 		} 
 		else 
@@ -3971,12 +3904,12 @@ function loadQuestions($active_id = "", $pass = NULL)
 	{
 		global $ilDB;
 
-		$q = sprintf("SELECT COUNT(*) as total FROM tst_active WHERE test_fi = %s",
-			$ilDB->quote($this->getTestId())
+		$result = $ilDB->queryF("SELECT COUNT(active_id) total FROM tst_active WHERE test_fi = %s",
+			array('integer'),
+			array($this->getTestId())
 		);
-		$result = $ilDB->query($q);
-		$row = $result->fetchRow(MDB2_FETCHMODE_OBJECT);
-		return $row->total;
+		$row = $ilDB->fetchAssoc($result);
+		return $row["total"];
 	}
 
 /**
@@ -3989,17 +3922,16 @@ function loadQuestions($active_id = "", $pass = NULL)
 	{
 		global $ilDB;
 
-		$q = sprintf("SELECT tst_times.* FROM tst_active, tst_times WHERE tst_active.test_fi = %s AND tst_active.active_id = tst_times.active_fi AND tst_active.user_fi = %s",
-			$ilDB->quote($this->getTestId()),
-			$ilDB->quote($user_id)
+		$result = $ilDB->queryF("SELECT tst_times.* FROM tst_active, tst_times WHERE tst_active.test_fi = %s AND tst_active.active_id = tst_times.active_fi AND tst_active.user_fi = %s",
+			array('integer','integer'),
+			array($this->getTestId(), $user_id)
 		);
-		$result = $ilDB->query($q);
 		$time = 0;
-		while ($row = $result->fetchRow(MDB2_FETCHMODE_OBJECT))
+		while ($row = $ilDB->fetchAssoc($result))
 		{
-			preg_match("/(\d{4})-(\d{2})-(\d{2}) (\d{2}):(\d{2}):(\d{2})/", $row->started, $matches);
+			preg_match("/(\d{4})-(\d{2})-(\d{2}) (\d{2}):(\d{2}):(\d{2})/", $row["started"], $matches);
 			$epoch_1 = mktime($matches[4], $matches[5], $matches[6], $matches[2], $matches[3], $matches[1]);
-			preg_match("/(\d{4})-(\d{2})-(\d{2}) (\d{2}):(\d{2}):(\d{2})/", $row->finished, $matches);
+			preg_match("/(\d{4})-(\d{2})-(\d{2}) (\d{2}):(\d{2}):(\d{2})/", $row["finished"], $matches);
 			$epoch_2 = mktime($matches[4], $matches[5], $matches[6], $matches[2], $matches[3], $matches[1]);
 			$time += ($epoch_2 - $epoch_1);
 		}
@@ -4028,13 +3960,13 @@ function loadQuestions($active_id = "", $pass = NULL)
 	{
 		global $ilDB;
 
-		$query = sprintf("SELECT tst_times.* FROM tst_active, tst_times WHERE tst_active.test_fi = %s AND tst_active.active_id = tst_times.active_fi ORDER BY tst_times.active_fi, tst_times.started",
-			$ilDB->quote($test_id . "")
+		$result = $ilDB->queryF("SELECT tst_times.* FROM tst_active, tst_times WHERE tst_active.test_fi = %s AND tst_active.active_id = tst_times.active_fi ORDER BY tst_times.active_fi, tst_times.started",
+			array('integer'),
+			array($test_id)
 		);
-		$result = $ilDB->query($query);
 		$time = 0;
 		$times = array();
-		while ($row = $result->fetchRow(MDB2_FETCHMODE_ASSOC))
+		while ($row = $ilDB->fetchAssoc($result))
 		{
 			if (!array_key_exists($row["active_fi"], $times))
 			{
@@ -4059,13 +3991,12 @@ function loadQuestions($active_id = "", $pass = NULL)
 	{
 		global $ilDB;
 
-		$query = sprintf("SELECT tst_times.* FROM tst_active, tst_times WHERE tst_active.test_fi = %s AND tst_active.active_id = tst_times.active_fi AND tst_active.active_id = %s ORDER BY tst_times.active_fi, tst_times.started",
-			$ilDB->quote($this->getTestId() . ""),
-			$ilDB->quote($active_id . "")
+		$result = $ilDB->queryF("SELECT tst_times.* FROM tst_active, tst_times WHERE tst_active.test_fi = %s AND tst_active.active_id = tst_times.active_fi AND tst_active.active_id = %s ORDER BY tst_times.active_fi, tst_times.started",
+			array('integer','integer'),
+			array($this->getTestId(), $active_id)
 		);
-		$result = $ilDB->query($query);
 		$time = 0;
-		while ($row = $result->fetchRow(MDB2_FETCHMODE_ASSOC))
+		while ($row = $ilDB->fetchAssoc($result))
 		{
 			preg_match("/(\d{4})-(\d{2})-(\d{2}) (\d{2}):(\d{2}):(\d{2})/", $row["started"], $matches);
 			$epoch_1 = mktime($matches[4], $matches[5], $matches[6], $matches[2], $matches[3], $matches[1]);
@@ -4086,13 +4017,12 @@ function loadQuestions($active_id = "", $pass = NULL)
 	{
 		global $ilDB;
 
-		$query = sprintf("SELECT * FROM tst_times WHERE active_fi = %s AND pass = %s ORDER BY started",
-			$ilDB->quote($active_id . ""),
-			$ilDB->quote($pass . "")
+		$result = $ilDB->queryF("SELECT * FROM tst_times WHERE active_fi = %s AND pass = %s ORDER BY started",
+			array('integer','integer'),
+			array($active_id, $pass)
 		);
-		$result = $ilDB->query($query);
 		$time = 0;
-		while ($row = $result->fetchRow(MDB2_FETCHMODE_ASSOC))
+		while ($row = $ilDb->fetchAssoc($result))
 		{
 			preg_match("/(\d{4})-(\d{2})-(\d{2}) (\d{2}):(\d{2}):(\d{2})/", $row["started"], $matches);
 			$epoch_1 = mktime($matches[4], $matches[5], $matches[6], $matches[2], $matches[3], $matches[1]);
@@ -4127,14 +4057,13 @@ function loadQuestions($active_id = "", $pass = NULL)
 	{
 		global $ilDB;
 
-		$query = sprintf("SELECT tst_times.* FROM tst_active, tst_times WHERE tst_active.test_fi = %s AND tst_active.active_id = tst_times.active_fi AND tst_active.active_id = %s ORDER BY tst_times.started",
-			$ilDB->quote($test_id . ""),
-			$ilDB->quote($active_id . "")
+		$result = $ilDB->queryF("SELECT tst_times.* FROM tst_active, tst_times WHERE tst_active.test_fi = %s AND tst_active.active_id = tst_times.active_fi AND tst_active.active_id = %s ORDER BY tst_times.started",
+			array('integer','integer'),
+			array($test_id, $active_id)
 		);
-		$result = $ilDB->query($query);
 		$firstvisit = 0;
 		$lastvisit = 0;
-		while ($row = $result->fetchRow(MDB2_FETCHMODE_ASSOC))
+		while ($row = $ilDB->fetchAssoc($result))
 		{
 			preg_match("/(\d{4})-(\d{2})-(\d{2}) (\d{2}):(\d{2}):(\d{2})/", $row["started"], $matches);
 			$epoch_1 = mktime($matches[4], $matches[5], $matches[6], $matches[2], $matches[3], $matches[1]);
@@ -4158,14 +4087,15 @@ function loadQuestions($active_id = "", $pass = NULL)
 //		global $ilBench;
 		$pass = ilObjTest::_getResultPass($active_id);
 		$test_result =& $this->getTestResult($active_id, $pass);
-		$q = sprintf("SELECT tst_times.* FROM tst_active, tst_times WHERE tst_active.active_id = %s AND tst_active.active_id = tst_times.active_fi",
-			$ilDB->quote($active_id)
+		$result = $ilDB->queryF("SELECT tst_times.* FROM tst_active, tst_times WHERE tst_active.active_id = %s AND tst_active.active_id = tst_times.active_fi",
+			array('integer'),
+			array($active_id)
 		);
-		$result = $ilDB->query($q);
 		$times = array();
 		$first_visit = 0;
 		$last_visit = 0;
-		while ($row = $result->fetchRow(MDB2_FETCHMODE_OBJECT)) {
+		while ($row = $ilDB->fetchObject($result)) 
+		{
 			preg_match("/(\d{4})-(\d{2})-(\d{2}) (\d{2}):(\d{2}):(\d{2})/", $row->started, $matches);
 			$epoch_1 = mktime($matches[4], $matches[5], $matches[6], $matches[2], $matches[3], $matches[1]);
 			if (!$first_visit) {
@@ -4297,12 +4227,12 @@ function loadQuestions($active_id = "", $pass = NULL)
 	function &getParticipants()
 	{
 		global $ilDB;
-		$q = sprintf("SELECT tst_active.active_id, usr_data.usr_id, usr_data.firstname, usr_data.lastname, usr_data.title, usr_data.login FROM tst_active LEFT JOIN usr_data ON tst_active.user_fi = usr_data.usr_id WHERE tst_active.test_fi = %s ORDER BY usr_data.lastname ASC",
-			$ilDB->quote($this->getTestId())
+		$result = $ilDB->queryF("SELECT tst_active.active_id, usr_data.usr_id, usr_data.firstname, usr_data.lastname, usr_data.title, usr_data.login FROM tst_active LEFT JOIN usr_data ON tst_active.user_fi = usr_data.usr_id WHERE tst_active.test_fi = %s ORDER BY usr_data.lastname ASC",
+			array('integer'),
+			array($this->getTestId())
 		);
-		$result = $ilDB->query($q);
 		$persons_array = array();
-		while ($row = $result->fetchRow(MDB2_FETCHMODE_ASSOC))
+		while ($row = $ilDB->fetchAssoc($result))
 		{
 			$name = $this->lng->txt("unknown");
 			$fullname = $this->lng->txt("unknown");
@@ -4348,12 +4278,12 @@ function loadQuestions($active_id = "", $pass = NULL)
 	function &evalTotalPersonsArray($name_sort_order = "asc")
 	{
 		global $ilDB;
-		$q = sprintf("SELECT tst_active.active_id, usr_data.firstname, usr_data.lastname, usr_data.title FROM tst_active LEFT JOIN usr_data ON tst_active.user_fi = usr_data.usr_id WHERE tst_active.test_fi = %s ORDER BY usr_data.lastname " . strtoupper($name_sort_order),
-			$ilDB->quote($this->getTestId())
+		$result = $ilDB->queryF("SELECT tst_active.active_id, usr_data.firstname, usr_data.lastname, usr_data.title FROM tst_active LEFT JOIN usr_data ON tst_active.user_fi = usr_data.usr_id WHERE tst_active.test_fi = %s ORDER BY usr_data.lastname " . strtoupper($name_sort_order),
+			array('integer'),
+			array($this->getTestId())
 		);
-		$result = $ilDB->query($q);
 		$persons_array = array();
-		while ($row = $result->fetchRow(MDB2_FETCHMODE_ASSOC))
+		while ($row = $ilDB->fetchAssoc($result))
 		{
 			if ($this->getAnonymity())
 			{
@@ -4390,12 +4320,12 @@ function loadQuestions($active_id = "", $pass = NULL)
 	function &evalTotalParticipantsArray($name_sort_order = "asc")
 	{
 		global $ilDB;
-		$q = sprintf("SELECT tst_active.active_id, usr_data.login, usr_data.firstname, usr_data.lastname, usr_data.title FROM tst_active LEFT JOIN usr_data ON tst_active.user_fi = usr_data.usr_id WHERE tst_active.test_fi = %s ORDER BY usr_data.lastname " . strtoupper($name_sort_order),
-			$ilDB->quote($this->getTestId())
+		$result = $ilDB->queryF("SELECT tst_active.active_id, usr_data.login, usr_data.firstname, usr_data.lastname, usr_data.title FROM tst_active LEFT JOIN usr_data ON tst_active.user_fi = usr_data.usr_id WHERE tst_active.test_fi = %s ORDER BY usr_data.lastname " . strtoupper($name_sort_order),
+			array('integer'),
+			array($this->getTestId())
 		);
-		$result = $ilDB->query($q);
 		$persons_array = array();
-		while ($row = $result->fetchRow(MDB2_FETCHMODE_ASSOC))
+		while ($row = $ilDB->fetchAssoc($result))
 		{
 			if ($this->getAnonymity())
 			{
@@ -4433,12 +4363,12 @@ function loadQuestions($active_id = "", $pass = NULL)
 	{
 		global $ilDB;
 
-		$q = sprintf("SELECT COUNT(*) as total FROM tst_active WHERE test_fi = %s AND tries > 0",
-			$ilDB->quote($this->getTestId())
+		$result = $ilDB->queryF("SELECT COUNT(active_id) total FROM tst_active WHERE test_fi = %s AND tries > 0",
+			array('integer'),
+			array($this->getTestId())
 		);
-		$result = $ilDB->query($q);
-		$row = $result->fetchRow(MDB2_FETCHMODE_OBJECT);
-		return $row->total;
+		$row = $ilDB->fetchAssoc($result);
+		return $row["total"];
 	}
 
 	/**
@@ -4453,29 +4383,30 @@ function loadQuestions($active_id = "", $pass = NULL)
 		if ($this->isRandomTest())
 		{
 			$ilDB->setLimit($this->getQuestionCount(), 0);
-			$query = sprintf("SELECT tst_test_rnd_qst.sequence, tst_test_rnd_qst.question_fi, " .
+			$result = $ilDB->queryF("SELECT tst_test_rnd_qst.sequence, tst_test_rnd_qst.question_fi, " .
 				"tst_test_rnd_qst.pass, qpl_questions.points " .
 				"FROM tst_test_rnd_qst, qpl_questions " .
 				"WHERE tst_test_rnd_qst.question_fi = qpl_questions.question_id " .
 				"AND tst_test_rnd_qst.active_fi = %s ORDER BY tst_test_rnd_qst.sequence",
-				$ilDB->quote($active_id . "")
+				array('integer'),
+				array($active_id)
 			);
 		}
 		else
 		{
-			$query = sprintf("SELECT tst_test_question.sequence, tst_test_question.question_fi, " .
+			$result = $ilDB->queryF("SELECT tst_test_question.sequence, tst_test_question.question_fi, " .
 				"qpl_questions.points " .
 				"FROM tst_test_question, tst_active, qpl_questions " .
 				"WHERE tst_test_question.question_fi = qpl_questions.question_id " .
 				"AND tst_active.active_id = %s AND tst_active.test_fi = tst_test_question.test_fi",
-				$ilDB->quote($active_id . "")
+				array('integer'),
+				array($active_id)
 			);
 		}
-		$result = $ilDB->query($query);
 		$qtest = array();
 		if ($result->numRows())
 		{
-			while ($row = $result->fetchRow(MDB2_FETCHMODE_ASSOC))
+			while ($row = $ilDB->fetchAssoc($result))
 			{
 				array_push($qtest, $row);
 			}
@@ -4495,31 +4426,31 @@ function loadQuestions($active_id = "", $pass = NULL)
 		if ($this->isRandomTest())
 		{
 			$ilDB->setLimit($this->getQuestionCount(), 0);
-			$query = sprintf("SELECT tst_test_rnd_qst.sequence, tst_test_rnd_qst.question_fi, " .
+			$result = $ilDB->queryF("SELECT tst_test_rnd_qst.sequence, tst_test_rnd_qst.question_fi, " .
 				"qpl_questions.points " .
 				"FROM tst_test_rnd_qst, qpl_questions " .
 				"WHERE tst_test_rnd_qst.question_fi = qpl_questions.question_id " .
 				"AND tst_test_rnd_qst.active_fi = %s AND tst_test_rnd_qst.pass = %s " .
 				"ORDER BY tst_test_rnd_qst.sequence",
-				$ilDB->quote($active_id . ""),
-				$ilDB->quote($pass . "")
+				array('integer', 'integer'),
+				array($active_id, $pass)
 			);
 		}
 		else
 		{
-			$query = sprintf("SELECT tst_test_question.sequence, tst_test_question.question_fi, " .
+			$result = $ilDB->queryF("SELECT tst_test_question.sequence, tst_test_question.question_fi, " .
 				"qpl_questions.points " .
 				"FROM tst_test_question, tst_active, qpl_questions " .
 				"WHERE tst_test_question.question_fi = qpl_questions.question_id " .
 				"AND tst_active.active_id = %s AND tst_active.test_fi = tst_test_question.test_fi",
-				$ilDB->quote($active_id . "")
+				array('integer'),
+				array($active_id)
 			);
 		}
-		$result = $ilDB->query($query);
 		$qpass = array();
 		if ($result->numRows())
 		{
-			while ($row = $result->fetchRow(MDB2_FETCHMODE_ASSOC))
+			while ($row = $ilDB->fetchAssoc($result))
 			{
 				array_push($qpass, $row);
 			}
@@ -4547,7 +4478,7 @@ function loadQuestions($active_id = "", $pass = NULL)
 		$pass = NULL;
 		$checked = array();
 		$datasets = 0;
-		while ($row = $result->fetchRow(DB_FETCHMODE_ASSOC))
+		while ($row = $ilDB->fetchAssoc($result))
 		{
 			$data->getParticipant($row["active_fi"])->getPass($row["pass"])->addAnsweredQuestion($row["original_id"] ? $row["original_id"] : $row["question_fi"], $row["maxpoints"], $row["points"]);
 		}
@@ -4568,7 +4499,6 @@ function loadQuestions($active_id = "", $pass = NULL)
 						array('integer','integer'),
 						array($testpass, $active_id)
 					);
-					$result = $ilDB->query($query);
 					if ($result->numRows())
 					{
 						while ($row = $ilDB->fetchAssoc($result))
@@ -4663,7 +4593,6 @@ function loadQuestions($active_id = "", $pass = NULL)
 				array($active_id)
 			);
 		}
-		$result = $ilDB->query($query);
 		if ($result->numRows())
 		{
 			$row = $ilDB->fetchAssoc($result);
@@ -4772,7 +4701,7 @@ function loadQuestions($active_id = "", $pass = NULL)
 			array($this->getTestId(), $active_id)
 		);
 		$overview = array();
-		while ($row = $result->fetchRow(MDB2_FETCHMODE_ASSOC))
+		while ($row = $ilDB->fetchAssoc($result))
 		{
 			if (!array_key_exists($row["active_fi"], $overview))
 			{
@@ -4881,12 +4810,12 @@ function loadQuestions($active_id = "", $pass = NULL)
 	{
 		global $ilDB;
 
-		$q = sprintf("SELECT tst_times.* FROM tst_active, tst_times WHERE tst_active.test_fi = %s AND tst_active.active_id = tst_times.active_fi",
-			$ilDB->quote($this->getTestId())
+		$result = $ilDB->queryF("SELECT tst_times.* FROM tst_active, tst_times WHERE tst_active.test_fi = %s AND tst_active.active_id = tst_times.active_fi",
+			array('integer'),
+			array($this->getTestId())
 		);
-		$result = $ilDB->query($q);
 		$times = array();
-		while ($row = $result->fetchRow(MDB2_FETCHMODE_OBJECT))
+		while ($row = $ilDB->fetchObject($result))
 		{
 			preg_match("/(\d{4})-(\d{2})-(\d{2}) (\d{2}):(\d{2}):(\d{2})/", $row->started, $matches);
 			$epoch_1 = mktime($matches[4], $matches[5], $matches[6], $matches[2], $matches[3], $matches[1]);
@@ -4978,20 +4907,15 @@ function loadQuestions($active_id = "", $pass = NULL)
 			array_push($original_ids, $row['original_id']);
 		}
 
+		$available = "";
 		// get a list of all available questionpools
 		if (($questionpool == 0) && (!is_array($qpls)))
 		{
 			include_once "./Modules/TestQuestionPool/classes/class.ilObjQuestionPool.php";
 			$available_pools = array_keys(ilObjQuestionPool::_getAvailableQuestionpools($use_object_id = TRUE, $equal_points = FALSE, $could_be_offline = FALSE, $showPath = FALSE, $with_questioncount = FALSE, "read", ilObject::_lookupOwner($this->getId())));
-			$available = "";
-			$constraint_qpls = "";
-			$phs = array();
 			if (count($available_pools))
 			{
-				$paramtypes = $ilDB->addTypesToArray($paramtypes, 'integer', count($available_pools));
-				$phs = $ilDB->addTypesToArray($phs, '%s', count($available_pools));
-				$paramvalues = array_merge($paramvalues, $available_pools);
-				$available = " AND obj_fi IN (" . implode(",", $phs) . ")";
+				$available = " AND " . $ilDB->in('obj_fi', $available_pools, false, 'integer'),
 			}
 			else
 			{
@@ -4999,6 +4923,7 @@ function loadQuestions($active_id = "", $pass = NULL)
 			}
 		}
 
+		$constraint_qpls = "";
 		$result_array = array();
 		if ($questionpool == 0)
 		{
@@ -5006,50 +4931,29 @@ function loadQuestions($active_id = "", $pass = NULL)
 			{
 				if (count($qpls) > 0)
 				{
-					$phs = array();
-					$paramtypes = $ilDB->addTypesToArray($paramtypes, 'integer', count($qpls));
-					$phs = $ilDB->addTypesToArray($phs, '%s', count($qpls));
-					foreach ($qpls as $idx => $arr)
-					{
-						array_push($paramvalues, $arr["qpl"]);
-					}
-					$constraint_qpls = " AND obj_fi IN (" . implode(",", $phs) . ")";
+					$constraint_qpls = " AND " . $ilDB->in('obj_fi', $qpls, 'false', 'integer');
 				}
 			}
 		}
 
-		if ($questionpool > 0)
-		{
-			array_push($paramtypes, 'integer');
-			array_push($paramvalues, $questionpool);
-		}
-		array_push($paramtypes, 'integer');
-		array_push($paramvalues, 0);
-		array_push($paramtypes, 'text');
-		array_push($paramvalues, "1");
-
 		$original_clause = "";
 		if (count($original_ids))
 		{
-			$phs = array();
-			$paramtypes = $ilDB->addTypesToArray($paramtypes, 'integer', count($original_ids));
-			$paramvalues = array_merge($paramvalues, $original_ids);
-			$phs = $ilDB->addTypesToArray($phs, '%s', count($original_ids));
-			$original_clause = " AND question_id NOT IN (" . implode(",", $phs) . ")";
+			$original_clause = " AND " . $ilDB->in('question_id', $original_ids, true, 'integer');
 		}
 
 		if ($questionpool == 0)
 		{
 			$result = $ilDB->queryF("SELECT question_id FROM qpl_questions WHERE ISNULL(original_id) $available $constraint_qpls AND owner > %s AND complete = %s $original_clause",
-				$paramtypes,
-				$paramvalues
+				array('integer', 'text'),
+				array(0, "1")
 			);
 		}
 		else
 		{
 			$result = $ilDB->queryF("SELECT question_id FROM qpl_questions WHERE ISNULL(original_id) AND obj_fi = %s AND owner > %s AND complete = %s $original_clause",
-				$paramtypes,
-				$paramvalues
+				array('integer','integer', 'text'),
+				array($questionpool, 0, "1")
 			);
 		}
 		$found_ids = array();
@@ -6396,17 +6300,18 @@ function loadQuestions($active_id = "", $pass = NULL)
 
 		if ($new_id > 0)
 		{
-			$query = sprintf("SELECT * FROM tst_test_random WHERE test_fi = %s",
-				$ilDB->quote($this->getTestId() . "")
+			$result = $ilDB->queryF("SELECT * FROM tst_test_random WHERE test_fi = %s",
+				array('integer'),
+				array($this->getTestId())
 			);
-			$result = $ilDB->query($query);
 			if ($result->numRows())
 			{
-				while ($row = $result->fetchRow(MDB2_FETCHMODE_ASSOC))
+				while ($row = $ilDB->fetchAssoc($result))
 				{
-					$insertresult = $ilDB->manipulateF("INSERT INTO tst_test_random (test_random_id, test_fi, questionpool_fi, num_of_q, tstamp) VALUES (NULL, %s, %s, %s, %s)",
-						array('integer', 'integer', 'integer', 'integer'),
-						array($new_id, $row["questionpool_fi"], $row["num_of_q"], time())
+					$next_id = $ilDB->nextId('tst_test_random');
+					$affectedRows = $ilDB->manipulateF("INSERT INTO tst_test_random (test_random_id, test_fi, questionpool_fi, num_of_q, tstamp) VALUES (%s, %s, %s, %s, %s)",
+						array('integer', 'integer', 'integer', 'integer', 'integer'),
+						array($next_id, $new_id, $row["questionpool_fi"], $row["num_of_q"], time())
 					);
 				}
 			}
@@ -6503,24 +6408,6 @@ function loadQuestions($active_id = "", $pass = NULL)
 		return $newObj;
 	}
 
-	function _getRefIdFromObjId($obj_id)
-	{
-		global $ilDB;
-
-		// TODO: please use ilObject::_getAllReferences() stefan
-		$query = sprintf("SELECT ref_id FROM object_reference WHERE obj_id=%s",
-			$ilDB->quote($obj_id,'integer')
-
-		);
-		$result = $ilDB->query($query);
-		if ($result->numRows())
-		{
-			$row = $result->fetchRow(MDB2_FETCHMODE_ASSOC);
-			return $row["ref_id"];
-		}
-		return 0;
-	}
-
 	/**
 	* Returns the number of questions in the test
 	*
@@ -6587,10 +6474,10 @@ function loadQuestions($active_id = "", $pass = NULL)
 		{
 			$qpls = array();
 			$counter = 0;
-			$query = sprintf("SELECT * FROM tst_test_random WHERE test_fi = %s ORDER BY test_random_id",
-				$ilDB->quote($test_id . "")
+			$result = $ilDB->queryF("SELECT * FROM tst_test_random WHERE test_fi = %s ORDER BY test_random_id",
+				array('integer'),
+				array($test_id)
 			);
-			$result = $ilDB->query($query);
 			if ($result->numRows())
 			{
 				while ($row = $ilDB->fetchAssoc($result))
@@ -6631,10 +6518,10 @@ function loadQuestions($active_id = "", $pass = NULL)
 		}
 		else
 		{
-			$query = sprintf("SELECT test_question_id FROM tst_test_question WHERE test_fi = %s",
-				$ilDB->quote($test_id . "")
+			$result = $ilDB->queryF("SELECT test_question_id FROM tst_test_question WHERE test_fi = %s",
+				array('integer'),
+				array($test_id)
 			);
-			$result = $ilDB->query($query);
 			$num = $result->numRows();
 		}
 		return $num;
@@ -6651,10 +6538,10 @@ function loadQuestions($active_id = "", $pass = NULL)
 
 		// delete eventually set questions of a previous non-random test
 		$this->removeAllTestEditings();
-		$query = sprintf("DELETE FROM tst_test_question WHERE test_fi = %s",
-			$ilDB->quote($this->getTestId())
+		$affectedRows = $ilDB->manipulateF("DELETE FROM tst_test_question WHERE test_fi = %s",
+			array('integer'),
+			array($this->getTestId())
 		);
-		$result = $ilDB->query($query);
 		$this->questions = array();
 		$this->saveCompleteStatus();
 	}
@@ -6669,10 +6556,10 @@ function loadQuestions($active_id = "", $pass = NULL)
 		global $ilDB;
 		// delete eventually set random question pools of a previous random test
 		$this->removeAllTestEditings();
-		$query = sprintf("DELETE FROM tst_test_random WHERE test_fi = %s",
-			$ilDB->quote($this->getTestId())
+		$affectedRows = $ilDB->manipulateF("DELETE FROM tst_test_random WHERE test_fi = %s",
+			array('integer'),
+			array($this->getTestId())
 		);
-		$result = $ilDB->query($query);
 		$this->questions = array();
 		$this->saveCompleteStatus();
 	}
@@ -6709,13 +6596,13 @@ function loadQuestions($active_id = "", $pass = NULL)
 	{
 		global $ilDB;
 		$object_id = FALSE;
-		$query = sprintf("SELECT obj_fi FROM tst_tests WHERE test_id = %s",
-			$ilDB->quote($test_id . "")
+		$result = $ilDB->queryF("SELECT obj_fi FROM tst_tests WHERE test_id = %s",
+			array('integer'),
+			array($test_id)
 		);
-		$result = $ilDB->query($query);
 		if ($result->numRows())
 		{
-			$row = $result->fetchRow(MDB2_FETCHMODE_ASSOC);
+			$row = $ilDB->fetchAssoc($result);
 			$object_id = $row["obj_fi"];
 		}
 		return $object_id;
@@ -6732,13 +6619,13 @@ function loadQuestions($active_id = "", $pass = NULL)
 	{
 		global $ilDB;
 		$object_id = FALSE;
-		$query = sprintf("SELECT tst_tests.obj_fi FROM tst_tests, tst_active WHERE tst_tests.test_id = tst_active.test_fi AND tst_active.active_id = %s",
-			$ilDB->quote($active_id . "")
+		$result = $ilDB->queryF("SELECT tst_tests.obj_fi FROM tst_tests, tst_active WHERE tst_tests.test_id = tst_active.test_fi AND tst_active.active_id = %s",
+			array('integer'),
+			array($active_id)
 		);
-		$result = $ilDB->query($query);
 		if ($result->numRows())
 		{
-			$row = $result->fetchRow(MDB2_FETCHMODE_ASSOC);
+			$row = $ilDB->fetchAssoc($result);
 			$object_id = $row["obj_fi"];
 		}
 		return $object_id;
@@ -6755,13 +6642,13 @@ function loadQuestions($active_id = "", $pass = NULL)
 	{
 		global $ilDB;
 		$test_id = FALSE;
-		$query = sprintf("SELECT test_id FROM tst_tests WHERE obj_fi = %s",
-			$ilDB->quote($object_id . "")
+		$result = $ilDB->queryF("SELECT test_id FROM tst_tests WHERE obj_fi = %s",
+			array('integer'),
+			array($object_id)
 		);
-		$result = $ilDB->query($query);
 		if ($result->numRows())
 		{
-			$row = $result->fetchRow(MDB2_FETCHMODE_ASSOC);
+			$row = $ilDB->fetchAssoc($result);
 			$test_id = $row["test_id"];
 		}
 		return $test_id;
@@ -6787,15 +6674,13 @@ function loadQuestions($active_id = "", $pass = NULL)
 				include_once "./Modules/TestQuestionPool/classes/class.assQuestion.php";
 				$pass = assQuestion::_getSolutionMaxPass($question_id, $active_id);
 			}
-			$query = sprintf("SELECT value1 FROM tst_solutions WHERE active_fi = %s AND question_fi = %s AND pass = %s",
-				$ilDB->quote($active_id . ""),
-				$ilDB->quote($question_id . ""),
-				$ilDB->quote($pass . "")
+			$result = $ilDB->queryF("SELECT value1 FROM tst_solutions WHERE active_fi = %s AND question_fi = %s AND pass = %s",
+				array('integer', 'integer', 'integer'),
+				array($active_id, $question_id, $pass)
 			);
-			$result = $ilDB->query($query);
 			if ($result->numRows() == 1)
 			{
-				$row = $result->fetchRow(MDB2_FETCHMODE_ASSOC);
+				$row = $ilDB->fetchAssoc($result);
 				$res = $row["value1"];
 			}
 		}
@@ -6820,7 +6705,6 @@ function loadQuestions($active_id = "", $pass = NULL)
 				array('integer'),
 				array($question_id)
 			);
-			$result = $ilDB->query($query);
 			if ($result->numRows() == 1)
 			{
 				$row = $ilDB->fetchAssoc($result);
@@ -6846,29 +6730,24 @@ function loadQuestions($active_id = "", $pass = NULL)
 		{
 			if (is_numeric($user_id))
 			{
-				$query = sprintf("SELECT tst_active.active_id, tst_active.tries, usr_id, '' login, %s lastname, '' firstname, tst_invited_user.clientip, " .
-					"tst_active.submitted as test_finished, matriculation, IF(tst_active.active_id IS NULL,0,1) as test_started " .
-					"FROM usr_data, tst_invited_user " .
+				$result = $ilDB->queryF("SELECT tst_active.active_id, tst_active.tries, usr_id, %s login, %s lastname, %s firstname, tst_invited_user.clientip, " .
+					"tst_active.submitted test_finished, matriculation FROM usr_data, tst_invited_user " .
 					"LEFT JOIN tst_active ON tst_active.user_fi = tst_invited_user.user_fi AND tst_active.test_fi = tst_invited_user.test_fi " .
 					"WHERE tst_invited_user.test_fi = %s and tst_invited_user.user_fi=usr_data.usr_id AND usr_data.usr_id=%s " .
-					"ORDER BY %s",
-					$ilDB->quote($this->lng->txt("unknown")),
-					$ilDB->quote($this->test_id),
-					$user_id,
-					$order
+					"ORDER BY $order",
+					array('text', 'text', 'text', 'integer', 'integer'),
+					array("", $this->lng->txt("unknown"), "", $this->getTestId(), $user_id)
 				);
 			}
 			else
 			{
-				$query = sprintf("SELECT tst_active.active_id, usr_id, '' login, %s lastname, '' firstname, tst_invited_user.clientip, " .
-					"tst_active.submitted as test_finished, matriculation, IF(tst_active.active_id IS NULL,0,1) as test_started " .
-					"FROM usr_data, tst_invited_user " .
+				$result = $ilDB->queryF("SELECT tst_active.active_id, usr_id, %s login, %s lastname, %s firstname, tst_invited_user.clientip, " .
+					"tst_active.submitted test_finished, matriculation FROM usr_data, tst_invited_user " .
 					"LEFT JOIN tst_active ON tst_active.user_fi = tst_invited_user.user_fi AND tst_active.test_fi = tst_invited_user.test_fi " .
 					"WHERE tst_invited_user.test_fi = %s and tst_invited_user.user_fi=usr_data.usr_id " .
-					"ORDER BY %s",
-					$ilDB->quote($this->lng->txt("unknown")),
-					$ilDB->quote($this->test_id),
-					$order
+					"ORDER BY $order",
+					array('text', 'text', 'text', 'integer'),
+					array("", $this->lng->txt("unknown"), "", $this->getTestId())
 				);
 			}
 		}
@@ -6876,31 +6755,33 @@ function loadQuestions($active_id = "", $pass = NULL)
 		{
 			if (is_numeric($user_id))
 			{
-				$query = sprintf("SELECT tst_active.active_id, tst_active.tries, usr_id, login, lastname, firstname, tst_invited_user.clientip, " .
-					"tst_active.submitted as test_finished, matriculation, IF(tst_active.active_id IS NULL,0,1) as test_started " .
-					"FROM usr_data, tst_invited_user " .
+				$result = $ilDB->queryF("SELECT tst_active.active_id, tst_active.tries, usr_id, login, lastname, firstname, tst_invited_user.clientip, " .
+					"tst_active.submitted test_finished, matriculation FROM usr_data, tst_invited_user " .
 					"LEFT JOIN tst_active ON tst_active.user_fi = tst_invited_user.user_fi AND tst_active.test_fi = tst_invited_user.test_fi " .
 					"WHERE tst_invited_user.test_fi = %s and tst_invited_user.user_fi=usr_data.usr_id AND usr_data.usr_id=%s " .
-					"ORDER BY %s",
-					$ilDB->quote($this->test_id),
-					$user_id,
-					$order
+					"ORDER BY $order",
+					array('integer', 'integer'),
+					array($this->getTestId(), $user_id)
 				);
 			}
 			else
 			{
-				$query = sprintf("SELECT tst_active.active_id, tst_active.tries, usr_id, login, lastname, firstname, tst_invited_user.clientip, " .
-					"tst_active.submitted as test_finished, matriculation, IF(tst_active.active_id IS NULL,0,1) as test_started " .
-					"FROM usr_data, tst_invited_user " .
+				$result = $ilDB->queryF("SELECT tst_active.active_id, tst_active.tries, usr_id, login, lastname, firstname, tst_invited_user.clientip, " .
+					"tst_active.submitted test_finished, matriculation FROM usr_data, tst_invited_user " .
 					"LEFT JOIN tst_active ON tst_active.user_fi = tst_invited_user.user_fi AND tst_active.test_fi = tst_invited_user.test_fi " .
 					"WHERE tst_invited_user.test_fi = %s and tst_invited_user.user_fi=usr_data.usr_id " .
-					"ORDER BY %s",
-					$ilDB->quote($this->test_id),
-					$order
+					"ORDER BY $order",
+					array('integer'),
+					array($this->getTestId())
 				);
 			}
 		}
-		return $this->getArrayData($query, "usr_id");
+		$result_array = array();
+		while ($row = $ilDB->fetchAssoc($result))
+		{
+			$result_array[$row['usr_id']]= $row;
+		}
+		return $result_array;
 	}
 
 /**
@@ -6915,20 +6796,25 @@ function loadQuestions($active_id = "", $pass = NULL)
 
 		if ($this->getAnonymity())
 		{
-			$q = sprintf("SELECT tst_active.active_id, tst_active.tries, tst_active.user_fi usr_id, '' login, %s lastname, '' firstname, tst_active.submitted as test_finished, usr_data.matriculation, usr_data.active, IF(tst_active.active_id IS NULL,0,1) as test_started ".
+			$result = $ilDB->queryF("SELECT tst_active.active_id, tst_active.tries, tst_active.user_fi usr_id, %s login, %s lastname, %s firstname, tst_active.submitted test_finished, usr_data.matriculation, usr_data.active ".
 				"FROM tst_active LEFT JOIN usr_data ON tst_active.user_fi = usr_data.usr_id WHERE tst_active.test_fi = %s ORDER BY usr_data.lastname " . strtoupper($name_sort_order),
-				$ilDB->quote($this->lng->txt("unknown")),
-				$ilDB->quote($this->getTestId())
+				array('text', 'text', 'text', 'integer'),
+				array("", $this->lng->txt("unknown"), "", $this->getTestId())
 			);
 		}
 		else
 		{
-			$q = sprintf("SELECT tst_active.active_id, tst_active.tries, tst_active.user_fi usr_id, usr_data.login, usr_data.lastname, usr_data.firstname, tst_active.submitted as test_finished, usr_data.matriculation, usr_data.active, IF(tst_active.active_id IS NULL,0,1) as test_started ".
+			$result = $ilDB->queryF("SELECT tst_active.active_id, tst_active.tries, tst_active.user_fi usr_id, usr_data.login, usr_data.lastname, usr_data.firstname, tst_active.submitted test_finished, usr_data.matriculation, usr_data.active ".
 				"FROM tst_active LEFT JOIN usr_data ON tst_active.user_fi = usr_data.usr_id WHERE tst_active.test_fi = %s ORDER BY usr_data.lastname " . strtoupper($name_sort_order),
-				$ilDB->quote($this->getTestId())
+				array('integer'),
+				array($this->getTestId())
 			);
 		}
-		$data = $this->getArrayData($q, "active_id");
+		$data = array();
+		while ($row = $ilDB->fetchAssoc($result))
+		{
+			$data[$row['active_id']] = $row;
+		}
 		foreach ($data as $index => $participant)
 		{
 			if (strlen(trim($participant["firstname"].$participant["lastname"])) == 0)
@@ -7028,66 +6914,24 @@ function loadQuestions($active_id = "", $pass = NULL)
 */
 	function &getUserData($ids)
 	{
-		if (!is_array($ids) || count($ids) ==0)
-			return array();
-
-		$result_array = array();
+		if (!is_array($ids) || count($ids) ==0) return array();
 
 		if ($this->getAnonymity())
 		{
-			$query = sprintf("SELECT usr_id, '' login, %s lastname, '' firstname, client_ip as clientip FROM usr_data WHERE usr_id IN ('%s') ORDER BY login",
-				$ilDB->quote($this->lng->txt("unknown")),
-				join ($ids,"','")
+			$result = $ilDB->queryF("SELECT usr_id, %s login, %s lastname, %s firstname, client_ip clientip FROM usr_data WHERE " . $ilDB->in('usr_id', $ids, false, 'integer') . " ORDER BY login",
+				array('text', 'text', 'text'),
+				array("", $this->lng->txt("unknown"), "")
 			);
 		}
 		else
 		{
-			$query = sprintf("SELECT usr_id, login, lastname, firstname, client_ip as clientip FROM usr_data WHERE usr_id IN ('%s') ORDER BY login",
-				join ($ids,"','")
-			);
+			$result = $ilDB->query("SELECT usr_id, login, lastname, firstname, client_ip clientip FROM usr_data WHERE " . $ilDB->in('usr_id', $ids, false, 'integer') . " ORDER BY login");
 		}
 
-		return $this->getArrayData ($query, "usr_id");
-	}
-
-/**
-* Returns a data as id key list
-*
-* @param $query
-* @param $id_field index for array
-* @return array with data with id as key
-*/
-	protected function &getArrayData($query, $id_field)
-	{
-		global $ilDB;
-
-		$statement = $ilDB->prepare($query);
-		$result = $ilDB->execute($statement);
 		$result_array = array();
 		while ($row = $ilDB->fetchAssoc($result))
 		{
-			$result_array[$row[$id_field]]= $row;
-		}
-		return $result_array;
-	}
-
-	/**
-	* Returns a data as id key list
-	*
-	* @param $query
-	* @param $id_field index for array
-	* @return array with data with id as key
-	*/
-	public static function &_getArrayData($query, $id_field)
-	{
-		global $ilDB;
-
-		$statement = $ilDB->prepare($query);
-		$result = $ilDB->execute($statement);
-		$result_array = array();
-		while ($row = $ilDB->fetchAssoc($result))
-		{
-			$result_array[$row[$id_field]]= $row;
+			$result_array[$row["usr_id"]]= $row;
 		}
 		return $result_array;
 	}
@@ -7163,11 +7007,10 @@ function loadQuestions($active_id = "", $pass = NULL)
 	{
 		global $ilDB;
 
-		$query = sprintf("DELETE FROM tst_invited_user WHERE test_fi = %s AND user_fi = %s",
-			$ilDB->quote($this->test_id),
-			$ilDB->quote($user_id)
+		$affectedRows = $ilDB->manipulateF("DELETE FROM tst_invited_user WHERE test_fi = %s AND user_fi = %s",
+			array('integer', 'integer'),
+			array($this->getTestId(), $user_id)
 		);
-		$result = $ilDB->query($query);
 	}
 
 /**
@@ -7180,12 +7023,14 @@ function loadQuestions($active_id = "", $pass = NULL)
 	{
 		global $ilDB;
 
-		$query = sprintf("INSERT IGNORE INTO tst_invited_user (test_fi, user_fi, clientip) VALUES (%s, %s, %s)",
-			$ilDB->quote($this->test_id),
-			$ilDB->quote($user_id),
-			$ilDB->quote($client_ip)
+		$affectedRows = $ilDB->manipulateF("DELETE FROM tst_invited_user WHERE test_fi = %s AND user_fi = %s",
+			array('integer', 'integer'),
+			array($this->getTestId(), $user_id)
 		);
-		$result = $ilDB->query($query);
+		$affectedRows = $ilDB->manipulateF("INSERT INTO tst_invited_user (test_fi, user_fi, clientip, tstamp) VALUES (%s, %s, %s, %s)",
+			array('integer', 'integer', 'text', 'integer'),
+			array($this->getTestId(), $user_id, (strlen($client_ip)) ? $client_ip : NULL, time())
+		);
 	}
 
 
@@ -7193,12 +7038,10 @@ function loadQuestions($active_id = "", $pass = NULL)
 	{
 		global $ilDB;
 
-		$query = sprintf("UPDATE tst_invited_user SET clientip=%s WHERE test_fi=%s and user_fi=%s",
-				$ilDB->quote($client_ip),
-				$ilDB->quote($this->test_id),
-				$ilDB->quote($user_id)
+		$affectedRows = $ilDB->manipulateF("UPDATE tst_invited_user SET clientip = %s, tstamp = %s WHERE test_fi=%s and user_fi=%s",
+			array('text', 'integer', 'integer', 'integer'),
+			array((strlen($client_ip)) ? $client_ip : NULL, time(), $this->getTestId(), $user_id)
 		);
-		$insertresult = $ilDB->query($query);
 	}
 
 	/**
@@ -7210,16 +7053,25 @@ function loadQuestions($active_id = "", $pass = NULL)
 	{
 		global $ilDB;
 		if (is_numeric($question_fi))
-			$query = sprintf("SELECT question_fi, solved FROM tst_qst_solved " .
-						 "WHERE active_fi = %s AND question_fi=%s",
-							$ilDB->quote($active_id),
-							$question_fi
+		{
+			$result = $ilDB->queryF("SELECT question_fi, solved FROM tst_qst_solved WHERE active_fi = %s AND question_fi=%s",
+				array('integer', 'integer'),
+				array($active_id, $question_fi)
 			);
-		else $query = sprintf("SELECT question_fi, solved FROM tst_qst_solved " .
-						 "WHERE active_fi = %s",
-			$ilDB->quote($active_id)
-		);
-		return ilObjTest::_getArrayData ($query, "question_fi");
+		}
+		else
+		{
+			$result = $ilDB->queryF("SELECT question_fi, solved FROM tst_qst_solved WHERE active_fi = %s",
+				array('integer'),
+				array($active_id)
+			);
+		}
+		$result_array = array();
+		while ($row = $ilDB->fetchAssoc($result))
+		{
+			$result_array[$row["question_fi"]]= $row;
+		}
+		return $result_array;
 	}
 
 
@@ -7231,13 +7083,14 @@ function loadQuestions($active_id = "", $pass = NULL)
 		global $ilDB;
 
 		$active_id = $this->getActiveIdOfUser($user_id);
-		$query = sprintf("REPLACE INTO tst_qst_solved SET solved=%s, question_fi=%s, active_fi = %s",
-			$ilDB->quote($value),
-			$ilDB->quote($question_id),
-			$ilDB->quote($active_id)
+		$affectedRows = $ilDB->manipulateF("DELETE FROM tst_qst_solved WHERE active_fi = %s AND question_fi = %s",
+			array('integer', 'integer'),
+			array($active_id, $question_id)
 		);
-
-		$ilDB->query($query);
+		$affectedRows = $ilDB->manipulateF("INSERT INTO tst_qst_solved (solved, question_fi, active_fi) VALUES (%s, %s, %s)",
+			array('integer', 'integer', 'integer'),
+			array($value, $question_id, $active_id)
+		);
 	}
 
 
@@ -7248,12 +7101,10 @@ function loadQuestions($active_id = "", $pass = NULL)
 	{
 		global $ilDB, $ilLog;
 
-		$query = sprintf("UPDATE tst_active SET submitted = 1, submittimestamp = %s WHERE test_fi = %s AND user_fi = %s",
-			$ilDB->quote(date('Y-m-d H:i:s')),
-			$ilDB->quote($this->getTestId() . ""),
-			$ilDB->quote($user_id . "")
+		$affectedRows = $ilDB->manipulateF("UPDATE tst_active SET submitted = %s, submittimestamp = %s, tstamp = %s WHERE test_fi = %s AND user_fi = %s",
+			array('integer', 'timestamp', 'integer', 'integer', 'integer')
+			array(1, date('Y-m-d H:i:s'), time(), $this->getTestId(), $user_id)
 		);
-		$result = $ilDB->query($query);
 		$this->testSession = NULL;
 	}
 
@@ -7268,15 +7119,13 @@ function loadQuestions($active_id = "", $pass = NULL)
 		if (!is_numeric($user_id))
 			$user_id = $ilUser->getId();
 
-		$query = sprintf("SELECT submitted FROM tst_active WHERE test_fi=%s AND user_fi=%s AND submitted=1",
-			$ilDB->quote($this->test_id),
-			$ilDB->quote($user_id)
+		$result = $ilDB->queryF("SELECT submitted FROM tst_active WHERE test_fi=%s AND user_fi=%s AND submitted=%s",
+			array('integer', 'integer', 'integer'),
+			array($this->getTestId(), $user_id, 1)
 		);
-		$result = $ilDB->query($query);
-
-		return 	$result->numRows() == 1;
-
+		return $result->numRows() == 1;
 	}
+	
 	/**
 	 * returns if the numbers of tries have to be checked
 	 */
@@ -7359,12 +7208,12 @@ function loadQuestions($active_id = "", $pass = NULL)
 					$user_rec->lastname = $this->lng->txt("unknown");
 				}
 				$row = array(
-"user_id"=>$user_rec->usr_id,
-				"matriculation" =>  $user_rec->matriculation,
+					"user_id"=>$user_rec->usr_id,
+					"matriculation" =>  $user_rec->matriculation,
 					"lastname" =>  $user_rec->lastname,
 					"firstname" => $user_rec->firstname,
-"login"=>$user_rec->login,
-				"reached_points" => $reached_points,
+					"login"=>$user_rec->login,
+					"reached_points" => $reached_points,
 					"max_points" => $max_points,
 					"percent_value" => $percentvalue,
 					"mark" => $mark,
@@ -7430,13 +7279,13 @@ function loadQuestions($active_id = "", $pass = NULL)
 	function _getPass($active_id)
 	{
 		global $ilDB;
-		$query = sprintf("SELECT tries FROM tst_active WHERE active_id = %s",
-			$ilDB->quote($active_id . "")
+		$result = $ilDB->queryF("SELECT tries FROM tst_active WHERE active_id = %s",
+			array('integer'),
+			array($active_id)
 		);
-		$result = $ilDB->query($query);
 		if ($result->numRows())
 		{
-			$row = $result->fetchRow(MDB2_FETCHMODE_ASSOC);
+			$row = $ilDB->fetchAssoc($result);
 			return $row["tries"];
 		}
 		else
@@ -7457,13 +7306,13 @@ function loadQuestions($active_id = "", $pass = NULL)
 		function _getMaxPass($active_id)
 		{
 			global $ilDB;
-			$query = sprintf("SELECT MAX(pass) as maxpass FROM tst_test_result WHERE active_fi = %s",
-				$ilDB->quote($active_id . "")
+			$result = $ilDB->queryF("SELECT MAX(pass) maxpass FROM tst_test_result WHERE active_fi = %s",
+				array('integer'),
+				array($active_id)
 			);
-			$result = $ilDB->query($query);
 			if ($result->numRows())
 			{
-				$row = $result->fetchRow(MDB2_FETCHMODE_ASSOC);
+				$row = $ilDB->fetchAssoc($result);
 				$max = $row["maxpass"];
 			}
 			else
@@ -7485,15 +7334,15 @@ function loadQuestions($active_id = "", $pass = NULL)
 	{
 		global $ilDB;
 		
-		$query = sprintf("SELECT * FROM tst_pass_result WHERE active_fi = %s",
-			$ilDB->quote($active_id . "")
+		$result = $ilDB->queryF("SELECT * FROM tst_pass_result WHERE active_fi = %s",
+			array('integer'),
+			array($active_id)
 		);
-		$result = $ilDB->query($query);
 		if ($result->numRows())
 		{
 			$bestrow = null;
 			$bestpoints = -1;
-			while ($row = $result->fetchRow(MDB2_FETCHMODE_ASSOC))
+			while ($row = $ilDB->fetchAssoc($result))
 			{
 				if ($row["points"] > $bestpoints) 
 				{
@@ -7582,7 +7431,6 @@ function loadQuestions($active_id = "", $pass = NULL)
 			array('integer', 'integer'),
 			array($active_id, $pass)
 		);
-		$result = $ilDB->query($query);
 		if ($result->numRows())
 		{
 			$row = $ilDB->fetchAssoc($result);
@@ -7759,14 +7607,13 @@ function loadQuestions($active_id = "", $pass = NULL)
 
 		if ($active_id < 1) return FALSE;
 		$pass = ($this->getResetProcessingTime()) ? $this->_getPass($active_id) : 0;
-		$query = sprintf("SELECT tst_times.started FROM tst_times WHERE tst_times.active_fi = %s AND tst_times.pass = %s ORDER BY tst_times.started",
-			$ilDB->quote($active_id . ""),
-			$ilDB->quote($pass . "")
+		$result = $ilDB->queryF("SELECT tst_times.started FROM tst_times WHERE tst_times.active_fi = %s AND tst_times.pass = %s ORDER BY tst_times.started",
+			array('integer', 'integer'),
+			array($active_id, $pass)
 		);
-		$result = $ilDB->query($query);
 		if ($result->numRows())
 		{
-			$row = $result->fetchRow(MDB2_FETCHMODE_ASSOC);
+			$row = $ilDB->fetchAssoc($result);
 			if (preg_match("/(\d{4})-(\d{2})-(\d{2}) (\d{2}):(\d{2}):(\d{2})/", $row["started"], $matches))
 			{
 				return mktime($matches[4], $matches[5], $matches[6], $matches[2], $matches[3], $matches[1]);
@@ -7783,7 +7630,7 @@ function loadQuestions($active_id = "", $pass = NULL)
 	}
 
 /**
-* Returns wheather the maximum processing time for a test is reached or not
+* Returns whether the maximum processing time for a test is reached or not
 *
 * @param long $starting_time The unix timestamp of the starting time of the test
 * @return boolean TRUE if the maxium processing time is reached, FALSE if the
@@ -8369,31 +8216,23 @@ function loadQuestions($active_id = "", $pass = NULL)
 	{
 		global $ilDB;
 
-		$query = sprintf("SELECT anonymous_id FROM tst_active WHERE test_fi = %s AND anonymous_id = %s",
-			$ilDB->quote($this->getTestId() . ""),
-			$ilDB->quote($code . "")
+		$result = $ilDB->queryF("SELECT anonymous_id FROM tst_active WHERE test_fi = %s AND anonymous_id = %s",
+			array('integer', 'text'),
+			array($this->getTestId(), $code)
 		);
-		$result = $ilDB->query($query);
-		if ($result->numRows() > 0)
-		{
-			return TRUE;
-		}
-		else
-		{
-			return FALSE;
-		}
+		return ($result->numRows() > 0) ? true : false;
 	}
 
 	function _getUserIdFromActiveId($active_id)
 	{
 		global $ilDB;
-		$query = sprintf("SELECT user_fi FROM tst_active WHERE active_id = %s",
-			$ilDB->quote($active_id . "")
+		$result = $ilDB->queryF("SELECT user_fi FROM tst_active WHERE active_id = %s",
+			array('integer'),
+			array($active_id)
 		);
-		$result = $ilDB->query($query);
 		if ($result->numRows())
 		{
-			$row = $result->fetchRow(MDB2_FETCHMODE_ASSOC);
+			$row = $ilDB->fetchAssoc($result);
 			return $row["user_fi"];
 		}
 		else
@@ -8487,13 +8326,13 @@ function loadQuestions($active_id = "", $pass = NULL)
 	{
 		global $ilDB;
 
-		$query = sprintf("SELECT finished FROM tst_times WHERE active_fi = %s ORDER BY finished DESC",
-			$ilDB->quote($active_id . "")
+		$result = $ilDB->queryF("SELECT finished FROM tst_times WHERE active_fi = %s ORDER BY finished DESC",
+			array('integer'),
+			array($active_id)
 		);
-		$result = $ilDB->query($query);
 		if ($result->numRows())
 		{
-			$row = $result->fetchRow(MDB2_FETCHMODE_ASSOC);
+			$row = $ilDB->fetchAssoc($result);
 			return $row["finished"];
 		}
 		return "";
@@ -9268,6 +9107,16 @@ function loadQuestions($active_id = "", $pass = NULL)
 		$testSession->saveToDb();
 		$this->testSession =& $testSession;
 		return $this->testSession;
+	}
+	
+	/**
+	* Sets the test ID
+	*
+	* @param integer $a_id Test ID
+	*/
+	public function setTestId($a_id)
+	{
+		$this->test_id = $a_id;
 	}
 
 	/**
