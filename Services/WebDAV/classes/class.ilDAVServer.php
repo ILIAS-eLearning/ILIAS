@@ -614,7 +614,7 @@ class ilDAVServer extends HTTP_WebDAV_Server
 		{
 			$fullPath .= '/'.$this->davUrlEncode($object->getResourceName());
 		}
-		if (count($objectPath) > 2)
+		if (count($objectPath) > 1)
 		{
 			$shortenedPath = '/ref_'.
 				$objectPath[count($objectPath) - 1]->getRefId();
@@ -631,20 +631,20 @@ class ilDAVServer extends HTTP_WebDAV_Server
 		$shortenedPath = '/'.CLIENT_ID.$shortenedPath;
 		$fullPath = '/'.CLIENT_ID.$fullPath;
 
+		$webfolderURI = $this->base_uri.$fullPath;
 		$webfolderURI_Konqueror = ($this->isWebDAVoverHTTPS() ? "webdavs" : "webdav").
 				substr($this->base_uri, strrpos($this->base_uri,':')).
-				$fullPath;
+				$shortenedPath;
 				;
 		$webfolderURI_Nautilus = ($this->isWebDAVoverHTTPS() ? "davs" : "dav").
 				substr($this->base_uri, strrpos($this->base_uri,':')).
 				$shortenedPath
 				;
-		header('Content-Type: text/html; charset=UTF-8');
-
-		$webfolderTitle = $objectPath[count($objectPath) - 1]->getResourceName();
-		$webfolderURI = $this->base_uri.$fullPath;
 		$webfolderURI_IE = $this->base_uri.$shortenedPath;
 
+		$webfolderTitle = $objectPath[count($objectPath) - 1]->getResourceName();
+
+		header('Content-Type: text/html; charset=UTF-8');
 		echo "<?xml version=\"1.0\" encoding=\"UTF-8\"?>\n";
 		echo "<!DOCTYPE html PUBLIC \"-//W3C//DTD XHTML 1.1 plus MathML 2.0 plus SVG 1.1//EN\"\n";
 		echo "	\"http://www.w3.org/2002/04/xhtml-math-svg/xhtml-math-svg.dtd\">\n";
