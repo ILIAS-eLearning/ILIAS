@@ -218,6 +218,7 @@ class ilRTE
 	*/
 	function _replaceMediaObjectImageSrc($a_text, $a_direction = 0)
 	{
+		if (!strlen($a_text)) return $a_text;
 		switch ($a_direction)
 		{
 			case 0:

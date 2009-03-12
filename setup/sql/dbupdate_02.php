@@ -9863,3 +9863,31 @@ if ($res->numRows())
 <?php
 $ilDB->manipulate("ALTER TABLE `tst_times` DROP " . $ilDB->quoteIdentifier("TIMESTAMP"));
 ?>
+<#2070>
+<?php
+$res = $ilDB->manipulate("ALTER TABLE `tst_tests` ADD `tstampcreated` INT NOT NULL DEFAULT '0'");
+?>
+<#2071>
+<?php
+$res = $ilDB->query("SELECT test_id, created FROM tst_tests");
+if ($res->numRows())
+{
+	while ($row = $ilDB->fetchAssoc($res))
+	{
+		preg_match("/(\\d{4})(\\d{2})(\\d{2})(\\d{2})(\\d{2})(\\d{2})/", $row['created'], $matches);
+		$tstamp = mktime((int)$matches[4], (int)$matches[5], (int)$matches[6], (int)$matches[2], (int)$matches[3], (int)$matches[1]);
+		$ilDB->manipulateF("UPDATE tst_tests SET tstampcreated = %s WHERE test_id = %s",
+			array("integer", "integer"),
+			array($tstamp, $row['test_id'])
+		);
+	}
+}
+?>
+<#2072>
+<?php
+$ilDB->manipulate("ALTER TABLE `tst_tests` DROP `created`");
+?>
+<#2073>
+<?php
+$ilDB->manipulate("ALTER TABLE `tst_tests` CHANGE `tstampcreated` `created` INT NOT NULL DEFAULT '0'");
+?>
