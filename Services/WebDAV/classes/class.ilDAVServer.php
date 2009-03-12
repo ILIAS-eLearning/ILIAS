@@ -837,6 +837,19 @@ class ilDAVServer extends HTTP_WebDAV_Server
 			return '409 Conflict';
 		}
 
+        // Prevent putting of files which exceed upload limit
+        // FIXME: since this is an optional parameter, we should to do the
+        // same check again in function PUTfinished.
+		if ($options['content_length'] != null &&
+                $options['content_length'] > $this->getUploadMaxFilesize()) {
+
+            $this->writelog('PUT is forbidden, because content length='.
+                        $options['content_length'].' is larger than upload_max_filesize='.
+                        $this->getUploadMaxFilesize().'in php.ini');
+
+            return '403 Forbidden';
+        }
+
 		$objDAV =& $this->getObject($path);
 		if (is_null($objDAV))
 		{
@@ -2011,6 +2024,29 @@ class ilDAVServer extends HTTP_WebDAV_Server
 		}
 		return $str;
 	}
+
+    /**
+     * Gets the maximum permitted upload filesize from php.ini in bytes.
+     *
+     * @return int Upload Max Filesize in bytes.
+     */
+    private function getUploadMaxFilesize() {
+        $val = ini_get('upload_max_filesize');
+
+        $val = trim($val);
+        $last = strtolower($val[strlen($val)-1]);
+        switch($last) {
+            // The 'G' modifier is available since PHP 5.1.0
+            case 'g':
+                $val *= 1024;
+            case 'm':
+                $val *= 1024;
+            case 'k':
+                $val *= 1024;
+        }
+
+        return $val;
+    }
 }
 // END WebDAV
 ?>
