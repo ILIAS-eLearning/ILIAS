@@ -338,8 +338,8 @@ class ilObjAssessmentFolder extends ilObject
 				$only,
 				$test_ref_id,
 				time()
+			)
 		);
-		$result = $ilDB->query($query);
 	}
 	
 	/**
