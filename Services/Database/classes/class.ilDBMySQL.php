@@ -240,21 +240,22 @@ class ilDBMySQL extends ilDB
 		}
 
 		// CHANG VALUE IF MYSQL VERSION > 4.0
-		if (substr($version,0,1) == "4")
-		{
+//		if (substr($version,0,1) == "4")
+//		{
 			ini_get("post_max_size");
 			$query = "SET GLOBAL max_allowed_packet = ".(int) ini_get("post_max_size") * 1024 * 1024;
+//echo "-".$query."-";
 			$this->query($query);
-		}
+//		}
 		// STORE NEW max_size in member variable
 		$query = "SHOW VARIABLES LIKE 'max_allowed_packet'";
 		$res = $this->db->query($query);
 
 		while($row = $res->fetchRow(DB_FETCHMODE_OBJECT))
 		{
-			$this->max_allowed_packet_size = $row->Value;
+			$this->max_allowed_packet_size = $row->value;
 		}
-
+//echo "-".$this->max_allowed_packet_size."-";
 		return true;
 	}
 
