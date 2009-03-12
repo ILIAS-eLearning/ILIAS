@@ -3253,7 +3253,7 @@ class ilObjTestGUI extends ilObjectGUI
 				if (($ilAccess->checkAccess("write", "", $this->ref_id) and ($total == 0))) 
 				{
 					$q_id = $data["question_id"];
-					$qpl_ref_id = $this->object->_getRefIdFromObjId($data["obj_fi"]);
+					$qpl_ref_id = current(ilObject::_getAllReferences($data["obj_fi"]));
 					$this->tpl->setVariable("QUESTION_TITLE", "<a href=\"" . $this->ctrl->getLinkTarget($this, "questions") . "&eqid=$q_id&eqpl=$qpl_ref_id" . "\">" . $data["title"] . "</a>");
 				} else {
 					$this->tpl->setVariable("QUESTION_TITLE", $data["title"]);
@@ -4699,7 +4699,7 @@ class ilObjTestGUI extends ilObjectGUI
 					$this->tpl->setVariable("VALUE_IV_LASTNAME", $data["lastname"]);
 					$this->tpl->setVariable("VALUE_IV_CLIENT_IP", $data["clientip"]);
 					$this->tpl->setVariable("VALUE_IV_TEST_FINISHED", ($data["test_finished"]==1)?$finished.$passes:$passes);
-					$this->tpl->setVariable("VALUE_IV_TEST_STARTED", ($data["test_started"]==1)?$started:"&nbsp;");
+					$this->tpl->setVariable("VALUE_IV_TEST_STARTED", ($data["active_id"] > 0)?$started:"&nbsp;");
 					if (strlen($data["usr_id"]))
 					{
 						$last_access = $this->object->_getLastAccess($data["active_id"]);
@@ -4718,7 +4718,7 @@ class ilObjTestGUI extends ilObjectGUI
 						$this->tpl->setVariable("VALUE_IV_LAST_ACCESS", $last_access);
 					}
 					$this->ctrl->setParameter($this, "active_id", $data["active_id"]);
-					if ($data["test_started"])
+					if ($data["active_id"] > 0)
 					{
 						$this->tpl->setVariable("VALUE_TST_SHOW_RESULTS", $this->lng->txt("tst_show_results"));
 						$this->ctrl->setParameterByClass("iltestevaluationgui", "active_id", $data["active_id"]);
@@ -4783,7 +4783,7 @@ class ilObjTestGUI extends ilObjectGUI
 					$this->tpl->setVariable("VALUE_IV_FIRSTNAME", $data["firstname"]);
 					$this->tpl->setVariable("VALUE_IV_LASTNAME", $data["lastname"]);
 					$this->tpl->setVariable("VALUE_IV_TEST_FINISHED", ($data["test_finished"]==1)?$finished.$passes:$passes);
-					$this->tpl->setVariable("VALUE_IV_TEST_STARTED", ($data["test_started"]==1)?$started:"&nbsp;");
+					$this->tpl->setVariable("VALUE_IV_TEST_STARTED", ($data["active_id"] > 0)?$started:"&nbsp;");
 					if (strlen($data["active_id"]))
 					{
 						$last_access = $this->object->_getLastAccess($data["active_id"]);
@@ -4796,7 +4796,7 @@ class ilObjTestGUI extends ilObjectGUI
 						$this->tpl->setVariable("VALUE_IV_LAST_ACCESS", $last_access);
 					}
 					$this->ctrl->setParameter($this, "active_id", $data["active_id"]);
-					if ($data["test_started"])
+					if ($data["active_id"] > 0)
 					{
 						$this->tpl->setVariable("VALUE_TST_SHOW_RESULTS", $this->lng->txt("tst_show_results"));
 						$this->ctrl->setParameterByClass("iltestevaluationgui", "active_id", $data["active_id"]);
