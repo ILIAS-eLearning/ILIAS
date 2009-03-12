@@ -9891,3 +9891,95 @@ $ilDB->manipulate("ALTER TABLE `tst_tests` DROP `created`");
 <?php
 $ilDB->manipulate("ALTER TABLE `tst_tests` CHANGE `tstampcreated` `created` INT NOT NULL DEFAULT '0'");
 ?>
+<#2074>
+<?php
+$ilMySQLAbstraction->performAbstraction('tst_test_question');
+?>
+<#2075>
+<?php
+$ilMySQLAbstraction->performAbstraction('tst_tests');
+?>
+<#2076>
+<?php
+$res = $ilDB->manipulate("ALTER TABLE `ass_log` ADD `tstamp` INT NOT NULL DEFAULT '0'");
+?>
+<#2077>
+<?php
+$res = $ilDB->query("SELECT ass_log_id, " . $ilDB->quoteIdentifier("TIMESTAMP") . " + 0 timestamp14 FROM ass_log");
+if ($res->numRows())
+{
+	while ($row = $ilDB->fetchAssoc($res))
+	{
+		preg_match("/(\\d{4})(\\d{2})(\\d{2})(\\d{2})(\\d{2})(\\d{2})/", $row['timestamp14'], $matches);
+		$tstamp = mktime((int)$matches[4], (int)$matches[5], (int)$matches[6], (int)$matches[2], (int)$matches[3], (int)$matches[1]);
+		$ilDB->manipulateF("UPDATE ass_log SET tstamp = %s WHERE ass_log_id = %s",
+			array("integer", "integer"),
+			array($tstamp, $row['ass_log_id'])
+		);
+	}
+}
+?>
+<#2078>
+<?php
+$ilDB->manipulate("ALTER TABLE `ass_log` DROP " . $ilDB->quoteIdentifier("TIMESTAMP"));
+?>
+<#2079>
+<?php
+$ilDB->manipulate("ALTER TABLE `ass_log` CHANGE `logtext` `logtext` VARCHAR(4000) NULL DEFAULT NULL");
+?>
+<#2080>
+<?php
+$ilMySQLAbstraction->performAbstraction('ass_log');
+?>
+<#2081>
+<?php
+$ilMySQLAbstraction->performAbstraction('tst_active');
+?>
+<#2082>
+<?php
+$ilMySQLAbstraction->performAbstraction('tst_invited_user');
+?>
+<#2083>
+<?php
+$ilMySQLAbstraction->performAbstraction('tst_manual_fb');
+?>
+<#2084>
+<?php
+$ilMySQLAbstraction->performAbstraction('tst_mark');
+?>
+<#2085>
+<?php
+$ilMySQLAbstraction->performAbstraction('tst_pass_result');
+?>
+<#2086>
+<?php
+$ilMySQLAbstraction->performAbstraction('tst_qst_solved');
+?>
+<#2087>
+<?php
+$ilMySQLAbstraction->performAbstraction('tst_sequence');
+?>
+<#2088>
+<?php
+$ilMySQLAbstraction->performAbstraction('tst_solutions');
+?>
+<#2089>
+<?php
+$ilMySQLAbstraction->performAbstraction('tst_test_defaults');
+?>
+<#2090>
+<?php
+$ilMySQLAbstraction->performAbstraction('tst_test_random');
+?>
+<#2091>
+<?php
+$ilMySQLAbstraction->performAbstraction('tst_test_result');
+?>
+<#2092>
+<?php
+$ilMySQLAbstraction->performAbstraction('tst_test_rnd_qst');
+?>
+<#2093>
+<?php
+$ilMySQLAbstraction->performAbstraction('tst_times');
+?>

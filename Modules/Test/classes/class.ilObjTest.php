@@ -1084,7 +1084,7 @@ class ilObjTest extends ilObject
 				"shuffle_questions, results_presentation, show_summary, password, allowedUsers, " .
 				"allowedUsersTimeGap, certificate_visibility, created, tstamp) " .
 				"VALUES (%s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, " .
-				"%s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, NULL)",
+				"%s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s)",
 				array(
 					'integer', 'integer', 'text', 'text', 
 					'text', 'integer', 'integer', 'text', 'integer', 'integer',
@@ -1348,13 +1348,13 @@ class ilObjTest extends ilObject
 		include_once "./Modules/Test/classes/class.ilObjAssessmentFolder.php";
 		if (ilObjAssessmentFolder::_enabledAssessmentLogging())
 		{
-			$query = sprintf("SELECT question_fi FROM tst_test_question WHERE test_fi = %s ORDER BY sequence",
-				$ilDB->quote($this->getTestId())
+			$result = $ilDB->queryF("SELECT question_fi FROM tst_test_question WHERE test_fi = %s ORDER BY sequence",
+				array('integer'),
+				array($this->getTestId())
 			);
-			$result = $ilDB->query($query);
 			if ($result->numRows() > 0)
 			{
-				while ($row = $result->fetchRow(MDB2_FETCHMODE_ASSOC))
+				while ($row = $ilDB->fetchAssoc($result))
 				{
 					array_push($oldquestions, $row["question_fi"]);
 				}
@@ -1362,29 +1362,30 @@ class ilObjTest extends ilObject
 		}
 
 		// delete existing category relations
-    $query = sprintf("DELETE FROM tst_test_question WHERE test_fi = %s",
-			$ilDB->quote($this->getTestId())
+		$affectedRows = $ilDB->manipulateF("DELETE FROM tst_test_question WHERE test_fi = %s",
+			array('integer'),
+			array($this->getTestId())
 		);
-		$result = $ilDB->query($query);
 		// create new category relations
-		foreach ($this->questions as $key => $value) {
-			$result = $ilDB->manipulateF("INSERT INTO tst_test_question (test_question_id, test_fi, question_fi, sequence, tstamp) VALUES (NULL, %s, %s, %s, %s)",
-				array('integer', 'integer', 'integer', 'integer'),
-				array($this->getTestId(), $value, $key, time())
+		foreach ($this->questions as $key => $value) 
+		{
+			$next_id = $ilDB->nextId('tst_test_question');
+			$affectedRows = $ilDB->manipulateF("INSERT INTO tst_test_question (test_question_id, test_fi, question_fi, sequence, tstamp) VALUES (%s, %s, %s, %s, %s)",
+				array('integer','integer', 'integer', 'integer', 'integer'),
+				array($next_id, $this->getTestId(), $value, $key, time())
 			);
-			$result = $ilDB->query($query);
 		}
 		include_once ("./Modules/Test/classes/class.ilObjAssessmentFolder.php");
 		if (ilObjAssessmentFolder::_enabledAssessmentLogging())
 		{
-			$query = sprintf("SELECT question_fi FROM tst_test_question WHERE test_fi = %s ORDER BY sequence",
-				$ilDB->quote($this->getTestId())
+			$result = $ilDB->queryF("SELECT question_fi FROM tst_test_question WHERE test_fi = %s ORDER BY sequence",
+				array('integer'),
+				array($this->getTestId())
 			);
-			$result = $ilDB->query($query);
 			$newquestions = array();
 			if ($result->numRows() > 0)
 			{
-				while ($row = $result->fetchRow(MDB2_FETCHMODE_ASSOC))
+				while ($row = $ilDB->fetchAssoc($result))
 				{
 					array_push($newquestions, $row["question_fi"]);
 				}
@@ -1844,7 +1845,6 @@ function loadQuestions($active_id = "", $pass = NULL)
 				array('integer'),
 				array($active_id)
 			);
-			$result = $ilDB->query($query);
 		}
 	}
 	else
@@ -1853,7 +1853,6 @@ function loadQuestions($active_id = "", $pass = NULL)
 			array('integer'),
 			array($this->test_id)
 		);
-		$result = $ilDB->query($query);
 	}
 	$index = 1;
 	while ($data = $ilDB->fetchAssoc($result))
