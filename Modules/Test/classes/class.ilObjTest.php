@@ -379,7 +379,7 @@ class ilObjTest extends ilObject
 	/**
 	* Determines whether or not a final statement should be shown on test completion
 	*
-	* @var boolean
+	* @var integer
 	*/
 	private $_showfinalstatement;
 
@@ -442,7 +442,7 @@ class ilObjTest extends ilObject
 		$this->enable_processing_time = "0";
 		$this->reset_processing_time = 0;
 		$this->ects_output = 0;
-		$this->ects_fx = "";
+		$this->ects_fx = NULL;
 		$this->random_test = 0;
 		$this->shuffle_questions = FALSE;
 		$this->show_summary = 8;
@@ -927,25 +927,25 @@ class ilObjTest extends ilObject
 	}
 
 /**
-* Returns true, if a test is complete for use
+* Returns 1 (true), if a test is complete for use
 *
-* @return boolean True, if the test is complete for use, otherwise false
+* @return integer 1, if the test is complete for use, otherwise 0
 * @access public
 */
 	function isComplete()
 	{
 		if ((count($this->mark_schema->mark_steps)) and (count($this->questions)))
 		{
-			return true;
+			return 1;
 		}
-			else
+		else
 		{
 			if ($this->isRandomTest())
 			{
 				$arr = $this->getRandomQuestionpools();
 				if (count($arr) && ($this->getRandomQuestionCount() > 0))
 				{
-					return true;
+					return 1;
 				}
 				$count = 0;
 				foreach ($arr as $array)
@@ -954,11 +954,12 @@ class ilObjTest extends ilObject
 				}
 				if ($count)
 				{
-					return true;
+					return 1;
 				}
 			}
-			return false;
+			return 0;
 		}
+		return 0;
 	}
 
 /**
@@ -1066,45 +1067,6 @@ class ilObjTest extends ilObject
 	{
 		global $ilDB, $ilLog;
 
-		$complete = 0;
-		if ($this->isComplete())
-		{
-			$complete = 1;
-		}
-		$ects_fx = "NULL";
-		if (preg_match("/\d+/", $this->ects_fx))
-		{
-			$ects_fx = $this->ects_fx;
-		}
-		$random_question_count = "NULL";
-		if ($this->random_question_count > 0)
-		{
-			$random_question_count = $ilDB->quote($this->random_question_count . "");
-		}
-		$shuffle_questions = 0;
-		if ($this->getShuffleQuestions())
-		{
-			$shuffle_questions = 1;
-		}
-		$allowedUsers = $this->getAllowedUsers();
-		if ($allowedUsers == 0)
-		{
-			$allowedUsers = "NULL";
-		}
-		else
-		{
-			$allowedUsers = $ilDB->quote($allowedUsers);
-		}
-		$allowedUsersTimeGap = $this->getAllowedUsersTimeGap();
-		if ($allowedUsersTimeGap == 0)
-		{
-			$allowedUsersTimeGap = "NULL";
-		}
-		else
-		{
-			$allowedUsersTimeGap = $ilDB->quote($allowedUsersTimeGap);
-		}
-
 		// cleanup RTE images
 		$this->cleanupMediaobjectUsage();
 
@@ -1112,81 +1074,86 @@ class ilObjTest extends ilObject
 		if ($this->test_id == -1)
 		{
 			// Create new dataset
-			$now = getdate();
-			$created = sprintf("%04d%02d%02d%02d%02d%02d", $now['year'], $now['mon'], $now['mday'], $now['hours'], $now['minutes'], $now['seconds']);
-			$query = sprintf("INSERT INTO tst_tests (test_id, obj_fi, author, introduction, finalstatement, showinfo, forcejs, customstyle, showfinalstatement, sequence_settings, " .
+			$next_id = $ilDB->nextId('tst_tests');
+			$affectedRows = $ilDB->manipulateF("INSERT INTO tst_tests (test_id, obj_fi, author, introduction, " .
+				"finalstatement, showinfo, forcejs, customstyle, showfinalstatement, sequence_settings, " .
 				"score_reporting, instant_verification, answer_feedback_points, answer_feedback, anonymity, show_cancel, show_marker, " .
-				"fixed_participants, nr_of_tries, kiosk, use_previous_answers, title_output, processing_time, enable_processing_time, reset_processing_time, " .
-				"reporting_date, starting_time, ending_time, complete, ects_output, ects_a, ects_b, ects_c, ects_d, ects_e, " .
-				"ects_fx, random_test, random_question_count, count_system, mc_scoring, score_cutting, pass_scoring, " .
+				"fixed_participants, nr_of_tries, kiosk, use_previous_answers, title_output, processing_time, enable_processing_time, " .
+				"reset_processing_time, reporting_date, starting_time, ending_time, complete, ects_output, ects_a, ects_b, ects_c, ects_d, " .
+				"ects_e, ects_fx, random_test, random_question_count, count_system, mc_scoring, score_cutting, pass_scoring, " .
 				"shuffle_questions, results_presentation, show_summary, password, allowedUsers, " .
 				"allowedUsersTimeGap, certificate_visibility, created, tstamp) " .
-				"VALUES (NULL, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, " .
+				"VALUES (%s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, " .
 				"%s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, NULL)",
-				$ilDB->quote($this->getId() . ""),
-				$ilDB->quote($this->getAuthor() . ""),
-				$ilDB->quote(ilRTE::_replaceMediaObjectImageSrc($this->introduction, 0)),
-				$ilDB->quote(ilRTE::_replaceMediaObjectImageSrc($this->getFinalStatement(), 0)),
-				$ilDB->quote((($this->getShowInfo()) ? "1" : "0")),
-				$ilDB->quote((($this->getForceJS()) ? "1" : "0")),
-				(strlen($this->getCustomStyle())) ? $ilDB->quote($this->getCustomStyle()) : "NULL",
-				$ilDB->quote((($this->getShowFinalStatement()) ? "1" : "0")),
-				$ilDB->quote($this->sequence_settings . ""),
-				$ilDB->quote($this->score_reporting . ""),
-				$ilDB->quote($this->getInstantFeedbackSolution() . ""),
-				$ilDB->quote($this->getAnswerFeedbackPoints() . ""),
-				$ilDB->quote($this->getAnswerFeedback() . ""),
-				$ilDB->quote($this->getAnonymity() . ""),
-				$ilDB->quote($this->getShowCancel() . ""),
-				$ilDB->quote($this->getShowMarker() . ""),
-				$ilDB->quote($this->getFixedParticipants() . ""),
-				$ilDB->quote(sprintf("%d", $this->getNrOfTries()) . ""),
-				$ilDB->quote($this->getKiosk() . ""),
-				$ilDB->quote(sprintf("%d", $this->getUsePreviousAnswers() . "")),
-				$ilDB->quote(sprintf("%d", $this->getTitleOutput() . "")),
-				$ilDB->quote($this->processing_time . ""),
-				$ilDB->quote("$this->enable_processing_time"),
-				$ilDB->quote($this->getResetProcessingTime() . ""),
-				$ilDB->quote($this->reporting_date . ""),
-				$ilDB->quote($this->starting_time . ""),
-				$ilDB->quote($this->ending_time . ""),
-				$ilDB->quote("$complete"),
-				$ilDB->quote($this->ects_output . ""),
-				$ilDB->quote($this->ects_grades["A"] . ""),
-				$ilDB->quote($this->ects_grades["B"] . ""),
-				$ilDB->quote($this->ects_grades["C"] . ""),
-				$ilDB->quote($this->ects_grades["D"] . ""),
-				$ilDB->quote($this->ects_grades["E"] . ""),
-				$ects_fx,
-				$ilDB->quote(sprintf("%d", $this->random_test) . ""),
-				$random_question_count,
-				$ilDB->quote($this->count_system . ""),
-				$ilDB->quote($this->mc_scoring . ""),
-				$ilDB->quote($this->getScoreCutting() . ""),
-				$ilDB->quote($this->getPassScoring() . ""),
-				$ilDB->quote($shuffle_questions . ""),
-				$ilDB->quote($this->getResultsPresentation() . ""),
-				$ilDB->quote($this->getListOfQuestionsSettings() . ""),
-				$ilDB->quote($this->getPassword() . ""),
-				$allowedUsers,
-				$allowedUsersTimeGap,
-				$ilDB->quote("0"),
-				$ilDB->quote($created)
+				array(
+					'integer', 'integer', 'text', 'text', 
+					'text', 'integer', 'integer', 'text', 'integer', 'integer',
+					'integer', 'text', 'text', 'text', 'text', 'text', 'integer',
+					'text', 'integer', 'integer', 'text', 'text', 'time', 'text',
+					'integer', 'text', 'text', 'text', 'text', 'text', 'float', 'float', 'float', 'float',
+					'float', 'float', 'text', 'integer', 'text', 'text', 'text', 'text',
+					'text', 'integer', 'integer', 'text', 'integer',
+					'integer', 'text', 'integer', 'integer'
+				),
+				array(
+					$next_id, 
+					$this->getId(), 
+					$this->getAuthor(), 
+					ilRTE::_replaceMediaObjectImageSrc($this->getIntroduction(), 0),
+					ilRTE::_replaceMediaObjectImageSrc($this->getFinalStatement(), 0),
+					$this->getShowInfo(), 
+					$this->getForceJS(),
+					$this->getCustomStyle(),
+					$this->getShowFinalStatement(),
+					$this->getSequenceSettings(),
+					$this->getScoreReporting(), 
+					$this->getInstantFeedbackSolution(), 
+					$this->getAnswerFeedbackPoints(),
+					$this->getAnswerFeedback(),
+					$this->getAnonymity(), 
+					$this->getShowCancel(),
+					$this->getShowMarker(),
+					$this->getFixedParticipants(),
+					$this->getNrOfTries(), 
+					$this->getKiosk(),
+					$this->getUsePreviousAnswers(),
+					$this->getTitleOutput(), 
+					$this->getProcessingTime(),
+					$this->getEnableProcessingTime(),
+					$this->getResetProcessingTime(),
+					$this->getReportingDate(),
+					$this->getStartingTime(), 
+					$this->getEndingTime(),
+					$this->isComplete(),
+					$this->getECTSOutput(),
+					strlen($this->ects_grades["A"]) ? $this->ects_grades["A"] : NULL, 
+					strlen($this->ects_grades["B"]) ? $this->ects_grades["B"] : NULL, 
+					strlen($this->ects_grades["C"]) ? $this->ects_grades["C"] : NULL, 
+					strlen($this->ects_grades["D"]) ? $this->ects_grades["D"] : NULL, 
+					strlen($this->ects_grades["E"]) ? $this->ects_grades["E"] : NULL, 
+					$this->getECTSFX(),
+					$this->isRandomTest(), 
+					$this->getRandomQuestionCount(), 
+					$this->getCountSystem(),
+					$this->getMCScoring(), 
+					$this->getScoreCutting(), 
+					$this->getPassScoring(),
+					$this->getShuffleQuestions(), 
+					$this->getResultsPresentation(),
+					$this->getListOfQuestionsSettings(), 
+					$this->getPassword(),
+					$this->getAllowedUsers(),
+					$this->getAllowedUsersTimeGap(),
+					"0", 
+					time(), 
+					time()
+				)
 			);
+			$this->test_id = $next_id;
 
 			if (ilObjAssessmentFolder::_enabledAssessmentLogging())
 			{
 				$this->logAction($this->lng->txtlng("assessment", "log_create_new_test", ilObjAssessmentFolder::_getLogLanguage()));
-			}
-			$result = $ilDB->query($query);
-			if (PEAR::isError($result)) 
-			{
-				global $ilias;
-				$ilias->raiseError($result->getMessage());
-			}
-			else
-			{
-				$this->test_id = $ilDB->getLastInsertId();
 			}
 		}
 		else
@@ -1195,75 +1162,97 @@ class ilObjTest extends ilObject
 			$oldrow = array();
 			if (ilObjAssessmentFolder::_enabledAssessmentLogging())
 			{
-				$query = sprintf("SELECT * FROM tst_tests WHERE test_id = %s",
-	        $ilDB->quote($this->test_id)
+				$result = $ilDB->queryF("SELECT * FROM tst_tests WHERE test_id = %s",
+					array('integer'),
+					array($this->test_id)
 				);
-				$result = $ilDB->query($query);
 				if ($result->numRows() == 1)
 				{
-					$oldrow = $result->fetchRow(MDB2_FETCHMODE_ASSOC);
+					$oldrow = $ilDB->fetchAssoc($result);
 				}
 			}
-			$query = sprintf("UPDATE tst_tests SET author = %s, introduction = %s, finalstatement = %s, showinfo = %s, forcejs = %s, customstyle = %s, showfinalstatement = %s, sequence_settings = %s, score_reporting = %s, instant_verification = %s, answer_feedback_points = %s, answer_feedback = %s, anonymity = %s, show_cancel = %s, show_marker = %s, fixed_participants = %s, nr_of_tries = %s, kiosk = %s, use_previous_answers = %s, title_output = %s, processing_time = %s, enable_processing_time = %s, reset_processing_time = %s, reporting_date = %s, starting_time = %s, ending_time = %s, ects_output = %s, ects_a = %s, ects_b = %s, ects_c = %s, ects_d = %s, ects_e = %s, ects_fx = %s, random_test = %s, complete = %s, count_system = %s, mc_scoring = %s, score_cutting = %s, pass_scoring = %s, shuffle_questions = %s, results_presentation = %s, show_summary = %s, password = %s, allowedUsers = %s, allowedUsersTimeGap = %s WHERE test_id = %s",
-				$ilDB->quote($this->getAuthor() . ""),
-				$ilDB->quote(ilRTE::_replaceMediaObjectImageSrc($this->introduction, 0)),
-				$ilDB->quote(ilRTE::_replaceMediaObjectImageSrc($this->getFinalStatement(), 0)),
-				$ilDB->quote((($this->getShowInfo()) ? "1" : "0")),
-				$ilDB->quote((($this->getForceJS()) ? "1" : "0")),
-				(strlen($this->getCustomStyle())) ? $ilDB->quote($this->getCustomStyle()) : "NULL",
-				$ilDB->quote((($this->getShowFinalStatement()) ? "1" : "0")),
-				$ilDB->quote($this->sequence_settings . ""),
-				$ilDB->quote($this->score_reporting . ""),
-				$ilDB->quote($this->getInstantFeedbackSolution() . ""),
-				$ilDB->quote($this->getAnswerFeedbackPoints() . ""),
-				$ilDB->quote($this->getAnswerFeedback() . ""),
-				$ilDB->quote($this->getAnonymity() . ""),
-				$ilDB->quote($this->getShowCancel() . ""),
-				$ilDB->quote($this->getShowMarker() . ""),
-				$ilDB->quote($this->getFixedParticipants() . ""),
-				$ilDB->quote(sprintf("%d", $this->getNrOfTries()) . ""),
-				$ilDB->quote($this->getKiosk() . ""),
-				$ilDB->quote(sprintf("%d", $this->getUsePreviousAnswers() . "")),
-				$ilDB->quote(sprintf("%d", $this->getTitleOutput() . "")),
-				$ilDB->quote($this->processing_time . ""),
-				$ilDB->quote("$this->enable_processing_time"),
-				$ilDB->quote($this->getResetProcessingTime() . ""),
-				$ilDB->quote($this->reporting_date . ""),
-				$ilDB->quote($this->starting_time . ""),
-				$ilDB->quote($this->ending_time . ""),
-				$ilDB->quote($this->ects_output . ""),
-				$ilDB->quote($this->ects_grades["A"] . ""),
-				$ilDB->quote($this->ects_grades["B"] . ""),
-				$ilDB->quote($this->ects_grades["C"] . ""),
-				$ilDB->quote($this->ects_grades["D"] . ""),
-				$ilDB->quote($this->ects_grades["E"] . ""),
-				$ects_fx,
-				$ilDB->quote(sprintf("%d", $this->random_test) . ""),
-				$ilDB->quote("$complete"),
-				$ilDB->quote($this->count_system . ""),
-				$ilDB->quote($this->mc_scoring . ""),
-				$ilDB->quote($this->getScoreCutting() . ""),
-				$ilDB->quote($this->getPassScoring() . ""),
-				$ilDB->quote($shuffle_questions . ""),
-				$ilDB->quote($this->getResultsPresentation() . ""),
-				$ilDB->quote($this->getListOfQuestionsSettings() . ""),
-				$ilDB->quote($this->getPassword() . ""),
-				$allowedUsers,
-				$allowedUsersTimeGap,
-				$ilDB->quote($this->test_id)
+
+			$affectedRows = $ilDB->manipulateF("UPDATE tst_tests SET author = %s, introduction = %s, " .
+				"finalstatement = %s, showinfo = %s, forcejs = %s, customstyle = %s, showfinalstatement = %s, sequence_settings = %s, " .
+				"score_reporting = %s, instant_verification = %s, answer_feedback_points = %s, answer_feedback = %s, anonymity = %s, show_cancel = %s, show_marker = %s, " .
+				"fixed_participants = %s, nr_of_tries = %s, kiosk = %s, use_previous_answers = %s, title_output = %s, processing_time = %s, enable_processing_time = %s, " . 
+				"reset_processing_time = %s, reporting_date = %s, starting_time = %s, ending_time = %s, complete = %s, ects_output = %s, ects_a = %s, ects_b = %s, ects_c = %s, ects_d = %s, " .
+				"ects_e = %s, ects_fx = %s, random_test = %s, random_question_count = %s, count_system = %s, mc_scoring = %s, score_cutting = %s, pass_scoring = %s, " . 
+				"shuffle_questions = %s, results_presentation = %s, show_summary = %s, password = %s, allowedUsers = %s, " . 
+				"allowedUsersTimeGap = %s, tstamp = %s WHERE test_id = %s",
+				array(
+					'text', 'text', 
+					'text', 'integer', 'integer', 'text', 'integer', 'integer',
+					'integer', 'text', 'text', 'text', 'text', 'text', 'integer',
+					'text', 'integer', 'integer', 'text', 'text', 'time', 'text',
+					'integer', 'text', 'text', 'text', 'text', 'text', 'float', 'float', 'float', 'float',
+					'float', 'float', 'text', 'integer', 'text', 'text', 'text', 'text',
+					'text', 'integer', 'integer', 'text', 'integer',
+					'integer', 'integer', 'integer'
+				),
+				array(
+					$this->getAuthor(), 
+					ilRTE::_replaceMediaObjectImageSrc($this->getIntroduction(), 0),
+					ilRTE::_replaceMediaObjectImageSrc($this->getFinalStatement(), 0),
+					$this->getShowInfo(), 
+					$this->getForceJS(),
+					$this->getCustomStyle(),
+					$this->getShowFinalStatement(),
+					$this->getSequenceSettings(),
+					$this->getScoreReporting(), 
+					$this->getInstantFeedbackSolution(), 
+					$this->getAnswerFeedbackPoints(),
+					$this->getAnswerFeedback(),
+					$this->getAnonymity(), 
+					$this->getShowCancel(),
+					$this->getShowMarker(),
+					$this->getFixedParticipants(),
+					$this->getNrOfTries(), 
+					$this->getKiosk(),
+					$this->getUsePreviousAnswers(),
+					$this->getTitleOutput(), 
+					$this->getProcessingTime(),
+					$this->getEnableProcessingTime(),
+					$this->getResetProcessingTime(),
+					$this->getReportingDate(),
+					$this->getStartingTime(), 
+					$this->getEndingTime(),
+					$this->isComplete(),
+					$this->getECTSOutput(),
+					strlen($this->ects_grades["A"]) ? $this->ects_grades["A"] : NULL, 
+					strlen($this->ects_grades["B"]) ? $this->ects_grades["B"] : NULL, 
+					strlen($this->ects_grades["C"]) ? $this->ects_grades["C"] : NULL, 
+					strlen($this->ects_grades["D"]) ? $this->ects_grades["D"] : NULL, 
+					strlen($this->ects_grades["E"]) ? $this->ects_grades["E"] : NULL, 
+					$this->getECTSFX(),
+					$this->isRandomTest(), 
+					$this->getRandomQuestionCount(), 
+					$this->getCountSystem(),
+					$this->getMCScoring(), 
+					$this->getScoreCutting(), 
+					$this->getPassScoring(),
+					$this->getShuffleQuestions(), 
+					$this->getResultsPresentation(),
+					$this->getListOfQuestionsSettings(), 
+					$this->getPassword(),
+					$this->getAllowedUsers(),
+					$this->getAllowedUsersTimeGap(),
+					time(), 
+					$this->getTestId()
+				)
 			);
-			$result = $ilDB->query($query);
+
 			include_once ("./Modules/Test/classes/class.ilObjAssessmentFolder.php");
 			if (ilObjAssessmentFolder::_enabledAssessmentLogging())
 			{
-				$query = sprintf("SELECT * FROM tst_tests WHERE test_id = %s",
-					$ilDB->quote($this->test_id)
+				$logresult = $ilDB->queryF("SELECT * FROM tst_tests WHERE test_id = %s",
+					array('integer'),
+					array($this->getTestId())
 				);
-				$logresult = $ilDB->query($query);
 				$newrow = array();
 				if ($logresult->numRows() == 1)
 				{
-					$newrow = $logresult->fetchRow(MDB2_FETCHMODE_ASSOC);
+					$newrow = $ilDB->fetchAssoc($logresult);
 				}
 				$changed_fields = array();
 				foreach ($oldrow as $key => $value)
@@ -1282,51 +1271,47 @@ class ilObjTest extends ilObject
 			if ($this->evalTotalPersons() > 0)
 			{
 				// reset the finished status of participants if the nr of test passes did change
-				
 				if ($this->getNrOfTries() > 0)
 				{
 					// set all unfinished tests with nr of passes >= allowed passes finished
-					$query = sprintf("SELECT active_id FROM tst_active WHERE test_fi = %s AND tries >= %s AND submitted = 0",
-						$ilDB->quote($this->getTestId() . ""),
-						$ilDB->quote($this->getNrOfTries() . "")
+					$aresult = $ilDB->queryF("SELECT active_id FROM tst_active WHERE test_fi = %s AND tries >= %s AND submitted = %s",
+						array('integer', 'integer', 'integer'),
+						array($this->getTestId(), $this->getNrOfTries(), 0)
 					);
-					$aresult = $ilDB->query($query);
-					while ($row = $aresult->fetchRow(MDB2_FETCHMODE_ASSOC))
+					while ($row = $ilDB->fetchAssoc($aresult))
 					{
-						$newquery = sprintf("UPDATE tst_active SET submitted = 1, submittimestamp = %s WHERE active_id = %s",
-							$ilDB->quote(date('Y-m-d H:i:s'))
-							$ilDB->quote($row["active_id"] . "")
+						$affectedRows = $ilDB->manipulateF("UPDATE tst_active SET submitted = %s, submittimestamp = %s WHERE active_id = %s",
+							array('integer', 'timestamp', 'integer'),
+							array(1, date('Y-m-d H:i:s'), $row["active_id"])
 						);
-						$newresult = $ilDB->query($newquery);
 					}
 
 					// set all finished tests with nr of passes >= allowed passes not finished
-					$query = sprintf("SELECT active_id FROM tst_active WHERE test_fi = %s AND tries < %s AND submitted = 1",
-						$ilDB->quote($this->getTestId() . ""),
-						$ilDB->quote($this->getNrOfTries() . "")
+					$aresult = $ilDB->queryF("SELECT active_id FROM tst_active WHERE test_fi = %s AND tries < %s AND submitted = %s",
+						array('integer', 'integer', 'integer'),
+						array($this->getTestId(), $this->getNrOfTries(), 1)
 					);
-					$aresult = $ilDB->query($query);
-					while ($row = $aresult->fetchRow(MDB2_FETCHMODE_ASSOC))
+					while ($row = $ilDB->fetchAssoc($aresult))
 					{
-						$newquery = sprintf("UPDATE tst_active SET submitted = 0, submittimestamp = NULL WHERE active_id = %s",
-							$ilDB->quote($row["active_id"] . "")
+						$affectedRows = $ilDB->manipulateF("UPDATE tst_active SET submitted = %s, submittimestamp = %s WHERE active_id = %s",
+							array('integer', 'timestamp', 'integer'),
+							array(0, NULL, $row["active_id"])
 						);
-						$newresult = $ilDB->query($newquery);
 					}
 				}
 				else
 				{
 					// set all finished tests with nr of passes >= allowed passes not finished
-					$query = sprintf("SELECT active_id FROM tst_active WHERE test_fi = %s AND submitted = 1",
-						$ilDB->quote($this->getTestId() . "")
+					$aresult = $ilDB->queryF("SELECT active_id FROM tst_active WHERE test_fi = %s AND submitted = %s",
+						array('integer', 'integer'),
+						array($this->getTestId(), 1)
 					);
-					$aresult = $ilDB->query($query);
-					while ($row = $aresult->fetchRow(MDB2_FETCHMODE_ASSOC))
+					while ($row = $ilDB->fetchAssoc($aresult))
 					{
-						$newquery = sprintf("UPDATE tst_active SET submitted = 0, submittimestamp = NULL WHERE active_id = %s",
-							$ilDB->quote($row["active_id"] . "")
+						$affectedRows = $ilDB->manipulateF("UPDATE tst_active SET submitted = %s, submittimestamp = %s WHERE active_id = %s",
+							array('integer', 'timestamp', 'integer'),
+							array(0, NULL, $row["active_id"])
 						);
-						$newresult = $ilDB->query($newquery);
 					}
 				}
 			}
@@ -1350,8 +1335,6 @@ class ilObjTest extends ilObject
   }
 
 /**
-* Saves the test questions to the database
-*
 * Saves the test questions to the database
 *
 * @access public
@@ -1894,8 +1877,6 @@ function loadQuestions($active_id = "", $pass = NULL)
   }
 
 	/**
-	* Sets the final statement
-	*
 	* Sets the final statement text of the ilObjTest object
 	*
 	* @param string $a_statement A final statement
@@ -1910,39 +1891,25 @@ function loadQuestions($active_id = "", $pass = NULL)
 	/**
 	* Set whether the complete information page is shown or the required data only
 	*
-	* @param boolean $a_boolean TRUE for the complete information, FALSE otherwise
+	* @param integer $a_info 1 for the complete information, 0 otherwise
 	* @access public
 	* @see $_showinfo
 	*/
-	public function setShowInfo($a_boolean = TRUE)
+	public function setShowInfo($a_info = 1)
 	{
-		if ($a_boolean)
-		{
-			$this->_showinfo = TRUE;
-		}
-		else
-		{
-			$this->_showinfo = FALSE;
-		}
+		$this->_showinfo = ($a_info) ? 1 : 0;
 	}
 
 	/**
 	* Set whether JavaScript should be forced for tests
 	*
-	* @param boolean $a_boolean TRUE to force JavaScript, FALSE otherwise
+	* @param integer $a_js 1 to force JavaScript, 0 otherwise
 	* @access public
 	* @see $_forcejs
 	*/
-	public function setForceJS($a_boolean = TRUE)
+	public function setForceJS($a_js = 1)
 	{
-		if ($a_boolean)
-		{
-			$this->_forcejs = TRUE;
-		}
-		else
-		{
-			$this->_forcejs = FALSE;
-		}
+		$this->_forcejs = ($a_js) ? 1 : 0;
 	}
 	
 	/**
@@ -1952,7 +1919,7 @@ function loadQuestions($active_id = "", $pass = NULL)
 	* @access public
 	* @see $_customStyle
 	*/
-	public function setCustomStyle($a_customStyle = "")
+	public function setCustomStyle($a_customStyle = NULL)
 	{
 		$this->_customStyle = $a_customStyle;
 	}
@@ -1960,13 +1927,13 @@ function loadQuestions($active_id = "", $pass = NULL)
 	/**
 	* Get the custom style
 	*
-	* @return string The custom style
+	* @return mixed The custom style, NULL if empty
 	* @access public
 	* @see $_customStyle
 	*/
 	public function getCustomStyle()
 	{
-		return $this->_customStyle;
+		return (strlen($this->_customStyle)) ? $this->_customStyle : NULL;
 	}
 	
 	/**
@@ -2033,116 +2000,99 @@ function loadQuestions($active_id = "", $pass = NULL)
 	/**
 	* Sets whether the final statement should be shown or not
 	*
-	* @param boolean $show TRUE or FALSE
+	* @param integer $show 1 if TRUE or 0 if FALSE
 	* @access public
 	* @see $_finalstatement
 	*/
-	public function setShowFinalStatement($show = "")
+	public function setShowFinalStatement($show = 0)
 	{
-		if ($show)
-		{
-			$this->_showfinalstatement = TRUE;
-		}
-		else
-		{
-			$this->_showfinalstatement = FALSE;
-		}
+		$this->_showfinalstatement = ($show) ? 1 : 0;
 	}
 
 
 /**
-* Gets the status of the $random_test attribute
-*
 * Gets the status of the $random_test attribute
 *
 * @return integer The random test status. 0 = normal, 1 = questions are generated with random generator
 * @access public
 * @see $random_test
 */
-  function isRandomTest()
+	function isRandomTest()
 	{
-    return $this->random_test;
-  }
+		return ($this->random_test) ? 1 : 0;
+	}
 
 /**
-* Gets the number of random questions used for a random test
-*
 * Gets the number of random questions used for a random test
 *
 * @return integer The number of random questions
 * @access public
 * @see $random_question_count
 */
-  function getRandomQuestionCount()
+	function getRandomQuestionCount()
 	{
-    return $this->random_question_count;
-  }
+		return ($this->random_question_count) ? $this->random_question_count : 0;
+	}
 
 /**
-* Gets the introduction
-*
 * Gets the introduction text of the ilObjTest object
 *
-* @return string The introduction text of the test
-* @access public
+* @return mixed The introduction text of the test, NULL if empty
 * @see $introduction
 */
-  function getIntroduction()
+	public function getIntroduction()
 	{
-    return $this->introduction;
-  }
+		return (strlen($this->introduction)) ? $this->introduction : NULL;
+	}
 
 	/**
 	* Gets the final statement
 	*
-	* @return string The final statement
-	* @access public
+	* @return mixed The final statement, NULL if empty
 	* @see $_finalstatement
 	*/
 	public function getFinalStatement()
 	{
-		return $this->_finalstatement;
+		return (strlen($this->_finalstatement)) ? $this->_finalstatement : NULL;
 	}
 
 	/**
 	* Gets whether the complete information page is shown or the required data only
 	*
-	* @return boolean TRUE for the complete information, FALSE otherwise
+	* @return integer 1 for the complete information, 0 otherwise
 	* @access public
 	* @see $_showinfo
 	*/
 	public function getShowInfo()
 	{
-		return $this->_showinfo;
+		return ($this->_showinfo) ? 1 : 0;
 	}
 
 	/**
 	* Gets whether JavaScript should be forced for tests
 	*
-	* @return boolean TRUE to force JavaScript, FALSE otherwise
+	* @return integer 1 to force JavaScript, 0 otherwise
 	* @access public
 	* @see $_forcejs
 	*/
 	public function getForceJS()
 	{
-		return $this->_forcejs;
+		return ($this->_forcejs) ? 1 : 0;
 	}
 
 	/**
 	* Returns whether the final statement should be shown or not
 	*
-	* @return boolean TRUE or FALSE
+	* @return integer 0 if false, 1 if true
 	* @access public
 	* @see $_showfinalstatement
 	*/
 	public function getShowFinalStatement()
 	{
-		return $this->_showfinalstatement;
+		return ($this->_showfinalstatement) ? 1 : 0;
 	}
 
 /**
-* Gets the database id of the additional test data
-*
 * Gets the database id of the additional test data
 *
 * @return integer The database id of the additional test data
@@ -2157,20 +2107,16 @@ function loadQuestions($active_id = "", $pass = NULL)
 	/**
 	* Indicates if ECTS grades output is presented in this test
 	*
-	* Indicates if ECTS grades output is presented in this test
-	*
 	* @return integer 0 if there is no ECTS grades output, 1 otherwise
 	* @access public
 	* @see $ects_output
 	*/
 	function getECTSOutput()
 	{
-		return $this->ects_output;
+		return ($this->ects_output) ? 1 : 0;
 	}
 
 	/**
-	* Enables/Disables ECTS grades output for this test
-	*
 	* Enables/Disables ECTS grades output for this test
 	*
 	* @param integer $a_ects_output 0 if ECTS grades output should be deactivated, 1 otherwise
@@ -2185,20 +2131,16 @@ function loadQuestions($active_id = "", $pass = NULL)
 	/**
 	* Returns the ECTS FX grade
 	*
-	* Returns the ECTS FX grade
-	*
-	* @return string The ECTS FX grade
+	* @return mixed The ECTS FX grade, NULL if empty
 	* @access public
 	* @see $ects_fx
 	*/
 	function getECTSFX()
 	{
-		return $this->ects_fx;
+		return (strlen($this->ects_fx)) ? $this->ects_fx : NULL;
 	}
 
 	/**
-	* Sets the ECTS FX grade
-	*
 	* Sets the ECTS FX grade
 	*
 	* @param string $a_ects_fx The ECTS FX grade
@@ -2213,8 +2155,6 @@ function loadQuestions($active_id = "", $pass = NULL)
 	/**
 	* Returns the ECTS grades
 	*
-	* Returns the ECTS grades
-	*
 	* @return array The ECTS grades
 	* @access public
 	* @see $ects_grades
@@ -2225,8 +2165,6 @@ function loadQuestions($active_id = "", $pass = NULL)
 	}
 
 	/**
-	* Sets the ECTS grades
-	*
 	* Sets the ECTS grades
 	*
 	* @param array $a_ects_grades The ECTS grades
@@ -2242,8 +2180,6 @@ function loadQuestions($active_id = "", $pass = NULL)
 	}
 
 /**
-* Sets the sequence settings
-*
 * Sets the sequence settings of the ilObjTest object
 *
 * @param integer $sequence_settings The sequence settings
@@ -2256,8 +2192,6 @@ function loadQuestions($active_id = "", $pass = NULL)
   }
 
 /**
-* Sets the score reporting
-*
 * Sets the score reporting of the ilObjTest object
 *
 * @param integer $score_reporting The score reporting
@@ -2270,8 +2204,6 @@ function loadQuestions($active_id = "", $pass = NULL)
   }
 
 /**
-* Sets the instant feedback for the solution
-*
 * Sets the instant feedback for the solution
 *
 * @param integer $instant_feedback If 1, the solution will be shown after answering a question
@@ -2292,8 +2224,6 @@ function loadQuestions($active_id = "", $pass = NULL)
   }
 
 /**
-* Sets the answer specific feedback for the test
-*
 * Sets the answer specific feedback for the test
 *
 * @param integer $answer_feedback If 1, answer specific feedback will be shown after answering a question
@@ -2386,36 +2316,30 @@ function loadQuestions($active_id = "", $pass = NULL)
   }
 
 /**
-* Gets the sequence settings
-*
 * Gets the sequence settings of the ilObjTest object
 *
 * @return integer The sequence settings of the test
 * @access public
 * @see $sequence_settings
 */
-  function getSequenceSettings()
+	function getSequenceSettings()
 	{
-    return $this->sequence_settings;
-  }
+		return ($this->sequence_settings) ? $this->sequence_settings : 0;
+	}
 
 /**
-* Gets the score reporting
-*
 * Gets the score reporting of the ilObjTest object
 *
 * @return integer The score reporting of the test
 * @access public
 * @see $score_reporting
 */
-  function getScoreReporting()
+	function getScoreReporting()
 	{
-    return $this->score_reporting;
-  }
+		return ($this->score_reporting) ? $this->score_reporting : 0;
+	}
 
 /**
-* Returns 1 if the correct solution will be shown after answering a question
-*
 * Returns 1 if the correct solution will be shown after answering a question
 *
 * @return integer The status of the solution instant feedback
@@ -2424,12 +2348,10 @@ function loadQuestions($active_id = "", $pass = NULL)
 */
   function getInstantFeedbackSolution()
 	{
-    return $this->instant_verification;
+    return ($this->instant_verification) ? $this->instant_verification : 0;
   }
 
 /**
-* Returns 1 if answer specific feedback is activated
-*
 * Returns 1 if answer specific feedback is activated
 *
 * @return integer The status of the answer specific feedback
@@ -2438,47 +2360,41 @@ function loadQuestions($active_id = "", $pass = NULL)
 */
   function getAnswerFeedback()
 	{
-    return $this->answer_feedback;
+    return ($this->answer_feedback) ? $this->answer_feedback : 0;
   }
 
 /**
-* Returns 1 if answer specific feedback as reached points is activated
-*
 * Returns 1 if answer specific feedback as reached points is activated
 *
 * @return integer The status of the answer specific feedback as reached points
 * @access public
 * @see $answer_feedback_points
 */
-  function getAnswerFeedbackPoints()
+	function getAnswerFeedbackPoints()
 	{
-    return $this->answer_feedback_points;
-  }
+		return ($this->answer_feedback_points) ? $this->answer_feedback_points : 0;
+	}
 
 /**
-* Gets the count system for the calculation of points
-*
 * Gets the count system for the calculation of points
 *
 * @return integer The count system for the calculation of points
 * @access public
 * @see $count_system
 */
-  function getCountSystem()
+	function getCountSystem()
 	{
-    return $this->count_system;
-  }
+		return ($this->count_system) ? $this->count_system : 0;
+	}
 
 /**
-* Gets the count system for the calculation of points
-*
 * Gets the count system for the calculation of points
 *
 * @return integer The count system for the calculation of points
 * @access public
 * @see $count_system
 */
-  function _getCountSystem($active_id)
+	function _getCountSystem($active_id)
 	{
 		global $ilDB;
 		$query = sprintf("SELECT tst_tests.count_system FROM tst_tests, tst_active WHERE tst_active.active_id = %s AND tst_active.test_fi = tst_tests.test_id",
@@ -2490,75 +2406,65 @@ function loadQuestions($active_id = "", $pass = NULL)
 			$row = $result->fetchRow(MDB2_FETCHMODE_ASSOC);
 			return $row["count_system"];
 		}
-    return FALSE;
-  }
+		return FALSE;
+	}
 
 /**
-* Gets the scoring type for multiple choice questions
-*
 * Gets the scoring type for multiple choice questions
 *
 * @return integer The scoring type for multiple choice questions
 * @access public
 * @see $mc_scoring
 */
-  function getMCScoring()
+	function getMCScoring()
 	{
-    return $this->mc_scoring;
-  }
+		return ($this->mc_scoring) ? $this->mc_scoring : 0;
+	}
 
 /**
 * Determines if the score of a question should be cut at 0 points or the score of the whole test
 *
-* Determines if the score of a question should be cut at 0 points or the score of the whole test
-*
-* @return boolean The score cutting type. 0 for question cutting, 1 for test cutting
+* @return integer The score cutting type. 0 for question cutting, 1 for test cutting
 * @access public
 * @see $score_cutting
 */
-  function getScoreCutting()
+	function getScoreCutting()
 	{
-    return $this->score_cutting;
-  }
+		return ($this->score_cutting) ? $this->score_cutting : 0;
+	}
 
 /**
-* Returns the password for test access
-*
 * Returns the password for test access
 *
 * @return striong  Password for test access
 * @access public
 * @see $password
 */
-  function getPassword()
+	function getPassword()
 	{
-    return $this->password;
-  }
+		return (strlen($this->password)) ? $this->password : NULL;
+	}
 
 /**
-* Gets the pass scoring type
-*
 * Gets the pass scoring type
 *
 * @return integer The pass scoring type
 * @access public
 * @see $pass_scoring
 */
-  function getPassScoring()
+	function getPassScoring()
 	{
-    return $this->pass_scoring;
-  }
+		return ($this->pass_scoring) ? $this->pass_scoring : 0;
+	}
 
 /**
-* Gets the pass scoring type
-*
 * Gets the pass scoring type
 *
 * @return integer The pass scoring type
 * @access public
 * @see $pass_scoring
 */
-  function _getPassScoring($active_id)
+	function _getPassScoring($active_id)
 	{
 		global $ilDB;
 		$query = sprintf("SELECT tst_tests.pass_scoring FROM tst_tests, tst_active WHERE tst_tests.test_id = tst_active.test_fi AND tst_active.active_id = %s",
@@ -2570,19 +2476,17 @@ function loadQuestions($active_id = "", $pass = NULL)
 			$row = $result->fetchRow(MDB2_FETCHMODE_ASSOC);
 			return $row["pass_scoring"];
 		}
-    return 0;
-  }
+		return 0;
+	}
 
 /**
-* Gets the scoring type for multiple choice questions
-*
 * Gets the scoring type for multiple choice questions
 *
 * @return mixed The scoring type for multiple choice questions
 * @access public
 * @see $mc_scoring
 */
-  function _getMCScoring($active_id)
+	function _getMCScoring($active_id)
 	{
 		global $ilDB;
 		$query = sprintf("SELECT tst_tests.mc_scoring FROM tst_tests, tst_active WHERE tst_active.active_id = %s AND tst_active.test_fi = tst_tests.test_id",
@@ -2594,19 +2498,17 @@ function loadQuestions($active_id = "", $pass = NULL)
 			$row = $result->fetchRow(MDB2_FETCHMODE_ASSOC);
 			return $row["mc_scoring"];
 		}
-    return FALSE;
-  }
+		return FALSE;
+	}
 
 /**
-* Determines if the score of a question should be cut at 0 points or the score of the whole test
-*
 * Determines if the score of a question should be cut at 0 points or the score of the whole test
 *
 * @return boolean The score cutting type. 0 for question cutting, 1 for test cutting
 * @access public
 * @see $score_cutting
 */
-  function _getScoreCutting($active_id)
+	function _getScoreCutting($active_id)
 	{
 		global $ilDB;
 		$query = sprintf("SELECT tst_tests.score_cutting FROM tst_tests, tst_active WHERE tst_active.active_id = %s AND tst_tests.test_id = tst_active.test_fi",
@@ -2618,40 +2520,34 @@ function loadQuestions($active_id = "", $pass = NULL)
 			$row = $result->fetchRow(MDB2_FETCHMODE_ASSOC);
 			return $row["score_cutting"];
 		}
-    return FALSE;
-  }
+		return FALSE;
+	}
 
 /**
-* Gets the reporting date
-*
 * Gets the reporting date of the ilObjTest object
 *
 * @return string The reporting date of the test of an empty string (=FALSE) if no reporting date is set
 * @access public
 * @see $reporting_date
 */
-  function getReportingDate()
+	function getReportingDate()
 	{
-    return $this->reporting_date;
-  }
+		return (strlen($this->reporting_date)) ? $this->reporting_date : NULL;
+	}
 
 /**
-* Returns the nr of tries for the test
-*
 * Returns the nr of tries for the test
 *
 * @return integer The maximum number of tries
 * @access public
 * @see $nr_of_tries
 */
-  function getNrOfTries()
+	function getNrOfTries()
 	{
-    return $this->nr_of_tries;
-  }
+		return ($this->nr_of_tries) ? $this->nr_of_tries : 0;
+	}
 
 	/**
-	* Returns the kiosk mode
-	*
 	* Returns the kiosk mode
 	*
 	* @return integer Kiosk mode
@@ -2660,27 +2556,23 @@ function loadQuestions($active_id = "", $pass = NULL)
 	*/
 	function getKiosk()
 	{
-		return $this->_kiosk;
+		return ($this->_kiosk) ? $this->_kiosk : 0;
 	}
 
 
-		/**
-		* Sets the kiosk mode for the test
-		*
-		* Sets the kiosk mode for the test
-		*
-		* @param integer $kiosk The value for the kiosk mode.
-		* @access public
-		* @see $_kiosk
-		*/
-		function setKiosk($kiosk = 0)
-		{
-			$this->_kiosk = $kiosk;
-		}
+	/**
+	* Sets the kiosk mode for the test
+	*
+	* @param integer $kiosk The value for the kiosk mode.
+	* @access public
+	* @see $_kiosk
+	*/
+	function setKiosk($kiosk = 0)
+	{
+		$this->_kiosk = $kiosk;
+	}
 
 	/**
-	* Returns the kiosk mode
-	*
 	* Returns the kiosk mode
 	*
 	* @return boolean Kiosk mode
@@ -2700,8 +2592,6 @@ function loadQuestions($active_id = "", $pass = NULL)
 	}
 
 	/**
-	* Sets the kiosk mode for the test
-	*
 	* Sets the kiosk mode for the test
 	*
 	* @param boolean $kiosk The value for the kiosk mode
@@ -2726,8 +2616,6 @@ function loadQuestions($active_id = "", $pass = NULL)
 	/**
 	* Returns the status of the kiosk mode title
 	*
-	* Returns the status of the kiosk mode title
-	*
 	* @return boolean Kiosk mode title
 	* @access public
 	* @see $_kiosk
@@ -2745,8 +2633,6 @@ function loadQuestions($active_id = "", $pass = NULL)
 	}
 
 	/**
-	* Set to true, if the full test title should be shown in kiosk mode
-	*
 	* Set to true, if the full test title should be shown in kiosk mode
 	*
 	* @param boolean $a_title TRUE if the test title should be shown in kiosk mode, FALSE otherwise
@@ -2770,8 +2656,6 @@ function loadQuestions($active_id = "", $pass = NULL)
 	/**
 	* Returns the status of the kiosk mode participant
 	*
-	* Returns the status of the kiosk mode participant
-	*
 	* @return boolean Kiosk mode participant
 	* @access public
 	* @see $_kiosk
@@ -2789,8 +2673,6 @@ function loadQuestions($active_id = "", $pass = NULL)
 	}
 
 	/**
-	* Set to true, if the participant's name should be shown in kiosk mode
-	*
 	* Set to true, if the participant's name should be shown in kiosk mode
 	*
 	* @param boolean $a_title TRUE if the participant's name should be shown in kiosk mode, FALSE otherwise
@@ -2814,34 +2696,28 @@ function loadQuestions($active_id = "", $pass = NULL)
 /**
 * Returns if the previous answers should be shown for a learner
 *
-* Returns if the previous answers should be shown for a learner
-*
 * @return integer 1 if the previous answers should be shown, 0 otherwise
 * @access public
 * @see $use_previous_answers
 */
-  function getUsePreviousAnswers()
+	function getUsePreviousAnswers()
 	{
-    return $this->use_previous_answers;
-  }
+		return ($this->use_previous_answers) ? $this->use_previous_answers : 0;
+	}
 
 /**
-* Returns the value of the title_output status
-*
 * Returns the value of the title_output status
 *
 * @return integer 0 for full title, 1 for title without points, 2 for no title
 * @access public
 * @see $title_output
 */
-  function getTitleOutput()
+	function getTitleOutput()
 	{
-    return $this->title_output;
-  }
+		return ($this->title_output) ? $this->title_output : 0;
+	}
 
 /**
-* Returns the value of the title_output status
-*
 * Returns the value of the title_output status
 *
 * @param integer $active_id The active id of a user
@@ -2849,7 +2725,7 @@ function loadQuestions($active_id = "", $pass = NULL)
 * @access public
 * @see $title_output
 */
-  function _getTitleOutput($active_id)
+	function _getTitleOutput($active_id)
 	{
 		global $ilDB;
 
@@ -2863,11 +2739,9 @@ function loadQuestions($active_id = "", $pass = NULL)
 			return $row["title_output"];
 		}
 		return 0;
-  }
+	}
 
 /**
-* Returns if the previous results should be hidden for a learner
-*
 * Returns if the previous results should be hidden for a learner
 *
 * @param integer $test_id The test id
@@ -2876,7 +2750,7 @@ function loadQuestions($active_id = "", $pass = NULL)
 * @access public
 * @see $use_previous_answers
 */
-  function _getUsePreviousAnswers($active_id, $user_active_user_setting = false)
+	function _getUsePreviousAnswers($active_id, $user_active_user_setting = false)
 	{
 		global $ilDB;
 		global $ilUser;
@@ -2905,25 +2779,21 @@ function loadQuestions($active_id = "", $pass = NULL)
 			}
 		}
 		return $use_previous_answers;
-  }
+	}
 
 /**
 * Returns the processing time for the test
 *
-* Returns the processing time for the test
-*
-* @return integer The processing time for the test
+* @return string The processing time for the test
 * @access public
 * @see $processing_time
 */
-  function getProcessingTime()
+	function getProcessingTime()
 	{
-    return $this->processing_time;
-  }
+		return (strlen($this->processing_time)) ? $this->processing_time : NULL;
+	}
 
 /**
-* Returns the processing time for the test in seconds
-*
 * Returns the processing time for the test in seconds
 *
 * @return integer The processing time for the test in seconds
@@ -2943,8 +2813,6 @@ function loadQuestions($active_id = "", $pass = NULL)
 	}
 
 	/**
-	* Returns the seconds left from the actual time until the ending time
-	* 
 	* Returns the seconds left from the actual time until the ending time
 	*
 	* @return integer The seconds left until the ending time is reached
@@ -2968,76 +2836,64 @@ function loadQuestions($active_id = "", $pass = NULL)
 	/**
 	* Returns the state of the processing time (enabled/disabled)
 	*
-	* Returns the state of the processing time (enabled/disabled)
-	*
 	* @return integer The processing time state (0 for disabled, 1 for enabled)
 	* @access public
 	* @see $processing_time
 	*/
-	  function getEnableProcessingTime()
-		{
-	    return $this->enable_processing_time;
-	  }
+	function getEnableProcessingTime()
+	{
+		return ($this->enable_processing_time) ? $this->enable_processing_time : 0;
+	}
 
 	/**
-	* Returns wheather the processing time should be reset or not
-	*
 	* Returns wheather the processing time should be reset or not
 	*
 	* @return integer 0 for no reset, 1 for a reset
 	* @access public
 	* @see $reset_processing_time
 	*/
-	  function getResetProcessingTime()
-		{
-	    return $this->reset_processing_time;
-	  }
+	function getResetProcessingTime()
+	{
+		return ($this->reset_processing_time) ? $this->reset_processing_time : 0;
+	}
 
 /**
-* Returns the starting time of the test
-*
 * Returns the starting time of the test
 *
 * @return string The starting time of the test
 * @access public
 * @see $starting_time
 */
-  function getStartingTime()
+	function getStartingTime()
 	{
-    return $this->starting_time;
-  }
+		return (strlen($this->starting_time)) ? $this->starting_time : NULL;
+	}
 
 /**
-* Returns the ending time of the test
-*
 * Returns the ending time of the test
 *
 * @return string The ending time of the test
 * @access public
 * @see $ending_time
 */
-  function getEndingTime()
+	function getEndingTime()
 	{
-    return $this->ending_time;
-  }
+		return (strlen($this->ending_time)) ? $this->ending_time : NULL;
+	}
 
 /**
-* Sets the nr of tries for the test
-*
 * Sets the nr of tries for the test
 *
 * @param integer $nr_of_tries The maximum number of tries for the test. 0 for infinite tries.
 * @access public
 * @see $nr_of_tries
 */
-  function setNrOfTries($nr_of_tries = 0)
+	function setNrOfTries($nr_of_tries = 0)
 	{
-    $this->nr_of_tries = $nr_of_tries;
-  }
+		$this->nr_of_tries = $nr_of_tries;
+	}
 
 /**
-* Sets the status of the visibility of previous learner answers
-*
 * Sets the status of the visibility of previous learner answers
 **
 * @param integer $use_previous_answers 1 if the previous answers should be shown
@@ -3054,18 +2910,16 @@ function loadQuestions($active_id = "", $pass = NULL)
 		{
 			$this->use_previous_answers = 0;
 		}
-  }
+	}
 
 /**
-* Sets the status of the title output
-*
 * Sets the status of the title output
 **
 * @param integer $title_output 0 for full title, 1 for title without points, 2 for no title
 * @access public
 * @see $title_output
 */
-  function setTitleOutput($title_output = 0)
+	function setTitleOutput($title_output = 0)
 	{
 		switch ($title_output)
 		{
@@ -3079,25 +2933,21 @@ function loadQuestions($active_id = "", $pass = NULL)
 				$this->title_output = 0;
 				break;
 		}
-  }
+	}
 
 /**
-* Sets the processing time for the test
-*
 * Sets the processing time for the test
 *
 * @param string $processing_time The maximum processing time for the test given in hh:mm:ss
 * @access public
 * @see $processing_time
 */
-  function setProcessingTime($processing_time = "00:00:00")
+	function setProcessingTime($processing_time = "00:00:00")
 	{
-    $this->processing_time = $processing_time;
-  }
+		$this->processing_time = $processing_time;
+	}
 
 /**
-* Sets the processing time enabled or disabled
-*
 * Sets the processing time enabled or disabled
 *
 * @param integer $enable 0 to disable the processing time, 1 to enable the processing time
@@ -3114,8 +2964,6 @@ function loadQuestions($active_id = "", $pass = NULL)
 	}
 
 /**
-* Sets wheather the processing time should be reset or not
-*
 * Sets wheather the processing time should be reset or not
 *
 * @param integer $reset 1 to reset the processing time, 0 otherwise
@@ -3135,99 +2983,85 @@ function loadQuestions($active_id = "", $pass = NULL)
 	}
 
 /**
-* Sets the starting time for the test
-*
 * Sets the starting time in database timestamp format for the test
 *
 * @param string $starting_time The starting time for the test. Empty string for no starting time.
 * @access public
 * @see $starting_time
 */
-  function setStartingTime($starting_time = "")
+	function setStartingTime($starting_time = NULL)
 	{
-    $this->starting_time = $starting_time;
-  }
+		$this->starting_time = $starting_time;
+	}
 
 /**
-* Sets the ending time for the test
-*
 * Sets the ending time in database timestamp format for the test
 *
 * @param string $ending_time The ending time for the test. Empty string for no ending time.
 * @access public
 * @see $ending_time
 */
-  function setEndingTime($ending_time = "")
+	function setEndingTime($ending_time = NULL)
 	{
-    $this->ending_time = $ending_time;
-  }
+		$this->ending_time = $ending_time;
+	}
 
 /**
-* Sets the count system for the calculation of points
-*
 * Sets the count system for the calculation of points
 *
 * @param integer $a_count_system The count system for the calculation of points.
 * @access public
 * @see $count_system
 */
-  function setCountSystem($a_count_system = COUNT_PARTIAL_SOLUTIONS)
+	function setCountSystem($a_count_system = COUNT_PARTIAL_SOLUTIONS)
 	{
-    $this->count_system = $a_count_system;
-  }
+		$this->count_system = $a_count_system;
+	}
 
 /**
-* Sets the password for test access
-*
 * Sets the password for test access
 *
 * @param string $a_password The password for test access
 * @access public
 * @see $password
 */
-  function setPassword($a_password = "")
+	function setPassword($a_password = NULL)
 	{
-    $this->password = $a_password;
-  }
+		$this->password = $a_password;
+	}
 
 /**
-* Sets the type of score cutting
-*
 * Sets the type of score cutting
 *
 * @param integer $a_score_cutting The type of score cutting. 0 for cut questions, 1 for cut tests
 * @access public
 * @see $score_cutting
 */
-  function setScoreCutting($a_score_cutting = SCORE_CUT_QUESTION)
+	function setScoreCutting($a_score_cutting = SCORE_CUT_QUESTION)
 	{
-    $this->score_cutting = $a_score_cutting;
-  }
+		$this->score_cutting = $a_score_cutting;
+	}
 
 /**
-* Sets the multiple choice scoring
-*
 * Sets the multiple choice scoring
 *
 * @param integer $a_mc_scoring The scoring for multiple choice questions
 * @access public
 * @see $mc_scoring
 */
-  function setMCScoring($a_mc_scoring = SCORE_ZERO_POINTS_WHEN_UNANSWERED)
+	function setMCScoring($a_mc_scoring = SCORE_ZERO_POINTS_WHEN_UNANSWERED)
 	{
-    $this->mc_scoring = $a_mc_scoring;
-  }
+		$this->mc_scoring = $a_mc_scoring;
+	}
 
 /**
-* Sets the pass scoring
-*
 * Sets the pass scoring
 *
 * @param integer $a_pass_scoring The pass scoring type
 * @access public
 * @see $pass_scoring
 */
-  function setPassScoring($a_pass_scoring = SCORE_LAST_PASS)
+	function setPassScoring($a_pass_scoring = SCORE_LAST_PASS)
 	{
 		switch ($a_pass_scoring)
 		{
@@ -3238,11 +3072,9 @@ function loadQuestions($active_id = "", $pass = NULL)
 				$this->pass_scoring = SCORE_LAST_PASS;
 				break;
 		}
-  }
+	}
 
 /**
-* Removes a question from the test object
-*
 * Removes a question from the test object
 *
 * @param integer $question_id The database id of the question to be removed
@@ -3264,8 +3096,6 @@ function loadQuestions($active_id = "", $pass = NULL)
 	}
 
 /**
-* Removes all references to the question in executed tests in case the question has been changed
-*
 * Removes all references to the question in executed tests in case the question has been changed.
 * If a question was changed it cannot be guaranteed that the content and the meaning of the question
 * is the same as before. So we have to delete all already started or completed tests using that question.
@@ -3475,8 +3305,6 @@ function loadQuestions($active_id = "", $pass = NULL)
 /**
 * Moves a question up in order
 *
-* Moves a question up in order
-*
 * @param integer $question_id The database id of the question to be moved up
 * @access public
 * @see $test_id
@@ -3522,8 +3350,6 @@ function loadQuestions($active_id = "", $pass = NULL)
 	}
 
 /**
-* Moves a question down in order
-*
 * Moves a question down in order
 *
 * @param integer $question_id The database id of the question to be moved down
@@ -3574,8 +3400,6 @@ function loadQuestions($active_id = "", $pass = NULL)
 	/**
 	* Takes a question and creates a copy of the question for use in the test
 	*
-	* Takes a question and creates a copy of the question for use in the test
-	*
 	* @param integer $question_id The database id of the question
 	* @result integer The database id of the copied question
 	* @access public
@@ -3590,8 +3414,6 @@ function loadQuestions($active_id = "", $pass = NULL)
 	}
 
 /**
-* Insert a question in the list of questions
-*
 * Insert a question in the list of questions
 *
 * @param integer $question_id The database id of the inserted question
@@ -3645,8 +3467,6 @@ function loadQuestions($active_id = "", $pass = NULL)
 /**
 * Returns the titles of the test questions in question sequence
 *
-* Returns the titles of the test questions in question sequence
-*
 * @return array The question titles
 * @access public
 * @see $questions
@@ -3671,8 +3491,6 @@ function loadQuestions($active_id = "", $pass = NULL)
 	}
 
 	/**
-	* Returns the title of a test question
-	*
 	* Returns the title of a test question and checks if the title output is allowed.
 	* If not, the localized text "question" will be returned.
 	*
@@ -3695,8 +3513,6 @@ function loadQuestions($active_id = "", $pass = NULL)
 /**
 * Returns the dataset for a given question id
 *
-* Returns the dataset for a given question id
-*
 * @param integer $question_id The database id of the question
 * @return object Question dataset
 * @access public
@@ -3716,8 +3532,6 @@ function loadQuestions($active_id = "", $pass = NULL)
 	}
 
 /**
-* Get the id's of the questions which are already part of the test
-*
 * Get the id's of the questions which are already part of the test
 *
 * @return array An array containing the already existing questions
@@ -3784,8 +3598,6 @@ function loadQuestions($active_id = "", $pass = NULL)
 /**
 * Write the initial entry for the tests working time to the database
 *
-* Write the initial entry for the tests working time to the database
-*
 * @param integer $user_id The database id of the user working with the test
 * @access	public
 */
@@ -3803,8 +3615,6 @@ function loadQuestions($active_id = "", $pass = NULL)
 /**
 * Update the working time of a test when a question is answered
 *
-* Update the working time of a test when a question is answered
-*
 * @param integer $times_id The database id of a working time entry
 * @access	public
 */
@@ -3820,8 +3630,6 @@ function loadQuestions($active_id = "", $pass = NULL)
 	}
 
 /**
-* Gets the id's of all questions a user already worked through
-*
 * Gets the id's of all questions a user already worked through
 *
 * @return array The question id's of the questions already worked through
@@ -3857,8 +3665,6 @@ function loadQuestions($active_id = "", $pass = NULL)
 	/**
 	* Returns true if an active user completed a test pass and did not start a new pass
 	*
-	* Returns true if an active user completed a test pass and did not start a new pass
-	*
 	* @param integer $active_id The active id of the user
 	* @param integer $currentpass The current test pass of the user
 	* @return boolean true if an active user completed a test pass and did not start a new pass, false otherwise
@@ -3878,8 +3684,6 @@ function loadQuestions($active_id = "", $pass = NULL)
 	}
 
 /**
-* Returns all questions of a test in test order
-*
 * Returns all questions of a test in test order
 *
 * @return array An array containing the id's as keys and the database row objects as values
@@ -3932,8 +3736,6 @@ function loadQuestions($active_id = "", $pass = NULL)
 	}
 
 	/**
-	* Gets the active id of a given user
-	*
 	* Gets the active id of a given user
 	*
 	* @param integer $user_id The database id of the user
@@ -3989,8 +3791,6 @@ function loadQuestions($active_id = "", $pass = NULL)
 /**
 * Gets the active id of the tst_active table for the active user
 *
-* Gets the active id of the tst_active table for the active user
-*
 * @param integer $user_id The database id of the user
 * @param integer $test_id The database id of the test
 * @return object The database row of the tst_active table
@@ -4028,8 +3828,6 @@ function loadQuestions($active_id = "", $pass = NULL)
 	/**
 	* Shuffles the values of a given array
 	*
-	* Shuffles the values of a given array
-	*
 	* @param array $array An array which should be shuffled
 	* @access public
 	*/
@@ -4055,8 +3853,6 @@ function loadQuestions($active_id = "", $pass = NULL)
 	}
 	
 	/**
-	* Calculates the results of a test for a given user
-	*
 	* Calculates the results of a test for a given user
 	* and returns an array with all test results
 	*
@@ -4169,8 +3965,6 @@ function loadQuestions($active_id = "", $pass = NULL)
 /**
 * Returns the number of persons who started the test
 *
-* Returns the number of persons who started the test
-*
 * @return integer The number of persons who started the test
 * @access public
 */
@@ -4187,8 +3981,6 @@ function loadQuestions($active_id = "", $pass = NULL)
 	}
 
 /**
-* Returns the complete working time in seconds a user worked on the test
-*
 * Returns the complete working time in seconds a user worked on the test
 *
 * @return integer The working time in seconds
@@ -4218,8 +4010,6 @@ function loadQuestions($active_id = "", $pass = NULL)
 	/**
 	* Returns the complete working time in seconds for all test participants
 	*
-	* Returns the complete working time in seconds for all test participants
-	*
 	* @return array An array containing the working time in seconds for all test participants
 	* @access public
 	*/
@@ -4229,8 +4019,6 @@ function loadQuestions($active_id = "", $pass = NULL)
 	}
 
 	/**
-	* Returns the complete working time in seconds for all test participants
-	*
 	* Returns the complete working time in seconds for all test participants
 	*
 	* @param integer $test_id The database ID of the test
@@ -4265,8 +4053,6 @@ function loadQuestions($active_id = "", $pass = NULL)
 	/**
 	* Returns the complete working time in seconds for a test participant
 	*
-	* Returns the complete working time in seconds for a test participant
-	*
 	* @return integer The working time in seconds for the test participant
 	* @access public
 	*/
@@ -4292,8 +4078,6 @@ function loadQuestions($active_id = "", $pass = NULL)
 	}
 
 	/**
-	* Returns the complete working time in seconds for a test participant
-	*
 	* Returns the complete working time in seconds for a test participant
 	*
 	* @return integer The working time in seconds for the test participant
@@ -4323,8 +4107,6 @@ function loadQuestions($active_id = "", $pass = NULL)
 	/**
 	* Returns the first and last visit of a participant
 	*
-	* Returns the first and last visit of a participant
-	*
 	* @param integer $active_id The active ID of the participant
 	* @return array The first and last visit of a participant
 	* @access public
@@ -4335,8 +4117,6 @@ function loadQuestions($active_id = "", $pass = NULL)
 	}
 
 	/**
-	* Returns the first and last visit of a participant
-	*
 	* Returns the first and last visit of a participant
 	*
 	* @param integer $test_id The database ID of the test
@@ -4368,8 +4148,6 @@ function loadQuestions($active_id = "", $pass = NULL)
 	}
 
 /**
-* Returns the statistical evaluation of the test for a specified user
-*
 * Returns the statistical evaluation of the test for a specified user
 *
 * @return arrary The statistical evaluation array of the test
@@ -4484,8 +4262,6 @@ function loadQuestions($active_id = "", $pass = NULL)
 
 /**
 * Returns an array with the total points of all users who passed the test
-*
-* Returns an array with the total points of all users who passed the test
 * This array could be used for statistics
 *
 * @return array The total point values
@@ -4514,8 +4290,6 @@ function loadQuestions($active_id = "", $pass = NULL)
 	}
 
 /**
-* Returns all persons who started the test
-*
 * Returns all persons who started the test
 *
 * @return arrary The active ids, names and logins of the persons who started the test
@@ -4569,8 +4343,6 @@ function loadQuestions($active_id = "", $pass = NULL)
 /**
 * Returns all persons who started the test
 *
-* Returns all persons who started the test
-*
 * @return arrary The user id's and names of the persons who started the test
 * @access public
 */
@@ -4613,8 +4385,6 @@ function loadQuestions($active_id = "", $pass = NULL)
 /**
 * Returns all participants who started the test
 *
-* Returns all participants who started the test
-*
 * @return arrary The active user id's and names of the persons who started the test
 * @access public
 */
@@ -4655,8 +4425,6 @@ function loadQuestions($active_id = "", $pass = NULL)
 	}
 
 /**
-* Returns the number of total finished tests
-*
 * Returns the number of total finished tests
 *
 * @return integer The number of total finished tests
@@ -4925,8 +4693,6 @@ function loadQuestions($active_id = "", $pass = NULL)
 	/**
 	* Creates an associated array with the results of all participants of a test
 	*
-	* Creates an associated array with the results of all participants of a test
-	*
 	* @return array An associated array containing the results
 	* @access public
 	*/
@@ -4936,8 +4702,6 @@ function loadQuestions($active_id = "", $pass = NULL)
 	}
 
 	/**
-	* Creates an associated array with the results of all participants of a test
-	*
 	* Creates an associated array with the results of all participants of a test
 	*
 	* @return array An associated array containing the results
@@ -5035,8 +4799,6 @@ function loadQuestions($active_id = "", $pass = NULL)
 	}
 
 	/**
-	* Builds a user name for the output
-	*
 	* Builds a user name for the output depending on test type and existence of
 	* the user
 	*
@@ -5073,8 +4835,6 @@ function loadQuestions($active_id = "", $pass = NULL)
 	}
 
 	/**
-	* Builds a user name for the output
-	*
 	* Builds a user name for the output depending on test type and existence of
 	* the user
 	*
@@ -5113,8 +4873,6 @@ function loadQuestions($active_id = "", $pass = NULL)
 	}
 
 /**
-* Returns the average processing time for all started tests
-*
 * Returns the average processing time for all started tests
 *
 * @return integer The average processing time for all started tests
@@ -5158,8 +4916,6 @@ function loadQuestions($active_id = "", $pass = NULL)
 /**
 * Returns the available question pools for the active user
 *
-* Returns the available question pools for the active user
-*
 * @return array The available question pools
 * @access public
 */
@@ -5170,8 +4926,6 @@ function loadQuestions($active_id = "", $pass = NULL)
 	}
 
 /**
-* Returns the estimated working time for the test calculated from the working time of the contained questions
-*
 * Returns the estimated working time for the test calculated from the working time of the contained questions
 *
 * @return array An associative array containing the working time. array["h"] = hours, array["m"] = minutes, array["s"] = seconds
@@ -5195,8 +4949,6 @@ function loadQuestions($active_id = "", $pass = NULL)
 	}
 
 /**
-* Returns a random selection of questions
-*
 * Returns a random selection of questions
 *
 * @param integer $nr_of_questions Number of questions to return
@@ -5319,8 +5071,6 @@ function loadQuestions($active_id = "", $pass = NULL)
 
 /**
 * Returns the image path for web accessable images of a test
-*
-* Returns the image path for web accessable images of a test
 * The image path is under the CLIENT_WEB_DIR in assessment/REFERENCE_ID_OF_TEST/images
 *
 * @access public
@@ -5331,8 +5081,6 @@ function loadQuestions($active_id = "", $pass = NULL)
 	}
 
 /**
-* Returns the web image path for web accessable images of a test
-*
 * Returns the web image path for web accessable images of a test
 * The image path is under the web accessable data dir in assessment/REFERENCE_ID_OF_TEST/images
 *
@@ -5346,8 +5094,6 @@ function loadQuestions($active_id = "", $pass = NULL)
 	}
 
 /**
-* Creates a question GUI instance of a given question type
-*
 * Creates a question GUI instance of a given question type
 *
 * @param integer $question_type The question type of the question
@@ -5375,8 +5121,6 @@ function loadQuestions($active_id = "", $pass = NULL)
 /**
 * Creates an instance of a question with a given question id
 *
-* Creates an instance of a question with a given question id
-*
 * @param integer $question_id The question id
 * @return object The question instance
 * @access public
@@ -5391,8 +5135,6 @@ function loadQuestions($active_id = "", $pass = NULL)
   }
 
 /**
-* Move questions to another position
-*
 * Move questions to another position
 *
 * @param array $move_questions An array with the question id's of the questions to move
@@ -5441,8 +5183,6 @@ function loadQuestions($active_id = "", $pass = NULL)
 
 /**
 * Returns true if the starting time of a test is reached
-*
-* Returns true if the starting time of a test is reached
 * A starting time is not available for self assessment tests
 *
 * @return boolean true if the starting time is reached, otherwise false
@@ -5468,8 +5208,6 @@ function loadQuestions($active_id = "", $pass = NULL)
 
 /**
 * Returns true if the ending time of a test is reached
-*
-* Returns true if the ending time of a test is reached
 * An ending time is not available for self assessment tests
 *
 * @return boolean true if the ending time is reached, otherwise false
@@ -5494,8 +5232,6 @@ function loadQuestions($active_id = "", $pass = NULL)
 	}
 
 /**
-* Calculates the data for the output of the questionpool
-*
 * Calculates the data for the output of the questionpool
 *
 * @access public
@@ -5665,8 +5401,6 @@ function loadQuestions($active_id = "", $pass = NULL)
 	}
 
 	/**
-	* Creates a test from a QTI file
-	*
 	* Receives parameters from a QTI parser and creates a valid ILIAS test object
 	*
 	* @param object $assessment The QTI assessment object
@@ -5900,8 +5634,6 @@ function loadQuestions($active_id = "", $pass = NULL)
 	}
 
 	/**
-	* Returns a QTI xml representation of the test
-	*
 	* Returns a QTI xml representation of the test
 	*
 	* @return string The QTI xml representation of the test
@@ -6278,8 +6010,6 @@ function loadQuestions($active_id = "", $pass = NULL)
 /**
 * Returns the installation id for a given identifier
 *
-* Returns the installation id for a given identifier
-*
 * @access	private
 */
 	function modifyExportIdentifier($a_tag, $a_param, $a_value)
@@ -6413,8 +6143,6 @@ function loadQuestions($active_id = "", $pass = NULL)
 	/**
 	* Returns the ECTS grade for a number of reached points
 	*
-	* Returns the ECTS grade for a number of reached points
-	*
 	* @param double $reached_points The points reached in the test
 	* @param double $max_points The maximum number of points for the test
 	* @return string The ECTS grade short description
@@ -6427,8 +6155,6 @@ function loadQuestions($active_id = "", $pass = NULL)
 	}
 
 	/**
-	* Returns the ECTS grade for a number of reached points
-	*
 	* Returns the ECTS grade for a number of reached points
 	*
 	* @param double $reached_points The points reached in the test
@@ -6507,8 +6233,6 @@ function loadQuestions($active_id = "", $pass = NULL)
 	}
 
 /**
-* Sets the authors name
-*
 * Sets the authors name of the ilObjTest object
 *
 * @param string $author A string containing the name of the test author
@@ -6521,8 +6245,6 @@ function loadQuestions($active_id = "", $pass = NULL)
   }
 
 /**
-* Saves an authors name into the lifecycle metadata if no lifecycle metadata exists
-*
 * Saves an authors name into the lifecycle metadata if no lifecycle metadata exists
 * This will only be called for conversion of "old" tests where the author hasn't been
 * stored in the lifecycle metadata
@@ -6557,8 +6279,6 @@ function loadQuestions($active_id = "", $pass = NULL)
 /**
 * Create meta data entry
 *
-* Create meta data entry
-*
 * @access public
 */
 	function createMetaData()
@@ -6568,8 +6288,6 @@ function loadQuestions($active_id = "", $pass = NULL)
 	}
 
 /**
-* Gets the authors name
-*
 * Gets the authors name of the ilObjTest object
 *
 * @return string The string containing the name of the test author
@@ -6603,8 +6321,6 @@ function loadQuestions($active_id = "", $pass = NULL)
   }
 
 /**
-* Gets the authors name
-*
 * Gets the authors name of the ilObjTest object
 *
 * @return string The string containing the name of the test author
@@ -6670,8 +6386,6 @@ function loadQuestions($active_id = "", $pass = NULL)
 	}
 
 /**
-* Duplicates the source random questionpools for another test
-*
 * Duplicates the source random questionpools for another test
 *
 * @param integer $new_id Test id of the new test which should take the random questionpools
@@ -6811,8 +6525,6 @@ function loadQuestions($active_id = "", $pass = NULL)
 	/**
 	* Returns the number of questions in the test
 	*
-	* Returns the number of questions in the test
-	*
 	* @return integer The number of questions
 	* @access	public
 	*/
@@ -6851,8 +6563,6 @@ function loadQuestions($active_id = "", $pass = NULL)
 	}
 
 	/**
-	* Returns the number of questions in the test for a given user
-	*
 	* Returns the number of questions in the test for a given user
 	*
 	* @return integer The number of questions
@@ -6934,8 +6644,6 @@ function loadQuestions($active_id = "", $pass = NULL)
 /**
 * Removes all test data of a non random test when a test was set to random test
 *
-* Removes all test data of a non random test when a test was set to random test
-*
 * @access	private
 */
 	function removeNonRandomTestData()
@@ -6955,8 +6663,6 @@ function loadQuestions($active_id = "", $pass = NULL)
 /**
 * Removes all test data of a random test when a test was set to non random test
 *
-* Removes all test data of a random test when a test was set to non random test
-*
 * @access	private
 */
 	function removeRandomTestData()
@@ -6973,8 +6679,6 @@ function loadQuestions($active_id = "", $pass = NULL)
 	}
 
 /**
-* Logs an action into the Test&Assessment log
-*
 * Logs an action into the Test&Assessment log
 *
 * @param string $logtext The log text
@@ -6996,8 +6700,6 @@ function loadQuestions($active_id = "", $pass = NULL)
 	}
 
 /**
-* Returns the ILIAS test object id for a given test id
-*
 * Returns the ILIAS test object id for a given test id
 *
 * @param integer $test_id The test id
@@ -7023,8 +6725,6 @@ function loadQuestions($active_id = "", $pass = NULL)
 /**
 * Returns the ILIAS test object id for a given active id
 *
-* Returns the ILIAS test object id for a given active id
-*
 * @param integer $active_id The active id
 * @return mixed The ILIAS test object id or FALSE if the query was not successful
 * @access public
@@ -7048,8 +6748,6 @@ function loadQuestions($active_id = "", $pass = NULL)
 /**
 * Returns the ILIAS test id for a given object id
 *
-* Returns the ILIAS test id for a given object id
-*
 * @param integer $object_id The object id
 * @return mixed The ILIAS test id or FALSE if the query was not successful
 * @access public
@@ -7071,8 +6769,6 @@ function loadQuestions($active_id = "", $pass = NULL)
 	}
 
 /**
-* Returns the text answer of a given user for a given question
-*
 * Returns the text answer of a given user for a given question
 *
 * @param integer $user_id The user id
@@ -7110,8 +6806,6 @@ function loadQuestions($active_id = "", $pass = NULL)
 /**
 * Returns the question text for a given question
 *
-* Returns the question text for a given question
-*
 * @param integer $question_id The question id
 * @return string The question text
 * @access public
@@ -7138,8 +6832,6 @@ function loadQuestions($active_id = "", $pass = NULL)
 	}
 
 /**
-* Returns a list of all invited users in a test
-*
 * Returns a list of all invited users in a test
 *
 * @return array array of invited users
@@ -7213,8 +6905,6 @@ function loadQuestions($active_id = "", $pass = NULL)
 	}
 
 /**
-* Returns a list of all participants in a test
-*
 * Returns a list of all participants in a test
 *
 * @return array The user id's of the participants
@@ -7333,8 +7023,6 @@ function loadQuestions($active_id = "", $pass = NULL)
 /**
 * Returns a data of all users specified by id list
 *
-* Returns a data of all users specified by id list
-*
 * @param $usr_ids kommaseparated list of ids
 * @return array The user data "usr_id, login, lastname, firstname, clientip" of the users with id as key
 * @access public
@@ -7432,8 +7120,6 @@ function loadQuestions($active_id = "", $pass = NULL)
 /**
 * Invites all users of a group to a test
 *
-* Invites all users of a group to a test
-*
 * @param integer $group_id The database id of the invited group
 * @access public
 */
@@ -7450,8 +7136,6 @@ function loadQuestions($active_id = "", $pass = NULL)
 	}
 
 /**
-* Invites all users of a role to a test
-*
 * Invites all users of a role to a test
 *
 * @param integer $group_id The database id of the invited group
@@ -7473,8 +7157,6 @@ function loadQuestions($active_id = "", $pass = NULL)
 /**
 * Disinvites a user from a test
 *
-* Disinvites a user from a test
-*
 * @param integer $user_id The database id of the disinvited user
 * @access public
 */
@@ -7490,8 +7172,6 @@ function loadQuestions($active_id = "", $pass = NULL)
 	}
 
 /**
-* Invites a user to a test
-*
 * Invites a user to a test
 *
 * @param integer $user_id The database id of the invited user
@@ -7698,8 +7378,6 @@ function loadQuestions($active_id = "", $pass = NULL)
 	}
 
 /**
-* Convertes an array for CSV usage
-*
 * Processes an array as a CSV row and converts the array values to correct CSV
 * values. The "converted" array is returned
 *
@@ -7745,8 +7423,6 @@ function loadQuestions($active_id = "", $pass = NULL)
 /**
 * Retrieves the actual pass of a given user for a given test
 *
-* Retrieves the actual pass of a given user for a given test
-*
 * @param integer $user_id The user id
 * @param integer $test_id The test id
 * @return integer The pass of the user for the given test
@@ -7771,8 +7447,6 @@ function loadQuestions($active_id = "", $pass = NULL)
 	}
 
 	/**
-	* Retrieves the maximum pass of a given user for a given test
-	*
 	* Retrieves the maximum pass of a given user for a given test
 	* in which the user answered at least one question
 	*
@@ -7801,8 +7475,6 @@ function loadQuestions($active_id = "", $pass = NULL)
 		}
 
 /**
-* Retrieves the best pass of a given user for a given test
-*
 * Retrieves the best pass of a given user for a given test
 *
 * @param integer $user_id The user id
@@ -7848,8 +7520,6 @@ function loadQuestions($active_id = "", $pass = NULL)
 /**
 * Retrieves the pass number that should be counted for a given user
 *
-* Retrieves the pass number that should be counted for a given user
-*
 * @param integer $user_id The user id
 * @param integer $test_id The test id
 * @return integer The result pass of the user for the given test
@@ -7870,8 +7540,6 @@ function loadQuestions($active_id = "", $pass = NULL)
 	}
 
 /**
-* Retrieves the number of answered questions for a given user in a given test
-*
 * Retrieves the number of answered questions for a given user in a given test
 *
 * @param integer $user_id The user id
@@ -7901,8 +7569,6 @@ function loadQuestions($active_id = "", $pass = NULL)
 /**
 * Retrieves the number of answered questions for a given user in a given test
 *
-* Retrieves the number of answered questions for a given user in a given test
-*
 * @param integer $user_id The user id
 * @param integer $test_id The test id
 * @param integer $pass The pass of the test
@@ -7930,8 +7596,6 @@ function loadQuestions($active_id = "", $pass = NULL)
 	}
 
 /**
-* Checks if the test is executable by the given user
-*
 * Checks if the test is executable by the given user
 *
 * @param integer $user_id The user id
@@ -8012,8 +7676,6 @@ function loadQuestions($active_id = "", $pass = NULL)
 /**
 * Returns true, if the test results can be viewed
 *
-* Returns true, if the test results can be viewed
-*
 * @return boolean True, if the test results can be viewed, else false
 * @access public
 */
@@ -8088,8 +7750,6 @@ function loadQuestions($active_id = "", $pass = NULL)
 /**
 * Returns the unix timestamp of the time a user started a test
 *
-* Returns the unix timestamp of the time a user started a test
-*
 * @param integer $active_id The active id of the user
 * @return mixed The unix timestamp if the user started the test, FALSE otherwise
 * @access public
@@ -8124,8 +7784,6 @@ function loadQuestions($active_id = "", $pass = NULL)
 	}
 
 /**
-* Returns wheather the maximum processing time for a test is reached or not
-*
 * Returns wheather the maximum processing time for a test is reached or not
 *
 * @param long $starting_time The unix timestamp of the starting time of the test
@@ -8172,39 +7830,26 @@ function loadQuestions($active_id = "", $pass = NULL)
 /**
 * Returns the status of the shuffle_questions variable
 *
-* Returns the status of the shuffle_questions variable
-*
-* @return boolean FALSE if the test questions are not shuffled, TRUE if the test questions are shuffled
+* @return integer 0 if the test questions are not shuffled, 1 if the test questions are shuffled
 * @access public
 */
 	function getShuffleQuestions()
 	{
-		return $this->shuffle_questions;
+		return ($this->shuffle_questions) ? 1 : 0;
 	}
 
 /**
 * Sets the status of the shuffle_questions variable
 *
-* Sets the status of the shuffle_questions variable
-*
-* @param boolean $a_shuffle FALSE if the test questions are not shuffled, TRUE if the test questions are shuffled
+* @param boolean $a_shuffle 0 if the test questions are not shuffled, 1 if the test questions are shuffled
 * @access public
 */
 	function setShuffleQuestions($a_shuffle)
 	{
-		if ($a_shuffle)
-		{
-			$this->shuffle_questions = TRUE;
-		}
-		else
-		{
-			$this->shuffle_questions = FALSE;
-		}
+		$this->shuffle_questions = ($a_shuffle) ? 1 : 0;
 	}
 
 /**
-* Returns the settings for the list of questions options in the test properties
-*
 * Returns the settings for the list of questions options in the test properties
 * This could contain one of the following values:
 *   0 = No list of questions offered
@@ -8218,12 +7863,10 @@ function loadQuestions($active_id = "", $pass = NULL)
 */
 	function getListOfQuestionsSettings()
 	{
-		return $this->show_summary;
+		return ($this->show_summary) ? $this->show_summary : 0;
 	}
 
 /**
-* Sets the settings for the list of questions options in the test properties
-*
 * Sets the settings for the list of questions options in the test properties
 * This could contain one of the following values:
 *   0 = No list of questions offered
@@ -8241,8 +7884,6 @@ function loadQuestions($active_id = "", $pass = NULL)
 	}
 
 /**
-* Returns if the list of questions should be presented to the user or not
-*
 * Returns if the list of questions should be presented to the user or not
 *
 * @return boolean TRUE if the list of questions should be presented, FALSE otherwise
@@ -8263,8 +7904,6 @@ function loadQuestions($active_id = "", $pass = NULL)
 /**
 * Sets if the the list of questions should be presented to the user or not
 *
-* Sets if the the list of questions should be presented to the user or not
-*
 * @param boolean $a_value TRUE if the list of questions should be presented, FALSE otherwise
 * @access public
 */
@@ -8283,8 +7922,6 @@ function loadQuestions($active_id = "", $pass = NULL)
 /**
 * Returns if the list of questions should be presented as the first page of the test
 *
-* Returns if the list of questions should be presented as the first page of the test
-*
 * @return boolean TRUE if the list of questions is shown as first page of the test, FALSE otherwise
 * @access public
 */
@@ -8301,8 +7938,6 @@ function loadQuestions($active_id = "", $pass = NULL)
 	}
 
 /**
-* Sets if the the list of questions as the start page of the test
-*
 * Sets if the the list of questions as the start page of the test
 *
 * @param boolean $a_value TRUE if the list of questions should be the start page, FALSE otherwise
@@ -8326,8 +7961,6 @@ function loadQuestions($active_id = "", $pass = NULL)
 /**
 * Returns if the list of questions should be presented as the last page of the test
 *
-* Returns if the list of questions should be presented as the last page of the test
-*
 * @return boolean TRUE if the list of questions is shown as last page of the test, FALSE otherwise
 * @access public
 */
@@ -8344,8 +7977,6 @@ function loadQuestions($active_id = "", $pass = NULL)
 	}
 
 /**
-* Sets if the the list of questions as the end page of the test
-*
 * Sets if the the list of questions as the end page of the test
 *
 * @param boolean $a_value TRUE if the list of questions should be the end page, FALSE otherwise
@@ -8369,8 +8000,6 @@ function loadQuestions($active_id = "", $pass = NULL)
 	/**
 	* Returns TRUE if the list of questions should be presented with the question descriptions
 	*
-	* Returns TRUE if the list of questions should be presented with the question descriptions
-	*
 	* @return boolean TRUE if the list of questions is shown with the question descriptions, FALSE otherwise
 	* @access public
 	*/
@@ -8387,8 +8016,6 @@ function loadQuestions($active_id = "", $pass = NULL)
 		}
 
 	/**
-	* Sets the show_summary attribute to TRUE if the list of questions should be presented with the question descriptions
-	*
 	* Sets the show_summary attribute to TRUE if the list of questions should be presented with the question descriptions
 	*
 	* @param boolean $a_value TRUE if the list of questions should be shown with question descriptions, FALSE otherwise
@@ -8412,19 +8039,15 @@ function loadQuestions($active_id = "", $pass = NULL)
 /**
 * Returns the combined results presentation value
 *
-* Returns the combined results presentation value
-*
 * @return integer The combined results presentation value
 * @access public
 */
 	function getResultsPresentation()
 	{
-		return $this->results_presentation;
+		return ($this->results_presentation) ? $this->results_presentation : 0;
 	}
 
 /**
-* Returns if the pass details should be shown when a test is not finished
-*
 * Returns if the pass details should be shown when a test is not finished
 *
 * @return boolean TRUE if the pass details should be shown, FALSE otherwise
@@ -8445,8 +8068,6 @@ function loadQuestions($active_id = "", $pass = NULL)
 /**
 * Returns if the solution details should be presented to the user or not
 *
-* Returns if the solution details should be presented to the user or not
-*
 * @return boolean TRUE if the solution details should be presented, FALSE otherwise
 * @access public
 */
@@ -8463,8 +8084,6 @@ function loadQuestions($active_id = "", $pass = NULL)
 	}
 
 /**
-* Returns if the solution printview should be presented to the user or not
-*
 * Returns if the solution printview should be presented to the user or not
 *
 * @return boolean TRUE if the solution printview should be presented, FALSE otherwise
@@ -8485,8 +8104,6 @@ function loadQuestions($active_id = "", $pass = NULL)
 /**
 * Returns if the feedback should be presented to the solution or not
 *
-* Returns if the feedback should be presented to the solution or not
-*
 * @return boolean TRUE if the feedback should be presented in the solution, FALSE otherwise
 * @access public
 */
@@ -8503,8 +8120,6 @@ function loadQuestions($active_id = "", $pass = NULL)
 	}
 
 	/**
-	* Returns if the full solution (including ILIAS content) should be presented to the solution or not
-	*
 	* Returns if the full solution (including ILIAS content) should be presented to the solution or not
 	*
 	* @return boolean TRUE if the full solution should be presented in the solution output, FALSE otherwise
@@ -8525,8 +8140,6 @@ function loadQuestions($active_id = "", $pass = NULL)
 		/**
 		* Returns if the signature field should be shown in the test results
 		*
-		* Returns if the signature field should be shown in the test results
-		*
 		* @return boolean TRUE if the signature field should be shown, FALSE otherwise
 		* @access public
 		*/
@@ -8543,8 +8156,6 @@ function loadQuestions($active_id = "", $pass = NULL)
 		}
 
 	/**
-	* Returns if the suggested solutions should be shown in the test results
-	*
 	* @return boolean TRUE if the suggested solutions should be shown, FALSE otherwise
 	* @access public
 	*/
@@ -8561,8 +8172,6 @@ function loadQuestions($active_id = "", $pass = NULL)
 	}
 
 /**
-* Sets the combined results presentation value
-*
 * Sets the combined results presentation value
 *
 * @param integer $a_results_presentation The combined results presentation value
@@ -8599,8 +8208,6 @@ function loadQuestions($active_id = "", $pass = NULL)
 /**
 * Sets if the the solution details should be presented to the user or not
 *
-* Sets if the the solution details should be presented to the user or not
-*
 * @param integer $a_details 1 if the solution details should be presented, 0 otherwise
 * @access public
 */
@@ -8622,8 +8229,6 @@ function loadQuestions($active_id = "", $pass = NULL)
 /**
 * Calculates if a user may see the solution printview of his/her test results
 *
-* Calculates if a user may see the solution printview of his/her test results
-*
 * @return boolean TRUE if the user may see the printview, FALSE otherwise
 * @access public
 */
@@ -8633,8 +8238,6 @@ function loadQuestions($active_id = "", $pass = NULL)
 	}
 
 /**
-* Sets if the the solution printview should be presented to the user or not
-*
 * Sets if the the solution printview should be presented to the user or not
 *
 * @param boolean $a_details TRUE if the solution printview should be presented, FALSE otherwise
@@ -8658,8 +8261,6 @@ function loadQuestions($active_id = "", $pass = NULL)
 /**
 * Sets if the the feedback should be presented to the user in the solution or not
 *
-* Sets if the the feedback should be presented to the user in the solution or not
-*
 * @param boolean $a_feedback TRUE if the feedback should be presented in the solution, FALSE otherwise
 * @access public
 */
@@ -8681,8 +8282,6 @@ function loadQuestions($active_id = "", $pass = NULL)
 	/**
 	* Set to true, if the full solution (including the ILIAS content pages) should be shown in the solution output
 	*
-	* Set to true, if the full solution (including the ILIAS content pages) should be shown in the solution output
-	*
 	* @param boolean $a_full TRUE if the full solution should be shown in the solution output, FALSE otherwise
 	* @access public
 	*/
@@ -8702,8 +8301,6 @@ function loadQuestions($active_id = "", $pass = NULL)
 		}
 
 		/**
-		* Set to TRUE, if the signature field should be shown in the solution
-		*
 		* Set to TRUE, if the signature field should be shown in the solution
 		*
 		* @param boolean $a_signature TRUE if the signature field should be shown, FALSE otherwise
@@ -8837,7 +8434,7 @@ function loadQuestions($active_id = "", $pass = NULL)
 
 	function getAllowedUsers()
 	{
-		return $this->allowedUsers;
+		return ($this->allowedUsers) ? $this->allowedUsers : 0;
 	}
 
 	function setAllowedUsers($a_allowed_users)
@@ -8847,7 +8444,7 @@ function loadQuestions($active_id = "", $pass = NULL)
 
 	function getAllowedUsersTimeGap()
 	{
-		return $this->allowedUsersTimeGap;
+		return ($this->allowedUsersTimeGap) ? $this->allowedUsersTimeGap : 0;
 	}
 
 	function setAllowedUsersTimeGap($a_allowed_users_time_gap)
@@ -9010,8 +8607,6 @@ function loadQuestions($active_id = "", $pass = NULL)
 	/**
 	* Saves the visibility settings of the certificate
 	*
-	* Saves the visibility settings of the certificate
-	*
 	* @param integer $a_value The value for the visibility settings (0 = always, 1 = only passed,  2 = never)
 	* @access private
 	*/
@@ -9029,19 +8624,15 @@ function loadQuestions($active_id = "", $pass = NULL)
 	/**
 	* Returns the visibility settings of the certificate
 	*
-	* Returns the visibility settings of the certificate
-	*
 	* @return integer The value for the visibility settings (0 = always, 1 = only passed,  2 = never)
 	* @access public
 	*/
 	function getCertificateVisibility()
 	{
-		return $this->certificate_visibility;
+		return (strlen($this->certificate_visibility)) ? $this->certificate_visibility : 0;
 	}
 
 	/**
-	* Sets the visibility settings of the certificate
-	*
 	* Sets the visibility settings of the certificate
 	*
 	* @param integer $a_value The value for the visibility settings (0 = always, 1 = only passed,  2 = never)
@@ -9055,19 +8646,15 @@ function loadQuestions($active_id = "", $pass = NULL)
 	/**
 	* Returns the anonymity status of the test
 	*
-	* Returns the anonymity status of the test
-	*
 	* @return integer The value for the anonymity status (0 = personalized, 1 = anonymized)
 	* @access public
 	*/
 	function getAnonymity()
 	{
-		return $this->anonymity;
+		return ($this->anonymity) ? 1 : 0;
 	}
 
 	/**
-	* Sets the anonymity status of the test
-	*
 	* Sets the anonymity status of the test
 	*
 	* @param integer $a_value The value for the anonymity status (0 = personalized, 1 = anonymized)
@@ -9089,19 +8676,15 @@ function loadQuestions($active_id = "", $pass = NULL)
 	/**
 	* Returns wheather the cancel test button is shown or not
 	*
-	* Returns wheather the cancel test button is shown or not
-	*
 	* @return integer The value for the show cancel status (0 = don't show, 1 = show)
 	* @access public
 	*/
 	function getShowCancel()
 	{
-		return $this->show_cancel;
+		return ($this->show_cancel) ? 1 : 0;
 	}
 
 	/**
-	* Sets the cancel test button status
-	*
 	* Sets the cancel test button status
 	*
 	* @param integer $a_value The value for the cancel test status (0 = don't show, 1 = show)
@@ -9123,19 +8706,15 @@ function loadQuestions($active_id = "", $pass = NULL)
 	/**
 	* Returns wheather the marker button is shown or not
 	*
-	* Returns wheather the marker button is shown or not
-	*
 	* @return integer The value for the marker status (0 = don't show, 1 = show)
 	* @access public
 	*/
 	function getShowMarker()
 	{
-		return $this->show_marker;
+		return ($this->show_marker) ? 1 : 0;
 	}
 
 	/**
-	* Sets the marker button status
-	*
 	* Sets the marker button status
 	*
 	* @param integer $a_value The value for the marker status (0 = don't show, 1 = show)
@@ -9157,19 +8736,15 @@ function loadQuestions($active_id = "", $pass = NULL)
 	/**
 	* Returns the fixed participants status
 	*
-	* Returns the fixed participants status
-	*
 	* @return integer The value for the fixed participants status (0 = don't allow, 1 = allow)
 	* @access public
 	*/
 	function getFixedParticipants()
 	{
-		return $this->fixed_participants;
+		return ($this->fixed_participants) ? 1 : 0;
 	}
 
 	/**
-	* Sets the fixed participants status
-	*
 	* Sets the fixed participants status
 	*
 	* @param integer $a_value The value for the fixed participants status (0 = don't allow, 1 = allow)
@@ -9189,8 +8764,6 @@ function loadQuestions($active_id = "", $pass = NULL)
 	}
 
 	/**
-	* Returns the anonymity status of a test with a given object id
-	*
 	* Returns the anonymity status of a test with a given object id
 	*
 	* @param int $a_obj_id The object id of the test object
@@ -9214,8 +8787,6 @@ function loadQuestions($active_id = "", $pass = NULL)
 	/**
 	* Returns the random status of a test with a given object id
 	*
-	* Returns the random status of a test with a given object id
-	*
 	* @param int $a_obj_id The object id of the test object
 	* @return integer The value for the anonymity status (0 = no random, 1 = random)
 	* @access public
@@ -9236,8 +8807,6 @@ function loadQuestions($active_id = "", $pass = NULL)
 	}
 
 	/**
-	* Returns the full name of a test user according to the anonymity status
-	*
 	* Returns the full name of a test user according to the anonymity status
 	*
 	* @param int $user_id The database ID of the user
@@ -9268,8 +8837,6 @@ function loadQuestions($active_id = "", $pass = NULL)
 	}
 
 	/**
-	* Returns the "Start the Test" label for the Info page
-	*
 	* Returns the "Start the Test" label for the Info page
 	*
 	* @param int $active_id The active id of the current user
@@ -9304,8 +8871,6 @@ function loadQuestions($active_id = "", $pass = NULL)
 	/**
 	* Returns the available test defaults for the active user
 	*
-	* Returns the available test defaults for the active user
-	*
 	* @param string $sortby Sort field for the database query
 	* @param string $sortorder Sort order for the database query
 	* @return array An array containing the defaults
@@ -9329,8 +8894,6 @@ function loadQuestions($active_id = "", $pass = NULL)
 	}
 	
 	/**
-	* Returns the test defaults for a given id
-	*
 	* Returns the test defaults for a given id
 	*
 	* @param integer $test_defaults_id The database id of a test defaults dataset
@@ -9359,8 +8922,6 @@ function loadQuestions($active_id = "", $pass = NULL)
 	/**
 	* Deletes the defaults for a test
 	*
-	* Deletes the defaults for a test
-	*
 	* @param integer $test_default_id The database ID of the test defaults
 	* @access public
 	*/
@@ -9374,8 +8935,6 @@ function loadQuestions($active_id = "", $pass = NULL)
 	}
 	
 	/**
-	* Adds the defaults of this test to the test defaults
-	*
 	* Adds the defaults of this test to the test defaults
 	*
 	* @param string $a_name The name of the test defaults
@@ -9430,8 +8989,6 @@ function loadQuestions($active_id = "", $pass = NULL)
 	}
 	
 	/**
-	* Applies given test defaults to this test
-	*
 	* Applies given test defaults to this test
 	*
 	* @param integer $test_defaults_id The database id of the test defaults
@@ -9489,8 +9046,6 @@ function loadQuestions($active_id = "", $pass = NULL)
 	}
 
 	/**
-	* Convert a print output to XSL-FO
-	*
 	* Convert a print output to XSL-FO
 	*
 	* @param string $print_output The print output
@@ -9603,8 +9158,6 @@ function loadQuestions($active_id = "", $pass = NULL)
 	/**
 	* Retrieves the manual feedback for a question in a test
 	*
-	* Retrieves the manual feedback for a question in a test
-	*
 	* @param integer $active_id Active ID of the user
 	* @param integer $question_id Question ID
 	* @param integer $pass Pass number
@@ -9631,8 +9184,6 @@ function loadQuestions($active_id = "", $pass = NULL)
 	}
 	
 	/**
-	* Saves the manual feedback for a question in a test
-	*
 	* Saves the manual feedback for a question in a test
 	*
 	* @param integer $active_id Active ID of the user
@@ -9922,9 +9473,7 @@ function loadQuestions($active_id = "", $pass = NULL)
 	}
 
 	/**
-	* Checks wheather the certificate button could be shown on the info page or not
-	*
-	* Checks wheather the certificate button could be shown on the info page or not
+	* Checks whether the certificate button could be shown on the info page or not
 	*
 	* @access public
 	*/
