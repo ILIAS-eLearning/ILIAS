@@ -36,8 +36,6 @@ include_once "./Modules/Survey/classes/inc.SurveyConstants.php";
 class SurveyQuestion
 {
 /**
-* Question id
-*
 * A unique question id
 *
 * @var integer
@@ -45,24 +43,18 @@ class SurveyQuestion
   var $id;
 
 /**
-* Question title
-*
 * A title string to describe the question
 *
 * @var string
 */
   var $title;
 /**
-* Question description
-*
 * A description string to describe the question more detailed as the title
 *
 * @var string
 */
   var $description;
 /**
-* Question owner/creator
-*
 * A unique positive numerical ID which identifies the owner/creator of the question.
 * This can be a primary key from a database table for example.
 *
@@ -71,8 +63,6 @@ class SurveyQuestion
   var $owner;
 
 /**
-* Contains the name of the author
-*
 * A text representation of the authors name. The name of the author must
 * not necessary be the name of the owner.
 *
@@ -83,15 +73,11 @@ class SurveyQuestion
 /**
 * Contains uris name and uris to additional materials
 *
-* Contains uris name and uris to additional materials
-*
 * @var array
 */
   var $materials;
 
 /**
-* The database id of a survey in which the question is contained
-*
 * The database id of a survey in which the question is contained
 *
 * @var integer
@@ -101,15 +87,11 @@ class SurveyQuestion
 /**
 * Object id of the container object
 *
-* Object id of the container object
-*
 * @var double
 */
   var $obj_id;
 
 /**
-* Contains the questiontext
-*
 * Questiontext string
 *
 * @var string
@@ -119,15 +101,11 @@ class SurveyQuestion
 /**
 * Contains the obligatory state of the question
 *
-* Contains the obligatory state of the question
-*
 * @var boolean
 */
   var $obligatory;
 	
 /**
-* The reference to the ILIAS class
-*
 * The reference to the ILIAS class
 *
 * @var object
@@ -137,8 +115,6 @@ class SurveyQuestion
 /**
 * The reference to the Template class
 *
-* The reference to the Template class
-*
 * @var object
 */
   var $tpl;
@@ -146,15 +122,11 @@ class SurveyQuestion
 /**
 * The reference to the Language class
 *
-* The reference to the Language class
-*
 * @var object
 */
   var $lng;
 
 	/**
-	* The orientation of the question output
-	*
 	* The orientation of the question output (0 = vertical, 1 = horizontal)
 	*
 	* @var integer
@@ -166,7 +138,6 @@ class SurveyQuestion
 
 /**
 * SurveyQuestion constructor
-*
 * The constructor takes possible arguments an creates an instance of the SurveyQuestion object.
 *
 * @param string $title A title string to describe the question
@@ -175,36 +146,38 @@ class SurveyQuestion
 * @param integer $owner A numerical ID to identify the owner/creator
 * @access public
 */
-  function SurveyQuestion(
-    $title = "",
-    $description = "",
-    $author = "",
+	function SurveyQuestion
+	(
+		$title = "",
+		$description = "",
+		$author = "",
 		$questiontext = "",
-    $owner = -1
-  )
-
-  {
+		$owner = -1
+	)
+	{
 		global $ilias;
-    global $lng;
-    global $tpl;
+		global $lng;
+		global $tpl;
 
 		$this->ilias =& $ilias;
-    $this->lng =& $lng;
-    $this->tpl =& $tpl;
+		$this->lng =& $lng;
+		$this->tpl =& $tpl;
 		$this->complete = 
-    $this->title = $title;
-    $this->description = $description;
+		$this->title = $title;
+		$this->description = $description;
 		$this->questiontext = $questiontext;
-    $this->author = $author;
-    if (!$this->author) {
-      $this->author = $this->ilias->account->fullname;
-    }
-    $this->owner = $owner;
-    if ($this->owner == -1) {
-      $this->owner = $this->ilias->account->id;
-    }
-    $this->id = -1;
-    $this->survey_id = -1;
+		$this->author = $author;
+		if (!$this->author) 
+		{
+			$this->author = $this->ilias->account->fullname;
+		}
+		$this->owner = $owner;
+		if ($this->owner == -1) 
+		{
+			$this->owner = $this->ilias->account->id;
+		}
+		$this->id = -1;
+		$this->survey_id = -1;
 		$this->obligatory = 1;
 		$this->orientation = 0;
 		$this->materials = array();
@@ -228,19 +201,17 @@ class SurveyQuestion
 	}
 	
 /**
-* Returns true, if a question is complete for use
+* Returns 1, if a question is complete for use
 *
-* @return boolean True, if the question is complete for use, otherwise false
+* @return integer 1, if the question is complete for use, otherwise 0
 * @access public
 */
 	function isComplete()
 	{
-		return false;
+		return 0;
 	}
 
 /**
-* Returns TRUE if the question title exists in the database
-*
 * Returns TRUE if the question title exists in the database
 *
 * @param string $title The title of the question
@@ -256,18 +227,14 @@ class SurveyQuestion
 		if (strcmp($questionpool_object, "") != 0)
 		{
 			$refwhere = sprintf(" AND obj_fi = %s",
-				$ilDB->quote($questionpool_object)
+				$ilDB->quote($questionpool_object, 'integer')
 			);
 		}
-		$query = sprintf("SELECT question_id FROM survey_question WHERE title = %s$refwhere",
-			$ilDB->quote($title)
+		$result = $ilDB->queryF("SELECT question_id FROM survey_question WHERE title = %s$refwhere",
+			array('text'),
+			array($title)
 		);
-		$result = $ilDB->query($query);
-		if ($result->numRows() == 1) 
-		{
-			return TRUE;
-		}
-		return FALSE;
+		return ($result->numRows() == 1) ? true : false;
 	}
 
 /**
@@ -303,19 +270,10 @@ class SurveyQuestion
 */
 	function setOrientation($orientation = 0) 
 	{
-		if (strlen($orientation) == 0)
-		{
-			$this->orientation = 0;
-		}
-		else
-    {
-			$this->orientation = $orientation;
-		}
-  }
+		$this->orientation = ($orientation) ? $orientation : 0;
+	}
 
 /**
-* Sets the id
-*
 * Sets the id of the SurveyQuestion object
 *
 * @param integer $id A unique integer value
@@ -328,8 +286,6 @@ class SurveyQuestion
 	}
 
 /**
-* Sets the survey id
-*
 * Sets the survey id of the SurveyQuestion object
 *
 * @param integer $id A unique integer value
@@ -342,8 +298,6 @@ class SurveyQuestion
 	}
 
 /**
-* Sets the description
-*
 * Sets the description string of the SurveyQuestion object
 *
 * @param string $description A description string to describe the question
@@ -359,54 +313,24 @@ class SurveyQuestion
 /**
 * Sets the materials uri
 *
-* Sets the materials uri
-*
 * @param string $materials_file An uri to additional materials
 * @param string $materials_name An uri name to additional materials
 * @access public
 * @see $materials
 */
-  function addMaterials($materials_file, $materials_name="") 
+	function addMaterials($materials_file, $materials_name="") 
 	{
-  	if(empty($materials_name)) 
+		if (empty($materials_name)) 
 		{
-    	$materials_name = $materials_file;
-    }
-    if ((!empty($materials_name))&&(!$this->keyInArray($materials_name, $this->materials))) 
+			$materials_name = $materials_file;
+		}
+		if ((!empty($materials_name))&&(!array_key_exists($materials_name, $this->materials))) 
 		{
-      $this->materials[$materials_name] = $materials_file;
-    }
-
-  }
-
-/**
-* returns TRUE if the key occurs in an array
-*
-* returns TRUE if the key occurs in an array
-*
-* @param string $arraykey A key to an element in array
-* @param array $array An array to be searched
-* @access private
-* @see $materials
-*/
-  function keyInArray($searchkey, $array) 
-	{
-	  if ($searchKey) 
-		{
-		   foreach ($array as $key => $value) 
-			 {
-			   if (strcmp($key, $searchkey)==0) 
-				 {
-				   return true;
-			   }
-		   }
-	   }
-	   return false;
-  }
+			$this->materials[$materials_name] = $materials_file;
+		}
+	}
 
 	/**
-	* Sets and uploads the materials uri
-	*
 	* Sets and uploads the materials uri
 	*
 	* @param string $materials_filename, string $materials_tempfilename, string $materials
@@ -437,8 +361,6 @@ class SurveyQuestion
 	}
 
 /**
-* Deletes a materials uri
-*
 * Deletes a materials uri with a given name.
 *
 * @param string $index A materials_name of the materials uri
@@ -463,8 +385,6 @@ class SurveyQuestion
 /**
 * Deletes all materials uris
 *
-* Deletes all materials uris
-*
 * @access public
 * @see $materials
 */
@@ -474,22 +394,20 @@ class SurveyQuestion
   }
 
 /**
-* Sets the authors name
-*
 * Sets the authors name of the SurveyQuestion object
 *
 * @param string $author A string containing the name of the questions author
 * @access public
 * @see $author
 */
-  function setAuthor($author = "") 
+	function setAuthor($author = "") 
 	{
-    if (!$author) 
+		if (!$author) 
 		{
-      $author = $this->ilias->account->fullname;
-    }
-    $this->author = $author;
-  }
+			$author = $this->ilias->account->fullname;
+		}
+		$this->author = $author;
+	}
 
 /**
 * Sets the questiontext of the SurveyQuestion object
@@ -551,14 +469,13 @@ class SurveyQuestion
 		{
 			global $ilDB;
 			
-			$query = sprintf("SELECT * FROM survey_question_obligatory WHERE survey_fi = %s AND question_fi = %s",
-				$ilDB->quote($survey_id . ""),
-				$ilDB->quote($this->getId() . "")
+			$result = $ilDB->queryF("SELECT * FROM survey_question_obligatory WHERE survey_fi = %s AND question_fi = %s",
+				array('integer', 'integer'),
+				array($survey_id, $this->getId())
 			);
-			$result = $ilDB->query($query);
 			if ($result->numRows())
 			{
-				$row = $result->fetchRow(MDB2_FETCHMODE_ASSOC);
+				$row = $ilDB->fetchAssoc($result);
 				return ($row["obligatory"]) ? 1 : 0;
 			}
 			else
@@ -587,8 +504,6 @@ class SurveyQuestion
 /**
 * Gets the orientation of the question output
 *
-* Gets the orientation of the question output
-*
 * @return integer 0 = vertical, 1 = horizontal
 * @access public
 * @see $orientation
@@ -610,8 +525,6 @@ class SurveyQuestion
 
 
 /**
-* Gets the description
-*
 * Gets the description string of the SurveyQuestion object
 *
 * @return string The description string to describe the question
@@ -636,22 +549,18 @@ class SurveyQuestion
 	}
 
 /**
-* Gets the creator/owner
-*
 * Gets the creator/owner ID of the SurveyQuestion object
 *
 * @return integer The numerical ID to identify the owner/creator
 * @access public
 * @see $owner
 */
-  function getOwner() 
+	function getOwner() 
 	{
-    return $this->owner;
-  }
+		return $this->owner;
+	}
 
 /**
-* Gets the questiontext
-*
 * Gets the questiontext of the SurveyQuestion object
 *
 * @return string The questiontext of the question object
@@ -687,8 +596,6 @@ class SurveyQuestion
 	}
 
 /**
-* Duplicates a survey question
-*
 * Duplicates a survey question
 *
 * @access public
@@ -734,8 +641,6 @@ class SurveyQuestion
 	/**
 	* Copies an assOrderingQuestion object
 	*
-	* Copies an assOrderingQuestion object
-	*
 	* @access public
 	*/
 	function copyObject($target_questionpool, $title = "")
@@ -767,8 +672,6 @@ class SurveyQuestion
 /**
 * Increases the media object usage counter when a question is duplicated
 *
-* Increases the media object usage counter when a question is duplicated
-*
 * @param integer $a_q_id The question id of the original question
 * @access public
 */
@@ -783,8 +686,6 @@ class SurveyQuestion
 	}
 	
 /**
-* Duplicates the materials of a question
-*
 * Duplicates the materials of a question
 *
 * @param integer $question_id The database id of the original survey question
@@ -812,21 +713,21 @@ class SurveyQuestion
 /**
 * Loads a SurveyQuestion object from the database
 *
-* Loads a SurveyQuestion object from the database
-*
 * @param integer $question_id A unique key which defines the question in the database
 * @access public
 */
 	function loadFromDb($question_id)
 	{
-		$query = sprintf("SELECT * FROM survey_material WHERE question_fi = %s",
-			$this->ilias->db->quote($this->getId() . "")
+		global $ilDB;
+		
+		$result = $ilDB->queryF("SELECT * FROM survey_material WHERE question_fi = %s",
+			array('integer'),
+			array($this->getId())
 		);
-		$result = $this->ilias->db->query($query);
 		$this->material = array();
 		if ($result->numRows())
 		{
-			while ($row = $result->fetchRow(MDB2_FETCHMODE_ASSOC))
+			while ($row = $ilDB->fetchAssoc($result))
 			{
 				$this->material = array(
 					"internal_link" => $row["internal_link"],
@@ -847,13 +748,13 @@ class SurveyQuestion
 	{
 		global $ilDB;
 
-		$query = sprintf("SELECT complete FROM survey_question WHERE question_id = %s",
-			$ilDB->quote($question_id . "")
+		$result = $ilDB->queryF("SELECT complete FROM survey_question WHERE question_id = %s",
+			array('integer'),
+			array($question_id)
 		);
-		$result = $ilDB->query($query);
 		if ($result->numRows())
 		{
-			$row = $result->fetchRow(MDB2_FETCHMODE_ASSOC);
+			$row = $ilDB->fetchAssoc($result);
 			if ($row["complete"] == 1)
 			{
 				return TRUE;
@@ -869,31 +770,25 @@ class SurveyQuestion
 */
 	function saveCompletionStatus($original_id = "")
 	{
+		global $ilDB;
+		
 		$question_id = $this->getId();
 		if (strlen($original_id))
 		{
 			$question_id = $original_id;
 		}
 
-		$complete = 0;
-		if ($this->isComplete()) 
+		if ($this->getId() > 0) 
 		{
-			$complete = 1;
+			// update existing dataset
+			$affectedRows = $ilDB->manipulateF("UPDATE survey_question SET complete = %s, tstamp = %s WHERE question_id = %s",
+				array('text', 'integer', 'integer'),
+				array($this->isComplete(), time(), $question_id)
+			);
 		}
-    if ($this->id > 0) 
-		{
-      // update existing dataset
-      $query = sprintf("UPDATE survey_question SET complete = %s WHERE question_id = %s",
-				$this->ilias->db->quote("$complete"),
-				$this->ilias->db->quote($question_id . "")
-      );
-      $result = $this->ilias->db->query($query);
-    }
 	}
 
 	/**
-	* Saves a SurveyQuestion object to a database
-	*
 	* Saves a SurveyQuestion object to a database
 	*
 	* @param integer $original_id
@@ -901,21 +796,21 @@ class SurveyQuestion
 	*/
 	function saveToDb($original_id = "")
 	{
+		global $ilDB;
+		
 		include_once "./Services/COPage/classes/class.ilInternalLink.php";
-		$query = sprintf("DELETE FROM survey_material WHERE question_fi = %s",
-			$this->ilias->db->quote($this->getId() . "")
+		$affectedRows = $ilDB->manipulateF("DELETE FROM survey_material WHERE question_fi = %s",
+			array('integer'),
+			array($this->getId())
 		);
-		$result = $this->ilias->db->query($query);
 		ilInternalLink::_deleteAllLinksOfSource("sqst", $this->getId());
 		if (count($this->material))
 		{
-			$query = sprintf("INSERT INTO survey_material (material_id, question_fi, internal_link, import_id, material_title, TIMESTAMP) VALUES (NULL, %s, %s, %s, %s, NULL)",
-				$this->ilias->db->quote($this->getId() . ""),
-				$this->ilias->db->quote($this->material["internal_link"] . ""),
-				$this->ilias->db->quote($this->material["import_id"] . ""),
-				$this->ilias->db->quote($this->material["title"] . "")
+			$next_id = $ilDB->nextId('survey_material');
+			$affectedRows = $ilDB->manipulateF("INSERT INTO survey_material (material_id, question_fi, internal_link, import_id, material_title, tstamp) VALUES (%s, %s, %s, %s, %s, %s)",
+				array('integer','integer','text','text','text','integer'),
+				array($next_id, $this->getId(), $this->material["internal_link"], $this->material["import_id"], $this->material["title"], time())
 			);
-			$this->ilias->db->query($query);
 			if (preg_match("/il_(\d*?)_(\w+)_(\d+)/", $solution["internal_link"], $matches))
 			{
 				ilInternalLink::_saveLink("sqst", $this->getId(), $matches[2], $matches[3], $matches[1]);
@@ -927,8 +822,6 @@ class SurveyQuestion
 /**
 * Saves the learners input of the question to the database
 *
-* Saves the learners input of the question to the database
-*
 * @access public
 * @see $answers
 */
@@ -937,8 +830,6 @@ class SurveyQuestion
   }
 
 /**
-* Returns the image path for web accessable images of a question
-*
 * Returns the image path for web accessable images of a question.
 * The image path is under the CLIENT_WEB_DIR in assessment/REFERENCE_ID_OF_QUESTION_POOL/ID_OF_QUESTION/images
 *
@@ -950,8 +841,6 @@ class SurveyQuestion
 	}
 
 /**
-* Returns the materials path for web accessable material of a question
-*
 * Returns the materials path for web accessable materials of a question.
 * The materials path is under the CLIENT_WEB_DIR in assessment/REFERENCE_ID_OF_QUESTION_POOL/ID_OF_QUESTION/materials
 *
@@ -963,8 +852,6 @@ class SurveyQuestion
 	}
 
 /**
-* Returns the web image path for web accessable images of a question
-*
 * Returns the web image path for web accessable images of a question.
 * The image path is under the web accessable data dir in assessment/REFERENCE_ID_OF_QUESTION_POOL/ID_OF_QUESTION/images
 *
@@ -978,8 +865,6 @@ class SurveyQuestion
 	}
 
 /**
-* Returns the web image path for web accessable images of a question
-*
 * Returns the web image path for web accessable images of a question.
 * The image path is under the web accessable data dir in assessment/REFERENCE_ID_OF_QUESTION_POOL/ID_OF_QUESTION/images
 *
@@ -995,28 +880,28 @@ class SurveyQuestion
 /**
 * Saves a materials to a database
 *
-* Saves a materials to a database
-*
 * @param object $db A pear DB object
 * @access public
 */
-  function saveMaterialsToDb()
-  {
-		if ($this->id > 0) 
+	function saveMaterialsToDb()
+	{
+		global $ilDB;
+		
+		if ($this->getId() > 0) 
 		{
-			$query = sprintf("DELETE FROM survey_question_material WHERE question_fi = %s",
-				$this->ilias->db->quote($this->id)
+			$affectedRows = $ilDB->manipulateF("DELETE FROM survey_question_material WHERE question_fi = %s",
+				array('integer'),
+				array($this->getId())
 			);
-			$result = $this->ilias->db->query($query);
-			if (!empty($this->materials)) {
+			if (!empty($this->materials)) 
+			{
 				foreach ($this->materials as $key => $value) 
 				{
-					$query = sprintf("INSERT INTO survey_question_material (question_fi, materials, materials_file) VALUES (%s, %s, %s)",
-						$this->ilias->db->quote($this->id),
-						$this->ilias->db->quote($key),
-						$this->ilias->db->quote($value)
+					$next_id = $ilDB->nextId('survey_question_material');
+					$affectedRows = $ilDB->manipulateF("INSERT INTO survey_question_material (material_id, question_fi, materials, materials_file) VALUES (%s, %s, %s, %s)",
+						array('integer','integer','text','text'),
+						array($next_id, $this->getId(), $key, $value)
 					);
-					$result = $this->ilias->db->query($query);
 				}
 			}
 		}
@@ -1025,30 +910,28 @@ class SurveyQuestion
 /**
 * Loads materials uris from a database
 *
-* Loads materials uris from a database
-*
 * @param integer $question_id A unique key which defines the survey question in the database
 * @access public
 */
 	function loadMaterialFromDb($question_id)
 	{
-		$query = sprintf("SELECT * FROM survey_question_material WHERE question_fi = %s",
-			$this->ilias->db->quote($question_id)
+		global $ilDB;
+		
+		$result = $ilDB->queryF("SELECT * FROM survey_question_material WHERE question_fi = %s",
+			array('integer'),
+			array($question_id)
 		);
-		$result = $this->ilias->db->query($query);
 		if ($result->numRows() > 0) 
 		{
 			$this->materials = array();
-			while ($data = $result->fetchRow(MDB2_FETCHMODE_OBJECT)) 
+			while ($data = $ilDB->fetchAssoc($result)) 
 			{
-				$this->addMaterials($data->materials_file, $data->materials);
+				$this->addMaterials($data["materials_file"], $data["materials"]);
 			}
 		}
 	}
 
 /**
-* Saves a category to the database
-*
 * Saves a category to the database
 *
 * @param string $categorytext The description of the category
@@ -1058,24 +941,22 @@ class SurveyQuestion
 */
 	function saveCategoryToDb($categorytext, $neutral = 0)
 	{
-		global $ilUser;
+		global $ilUser, $ilDB;
 		
-		$query = sprintf("SELECT title, category_id FROM survey_category WHERE title = %s AND neutral = %s AND owner_fi = %s",
-			$this->ilias->db->quote($categorytext . ""),
-			$this->ilias->db->quote($neutral . ""),
-			$this->ilias->db->quote($ilUser->getId() . "")
+		$result = $ilDB->queryF("SELECT title, category_id FROM survey_category WHERE title = %s AND neutral = %s AND owner_fi = %s",
+			array('text','text','integer'),
+			array($categorytext, $neutral, $ilUser->getId())
 		);
-    $result = $this->ilias->db->query($query);
 		$insert = FALSE;
 		$returnvalue = "";
 		if ($result->numRows()) 
 		{
 			$insert = TRUE;
-			while ($row = $result->fetchRow(MDB2_FETCHMODE_OBJECT))
+			while ($row = $ilDB->fetchAssoc($result))
 			{
-				if (strcmp($row->title, $categorytext) == 0)
+				if (strcmp($row["title"], $categorytext) == 0)
 				{
-					$returnvalue = $row->category_id;
+					$returnvalue = $row["category_id"];
 					$insert = FALSE;
 				}
 			}
@@ -1086,20 +967,17 @@ class SurveyQuestion
 		}
 		if ($insert)
 		{
-			$query = sprintf("INSERT INTO survey_category (category_id, title, neutral, owner_fi, TIMESTAMP) VALUES (NULL, %s, %s, %s, NULL)",
-				$this->ilias->db->quote($categorytext . ""),
-				$this->ilias->db->quote($neutral . ""),
-				$this->ilias->db->quote($ilUser->getId() . "")
+			$next_id = $ilDB->nextId('survey_category');
+			$affectedRows = $ilDB->manipulateF("INSERT INTO survey_category (category_id, title, neutral, owner_fi, tstamp) VALUES (%s, %s, %s, %s, %s)",
+				array('integer','text','text','integer','integer'),
+				array($next_id, $categorytext, $neutral, $ilUser->getId(), time())
 			);
-			$result = $this->ilias->db->query($query);
-			$returnvalue = $this->ilias->db->getLastInsertId();
+			$returnvalue = $next_id;
 		}
 		return $returnvalue;
 	}
 
 	/**
-	* Deletes datasets from the additional question table in the database
-	*
 	* Deletes datasets from the additional question table in the database
 	*
 	* @param integer $question_id The question id which should be deleted in the additional question table
@@ -1108,33 +986,31 @@ class SurveyQuestion
 	function deleteAdditionalTableData($question_id)
 	{
 		global $ilDB;
-		$additional_table_name = $this->getAdditionalTableName();
-		$query = sprintf("DELETE FROM $additional_table_name WHERE question_fi = %s",
-			$ilDB->quote($question_id . "")
+		$affectedRows = $ilDB->manipulateF("DELETE FROM " . $this->getAdditionalTableName() . " WHERE question_fi = %s",
+			array('integer'),
+			array($question_id)
 		);
-		$result = $ilDB->query($query);
 	}
 
 /**
-* Deletes a question from the database
-* 
 * Deletes a question and all materials from the database
 *
 * @param integer $question_id The database id of the question
 * @access private
 */
-  function delete($question_id) 
-  {
-    if ($question_id < 1)
-      return;
+	function delete($question_id) 
+	{
+		global $ilDB;
+		
+		if ($question_id < 1) return;
       
-		$query = sprintf("SELECT obj_fi FROM survey_question WHERE question_id = %s",
-			$this->ilias->db->quote($question_id)
+		$result = $ilDB->queryF("SELECT obj_fi FROM survey_question WHERE question_id = %s",
+			array('integer'),
+			array($question_id)
 		);
-    $result = $this->ilias->db->query($query);
 		if ($result->numRows() == 1)
 		{
-			$row = $result->fetchRow(MDB2_FETCHMODE_ASSOC);
+			$row = $ilDB->fetchAssoc($result);
 			$obj_id = $row["obj_fi"];
 		}
 		else
@@ -1142,80 +1018,64 @@ class SurveyQuestion
 			return;
 		}
 		
-		$query = sprintf("DELETE FROM survey_answer WHERE question_fi = %s",
-			$this->ilias->db->quote($question_id)
+		$affectedRows = $ilDB->manipulateF("DELETE FROM survey_answer WHERE question_fi = %s",
+			array('integer'),
+			array($question_id)
 		);
-		$result = $this->ilias->db->query($query);
 
-		$query = sprintf("SELECT constraint_id FROM survey_constraint WHERE question_fi = %s",
-			$this->ilias->db->quote($question_id)
+		$affectedRows = $ilDB->manipulateF("DELETE FROM survey_constraint WHERE question_fi = %s",
+			array('integer'),
+			array($question_id)
 		);
-		$result = $this->ilias->db->query($query);
-		while ($row = $result->fetchRow(MDB2_FETCHMODE_OBJECT))
+
+		$result = $ilDB->queryF("SELECT constraint_id FROM survey_question_constraint WHERE question_fi = %s",
+			array('integer'),
+			array($question_id)
+		);
+		while ($row = $ilDB->fetchObject($result))
 		{
-			$query = sprintf("DELETE FROM survey_question_constraint WHERE constraint_fi = %s",
-				$this->ilias->db->quote($row->constraint_id)
+			$affectedRows = $ilDB->manipulateF("DELETE FROM survey_constraint WHERE constraint_fi = %s",
+				array('integer'),
+				array($row->constraint_id)
 			);
-			$delresult = $this->ilias->db->query($query);
 		}
-		
-		$query = sprintf("DELETE FROM survey_constraint WHERE question_fi = %s",
-			$this->ilias->db->quote($question_id)
+	
+		$affectedRows = $ilDB->manipulateF("DELETE FROM survey_question_constraint WHERE question_fi = %s",
+			array('integer'),
+			array($question_id)
 		);
-		$result = $this->ilias->db->query($query);
 
-		$query = sprintf("SELECT constraint_fi FROM survey_question_constraint WHERE question_fi = %s",
-			$this->ilias->db->quote($question_id)
+		$affectedRows = $ilDB->manipulateF("DELETE FROM survey_question_material WHERE question_fi = %s",
+			array('integer'),
+			array($question_id)
 		);
-		$result = $this->ilias->db->query($query);
-		while ($row = $result->fetchRow(MDB2_FETCHMODE_OBJECT))
-		{
-			$query = sprintf("DELETE FROM survey_constraint WHERE constraint_id = %s",
-				$this->ilias->db->quote($row->constraint_fi)
-			);
-			$delresult = $this->ilias->db->query($query);
-		}
-		$query = sprintf("DELETE FROM survey_question_constraint WHERE question_fi = %s",
-			$this->ilias->db->quote($question_id)
+		$affectedRows = $ilDB->manipulateF("DELETE FROM survey_questionblock_question WHERE question_fi = %s",
+			array('integer'),
+			array($question_id)
 		);
-		$result = $this->ilias->db->query($query);
-
-		$query = sprintf("DELETE FROM survey_question_material WHERE question_fi = %s",
-			$this->ilias->db->quote($question_id)
+		$affectedRows = $ilDB->manipulateF("DELETE FROM survey_question_obligatory WHERE question_fi = %s",
+			array('integer'),
+			array($question_id)
 		);
-		$result = $this->ilias->db->query($query);
-
-		$query = sprintf("DELETE FROM survey_questionblock_question WHERE question_fi = %s",
-			$this->ilias->db->quote($question_id)
+		$affectedRows = $ilDB->manipulateF("DELETE FROM survey_survey_question WHERE question_fi = %s",
+			array('integer'),
+			array($question_id)
 		);
-		$result = $this->ilias->db->query($query);
-
-		$query = sprintf("DELETE FROM survey_question_obligatory WHERE question_fi = %s",
-			$this->ilias->db->quote($question_id)
+		$affectedRows = $ilDB->manipulateF("DELETE FROM survey_variable WHERE question_fi = %s",
+			array('integer'),
+			array($question_id)
 		);
-		$result = $this->ilias->db->query($query);
-
-		$query = sprintf("DELETE FROM survey_survey_question WHERE question_fi = %s",
-			$this->ilias->db->quote($question_id)
+		$affectedRows = $ilDB->manipulateF("DELETE FROM survey_question WHERE question_id = %s",
+			array('integer'),
+			array($question_id)
 		);
-		$result = $this->ilias->db->query($query);
-
-		$query = sprintf("DELETE FROM survey_variable WHERE question_fi = %s",
-			$this->ilias->db->quote($question_id)
-		);
-		$result = $this->ilias->db->query($query);
-
-		$query = sprintf("DELETE FROM survey_question WHERE question_id = %s",
-			$this->ilias->db->quote($question_id)
-		);
-		$result = $this->ilias->db->query($query);
 
 		$this->deleteAdditionalTableData($question_id);
 		
-		$query = sprintf("DELETE FROM survey_material WHERE question_fi = %s",
-			$this->ilias->db->quote($question_id)
+		$affectedRows = $ilDB->manipulateF("DELETE FROM survey_material WHERE question_fi = %s",
+			array('integer'),
+			array($question_id)
 		);
-		$result = $this->ilias->db->query($query);
 		include_once "./Services/COPage/classes/class.ilInternalLink.php";
 		ilInternalLink::_deleteAllLinksOfSource("sqst", $question_id);
 
@@ -1242,68 +1102,61 @@ class SurveyQuestion
 
 /**
 * Returns the question type of a question with a given id
-* 
-* Returns the question type of a question with a given id
 *
 * @param integer $question_id The database id of the question
 * @result string The question type string
 * @access private
 */
-  function _getQuestionType($question_id) 
+	function _getQuestionType($question_id) 
 	{
 		global $ilDB;
 
-    if ($question_id < 1)
-      return "";
+		if ($question_id < 1) return "";
 
-    $query = sprintf("SELECT type_tag FROM survey_question, survey_questiontype WHERE survey_question.question_id = %s AND survey_question.questiontype_fi = survey_questiontype.questiontype_id",
-      $ilDB->quote($question_id)
-    );
-    $result = $ilDB->query($query);
-    if ($result->numRows() == 1) 
+		$result = $ilDB->queryF("SELECT type_tag FROM survey_question, survey_questiontype WHERE survey_question.question_id = %s AND survey_question.questiontype_fi = survey_questiontype.questiontype_id",
+			array('integer'),
+			array($question_id)
+		);
+		if ($result->numRows() == 1) 
 		{
-      $data = $result->fetchRow(MDB2_FETCHMODE_OBJECT);
-      return $data->type_tag;
-    } 
+			$data = $ilDB->fetchAssoc($result);
+			return $data["type_tag"];
+		} 
 		else 
 		{
-      return "";
-    }
-  }
+			return "";
+		}
+	}
 
 /**
-* Returns the question title of a question with a given id
-* 
 * Returns the question title of a question with a given id
 *
 * @param integer $question_id The database id of the question
 * @result string The question title
 * @access private
 */
-  function _getTitle($question_id) 
+	function _getTitle($question_id) 
 	{
 		global $ilDB;
 
-    if ($question_id < 1) return "";
+		if ($question_id < 1) return "";
 
-    $query = sprintf("SELECT title FROM survey_question WHERE survey_question.question_id = %s",
-      $ilDB->quote($question_id)
-    );
-    $result = $ilDB->query($query);
-    if ($result->numRows() == 1) 
+		$result = $ilDB->queryF("SELECT title FROM survey_question WHERE survey_question.question_id = %s",
+			array('integer'),
+			array($question_id)
+		);
+		if ($result->numRows() == 1) 
 		{
-      $data = $result->fetchRow(MDB2_FETCHMODE_ASSOC);
-      return $data["title"];
-    } 
+			$data = $ilDB->fetchAssoc($result);
+			return $data["title"];
+		} 
 		else 
 		{
-      return "";
-    }
-  }
+			return "";
+		}
+	}
 
 /**
-* Returns the original id of a question
-*
 * Returns the original id of a question
 *
 * @param integer $question_id The database id of the question
@@ -1313,13 +1166,13 @@ class SurveyQuestion
 	function _getOriginalId($question_id)
 	{
 		global $ilDB;
-		$query = sprintf("SELECT * FROM survey_question WHERE question_id = %s",
-			$ilDB->quote($question_id . "")
+		$result = $ilDB->queryF("SELECT * FROM survey_question WHERE question_id = %s",
+			array('integer'),
+			array($question_id)
 		);
-		$result = $ilDB->query($query);
 		if ($result->numRows() > 0)
 		{
-			$row = $result->fetchRow(MDB2_FETCHMODE_ASSOC);
+			$row = $ilDB->fetchAssoc($result);
 			if ($row["original_id"] > 0)
 			{
 				return $row["original_id"];
@@ -1335,26 +1188,10 @@ class SurveyQuestion
 		}
 	}
 	
-	function _getRefIdFromObjId($obj_id)
+	function syncWithOriginal()
 	{
 		global $ilDB;
 		
-		// TODO: please use ilObject::_getAllReferences() stefan
-		$query = sprintf("SELECT ref_id FROM object_reference WHERE obj_id=%s",
-			$ilDB->quote($obj_id,'integer')
-			
-		);
-		$result = $ilDB->query($query);
-		if ($result->numRows())
-		{
-			$row = $result->fetchRow(MDB2_FETCHMODE_ASSOC);
-			return $row["ref_id"];
-		}
-		return 0;
-	}
-	
-	function syncWithOriginal()
-	{
 		if ($this->getOriginalId())
 		{
 			$id = $this->getId();
@@ -1368,23 +1205,21 @@ class SurveyQuestion
 			$this->setOriginalId($original);
 
 			include_once "./Services/COPage/classes/class.ilInternalLink.php";
-			$query = sprintf("DELETE FROM survey_material WHERE question_fi = %s",
-				$this->ilias->db->quote($this->original_id . "")
+			$affectedRows = $ilDB->manipulateF("DELETE FROM survey_material WHERE question_fi = %s",
+				array('integer'),
+				array($this->getOriginalId())
 			);
-			$result = $this->ilias->db->query($query);
 			ilInternalLink::_deleteAllLinksOfSource("sqst", $this->original_id);
 			if (strlen($this->material["internal_link"]))
 			{
-				$query = sprintf("INSERT INTO survey_material (material_id, question_fi, internal_link, import_id, material_title, TIMESTAMP) VALUES (NULL, %s, %s, %s, %s, NULL)",
-					$this->ilias->db->quote($this->original_id . ""),
-					$this->ilias->db->quote($this->material["internal_link"] . ""),
-					$this->ilias->db->quote($this->material["import_id"] . ""),
-					$this->ilias->db->quote($this->material["title"] . "")
+				$next_id = $ilDB->nextId('survey_material');
+				$affectedRows = $ilDB->manipulateF("INSERT INTO survey_material (material_id, question_fi, internal_link, import_id, material_title, tstamp) VALUES (%s, %s, %s, %s, %s, %s)",
+					array('integer', 'integer', 'text', 'text', 'text', 'integer'),
+					array($next_id, $this->getOriginalId(), $this->material["internal_link"], $this->material["import_id"], $this->material["title"], time())
 				);
-				$this->ilias->db->query($query);
 				if (preg_match("/il_(\d*?)_(\w+)_(\d+)/", $this->material["internal_link"], $matches))
 				{
-					ilInternalLink::_saveLink("sqst", $this->original_id, $matches[2], $matches[3], $matches[1]);
+					ilInternalLink::_saveLink("sqst", $this->getOriginalId(), $matches[2], $matches[3], $matches[1]);
 				}
 			}
 		}
@@ -1393,18 +1228,18 @@ class SurveyQuestion
 /**
 * Returns a phrase for a given database id
 *
-* Returns a phrase for a given database id
-*
 * @result String The title of the phrase
 * @access public
 */
 	function getPhrase($phrase_id)
 	{
-		$query = sprintf("SELECT title FROM survey_phrase WHERE phrase_id = %s",
-			$this->ilias->db->quote($phrase_id)
+		global $ilDB;
+		
+		$result = $ilDB->queryF("SELECT title FROM survey_phrase WHERE phrase_id = %s",
+			array('integer'),
+			array($phrase_id)
 		);
-    $result = $this->ilias->db->query($query);
-		if ($row = $result->fetchRow(MDB2_FETCHMODE_ASSOC))
+		if ($row = $ilDB->fetchAssoc($result))
 		{
 			return $row["title"];
 		}
@@ -1414,34 +1249,22 @@ class SurveyQuestion
 /**
 * Returns true if the phrase title already exists for the current user
 *
-* Returns true if the phrase title already exists for the current user
-*
 * @param string $title The title of the phrase
 * @result boolean True, if the title exists, otherwise False
 * @access public
 */
 	function phraseExists($title)
 	{
-		global $ilUser;
+		global $ilUser, $ilDB;
 		
-		$query = sprintf("SELECT phrase_id FROM survey_phrase WHERE title = %s AND owner_fi = %s",
-			$this->ilias->db->quote($title),
-			$this->ilias->db->quote($ilUser->id)
+		$result = $ilDB->queryF("SELECT phrase_id FROM survey_phrase WHERE title = %s AND owner_fi = %s",
+			array('text', 'integer'),
+			array($title, $ilUser->getId())
 		);
-    $result = $this->ilias->db->query($query);
-		if ($result->numRows() == 0)
-		{
-			return false;
-		}
-		else
-		{
-			return true;
-		}
+		return ($result->numRows() == 0) ? false : true;
 	}
 
 /**
-* Returns true if the question already exists in the database
-*
 * Returns true if the question already exists in the database
 *
 * @param integer $question_id The database id of the question
@@ -1457,23 +1280,14 @@ class SurveyQuestion
 			return false;
 		}
 		
-		$query = sprintf("SELECT question_id FROM survey_question WHERE question_id = %s",
-			$ilDB->quote($question_id)
+		$result = $ilDB->queryF("SELECT question_id FROM survey_question WHERE question_id = %s",
+			array('integer'),
+			array($question_id)
 		);
-    $result = $ilDB->query($query);
-		if ($result->numRows() == 1)
-		{
-			return true;
-		}
-		else
-		{
-			return false;
-		}
+		return ($result->numRows() == 1) ? true : false;
 	}
 
 /**
-* Sets a material link for the question
-*
 * Sets a material link for the question
 *
 * @param string $material_id An internal link pointing to the material
@@ -1583,13 +1397,13 @@ class SurveyQuestion
 	{
 		global $ilDB;
 		$resolvedlinks = 0;
-		$query = sprintf("SELECT * FROM survey_material WHERE question_fi = %s",
-			$ilDB->quote($question_id . "")
+		$result = $ilDB->queryF("SELECT * FROM survey_material WHERE question_fi = %s",
+			array('integer'),
+			array($question_id)
 		);
-		$result = $ilDB->query($query);
 		if ($result->numRows())
 		{
-			while ($row = $result->fetchRow(MDB2_FETCHMODE_ASSOC))
+			while ($row = $ilDB->fetchAssoc($result))
 			{
 				$internal_link = $row["internal_link"];
 				include_once "./Modules/SurveyQuestionPool/classes/class.SurveyQuestion.php";
@@ -1597,11 +1411,10 @@ class SurveyQuestion
 				if (strcmp($internal_link, $resolved_link) != 0)
 				{
 					// internal link was resolved successfully
-					$queryupdate = sprintf("UPDATE survey_material SET internal_link = %s WHERE material_id = %s",
-						$ilDB->quote($resolved_link),
-						$ilDB->quote($row["material_id"] . "")
+					$affectedRows = $ilDB->manipulateF("UPDATE survey_material SET internal_link = %s, tstamp = %s WHERE material_id = %s",
+						array('text', 'integer', 'integer'),
+						array($resolved_link, time(), $row["material_id"])
 					);
-					$updateresult = $ilDB->query($queryupdate);
 					$resolvedlinks++;
 				}
 			}
@@ -1614,13 +1427,13 @@ class SurveyQuestion
 			include_once "./Services/COPage/classes/class.ilInternalLink.php";
 			ilInternalLink::_deleteAllLinksOfSource("sqst", $question_id);
 
-			$query = sprintf("SELECT * FROM survey_material WHERE question_fi = %s",
-				$ilDB->quote($question_id . "")
+			$result = $ilDB->queryF("SELECT * FROM survey_material WHERE question_fi = %s",
+				array('integer'),
+				array($question_id)
 			);
-			$result = $ilDB->query($query);
 			if ($result->numRows())
 			{
-				while ($row = $result->fetchRow(MDB2_FETCHMODE_ASSOC))
+				while ($row = $ilDB->fetchAssoc($result))
 				{
 					if (preg_match("/il_(\d*?)_(\w+)_(\d+)/", $row["internal_link"], $matches))
 					{
@@ -1670,8 +1483,6 @@ class SurveyQuestion
 /**
 * Returns true if the question is writeable by a certain user
 *
-* Returns true if the question is writeable by a certain user
-*
 * @param integer $question_id The database id of the question
 * @param integer $user_id The database id of the user
 * @result boolean True, if the question exists, otherwise False
@@ -1686,13 +1497,13 @@ class SurveyQuestion
 			return false;
 		}
 		
-		$query = sprintf("SELECT obj_fi FROM survey_question WHERE question_id = %s",
-			$ilDB->quote($question_id . "")
+		$result = $ilDB->queryF("SELECT obj_fi FROM survey_question WHERE question_id = %s",
+			array('integer'),
+			array($question_id)
 		);
-    $result = $ilDB->query($query);
 		if ($result->numRows() == 1)
 		{
-			$row = $result->fetchRow(MDB2_FETCHMODE_ASSOC);
+			$row = $ilDB->fetchAssoc($result);
 			$qpl_object_id = $row["obj_fi"];
 			include_once "./Modules/SurveyQuestionPool/classes/class.ilObjSurveyQuestionPool.php";
 			return ilObjSurveyQuestionPool::_isWriteable($qpl_object_id, $user_id);
@@ -1712,13 +1523,13 @@ class SurveyQuestion
 	function getQuestionTypeID()
 	{
 		global $ilDB;
-		$query = sprintf("SELECT questiontype_id FROM survey_questiontype WHERE type_tag = %s",
-			$ilDB->quote($this->getQuestionType())
+		$result = $ilDB->queryF("SELECT questiontype_id FROM survey_questiontype WHERE type_tag = %s",
+			array('text'),
+			array($this->getQuestionType())
 		);
-		$result = $ilDB->query($query);
 		if ($result->numRows() == 1)
 		{
-			$row = $result->fetchRow(MDB2_FETCHMODE_ASSOC);
+			$row = $ilDB->fetchAssoc($result);
 			return $row["questiontype_id"];
 		}
 		else
@@ -1728,8 +1539,6 @@ class SurveyQuestion
 	}
 
 	/**
-	* Returns the question type of the question
-	*
 	* Returns the question type of the question
 	*
 	* @return integer The question type of the question
@@ -1940,8 +1749,6 @@ class SurveyQuestion
 	/**
 	* Returns the question data fields from the database
 	*
-	* Returns the question data fields from the database
-	*
 	* @param integer $id The question ID from the database
 	* @return array Array containing the question fields and data from the database
 	* @access public
@@ -1955,8 +1762,6 @@ class SurveyQuestion
 	/**
 	* Adds the entries for the title row of the user specific results
 	*
-	* Adds the entries for the title row of the user specific results
-	*
 	* @param array $a_array An array which is used to append the title row entries
 	* @access public
 	*/
@@ -1966,8 +1771,6 @@ class SurveyQuestion
 	}
 
 	/**
-	* Adds the values for the user specific results export for a given user
-	*
 	* Adds the values for the user specific results export for a given user
 	*
 	* @param array $a_array An array which is used to append the values
@@ -1980,8 +1783,6 @@ class SurveyQuestion
 	}
 
 	/**
-	* Returns an array containing all answers to this question in a given survey
-	*
 	* Returns an array containing all answers to this question in a given survey
 	*
 	* @param integer $survey_id The database ID of the survey
@@ -1997,8 +1798,6 @@ class SurveyQuestion
 	/**
 	* Creates the user data of the survey_answer table from the POST data
 	*
-	* Creates the user data of the survey_answer table from the POST data
-	*
 	* @return array User data according to the survey_answer table
 	* @access public
 	*/
@@ -2010,8 +1809,6 @@ class SurveyQuestion
 	}
 	
 	/**
-	* Import additional meta data from the question import file
-	*
 	* Import additional meta data from the question import file. Usually
 	* the meta data section is used to store question elements which are not
 	* part of the standard XML schema.
@@ -2027,8 +1824,6 @@ class SurveyQuestion
 	/**
 	* Import response data from the question import file
 	*
-	* Import response data from the question import file
-	*
 	* @return array $a_data Array containing the response data
 	* @access public
 	*/
@@ -2038,8 +1833,6 @@ class SurveyQuestion
 	}
 
 	/**
-	* Import bipolar adjectives from the question import file
-	*
 	* Import bipolar adjectives from the question import file
 	*
 	* @return array $a_data Array containing the adjectives
@@ -2053,8 +1846,6 @@ class SurveyQuestion
 	/**
 	* Import matrix rows from the question import file
 	*
-	* Import matrix rows from the question import file
-	*
 	* @return array $a_data Array containing the matrix rows
 	* @access public
 	*/
@@ -2064,8 +1855,6 @@ class SurveyQuestion
 	}
 
 	/**
-	* Creates the Excel output for the cumulated results of this question
-	*
 	* Creates the Excel output for the cumulated results of this question
 	*
 	* @param object $worksheet Reference to the excel worksheet
@@ -2093,8 +1882,6 @@ class SurveyQuestion
 	}
 	
 	/**
-	* Creates the CSV output for the cumulated results of this question
-	*
 	* Creates the CSV output for the cumulated results of this question
 	*
 	* @param object $worksheet Reference to the excel worksheet
@@ -2125,8 +1912,6 @@ class SurveyQuestion
 	/**
 	* Creates an Excel worksheet for the detailed cumulated results of this question
 	*
-	* Creates an Excel worksheet for the detailed cumulated results of this question
-	*
 	* @param object $workbook Reference to the parent excel workbook
 	* @param object $format_title Excel title format
 	* @param object $format_bold Excel bold format
@@ -2141,8 +1926,6 @@ class SurveyQuestion
 	/**
 	* Returns if the question is usable for preconditions
 	*
-	* Returns if the question is usable for preconditions
-	*
 	* @return boolean TRUE if the question is usable for a precondition, FALSE otherwise
 	* @access public
 	*/
@@ -2153,8 +1936,6 @@ class SurveyQuestion
 	}
 
 	/**
-	* Returns the available relations for the question
-	*
 	* Returns the available relations for the question
 	*
 	* @return array An array containing the available relations
@@ -2169,8 +1950,6 @@ class SurveyQuestion
 	/**
 	* Creates a value selection for preconditions
 	*
-	* Creates a value selection for preconditions
-	*
 	* @return The HTML code for the precondition value selection
 	* @access public
 	*/
@@ -2180,8 +1959,6 @@ class SurveyQuestion
 	}
 	
 	/**
-	* Returns the output for a precondition value
-	*
 	* Returns the output for a precondition value
 	*
 	* @param string $value The precondition value
@@ -2195,8 +1972,6 @@ class SurveyQuestion
 	}
 
 /**
-* Creates an image visualising the results of the question
-*
 * Creates an image visualising the results of the question
 *
 * @param integer $survey_id The database ID of the survey

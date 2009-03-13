@@ -1843,11 +1843,10 @@ class ilObjSurveyGUI extends ilObjectGUI
 				}
 				$this->tpl->setCurrentBlock("QTab");
 				include_once "./Modules/SurveyQuestionPool/classes/class.SurveyQuestion.php";
-				$ref_id = SurveyQuestion::_getRefIdFromObjId($data["obj_fi"]);
 				if ($rbacsystem->checkAccess("write", $this->ref_id) and !$hasDatasets) 
 				{
 					$q_id = $data["question_id"];
-					$qpl_ref_id = $this->object->_getRefIdFromObjId($data["obj_fi"]);
+					$qpl_ref_id = current(ilObject::_getAllReferences($data["obj_fi"]));
 					$this->tpl->setVariable("QUESTION_TITLE", "$title_counter. <a href=\"" . $this->ctrl->getLinkTarget($this, "questions") . "&eqid=$q_id&eqpl=$qpl_ref_id" . "\">" . $data["title"] . "</a>");
 				}
 				else

@@ -177,7 +177,7 @@ class SurveyMetricQuestion extends SurveyQuestion
 	{
 		global $ilDB;
 		
-		$result = $ilDB->queryF("SELECT survey_question.*, survey_question_metric.* FROM survey_question, survey_question_metric WHERE survey_question.question_id = %s AND survey_question.question_id = survey_question_metric.question_fi",
+		$result = $ilDB->queryF("SELECT survey_question.*, " . $this->getAdditionalTableName() . ".* FROM survey_question, " . $this->getAdditionalTableName() . " WHERE survey_question.question_id = %s AND survey_question.question_id = " . $this->getAdditionalTableName() . ".question_fi",
 			array('integer'),
 			array($id)
 		);
@@ -592,18 +592,9 @@ class SurveyMetricQuestion extends SurveyQuestion
 		if (strlen($entered_value) == 0) return;
 		// replace german notation with international notation
 		$entered_value = str_replace(",", ".", $entered_value);
-		
-		if (strlen($entered_value) == 0)
-		{
-			$entered_value = "NULL";
-		}
-		else
-		{
-			$entered_value = $ilDB->quote($entered_value . "");
-		}
 		$affectedRows = $ilDB->manipulateF("INSERT INTO survey_answer (answer_id, question_fi, active_fi, value, textanswer, tstamp) VALUES (%s, %s, %s, %s, %s, %s)",
 			array('integer','integer','integer','float','text','integer'),
-			array($next_id, $this->getId(), $active_id, $entered_value, NULL, time())
+			array($next_id, $this->getId(), $active_id, (strlen($entered_value)) ? $entered_value : NULL, NULL, time())
 		);
 	}
 	
