@@ -529,7 +529,6 @@ class ilObjAssessmentFolder extends ilObject
 				array('integer'),
 				array($object_id)
 			);
-			$ilDB->query($query);
 			$this->_addLog($ilUser->getId(), $object_id, $this->lng->txt("assessment_log_deleted"));
 		}
 	}

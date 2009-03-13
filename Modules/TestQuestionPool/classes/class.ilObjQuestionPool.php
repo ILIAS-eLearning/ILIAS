@@ -1147,20 +1147,21 @@ class ilObjQuestionPool extends ilObject
 		
 		if ($is_reference)
 		{
-			$query = sprintf("SELECT count(DISTINCT qpl_questions.points) equal_points FROM qpl_questions, object_reference WHERE object_reference.ref_id = %s AND qpl_questions.owner > 0 AND object_reference.obj_id = qpl_questions.obj_fi AND qpl_questions.original_id IS NULL",
-				$ilDB->quote($a_obj_id . "")
+			$result = $ilDB->queryF("SELECT count(DISTINCT qpl_questions.points) equal_points FROM qpl_questions, object_reference WHERE object_reference.ref_id = %s AND qpl_questions.owner > 0 AND object_reference.obj_id = qpl_questions.obj_fi AND qpl_questions.original_id IS NULL",
+				array('integer'),
+				array($a_obj_id)
 			);
 		}
 		else
 		{
-			$query = sprintf("SELECT count(DISTINCT points) equal_points FROM qpl_questions WHERE obj_fi = %s AND qpl_questions.owner > 0 AND qpl_questions.original_id IS NULL",
-				$ilDB->quote($a_obj_id . "")
+			$result = $ilDB->queryF("SELECT count(DISTINCT points) equal_points FROM qpl_questions WHERE obj_fi = %s AND qpl_questions.owner > 0 AND qpl_questions.original_id IS NULL",
+				array('integer'),
+				array($a_obj_id)
 			);
 		}
-		$result = $ilDB->query($query);
 		if ($result->numRows() == 1)
 		{
-			$row = $result->fetchRow(MDB2_FETCHMODE_ASSOC);
+			$row = $ilDB->fetchAssoc($result);
 			if ($row["equal_points"] == 1)
 			{
 				return 1;
@@ -1374,7 +1375,6 @@ class ilObjQuestionPool extends ilObject
 							array('integer','integer'),
 							array($duplicate_id, $row["question_id"])
 						);
-						$ilDB->query($query);
 
 						// 6. The original question can be deleted, so add it to the list of questions
 						array_push($result, $row);
