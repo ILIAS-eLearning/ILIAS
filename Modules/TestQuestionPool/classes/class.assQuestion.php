@@ -2008,7 +2008,7 @@ class assQuestion
 			);
 			if ($result->numRows())
 			{
-				while ($row = $result->fetchRow(MDB2_FETCHMODE_ASSOC))
+				while ($row = $ilDB->fetchAssoc($result))
 				{
 					if (preg_match("/il_(\d*?)_(\w+)_(\d+)/", $row["internal_link"], $matches))
 					{

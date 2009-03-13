@@ -123,7 +123,6 @@ class ilTestSession
 					$this->getActiveId()
 				)
 			);
-			$result = $ilDB->query($query);
 		}
 		else
 		{
@@ -143,7 +142,6 @@ class ilTestSession
 					time()
 				)
 			);
-			$result = $ilDB->query($query);
 			$this->active_id = $next_id;
 		}
 	}
