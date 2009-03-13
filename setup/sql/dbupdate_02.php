@@ -10551,3 +10551,37 @@ $ilDB->manipulate("ALTER TABLE `survey_variable` DROP " . $ilDB->quoteIdentifier
 <?php
 $ilDB->manipulate("RENAME TABLE `survey_variable` TO `svy_variable`");
 ?>
+<#2185>
+<?php
+$res = $ilDB->manipulate("ALTER TABLE `svy_svy` ADD `tstampcreated` INT NOT NULL DEFAULT '0'");
+?>
+<#2186>
+<?php
+$res = $ilDB->query("SELECT survey_id, created FROM svy_svy");
+if ($res->numRows())
+{
+	while ($row = $ilDB->fetchAssoc($res))
+	{
+		if (preg_match("/(\\d{4})(\\d{2})(\\d{2})(\\d{2})(\\d{2})(\\d{2})/", $row['created'], $matches))
+		{
+			$tstamp = mktime((int)$matches[4], (int)$matches[5], (int)$matches[6], (int)$matches[2], (int)$matches[3], (int)$matches[1]);
+		}
+		else
+		{
+			$tstamp = time();
+		}
+		$ilDB->manipulateF("UPDATE svy_svy SET tstampcreated = %s WHERE survey_id = %s",
+			array("integer", "integer"),
+			array($tstamp, $row['survey_id'])
+		);
+	}
+}
+?>
+<#2187>
+<?php
+$ilDB->manipulate("ALTER TABLE `svy_svy` DROP `created`");
+?>
+<#2188>
+<?php
+$ilDB->manipulate("ALTER TABLE `svy_svy` CHANGE `tstampcreated` `created` INT NOT NULL DEFAULT '0'");
+?>
