@@ -92,7 +92,7 @@ class ilTestSearch extends ilAbstractSearch
 
 		$query = "SELECT obj_fi  ".
 			$locate.
-			"FROM survey_survey ".
+			"FROM svy_svy ".
 			$where;
 
 		$res = $this->db->query($query);
@@ -111,7 +111,7 @@ class ilTestSearch extends ilAbstractSearch
 
 		$query = "SELECT obj_fi  ".
 			$locate.
-			"FROM survey_question ".
+			"FROM svy_question ".
 			$where;
 
 		$res = $this->db->query($query);

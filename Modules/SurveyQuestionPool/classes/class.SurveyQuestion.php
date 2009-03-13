@@ -230,7 +230,7 @@ class SurveyQuestion
 				$ilDB->quote($questionpool_object, 'integer')
 			);
 		}
-		$result = $ilDB->queryF("SELECT question_id FROM survey_question WHERE title = %s$refwhere",
+		$result = $ilDB->queryF("SELECT question_id FROM svy_question WHERE title = %s$refwhere",
 			array('text'),
 			array($title)
 		);
@@ -469,7 +469,7 @@ class SurveyQuestion
 		{
 			global $ilDB;
 			
-			$result = $ilDB->queryF("SELECT * FROM survey_question_obligatory WHERE survey_fi = %s AND question_fi = %s",
+			$result = $ilDB->queryF("SELECT * FROM svy_qst_oblig WHERE survey_fi = %s AND question_fi = %s",
 				array('integer', 'integer'),
 				array($survey_id, $this->getId())
 			);
@@ -748,7 +748,7 @@ class SurveyQuestion
 	{
 		global $ilDB;
 
-		$result = $ilDB->queryF("SELECT complete FROM survey_question WHERE question_id = %s",
+		$result = $ilDB->queryF("SELECT complete FROM svy_question WHERE question_id = %s",
 			array('integer'),
 			array($question_id)
 		);
@@ -781,7 +781,7 @@ class SurveyQuestion
 		if ($this->getId() > 0) 
 		{
 			// update existing dataset
-			$affectedRows = $ilDB->manipulateF("UPDATE survey_question SET complete = %s, tstamp = %s WHERE question_id = %s",
+			$affectedRows = $ilDB->manipulateF("UPDATE svy_question SET complete = %s, tstamp = %s WHERE question_id = %s",
 				array('text', 'integer', 'integer'),
 				array($this->isComplete(), time(), $question_id)
 			);
@@ -889,7 +889,7 @@ class SurveyQuestion
 		
 		if ($this->getId() > 0) 
 		{
-			$affectedRows = $ilDB->manipulateF("DELETE FROM survey_question_material WHERE question_fi = %s",
+			$affectedRows = $ilDB->manipulateF("DELETE FROM svy_qst_mat WHERE question_fi = %s",
 				array('integer'),
 				array($this->getId())
 			);
@@ -897,10 +897,10 @@ class SurveyQuestion
 			{
 				foreach ($this->materials as $key => $value) 
 				{
-					$next_id = $ilDB->nextId('survey_question_material');
-					$affectedRows = $ilDB->manipulateF("INSERT INTO survey_question_material (material_id, question_fi, materials, materials_file) VALUES (%s, %s, %s, %s)",
-						array('integer','integer','text','text'),
-						array($next_id, $this->getId(), $key, $value)
+					$next_id = $ilDB->nextId('svy_qst_mat');
+					$affectedRows = $ilDB->manipulateF("INSERT INTO svy_qst_mat (material_id, question_fi, materials, materials_file, tstamp) VALUES (%s, %s, %s, %s, %s)",
+						array('integer','integer','text','text','integer'),
+						array($next_id, $this->getId(), $key, $value, time())
 					);
 				}
 			}
@@ -917,7 +917,7 @@ class SurveyQuestion
 	{
 		global $ilDB;
 		
-		$result = $ilDB->queryF("SELECT * FROM survey_question_material WHERE question_fi = %s",
+		$result = $ilDB->queryF("SELECT * FROM svy_qst_mat WHERE question_fi = %s",
 			array('integer'),
 			array($question_id)
 		);
@@ -1004,7 +1004,7 @@ class SurveyQuestion
 		
 		if ($question_id < 1) return;
       
-		$result = $ilDB->queryF("SELECT obj_fi FROM survey_question WHERE question_id = %s",
+		$result = $ilDB->queryF("SELECT obj_fi FROM svy_question WHERE question_id = %s",
 			array('integer'),
 			array($question_id)
 		);
@@ -1028,7 +1028,7 @@ class SurveyQuestion
 			array($question_id)
 		);
 
-		$result = $ilDB->queryF("SELECT constraint_id FROM survey_question_constraint WHERE question_fi = %s",
+		$result = $ilDB->queryF("SELECT constraint_id FROM svy_qst_constraint WHERE question_fi = %s",
 			array('integer'),
 			array($question_id)
 		);
@@ -1040,32 +1040,32 @@ class SurveyQuestion
 			);
 		}
 	
-		$affectedRows = $ilDB->manipulateF("DELETE FROM survey_question_constraint WHERE question_fi = %s",
+		$affectedRows = $ilDB->manipulateF("DELETE FROM svy_qst_constraint WHERE question_fi = %s",
 			array('integer'),
 			array($question_id)
 		);
 
-		$affectedRows = $ilDB->manipulateF("DELETE FROM survey_question_material WHERE question_fi = %s",
+		$affectedRows = $ilDB->manipulateF("DELETE FROM svy_qst_mat WHERE question_fi = %s",
 			array('integer'),
 			array($question_id)
 		);
-		$affectedRows = $ilDB->manipulateF("DELETE FROM survey_questionblock_question WHERE question_fi = %s",
+		$affectedRows = $ilDB->manipulateF("DELETE FROM svy_qblk_qst WHERE question_fi = %s",
 			array('integer'),
 			array($question_id)
 		);
-		$affectedRows = $ilDB->manipulateF("DELETE FROM survey_question_obligatory WHERE question_fi = %s",
+		$affectedRows = $ilDB->manipulateF("DELETE FROM svy_qst_oblig WHERE question_fi = %s",
 			array('integer'),
 			array($question_id)
 		);
-		$affectedRows = $ilDB->manipulateF("DELETE FROM survey_survey_question WHERE question_fi = %s",
+		$affectedRows = $ilDB->manipulateF("DELETE FROM svy_svy_qst WHERE question_fi = %s",
 			array('integer'),
 			array($question_id)
 		);
-		$affectedRows = $ilDB->manipulateF("DELETE FROM survey_variable WHERE question_fi = %s",
+		$affectedRows = $ilDB->manipulateF("DELETE FROM svy_variable WHERE question_fi = %s",
 			array('integer'),
 			array($question_id)
 		);
-		$affectedRows = $ilDB->manipulateF("DELETE FROM survey_question WHERE question_id = %s",
+		$affectedRows = $ilDB->manipulateF("DELETE FROM svy_question WHERE question_id = %s",
 			array('integer'),
 			array($question_id)
 		);
@@ -1113,7 +1113,7 @@ class SurveyQuestion
 
 		if ($question_id < 1) return "";
 
-		$result = $ilDB->queryF("SELECT type_tag FROM survey_question, survey_questiontype WHERE survey_question.question_id = %s AND survey_question.questiontype_fi = survey_questiontype.questiontype_id",
+		$result = $ilDB->queryF("SELECT type_tag FROM svy_question, svy_qtype WHERE svy_question.question_id = %s AND svy_question.questiontype_fi = svy_qtype.questiontype_id",
 			array('integer'),
 			array($question_id)
 		);
@@ -1141,7 +1141,7 @@ class SurveyQuestion
 
 		if ($question_id < 1) return "";
 
-		$result = $ilDB->queryF("SELECT title FROM survey_question WHERE survey_question.question_id = %s",
+		$result = $ilDB->queryF("SELECT title FROM svy_question WHERE svy_question.question_id = %s",
 			array('integer'),
 			array($question_id)
 		);
@@ -1166,7 +1166,7 @@ class SurveyQuestion
 	function _getOriginalId($question_id)
 	{
 		global $ilDB;
-		$result = $ilDB->queryF("SELECT * FROM survey_question WHERE question_id = %s",
+		$result = $ilDB->queryF("SELECT * FROM svy_question WHERE question_id = %s",
 			array('integer'),
 			array($question_id)
 		);
@@ -1280,7 +1280,7 @@ class SurveyQuestion
 			return false;
 		}
 		
-		$result = $ilDB->queryF("SELECT question_id FROM survey_question WHERE question_id = %s",
+		$result = $ilDB->queryF("SELECT question_id FROM svy_question WHERE question_id = %s",
 			array('integer'),
 			array($question_id)
 		);
@@ -1497,7 +1497,7 @@ class SurveyQuestion
 			return false;
 		}
 		
-		$result = $ilDB->queryF("SELECT obj_fi FROM survey_question WHERE question_id = %s",
+		$result = $ilDB->queryF("SELECT obj_fi FROM svy_question WHERE question_id = %s",
 			array('integer'),
 			array($question_id)
 		);
@@ -1523,7 +1523,7 @@ class SurveyQuestion
 	function getQuestionTypeID()
 	{
 		global $ilDB;
-		$result = $ilDB->queryF("SELECT questiontype_id FROM survey_questiontype WHERE type_tag = %s",
+		$result = $ilDB->queryF("SELECT questiontype_id FROM svy_qtype WHERE type_tag = %s",
 			array('text'),
 			array($this->getQuestionType())
 		);

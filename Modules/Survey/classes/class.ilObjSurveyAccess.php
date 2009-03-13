@@ -140,7 +140,7 @@ class ilObjSurveyAccess extends ilObjectAccess
 	{
 		global $ilDB;
 
-		$q = sprintf("SELECT * FROM survey_survey WHERE obj_fi=%s",
+		$q = sprintf("SELECT * FROM svy_svy WHERE obj_fi=%s",
 			$ilDB->quote($a_obj_id)
 		);
 		$result = $ilDB->query($q);
@@ -164,7 +164,7 @@ class ilObjSurveyAccess extends ilObjectAccess
 	{
 		global $ilDB;
 
-		$q = sprintf("SELECT * FROM survey_survey WHERE obj_fi=%s",
+		$q = sprintf("SELECT * FROM svy_svy WHERE obj_fi=%s",
 			$ilDB->quote($a_obj_id)
 		);
 		$result = $ilDB->query($q);
@@ -199,7 +199,7 @@ class ilObjSurveyAccess extends ilObjectAccess
 	{
 		global $ilDB;
 
-		$q = sprintf("SELECT anonymize FROM survey_survey WHERE obj_fi = %s",
+		$q = sprintf("SELECT anonymize FROM svy_svy WHERE obj_fi = %s",
 			$ilDB->quote($a_obj_id . "")
 		);
 		$result = $ilDB->query($q);
@@ -243,7 +243,7 @@ class ilObjSurveyAccess extends ilObjectAccess
 				if (ilObjSurveyAccess::_lookupAnonymize($a_obj_id) == 1) return true;
 				
 				global $ilDB;
-				$q = sprintf("SELECT survey_id FROM survey_survey WHERE obj_fi = %s",
+				$q = sprintf("SELECT survey_id FROM svy_svy WHERE obj_fi = %s",
 					$ilDB->quote($a_obj_id . "")
 				);
 				$result = $ilDB->query($q);
@@ -267,7 +267,7 @@ class ilObjSurveyAccess extends ilObjectAccess
 	{
 		global $ilDB;
 
-		$q = sprintf("SELECT * FROM survey_survey WHERE obj_fi=%s",
+		$q = sprintf("SELECT * FROM svy_svy WHERE obj_fi=%s",
 			$ilDB->quote($a_obj_id)
 		);
 		$result = $ilDB->query($q);
@@ -290,7 +290,7 @@ class ilObjSurveyAccess extends ilObjectAccess
 		$finished = "";
 		if (!strlen($a_user_id)) $a_user_id = $ilUser->getId();
 
-		$q = sprintf("SELECT * FROM survey_survey WHERE obj_fi = %s",
+		$q = sprintf("SELECT * FROM svy_svy WHERE obj_fi = %s",
 			$ilDB->quote($a_obj_id)
 		);
 		$result = $ilDB->query($q);

@@ -534,7 +534,7 @@ class SurveyMatrixQuestion extends SurveyQuestion
 	{
 		global $ilDB;
 		
-		$result = $ilDB->queryF("SELECT survey_question.*, " . $this->getAdditionalTableName() . ".* FROM survey_question, " . $this->getAdditionalTableName() . " WHERE survey_question.question_id = %s AND survey_question.question_id = " . $this->getAdditionalTableName() . ".question_fi",
+		$result = $ilDB->queryF("SELECT svy_question.*, " . $this->getAdditionalTableName() . ".* FROM svy_question, " . $this->getAdditionalTableName() . " WHERE svy_question.question_id = %s AND svy_question.question_id = " . $this->getAdditionalTableName() . ".question_fi",
 			array('integer'),
 			array($id)
 		);
@@ -557,7 +557,7 @@ class SurveyMatrixQuestion extends SurveyQuestion
 	function loadFromDb($id) 
 	{
 		global $ilDB;
-		$result = $ilDB->queryF("SELECT survey_question.*, " . $this->getAdditionalTableName() . ".* FROM survey_question, " . $this->getAdditionalTableName() . " WHERE survey_question.question_id = %s AND survey_question.question_id = " . $this->getAdditionalTableName() . ".question_fi",
+		$result = $ilDB->queryF("SELECT svy_question.*, " . $this->getAdditionalTableName() . ".* FROM svy_question, " . $this->getAdditionalTableName() . " WHERE svy_question.question_id = %s AND svy_question.question_id = " . $this->getAdditionalTableName() . ".question_fi",
 			array('integer'),
 			array($id)
 		);
@@ -595,7 +595,7 @@ class SurveyMatrixQuestion extends SurveyQuestion
 			$this->loadMaterialFromDb($id);
 			$this->flushColumns();
 
-			$result = $ilDB->queryF("SELECT survey_variable.*, svy_category.title, svy_category.neutral FROM survey_variable, svy_category WHERE survey_variable.question_fi = %s AND survey_variable.category_fi = svy_category.category_id ORDER BY sequence ASC",
+			$result = $ilDB->queryF("SELECT svy_variable.*, svy_category.title, svy_category.neutral FROM svy_variable, svy_category WHERE svy_variable.question_fi = %s AND svy_variable.category_fi = svy_category.category_id ORDER BY sequence ASC",
 				array('integer'),
 				array($id)
 			);
@@ -614,7 +614,7 @@ class SurveyMatrixQuestion extends SurveyQuestion
 				}
 			}
 			
-			$result = $ilDB->queryF("SELECT * FROM survey_question_matrix_rows WHERE question_fi = %s ORDER BY sequence",
+			$result = $ilDB->queryF("SELECT * FROM svy_qst_matrixrows WHERE question_fi = %s ORDER BY sequence",
 				array('integer'),
 				array($id)
 			);
@@ -669,8 +669,8 @@ class SurveyMatrixQuestion extends SurveyQuestion
 		if ($this->getId() == -1) 
 		{
 			// Write new dataset
-			$next_id = $ilDB->nextId('survey_question');
-			$affectedRows = $ilDB->manipulateF("INSERT INTO survey_question (question_id, questiontype_fi, obj_fi, owner_fi, title, description, author, questiontext, obligatory, complete, created, original_id, tstamp) VALUES (%s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s)",
+			$next_id = $ilDB->nextId('svy_question');
+			$affectedRows = $ilDB->manipulateF("INSERT INTO svy_question (question_id, questiontype_fi, obj_fi, owner_fi, title, description, author, questiontext, obligatory, complete, created, original_id, tstamp) VALUES (%s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s)",
 				array('integer', 'integer', 'integer', 'integer', 'text', 'text', 'text', 'text', 'text', 'text', 'integer', 'integer', 'integer'),
 				array(
 					$next_id,
@@ -693,7 +693,7 @@ class SurveyMatrixQuestion extends SurveyQuestion
 		else 
 		{
 			// update existing dataset
-			$affectedRows = $ilDB->manipulateF("UPDATE survey_question SET title = %s, description = %s, author = %s, questiontext = %s, obligatory = %s, complete = %s, tstamp = %s WHERE question_id = %s",
+			$affectedRows = $ilDB->manipulateF("UPDATE svy_question SET title = %s, description = %s, author = %s, questiontext = %s, obligatory = %s, complete = %s, tstamp = %s WHERE question_id = %s",
 				array('text', 'text', 'text', 'text', 'text', 'text', 'integer', 'integer'),
 				array(
 					$this->getTitle(),
@@ -823,7 +823,7 @@ class SurveyMatrixQuestion extends SurveyQuestion
 		}
 		
 		// delete existing column relations
-		$affectedRows = $ilDB->manipulateF("DELETE FROM survey_variable WHERE question_fi = %s",
+		$affectedRows = $ilDB->manipulateF("DELETE FROM svy_variable WHERE question_fi = %s",
 			array('integer'),
 			array($question_id)
 		);
@@ -832,8 +832,8 @@ class SurveyMatrixQuestion extends SurveyQuestion
 		{
 			$cat = $this->getColumn($i);
 			$column_id = $this->saveColumnToDb($cat);
-			$next_id = $ilDB->nextId('survey_variable');
-			$affectedRows = $ilDB->manipulateF("INSERT INTO survey_variable (variable_id, category_fi, question_fi, value1, value2, sequence, tstamp) VALUES (%s, %s, %s, %s, %s, %s, %s)",
+			$next_id = $ilDB->nextId('svy_variable');
+			$affectedRows = $ilDB->manipulateF("INSERT INTO svy_variable (variable_id, category_fi, question_fi, value1, value2, sequence, tstamp) VALUES (%s, %s, %s, %s, %s, %s, %s)",
 				array('integer','integer','integer','float','float','integer','integer'),
 				array($next_id, $column_id, $question_id, ($i + 1), NULL, $i, time())
 			);
@@ -841,7 +841,7 @@ class SurveyMatrixQuestion extends SurveyQuestion
 		if (strlen($this->getNeutralColumn()))
 		{
 			$column_id = $this->saveColumnToDb($this->getNeutralColumn(), 1);
-			$affectedRows = $ilDB->manipulateF("INSERT INTO survey_variable (variable_id, category_fi, question_fi, value1, value2, sequence, tstamp) VALUES (%s, %s, %s, %s, %s, %s, %s)",
+			$affectedRows = $ilDB->manipulateF("INSERT INTO svy_variable (variable_id, category_fi, question_fi, value1, value2, sequence, tstamp) VALUES (%s, %s, %s, %s, %s, %s, %s)",
 				array('integer','integer','integer','float','float','integer','integer'),
 				array($next_id, $column_id, $question_id, ($i + 1), NULL, $i, time())
 			);
@@ -861,7 +861,7 @@ class SurveyMatrixQuestion extends SurveyQuestion
 		}
 		
 		// delete existing rows
-		$affectedRows = $ilDB->manipulateF("DELETE FROM survey_question_matrix_rows WHERE question_fi = %s",
+		$affectedRows = $ilDB->manipulateF("DELETE FROM svy_qst_matrixrows WHERE question_fi = %s",
 			array('integer'),
 			array($question_id)
 		);
@@ -869,8 +869,8 @@ class SurveyMatrixQuestion extends SurveyQuestion
 		for ($i = 0; $i < $this->getRowCount(); $i++)
 		{
 			$row = $this->getRow($i);
-			$next_id = $ilDB->nextId('survey_question_matrix_rows');
-			$affectedRows = $ilDB->manipulateF("INSERT INTO survey_question_matrix_rows (id_survey_question_matrix_rows, title, sequence, question_fi) VALUES (%s, %s, %s, %s)",
+			$next_id = $ilDB->nextId('svy_qst_matrixrows');
+			$affectedRows = $ilDB->manipulateF("INSERT INTO svy_qst_matrixrows (id_svy_qst_matrixrows, title, sequence, question_fi) VALUES (%s, %s, %s, %s)",
 				array('integer','text','integer','integer'),
 				array($next_id, $row, $i, $question_id)
 			);
@@ -1132,7 +1132,7 @@ class SurveyMatrixQuestion extends SurveyQuestion
 	*/
 	function getAdditionalTableName()
 	{
-		return "survey_question_matrix";
+		return "svy_qst_matrix";
 	}
 	
 	/**
@@ -1281,7 +1281,7 @@ class SurveyMatrixQuestion extends SurveyQuestion
 		parent::deleteAdditionalTableData($question_id);
 		
 		global $ilDB;
-		$affectedRows = $ilDB->manipulateF("DELETE FROM survey_question_matrix_rows WHERE question_fi = %s",
+		$affectedRows = $ilDB->manipulateF("DELETE FROM svy_qst_matrixrows WHERE question_fi = %s",
 			array('integer'),
 			array($question_id)
 		);
@@ -2203,7 +2203,7 @@ class SurveyMatrixQuestion extends SurveyQuestion
 			"percent_bipolar_adjective2" => $percent_bipolar_adjective2,
 			"percent_neutral" => $percent_neutral
 		);
-		$affectedRows = $ilDB->manipulateF("UPDATE survey_question_matrix SET layout = %s WHERE question_fi = %s",
+		$affectedRows = $ilDB->manipulateF("UPDATE " . $this->getAdditionalTableName() . " SET layout = %s WHERE question_fi = %s",
 			array('text', 'integer'),
 			array(serialize($layout), $this->getId())
 		);

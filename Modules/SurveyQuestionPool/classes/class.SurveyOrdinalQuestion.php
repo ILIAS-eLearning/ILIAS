@@ -138,7 +138,7 @@ class SurveyOrdinalQuestion extends SurveyQuestion
 	{
 		global $ilDB;
 		
-		$result = $ilDB->queryF("SELECT survey_question.*, " . $this->getAdditionalTableName() . ".* FROM survey_question, " . $this->getAdditionalTableName() . " WHERE survey_question.question_id = %s AND survey_question.question_id = " . $this->getAdditionalTableName() . ".question_fi",
+		$result = $ilDB->queryF("SELECT svy_question.*, " . $this->getAdditionalTableName() . ".* FROM svy_question, " . $this->getAdditionalTableName() . " WHERE svy_question.question_id = %s AND svy_question.question_id = " . $this->getAdditionalTableName() . ".question_fi",
 			array('integer'),
 			array($id)
 		);
@@ -162,7 +162,7 @@ class SurveyOrdinalQuestion extends SurveyQuestion
 	{
 		global $ilDB;
 
-		$result = $ilDB->queryF("SELECT survey_question.*, " . $this->getAdditionalTableName() . ".* FROM survey_question, " . $this->getAdditionalTableName() . " WHERE survey_question.question_id = %s AND survey_question.question_id = " . $this->getAdditionalTableName() . ".question_fi",
+		$result = $ilDB->queryF("SELECT svy_question.*, " . $this->getAdditionalTableName() . ".* FROM svy_question, " . $this->getAdditionalTableName() . " WHERE svy_question.question_id = %s AND svy_question.question_id = " . $this->getAdditionalTableName() . ".question_fi",
 			array('integer'),
 			array($id)
 		);
@@ -185,7 +185,7 @@ class SurveyOrdinalQuestion extends SurveyQuestion
 			$this->loadMaterialFromDb($id);
 
 			$this->categories->flushCategories();
-			$result = $ilDB->queryF("SELECT survey_variable.*, svy_category.title FROM survey_variable, svy_category WHERE survey_variable.question_fi = %s AND survey_variable.category_fi = svy_category.category_id ORDER BY sequence ASC",
+			$result = $ilDB->queryF("SELECT svy_variable.*, svy_category.title FROM svy_variable, svy_category WHERE svy_variable.question_fi = %s AND svy_variable.category_fi = svy_category.category_id ORDER BY sequence ASC",
 				array('integer'),
 				array($id)
 			);
@@ -236,8 +236,8 @@ class SurveyOrdinalQuestion extends SurveyQuestion
 		if ($this->getId() == -1) 
 		{
 			// Write new dataset
-			$next_id = $ilDB->nextId('survey_question');
-			$affectedRows = $ilDB->manipulateF("INSERT INTO survey_question (question_id, questiontype_fi, obj_fi, owner_fi, title, description, author, questiontext, obligatory, complete, created, original_id, tstamp) VALUES (%s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s)",
+			$next_id = $ilDB->nextId('svy_question');
+			$affectedRows = $ilDB->manipulateF("INSERT INTO svy_question (question_id, questiontype_fi, obj_fi, owner_fi, title, description, author, questiontext, obligatory, complete, created, original_id, tstamp) VALUES (%s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s)",
 				array('integer', 'integer', 'integer', 'integer', 'text', 'text', 'text', 'text', 'text', 'text', 'integer', 'integer', 'integer'),
 				array(
 					$next_id,
@@ -260,7 +260,7 @@ class SurveyOrdinalQuestion extends SurveyQuestion
 		else 
 		{
 			// update existing dataset
-			$affectedRows = $ilDB->manipulateF("UPDATE survey_question SET title = %s, description = %s, author = %s, questiontext = %s, obligatory = %s, complete = %s, tstamp = %s WHERE question_id = %s",
+			$affectedRows = $ilDB->manipulateF("UPDATE svy_question SET title = %s, description = %s, author = %s, questiontext = %s, obligatory = %s, complete = %s, tstamp = %s WHERE question_id = %s",
 				array('text', 'text', 'text', 'text', 'text', 'text', 'integer', 'integer'),
 				array(
 					$this->getTitle(),
@@ -299,7 +299,7 @@ class SurveyOrdinalQuestion extends SurveyQuestion
 	{
 		global $ilDB;
 		
-		$affectedRows = $ilDB->manipulateF("DELETE FROM survey_variable WHERE question_fi = %s",
+		$affectedRows = $ilDB->manipulateF("DELETE FROM svy_variable WHERE question_fi = %s",
 			array('integer'),
 			array($this->getId())
 		);
@@ -307,8 +307,8 @@ class SurveyOrdinalQuestion extends SurveyQuestion
 		for ($i = 0; $i < $this->categories->getCategoryCount(); $i++)
 		{
 			$category_id = $this->saveCategoryToDb($this->categories->getCategory($i));
-			$next_id = $ilDB->nextId('survey_variable');
-			$affectedRows = $ilDB->manipulateF("INSERT INTO survey_variable (variable_id, category_fi, question_fi, value1, sequence, tstamp) VALUES (%s, %s, %s, %s, %s, %s)",
+			$next_id = $ilDB->nextId('svy_variable');
+			$affectedRows = $ilDB->manipulateF("INSERT INTO svy_variable (variable_id, category_fi, question_fi, value1, sequence, tstamp) VALUES (%s, %s, %s, %s, %s, %s)",
 				array('integer','integer','integer','float','integer','integer'),
 				array($next_id, $category_id, $this->getId(), ($i + 1), $i, time())
 			);
@@ -474,7 +474,7 @@ class SurveyOrdinalQuestion extends SurveyQuestion
 	*/
 	function getAdditionalTableName()
 	{
-		return "survey_question_ordinal";
+		return "svy_qst_ordinal";
 	}
 	
 	/**

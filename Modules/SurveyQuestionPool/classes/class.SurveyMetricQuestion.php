@@ -177,7 +177,7 @@ class SurveyMetricQuestion extends SurveyQuestion
 	{
 		global $ilDB;
 		
-		$result = $ilDB->queryF("SELECT survey_question.*, " . $this->getAdditionalTableName() . ".* FROM survey_question, " . $this->getAdditionalTableName() . " WHERE survey_question.question_id = %s AND survey_question.question_id = " . $this->getAdditionalTableName() . ".question_fi",
+		$result = $ilDB->queryF("SELECT svy_question.*, " . $this->getAdditionalTableName() . ".* FROM svy_question, " . $this->getAdditionalTableName() . " WHERE svy_question.question_id = %s AND svy_question.question_id = " . $this->getAdditionalTableName() . ".question_fi",
 			array('integer'),
 			array($id)
 		);
@@ -201,7 +201,7 @@ class SurveyMetricQuestion extends SurveyQuestion
 	{
 		global $ilDB;
 
-		$result = $ilDB->queryF("SELECT survey_question.*, " . $this->getAdditionalTableName() . ".* FROM survey_question, " . $this->getAdditionalTableName() . " WHERE survey_question.question_id = %s AND survey_question.question_id = " . $this->getAdditionalTableName() . ".question_fi",
+		$result = $ilDB->queryF("SELECT svy_question.*, " . $this->getAdditionalTableName() . ".* FROM svy_question, " . $this->getAdditionalTableName() . " WHERE svy_question.question_id = %s AND svy_question.question_id = " . $this->getAdditionalTableName() . ".question_fi",
 			array('integer'),
 			array($id)
 		);
@@ -223,7 +223,7 @@ class SurveyMetricQuestion extends SurveyQuestion
 			// loads materials uris from database
 			$this->loadMaterialFromDb($id);
 
-			$result = $ilDB->queryF("SELECT survey_variable.* FROM survey_variable WHERE survey_variable.question_fi = %s",
+			$result = $ilDB->queryF("SELECT svy_variable.* FROM svy_variable WHERE svy_variable.question_fi = %s",
 				array('integer'),
 				array($id)
 			);
@@ -281,8 +281,8 @@ class SurveyMetricQuestion extends SurveyQuestion
 		if ($this->getId() == -1) 
 		{
 			// Write new dataset
-			$next_id = $ilDB->nextId('survey_question');
-			$affectedRows = $ilDB->manipulateF("INSERT INTO survey_question (question_id, questiontype_fi, obj_fi, owner_fi, title, description, author, questiontext, obligatory, complete, created, original_id, tstamp) VALUES (%s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s)",
+			$next_id = $ilDB->nextId('svy_question');
+			$affectedRows = $ilDB->manipulateF("INSERT INTO svy_question (question_id, questiontype_fi, obj_fi, owner_fi, title, description, author, questiontext, obligatory, complete, created, original_id, tstamp) VALUES (%s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s)",
 				array('integer', 'integer', 'integer', 'integer', 'text', 'text', 'text', 'text', 'text', 'text', 'integer', 'integer', 'integer'),
 				array(
 					$next_id,
@@ -305,7 +305,7 @@ class SurveyMetricQuestion extends SurveyQuestion
 		else 
 		{
 			// update existing dataset
-			$affectedRows = $ilDB->manipulateF("UPDATE survey_question SET title = %s, description = %s, author = %s, questiontext = %s, obligatory = %s, complete = %s, tstamp = %s WHERE question_id = %s",
+			$affectedRows = $ilDB->manipulateF("UPDATE svy_question SET title = %s, description = %s, author = %s, questiontext = %s, obligatory = %s, complete = %s, tstamp = %s WHERE question_id = %s",
 				array('text', 'text', 'text', 'text', 'text', 'text', 'integer', 'integer'),
 				array(
 					$this->getTitle(),
@@ -334,7 +334,7 @@ class SurveyMetricQuestion extends SurveyQuestion
 			$this->saveMaterialsToDb();
 			
 			// save categories
-			$affectedRows = $ilDB->manipulateF("DELETE FROM survey_variable WHERE question_fi = %s",
+			$affectedRows = $ilDB->manipulateF("DELETE FROM svy_variable WHERE question_fi = %s",
 				array('integer'),
 				array($this->getId())
 			);
@@ -347,8 +347,8 @@ class SurveyMetricQuestion extends SurveyQuestion
 			{
 				$max = $this->getMaximum();
 			}
-			$next_id = $ilDB->nextId('survey_variable');
-			$affectedRows = $ilDB->manipulateF("INSERT INTO survey_variable (variable_id, category_fi, question_fi, value1, value2, sequence, tstamp) VALUES (%s, %s, %s, %s, %s, %s, %s)",
+			$next_id = $ilDB->nextId('svy_variable');
+			$affectedRows = $ilDB->manipulateF("INSERT INTO svy_variable (variable_id, category_fi, question_fi, value1, value2, sequence, tstamp) VALUES (%s, %s, %s, %s, %s, %s, %s)",
 				array('integer','integer','integer','float','float','integer','integer'),
 				array($next_id, 0, $this->getId(), $this->getMinimum(), $max, 0, time())
 			);
@@ -483,7 +483,7 @@ class SurveyMetricQuestion extends SurveyQuestion
 	function getQuestionTypeID()
 	{
 		global $ilDB;
-		$result = $ilDB->queryF("SELECT questiontype_id FROM survey_questiontype WHERE type_tag = %s",
+		$result = $ilDB->queryF("SELECT questiontype_id FROM svy_qtype WHERE type_tag = %s",
 			array('text'),
 			array($this->getQuestionType())
 		);
@@ -510,7 +510,7 @@ class SurveyMetricQuestion extends SurveyQuestion
 	*/
 	function getAdditionalTableName()
 	{
-		return "survey_question_metric";
+		return "svy_qst_metric";
 	}
 	
 	/**

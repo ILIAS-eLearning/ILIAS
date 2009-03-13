@@ -5,7 +5,7 @@
 		<xi:include href="../../Services/Tagging/LuceneDataSource.xml" />
 		<DataSource type="JDBC" action="append">
 			<Query>
-				SELECT introduction FROM survey_survey
+				SELECT introduction FROM svy_svy
 				WHERE obj_fi IN(?);
 			</Query>
 			<Param format="list" type="int" value="objId" />
