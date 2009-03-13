@@ -140,20 +140,19 @@ class ilObjSurveyAccess extends ilObjectAccess
 	{
 		global $ilDB;
 
-		$q = sprintf("SELECT * FROM svy_svy WHERE obj_fi=%s",
-			$ilDB->quote($a_obj_id)
+		$result = $ilDB->queryF("SELECT * FROM svy_svy WHERE obj_fi=%s",
+			array('integer'),
+			array($a_obj_id)
 		);
-		$result = $ilDB->query($q);
 
 		if ($result->numRows() == 1)
 		{
-			$row = $result->fetchRow(MDB2_FETCHMODE_OBJECT);
+			$row = $ilDB->fetchAssoc($result);
 		}
-		if (!$row->complete)
+		if (!$row["complete"])
 		{
 			return false;
 		}
-
 		return true;
 	}
 
@@ -164,48 +163,40 @@ class ilObjSurveyAccess extends ilObjectAccess
 	{
 		global $ilDB;
 
-		$q = sprintf("SELECT * FROM svy_svy WHERE obj_fi=%s",
-			$ilDB->quote($a_obj_id)
+		$result = $ilDB->queryF("SELECT * FROM svy_svy WHERE obj_fi=%s",
+			array('integer'),
+			array($a_obj_id)
 		);
-		$result = $ilDB->query($q);
 		if ($result->numRows() == 1)
 		{
-			$row = $result->fetchRow(MDB2_FETCHMODE_OBJECT);
+			$row = $ilDB->fetchAssoc($result);
 		}
 
-		return $row->evaluation_access;
+		return $row["evaluation_access"];
 	}
 	
 	function _isSurveyParticipant($user_id, $survey_id)
 	{
 		global $ilDB;
 
-		$q = sprintf("SELECT finished_id FROM svy_finished WHERE user_fi = %s AND survey_fi = %s",
-			$ilDB->quote($user_id . ""),
-			$ilDB->quote($survey_id . "")
+		$result = $ilDB->queryF("SELECT finished_id FROM svy_finished WHERE user_fi = %s AND survey_fi = %s",
+			array('integer','integer'),
+			array($user_id, $survey_id)
 		);
-		$result = $ilDB->query($q);
-		if ($result->numRows() == 1)
-		{
-			return true;
-		}
-		else
-		{
-			return false;
-		}
+		return ($result->numRows() == 1) ? true : false;
 	}
 	
 	function _lookupAnonymize($a_obj_id)
 	{
 		global $ilDB;
 
-		$q = sprintf("SELECT anonymize FROM svy_svy WHERE obj_fi = %s",
-			$ilDB->quote($a_obj_id . "")
+		$result = $ilDB->queryF("SELECT anonymize FROM svy_svy WHERE obj_fi = %s",
+			array('integer'),
+			array($a_obj_id)
 		);
-		$result = $ilDB->query($q);
 		if ($result->numRows() == 1)
 		{
-			$row = $result->fetchRow(MDB2_FETCHMODE_ASSOC);
+			$row = $ilDB->fetchAssoc($result);
 			return $row["anonymize"];
 		}
 		else
@@ -243,13 +234,13 @@ class ilObjSurveyAccess extends ilObjectAccess
 				if (ilObjSurveyAccess::_lookupAnonymize($a_obj_id) == 1) return true;
 				
 				global $ilDB;
-				$q = sprintf("SELECT survey_id FROM svy_svy WHERE obj_fi = %s",
-					$ilDB->quote($a_obj_id . "")
+				$result = $ilDB->queryF("SELECT survey_id FROM svy_svy WHERE obj_fi = %s",
+					array('integer'),
+					array($a_obj_id)
 				);
-				$result = $ilDB->query($q);
 				if ($result->numRows() == 1)
 				{
-					$row = $result->fetchRow(MDB2_FETCHMODE_ASSOC);
+					$row = $ilDB->fetchAssoc($result);
 					if (ilObjSurveyAccess::_isSurveyParticipant($user_id, $row["survey_id"]))
 					{
 						return true;
@@ -267,15 +258,15 @@ class ilObjSurveyAccess extends ilObjectAccess
 	{
 		global $ilDB;
 
-		$q = sprintf("SELECT * FROM svy_svy WHERE obj_fi=%s",
-			$ilDB->quote($a_obj_id)
+		$result = $ilDB->queryF("SELECT * FROM svy_svy WHERE obj_fi=%s",
+			array('integer'),
+			array($a_obj_id)
 		);
-		$result = $ilDB->query($q);
 		if ($result->numRows() == 1) {
-			$row = $result->fetchRow(MDB2_FETCHMODE_OBJECT);
+			$row = $ilDB->fetchAssoc($result);
 		}
 
-		return $row->status;
+		return $row["status"];
 	}
 
 	/**
@@ -290,32 +281,33 @@ class ilObjSurveyAccess extends ilObjectAccess
 		$finished = "";
 		if (!strlen($a_user_id)) $a_user_id = $ilUser->getId();
 
-		$q = sprintf("SELECT * FROM svy_svy WHERE obj_fi = %s",
-			$ilDB->quote($a_obj_id)
+		$result = $ilDB->queryF("SELECT * FROM svy_svy WHERE obj_fi = %s",
+			array('integer'),
+			array($a_obj_id)
 		);
-		$result = $ilDB->query($q);
 		if ($result->numRows() == 1)
 		{
-			$row = $result->fetchRow(MDB2_FETCHMODE_OBJECT);
+			$row = $ilDB->fetchObject($result);
 			if ($row->anonymize == 1)
 			{
-				$q = sprintf("SELECT * FROM svy_finished, svy_anonymous WHERE svy_finished.survey_fi = %s AND svy_finished.survey_fi = svy_anonymous.survey_fi AND svy_anonymous.user_key = %s AND svy_anonymous.survey_key = svy_finished.anonymous_id",
-					$ilDB->quote($row->survey_id),
-					$ilDB->quote(md5($a_user_id) . "")
+				$result = $ilDB->queryF("SELECT * FROM svy_finished, svy_anonymous WHERE svy_finished.survey_fi = %s ".
+					"AND svy_finished.survey_fi = svy_anonymous.survey_fi AND svy_anonymous.user_key = %s ".
+					"AND svy_anonymous.survey_key = svy_finished.anonymous_id",
+					array('integer','text'),
+					array($row->survey_id, md5($a_user_id))
 				);
 			}
 			else
 			{
-				$q = sprintf("SELECT * FROM svy_finished WHERE survey_fi = %s AND user_fi = %s",
-					$ilDB->quote($row->survey_id),
-					$ilDB->quote($a_user_id)
+				$result = $ilDB->queryF("SELECT * FROM svy_finished WHERE survey_fi = %s AND user_fi = %s",
+					array('integer','integer'),
+					array($row->survey_id, $a_user_id)
 				);
 			}
-			$result = $ilDB->query($q);
 			if ($result->numRows() == 1)
 			{
-				$row = $result->fetchRow(MDB2_FETCHMODE_OBJECT);
-				$finished = (int)$row->state;
+				$foundrow = $ilDB->fetchAssoc($result);
+				$finished = (int)$foundrow["state"];
 			}
 		}
 
