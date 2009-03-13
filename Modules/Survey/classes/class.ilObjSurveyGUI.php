@@ -1964,13 +1964,12 @@ class ilObjSurveyGUI extends ilObjectGUI
 		if ($rbacsystem->checkAccess("write", $this->ref_id) and !$hasDatasets) 
 		{
 			$this->tpl->setCurrentBlock("QTypes");
-			$query = "SELECT * FROM survey_questiontype";
-			$query_result = $this->ilias->db->query($query);
-			include_once "./Modules/SurveyQuestionPool/classes/class.SurveyQuestion.php";
-			while ($data = $query_result->fetchRow(MDB2_FETCHMODE_OBJECT))
+			include_once "./Modules/SurveyQuestionPool/classes/class.ilObjSurveyQuestionPool.php";
+			$qtypes = ilObjSurveyQuestionPool::_getQuestiontypes();
+			foreach ($qtypes as $translation => $data)
 			{
-				$this->tpl->setVariable("QUESTION_TYPE_ID", $data->type_tag);
-				$this->tpl->setVariable("QUESTION_TYPE", SurveyQuestion::_getQuestionTypeName($data->type_tag));
+				$this->tpl->setVariable("QUESTION_TYPE_ID", $data["type_tag"]);
+				$this->tpl->setVariable("QUESTION_TYPE", $translation);
 				$this->tpl->parseCurrentBlock();
 			}
 			$this->tpl->parseCurrentBlock();

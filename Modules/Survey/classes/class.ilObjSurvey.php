@@ -320,12 +320,12 @@ class ilObjSurvey extends ilObject
 	{
 		global $ilDB;
 		
-		$query = sprintf("DELETE FROM survey_survey WHERE survey_id = %s",
+		$query = sprintf("DELETE FROM svy_svy WHERE survey_id = %s",
 			$ilDB->quote($this->getSurveyId())
 		);
 		$result = $ilDB->query($query);
 
-		$query = sprintf("SELECT questionblock_fi FROM survey_questionblock_question WHERE survey_fi = %s",
+		$query = sprintf("SELECT questionblock_fi FROM svy_qblk_qst WHERE survey_fi = %s",
 			$ilDB->quote($this->getSurveyId())
 		);
 		$result = $ilDB->query($query);
@@ -336,10 +336,10 @@ class ilObjSurvey extends ilObject
 		}
 		if (count($questionblocks))
 		{
-			$query = "DELETE FROM survey_questionblock WHERE questionblock_id IN ('" . join($questionblocks, "','") . "')";
+			$query = "DELETE FROM svy_qblk WHERE questionblock_id IN ('" . join($questionblocks, "','") . "')";
 			$result = $ilDB->query($query);
 		}
-		$query = sprintf("DELETE FROM survey_questionblock_question WHERE survey_fi = %s",
+		$query = sprintf("DELETE FROM svy_qblk_qst WHERE survey_fi = %s",
 			$ilDB->quote($this->getSurveyId())
 		);
 		$result = $ilDB->query($query);
@@ -612,7 +612,7 @@ class ilObjSurvey extends ilObject
 		}
     if ($this->survey_id > 0) 
 		{
-			$query = sprintf("UPDATE survey_survey SET complete = %s WHERE survey_id = %s",
+			$query = sprintf("UPDATE svy_svy SET complete = %s WHERE survey_id = %s",
 				$ilDB->quote("$complete"),
 				$ilDB->quote($this->survey_id) 
 			);
@@ -658,13 +658,13 @@ class ilObjSurvey extends ilObject
 		else
 		{
 			// get maximum sequence index in test
-			$query = sprintf("SELECT survey_question_id FROM survey_survey_question WHERE survey_fi = %s",
+			$query = sprintf("SELECT survey_question_id FROM svy_svy_qst WHERE survey_fi = %s",
 				$ilDB->quote($this->getSurveyId())
 			);
 			$result = $ilDB->query($query);
 			$sequence = $result->numRows();
 			$duplicate_id = $this->duplicateQuestionForSurvey($question_id);
-			$query = sprintf("INSERT INTO survey_survey_question (survey_question_id, survey_fi, question_fi, sequence, TIMESTAMP) VALUES (NULL, %s, %s, %s, NULL)",
+			$query = sprintf("INSERT INTO svy_svy_qst (survey_question_id, survey_fi, question_fi, sequence, TIMESTAMP) VALUES (NULL, %s, %s, %s, NULL)",
 				$ilDB->quote($this->getSurveyId()),
 				$ilDB->quote($duplicate_id),
 				$ilDB->quote($sequence)
@@ -692,7 +692,7 @@ class ilObjSurvey extends ilObject
 	function insertQuestionblock($questionblock_id) 
 	{
 		global $ilDB;
-		$query = sprintf("SELECT survey_questionblock.title, survey_questionblock.show_questiontext, survey_questionblock_question.question_fi FROM survey_questionblock, survey_questionblock_question, survey_survey_question WHERE survey_questionblock.questionblock_id = survey_questionblock_question.questionblock_fi AND survey_survey_question.question_fi = survey_questionblock_question.question_fi AND survey_questionblock.questionblock_id = %s ORDER BY survey_survey_question.sequence",
+		$query = sprintf("SELECT svy_qblk.title, svy_qblk.show_questiontext, svy_qblk_qst.question_fi FROM svy_qblk, svy_qblk_qst, svy_svy_qst WHERE svy_qblk.questionblock_id = svy_qblk_qst.questionblock_fi AND svy_svy_qst.question_fi = svy_qblk_qst.question_fi AND svy_qblk.questionblock_id = %s ORDER BY svy_svy_qst.sequence",
 			$ilDB->quote($questionblock_id)
 		);
 		$result = $ilDB->query($query);
@@ -784,7 +784,7 @@ class ilObjSurvey extends ilObject
       // Write new dataset
       $now = getdate();
       $created = sprintf("%04d%02d%02d%02d%02d%02d", $now['year'], $now['mon'], $now['mday'], $now['hours'], $now['minutes'], $now['seconds']);
-      $query = sprintf("INSERT INTO survey_survey (survey_id, obj_fi, author, introduction, outro, status, startdate, enddate, evaluation_access, invitation, invitation_mode, complete, created, anonymize, show_question_titles, TIMESTAMP) VALUES (NULL, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, NULL)",
+      $query = sprintf("INSERT INTO svy_svy (survey_id, obj_fi, author, introduction, outro, status, startdate, enddate, evaluation_access, invitation, invitation_mode, complete, created, anonymize, show_question_titles, TIMESTAMP) VALUES (NULL, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, NULL)",
 				$ilDB->quote($this->getId()),
 				$ilDB->quote($this->author . ""),
 				$ilDB->quote(ilRTE::_replaceMediaObjectImageSrc($this->introduction, 0)),
@@ -814,7 +814,7 @@ class ilObjSurvey extends ilObject
 		else 
 		{
 			// update existing dataset
-			$query = sprintf("UPDATE survey_survey SET author = %s, introduction = %s, outro = %s, status = %s, startdate = %s, enddate = %s, evaluation_access = %s, invitation = %s, invitation_mode = %s, complete = %s, anonymize = %s, show_question_titles = %s WHERE survey_id = %s",
+			$query = sprintf("UPDATE svy_svy SET author = %s, introduction = %s, outro = %s, status = %s, startdate = %s, enddate = %s, evaluation_access = %s, invitation = %s, invitation_mode = %s, complete = %s, anonymize = %s, show_question_titles = %s WHERE survey_id = %s",
 				$ilDB->quote($this->author . ""),
 				$ilDB->quote(ilRTE::_replaceMediaObjectImageSrc($this->introduction, 0)),
 				$ilDB->quote(ilRTE::_replaceMediaObjectImageSrc($this->getOutro(), 0)),
@@ -856,7 +856,7 @@ class ilObjSurvey extends ilObject
 		global $ilDB;
 		// save old questions state
 		$old_questions = array();
-		$query = sprintf("SELECT * FROM survey_survey_question WHERE survey_fi = %s",
+		$query = sprintf("SELECT * FROM svy_svy_qst WHERE survey_fi = %s",
 			$ilDB->quote($this->getSurveyId())
 		);
 		$result = $ilDB->query($query);
@@ -869,14 +869,14 @@ class ilObjSurvey extends ilObject
 		}
 		
 		// delete existing question relations
-    $query = sprintf("DELETE FROM survey_survey_question WHERE survey_fi = %s",
+    $query = sprintf("DELETE FROM svy_svy_qst WHERE survey_fi = %s",
 			$ilDB->quote($this->getSurveyId())
 		);
 		$result = $ilDB->query($query);
 		// create new question relations
 		foreach ($this->questions as $key => $value) 
 		{
-			$query = sprintf("INSERT INTO survey_survey_question (survey_question_id, survey_fi, question_fi, heading, sequence, TIMESTAMP) VALUES (NULL, %s, %s, %s, %s, NULL)",
+			$query = sprintf("INSERT INTO svy_svy_qst (survey_question_id, survey_fi, question_fi, heading, sequence, TIMESTAMP) VALUES (NULL, %s, %s, %s, %s, NULL)",
 				$ilDB->quote($this->getSurveyId() . ""),
 				$ilDB->quote($value . ""),
 				$ilDB->quote($old_questions[$value]["heading"]),
@@ -940,7 +940,7 @@ class ilObjSurvey extends ilObject
 	{
 		global $ilDB;
     if ($question_id < 1) return -1;
-    $query = sprintf("SELECT type_tag FROM survey_question, survey_questiontype WHERE survey_question.question_id = %s AND survey_question.questiontype_fi = survey_questiontype.questiontype_id",
+    $query = sprintf("SELECT type_tag FROM svy_question, svy_qtype WHERE svy_question.question_id = %s AND svy_question.questiontype_fi = svy_qtype.questiontype_id",
       $ilDB->quote($question_id)
     );
     $result = $ilDB->query($query);
@@ -1013,7 +1013,7 @@ class ilObjSurvey extends ilObject
 	function loadFromDb()
 	{
 		global $ilDB;
-		$query = sprintf("SELECT * FROM survey_survey WHERE obj_fi = %s",
+		$query = sprintf("SELECT * FROM svy_svy WHERE obj_fi = %s",
 			$ilDB->quote($this->getId())
 		);
 		$result = $ilDB->query($query);
@@ -1086,7 +1086,7 @@ class ilObjSurvey extends ilObject
 	{
 		global $ilDB;
 		$this->questions = array();
-		$query = sprintf("SELECT * FROM survey_survey_question WHERE survey_fi = %s ORDER BY sequence",
+		$query = sprintf("SELECT * FROM svy_svy_qst WHERE survey_fi = %s ORDER BY sequence",
 			$ilDB->quote($this->survey_id)
 		);
 		$result = $ilDB->query($query);
@@ -1893,7 +1893,7 @@ class ilObjSurvey extends ilObject
 	{
 		global $ilDB;
 		$existing_questions = array();
-		$query = sprintf("SELECT survey_question.original_id FROM survey_question, survey_survey_question WHERE survey_survey_question.survey_fi = %s AND survey_survey_question.question_fi = survey_question.question_id",
+		$query = sprintf("SELECT svy_question.original_id FROM svy_question, svy_svy_qst WHERE svy_svy_qst.survey_fi = %s AND svy_svy_qst.question_fi = svy_question.question_id",
 			$ilDB->quote($this->getSurveyId())
 		);
 		$result = $ilDB->query($query);
@@ -2134,7 +2134,7 @@ class ilObjSurvey extends ilObject
 	function removeConstraintsConcerningQuestion($question_id)
 	{
 		global $ilDB;
-		$query = sprintf("SELECT constraint_fi FROM survey_question_constraint WHERE question_fi = %s AND survey_fi = %s",
+		$query = sprintf("SELECT constraint_fi FROM svy_qst_constraint WHERE question_fi = %s AND survey_fi = %s",
 			$ilDB->quote($question_id . ""),
 			$ilDB->quote($this->getSurveyId() . "")
 		);
@@ -2146,7 +2146,7 @@ class ilObjSurvey extends ilObject
 			{
 				array_push($remove_constraints, $row["constraint_fi"]);
 			}
-			$query = sprintf("DELETE FROM survey_question_constraint WHERE question_fi = %s AND survey_fi = %s",
+			$query = sprintf("DELETE FROM svy_qst_constraint WHERE question_fi = %s AND survey_fi = %s",
 				$ilDB->quote($question_id . ""),
 				$ilDB->quote($this->getSurveyId() . "")
 			);
@@ -2184,11 +2184,11 @@ class ilObjSurvey extends ilObject
 		}
 		foreach ($remove_questionblocks as $questionblock_id)
 		{
-			$query = sprintf("DELETE FROM survey_questionblock WHERE questionblock_id = %s",
+			$query = sprintf("DELETE FROM svy_qblk WHERE questionblock_id = %s",
 				$ilDB->quote($questionblock_id)
 			);
 			$result = $ilDB->query($query);
-			$query = sprintf("DELETE FROM survey_questionblock_question WHERE questionblock_fi = %s AND survey_fi = %s",
+			$query = sprintf("DELETE FROM svy_qblk_qst WHERE questionblock_fi = %s AND survey_fi = %s",
 				$ilDB->quote($questionblock_id),
 				$ilDB->quote($this->getSurveyId())
 			);
@@ -2211,11 +2211,11 @@ class ilObjSurvey extends ilObject
 		global $ilDB;
 		foreach ($questionblocks as $index)
 		{
-			$query = sprintf("DELETE FROM survey_questionblock WHERE questionblock_id = %s",
+			$query = sprintf("DELETE FROM svy_qblk WHERE questionblock_id = %s",
 				$ilDB->quote($index)
 			);
 			$result = $ilDB->query($query);
-			$query = sprintf("DELETE FROM survey_questionblock_question WHERE questionblock_fi = %s AND survey_fi = %s",
+			$query = sprintf("DELETE FROM svy_qblk_qst WHERE questionblock_fi = %s AND survey_fi = %s",
 				$ilDB->quote($index),
 				$ilDB->quote($this->getSurveyId())
 			);
@@ -2235,7 +2235,7 @@ class ilObjSurvey extends ilObject
 	{
 		global $ilDB;
 		$titles = array();
-		$query = sprintf("SELECT survey_questionblock.* FROM survey_questionblock, survey_question, survey_questionblock_question WHERE survey_questionblock_question.question_fi = survey_question.question_id AND survey_question.obj_fi = %s",
+		$query = sprintf("SELECT svy_qblk.* FROM svy_qblk, svy_question, svy_qblk_qst WHERE svy_qblk_qst.question_fi = svy_question.question_id AND svy_question.obj_fi = %s",
 			$ilDB->quote($this->getId())
 		);
 		$result = $ilDB->query($query);
@@ -2258,7 +2258,7 @@ class ilObjSurvey extends ilObject
 	{
 		global $ilDB;
 		$titles = array();
-		$query = sprintf("SELECT survey_question.title, survey_questionblock_question.question_fi, survey_questionblock_question.survey_fi FROM survey_questionblock, survey_questionblock_question, survey_question WHERE survey_questionblock.questionblock_id = survey_questionblock_question.questionblock_fi AND survey_question.question_id = survey_questionblock_question.question_fi AND survey_questionblock.questionblock_id = %s",
+		$query = sprintf("SELECT svy_question.title, svy_qblk_qst.question_fi, svy_qblk_qst.survey_fi FROM svy_qblk, svy_qblk_qst, svy_question WHERE svy_qblk.questionblock_id = svy_qblk_qst.questionblock_fi AND svy_question.question_id = svy_qblk_qst.question_fi AND svy_qblk.questionblock_id = %s",
 			$ilDB->quote($questionblock_id)
 		);
 		$result = $ilDB->query($query);
@@ -2268,7 +2268,7 @@ class ilObjSurvey extends ilObject
 			$titles[$row["question_fi"]] = $row["title"];
 			$survey_id = $row["survey_fi"];
 		}
-		$query = sprintf("SELECT question_fi, sequence FROM survey_survey_question WHERE survey_fi = %s ORDER BY sequence",
+		$query = sprintf("SELECT question_fi, sequence FROM svy_svy_qst WHERE survey_fi = %s ORDER BY sequence",
 			$ilDB->quote($survey_id . "")
 		);
 		$result = $ilDB->query($query);
@@ -2293,7 +2293,7 @@ class ilObjSurvey extends ilObject
 	function &getQuestionblockQuestionIds($questionblock_id)
 	{
 		global $ilDB;
-		$statement = $ilDB->prepare("SELECT question_fi FROM survey_questionblock_question WHERE questionblock_fi = ?",
+		$statement = $ilDB->prepare("SELECT question_fi FROM svy_qblk_qst WHERE questionblock_fi = ?",
 			array("integer")
 		);
 		$result = $ilDB->execute($statement, array($questionblock_id));
@@ -2320,7 +2320,7 @@ class ilObjSurvey extends ilObject
 	function getQuestionblock($questionblock_id)
 	{
 		global $ilDB;
-		$query = sprintf("SELECT * FROM survey_questionblock WHERE questionblock_id = %s",
+		$query = sprintf("SELECT * FROM svy_qblk WHERE questionblock_id = %s",
 			$ilDB->quote($questionblock_id)
 		);
 		$result = $ilDB->query($query);
@@ -2340,7 +2340,7 @@ class ilObjSurvey extends ilObject
 	function _getQuestionblock($questionblock_id)
 	{
 		global $ilDB;
-		$query = sprintf("SELECT * FROM survey_questionblock WHERE questionblock_id = %s",
+		$query = sprintf("SELECT * FROM svy_qblk WHERE questionblock_id = %s",
 			$ilDB->quote($questionblock_id)
 		);
 		$result = $ilDB->query($query);
@@ -2361,7 +2361,7 @@ class ilObjSurvey extends ilObject
 	function _addQuestionblock($title = "", $owner = 0)
 	{
 		global $ilDB;
-		$query = sprintf("INSERT INTO survey_questionblock (questionblock_id, title, owner_fi, TIMESTAMP) VALUES (NULL, %s, %s, NULL)",
+		$query = sprintf("INSERT INTO svy_qblk (questionblock_id, title, owner_fi, TIMESTAMP) VALUES (NULL, %s, %s, NULL)",
 			$ilDB->quote($title . ""),
 			$ilDB->quote($owner . "")
 		);
@@ -2387,7 +2387,7 @@ class ilObjSurvey extends ilObject
 		
 		// now save the question block
 		global $ilUser;
-		$query = sprintf("INSERT INTO survey_questionblock (questionblock_id, title, show_questiontext, owner_fi, TIMESTAMP) VALUES (NULL, %s, %s, %s, NULL)",
+		$query = sprintf("INSERT INTO svy_qblk (questionblock_id, title, show_questiontext, owner_fi, TIMESTAMP) VALUES (NULL, %s, %s, %s, NULL)",
 			$ilDB->quote($title),
 			$ilDB->quote($show_questiontext . ""),
 			$ilDB->quote($ilUser->getId())
@@ -2403,7 +2403,7 @@ class ilObjSurvey extends ilObject
 			$questionblock_id = $ilDB->getLastInsertId();
 			foreach ($questions as $index)
 			{
-				$query = sprintf("INSERT INTO survey_questionblock_question (questionblock_question_id, survey_fi, questionblock_fi, question_fi) VALUES (NULL, %s, %s, %s)",
+				$query = sprintf("INSERT INTO svy_qblk_qst (qblk_qst_id, survey_fi, questionblock_fi, question_fi) VALUES (NULL, %s, %s, %s)",
 					$ilDB->quote($this->getSurveyId()),
 					$ilDB->quote($questionblock_id),
 					$ilDB->quote($index)
@@ -2426,7 +2426,7 @@ class ilObjSurvey extends ilObject
 	function modifyQuestionblock($questionblock_id, $title, $show_questiontext)
 	{
 		global $ilDB;
-		$query = sprintf("UPDATE survey_questionblock SET title = %s, show_questiontext = %s WHERE questionblock_id = %s",
+		$query = sprintf("UPDATE svy_qblk SET title = %s, show_questiontext = %s WHERE questionblock_id = %s",
 			$ilDB->quote($title),
 			$ilDB->quote($show_questiontext . ""),
 			$ilDB->quote($questionblock_id)
@@ -2445,7 +2445,7 @@ class ilObjSurvey extends ilObject
 	function deleteConstraints($question_id)
 	{
 		global $ilDB;
-		$query = sprintf("SELECT * FROM survey_question_constraint WHERE question_fi = %s AND survey_fi = %s",
+		$query = sprintf("SELECT * FROM svy_qst_constraint WHERE question_fi = %s AND survey_fi = %s",
 			$ilDB->quote($question_id),
 			$ilDB->quote($this->getSurveyId())
 		);
@@ -2457,7 +2457,7 @@ class ilObjSurvey extends ilObject
 			);
 			$delresult = $ilDB->query($query);
 		}
-		$query = sprintf("DELETE FROM survey_question_constraint WHERE question_fi = %s AND survey_fi = %s",
+		$query = sprintf("DELETE FROM svy_qst_constraint WHERE question_fi = %s AND survey_fi = %s",
 			$ilDB->quote($question_id),
 			$ilDB->quote($this->getSurveyId())
 		);
@@ -2480,7 +2480,7 @@ class ilObjSurvey extends ilObject
 			$ilDB->quote($constraint_id)
 		);
 		$delresult = $ilDB->query($query);
-		$query = sprintf("DELETE FROM survey_question_constraint WHERE constraint_fi = %s AND question_fi = %s AND survey_fi = %s",
+		$query = sprintf("DELETE FROM svy_qst_constraint WHERE constraint_fi = %s AND question_fi = %s AND survey_fi = %s",
 			$ilDB->quote($constraint_id),
 			$ilDB->quote($question_id),
 			$ilDB->quote($this->getSurveyId())
@@ -2501,7 +2501,7 @@ class ilObjSurvey extends ilObject
 		$obligatory_states =& $this->getObligatoryStates();
 		// get questionblocks
 		$all_questions = array();
-		$query = sprintf("SELECT survey_questiontype.type_tag, survey_questiontype.plugin, survey_question.question_id, survey_survey_question.heading FROM survey_questiontype, survey_question, survey_survey_question WHERE survey_survey_question.survey_fi = %s AND survey_survey_question.question_fi = survey_question.question_id AND survey_question.questiontype_fi = survey_questiontype.questiontype_id ORDER BY survey_survey_question.sequence",
+		$query = sprintf("SELECT svy_qtype.type_tag, svy_qtype.plugin, svy_question.question_id, svy_svy_qst.heading FROM svy_qtype, svy_question, svy_svy_qst WHERE svy_svy_qst.survey_fi = %s AND svy_svy_qst.question_fi = svy_question.question_id AND svy_question.questiontype_fi = svy_qtype.questiontype_id ORDER BY svy_svy_qst.sequence",
 			$ilDB->quote($this->getSurveyId())
 		);
 		$result = $ilDB->query($query);
@@ -2538,7 +2538,7 @@ class ilObjSurvey extends ilObject
 		$in = join(array_keys($all_questions), "','");
 		if ($in)
 		{
-			$query = sprintf("SELECT survey_questionblock.*, survey_questionblock_question.question_fi FROM survey_questionblock, survey_questionblock_question WHERE survey_questionblock.questionblock_id = survey_questionblock_question.questionblock_fi AND survey_questionblock_question.survey_fi = %s AND survey_questionblock_question.question_fi IN ('$in')",
+			$query = sprintf("SELECT svy_qblk.*, svy_qblk_qst.question_fi FROM svy_qblk, svy_qblk_qst WHERE svy_qblk.questionblock_id = svy_qblk_qst.questionblock_fi AND svy_qblk_qst.survey_fi = %s AND svy_qblk_qst.question_fi IN ('$in')",
 				$ilDB->quote($this->getSurveyId())
 			);
 			$result = $ilDB->query($query);
@@ -2566,7 +2566,7 @@ class ilObjSurvey extends ilObject
 			if ($with_answers)
 			{
 				$answers = array();
-				$query = sprintf("SELECT survey_variable.*, svy_category.title FROM survey_variable, svy_category WHERE survey_variable.question_fi = %s AND survey_variable.category_fi = svy_category.category_id ORDER BY sequence ASC",
+				$query = sprintf("SELECT svy_variable.*, svy_category.title FROM svy_variable, svy_category WHERE svy_variable.question_fi = %s AND svy_variable.category_fi = svy_category.category_id ORDER BY sequence ASC",
 					$ilDB->quote($question_id . "")
 				);
 				$result = $ilDB->query($query);
@@ -2594,7 +2594,7 @@ class ilObjSurvey extends ilObject
 	function setObligatoryStates($obligatory_questions)
 	{
 		global $ilDB;
-		$query = sprintf("SELECT * FROM survey_survey_question WHERE survey_fi = %s",
+		$query = sprintf("SELECT * FROM svy_svy_qst WHERE survey_fi = %s",
 			$ilDB->quote($this->getSurveyId() . "")
 		);
 		$result = $ilDB->query($query);
@@ -2610,7 +2610,7 @@ class ilObjSurvey extends ilObject
 		}
 
 	  // set the obligatory states in the database
-		$query = sprintf("DELETE FROM survey_question_obligatory WHERE survey_fi = %s",
+		$query = sprintf("DELETE FROM svy_qst_oblig WHERE survey_fi = %s",
 			$ilDB->quote($this->getSurveyId() . "")
 		);
 		$result = $ilDB->query($query);
@@ -2618,7 +2618,7 @@ class ilObjSurvey extends ilObject
 	  // set the obligatory states in the database
 		foreach ($obligatory_questions as $question_fi => $obligatory)
 		{
-			$query = sprintf("INSERT INTO survey_question_obligatory (question_obligatory_id, survey_fi, question_fi, obligatory, TIMESTAMP) VALUES (NULL, %s, %s, %s, NULL)",
+			$query = sprintf("INSERT INTO svy_qst_oblig (question_obligatory_id, survey_fi, question_fi, obligatory, TIMESTAMP) VALUES (NULL, %s, %s, %s, NULL)",
 				$ilDB->quote($this->getSurveyId() . ""),
 				$ilDB->quote($question_fi . ""),
 				$ilDB->quote($obligatory . "")
@@ -2639,7 +2639,7 @@ class ilObjSurvey extends ilObject
 	{
 		global $ilDB;
 		$obligatory_states = array();
-		$query = sprintf("SELECT * FROM survey_question_obligatory WHERE survey_fi = %s",
+		$query = sprintf("SELECT * FROM svy_qst_oblig WHERE survey_fi = %s",
 			$ilDB->quote($this->getSurveyId() . "")
 		);
 		$result = $ilDB->query($query);
@@ -2666,7 +2666,7 @@ class ilObjSurvey extends ilObject
 		$obligatory_states =& $this->getObligatoryStates();
 		// get questionblocks
 		$all_questions = array();
-		$query = sprintf("SELECT survey_question.*, survey_questiontype.type_tag, survey_survey_question.heading FROM survey_question, survey_questiontype, survey_survey_question WHERE survey_survey_question.survey_fi = %s AND survey_survey_question.question_fi = survey_question.question_id AND survey_question.questiontype_fi = survey_questiontype.questiontype_id ORDER BY survey_survey_question.sequence",
+		$query = sprintf("SELECT svy_question.*, svy_qtype.type_tag, svy_svy_qst.heading FROM svy_question, svy_qtype, svy_svy_qst WHERE svy_svy_qst.survey_fi = %s AND svy_svy_qst.question_fi = svy_question.question_id AND svy_question.questiontype_fi = svy_qtype.questiontype_id ORDER BY svy_svy_qst.sequence",
 			$ilDB->quote($this->getSurveyId())
 		);
 		$result = $ilDB->query($query);
@@ -2679,7 +2679,7 @@ class ilObjSurvey extends ilObject
 		$in = join(array_keys($all_questions), "','");
 		if ($in)
 		{
-			$query = sprintf("SELECT survey_questionblock.*, survey_questionblock_question.question_fi FROM survey_questionblock, survey_questionblock_question WHERE survey_questionblock.questionblock_id = survey_questionblock_question.questionblock_fi AND survey_questionblock_question.survey_fi = %s AND survey_questionblock_question.question_fi IN ('$in')",
+			$query = sprintf("SELECT svy_qblk.*, svy_qblk_qst.question_fi FROM svy_qblk, svy_qblk_qst WHERE svy_qblk.questionblock_id = svy_qblk_qst.questionblock_fi AND svy_qblk_qst.survey_fi = %s AND svy_qblk_qst.question_fi IN ('$in')",
 				$ilDB->quote($this->getSurveyId())
 			);
 			$result = $ilDB->query($query);
@@ -2816,7 +2816,7 @@ class ilObjSurvey extends ilObject
 		global $ilDB;
 		
 		$result_array = array();
-		$query = sprintf("SELECT svy_constraint.*, survey_relation.* FROM survey_question_constraint, svy_constraint, survey_relation WHERE svy_constraint.relation_fi = survey_relation.relation_id AND survey_question_constraint.constraint_fi = svy_constraint.constraint_id AND svy_constraint.constraint_id = %s",
+		$query = sprintf("SELECT svy_constraint.*, svy_relation.* FROM svy_qst_constraint, svy_constraint, svy_relation WHERE svy_constraint.relation_fi = svy_relation.relation_id AND svy_qst_constraint.constraint_fi = svy_constraint.constraint_id AND svy_constraint.constraint_id = %s",
 			$ilDB->quote($id . "")
 		);
 		$result = $ilDB->query($query);
@@ -2840,7 +2840,7 @@ class ilObjSurvey extends ilObject
 		global $ilDB;
 		
 		$result_array = array();
-		$query = sprintf("SELECT svy_constraint.*, survey_relation.* FROM survey_question_constraint, svy_constraint, survey_relation WHERE svy_constraint.relation_fi = survey_relation.relation_id AND survey_question_constraint.constraint_fi = svy_constraint.constraint_id AND survey_question_constraint.question_fi = %s AND survey_question_constraint.survey_fi = %s",
+		$query = sprintf("SELECT svy_constraint.*, svy_relation.* FROM svy_qst_constraint, svy_constraint, svy_relation WHERE svy_constraint.relation_fi = svy_relation.relation_id AND svy_qst_constraint.constraint_fi = svy_constraint.constraint_id AND svy_qst_constraint.question_fi = %s AND svy_qst_constraint.survey_fi = %s",
 			$ilDB->quote($question_id),
 			$ilDB->quote($this->getSurveyId())
 		);
@@ -2869,7 +2869,7 @@ class ilObjSurvey extends ilObject
  	{
 		global $ilDB;
 		$result_array = array();
-		$query = sprintf("SELECT survey_question_constraint.question_fi as for_question, svy_constraint.*, survey_relation.* FROM survey_question_constraint, svy_constraint, survey_relation WHERE svy_constraint.relation_fi = survey_relation.relation_id AND survey_question_constraint.constraint_fi = svy_constraint.constraint_id AND survey_question_constraint.survey_fi = %s",
+		$query = sprintf("SELECT svy_qst_constraint.question_fi as for_question, svy_constraint.*, svy_relation.* FROM svy_qst_constraint, svy_constraint, svy_relation WHERE svy_constraint.relation_fi = svy_relation.relation_id AND svy_qst_constraint.constraint_fi = svy_constraint.constraint_id AND svy_qst_constraint.survey_fi = %s",
 			$ilDB->quote($survey_id . "")
 		);
 		$result = $ilDB->query($query);
@@ -2893,7 +2893,7 @@ class ilObjSurvey extends ilObject
 		global $ilDB;
 		
 		$result_array = array();
-		$query = sprintf("SELECT survey_variable.*, svy_category.title FROM survey_variable LEFT JOIN svy_category ON survey_variable.category_fi = svy_category.category_id WHERE survey_variable.question_fi = %s ORDER BY survey_variable.sequence",
+		$query = sprintf("SELECT svy_variable.*, svy_category.title FROM svy_variable LEFT JOIN svy_category ON svy_variable.category_fi = svy_category.category_id WHERE svy_variable.question_fi = %s ORDER BY svy_variable.sequence",
 			$ilDB->quote($question_id)
 		);
 		$result = $ilDB->query($query);
@@ -2933,7 +2933,7 @@ class ilObjSurvey extends ilObject
 		else
 		{
 			$constraint_id = $ilDB->getLastInsertId();
-			$query = sprintf("INSERT INTO survey_question_constraint (question_constraint_id, survey_fi, question_fi, constraint_fi) VALUES (NULL, %s, %s, %s)",
+			$query = sprintf("INSERT INTO svy_qst_constraint (question_constraint_id, survey_fi, question_fi, constraint_fi) VALUES (NULL, %s, %s, %s)",
 				$ilDB->quote($this->getSurveyId()),
 				$ilDB->quote($to_question_id),
 				$ilDB->quote($constraint_id)
@@ -2957,7 +2957,7 @@ class ilObjSurvey extends ilObject
 		function updateConstraint($to_question_id, $if_question_id, $relation, $value)
 		{
 			global $ilDB;
-			$query = sprintf("SELECT constraint_fi FROM survey_question_constraint WHERE question_fi = %s AND survey_fi = %s",
+			$query = sprintf("SELECT constraint_fi FROM svy_qst_constraint WHERE question_fi = %s AND survey_fi = %s",
 				$ilDB->quote($to_question_id . ""),
 				$ilDB->quote($this->getSurveyId() . "")
 			);
@@ -2987,7 +2987,7 @@ class ilObjSurvey extends ilObject
 		global $ilDB;
 		
 		$result_array = array();
-		$query = "SELECT * FROM survey_relation";
+		$query = "SELECT * FROM svy_relation";
 		$result = $ilDB->query($query);
 		while ($row = $result->fetchRow(MDB2_FETCHMODE_OBJECT))
 		{
@@ -3721,7 +3721,7 @@ class ilObjSurvey extends ilObject
 	function &getQuestions($question_ids)
 	{
 		$result_array = array();
-		$query = "SELECT survey_question.*, survey_questiontype.type_tag FROM survey_question, survey_questiontype WHERE survey_question.questiontype_fi = survey_questiontype.questiontype_id AND survey_question.question_id IN ('" . join($question_ids, "','") . "')";
+		$query = "SELECT svy_question.*, svy_qtype.type_tag FROM svy_question, svy_qtype WHERE svy_question.questiontype_fi = svy_qtype.questiontype_id AND svy_question.question_id IN ('" . join($question_ids, "','") . "')";
 		$result = $ilDB->query($query);
 		while ($row = $result->fetchRow(MDB2_FETCHMODE_ASSOC))
 		{
@@ -3746,25 +3746,25 @@ class ilObjSurvey extends ilObject
 			switch($sel_filter_type) 
 			{
 				case "title":
-					$where = " AND survey_question.title LIKE " . $ilDB->quote("%" . $filter_text . "%");
+					$where = " AND svy_question.title LIKE " . $ilDB->quote("%" . $filter_text . "%");
 					break;
 				case "description":
-					$where = " AND survey_question.description LIKE " . $ilDB->quote("%" . $filter_text . "%");
+					$where = " AND svy_question.description LIKE " . $ilDB->quote("%" . $filter_text . "%");
 					break;
 				case "author":
-					$where = " AND survey_question.author LIKE " . $ilDB->quote("%" . $filter_text . "%");
+					$where = " AND svy_question.author LIKE " . $ilDB->quote("%" . $filter_text . "%");
 					break;
 			}
 		}
   
 		if ($filter_question_type && (strcmp($filter_question_type, "all") != 0))
 		{
-			$where .= " AND survey_questiontype.type_tag = " . $ilDB->quote($filter_question_type);
+			$where .= " AND svy_qtype.type_tag = " . $ilDB->quote($filter_question_type);
 		}
 		
 		if ($filter_questionpool && (strcmp($filter_questionpool, "all") != 0))
 		{
-			$where .= " AND survey_question.obj_fi = $filter_questionpool";
+			$where .= " AND svy_question.obj_fi = $filter_questionpool";
 		}
   
     // build sort order for sql query
@@ -3810,22 +3810,22 @@ class ilObjSurvey extends ilObject
 
 		$spls =& $this->getAvailableQuestionpools($use_obj_id = TRUE, $could_be_offline = FALSE, $showPath = FALSE);
 		$forbidden = "";
-		$forbidden = " AND survey_question.obj_fi IN ('" . join(array_keys($spls), "','") . "')";
+		$forbidden = " AND svy_question.obj_fi IN ('" . join(array_keys($spls), "','") . "')";
 		if ($completeonly)
 		{
-			$forbidden .= " AND survey_question.complete = " . $ilDB->quote("1");
+			$forbidden .= " AND svy_question.complete = " . $ilDB->quote("1");
 		}
 		$existing = "";
 		$existing_questions =& $this->getExistingQuestions();
 		if (count($existing_questions))
 		{
-			$existing = " AND survey_question.question_id NOT IN ('" . join($existing_questions, "','") . "')";
+			$existing = " AND svy_question.question_id NOT IN ('" . join($existing_questions, "','") . "')";
 		}
 		$limit = " LIMIT $startrow, $maxentries";
-		$query = "SELECT survey_question.*, survey_question.TIMESTAMP + 0 AS timestamp14, survey_questiontype.type_tag, survey_questiontype.plugin, object_reference.ref_id FROM survey_question, survey_questiontype, object_reference WHERE survey_question.questiontype_fi = survey_questiontype.questiontype_id$forbidden$existing AND survey_question.obj_fi = object_reference.obj_id AND ISNULL(survey_question.original_id) " . " $where$order";
+		$query = "SELECT svy_question.*, svy_question.TIMESTAMP + 0 AS timestamp14, svy_qtype.type_tag, svy_qtype.plugin, object_reference.ref_id FROM svy_question, svy_qtype, object_reference WHERE svy_question.questiontype_fi = svy_qtype.questiontype_id$forbidden$existing AND svy_question.obj_fi = object_reference.obj_id AND ISNULL(svy_question.original_id) " . " $where$order";
 		$query_result = $ilDB->query($query);
 		$max = $query_result->numRows();
-		$query = "SELECT survey_question.*, survey_question.TIMESTAMP + 0 AS timestamp14, survey_questiontype.type_tag, survey_questiontype.plugin, object_reference.ref_id FROM survey_question, survey_questiontype, object_reference WHERE survey_question.questiontype_fi = survey_questiontype.questiontype_id$forbidden$existing AND survey_question.obj_fi = object_reference.obj_id AND ISNULL(survey_question.original_id) " . " $where$order$limit";
+		$query = "SELECT svy_question.*, svy_question.TIMESTAMP + 0 AS timestamp14, svy_qtype.type_tag, svy_qtype.plugin, object_reference.ref_id FROM svy_question, svy_qtype, object_reference WHERE svy_question.questiontype_fi = svy_qtype.questiontype_id$forbidden$existing AND svy_question.obj_fi = object_reference.obj_id AND ISNULL(svy_question.original_id) " . " $where$order$limit";
 		$query_result = $ilDB->query($query);
 		if ($startrow > $max -1)
 		{
@@ -3891,7 +3891,7 @@ class ilObjSurvey extends ilObject
 			switch($sel_filter_type) 
 			{
 				case "title":
-					$where = "AND WHERE survey_questionblock.title LIKE ?";
+					$where = "WHERE svy_qblk.title LIKE ?";
 					break;
 			}
 		}
@@ -3907,12 +3907,12 @@ class ilObjSurvey extends ilObject
 				$images["title"] = " <img src=\"" . ilUtil::getImagePath(strtolower($sortorder) . "_order.gif") . "\" alt=\"" . strtolower($sortorder) . "ending order\" />";
 				break;
 			case "svy":
-//				$order = " ORDER BY survey_survey_question.survey_fi $sortorder";
+//				$order = " ORDER BY svy_svy_qst.survey_fi $sortorder";
 //				$images["svy"] = " <img src=\"" . ilUtil::getImagePath(strtolower($sortorder) . "_order.gif") . "\" alt=\"" . strtolower($sortorder) . "ending order\" />";
 				break;
 		}
 		$maxentries = $ilUser->prefs["hits_per_page"];
-		$query = "SELECT questionblock_id FROM survey_questionblock";
+		$query = "SELECT questionblock_id FROM svy_qblk";
     $query_result = $ilDB->query($query);
 		$max = $query_result->numRows();
 		if ($startrow > $max -1)
@@ -3926,12 +3926,12 @@ class ilObjSurvey extends ilObject
 		$ilDB->setLimit($maxentries, $startrow);
 		if (strlen($where))
 		{
-			$statement = $ilDB->prepare("SELECT survey_questionblock.*, survey_survey.obj_fi FROM survey_questionblock , survey_questionblock_question, survey_survey WHERE survey_questionblock.questionblock_id = survey_questionblock_question.questionblock_fi AND survey_survey.survey_id = survey_questionblock_question.survey_fi $where GROUP BY survey_questionblock.questionblock_id $order", array('text'));
+			$statement = $ilDB->prepare("SELECT svy_qblk.*, svy_svy.obj_fi FROM svy_qblk , svy_qblk_qst, svy_svy WHERE svy_qblk.questionblock_id = svy_qblk_qst.questionblock_fi AND svy_svy.survey_id = svy_qblk_qst.survey_fi $where GROUP BY svy_qblk.questionblock_id $order", array('text'));
 			$query_result = $ilDB->execute($statement, array($filter_text));
 		}
 		else
 		{
-			$statement = $ilDB->prepare("SELECT survey_questionblock.*, survey_survey.obj_fi FROM survey_questionblock , survey_questionblock_question, survey_survey WHERE survey_questionblock.questionblock_id = survey_questionblock_question.questionblock_fi AND survey_survey.survey_id = survey_questionblock_question.survey_fi GROUP BY survey_questionblock.questionblock_id $order");
+			$statement = $ilDB->prepare("SELECT svy_qblk.*, svy_svy.obj_fi FROM svy_qblk , svy_qblk_qst, svy_svy WHERE svy_qblk.questionblock_id = svy_qblk_qst.questionblock_fi AND svy_svy.survey_id = svy_qblk_qst.survey_fi GROUP BY svy_qblk.questionblock_id $order");
 			$query_result = $ilDB->execute($statement);
 		}
 		$rows = array();
@@ -4245,7 +4245,7 @@ class ilObjSurvey extends ilObject
 	* @return boolean True, if the import succeeds, false otherwise
 	* @access public
 	*/
-	function importObject($file_info, $survey_questionpool_id)
+	function importObject($file_info, $svy_qpl_id)
 	{
 		// check if file was uploaded
 		$source = $file_info["tmp_name"];
@@ -4316,7 +4316,7 @@ class ilObjSurvey extends ilObject
 			{
 				include_once "./Services/Survey/classes/class.SurveyImportParserPre38.php";
 				include_once "./Modules/SurveyQuestionPool/classes/class.ilObjSurveyQuestionPool.php";
-				$spl = new ilObjSurveyQuestionPool($survey_questionpool_id, FALSE);
+				$spl = new ilObjSurveyQuestionPool($svy_qpl_id, FALSE);
 				$import = new SurveyImportParserPre38($spl, "", TRUE);
 				$import->setSurveyObject($this);
 				$import->setXMLContent($xml);
@@ -4326,7 +4326,7 @@ class ilObjSurvey extends ilObject
 			{
 				include_once "./Services/Survey/classes/class.SurveyImportParser.php";
 				include_once "./Modules/SurveyQuestionPool/classes/class.ilObjSurveyQuestionPool.php";
-				$spl = new ilObjSurveyQuestionPool($survey_questionpool_id, FALSE);
+				$spl = new ilObjSurveyQuestionPool($svy_qpl_id, FALSE);
 				$import = new SurveyImportParser($spl, "", TRUE);
 				$import->setSurveyObject($this);
 				$import->setXMLContent($xml);
@@ -4417,7 +4417,7 @@ class ilObjSurvey extends ilObject
 		// clone the questionblocks
 		$questionblocks = array();
 		$questionblock_questions = array();
-		$query = sprintf("SELECT * FROM survey_questionblock_question WHERE survey_fi = %s",
+		$query = sprintf("SELECT * FROM svy_qblk_qst WHERE survey_fi = %s",
 			$ilDB->quote($this->getSurveyId() . "")
 		);
 		$result = $ilDB->query($query);
@@ -4439,7 +4439,7 @@ class ilObjSurvey extends ilObject
 		// create new questionblock questions
 		foreach ($questionblock_questions as $key => $value)
 		{
-			$clonequery = sprintf("INSERT INTO survey_questionblock_question (questionblock_question_id, survey_fi, questionblock_fi, question_fi) VALUES (NULL, %s, %s, %s)",
+			$clonequery = sprintf("INSERT INTO svy_qblk_qst (qblk_qst_id, survey_fi, questionblock_fi, question_fi) VALUES (NULL, %s, %s, %s)",
 				$ilDB->quote($newObj->getSurveyId() . ""),
 				$ilDB->quote($questionblocks[$value["questionblock_fi"]] . ""),
 				$ilDB->quote($question_pointer[$value["question_fi"]] . "")
@@ -4455,7 +4455,7 @@ class ilObjSurvey extends ilObject
 		}
 		
 		// clone the obligatory states
-		$query = sprintf("SELECT * FROM survey_question_obligatory WHERE survey_fi = %s",
+		$query = sprintf("SELECT * FROM svy_qst_oblig WHERE survey_fi = %s",
 			$ilDB->quote($this->getSurveyId() . "")
 		);
 		$result = $ilDB->query($query);
@@ -4463,7 +4463,7 @@ class ilObjSurvey extends ilObject
 		{
 			while ($row = $result->fetchRow(MDB2_FETCHMODE_ASSOC))
 			{
-				$clonequery = sprintf("INSERT INTO survey_question_obligatory (question_obligatory_id, survey_fi, question_fi, obligatory, TIMESTAMP) VALUES (NULL, %s, %s, %s, NULL)",
+				$clonequery = sprintf("INSERT INTO svy_qst_oblig (question_obligatory_id, survey_fi, question_fi, obligatory, TIMESTAMP) VALUES (NULL, %s, %s, %s, NULL)",
 					$ilDB->quote($newObj->getSurveyId() . ""),
 					$ilDB->quote($question_pointer[$row["question_fi"]] . ""),
 					$ilDB->quote($row["obligatory"])
@@ -4477,7 +4477,7 @@ class ilObjSurvey extends ilObject
 	function getTextblock($question_id)
 	{
 		global $ilDB;
-		$query = sprintf("SELECT * FROM survey_survey_question WHERE question_fi = %s",
+		$query = sprintf("SELECT * FROM svy_svy_qst WHERE question_fi = %s",
 			$ilDB->quote($question_id . "")
 		);
 		$result = $ilDB->query($query);
@@ -4651,7 +4651,7 @@ class ilObjSurvey extends ilObject
 		global $ilDB;
 		if ($heading)
 		{
-			$query = sprintf("UPDATE survey_survey_question SET heading=%s WHERE survey_fi=%s AND question_fi=%s",
+			$query = sprintf("UPDATE svy_svy_qst SET heading=%s WHERE survey_fi=%s AND question_fi=%s",
 				$ilDB->quote($heading),
 				$ilDB->quote($this->getSurveyId() . ""),
 				$ilDB->quote($insertbefore)
@@ -4659,7 +4659,7 @@ class ilObjSurvey extends ilObject
 		}
 		else
 		{
-			$query = sprintf("UPDATE survey_survey_question SET heading=NULL WHERE survey_fi=%s AND question_fi=%s",
+			$query = sprintf("UPDATE svy_svy_qst SET heading=NULL WHERE survey_fi=%s AND question_fi=%s",
 				$ilDB->quote($this->getSurveyId() . ""),
 				$ilDB->quote($insertbefore)
 			);

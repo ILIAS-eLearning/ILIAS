@@ -133,7 +133,7 @@ class SurveySearch
 		$fields = array();
 		if (strcmp($this->search_type, "all") != 0)
 		{
-			$where = sprintf("survey_questiontype.type_tag = %s",
+			$where = sprintf("svy_qtype.type_tag = %s",
 				$this->ilDB->quote($this->search_type)
 			);
 		}
@@ -143,22 +143,22 @@ class SurveySearch
 			{
 				case "all":
 					$fields["$term"] = array();
-					array_push($fields["$term"], sprintf("survey_question.title LIKE %s",
+					array_push($fields["$term"], sprintf("svy_question.title LIKE %s",
 						$this->ilDB->quote("%$term%")
 					));
-					array_push($fields["$term"], sprintf("survey_question.description LIKE %s",
+					array_push($fields["$term"], sprintf("svy_question.description LIKE %s",
 						$this->ilDB->quote("%$term%")
 					));
-					array_push($fields["$term"], sprintf("survey_question.author LIKE %s",
+					array_push($fields["$term"], sprintf("svy_question.author LIKE %s",
 						$this->ilDB->quote("%$term%")
 					));
-					array_push($fields["$term"], sprintf("survey_question.questiontext LIKE %s",
+					array_push($fields["$term"], sprintf("svy_question.questiontext LIKE %s",
 						$this->ilDB->quote("%$term%")
 					));
 					break;
 				default:
 					$fields["$term"] = array();
-					array_push($fields["$term"], sprintf("survey_question.$this->search_field LIKE %s",
+					array_push($fields["$term"], sprintf("svy_question.$this->search_field LIKE %s",
 						$this->ilDB->quote("%$term%")
 					));
 					break;				
@@ -186,7 +186,7 @@ class SurveySearch
 		{
 			$str_where .= " AND (" . $where . ")";
 		}
-		$query = "SELECT survey_question.*, survey_questiontype.type_tag, object_reference.ref_id FROM survey_question, survey_questiontype, object_reference WHERE survey_question.questiontype_fi = survey_questiontype.questiontype_id AND ISNULL(survey_question.original_id) AND survey_question.obj_fi = object_reference.obj_id AND survey_question.obj_fi > 0$str_where";
+		$query = "SELECT svy_question.*, svy_qtype.type_tag, object_reference.ref_id FROM svy_question, svy_qtype, object_reference WHERE svy_question.questiontype_fi = svy_qtype.questiontype_id AND ISNULL(svy_question.original_id) AND svy_question.obj_fi = object_reference.obj_id AND svy_question.obj_fi > 0$str_where";
 		$result = $this->ilDB->query($query);
 		$result_array = array();
 		global $rbacsystem;

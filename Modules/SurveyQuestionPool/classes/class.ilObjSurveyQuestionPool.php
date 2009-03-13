@@ -185,7 +185,7 @@ class ilObjSurveyQuestionPool extends ilObject
 	{
 		global $ilDB;
 		
-		$result = $ilDB->queryF("SELECT * FROM survey_questionpool WHERE obj_fi = %s",
+		$result = $ilDB->queryF("SELECT * FROM svy_qpl WHERE obj_fi = %s",
 			array('integer'),
 			array($this->getId())
 		);
@@ -205,21 +205,21 @@ class ilObjSurveyQuestionPool extends ilObject
   {
 		global $ilDB;
 		
-		$result = $ilDB->queryF("SELECT * FROM survey_questionpool WHERE obj_fi = %s",
+		$result = $ilDB->queryF("SELECT * FROM svy_qpl WHERE obj_fi = %s",
 			array('integer'),
 			array($this->getId())
 		);
 		if ($result->numRows() == 1)
 		{
-			$affectedRows = $ilDB->manipulateF("UPDATE survey_questionpool SET isonline = %s, tstamp = %s WHERE obj_fi = %s",
+			$affectedRows = $ilDB->manipulateF("UPDATE svy_qpl SET isonline = %s, tstamp = %s WHERE obj_fi = %s",
 				array('text','integer','integer'),
 				array($this->getOnline(), time(), $this->getId())
 			);
 		}
 		else
 		{
-			$next_id = $ilDB->nextId('survey_questionpool');
-			$query = sprintf("INSERT INTO survey_questionpool (id_questionpool, isonline, obj_fi, tstamp) VALUES (%s, %s, %s, %s)",
+			$next_id = $ilDB->nextId('svy_qpl');
+			$query = sprintf("INSERT INTO svy_qpl (id_questionpool, isonline, obj_fi, tstamp) VALUES (%s, %s, %s, %s)",
 				array('integer', 'text', 'integer', 'integer'),
 				array($next_id, $this->getOnline(), $this->getId(), time())
 			);
@@ -253,7 +253,7 @@ class ilObjSurveyQuestionPool extends ilObject
 	function deleteAllData()
 	{
 		global $ilDB;
-		$result = $ilDB->queryF("SELECT question_id FROM survey_question WHERE obj_fi = %s AND original_id IS NULL",
+		$result = $ilDB->queryF("SELECT question_id FROM svy_question WHERE obj_fi = %s AND original_id IS NULL",
 			array('integer'),
 			array($this->getId())
 		);
@@ -384,7 +384,7 @@ class ilObjSurveyQuestionPool extends ilObject
 	{
 		global $ilDB;
 		if ($question_id < 1) return;
-		$result = $ilDB->queryF("SELECT survey_questiontype.type_tag FROM survey_question, survey_questiontype WHERE survey_question.questiontype_fi = survey_questiontype.questiontype_id AND survey_question.question_id = %s",
+		$result = $ilDB->queryF("SELECT svy_qtype.type_tag FROM svy_question, svy_qtype WHERE svy_question.questiontype_fi = svy_qtype.questiontype_id AND svy_question.question_id = %s",
 			array('integer'),
 			array($question_id)
 		);
@@ -417,7 +417,7 @@ class ilObjSurveyQuestionPool extends ilObject
 		$answered = $result->numRows();
 		
 		// check out the questions inserted in surveys
-		$result = $ilDB->queryF("SELECT survey_survey.* FROM survey_survey, survey_survey_question WHERE survey_survey_question.survey_fi = survey_survey.survey_id AND survey_survey_question.question_fi = %s",
+		$result = $ilDB->queryF("SELECT svy_svy.* FROM svy_svy, svy_svy_qst WHERE svy_svy_qst.survey_fi = svy_svy.survey_id AND svy_svy_qst.question_fi = %s",
 			array('integer'),
 			array($question_id)
 		);
@@ -456,7 +456,7 @@ class ilObjSurveyQuestionPool extends ilObject
 	{
 		global $ilDB;
 		$result_array = array();
-		$result = $ilDB->query("SELECT survey_question.*, survey_questiontype.type_tag, survey_questiontype.plugin FROM survey_question, survey_questiontype WHERE survey_question.questiontype_fi = survey_questiontype.questiontype_id AND " . $ilDB->in('survey_question.question_id', $question_array, false, 'integer'));
+		$result = $ilDB->query("SELECT svy_question.*, svy_qtype.type_tag, svy_qtype.plugin FROM svy_question, svy_qtype WHERE svy_question.questiontype_fi = svy_qtype.questiontype_id AND " . $ilDB->in('svy_question.question_id', $question_array, false, 'integer'));
 		while ($row = $ilDB->fetchAssoc($result))
 		{
 			if ($row["plugin"])
@@ -513,13 +513,13 @@ class ilObjSurveyQuestionPool extends ilObject
 			switch($sel_filter_type) 
 			{
 				case "title":
-					$where = " AND " . $ilDB->like('survey_question.title', 'text', "%" . $filter_text . "%");
+					$where = " AND " . $ilDB->like('svy_question.title', 'text', "%" . $filter_text . "%");
 					break;
 				case "description":
-					$where = " AND " . $ilDB->like('survey_question.description', 'text', "%" . $filter_text . "%");
+					$where = " AND " . $ilDB->like('svy_question.description', 'text', "%" . $filter_text . "%");
 					break;
 				case "author":
-					$where = " AND " . $ilDB->like('survey_question.author', 'text', "%" . $filter_text . "%");
+					$where = " AND " . $ilDB->like('svy_question.author', 'text', "%" . $filter_text . "%");
 					break;
 			}
 		}
@@ -560,7 +560,7 @@ class ilObjSurveyQuestionPool extends ilObject
 		{
 			$maxentries = 9999;
 		}
-		$query_result = $ilDB->queryF("SELECT survey_question.question_id FROM survey_question, survey_questiontype WHERE survey_question.questiontype_fi = survey_questiontype.questiontype_id AND survey_question.obj_fi = %s AND ISNULL(survey_question.original_id) $where$order$limit",
+		$query_result = $ilDB->queryF("SELECT svy_question.question_id FROM svy_question, svy_qtype WHERE svy_question.questiontype_fi = svy_qtype.questiontype_id AND svy_question.obj_fi = %s AND ISNULL(svy_question.original_id) $where$order$limit",
 			array('integer'),
 			array($this->getId())
 		);
@@ -574,7 +574,7 @@ class ilObjSurveyQuestionPool extends ilObject
 			$startrow = 0;
 		}
 		$ilDB->setLimit($maxentries, $startrow);
-		$query_result = $ilDB->queryF("SELECT survey_question.*, survey_questiontype.type_tag, survey_questiontype.plugin FROM survey_question, survey_questiontype WHERE survey_question.questiontype_fi = survey_questiontype.questiontype_id AND survey_question.obj_fi = %s AND ISNULL(survey_question.original_id) $where$order$limit",
+		$query_result = $ilDB->queryF("SELECT svy_question.*, svy_qtype.type_tag, svy_qtype.plugin FROM svy_question, svy_qtype WHERE svy_question.questiontype_fi = svy_qtype.questiontype_id AND svy_question.obj_fi = %s AND ISNULL(svy_question.original_id) $where$order$limit",
 			array('integer'),
 			array($this->getId())
 		);
@@ -817,7 +817,7 @@ class ilObjSurveyQuestionPool extends ilObject
 	{
 		global $ilDB;
 		$questions = array();
-		$result = $ilDB->queryF("SELECT question_id FROM survey_question WHERE obj_fi = %s AND ISNULL(original_id)",
+		$result = $ilDB->queryF("SELECT question_id FROM svy_question WHERE obj_fi = %s AND ISNULL(original_id)",
 			array('integer'),
 			array($this->getId())
 		);
@@ -894,7 +894,7 @@ class ilObjSurveyQuestionPool extends ilObject
 	{
 		global $ilDB;
 		
-		$result = $ilDB->queryF("SELECT isonline FROM survey_questionpool WHERE obj_fi = %s",
+		$result = $ilDB->queryF("SELECT isonline FROM svy_qpl WHERE obj_fi = %s",
 			array('integer'),
 			array($a_obj_id)
 		);
@@ -943,7 +943,7 @@ class ilObjSurveyQuestionPool extends ilObject
 		
 		$lng->loadLanguageModule("survey");
 		$types = array();
-		$query_result = $ilDB->query("SELECT * FROM survey_questiontype ORDER BY type_tag");
+		$query_result = $ilDB->query("SELECT * FROM svy_qtype ORDER BY type_tag");
 		while ($row = $ilDB->fetchAssoc($query_result))
 		{
 			//array_push($questiontypes, $row["type_tag"]);
@@ -984,7 +984,7 @@ class ilObjSurveyQuestionPool extends ilObject
 		$qpls = ilUtil::_getObjectsByOperations("spl", $permission, $ilUser->getId(), -1);
 		$titles = ilObject::_prepareCloneSelection($qpls, "spl");
 		$allqpls = array();
-		$result = $ilDB->query("SELECT obj_fi, isonline FROM survey_questionpool");
+		$result = $ilDB->query("SELECT obj_fi, isonline FROM svy_qpl");
 		while ($row = $ilDB->fetchAssoc($result))
 		{
 			$allqpls[$row['obj_fi']] = $row['isonline'];
@@ -1037,10 +1037,10 @@ class ilObjSurveyQuestionPool extends ilObject
 		global $ilDB;
 		
 		$found = array();
-		$query_result = $ilDB->query("SELECT survey_question.*, survey_questiontype.type_tag FROM survey_question, survey_questiontype " .
-			"WHERE survey_question.questiontype_fi = survey_questiontype.questiontype_id " .
-			"AND " . $ilDB->in('survey_question.question_id', $question_ids, false, 'integer') . " " .
-			"ORDER BY survey_question.title");
+		$query_result = $ilDB->query("SELECT svy_question.*, svy_qtype.type_tag FROM svy_question, svy_qtype " .
+			"WHERE svy_question.questiontype_fi = svy_qtype.questiontype_id " .
+			"AND " . $ilDB->in('svy_question.question_id', $question_ids, false, 'integer') . " " .
+			"ORDER BY svy_question.title");
 		if ($query_result->numRows() > 0)
 		{
 			while ($data = $ilDB->fetchAssoc($query_result))

@@ -10231,3 +10231,323 @@ $ilDB->manipulate("RENAME TABLE `survey_phrase` TO `svy_phrase`");
 <?php
 $ilDB->manipulate("RENAME TABLE `survey_phrase_category` TO `svy_phrase_cat`");
 ?>
+<#2132>
+<?php
+$res = $ilDB->manipulate("ALTER TABLE `survey_question` ADD `tstamp` INT NOT NULL DEFAULT '0'");
+?>
+<#2133>
+<?php
+$res = $ilDB->query("SELECT question_id, " . $ilDB->quoteIdentifier("TIMESTAMP") . " + 0 timestamp14 FROM survey_question");
+if ($res->numRows())
+{
+	while ($row = $ilDB->fetchAssoc($res))
+	{
+		preg_match("/(\\d{4})(\\d{2})(\\d{2})(\\d{2})(\\d{2})(\\d{2})/", $row['timestamp14'], $matches);
+		$tstamp = mktime((int)$matches[4], (int)$matches[5], (int)$matches[6], (int)$matches[2], (int)$matches[3], (int)$matches[1]);
+		$ilDB->manipulateF("UPDATE survey_question SET tstamp = %s WHERE question_id = %s",
+			array("integer", "integer"),
+			array($tstamp, $row['question_id'])
+		);
+	}
+}
+?>
+<#2134>
+<?php
+$ilDB->manipulate("ALTER TABLE `survey_question` DROP " . $ilDB->quoteIdentifier("TIMESTAMP"));
+?>
+<#2135>
+<?php
+$ilDB->manipulate("ALTER TABLE `survey_question` CHANGE `questiontext` `questiontext` VARCHAR(4000) NULL DEFAULT NULL");
+?>
+<#2136>
+<?php
+$ilDB->manipulate("RENAME TABLE `survey_question` TO `svy_question`");
+?>
+<#2137>
+<?php
+$res = $ilDB->manipulate("ALTER TABLE `survey_questionblock` ADD `tstamp` INT NOT NULL DEFAULT '0'");
+?>
+<#2138>
+<?php
+$res = $ilDB->query("SELECT questionblock_id, " . $ilDB->quoteIdentifier("TIMESTAMP") . " + 0 timestamp14 FROM survey_questionblock");
+if ($res->numRows())
+{
+	while ($row = $ilDB->fetchAssoc($res))
+	{
+		preg_match("/(\\d{4})(\\d{2})(\\d{2})(\\d{2})(\\d{2})(\\d{2})/", $row['timestamp14'], $matches);
+		$tstamp = mktime((int)$matches[4], (int)$matches[5], (int)$matches[6], (int)$matches[2], (int)$matches[3], (int)$matches[1]);
+		$ilDB->manipulateF("UPDATE survey_questionblock SET tstamp = %s WHERE questionblock_id = %s",
+			array("integer", "integer"),
+			array($tstamp, $row['questionblock_id'])
+		);
+	}
+}
+?>
+<#2139>
+<?php
+$ilDB->manipulate("ALTER TABLE `survey_questionblock` DROP " . $ilDB->quoteIdentifier("TIMESTAMP"));
+?>
+<#2140>
+<?php
+$ilDB->manipulate("ALTER TABLE `survey_questionblock` CHANGE `title` `title` VARCHAR(4000) NULL DEFAULT NULL");
+?>
+<#2141>
+<?php
+$ilDB->manipulate("RENAME TABLE `survey_questionblock` TO `svy_qblk`");
+?>
+<#2142>
+<?php
+$ilDB->manipulate("ALTER TABLE `survey_questionblock_question` CHANGE `questionblock_question_id` `qblk_qst_id` INT NOT NULL AUTO_INCREMENT");
+?>
+<#2143>
+<?php
+$ilDB->manipulate("RENAME TABLE `survey_questionblock_question` TO `svy_qblk_qst`");
+?>
+<#2144>
+<?php
+$res = $ilDB->manipulate("ALTER TABLE `survey_questionpool` ADD `tstamp` INT NOT NULL DEFAULT '0'");
+?>
+<#2145>
+<?php
+$res = $ilDB->query("SELECT id_questionpool, " . $ilDB->quoteIdentifier("TIMESTAMP") . " + 0 timestamp14 FROM survey_questionpool");
+if ($res->numRows())
+{
+	while ($row = $ilDB->fetchAssoc($res))
+	{
+		preg_match("/(\\d{4})(\\d{2})(\\d{2})(\\d{2})(\\d{2})(\\d{2})/", $row['timestamp14'], $matches);
+		$tstamp = mktime((int)$matches[4], (int)$matches[5], (int)$matches[6], (int)$matches[2], (int)$matches[3], (int)$matches[1]);
+		$ilDB->manipulateF("UPDATE survey_questionpool SET tstamp = %s WHERE id_questionpool = %s",
+			array("integer", "integer"),
+			array($tstamp, $row['id_questionpool'])
+		);
+	}
+}
+?>
+<#2146>
+<?php
+$ilDB->manipulate("ALTER TABLE `survey_questionpool` DROP " . $ilDB->quoteIdentifier("TIMESTAMP"));
+?>
+<#2147>
+<?php
+$ilDB->manipulate("RENAME TABLE `survey_questionpool` TO `svy_qpl`");
+?>
+<#2148>
+<?php
+$ilDB->manipulate("RENAME TABLE `survey_questiontype` TO `svy_qtype`");
+?>
+<#2149>
+<?php
+$ilDB->manipulate("RENAME TABLE `survey_question_constraint` TO `svy_qst_constraint`");
+?>
+<#2150>
+<?php
+$res = $ilDB->manipulate("ALTER TABLE `survey_question_material` ADD `tstamp` INT NOT NULL DEFAULT '0'");
+?>
+<#2151>
+<?php
+$ilDB->manipulate("ALTER TABLE `survey_question_material` CHANGE `materials` `materials` VARCHAR(4000) NULL DEFAULT NULL");
+?>
+<#2152>
+<?php
+$ilDB->manipulate("RENAME TABLE `survey_question_material` TO `svy_qst_mat`");
+?>
+<#2153>
+<?php
+$res = $ilDB->manipulate("ALTER TABLE `survey_question_matrix` ADD `tstamp` INT NOT NULL DEFAULT '0'");
+?>
+<#2154>
+<?php
+$res = $ilDB->query("SELECT question_fi, lastchange + 0 timestamp14 FROM survey_question_matrix");
+if ($res->numRows())
+{
+	while ($row = $ilDB->fetchAssoc($res))
+	{
+		preg_match("/(\\d{4})(\\d{2})(\\d{2})(\\d{2})(\\d{2})(\\d{2})/", $row['timestamp14'], $matches);
+		$tstamp = mktime((int)$matches[4], (int)$matches[5], (int)$matches[6], (int)$matches[2], (int)$matches[3], (int)$matches[1]);
+		$ilDB->manipulateF("UPDATE survey_question_matrix SET tstamp = %s WHERE question_fi = %s",
+			array("integer", "integer"),
+			array($tstamp, $row['question_fi'])
+		);
+	}
+}
+?>
+<#2155>
+<?php
+$ilDB->manipulate("ALTER TABLE `survey_question_matrix` DROP lastchange");
+?>
+<#2156>
+<?php
+$ilDB->manipulate("ALTER TABLE `survey_question_matrix` CHANGE `layout` `layout` VARCHAR(4000) NULL DEFAULT NULL");
+?>
+<#2157>
+<?php
+$ilDB->manipulate("RENAME TABLE `survey_question_matrix` TO `svy_qst_matrix`");
+?>
+<#2158>
+<?php
+$ilDB->manipulate("ALTER TABLE `survey_question_matrix_rows` CHANGE `id_survey_question_matrix_rows` `id_svy_qst_matrixrows` INT NOT NULL AUTO_INCREMENT");
+?>
+<#2159>
+<?php
+$ilDB->manipulate("RENAME TABLE `survey_question_matrix_rows` TO `svy_qst_matrixrows`");
+?>
+<#2160>
+<?php
+$ilDB->manipulate("RENAME TABLE `survey_question_metric` TO `svy_qst_metric`");
+?>
+<#2161>
+<?php
+$ilDB->manipulate("RENAME TABLE `survey_question_nominal` TO `svy_qst_nominal`");
+?>
+<#2162>
+<?php
+$ilDB->manipulate("RENAME TABLE `survey_question_ordinal` TO `svy_qst_ordinal`");
+?>
+<#2163>
+<?php
+$ilDB->manipulate("RENAME TABLE `survey_question_text` TO `svy_qst_text`");
+?>
+<#2164>
+<?php
+$res = $ilDB->manipulate("ALTER TABLE `survey_question_obligatory` ADD `tstamp` INT NOT NULL DEFAULT '0'");
+?>
+<#2165>
+<?php
+$res = $ilDB->query("SELECT question_obligatory_id, " . $ilDB->quoteIdentifier("TIMESTAMP") . " + 0 timestamp14 FROM survey_question_obligatory");
+if ($res->numRows())
+{
+	while ($row = $ilDB->fetchAssoc($res))
+	{
+		preg_match("/(\\d{4})(\\d{2})(\\d{2})(\\d{2})(\\d{2})(\\d{2})/", $row['timestamp14'], $matches);
+		$tstamp = mktime((int)$matches[4], (int)$matches[5], (int)$matches[6], (int)$matches[2], (int)$matches[3], (int)$matches[1]);
+		$ilDB->manipulateF("UPDATE survey_question_obligatory SET tstamp = %s WHERE question_obligatory_id = %s",
+			array("integer", "integer"),
+			array($tstamp, $row['question_obligatory_id'])
+		);
+	}
+}
+?>
+<#2166>
+<?php
+$ilDB->manipulate("ALTER TABLE `survey_question_obligatory` DROP " . $ilDB->quoteIdentifier("TIMESTAMP"));
+?>
+<#2167>
+<?php
+$ilDB->manipulate("RENAME TABLE `survey_question_obligatory` TO `svy_qst_oblig`");
+?>
+<#2168>
+<?php
+$res = $ilDB->manipulate("ALTER TABLE `survey_relation` ADD `tstamp` INT NOT NULL DEFAULT '0'");
+?>
+<#2169>
+<?php
+$res = $ilDB->query("SELECT relation_id, " . $ilDB->quoteIdentifier("TIMESTAMP") . " + 0 timestamp14 FROM survey_relation");
+if ($res->numRows())
+{
+	while ($row = $ilDB->fetchAssoc($res))
+	{
+		preg_match("/(\\d{4})(\\d{2})(\\d{2})(\\d{2})(\\d{2})(\\d{2})/", $row['timestamp14'], $matches);
+		$tstamp = mktime((int)$matches[4], (int)$matches[5], (int)$matches[6], (int)$matches[2], (int)$matches[3], (int)$matches[1]);
+		$ilDB->manipulateF("UPDATE survey_relation SET tstamp = %s WHERE relation_id = %s",
+			array("integer", "integer"),
+			array($tstamp, $row['relation_id'])
+		);
+	}
+}
+?>
+<#2170>
+<?php
+$ilDB->manipulate("ALTER TABLE `survey_relation` DROP " . $ilDB->quoteIdentifier("TIMESTAMP"));
+?>
+<#2171>
+<?php
+$ilDB->manipulate("RENAME TABLE `survey_relation` TO `svy_relation`");
+?>
+<#2172>
+<?php
+$res = $ilDB->manipulate("ALTER TABLE `survey_survey_question` ADD `tstamp` INT NOT NULL DEFAULT '0'");
+?>
+<#2173>
+<?php
+$res = $ilDB->query("SELECT survey_question_id, " . $ilDB->quoteIdentifier("TIMESTAMP") . " + 0 timestamp14 FROM survey_survey_question");
+if ($res->numRows())
+{
+	while ($row = $ilDB->fetchAssoc($res))
+	{
+		preg_match("/(\\d{4})(\\d{2})(\\d{2})(\\d{2})(\\d{2})(\\d{2})/", $row['timestamp14'], $matches);
+		$tstamp = mktime((int)$matches[4], (int)$matches[5], (int)$matches[6], (int)$matches[2], (int)$matches[3], (int)$matches[1]);
+		$ilDB->manipulateF("UPDATE survey_survey_question SET tstamp = %s WHERE survey_question_id = %s",
+			array("integer", "integer"),
+			array($tstamp, $row['survey_question_id'])
+		);
+	}
+}
+?>
+<#2174>
+<?php
+$ilDB->manipulate("ALTER TABLE `survey_survey_question` DROP " . $ilDB->quoteIdentifier("TIMESTAMP"));
+?>
+<#2175>
+<?php
+$ilDB->manipulate("ALTER TABLE `survey_survey_question` CHANGE `heading` `heading` VARCHAR(4000) NULL DEFAULT NULL");
+?>
+<#2176>
+<?php
+$ilDB->manipulate("RENAME TABLE `survey_survey_question` TO `svy_svy_qst`");
+?>
+<#2177>
+<?php
+$res = $ilDB->manipulate("ALTER TABLE `survey_survey` ADD `tstamp` INT NOT NULL DEFAULT '0'");
+?>
+<#2178>
+<?php
+$res = $ilDB->query("SELECT survey_id, " . $ilDB->quoteIdentifier("TIMESTAMP") . " + 0 timestamp14 FROM survey_survey");
+if ($res->numRows())
+{
+	while ($row = $ilDB->fetchAssoc($res))
+	{
+		preg_match("/(\\d{4})(\\d{2})(\\d{2})(\\d{2})(\\d{2})(\\d{2})/", $row['timestamp14'], $matches);
+		$tstamp = mktime((int)$matches[4], (int)$matches[5], (int)$matches[6], (int)$matches[2], (int)$matches[3], (int)$matches[1]);
+		$ilDB->manipulateF("UPDATE survey_survey SET tstamp = %s WHERE survey_id = %s",
+			array("integer", "integer"),
+			array($tstamp, $row['survey_id'])
+		);
+	}
+}
+?>
+<#2179>
+<?php
+$ilDB->manipulate("ALTER TABLE `survey_survey` DROP " . $ilDB->quoteIdentifier("TIMESTAMP"));
+?>
+<#2180>
+<?php
+$ilDB->manipulate("RENAME TABLE `survey_survey` TO `svy_svy`");
+?>
+<#2181>
+<?php
+$res = $ilDB->manipulate("ALTER TABLE `survey_variable` ADD `tstamp` INT NOT NULL DEFAULT '0'");
+?>
+<#2182>
+<?php
+$res = $ilDB->query("SELECT variable_id, " . $ilDB->quoteIdentifier("TIMESTAMP") . " + 0 timestamp14 FROM survey_variable");
+if ($res->numRows())
+{
+	while ($row = $ilDB->fetchAssoc($res))
+	{
+		preg_match("/(\\d{4})(\\d{2})(\\d{2})(\\d{2})(\\d{2})(\\d{2})/", $row['timestamp14'], $matches);
+		$tstamp = mktime((int)$matches[4], (int)$matches[5], (int)$matches[6], (int)$matches[2], (int)$matches[3], (int)$matches[1]);
+		$ilDB->manipulateF("UPDATE survey_variable SET tstamp = %s WHERE variable_id = %s",
+			array("integer", "integer"),
+			array($tstamp, $row['variable_id'])
+		);
+	}
+}
+?>
+<#2183>
+<?php
+$ilDB->manipulate("ALTER TABLE `survey_variable` DROP " . $ilDB->quoteIdentifier("TIMESTAMP"));
+?>
+<#2184>
+<?php
+$ilDB->manipulate("RENAME TABLE `survey_variable` TO `svy_variable`");
+?>

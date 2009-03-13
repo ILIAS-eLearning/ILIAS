@@ -75,7 +75,7 @@ class SurveyTextQuestion extends SurveyQuestion
 	{
 		global $ilDB;
 		
-		$result = $ilDB->queryF("SELECT survey_question.*, " . $this->getAdditionalTableName() . ".* FROM survey_question, " . $this->getAdditionalTableName() . " WHERE survey_question.question_id = %s AND survey_question.question_id = " . $this->getAdditionalTableName() . ".question_fi",
+		$result = $ilDB->queryF("SELECT svy_question.*, " . $this->getAdditionalTableName() . ".* FROM svy_question, " . $this->getAdditionalTableName() . " WHERE svy_question.question_id = %s AND svy_question.question_id = " . $this->getAdditionalTableName() . ".question_fi",
 			array('integer'),
 			array($id)
 		);
@@ -99,7 +99,7 @@ class SurveyTextQuestion extends SurveyQuestion
 	{
 		global $ilDB;
 		
-		$result = $ilDB->queryF("SELECT survey_question.*, " . $this->getAdditionalTableName() . ".* FROM survey_question, " . $this->getAdditionalTableName() . " WHERE survey_question.question_id = %s AND survey_question.question_id = " . $this->getAdditionalTableName() . ".question_fi",
+		$result = $ilDB->queryF("SELECT svy_question.*, " . $this->getAdditionalTableName() . ".* FROM svy_question, " . $this->getAdditionalTableName() . " WHERE svy_question.question_id = %s AND svy_question.question_id = " . $this->getAdditionalTableName() . ".question_fi",
 			array('integer'),
 			array($id)
 		);
@@ -184,8 +184,8 @@ class SurveyTextQuestion extends SurveyQuestion
 		if ($this->getId() == -1) 
 		{
 			// Write new dataset
-			$next_id = $ilDB->nextId('survey_question');
-			$affectedRows = $ilDB->manipulateF("INSERT INTO survey_question (question_id, questiontype_fi, obj_fi, owner_fi, title, description, author, questiontext, obligatory, complete, created, original_id, tstamp) VALUES (%s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s)",
+			$next_id = $ilDB->nextId('svy_question');
+			$affectedRows = $ilDB->manipulateF("INSERT INTO svy_question (question_id, questiontype_fi, obj_fi, owner_fi, title, description, author, questiontext, obligatory, complete, created, original_id, tstamp) VALUES (%s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s)",
 				array('integer', 'integer', 'integer', 'integer', 'text', 'text', 'text', 'text', 'text', 'text', 'integer', 'integer', 'integer'),
 				array(
 					$next_id,
@@ -208,7 +208,7 @@ class SurveyTextQuestion extends SurveyQuestion
 		else 
 		{
 			// update existing dataset
-			$affectedRows = $ilDB->manipulateF("UPDATE survey_question SET title = %s, description = %s, author = %s, questiontext = %s, obligatory = %s, complete = %s, tstamp = %s WHERE question_id = %s",
+			$affectedRows = $ilDB->manipulateF("UPDATE svy_question SET title = %s, description = %s, author = %s, questiontext = %s, obligatory = %s, complete = %s, tstamp = %s WHERE question_id = %s",
 				array('text', 'text', 'text', 'text', 'text', 'text', 'integer', 'integer'),
 				array(
 					$this->getTitle(),
@@ -326,7 +326,7 @@ class SurveyTextQuestion extends SurveyQuestion
 	function _getMaxChars($question_id)
 	{
 		global $ilDB;
-		$result = $ilDB->queryF("SELECT maxchars FROM survey_question WHERE question_id = %s",
+		$result = $ilDB->queryF("SELECT maxchars FROM svy_question WHERE question_id = %s",
 			array('integer'),
 			array($question_id)
 		);
@@ -357,7 +357,7 @@ class SurveyTextQuestion extends SurveyQuestion
 	*/
 	function getAdditionalTableName()
 	{
-		return "survey_question_text";
+		return "svy_qst_text";
 	}
 	
 	/**
