@@ -47,8 +47,6 @@ class ilSurveyPhrases
 /**
 * Gets the available phrases from the database
 *
-* Gets the available phrases from the database
-*
 * @param boolean $useronly Returns only the user defined phrases if set to true. The default is false.
 * @result array All available phrases as key/value pairs
 * @access public
@@ -60,11 +58,11 @@ class ilSurveyPhrases
 		global $lng;
 		
 		$phrases = array();
-    $query = sprintf("SELECT * FROM survey_phrase WHERE defaultvalue = '1' OR owner_fi = %s ORDER BY title",
-      $ilDB->quote($ilUser->getId())
-    );
-    $result = $ilDB->query($query);
-		while ($row = $result->fetchRow(MDB2_FETCHMODE_OBJECT))
+		$result = $ilDB->queryF("SELECT * FROM survey_phrase WHERE defaultvalue = %s OR owner_fi = %s ORDER BY title",
+			array('text', 'integer'),
+			array('1', $ilUser->getId())
+		);
+		while ($row = $ilDB->fetchObject($result))
 		{
 			if (($row->defaultvalue == 1) and ($row->owner_fi == 0))
 			{
@@ -93,8 +91,6 @@ class ilSurveyPhrases
 /**
 * Gets the available categories for a given phrase
 *
-* Gets the available categories for a given phrase
-*
 * @param integer $phrase_id The database id of the given phrase
 * @result array All available categories
 * @access public
@@ -105,11 +101,11 @@ class ilSurveyPhrases
 		global $lng;
 		
 		$categories = array();
-    $query = sprintf("SELECT survey_category.* FROM survey_category, survey_phrase_category WHERE survey_phrase_category.category_fi = survey_category.category_id AND survey_phrase_category.phrase_fi = %s ORDER BY survey_phrase_category.sequence",
-      $ilDB->quote($phrase_id)
-    );
-    $result = $ilDB->query($query);
-		while ($row = $result->fetchRow(MDB2_FETCHMODE_OBJECT))
+		$result = $ilDB->queryF("SELECT survey_category.* FROM survey_category, survey_phrase_category WHERE survey_phrase_category.category_fi = survey_category.category_id AND survey_phrase_category.phrase_fi = %s ORDER BY survey_phrase_category.sequence",
+			array('integer'),
+			array($phrase_id)
+		);
+		while ($row = $ilDB->fetchObject($result))
 		{
 			if (($row->defaultvalue == 1) and ($row->owner_fi == 0))
 			{
@@ -126,8 +122,6 @@ class ilSurveyPhrases
 /**
 * Delete phrases from the database
 *
-* Delete phrases from the database
-*
 * @param array $phrase_array An array containing phrase id's to delete
 * @access public
 */
@@ -137,10 +131,8 @@ class ilSurveyPhrases
 		
 		if ((is_array($phrase_array)) && (count($phrase_array)))
 		{
-			$query = "DELETE FROM survey_phrase WHERE phrase_id IN ('" . join($phrase_array, "','") . "')";
-			$result = $ilDB->query($query);
-			$query = "DELETE FROM survey_phrase_category WHERE phrase_fi IN ('" . join($phrase_array, "','") . "')";
-			$result = $ilDB->query($query);
+			$affectedRows = $ilDB->manipulate("DELETE FROM survey_phrase WHERE " . $ilDB->in('phrase_id', $phrase_array, false, 'integer'));
+			$affectedRows = $ilDB->manipulate("DELETE FROM survey_phrase_category WHERE " . $ilDB->in('phrase_fi', $phrase_array, false, 'integer'));
 		}
 	}
 

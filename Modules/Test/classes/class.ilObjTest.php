@@ -3559,7 +3559,7 @@ function loadQuestions($active_id = "", $pass = NULL)
 			array('integer', 'integer', 'timestamp', 'timestamp', 'integer', 'integer'),
 			array($next_id, $active_id, strftime("%Y-%m-%d %H:%M:%S"), strftime("%Y-%m-%d %H:%M:%S"), $pass, time())
 		);
-		return $ilDB->getLastInsertId();
+		return $next_id;
 	}
 
 /**

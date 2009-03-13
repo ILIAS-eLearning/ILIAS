@@ -444,61 +444,6 @@ class SurveyOrdinalQuestion extends SurveyQuestion
 		$a_xml_writer->xmlEndTag("question");
 	}
 
-	function syncWithOriginal()
-	{
-		global $ilDB;
-		if ($this->original_id)
-		{
-			$complete = 0;
-			if ($this->isComplete()) {
-				$complete = 1;
-			}
-			$query = sprintf("UPDATE survey_question SET title = %s, description = %s, author = %s, questiontext = %s, obligatory = %s, complete = %s WHERE question_id = %s",
-				$ilDB->quote($this->title . ""),
-				$ilDB->quote($this->description . ""),
-				$ilDB->quote($this->author . ""),
-				$ilDB->quote($this->questiontext . ""),
-				$ilDB->quote(sprintf("%d", $this->obligatory) . ""),
-				$ilDB->quote($complete . ""),
-				$ilDB->quote($this->original_id . "")
-			);
-			$result = $ilDB->query($query);
-			$query = sprintf("UPDATE survey_question_ordinal SET orientation = %s WHERE question_fi = %s",
-				$ilDB->quote($this->getOrientation() . ""),
-				$ilDB->quote($this->original_id . "")
-			);
-			$result = $ilDB->query($query);
-			if (PEAR::isError($result)) 
-			{
-				global $ilias;
-				$ilias->raiseError($result->getMessage());
-			}
-			else
-			{
-				// save categories
-				
-				// delete existing category relations
-				$query = sprintf("DELETE FROM survey_variable WHERE question_fi = %s",
-					$ilDB->quote($this->original_id . "")
-				);
-				$result = $ilDB->query($query);
-				// create new category relations
-				for ($i = 0; $i < $this->categories->getCategoryCount(); $i++)
-				{
-					$category_id = $this->saveCategoryToDb($this->categories->getCategory($i));
-					$query = sprintf("INSERT INTO survey_variable (variable_id, category_fi, question_fi, value1, sequence, TIMESTAMP) VALUES (NULL, %s, %s, %s, %s, NULL)",
-						$ilDB->quote($category_id . ""),
-						$ilDB->quote($this->original_id . ""),
-						$ilDB->quote(($i + 1) . ""),
-						$ilDB->quote($i . "")
-					);
-					$answer_result = $ilDB->query($query);
-				}
-			}
-		}
-		parent::syncWithOriginal();
-	}
-
 /**
 * Adds standard numbers as categories
 *

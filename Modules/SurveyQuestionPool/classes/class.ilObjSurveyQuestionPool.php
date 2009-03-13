@@ -99,8 +99,6 @@ class ilObjSurveyQuestionPool extends ilObject
 
 	/**
 	* Creates a 1:1 copy of the object and places the copy in a given repository
-	* 
-	* Creates a 1:1 copy of the object and places the copy in a given repository
 	*
 	* @access public
 	*/
@@ -149,8 +147,6 @@ class ilObjSurveyQuestionPool extends ilObject
 		/**
 		* Copies a question into another question pool
 		*
-		* Copies a question into another question pool
-		*
 		* @param integer $question_id Database id of the question
 		* @param integer $questionpool_to Database id of the target questionpool
 		* @access public
@@ -183,28 +179,24 @@ class ilObjSurveyQuestionPool extends ilObject
 	/**
 	* Loads a ilObjQuestionpool object from a database
 	*
-	* Loads a ilObjQuestionpool object from a database
-	*
 	* @access public
 	*/
 	function loadFromDb()
 	{
 		global $ilDB;
 		
-		$query = sprintf("SELECT * FROM survey_questionpool WHERE obj_fi = %s",
-			$ilDB->quote($this->getId() . "")
+		$result = $ilDB->queryF("SELECT * FROM survey_questionpool WHERE obj_fi = %s",
+			array('integer'),
+			array($this->getId())
 		);
-		$result = $ilDB->query($query);
 		if ($result->numRows() == 1)
 		{
-			$row = $result->fetchRow(MDB2_FETCHMODE_ASSOC);
+			$row = $ilDB->fetchAssoc($result);
 			$this->setOnline($row["isonline"]);
 		}
 	}
 	
 /**
-* Saves a ilObjSurveyQuestionPool object to a database
-* 
 * Saves a ilObjSurveyQuestionPool object to a database
 *
 * @access public
@@ -213,35 +205,24 @@ class ilObjSurveyQuestionPool extends ilObject
   {
 		global $ilDB;
 		
-		$query = sprintf("SELECT * FROM survey_questionpool WHERE obj_fi = %s",
-			$ilDB->quote($this->getId() . "")
+		$result = $ilDB->queryF("SELECT * FROM survey_questionpool WHERE obj_fi = %s",
+			array('integer'),
+			array($this->getId())
 		);
-		$result = $ilDB->query($query);
 		if ($result->numRows() == 1)
 		{
-			$query = sprintf("UPDATE survey_questionpool SET isonline = %s WHERE obj_fi = %s",
-				$ilDB->quote($this->getOnline() . ""),
-				$ilDB->quote($this->getId() . "")
+			$affectedRows = $ilDB->manipulateF("UPDATE survey_questionpool SET isonline = %s, tstamp = %s WHERE obj_fi = %s",
+				array('text','integer','integer'),
+				array($this->getOnline(), time(), $this->getId())
 			);
-			$result = $ilDB->query($query);
-			if (PEAR::isError($result)) 
-			{
-				global $ilias;
-				$ilias->raiseError($result->getMessage());
-			}
 		}
 		else
 		{
-			$query = sprintf("INSERT INTO survey_questionpool (isonline, obj_fi) VALUES (%s, %s)",
-				$ilDB->quote($this->getOnline() . ""),
-				$ilDB->quote($this->getId() . "")
+			$next_id = $ilDB->nextId('survey_questionpool');
+			$query = sprintf("INSERT INTO survey_questionpool (id_questionpool, isonline, obj_fi, tstamp) VALUES (%s, %s, %s, %s)",
+				array('integer', 'text', 'integer', 'integer'),
+				array($next_id, $this->getOnline(), $this->getId(), time())
 			);
-			$result = $ilDB->query($query);
-			if (PEAR::isError($result)) 
-			{
-				global $ilias;
-				$ilias->raiseError($result->getMessage());
-			}
 		}
 	}
 	
@@ -271,12 +252,13 @@ class ilObjSurveyQuestionPool extends ilObject
 
 	function deleteAllData()
 	{
-		$query = sprintf("SELECT question_id FROM survey_question WHERE obj_fi = %s AND original_id IS NULL",
-			$this->ilias->db->quote($this->getId())
+		global $ilDB;
+		$result = $ilDB->queryF("SELECT question_id FROM survey_question WHERE obj_fi = %s AND original_id IS NULL",
+			array('integer'),
+			array($this->getId())
 		);
-		$result = $this->ilias->db->query($query);
 		$found_questions = array();
-		while ($row = $result->fetchRow(MDB2_FETCHMODE_ASSOC))
+		while ($row = $ilDB->fetchAssoc($result))
 		{
 			$this->removeQuestion($row["question_id"]);
 		}
@@ -380,8 +362,6 @@ class ilObjSurveyQuestionPool extends ilObject
 /**
 * Removes a question from the question pool
 *
-* Removes a question from the question pool
-*
 * @param integer $question_id The database id of the question
 * @access private
 */
@@ -396,31 +376,30 @@ class ilObjSurveyQuestionPool extends ilObject
 	/**
 	* Returns the question type of a question with a given id
 	*
-	* Returns the question type of a question with a given id
-	*
 	* @param integer $question_id The database id of the question
 	* @result string The question type string
 	* @access private
 */
 	function getQuestiontype($question_id) 
 	{
+		global $ilDB;
 		if ($question_id < 1) return;
-		$query = sprintf("SELECT survey_questiontype.type_tag FROM survey_question, survey_questiontype WHERE survey_question.questiontype_fi = survey_questiontype.questiontype_id AND survey_question.question_id = %s",
-			$this->ilias->db->quote($question_id)
+		$result = $ilDB->queryF("SELECT survey_questiontype.type_tag FROM survey_question, survey_questiontype WHERE survey_question.questiontype_fi = survey_questiontype.questiontype_id AND survey_question.question_id = %s",
+			array('integer'),
+			array($question_id)
 		);
-		$result = $this->ilias->db->query($query);
 		if ($result->numRows() == 1) 
 		{
-			$data = $result->fetchRow(MDB2_FETCHMODE_OBJECT);
-			return $data->type_tag;
-		} else {
+			$data = $ilDB->fetchAssoc($result);
+			return $data["type_tag"];
+		}
+		else 
+		{
 			return;
 		}
 	}
 	
 /**
-* Checks if a question is in use by a survey
-* 
 * Checks if a question is in use by a survey
 *
 * @param integer $question_id The database id of the question
@@ -429,25 +408,26 @@ class ilObjSurveyQuestionPool extends ilObject
 */
 	function isInUse($question_id)
 	{
+		global $ilDB;
 		// check out the already answered questions
-		$query = sprintf("SELECT answer_id FROM survey_answer WHERE question_fi = %s",
-			$this->ilias->db->quote($question_id)
+		$result = $ilDB->queryF("SELECT answer_id FROM survey_answer WHERE question_fi = %s",
+			array('integer'),
+			array($question_id)
 		);
-		$result = $this->ilias->db->query($query);
 		$answered = $result->numRows();
 		
 		// check out the questions inserted in surveys
-		$query = sprintf("SELECT survey_survey.* FROM survey_survey, survey_survey_question WHERE survey_survey_question.survey_fi = survey_survey.survey_id AND survey_survey_question.question_fi = %s",
-			$this->ilias->db->quote($question_id)
+		$result = $ilDB->queryF("SELECT survey_survey.* FROM survey_survey, survey_survey_question WHERE survey_survey_question.survey_fi = survey_survey.survey_id AND survey_survey_question.question_fi = %s",
+			array('integer'),
+			array($question_id)
 		);
-		$result = $this->ilias->db->query($query);
 		$inserted = $result->numRows();
 		if (($inserted + $answered) == 0)
 		{
 			return false;
 		}
 		$result_array = array();
-		while ($row = $result->fetchRow(MDB2_FETCHMODE_OBJECT))
+		while ($row = $ilDB->fetchObject($result))
 		{
 			array_push($result_array, $row);
 		}
@@ -455,8 +435,6 @@ class ilObjSurveyQuestionPool extends ilObject
 	}
 	
 /**
-* Pastes a question in the question pool
-* 
 * Pastes a question in the question pool
 *
 * @param integer $question_id The database id of the question
@@ -469,8 +447,6 @@ class ilObjSurveyQuestionPool extends ilObject
 	
 /**
 * Retrieves the datase entries for questions from a given array
-* 
-* Retrieves the datase entries for questions from a given array
 *
 * @param array $question_array An array containing the id's of the questions
 * @result array An array containing the database rows of the given question id's
@@ -478,12 +454,10 @@ class ilObjSurveyQuestionPool extends ilObject
 */
 	function &getQuestionsInfo($question_array)
 	{
+		global $ilDB;
 		$result_array = array();
-		$query = sprintf("SELECT survey_question.*, survey_questiontype.type_tag, survey_questiontype.plugin FROM survey_question, survey_questiontype WHERE survey_question.questiontype_fi = survey_questiontype.questiontype_id AND survey_question.question_id IN ('%s')",
-			join($question_array, "','")
-		);
-		$result = $this->ilias->db->query($query);
-		while ($row = $result->fetchRow(MDB2_FETCHMODE_ASSOC))
+		$result = $ilDB->query("SELECT survey_question.*, survey_questiontype.type_tag, survey_questiontype.plugin FROM survey_question, survey_questiontype WHERE survey_question.questiontype_fi = survey_questiontype.questiontype_id AND " . $ilDB->in('survey_question.question_id', $question_array, false, 'integer'));
+		while ($row = $ilDB->fetchAssoc($result))
 		{
 			if ($row["plugin"])
 			{
@@ -501,8 +475,6 @@ class ilObjSurveyQuestionPool extends ilObject
 	}
 	
 	/**
-	* Duplicates a question for a questionpool
-	*
 	* Duplicates a question for a questionpool
 	*
 	* @param integer $question_id The database id of the question
@@ -530,8 +502,6 @@ class ilObjSurveyQuestionPool extends ilObject
 	/**
 	* Calculates the data for the output of the questionpool
 	*
-	* Calculates the data for the output of the questionpool
-	*
 	* @access public
 	*/
 	function getQuestionsTable($sort, $sortorder, $filter_text, $sel_filter_type, $startrow = 0)
@@ -543,13 +513,13 @@ class ilObjSurveyQuestionPool extends ilObject
 			switch($sel_filter_type) 
 			{
 				case "title":
-					$where = " AND survey_question.title LIKE " . $this->ilias->db->quote("%" . $filter_text . "%");
+					$where = " AND " . $ilDB->like('survey_question.title', 'text', "%" . $filter_text . "%");
 					break;
 				case "description":
-					$where = " AND survey_question.description LIKE " . $this->ilias->db->quote("%" . $filter_text . "%");
+					$where = " AND " . $ilDB->like('survey_question.description', 'text', "%" . $filter_text . "%");
 					break;
 				case "author":
-					$where = " AND survey_question.author LIKE " . $this->ilias->db->quote("%" . $filter_text . "%");
+					$where = " AND " . $ilDB->like('survey_question.author', 'text', "%" . $filter_text . "%");
 					break;
 			}
 		}
@@ -581,7 +551,7 @@ class ilObjSurveyQuestionPool extends ilObject
 				$images["created"] = " <img src=\"" . ilUtil::getImagePath(strtolower($sortorder) . "_order.gif") . "\" alt=\"" . strtolower($sortorder) . "ending order\" />";
 				break;
 			case "updated":
-				$order = " ORDER BY timestamp14 $sortorder";
+				$order = " ORDER BY tstamp $sortorder";
 				$images["updated"] = " <img src=\"" . ilUtil::getImagePath(strtolower($sortorder) . "_order.gif") . "\" alt=\"" . strtolower($sortorder) . "ending order\" />";
 				break;
 		}
@@ -590,8 +560,10 @@ class ilObjSurveyQuestionPool extends ilObject
 		{
 			$maxentries = 9999;
 		}
-		$query = "SELECT survey_question.question_id, survey_question.TIMESTAMP + 0 AS timestamp14 FROM survey_question, survey_questiontype WHERE survey_question.questiontype_fi = survey_questiontype.questiontype_id AND survey_question.obj_fi = " . $this->getId() . " AND ISNULL(survey_question.original_id) $where$order$limit";
-		$query_result = $this->ilias->db->query($query);
+		$query_result = $ilDB->queryF("SELECT survey_question.question_id FROM survey_question, survey_questiontype WHERE survey_question.questiontype_fi = survey_questiontype.questiontype_id AND survey_question.obj_fi = %s AND ISNULL(survey_question.original_id) $where$order$limit",
+			array('integer'),
+			array($this->getId())
+		);
 		$max = $query_result->numRows();
 		if ($startrow > $max -1)
 		{
@@ -601,13 +573,15 @@ class ilObjSurveyQuestionPool extends ilObject
 		{
 			$startrow = 0;
 		}
-		$limit = " LIMIT $startrow, $maxentries";
-		$query = "SELECT survey_question.*, survey_question.TIMESTAMP + 0 AS timestamp14, survey_questiontype.type_tag, survey_questiontype.plugin FROM survey_question, survey_questiontype WHERE survey_question.questiontype_fi = survey_questiontype.questiontype_id AND survey_question.obj_fi = " . $this->getId() . " AND ISNULL(survey_question.original_id) $where$order$limit";
-		$query_result = $this->ilias->db->query($query);
+		$ilDB->setLimit($maxentries, $startrow);
+		$query_result = $ilDB->queryF("SELECT survey_question.*, survey_questiontype.type_tag, survey_questiontype.plugin FROM survey_question, survey_questiontype WHERE survey_question.questiontype_fi = survey_questiontype.questiontype_id AND survey_question.obj_fi = %s AND ISNULL(survey_question.original_id) $where$order$limit",
+			array('integer'),
+			array($this->getId())
+		);
 		$rows = array();
 		if ($query_result->numRows())
 		{
-			while ($row = $query_result->fetchRow(MDB2_FETCHMODE_ASSOC))
+			while ($row = $ilDB->fetchAssoc($query_result))
 			{
 				if ($row["plugin"])
 				{
@@ -841,14 +815,15 @@ class ilObjSurveyQuestionPool extends ilObject
 
 	function &getQuestions()
 	{
+		global $ilDB;
 		$questions = array();
-		$query = sprintf("SELECT question_id FROM survey_question WHERE obj_fi = %s AND ISNULL(original_id)",
-			$this->ilias->db->quote($this->getId() . "")
+		$result = $ilDB->queryF("SELECT question_id FROM survey_question WHERE obj_fi = %s AND ISNULL(original_id)",
+			array('integer'),
+			array($this->getId())
 		);
-		$result = $this->ilias->db->query($query);
 		if ($result->numRows())
 		{
-			while ($row = $result->fetchRow(MDB2_FETCHMODE_ASSOC))
+			while ($row = $ilDB->fetchAssoc($result))
 			{
 				array_push($questions, $row["question_id"]);
 			}
@@ -857,8 +832,6 @@ class ilObjSurveyQuestionPool extends ilObject
 	}
 
 	/**
-	* Imports survey questions into ILIAS
-	*
 	* Imports survey questions into ILIAS
 	*
 	* @param string $source The filename of an XML import file
@@ -921,13 +894,13 @@ class ilObjSurveyQuestionPool extends ilObject
 	{
 		global $ilDB;
 		
-		$query = sprintf("SELECT isonline FROM survey_questionpool WHERE obj_fi = %s",
-			$ilDB->quote($a_obj_id . "")
+		$result = $ilDB->queryF("SELECT isonline FROM survey_questionpool WHERE obj_fi = %s",
+			array('integer'),
+			array($a_obj_id)
 		);
-		$result = $ilDB->query($query);
 		if ($result->numRows() == 1)
 		{
-			$row = $result->fetchRow(MDB2_FETCHMODE_ASSOC);
+			$row = $ilDB->fetchAssoc($result);
 			return $row["isonline"];
 		}
 		return 0;
@@ -960,8 +933,6 @@ class ilObjSurveyQuestionPool extends ilObject
 	/**
 	* Creates a list of all available question types
 	*
-	* Creates a list of all available question types
-	*
 	* @return array An array containing the available questiontypes
 	* @access public
 	*/
@@ -972,9 +943,8 @@ class ilObjSurveyQuestionPool extends ilObject
 		
 		$lng->loadLanguageModule("survey");
 		$types = array();
-		$query = "SELECT * FROM survey_questiontype ORDER BY type_tag";
-		$query_result = $ilDB->query($query);
-		while ($row = $query_result->fetchRow(MDB2_FETCHMODE_ASSOC))
+		$query_result = $ilDB->query("SELECT * FROM survey_questiontype ORDER BY type_tag");
+		while ($row = $ilDB->fetchAssoc($query_result))
 		{
 			//array_push($questiontypes, $row["type_tag"]);
 			if ($row["plugin"] == 0)
@@ -1014,8 +984,7 @@ class ilObjSurveyQuestionPool extends ilObject
 		$qpls = ilUtil::_getObjectsByOperations("spl", $permission, $ilUser->getId(), -1);
 		$titles = ilObject::_prepareCloneSelection($qpls, "spl");
 		$allqpls = array();
-		$statement = $ilDB->prepare("SELECT obj_fi, isonline FROM survey_questionpool");
-		$result = $ilDB->execute($statement);
+		$result = $ilDB->query("SELECT obj_fi, isonline FROM survey_questionpool");
 		while ($row = $ilDB->fetchAssoc($result))
 		{
 			$allqpls[$row['obj_fi']] = $row['isonline'];
@@ -1039,7 +1008,7 @@ class ilObjSurveyQuestionPool extends ilObject
 	}
 
 	/**
-	* Checks wheather or not a question plugin with a given name is active
+	* Checks whether or not a question plugin with a given name is active
 	*
 	* @param string $a_pname The plugin name
 	* @access public
@@ -1055,6 +1024,34 @@ class ilObjSurveyQuestionPool extends ilObject
 		{
 			return FALSE;
 		}
+	}
+	
+	/**
+	* Returns title, description and type for an array of question id's
+	*
+	* @param array $question_ids An array of question id's
+	* @return array Array of associated arrays with title, description, type_tag
+	*/
+	public function getQuestionInfos($question_ids)
+	{
+		global $ilDB;
+		
+		$found = array();
+		$query_result = $ilDB->query("SELECT survey_question.*, survey_questiontype.type_tag FROM survey_question, survey_questiontype " .
+			"WHERE survey_question.questiontype_fi = survey_questiontype.questiontype_id " .
+			"AND " . $ilDB->in('survey_question.question_id', $question_ids, false, 'integer') . " " .
+			"ORDER BY survey_question.title");
+		if ($query_result->numRows() > 0)
+		{
+			while ($data = $ilDB->fetchAssoc($query_result))
+			{
+				if (in_array($data["question_id"], $question_ids))
+				{
+					array_push($found, array('title' => $data["title"], 'description' => $data["description"], 'type_tag' => $data["type_tag"]));
+				}
+			}
+		}
+		return $found;
 	}
 } // END class.ilSurveyObjQuestionPool
 ?>

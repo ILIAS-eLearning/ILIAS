@@ -310,28 +310,19 @@ class ilObjSurveyQuestionPoolGUI extends ilObjectGUI
 			return;
 		}
 		$this->tpl->addBlockFile("ADM_CONTENT", "adm_content", "tpl.il_svy_qpl_confirm_delete_questions.html", "Modules/SurveyQuestionPool");
-		$whereclause = join($checked_questions, " OR survey_question.question_id = ");
-		$whereclause = " AND (survey_question.question_id = " . $whereclause . ")";
-		$query = "SELECT survey_question.*, survey_questiontype.type_tag FROM survey_question, survey_questiontype WHERE survey_question.questiontype_fi = survey_questiontype.questiontype_id$whereclause ORDER BY survey_question.title";
-		$query_result = $this->ilias->db->query($query);
+		$infos = $this->object->getQuestionInfos($checked_questions);
 		$colors = array("tblrow1", "tblrow2");
 		$counter = 0;
 		include_once "./Modules/SurveyQuestionPool/classes/class.SurveyQuestion.php";
-		if ($query_result->numRows() > 0)
+		foreach ($infos as $data)
 		{
-			while ($data = $query_result->fetchRow(MDB2_FETCHMODE_OBJECT))
-			{
-				if (in_array($data->question_id, $checked_questions))
-				{
-					$this->tpl->setCurrentBlock("row");
-					$this->tpl->setVariable("COLOR_CLASS", $colors[$counter % 2]);
-					$this->tpl->setVariable("TXT_TITLE", $data->title);
-					$this->tpl->setVariable("TXT_DESCRIPTION", $data->description);
-					$this->tpl->setVariable("TXT_TYPE", SurveyQuestion::_getQuestionTypeName($data->type_tag));
-					$this->tpl->parseCurrentBlock();
-					$counter++;
-				}
-			}
+			$this->tpl->setCurrentBlock("row");
+			$this->tpl->setVariable("COLOR_CLASS", $colors[$counter % 2]);
+			$this->tpl->setVariable("TXT_TITLE", $data["title"]);
+			$this->tpl->setVariable("TXT_DESCRIPTION", $data["description"]);
+			$this->tpl->setVariable("TXT_TYPE", SurveyQuestion::_getQuestionTypeName($data["type_tag"]));
+			$this->tpl->parseCurrentBlock();
+			$counter++;
 		}
 		foreach ($checked_questions as $id)
 		{
