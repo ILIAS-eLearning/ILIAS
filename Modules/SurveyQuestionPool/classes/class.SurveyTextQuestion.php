@@ -42,8 +42,6 @@ class SurveyTextQuestion extends SurveyQuestion
 	var $textheight;
 	
 /**
-* SurveyTextQuestion constructor
-*
 * The constructor takes possible arguments an creates an instance of the SurveyTextQuestion object.
 *
 * @param string $title A title string to describe the question
@@ -52,15 +50,14 @@ class SurveyTextQuestion extends SurveyQuestion
 * @param integer $owner A numerical ID to identify the owner/creator
 * @access public
 */
-  function SurveyTextQuestion(
-    $title = "",
-    $description = "",
-    $author = "",
+	function SurveyTextQuestion(
+		$title = "",
+		$description = "",
+		$author = "",
 		$questiontext = "",
-    $owner = -1
-  )
-
-  {
+		$owner = -1
+	)
+	{
 		$this->SurveyQuestion($title, $description, $author, $questiontext, $owner);
 		$this->maxchars = 0;
 		$this->textwidth = 50;
@@ -68,8 +65,6 @@ class SurveyTextQuestion extends SurveyQuestion
 	}
 	
 	/**
-	* Returns the question data fields from the database
-	*
 	* Returns the question data fields from the database
 	*
 	* @param integer $id The question ID from the database
@@ -80,13 +75,13 @@ class SurveyTextQuestion extends SurveyQuestion
 	{
 		global $ilDB;
 		
-    $query = sprintf("SELECT survey_question.*, survey_question_text.* FROM survey_question, survey_question_text WHERE survey_question.question_id = %s AND survey_question.question_id = survey_question_text.question_fi",
-      $ilDB->quote($id)
-    );
-    $result = $ilDB->query($query);
+		$result = $ilDB->queryF("SELECT survey_question.*, " . $this->getAdditionalTableName() . ".* FROM survey_question, " . $this->getAdditionalTableName() . " WHERE survey_question.question_id = %s AND survey_question.question_id = " . $this->getAdditionalTableName() . ".question_fi",
+			array('integer'),
+			array($id)
+		);
 		if ($result->numRows() == 1)
 		{
-			return $result->fetchRow(MDB2_FETCHMODE_ASSOC);
+			return $ilDB->fetchAssoc($row);
 		}
 		else
 		{
@@ -97,35 +92,36 @@ class SurveyTextQuestion extends SurveyQuestion
 /**
 * Loads a SurveyTextQuestion object from the database
 *
-* Loads a SurveyTextQuestion object from the database
-*
 * @param integer $id The database id of the text survey question
 * @access public
 */
 	function loadFromDb($id) 
 	{
 		global $ilDB;
-		$query = sprintf("SELECT survey_question.*, survey_question_text.* FROM survey_question, survey_question_text WHERE survey_question.question_id = %s AND survey_question.question_id = survey_question_text.question_fi",
-			$ilDB->quote($id)
+		
+		$result = $ilDB->queryF("SELECT survey_question.*, " . $this->getAdditionalTableName() . ".* FROM survey_question, " . $this->getAdditionalTableName() . " WHERE survey_question.question_id = %s AND survey_question.question_id = " . $this->getAdditionalTableName() . ".question_fi",
+			array('integer'),
+			array($id)
 		);
-		$result = $ilDB->query($query);
-		if ($result->numRows() == 1)
+		if ($result->numRows() == 1) 
 		{
-			$data = $result->fetchRow(MDB2_FETCHMODE_OBJECT);
-			$this->id = $data->question_id;
-			$this->title = $data->title;
-			$this->description = $data->description;
-			$this->obj_id = $data->obj_fi;
-			$this->author = $data->author;
-			$this->obligatory = $data->obligatory;
-			$this->owner = $data->owner_fi;
-			$this->original_id = $data->original_id;
-			$this->maxchars = $data->maxchars;
-			$this->textwidth = $data->width;
-			$this->textheight = $data->height;
+			$data = $ilDB->fetchAssoc($result);
+			$this->setId($data["question_id"]);
+			$this->setTitle($data["title"]);
+			$this->setDescription($data["description"]);
+			$this->setObjId($data["obj_fi"]);
+			$this->setAuthor($data["author"]);
+			$this->setOwner($data["owner_fi"]);
 			include_once("./Services/RTE/classes/class.ilRTE.php");
-			$this->questiontext = ilRTE::_replaceMediaObjectImageSrc($data->questiontext, 1);
-			$this->complete = $data->complete;
+			$this->setQuestiontext(ilRTE::_replaceMediaObjectImageSrc($data["questiontext"], 1));
+			$this->setObligatory($data["obligatory"]);
+			$this->setComplete($data["complete"]);
+			$this->setOriginalId($data["original_id"]);
+
+			$this->setMaxChars($data["maxchars"]);
+			$this->setTextWidth($data["width"]);
+			$this->setTextHeight($data["height"]);
+
 			// loads materials uris from database
 			$this->loadMaterialFromDb($id);
 		}
@@ -133,8 +129,6 @@ class SurveyTextQuestion extends SurveyQuestion
 	}
 
 /**
-* Returns true if the question is complete for use
-*
 * Returns true if the question is complete for use
 *
 * @result boolean True if the question is complete for use, otherwise false
@@ -155,8 +149,6 @@ class SurveyTextQuestion extends SurveyQuestion
 /**
 * Sets the maximum number of allowed characters for the text answer
 *
-* Sets the maximum number of allowed characters for the text answer
-*
 * @access public
 */
 	function setMaxChars($maxchars = 0)
@@ -167,18 +159,14 @@ class SurveyTextQuestion extends SurveyQuestion
 /**
 * Returns the maximum number of allowed characters for the text answer
 *
-* Returns the maximum number of allowed characters for the text answer
-*
 * @access public
 */
 	function getMaxChars()
 	{
-		return $this->maxchars;
+		return ($this->maxchars) ? $this->maxchars : NULL;
 	}
 	
 /**
-* Saves a SurveyTextQuestion object to a database
-*
 * Saves a SurveyTextQuestion object to a database
 *
 * @access public
@@ -186,103 +174,71 @@ class SurveyTextQuestion extends SurveyQuestion
   function saveToDb($original_id = "")
   {
 		global $ilDB;
-		$maxchars = "NULL";
-		if ($this->maxchars)
-		{
-			$maxchars = $ilDB->quote($this->maxchars . "");
-		}
-		$complete = 0;
-		if ($this->isComplete()) {
-			$complete = 1;
-		}
-		if ($original_id)
-		{
-			$original_id = $ilDB->quote($original_id);
-		}
-		else
-		{
-			$original_id = "NULL";
-		}
-
+		
+		$complete = $this->isComplete();
+		$original_id = ($original_id) ? $original_id : NULL;
 		// cleanup RTE images which are not inserted into the question text
 		include_once("./Services/RTE/classes/class.ilRTE.php");
-		ilRTE::_cleanupMediaObjectUsage($this->questiontext, "spl:html",
-			$this->getId());
+		ilRTE::_cleanupMediaObjectUsage($this->questiontext, "spl:html", $this->getId());
 
-    if ($this->id == -1) 
+		if ($this->getId() == -1) 
 		{
-      // Write new dataset
-      $now = getdate();
-      $created = sprintf("%04d%02d%02d%02d%02d%02d", $now['year'], $now['mon'], $now['mday'], $now['hours'], $now['minutes'], $now['seconds']);
-      $query = sprintf("INSERT INTO survey_question (question_id, questiontype_fi, obj_fi, owner_fi, title, description, author, questiontext, obligatory, complete, created, original_id, TIMESTAMP) VALUES (NULL, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, NULL)",
-				$ilDB->quote($this->getQuestionTypeID() . ""),
-				$ilDB->quote($this->obj_id),
-				$ilDB->quote($this->owner),
-				$ilDB->quote($this->title),
-				$ilDB->quote($this->description),
-				$ilDB->quote($this->author),
-				$ilDB->quote(ilRTE::_replaceMediaObjectImageSrc($this->questiontext, 0)),
-				$ilDB->quote(sprintf("%d", $this->obligatory)),
-				$ilDB->quote("$complete"),
-				$ilDB->quote($created),
-				$original_id
+			// Write new dataset
+			$next_id = $ilDB->nextId('survey_question');
+			$affectedRows = $ilDB->manipulateF("INSERT INTO survey_question (question_id, questiontype_fi, obj_fi, owner_fi, title, description, author, questiontext, obligatory, complete, created, original_id, tstamp) VALUES (%s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s)",
+				array('integer', 'integer', 'integer', 'integer', 'text', 'text', 'text', 'text', 'text', 'text', 'integer', 'integer', 'integer'),
+				array(
+					$next_id,
+					$this->getQuestionTypeID(),
+					$this->getObjId(),
+					$this->getOwner(),
+					$this->getTitle(),
+					$this->getDescription(),
+					$this->getAuthor(),
+					ilRTE::_replaceMediaObjectImageSrc($this->getQuestiontext(), 0),
+					$this->getObligatory(),
+					$this->isComplete(),
+					time(),
+					$original_id,
+					time()
+				)
 			);
-			$result = $ilDB->query($query);
-			if (PEAR::isError($result)) 
-			{
-				global $ilias;
-				$ilias->raiseError($result->getMessage());
-			}
-			else
-			{
-				$this->id = $ilDB->getLastInsertId();
-				$query = sprintf("INSERT INTO survey_question_text (question_fi, maxchars, width, height) VALUES (%s, %s, %s, %s)",
-					$ilDB->quote($this->id . ""),
-					$maxchars,
-					$ilDB->quote($this->getTextWidth() . ""),
-					$ilDB->quote($this->getTextHeight() . ""),
-					$maxchars
-				);
-				$ilDB->query($query);
-			}
+			$this->setId($next_id);
 		} 
 		else 
 		{
 			// update existing dataset
-			$query = sprintf("UPDATE survey_question SET title = %s, description = %s, author = %s, questiontext = %s, obligatory = %s, complete = %s WHERE question_id = %s",
-				$ilDB->quote($this->title),
-				$ilDB->quote($this->description),
-				$ilDB->quote($this->author),
-				$ilDB->quote(ilRTE::_replaceMediaObjectImageSrc($this->questiontext, 0)),
-				$ilDB->quote(sprintf("%d", $this->obligatory)),
-				$ilDB->quote("$complete"),
-				$ilDB->quote($this->id)
-      );
-      $result = $ilDB->query($query);
-			$query = sprintf("UPDATE survey_question_text SET maxchars = %s, width = %s, height = %s WHERE question_fi = %s",
-				$maxchars,
-				$ilDB->quote($this->getTextWidth() . ""),
-				$ilDB->quote($this->getTextHeight() . ""),
-				$ilDB->quote($this->id . "")
+			$affectedRows = $ilDB->manipulateF("UPDATE survey_question SET title = %s, description = %s, author = %s, questiontext = %s, obligatory = %s, complete = %s, tstamp = %s WHERE question_id = %s",
+				array('text', 'text', 'text', 'text', 'text', 'text', 'integer', 'integer'),
+				array(
+					$this->getTitle(),
+					$this->getDescription(),
+					$this->getAuthor(),
+					ilRTE::_replaceMediaObjectImageSrc($this->getQuestiontext(), 0),
+					$this->getObligatory(),
+					$this->isComplete(),
+					time(),
+					$this->getId()
+				)
 			);
-			$result = $ilDB->query($query);
 		}
-		if (PEAR::isError($result)) 
+		if ($affectedRows == 1) 
 		{
-			global $ilias;
-			$ilias->raiseError($result->getMessage());
-		}
-		else
-		{
-			// saving material uris in the database
+			$affectedRows = $ilDB->manipulateF("DELETE FROM " . $this->getAdditionalTableName() . " WHERE question_fi = %s",
+				array('integer'),
+				array($this->getId())
+			);
+			$affectedRows = $ilDB->manipulateF("INSERT INTO " . $this->getAdditionalTableName() . " (question_fi, maxchars, width, height) VALUES (%s, %s, %s, %s)",
+				array('integer', 'integer', 'integer', 'integer'),
+				array($this->getId(), $this->getMaxChars(), $this->getTextWidth(), $this->getTextHeight())
+			);
+
 			$this->saveMaterialsToDb();
 		}
 		parent::saveToDb($original_id);
 	}
 
 	/**
-	* Returns an xml representation of the question
-	*
 	* Returns an xml representation of the question
 	*
 	* @return string The xml representation of the question
@@ -304,8 +260,6 @@ class SurveyTextQuestion extends SurveyQuestion
 	}
 	
 	/**
-	* Adds the question XML to a given XMLWriter object
-	*
 	* Adds the question XML to a given XMLWriter object
 	*
 	* @param object $a_xml_writer The XMLWriter object
@@ -366,29 +320,25 @@ class SurveyTextQuestion extends SurveyQuestion
 	/**
 	* Returns the maxium number of allowed characters for the text answer
 	*
-	* Returns the maxium number of allowed characters for the text answer
-	*
 	* @return integer The maximum number of characters
 	* @access public
 	*/
 	function _getMaxChars($question_id)
 	{
 		global $ilDB;
-		$query = sprintf("SELECT maxchars FROM survey_question WHERE question_id = %s",
-			$ilDB->quote($question_id . "")
+		$result = $ilDB->queryF("SELECT maxchars FROM survey_question WHERE question_id = %s",
+			array('integer'),
+			array($question_id)
 		);
-		$result = $ilDB->query($query);
 		if ($result->numRows())
 		{
-			$row = $result->fetchRow(MDB2_FETCHMODE_ASSOC);
+			$row = $ilDB->fetchAssoc($result);
 			return $row["maxchars"];
 		}
 		return 0;
 	}
 
 	/**
-	* Returns the question type of the question
-	*
 	* Returns the question type of the question
 	*
 	* @return integer The question type of the question
@@ -402,8 +352,6 @@ class SurveyTextQuestion extends SurveyQuestion
 	/**
 	* Returns the name of the additional question data table in the database
 	*
-	* Returns the name of the additional question data table in the database
-	*
 	* @return string The additional table name
 	* @access public
 	*/
@@ -413,8 +361,6 @@ class SurveyTextQuestion extends SurveyQuestion
 	}
 	
 	/**
-	* Creates the user data of the survey_answer table from the POST data
-	*
 	* Creates the user data of the survey_answer table from the POST data
 	*
 	* @return array User data according to the survey_answer table
@@ -432,9 +378,6 @@ class SurveyTextQuestion extends SurveyQuestion
 	}
 	
 	/**
-	* Checks the input of the active user for obligatory status
-	* and entered values
-	*
 	* Checks the input of the active user for obligatory status
 	* and entered values
 	*
@@ -466,14 +409,11 @@ class SurveyTextQuestion extends SurveyQuestion
 			$entered_value = substr($entered_value, 0, $maxchars);
 		}
 		if (strlen($entered_value) == 0) return;
-		$entered_value = $ilDB->quote($entered_value . "");
-		$query = sprintf("INSERT INTO survey_answer (answer_id, question_fi, active_fi, value, textanswer, TIMESTAMP) VALUES (NULL, %s, %s, %s, %s, NULL)",
-			$ilDB->quote($this->getId() . ""),
-			$ilDB->quote($active_id . ""),
-			"NULL",
-			$entered_value
+		$next_id = $ilDB->nextId('survey_answer');
+		$affectedRows = $ilDB->manipulateF("INSERT INTO survey_answer (answer_id, question_fi, active_fi, value, textanswer, tstamp) VALUES (%s, %s, %s, %s, %s, %s)",
+			array('integer', 'integer', 'integer', 'float', 'text', 'integer'),
+			array($next_id, $this->getId(), $active_id, NULL, (strlen($entered_value)) ? $entered_value : NULL, time())
 		);
-		$result = $ilDB->query($query);
 	}
 	
 	function &getCumulatedResults($survey_id, $nr_of_users)
@@ -486,16 +426,15 @@ class SurveyTextQuestion extends SurveyQuestion
 		$cumulated = array();
 		$textvalues = array();
 
-		$query = sprintf("SELECT survey_answer.* FROM survey_answer, survey_finished WHERE survey_answer.question_fi = %s AND survey_finished.survey_fi = %s AND survey_finished.finished_id = survey_answer.active_fi",
-			$ilDB->quote($question_id),
-			$ilDB->quote($survey_id)
+		$result = $ilDB->queryF("SELECT survey_answer.* FROM survey_answer, survey_finished WHERE survey_answer.question_fi = %s AND survey_finished.survey_fi = %s AND survey_finished.finished_id = survey_answer.active_fi",
+			array('integer','integer'),
+			array($question_id, $survey_id)
 		);
-		$result = $ilDB->query($query);
 		
-		while ($row = $result->fetchRow(MDB2_FETCHMODE_OBJECT))
+		while ($row = $ilDB->fetchAssoc($result))
 		{
-			$cumulated["$row->value"]++;
-			array_push($textvalues, $row->textanswer);
+			$cumulated[$row["value"]]++;
+			array_push($textvalues, $row["textanswer"]);
 		}
 		asort($cumulated, SORT_NUMERIC);
 		end($cumulated);
@@ -508,8 +447,6 @@ class SurveyTextQuestion extends SurveyQuestion
 	}
 	
 	/**
-	* Creates an Excel worksheet for the detailed cumulated results of this question
-	*
 	* Creates an Excel worksheet for the detailed cumulated results of this question
 	*
 	* @param object $workbook Reference to the parent excel workbook
@@ -548,8 +485,6 @@ class SurveyTextQuestion extends SurveyQuestion
 	/**
 	* Adds the values for the user specific results export for a given user
 	*
-	* Adds the values for the user specific results export for a given user
-	*
 	* @param array $a_array An array which is used to append the values
 	* @param array $resultset The evaluation data for a given user
 	* @access public
@@ -572,8 +507,6 @@ class SurveyTextQuestion extends SurveyQuestion
 	/**
 	* Returns an array containing all answers to this question in a given survey
 	*
-	* Returns an array containing all answers to this question in a given survey
-	*
 	* @param integer $survey_id The database ID of the survey
 	* @return array An array containing the answers to the question. The keys are either the user id or the anonymous id
 	* @access public
@@ -584,12 +517,11 @@ class SurveyTextQuestion extends SurveyQuestion
 		
 		$answers = array();
 
-		$query = sprintf("SELECT survey_answer.* FROM survey_answer, survey_finished WHERE survey_finished.survey_fi = %s AND survey_answer.question_fi = %s AND survey_finished.finished_id = survey_answer.active_fi",
-			$ilDB->quote($survey_id),
-			$ilDB->quote($this->getId())
+		$result = $ilDB->queryF("SELECT survey_answer.* FROM survey_answer, survey_finished WHERE survey_finished.survey_fi = %s AND survey_answer.question_fi = %s AND survey_finished.finished_id = survey_answer.active_fi",
+			array('integer','integer'),
+			array($survey_id, $this->getId())
 		);
-		$result = $ilDB->query($query);
-		while ($row = $result->fetchRow(MDB2_FETCHMODE_ASSOC))
+		while ($row = $ilDB->fetchAssoc($result))
 		{
 			$answers[$row["active_fi"]] = $row["textanswer"];
 		}
@@ -597,8 +529,6 @@ class SurveyTextQuestion extends SurveyQuestion
 	}
 
 	/**
-	* Import response data from the question import file
-	*
 	* Import response data from the question import file
 	*
 	* @return array $a_data Array containing the response data
@@ -626,8 +556,6 @@ class SurveyTextQuestion extends SurveyQuestion
 	/**
 	* Returns if the question is usable for preconditions
 	*
-	* Returns if the question is usable for preconditions
-	*
 	* @return boolean TRUE if the question is usable for a precondition, FALSE otherwise
 	* @access public
 	*/
@@ -639,19 +567,15 @@ class SurveyTextQuestion extends SurveyQuestion
 	/**
 	* Returns the width of the answer field
 	*
-	* Returns the width of the answer field
-	*
 	* @return integer The width of the answer field in characters
 	* @access public
 	*/
 	function getTextWidth()
 	{
-		return $this->textwidth;
+		return ($this->textwidth) ? $this->textwidth : NULL;
 	}
 	
 	/**
-	* Returns the height of the answer field
-	*
 	* Returns the height of the answer field
 	*
 	* @return integer The height of the answer field in characters
@@ -659,12 +583,10 @@ class SurveyTextQuestion extends SurveyQuestion
 	*/
 	function getTextHeight()
 	{
-		return $this->textheight;
+		return ($this->textheight) ? $this->textheight : NULL;
 	}
 	
 	/**
-	* Sets the width of the answer field
-	*
 	* Sets the width of the answer field
 	*
 	* @param integer $a_textwidth The width of the answer field in characters
@@ -683,8 +605,6 @@ class SurveyTextQuestion extends SurveyQuestion
 	}
 	
 	/**
-	* Sets the height of the answer field
-	*
 	* Sets the height of the answer field
 	*
 	* @param integer $a_textheight The height of the answer field in characters
