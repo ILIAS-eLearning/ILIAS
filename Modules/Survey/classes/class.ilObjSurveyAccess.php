@@ -180,7 +180,7 @@ class ilObjSurveyAccess extends ilObjectAccess
 	{
 		global $ilDB;
 
-		$q = sprintf("SELECT finished_id FROM survey_finished WHERE user_fi = %s AND survey_fi = %s",
+		$q = sprintf("SELECT finished_id FROM svy_finished WHERE user_fi = %s AND survey_fi = %s",
 			$ilDB->quote($user_id . ""),
 			$ilDB->quote($survey_id . "")
 		);
@@ -299,14 +299,14 @@ class ilObjSurveyAccess extends ilObjectAccess
 			$row = $result->fetchRow(MDB2_FETCHMODE_OBJECT);
 			if ($row->anonymize == 1)
 			{
-				$q = sprintf("SELECT * FROM survey_finished, survey_anonymous WHERE survey_finished.survey_fi = %s AND survey_finished.survey_fi = survey_anonymous.survey_fi AND survey_anonymous.user_key = %s AND survey_anonymous.survey_key = survey_finished.anonymous_id",
+				$q = sprintf("SELECT * FROM svy_finished, svy_anonymous WHERE svy_finished.survey_fi = %s AND svy_finished.survey_fi = svy_anonymous.survey_fi AND svy_anonymous.user_key = %s AND svy_anonymous.survey_key = svy_finished.anonymous_id",
 					$ilDB->quote($row->survey_id),
 					$ilDB->quote(md5($a_user_id) . "")
 				);
 			}
 			else
 			{
-				$q = sprintf("SELECT * FROM survey_finished WHERE survey_fi = %s AND user_fi = %s",
+				$q = sprintf("SELECT * FROM svy_finished WHERE survey_fi = %s AND user_fi = %s",
 					$ilDB->quote($row->survey_id),
 					$ilDB->quote($a_user_id)
 				);

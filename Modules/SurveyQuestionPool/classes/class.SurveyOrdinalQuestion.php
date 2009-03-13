@@ -81,7 +81,7 @@ class SurveyOrdinalQuestion extends SurveyQuestion
 	{
 		global $ilDB;
 		$categories = array();
-		$result = $ilDB->queryF("SELECT survey_category.* FROM survey_category, survey_phrase_category WHERE survey_phrase_category.category_fi = survey_category.category_id AND survey_phrase_category.phrase_fi = %s ORDER BY survey_phrase_category.sequence",
+		$result = $ilDB->queryF("SELECT svy_category.* FROM svy_category, svy_phrase_cat WHERE svy_phrase_cat.category_fi = svy_category.category_id AND svy_phrase_cat.phrase_fi = %s ORDER BY svy_phrase_cat.sequence",
 			array('integer'),
 			array($phrase_id)
 		);
@@ -110,7 +110,7 @@ class SurveyOrdinalQuestion extends SurveyQuestion
 		global $ilUser;
 		global $ilDB;
 		
-		$result = $ilDB->queryF("SELECT survey_category.* FROM survey_category, survey_phrase_category WHERE survey_phrase_category.category_fi = survey_category.category_id AND survey_phrase_category.phrase_fi = %s AND (survey_category.owner_fi = 0 OR survey_category.owner_fi = %s) ORDER BY survey_phrase_category.sequence",
+		$result = $ilDB->queryF("SELECT svy_category.* FROM svy_category, svy_phrase_cat WHERE svy_phrase_cat.category_fi = svy_category.category_id AND svy_phrase_cat.phrase_fi = %s AND (svy_category.owner_fi = 0 OR svy_category.owner_fi = %s) ORDER BY svy_phrase_cat.sequence",
 			array('integr', 'integer'),
 			array($phrase_id, $ilUser->getId())
 		);
@@ -185,7 +185,7 @@ class SurveyOrdinalQuestion extends SurveyQuestion
 			$this->loadMaterialFromDb($id);
 
 			$this->categories->flushCategories();
-			$result = $ilDB->queryF("SELECT survey_variable.*, survey_category.title FROM survey_variable, survey_category WHERE survey_variable.question_fi = %s AND survey_variable.category_fi = survey_category.category_id ORDER BY sequence ASC",
+			$result = $ilDB->queryF("SELECT survey_variable.*, svy_category.title FROM survey_variable, svy_category WHERE survey_variable.question_fi = %s AND survey_variable.category_fi = svy_category.category_id ORDER BY sequence ASC",
 				array('integer'),
 				array($id)
 			);
@@ -430,8 +430,8 @@ class SurveyOrdinalQuestion extends SurveyQuestion
 		global $ilUser;
 		global $ilDB;
 		
-		$next_id = $ilDB->nextId('survey_phrase');
-		$affectedRows = $ilDB->manipulateF("INSERT INTO survey_phrase (phrase_id, title, defaultvalue, owner_fi, tstamp) VALUES (%s, %s, %s, %s, %s)",
+		$next_id = $ilDB->nextId('svy_phrase');
+		$affectedRows = $ilDB->manipulateF("INSERT INTO svy_phrase (phrase_id, title, defaultvalue, owner_fi, tstamp) VALUES (%s, %s, %s, %s, %s)",
 			array('integer','text','text','integer','integer'),
 			array($next_id, $title, 1, $ilUser->getId(), time())
 		);
@@ -440,14 +440,14 @@ class SurveyOrdinalQuestion extends SurveyQuestion
 		$counter = 1;
 	  foreach ($phrases as $category) 
 		{
-			$next_id = $ilDB->nextId('survey_category');
-			$affectedRows = $ilDB->manipulateF("INSERT INTO survey_category (category_id, title, defaultvalue, owner_fi, tstamp) VALUES (%s, %s, %s, %s, %s)",
+			$next_id = $ilDB->nextId('svy_category');
+			$affectedRows = $ilDB->manipulateF("INSERT INTO svy_category (category_id, title, defaultvalue, owner_fi, tstamp) VALUES (%s, %s, %s, %s, %s)",
 				array('integer','text','text','integer','integer'),
 				array($next_id, $this->categories->getCategory($category), 1, $ilUser->getId(), time())
 			);
 			$category_id = $next_id;
-			$next_id = $ilDB->nextId('survey_phrase_category');
-			$affectedRows = $ilDB->manipulateF("INSERT INTO survey_phrase_category (phrase_category_id, phrase_fi, category_fi, sequence) VALUES (%s, %s, %s, %s)",
+			$next_id = $ilDB->nextId('svy_phrase_cat');
+			$affectedRows = $ilDB->manipulateF("INSERT INTO svy_phrase_cat (phrase_category_id, phrase_fi, category_fi, sequence) VALUES (%s, %s, %s, %s)",
 				array('integer', 'integer', 'integer','integer'),
 				array($next_id, $phrase_id, $category_id, $counter)
 			);
@@ -478,9 +478,9 @@ class SurveyOrdinalQuestion extends SurveyQuestion
 	}
 	
 	/**
-	* Creates the user data of the survey_answer table from the POST data
+	* Creates the user data of the svy_answer table from the POST data
 	*
-	* @return array User data according to the survey_answer table
+	* @return array User data according to the svy_answer table
 	* @access public
 	*/
 	function &getWorkingDataFromUserInput($post_data)
@@ -520,8 +520,8 @@ class SurveyOrdinalQuestion extends SurveyQuestion
 
 		$entered_value = $post_data[$this->getId() . "_value"];
 		if (strlen($entered_value) == 0) return;
-		$next_id = $ilDB->nextId('survey_answer');
-		$affectedRows = $ilDB->manipulateF("INSERT INTO survey_answer (answer_id, question_fi, active_fi, value, textanswer, tstamp) VALUES (%s, %s, %s, %s, %s, %s)",
+		$next_id = $ilDB->nextId('svy_answer');
+		$affectedRows = $ilDB->manipulateF("INSERT INTO svy_answer (answer_id, question_fi, active_fi, value, textanswer, tstamp) VALUES (%s, %s, %s, %s, %s, %s)",
 			array('integer','integer','integer','float','text','integer'),
 			array($next_id, $this->getId(), $active_id, (strlen($entered_value)) ? $entered_value : NULL, NULL, time());
 		);
@@ -536,7 +536,7 @@ class SurveyOrdinalQuestion extends SurveyQuestion
 		$result_array = array();
 		$cumulated = array();
 
-		$result = $ilDB->queryF("SELECT survey_answer.* FROM survey_answer, survey_finished WHERE survey_answer.question_fi = %s AND survey_finished.survey_fi = %s AND survey_finished.finished_id = survey_answer.active_fi",
+		$result = $ilDB->queryF("SELECT svy_answer.* FROM svy_answer, svy_finished WHERE svy_answer.question_fi = %s AND svy_finished.survey_fi = %s AND svy_finished.finished_id = svy_answer.active_fi",
 			array('integer', 'integer'),
 			array($question_id, $survey_id)
 		);
@@ -688,7 +688,7 @@ class SurveyOrdinalQuestion extends SurveyQuestion
 		
 		$answers = array();
 
-		$result = $ilDB->queryF("SELECT survey_answer.* FROM survey_answer, survey_finished WHERE survey_finished.survey_fi = %s AND survey_answer.question_fi = %s AND survey_finished.finished_id = survey_answer.active_fi",
+		$result = $ilDB->queryF("SELECT svy_answer.* FROM svy_answer, svy_finished WHERE svy_finished.survey_fi = %s AND svy_answer.question_fi = %s AND svy_finished.finished_id = svy_answer.active_fi",
 			array('integer','integer'),
 			array($survey_id, $this->getId())
 		);

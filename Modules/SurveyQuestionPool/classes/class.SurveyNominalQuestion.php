@@ -163,7 +163,7 @@ class SurveyNominalQuestion extends SurveyQuestion
 			$this->loadMaterialFromDb($id);
 
 			$this->categories->flushCategories();
-			$result = $ilDB->queryF("SELECT survey_variable.*, survey_category.title FROM survey_variable, survey_category WHERE survey_variable.question_fi = %s AND survey_variable.category_fi = survey_category.category_id ORDER BY sequence ASC",
+			$result = $ilDB->queryF("SELECT survey_variable.*, svy_category.title FROM survey_variable, svy_category WHERE survey_variable.question_fi = %s AND survey_variable.category_fi = svy_category.category_id ORDER BY sequence ASC",
 				array('integer'),
 				array($id)
 			);
@@ -421,9 +421,9 @@ class SurveyNominalQuestion extends SurveyQuestion
 	}
 
 	/**
-	* Creates the user data of the survey_answer table from the POST data
+	* Creates the user data of the svy_answer table from the POST data
 	*
-	* @return array User data according to the survey_answer table
+	* @return array User data according to the svy_answer table
 	* @access public
 	*/
 	function &getWorkingDataFromUserInput($post_data)
@@ -490,8 +490,8 @@ class SurveyNominalQuestion extends SurveyQuestion
 				$entered_value = $value;
 				if (strlen($entered_value) > 0)
 				{
-					$next_id = $ilDB->nextId('survey_answer');
-					$affectedRows = $ilDB->manipulateF("INSERT INTO survey_answer (answer_id, question_fi, active_fi, value, textanswer, tstamp) VALUES (%s, %s, %s, %s, %s, %s)",
+					$next_id = $ilDB->nextId('svy_answer');
+					$affectedRows = $ilDB->manipulateF("INSERT INTO svy_answer (answer_id, question_fi, active_fi, value, textanswer, tstamp) VALUES (%s, %s, %s, %s, %s, %s)",
 						array('integer','integer','integer','float','text','integer'),
 						array($next_id, $this->getId(), $active_id, (strlen($entered_value)) ? $entered_value : NULL, NULL, time())
 					);
@@ -502,8 +502,8 @@ class SurveyNominalQuestion extends SurveyQuestion
 		{
 			$entered_value = $post_data[$this->getId() . "_value"];
 			if (strlen($entered_value) == 0) return;
-			$next_id = $ilDB->nextId('survey_answer');
-			$affectedRows = $ilDB->manipulateF("INSERT INTO survey_answer (answer_id, question_fi, active_fi, value, textanswer, tstamp) VALUES (%s, %s, %s, %s, %s, %s)",
+			$next_id = $ilDB->nextId('svy_answer');
+			$affectedRows = $ilDB->manipulateF("INSERT INTO svy_answer (answer_id, question_fi, active_fi, value, textanswer, tstamp) VALUES (%s, %s, %s, %s, %s, %s)",
 				array('integer','integer','integer','float','text','integer'),
 				array($next_id, $this->getId(), $active_id, (strlen($entered_value)) ? $entered_value : NULL, NULL, time())
 			);
@@ -519,7 +519,7 @@ class SurveyNominalQuestion extends SurveyQuestion
 		$result_array = array();
 		$cumulated = array();
 
-		$result = $ilDB->queryF("SELECT survey_answer.* FROM survey_answer, survey_finished WHERE survey_answer.question_fi = %s AND survey_finished.survey_fi = %s AND survey_finished.finished_id = survey_answer.active_fi",
+		$result = $ilDB->queryF("SELECT svy_answer.* FROM svy_answer, svy_finished WHERE svy_answer.question_fi = %s AND svy_finished.survey_fi = %s AND svy_finished.finished_id = svy_answer.active_fi",
 			array('integer', 'integer'),
 			array($question_id, $survey_id)
 		);
@@ -535,7 +535,7 @@ class SurveyNominalQuestion extends SurveyQuestion
 		
 		if ($this->getSubType() == SUBTYPE_MCMR)
 		{
-			$mcmr_result = $ilDB->queryF("SELECT survey_answer.answer_id, survey_answer.question_fi, survey_answer.active_fi FROM survey_answer, survey_finished WHERE survey_answer.question_fi = %s AND survey_finished.survey_fi = %s AND survey_finished.finished_id = survey_answer.active_fi",
+			$mcmr_result = $ilDB->queryF("SELECT svy_answer.answer_id, svy_answer.question_fi, svy_answer.active_fi FROM svy_answer, svy_finished WHERE svy_answer.question_fi = %s AND svy_finished.survey_fi = %s AND svy_finished.finished_id = svy_answer.active_fi",
 				array('integer', 'integer'),
 				array($question_id, $survey_id)
 			);
@@ -721,7 +721,7 @@ class SurveyNominalQuestion extends SurveyQuestion
 		
 		$answers = array();
 
-		$result = $ilDB->queryF("SELECT survey_answer.* FROM survey_answer, survey_finished WHERE survey_finished.survey_fi = %s AND survey_answer.question_fi = %s AND survey_finished.finished_id = survey_answer.active_fi",
+		$result = $ilDB->queryF("SELECT svy_answer.* FROM svy_answer, svy_finished WHERE svy_finished.survey_fi = %s AND svy_answer.question_fi = %s AND svy_finished.finished_id = svy_answer.active_fi",
 			array('integer', 'integer'),
 			array($survey_id, $this->getId())
 		);

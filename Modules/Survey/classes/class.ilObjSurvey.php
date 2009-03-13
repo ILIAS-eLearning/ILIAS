@@ -346,7 +346,7 @@ class ilObjSurvey extends ilObject
 		
 		$this->deleteAllUserData();
 
-		$query = sprintf("DELETE FROM survey_anonymous WHERE survey_fi = %s",
+		$query = sprintf("DELETE FROM svy_anonymous WHERE survey_fi = %s",
 			$ilDB->quote($this->getSurveyId())
 		);
 		$result = $ilDB->query($query);
@@ -386,7 +386,7 @@ class ilObjSurvey extends ilObject
 	{
 		global $ilDB;
 		
-		$query = sprintf("SELECT finished_id FROM survey_finished WHERE survey_fi = %s",
+		$query = sprintf("SELECT finished_id FROM svy_finished WHERE survey_fi = %s",
 			$ilDB->quote($this->getSurveyId())
 		);
 		$result = $ilDB->query($query);
@@ -396,14 +396,14 @@ class ilObjSurvey extends ilObject
 			array_push($active_array, $row["finished_id"]);
 		}
 
-		$query = sprintf("DELETE FROM survey_finished WHERE survey_fi = %s",
+		$query = sprintf("DELETE FROM svy_finished WHERE survey_fi = %s",
 			$ilDB->quote($this->getSurveyId())
 		);
 		$result = $ilDB->query($query);
 
 		foreach ($active_array as $active_fi)
 		{
-			$query = sprintf("DELETE FROM survey_answer WHERE active_fi = %s",
+			$query = sprintf("DELETE FROM svy_answer WHERE active_fi = %s",
 				$ilDB->quote($active_fi)
 			);
 			$result = $ilDB->query($query);
@@ -423,18 +423,18 @@ class ilObjSurvey extends ilObject
 		
 		foreach ($finished_ids as $finished_id)
 		{
-			$query = sprintf("SELECT finished_id FROM survey_finished WHERE finished_id = %s",
+			$query = sprintf("SELECT finished_id FROM svy_finished WHERE finished_id = %s",
 				$ilDB->quote($finished_id . "")
 			);
 			$result = $ilDB->query($query);
 			$row = $result->fetchRow(MDB2_FETCHMODE_ASSOC);
 
-			$query = sprintf("DELETE FROM survey_answer WHERE active_fi = %s",
+			$query = sprintf("DELETE FROM svy_answer WHERE active_fi = %s",
 				$ilDB->quote($row["finished_id"] . "")
 			);
 			$result = $ilDB->query($query);
 
-			$query = sprintf("DELETE FROM survey_finished WHERE finished_id = %s",
+			$query = sprintf("DELETE FROM svy_finished WHERE finished_id = %s",
 				$ilDB->quote($finished_id . "")
 			);
 			$result = $ilDB->query($query);
@@ -445,7 +445,7 @@ class ilObjSurvey extends ilObject
 	{
 		global $ilDB;
 		
-		$query = sprintf("SELECT * FROM survey_finished WHERE survey_fi = %s",
+		$query = sprintf("SELECT * FROM svy_finished WHERE survey_fi = %s",
 			$ilDB->quote($this->getSurveyId() . "")
 		);
 		$result = $ilDB->query($query);
@@ -898,7 +898,7 @@ class ilObjSurvey extends ilObject
 	function getAnonymousId($id)
 	{
 		global $ilDB;
-		$query = sprintf("SELECT anonymous_id FROM survey_finished WHERE anonymous_id = %s",
+		$query = sprintf("SELECT anonymous_id FROM svy_finished WHERE anonymous_id = %s",
 			$ilDB->quote($id)
 		);
 		$result = $ilDB->query($query);
@@ -1334,7 +1334,7 @@ class ilObjSurvey extends ilObject
 			}
 			else
 			{
-				$query = sprintf("SELECT user_fi FROM survey_invited_user WHERE survey_fi = %s",
+				$query = sprintf("SELECT user_fi FROM svy_inv_usr WHERE survey_fi = %s",
 					$ilDB->quote($this->getSurveyId())
 				);
 				$result = $ilDB->query($query);
@@ -1347,7 +1347,7 @@ class ilObjSurvey extends ilObject
 					);
 					$insertresult = $ilDB->query($query);
 				}
-				$query = sprintf("SELECT group_fi FROM survey_invited_group WHERE survey_fi = %s",
+				$query = sprintf("SELECT group_fi FROM svy_inv_grp WHERE survey_fi = %s",
 					$ilDB->quote($this->getSurveyId())
 				);
 				$result = $ilDB->query($query);
@@ -1385,11 +1385,11 @@ class ilObjSurvey extends ilObject
     $this->invitation_mode = $invitation_mode;
 		if ($invitation_mode == MODE_UNLIMITED)
 		{
-			$query = sprintf("DELETE FROM survey_invited_group WHERE survey_fi = %s",
+			$query = sprintf("DELETE FROM svy_inv_grp WHERE survey_fi = %s",
 				$ilDB->quote($this->getSurveyId())
 			);
 			$result = $ilDB->query($query);
-			$query = sprintf("DELETE FROM survey_invited_user WHERE survey_fi = %s",
+			$query = sprintf("DELETE FROM svy_inv_usr WHERE survey_fi = %s",
 				$ilDB->quote($this->getSurveyId())
 			);
 			$result = $ilDB->query($query);
@@ -1414,11 +1414,11 @@ class ilObjSurvey extends ilObject
     $this->invitation_mode = $invitation_mode;
 		if ($invitation_mode == MODE_UNLIMITED)
 		{
-			$query = sprintf("DELETE FROM survey_invited_group WHERE survey_fi = %s",
+			$query = sprintf("DELETE FROM svy_inv_grp WHERE survey_fi = %s",
 				$ilDB->quote($this->getSurveyId())
 			);
 			$result = $ilDB->query($query);
-			$query = sprintf("DELETE FROM survey_invited_user WHERE survey_fi = %s",
+			$query = sprintf("DELETE FROM svy_inv_usr WHERE survey_fi = %s",
 				$ilDB->quote($this->getSurveyId())
 			);
 			$result = $ilDB->query($query);
@@ -2153,7 +2153,7 @@ class ilObjSurvey extends ilObject
 			$result = $ilDB->query($query);
 			foreach ($remove_constraints as $key => $constraint_id)
 			{
-				$query = sprintf("DELETE FROM survey_constraint WHERE constraint_id = %s",
+				$query = sprintf("DELETE FROM svy_constraint WHERE constraint_id = %s",
 					$ilDB->quote($constraint_id . "")
 				);
 				$result = $ilDB->query($query);
@@ -2452,7 +2452,7 @@ class ilObjSurvey extends ilObject
 		$result = $ilDB->query($query);
 		while ($row = $result->fetchRow(MDB2_FETCHMODE_OBJECT))
 		{
-			$query = sprintf("DELETE FROM survey_constraint WHERE constraint_id = %s",
+			$query = sprintf("DELETE FROM svy_constraint WHERE constraint_id = %s",
 				$ilDB->quote($row->constraint_fi)
 			);
 			$delresult = $ilDB->query($query);
@@ -2476,7 +2476,7 @@ class ilObjSurvey extends ilObject
 	function deleteConstraint($constraint_id, $question_id)
 	{
 		global $ilDB;
-		$query = sprintf("DELETE FROM survey_constraint WHERE constraint_id = %s",
+		$query = sprintf("DELETE FROM svy_constraint WHERE constraint_id = %s",
 			$ilDB->quote($constraint_id)
 		);
 		$delresult = $ilDB->query($query);
@@ -2566,7 +2566,7 @@ class ilObjSurvey extends ilObject
 			if ($with_answers)
 			{
 				$answers = array();
-				$query = sprintf("SELECT survey_variable.*, survey_category.title FROM survey_variable, survey_category WHERE survey_variable.question_fi = %s AND survey_variable.category_fi = survey_category.category_id ORDER BY sequence ASC",
+				$query = sprintf("SELECT survey_variable.*, svy_category.title FROM survey_variable, svy_category WHERE survey_variable.question_fi = %s AND survey_variable.category_fi = svy_category.category_id ORDER BY sequence ASC",
 					$ilDB->quote($question_id . "")
 				);
 				$result = $ilDB->query($query);
@@ -2816,7 +2816,7 @@ class ilObjSurvey extends ilObject
 		global $ilDB;
 		
 		$result_array = array();
-		$query = sprintf("SELECT survey_constraint.*, survey_relation.* FROM survey_question_constraint, survey_constraint, survey_relation WHERE survey_constraint.relation_fi = survey_relation.relation_id AND survey_question_constraint.constraint_fi = survey_constraint.constraint_id AND survey_constraint.constraint_id = %s",
+		$query = sprintf("SELECT svy_constraint.*, survey_relation.* FROM survey_question_constraint, svy_constraint, survey_relation WHERE svy_constraint.relation_fi = survey_relation.relation_id AND survey_question_constraint.constraint_fi = svy_constraint.constraint_id AND svy_constraint.constraint_id = %s",
 			$ilDB->quote($id . "")
 		);
 		$result = $ilDB->query($query);
@@ -2840,7 +2840,7 @@ class ilObjSurvey extends ilObject
 		global $ilDB;
 		
 		$result_array = array();
-		$query = sprintf("SELECT survey_constraint.*, survey_relation.* FROM survey_question_constraint, survey_constraint, survey_relation WHERE survey_constraint.relation_fi = survey_relation.relation_id AND survey_question_constraint.constraint_fi = survey_constraint.constraint_id AND survey_question_constraint.question_fi = %s AND survey_question_constraint.survey_fi = %s",
+		$query = sprintf("SELECT svy_constraint.*, survey_relation.* FROM survey_question_constraint, svy_constraint, survey_relation WHERE svy_constraint.relation_fi = survey_relation.relation_id AND survey_question_constraint.constraint_fi = svy_constraint.constraint_id AND survey_question_constraint.question_fi = %s AND survey_question_constraint.survey_fi = %s",
 			$ilDB->quote($question_id),
 			$ilDB->quote($this->getSurveyId())
 		);
@@ -2869,7 +2869,7 @@ class ilObjSurvey extends ilObject
  	{
 		global $ilDB;
 		$result_array = array();
-		$query = sprintf("SELECT survey_question_constraint.question_fi as for_question, survey_constraint.*, survey_relation.* FROM survey_question_constraint, survey_constraint, survey_relation WHERE survey_constraint.relation_fi = survey_relation.relation_id AND survey_question_constraint.constraint_fi = survey_constraint.constraint_id AND survey_question_constraint.survey_fi = %s",
+		$query = sprintf("SELECT survey_question_constraint.question_fi as for_question, svy_constraint.*, survey_relation.* FROM survey_question_constraint, svy_constraint, survey_relation WHERE svy_constraint.relation_fi = survey_relation.relation_id AND survey_question_constraint.constraint_fi = svy_constraint.constraint_id AND survey_question_constraint.survey_fi = %s",
 			$ilDB->quote($survey_id . "")
 		);
 		$result = $ilDB->query($query);
@@ -2893,7 +2893,7 @@ class ilObjSurvey extends ilObject
 		global $ilDB;
 		
 		$result_array = array();
-		$query = sprintf("SELECT survey_variable.*, survey_category.title FROM survey_variable LEFT JOIN survey_category ON survey_variable.category_fi = survey_category.category_id WHERE survey_variable.question_fi = %s ORDER BY survey_variable.sequence",
+		$query = sprintf("SELECT survey_variable.*, svy_category.title FROM survey_variable LEFT JOIN svy_category ON survey_variable.category_fi = svy_category.category_id WHERE survey_variable.question_fi = %s ORDER BY survey_variable.sequence",
 			$ilDB->quote($question_id)
 		);
 		$result = $ilDB->query($query);
@@ -2919,7 +2919,7 @@ class ilObjSurvey extends ilObject
 	{
 		global $ilDB;
 		
-		$query = sprintf("INSERT INTO survey_constraint (constraint_id, question_fi, relation_fi, value) VALUES (NULL, %s, %s, %s)",
+		$query = sprintf("INSERT INTO svy_constraint (constraint_id, question_fi, relation_fi, value) VALUES (NULL, %s, %s, %s)",
 			$ilDB->quote($if_question_id),
 			$ilDB->quote($relation),
 			$ilDB->quote($value)
@@ -2965,7 +2965,7 @@ class ilObjSurvey extends ilObject
 			if ($result->numRows())
 			{
 				$row = $result->fetchRow(MDB2_FETCHMODE_ASSOC);
-				$query = sprintf("UPDATE survey_constraint SET question_fi = %s, relation_fi = %s, value = %s WHERE constraint_id = %s",
+				$query = sprintf("UPDATE svy_constraint SET question_fi = %s, relation_fi = %s, value = %s WHERE constraint_id = %s",
 					$ilDB->quote($if_question_id),
 					$ilDB->quote($relation),
 					$ilDB->quote($value),
@@ -3015,7 +3015,7 @@ class ilObjSurvey extends ilObject
 	{
 		global $ilDB;
 		
-		$query = sprintf("DELETE FROM survey_invited_user WHERE survey_fi = %s AND user_fi = %s",
+		$query = sprintf("DELETE FROM svy_inv_usr WHERE survey_fi = %s AND user_fi = %s",
 			$ilDB->quote($this->getSurveyId()),
 			$ilDB->quote($user_id)
 		);
@@ -3043,14 +3043,14 @@ class ilObjSurvey extends ilObject
 	{
 		global $ilDB;
 		
-		$query = sprintf("SELECT user_fi FROM survey_invited_user WHERE user_fi = %s AND survey_fi = %s",
+		$query = sprintf("SELECT user_fi FROM svy_inv_usr WHERE user_fi = %s AND survey_fi = %s",
 			$ilDB->quote($user_id),
 			$ilDB->quote($this->getSurveyId())
 		);
 		$result = $ilDB->query($query);
 		if ($result->numRows() < 1)
 		{
-			$query = sprintf("INSERT INTO survey_invited_user (invited_user_id, survey_fi, user_fi, TIMESTAMP) VALUES (NULL, %s, %s, NULL)",
+			$query = sprintf("INSERT INTO svy_inv_usr (invited_user_id, survey_fi, user_fi, TIMESTAMP) VALUES (NULL, %s, %s, NULL)",
 				$ilDB->quote($this->getSurveyId()),
 				$ilDB->quote($user_id)
 			);
@@ -3147,7 +3147,7 @@ class ilObjSurvey extends ilObject
 		global $ilDB;
 		
 		$result_array = array();
-		$query = sprintf("SELECT user_fi FROM survey_invited_user WHERE survey_fi = %s",
+		$query = sprintf("SELECT user_fi FROM svy_inv_usr WHERE survey_fi = %s",
 			$ilDB->quote($this->getSurveyId())
 		);
 		$result = $ilDB->query($query);
@@ -3171,7 +3171,7 @@ class ilObjSurvey extends ilObject
 		global $ilDB;
 		
 		$result_array = array();
-		$query = sprintf("SELECT group_fi FROM survey_invited_group WHERE survey_fi = %s",
+		$query = sprintf("SELECT group_fi FROM svy_inv_grp WHERE survey_fi = %s",
 			$ilDB->quote($this->getSurveyId())
 		);
 		$result = $ilDB->query($query);
@@ -3196,7 +3196,7 @@ class ilObjSurvey extends ilObject
 		global $ilDB;
 		
 		$query = "";
-		$query = sprintf("DELETE FROM survey_answer WHERE question_fi = %s AND active_fi = %s",
+		$query = sprintf("DELETE FROM svy_answer WHERE question_fi = %s AND active_fi = %s",
 			$ilDB->quote($question_id),
 			$ilDB->quote($active_id)
 		);
@@ -3217,7 +3217,7 @@ class ilObjSurvey extends ilObject
 	{
 		global $ilDB;
 		$result_array = array();
-		$query = sprintf("SELECT * FROM survey_answer WHERE question_fi = %s AND active_fi = %s",
+		$query = sprintf("SELECT * FROM svy_answer WHERE question_fi = %s AND active_fi = %s",
 			$ilDB->quote($question_id. ""),
 			$ilDB->quote($active_id)
 		);
@@ -3258,7 +3258,7 @@ class ilObjSurvey extends ilObject
 				$user_id = 0;
 			}
 		}
-		$query = sprintf("INSERT INTO survey_finished (finished_id, survey_fi, user_fi, anonymous_id, state, TIMESTAMP) VALUES (NULL, %s, %s, %s, %s, NULL)",
+		$query = sprintf("INSERT INTO svy_finished (finished_id, survey_fi, user_fi, anonymous_id, state, TIMESTAMP) VALUES (NULL, %s, %s, %s, %s, NULL)",
 			$ilDB->quote($this->getSurveyId() . ""),
 			$ilDB->quote($user_id . ""),
 			$ilDB->quote($anonymous_id . ""),
@@ -3267,7 +3267,7 @@ class ilObjSurvey extends ilObject
 		$result = $ilDB->query($query);
 		
 		// get the insert id, but don't trust last_insert_id since we don't have transactions
-		$query = sprintf("SELECT finished_id FROM survey_finished WHERE survey_fi = %s AND user_fi = %s AND anonymous_id = %s",
+		$query = sprintf("SELECT finished_id FROM svy_finished WHERE survey_fi = %s AND user_fi = %s AND anonymous_id = %s",
 			$ilDB->quote($this->getSurveyId() . ""),
 			$ilDB->quote($user_id . ""),
 			$ilDB->quote($anonymous_id . "")
@@ -3296,7 +3296,7 @@ class ilObjSurvey extends ilObject
 		
 		if ($this->getAnonymize())
 		{
-			$query = sprintf("UPDATE survey_finished SET state = %s, user_fi = %s WHERE survey_fi = %s AND anonymous_id = %s",
+			$query = sprintf("UPDATE svy_finished SET state = %s, user_fi = %s WHERE survey_fi = %s AND anonymous_id = %s",
 				$ilDB->quote("1"),
 				$ilDB->quote($user_id . ""),
 				$ilDB->quote($this->getSurveyId() . ""),
@@ -3305,7 +3305,7 @@ class ilObjSurvey extends ilObject
 		}
 		else
 		{
-			$query = sprintf("UPDATE survey_finished SET state = %s WHERE survey_fi = %s AND user_fi = %s",
+			$query = sprintf("UPDATE svy_finished SET state = %s WHERE survey_fi = %s AND user_fi = %s",
 				$ilDB->quote("1"),
 				$ilDB->quote($this->getSurveyId() . ""),
 				$ilDB->quote($user_id . "")
@@ -3364,14 +3364,14 @@ class ilObjSurvey extends ilObject
 		{
 			if ((($user_id != ANONYMOUS_USER_ID) && (strlen($anonymize_id) == 0)) && (!($this->isAccessibleWithoutCode() && $this->isAllowedToTakeMultipleSurveys())))
 			{
-				$query = sprintf("SELECT * FROM survey_finished WHERE survey_fi = %s AND user_fi = %s",
+				$query = sprintf("SELECT * FROM svy_finished WHERE survey_fi = %s AND user_fi = %s",
 					$ilDB->quote($this->getSurveyId()),
 					$ilDB->quote($user_id)
 				);
 			}
 			else
 			{
-				$query = sprintf("SELECT * FROM survey_finished WHERE survey_fi = %s AND anonymous_id = %s",
+				$query = sprintf("SELECT * FROM svy_finished WHERE survey_fi = %s AND anonymous_id = %s",
 					$ilDB->quote($this->getSurveyId()),
 					$ilDB->quote($anonymize_id)
 				);
@@ -3379,7 +3379,7 @@ class ilObjSurvey extends ilObject
 		}
 		else
 		{
-			$query = sprintf("SELECT * FROM survey_finished WHERE survey_fi = %s AND user_fi = %s",
+			$query = sprintf("SELECT * FROM svy_finished WHERE survey_fi = %s AND user_fi = %s",
 				$ilDB->quote($this->getSurveyId()),
 				$ilDB->quote($user_id)
 			);
@@ -3409,7 +3409,7 @@ class ilObjSurvey extends ilObject
 	function getLastActivePage($active_id)
 	{
 		global $ilDB;
-		$query = sprintf("SELECT question_fi, TIMESTAMP + 0 AS timestamp14 FROM survey_answer WHERE active_fi = %s ORDER BY timestamp14 DESC",
+		$query = sprintf("SELECT question_fi, TIMESTAMP + 0 AS timestamp14 FROM svy_answer WHERE active_fi = %s ORDER BY timestamp14 DESC",
 			$ilDB->quote($active_id)
 		);
 		$result = $ilDB->query($query);
@@ -3495,7 +3495,7 @@ class ilObjSurvey extends ilObject
 	{
 		global $ilDB;
 		
-		$query = sprintf("SELECT finished_id FROM survey_finished WHERE survey_fi = %s",
+		$query = sprintf("SELECT finished_id FROM svy_finished WHERE survey_fi = %s",
 			$ilDB->quote($survey_id . "")
 		);
 		$result = $ilDB->query($query);
@@ -3514,7 +3514,7 @@ class ilObjSurvey extends ilObject
 		global $ilDB;
 		
 		$users = array();
-		$query = sprintf("SELECT * FROM survey_finished WHERE survey_fi = %s",
+		$query = sprintf("SELECT * FROM svy_finished WHERE survey_fi = %s",
 			$ilDB->quote($this->getSurveyId() . "")
 		);
 		$result = $ilDB->query($query);
@@ -3547,7 +3547,7 @@ class ilObjSurvey extends ilObject
 		global $ilDB;
 		
 		$users = array();
-		$query = sprintf("SELECT * FROM survey_finished WHERE survey_fi = %s",
+		$query = sprintf("SELECT * FROM svy_finished WHERE survey_fi = %s",
 			$ilDB->quote($this->getSurveyId() . "")
 		);
 		$result = $ilDB->query($query);
@@ -3584,7 +3584,7 @@ class ilObjSurvey extends ilObject
 	{
 		global $ilDB;
 		
-		$query = sprintf("SELECT * FROM survey_finished WHERE finished_id = %s",
+		$query = sprintf("SELECT * FROM svy_finished WHERE finished_id = %s",
 			$ilDB->quote($active_id)
 		);
 		$result = $ilDB->query($query);
@@ -3641,7 +3641,7 @@ class ilObjSurvey extends ilObject
 		
 		// collect all answers
 		$answers = array();
-		$query = sprintf("SELECT * FROM survey_answer WHERE active_fi = %s",
+		$query = sprintf("SELECT * FROM svy_answer WHERE active_fi = %s",
 			$ilDB->quote($active_id)
 		);
 		$result = $ilDB->query($query);
@@ -3688,7 +3688,7 @@ class ilObjSurvey extends ilObject
 	{
 		global $ilDB;
 		
-		$query = sprintf("SELECT finished_id FROM survey_finished WHERE survey_fi = %s",
+		$query = sprintf("SELECT finished_id FROM svy_finished WHERE survey_fi = %s",
 			$ilDB->quote($this->getSurveyId())
 		);
 		$result = $ilDB->query($query);
@@ -3711,7 +3711,7 @@ class ilObjSurvey extends ilObject
 	{
 		global $ilDB;
 		
-		$query = sprintf("SELECT finished_id FROM survey_finished WHERE survey_fi = %s",
+		$query = sprintf("SELECT finished_id FROM svy_finished WHERE survey_fi = %s",
 			$ilDB->quote($survey_id . "")
 		);
 		$result = $ilDB->query($query);
@@ -4689,7 +4689,7 @@ class ilObjSurvey extends ilObject
 	{
 		global $ilDB;
 		
-		$query = sprintf("SELECT anonymous_id FROM survey_anonymous WHERE survey_key = %s AND survey_fi = %s",
+		$query = sprintf("SELECT anonymous_id FROM svy_anonymous WHERE survey_key = %s AND survey_fi = %s",
 			$ilDB->quote($key . ""),
 			$ilDB->quote($this->getSurveyId() . "")
 		);
@@ -4709,7 +4709,7 @@ class ilObjSurvey extends ilObject
 		global $ilDB;
 		
 		if (($user_id == ANONYMOUS_USER_ID) || (($this->isAccessibleWithoutCode() && $this->isAllowedToTakeMultipleSurveys()))) return "";
-		$query = sprintf("SELECT anonymous_id FROM survey_finished WHERE survey_fi = %s AND user_fi = %s",
+		$query = sprintf("SELECT anonymous_id FROM svy_finished WHERE survey_fi = %s AND user_fi = %s",
 			$ilDB->quote($this->getSurveyId() . ""),
 			$ilDB->quote($user_id . "")
 		);
@@ -4729,7 +4729,7 @@ class ilObjSurvey extends ilObject
 	{
 		global $ilDB;
 		
-		$query = sprintf("SELECT finished_id FROM survey_finished WHERE anonymous_id = %s AND survey_fi = %s",
+		$query = sprintf("SELECT finished_id FROM svy_finished WHERE anonymous_id = %s AND survey_fi = %s",
 			$ilDB->quote($key . ""),
 			$ilDB->quote($this->getSurveyId() . "")
 		);
@@ -4775,7 +4775,7 @@ class ilObjSurvey extends ilObject
 	{
 		global $ilDB;
 
-		$query = sprintf("SELECT anonymous_id FROM survey_anonymous WHERE survey_fi = %s AND ISNULL(user_key)",
+		$query = sprintf("SELECT anonymous_id FROM svy_anonymous WHERE survey_fi = %s AND ISNULL(user_key)",
 			$ilDB->quote($this->getSurveyId() . "")
 		);
 		$result = $ilDB->query($query);
@@ -4795,11 +4795,11 @@ class ilObjSurvey extends ilObject
 	{
 		global $ilDB;
 
-/*		$query = sprintf("SELECT * FROM survey_anonymous WHERE survey_fi = %s AND ISNULL(user_key)",
+/*		$query = sprintf("SELECT * FROM svy_anonymous WHERE survey_fi = %s AND ISNULL(user_key)",
 			$ilDB->quote($this->getSurveyId() . "")
 		);
 */
-		$query = sprintf("SELECT survey_anonymous.*, survey_anonymous.TIMESTAMP + 0 AS timestamp14, survey_finished.state FROM survey_anonymous LEFT JOIN survey_finished ON survey_anonymous.survey_key = survey_finished.anonymous_id WHERE survey_anonymous.survey_fi = %s AND ISNULL(survey_anonymous.user_key)",
+		$query = sprintf("SELECT svy_anonymous.*, svy_anonymous.TIMESTAMP + 0 AS timestamp14, svy_finished.state FROM svy_anonymous LEFT JOIN svy_finished ON svy_anonymous.survey_key = svy_finished.anonymous_id WHERE svy_anonymous.survey_fi = %s AND ISNULL(svy_anonymous.user_key)",
 			$ilDB->quote($this->getSurveyId() . "")
 		);
 		$result = $ilDB->query($query);
@@ -4855,7 +4855,7 @@ class ilObjSurvey extends ilObject
 		
 		$order = "ORDER BY timestamp14, survey_key ASC";
 		$codes = array();
-		$query = sprintf("SELECT survey_anonymous.anonymous_id, survey_anonymous.survey_key, survey_anonymous.survey_fi, survey_anonymous.TIMESTAMP + 0 AS timestamp14, survey_finished.state FROM survey_anonymous LEFT JOIN survey_finished ON survey_anonymous.survey_key = survey_finished.anonymous_id WHERE survey_anonymous.survey_fi = %s AND ISNULL(survey_anonymous.user_key) $order LIMIT $offset,$limit",
+		$query = sprintf("SELECT svy_anonymous.anonymous_id, svy_anonymous.survey_key, svy_anonymous.survey_fi, svy_anonymous.TIMESTAMP + 0 AS timestamp14, svy_finished.state FROM svy_anonymous LEFT JOIN svy_finished ON svy_anonymous.survey_key = svy_finished.anonymous_id WHERE svy_anonymous.survey_fi = %s AND ISNULL(svy_anonymous.user_key) $order LIMIT $offset,$limit",
 			$ilDB->quote($this->getSurveyId() . "")
 		);
 		$result = $ilDB->query($query);
@@ -4895,7 +4895,7 @@ class ilObjSurvey extends ilObject
 	function isSurveyCodeUsed($code)
 	{
 		global $ilDB;
-		$query = sprintf("SELECT finished_id FROM survey_finished WHERE survey_fi = %s AND anonymous_id = %s",
+		$query = sprintf("SELECT finished_id FROM svy_finished WHERE survey_fi = %s AND anonymous_id = %s",
 			$ilDB->quote($this->getSurveyId() . ""),
 			$ilDB->quote($code)
 		);
@@ -4916,7 +4916,7 @@ class ilObjSurvey extends ilObject
 		for ($i = 0; $i < $nrOfCodes; $i++)
 		{
 			$anonymize_key = $this->createNewAccessCode();
-			$query = sprintf("INSERT INTO survey_anonymous (anonymous_id, survey_key, survey_fi, TIMESTAMP) VALUES (NULL, %s, %s, NULL)",
+			$query = sprintf("INSERT INTO svy_anonymous (anonymous_id, survey_key, survey_fi, TIMESTAMP) VALUES (NULL, %s, %s, NULL)",
 				$ilDB->quote($anonymize_key . ""),
 				$ilDB->quote($this->getSurveyId() . "")
 			);
@@ -4937,7 +4937,7 @@ class ilObjSurvey extends ilObject
 		
 		if (strlen($survey_code) > 0)
 		{
-			$query = sprintf("DELETE FROM survey_anonymous WHERE survey_fi = %s AND survey_key = %s",
+			$query = sprintf("DELETE FROM svy_anonymous WHERE survey_fi = %s AND survey_key = %s",
 				$ilDB->quote($this->getSurveyId() . ""),
 				$ilDB->quote($survey_code)
 			);
@@ -4957,7 +4957,7 @@ class ilObjSurvey extends ilObject
 	{
 		global $ilDB;
 		$access_code = "";
-		$query = sprintf("SELECT survey_key FROM survey_anonymous WHERE survey_fi = %s AND user_key = %s",
+		$query = sprintf("SELECT survey_key FROM svy_anonymous WHERE survey_fi = %s AND user_key = %s",
 			$ilDB->quote($this->getSurveyId() . ""),
 			$ilDB->quote(md5($user_id))
 		);
@@ -4981,7 +4981,7 @@ class ilObjSurvey extends ilObject
 	function saveUserAccessCode($user_id, $access_code)
 	{
 		global $ilDB;
-		$query = sprintf("INSERT INTO survey_anonymous (survey_key, survey_fi, user_key) VALUES (%s, %s, %s)",
+		$query = sprintf("INSERT INTO svy_anonymous (survey_key, survey_fi, user_key) VALUES (%s, %s, %s)",
 			$ilDB->quote($access_code . ""),
 			$ilDB->quote($this->getSurveyId() . ""),
 			$ilDB->quote(md5($user_id) . "")
@@ -5063,7 +5063,7 @@ class ilObjSurvey extends ilObject
 	{
 		global $ilDB;
 		
-		$query = sprintf("SELECT TIMESTAMP+0 AS timestamp14 FROM survey_answer WHERE active_fi = %s ORDER BY TIMESTAMP DESC",
+		$query = sprintf("SELECT TIMESTAMP+0 AS timestamp14 FROM svy_answer WHERE active_fi = %s ORDER BY TIMESTAMP DESC",
 			$ilDB->quote($finished_id . "")
 		);
 		$result = $ilDB->query($query);
@@ -5074,7 +5074,7 @@ class ilObjSurvey extends ilObject
 		}
 		else
 		{
-			$query = sprintf("SELECT TIMESTAMP+0 AS timestamp14 FROM survey_finished WHERE finished_id = %s",
+			$query = sprintf("SELECT TIMESTAMP+0 AS timestamp14 FROM svy_finished WHERE finished_id = %s",
 				$ilDB->quote($finished_id . "")
 			);
 			$result = $ilDB->query($query);
