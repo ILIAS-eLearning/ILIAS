@@ -25,8 +25,6 @@ include_once "./Modules/SurveyQuestionPool/classes/class.SurveyQuestion.php";
 include_once "./Modules/Survey/classes/inc.SurveyConstants.php";
 
 /**
-* Matrix question
-*
 * The SurveyMatrixQuestion class defines and encapsulates basic methods and attributes
 * for matrix question types.
 *
@@ -40,15 +38,11 @@ class SurveyMatrixQuestion extends SurveyQuestion
 /**
 * Columns contained in this question
 *
-* Columns contained in this question
-*
 * @var array
 */
   var $columns;
 
 /**
-* Neutral column
-*
 * Neutral column
 *
 * @var string
@@ -58,15 +52,11 @@ class SurveyMatrixQuestion extends SurveyQuestion
 /**
 * Rows contained in this question
 *
-* Rows contained in this question
-*
 * @var array
 */
-  var $rows;
+	var $rows;
 
 /**
-* First bipolar adjective for ordinal matrix questions
-*
 * First bipolar adjective for ordinal matrix questions
 *
 * @var string
@@ -76,15 +66,12 @@ class SurveyMatrixQuestion extends SurveyQuestion
 /**
 * Second bipolar adjective for ordinal matrix questions
 *
-* Second bipolar adjective for ordinal matrix questions
-*
 * @var string
 */
 	var $bipolar_adjective2;
 	
 /**
 * Enable state of separators for matrix columns
-*
 * 1 if separators are enabled for matrix columns, 0 otherwise
 *
 * @var integer
@@ -93,7 +80,6 @@ class SurveyMatrixQuestion extends SurveyQuestion
 	
 /**
 * Enable state of separators for matrix rows
-*
 * 1 if separators are enabled for matrix rows, 0 otherwise
 *
 * @var integer
@@ -102,7 +88,6 @@ class SurveyMatrixQuestion extends SurveyQuestion
 
 /**
 * Enable state of a separator for the neutral column
-*
 * 1 if a separator is enabled for the neutral column, 0 otherwise
 *
 * @var integer
@@ -168,7 +153,6 @@ class SurveyMatrixQuestion extends SurveyQuestion
 
 /**
 * SurveyMatrixQuestion constructor
-*
 * The constructor takes possible arguments an creates an instance of the SurveyMatrixQuestion object.
 *
 * @param string $title A title string to describe the question
@@ -177,15 +161,14 @@ class SurveyMatrixQuestion extends SurveyQuestion
 * @param integer $owner A numerical ID to identify the owner/creator
 * @access public
 */
-  function SurveyMatrixQuestion(
-    $title = "",
-    $description = "",
-    $author = "",
+	function SurveyMatrixQuestion(
+		$title = "",
+		$description = "",
+		$author = "",
 		$questiontext = "",
-    $owner = -1
-  )
-
-  {
+		$owner = -1
+	)
+	{
 		$this->SurveyQuestion($title, $description, $author, $questiontext, $owner);
 		$this->subtype = 0;
 		$this->columns = array();
@@ -201,8 +184,6 @@ class SurveyMatrixQuestion extends SurveyQuestion
 /**
 * Returns the text of the neutral column
 *
-* Returns the text of the neutral column
-*
 * @return string The text of the neutral column
 * @access public
 * @see $neutralColumn
@@ -213,8 +194,6 @@ class SurveyMatrixQuestion extends SurveyQuestion
 	}
 	
 	/**
-	* Returns the index of the neutral column
-	*
 	* Returns the index of the neutral column
 	*
 	* @return integer The index of the neutral column
@@ -236,8 +215,6 @@ class SurveyMatrixQuestion extends SurveyQuestion
 /**
 * Sets the text of the neutral column
 *
-* Sets the text of the neutral column
-*
 * @param string $a_text The text of the neutral column
 * @access public
 * @see $neutralColumn
@@ -250,8 +227,6 @@ class SurveyMatrixQuestion extends SurveyQuestion
 /**
 * Returns the number of columns
 *
-* Returns the number of columns
-*
 * @return integer The number of contained columns
 * @access public
 * @see $columns
@@ -262,8 +237,6 @@ class SurveyMatrixQuestion extends SurveyQuestion
 	}
 
 /**
-* Adds a column at a given position
-*
 * Adds a column at a given position
 *
 * @param string $columnname The name of the column
@@ -288,8 +261,6 @@ class SurveyMatrixQuestion extends SurveyQuestion
 /**
 * Adds a column
 *
-* Adds a column
-*
 * @param integer $columnname The name of the column
 * @param integer $neutral Indicates if the column is a neutral column
 * @access public
@@ -301,8 +272,6 @@ class SurveyMatrixQuestion extends SurveyQuestion
 	}
 	
 /**
-* Adds a column array
-*
 * Adds a column array
 *
 * @param array $columns An array with columns
@@ -317,8 +286,6 @@ class SurveyMatrixQuestion extends SurveyQuestion
 /**
 * Removes a column from the list of columns
 *
-* Removes a column from the list of columns
-*
 * @param integer $index The index of the column to be removed
 * @access public
 * @see $columns
@@ -330,8 +297,6 @@ class SurveyMatrixQuestion extends SurveyQuestion
 	}
 
 /**
-* Removes many columns from the list of columns
-*
 * Removes many columns from the list of columns
 *
 * @param array $array An array containing the index positions of the columns to be removed
@@ -350,8 +315,6 @@ class SurveyMatrixQuestion extends SurveyQuestion
 /**
 * Removes a column from the list of columns
 *
-* Removes a column from the list of columns
-*
 * @param string $name The name of the column to be removed
 * @access public
 * @see $columns
@@ -368,8 +331,6 @@ class SurveyMatrixQuestion extends SurveyQuestion
 	}
 	
 /**
-* Returns the name of a column for a given index
-*
 * Returns the name of a column for a given index
 *
 * @param integer $index The index of the column
@@ -399,8 +360,6 @@ class SurveyMatrixQuestion extends SurveyQuestion
 /**
 * Returns the index of a column with a given name.
 *
-* Returns the index of a column with a given name.
-*
 * @param string $name The name of the column
 * @access public
 * @see $columns
@@ -421,8 +380,6 @@ class SurveyMatrixQuestion extends SurveyQuestion
 /**
 * Empties the columns list
 *
-* Empties the columns list
-*
 * @access public
 * @see $columns
 */
@@ -432,8 +389,6 @@ class SurveyMatrixQuestion extends SurveyQuestion
 	}
 	
 /**
-* Returns the number of rows in the question
-*
 * Returns the number of rows in the question
 *
 * @result integer The number of rows
@@ -447,8 +402,6 @@ class SurveyMatrixQuestion extends SurveyQuestion
 /**
 * Adds a row to the question
 *
-* Adds a row to the question
-*
 * @param string $a_text The text of the row
 * @access public
 */
@@ -460,8 +413,6 @@ class SurveyMatrixQuestion extends SurveyQuestion
 /**
 * Empties the row list
 *
-* Empties the row list
-*
 * @access public
 * @see $rows
 */
@@ -471,8 +422,6 @@ class SurveyMatrixQuestion extends SurveyQuestion
 	}
 	
 /**
-* Returns a specific row
-*
 * Returns a specific row
 *
 * @param integer $a_index The index position of the row
@@ -488,8 +437,6 @@ class SurveyMatrixQuestion extends SurveyQuestion
 	}
 	
 /**
-* Removes rows from the question
-*
 * Removes rows from the question
 *
 * @param array $array An array containing the index positions of the rows to be removed
@@ -508,8 +455,6 @@ class SurveyMatrixQuestion extends SurveyQuestion
 /**
 * Returns one of the bipolar adjectives
 *
-* Returns one of the bipolar adjectives
-*
 * @param integer $a_index The number of the bipolar adjective (0 for the first and 1 for the second adjective)
 * @result string The text of the bipolar adjective
 * @access public
@@ -519,18 +464,17 @@ class SurveyMatrixQuestion extends SurveyQuestion
 		switch ($a_index)
 		{
 			case 1:
-				return $this->bipolar_adjective2;
+				return (strlen($this->bipolar_adjective2)) ? $this->bipolar_adjective2 : NULL;
 				break;
 			case 0:
 			default:
-				return $this->bipolar_adjective1;
+				return (strlen($this->bipolar_adjective1)) ? $this->bipolar_adjective1 : NULL;
 				break;
 		}
+		return NULL;
 	}
 
 /**
-* Sets one of the bipolar adjectives
-*
 * Sets one of the bipolar adjectives
 *
 * @param integer $a_index The number of the bipolar adjective (0 for the first and 1 for the second adjective)
@@ -554,8 +498,6 @@ class SurveyMatrixQuestion extends SurveyQuestion
 /**
 * Adds a phrase to the question
 *
-* Adds a phrase to the question
-*
 * @param integer $phrase_id The database id of the given phrase
 * @access public
 */
@@ -563,28 +505,25 @@ class SurveyMatrixQuestion extends SurveyQuestion
 	{
 		global $ilUser;
 		global $ilDB;
-		
-    $query = sprintf("SELECT survey_category.* FROM survey_category, survey_phrase_category WHERE survey_phrase_category.category_fi = survey_category.category_id AND survey_phrase_category.phrase_fi = %s AND (survey_category.owner_fi = 0 OR survey_category.owner_fi = %s) ORDER BY survey_phrase_category.sequence",
-      $ilDB->quote($phrase_id),
-			$ilDB->quote($ilUser->id)
-    );
-    $result = $ilDB->query($query);
-		while ($row = $result->fetchRow(MDB2_FETCHMODE_OBJECT))
+
+		$result = $ilDB->queryF("SELECT survey_category.* FROM survey_category, survey_phrase_category WHERE survey_phrase_category.category_fi = survey_category.category_id AND survey_phrase_category.phrase_fi = %s AND (survey_category.owner_fi = %s OR survey_category.owner_fi = %s) ORDER BY survey_phrase_category.sequence",
+			array('integer', 'integer', 'integer'),
+			array($phrase_id, 0, $ilUser->getId())
+		);
+		while ($row = $ilDB->fetchAssoc($result))
 		{
-			if (($row->defaultvalue == 1) and ($row->owner_fi == 0))
+			if (($row["defaultvalue"] == 1) && ($row["owner_fi"] == 0))
 			{
-				$this->addColumn($this->lng->txt($row->title));
+				$this->addColumn($this->lng->txt($row["title"]));
 			}
 			else
 			{
-				$this->addColumn($row->title);
+				$this->addColumn($row["title"]);
 			}
 		}
 	}
 	
 	/**
-	* Returns the question data fields from the database
-	*
 	* Returns the question data fields from the database
 	*
 	* @param integer $id The question ID from the database
@@ -595,13 +534,13 @@ class SurveyMatrixQuestion extends SurveyQuestion
 	{
 		global $ilDB;
 		
-    $query = sprintf("SELECT survey_question.*, survey_question_matrix.* FROM survey_question, survey_question_matrix WHERE survey_question.question_id = %s AND survey_question.question_id = survey_question_matrix.question_fi",
-      $ilDB->quote($id)
-    );
-    $result = $ilDB->query($query);
+		$result = $ilDB->queryF("SELECT survey_question.*, " . $this->getAdditionalTableName() . ".* FROM survey_question, " . $this->getAdditionalTableName() . " WHERE survey_question.question_id = %s AND survey_question.question_id = " . $this->getAdditionalTableName() . ".question_fi",
+			array('integer'),
+			array($id)
+		);
 		if ($result->numRows() == 1)
 		{
-			return $result->fetchRow(MDB2_FETCHMODE_ASSOC);
+			return $ilDB->fetchAssoc($result);
 		}
 		else
 		{
@@ -612,77 +551,74 @@ class SurveyMatrixQuestion extends SurveyQuestion
 /**
 * Loads a SurveyMatrixQuestion object from the database
 *
-* Loads a SurveyMatrixQuestion object from the database
-*
 * @param integer $id The database id of the matrix question
 * @access public
 */
 	function loadFromDb($id) 
 	{
 		global $ilDB;
-		$query = sprintf("SELECT survey_question.*, survey_question_matrix.* FROM survey_question, survey_question_matrix WHERE survey_question.question_id = %s AND survey_question.question_id = survey_question_matrix.question_fi",
-			$ilDB->quote($id)
+		$result = $ilDB->queryF("SELECT survey_question.*, " . $this->getAdditionalTableName() . ".* FROM survey_question, " . $this->getAdditionalTableName() . " WHERE survey_question.question_id = %s AND survey_question.question_id = " . $this->getAdditionalTableName() . ".question_fi",
+			array('integer'),
+			array($id)
 		);
-		$result = $ilDB->query($query);
 		if ($result->numRows() == 1) 
 		{
-			$data = $result->fetchRow(MDB2_FETCHMODE_OBJECT);
-			$this->id = $data->question_id;
-			$this->title = $data->title;
-			$this->description = $data->description;
-			$this->obj_id = $data->obj_fi;
-			$this->author = $data->author;
-			$this->owner = $data->owner_fi;
+			$data = $ilDB->fetchAssoc($result);
+			$this->setId($data["question_id"]);
+			$this->setTitle($data["title"]);
+			$this->setDescription($data["description"]);
+			$this->setObjId($data["obj_fi"]);
+			$this->setAuthor($data["author"]);
+			$this->setOwner($data["owner_fi"]);
 			include_once("./Services/RTE/classes/class.ilRTE.php");
-			$this->questiontext = ilRTE::_replaceMediaObjectImageSrc($data->questiontext, 1);
-			$this->obligatory = $data->obligatory;
-			$this->complete = $data->complete;
-			$this->original_id = $data->original_id;
-			$this->setSubtype($data->subtype);
-			$this->setRowSeparators($data->row_separators);
-			$this->setNeutralColumnSeparator($data->neutral_column_separator);
-			$this->setColumnSeparators($data->column_separators);
-			$this->setColumnPlaceholders($data->column_placeholders);
-			$this->setLegend($data->legend);
-			$this->getSingleLineRowCaption($data->singleline_row_caption);
-			$this->getRepeatColumnHeader($data->repeat_column_header);
-			$this->getColumnHeaderPosition($data->column_header_position);
-			$this->getRandomRows($data->random_rows);
-			$this->getColumnOrder($data->column_order);
-			$this->getColumnImages($data->column_images);
-			$this->getRowImages($data->row_images);
-			$this->setBipolarAdjective(0, $data->bipolar_adjective1);
-			$this->setBipolarAdjective(1, $data->bipolar_adjective2);
-			$this->setLayout($data->layout);
+			$this->setQuestiontext(ilRTE::_replaceMediaObjectImageSrc($data["questiontext"], 1));
+			$this->setObligatory($data["obligatory"]);
+			$this->setComplete($data["complete"]);
+			$this->setOriginalId($data["original_id"]);
+			$this->setSubtype($data["subtype"]);
+			$this->setRowSeparators($data["row_separators"]);
+			$this->setNeutralColumnSeparator($data["neutral_column_separator"]);
+			$this->setColumnSeparators($data["column_separators"]);
+			$this->setColumnPlaceholders($data["column_placeholders"]);
+			$this->setLegend($data["legend"]);
+			$this->setSingleLineRowCaption($data["singleline_row_caption"]);
+			$this->setRepeatColumnHeader($data["repeat_column_header"]);
+			$this->setColumnHeaderPosition($data["column_header_position"]);
+			$this->setRandomRows($data["random_rows"]);
+			$this->setColumnOrder($data["column_order"]);
+			$this->setColumnImages($data["column_images"]);
+			$this->setRowImages($data["row_images"]);
+			$this->setBipolarAdjective(0, $data["bipolar_adjective1"]);
+			$this->setBipolarAdjective(1, $data["bipolar_adjective2"]);
+			$this->setLayout($data["layout"]);
 			// loads materials uris from database
 			$this->loadMaterialFromDb($id);
-
 			$this->flushColumns();
 
-			$query = sprintf("SELECT survey_variable.*, survey_category.title, survey_category.neutral FROM survey_variable, survey_category WHERE survey_variable.question_fi = %s AND survey_variable.category_fi = survey_category.category_id ORDER BY sequence ASC",
-				$ilDB->quote($id)
+			$result = $ilDB->queryF("SELECT survey_variable.*, survey_category.title, survey_category.neutral FROM survey_variable, survey_category WHERE survey_variable.question_fi = %s AND survey_variable.category_fi = survey_category.category_id ORDER BY sequence ASC",
+				array('integer'),
+				array($id)
 			);
-			$result = $ilDB->query($query);
 			if ($result->numRows() > 0) 
 			{
-				while ($data = $result->fetchRow(MDB2_FETCHMODE_OBJECT)) 
+				while ($data = $ilDB->fetchAssoc($result)) 
 				{
-					if ($data->neutral == 0)
+					if ($data["neutral"] == 0)
 					{
-						$this->addColumn($data->title);
+						$this->addColumn($data["title"]);
 					}
 					else
 					{
-						$this->setNeutralColumn($data->title);
+						$this->setNeutralColumn($data["title"]);
 					}
 				}
 			}
 			
-			$query = sprintf("SELECT * FROM survey_question_matrix_rows WHERE question_fi = %s ORDER BY sequence",
-				$ilDB->quote($id . "")
+			$result = $ilDB->queryF("SELECT * FROM survey_question_matrix_rows WHERE question_fi = %s ORDER BY sequence",
+				array('integer'),
+				array($id)
 			);
-			$result = $ilDB->query($query);
-			while ($row = $result->fetchRow(MDB2_FETCHMODE_ASSOC))
+			while ($row = $ilDB->fetchAssoc($result))
 			{
 				$this->addRow($row["title"]);
 			}
@@ -691,11 +627,9 @@ class SurveyMatrixQuestion extends SurveyQuestion
 	}
 
 /**
-* Returns true if the question is complete for use
+* Returns 1 if the question is complete for use
 *
-* Returns true if the question is complete for use
-*
-* @result boolean True if the question is complete for use, otherwise false
+* @result integer 1 if the question is complete for use, otherwise 0
 * @access public
 */
 	function isComplete()
@@ -719,148 +653,97 @@ class SurveyMatrixQuestion extends SurveyQuestion
 /**
 * Saves a SurveyMatrixQuestion object to a database
 *
-* Saves a SurveyMatrixQuestion object to a database
-*
 * @access public
 */
-	function saveToDb($original_id = "", $withanswers = true)
+	function saveToDb($original_id = NULL, $withanswers = true)
 	{
 		global $ilDB;
-		$complete = 0;
-		if ($this->isComplete()) 
-		{
-			$complete = 1;
-		}
-		if ($original_id)
-		{
-			$original_id = $ilDB->quote($original_id);
-		}
-		else
-		{
-			$original_id = "NULL";
-		}
+		$complete = $this->isComplete();
+		$original_id = ($original_id) ? $original_id : NULL;
 
 		// cleanup RTE images which are not inserted into the question text
 		include_once("./Services/RTE/classes/class.ilRTE.php");
 		ilRTE::_cleanupMediaObjectUsage($this->questiontext, "spl:html",
 			$this->getId());
 
-		if ($this->id == -1) 
+		if ($this->getId() == -1) 
 		{
 			// Write new dataset
-			$now = getdate();
-			$created = sprintf("%04d%02d%02d%02d%02d%02d", $now['year'], $now['mon'], $now['mday'], $now['hours'], $now['minutes'], $now['seconds']);
-			$query = sprintf("INSERT INTO survey_question (question_id, questiontype_fi, obj_fi, owner_fi, title, description, author, questiontext, obligatory, complete, created, original_id, TIMESTAMP) VALUES (NULL, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, NULL)",
-				$ilDB->quote($this->getQuestionTypeID()),
-				$ilDB->quote($this->obj_id),
-				$ilDB->quote($this->owner),
-				$ilDB->quote($this->title),
-				$ilDB->quote($this->description),
-				$ilDB->quote($this->author),
-				$ilDB->quote(ilRTE::_replaceMediaObjectImageSrc($this->questiontext, 0)),
-				$ilDB->quote(sprintf("%d", $this->obligatory)),
-				$ilDB->quote("$complete"),
-				$ilDB->quote($created),
-				$original_id
+			$next_id = $ilDB->nextId('survey_question');
+			$affectedRows = $ilDB->manipulateF("INSERT INTO survey_question (question_id, questiontype_fi, obj_fi, owner_fi, title, description, author, questiontext, obligatory, complete, created, original_id, tstamp) VALUES (%s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s)",
+				array('integer', 'integer', 'integer', 'integer', 'text', 'text', 'text', 'text', 'text', 'text', 'integer', 'integer', 'integer'),
+				array(
+					$next_id,
+					$this->getQuestionTypeID(),
+					$this->getObjId(),
+					$this->getOwner(),
+					$this->getTitle(),
+					$this->getDescription(),
+					$this->getAuthor(),
+					ilRTE::_replaceMediaObjectImageSrc($this->getQuestiontext(), 0),
+					$this->getObligatory(),
+					$this->isComplete(),
+					time(),
+					$original_id,
+					time()
+				)
 			);
-			$result = $ilDB->query($query);
-			if (!PEAR::isError($result)) 
-			{
-				$this->id = $ilDB->getLastInsertId();
-				$query = sprintf("INSERT INTO survey_question_matrix (
-					question_fi, 
-					subtype, 
-					column_separators, 
-					row_separators, 
-					neutral_column_separator,
-					column_placeholders,
-					legend,
-					singleline_row_caption,
-					repeat_column_header,
-					column_header_position,
-					random_rows,
-					column_order,
-					column_images,
-					row_images, 
-					bipolar_adjective1, 
-					bipolar_adjective2,
-					layout
-					) 
-					VALUES (%s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s)",
-					$ilDB->quote($this->id . ""),
-					$ilDB->quote(sprintf("%d", $this->getSubtype())),
-					$ilDB->quote($this->getColumnSeparators() . ""),
-					$ilDB->quote($this->getRowSeparators() . ""),
-					$ilDB->quote($this->getNeutralColumnSeparator() . ""),
-					$ilDB->quote($this->getColumnPlaceholders() . ""),
-					$ilDB->quote($this->getLegend() . ""),
-					$ilDB->quote($this->getSingleLineRowCaption() . ""),
-					$ilDB->quote($this->getRepeatColumnHeader() . ""),
-					$ilDB->quote($this->getColumnHeaderPosition() . ""),
-					$ilDB->quote($this->getRandomRows() . ""),
-					$ilDB->quote($this->getColumnOrder() . ""),
-					$ilDB->quote($this->getColumnImages() . ""),
-					$ilDB->quote($this->getRowImages() . ""),
-					$ilDB->quote($this->getBipolarAdjective(0) . ""),
-					$ilDB->quote($this->getBipolarAdjective(1) . ""),
-					$ilDB->quote(serialize($this->getLayout()) . "")
-				);
-				$ilDB->query($query);
-			}
+			$this->setId($next_id);
 		} 
 		else 
 		{
 			// update existing dataset
-			$query = sprintf("UPDATE survey_question SET title = %s, description = %s, author = %s, questiontext = %s, obligatory = %s, complete = %s WHERE question_id = %s",
-				$ilDB->quote($this->title),
-				$ilDB->quote($this->description),
-				$ilDB->quote($this->author),
-				$ilDB->quote(ilRTE::_replaceMediaObjectImageSrc($this->questiontext, 0)),
-				$ilDB->quote(sprintf("%d", $this->obligatory)),
-				$ilDB->quote("$complete"),
-				$ilDB->quote($this->id)
+			$affectedRows = $ilDB->manipulateF("UPDATE survey_question SET title = %s, description = %s, author = %s, questiontext = %s, obligatory = %s, complete = %s, tstamp = %s WHERE question_id = %s",
+				array('text', 'text', 'text', 'text', 'text', 'text', 'integer', 'integer'),
+				array(
+					$this->getTitle(),
+					$this->getDescription(),
+					$this->getAuthor(),
+					ilRTE::_replaceMediaObjectImageSrc($this->getQuestiontext(), 0),
+					$this->getObligatory(),
+					$this->isComplete(),
+					time(),
+					$this->getId()
+				)
 			);
-			$result = $ilDB->query($query);
-			$query = sprintf("UPDATE survey_question_matrix SET 
-				subtype = %s, 
-				column_separators = %s, 
-				row_separators = %s, 
-				neutral_column_separator = %s, 
-				column_placeholders = %s,
-				legend = %s,
-				singleline_row_caption = %s,
-				repeat_column_header = %s,
-				column_header_position = %s,
-				random_rows = %s,
-				column_order = %s,
-				column_images = %s,
-				row_images = %s, 
-				bipolar_adjective1 = %s, 
-				bipolar_adjective2 = %s, 
-				layout = %s
-				WHERE question_fi = %s",
-				$ilDB->quote(sprintf("%d", $this->getSubtype())),
-				$ilDB->quote($this->getColumnSeparators() . ""),
-				$ilDB->quote($this->getRowSeparators() . ""),
-				$ilDB->quote($this->getNeutralColumnSeparator() . ""),
-				$ilDB->quote($this->getColumnPlaceholders() . ""),
-				$ilDB->quote($this->getLegend() . ""),
-				$ilDB->quote($this->getSingleLineRowCaption() . ""),
-				$ilDB->quote($this->getRepeatColumnHeader() . ""),
-				$ilDB->quote($this->getColumnHeaderPosition() . ""),
-				$ilDB->quote($this->getRandomRows() . ""),
-				$ilDB->quote($this->getColumnOrder() . ""),
-				$ilDB->quote($this->getColumnImages() . ""),
-				$ilDB->quote($this->getRowImages() . ""),
-				$ilDB->quote($this->getBipolarAdjective(0) . ""),
-				$ilDB->quote($this->getBipolarAdjective(1) . ""),
-				$ilDB->quote(serialize($this->getLayout()) . ""),
-				$ilDB->quote($this->id . "")
-			);
-			$result = $ilDB->query($query);
 		}
-		if (!PEAR::isError($result)) 
+		if ($affectedRows == 1) 
 		{
+			$affectedRows = $ilDB->manipulateF("DELETE FROM " . $this->getAdditionalTableName() . " WHERE question_fi = %s",
+				array('integer'),
+				array($this->getId())
+			);
+			$affectedRows = $ilDB->manipulateF("INSERT INTO " . $this->getAdditionalTableName() . " (
+				question_fi, subtype, column_separators, row_separators, neutral_column_separator,column_placeholders,
+				legend, singleline_row_caption, repeat_column_header, column_header_position, random_rows,
+				column_order, column_images, row_images, bipolar_adjective1, bipolar_adjective2, layout, tstamp)
+				VALUES (%s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s)",
+				array(
+					'integer', 'integer', 'text', 'text', 'text', 'integer', 'text', 'text', 'text', 
+					'text', 'text', 'text', 'text', 'text', 'text', 'text', 'text', 'integer'
+				),
+				array(
+					$this->getId(), 
+					$this->getSubtype(), 
+					$this->getColumnSeparators(),
+					$this->getRowSeparators(),
+					$this->getNeutralColumnSeparator(),
+					$this->getColumnPlaceholders(),
+					$this->getLegend(),
+					$this->getSingleLineRowCaption(),
+					$this->getRepeatColumnHeader(),
+					$this->getColumnHeaderPosition(),
+					$this->getRandomRows(),
+					$this->getColumnOrder(),
+					$this->getColumnImages(),
+					$this->getRowImages(),
+					$this->getBipolarAdjective(0),
+					$this->getBipolarAdjective(1),
+					serialize($this->getLayout()),
+					time()
+				)
+			);
+
 			// saving material uris in the database
 			$this->saveMaterialsToDb();
 			if ($withanswers)
@@ -876,17 +759,13 @@ class SurveyMatrixQuestion extends SurveyQuestion
 	{
 		global $ilDB;
 		
-		$query = sprintf("UPDATE survey_question_matrix SET bipolar_adjective1 = %s, bipolar_adjective2 = %s WHERE question_fi = %s",
-			$ilDB->quote($adjective1 . ""),
-			$ilDB->quote($adjective2 . ""),
-			$ilDB->quote($this->getId() . "")
+		$affectedRows = $ilDB->manipulateF("UPDATE " . $this->getAdditionalTableName() . " SET bipolar_adjective1 = %s, bipolar_adjective2 = %s WHERE question_fi = %s",
+			array('text', 'text', 'integer'),
+			array((strlen($adjective1)) ? $adjective1 : NULL, (strlen($adjective2)) ? $adjective2 : NULL, $this->getId())
 		);
-		$result = $ilDB->query($query);
 	}
 
 /**
-* Saves a column to the database
-*
 * Saves a column to the database
 *
 * @param string $columntext The text of the column
@@ -898,22 +777,20 @@ class SurveyMatrixQuestion extends SurveyQuestion
 	{
 		global $ilUser, $ilDB;
 		
-		$query = sprintf("SELECT title, category_id FROM survey_category WHERE title = %s AND neutral = %s AND owner_fi = %s",
-			$ilDB->quote($columntext . ""),
-			$ilDB->quote($neutral . ""),
-			$ilDB->quote($ilUser->getId() . "")
+		$result = $ilDB->queryF("SELECT title, category_id FROM survey_category WHERE title = %s AND neutral = %s AND owner_fi = %s",
+			array('text', 'text', 'integer'),
+			array($columntext, $neutral, $ilUser->getId())
 		);
-    $result = $ilDB->query($query);
 		$insert = FALSE;
 		$returnvalue = "";
 		if ($result->numRows()) 
 		{
 			$insert = TRUE;
-			while ($row = $result->fetchRow(MDB2_FETCHMODE_OBJECT))
+			while ($row = $ilDB->fetchAssoc($result))
 			{
-				if (strcmp($row->title, $columntext) == 0)
+				if (strcmp($row["title"], $columntext) == 0)
 				{
-					$returnvalue = $row->category_id;
+					$returnvalue = $row["category_id"];
 					$insert = FALSE;
 				}
 			}
@@ -924,18 +801,16 @@ class SurveyMatrixQuestion extends SurveyQuestion
 		}
 		if ($insert)
 		{
-			$query = sprintf("INSERT INTO survey_category (category_id, title, neutral, owner_fi, TIMESTAMP) VALUES (NULL, %s, %s, %s, NULL)",
-				$ilDB->quote($columntext . ""),
-				$ilDB->quote($neutral . ""),
-				$ilDB->quote($ilUser->getId() . "")
+			$next_id = $ilDB->nextId('survey_category');
+			$affectedRows = $ilDB->manipulateF("INSERT INTO survey_category (category_id, title, defaultvalue, owner_fi, neutral, tstamp) VALUES (%s, %s, %s, %s, %s, %s)",
+				array('integer', 'text', 'text', 'integer', 'text', 'integer'),
+				array($next_id, $columntext, 0, $ilUser->getId(), $neutral, time())
 			);
-			$result = $ilDB->query($query);
-			$returnvalue = $ilDB->getLastInsertId();
+			$returnvalue = $next_id;
 		}
 		return $returnvalue;
 	}
 
-	
 	function saveColumnsToDb($original_id = "")
 	{
 		global $ilDB;
@@ -948,33 +823,28 @@ class SurveyMatrixQuestion extends SurveyQuestion
 		}
 		
 		// delete existing column relations
-		$query = sprintf("DELETE FROM survey_variable WHERE question_fi = %s",
-			$ilDB->quote($question_id)
+		$affectedRows = $ilDB->manipulateF("DELETE FROM survey_variable WHERE question_fi = %s",
+			array('integer'),
+			array($question_id)
 		);
-		$result = $ilDB->query($query);
 		// create new column relations
 		for ($i = 0; $i < $this->getColumnCount(); $i++)
 		{
 			$cat = $this->getColumn($i);
 			$column_id = $this->saveColumnToDb($cat);
-			$query = sprintf("INSERT INTO survey_variable (variable_id, category_fi, question_fi, value1, sequence, TIMESTAMP) VALUES (NULL, %s, %s, %s, %s, NULL)",
-				$ilDB->quote($column_id . ""),
-				$ilDB->quote($question_id . ""),
-				$ilDB->quote(($i + 1) . ""),
-				$ilDB->quote($i . "")
+			$next_id = $ilDB->nextId('survey_variable');
+			$affectedRows = $ilDB->manipulateF("INSERT INTO survey_variable (variable_id, category_fi, question_fi, value1, value2, sequence, tstamp) VALUES (%s, %s, %s, %s, %s, %s, %s)",
+				array('integer','integer','integer','float','float','integer','integer'),
+				array($next_id, $column_id, $question_id, ($i + 1), NULL, $i, time())
 			);
-			$answer_result = $ilDB->query($query);
 		}
 		if (strlen($this->getNeutralColumn()))
 		{
 			$column_id = $this->saveColumnToDb($this->getNeutralColumn(), 1);
-			$query = sprintf("INSERT INTO survey_variable (variable_id, category_fi, question_fi, value1, sequence, TIMESTAMP) VALUES (NULL, %s, %s, %s, %s, NULL)",
-				$ilDB->quote($column_id . ""),
-				$ilDB->quote($question_id . ""),
-				$ilDB->quote(($i + 1) . ""),
-				$ilDB->quote($i . "")
+			$affectedRows = $ilDB->manipulateF("INSERT INTO survey_variable (variable_id, category_fi, question_fi, value1, value2, sequence, tstamp) VALUES (%s, %s, %s, %s, %s, %s, %s)",
+				array('integer','integer','integer','float','float','integer','integer'),
+				array($next_id, $column_id, $question_id, ($i + 1), NULL, $i, time())
 			);
-			$answer_result = $ilDB->query($query);
 		}
 		$this->saveCompletionStatus($original_id);
 	}
@@ -991,27 +861,24 @@ class SurveyMatrixQuestion extends SurveyQuestion
 		}
 		
 		// delete existing rows
-		$query = sprintf("DELETE FROM survey_question_matrix_rows WHERE question_fi = %s",
-			$ilDB->quote($question_id . "")
+		$affectedRows = $ilDB->manipulateF("DELETE FROM survey_question_matrix_rows WHERE question_fi = %s",
+			array('integer'),
+			array($question_id)
 		);
-		$result = $ilDB->query($query);
 		// create new rows
 		for ($i = 0; $i < $this->getRowCount(); $i++)
 		{
 			$row = $this->getRow($i);
-			$query = sprintf("INSERT INTO survey_question_matrix_rows (id_survey_question_matrix_rows, title, sequence, question_fi) VALUES (NULL, %s, %s, %s)",
-				$ilDB->quote($row . ""),
-				$ilDB->quote($i . ""),
-				$ilDB->quote($question_id . "")
+			$next_id = $ilDB->nextId('survey_question_matrix_rows');
+			$affectedRows = $ilDB->manipulateF("INSERT INTO survey_question_matrix_rows (id_survey_question_matrix_rows, title, sequence, question_fi) VALUES (%s, %s, %s, %s)",
+				array('integer','text','integer','integer'),
+				array($next_id, $row, $i, $question_id)
 			);
-			$answer_result = $ilDB->query($query);
 		}
 		$this->saveCompletionStatus($original_id);
 	}
 
 	/**
-	* Returns an xml representation of the question
-	*
 	* Returns an xml representation of the question
 	*
 	* @return string The xml representation of the question
@@ -1033,8 +900,6 @@ class SurveyMatrixQuestion extends SurveyQuestion
 	}
 	
 	/**
-	* Adds the question XML to a given XMLWriter object
-	*
 	* Adds the question XML to a given XMLWriter object
 	*
 	* @param object $a_xml_writer The XMLWriter object
@@ -1187,52 +1052,15 @@ class SurveyMatrixQuestion extends SurveyQuestion
 
 	function syncWithOriginal()
 	{
-		global $ilDB;
-		if ($this->original_id)
+		if ($this->getOriginalId())
 		{
-			$complete = 0;
-			if ($this->isComplete()) 
-			{
-				$complete = 1;
-			}
-			$query = sprintf("UPDATE survey_question SET title = %s, description = %s, author = %s, questiontext = %s, obligatory = %s, complete = %s WHERE question_id = %s",
-				$ilDB->quote($this->title . ""),
-				$ilDB->quote($this->description . ""),
-				$ilDB->quote($this->author . ""),
-				$ilDB->quote($this->questiontext . ""),
-				$ilDB->quote(sprintf("%d", $this->obligatory) . ""),
-				$ilDB->quote($complete . ""),
-				$ilDB->quote($this->original_id . "")
-			);
-			$result = $ilDB->query($query);
-			$query = sprintf("UPDATE survey_question_matrix SET row_separators = %s, column_separators = %s, neutral_column_separator = %s, bipolar_adjective1 = %s, bipolar_adjective2 = %s WHERE question_fi = %s",
-				$ilDB->quote($this->getRowSeparators() . ""),
-				$ilDB->quote($this->getColumnSeparators() . ""),
-				$ilDB->quote($this->getNeutralColumnSeparator() . ""),
-				$ilDB->quote($this->getBipolarAdjective(0) . ""),
-				$ilDB->quote($this->getBipolarAdjective(1) . ""),
-				$ilDB->quote($this->original_id . "")
-			);
-			$result = $ilDB->query($query);
-			if (PEAR::isError($result)) 
-			{
-				global $ilias;
-				$ilias->raiseError($result->getMessage());
-			}
-			else
-			{
-				// sync columns
-				$this->saveColumnsToDb($this->original_id);
-				// sync rows
-				$this->saveRowsToDb($this->original_id);
-			}
+			parent::syncWithOriginal();
+			$this->saveColumnsToDb($this->getOriginalId());
+			$this->saveRowsToDb($this->getOriginalId());
 		}
-		parent::syncWithOriginal();
 	}
 
 /**
-* Adds standard numbers as columns
-*
 * Adds standard numbers as columns
 *
 * @param integer $lower_limit The lower limit
@@ -1250,8 +1078,6 @@ class SurveyMatrixQuestion extends SurveyQuestion
 /**
 * Saves a set of columns to a default phrase
 *
-* Saves a set of columns to a default phrase
-*
 * @param array $phrases The database ids of the seleted phrases
 * @param string $title The title of the default phrase
 * @access public
@@ -1261,39 +1087,33 @@ class SurveyMatrixQuestion extends SurveyQuestion
 		global $ilUser;
 		global $ilDB;
 		
-		$query = sprintf("INSERT INTO survey_phrase (phrase_id, title, defaultvalue, owner_fi, TIMESTAMP) VALUES (NULL, %s, %s, %s, NULL)",
-			$ilDB->quote($title . ""),
-			$ilDB->quote("1"),
-			$ilDB->quote($ilUser->id . "")
+		$next_id = $ilDB->nextId('survey_phrase');
+		$affectedRows = $ilDB->manipulateF("INSERT INTO survey_phrase (phrase_id, title, defaultvalue, owner_fi, tstamp) VALUES (%s, %s, %s, %s, %s)",
+			array('integer','text','text','integer','integer'),
+			array($next_id, $title, 1, $ilUser->getId(), time())
 		);
-    $result = $ilDB->query($query);
-		$phrase_id = $ilDB->getLastInsertId();
+		$phrase_id = $next_id;
 				
 		$counter = 1;
 	  foreach ($phrases as $column_index) 
 		{
 			$column = $this->getColumn($column_index);
-			$query = sprintf("INSERT INTO survey_category (category_id, title, neutral, defaultvalue, owner_fi, TIMESTAMP) VALUES (NULL, %s, %s, %s, %s, NULL)",
-				$ilDB->quote($column . ""),
-				$ilDB->quote("0"),
-				$ilDB->quote("1"),
-				$ilDB->quote($ilUser->getId() . "")
+			$next_id = $ilDB->nextId('survey_category');
+			$affectedRows = $ilDB->manipulateF("INSERT INTO survey_category (category_id, title, defaultvalue, owner_fi, neutral, tstamp) VALUES (%s, %s, %s, %s, %s, %s)",
+				array('integer','text','text','integer','text','integer'),
+				array($next_id, $column, 1, $ilUser->getId(), 0, time())
 			);
-			$result = $ilDB->query($query);
-			$column_id = $ilDB->getLastInsertId();
-			$query = sprintf("INSERT INTO survey_phrase_category (phrase_category_id, phrase_fi, category_fi, sequence) VALUES (NULL, %s, %s, %s)",
-				$ilDB->quote($phrase_id . ""),
-				$ilDB->quote($column_id . ""),
-				$ilDB->quote($counter . "")
+			$column_id = $next_id;
+			$next_id = $ilDB->nextId('survey_phrase_category');
+			$affectedRows = $ilDB->manipulateF("INSERT INTO survey_phrase_category (phrase_category_id, phrase_fi, category_fi, sequence) VALUES (%s, %s, %s, %s)",
+				array('integer', 'integer', 'integer', 'integer'),
+				array($next_id, $phrase_id, $column_id, $counter)
 			);
-			$result = $ilDB->query($query);
 			$counter++;
 		}
 	}
 	
 	/**
-	* Returns the question type of the question
-	*
 	* Returns the question type of the question
 	*
 	* @return integer The question type of the question
@@ -1307,8 +1127,6 @@ class SurveyMatrixQuestion extends SurveyQuestion
 	/**
 	* Returns the name of the additional question data table in the database
 	*
-	* Returns the name of the additional question data table in the database
-	*
 	* @return string The additional table name
 	* @access public
 	*/
@@ -1318,8 +1136,6 @@ class SurveyMatrixQuestion extends SurveyQuestion
 	}
 	
 	/**
-	* Creates the user data of the survey_answer table from the POST data
-	*
 	* Creates the user data of the survey_answer table from the POST data
 	*
 	* @return array User data according to the survey_answer table
@@ -1370,9 +1186,6 @@ class SurveyMatrixQuestion extends SurveyQuestion
 	}
 	
 	/**
-	* Checks the input of the active user for obligatory status
-	* and entered values
-	*
 	* Checks the input of the active user for obligatory status
 	* and entered values
 	*
@@ -1427,14 +1240,11 @@ class SurveyMatrixQuestion extends SurveyQuestion
 				{
 					if (preg_match("/matrix_" . $this->getId() . "_(\d+)/", $key, $matches))
 					{
-						$query = sprintf("INSERT INTO survey_answer (answer_id, question_fi, active_fi, value, textanswer, rowvalue, TIMESTAMP) VALUES (NULL, %s, %s, %s, %s, %s, NULL)",
-							$ilDB->quote($this->getId() . ""),
-							$ilDB->quote($active_id . ""),
-							$ilDB->quote($value . ""),
-							"NULL",
-							$ilDB->quote($matches[1] . "")
+						$next_id = $ilDB->nextId('survey_answer');
+						$affectedRows = $ilDB->manipulalteF("INSERT INTO survey_answer (answer_id, question_fi, active_fi, value, textanswer, rowvalue, tstamp) VALUES (%s, %s, %s, %s, %s, %s, %s)",
+							array('integer','integer','integer','float','text','integer','integer'),
+							array($next_id, $this->getId(), $active_id, $value, NULL, $matches[1], time())
 						);
-						$result = $ilDB->query($query);
 					}
 				}
 				break;
@@ -1447,14 +1257,11 @@ class SurveyMatrixQuestion extends SurveyQuestion
 						{
 							if (strlen($checked))
 							{
-								$query = sprintf("INSERT INTO survey_answer (answer_id, question_fi, active_fi, value, textanswer, rowvalue, TIMESTAMP) VALUES (NULL, %s, %s, %s, %s, %s, NULL)",
-									$ilDB->quote($this->getId() . ""),
-									$ilDB->quote($active_id . ""),
-									$ilDB->quote($checked . ""),
-									"NULL",
-									$ilDB->quote($matches[1] . "")
+								$next_id = $ilDB->nextId('survey_answer');
+								$affectedRows = $ilDB->manipulalteF("INSERT INTO survey_answer (answer_id, question_fi, active_fi, value, textanswer, rowvalue, tstamp) VALUES (%s, %s, %s, %s, %s, %s, %s)",
+									array('integer','integer','integer','float','text','integer','integer'),
+									array($next_id, $this->getId(), $active_id, $checked, NULL, $matches[1], time())
 								);
-								$result = $ilDB->query($query);
 							}
 						}
 					}
@@ -1466,8 +1273,6 @@ class SurveyMatrixQuestion extends SurveyQuestion
 	/**
 	* Deletes datasets from the additional question table in the database
 	*
-	* Deletes datasets from the additional question table in the database
-	*
 	* @param integer $question_id The question id which should be deleted in the additional question table
 	* @access public
 	*/
@@ -1476,15 +1281,13 @@ class SurveyMatrixQuestion extends SurveyQuestion
 		parent::deleteAdditionalTableData($question_id);
 		
 		global $ilDB;
-		$query = sprintf("DELETE FROM survey_question_matrix_rows WHERE question_fi = %s",
-			$ilDB->quote($question_id . "")
+		$affectedRows = $ilDB->manipulateF("DELETE FROM survey_question_matrix_rows WHERE question_fi = %s",
+			array('integer'),
+			array($question_id)
 		);
-		$result = $ilDB->query($query);
 	}
 
 	/**
-	* Returns the number of users that answered the question for a given survey
-	*
 	* Returns the number of users that answered the question for a given survey
 	*
 	* @param integer $survey_id The database ID of the survey
@@ -1495,17 +1298,19 @@ class SurveyMatrixQuestion extends SurveyQuestion
 	{
 		global $ilDB;
 		
-		$query = sprintf("SELECT DISTINCT(CONCAT(survey_answer.active_fi,survey_answer.question_fi)) AS participants FROM survey_answer, survey_finished WHERE survey_answer.question_fi = %s AND survey_finished.survey_fi = %s AND survey_finished.finished_id = survey_answer.active_fi",
-			$ilDB->quote($this->getId() . ""),
-			$ilDB->quote($survey_id . "")
+		$result = $ilDB->queryF("SELECT survey_answer.active_fi, survey_answer.question_fi FROM survey_answer, survey_finished WHERE survey_answer.question_fi = %s AND survey_finished.survey_fi = %s AND survey_finished.finished_id = survey_answer.active_fi",
+			array('integer', 'integer'),
+			array($this->getId(), $survey_id)
 		);
-		$result = $ilDB->query($query);
-		return $result->numRows();
+		$found = array();
+		while ($row = $ilDB->fetchAssoc($result))
+		{
+			$found[$row["active_fi"].$row["question_fi"]] = 1;
+		}
+		return count($found);
 	}
 
 	/**
-	* Returns the cumulated results for a given row
-	*
 	* Returns the cumulated results for a given row
 	*
 	* @param integer $row The index of the row
@@ -1522,20 +1327,18 @@ class SurveyMatrixQuestion extends SurveyQuestion
 		$result_array = array();
 		$cumulated = array();
 
-		$query = sprintf("SELECT survey_answer.* FROM survey_answer, survey_finished WHERE survey_answer.question_fi = %s AND survey_finished.survey_fi = %s AND survey_answer.rowvalue = %s AND survey_finished.finished_id = survey_answer.active_fi",
-			$ilDB->quote($question_id . ""),
-			$ilDB->quote($survey_id . ""),
-			$ilDB->quote($rowindex . "")
+		$result = $ilDB->queryF("SELECT survey_answer.* FROM survey_answer, survey_finished WHERE survey_answer.question_fi = %s AND survey_finished.survey_fi = %s AND survey_answer.rowvalue = %s AND survey_finished.finished_id = survey_answer.active_fi",
+			array('integer', 'integer', 'integer'),
+			array($question_id, $survey_id, $rowindex)
 		);
-		$result = $ilDB->query($query);
 		
 		switch ($this->getSubtype())
 		{
 			case 0:
 			case 1:
-				while ($row = $result->fetchRow(MDB2_FETCHMODE_OBJECT))
+				while ($row = $ilDB->fetchAssoc($result))
 				{
-					$cumulated[$row->value]++;
+					$cumulated[$row["value"]]++;
 				}
 				asort($cumulated, SORT_NUMERIC);
 				end($cumulated);
@@ -1615,8 +1418,6 @@ class SurveyMatrixQuestion extends SurveyQuestion
 	/**
 	* Returns the cumulated results for the question
 	*
-	* Returns the cumulated results for the question
-	*
 	* @param integer $survey_id The database ID of the survey
 	* @return integer The number of users who took part in the survey
 	* @access public
@@ -1630,19 +1431,18 @@ class SurveyMatrixQuestion extends SurveyQuestion
 		$result_array = array();
 		$cumulated = array();
 
-		$query = sprintf("SELECT survey_answer.* FROM survey_answer, survey_finished WHERE survey_answer.question_fi = %s AND survey_finished.survey_fi = %s AND survey_finished.finished_id = survey_answer.active_fi",
-			$ilDB->quote($question_id),
-			$ilDB->quote($survey_id)
+		$result = $ilDB->queryF("SELECT survey_answer.* FROM survey_answer, survey_finished WHERE survey_answer.question_fi = %s AND survey_finished.survey_fi = %s AND survey_finished.finished_id = survey_answer.active_fi",
+			array('integer', 'integer'),
+			array($question_id, $survey_id)
 		);
-		$result = $ilDB->query($query);
 		
 		switch ($this->getSubtype())
 		{
 			case 0:
 			case 1:
-				while ($row = $result->fetchRow(MDB2_FETCHMODE_OBJECT))
+				while ($row = $ilDB->fetchAssoc($result))
 				{
-					$cumulated[$row->value]++;
+					$cumulated[$row["value"]]++;
 				}
 				asort($cumulated, SORT_NUMERIC);
 				end($cumulated);
@@ -1729,8 +1529,6 @@ class SurveyMatrixQuestion extends SurveyQuestion
 	/**
 	* Creates the Excel output for the cumulated results of this question
 	*
-	* Creates the Excel output for the cumulated results of this question
-	*
 	* @param object $worksheet Reference to the excel worksheet
 	* @param object $format_title Excel title format
 	* @param object $format_bold Excel bold format
@@ -1774,8 +1572,6 @@ class SurveyMatrixQuestion extends SurveyQuestion
 	/**
 	* Creates the CSV output for the cumulated results of this question
 	*
-	* Creates the CSV output for the cumulated results of this question
-	*
 	* @param object $worksheet Reference to the excel worksheet
 	* @param object $format_title Excel title format
 	* @param object $format_bold Excel bold format
@@ -1814,8 +1610,6 @@ class SurveyMatrixQuestion extends SurveyQuestion
 	}
 	
 	/**
-	* Creates an Excel worksheet for the detailed cumulated results of this question
-	*
 	* Creates an Excel worksheet for the detailed cumulated results of this question
 	*
 	* @param object $workbook Reference to the parent excel workbook
@@ -1935,8 +1729,6 @@ class SurveyMatrixQuestion extends SurveyQuestion
 	/**
 	* Adds the entries for the title row of the user specific results
 	*
-	* Adds the entries for the title row of the user specific results
-	*
 	* @param array $a_array An array which is used to append the title row entries
 	* @access public
 	*/
@@ -1966,8 +1758,6 @@ class SurveyMatrixQuestion extends SurveyQuestion
 	}
 
 	/**
-	* Adds the values for the user specific results export for a given user
-	*
 	* Adds the values for the user specific results export for a given user
 	*
 	* @param array $a_array An array which is used to append the values
@@ -2088,8 +1878,6 @@ class SurveyMatrixQuestion extends SurveyQuestion
 	/**
 	* Returns an array containing all answers to this question in a given survey
 	*
-	* Returns an array containing all answers to this question in a given survey
-	*
 	* @param integer $survey_id The database ID of the survey
 	* @return array An array containing the answers to the question. The keys are either the user id or the anonymous id
 	* @access public
@@ -2100,13 +1888,12 @@ class SurveyMatrixQuestion extends SurveyQuestion
 		
 		$answers = array();
 
-		$query = sprintf("SELECT survey_answer.* FROM survey_answer, survey_finished WHERE survey_finished.survey_fi = %s AND survey_answer.question_fi = %s AND survey_finished.finished_id = survey_answer.active_fi ORDER BY rowvalue, value",
-			$ilDB->quote($survey_id),
-			$ilDB->quote($this->getId())
+		$result = $ilDB->queryF("SELECT survey_answer.* FROM survey_answer, survey_finished WHERE survey_finished.survey_fi = %s AND survey_answer.question_fi = %s AND survey_finished.finished_id = survey_answer.active_fi ORDER BY rowvalue, value",
+			array('integer','integer'),
+			array($survey_id, $this->getId())
 		);
-		$result = $ilDB->query($query);
 		$results = array();
-		while ($row = $result->fetchRow(MDB2_FETCHMODE_ASSOC))
+		while ($row = $ilDB->fetchAssoc($result))
 		{
 			$column = $this->getColumn($row["value"]);
 			if (!is_array($answers[$row["active_fi"]])) $answers[$row["active_fi"]] = array();
@@ -2122,8 +1909,6 @@ class SurveyMatrixQuestion extends SurveyQuestion
 	/**
 	* Returns the subtype of the matrix question
 	*
-	* Returns the subtype of the matrix question
-	*
 	* @return integer The subtype of the matrix question
 	* @access public
 	*/
@@ -2133,8 +1918,6 @@ class SurveyMatrixQuestion extends SurveyQuestion
 	}
 
 	/**
-	* Sets the subtype of the matrix question
-	*
 	* Sets the subtype of the matrix question
 	*
 	* @return integer $a_subtype The subtype of the matrix question
@@ -2162,8 +1945,6 @@ class SurveyMatrixQuestion extends SurveyQuestion
 	/**
 	* Enables/Disables separators for the matrix columns
 	*
-	* Enables/Disables separators for the matrix columns
-	*
 	* @param integer $enable 1 if the separators should be enabled, 0 otherwise
 	* @access public
 	*/
@@ -2184,19 +1965,15 @@ class SurveyMatrixQuestion extends SurveyQuestion
 	/**
 	* Gets the separators enable state for the matrix columns
 	*
-	* Gets the separators enable state for the matrix columns
-	*
 	* @return integer 1 if the separators are enabled, 0 otherwise
 	* @access public
 	*/
 	function getColumnSeparators()
 	{
-		return $this->columnSeparators;
+		return ($this->columnSeparators) ? 1 : 0;
 	}
 	
 	/**
-	* Enables/Disables separators for the matrix rows
-	*
 	* Enables/Disables separators for the matrix rows
 	*
 	* @param integer $enable 1 if the separators should be enabled, 0 otherwise
@@ -2219,19 +1996,15 @@ class SurveyMatrixQuestion extends SurveyQuestion
 	/**
 	* Gets the separators enable state for the matrix rows
 	*
-	* Gets the separators enable state for the matrix rows
-	*
 	* @return integer 1 if the separators are enabled, 0 otherwise
 	* @access public
 	*/
 	function getRowSeparators()
 	{
-		return $this->rowSeparators;
+		return ($this->rowSeparators) ? 1 : 0;
 	}
 
 	/**
-	* Enables/Disables a separator for the neutral column
-	*
 	* Enables/Disables a separator for the neutral column
 	*
 	* @param integer $enable 1 if the separator should be enabled, 0 otherwise
@@ -2254,19 +2027,15 @@ class SurveyMatrixQuestion extends SurveyQuestion
 	/**
 	* Gets the separator enable state for the neutral column
 	*
-	* Gets the separator enable state for the neutral column
-	*
 	* @return integer 1 if the separator is enabled, 0 otherwise
 	* @access public
 	*/
 	function getNeutralColumnSeparator()
 	{
-		return $this->neutralColumnSeparator;
+		return ($this->neutralColumnSeparator) ? 1 : 0;
 	}
 
 	/**
-	* Import additional meta data from the question import file
-	*
 	* Import additional meta data from the question import file. Usually
 	* the meta data section is used to store question elements which are not
 	* part of the standard XML schema.
@@ -2299,8 +2068,6 @@ class SurveyMatrixQuestion extends SurveyQuestion
 	/**
 	* Import bipolar adjectives from the question import file
 	*
-	* Import bipolar adjectives from the question import file
-	*
 	* @return array $a_data Array containing the adjectives
 	* @access public
 	*/
@@ -2324,8 +2091,6 @@ class SurveyMatrixQuestion extends SurveyQuestion
 	/**
 	* Import matrix rows from the question import file
 	*
-	* Import matrix rows from the question import file
-	*
 	* @return array $a_data Array containing the matrix rows
 	* @access public
 	*/
@@ -2338,8 +2103,6 @@ class SurveyMatrixQuestion extends SurveyQuestion
 	}
 	
 	/**
-	* Import response data from the question import file
-	*
 	* Import response data from the question import file
 	*
 	* @return array $a_data Array containing the response data
@@ -2368,8 +2131,6 @@ class SurveyMatrixQuestion extends SurveyQuestion
 	/**
 	* Returns if the question is usable for preconditions
 	*
-	* Returns if the question is usable for preconditions
-	*
 	* @return boolean TRUE if the question is usable for a precondition, FALSE otherwise
 	* @access public
 	*/
@@ -2379,8 +2140,6 @@ class SurveyMatrixQuestion extends SurveyQuestion
 	}
 
 	/**
-	* Returns the output for a precondition value
-	*
 	* Returns the output for a precondition value
 	*
 	* @param string $value The precondition value
@@ -2393,8 +2152,6 @@ class SurveyMatrixQuestion extends SurveyQuestion
 	}
 	
 /**
-* Creates an image visualising the results of the question
-*
 * Creates an image visualising the results of the question
 *
 * @param integer $survey_id The database ID of the survey
@@ -2429,8 +2186,6 @@ class SurveyMatrixQuestion extends SurveyQuestion
 /**
  * Saves the layout of a matrix question
  *
- * Saves the layout of a matrix question
- *
  * @param double $percent_row The width in percent for the matrix rows
  * @param double $percent_columns The width in percent for the matrix columns
  * @param double $percent_bipolar_adjective1 The width in percent for the first bipolar adjective
@@ -2448,11 +2203,10 @@ class SurveyMatrixQuestion extends SurveyQuestion
 			"percent_bipolar_adjective2" => $percent_bipolar_adjective2,
 			"percent_neutral" => $percent_neutral
 		);
-		$query = sprintf("UPDATE survey_question_matrix SET layout = %s WHERE question_fi = %s",
-			$ilDB->quote(serialize($layout) . ""),
-			$ilDB->quote($this->getId() . "")
+		$affectedRows = $ilDB->manipulateF("UPDATE survey_question_matrix SET layout = %s WHERE question_fi = %s",
+			array('text', 'integer'),
+			array(serialize($layout), $this->getId())
 		);
-		$ilDB->query($query);
 	}
 
 	function getLayout()
@@ -2518,8 +2272,6 @@ class SurveyMatrixQuestion extends SurveyQuestion
 	/**
 	 * Returns TRUE if bipolar adjectives exist
 	 *
-	 * Returns TRUE if bipolar adjectives exist
-	 *
 	 * @return boolean TRUE if bipolar adjectives exist, FALSE otherwise
 	 **/
 	function hasBipolarAdjectives()
@@ -2535,8 +2287,6 @@ class SurveyMatrixQuestion extends SurveyQuestion
 	}
 	
 	/**
-	 * Returns TRUE if a neutral column exists
-	 *
 	 * Returns TRUE if a neutral column exists
 	 *
 	 * @return boolean TRUE if a neutral column exists, FALSE otherwise
@@ -2556,89 +2306,61 @@ class SurveyMatrixQuestion extends SurveyQuestion
 	/**
 	* Set whether placeholders should be used for the column titles or not
 	*
-	* @param boolean $a_value TRUE for placeholders, FALSE otherwise
+	* @param integer $a_value 1 for placeholders, 0 otherwise
 	*/
-	function setColumnPlaceholders($a_value = FALSE)
+	function setColumnPlaceholders($a_value = 0)
 	{
-		if ($a_value)
-		{
-			$this->columnPlaceholders = TRUE;
-		}
-		else
-		{
-			$this->columnPlaceholders = FALSE;
-		}
+		$this->columnPlaceholders = ($a_value) ? 1 : 0;
 	}
 	
 	/**
 	* Get whether placeholders should be used for the column titles or not
 	*
-	* @return boolean TRUE for placeholders, FALSE otherwise
+	* @return integer 1 for placeholders, 0 otherwise
 	*/
 	function getColumnPlaceholders()
 	{
-		return $this->columnPlaceholders;
+		return ($this->columnPlaceholders) ? 1 : 0;
 	}
 
 	/**
 	* Set whether the legend should be shown or not
 	*
-	* @param boolean $a_value Show legend
+	* @param integer $a_value Show legend
 	*/
-	function setLegend($a_value = FALSE)
+	function setLegend($a_value = 0)
 	{
-		if ($a_value)
-		{
-			$this->legend = TRUE;
-		}
-		else
-		{
-			$this->legend = FALSE;
-		}
+		$this->legend = ($a_value) ? 1 : 0;
 	}
 	
 	/**
 	* Get whether the legend should be shown or not
 	*
-	* @return boolean Show legend
+	* @return integer Show legend
 	*/
 	function getLegend()
 	{
-		return $this->legend;
+		return ($this->legend) ? 1 : 0;
 	}
 	
-	function setSingleLineRowCaption($a_value = FALSE)
+	function setSingleLineRowCaption($a_value = 0)
 	{
-		if ($a_value)
-		{
-			$this->singleLineRowCaption = TRUE;
-		}
-		else
-		{
-			$this->singleLineRowCaption = FALSE;
-		}
+		$this->singleLineRowCaption = ($a_value) ? 1 : 0;
 	}
 	
 	function getSingleLineRowCaption()
 	{
-		return $this->singleLineRowCaption;
+		return ($this->singleLineRowCaption) ? 1 : 0;
 	}
 	
-	function setRepeatColumnHeader($a_value = FALSE)
+	function setRepeatColumnHeader($a_value = 0)
 	{
-		if ($a_value)
-		{
-			$this->repeatColumnHeader = TRUE;
-		}
-		else
-		{
-			$this->repeatColumnHeader = FALSE;
-		}
+		$this->repeatColumnHeader = ($a_value) ? 1 : 0;
 	}
 	
 	function getRepeatColumnHeader()
 	{
-		return $this->repeatColumnHeader;
+		return ($this->repeatColumnHeader) ? 1 : 0;
 	}
 	
 	function setColumnHeaderPosition($a_value)
@@ -2648,24 +2370,17 @@ class SurveyMatrixQuestion extends SurveyQuestion
 	
 	function getColumnHeaderPosition()
 	{
-		return $this->columnHeaderPosition;
+		return ($this->columnHeaderPosition) ? $this->columnHeaderPosition : 0;
 	}
 	
-	function setRandomRows($a_value = FALSE)
+	function setRandomRows($a_value = 0)
 	{
-		if ($a_value)
-		{
-			$this->randomRows = TRUE;
-		}
-		else
-		{
-			$this->randomRows = FALSE;
-		}
+		$this->randomRows = ($a_value) ? 1 : 0;
 	}
 	
 	function getRandomRows()
 	{
-		return $this->randomRows;
+		return ($this->randomRows) ? 1 : 0;
 	}
 	
 	function setColumnOrder($a_value)
@@ -2675,41 +2390,27 @@ class SurveyMatrixQuestion extends SurveyQuestion
 	
 	function getColumnOrder()
 	{
-		return $this->columnOrder;
+		return ($this->columnOrder) ? $this->columnOrder : 0;
 	}
 	
-	function setColumnImages($a_value = FALSE)
+	function setColumnImages($a_value = 0)
 	{
-		if ($a_value)
-		{
-			$this->columnImages = TRUE;
-		}
-		else
-		{
-			$this->columnImages = FALSE;
-		}
+		$this->columnImages = ($a_value) ? 1 : 0;
 	}
 	
 	function getColumnImages()
 	{
-		return $this->columnImages;
+		return ($this->columnImages) ? 1 : 0;
 	}
 	
-	function setRowImages($a_value = FALSE)
+	function setRowImages($a_value = 0)
 	{
-		if ($a_value)
-		{
-			$this->rowImages = TRUE;
-		}
-		else
-		{
-			$this->rowImages = FALSE;
-		}
+		$this->rowImages = ($a_value) ? 1 : 0;
 	}
 	
 	function getRowImages()
 	{
-		return $this->rowImages;
+		return ($this->rowImages) ? 1 : 0;
 	}
 	
 }

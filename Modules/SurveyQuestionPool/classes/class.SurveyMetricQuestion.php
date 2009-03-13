@@ -53,15 +53,11 @@ class SurveyMetricQuestion extends SurveyQuestion
 /**
 * The minimum value for the metric question
 *
-* The minimum value for the metric question
-*
 * @var double
 */
   var $minimum;
 
 /**
-* The maximum value for the metric question
-*
 * The maximum value for the metric question
 *
 * @var double
@@ -79,16 +75,15 @@ class SurveyMetricQuestion extends SurveyQuestion
 * @param integer $owner A numerical ID to identify the owner/creator
 * @access public
 */
-  function SurveyMetricQuestion(
-    $title = "",
-    $description = "",
-    $author = "",
+	function SurveyMetricQuestion(
+		$title = "",
+		$description = "",
+		$author = "",
 		$questiontext = "",
-    $owner = -1,
+		$owner = -1,
 		$subtype = SUBTYPE_NON_RATIO
-  )
-
-  {
+	)
+	{
 		$this->SurveyQuestion($title, $description, $author, $questiontext, $owner);
 		$this->subtype = $subtype;
 		$this->minimum = "";
@@ -96,8 +91,6 @@ class SurveyMetricQuestion extends SurveyQuestion
 	}
 	
 /**
-* Sets the question subtype
-*
 * Sets the question subtype
 *
 * @param integer $subtype The question subtype
@@ -112,8 +105,6 @@ class SurveyMetricQuestion extends SurveyQuestion
 /**
 * Sets the minimum value
 *
-* Sets the minimum value
-*
 * @param double $minimum The minimum value
 * @access public
 * @see $minimum
@@ -124,8 +115,6 @@ class SurveyMetricQuestion extends SurveyQuestion
   }
 
 /**
-* Sets the maximum value
-*
 * Sets the maximum value
 *
 * @param double $maximum The maximum value
@@ -140,8 +129,6 @@ class SurveyMetricQuestion extends SurveyQuestion
 /**
 * Gets the question subtype
 *
-* Gets the question subtype
-*
 * @return integer The question subtype
 * @access public
 * @see $subtype
@@ -154,8 +141,6 @@ class SurveyMetricQuestion extends SurveyQuestion
 /**
 * Returns the minimum value of the question
 *
-* Returns the minimum value of the question
-*
 * @return double The minimum value of the question
 * @access public
 * @see $minimum
@@ -166,12 +151,10 @@ class SurveyMetricQuestion extends SurveyQuestion
 		{
 			$this->minimum = 0;
 		}
-		return $this->minimum;
+		return (strlen($this->minimum)) ? $this->minimum : NULL;
 	}
 	
 /**
-* Returns the maximum value of the question
-*
 * Returns the maximum value of the question
 *
 * @return double The maximum value of the question
@@ -180,12 +163,10 @@ class SurveyMetricQuestion extends SurveyQuestion
 */
 	function getMaximum() 
 	{
-		return $this->maximum;
+		return (strlen($this->maximum)) ? $this->maximum : NULL;
 	}
 	
 	/**
-	* Returns the question data fields from the database
-	*
 	* Returns the question data fields from the database
 	*
 	* @param integer $id The question ID from the database
@@ -196,13 +177,13 @@ class SurveyMetricQuestion extends SurveyQuestion
 	{
 		global $ilDB;
 		
-    $query = sprintf("SELECT survey_question.*, survey_question_metric.* FROM survey_question, survey_question_metric WHERE survey_question.question_id = %s AND survey_question.question_id = survey_question_metric.question_fi",
-      $ilDB->quote($id)
-    );
-    $result = $ilDB->query($query);
+		$result = $ilDB->queryF("SELECT survey_question.*, survey_question_metric.* FROM survey_question, survey_question_metric WHERE survey_question.question_id = %s AND survey_question.question_id = survey_question_metric.question_fi",
+			array('integer'),
+			array($id)
+		);
 		if ($result->numRows() == 1)
 		{
-			return $result->fetchRow(MDB2_FETCHMODE_ASSOC);
+			return $ilDB->fetchAssoc($result);
 		}
 		else
 		{
@@ -213,52 +194,51 @@ class SurveyMetricQuestion extends SurveyQuestion
 /**
 * Loads a SurveyMetricQuestion object from the database
 *
-* Loads a SurveyMetricQuestion object from the database
-*
 * @param integer $id The database id of the metric survey question
 * @access public
 */
 	function loadFromDb($id) 
 	{
 		global $ilDB;
-		$query = sprintf("SELECT survey_question.*, survey_question_metric.* FROM survey_question, survey_question_metric WHERE survey_question.question_id = %s AND survey_question.question_id = survey_question_metric.question_fi",
-			$ilDB->quote($id)
+
+		$result = $ilDB->queryF("SELECT survey_question.*, " . $this->getAdditionalTableName() . ".* FROM survey_question, " . $this->getAdditionalTableName() . " WHERE survey_question.question_id = %s AND survey_question.question_id = " . $this->getAdditionalTableName() . ".question_fi",
+			array('integer'),
+			array($id)
 		);
-		$result = $ilDB->query($query);
 		if ($result->numRows() == 1) 
 		{
-			$data = $result->fetchRow(MDB2_FETCHMODE_OBJECT);
-			$this->id = $data->question_id;
-			$this->title = $data->title;
-			$this->description = $data->description;
-			$this->obj_id = $data->obj_fi;
-			$this->obligatory = $data->obligatory;
-			$this->author = $data->author;
-			$this->subtype = $data->subtype;
-			$this->original_id = $data->original_id;
-			$this->owner = $data->owner_fi;
+			$data = $ilDB->fetchAssoc($result);
+			$this->setId($data["question_id"]);
+			$this->setTitle($data["title"]);
+			$this->setDescription($data["description"]);
+			$this->setObjId($data["obj_fi"]);
+			$this->setAuthor($data["author"]);
+			$this->setOwner($data["owner_fi"]);
 			include_once("./Services/RTE/classes/class.ilRTE.php");
-			$this->questiontext = ilRTE::_replaceMediaObjectImageSrc($data->questiontext, 1);
-			$this->complete = $data->complete;
+			$this->setQuestiontext(ilRTE::_replaceMediaObjectImageSrc($data["questiontext"], 1));
+			$this->setObligatory($data["obligatory"]);
+			$this->setComplete($data["complete"]);
+			$this->setOriginalId($data["original_id"]);
+			$this->setSubtype($data["subtype"]);
 			// loads materials uris from database
 			$this->loadMaterialFromDb($id);
 
-			$query = sprintf("SELECT survey_variable.* FROM survey_variable WHERE survey_variable.question_fi = %s",
-				$ilDB->quote($id)
+			$result = $ilDB->queryF("SELECT survey_variable.* FROM survey_variable WHERE survey_variable.question_fi = %s",
+				array('integer'),
+				array($id)
 			);
-			$result = $ilDB->query($query);
 			if ($result->numRows() > 0) 
 			{
-				if ($data = $result->fetchRow(MDB2_FETCHMODE_OBJECT)) 
+				if ($data = $ilDB->fetchAssoc($result)) 
 				{
-					$this->minimum = $data->value1;
-					if (($data->value2 < 0) or (strcmp($data->value2, "") == 0))
+					$this->minimum = $data["value1"];
+					if (($data["value2"] < 0) or (strcmp($data["value2"], "") == 0))
 					{
 						$this->maximum = "";
 					}
 					else
 					{
-						$this->maximum = $data->value2;
+						$this->maximum = $data["value2"];
 					}
 				}
 			}
@@ -267,8 +247,6 @@ class SurveyMetricQuestion extends SurveyQuestion
 	}
 
 /**
-* Returns true if the question is complete for use
-*
 * Returns true if the question is complete for use
 *
 * @result boolean True if the question is complete for use, otherwise false
@@ -289,138 +267,96 @@ class SurveyMetricQuestion extends SurveyQuestion
 /**
 * Saves a SurveyMetricQuestion object to a database
 *
-* Saves a SurveyMetricQuestion object to a database
-*
 * @access public
 */
   function saveToDb($original_id = "")
   {
 		global $ilDB;
-		$complete = 0;
-		if ($this->isComplete()) 
-		{
-			$complete = 1;
-		}
-		if ($original_id)
-		{
-			$original_id = $ilDB->quote($original_id);
-		}
-		else
-		{
-			$original_id = "NULL";
-		}
+		$complete = $this->isComplete();
+		$original_id = ($original_id) ? $original_id : NULL;
 		// cleanup RTE images which are not inserted into the question text
 		include_once("./Services/RTE/classes/class.ilRTE.php");
-		ilRTE::_cleanupMediaObjectUsage($this->questiontext, "spl:html",
-			$this->getId());
+		ilRTE::_cleanupMediaObjectUsage($this->questiontext, "spl:html", $this->getId());
 
-    if ($this->id == -1) 
+		if ($this->getId() == -1) 
 		{
-      // Write new dataset
-      $now = getdate();
-      $created = sprintf("%04d%02d%02d%02d%02d%02d", $now['year'], $now['mon'], $now['mday'], $now['hours'], $now['minutes'], $now['seconds']);
-      $query = sprintf("INSERT INTO survey_question (question_id, questiontype_fi, obj_fi, owner_fi, title, description, author, questiontext, obligatory, complete, created, original_id, TIMESTAMP) VALUES (NULL, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, NULL)",
-				$ilDB->quote($this->getQuestionTypeID()),
-				$ilDB->quote($this->obj_id),
-				$ilDB->quote($this->owner),
-				$ilDB->quote($this->title),
-				$ilDB->quote($this->description),
-				$ilDB->quote($this->author),
-				$ilDB->quote(ilRTE::_replaceMediaObjectImageSrc($this->questiontext, 0)),
-				$ilDB->quote(sprintf("%d", $this->obligatory)),
-				$ilDB->quote("$complete"),
-				$ilDB->quote($created),
-				$original_id
+			// Write new dataset
+			$next_id = $ilDB->nextId('survey_question');
+			$affectedRows = $ilDB->manipulateF("INSERT INTO survey_question (question_id, questiontype_fi, obj_fi, owner_fi, title, description, author, questiontext, obligatory, complete, created, original_id, tstamp) VALUES (%s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s)",
+				array('integer', 'integer', 'integer', 'integer', 'text', 'text', 'text', 'text', 'text', 'text', 'integer', 'integer', 'integer'),
+				array(
+					$next_id,
+					$this->getQuestionTypeID(),
+					$this->getObjId(),
+					$this->getOwner(),
+					$this->getTitle(),
+					$this->getDescription(),
+					$this->getAuthor(),
+					ilRTE::_replaceMediaObjectImageSrc($this->getQuestiontext(), 0),
+					$this->getObligatory(),
+					$this->isComplete(),
+					time(),
+					$original_id,
+					time()
+				)
 			);
-			$result = $ilDB->query($query);
-			if (PEAR::isError($result)) 
-			{
-				global $ilias;
-				$ilias->raiseError($result->getMessage());
-			}
-			else
-			{
-				$this->id = $ilDB->getLastInsertId();
-				$query = sprintf("INSERT INTO survey_question_metric (question_fi, subtype) VALUES (%s, %s)",
-					$ilDB->quote($this->id . ""),
-					$ilDB->quote($this->getSubType() . "")
-				);
-				$ilDB->query($query);
-			}
+			$this->setId($next_id);
 		} 
 		else 
 		{
 			// update existing dataset
-			$query = sprintf("UPDATE survey_question SET title = %s, description = %s, author = %s, questiontext = %s, obligatory = %s, complete = %s WHERE question_id = %s",
-				$ilDB->quote($this->title),
-				$ilDB->quote($this->description),
-				$ilDB->quote($this->author),
-				$ilDB->quote(ilRTE::_replaceMediaObjectImageSrc($this->questiontext, 0)),
-				$ilDB->quote(sprintf("%d", $this->obligatory)),
-				$ilDB->quote("$complete"),
-				$ilDB->quote($this->id)
-      );
-      $result = $ilDB->query($query);
-			$query = sprintf("UPDATE survey_question_metric SET subtype = %s WHERE question_fi = %s",
-				$ilDB->quote($this->getSubType() . ""),
-				$ilDB->quote($this->id . "")
+			$affectedRows = $ilDB->manipulateF("UPDATE survey_question SET title = %s, description = %s, author = %s, questiontext = %s, obligatory = %s, complete = %s, tstamp = %s WHERE question_id = %s",
+				array('text', 'text', 'text', 'text', 'text', 'text', 'integer', 'integer'),
+				array(
+					$this->getTitle(),
+					$this->getDescription(),
+					$this->getAuthor(),
+					ilRTE::_replaceMediaObjectImageSrc($this->getQuestiontext(), 0),
+					$this->getObligatory(),
+					$this->isComplete(),
+					time(),
+					$this->getId()
+				)
 			);
-			$result = $ilDB->query($query);
 		}
-		if (PEAR::isError($result)) 
+		if ($affectedRows == 1) 
 		{
-			global $ilias;
-			$ilias->raiseError($result->getMessage());
-		}
-		else
-		{
+			$affectedRows = $ilDB->manipulateF("DELETE FROM " . $this->getAdditionalTableName() . " WHERE question_fi = %s",
+				array('integer'),
+				array($this->getId())
+			);
+			$affectedRows = $ilDB->manipulateF("INSERT INTO " . $this->getAdditionalTableName() . " (question_fi, subtype) VALUES (%s, %s)",
+				array('integer', 'text'),
+				array($this->getId(), $this->getSubType())
+			);
+
 			// saving material uris in the database
 			$this->saveMaterialsToDb();
+			
 			// save categories
-			// delete existing category relations
-			$query = sprintf("DELETE FROM survey_variable WHERE question_fi = %s",
-				$ilDB->quote($this->id)
+			$affectedRows = $ilDB->manipulateF("DELETE FROM survey_variable WHERE question_fi = %s",
+				array('integer'),
+				array($this->getId())
 			);
-			$result = $ilDB->query($query);
-			// create new category relations
-			if (strcmp($this->minimum, "") == 0)
-			{
-				$min = "NULL";
-			}
-			else
-			{
-				$min = $ilDB->quote($this->minimum);
-			}
+
 			if (preg_match("/[\D]/", $this->maximum) or (strcmp($this->maximum, "&infin;") == 0))
 			{
 				$max = -1;
 			}
 			else
 			{
-				if (strcmp($this->maximum, "") == 0)
-				{
-					$max = "NULL";
-				}
-				else
-				{
-					$max = $ilDB->quote($this->maximum);
-				}
+				$max = $this->getMaximum();
 			}
-			$query = sprintf("INSERT INTO survey_variable (variable_id, category_fi, question_fi, value1, value2, sequence, TIMESTAMP) VALUES (NULL, %s, %s, %s, %s, %s, NULL)",
-				$ilDB->quote(0),
-				$ilDB->quote($this->id),
-				$min,
-				$max,
-				$ilDB->quote(0)
+			$next_id = $ilDB->nextId('survey_variable');
+			$affectedRows = $ilDB->manipulateF("INSERT INTO survey_variable (variable_id, category_fi, question_fi, value1, value2, sequence, tstamp) VALUES (%s, %s, %s, %s, %s, %s, %s)",
+				array('integer','integer','integer','float','float','integer','integer'),
+				array($next_id, 0, $this->getId(), $this->getMinimum(), $max, 0, time())
 			);
-			$answer_result = $ilDB->query($query);
-    }
+		} 
 		parent::saveToDb($original_id);
   }
 	
 	/**
-	* Returns an xml representation of the question
-	*
 	* Returns an xml representation of the question
 	*
 	* @return string The xml representation of the question
@@ -442,8 +378,6 @@ class SurveyMetricQuestion extends SurveyQuestion
 	}
 	
 	/**
-	* Adds the question XML to a given XMLWriter object
-	*
 	* Adds the question XML to a given XMLWriter object
 	*
 	* @param object $a_xml_writer The XMLWriter object
@@ -540,85 +474,7 @@ class SurveyMetricQuestion extends SurveyQuestion
 		$a_xml_writer->xmlEndTag("question");
 	}
 
-	function syncWithOriginal()
-	{
-		global $ilDB;
-		if ($this->original_id)
-		{
-			$complete = 0;
-			if ($this->isComplete()) 
-			{
-				$complete = 1;
-			}
-			$query = sprintf("UPDATE survey_question SET title = %s, description = %s, author = %s, questiontext = %s, obligatory = %s, complete = %s WHERE question_id = %s",
-				$ilDB->quote($this->title . ""),
-				$ilDB->quote($this->description . ""),
-				$ilDB->quote($this->author . ""),
-				$ilDB->quote($this->questiontext . ""),
-				$ilDB->quote(sprintf("%d", $this->obligatory) . ""),
-				$ilDB->quote($complete . ""),
-				$ilDB->quote($this->original_id . "")
-			);
-			$result = $ilDB->query($query);
-			$query = sprintf("UPDATE survey_question_metric SET subtype = %s WHERE question_fi = %s",
-				$ilDB->quote($this->getSubType() . ""),
-				$ilDB->quote($this->original_id . "")
-			);
-			$result = $ilDB->query($query);
-			if (PEAR::isError($result)) 
-			{
-				global $ilias;
-				$ilias->raiseError($result->getMessage());
-			}
-			else
-			{
-				// save categories
-				
-				// delete existing category relations
-				$query = sprintf("DELETE FROM survey_variable WHERE question_fi = %s",
-					$ilDB->quote($this->original_id)
-				);
-				$result = $ilDB->query($query);
-				// create new category relations
-				if (strcmp($this->minimum, "") == 0)
-				{
-					$min = "NULL";
-				}
-				else
-				{
-					$min = $ilDB->quote($this->minimum . "");
-				}
-				if (preg_match("/[\D]/", $this->maximum) or (strcmp($this->maximum, "&infin;") == 0))
-				{
-					$max = -1;
-				}
-				else
-				{
-					if (strcmp($this->maximum, "") == 0)
-					{
-						$max = "NULL";
-					}
-					else
-					{
-						$max = $ilDB->quote($this->maximum . "");
-					}
-				}
-				$query = sprintf("INSERT INTO survey_variable (variable_id, category_fi, question_fi, value1, value2, sequence, TIMESTAMP) VALUES (NULL, %s, %s, %s, %s, %s, NULL)",
-					$ilDB->quote("0"),
-					$ilDB->quote($this->original_id . ""),
-					$min,
-					$max,
-					$ilDB->quote("0")
-				);
-				$answer_result = $ilDB->query($query);
-			}
-		}
-		parent::syncWithOriginal();
-	}
-
 	/**
-	* Returns the question type ID of the question
-	*
 	* Returns the question type ID of the question
 	*
 	* @return integer The question type of the question
@@ -627,17 +483,15 @@ class SurveyMetricQuestion extends SurveyQuestion
 	function getQuestionTypeID()
 	{
 		global $ilDB;
-		$query = sprintf("SELECT questiontype_id FROM survey_questiontype WHERE type_tag = %s",
-			$ilDB->quote($this->getQuestionType())
+		$result = $ilDB->queryF("SELECT questiontype_id FROM survey_questiontype WHERE type_tag = %s",
+			array('text'),
+			array($this->getQuestionType())
 		);
-		$result = $ilDB->query($query);
-		$row = $result->fetchRow(MDB2_FETCHMODE_ASSOC);
+		$row = $ilDB->fetchAssoc($result);
 		return $row["questiontype_id"];
 	}
 
 	/**
-	* Returns the question type of the question
-	*
 	* Returns the question type of the question
 	*
 	* @return integer The question type of the question
@@ -651,8 +505,6 @@ class SurveyMetricQuestion extends SurveyQuestion
 	/**
 	* Returns the name of the additional question data table in the database
 	*
-	* Returns the name of the additional question data table in the database
-	*
 	* @return string The additional table name
 	* @access public
 	*/
@@ -662,8 +514,6 @@ class SurveyMetricQuestion extends SurveyQuestion
 	}
 	
 	/**
-	* Creates the user data of the survey_answer table from the POST data
-	*
 	* Creates the user data of the survey_answer table from the POST data
 	*
 	* @return array User data according to the survey_answer table
@@ -681,9 +531,6 @@ class SurveyMetricQuestion extends SurveyQuestion
 	}
 	
 	/**
-	* Checks the input of the active user for obligatory status
-	* and entered values
-	*
 	* Checks the input of the active user for obligatory status
 	* and entered values
 	*
@@ -754,13 +601,10 @@ class SurveyMetricQuestion extends SurveyQuestion
 		{
 			$entered_value = $ilDB->quote($entered_value . "");
 		}
-		$query = sprintf("INSERT INTO survey_answer (answer_id, question_fi, active_fi, value, textanswer, TIMESTAMP) VALUES (NULL, %s, %s, %s, %s, NULL)",
-			$ilDB->quote($this->getId() . ""),
-			$ilDB->quote($active_id . ""),
-			$entered_value,
-			"NULL"
+		$affectedRows = $ilDB->manipulateF("INSERT INTO survey_answer (answer_id, question_fi, active_fi, value, textanswer, tstamp) VALUES (%s, %s, %s, %s, %s, %s)",
+			array('integer','integer','integer','float','text','integer'),
+			array($next_id, $this->getId(), $active_id, $entered_value, NULL, time())
 		);
-		$result = $ilDB->query($query);
 	}
 	
 	function &getCumulatedResults($survey_id, $nr_of_users)
@@ -772,15 +616,14 @@ class SurveyMetricQuestion extends SurveyQuestion
 		$result_array = array();
 		$cumulated = array();
 
-		$query = sprintf("SELECT survey_answer.* FROM survey_answer, survey_finished WHERE survey_answer.question_fi = %s AND survey_finished.survey_fi = %s AND survey_finished.finished_id = survey_answer.active_fi",
-			$ilDB->quote($question_id),
-			$ilDB->quote($survey_id)
+		$result = $ilDB->queryF("SELECT survey_answer.* FROM survey_answer, survey_finished WHERE survey_answer.question_fi = %s AND survey_finished.survey_fi = %s AND survey_finished.finished_id = survey_answer.active_fi",
+			array('integer', 'integer'),
+			array($question_id, $survey_id)
 		);
-		$result = $ilDB->query($query);
 		
-		while ($row = $result->fetchRow(MDB2_FETCHMODE_OBJECT))
+		while ($row = $ilDB->fetchAssoc($result))
 		{
-			$cumulated["$row->value"]++;
+			$cumulated[$row["value"]]++;
 		}
 		asort($cumulated, SORT_NUMERIC);
 		end($cumulated);
@@ -860,8 +703,6 @@ class SurveyMetricQuestion extends SurveyQuestion
 	/**
 	* Creates an Excel worksheet for the detailed cumulated results of this question
 	*
-	* Creates an Excel worksheet for the detailed cumulated results of this question
-	*
 	* @param object $workbook Reference to the parent excel workbook
 	* @param object $format_title Excel title format
 	* @param object $format_bold Excel bold format
@@ -926,8 +767,6 @@ class SurveyMetricQuestion extends SurveyQuestion
 	/**
 	* Adds the values for the user specific results export for a given user
 	*
-	* Adds the values for the user specific results export for a given user
-	*
 	* @param array $a_array An array which is used to append the values
 	* @param array $resultset The evaluation data for a given user
 	* @access public
@@ -950,8 +789,6 @@ class SurveyMetricQuestion extends SurveyQuestion
 	/**
 	* Returns an array containing all answers to this question in a given survey
 	*
-	* Returns an array containing all answers to this question in a given survey
-	*
 	* @param integer $survey_id The database ID of the survey
 	* @return array An array containing the answers to the question. The keys are either the user id or the anonymous id
 	* @access public
@@ -962,12 +799,11 @@ class SurveyMetricQuestion extends SurveyQuestion
 		
 		$answers = array();
 
-		$query = sprintf("SELECT survey_answer.* FROM survey_answer, survey_finished WHERE survey_finished.survey_fi = %s AND survey_answer.question_fi = %s AND survey_finished.finished_id = survey_answer.active_fi",
-			$ilDB->quote($survey_id),
-			$ilDB->quote($this->getId())
+		$result = $ilDB->queryF("SELECT survey_answer.* FROM survey_answer, survey_finished WHERE survey_finished.survey_fi = %s AND survey_answer.question_fi = %s AND survey_finished.finished_id = survey_answer.active_fi",
+			array('integer','integer'),
+			array($survey_id, $this->getId())
 		);
-		$result = $ilDB->query($query);
-		while ($row = $result->fetchRow(MDB2_FETCHMODE_ASSOC))
+		while ($row = $ilDB->fetchAssoc($result))
 		{
 			$answers[$row["active_fi"]] = $row["value"];
 		}
@@ -975,8 +811,6 @@ class SurveyMetricQuestion extends SurveyQuestion
 	}
 
 	/**
-	* Import response data from the question import file
-	*
 	* Import response data from the question import file
 	*
 	* @return array $a_data Array containing the response data
@@ -994,8 +828,6 @@ class SurveyMetricQuestion extends SurveyQuestion
 	/**
 	* Returns if the question is usable for preconditions
 	*
-	* Returns if the question is usable for preconditions
-	*
 	* @return boolean TRUE if the question is usable for a precondition, FALSE otherwise
 	* @access public
 	*/
@@ -1005,8 +837,6 @@ class SurveyMetricQuestion extends SurveyQuestion
 	}
 
 	/**
-	* Returns the available relations for the question
-	*
 	* Returns the available relations for the question
 	*
 	* @return array An array containing the available relations
@@ -1020,8 +850,6 @@ class SurveyMetricQuestion extends SurveyQuestion
 	/**
 	* Creates a value selection for preconditions
 	*
-	* Creates a value selection for preconditions
-	*
 	* @param object $template The template for the value selection (usually tpl.svy_svy_add_constraint.html)
 	* @access public
 	*/
@@ -1033,8 +861,6 @@ class SurveyMetricQuestion extends SurveyQuestion
 	}
 	
 	/**
-	* Creates a value selection for preconditions
-	*
 	* Creates a value selection for preconditions
 	*
 	* @return The HTML code for the precondition value selection
@@ -1063,8 +889,6 @@ class SurveyMetricQuestion extends SurveyQuestion
 /**
 * Creates an image visualising the results of the question
 *
-* Creates an image visualising the results of the question
-*
 * @param integer $survey_id The database ID of the survey
 * @param string $type An additional parameter to allow to draw more than one chart per question. Must be interpreted by the question. Default is an empty string
 * @return binary Image with the visualisation
@@ -1091,8 +915,6 @@ class SurveyMetricQuestion extends SurveyQuestion
 	}
 	
 	/**
-	* Creates a text for the input range of the metric question
-	*
 	* Creates a text for the input range of the metric question
 	*
 	* @return string Range text

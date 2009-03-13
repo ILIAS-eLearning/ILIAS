@@ -9983,3 +9983,15 @@ $ilMySQLAbstraction->performAbstraction('tst_test_rnd_qst');
 <?php
 $ilMySQLAbstraction->performAbstraction('tst_times');
 ?>
+<#2094>
+<?php
+$ilDB->manipulate("ALTER TABLE `survey_answer` DROP `survey_fi`");
+?>
+<#2095>
+<?php
+$ilDB->manipulate("ALTER TABLE `survey_answer` DROP `user_fi`");
+?>
+<#2096>
+<?php
+$ilDB->manipulate("ALTER TABLE `survey_answer` DROP `anonymous_id`");
+?>

@@ -363,37 +363,6 @@ class SurveyTextQuestion extends SurveyQuestion
 		$a_xml_writer->xmlEndTag("question");
 	}
 
-	function syncWithOriginal()
-	{
-		global $ilDB;
-		if ($this->original_id)
-		{
-			$complete = 0;
-			if ($this->isComplete()) 
-			{
-				$complete = 1;
-			}
-      $query = sprintf("UPDATE survey_question SET title = %s, description = %s, author = %s, questiontext = %s, obligatory = %s, complete = %s WHERE question_id = %s",
-				$ilDB->quote($this->title . ""),
-				$ilDB->quote($this->description . ""),
-				$ilDB->quote($this->author . ""),
-				$ilDB->quote($this->questiontext . ""),
-				$ilDB->quote(sprintf("%d", $this->obligatory) . ""),
-				$ilDB->quote($complete . ""),
-				$ilDB->quote($this->original_id . "")
-      );
-      $result = $ilDB->query($query);
-			$query = sprintf("UPDATE survey_question_text SET maxchars = %s, width = %s, height = %s WHERE question_fi = %s",
-				$ilDB->quote($this->getMaxChars() . ""),
-				$ilDB->quote($this->getTextWidth() . ""),
-				$ilDB->quote($this->getTextHeight() . ""),
-				$ilDB->quote($this->original_id . "")
-			);
-			$result = $ilDB->query($query);
-		}
-		parent::syncWithOriginal();
-	}
-	
 	/**
 	* Returns the maxium number of allowed characters for the text answer
 	*

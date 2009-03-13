@@ -75,12 +75,12 @@ class ilSurveyQuestionpoolExport
 	}
 
 
-    /**
-    *   build export file (complete zip file)
-    *
-    *   @access public
-    *   @return
-    */
+	/**
+	*   build export file (complete zip file)
+	*
+	*   @access public
+	*   @return
+	*/
 	function buildExportFile($questions)
 	{
 		switch ($this->mode)
@@ -123,8 +123,6 @@ class ilSurveyQuestionpoolExport
 
 		return $this->filename;
 	}
-
-
 }
 
 ?>

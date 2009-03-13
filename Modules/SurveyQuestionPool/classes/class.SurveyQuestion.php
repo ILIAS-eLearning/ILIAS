@@ -162,6 +162,7 @@ class SurveyQuestion
 	var $orientation;
 	
 	var $material;
+	var $complete;
 
 /**
 * SurveyQuestion constructor
@@ -190,7 +191,7 @@ class SurveyQuestion
 		$this->ilias =& $ilias;
     $this->lng =& $lng;
     $this->tpl =& $tpl;
-
+		$this->complete = 
     $this->title = $title;
     $this->description = $description;
 		$this->questiontext = $questiontext;
@@ -215,10 +216,18 @@ class SurveyQuestion
 	{
 	}
 
+	/**
+	* Sets the complete state of the question
+	*
+	* @param integer $a_complete 1 if complete, 0 otherwise
+	* @access public
+	*/
+	function setComplete($a_complete)
+	{
+		$this->complete = ($a_complete) ? 1 : 0;
+	}
 	
 /**
-* Returns true, if a question is complete for use
-*
 * Returns true, if a question is complete for use
 *
 * @return boolean True, if the question is complete for use, otherwise false
@@ -262,50 +271,37 @@ class SurveyQuestion
 	}
 
 /**
-* Sets the title string
-*
 * Sets the title string of the SurveyQuestion object
 *
 * @param string $title A title string to describe the question
 * @access public
 * @see $title
 */
-  function setTitle($title = "") 
+	function setTitle($title = "") 
 	{
-    $this->title = $title;
-  }
+		$this->title = $title;
+	}
 
 /**
 * Sets the obligatory state of the question
 *
-* Sets the obligatory state of the question
-*
-* @param boolean $obligatory True, if the question is obligatory, otherwise false
+* @param integer $obligatory 1, if the question is obligatory, otherwise 0
 * @access public
 * @see $obligatory
 */
-  function setObligatory($obligatory = 1) 
+	function setObligatory($obligatory = 1) 
 	{
-		if ($obligatory)
-		{
-	    $this->obligatory = 1;
-		}
-		else
-		{
-	    $this->obligatory = 0;
-		}
-  }
+		$this->obligatory = ($obligatory) ? 1 : 0;
+	}
 
 /**
-* Sets the orientation of the question output
-*
 * Sets the orientation of the question output
 *
 * @param integer $orientation 0 = vertical, 1 = horizontal
 * @access public
 * @see $orientation
 */
-  function setOrientation($orientation = 0) 
+	function setOrientation($orientation = 0) 
 	{
 		if (strlen($orientation) == 0)
 		{
@@ -326,10 +322,10 @@ class SurveyQuestion
 * @access public
 * @see $id
 */
-  function setId($id = -1) 
+	function setId($id = -1) 
 	{
-    $this->id = $id;
-  }
+		$this->id = $id;
+	}
 
 /**
 * Sets the survey id
@@ -340,10 +336,10 @@ class SurveyQuestion
 * @access public
 * @see $survey_id
 */
-  function setSurveyId($id = -1) 
+	function setSurveyId($id = -1) 
 	{
-    $this->survey_id = $id;
-  }
+		$this->survey_id = $id;
+	}
 
 /**
 * Sets the description
@@ -354,10 +350,10 @@ class SurveyQuestion
 * @access public
 * @see $description
 */
-  function setDescription($description = "") 
+	function setDescription($description = "") 
 	{
-    $this->description = $description;
-  }
+		$this->description = $description;
+	}
 
 
 /**
@@ -496,72 +492,60 @@ class SurveyQuestion
   }
 
 /**
-* Sets the questiontext
-*
 * Sets the questiontext of the SurveyQuestion object
 *
 * @param string $questiontext A string containing the questiontext
 * @access public
 * @see $questiontext
 */
-  function setQuestiontext($questiontext = "") 
+	function setQuestiontext($questiontext = "") 
 	{
-    $this->questiontext = $questiontext;
-  }
+		$this->questiontext = $questiontext;
+	}
 
 /**
-* Sets the creator/owner
-*
 * Sets the creator/owner ID of the SurveyQuestion object
 *
 * @param integer $owner A numerical ID to identify the owner/creator
 * @access public
 * @see $owner
 */
-  function setOwner($owner = "") 
+	function setOwner($owner = "") 
 	{
-    $this->owner = $owner;
-  }
+		$this->owner = $owner;
+	}
 
 /**
-* Gets the title string
-*
 * Gets the title string of the SurveyQuestion object
 *
 * @return string The title string to describe the question
 * @access public
 * @see $title
 */
-  function getTitle() 
+	function getTitle() 
 	{
-    return $this->title;
-  }
+		return $this->title;
+	}
 
 /**
-* Gets the id
-*
 * Gets the id of the SurveyQuestion object
 *
 * @return integer The id of the SurveyQuestion object
 * @access public
 * @see $id
 */
-  function getId() 
+	function getId() 
 	{
-    return $this->id;
-  }
+		return $this->id;
+	}
 
 /**
 * Gets the obligatory state of the question
 *
-* Gets the obligatory state of the question
-*
-* @return boolean True, if the question is obligatory, otherwise false
-* @access public
+* @return integer 1, if the question is obligatory, otherwise 0
 * @see $obligatory
 */
-  
-	function getObligatory($survey_id = "") 
+	public function getObligatory($survey_id = "") 
 	{
 		if ($survey_id > 0)
 		{
@@ -575,32 +559,30 @@ class SurveyQuestion
 			if ($result->numRows())
 			{
 				$row = $result->fetchRow(MDB2_FETCHMODE_ASSOC);
-				return $row["obligatory"];
+				return ($row["obligatory"]) ? 1 : 0;
 			}
 			else
 			{
-				return $this->obligatory;
+				return ($this->obligatory) ? 1 : 0;
 			}
 		}
 		else
 		{
-			return $this->obligatory;
+			return ($this->obligatory) ? 1 : 0;
 		}
   }
 
 /**
-* Gets the survey id
-*
 * Gets the survey id of the SurveyQuestion object
 *
 * @return integer The survey id of the SurveyQuestion object
 * @access public
 * @see $survey_id
 */
-  function getSurveyId() 
+	function getSurveyId() 
 	{
-    return $this->survey_id;
-  }
+		return $this->survey_id;
+	}
 
 /**
 * Gets the orientation of the question output
@@ -636,24 +618,22 @@ class SurveyQuestion
 * @access public
 * @see $description
 */
-  function getDescription() 
+	function getDescription() 
 	{
-    return $this->description;
-  }
+		return (strlen($this->description)) ? $this->description : NULL;
+	}
 
 /**
-* Gets the authors name
-*
 * Gets the authors name of the SurveyQuestion object
 *
 * @return string The string containing the name of the questions author
 * @access public
 * @see $author
 */
-  function getAuthor() 
+	function getAuthor() 
 	{
-    return $this->author;
-  }
+		return (strlen($this->author)) ? $this->author : NULL;
+	}
 
 /**
 * Gets the creator/owner
@@ -678,36 +658,33 @@ class SurveyQuestion
 * @access public
 * @see $questiontext
 */
-  function getQuestiontext() 
+	function getQuestiontext() 
 	{
-    return $this->questiontext;
-  }
+		return (strlen($this->questiontext)) ? $this->questiontext : NULL;
+	}
 
 /**
-* Get the reference id of the container object
-*
 * Get the reference id of the container object
 *
 * @return integer The reference id of the container object
 * @access public
 * @see $obj_id
 */
-  function getObjId() {
-    return $this->obj_id;
-  }
+	function getObjId() {
+		return $this->obj_id;
+	}
 
 /**
-* Set the reference id of the container object
-*
 * Set the reference id of the container object
 *
 * @param integer $obj_id The reference id of the container object
 * @access public
 * @see $obj_id
 */
-  function setObjId($obj_id = 0) {
-    $this->obj_id = $obj_id;
-  }
+	function setObjId($obj_id = 0) 
+	{
+		$this->obj_id = $obj_id;
+	}
 
 /**
 * Duplicates a survey question
@@ -861,9 +838,7 @@ class SurveyQuestion
 	}
 
 /**
-* Checks wheather the question is complete or not
-*
-* Checks wheather the question is complete or not
+* Checks whether the question is complete or not
 *
 * @return boolean TRUE if the question is complete, FALSE otherwise
 * @access public
@@ -888,8 +863,6 @@ class SurveyQuestion
 	}
 	
 /**
-* Saves the complete flag to the database
-*
 * Saves the complete flag to the database
 *
 * @access public
@@ -1382,24 +1355,37 @@ class SurveyQuestion
 	
 	function syncWithOriginal()
 	{
-		include_once "./Services/COPage/classes/class.ilInternalLink.php";
-		$query = sprintf("DELETE FROM survey_material WHERE question_fi = %s",
-			$this->ilias->db->quote($this->original_id . "")
-		);
-		$result = $this->ilias->db->query($query);
-		ilInternalLink::_deleteAllLinksOfSource("sqst", $this->original_id);
-		if (strlen($this->material["internal_link"]))
+		if ($this->getOriginalId())
 		{
-			$query = sprintf("INSERT INTO survey_material (material_id, question_fi, internal_link, import_id, material_title, TIMESTAMP) VALUES (NULL, %s, %s, %s, %s, NULL)",
-				$this->ilias->db->quote($this->original_id . ""),
-				$this->ilias->db->quote($this->material["internal_link"] . ""),
-				$this->ilias->db->quote($this->material["import_id"] . ""),
-				$this->ilias->db->quote($this->material["title"] . "")
+			$id = $this->getId();
+			$original = $this->getOriginalId();
+
+			$this->setId($this->getOriginalId());
+			$this->setOriginalId(NULL);
+			$this->saveToDb();
+
+			$this->setId($id);
+			$this->setOriginalId($original);
+
+			include_once "./Services/COPage/classes/class.ilInternalLink.php";
+			$query = sprintf("DELETE FROM survey_material WHERE question_fi = %s",
+				$this->ilias->db->quote($this->original_id . "")
 			);
-			$this->ilias->db->query($query);
-			if (preg_match("/il_(\d*?)_(\w+)_(\d+)/", $this->material["internal_link"], $matches))
+			$result = $this->ilias->db->query($query);
+			ilInternalLink::_deleteAllLinksOfSource("sqst", $this->original_id);
+			if (strlen($this->material["internal_link"]))
 			{
-				ilInternalLink::_saveLink("sqst", $this->original_id, $matches[2], $matches[3], $matches[1]);
+				$query = sprintf("INSERT INTO survey_material (material_id, question_fi, internal_link, import_id, material_title, TIMESTAMP) VALUES (NULL, %s, %s, %s, %s, NULL)",
+					$this->ilias->db->quote($this->original_id . ""),
+					$this->ilias->db->quote($this->material["internal_link"] . ""),
+					$this->ilias->db->quote($this->material["import_id"] . ""),
+					$this->ilias->db->quote($this->material["title"] . "")
+				);
+				$this->ilias->db->query($query);
+				if (preg_match("/il_(\d*?)_(\w+)_(\d+)/", $this->material["internal_link"], $matches))
+				{
+					ilInternalLink::_saveLink("sqst", $this->original_id, $matches[2], $matches[3], $matches[1]);
+				}
 			}
 		}
 	}
@@ -1718,8 +1704,6 @@ class SurveyQuestion
 	}
 
 	/**
-	* Returns the question type ID of the question
-	*
 	* Returns the question type ID of the question
 	*
 	* @return integer The question type of the question
