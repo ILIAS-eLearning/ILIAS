@@ -506,7 +506,7 @@ class SurveyMatrixQuestion extends SurveyQuestion
 		global $ilUser;
 		global $ilDB;
 
-		$result = $ilDB->queryF("SELECT survey_category.* FROM survey_category, survey_phrase_category WHERE survey_phrase_category.category_fi = survey_category.category_id AND survey_phrase_category.phrase_fi = %s AND (survey_category.owner_fi = %s OR survey_category.owner_fi = %s) ORDER BY survey_phrase_category.sequence",
+		$result = $ilDB->queryF("SELECT svy_category.* FROM svy_category, svy_phrase_cat WHERE svy_phrase_cat.category_fi = svy_category.category_id AND svy_phrase_cat.phrase_fi = %s AND (svy_category.owner_fi = %s OR svy_category.owner_fi = %s) ORDER BY svy_phrase_cat.sequence",
 			array('integer', 'integer', 'integer'),
 			array($phrase_id, 0, $ilUser->getId())
 		);
@@ -595,7 +595,7 @@ class SurveyMatrixQuestion extends SurveyQuestion
 			$this->loadMaterialFromDb($id);
 			$this->flushColumns();
 
-			$result = $ilDB->queryF("SELECT survey_variable.*, survey_category.title, survey_category.neutral FROM survey_variable, survey_category WHERE survey_variable.question_fi = %s AND survey_variable.category_fi = survey_category.category_id ORDER BY sequence ASC",
+			$result = $ilDB->queryF("SELECT survey_variable.*, svy_category.title, svy_category.neutral FROM survey_variable, svy_category WHERE survey_variable.question_fi = %s AND survey_variable.category_fi = svy_category.category_id ORDER BY sequence ASC",
 				array('integer'),
 				array($id)
 			);
@@ -777,7 +777,7 @@ class SurveyMatrixQuestion extends SurveyQuestion
 	{
 		global $ilUser, $ilDB;
 		
-		$result = $ilDB->queryF("SELECT title, category_id FROM survey_category WHERE title = %s AND neutral = %s AND owner_fi = %s",
+		$result = $ilDB->queryF("SELECT title, category_id FROM svy_category WHERE title = %s AND neutral = %s AND owner_fi = %s",
 			array('text', 'text', 'integer'),
 			array($columntext, $neutral, $ilUser->getId())
 		);
@@ -801,8 +801,8 @@ class SurveyMatrixQuestion extends SurveyQuestion
 		}
 		if ($insert)
 		{
-			$next_id = $ilDB->nextId('survey_category');
-			$affectedRows = $ilDB->manipulateF("INSERT INTO survey_category (category_id, title, defaultvalue, owner_fi, neutral, tstamp) VALUES (%s, %s, %s, %s, %s, %s)",
+			$next_id = $ilDB->nextId('svy_category');
+			$affectedRows = $ilDB->manipulateF("INSERT INTO svy_category (category_id, title, defaultvalue, owner_fi, neutral, tstamp) VALUES (%s, %s, %s, %s, %s, %s)",
 				array('integer', 'text', 'text', 'integer', 'text', 'integer'),
 				array($next_id, $columntext, 0, $ilUser->getId(), $neutral, time())
 			);
@@ -1087,8 +1087,8 @@ class SurveyMatrixQuestion extends SurveyQuestion
 		global $ilUser;
 		global $ilDB;
 		
-		$next_id = $ilDB->nextId('survey_phrase');
-		$affectedRows = $ilDB->manipulateF("INSERT INTO survey_phrase (phrase_id, title, defaultvalue, owner_fi, tstamp) VALUES (%s, %s, %s, %s, %s)",
+		$next_id = $ilDB->nextId('svy_phrase');
+		$affectedRows = $ilDB->manipulateF("INSERT INTO svy_phrase (phrase_id, title, defaultvalue, owner_fi, tstamp) VALUES (%s, %s, %s, %s, %s)",
 			array('integer','text','text','integer','integer'),
 			array($next_id, $title, 1, $ilUser->getId(), time())
 		);
@@ -1098,14 +1098,14 @@ class SurveyMatrixQuestion extends SurveyQuestion
 	  foreach ($phrases as $column_index) 
 		{
 			$column = $this->getColumn($column_index);
-			$next_id = $ilDB->nextId('survey_category');
-			$affectedRows = $ilDB->manipulateF("INSERT INTO survey_category (category_id, title, defaultvalue, owner_fi, neutral, tstamp) VALUES (%s, %s, %s, %s, %s, %s)",
+			$next_id = $ilDB->nextId('svy_category');
+			$affectedRows = $ilDB->manipulateF("INSERT INTO svy_category (category_id, title, defaultvalue, owner_fi, neutral, tstamp) VALUES (%s, %s, %s, %s, %s, %s)",
 				array('integer','text','text','integer','text','integer'),
 				array($next_id, $column, 1, $ilUser->getId(), 0, time())
 			);
 			$column_id = $next_id;
-			$next_id = $ilDB->nextId('survey_phrase_category');
-			$affectedRows = $ilDB->manipulateF("INSERT INTO survey_phrase_category (phrase_category_id, phrase_fi, category_fi, sequence) VALUES (%s, %s, %s, %s)",
+			$next_id = $ilDB->nextId('svy_phrase_cat');
+			$affectedRows = $ilDB->manipulateF("INSERT INTO svy_phrase_cat (phrase_category_id, phrase_fi, category_fi, sequence) VALUES (%s, %s, %s, %s)",
 				array('integer', 'integer', 'integer', 'integer'),
 				array($next_id, $phrase_id, $column_id, $counter)
 			);
@@ -1136,9 +1136,9 @@ class SurveyMatrixQuestion extends SurveyQuestion
 	}
 	
 	/**
-	* Creates the user data of the survey_answer table from the POST data
+	* Creates the user data of the svy_answer table from the POST data
 	*
-	* @return array User data according to the survey_answer table
+	* @return array User data according to the svy_answer table
 	* @access public
 	*/
 	function &getWorkingDataFromUserInput($post_data)
@@ -1240,8 +1240,8 @@ class SurveyMatrixQuestion extends SurveyQuestion
 				{
 					if (preg_match("/matrix_" . $this->getId() . "_(\d+)/", $key, $matches))
 					{
-						$next_id = $ilDB->nextId('survey_answer');
-						$affectedRows = $ilDB->manipulalteF("INSERT INTO survey_answer (answer_id, question_fi, active_fi, value, textanswer, rowvalue, tstamp) VALUES (%s, %s, %s, %s, %s, %s, %s)",
+						$next_id = $ilDB->nextId('svy_answer');
+						$affectedRows = $ilDB->manipulalteF("INSERT INTO svy_answer (answer_id, question_fi, active_fi, value, textanswer, rowvalue, tstamp) VALUES (%s, %s, %s, %s, %s, %s, %s)",
 							array('integer','integer','integer','float','text','integer','integer'),
 							array($next_id, $this->getId(), $active_id, $value, NULL, $matches[1], time())
 						);
@@ -1257,8 +1257,8 @@ class SurveyMatrixQuestion extends SurveyQuestion
 						{
 							if (strlen($checked))
 							{
-								$next_id = $ilDB->nextId('survey_answer');
-								$affectedRows = $ilDB->manipulalteF("INSERT INTO survey_answer (answer_id, question_fi, active_fi, value, textanswer, rowvalue, tstamp) VALUES (%s, %s, %s, %s, %s, %s, %s)",
+								$next_id = $ilDB->nextId('svy_answer');
+								$affectedRows = $ilDB->manipulalteF("INSERT INTO svy_answer (answer_id, question_fi, active_fi, value, textanswer, rowvalue, tstamp) VALUES (%s, %s, %s, %s, %s, %s, %s)",
 									array('integer','integer','integer','float','text','integer','integer'),
 									array($next_id, $this->getId(), $active_id, $checked, NULL, $matches[1], time())
 								);
@@ -1298,7 +1298,7 @@ class SurveyMatrixQuestion extends SurveyQuestion
 	{
 		global $ilDB;
 		
-		$result = $ilDB->queryF("SELECT survey_answer.active_fi, survey_answer.question_fi FROM survey_answer, survey_finished WHERE survey_answer.question_fi = %s AND survey_finished.survey_fi = %s AND survey_finished.finished_id = survey_answer.active_fi",
+		$result = $ilDB->queryF("SELECT svy_answer.active_fi, svy_answer.question_fi FROM svy_answer, svy_finished WHERE svy_answer.question_fi = %s AND svy_finished.survey_fi = %s AND svy_finished.finished_id = svy_answer.active_fi",
 			array('integer', 'integer'),
 			array($this->getId(), $survey_id)
 		);
@@ -1327,7 +1327,7 @@ class SurveyMatrixQuestion extends SurveyQuestion
 		$result_array = array();
 		$cumulated = array();
 
-		$result = $ilDB->queryF("SELECT survey_answer.* FROM survey_answer, survey_finished WHERE survey_answer.question_fi = %s AND survey_finished.survey_fi = %s AND survey_answer.rowvalue = %s AND survey_finished.finished_id = survey_answer.active_fi",
+		$result = $ilDB->queryF("SELECT svy_answer.* FROM svy_answer, svy_finished WHERE svy_answer.question_fi = %s AND svy_finished.survey_fi = %s AND svy_answer.rowvalue = %s AND svy_finished.finished_id = svy_answer.active_fi",
 			array('integer', 'integer', 'integer'),
 			array($question_id, $survey_id, $rowindex)
 		);
@@ -1431,7 +1431,7 @@ class SurveyMatrixQuestion extends SurveyQuestion
 		$result_array = array();
 		$cumulated = array();
 
-		$result = $ilDB->queryF("SELECT survey_answer.* FROM survey_answer, survey_finished WHERE survey_answer.question_fi = %s AND survey_finished.survey_fi = %s AND survey_finished.finished_id = survey_answer.active_fi",
+		$result = $ilDB->queryF("SELECT svy_answer.* FROM svy_answer, svy_finished WHERE svy_answer.question_fi = %s AND svy_finished.survey_fi = %s AND svy_finished.finished_id = svy_answer.active_fi",
 			array('integer', 'integer'),
 			array($question_id, $survey_id)
 		);
@@ -1888,7 +1888,7 @@ class SurveyMatrixQuestion extends SurveyQuestion
 		
 		$answers = array();
 
-		$result = $ilDB->queryF("SELECT survey_answer.* FROM survey_answer, survey_finished WHERE survey_finished.survey_fi = %s AND survey_answer.question_fi = %s AND survey_finished.finished_id = survey_answer.active_fi ORDER BY rowvalue, value",
+		$result = $ilDB->queryF("SELECT svy_answer.* FROM svy_answer, svy_finished WHERE svy_finished.survey_fi = %s AND svy_answer.question_fi = %s AND svy_finished.finished_id = svy_answer.active_fi ORDER BY rowvalue, value",
 			array('integer','integer'),
 			array($survey_id, $this->getId())
 		);

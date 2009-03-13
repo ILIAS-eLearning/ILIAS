@@ -58,7 +58,7 @@ class ilSurveyPhrases
 		global $lng;
 		
 		$phrases = array();
-		$result = $ilDB->queryF("SELECT * FROM survey_phrase WHERE defaultvalue = %s OR owner_fi = %s ORDER BY title",
+		$result = $ilDB->queryF("SELECT * FROM svy_phrase WHERE defaultvalue = %s OR owner_fi = %s ORDER BY title",
 			array('text', 'integer'),
 			array('1', $ilUser->getId())
 		);
@@ -101,7 +101,7 @@ class ilSurveyPhrases
 		global $lng;
 		
 		$categories = array();
-		$result = $ilDB->queryF("SELECT survey_category.* FROM survey_category, survey_phrase_category WHERE survey_phrase_category.category_fi = survey_category.category_id AND survey_phrase_category.phrase_fi = %s ORDER BY survey_phrase_category.sequence",
+		$result = $ilDB->queryF("SELECT svy_category.* FROM svy_category, svy_phrase_cat WHERE svy_phrase_cat.category_fi = svy_category.category_id AND svy_phrase_cat.phrase_fi = %s ORDER BY svy_phrase_cat.sequence",
 			array('integer'),
 			array($phrase_id)
 		);
@@ -131,8 +131,8 @@ class ilSurveyPhrases
 		
 		if ((is_array($phrase_array)) && (count($phrase_array)))
 		{
-			$affectedRows = $ilDB->manipulate("DELETE FROM survey_phrase WHERE " . $ilDB->in('phrase_id', $phrase_array, false, 'integer'));
-			$affectedRows = $ilDB->manipulate("DELETE FROM survey_phrase_category WHERE " . $ilDB->in('phrase_fi', $phrase_array, false, 'integer'));
+			$affectedRows = $ilDB->manipulate("DELETE FROM svy_phrase WHERE " . $ilDB->in('phrase_id', $phrase_array, false, 'integer'));
+			$affectedRows = $ilDB->manipulate("DELETE FROM svy_phrase_cat WHERE " . $ilDB->in('phrase_fi', $phrase_array, false, 'integer'));
 		}
 	}
 

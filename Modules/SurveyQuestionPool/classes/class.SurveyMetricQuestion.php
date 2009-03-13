@@ -514,9 +514,9 @@ class SurveyMetricQuestion extends SurveyQuestion
 	}
 	
 	/**
-	* Creates the user data of the survey_answer table from the POST data
+	* Creates the user data of the svy_answer table from the POST data
 	*
-	* @return array User data according to the survey_answer table
+	* @return array User data according to the svy_answer table
 	* @access public
 	*/
 	function &getWorkingDataFromUserInput($post_data)
@@ -592,7 +592,7 @@ class SurveyMetricQuestion extends SurveyQuestion
 		if (strlen($entered_value) == 0) return;
 		// replace german notation with international notation
 		$entered_value = str_replace(",", ".", $entered_value);
-		$affectedRows = $ilDB->manipulateF("INSERT INTO survey_answer (answer_id, question_fi, active_fi, value, textanswer, tstamp) VALUES (%s, %s, %s, %s, %s, %s)",
+		$affectedRows = $ilDB->manipulateF("INSERT INTO svy_answer (answer_id, question_fi, active_fi, value, textanswer, tstamp) VALUES (%s, %s, %s, %s, %s, %s)",
 			array('integer','integer','integer','float','text','integer'),
 			array($next_id, $this->getId(), $active_id, (strlen($entered_value)) ? $entered_value : NULL, NULL, time())
 		);
@@ -607,7 +607,7 @@ class SurveyMetricQuestion extends SurveyQuestion
 		$result_array = array();
 		$cumulated = array();
 
-		$result = $ilDB->queryF("SELECT survey_answer.* FROM survey_answer, survey_finished WHERE survey_answer.question_fi = %s AND survey_finished.survey_fi = %s AND survey_finished.finished_id = survey_answer.active_fi",
+		$result = $ilDB->queryF("SELECT svy_answer.* FROM svy_answer, svy_finished WHERE svy_answer.question_fi = %s AND svy_finished.survey_fi = %s AND svy_finished.finished_id = svy_answer.active_fi",
 			array('integer', 'integer'),
 			array($question_id, $survey_id)
 		);
@@ -790,7 +790,7 @@ class SurveyMetricQuestion extends SurveyQuestion
 		
 		$answers = array();
 
-		$result = $ilDB->queryF("SELECT survey_answer.* FROM survey_answer, survey_finished WHERE survey_finished.survey_fi = %s AND survey_answer.question_fi = %s AND survey_finished.finished_id = survey_answer.active_fi",
+		$result = $ilDB->queryF("SELECT svy_answer.* FROM svy_answer, svy_finished WHERE svy_finished.survey_fi = %s AND svy_answer.question_fi = %s AND svy_finished.finished_id = svy_answer.active_fi",
 			array('integer','integer'),
 			array($survey_id, $this->getId())
 		);

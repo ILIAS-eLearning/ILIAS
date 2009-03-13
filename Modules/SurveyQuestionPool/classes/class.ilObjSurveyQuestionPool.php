@@ -410,7 +410,7 @@ class ilObjSurveyQuestionPool extends ilObject
 	{
 		global $ilDB;
 		// check out the already answered questions
-		$result = $ilDB->queryF("SELECT answer_id FROM survey_answer WHERE question_fi = %s",
+		$result = $ilDB->queryF("SELECT answer_id FROM svy_answer WHERE question_fi = %s",
 			array('integer'),
 			array($question_id)
 		);

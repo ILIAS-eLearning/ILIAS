@@ -720,7 +720,7 @@ class SurveyQuestion
 	{
 		global $ilDB;
 		
-		$result = $ilDB->queryF("SELECT * FROM survey_material WHERE question_fi = %s",
+		$result = $ilDB->queryF("SELECT * FROM svy_material WHERE question_fi = %s",
 			array('integer'),
 			array($this->getId())
 		);
@@ -799,15 +799,15 @@ class SurveyQuestion
 		global $ilDB;
 		
 		include_once "./Services/COPage/classes/class.ilInternalLink.php";
-		$affectedRows = $ilDB->manipulateF("DELETE FROM survey_material WHERE question_fi = %s",
+		$affectedRows = $ilDB->manipulateF("DELETE FROM svy_material WHERE question_fi = %s",
 			array('integer'),
 			array($this->getId())
 		);
 		ilInternalLink::_deleteAllLinksOfSource("sqst", $this->getId());
 		if (count($this->material))
 		{
-			$next_id = $ilDB->nextId('survey_material');
-			$affectedRows = $ilDB->manipulateF("INSERT INTO survey_material (material_id, question_fi, internal_link, import_id, material_title, tstamp) VALUES (%s, %s, %s, %s, %s, %s)",
+			$next_id = $ilDB->nextId('svy_material');
+			$affectedRows = $ilDB->manipulateF("INSERT INTO svy_material (material_id, question_fi, internal_link, import_id, material_title, tstamp) VALUES (%s, %s, %s, %s, %s, %s)",
 				array('integer','integer','text','text','text','integer'),
 				array($next_id, $this->getId(), $this->material["internal_link"], $this->material["import_id"], $this->material["title"], time())
 			);
@@ -943,7 +943,7 @@ class SurveyQuestion
 	{
 		global $ilUser, $ilDB;
 		
-		$result = $ilDB->queryF("SELECT title, category_id FROM survey_category WHERE title = %s AND neutral = %s AND owner_fi = %s",
+		$result = $ilDB->queryF("SELECT title, category_id FROM svy_category WHERE title = %s AND neutral = %s AND owner_fi = %s",
 			array('text','text','integer'),
 			array($categorytext, $neutral, $ilUser->getId())
 		);
@@ -967,8 +967,8 @@ class SurveyQuestion
 		}
 		if ($insert)
 		{
-			$next_id = $ilDB->nextId('survey_category');
-			$affectedRows = $ilDB->manipulateF("INSERT INTO survey_category (category_id, title, neutral, owner_fi, tstamp) VALUES (%s, %s, %s, %s, %s)",
+			$next_id = $ilDB->nextId('svy_category');
+			$affectedRows = $ilDB->manipulateF("INSERT INTO svy_category (category_id, title, neutral, owner_fi, tstamp) VALUES (%s, %s, %s, %s, %s)",
 				array('integer','text','text','integer','integer'),
 				array($next_id, $categorytext, $neutral, $ilUser->getId(), time())
 			);
@@ -1018,12 +1018,12 @@ class SurveyQuestion
 			return;
 		}
 		
-		$affectedRows = $ilDB->manipulateF("DELETE FROM survey_answer WHERE question_fi = %s",
+		$affectedRows = $ilDB->manipulateF("DELETE FROM svy_answer WHERE question_fi = %s",
 			array('integer'),
 			array($question_id)
 		);
 
-		$affectedRows = $ilDB->manipulateF("DELETE FROM survey_constraint WHERE question_fi = %s",
+		$affectedRows = $ilDB->manipulateF("DELETE FROM svy_constraint WHERE question_fi = %s",
 			array('integer'),
 			array($question_id)
 		);
@@ -1034,7 +1034,7 @@ class SurveyQuestion
 		);
 		while ($row = $ilDB->fetchObject($result))
 		{
-			$affectedRows = $ilDB->manipulateF("DELETE FROM survey_constraint WHERE constraint_fi = %s",
+			$affectedRows = $ilDB->manipulateF("DELETE FROM svy_constraint WHERE constraint_fi = %s",
 				array('integer'),
 				array($row->constraint_id)
 			);
@@ -1072,7 +1072,7 @@ class SurveyQuestion
 
 		$this->deleteAdditionalTableData($question_id);
 		
-		$affectedRows = $ilDB->manipulateF("DELETE FROM survey_material WHERE question_fi = %s",
+		$affectedRows = $ilDB->manipulateF("DELETE FROM svy_material WHERE question_fi = %s",
 			array('integer'),
 			array($question_id)
 		);
@@ -1205,15 +1205,15 @@ class SurveyQuestion
 			$this->setOriginalId($original);
 
 			include_once "./Services/COPage/classes/class.ilInternalLink.php";
-			$affectedRows = $ilDB->manipulateF("DELETE FROM survey_material WHERE question_fi = %s",
+			$affectedRows = $ilDB->manipulateF("DELETE FROM svy_material WHERE question_fi = %s",
 				array('integer'),
 				array($this->getOriginalId())
 			);
 			ilInternalLink::_deleteAllLinksOfSource("sqst", $this->original_id);
 			if (strlen($this->material["internal_link"]))
 			{
-				$next_id = $ilDB->nextId('survey_material');
-				$affectedRows = $ilDB->manipulateF("INSERT INTO survey_material (material_id, question_fi, internal_link, import_id, material_title, tstamp) VALUES (%s, %s, %s, %s, %s, %s)",
+				$next_id = $ilDB->nextId('svy_material');
+				$affectedRows = $ilDB->manipulateF("INSERT INTO svy_material (material_id, question_fi, internal_link, import_id, material_title, tstamp) VALUES (%s, %s, %s, %s, %s, %s)",
 					array('integer', 'integer', 'text', 'text', 'text', 'integer'),
 					array($next_id, $this->getOriginalId(), $this->material["internal_link"], $this->material["import_id"], $this->material["title"], time())
 				);
@@ -1235,7 +1235,7 @@ class SurveyQuestion
 	{
 		global $ilDB;
 		
-		$result = $ilDB->queryF("SELECT title FROM survey_phrase WHERE phrase_id = %s",
+		$result = $ilDB->queryF("SELECT title FROM svy_phrase WHERE phrase_id = %s",
 			array('integer'),
 			array($phrase_id)
 		);
@@ -1257,7 +1257,7 @@ class SurveyQuestion
 	{
 		global $ilUser, $ilDB;
 		
-		$result = $ilDB->queryF("SELECT phrase_id FROM survey_phrase WHERE title = %s AND owner_fi = %s",
+		$result = $ilDB->queryF("SELECT phrase_id FROM svy_phrase WHERE title = %s AND owner_fi = %s",
 			array('text', 'integer'),
 			array($title, $ilUser->getId())
 		);
@@ -1397,7 +1397,7 @@ class SurveyQuestion
 	{
 		global $ilDB;
 		$resolvedlinks = 0;
-		$result = $ilDB->queryF("SELECT * FROM survey_material WHERE question_fi = %s",
+		$result = $ilDB->queryF("SELECT * FROM svy_material WHERE question_fi = %s",
 			array('integer'),
 			array($question_id)
 		);
@@ -1411,7 +1411,7 @@ class SurveyQuestion
 				if (strcmp($internal_link, $resolved_link) != 0)
 				{
 					// internal link was resolved successfully
-					$affectedRows = $ilDB->manipulateF("UPDATE survey_material SET internal_link = %s, tstamp = %s WHERE material_id = %s",
+					$affectedRows = $ilDB->manipulateF("UPDATE svy_material SET internal_link = %s, tstamp = %s WHERE material_id = %s",
 						array('text', 'integer', 'integer'),
 						array($resolved_link, time(), $row["material_id"])
 					);
@@ -1427,7 +1427,7 @@ class SurveyQuestion
 			include_once "./Services/COPage/classes/class.ilInternalLink.php";
 			ilInternalLink::_deleteAllLinksOfSource("sqst", $question_id);
 
-			$result = $ilDB->queryF("SELECT * FROM survey_material WHERE question_fi = %s",
+			$result = $ilDB->queryF("SELECT * FROM svy_material WHERE question_fi = %s",
 				array('integer'),
 				array($question_id)
 			);
@@ -1796,9 +1796,9 @@ class SurveyQuestion
 	}
 
 	/**
-	* Creates the user data of the survey_answer table from the POST data
+	* Creates the user data of the svy_answer table from the POST data
 	*
-	* @return array User data according to the survey_answer table
+	* @return array User data according to the svy_answer table
 	* @access public
 	*/
 	function &getWorkingDataFromUserInput($post_data)
