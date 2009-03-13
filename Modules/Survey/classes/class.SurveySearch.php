@@ -129,13 +129,13 @@ class SurveySearch
 */
 	function search()
 	{
+		global $ilDB;
+		
 		$where = "";
 		$fields = array();
 		if (strcmp($this->search_type, "all") != 0)
 		{
-			$where = sprintf("svy_qtype.type_tag = %s",
-				$this->ilDB->quote($this->search_type)
-			);
+			$where = "svy_qtype.type_tag = " . $ilDB->quote($this->search_type, 'text');
 		}
 		foreach ($this->search_terms as $term)
 		{
@@ -143,25 +143,15 @@ class SurveySearch
 			{
 				case "all":
 					$fields["$term"] = array();
-					array_push($fields["$term"], sprintf("svy_question.title LIKE %s",
-						$this->ilDB->quote("%$term%")
-					));
-					array_push($fields["$term"], sprintf("svy_question.description LIKE %s",
-						$this->ilDB->quote("%$term%")
-					));
-					array_push($fields["$term"], sprintf("svy_question.author LIKE %s",
-						$this->ilDB->quote("%$term%")
-					));
-					array_push($fields["$term"], sprintf("svy_question.questiontext LIKE %s",
-						$this->ilDB->quote("%$term%")
-					));
+					array_push($fields["$term"], $ilDB->like("svy_question.title", 'text', "%" .$term . "%"));
+					array_push($fields["$term"], $ilDB->like("svy_question.description", 'text', "%" .$term . "%"));
+					array_push($fields["$term"], $ilDB->like("svy_question.author", 'text', "%" .$term . "%"));
+					array_push($fields["$term"], $ilDB->like("svy_question.questiontext", 'text', "%" .$term . "%"));
 					break;
 				default:
 					$fields["$term"] = array();
-					array_push($fields["$term"], sprintf("svy_question.$this->search_field LIKE %s",
-						$this->ilDB->quote("%$term%")
-					));
-					break;				
+					array_push($fields["$term"], $ilDB->like("svy_question." . $this->search_field, 'text', "%" .$term . "%"));
+					break;
 			}
 		}
 		$cumulated_fields = array();
@@ -186,13 +176,15 @@ class SurveySearch
 		{
 			$str_where .= " AND (" . $where . ")";
 		}
-		$query = "SELECT svy_question.*, svy_qtype.type_tag, object_reference.ref_id FROM svy_question, svy_qtype, object_reference WHERE svy_question.questiontype_fi = svy_qtype.questiontype_id AND ISNULL(svy_question.original_id) AND svy_question.obj_fi = object_reference.obj_id AND svy_question.obj_fi > 0$str_where";
-		$result = $this->ilDB->query($query);
+		$result = $ilDB->query("SELECT svy_question.*, svy_qtype.type_tag, object_reference.ref_id FROM " .
+			"svy_question, svy_qtype, object_reference WHERE svy_question.questiontype_fi = svy_qtype.questiontype_id ".
+			"AND ISNULL(svy_question.original_id) AND svy_question.obj_fi = object_reference.obj_id AND ".
+			"svy_question.obj_fi > 0$str_where");
 		$result_array = array();
 		global $rbacsystem;
 		if ($result->numRows() > 0) 
 		{
-			while ($row = $result->fetchRow(MDB2_FETCHMODE_ASSOC))
+			while ($row = $ilDB->fetchAssoc($result))
 			{
 				if (($row["complete"] == 1) and ($rbacsystem->checkAccess('write', $row["ref_id"])))
 				{
