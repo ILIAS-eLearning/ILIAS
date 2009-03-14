@@ -206,7 +206,8 @@ class assOrderingQuestion extends assQuestion
 		{
 			$answer_obj = $this->answers[$key];
 			$next_id = $ilDB->nextId('qpl_a_ordering');
-			$affectedRows = $ilDB->manipulateF("INSERT INTO qpl_a_ordering (answer_id, question_fi, answertext, solution_order, random_id, tstamp) VALUES (%s, %s, %s, %s, %s, %s)",
+			$affectedRows = $ilDB->manipulateF("INSERT INTO qpl_a_ordering (answer_id, question_fi, answertext, solution_order, ".
+				"random_id, tstamp) VALUES (%s, %s, %s, %s, %s, %s)",
 				array('integer','integer','text','integer','integer','integer'),
 				array(
 					$next_id,
@@ -273,7 +274,7 @@ class assOrderingQuestion extends assQuestion
 			$this->setEstimatedWorkingTime(substr($data["working_time"], 0, 2), substr($data["working_time"], 3, 2), substr($data["working_time"], 6, 2));
 		}
 
-		$result = $ilDB->queryF("SELECT * FROM qpl_a_ordering WHERE question_fi = %s ORDER BY aorder ASC",
+		$result = $ilDB->queryF("SELECT * FROM qpl_a_ordering WHERE question_fi = %s ORDER BY solution_order ASC",
 			array('integer'),
 			array($question_id)
 		);
