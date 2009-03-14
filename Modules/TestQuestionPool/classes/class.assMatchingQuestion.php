@@ -328,11 +328,10 @@ class assMatchingQuestion extends assQuestion
 		{
 			while ($data = $ilDB->fetchAssoc($result))
 			{
-				$index = array_search($data->term, $this->getTerms());
+				$index = array_search($data["term"], $this->getTerms());
 				array_push($this->matchingpairs, new ASS_AnswerMatching($data["points"], $index, $data["matchingtext"], $data["matching_order"]));
 			}
 		}
-
 		parent::loadFromDb($question_id);
 	}
 

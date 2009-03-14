@@ -198,7 +198,7 @@ class assTextSubset extends assQuestion
 		{
 			$answer_obj = $this->answers[$key];
 			$next_id = $ilDB->nextId('qpl_a_textsubset');
-			$query = sprintf("INSERT INTO qpl_a_textsubset (answer_id, question_fi, answertext, points, aorder, tstamp) VALUES (%s, %s, %s, %s, %s, %s)",
+			$query = $ilDB->manipulateF("INSERT INTO qpl_a_textsubset (answer_id, question_fi, answertext, points, aorder, tstamp) VALUES (%s, %s, %s, %s, %s, %s)",
 				array('integer', 'integer', 'text', 'float', 'integer', 'integer'),
 				array(
 					$next_id,
@@ -642,7 +642,7 @@ class assTextSubset extends assQuestion
 				if (strlen($value))
 				{
 					$next_id = $ilDB->nextId('tst_solutions');
-					$query = sprintf("INSERT INTO tst_solutions (solution_id, active_fi, question_fi, value1, value2, pass, tstamp) VALUES (%s, %s, %s, %s, NULL, %s, %s)",
+					$query = $ilDB->manipulateF("INSERT INTO tst_solutions (solution_id, active_fi, question_fi, value1, value2, pass, tstamp) VALUES (%s, %s, %s, %s, NULL, %s, %s)",
 						array('integer','integer','integer','text','integer','integer'),
 						array(
 							$next_id,

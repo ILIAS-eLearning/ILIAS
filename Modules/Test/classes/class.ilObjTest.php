@@ -3622,14 +3622,7 @@ function loadQuestions($active_id = "", $pass = NULL)
 	function isTestFinishedToViewResults($active_id, $currentpass)
 	{
 		$num = $this->getPassFinishDate($active_id, $currentpass);
-		if (($currentpass > 0) && ($num == 0))
-		{
-			return TRUE;
-		}
-		else
-		{
-			return FALSE;
-		}
+		return (($currentpass > 0) && ($num == 0)) ? true : false;
 	}
 
 /**
@@ -4576,7 +4569,7 @@ function loadQuestions($active_id = "", $pass = NULL)
 				"SUM(qpl_questions.points) qsum FROM tst_test_rnd_qst, qpl_questions " .
 				"WHERE tst_test_rnd_qst.question_fi = qpl_questions.question_id AND " .
 				"tst_test_rnd_qst.active_fi = %s and pass = %s GROUP BY tst_test_rnd_qst.active_fi, " .
-				"tst_test_rnd_qst.pass, qcount, qsum",
+				"tst_test_rnd_qst.pass",
 				array('integer', 'integer'),
 				array($active_id, $pass)
 			);
@@ -4586,7 +4579,7 @@ function loadQuestions($active_id = "", $pass = NULL)
 			$result = $ilDB->queryF("SELECT COUNT(tst_test_question.question_fi) qcount, " .
 				"SUM(qpl_questions.points) qsum FROM tst_test_question, qpl_questions, tst_active " .
 				"WHERE tst_test_question.question_fi = qpl_questions.question_id AND tst_test_question.test_fi = tst_active.test_fi AND " .
-				"tst_active.active_id = %s GROUP BY tst_test_question.test_fi, qcount, qsum",
+				"tst_active.active_id = %s GROUP BY tst_test_question.test_fi",
 				array('integer'),
 				array($active_id)
 			);
@@ -7432,7 +7425,7 @@ function loadQuestions($active_id = "", $pass = NULL)
 		if ($result->numRows())
 		{
 			$row = $ilDB->fetchAssoc($result);
-			return date("YmdHIs", $row["tstamp"]);
+			return $row["tstamp"];
 		}
 		else
 		{

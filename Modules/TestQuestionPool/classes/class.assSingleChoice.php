@@ -672,7 +672,7 @@ class assSingleChoice extends assQuestion
 		);
 			
 		// get generic feedback of the actual question
-		$result = sprintf("SELECT * FROM qpl_fb_sc WHERE question_fi = %s",
+		$result = $ilDB->queryF("SELECT * FROM qpl_fb_sc WHERE question_fi = %s",
 			array('integer'),
 			array($this->getId())
 		);
