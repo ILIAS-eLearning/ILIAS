@@ -1305,7 +1305,7 @@ class assQuestion
 		);
 
 		// delete suggested solutions contained in the question
-		$affectedRows = $ilDB->manipulatedF("DELETE FROM qpl_sol_sug WHERE question_fi = %s", 
+		$affectedRows = $ilDB->manipulateF("DELETE FROM qpl_sol_sug WHERE question_fi = %s", 
 			array('integer'),
 			array($question_id)
 		);

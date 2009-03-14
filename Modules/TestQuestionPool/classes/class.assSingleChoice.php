@@ -601,7 +601,7 @@ class assSingleChoice extends assQuestion
 		{
 			if (strlen($_POST["multiple_choice_result"]))
 			{
-				$affectedRows = $ilDb->manipulateF("UPDATE tst_solutions SET value1 = %s WHERE solution_id = %s",
+				$affectedRows = $ilDB->manipulateF("UPDATE tst_solutions SET value1 = %s WHERE solution_id = %s",
 					array('text','integer'),
 					array($_POST["multiple_choice_result"], $update)
 				);

@@ -288,7 +288,6 @@ class assOrderingQuestion extends assQuestion
 				array_push($this->answers, new ASS_AnswerOrdering($data["answertext"], $data["random_id"]));
 			}
 		}
-
 		parent::loadFromDb($question_id);
 	}
 	
