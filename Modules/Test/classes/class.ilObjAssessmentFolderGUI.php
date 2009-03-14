@@ -356,12 +356,12 @@ class ilObjAssessmentFolderGUI extends ilObjectGUI
 				}
 				$this->tpl->setCurrentBlock("output_row");
 				$this->tpl->setVariable("ROW_CLASS", $tblrow[$key % 2]);
-				$date = new ilDateTime($log["timestamp14"],IL_CAL_TIMESTAMP);
+				$date = new ilDateTime($log["tstamp"],IL_CAL_UNIX);
 				$this->tpl->setVariable("TXT_DATETIME",$date->get(IL_CAL_FKT_DATE,'Y-m-d H:i'));
 				$csvrow = array();
 				if (strcmp($this->ctrl->getCmd(), "exportLog") == 0)
 				{
-					$date = new ilDate($log['timestamp14'],IL_CAL_TIMESTAMP);
+					$date = new ilDate($log['tstamp'],IL_CAL_UNIX);
 					array_push($csvrow, $date->get(IL_CAL_FKT_DATE,'Y-m-d H:i'));
 					
 				}

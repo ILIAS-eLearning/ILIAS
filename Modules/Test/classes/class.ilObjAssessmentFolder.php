@@ -449,7 +449,7 @@ class ilObjAssessmentFolder extends ilObject
 				}
 			}
 			$row["href"] = $type_href;
-			array_push($log[$row["timestamp14"]], $row);
+			array_push($log[$row["tstamp"]], $row);
 		}
 		krsort($log);
 		// flatten array

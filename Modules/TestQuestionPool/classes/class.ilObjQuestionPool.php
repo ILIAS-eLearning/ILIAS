@@ -1466,29 +1466,19 @@ class ilObjQuestionPool extends ilObject
 		$titles = ilObject::_prepareCloneSelection($qpls, "qpl");
 		if (count($obj_ids))
 		{
-			$query = "";
 			$in = $ilDB->in('object_data.obj_id', $obj_ids, false, 'integer');
-			$paramtypes = array();
-			$paramvalues = array();
-			foreach ($obj_ids as $obj_id)
-			{
-				array_push($paramtypes, "integer");
-				array_push($paramvalues, $obj_id);
-			}
 			if ($could_be_offline)
 			{
-				$result = $ilDB->queryF("SELECT qpl_questionpool.*, object_data.title FROM qpl_questionpool, object_data WHERE qpl_questionpool.obj_fi = object_data.obj_id AND $in ORDER BY object_data.title",
-					$paramtypes,
-					$paramvalues
-				);
+				$result = $ilDB->query("SELECT qpl_questionpool.*, object_data.title FROM qpl_questionpool, object_data WHERE ".
+					"qpl_questionpool.obj_fi = object_data.obj_id AND $in ORDER BY object_data.title");
 			}
 			else
 			{
-				array_push($paramtypes, "text");
-				array_push($paramvalues, "1");
-				$result = $ilDB->queryF("SELECT qpl_questionpool.*, object_data.title FROM qpl_questionpool, object_data WHERE qpl_questionpool.obj_fi = object_data.obj_id AND $in AND qpl_questionpool.isonline = %s ORDER BY object_data.title",
-					$paramtypes,
-					$paramvalues
+				$result = $ilDB->queryF("SELECT qpl_questionpool.*, object_data.title FROM qpl_questionpool, object_data WHERE ".
+					"qpl_questionpool.obj_fi = object_data.obj_id AND $in AND qpl_questionpool.isonline = %s ".
+					"ORDER BY object_data.title",
+					array('text'),
+					array(1)
 				);
 			}
 			while ($row = $ilDB->fetchAssoc($result))

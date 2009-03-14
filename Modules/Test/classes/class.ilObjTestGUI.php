@@ -1979,8 +1979,6 @@ class ilObjTestGUI extends ilObjectGUI
 	/**
 	* Creates a form to select questions from questionpools to insert the questions into the test 
 	*
-	* Creates a form to select questions from questionpools to insert the questions into the test 
-	*
 	* @access	public
 	*/
 	function questionBrowser()
@@ -2131,8 +2129,8 @@ class ilObjTestGUI extends ilObjectGUI
 					$this->tpl->setVariable("QUESTION_COMMENT", $data["description"]);
 					$this->tpl->setVariable("QUESTION_TYPE", assQuestion::_getQuestionTypeName($data["type_tag"]));
 					$this->tpl->setVariable("QUESTION_AUTHOR", $data["author"]);
-					$this->tpl->setVariable("QUESTION_CREATED", ilDatePresentation::formatDate(new ilDate($data['created'],IL_CAL_TIMESTAMP)));
-					$this->tpl->setVariable("QUESTION_UPDATED", ilDatePresentation::formatDate(new ilDate($data['timestamp14'],IL_CAL_TIMESTAMP)));
+					$this->tpl->setVariable("QUESTION_CREATED", ilDatePresentation::formatDate(new ilDate($data['created'],IL_CAL_UNIX)));
+					$this->tpl->setVariable("QUESTION_UPDATED", ilDatePresentation::formatDate(new ilDate($data['tstamp'],IL_CAL_UNIX)));
 					$this->tpl->setVariable("COLOR_CLASS", $colors[$counter % 2]);
 					$this->tpl->setVariable("QUESTION_POOL", $questionpools[$data["obj_fi"]]["title"]);
 					$this->tpl->parseCurrentBlock();
@@ -3828,7 +3826,7 @@ class ilObjTestGUI extends ilObjectGUI
 					$this->tpl->setVariable("ROW_CLASS", $tblrow[$counter % 2]);
 					$username = $this->object->userLookupFullName($entry["user_fi"], TRUE);
 					$this->tpl->setVariable("TXT_USER", $username);
-					$this->tpl->setVariable("TXT_DATETIME", ilDatePresentation::formatDate(new ilDateTime($entry["timestamp14"],IL_CAL_TIMESTAMP)));
+					$this->tpl->setVariable("TXT_DATETIME", ilDatePresentation::formatDate(new ilDateTime($entry["tstamp"],IL_CAL_UNIX)));
 					if (strlen($entry["ref_id"]) && strlen($entry["href"]))
 					{
 						$this->tpl->setVariable("TXT_TEST_REFERENCE", $this->lng->txt("perma_link"));
