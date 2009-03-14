@@ -10709,3 +10709,11 @@ $ilDB->dropTableColumn('tst_active', 'postponed');
 <?php
 $ilDB->query("ALTER TABLE qpl_a_matching MODIFY `matching_order` INT NOT NULL DEFAULT 0");
 ?>
+<#2220>
+<?php
+$ilDB->dropTableColumn('qpl_a_ordering', 'points');
+?>
+<#2221>
+<?php
+$ilDB->dropTableColumn('qpl_a_ordering', 'aorder');
+?>
