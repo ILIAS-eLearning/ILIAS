@@ -203,7 +203,7 @@ class ilTestSession
 	private function loadFromDb($active_id)
 	{
 		global $ilDB;
-		$result = sprintf("SELECT * FROM tst_active WHERE active_id = %s", 
+		$result = $ilDB->queryF("SELECT * FROM tst_active WHERE active_id = %s", 
 			array('integer'),
 			array($active_id)
 		);

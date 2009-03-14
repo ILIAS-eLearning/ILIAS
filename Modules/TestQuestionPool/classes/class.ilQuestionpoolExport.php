@@ -257,9 +257,11 @@ class ilQuestionpoolExport
 			$col++;
 			$worksheet->write($row, $col, ilExcelUtils::_convert_text($question["author"], "latin1"));
 			$col++;
+			
+//			ilDatePresentation::formatDate(new ilDateTime($question["created"],IL_CAL_UNIX))
 			$worksheet->write($row, $col, ilExcelUtils::_convert_text(ilFormat::formatDate(ilFormat::ftimestamp2dateDB($question["created"]), "date"), "latin1"));
 			$col++;
-			$worksheet->write($row, $col, ilExcelUtils::_convert_text(ilFormat::formatDate(ilFormat::ftimestamp2dateDB($question["timestamp14"]), "date"), "latin1"));
+			$worksheet->write($row, $col, ilExcelUtils::_convert_text(ilFormat::formatDate(ilFormat::ftimestamp2dateDB($question["tstamp"]), "date"), "latin1"));
 			$col = 0;
 			$row++;
 		}

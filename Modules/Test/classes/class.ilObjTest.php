@@ -4913,7 +4913,7 @@ function loadQuestions($active_id = "", $pass = NULL)
 			$available_pools = array_keys(ilObjQuestionPool::_getAvailableQuestionpools($use_object_id = TRUE, $equal_points = FALSE, $could_be_offline = FALSE, $showPath = FALSE, $with_questioncount = FALSE, "read", ilObject::_lookupOwner($this->getId())));
 			if (count($available_pools))
 			{
-				$available = " AND " . $ilDB->in('obj_fi', $available_pools, false, 'integer'),
+				$available = " AND " . $ilDB->in('obj_fi', $available_pools, false, 'integer');
 			}
 			else
 			{
@@ -7100,7 +7100,7 @@ function loadQuestions($active_id = "", $pass = NULL)
 		global $ilDB, $ilLog;
 
 		$affectedRows = $ilDB->manipulateF("UPDATE tst_active SET submitted = %s, submittimestamp = %s, tstamp = %s WHERE test_fi = %s AND user_fi = %s",
-			array('integer', 'timestamp', 'integer', 'integer', 'integer')
+			array('integer', 'timestamp', 'integer', 'integer', 'integer'),
 			array(1, date('Y-m-d H:i:s'), time(), $this->getTestId(), $user_id)
 		);
 		$this->testSession = NULL;
