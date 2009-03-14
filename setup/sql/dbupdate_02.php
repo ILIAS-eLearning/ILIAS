@@ -10705,3 +10705,7 @@ $ilDB->dropTableColumn('tst_active', 'sequence');
 <?php
 $ilDB->dropTableColumn('tst_active', 'postponed');
 ?>
+<#2219>
+<?php
+$ilDB->query("ALTER TABLE qpl_a_matching MODIFY `matching_order` INT NOT NULL DEFAULT 0");
+?>

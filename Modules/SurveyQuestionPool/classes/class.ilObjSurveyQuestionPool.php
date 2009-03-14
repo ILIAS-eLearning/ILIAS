@@ -219,7 +219,7 @@ class ilObjSurveyQuestionPool extends ilObject
 		else
 		{
 			$next_id = $ilDB->nextId('svy_qpl');
-			$query = sprintf("INSERT INTO svy_qpl (id_questionpool, isonline, obj_fi, tstamp) VALUES (%s, %s, %s, %s)",
+			$query = $ilDB->manipulateF("INSERT INTO svy_qpl (id_questionpool, isonline, obj_fi, tstamp) VALUES (%s, %s, %s, %s)",
 				array('integer', 'text', 'integer', 'integer'),
 				array($next_id, $this->getOnline(), $this->getId(), time())
 			);

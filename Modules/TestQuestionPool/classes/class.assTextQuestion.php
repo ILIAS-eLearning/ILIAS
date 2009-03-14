@@ -549,7 +549,7 @@ class assTextQuestion extends assQuestion
 		if (strlen($text))
 		{
 			$next_id = $ilDB->nextId('tst_solutions');
-			$query = sprintf("INSERT INTO tst_solutions (solution_id, active_fi, question_fi, value1, value2, pass, tstamp) VALUES (%s, %s, %s, %s, NULL, %s, %s)",
+			$query = $ilDB->manipulateF("INSERT INTO tst_solutions (solution_id, active_fi, question_fi, value1, value2, pass, tstamp) VALUES (%s, %s, %s, %s, NULL, %s, %s)",
 				array('integer','integer','integer','text','integer','integer'),
 				array(
 					$next_id,

@@ -174,7 +174,7 @@ class ilTestServiceGUI
 					$template->setVariable("COLOR_CLASS", $color_class[$pass % 2]);
 				}
 				$template->setVariable("VALUE_PASS", $pass + 1);
-				$template->setVariable("VALUE_DATE",ilDatePresentation::formatDate(new ilDate($finishdate,IL_CAL_TIMESTAMP)));
+				$template->setVariable("VALUE_DATE",ilDatePresentation::formatDate(new ilDate($finishdate,IL_CAL_UNIX)));
 				
 				if (!$short)
 				{

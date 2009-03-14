@@ -423,13 +423,12 @@ class assQuestionGUI
 		{
 			$this->ctrl->setParameter($this, "return_to", $return_to);
 		}
-		$this->tpl->addBlockFile("ADM_CONTENT", "adm_content", "tpl.il_as_qpl_sync_original.html", "Modules/TestQuestionPool");
-		$this->tpl->setCurrentBlock("adm_content");
-		$this->tpl->setVariable("BUTTON_YES", $this->lng->txt("yes"));
-		$this->tpl->setVariable("BUTTON_NO", $this->lng->txt("no"));
-		$this->tpl->setVariable("FORM_ACTION", $this->ctrl->getFormAction($this));
-		$this->tpl->setVariable("TEXT_SYNC", $this->lng->txt("confirm_sync_questions"));
-		$this->tpl->parseCurrentBlock();
+		$template = new ilTemplate("tpl.il_as_qpl_sync_original.html",TRUE, TRUE, "Modules/TestQuestionPool");
+		$template->setVariable("BUTTON_YES", $this->lng->txt("yes"));
+		$template->setVariable("BUTTON_NO", $this->lng->txt("no"));
+		$template->setVariable("FORM_ACTION", $this->ctrl->getFormAction($this));
+		$template->setVariable("TEXT_SYNC", $this->lng->txt("confirm_sync_questions"));
+		$this->tpl->setVariable("ADM_CONTENT", $template->get());
 	}
 	
 	function sync()
@@ -537,7 +536,7 @@ class assQuestionGUI
 		}
 		else
 		{
-      ilUtil::sendInfo($this->lng->txt("fill_out_all_required_fields"));
+			ilUtil::sendInfo($this->lng->txt("fill_out_all_required_fields"));
 			$this->editQuestion();
 		}
 	}
@@ -559,7 +558,7 @@ class assQuestionGUI
 			include_once "./Modules/TestQuestionPool/classes/class.assQuestion.php";
 			if ($_GET["calling_test"] && $originalexists && assQuestion::_isWriteable($this->object->original_id, $ilUser->getId()))
 			{
-				$this->originalSyncForm();
+				$this->ctrl->redirect($this, "originalSyncForm");
 			}
 			elseif ($_GET["calling_test"])
 			{
