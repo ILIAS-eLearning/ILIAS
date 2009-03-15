@@ -41,16 +41,15 @@ class ilassSingleChoiceTest extends PHPUnit_Framework_TestCase
 	}
 	
 	/**
-	 * Question creation test 
-	 * @param
-	 * @return
-	 */
-	public function testCreation()
+	* Create a sample question and save it to the database
+	*
+	* @param integer $obj_id Object ID of the containing question pool object (optional)
+	* @return integer ID of the newly created question
+	*/
+	public static function createSampleQuestion($obj_id = null)
 	{
-		global $ilDB;
-		
+		$obj_id = ($obj_id) ? $obj_id : 99999999;
 		include_once './Modules/TestQuestionPool/classes/class.assSingleChoice.php';
-		
 		$sc = new assSingleChoice('unit test single choice question', 'unit test single choice question comment', 'Helmut Schottmüller', -1, '<p>is a <strong>unit test</strong> required?</p>');
 		$sc->addAnswer(
 			'Yes',
@@ -64,9 +63,22 @@ class ilassSingleChoiceTest extends PHPUnit_Framework_TestCase
 			0,
 			2
 		);
-		$sc->setObjId(99999999);
+		$sc->setObjId($obj_id);
 		$sc->saveToDb();
-		$insert_id = $sc->getId();
+		return $sc->getId();
+	}
+	
+	/**
+	 * Question creation test 
+	 * @param
+	 * @return
+	 */
+	public function testCreation()
+	{
+		global $ilDB;
+		
+		include_once './Modules/TestQuestionPool/classes/class.assSingleChoice.php';
+		$insert_id = ilassSingleChoiceTest::createSampleQuestion();
 		$this->assertGreaterThan(0, $insert_id);
 		if ($insert_id > 0)
 		{
@@ -81,6 +93,6 @@ class ilassSingleChoiceTest extends PHPUnit_Framework_TestCase
 			$result = $sc->delete($insert_id);
 			$this->assertEquals($result,true);
 		}
-	}	
+	}
 }
 ?>

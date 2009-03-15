@@ -41,14 +41,14 @@ class ilassMultipleChoiceTest extends PHPUnit_Framework_TestCase
 	}
 	
 	/**
-	 * Question creation test 
-	 * @param
-	 * @return
-	 */
-	public function testCreation()
+	* Create a sample question and save it to the database
+	*
+	* @param integer $obj_id Object ID of the containing question pool object (optional)
+	* @return integer ID of the newly created question
+	*/
+	public static function createSampleQuestion($obj_id = null)
 	{
-		global $ilDB;
-		
+		$obj_id = ($obj_id) ? $obj_id : 99999999;
 		include_once './Modules/TestQuestionPool/classes/class.assMultipleChoice.php';
 		
 		$mc = new assMultipleChoice('unit test multiple choice question', 'unit test multiple choice question comment', 'Helmut Schottmüller', -1, '<p><strong>unit tests</strong> are...</p>');
@@ -76,9 +76,22 @@ class ilassMultipleChoiceTest extends PHPUnit_Framework_TestCase
 			-0.5,
 			4
 		);
-		$mc->setObjId(99999999);
+		$mc->setObjId($obj_id);
 		$mc->saveToDb();
-		$insert_id = $mc->getId();
+		return $mc->getId();
+	}
+	
+	/**
+	 * Question creation test 
+	 * @param
+	 * @return
+	 */
+	public function testCreation()
+	{
+		global $ilDB;
+		
+		include_once './Modules/TestQuestionPool/classes/class.assMultipleChoice.php';
+		$insert_id = ilassMultipleChoiceTest::createSampleQuestion();
 		$this->assertGreaterThan(0, $insert_id);
 		if ($insert_id > 0)
 		{
