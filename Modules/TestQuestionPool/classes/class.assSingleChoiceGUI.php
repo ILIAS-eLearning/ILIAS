@@ -73,8 +73,6 @@ class assSingleChoiceGUI extends assQuestionGUI
 	/**
 	* Creates an output of the edit form for the question
 	*
-	* Creates an output of the edit form for the question
-	*
 	* @access public
 	*/
 	function editQuestion()

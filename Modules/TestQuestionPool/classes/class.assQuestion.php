@@ -1260,6 +1260,7 @@ class assQuestion
 		include_once "./Services/COPage/classes/class.ilPageObject.php";
 		$page = new ilPageObject("qpl", $question_id);
 		$page->delete();
+		return true;
 	}
 
 	/**
@@ -1268,12 +1269,11 @@ class assQuestion
 	* @param integer $question_id The database id of the question
 	* @access private
 	*/
-	function delete($question_id)
+	public function delete($question_id)
 	{
-		global $ilDB;
+		global $ilDB, $ilLog;
 		
-		if ($question_id < 1)
-		return;
+		if ($question_id < 1) return true; // nothing to do
 
 		$result = $ilDB->queryF("SELECT obj_fi FROM qpl_questions WHERE question_id = %s",
 			array('integer'),
@@ -1286,53 +1286,112 @@ class assQuestion
 		}
 		else
 		{
-			return;
+			return true; // nothing to do
 		}
 
-		$this->deletePageOfQuestion($question_id);
+		try
+		{
+			$this->deletePageOfQuestion($question_id);
+		}
+		catch (Exception $e)
+		{
+			$ilLog->write("EXCEPTION: Could not delete page of question $question_id: $e");
+			return false;
+		}
+		
 		$affectedRows = $ilDB->manipulateF("DELETE FROM qpl_questions WHERE question_id = %s",
 			array('integer'),
 			array($question_id)
 		);
-		
-		$this->deleteAdditionalTableData($question_id);
-		$this->deleteAnswers($question_id);
+		if ($affectedRows == 0) return false;
 
-		// delete the question in the tst_test_question table (list of test questions)
-		$affectedRows = $ilDB->manipulateF("DELETE FROM tst_test_question WHERE question_fi = %s", 
-			array('integer'),
-			array($question_id)
-		);
+		try
+		{
+			$this->deleteAdditionalTableData($question_id);
+			$this->deleteAnswers($question_id);
+		}
+		catch (Exception $e)
+		{
+			$ilLog->write("EXCEPTION: Could not delete additional table data of question $question_id: $e");
+			return false;
+		}
 
-		// delete suggested solutions contained in the question
-		$affectedRows = $ilDB->manipulateF("DELETE FROM qpl_sol_sug WHERE question_fi = %s", 
-			array('integer'),
-			array($question_id)
-		);
+		try
+		{
+			// delete the question in the tst_test_question table (list of test questions)
+			$affectedRows = $ilDB->manipulateF("DELETE FROM tst_test_question WHERE question_fi = %s", 
+				array('integer'),
+				array($question_id)
+			);
+		}
+		catch (Exception $e)
+		{
+			$ilLog->write("EXCEPTION: Could not delete delete question $question_id from a test: $e");
+			return false;
+		}
+
+		try
+		{
+			// delete suggested solutions contained in the question
+			$affectedRows = $ilDB->manipulateF("DELETE FROM qpl_sol_sug WHERE question_fi = %s", 
+				array('integer'),
+				array($question_id)
+			);
+		}
+		catch (Exception $e)
+		{
+			$ilLog->write("EXCEPTION: Could not delete suggested solutions of question $question_id: $e");
+			return false;
+		}
 				
-		$directory = CLIENT_WEB_DIR . "/assessment/" . $obj_id . "/$question_id";
-		if (preg_match("/\d+/", $obj_id) and preg_match("/\d+/", $question_id) and is_dir($directory))
+		try
 		{
-			include_once "./Services/Utilities/classes/class.ilUtil.php";
-			ilUtil::delDir($directory);
+			$directory = CLIENT_WEB_DIR . "/assessment/" . $obj_id . "/$question_id";
+			if (preg_match("/\d+/", $obj_id) and preg_match("/\d+/", $question_id) and is_dir($directory))
+			{
+				include_once "./Services/Utilities/classes/class.ilUtil.php";
+				ilUtil::delDir($directory);
+			}
+		}
+		catch (Exception $e)
+		{
+			$ilLog->write("EXCEPTION: Could not delete question file directory $directory of question $question_id: $e");
+			return false;
 		}
 
-		include_once("./Services/MediaObjects/classes/class.ilObjMediaObject.php");
-		$mobs = ilObjMediaObject::_getMobsOfObject("qpl:html", $question_id);
-		// remaining usages are not in text anymore -> delete them
-		// and media objects (note: delete method of ilObjMediaObject
-		// checks whether object is used in another context; if yes,
-		// the object is not deleted!)
-		foreach($mobs as $mob)
+		try
 		{
-			ilObjMediaObject::_removeUsage($mob, "qpl:html", $question_id);
-			$mob_obj =& new ilObjMediaObject($mob);
-			$mob_obj->delete();
+			include_once("./Services/MediaObjects/classes/class.ilObjMediaObject.php");
+			$mobs = ilObjMediaObject::_getMobsOfObject("qpl:html", $question_id);
+			// remaining usages are not in text anymore -> delete them
+			// and media objects (note: delete method of ilObjMediaObject
+			// checks whether object is used in another context; if yes,
+			// the object is not deleted!)
+			foreach($mobs as $mob)
+			{
+				ilObjMediaObject::_removeUsage($mob, "qpl:html", $question_id);
+				$mob_obj =& new ilObjMediaObject($mob);
+				$mob_obj->delete();
+			}
+		}
+		catch (Exception $e)
+		{
+			$ilLog->write("EXCEPTION: Error deleting the media objects of question $question_id: $e");
+			return false;
 		}
 
-		// update question count of question pool
-		include_once "./Modules/TestQuestionPool/classes/class.ilObjQuestionPool.php";
-		ilObjQuestionPool::_updateQuestionCount($this->obj_id);
+		try
+		{
+			// update question count of question pool
+			include_once "./Modules/TestQuestionPool/classes/class.ilObjQuestionPool.php";
+			ilObjQuestionPool::_updateQuestionCount($this->getObjId());
+		}
+		catch (Exception $e)
+		{
+			$ilLog->write("EXCEPTION: Error updating the question pool question count of question pool " . $this->getObjId() . " when deleting question $question_id: $e");
+			return false;
+		}
+		return true;
 	}
 
 	/**
