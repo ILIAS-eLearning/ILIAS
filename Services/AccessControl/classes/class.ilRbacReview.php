@@ -609,8 +609,10 @@ class ilRbacReview
 	
 
 	/**
-	* DEPRECTED use getParentRoles instead.
-	* This version is much to slow on big installations
+	* DEPRECATED use getParentRoles instead.
+    * Note: This function performs faster than the new getParentRoles function,
+    *       because it uses database indexes whereas getParentRoles needs
+    *       a full table space scan.
 	* 
 	* Get parent roles in a path. If last parameter is set 'true'
 	* it delivers also all templates in the path
@@ -632,44 +634,35 @@ class ilRbacReview
 		$parent_roles = array();
 		$role_hierarchy = array();
 		
-		$child = $this->__getAllRoleFolderIds();
-		
 		// CREATE IN() STATEMENT
 		$in = " IN(";
-		$in .= implode(",",ilUtil::quoteArray($child));
+		$in .= implode(",",ilUtil::quoteArray($a_path));
 		$in .= ") ";
-		
-		foreach ($a_path as $path)
-		{
-			// Note the use of the HAVING clause: For large trees with many
-			// local roles, this query performs much faster when the IN
-            // condition is inside of the HAVING clause.
-			// (alex: Unfortunately using having in this way is non-standard SQL)
-			/*$q = "SELECT * FROM tree ".
-				 "WHERE parent = ".$ilDB->quote($path)." ".
-				 "HAVING child ".$in;*/
-			$q = "SELECT * FROM tree ".
-				 "WHERE parent = ".$ilDB->quote($path)." ".
-				 "AND child ".$in;
-			$r = $this->ilDB->query($q);
 
-			while ($row = $r->fetchRow(DB_FETCHMODE_OBJECT))
-			{
-				$roles = $this->getRoleListByObject($row->child,$a_templates);
+        $q = "SELECT t.* FROM tree AS t ".
+             "JOIN object_reference AS r ON r.ref_id=t.child ".
+             "JOIN object_data AS o ON o.obj_id=r.obj_id ".
+             "WHERE t.parent ".$in." ".
+             "AND o.type='rolf'";
+        $r = $this->ilDB->query($q);
 
-				foreach ($roles as $role)
-				{
-					$id = $role["obj_id"];
-					$role["parent"] = $row->child;
-					$parent_roles[$id] = $role;
-					
-					if (!array_key_exists($role['obj_id'],$role_hierarchy))
-					{
-						$role_hierarchy[$id] = $row->child;
-					}
-				}
-			}
-		}
+        while ($row = $r->fetchRow(DB_FETCHMODE_OBJECT))
+        {
+
+            $roles = $this->getRoleListByObject($row->child,$a_templates);
+
+            foreach ($roles as $role)
+            {
+                $id = $role["obj_id"];
+                $role["parent"] = $row->child;
+                $parent_roles[$id] = $role;
+
+                if (!array_key_exists($role['obj_id'],$role_hierarchy))
+                {
+                    $role_hierarchy[$id] = $row->child;
+                }
+            }
+        }
 		if (!$a_keep_protected)
 		{
 			return $this->__setProtectedStatus($parent_roles,$role_hierarchy,$path);
