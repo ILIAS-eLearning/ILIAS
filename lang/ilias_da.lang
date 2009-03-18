@@ -9046,7 +9046,7 @@ common#:#create_history_loginname#:#Create a history for changed login names###2
 common#:#allow_history_loginname_again#:#It is allowed to use login names again, which are saved in the history###24 02 2009 new variable
 common#:#loginname_already_exists#:#This login name already exists.###24 02 2009 new variable
 common#:#create_history_loginname_must_be_enabled#:#To reuse login names the history must be enabled.###24 02 2009 new variable
-ecs#:#ecs_unique_id#:#Participant-ID###24 02 2009 new variable
+ecs#:#ecs_unique_id#:#Deltager id
 ecs#:#ecs_new_category_mapping#:#New Assignment of Course-Links to Categories###24 02 2009 new variable
 ecs#:#ecs_attribute_name#:#Attribute Name###24 02 2009 new variable
 ecs#:#ecs_cat_mapping_type#:#Assignment Type###24 02 2009 new variable
