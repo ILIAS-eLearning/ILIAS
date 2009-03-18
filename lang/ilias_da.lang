@@ -513,7 +513,7 @@ common#:#cat_create_htlm#:#Opret HTML Læremodul
 common#:#cat_create_icrs#:#Opret LearnLincmodul
 common#:#cat_create_lm#:#Opret ILIAS Læremodul
 common#:#cat_create_mep#:#Opret afstemning
-common#:#cat_create_qpl#:#Opret Spørgsmålsbeholder til tests
+common#:#cat_create_qpl#:#Opret spørgsmål til tests
 common#:#cat_create_sahs#:#Opret SCORM/AICC Læremodul
 common#:#cat_create_spl#:#Opret spørgsmål til afstemninger/undersøgelser
 common#:#cat_create_svy#:#Opret undersøgelse
@@ -703,7 +703,7 @@ common#:#crs_create_lm#:#Opret ILIAS Læremodul
 common#:#crs_create_mep#:#Opret mediesamling
 common#:#crs_create_qpl#:#Opret spørgsmålsbibliotek til tests
 common#:#crs_create_sahs#:#Opret SCORM/AICC Læremodul
-common#:#crs_create_spl#:#Opret beholder til undersøgelse
+common#:#crs_create_spl#:#Opret spørgsmål til undersøgelse
 common#:#crs_create_svy#:#Opret undersøgelse
 common#:#crs_create_tst#:#Opret test
 common#:#crs_create_webr#:#Opret ny webresource
@@ -1002,7 +1002,7 @@ common#:#fold_create_lm#:#Opret ILIAS Læremodul
 common#:#fold_create_mep#:#Opret mediebeholder
 common#:#fold_create_qpl#:#Opret spørgsmålssamling til test
 common#:#fold_create_sahs#:#Opret SCORM/AICC Læremodul
-common#:#fold_create_spl#:#Opret beholder til undersøgelse
+common#:#fold_create_spl#:#Opret spørgsmål til undersøgelse
 common#:#fold_create_svy#:#Opret undersøgelse
 common#:#fold_create_tst#:#Opret test
 common#:#fold_create_webr#:#Opret webresurse
@@ -1381,7 +1381,7 @@ common#:#import_questions_into_qpl#:#Importer spørgsmål til spørgsmålsbiblio
 common#:#import_root_user#:#Importer root bruger
 common#:#import_sahs#:#Importer SCORM/AICC pakker
 common#:#import_spl#:#Importer afstemning til undersøgelser
-common#:#import_svy#:#Importer Undersøgelser
+common#:#import_svy#:#Importer undersøgelse
 common#:#import_tst#:#Importer test
 common#:#import_users#:#Importer brugere
 common#:#import_warning_log#:#Importer advarsels log
@@ -2160,7 +2160,7 @@ common#:#predefined_template#:#Fordefineret rolleskabelon
 common#:#presentation_options#:#Presentation Options###21 Apr 2005 new variable
 common#:#previous#:#sidste
 common#:#print#:#Udskriv
-common#:#print_view#:#Print View
+common#:#print_view#:#Udskriftsvisning
 common#:#private_notes#:#Private noter
 common#:#pro#:#Pro###23 Dec 2005 new variable
 common#:#proceed#:#Fortsæt
@@ -2435,9 +2435,9 @@ common#:#shib_street#:#Attribute for street###17 Aug 2005 new variable
 common#:#shib_title#:#Attribute for title###17 Aug 2005 new variable
 common#:#shib_update#:#Opdater dette felt ved login
 common#:#shib_user_default_role#:#Default role assigned to Shibboleth users###17 Aug 2005 new variable
-common#:#shib_visible#:#Shibboleth settings are visible###17 Aug 2005 new variable
-common#:#shib_write#:#Edit Shibboleth settings###17 Aug 2005 new variable
-common#:#shib_zipcode#:#Attribute for zipcode###17 Aug 2005 new variable
+common#:#shib_visible#:#Shibboleth-indstillinger er synlige
+common#:#shib_write#:#Ret Shibboleth-indstillinger
+common#:#shib_zipcode#:#Attribut for postnummer
 common#:#show#:#Vis
 common#:#show_details#:#Vis detaljer
 common#:#show_list#:#Vis liste
@@ -2447,7 +2447,7 @@ common#:#pd_items_news_info#:#If activated, all news related to items that have 
 common#:#show_owner#:#Vis Ejer
 common#:#show_private_notes#:#Vis private noter
 common#:#show_structure#:#Aktiver struktureret oversigt
-common#:#show_users_online#:#Vis brugere  online###20 Jun 2005 content changed
+common#:#show_users_online#:#Visning af onlinebrugere
 common#:#signature#:#Signatur
 common#:#size#:#Størrelse
 common#:#skin_style#:#Standardudseende
@@ -2457,8 +2457,8 @@ common#:#smtp#:#SMTP
 common#:#soap_user_administration#:#Ekstern brugeradministration (SOAP)
 common#:#soap_user_administration_desc#:#Hvis sat til, kan alle brugerkonti blive administreret af en ekstern SOAP-klient
 common#:#sort_by_this_column#:#Sorter efter denne kolonne
-common#:#spacer#:#Spacer###23 Dec 2005 new variable
-common#:#spl#:#Beholder til afstemninger/undersøgelser
+common#:#spacer#:#Mellemrum
+common#:#spl#:#Spørgsmål til afstemninger/undersøgelser
 common#:#spl_add#:#Opret spørgsmålssamling
 common#:#spl_delete#:#Slet afstemningen til undersøgelsen
 common#:#spl_edit_permission#:#Ændre rettighedsindstillinger
@@ -2496,13 +2496,13 @@ common#:#subscription#:#Tilmelding
 common#:#summary#:#Gennemgang
 common#:#sure_delete_selected_users#:#Er du sikker på at du vil slettet følgende brugere
 common#:#svy#:#Undersøgelse
-common#:#svy_add#:#Tilføj Undersøgelse
-common#:#svy_delete#:#Slet Undersøgelse
+common#:#svy_add#:#Opret undersøgelse
+common#:#svy_delete#:#Slet undersøgelse
 common#:#svy_edit_permission#:#ændrer rettighedsindstillinger
 common#:#svy_evaluation#:#Evaluering
 common#:#svy_finished#:#Afsluttet
 common#:#svy_invite#:#Inviter brugere til en undersøgelse
-common#:#svy_new#:#Ny Undersøgelse
+common#:#svy_new#:#Ny undersøgelse
 common#:#svy_no_content#:#Ingen undersøgelser er tilgængelige.
 common#:#svy_not_finished#:#ikke afsluttet
 common#:#svy_not_started#:#ikke startet
@@ -2794,10 +2794,10 @@ common#:#webr_never_checked#:#Er aldrig blevet checket
 common#:#webr_new#:#Tilføj ny webresurse
 common#:#webr_no_items_created#:#Der er ikke lavet webresurser
 common#:#webr_read#:#Læseadgang til webresurse
-common#:#webr_sure_delete_items#:#Er du sikker på at du vil fjerne de(n) følgende webresurse(r) (?)
+common#:#webr_sure_delete_items#:#Er du sikker på at du vil fjerne de(n) følgende webresurse(r) ?
 common#:#webr_visible#:#Webresursen er synlig
 common#:#webr_write#:#Rediger webresursen
-common#:#webservices#:#Webservices###21 Apr 2005 new variable
+common#:#webservices#:#Webservices
 common#:#week#:#Uge
 common#:#weekly#:#Ugentlig
 common#:#welcome#:#Velkommen
@@ -2812,12 +2812,12 @@ common#:#you_may_add_local_roles#:#Du kan tilføje lokale roller
 common#:#your_message#:#Din Besked
 common#:#zip#:#Postnummer
 common#:#zipcode#:#Postnummer
-common#:#no_start_file#:#No Start File.###29 11 2006 new variable
-common#:#select_one#:#Please select one.###08 12 2006 new variable
+common#:#no_start_file#:#Ingen startfil
+common#:#select_one#:#Vælg en
 common#:#access_until#:#Adgang til
 common#:#adopt_perm_from_template#:#Copy Permission Settings###05 09 2006 new variable
-common#:#edit_grouping#:#Edit Membership Limitation###05 10 2006 new variable
-common#:#grouping_select_exactly_one#:#Please choose exactly one membership limitation.###05 10 2006 new variable
+common#:#edit_grouping#:#Ret medlemsbegrænsninger
+common#:#grouping_select_exactly_one#:#Vælg venligst en medlemsbegrænsning
 common#:#mail_settings#:#Besked indstillinger
 common#:#my_courses#:#Mine kurser
 common#:#auth_selection#:#Login to###08 12 2006 new variable
@@ -2839,17 +2839,17 @@ common#:#obj_webr_select#:#Vælg venligst en webresurse
 common#:#obj_file_duplicate#:#Kopier fil
 common#:#obj_file_select#:#Vælg venligst en fil
 common#:#obj_exc_duplicate#:#Kopier øvelse
-common#:#obj_exc_select#:# Please select one Exercise ###25 02 2007 new variable
-common#:#auth_settings#:#Authentication Settings###25 02 2007 new variable
-common#:#login_information#:#Login Information###25 02 2007 new variable
+common#:#obj_exc_select#:#Vælg en øvelse
+common#:#auth_settings#:#Authentificeringsindstilliger
+common#:#login_information#:#Login information
 common#:#login_information_desc#:#Please enter a login information for the respective language.###25 02 2007 new variable
-common#:#login_information_settings_saved#:#The login information were saved successfully###25 02 2007 new variable
+common#:#login_information_settings_saved#:#Logininformationerne blev gemt
 common#:#obj_frm_duplicate#:#Kopier forum
-common#:#obj_frm_select#:# Please select one Forum ###25 02 2007 new variable
+common#:#obj_frm_select#:#Vælg forum
 common#:#btn_back#:#Back###25 02 2007 new variable
 common#:#obj_tst_duplicate#:#Kopier test
-common#:#obj_tst_select#:# Please select one Test ###25 02 2007 new variable
-common#:#obj_svy_duplicate#:#Kopier undersøgelse
+common#:#obj_tst_select#:#Vælg test
+common#:#obj_svy_duplicate#:#Kopier eksisterende undersøgelse
 common#:#obj_svy_select#:# Vælg venligst en afstemning
 common#:#obj_crs_duplicate#:#Kopier kursus
 common#:#obj_crs_select#:#Du skal vælge et kursus
@@ -4894,16 +4894,16 @@ crs#:#crs_objectives_info_pretest#:#The following are the results of your self a
 crs#:#crs_objectives_info_pretest_non_suggest#:#The following are the results of your self assessment. <br />According to this you have fullfilled any learning objective. You can now take the final exam of this course, which is located in the test section of this page.###21 Apr 2005 new variable
 crs#:#crs_objectives_lm_assignment#:#Learning material assignment###21 Apr 2005 new variable
 crs#:#crs_objectives_max_points#:#Maximum points###21 Apr 2005 new variable
-crs#:#crs_objectives_no_question_selected#:#Please select one question.###21 Apr 2005 new variable
-crs#:#crs_objectives_nr_questions#:#Number of questions###21 Apr 2005 new variable
-crs#:#crs_objectives_qst_deassigned#:#The question assignment has been deleted.###21 Apr 2005 new variable
+crs#:#crs_objectives_no_question_selected#:#Vælg et spørgsmål
+crs#:#crs_objectives_nr_questions#:#Antal spørgsmål
+crs#:#crs_objectives_qst_deassigned#:#Spørgsmålstildelingen blev fjernet.
 crs#:#crs_objectives_reset_sure#:#You want to delete all results of this course. <br />All test results will be deleted.###21 Apr 2005 new variable
 crs#:#crs_objectives_reseted#:#Reseted results.###21 Apr 2005 new variable
 crs#:#crs_offline#:#Offline###21 Apr 2005 new variable
 crs#:#crs_options#:#Egenskaber
 crs#:#crs_other_groupings#:#Gruppering af andre kurser
-crs#:#crs_other_resources#:#Other resources###21 Apr 2005 new variable
-crs#:#crs_passed#:#Passed###21 Apr 2005 new variable
+crs#:#crs_other_resources#:#Andre resurser
+crs#:#crs_passed#:#Bestået
 crs#:#crs_password_not_valid#:#Dit password er ugyldigt
 crs#:#crs_password_required#:#Tilmelding kræver et password.
 crs#:#crs_pdf#:#PDF###21 Apr 2005 new variable
@@ -4943,7 +4943,7 @@ crs#:#crs_select_exactly_one_lm#:#Vælg venligst et og kun et læremodul.
 crs#:#crs_select_exactly_one_tst#:#Please select exactly one test.###21 Apr 2005 new variable
 crs#:#crs_select_native_lm#:#Single chapters can only be assigned to native ILIAS learning modules.###21 Apr 2005 new variable
 crs#:#crs_select_one_archive#:#Vælg venligst et arkiv
-crs#:#crs_select_one_object#:#Please select one course item.###21 Apr 2005 new variable
+crs#:#crs_select_one_object#:#Vælg et kursusobjekt
 crs#:#crs_select_registration_type#:#Vælg en tilmeldingsmetode
 crs#:#crs_select_starter#:#Vælg startobjekt
 crs#:#crs_set_on_waiting_list#:#Please register to the course to be assigned to the waiting list.###09 Jul 2005 new variable
@@ -5462,7 +5462,7 @@ forum#:#forums_notification_disabled#:#Advisering deaktiveret
 grp#:#crs_add_grouping#:#Add Membership Limitation###07 09 2006 new variable
 grp#:#crs_grouping_delete_sure#:#Are you sure you want to delete this membership limitation ?###07 09 2006 new variable
 grp#:#crs_grouping_deleted#:#Deleted membership limitation.###07 09 2006 new variable
-grp#:#crs_grouping_select_one#:#Please select one membership limitation.###05 10 2006 new variable
+grp#:#crs_grouping_select_one#:#Vælg en medlemsbegrænsning
 grp#:#crs_grp_assign_crs#:#Assignment of Groups###05 10 2006 new variable
 grp#:#crs_grp_enter_title#:#Please fill out all required fields.###07 09 2006 new variable
 grp#:#crs_grp_info_reg#:#You can only register to one of this groups:###05 10 2006 new variable
@@ -6724,7 +6724,7 @@ survey#:#material_file#:#Materiale fil
 survey#:#maxchars#:#Maksimalt antal karakterer
 survey#:#next_question_rows#:#spørgsmål %d - %d af %d >>
 survey#:#no_question_selected_for_move#:#Marker venligst et spørgsmål hvis du vil flytte det!
-survey#:#no_questions_available#:#Der er ingen spørgsmål tilgængelige!
+survey#:#no_questions_available#:#Der er endnu ingen spørgsmål in denne undersøgelse/afstemning. Led efter spørgsmål eller opret et nyt.
 survey#:#no_target_selected_for_move#:#Du skal vælge en mål possition!
 survey#:#no_user_or_group_selected#:#Marker venligst hvilken mulighed du søger efter (brugere og/eller grupper)!
 survey#:#or#:#eller
@@ -6774,8 +6774,8 @@ survey#:#anonymize_key_introduction#:#This survey anonymizes all user data. To g
 survey#:#anonymize_personalized#:#Ingen anonymisering
 survey#:#anonymize_registered_user#:#Anonymiseret afstemningsadgang
 survey#:#anonymize_resume_introduction#:#Please enter your survey access code to resume the survey. It was sent to your ILIAS mail inbox when you started the survey.###21 Apr 2005 new variable
-survey#:#anonymize_survey_description#:#Anonymization removes any personal data from the survey statistics. A survey code is a five digit code which is needed to take part in an anonymized survey. For registered ILIAS users, a survey code will be generated automatically.###15 11 2006 new variable
-survey#:#anonymize_with_code#:#Anonymization with personal access using a survey code
+survey#:#anonymize_survey_description#:#Anonymisering fjerner alle personlige informationer fra undersøgelses evalueringen. En undersøgelses-kode er en fem-cifret kode som bruges til at besvare den anonymiseret undersøgelse. Der genereres automatisk en undersøgelses-kode til relevante eksisterende ILIAS-brugere.
+survey#:#anonymize_with_code#:#Anonymisering ved brug af undersøgelses-koder
 survey#:#anonymize_without_code#:#Anonymisering med fri adgang til undersøgelsen
 survey#:#anonymous_with_personalized_survey#:#You must be a registered user to run a personalized survey!###21 Apr 2005 new variable
 survey#:#arithmetic_mean#:#Arithmetic mean###21 Apr 2005 new variable
@@ -6890,7 +6890,7 @@ survey#:#evaluation_access_all#:#Adgang for alle brugere
 survey#:#evaluation_access_description#:#Normalt gives der kun adgang til undersøgelsesstatistikken til brugere med skriveadgang til undersøgelsen (Evaluerings adgang = Fra)
 survey#:#evaluation_access_info#:#Du har adgang til resultatet af undersøgelsen
 survey#:#evaluation_access_off#:#Fra
-survey#:#evaluation_access_participants#:#Adgang for deltagere
+survey#:#evaluation_access_participants#:#Adgang for deltagere efter besvarelse
 survey#:#existing_constraints#:#Eksisterende betingelser
 survey#:#exit#:#Afslut
 survey#:#exp_type_csv#:#Kommaseparerede værdier
@@ -6939,7 +6939,7 @@ survey#:#matrix_column_separators#:#Kolonneadskildelse
 survey#:#matrix_neutral_column_separator#:#Neutral kolonneseperator
 survey#:#matrix_neutral_column_separator_description#:#Lav afkrydsning hvis du ønsker en tyk linje mellem den neutrale kolonne og de andre kolonner i resultatet af matrix spørgsmålet
 survey#:#matrix_row_separators_description#:#Lav afkrydsning hvis du ønsker at have tynde linjer mellen rækker
-survey#:#matrix_column_separators_description#:#Select the check box if you want to have separators (thin lines) between the columns in the output of the Matrix Question###29 11 2006 new variable
+survey#:#matrix_column_separators_description#:#Lav en afkrydsning hvis du vil have adskildelse (tynde linjer) mellem kolonnerne når matrix-spørgsmålet vises.
 survey#:#matrix_bipolar_adjectives#:#Bipolar Adjectives###29 11 2006 new variable
 survey#:#matrix_bipolar_adjectives_description#:#You may use a pair of bipolar adjectives to scale the column responses to words, short phrases, or texts###29 11 2006 new variable
 survey#:#matrix_column_settings#:#Matrix Column Settings###29 11 2006 new variable
@@ -6953,8 +6953,8 @@ survey#:#matrix_neutral_answer#:#Tekst i neutral-kolonne (ved ikke, kender ikke,
 survey#:#matrix_standard_answers#:#Kolonnetekst
 survey#:#matrix_rows#:#Matrix rækker
 survey#:#matrix_columns#:#Matrix kolonner
-survey#:#matrix_subtype_time#:#Time###29 11 2006 new variable
-survey#:#matrix_subtype_description#:#Please select one of the above subtypes to define the behaviour of the answer fields.###29 11 2006 new variable
+survey#:#matrix_subtype_time#:#Tid
+survey#:#matrix_subtype_description#:#Ved at vælge en af de ovenstående undertyper til spørgsmålet bestemmer du hvordan svaret præsenteres/vises.
 survey#:#matrix_columns_rows#:#Kolonne/række redigering
 survey#:#maximum#:#Maksimal værdi
 survey#:#median#:#Median
@@ -7068,14 +7068,14 @@ survey#:#survey_error_insert_incomplete_question#:#You tried to add an incomplet
 survey#:#survey_finish#:#afslut spørgeskema
 survey#:#survey_text_textwidth_desc#:#Enter the width in characters for the text input field###29 05 2007 new variable
 survey#:#survey_text_textheight_desc#:#Enter the height in characters for the text input field###29 05 2007 new variable
-survey#:#survey_finished#:#Du har afsluttet spørgeskemaet. Tak for din deltagelse!###28 Feb 2006 content changed
+survey#:#survey_finished#:#Du har nu afsluttet spørgeskemaet. Tak for din deltagelse! <br/><br/>Med venlig hilsen<br/><br/><a href="www.ilias.dk" target="_blank">ILIAS</a>.
 survey#:#survey_has_datasets_warning#:#The survey already contains datasets. You cannot edit the survey questions until you remove these datasets in the maintenance section.###01 Mar 2006 new variable
 survey#:#survey_is_offline#:#Du kan ikke starte spørgeskemaet da det er offline.
 survey#:#survey_next#:#næste >>>
 survey#:#survey_offline_message#:#Kan ikke invitere brugere. Spørgeskemaet er offline!
 survey#:#survey_online_warning#:#Spørgeskemaet er online. Du kan ikke ændre i spørgsmålene!
 survey#:#survey_previous#:#<<< Forrige
-survey#:#survey_question_editor#:#Edit survey questions###29 05 2007 new variable
+survey#:#survey_question_editor#:#Ret undersøgelsesspørgsmål
 survey#:#survey_question_obligatory#:#(Dette spørgsmål er obligatorisk. Du skal svare på dette spørgsmål)
 survey#:#survey_question_optional#:#(Valgfri)
 survey#:#survey_questions#:#Spørgsmål
@@ -8709,77 +8709,77 @@ rbac#:#facs_edit_permission#:#Ret sikkehedsindstillinger
 rbac#:#facs_read#:#Læseadgang til fil- og mappeindstillinger
 rbac#:#facs_visible#:#Fil & mappeindstillinger er synlige
 rbac#:#facs_write#:#Ret fil- og mappeindstillinger
-common#:#objs_mail#:#Mail###06 11 2008 new variable
+common#:#objs_mail#:#Mail
 common#:#assessment_imap_line_color#:#Imagemap Line Color###24 02 2009 new variable
-common#:#msg_wrong_format#:#The value you entered is not a valid format.###24 02 2009 new variable
-common#:#cert_edit_permission#:#Change permission settings###24 02 2009 new variable
-common#:#cert_visible#:#Certificate Settings are visible###24 02 2009 new variable
-common#:#cert_read#:#Read access to Certificate Settings###24 02 2009 new variable
-common#:#cert_write#:#Edit Certificate Settings###24 02 2009 new variable
-gmaps#:#gmaps_lookup_address#:#Lookup Address###24 02 2009 new variable
-common#:#obj_cert#:#Certificates###24 02 2009 new variable
-common#:#obj_cert_desc#:#Settings for certificates###24 02 2009 new variable
-common#:#notes_and_comments#:#Notes and Comments###24 02 2009 new variable
-content#:#cont_ed_insert_plach#:#Insert Placeholder###24 02 2009 new variable
-content#:#cont_ed_plachtext#:#Placeholder Text###24 02 2009 new variable
-content#:#cont_ed_plachmedia#:#Placeholder Media###24 02 2009 new variable
+common#:#msg_wrong_format#:#Den indtastede værdi er ikke i et gyldigt format
+common#:#cert_edit_permission#:#Ændre rettighedsindstillinger
+common#:#cert_visible#:#Certifikatindstillinger er synlige
+common#:#cert_read#:#Læseadgang til certifikatindstillinger
+common#:#cert_write#:#Ret certifikatindstillinger
+gmaps#:#gmaps_lookup_address#:#Adresseopslag
+common#:#obj_cert#:#Certifikater
+common#:#obj_cert_desc#:#Certifikatindstillinger
+common#:#notes_and_comments#:#Noter og kommentarer
+content#:#cont_ed_insert_plach#:#Indsæt pladsholder
+content#:#cont_ed_plachtext#:#Pladsholdertekst
+content#:#cont_ed_plachmedia#:#Pladsholder medie
 content#:#cont_ed_plachquestion#:#Placeholder Question###24 02 2009 new variable
 content#:#cont_ed_plachprop#:#Placeholder Properties###24 02 2009 new variable
 content#:#cont_media_placehl#:#Media Placeholder###24 02 2009 new variable
 content#:#cont_question_placehl#:#Question Placeholder###24 02 2009 new variable
 content#:#cont_text_placehl#:#Text Placeholder###24 02 2009 new variable
-content#:#cont_ed_pglprop#:#Page Layout Properties###24 02 2009 new variable
-style#:#sty_based_on#:#Based on###24 02 2009 new variable
-style#:#sty_add_pgl#:#Add Page Layout###24 02 2009 new variable
-style#:#sty_create_pgl#:#Create Page Layout###24 02 2009 new variable
-style#:#sty_name#:#Name###24 02 2009 new variable
-style#:#sty_example#:#Example###24 02 2009 new variable
-style#:#sty_commands#:#Commands###24 02 2009 new variable
+content#:#cont_ed_pglprop#:#Egenskaber for sidelayout
+style#:#sty_based_on#:#Baseret på
+style#:#sty_add_pgl#:#Tilføj sidelayout
+style#:#sty_create_pgl#:#Lav sidelayout
+style#:#sty_name#:#Navn
+style#:#sty_example#:#Eksempel
+style#:#sty_commands#:#Kommandoer
 style#:#sty_msg_input_must_be_numeric#:#Input must be numeric.###24 02 2009 new variable
-style#:#sty_style_chars#:#Style Classes###24 02 2009 new variable
-style#:#sty_images#:#Images###24 02 2009 new variable
-style#:#sty_add_image#:#Add Image###24 02 2009 new variable
-style#:#sty_width_height#:#Width x Height###24 02 2009 new variable
-style#:#sty_image_file#:#Image File###24 02 2009 new variable
-style#:#sty_horizontal#:#Horizontal###24 02 2009 new variable
-style#:#sty_vertical#:#Vertical###24 02 2009 new variable
+style#:#sty_style_chars#:#Stil klasser
+style#:#sty_images#:#Billeder
+style#:#sty_add_image#:#Tilføj billede
+style#:#sty_width_height#:#bredde x højde
+style#:#sty_image_file#:#Billedfil
+style#:#sty_horizontal#:#Horizontal
+style#:#sty_vertical#:#Vertikal
 style#:#sty_text_block_char#:#Text (Block)###24 02 2009 new variable
 style#:#sty_text_inline_char#:#Text (Character)###24 02 2009 new variable
-style#:#sty_section_char#:#Section###24 02 2009 new variable
-style#:#sty_link_char#:#Link###24 02 2009 new variable
-style#:#sty_table_char#:#Table###24 02 2009 new variable
-style#:#sty_table_cell_char#:#Table Cell###24 02 2009 new variable
-style#:#sty_add_characteristic#:#Add Style Class###24 02 2009 new variable
-style#:#sty_page_char#:#Page###24 02 2009 new variable
-style#:#sty_min_height#:#Minimum Height###24 02 2009 new variable
-style#:#sty_confirm_char_deletion#:#Are you sure that you want to delete the following style classe(s)?###24 02 2009 new variable
+style#:#sty_section_char#:#Sektion
+style#:#sty_link_char#:#Link
+style#:#sty_table_char#:#Tabel
+style#:#sty_table_cell_char#:#Tabelcelle
+style#:#sty_add_characteristic#:#Tilføj stil-klasse
+style#:#sty_page_char#:#Side
+style#:#sty_min_height#:#Mindste højde
+style#:#sty_confirm_char_deletion#:#Er du sikker på du ønsker at slette nedenstående stil-klasse(r)?
 style#:#sty_msg_characteristic_must_only_include#:#The title of style classes may only include the following characters:###24 02 2009 new variable
-style#:#sty_msg_characteristic_already_exists#:#A style class with this title already exisits in this style.###24 02 2009 new variable
-style#:#sty_added_characteristic#:#Added style class.###24 02 2009 new variable
-sahs#:#sahs_new_chapter#:#New Chapter###24 02 2009 new variable
-sahs#:#sahs_new_page#:#New Page###24 02 2009 new variable
+style#:#sty_msg_characteristic_already_exists#:#En stil-klasse med det samme navn eksisterer i forvejen. variable
+style#:#sty_added_characteristic#:#Tilføj stil klasse
+sahs#:#sahs_new_chapter#:#Nyt kapitel
+sahs#:#sahs_new_page#:#Ny side
 sahs#:#sahs_new_sco#:#New SCO###24 02 2009 new variable
-forum#:#frm_moderators#:#Moderators###24 02 2009 new variable
-forum#:#frm_detach_moderator_role#:#Detach Moderator Role###24 02 2009 new variable
-forum#:#frm_moderators_select_at_least_one#:#Please choose at least one moderator.###24 02 2009 new variable
+forum#:#frm_moderators#:#Ordstyrere
+forum#:#frm_detach_moderator_role#:#Fjern ordstyrerrolle
+forum#:#frm_moderators_select_at_least_one#:#Du skal vælge mindst en ordstyrer
 forum#:#frm_moderators_detached_role_successfully#:#The moderator role was detached for all selected users successfully.###24 02 2009 new variable
-forum#:#frm_moderators_search#:#User Search###24 02 2009 new variable
-forum#:#frm_moderators_search_query#:#Searchterm(s)###24 02 2009 new variable
-forum#:#frm_moderators_do_search#:#Search###24 02 2009 new variable
+forum#:#frm_moderators_search#:#Brugersøgning
+forum#:#frm_moderators_search_query#:#Søgeord
+forum#:#frm_moderators_do_search#:#Søg
 forum#:#frm_moderator_role_added_successfully#:#The moderator role was added successfully.###24 02 2009 new variable
 forum#:#frm_moderators_select_one#:#Please choose one user.###24 02 2009 new variable
 forum#:#frm_moderators_not_exist_yet#:#Please choose a moderator. ###24 02 2009 new variable
 forum#:#frm_moderators_matches_in_no_results#:#Your search did not match any results.###24 02 2009 new variable
-payment#:#shop_info#:#Shop Information###24 02 2009 new variable
-content#:#cont_tracking_byuser#:#By User###24 02 2009 new variable
-content#:#cont_tracking_bysco#:#By Chapter###24 02 2009 new variable
-common#:#payment_demo#:#Demo###24 02 2009 new variable
-payment#:#payment_back_to_shop#:#Back to Shop###24 02 2009 new variable
-content#:#cont_adjust_size#:#Adjust Size###24 02 2009 new variable
+payment#:#shop_info#:#Information om shop
+content#:#cont_tracking_byuser#:#Efter bruger
+content#:#cont_tracking_bysco#:#Efter kapitel
+common#:#payment_demo#:#Demo
+payment#:#payment_back_to_shop#:#Tilbage til shoppen
+content#:#cont_adjust_size#:#Juster størrelse
 content#:#cont_use_same_resource_as_above#:#Use the same resource as above###24 02 2009 new variable
 content#:#cont_constrain_proportions#:#Constrain Proportions###24 02 2009 new variable
-common#:#add_parameter#:#New Parameter###24 02 2009 new variable
-common#:#delete_parameter#:#Delete Parameter###24 02 2009 new variable
+common#:#add_parameter#:#Nyt parameter
+common#:#delete_parameter#:#Slet parameter
 common#:#confirm_delete_parameter#:#Do you really want to delete the parameter?###24 02 2009 new variable
 assessment#:#assFlashQuestion#:#Flash Question###24 02 2009 new variable
 content#:#cont_resource_size#:#Resource Size###24 02 2009 new variable
@@ -8892,7 +8892,7 @@ shib#:#shib_attribute#:#User Attribute###24 02 2009 new variable
 shib#:#shib_attribute_name#:#Attribute Name###24 02 2009 new variable
 shib#:#shib_attribute_value#:#Attribute Value###24 02 2009 new variable
 shib#:#shib_attr_info#:#Assign by a specific attribute in the Shibboleth User Profile.###24 02 2009 new variable
-shib#:#shib_missing_role#:#Please select one role.###24 02 2009 new variable
+shib#:#shib_missing_role#:#Vælg en rolle.
 shib#:#shib_missing_attr_name#:#Please enter the attribute name.###24 02 2009 new variable
 shib#:#shib_missing_attr_value#:#Please enter the attribute value.###24 02 2009 new variable
 shib#:#shib_rules_tables#:#Active Role Assignment Rules###24 02 2009 new variable
@@ -8914,37 +8914,37 @@ shib#:#shib_choose_role#:#Choose Role###24 02 2009 new variable
 shib#:#shib_add_remove#:#Add/Remove Roles###24 02 2009 new variable
 common#:#page_layouts#:#Page Layouts###24 02 2009 new variable
 common#:#page_layout#:#Page Layout###24 02 2009 new variable
-style#:#sty_list_char#:#List###24 02 2009 new variable
-style#:#sty_media_char#:#Media###24 02 2009 new variable
-style#:#sty_question_char#:#Question###24 02 2009 new variable
+style#:#sty_list_char#:#Liste
+style#:#sty_media_char#:#Medie
+style#:#sty_question_char#:#Spørgsmål
 style#:#sty_sco_char#:#SCO & Objective###24 02 2009 new variable
-style#:#sty_ol#:#Numbered List###24 02 2009 new variable
-style#:#sty_ul#:#Bullet List###24 02 2009 new variable
-style#:#sty_list_style_type#:#List Style Type###24 02 2009 new variable
+style#:#sty_ol#:#Nummereret liste
+style#:#sty_ul#:#Punkt-liste
+style#:#sty_list_style_type#:#Stiltype
 style#:#sty_list_style_position#:#List Style Position###24 02 2009 new variable
 style#:#sty_list_style_image#:#List Style Image###24 02 2009 new variable
-style#:#sty_table#:#Table###24 02 2009 new variable
+style#:#sty_table#:#Tabel
 style#:#sty_border_collapse#:#Border Collapse###24 02 2009 new variable
-style#:#sty_type_media#:#Media###24 02 2009 new variable
+style#:#sty_type_media#:#Medie
 style#:#sty_type_media_caption#:#Media Caption###24 02 2009 new variable
-style#:#sty_type_text_block#:#Text Block###24 02 2009 new variable
-style#:#sty_type_text_inline#:#Character###24 02 2009 new variable
-style#:#sty_type_section#:#Section###24 02 2009 new variable
-style#:#sty_type_link#:#Link###24 02 2009 new variable
-style#:#sty_type_table#:#Table###24 02 2009 new variable
-style#:#sty_type_table_cell#:#Table Cell###24 02 2009 new variable
-style#:#sty_type_list_item#:#List Item###24 02 2009 new variable
-style#:#sty_type_list_o#:#Numbered List###24 02 2009 new variable
-style#:#sty_type_list_u#:#Bulleted List###24 02 2009 new variable
-style#:#sty_type_question#:#Question###24 02 2009 new variable
-style#:#sty_type_page#:#Page###24 02 2009 new variable
+style#:#sty_type_text_block#:#Textblok
+style#:#sty_type_text_inline#:#Karakter
+style#:#sty_type_section#:#Sektion
+style#:#sty_type_link#:#Link
+style#:#sty_type_table#:#Tabel
+style#:#sty_type_table_cell#:#Tabelcelle
+style#:#sty_type_list_item#:#Listeelement
+style#:#sty_type_list_o#:#Nummereret liste
+style#:#sty_type_list_u#:#Punktliste
+style#:#sty_type_question#:#Spørgsmål
+style#:#sty_type_page#:#Side
 style#:#sty_type#:#Type###24 02 2009 new variable
 style#:#sty_type_sco#:#SCO###24 02 2009 new variable
 content#:#cont_StandardTable#:#Standard Table###24 02 2009 new variable
 style#:#sty_opacity#:#Opacity###24 02 2009 new variable
 style#:#sty_positioning#:#Positioning###24 02 2009 new variable
-style#:#sty_width#:#Width###24 02 2009 new variable
-style#:#sty_height#:#Height###24 02 2009 new variable
+style#:#sty_width#:#Bredde
+style#:#sty_height#:#Højde
 style#:#sty_overflow#:#Overflow###24 02 2009 new variable
 style#:#sty_position#:#Position###24 02 2009 new variable
 content#:#cont_Media#:#Media (Standard)###24 02 2009 new variable
@@ -9001,14 +9001,14 @@ common#:#session_reminder_alert#:#Your session expires in 5 minutes. Please choo
 common#:#session_reminder#:#Session-Reminder###24 02 2009 new variable
 common#:#session_reminder_info#:#If enabled, you receive a reminder before your session expires.###24 02 2009 new variable
 ecs#:#ecs_no_owner#:#Please select one community name.###24 02 2009 new variable
-export#:#export_select_resources#:#Select Resources###24 02 2009 new variable
-export#:#export_resource#:#Resource###24 02 2009 new variable
-export#:#export_last_export_file#:#Use Last Export File###24 02 2009 new variable
-export#:#export_last_export#:#Last Export###24 02 2009 new variable
-export#:#export_create_new_file#:#Create New Export File###24 02 2009 new variable
-export#:#export_omit_resource#:#Omit Resource###24 02 2009 new variable
-export#:#export_omit#:#Omit###24 02 2009 new variable
-export#:#export_create#:#Create###24 02 2009 new variable
+export#:#export_select_resources#:#Vælg resurser
+export#:#export_resource#:#Resurse
+export#:#export_last_export_file#:#Brug sidste eksportfil
+export#:#export_last_export#:#Sidste eksport
+export#:#export_create_new_file#:#Lav ny eksportfil
+export#:#export_omit_resource#:#Udelad resurse
+export#:#export_omit#:#Udelad
+export#:#export_create#:#Lav
 export#:#export_last_file#:#Last File###24 02 2009 new variable
 export#:#export_export_date#:#Export Date###24 02 2009 new variable
 common#:#session_reminder_extended#:#Your Session was extended for %s###24 02 2009 new variable
@@ -9038,17 +9038,17 @@ assessment#:#element_height_info#:#This is the minimum height in pixels for term
 assessment#:#assOrderingHorizontal#:#Ordering Question (Horizontal)###24 02 2009 new variable
 assessment#:#ordertext#:#Ordering Text###24 02 2009 new variable
 assessment#:#ordertext_info#:#Please enter the text that should be ordered horizontally. The ordering text will be separated by the whitespace signs in the text. If you need a different separation, you may use the separator %s to separate your text units.###24 02 2009 new variable
-assessment#:#textsize#:#Text Size###24 02 2009 new variable
+assessment#:#textsize#:#Tekststørrelse
 assessment#:#textsize_info#:#Enter the text size of the ordering text in percent if you want another size than 100 percent.###24 02 2009 new variable
 common#:#loginname_settings#:#Loginname-Settings###24 02 2009 new variable
 common#:#allow_change_loginname#:#Allow to change the login name###24 02 2009 new variable
 common#:#create_history_loginname#:#Create a history for changed login names###24 02 2009 new variable
 common#:#allow_history_loginname_again#:#It is allowed to use login names again, which are saved in the history###24 02 2009 new variable
-common#:#loginname_already_exists#:#This login name already exists.###24 02 2009 new variable
+common#:#loginname_already_exists#:#Det valgte brugernavn eksisterer i forvejen og kan derfor ikke anvendes.
 common#:#create_history_loginname_must_be_enabled#:#To reuse login names the history must be enabled.###24 02 2009 new variable
 ecs#:#ecs_unique_id#:#Deltager id
 ecs#:#ecs_new_category_mapping#:#New Assignment of Course-Links to Categories###24 02 2009 new variable
-ecs#:#ecs_attribute_name#:#Attribute Name###24 02 2009 new variable
+ecs#:#ecs_attribute_name#:#Attributnavn
 ecs#:#ecs_cat_mapping_type#:#Assignment Type###24 02 2009 new variable
 ecs#:#ecs_cat_mapping_fixed#:#Fixed Values###24 02 2009 new variable
 ecs#:#ecs_cat_mapping_values#:#Attribute Value###24 02 2009 new variable
@@ -9062,15 +9062,15 @@ ecs#:#ecs_field_part_id#:#Participant ID###24 02 2009 new variable
 ecs#:#ecs_category_mapping#:#Assignment to Categories###24 02 2009 new variable
 ecs#:#ecs_tbl_active_rules#:#Active Rules for Category Assignment###24 02 2009 new variable
 ecs#:#ecs_edit_category_mapping#:#Edit Assignment###24 02 2009 new variable
-common#:#chat_enter_public_room#:#Public Chat###24 02 2009 new variable
-common#:#chat_enter_public_room_tooltip#:#Enter public chat.###24 02 2009 new variable
-common#:#chat_invite_public_room_tooltip#:#Invite to public chat.###24 02 2009 new variable
+common#:#chat_enter_public_room#:#Chat
+common#:#chat_enter_public_room_tooltip#:#Gå til chat
+common#:#chat_invite_public_room_tooltip#:#Invitation til den offentlige chat
 assessment#:#assFileUpload#:#File Upload Question###24 02 2009 new variable
 assessment#:#allowedextensions#:#Allowed File Extensions###24 02 2009 new variable
 assessment#:#allowedextensions_info#:#Enter a comma separated list of allowed file extensions if you want to restrict the upload to a given set of file extensions (e.g. doc,xls,odt).###24 02 2009 new variable
-assessment#:#maxsize#:#Maximum file upload size ###24 02 2009 new variable
+assessment#:#maxsize#:#Maksimal størrelse på uploadede filer
 assessment#:#maxsize_info#:#Enter the maximum size in bytes that should be allowed for file uploads. If you leave this field empty, the maximum size of this installation will be chosen instead.###24 02 2009 new variable
-common#:#save_customer_address#:#Store billing address###24 02 2009 new variable
+common#:#save_customer_address#:#Gem faktureringsadresse
 common#:#save_customer_address_info#:#If enabled, the customers billing address will be stored###24 02 2009 new variable
 common#:#bookings#:#Bookings###24 02 2009 new variable
-forum#:#frm_sure_delete_threads#:#Are you sure you want to delete the following threads###24 02 2009 new variable
+forum#:#frm_sure_delete_threads#:#Er du sikker på du ønsker at slette disse tråde?
