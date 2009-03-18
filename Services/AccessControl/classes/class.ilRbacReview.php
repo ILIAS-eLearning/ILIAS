@@ -643,7 +643,8 @@ class ilRbacReview
              "JOIN object_reference AS r ON r.ref_id=t.child ".
              "JOIN object_data AS o ON o.obj_id=r.obj_id ".
              "WHERE t.parent ".$in." ".
-             "AND o.type='rolf'";
+             "AND o.type='rolf' ".
+             "ORDER BY t.depth ASC ";
         $r = $this->ilDB->query($q);
 
         while ($row = $r->fetchRow(DB_FETCHMODE_OBJECT))
