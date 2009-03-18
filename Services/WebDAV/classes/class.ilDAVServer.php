@@ -400,9 +400,8 @@ class ilDAVServer extends HTTP_WebDAV_Server
 		/* Some clients, for example WebDAV-Sync, need a trailing slash at the
 		 * end of a resource path to a collection.
 		 * However Mac OS X does not like this!
-		 * XXX -> Check with Mac OS X 10.5 whether this is still a problem
 		 */
-		if ($objDAV->isCollection()) {
+		if ($objDAV->isCollection() && $this->clientOSFlavor != 'osx') {
 			$info['path'] = $resourcePath.'/';
 		} else {
 			$info['path'] = $resourcePath;
