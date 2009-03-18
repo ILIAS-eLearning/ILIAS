@@ -776,51 +776,55 @@ div.il_MainMenu
 	background-repeat: repeat-x;
 	background-position: bottom;	
 	margin: 0px;
-	width: 100%;
-	padding:0px 0px 6px 0px;
+	padding:3px 0px 6px 15px;
 	line-height: normal;
 }
 
 a.MMInactive:link, a.MMInactive:visited
 {
 	color:#FFFFFF;
-    padding: 0px 0px;
-	font-size: 80%;
+    padding: 1px 5px 5px 5px;
+	font-size: 90%;
 	text-decoration:none;
-	margin: 0px 0px 5px 15px;
+	margin: 0px 5px 0px 5px;
 	font-weight: normal;
 	white-space: nowrap;
 }
 
 a.MMInactive:hover
 {
-	color: #8CC6FF;
-    padding: 0px 0px;
-	font-size: 80%;
-	text-decoration:none;
-	margin: 0px 0px 5px 15px;
-	font-weight: normal;
+	background-color: #F0F0FF;
+	color:#202020; 
+	opacity: 0.65;
+	-ms-filter:"progid:DXImageTransform.Microsoft.Alpha(Opacity=65)";
+	filter: alpha(opacity=65);
+	-moz-opacity: 0.65;
+	border-top-color: #A0A0A0;
+	border-top-style: solid;
+	border-top-width: 1px;
 }
 
 a.MMActive:link, a.MMActive:visited
 {
-	color: #8CC6FF;
-    padding: 0px 0px;
-	font-size: 80%;
+	/* color: #8CC6FF; */
+	color:#202020;
+	background-color: #F0F0FF;
+    padding: 1px 5px 5px 5px;
+	font-size: 90%;
 	text-decoration:none;
-	margin: 0px 0px 5px 15px;
+	margin: 0px 5px 0px 5px;
 	font-weight: normal;
 	white-space: nowrap;
+	opacity: 0.83;
+	-ms-filter:"progid:DXImageTransform.Microsoft.Alpha(Opacity=83)";
+	filter: alpha(opacity=83);
+	-moz-opacity: 0.83;
 }
 
 a.MMActive:hover
 {
-	color: #8CC6FF;
-    padding: 0px 0px;
-	font-size: 80%;
-	text-decoration:none;
-	margin: 0px 0px 5px 15px;
-	font-weight: normal;
+	background-color: #FFFFFF;
+	color:#000000;
 }
 
 /* Tabs */
@@ -2170,6 +2174,10 @@ div.il_SearchFragment
 }
 
 /* Selection Lists */
+div.il_adv_cont {
+	background-image:url(images/25black.png); 
+}
+	
 table.il_adv_sel {
 	color:#000000;
 	background-color:#FFFFFF;
@@ -2177,11 +2185,12 @@ table.il_adv_sel {
 	border-collapse:collapse;
 	border-width:1px;
 	border-style:solid;
-	border-color: #E0E0E0;
-	opacity: 0.93;
+	border-color: #A0A0A0;
+	cursor: pointer;
+	/*opacity: 0.93;
 	-ms-filter:"progid:DXImageTransform.Microsoft.Alpha(Opacity=93)";
 	filter: alpha(opacity=93);
-	-moz-opacity: 0.93;
+	-moz-opacity: 0.93;*/
 }
 
 tr.il_adv_sel {

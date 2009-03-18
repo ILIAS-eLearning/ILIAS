@@ -12,11 +12,13 @@
 <!-- BEGIN top_img --><img border="0" src="{IMG_DOWN}" alt="{ALT_SEL_TOP}"/><!-- END top_img --> {TXT_SEL_TOP}
 </a>
 </span>
-<table onmouseover="ilAdvSelListOn('{ID}');" onmouseout="ilAdvSelListOff('{ID}');" style="clear:both; display:none; position:absolute;" class="il_adv_sel" id="ilAdvSelListTable_{ID}">
+<div class="il_adv_cont" style="clear:both; display:none; position:absolute;" id="ilAdvSelListTable_{ID}">
+<table style="position:relative; top:-3px; left:-3px;" onmouseover="ilAdvSelListOn('{ID}');" onmouseout="ilAdvSelListOff('{ID}');" class="il_adv_sel">
 <!-- BEGIN item -->
 <tr class="il_adv_sel" onmouseover="ilAdvSelItemOn(this);" onmouseout="ilAdvSelItemOff(this);" onclick="parent.location='{HREF_ITEM}';"><!-- BEGIN no_image --><td class="il_adv_sel"></td><!-- END no_image --><!-- BEGIN image --><td class="il_adv_sel"><img src="{IMG_ITEM}" alt="{ALT_ITEM}"/></td><!-- END image --><td class="il_adv_sel"><span <!-- BEGIN item_link_class -->class="{ITEM_LINK_CLASS}"<!-- END item_link_class --> <!-- BEGIN frame -->target="{TARGET_ITEM}"<!-- END frame -->>{TXT_ITEM}</span></td></tr>
 <!-- END item -->
 </table>
+</div>
 <script type="text/javascript">
 //<![CDATA[
 il_adv_sel_lists.push('{ID}');

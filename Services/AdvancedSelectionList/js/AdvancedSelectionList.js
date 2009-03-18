@@ -188,8 +188,8 @@ function ilShowAdvSelList(id)
 	);*/
 
 	//obj.style.left = anchor.offsetLeft + 'px';
-	obj.style.left = absLeft(anchor) + 'px';
-	obj.style.top = (absTop(anchor) + anchor.offsetHeight) + 'px';
+	obj.style.left = (absLeft(anchor) + 3) + 'px';
+	obj.style.top = ((absTop(anchor) + anchor.offsetHeight) + 3) + 'px';
 	obj.style.display='';
 	
 	var top = ilGetOffsetTop(obj);
