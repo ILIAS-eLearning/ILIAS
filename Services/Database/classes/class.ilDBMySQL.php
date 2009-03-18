@@ -243,7 +243,7 @@ class ilDBMySQL extends ilDB
 //		if (substr($version,0,1) == "4")
 //		{
 			ini_get("post_max_size");
-			$query = "SET GLOBAL max_allowed_packet = ".(int) ini_get("post_max_size") * 1024 * 1024;
+			$query = "SET SESSION max_allowed_packet = ".(int) ini_get("post_max_size") * 1024 * 1024;
 //echo "-".$query."-";
 			$this->query($query);
 //		}
