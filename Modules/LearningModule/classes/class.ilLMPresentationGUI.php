@@ -1520,6 +1520,19 @@ class ilLMPresentationGUI
 			$page_id = $a_page_id;
 		}
 
+		// content style
+		$this->tpl->setCurrentBlock("ContentStyle");
+		if (!$this->offlineMode())
+		{
+			$this->tpl->setVariable("LOCATION_CONTENT_STYLESHEET",
+				ilObjStyleSheet::getContentStylePath($this->lm->getStyleSheetId()));
+		}
+		else
+		{
+			$this->tpl->setVariable("LOCATION_CONTENT_STYLESHEET", "content.css");
+		}
+		$this->tpl->parseCurrentBlock();
+
 		// no active page found in chapter
 		if ($this->chapter_has_no_active_page &&
 			ilLMObject::_lookupType($_GET["obj_id"]) == "st")
@@ -1636,19 +1649,6 @@ class ilLMPresentationGUI
 		{
 			$page_object_gui->setOutputSubmode("translation");
 		}
-
-		// content style
-		$this->tpl->setCurrentBlock("ContentStyle");
-		if (!$this->offlineMode())
-		{
-			$this->tpl->setVariable("LOCATION_CONTENT_STYLESHEET",
-				ilObjStyleSheet::getContentStylePath($this->lm->getStyleSheetId()));
-		}
-		else
-		{
-			$this->tpl->setVariable("LOCATION_CONTENT_STYLESHEET", "content.css");
-		}
-		$this->tpl->parseCurrentBlock();
 
 		// syntax style
 		$this->tpl->setCurrentBlock("SyntaxStyle");
