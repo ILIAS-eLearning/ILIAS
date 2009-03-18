@@ -280,9 +280,9 @@ abstract class ilContainerContentGUI
 		// show administration command buttons (or not)
 		if (!$this->getContainerGUI()->isActiveAdministrationPanel())
 		{
-			$item_list_gui->enableDelete(false);
-			$item_list_gui->enableLink(false);
-			$item_list_gui->enableCut(false);
+//			$item_list_gui->enableDelete(false);
+//			$item_list_gui->enableLink(false);
+//			$item_list_gui->enableCut(false);
 		}
 
 		// container specific modifications
