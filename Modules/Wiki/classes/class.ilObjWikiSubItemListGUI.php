@@ -22,19 +22,20 @@
 */
 
 include_once './Services/Object/classes/class.ilSubItemListGUI.php';
-include_once './Modules/Glossary/classes/class.ilGlossaryTerm.php';
+include_once './Modules/Wiki/classes/class.ilWikiPage.php';
+include_once './Modules/Wiki/classes/class.ilObjWikiGUI.php';
 include_once './classes/class.ilLink.php';
 
 /** 
-* Show glossary terms
+* Show wiki pages
 * 
 * @author Stefan Meyer <meyer@leifos.com>
 * @version $Id$
 * 
 *
-* @ingroup ModulesGlossary
+* @ingroup ModulesWiki
 */
-class ilObjGlossarySubItemListGUI extends ilSubItemListGUI
+class ilObjWikiSubItemListGUI extends ilSubItemListGUI
 {
 	/**
 	 * get html 
@@ -54,14 +55,13 @@ class ilObjGlossarySubItemListGUI extends ilSubItemListGUI
 				$this->tpl->parseCurrentBlock();
 			}
 			$this->tpl->setCurrentBlock('subitem');
-			$this->tpl->setVariable('SUBITEM_TYPE',$lng->txt('cont_term'));
+			$this->tpl->setVariable('SUBITEM_TYPE',$lng->txt('obj_pg'));
 			$this->tpl->setVariable('SEPERATOR',':');
 			
 			#$this->getItemListGUI()->setChildId($sub_item);
-			$this->tpl->setVariable('LINK',ilLink::_getLink($this->getRefId(),'git',
-				array('target' => 'git_'.$sub_item.'_'.$this->getRefId())));
+			$this->tpl->setVariable('LINK',ilObjWikiGUI::getGotoLink($this->getRefId(),$sub_item));
 			$this->tpl->setVariable('TARGET',$this->getItemListGUI()->getCommandFrame(''));
-			$this->tpl->setVariable('TITLE',ilGlossaryTerm::_lookGlossaryTerm($sub_item));			
+			$this->tpl->setVariable('TITLE',ilWikiPage::lookupTitle($sub_item));			
 			$this->tpl->parseCurrentBlock();
 		}
 		

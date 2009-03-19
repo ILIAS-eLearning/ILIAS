@@ -3,5 +3,34 @@
 	<Document type="default">
 		<xi:include href="../../Services/Object/LuceneDataSource.xml" />
 		<xi:include href="../../Services/Tagging/LuceneDataSource.xml" />
+		<DataSource type="JDBC" action="append">
+			<Query>
+				SELECT introduction 
+				FROM il_wiki_data
+				WHERE id IN(?);
+			</Query>
+			<Param format="list" type="int" value="objId" />
+			<Field store="YES" index="ANALYZED" column="introduction" name="propertyLow" />
+		</DataSource>
+	</Document>
+	<Document type="subItem">
+		<DataSource type="JDBC" action="create">
+			<Query>
+				SELECT 'wiki' type,id,title,wiki_id,create_user,content
+				FROM il_wiki_page wp
+				JOIN page_object po ON wp.id = po.page_id
+				WHERE wiki_id IN (?)
+				AND parent_type = 'wpg';
+			</Query>
+			<Param format="list" type="int" value="objId" />
+			<Field store="YES" index="ANALYZED" column="title" name="propertyMedium" />
+			<Field store="YES" index="ANALYZED" column="content" name="content">
+				<Transformer name="ContentObjectTransformer" />
+			</Field>
+			<Field store="YES" index="NOT_ANALYZED" column="create_user" name="owner" />
+			<Field store="YES" index="NOT_ANALYZED" column="id" name="subItem" />
+			<Field global="NO" store="YES" index="NOT_ANALYZED" column="wiki_id" name="objId" />
+			<Field global="NO" store="YES" index="NOT_ANALYZED" column="type" name="type" />
+		</DataSource>
 	</Document>
 </ObjectDefinition>
