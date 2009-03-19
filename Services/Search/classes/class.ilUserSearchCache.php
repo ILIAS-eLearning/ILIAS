@@ -339,9 +339,9 @@ class ilUserSearchCache
 */
 		/**/
 		if(!$this->usr_id) $this->usr_id = 0;
-		if(!$this->search_result) $this->search_result = NULL;
-		if(!$this->checked) $this->checked = NULL;
-		if(!$this->failed) $this->failed = NULL;
+		#if(!$this->search_result) $this->search_result = NULL;
+		#if(!$this->checked) $this->checked = NULL;
+		#if(!$this->failed) $this->failed = NULL;
 		if(!$this->page_number) $this->page_number = 0;
 		if(!$this->search_type) $this->search_type = 0;
 		/**/
