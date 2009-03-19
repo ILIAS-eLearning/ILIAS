@@ -275,7 +275,7 @@ public class CommandQueue {
 		// TODO: Error handling
 		
 		PreparedStatement sta = db.prepareStatement(
-			"SELECT DISTINCT(oda.obj_id) FROM object_data oda JOIN object_reference ore ON oda.obj_id = ore.obj_id WHERE deleted = '0000-00-00 00:00:00' AND type = ?");
+			"SELECT DISTINCT(oda.obj_id) FROM object_data oda JOIN object_reference ore ON oda.obj_id = ore.obj_id WHERE (deleted = '0000-00-00 00:00:00' OR deleted IS NULL) AND type = ?");
 		sta.setString(1, objType);
 		ResultSet res = sta.executeQuery();
 		
@@ -339,17 +339,25 @@ public class CommandQueue {
 	 */
 	public void debugAll() throws SQLException {
 		
-		PreparedStatement resetType = db.prepareStatement(
-				"INSERT INTO search_command_queue SET obj_id = ?,obj_type = ?, sub_id = ?, sub_type = ?, command = ?, last_update = ?, finished = ? ");
-		resetType.setInt(1,0);
-		resetType.setString(2,"");
-		resetType.setInt(3,0);
-		resetType.setString(4,"");
-		resetType.setString(5,"rebuild_index");
-		resetType.setDate(6,new java.sql.Date(new java.util.Date().getTime()));
-		resetType.setInt(7,0);
-
-		resetType.executeUpdate();
+		try {
+			
+			PreparedStatement resetType = db.prepareStatement(
+					"INSERT INTO search_command_queue SET obj_id = ?,obj_type = ?, sub_id = ?, sub_type = ?, command = ?, last_update = ?, finished = ? ");
+			resetType.setInt(1,0);
+			resetType.setString(2,"");
+			resetType.setInt(3,0);
+			resetType.setString(4,"");
+			resetType.setString(5,"rebuild_index");
+			resetType.setDate(6,new java.sql.Date(new java.util.Date().getTime()));
+			resetType.setInt(7,0);
+	
+			int affectedRows = resetType.executeUpdate();
+			
+			logger.debug("Affected rows: " + affectedRows);
+		}
+		catch (Exception e) {
+			logger.error(e);
+		}
 	}
 	
 	public void debugDelete() throws SQLException {

@@ -75,6 +75,10 @@ public class CommandController {
 		//queue.debug("fold");
 		//queue.debug("grp");
 		//queue.debug("lm");
+		//queue.debug("glo");
+		//queue.debug("svy");
+		//queue.debug("wiki");
+		//queue.debug("mep");
 		queue.debugAll();
 		queue.loadFromDb();
 		
