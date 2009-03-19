@@ -792,6 +792,7 @@
 		<xsl:when test="not (@Characteristic) or @Characteristic != 'Code'">
 		<div>
 			<xsl:call-template name="ShowParagraph"/>
+			<xsl:comment>Break</xsl:comment>
 		</div>
 		</xsl:when>
 		<xsl:otherwise>
@@ -2468,6 +2469,7 @@
 		<xsl:if test="$mode = 'edit'">
 			<br />
 		</xsl:if>
+		<xsl:comment>Break</xsl:comment>
 	</div>
 </xsl:template>
 
