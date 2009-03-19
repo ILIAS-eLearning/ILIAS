@@ -75,12 +75,14 @@ class ilMDTaxon extends ilMDBase
 
 	function save()
 	{
-		if($this->db->autoExecute('il_meta_taxon',
-								  $this->__getFields(),
-								  DB_AUTOQUERY_INSERT))
+		global $ilDB;
+		
+		$fields = $this->__getFields();
+		$fields['meta_taxon_id'] = array('integer',$next_id = $ilDB->nextId('il_meta_taxon'));
+		
+		if($this->db->insert('il_meta_taxon',$fields))
 		{
-			$this->setMetaId($this->db->getLastInsertId());
-
+			$this->setMetaId($next_id);
 			return $this->getMetaId();
 		}
 		return false;
@@ -92,10 +94,9 @@ class ilMDTaxon extends ilMDBase
 		
 		if($this->getMetaId())
 		{
-			if($this->db->autoExecute('il_meta_taxon',
-									  $this->__getFields(),
-									  DB_AUTOQUERY_UPDATE,
-									  "meta_taxon_id = ".$ilDB->quote($this->getMetaId())))
+			if($this->db->update('il_meta_taxon',
+									$this->__getFields(),
+									array("meta_taxon_id" => array('integer',$this->getMetaId()))))
 			{
 				return true;
 			}
@@ -110,7 +111,7 @@ class ilMDTaxon extends ilMDBase
 		if($this->getMetaId())
 		{
 			$query = "DELETE FROM il_meta_taxon ".
-				"WHERE meta_taxon_id = ".$ilDB->quote($this->getMetaId());
+				"WHERE meta_taxon_id = ".$ilDB->quote($this->getMetaId() ,'integer');
 			
 			$this->db->query($query);
 			
@@ -122,14 +123,14 @@ class ilMDTaxon extends ilMDBase
 
 	function __getFields()
 	{
-		return array('rbac_id'	=> $this->getRBACId(),
-					 'obj_id'	=> $this->getObjId(),
-					 'obj_type'	=> $this->getObjType(),
-					 'parent_type' => $this->getParentType(),
-					 'parent_id' => $this->getParentId(),
-					 'taxon'	=> $this->getTaxon(),
-					 'taxon_language' => $this->getTaxonLanguageCode(),
-					 'taxon_id'	=> $this->getTaxonId());
+		return array('rbac_id'	=> array('integer',$this->getRBACId()),
+					 'obj_id'	=> array('integer',$this->getObjId()),
+					 'obj_type'	=> array('text',$this->getObjType()),
+					 'parent_type' => array('text',$this->getParentType()),
+					 'parent_id' => array('integer',$this->getParentId()),
+					 'taxon'	=> array('text',$this->getTaxon()),
+					 'taxon_language' => array('text',$this->getTaxonLanguageCode()),
+					 'taxon_id'	=> array('text',$this->getTaxonId()));
 	}
 
 	function read()
@@ -141,7 +142,7 @@ class ilMDTaxon extends ilMDBase
 		if($this->getMetaId())
 		{
 			$query = "SELECT * FROM il_meta_taxon ".
-				"WHERE meta_taxon_id = ".$ilDB->quote($this->getMetaId());
+				"WHERE meta_taxon_id = ".$ilDB->quote($this->getMetaId() ,'integer');
 
 			$res = $this->db->query($query);
 			while($row = $res->fetchRow(DB_FETCHMODE_OBJECT))
@@ -181,10 +182,10 @@ class ilMDTaxon extends ilMDBase
 		global $ilDB;
 
 		$query = "SELECT meta_taxon_id FROM il_meta_taxon ".
-			"WHERE rbac_id = ".$ilDB->quote($a_rbac_id)." ".
-			"AND obj_id = ".$ilDB->quote($a_obj_id)." ".
-			"AND parent_id = ".$ilDB->quote($a_parent_id)." ".
-			"AND parent_type = ".$ilDB->quote($a_parent_type);
+			"WHERE rbac_id = ".$ilDB->quote($a_rbac_id ,'integer')." ".
+			"AND obj_id = ".$ilDB->quote($a_obj_id ,'integer')." ".
+			"AND parent_id = ".$ilDB->quote($a_parent_id ,'integer')." ".
+			"AND parent_type = ".$ilDB->quote($a_parent_type ,'text');
 
 
 		$res = $ilDB->query($query);

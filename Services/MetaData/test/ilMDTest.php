@@ -479,5 +479,51 @@ class ilMDTest extends PHPUnit_Framework_TestCase
 		
 		$con->delete();
 	}
+
+	/**
+	 * test MetaData
+	 * @return
+	 */
+	public function testRights()
+	{
+		include_once './Services/MetaData/classes/class.ilMDRights.php';
+		include_once 'Services/MetaData/classes/class.ilMDLanguageItem.php';
+
+		$con = new ilMDRights(1,2,'xxx');
+		$con->setDescription('Amaya');
+		$ret = $con->save();		 
+		$this->assertGreaterThan(0,$ret);
+		
+		$con->setDescription('Opera');
+		$con->update();
+		$con->read();
+		$desc = $con->getDescription();
+		$this->assertEquals('Opera',$desc);
+		
+		$con->delete();
+	}
+
+	/**
+	 * test MetaData
+	 * @return
+	 */
+	public function testTaxon()
+	{
+		include_once './Services/MetaData/classes/class.ilMDTaxon.php';
+		include_once 'Services/MetaData/classes/class.ilMDLanguageItem.php';
+
+		$con = new ilMDTaxon(1,2,'xxx');
+		$con->setTaxon('Amaya');
+		$ret = $con->save();		 
+		$this->assertGreaterThan(0,$ret);
+		
+		$con->setTaxon('Opera');
+		$con->update();
+		$con->read();
+		$desc = $con->getTaxon();
+		$this->assertEquals('Opera',$desc);
+		
+		$con->delete();
+	}
 }
 ?>

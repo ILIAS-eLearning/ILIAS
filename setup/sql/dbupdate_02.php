@@ -10717,3 +10717,25 @@ $ilDB->dropTableColumn('qpl_a_ordering', 'points');
 <?php
 $ilDB->dropTableColumn('qpl_a_ordering', 'aorder');
 ?>
+ 
+<#2222>  
+ALTER TABLE `il_meta_rights` CHANGE `copyright_and_other_restrictions` `cpr_and_or` CHAR( 3 ) NULL DEFAULT NULL;
+
+<#2223>
+ALTER TABLE `il_meta_rights` CHANGE `description` `description` VARCHAR( 4000 ) NULL DEFAULT NULL;  
+
+<#2224>
+<?php
+	$ilMySQLAbstraction->performAbstraction('il_meta_rights');
+?>
+
+<#2225>
+ALTER TABLE `il_meta_taxon` CHANGE `taxon` `taxon` VARCHAR( 4000 ) NULL DEFAULT NULL;
+
+<#2226>
+ALTER TABLE `il_meta_taxon` CHANGE `taxon_id` `taxon_id` VARCHAR( 4000 ) NULL DEFAULT NULL;
+
+<#2227>
+<?php
+	$ilMySQLAbstraction->performAbstraction('il_meta_taxon');
+?>
