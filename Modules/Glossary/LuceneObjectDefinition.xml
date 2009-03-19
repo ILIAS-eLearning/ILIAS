@@ -7,7 +7,7 @@
 	<Document type="subItem">
 		<DataSource type="JDBC" action="create">
 			<Query>
-				SELECT term,content,glo_id,id
+				SELECT 'glo' type,term,content,glo_id,id
 				FROM glossary_term gt
 				JOIN page_object po ON gt.id = page_id
 				WHERE glo_id IN (?)
@@ -18,8 +18,9 @@
 			<Field store="YES" index="ANALYZED" column="content" name="propertyMedium">
 				<Transformer name="ContentObjectTransformer" />
 			</Field>
-			<Field store="YES" index="NOT_ANALYZED" column="glo_id" name="objId" global="NO" />
 			<Field store="YES" index="NOT_ANALYZED" column="id" name="subItem" />
+			<Field global="NO" store="YES" index="NOT_ANALYZED" column="glo_id" name="objId"  />
+			<Field global="NO" store="YES" index="NOT_ANALYZED" column="type" name="type"  />
 		</DataSource>
 	</Document>
 </ObjectDefinition>

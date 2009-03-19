@@ -7,7 +7,7 @@
 	<Document type="subItem">
 		<DataSource type="JDBC" action="create">
 			<Query>
-				SELECT thr_subject,thr_usr_id, thr_pk, top_frm_fk 
+				SELECT 'frm' type,thr_subject,thr_usr_id, thr_pk, top_frm_fk 
 				FROM frm_data JOIN frm_threads ON top_pk = thr_top_fk
 				WHERE top_frm_fk IN (?)
 			</Query>
@@ -16,6 +16,7 @@
 			<Field store="YES" index="NOT_ANALYZED" column="thr_usr_id" name="owner" />
 			<Field store="YES" index="NOT_ANALYZED" column="thr_pk" name="subItem" />
 			<Field global="NO" store="YES" index="NOT_ANALYZED" column="top_frm_fk" name="objId" />
+			<Field global="NO" store="YES" index="NOT_ANALYZED" column="type" name="type" />
 			<DataSource type="JDBC" action="append">
 				<Query>
 					SELECT pos_usr_id, pos_message, pos_subject 
