@@ -22,53 +22,66 @@
 */
 
 /** 
-* List GUI factory for lucene search results
+*  Handles add/remove to/from desktop requests
 * 
 * @author Stefan Meyer <meyer@leifos.com>
 * @version $Id$
 * 
 *
-* @ingroup ServicesSearch
+* @ingroup ServicesPersonalDesktop
 */
-class ilLuceneSearchObjectListGUIFactory
+class ilDesktopItemGUI
 {
-	private static $item_list_gui = array();
+	/**
+	 * Add desktop item
+	 * @access public 
+	 */
+	public static function addToDesktop()
+	{
+		global $ilUser;
+		
+		if ($_GET["item_ref_id"] and $_GET["type"])
+		{
+			ilObjUser::_addDesktopItem($ilUser->getId(),(int) $_GET['item_ref_id'], $_GET['type']);
+		}
+		else
+		{
+			if ($_POST["items"])
+			{
+				foreach ($_POST["items"] as $item)
+				{
+					$type = ilObject::_lookupType($item, true);
+					ilObjUser::_addDesktopItem($ilUser->getId(),$item,$type);
+				}
+			}
+		}
+		return true;
+	}
 	
 	/**
-	 * Get list gui by type
-	 * This method caches all the returned list guis
-	 * @param string $a_type object type
-	 * @return object item_list_gui
-	 * @static
+	 * Remove item from personal desktop
+	 * @access public
 	 */
-	 public static function factory($a_type)
-	 {
-		global $objDefinition;
-		
-		if(isset(self::$item_list_gui[$a_type]))
+	public static function removeFromDesktop()
+	{
+		global $ilUser;
+
+		if ($_GET["item_ref_id"] and $_GET["type"])
 		{
-			return self::$item_list_gui[$a_type];
+			ilObjUser::_dropDesktopItem($ilUser->getId(),(int) $_GET['item_ref_id'], $_GET['type']);
 		}
-
-		$class = $objDefinition->getClassName($a_type);
-		$location = $objDefinition->getLocation($a_type);
-
-		$full_class = "ilObj".$class."ListGUI";
-
-		include_once($location."/class.".$full_class.".php");
-		$item_list_gui = new $full_class();
-
-		$item_list_gui->enableDelete(false);
-		$item_list_gui->enableCut(false);
-		$item_list_gui->enableSubscribe(true);
-		$item_list_gui->enablePayment(false);
-		$item_list_gui->enableLink(false);
-		$item_list_gui->enablePath(false);
-		$item_list_gui->enableLinkedPath(true);
-		$item_list_gui->enableSearchFragments(true);
-		$item_list_gui->enableRelevance(false);
-
-		return self::$item_list_gui[$a_type] = $item_list_gui;
- 	}	
+		else
+		{
+			if ($_POST["items"])
+			{
+				foreach ($_POST["items"] as $item)
+				{
+					$type = ilObject::_lookupType($item, true);
+					ilObjUser::_dropDesktopItem($ilUser->getId(),$item,$type);
+				}
+			}
+		}
+		return true;
+	}
 }
 ?>
