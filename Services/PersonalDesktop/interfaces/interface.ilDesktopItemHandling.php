@@ -22,53 +22,26 @@
 */
 
 /** 
-* List GUI factory for lucene search results
+* Interface for gui classes (e.g ilLuceneSearchGUI) that offer add/remove to/from desktop
 * 
 * @author Stefan Meyer <meyer@leifos.com>
 * @version $Id$
 * 
 *
-* @ingroup ServicesSearch
+* @ingroup ServicesPersonalDesktop
 */
-class ilLuceneSearchObjectListGUIFactory
+interface ilDesktopItemHandling
 {
-	private static $item_list_gui = array();
+	/**
+	 * Add desktop item
+	 * @access public
+	 */
+	public function addToDesk();
 	
 	/**
-	 * Get list gui by type
-	 * This method caches all the returned list guis
-	 * @param string $a_type object type
-	 * @return object item_list_gui
-	 * @static
+	 * Remove from desktop
+	 * @access public
 	 */
-	 public static function factory($a_type)
-	 {
-		global $objDefinition;
-		
-		if(isset(self::$item_list_gui[$a_type]))
-		{
-			return self::$item_list_gui[$a_type];
-		}
-
-		$class = $objDefinition->getClassName($a_type);
-		$location = $objDefinition->getLocation($a_type);
-
-		$full_class = "ilObj".$class."ListGUI";
-
-		include_once($location."/class.".$full_class.".php");
-		$item_list_gui = new $full_class();
-
-		$item_list_gui->enableDelete(false);
-		$item_list_gui->enableCut(false);
-		$item_list_gui->enableSubscribe(true);
-		$item_list_gui->enablePayment(false);
-		$item_list_gui->enableLink(false);
-		$item_list_gui->enablePath(false);
-		$item_list_gui->enableLinkedPath(true);
-		$item_list_gui->enableSearchFragments(true);
-		$item_list_gui->enableRelevance(false);
-
-		return self::$item_list_gui[$a_type] = $item_list_gui;
- 	}	
+	public function removeFromDesk();
 }
 ?>

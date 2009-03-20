@@ -38,20 +38,32 @@ class ilLuceneSearchResultPresentation
 	private $results = array();
 	private $searcher = null;
 	
+	private $container = null;
+	
 	/**
 	 * Constructor 
+	 * @param object	$container container gui object
 	 */
-	public function __construct()
+	public function __construct($container = null)
 	{
 		global $tpl,$lng;
 		
 		$this->lng = $lng;
+		$this->container = $container;
 		
 		if(isset($_GET['details']))
 		{
 			include_once './Services/Object/classes/class.ilSubItemListGUI.php';
 			ilSubItemListGUI::setShowDetails((int) $_GET['details']);
 		}
+	}
+	
+	/**
+	 * Get container gui
+	 */
+	public function getContainer()
+	{
+		return $this->container;
 	}
 	
 	/**
@@ -121,6 +133,7 @@ class ilLuceneSearchResultPresentation
 			
 			include_once './Services/Search/classes/Lucene/class.ilLuceneSearchObjectListGUIFactory.php';
 			$item_list_gui = ilLuceneSearchObjectListGUIFactory::factory($type);
+			$item_list_gui->setContainerObject($this->getContainer());
 			$item_list_gui->setSearchFragment($this->lookupContent($obj_id,0));
 			
 			if($html = $item_list_gui->getListItemHTML($ref_id,$obj_id,$title,$description))

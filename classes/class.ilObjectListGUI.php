@@ -1744,10 +1744,12 @@ class ilObjectListGUI
 				{
 					// not so nice, if no container object given, it must
 					// be personal desktop
-					if(is_object($this->container_obj))
+					// BEGIN PATCH Lucene search
+					if(is_object($this->container_obj) or $this->getContainerObject() instanceof ilDesktopItemHandling)
+					// END PATCH Lucene Search
 					{
-						$this->ctrl->setParameter($this->container_obj, "ref_id",
-							$this->container_obj->object->getRefId());
+						#$this->ctrl->setParameter($this->container_obj, "ref_id",
+						#	$this->container_obj->object->getRefId());
 						$this->ctrl->setParameter($this->container_obj, "type", $type);
 						$this->ctrl->setParameter($this->container_obj, "item_ref_id", $this->getCommandId());
 						$cmd_link = $this->ctrl->getLinkTarget($this->container_obj, "addToDesk");
@@ -1768,10 +1770,12 @@ class ilObjectListGUI
 			{
 				// not so nice, if no container object given, it must
 				// be personal desktop
-				if (is_object($this->container_obj))
+				// BEGIN PATCH Lucene search
+				if (is_object($this->container_obj) or $this->getContainerObject() instanceof ilDesktopItemHandling)
+				// END PATCH Lucene Search
 				{
-					$this->ctrl->setParameter($this->container_obj, "ref_id",
-						$this->container_obj->object->getRefId());
+					#$this->ctrl->setParameter($this->container_obj, "ref_id",
+					#	$this->container_obj->object->getRefId());
 					$this->ctrl->setParameter($this->container_obj, "type", $type);
 					$this->ctrl->setParameter($this->container_obj, "item_ref_id", $this->getCommandId());
 					$cmd_link = $this->ctrl->getLinkTarget($this->container_obj, "removeFromDesk");

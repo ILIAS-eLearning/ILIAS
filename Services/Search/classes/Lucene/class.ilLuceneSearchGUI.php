@@ -22,7 +22,7 @@
 */
 
 include_once './Services/Search/classes/class.ilSearchBaseGUI.php';
-
+include_once './Services/PersonalDesktop/interfaces/interface.ilDesktopItemHandling.php';
 /** 
 * Lucene Search GUI
 * 
@@ -33,7 +33,7 @@ include_once './Services/Search/classes/class.ilSearchBaseGUI.php';
 * 
 * @ingroup ServicesSearch
 */
-class ilLuceneSearchGUI extends ilSearchBaseGUI
+class ilLuceneSearchGUI extends ilSearchBaseGUI implements ilDesktopItemHandling
 {
 	protected $ilTabs;
 	
@@ -72,6 +72,26 @@ class ilLuceneSearchGUI extends ilSearchBaseGUI
 	}
 	
 	/**
+	 * Interface methods
+	 */
+	 public function addToDesk()
+	 {
+	 	include_once './Services/PersonalDesktop/classes/class.ilDesktopItemGUI.php';
+	 	ilDesktopItemGUI::addToDesktop();
+	 	$this->showSavedResults();
+	 }
+	 
+	 /**
+	  * Remove from dektop  
+	  */
+	 public function removeFromDesk()
+	 {
+	 	include_once './Services/PersonalDesktop/classes/class.ilDesktopItemGUI.php';
+	 	ilDesktopItemGUI::removeFromDesktop();
+	 	$this->showSavedResults();
+	 }
+	
+	/**
 	 * Show saved results 
 	 * @return
 	 */
@@ -96,7 +116,7 @@ class ilLuceneSearchGUI extends ilSearchBaseGUI
 		
 		$this->tpl->addBlockFile('ADM_CONTENT','adm_content','tpl.lucene_search.html','Services/Search');
 		include_once './Services/Search/classes/Lucene/class.ilLuceneSearchResultPresentation.php';
-		$presentation = new ilLuceneSearchResultPresentation();
+		$presentation = new ilLuceneSearchResultPresentation($this);
 		$presentation->setResults($filter->getResultIds());
 		$presentation->setSearcher($searcher);
 		
@@ -170,7 +190,7 @@ class ilLuceneSearchGUI extends ilSearchBaseGUI
 		// Show results
 		$this->tpl->addBlockFile('ADM_CONTENT','adm_content','tpl.lucene_search.html','Services/Search');
 		include_once './Services/Search/classes/Lucene/class.ilLuceneSearchResultPresentation.php';
-		$presentation = new ilLuceneSearchResultPresentation();
+		$presentation = new ilLuceneSearchResultPresentation($this);
 		$presentation->setResults($filter->getResultIds());
 		$presentation->setSearcher($searcher);
 		if($presentation->render())
