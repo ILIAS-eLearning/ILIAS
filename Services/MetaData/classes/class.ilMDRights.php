@@ -180,7 +180,7 @@ class ilMDRights extends ilMDBase
 				$this->setDescription($row->description);
 				$this->setDescriptionLanguage(new ilMDLanguageItem($row->description_language));
 				$this->setCosts($row->costs);
-				$this->setCopyrightAndOtherRestrictions($row->copyright_and_other_restrictions);
+				$this->setCopyrightAndOtherRestrictions($row->cpr_and_or);
 			}
 			return true;
 		}

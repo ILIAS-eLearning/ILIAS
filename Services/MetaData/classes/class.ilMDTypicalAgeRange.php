@@ -84,14 +84,14 @@ class ilMDTypicalAgeRange extends ilMDBase
 
 	function save()
 	{
-		$this->__parseTypicalAgeRange();
-
-		if($this->db->autoExecute('il_meta_typical_age_range',
-								  $this->__getFields(),
-								  DB_AUTOQUERY_INSERT))
+		global $ilDB;
+		
+		$fields = $this->__getFields();
+		$fields['meta_tar_id'] = array('integer',$next_id = $ilDB->nextId('il_meta_tar'));
+		
+		if($this->db->insert('il_meta_tar',$fields))
 		{
-			$this->setMetaId($this->db->getLastInsertId());
-
+			$this->setMetaId($next_id);
 			return $this->getMetaId();
 		}
 		return false;
@@ -102,13 +102,11 @@ class ilMDTypicalAgeRange extends ilMDBase
 		global $ilDB;
 		
 		$this->__parseTypicalAgeRange();
-
 		if($this->getMetaId())
 		{
-			if($this->db->autoExecute('il_meta_typical_age_range',
-									  $this->__getFields(),
-									  DB_AUTOQUERY_UPDATE,
-									  "meta_typical_age_range_id = ".$ilDB->quote($this->getMetaId())))
+			if($this->db->update('il_meta_tar',
+									$this->__getFields(),
+									array("meta_tar_id" => array('integer',$this->getMetaId()))))
 			{
 				return true;
 			}
@@ -122,11 +120,9 @@ class ilMDTypicalAgeRange extends ilMDBase
 		
 		if($this->getMetaId())
 		{
-			$query = "DELETE FROM il_meta_typical_age_range ".
-				"WHERE meta_typical_age_range_id = ".$ilDB->quote($this->getMetaId());
-			
-			$this->db->query($query);
-			
+			$query = "DELETE FROM il_meta_tar ".
+				"WHERE meta_tar_id = ".$ilDB->quote($this->getMetaId() ,'integer');
+			$res = $ilDB->manipulate($query);
 			return true;
 		}
 		return false;
@@ -135,15 +131,15 @@ class ilMDTypicalAgeRange extends ilMDBase
 
 	function __getFields()
 	{
-		return array('rbac_id'	=> $this->getRBACId(),
-					 'obj_id'	=> $this->getObjId(),
-					 'obj_type'	=> $this->getObjType(),
-					 'parent_type' => $this->getParentType(),
-					 'parent_id' => $this->getParentId(),
-					 'typical_age_range'	=> $this->getTypicalAgeRange(),
-					 'typical_age_range_language' => $this->getTypicalAgeRangeLanguageCode(),
-					 'typical_age_range_min' => $this->getTypicalAgeRangeMinimum(),
-					 'typical_age_range_max' => $this->getTypicalAgeRangeMaximum());
+		return array('rbac_id'	=> array('integer',$this->getRBACId()),
+					 'obj_id'	=> array('integer',$this->getObjId()),
+					 'obj_type'	=> array('integer',$this->getObjType()),
+					 'parent_type' => array('text',$this->getParentType()),
+					 'parent_id' => array('integer',$this->getParentId()),
+					 'typical_age_range'	=> array('text',$this->getTypicalAgeRange()),
+					 'tar_language' => array('text',$this->getTypicalAgeRangeLanguageCode()),
+					 'tar_min' => array('text',$this->getTypicalAgeRangeMinimum()),
+					 'tar_max' => array('text',$this->getTypicalAgeRangeMaximum()));
 	}
 
 	function read()
@@ -154,10 +150,10 @@ class ilMDTypicalAgeRange extends ilMDBase
 
 		if($this->getMetaId())
 		{
-			$query = "SELECT * FROM il_meta_typical_age_range ".
-				"WHERE meta_typical_age_range_id = ".$ilDB->quote($this->getMetaId());
+			$query = "SELECT * FROM il_meta_tar ".
+				"WHERE meta_tar_id = ".$ilDB->quote($this->getMetaId() ,'integer');
 
-			$res = $this->db->query($query);
+			$res = $ilDB->query($query);
 			while($row = $res->fetchRow(DB_FETCHMODE_OBJECT))
 			{
 				$this->setRBACId($row->rbac_id);
@@ -166,9 +162,9 @@ class ilMDTypicalAgeRange extends ilMDBase
 				$this->setParentId($row->parent_id);
 				$this->setParentType($row->parent_type);
 				$this->setTypicalAgeRange($row->typical_age_range);
-				$this->setTypicalAgeRangeLanguage(new ilMDLanguageItem($row->typical_age_range_language));
-				$this->setTypicalAgeRangeMinimum($row->typical_age_range_min);
-				$this->setTypicalAgeRangeMaximum($row->typical_age_range_max);
+				$this->setTypicalAgeRangeLanguage(new ilMDLanguageItem($row->tar_language));
+				$this->setTypicalAgeRangeMinimum($row->tar_min);
+				$this->setTypicalAgeRangeMaximum($row->tar_max);
 			}
 		}
 		return true;
@@ -193,11 +189,11 @@ class ilMDTypicalAgeRange extends ilMDBase
 	{
 		global $ilDB;
 
-		$query = "SELECT meta_typical_age_range_id FROM il_meta_typical_age_range ".
-			"WHERE rbac_id = ".$ilDB->quote($a_rbac_id)." ".
-			"AND obj_id = ".$ilDB->quote($a_obj_id)." ".
-			"AND parent_id = ".$ilDB->quote($a_parent_id)." ".
-			"AND parent_type = ".$ilDB->quote($a_parent_type);
+		$query = "SELECT meta_tar_id FROM il_meta_tar ".
+			"WHERE rbac_id = ".$ilDB->quote($a_rbac_id ,'integer')." ".
+			"AND obj_id = ".$ilDB->quote($a_obj_id ,'integer')." ".
+			"AND parent_id = ".$ilDB->quote($a_parent_id ,'integer')." ".
+			"AND parent_type = ".$ilDB->quote($a_parent_type ,'text');
 
 		$res = $ilDB->query($query);
 		while($row = $res->fetchRow(DB_FETCHMODE_OBJECT))

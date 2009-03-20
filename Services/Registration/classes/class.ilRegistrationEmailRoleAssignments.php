@@ -97,23 +97,25 @@ class ilRegistrationRoleAssignments
 	{
 		global $ilDB;
 		
-		$query = "DELETE FROM reg_email_role_assignments ".
-			"WHERE assignment_id = ".$ilDB->quote($a_id);
-
-		$this->db->query($query);
-
+		$query = "DELETE FROM reg_er_assignments ".
+			"WHERE assignment_id = ".$ilDB->quote($a_id ,'integer');
+		$res = $ilDB->manipulate($query);
 		$this->__read();
 		return true;
 	}
 
 	function add()
 	{
-		$query = "INSERT INTO reg_email_role_assignments ".
-			"SET domain = '', ".
-			"role = ''";
+		global $ilDB;
 
-		$this->db->query($query);
-
+		$next_id = $ilDB->nextId('reg_er_assignments');
+		$query = "INSERT INTO reg_er_assignments (assignment_id,domain,role) ".
+			"VALUES( ".
+			$ilDB->quote($next_id,'integer').', '.
+			$ilDB->quote('','text').", ".
+			$ilDB->quote(0,'integer').
+			")";
+		$res = $ilDB->manipulate($query);
 		$this->__read();
 		return true;
 	}
@@ -127,12 +129,11 @@ class ilRegistrationRoleAssignments
 
 		foreach($this->assignments as $assignment)
 		{
-			$query = "UPDATE reg_email_role_assignments ".
-				"SET domain = ".$ilDB->quote($assignment['domain']).", ".
-				"role = ".$ilDB->quote($assignment['role'])." ".
-				"WHERE assignment_id = ".$ilDB->quote($assignment['id']);
-
-			$this->db->query($query);
+			$query = "UPDATE reg_er_assignments ".
+				"SET domain = ".$ilDB->quote($assignment['domain'] ,'text').", ".
+				"role = ".$ilDB->quote($assignment['role'] ,'integer')." ".
+				"WHERE assignment_id = ".$ilDB->quote($assignment['id'] ,'integer');
+			$res = $ilDB->manipulate($query);
 		}
 		return true;
 	}
@@ -165,7 +166,7 @@ class ilRegistrationRoleAssignments
 	{
 		global $ilias, $ilDB;
 
-		$query = "SELECT * FROM reg_email_role_assignments ";
+		$query = "SELECT * FROM reg_er_assignments ";
 		$res = $this->db->query($query);
 
 		$this->assignments = array();

@@ -525,5 +525,74 @@ class ilMDTest extends PHPUnit_Framework_TestCase
 		
 		$con->delete();
 	}
+
+	/**
+	 * test MetaData
+	 * @return
+	 */
+	public function testTaxonPath()
+	{
+		include_once './Services/MetaData/classes/class.ilMDTaxonPath.php';
+		include_once 'Services/MetaData/classes/class.ilMDLanguageItem.php';
+
+		$con = new ilMDTaxonPath(1,2,'xxx');
+		$con->setSource('Amaya');
+		$ret = $con->save();		 
+		$this->assertGreaterThan(0,$ret);
+		
+		$con->setSource('Opera');
+		$con->update();
+		$con->read();
+		$desc = $con->getSource();
+		$this->assertEquals('Opera',$desc);
+		
+		$con->delete();
+	}
+
+	/**
+	 * test MetaData
+	 * @return
+	 */
+	public function testTechnical()
+	{
+		include_once './Services/MetaData/classes/class.ilMDTechnical.php';
+		include_once 'Services/MetaData/classes/class.ilMDLanguageItem.php';
+
+		$con = new ilMDTechnical(1,2,'xxx');
+		$con->setSize('Amaya');
+		$ret = $con->save();		 
+		$this->assertGreaterThan(0,$ret);
+		
+		$con->setSize('Opera');
+		$con->update();
+		$con->read();
+		$desc = $con->getSize();
+		$this->assertEquals('Opera',$desc);
+		
+		$con->delete();
+	}
+
+	/**
+	 * test MetaData
+	 * @return
+	 */
+	public function testTypicalAgeRange()
+	{
+		include_once './Services/MetaData/classes/class.ilMDTypicalAgeRange.php';
+		include_once 'Services/MetaData/classes/class.ilMDLanguageItem.php';
+
+		$con = new ilMDTypicalAgeRange(1,2,'xxx');
+		$con->setTypicalAgeRange('12-22');
+		$ret = $con->save();
+		$this->assertGreaterThan(0,$ret);
+		
+		$con->setTypicalAgeRange('12-14');
+		$con->update();
+		$con->read();
+		$desc = $con->getTypicalAgeRange();
+		$this->assertEquals('12-14',$desc);
+		
+		$con->delete();
+	}
 }
 ?>

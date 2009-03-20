@@ -406,7 +406,7 @@ class ilMD extends ilMDBase
 						'il_meta_taxon',
 						'il_meta_taxon_path',
 						'il_meta_technical',
-						'il_meta_typical_age_range');
+						'il_meta_tar');
 
 		foreach($tables as $table)
 		{
