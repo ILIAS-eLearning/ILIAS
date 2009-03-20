@@ -164,7 +164,7 @@ class ilCalendarHidden
 		$this->delete();
 		foreach($this->hidden as $hidden)
 		{
-			$query = "INSERT INTO cal_categories_hidden (usr_id,cat_id) ".
+			$query = "INSERT INTO cal_categories_hidden (user_id,cat_id) ".
 				"VALUES ( ".
 				$this->db->quote($this->user_id ,'integer').", ".
 				$this->db->quote($hidden ,'integer')." ".

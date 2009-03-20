@@ -10739,3 +10739,78 @@ ALTER TABLE `il_meta_taxon` CHANGE `taxon_id` `taxon_id` VARCHAR( 4000 ) NULL DE
 <?php
 	$ilMySQLAbstraction->performAbstraction('il_meta_taxon');
 ?>
+
+<#2228>
+ALTER TABLE `il_meta_taxon_path` CHANGE `source` `source` VARCHAR( 4000 ) NULL DEFAULT NULL;
+
+<#2229>
+<?php
+	$ilMySQLAbstraction->performAbstraction('il_meta_taxon_path');
+?>
+
+<#2230>
+ALTER TABLE `il_meta_technical` CHANGE `installation_remarks` `ir` VARCHAR( 4000 ) NULL DEFAULT NULL;
+
+<#2231>
+ALTER TABLE `il_meta_technical` CHANGE `installation_remarks_language` `ir_language` CHAR( 2 ) NULL DEFAULT NULL;
+
+<#2232>
+ALTER TABLE `il_meta_technical` CHANGE `other_platform_requirements` `opr` VARCHAR( 4000 ) NULL DEFAULT NULL;
+
+<#2233>
+ALTER TABLE `il_meta_technical` CHANGE `other_platform_requirements_language` `opr_language` CHAR( 2 ) NULL DEFAULT NULL;
+
+<#2234>
+ALTER TABLE `il_meta_technical` CHANGE `duration` `duration` VARCHAR( 4000 ) NULL DEFAULT NULL;
+
+<#2235>
+ALTER TABLE `il_meta_technical` CHANGE `size` `size` VARCHAR( 4000 ) NULL DEFAULT NULL;
+  
+<#2236>
+<?php
+	$ilMySQLAbstraction->performAbstraction('il_meta_technical');
+?>
+
+<#2237>
+RENAME TABLE `il_meta_typical_age_range`  TO `il_meta_tar`;
+
+<#2238>
+ALTER TABLE `il_meta_tar` CHANGE `meta_typical_age_range_id` `meta_tar_id` INT( 11 ) NOT NULL AUTO_INCREMENT;
+
+<#2239>
+ALTER TABLE `il_meta_tar` CHANGE `typical_age_range` `typical_age_range` VARCHAR( 4000 ) NULL DEFAULT NULL;
+
+<#2240>
+ALTER TABLE `il_meta_tar` CHANGE `typical_age_range_language` `tar_language` CHAR( 2 ) NULL DEFAULT NULL;
+
+<#2241>
+ALTER TABLE `il_meta_tar` CHANGE `typical_age_range_min` `tar_min` CHAR( 2 ) NULL DEFAULT NULL;
+
+<#2242>
+ALTER TABLE `il_meta_tar` CHANGE `typical_age_range_max` `tar_max` CHAR( 2 ) NULL DEFAULT NULL;
+
+<#2243>
+<?php
+	$ilMySQLAbstraction->performAbstraction('il_meta_tar');
+?>
+
+<#2244>
+ALTER TABLE `reg_access_limitation` CHANGE `limit_mode` `limit_mode` CHAR( 16 ) NOT NULL DEFAULT 'absolute';
+ 
+<#2245>
+RENAME TABLE `reg_access_limitation`  TO `reg_access_limit`;
+
+<#2246>
+<?php
+	$ilMySQLAbstraction->performAbstraction('reg_access_limit');
+?>
+
+<#2247>
+RENAME TABLE `reg_email_role_assignments`  TO `reg_er_assignments`;
+
+<#2248>
+<?php
+	$ilMySQLAbstraction->performAbstraction('reg_er_assignments');
+?>
+
+

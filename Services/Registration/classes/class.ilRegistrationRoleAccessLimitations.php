@@ -50,7 +50,7 @@ class ilRegistrationRoleAccessLimitations
 	{
 		global $ilias;
 
-		$query = "SELECT * FROM reg_access_limitation ";
+		$query = "SELECT * FROM reg_access_limit ";
 		$res = $this->db->query($query);
 
 		$this->access_limitations = array();
@@ -74,25 +74,24 @@ class ilRegistrationRoleAccessLimitations
 		foreach($this->access_limitations as $key => $data)
 		{
 			$limit_value = "";
-			
-			if ($data['mode'] == 'absolute')
-			{
-				$limit_value = ", limit_absolute = ".$ilDB->quote($data['absolute'])." ";
-			}
-			
-			if ($data['mode'] == 'relative')
-			{
-				$limit_value = ", limit_relative_d = ".$ilDB->quote($data['relative_d'])." ".
-							   ", limit_relative_m = ".$ilDB->quote($data['relative_m'])." ".
-							   ", limit_relative_y = ".$ilDB->quote($data['relative_y'])." ";
-			}
-			
-			$query = "REPLACE INTO reg_access_limitation ".
-					 "SET role_id = ".$ilDB->quote($key).", ".
-					 "limit_mode = ".$ilDB->quote($data['mode'])." ".
-					 $limit_value;
 
-			$this->db->query($query);
+			// Delete old entry
+			$query = "DELETE FROM reg_access_limit ".
+				"WHERE role_id = ".$ilDB->quote($key,'integer');
+			$res = $ilDB->manipulate($query);
+			
+			
+			$query = "INSERT INTO reg_access_limit (role_id,limit_mode,limit_absolute,".
+				"limit_relative_d,limit_relative_m,limit_relative_y) ".
+				"VALUES( ".
+				$ilDB->quote($key,'integer').", ".
+				$ilDB->quote($data['mode'] ,'text').", ".
+				$ilDB->quote($data['absolute']).", ".
+				$ilDB->quote($data['relative_d']).", ".
+				$ilDB->quote($data['relative_m']).", ".
+				$ilDB->quote($data['relative_y'])." ".
+				")";
+			$res = $ilDB->manipulate($query);
 		}
 		
 		return true;

@@ -243,15 +243,16 @@ class ilMDTechnical extends ilMDBase
 
 	function save()
 	{
-		if($this->db->autoExecute('il_meta_technical',
-								  $this->__getFields(),
-								  DB_AUTOQUERY_INSERT))
+		global $ilDB;
+		
+		$fields = $this->__getFields();
+		$fields['meta_technical_id'] = array('integer',$next_id = $ilDB->nextId('il_meta_technical'));
+		
+		if($this->db->insert('il_meta_technical',$fields))
 		{
-			$this->setMetaId($this->db->getLastInsertId());
-
+			$this->setMetaId($next_id);
 			return $this->getMetaId();
 		}
-
 		return false;
 	}
 
@@ -261,10 +262,9 @@ class ilMDTechnical extends ilMDBase
 		
 		if($this->getMetaId())
 		{
-			if($this->db->autoExecute('il_meta_technical',
-									  $this->__getFields(),
-									  DB_AUTOQUERY_UPDATE,
-									  "meta_technical_id = ".$ilDB->quote($this->getMetaId())))
+			if($this->db->update('il_meta_technical',
+									$this->__getFields(),
+									array("meta_technical_id" => array('integer',$this->getMetaId()))))
 			{
 				return true;
 			}
@@ -279,9 +279,8 @@ class ilMDTechnical extends ilMDBase
 		if($this->getMetaId())
 		{
 			$query = "DELETE FROM il_meta_technical ".
-				"WHERE meta_technical_id = ".$ilDB->quote($this->getMetaId());
-			
-			$this->db->query($query);
+				"WHERE meta_technical_id = ".$ilDB->quote($this->getMetaId() ,'integer');
+			$res = $ilDB->manipulate($query);
 			
 			foreach($this->getFormatIds() as $id)
 			{
@@ -314,29 +313,30 @@ class ilMDTechnical extends ilMDBase
 
 	function __getFields()
 	{
-		return array('rbac_id'	=> $this->getRBACId(),
-					 'obj_id'	=> $this->getObjId(),
-					 'obj_type'	=> $this->getObjType(),
-					 'size'		=> $this->getSize(),
-					 'installation_remarks' => $this->getInstallationRemarks(),
-					 'installation_remarks_language' => $this->getInstallationRemarksLanguageCode(),
-					 'other_platform_requirements' => $this->getOtherPlatformRequirements(),
-					 'other_platform_requirements_language' => $this->getOtherPlatformRequirementsLanguageCode(),
-					 'duration' => $this->getDuration());
+		return array('rbac_id'	=> array('integer',$this->getRBACId()),
+					 'obj_id'	=> array('integer',$this->getObjId()),
+					 'obj_type'	=> array('text',$this->getObjType()),
+					 'size'		=> array('text',$this->getSize()),
+					 'ir' => array('text',$this->getInstallationRemarks()),
+					 'ir_language' => array('text',$this->getInstallationRemarksLanguageCode()),
+					 'opr' => array('text',$this->getOtherPlatformRequirements()),
+					 'opr_language' => array('text',$this->getOtherPlatformRequirementsLanguageCode()),
+					 'duration' => array('text',$this->getDuration()));
 	}
 
 	function read()
 	{
+		global $ilDB;
+		
 		include_once 'Services/MetaData/classes/class.ilMDLanguageItem.php';
 
 		if($this->getMetaId())
 		{
 
 			$query = "SELECT * FROM il_meta_technical ".
-				"WHERE meta_technical_id = '".$this->getMetaId()."'";
+				"WHERE meta_technical_id = ".$ilDB->quote($this->getMetaId() ,'integer')." ";
 
-		
-			$res = $this->db->query($query);
+			$res = $ilDB->query($query);
 			while($row = $res->fetchRow(DB_FETCHMODE_OBJECT))
 			{
 				$this->setRBACId($row->rbac_id);
@@ -431,8 +431,8 @@ class ilMDTechnical extends ilMDBase
 		global $ilDB;
 
 		$query = "SELECT meta_technical_id FROM il_meta_technical ".
-			"WHERE rbac_id = ".$ilDB->quote($a_rbac_id)." ".
-			"AND obj_id = ".$ilDB->quote($a_obj_id);
+			"WHERE rbac_id = ".$ilDB->quote($a_rbac_id ,'integer')." ".
+			"AND obj_id = ".$ilDB->quote($a_obj_id ,'integer');
 
 		$res = $ilDB->query($query);
 		while($row = $res->fetchRow(DB_FETCHMODE_OBJECT))
