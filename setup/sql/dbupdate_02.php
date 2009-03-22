@@ -10818,3 +10818,20 @@ RENAME TABLE `reg_email_role_assignments`  TO `reg_er_assignments`;
 	$ilMySQLAbstraction->performAbstraction('ut_lp_settings');
 ?>
 
+<#2250>
+ALTER TABLE `ut_lp_marks` CHANGE `comment` `comment` VARCHAR( 1000 ) NOT NULL;
+  
+<#2251>
+<?php
+	$ilMySQLAbstraction->performAbstraction('ut_lp_marks');
+?>
+
+<#2252>
+ALTER TABLE `ut_lp_filter` CHANGE `hidden` `hidden` VARCHAR( 4000 ) NOT NULL;
+
+<#2253>
+<?php
+	$ilMySQLAbstraction->performAbstraction('ut_lp_filter');
+?>
+  
+
