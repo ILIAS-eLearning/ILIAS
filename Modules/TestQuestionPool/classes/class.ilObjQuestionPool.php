@@ -533,7 +533,7 @@ class ilObjQuestionPool extends ilObject
 		{
 			$maxentries = 9999;
 		}
-		$query_result = $ilDB->queryF("SELECT qpl_questions.question_id, qpl_questions.tstamp FROM qpl_questions, qpl_qst_type WHERE ISNULL(qpl_questions.original_id) AND qpl_questions.question_type_fi = qpl_qst_type.question_type_id AND qpl_questions.owner > 0 AND qpl_questions.obj_fi = %s $where$order$limit",
+		$query_result = $ilDB->queryF("SELECT qpl_questions.question_id, qpl_questions.tstamp FROM qpl_questions, qpl_qst_type WHERE ISNULL(qpl_questions.original_id) AND qpl_questions.question_type_fi = qpl_qst_type.question_type_id AND qpl_questions.tstamp > 0 AND qpl_questions.obj_fi = %s $where$order$limit",
 			array('integer'),
 			array($this->getId())
 		);
@@ -547,7 +547,7 @@ class ilObjQuestionPool extends ilObject
 			$startrow = 0;
 		}
 		$ilDB->setLimit($maxentries, $startrow);
-		$query_result = $ilDB->queryF("SELECT qpl_questions.*, qpl_qst_type.type_tag, qpl_qst_type.plugin FROM qpl_questions, qpl_qst_type WHERE ISNULL(qpl_questions.original_id) AND qpl_questions.owner > 0 AND qpl_questions.question_type_fi = qpl_qst_type.question_type_id AND qpl_questions.obj_fi = %s $where$order$limit",
+		$query_result = $ilDB->queryF("SELECT qpl_questions.*, qpl_qst_type.type_tag, qpl_qst_type.plugin FROM qpl_questions, qpl_qst_type WHERE ISNULL(qpl_questions.original_id) AND qpl_questions.tstamp > 0 AND qpl_questions.question_type_fi = qpl_qst_type.question_type_id AND qpl_questions.obj_fi = %s $where$order$limit",
 			array('integer'),
 			array($this->getId())
 		);
@@ -622,7 +622,7 @@ class ilObjQuestionPool extends ilObject
 				$order = " ORDER BY tstamp,title";
 				break;
 		}
-		$query_result = $ilDB->queryF("SELECT qpl_questions.*, qpl_qst_type.type_tag, qpl_qst_type.plugin FROM qpl_questions, qpl_qst_type WHERE ISNULL(qpl_questions.original_id) AND qpl_questions.owner > 0 AND qpl_questions.question_type_fi = qpl_qst_type.question_type_id AND qpl_questions.obj_fi = %s $order",
+		$query_result = $ilDB->queryF("SELECT qpl_questions.*, qpl_qst_type.type_tag, qpl_qst_type.plugin FROM qpl_questions, qpl_qst_type WHERE ISNULL(qpl_questions.original_id) AND qpl_questions.tstamp > 0 AND qpl_questions.question_type_fi = qpl_qst_type.question_type_id AND qpl_questions.obj_fi = %s $order",
 			array('integer'),
 			array($this->getId())
 		);
@@ -969,7 +969,7 @@ class ilObjQuestionPool extends ilObject
 	{
 		global $ilDB;
 		
-		$result = $ilDB->queryF("SELECT question_id FROM qpl_questions WHERE obj_fi = %s AND qpl_questions.owner > 0 AND original_id IS NULL",
+		$result = $ilDB->queryF("SELECT question_id FROM qpl_questions WHERE obj_fi = %s AND qpl_questions.tstamp > 0 AND original_id IS NULL",
 			array('integer'),
 			array($this->getId())
 		);
@@ -985,7 +985,7 @@ class ilObjQuestionPool extends ilObject
 	{
 		global $ilDB;
 		
-		$query_result = $ilDB->queryF("SELECT question_id, qpl_qst_type.type_tag, qpl_qst_type.plugin FROM qpl_questions, qpl_qst_type WHERE ISNULL(original_id) AND qpl_questions.owner > 0 AND obj_fi = %s AND complete = %s AND qpl_questions.question_type_fi = qpl_qst_type.question_type_id",
+		$query_result = $ilDB->queryF("SELECT question_id, qpl_qst_type.type_tag, qpl_qst_type.plugin FROM qpl_questions, qpl_qst_type WHERE ISNULL(original_id) AND qpl_questions.tstamp > 0 AND obj_fi = %s AND complete = %s AND qpl_questions.question_type_fi = qpl_qst_type.question_type_id",
 			array('integer','text'),
 			array($this->getId(), 1)
 		);
@@ -1066,14 +1066,14 @@ class ilObjQuestionPool extends ilObject
 		global $ilDB;
 		if ($complete_questions_only)
 		{
-			$result = $ilDB->queryF("SELECT COUNT(question_id) question_count FROM qpl_questions WHERE obj_fi = %s AND qpl_questions.owner > 0 AND ISNULL(original_id) AND complete = %s",
+			$result = $ilDB->queryF("SELECT COUNT(question_id) question_count FROM qpl_questions WHERE obj_fi = %s AND qpl_questions.tstamp > 0 AND ISNULL(original_id) AND complete = %s",
 				array('integer', 'text'),
 				array($questionpool_id, 1)
 			);
 		}
 		else
 		{
-			$result = $ilDB->queryF("SELECT COUNT(question_id) question_count FROM qpl_questions WHERE obj_fi = %s AND qpl_questions.owner > 0 AND ISNULL(original_id)",
+			$result = $ilDB->queryF("SELECT COUNT(question_id) question_count FROM qpl_questions WHERE obj_fi = %s AND qpl_questions.tstamp > 0 AND ISNULL(original_id)",
 				array('integer'),
 				array($questionpool_id)
 			);
@@ -1147,14 +1147,14 @@ class ilObjQuestionPool extends ilObject
 		
 		if ($is_reference)
 		{
-			$result = $ilDB->queryF("SELECT count(DISTINCT qpl_questions.points) equal_points FROM qpl_questions, object_reference WHERE object_reference.ref_id = %s AND qpl_questions.owner > 0 AND object_reference.obj_id = qpl_questions.obj_fi AND qpl_questions.original_id IS NULL",
+			$result = $ilDB->queryF("SELECT count(DISTINCT qpl_questions.points) equal_points FROM qpl_questions, object_reference WHERE object_reference.ref_id = %s AND qpl_questions.tstamp > 0 AND object_reference.obj_id = qpl_questions.obj_fi AND qpl_questions.original_id IS NULL",
 				array('integer'),
 				array($a_obj_id)
 			);
 		}
 		else
 		{
-			$result = $ilDB->queryF("SELECT count(DISTINCT points) equal_points FROM qpl_questions WHERE obj_fi = %s AND qpl_questions.owner > 0 AND qpl_questions.original_id IS NULL",
+			$result = $ilDB->queryF("SELECT count(DISTINCT points) equal_points FROM qpl_questions WHERE obj_fi = %s AND qpl_questions.tstamp > 0 AND qpl_questions.original_id IS NULL",
 				array('integer'),
 				array($a_obj_id)
 			);
@@ -1519,7 +1519,7 @@ class ilObjQuestionPool extends ilObject
 		global $ilDB;
 		
 		$questions = array();
-		$result = $ilDB->queryF("SELECT qpl_questions.question_id FROM qpl_questions WHERE ISNULL(qpl_questions.original_id) AND qpl_questions.owner > 0 AND qpl_questions.obj_fi = %s",
+		$result = $ilDB->queryF("SELECT qpl_questions.question_id FROM qpl_questions WHERE ISNULL(qpl_questions.original_id) AND qpl_questions.tstamp > 0 AND qpl_questions.obj_fi = %s",
 			array('integer'),
 			array($this->getId())
 		);
@@ -1607,7 +1607,7 @@ class ilObjQuestionPool extends ilObject
 		global $ilDB;
 		
 		$questions = array();
-		$result = $ilDB->queryF("SELECT qpl_questions.*, qpl_qst_type.* FROM qpl_questions, qpl_qst_type WHERE ISNULL(qpl_questions.original_id) AND qpl_questions.obj_fi = %s AND qpl_questions.owner > 0 AND qpl_questions.question_type_fi = qpl_qst_type.question_type_id",
+		$result = $ilDB->queryF("SELECT qpl_questions.*, qpl_qst_type.* FROM qpl_questions, qpl_qst_type WHERE ISNULL(qpl_questions.original_id) AND qpl_questions.obj_fi = %s AND qpl_questions.tstamp > 0 AND qpl_questions.question_type_fi = qpl_qst_type.question_type_id",
 			array('integer'),
 			array($this->getId())
 		);
@@ -1657,11 +1657,11 @@ class ilObjQuestionPool extends ilObject
 	*/
 	public function purgeQuestions()
 	{
-		global $ilDB;
+		global $ilDB, $ilUser;
 		
-		$result = $ilDB->queryF("SELECT question_id FROM qpl_questions WHERE owner = %s", 
-			array("integer"),
-			array(0)
+		$result = $ilDB->queryF("SELECT question_id FROM qpl_questions WHERE owner = %s AND tstamp = %s", 
+			array("integer", "integer"),
+			array($ilUser->getId(), 0)
 		);
 		while ($data = $ilDB->fetchAssoc($result))
 		{
