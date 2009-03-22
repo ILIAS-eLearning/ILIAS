@@ -84,13 +84,16 @@ class ilLPObjSettings
 	 */
 	public function cloneSettings($a_new_obj_id)
 	{
-	 	$query = "INSERT INTO ut_lp_settings ".
-	 		"SET obj_id = ".$this->db->quote($a_new_obj_id).", ".
-	 		"obj_type = ".$this->db->quote($this->getObjType()).", ".
-	 		"mode = ".$this->db->quote($this->getMode()).", ".
-	 		"visits = ".$this->db->quote($this->getVisits());
-	 	
-	 	$this->db->query($query);
+		global $ilDB;
+
+	 	$query = "INSERT INTO ut_lp_settings (obj_id,obj_type,mode,visits) ".
+	 		"VALUES( ".
+	 		$this->db->quote($a_new_obj_id ,'integer').", ".
+	 		$this->db->quote($this->getObjType() ,'text').", ".
+	 		$this->db->quote($this->getMode() ,'integer').", ".
+	 		$this->db->quote($this->getVisits() ,'integer').
+	 		")";
+	 	$res = $ilDB->manipulate($query);
 		return true;
 	}
 
@@ -124,24 +127,34 @@ class ilLPObjSettings
 
 	function update()
 	{
+		global $ilDB;
+		
 		if(!$this->is_stored)
 		{
 			return $this->insert();
 		}
-		$query = "UPDATE ut_lp_settings SET mode = '".$this->obj_mode.
-			"', visits = '".$this->visits."' ".
-			"WHERE obj_id = '".$this->getObjId()."'";
-		$this->db->query($query);
+		$query = "UPDATE ut_lp_settings SET mode = ".$ilDB->quote($this->getMode() ,'integer').", ".
+			"visits = ".$ilDB->quote($this->getVisits() ,'integer')." ".
+			"WHERE obj_id = ".$ilDB->quote($this->getObjId() ,'integer');
+		$res = $ilDB->manipulate($query);
 		$this->__read();
 		return true;
 	}
 
 	function insert()
 	{
-		$query = "INSERT INTO ut_lp_settings SET obj_id = '".$this->obj_id."', ".
-			"obj_type = '".$this->obj_type."', ".
-			"mode = '".$this->obj_mode."'";
-		$this->db->query($query);
+		global $ilDB,$ilLog;
+		
+		$ilLog->logStack();
+		
+		$query = "INSERT INTO ut_lp_settings (obj_id,obj_type,mode,visits) ".
+			"VALUES(".
+			$ilDB->quote($this->getObjId() ,'integer').", ".
+			$ilDB->quote($this->getObjType(),'text').", ".
+			$ilDB->quote($this->getMode(),'integer').", ".
+			$ilDB->quote(0, 'integer').
+			")";
+		$res = $ilDB->manipulate($query);
 		$this->__read();
 		return true;
 	}
@@ -152,10 +165,8 @@ class ilLPObjSettings
 	{
 		global $ilDB;
 
-		#echo $a_obj_id;
-
 		$query = "SELECT visits FROM ut_lp_settings ".
-			"WHERE obj_id = '".$a_obj_id."'";
+			"WHERE obj_id = ".$ilDB->quote($this->getObjId() ,'integer');
 
 		$res = $ilDB->query($query);
 		while($row = $res->fetchRow(DB_FETCHMODE_OBJECT))
@@ -178,8 +189,8 @@ class ilLPObjSettings
 	{
 		global $ilDB;
 
-		$query = "DELETE FROM ut_lp_settings WHERE obj_id = '".$a_obj_id."'";
-		$ilDB->query($query);
+		$query = "DELETE FROM ut_lp_settings WHERE obj_id = ".$ilDB->quote($a_obj_id ,'integer');
+		$res = $ilDB->manipulate($query);
 
 		return true;
 	}
@@ -198,7 +209,7 @@ class ilLPObjSettings
 		}
 
 		$query = "SELECT mode FROM ut_lp_settings ".
-			"WHERE obj_id = '".$a_obj_id."'";
+			"WHERE obj_id = ".$ilDB->quote($a_obj_id ,'integer');
 
 		$res = $ilDB->query($query);
 		while($row = $res->fetchRow(DB_FETCHMODE_OBJECT))
@@ -447,7 +458,8 @@ class ilLPObjSettings
 
 	function __read()
 	{
-		$res = $this->db->query("SELECT * FROM ut_lp_settings WHERE obj_id = ".$this->db->quote($this->obj_id)." ");
+		$res = $this->db->query("SELECT * FROM ut_lp_settings WHERE obj_id = ".
+			$this->db->quote($this->obj_id ,'integer'));
 		while($row = $res->fetchRow(DB_FETCHMODE_OBJECT))
 		{
 			$this->is_stored = true;

@@ -24,7 +24,7 @@
 /**
 * Class ilOnlineTracking
 *
-* @author Stefan Meyer <smeyer@databay.de>
+* @author Stefan Meyer <meyer@leifos.com>
 *
 * @version $Id$
 *
@@ -77,7 +77,7 @@ class ilOnlineTracking
 		global $ilDB,$ilias;
 
 		$res = $ilDB->query("SELECT * FROM ut_online WHERE usr_id = ".
-			$ilDB->quote($a_user_id, "integer"));
+			$ilDB->quote($a_usr_id, "integer"));
 
 		if (!$ilDB->fetchAssoc($res))
 		{

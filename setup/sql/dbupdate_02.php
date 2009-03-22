@@ -10813,4 +10813,8 @@ RENAME TABLE `reg_email_role_assignments`  TO `reg_er_assignments`;
 	$ilMySQLAbstraction->performAbstraction('reg_er_assignments');
 ?>
 
+<#2249>
+<?php
+	$ilMySQLAbstraction->performAbstraction('ut_lp_settings');
+?>
 
