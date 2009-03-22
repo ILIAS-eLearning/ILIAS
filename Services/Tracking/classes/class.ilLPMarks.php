@@ -61,6 +61,21 @@ class ilLPMarks
 
 		$this->__read();
 	}
+	
+	/**
+	 * Delete object
+	 *
+	 * @static
+	 */
+	 public static function deleteObject($a_obj_id)
+	 {
+	 	global $ilDB;
+	 	
+	 	$query = "DELETE FROM ut_lp_marks ".
+	 		"WHERE obj_id = ".$ilDB->quote($a_obj_id,'integer');
+	 	$res = $ilDB->manipulate($query);
+	 	return true;
+	 }
 
 	function getUserId()
 	{
@@ -99,19 +114,19 @@ class ilLPMarks
 	
 	function update()
 	{
+		global $ilDB;
+		
 		if(!$this->has_entry)
 		{
 			$this->__add();
 		}
 		$query = "UPDATE ut_lp_marks ".
-			"SET mark = '".ilUtil::prepareDBString($this->getMark())."', ".
-			"comment = '".ilUtil::prepareDBString($this->getComment())."', ".
-			"completed = '".(int) $this->getCompleted()."' ".
-			"WHERE obj_id = '".$this->getObjId()."' ".
-			"AND usr_id = '".$this->getUserId()."'";
-
-		$this->db->query($query);
-
+			"SET mark = ".$ilDB->quote($this->getMark(), 'text').", ".
+			"comment = ".$ilDB->quote($this->getComment() ,'text').", ".
+			"completed = ".$ilDB->quote($this->getCompleted() ,'integer')." ".
+			"WHERE obj_id = ".$ilDB->quote($this->getObjId() ,'integer')." ".
+			"AND usr_id = ".$ilDB->quote($this->getUserId(), 'integer');
+		$res = $ilDB->manipulate($query);
 		return true;
 	}
 
@@ -121,8 +136,8 @@ class ilLPMarks
 		global $ilDB;
 
 		$query = "SELECT * FROM ut_lp_marks ".
-			"WHERE usr_id = '".$a_usr_id."' ".
-			"AND obj_id = '".$a_obj_id."'";
+			"WHERE usr_id = ".$ilDB->quote($a_usr_id ,'integer')." ".
+			"AND obj_id = ".$ilDB->quote($a_obj_id ,'integer');
 
 		$res = $ilDB->query($query);
 		while($row = $res->fetchRow(DB_FETCHMODE_OBJECT))
@@ -137,8 +152,8 @@ class ilLPMarks
 		global $ilDB;
 
 		$query = "SELECT * FROM ut_lp_marks ".
-			"WHERE usr_id = '".$a_usr_id."' ".
-			"AND obj_id = '".$a_obj_id."'";
+			"WHERE usr_id = ".$ilDB->quote($a_usr_id, 'integer')." ".
+			"AND obj_id = ".$ilDB->quote($a_obj_id ,'integer');
 
 		$res = $ilDB->query($query);
 		while($row = $res->fetchRow(DB_FETCHMODE_OBJECT))
@@ -154,8 +169,8 @@ class ilLPMarks
 		global $ilDB;
 
 		$query = "SELECT * FROM ut_lp_marks ".
-			"WHERE usr_id = '".$a_usr_id."' ".
-			"AND obj_id = '".$a_obj_id."'";
+			"WHERE usr_id = ".$ilDB->quote($a_usr_id ,'integer')." ".
+			"AND obj_id = ".$ilDB->quote($a_obj_id ,'integer');
 
 		$res = $ilDB->query($query);
 		while($row = $res->fetchRow(DB_FETCHMODE_OBJECT))
@@ -168,9 +183,11 @@ class ilLPMarks
 	// Private
 	function __read()
 	{
+		global $ilDB;
+		
 		$res = $this->db->query("SELECT * FROM ut_lp_marks ".
-								"WHERE obj_id = ".$this->db->quote($this->obj_id)." ".
-								"AND usr_id = '".(int) $this->usr_id."'");
+								"WHERE obj_id = ".$this->db->quote($this->obj_id ,'integer')." ".
+								"AND usr_id = ".$ilDB->quote($this->usr_id ,'integer'));
 		while($row = $res->fetchRow(DB_FETCHMODE_OBJECT))
 		{
 			$this->has_entry = true;
@@ -186,15 +203,17 @@ class ilLPMarks
 
 	function __add()
 	{
-		$query = "INSERT INTO ut_lp_marks ".
-			"SET mark = '".ilUtil::prepareDBString($this->getMark())."', ".
-			"comment = '".ilUtil::prepareDBString($this->getComment())."', ".
-			"completed = '".(int) $this->getCompleted()."', ".
-			"obj_id = '".$this->getObjId()."', ".
-			"usr_id = '".$this->getUserId()."'";
-
-		$this->db->query($query);
-
+		global $ilDB;
+		
+		$query = "INSERT INTO ut_lp_marks (mark,comment, completed,obj_id,usr_id) ".
+			"VALUES( ".
+			$ilDB->quote($this->getMark(),'text').", ".
+			$ilDB->quote($this->getComment() ,'text').", ".
+			$ilDB->quote($this->getCompleted() ,'integer').", ".
+			$ilDB->quote($this->getObjId() ,'integer').", ".
+			$ilDB->quote($this->getUserId() ,'integer')." ".
+			")";
+		$res = $ilDB->manipulate($query);
 		$this->has_entry = true;
 
 		return true;

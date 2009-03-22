@@ -523,11 +523,11 @@ class ilObjUserTracking extends ilObject
 			$ilDB->quote($a_usr_id,'integer'));
 		$aff = $ilDB->manipulate($query);
 
-		$query = "DELETE FROM ut_lp_filter WHERE usr_id = '".$a_usr_id."'";
-		$ilDB->query($query);
+		$query = "DELETE FROM ut_lp_filter WHERE usr_id = ".$ilDB->quote($a_usr_id ,'integer');
+		$res = $ilDB->manipulate($query);
 		
-		$query = "DELETE FROM ut_lp_marks WHERE usr_id = '".$a_usr_id."'";
-		$ilDB->query($query);
+		$query = "DELETE FROM ut_lp_marks WHERE usr_id = ".$ilDB->quote($a_usr_id ,'integer')." ";
+		$res = $ilDB->manipulate($query);
 
 		$ilDB->manipulate("DELETE FROM ut_online WHERE usr_id = ".
 			$ilDB->quote($a_usr_id, "integer"));

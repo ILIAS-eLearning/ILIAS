@@ -88,5 +88,53 @@ class ilTrackingTest extends PHPUnit_Framework_TestCase
 		
 		ilLPObjSettings::_delete(9998);
 	}
+	
+	/**
+	 * Test LP marks 
+	 * @param
+	 * @return
+	 */
+	public function testLPMarks()
+	{
+		include_once './Services/Tracking/classes/class.ilLPMarks.php';
+		include_once './Services/Tracking/classes/class.ilLPStatusManual.php';
+		
+		$marks = new ilLPMarks(999,888);
+		$marks->setMark('Gut');
+		$marks->setComment('Weiter so');
+		$marks->setCompleted(true);
+		$marks->update();
+		
+		$marks = new ilLPMarks(999,888);
+		$mark = $marks->getMark();
+		$this->assertEquals($mark,'Gut');
+		
+		$comment = ilLPMarks::_lookupComment(888,999);
+		$this->assertEquals($comment,'Weiter so');
+		
+		$completed = ilLPStatusManual::_getCompleted(999);
+		$this->assertEquals(array(888),$completed);
+		
+		ilLPMarks::deleteObject(999);
+	}
+
+	/**
+	 * Test LP filter 
+	 * @return
+	 */
+	public function testLPFilter()
+	{
+		include_once './Services/Tracking/classes/class.ilLPFilter.php';
+
+		$filter = new ilLPFilter(9999);
+		$filter->setHidden(array(1));
+		$filter->update();
+		
+		$filter = new ilLPFilter(9999);
+		$f = $filter->getHidden();
+		$this->assertEquals($f,array(1));
+		
+		ilLPFilter::_delete(9999);
+	}
 }
 ?>

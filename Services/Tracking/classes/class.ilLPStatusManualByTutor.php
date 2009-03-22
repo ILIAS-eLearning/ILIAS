@@ -182,9 +182,10 @@ class ilLPStatusManualByTutor extends ilLPStatus
 		global $ilBench;
 		$ilBench->start('LearningProgress','9163_LPStatusManualByTutor_completed');
 
-		$query = "SELECT DISTINCT(usr_id) as user_id FROM ut_lp_marks ".
-			"WHERE obj_id = '".$a_obj_id."' ".
-			"AND completed = '1'";
+		$query = "SELECT DISTINCT(usr_id) user_id FROM ut_lp_marks ".
+			"WHERE obj_id = ".$ilDB->quote($a_obj_id ,'integer')." ".
+			"AND completed = '1' ".
+			"GROUP BY usr_id";
 
 		$res = $ilDB->query($query);
 		while($row = $res->fetchRow(DB_FETCHMODE_OBJECT))

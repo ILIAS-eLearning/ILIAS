@@ -161,14 +161,15 @@ class ilLPFilter
 
 	function update()
 	{
+		global $ilDB;
+		
 		$query = "UPDATE ut_lp_filter ".
-			"SET filter_type = '".$this->getFilterType()."', ".
-			"root_node = '".$this->getRootNode()."', ".
-			"hidden = '".addslashes(serialize($this->getHidden()))."', ".
-			"query_string = '".addslashes($this->getQueryString())."' ".
-			"WHERE usr_id = '".$this->getUserId()."'";
-
-		$res = $this->db->query($query);
+			"SET filter_type = ".$ilDB->quote($this->getFilterType() ,'text').", ".
+			"root_node = ".$ilDB->quote($this->getRootNode() ,'integer').", ".
+			"hidden = ".$ilDB->quote(serialize($this->getHidden()) ,'text').", ".
+			"query_string = ".$ilDB->quote($this->getQueryString() ,'text')." ".
+			"WHERE usr_id = ".$ilDB->quote($this->getUserId() ,'integer');
+		$res = $ilDB->manipulate($query);
 		return true;
 	}
 
@@ -197,8 +198,8 @@ class ilLPFilter
 		global $ilDB;
 
 		$query = "DELETE FROM ut_lp_filter ".
-			"WHERE usr_id = '".$a_usr_id."'";
-		$ilDB->query($query);
+			"WHERE usr_id = ".$ilDB->quote($a_usr_id ,'integer');
+		$res = $ilDB->manipulate($query);
 
 		return true;
 	}
@@ -206,25 +207,28 @@ class ilLPFilter
 	// Private
 	function __add()
 	{
-		$query = "INSERT INTO ut_lp_filter ".
-			"SET usr_id = '".$this->getUserId()."', ".
-			"filter_type = '".$this->getFilterType()."', ".
-			"root_node = '".$this->getRootNode()."', ".
-			"hidden = '".addslashes(serialize($this->getHidden()))."', ".
-			"query_string = '".addslashes($this->getQueryString())."'";
-
-		$this->db->query($query);
-
+		global $ilDB;
+		
+		$query = "INSERT INTO ut_lp_filter (usr_id,filter_type,root_node,hidden,query_string) ".
+			"VALUES( ".
+			$ilDB->quote($this->getUserId() ,'integer').", ".
+			$ilDB->quote($this->getFilterType() ,'text').", ".
+			$ilDB->quote($this->getRootNode() ,'integer').", ".
+			$ilDB->quote(serialize($this->getHidden()) ,'text').", ".
+			$ilDB->quote($this->getQueryString() ,'text').
+			")";
+		$res = $ilDB->manipulate($query);
 		return true;
 	}
 
 
 	function __read()
 	{
+		global $ilDB;
+		
 		$query = "SELECT * FROM ut_lp_filter ".
-			"WHERE usr_id = '".$this->getUserId()."'";
-
-		$res = $this->db->query($query);
+			"WHERE usr_id = ".$ilDB->quote($this->getUserId() ,'integer');
+		$res = $ilDB->query($query);
 
 		if(!$res->numRows())
 		{
@@ -235,7 +239,7 @@ class ilLPFilter
 		{
 			$this->filter_type = $row->filter_type;
 			$this->root_node = $row->root_node;
-			$this->hidden = unserialize(ilUtil::stripSlashes($row->hidden));
+			$this->hidden = unserialize($row->hidden);
 			$this->query_string = $row->query_string;
 		}
 	}
