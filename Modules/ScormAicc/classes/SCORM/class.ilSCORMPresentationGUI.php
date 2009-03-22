@@ -654,5 +654,55 @@ class ilSCORMPresentationGUI
 			}
 		}
 	}
+
+	/**
+	* Download the certificate for the active user
+	*/
+	public function downloadCertificate()
+	{
+		global $ilUser, $tree;
+
+		$allowed = false;
+		$last_access = 0;
+		$obj_id = ilObject::_lookupObjId($_GET["ref_id"]);
+		include_once "./Modules/ScormAicc/classes/class.ilObjSAHSLearningModuleAccess.php";
+		if (ilObjSAHSLearningModuleAccess::_lookupUserCertificate($obj_id))
+		{
+			include_once "./Modules/ScormAicc/classes/class.ilObjSAHSLearningModule.php";
+			$type = ilObjSAHSLearningModule::_lookupSubType($obj_id);
+			switch ($type)
+			{
+				case "scorm":
+					include_once "./Modules/ScormAicc/classes/class.ilObjSCORMLearningModule.php";
+					$allowed = true;
+					$last_access = ilObjSCORMLearningModule::_lookupLastAccess($obj_id, $ilUser->getId());
+					break;
+				case "scorm2004":
+					include_once "./Modules/Scorm2004/classes/class.ilObjSCORM2004LearningModule.php";
+					$allowed = true;
+					$last_access = ilObjSCORM2004LearningModule::_lookupLastAccess($obj_id, $ilUser->getId());
+					break;
+				default:
+					break;
+			}
+		}
+		
+		if ($allowed)
+		{
+			include_once "./Services/Certificate/classes/class.ilCertificate.php";
+			include_once "./Modules/ScormAicc/classes/class.ilSCORMCertificateAdapter.php";
+			$certificate = new ilCertificate(new ilSCORMCertificateAdapter($this->slm));
+			$params = array(
+				"user_data" => ilObjUser::_lookupFields($ilUser->getId()),
+				"last_access" => $last_access
+			);
+			$certificate->outCertificate($params, true);
+			exit;
+		}
+		// redirect to parent category if certificate is not accessible
+		$parent = $tree->getParentId($_GET["ref_id"]);
+		$cmd_link = "repository.php?ref_id=".$parent;
+		ilUtil::redirect($cmd_link);
+	}
 }
 ?>

@@ -664,6 +664,5 @@ class ilSAHSPresentationGUI
 		//}
 	}
 
-
 }
 ?>

@@ -182,15 +182,17 @@ class ilObjSAHSLearningModuleListGUI extends ilObjectListGUI
 			{
 				case "scorm":
 					$lng->loadLanguageModule('certificate');
-					$this->ctrl->setParameterByClass("ilobjsahslearningmodulegui", "ref_id", $this->ref_id);
+					$cmd_link = "ilias.php?baseClass=ilSAHSPresentationGUI&amp;ref_id=".$this->ref_id.
+							"&amp;cmd=downloadCertificate";
 					$props[] = array("alert" => false, "property" => $lng->txt("condition_finished"),
-						"value" => '<a href="' . $this->ctrl->getLinkTargetByClass("ilobjsahslearningmodulegui", "downloadCertificate") . '">' . $lng->txt("download_certificate") . '</a>');
+						"value" => '<a href="' . $cmd_link . '">' . $lng->txt("download_certificate") . '</a>');
 					break;
 				case "scorm2004":
 					$lng->loadLanguageModule('certificate');
-					$this->ctrl->setParameterByClass("ilobjsahslearningmodulegui", "ref_id", $this->ref_id);
+					$cmd_link = "ilias.php?baseClass=ilSAHSPresentationGUI&amp;ref_id=".$this->ref_id.
+							"&amp;cmd=downloadCertificate";
 					$props[] = array("alert" => false, "property" => $lng->txt("condition_finished"),
-						"value" => '<a href="' . $this->ctrl->getLinkTargetByClass("ilobjsahslearningmodulegui", "downloadCertificate") . '">' . $lng->txt("download_certificate") . '</a>');
+						"value" => '<a href="' . $cmd_link . '">' . $lng->txt("download_certificate") . '</a>');
 					break;
 			}
 		}
