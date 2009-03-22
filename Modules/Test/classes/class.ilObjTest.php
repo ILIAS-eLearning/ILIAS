@@ -4886,7 +4886,7 @@ function loadQuestions($active_id = "", $pass = NULL)
 		if (($questionpool != 0) && (!$use_obj_id)) $questionpool = ilObject::_lookupObjId($questionpool);
 
 		// get original ids of all existing questions in the test
-		$result = $ilDB->queryF("SELECT qpl_questions.original_id FROM qpl_questions, tst_test_question WHERE qpl_questions.question_id = tst_test_question.question_fi AND qpl_questions.owner > 0 AND tst_test_question.test_fi = %s",
+		$result = $ilDB->queryF("SELECT qpl_questions.original_id FROM qpl_questions, tst_test_question WHERE qpl_questions.question_id = tst_test_question.question_fi AND qpl_questions.tstamp > 0 AND tst_test_question.test_fi = %s",
 			array("integer"),
 			array($this->getTestId())
 		);
@@ -5243,7 +5243,7 @@ function loadQuestions($active_id = "", $pass = NULL)
 			$original_clause = " ISNULL(qpl_questions.original_id) AND " . $ilDB->in('qpl_questions.question_id',  $original_ids, true, 'integer');
 		}
 
-		$query_result = $ilDB->query("SELECT qpl_questions.question_id, qpl_questions.tstamp FROM qpl_questions, qpl_qst_type, object_data WHERE $original_clause$available AND object_data.obj_id = qpl_questions.obj_fi AND qpl_questions.owner > 0 AND qpl_questions.question_type_fi = qpl_qst_type.question_type_id $where$order$limit");
+		$query_result = $ilDB->query("SELECT qpl_questions.question_id, qpl_questions.tstamp FROM qpl_questions, qpl_qst_type, object_data WHERE $original_clause$available AND object_data.obj_id = qpl_questions.obj_fi AND qpl_questions.tstamp > 0 AND qpl_questions.question_type_fi = qpl_qst_type.question_type_id $where$order$limit");
 		$max = $query_result->numRows();
 		if ($startrow > $max -1)
 		{
@@ -5254,7 +5254,7 @@ function loadQuestions($active_id = "", $pass = NULL)
 			$startrow = 0;
 		}
 		$ilDB->setLimit($maxentries, $startrow);
-		$query_result = $ilDB->query("SELECT qpl_questions.*, qpl_questions.tstamp, qpl_qst_type.type_tag, qpl_qst_type.plugin FROM qpl_questions, qpl_qst_type, object_data WHERE $original_clause $available AND object_data.obj_id = qpl_questions.obj_fi AND qpl_questions.owner > 0 AND qpl_questions.question_type_fi = qpl_qst_type.question_type_id $where$order");
+		$query_result = $ilDB->query("SELECT qpl_questions.*, qpl_questions.tstamp, qpl_qst_type.type_tag, qpl_qst_type.plugin FROM qpl_questions, qpl_qst_type, object_data WHERE $original_clause $available AND object_data.obj_id = qpl_questions.obj_fi AND qpl_questions.tstamp > 0 AND qpl_questions.question_type_fi = qpl_qst_type.question_type_id $where$order");
 		$rows = array();
 		if ($query_result->numRows())
 		{
@@ -6473,7 +6473,7 @@ function loadQuestions($active_id = "", $pass = NULL)
 			{
 				while ($row = $ilDB->fetchAssoc($result))
 				{
-					$countresult = $ilDB->queryF("SELECT question_id FROM qpl_questions WHERE obj_fi =  %s AND qpl_questions.owner > 0 AND original_id IS NULL",
+					$countresult = $ilDB->queryF("SELECT question_id FROM qpl_questions WHERE obj_fi =  %s AND qpl_questions.tstamp > 0 AND original_id IS NULL",
 						array('integer'),
 						$row["questionpool_fi"]
 					);

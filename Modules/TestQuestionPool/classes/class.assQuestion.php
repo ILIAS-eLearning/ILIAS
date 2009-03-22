@@ -1649,7 +1649,7 @@ class assQuestion
 	*/
 	public function createNewQuestion()
 	{
-		global $ilDB;
+		global $ilDB, $ilUser;
 		
 		$complete = "0";
 		$estw_time = $this->getEstimatedWorkingTime();
@@ -1669,7 +1669,7 @@ class assQuestion
 					NULL, 
 					NULL, 
 					$this->getAuthor(), 
-					0, 
+					$ilUser->getId(), 
 					NULL, 
 					0,
 					$estw_time,
