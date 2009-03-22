@@ -452,52 +452,6 @@ class ilObjSAHSLearningModuleGUI extends ilObjectGUI
 	}
 	
 	/**
-	* Download the certificate for the active user
-	*/
-	public function downloadCertificate()
-	{
-		global $ilUser;
-
-		$allowed = false;
-		$last_access = 0;
-		include_once "./Modules/ScormAicc/classes/class.ilObjSAHSLearningModuleAccess.php";
-		if (ilObjSAHSLearningModuleAccess::_lookupUserCertificate($this->object->getId()))
-		{
-			include_once "./Modules/ScormAicc/classes/class.ilObjSAHSLearningModule.php";
-			$type = ilObjSAHSLearningModule::_lookupSubType($this->object->getId());
-			switch ($type)
-			{
-				case "scorm":
-					include_once "./Modules/ScormAicc/classes/class.ilObjSCORMLearningModule.php";
-					$allowed = true;
-					$last_access = ilObjSCORMLearningModule::_lookupLastAccess($this->object->getId(), $ilUser->getId());
-					break;
-				case "scorm2004":
-					include_once "./Modules/Scorm2004/classes/class.ilObjSCORM2004LearningModule.php";
-					$allowed = true;
-					$last_access = ilObjSCORM2004LearningModule::_lookupLastAccess($this->object->getId(), $ilUser->getId());
-					break;
-				default:
-					break;
-			}
-		}
-		
-		if ($allowed)
-		{
-			include_once "./Services/Certificate/classes/class.ilCertificate.php";
-			include_once "./Modules/ScormAicc/classes/class.ilSCORMCertificateAdapter.php";
-			$certificate = new ilCertificate(new ilSCORMCertificateAdapter($this->object));
-			$params = array(
-				"user_data" => ilObjUser::_lookupFields($ilUser->getId()),
-				"last_access" => $last_access
-			);
-			$certificate->outCertificate($params, true);
-			exit;
-		}
-		$this->ctrl->returnToParent($this);
-	}
-
-	/**
 	* adds tabs to tab gui object
 	*
 	* @param	object		$tabs_gui		ilTabsGUI object
