@@ -434,21 +434,21 @@ class ilCourseObjective
 		{
 			return true;
 		}
-		$in = "IN (";
-		$in .= implode(",",ilUtil::quoteArray($ids));
-		$in .= ")";
 
-		$query = "DELETE FROM crs_objective_lm WHERE objective_id ".$in;
-		$ilDB->query($query);
+		$in = $ilDB->in('objective_id',$ids,false,'integer');
 
-		$query = "DELETE FROM crs_objective_tst WHERE objective_id ".$in;
-		$ilDB->query($query);
+
+		$query = "DELETE FROM crs_objective_lm WHERE  ".$in;
+		$res = $ilDB->manipulate($query);
+
+		$query = "DELETE FROM crs_objective_tst WHERE ".$in;
+		$res = $ilDB->manipulate($query);
 		
-		$query = "DELETE FROM crs_objective_qst WHERE objective_id ".$in;
-		$ilDB->query($query);
+		$query = "DELETE FROM crs_objective_qst WHERE ".$in;
+		$res = $ilDB->manipulate($query);
 		
-		$query = "DELETE FROM crs_objectives WHERE crs_id = ".$ilDB->quote($course_id);
-		$ilDB->query($query);
+		$query = "DELETE FROM crs_objectives WHERE crs_id = ".$ilDB->quote($course_id ,'integer');
+		$res = $ilDB->manipulate($query);
 
 		return true;
 	}

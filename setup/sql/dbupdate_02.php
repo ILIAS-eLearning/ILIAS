@@ -10852,3 +10852,17 @@ ALTER TABLE `search_data` CHANGE `target` `target` VARCHAR( 4000 ) NOT NULL;
 <?php
 	$ilMySQLAbstraction->performAbstraction('ut_lp_collections');
 ?>
+
+<#2258>
+<?php
+	$ilMySQLAbstraction->performAbstraction('crs_objective_lm');
+?>
+
+<#2259>
+<?php
+	$ilMySQLAbstraction->performAbstraction('crs_objective_qst');
+?>
+
+<#2260>
+DROP TABLE IF EXISTS `crs_objective_results`;
+

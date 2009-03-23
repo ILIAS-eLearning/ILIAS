@@ -254,30 +254,18 @@ class ilCourseObjectiveResult
 	// PRIVATE
 	function __deleteEntries($a_objective_ids)
 	{
-		global $ilDB;
+		global $ilLog;
 		
-		if(!count($a_objective_ids))
-		{
-			return true;
-		}
-		$in = "IN (";
-		$in .= implode(",",ilUtil::quoteArray($a_objective_ids));
-		$in .= ")";
-
-		$query = "DELETE FROM crs_objective_results ".
-			"WHERE usr_id = ".$ilDB->quote($this->getUserId())." ".
-			"AND question_id ".$in;
-		$this->db->query($query);
+		$ilLog->logStack();
+		$ilLog(__METHOD__.': Call of deprecated method.');
+		
+		return true;
 	}
 
 	function _deleteUser($user_id)
 	{
 		global $ilDB;
 
-		$query = "DELETE FROM crs_objective_results ".
-			"WHERE usr_id = ".$ilDB->quote($user_id)." ";
-		$ilDB->query($query);
-		
 		$query = "DELETE FROM crs_objective_status ".
 			"WHERE user_id = ".$ilDB->quote($user_id)." ";
 		$ilDB->query($query);
@@ -307,9 +295,9 @@ class ilCourseObjectiveResult
 		global $ilDB;
 
 		// get all objtives and questions this current question is assigned to
-		$query = "SELECT q2.question_id as qid,q2.objective_id as ob FROM crs_objective_qst as q1, ".
-			"crs_objective_qst as q2 ".
-			"WHERE q1.question_id = ".$ilDB->quote($a_question_id)." ".
+		$query = "SELECT q2.question_id qid,q2.objective_id ob FROM crs_objective_qst q1, ".
+			"crs_objective_qst q2 ".
+			"WHERE q1.question_id = ".$ilDB->quote($a_question_id ,'integer')." ".
 			"AND q1.objective_id = q2.objective_id ";
 
 		$res = $ilDB->query($query);
@@ -332,10 +320,10 @@ class ilCourseObjectiveResult
 		global $ilDB;
 
 		// Read necessary points
-		$query = "SELECT t.objective_id as obj,t.ref_id as ref, question_id,tst_status,tst_limit ".
-			"FROM crs_objective_tst as t JOIN crs_objective_qst as q ".
+		$query = "SELECT t.objective_id obj,t.ref_id ref, question_id,tst_status,tst_limit ".
+			"FROM crs_objective_tst t JOIN crs_objective_qst q ".
 			"ON (t.objective_id = q.objective_id AND t.ref_id = q.ref_id) ".
-			"WHERE t.objective_id IN (".implode(",",ilUtil::quoteArray($a_all_objectives)).")";
+			"WHERE ".$ilDB->in('t.objective_id',$a_all_objectives,false,'integer');
 
 		$res = $ilDB->query($query);
 		while($row = $res->fetchRow(DB_FETCHMODE_OBJECT))

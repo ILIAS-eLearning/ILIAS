@@ -69,8 +69,8 @@ class ilCourseObjectiveQuestion
 		global $ilDB;
 		
 		$query = "SELECT qst_ass_id FROM crs_objective_qst ".
-			"WHERE ref_id = ".$ilDB->quote($a_test_id)." ".
-			"AND objective_id = ".$ilDB->quote($a_objective_id);
+			"WHERE ref_id = ".$ilDB->quote($a_test_id ,'integer')." ".
+			"AND objective_id = ".$ilDB->quote($a_objective_id ,'integer');
 		$res = $ilDB->query($query);
 		return $res->numRows() ? true : false;
 	}
@@ -227,17 +227,15 @@ class ilCourseObjectiveQuestion
 		
 		// Delete questions
 		$query = "DELETE FROM crs_objective_qst ".
-			"WHERE objective_id = ".$ilDB->quote($this->getObjectiveId())." ".
-			"AND ref_id = ".$ilDB->quote($a_test_ref_id)." ";
-
-		$this->db->query($query);
+			"WHERE objective_id = ".$ilDB->quote($this->getObjectiveId() ,'integer')." ".
+			"AND ref_id = ".$ilDB->quote($a_test_ref_id ,'integer')." ";
+		$res = $ilDB->manipulate($query);
 
 		// delete tst entries
 		$query = "DELETE FROM crs_objective_tst ".
-			"WHERE objective_id = ".$ilDB->quote($this->getObjectiveId())." ".
-			"AND ref_id = ".$ilDB->quote($a_test_ref_id)." ";
-
-		$this->db->query($query);
+			"WHERE objective_id = ".$ilDB->quote($this->getObjectiveId() ,'integer')." ".
+			"AND ref_id = ".$ilDB->quote($a_test_ref_id ,'integer')." ";
+		$res = $ilDB->manipulate($query);
 
 		unset($this->tests[$a_test_ref_id]);
 
@@ -661,18 +659,20 @@ class ilCourseObjectiveQuestion
 		global $ilDB;
 		
 		$query = "DELETE FROM crs_objective_qst ".
-			"WHERE objective_id = ".$this->db->quote($this->getObjectiveId())." ".
-			"AND question_id = ".$this->db->quote($this->getQuestionId())." ";
-		$this->db->query($query);
+			"WHERE objective_id = ".$this->db->quote($this->getObjectiveId() ,'integer')." ".
+			"AND question_id = ".$this->db->quote($this->getQuestionId() ,'integer')." ";
+		$res = $ilDB->manipulate($query);
 		
-		
-		$query = "INSERT INTO crs_objective_qst ".
-			"SET objective_id = ".$ilDB->quote($this->getObjectiveId()).", ".
-			"ref_id = ".$ilDB->quote($this->getTestRefId()).", ".
-			"obj_id = ".$ilDB->quote($this->getTestObjId()).", ".
-			"question_id = ".$ilDB->quote($this->getQuestionId())."";
-
-		$this->db->query($query);
+		$next_id = $ilDB->nextId('crs_objective_qst');
+		$query = "INSERT INTO crs_objective_qst (qst_ass_id, objective_id,ref_id,obj_id,question_id) ".
+			"VALUES( ".
+			$ilDB->quote($next_id,'integer').", ".
+			$ilDB->quote($this->getObjectiveId() ,'integer').", ".
+			$ilDB->quote($this->getTestRefId() ,'integer').", ".
+			$ilDB->quote($this->getTestObjId() ,'integer').", ".
+			$ilDB->quote($this->getQuestionId() ,'integer').
+			")";
+		$res = $ilDB->manipulate($query);
 
 		$this->__addTest();
 		
@@ -690,7 +690,7 @@ class ilCourseObjectiveQuestion
 		}
 		
 		$query = "SELECT * FROM crs_objective_qst ".
-			"WHERE qst_ass_id = ".$ilDB->quote($qst_id)." ";
+			"WHERE qst_ass_id = ".$ilDB->quote($qst_id ,'integer')." ";
 
 		$res = $this->db->query($query);
 		while($row = $res->fetchRow(DB_FETCHMODE_OBJECT))
@@ -700,16 +700,14 @@ class ilCourseObjectiveQuestion
 		}
 
 		$query = "DELETE FROM crs_objective_qst ".
-			"WHERE qst_ass_id = ".$ilDB->quote($qst_id)." ";
-
-		$this->db->query($query);
+			"WHERE qst_ass_id = ".$ilDB->quote($qst_id ,'integer')." ";
+		$res = $ilDB->manipulate($query);
 
 		// delete test if it was the last question
 		$query = "SELECT * FROM crs_objective_qst ".
-			"WHERE ref_id = ".$ilDB->quote($test_rid)." ".
-			"AND obj_id = ".$ilDB->quote($test_oid)." ".
-			"AND objective_id = ".$ilDB->quote($this->getObjectiveId())." ";
-		
+			"WHERE ref_id = ".$ilDB->quote($test_rid ,'integer')." ".
+			"AND obj_id = ".$ilDB->quote($test_oid ,'integer')." ".
+			"AND objective_id = ".$ilDB->quote($this->getObjectiveId() ,'integer')." ";
 
 		$res = $this->db->query($query);
 		if(!$res->numRows())
@@ -725,14 +723,12 @@ class ilCourseObjectiveQuestion
 		global $ilDB;
 		
 		$query = "DELETE FROM crs_objective_qst ".
-			"WHERE objective_id = ".$ilDB->quote($this->getObjectiveId())." ";
-
-		$this->db->query($query);
+			"WHERE objective_id = ".$ilDB->quote($this->getObjectiveId() ,'integer')." ";
+		$res = $ilDB->manipulate($query);
 
 		$query = "DELETE FROM crs_objective_tst ".
-			"WHERE objective_id = ".$ilDB->quote($this->getObjectiveId())." ";
-
-		$this->db->query($query);
+			"WHERE objective_id = ".$ilDB->quote($this->getObjectiveId() ,'integer')." ";
+		$res = $ilDB->manipulate($query);
 
 		return true;
 	}
@@ -763,9 +759,9 @@ class ilCourseObjectiveQuestion
 		}
 
 		$this->questions = array();
-		$query = "SELECT * FROM crs_objective_qst as coq ".
-			"JOIN qpl_questions as qq ON coq.question_id = qq.question_id ".
-			"WHERE objective_id = ".$ilDB->quote($this->getObjectiveId())." ".
+		$query = "SELECT * FROM crs_objective_qst coq ".
+			"JOIN qpl_questions qq ON coq.question_id = qq.question_id ".
+			"WHERE objective_id = ".$ilDB->quote($this->getObjectiveId() ,'integer')." ".
 			"ORDER BY title";
 
 		$res = $this->db->query($query);
@@ -821,11 +817,11 @@ class ilCourseObjectiveQuestion
 	{
 		global $ilDB;
 
-		$query = "SELECT crs_qst.objective_id as objective_id FROM crs_objective_qst as crs_qst, crs_objectives as crs_obj ".
+		$query = "SELECT crs_qst.objective_id objective_id FROM crs_objective_qst crs_qst, crs_objectives crs_obj ".
 			"WHERE crs_qst.objective_id = crs_obj.objective_id ".
-			"AND crs_qst.objective_id = ".$ilDB->quote($a_objective_id) ." ".
-			"AND ref_id = ".$ilDB->quote($a_tst_ref_id)." ".
-			"AND question_id = ".$ilDB->quote($a_question_id)." ";
+			"AND crs_qst.objective_id = ".$ilDB->quote($a_objective_id ,'integer') ." ".
+			"AND ref_id = ".$ilDB->quote($a_tst_ref_id ,'integer')." ".
+			"AND question_id = ".$ilDB->quote($a_question_id ,'integer')." ";
 
 		$res = $ilDB->query($query);
 		while($row = $res->fetchRow(DB_FETCHMODE_OBJECT))
