@@ -10866,3 +10866,17 @@ ALTER TABLE `search_data` CHANGE `target` `target` VARCHAR( 4000 ) NOT NULL;
 <#2260>
 DROP TABLE IF EXISTS `crs_objective_results`;
 
+<#2261>
+<?php
+	$ilMySQLAbstraction->performAbstraction('crs_objective_status');
+?>
+
+<#2262>
+<?php
+	$ilMySQLAbstraction->performAbstraction('crs_objective_status_pretest');
+?>
+
+<#2263>
+<?php
+	$ilMySQLAbstraction->performAbstraction('crs_objective_tst');
+?>
