@@ -2505,7 +2505,7 @@ common#:#svy_invite#:#Inviter brugere til en undersøgelse
 common#:#svy_new#:#Ny undersøgelse
 common#:#svy_no_content#:#Ingen undersøgelser er tilgængelige.
 common#:#svy_not_finished#:#ikke afsluttet
-common#:#svy_not_started#:#ikke startet
+common#:#svy_not_started#:#Ikke påbegyndt
 common#:#svy_participate#:#Deltag I en undersøgelse
 common#:#svy_read#:#Læseadgang til undersøgelsen
 common#:#svy_run#:#Run###20 Jun 2005 new variable
@@ -6548,7 +6548,7 @@ payment#:#pays_updated_bmf_settings#:#Your settings for BMF were updated.###16 0
 payment#:#pays_bmf_settings_not_valid#:#Your settings for BMF aren't valid. Please check out whether all fields are filled out correctly.###16 08 2007 new variable
 pwassist#:#password_assistance#:#Password Hjælp
 pwassist#:#pwassist_enter_email#:#Indtast venligst din emailadresse og tryk på <b>udfør</b>. ILIAS sender en email til adressen med den/de registrerede brugernavne som er tilknyttet. Vælg derefter det ønskede brugernavn og brug <i>password service</i> til at få et nyt password. Hvis du ikke modtager en mail, så kontakt venligst din kursusadministrator eller %1$s.
-pwassist#:#pwassist_enter_username_and_email#:#Indtast et brugernavn og den tilhørende e-mail adresse i felterne nedenfor.<br>ILIAS vil derefter sende en besked til den e-mail addresse. Beskeden indeholder en adresse til en hjemmeside, hvor du kan indtaste et nyt password.
+pwassist#:#pwassist_enter_username_and_email#:#Indtast et brugernavn og den tilknyttede e-mail adresse i felterne nedenfor.<br/><br/>ILIAS sender herefter en besked til mailadressen som indeholder et link til en side hvor du kan angive nyt kodeord for din konto.
 pwassist#:#pwassist_enter_username_and_new_password#:#Indtast brugernavn og password i feltet nedenfor.
 pwassist#:#pwassist_invalid_email#:#Venligst ret din email addresse.\nDen angivne email addresse blev ikke fundet i databasen
 pwassist#:#pwassist_invalid_username_or_email#:#Check venligst de udfyldte felter. Brugernavn og Emailadressen du har indtastet matcher ikke nogen i databasen.
@@ -6558,7 +6558,7 @@ pwassist#:#pwassist_mail_body#:#Skift password på din brugerkonto:\n\t%1$s\n\nD
 pwassist#:#pwassist_mail_sent#:#En besked er blevet sendt til %1$s med instruktioner om hvordan du kommer videre.
 pwassist#:#pwassist_mail_subject#:#ILIAS password hjælp
 pwassist#:#pwassist_not_permitted#:#Indtast venligst et andet brugernavn.\nPasswordassistance er ikke tilladt for det brugernavn du har indtastet.
-pwassist#:#pwassist_password_assigned#:#Passwordet blev tilføjet til bruger \"%1$s\".
+pwassist#:#pwassist_password_assigned#:#Password sat for brugerkontoen "%1$s".
 pwassist#:#pwassist_session_expired#:#Udfyld venligst formularen igen.\\nDin passwordassistancesession er udløbet. Dette kan forekomme hvis du har benyttet linket som blev sendt til dig på email mere end 1 gang, eller fordi der er gået for lang tid siden linket blev sendt ti
 pwassist#:#pwassist_update_error#:#Kontakt venligst din system administrator.\\nPasswordet kunne ikke blive tildelt brugerkontoen på grund af en fejl under opdatering af databasen.
 pwassist#:#pwassist_username_mail_body#:#Her er de aktive brugernavne for emailadressen: %s.\n\nDenne besked blev autogenereret af ILIAS serveren %s fordi du (eller en person med IP %s) har anmodet om støtte til glemte brugernavne for emailadressen %s.\n\n\t- Hvis du har anmodet om denne mail ved en fejltagelse kan du blot slette den.\n\t- Har du aldrig bedt om denne mail, så kontakt %s.\n\t-Har du bedt om denne mail, så fortsæt med følgende:\n1. Start din browser\n2. Indtast følgende url:\n\t%s\n\nBemærk at adressen er en enkelt linje men muligvis er blevet ombrudt af dit emailprogram.\n3. Din browser viser nu password service. Brug denne side sammen med et af brugernavnene til at anskaffe et nyt password.
@@ -8940,9 +8940,9 @@ style#:#sty_type_question#:#Spørgsmål
 style#:#sty_type_page#:#Side
 style#:#sty_type#:#Type###24 02 2009 new variable
 style#:#sty_type_sco#:#SCO###24 02 2009 new variable
-content#:#cont_StandardTable#:#Standard Table###24 02 2009 new variable
-style#:#sty_opacity#:#Opacity###24 02 2009 new variable
-style#:#sty_positioning#:#Positioning###24 02 2009 new variable
+content#:#cont_StandardTable#:#Standardtabel
+style#:#sty_opacity#:#Gennemsigtighed
+style#:#sty_positioning#:#Positionering
 style#:#sty_width#:#Bredde
 style#:#sty_height#:#Højde
 style#:#sty_overflow#:#Overflow###24 02 2009 new variable
@@ -8955,14 +8955,14 @@ style#:#sty_type_flist_li#:#File List Item###24 02 2009 new variable
 style#:#sty_type_flist_head#:#File List Heading###24 02 2009 new variable
 content#:#cont_file_from_repository#:#File From Repository###24 02 2009 new variable
 content#:#cont_position#:#Position###24 02 2009 new variable
-content#:#cont_ed_edit_files#:#Edit Files###24 02 2009 new variable
-content#:#cont_save_positions#:#Save Positions###24 02 2009 new variable
-content#:#cont_add_file#:#Add File###24 02 2009 new variable
+content#:#cont_ed_edit_files#:#Ret filer
+content#:#cont_save_positions#:#Gem positioner
+content#:#cont_add_file#:#Tilføj fil
 content#:#cont_save_positions_and_classes#:#Save Positions and Style Classes###24 02 2009 new variable
 content#:#cont_FileListItem#:#File List Item (Standard)###24 02 2009 new variable
 style#:#sty_type_media_cont#:#Media Container###24 02 2009 new variable
-style#:#sty_type_page_fn#:#Footnote###24 02 2009 new variable
-style#:#sty_type_page_nav#:#Footnote###24 02 2009 new variable
+style#:#sty_type_page_fn#:#Fodnote
+style#:#sty_type_page_nav#:#Fodnote
 style#:#sty_type_page_title#:#Page Title###24 02 2009 new variable
 style#:#sty_float#:#Float###24 02 2009 new variable
 style#:#sty_type_page_bnav#:#Bottom Navigation###24 02 2009 new variable
@@ -9009,25 +9009,25 @@ export#:#export_create_new_file#:#Lav ny eksportfil
 export#:#export_omit_resource#:#Udelad resurse
 export#:#export_omit#:#Udelad
 export#:#export_create#:#Lav
-export#:#export_last_file#:#Last File###24 02 2009 new variable
-export#:#export_export_date#:#Export Date###24 02 2009 new variable
+export#:#export_last_file#:#Sidste fil
+export#:#export_export_date#:#Eksportdato
 common#:#session_reminder_extended#:#Your Session was extended for %s###24 02 2009 new variable
 common#:#session_reminder_session_duration#:#(Session Duration: %s).###24 02 2009 new variable
 crs#:#crs_user_already_assigned#:#The chosen user is already assigned to this course.###24 02 2009 new variable
-assessment#:#showSuggestedSolution#:#Suggested solution###24 02 2009 new variable
-assessment#:#deleteSuggestedSolution#:#Remove this suggested solution###24 02 2009 new variable
-assessment#:#suggestedSolutionType#:#Suggested solution type###24 02 2009 new variable
-assessment#:#changeSuggestedSolution#:#Change suggested solution###24 02 2009 new variable
-assessment#:#addSuggestedSolution#:#Add suggested solution###24 02 2009 new variable
-assessment#:#fileDownload#:#File download###24 02 2009 new variable
-assessment#:#solutionText#:#Text###24 02 2009 new variable
+assessment#:#showSuggestedSolution#:#Foreslået løsning
+assessment#:#deleteSuggestedSolution#:#Fjern løsningsforslag
+assessment#:#suggestedSolutionType#:#Løsningsforslag (type)
+assessment#:#changeSuggestedSolution#:#Ret løsningsforslag
+assessment#:#addSuggestedSolution#:#Opret løsningsforslag
+assessment#:#fileDownload#:#Hent fil
+assessment#:#solutionText#:#Tekst
 content#:#cont_print_no_page_selected#:#Please select at least one page.###24 02 2009 new variable
 assessment#:#log_manual_feedback#:#%s added manual feedback for test person %s and question %s: %s###24 02 2009 new variable
 assessment#:#set_manscoring_done#:#Mark this participant as "Scored Participant"###24 02 2009 new variable
-assessment#:#tst_show_solution_suggested#:#Show Suggested Solution###24 02 2009 new variable
-survey#:#err_no_pool_name#:#Please enter the name of a survey question pool###24 02 2009 new variable
-assessment#:#err_no_numeric_value#:#Please enter a numeric value###24 02 2009 new variable
-assessment#:#matching_pairs#:#Matching Pairs###24 02 2009 new variable
+assessment#:#tst_show_solution_suggested#:#Vis løsningsforslag
+survey#:#err_no_pool_name#:#Indtast navnet på en samling af spørgsmål til undersøgelser.
+assessment#:#err_no_numeric_value#:#Du skal indtaste en numerisk værdi.
+assessment#:#matching_pairs#:#Matchende par
 assessment#:#error_duplicate_term#:#You selected a matching term more than once###24 02 2009 new variable
 assessment#:#matching_type#:#Matching Question Subtype###24 02 2009 new variable
 common#:#msg_form_save_error#:#The form data could not be saved. Please check the input fields for any error messages.###24 02 2009 new variable
