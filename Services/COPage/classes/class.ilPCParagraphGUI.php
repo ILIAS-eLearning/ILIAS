@@ -191,7 +191,7 @@ class ilPCParagraphGUI extends ilPageContentGUI
 			$tpl->parseCurrentBlock();
 			$tpl->setVariable("TXT_ACTION", $this->lng->txt("cont_edit_par"));
 		}
-		
+
 		// language and characteristic selection
 		if (!$a_insert)
 		{
@@ -204,6 +204,10 @@ class ilPCParagraphGUI extends ilPageContentGUI
 			{
 				$s_lang = $this->content_obj->getLanguage();
 				$s_char = $this->content_obj->getCharacteristic();
+				if ($s_char == "")
+				{
+					$s_char = "Standard";
+				}
 			}
 		}
 		else
@@ -215,6 +219,7 @@ class ilPCParagraphGUI extends ilPageContentGUI
 			}
 			else
 			{
+				$s_char = "Standard";
 				if ($_SESSION["il_text_lang_".$_GET["ref_id"]] != "")
 				{
 					$s_lang = $_SESSION["il_text_lang_".$_GET["ref_id"]];
@@ -244,7 +249,9 @@ class ilPCParagraphGUI extends ilPageContentGUI
 			}
 		}
 
-		$this->insertCharacteristicTable($tpl, $s_char);
+		$this->insertStyleSelectionList($tpl, $s_char);
+//		$this->insertCharacteristicTable($tpl, $s_char);
+		
 		
 		$tpl->setVariable("FORMACTION", $this->ctrl->getFormAction($this));
 		
@@ -327,6 +334,39 @@ class ilPCParagraphGUI extends ilPageContentGUI
 		$a_tpl->touchBlock("characteristic_table");
 	}
 
+	function insertStyleSelectionList($a_tpl, $a_s_char)
+	{
+		include_once("./Services/AdvancedSelectionList/classes/class.ilAdvancedSelectionListGUI.php");
+		$selection = new ilAdvancedSelectionListGUI();
+		$selection->setFormSelectMode("par_characteristic", "", false,
+			"", "", "",
+			"", "", "", "");
+		$selection->setListTitle($a_s_char);
+		$selection->setId("style_selection");
+		//$selection->setSelectionHeaderClass("MMInactive");
+		$selection->setHeaderIcon(ilAdvancedSelectionListGUI::DOWN_ARROW_DARK);
+		$selection->setSelectedValue($a_s_char);
+		//$selection->setItemLinkClass("small");
+		$selection->setUseImages(false);
+		$selection->setOnClickMode(ilAdvancedSelectionListGUI::ON_ITEM_CLICK_FORM_SELECT);
+		
+		$chars = $this->getCharacteristics();
+
+		if ($chars[$a_seleted_value] == "" && ($a_seleted_value != ""))
+		{
+			$chars = array_merge(array($a_seleted_value => $a_seleted_value),
+				$chars);
+		}
+
+		foreach ($chars as $char => $char_lang)
+		{
+			$html = '<div class="ilc_text_block_'.$char.'" style="margin-top:2px; margin-bottom:2px; position:static;">'.$char_lang."</div>";
+			$selection->addItem($char_lang, $char, "",
+				"", $char, "", $html);
+		}
+		$a_tpl->setVariable("ADV_SEL_STYLE", $selection->getHTML());
+	}
+	
 	/**
 	* Set Style
 	*/

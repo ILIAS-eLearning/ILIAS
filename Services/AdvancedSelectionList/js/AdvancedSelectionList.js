@@ -179,6 +179,7 @@ setTimeout("doCloseContextMenu()",200);
 function ilShowAdvSelList(id)
 {
 	obj = document.getElementById('ilAdvSelListTable_' + id);
+	obj2 = document.getElementById('ilAdvSelListTableInner_' + id);
 	anchor = document.getElementById('ilAdvSelListAnchorElement_' + id);
 	
 	var wih = ilGetWinInnerHeight();
@@ -193,6 +194,21 @@ function ilShowAdvSelList(id)
 	obj.style.display='';
 	
 	var top = ilGetOffsetTop(obj);
+	
+	// make it smaller, if window height is not sufficient
+	if (wih < obj.offsetHeight + 20)
+	{
+		newHeight = wih - 20;
+		if (newHeight < 150)
+		{
+			newHeight = 150;
+		}
+		obj.style.height = newHeight + "px";
+		obj2.style.height = newHeight + "px";
+		//obj.style.width = obj.offsetWidth + 20 + "px";
+		obj2.style.width = obj2.offsetWidth + 20 + "px";
+//alert("Too small wih: " + wih + ", obj height: " + obj.offsetHeight);
+	}
 	
 	// if too low: show it higher
 	if (top + (obj.offsetHeight + 10) > wih + yoff)
@@ -250,12 +266,25 @@ function ilShowAdvSelListAnchor(id)
 
 function ilAdvSelListFormSubmit(id, hid_name, hid_val, form_id, cmd)
 {
-	hidden_el = document.getElementById("ilAdvSelListHidden_" + id);
-	hidden_el.name = hid_name;
-	hidden_el.value = hid_val;
+	ilAdvSelSetHiddenInput(id, hid_name, hid_val);
 	form_el = document.getElementById(form_id);
 	hidden_cmd_el = document.getElementById("ilAdvSelListHiddenCmd_" + id);
 	hidden_cmd_el.name = 'cmd[' + cmd + ']';
 	hidden_cmd_el.value = '1';
 	form_el.submit();
+}
+
+function ilAdvSelListFormSelect(id, hid_name, hid_val, title)
+{
+	ilAdvSelSetHiddenInput(id, hid_name, hid_val);
+	anchor_text = document.getElementById("ilAdvSelListAnchorText_" + id);
+	anchor_text.innerHTML = title;
+	ilHideAdvSelList(id);
+}
+
+function ilAdvSelSetHiddenInput(id, hid_name, hid_val)
+{
+	hidden_el = document.getElementById("ilAdvSelListHidden_" + id);
+	hidden_el.name = hid_name;
+	hidden_el.value = hid_val;
 }
