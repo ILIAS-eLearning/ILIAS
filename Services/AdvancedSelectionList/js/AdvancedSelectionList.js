@@ -188,8 +188,8 @@ function ilShowAdvSelList(id)
 	);*/
 
 	//obj.style.left = anchor.offsetLeft + 'px';
-	obj.style.left = (absLeft(anchor) + 3) + 'px';
-	obj.style.top = ((absTop(anchor) + anchor.offsetHeight) + 3) + 'px';
+	obj.style.left = (absLeft(anchor) + 2) + 'px';
+	obj.style.top = ((absTop(anchor) + anchor.offsetHeight) + 2) + 'px';
 	obj.style.display='';
 	
 	var top = ilGetOffsetTop(obj);
@@ -240,4 +240,22 @@ function ilAdvSelItemOn(obj)
 function ilAdvSelItemOff(obj)
 {
 	obj.className = "il_adv_sel";
+}
+
+function ilShowAdvSelListAnchor(id)
+{
+	anchor = document.getElementById(id);
+	anchor.style.display='';
+}
+
+function ilAdvSelListFormSubmit(id, hid_name, hid_val, form_id, cmd)
+{
+	hidden_el = document.getElementById("ilAdvSelListHidden_" + id);
+	hidden_el.name = hid_name;
+	hidden_el.value = hid_val;
+	form_el = document.getElementById(form_id);
+	hidden_cmd_el = document.getElementById("ilAdvSelListHiddenCmd_" + id);
+	hidden_cmd_el.name = 'cmd[' + cmd + ']';
+	hidden_cmd_el.value = '1';
+	form_el.submit();
 }

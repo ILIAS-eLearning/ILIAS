@@ -1360,6 +1360,7 @@ class ilTemplate extends ilTemplateX
 		$a_command, $a_txt)
 	{
 		$this->setPageFormAction($a_form_action);
+
 		$this->creation_selector =
 			array("form_action" => $a_form_action,
 				"options" => $a_options,
@@ -1370,10 +1371,9 @@ class ilTemplate extends ilTemplateX
 	/**
 	* Show admin view button
 	*/
-	function setAdminViewButton($a_link, $a_txt)
+	function setPageActions($a_page_actions_html)
 	{
-		$this->admin_view_button =
-			array("link" => $a_link, "txt" => $a_txt);
+		$this->page_actions = $a_page_actions_html;
 	}
 	
 	/**
@@ -1428,17 +1428,17 @@ class ilTemplate extends ilTemplateX
 		}
 		
 		// admin view button
-		if (is_array($this->admin_view_button))
+		if ($this->page_actions != "")
 		{
-			if (is_array($this->edit_page_button))
+/*			if (is_array($this->edit_page_button))
 			{
 				$this->setCurrentBlock("edit_cmd");
 				$this->setVariable("TXT_EDIT_PAGE", $this->edit_page_button["txt"]);
 				$this->setVariable("LINK_EDIT_PAGE", $this->edit_page_button["link"]);
 				$this->setVariable("FRAME_EDIT_PAGE", $this->edit_page_button["frame"]);
 				$this->parseCurrentBlock();
-			}
-			if (is_array($this->admin_view_button))
+			}*/
+/*			if (is_array($this->admin_view_button))
 			{
 				$this->setCurrentBlock("admin_button");
 				$this->setVariable("ADMIN_MODE_LINK",
@@ -1447,11 +1447,13 @@ class ilTemplate extends ilTemplateX
 					$this->admin_view_button["txt"]);
 				$this->parseCurrentBlock();
 			}
-			$this->setCurrentBlock("admin_view");
-			$this->parseCurrentBlock();
+*/
+			$this->setVariable("PAGE_ACTIONS", $this->page_actions);
+//			$this->setCurrentBlock("admin_view");
+//			$this->parseCurrentBlock();
 			$adm_view = true;
 		}
-		
+
 		// creation selector
 		if (is_array($this->creation_selector))
 		{
@@ -1460,12 +1462,35 @@ class ilTemplate extends ilTemplateX
 			{
 				$this->setVariable("ADD_COM_WIDTH", 'width="1"');
 			}
+			
+			include_once("./Services/AdvancedSelectionList/classes/class.ilAdvancedSelectionListGUI.php");
+			$selection = new ilAdvancedSelectionListGUI();
+			$selection->setFormSelectMode("new_type", "", false,
+				"", "", "",
+				"", $this->creation_selector["txt"], "", $this->creation_selector["command"]);
+			$selection->setListTitle($lng->txt("add"));
+			$selection->setId("item_creation");
+			//$selection->setSelectionHeaderClass("MMInactive");
+			$selection->setHeaderIcon(ilUtil::getImagePath("cmd_add_s.gif"));
+			$selection->setItemLinkClass("small");
+			$selection->setUseImages(true);
+			$selection->setOnClickMode(ilAdvancedSelectionListGUI::ON_ITEM_CLICK_FORM_SUBMIT,
+				"main_page_form");
+			foreach ($this->creation_selector["options"] as $item)
+			{
+				$selection->addItem($item["title"], $item["value"], "",
+					$item["img"], $item["title"], "");
+			}
+			$this->setVariable("SELECT_OBJTYPE_REPOS",
+				$selection->getHTML());
+			
+			/*
 			$this->setVariable("SELECT_OBJTYPE_REPOS",
 				$this->creation_selector["options"]);
 			$this->setVariable("BTN_NAME_REPOS",
 				$this->creation_selector["command"]);
 			$this->setVariable("TXT_ADD_REPOS",
-				$this->creation_selector["txt"]);
+				$this->creation_selector["txt"]);*/
 			$this->parseCurrentBlock();
 			$creation_selector = true;
 		}

@@ -24,7 +24,7 @@
 </div>
 </div>
 <div style="margin-left:15px; clear:both;">{SUB_TABS}</div>
-<!-- BEGIN page_form_start --><form action="{PAGE_FORM_ACTION}" method="post"><!-- END page_form_start -->
+<!-- BEGIN page_form_start --><form id="main_page_form" action="{PAGE_FORM_ACTION}" method="post"><!-- END page_form_start -->
 	<!-- BEGIN adm_panel -->
 	<!-- BEGIN adm_view_components -->
 	<div style="float:left; margin: 0px 10px 5px 15px;">
@@ -38,8 +38,9 @@
 <div class="il_ContainerItemCommands2" style="text-align: right; margin: 5px 15px 10px 10px;">
 	<!-- BEGIN add_commands -->
 	<!-- action="{H_FORMACTION}" -->
-	{SELECT_OBJTYPE_REPOS}
-	<input class="submit" type="submit" name="cmd[{BTN_NAME_REPOS}]" value="{TXT_ADD_REPOS}" />
+	{SELECT_OBJTYPE_REPOS}&nbsp;&nbsp;&nbsp;
+	{PAGE_ACTIONS}
+	<!-- <input class="submit" type="submit" name="cmd[{BTN_NAME_REPOS}]" value="{TXT_ADD_REPOS}" /> -->
 	<!-- END add_commands -->
 	<!-- BEGIN admin_view -->
 	<!-- BEGIN edit_cmd -->

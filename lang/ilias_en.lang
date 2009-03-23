@@ -9087,3 +9087,6 @@ payment#:#payment_news_settings#:#Shop News Settings
 payment#:#payment_news_archive_period#:#Archive-Period
 payment#:#payment_news_archive_period_info#:#Time period to define when news move to archive 
 payment#:#payment_news_settings_saved#:#The settings have been saved
+cntr#:#cntr_page_actions#:#Page Actions
+cntr#:#cntr_enable_multi_commands#:#Enable Multi Commands
+cntr#:#cntr_disable_multi_commands#:#Disable Multi Commands
