@@ -138,8 +138,9 @@ class ilCourseObjectiveMaterials
 	{
 		global $ilDB;
 		
-		$query = "SELECT DISTINCT(ref_id) AS ref_id FROM crs_objective_lm ".
-			"WHERE objective_id = ".$ilDB->quote($a_objective_id)." ";
+		$query = "SELECT DISTINCT(ref_id) ref_id FROM crs_objective_lm ".
+			"WHERE objective_id = ".$ilDB->quote($a_objective_id ,'integer')." ".
+			"GROUP BY ref_id";
 		$res = $ilDB->query($query);
 		while($row = $res->fetchRow(DB_FETCHMODE_OBJECT))
 		{
@@ -205,6 +206,7 @@ class ilCourseObjectiveMaterials
 			"JOIN object_reference obr ON com.ref_id = obr.ref_id ".
 			"JOIN object_data obd ON obr.obj_id = obd.obj_id ".
 			"WHERE co.crs_id = ".$ilDB->quote($a_container_id,'integer')." ".
+			"GROUP BY com.ref_id ".
 			"ORDER BY obd.title ";
 			
 		$res = $ilDB->query($query);
@@ -281,9 +283,11 @@ class ilCourseObjectiveMaterials
 	 */
 	public function isAssigned($a_ref_id)
 	{
+		global $ilDB;
+		
 		$query = "SELECT * FROM crs_objective_lm ".
-			"WHERE ref_id = ".$this->db->quote($a_ref_id)." ".
-			"AND objective_id = ".$this->db->quote($this->getObjectiveId())." ".
+			"WHERE ref_id = ".$this->db->quote($a_ref_id ,'integer')." ".
+			"AND objective_id = ".$this->db->quote($this->getObjectiveId() ,'integer')." ".
 			"AND type != 'st' AND type != 'pg' ";
 		$res = $this->db->query($query);
 		return $res->numRows() ? true : false;
@@ -299,10 +303,12 @@ class ilCourseObjectiveMaterials
 	 */
 	public function isChapterAssigned($a_ref_id,$a_obj_id)
 	{
+		global $ilDB;
+		
 		$query = "SELECT * FROM crs_objective_lm ".
-			"WHERE ref_id = ".$this->db->quote($a_ref_id)." ".
-			"AND obj_id = ".$this->db->quote($a_obj_id)." ".
-			"AND objective_id = ".$this->db->quote($this->getObjectiveId())." ".
+			"WHERE ref_id = ".$this->db->quote($a_ref_id ,'integer')." ".
+			"AND obj_id = ".$this->db->quote($a_obj_id ,'integer')." ".
+			"AND objective_id = ".$this->db->quote($this->getObjectiveId() ,'integer')." ".
 			"AND (type = 'st' OR type = 'pg')";
 		$res = $this->db->query($query);
 		return $res->numRows() ? true : false;
@@ -314,15 +320,15 @@ class ilCourseObjectiveMaterials
 		if($this->getLMObjId())
 		{
 			$query = "SELECT * FROM crs_objective_lm ".
-				"WHERE objective_id = ".$ilDB->quote($this->getObjectiveId())." ".
-				"AND ref_id = ".$ilDB->quote($this->getLMRefId())." ".
-				"AND obj_id = ".$ilDB->quote($this->getLMObjId())." ";
+				"WHERE objective_id = ".$ilDB->quote($this->getObjectiveId() ,'integer')." ".
+				"AND ref_id = ".$ilDB->quote($this->getLMRefId() ,'integer')." ".
+				"AND obj_id = ".$ilDB->quote($this->getLMObjId() ,'integer')." ";
 		}
 		else
 		{
 			$query = "SELECT * FROM crs_objective_lm ".
-				"WHERE objective_id = ".$ilDB->quote($this->getObjectiveId())." ".
-				"AND ref_id = ".$ilDB->quote($this->getLMRefId())." ";
+				"WHERE objective_id = ".$ilDB->quote($this->getObjectiveId() ,'integer')." ".
+				"AND ref_id = ".$ilDB->quote($this->getLMRefId() ,'integer')." ";
 		}
 
 		$res = $this->db->query($query);
@@ -334,13 +340,16 @@ class ilCourseObjectiveMaterials
 	{
 		global $ilDB;
 		
-		$query = "INSERT INTO crs_objective_lm ".
-			"SET objective_id = ".$ilDB->quote($this->getObjectiveId()).", ".
-			"ref_id = ".$ilDB->quote($this->getLMRefId()).", ".
-			"obj_id = ".$ilDB->quote($this->getLMObjId()).", ".
-			"type = ".$ilDB->quote($this->getType())."";
-
-		$this->db->query($query);
+		$next_id = $ilDB->nextId('crs_objective_lm');
+		$query = "INSERT INTO crs_objective_lm (lm_ass_id,objective_id,ref_id,obj_id,type) ".
+			"VALUES( ".
+			$ilDB->quote($next_id, 'integer').", ".
+			$ilDB->quote($this->getObjectiveId() ,'integer').", ".
+			$ilDB->quote($this->getLMRefId() ,'integer').", ".
+			$ilDB->quote($this->getLMObjId() ,'integer').", ".
+			$ilDB->quote($this->getType() ,'text').
+			")";
+		$res = $ilDB->manipulate($query);
 
 		return true;
 	}
@@ -354,9 +363,8 @@ class ilCourseObjectiveMaterials
 		}
 
 		$query = "DELETE FROM crs_objective_lm ".
-			"WHERE lm_ass_id = ".$ilDB->quote($lm_id)." ";
-
-		$this->db->query($query);
+			"WHERE lm_ass_id = ".$ilDB->quote($lm_id ,'integer')." ";
+		$res = $ilDB->manipulate($query);
 
 		return true;
 	}
@@ -366,10 +374,8 @@ class ilCourseObjectiveMaterials
 		global $ilDB;
 		
 		$query = "DELETE FROM crs_objective_lm ".
-			"WHERE objective_id = ".$ilDB->quote($this->getObjectiveId())." ";
-
-		$this->db->query($query);
-
+			"WHERE objective_id = ".$ilDB->quote($this->getObjectiveId() ,'integer')." ";
+		$res = $ilDB->manipulate($query);
 		return true;
 	}
 
