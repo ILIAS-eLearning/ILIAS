@@ -976,7 +976,16 @@ class ilRbacReview
 	*/
 	function isAssigned($a_usr_id,$a_role_id)
 	{
-		return in_array($a_usr_id,$this->assignedUsers($a_role_id));
+		global $ilDB;
+
+	    $query = "SELECT usr_id FROM rbac_ua WHERE ".
+                    "rol_id= ".$ilDB->quote($a_role_id,'integer')." ".
+                    "AND usr_id= ".$ilDB->quote($a_usr_id)
+                    ;
+
+		$res = $ilDB->query($query);
+
+        return $ilDB->numRows($res) == 1;
 	}
 	
 	/**
