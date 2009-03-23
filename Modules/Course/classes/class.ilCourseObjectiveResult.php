@@ -74,8 +74,8 @@ class ilCourseObjectiveResult
 			return array();
 		}
 		$query = "SELECT objective_id FROM crs_objective_status ".
-			"WHERE objective_id IN (".implode(",",ilUtil::quoteArray($objectives))." ) ".
-			"AND user_id = ".$ilDB->quote($a_user_id)." ";
+			"WHERE ".$ilDB->in('objective_id',$objectives,false,'integer').' '.
+			"AND user_id = ".$ilDB->quote($a_user_id ,'integer')." ";
 		$res = $ilDB->query($query);
 		while($row = $res->fetchRow(DB_FETCHMODE_OBJECT))
 		{
@@ -101,8 +101,8 @@ class ilCourseObjectiveResult
 		{
 			// check finished
 			$query = "SELECT objective_id FROM crs_objective_status ".
-				"WHERE objective_id IN (".implode(",",ilUtil::quoteArray($objectives)).") ".
-				"AND user_id = ".$ilDB->quote($a_user_id)." ";
+				"WHERE ".$ilDB->in('objective_id',$objectives,false,'integer')." ".
+				"AND user_id = ".$ilDB->quote($a_user_id ,'integer')." ";
 			$res = $ilDB->query($query);
 			while($row = $res->fetchRow(DB_FETCHMODE_OBJECT))
 			{
@@ -113,8 +113,8 @@ class ilCourseObjectiveResult
 		{
 			// Pretest 
 			$query = "SELECT objective_id FROM crs_objective_status_pretest ".
-				"WHERE objective_id IN (".implode(",",ilUtil::quoteArray($objectives)).") ".
-				"AND user_id = ".$ilDB->quote($a_user_id)."";
+				"WHERE ".$ilDB->in('objective_id',$objectives,false,'integer').' '.
+				"AND user_id = ".$ilDB->quote($a_user_id ,'integer');
 			$res = $ilDB->query($query);
 			while($row = $res->fetchRow(DB_FETCHMODE_OBJECT))
 			{
@@ -158,14 +158,14 @@ class ilCourseObjectiveResult
 		if(count($objectives))
 		{
 			$query = "DELETE FROM crs_objective_status ".
-				"WHERE objective_id IN (".implode(",",ilUtil::quoteArray($objectives)).") ".
-				"AND user_id = ".$ilDB->quote($this->getUserId())." ";
-			$this->db->query($query);
+				"WHERE ".$ilDB->in('objective_id',$objectives,false,'integer').' '.
+				"AND user_id = ".$ilDB->quote($this->getUserId() ,'integer')." ";
+			$res = $ilDB->manipulate($query);
 
 			$query = "DELETE FROM crs_objective_status_pretest ".
-				"WHERE objective_id IN (".implode(",",ilUtil::quoteArray($objectives)).") ".
+				"WHERE ".$ilDB->in('objective_id',$objectives,false,'integer').' '.
 				"AND user_id = ".$ilDB->quote($this->getUserId())."";
-			$this->db->query($query);
+			$res = $ilDB->manipulate($query);
 		}
 
 		return true;
@@ -227,8 +227,8 @@ class ilCourseObjectiveResult
 		global $ilDB;
 		
 		$query = "SELECT status FROM crs_objective_status ".
-			"WHERE objective_id = ".$ilDB->quote($a_objective_id)." ".
-			"AND user_id = ".$ilDB->quote($this->getUserId())."";
+			"WHERE objective_id = ".$ilDB->quote($a_objective_id ,'integer')." ".
+			"AND user_id = ".$ilDB->quote($this->getUserId() ,'integer')."";
 
 		$res = $this->db->query($query);
 		while($row = $res->fetchRow(DB_FETCHMODE_OBJECT))
@@ -267,12 +267,12 @@ class ilCourseObjectiveResult
 		global $ilDB;
 
 		$query = "DELETE FROM crs_objective_status ".
-			"WHERE user_id = ".$ilDB->quote($user_id)." ";
-		$ilDB->query($query);
+			"WHERE user_id = ".$ilDB->quote($user_id ,'integer')." ";
+		$res = $ilDB->manipulate($query);
 
 		$query = "DELETE FROM crs_objective_status_pretest ".
-			"WHERE user_id = ".$ilDB->quote($user_id)." ";
-		$ilDB->query($query);
+			"WHERE user_id = ".$ilDB->quote($user_id ,'integer')." ";
+		$res = $ilDB->manipulate($query);
 		return true;
 	}
 
@@ -448,10 +448,11 @@ class ilCourseObjectiveResult
 		$res = $ilDB->query($query);
 		while($row = $res->fetchRow(DB_FETCHMODE_OBJECT))
 		{
-			$query = "SELECT COUNT(cs.objective_id) AS num_passed FROM crs_objective_status AS cs ".
-				"JOIN crs_objectives AS co ON cs.objective_id = co.objective_id ".
-				"WHERE crs_id = ".$ilDB->quote($row->crs_id)." ".
-				"AND user_id = ".$ilDB->quote($a_user_id)." ";
+			$query = "SELECT COUNT(cs.objective_id) num_passed FROM crs_objective_status cs ".
+				"JOIN crs_objectives co ON cs.objective_id = co.objective_id ".
+				"WHERE crs_id = ".$ilDB->quote($row->crs_id ,'integer')." ".
+				"AND user_id = ".$ilDB->quote($a_user_id ,'integer')." ".
+				"GROUP BY cs.objective_id";
 
 			$user_res = $ilDB->query($query);
 			while($user_row = $user_res->fetchRow(DB_FETCHMODE_OBJECT))

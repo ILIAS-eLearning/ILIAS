@@ -120,7 +120,7 @@ class ilLPStatusObjectives extends ilLPStatus
 		}
 		else
 		{
-			$in = "objective_id IN('".implode("','",$status_info['objectives'])."') ";
+			$in = $ilDB->in('objective_id',$status_info['objectives'], false,'integer');
 		}
 
 		$query = "SELECT * FROM crs_objective_status ".

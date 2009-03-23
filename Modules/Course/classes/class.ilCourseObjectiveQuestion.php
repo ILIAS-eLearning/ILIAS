@@ -86,7 +86,7 @@ class ilCourseObjectiveQuestion
 	 */
 	public function cloneDependencies($a_new_objective,$a_copy_id)
 	{
-		global $ilObjDataCache,$ilLog;
+		global $ilObjDataCache,$ilLog,$ilDB;
 		
 		include_once('Services/CopyWizard/classes/class.ilCopyWizardOptions.php');
 		$cwo = ilCopyWizardOptions::_getInstance($a_copy_id);
@@ -134,11 +134,11 @@ class ilCourseObjectiveQuestion
 			$new_test_id = $mappings["$test[ref_id]"];
 			
 			$query = "UPDATE crs_objective_tst ".
-				"SET tst_status = ".$this->db->quote($test['tst_status']).", ".
-				"tst_limit = ".$this->db->quote($test['tst_limit'])." ".
-				"WHERE objective_id = ".$this->db->quote($a_new_objective)." ".
-				"AND ref_id = ".$this->db->quote($new_test_id);
-			$this->db->query($query);
+				"SET tst_status = ".$this->db->quote($test['tst_status'] ,'integer').", ".
+				"tst_limit = ".$this->db->quote($test['tst_limit'] ,'integer')." ".
+				"WHERE objective_id = ".$this->db->quote($a_new_objective ,'integer')." ".
+				"AND ref_id = ".$this->db->quote($new_test_id ,'integer');
+			$res = $ilDB->manipulate($query);
 		}
 	}
 	
@@ -179,16 +179,16 @@ class ilCourseObjectiveQuestion
 		global $ilDB;
 		
 		$query = "UPDATE crs_objective_tst ".
-			"SET tst_status = ".$this->db->quote($this->getTestStatus())." ".
-			"WHERE objective_id = ".$this->db->quote($this->getObjectiveId())." ".
-			"AND ref_id = ".$this->db->quote($this->getTestRefId())." ";
-		$this->db->query($query);
+			"SET tst_status = ".$this->db->quote($this->getTestStatus() ,'integer')." ".
+			"WHERE objective_id = ".$this->db->quote($this->getObjectiveId() ,'integer')." ".
+			"AND ref_id = ".$this->db->quote($this->getTestRefId() ,'integer')." ";
+		$res = $ilDB->manipulate($query);
 		
 
 		// CHECK if entry already exists
 		$query = "SELECT * FROM crs_objective_tst ".
-			"WHERE objective_id = ".$ilDB->quote($this->getObjectiveId())." ".
-			"AND ref_id = ".$ilDB->quote($this->getTestRefId())."";
+			"WHERE objective_id = ".$ilDB->quote($this->getObjectiveId() ,'integer')." ".
+			"AND ref_id = ".$ilDB->quote($this->getTestRefId() ,'integer')."";
 
 		$res = $this->db->query($query);
 		if($res->numRows())
@@ -198,8 +198,8 @@ class ilCourseObjectiveQuestion
 		
 		// Check for existing limit
 		$query = "SELECT tst_limit FROM crs_objective_tst ".
-			"WHERE objective_id = ".$this->db->quote($this->getObjectiveId())." ".
-			"AND tst_status = ".$this->db->quote($this->getTestStatus())." ";
+			"WHERE objective_id = ".$this->db->quote($this->getObjectiveId() ,'integer')." ".
+			"AND tst_status = ".$this->db->quote($this->getTestStatus() ,'integer')." ";
 			
 		$res = $this->db->query($query);
 		
@@ -209,14 +209,17 @@ class ilCourseObjectiveQuestion
 			$limit = $row->tst_limit;
 		}
 		
-		$query = "INSERT INTO crs_objective_tst ".
-			"SET objective_id = ".$ilDB->quote($this->getObjectiveId()).", ".
-			"ref_id = ".$ilDB->quote($this->getTestRefId()).", ".
-			"obj_id = ".$ilDB->quote($this->getTestObjId()).", ".
-			"tst_status = ".$ilDB->quote($this->getTestStatus()).", ".
-			"tst_limit = ".$this->db->quote($limit)." ";
-
-		$this->db->query($query);
+		$next_id = $ilDB->nextId('crs_objective_tst');
+		$query = "INSERT INTO crs_objective_tst (test_objective_id,objective_id,ref_id,obj_id,tst_status,tst_limit) ".
+			"VALUES( ".
+			$ilDB->quote($next_id,'integer').", ".
+			$ilDB->quote($this->getObjectiveId() ,'integer').", ".
+			$ilDB->quote($this->getTestRefId() ,'integer').", ".
+			$ilDB->quote($this->getTestObjId() ,'integer').", ".
+			$ilDB->quote($this->getTestStatus() ,'integer').", ".
+			$this->db->quote($limit ,'integer')." ".
+			")";
+		$res = $ilDB->manipulate($query);
 
 		return true;
 	}
@@ -257,11 +260,10 @@ class ilCourseObjectiveQuestion
 		global $ilDB;
 		
 		$query = "UPDATE crs_objective_tst ".
-			"SET tst_limit = ".$ilDB->quote($a_limit)." ".
-			"WHERE tst_status = ".$ilDB->quote($a_status)." ".
-			"AND objective_id = ".$ilDB->quote($a_objective_id);
-	
-		$ilDB->query($query);
+			"SET tst_limit = ".$ilDB->quote($a_limit ,'integer')." ".
+			"WHERE tst_status = ".$ilDB->quote($a_status ,'integer')." ".
+			"AND objective_id = ".$ilDB->quote($a_objective_id ,'integer');
+		$res = $ilDB->manipulate($query);
 		return true;
 	}
 
@@ -270,11 +272,10 @@ class ilCourseObjectiveQuestion
 		global $ilDB;
 		
 		$query = "UPDATE crs_objective_tst ".
-			"SET tst_status = ".$ilDB->quote($this->getTestStatus()).", ".
-			"tst_limit = ".$ilDB->quote($this->getTestSuggestedLimit())." ".
-			"WHERE test_objective_id = ".$ilDB->quote($a_objective_id)."";
-			
-		$this->db->query($query);
+			"SET tst_status = ".$ilDB->quote($this->getTestStatus() ,'integer').", ".
+			"tst_limit = ".$ilDB->quote($this->getTestSuggestedLimit() ,'integer')." ".
+			"WHERE test_objective_id = ".$ilDB->quote($a_objective_id ,'integer')."";
+		$res = $ilDB->manipulate($query);
 
 		return true;
 	}
@@ -283,9 +284,9 @@ class ilCourseObjectiveQuestion
 	{
 		global $ilDB;
 		
-		$query = "SELECT * FROM crs_objective_tst as cot ".
-			"JOIN object_data as obd ON cot.obj_id = obd.obj_id ".
-			"WHERE objective_id = ".$ilDB->quote($this->getObjectiveId())." ".
+		$query = "SELECT * FROM crs_objective_tst cot ".
+			"JOIN object_data obd ON cot.obj_id = obd.obj_id ".
+			"WHERE objective_id = ".$ilDB->quote($this->getObjectiveId() ,'integer')." ".
 			"ORDER BY title ";
 
 		$res = $this->db->query($query);
@@ -347,7 +348,7 @@ class ilCourseObjectiveQuestion
 		global $ilDB;
 
 		$query = "SELECT * FROM crs_objective_tst ".
-			"WHERE test_objective_id = ".$ilDB->quote($a_test_objective_id)." ";
+			"WHERE test_objective_id = ".$ilDB->quote($a_test_objective_id ,'integer')." ";
 
 		$res = $ilDB->query($query);
 		while($row = $res->fetchRow(DB_FETCHMODE_OBJECT))
@@ -621,6 +622,8 @@ class ilCourseObjectiveQuestion
 	 */
 	public function updateLimits()
 	{
+		global $ilDB;
+		
 		foreach($this->tests as $ref_id => $test_data)
 		{
 			switch($test_data['status'])
@@ -646,9 +649,9 @@ class ilCourseObjectiveQuestion
 						break;
 				}
 				$query = "UPDATE crs_objective_tst ".
-					"SET tst_limit = ".$this->db->quote($points)." ".
-					"WHERE test_objective_id = ".$this->db->quote($test_data['test_objective_id'])." ";
-				$this->db->query($query);
+					"SET tst_limit = ".$this->db->quote($points ,'integer')." ".
+					"WHERE test_objective_id = ".$this->db->quote($test_data['test_objective_id'] ,'integer')." ";
+				$res = $ilDB->manipulate($query);
 			}
 		}
 	}
@@ -747,7 +750,7 @@ class ilCourseObjectiveQuestion
 		
 		// Read test data
 		$query = "SELECT * FROM crs_objective_tst ".
-			"WHERE objective_id = ".$ilDB->quote($this->getObjectiveId())." ";
+			"WHERE objective_id = ".$ilDB->quote($this->getObjectiveId() ,'integer')." ";
 		$res = $this->db->query($query);
 		while($row = $res->fetchRow(DB_FETCHMODE_OBJECT))
 		{
@@ -805,9 +808,9 @@ class ilCourseObjectiveQuestion
 	{
 		global $ilDB;
 		
-		$query = "SELECT co.objective_id FROM crs_objectives AS co JOIN ".
-			"crs_objective_tst AS cot ON co.objective_id = cot.objective_id ".
-			"WHERE crs_id = ".$ilDB->quote($a_course_id)." ";
+		$query = "SELECT co.objective_id FROM crs_objectives co JOIN ".
+			"crs_objective_tst cot ON co.objective_id = cot.objective_id ".
+			"WHERE crs_id = ".$ilDB->quote($a_course_id ,'integer')." ";
 		$res = $ilDB->query($query);
 		return $res->numRows() ? true : false;
 	}
