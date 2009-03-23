@@ -42,6 +42,7 @@ class ilAdvancedSelectionListGUI
 	
 	const ON_ITEM_CLICK_HREF = "href";
 	const ON_ITEM_CLICK_FORM_SUBMIT = "submit";
+	const ON_ITEM_CLICK_FORM_SELECT = "select";
 	
 	/*
 	
@@ -117,11 +118,15 @@ class ilAdvancedSelectionListGUI
 	* @param	link		href for the item
 	* @param	string		image href attribute
 	* @param	string		image alt attribute
+	* @param	string		frame target
+	* @param	string		item html (is used instead of title if js is active)
 	*/
-	function addItem($a_title, $a_value = "", $a_link = "", $a_img = "", $a_alt = "", $a_frame = "")
+	function addItem($a_title, $a_value = "", $a_link = "", $a_img = "", $a_alt = "", $a_frame = "",
+		$a_html = "")
 	{
 		$this->items[] = array("title" => $a_title, "value" => $a_value,
-			"link" => $a_link, "img" => $a_img, "alt" => $a_alt, "frame" => $a_frame);
+			"link" => $a_link, "img" => $a_img, "alt" => $a_alt, "frame" => $a_frame,
+			"html" => $a_html);
 	}
 	
 	/**
@@ -279,7 +284,8 @@ class ilAdvancedSelectionListGUI
 	*
 	* Valid values are:
 	* ilAdvancedSelectionList::ON_ITEM_CLICK_HREF or
-	* ilAdvancedSelectionList::const ON_ITEM_CLICK_FORM_SUBMIT
+	* ilAdvancedSelectionList::ON_ITEM_CLICK_FORM_SUBMIT
+	* ilAdvancedSelectionList::ON_ITEM_CLICK_FORM_SELECT
 	*
 	* @param	string		mode
 	*/
@@ -297,6 +303,26 @@ class ilAdvancedSelectionListGUI
 	function getOnClickMode()
 	{
 		return $this->on_click;
+	}
+	
+	/**
+	* Set selected value
+	*
+	* @param	string		selected value
+	*/
+	function setSelectedValue($a_val)
+	{
+		$this->selected_value = $a_val;
+	}
+	
+	/**
+	* Get selected value
+	*
+	* @return	string		selected value
+	*/
+	function getSelectedValue()
+	{
+		return $this->selected_value;
 	}
 	
 	/**
@@ -372,9 +398,24 @@ class ilAdvancedSelectionListGUI
 						", '".$this->form_mode["select_name"]."','".$item["value"]."',".
 						"'".$this->on_click_form_id."','".$this->form_mode["button_cmd"]."');\"");
 			}
+			else if ($this->getOnClickMode() ==
+				ilAdvancedSelectionListGUI::ON_ITEM_CLICK_FORM_SELECT)
+			{
+				$tpl->setVariable("ONCLICK_ITEM",
+					'onclick="ilAdvSelListFormSelect(\''.$this->getId().'\''.
+						", '".$this->form_mode["select_name"]."','".$item["value"]."',".
+						"'".$item["title"]."');\"");
+			}
 
 			$tpl->setVariable("CSS_ROW", $this->css_row);
-			$tpl->setVariable("TXT_ITEM", $item["title"]);
+			if ($item["html"] == "")
+			{
+				$tpl->setVariable("TXT_ITEM", $item["title"]);
+			}
+			else
+			{
+				$tpl->setVariable("TXT_ITEM", $item["html"]);
+			}
 			
 			$tpl->parseCurrentBlock();
 		}
@@ -405,6 +446,21 @@ class ilAdvancedSelectionListGUI
 		{
 			$tpl->setCurrentBlock("hidden_input");
 			$tpl->setVariable("HID", $this->getId());
+			$tpl->parseCurrentBlock();
+		}
+
+		// output hidden input and initialize
+		if ($this->getOnClickMode() == ilAdvancedSelectionListGUI::ON_ITEM_CLICK_FORM_SELECT)
+		{
+			$tpl->setCurrentBlock("hidden_input");
+			$tpl->setVariable("HID", $this->getId());
+			$tpl->parseCurrentBlock();
+			
+			// init hidden input with selected value
+			$tpl->setCurrentBlock("init_hidden_input");
+			$tpl->setVariable("H2ID", $this->getId());
+			$tpl->setVariable("HID_NAME", $this->form_mode["select_name"]);
+			$tpl->setVariable("HID_VALUE", $this->getSelectedValue());
 			$tpl->parseCurrentBlock();
 		}
 		
@@ -442,6 +498,10 @@ class ilAdvancedSelectionListGUI
 					$tpl->setCurrentBlock("no_js_form_option");
 					$tpl->setVariable("FRM_OPTION_TXT", $item["title"]);
 					$tpl->setVariable("FRM_OPTION_VAL", $item["value"]);
+					if ($this->getSelectedValue() == $item["value"])
+					{
+						$tpl->setVariable("SELECTED", ' selected="selected" ');
+					}
 					$tpl->parseCurrentBlock();
 				}
 				if ($this->form_mode["include_form_tag"])

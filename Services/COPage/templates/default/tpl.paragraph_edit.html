@@ -9,13 +9,19 @@
 	</td>
 </tr>
 <!-- BEGIN commands2 -->
-<tr>
+<!-- <tr>
 	<td class="submit"  colspan="2" style="text-align:right;">
 		<input class="submit" type="submit" name="cmd[{BTN_NAME}]" value="{BTN_TEXT}" />
 		<input class="submit" type="submit" name="cmd[{BTN_CANCEL}]" value="{TXT_CANCEL}" />
 	</td>
-</tr>
+</tr> -->
 <!-- END commands2 -->
+<tr>
+	<td class="option" style="white-space:nowrap;" width="1">
+		{TXT_CHARACTERISTIC}
+	</td>
+	<td class="option_value">{ADV_SEL_STYLE}</td>
+</tr>
 <tr class="std">
 	<td class="option_value" colspan="2">
 	{BB_MENU}
@@ -27,32 +33,7 @@
 </td>
 </tr>
 <tr>
-	<td class="option" width="1">
-		{TXT_CHARACTERISTIC}
-	</td>
-	<td class="option_value">
-		<!-- BEGIN characteristic_table -->
-		<table border="0" cellpadding="2" cellspacing="0" width="100%">
-		<!-- BEGIN characteristic_row -->
-		<tr>
-		<!-- BEGIN characteristic_cell --><td width="1"><input name="par_characteristic" type="radio" value="{CHAR_VALUE}" {SELECTED} /></td><td width="33%" style="white-space:nowrap;">{CHAR_HTML}</td><!-- END characteristic_cell -->
-		</tr>
-		<!-- END characteristic_row -->
-		</table>
-		<!-- END characteristic_table -->
-		{SELECT_CHARACTERISTIC}
-	</td>
-</tr>
-<!-- <tr>
-	<td class="option" width="1">
-		{TXT_ANCHOR}
-	</td>
-	<td class="option_value">
-		<input type="text" name="anchor" size="40" maxlength="80" value="{VAL_ANCHOR}" />
-	</td>
-</tr> -->
-<tr>
-	<td class="option" width="1">
+	<td class="option">
 		{TXT_LANGUAGE}
 	</td>
 	<td class="option_value">

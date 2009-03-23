@@ -9,7 +9,7 @@
 	<!-- END no_js_form_begin -->
 	<select name="{FRM_SELECT_NAME}"  class="{FRM_SELECT_CLASS}" size="0">
 	<!-- BEGIN no_js_form_option -->
-	<option value="{FRM_OPTION_VAL}">{FRM_OPTION_TXT}</option>
+	<option value="{FRM_OPTION_VAL}" {SELECTED}>{FRM_OPTION_TXT}</option>
 	<!-- END no_js_form_option -->
 	</select>
 	<!-- BEGIN no_js_form_button -->
@@ -22,13 +22,14 @@
 </noscript>
 <!-- END no_js_section -->
 <!-- BEGIN js_section -->
-<span onmouseover="ilAdvSelListOn('{ID}');" onmouseout="ilAdvSelListOff('{ID}');" style="display:none;" id="ilAdvSelListAnchorElement_{ID}">
+<span onclick="return false;" onmouseover="ilAdvSelListOn('{ID}');" onmouseout="ilAdvSelListOff('{ID}');" style="display:none;" id="ilAdvSelListAnchorElement_{ID}">
 <a class="{CLASS_SEL_TOP}" href="#" target="_top">
-<!-- BEGIN top_img --><img border="0" src="{IMG_DOWN}" alt="{ALT_SEL_TOP}"/><!-- END top_img --> {TXT_SEL_TOP}
+<!-- BEGIN top_img --><img border="0" src="{IMG_DOWN}" alt="{ALT_SEL_TOP}"/><!-- END top_img --> <span id="ilAdvSelListAnchorText_{ID}">{TXT_SEL_TOP}</span>
 </a>
 </span>
-<div class="il_adv_cont" style="clear:both; display:none; position:absolute;" id="ilAdvSelListTable_{ID}">
-<table style="position:relative; top:-2px; left:-2px;" onmouseover="ilAdvSelListOn('{ID}');" onmouseout="ilAdvSelListOff('{ID}');" class="il_adv_sel">
+<div class="il_adv_cont" style="clear:both; z-index:100; display:none; position:absolute;" id="ilAdvSelListTable_{ID}">
+<div class="il_adv_sel" style="position:relative; top:-2px; left:-2px; overflow:auto; background-color:white;" onmouseover="ilAdvSelListOn('{ID}');" onmouseout="ilAdvSelListOff('{ID}');" id="ilAdvSelListTableInner_{ID}">
+<table class="il_adv_sel">
 <!-- BEGIN item -->
 <tr class="il_adv_sel" onmouseover="ilAdvSelItemOn(this);" onmouseout="ilAdvSelItemOff(this);" {ONCLICK_ITEM}><!-- BEGIN no_image --><td class="il_adv_sel"></td><!-- END no_image --><!-- BEGIN image --><td class="il_adv_sel"><img src="{IMG_ITEM}" alt="{ALT_ITEM}"/></td><!-- END image --><td class="il_adv_sel"><span <!-- BEGIN item_link_class -->class="{ITEM_LINK_CLASS}"<!-- END item_link_class --> <!-- BEGIN frame -->target="{TARGET_ITEM}"<!-- END frame -->>{TXT_ITEM}</span></td></tr>
 <!-- END item -->
@@ -37,11 +38,14 @@
 <input type="hidden" id="ilAdvSelListHidden_{HID}" />
 <input type="hidden" id="ilAdvSelListHiddenCmd_{HID}" />
 <!-- END hidden_input -->
-</div>
+</div></div>
 <script type="text/javascript">
 //<![CDATA[
 il_adv_sel_lists.push('{ID}');
 ilShowAdvSelListAnchor('ilAdvSelListAnchorElement_{ID}');
+<!-- BEGIN init_hidden_input -->
+ilAdvSelSetHiddenInput('{H2ID}', '{HID_NAME}', '{HID_VALUE}');
+<!-- END init_hidden_input -->
 //]]>
 </script>
 <!-- END js_section -->
