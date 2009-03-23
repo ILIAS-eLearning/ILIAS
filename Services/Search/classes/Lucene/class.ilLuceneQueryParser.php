@@ -51,7 +51,7 @@ class ilLuceneQueryParser
 	 */
 	public function parse()
 	{
-		$this->parsed_query = $this->query_string;
+		$this->parsed_query = preg_replace_callback('/(owner:)\s?([A-Za-z0-9_\.\+\*\@!\$\%\~\-]+)/',array($this,'replaceOwnerCallback'),$this->query_string);
 	}
 	
 	/**
@@ -61,6 +61,21 @@ class ilLuceneQueryParser
 	public function getQuery()
 	{
 		return $this->parsed_query;	 
+	}
+	
+	/**
+	 * Replace owner callback (preg_replace_callback)
+	 */
+	protected function replaceOwnerCallback($matches)
+	{
+		if(isset($matches[2]))
+		{
+			if($usr_id = ilObjUser::_loginExists($matches[2]))
+			{
+				return $matches[1].$usr_id;
+			}	
+		}
+		return $matches[0];
 	}
 }
 ?>

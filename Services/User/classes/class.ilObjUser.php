@@ -4013,7 +4013,7 @@ class ilObjUser extends ilObject
 	{
 		global $ilDB;
 
-		$q = "SELECT DISTINCT login FROM usr_data ".
+		$q = "SELECT DISTINCT login, usr_id FROM usr_data ".
 			 "WHERE login = %s";
 		$types[] = "text";
 		$values[] = $a_login;
@@ -4027,9 +4027,9 @@ class ilObjUser extends ilObject
 			 
 		$r = $ilDB->queryF($q, $types, $values);
 
-		if ($ilDB->fetchAssoc($r))
+		if ($row = $ilDB->fetchAssoc($r))
 		{
-			return true;
+			return $row['usr_id'];
 		}
 		return false;
 	}
