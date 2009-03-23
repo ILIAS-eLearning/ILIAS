@@ -235,7 +235,8 @@ class ilCtrlStructureReader
 			$ilDB->quote($this->comp_prefix, "text"));
 		if ($comp_prefix == "")
 		{
-			$ilDB->manipulate("DELETE FROM ctrl_classfile WHERE comp_prefix IS NULL");
+			$ilDB->manipulate($q = "DELETE FROM ctrl_classfile WHERE ".
+				$ilDB->equals("comp_prefix", "", "text", true));
 		}
 
 		// delete all call entries
@@ -243,7 +244,8 @@ class ilCtrlStructureReader
 			$ilDB->quote($this->comp_prefix, "text"));
 		if ($comp_prefix == "")
 		{
-			$ilDB->manipulate("DELETE FROM ctrl_calls WHERE comp_prefix IS NULL");
+			$ilDB->manipulate("DELETE FROM ctrl_calls WHERE ".
+				$ilDB->equals("comp_prefix", "", "text", true));
 		}
 
 		foreach($this->class_script as $class => $script)
