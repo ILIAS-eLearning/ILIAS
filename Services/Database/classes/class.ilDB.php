@@ -1620,7 +1620,7 @@ if ($this->getDBType() == "mysql")
 		}
 		else
 		{
-			return "(".$a_col." = ".$this->quote($a_value, "text")." OR $a_col IS NULL)";
+			return "(".$a_col." = '' OR $a_col IS NULL)";
 		}
 	}
 	
