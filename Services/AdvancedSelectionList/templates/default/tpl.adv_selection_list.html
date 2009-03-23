@@ -1,27 +1,47 @@
 <!-- BEGIN no_js_section -->
 <noscript>
-{NO_JS_CONTENT}
-<!-- BEGIN no_js_link -->
-<a class="{LINK_CLASS_NO_JS}" href="{HREF_NO_JS}" <!-- BEGIN no_js_link_frame -->target="{TARGET_NO_JS}"<!-- END no_js_link_frame --> >{TXT_LINK_NO_JS}</a>
-<!-- BEGIN no_js_link -->
+<!-- BEGIN no_js_links --><!-- BEGIN no_js_link -->
+<a class="{LINKS_CLASS}" href="{LINKS_HREF}" <!-- BEGIN no_js_link_frame -->target="{TARGET_NO_JS}"<!-- END no_js_link_frame --> >{LINKS_TXT}</a>
+<!-- BEGIN no_js_link --><!-- END no_js_links -->
+<!-- BEGIN no_js_form_select -->
+	<!-- BEGIN no_js_form_begin -->
+	<form id="{FRM_ID}" class="{FRM_CLASS}" method="post" action="{FRM_ACTION}" target="{FRM_TARGET}">
+	<!-- END no_js_form_begin -->
+	<select name="{FRM_SELECT_NAME}"  class="{FRM_SELECT_CLASS}" size="0">
+	<!-- BEGIN no_js_form_option -->
+	<option value="{FRM_OPTION_VAL}">{FRM_OPTION_TXT}</option>
+	<!-- END no_js_form_option -->
+	</select>
+	<!-- BEGIN no_js_form_button -->
+	<input class="{FRM_BT_CLASS}" type="submit" {FRM_BT_CMD} value="{FRM_BT_TXT}" />
+	<!-- END no_js_form_button -->
+	<!-- BEGIN no_js_form_end -->
+	</form>
+	<!-- END no_js_form_end -->
+<!-- END no_js_form_select -->
 </noscript>
 <!-- END no_js_section -->
 <!-- BEGIN js_section -->
-<span onmouseover="ilAdvSelListOn('{ID}');" onmouseout="ilAdvSelListOff('{ID}');" id="ilAdvSelListAnchorElement_{ID}">
+<span onmouseover="ilAdvSelListOn('{ID}');" onmouseout="ilAdvSelListOff('{ID}');" style="display:none;" id="ilAdvSelListAnchorElement_{ID}">
 <a class="{CLASS_SEL_TOP}" href="#" target="_top">
 <!-- BEGIN top_img --><img border="0" src="{IMG_DOWN}" alt="{ALT_SEL_TOP}"/><!-- END top_img --> {TXT_SEL_TOP}
 </a>
 </span>
 <div class="il_adv_cont" style="clear:both; display:none; position:absolute;" id="ilAdvSelListTable_{ID}">
-<table style="position:relative; top:-3px; left:-3px;" onmouseover="ilAdvSelListOn('{ID}');" onmouseout="ilAdvSelListOff('{ID}');" class="il_adv_sel">
+<table style="position:relative; top:-2px; left:-2px;" onmouseover="ilAdvSelListOn('{ID}');" onmouseout="ilAdvSelListOff('{ID}');" class="il_adv_sel">
 <!-- BEGIN item -->
-<tr class="il_adv_sel" onmouseover="ilAdvSelItemOn(this);" onmouseout="ilAdvSelItemOff(this);" onclick="parent.location='{HREF_ITEM}';"><!-- BEGIN no_image --><td class="il_adv_sel"></td><!-- END no_image --><!-- BEGIN image --><td class="il_adv_sel"><img src="{IMG_ITEM}" alt="{ALT_ITEM}"/></td><!-- END image --><td class="il_adv_sel"><span <!-- BEGIN item_link_class -->class="{ITEM_LINK_CLASS}"<!-- END item_link_class --> <!-- BEGIN frame -->target="{TARGET_ITEM}"<!-- END frame -->>{TXT_ITEM}</span></td></tr>
+<tr class="il_adv_sel" onmouseover="ilAdvSelItemOn(this);" onmouseout="ilAdvSelItemOff(this);" {ONCLICK_ITEM}><!-- BEGIN no_image --><td class="il_adv_sel"></td><!-- END no_image --><!-- BEGIN image --><td class="il_adv_sel"><img src="{IMG_ITEM}" alt="{ALT_ITEM}"/></td><!-- END image --><td class="il_adv_sel"><span <!-- BEGIN item_link_class -->class="{ITEM_LINK_CLASS}"<!-- END item_link_class --> <!-- BEGIN frame -->target="{TARGET_ITEM}"<!-- END frame -->>{TXT_ITEM}</span></td></tr>
 <!-- END item -->
 </table>
+<!-- BEGIN hidden_input -->
+<input type="hidden" id="ilAdvSelListHidden_{HID}" />
+<input type="hidden" id="ilAdvSelListHiddenCmd_{HID}" />
+<!-- END hidden_input -->
 </div>
 <script type="text/javascript">
 //<![CDATA[
 il_adv_sel_lists.push('{ID}');
+ilShowAdvSelListAnchor('ilAdvSelListAnchorElement_{ID}');
 //]]>
 </script>
 <!-- END js_section -->

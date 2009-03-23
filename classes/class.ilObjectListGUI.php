@@ -1832,7 +1832,7 @@ class ilObjectListGUI
 		$this->current_selection_list->setListTitle($lng->txt("actions"));
 		$this->current_selection_list->setId("act_".$this->ref_id);
 		//$this->current_selection_list->setSelectionHeaderClass("il_ContainerItemCommand2");
-		$this->current_selection_list->setNoJSLinkClass("il_ContainerItemCommand2");
+		$this->current_selection_list->setLinksMode("il_ContainerItemCommand2");
 		$this->current_selection_list->setHeaderIcon(ilAdvancedSelectionListGUI::DOWN_ARROW_DARK);
 		$this->current_selection_list->setUseImages(true);
 

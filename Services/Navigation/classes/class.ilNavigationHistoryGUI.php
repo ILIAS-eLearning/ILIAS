@@ -50,6 +50,9 @@ class ilNavigationHistoryGUI
 		
 		include_once("./Services/AdvancedSelectionList/classes/class.ilAdvancedSelectionListGUI.php");
 		$selection = new ilAdvancedSelectionListGUI();
+		$selection->setFormSelectMode("url_ref_id", "ilNavHistorySelect", true,
+			"goto.php?target=navi_request", "ilNavHistory", "ilNavHistoryForm",
+			"_top", $lng->txt("go"), "ilNavHistorySubmit");
 		$selection->setListTitle($lng->txt("last_visited"));
 		$selection->setId("lastvisited");
 		$selection->setSelectionHeaderClass("MMInactive");

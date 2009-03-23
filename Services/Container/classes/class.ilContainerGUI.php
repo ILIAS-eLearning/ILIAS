@@ -315,7 +315,7 @@ class ilContainerGUI extends ilObjectGUI
 	*/
 	function showPossibleSubObjects()
 	{
-		global $ilAccess,$ilCtrl;
+		global $ilAccess,$ilCtrl,$lng;
 
 		$found = false;
 		$cmd = ($this->cmd != "")
@@ -352,21 +352,24 @@ class ilContainerGUI extends ilObjectGUI
 					{
 						if ($this->rbacsystem->checkAccess("create", $this->object->getRefId(), $row["name"]))
 						{
-							$subobj[] = array("text" => $row["name"],
-								"style" => "background-repeat:no-repeat; padding-left:20px; min-height:17px; background-image:url(".ilUtil::getImagePath("icon_".$row["name"]."_s.gif").");");
+							$subobj[] = array("value" => $row["name"],
+								"title" => $lng->txt("obj_".$row["name"]),
+								"img" => ilUtil::getImagePath("icon_".$row["name"]."_s.gif"),
+								"alt" => $lng->txt("obj_".$row["name"]));
 						}
 					}
 				}
 			}
 		}
+
 		if (is_array($subobj))
 		{
 			$formaction = "repository.php?ref_id=".$this->object->getRefId()."&cmd=post";
 			$formaction = $ilCtrl->appendRequestTokenParameterString($formaction);
 			$formaction = $this->ctrl->getFormAction($this);
-			$opts = ilUtil::formSelect("", "new_type", $subobj);
+			//$opts = ilUtil::formSelect("", "new_type", $subobj);
 			$this->tpl->setCreationSelector($formaction,
-				$opts, "create", $this->lng->txt("add"));
+				$subobj, "create", $this->lng->txt("add"));
 		}
 	}
 
@@ -421,23 +424,30 @@ class ilContainerGUI extends ilObjectGUI
 	function showAdministrationPanel(&$tpl)
 	{
 		global $ilAccess, $ilSetting;
-		global $ilUser;
+		global $ilUser, $lng;
 
+		$page_actions = array();
+		
 		if ($this->isActiveAdministrationPanel())
 		{
-			$GLOBALS["tpl"]->setAdminViewButton(
+			/*$GLOBALS["tpl"]->setAdminViewButton(
 				$this->ctrl->getLinkTarget($this, "disableAdministrationPanel"),
-				$this->lng->txt("basic_commands"));
+				$this->lng->txt("basic_commands"));*/
+			$page_actions[] = array("txt" => $lng->txt("cntr_disable_multi_commands"),
+				"link" => $this->ctrl->getLinkTarget($this, "disableAdministrationPanel"));
 			
 			// administration panel
 			if ($ilAccess->checkAccess("write", "", $this->object->getRefId())
 				&& $this->object->enablePageEditing())
 			{
-				$GLOBALS["tpl"]->setEditPageButton(
+				/*$GLOBALS["tpl"]->setEditPageButton(
 					$this->ctrl->getLinkTarget($this, "editPageFrame"),
 					$this->lng->txt("edit_page"),
 					ilFrameTargetInfo::_getFrame("MainContent")
-				);
+				);*/
+				$page_actions[] = array("txt" => $this->lng->txt("edit_page"),
+					"link" => $this->ctrl->getLinkTarget($this, "editPageFrame"),
+					"target" => ilFrameTargetInfo::_getFrame("MainContent"));
 			}
 			
 			if ($this->object->gotItems())
@@ -502,9 +512,33 @@ class ilContainerGUI extends ilObjectGUI
 				)
 			)
 		{
-			$GLOBALS["tpl"]->setAdminViewButton(
-				$this->ctrl->getLinkTarget($this, "enableAdministrationPanel"),
-				$this->lng->txt("all_commands"));
+			//$GLOBALS["tpl"]->setAdminViewButton(
+			//	$this->ctrl->getLinkTarget($this, "enableAdministrationPanel"),
+			//	$this->lng->txt("all_commands"));
+			$page_actions[] = array("txt" => $lng->txt("cntr_enable_multi_commands"),
+				"link" => $this->ctrl->getLinkTarget($this, "enableAdministrationPanel"));
+			$page_actions[] = array("txt" => $this->lng->txt("edit_page"),
+				"link" => $this->ctrl->getLinkTarget($this, "editPageFrame"),
+				"target" => ilFrameTargetInfo::_getFrame("MainContent"));
+		}
+		
+		if (count($page_actions) > 0)
+		{
+			include_once("./Services/AdvancedSelectionList/classes/class.ilAdvancedSelectionListGUI.php");
+			$selection_list = new ilAdvancedSelectionListGUI();
+			$selection_list->setListTitle($lng->txt("cntr_page_actions"));
+			$selection_list->setId("cntr_pa");
+			//$selection_list->setSelectionHeaderClass("il_ContainerItemCommand2");
+			$selection_list->setLinksMode("il_ContainerItemCommand2");
+			$selection_list->setHeaderIcon(ilAdvancedSelectionListGUI::DOWN_ARROW_DARK);
+			$selection_list->setUseImages(false);
+			foreach ($page_actions as $pa)
+			{
+				$selection_list->addItem($pa["txt"], "", $pa["link"], "", "", $pa["target"]);
+			}
+
+			$GLOBALS["tpl"]->setPageActions($selection_list->getHTML());
+			
 		}
 	}
 

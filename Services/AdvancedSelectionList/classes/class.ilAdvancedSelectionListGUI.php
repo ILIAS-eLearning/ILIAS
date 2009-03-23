@@ -36,6 +36,32 @@ class ilAdvancedSelectionListGUI
 	const DOWN_ARROW_LIGHT = "mm_down_arrow.gif";
 	const DOWN_ARROW_DARK = "mm_down_arrow_dark.gif";
 	const NO_ICON = "";
+	
+	const MODE_LINKS = "links";
+	const MODE_FORM_SELECT = "select";
+	
+	const ON_ITEM_CLICK_HREF = "href";
+	const ON_ITEM_CLICK_FORM_SUBMIT = "submit";
+	
+	/*
+	
+	The modes implement the following html for non-js fallback:
+	
+	MODE_LINKS:
+	
+	<a href="...">...</a> <a href="...">...<a>
+
+	MODE_FORM_SELECT: (form and submit tags are optional)
+	
+	<form id="..." class="..." method="post" action="..." target="_top">
+	<select name="..."  class="..." size="0">
+	<option value="...">...</option>
+	...
+	</select>
+	<input class="ilEditSubmit" type="submit" value="Go"/>
+	</form>
+	
+	*/
 
 	/**
 	* Constructor.
@@ -43,7 +69,44 @@ class ilAdvancedSelectionListGUI
 	*/
 	public function __construct()
 	{
+		$this->mode = ilAdvancedSelectionListGUI::MODE_LINKS;
 		$this->setHeaderIcon(ilAdvancedSelectionListGUI::DOWN_ARROW_DARK);
+		$this->setOnClickMode(ilAdvancedSelectionListGUI::ON_ITEM_CLICK_HREF);
+	}
+
+	/**
+	* Set links mode (for no js fallback)
+	*/
+	public function setLinksMode($a_link_class = "")
+	{
+		$this->mode = ilAdvancedSelectionListGUI::MODE_LINKS;
+		$this->links_mode = array(
+			"link_class" => $a_link_class);
+	}
+
+	/**
+	* Set form mode (for no js fallback)
+	*
+	* Outputs form selection including sourrounding form
+	*/
+	public function setFormSelectMode($a_select_name, $a_select_class = "",
+		$a_include_form_tag = false, $a_form_action = "", $a_form_id = "",
+		$a_form_class = "", $a_form_target = "_top",
+		$a_button_text = "", $a_button_class = "", $a_button_cmd = "")
+	{
+		$this->mode = ilAdvancedSelectionListGUI::MODE_FORM_SELECT;
+		$this->form_mode = array(
+			"select_name" => $a_select_name,
+			"select_class" => $a_select_class,
+			"include_form_tag" => $a_include_form_tag,
+			"form_action" => $a_form_action,
+			"form_id" => $a_form_id,
+			"form_class" => $a_form_class,
+			"form_target" => $a_form_target,
+			"button_text" => $a_button_text,
+			"button_class" => $a_button_class,
+			"button_cmd" => $a_button_cmd
+			);
 	}
 
 	/**
@@ -71,26 +134,6 @@ class ilAdvancedSelectionListGUI
 		return $this->items;
 	}
 	
-	/**
-	* Set Truncate after x items.
-	*
-	* @param	integer	$a_truncateafter	Truncate after x items
-	*/
-	function setTruncateAfter($a_truncateafter)
-	{
-		$this->truncateafter = $a_truncateafter;
-	}
-
-	/**
-	* Get Truncate after x items.
-	*
-	* @return	integer	Truncate after x items
-	*/
-	function getTruncateAfter()
-	{
-		return $this->truncateafter;
-	}
-
 	/**
 	* Set List Title.
 	*
@@ -232,6 +275,31 @@ class ilAdvancedSelectionListGUI
 	}
 
 	/**
+	* Set "onClick"- Mode
+	*
+	* Valid values are:
+	* ilAdvancedSelectionList::ON_ITEM_CLICK_HREF or
+	* ilAdvancedSelectionList::const ON_ITEM_CLICK_FORM_SUBMIT
+	*
+	* @param	string		mode
+	*/
+	function setOnClickMode($a_val, $a_onclick_form_id = "")
+	{
+		$this->on_click = $a_val;
+		$this->on_click_form_id = $a_onclick_form_id;
+	}
+	
+	/**
+	* Get "onClick"-Mode
+	*
+	* @return	
+	*/
+	function getOnClickMode()
+	{
+		return $this->on_click;
+	}
+	
+	/**
 	* Get selection list HTML
 	*/
 	public function getHTML()
@@ -252,19 +320,14 @@ class ilAdvancedSelectionListGUI
 		reset($items);
 
 		$cnt = 0;
+
 		foreach($items as $item)
-		{
-			$trunc = $this->getTruncateAfter();
-			if ($trunc > 0 && $cnt++ > $trunc)
-			{
-				break;
-			}
-			
+		{			
 			$sel_arr[$item["ref_id"]] = $item["title"];
 			$this->css_row = ($this->css_row != "tblrow1_mo")
 				? "tblrow1_mo"
 				: "tblrow2_mo";
-				
+
 			if ($this->getUseImages())
 			{
 				if ($item["img"])
@@ -295,7 +358,21 @@ class ilAdvancedSelectionListGUI
 			}
 
 			$tpl->setCurrentBlock("item");
-			$tpl->setVariable("HREF_ITEM", $item["link"]);
+			if ($this->getOnClickMode() ==
+				ilAdvancedSelectionListGUI::ON_ITEM_CLICK_HREF)
+			{
+				$tpl->setVariable("ONCLICK_ITEM",
+					'onclick="parent.location='."'".$item["link"]."';".'"');
+			}
+			else if ($this->getOnClickMode() ==
+				ilAdvancedSelectionListGUI::ON_ITEM_CLICK_FORM_SUBMIT)
+			{
+				$tpl->setVariable("ONCLICK_ITEM",
+					'onclick="ilAdvSelListFormSubmit(\''.$this->getId().'\''.
+						", '".$this->form_mode["select_name"]."','".$item["value"]."',".
+						"'".$this->on_click_form_id."','".$this->form_mode["button_cmd"]."');\"");
+			}
+
 			$tpl->setVariable("CSS_ROW", $this->css_row);
 			$tpl->setVariable("TXT_ITEM", $item["title"]);
 			
@@ -323,6 +400,14 @@ class ilAdvancedSelectionListGUI
 			$tpl->parseCurrentBlock();
 		}
 		
+		// output hidden input, if click mode is form submission
+		if ($this->getOnClickMode() == ilAdvancedSelectionListGUI::ON_ITEM_CLICK_FORM_SUBMIT)
+		{
+			$tpl->setCurrentBlock("hidden_input");
+			$tpl->setVariable("HID", $this->getId());
+			$tpl->parseCurrentBlock();
+		}
+		
 		// js section
 		$tpl->setCurrentBlock("js_section");
 		$tpl->setVariable("TXT_SEL_TOP", $this->getListTitle());
@@ -330,14 +415,64 @@ class ilAdvancedSelectionListGUI
 		$tpl->setVariable("CLASS_SEL_TOP", $this->getSelectionHeaderClass());
 		$tpl->parseCurrentBlock();
 		
-		// no js section
-		$tpl->setCurrentBlock("no_js_section");
-		$sel_arr = array("1" => "Test 1", "2" => "Test 2");
-		$select = ilUtil::formSelect("", "url_ref_id", $sel_arr, false, true, "0", "ilEditSelect");
-		$tpl->setVariable("NO_JS_CONTENT", $select);
-		$tpl->parseCurrentBlock();
-		//$tpl->setVariable("TXT_SUBMT", $this->getSubmitButtonText());
-		//$tpl->setVariable("ACTION", $this->getFormAction());
+		// no js sections
+		switch ($this->mode)
+		{
+			// links mode
+			case ilAdvancedSelectionListGUI::MODE_LINKS:
+				reset($items);
+				$cnt = 0;
+				foreach($items as $item)
+				{
+					$tpl->setCurrentBlock("no_js_link");
+					$tpl->setVariable("LINKS_CLASS", $this->links_mode["link_class"]);
+					$tpl->setVariable("LINKS_HREF", $item["link"]);
+					$tpl->setVariable("LINKS_TXT", $item["title"]);
+					$tpl->parseCurrentBlock();
+					$tpl->setCurrentBlock("no_js_section");
+					$tpl->parseCurrentBlock();
+				}
+				break;
+				
+			case ilAdvancedSelectionListGUI::MODE_FORM_SELECT:
+				reset($items);
+				$cnt = 0;
+				foreach($items as $item)
+				{
+					$tpl->setCurrentBlock("no_js_form_option");
+					$tpl->setVariable("FRM_OPTION_TXT", $item["title"]);
+					$tpl->setVariable("FRM_OPTION_VAL", $item["value"]);
+					$tpl->parseCurrentBlock();
+				}
+				if ($this->form_mode["include_form_tag"])
+				{
+					$tpl->setCurrentBlock("no_js_form_begin");
+					$tpl->setVariable("FRM_ID", $this->form_mode["form_id"]);
+					$tpl->setVariable("FRM_CLASS", $this->form_mode["form_class"]);
+					$tpl->setVariable("FRM_ACTION", $this->form_mode["form_action"]);
+					$tpl->setVariable("FRM_TARGET", $this->form_mode["form_target"]);
+					$tpl->parseCurrentBlock();
+					$tpl->touchBlock("no_js_form_end");
+				}
+				if ($this->form_mode["button_text"])
+				{
+					$tpl->setCurrentBlock("no_js_form_button");
+					$tpl->setVariable("FRM_BT_TXT", $this->form_mode["button_text"]);
+					$tpl->setVariable("FRM_BT_CLASS", $this->form_mode["button_class"]);
+					if ($this->form_mode["button_cmd"] != "")
+					{
+						$tpl->setVariable("FRM_BT_CMD", 'name="cmd['.$this->form_mode["button_cmd"].']"');
+					}
+					$tpl->parseCurrentBlock();
+				}
+				$tpl->setVariable("FRM_SELECT_NAME", $this->form_mode["select_name"]);
+				$tpl->setVariable("FRM_SELECT_CLASS", $this->form_mode["select_class"]);
+				
+				$tpl->setCurrentBlock("no_js_section");
+				$tpl->parseCurrentBlock();
+				break;
+
+		}
 		
 		return $tpl->get();
 	}
