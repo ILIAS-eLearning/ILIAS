@@ -10834,4 +10834,16 @@ ALTER TABLE `ut_lp_filter` CHANGE `hidden` `hidden` VARCHAR( 4000 ) NOT NULL;
 	$ilMySQLAbstraction->performAbstraction('ut_lp_filter');
 ?>
   
+<#2254>
+<?php
+	$ilMySQLAbstraction->performAbstraction('search_tree');
+?>
 
+<#2255>
+ALTER TABLE `search_data` CHANGE `target` `target` VARCHAR( 4000 ) NOT NULL;
+  
+
+<#2256>
+<?php
+	$ilMySQLAbstraction->performAbstraction('search_data');
+?>

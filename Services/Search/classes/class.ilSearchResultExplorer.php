@@ -174,9 +174,11 @@ class ilSearchResultExplorer extends ilExplorer
 
 	function __setRootId()
 	{
+		global $ilDB;
+
 		$query = "SELECT * FROM search_tree ".
-			"WHERE tree = '".$this->user_id."' ".
-			"AND parent = '0'";
+			"WHERE tree = ".$ilDB->quote($this->user_id ,'integer').
+			"AND parent = 0";
 
 		$res = $this->ilias->db->query($query);
 		while($row = $res->fetchRow(DB_FETCHMODE_OBJECT))
