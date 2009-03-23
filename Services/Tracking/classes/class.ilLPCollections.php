@@ -96,15 +96,19 @@ class ilLPCollections
 
 	function add($item_id)
 	{
-		$query = "DELETE FROM ut_lp_collections ".
-			"WHERE obj_id = '".$this->obj_id."' ".
-			"AND item_id = '".(int) $item_id."'";
-		$this->db->query($query);
+		global $ilDB;
 		
-		$query = "REPLACE INTO ut_lp_collections ".
-			"SET obj_id = '".$this->obj_id."', ".
-			"item_id = '".(int) $item_id."'";
-		$this->db->query($query);
+		$query = "DELETE FROM ut_lp_collections ".
+			"WHERE obj_id = ".$ilDB->quote($this->obj_id ,'integer')." ".
+			"AND item_id = ".$ilDB->quote($item_id ,'integer')." ";
+		$res = $ilDB->manipulate($query);
+		
+		$query = "INSERT INTO ut_lp_collections (obj_id, item_id) ".
+			"VALUES( ".
+			$ilDB->quote($this->obj_id ,'integer').", ".
+			$ilDB->quote($item_id ,'integer').
+			")";
+		$res = $ilDB->manipulate($query);
 		$this->__read();
 
 		return true;
@@ -112,10 +116,12 @@ class ilLPCollections
 
 	function delete($item_id)
 	{
+		global $ilDB;
+		
 		$query = "DELETE FROM ut_lp_collections ".
-			"WHERE item_id = '".$item_id."' ".
-			"AND obj_id = '".$this->obj_id."'";
-		$this->db->query($query);
+			"WHERE item_id = ".$ilDB->quote($item_id ,'integer')." ".
+			"AND obj_id = ".$ilDB->quote($this->obj_id ,'integer')." ";
+		$res = $ilDB->manipulate($query);
 
 		$this->__read();
 
@@ -225,8 +231,8 @@ class ilLPCollections
 		global $ilDB;
 
 		$query = "DELETE FROM ut_lp_collections ".
-			"WHERE obj_id = '".$a_obj_id."'";
-		$ilDB->query($query);
+			"WHERE obj_id = ".$ilDB->quote($a_obj_id ,'integer')."";
+		$res = $ilDB->manipulate($query);
 
 		return true;
 	}
@@ -264,7 +270,7 @@ class ilLPCollections
 		else
 		{
 			// SAHS
-			$query = "SELECT * FROM ut_lp_collections WHERE obj_id = '".$a_obj_id."'";
+			$query = "SELECT * FROM ut_lp_collections WHERE obj_id = ".$ilDB->quote($a_obj_id ,'integer')." ";
 		}
 
 		$res = $ilDB->query($query);
@@ -299,16 +305,16 @@ class ilLPCollections
 		global $ilDB;
 		
 		$query = "DELETE FROM ut_lp_collections ".
-			"WHERE obj_id = '".$a_obj_id."' ".
-			"AND item_id = '".$a_item_id."'";
-		$ilDB->query($query);
+			"WHERE obj_id = ".$ilDB->quote($a_obj_id ,'integer')." ".
+			"AND item_id = ".$ilDB->quote($a_item_id ,'integer')." ";
+		$res = $ilDB->manipulate($query);
 		return true;
 	}
 
 
 	function __read()
 	{
-		global $ilObjDataCache;
+		global $ilObjDataCache, $ilDB;
 
 		if($ilObjDataCache->lookupType($this->getObjId()) != 'sahs')
 		{
@@ -322,7 +328,7 @@ class ilLPCollections
 		}
 		else
 		{
-			$query = "SELECT * FROM ut_lp_collections WHERE obj_id = '".$this->getObjId()."'";
+			$query = "SELECT * FROM ut_lp_collections WHERE obj_id = ".$ilDB->quote($this->getObjId() ,'integer')." ";
 		}
 		$res = $this->db->query($query);
 		while($row = $res->fetchRow(DB_FETCHMODE_OBJECT))

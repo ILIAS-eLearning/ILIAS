@@ -10847,3 +10847,8 @@ ALTER TABLE `search_data` CHANGE `target` `target` VARCHAR( 4000 ) NOT NULL;
 <?php
 	$ilMySQLAbstraction->performAbstraction('search_data');
 ?>
+
+<#2257>
+<?php
+	$ilMySQLAbstraction->performAbstraction('ut_lp_collections');
+?>
