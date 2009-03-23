@@ -164,16 +164,17 @@ class ilSearchFolder
 
 	function delete($a_folder_id)
 	{
+		global $ilDB;
+		
 		$subtree = $this->s_tree->getSubTree($this->s_tree->getNodeData($a_folder_id));
 		
 		foreach($subtree as $node)
 		{
 			// DELETE DATA ENTRIES
 			$query = "DELETE FROM ".TABLE_SEARCH_DATA." ".
-				"WHERE user_id = '".$this->getUserId()."' ".
-				"AND obj_id = '".$node["obj_id"]."'";
-
-			$res = $this->ilias->db->query($query);
+				"WHERE user_id = ".$ilDB->quote($this->getUserId() ,'integer')." ".
+				"AND obj_id = ".$ilDB->quote($node['obj_id']);
+			$res = $ilDB->manipulate($query);
 		}
 		// FINALLY DELETE SUBTREE
 		$this->s_tree->deleteTree($this->s_tree->getNodeData($a_folder_id));
@@ -183,47 +184,60 @@ class ilSearchFolder
 	
 	function assignResult(&$search_result)
 	{
+		global $ilDB;
+
 		if(!$this->__treeExists())
 		{
 			$this->__createNewTree();
 		}
+		$next_id = $ilDB->nextId(TABLE_SEARCH_DATA);
 		// CREATE RESULT
-		$query = "INSERT INTO ".TABLE_SEARCH_DATA ." ".
-			"SET user_id = '".$this->getUserId()."', ".
-			"title = '".$search_result->getTitle()."', ".
-			"target = '".$search_result->getTarget()."', ".
-			"type = 'sea'";
-		
-		$res = $this->ilias->db->query($query);
+		$query = "INSERT INTO ".TABLE_SEARCH_DATA ." (obj_id,user_id,title,target,type) ".
+			"VALUES( ".
+			$ilDB->quote($next_id, 'integer').", ".
+			$ilDB->quote($this->getUserId() ,'integer').", ".
+			$ilDB->quote($search_result->getTitle() ,'text').", ".
+			$ilDB->quote($search_result->getTarget() ,'text').", ".
+			$ilDB->quote('sea' ,'text').
+			")";
+		$res = $ilDB->manipulate($query);
 
-		$this->s_tree->insertNode($this->ilias->db->getLastInsertId(),$this->getFolderId());
+		$this->s_tree->insertNode($next_id,$this->getFolderId());
 
 		return true;
 	}
 
 	function updateTitle($a_title)
 	{
+		global $ilDB;
+		
 		$query = "UPDATE ".TABLE_SEARCH_DATA." ".
-			"SET title = '".addslashes($a_title)."' ".
-			"WHERE obj_id = '".$this->getFolderId()."' ".
-			"AND user_id = '".$this->getUserId()."'";
+			"SET title = ".$ilDB->quote($a_title ,'text')." ".
+			"WHERE obj_id = ".$ilDB->quote($this->getFolderId() ,'integer')." ".
+			"AND user_id = ".$ilDB->quote($this->getUserId() ,'integer')." ";
 
-		$res = $this->ilias->db->query($query);
+		$res = $ilDB->manipulate($query);
 
 		return true;
 	}
 
 	function &create($a_title)
 	{
-		// CREATE FOLDER
-		$query = "INSERT INTO ".TABLE_SEARCH_DATA ." ".
-			"SET user_id = '".$this->getUserId()."', ".
-			"title = '".addslashes($a_title)."', ".
-			"type = 'seaf'";
+		global $ilDB;
 		
-		$res = $this->ilias->db->query($query);
+		// CREATE FOLDER
+		$next_id = $ilDB->nextId(TABLE_SEARCH_DATA);
 
-		$this->s_tree->insertNode($this->ilias->db->getLastInsertId(),$this->getFolderId());
+		$query = "INSERT INTO ".TABLE_SEARCH_DATA ." (obj_id,user_id,title,type) ".
+			"VALUES( ".
+			$ilDB->quote($next_id, 'integer').", ".
+			$ilDB->quote($this->getUserId() ,'integer').", ".
+			$ilDB->quote($a_title ,'text').", ".
+			$ilDB->quote('seaf' ,'text').
+			")";
+		$res = $ilDB->manipulate($query);
+				
+		$this->s_tree->insertNode($next_id,$this->getFolderId());
 
 		$new_obj =& new ilSearchFolder($this->getUserId(),$this->getFolderId());
 		$new_obj->setTitle($a_title);
@@ -259,11 +273,12 @@ class ilSearchFolder
 	// PRIVATE METHODS
 	function __init()
 	{
+		global $ilDB;
+		
 		$query = "SELECT * FROM ".TABLE_SEARCH_TREE.", ".TABLE_SEARCH_DATA." ".
 			"WHERE child = obj_id ".
-			"AND child = '".$this->getFolderId()."' ".
-			"AND tree = '".$this->getUserId()."'";
-
+			"AND child = ".$ilDB->quote($this->getFolderId() ,'integer')." ".
+			"AND tree = ".$ilDB->quote($this->getUserId() ,'integer')." ";
 		$res = $this->ilias->db->query($query);
 
 		while($row = $res->fetchRow(DB_FETCHMODE_OBJECT))
@@ -283,8 +298,10 @@ class ilSearchFolder
 
 	function __treeExists()
 	{
+		global $ilDB;
+		
 		$query = "SELECT tree FROM ".TABLE_SEARCH_TREE." ".
-			"WHERE tree = ".$this->getUserId();
+			"WHERE tree = ".$ilDB->quote($this->getUserId() ,'integer');
 		
 		$res = $this->ilias->db->query($query);
 
@@ -293,13 +310,19 @@ class ilSearchFolder
 
 	function __createNewTree()
 	{
-		// ADD ENTRY search_data
-		$query = "INSERT INTO ".TABLE_SEARCH_DATA." ".
-			"SET user_id = '".$this->getUserId()."', ".
-			"type = 'seaf'";
+		global $ilDB;
 		
-		$res = $this->ilias->db->query($query);
-		$root_id = $this->__getLastInsertId();
+		// ADD ENTRY search_data
+		$next_id = $ilDB->nextId(TABLE_SEARCH_DATA);
+		$query = "INSERT INTO ".TABLE_SEARCH_DATA." (obj_id,user_id,type) ".
+			"VALUES( ".
+			$ilDB->quote($next_id ,'integer').", ".
+			$ilDB->quote($this->getUserId() ,'integer').", ".
+			$ilDB->quote('seaf' ,'text').
+			")";
+		$res = $ilDB->manipulate($query);
+
+		$root_id = $next_id;
 
 		$this->s_tree->addTree($this->getUserId(),$root_id);
 
@@ -312,9 +335,11 @@ class ilSearchFolder
 
 	function __readRootId()
 	{
+		global $ilDB;
+		
 		$query = "SELECT child FROM ".TABLE_SEARCH_TREE." ".
-			"WHERE tree = '".$this->getUserId()."' ".
-			"AND parent = '0'";
+			"WHERE tree = ".$ilDB->quote($this->getUserId() ,'integer')." ".
+			"AND parent = 0";
 
 		$res = $this->ilias->db->query($query);
 		while($row = $res->fetchRow(DB_FETCHMODE_OBJECT))
@@ -322,11 +347,6 @@ class ilSearchFolder
 			$this->setRootId($row->child);
 		}
 		return true;
-	}
-
-	function __getLastInsertId()
-	{
-		return $this->ilias->db->getLastInsertId();
 	}
 
 } // END class.Search
