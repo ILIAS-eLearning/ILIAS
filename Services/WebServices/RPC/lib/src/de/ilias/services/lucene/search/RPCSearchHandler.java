@@ -33,6 +33,7 @@ import org.apache.lucene.document.Document;
 import org.apache.lucene.index.CorruptIndexException;
 import org.apache.lucene.queryParser.MultiFieldQueryParser;
 import org.apache.lucene.queryParser.ParseException;
+import org.apache.lucene.queryParser.QueryParser.Operator;
 import org.apache.lucene.search.BooleanClause;
 import org.apache.lucene.search.BooleanQuery;
 import org.apache.lucene.search.IndexSearcher;
@@ -43,6 +44,7 @@ import org.apache.lucene.search.BooleanClause.Occur;
 
 import de.ilias.services.lucene.index.FieldInfo;
 import de.ilias.services.lucene.search.highlight.HitHighlighter;
+import de.ilias.services.lucene.settings.LuceneSettings;
 import de.ilias.services.settings.ConfigurationException;
 import de.ilias.services.settings.LocalSettings;
 
@@ -77,7 +79,9 @@ public class RPCSearchHandler {
 		LocalSettings.setClientKey(clientKey);
 		IndexSearcher searcher;
 		FieldInfo fieldInfo;
+		LuceneSettings luceneSettings;
 		String rewrittenQuery;
+		
 		
 		try {
 			
@@ -85,6 +89,7 @@ public class RPCSearchHandler {
 			
 			
 			fieldInfo = FieldInfo.getInstance(LocalSettings.getClientKey());
+			luceneSettings = LuceneSettings.getInstance(LocalSettings.getClientKey());
 			
 			// Append doctype
 			searcher = SearchHolder.getInstance().getSearcher();
@@ -98,12 +103,25 @@ public class RPCSearchHandler {
 				occurs.add(BooleanClause.Occur.SHOULD);
 			}
 			
-			BooleanQuery.setMaxClauseCount(10000);
-			BooleanQuery query = (BooleanQuery) MultiFieldQueryParser.parse(rewrittenQuery,
+			MultiFieldQueryParser multiParser = new MultiFieldQueryParser(
 					fieldInfo.getFieldsAsStringArray(),
-					occurs.toArray(new Occur[0]),
 					new StandardAnalyzer());
+			
+			if(luceneSettings.getDefaultOperator() == LuceneSettings.OPERATOR_AND) {
+				multiParser.setDefaultOperator(Operator.AND);
+			}
+			else {
+				multiParser.setDefaultOperator(Operator.OR);
+			}
+				
+			BooleanQuery.setMaxClauseCount(10000);
+			BooleanQuery query = (BooleanQuery) multiParser.parse(rewrittenQuery);
 			logger.info("Max clauses allowed: " + BooleanQuery.getMaxClauseCount());
+			
+			//BooleanQuery query = (BooleanQuery) MultiFieldQueryParser.parse(rewrittenQuery,
+			//		fieldInfo.getFieldsAsStringArray(),
+			//		occurs.toArray(new Occur[0]),
+			//		new StandardAnalyzer());
 
 			
 			for(Object f : fieldInfo.getFields()) {
