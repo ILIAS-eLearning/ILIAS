@@ -90,6 +90,17 @@ class ilLuceneSearchGUI extends ilSearchBaseGUI implements ilDesktopItemHandling
 	 	ilDesktopItemGUI::removeFromDesktop();
 	 	$this->showSavedResults();
 	 }
+	 
+	 /**
+	  * Search from main menu
+	  */
+	 protected function remoteSearch()
+	 {
+	 	$this->search_cache->setRoot((int) $_POST['root_id']);
+	 	$this->search_cache->setQuery(ilUtil::stripSlashes($_POST['queryString']));
+	 	$this->search_cache->save();
+	 	$this->search();
+	 }
 	
 	/**
 	 * Show saved results 
