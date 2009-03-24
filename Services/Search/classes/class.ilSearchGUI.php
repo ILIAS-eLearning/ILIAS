@@ -151,6 +151,14 @@ class ilSearchGUI extends ilSearchBaseGUI
 		}
 		return true;
 	}
+	
+	function remoteSearch()
+	{
+		$this->setString(ilUtil::stripSlashes($_POST['queryString']));
+		$this->setRootNode((int) $_POST['root_id']);
+		$this->performSearch();
+		
+	}
 
 	function saveResult()
 	{

@@ -159,6 +159,13 @@ class ilMainMenuGUI
 				$this->tpl->setVariable("MM_CLASS", "MMInactive");
 			}
 			$this->tpl->parseCurrentBlock();
+			
+			include_once './Services/Search/classes/class.ilMainMenuSearchGUI.php';
+			$main_search = new ilMainMenuSearchGUI();
+			if(strlen($html = $main_search->getHTML()))
+			{
+				$this->tpl->setVariable('SEARCHBOX',$html);
+			}
 		}
 		
 		
