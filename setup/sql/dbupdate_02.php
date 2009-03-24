@@ -10880,3 +10880,9 @@ DROP TABLE IF EXISTS `crs_objective_results`;
 <?php
 	$ilMySQLAbstraction->performAbstraction('crs_objective_tst');
 ?>
+
+<#2264>
+<?php
+	$ilMySQLAbstraction->performAbstraction('crs_objectives');
+?>
+ 

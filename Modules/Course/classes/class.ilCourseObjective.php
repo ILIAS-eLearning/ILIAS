@@ -65,7 +65,7 @@ class ilCourseObjective
 		global $ilDB;
 		
 		$query = "SELECT crs_id FROM crs_objectives ".
-			"WHERE objective_id = ".$ilDB->quote($a_objective_id);
+			"WHERE objective_id = ".$ilDB->quote($a_objective_id ,'integer');
 		$res = $ilDB->query($query);
 		while($row = $res->fetchRow(DB_FETCHMODE_OBJECT))
 		{
@@ -87,7 +87,7 @@ class ilCourseObjective
 		global $ilDB;
 		
 		$query = "SELECT * FROM crs_objectives ".
-			"WHERE crs_id = ".$ilDB->quote($a_obj_id)." ";
+			"WHERE crs_id = ".$ilDB->quote($a_obj_id ,'integer')." ";
 		$res = $ilDB->query($query);
 		return $res->numRows() ? true : false;
 	}
@@ -107,7 +107,7 @@ class ilCourseObjective
 		$ilLog->write(__METHOD__.': Start cloning learning objectives...');
 		
 	 	$query = "SELECT * FROM crs_objectives ".
-	 		"WHERE crs_id  = ".$this->db->quote($this->course_obj->getId()).
+	 		"WHERE crs_id  = ".$this->db->quote($this->course_obj->getId() ,'integer').
 	 		"ORDER BY position ";
 	 	$res = $this->db->query($query);
 	 	if(!$res->numRows())
@@ -173,16 +173,19 @@ class ilCourseObjective
 	{
 		global $ilDB;
 		
-		$query = "INSERT INTO crs_objectives ".
-			"SET crs_id = ".$ilDB->quote($this->course_obj->getId()).", ".
-			"title = ".$ilDB->quote($this->getTitle()).", ".
-			"description = ".$ilDB->quote($this->getDescription()).", ".
-			"position = ".$ilDB->quote($this->__getLastPosition() + 1).", ".
-			"created = ".$ilDB->quote(time());
-
-		$this->db->query($query);
+		$next_id = $ilDB->nextId('crs_objectives');
+		$query = "INSERT INTO crs_objectives (crs_id,objective_id,title,description,position,created) ".
+			"VALUES( ".
+			$ilDB->quote($this->course_obj->getId() ,'integer').", ".
+			$ilDB->quote($next_id,'integer').", ".
+			$ilDB->quote($this->getTitle() ,'text').", ".
+			$ilDB->quote($this->getDescription() ,'text').", ".
+			$ilDB->quote($this->__getLastPosition() + 1 ,'integer').", ".
+			$ilDB->quote(time() ,'integer')." ".
+			")";
+		$res = $ilDB->manipulate($query);
 		
-		return $this->objective_id = $this->db->getLastInsertId();
+		return $this->objective_id = $next_id;
 	}
 
 	function update()
@@ -190,12 +193,11 @@ class ilCourseObjective
 		global $ilDB;
 		
 		$query = "UPDATE crs_objectives ".
-			"SET title = ".$ilDB->quote($this->getTitle()).", ".
-			"description = ".$ilDB->quote($this->getDescription())." ".
-			"WHERE objective_id = ".$ilDB->quote($this->getObjectiveId())." ".
-			"AND crs_id = ".$ilDB->quote($this->course_obj->getId())."";
-		
-		$this->db->query($query);
+			"SET title = ".$ilDB->quote($this->getTitle() ,'text').", ".
+			"description = ".$ilDB->quote($this->getDescription() ,'text')." ".
+			"WHERE objective_id = ".$ilDB->quote($this->getObjectiveId() ,'integer')." ".
+			"AND crs_id = ".$ilDB->quote($this->course_obj->getId() ,'integer')."";
+		$res = $ilDB->manipulate($query);
 		
 		return true;
 	}
@@ -209,10 +211,12 @@ class ilCourseObjective
 	 */
 	public function writePosition($a_position)
 	{
+		global $ilDB;
+		
 		$query = "UPDATE crs_objectives ".
-			"SET position = ".$this->db->quote((string) $a_position)." ".
-			"WHERE objective_id = ".$this->db->quote($this->getObjectiveId())." ";
-		$this->db->query($query);
+			"SET position = ".$this->db->quote((string) $a_position ,'integer')." ".
+			"WHERE objective_id = ".$this->db->quote($this->getObjectiveId() ,'integer')." ";
+		$res = $ilDB->manipulate($query);
 	}
 	
 	/**
@@ -243,10 +247,9 @@ class ilCourseObjective
 
 
 		$query = "DELETE FROM crs_objectives ".
-			"WHERE crs_id = ".$ilDB->quote($this->course_obj->getId())." ".
-			"AND objective_id = ".$ilDB->quote($this->getObjectiveId())." ";
-
-		$this->db->query($query);
+			"WHERE crs_id = ".$ilDB->quote($this->course_obj->getId() ,'integer')." ".
+			"AND objective_id = ".$ilDB->quote($this->getObjectiveId() ,'integer')." ";
+		$res = $ilDB->manipulate($query);
 
 		return true;
 	}
@@ -267,17 +270,15 @@ class ilCourseObjective
 
 		$query = "UPDATE crs_objectives ".
 			"SET position = position + 1 ".
-			"WHERE position = ".$ilDB->quote($this->__getPosition() - 1)." ".
-			"AND crs_id = ".$ilDB->quote($this->course_obj->getId())." ";
-		
-		$this->db->query($query);
+			"WHERE position = ".$ilDB->quote($this->__getPosition() - 1 ,'integer')." ".
+			"AND crs_id = ".$ilDB->quote($this->course_obj->getId() ,'integer')." ";
+		$res = $ilDB->manipulate($query);
 		
 		$query = "UPDATE crs_objectives ".
 			"SET position = position - 1 ".
-			"WHERE objective_id = ".$ilDB->quote($this->getObjectiveId())." ".
-			"AND crs_id = ".$ilDB->quote($this->course_obj->getId())." ";
-
-		$this->db->query($query);
+			"WHERE objective_id = ".$ilDB->quote($this->getObjectiveId() ,'integer')." ".
+			"AND crs_id = ".$ilDB->quote($this->course_obj->getId() ,'integer')." ";
+		$res = $ilDB->manipulate($query);
 
 		$this->__read();
 
@@ -300,17 +301,15 @@ class ilCourseObjective
 		
 		$query = "UPDATE crs_objectives ".
 			"SET position = position - 1 ".
-			"WHERE position = ".$ilDB->quote($this->__getPosition() + 1)." ".
-			"AND crs_id = ".$ilDB->quote($this->course_obj->getId())." ";
-
-		$this->db->query($query);
+			"WHERE position = ".$ilDB->quote($this->__getPosition() + 1 ,'integer')." ".
+			"AND crs_id = ".$ilDB->quote($this->course_obj->getId() ,'integer')." ";
+		$res = $ilDB->manipulate($query);
 		
 		$query = "UPDATE crs_objectives ".
 			"SET position = position + 1 ".
-			"WHERE objective_id = ".$ilDB->quote($this->getObjectiveId())." ".
-			"AND crs_id = ".$ilDB->quote($this->course_obj->getId())." ";
-
-		$this->db->query($query);
+			"WHERE objective_id = ".$ilDB->quote($this->getObjectiveId() ,'integer')." ".
+			"AND crs_id = ".$ilDB->quote($this->course_obj->getId() ,'integer')." ";
+		$res = $ilDB->manipulate($query);
 
 		$this->__read();
 
@@ -343,9 +342,9 @@ class ilCourseObjective
 		if($this->getObjectiveId())
 		{
 			$query = "SELECT * FROM crs_objectives ".
-				"WHERE crs_id = ".$ilDB->quote($this->course_obj->getId())." ".
-				"AND objective_id = ".$ilDB->quote($this->getObjectiveId())." ";
-				
+				"WHERE crs_id = ".$ilDB->quote($this->course_obj->getId() ,'integer')." ".
+				"AND objective_id = ".$ilDB->quote($this->getObjectiveId() ,'integer')." ";
+
 
 			$res = $this->db->query($query);
 			while($row = $res->fetchRow(DB_FETCHMODE_OBJECT))
@@ -383,10 +382,9 @@ class ilCourseObjective
 		
 		$query = "UPDATE crs_objectives ".
 			"SET position = position - 1 ".
-			"WHERE position > ".$ilDB->quote($this->__getPosition())." ".
-			"AND crs_id = ".$ilDB->quote($this->course_obj->getId())." ";
-
-		$this->db->query($query);
+			"WHERE position > ".$ilDB->quote($this->__getPosition() ,'integer')." ".
+			"AND crs_id = ".$ilDB->quote($this->course_obj->getId() ,'integer')." ";
+		$res = $ilDB->manipulate($query);
 
 		return true;
 	}
@@ -395,8 +393,9 @@ class ilCourseObjective
 	{
 		global $ilDB;
 		
-		$query = "SELECT MAX(position) AS pos FROM crs_objectives ".
-			"WHERE crs_id = ".$ilDB->quote($this->course_obj->getId())." ";
+		$query = "SELECT MAX(position) pos FROM crs_objectives ".
+			"WHERE crs_id = ".$ilDB->quote($this->course_obj->getId() ,'integer')." ".
+			"GROUP BY position";
 
 		$res = $this->db->query($query);
 		while($row = $res->fetchRow(DB_FETCHMODE_OBJECT))
@@ -412,7 +411,7 @@ class ilCourseObjective
 		global $ilDB;
 
 		$query = "SELECT objective_id FROM crs_objectives ".
-			"WHERE crs_id = ".$ilDB->quote($course_id)." ".
+			"WHERE crs_id = ".$ilDB->quote($course_id ,'integer')." ".
 			"ORDER BY position";
 
 		$res = $ilDB->query($query);

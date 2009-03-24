@@ -441,9 +441,9 @@ class ilCourseObjectiveResult
 
 		$passed = array();
 		
-		$query = "SELECT COUNT(t1.crs_id) AS num,t1.crs_id FROM crs_objectives as t1 ".
-			"JOIN crs_objectives as t2 WHERE t1.crs_id = t2.crs_id and t1.objective_id ".
-			"IN (".implode(",",ilUtil::quoteArray($objective_ids)).") ".
+		$query = "SELECT COUNT(t1.crs_id) num,t1.crs_id FROM crs_objectives t1 ".
+			"JOIN crs_objectives t2 WHERE t1.crs_id = t2.crs_id and  ".
+			$ilDB->in('t1.objective_id',$objective_ids,false,'integer')." ".
 			"GROUP BY t1.crs_id";
 		$res = $ilDB->query($query);
 		while($row = $res->fetchRow(DB_FETCHMODE_OBJECT))
