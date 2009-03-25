@@ -5557,7 +5557,7 @@ mail#:#mail_moved_to_trash#:#Die Nachricht(en) wurde(n) in den Papierkorb versch
 mail#:#mail_moved#:#Ihre Nachrichten wurden verschoben
 mail#:#mail_multiple_recipients_found#:#Geben Sie eine spezifischere Adresse an. ILIAS hat mehrere mögliche Empfänger für diese Adresse gefunden: %s
 mail#:#mail_my_courses#:#Meine Kurse
-mail#:#mail_my_entries#:#Meine Einträge
+mail#:#mail_my_entries#:#Mein Addressbuch
 mail#:#mail_my_groups#:#Meine Gruppen
 mail#:#mail_my_mailing_lists#:#Meine Verteilerlisten
 mail#:#mail_mailing_lists#:#Verteilerlisten

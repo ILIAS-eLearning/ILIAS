@@ -7654,7 +7654,7 @@ crs#:#crs_user_agreement_info#:#Visible Personal Data for Course Administrators
 ps#:#ps_required_info#:#Further Course-Specific fields are required for accessing the course content.
 ps#:#ps_warning_modify#:#Attention: Minimum one user has accepted the user agreement. Modifying these settings will reset all user agreements.
 mail#:#mail_select_group#:#Please select at least one group.
-mail#:#mail_my_entries#:#My Entries
+mail#:#mail_my_entries#:#My Contacts
 mail#:#mail_my_courses#:#My Courses
 mail#:#mail_my_groups#:#My Groups
 mail#:#mail_my_mailing_lists#:#My Mailing Lists
