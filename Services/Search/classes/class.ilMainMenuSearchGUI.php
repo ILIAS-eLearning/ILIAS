@@ -58,6 +58,7 @@ class ilMainMenuSearchGUI
 		$this->obj_id = ilObject::_lookupObjId($this->ref_id);
 		$this->type = ilObject::_lookupType($this->obj_id);
 
+		/*
 		if(!$objDefinition->isContainer($this->type))
 		{
 			$this->isContainer = false;
@@ -65,6 +66,7 @@ class ilMainMenuSearchGUI
 			$this->obj_id = ilObject::_lookupObjId($parent_id);
 			$this->type = ilObject::_lookupType($this->obj_id);
 		}
+		*/
 	}
 	
 	public function getHTML()
@@ -73,7 +75,7 @@ class ilMainMenuSearchGUI
 		
 		if(!$this->isContainer)
 		{
-			return '';
+			#return '';
 		}
 		
 		$this->tpl = new ilTemplate('tpl.main_menu_search.html',true,true,'Services/Search');
