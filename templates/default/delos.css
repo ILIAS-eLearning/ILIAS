@@ -1832,7 +1832,7 @@ div.ilTabContentOuter
 div.ilTabContentInner
 {
 	padding: 15px 0px;
-	margin: 0px 15px;
+	margin: 0px;
 	clear:both;
 	overflow: auto;
 	min-height: 250px;
