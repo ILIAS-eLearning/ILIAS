@@ -1,12 +1,5 @@
 /* -- for link pseudo-classes, respect order: Link, Visited, Hover, Active -- */
 
-body {
-	color:#222222;
-	background-color:#FFFFFF;
-	font-family:Verdana,Arial,Helvetica,sans-serif;
-	margin:0px;
-	font-size:0.9em;
-}
 
 body.il_Explorer {
 	color:#222222;
@@ -68,34 +61,6 @@ input.fullwidth_marked {
 
 /* ---------------- alternating tablerowcolors ----------------- */
 
-/*
-.tblrow2 {
-	background-color: #FFFFFF;
-	color:#222222;
-	padding:3px;
-	background-image: url(images/rowback.gif);
-	background-repeat:repeat-x;
-}
-
-.tblrow1 {
-	background-color:#FFFFFF;
-	color:#222222;
-	padding:3px;
-	background-image: url(images/rowback.gif);
-	background-repeat:repeat-x;
-}*/
-
-.tblrow2 {
-	background-color: #F1F1F1;
-	color:#222222;
-	padding:3px;
-}
-
-.tblrow1 {
-	background-color:#FFFFFF;
-	color:#222222;
-	padding:3px;
-}
 
 .tblrow2_mo {
 	background-color: #F1F1F1;
@@ -171,16 +136,6 @@ table.std {
 	border-color:#9EADBA;
 }
 
-table.fullwidth {
-	color:#222222;
-	background-color:#bbbbbb;
-	width:100%;
-	border-spacing:0px;
-	border-collapse:collapse;
-	border-width:1px;
-	border-style:solid;
-	border-color:#9EADBA;
-}
 
 table.halfwidth {
 	color:#222222;
@@ -201,13 +156,6 @@ table.ilPDSelectedItemBlock {
 	border-width:0px;
 }
 
-td.il_BlockFooter {
-	color:#222222;
-	background-color:#DCDCDC;
-	text-align:right;
-	font-size: 80%;
-	padding:2px;
-}
 
 table.fullwidth_nowrap {
 	color:#222222;
@@ -240,17 +188,6 @@ td.nobackground {
 	vertical-align: top;
 }
 
-th
-{
-	text-align: left;
-	vertical-align: bottom;
-}
-
-td.std, th.std {
-	padding:2px;
-	text-align: left;
-}
-
 th.il_invisible, td.il_invisible {
 	background-color:#FFFFFF;
 	background-image: none;
@@ -270,42 +207,6 @@ tr.tbltitle {
 	border-bottom-style:solid;
 }
 
-.tblheader {
-	color: #000000;
-	font-weight:bold;
-}
-
-tr.tblheader {
-	color:#000000;
-	font-weight:bold;
-	background-color: #E2EAF4;
-	background-image:url(images/TableHeaderBlue.gif);
-	background-repeat:repeat-x;
-	
-	border-top-width:1px;
-	border-top-color:#9EADBA;
-	border-top-style:solid;
-
-}
-
-.tblfooter {
-	color: #000000;
-	font-weight:normal;
-	border-bottom-width:1px;
-	border-bottom-color:#9EADBA;
-	border-bottom-style:solid;
-}
-
-tr.tblfooter {
-	color:#000000;
-	font-weight:normal;
-	background-color:#EDEDED;
-	background-image:url(images/TableHeader.gif);
-	background-repeat:repeat-x;
-	border-bottom-width:1px;
-	border-bottom-color:#9EADBA;
-	border-bottom-style:solid;
-}
 
 tr.std {
 	background-color:#FFFFFF;
@@ -417,22 +318,6 @@ td.boxed {
 	border-width: thin;
 }
 
-td.submit {
-	background-image: url(images/TableHeader.gif);
-	background-color:#EDEDED;
-	background-repeat: repeat-x;
-	color:#222222;
-	padding:3px;
-	vertical-align:top;
-	border-top-width:1px;
-	border-top-color:#9EADBA;
-	border-top-style:solid;
-	border-bottom-width:1px;
-	border-bottom-color:#9EADBA;
-	border-bottom-style:solid;
-
-}
-
 /*Link, Visited, Hover, Focus, Activ*/
 a.il_ContainerItemCommand:link, a.il_ContainerItemCommand:visited, a.il_ContainerItemCommand:hover
 {
@@ -475,10 +360,6 @@ div.il_ContainerItemCommands2
 	margin: 0px 3px 3px 3px;
 }
 
-div.il_ContainerListItem
-{
-	margin: 2px 0px;
-}
 
 div.il_ContainerItemCommands
 {
@@ -537,29 +418,6 @@ span.il_ItemProperty
 {
 }
 
-th.il_ContainerBlockHeader
-{
-	background-image: url(images/TableHeader.gif);
-	background-color:#EDEDED;
-	background-repeat: repeat-x;
-	font-weight: bold;
-	padding: 2px;
-	text-align:left;
-	vertical-align: middle;
-}
-
-table.il_ContainerBlock
-{
-	color:#222222;
-	background-color:#bbbbbb;
-	width:100%;
-	border-spacing:0px;
-	border-collapse:collapse;
-	border-width:1px;
-	border-style:solid;
-	border-color:#9EADBA;
-	clear:both;
-}
 
 /* Personal Desktop Header*/
 div.il_PDTitle, span.il_PDTitle
@@ -600,63 +458,6 @@ th.il_PDBlockHeader
 	border-bottom-style:solid;
 }
 
-th.il_PDBlockSubHeader
-{
-	background-image: url(images/TableHeader.gif);
-	background-repeat:repeat-x;
-	font-weight: bold;
-	text-align:left;
-	font-size: 100%;
-	padding: 2px;
-	background-color: #EDEDED;
-	border-top-width:1px;
-	border-top-color:#9EADBA;
-	border-top-style:solid;
-	vertical-align: middle;
-}
-
-/* Blocks */
-
-table.il_Block
-{
-	color:#222222;
-	background-color:#bbbbbb;
-	width:100%;
-	border-spacing:0px;
-	border-collapse:collapse;
-	border-width:1px;
-	border-style:solid;
-	border-color:#9EADBA;
-	margin-bottom:25px;
-	clear:both;
-}
-
-th.il_BlockHeader
-{
-	background-image: url(images/TableHeaderBlue.gif);
-	background-repeat:repeat-x;
-	font-weight: bold;
-	padding: 3px;
-	background-color: #E2EAF4;
-	text-align:left;
-	border-bottom-width:1px;
-	border-bottom-color:#9EADBA;
-	border-bottom-style:solid;
-	font-size: 90%;
-}
-
-th.il_BlockHeaderBig
-{
-	background-image: url(images/TableHeaderBlue.gif);
-	background-repeat:repeat-x;
-	font-weight: bold;
-	padding: 3px;
-	background-color: #E2EAF4;
-	text-align:left;
-	border-bottom-width:1px;
-	border-bottom-color:#9EADBA;
-	border-bottom-style:solid;
-}
 
 /* Repository Header */
 table.ilc_RepHeader {
@@ -760,241 +561,8 @@ form.il_Form
 	border: 0px;
 }
 
-/* Navigation History */
-form.ilNavHistoryForm
-{
-	padding: 0px;
-	margin: 0px 15px 0px 10px ;
-	border: 0px;
-	float: right;
-}
 
 /* MainMenu Tabs */
-div.il_MainMenu
-{
-	background-image: url(images/MainMenuBack.gif);
-	background-repeat: repeat-x;
-	background-position: bottom;	
-	margin: 0px;
-	padding:3px 0px 6px 15px;
-	line-height: normal;
-}
-
-a.MMInactive:link, a.MMInactive:visited
-{
-	color:#FFFFFF;
-    padding: 1px 5px 5px 5px;
-	font-size: 90%;
-	text-decoration:none;
-	margin: 0px 5px 0px 5px;
-	font-weight: normal;
-	white-space: nowrap;
-}
-
-a.MMInactive:hover
-{
-	background-color: #F0F0FF;
-	color:#202020; 
-	opacity: 0.65;
-	-ms-filter:"progid:DXImageTransform.Microsoft.Alpha(Opacity=65)";
-	filter: alpha(opacity=65);
-	-moz-opacity: 0.65;
-	border-top-color: #A0A0A0;
-	border-top-style: solid;
-	border-top-width: 1px;
-}
-
-a.MMActive:link, a.MMActive:visited
-{
-	/* color: #8CC6FF; */
-	color:#202020;
-	background-color: #F0F0FF;
-    padding: 1px 5px 5px 5px;
-	font-size: 90%;
-	text-decoration:none;
-	margin: 0px 5px 0px 5px;
-	font-weight: normal;
-	white-space: nowrap;
-	opacity: 0.83;
-	-ms-filter:"progid:DXImageTransform.Microsoft.Alpha(Opacity=83)";
-	filter: alpha(opacity=83);
-	-moz-opacity: 0.83;
-}
-
-a.MMActive:hover
-{
-	background-color: #FFFFFF;
-	color:#000000;
-}
-
-/* Tabs */
-
-div.il_Tab
-{
-	margin-top: 0px;
-	margin-bottom: 10px;
-	margin-left: 0px;
-	margin-right: 0px;
-    float:left;
-    width:100%;
-	padding-left:0px;
-    line-height:normal;
-	background:#FFFFFF url(images/TabBack.gif) repeat-x bottom;
-}
-
-ul.il_Tab
-{
-	margin: 0px;
-	padding: 0px 15px;
-	list-style:none;
-}
-
-li.tabinactive
-{
-	float:left;
-	background:url("images/TabInactiveRightWhite.gif")
-		no-repeat right top;
-	margin:0;
-	padding:0;
-	border-bottom-width: 1px;
-	border-bottom-style: solid;
-	border-bottom-color: #B0B0B0;
-}
-
-a.tabinactive:link, a.tabinactive:visited, a.tabinactive:hover
-{
-	float: left;
-	display:block;
-	background:url("images/TabInactiveLeftWhite.gif") no-repeat left top;
-    padding: 3px 8px;
-	font-size: 80%;
-	text-decoration: none;
-}
-
-li.tabactive
-{
-	float:left;
-	background:url("images/TabActiveRightWhite.gif")
-		no-repeat right top;
-	margin:0;
-	padding:0;
-	border-bottom-width: 1px;
-	border-bottom-style: solid;
-	border-bottom-color: #FFFFFF;
-}
-
-a.tabactive:link, a.tabactive:visited, a.tabactive:hover
-{
-	float: left;
-	display:block;
-	background:url("images/TabActiveLeftWhite.gif") no-repeat left top;
-    padding: 3px 8px;
-	font-size: 80%;
-	text-decoration: none;
-}
-
-li.backtab
-{
-	float:left;
-	margin:0;
-	padding:0;
-	border-bottom-width: 1px;
-	border-bottom-width: 1px;
-	border-bottom-style: solid;
-	border-bottom-color: #B0B0B0;
-}
-
-a.backtab, a.backtab:hover
-{
-	float: left;
-	display:block;
-	background:url("images/BackTab.gif") no-repeat left top;
-    padding: 3px 8px 3px 12px;
-	font-size: 80%;
-}
-
-li.back2tab
-{
-	float:left;
-	margin:0;
-	padding:0;
-	border-bottom-width: 1px;
-	border-bottom-width: 1px;
-	border-bottom-style: solid;
-	border-bottom-color: #B0B0B0;
-}
-
-a.back2tab, a.back2tab:hover
-{
-	float: left;
-	display:block;
-	background:url("images/Back2Tab.gif") no-repeat left top;
-    padding: 3px 8px 3px 16px;
-	font-size: 80%;
-}
-
-/*  Commented Backslash Hack
-	hides rule from IE5-Mac, we do not want the left float for other browsers \*/
-	a.tabinactive a.tabactive a.backtab {float:none;}
-/* End IE5-Mac hack */
-
-
-/* Sub Tabs */
-
-div.il_SubTab
-{
-    float:left;
-    width:100%;
-	padding-left:0px;
-	margin-bottom: 10px;
-    line-height:normal;
-}
-
-ul.il_SubTab
-{
-	margin: 0px;
-	padding: 0px 0px;
-	list-style:none;
-}
-
-li.subtabinactive
-{
-	float:left;
-	margin:0;
-	padding:0;
-}
-
-a.subtabinactive, a.subtabinactive:hover
-{
-	float: left;
-	display:block;
-	background:url("images/SubTabInactiveLeft.gif") no-repeat left top;
-    padding: 3px 10px 3px 12px;
-	font-size: 80%;
-}
-
-li.subtabactive
-{
-	float:left;
-	margin:0;
-	padding:0;
-}
-
-a.subtabactive, a.subtabactive:hover
-{
-	float: left;
-	display:block;
-	background:url("images/SubTabActiveLeft.gif") no-repeat left top;
-    padding: 3px 10px 3px 12px;
-	font-size: 80%;
-}
-
-/*  Commented Backslash Hack
-	hides rule from IE5-Mac, we do not want the left float for other browsers \*/
-	a.subtabinactive a.subtabactive {float:none;}
-/* End IE5-Mac hack */
-
-
 
 /* InfoScreen */
 
@@ -1172,13 +740,6 @@ div.il_TreeIcons
 	margin: 0px;
 }
 
-div.ilMainHeader
-{
-	background-image: url(images/HeaderBackground3.gif);
-	background-repeat: repeat-x;
-	background-color: #FFFFFF;
-	right: 0px;
-}
 
 a.ilMainHeader, a.ilMainHeader:hover
 {
@@ -1206,27 +767,6 @@ div.ilLogin
 	font-size:90%;
 }
 
-a.ilLogin, a.ilLogin:visited, input.ilLogin
-{
-	background-color : #ECFAFB;
-	border-width: 1px;
-	border-style: solid;
-	border-top-color: #BABABA;
-	border-left-color: #BABABA;
-	border-bottom-color: #808080;
-	border-right-color: #808080;
-	color:#0033AA;
-	padding: 1px 3px;
-	margin: 0px;
-	font-size:90%;
-	text-decoration:none;
-	font-weight:normal;
-	cursor:pointer;
-	background-color: #FFFFFF;
-	background-image: url(images/ButtonsBack.gif);
-	background-position: bottom;
-	background-repeat:repeat-x;
-}
 
 span.il_menu
 {
@@ -1262,13 +802,6 @@ td.ilInvisibleBorder
 }
 
 /* --- column table -- */
-table.il_ColumnLayout
-{
-	color:#222222;
-	background-color:#FFFFFF;
-	width:100%;
-	border-spacing:0px;
-}
 
 td.il_LeftColumn
 {
@@ -1377,11 +910,6 @@ div.Access {
 }
 
 /* ----------------- alternative text styles ------------- */
-.il_BlockInfo
-{
-	font-size: 90%;
-	color: #909090;
-}
 
 .light
 {
@@ -2173,48 +1701,565 @@ div.il_SearchFragment
 	text-align:left;
 }
 
-/* Selection Lists */
-div.il_adv_cont {
-	background-image:url(images/25black.png); 
-}
-	
-div.il_adv_sel
+
+
+/* CHANGES */
+
+
+div.ilMainHeader
 {
+	right: 0px;
+	min-height: 48px;
+	border-bottom-style: solid;
+	border-bottom-width: 4px;
+	border-bottom-color: #FFE6A0;
+	background-color: #FFFFFF;
+}
+
+a.ilLogin, a.ilLogin:visited
+{
+	text-decoration: underline;
+}
+
+/* MainMenu Tabs */
+div.il_MainMenu
+{
+	padding:28px 0px 1px 15px;
+	min-height: 18px;
+	white-space: nowrap;
+}
+
+a.MMInactive
+{
+	color:#404040;
+	background-color: #FFF9EC;
+    padding: 5px 5px 2px 5px;
+	font-size: 80%;
+	text-decoration:none;
+	margin: 0px 5px 0px 0px;
+	font-weight: normal;
+	white-space: nowrap;
+	border-width: 1px;
+	border-style: solid;
+	border-color: #F9E690;
+	border-bottom-width: 0px;
+}
+
+a.MMInactive:hover
+{
+	background-color: #FFE6A0;
+	color:#000000;
+}
+
+a.MMActive
+{
+	color:#000000;
+	background-color: #FFE6A0;
+    padding: 5px 5px 2px 5px;
+	font-size: 80%;
+	text-decoration:none;
+	margin: 0px 5px 0px 0px;
+	font-weight: normal;
+	white-space: nowrap;
+	border-width: 1px;
+	border-style: solid;
+	border-color: #F5D650;
+	border-bottom-width: 0px;
+}
+
+a.MMActive:hover
+{
+}
+
+div.ilMainMenuSearch {
+	display: inline;
+	position:absolute;
+	right: 15px;
+}
+
+form.ilMainMenuSearch
+{
+	padding: 0px;
+	margin: 0px;
+	position:relative;
+	top: -2px;
+	display: inline;
+}
+
+input.ilMainMenuSearch {
+	cursor:pointer;
+	border-style: solid;
+	border-width: 1px;
+	border-color: #D6D6D6;
+	width:150px;
+	padding: 1px;
+	margin: 0px;
+}
+
+input.ilMainMenuSearchSubmit
+{
+	margin: 0px;
+	background-color: #FFFFFF;
+	background-image: url(images/ButtonsBack.gif);
+	background-position: bottom;
+	background-repeat:repeat-x;
+	color:#2255a0;
+	border-width:1px;
+	border-top-color: #BABABA;
+	border-left-color: #BABABA;
+	border-bottom-color: #808080;
+	border-right-color: #808080;
+	border-style:solid;
+	padding: 0px 5px;
+	text-decoration:none;
+	font-size: 70%;
+	cursor:pointer;
+	font-weight:normal;
+}
+
+
+div.ilTabContent
+{
+	border-style: solid;
+	border-color: #D0E0FF;
+	/* background-color: #F0F4FF; */
+	/* background-color: #F7FAFF; */
+	background-color: #FFFFFF;
+	border-width: 4px 2px;
+	padding: 15px 0px;
+	margin: 0px 15px;
+	clear:both;
+	overflow: auto;
+}
+
+div.ilBelowMainMenu
+{
+	background-color: #FFF9EC;
+}
+
+body {
+	color:#222222;
+	background-color: #FFF9EC;
+	font-family:Verdana,Arial,Helvetica,sans-serif;
+	margin:0px;
+	font-size:0.89em;
+}
+
+/* Tabs */
+
+div.il_Tab
+{
+    float:left;
+    width:100%;
+	padding-left:0px;
+    line-height:normal;
+}
+
+ul.il_Tab
+{
+	margin: 0px;
+	padding: 0px 15px;
+	list-style:none;
+}
+
+li.tabinactive
+{
+	float:left;
+	margin: 0px 0px 0px 6px;
+	padding:0;
+	background-color: #FFFFFF;
+}
+
+a.tabinactive
+{
+	float: left;
+	display:block;
+    padding: 3px 8px;
+	font-size: 80%;
+	text-decoration: none;
+	border-color: #D0E0FF;
+	border-style: solid;
+	border-width: 1px;
+	border-bottom-width: 0px;
+}
+
+a.tabinactive:hover
+{
+	background-color: #D0E0FF;
+}
+
+li.tabactive
+{
+	float:left;
+	margin: 0px 0px 0px 6px;
+	padding:0;
+}
+
+a.tabactive
+{
+	color: #000000;
+	float: left;
+	display:block;
+    padding: 3px 8px;
+	font-size: 80%;
+	text-decoration: none;
+	background-color: #D0E0FF;
+	border-color: #A0B0FF;
+	border-style: solid;
+	border-width: 1px;
+	border-bottom-width: 0px;
+}
+
+li.backtab
+{
+	float:left;
+	margin:0;
+	padding:0;
+	border-bottom-width: 1px;
+	border-bottom-width: 1px;
+	border-bottom-style: solid;
+	border-bottom-color: #B0B0B0;
+}
+
+a.backtab, a.backtab:hover
+{
+	float: left;
+	display:block;
+	background:url("images/BackTab.gif") no-repeat left top;
+    padding: 3px 8px 3px 12px;
+	font-size: 80%;
+}
+
+li.back2tab
+{
+	float:left;
+	margin:0;
+	padding:0;
+	border-bottom-width: 1px;
+	border-bottom-width: 1px;
+	border-bottom-style: solid;
+	border-bottom-color: #B0B0B0;
+}
+
+a.back2tab, a.back2tab:hover
+{
+	float: left;
+	display:block;
+	background:url("images/Back2Tab.gif") no-repeat left top;
+    padding: 3px 8px 3px 16px;
+	font-size: 80%;
+}
+
+/*  Commented Backslash Hack
+	hides rule from IE5-Mac, we do not want the left float for other browsers \*/
+	a.tabinactive a.tabactive a.backtab {float:none;}
+/* End IE5-Mac hack */
+
+
+/* Sub Tabs */
+
+div.il_SubTab
+{
+    float:left;
+    width:100%;
+	padding-left:0px;
+	margin-bottom: 10px;
+    line-height:normal;
+}
+
+ul.il_SubTab
+{
+	margin: 0px;
+	padding: 0px 0px;
+	list-style:none;
+}
+
+li.subtabinactive
+{
+	float:left;
+	margin:0;
+	padding:0;
+}
+
+a.subtabinactive, a.subtabinactive:hover
+{
+	float: left;
+	display:block;
+	background:url("images/SubTabInactiveLeft.gif") no-repeat left top;
+    padding: 3px 10px 3px 12px;
+	font-size: 80%;
+}
+
+li.subtabactive
+{
+	float:left;
+	margin:0;
+	padding:0;
+}
+
+a.subtabactive, a.subtabactive:hover
+{
+	float: left;
+	display:block;
+	background:url("images/SubTabActiveLeft.gif") no-repeat left top;
+    padding: 3px 10px 3px 12px;
+	font-size: 80%;
+}
+
+/*  Commented Backslash Hack
+	hides rule from IE5-Mac, we do not want the left float for other browsers \*/
+	a.subtabinactive a.subtabactive {float:none;}
+/* End IE5-Mac hack */
+
+
+
+table.il_ColumnLayout
+{
+	width:100%;
+	border-spacing:0px;
+}
+
+/* Blocks */
+
+table.il_Block
+{
+	background-color:#FFFFFF;
+	width:100%;
+	border-spacing:0px;
+	border-collapse:collapse;
 	border-width:1px;
 	border-style:solid;
-	border-color: #C0C0C0;
+	border-color:#D6D6D6;
+	margin-bottom:25px;
+	clear:both;
+}
+
+th.il_BlockHeader
+{
+	font-weight: bold;
+	padding: 3px;
+	background-color: #F3F3F3;
+	text-align:left;
+	font-size: 90%;
+}
+
+th.il_BlockHeaderBig
+{
+	font-weight: bold;
+	padding: 3px;
+	background-color: #F3F3F3;
+	text-align:left;
+}
+
+td.il_BlockFooter {
+	color:#222222;
+	background-color:#D0D0FF;
+	text-align:right;
+	font-size: 80%;
+	padding:2px;
+}
+
+.il_BlockInfo
+{
+	font-size: 80%;
+	color: #909090;
+}
+
+th.il_ContainerBlockHeader
+{
+	font-weight: bold;
+	font-size: 90%;
+	padding: 2px;
+	text-align:left;
+	vertical-align: middle;
+	background-color: #F8F8F8;
+}
+
+table.il_ContainerBlock
+{
+	border-color:#D6D6D6;
+	width:100%;
+	border-spacing:0px;
+	border-collapse:collapse;
+	border-width:1px;
+	border-style:solid;
+	clear:both;
+}
+
+th.il_PDBlockSubHeader
+{
+	font-weight: normal;
+	text-align:left;
+	font-size: 90%;
+	background-color: #F8F8F8;
+	vertical-align: middle;
+}
+
+/* Tables */
+
+.tblfooter {
+	color: #000000;
+	font-weight:normal;
+	background-color: #F8F8F8;
+	padding-bottom: 1px 0px;
+}
+
+tr.tblfooter {
+	color:#000000;
+	font-weight:normal;
+	background-color: #F3F3F3;
+}
+
+.tblrow2 {
+	padding:3px;
+	background-color: #FFFFFF;
+	border-top-color: #F0F0F0;
+	border-top-style: solid;
+	border-top-width: 1px;
+}
+
+.tblrow1 {
+	padding:3px;
+	background-color: #FFFFFF;
+	border-top-color: #F0F0F0;
+	border-top-style: solid;
+	border-top-width: 1px;
+}
+
+td.submit {
+	padding:3px;
+	vertical-align:top;
+	background-color: #F3F3F3;
+}
+
+/* List Items */
+div.il_ContainerListItemOuter
+{
+	margin: 8px;
+}
+
+div.il_ContainerListItem
+{
+	margin: 2px 0px;
+	padding-left: 8px;
 }
 
 table.il_adv_sel {
 	color:#000000;
-	background-color:#FFFF00;
+	background-color:#FFFFFF;
 	border-spacing:0px;
 	border-collapse:collapse;
-	border-width:0px;
+	border-width:1px;
 	border-style:solid;
+	border-color: #A0A0A0;
 	cursor: pointer;
-	/*opacity: 0.93;
-	-ms-filter:"progid:DXImageTransform.Microsoft.Alpha(Opacity=93)";
-	filter: alpha(opacity=93);
-	-moz-opacity: 0.93;*/
 }
 
 tr.il_adv_sel {
-	border-bottom-width: 1px;
-	border-bottom-style: solid;
-	border-bottom-color: #E0E0E0;
+	border-width: 1px;
+	border-style: solid;
+	border-color: #E0E0E0;
 	background-color: #FFFFFF;
+	cursor: pointer;
 }
 
 tr.il_adv_sel_act {
-	border-bottom-width: 1px;
-	border-bottom-style: solid;
-	border-bottom-color: #E0E0E0;
-	background-color: #FFFFA9;
+	border-width: 1px;
+	border-style: solid;
+	border-color: #E0E0E0;
+	background-color: #FFF9EC;
+	cursor: pointer;
 }
 
 td.il_adv_sel {
-	padding: 5px;
+	padding: 3px;
 	text-align: left;
 	white-space: nowrap;
+	cursor: pointer;
 }
+
+div.il_adv_cont {
+	background-image:url(images/25black.png); 
+}
+
+/* tables */
+
+div.ilTableHeaderTitle
+{
+	padding-bottom: 10px;
+	font-size: 120%;
+}
+
+div.ilTableOuter
+{
+	border-width:1px;
+	border-style:solid;
+	border-color:#D6D6D6;
+}
+
+table.fullwidth {
+	background-color:#FFFFFF;
+	width:100%;
+	border-collapse:collapse;
+}
+
+.tblheader {
+	font-weight: normal;
+}
+
+tr.tblheader
+{
+	font-weight: normal;
+	background-color: #F0F0F0;
+	font-size:90%;
+	/* font-style: italic; */
+}
+
+th
+{
+	text-align: left;
+	vertical-align: bottom;
+	font-weight: normal;
+}
+
+td.std, th.std {
+	padding: 4px 6px;
+	text-align: left;
+}
+
+/* Navigation History */
+form.ilNavHistoryForm
+{
+	padding: 0px;
+	margin: 0px 5px 0px 0px;
+	padding: 5px 5px 2px 5px;
+	border: 0px;
+	display: inline;
+	background-color: #FFF9EC;
+	border-width: 1px;
+	border-style: solid;
+	border-color: #F9E690;
+	border-bottom-width: 0px;
+	font-size: 80%;
+}
+
+input.ilNavHistorySubmit {
+	color:#2255a0;
+	padding: 0px;
+	margin: 0px;
+	border-width: 0px;
+	/* font-size: 80%; */
+	cursor:pointer;
+	background-color: #FFF9EC;
+}
+
+select.ilNavHistorySelect {
+	background-color: #FFF9EC;
+	border-width:0px;
+	border-color:#bbbbbb;
+	padding:0px;
+	background-image: none;
+	text-decoration:none;
+	/* font-size: 80%; */
+}
+

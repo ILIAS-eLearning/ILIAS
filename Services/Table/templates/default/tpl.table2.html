@@ -1,24 +1,20 @@
 <!-- BEGIN tbl_form_header -->
 <form action="{FORMACTION}" name="{FORMNAME}" method="post" target="{ACTIONTARGET}">
 <!-- END tbl_form_header -->
-<!-- BEGIN tbl_table_start -->
-<table class="{CSS_TABLE}" {WIDTH}>
-<!-- END tbl_table_start -->
 <!-- BEGIN tbl_header_title -->
-  <tr class="tbltitle">
-    <th class="std" colspan="{COLUMN_COUNT}"><div style="float:right;">
+<div class="ilTableHeaderTitle">
+	<div style="float:right;">
 	<!-- BEGIN head_cmd --><a class="il_ContainerItemCommand" href="{HREF_HEAD_CMD}">{TXT_HEAD_CMD}</a><!-- END head_cmd -->
 	<!-- BEGIN tbl_header_html -->{HEADER_HTML}<!-- END tbl_header_html -->
     <!-- BEGIN tbl_header_img_link -->
 	<a href="{HREF_IMG_LINK}" {TARGET_IMG_LINK}><img alt="{ALT_IMG_LINK}" border="0" src="{SRC_IMG_LINK}" /></a><!-- END tbl_header_img_link --></div>
 <!-- BEGIN tbl_header_title_icon --><img src="{TBL_TITLE_IMG}" style="vertical-align:middle" alt="{TBL_TITLE_IMG_ALT}" title="{TBL_TITLE_IMG_ALT}" border="0" />
 <!-- END tbl_header_title_icon -->{TBL_TITLE}
-    </th>
-  </tr>
+</div>
 <!-- END tbl_header_title -->
+<div class="ilTableOuter">
 <!-- BEGIN top_navigation -->
-  <tr class="tblfooter">
-    <td colspan="{COLUMN_COUNT}" class="tblfooter">
+  <div class="tblfooter">
 	<div style="text-align:right;">
 		<!-- BEGIN top_numinfo -->
 		<span class="il_BlockInfo">{NUMINFO}</span>&nbsp;&nbsp;&nbsp;
@@ -27,9 +23,12 @@
 		{LINKBAR}
 		<!-- END top_linkbar -->
 	</div>
-	</td>
-  </tr>
+
+  </div>
 <!-- END top_navigation -->
+<!-- BEGIN tbl_table_start -->
+<table class="{CSS_TABLE}" {WIDTH}>
+<!-- END tbl_table_start -->
 <!-- BEGIN tbl_header -->
   <tr class="tblheader">
 <!-- BEGIN tbl_header_th -->
@@ -137,3 +136,4 @@
 <!-- BEGIN tbl_form_footer -->
 </form>
 <!-- END tbl_form_footer -->
+</div>
