@@ -1965,15 +1965,16 @@ div.il_SubTab
 {
     float:left;
     width:100%;
-	padding:0px;
-	margin-bottom: 10px;
-	background-color: #E5F0FF;
+	padding-bottom: 5px;
+	margin-bottom: 7px;
+	/* background-color: #E5F0FF; */
 }
 
 ul.il_SubTab
 {
 	margin: 0px;
-	padding: 10px 15px 0px 15px;
+	/* padding: 10px 15px 0px 15px; */
+	padding: 5px 15px 5px 15px;
 	list-style:none;
 }
 
@@ -1994,7 +1995,8 @@ a.subtabinactive
 
 a.subtabinactive:hover
 {
-	background-color: #FFFFFF;
+	/* background-color: #FFFFFF; */
+	text-decoration: underline;
 }
 
 li.subtabactive
@@ -2011,7 +2013,8 @@ a.subtabactive, a.subtabactive:hover
     padding: 3px 5px 3px 5px;
 	font-size: 80%;
 	color: #000000;
-	background-color: #FFFFFF;
+	/* background-color: #FFFFFF; */
+	text-decoration: underline;
 }
 
 
@@ -2155,7 +2158,7 @@ div.il_ContainerListItem
 
 table.il_adv_sel {
 	color:#000000;
-	background-color:#FFFFFF;
+	background-color:#FAFAFA;
 	border-spacing:0px;
 	border-width:1px;
 	border-style:solid;
@@ -2164,7 +2167,6 @@ table.il_adv_sel {
 }
 
 tr.il_adv_sel {
-	background-color: #FFFFFF;
 	cursor: pointer;
 }
 
