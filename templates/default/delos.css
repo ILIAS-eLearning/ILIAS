@@ -764,13 +764,14 @@ div.ilLogin
 	white-space: nowrap;
 	float:right;
 	text-align:right;
-	font-size:90%;
+	font-size:80%;
 }
 
 
 span.il_menu
 {
 	line-height: 150%;
+	padding-right: 20px;
 }
 
 .ilLanguageSelection
@@ -1718,7 +1719,7 @@ div.ilMainHeader
 
 a.ilLogin, a.ilLogin:visited
 {
-	text-decoration: underline;
+	border-bottom: 1px dotted #2020C0;
 }
 
 /* MainMenu Tabs */
@@ -1818,19 +1819,25 @@ input.ilMainMenuSearchSubmit
 }
 
 
-div.ilTabContent
+div.ilTabContentOuter
 {
 	border-style: solid;
 	border-color: #D0E0FF;
-	/* background-color: #F0F4FF; */
-	/* background-color: #F7FAFF; */
 	background-color: #FFFFFF;
-	border-width: 4px 2px;
+	border-width: 4px 1px;
+	margin: 0px 15px;
+	clear:both;
+}
+
+div.ilTabContentInner
+{
 	padding: 15px 0px;
 	margin: 0px 15px;
 	clear:both;
 	overflow: auto;
+	min-height: 250px;
 }
+
 
 div.ilBelowMainMenu
 {
@@ -1913,12 +1920,8 @@ a.tabactive
 li.backtab
 {
 	float:left;
-	margin:0;
+	margin: 0px 0px 0px 6px;
 	padding:0;
-	border-bottom-width: 1px;
-	border-bottom-width: 1px;
-	border-bottom-style: solid;
-	border-bottom-color: #B0B0B0;
 }
 
 a.backtab, a.backtab:hover
@@ -1926,14 +1929,14 @@ a.backtab, a.backtab:hover
 	float: left;
 	display:block;
 	background:url("images/BackTab.gif") no-repeat left top;
-    padding: 3px 8px 3px 12px;
+    padding: 3px 4px 3px 12px;
 	font-size: 80%;
 }
 
 li.back2tab
 {
 	float:left;
-	margin:0;
+	margin: 0px 0px 0px 6px;
 	padding:0;
 	border-bottom-width: 1px;
 	border-bottom-width: 1px;
@@ -1946,7 +1949,7 @@ a.back2tab, a.back2tab:hover
 	float: left;
 	display:block;
 	background:url("images/Back2Tab.gif") no-repeat left top;
-    padding: 3px 8px 3px 16px;
+    padding: 3px 4px 3px 16px;
 	font-size: 80%;
 }
 
@@ -1962,49 +1965,55 @@ div.il_SubTab
 {
     float:left;
     width:100%;
-	padding-left:0px;
+	padding:0px;
 	margin-bottom: 10px;
-    line-height:normal;
+	background-color: #E5F0FF;
 }
 
 ul.il_SubTab
 {
 	margin: 0px;
-	padding: 0px 0px;
+	padding: 10px 15px 0px 15px;
 	list-style:none;
 }
 
 li.subtabinactive
 {
 	float:left;
-	margin:0;
-	padding:0;
+	margin:0px;
+	padding:0px 5px;
 }
 
-a.subtabinactive, a.subtabinactive:hover
+a.subtabinactive
 {
 	float: left;
 	display:block;
-	background:url("images/SubTabInactiveLeft.gif") no-repeat left top;
-    padding: 3px 10px 3px 12px;
+    padding: 3px 5px 3px 5px;
 	font-size: 80%;
+}
+
+a.subtabinactive:hover
+{
+	background-color: #FFFFFF;
 }
 
 li.subtabactive
 {
 	float:left;
 	margin:0;
-	padding:0;
+	padding:0px 5px;
 }
 
 a.subtabactive, a.subtabactive:hover
 {
 	float: left;
 	display:block;
-	background:url("images/SubTabActiveLeft.gif") no-repeat left top;
-    padding: 3px 10px 3px 12px;
+    padding: 3px 5px 3px 5px;
 	font-size: 80%;
+	color: #000000;
+	background-color: #FFFFFF;
 }
+
 
 /*  Commented Backslash Hack
 	hides rule from IE5-Mac, we do not want the left float for other browsers \*/
