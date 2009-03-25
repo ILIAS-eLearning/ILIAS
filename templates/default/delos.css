@@ -2148,7 +2148,6 @@ table.il_adv_sel {
 	color:#000000;
 	background-color:#FFFFFF;
 	border-spacing:0px;
-	border-collapse:collapse;
 	border-width:1px;
 	border-style:solid;
 	border-color: #A0A0A0;
@@ -2156,25 +2155,31 @@ table.il_adv_sel {
 }
 
 tr.il_adv_sel {
-	border-width: 1px;
-	border-style: solid;
-	border-color: #E0E0E0;
 	background-color: #FFFFFF;
 	cursor: pointer;
 }
 
 tr.il_adv_sel_act {
-	border-width: 1px;
-	border-style: solid;
-	border-color: #E0E0E0;
-	background-color: #FFF9EC;
+	background-color: #FFF9BC;
 	cursor: pointer;
 }
 
 td.il_adv_sel {
-	padding: 3px;
+	border-bottom-width: 1px;
+	border-bottom-style: solid;
+	border-bottom-color: #E0E0E0;
+	padding: 3px 10px;
 	text-align: left;
 	white-space: nowrap;
+	cursor: pointer;
+}
+
+td.il_adv_sel_ic {
+	border-bottom-width: 1px;
+	border-bottom-style: solid;
+	border-bottom-color: #E0E0E0;
+	padding: 3px 0px 3px 10px;
+	text-align: left;
 	cursor: pointer;
 }
 
