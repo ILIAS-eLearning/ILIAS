@@ -331,8 +331,37 @@ class ilYuiUtil
 		$tpl->addJavaScript('./Services/YUI/js/2_5_0/element/element-beta-min.js');
 		$tpl->addJavaScript('./Services/YUI/js/2_5_0/tabview/tabview-min.js');
 
-		//<script type="text/javascript" src="http://yui.yahooapis.com/2.5.1/build/tabview/tabview-min.js"></script> 
+		//<script type="text/javascript" src="http://yui.yahooapis.com/2.5.1/build/tabview/tabview-min.js"></script>
 	}
 	
+	/**
+	 * Init YUI AutoComplete component
+	 * @author jposselt@databay.de
+	 */
+	 public static function initAutoComplete()
+	 {
+	 	global $tpl;
+
+		self::initJson();
+
+	 	$tpl->addCss("./Services/YUI/js/2_5_0/autocomplete/assets/skins/sam/autocomplete.css");
+
+		$tpl->addJavaScript('./Services/YUI/js/2_5_0/yahoo-dom-event/yahoo-dom-event.js');
+		$tpl->addJavaScript('./Services/YUI/js/2_5_0/datasource/datasource-beta-min.js');
+		$tpl->addJavaScript('./Services/YUI/js/2_5_0/connection/connection-min.js');		
+	 	$tpl->addJavaScript('./Services/YUI/js/2_5_0/autocomplete/autocomplete-min.js');
+	 }
+	 
+	 /**
+	  * Init YUI JSON component
+	  * @author jposselt@databay.de
+	  */
+	 public static function initJson()
+	 {
+		global $tpl;
+		$tpl->addJavaScript('./Services/YUI/js/2_5_0/yahoo/yahoo-min.js');		
+	 	$tpl->addJavaScript('./Services/YUI/js/2_5_0/json/json-min.js');
+	 }
+	 
 } // END class.ilUtil
 ?>
