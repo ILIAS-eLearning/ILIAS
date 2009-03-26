@@ -88,9 +88,8 @@ class ilGroupParticipants extends ilParticipants
 			return false;
 		}
 		$local_roles = $rbacreview->getRolesOfRoleFolder($rolf["ref_id"],false);
-		$user_roles = $rbacreview->assignedRoles($a_usr_id);
 		
-		return count(array_intersect((array) $local_roles,(array) $user_roles)) ? true : false;
+        return $rbacreview->isAssignedToAtLeastOneGivenRole($a_usr_id, $local_roles);
 	}
 	
 	

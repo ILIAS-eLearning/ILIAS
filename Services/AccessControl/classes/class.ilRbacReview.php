@@ -987,6 +987,32 @@ class ilRbacReview
 
         return $ilDB->numRows($res) == 1;
 	}
+    
+	/**
+	* check if a specific user is assigned to at least one of the
+    * given role ids.
+    * This function is used to quickly check whether a user is member
+    * of a course or a group.
+    *
+	* @access	public
+	* @param	integer		usr_id
+	* @param	array[integer]		role_ids
+	* @return	boolean
+	*/
+	function isAssignedToAtLeastOneGivenRole($a_usr_id,$a_role_ids)
+	{
+		global $ilDB;
+
+	    $query = "SELECT usr_id FROM rbac_ua WHERE ".
+                    $ilDB->in('rol_id',$a_role_ids,false,'integer').
+                    " AND usr_id= ".$ilDB->quote($a_usr_id).
+                    " LIMIT 1"
+                    ;
+
+		$res = $ilDB->query($query);
+
+        return $ilDB->numRows($res) == 1;
+	}
 	
 	/**
 	* get all assigned roles to a given user
