@@ -5701,7 +5701,7 @@ mail#:#mail_add_subject#:#Please enter a subject
 mail#:#mail_add_to_addressbook#:#Add to address book
 mail#:#mail_add_type#:#Please add the type of mail you want to send
 mail#:#mail_addr_entries#:#Entries
-mail#:#mail_mailing_lists_no_addressbook_entries#:#You have not any addressbook entries yet.
+mail#:#mail_mailing_lists_no_addressbook_entries#:#You have no entries in your addressbook to add to a list.
 mail#:#mail_mailing_lists_all_addressbook_entries_assigned#:#You have already assigned all of your addressbook entries to this mailing list.
 mail#:#mail_assign_entry_to_mailing_list#:#Assign an Entry of Your Address Book to Mailing List
 mail#:#mail_attachments#:#Attachments
@@ -7687,6 +7687,10 @@ common#:#login_information#:#Login Information
 common#:#login_information_desc#:#Please enter a login information for the respective language.
 common#:#login_information_settings_saved#:#The login information were saved successfully
 common#:#obj_frm_duplicate#:#Copy Forum
+common#:#file_locked_by#:#File locked by
+common#:#lock_file#:#Lock file
+common#:#permission_denied_filed_locked_by#:#Access denied. The file was locked by '%s'.
+common#:#file_lock_unlock_file#:#Lock/Unlock file
 common#:#obj_frm_select#:#-- Please select one Forum --
 forum#:#frm_wizard_page#:#Copy Forum (Step 2/2)
 forum#:#fmr_copy_threads_info#:#You have the possibility to copy single threads. Only the beginning of the chosen threads will be duplicated.

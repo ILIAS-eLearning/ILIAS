@@ -5562,7 +5562,7 @@ mail#:#mail_my_groups#:#Meine Gruppen
 mail#:#mail_my_mailing_lists#:#Meine Verteilerlisten
 mail#:#mail_mailing_lists#:#Verteilerlisten
 mail#:#mail_mailing_list#:#Verteilerliste
-mail#:#mail_mailing_lists_no_addressbook_entries#:#Sie haben noch keine Adressbucheinträge.
+mail#:#mail_mailing_lists_no_addressbook_entries#:#Sie haben keine Einträge im Adressbuch die Sie zur Verteilerliste hinzufügen können.
 mail#:#mail_mailing_lists_all_addressbook_entries_assigned#:#Sie haben bereits all Ihre Adressbucheinträge diesem Verteiler zugeordnet.
 mail#:#mail_assign_entry_to_mailing_list#:#Zuordnung eines Adressbucheintrags zum Verteiler
 mail#:#mail_members_of_mailing_list#:#Mitglieder der Verteilerliste
@@ -9146,3 +9146,7 @@ payment#:#payment_news_settings#:#Shop Nachrichten Einstellungen
 payment#:#payment_news_archive_period#:#Archiv-Zeitraum
 payment#:#payment_news_archive_period_info#:#Anzahl der Tage, nach denen eine Nachricht ins Archiv verschoben wird
 payment#:#payment_news_settings_saved#:#Die Einstellungen wurden gespeichert
+common#:#file_locked_by#:#Datei gesperrt von
+common#:#lock_file#:#Datei sperren
+common#:#permission_denied_filed_locked_by#:#Zugriff verweigert. Die Datei wurde von '%s' gesperrt.
+common#:#file_lock_unlock_file#:#Datei sperren/entsperren
