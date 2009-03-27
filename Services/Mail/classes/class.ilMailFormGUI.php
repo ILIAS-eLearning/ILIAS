@@ -116,15 +116,18 @@ class ilMailFormGUI
 		// Note: For security reasons, ILIAS only allows Plain text strings in E-Mails.
 		$f_message = $this->umail->formatLinebreakMessage(ilUtil::securePlainString($_POST['m_message']));
 		$this->umail->setSaveInSentbox(true);		
-		
+
+		$m_type = isset($_POST["m_type"]) ? $_POST["m_type"] : array("normal");
+
 		// Note: For security reasons, ILIAS only allows Plain text strings in E-Mails.
 		if($errorMessage = $this->umail->sendMail(
 				ilUtil::securePlainString($_POST['rcp_to']),
 				ilUtil::securePlainString($_POST['rcp_cc']),
 				ilUtil::securePlainString($_POST['rcp_bcc']),
 				ilUtil::securePlainString($_POST['m_subject']), $f_message,
-				$_POST['attachments'], 
-				$_POST['m_type'], 
+				$_POST['attachments'],
+//				$_POST['m_type'],
+				$m_type,
 				ilUtil::securePlainString($_POST['use_placeholders'])
 				)
 			)
@@ -144,7 +147,7 @@ class ilMailFormGUI
 	}
 
 	public function saveDraft()
-	{	
+	{
 		if(!$_POST['m_subject'])
 		{
 			$_POST['m_subject'] = 'No title';
@@ -211,11 +214,11 @@ class ilMailFormGUI
 
 		$this->showSearchForm();
 	}
-	
+
 	public function searchUsers($save = true)
 	{
-		global $ilUser;
-		
+		global $ilUser, $ilCtrl;
+
 		if ($save)
 		{
 			// Note: For security reasons, ILIAS only allows Plain text strings in E-Mails.
@@ -231,33 +234,33 @@ class ilMailFormGUI
 										 ilUtil::securePlainString($_POST['use_placeholders'])
 									);
 		}
-					
-		$this->tpl->addBlockFile("ADM_CONTENT", "adm_content", "tpl.mail_add_users.html", "Services/Mail");
-		$this->tpl->setVariable("HEADER", $this->lng->txt("mail"));
-					 
-		$this->tpl->setVariable("ACTION", $this->ctrl->getFormAction($this, 'search'));
-		$this->ctrl->clearParameters($this);		
-
-		$this->tpl->setVariable("TXT_SEARCH_FOR",$this->lng->txt("search_for"));
-		$this->tpl->setVariable("TXT_SEARCH_SYSTEM",$this->lng->txt("mail_search_system"));
-		$this->tpl->setVariable("TXT_SEARCH_ADDRESS",$this->lng->txt("mail_search_addressbook"));
-		$this->tpl->setVariable("BUTTON_SEARCH",$this->lng->txt("search"));
-		$this->tpl->setVariable("BUTTON_CANCEL",$this->lng->txt("cancel"));
+		include_once 'Services/Form/classes/class.ilPropertyFormGUI.php';
+		$form = new ilPropertyFormGUI();
+		$form->setId('search_rcp');
+		$form->setFormAction($ilCtrl->getFormAction($this, 'search'));
+		
+		$inp = new ilTextInputGUI($this->lng->txt("search_for"), 'search');
+		$inp->setSize(30);
 		if (strlen(trim($_SESSION["mail_search_search"])) > 0)
 		{
-			$this->tpl->setVariable("VALUE_SEARCH_FOR", ilUtil::prepareFormOutput(trim($_SESSION["mail_search_search"]), true));
+			$inp->setValue(ilUtil::prepareFormOutput(trim($_SESSION["mail_search_search"]), true));
 		}
+		$form->addItem($inp);
 		
-		if (!$_SESSION['mail_search_type_system'] && !$_SESSION['mail_search_type_addressbook'])
-		{
-			$this->tpl->setVariable('CHECKED_TYPE_SYSTEM', "checked=\"checked\"");
-		}
-		else
-		{
-			if ($_SESSION['mail_search_type_addressbook']) $this->tpl->setVariable('CHECKED_TYPE_ADDRESSBOOK', "checked=\"checked\"");
-			if ($_SESSION['mail_search_type_system'])$this->tpl->setVariable('CHECKED_TYPE_SYSTEM', "checked=\"checked\"");
-		}		
+		$chb = new ilCheckboxInputGUI($this->lng->txt("mail_search_addressbook"), 'type_addressbook');
+		if ($_SESSION['mail_search_type_addressbook'])
+			$chb->setChecked(true);
+		$inp->addSubItem($chb);
+
+		$chb = new ilCheckboxInputGUI($this->lng->txt("mail_search_system"), 'type_system');
+		if ($_SESSION['mail_search_type_system'])
+			$chb->setChecked(true);
+		$inp->addSubItem($chb);
 		
+		$form->addCommandButton('search', $this->lng->txt("search"));
+		$form->addCommandButton('cancelSearch', $this->lng->txt("cancel"));
+		
+		$this->tpl->setContent($form->getHtml());
 		$this->tpl->show();
 	}
 
@@ -383,7 +386,7 @@ class ilMailFormGUI
 			$this->searchUsers(false);
 		}
 		else
-		{			
+		{
 			$this->ctrl->setParameterByClass("ilmailsearchgui", "search", urlencode($_SESSION["mail_search_search"]));
 			if($_SESSION["mail_search_type_system"])
 			{
@@ -461,15 +464,12 @@ class ilMailFormGUI
 
 	public function showForm()
 	{
-		global $rbacsystem, $ilUser;
+		global $rbacsystem, $ilUser, $ilCtrl, $lng;
 
 		$this->tpl->addBlockFile("ADM_CONTENT", "adm_content", "tpl.mail_new.html", "Services/Mail");
 		$this->tpl->setVariable("HEADER", $this->lng->txt("mail"));
 		
 		$this->lng->loadLanguageModule("crs");
-		$this->tpl->setVariable("BUTTON_TO",$this->lng->txt("search_recipients"));
-		$this->tpl->setVariable("BUTTON_COURSES_TO",$this->lng->txt("mail_my_courses"));
-		$this->tpl->setVariable("BUTTON_GROUPS_TO",$this->lng->txt("mail_my_groups"));		
 
 		switch($_GET["type"])
 		{
@@ -615,127 +615,234 @@ class ilMailFormGUI
 				break;
 		}
 
-		$this->tpl->setVariable("ACTION", $this->ctrl->getFormAction($this, 'sendMessage'));
-		$this->ctrl->clearParameters($this);
+		include_once('./Services/Form/classes/class.ilPropertyFormGUI.php');
+		
+		$form_gui = new ilPropertyFormGUI();
+		$form_gui->setOpenTag(false);
+		$this->tpl->setVariable('FORM_ACTION', $this->ctrl->getFormAction($this, 'sendMessage'));
 
+		$this->tpl->setVariable('BUTTON_TO', $lng->txt("search_recipients"));
+		$this->tpl->setVariable('BUTTON_COURSES_TO', $lng->txt("mail_my_courses"));
+		$this->tpl->setVariable('BUTTON_GROUPS_TO', $lng->txt("mail_my_groups"));
+		
+		$dsSchema = array('response.results', 'login', 'firstname', 'lastname');
+		$dsFormatCallback = 'formatAutoCompleteResults';
+		$dsDataLink = $ilCtrl->getLinkTarget($this, 'lookupRecipientAsync');
+		$dsDelimiter = array(',');
+		
 		// RECIPIENT
-		$this->tpl->setVariable("TXT_RECIPIENT", $this->lng->txt("mail_to"));
-		$this->tpl->setVariable("TXT_SEARCH_RECIPIENT", $this->lng->txt("search_recipient"));
-				
+		$inp = new ilTextInputGUI($this->lng->txt('mail_to'), 'rcp_to');
+		$inp->setRequired(true);
+		$inp->setSize(50);
+		$inp->setValue(ilUtil::htmlencodePlainString($mailData["rcp_to"], false));
+		$inp->setDataSource($dsDataLink);
+		$inp->setDataSourceSchema($dsSchema);
+		$inp->setDataSourceResultFormat($dsFormatCallback);
+		$inp->setDataSourceDelimiter($dsDelimiter);
+		$form_gui->addItem($inp);
+
 		// CC
-		$this->tpl->setVariable("TXT_CC", $this->lng->txt("cc"));
-		$this->tpl->setVariable("TXT_SEARCH_CC_RECIPIENT", $this->lng->txt("search_cc_recipient"));
+		$inp = new ilTextInputGUI($this->lng->txt('cc'), 'rcp_cc');
+		$inp->setSize(50);
+		$inp->setValue(ilUtil::htmlencodePlainString($mailData["rcp_cc"], false));
+		$inp->setDataSource($dsDataLink);
+		$inp->setDataSourceSchema($dsSchema);
+		$inp->setDataSourceResultFormat($dsFormatCallback);
+		$inp->setDataSourceDelimiter($dsDelimiter);
+		$form_gui->addItem($inp);
+
 		// BCC
-		$this->tpl->setVariable("TXT_BC", $this->lng->txt("bc"));
-		$this->tpl->setVariable("TXT_SEARCH_BC_RECIPIENT", $this->lng->txt("search_bc_recipient"));
+		$inp = new ilTextInputGUI($this->lng->txt('bc'), 'rcp_bcc');
+		$inp->setSize(50);
+		$inp->setValue(ilUtil::htmlencodePlainString($mailData["rcp_bcc"], false));
+		$inp->setDataSource($dsDataLink);
+		$inp->setDataSourceSchema($dsSchema);
+		$inp->setDataSourceResultFormat($dsFormatCallback);
+		$inp->setDataSourceDelimiter($dsDelimiter);
+		$form_gui->addItem($inp);
+
 		// SUBJECT
-		$this->tpl->setVariable("TXT_SUBJECT", $this->lng->txt("subject"));
+		$inp = new ilTextInputGUI($this->lng->txt('subject'), 'm_subject');
+		$inp->setSize(50);
+		$inp->setRequired(true);
+		$inp->setValue(ilUtil::htmlencodePlainString($mailData["m_subject"], false));
+		$form_gui->addItem($inp);
+
+		// Attachments
+		include_once 'Services/Mail/classes/class.ilMailFormAttachmentFormPropertyGUI.php';
+		$att = new ilMailFormAttachmentPropertyGUI($this->lng->txt( ($mailData["attachments"]) ? 'edit' : 'add' ));
 		
-		// TYPE
-		$this->tpl->setVariable("TXT_TYPE", $this->lng->txt("type"));
-		$this->tpl->setVariable("TXT_NORMAL", $this->lng->txt("mail_intern"));
-		if(!is_array($mailData["m_type"]) or (is_array($mailData["m_type"]) and in_array('normal',$mailData["m_type"])))
+
+		if (is_array($mailData["attachments"]) && count($mailData["attachments"]))
 		{
-			$this->tpl->setVariable("CHECKED_NORMAL",'checked="checked"');
+			foreach($mailData["attachments"] as $key => $data)
+			{
+				$hidden = new ilHiddenInputGUI('attachments[]');
+				$hidden->setValue($data);
+				$form_gui->addItem($hidden);
+				$size = round(filesize($this->mfile->getMailPath() . '/' . $ilUser->getId() . "_" . $data) / 1024);
+				if ($size < 1) $size = 1;
+				$label = $data . " [" . number_format($size, 0, ".", "") . " KByte]";
+				$att->addItem($label);
+			}
 		}
-		
+		$form_gui->addItem($att);
+
 		// ONLY IF SYSTEM MAILS ARE ALLOWED
 		if($rbacsystem->checkAccess("system_message",$this->umail->getMailObjectReferenceId()))
 		{
-			$this->tpl->setCurrentBlock("system_message");
-			$this->tpl->setVariable("SYSTEM_TXT_TYPE", $this->lng->txt("type"));
-			$this->tpl->setVariable("TXT_SYSTEM", $this->lng->txt("system_message"));
+			$chb = new ilCheckboxInputGUI($this->lng->txt('type'), 'm_type[]');
+			$chb->setOptionTitle($this->lng->txt('system_message'));
+			$chb->setValue('system');
+			$chb->setChecked(false);
 			if(is_array($mailData["m_type"]) and in_array('system',$mailData["m_type"]))
 			{
-				$this->tpl->setVariable("CHECKED_SYSTEM",'checked="checked"');
+				$chb->setChecked(true);
 			}
-			$this->tpl->parseCurrentBlock();
+			$form_gui->addItem($chb);
 		}
-			
-		// ONLY IF SMTP MAILS ARE ALLOWED
-		if($rbacsystem->checkAccess("smtp_mail",$this->umail->getMailObjectReferenceId()))
-		{
-			$this->tpl->setCurrentBlock("allow_smtp");
-			$this->tpl->setVariable("TXT_EMAIL", $this->lng->txt("email"));
-			if(is_array($mailData["m_type"]) and in_array('email',$mailData["m_type"]))
-			{
-				$this->tpl->setVariable("CHECKED_EMAIL",'checked="checked"');
-			}
-			$this->tpl->parseCurrentBlock();
-		}
-		
-		// ATTACHMENT
-		$this->tpl->setVariable("TXT_ATTACHMENT",$this->lng->txt("mail_attachments"));
-		// SWITCH BUTTON 'add' 'edit'
-		if($mailData["attachments"])
-		{
-			$this->tpl->setVariable("BUTTON_EDIT",$this->lng->txt("edit"));
-		}
-		else
-		{
-			$this->tpl->setVariable("BUTTON_EDIT",$this->lng->txt("add"));
-		}
-		
+
+
 		// MESSAGE
-		$this->tpl->setVariable("TXT_MSG_CONTENT", $this->lng->txt("message_content"));
+		$inp = new ilTextAreaInputGUI($this->lng->txt('message_content'), 'm_message');
+		$inp->setValue(htmlspecialchars($mailData["m_message"], false));
+		$inp->setRequired(false);
+		$inp->setCols(60);
+		$inp->setRows(10);
+
+		// PLACEHOLDERS
+		$chb = new ilCheckboxInputGUI($this->lng->txt('placeholder'), 'use_placeholders');
+		$chb->setOptionTitle($this->lng->txt('activate_serial_letter_placeholders'));
+		$chb->setValue(1);
+		$chb->setChecked(false);
+		$chb->setAdditionalAttributes('onclick="togglePlaceholdersBox(this.checked);"');
+		$form_gui->addItem($inp);
+
+		include_once 'Services/Mail/classes/class.ilMailFormPlaceholdersPropertyGUI.php';
+		$prop = new ilMailFormPlaceholdersPropertyGUI();
 		
-		// PLACEHOLDERS		
-		$this->tpl->setVariable('TXT_ACTIVATE_PLACEHOLDERS', $this->lng->txt('activate_serial_letter_placeholders'));
+		$chb->addSubItem($prop);
+
 		if ($mailData['use_placeholders'])
 		{
-			$this->tpl->setVariable('CHECKED_USE_PLACEHOLDERS', ' checked="checked"');			
+			$chb->setChecked(true);
 		}
 		else
 		{
 			$this->tpl->touchBlock('hide_placeholders');
 		}
-		
-		// BUTTONS
-		$this->tpl->setVariable("TXT_SEND", $this->lng->txt("send"));
-		$this->tpl->setVariable("TXT_MSG_SAVE", $this->lng->txt("save_message"));
-		
-		// MAIL DATA
-		// Note: For security reasons, ILIAS only allows Plain text strings in E-Mails.
-		$this->tpl->setVariable("RCP_TO", ilUtil::htmlencodePlainString($mailData["rcp_to"], false));
-		$this->tpl->setVariable("RCP_CC", ilUtil::htmlencodePlainString($mailData["rcp_cc"], false));
-		$this->tpl->setVariable("RCP_BCC", ilUtil::htmlencodePlainString($mailData["rcp_bcc"], false));
-		
-		$this->tpl->setVariable("M_SUBJECT", ilUtil::htmlencodePlainString($mailData["m_subject"], false));
-		
-		if (is_array($mailData["attachments"]) &&
-			count($mailData["attachments"]))
-		{
-			$this->tpl->setCurrentBlock("files");
-			$this->tpl->setCurrentBlock("hidden");
-			foreach($mailData["attachments"] as $key => $data)
-			{
-				$this->tpl->setVariable("ATTACHMENTS",$data);
-				$this->tpl->parseCurrentBlock();
+		$form_gui->addItem($chb);
 
-				$size = round(filesize($this->mfile->getMailPath() . '/' . $ilUser->getId() . "_" . $data) / 1024);
-				if ($size < 1) $size = 1;				
-				$mailData["attachments"][$key] .= " [" . number_format($size, 0, ".", "") . " KByte]";
-			}
-			$this->tpl->setVariable("ROWS",count($mailData["attachments"]));
+		$form_gui->addCommandButton('sendMessage', $this->lng->txt('send'));
+		$form_gui->addCommandButton('saveDraft', $this->lng->txt('save_message'));
 
-			$this->tpl->setVariable("FILES",implode("<br />",$mailData["attachments"]));
-			$this->tpl->parseCurrentBlock();
-		}
-		// Note: For security reasons, ILIAS only allows Plain text strings in E-Mails.
-		$this->tpl->setVariable("M_MESSAGE",htmlspecialchars($mailData["m_message"], false));
 		$this->tpl->parseCurrentBlock();
-		
-		
-		$this->tpl->setVariable('TXT_USE_PLACEHOLDERS', $this->lng->txt('mail_nacc_use_placeholder'));
-		$this->tpl->setVariable('TXT_PLACEHOLDERS_ADVISE', sprintf($this->lng->txt('placeholders_advise'), '<br />'));		
-		$this->tpl->setVariable('TXT_MAIL_SALUTATION', $this->lng->txt('mail_nacc_salutation'));
-		$this->tpl->setVariable('TXT_FIRST_NAME', $this->lng->txt('firstname'));
-		$this->tpl->setVariable('TXT_LAST_NAME', $this->lng->txt('lastname'));
-		$this->tpl->setVariable('TXT_LOGIN', $this->lng->txt('mail_nacc_login'));		
-		$this->tpl->setVariable('TXT_ILIAS_URL', $this->lng->txt('mail_nacc_ilias_url'));
-		$this->tpl->setVariable('TXT_CLIENT_NAME', $this->lng->txt('mail_nacc_client_name'));		
 
+		$this->tpl->setVariable('FORM', $form_gui->getHTML());
+
+		$this->tpl->addJavaScript('Services/Mail/js/ilMailComposeFunctions.js');
 		$this->tpl->show();
+	}
+
+	public function lookupRecipientAsync()
+	{
+		global $ilUser, $rbacsystem;
+		include_once 'Services/JSON/classes/class.ilJsonUtil.php';
+		$search = "%" . $_REQUEST["query"] . "%";
+		$result = new stdClass();
+		$result->response = new stdClass();
+		$result->response->results = array();
+		if (!$search)
+		{
+			$result->response->total = 0;
+			echo ilJsonUtil::encode($result);
+			exit;
+		}
+		global $ilDB;
+		$ilDB->setLimit(0,20);
+		
+		$allow_smtp = $rbacsystem->checkAccess('smtp_mail', MAIL_SETTINGS_ID);
+		
+		$query_res = $ilDB->queryF(
+			'SELECT DISTINCT
+				abook.login as login,
+				abook.firstname as firstname,
+				abook.lastname as lastname,
+				"addressbook" as type
+			FROM addressbook as abook
+			WHERE abook.user_id = %s
+			AND abook.login IS NOT NULL
+			AND (
+				abook.login LIKE %s OR
+				abook.firstname LIKE %s OR
+				abook.lastname LIKE %s
+			)
+			UNION
+			SELECT DISTINCT
+				abook.email as login,
+				abook.firstname as firstname,
+				abook.lastname as lastname,
+				"addressbook" as type
+			FROM addressbook as abook
+			WHERE 1='.($allow_smtp ? 1 : 0).'
+			AND abook.user_id = %s
+			AND abook.login IS NULL
+			AND (
+				abook.email LIKE %s OR
+				abook.firstname LIKE %s OR
+				abook.lastname LIKE %s
+			)			
+			UNION
+			SELECT DISTINCT
+				mail.rcp_to as login,
+				"" as firstname,
+				"" as lastname,
+				"mail" as type
+			FROM mail
+			WHERE mail.rcp_to LIKE %s
+				AND sender_id = %s',
+			array('integer', 'text', 'text', 'text', 'integer', 'text', 'text', 'text', 'text', 'integer'),
+			array($ilUser->getId(), $search, $search, $search, $ilUser->getId(), $search, $search, $search, $search, $ilUser->getId())
+		);
+		
+		$setMap = array();
+		$i = 0;
+		while ($row = $query_res->fetchRow(DB_FETCHMODE_OBJECT))
+		{
+			if ($i > 20)
+				break;
+			if (isset($setMap[$row->login]))
+				continue;
+			$parts = array();
+			if (strpos($row->login, ',') || strpos($row->login, ';'))
+			{
+				$parts = split("[ ]*[;,][ ]*", trim($row->login));
+				foreach($parts as $part)
+				{
+					$tmp = new stdClass();
+					$tmp->login = $part;
+					$i++;
+					$setMap[$part] = 1;
+				}
+			}
+			else
+			{
+				$tmp = new stdClass();
+				$tmp->login = $row->login;
+				if ($row->public_profile == 'y' || $row->type = 'addressbook')
+				{
+					$tmp->firstname = $row->firstname;
+					$tmp->lastname = $row->lastname;
+				}
+				$result->response->results[] = $tmp;
+				$i++;
+				$setMap[$row->login] = 1;
+			}
+
+		}
+		$result->response->total = count($result->response->results);
+		echo ilJsonUtil::encode($result);
+		exit;
 	}
 }
 ?>

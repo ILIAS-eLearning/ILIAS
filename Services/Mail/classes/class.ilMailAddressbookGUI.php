@@ -370,15 +370,37 @@ class ilMailAddressbookGUI
 	 */
 	public function showAddressbook()
 	{
-		global $rbacsystem, $lng, $ilUser;
+		global $rbacsystem, $lng, $ilUser, $ilCtrl;
 
 		$this->tpl->setVariable("HEADER", $this->lng->txt("mail"));		
 		$this->tpl->addBlockFile("ADM_CONTENT", "adm_content", "tpl.mail_addressbook.html", "Services/Mail");		
 
+		// searchbox
+		include_once('./Services/Form/classes/class.ilPropertyFormGUI.php');
+		include_once 'Services/YUI/classes/class.ilYuiUtil.php';
+		ilYuiUtil::initAutoComplete();
+		$searchform = new ilPropertyFormGUI();
+		$searchform->setFormAction($this->ctrl->getFormAction($this, "saveEntry"));
+		
+		$dsSchema = array('response.results', 'login', 'firstname', 'lastname');
+		$dsFormatCallback = 'formatAutoCompleteResults';
+		$dsDataLink = $ilCtrl->getLinkTarget($this, 'lookupAddressbookAsync');
+		
+		$inp = new ilTextInputGUI($this->lng->txt('search_for'), 'search_qry');
+		$inp->setDataSource($dsDataLink);
+		$inp->setDataSourceSchema($dsSchema);
+		$inp->setDataSourceResultFormat($dsFormatCallback);
+		
+		$searchform->addItem($inp);
+		$searchform->addCommandButton('search', $this->lng->txt("send"));
+		$this->tpl->setVariable('SEARCHFORM', $searchform->getHtml());
+		
+		
 		$this->tpl->setVariable('ACTION', $this->ctrl->getFormAction($this, "saveEntry"));
 		$this->tpl->setVariable("TXT_SEARCH_FOR",$this->lng->txt("search_for"));
 		$this->tpl->setVariable("BUTTON_SEARCH",$this->lng->txt("send"));
-		$this->tpl->setVariable("BUTTON_CANCEL",$this->lng->txt("reset"));
+		//$this->tpl->setVariable("BUTTON_CANCEL",$this->lng->txt("reset"));
+		
 		if (strlen(trim($_SESSION["addr_search"])) > 0)
 		{
 			$this->tpl->setVariable("VALUE_SEARCH_FOR", ilUtil::prepareFormOutput(trim($_SESSION["addr_search"]), true));
@@ -464,6 +486,51 @@ class ilMailAddressbookGUI
 		return true;
 	}
 
+	public function lookupAddressbookAsync()
+	{
+		include_once 'Services/JSON/classes/class.ilJsonUtil.php';
+		$search = "%" . $_REQUEST["query"] . "%";
+		$result = new stdClass();
+		$result->response = new stdClass();
+		$result->response->results = array();
+		if (!$search)
+		{
+			$result->response->total = 0;
+			echo ilJsonUtil::encode($result);
+			exit;
+		}
+		global $ilDB, $ilUser;
+		$ilDB->setLimit(0,20);
+		$query_res = $ilDB->queryF
+		(
+			'SELECT DISTINCT
+				abook.login as login,
+				abook.firstname as firstname,
+				abook.lastname as lastname,
+				"addressbook" as type
+			FROM addressbook as abook
+			WHERE abook.user_id = %s
+			AND (
+				abook.login LIKE %s OR
+				abook.firstname LIKE %s OR
+				abook.lastname LIKE %s
+			)',
+			array('integer', 'text', 'text', 'text'),
+			array($ilUser->getId(), $search, $search, $search)
+		);
+		while ($row = $query_res->fetchRow(DB_FETCHMODE_OBJECT))
+		{
+			$tmp = new stdClass();
+			$tmp->login = $row->login;
+			$tmp->firstname = $row->firstname;
+			$tmp->lastname = $row->lastname;
+			$result->response->results[] = $tmp;
+		}
+		$result->response->total = count($result->response->results);
+		echo ilJsonUtil::encode($result);
+		exit;
+	}
+	
 	function showSubTabs()
 	{
 		$this->tabs_gui->addSubTabTarget('mail_my_entries',

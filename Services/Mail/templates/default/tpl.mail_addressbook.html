@@ -1,16 +1,15 @@
 {DELETE_CONFIRMATION}
 <!-- BEGIN table -->
-<form action="{ACTION}" method="post">
-<table class="std">
-<tr>
-	<td id="header-search" class="option" align="right">{TXT_SEARCH_FOR}</td>
-	<td headers="header-search" class="option_value">
-		<input name="search_qry" value="{VALUE_SEARCH_FOR}" size="30" width="80%"/><br/>
-		<input class="submit" type="submit" name="cmd[search]" value="{BUTTON_SEARCH}"/>
-	</td>
-</tr>
-</table>
-</form>
+<script type="text/javascript">
+function formatAutoCompleteResults (oResData, sQuery, sResultMatch)
+{
+    if (oResData[1] && oResData[2])
+	    return oResData[0] + " [" + oResData[2] + ", " + oResData[1] + "]";
+    else
+	    return oResData[0];
+};
+</script>
+{SEARCHFORM}
 <br />
 {TABLE}
 <!-- END table -->

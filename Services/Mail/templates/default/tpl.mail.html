@@ -11,114 +11,40 @@
   </form>
   <br />
 <!-- END confirm_empty_trash -->
-	<!-- BEGIN show_folder -->
-	<form action="{ACTION_FLAT}" class="il_Form" method="POST">
-	  <table class="std">
-		  <tr class="std">
-			<td class="option">{TXT_FOLDERS}
-			</td>
-			<td class="option_row">
-			  <select name="mobj_id">
-				<!-- BEGIN flat_select -->
-				<option value="{FLAT_VALUE}" "{FLAT_SELECTED}">{FLAT_NAME}</option>
-				<!-- END flat_select -->
-			  </select>
-			  <input class="submit" type="SUBMIT" name="cmd[showFolder]" value="{FOLDER_VALUE}"/>
-			</td>
-		  </tr>
-	  </table><br />
-  	</form>
-	<!-- END show_folder -->
-	<form method="post" name="cmd" action="{ACTION}">
-	  <!-- BEGIN confirm_delete -->
-	  <table class="fullwidth_invisible">
-		  <tr>
-			<td align="center">
-			  <input class="submit" type="submit" name="cmd[confirmDeleteMails]" value="{BUTTON_CONFIRM}" />
-			  <input class="submit" type="submit" name="cmd[cancelDeleteMails]" value="{BUTTON_CANCEL}" />
-			</td>
-		  </tr>
-	  </table>
-	  <!-- END confirm_delete -->	  
-	  <!-- BEGIN linkbar -->
-		<div class="il_MailLinkBar" style="margin-bottom:3px;">
-			{LINKBAR}
-		</div>
-	  <!-- END linkbar -->
-	  <table class="fullwidth">
-		  <tr class="tbltitle">
-			<td class="std" colspan="1" width="1px" valign="top">
-			<img border="0" src="{IMG_FOLDER}" />
-			</td>
-			<td class="std" colspan="4" valign="top">
-			<div style="float: left;">
-			{TXT_FOLDER}:&nbsp;
-			{MAIL_COUNT}&nbsp;{TXT_MAIL_S} ({MAIL_COUNT_UNREAD} {TXT_UNREAD})
-			</div>
-<!-- BEGIN edit_folder -->
-			  <div style="text-align: right;">
-			  	<a class="submit" href="{LINK_EDIT_FOLDER}">&nbsp;{TXT_EDIT_FOLDER}&nbsp;</a>
-			  </div>
-<!-- END edit_folder -->
-<!-- BEGIN empty_trash -->
-			  <div style="text-align: right;">
-			  	<a class="submit" href="{LINK_EMPTY_TRASH}">&nbsp;{TXT_EMPTY_TRASH}&nbsp;</a>
-			  </div>
-<!-- END empty_trash -->
-		 	 </td>
-		  </tr>
-		  <tr class="tblheader">
-			<td class="std" width="1px">&nbsp;</td>
-			<td class="std" colspan="2">{TXT_SENDER}</td>
-			<td class="std" >{TXT_SUBJECT}</td>
-			<td class="std" >{TXT_DATE}</td>
-		  </tr>
 
-		  <!-- BEGIN mails -->
-		  <tr class="{ROWCOL}">
-			<td class="std" ><input type="checkbox" name="mail_id[]" value="{MAIL_ID}" {CHECKBOX_CHECKED}></td>
-			<td class="std"  width="1px" valign="middle">
-			<!-- BEGIN pers_image -->
-			<img src="{IMG_SENDER}" alt="{ALT_SENDER}" border="0" />
-			<!-- END pers_image -->
-			</TD>
-			<td class="std"  valign="middle">
-			<!-- BEGIN mails_from -->
-				{MAIL_FROM}<br />
-			<!-- END mails_from -->
-				{MAIL_LOGIN}
-			</TD>
-			<td class="std"  valign="middle"><a class="{MAILCLASS}" href="{MAIL_LINK_READ}">{MAIL_SUBJECT}</a></td>
-			<td class="std"  valign="middle">{MAIL_DATE}</td>
-		  </tr>
-		  <!-- END mails -->
-		  <tr class="tblrow2">
-			<td class="std" colspan="1"><input type="checkbox" name="all" value="check_all" onClick="CheckAll();"></td>
-			<td class="std" colspan="4">
-			  <strong>{TXT_SELECT_ALL}</strong>
+<!-- BEGIN confirm_delete -->
+<form method="post" name="cmd" action="{ACTION}">
+	<table class="fullwidth_invisible">
+		<tr>
+			<td align="center">
+				<input class="submit" type="submit" name="cmd[confirmDeleteMails]" value="{BUTTON_CONFIRM}" />
+				<input class="submit" type="submit" name="cmd[cancelDeleteMails]" value="{BUTTON_CANCEL}" />
+				<!-- BEGIN mail_ids -->
+				<input type="hidden" name="mail_id[]" value="{MAIL_ID_VALUE}" />
+				<!-- END mail_ids -->
 			</td>
-		  </tr>
-		  <tr>
-			<td class="submit"  width="1px" align="center">
-			  <img src="{IMGPATH}/images/arrow_downright.gif" />
-			</td>
-			<td class="submit" colspan="4">
-				<div style="float: left;">
-			  <select name="action">
-				<!-- BEGIN mailactions -->
-				<option value="{MAILACTION_VALUE}" {MAILACTION_SELECTED}>{MAILACTION_NAME}</option>
-				<!-- END mailactions -->	  
-			  </select>
-			  <input class="submit" type="submit" name="cmd[editFolder]" value="{TXT_SUBMIT}"/>
-			  </div>
-<!-- BEGIN add_folder -->
-			  <div style="text-align: right;">
-			  	<input class="submit" type="submit" name="cmd[addSubFolder]" value="{TXT_ADD_FOLDER}"/>
-			  </div>
-<!-- END add_folder -->
-			</td>
-		  </tr>
-	  </table>
-	</form>
-<!--</div>-->
-</td></tr></table>
+		</tr>
+	</table>
+</form>
+<!-- END confirm_delete -->
+
+<!-- BEGIN show_folder -->
+<form action="{ACTION_FLAT}" class="il_Form" method="POST">
+  <table class="std">
+	  <tr class="std">
+		<td class="option">{TXT_FOLDERS}
+		</td>
+		<td class="option_row">
+		  <select name="mobj_id">
+			<!-- BEGIN flat_select -->
+			<option value="{FLAT_VALUE}" "{FLAT_SELECTED}">{FLAT_NAME}</option>
+			<!-- END flat_select -->
+		  </select>
+		  <input class="submit" type="SUBMIT" name="cmd[showFolder]" value="{FOLDER_VALUE}"/>
+		</td>
+	  </tr>
+  </table><br />
+</form>
+<!-- END show_folder -->
+	  
+{MAIL_TABLE}

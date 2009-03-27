@@ -52,8 +52,6 @@ class ilMailFolderGUI
 		$this->ctrl = $ilCtrl;
 		$this->lng = $lng;
 		
-		$this->ctrl->saveParameter($this, "mobj_id");
-
 		$this->umail = new ilMail($ilUser->getId());
 		$this->mbox = new ilMailBox($ilUser->getId());
 
@@ -66,16 +64,23 @@ class ilMailFolderGUI
 		{
 			$_GET["mobj_id"] = $this->mbox->getInboxFolder();
 		}
+		$ilCtrl->saveParameter($this, "mobj_id");
+		$ilCtrl->setParameter($this, "mobj_id", $_GET["mobj_id"]);
+		
 	}
 
 	public function executeCommand()
 	{
+		if ($_POST["select_cmd"])
+		{
+			$_GET["cmd"] = 'editFolder';
+		}
+
 		/* User views mail and wants to delete it */
-		if ($_GET["action"] == "deleteMails" &&
-			$_GET["mail_id"])
+		if ($_GET["selected_cmd"] == "deleteMails" && $_GET["mail_id"])
 		{
 			$_GET["cmd"] = "editFolder";
-			$_POST["action"] = "deleteMails";
+			$_POST["selected_cmd"] = "deleteMails";
 			$_POST["mail_id"] = array($_GET["mail_id"]);
 		}		
 
@@ -142,11 +147,17 @@ class ilMailFolderGUI
 		
 	}
 	
+	/**
+	* cancel Empty Trash Action and return to folder
+	*/
 	public function cancelEmptyTrash()
 	{
 		$this->showFolder();
 	}
 	
+	/**
+	* empty Trash and return to folder
+	*/
 	public function performEmptyTrash()
 	{
 		$this->umail->deleteMailsOfFolder($_GET["mobj_id"]); 
@@ -157,6 +168,9 @@ class ilMailFolderGUI
 		return true;
 	}
 	
+	/**
+	* confirmation message for empty trash action
+	*/
 	public function askForEmptyTrash()
 	{
 		if ($this->umail->countMailsOfFolder($_GET["mobj_id"]))
@@ -198,6 +212,9 @@ class ilMailFolderGUI
 		return true;
 	}
 
+	/**
+	* Shows current folder. Current Folder is determined by $_GET["mobj_id"]
+	*/
 	public function showFolder()
 	{
 		global $ilUser;
@@ -205,32 +222,34 @@ class ilMailFolderGUI
 		$this->tpl->addBlockFile("ADM_CONTENT", "adm_content", "tpl.mail.html", "Services/Mail");
 		$this->tpl->setVariable("HEADER", $this->lng->txt("mail"));
 
-		$this->ctrl->setParameter($this, "offset", $_GET["offset"]);;
-		$this->tpl->setVariable("ACTION", $this->ctrl->getFormAction($this));
-		$this->ctrl->clearParameters($this);
+		$isTrashFolder = ($this->mbox->getTrashFolder() == $_GET["mobj_id"]) ? true : false;
 
-		$isTrashFolder = false;
-		if ($this->mbox->getTrashFolder() == $_GET["mobj_id"])
-		{
-			$isTrashFolder = true;
-		}
-
+		include_once 'Services/Mail/classes/class.ilMailFolderTableGUI.php';
+		$mailtable = new ilMailFolderTableGUI($this->mbox, $this, $_GET["mobj_id"]);
+		
 		// BEGIN CONFIRM_DELETE
-		if($_POST["action"] == "deleteMails" &&
+		if($_POST["selected_cmd"] == "deleteMails" &&
 			!$this->errorDelete &&
-			$_POST["action"] != "confirm" &&
+			$_POST["selected_cmd"] != "confirm" &&
 			$isTrashFolder)
 		{
 			$this->tpl->setCurrentBlock("CONFIRM_DELETE");
 			$this->tpl->setVariable("BUTTON_CONFIRM",$this->lng->txt("confirm"));
 			$this->tpl->setVariable("BUTTON_CANCEL",$this->lng->txt("cancel"));
+			foreach($_REQUEST["mail_id"] as $id)
+			{
+				$this->tpl->setCurrentBlock("mail_ids");
+				$this->tpl->setVariable("MAIL_ID_VALUE", $id);
+				$this->tpl->parseCurrentBlock();
+			}
 			$this->tpl->parseCurrentBlock();
 		}	
 		
 		// BEGIN MAIL ACTIONS
 		$actions = $this->mbox->getActions($_GET["mobj_id"]);
-		
+		$mailtable->setMailActions($actions, $isTrashFolder);
 		$this->tpl->setCurrentBlock("mailactions");
+		
 		foreach($actions as $key => $action)
 		{
 			if($key == 'moveMails')
@@ -261,23 +280,25 @@ class ilMailFolderGUI
 				{
 					$this->tpl->setVariable("MAILACTION_NAME", $action);
 					$this->tpl->setVariable("MAILACTION_VALUE", $key);
-					$this->tpl->setVariable("MAILACTION_SELECTED",$_POST["action"] == 'delete' ? 'selected' : '');
+					$this->tpl->setVariable("MAILACTION_SELECTED",$_POST["selected_cmd"] == 'delete' ? 'selected' : '');
 					$this->tpl->parseCurrentBlock();
 				}	
 			}
 		}
 		// END MAIL ACTIONS
 		
+		$mtree = new ilTree($ilUser->getId());
+		$mtree->setTableNames('mail_tree','mail_obj_data');
 		
 		// SHOW_FOLDER ONLY IF viewmode is flatview
-		if(!isset($_SESSION["viewmode"]) ||
-			$_SESSION["viewmode"] == 'flat')
+		if(!isset($_SESSION["viewmode"]) || $_SESSION["viewmode"] == 'flat')
 		{
 			$this->tpl->setCurrentBlock("show_folder");
 			$this->tpl->setCurrentBLock("flat_select");
 		   
 			foreach($folders as $folder)
 			{
+				$folder = $mtree->getNodeData($folder['obj_id']);
 				if($folder["obj_id"] == $_GET["mobj_id"])
 				{
 					$this->tpl->setVariable("FLAT_SELECTED","selected");
@@ -285,7 +306,12 @@ class ilMailFolderGUI
 				$this->tpl->setVariable("FLAT_VALUE",$folder["obj_id"]);
 				if($folder["type"] == 'user_folder')
 				{
-					$this->tpl->setVariable("FLAT_NAME", $folder["title"]);
+					$pre = "";
+					for ($i = 2; $i < $folder["depth"] - 1; $i++)
+						$pre .= "&nbsp";
+					if ($folder["depth"] > 1)
+						$pre .= "+";					
+					$this->tpl->setVariable("FLAT_NAME", $pre." ".$folder["title"]);
 				}
 				else
 				{
@@ -327,52 +353,38 @@ class ilMailFolderGUI
 		// TODO: READ FROM MAIL_OPTIONS
 		$mail_max_hits = $ilUser->getPref('hits_per_page');
 		$counter = 0;
+
+		$folder_node = $mtree->getNodeData($_GET[mobj_id]);
+
+		$tableData = array();
+		
 		foreach ($mailData as $mail)
 		{
+			$rowData = array();
 			if($mail["sender_id"] &&
 				!ilObjectFactory::ObjectIdExists($mail["sender_id"]))
 			{
 				--$mail_count;
 				continue;
 			}
-			// LINKBAR
-			if($mail_count > $mail_max_hits)
-			{
-				$params = array(
-					"mobj_id"		=> $_GET["mobj_id"]);
-			}
-			$start = $_GET["offset"];
-			$linkbar = ilUtil::Linkbar($this->ctrl->getLinkTarget($this),$mail_count,$mail_max_hits,$start,$params);
-			if ($linkbar)
-			{
-				$this->tpl->setVariable("LINKBAR", $linkbar);
-			}
-			if($counter >= ($start+$mail_max_hits))
-			{
-				break;
-			}
-			if($counter < $start)
-			{
-				++$counter;
-				continue;
-			}
-		
-			// END LINKBAR
 			++$counter;
-			$this->tpl->setCurrentBlock("mails");
-			$this->tpl->setVariable("ROWCOL","tblrow".(($counter % 2)+1));
-			$this->tpl->setVariable("MAIL_ID", $mail["mail_id"]);
-		
+			
+			$rowData["MAIL_ID"] = $mail["mail_id"];
+
 			if(is_array($_POST["mail_id"]))
 			{
-				$this->tpl->setVariable("CHECKBOX_CHECKED",in_array($mail["mail_id"],$_POST["mail_id"]) ? 'checked' : "");
+				//$this->tpl->setVariable("CHECKBOX_CHECKED",in_array($mail["mail_id"],$_POST["mail_id"]) ? 'checked' : "");
+				if (in_array($mail["mail_id"],$_POST["mail_id"]))
+				{
+					$rowData["CHECKED"] = " checked='checked' ";	
+				}
 			}
 
 			// GET FULLNAME OF SENDER
 			if($_GET['mobj_id'] == $this->mbox->getSentFolder() ||
 				$_GET['mobj_id'] == $this->mbox->getDraftsFolder())
 			{
-				$this->tpl->setVariable('MAIL_LOGIN', $this->umail->formatNamesForOutput($mail['rcp_to']));				
+				$rowData["MAIL_LOGIN"] = $this->umail->formatNamesForOutput($mail['rcp_to']);
 			}
 			else
 			{
@@ -381,115 +393,71 @@ class ilMailFolderGUI
 					$tmp_user = new ilObjUser($mail["sender_id"]); 
 					if(ilObjUser::_lookupPref($mail['sender_id'], 'public_profile') == 'y')
 					{
-						$this->tpl->setVariable('MAIL_FROM', $tmp_user->getFullname());
+						$rowData["MAIL_FROM"] = $tmp_user->getFullname();
 					}					
 					if(!($login = $tmp_user->getLogin()))
 					{
 						$login = $mail["import_name"]." (".$this->lng->txt("user_deleted").")";
+						$rowData["MAIL_LOGIN"] = $mail["import_name"]." (".$this->lng->txt("user_deleted").")"; 				
 					}
 					$pic_path = $tmp_user->getPersonalPicturePath("xxsmall");
 					
-					$this->tpl->setCurrentBlock("pers_image");
-					$this->tpl->setVariable("IMG_SENDER", $pic_path);
-					$this->tpl->setVariable("ALT_SENDER", $login);
-					$this->tpl->parseCurrentBlock();
-					$this->tpl->setCurrentBlock("mails");
-			
-					$this->tpl->setVariable("MAIL_LOGIN",$login);
+					$rowData["IMG_SENDER"] = $pic_path;
+					$rowData["ALT_SENDER"] = $login;
+					$rowData["MAIL_LOGIN"] = $login;
 				}
 				else
 				{
 					$tmp_user = new ilObjUser(ANONYMOUS_USER_ID);					
 					$pic_path = $tmp_user->getPersonalPicturePath('xxsmall');
 					
-					$this->tpl->setCurrentBlock('pers_image');
-					$this->tpl->setVariable('IMG_SENDER', $pic_path);
-					$this->tpl->setVariable('ALT_SENDER', ilMail::_getAnonymousName());
-					$this->tpl->parseCurrentBlock();
-					$this->tpl->setCurrentBlock('mails');
-			
-					$this->tpl->setVariable('MAIL_LOGIN', ilMail::_getAnonymousName());
+					$rowData["IMG_SENDER"] = $pic_path;
+					$rowData["ALT_SENDER"] = ilMail::_getAnonymousName();
+					$rowData["MAIL_LOGIN"] = ilMail::_getAnonymousName();
 				}
 			}
-			$this->tpl->setVariable("MAILCLASS", $mail["m_status"] == 'read' ? 'mailread' : 'mailunread');
+			//$this->tpl->setVariable("MAILCLASS", $mail["m_status"] == 'read' ? 'mailread' : 'mailunread');
+			$rowData["MAILCLASS"] = $mail["m_status"] == 'read' ? 'mailread' : 'mailunread';
 			// IF ACTUAL FOLDER IS DRAFT BOX, DIRECT TO COMPOSE MESSAGE
 			if($_GET["mobj_id"] == $this->mbox->getDraftsFolder())
 			{
 				$this->ctrl->setParameterByClass("ilmailformgui", "mail_id", $mail["mail_id"]);
 				$this->ctrl->setParameterByClass("ilmailformgui", "type", "draft");
-				$this->tpl->setVariable("MAIL_LINK_READ", $this->ctrl->getLinkTargetByClass("ilmailformgui"));
+				$rowData["MAIL_LINK_READ"] = $this->ctrl->getLinkTargetByClass("ilmailformgui");
 				$this->ctrl->clearParametersByClass("ilmailformgui");
 			}
 			else
 			{
 				$this->ctrl->setParameter($this, "mail_id", $mail["mail_id"]);
 				$this->ctrl->setParameter($this, "cmd", "showMail");
-				$this->tpl->setVariable("MAIL_LINK_READ", $this->ctrl->getLinkTarget($this));
+				$rowData["MAIL_LINK_READ"] = $this->ctrl->getLinkTarget($this);
 				$this->ctrl->clearParameters($this);
 			}
-			$this->tpl->setVariable("MAIL_SUBJECT", htmlspecialchars($mail["m_subject"]));
-			$this->tpl->setVariable("MAIL_DATE", ilDatePresentation::formatDate(new ilDateTime($mail['send_time'],IL_CAL_DATETIME)));
-			
-			$this->tpl->parseCurrentBlock();
+			$rowData["MAIL_SUBJECT"] = htmlspecialchars($mail["m_subject"]);
+			$rowData["MAIL_DATE"] = ilDatePresentation::formatDate(new ilDateTime($mail['send_time'],IL_CAL_DATETIME)); 
+			$tableData[] = $rowData;
 		}
 		// END MAILS
-		
-		$mtree = new ilTree($ilUser->getId());
-		$mtree->setTableNames('mail_tree','mail_obj_data');
-		$folder_node = $mtree->getNodeData($_GET[mobj_id]);
-		
-		// folder_image
-		if($folder_node["type"] == 'user_folder')
-		{
-			$this->tpl->setVariable("TXT_FOLDER", $folder_node["title"]);
-			$this->tpl->setVariable("IMG_FOLDER", ilUtil::getImagePath("icon_user_folder.gif"));		
-		}
-		else
-		{
-			$this->tpl->setVariable("TXT_FOLDER", $this->lng->txt("mail_".$folder_node["title"]));
-			$this->tpl->setVariable("IMG_FOLDER", ilUtil::getImagePath("icon".substr($folder_node["title"], 1).".gif"));
-		}
-
-		if ($folder_node["type"] == 'user_folder' || $folder_node["type"] == 'local')
-		{
-			if ($folder_node["type"] == 'user_folder')
-			{
-				$this->ctrl->setParameter($this, "cmd", "enterFolderData");
-				$this->tpl->setVariable("LINK_EDIT_FOLDER", $this->ctrl->getLinkTarget($this));
-				$this->tpl->setVariable("TXT_EDIT_FOLDER", $this->lng->txt("edit"));
-			}
-			$this->tpl->setVariable("TXT_ADD_FOLDER", $this->lng->txt("mail_add_subfolder"));
-		}		
-		
-		$this->tpl->setVariable("TXT_MAIL", $this->lng->txt("mail"));
-		$this->tpl->setVariable("TXT_MAIL_S", $this->lng->txt("mail_s"));
-		$this->tpl->setVariable("TXT_UNREAD", $this->lng->txt("unread"));
-		$this->tpl->setVariable("TXT_SUBMIT",$this->lng->txt("submit"));
-		$this->tpl->setVariable("TXT_SELECT_ALL", $this->lng->txt("select_all"));
-		$this->tpl->setVariable("IMGPATH",$this->tpl->tplPath);
+		$mailtable->setData($tableData);
 		
 		// MAIL SUMMARY
 		$mail_counter = $this->umail->getMailCounterData();
-		$this->tpl->setVariable("MAIL_COUNT", $mail_counter["total"]);
-		$this->tpl->setVariable("MAIL_COUNT_UNREAD", $mail_counter["unread"]);
-		$this->tpl->setVariable("TXT_UNREAD_MAIL_S",$this->lng->txt("mail_s_unread"));
-		$this->tpl->setVariable("TXT_MAIL_S",$this->lng->txt("mail_s"));
-		
-		//columns headlines
-		if($_GET['mobj_id'] == $this->mbox->getSentFolder() ||
-			$_GET['mobj_id'] == $this->mbox->getDraftsFolder())
+
+		$txt_folder = "";
+		$img_folder = "";
+		if($folder_node["type"] == 'user_folder')
 		{
-			$this->tpl->setVariable("TXT_SENDER", $this->lng->txt("recipient"));
+			$txt_folder = $folder_node["title"];
+			$img_folder = "icon_user_folder.gif";		
 		}
 		else
 		{
-			$this->tpl->setVariable("TXT_SENDER", $this->lng->txt("sender"));
+			$txt_folder = $this->lng->txt("mail_".$folder_node["title"]);
+			$img_folder = "icon".substr($folder_node["title"], 1).".gif";
 		}
-		$this->tpl->setVariable("TXT_SUBJECT", $this->lng->txt("subject"));
-		//	$this->tpl->setVariable("MAIL_SORT_SUBJ","link");
-		$this->tpl->setVariable("TXT_DATE",$this->lng->txt("date"));
-		$this->tpl->setVariable("DIRECTION", "up");
 		
+		$mailtable->setTitleData($txt_folder,$mail_counter["total"],$mail_counter["unread"], $img_folder);
+		$this->tpl->setVariable('MAIL_TABLE', $mailtable->getHtml());
 		$this->tpl->show();
 	}
 	
@@ -741,10 +709,10 @@ class ilMailFolderGUI
 	
 	public function changeFolder()
 	{
-		switch ($_POST["action"])
+		switch ($_POST["selected_cmd"])
 		{
 			default:
-				if ($this->umail->moveMailsToFolder(array($_GET["mail_id"]), $_POST["action"]))
+				if ($this->umail->moveMailsToFolder(array($_GET["mail_id"]), $_POST["selected_cmd"]))
 				{
 					ilUtil::sendInfo($this->lng->txt("mail_moved"), true);
 					$this->ctrl->redirectByClass("ilMailGUI");
@@ -763,7 +731,7 @@ class ilMailFolderGUI
 
 	public function editFolder()
 	{
-		switch ($_POST["action"])
+		switch ($_POST["selected_cmd"])
 		{
 			case 'markMailsRead':
 				if(is_array($_POST["mail_id"]))
@@ -829,7 +797,7 @@ class ilMailFolderGUI
 				{
 					ilUtil::sendInfo($this->lng->txt("mail_select_one"));
 				}
-				else if($this->umail->moveMailsToFolder($_POST["mail_id"],$_POST["action"]))
+				else if($this->umail->moveMailsToFolder($_POST["mail_id"],$_POST["selected_cmd"]))
 				{
 					ilUtil::sendInfo($this->lng->txt("mail_moved"));
 				}
@@ -868,7 +836,7 @@ class ilMailFolderGUI
 
 	public function cancelDeleteMails()
 	{
-		$this->ctrl->setParameter($this, "offset", $_GET["offset"]);
+		//$this->ctrl->setParameter($this, "offset", $_GET["offset"]);
 		$this->ctrl->redirect($this);
 	}
 
@@ -920,7 +888,7 @@ class ilMailFolderGUI
 		
 		$tplbtn->setCurrentBlock("btn_cell");
 		$this->ctrl->setParameter($this, "mail_id", $_GET["mail_id"]);
-		$this->ctrl->setParameter($this, "action", "deleteMails");
+		$this->ctrl->setParameter($this, "selected_cmd", "deleteMails");
 		$tplbtn->setVariable("BTN_LINK", $this->ctrl->getLinkTarget($this));
 		$this->ctrl->clearParameters($this);
 		$tplbtn->setVariable("BTN_TXT", $this->lng->txt("delete"));
