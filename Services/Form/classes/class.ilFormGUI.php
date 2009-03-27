@@ -36,6 +36,7 @@ class ilFormGUI
 	protected $formaction;
 	protected $multipart = false;
 	protected $keepopen = false;
+	protected $opentag = true;
 	
 	/**
 	* Constructor
@@ -147,6 +148,26 @@ class ilFormGUI
 	}
 
 	/**
+	* Enable/Disable Open Form Tag.
+	*
+	* @param	boolean	$a_keepopen	enable/disable form open tag
+	*/
+	function setOpenTag($a_open)
+	{
+		$this->opentag = $a_open;
+	}
+
+	/**
+	* Get Open Form Tag Enabled.
+	*
+	* @return	boolean	open form tag enabled
+	*/
+	function getOpenTag()
+	{
+		return $this->opentag;
+	}
+	
+	/**
 	* Get HTML.
 	*/
 	function getHTML()
@@ -161,46 +182,47 @@ class ilFormGUI
 		
 		// this line also sets multipart, so it must be before the multipart check
 		$content = $this->getContent();
-		
-		if ($this->getMultipart())
+		if ($this->getOpenTag())
 		{
-			$tpl->touchBlock("multipart");
-			/*if (function_exists("apc_fetch"))
-			//
-			// Progress bar would need additional browser window (popup)
-			// to not be stopped, when form is submitted  (we can't work
-			// with an iframe or httprequest solution here)
-			//
+			$opentpl = new ilTemplate('tpl.form_open.html', true, true, "Services/Form");
+			if ($this->getMultipart())
 			{
-				$tpl->touchBlock("onsubmit");
-				
-				//onsubmit="postForm('{ON_ACT}','form_{F_ID}',1); return false;"
-				$tpl->setCurrentBlock("onsubmit");
-				$tpl->setVariable("ON_ACT", $this->getFormAction());
-				$tpl->setVariable("F_ID", $this->getId());
-				$tpl->setVariable("F_ID", $this->getId());
-				$tpl->parseCurrentBlock();
-
-				$tpl->setCurrentBlock("hidden_progress");
-				$tpl->setVariable("APC_PROGRESS_ID", uniqid());
-				$tpl->setVariable("APC_FORM_ID", $this->getId());
-				$tpl->parseCurrentBlock();
-			}*/
+				$opentpl->touchBlock("multipart");
+				/*if (function_exists("apc_fetch"))
+				//
+				// Progress bar would need additional browser window (popup)
+				// to not be stopped, when form is submitted  (we can't work
+				// with an iframe or httprequest solution here)
+				//
+				{
+					$tpl->touchBlock("onsubmit");
+					
+					//onsubmit="postForm('{ON_ACT}','form_{F_ID}',1); return false;"
+					$tpl->setCurrentBlock("onsubmit");
+					$tpl->setVariable("ON_ACT", $this->getFormAction());
+					$tpl->setVariable("F_ID", $this->getId());
+					$tpl->setVariable("F_ID", $this->getId());
+					$tpl->parseCurrentBlock();
+	
+					$tpl->setCurrentBlock("hidden_progress");
+					$tpl->setVariable("APC_PROGRESS_ID", uniqid());
+					$tpl->setVariable("APC_FORM_ID", $this->getId());
+					$tpl->parseCurrentBlock();
+				}*/
+			}
+			$opentpl->setVariable("FORM_ACTION", $this->getFormAction());
+			if ($this->getId() != "")
+			{
+				$opentpl->setVariable("FORM_ID", $this->getId());
+			}
+			$opentpl->parseCurrentBlock();
+			$tpl->setVariable('FORM_OPEN_TAG', $opentpl->get());
 		}
-
 		$tpl->setVariable("FORM_CONTENT", $content);
-
-		$tpl->setVariable("FORM_ACTION", $this->getFormAction());
 		if (!$this->getKeepOpen())
 		{
 			$tpl->setVariable("FORM_CLOSE_TAG", "</form>");
 		}
-
-		if ($this->getId() != "")
-		{
-			$tpl->setVariable("FORM_ID", $this->getId());
-		}
-		
 		return $tpl->get();
 	}
 
