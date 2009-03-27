@@ -420,13 +420,8 @@ class ilMailbox
 			array($next_id, $this->user_id, $a_folder_name, 'user_folder'));
 		
 		// ENTRY IN mail_tree
-		/*	$new_id = $this->getLastInsertId();
-		$this->mtree->insertNode($new_id,$a_parent_id);
-		*/	
-		$new_id = $ilDB->nextId($this->table_mail_obj_data);	
-		$this->mtree->insertNode($new_id,$a_parent_id);	
-		
-		return $new_id;
+		$this->mtree->insertNode($next_id,$a_parent_id);	
+		return $next_id;
 	}
 
 	/**

@@ -137,7 +137,7 @@ class ilMailSearchGUI
 
 	public function showResults()
 	{	
-		global $rbacsystem, $lng, $ilUser;
+		global $rbacsystem, $lng, $ilUser, $ilCtrl;
 		
 		$this->saveMailData();
 
@@ -145,13 +145,35 @@ class ilMailSearchGUI
 		$this->tpl->setVariable("HEADER", $this->lng->txt("mail"));
 
 		$this->tpl->setVariable("ACTION", $this->ctrl->getFormAction($this));
-		$this->ctrl->clearParameters($this);
+		// searchform
+		include_once 'Services/Form/classes/class.ilPropertyFormGUI.php';
+		$form = new ilPropertyFormGUI();
+		$form->setId('search_rcp');
+		$form->setFormAction($ilCtrl->getFormAction($this, 'search'));
 		
-		$this->tpl->setVariable("TXT_SEARCH_FOR",$this->lng->txt("search_for"));
-		$this->tpl->setVariable("TXT_SEARCH_SYSTEM",$this->lng->txt("mail_search_system"));
-		$this->tpl->setVariable("TXT_SEARCH_ADDRESS",$this->lng->txt("mail_search_addressbook"));
-		$this->tpl->setVariable("BUTTON_SEARCH",$this->lng->txt("search"));
-		$this->tpl->setVariable("BUTTON_CANCEL",$this->lng->txt("cancel"));
+		$inp = new ilTextInputGUI($this->lng->txt("search_for"), 'search');
+		$inp->setSize(30);
+		if (strlen(trim($_SESSION["mail_search_search"])) > 0)
+		{
+			$inp->setValue(ilUtil::prepareFormOutput(trim($_SESSION["mail_search_search"]), true));
+		}
+		$form->addItem($inp);
+		
+		$chb = new ilCheckboxInputGUI($this->lng->txt("mail_search_addressbook"), 'type_addressbook');
+		if ($_SESSION['mail_search_type_addressbook'])
+			$chb->setChecked(true);
+		$inp->addSubItem($chb);
+
+		$chb = new ilCheckboxInputGUI($this->lng->txt("mail_search_system"), 'type_system');
+		if ($_SESSION['mail_search_type_system'])
+			$chb->setChecked(true);
+		$inp->addSubItem($chb);
+		
+		$form->addCommandButton('search', $this->lng->txt("search"));
+		$form->addCommandButton('cancel', $this->lng->txt("cancel"));
+		
+		$this->tpl->setVariable('SEARCHFORM', $form->getHtml());
+		// searchform end		
 		
 		if (strlen(trim($_SESSION["mail_search_search"])) > 0)
 		{
@@ -217,8 +239,10 @@ class ilMailSearchGUI
 
 			 	$tbl_addr->setDefaultOrderField('login');							
 				$tbl_addr->setPrefix('addr_');			
-				$tbl_addr->enable('select_all');				
-				$tbl_addr->setSelectAllCheckbox('search_name_to');					
+				// disabled. template creates nested forms... must be fixed
+				// - jposselt
+				//$tbl_addr->enable('select_all');				
+				//$tbl_addr->setSelectAllCheckbox('search_name_to');					
 
 				$this->tpl->setVariable('TABLE_ADDR', $tbl_addr->getHTML());				
 			}
@@ -307,9 +331,11 @@ class ilMailSearchGUI
 			 	$tbl_users->setData($result);
 
 			 	$tbl_users->setDefaultOrderField('login');						
-				$tbl_users->setPrefix('usr_');			
-				$tbl_users->enable('select_all');				
-				$tbl_users->setSelectAllCheckbox('search_name_to');				
+				$tbl_users->setPrefix('usr_');
+				// disabled. template creates nested forms... must be fixed
+				// - jposselt 				
+				//$tbl_users->enable('select_all');				
+				//$tbl_users->setSelectAllCheckbox('search_name_to');				
 	
 				$this->tpl->setVariable('TABLE_USERS', $tbl_users->getHTML());
 			}			

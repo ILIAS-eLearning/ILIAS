@@ -289,35 +289,27 @@ class ilMailSearchCoursesGUI
 	 */
 	public function showMyCourses()
 	{
-		global $lng, $ilUser, $ilObjDataCache, $tree;
+		global $lng, $ilUser, $ilObjDataCache, $tree, $tpl;
 
 		include_once 'Modules/Course/classes/class.ilCourseParticipants.php';
 	
-		$this->tpl->addBlockFile('ADM_CONTENT', 'adm_content', 'tpl.mail_addressbook_search.html', 'Services/Mail');
-		$this->tpl->setVariable('HEADER', $this->lng->txt('mail'));
+		$this->tpl->setVariable('HEADER', $this->lng->txt('mail') );
+		
+		$searchTpl = new ilTemplate('tpl.mail_search_template.html', true, true, 'Services/Mail');
 		
 		$_GET['view'] = 'mycourses';
 
-		$this->ctrl->setParameter($this, 'view', 'mycourses');
-		if ($_GET['ref'] != '') $this->ctrl->setParameter($this, 'ref', $_GET['ref']);
-		if (is_array($_POST['search_crs'])) $this->ctrl->setParameter($this, 'search_crs', implode(',', $_POST['search_crs']));
-		$this->tpl->setVariable('ACTION', $this->ctrl->getFormAction($this));
-		$this->ctrl->clearParameters($this);
-
 		$lng->loadLanguageModule('crs');
 
+		include_once 'Services/Mail/classes/class.ilMailSearchCoursesTableGUI.php';
+		$table = new ilMailSearchCoursesTableGUI($this);
+		
 		include_once 'Modules/Course/classes/class.ilCourseParticipants.php';
 		$crs_ids = ilCourseParticipants::_getMembershipByType($ilUser->getId(), 'crs');
-
 		$counter = 0;
-		if (is_array($crs_ids) &&
-			count($crs_ids) > 0)
+		$tableData = array();
+		if (is_array($crs_ids) && count($crs_ids) > 0)
 		{
-	
-			$this->tpl->setVariable('CRS_TXT_COURSES', $lng->txt('mail_my_courses'));
-			$this->tpl->setVariable('CRS_TXT_COURSES_PATHS', $lng->txt('path'));
-			$this->tpl->setVariable('CRS_TXT_NO_MEMBERS', $lng->txt('crs_count_members'));
-		
 			$num_courses_hidden_members = 0;
 		
 			foreach($crs_ids as $crs_id) 
@@ -328,13 +320,11 @@ class ilMailSearchCoursesGUI
 					$crs_members = $oCrsParticipants->getParticipants();
 	
 					$oTmpCrs = ilObjectFactory::getInstanceByObjId($crs_id);
+					$hiddenMembers = false;
 					if((int)$oTmpCrs->getShowMembers() == $oTmpCrs->SHOW_MEMBERS_DISABLED)
 					{
 						++$num_courses_hidden_members;
-						
-						$this->tpl->setCurrentBlock('caption_asterisk');
-						$this->tpl->touchBlock('caption_asterisk');
-						$this->tpl->parseCurrentBlock();
+						$hiddenMembers = true;
 					}
 					unset($oTmpCrs);
 					
@@ -352,47 +342,42 @@ class ilMailSearchCoursesGUI
 						$path .= $data['title'];
 					}
 					$path = $this->lng->txt('path').': '.$path;
-					
-					$this->tpl->setCurrentBlock('loop_crs');
-					$this->tpl->setVariable('LOOP_CRS_CSSROW', ++$counter % 2 ? 'tblrow1' : 'tblrow2');
-					$this->tpl->setVariable('LOOP_CRS_ID', $crs_id);
-					$this->tpl->setVariable('LOOP_CRS_NAME', $ilObjDataCache->lookupTitle($crs_id));
-					$this->tpl->setVariable('LOOP_CRS_NO_MEMBERS', count($crs_members));
-					$this->tpl->setVariable('LOOP_CRS_PATH', $path);
-					$this->tpl->parseCurrentBlock();
+
+					$rowData = array
+					(
+						"CRS_ID" => $crs_id,
+						"CRS_NAME" => $ilObjDataCache->lookupTitle($crs_id),
+						"CRS_NO_MEMBERS" => count($crs_members),
+						"CRS_PATH" => $path,
+						"hidden_members" => $hiddenMembers,
+					);
+					$counter++;
+					$tableData[] = $rowData;
 				}
 			}
 			
 			if((int)$counter)
 			{	
-				$this->tpl->setVariable('BUTTON_MAIL',$lng->txt('mail_members'));
-				$this->tpl->setVariable('BUTTON_LIST',$lng->txt('mail_list_members'));
+				$table->addCommandButton('mail',$lng->txt('mail_members'));
+				$table->addCommandButton('showMembers',$lng->txt('mail_list_members'));
 			}
 			
 			if($num_courses_hidden_members > 0)
 			{
-				$this->tpl->setCurrentBlock('caption_block');
-				$this->tpl->setVariable('TXT_LIST_MEMBERS_NOT_AVAILABLE', $this->lng->txt('mail_crs_list_members_not_available'));
-				$this->tpl->parseCurrentBlock();
+				$searchTpl->setCurrentBlock('caption_block');
+				$searchTpl->setVariable('TXT_LIST_MEMBERS_NOT_AVAILABLE', $this->lng->txt('mail_crs_list_members_not_available'));
+				$searchTpl->parseCurrentBlock();
 			}
 		}
-	
-		if($counter == 0)
-		{
-			$this->tpl->setCurrentBlock('crs_not_found');
-			$this->tpl->setVariable('TXT_CRS_NOT_FOUND', $lng->txt('mail_search_courses_not_found'));
-			$this->tpl->parseCurrentBlock();
 
-			$this->tpl->touchBlock('entries_not_found');
-		}
-		else
-		{
-			$this->tpl->setVariable('TXT_MARKED_ENTRIES', $lng->txt('marked_entries'));
-		}
+		$searchTpl->setVariable('TXT_MARKED_ENTRIES', $lng->txt('marked_entries'));
 		
+		$table->setData($tableData);
 		if($_GET['ref'] == 'mail') $this->tpl->setVariable('BUTTON_CANCEL', $lng->txt('cancel'));
 
-		$this->tpl->show();
+		$searchTpl->setVariable('TABLE', $table->getHtml());
+		$tpl->setContent($searchTpl->get());
+		$tpl->show();
 	}
 
 	/**
@@ -434,8 +419,7 @@ class ilMailSearchCoursesGUI
 				}
 				unset($oTmpCrs);
 			}			
-			
-			$this->tpl->addBlockFile("ADM_CONTENT", "adm_content", "tpl.mail_addressbook_search.html", "Services/Mail");
+
 			$this->tpl->setVariable("HEADER", $this->lng->txt("mail"));
 		
 			$this->ctrl->setParameter($this, "view", "crs_members");
@@ -445,58 +429,46 @@ class ilMailSearchCoursesGUI
 			$this->ctrl->clearParameters($this);
 
 			$lng->loadLanguageModule('crs');
+			include_once 'Services/Mail/classes/class.ilMailSearchCoursesMembersTableGUI.php';
+			$table = new ilMailSearchCoursesMembersTableGUI($this, 'crs');
 	
-			$this->tpl->setCurrentBlock("members_course");
-			$this->tpl->setVariable("MEMBERS_TXT_COURSE",$lng->txt("course"));
-			$this->tpl->parseCurrentBlock();
-			$this->tpl->setVariable("MEMBERS_TXT_LOGIN",$lng->txt("login"));
-			$this->tpl->setVariable("MEMBERS_TXT_NAME",$lng->txt("name"));
-			$this->tpl->setVariable("MEMBERS_TXT_IN_ADDRESSBOOK",$lng->txt("mail_in_addressbook"));
-	
-			$counter = 0;
+			$tableData = array();
+			$searchTpl = new ilTemplate('tpl.mail_search_template.html', true, true, 'Services/Mail');
 			foreach($_POST["search_crs"] as $crs_id) 
 			{
 				$members_obj = ilCourseParticipants::_getinstanceByObjId($crs_id);
 				$tmp_members = $members_obj->getParticipants();
 				$course_members[$crs_id] = ilUtil::_sortIds($tmp_members,'usr_data','lastname','usr_id');
-	
 				foreach ($course_members[$crs_id] as $member)
 				{
 					$name = ilObjUser::_lookupName($member);
 					$login = ilObjUser::_lookupLogin($member);
 	
-					$this->tpl->setCurrentBlock("loop_members");
-					$this->tpl->setVariable("LOOP_MEMBERS_CSSROW",++$counter%2 ? 'tblrow1' : 'tblrow2');
-					$this->tpl->setVariable("LOOP_MEMBERS_ID",$member);
-					$this->tpl->setVariable("LOOP_MEMBERS_LOGIN",$login);
+					$fullname = "";
 					if(ilObjUser::_lookupPref($member, 'public_profile') == 'y')
-					{
-						$this->tpl->setVariable('LOOP_MEMBERS_NAME', $name['lastname'].', '.$name['firstname']);
-					}
-					$this->tpl->setVariable("LOOP_MEMBERS_CRS_GRP", $ilObjDataCache->lookupTitle($crs_id));
-					$this->tpl->setVariable("LOOP_MEMBERS_IN_ADDRESSBOOK", $this->abook->checkEntryByLogin($login) ? $lng->txt("yes") : $lng->txt("no"));
-					$this->tpl->parseCurrentBlock();
+						$fullname = $name['lastname'].', '.$name['firstname'];
+
+					$rowData = array(
+						'MEMBERS_ID' => $member,
+						'MEMBERS_LOGIN' => $login,
+						'MEMBERS_NAME' => $fullname,
+						'MEMBERS_CRS_GRP' => $ilObjDataCache->lookupTitle($crs_id),
+						'MEMBERS_IN_ADDRESSBOOK' => $this->abook->checkEntryByLogin($login) ? $lng->txt("yes") : $lng->txt("no"),
+					);
+					$tableData[] = $rowData;
 				}
 			}
-			
-			if ($counter == 0)
+			$table->setData($tableData);
+			if (count($tableData))
 			{
-				$this->tpl->setCurrentBlock("members_not_found");
-				$this->tpl->setVariable("TXT_MEMBERS_NOT_FOUND",$lng->txt("mail_search_members_not_found"));
-				$this->tpl->parseCurrentBlock();
-			
-				$this->tpl->touchBlock("entries_not_found");
-			}
-			else
-			{
-				$this->tpl->setVariable("BUTTON_MAIL",$lng->txt("grp_mem_send_mail"));
-				$this->tpl->setVariable("BUTTON_ADOPT",$lng->txt("mail_into_addressbook"));
-
-				$this->tpl->setVariable("TXT_MARKED_ENTRIES",$lng->txt("marked_entries"));
+				$table->addCommandButton('mail', $lng->txt("grp_mem_send_mail"));
+				$table->addCommandButton('adoptMembers', $lng->txt("mail_into_addressbook"));
+				
+				$searchTpl->setVariable("TXT_MARKED_ENTRIES",$lng->txt("marked_entries"));
 			}
 
-			$this->tpl->setVariable("BUTTON_CANCEL",$lng->txt("cancel"));
-
+			$searchTpl->setVariable('TABLE', $table->getHtml());
+			$this->tpl->setContent($searchTpl->get());
 			$this->tpl->show();
 		}
 	}

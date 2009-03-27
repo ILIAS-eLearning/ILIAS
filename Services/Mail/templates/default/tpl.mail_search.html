@@ -1,16 +1,5 @@
+{SEARCHFORM}
 <form action="{ACTION}" method="post">
-	<table class="std">
-	<tr>
-		<td id="header-search" class="option" align="right">{TXT_SEARCH_FOR}</td>
-		<td headers="header-search" class="option_value">
-			<input name="search" value="{VALUE_SEARCH_FOR}" size="30" width="80%"/><br/>
-			<input type="checkbox" name="type_addressbook" value="address"{CHECKED_TYPE_ADDRESSBOOK} />{TXT_SEARCH_ADDRESS}<br/>
-			<input type="checkbox" name="type_system" value="system"{CHECKED_TYPE_SYSTEM} />{TXT_SEARCH_SYSTEM}<br/>
-			<input class="submit" type="submit" name="cmd[search]" value="{BUTTON_SEARCH}"/>
-			<input class="submit" type="submit" name="cmd[cancel]" value="{BUTTON_CANCEL}"/>
-		</td>
-	</tr>
-	</table>
 	<!-- BEGIN hits -->
 	<p>
 	{TABLE_ADDR}
