@@ -492,22 +492,17 @@ class ilMailingListsGUI
 		$options = array();
 		$options[''] = $this->lng->txt('please_select');
 		
-		$noEntries = false;
-		
-		if (is_array($all_entries = $this->abook->getEntries()))
+		$all_entries = $this->abook->getEntries();
+		if ((int)count($all_entries))
 		{
 			foreach ($all_entries as $entry)
 			{
 				$options[$entry['addr_id']] = ($entry['login'] != '' ? $entry['login'] : $entry['email']);
 			}
 		}
-		else
-		{
-			$noEntries = true;
-			ilUtil::sendInfo($this->lng->txt('mail_mailing_lists_no_addressbook_entries'));
-		}
 
-		if (is_array($assigned_entries = $this->mlists->getCurrentMailingList()->getAssignedEntries()))
+		$assigned_entries = $this->mlists->getCurrentMailingList()->getAssignedEntries();
+		if ((int)count($assigned_entries))
 		{
 			foreach ($assigned_entries as $assigned_entry)
 			{
@@ -527,10 +522,15 @@ class ilMailingListsGUI
 			
 			$form->addCommandButton('saveAssignmentForm',$this->lng->txt('assign'));			
 		}
-		else if (!$noEntries)
+		else if(count($options) == 1 && (int)count($all_entries))
 		{
 			ilUtil::sendInfo($this->lng->txt('mail_mailing_lists_all_addressbook_entries_assigned'));
 		}
+		else if(!(int)count($all_entries))
+		{			
+			ilUtil::sendInfo($this->lng->txt('mail_mailing_lists_no_addressbook_entries'));
+		}
+		
 		
 		$form->addCommandButton('showMembersList',$this->lng->txt('cancel'));	
 		
