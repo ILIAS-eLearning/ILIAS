@@ -193,6 +193,11 @@ class ilSOAPAuth extends Auth
 //echo "<br>Valid: -".$valid["valid"]."-";
 //echo '<br><pre>' . htmlspecialchars($this->soap_client->response, ENT_QUOTES) . '</pre>';
 
+		if (trim($valid["valid"]) == "false")
+		{
+			$valid["valid"] = false;
+		}
+
 		// to do check SOAP error!?
 		$valid["local_user"] = $local_user;
 		
