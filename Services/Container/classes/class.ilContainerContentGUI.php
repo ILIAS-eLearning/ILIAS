@@ -357,7 +357,7 @@ abstract class ilContainerContentGUI
 							$html = $this->renderItem($item_data,$position++);
 							if ($html != "")
 							{
-								$this->addStandardRow($tpl, $html);
+								$this->addStandardRow($tpl, $html, $item_data["child"]);
 								$item_rendered = true;
 								$this->rendered_items[$item_data["child"]] = true;
 							}
@@ -503,7 +503,7 @@ abstract class ilContainerContentGUI
 	/**
 	* add item row to template
 	*/
-	function addStandardRow(&$a_tpl, $a_html)
+	function addStandardRow(&$a_tpl, $a_html, $a_ref_id = 0)
 	{
 		global $ilSetting, $lng;
 		
@@ -511,7 +511,16 @@ abstract class ilContainerContentGUI
 			? "row_type_2"
 			: "row_type_1";
 
-		$a_tpl->touchBlock($this->cur_row_type);
+		if ($a_ref_id > 0)
+		{
+			$a_tpl->setCurrentBlock($this->cur_row_type);
+			$a_tpl->setVariable("ROW_ID", 'id="item_row_'.$a_ref_id.'"');
+			$a_tpl->parseCurrentBlock();
+		}
+		else
+		{
+			$a_tpl->touchBlock($this->cur_row_type);
+		}
 		
 		$a_tpl->setCurrentBlock("container_standard_row");
 		$a_tpl->setVariable("BLOCK_ROW_CONTENT", $a_html);

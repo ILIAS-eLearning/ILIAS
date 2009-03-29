@@ -134,7 +134,7 @@ class ilContainerByTypeContentGUI extends ilContainerContentGUI
 				is_array($this->items[$type]))
 			{
 				// all rows
-				$item_html = array();
+				$item_r = array();
 				$position = 1;
 				
 				foreach($this->items[$type] as $item_data)
@@ -142,21 +142,21 @@ class ilContainerByTypeContentGUI extends ilContainerContentGUI
 					$html = $this->renderItem($item_data,$position++);
 					if ($html != "")
 					{
-						$item_html[] = $html;
+						$item_r[] = array("html" => $html, "id" => $item_data["child"]);
 					}
 				}
 				
 				// if we have at least one item, output the block
-				if (count($item_html) > 0)
+				if (count($item_r) > 0)
 				{
 					if (!$first)
 					{
 						$this->addSeparatorRow($tpl);
 					}
 					$this->addHeaderRow($tpl, $type);
-					foreach($item_html as $h)
+					foreach($item_r as $h)
 					{
-						$this->addStandardRow($tpl, $h);
+						$this->addStandardRow($tpl, $h["html"], $h["id"]);
 					}
 					$first = false;
 				}

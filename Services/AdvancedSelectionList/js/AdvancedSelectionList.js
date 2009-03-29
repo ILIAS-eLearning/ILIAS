@@ -1,6 +1,9 @@
 ilAddOnLoad(ilInitAdvSelectionLists);
 var il_adv_sel_lists = new Array();
+var il_adv_toggle = new Array();
 var openedMenu="";					// menu currently opened
+var il_adv_t_el = "";					// currently additionally toggled element
+var il_adv_t_class = null;					// ... its original style class
 
 /**
 * Get inner height of window
@@ -122,7 +125,7 @@ function nextMenuClick() {
 /**
 * Show selection list
 */
-function ilAdvSelListToggle(id)
+function ilAdvSelListToggle(id, opt)
 {
 	if (openedMenu == id)
 	{
@@ -131,14 +134,14 @@ function ilAdvSelListToggle(id)
 	}
 	else
 	{
-		ilAdvSelListOn(id, true)
+		ilAdvSelListOn(id, true, opt)
 	}
 }
 
 /**
 * Show selection list
 */
-function ilAdvSelListOn(id, force)
+function ilAdvSelListOn(id, force, opt)
 {
 	doCloseContextMenuCounter=-1;
 
@@ -166,7 +169,7 @@ function ilAdvSelListOn(id, force)
 	if (openedMenu == "" && nextMenu != oldOpenedMenu)
 	{
 		openedMenu = nextMenu;
-		ilShowAdvSelList(openedMenu);
+		ilShowAdvSelList(openedMenu, opt);
 	}
 	doCloseContextMenuCounter = 20;
 
@@ -193,8 +196,34 @@ function doCloseContextMenu()
 }
 setTimeout("doCloseContextMenu()",200);
 
-function ilShowAdvSelList(id)
+function ilGetOption(opt, name)
 {
+	if (opt == null || typeof(opt) == 'undefined')
+	{
+		return null;
+	}
+	if (typeof(opt[name]) == 'undefined')
+	{
+		return null;
+	}
+	return opt[name];
+}
+
+function ilShowAdvSelList(id, opt)
+{
+	toggle_el = ilGetOption(opt, 'toggle_el');
+	toggle_class_on = ilGetOption(opt, 'toggle_class_on');
+	if (toggle_el != null && toggle_class_on != null)
+	{
+		toggle_obj = document.getElementById(toggle_el);
+		if (toggle_obj)
+		{
+			il_adv_toggle[toggle_el] = toggle_obj.className;
+			toggle_obj.className = toggle_class_on;
+			il_adv_t_el = toggle_el;
+		}
+	}
+	
 	obj = document.getElementById('ilAdvSelListTable_' + id);
 	obj2 = document.getElementById('ilAdvSelListTableInner_' + id);
 	anchor = document.getElementById('ilAdvSelListAnchorElement_' + id);
@@ -261,6 +290,17 @@ function ilAdvSelListOff(id)
 */
 function ilHideAdvSelList(id)
 {
+	toggle_el = il_adv_t_el;
+	if (toggle_el != null)
+	{
+		t_class_name = il_adv_toggle[toggle_el];
+		toggle_obj = document.getElementById(toggle_el);
+		if (toggle_obj && t_class_name)
+		{
+			toggle_obj.className = t_class_name;
+		}
+	}
+
 	obj = document.getElementById('ilAdvSelListTable_' + id);
 	obj.style.display='none';
 	openedMenu = "";

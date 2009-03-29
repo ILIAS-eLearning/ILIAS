@@ -265,7 +265,7 @@ class ilContainerObjectiveGUI extends ilContainerContentGUI
 		if (is_array($this->items["_all"]))
 		{
 			// all rows
-			$item_html = array();
+			$item_r = array();
 			
 			$position = 1;
 			foreach($this->items["_all"] as $k => $item_data)
@@ -283,13 +283,13 @@ class ilContainerObjectiveGUI extends ilContainerContentGUI
 					$html = $this->renderItem($item_data,$position++,$a_mode == self::MATERIALS_TESTS ? false : true);
 					if ($html != "")
 					{
-						$item_html[] = $html;
+						$item_r[] = array("html" => $html, "id" => $item_data["child"]);
 					}
 				}
 			}
 			
 			// if we have at least one item, output the block
-			if (count($item_html) > 0)
+			if (count($item_r) > 0)
 			{
 				switch($a_mode)
 				{
@@ -303,9 +303,9 @@ class ilContainerObjectiveGUI extends ilContainerContentGUI
 				}
 				
 				$this->addHeaderRow($tpl,$a_mode == self::MATERIALS_TESTS ? 'tst' : '',$txt);
-				foreach($item_html as $h)
+				foreach($item_r as $h)
 				{
-					$this->addStandardRow($tpl, $h);
+					$this->addStandardRow($tpl, $h["html"], $h["id"]);
 				}
 			}
 		}
