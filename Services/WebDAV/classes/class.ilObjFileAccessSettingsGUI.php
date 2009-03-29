@@ -166,12 +166,14 @@ class ilObjFileAccessSettingsGUI extends ilObjectGUI
 		$form->addItem($cb_prop);
 
 		// Show webdav actions next to each item
+/* always visible with 3.11
 		$cb_prop = new ilCheckboxInputGUI($lng->txt("display_webdav_actions"), "webdav_actions_visible");
 		$cb_prop->setValue('1');
 		$cb_prop->setChecked($this->object->isWebdavActionsVisible() && $isPearAuthHTTPInstalled);
 		$cb_prop->setDisabled(! $isPearAuthHTTPInstalled);
 		$cb_prop->setInfo(sprintf($lng->txt('display_webdav_actions_info')));
 		$form->addItem($cb_prop);
+*/
 
 		// Webdav help text
 		if ($isPearAuthHTTPInstalled)
@@ -220,7 +222,7 @@ class ilObjFileAccessSettingsGUI extends ilObjectGUI
 		}
 
 		$this->object->setWebdavEnabled($_POST['enable_webdav'] == '1');
-		$this->object->setWebdavActionsVisible($_POST['webdav_actions_visible'] == '1');
+//		$this->object->setWebdavActionsVisible($_POST['webdav_actions_visible'] == '1');
 		$this->object->setCustomWebfolderInstructionsEnabled($_POST['custom_webfolder_instructions_choice']=='custom');
 		$this->object->setCustomWebfolderInstructions(ilUtil::stripSlashes($_POST['custom_webfolder_instructions']));
 		$this->object->setInlineFileExtensions(ilUtil::stripSlashes($_POST['inline_file_extensions']));

@@ -10885,4 +10885,7 @@ DROP TABLE IF EXISTS `crs_objective_results`;
 <?php
 	$ilMySQLAbstraction->performAbstraction('crs_objectives');
 ?>
- 
+<#2265>
+<?php
+	$ilDB->modifyTableColumn("settings", "value", array("type" => "clob", "notnull" => false));
+?>

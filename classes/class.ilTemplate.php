@@ -1178,6 +1178,7 @@ class ilTemplate extends ilTemplateX
 			$this->setCurrentBlock("right_column");
 			$this->setVariable("RIGHT_CONTENT", $this->right_content);
 			$this->parseCurrentBlock();
+			$this->touchBlock("right_columnt");
 		}
 	}
 	
@@ -1199,6 +1200,7 @@ class ilTemplate extends ilTemplateX
 			$this->setCurrentBlock("left_column");
 			$this->setVariable("LEFT_CONTENT", $this->left_content);
 			$this->parseCurrentBlock();
+			$this->touchBlock("left_columnt");
 		}
 	}
 
@@ -1277,7 +1279,7 @@ class ilTemplate extends ilTemplateX
 		{
 			$this->setCurrentBlock("tree_mode");
 			$this->setVariable("LINK_MODE", $this->tree_flat_link);
-			$this->setVariable("IMG_TREE",ilUtil::getImagePath("ic_".$this->tree_flat_mode."view.gif"));
+			$this->setVariable("IMG_TREE",ilUtil::getImagePath("ic_".$this->tree_flat_mode."view_s.gif"));
 			$this->setVariable("ALT_TREE",$lng->txt($this->tree_flat_mode."view"));
 			$this->setVariable("TARGET_TREE", ilFrameTargetInfo::_getFrame("MainContent"));
 			$this->parseCurrentBlock();
@@ -1468,11 +1470,12 @@ class ilTemplate extends ilTemplateX
 			$selection->setFormSelectMode("new_type", "", false,
 				"", "", "",
 				"", $this->creation_selector["txt"], "", $this->creation_selector["command"]);
-			$selection->setListTitle($lng->txt("add"));
+			$selection->setListTitle($lng->txt("cntr_add_new_item"));
 			$selection->setId("item_creation");
 			//$selection->setSelectionHeaderClass("MMInactive");
 			$selection->setHeaderIcon(ilUtil::getImagePath("cmd_add_s.gif"));
-			$selection->setItemLinkClass("small");
+			$selection->setItemLinkClass("xsmall");
+			//$selection->setSelectionHeaderClass("submit");
 			$selection->setUseImages(true);
 			$selection->setOnClickMode(ilAdvancedSelectionListGUI::ON_ITEM_CLICK_FORM_SUBMIT,
 				"main_page_form");

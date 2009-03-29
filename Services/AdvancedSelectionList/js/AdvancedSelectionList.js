@@ -118,14 +118,31 @@ function nextMenuClick() {
 	menuBlocked = false;
 }
 
+
 /**
 * Show selection list
 */
-function ilAdvSelListOn(id)
+function ilAdvSelListToggle(id)
+{
+	if (openedMenu == id)
+	{
+		/* ilAdvSelListOff(id); */
+		ilHideAdvSelList(id)
+	}
+	else
+	{
+		ilAdvSelListOn(id, true)
+	}
+}
+
+/**
+* Show selection list
+*/
+function ilAdvSelListOn(id, force)
 {
 	doCloseContextMenuCounter=-1;
 
-	if (openedMenu == id)
+	if (openedMenu == id && !force)
 	{
 		return;
 	}
@@ -172,7 +189,7 @@ function doCloseContextMenu()
 			doCloseContextMenuCounter=-1;
 		}
 	}
-	setTimeout("doCloseContextMenu()",100);
+	setTimeout("doCloseContextMenu()",400);
 }
 setTimeout("doCloseContextMenu()",200);
 
@@ -246,6 +263,7 @@ function ilHideAdvSelList(id)
 {
 	obj = document.getElementById('ilAdvSelListTable_' + id);
 	obj.style.display='none';
+	openedMenu = "";
 }
 
 function ilAdvSelItemOn(obj)

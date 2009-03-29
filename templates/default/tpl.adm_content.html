@@ -1,6 +1,9 @@
 {MAINMENU}
 <div class="ilBelowMainMenu">
-{STATUSLINE}
+		<!-- BEGIN tree_mode -->
+		<div style="float:left; margin-right:5px;"><a class="{CLASS_TREE}" href="{LINK_MODE}" target="{TARGET_TREE}" id="imgtree"><img src="{IMG_TREE}" alt="{ALT_TREE}" title="{ALT_TREE}" border="0" /></a></div>
+		<!-- END tree_mode -->
+<div style="float:left;">{STATUSLINE}</div>
 <div class="il_HeaderOuter">
 <div class="il_Header">
 <div class="il_HeaderInner">
@@ -9,14 +12,12 @@
 	<!-- BEGIN tree_icons -->
 	<div class="il_TreeIcons" style="float:right;">
 		<!-- BEGIN top -->
-		<a class="{CLASS_TOP}" href="{LINK_TOP}" <!-- BEGIN target_top -->target="{TARGET_TOP}"<!-- END target_top -->
-			id="imgtop"><img src="{IMG_TOP}" border="0" <!-- BEGIN alt_top --> alt="{ALT_TOP}" title="{ALT_TOP}" <!-- END alt_top --> /></a>&nbsp;
+		<a style="display:none;" class="{CLASS_TOP}" href="{LINK_TOP}" <!-- BEGIN target_top -->target="{TARGET_TOP}"<!-- END target_top -->
+			id="imgtop"><img src="{IMG_TOP}" border="0" <!-- BEGIN alt_top --> alt="{ALT_TOP}" title="{ALT_TOP}" <!-- END alt_top --> /></a>
 		<!-- END top -->
-		<!-- BEGIN tree_mode -->
-		<a class="{CLASS_TREE}" href="{LINK_MODE}" target="{TARGET_TREE}" id="imgtree"><img src="{IMG_TREE}" alt="{ALT_TREE}" title="{ALT_TREE}" border="0" /></a>
-		<!-- END tree_mode -->
 		<!-- BEGIN mount_webfolder -->
-		<a class="{CLASS_MOUNT_WEBFOLDER}" href="{LINK_MOUNT_WEBFOLDER}" folder="{FOLDER_MOUNT_WEBFOLDER}" target="{TARGET_MOUNT_WEBFOLDER}"><img src="{IMG_MOUNT_WEBFOLDER}" title="{ALT_MOUNT_WEBFOLDER}" alt="{ALT_MOUNT_WEBFOLDER}" border="0"></a>
+		<!-- always show actions on item level -->
+		<!-- <a class="{CLASS_MOUNT_WEBFOLDER}" href="{LINK_MOUNT_WEBFOLDER}" folder="{FOLDER_MOUNT_WEBFOLDER}" target="{TARGET_MOUNT_WEBFOLDER}"><img src="{IMG_MOUNT_WEBFOLDER}" title="{ALT_MOUNT_WEBFOLDER}" alt="{ALT_MOUNT_WEBFOLDER}" border="0"></a> -->
 		<!-- END mount_webfolder -->
 	</div>
 	<!-- END tree_icons -->
@@ -24,10 +25,15 @@
 {TABS}
 </div>
 </div>
-<div class="ilTabContentOuter">
+<table class="ilTabContentOuter"><tr><td>
 <div style="clear:both;">{SUB_TABS}</div>
 <div class="ilTabContentInner">
 <!-- BEGIN page_form_start --><form id="main_page_form" action="{PAGE_FORM_ACTION}" method="post"><!-- END page_form_start -->
+<table class="il_ColumnLayout" style="clear:both;"><tr>
+<!-- BEGIN left_columnt -->
+<td></td>
+<!-- END left_columnt -->
+<td>
 	<!-- BEGIN adm_panel -->
 	<!-- BEGIN adm_view_components -->
 	<div style="float:left; margin: 0px 10px 5px 15px;">
@@ -38,7 +44,7 @@
 	</div>
 	<!-- END adm_view_components -->
 
-<div class="il_ContainerItemCommands2" style="text-align: right; margin: 0px 15px 10px 10px;">
+<div style="text-align: right; padding-right:29px; margin-bottom: 5px;">
 	<!-- BEGIN add_commands -->
 	<!-- action="{H_FORMACTION}" -->
 	{SELECT_OBJTYPE_REPOS}&nbsp;&nbsp;&nbsp;
@@ -55,8 +61,11 @@
 	<!-- END admin_view -->
 </div>
 	<!-- END adm_panel -->
-
-<table class="il_ColumnLayout" style="clear:both;"><tr>
+</td>
+<!-- BEGIN right_columnt -->
+<td></td>
+<!-- END right_columnt -->
+</tr><tr>
 <!-- BEGIN left_column -->
 <td class="il_LeftColumn">{LEFT_CONTENT}</td>
 <!-- END left_column -->
@@ -75,7 +84,6 @@
 	<!-- END admin_panel_cmd2 -->
 	</div>
 	<!-- END adm_view_components2 -->
-{PRMLINK}
 </td>
 <!-- BEGIN right_column -->
 <td class="il_RightColumn">{RIGHT_CONTENT}</td>
@@ -84,5 +92,6 @@
 <!-- BEGIN print_content --><div style="padding-left: 15px; padding-right: 15px;">{PRINT_CONTENT}</div><!-- END print_content -->
 <!-- BEGIN page_form_end --></form><!-- END page_form_end -->
 </div>
-</div>
+</td></tr></table>
+<div class="ilPermaLink">{PRMLINK}</div>
 </div>

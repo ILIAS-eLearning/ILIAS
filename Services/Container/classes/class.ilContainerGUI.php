@@ -529,6 +529,7 @@ class ilContainerGUI extends ilObjectGUI
 			$selection_list->setListTitle($lng->txt("cntr_page_actions"));
 			$selection_list->setId("cntr_pa");
 			//$selection_list->setSelectionHeaderClass("il_ContainerItemCommand2");
+			$selection_list->setItemLinkClass("xsmall");
 			$selection_list->setLinksMode("il_ContainerItemCommand2");
 			$selection_list->setHeaderIcon(ilAdvancedSelectionListGUI::DOWN_ARROW_DARK);
 			$selection_list->setUseImages(false);
