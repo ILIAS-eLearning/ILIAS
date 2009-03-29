@@ -1695,7 +1695,7 @@ div#agreement
 
 span.ilSearchHighlight
 {
-	background:yellow;
+	background-color: #FFFF99;
 }
 
 div.il_SearchFragment
@@ -1832,8 +1832,8 @@ table.ilTabContentOuter
 
 div.ilTabContentInner
 {
-	padding: 10px 0px;
-	margin: 0px;
+	padding: 0px;
+	margin: 10px 0px;
 	clear:both;
 	min-height: 250px;
 }
@@ -1979,8 +1979,7 @@ div.il_SubTab
 {
     float:left;
     width:100%;
-	padding-bottom: 5px;
-	margin-bottom: 7px;
+	margin: 0px;
 	/* background-color: #E5F0FF; */
 }
 
@@ -2152,6 +2151,7 @@ tr.tblfooter {
 	border-top-width: 1px;
 }
 
+
 td.submit {
 	padding:3px;
 	vertical-align:top;
@@ -2159,9 +2159,15 @@ td.submit {
 }
 
 /* List Items */
-div.il_ContainerListItemOuter
+div.ilContainerListItemOuter
 {
-	margin: 8px;
+	padding: 8px;
+}
+
+div.ilContainerListItemOuterHighlight
+{
+	padding: 8px;
+	background-color: #FFFFD9;
 }
 
 div.il_ContainerListItem

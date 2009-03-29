@@ -5026,7 +5026,7 @@ crs#:#crs_objective_pretest#:#After initial test
 crs#:#crs_objective_question_assignment#:#Question assignment
 crs#:#crs_objective_result#:#After final test
 crs#:#crs_objective_updated_test#:#Updated modifications.
-crs#:#crs_objective_view#:#Objective oriented view
+crs#:#crs_objective_view#:#Learning Objectives View
 crs#:#crs_objectives#:#Learning Objectives
 crs#:#crs_objectives_assign_chapter#:#Assign Chapter
 crs#:#crs_objectives_assigned_lm#:#The selected materials have been assigned.
@@ -5198,7 +5198,7 @@ cntr#:#cntr_view_info_by_type#:#This content presentation groups all items by re
 cntr#:#cntr_hide_title_and_icon#:#Hide Title and Icon
 crs#:#crs_view_info_timing#:#Presentation mode for timing presettings.
 crs#:#crs_view_mode#:#Course Presentation
-crs#:#crs_view_objective#:#Objective Oriented View
+crs#:#crs_view_objective#:#Learning Objectives View
 cntr#:#cntr_old_editor_warning#:#The maintenance of this editor will be discontinued in a future major releases of ILIAS. You may still use it to edit the content of this page now. But we recommend to switch to the standard page editor of ILIAS when possible.
 cntr#:#cntr_old_editor_open_standard_editor#:#Open Standard Editor
 cntr#:#cntr_back_to_old_editor#:#Back to Old Editor

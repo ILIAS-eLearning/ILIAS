@@ -326,6 +326,27 @@ class ilAdvancedSelectionListGUI
 	}
 	
 	/**
+	* Set additional toggle element
+	*
+	* @param	string		element id
+	* @param	string		class for "on"
+	*/
+	function setAdditionalToggleElement($a_el, $a_on)
+	{
+		$this->toggle = array("el" => $a_el, "class_on" => $a_on);
+	}
+	
+	/**
+	* Get additional toggle element
+	*
+	* @return	array
+	*/
+	function getAdditionalToggleElement()
+	{
+		return $this->toggle;
+	}
+	
+	/**
 	* Get selection list HTML
 	*/
 	public function getHTML()
@@ -466,6 +487,16 @@ class ilAdvancedSelectionListGUI
 		
 		// js section
 		$tpl->setCurrentBlock("js_section");
+		$toggle = $this->getAdditionalToggleElement();
+		if (is_array($toggle))
+		{
+			$tpl->setVariable("TOGGLE_OPTIONS", "{toggle_el: '".$toggle["el"]."', toggle_class_on: '".
+				$toggle["class_on"]."'}");
+		}
+		else
+		{
+			$tpl->setVariable("TOGGLE_OPTIONS", "null");
+		}
 		$tpl->setVariable("TXT_SEL_TOP", $this->getListTitle());
 		$tpl->setVariable("ID", $this->getId());
 		$tpl->setVariable("CLASS_SEL_TOP", $this->getSelectionHeaderClass());

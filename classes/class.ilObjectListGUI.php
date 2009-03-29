@@ -1836,7 +1836,7 @@ class ilObjectListGUI
 		$this->current_selection_list->setLinksMode("il_ContainerItemCommand2");
 		$this->current_selection_list->setHeaderIcon(ilAdvancedSelectionListGUI::DOWN_ARROW_DARK);
 		$this->current_selection_list->setUseImages(false);
-
+		$this->current_selection_list->setAdditionalToggleElement("lg_div_".$this->ref_id, "ilContainerListItemOuterHighlight");
 		
 		include_once './payment/classes/class.ilPaymentObject.php';
 		
@@ -2207,6 +2207,8 @@ class ilObjectListGUI
 		$this->sub_item_html = array();
 		$this->position_enabled = false;
 
+		$this->tpl->setVariable("DIV_ID", 'id = "lg_div_'.$this->ref_id.'"');
+		
 		return $this->tpl->get();
 	}
 	
