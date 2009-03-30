@@ -2122,12 +2122,15 @@ th.il_PDBlockSubHeader
 
 /* Tables */
 
-.tblfooter {
+div.tblfooter {
 	font-weight:normal;
 	/* background-color: #F8F8F8; */
 	margin-top: 6px;
 	font-size: 80%;
 	float:right;
+}
+
+td.tblfooter {
 }
 
 tr.tblfooter {
