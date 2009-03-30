@@ -112,6 +112,14 @@ class ilDBUpdate
 		}
 	}
 	
+	/**
+	* Init Step
+	*/
+	function initStep($i)
+	{
+		// 
+	}
+	
     /**
 	* destructor
 	* 
@@ -277,6 +285,8 @@ class ilDBUpdate
 					$this->DB_UPDATE_FILE = $this->PATH."setup/sql/".$this->getFileForStep($i);
 					$this->readDBUpdateFile();
 				}
+				
+				$this->initStep($i);
 				
 				if ($this->applyUpdateNr($i) == false)
 				{
