@@ -9150,3 +9150,15 @@ common#:#file_locked_by#:#Datei gesperrt von
 common#:#lock_file#:#Datei sperren
 common#:#permission_denied_filed_locked_by#:#Zugriff verweigert. Die Datei wurde von '%s' gesperrt.
 common#:#file_lock_unlock_file#:#Datei sperren/entsperren
+search#:#lucene_settings_tab#:#Lucene
+search#:#lucene_settings_title#:#Einstellungen zur Lucene-Suche
+search#:#lucene_default_operator#:#Verknüpfung von Suchbegriffen
+search#:#lucene_and#:#UND
+search#:#lucene_or#:#ODER
+search#:#lucene_default_operator_info#:#Bitte geben Sie das Standardverhalten für die Verknüpfung von Suchbegriffen an.
+search#:#lucene_num_fragments#:#Anzahl Textabschnitte
+search#:#lucene_num_frag_info#:#Bitte geben Sie die Maximalanzahl von Textabschnitten ein, die zur Hervorhebung der Suchtreffer ausgegeben werden sollen.
+search#:#lucene_size_fragments#:#Länge der Textabschnitte
+search#:#lucene_size_frag_info#:#Bitte wählen Sie die maximale Länge der Textabschnitte, die zur Hervorhebung der Suchtreffer ausgegeben werden.
+search#:#lucene_max_sub#:#Anzahl von Unterobjekten
+search#:#lucene_max_sub_info#:#Bitte geben Sie Anzahl von Unterobjekten (Forenthemen, Glossarbegriffe...) ein, die maximal angezeigt werden.

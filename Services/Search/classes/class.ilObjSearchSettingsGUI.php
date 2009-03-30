@@ -121,11 +121,18 @@ class ilObjSearchSettingsGUI extends ilObjectGUI
 				$this->ctrl->getLinkTarget($this, "settings"), array("settings","", "view"), "", "");
 		}
 
+		if($rbacsystem->checkAccess('read',$this->object->getRefId()))
+		{
+			$tabs_gui->addTarget('lucene_settings_tab',
+				$this->ctrl->getLinkTarget($this,'luceneSettings'));
+		}
+
 		if ($rbacsystem->checkAccess('edit_permission',$this->object->getRefId()))
 		{
 			$tabs_gui->addTarget("perm_settings",
 				$this->ctrl->getLinkTargetByClass(array(get_class($this),'ilpermissiongui'), "perm"), array("perm","info","owner"), 'ilpermissiongui');
 		}
+		
 	}
 	
 	/**
@@ -223,5 +230,109 @@ class ilObjSearchSettingsGUI extends ilObjectGUI
 		ilUtil::sendInfo($this->lng->txt('settings_saved'));
 		$this->settingsObject();
 	}
+	
+	/**
+	 * Lucene settings 
+	 * @param
+	 * @return
+	 */
+	protected function luceneSettingsObject()
+	{
+		$this->initFormLuceneSettings();
+		$this->tpl->setContent($this->form->getHTML());
+	}
+	
+	/**
+	 * Show lucene settings form 
+	 * @param
+	 * @return
+	 */
+	protected function initFormLuceneSettings()
+	{
+		include_once './Services/Form/classes/class.ilPropertyFormGUI.php';
+		include_once './Services/Search/classes/class.ilSearchSettings.php';
+		
+		$this->settings = ilSearchSettings::getInstance();
+		
+		$this->form = new ilPropertyFormGUI();
+		$this->form->setFormAction($this->ctrl->getFormAction($this,'cancel'));
+		
+		$this->form->setTitle($this->lng->txt('lucene_settings_title'));
+		$this->form->addCommandButton('saveLuceneSettings',$this->lng->txt('save'));
+		$this->form->addCommandButton('cancel',$this->lng->txt('cancel'));
+		
+		$operator = new ilRadioGroupInputGUI($this->lng->txt('lucene_default_operator'),'operator');
+		$operator->setRequired(true);
+		$operator->setInfo($this->lng->txt('lucene_default_operator_info'));
+		$operator->setValue($this->settings->getDefaultOperator());
+		
+		$and = new ilRadioOption($this->lng->txt('lucene_and'),ilSearchSettings::OPERATOR_AND);
+		$operator->addOption($and);
+		
+		$or = new ilRadioOption($this->lng->txt('lucene_or'),ilSearchSettings::OPERATOR_OR);
+		$operator->addOption($or);
+		$this->form->addItem($operator);
+		
+		$numFrag = new ilNumberInputGUI($this->lng->txt('lucene_num_fragments'),'fragmentCount');
+		$numFrag->setRequired(true);
+		$numFrag->setSize(2);
+		$numFrag->setMaxLength(2);
+		$numFrag->setMinValue(1);
+		$numFrag->setMaxValue(10);
+		$numFrag->setInfo($this->lng->txt('lucene_num_frag_info'));
+		$numFrag->setValue($this->settings->getFragmentCount());
+		$this->form->addItem($numFrag);
+		
+		$sizeFrag = new ilNumberInputGUI($this->lng->txt('lucene_size_fragments'),'fragmentSize');
+		$sizeFrag->setRequired(true);
+		$sizeFrag->setSize(2);
+		$sizeFrag->setMaxLength(3);
+		$sizeFrag->setMinValue(10);
+		$sizeFrag->setMaxValue(100);
+		$sizeFrag->setInfo($this->lng->txt('lucene_size_frag_info'));
+		$sizeFrag->setValue($this->settings->getFragmentSize());
+		$this->form->addItem($sizeFrag);
+		
+		$maxSub = new ilNumberInputGUI($this->lng->txt('lucene_max_sub'),'maxSubitems');
+		$maxSub->setRequired(true);
+		$maxSub->setSize(2);
+		$maxSub->setMaxLength(2);
+		$maxSub->setMinValue(1);
+		$maxSub->setMaxValue(10);
+		$maxSub->setInfo($this->lng->txt('lucene_max_sub_info'));
+		$maxSub->setValue($this->settings->getMaxSubitems());
+		$this->form->addItem($maxSub);
+	
+		return true;
+	}
+	
+	/**
+	 * Save Lucene settings 
+	 * @return
+	 */
+	protected function saveLuceneSettingsObject()
+	{
+		$this->initFormLuceneSettings();
+
+		$settings = ilSearchSettings::getInstance();
+		$settings->setDefaultOperator((int) $_POST['operator']);
+		$settings->setFragmentCount((int) $_POST['fragmentCount']);
+		$settings->setFragmentSize((int) $_POST['fragmentSize']);
+		$settings->setMaxSubitems((int) $_POST['maxSubitems']);
+		
+		if($this->form->checkInput())
+		{
+			$settings->update();
+			ilUtil::sendInfo($this->lng->txt('settings_saved'));
+			$this->luceneSettingsObject();
+			return true;
+		}
+		
+		ilUtil::sendInfo($this->lng->txt('err_check_input'));
+		$this->luceneSettingsObject();
+		return false;
+	}
+	
+	
 } // END class.ilObjSearchSettingsGUI
 ?>

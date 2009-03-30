@@ -9095,3 +9095,15 @@ cntr#:#cntr_page_actions#:#Page Actions
 cntr#:#cntr_enable_multi_commands#:#Enable Multi Commands
 cntr#:#cntr_disable_multi_commands#:#Disable Multi Commands
 cntr#:#cntr_add_new_item#:#Add New Item
+search#:#lucene_settings_tab#:#Lucene
+search#:#lucene_settings_title#:#Lucene Settings
+search#:#lucene_default_operator#:#Default Operator
+search#:#lucene_and#:#AND
+search#:#lucene_or#:#OR
+search#:#lucene_default_operator_info#:#Please choose the default operator for boolean queries. In default mode ("AND") terms are considered to be in conjunction. In "OR" mode terms without any modifiers are considered optional.
+search#:#lucene_num_fragments#:#Number of Text Fragments
+search#:#lucene_num_frag_info#:#Please choose the maximum number of highlighted text fragments.
+search#:#lucene_size_fragments#:#Size of Text Fragments
+search#:#lucene_size_frag_info#:#Please choose the maximum size of highlighted test fragments.
+search#:#lucene_max_sub#:#Number of Subitems
+search#:#lucene_max_sub_info#:#Please enter maximum number of subitems (Forum threads, Glossary terms...) that are shown by default.
