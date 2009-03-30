@@ -178,20 +178,23 @@ class ilObjMediaCastGUI extends ilObjectGUI
     				    if ($mob->hasPurposeItem($purpose))
         				{        			        
         				    if ($html == "") {
-        				        $html = "<TABLE cellpadding='1' cellspacing='0'><TR>";
+        				        //$html = "<TABLE cellpadding='1' cellspacing='0'><TR>";
+								$html = " ";
         				    }
         				    $url = ILIAS_HTTP_PATH."/feed.php?client_id=".rawurlencode(CLIENT_ID)."&"."ref_id=".$_GET["ref_id"]."&purpose=$purpose";
         				    $title = $lng->txt("news_feed_url");
         				    $icon = ilUtil::getImagePath("rss_icon_".strtolower($purpose).".gif");
         				    $target = "_blank";
 
-        				    $row1 .= "<TD><A href='$url' target='$target'><img src='$icon' alt='$title'/></A></TD>";
+        				    //$row1 .= "<TD><A href='$url' target='$target'><img src='$icon' alt='$title'/></A></TD>";
+							$row1 .= "<A href='$url' target='$target'><img src='$icon' alt='$title'/></A>";
             				if ($this->object->getPublicFiles())
             				{
             				    $url = preg_replace("/https?/i","itpc",$url);
             				    $title = $lng->txt("news_feed_url");
             				    $icon = ilUtil::getImagePath("itunes_icon.gif");
-            				    $row2 .= "<TD><A href='$url' target='$target'><img src='$icon' alt='$title'/></A></TD>";
+            				    //$row2 .= "<TD><A href='$url' target='$target'><img src='$icon' alt='$title'/></A></TD>";
+								$row2 .= "<A href='$url' target='$target'><img src='$icon' alt='$title'/></A>";
             				}
             				break;
         				}        				
@@ -199,10 +202,14 @@ class ilObjMediaCastGUI extends ilObjectGUI
     				}
 			    }
 			    if ($html != "") {
-				    $html .= $row1."</TR>";
+				    //$html .= $row1."</TR>";
+					$html .= $row1;
 				    if ($row2 != "")
-				        $html .= "<TR>".$row2."</TR>";
-				    $html .= "</TABLE>";
+					{
+						$html .= "&nbsp;&nbsp;".$row2;
+				        //$html .= "<TR>".$row2."</TR>";
+					}
+				    //$html .= "</TABLE>";
 				    $table_gui->setHeaderHTML($html);
 				}
 			}
