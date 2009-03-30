@@ -687,7 +687,6 @@ class ilTable2GUI extends ilTableGUI
 			$this->tpl->setVariable("SELECT_ALL_FORM_NAME", $this->getFormName());
 			$this->tpl->setVariable("CHECKBOXNAME", "chb_select_all_" . $this->unique_id);
 			$this->tpl->parseCurrentBlock();
-			$footer = true;
 		}
 		
 		// table footer numinfo
@@ -793,11 +792,11 @@ class ilTable2GUI extends ilTableGUI
 			if ($this->getOffset() >= 1)
 			{
 				$prevoffset = $this->getOffset() - $this->getLimit();
-				$LinkBar .= "<a class=\"small\" href=\"".$link.$prevoffset."\">".$layout_prev."&nbsp;</a>";
+				$LinkBar .= "<a href=\"".$link.$prevoffset."\">".$layout_prev."&nbsp;</a>";
 			}
 			else
 			{
-				$LinkBar .= '<span class="il_BlockInfo">'.$layout_prev."&nbsp;</span>";
+				$LinkBar .= '<span class="ilTableFootLight">'.$layout_prev."&nbsp;</span>";
 			}
 			
 			// current value
@@ -837,15 +836,15 @@ class ilTable2GUI extends ilTableGUI
 			if (! ( ($this->getOffset() / $this->getLimit())==($pages-1) ) && ($pages!=1) )
 			{
 				if ($LinkBar != "")
-					$LinkBar .= "<span class=\"small\" > | </span>"; 
+					$LinkBar .= "<span> | </span>"; 
 				$newoffset = $this->getOffset() + $this->getLimit();
-				$LinkBar .= "<a class=\"small\" href=\"".$link.$newoffset."\">&nbsp;".$layout_next."</a>";
+				$LinkBar .= "<a href=\"".$link.$newoffset."\">&nbsp;".$layout_next."</a>";
 			}
 			else
 			{
 				if ($LinkBar != "")
-					$LinkBar .= "<span class=\"small\" > | </span>"; 
-				$LinkBar .= '<span class="il_BlockInfo">&nbsp;'.$layout_next."</span>";
+					$LinkBar .= "<span > | </span>"; 
+				$LinkBar .= '<span class="ilTableFootLight">&nbsp;'.$layout_next."</span>";
 			}
 			
 			if (count($offset_arr))

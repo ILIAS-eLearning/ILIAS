@@ -1987,7 +1987,7 @@ ul.il_SubTab
 {
 	margin: 0px;
 	/* padding: 10px 15px 0px 15px; */
-	padding: 5px 15px 5px 15px;
+	padding: 5px 5px 5px 5px;
 	list-style:none;
 }
 
@@ -2123,10 +2123,11 @@ th.il_PDBlockSubHeader
 /* Tables */
 
 .tblfooter {
-	color: #000000;
 	font-weight:normal;
-	background-color: #F8F8F8;
-	padding-bottom: 1px 0px;
+	/* background-color: #F8F8F8; */
+	margin-top: 6px;
+	font-size: 80%;
+	float:right;
 }
 
 tr.tblfooter {
@@ -2222,8 +2223,9 @@ div.il_adv_cont {
 
 div.ilTableHeaderTitle
 {
-	padding-bottom: 10px;
+	margin-bottom: 5px;
 	font-size: 120%;
+	float:left;
 }
 
 div.ilTableOuter
@@ -2231,6 +2233,24 @@ div.ilTableOuter
 	border-width:1px;
 	border-style:solid;
 	border-color:#D6D6D6;
+	clear:both;
+}
+
+div.ilTableSelectAll
+{
+	background-color: #F8F8F8;
+	padding:3px 6px;
+}
+
+div.ilTableCommandRow
+{
+	background-color: #F8F8F8;
+	padding:3px 6px;
+}
+
+span.ilTableFootLight
+{
+	color: #909090;
 }
 
 table.fullwidth {
@@ -2248,6 +2268,9 @@ tr.tblheader
 	font-weight: normal;
 	background-color: #F0F0F0;
 	font-size:90%;
+	border-bottom-color:#D6D6D6;
+	border-bottom-style:solid;
+	border-bottom-width:1px;
 	/* font-style: italic; */
 }
 

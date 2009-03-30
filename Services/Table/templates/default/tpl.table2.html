@@ -12,20 +12,19 @@
 <!-- END tbl_header_title_icon -->{TBL_TITLE}
 </div>
 <!-- END tbl_header_title -->
-<div class="ilTableOuter">
 <!-- BEGIN top_navigation -->
   <div class="tblfooter">
 	<div style="text-align:right;">
 		<!-- BEGIN top_numinfo -->
-		<span class="il_BlockInfo">{NUMINFO}</span>&nbsp;&nbsp;&nbsp;
+		<span class="ilTableFootLight">{NUMINFO}</span>&nbsp;&nbsp;&nbsp;
 		<!-- END top_numinfo -->
 		<!-- BEGIN top_linkbar -->
 		{LINKBAR}
 		<!-- END top_linkbar -->
 	</div>
-
   </div>
 <!-- END top_navigation -->
+<div class="ilTableOuter">
 <!-- BEGIN tbl_table_start -->
 <table class="{CSS_TABLE}" {WIDTH}>
 <!-- END tbl_table_start -->
@@ -64,25 +63,6 @@
   	<td class="std" style="text-align:center;" colspan="{TBL_NO_ENTRY_COLUMN_COUNT}">{TBL_NO_ENTRY_TEXT}</td>
   </tr>
 <!-- END tbl_no_entries -->
-<!-- BEGIN tbl_footer -->
-  <tr class="tblfooter">
-    <td colspan="{COLUMN_COUNT}" class="tblfooter">
-<!-- BEGIN select_all_checkbox -->
-		<input type="checkbox" name="{CHECKBOXNAME}" id="{CHECKBOXNAME}" value="1" onClick="javascript:setChecked('{SELECT_ALL_FORM_NAME}', '{SELECT_ALL_CHECKBOX_NAME}', document.{SELECT_ALL_FORM_NAME}.{CHECKBOXNAME}.checked);" />
-		<label for="{CHECKBOXNAME}">{SELECT_ALL_TXT_SELECT_ALL}</label>
-		<br />
-<!-- END select_all_checkbox -->
-	<div style="text-align:right;">
-		<!-- BEGIN tbl_footer_numinfo -->
-		<span class="il_BlockInfo">{NUMINFO}</span>&nbsp;&nbsp;&nbsp;
-		<!-- END tbl_footer_numinfo -->
-		<!-- BEGIN tbl_footer_linkbar -->
-		{LINKBAR}
-		<!-- END tbl_footer_linkbar -->
-	</div>
-	</td>
-  </tr>
-<!-- END tbl_footer -->
 <!-- BEGIN tbl_hidden_row -->
   <tr>
   	<td>
@@ -92,9 +72,17 @@
   	</td>
   </tr>
 <!-- END tbl_hidden_row -->
+<!-- BEGIN tbl_table_end -->
+</table>
+<!-- END tbl_table_end -->
+<!-- BEGIN select_all_checkbox -->
+<div class="ilTableSelectAll">
+	<input type="checkbox" name="{CHECKBOXNAME}" id="{CHECKBOXNAME}" value="1" onClick="javascript:setChecked('{SELECT_ALL_FORM_NAME}', '{SELECT_ALL_CHECKBOX_NAME}', document.{SELECT_ALL_FORM_NAME}.{CHECKBOXNAME}.checked);" />
+	<label for="{CHECKBOXNAME}" class="small">{SELECT_ALL_TXT_SELECT_ALL}</label>
+</div>
+<!-- END select_all_checkbox -->
 <!-- BEGIN tbl_action_row -->
-  <tr>
-	<td class="submit" colspan="{COLUMN_COUNTS}" align="left">
+<div class="ilTableCommandRow">
 		<div style="float:left;">
 <!-- BEGIN tbl_action_img_arrow -->
 		  <img src="{IMG_ARROW}" alt="{ALT_ARROW}" style="vertical-align:middle;" border="0" />
@@ -123,12 +111,22 @@
 <!-- END plain_button -->
 			  </div>
 <!-- END plain_buttons -->
-    </td>
-  </tr>
+<div style="clear:both;"></div>
+</div>
 <!-- END tbl_action_row -->
-<!-- BEGIN tbl_table_end -->
-</table>
-<!-- END tbl_table_end -->
+</div>
+<!-- BEGIN tbl_footer -->
+<div class="tblfooter">
+	<div style="text-align:right;">
+	<!-- BEGIN tbl_footer_numinfo -->
+	<span class="ilTableFootLight">{NUMINFO}</span>&nbsp;&nbsp;&nbsp;
+	<!-- END tbl_footer_numinfo -->
+	<!-- BEGIN tbl_footer_linkbar -->
+	{LINKBAR}
+	<!-- END tbl_footer_linkbar -->
+	</div>
+</div>
+<!-- END tbl_footer -->
 <!-- BEGIN save_object -->
 <br />
 <input class="submit" type="submit" value="{BTN_VALUE}" />
@@ -136,4 +134,3 @@
 <!-- BEGIN tbl_form_footer -->
 </form>
 <!-- END tbl_form_footer -->
-</div>
