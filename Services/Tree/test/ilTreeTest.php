@@ -184,10 +184,12 @@ class ilTreeTest extends PHPUnit_Framework_TestCase
 		$lft = $tree->getLeftValue(24);
 		$this->assertEquals($lft,14);
 		
-		$seq = $tree->getChildSequenceNumber(24);
-		$this->assertEquals($seq,0);
+		$seq = $tree->getChildSequenceNumber($tree->getNodeData(24));
+		$this->assertEquals($seq,1);
 		
 		$tree->getNodePath(9,1);
+		
+		$max_depth = $tree->getMaximumDepth();
 		
 		// Round trip
 		$tree = new ilTree(ROOT_FOLDER_ID);
