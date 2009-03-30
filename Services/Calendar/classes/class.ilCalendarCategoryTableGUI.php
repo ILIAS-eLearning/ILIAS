@@ -61,7 +61,10 @@ class ilCalendarCategoryTableGUI extends ilTable2GUI
 		$this->disable('header');
 		$this->disable('numinfo');
 		$this->enable('select_all');
-		$this->setSelectAllCheckbox('cat_ids');
+		$this->setSelectAllCheckbox('selected_cat_ids');
+
+		$this->setDefaultOrderDirection('asc');
+		$this->setDefaultOrderField('title');
 	}
 	
 	/**
