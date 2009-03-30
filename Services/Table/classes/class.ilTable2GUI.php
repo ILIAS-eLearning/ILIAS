@@ -490,7 +490,7 @@ class ilTable2GUI extends ilTableGUI
 		{
 			$this->nav_value = $_SESSION[$this->getNavParameter()];
 		}
-		else $this->nav_value = ':asc:0';
+
 		
 		$nav = explode(":", $this->nav_value);
 		
