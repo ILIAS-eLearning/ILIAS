@@ -37,7 +37,15 @@ class ilSearchSettings
 	const INDEX_SEARCH = 1;
 	const LUCENE_SEARCH = 2;
 	
+	const OPERATOR_AND	= 1;
+	const OPERATOR_OR	= 2;
+	
 	protected static $instance = null;
+	
+	protected $default_operator = self::OPERATOR_AND;
+	protected $fragmentSize = 30;
+	protected $fragmentCount =  3;
+	protected $numSubitems = 5;
 	
 	var $ilias = null;
 	var $max_hits = null;
@@ -118,14 +126,62 @@ class ilSearchSettings
 	{
 		$this->max_hits = $a_max_hits;
 	}
+	
+	// BEGIN PATCH Lucene search
+	public function getDefaultOperator()
+	{
+		return $this->default_operator;
+	}
+	
+	public function setDefaultOperator($a_op)
+	{
+		$this->default_operator = $a_op;
+	}
+	
+	public function setFragmentSize($a_size)
+	{
+		$this->fragmentSize = $a_size;
+	}
+	
+	public function getFragmentSize()
+	{
+		return $this->fragmentSize;
+	}
+	
+	public function setFragmentCount($a_count)
+	{
+		$this->fragmentCount = $a_count;
+	}
 
-
+	public function getFragmentCount()
+	{
+		return $this->fragmentCount;
+	}
+	
+	public function setMaxSubitems($a_max)
+	{
+		$this->numSubitems = $a_max;
+	}
+	
+	public function getMaxSubitems()
+	{
+		return $this->numSubitems;
+	}
+	// END PATCH Lucene Search
+	
 	function update()
 	{
 		// setSetting writes to db
 		$this->ilias->setSetting('search_max_hits',$this->getMaxHits());
 		$this->ilias->setSetting('search_index',$this->enabledIndex());
 		$this->ilias->setSetting('search_lucene',(int) $this->enabledLucene());
+		
+		// BEGIN PATCH Lucene search
+		$this->ilias->setSetting('lucene_default_operator',$this->getDefaultOperator());
+		$this->ilias->setSetting('lucene_fragment_size',$this->getFragmentSize());
+		$this->ilias->setSetting('lucene_fragment_count',$this->getFragmentCount());
+		$this->ilias->setSetting('lucene_max_subitems',$this->getMaxSubitems());
+		// END PATCH Lucene Search
 
 		return true;
 	}
@@ -136,7 +192,14 @@ class ilSearchSettings
 		$this->setMaxHits($this->ilias->getSetting('search_max_hits',50));
 		$this->enableIndex($this->ilias->getSetting('search_index',0));
 		$this->enableLucene($this->ilias->getSetting('search_lucene',0));
+		
+		// BEGIN PATCH Lucene search
+		$this->setDefaultOperator($this->ilias->getSetting('lucene_default_operator',self::OPERATOR_AND));
+		$this->setFragmentSize($this->ilias->getSetting('lucene_fragment_size',30));
+		$this->setFragmentCount($this->ilias->getSetting('lucene_fragment_count',3));
+		$this->setMaxSubitems($this->ilias->getSetting('lucene_max_subitems',5));		
+		// END PATCH Lucene Search
+		
 	}
-	// BEGIN PATCH Lucene search
 }
 ?>

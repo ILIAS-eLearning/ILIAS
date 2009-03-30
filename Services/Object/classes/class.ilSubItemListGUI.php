@@ -21,6 +21,9 @@
 	+-----------------------------------------------------------------------------+
 */
 
+
+include_once './Services/Search/classes/class.ilSearchSettings.php';
+
 /** 
 * Base class for all sub item list gui's
 * 
@@ -52,7 +55,7 @@ abstract class ilSubItemListGUI
 	 */
 	public function __construct()
 	{
-		 
+		self::$MAX_SUBITEMS = ilSearchSettings::getInstance()->getMaxSubitems();
 	}
 	
 	/**
