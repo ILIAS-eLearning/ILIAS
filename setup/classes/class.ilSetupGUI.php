@@ -821,7 +821,7 @@ class ilSetupGUI
 
 		// determine ws data directory
 		$cwd = getcwd();
-		chdir("..");
+//		chdir("..");
 		$data_dir_ws = getcwd()."/data";
 		chdir($cwd);
 
@@ -1340,7 +1340,7 @@ class ilSetupGUI
 		
 		// determine ws data directory
 		$cwd = getcwd();
-		chdir("..");
+//		chdir("..");
 		$data_dir_ws = getcwd()."/data";
 		chdir($cwd);
 		
