@@ -2165,12 +2165,13 @@ class ilTree
 		
 		if($type)
 		{
-			$query = 'SELECT count(*) cnt FROM '.$this->table_tree.' '.
+			$query = 'SELECT 1 all_rows, count(*) cnt FROM '.$this->table_tree.' '.
 				$this->buildJoin().
 				'WHERE lft <= %s '.
 				'AND type = %s '.
 				'AND parent = %s '.
-				'AND '.$this->table_tree.'.'.$this->tree_pk.' = %s ';
+				'AND '.$this->table_tree.'.'.$this->tree_pk.' = %s GROUP BY all_rows';
+
 			$res = $ilDB->queryF($query,array('integer','text','integer','integer'),array(
 				$a_node['lft'],
 				$type,
@@ -2179,11 +2180,12 @@ class ilTree
 		}
 		else
 		{
-			$query = 'SELECT count(*) cnt FROM '.$this->table_tree.' '.
+			$query = 'SELECT 1 all_rows, count(*) cnt FROM '.$this->table_tree.' '.
 				$this->buildJoin().
 				'WHERE lft <= %s '.
 				'AND parent = %s '.
-				'AND '.$this->table_tree.'.'.$this->tree_pk.' = %s ';
+				'AND '.$this->table_tree.'.'.$this->tree_pk.' = %s GROUP BY all_rows';
+
 			$res = $ilDB->queryF($query,array('integer','integer','integer'),array(
 				$a_node['lft'],
 				$a_node['parent'],
@@ -2191,7 +2193,6 @@ class ilTree
 			
 		}
 		$row = $ilDB->fetchAssoc($res);
-
 		return $row["cnt"];
 	}
 
