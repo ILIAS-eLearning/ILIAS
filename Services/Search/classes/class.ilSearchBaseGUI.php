@@ -66,8 +66,6 @@ class ilSearchBaseGUI
 		global $ilLocator;
 		
 		$this->tpl->getStandardTemplate();
-		//$this->tpl->addBlockFile("CONTENT", "content", "tpl.search_base.html",'Services/Search');
-		//$this->tpl->addBlockFile("STATUSLINE", "statusline", "tpl.statusline.html");
 		
 		$ilLocator->addItem($this->lng->txt('search'),$this->ctrl->getLinkTarget($this));
 		$this->tpl->setLocator();

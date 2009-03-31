@@ -151,7 +151,74 @@ class ilLuceneSearchGUI extends ilSearchBaseGUI implements ilDesktopItemHandling
 		$admin = new ilAdministrationCommandGUI($this);
 		$admin->paste();
 	}
-	 
+	
+	public function clear()
+	{
+		unset($_SESSION['clipboard']);
+		$this->ctrl->redirect($this);
+	}
+
+	public function enableAdministrationPanel()
+	{
+		$_SESSION["il_cont_admin_panel"] = true;
+		$this->ctrl->redirect($this);
+	}
+	
+	public function disableAdministrationPanel()
+	{
+		$_SESSION["il_cont_admin_panel"] = false;
+		$this->ctrl->redirect($this);
+	}
+	
+	/**
+	 * Add admin panel command
+	 */
+	public function prepareOutput()
+	{
+		parent::prepareOutput();
+		$this->getTabs();
+		return true;
+		
+		global $ilAccess, $ilSetting;
+		global $ilUser;
+
+		if($_SESSION['il_cont_admin_panel'])
+		{
+			$GLOBALS["tpl"]->setAdminViewButton(
+				$this->ctrl->getLinkTarget($this, "disableAdministrationPanel"),
+				$this->lng->txt("basic_commands"));
+			
+			$GLOBALS["tpl"]->addAdminPanelCommand("delete",
+				$this->lng->txt("delete_selected_items"));
+			
+			if(!$_SESSION["clipboard"])
+			{
+				$GLOBALS["tpl"]->addAdminPanelCommand("cut",
+					$this->lng->txt("move_selected_items"));
+
+				$GLOBALS["tpl"]->addAdminPanelCommand("link",
+					$this->lng->txt("link_selected_items"));
+			}
+			else
+			{
+				$GLOBALS["tpl"]->addAdminPanelCommand("paste",
+					$this->lng->txt("paste_clipboard_items"));
+				$GLOBALS["tpl"]->addAdminPanelCommand("clear",
+					$this->lng->txt("clear_clipboard"));
+			}
+		}
+		elseif($ilUser->getId() != ANONYMOUS_USER_ID)
+		{
+			$GLOBALS["tpl"]->setAdminViewButton(
+				$this->ctrl->getLinkTarget($this, "enableAdministrationPanel"),
+				$this->lng->txt("all_commands"));
+		}
+
+		$this->ctrl->setParameter($this, "type", "");
+		$this->ctrl->setParameter($this, "item_ref_id", "");
+		$GLOBALS["tpl"]->setPageFormAction($this->ctrl->getFormAction($this));
+		
+	}
 	 
 	 
 	/**
@@ -399,15 +466,6 @@ class ilLuceneSearchGUI extends ilSearchBaseGUI implements ilDesktopItemHandling
 		$this->search_cache->setRoot((int) $_GET['root_id']);
 		$this->search_cache->save();
 		$this->search();
-	}
-	
-	/**
-	 * Prepare output 
-	 */
-	public function prepareOutput()
-	{
-		parent::prepareOutput();
-		$this->getTabs();
 	}
 	
 	/**
