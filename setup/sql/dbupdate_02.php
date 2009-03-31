@@ -10889,3 +10889,9 @@ DROP TABLE IF EXISTS `crs_objective_results`;
 <?php
 	$ilDB->modifyTableColumn("settings", "value", array("type" => "clob", "notnull" => false));
 ?>
+
+<#2266>
+<?php
+$ilCtrlStructureReader->getStructure();
+?>
+
