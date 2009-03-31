@@ -23,6 +23,8 @@
 
 include_once './Services/Search/classes/class.ilSearchBaseGUI.php';
 include_once './Services/PersonalDesktop/interfaces/interface.ilDesktopItemHandling.php';
+include_once './Services/Administration/interfaces/interface.ilAdministrationCommandHandling.php';
+
 /** 
 * Lucene Search GUI
 * 
@@ -30,10 +32,13 @@ include_once './Services/PersonalDesktop/interfaces/interface.ilDesktopItemHandl
 * @version $Id$
 * 
 * @ilCtrl_IsCalledBy ilLuceneSearchGUI: ilSearchController
+* @ilCtrl_Calls ilLuceneSearchGUI: ilObjectGUI, ilContainerGUI
+* @ilCtrl_Calls ilLuceneSearchGUI: ilObjCategoryGUI, ilObjCourseGUI, ilObjFolderGUI, ilObjGroupGUI
+* @ilCtrl_Calls ilLuceneSearchGUI: ilObjRootFolderGUI
 * 
 * @ingroup ServicesSearch
 */
-class ilLuceneSearchGUI extends ilSearchBaseGUI implements ilDesktopItemHandling
+class ilLuceneSearchGUI extends ilSearchBaseGUI implements ilDesktopItemHandling, ilAdministrationCommandHandling
 {
 	protected $ilTabs;
 	
@@ -92,15 +97,73 @@ class ilLuceneSearchGUI extends ilSearchBaseGUI implements ilDesktopItemHandling
 	 }
 	 
 	 /**
-	  * Search from main menu
+	  * Show deletion screen
 	  */
-	 protected function remoteSearch()
+	 public function delete()
 	 {
-	 	$this->search_cache->setRoot((int) $_POST['root_id']);
-	 	$this->search_cache->setQuery(ilUtil::stripSlashes($_POST['queryString']));
-	 	$this->search_cache->save();
-	 	$this->search();
+	 	include_once './Services/Administration/classes/class.ilAdministrationCommandGUI.php';
+	 	$admin = new ilAdministrationCommandGUI($this);
+	 	$admin->delete();
 	 }
+	 
+	 /**
+	  * Cancel delete
+	  */
+	 public function cancelDelete()
+	 {
+	 	$this->showSavedResults();
+	 }
+	 
+	 /**
+	  * Delete objects
+	  */
+	 public function performDelete()
+	 {
+	 	include_once './Services/Administration/classes/class.ilAdministrationCommandGUI.php';
+	 	$admin = new ilAdministrationCommandGUI($this);
+	 	$admin->performDelete();
+	 }
+	 
+	/**
+	 * Interface ilAdministrationCommandHandler
+	 */
+	 public function cut()
+	 {
+	 	include_once './Services/Administration/classes/class.ilAdministrationCommandGUI.php';
+	 	$admin = new ilAdministrationCommandGUI($this);
+	 	$admin->cut();
+	 }
+	 
+	/**
+	 * Interface ilAdministrationCommandHandler
+	 */
+	public function link()
+	{
+	 	include_once './Services/Administration/classes/class.ilAdministrationCommandGUI.php';
+	 	$admin = new ilAdministrationCommandGUI($this);
+	 	$admin->link();
+	}
+	
+	 
+	public function paste()
+	{
+		include_once './Services/Administration/classes/class.ilAdministrationCommandGUI.php';
+		$admin = new ilAdministrationCommandGUI($this);
+		$admin->paste();
+	}
+	 
+	 
+	 
+	/**
+	 * Search from main menu
+	 */
+	protected function remoteSearch()
+	{
+		$this->search_cache->setRoot((int) $_POST['root_id']);
+		$this->search_cache->setQuery(ilUtil::stripSlashes($_POST['queryString']));
+		$this->search_cache->save();
+		$this->search();
+	}
 	
 	/**
 	 * Show saved results 
