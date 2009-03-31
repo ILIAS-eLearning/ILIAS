@@ -9162,3 +9162,6 @@ search#:#lucene_size_fragments#:#Länge der Textabschnitte
 search#:#lucene_size_frag_info#:#Bitte wählen Sie die maximale Länge der Textabschnitte, die zur Hervorhebung der Suchtreffer ausgegeben werden.
 search#:#lucene_max_sub#:#Anzahl von Unterobjekten
 search#:#lucene_max_sub_info#:#Bitte geben Sie Anzahl von Unterobjekten (Forenthemen, Glossarbegriffe...) ein, die maximal angezeigt werden.
+search#:#lucene_relevance#:#Relevanz der Suchergebnisse
+search#:#lucene_show_relevance#:#Relevanz anzeigen
+search#:#lucene_show_relevance_info#:#Suchergebnisse werden sortiert nach ihrer Relevanz ausgegeben. Wenn aktiviert, wird die Relevanz des jeweiligen Suchergebnisses als zusätzliche Information für alle Treffer angezeigt.

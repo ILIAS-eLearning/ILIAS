@@ -302,6 +302,13 @@ class ilObjSearchSettingsGUI extends ilObjectGUI
 		$maxSub->setInfo($this->lng->txt('lucene_max_sub_info'));
 		$maxSub->setValue($this->settings->getMaxSubitems());
 		$this->form->addItem($maxSub);
+		
+		$relevance = new ilCheckboxInputGUI($this->lng->txt('lucene_relevance'),'relevance');
+		$relevance->setOptionTitle($this->lng->txt('lucene_show_relevance'));
+		$relevance->setInfo($this->lng->txt('lucene_show_relevance_info'));
+		$relevance->setValue(1);
+		$relevance->setChecked($this->settings->isRelevanceVisible());
+		$this->form->addItem($relevance);
 	
 		return true;
 	}
@@ -319,6 +326,7 @@ class ilObjSearchSettingsGUI extends ilObjectGUI
 		$settings->setFragmentCount((int) $_POST['fragmentCount']);
 		$settings->setFragmentSize((int) $_POST['fragmentSize']);
 		$settings->setMaxSubitems((int) $_POST['maxSubitems']);
+		$settings->showRelevance((int) $_POST['relevance']);
 		
 		if($this->form->checkInput())
 		{

@@ -283,6 +283,12 @@ class ilLuceneSearchResultPresentation
 		{
 			return '';
 		}
+		
+		include_once './Services/Search/classes/class.ilSearchSettings.php';
+		if(!ilSearchSettings::getInstance()->isRelevanceVisible())
+		{
+			return '';
+		}
 
 		$tpl = new ilTemplate('tpl.lucene_relevance.html',true,true,'Services/Search');
 		

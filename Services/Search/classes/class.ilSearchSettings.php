@@ -46,6 +46,8 @@ class ilSearchSettings
 	protected $fragmentSize = 30;
 	protected $fragmentCount =  3;
 	protected $numSubitems = 5;
+	protected $showRelevance = true; 
+	// END PATCH Lucene Search
 	
 	var $ilias = null;
 	var $max_hits = null;
@@ -167,6 +169,16 @@ class ilSearchSettings
 	{
 		return $this->numSubitems;
 	}
+	
+	public function isRelevanceVisible()
+	{
+		return $this->showRelevance;
+	}
+	
+	public function showRelevance($a_status)
+	{
+		$this->showRelevance = (bool) $a_status;
+	}
 	// END PATCH Lucene Search
 	
 	function update()
@@ -181,6 +193,7 @@ class ilSearchSettings
 		$this->ilias->setSetting('lucene_fragment_size',$this->getFragmentSize());
 		$this->ilias->setSetting('lucene_fragment_count',$this->getFragmentCount());
 		$this->ilias->setSetting('lucene_max_subitems',$this->getMaxSubitems());
+		$this->ilias->setSetting('lucene_show_relevance',$this->isRelevanceVisible());
 		// END PATCH Lucene Search
 
 		return true;
@@ -197,7 +210,8 @@ class ilSearchSettings
 		$this->setDefaultOperator($this->ilias->getSetting('lucene_default_operator',self::OPERATOR_AND));
 		$this->setFragmentSize($this->ilias->getSetting('lucene_fragment_size',30));
 		$this->setFragmentCount($this->ilias->getSetting('lucene_fragment_count',3));
-		$this->setMaxSubitems($this->ilias->getSetting('lucene_max_subitems',5));		
+		$this->setMaxSubitems($this->ilias->getSetting('lucene_max_subitems',5));
+		$this->showRelevance($this->ilias->getSetting('lucene_show_relevance',true));		
 		// END PATCH Lucene Search
 		
 	}

@@ -9107,3 +9107,6 @@ search#:#lucene_size_fragments#:#Size of Text Fragments
 search#:#lucene_size_frag_info#:#Please choose the maximum size of highlighted test fragments.
 search#:#lucene_max_sub#:#Number of Subitems
 search#:#lucene_max_sub_info#:#Please enter maximum number of subitems (Forum threads, Glossary terms...) that are shown by default.
+search#:#lucene_relevance#:#Relevance of Search Results
+search#:#lucene_show_relevance#:#Show Relevance
+search#:#lucene_show_relevance_info#:#Search results are sorted by their relevance. If activated, the relevance is shown as additional information for each search result.
