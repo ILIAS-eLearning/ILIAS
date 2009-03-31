@@ -1321,7 +1321,8 @@ class ilObject
 		}
 
 		$query = "SELECT COUNT(ref_id) num FROM object_reference ".
-		 	"WHERE obj_id = ".$ilDB->quote($this->id,'integer');
+		 	"WHERE obj_id = ".$ilDB->quote($this->id,'integer')." ".
+		 	"GROUP BY ref_id";
 		$res = $ilDB->query($query);
 		$row = $ilDB->fetchObject($res);
 
