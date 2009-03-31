@@ -82,7 +82,7 @@ class ilMainMenuSearchGUI
 		$this->tpl->setVariable('FORMACTION','ilias.php?baseClass=ilSearchController&cmd=post'.
 			'&rtoken='.$ilCtrl->getRequestToken());
 		$this->tpl->setVariable('BTN_SEARCH',$this->lng->txt('search'));
-		$this->tpl->setVariable('CONT_REF_ID',$this->ref_id);
+		$this->tpl->setVariable('CONT_REF_ID',ROOT_FOLDER_ID);
 		
 		return $this->tpl->get();
 	} 

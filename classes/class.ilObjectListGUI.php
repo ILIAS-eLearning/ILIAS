@@ -1624,6 +1624,21 @@ class ilObjectListGUI
 		{
 			return;
 		}
+
+		if(is_object($this->getContainerObject()) and 
+			$this->getContainerObject() instanceof ilAdministrationCommandHandling)
+		{
+			if($this->checkCommandAccess('delete','delete',$this->ref_id,$this->type))
+			{
+				$this->ctrl->setParameter($this->getContainerObject(),'item_ref_id',$this->getCommandId());
+				$cmd_link = $this->ctrl->getLinkTarget($this->getContainerObject(), "delete");
+				$this->insertCommand($cmd_link, $this->lng->txt("delete"));
+				$this->adm_commands_included = true;
+				return true;
+			}
+			return false;
+		}
+		
 		if($this->checkCommandAccess('delete','delete',$this->ref_id,$this->type))
 		{
 			$this->ctrl->setParameter($this->container_obj, "ref_id",
@@ -1651,6 +1666,26 @@ class ilObjectListGUI
 		{
 			return;
 		}
+		// BEGIN PATCH Lucene search
+		
+		if(is_object($this->getContainerObject()) and 
+			$this->getContainerObject() instanceof ilAdministrationCommandHandling)
+		{
+			global $objDefinition;
+	
+			if($this->checkCommandAccess('delete','link',$this->ref_id,$this->type) and
+				$objDefinition->allowLink(ilObject::_lookupType($this->obj_id)))
+			{
+				$this->ctrl->setParameter($this->getContainerObject(),'item_ref_id',$this->getCommandId());
+				$cmd_link = $this->ctrl->getLinkTarget($this->getContainerObject(), "link");
+				$this->insertCommand($cmd_link, $this->lng->txt("link"));
+				$this->adm_commands_included = true;
+				return true;
+			}
+			return false;		
+		}
+		// END PATCH Lucene Search
+
 		// if the permission is changed here, it  has
 		// also to be changed in ilContainerGUI, admin command check
 		if($this->checkCommandAccess('delete','link',$this->ref_id,$this->type))
@@ -1680,6 +1715,22 @@ class ilObjectListGUI
 		{
 			return;
 		}
+		// BEGIN PATCH Lucene search
+		if(is_object($this->getContainerObject()) and 
+			$this->getContainerObject() instanceof ilAdministrationCommandHandling)
+		{
+			if($this->checkCommandAccess('delete','cut',$this->ref_id,$this->type))
+			{
+				$this->ctrl->setParameter($this->getContainerObject(),'item_ref_id',$this->getCommandId());
+				$cmd_link = $this->ctrl->getLinkTarget($this->getContainerObject(), "cut");
+				$this->insertCommand($cmd_link, $this->lng->txt("move"));
+				$this->adm_commands_included = true;
+				return true;
+			}
+			return false;
+		}
+		// END PATCH Lucene Search
+
 		// if the permission is changed here, it  has
 		// also to be changed in ilContainerGUI, admin command check
 		if($this->checkCommandAccess('delete','cut',$this->ref_id,$this->type))
@@ -1692,6 +1743,37 @@ class ilObjectListGUI
 				ilUtil::getImagePath("cmd_move_s.gif"));
 			$this->adm_commands_included = true;
 		}
+	}
+	
+	// BEGIN PATCH Lucene search
+	/**
+	 * Insert paste command
+	 */
+	function insertPasteCommand()
+	{
+		global $ilAccess, $objDefinition;
+		
+		if ($this->std_cmd_only)
+		{
+			return;
+		}
+		
+		if(!$objDefinition->isContainer(ilObject::_lookupType($this->obj_id)))
+		{
+			return false;
+		}
+		
+		if(is_object($this->getContainerObject()) and
+			$this->getContainerObject() instanceof ilAdministrationCommandHandling and
+			isset($_SESSION['clipboard']))
+		{
+			$this->ctrl->setParameter($this->getContainerObject(),'item_ref_id',$this->getCommandId());
+			$cmd_link = $this->ctrl->getLinkTarget($this->getContainerObject(), "paste");
+			$this->insertCommand($cmd_link, $this->lng->txt("paste"));
+			$this->adm_commands_included = true;
+			return true;
+		}
+		return false;				
 	}
 
 	/**
@@ -1919,6 +2001,13 @@ class ilObjectListGUI
 			{
 				$this->insertSubscribeCommand();
 			}
+			
+			// BEGIN PATCH Lucene search
+			if($this->cut_enabled or $this->link_enabled)
+			{
+				$this->insertPasteCommand();
+			}
+			// END PATCH Lucene Search
 		}
 		$this->ctrl->clearParametersByClass($this->gui_class_name);
 		
