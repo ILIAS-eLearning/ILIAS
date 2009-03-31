@@ -56,6 +56,22 @@ interface ilAdministrationCommandHandling
 	 /**
 	  * Paste
 	  */
-	public function paste();  
+	public function paste();
+	
+	/**
+	 * clear clipboard
+	 */
+	public function clear();
+	
+	/**
+	 * Enable administration panel
+	 */
+	public function enableAdministrationPanel();
+	
+	/**
+	 * Disable administration panel
+	 */
+	public function disableAdministrationPanel();
+	
 }
 ?>

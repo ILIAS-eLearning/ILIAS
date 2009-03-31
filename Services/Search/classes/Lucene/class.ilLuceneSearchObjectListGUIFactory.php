@@ -67,6 +67,7 @@ class ilLuceneSearchObjectListGUIFactory
 		$item_list_gui->enableLinkedPath(true);
 		$item_list_gui->enableSearchFragments(true);
 		$item_list_gui->enableRelevance(false);
+		$item_list_gui->enableCheckbox(true);
 
 		return self::$item_list_gui[$a_type] = $item_list_gui;
  	}	
