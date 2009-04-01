@@ -204,11 +204,13 @@ class ilPermissionGUI
 			}
 			else
 			{
-				$rolf = $rbacreview->getFoldersAssignedToRole($role["obj_id"],true);
-				$parent_node = $this->tree->getParentNodeData($rolf[0]);
-				//$this->tpl->setVariable("ROLE_CONTEXT_TYPE",$this->lng->txt("obj_".$parent_node["type"])."&nbsp;(#".$parent_node["obj_id"].")");
-				//$this->tpl->setVariable("ROLE_CONTEXT",$parent_node["title"]);
-				$this->tpl->setVariable("ROLE_CONTEXT_TYPE",$parent_node["title"]);
+				if($rolf = $rbacreview->getFoldersAssignedToRole($role["obj_id"],true))
+				{
+					$parent_node = $this->tree->getParentNodeData($rolf[0]);
+					//$this->tpl->setVariable("ROLE_CONTEXT_TYPE",$this->lng->txt("obj_".$parent_node["type"])."&nbsp;(#".$parent_node["obj_id"].")");
+					//$this->tpl->setVariable("ROLE_CONTEXT",$parent_node["title"]);
+					$this->tpl->setVariable("ROLE_CONTEXT_TYPE",$parent_node["title"]);
+				}
 			}
 			
 			$this->tpl->parseCurrentBlock();
