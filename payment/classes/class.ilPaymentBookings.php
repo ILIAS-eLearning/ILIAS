@@ -136,6 +136,28 @@ class ilPaymentBookings
 	{
 		return $this->duration;
 	}
+	function setUnlimitedDuration($a_unlimited_duration)
+	{
+		if($a_unlimited_duration == '' || null) $a_unlimited_duration = 0;		
+		$this->unlimited_duration = $a_unlimited_duration;
+	}
+	
+	function getUnlimitedDuration()
+	{
+		return $this->unlimited_duration;
+	}
+
+	function setVatUnit($a_vat_unit)
+	{
+		$this->vat_unit = $a_vat_unit;
+	}
+	
+	function getVatUnit()
+	{
+		return $this->vat_unit;
+	}
+		
+	
 	function setPrice($a_price)
 	{
 		$this->price = $a_price;
@@ -146,10 +168,12 @@ class ilPaymentBookings
 	}
 	function setDiscount($a_discount)
 	{
+		if($a_discount == null) $a_discount = 0;
 		$this->discount = $a_discount;
 	}
 	function getDiscount()
-	{
+	{		
+		if($this->discount == null) $this->discount = 0;
 		return $this->discount;
 	}
 	function setPayed($a_payed)
@@ -194,7 +218,6 @@ class ilPaymentBookings
 	 	$street = $a_street.' '.$a_house_nr;
 	 	$this->street = $street;
 	 }
-	 
 	 function getPoBox()
 	 {
 	 	return $this->po_box;
@@ -234,9 +257,12 @@ class ilPaymentBookings
 
 	function add()
 	{
+		$next_id = $this->db->nextId('payment_statistic');
+		
 		$statement = $this->db->manipulateF('
 			INSERT INTO payment_statistic
 			(
+				booking_id,
 				transaction,
 				pobject_id,
 				customer_id,
@@ -257,8 +283,8 @@ class ilPaymentBookings
 				country
 			)
 			VALUES 
-				( %s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s)',
-			array(	
+				( %s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s)',
+			array(	'integer',
 					'text', 
 					'integer', 
 					'integer', 
@@ -277,7 +303,7 @@ class ilPaymentBookings
 					'text',
 					'text',
 					'text'),
-			array(
+			array(	$next_id,
 					$this->getTransaction(),
 					$this->getPobjectId(),
 					$this->getCustomerId(),
@@ -298,7 +324,7 @@ class ilPaymentBookings
 					$this->getCountry()
 				));
 
-		return $this->db->getLastInsertId();
+		return  $next_id;
 	}
 						 
 	function update()
@@ -335,6 +361,7 @@ class ilPaymentBookings
 
 	function getBookingsOfCustomer($a_usr_id)
 	{
+	
 		$res = $this->db->queryf('
 			SELECT * from payment_statistic ps, payment_objects po
 			WHERE ps.pobject_id = po.pobject_id
@@ -484,7 +511,7 @@ class ilPaymentBookings
 			AND access = %s',
 			array('integer', 'integer', 'integer', 'integer'),
 			array($a_pobject_id, $usr_id, '1', '1'));
-		
+
 		while($row = $res->fetchRow(DB_FETCHMODE_OBJECT))
 		{
 			$orderDateYear = date("Y", $row->order_date);
@@ -493,24 +520,29 @@ class ilPaymentBookings
 			$orderDateHour = date("H", $row->order_date);
 			$orderDateMinute = date("i", $row->order_date);
 			$orderDateSecond = date("s", $row->order_date);
-			if (($orderDateMonth + $row->duration) > 12)
+			
+			if($row->duration != 0)
 			{
-				$years = floor(($orderDateMonth + $row->duration) / 12);
-				$months = ($orderDateMonth + $row->duration) - (12 * $years);
-				$orderDateYear += $years;
-				$orderDateMonth = $months;
+				if (($orderDateMonth + $row->duration) > 12)
+				{
+					$years = floor(($orderDateMonth + $row->duration) / 12);
+					$months = ($orderDateMonth + $row->duration) - (12 * $years);
+					$orderDateYear += $years;
+					$orderDateMonth = $months;
+				}
+				else
+				{
+					$orderDateMonth += $row->duration;
+				}
+				$startDate =  date("Y-m-d H:i:s", $row->order_date);
+				$endDate = date("Y-m-d H:i:s", mktime($orderDateHour, $orderDateMinute, $orderDateSecond, $orderDateMonth, $orderDateDay, $orderDateYear));
+				if (date("Y-m-d H:i:s") >= $startDate &&
+					date("Y-m-d H:i:s") <= $endDate)
+				{
+					return true;
+				}
 			}
-			else
-			{
-				$orderDateMonth += $row->duration;
-			}
-			$startDate =  date("Y-m-d H:i:s", $row->order_date);
-			$endDate = date("Y-m-d H:i:s", mktime($orderDateHour, $orderDateMinute, $orderDateSecond, $orderDateMonth, $orderDateDay, $orderDateYear));
-			if (date("Y-m-d H:i:s") >= $startDate &&
-				date("Y-m-d H:i:s") <= $endDate)
-			{
-				return true;
-			}
+			else return true;
 		}			
 		return false;
 	}

@@ -52,6 +52,8 @@ class ilPurchasePaypal
 	var $db = null;
 
 	var $paypalConfig;
+	
+	private $totalVat = 0;
 
 	function ilPurchasePaypal(&$user_obj)
 	{
@@ -328,7 +330,8 @@ class ilPurchasePaypal
 				$book_obj->setOrderDate(time());
 				$book_obj->setDuration($sc[$i]["dauer"]);
 				$book_obj->setPrice($sc[$i]["betrag_string"]);
-				$book_obj->setDiscount($bonus > 0 ? ilPaymentPrices::_getPriceStringFromAmount($bonus * (-1)) : "");
+				//$book_obj->setDiscount($bonus > 0 ? ilPaymentPrices::_getPriceStringFromAmount($bonus * (-1)) : "");
+				$book_obj->setDiscount($bonus > 0 ? ilPaymentPrices::_getPriceStringFromAmount($bonus * (-1)) : 0);
 				$book_obj->setPayed(1);
 				$book_obj->setAccess(1);
 				$book_obj->setVoucher('');
@@ -361,12 +364,14 @@ class ilPurchasePaypal
 					"type" => $obj_type,
 					"title" => "[".$obj_id."]: " . $obj_title,
 					"duration" => $sc[$i]["dauer"],
+					"vat_rate" => $sc[$i]["vat_rate"],				
+					"vat_unit" => $sc[$i]["vat_unit"],
 					"price" => $sc[$i]["betrag_string"],
 					"betrag" => $sc[$i]["betrag"]
 				);
 
 				$total += $sc[$i]["betrag"];
-
+				$total_vat += $sc[$i]['vat_unit'];
 				
 				if ($sc[$i]["psc_id"]) $this->psc_obj->delete($sc[$i]["psc_id"]);				
 			}
@@ -383,7 +388,7 @@ class ilPurchasePaypal
 		}
 
 		$bookings["total"] = $total;
-		$bookings["vat"] = $this->psc_obj->getVat($total);
+		$bookings['total_vat'] = $total_vat;
 
 		return $bookings;
 	}
@@ -409,12 +414,6 @@ class ilPurchasePaypal
 		$tpl->setVariable("VENDOR_BANK_DATA", nl2br(utf8_decode($genSet->get("bank_data"))));
 		$tpl->setVariable("TXT_BANK_DATA", utf8_decode($this->lng->txt("pay_bank_data")));
 
-#		$tpl->setVariable("CUSTOMER_FIRSTNAME", utf8_decode($ilUser->getFirstname()));
-#		$tpl->setVariable("CUSTOMER_LASTNAME", utf8_decode($ilUser->getLastname()));
-#		$tpl->setVariable("CUSTOMER_STREET", utf8_decode($ilUser->getStreet()));
-#		$tpl->setVariable("CUSTOMER_ZIPCODE", utf8_decode($ilUser->getZipcode()));
-#		$tpl->setVariable("CUSTOMER_CITY", utf8_decode($ilUser->getCity()));
-#		$tpl->setVariable("CUSTOMER_COUNTRY", utf8_decode($ilUser->getCountry()));
 		$tpl->setVariable("CUSTOMER_FIRSTNAME", $a_array["first_name"]);
 		$tpl->setVariable("CUSTOMER_LASTNAME", $a_array["last_name"]);
 		$tpl->setVariable("CUSTOMER_STREET", $a_array["address_street"]);
@@ -456,6 +455,8 @@ class ilPurchasePaypal
 			$tpl->setVariable("LOOP_TITLE", utf8_decode($bookings["list"][$i]["title"]) . $assigned_coupons);
 			$tpl->setVariable("LOOP_TXT_ENTITLED_RETRIEVE", utf8_decode($this->lng->txt("pay_entitled_retrieve")));
 			$tpl->setVariable("LOOP_DURATION", $bookings["list"][$i]["duration"] . " " . utf8_decode($this->lng->txt("paya_months")));
+			$tpl->setVariable("LOOP_VAT_RATE", $bookings["list"][$i]["vat_rate"]);
+			$tpl->setVariable("LOOP_VAT_UNIT", $bookings["list"][$i]["vat_unit"]);			
 			$tpl->setVariable("LOOP_PRICE", $bookings["list"][$i]["price"]);
 			$tpl->parseCurrentBlock("loop");
 			
@@ -506,19 +507,19 @@ class ilPurchasePaypal
 		if ($bookings["total"] < 0)
 		{			
 			$bookings["total"] = 0.0;
-			$bookings["vat"] = 0.0;
+			$bookings["total_vat"] = 0.0;
 		}
 		else
 		{
-			$bookings["vat"] = $this->psc_obj->getVat($bookings["total"]);
+//			$bookings["vat"] = $this->psc_obj->getVat($bookings["total"]);
 		}
 
 		$tpl->setVariable("TXT_TOTAL_AMOUNT", utf8_decode($this->lng->txt("pay_bmf_total_amount")));
 		$tpl->setVariable("TOTAL_AMOUNT", number_format($bookings["total"], 2, ",", ".") . " " . $genSet->get("currency_unit"));
-		if ($bookings["vat"] > 0)
+		if ($bookings["total_vat"] > 0)
 		{
-			$tpl->setVariable("VAT", number_format($bookings["vat"], 2, ",", ".") . " " . $genSet->get("currency_unit"));
-			$tpl->setVariable("TXT_VAT", $genSet->get("vat_rate") . "% " . utf8_decode($this->lng->txt("pay_bmf_vat_included")));
+			$tpl->setVariable("TOTAL_VAT",$bookings["total_vat"]. " " . $genSet->get("currency_unit"));			
+			$tpl->setVariable("TXT_TOTAL_VAT", utf8_decode($this->lng->txt("pay_bmf_vat_included")));
 		}
 
 		$tpl->setVariable("TXT_PAYMENT_TYPE", utf8_decode($this->lng->txt("pay_payed_paypal")));

@@ -102,11 +102,11 @@ class ilShopResultPresentationGUI extends ilSearchResultPresentationGUI
 		global $ilUser;
 		
 		$items_counter = 0;
-					
+				
 		$cur_obj_type = '';
 		$tpl = $this->newBlockTemplate();
 		$first = true;
-		
+
 		foreach($this->type_ordering as $act_type)
 		{
 			$item_html = array();
@@ -120,13 +120,12 @@ class ilShopResultPresentationGUI extends ilSearchResultPresentationGUI
 					$oPrice = new ilPaymentPrices($oPaymentObject->getPobjectId());
 					$lowest_price = $oPrice->getLowestPrice();
 					
-					$results[$topic['id']][$act_type][$key]['price'] = 
-						ilPaymentPrices::_formatPriceToFloat($lowest_price['unit_value'], 
-															 $lowest_price['sub_unit_value']);
+					$results[$topic['id']][$act_type][$key]['price'] = $lowest_price['price'];
+
 					$results[$topic['id']][$act_type][$key]['price_string'] =										 
 						($oPrice->getNumberOfPrices() > 1 ? $this->lng->txt('price_from').' ' : '').
-					    ilPaymentPrices::_formatPriceToString($lowest_price['unit_value'], $lowest_price['sub_unit_value']);
-
+							ilPaymentPrices::_formatPriceToString($lowest_price['price']);
+	
 					// authors
 					include_once 'Services/MetaData/classes/class.ilMD.php';
 					$md_obj = new ilMD($item['obj_id'], 0, $item['type']);
@@ -165,9 +164,11 @@ class ilShopResultPresentationGUI extends ilSearchResultPresentationGUI
 					$item_list_gui->enableCut(false);
 					$item_list_gui->enableLink(false);
 					$item_list_gui->enableSubscribe(false);															
+				
 					$item_list_gui->enablePayment(true);
 					$item_list_gui->enableCommands(false);
 					$item_list_gui->enablePath(false);
+					$item_list_gui->insertCommands();
 					
 					$item_list_gui->enableInfoScreen(false);
 					$item_list_gui->enableSubstitutions(false);
@@ -175,9 +176,10 @@ class ilShopResultPresentationGUI extends ilSearchResultPresentationGUI
 					$item_list_gui->enablePreconditions(false);
 					$item_list_gui->enableProperties(false);
 					$item_list_gui->setBoldTitle(true);
-					
+	
 					if(ilPaymentObject::_hasAccess($item['ref_id']))
 					{
+							
 						$item_list_gui->enableInfoScreen(true);
 						$item_list_gui->enableCommands(true);
 					}

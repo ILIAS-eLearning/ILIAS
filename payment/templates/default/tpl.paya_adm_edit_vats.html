@@ -1,0 +1,49 @@
+<!-- BEGIN confirm_delete -->
+<form action="{CONFIRM_FORMACTION}" method="post">
+<table class="fullwidth_invisible">
+<tr>
+	<td align="center">
+		<input class="submit" type="submit" name="cmd[{CONFIRM_CMD}]" value="{TXT_CONFIRM}" />
+		<input class="submit" type="submit" name="cmd[editVat]" value="{TXT_CANCEL}" />
+	</td>
+</tr>
+</table>
+</form>
+<!-- END confirm_delete -->
+{PAYMENT_OBJECT_FORM}
+<form action="{DETAILS_FORMACTION}" method="post">
+	<table class="std">
+	  <tr class="tbltitle">
+		<td colspan="2">
+		  <table class="fullwidth_invisible" cellspacing="0">
+			<tr class="tbltitle">
+			  <td width="10"><img src="{TYPE_IMG}" alt="{ALT_IMG}" title="{ALT_IMG}" border="0" vspace="0" align="left" /></td>
+			  <td class="tbltitle" align="left">&nbsp;{TITLE}</td>
+			</tr>
+		  </table>
+		</td>
+	  </tr>
+	  <tr>
+		<td class="tblrow1"> {TXT_VAT_TITLE}</td>
+		<td class="tblrow1" width="25%" nowrap="nowrap"><input type="text" size="20" maxlength="20" id="vat_title" name="vat_title" value="{VAT_TITLE}"/>&nbsp;</td>
+	  </tr>
+	  <tr>
+		<td class="tblrow2">{TXT_VAT_RATE}</td>
+	<td class="tblrow2" width="25%" nowrap="nowrap"><input type="text" size="20" maxlength="20" id="vat_rate" name="vat_rate" value="{VAT_RATE}"/>&nbsp;</td>
+	  </tr>
+
+	  <tr class="tblfooter" >
+		<td class="submit" colspan="2" >
+		<input class="submit" type="submit" name="cmd[{INPUT_CMD}]" value="{INPUT_VALUE}" />
+		&nbsp;
+		<!-- BEGIN cancel -->
+		<input class="submit" type="submit" name="cmd[{CANCEL_CMD}]" value="{CANCEL_VALUE}" />
+		<!-- END cancel -->
+		<!-- BEGIN delete -->
+		<input class="submit" type="submit" name="cmd[{DELETE_CMD}]" value="{DELETE_VALUE}" />
+		<!-- END delete -->	
+		</td>
+		
+	  </tr>
+	</table>
+</form>

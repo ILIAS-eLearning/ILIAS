@@ -269,6 +269,12 @@ class ilPaymentStatisticGUI extends ilShopBaseGUI
 			$f_result[$counter][] = ($tmp_vendor != '' ?  '['.$tmp_vendor.']' : $this->lng->txt('user_deleted'));
 			$f_result[$counter][] = ($tmp_purchaser != '' ?  '['.$tmp_purchaser.']' : $this->lng->txt('user_deleted'));
 			$f_result[$counter][] = date('Y-m-d H:i:s', $booking['order_date']);
+			
+			if($booking['duration'] == 0)
+			{
+				$booking['duration'] = $this->lng->txt('unlimited_duration');
+			}
+			
 			$f_result[$counter][] = $booking['duration'];
 			$f_result[$counter][] = $booking['price'];
 			$f_result[$counter][] = $booking['discount'];
@@ -539,6 +545,12 @@ class ilPaymentStatisticGUI extends ilShopBaseGUI
 				break;
 		}
 		$this->tpl->setVariable("ORDER_DATE",date('Y m d H:i:s',$booking['order_date']));
+					
+		if($booking['duration'] == $this->lng->txt('unlimited_duration'))
+		{
+			$this->tpl->setVariable("DURATION",$booking['duration']);
+		}
+		else	
 		$this->tpl->setVariable("DURATION",$booking['duration'].' '.$this->lng->txt('paya_months'));
 		$this->tpl->setVariable("PRICE",$booking['price']);
 		

@@ -116,9 +116,10 @@ class ilShopTopic
 			
 			$statement = $this->db->manipulateF('
 				INSERT INTO payment_topics 
-				SET pt_topic_title = %s,
-					pt_topic_sort = %s,
-					pt_topic_created = %s',
+				( pt_topic_title,
+					pt_topic_sort,
+					pt_topic_created
+				) VALUES (%s,%s,%s)',
 				array('text', 'integer', 'integer'),
 				array($this->getTitle(), $this->getSorting(), $this->getCreateDate()));
 
@@ -143,7 +144,8 @@ class ilShopTopic
 			);
 			
 			
-			$result = $this->db->$resF('	
+			//$result = $this->db->$resF('	
+				$result = $this->db->manipulateF('
 				DELETE FROM payment_topic_usr_sort		
 				WHERE 1
 				AND ptus_pt_topic_fk = %s',
@@ -211,9 +213,10 @@ class ilShopTopic
 			{
 				$statement = $this->db->manipulateF('
 					INSERT INTO payment_topic_usr_sort
-					SET ptus_pt_topic_fk = %s,
-						ptus_usr_id = %s,
-						ptus_sorting = %s',
+					( 	ptus_pt_topic_fk,
+						ptus_usr_id,
+						ptus_sorting
+					) VALUES (%s,%s,%s)',
 						array('integer', 'integer', 'integer'),
 						array($this->getId(), $ilUser->getId(), $this->getCustomSorting())
 				);	

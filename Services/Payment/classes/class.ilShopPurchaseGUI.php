@@ -473,6 +473,7 @@ class ilShopPurchaseGUI extends ilObjectGUI
 
 		if (is_array($prices))
 		{
+
 #			if (count($prices) > 1)
 #			{
 				$counter = 0;
@@ -503,8 +504,17 @@ class ilShopPurchaseGUI extends ilObjectGUI
 					{
 						$this->tpl->setVariable($placeholderCheckbox,ilUtil::formRadioButton(0,'price_id',$price['price_id']));
 					}
+					
+					if($price['unlimited_duration'] == '1')
+					{
+						
+						$this->tpl->setVariable($placeholderDuration, ''. $this->lng->txt('unlimited_duration'));
+					}
+					else
 					$this->tpl->setVariable($placeholderDuration,$price['duration'].' '.$this->lng->txt('paya_months'));
+					
 					$this->tpl->setVariable($placeholderPrice,ilPaymentPrices::_getPriceString($price['price_id']));
+					
 					$this->tpl->parseCurrentBlock();
 					$counter++;
 				}
@@ -608,6 +618,8 @@ class ilShopPurchaseGUI extends ilObjectGUI
 
 		$this->pobject =& new ilPaymentObject($this->ilias->account,ilPaymentObject::_lookupPobjectId($this->ref_id));
 
+		
+		
 		return true;
 	}
 	function __initPricesObject()

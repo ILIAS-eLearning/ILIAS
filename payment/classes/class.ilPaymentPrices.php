@@ -33,10 +33,12 @@ class ilPaymentPrices
 	var $ilDB;
 
 	var $pobject_id;
-	var $unit_value;
-	var $sub_unit_value;
+
+	var $price;
 	var $currency;
 	var $duration;
+	var $unlimited_duration = 0;
+
 
 	private $prices = array();
 	
@@ -66,11 +68,12 @@ class ilPaymentPrices
 		return $this->prices[$a_price_id] ? $this->prices[$a_price_id] : array();
 	}
 
+	
 	// STATIC
 	function _getPrice($a_price_id)
 	{
-		global $ilDB;
-
+		global $ilDB, $ilSettings;
+		
 		$res = $ilDB->queryf('
 			SELECT * FROM payment_prices 
 			WHERE price_id = %s',
@@ -79,10 +82,11 @@ class ilPaymentPrices
 		while($row = $res->fetchRow(DB_FETCHMODE_OBJECT))
 		{
 			$price['duration'] = $row->duration;
+			$price['unlimited_duration'] = $row->unlimited_duration;
 			$price['currency'] = $row->currency;
-			$price['unit_value'] = $row->unit_value;
-			$price['sub_unit_value'] = $row->sub_unit_value;
-		}
+			$price['price'] = $row->price;
+
+		}	
 		return count($price) ? $price : array();
 	}
 
@@ -109,25 +113,24 @@ class ilPaymentPrices
 		
 		$price = ilPaymentPrices::_getPrice($a_price_id);
 		
-		return self::_formatPriceToString($price['unit_value'], $price['sub_unit_value']);		
+
+		return self::_formatPriceToString($price['price']);	
+		
 	}
 	
-	public static function _formatPriceToString($unit_value, $subunit_value)
+	
+//	public static function _formatPriceToString($unit_value, $subunit_value)
+	public static function _formatPriceToString($a_price)
 	{
 		include_once './payment/classes/class.ilGeneralSettings.php';
 		
 		$genSet = new ilGeneralSettings();
-		$unit_string = $genSet->get('currency_unit');
-		
-		$pr_str = number_format( ((int) $unit_value) . '.' . sprintf('%02d', ((int) $subunit_value)), 2, ',', '.');
-		return $pr_str . ' ' . $unit_string;
+		$currency_unit = $genSet->get('currency_unit');
+
+		return $a_price . ' ' . $currency_unit;
 	}
 	
-	public static function _formatPriceToFloat($unit_value, $subunit_value)
-	{	
-		return (float) number_format(((int) $unit_value).'.'.sprintf('%02d', ((int) $subunit_value)), 2, '.', '');
-	}
-	
+
 	function _getPriceStringFromAmount($a_price)
 	{
 		include_once './payment/classes/class.ilPaymentCurrency.php';
@@ -136,21 +139,18 @@ class ilPaymentPrices
 		global $lng;
 
 		$genSet = new ilGeneralSettings();
-		$unit_string = $genSet->get("currency_unit");
+		$currency_unit = $genSet->get("currency_unit");
 
 		$pr_str = '';		
 
 		$pr_str = number_format($a_price , 2, ",", ".");
-		return $pr_str . " " . $unit_string;		
+		return $pr_str . " " . $currency_unit;		
 	}
 	
-	function _getPriceFromArray($a_price)
-	{		
-		return (float) (((int) $a_price["unit_value"]) . "." . sprintf("%02d", ((int) $a_price["sub_unit_value"])));
-	}
-			
+		
 	function _getTotalAmount($a_price_ids)
 	{
+
 		include_once './payment/classes/class.ilPaymentPrices.php';
 #		include_once './payment/classes/class.ilPaymentCurrency.php';
 		include_once './payment/classes/class.ilGeneralSettings.php';
@@ -158,7 +158,7 @@ class ilPaymentPrices
 		global $ilDB,$lng;
 
 		$genSet = new ilGeneralSettings();
-		$unit_string = $genSet->get("currency_unit");
+		$currency_unit = $genSet->get("currency_unit");
 
 		$amount = array();
 
@@ -168,50 +168,16 @@ class ilPaymentPrices
 			{
 				$price_data = ilPaymentPrices::_getPrice($a_price_ids[$i]["id"]);
 
-				$price = ((int) $price_data["unit_value"]) . "." . sprintf("%02d", ((int) $price_data["sub_unit_value"]));
+				$price = (float) $price_data["price"];
 				$amount[$a_price_ids[$i]["pay_method"]] += (float) $price;
 			}
 		}
 
 		return $amount;
-
-/*		foreach($a_price_ids as $id)
-		{
-			$price_data = ilPaymentPrices::_getPrice($id);
-
-			$price_arr["$price_data[currency]"]['unit'] += (int) $price_data['unit_value'];
-			$price_arr["$price_data[currency]"]['subunit'] += (int) $price_data['sub_unit_value'];
-		}
-
-		if(is_array($price_arr))
-		{
-			foreach($price_arr as $key => $value)
-			{
-				// CHECK cent bigger 100
-				$value['unit'] += (int) ($value['subunit'] / 100);
-				$value['subunit'] = (int) ($value['subunit'] % 100);
-
-				$unit_string = $lng->txt('currency_'.ilPaymentCurrency::_getUnit($key));
-				$subunit_string = $lng->txt('currency_'.ilPaymentCurrency::_getSubUnit($key));
-
-				if((int) $value['unit'])
-				{
-					$pr_str .= $value['unit'].' '.$unit_string.' ';
-				}
-				if((int) $value['subunit'])
-				{
-					$pr_str .= $value['subunit'].' '.$subunit_string;
-				}
-
-				// in the moment only one price
-				return $pr_str;
-			}
-		}
-		return 0;*/
 	}
 		
 
-	function setUnitValue($a_value = 0)
+/*	function setUnitValue($a_value = 0)
 	{
 		// substitute leading zeros with ''
 		$this->unit_value = preg_replace('/^0+/','',$a_value);
@@ -220,30 +186,65 @@ class ilPaymentPrices
 	{
 		$this->sub_unit_value = $a_value;
 	}
+*/	
+	function setPrice($a_price = 0)
+	{
+		$this->price = preg_replace('/^0+/','',$a_price);
+
+		$this->price = $a_price;
+	}
+
 	function setCurrency($a_currency_id)
 	{
 		$this->currency = $a_currency_id;
 	}
 	function setDuration($a_duration)
 	{
+		if($a_duration == '' || null) $a_duration = 0;
+		
 		$this->duration = $a_duration;
 	}
+	function setUnlimitedDuration($a_unlimited_duration)
+	{
+		if($a_unlimited_duration == '' || null) $a_unlimited_duration = 0;
+		if($a_unlimited_duration == 0) $this->setDuration(0);
+		
+		$this->unlimited_duration = $a_unlimited_duration;
+	}
 
+/*	function setVatUnit($a_vat_unit)
+	{
+		$this->vat_unit = $a_vat_unit;
+	}
+		
+	function setVatId($a_vat_id)
+	{
+		$this->vat_id = $a_vat_id;
+	}
+*/	
+	
 	function add()
 	{
+		$next_id = $this->db->nextId('payment_prices');
+		
 		$res = $this->db->manipulateF('
 			INSERT INTO payment_prices 
-			SET pobject_id = %s,
-				currency = %s,
-				duration = %s,
-				unit_value = %s,
-				sub_unit_value = %s',
-			array('integer', 'integer', 'integer', 'text', 'text'),
-			array(	$this->getPobjectId(),
+			(	price_id
+				pobject_id,
+				currency,
+				duration,
+				unlimited_duration,
+				price
+				)
+			VALUES (%s, %s, %s, %s, %s, %s)',
+
+			array('integer','integer', 'integer', 'integer', 'integer', 'float'),
+			array(	$next_id,
+					$this->getPobjectId(),
 					$this->__getCurrency(),
 					$this->__getDuration(),
-					$this->__getUnitValue(),
-					$this->__getSubUnitValue()
+					$this->__getUnlimitedDuration(),
+					$this->__getPrice()
 		));
 		
 		$this->__read();
@@ -256,13 +257,15 @@ class ilPaymentPrices
 			UPDATE payment_prices SET
 			currency = %s,
 			duration = %s,
-			unit_value = %s,
-			sub_unit_value = %s',
-			array('integer', 'integer', 'integer', 'text', 'integer'),
+			unlimited_duration = %s,
+			price = %s			
+			WHERE price_id = %s',
+
+			array('integer', 'integer','integer', 'float', 'integer'),
 			array(	$this->__getCurrency(),
 					$this->__getDuration(),
-					$this->__getUnitValue(),
-					$this->__getSubUnitValue(),
+					$this->__getUnlimitedDuration(),
+					$this->__getPrice(),
 					$a_price_id
 		));
 
@@ -298,22 +301,20 @@ class ilPaymentPrices
 	{
 		$duration_valid = false;
 		$price_valid = false;
+	
 
-		if(preg_match('/^[1-9][0-9]{0,1}$/',$this->__getDuration()))
+		//if(preg_match('/^[1-9][0-9]{0,1}$/',$this->__getDuration()))
+		if(preg_match('/^(([1-9][0-9]{0,1})|[0])?$/',$this->__getDuration()))
 		{
 			$duration_valid = true;
 		}
 		
-		if(preg_match('/^[1-9]\d{0,4}$/',$this->__getUnitValue()) and
-		   preg_match('/^\d{0,2}$/',$this->__getSubUnitValue()))
+		if(preg_match('/[0-9]/',$this->__getPrice()))
 		{
 			$price_valid = true;
 		}
-		else if(preg_match('/^\d{0,5}$/',$this->__getUnitValue()) and
-				preg_match('/[1-9]/',$this->__getSubUnitValue()))
-		{
-			return true;
-		}
+			
+	
 		return $duration_valid and $price_valid;
 	}
 	// STATIC
@@ -330,18 +331,13 @@ class ilPaymentPrices
 		
 		return $res->numRows() ? true : false;
 	}
-
-
 				  
 	// PRIVATE
-	function __getUnitValue()
+
+	function __getPrice()
 	{
-		return $this->unit_value;
-	}
-	function __getSubUnitValue()
-	{
-		return $this->sub_unit_value;
-	}
+		return $this->price;
+	}	
 	function __getCurrency()
 	{
 		return $this->currency;
@@ -350,7 +346,19 @@ class ilPaymentPrices
 	{
 		return $this->duration;
 	}
-
+	function __getUnlimitedDuration()
+	{
+		return $this->unlimited_duration;
+	}
+/*	function __getVatUnit()
+	{
+		return $this->vat_unit;		
+	}
+	function __getVatId()
+	{
+		return $this->vat_id;		
+	}
+*/	
 	function __read()
 	{
 		$this->prices = array();
@@ -369,8 +377,8 @@ class ilPaymentPrices
 			$this->prices[$row->price_id]['price_id'] = $row->price_id;
 			$this->prices[$row->price_id]['currency'] = $row->currency;
 			$this->prices[$row->price_id]['duration'] = $row->duration;
-			$this->prices[$row->price_id]['unit_value'] = $row->unit_value;
-			$this->prices[$row->price_id]['sub_unit_value'] = $row->sub_unit_value;
+			$this->prices[$row->price_id]['unlimited_duration'] = $row->unlimited_duration;
+			$this->prices[$row->price_id]['price'] = $row->price;
 		}
 	}
 	
@@ -386,7 +394,8 @@ class ilPaymentPrices
 
 		foreach ($this->prices as $price_id => $data)
 		{
-			$current_price = self::_formatPriceToFloat($data['unit_value'], $data['sub_unit_value']);
+			//$current_price = self::_formatPriceToFloat($data['unit_value'], $data['sub_unit_value']);
+			$current_price = $data['price'];
 
 			if($lowest_price  == 0|| 
 			   $lowest_price > (float)$current_price)

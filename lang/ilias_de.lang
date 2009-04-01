@@ -9165,3 +9165,16 @@ search#:#lucene_max_sub_info#:#Bitte geben Sie Anzahl von Unterobjekten (Forenth
 search#:#lucene_relevance#:#Relevanz der Suchergebnisse
 search#:#lucene_show_relevance#:#Relevanz anzeigen
 search#:#lucene_show_relevance_info#:#Suchergebnisse werden sortiert nach ihrer Relevanz ausgegeben. Wenn aktiviert, wird die Relevanz des jeweiligen Suchergebnisses als zusätzliche Information für alle Treffer angezeigt.
+payment#:#pay_payed_bill#:#Rechnung bezahlt
+payment#:#vat_title#:#Steuer-Titel
+payment#:#vat_rate#:#Steuer-Prozentsatz
+payment#:#vat_unit#:#Steuer-Einheit
+payment#:#paya_insert_vats#:#Steuersatz hinzufügen
+payment#:#paya_no_vats_assigned#:#Es existieren keine Steuersätze
+payment#:#paya_vat_not_valid#:#Dieser Steuersatz ist ungültig
+payment#:#paya_vat_already_exists#:#Dieser Steuersatz existiert bereits
+payment#:#paya_no_vat_id_given#:#Es wurde keine Steuer-Id übergeben
+payment#:#paya_sure_delete_vat#:#Sind Sie sicher, dass Sie diesen Steuersatz löschen möchten?
+payment#:#paya_vat_not_deleted#:#Der Steuersatz wurde nicht gelöscht
+payment#:#unlimited_duration#:#Unbegrenzte Dauer
+payment#:#vats#:#Steuern

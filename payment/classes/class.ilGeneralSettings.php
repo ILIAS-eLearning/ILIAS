@@ -90,7 +90,6 @@ class ilGeneralSettings
 				address = %s,
 				bank_data = %s,
 				add_info = %s,
-				vat_rate = %s,
 				pdf_path = %s,
 				topics_sorting_type = %s,
 				topics_sorting_direction = %s,
@@ -104,7 +103,6 @@ class ilGeneralSettings
 					'text',
 					'text', 
 					'text',
-					'text',
 					'text', 
 					'integer', 
 					'integer', 
@@ -114,7 +112,6 @@ class ilGeneralSettings
 					'integer',
 					'integer'),
 			array(	NULL,
-					NULL,
 					NULL,
 					NULL,
 					NULL,
@@ -144,7 +141,6 @@ class ilGeneralSettings
 			if(!$a_values['address']) 			$a_values['address'] = NULL;
 			if(!$a_values['bank_data']) 		$a_values['bank_data'] = NULL;
 			if(!$a_values['add_info']) 			$a_values['add_info'] = NULL;
-			if(!$a_values['vat_rate']) 			$a_values['vat_rate'] = NULL;
 			if(!$a_values['pdf_path']) 			$a_values['pdf_path'] = NULL;
 			
 			if(!$a_values['topics_allow_custom_sorting']) $a_values['topics_allow_custom_sorting'] = 0;
@@ -163,7 +159,6 @@ class ilGeneralSettings
 					address = %s,
 					bank_data = %s,
 					add_info = %s,
-					vat_rate = %s,
 					pdf_path = %s,
 					topics_sorting_type = %s,
 					topics_sorting_direction = %s,
@@ -176,7 +171,6 @@ class ilGeneralSettings
 						'text', 
 						'text', 
 						'text',
-						'text', 
 						'text', 
 						'text', 
 						'integer', 
@@ -192,7 +186,6 @@ class ilGeneralSettings
 					$a_values['address'],
 					$a_values['bank_data'],
 					$a_values['add_info'],
-					$a_values['vat_rate'],
 					$a_values['pdf_path'],
 					$a_values['topics_sorting_type'],
 					$a_values['topics_sorting_direction'],					
@@ -202,8 +195,6 @@ class ilGeneralSettings
 					$a_values['save_customer_address_enabled'],
 					$this->getSettingsId())
 			);
-	
-			
 		}
 		else
 		{ 
@@ -214,7 +205,7 @@ class ilGeneralSettings
 			if(!$a_values['address']) 			$a_values['address'] = NULL;
 			if(!$a_values['bank_data']) 		$a_values['bank_data'] = NULL;
 			if(!$a_values['add_info']) 			$a_values['add_info'] = NULL;
-			if(!$a_values['vat_rate']) 			$a_values['vat_rate'] = NULL;
+
 			if(!$a_values['pdf_path']) 			$a_values['pdf_path'] = NULL;
 			
 			if(!$a_values['topics_allow_custom_sorting']) $a_values['topics_allow_custom_sorting'] = 0;
@@ -223,9 +214,7 @@ class ilGeneralSettings
 			if(!$a_values['shop_enabled']) 				$a_values['shop_enabled'] = 0;
 			if(!$a_values['max_hits']) 					$a_values['max_hits'] = 0;
 			if(!$a_values['save_customer_address_enabled']) $a_values['save_customer_address_enabled'] = 0;	
-			
-			/**/
-			
+
 			
 			$next_id = $ilDB->nextId('payment_settings');
 			$statement = $this->db->manipulateF('
@@ -236,7 +225,6 @@ class ilGeneralSettings
 					address,
 					bank_data,
 					add_info,
-					vat_rate,
 					pdf_path,
 					topics_allow_custom_sorting,
 					topics_sorting_type,
@@ -245,9 +233,8 @@ class ilGeneralSettings
 					max_hits,
 					save_customer_address_enabled
 				)
-				VALUES (%s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s)',
+				VALUES (%s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s)',
 				array( 'integer',
-						'text', 
 						'text', 
 						'text', 
 						'text', 
@@ -267,7 +254,6 @@ class ilGeneralSettings
 					$a_values['address'],
 					$a_values['bank_data'],
 					$a_values['add_info'],
-					$a_values['vat_rate'],
 					$a_values['pdf_path'],
 					$a_values['topics_allow_custom_sorting'],
 					$a_values['topics_sorting_type'],
@@ -277,8 +263,6 @@ class ilGeneralSettings
 					$a_values['save_customer_address_enabled']
 					)
 			);
-			
-			//$this->setSettingsId($this->db->getLastInsertId());
 		}		
 
 		$this->__getSettings();
@@ -300,7 +284,6 @@ class ilGeneralSettings
 			$data['address'] = $row->address;
 			$data['bank_data'] = $row->bank_data;
 			$data['add_info'] = $row->add_info;
-			$data['vat_rate'] = $row->vat_rate;
 			$data['pdf_path'] = $row->pdf_path;
 			$data['topics_allow_custom_sorting'] = $row->topics_allow_custom_sorting;
 			$data['topics_sorting_type'] = $row->topics_sorting_type;
@@ -309,9 +292,7 @@ class ilGeneralSettings
 			$data['shop_enabled'] = $row->shop_enabled;
 			$data['save_customer_address_enabled'] = $row->save_customer_address_enabled;				
 		}
-		
 		$this->settings = $data;
 	}
-
 }
 ?>

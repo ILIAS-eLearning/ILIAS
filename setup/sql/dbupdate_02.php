@@ -10894,4 +10894,71 @@ DROP TABLE IF EXISTS `crs_objective_results`;
 <?php
 $ilCtrlStructureReader->getStructure();
 ?>
+<#2267>
+<?php
+	$res = $ilDB->manipulate("ALTER TABLE `payment_prices` ADD `price` FLOAT NOT NULL DEFAULT '0'");
+?>
+<#2268>
+<?php
+	$res = $ilDB->query("SELECT * FROM payment_prices WHERE 1");
+	
+	while($row = $res->fetchRow(DB_FETCHMODE_ASSOC))
+	{
+		$price_id = $row['price_id'];
+		$unit_value = $row['unit_value'];
+		$sub_unit_value = $row['sub_unit_value'];
+		$price = $unit_value.'.'.$sub_unit_value;
+		
+		$ilDB->manipulateF('UPDATE payment_prices
+			SET price = %s
+			WHERE price_id = %s',
+		array('float', 'integer'),
+		array($price, $price_id));
+	}
+?>
+<#2269>
+<?php 
+	$res = $ilDB->manipulate("ALTER TABLE `payment_prices` DROP `unit_value` ");
+?>
+<#2270>
+<?php 
+	$res = $ilDB->manipulate("ALTER TABLE `payment_prices` DROP `sub_unit_value` ");
+?>
+<#2271>
+<?php
+	$ilMySQLAbstraction->performAbstraction('payment_prices');
+?>
+<#2272>
+<?php 
+	if (!$ilDB->tableExists("payment_vats"))
+	{
+		$ilDB->createTable("payment_vats",
+			array(
+				"vat_id" => array(
+					"type" => "integer", "length" => 4, "notnull" => true),
+				"vat_title" => array(
+					"type" => "text", "length" => 255, "notnull" => true),
+				"vat_rate" => array(
+					"type" => "float", "notnull" => true, "default" => 0)
+				)
+			, false, true
+			);
+		$ilDB->addPrimaryKey("payment_vats",array("vat_id"));	
+		$ilDB->createSequence("payment_vats", 1);
+	}
+
+?>
+<#2273>
+<?php 
+	$res = $ilDB->manipulate("ALTER TABLE `payment_settings` DROP `vat_rate` ");	
+?>
+<#2274>
+<?php 	
+	$res = $ilDB->manipulate("ALTER TABLE `payment_objects` ADD `vat_rate` FLOAT NOT NULL DEFAULT '0'");	
+	$ilMySQLAbstraction->performAbstraction('payment_objects');
+?>
+<#2275>
+<?php 
+	$ilMySQLAbstraction->performAbstraction('payment_statistic');
+?>
 

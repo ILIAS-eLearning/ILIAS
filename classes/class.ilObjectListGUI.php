@@ -1499,6 +1499,15 @@ class ilObjectListGUI
 	
 	protected function insertPaymentCommand()
 	{
+		include_once("./Services/AdvancedSelectionList/classes/class.ilAdvancedSelectionListGUI.php");
+		$this->current_selection_list = new ilAdvancedSelectionListGUI();
+		$this->current_selection_list->setListTitle($this->lng->txt("actions"));
+		$this->current_selection_list->setId("act_".$this->ref_id);
+		//$this->current_selection_list->setSelectionHeaderClass("il_ContainerItemCommand2");
+		$this->current_selection_list->setLinksMode("il_ContainerItemCommand2");
+		$this->current_selection_list->setHeaderIcon(ilAdvancedSelectionListGUI::DOWN_ARROW_DARK);
+		$this->current_selection_list->setUseImages(true);
+		
 		$commands = $this->getCommands($this->ref_id, $this->obj_id);		
 		foreach($commands as $command)
 		{
@@ -1522,10 +1531,17 @@ class ilObjectListGUI
 							break;	
 					}					
 				}
-				$this->insertCommand($command['link'].'&purchasetype=demo', $this->lng->txt('payment_demo'), $command['frame']);
-				$this->insertCommand($command['link'].'&purchasetype=buy', $this->lng->txt('buy'), $command['frame']);				
+				//$this->insertCommand($command['link'].'&purchasetype=demo', $this->lng->txt('payment_demo'), $command['frame']);
+				//$this->insertCommand($command['link'].'&purchasetype=buy', $this->lng->txt('buy'), $command['frame']);
+				$this->current_selection_list->addItem($this->lng->txt('payment_demo'), "", $command['link'].'&purchasetype=demo', $a_img, $this->lng->txt('payment_demo'), $command['frame']);
+				$this->current_selection_list->addItem($this->lng->txt('buy'), "", $command['link'].'&purchasetype=buy', $a_img, $this->lng->txt('buy'), $command['frame']);				
 			}
 		}
+		
+		$this->ctrl->clearParametersByClass($this->gui_class_name);
+		
+		$this->tpl->setVariable("COMMAND_SELECTION_LIST",
+			$this->current_selection_list->getHTML());
 	}
 
 	/**
@@ -1903,12 +1919,12 @@ class ilObjectListGUI
 	function insertCommands()
 	{
 		global $lng;
-		
+
 		if (!$this->getCommandsStatus())
 		{
 			return;
 		}
-		
+
 		include_once("./Services/AdvancedSelectionList/classes/class.ilAdvancedSelectionListGUI.php");
 		$this->current_selection_list = new ilAdvancedSelectionListGUI();
 		$this->current_selection_list->setListTitle($lng->txt("actions"));
