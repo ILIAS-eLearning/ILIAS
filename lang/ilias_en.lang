@@ -9110,3 +9110,16 @@ search#:#lucene_max_sub_info#:#Please enter maximum number of subitems (Forum th
 search#:#lucene_relevance#:#Relevance of Search Results
 search#:#lucene_show_relevance#:#Show Relevance
 search#:#lucene_show_relevance_info#:#Search results are sorted by their relevance. If activated, the relevance is shown as additional information for each search result.
+payment#:#pay_payed_bill#:#Rechnung bezahlt
+payment#:#vat_title#:#Vat-Title
+payment#:#vat_rate#:#Vat-Rate
+payment#:#vat_unit#:#Vat-Unit
+payment#:#paya_insert_vats#:#Insert Vat-Rate
+payment#:#paya_no_vats_assigned#:#No vats assigned
+payment#:#paya_vat_not_valid#:#This vat is not valid
+payment#:#paya_vat_already_exists#:#This vat rate already exists
+payment#:#paya_no_vat_id_given#:#There is no vat-id given
+payment#:#paya_sure_delete_vat#:#Are you sure, you want to delete this vat?
+payment#:#paya_vat_not_deleted#:#This vat rate is not deleted
+payment#:#unlimited_duration#:#Unlimited duration
+payment#:#vats#:#Vats

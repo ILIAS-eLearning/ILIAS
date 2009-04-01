@@ -38,6 +38,7 @@ class ilPaymentCoupons
 	
 	public function getCoupons()
 	{
+
 		$this->coupons = array();
 		
 		$data = array();
@@ -597,11 +598,11 @@ class ilPaymentCoupons
 		$this->codes = array();
 	
 		$res = $this->db->queryf('
-			SELECT payment_coupons_codes.*, COUNT(pct_pcc_fk) pcc_used 
+			SELECT payment_coupons_codes.*, COUNT(pct_pcc_fk) pcc_used, pcc_pk 
 		 	FROM payment_coupons_codes
 		 	LEFT JOIN payment_coupons_track ON  pct_pcc_fk = pcc_pk 
 		  	WHERE 1 AND pcc_pc_fk = %s
-		  	GROUP BY pcc_pk', 
+		  	GROUP BY pcc_pk,payment_coupons_codes.pcc_pc_fk,pcc_code', 
 			array('integer'), 
 			array($a_coupon_id));
 		
@@ -770,8 +771,10 @@ class ilPaymentCoupons
 		{
 			$statement = $this->db->manipulateF('
 				INSERT INTO payment_coupons_codes
-				SET pcc_pc_fk = %s,
-					pcc_code = %s',
+				(	pcc_pc_fk,
+					pcc_code
+				)
+				VALUES (%s,$s)',
 				array('integer', 'text'),array($a_coupon_id, $a_code));
 			
 			return $this->db->getLastInsertId();
@@ -787,9 +790,10 @@ class ilPaymentCoupons
 		{		
 			$statement = $this->db->manipulateF('
 				INSERT INTO payment_statistic_coup 
-				SET psc_ps_fk = %s,
-					psc_pc_fk = %s,
-					psc_pcc_fk = %s',
+				( 	psc_ps_fk,
+					psc_pc_fk,
+					psc_pcc_fk
+				) VALUES(%s,%s,%s)',
 				array('integer', 'integer', 'integer'),
 				array($a_booking_id, $current_coupon['pc_pk'], $current_coupon['pcc_pk']));
 			
@@ -806,9 +810,11 @@ class ilPaymentCoupons
 		{
 			$statement = $this->db->manipulateF('
 				INSERT INTO payment_coupons_track
-				SET pct_pcc_fk = %s,
-					usr_id = %s,
-					pct_date = %s',
+				(	pct_pcc_fk ,
+					usr_id,
+					pct_date
+				)
+				VALUES (%s, %s, %s)',
 				array('integer', 'integer', 'timestamp'),
 				array($current_coupon['pcc_pk'], $this->user_obj->getId(), date("Y-m-d H:i:s")));
 		
@@ -854,8 +860,9 @@ class ilPaymentCoupons
 		{
 			$statement = $this->db->manipulateF('
 				INSERT INTO payment_coupons_obj
-				SET pco_pc_fk = %s,
-					ref_id = %s',
+				( 	pco_pc_fk,
+					ref_id
+				) VALUES(%s, %s)',
 				array('integer', 'integer'),
 				array($this->getId(), $a_ref_id));
 

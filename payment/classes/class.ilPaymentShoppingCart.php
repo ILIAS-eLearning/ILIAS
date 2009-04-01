@@ -143,9 +143,10 @@ class ilPaymentShoppingCart
 
 		$statement = $this->db->manipulateF('
 			INSERT INTO payment_shopping_cart
-			SET customer_id = %s,
-				pobject_id = %s,
-				price_id = %s', 
+			( customer_id,
+				pobject_id,
+				price_id
+			) VALUES(%s,%s,%s)', 
 			array('integer', 'integer', 'integer'),
 			array($this->user_obj->getId(), $this->getPobjectId(), $this->getPriceId()));
 		
@@ -272,6 +273,8 @@ class ilPaymentShoppingCart
 		// set total amount
 		$this->setTotalAmount(ilPaymentPrices::_getTotalAmount($prices ? $prices : array()));
 		
+		$this->setPobjectId($entry['pobject_id']);
+		
 		return true;
 	}
 		
@@ -279,6 +282,7 @@ class ilPaymentShoppingCart
 	{
 		if(!count($items = $this->getEntries($a_pay_method)))
 		{
+	
 			return 0;
 		}
 
@@ -299,11 +303,17 @@ class ilPaymentShoppingCart
 			$price_data = ilPaymentPrices::_getPrice($item['price_id']);
 			$price_string = ilPaymentPrices::_getPriceString($item['price_id']);
 
-			$price = ((int) $price_data["unit_value"]) . "." . sprintf("%02d", ((int) $price_data["sub_unit_value"]));
+			$price = (float)$price_data['price'];
 
 			$f_result[$counter]["betrag"] = (float) $price;
 			$f_result[$counter]["betrag_string"] = $price_string;
+			$f_result[$counter]["vat_rate"] = $tmp_pobject->getVatRate().' % ';
+
+			$f_result[$counter]["vat_unit"] = $tmp_pobject->getVat($price_data['price'],$item['pobject_id']);
+			$this->totalVat = $this->totalVat + $tmp_pobject->getVat($price_data['price'],$item['pobject_id']);
+		
 			$f_result[$counter]["dauer"] = $price_data["duration"];
+
 
 			unset($tmp_obj);
 			unset($tmp_pobject);
@@ -328,13 +338,34 @@ class ilPaymentShoppingCart
 		return (float) $amount;
 	}
 
-	function getVat($a_amount = 0)
-	{
-		include_once './payment/classes/class.ilGeneralSettings.php';
+	function getVat($a_amount = 0, $a_pobject_id = 0)
+	{	
+		global $ilDB;
+		
+		include_once './Services/Payment/classes/class.ilShopVats.php';
+		
+		$res = $ilDB->queryF('
+		SELECT * FROM payment_objects WHERE pobject_id = %s',
+		array('integer'),
+		array($a_pobject_id));
+			
+		while($row = $res->fetchRow(DB_FETCHMODE_OBJECT))
+		{
+			$this->vat_id = $row->vat_id;
+		}
+		
+		$res = $ilDB->queryF('
+			SELECT * FROM payment_vats WHERE vat_id = %s',
+			array('integer'),
+			array($this->vat_id));
+			
+		while($row = $res->fetchRow(DB_FETCHMODE_OBJECT))
+		{
+			$this->vat_rate = $row->vat_rate;
 
-		$genSet = new ilGeneralSettings();
+		}
+		return (float) ($a_amount - (round(($a_amount / (1 + ($this->vat_rate / 100.0))) * 100) / 100));		
 
-		return (float) ($a_amount - (round(($a_amount / (1 + ($genSet->get("vat_rate") / 100.0))) * 100) / 100));
 	}
 	
 	function clearCouponItemsSession()

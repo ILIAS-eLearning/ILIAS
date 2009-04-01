@@ -291,7 +291,8 @@ class ilPaymentBillVendor
 		{
 			$statement = $this->db->manipulateF('
 				INSERT INTO payment_bill_vendor
-				SET pobject_id = %s',
+				(pobject_id)
+				VALUES(%s)',
 				array('integer'),
 				array($this->getPobjectId())
 			);

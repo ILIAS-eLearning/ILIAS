@@ -69,8 +69,9 @@ class ilPaymentVendors
 
 		$statement = $this->db->manipulateF('
 			INSERT INTO payment_vendors
-			SET vendor_id = %s,
-				cost_center = %s',
+			(	vendor_id,
+				cost_center
+			) VALUES (%s,%s)',
 			array('integer', 'text'),
 			array($a_usr_id, 'IL_INST_ID_'.$a_usr_id));
 		

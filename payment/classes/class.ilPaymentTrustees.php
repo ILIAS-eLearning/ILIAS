@@ -89,11 +89,13 @@ class ilPaymentTrustees
 	{
 		$statement = $this->db->manipulateF('
 			INSERT INTO payment_trustees
-			SET vendor_id = %s,
-				trustee_id = %s,
-				perm_stat = %s,
-				perm_coupons = %s,
-				perm_obj = %s',
+			( vendor_id,
+				trustee_id,
+				perm_stat,
+				perm_coupons,
+				perm_obj
+			)
+			VALUES (%s,%s,%s,%s,%s)',
 			array('integer', 'integer', 'integer', 'integer', 'integer'),
 			array(	$this->user_obj->getId(), 
 					$this->__getTrusteeId(),
