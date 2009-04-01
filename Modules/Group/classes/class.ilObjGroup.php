@@ -1286,7 +1286,9 @@ class ilObjGroup extends ilContainer
 
 		//define all relevant roles that rights are needed to be changed
 		$arr_parentRoles = $rbacreview->getParentRoleIds($this->getRefId());
-		$arr_relevantParentRoleIds = array_diff(array_keys($arr_parentRoles),$this->getDefaultGroupRoles());
+
+		$real_local_roles = $rbacreview->getRolesOfRoleFolder($rolf_data['ref_id'],false);
+		$arr_relevantParentRoleIds = array_diff(array_keys($arr_parentRoles),$real_local_roles);
 
 		//group status open (aka public) or group status closed
 		if ($a_grpStatus == GRP_TYPE_PUBLIC || $a_grpStatus == GRP_TYPE_CLOSED)
