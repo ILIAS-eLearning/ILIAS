@@ -172,6 +172,19 @@ class ilRBACTest extends PHPUnit_Framework_TestCase
 		ilConditionHandler::_getCondition(-1);
 	}
 	
+	public function testCache()
+	{
+		include_once './Services/AccessControl/classes/class.ilAccessHandler.php';
+		
+		$handler = new ilAccessHandler();
+		$handler->setResults(array(1,2,3));
+		$handler->storeCache();
+		$handler->readCache();
+		$res = $handler->getResults();
+		
+		$this->assertEquals(array(1,2,3),$res);	
+	}
+	
 	
 }
 ?>

@@ -10962,3 +10962,10 @@ $ilCtrlStructureReader->getStructure();
 	$ilMySQLAbstraction->performAbstraction('payment_statistic');
 ?>
 
+<#2276>
+ALTER TABLE `acc_cache` CHANGE `result` `result` TEXT NULL DEFAULT NULL;  
+
+<#2277>
+<?php 
+	$ilMySQLAbstraction->performAbstraction('acc_cache');
+?>

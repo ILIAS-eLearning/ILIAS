@@ -136,10 +136,14 @@ class ilAccessHandler
 	{
 		global $ilDB, $ilUser;
 		
-		$q = "REPLACE INTO acc_cache (user_id, time, result) VALUES ".
-			"(".$ilDB->quote($ilUser->getId()).",".time().",".
-			$ilDB->quote(serialize($this->results)).")";
-		$ilDB->query($q);
+		$query = "DELETE FROM acc_cache WHERE user_id = ".$ilDB->quote($ilUser->getId(),'integer');
+		$res = $ilDB->manipulate($query);
+		
+		$ilDB->insert('acc_cache', array(
+			'user_id'	=>	array('integer',$ilUser->getId()),
+			'time'		=>	array('integer',time()),
+			'result'	=>	array('clob',serialize($this->results))
+			));
 	}
 	
 	function readCache($a_secs = 0)
@@ -148,9 +152,9 @@ class ilAccessHandler
 		
 		if ($a_secs > 0)
 		{
-			$q = "SELECT * FROM acc_cache WHERE user_id = ".
-				$ilDB->quote($ilUser->getId());
-			$set = $ilDB->query($q);
+			$query = "SELECT * FROM acc_cache WHERE user_id = ".
+				$ilDB->quote($ilUser->getId() ,'integer');
+			$set = $ilDB->query($query);
 			$rec = $set->fetchRow(DB_FETCHMODE_ASSOC);
 			if ((time() - $rec["time"]) < $a_secs)
 			{
