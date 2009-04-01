@@ -120,24 +120,28 @@ class ilParameterAppender
 			return false;
 		}
 
-		$query = "INSERT INTO webr_params ".
-			"SET webr_id = ".$ilDB->quote($this->getObjId()).", ".
-			"link_id = ".$ilDB->quote($a_link_id).", ".
-			"name = ".$ilDB->quote($this->getName()).", ".
-			"value = ".$ilDB->quote($this->getValue());
+		$next_id = $ilDB->nextId('webr_params');
+		$query = "INSERT INTO webr_params (param_id,webr_id,link_id,name,value) ".
+			"VALUES( ".
+			$ilDB->quote($next_id,'integer').", ".
+			$ilDB->quote($this->getObjId() ,'integer').", ".
+			$ilDB->quote($a_link_id ,'integer').", ".
+			$ilDB->quote($this->getName() ,'text').", ".
+			$ilDB->quote($this->getValue() ,'integer').
+			")";
+		$res = $ilDB->manipulate($query);
 
-		$this->db->query($query);
-
-		return $this->db->getLastInsertId();
+		return $next_id;
 	}
 	
 	function delete($a_param_id)
 	{
 		global $ilDB;
 		
-		$this->db->query("DELETE FROM webr_params WHERE param_id = ".
-			$ilDB->quote((int) $a_param_id)." AND webr_id = ".$ilDB->quote($this->getObjId()));
-
+		$query = "DELETE FROM webr_params ".
+			"WHERE param_id = ".$ilDB->quote($a_param_id ,'integer')." ".
+			"AND webr_id = ".$ilDB->quote($this->getObjId(),'integer');
+		$res = $ilDB->manipulate($query);
 		return true;
 	}
 	
@@ -195,7 +199,7 @@ class ilParameterAppender
 		global $ilDB;
 
 		$res = $ilDB->query("SELECT * FROM webr_params WHERE link_id = ".
-			$ilDB->quote((int) $a_link_id));
+			$ilDB->quote((int) $a_link_id ,'integer'));
 		while($row = $res->fetchRow(DB_FETCHMODE_OBJECT))
 		{
 			$params[$row->param_id]['name'] = $row->name;
@@ -209,8 +213,9 @@ class ilParameterAppender
 	{
 		global $ilDB;
 
-		$ilDB->query("DELETE FROM webr_params WHERE webr_id = ".
-			$ilDB->quote((int) $a_webr_id));
+		$query = "DELETE FROM webr_params WHERE webr_id = ".
+			$ilDB->quote((int) $a_webr_id ,'integer');
+		$res = $ilDB->manipulate($query);
 
 		return true;
 	}
