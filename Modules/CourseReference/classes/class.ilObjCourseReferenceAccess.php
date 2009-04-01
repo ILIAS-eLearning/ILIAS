@@ -36,6 +36,45 @@ include_once("./Services/ContainerReference/classes/class.ilContainerReferenceAc
 class ilObjCourseReferenceAccess extends ilContainerReferenceAccess
 {
 	/**
+	* Checks wether a user may invoke a command or not
+	* (this method is called by ilAccessHandler::checkAccess)
+	*
+	* Please do not check any preconditions handled by
+	* ilConditionHandler here. Also don't do any RBAC checks.
+	*
+	* @param	string		$a_cmd			command (not permission!)
+ 	* @param	string		$a_permission	permission
+	* @param	int			$a_ref_id		reference id
+	* @param	int			$a_obj_id		object id
+	* @param	int			$a_user_id		user id (if not provided, current user is taken)
+	*
+	* @return	boolean		true, if everything is ok
+	*/
+	function _checkAccess($a_cmd, $a_permission, $a_ref_id, $a_obj_id, $a_user_id = "")
+	{
+		global $lng,$rbacsystem,$ilAccess;
+		
+		switch($a_permission)
+		{
+			case 'visible':
+			case 'read':
+				include_once './Modules/CourseReference/classes/class.ilObjCourseReference.php';
+				$target_ref_id = ilObjCourseReference::_lookupTargetRefId($a_obj_id);
+				$target_obj_id = ilObject::_lookupObjId($target_ref_id);
+				
+				include_once './Modules/Course/classes/class.ilObjCourse.php';
+				if(!ilObjCourse::_isActivated($target_obj_id) and 
+					!$rbacsystem->checkAccess('write',$a_ref_id))
+				{
+					$ilAccess->addInfoItem(IL_NO_OBJECT_ACCESS, $lng->txt("offline"));
+					return false;
+				}
+		}
+
+		return true;
+	}
+
+	/**
 	 * get commands
 	 * 
 	 * Depends on permissions
