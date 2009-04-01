@@ -329,7 +329,7 @@ class ilAuthContainerLDAP extends Auth_Container_LDAP
 		foreach($a_username as $name)
 		{
 			// User found with authentication method 'ldap'
-			if(ilObjUser::_checkExternalAuthAccount("ldap",$a_username))
+			if(ilObjUser::_checkExternalAuthAccount("ldap",$name))
 			{
 				return trim($name);
 			}
