@@ -10969,3 +10969,8 @@ ALTER TABLE `acc_cache` CHANGE `result` `result` TEXT NULL DEFAULT NULL;
 <?php 
 	$ilMySQLAbstraction->performAbstraction('acc_cache');
 ?>
+
+<#2278>
+<?php 
+	$ilMySQLAbstraction->performAbstraction('webr_params');
+?>
