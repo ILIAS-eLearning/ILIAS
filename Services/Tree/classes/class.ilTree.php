@@ -1725,9 +1725,11 @@ class ilTree
 	function getParentNodeData($a_node_id)
 	{
 		global $ilDB;
+		global $ilLog;
 		
 		if (!isset($a_node_id))
 		{
+			$ilLog->logStack();
 			$this->ilErr->raiseError(get_class($this)."::getParentNodeData(): No node_id given! ",$this->ilErr->WARNING);
 		}
 
