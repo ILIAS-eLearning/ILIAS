@@ -63,7 +63,7 @@ class ilObjCourseReferenceAccess extends ilContainerReferenceAccess
 				$target_obj_id = ilObject::_lookupObjId($target_ref_id);
 				
 				include_once './Modules/Course/classes/class.ilObjCourse.php';
-				if(!ilObjCourse::_isActivated($target_obj_id) and 
+				if((!ilObjCourse::_isActivated($target_obj_id) or !$rbacsystem->checkAccess('visible',$target_ref_id)) and 
 					!$rbacsystem->checkAccess('write',$a_ref_id))
 				{
 					$ilAccess->addInfoItem(IL_NO_OBJECT_ACCESS, $lng->txt("offline"));
