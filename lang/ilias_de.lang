@@ -9150,6 +9150,10 @@ common#:#file_locked_by#:#Datei gesperrt von
 common#:#lock_file#:#Datei sperren
 common#:#permission_denied_filed_locked_by#:#Zugriff verweigert. Die Datei wurde von '%s' gesperrt.
 common#:#file_lock_unlock_file#:#Datei sperren/entsperren
+cntr#:#cntr_page_actions#:#Page Actions
+cntr#:#cntr_enable_multi_commands#:#Enable Multi Commands
+cntr#:#cntr_disable_multi_commands#:#Disable Multi Commands
+cntr#:#cntr_add_new_item#:#Neues Objekt hinzufügen
 search#:#lucene_settings_tab#:#Lucene
 search#:#lucene_settings_title#:#Einstellungen zur Lucene-Suche
 search#:#lucene_default_operator#:#Verknüpfung von Suchbegriffen
