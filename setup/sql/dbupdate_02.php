@@ -10974,3 +10974,67 @@ ALTER TABLE `acc_cache` CHANGE `result` `result` TEXT NULL DEFAULT NULL;
 <?php 
 	$ilMySQLAbstraction->performAbstraction('webr_params');
 ?>
+<#2279>
+<?php 
+	$ilMySQLAbstraction->performAbstraction('payment_coupons_codes');
+?>
+<#2280>
+<?php 
+	$ilDB->manipulate("ALTER TABLE payment_coupons MODIFY pc_type CHAR(8) NOT NULL DEFAULT 'fix'");
+?>
+<#2281>
+<?php 	
+	$ilDB->manipulate("ALTER TABLE payment_coupons MODIFY pc_VALUE FLOAT NOT NULL DEFAULT '0'");
+?>
+<#2282>
+<?php 	
+	$ilDB->manipulate("ALTER TABLE payment_coupons MODIFY usr_id INT NOT NULL DEFAULT '0'");
+?>
+<#2283>
+<?php 		
+	$ilDB->manipulate("ALTER TABLE payment_coupons MODIFY pc_last_change_usr_id INT NOT NULL DEFAULT '0'");
+?>
+<#2284>
+<?php 	
+	$ilDB->manipulate("ALTER TABLE payment_coupons MODIFY pc_description VARCHAR(4000) NOT NULL");
+?>
+<#2285>
+<?php 		
+	$ilMySQLAbstraction->performAbstraction('payment_coupons');
+?>
+<#2286>
+<?php 
+	$ilMySQLAbstraction->performAbstraction('payment_coupons_obj');
+?>
+<#2287>
+<?php 
+	$ilDB->manipulate("ALTER TABLE payment_coupons_track MODIFY usr_id INT NOT NULL DEFAULT '0'");	
+?>
+<#2288>
+<?php 
+	$ilMySQLAbstraction->performAbstraction('payment_coupons_track');
+?>
+<#2289>
+<?php 
+	$ilMySQLAbstraction->performAbstraction('payment_shopping_cart');
+?>
+<#2290>
+<?php 
+	$ilMySQLAbstraction->performAbstraction('payment_statistic_coup');
+?>
+<#2291>
+<?php 
+	$ilMySQLAbstraction->performAbstraction('payment_topics');
+?>
+<#2292>
+<?php 
+	$ilMySQLAbstraction->performAbstraction('payment_trustees');
+?>
+<#2293>
+<?php 
+	$ilMySQLAbstraction->performAbstraction('payment_vendors');
+?>
+<#2294>
+<?php 
+	$ilMySQLAbstraction->performAbstraction('payment_currencies');
+?>
