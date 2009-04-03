@@ -11038,3 +11038,16 @@ ALTER TABLE `acc_cache` CHANGE `result` `result` TEXT NULL DEFAULT NULL;
 <?php 
 	$ilMySQLAbstraction->performAbstraction('payment_currencies');
 ?>
+
+<#2295>
+ALTER TABLE `webr_items` CHANGE `description` `description` VARCHAR( 4000 ) NOT NULL;  
+
+<#2296>
+ALTER TABLE `webr_items` CHANGE `target` `target` VARCHAR( 4000 ) NULL DEFAULT NULL;
+  
+<#2297>
+<?php 
+	$ilMySQLAbstraction->performAbstraction('webr_items');
+?>
+
+  

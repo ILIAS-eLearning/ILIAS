@@ -65,6 +65,25 @@ class ilwebresourceTest extends PHPUnit_Framework_TestCase
 		
 		$del = ilLinkCheckNotify::_deleteObject(99999);
 		$this->assertEquals($del,true);
-	}	
+	}
+	
+	public function testWebResourceParameters()
+	{
+		include_once './Modules/WebResource/classes/class.ilParameterAppender.php';
+		
+		$appender = new ilParameterAppender(999);
+		$appender->setName('first');
+		$appender->setValue(1);
+		$appender->add(888);
+		
+		$params = ilParameterAppender::_getParams(888);
+		foreach($params as $key => $data)
+		{
+			$appender->delete($key);
+			$this->assertEquals($data['name'],'first');
+			$this->assertEquals($data['value'],1);
+		}
+		
+	}
 }
 ?>
