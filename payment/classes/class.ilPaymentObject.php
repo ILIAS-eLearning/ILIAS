@@ -155,7 +155,7 @@ class ilPaymentObject
 	}
 	public function add()
 	{	
-	$next_id = $this->db->nextId('payment_objects');
+		$next_id = $this->db->nextId('payment_objects');
 		$statement = $this->db->manipulateF(
 			'INSERT INTO payment_objects
 			 (	pobject_id,
@@ -179,7 +179,7 @@ class ilPaymentObject
 				)
 			);
 		
-		return (int)$this->db->getLastInsertId();
+		return $next_id;
 	}
 	
 	public function delete()

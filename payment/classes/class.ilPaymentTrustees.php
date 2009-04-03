@@ -89,7 +89,7 @@ class ilPaymentTrustees
 	{
 		$statement = $this->db->manipulateF('
 			INSERT INTO payment_trustees
-			( vendor_id,
+			( 	vendor_id,
 				trustee_id,
 				perm_stat,
 				perm_coupons,

@@ -163,9 +163,11 @@ class ilPaymentCouponGUI extends ilShopBaseGUI
 			
 			$f_result[$counter][] = $objects;			
 			
-			
-			$f_result[$counter][] = ($coupon['pc_from'] != '0000-00-00' && $coupon['pc_from_enabled'] == '1') ? ilFormat::formatDate($coupon['pc_from'], 'date') : '';
-			$f_result[$counter][] = ($coupon['pc_till'] != '0000-00-00' && $coupon['pc_till_enabled'] == '1') ? ilFormat::formatDate($coupon['pc_till'], 'date') : '';
+		
+		//	$f_result[$counter][] = ($coupon['pc_from'] != '0000-00-00' && $coupon['pc_from_enabled'] == '1') ? ilFormat::formatDate($coupon['pc_from'], 'date') : '';
+		//	$f_result[$counter][] = ($coupon['pc_till'] != '0000-00-00' && $coupon['pc_till_enabled'] == '1') ? ilFormat::formatDate($coupon['pc_till'], 'date') : '';
+			$f_result[$counter][] = ($coupon['pc_from'] != NULL && $coupon['pc_from_enabled'] == '1') ? ilFormat::formatDate($coupon['pc_from'], 'date') : '';
+			$f_result[$counter][] = ($coupon['pc_till'] != NULl && $coupon['pc_till_enabled'] == '1') ? ilFormat::formatDate($coupon['pc_till'], 'date') : '';			
 			$f_result[$counter][] = 
 				($coupon['pc_last_changed'] != '0000-00-00 00:00:00' ? ilFormat::formatDate($coupon['pc_last_changed']) : '') .
 				($coupon['pc_last_change_usr_id'] != '0' ? "[" . ilObjUser::_lookupLogin($coupon['pc_last_change_usr_id']) . "]" : '');
@@ -238,8 +240,11 @@ class ilPaymentCouponGUI extends ilShopBaseGUI
 		$this->coupon_obj->setDescription(ilUtil::stripSlashes($_POST['description']));			
 		$this->coupon_obj->setType(ilUtil::stripSlashes($_POST['type']));
 		$this->coupon_obj->setValue(ilUtil::stripSlashes($_POST['value']));			
-		$this->coupon_obj->setFromDate(ilUtil::stripSlashes($_POST['from']['y']."-".$_POST['from']['m']."-".$_POST['from']['d']));
-		$this->coupon_obj->setTillDate(ilUtil::stripSlashes($_POST['till']['y']."-".$_POST['till']['m']."-".$_POST['till']['d']));
+	//	$this->coupon_obj->setFromDate(ilUtil::stripSlashes($_POST['from']['y']."-".$_POST['from']['m']."-".$_POST['from']['d']));
+	//	$this->coupon_obj->setTillDate(ilUtil::stripSlashes($_POST['till']['y']."-".$_POST['till']['m']."-".$_POST['till']['d']));
+		$this->coupon_obj->setFromDate( date("Y-m-d",mktime(0,0,0,$_POST['from']['m'],$_POST['from']['d'],$_POST['from']['y'])));
+		$this->coupon_obj->setTillDate( date("Y-m-d",mktime(0,0,0,$_POST['till']['m'],$_POST['till']['d'],$_POST['till']['y'])));
+		
 		$this->coupon_obj->setFromDateEnabled(ilUtil::stripSlashes($_POST['pc_from_enabled']));
 		$this->coupon_obj->setTillDateEnabled(ilUtil::stripSlashes($_POST['pc_till_enabled']));
 		$this->coupon_obj->setUses(ilUtil::stripSlashes($_POST['usage']));			
@@ -326,7 +331,7 @@ class ilPaymentCouponGUI extends ilShopBaseGUI
 
 		if ($this->coupon_obj->getFromDateEnabled()) $this->tpl->setVariable('CHECKED_STARTING_DATE', " checked=\"checked\"");
 		if ($this->coupon_obj->getTillDateEnabled()) $this->tpl->setVariable('CHECKED_ENDING_DATE', " checked=\"checked\"");
-		
+
 		$this->tpl->setVariable('DATE_FROM', ilUtil::makeDateSelect("from", $from_year, $from_month, $from_day, 2004));
 		$this->tpl->setVariable('DATE_TILL', ilUtil::makeDateSelect("till", $till_year, $till_month, $till_day, 2004));
 		
