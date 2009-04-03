@@ -317,7 +317,8 @@ class ilBMFSettings
 				array($next_id, serialize($values))				
 			);
 
-			//$this->setSettingsId($this->db->getLastInsertId());
+			$this->setSettingsId($next_id);
+			
 		}		
 	}	
 }

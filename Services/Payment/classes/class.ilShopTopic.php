@@ -114,16 +114,18 @@ class ilShopTopic
 		{
 			$this->createdate = time();
 			
+			$next_id =$this->db->nextId('payment_topics');
 			$statement = $this->db->manipulateF('
 				INSERT INTO payment_topics 
-				( pt_topic_title,
+				( 	pt_topic_pk,
+					pt_topic_title,
 					pt_topic_sort,
 					pt_topic_created
 				) VALUES (%s,%s,%s)',
-				array('text', 'integer', 'integer'),
-				array($this->getTitle(), $this->getSorting(), $this->getCreateDate()));
+				array('integer','text', 'integer', 'integer'),
+				array($next_id, $this->getTitle(), $this->getSorting(), $this->getCreateDate()));
 
-			$this->id = $this->db->getLastInsertId();			
+			$this->id = $next_id;			
 			if($this->id) return true;
 		}
 		

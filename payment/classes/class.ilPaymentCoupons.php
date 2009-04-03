@@ -53,6 +53,7 @@ class ilPaymentCoupons
 			$this->getSearchFromDateEnabled()
 		)
 		{
+		
 			$from = mktime(0, 0, 0, $this->getSearchFromMonth(), $this->getSearchFromDay(), $this->getSearchFromYear());						
 		}
 		
@@ -297,6 +298,7 @@ class ilPaymentCoupons
 	}
 	public function setFromDateEnabled($a_from_date_enabled = 0)
 	{
+		if($a_from_date_enabled == NULL) $a_from_date_enabled = 0;		
 		$this->from_date_enabled = $a_from_date_enabled;
 	}	
 	public function getFromDateEnabled()
@@ -305,6 +307,7 @@ class ilPaymentCoupons
 	}
 	public function setTillDateEnabled($a_till_date_enabled = 0)
 	{
+		if($a_till_date_enabled == NULL) $a_till_date_enabled = 0;
 		$this->till_date_enabled = $a_till_date_enabled;
 	}	
 	public function getTillDateEnabled()
@@ -363,10 +366,11 @@ class ilPaymentCoupons
 	}
 	public function setSearchFromMonth($a_month)
 	{
+
 		$this->search_from_month = $a_month;
 	}
 	public function getSearchFromMonth()
-	{
+	{	
 		return $this->search_from_month;
 	}
 	public function setSearchFromYear($a_year)
@@ -429,26 +433,32 @@ class ilPaymentCoupons
 	
 	public function add()
 	{
-
+		$next_id = $ilDB->nextId('payment_coupons');
+		
+		
 		$statement = $this->db->manipulateF('
 			INSERT INTO payment_coupons
-			SET usr_id = %s,
-				pc_title = %s,
-				pc_description = %s,
-				pc_type = %s,
-				pc_value = %s,
-				pc_from = %s,
-				pc_till = %s,
-				pc_from_enabled = %s,
-				pc_till_enabled = %s,
-				pc_uses = %s,
-				pc_last_change_usr_id = %s,
-				pc_last_changed = %s', 
+			(	pc_pk,
+				usr_id, 
+				pc_title,
+				pc_description, 
+				pc_type, 
+				pc_value, 
+				pc_from,
+				pc_till, 
+				pc_from_enabled,
+				pc_till_enabled, 
+				pc_uses,  
+				pc_last_change_usr_id, 
+				pc_last_changed				
+			)
+			VALUES(%s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s)', 
 			array(	'integer', 
+					'integer', 
 					'text', 
 					'text', 
 					'text',
-					'decimal',
+					'float',
 					'date',
 					'date',
 					'integer',
@@ -456,21 +466,22 @@ class ilPaymentCoupons
 					'integer',
 					'integer',
 					'timestamp'),
-			array(	$this->getCouponUser(),
-						$this->getTitle(),
-						$this->getDescription(),
-						$this->getType(),
-						$this->getValue(),
-						$this->getFromDate(),
-						$this->getTillDate(),
-						$this->getFromDateEnabled(),
-						$this->getTillDateEnabled(),
-						$this->getUses(),
-						'',
-						'')
+			array(	$next_id,
+					$this->getCouponUser(),
+					$this->getTitle(),
+					$this->getDescription(),
+					$this->getType(),
+					$this->getValue(),
+					$this->getFromDate(),
+					$this->getTillDate(),
+					$this->getFromDateEnabled(),
+					$this->getTillDateEnabled(),
+					$this->getUses(),
+					$this->getCouponUser(),
+					$this->getChangeDate()		)
 		);
 	
-		return $this->db->getLastInsertId();
+		return $next_id;
 	}
 						 
 	public function update()
@@ -494,7 +505,7 @@ class ilPaymentCoupons
 				array(	'text', 
 						'text', 
 						'text',
-						'decimal',
+						'float',
 						'date',
 						'date',
 						'integer',
@@ -602,7 +613,7 @@ class ilPaymentCoupons
 		 	FROM payment_coupons_codes
 		 	LEFT JOIN payment_coupons_track ON  pct_pcc_fk = pcc_pk 
 		  	WHERE 1 AND pcc_pc_fk = %s
-		  	GROUP BY pcc_pk,payment_coupons_codes.pcc_pc_fk,pcc_code', 
+		  	GROUP BY pcc_pk, payment_coupons_codes.pcc_pc_fk ,pcc_code', 
 			array('integer'), 
 			array($a_coupon_id));
 		
@@ -769,15 +780,18 @@ class ilPaymentCoupons
 	{
 		if ($a_code && $a_coupon_id)
 		{
+			$next_id = $this->db->nextId('payment_coupons_codes');
 			$statement = $this->db->manipulateF('
 				INSERT INTO payment_coupons_codes
-				(	pcc_pc_fk,
+				(	pcc_pk,
+					pcc_pc_fk,
 					pcc_code
 				)
-				VALUES (%s,$s)',
-				array('integer', 'text'),array($a_coupon_id, $a_code));
+				VALUES (%s,%s,%s)',
+				array('integer','integer', 'text'),
+				array($next_id, $a_coupon_id, $a_code));
 			
-			return $this->db->getLastInsertId();
+			return $next_id;
 		}
 		return false;
 	}	
@@ -787,7 +801,7 @@ class ilPaymentCoupons
 		$current_coupon = $this->getCurrentCoupon();
 		
 		if ($a_booking_id && is_array($current_coupon))
-		{		
+		{	
 			$statement = $this->db->manipulateF('
 				INSERT INTO payment_statistic_coup 
 				( 	psc_ps_fk,
@@ -797,7 +811,7 @@ class ilPaymentCoupons
 				array('integer', 'integer', 'integer'),
 				array($a_booking_id, $current_coupon['pc_pk'], $current_coupon['pcc_pk']));
 			
-			return $this->db->getLastInsertId();
+		//	return $this->db->getLastInsertId(); 
 		}
 		return false;
 	}
@@ -808,17 +822,19 @@ class ilPaymentCoupons
 		
 		if (is_array($current_coupon))
 		{
+			$next_id = $this->db->nextId('payment_coupons_track');
 			$statement = $this->db->manipulateF('
 				INSERT INTO payment_coupons_track
-				(	pct_pcc_fk ,
+				(	pct_pk,
+					pct_pcc_fk ,
 					usr_id,
 					pct_date
 				)
-				VALUES (%s, %s, %s)',
-				array('integer', 'integer', 'timestamp'),
-				array($current_coupon['pcc_pk'], $this->user_obj->getId(), date("Y-m-d H:i:s")));
+				VALUES (%s, %s, %s, %s)',
+				array('integer','integer', 'integer', 'timestamp'),
+				array($next_id, $current_coupon['pcc_pk'], $this->user_obj->getId(), date("Y-m-d H:i:s")));
 		
-			return $this->db->getLastInsertId();
+			return $next_id;
 		}
 		return false;
 	}

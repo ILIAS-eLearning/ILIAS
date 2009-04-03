@@ -98,7 +98,6 @@ class ilShopVats
 		{
 			
 			$res = $ilDB->queryF($query, $data_types, $data_values);
-			vd($query);
 			while($row = $res->fetchRow(DB_FETCHMODE_OBJECT))
 			{
 				$vats['vat_id'] = $row->vat_id;

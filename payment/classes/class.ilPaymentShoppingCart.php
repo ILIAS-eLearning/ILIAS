@@ -141,14 +141,16 @@ class ilPaymentShoppingCart
 			array('integer', 'integer'),
 			array($this->user_obj->getId(), $this->getPobjectId()));
 
+		$next_id = $this->db->nextId('payment_shopping_cart');
 		$statement = $this->db->manipulateF('
 			INSERT INTO payment_shopping_cart
-			( customer_id,
+			( 	psc_id,
+				customer_id,
 				pobject_id,
 				price_id
-			) VALUES(%s,%s,%s)', 
-			array('integer', 'integer', 'integer'),
-			array($this->user_obj->getId(), $this->getPobjectId(), $this->getPriceId()));
+			) VALUES(%s,%s,%s,%s)', 
+			array('integer', 'integer', 'integer', 'integer'),
+			array($next_id, $this->user_obj->getId(), $this->getPobjectId(), $this->getPriceId()));
 		
 		$this->__read();
 

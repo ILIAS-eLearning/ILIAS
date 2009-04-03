@@ -229,7 +229,7 @@ class ilPaymentPrices
 		
 		$res = $this->db->manipulateF('
 			INSERT INTO payment_prices 
-			(	price_id
+			(	price_id,
 				pobject_id,
 				currency,
 				duration,
