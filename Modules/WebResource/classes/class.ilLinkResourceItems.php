@@ -189,10 +189,9 @@ class ilLinkResourceItems
 		global $ilDB;
 		
 		$query = "DELETE FROM webr_items ".
-			"WHERE webr_id = ".$ilDB->quote($this->getLinkResourceId())." ".
-			"AND link_id = ".$ilDB->quote($a_item_id);
-
-		$this->db->query($query);
+			"WHERE webr_id = ".$ilDB->quote($this->getLinkResourceId() ,'integer')." ".
+			"AND link_id = ".$ilDB->quote($a_item_id ,'integer');
+		$res = $ilDB->manipulate($query);
 
 		if($a_update_history)
 		{
@@ -215,18 +214,17 @@ class ilLinkResourceItems
 
 		$this->__setLastUpdateDate(time());
 		$query = "UPDATE webr_items ".
-			"SET title = ".$ilDB->quote($this->getTitle()).", ".
-			"description = ".$ilDB->quote($this->getDescription()).", ".
-			"target = ".$ilDB->quote($this->getTarget()).", ".
-			"active = ".$ilDB->quote($this->getActiveStatus()).", ".
-			"valid = ".$ilDB->quote($this->getValidStatus()).", ".
-			"disable_check = ".$ilDB->quote($this->getDisableCheckStatus()).", ".
-			"last_update = ".$ilDB->quote($this->getLastUpdateDate()).", ".
-			"last_check = ".$ilDB->quote($this->getLastCheckDate())." ".
-			"WHERE link_id = ".$ilDB->quote($this->getLinkId())." ".
-			"AND webr_id = ".$ilDB->quote($this->getLinkResourceId());
-
-		$this->db->query($query);
+			"SET title = ".$ilDB->quote($this->getTitle() ,'text').", ".
+			"description = ".$ilDB->quote($this->getDescription() ,'text').", ".
+			"target = ".$ilDB->quote($this->getTarget() ,'text').", ".
+			"active = ".$ilDB->quote($this->getActiveStatus() ,'integer').", ".
+			"valid = ".$ilDB->quote($this->getValidStatus() ,'integer').", ".
+			"disable_check = ".$ilDB->quote($this->getDisableCheckStatus() ,'integer').", ".
+			"last_update = ".$ilDB->quote($this->getLastUpdateDate() ,'integer').", ".
+			"last_check = ".$ilDB->quote($this->getLastCheckDate() ,'integer')." ".
+			"WHERE link_id = ".$ilDB->quote($this->getLinkId() ,'integer')." ".
+			"AND webr_id = ".$ilDB->quote($this->getLinkResourceId() ,'integer');
+		$res = $ilDB->manipulate($query);
 
 		if($a_update_history)
 		{
@@ -243,10 +241,9 @@ class ilLinkResourceItems
 		global $ilDB;
 		
 		$query = "UPDATE webr_items ".
-			"SET valid = ".$ilDB->quote($a_status)." ".
-			"WHERE link_id = ".$ilDB->quote($this->getLinkId());
-
-		$this->db->query($query);
+			"SET valid = ".$ilDB->quote($a_status ,'integer')." ".
+			"WHERE link_id = ".$ilDB->quote($this->getLinkId() ,'integer');
+		$res = $ilDB->manipulate($query);
 
 		return true;
 	}
@@ -256,8 +253,8 @@ class ilLinkResourceItems
 		global $ilDB;
 		
 		$query = "UPDATE webr_items ".
-			"SET active = ".$ilDB->quote($a_status)." ".
-			"WHERE link_id = ".$ilDB->quote($this->getLinkId());
+			"SET active = ".$ilDB->quote($a_status ,'integer')." ".
+			"WHERE link_id = ".$ilDB->quote($this->getLinkId() ,'integer');
 
 		$this->db->query($query);
 
@@ -268,10 +265,9 @@ class ilLinkResourceItems
 		global $ilDB;
 		
 		$query = "UPDATE webr_items ".
-			"SET disable_check = ".$ilDB->quote($a_status)." ".
-			"WHERE link_id = ".$ilDB->quote($this->getLinkId());
-
-		$this->db->query($query);
+			"SET disable_check = ".$ilDB->quote($a_status ,'integer')." ".
+			"WHERE link_id = ".$ilDB->quote($this->getLinkId() ,'integer');
+		$res = $ilDB->manipulate($query);
 
 		return true;
 	}
@@ -287,21 +283,19 @@ class ilLinkResourceItems
 			
 			
 			$query = "UPDATE webr_items ".
-				"SET last_check = ".$ilDB->quote(time())." ".
-				"WHERE webr_id = ".$ilDB->quote($this->getLinkResourceId())." ".
+				"SET last_check = ".$ilDB->quote(time() ,'integer')." ".
+				"WHERE webr_id = ".$ilDB->quote($this->getLinkResourceId() ,'integer')." ".
 				"AND disable_check = '0' ".
-				"AND last_check < ".$ilDB->quote($time);
-			
-			$this->db->query($query);
+				"AND last_check < ".$ilDB->quote($time ,'integer');
+			$res = $ilDB->manipulate($query);
 		}
 		else
 		{
 			$query = "UPDATE webr_items ".
-				"SET last_check = ".$ilDB->quote(time())." ".
-				"WHERE webr_id = ".$ilDB->quote($this->getLinkResourceId())." ".
+				"SET last_check = ".$ilDB->quote(time() ,'integer')." ".
+				"WHERE webr_id = ".$ilDB->quote($this->getLinkResourceId() ,'integer')." ".
 				"AND disable_check = '0' ";
-			
-			$this->db->query($query);
+			$res = $ilDB->manipulate($query);
 		}
 		return true;
 	}
@@ -319,19 +313,17 @@ class ilLinkResourceItems
 			$query = "UPDATE webr_items ".
 				"SET valid = '1' ".
 				"WHERE disable_check = '0' ".
-				"AND webr_id = ".$ilDB->quote($this->getLinkResourceId())." ".
-				"AND last_check < ".$ilDB->quote($time);
-			
-			$this->db->query($query);
+				"AND webr_id = ".$ilDB->quote($this->getLinkResourceId() ,'integer')." ".
+				"AND last_check < ".$ilDB->quote($time ,'integer');
+			$res = $ilDB->manipulate($query);
 		}
 		else
 		{
 			$query = "UPDATE webr_items ".
 				"SET valid = '1' ".
 				"WHERE disable_check = '0' ".
-				"AND webr_id = ".$ilDB->quote($this->getLinkResourceId());
-
-			$this->db->query($query);
+				"AND webr_id = ".$ilDB->quote($this->getLinkResourceId() ,'integer');
+			$res = $ilDB->manipulate($query);
 		}
 		return true;
 	}
@@ -344,19 +336,23 @@ class ilLinkResourceItems
 		$this->__setLastUpdateDate(time());
 		$this->__setCreateDate(time());
 
-		$query = "INSERT INTO webr_items ".
-			"SET title = ".$ilDB->quote($this->getTitle()).", ".
-			"description = ".$ilDB->quote($this->getDescription()).", ".
-			"target = ".$ilDB->quote($this->getTarget()).", ".
-			"active = ".$ilDB->quote($this->getActiveStatus()).", ".
-			"disable_check = ".$ilDB->quote($this->getDisableCheckStatus()).", ".
-			"last_update = ".$ilDB->quote($this->getLastUpdateDate()).", ".
-			"create_date = ".$ilDB->quote($this->getCreateDate()).", ".
-			"webr_id = ".$ilDB->quote($this->getLinkResourceId());
+		$next_id = $ilDB->nextId('webr_items');
+		$query = "INSERT INTO webr_items (link_id,title,description,target,active,disable_check,".
+			"last_update,create_date,webr_id) ".
+			"VALUES( ". 
+			$ilDB->quote($next_id ,'integer').", ".
+			$ilDB->quote($this->getTitle() ,'text').", ".
+			$ilDB->quote($this->getDescription() ,'text').", ".
+			$ilDB->quote($this->getTarget() ,'text').", ".
+			$ilDB->quote($this->getActiveStatus() ,'integer').", ".
+			$ilDB->quote($this->getDisableCheckStatus() ,'integer').", ".
+			$ilDB->quote($this->getLastUpdateDate() ,'integer').", ".
+			$ilDB->quote($this->getCreateDate() ,'integer').", ".
+			$ilDB->quote($this->getLinkResourceId() ,'integer')." ".
+			")";
+		$res = $ilDB->manipulate($query);
 
-		$this->db->query($query);
-
-		$link_id = $this->db->getLastInsertId();
+		$link_id = $next_id;
 		$this->setLinkId($link_id);
 		
 		if($a_update_history)
@@ -373,7 +369,7 @@ class ilLinkResourceItems
 		global $ilDB;
 		
 		$query = "SELECT * FROM webr_items ".
-			"WHERE link_id = ".$ilDB->quote($a_link_id);
+			"WHERE link_id = ".$ilDB->quote($a_link_id ,'integer');
 
 		$res = $this->db->query($query);
 		while($row = $res->fetchRow(DB_FETCHMODE_OBJECT))
@@ -398,8 +394,8 @@ class ilLinkResourceItems
 		global $ilDB;
 		
 		$query = "SELECT * FROM webr_items ".
-			"WHERE webr_id = ".$ilDB->quote($this->getLinkResourceId())." ".
-			"AND link_id = ".$ilDB->quote($a_link_id);
+			"WHERE webr_id = ".$ilDB->quote($this->getLinkResourceId() ,'integer')." ".
+			"AND link_id = ".$ilDB->quote($a_link_id ,'integer');
 
 		$res = $this->db->query($query);
 		while($row = $res->fetchRow(DB_FETCHMODE_OBJECT))
@@ -424,7 +420,7 @@ class ilLinkResourceItems
 		global $ilDB;
 		
 		$query = "SELECT * FROM webr_items ".
-			"WHERE webr_id = ".$ilDB->quote($this->getLinkResourceId());
+			"WHERE webr_id = ".$ilDB->quote($this->getLinkResourceId() ,'integer');
 
 		$res = $this->db->query($query);
 		while($row = $res->fetchRow(DB_FETCHMODE_OBJECT))
@@ -480,7 +476,7 @@ class ilLinkResourceItems
 	{
 		global $ilDB;
 		
-		$ilDB->query("DELETE FROM webr_items WHERE webr_id = ".$ilDB->quote($webr_id));
+		$ilDB->manipulate("DELETE FROM webr_items WHERE webr_id = ".$ilDB->quote($webr_id ,'integer'));
 
 		return true;
 	}
@@ -497,7 +493,7 @@ class ilLinkResourceItems
 	{
 		global $ilDB;
 
-		$res = $ilDB->query("SELECT * FROM webr_items WHERE webr_id = ".$ilDB->quote($a_webr_id)." AND active = '1'");
+		$res = $ilDB->query("SELECT * FROM webr_items WHERE webr_id = ".$ilDB->quote($a_webr_id ,'integer')." AND active = '1'");
 
 		return $res->numRows() == 1 ? true : false;
 	}
@@ -515,7 +511,7 @@ class ilLinkResourceItems
 		global $ilDB;
 
 		$res = $ilDB->query("SELECT * FROM webr_items WHERE webr_id = ".
-			$ilDB->quote($a_webr_id)." AND active = '1'");
+			$ilDB->quote($a_webr_id ,'integer')." AND active = '1'");
 		while($row = $res->fetchRow(DB_FETCHMODE_OBJECT))
 		{
 			$item['title']				= $row->title;
