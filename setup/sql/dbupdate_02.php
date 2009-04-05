@@ -7208,10 +7208,10 @@ $ilDB->query("ALTER TABLE survey_survey MODIFY `show_question_titles` VARCHAR(1)
 	$res = $ilDB->query($query);
 	if ($res->numRows() == 0)
 	{
-		$query = "SELECT MAX(question_type_id) FROM qpl_question_type";
+		$query = "SELECT MAX(question_type_id) maxid FROM qpl_question_type";
 		$res = $ilDB->query($query);
 		$data = $ilDB->fetchAssoc($res);
-		$max = current($data) + 1;
+		$max = $data["maxid"] + 1;
 
 		$statement = $ilDB->prepareManip("INSERT INTO qpl_question_type (question_type_id, type_tag, plugin) VALUES (?, ?, ?)", 
 			array("integer", "text", "integer")
@@ -7448,10 +7448,10 @@ $query = "SELECT * FROM qpl_question_type WHERE type_tag = 'assFileUpload'";
 $res = $ilDB->query($query);
 if ($res->numRows() == 0)
 {
-	$query = "SELECT MAX(question_type_id) FROM qpl_question_type";
+	$query = "SELECT MAX(question_type_id) maxid FROM qpl_question_type";
 	$res = $ilDB->query($query);
 	$data = $ilDB->fetchAssoc($res);
-	$max = current($data) + 1;
+	$max = $data["maxid"] + 1;
 	$statement = $ilDB->prepareManip("INSERT INTO qpl_question_type (question_type_id, type_tag, plugin) VALUES (?, ?, ?)", 
 		array("integer", "text", "integer")
 	);
@@ -7494,10 +7494,10 @@ if ($res->numRows() == 1)
 	$data = $ilDB->fetchAssoc($res);
 	if ($data['question_type_id'] == 0)
 	{
-		$query = "SELECT MAX(question_type_id) FROM qpl_question_type";
+		$query = "SELECT MAX(question_type_id) maxid FROM qpl_question_type";
 		$res = $ilDB->query($query);
 		$data = $ilDB->fetchAssoc($res);
-		$max = current($data) + 1;
+		$max = $data["maxid"] + 1;
 		$statement = $ilDB->prepareManip("UPDATE qpl_question_type SET question_type_id = ? WHERE type_tag = ? AND plugin = ?", 
 			array("integer", "text", "integer")
 		);
@@ -11049,5 +11049,3 @@ ALTER TABLE `webr_items` CHANGE `target` `target` VARCHAR( 4000 ) NULL DEFAULT N
 <?php 
 	$ilMySQLAbstraction->performAbstraction('webr_items');
 ?>
-
-  
