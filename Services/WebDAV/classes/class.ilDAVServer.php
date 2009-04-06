@@ -1353,7 +1353,7 @@ class ilDAVServer extends HTTP_WebDAV_Server
 
 		if(isset($options["update"])) { // Lock Update
 			$this->writelog('LOCK update token='.var_export($options,true));
-			$success = $this->locks->updateWithoutCheckingDAV(
+			$success = $this->locks->updateLockWithoutCheckingDAV(
 				$objDAV,
 				$options['update'],
 				$options['timeout']
