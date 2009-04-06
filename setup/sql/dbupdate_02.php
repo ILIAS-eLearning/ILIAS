@@ -11049,3 +11049,34 @@ ALTER TABLE `webr_items` CHANGE `target` `target` VARCHAR( 4000 ) NULL DEFAULT N
 <?php 
 	$ilMySQLAbstraction->performAbstraction('webr_items');
 ?>
+<#2298>
+<?php
+$ilMySQLAbstraction->performAbstraction('chat_blocked');
+?>
+<#2299>
+<?php
+
+$ilDB->manipulate("ALTER TABLE `chat_records` CHANGE `description` `description` VARCHAR(4000) NULL DEFAULT NULL");
+$ilMySQLAbstraction->performAbstraction('chat_records');
+?>
+<#2300>
+<?php 
+	$ilDB->manipulate("ALTER TABLE `chat_record_data` CHANGE `message` `message` VARCHAR(4000) NULL DEFAULT NULL");
+	$ilMySQLAbstraction->performAbstraction('chat_record_data');
+?>
+
+<#2301>
+<?php 
+	$ilMySQLAbstraction->performAbstraction('chat_rooms');
+?>
+<#2302>
+<?php 
+	$ilDB->manipulate("ALTER TABLE `chat_room_messages` CHANGE `message` `message` VARCHAR(4000) NULL DEFAULT NULL");
+	$ilDB->manipulate("ALTER TABLE `chat_room_messages` CHANGE `commit_timestamp` `commit_timestamp` INT NOT NULL DEFAULT '0'");	
+	$ilMySQLAbstraction->performAbstraction('chat_room_messages');	
+?>
+
+<#2303>
+<?php 
+	$ilMySQLAbstraction->performAbstraction('chat_user');
+?>

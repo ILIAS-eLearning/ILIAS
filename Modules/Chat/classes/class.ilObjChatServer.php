@@ -3,7 +3,7 @@
 	+-----------------------------------------------------------------------------+
 	| ILIAS open source                                                           |
 	+-----------------------------------------------------------------------------+
-	| Copyright (c) 1998-2001 ILIAS open source, University of Cologne            |
+	| Copyright (c) 1998-2009 ILIAS open source, University of Cologne            |
 	|                                                                             |
 	| This program is free software; you can redistribute it and/or               |
 	| modify it under the terms of the GNU General Public License                 |
@@ -30,11 +30,11 @@
 * @extends ilObject
 */
 
-require_once "classes/class.ilObjectGUI.php";
-require_once "Modules/Chat/classes/class.ilChatServerConfig.php";
-require_once "Modules/Chat/classes/class.ilChatServerCommunicator.php";
-require_once "Modules/Chat/classes/class.ilChatUser.php";
-require_once "Modules/Chat/classes/class.ilChatRoom.php";
+require_once 'classes/class.ilObjectGUI.php';
+require_once 'Modules/Chat/classes/class.ilChatServerConfig.php';
+require_once 'Modules/Chat/classes/class.ilChatServerCommunicator.php';
+require_once 'Modules/Chat/classes/class.ilChatUser.php';
+require_once 'Modules/Chat/classes/class.ilChatRoom.php';
 
 class ilObjChatServer extends ilObject
 {
@@ -51,7 +51,7 @@ class ilObjChatServer extends ilObject
 	*/
 	function ilObjChatServer($a_id = 0,$a_call_by_reference = true)
 	{
-		$this->type = "chac";
+		$this->type = 'chac';
 		$this->ilObject($a_id,$a_call_by_reference);
 
 		$this->server_conf =& new ilChatServerConfig();

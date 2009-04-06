@@ -138,6 +138,7 @@ class ilChatRoom
 			array('integer', 'integer', 'integer'),
 			array($this->getObjId(), $this->getRoomId(), $a_id));
 
+		//if ($ilDB->numRows($res) > 0)
 		if($res->numRows() > 0)
 		{		
 			$res = $ilDB->manipulateF('
@@ -229,8 +230,9 @@ class ilChatRoom
 			AND ci.guest_id = %s',
 			array('integer', 'integer', 'integer','integer'),
 			array($this->getObjId(), $this->getRoomId(), $this->getOwnerId(), $a_id));
-				
+			
 		return $res->numRows() ? true : false;
+		//return $ilDB->numRows($res) ? true : false;		
 	}
 	function isOwner()
 	{
@@ -348,6 +350,7 @@ class ilChatRoom
 			array('integer', 'integer', 'integer'),
 			array('1', $a_usr_id, $this->getObjId()));
 		 
+		//return $ilDB->numRows($res) ? true : false;
 		return $res->numRows() ? true : false;
 	}		
 
@@ -363,6 +366,7 @@ class ilChatRoom
 			array('integer', 'integer', 'integer'),
 			array($chat_id, $room_id, time() - 40));
 				
+		//return $ilDB->numRows($res);
 		return $res->numRows();
 	}
 
@@ -378,6 +382,7 @@ class ilChatRoom
 			array('integer', 'integer', 'integer'),
 			 array($chat_id, $room_id, time() - 40));
 				
+		//return $ilDB->numRows($res);
 		return $res->numRows();
 	}
 		
@@ -509,6 +514,8 @@ class ilChatRoom
 			array('integer'), array($a_id));
 		
 		if (ilDB::isDbError($res)) die("ilObjChat::delete(): " . $res->getMessage() . "<br>SQL-Statement: ".$res);
+		
+		//if (($num = $ilDB->numRows($res)) > 0)
 		if (($num = $res->numRows()) > 0)
 		{
 			for ($i = 0; $i < $num; $i++)
@@ -564,17 +571,20 @@ class ilChatRoom
 	function add()
 	{
 		global $ilDB;
-
+		
+		$next_id = $ilDB->nextId('chat_rooms');
 		$res = $ilDB->manipulateF('
 			INSERT INTO chat_rooms 
-			(	title,
+			(	room_id,
+				title,
 				chat_id,
 				owner)
-			VALUES(%s,%s,%s)',
-			array('text', 'integer', 'integer'),
-			array($this->getTitle(), $this->getObjId(), $this->getOwnerId()));
+			VALUES(%s, %s, %s, %s)',
+			array('integer', 'text', 'integer', 'integer'),
+			array($next_id, $this->getTitle(), $this->getObjId(), $this->getOwnerId()));
 		
-		return ($id = $ilDB->getLastInsertId()) ? $id : false;
+		//return ($id = $ilDB->getLastInsertId()) ? $id : false;
+		return $next_id;
 	}
 
 	function getInternalName()
@@ -779,29 +789,33 @@ class ilChatRoom
 	{
 		global $ilDB;
 
+		$next_id = $ilDB->nextId('chat_room_messages');
 			$res = $ilDB->manipulateF('
 			INSERT INTO chat_room_messages
-			(	chat_id,
+			(	entry_id,
+				chat_id,
 				room_id,
 				message,
 				commit_timestamp)
-			VALUES(%s, %s, %s, %s)',
-			array('integer', 'integer', 'text', 'timestamp'),
-			 array($this->getObjId(), $this->getRoomId(), $message, date('Y-m-d H:i:s', time())));
+			VALUES(%s, %s, %s, %s, %s)',
+			array('integer','integer', 'integer', 'text', 'integer'),
+			 array($next_id, $this->getObjId(), $this->getRoomId(), $message, date('Y-m-d H:i:s', time())));
 			
 		$this->chat_record = new ilChatRecording($this->getObjId());
 		$this->chat_record->setRoomId($this->getRoomId());
 		if ($this->chat_record->isRecording())
 		{
 
+			$next_id = $ilDB->nextId('chat_record_data');
 			$res = $ilDB->manipulateF('
 				INSERT INTO chat_record_data
-				(	record_id,
+				(	record_data_id,
+					record_id,
 					message,
 					msg_time)
-				VALUES(%s, %s, %s)',
-				array('integer', 'text', 'integer'),
-				array($this->chat_record->getRecordId(), $message, time()));
+				VALUES(%s, %s, %s, %s)',
+				array('integer','integer', 'text', 'integer'),
+				array($next_id, $this->chat_record->getRecordId(), $message, time()));
 		}
 
 		return true;

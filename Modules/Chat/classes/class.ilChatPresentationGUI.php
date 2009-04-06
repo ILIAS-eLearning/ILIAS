@@ -3,7 +3,7 @@
 	+-----------------------------------------------------------------------------+
 	| ILIAS open source                                                           |
 	+-----------------------------------------------------------------------------+
-	| Copyright (c) 1998-2001 ILIAS open source, University of Cologne            |
+	| Copyright (c) 1998-2009 ILIAS open source, University of Cologne            |
 	|                                                                             |
 	| This program is free software; you can redistribute it and/or               |
 	| modify it under the terms of the GNU General Public License                 |
@@ -47,7 +47,6 @@ class ilChatPresentationGUI
 	{
 		global $lng, $ilAccess, $tpl, $ilNavigationHistory, $ilCtrl;
 		
-//echo "*".$ilCtrl->getCmd()."*";
 		$next_class = $ilCtrl->getNextClass($this);
 		$cmd = $ilCtrl->getCmd();
 		if ($next_class == "")
