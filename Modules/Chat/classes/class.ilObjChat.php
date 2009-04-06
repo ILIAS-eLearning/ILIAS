@@ -3,7 +3,7 @@
 	+-----------------------------------------------------------------------------+
 	| ILIAS open source                                                           |
 	+-----------------------------------------------------------------------------+
-	| Copyright (c) 1998-2001 ILIAS open source, University of Cologne            |
+	| Copyright (c) 1998-2009 ILIAS open source, University of Cologne            |
 	|                                                                             |
 	| This program is free software; you can redistribute it and/or               |
 	| modify it under the terms of the GNU General Public License                 |
@@ -199,6 +199,7 @@ class ilObjChat extends ilObject
 			array('integer'), array($this->getId()));
 			
 		if (ilDB::isDbError($res)) die("ilObjChat::delete(): " . $res->getMessage() . "<br>SQL-Statement: ".$res);
+		//if (($num = $ilDB->numRows($res)) > 0)
 		if (($num = $res->numRows()) > 0)
 		{
 			for ($i = 0; $i < $num; $i++)

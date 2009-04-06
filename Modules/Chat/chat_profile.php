@@ -3,7 +3,7 @@
 	+-----------------------------------------------------------------------------+
 	| ILIAS open source                                                           |
 	+-----------------------------------------------------------------------------+
-	| Copyright (c) 1998-2001 ILIAS open source, University of Cologne            |
+	| Copyright (c) 1998-2009 ILIAS open source, University of Cologne            |
 	|                                                                             |
 	| This program is free software; you can redistribute it and/or               |
 	| modify it under the terms of the GNU General Public License                 |
@@ -34,14 +34,14 @@ chdir("..");
 
 define('ILIAS_MODULE','Modules/Chat');
 
-require_once "./include/inc.header.php";
+require_once './include/inc.header.php';
 require_once './Services/User/classes/class.ilObjUserGUI.php';
 
-$tpl->addBlockFile("CONTENT", "content", "tpl.chat_profile_view.html",'Modules/Chat');
+$tpl->addBlockFile('CONTENT', 'content', 'tpl.chat_profile_view.html','Modules/Chat');
 
-$user = new ilObjUserGUI("",$_GET["user"], false, false);
-$user->insertPublicProfile("USR_PROFILE","usr_profile");
+$user = new ilObjUserGUI('',$_GET['user'], false, false);
+$user->insertPublicProfile('USR_PROFILE','usr_profile');
 
-$tpl->setVariable("TXT_CLOSE_WINDOW", $user->lng->txt("close_window"));
+$tpl->setVariable('TXT_CLOSE_WINDOW', $user->lng->txt('close_window'));
 $tpl->show();
 ?>

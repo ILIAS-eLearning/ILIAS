@@ -3,7 +3,7 @@
 	+-----------------------------------------------------------------------------+
 	| ILIAS open source                                                           |
 	+-----------------------------------------------------------------------------+
-	| Copyright (c) 1998-2001 ILIAS open source, University of Cologne            |
+	| Copyright (c) 1998-2009 ILIAS open source, University of Cologne            |
 	|                                                                             |
 	| This program is free software; you can redistribute it and/or               |
 	| modify it under the terms of the GNU General Public License                 |
@@ -137,6 +137,7 @@ class ilChatRecording
 		$row = array();
 		$status = false;
 		
+		//if ($ilDB->numRows($res) > 0)
 		if ($res->numRows() > 0)
 		{
 			$data = $res->fetchRow(DB_FETCHMODE_ASSOC);
@@ -150,6 +151,7 @@ class ilChatRecording
 
 	function setTitle($a_title)
 	{
+		if($a_title == '') $a_title = NULL;
 		$this->data["title"] = $a_title;
 	}
 	function getTitle()
@@ -166,31 +168,36 @@ class ilChatRecording
 		return $this->data["description"];
 	}
 
-	function startRecording($a_title = "")
+	function startRecording($a_title = '')
 	{
-		global $ilDB;
 
+		global $ilDB;
+		$next_id = $ilDB->nextId('chat_records');
 		$res = $ilDB->manipulateF('
 			INSERT INTO chat_records 
-			SET moderator_id = %s,
-				chat_id = %s,
-				room_id = %s,
-				title =  %s,
-				start_time = %s',
-			array('integer', 'integer', 'integer', 'text', 'integer'),
-			array($this->getModeratorId(), $this->getObjId(), $this->getRoomId(), (($a_title == "") ? "-N/A-" : $a_title), time()));
-		
+			( 	record_id,
+				moderator_id,
+				chat_id,
+				room_id,
+				title,
+				start_time 
+			) 
+			VALUES(%s, %s, %s, %s, %s, %s)',
+			array('integer', 'integer', 'integer', 'integer', 'text', 'integer'),
+			array($next_id, $this->getModeratorId(), $this->getObjId(), $this->getRoomId(),	(($a_title == "") ? "-N/A-" : $a_title), time()));
+	
 		if (ilDB::isDbError($res)) die("ilChatRecording::startRecording(): " . $res->getMessage() . "<br>SQL-Statement: ".$res);
 		
 		$res = $ilDB->query('SELECT LAST_INSERT_ID()');
 
-		if (ilDB::isDbError($res)) die("ilChatRecording::startRecording(): " . $res->getMessage() . "<br>SQL-Statement: ".$res);
+		//if (ilDB::isDbError($res)) die("ilChatRecording::startRecording(): " . $res->getMessage() . "<br>SQL-Statement: ".$res);
 		
+
+		//if ($ilDB->numRows($res) > 0)
 		if ($res->numRows() > 0)
 		{
 			$lastId = $res->fetchRow(DB_FETCHMODE_ASSOC);
 			$this->setRecordId($lastId[0]);
-
 			$this->getRecord();
 		}				
 		
@@ -233,6 +240,7 @@ class ilChatRecording
 
 		if (ilDB::isDbError($res)) die("ilChatRecording::startRecording(): " . $res->getMessage() . "<br>SQL-Statement: ".$res);	
 		
+		//if ($ilDB->numRows($res) > 0)
 		if ($res->numRows() > 0)
 		{
 			$id = $res->fetchRow(DB_FETCHMODE_ASSOC);
@@ -255,6 +263,7 @@ class ilChatRecording
 
 		if (ilDB::isDbError($res)) die("ilChatRecording::startRecording(): " . $res->getMessage() . "<br>SQL-Statement: ".$res);	
 			
+		//if (($num = $ilDB->numRows($res)) > 0)
 		if (($num = $res->numRows()) > 0)
 		{
 			for ($i = 0; $i < $num; $i++)
@@ -320,6 +329,8 @@ class ilChatRecording
 		if (ilDB::isDbError($res)) die("ilChatRecording::delete(): " . $res->getMessage() . "<br>SQL-Statement: ".$res);
 		
 		$html = "";
+
+		//if (($num = $ilDB->numRows($res)) > 0)
 		if (($num = $res->numRows()) > 0)
 		{
 			$html = "";

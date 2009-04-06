@@ -3,7 +3,7 @@
 	+-----------------------------------------------------------------------------+
 	| ILIAS open source                                                           |
 	+-----------------------------------------------------------------------------+
-	| Copyright (c) 1998-2001 ILIAS open source, University of Cologne            |
+	| Copyright (c) 1998-2009 ILIAS open source, University of Cologne            |
 	|                                                                             |
 	| This program is free software; you can redistribute it and/or               |
 	| modify it under the terms of the GNU General Public License                 |
@@ -271,17 +271,15 @@ class ilChatServerCommunicator
 	// STATIC
 	function _initObject()
 	{
-		global $ilias;
+		global $ilias, $ilDB;
 		
-		$statement = $ilias->db->prepare('
+		$res = $ilDB->queryF('
 			SELECT ref_id FROM object_data 
 			NATURAL JOIN object_reference
-			WHERE type = ?',
-		array('text'));
-		
-		$data = array('chac');
-		
-		$res = $ilias->db->execute($statement, $data);
+			WHERE type = %s',
+			array('text'),
+			array('chac')
+		);
 		
 		while($row = $res->fetchRow(DB_FETCHMODE_OBJECT))
 		{

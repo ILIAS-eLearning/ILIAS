@@ -3,7 +3,7 @@
 	+-----------------------------------------------------------------------------+
 	| ILIAS open source                                                           |
 	+-----------------------------------------------------------------------------+
-	| Copyright (c) 1998-2001 ILIAS open source, University of Cologne            |
+	| Copyright (c) 1998-2009 ILIAS open source, University of Cologne            |
 	|                                                                             |
 	| This program is free software; you can redistribute it and/or               |
 	| modify it under the terms of the GNU General Public License                 |
@@ -33,7 +33,7 @@
 * @extends ilObjectGUI
 */
 
-require_once "classes/class.ilObjectGUI.php";
+require_once 'classes/class.ilObjectGUI.php';
 
 class ilObjChatServerGUI extends ilObjectGUI
 {	
@@ -46,11 +46,11 @@ class ilObjChatServerGUI extends ilObjectGUI
 	function ilObjChatServerGUI($a_data,$a_id,$a_call_by_reference = true, $a_prepare_output = true)
 	{
 
-		#define("ILIAS_MODULE","chat");
-		$this->type = "chac";
+		#define('ILIAS_MODULE','chat');
+		$this->type = 'chac';
 		$this->ilObjectGUI($a_data,$a_id,$a_call_by_reference, $a_prepare_output);
 
-		$this->lng->loadLanguageModule("chat");
+		$this->lng->loadLanguageModule('chat');
 	}
 
 	function &executeCommand()
@@ -62,7 +62,7 @@ class ilObjChatServerGUI extends ilObjectGUI
 		switch($next_class)
 		{
 			case 'ilpermissiongui':
-				include_once("./classes/class.ilPermissionGUI.php");
+				include_once('./classes/class.ilPermissionGUI.php');
 				$perm_gui =& new ilPermissionGUI($this);
 				$ret =& $this->ctrl->forwardCommand($perm_gui);
 				break;
@@ -296,30 +296,30 @@ class ilObjChatServerGUI extends ilObjectGUI
 	{
 		global $rbacsystem,$rbacreview;
 
-		$this->ctrl->setParameter($this,"ref_id",$this->object->getRefId());
+		$this->ctrl->setParameter($this,'ref_id',$this->object->getRefId());
 
 		if($rbacsystem->checkAccess('read',$this->object->getRefId()))
 		{
-			$force_active = ($_GET["cmd"] == "" || $_GET["cmd"] == "view")
+			$force_active = ($_GET['cmd'] == '' || $_GET['cmd'] == 'view')
 				? true
 				: false;
-			$tabs_gui->addTarget("chat_rooms",
-				$this->ctrl->getLinkTarget($this, "view"), array("view", ""), get_class($this),
-				"", $force_active);
+			$tabs_gui->addTarget('chat_rooms',
+				$this->ctrl->getLinkTarget($this, 'view'), array('view', ''), get_class($this),
+				'', $force_active);
 		}
 		if($rbacsystem->checkAccess('write',$this->object->getRefId()))
 		{
-			$force_active = ($_GET["cmd"] == "edit")
+			$force_active = ($_GET['cmd'] == 'edit')
 				? true
 				: false;
-			$tabs_gui->addTarget("edit_properties",
-				$this->ctrl->getLinkTarget($this, "edit"), "edit", get_class($this),
-				"", $force_active);
+			$tabs_gui->addTarget('edit_properties',
+				$this->ctrl->getLinkTarget($this, 'edit'), 'edit', get_class($this),
+				'', $force_active);
 		}
 		if($rbacsystem->checkAccess('edit_permission',$this->object->getRefId()))
 		{
-			$tabs_gui->addTarget("perm_settings",
-				$this->ctrl->getLinkTargetByClass(array(get_class($this),'ilpermissiongui'), "perm"), array("perm","info","owner"), 'ilpermissiongui');
+			$tabs_gui->addTarget('perm_settings',
+				$this->ctrl->getLinkTargetByClass(array(get_class($this),'ilpermissiongui'), 'perm'), array('perm','info','owner'), 'ilpermissiongui');
 		}
 	}
 } // END class.ilObjChatServerGUI
