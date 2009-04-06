@@ -424,15 +424,30 @@ class ilTree
 			$this->ilErr->raiseError($message,$this->ilErr->WARNING);
 		}
 
-		$query = sprintf("SELECT * FROM ".$this->table_tree." ".
-			$this->buildJoin().
-			"WHERE parent = %s ".
-			"AND ".$this->table_tree.".".$this->tree_pk." = %s ".
-			"AND ".$this->table_obj_data.".type = %s ".
-			"ORDER BY ".$this->table_tree.".lft",
-			$ilDB->quote($a_node_id,'integer'),
-			$ilDB->quote($this->tree_id,'integer'),
-			$ilDB->quote($a_type,'text'));
+        if ($a_type=='rolf' && $this->table_obj_reference) {
+            // Performance optimization: A node can only have exactly one
+            // role folder as its child. Therefore we don't need to sort the
+            // results, and we can let the database know about the expected limit.
+            $query = sprintf("SELECT * FROM ".$this->table_tree." ".
+                $this->buildJoin().
+                "WHERE parent = %s ".
+                "AND ".$this->table_tree.".".$this->tree_pk." = %s ".
+                "AND ".$this->table_obj_data.".type = %s ".
+                "LIMIT 1",
+                $ilDB->quote($a_node_id,'integer'),
+                $ilDB->quote($this->tree_id,'integer'),
+                $ilDB->quote($a_type,'text'));
+        } else {
+            $query = sprintf("SELECT * FROM ".$this->table_tree." ".
+                $this->buildJoin().
+                "WHERE parent = %s ".
+                "AND ".$this->table_tree.".".$this->tree_pk." = %s ".
+                "AND ".$this->table_obj_data.".type = %s ".
+                "ORDER BY ".$this->table_tree.".lft",
+                $ilDB->quote($a_node_id,'integer'),
+                $ilDB->quote($this->tree_id,'integer'),
+                $ilDB->quote($a_type,'text'));
+        }
 		$res = $ilDB->query($query);
 		
 		// init childs
