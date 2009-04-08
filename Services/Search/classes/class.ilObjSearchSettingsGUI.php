@@ -319,6 +319,8 @@ class ilObjSearchSettingsGUI extends ilObjectGUI
 	 */
 	protected function saveLuceneSettingsObject()
 	{
+		global $ilBench;
+		
 		$this->initFormLuceneSettings();
 
 		$settings = ilSearchSettings::getInstance();
@@ -331,6 +333,15 @@ class ilObjSearchSettingsGUI extends ilObjectGUI
 		if($this->form->checkInput())
 		{
 			$settings->update();
+			
+			// refresh lucene server
+			$ilBench->start('Lucene','LuceneRefreshSettings');
+			include_once './Services/Search/classes/Lucene/class.ilLuceneRPCAdapter.php';
+			$adapter = new ilLuceneRPCAdapter();
+			$adapter->setMode('refreshSettings');
+			$res = $adapter->send();
+			$ilBench->stop('Lucene','LuceneRefreshSettings');
+			
 			ilUtil::sendInfo($this->lng->txt('settings_saved'));
 			$this->luceneSettingsObject();
 			return true;

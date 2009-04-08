@@ -145,6 +145,10 @@ class ilLuceneRPCAdapter extends ilRPCServerAdapter
 			case 'highlight':
 				$this->__prepareHighlightParams();
 				break;
+				
+			case 'refreshSettings':
+				$this->__prepareRefreshSettingsParams();
+				break;
 			// END PATCH Lucene Search
 
 			default:
@@ -247,6 +251,15 @@ class ilLuceneRPCAdapter extends ilRPCServerAdapter
 			new XML_RPC_VAlue($objIds,'array'),
 			new XML_RPC_Value($this->getQueryString(),'string')));
 		
+		return true;
+	}
+	
+	protected function __prepareRefreshSettingsParams()
+	{
+		$this->setResponseTimeout(5);
+		
+		$this->__initMessage('administration.refreshSettings',array(
+			new XML_RPC_Value($this->getClientKey(),'string')));
 		return true;
 	}
 	

@@ -275,6 +275,10 @@ class ilLuceneSearchGUI extends ilSearchBaseGUI implements ilDesktopItemHandling
 		$this->tpl->setVariable('SEARCH_TABLE',$this->form->getHTML());
 		$this->addPager($filter,'max_page');
 		
+		if($filter->getResultIds())
+		{	
+			$this->fillAdminPanel();
+		}
 	}
 	
 	/**
@@ -347,6 +351,11 @@ class ilLuceneSearchGUI extends ilSearchBaseGUI implements ilDesktopItemHandling
 		$this->initFormSearch();
 		$this->tpl->setVariable('SEARCH_TABLE',$this->form->getHTML());
 		$this->addPager($filter,'max_page');
+		
+		if($filter->getResultIds())
+		{
+			$this->fillAdminPanel();
+		}
 	}
 	
 	/**

@@ -22,10 +22,14 @@
 
 package de.ilias.services.rpc;
 
+import java.sql.SQLException;
+
 import org.apache.log4j.Logger;
 
 import de.ilias.services.lucene.index.IndexHolder;
+import de.ilias.services.lucene.settings.LuceneSettings;
 import de.ilias.services.settings.ConfigurationException;
+import de.ilias.services.settings.LocalSettings;
 
 
 /**
@@ -64,6 +68,29 @@ public class RPCAdministration {
 		IndexHolder.closeAllWriters();
 		
 		return true;
+	}
+	
+	/**
+	 * Refresh settings
+	 * @param clientKey
+	 * @return
+	 */
+	public boolean refreshSettings(String clientKey) {
+		
+		LuceneSettings settings = null;
+		LocalSettings.setClientKey(clientKey);
+		
+		try {
+			logger.info("Reading lucene client settings from database.");
+			logger.info("Client key: " + clientKey);
+			settings = LuceneSettings.getInstance(clientKey);
+			settings.refresh();
+			return true;
+		} 
+		catch (SQLException e) {
+			logger.error(e.getMessage());
+			return false;
+		}
 	}
 
 }

@@ -61,7 +61,7 @@ public class ObjectDefinitionParser {
 	public ObjectDefinitionParser() throws ConfigurationException {
 
 		settings = ClientSettings.getInstance(LocalSettings.getClientKey());
-		// reset definiitons to avoíd duplicate entries
+		// reset definitions to avoíd duplicate entries
 		definitions = ObjectDefinitions.getInstance(settings.getAbsolutePath());
 		definitions.reset();
 		FieldInfo.getInstance(LocalSettings.getClientKey());
@@ -194,6 +194,17 @@ public class ObjectDefinitionParser {
 		}
 		
 		DocumentDefinition definition = new DocumentDefinition(element.getAttributeValue("type"));
+		
+		// Workaround xi:include of metaData)
+		for(Object dataSources : element.getChildren("DataSources")) {
+
+			logger.info("Adding DataSources...");
+			for(Object source : ((Element) dataSources).getChildren("DataSource")) {
+				
+				definition.addDataSource(parseDataSource((Element) source));
+			}
+			
+		}
 		
 		for(Object source : element.getChildren("DataSource")) {
 			
