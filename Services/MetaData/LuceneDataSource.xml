@@ -1,0 +1,35 @@
+<?xml version="1.0" ?>
+<DataSources>
+	<DataSource type="JDBC" action="append">
+		<Query>
+			SELECT language FROM il_meta_language
+			WHERE obj_id IN (?) AND obj_type IN (?);
+		</Query>
+		<Param format="list" type="int" value="metaObjId" />
+		<Param format="list" type="string" value="metaType" />
+		<Field store="YES" index="NOT_ANALYZED" column="language" name="lomLanguage" />
+		<Field store="YES" index="NOT_ANALYZED" column="language" name="content" />
+	</DataSource>
+	<DataSource type="JDBC" action="append">
+		<Query>
+			SELECT keyword FROM il_meta_keyword
+			WHERE obj_id IN (?) AND obj_type IN (?);
+		</Query>
+		<Param format="list" type="int" value="metaObjId" />
+		<Param format="list" type="string" value="metaType" />
+		<Field store="YES" index="ANALYZED" column="keyword" name="lomKeyword" />
+		<Field store="YES" index="ANALYZED" column="keyword" name="content" />
+	</DataSource>
+	<DataSource type="JDBC" action="append">
+		<Query>
+			SELECT general_structure,coverage FROM il_meta_general
+			WHERE obj_id IN (?) AND obj_type IN (?);
+		</Query>
+		<Param format="list" type="int" value="metaObjId" />
+		<Param format="list" type="string" value="metaType" />
+		<Field store="YES" index="ANALYZED" column="general_structure" name="lomStructure" />
+		<Field store="YES" index="ANALYZED" column="general_structure" name="metaData" />
+		<Field store="YES" index="ANALYZED" column="coverage" name="lomCoverage" />
+		<Field store="YES" index="ANALYZED" column="coverage" name="content" />
+	</DataSource>
+</DataSources>

@@ -116,8 +116,10 @@ public class FieldInfo {
 	private void initDefaultFields() {
 
 		addField("title");
-		addField("tag");
 		addField("description");
+		addField("lomKeyword");
+		addField("metaData");
+		addField("tag");
 		addField("propertyHigh");
 		addField("propertyMedium");
 		addField("propertyLow");

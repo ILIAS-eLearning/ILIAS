@@ -167,7 +167,7 @@ public class HitHighlighter {
 					allContent.append(" ");
 				}
 			}
-			//logger.info("All content" + allContent.toString());
+			logger.debug("All content" + allContent.toString());
 			token =	new StandardAnalyzer().tokenStream("content", new StringReader(allContent.toString()));
 			fragment = highlighter.getBestFragments(
 					token,
@@ -177,6 +177,7 @@ public class HitHighlighter {
 			//logger.debug("Fragmented: " + fragment);
 			
 			if(fragment.length() != 0) {
+				logger.debug("Found fragment: " + fragment);
 				resItem.addField(new HighlightField("content",fragment));
 			}
 		}

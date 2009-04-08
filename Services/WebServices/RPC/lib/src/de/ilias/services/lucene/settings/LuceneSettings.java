@@ -86,6 +86,12 @@ public class LuceneSettings {
 		return instances.get(clientKey);
 	}
 
+	public boolean refresh() throws SQLException {
+		
+		readSettings();
+		return true;
+	}
+	
 
 	/**
 	 * @return the fragmentSize

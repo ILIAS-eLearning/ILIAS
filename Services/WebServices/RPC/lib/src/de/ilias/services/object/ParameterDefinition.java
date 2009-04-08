@@ -175,12 +175,18 @@ public class ParameterDefinition {
 	 */
 	private int getParameterValue(CommandQueueElement el, ResultSet parentResult) throws SQLException {
 		
-		if(getValue().equals("objId")) {
-			return el.getObjId();
-		}
+		// Check for parent result (e.g. pg,st)
 		if(parentResult != null) {
 			logger.debug("Reading parameter from parent result set...");
 			return parentResult.getInt(getValue());
+		}
+
+		if(getValue().equals("objId")) {
+			return el.getObjId();
+		}
+		
+		if(getValue().equals("metaObjId")) {
+			return el.getObjId();
 		}
 		return 0;
 	}
@@ -193,13 +199,17 @@ public class ParameterDefinition {
 	 */
 	private String getParameterString(CommandQueueElement el, ResultSet parentResult) throws SQLException {
 		
+		if(parentResult != null) {
+			logger.debug("Reading parameter from parent result set...");
+			return parentResult.getString(getValue());
+		}
+
 		if(getValue().equals("objType")) {
 			return el.getObjType();
 		}
 		
-		if(parentResult != null) {
-			logger.debug("Reading parameter from parent result set...");
-			return parentResult.getString(getValue());
+		if(getValue().equals("metaType")) {
+			return el.getObjType();
 		}
 		return "";
 	}
