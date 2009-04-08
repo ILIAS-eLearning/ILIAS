@@ -387,7 +387,7 @@ abstract class ilContainerContentGUI
 	{
 		global $ilSetting,$ilAccess;
 		
-		if(!$ilAccess->checkAccess('visible','',$a_item_data['ref_id']))
+		if(!$ilAccess->checkAccess('visible','',$a_item_data['ref_id'],$a_item_data['type'],$a_item_data['obj_id']))
 		{
 			return '';
 		}
