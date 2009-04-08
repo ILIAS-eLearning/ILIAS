@@ -31,6 +31,7 @@ import org.apache.lucene.index.CorruptIndexException;
 import org.apache.lucene.index.Term;
 import org.apache.lucene.store.LockObtainFailedException;
 
+import de.ilias.services.lucene.search.SearchHolder;
 import de.ilias.services.object.ObjectDefinition;
 import de.ilias.services.object.ObjectDefinitionException;
 import de.ilias.services.object.ObjectDefinitions;
@@ -160,21 +161,22 @@ public class CommandController {
 			logger.info("Writer optimized!");
 			holder.close();
 			
+			// Refresh index reader
+			SearchHolder.getInstance().init();
+			
 			// Set object ids finished
 			//queue.setFinished(finished);
 
 		} 
+		catch (ConfigurationException e) {
+			logger.error("Cannot refresh index reader: " + e);
+		}
 		catch (CorruptIndexException e) {
 			logger.fatal("Index Corrupted. Aborting!" + e);
 		} 
 		catch (IOException e) {
 			logger.fatal("Index Corrupted. Aborting!" + e);
 		} 
-		/*
-		catch (SQLException e) {
-			logger.error("Cannot modify command queue",e);
-		}
-		*/
 	}
 
 	/**
