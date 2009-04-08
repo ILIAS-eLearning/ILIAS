@@ -799,7 +799,7 @@ class ilChatRoom
 				commit_timestamp)
 			VALUES(%s, %s, %s, %s, %s)',
 			array('integer','integer', 'integer', 'text', 'integer'),
-			 array($next_id, $this->getObjId(), $this->getRoomId(), $message, date('Y-m-d H:i:s', time())));
+			 array($next_id, $this->getObjId(), $this->getRoomId(), $message, time()));
 			
 		$this->chat_record = new ilChatRecording($this->getObjId());
 		$this->chat_record->setRoomId($this->getRoomId());
