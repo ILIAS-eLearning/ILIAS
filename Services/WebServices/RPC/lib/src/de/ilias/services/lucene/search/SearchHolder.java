@@ -69,7 +69,7 @@ public class SearchHolder {
 	 * @throws IOException 
 	 * 
 	 */
-	private void init() throws ConfigurationException, IOException {
+	public void init() throws ConfigurationException, IOException {
 
 		ClientSettings client = ClientSettings.getInstance(LocalSettings.getClientKey());
 		FSDirectory directory = FSDirectory.getDirectory(client.getIndexPath());
