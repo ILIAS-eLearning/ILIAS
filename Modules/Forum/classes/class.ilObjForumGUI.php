@@ -237,14 +237,14 @@ class ilObjForumGUI extends ilObjectGUI
 		$form->addItem($rg_pro);	
 
 		if (!$ilSetting->get('disable_anonymous_fora') || $this->objProperties->isAnonymized())
-		{		
+		{	
 			$cb_prop = new ilCheckboxInputGUI($this->lng->txt('frm_anonymous_posting'),	'anonymized');
 			$cb_prop->setValue('1');
 			$cb_prop->setInfo($this->lng->txt('frm_anonymous_posting_desc'));
 			$cb_prop->setChecked($this->objProperties->isAnonymized() ? 1 : 0);
 			$form->addItem($cb_prop);
 		}
-		
+
 		if ($ilSetting->get('enable_fora_statistics'))
 		{
 			$cb_prop = new ilCheckboxInputGUI($this->lng->txt('frm_statistics_enabled'), 'statistics_enabled');
@@ -834,7 +834,15 @@ class ilObjForumGUI extends ilObjectGUI
 		// save settings
 		$this->objProperties->setObjId($forumObj->getId());
 		$this->objProperties->setDefaultView(((int) $_POST['sort']));
-		if (!$this->ilias->getSetting('disable_anonymous_fora') || $this->objProperties->isAnonymized())
+		
+		if ($this->ilias->getSetting('disable_anonymous_fora' == FALSE))
+		{
+			$this->ilias->setSetting('disable_anonymous_fora',0);	
+		}
+		
+		
+		//if (!$this->ilias->getSetting('disable_anonymous_fora') || $this->objProperties->isAnonymized())
+		if ($this->objProperties->isAnonymized())
 		{
 			//$this->objProperties->setAnonymisation(((int) $_POST['anonymized'] == 1) ? true : false);
 			$this->objProperties->setAnonymisation((int) $_POST['anonymized']);
@@ -858,7 +866,7 @@ class ilObjForumGUI extends ilObjectGUI
             'top_description' 	=> $forumObj->getDescription(),
             'top_num_posts'     => 0,
             'top_num_threads'   => 0,
-            'top_last_post'     => '',
+          //  'top_last_post'     => '',
 			'top_mods'      	=> $roles[0],
 			'top_usr_id'      	=> $ilUser->getId(),
             'top_date' 			=> date("Y-m-d H:i:s")
@@ -871,18 +879,19 @@ class ilObjForumGUI extends ilObjectGUI
         		top_description = %s,
         		top_num_posts = %s,
         		top_num_threads = %s,
-        		top_last_post = %s,
+        	'//	top_last_post = %s,
+        .'
         		top_mods = %s,
         		top_date = %s,
         		top_usr_id = %s',
-        	array('integer', 'text', 'text', 'integer', 'integer', 'text', 'integer', 'timestamp', 'integer'),
+        	array('integer', 'text', 'text', 'integer', 'integer', /*'text',*/ 'integer', 'timestamp', 'integer'),
         	array(
         	$top_data['top_frm_fk'],
         	$top_data['top_name'],
         	$top_data['top_description'],
         	$top_data['top_num_posts'],
 			$top_data['top_num_threads'],
-			$top_data['top_last_post'],
+		//	$top_data['top_last_post'],
 			$top_data['top_mods'],
 			$top_data['top_date'],
 			$top_data['top_usr_id']
@@ -1021,7 +1030,7 @@ class ilObjForumGUI extends ilObjectGUI
 			 
 		$tbl->setHeaderNames($header_names);
 
-		$header_params = array('ref_id' => $this->ref_id, 'cmd' => 'statistic');
+		$header_params = array('ref_id' => $this->ref_id, 'cmd' => 'showStatistics');
 		$header_fields = array('ranking', 'login', 'lastname', 'firstname');		
 
 		$tbl->setHeaderVars($header_fields,$header_params);
@@ -1912,14 +1921,16 @@ class ilObjForumGUI extends ilObjectGUI
 								$status = 0;
 							}
 						}						
-
+	
 						$newPost = $frm->generatePost($topicData['top_pk'], $this->objCurrentTopic->getId(),
-													  ($this->objProperties->isAnonymized() ? 0 : $ilUser->getId()), $this->handleFormInput($formData['message']),
+													  ($this->objProperties->isAnonymized() ? 0 : $ilUser->getId()), 
+													  $this->handleFormInput($formData['message']),
 													  $_GET['pos_pk'], $_POST['notify'],
 													  $formData['subject']
 														? $this->handleFormInput($formData['subject'])
 														:  $this->objCurrentTopic->getSubject(),
 													  ilUtil::stripSlashes($formData['alias']),
+
 													  '',
 													  $status,
 													  $send_activation_mail);
@@ -2109,7 +2120,7 @@ class ilObjForumGUI extends ilObjectGUI
 								
 								$tpl->setCurrentBlock('reply_post');
 								$tpl->setVariable('REPLY_ANKER', $node->getId());
-			
+
 								if($this->objProperties->isAnonymized() && $_GET['action'] == 'showreply')
 								{
 									$tpl->setCurrentBlock('alias');
@@ -2597,7 +2608,7 @@ class ilObjForumGUI extends ilObjectGUI
 							$tpl->setVariable('TXT_NUM_POSTS', $lng->txt('forums_posts').':');
 							$tpl->setVariable('NUM_POSTS', $numPosts);
 
-							if($ilAccess->checkAccess('moderate_frm', '', $_GET['ref_id']) && $usr_data['public_profile'] != 'n')
+							if($ilAccess->checkAccess('moderate_frm', '', $_GET['ref_id']) || $usr_data['public_profile'] != 'n')
 							{
 								$tpl->setVariable('USR_NAME', $usr_data['firstname'].' '.$usr_data['lastname']);
 							}
@@ -3253,7 +3264,7 @@ class ilObjForumGUI extends ilObjectGUI
 	*/
 	function createThreadObject($errors = '')
 	{
-		global $lng, $tpl, $rbacsystem, $ilias, $ilDB, $ilAccess;
+		global $lng, $tpl, $rbacsystem, $ilias, $ilDB, $ilAccess, $ilUser;
 		
 		require_once './Modules/Forum/classes/class.ilObjForum.php';
 		
@@ -3287,11 +3298,22 @@ class ilObjForumGUI extends ilObjectGUI
 		$tpl->setVariable('SUBJECT_VALUE', $this->forwardInputToOutput($_POST['formData']['subject']));
 		$tpl->setVariable('TXT_MESSAGE', $lng->txt('forums_the_post'));
 		$tpl->setVariable('MESSAGE_VALUE', $this->forwardInputToOutput($_POST['formData']['message']));
-		if ($this->objProperties->isAnonymized())
-		{
+
+	
+		//if ($this->objProperties->isAnonymized())
+		if ($this->objProperties->isAnonymized($forumObj->getId()))
+		{			
+			$tpl->setVariable('TYPE', 'text');
 			$tpl->setVariable('TXT_ALIAS', $lng->txt('forums_your_name'));
 			$tpl->setVariable('ALIAS_VALUE', $_POST['formData']['alias']);
 			$tpl->setVariable('TXT_ALIAS_INFO', $lng->txt('forums_use_alias'));
+		}
+		else	
+		if (!$this->objProperties->isAnonymized($forumObj->getId()))
+		{	//not anonymized	
+			$tpl->setVariable('TYPE', 'hidden');
+			$tpl->setVariable('ALIAS_VALUE_2', $ilUser->getLogin());
+			$tpl->setVariable('ALIAS_VALUE', $ilUser->getLogin());
 		}		
 		
 		include_once 'Services/Mail/classes/class.ilMail.php';
@@ -3337,7 +3359,7 @@ class ilObjForumGUI extends ilObjectGUI
 	*/
 	function addThreadObject($a_prevent_redirect = false)
 	{
-		
+
 		global $lng, $tpl, $ilDB, $ilUser;
 		
 		$forumObj = new ilObjForum($_GET['ref_id']);
@@ -3350,7 +3372,6 @@ class ilObjForumGUI extends ilObjectGUI
 		$topicData = $frm->getOneTopic();
 
 		$formData = $_POST['formData'];
-	
 		// check form-dates
 		$errors = '';
 
@@ -3373,7 +3394,8 @@ class ilObjForumGUI extends ilObjectGUI
 								$this->handleFormInput($formData['message']),
 								$formData['notify'],
 								$formData['notify_posts'],
-								ilUtil::stripSlashes($formData['alias'])
+								//ilUtil::stripSlashes($formData['alias'])
+								$formData['alias']
 				);
 			}
 			else
@@ -3384,7 +3406,8 @@ class ilObjForumGUI extends ilObjectGUI
 								$this->handleFormInput($formData['subject']),
 								$this->handleFormInput($formData['message']),
 								$formData['notify'],
-								$formData['notify_posts']
+								$formData['notify_posts'],
+								$formData['alias']
 				);
 			}
 			

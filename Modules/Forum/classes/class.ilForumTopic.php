@@ -105,8 +105,8 @@ class ilForumTopic
 					thr_usr_id = %s,
 					thr_usr_alias = %s,
 					thr_num_posts = %s,
-					thr_last_post = %s,
-					thr_date = %s,					
+				'//	thr_last_post = %s,
+				.'	thr_date = %s,					
 					thr_update = %s,
 					import_name = %s,
 					is_sticky = %s,
@@ -117,7 +117,7 @@ class ilForumTopic
 						'integer',
 						'text',
 						'integer',
-						'text',
+					//	'text',
 						'timestamp',
 						'timestamp',
 						'text',
@@ -128,7 +128,7 @@ class ilForumTopic
 							$this->user_id,
 							$this->user_alias,
 							$this->num_posts,
-							$this->last_post_string,
+						//	$this->last_post_string,
 							$this->createdate,
 							$this->changedate,
 							$this->import_name,
@@ -1017,7 +1017,7 @@ class ilForumTopic
 		return $this->user_id;
 	}
 	public function setUserAlias($a_user_alias)
-	{
+	{  
 		$this->user_alias = $a_user_alias;
 	}
 	public function getUserAlias()
