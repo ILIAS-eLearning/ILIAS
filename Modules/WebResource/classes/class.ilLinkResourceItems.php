@@ -46,6 +46,34 @@ class ilLinkResourceItems
 
 		$this->db =& $ilDB;
 	}
+	
+	// BEGIN PATCH Lucene search
+	public static function lookupItem($a_webr_id,$a_link_id)
+	{
+		global $ilDB;
+		
+		$query = "SELECT * FROM webr_items ".
+			"WHERE webr_id = ".$ilDB->quote($a_webr_id ,'integer')." ".
+			"AND link_id = ".$ilDB->quote($a_link_id ,'integer');
+
+		$res = $ilDB->query($query);
+		while($row = $res->fetchRow(DB_FETCHMODE_OBJECT))
+		{
+			$item['title']				= $row->title;
+			$item['description']		= $row->description;
+			$item['target']				= $row->target;
+			$item['active']				= (bool) $row->active;
+			$item['disable_check']		= $row->disable_check;
+			$item['create_date']		= $row->create_date;
+			$item['last_update']		= $row->last_update;
+			$item['last_check']			= $row->last_check;
+			$item['valid']				= $row->valid;
+			$item['link_id']			= $row->link_id;
+		}
+		return $item ? $item : array();
+			
+	}
+	// END PATCH Lucene Search
 
 	// SET GET
 	function setLinkResourceRefId($a_ref_id)

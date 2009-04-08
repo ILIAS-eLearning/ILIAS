@@ -3,14 +3,19 @@
 	<Document type="default">
 		<xi:include href="../../Services/Object/LuceneDataSource.xml" />
 		<xi:include href="../../Services/Tagging/LuceneDataSource.xml" />
-		<DataSource type="JDBC" action="apppend">
+	</Document>
+	<Document type="subItem">
+		<DataSource type="JDBC" action="create">
 			<Query>
-				SELECT title,description FROM webr_items
-				WHERE webr_id IN (?)
+				SELECT 'webr' type,webr_id,link_id,title,description FROM webr_items
+				WHERE webr_id IN (?);
 			</Query>
 			<Param format="list" type="int" value="objId" />
-			<Field store="YES" index="ANALYZED" column="title" name="propertyHigh" />
-			<Field store="YES" index="ANALYZED" column="description" name="propertyMedium" />
+			<Field global="YES" store="YES" index="ANALYZED" column="title" name="propertyHigh" />
+			<Field global="YES" store="YES" index="ANALYZED" column="description" name="propertyMedium" />
+			<Field global="YES" store="YES" index="NOT_ANALYZED" column="link_id" name="subItem" />
+			<Field global="NO" store="YES" index="NOT_ANALYZED" column="webr_id" name="objId"  />
+			<Field global="NO" store="YES" index="NOT_ANALYZED" column="type" name="type"  />
 		</DataSource>
 	</Document>
 </ObjectDefinition>
