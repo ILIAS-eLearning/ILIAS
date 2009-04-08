@@ -548,12 +548,13 @@ class ilForum
 	function generatePost($forum_id, $thread_id, $user, $message, $parent_pos, $notify, $subject = '', $alias = '', $date = '', $status = 1, $send_activation_mail = false)
 	{
 		global $ilUser, $ilDB;
-		
-		if ($alias != '')
+	
+
+/*		if ($alias != '')
 		{
 			$user = 0;
 		}
-		
+*/		
 		$objNewPost = new ilForumPost();
 		$objNewPost->setForumId($forum_id);
 		$objNewPost->setThreadId($thread_id);
@@ -670,14 +671,14 @@ class ilForum
 	*/
 	function generateThread($forum_id, $user, $subject, $message, $notify, $notify_posts, $alias = '', $date = '')
 	{	
-		
 		global $ilDB;
-		
-		if ($alias != '')
+
+/*		if ($alias != '')
 		{
 			$user = 0;
 		}		
-			
+*/
+
 		$objNewThread = new ilForumTopic();
 		$objNewThread->setForumId($forum_id);
 		$objNewThread->setUserId($user);
@@ -713,7 +714,7 @@ class ilForum
 			WHERE top_pk = %s',
 			array('integer'), array($forum_id));
 		
-		return $this->generatePost($forum_id, $objNewThread->getId(), $user, $message, 0, $notify, $subject, $alias, $date);
+		return $this->generatePost($forum_id, $objNewThread->getId(), $user, $message, 0, $notify, $subject, $alias, $objNewThread->getCreateDate());
 	}
 
 	/**
@@ -1298,7 +1299,8 @@ class ilForum
 		$data = array();
 		
 		$query = 	"SELECT COUNT(f.pos_usr_id) ranking, u.login, 
-						IF(p.value<>'n',u.lastname,'') lastname, IF (p.value<>'n',u.firstname,'') firstname 
+						IF(p.value <> 'n', u.lastname, '') lastname, 
+						IF (p.value <> 'n', u.firstname,'') firstname 
 	 				FROM frm_posts f, frm_posts_tree t, frm_threads th, usr_data u, frm_data d , usr_pref p
 					WHERE p.usr_id = u.usr_id 
 					AND p.keyword = %s";
@@ -1310,7 +1312,7 @@ class ilForum
 		{
 			$query .= ' AND (pos_status = %s
 						OR (pos_status = %s
-						AND pos_usr_id = %s';
+						AND pos_usr_id = %s ))';
 			
 			array_push($data_types,'integer', 'integer', 'integer');
 			array_push($data, '1', '0', $ilUser->getId());
@@ -1321,10 +1323,10 @@ class ilForum
 				  AND u.usr_id = f.pos_usr_id
 				  AND d.top_pk = f.pos_top_fk
 				  AND d.top_frm_fk = %s
-                  GROUP BY pos_usr_id';
+                  GROUP BY pos_usr_id, u.login, p.value,u.lastname, u.firstname';
 			array_push($data_types,'integer');
 			array_push($data, $this->getForumId());
-
+			
 		$res = $ilDB->queryf($query, $data_types, $data);
 		
 		$counter = 0;

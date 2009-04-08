@@ -115,8 +115,8 @@ class ilForumPost
 					pos_update = %s, 
 					update_user = %s, 
 					pos_cens = %s,
-					pos_cens_com = %s, 
-					notify = %s,
+				'//	pos_cens_com = %s, 
+				.'	notify = %s,
 					import_name = %s, 
 					pos_status = %s ',
 				array(	'integer',
@@ -130,7 +130,7 @@ class ilForumPost
 						'timestamp',
 						'integer',
 						'integer',
-						'text',
+					//	'text',
 						'integer',
 						'text',
 						'integer'
@@ -146,7 +146,7 @@ class ilForumPost
 							$this->changedate,
 							$this->user_id_update,
 							$this->censored,
-							$this->censorship_comment,
+				//			$this->censorship_comment,
 							(int)$this->notification,
 							(string)$this->import_name,
 							$this->status
@@ -610,7 +610,7 @@ class ilForumPost
 		$this->censorship_comment = $a_comment;
 	}
 	public function getCensorshipComment()
-	{
+	{		
 		return $this->censorship_comment;
 	}
 	public function setNotification($a_notification)
