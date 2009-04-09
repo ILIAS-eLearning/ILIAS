@@ -11080,3 +11080,24 @@ $ilMySQLAbstraction->performAbstraction('chat_records');
 <?php 
 	$ilMySQLAbstraction->performAbstraction('chat_user');
 ?>
+<#2304>
+<?php
+	$fields = array(
+		'smiley_id' => array(
+			'type' => 'integer',
+			'length' => 4,
+		),
+		'smiley_keywords' => array(
+			'type' => 'text',
+			'length' => 100,
+		),
+		'smiley_path' => array(
+			'type' => 'text',
+			'length' => 200,
+		)
+	);
+	
+	$ilDB->createTable('chat_smilies', $fields);
+	$ilDB->addPrimaryKey('chat_smilies', array('smiley_id'));
+	$ilDB->createSequence('chat_smilies');
+?>

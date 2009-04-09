@@ -39,13 +39,14 @@ class ilChatServerCommunicator
 	var $rcp_id;
 	var $rcp_login;
 	var $kicked_user;
+	
 	/**
 	* Constructor
 	* @access	public
 	* @param	integer	reference_id or object_id
 	* @param	boolean	treat the id as reference_id (true) or object_id (false)
 	*/
-	function ilChatServerCommunicator(&$chat_obj)
+	public function __construct(&$chat_obj)
 	{
 		define(TIMEOUT,2);
 
@@ -53,7 +54,7 @@ class ilChatServerCommunicator
 	}
 
 	// SET/GET
-	function setRecipientId($a_id)
+	public function setRecipientId($a_id)
 	{
 		$this->rcp_id = $a_id;
 		
@@ -64,128 +65,139 @@ class ilChatServerCommunicator
 			unset($tmp_user);
 		}
 	}
-	function getRecipientId()
+	
+	public function getRecipientId()
 	{
 		return $this->rcp_id;
 	}
-	function setRecipientLogin($a_login)
+	
+	public function setRecipientLogin($a_login)
 	{
 		$this->rcp_login = $a_login;
 	}
-	function getRecipientLogin()
+	
+	public function getRecipientLogin()
 	{
 		return $this->rcp_login;
 	}
-	function setKickedUser($k_user)
+	
+	public function setKickedUser($k_user)
 	{
 		$this->kicked_user = $k_user;
 	}
-	function getKickedUser()
+	
+	public function getKickedUser()
 	{
 		return $this->kicked_user;
 	}
-	function setMessage($a_message)
+	
+	public function setMessage($a_message)
 	{
 		$this->message = $a_message;
 	}
-	function getMessage()
+	
+	public function getMessage()
 	{
 		return $this->message;
 	}
-	function setType($a_type)
+	
+	public function setType($a_type)
 	{
 		$this->type = $a_type;
 	}
-	function getType()
+	
+	public function getType()
 	{
 		return $this->type ? $this->type : 'normal';
 	}
-	function getHtml()
+	
+	public function getHtml()
 	{
 		return $this->html;
 	}
 
-	function send()
+	public function send(&$id = null)
 	{
-		if(!$this->__openSocket())
+		if(!$this->openSocket())
 		{
 			return false;
 		}
-		fputs($this->socket_p,$this->__formatMessage());
+		fputs($this->socket_p,$this->formatMessage($id));
 		fclose($this->socket_p);
-
 		return true;
 	}
 	
-	function getServerFrameSource()
+	public function getServerFrameSource()
 	{		
 		return sprintf("http".($this->chat->server_conf->getSSLStatus() && $this->chat->server_conf->getSSLPort() ? "s" : "")."://%s:%s/%s%s",
                        $this->chat->server_conf->getExternalIp(),
 					   ($this->chat->server_conf->getSSLStatus() && $this->chat->server_conf->getSSLPort() ? $this->chat->server_conf->getSSLPort() : $this->chat->server_conf->getPort()),
-					   $this->__formatLogin($this->chat->chat_user->getLogin()),
-					   $this->__getFormattedChatroom());
+					   $this->formatLogin($this->chat->chat_user->getLogin()),
+					   $this->getFormattedChatroom());
 	}
 
-	function isAlive()
+	public function isAlive()
 	{
 		$this->setType("test");
 		return $this->send();
 	}
 
-	// PRIVATE
-	function __getFormattedChatroom()
+	private function getFormattedChatroom()
 	{
 		$nic = $this->chat->server_conf->getNic();
 
 		return $nic.$this->chat->chat_room->getInternalName().
 			substr("______________",0,14-strlen($this->chat->chat_room->getInternalName()));
 	}
-	function __formatLogin($a_login)
+	
+	private function formatLogin($a_login)
 	{
 		$nic = $this->chat->server_conf->getNic();
 
 		return substr($nic.md5($a_login),0,32);
 	}
-	function __formatMessage()
+	
+	private function formatMessage(&$id = null)
 	{
-		$this->__emoticons();
-
+		global $ilSetting;
+		if ((int)$ilSetting->get('chat_smilies_status') == 1)
+			$this->emoticons();
 		switch($this->getType())
 		{
 			case 'private':
 				// STORE MESSAGE IN DB
-				return "|".$this->__formatLogin($this->getRecipientLogin()).
-					$this->__formatLogin($this->chat->chat_user->getLogin()).
-					$this->__getFormattedChatroom().$this->getMessage()."<br />";
+				return "|".$this->formatLogin($this->getRecipientLogin()).
+					$this->formatLogin($this->chat->chat_user->getLogin()).
+					$this->getFormattedChatroom().$this->getMessage()."<br />";
 			
 			case 'address':
 				// STORE MESSAGE IN DB
-				$this->chat->chat_room->appendMessageToDb($this->getMessage());
-				return ">".$this->__getFormattedChatroom().$this->getMessage()."<br />";
+				$id = $this->chat->chat_room->appendMessageToDb($this->getMessage());
+				return ">".$this->getFormattedChatroom().$this->getMessage()."<br />";
 
 			case 'normal':
 				// STORE MESSAGE IN DB
-				$this->chat->chat_room->appendMessageToDb($this->getMessage());
-				return ">".$this->__getFormattedChatroom().$this->getMessage()."<br />";
+				$id = $this->chat->chat_room->appendMessageToDb($this->getMessage());
+				return ">".$this->getFormattedChatroom().$this->getMessage()."<br />";
 
 			case 'login':
-				return "!".$this->__formatLogin($this->chat->chat_user->getLogin()).$_SERVER["REMOTE_ADDR"];
+				return "!".$this->formatLogin($this->chat->chat_user->getLogin()).$_SERVER["REMOTE_ADDR"];
 
 			case "logout":
-				return "-".$this->__formatLogin($this->chat->chat_user->getLogin());
+				return "-".$this->formatLogin($this->chat->chat_user->getLogin());
 
 			case "kick":
 				return "GET /moderate?".$this->chat->server_conf->getModeratorPassword().
-					"&kick&".$this->__formatLogin($this->getKickedUser()).
-					"&".$this->__getFormattedChatroom();
+					"&kick&".$this->formatLogin($this->getKickedUser()).
+					"&".$this->getFormattedChatroom();
 
 			case "delete":
 				return "GET /moderate?".$this->chat->server_conf->getModeratorPassword().
-					"&delete&".$this->__getFormattedChatroom();
+					"&delete&".$this->getFormattedChatroom();
 
 			case "empty":
 				return "GET /moderate?".$this->chat->server_conf->getModeratorPassword().
-					"&clear&".$this->__getFormattedChatroom();
+					"&clear&".$this->getFormattedChatroom();
 
 			case "test":
 				return "GET /Version";
@@ -196,71 +208,18 @@ class ilChatServerCommunicator
 		}
 	}
 
-	function __emoticons()
+	private function emoticons()
 	{
-		$str = $this->getMessage();
-		$str = str_replace(":)", "<img src=\"" . ILIAS_HTTP_PATH . 
-						   "/templates/default/images/emoticons/icon_smile.gif\" border=0>", $str);
-		$str = str_replace(":-)", "<img src=\"" . ILIAS_HTTP_PATH . 
-						   "/templates/default/images/emoticons/icon_smile.gif\" border=0>", $str);
-		$str = str_replace(":smile:", "<img src=\"" . ILIAS_HTTP_PATH . 
-						   "/templates/default/images/emoticons/icon_smile.gif\" border=0>", $str);
-		$str = str_replace(";)", "<img src=\"" . ILIAS_HTTP_PATH . 
-						   "/templates/default/images/emoticons/icon_wink.gif\" border=0>", $str);
-		$str = str_replace(";-)", "<img src=\"" . ILIAS_HTTP_PATH . 
-						   "/templates/default/images/emoticons/icon_wink.gif\" border=0>", $str);
-		$str = str_replace(":wink:", "<img src=\"" . ILIAS_HTTP_PATH . 
-						   "/templates/default/images/emoticons/icon_wink.gif\" border=0>", $str);
-		$str = str_replace(":D", "<img src=\"" . ILIAS_HTTP_PATH . 
-						   "/templates/default/images/emoticons/icon_laugh.gif\" border=0>", $str);
-		$str = str_replace(":-D", "<img src=\"" . ILIAS_HTTP_PATH . 
-						   "/templates/default/images/emoticons/icon_laugh.gif\" border=0>", $str);
-		$str = str_replace(":laugh:", "<img src=\"" . ILIAS_HTTP_PATH . 
-						   "/templates/default/images/emoticons/icon_laugh.gif\" border=0>", $str);
-		$str = str_replace(":grin:", "<img src=\"" . ILIAS_HTTP_PATH . 
-						   "/templates/default/images/emoticons/icon_laugh.gif\" border=0>", $str);
-		$str = str_replace(":biggrin:", "<img src=\"" . ILIAS_HTTP_PATH . 
-						   "/templates/default/images/emoticons/icon_laugh.gif\" border=0>", $str);
-		$str = str_replace(":(", "<img src=\"" . ILIAS_HTTP_PATH . 
-						   "/templates/default/images/emoticons/icon_sad.gif\" border=0>", $str);
-		$str = str_replace(":-(", "<img src=\"" . ILIAS_HTTP_PATH . 
-						   "/templates/default/images/emoticons/icon_sad.gif\" border=0>", $str);
-		$str = str_replace(":sad:", "<img src=\"" . ILIAS_HTTP_PATH . 
-						   "/templates/default/images/emoticons/icon_sad.gif\" border=0>", $str);
-		$str = str_replace(":o", "<img src=\"" . ILIAS_HTTP_PATH . 
-						   "/templates/default/images/emoticons/icon_shocked.gif\" border=0>", $str);
-		$str = str_replace(":-o", "<img src=\"" . ILIAS_HTTP_PATH . 
-						   "/templates/default/images/emoticons/icon_shocked.gif\" border=0>", $str);
-		$str = str_replace(":shocked:", "<img src=\"" . ILIAS_HTTP_PATH . 
-						   "/templates/default/images/emoticons/icon_smile.gif\" border=0>", $str);
-		$str = str_replace(":p", "<img src=\"" . ILIAS_HTTP_PATH . 
-						   "/templates/default/images/emoticons/icon_tongue.gif\" border=0>", $str);
-		$str = str_replace(":-p", "<img src=\"" . ILIAS_HTTP_PATH . 
-						   "/templates/default/images/emoticons/icon_tongue.gif\" border=0>", $str);
-		$str = str_replace(":tongue:", "<img src=\"" . ILIAS_HTTP_PATH . 
-						   "/templates/default/images/emoticons/icon_smile.gif\" border=0>", $str);
-		$str = str_replace(":cool:", "<img src=\"" . ILIAS_HTTP_PATH . 
-						   "/templates/default/images/emoticons/icon_cool.gif\" border=0>", $str);
-		$str = str_replace(":eek:", "<img src=\"" . ILIAS_HTTP_PATH . 
-						   "/templates/default/images/emoticons/icon_eek.gif\" border=0>", $str);
-		$str = str_replace(":||", "<img src=\"" . ILIAS_HTTP_PATH . 
-						   "/templates/default/images/emoticons/icon_angry.gif\" border=0>", $str);
-		$str = str_replace(":-||", "<img src=\"" . ILIAS_HTTP_PATH . 
-						   "/templates/default/images/emoticons/icon_angry.gif\" border=0>", $str);
-		$str = str_replace(":angry:", "<img src=\"" . ILIAS_HTTP_PATH . 
-						   "/templates/default/images/emoticons/icon_angry.gif\" border=0>", $str);
-		$str = str_replace(":flush:", "<img src=\"" . ILIAS_HTTP_PATH . 
-						   "/templates/default/images/emoticons/icon_flush.gif\" border=0>", $str);
-		$str = str_replace(":idea:", "<img src=\"" . ILIAS_HTTP_PATH . 
-						   "/templates/default/images/emoticons/icon_idea.gif\" border=0>", $str);
-		$str = str_replace(":thumbup:", "<img src=\"" . ILIAS_HTTP_PATH . 
-						   "/templates/default/images/emoticons/icon_thumbup.gif\" border=0>", $str);
-		$str = str_replace(":thumbdown:", "<img src=\"" . ILIAS_HTTP_PATH . 
-						   "/templates/default/images/emoticons/icon_thumbdown.gif\" border=0>", $str);
-		$this->setMessage($str);
+		global $ilSetting;
+		
+		if ($ilSetting->get('chat_smilies_status') == 1) {
+			include_once 'Modules/Chat/classes/class.ilChatSmilies.php';
+			$str = ilChatSmilies::_parseString($this->getMessage());
+			$this->setMessage($str);
+		}
 	}
 
-	function __openSocket()
+	private function openSocket()
 	{
         $this->socket_p = @fsockopen($this->chat->server_conf->getInternalIp(), 
 									 $this->chat->server_conf->getPort(), $errno, $errstr, TIMEOUT);
@@ -269,7 +228,7 @@ class ilChatServerCommunicator
 	}
 
 	// STATIC
-	function _initObject()
+	static function _initObject()
 	{
 		global $ilias, $ilDB;
 		
@@ -290,7 +249,7 @@ class ilChatServerCommunicator
 		return new ilChatServerCommunicator($tmp =& ilObjectFactory::getInstanceByRefId($ref_id));
 	}		
 
-	function _login()
+	static function _login()
 	{
 		$obj =& ilChatServerCommunicator::_initObject();
 
@@ -300,7 +259,7 @@ class ilChatServerCommunicator
 		$obj->send();
 	}
 
-	function _logout()
+	static function _logout()
 	{
 		$obj =& ilChatServerCommunicator::_initObject();
 
@@ -310,6 +269,72 @@ class ilChatServerCommunicator
 		$obj->send();
 	}
 		
+	static function _lookupUser($usr_id) {
+		global $ilDB, $ilObjDataCache;
+		
+		$row = $ilDB->queryF('
+			SELECT room_id, chat_id, kicked  FROM chat_user 
+			WHERE
+				usr_id = %s AND
+				last_conn_timestamp > %s',
+			array('integer', 'integer'),
+			array($usr_id, time() - 60));
+		 
+		$found =  $row->numRows() ? true : false;
+
+		if (!$found)
+			return false;
+		$line = $row->fetchRow();
+		
+	
+		$res = new stdClass();
+		$res->chatId = $line[1];
+		$res->roomId = $line[0];
+		$res->kicked = $line[2];
+
+		$room_title = '';
+		
+		if((int)$res->roomId)
+		{
+			include_once 'Modules/Chat/classes/class.ilChatRoom.php';
+			$oTmpChatRoom = new ilChatRoom((int)$res->chatId);
+			$oTmpChatRoom->setRoomId((int)$res->roomId);
+			$room_title = $oTmpChatRoom->getTitle();
+			if($room_title != '')
+				$room_title = " (" . $room_title . ")";
+		}
+		$res->chatTitle = $ilObjDataCache->lookupTitle($res->chatId) . $room_title;
+		
+		return $res;
+	}
+	
+	static function _getTailMessages($chat_id, $room_id, $start_date = 0) {
+		global $ilDB;
+		
+		$ilDB->setLimit(1, 0);
+		$row = $ilDB->queryF('
+			SELECT entry_id, message
+			FROM chat_room_messages 
+			WHERE
+				chat_id = %s
+				AND room_id = %s
+				AND commit_timestamp > %s 
+			ORDER BY
+				commit_timestamp DESC',
+			array('integer', 'integer', 'integer'),
+			array($chat_id, $room_id, $start_date)
+		);
+		
+		if ($row->numRows()) {
+			$line = $row->fetchRow();
+			$res = new stdClass();
+			$res->entryId = $line[0];
+			$res->message = $line[1];
+			return $res;
+		}
+		else
+			return false;
+	}
 
 } // END class.ilChatServerCommunicator
 ?>

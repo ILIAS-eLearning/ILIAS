@@ -244,6 +244,36 @@ class ilAddressbook
 	}
 
 	/**
+	* returns a readable string representation of a given entry
+	* @param integer address_id
+	* @return string formated string
+	* @access public
+	*/
+	function entryToString($a_addr_id)
+	{
+		$entry = $this->getEntry($a_addr_id);
+		if (!$entry)
+			return "???";
+		else
+		{
+			$out = "";
+			if ($entry['firstname'] && $entry['lastname'])
+				$out .= $entry['lastname'] . ', ' . $entry['firstname'] . ' ';
+			else if ($entry['firstname'])
+				$out .= $entry['firstname'] . ' ';
+			else if ($entry['lastname'])
+				$out .= $entry['lastname'] . ' ';
+			
+			if ($entry['login'])
+				$out .= '(' . $entry['login'] . ') ';
+			
+			if ($entry['email'])
+				$out .= '[' . $entry['email'] . ']';
+			return $out;
+		}
+	}
+	
+	/**
 	* delete some entries of user
 	* @param array array of entry ids
 	* @return boolean

@@ -49,7 +49,7 @@ class ilFileDataChat extends ilFileData
 	* @param integereger obj_id
 	* @access	public
 	*/
-	function ilFileDataChat(&$chat_obj)
+	public function __construct(&$chat_obj)
 	{
 
 		parent::ilFileData();
@@ -70,7 +70,7 @@ class ilFileDataChat extends ilFileData
 		$this->__createDirectory($this->chat_path."/chatrooms_".$_SESSION["AccountId"]);
 	}
 
-	function addFile($filename,$data)
+	public function addFile($filename,$data)
 	{
 		$fp = @fopen($this->chat_path."/chatrooms_".$_SESSION["AccountId"]."/".$filename,"w+");
 
@@ -80,7 +80,7 @@ class ilFileDataChat extends ilFileData
 		return $this->chat_path."/chatrooms_".$_SESSION["AccountId"];
 	}
 
-	function zip()
+	public function zip()
 	{
 		ilUtil::zip($this->chat_path."/chatrooms_".$_SESSION["AccountId"],
 					$this->chat_path."/ilias_chat.zip");
@@ -88,18 +88,18 @@ class ilFileDataChat extends ilFileData
 		return $this->chat_path."/ilias_chat.zip";
 	}
 
-	function getChatPath()
+	public function getChatPath()
 	{
 		return $this->chat_path;
 	}
 
 	// DESTUCTOR CALLED BY PEAR BASE CLASS
-	function _ilFileDataChat()
+	public function _ilFileDataChat()
 	{
 		ilUtil::delDir($this->chat_path);
 	}
-	// PRIVATE
-	function __checkPath()
+
+	private function __checkPath()
 	{
 		if(!file_exists($this->getChatPath()))
 		{
@@ -108,12 +108,12 @@ class ilFileDataChat extends ilFileData
 		return true;
 	}
 
-	function __createDirectory($a_path)
+	private function __createDirectory($a_path)
 	{
 		return ilUtil::makeDir($a_path);
 	}
 
-	function __deleteOld()
+	private function __deleteOld()
 	{
 		if(is_dir($this->getChatPath()))
 		{

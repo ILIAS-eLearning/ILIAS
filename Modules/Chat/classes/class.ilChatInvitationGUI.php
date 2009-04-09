@@ -39,7 +39,6 @@ class ilChatInvitationGUI
 		
 		$this->tpl = $tpl;
 		$this->lng = $lng;
-		
 		$this->lng->loadLanguageModule('chat');
 	}
 	
@@ -60,7 +59,6 @@ class ilChatInvitationGUI
 		$add = ' ('.count($items).')';
 		
 		$this->tpl->addJavascript('./Modules/Chat/js/ChatInvitationMainMenu.js');
-
 		$tpl = new ilTemplate('tpl.chat_invitations_navigation.html', true, true,
 			'Modules/Chat');				
 
@@ -104,7 +102,6 @@ class ilChatInvitationGUI
 							include_once 'Services/User/classes/class.ilObjUser.php';
 							$user_cache[$oTmpChatRoom->getOwnerId()] = new ilObjUser($oTmpChatRoom->getOwnerId());							
 						}						
-						
 						$room_title .= ' ('.$user_cache[$oTmpChatRoom->getOwnerId()]->getFullname().')';
 					}					
 				}				
@@ -140,9 +137,11 @@ class ilChatInvitationGUI
 		$tpl->setVariable('TXT_GO', $this->lng->txt('go'));
 		$tpl->setVariable('ACTION', 'ilias.php?baseClass=ilChatPresentationGUI');		
 
-
 		if((int)$ilSetting->get('chat_sound_status') && 
-		   (int)$ilSetting->get('chat_new_invitation_sound_status'))
+		   (int)$ilSetting->get('chat_new_invitation_sound_status') &&
+		   (int)$ilUser->getPref('chat_sound_status') &&
+		   (int)$ilUser->getPref('chat_new_invitation_sound_status')
+		   )
 		{
 			// beep	
 			if($beep)

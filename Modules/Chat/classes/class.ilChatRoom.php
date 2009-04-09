@@ -50,7 +50,7 @@ class ilChatRoom
 	* @param	integer	reference_id or object_id
 	* @param	boolean	treat the id as reference_id (true) or object_id (false)
 	*/
-	function ilChatRoom($a_id)
+	public function __construct($a_id)
 	{
 		global $ilias,$lng,$ilUser;
 
@@ -65,36 +65,56 @@ class ilChatRoom
 	}
 
 	// SET/GET
-	function getErrorMessage()
+	public function getErrorMessage()
 	{
 		return $this->error_msg;
 	}
 
-	function setRoomId($a_id)
+	public function setRoomId($a_id)
 	{
 		$this->room_id = $a_id;
-		
-		// READ DATA OF ROOM
-		$this->__read();
+		$this->read();		// READ DATA OF ROOM
 	}
-	function getRoomId()
+	
+	public function getRoomId()
 	{
 		return $this->room_id;
 	}
-	function getObjId()
+	
+	public function getObjId()
 	{
 		return $this->obj_id;
 	}
-	function setOwnerId($a_id)
+	
+	public function setOwnerId($a_id)
 	{
 		$this->owner_id = $a_id;
 	}
-	function getOwnerId()
+	
+	public function getOwnerId()
 	{
 		return $this->owner_id;
 	}
+
+	public static function _getOwnerId($room_id)
+	{
+		global $ilDB;
+		
+		$this->guests = array();
+
+		$res = $ilDB->queryf('
+			SELECT owner FROM chat_rooms WHERE room_id = %s',
+			array('integer'),
+			array($room_id));
+				
+		while($row = $res->fetchRow(DB_FETCHMODE_OBJECT))
+		{
+			return $row->owner;
+		}
+		return 0;
+	}
 	
-	function getName()
+	public function getName()
 	{
 		if(!$this->getRoomId())
 		{
@@ -105,28 +125,33 @@ class ilChatRoom
 			// GET NAME OF PRIVATE CHATROOM
 		}
 	}
-	function setTitle($a_title)
+	
+	public function setTitle($a_title)
 	{
 		$this->title = $a_title;
 	}
-	function getTitle()
+	
+	public function getTitle()
 	{
 		return $this->title;
 	}
-	function getGuests()
+	
+	public function getGuests()
 	{
 		return $this->guests ? $this->guests : array();
 	}
-	function setUserId($a_id)
+	
+	public function setUserId($a_id)
 	{
 		$this->user_id = $a_id;
 	}
-	function getUserId()
+	
+	public function getUserId()
 	{
 		return $this->user_id;
 	}
 
-	function invite($a_id)
+	public function invite($a_id)
 	{
 		global $ilDB;
 		
@@ -150,7 +175,6 @@ class ilChatRoom
 				AND	guest_id = %s',
 				array('integer', 'integer', 'integer', 'integer', 'integer'),
 				array(time(), 0, $this->getObjId(), $this->getRoomId(), $a_id));	
-
 		}
 		else
 		{
@@ -168,11 +192,11 @@ class ilChatRoom
 		}		
 	}
 	
-	function drop($a_id)
+	public function drop($a_id)
 	{
 		global $ilDB;
 		
-			$res = $ilDB->manipulateF('
+		$res = $ilDB->manipulateF('
 			DELETE FROM chat_invitations 
 			WHERE chat_id = %s
 			AND room_id = %s
@@ -182,11 +206,11 @@ class ilChatRoom
 		
 	}
 
-	function visited($a_id)
+	public function visited($a_id)
 	{
 		global $ilDB;
 	
-			$res = $ilDB->manipulateF('
+		$res = $ilDB->manipulateF('
 			UPDATE chat_invitations 
 			SET guest_informed = %s
 			WHERE chat_id = %s
@@ -197,7 +221,7 @@ class ilChatRoom
 		
 	}
 	
-	function checkAccess()
+	public function checkAccess()
 	{
 		global $rbacsystem;
 		
@@ -211,13 +235,28 @@ class ilChatRoom
 				$this->setRoomId(0);
 				return false;
 			}
-			
 			$this->visited($this->getUserId());
 		}
 		return true;
 	}
 
-	function isInvited($a_id)
+	public static function _checkAccess($obj_id, $room_id, $ref_id, $user_id, $owner_id)
+	{
+		global $rbacsystem;
+		
+		if ($obj_id || $room_id)
+		{
+			if(!self::_isInvited($user_id) && 
+			   !$owner_id &&
+			   !$rbacsystem->checkAccess('moderate', $ref_id))
+			{
+				return false;
+			}
+		}
+		return true;
+	}
+	
+	public function isInvited($a_id)
 	{
 		global $ilDB;
 
@@ -234,26 +273,43 @@ class ilChatRoom
 		return $res->numRows() ? true : false;
 		//return $ilDB->numRows($res) ? true : false;		
 	}
-	function isOwner()
+
+	public static function _isInvited($obj_id, $room_id, $owner_id, $a_id)
+	{
+		global $ilDB;
+
+		$res = $ilDB->queryf('
+			SELECT * FROM chat_invitations ci JOIN chat_rooms ca 
+			WHERE ci.room_id = ca.room_id 
+			AND ci.chat_id = %s
+			AND ci.room_id = %s
+			AND owner = %s
+			AND ci.guest_id = %s',
+			array('integer', 'integer', 'integer','integer'),
+			array($obj_id, $room_id, $owner_id, $a_id));
+			
+		return $res->numRows() ? true : false;
+	}
+	
+	public function isOwner()
 	{
 		return $this->getOwnerId() == $this->getUserId();
 	}
 
-	// METHODS FOR EXPORTTING CHAT
-	function appendMessageToDb($message)
+	// METHODS FOR EXPORTING CHAT
+	public function appendMessageToDb($message)
 	{
-		if($this->__getCountLines() >= MAX_LINES)
+		if($this->getCountLines() >= MAX_LINES)
 		{
-			$this->__deleteFirstLine();
+			$this->deleteFirstLine();
 		}
-		$this->__addLine($message);
-
-		return true;
+		$id = $this->addLine($message);
+		return $id;
 	}
-	function getAllMessages()
+
+	public function getAllMessages()
 	{
 		global $ilDB;
-
 		$res = $ilDB->queryf('
 			SELECT message FROM chat_room_messages 
 			WHERE chat_id = %s
@@ -269,7 +325,33 @@ class ilChatRoom
 		return is_array($data) ? implode("<br />",$data) : "";		
 	}
 	
-	function deleteAllMessages()
+	public function getNewMessages($last_known_id, &$new_last_known_id = -1, $max_age = 0)
+	{
+		global $ilDB;
+		$res = $ilDB->queryf('
+			SELECT message, entry_id FROM chat_room_messages 
+			WHERE chat_id = %s
+			AND room_id = %s
+			AND entry_id > %s
+			AND commit_timestamp > %s
+			ORDER BY commit_timestamp',
+			array('integer', 'integer', 'integer', 'integer'),
+			array($this->getObjId(), $this->getRoomId(), $last_known_id, $max_age));
+		
+		$max_id = 0; 
+		while($row = $res->fetchRow(DB_FETCHMODE_OBJECT))
+		{
+			$data[] = $row->message;
+			$max_id = max($max_id, $row->entry_id);
+		}
+		
+		if ($new_last_known_id !== -1) {
+			$new_last_known_id = $max_id;
+		}
+		return $data;		
+	}
+	
+	public function deleteAllMessages()
 	{
 		global $ilDB;
 
@@ -283,11 +365,11 @@ class ilChatRoom
 		return true;
 	}
 
-	function updateLastVisit()
+	public function updateLastVisit()
 	{
 		// CHECK IF OLD DATA EXISTS
 		global $ilDB;
-		
+		$kicked = $this->isKicked($this->getUserId());
 		$res = $ilDB->manipulateF('
 			DELETE FROM chat_user WHERE usr_id = %s',
 			array('integer'),
@@ -298,16 +380,16 @@ class ilChatRoom
 			(	usr_id,
 				room_id,
 				chat_id,
+				kicked,
 				last_conn_timestamp
 			)
-			VALUES(%s, %s, %s, %s)',
-			array('integer', 'integer', 'integer', 'integer'),
-			array($this->getUserId(), $this->getRoomId(), $this->getObjId(), time()));
-
+			VALUES(%s, %s, %s, %s, %s)',
+			array('integer', 'integer', 'integer', 'integer', 'integer'),
+			array($this->getUserId(), $this->getRoomId(), $this->getObjId(), $kicked, time()));
 		return true;
 	}
 
-	function setKicked($a_usr_id)
+	public function setKicked($a_usr_id)
 	{
 		global $ilDB;
 		
@@ -338,7 +420,7 @@ class ilChatRoom
 		return true;
 	}
 
-	function  isKicked($a_usr_id)
+	public function isKicked($a_usr_id)
 	{
 		global $ilDB;
 		
@@ -354,7 +436,23 @@ class ilChatRoom
 		return $res->numRows() ? true : false;
 	}		
 
-	function getCountActiveUser($chat_id,$room_id)
+	public static function _isKicked($a_usr_id, $chat_id)
+	{
+		global $ilDB;
+		
+		$res = $ilDB->queryf('
+			SELECT * FROM chat_user 
+			WHERE kicked = %s
+			AND usr_id = %s
+			AND chat_id = %s',
+			array('integer', 'integer', 'integer'),
+			array('1', $a_usr_id, $chat_id));
+		 
+		//return $ilDB->numRows($res) ? true : false;
+		return $res->numRows() ? true : false;
+	}
+	
+	public function getCountActiveUser($chat_id,$room_id)
 	{
 		global $ilDB;
 
@@ -370,7 +468,7 @@ class ilChatRoom
 		return $res->numRows();
 	}
 
-	function _getCountActiveUsers($chat_id,$room_id = 0)
+	public static function _getCountActiveUsers($chat_id,$room_id = 0)
 	{
 		global $ilDB;
 
@@ -387,7 +485,7 @@ class ilChatRoom
 	}
 		
 
-	function getActiveUsers()
+	public function getActiveUsers()
 	{
 		global $ilDB;
 		
@@ -398,7 +496,6 @@ class ilChatRoom
 			AND last_conn_timestamp > %s',
 			array('integer', 'integer', 'integer'),
 			array($this->getObjId(), $this->room_id, time() - 40));
-		
 
 		while($row = $res->fetchRow(DB_FETCHMODE_OBJECT))
 		{
@@ -407,8 +504,7 @@ class ilChatRoom
 		return $usr_ids ? $usr_ids : array();
 	}
 
-	// Static
-	function _isActive($usr_id)
+	public static function _isActive($usr_id)
 	{
 		global $ilDB;
 
@@ -427,13 +523,13 @@ class ilChatRoom
 		return false;
 	}
 
-	function getOnlineUsers()
+	public function getOnlineUsers()
 	{
 		// TODO: CHECK INVITABLE AND ALLOW MESSAGES 
 		return ilUtil::getUsersOnline();
 	}
 
-	function validate()
+	public function validate()
 	{
 		$this->error_msg = "";
 
@@ -447,7 +543,8 @@ class ilChatRoom
 		}
 		return $this->error_msg ? false : true;
 	}
-	function deleteRooms($a_ids)
+	
+	public function deleteRooms($a_ids)
 	{
 		if(!is_array($a_ids))
 		{
@@ -460,7 +557,7 @@ class ilChatRoom
 		return true;
 	}
 
-	function delete($a_id, $a_owner = 0)
+	public function delete($a_id, $a_owner = 0)
 	{
 		// DELETE ROOM
 		global $ilDB;
@@ -485,7 +582,6 @@ class ilChatRoom
 			DELETE FROM chat_invitations WHERE room_id = %s',
 			array('integer'), array($a_id));
 
-
 		// DELETE MESSAGES
 		$res = $ilDB->manipulateF('
 			DELETE FROM chat_room_messages WHERE room_id = %s',
@@ -507,7 +603,6 @@ class ilChatRoom
 		}
 		$res = $ilDB->manipulateF($query, $data_types, $data_values);
 
-			
 		// AND ALL RECORDINGS
 		$res = $ilDB->queryf('
 			SELECT record_id FROM chat_records WHERE room_id = %s',
@@ -535,7 +630,7 @@ class ilChatRoom
 		return true;
 	}
 
-	function rename()
+	public function rename()
 	{
 		global $ilDB;
 		
@@ -549,7 +644,7 @@ class ilChatRoom
 		return true;
 	}
 
-	function lookupRoomId()
+	public function lookupRoomId()
 	{
 		global $ilDB;
 		
@@ -568,7 +663,7 @@ class ilChatRoom
 		return false;
 	}
 
-	function add()
+	public function add()
 	{
 		global $ilDB;
 		
@@ -587,7 +682,7 @@ class ilChatRoom
 		return $next_id;
 	}
 
-	function getInternalName()
+	public function getInternalName()
 	{
 		if(!$this->getRoomId())
 		{
@@ -599,9 +694,8 @@ class ilChatRoom
 		}
 	}
 	
-	function getRooms()
+	public function getRooms()
 	{
-		
 		global $tree, $ilDB, $rbacsystem;
 
 		$data_types = array();
@@ -631,16 +725,21 @@ class ilChatRoom
 		return $data ? $data : array();
 	}
 
-	function getRoomsOfObject()
+	public function getRoomsOfObject($chat_id = 0, $owner_id = 0)
 	{
 		global $ilDB;
 
+		if (!$chat_id)
+			$chat_id = $this->getObjId();
+		if (!$owner_id)
+			$owner_id = $this->getUserId();
+		
 		$res = $ilDB->queryf('
 			SELECT * FROM chat_rooms 
 			WHERE chat_id = %s
 			AND owner = %s',
 			array('integer', 'integer'),
-			array($this->getObjId(), $this->getUserId()));
+			array($chat_id, $owner_id));
 		
 		while($row = $res->fetchRow(DB_FETCHMODE_OBJECT))
 		{
@@ -652,27 +751,29 @@ class ilChatRoom
 		return $data ? $data : array();
 	}
 	
-	function getAllRoomsOfObject()
+	public function getAllRoomsOfObject($chat_id = 0)
 	{
 		global $ilDB;
 
+		if (!$chat_id)
+			$chat_id = $this->getObjId();
+		
 		$res = $ilDB->queryf('
 			SELECT * FROM chat_rooms 
 			WHERE chat_id = %s',
 			array('integer'),
-			array($this->getObjId()));
+			array($chat_id));
 					
 		while($row = $res->fetchRow(DB_FETCHMODE_OBJECT))
 		{
 			$data[$row->room_id]["room_id"] = $row->room_id;
 			$data[$row->room_id]["owner"] = $row->owner;
 			$data[$row->room_id]["title"] = $row->title;
-			$data[$row->room_id]["owner"] = $row->owner;
 		}
 		return $data ? $data : array();
 	}		
 
-	function getAllRooms()
+	public function getAllRooms()
 	{
 		global $ilObjDataCache,$ilUser,$rbacsystem;
 
@@ -712,7 +813,7 @@ class ilChatRoom
 		return $unique_chats ? $unique_chats : array();
 	}
 
-	function checkWriteAccess()
+	public function checkWriteAccess()
 	{
 		global $rbacsystem;
 		
@@ -740,8 +841,35 @@ class ilChatRoom
 		return false;
 	}
 
-	// PRIVATE
-	function __getCountLines()
+	public static function _checkWriteAccess($ref_id, $room_id, $user_id)
+	{
+		global $rbacsystem;
+		
+		if($rbacsystem->checkAccess('moderate', $ref_id))
+		{
+			return true;
+		}
+		
+		if(self::_isKicked($user_id))
+		{
+			return false;
+		}
+		if(!$room_id)
+		{
+			return true;
+		}
+		if($user_id == self::_getOwnerId($room_id))
+		{
+			return true;
+		}
+		if($this->_isInvited($user_id))
+		{
+			return true;
+		}
+		return false;
+	}
+	
+	private function getCountLines()
 	{
 		global $ilDB;
 
@@ -759,15 +887,23 @@ class ilChatRoom
 		return 0;
 	}
 	
-	function __deleteFirstLine()
+	private function deleteFirstLine()
 	{
 		global $ilDB;
 	
-		$res = $ilDB->queryf('
+/*		$res = $ilDB->queryf('
 			SELECT entry_id, MIN(commit_timestamp) last_comm FROM chat_room_messages
 			WHERE chat_id = %s
 			AND room_id = %s
 			GROUP BY null',
+			array('integer', 'integer'),
+			array($this->getObjId(), $this->getRoomId()));
+*/
+		$res = $ilDB->queryf('
+			SELECT entry_id, MIN(commit_timestamp) last_comm FROM chat_room_messages
+			WHERE chat_id = %s
+			AND room_id = %s
+			GROUP BY entry_id',
 			array('integer', 'integer'),
 			array($this->getObjId(), $this->getRoomId()));
 		
@@ -785,7 +921,7 @@ class ilChatRoom
 		return true;
 	}
 	
-	function __addLine($message)
+	private function addLine($message)
 	{
 		global $ilDB;
 
@@ -800,7 +936,9 @@ class ilChatRoom
 			VALUES(%s, %s, %s, %s, %s)',
 			array('integer','integer', 'integer', 'text', 'integer'),
 			 array($next_id, $this->getObjId(), $this->getRoomId(), $message, time()));
-			
+		
+		$id = $ilDB->getLastInsertId();
+
 		$this->chat_record = new ilChatRecording($this->getObjId());
 		$this->chat_record->setRoomId($this->getRoomId());
 		if ($this->chat_record->isRecording())
@@ -818,11 +956,11 @@ class ilChatRoom
 				array($next_id, $this->chat_record->getRecordId(), $message, time()));
 		}
 
-		return true;
+		return $next_id;
 	}
 
 
-	function __read()
+	private function read()
 	{
 		global $ilDB;
 		
@@ -853,7 +991,7 @@ class ilChatRoom
 		return true;
 	}
 
-	function _unkick($a_usr_id)
+	static function _unkick($a_usr_id)
 	{
 		global $ilDB;
 

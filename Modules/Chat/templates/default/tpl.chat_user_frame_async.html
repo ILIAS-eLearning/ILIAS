@@ -1,0 +1,196 @@
+
+<script type="text/javascript">
+	var chatLanguage = new ilChatLanguage();
+
+	chatLanguage.addTxt("show", '{CHAT_SHOW}');
+	chatLanguage.addTxt("hide", '{CHAT_HIDE}');
+	chatLanguage.addTxt("open", '{CHAT_OPEN}');
+	chatLanguage.addTxt("empty_message", '{CHAT_EMPTY_MESSAGE}');
+	chatLanguage.addTxt("recording", '{CHAT_RECORDING_RUNNING}');
+	chatLanguage.addTxt("recording_stopped", '{CHAT_RECORDING_STOPPED}');
+	chatLanguage.addTxt("chat_recording_already__running", '{CHAT_RECORDING_ALREADY_RUNNING}');
+	chatLanguage.addTxt("chat_recording_running", '{CHAT_RECORDING_RUNNING}');
+	chatLanguage.addTxt("confirm_invite_user", '{CHAT_CONFIRM_USER_INVITE}');
+	chatLanguage.addTxt("confirm_kick_user", '{CHAT_CONFIRM_KICK_USER}');
+	chatLanguage.addTxt("confirm_delete_private_room", '{CHAT_CONFIRM_DELETE_PRIVATE_ROOM}');
+	chatLanguage.addTxt("address", '{CHAT_ADDRESS}');
+	chatLanguage.addTxt("whisper", '{CHAT_WHISPER}');
+	chatLanguage.addTxt("kick", '{CHAT_KICK}');
+	chatLanguage.addTxt("unkick", '{CHAT_UNKICK}');
+	chatLanguage.addTxt("profile", '{CHAT_PROFILE}');
+	chatLanguage.addTxt("cancel", '{CANCEL}');
+	chatLanguage.addTxt("no_title_given", '{CHAT_NO_TITLE_GIVEN}');
+	
+	chatLanguage.addTxt('online_users_title', '{ONLINE_USERS_TITLE}');
+	chatLanguage.addTxt('active_users_title', '{ACTIVE_USERS_TITLE}');
+	chatLanguage.addTxt('rooms_list_title', '{ROOM_LIST_TITLE}');
+	
+	chatLanguage.addTxt('add_to_bookmark', '{ADD_TO_BOOKMARK}');
+	chatLanguage.addTxt('add_to_addressbook', '{ADD_TO_ADDRESSBOOK}');
+	chatLanguage.addTxt('empty', '{EMPTY_ROOM}');
+	chatLanguage.addTxt('delete', '{DELETE}');
+	chatLanguage.addTxt('confirm_delete_private_room', '{CONFIRM_DELETE_PRIVATE_ROOM}');
+	chatLanguage.addTxt('invite', '{INVITE}');
+	chatLanguage.addTxt('disinvite', '{DISINVITE}');
+	
+	chatLanguage.addTxt('hidden', '{CHAT_USER_HIDDEN}');
+	chatLanguage.addTxt('visible', '{CHAT_USER_VISIBLE}');
+
+	var ilRooms = new ilRoomTable();
+	var ilActiveUsersRoom = new ilChatActiveUsersRoom();
+	var ilOnlineUsers = new ilChatOnlineUsers();
+
+	ilAddOnLoad(
+		function ()
+		{
+			ilRooms.render(document.getElementById('left_col'));
+			ilActiveUsersRoom.render(document.getElementById('left_col'));
+			ilOnlineUsers.render(document.getElementById('left_col'));
+			return;
+		}
+	);
+	
+	var chatOnlineUsers = new ilChatUserList('online_users', 'userlist', 'online_users_list');
+	var chatActiveUsers = new ilChatUserList('active_users', 'userlist', 'active_users_list');
+	var chatRoomList = new ilChatUserList('room_list', 'roomlist', 'rooms_list');
+	var il_chat_async_handler = new ilChatController('{ONLINE_USERS_REFRESH_LINK}','{ACTIVE_USERS_REFRESH_LINK}', '{CURRENT_ROOM_REFRESH_LINK}');
+	var il_chat_message_handler = false;
+
+	il_chat_async_handler.setBaseUrl('{CHAT_BASE_URL_TEMPLATE}');
+	il_chat_async_handler.baseRefId = '{BASE_REF_ID}';
+	il_chat_async_handler.baseRoomId = '{BASE_ROOM_ID}';
+	
+	il_chat_async_handler.setBaseChatserverAddress('{CHATSERVER_ADDRESS}');
+
+</script>
+<!-- END js_chat_init -->
+
+{MAINMENU}
+<div class="il_Locator">{LOCATOR}</div>
+<h1 id="ilChatTitle" class="il_Header" style="margin-left: 4px">{TITLE}</h1>
+
+<div id="left_col" style="width: 30%; float: left;">
+<!-- BEGIN add_chatroom -->
+	<form action="#" method="post" target="_top" onsubmit="il_chat_async_handler.addPrivateRoom(); return false;">
+		<p class="small" style="margin-left: 4px;">{TXT_ADD_PRIVATE_CHATROOM}:<br>
+			<input id="il_chat_txt_add_private_room" class="small" type="text" name="room_name" value="{ROOM_NAME}" />
+			<input class="submit" type="submit" name="cmd[addPrivateRoom]" value="{TXT_ADD}" />
+		</p>
+	</form>
+<!-- END add_chatroom -->
+</div><!-- end left col -->
+<div id="bottom_row" style="width: 65%; float: right">
+
+<iframe src="" id="server_iframe" name="server" style="width: 99%; height: 400px;"></iframe>
+
+  <p id="il_chat_notification">{MESSAGE}</p>
+  
+  <div id="il_message_container"></div>
+  <table class="fullwidth_invisible" border="0">
+  <!-- BEGIN visible_chat_box -->
+  <tr>
+  	<td class="ilInvisibleBorder" valign="top">
+  <!--<div class="invisible_border">-->
+		<form action="#" name="txt_input" method="post" onsubmit="il_chat_async_handler.postMessage(); return false;" >
+		<table class="std" border="0">
+		  <tr class="tblheader">
+			  <th class="std" align="left" nowrap="nowrap" colspan="3">
+				{TXT_NEW_MESSAGE}
+			  </th>
+			</tr>
+		<tr>
+			<td class="option">{TXT_COLOR}</td>
+			<td class="option_value" colspan="2">{SELECT_COLOR}</td>
+		</tr>
+		<tr>
+			<td class="option">{TXT_TYPE}</td>
+			<td class="option_value" colspan="2"><!-- BEGIN FONT_TYPES --><input type="radio" name="type" value="{FONT_TYPE}" {TYPE_CHECKED} />&nbsp;{BL_TXT_TYPE}&nbsp;&nbsp;<!-- END FONT_TYPES --></td>
+		</tr>
+		<tr>
+			<td class="option">{TXT_FACE}</td>
+			<td class="option_value" colspan="2"><!-- BEGIN FONT_FACES --><input type="checkbox" name="face[]" value="{FONT_FACE}" {FACE_CHECKED} />&nbsp;{BL_TXT_FACE}&nbsp;&nbsp;<!-- END FONT_FACES --></td>
+		</tr>
+		<tr>
+<!--			<td class="option">{TXT_INPUT}</td>//-->
+			<td class="option_value" colspan="3" style="text-align:center">
+			    <p style="display: none; text-align: left;" id="recipient_message"></p>
+				<input type="text" name="message" id="chat_post_message" size="50" maxlength="1800" />
+				<script language="JavaScript">
+				//<!--
+					if(document.txt_input.message.value!="") document.txt_input.message.focus();
+					else document.txt_input.message.focus();
+				//-->
+				</script>
+			  </td>
+		</tr>
+		<tr class="tblfooter">
+			<td class="std" colspan="3">
+				<input class="submit" type="submit" name="cmd[input]" value="{TXT_SUBMIT_OK}" onclick="il_chat_async_handler.postMessage(); return false;"/>&nbsp;
+				<!-- BEGIN cancel -->
+				<input class="submit" type="submit" name="cmd[cancelAddressOrWhisperMode]" value="{TXT_SUBMIT_CANCEL}" />&nbsp;
+				<!-- END cancel -->
+				<input class="submit" type="submit" name="cmd[export]" value="{TXT_HTML_EXPORT}" />
+			</td>
+		</tr>
+		</table>
+		</form>
+  <!--</div>-->
+	</td>
+<!-- BEGIN moderator -->
+	<td class="ilInvisibleBorder" valign="top">
+		<form action="{MODERATOR_FORMACTION}" name="mod_input" method="post" target="{MODERATOR_TARGET}">
+		<table class="std" border="0">
+		  <tr class="tblheader">
+			  <th class="std" align="left" nowrap="nowrap" colspan="2">
+				{TXT_RECORDINGS}
+			  </th>
+			</tr>
+			<tr id="start_record_1">
+				<td class="option">{TXT_TITLE_START_RECORDING}</td>
+				<td class="option_value"><input type="text" name="title" value="" /></td>
+			</tr>
+			<tr id="start_record_2" class="tblfooter">
+				<td class="std" colspan="2">
+					<input class="submit" type="submit" name="cmd[startRecording]"  onclick="il_chat_async_handler.startRecording(); return false;" value="{TXT_SUBMIT_START_RECORDING}" />
+				</td>
+			</tr>
+			<tr id="stop_record_1">
+				<td class="option">{TXT_TITLE_STOP_RECORDING}</td>
+				<td class="option_value">{VAL_TITLE_STOP_RECORDING}</td>
+			</tr>
+			<tr id="stop_record_2" class="tblfooter">
+				<td class="std" colspan="2">
+					<!-- <input class="submit" type="submit" name="cmd[stopRecording]" value="{TXT_SUBMIT_STOP_RECORDING}" /> -->
+					<input class="submit" type="submit" name="cmd[stopRecording]" value="{TXT_SUBMIT_STOP_RECORDING}" onclick="il_chat_async_handler.stopRecording();return false;"/>
+				</td>
+			</tr>
+		</table>
+		</form>
+	</td>
+<!-- END moderator -->
+  </tr>
+  <!-- END visible_chat_box -->
+   <tr>
+  	<td class="ilInvisibleBorder" valign="top" colspan="2">  		
+		<!-- BEGIN perma_link -->
+		<div class="il_info"><br />
+		{TXT_PERMA_LINK}: <a href="{PERMA_LINK}" title="{TXT_PERMA_LINK}" target="{PERMA_TARGET}">{PERMA_LINK}</a>
+		</div>
+		<!-- END perma_link -->
+  	</td>
+  </tr>
+  </table>
+</div><!-- end bottom row -->
+
+<div style="position: absolute; display: none;" id="il_chat_context">
+	<div id="il_chat_context_userimage" style="display: none;"></div>
+	<div id="il_chat_context_menu">
+		<div id="il_chat_context_title_container">
+			<div id="il_chat_context_title"></div>
+			<div id="il_chat_context_close"><img src="./templates/default/images/cancel.gif" onclick="contextMenu.hide();"/></div>
+			<br style="clear: both;">
+		</div>
+		
+		<div id="il_chat_context_menuitems"></div>	
+	</div>
+</div>

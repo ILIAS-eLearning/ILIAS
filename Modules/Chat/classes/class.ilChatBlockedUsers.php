@@ -42,26 +42,42 @@ class ilChatBlockedUsers
 	* @param	integer	reference_id or object_id
 	* @param	boolean	treat the id as reference_id (true) or object_id (false)
 	*/
-	function ilChatBlockedUsers($a_id)
+	public function __construct($a_id)
 	{
 		global $ilDB;
 
 		$this->db =& $ilDB;
 		$this->id = $a_id;
 
-		$this->__read();
+		$this->read();
 	}
 
-	function getBlockedUsers()
+	/**
+	 * gets blocked users 
+	 * @return	array	array of blocked users or empty array
+	 */
+	public function getBlockedUsers()
 	{
 		return $this->blocked ? $this->blocked : array();
 	}
 
-	function isBlocked($a_usr_id)
+	/**
+	 * checks if user is blocked
+	 * @param	integer	userid
+	 * @return	boolean
+	 */
+	public function isBlocked($a_usr_id)
 	{
-		return in_array($a_usr_id,$this->blocked) ? true : false;
+		return in_array($a_usr_id, $this->blocked) ? true : false;
 	}
-	function block($a_usr_id)
+	
+	/**
+	 * blocks given user 
+	 * @param	integer	userid
+	 * @return	boolean	true if user could be blocked, false if user was already
+	 *		 			blocked or invalid userid is not given
+	 */
+	public function block($a_usr_id)
 	{
 		global $ilDB;
 		
@@ -77,12 +93,18 @@ class ilChatBlockedUsers
 			array('integer', 'integer'),
 			array($this->id, $a_usr_id));
 		
-		$this->__read();
+		$this->read();
 
 		return true;
 	}
 
-	function unblock($a_usr_id)
+	/**
+	 * unblocks given user
+	 * @param	integer	userid
+	 * @return	boolean	true if user has been unblocked, false if userid does not
+	 * 					belong to blocked user
+	 */
+	public function unblock($a_usr_id)
 	{
 		global $ilDB;
 		
@@ -98,15 +120,18 @@ class ilChatBlockedUsers
 			array('integer', 'integer'),
 			array($this->id, $a_usr_id));
 		
-		$this->__read();
+		$this->read();
 
 		return true;
 	}
 		
-
-		
-	// Static
-	function _isBlocked($a_chat_id,$a_usr_id)
+	/**
+	 * checks if a given user is blocked for a given chat
+	 * @param	integer	chatid
+	 * @param	integer	userid
+	 * @return	boolean	
+	 */
+	static function _isBlocked($a_chat_id, $a_usr_id)
 	{
 		global $ilDB;
 
@@ -115,13 +140,19 @@ class ilChatBlockedUsers
 			WHERE chat_id = %s
 			AND	usr_id = %s',
 			array('integer', 'integer'),
-			array($this->id, $a_usr_id));
+			array($a_chat_id, $a_usr_id));
+			
+		// was array($this->id, $a_usr_id));
 		
 		return $res->numRows() ? true : false;
 	}
 
-
-	function _deleteUser($a_usr_id)
+	/**
+	 * deletes all blocking information for a given user
+	 * @param	integer	user id
+	 * @return	boolean	
+	 */
+	static function _deleteUser($a_usr_id)
 	{
 		global $ilDB;
 
@@ -132,7 +163,13 @@ class ilChatBlockedUsers
 		
 		return true;
 	}
-	function _deleteChat($a_chat_id)
+	
+	/**
+	 * deletes all blocking information for a given chat
+	 * @param	integer	chatid
+	 * @return	boolean	
+	 */
+	static function _deleteChat($a_chat_id)
 	{
 		global $ilDB;
 
@@ -144,9 +181,11 @@ class ilChatBlockedUsers
 		return true;
 	}		
 
-
-	// Private
-	function __read()
+	/**
+	 * initialize blocking information array 
+	 * @return boolean
+	 */
+	private function read()
 	{
 		global $ilDB;
 		
@@ -163,6 +202,7 @@ class ilChatBlockedUsers
 		}
 		return true;
 	}
-
+	
+	
 } // END class.ilBlockedUsers
 ?>

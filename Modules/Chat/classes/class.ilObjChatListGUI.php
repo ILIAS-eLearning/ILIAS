@@ -40,7 +40,7 @@ class ilObjChatListGUI extends ilObjectListGUI
 	* constructor
 	*
 	*/
-	function ilObjChatListGUI()
+	public function ilObjChatListGUI()
 	{
 		$this->ilObjectListGUI();
 	}
@@ -50,7 +50,7 @@ class ilObjChatListGUI extends ilObjectListGUI
 	*
 	* this method should be overwritten by derived classes
 	*/
-	function init()
+	public function init()
 	{
 		$this->static_link_enabled = true;
 		$this->delete_enabled = true;
@@ -76,7 +76,7 @@ class ilObjChatListGUI extends ilObjectListGUI
 	* @param	string		$a_cmd			command
 	*
 	*/
-	function getCommandLink($a_cmd)
+	public function getCommandLink($a_cmd)
 	{
 		switch($a_cmd)
 		{
@@ -99,7 +99,7 @@ class ilObjChatListGUI extends ilObjectListGUI
 	*						"property" (string) => property name
 	*						"value" (string) => property value
 	*/
-	function getProperties()
+	public function getProperties()
 	{
 		global $lng;
 

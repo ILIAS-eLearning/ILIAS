@@ -55,7 +55,7 @@ class ilChatServerConfig
 	* @param	integer	reference_id or object_id
 	* @param	boolean	treat the id as reference_id (true) or object_id (false)
 	*/
-	function ilChatServerConfig()
+	function __construct()
 	{
 		global $ilias,$lng;
 
@@ -67,7 +67,7 @@ class ilChatServerConfig
 	}
 
 
-	function _isActive()
+	static function _isActive()
 	{
 		global $ilias;
 
@@ -76,97 +76,117 @@ class ilChatServerConfig
 
 
 	// SET/GET
-    function setInternalIp($ip)
+    public function setInternalIp($ip)
     {
         $this->internal_ip = $ip;
     }
-    function getInternalIp()
+    
+    public function getInternalIp()
     {
         return $this->internal_ip;
     }
-    function setExternalIp($ip)
+    
+    public function setExternalIp($ip)
     {
         $this->external_ip = $ip;
     }
-    function getExternalIp()
+    
+    public function getExternalIp()
     {
         return $this->external_ip ? $this->external_ip : $this->internal_ip;
     }
-	function setPort($port)
+	
+    public function setPort($port)
 	{
 		$this->port = $port;
 	}
-	function getPort()
+	
+	public function getPort()
 	{
 		return $this->port;
 	}
-	function setSSLStatus($ssl_status = 0)
+	
+	public function setSSLStatus($ssl_status = 0)
 	{
 		$this->ssl_status = $ssl_status;
 	}
-	function getSSLStatus()
+	
+	public function getSSLStatus()
 	{
 		return $this->ssl_status;
 	}	
-	function setSSLPort($ssl_port)
+	
+	public function setSSLPort($ssl_port)
 	{
 		$this->ssl_port = $ssl_port;
 	}
-	function getSSLPort()
+	
+	public function getSSLPort()
 	{
 		return $this->ssl_port;
 	}
-	function setModeratorPassword($a_passwd)
+	
+	public function setModeratorPassword($a_passwd)
 	{
 		$this->moderator = $a_passwd;
 	}
-	function getModeratorPassword()
+	
+	public function getModeratorPassword()
 	{
 		return $this->moderator;
 	}
-	function setLogfile($logfile)
+	
+	public function setLogfile($logfile)
 	{
 		$this->logfile = $logfile;
 	}
-	function getLogfile()
+	
+	public function getLogfile()
 	{
 		return $this->logfile;
 	}
-	function setLogLevel($loglevel)
+	
+	public function setLogLevel($loglevel)
 	{
 		$this->loglevel = $loglevel;
 	}
-	function getLogLevel()
+	
+	public function getLogLevel()
 	{
 		return $this->loglevel;
 	}
-	function setAllowedHosts($hosts)
+	
+	public function setAllowedHosts($hosts)
 	{
 		$this->hosts = $hosts;
 	}
-	function getAllowedHosts()
+	
+	public function getAllowedHosts()
 	{
 		return $this->hosts;
 	}
 
-	function getErrorMessage()
+	public function getErrorMessage()
 	{
 		return $this->error_message;
 	}
-	function setActiveStatus($status)
+	
+	public function setActiveStatus($status)
 	{
 		$this->active = $status;
 	}
-	function getActiveStatus()
+	
+	public function getActiveStatus()
 	{
 		return $this->active;
 	}
-	function getNic()
+	
+	public function getNic()
 	{
 		return substr($this->nic,0,6);
 	}
 
-	function validate()
+	public function validate()
 	{
 		$this->error_message = "";
 
@@ -217,12 +237,13 @@ class ilChatServerConfig
 
 		if($this->getAllowedHosts())
 		{
-			$this->__parseAllowedHosts();
+			$this->parseAllowedHosts();
 		}
 
 		return $this->error_message ? false : true;
 	}
-	function update()
+	
+	public function update()
 	{
         $this->ilias->setSetting("chat_internal_ip",$this->getInternalIp());
         $this->ilias->setSetting("chat_external_ip",$this->getExternalIp());
@@ -234,14 +255,16 @@ class ilChatServerConfig
 		$this->ilias->setSetting("chat_hosts",$this->getAllowedHosts());
 		$this->ilias->setSetting("chat_moderator_password",$this->getModeratorPassword());
 
-		return $this->__writeConfigFile();
+		return $this->writeConfigFile();
 	}
-	function updateStatus()
+	
+	public function updateStatus()
 	{
 		$this->ilias->setSetting("chat_active",$this->getActiveStatus());
 	}
 
-	function read()
+	
+	public function read()
 	{
         $this->internal_ip = $this->ilias->getSetting("chat_internal_ip");
         $this->external_ip = $this->ilias->getSetting("chat_external_ip");
@@ -256,7 +279,7 @@ class ilChatServerConfig
 		$this->nic = $this->ilias->getSetting("nic_key");
 	}
 
-	function isAlive()
+	public function isAlive()
 	{
         if($this->getInternalIp() and $this->getPort())
         {
@@ -270,8 +293,7 @@ class ilChatServerConfig
 		return false;
 	}
 
-	//PRIVATE
-	function __parseAllowedHosts()
+	private function parseAllowedHosts()
 	{
 		$hosts_arr2 = array();
 		$hosts_arr = explode(',',$this->getAllowedHosts());
@@ -287,7 +309,8 @@ class ilChatServerConfig
 
 		return true;
 	}
-	function __writeConfigFile()
+	
+	private function writeConfigFile()
 	{
 		if(!@is_dir(ilUtil::getDataDir().'/chat'))
 		{
