@@ -1,0 +1,22 @@
+<div id="treeDiv1"></div>
+{SOME_CONTENT}
+<script type="text/javascript">
+ilAddOnLoad
+(
+	function()
+	{	
+		//instantiate the TreeView control:
+		var tree = new YAHOO.widget.TreeView("treeDiv1");
+		
+		//get a reference to the root node; all
+		//top level nodes are children of the root node:
+		var rootNode = tree.getRoot();
+		
+		//begin adding children
+		var tmpNode = new YAHOO.widget.TextNode("My nodelabel", tree.getRoot(), false);
+		
+		//the tree won't show up until you draw (render) it:
+		tree.draw();
+	}
+);
+</script>

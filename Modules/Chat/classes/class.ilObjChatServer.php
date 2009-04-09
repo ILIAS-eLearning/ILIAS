@@ -49,7 +49,7 @@ class ilObjChatServer extends ilObject
 	* @param	integer	reference_id or object_id
 	* @param	boolean	treat the id as reference_id (true) or object_id (false)
 	*/
-	function ilObjChatServer($a_id = 0,$a_call_by_reference = true)
+	public function __construct($a_id = 0,$a_call_by_reference = true)
 	{
 		$this->type = 'chac';
 		$this->ilObject($a_id,$a_call_by_reference);
@@ -60,7 +60,7 @@ class ilObjChatServer extends ilObject
 		$this->chat_room =& new ilChatRoom($this->getId());
 	}
 
-	function read()
+	public function read()
 	{
 		// USED ilObjectFactory::getInstance...
 		parent::read();

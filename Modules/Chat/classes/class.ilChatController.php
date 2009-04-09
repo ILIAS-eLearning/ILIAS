@@ -41,7 +41,7 @@ class ilChatController
 	* @access	public
 	* @param	integer	reference_id
 	*/
-	function ilChatController($a_ref_id)
+	public function __construct($a_ref_id)
 	{
 
 		$this->ref_id = (int) $a_ref_id;
@@ -57,27 +57,36 @@ class ilChatController
 			ilUtil::sendInfo("You are not entitled to view this room",true);
 		}
 		$this->gui_obj->object->server_comm->setRecipientId((int) $_GET["p_id"]);
-		$this->__getCommand();
+		$this->getCommand();
 	}
 
 	// SET/GET
-	function setRefId($a_ref_id)
+	/**
+	 *	@param	integer	ref_id 
+	 */
+	public function setRefId($a_ref_id)
 	{
 		$this->ref_id = $a_ref_id;
 	}
-	function getRefId()
+	
+	/**
+	 *	@return	integer	ref_id 
+	 */
+	public function getRefId()
 	{
 		return $this->ref_id;
 	}
 
-	function execute()
+	public function execute()
 	{
 		$cmd = $this->cmd;
 		$this->gui_obj->$cmd();
 	}
-
-	// PRIVATE
-	function __getCommand()
+	
+	/**
+	 * sets internal command 
+	 */
+	private function getCommand()
 	{
 		if($_GET["cmd"] == 'gateway')
 		{
@@ -114,5 +123,6 @@ class ilChatController
 			$this->cmd = 'deliverVCard';
 		}
 	}
+	
 } // END class.ilObjTest
 ?>

@@ -3,7 +3,7 @@
 	+-----------------------------------------------------------------------------+
 	| ILIAS open source                                                           |
 	+-----------------------------------------------------------------------------+
-	| Copyright (c) 1998-2009 ILIAS open source, University of Cologne            |
+	| Copyright (c) 1998-2001 ILIAS open source, University of Cologne            |
 	|                                                                             |
 	| This program is free software; you can redistribute it and/or               |
 	| modify it under the terms of the GNU General Public License                 |
@@ -20,59 +20,48 @@
 	| Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA. |
 	+-----------------------------------------------------------------------------+
 */
+//require_once "Modules/Chat/classes/class.ilObjChatGUI.php";
 
 /**
-* Class ilChatUser
+* Chat smiley GUI handler
 * 
-* @author Stefan Meyer 
 * @version $Id$
-*
+* @author	Jan Posselt <jposselt@databay.de>
 */
-
-class ilChatUser
+class ilChatSmiliesGUI
 {
-	var $ilias;
-	var $lng;
-	var $user;
-
-	var $u_id;
+	
 	/**
 	* Constructor
 	* @access	public
-	* @param	integer	reference_id or object_id
-	* @param	boolean	treat the id as reference_id (true) or object_id (false)
+	* @param	integer	reference_id
 	*/
-	public function __construct($a_id = 0)
-	{
-		global $ilias,$lng;
-
-		$this->ilias =& $ilias;
-		$this->lng =& $lng;
-
-		$this->u_id = $a_id;
-	}
-
-	// SET/GET
-	public function setUserId($a_id)
-	{
-		$this->u_id = $a_id;
-		$this->initUserObject();
+	function __construct() {
+		
 	}
 	
-	public function getUserId()
-	{
-		return $this->u_id;
+	/**
+	* execute command
+	*/
+	function &executeCommand() {
+		include_once 'Modules/Chat/classes/class.ilChatSmilies.php';
+		ilChatSmilies::initial();
 	}
+
 	
-	public function getLogin()
-	{
-		return $this->user->getLogin();
+	static public function _getExistingSmiliesTable($a_ref) {
+		global $lng, $ilCtrl;
+
+		include_once "Modules/Chat/classes/class.ilChatSmiliesTableGUI.php";
+		$table = new ilChatSmiliesTableGUI($a_ref, 'editSmilies');
+		
+		include_once('Modules/Chat/classes/class.ilChatSmilies.php');
+		$values = ilChatSmilies::_getSmilies();
+		$table->setData($values);
+		
+		return $table->getHTML();
 	}
 
-	private function initUserObject()
-	{
-		$this->user =& new ilObjUser($this->getUserId());
-	}
 
-} // END class.ilChatUser
+}
 ?>

@@ -3,7 +3,7 @@
 	+-----------------------------------------------------------------------------+
 	| ILIAS open source                                                           |
 	+-----------------------------------------------------------------------------+
-	| Copyright (c) 1998-2009 ILIAS open source, University of Cologne            |
+	| Copyright (c) 1998-2001 ILIAS open source, University of Cologne            |
 	|                                                                             |
 	| This program is free software; you can redistribute it and/or               |
 	| modify it under the terms of the GNU General Public License                 |
@@ -22,57 +22,55 @@
 */
 
 /**
-* Class ilChatUser
+* Class ilChatSmiliesCurrentSmileyFormElement
+* simple form element that displays an image; does not add data to the containing form
+* but may be initialized by default methods, such as valuesByArray
 * 
-* @author Stefan Meyer 
+* @author Jan Posselt <jposselt@databay.de> 
 * @version $Id$
 *
 */
+ 
+class ilChatSmiliesCurrentSmileyFormElement extends ilCustomInputGUI {
 
-class ilChatUser
-{
-	var $ilias;
-	var $lng;
-	var $user;
+	public function getHtml() {
+		global $lng;
+		$tpl = new ilTemplate("tpl.chat_current_smiley_image.html", true, true, "Modules/Chat");
+		$tpl->setVariable("IMAGE_ALT", $lng->txt("chat_current_smiley_image"));
+		$tpl->setVariable("IMAGE_PATH", $this->value);
 
-	var $u_id;
+		return $tpl->get();
+	}
+	
 	/**
-	* Constructor
-	* @access	public
-	* @param	integer	reference_id or object_id
-	* @param	boolean	treat the id as reference_id (true) or object_id (false)
+	* Get Value.
+	*
+	* @return	string	Value
 	*/
-	public function __construct($a_id = 0)
+	function getValue()
 	{
-		global $ilias,$lng;
-
-		$this->ilias =& $ilias;
-		$this->lng =& $lng;
-
-		$this->u_id = $a_id;
+		return $this->value;
 	}
-
-	// SET/GET
-	public function setUserId($a_id)
+    
+	/**
+	* Set Value.
+	*
+	* @param	string	$a_value	Value
+	*/
+	function setValue($a_value)
 	{
-		$this->u_id = $a_id;
-		$this->initUserObject();
+		$this->value = $a_value;
 	}
 	
-	public function getUserId()
+	/**
+	* Set value by array
+	*
+	* @param	array	$a_values	value array
+	*/
+	function setValueByArray($a_values)
 	{
-		return $this->u_id;
+		$this->setValue($a_values[$this->getPostVar()]);
 	}
 	
-	public function getLogin()
-	{
-		return $this->user->getLogin();
-	}
-
-	private function initUserObject()
-	{
-		$this->user =& new ilObjUser($this->getUserId());
-	}
-
-} // END class.ilChatUser
-?>
+	public function checkInput() {return true;}
+}

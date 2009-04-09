@@ -106,7 +106,7 @@ class ilMainMenuGUI
 	*/
 	function setTemplateVars()
 	{
-		global $rbacsystem, $lng, $ilias, $tree, $ilUser;
+		global $rbacsystem, $lng, $ilias, $tree, $ilUser, $ilSetting;
 
 		
 		// navigation history
@@ -260,6 +260,19 @@ class ilMainMenuGUI
 				}
 				$this->tpl->parseCurrentBlock();				
 			}
+		}
+		
+		// chat messages
+		if ($ilSetting->get('chat_message_notify_status') == 1 && $_REQUEST['baseClass'] != 'ilChatPresentationGUI' && $ilUser->getPref('chat_message_notify_status') == 1) {
+			include_once 'Modules/Chat/classes/class.ilChatMessageNotifyGUI.php';
+			$msg_notify = new ilChatMessageNotifyGUI();
+			$html = $msg_notify->getHtml();
+			if ($html) {
+				$this->tpl->setCurrentBlock("chat_lastmsg");
+				$this->tpl->setVariable('CHAT_LAST_MESSAGE', $html);
+				$this->tpl->parseCurrentBlock();
+			}
+			
 		}
 		
 		// chat invitations

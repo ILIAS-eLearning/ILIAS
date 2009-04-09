@@ -51,7 +51,7 @@ class ilObjChat extends ilObject
 	* @param	integer	reference_id or object_id
 	* @param	boolean	treat the id as reference_id (true) or object_id (false)
 	*/
-	function ilObjChat($a_id = 0,$a_call_by_reference = true)
+	public function __construct($a_id = 0,$a_call_by_reference = true)
 	{
 		$this->type = "chat";
 		$this->ilObject($a_id,$a_call_by_reference);
@@ -129,7 +129,7 @@ class ilObjChat extends ilObject
 	}
 	
 
-	function read()
+	public function read()
 	{
 		// USED ilObjectFactory::getInstance...
 		parent::read();
@@ -145,7 +145,7 @@ class ilObjChat extends ilObject
 	* @access	public
 	* @return	array	object IDs of created local roles.
 	*/
-	function initDefaultRoles()
+	public function initDefaultRoles()
 	{
 		global $rbacadmin;
 		
@@ -166,7 +166,7 @@ class ilObjChat extends ilObject
 		return array($role_obj->getId());
 	}
 
-	function delete()
+	public function delete()
 	{
 		global $ilDB;
 				
@@ -219,7 +219,7 @@ class ilObjChat extends ilObject
 		return true;
 	}
 
-	function sendMessage($a_id)
+	public function sendMessage($a_id)
 	{
 		include_once "Services/Mail/classes/class.ilMail.php";
 
@@ -232,8 +232,8 @@ class ilObjChat extends ilObject
 		$tmp_lang =& new ilLanguage($tmp_user->getLanguage());
 		$tmp_lang->loadLanguageModule("chat");
 
-		$message = $tmp_mail_obj->sendMail($this->__formatRecipient($tmp_user),"","",$this->__formatSubject($tmp_lang),
-										   $this->__formatBody($tmp_user,$tmp_lang),array(),array("normal"));
+		$message = $tmp_mail_obj->sendMail($this->formatRecipient($tmp_user),"","",$this->formatSubject($tmp_lang),
+										   $this->formatBody($tmp_user,$tmp_lang),array(),array("normal"));
 
 		unset($tmp_mail_obj);
 		unset($tmp_lang);
@@ -242,7 +242,30 @@ class ilObjChat extends ilObject
 		return true;
 	}
 
-	function getHTMLDirectory()
+	public function sendMessageForRoom($a_id, $room)
+	{
+		include_once "Services/Mail/classes/class.ilMail.php";
+
+		$tmp_mail_obj = new ilMail($_SESSION["AccountId"]);
+
+		// GET USER OBJECT
+		$tmp_user = ilObjectFactory::getInstanceByObjId($a_id);
+
+		// GET USERS LANGUAGE
+		$tmp_lang =& new ilLanguage($tmp_user->getLanguage());
+		$tmp_lang->loadLanguageModule("chat");
+
+		$message = $tmp_mail_obj->sendMail(self::formatRecipient($tmp_user),"","",self::formatSubject($tmp_lang),
+										   $this->formatBodyForRoom($tmp_user,$tmp_lang, $room),array(),array("normal"));
+
+		unset($tmp_mail_obj);
+		unset($tmp_lang);
+		unset($tmp_user);
+
+		return true;
+	}
+	
+	public function getHTMLDirectory()
 	{
 		$tmp_tpl =& new ilTemplate("tpl.chat_export.html",true,true);
 		
@@ -258,8 +281,7 @@ class ilObjChat extends ilObject
 		return $file_obj->addFile('index.html',$tmp_tpl->get());
 	}
 
-	// PRIVATE
-	function __formatRecipient(&$user)
+	private function formatRecipient(&$user)
 	{
 		if(is_object($user))
 		{
@@ -268,12 +290,12 @@ class ilObjChat extends ilObject
 		return false;
 	}
 
-	function __formatSubject(&$lang)
+	private function formatSubject(&$lang)
 	{
 		return $lang->txt("chat_invitation_subject");
 	}
 
-	function __formatBody(&$user,&$lang)
+	private function formatBody(&$user,&$lang)
 	{
 		global $ilClientIniFile;
 		
@@ -295,9 +317,33 @@ class ilObjChat extends ilObject
 
 		return $body;
 	}
+	
+	private function formatBodyForRoom(&$user,&$lang, $room)
+	{
+		global $ilClientIniFile, $lng, $ilias;
+		
+		$room_id = $room->getRoomId();
+		$room_title = $room->getTitle();
+
+		$body = sprintf($lng->txt("chat_notification_intro"), $ilClientIniFile->readVariable("client","name"), ILIAS_HTTP_PATH)."\n\n";
+		$body .= $lang->txt("chat_invitation_body")." ";
+		$body .= $ilias->account->getFullname();
+		$body .= "\n";
+		$body .= $lang->txt("chat_chatroom_body").' '.$this->getTitle();
+		if ($room_title != '')
+		{
+			$body .= ', '.$room_title;
+		}
+		$body .= "\n\n";
+		$body .= $lang->txt('chat_to_chat_body');
+		$body .= ': '.ILIAS_HTTP_PATH."/ilias.php?baseClass=ilChatPresentationGUI&room_id=".$room_id."&ref_id=".$room->getObjId();
+
+		return $body;
+	}
 
 	// Protected
-	function __initChatRecording()
+	// must be pubic
+	public function __initChatRecording()
 	{
 		if(!is_object($this->chat_recording))
 		{
@@ -310,7 +356,7 @@ class ilObjChat extends ilObject
 		return false;
 	}
 
-	function _getPublicChatRefId()
+	static function _getPublicChatRefId()
 	{
 		static $public_chat_ref_id = 0;
 

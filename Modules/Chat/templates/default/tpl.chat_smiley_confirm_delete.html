@@ -1,0 +1,19 @@
+  <form action="{FORMACTION}" method="post">
+	<table class="std" width="50%">
+	  <tr class="tblheader">
+		<td class="std" colspan="2">{TXT_CONFIRM_DELETE_SMILEY}</td>
+	  </tr>
+	  <tr class="tblrow1">
+	  	<td><img src="{SMILEY_PATH}" alt="{SMILEY_IMAGE_ALT}" /></td>
+	  	<td>{SMILEY_KEYWORDS}</td>
+	  </tr>
+	  <tr class="tblfooter">
+		<td align="right" colspan="2">
+			<input class="submit" type="submit" name="cmd[editSmilies]" value="{TXT_CANCEL_DELETE}" />
+			<input class="submit" type="submit" name="cmd[deleteSmiley]" value="{TXT_CONFIRM_DELETE}" />
+			
+			<input type="hidden" name="_table_nav" value="{TABLE_NAV}" />
+	  </tr>
+	</table>
+	<input type="hidden" name="chat_smiley_id" value="{SMILEY_ID}" />
+  </form>

@@ -1,147 +1,285 @@
 <style>
-  body { margin:0px; }
-  </style>
-  {MAINMENU}
-  <div class="il_Locator">{LOCATOR}</div>
-  <table class="fullwidth_invisible"><tr><td class="ilInvisibleBorder">
-	  <!--<div class="invisible_border">-->
-	  <div class="il_Header">
-		<h1>{TITLE}</h1>
-	  </div>
-	  <table class="std" width="100%">
-		<tr class="tblheader">
-		<th class="std" align="left" nowrap="nowrap">
-			<div style="float: left">
-				{ROOMS_ROOMS}&nbsp({ROOMS_COUNT})
-			</div>
-		  <div style="float:right">
-		  	<a class="il_ContainerItemCommand" href="{DETAILS_A}">{DETAILS_TXT}</a>
-		  </div>
-		</th>
-		  </tr>
-		<!-- BEGIN room_row -->
-		<tr class="{ROOM_ROW_CSS}">
-		  <td style="padding:3px; font-size:13px;	vertical-align:top;	text-align:left">
-			<table width="100%" cellspacing="0" cellpadding="0" border="0">
-			  <tr>
-				<!-- BEGIN room_row_indent -->
-				<td width="20">&nbsp;</td>
-				<!-- END room_row_indent -->
-				<td width="*" valign="top">
-				  <a class="navigation" href="{ROOM_LINK}" target="{ROOM_TARGET}">
-				  <font class="small">{ROOM_NAME} ({ROOM_ONLINE})</font></a><br>
-				  <!-- BEGIN room_row_invitation -->
-				  <font class="small">
-					{TXT_ROOM_INVITATION}: {ROOM_INVITATION_USER}<br>
-				  </font>
-				  <!-- END room_row_invitation -->
-				  <!-- BEGIN room_row_recording -->
-				  <font class="small">
-					{TXT_RECORDING}
-				  </font>
-				  <!-- END room_row_recording -->
-				</td>
-				<td align="right" valign="top">
-				  <!-- BEGIN room_row_delete -->
-				  <a class="il_ContainerItemCommand" href="{LINK_DELETE_ROOM}" target="_top">{TXT_DELETE_ROOM}</a>
-				  <!-- END room_row_delete -->
-				  <!-- BEGIN room_row_empty -->
-				  <a class="il_ContainerItemCommand" href="{LINK_EMPTY_ROOM}" target="_top">{TXT_EMPTY_ROOM}</a>
-				  <!-- END room_row_empty -->
-				</td>
-			  </tr>
-			</table>
-		  </td>
-		</tr>
-		<!-- END room_row -->
-	  </table>
-	  <br />
+body {
+	margin: 0px;
+}
 
-	  <table width="100%" class="std">
-		<tr class="tblheader">
-		<th class="std" align="left" colspan="2">
-			<div style="float:left">
-			{ACTIVE_USERS}
-			</div>
-			<div style="float:right">
-				<a class="il_ContainerItemCommand" href="{DETAILS_B}">{DETAILS_B_TXT}</a>
-			</div>	
-			</th>
-		  </tr>
-		<!-- BEGIN no_active -->
-		<tr>
-		  <td colspan="2" class="option_value"><font class="smallred">{NO_ACTIVE_USERS}</font></td>
-		</tr>
-		<!-- END no_active -->
-		<!-- BEGIN active -->
-		<tr>
-		  <td align="left" class="option_value">
-			<table width=100% cellspacing=0 cellpadding=0 border=0>
-			  <tr>
-				<!-- BEGIN non_moderate -->
-				<td>
-				  <font class="{ACTIVE_FONT_A}">{ACTIVE_USER_NAME_A}</font>
-				</td>
-				<!-- END non_moderate -->
-				<!-- BEGIN moderate -->
-				<td>
-				  <a class="navigation" title="{MOD_TXT_INVITE_USER}" href="{MOD_ONLINE_LINK_A}" target="_top" >
-					<img src="{MOD_INVITE_IMG_SRC}" border="0" alt="{MOD_TXT_INVITE_USER}">
-				  <font class="small">&nbsp;{MOD_ONLINE_USER_NAME_A}</font>
-				</a>
-				</td>
-				<!-- END moderate -->
+.il_chat_list {
+	margin: 0px 0px 4px 4px;
+	padding: 0;
+	width: 90%;
+	overflow: auto;
+	
+	border: 1px solid #9eadba;
+	border-top: 0px solid #9eadba;
+	
+	background-color: white;
+}
 
-				<td align="right">
-				 	<!-- BEGIN user_options -->
-				  <a class="il_ContainerItemCommand" href="{ACTIVE_ADDRESS_A}" target="input">{ACTIVE_TXT_ADDRESS_A}</a>
-				  <a class="il_ContainerItemCommand" href="{ACTIVE_LINK_A}" target="input">{ACTIVE_TXT_WHISPER_A}</a>
-				  	<!-- END user_options -->
-				  <!-- BEGIN active_row_profile -->
-				  <a class="il_ContainerItemCommand" href="{ACTIVE_ROW_PROFILE_LINK}" target="_blank">{ACTIVE_ROW_TXT_PROFILE}</a>
-				  <!-- END active_row_profile -->
-				</td>
-			  </tr>
-			</table>
-		  </td>
-		</tr>
-		<!-- END active -->
-	  </table>
+.il_chat_list_limit_height {
+	height: 148px;
+}
 
-	  <!-- BEGIN show_online -->
-	  <br />
-	  <table width="100%" class="std">
-	  	<tr class="tblheader">
-			<th class="tblheader" align="left" colspan="2">{ONLINE_USERS}</th>
-		</tr>
-		<!-- BEGIN no_online -->
-		<tr>
-		  <td colspan="2" class="option_value"><font class="smallred">{NO_ONLINE_USERS}</font></td>
-		</tr>
-		<!-- END no_online -->
-		<!-- BEGIN online -->		
-<!-- BEGIN online_row_start --><tr><!-- END online_row_start -->			
-			<td align="left" class="option_value">
-				<!-- BEGIN invitation_possible_block -->
-				<a class="navigation" title="{TXT_INVITE_USER}" href="{ONLINE_LINK_A}" target="_top"><img src="{INVITE_IMG_SRC}" border="0" alt="{TXT_INVITE_USER}"><font class="{ONLINE_FONT_A}">&nbsp;{ONLINE_USER_NAME_A}</font></a>
-				<!-- END invitation_possible_block -->
-				<!-- BEGIN invitation_not_possible_block -->
-				&nbsp;{ONLINE_USER_NAME_A_NOT_INVITEABLE}
-				<!-- END invitation_not_possible_block -->
-			</td>
-<!-- BEGIN online_empty_col --><td align="left" class="option_value">&nbsp;</td><!-- END online_empty_col -->
-<!-- BEGIN online_row_end --></tr><!-- END online_row_end -->
-	   <!-- END online -->
-	  </table>
-	  <!-- END show_online -->
-	  <!-- BEGIN add_chatroom -->
-	  <form action="{ADD_FORMACTION}" method="post" target="_top">
-		<p class="small">{TXT_ADD_PRIVATE_CHATROOM}:<br>
-		  <input class="small" type="text" name="room_name" value="{ROOM_NAME}" />
-		  <input class="submit" type="submit" name="cmd[addPrivateRoom]" value="{TXT_ADD}" /></p>
-	  </form>
-	  <!-- END add_chatroom -->
-	  <!--</div>-->
-	</td>
-  </tr>
-</table>
+.chatlist_header div {
+	height: 25px;
+	line-height: 25px;
+	vertical-align: middle;
+	
+	padding: 8px;
+	padding-top: 0;
+	padding-bottom: 0;
+}
+.chatlist_header {
+	width: 90%;
+	margin: 4px 0 0 4px;
+	line-height: 25px;
+	height: 25px;
+	background-image: url(./templates/default/images/TableHeaderBlue.gif);
+	vertical-align: middle;
+	border: 1px solid #9eadba;
+}
+
+.il_chat_list li {
+	margin: 0;
+	padding: 0;
+	
+	/* height: 29px; */
+	line-height: 29px;
+	vertical-align: middle;
+	padding-left: 5px;
+	list-style-type: none;
+}
+
+.il_chat_list li a {
+	display: block;
+	width: 99%;
+	margin: 0;
+	padding: 0;
+}
+
+.chatrow {
+	border-top: 1px solid #9eadba;
+}
+
+.tblactive {
+	background-color: #e1e1e1;
+}
+
+.tblrowmarked {
+	font-weight: bold;
+}
+
+.tblrow {
+	background-color: #e1e1e1;
+}
+
+.tblrowempty {
+	background-color: white;
+}
+
+.list_icon {
+	margin-right: 5px;
+	vertical-align: middle;
+	margin-top: 4px;
+}
+
+.sublist_icon {
+	margin-left: 27px;
+	margin-right: 5px;
+	vertical-align: middle;
+	margin-top: 4px;
+}
+
+#il_chat_context {
+	background-color: white;
+	border: 1px solid #9eadba;
+	padding: 0px;
+	dislpay: none;
+}
+
+.il_chat_context_small {
+	width: 172px;
+}
+
+.il_chat_context_large {
+	width: 284px;
+}
+
+#il_chat_context_menu {
+	float: right;
+	width: 170px;
+	padding: 1px;
+
+}
+
+#il_chat_context_title {
+	font-weight: bold;
+	float: left;
+	padding-left: 5px;
+}
+
+#il_chat_context_title_container {
+	/* border-bottom: 1px solid #9eadba; */
+	border-bottom: 1px solid white;
+	background-color: white;
+}
+
+#il_chat_context_close {
+	float: right;
+}
+
+.il_context_menu_item {
+	border-bottom: 1px solid white;
+	background-color: #e5e5e5;
+	width: 50px;
+}
+
+.il_context_menu_item a {
+	padding: 8px;
+	line-height: 23px;osse
+}
+
+#il_chat_context_userimage {
+	float: left;
+	width: 110px;
+	background-color: white;
+	padding: 1px;
+}
+
+#il_chat_context_userimage img {
+	width: 110px;
+	text-align: center;
+}
+
+</style>
+
+<script type="text/javascript" src="Modules/Chat/js/ChatContextMenu.js"></script>
+<script type="text/javascript" src="Modules/Chat/js/ChatUserFrameAsync.js"></script>
+
+<script type="text/javascript" src="./Services/YUI/js/2_5_0/yahoo/yahoo-min.js?vers=3-11-0-Pre-Alpha-b"></script>
+<script type="text/javascript" src="./Services/YUI/js/2_5_0/event/event-min.js?vers=3-11-0-Pre-Alpha-b"></script>
+<script type="text/javascript" src="./Services/YUI/js/2_5_0/connection/connection-min.js?vers=3-11-0-Pre-Alpha-b"></script>
+
+
+<!-- BEGIN js_chat_init -->
+<script type="text/javascript">
+	var il_chat_async_handler = new ilChatController('{ONLINE_USERS_REFRESH_LINK}');
+</script>
+<!-- END js_chat_init -->
+
+{MAINMENU}
+
+<div class="il_Locator">{LOCATOR}</div>
+<h1 class="il_Header" style="margin-left: 4px">{TITLE}</h1>
+
+<!-- list of chatrooms -->
+<div style="clear: both;" class="tblheader std chatlist_header">
+	<div style="float: left">{ROOMS_ROOMS}&nbsp;({ROOMS_COUNT})</div>
+	<div style="float: right"><a class="il_ContainerItemCommand" href="{DETAILS_A}">{DETAILS_TXT}</a></div>
+	<br style="clear: both;" />
+</div>
+
+<ul class="il_chat_list {ROOMS_LIST_CLASS}">
+	<!-- BEGIN room_row -->
+	<li class="{ROOM_ROW_CSS} small">
+		<!-- BEGIN room_row_indent -->
+		&nbsp;&nbsp;&nbsp;
+		<!-- END room_row_indent -->
+		<img class="{LIST_ICONCLASS}" src="{ROOM_ICON}" {ROOM_ONCLICK} style="float: left;" />
+		<a href="{ROOM_LINK}" target="{ROOM_TARGET}">
+			{ROOM_NAME} ({ROOM_ONLINE})
+			<!-- BEGIN room_row_recording -->
+				<span class="small">[ {TXT_RECORDING} ]</span>
+			<!-- END room_row_recording -->
+		</a> 
+		
+
+	</li>
+	<!-- END room_row -->
+</ul>
+
+<br />
+  
+<!-- list of active users -->  
+  
+<div style="clear: both;" class="tblheader std chatlist_header">
+	<div style="float: left">{ACTIVE_USERS} [{ACTIVE_USERS_COUNT}]</div>
+	<div style="float: right"><a class="il_ContainerItemCommand" href="{DETAILS_B}">{DETAILS_B_TXT}</a></div>
+	<br style="clear: both;" />
+</div>
+
+<!-- BEGIN no_active -->
+<ul class="il_chat_list {ACTIVE_LIST_CLASS}">
+	<li><div class="option_value"><font class="smallred">{NO_ACTIVE_USERS}</font></div></li>
+</ul>
+<!-- END no_active -->
+
+<!-- BEGIN active -->
+<ul class="il_chat_list {ACTIVE_LIST_CLASS}">
+
+
+<!-- BEGIN active_user_row -->
+	<li>
+		<img class="list_icon"  src="{ACTIVE_USER_ICON}" {ACTIVE_USER_ONCLICK} style="float: left;" />
+		<a href="{ACTIVE_USER_DEFAULT_LINK}" target="input"	class="navigation small">{ACTIVE_USER_NAME_A}</a>
+	</li>
+<!-- END active_user_row -->
+
+
+</ul>
+<!-- END active -->
+
+<!-- list of active users end -->
+
+<!-- BEGIN show_online --> <br />
+	<!-- <div class="tblheader std chatlist_header"><div>{ONLINE_USERS}</div></div> -->
+<div style="clear: both;" class="tblheader std chatlist_header">
+	<div style="float: left">{ONLINE_USERS} [{ONLINE_USERS_COUNT}]</div>
+	<div style="float: right"><a class="il_ContainerItemCommand" href="{DETAILS_C}">{DETAILS_C_TXT}</a></div>
+	<br style="clear: both;" />
+</div>
+
+<!-- BEGIN no_online -->
+<ul class="il_chat_list {ACTIVE_LIST_CLASS}">
+	<li><font class="smallred">{NO_ONLINE_USERS}</font></li>
+</ul>
+<!-- END no_online -->
+
+<!-- BEGIN online -->
+<ul class="il_chat_list {ONLINE_LIST_CLASS}">
+	<!-- BEGIN online_row -->
+		<li class="navigation {ONLINE_FONT_A}">
+			<img class="list_icon"  src="{ONLINE_USER_ICON}" {ONLINE_ONCLICK} style="float: left;" /><a href="{ONLINE_LINK_A}" onclick="return window.confirm('{ONLINE_INVITE}');" target="_top">{ONLINE_USER_NAME_A}</a>
+		</li>
+	<!-- END online_row -->
+</ul>
+<!-- END online -->
+
+<!-- END show_online -->
+
+
+
+
+
+		
+<!-- BEGIN add_chatroom -->
+	<form action="{ADD_FORMACTION}" method="post" target="_top">
+		<p class="small" style="margin-left: 4px;">{TXT_ADD_PRIVATE_CHATROOM}:<br>
+			<input class="small" type="text" name="room_name" value="{ROOM_NAME}" />
+			<input class="submit" type="submit" name="cmd[addPrivateRoom]" value="{TXT_ADD}" />
+		</p>
+	</form>
+<!-- END add_chatroom -->
+
+
+<div style="position: absolute; display: none;" id="il_chat_context">
+	<div id="il_chat_context_userimage" style="display: none;"></div>
+	<div id="il_chat_context_menu">
+		<div id="il_chat_context_title_container">
+			<div id="il_chat_context_title"></div>
+			<div id="il_chat_context_close"><img src="./templates/default/images/cancel.gif" onclick="contextMenu.hide();"/></div>
+			<br style="clear: both;">
+		</div>
+		
+		<div id="il_chat_context_menuitems"></div>	
+	</div>
+</div>

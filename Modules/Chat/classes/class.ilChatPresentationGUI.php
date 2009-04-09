@@ -36,14 +36,12 @@ class ilChatPresentationGUI
 	* @access	public
 	* @param	integer	reference_id
 	*/
-	function __construct()
-	{
-	}
+	public function __construct() {}
 	
 	/**
 	* execute command
 	*/
-	function &executeCommand()
+	public function &executeCommand()
 	{
 		global $lng, $ilAccess, $tpl, $ilNavigationHistory, $ilCtrl;
 		
@@ -103,47 +101,6 @@ class ilChatPresentationGUI
 
 		$tpl->show();
 	}
-
-	// PRIVATE
-/*
-	function __getCommand()
-	{
-		if($_GET["cmd"] == 'gateway')
-		{
-			if(is_array($_POST["cmd"]))
-			{
-				$_GET["cmd"] = key($_POST["cmd"]);
-			}
-			// Workaround for Internet Explorer (IE). If a user presses
-			// the Enter in the message input field, IE does not send a
-			// "cmd" parameter. We fill in the command "input", because
-			// we can safely assume that the user intended to post the 
-			// message.
-			else if (! $_POST["cmd"] && $_POST["message"])
-			{
-				$_GET["cmd"] = 'input';
-			}
-			else
-			{
-				$_GET["cmd"] = 'cancel';
-			}
-		}
-
-		if($_GET["cmd"])
-		{
-			$this->cmd = $_GET["cmd"];
-		}
-		else
-		{
-			$this->cmd = "showFrames";
-		}
-		
-		if($_GET['vcard'] == 1 && (int)$_GET['user'])
-		{
-			$this->cmd = 'deliverVCard';
-		}
-	}
-*/
 
 }
 ?>

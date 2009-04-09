@@ -49,7 +49,7 @@ class ilChatRecording
 	* @param	integer	reference_id or object_id
 	* @param	boolean	treat the id as reference_id (true) or object_id (false)
 	*/
-	function ilChatRecording($a_id = 0)
+	public function __construct($a_id = 0)
 	{
 		global $ilias,$lng;
 
@@ -65,61 +65,67 @@ class ilChatRecording
 	}
 
 	// SET/GET
-	function getErrorMessage()
+	public function getErrorMessage()
 	{
 		return $this->error_msg;
 	}
 
-	function setRoomId($a_id)
+	public function setRoomId($a_id)
 	{
 		$this->room_id = $a_id;
 	}
-	function getRoomId()
+	
+	public function getRoomId()
 	{
 		return $this->room_id;
 	}
 
-	function setObjId($a_id)
+	public function setObjId($a_id)
 	{
 		$this->obj_id = $a_id;
 	}
-	function getObjId()
+	
+	public function getObjId()
 	{
 		return $this->obj_id;
 	}
 
-	function setRecordId($a_id)
+	public function setRecordId($a_id)
 	{
 		$this->record_id = $a_id;
 	}
-	function getRecordId()
+	
+	public function getRecordId()
 	{
 		return $this->record_id;
 	}
 
-	function getStartTime()
+	public function getStartTime()
 	{
 		return $this->data["start_time"];
 	}
-	function getEndTime()
+	
+	public function getEndTime()
 	{
 		return $this->data["end_time"];
 	}
 
-	function setModeratorId($a_id)
+	public function setModeratorId($a_id)
 	{
 		$this->moderator_id = $a_id;
 	}
-	function getModeratorId()
+	
+	public function getModeratorId()
 	{
 		return $this->moderator_id;
 	}
 
-	function setRecord($a_data)
+	public function setRecord($a_data)
 	{
 		$this->data = $a_data;
 	}
-	function getRecord($a_id = 0)
+	
+	public function getRecord($a_id = 0)
 	{
 		global $ilDB;
 		
@@ -132,43 +138,44 @@ class ilChatRecording
 			SELECT * FROM chat_records WHERE record_id = %s',
 			array('integer'),array($this->getRecordId()));
 
-		if (ilDB::isDbError($res)) die("ilChatRecording::getRecord(): " . $res->getMessage() . "<br>SQL-Statement: ".$res);
+		if (ilDB::isDbError($res))
+			die("ilChatRecording::getRecord(): " . $res->getMessage() . "<br>SQL-Statement: ".$res);
 		
 		$row = array();
 		$status = false;
-		
 		//if ($ilDB->numRows($res) > 0)
 		if ($res->numRows() > 0)
 		{
 			$data = $res->fetchRow(DB_FETCHMODE_ASSOC);
 			$status = true;
+			$row = $data;
 		}
-
 		$this->setRecord($row);
 		return $status;
-		
 	}
 
-	function setTitle($a_title)
+	public function setTitle($a_title)
 	{
 		if($a_title == '') $a_title = NULL;
 		$this->data["title"] = $a_title;
 	}
-	function getTitle()
+	
+	public function getTitle()
 	{
 		return $this->data["title"];
 	}
 
-	function setDescription($a_description)
+	public function setDescription($a_description)
 	{
 		$this->data["description"] = $a_description;
 	}
-	function getDescription()
+	
+	public function getDescription()
 	{
 		return $this->data["description"];
 	}
 
-	function startRecording($a_title = '')
+	public function startRecording($a_title = "")
 	{
 
 		global $ilDB;
@@ -200,10 +207,9 @@ class ilChatRecording
 			$this->setRecordId($lastId[0]);
 			$this->getRecord();
 		}				
-		
 	}
 
-	function stopRecording()
+	public function stopRecording()
 	{
 		global $ilDB;
 
@@ -224,7 +230,7 @@ class ilChatRecording
 		$this->setRecord($data);
 	}
 
-	function isRecording()
+	public function isRecording()
 	{
 		global $ilDB;
 		
@@ -253,7 +259,7 @@ class ilChatRecording
 		return false;
 	}
 
-	function getRecordings()
+	public function getRecordings()
 	{
 		global $ilDB;
 
@@ -276,7 +282,7 @@ class ilChatRecording
 		return false;
 	}
 
-	function getModerator($a_id = 0)
+	public function getModerator($a_id = 0)
 	{
 		if ($a_id == 0)
 		{
@@ -286,7 +292,7 @@ class ilChatRecording
 		return ilObjUser::_lookupLogin($a_id);
 	}
 
-	function delete($a_id = 0)
+	public function delete($a_id = 0)
 	{
 		global $ilDB;
 		
@@ -315,7 +321,7 @@ class ilChatRecording
 		
 	}
 
-	function exportMessages()
+	public function exportMessages()
 	{
 		global $ilDB;
 
