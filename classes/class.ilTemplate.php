@@ -545,12 +545,14 @@ class ilTemplate extends ilTemplateX
 		
 	function fillHeaderIcon()
 	{
+		global $lng;
+		
 		if ($this->icon_path != "")
 		{
 			if ($this->icon_desc != "")
 			{
 				$this->setCurrentBlock("header_image_desc");
-				$this->setVariable("IMAGE_DESC", $this->icon_desc);
+				$this->setVariable("IMAGE_DESC", $lng->txt("icon")." ".$this->icon_desc);
 				$this->parseCurrentBlock();
 			}
 			$this->setCurrentBlock("header_image");

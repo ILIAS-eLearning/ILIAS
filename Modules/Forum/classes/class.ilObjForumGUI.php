@@ -918,7 +918,7 @@ class ilObjForumGUI extends ilObjectGUI
 		
 		#if ($ilAccess->checkAccess('write', '', $this->ref_id))
 		#{
-		include_once './classes/class.ilRepositoryExplorer.php';
+		include_once './Services/Repository/classes/class.ilRepositoryExplorer.php';
 		$active = array('',
 						'showThreads', 
 						'view', 

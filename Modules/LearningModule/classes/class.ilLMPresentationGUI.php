@@ -587,6 +587,7 @@ class ilLMPresentationGUI
 		// ProcessFrameset
 		// node is frameset, if it has cols or rows attribute
 		$attributes = $this->attrib2arr($node->attributes());
+
 		$this->frames = array();
 		if((!empty($attributes["rows"])) || (!empty($attributes["cols"])))
 		{
@@ -1735,7 +1736,7 @@ class ilLMPresentationGUI
 		$this->tpl->addBlockFile("PAGE_CONTENT", "pg_content", "tpl.page_preconditions.html", true);
 		
 		// list all missing preconditions
-		include_once("classes/class.ilRepositoryExplorer.php");
+		include_once("./Services/Repository/classes/class.ilRepositoryExplorer.php");
 		foreach($conds as $cond)
 		{
 			$obj_link = ilRepositoryExplorer::buildLinkTarget($cond["trigger_ref_id"],$cond["trigger_type"]);

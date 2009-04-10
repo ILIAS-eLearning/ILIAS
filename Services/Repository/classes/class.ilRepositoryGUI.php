@@ -3,7 +3,7 @@
 	+-----------------------------------------------------------------------------+
 	| ILIAS open source                                                           |
 	+-----------------------------------------------------------------------------+
-	| Copyright (c) 1998-2005 ILIAS open source, University of Cologne            |
+	| Copyright (c) 1998-2009 ILIAS open source, University of Cologne            |
 	|                                                                             |
 	| This program is free software; you can redistribute it and/or               |
 	| modify it under the terms of the GNU General Public License                 |
@@ -405,8 +405,6 @@ class ilRepositoryGUI
 		$fs_gui->setSideFrameSource(
 			"repository.php?cmd=showTree&ref_id=".$this->cur_ref_id);
 
-		$fs_gui->setSideFrameTitle($lng->txt("explorer_frame"));
-		$fs_gui->setMainFrameTitle($lng->txt("repository_frame"));
 		$fs_gui->setSideFrameName("tree");
 		$fs_gui->setMainFrameName("rep_content");
 		$fs_gui->setFramesetTitle($this->lng->txt("repository"));
@@ -427,7 +425,7 @@ class ilRepositoryGUI
 		$this->tpl->addBlockFile("CONTENT", "content", "tpl.explorer.html");
 		$this->tpl->setVariable("IMG_SPACE", ilUtil::getImagePath("spacer.gif", false));
 
-		include_once ("classes/class.ilRepositoryExplorer.php");
+		include_once ("./Services/Repository/classes/class.ilRepositoryExplorer.php");
 		$exp = new ilRepositoryExplorer("repository.php?cmd=goto");
 		$exp->setExpandTarget("repository.php?cmd=showTree");
 		$exp->setTargetGet("ref_id");

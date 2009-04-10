@@ -78,7 +78,7 @@ class ilPaymentBuyedObjectsGUI extends ilPaymentBaseGUI
 
 	function showItems()
 	{
-		include_once "./classes/class.ilRepositoryExplorer.php";
+		include_once "./Services/Repository/classes/class.ilRepositoryExplorer.php";
 
 		$this->__initBookingsObject();
 

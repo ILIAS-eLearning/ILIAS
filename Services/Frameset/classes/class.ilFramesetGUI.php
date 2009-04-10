@@ -3,7 +3,7 @@
 	+-----------------------------------------------------------------------------+
 	| ILIAS open source                                                           |
 	+-----------------------------------------------------------------------------+
-	| Copyright (c) 1998-2006 ILIAS open source, University of Cologne            |
+	| Copyright (c) 1998-2009 ILIAS open source, University of Cologne            |
 	|                                                                             |
 	| This program is free software; you can redistribute it and/or               |
 	| modify it under the terms of the GNU General Public License                 |
@@ -37,8 +37,15 @@ class ilFramesetGUI
 	*/
 	function __construct()
 	{
+		global $lng;
+		
 		$this->setMainWidth("*");
 		$this->setSideWidth("25%");
+		
+		// default titles (accessibility revision)
+		// should not been overwritten, if no good reason is given
+		$this->setSideFrameTitle($lng->txt("side_frame"));
+		$this->setMainFrameTitle($lng->txt("content_frame"));
 	}
 	
 	/**

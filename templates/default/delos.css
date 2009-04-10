@@ -356,6 +356,15 @@ a.il_ContainerItemTitle:link, a.il_ContainerItemTitle:visited, a.il_ContainerIte
 	text-decoration: none;
 }
 
+h4.il_ContainerItemTitle
+{
+	padding: 0px;
+	margin: 0px;
+	font-weight: normal;
+	font-size: 100%;
+	display: inline;
+}
+
 div.il_ItemProperties
 {
 	margin-top: 2px;
@@ -2082,7 +2091,7 @@ td.il_BlockFooter {
 	color: #909090;
 }
 
-th.il_ContainerBlockHeader
+th.ilContainerBlockHeader
 {
 	font-weight: bold;
 	font-size: 90%;
@@ -2092,7 +2101,16 @@ th.il_ContainerBlockHeader
 	background-color: #F8F8F8;
 }
 
-table.il_ContainerBlock
+h3.ilContainerBlockHeader
+{
+	font-weight: bold;
+	padding: 0px;
+	margin: 0px;
+	display: inline;
+	font-size: 100%;
+}
+
+table.ilContainerBlock
 {
 	border-color:#D6D6D6;
 	width:100%;

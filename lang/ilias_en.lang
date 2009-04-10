@@ -4494,11 +4494,11 @@ content#:#cont_fix_tree_confirm#:#Please execute this command only if the tree s
 content#:#cont_footer#:#Footer
 content#:#cont_format#:#Format
 content#:#cont_format_error#:#This operation is not allowed here!
-content#:#cont_frame_botright#:#Content Details (Glossary)
-content#:#cont_frame_maincontent#:#Learning Resource Main Content
-content#:#cont_frame_right#:#Content Details
-content#:#cont_frame_toc#:#Table of Contents
-content#:#cont_frame_topright#:#Content Details (FAQ and Media)
+content#:#cont_frame_botright#:#Content Details (Glossary) Frame
+content#:#cont_frame_maincontent#:#Content Frame
+content#:#cont_frame_right#:#Content Details Frame
+content#:#cont_frame_toc#:#Side Frame
+content#:#cont_frame_topright#:#Content Details (FAQ and Media) Frame
 content#:#cont_free_pages#:#Free Pages
 content#:#cont_full_is_in_dir#:#Deletion not possible. Full screen file is in directory.
 content#:#cont_fullscreen#:#Full Screen
@@ -9176,3 +9176,6 @@ chat#:#chat_chatviewer#:#Chat Viewer
 chat#:#chat_room_does_not_exist#:#The Chat Room does not exist. Maybe it has been removed or you used an invalid link.
 chat#:#chat_user_hidden#:#hidden
 chat#:#chat_user_visible#:#visible
+common#:#content_frame#:#Content Frame
+common#:#side_frame#:#Side Frame
+common#:#icon#:#Icon
