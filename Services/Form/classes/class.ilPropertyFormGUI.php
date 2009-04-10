@@ -287,6 +287,8 @@ class ilPropertyFormGUI extends ilFormGUI
 	*/
 	function checkInput()
 	{
+		global $lng;
+		
 		if ($this->check_input_called)
 		{
 			die ("Error: ilPropertyFormGUI->checkInput() called twice.");
@@ -304,6 +306,10 @@ class ilPropertyFormGUI extends ilFormGUI
 		
 		$this->check_input_called = true;
 		
+		if (!$ok)
+		{
+			ilUtil::sendFailure($lng->txt("form_input_not_valid"));
+		}
 		return $ok;
 	}
 

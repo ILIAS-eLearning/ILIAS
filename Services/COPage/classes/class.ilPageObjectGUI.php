@@ -3,7 +3,7 @@
 	+-----------------------------------------------------------------------------+
 	| ILIAS open source                                                           |
 	+-----------------------------------------------------------------------------+
-	| Copyright (c) 1998-2008 ILIAS open source, University of Cologne            |
+	| Copyright (c) 1998-2009 ILIAS open source, University of Cologne            |
 	|                                                                             |
 	| This program is free software; you can redistribute it and/or               |
 	| modify it under the terms of the GNU General Public License                 |
@@ -865,7 +865,7 @@ class ilPageObjectGUI
 			case "ilpageeditorgui":
 				if (!$this->getEnableEditing())
 				{
-					ilUtil::sendInfo($lng->txt("permission_denied"), true);
+					ilUtil::sendFailure($lng->txt("permission_denied"), true);
 					$ilCtrl->redirect($this, "preview");
 				}
 				$page_editor =& new ilPageEditorGUI($this->getPageObject(), $this);
@@ -1308,7 +1308,7 @@ class ilPageObjectGUI
 
 		if(isset($_SESSION["citation_error"]))
 		{
-			ilUtil::sendInfo($this->lng->txt("cont_citation_selection_not_valid"));
+			ilUtil::sendFailure($this->lng->txt("cont_citation_selection_not_valid"));
 			session_unregister("citation_error");
 			unset($_SESSION["citation_error"]);
 		}
@@ -1817,7 +1817,7 @@ class ilPageObjectGUI
 		
 		if (!$this->getEnableEditing())
 		{
-			ilUtil::sendInfo($lng->txt("permission_denied"), true);
+			ilUtil::sendFailure($lng->txt("permission_denied"), true);
 			$ilCtrl->redirect($this, "preview");
 		}
 		
@@ -2231,7 +2231,7 @@ class ilPageObjectGUI
 					$this->form->getItemByPostVar("end")->getDate()->get(IL_CAL_DATETIME));
 			}
 			$this->getPageObject()->update();
-			ilUtil::sendInfo($lng->txt("msg_obj_modified"), true);
+			ilUtil::sendSuccess($lng->txt("msg_obj_modified"), true);
 			$ilCtrl->redirect($this, "editActivation");
 		}
 		$this->form->getValuesByPost();

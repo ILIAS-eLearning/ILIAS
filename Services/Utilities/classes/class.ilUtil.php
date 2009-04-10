@@ -4115,33 +4115,51 @@ class ilUtil
 	}
 
 	/**
-	* sends a message to the recent page
-	* if you call ilUtil::sendInfo without any parameter, function will display a stored message
-	* in session and delete it afterwards
-	* @access	public
+	* Send Info Message to Screen.
+	*
 	* @param	string	message
 	* @param	boolean	if true message is kept in session
 	*/
 	function sendInfo($a_info = "",$a_keep = false)
 	{
 		global $tpl;
+		$tpl->setMessage("info", $a_info, $a_keep);
+	}
 
-		if (!empty($a_info))
-		{
-			$_SESSION["info"] = $a_info;
-		}
-		if (!empty($_SESSION["info"]))
-		{
-			$tpl->addBlockFile("MESSAGE", "message", "tpl.message.html");
-	#		$tpl->setCurrentBlock("message");
-			$tpl->setVariable("INFO",$_SESSION["info"]);
-	#		$tpl->parseCurrentBlock();
-		}
+	/**
+	* Send Failure Message to Screen.
+	*
+	* @param	string	message
+	* @param	boolean	if true message is kept in session
+	*/
+	function sendFailure($a_info = "",$a_keep = false)
+	{
+		global $tpl;
+		$tpl->setMessage("failure", $a_info, $a_keep);
+	}
 
-		if (!$a_keep)
-		{
-			session_unregister("info");
-		}
+	/**
+	* Send Question to Screen.
+	*
+	* @param	string	message
+	* @param	boolean	if true message is kept in session
+	*/
+	function sendQuestion($a_info = "",$a_keep = false)
+	{
+		global $tpl;
+		$tpl->setMessage("question", $a_info, $a_keep);
+	}
+
+	/**
+	* Send Success Message to Screen.
+	*
+	* @param	string	message
+	* @param	boolean	if true message is kept in session
+	*/
+	function sendSuccess($a_info = "",$a_keep = false)
+	{
+		global $tpl;
+		$tpl->setMessage("success", $a_info, $a_keep);
 	}
 
 	function infoPanel($a_keep = true)

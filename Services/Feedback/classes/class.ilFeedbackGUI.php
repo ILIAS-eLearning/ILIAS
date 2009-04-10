@@ -3,7 +3,7 @@
 	+-----------------------------------------------------------------------------+
 	| ILIAS open source                                                           |
 	+-----------------------------------------------------------------------------+
-	| Copyright (c) 1998-2005 ILIAS open source, University of Cologne            |
+	| Copyright (c) 1998-2009 ILIAS open source, University of Cologne            |
 	|                                                                             |
 	| This program is free software; you can redistribute it and/or               |
 	| modify it under the terms of the GNU General Public License                 |
@@ -425,7 +425,7 @@ class ilFeedbackGUI
 		
 		if($_POST['anonymous'] and $_POST['type'])
 		{
-			ilUtil::sendInfo($this->lng->txt('barometer_conflict_anon_req'));
+			ilUtil::sendFailure($this->lng->txt('barometer_conflict_anon_req'));
 			#$this->ctrl->setParameter($this,'barometer_id',(int) $_GET['barometer_id']);
 			#$this->ctrl->redirect($this,'edit');
 			--$_POST['extra_votes'];
@@ -441,7 +441,7 @@ class ilFeedbackGUI
 		}
 		if(($_POST['title']=='')||($_POST['text']=='')|| $vote_cnt<3)
 		{
-			ilUtil::sendInfo($this->lng->txt('missing_fields'));
+			ilUtil::sendFailure($this->lng->txt('missing_fields'));
 			--$_POST['extra_votes'];
 			return $this->edit();
 			#$this->ctrl->setParameter($this,'a','32');

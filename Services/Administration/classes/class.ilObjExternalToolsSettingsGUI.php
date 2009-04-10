@@ -98,7 +98,6 @@ class ilObjExternalToolsSettingsGUI extends ilObjectGUI
 	
 	function cancelObject()
 	{
-		ilUtil::sendInfo($this->lng->txt("msg_cancel"),true);
 		$this->ctrl->redirect($this, "view");
 	}
 
@@ -310,7 +309,7 @@ class ilObjExternalToolsSettingsGUI extends ilObjectGUI
 		$this->ilias->setSetting("ilinc_akclassvalues_active", $_POST["ilinc"]["akclassvalues_active"]);
 		$this->ilias->setSetting("ilinc_akclassvalues_required", $_POST["ilinc"]["akclassvalues_required"]);
 
-		ilUtil::sendInfo($this->lng->txt("extt_ilinc_settings_saved"),true);
+		ilUtil::sendSuccess($this->lng->txt("extt_ilinc_settings_saved"),true);
 		$this->ctrl->redirect($this,'editiLinc');
 	}
 	
@@ -440,12 +439,12 @@ class ilObjExternalToolsSettingsGUI extends ilObjectGUI
 			$error = TRUE;
 			if (strlen($path_to_jsmath) == 0)
 			{
-				ilUtil::sendInfo($this->lng->txt("fill_out_all_required_fields"), TRUE);
+				ilUtil::sendFailure($this->lng->txt("fill_out_all_required_fields"), TRUE);
 			}
 			else
 			{
 				$ilCtrl->setParameter($this, "path_to_jsmath", $path_to_jsmath);
-				ilUtil::sendInfo($this->lng->txt("jsmath_path_not_found"), TRUE);
+				ilUtil::sendFailure($this->lng->txt("jsmath_path_not_found"), TRUE);
 			}
 		}
 

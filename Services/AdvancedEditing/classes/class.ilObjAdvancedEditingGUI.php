@@ -102,7 +102,7 @@ class ilObjAdvancedEditingGUI extends ilObjectGUI
 		// put here object specific stuff
 
 		// always send a message
-		ilUtil::sendInfo($this->lng->txt("object_added"),true);
+		ilUtil::sendSuccess($this->lng->txt("object_added"),true);
 
 		$this->ctrl->redirect($this);
 		//header("Location:".$this->getReturnLocation("save","adm_object.php?".$this->link_params));
@@ -232,7 +232,7 @@ class ilObjAdvancedEditingGUI extends ilObjectGUI
 	{
 		global $ilSetting;
 
-		ilUtil::sendInfo($this->lng->txt("msg_obj_modified"),true);
+		ilUtil::sendSuccess($this->lng->txt("msg_obj_modified"),true);
 		$ilSetting->set("enable_js_edit", $_POST["js_edit"]);
 		$this->ctrl->redirect($this, 'learningmodule');
 	}
@@ -286,7 +286,7 @@ class ilObjAdvancedEditingGUI extends ilObjectGUI
 	{
 		global $ilSetting;
 
-		ilUtil::sendInfo($this->lng->txt("msg_obj_modified"), true);
+		ilUtil::sendSuccess($this->lng->txt("msg_obj_modified"), true);
 		$ilSetting->set("enable_cat_page_edit", $_POST["cat_page_edit"]);
 		$this->ctrl->redirect($this, 'category');
 	}
@@ -304,14 +304,14 @@ class ilObjAdvancedEditingGUI extends ilObjectGUI
 			"xhtml_page");
 		if ($xpage_id > 0)
 		{
-			ilUtil::sendInfo($this->lng->txt("cat_pages_undone"), true);
+			ilUtil::sendSuccess($this->lng->txt("cat_pages_undone"), true);
 			include_once("./Services/XHTMLPage/classes/class.ilXHTMLPage.php");
 			$xpage = new ilXHTMLPage($xpage_id);
 			$xpage->undo();
 		}
 		else
 		{
-			ilUtil::sendInfo($this->lng->txt("cat_pages_not_created"), true);
+			ilUtil::sendFailure($this->lng->txt("cat_pages_not_created"), true);
 		}
 
 		$this->ctrl->redirect($this, 'category');
@@ -330,14 +330,14 @@ class ilObjAdvancedEditingGUI extends ilObjectGUI
 			"xhtml_page");
 		if ($xpage_id > 0)
 		{
-			ilUtil::sendInfo($this->lng->txt("cat_pages_clear"), true);
+			ilUtil::sendSuccess($this->lng->txt("cat_pages_clear"), true);
 			include_once("./Services/XHTMLPage/classes/class.ilXHTMLPage.php");
 			$xpage = new ilXHTMLPage($xpage_id);
 			$xpage->clear();
 		}
 		else
 		{
-			ilUtil::sendInfo($this->lng->txt("cat_pages_not_created"), true);
+			ilUtil::sendFailure($this->lng->txt("cat_pages_not_created"), true);
 		}
 
 		$this->ctrl->redirect($this, 'category');
@@ -349,14 +349,14 @@ class ilObjAdvancedEditingGUI extends ilObjectGUI
 	function saveSettingsObject()
 	{
 		$this->object->_setRichTextEditor($_POST["rte"]);
-		ilUtil::sendInfo($this->lng->txt("msg_obj_modified"),true);
+		ilUtil::sendSuccess($this->lng->txt("msg_obj_modified"),true);
 
 		$this->ctrl->redirect($this,'settings');
 	}
 	
 	function saveAssessmentSettingsObject()
 	{
-		ilUtil::sendInfo($this->lng->txt("msg_obj_modified"),true);
+		ilUtil::sendSuccess($this->lng->txt("msg_obj_modified"),true);
 
 		$this->object->_setUsedHTMLTags($_POST["html_tags"], "assessment");
 		$this->ctrl->redirect($this,'assessment');
@@ -364,7 +364,7 @@ class ilObjAdvancedEditingGUI extends ilObjectGUI
 	
 	function saveSurveySettingsObject()
 	{
-		ilUtil::sendInfo($this->lng->txt("msg_obj_modified"),true);
+		ilUtil::sendSuccess($this->lng->txt("msg_obj_modified"),true);
 
 		$this->object->_setUsedHTMLTags($_POST["html_tags"], "survey");
 		$this->ctrl->redirect($this,'survey');

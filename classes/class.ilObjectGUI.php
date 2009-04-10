@@ -264,7 +264,7 @@ class ilObjectGUI
 			$this->addAdminLocatorItems();
 			$tpl->setLocator();
 
-			ilUtil::sendInfo();
+//			ilUtil::sendInfo();
 			ilUtil::infoPanel();
 
 			$this->setTitleAndDescription();
@@ -280,7 +280,7 @@ class ilObjectGUI
 		// set locator
 		$this->setLocator();
 		// catch feedback message
-		ilUtil::sendInfo();
+//		ilUtil::sendInfo();
 		ilUtil::infoPanel();
 
 		// in creation mode (parent) object and gui object
@@ -662,7 +662,7 @@ class ilObjectGUI
 
 		//$this->object->notify("undelete", $_GET["ref_id"],$_GET["parent_non_rbac_id"],$_GET["ref_id"],$_POST["trash_id"]);
 		
-		ilUtil::sendInfo($this->lng->txt("msg_undeleted"),true);
+		ilUtil::sendSuccess($this->lng->txt("msg_undeleted"),true);
 		
 		$this->ctrl->redirect($this, "view");
 	}
@@ -739,7 +739,7 @@ class ilObjectGUI
 			if($this->tree->isDeleted($id))
 			{
 				$log->write(__METHOD__.': Object with ref_id: '.$id.' already deleted.');
-				ilUtil::sendInfo('Object already deleted.',true);
+				ilUtil::sendFailure('Object already deleted.',true);
 				$this->ctrl->returnToParent($this);
 			}
 			
@@ -775,7 +775,7 @@ class ilObjectGUI
 		{
 			$not_deletable = implode(',',$not_deletable);
 			session_unregister("saved_post");
-			ilUtil::sendInfo($this->lng->txt("msg_no_perm_delete")." ".$not_deletable."<br/>".$this->lng->txt("msg_cancel"),true);
+			ilUtil::sendFailure($this->lng->txt("msg_no_perm_delete")." ".$not_deletable."<br/>".$this->lng->txt("msg_cancel"),true);
 
 			$this->ctrl->returnToParent($this);
 		}
@@ -817,7 +817,7 @@ class ilObjectGUI
 			else
 			{
 				unset($_SESSION["saved_post"]);
-				ilUtil::sendInfo($this->lng->txt("no_perm_delete")."<br/>".$this->lng->txt("msg_cancel"),true);
+				ilUtil::sendFailure($this->lng->txt("no_perm_delete")."<br/>".$this->lng->txt("msg_cancel"),true);
 				$this->ctrl->returnToParent($this);
 			}
 		}
@@ -830,7 +830,7 @@ class ilObjectGUI
 				if($this->tree->isDeleted($id))
 				{
 					$log->write(__METHOD__.': Object with ref_id: '.$id.' already deleted.');
-					ilUtil::sendInfo('Object already deleted.',true);
+					ilUtil::sendFailure('Object already deleted.',true);
 					$this->ctrl->returnToParent($this);
 				}
 				
@@ -858,7 +858,7 @@ class ilObjectGUI
 				if(!$this->tree->saveSubTree($id, true))
 				{
 					$log->write(__METHOD__.': Object with ref_id: '.$id.' already deleted.');
-					ilUtil::sendInfo('Object already deleted.',true);
+					ilUtil::sendFailure('Object already deleted.',true);
 					$this->ctrl->returnToParent($this);
 				}
 
@@ -889,7 +889,7 @@ class ilObjectGUI
 		if ($this->ilias->getSetting('enable_trash'))
 		{
 			// Feedback
-			ilUtil::sendInfo($this->lng->txt("info_deleted"),true);
+			ilUtil::sendSuccess($this->lng->txt("info_deleted"),true);
 		
 			$this->ctrl->returnToParent($this);
 		}
@@ -909,8 +909,6 @@ class ilObjectGUI
 	function cancelDeleteObject()
 	{
 		session_unregister("saved_post");
-
-		ilUtil::sendInfo($this->lng->txt("msg_cancel"),true);
 
 		$this->ctrl->returnToParent($this);
 
@@ -998,7 +996,7 @@ class ilObjectGUI
 				"type" => $aid["type"]));
 		}
 		
-		ilUtil::sendInfo($this->lng->txt("msg_removed"),true);
+		ilUtil::sendSuccess($this->lng->txt("msg_removed"),true);
 
 		$this->ctrl->returnToParent($this);
 	}
@@ -1129,8 +1127,6 @@ class ilObjectGUI
 	function cancelObject($in_rep = false)
 	{
 		session_unregister("saved_post");
-
-		ilUtil::sendInfo($this->lng->txt("msg_cancel"),true);
 
 		//ilUtil::sendInfo($this->lng->txt("action_aborted"),true);
 		$return_location = $_GET["cmd_return_location"];
@@ -1290,7 +1286,7 @@ class ilObjectGUI
 		$this->object->setDescription(ilUtil::stripSlashes($_POST["Fobject"]["desc"]));
 		$this->update = $this->object->update();
 
-		ilUtil::sendInfo($this->lng->txt("msg_obj_modified"),true);
+		ilUtil::sendSuccess($this->lng->txt("msg_obj_modified"),true);
 		
 		$this->afterUpdate();
 	}
@@ -1847,7 +1843,7 @@ class ilObjectGUI
 				$msg .= "<br/>".$this->lng->txt("info_delete_warning_no_trash");
 			}
 			
-			ilUtil::sendInfo($msg);
+			ilUtil::sendQuestion($msg);
 		}
 
 		$this->tpl->setVariable("FORMACTION", $this->ctrl->getFormAction($this));
@@ -1954,10 +1950,6 @@ class ilObjectGUI
 		}
 		
 		/* TODO: fix message display in conjunction with ilUtil::sendInfo & raiseError functionality
-		$this->tpl->addBlockfile("MESSAGE", "adm_trash", "tpl.message.html");
-		$this->tpl->setCurrentBlock("adm_trash");
-		$this->tpl->setVariable("MSG",$this->lng->txt("info_trash"));
-		$this->tpl->parseCurrentBlock();
 		*/
 		//ilUtil::sendInfo($this->lng->txt("info_trash"));
 		$this->tpl->setVariable("FORMACTION",
@@ -2711,7 +2703,7 @@ class ilObjectGUI
 	 	}
 		if(!(int) $_REQUEST['clone_source'])
 		{
-			ilUtil::sendInfo($this->lng->txt('select_one'));
+			ilUtil::sendFailure($this->lng->txt('select_one'));
 			$this->createObject();
 			return false;
 		}
@@ -2739,7 +2731,7 @@ class ilObjectGUI
 		// Delete wizard options
 		$wizard_options->deleteAll();
 
-		ilUtil::sendInfo($this->lng->txt("object_duplicated"),true);
+		ilUtil::sendSuccess($this->lng->txt("object_duplicated"),true);
 		ilUtil::redirect(ilLink::_getLink($new_obj->getRefId()));
 	}
 	
@@ -2878,7 +2870,7 @@ class ilObjectGUI
 		if (!$ilAccess->checkAccess($a_perm, $a_cmd, $this->object->getRefId()))
 		{
 			$_SESSION["il_rep_ref_id"] = "";
-			ilUtil::sendInfo($lng->txt("permission_denied"), true);
+			ilUtil::sendFailure($lng->txt("permission_denied"), true);
 
 			if (!is_int(strpos($PHP_SELF, "goto.php")))
 			{

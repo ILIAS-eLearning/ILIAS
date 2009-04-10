@@ -188,7 +188,7 @@ class ilObjRoleTemplateGUI extends ilObjectGUI
 		$rbacadmin->assignRoleToFolder($roltObj->getId(), $this->rolf_ref_id,'n');
 		$rbacadmin->setProtected($this->rolf_ref_id,$roltObj->getId(),ilUtil::tf2yn($_POST["Fobject"]["protect_permissions"]));	
 		
-		ilUtil::sendInfo($this->lng->txt("rolt_added"),true);
+		ilUtil::sendSuccess($this->lng->txt("rolt_added"),true);
 		$this->ctrl->returnToParent($this);
 	}
 
@@ -291,7 +291,7 @@ class ilObjRoleTemplateGUI extends ilObjectGUI
 		if ($this->object->getId() == SYSTEM_ROLE_ID)
 		{
 			$output["adopt"] = array();
-			ilUtil::sendInfo($this->lng->txt("msg_sysrole_not_editable"));
+			ilUtil::sendFailure($this->lng->txt("msg_sysrole_not_editable"));
 		}
 		else
 		{
@@ -468,7 +468,7 @@ class ilObjRoleTemplateGUI extends ilObjectGUI
 		// set protected flag
 		$rbacadmin->setProtected($this->rolf_ref_id,$this->object->getId(),ilUtil::tf2yn($_POST['protected']));
 
-		ilUtil::sendInfo($this->lng->txt("saved_successfully"),true);
+		ilUtil::sendSuccess($this->lng->txt("saved_successfully"),true);
 
 		$this->ctrl->redirect($this, "perm");
 	}
@@ -488,7 +488,7 @@ class ilObjRoleTemplateGUI extends ilObjectGUI
 		}
 		elseif ($this->obj_id == $_POST["adopt"])
 		{
-			ilUtil::sendInfo($this->lng->txt("msg_perm_adopted_from_itself"),true);
+			ilUtil::sendFailure($this->lng->txt("msg_perm_adopted_from_itself"),true);
 		}
 		else
 		{
@@ -501,7 +501,7 @@ class ilObjRoleTemplateGUI extends ilObjectGUI
 
 			// send info
 			$obj_data =& $this->ilias->obj_factory->getInstanceByObjId($_POST["adopt"]);
-			ilUtil::sendInfo($this->lng->txt("msg_perm_adopted_from1")." '".$obj_data->getTitle()."'.<br/>".$this->lng->txt("msg_perm_adopted_from2"),true);
+			ilUtil::sendSuccess($this->lng->txt("msg_perm_adopted_from1")." '".$obj_data->getTitle()."'.<br/>".$this->lng->txt("msg_perm_adopted_from2"),true);
 		}
 
 		$this->ctrl->redirect($this, "perm");
@@ -601,8 +601,6 @@ class ilObjRoleTemplateGUI extends ilObjectGUI
 	*/
 	function cancelObject()
 	{
-		ilUtil::sendInfo($this->lng->txt("action_aborted"),true);
-		
 		$this->ctrl->redirectByClass("ilobjrolefoldergui","view");
 	}
 
@@ -645,7 +643,7 @@ class ilObjRoleTemplateGUI extends ilObjectGUI
 		$rbacadmin->setProtected($this->rolf_ref_id,$this->object->getId(),ilUtil::tf2yn($_POST["Fobject"]["protect_permissions"]));	
 		$this->object->update();
 		
-		ilUtil::sendInfo($this->lng->txt("saved_successfully"),true);
+		ilUtil::sendSuccess($this->lng->txt("saved_successfully"),true);
 
 		$this->ctrl->returnToParent($this);
 	}

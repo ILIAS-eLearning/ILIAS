@@ -125,7 +125,7 @@ class ilPCImageMapEditorGUI extends ilImageMapEditorGUI
 		}
 
 		//$this->initMapParameters();
-		ilUtil::sendInfo($lng->txt("cont_saved_map_area"), true);
+		ilUtil::sendSuccess($lng->txt("cont_saved_map_area"), true);
 		$ilCtrl->redirect($this, "editMapAreas");
 	}
 
@@ -138,7 +138,7 @@ class ilPCImageMapEditorGUI extends ilImageMapEditorGUI
 		
 		if (!isset($_POST["area"]))
 		{
-			ilUtil::sendInfo($lng->txt("no_checkbox"), true);
+			ilUtil::sendFailure($lng->txt("no_checkbox"), true);
 			$ilCtrl->redirect($this, "editMapAreas");
 		}
 
@@ -155,7 +155,7 @@ class ilPCImageMapEditorGUI extends ilImageMapEditorGUI
 				$i++;
 			}
 			$this->updated = $this->page->update();
-			ilUtil::sendInfo($lng->txt("cont_areas_deleted"), true);
+			ilUtil::sendSuccess($lng->txt("cont_areas_deleted"), true);
 		}
 
 		$ilCtrl->redirect($this, "editMapAreas");
@@ -228,7 +228,7 @@ class ilPCImageMapEditorGUI extends ilImageMapEditorGUI
 		}
 		$this->page->update();
 		
-		ilUtil::sendInfo($lng->txt("cont_saved_map_data"), true);
+		ilUtil::sendSuccess($lng->txt("cont_saved_map_data"), true);
 		$ilCtrl->redirect($this, "editMapAreas");
 	}
 	

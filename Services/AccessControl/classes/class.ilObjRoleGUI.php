@@ -260,13 +260,13 @@ class ilObjRoleGUI extends ilObjectGUI
 		}
 		if(!count($_POST['del_desk_item']))
 		{
-			ilUtil::sendInfo($this->lng->txt('role_select_one_item'));
+			ilUtil::sendFailure($this->lng->txt('role_select_one_item'));
 
 			$this->listDesktopItemsObject();
 
 			return true;
 		}
-		ilUtil::sendInfo($this->lng->txt('role_sure_delete_desk_items'));
+		ilUtil::sendQuestion($this->lng->txt('role_sure_delete_desk_items'));
 		
 		$this->tpl->addBlockFile("ADM_CONTENT", "adm_content", "tpl.role_ask_delete_desktop_item.html");
 		$this->tpl->setVariable("FORMACTION",$this->ctrl->getFormAction($this));
@@ -322,7 +322,7 @@ class ilObjRoleGUI extends ilObjectGUI
 
 		if (!count($_SESSION['role_del_desk_items']))
 		{
-			ilUtil::sendInfo($this->lng->txt('role_select_one_item'));
+			ilUtil::sendFailure($this->lng->txt('role_select_one_item'));
 
 			$this->listDesktopItemsObject();
 
@@ -338,7 +338,7 @@ class ilObjRoleGUI extends ilObjectGUI
 			$role_desk_item_obj->delete($role_item_id);
 		}
 
-		ilUtil::sendInfo($this->lng->txt('role_deleted_desktop_items'));
+		ilUtil::sendSuccess($this->lng->txt('role_deleted_desktop_items'));
 		$this->listDesktopItemsObject();
 
 		return true;
@@ -355,7 +355,7 @@ class ilObjRoleGUI extends ilObjectGUI
 		if(!$rbacsystem->checkAccess('push_desktop_items',USER_FOLDER_ID))
 		{
 			#$this->ilias->raiseError($this->lng->txt("permission_denied"),$this->ilias->error_obj->MESSAGE);
-			ilUtil::sendInfo($this->lng->txt('permission_denied'));
+			ilUtil::sendFailure($this->lng->txt('permission_denied'));
 			$this->listDesktopItemsObject();
 			return false;
 		}
@@ -398,7 +398,7 @@ class ilObjRoleGUI extends ilObjectGUI
 
 		if (!isset($_GET['item_id']))
 		{
-			ilUtil::sendInfo($this->lng->txt('role_no_item_selected'));
+			ilUtil::sendFailure($this->lng->txt('role_no_item_selected'));
 			$this->selectDesktopItemObject();
 
 			return false;
@@ -409,7 +409,7 @@ class ilObjRoleGUI extends ilObjectGUI
 		$role_desk_item_obj =& new ilRoleDesktopItem($this->object->getId());
 		$role_desk_item_obj->add((int) $_GET['item_id'],ilObject::_lookupType((int) $_GET['item_id'],true));
 
-		ilUtil::sendInfo($this->lng->txt('role_assigned_desktop_item'));
+		ilUtil::sendSuccess($this->lng->txt('role_assigned_desktop_item'));
 
 		$this->ctrl->redirect($this,'listDesktopItems');
 		return true;
@@ -505,7 +505,7 @@ class ilObjRoleGUI extends ilObjectGUI
 		$roleObj->create();
 		$rbacadmin->assignRoleToFolder($roleObj->getId(), $this->rolf_ref_id,'y');
 		$rbacadmin->setProtected($this->rolf_ref_id,$roleObj->getId(),ilUtil::tf2yn($_POST["Fobject"]["protect_permissions"]));	
-		ilUtil::sendInfo($this->lng->txt("role_added"),true);
+		ilUtil::sendSuccess($this->lng->txt("role_added"),true);
 
 		$this->ctrl->returnToParent($this);
 	}
@@ -1057,7 +1057,7 @@ class ilObjRoleGUI extends ilObjectGUI
 			$rbacadmin->setProtected($this->rolf_ref_id,$this->object->getId(),ilUtil::tf2yn($_POST['protected']));
 		}
 
-		ilUtil::sendInfo($this->lng->txt("saved_successfully"),true); 
+		ilUtil::sendSuccess($this->lng->txt("saved_successfully"),true); 
 		$this->ctrl->redirect($this, "perm");
 	}
 
@@ -1073,7 +1073,7 @@ class ilObjRoleGUI extends ilObjectGUI
 
 		if(!$_POST['adopt'])
 		{
-			ilUtil::sendInfo($this->lng->txt('select_one'));
+			ilUtil::sendFailure($this->lng->txt('select_one'));
 			$this->permObject();
 			return false;
 		}
@@ -1098,7 +1098,7 @@ class ilObjRoleGUI extends ilObjectGUI
 
 		if ($this->object->getId() == $_POST["adopt"])
 		{
-			ilUtil::sendInfo($this->lng->txt("msg_perm_adopted_from_itself"),true);
+			ilUtil::sendFailure($this->lng->txt("msg_perm_adopted_from_itself"),true);
 		}
 		else
 		{
@@ -1116,7 +1116,7 @@ class ilObjRoleGUI extends ilObjectGUI
 
 			// send info
 			$obj_data =& $this->ilias->obj_factory->getInstanceByObjId($_POST["adopt"]);
-			ilUtil::sendInfo($this->lng->txt("msg_perm_adopted_from1")." '".$obj_data->getTitle()."'.<br/>".
+			ilUtil::sendSuccess($this->lng->txt("msg_perm_adopted_from1")." '".$obj_data->getTitle()."'.<br/>".
 					 $this->lng->txt("msg_perm_adopted_from2"),true);
 		}
 
@@ -1158,7 +1158,7 @@ class ilObjRoleGUI extends ilObjectGUI
 
 		if(!isset($_POST["user"]))
 		{
-			ilUtil::sendInfo($this->lng->txt("no_checkbox"));
+			ilUtil::sendFailure($this->lng->txt("no_checkbox"));
 			$this->searchObject();
 
 			return false;
@@ -1173,7 +1173,7 @@ class ilObjRoleGUI extends ilObjectGUI
 		// selected users all already assigned. stop
         if (count($assigned_users_new) == 0)
 		{
-			ilUtil::sendInfo($this->lng->txt("msg_selected_users_already_assigned"));
+			ilUtil::sendFailure($this->lng->txt("msg_selected_users_already_assigned"));
 			$this->searchObject();
 			
 			return false;
@@ -1188,7 +1188,7 @@ class ilObjRoleGUI extends ilObjectGUI
     	// update object data entry (to update last modification date)
 		$this->object->update();
 
-		ilUtil::sendInfo($this->lng->txt("msg_userassignment_changed"),true);
+		ilUtil::sendSuccess($this->lng->txt("msg_userassignment_changed"),true);
 		
 		$this->ctrl->redirect($this,'userassignment');
 	}
@@ -1204,18 +1204,18 @@ class ilObjRoleGUI extends ilObjectGUI
 		
 		if(!$this->checkAccess('edit_userassignment','edit_permission'))
 		{
-			ilUtil::sendInfo($this->lng->txt('msg_no_perm_assign_user_to_role'));
+			ilUtil::sendFailure($this->lng->txt('msg_no_perm_assign_user_to_role'));
 			return false;
 		}
 		if(!$rbacreview->isAssignable($this->object->getId(),$this->rolf_ref_id) &&
 			$this->rolf_ref_id != ROLE_FOLDER_ID)
 		{
-			ilUtil::sendInfo($this->lng->txt('err_role_not_assignable'));
+			ilUtil::sendFailure($this->lng->txt('err_role_not_assignable'));
 			return false;
 		}
 		if(!$a_user_ids)
 		{
-			ilUtil::sendInfo($this->lng->txt("no_checkbox"));
+			ilUtil::sendFailure($this->lng->txt("no_checkbox"));
 			return false;
 		}
 		
@@ -1227,7 +1227,7 @@ class ilObjRoleGUI extends ilObjectGUI
 		// selected users all already assigned. stop
         if (count($assigned_users_new) == 0)
 		{
-			ilUtil::sendInfo($this->lng->txt("msg_selected_users_already_assigned"));
+			ilUtil::sendFailure($this->lng->txt("msg_selected_users_already_assigned"));
 			return false;
 		}
 		
@@ -1240,7 +1240,7 @@ class ilObjRoleGUI extends ilObjectGUI
     	// update object data entry (to update last modification date)
 		$this->object->update();
 
-		ilUtil::sendInfo($this->lng->txt("msg_userassignment_changed"),true);
+		ilUtil::sendSuccess($this->lng->txt("msg_userassignment_changed"),true);
 		$this->ctrl->redirect($this,'userassignment');
 	}
 	
@@ -1312,7 +1312,7 @@ class ilObjRoleGUI extends ilObjectGUI
     	// update object data entry (to update last modification date)
 		$this->object->update();
 
-		ilUtil::sendInfo($this->lng->txt("msg_userassignment_changed"),true);
+		ilUtil::sendSuccess($this->lng->txt("msg_userassignment_changed"),true);
 
 		$this->ctrl->redirect($this,'userassignment');
 	}
@@ -1380,7 +1380,7 @@ class ilObjRoleGUI extends ilObjectGUI
 		$rbacadmin->setProtected($this->rolf_ref_id,$this->object->getId(),ilUtil::tf2yn($_POST["Fobject"]["protect_permissions"]));	
 		$this->object->update();
 		
-		ilUtil::sendInfo($this->lng->txt("saved_successfully"),true);
+		ilUtil::sendSuccess($this->lng->txt("saved_successfully"),true);
 
 		$this->ctrl->redirect($this,'edit');
 	}
@@ -1721,8 +1721,6 @@ class ilObjRoleGUI extends ilObjectGUI
 	*/
 	function cancelObject()
 	{
-		ilUtil::sendInfo($this->lng->txt("action_aborted"),true);
-		
 		if ($_GET["new_type"] != "role")
 		{
 			$this->ctrl->redirect($this, "userassignment");
@@ -1748,7 +1746,7 @@ class ilObjRoleGUI extends ilObjectGUI
 
 		if (!isset($_POST["search_for"]) or !isset($_POST["search_str"]))
 		{
-			ilUtil::sendInfo($this->lng->txt("role_search_enter_search_string"));
+			ilUtil::sendFailure($this->lng->txt("role_search_enter_search_string"));
 			$this->searchUserFormObject();
 
 			return false;
@@ -2081,7 +2079,7 @@ class ilObjRoleGUI extends ilObjectGUI
 
 		if (!is_array($_POST["role"]))
 		{
-			ilUtil::sendInfo($this->lng->txt("role_no_roles_selected"));
+			ilUtil::sendFailure($this->lng->txt("role_no_roles_selected"));
 			$this->searchObject();
 
 			return false;
@@ -2136,7 +2134,7 @@ class ilObjRoleGUI extends ilObjectGUI
 
 		if (!is_array($_POST["group"]))
 		{
-			ilUtil::sendInfo($this->lng->txt("role_no_groups_selected"));
+			ilUtil::sendFailure($this->lng->txt("role_no_groups_selected"));
 			$this->searchObject();
 
 			return false;

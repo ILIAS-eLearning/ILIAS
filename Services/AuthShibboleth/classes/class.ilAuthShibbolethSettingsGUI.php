@@ -3,7 +3,7 @@
 	+-----------------------------------------------------------------------------+
 	| ILIAS open source                                                           |
 	+-----------------------------------------------------------------------------+
-	| Copyright (c) 1998-2006 ILIAS open source, University of Cologne            |
+	| Copyright (c) 1998-2009 ILIAS open source, University of Cologne            |
 	|                                                                             |
 	| This program is free software; you can redistribute it and/or               |
 	| modify it under the terms of the GNU General Public License                 |
@@ -302,7 +302,7 @@ class ilAuthShibbolethSettingsGUI
 		$this->ilias->setSetting("shib_data_conv", $_POST["shib"]["data_conv"]);
 		$this->ilias->setSetting("shib_auth_allow_local", ($_POST['shib']['auth_allow_local']=='1') ? '1' : '0');
 	
-		ilUtil::sendInfo($this->lng->txt("shib_settings_saved"),true);
+		ilUtil::sendSuccess($this->lng->txt("shib_settings_saved"),true);
 
 		$this->ctrl->redirect($this,'settings');
 	}
@@ -352,7 +352,7 @@ class ilAuthShibbolethSettingsGUI
 	{
 	 	if(!is_array($_POST['rule_ids']))
 	 	{
-	 		ilUtil::sendInfo($this->lng->txt('select_one'));
+	 		ilUtil::sendFailure($this->lng->txt('select_one'));
 	 		$this->roleAssignment();
 	 		return false;
 	 	}
@@ -392,7 +392,7 @@ class ilAuthShibbolethSettingsGUI
 	{
 	 	if(!is_array($_POST['rule_ids']))
 	 	{
-	 		ilUtil::sendInfo($this->lng->txt('select_once'));
+	 		ilUtil::sendFailure($this->lng->txt('select_once'));
 	 		$this->roleAssignment();
 	 		return false;
 	 	}
@@ -402,7 +402,7 @@ class ilAuthShibbolethSettingsGUI
 			$rule = new ilShibbolethRoleAssignmentRule($rule_id);
 			$rule->delete();
 		}
-		ilUtil::sendInfo($this->lng->txt('shib_deleted_rule'));
+		ilUtil::sendSuccess($this->lng->txt('shib_deleted_rule'));
 		$this->roleAssignment();
 		return true;
 	}
@@ -508,7 +508,7 @@ class ilAuthShibbolethSettingsGUI
 		
 		if(!$ilAccess->checkAccess('write','',$this->ref_id))
 		{
-			ilUtil::sendInfo($this->lng->txt('permission_denied'), true);
+			ilUtil::sendFailure($this->lng->txt('permission_denied'), true);
 			$this->roleAssignment();
 			return false;
 		}
@@ -518,7 +518,7 @@ class ilAuthShibbolethSettingsGUI
 		{
 			if($err)
 			{
-				ilUtil::sendInfo($this->lng->txt($err));
+				ilUtil::sendFailure($this->lng->txt($err));
 			}
 
 			$this->tabs_gui->setSubTabActive('shib_role_assignment');
@@ -539,7 +539,7 @@ class ilAuthShibbolethSettingsGUI
 		$this->showLocalRoleSelection();
 		
 		$this->rule->add();
-		ilUtil::sendInfo($this->lng->txt('settings_saved'));
+		ilUtil::sendSuccess($this->lng->txt('settings_saved'));
 		$this->roleAssignment();
 		return true;
 	}
@@ -565,7 +565,7 @@ class ilAuthShibbolethSettingsGUI
 		
 		if(!$ilAccess->checkAccess('write','',$this->ref_id))
 		{
-			ilUtil::sendInfo($this->lng->txt('permission_denied'), true);
+			ilUtil::sendFailure($this->lng->txt('permission_denied'), true);
 			$this->roleAssignment();
 			return false;
 		}
@@ -575,7 +575,7 @@ class ilAuthShibbolethSettingsGUI
 		{
 			if($err)
 			{
-				ilUtil::sendInfo($this->lng->txt($err));
+				ilUtil::sendFailure($this->lng->txt($err));
 			}
 			
 			$this->tabs_gui->setSubTabActive('shib_role_assignment');
@@ -589,7 +589,7 @@ class ilAuthShibbolethSettingsGUI
 		$this->showLocalRoleSelection('update');
 		
 		$this->rule->update();
-		ilUtil::sendInfo($this->lng->txt('settings_saved'));
+		ilUtil::sendSuccess($this->lng->txt('settings_saved'));
 		$this->roleAssignment();
 		return true;
 	}
@@ -752,7 +752,7 @@ class ilAuthShibbolethSettingsGUI
 		{
 			$rule->add();
 		}
-		ilUtil::sendInfo($this->lng->txt('settings_saved'));
+		ilUtil::sendSuccess($this->lng->txt('settings_saved'));
 		
 		unset($_SESSION['shib_role_ass']);
 		$this->roleAssignment();

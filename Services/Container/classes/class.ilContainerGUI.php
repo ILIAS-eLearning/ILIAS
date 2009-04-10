@@ -3,7 +3,7 @@
 	+-----------------------------------------------------------------------------+
 	| ILIAS open source                                                           |
 	+-----------------------------------------------------------------------------+
-	| Copyright (c) 1998-2008 ILIAS open source, University of Cologne            |
+	| Copyright (c) 1998-2009 ILIAS open source, University of Cologne            |
 	|                                                                             |
 	| This program is free software; you can redistribute it and/or               |
 	| modify it under the terms of the GNU General Public License                 |
@@ -611,7 +611,7 @@ class ilContainerGUI extends ilObjectGUI
 			ilContainer::_writeContainerSetting($this->object->getId(),
 				"xhtml_page", 0);
 
-			ilUtil::sendInfo($lng->txt("cntr_switched_editor"), true);
+			ilUtil::sendSuccess($lng->txt("cntr_switched_editor"), true);
 		}
 		
 		$ilCtrl->redirect($this, "editPageFrame");
@@ -754,13 +754,12 @@ class ilContainerGUI extends ilObjectGUI
 		ilRTE::_cleanupMediaObjectUsage($text, $this->object->getType().":html",
 			$this->object->getId());
 
-		ilUtil::sendInfo($this->lng->txt("msg_obj_modified"), true);
+		ilUtil::sendSuccess($this->lng->txt("msg_obj_modified"), true);
 		$this->ctrl->redirect($this, "");
 	}
 	
 	function cancelPageContentObject()
 	{
-		ilUtil::sendInfo($this->lng->txt("action_aborted"), true);
 		$this->ctrl->redirect($this, "");
 	}
 
@@ -1514,7 +1513,7 @@ class ilContainerGUI extends ilObjectGUI
 		// only redirect if clipboard was cleared
 		if (isset($_POST["cmd"]["clear"]))
 		{
-			ilUtil::sendInfo($this->lng->txt("msg_clear_clipboard"),true);
+			ilUtil::sendSuccess($this->lng->txt("msg_clear_clipboard"),true);
 
 			$this->ctrl->returnToParent($this);
 			//ilUtil::redirect($this->getReturnLocation("clear",$this->ctrl->getLinkTarget($this)),get_class($this));
@@ -1533,7 +1532,7 @@ class ilContainerGUI extends ilObjectGUI
 		
 		if(!is_array($_POST['nodes']) || empty($_POST['nodes']))
 		{
-			ilUtil::sendInfo($this->lng->txt('select_at_least_one_object'));
+			ilUtil::sendFailure($this->lng->txt('select_at_least_one_object'));
 			$this->pasteIntoMultipleObjectsObject();
 			return;
 		}	
@@ -1605,7 +1604,7 @@ class ilContainerGUI extends ilObjectGUI
 		
 		if($error != '')
 		{
-			ilUtil::sendInfo($error);
+			ilUtil::sendFailure($error);
 			$this->pasteIntoMultipleObjectsObject();
 			return;
 		}
@@ -1748,7 +1747,7 @@ class ilContainerGUI extends ilObjectGUI
 		// clear clipboard
 		$this->clearObject();
 
-		ilUtil::sendInfo(sprintf($this->lng->txt('mgs_objects_linked_to_the_following_folders'), implode(', ', $linked_to_folders)), true);
+		ilUtil::sendSuccess(sprintf($this->lng->txt('mgs_objects_linked_to_the_following_folders'), implode(', ', $linked_to_folders)), true);
 
 		$this->ctrl->returnToParent($this);
 	}
@@ -2116,17 +2115,17 @@ class ilContainerGUI extends ilObjectGUI
 
 		if ($last_cmd == "cut")
 		{
-			ilUtil::sendInfo($this->lng->txt("msg_cut_copied"),true);
+			ilUtil::sendSuccess($this->lng->txt("msg_cut_copied"),true);
 		}
 		// BEGIN WebDAV: Support a copy command in repository
 		else if ($last_cmd == "copy")
 		{
-			ilUtil::sendInfo($this->lng->txt("msg_cloned"),true);
+			ilUtil::sendSuccess($this->lng->txt("msg_cloned"),true);
 		}
 		else if ($last_command == 'link')
 		// END WebDAV: Support copy command in repository
 		{
-			ilUtil::sendInfo($this->lng->txt("msg_linked"),true);
+			ilUtil::sendSuccess($this->lng->txt("msg_linked"),true);
 		}
 
 		$this->ctrl->returnToParent($this);
@@ -2385,7 +2384,7 @@ class ilContainerGUI extends ilObjectGUI
 		
 	 	if(!$_REQUEST['clone_source'])
 	 	{
-			ilUtil::sendInfo($this->lng->txt('select_one'));
+			ilUtil::sendFailure($this->lng->txt('select_one'));
 			if(isset($_SESSION['wizard_search_title']))
 			{
 				$this->searchCloneSourceObject();
@@ -2520,7 +2519,7 @@ class ilContainerGUI extends ilObjectGUI
 	 	}
 		if(!$clone_source)
 		{
-			ilUtil::sendInfo($this->lng->txt('select_one'));
+			ilUtil::sendFailure($this->lng->txt('select_one'));
 			$this->createObject();
 			return false;
 		}
@@ -2541,7 +2540,7 @@ class ilContainerGUI extends ilObjectGUI
 		} 
 		else 
 		{
-			ilUtil::sendInfo($this->lng->txt("object_duplicated"),true);
+			ilUtil::sendSuccess($this->lng->txt("object_duplicated"),true);
 			ilUtil::redirect('repository.php?ref_id='.$result);			
 		}	
 	}
@@ -2577,7 +2576,7 @@ class ilContainerGUI extends ilObjectGUI
 		include_once('Services/Container/classes/class.ilContainerSorting.php');
 		$sorting = ilContainerSorting::_getInstance($this->object->getId());
 		$sorting->savePost($_POST['position']);
-		ilUtil::sendInfo($this->lng->txt('sorting_saved',true));
+		ilUtil::sendSuccess($this->lng->txt('sorting_saved',true));
 		$this->ctrl->returnToParent($this);
 	}
 	

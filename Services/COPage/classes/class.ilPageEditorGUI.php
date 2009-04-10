@@ -3,7 +3,7 @@
 	+-----------------------------------------------------------------------------+
 	| ILIAS open source                                                           |
 	+-----------------------------------------------------------------------------+
-	| Copyright (c) 1998-2001 ILIAS open source, University of Cologne            |
+	| Copyright (c) 1998-2009 ILIAS open source, University of Cologne            |
 	|                                                                             |
 	| This program is free software; you can redistribute it and/or               |
 	| modify it under the terms of the GNU General Public License                 |
@@ -710,7 +710,7 @@ return true;
 	{
 		global $ilUser;
 		
-		ilUtil::sendInfo($this->lng->txt("copied_to_clipboard"), true);
+		ilUtil::sendSuccess($this->lng->txt("copied_to_clipboard"), true);
 		$ilUser->addObjectToClipboard($_POST["mob_id"], "mob", ilObject::_lookupTitle($_POST["mob_id"]));
 		$this->ctrl->returnToParent($this);
 	}
@@ -735,7 +735,7 @@ return true;
 		ilHistory::_createEntry($this->page->getId(), "update",
 			"", $this->page->getParentType().":pg",
 			ilUtil::stripSlashes($_POST["change_comment"]), true);
-		ilUtil::sendInfo($this->lng->txt("cont_added_comment"), true);
+		ilUtil::sendSuccess($this->lng->txt("cont_added_comment"), true);
 		$this->ctrl->returnToParent($this);
 	}
 	

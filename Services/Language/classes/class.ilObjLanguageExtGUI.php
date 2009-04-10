@@ -3,7 +3,7 @@
 	+-----------------------------------------------------------------------------+
 	| ILIAS open source                                                           |
 	+-----------------------------------------------------------------------------+
-	| Copyright (c) 1998-2001 ILIAS open source, University of Cologne            |
+	| Copyright (c) 1998-2009 ILIAS open source, University of Cologne            |
 	|                                                                             |
 	| This program is free software; you can redistribute it and/or               |
 	| modify it under the terms of the GNU General Public License                 |
@@ -125,7 +125,6 @@ class ilObjLanguageExtGUI extends ilObjectGUI
 	*/
 	function cancelObject()
 	{
-		ilUtil::sendInfo($this->lng->txt("action_aborted"), false);
 		$this->viewObject();
 	}
 
@@ -225,7 +224,7 @@ class ilObjLanguageExtGUI extends ilObjectGUI
 				    $former_file = $this->object->getCustLangPath() . '/ilias_' . $this->object->key . '.lang';
 					if (!is_readable($former_file))
 					{
-                        ilUtil::sendInfo(sprintf($this->lng->txt("language_former_file_missing"), $former_file)
+                        ilUtil::sendFailure(sprintf($this->lng->txt("language_former_file_missing"), $former_file)
 										.'<br />'. $this->lng->txt("language_former_file_description") , false);
                         $translations = array();
                         break;
@@ -482,7 +481,7 @@ class ilObjLanguageExtGUI extends ilObjectGUI
 									 	 $file))
 			{
 				$this->object->importLanguageFile($file,$_POST['mode_existing']);
-				ilUtil::sendInfo(sprintf($this->lng->txt("language_file_imported"), $_FILES['userfile']['name']) , false);
+				ilUtil::sendSuccess(sprintf($this->lng->txt("language_file_imported"), $_FILES['userfile']['name']) , false);
 				$this->importObject();
 			}
 			else
@@ -591,11 +590,11 @@ class ilObjLanguageExtGUI extends ilObjectGUI
 					$local_file_obj->write();
 					
 					$this->object->setLocal(true);
-					ilUtil::sendInfo($this->lng->txt("language_saved_local") , false);
+					ilUtil::sendSuccess($this->lng->txt("language_saved_local") , false);
 				}
 				else
 				{
-					ilUtil::sendInfo($this->lng->txt("language_error_write_local") , false);
+					ilUtil::sendFailure($this->lng->txt("language_error_write_local") , false);
 				}
 				break;
 				
@@ -606,11 +605,11 @@ class ilObjLanguageExtGUI extends ilObjectGUI
 			    {
 					$this->object->importLanguageFile($lang_file, 'replace');
 					$this->object->setLocal(true);
-					ilUtil::sendInfo($this->lng->txt("language_loaded_local") , false);
+					ilUtil::sendSuccess($this->lng->txt("language_loaded_local") , false);
 				}
 				else
 				{
-					ilUtil::sendInfo($this->lng->txt("language_error_read_local") , false);
+					ilUtil::sendFailure($this->lng->txt("language_error_read_local") , false);
 				}
 				break;
 
@@ -621,11 +620,11 @@ class ilObjLanguageExtGUI extends ilObjectGUI
 			    {
 					$this->object->importLanguageFile($lang_file, 'delete');
 					$this->object->setLocal(false);
-					ilUtil::sendInfo($this->lng->txt("language_cleared_local") , false);
+					ilUtil::sendSuccess($this->lng->txt("language_cleared_local") , false);
 				}
 				else
 				{
-					ilUtil::sendInfo($this->lng->txt("language_error_clear_local") , false);
+					ilUtil::sendFailure($this->lng->txt("language_error_clear_local") , false);
 				}
 				break;
 		}

@@ -3,7 +3,7 @@
 	+-----------------------------------------------------------------------------+
 	| ILIAS open source                                                           |
 	+-----------------------------------------------------------------------------+
-	| Copyright (c) 1998-2001 ILIAS open source, University of Cologne            |
+	| Copyright (c) 1998-2009 ILIAS open source, University of Cologne            |
 	|                                                                             |
 	| This program is free software; you can redistribute it and/or               |
 	| modify it under the terms of the GNU General Public License                 |
@@ -1017,7 +1017,7 @@ class ilPCMediaObjectGUI extends ilPageContentGUI
 	{
 		$this->ilias->account->addObjectToClipboard($this->content_obj->getMediaObject()->getId(), $this->content_obj->getMediaObject()->getType()
 			, $this->content_obj->getMediaObject()->getTitle());
-		ilUtil::sendInfo($this->lng->txt("copied_to_clipboard"), true);
+		ilUtil::sendSuccess($this->lng->txt("copied_to_clipboard"), true);
 		$this->ctrl->returnToParent($this, "jump".$this->hier_id);
 	}
 
