@@ -25,15 +25,15 @@
 {TABS}
 </div>
 </div>
-<table class="ilTabContentOuter"><tr><td>
+<!-- BEGIN tabs_outer_start --><table class="ilTabContentOuter"><tr><td><!-- END tabs_outer_start -->
 <div style="clear:both;">{SUB_TABS}</div>
-<div class="ilTabContentInner">
+<!-- BEGIN tabs_inner_start --><div class="ilTabContentInner"><!-- END tabs_inner_start -->
 <!-- BEGIN page_form_start --><form id="main_page_form" action="{PAGE_FORM_ACTION}" method="post"><!-- END page_form_start -->
 <table class="il_ColumnLayout" style="clear:both;"><tr>
 <!-- BEGIN left_columnt -->
 <td></td>
 <!-- END left_columnt -->
-<td>
+<td>{MESSAGE}
 	<!-- BEGIN adm_panel -->
 	<!-- BEGIN adm_view_components -->
 	<div style="float:left; margin: 0px 10px 5px 15px;">
@@ -71,7 +71,6 @@
 <!-- END left_column -->
 <td class="il_CenterColumn" id="il_CenterColumn">
 {BUTTONS}
-{MESSAGE}
 {RTE_SWITCH}
 {ADM_CONTENT}
 {OBJECTS}
@@ -91,7 +90,7 @@
 </tr></table>
 <!-- BEGIN print_content --><div style="padding-left: 15px; padding-right: 15px;">{PRINT_CONTENT}</div><!-- END print_content -->
 <!-- BEGIN page_form_end --></form><!-- END page_form_end -->
-</div>
-</td></tr></table>
+<!-- BEGIN tabs_inner_end --></div><!-- END tabs_inner_end -->
+<!-- BEGIN tabs_outer_end --></td></tr></table><!-- END tabs_outer_end -->
 <div class="ilPermaLink">{PRMLINK}</div>
 </div>

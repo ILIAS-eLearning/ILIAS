@@ -804,22 +804,19 @@ td.ilInvisibleBorder
 
 td.il_LeftColumn
 {
-	padding-left:15px;
+	padding-right:15px;
 	vertical-align:top;
 	width:23%;
 }
 
 td.il_CenterColumn
 {
-	padding-right:15px;
-	padding-left:15px;
 	vertical-align:top;
-	
 }
 
 td.il_RightColumn
 {
-	padding-right:15px;
+	padding-left:15px;
 	vertical-align:top;
 	width:23%;
 }
@@ -1143,16 +1140,49 @@ input.submit:hover, input.ilEditSubmit:hover, a.submit:hover {
 	color:#000000;
 }
 
-
-div.message {
-	color: #dd0000;
-	text-align:center;
-	background-color:#FFFFFF;
-	border-width:1px;
-	border-style:solid;
-	border-color:#9EADBA;
-	margin: 2px 0px 5px 0px;
+/* Messages */
+div.ilInfoMessage {
+	background-color: #ecf0f9;
+	margin: 0px 0px 8px 10px;
+	padding: 5px 30px;
+	min-height: 20px;
+	vertical-align: middle;
+	font-size: 90%;
 	clear:both;
+}
+
+div.ilFailureMessage {
+	background-color: #fceaea;
+	margin: 0px 0px 8px 10px;
+	padding: 5px 30px;
+	min-height: 20px;
+	vertical-align: middle;
+	font-size: 90%;
+	clear:both;
+}
+
+div.ilSuccessMessage {
+	background-color: #f0fdf0;
+	margin: 0px 0px 8px 10px;
+	padding: 5px 30px;
+	min-height: 20px;
+	vertical-align: middle;
+	font-size: 90%;
+	clear:both;
+}
+
+div.ilQuestionMessage {
+	background-color: #fffcee;
+	margin: 0px 0px 8px 10px;
+	padding: 5px 30px;
+	min-height: 20px;
+	vertical-align: middle;
+	font-size: 90%;
+	clear:both;
+}
+
+img.ilInfoMessage, img.ilFailureMessage, img.ilSuccessMessage, img.ilQuestionMessage {
+	position: absolute;
 }
 
 .alert {
@@ -1823,7 +1853,7 @@ table.ilTabContentOuter
 	border-style: solid;
 	border-color: #bccae5;
 	background-color: #FFFFFF;
-	border-width: 4px 1px;
+	border-width: 2px 1px;
 	margin: 0px;
 	clear:both;
 	width:100%;
@@ -1831,7 +1861,7 @@ table.ilTabContentOuter
 
 div.ilTabContentInner
 {
-	padding: 0px;
+	padding: 0px 15px;
 	margin: 10px 0px;
 	clear:both;
 	min-height: 250px;
@@ -1860,7 +1890,7 @@ div.il_Tab
 	padding-left:0px;
     line-height:normal;
 	border-bottom-color: #bccae5;
-	border-bottom-width: 4px;
+	border-bottom-width: 2px;
 	margin: 0px 15px;
 }
 
@@ -1870,7 +1900,7 @@ ul.il_Tab
 	padding: 0px;
 	list-style:none;
 	position: relative;
-	top: 4px;
+	top: 2px;
 }
 
 li.tabinactive
@@ -1878,7 +1908,7 @@ li.tabinactive
 	float:left;
 	margin: 0px 2px 0px 0px;
 	padding: 0px;
-	border-bottom-width: 4px;
+	border-bottom-width: 2px;
 	border-bottom-style: solid;
 	border-bottom-color: #bccae5;
 }
@@ -1912,7 +1942,7 @@ li.tabactive
 	border-width: 1px;
 	border-style: solid;
 	border-color: #bccae5;
-	border-bottom-width: 4px;
+	border-bottom-width: 2px;
 	border-bottom-style: solid;
 	border-bottom-color: #FFFFFF;
 }
@@ -2128,6 +2158,10 @@ th.ilPDBlockSubHeader
 	font-size: 90%;
 	background-color: #F8F8F8;
 	vertical-align: middle;
+	border-top-color: #F0F0F0;
+	border-top-style: solid;
+	border-top-width: 1px;
+	padding: 1px 3px;
 }
 
 h3.ilPDBlockSubHeader
@@ -2155,7 +2189,10 @@ td.tblfooter {
 tr.tblfooter {
 	color:#000000;
 	font-weight:normal;
-	background-color: #F3F3F3;
+	background-color: #F9F9F9;
+	border-top-color: #F0F0F0;
+	border-top-style: solid;
+	border-top-width: 1px;
 }
 
 .tblrow2 {

@@ -74,26 +74,6 @@ class ilTemplate extends ilTemplateX
 		$this->vars = array();
 		$this->addFooter = TRUE;
 
-		/*
-		if (strpos($file,"/") === false)
-		{
-			//$fname = $ilias->tplPath;
-			$base = "./";
-			if ($module != "")
-			{
-				$base.= $module."/";
-			}
-			$base .= "templates/";
-			$fname = $base.$ilias->account->skin."/".basename($file);
-			if(!file_exists($fname))
-			{
-				$fname .= $base."default/".basename($file);
-			}
-		}
-		else
-		{
-			$fname = $file;
-		}*/
 		$fname = $this->getTemplatePath($file, $in_module, $plugin);
 
 		$this->tplName = basename($fname);
@@ -165,7 +145,7 @@ class ilTemplate extends ilTemplateX
 	{
 		if ($add_error_mess)
 		{
-			$this->addErrorMessage();
+			$this->fillMessage();
 		}
 
 		if ($add_ilias_footer)
@@ -234,24 +214,79 @@ class ilTemplate extends ilTemplateX
 
 	}
 
-	function addErrorMessage()
+	/**
+	* Set message. Please use ilUtil::sendInfo(), ilUtil::sendSuccess()
+	* and ilUtil::sendFailure()
+	*/
+	function setMessage($a_type, $a_txt, $a_keep = false)
 	{
-		// ERROR HANDLER SETS $_GET["message"] IN CASE OF $error_obj->MESSAGE
-		if ($_SESSION["message"] || $_SESSION["info"])
+		if (!in_array($a_type, array("info", "success", "failure", "question")) || $a_txt == "")
 		{
-			if($this->blockExists("MESSAGE"))
+			return;
+		}
+		if ($a_type == "question")
+		{
+			$a_type = "mess_question";
+		}
+		if (!$a_keep)
+		{
+			$this->message[$a_type] = $a_txt;
+		}
+		else
+		{
+			$_SESSION[$a_type] = $a_txt;
+		}
+	}
+	
+	function fillMessage()
+	{
+		global $lng;
+		
+		$ms = array("info", "success", "failure", "question");
+		$out = "";
+		
+		foreach ($ms as $m)
+		{
+			if ($m == "question")
 			{
-				$this->addBlockFile("MESSAGE", "message", "tpl.message.html");
-#			$this->setCurrentBlock("message");
-
-				$this->setVariable("MSG", $_SESSION["message"]);
-				$this->setVariable("INFO", $_SESSION["info"]);
-
-				session_unregister("message");
-				session_unregister("info");
-
-#			$this->parseCurrentBlock();
+				$m = "mess_question";
 			}
+
+			$txt = ($_SESSION[$m] != "")
+				? $_SESSION[$m]
+				: $this->message[$m];
+				
+			if ($m == "mess_question")
+			{
+				$m = "question";
+			}
+
+			if ($txt != "")
+			{
+				$mtpl = new ilTemplate("tpl.message.html", true, true, "Services/Utilities");
+				$mtpl->setCurrentBlock($m."_message");
+				$mtpl->setVariable("TEXT", $txt);
+				$mtpl->setVariable("MESSAGE_HEADING", $lng->txt($m."_message"));
+				$mtpl->setVariable("ALT_IMAGE", $lng->txt("icon")." ".$lng->txt($m."_message"));
+				$mtpl->setVariable("SRC_IMAGE", ilUtil::getImagePath("mess_".$m.".gif"));
+				$mtpl->parseCurrentBlock();
+				$out.= $mtpl->get();
+			}
+		
+			if ($m == "question")
+			{
+				$m = "mess_question";
+			}
+
+			if ($_SESSION[$m])
+			{
+				session_unregister($m);
+			}
+		}
+		
+		if ($out != "")
+		{
+			$this->setVariable("MESSAGE", $out);
 		}
 	}
 
@@ -295,7 +330,7 @@ class ilTemplate extends ilTemplateX
 		header('P3P: CP="CURa ADMa DEVa TAIa PSAa PSDa IVAa IVDa OUR BUS IND UNI COM NAV INT CNT STA PRE"');
 		header("Content-type: " . $this->getContentType() . "; charset=UTF-8");
 
-		$this->addErrorMessage();
+		$this->fillMessage();
 		
 		// display ILIAS footer
 		if ($part !== false)
@@ -409,7 +444,15 @@ class ilTemplate extends ilTemplateX
 	{
 		global $ilias,$ilTabs;
 		
-		$this->setVariable("TABS",$ilTabs->getHTML());
+		$thtml = $ilTabs->getHTML();
+		if ($thtml != "")
+		{
+			$this->touchBlock("tabs_outer_start");
+			$this->touchBlock("tabs_outer_end");
+			$this->touchBlock("tabs_inner_start");
+			$this->touchBlock("tabs_inner_end");
+			$this->setVariable("TABS",$thtml);
+		}
 		$this->setVariable("SUB_TABS",$ilTabs->getSubTabHTML());
 	}
 	
@@ -1221,7 +1264,14 @@ class ilTemplate extends ilTemplateX
 	*/
 	function setTabs($a_tabs_html)
 	{
-		$this->setVariable("TABS", $a_tabs_html);
+		if ($a_tabs_html != "")
+		{
+			$this->touchBlock("tabs_outer_start");
+			$this->touchBlock("tabs_outer_end");
+			$this->touchBlock("tabs_inner_start");
+			$this->touchBlock("tabs_inner_end");
+			$this->setVariable("TABS", $a_tabs_html);
+		}
 	}
 
 	/**

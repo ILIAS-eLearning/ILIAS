@@ -303,27 +303,27 @@ class ilObjRoleFolderGUI extends ilObjectGUI
 			{
 				if ($feedback["rolt"] === true)
 				{
-					ilUtil::sendInfo($this->lng->txt("msg_deleted_roles_rolts"),true);					
+					ilUtil::sendSuccess($this->lng->txt("msg_deleted_roles_rolts"),true);					
 				}
 				else
 				{
-					ilUtil::sendInfo($this->lng->txt("msg_deleted_roles"),true);						
+					ilUtil::sendSuccess($this->lng->txt("msg_deleted_roles"),true);						
 				}
 			}
 			else
 			{
-				ilUtil::sendInfo($this->lng->txt("msg_deleted_rolts"),true);						
+				ilUtil::sendSuccess($this->lng->txt("msg_deleted_rolts"),true);						
 			}
 		}
 		else
 		{
 			if ($feedback["role"] === true)
 			{
-				ilUtil::sendInfo($this->lng->txt("msg_deleted_role"),true);	
+				ilUtil::sendSuccess($this->lng->txt("msg_deleted_role"),true);	
 			}
 			else
 			{
-			ilUtil::sendInfo($this->lng->txt("msg_deleted_rolt"),true);	
+			ilUtil::sendSuccess($this->lng->txt("msg_deleted_rolt"),true);	
 			}	
 		}
 		
@@ -386,7 +386,7 @@ class ilObjRoleFolderGUI extends ilObjectGUI
 
 		$this->getTemplateFile("confirm");
 
-		ilUtil::sendInfo($this->lng->txt("info_delete_sure"));
+		ilUtil::sendQuestion($this->lng->txt("info_delete_sure"));
 
 		$this->tpl->setVariable("FORMACTION", $this->ctrl->getFormAction($this));
 
@@ -446,7 +446,7 @@ class ilObjRoleFolderGUI extends ilObjectGUI
 	*/
 	function adoptPermSaveObject()
 	{
-		ilUtil::sendInfo($this->lng->txt("saved_successfully"),true);
+		ilUtil::sendSuccess($this->lng->txt("saved_successfully"),true);
 		
 		$this->ctrl->redirect($this, "view");
 	}
@@ -529,7 +529,7 @@ class ilObjRoleFolderGUI extends ilObjectGUI
 		// put here your object specific stuff	
 
 		// always send a message
-		ilUtil::sendInfo($this->lng->txt("rolf_added"),true);
+		ilUtil::sendSuccess($this->lng->txt("rolf_added"),true);
 		
 		$this->ctrl->redirect($this, "view");
 	}

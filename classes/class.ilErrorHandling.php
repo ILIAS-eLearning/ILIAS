@@ -97,14 +97,14 @@ class ilErrorHandling extends PEAR
 
 		$this->error_obj =& $a_error_obj;
 //echo "-".$_SESSION["referer"]."-";
-		if ($_SESSION["message"])
+		if ($_SESSION["failure"])
 		{
 			$m = "Fatal Error: Called raise error two times.<br>".
-				"First error: ".$_SESSION["message"].'<br>'.
+				"First error: ".$_SESSION["failure"].'<br>'.
 				"Last Error:". $a_error_obj->getMessage();
 			//return;
 			$log->logError($a_error_obj->getCode(), $m);
-			unset($_SESSION["message"]);
+			session_unregister("failure");
 			die ($m);
 		}
 
@@ -129,7 +129,7 @@ class ilErrorHandling extends PEAR
 				$message = "Under Construction";
 			}
 
-			$_SESSION["message"] = $message;
+			$_SESSION["failure"] = $message;
 
 			if (!defined("ILIAS_MODULE"))
 			{
@@ -143,7 +143,7 @@ class ilErrorHandling extends PEAR
 
 		if ($a_error_obj->getCode() == $this->MESSAGE)
 		{
-			$_SESSION["message"] = $a_error_obj->getMessage();
+			$_SESSION["failure"] = $a_error_obj->getMessage();
 			// save post vars to session in case of error
 			$_SESSION["error_post_vars"] = $_POST;
 

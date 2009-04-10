@@ -311,7 +311,7 @@ return parent::edit();
 
 		if ($a_redirect)
 		{
-			ilUtil::sendInfo($lng->txt("msg_obj_modified", true));
+			ilUtil::sendSuccess($lng->txt("msg_obj_modified", true));
 			$this->ctrl->redirect($this, "editData");
 		}
 	}

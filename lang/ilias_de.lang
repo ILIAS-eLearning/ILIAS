@@ -9189,3 +9189,8 @@ payment#:#vats#:#Steuern
 common#:#content_frame#:#Rahmen Inhalt
 common#:#side_frame#:#Rahmen Baumansicht
 common#:#icon#:#Symbol
+common#:#info_message#:#Informationsmeldung
+common#:#failure_message#:#Fehlermeldung
+common#:#success_message#:#Bestätigungsmeldung
+common#:#question_message#:#Frage
+common#:#form_input_not_valid#:#Einige Angaben sind unvollständig oder ungültig. Bitte korrigieren Sie Ihre Eingabe.

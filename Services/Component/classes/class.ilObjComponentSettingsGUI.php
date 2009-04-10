@@ -3,7 +3,7 @@
 	+-----------------------------------------------------------------------------+
 	| ILIAS open source                                                           |
 	+-----------------------------------------------------------------------------+
-	| Copyright (c) 1998-2006 ILIAS open source, University of Cologne            |
+	| Copyright (c) 1998-2009 ILIAS open source, University of Cologne            |
 	|                                                                             |
 	| This program is free software; you can redistribute it and/or               |
 	| modify it under the terms of the GNU General Public License                 |
@@ -315,11 +315,11 @@ die ("ilObjComponentSettigsGUI::refreshPluginsInformation: deprecated");
 		
 		if ($result !== true)
 		{
-			ilUtil::sendInfo($pl->message, true);
+			ilUtil::sendFailure($pl->message, true);
 		}
 		else
 		{
-			ilUtil::sendInfo($pl->message, true);
+			ilUtil::sendSuccess($pl->message, true);
 		}
 			
 		$ilCtrl->setParameter($this, "ctype", $_GET["ctype"]);
@@ -343,7 +343,7 @@ die ("ilObjComponentSettigsGUI::refreshPluginsInformation: deprecated");
 		
 		if ($result !== true)
 		{
-			ilUtil::sendInfo($result, true);
+			ilUtil::sendFailure($result, true);
 		}
 			
 		$ilCtrl->setParameter($this, "ctype", $_GET["ctype"]);
@@ -367,7 +367,7 @@ die ("ilObjComponentSettigsGUI::refreshPluginsInformation: deprecated");
 		
 		if ($result !== true)
 		{
-			ilUtil::sendInfo($result, true);
+			ilUtil::sendFailure($result, true);
 		}
 			
 		$ilCtrl->setParameter($this, "ctype", $_GET["ctype"]);
