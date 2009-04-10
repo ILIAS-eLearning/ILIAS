@@ -4158,11 +4158,11 @@ content#:#cont_fix_tree#:#Struktur reparieren
 content#:#cont_footer#:#Fußzeile
 content#:#cont_format_error#:#Diese Operation ist nicht möglich!
 content#:#cont_format#:#Format
-content#:#cont_frame_botright#:#Content Details (Glossar)
-content#:#cont_frame_maincontent#:#Inhaltsfenster
-content#:#cont_frame_right#:#Details zum Inhalt
-content#:#cont_frame_toc#:#Inhaltsverzeichnis
-content#:#cont_frame_topright#:#Details zum Inhalt (FAQ und Medien)
+content#:#cont_frame_botright#:#Rahmen Details (Glossar)
+content#:#cont_frame_maincontent#:#Rahmen Inhalt
+content#:#cont_frame_right#:#Rahmen Details
+content#:#cont_frame_toc#:#Rahmen Baumansicht
+content#:#cont_frame_topright#:#Rahmen Details (FAQ und Medien)
 content#:#cont_free_pages#:#Freie Seiten
 content#:#cont_full_is_in_dir#:#Löschen nicht möglich. Datei für Vollansicht liegt im Verzeichnis.
 content#:#cont_fullscreen#:#Vollbild
@@ -9186,3 +9186,6 @@ payment#:#paya_sure_delete_vat#:#Sind Sie sicher, dass Sie diesen Steuersatz lö
 payment#:#paya_vat_not_deleted#:#Der Steuersatz wurde nicht gelöscht
 payment#:#unlimited_duration#:#Unbegrenzte Dauer
 payment#:#vats#:#Steuern
+common#:#content_frame#:#Rahmen Inhalt
+common#:#side_frame#:#Rahmen Baumansicht
+common#:#icon#:#Symbol

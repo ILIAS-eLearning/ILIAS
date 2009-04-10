@@ -34,7 +34,7 @@
 global $ilCtrl, $ilBench;
 
 require_once "include/inc.header.php";
-include_once "classes/class.ilRepositoryGUI.php";
+include_once "./Services/Repository/classes/class.ilRepositoryGUI.php";
 
 $ilCtrl->setTargetScript("repository.php");
 

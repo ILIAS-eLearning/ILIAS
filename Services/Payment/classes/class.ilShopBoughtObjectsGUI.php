@@ -80,7 +80,7 @@ class ilShopBoughtObjectsGUI extends ilShopBaseGUI
 
 	public function showItems()
 	{
-		include_once "./classes/class.ilRepositoryExplorer.php";
+		include_once "./Services/Repository/classes/class.ilRepositoryExplorer.php";
 
 		$this->initBookingsObject();
 

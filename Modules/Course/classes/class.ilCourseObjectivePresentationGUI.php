@@ -341,7 +341,7 @@ class ilCourseObjectivePresentationGUI
 		global $rbacsystem,$ilias,$ilUser,$ilObjDataCache;
 
 		include_once './Modules/Course/classes/class.ilCourseObjectiveMaterials.php';
-		include_once './classes/class.ilRepositoryExplorer.php';
+		include_once './Services/Repository/classes/class.ilRepositoryExplorer.php';
 		include_once './Modules/Course/classes/class.ilCourseLMHistory.php';
 
 		if(!count($lms = ilCourseObjectiveMaterials::_getAllAssignedMaterials($this->course_obj->getId())))

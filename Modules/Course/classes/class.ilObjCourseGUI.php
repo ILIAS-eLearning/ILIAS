@@ -4757,7 +4757,7 @@ class ilObjCourseGUI extends ilContainerGUI
 	function showStartObjects()
 	{
 		include_once './Modules/Course/classes/class.ilCourseLMHistory.php';
-		include_once './classes/class.ilRepositoryExplorer.php';
+		include_once './Services/Repository/classes/class.ilRepositoryExplorer.php';
 		include_once './classes/class.ilLink.php';
 
 		global $rbacsystem,$ilias,$ilUser,$ilAccess,$ilObjDataCache;

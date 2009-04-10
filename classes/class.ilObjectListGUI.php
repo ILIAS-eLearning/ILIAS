@@ -2136,7 +2136,7 @@ class ilObjectListGUI
 				$this->tpl->touchBlock("i_1");	// indent
 			}
 			$this->tpl->setCurrentBlock("icon");
-			$this->tpl->setVariable("ALT_ICON", $lng->txt("obj_".$this->getIconImageType()));
+			$this->tpl->setVariable("ALT_ICON", $lng->txt("icon")." ".$lng->txt("obj_".$this->getIconImageType()));
 			$this->tpl->setVariable("SRC_ICON",
 				ilObject::_getIcon($this->obj_id, "small", $this->getIconImageType()));
 			$this->tpl->parseCurrentBlock();
