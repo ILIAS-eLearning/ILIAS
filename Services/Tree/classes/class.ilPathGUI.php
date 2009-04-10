@@ -113,7 +113,7 @@ class ilPathGUI
 	{
 		if($this->textOnly())
 		{
-			$tpl = new ilTemplate('tpl.locator_text_only.html',true,true);
+			$tpl = new ilTemplate('tpl.locator_text_only.html',true,true, "Services/Locator");
 			
 			$first = true;
 			foreach($this->getPathIds() as $ref_id)

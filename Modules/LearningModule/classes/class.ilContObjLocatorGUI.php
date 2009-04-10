@@ -74,7 +74,7 @@ class ilContObjLocatorGUI
 	{
 		global $lng;
 
-		$this->tpl->addBlockFile($this->temp_var, "locator", "tpl.locator.html");
+		$this->tpl->addBlockFile($this->temp_var, "locator", "tpl.locator.html", "Services/Locator");
 
 		if (($this->obj_id != 0) && $this->tree->isInTree($this->obj_id))
 		{

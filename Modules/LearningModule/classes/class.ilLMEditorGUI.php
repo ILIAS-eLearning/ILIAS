@@ -289,7 +289,7 @@ class ilLMEditorGUI
 	{
 		global $lng;
 
-		$this->tpl->addBlockFile("LOCATOR", "locator", "tpl.locator.html");
+		$this->tpl->addBlockFile("LOCATOR", "locator", "tpl.locator.html", "Services/Locator");
 
 		$modifier = 1;
 

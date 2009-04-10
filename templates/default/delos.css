@@ -318,37 +318,21 @@ td.boxed {
 	border-width: thin;
 }
 
-/*Link, Visited, Hover, Focus, Activ*/
-a.il_ContainerItemCommand:link, a.il_ContainerItemCommand:visited, a.il_ContainerItemCommand:hover
-{
-	padding: 1px 5px;
-	margin: 1px 0px;
-	border-width: 1px;
-	border-style: solid;
-	border-top-color: #BABABA;
-	border-left-color: #BABABA;
-	border-bottom-color: #808080;
-	border-right-color: #808080;
-	white-space: nowrap;
-	text-decoration:none;
-	font-weight: normal;
-	background-color: #FFFFFF;
-	background-image: url(images/ButtonsBack.gif);
-	background-position: bottom;
-	background-repeat:repeat-x;
-	font-size: 70%;
-}
 
 /*Link, Visited, Hover, Focus, Activ*/
-a.il_ContainerItemCommand2:link, a.il_ContainerItemCommand2:visited
+a.il_ContainerItemCommand2:link, a.il_ContainerItemCommand2:visited,
+a.il_ContainerItemCommand:link, a.il_ContainerItemCommand:visited
 {
 	font-size: 80%;
 	text-decoration: none;
 	border-bottom: 1px dotted #2020C0;
 	margin: 0px 0px 0px 3px;
 	white-space: nowrap;
+	font-weight: normal;
 }
-a.il_ContainerItemCommand2:hover
+
+a.il_ContainerItemCommand2:hover,
+a.il_ContainerItemCommand:hover
 {
 	border-bottom: 1px solid #000000;
 }
@@ -546,9 +530,14 @@ a.il_LocatorLink:hover
 	color: #000000;
 }
 
-span.il_LocatorTitle
+h2.ilLocatorTitle
 {
-	display: none;
+	position:absolute;
+	left:-2000px;
+	top:auto;
+	width:1px;
+	height:1px;
+	overflow:hidden;
 }
 
 /* form */
@@ -931,6 +920,7 @@ a:link, a:visited {
 
 a:hover {
 	color:#000000;
+	/* text-decoration: underline; */
 }
 
 
@@ -1841,13 +1831,13 @@ div.ilTabContentInner
 
 div.ilBelowMainMenu
 {
-	background-color: #FFFFFFF;
+	background-color: #FFFFFF;
 	padding: 0px 15px;
 }
 
 body {
 	color:#222222;
-	background-color: #FFFFFFF;
+	background-color: #FFFFFF;
 	font-family:Verdana,Arial,Helvetica,sans-serif;
 	margin:0px;
 	font-size:0.89em;
@@ -1902,6 +1892,7 @@ a.tabinactive
 a.tabinactive:hover
 {
 	background-color: #FFFFFF;
+	text-decoration: none;
 }
 
 li.tabactive
@@ -1929,12 +1920,8 @@ a.tabactive:link, a.tabactive:visited, a.tabactive:hover
 li.backtab
 {
 	float:left;
-	margin:0;
-	padding:0;
-	border-bottom-width: 1px;
-	border-bottom-width: 1px;
-	border-bottom-style: solid;
-	border-bottom-color: #B0B0B0;
+	margin: 0px 2px 0px 0px;
+	padding: 2px 0px;
 }
 
 a.backtab, a.backtab:hover
@@ -1951,10 +1938,6 @@ li.back2tab
 	float:left;
 	margin:0;
 	padding:0;
-	border-bottom-width: 1px;
-	border-bottom-width: 1px;
-	border-bottom-style: solid;
-	border-bottom-color: #B0B0B0;
 }
 
 a.back2tab, a.back2tab:hover
@@ -2059,7 +2042,7 @@ table.il_Block
 	clear:both;
 }
 
-th.il_BlockHeader
+th.ilBlockHeader
 {
 	font-weight: bold;
 	padding: 3px;
@@ -2068,12 +2051,21 @@ th.il_BlockHeader
 	font-size: 90%;
 }
 
-th.il_BlockHeaderBig
+th.ilBlockHeaderBig
 {
 	font-weight: bold;
 	padding: 3px;
 	background-color: #F3F3F3;
 	text-align:left;
+}
+
+h3.ilBlockHeader
+{
+	font-weight: bold;
+	margin:0px;
+	padding:0px;
+	font-size: 100%;
+	display: inline;
 }
 
 td.il_BlockFooter {
@@ -2111,13 +2103,22 @@ table.il_ContainerBlock
 	clear:both;
 }
 
-th.il_PDBlockSubHeader
+th.ilPDBlockSubHeader
 {
 	font-weight: normal;
 	text-align:left;
 	font-size: 90%;
 	background-color: #F8F8F8;
 	vertical-align: middle;
+}
+
+h3.ilPDBlockSubHeader
+{
+	font-weight: normal;
+	padding: 0px;
+	margin: 0px;
+	display: inline;
+	font-size: 100%;
 }
 
 /* Tables */
@@ -2325,3 +2326,12 @@ select.ilNavHistorySelect {
 	/* font-size: 80%; */
 }
 
+.ilAccHeadingHidden
+{
+	position:absolute;
+	left:-2000px;
+	top:auto;
+	width:1px;
+	height:1px;
+	overflow:hidden;
+}

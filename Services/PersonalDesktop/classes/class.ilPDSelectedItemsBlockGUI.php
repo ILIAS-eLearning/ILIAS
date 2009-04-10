@@ -1075,6 +1075,7 @@ class ilPDSelectedItemsBlockGUI extends ilBlockGUI
 			}
 		}
 		
+/*		
 		$item_list_gui =& $this->getItemListGUI($type);
 		
 		$item_list_gui->enableIcon(false);
@@ -1096,13 +1097,15 @@ class ilPDSelectedItemsBlockGUI extends ilBlockGUI
 			$a_tpl->setVariable("HEADER_IMG", $icon);
 			$a_tpl->setVariable("HEADER_ALT", $title);
 		}
-		else
-		{
+*/
+//		else
+//		{
 			$a_tpl->setCurrentBlock("container_header_row");
-		}
+//		}
 
-		$a_tpl->setVariable("BLOCK_HEADER_CONTENT", $html);
-		$a_tpl->setVariable("BLOCK_HEADER_ID", "th_".$a_ref_id);
+		$a_tpl->setVariable("BLOCK_HEADER_CONTENT", $title);
+/*		$a_tpl->setVariable("BLOCK_HEADER_CONTENT", $html);
+		$a_tpl->setVariable("BLOCK_HEADER_ID", "th_".$a_ref_id);*/
 		$a_tpl->parseCurrentBlock();
 		$a_tpl->touchBlock("container_row");
 	}

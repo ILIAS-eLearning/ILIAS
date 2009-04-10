@@ -236,10 +236,10 @@ class ilPersonalDesktopGUI
 	*/
 	function getStandardTemplates()
 	{
+		$this->tpl->getStandardTemplate();
 		// add template for content
-		$this->tpl->addBlockFile("CONTENT", "content", "tpl.adm_content.html");
-		$this->tpl->addBlockFile("STATUSLINE", "statusline", "tpl.statusline.html");
-		$this->tpl->addBlockFile("LOCATOR", "locator", "tpl.locator.html");
+//		$this->tpl->addBlockFile("CONTENT", "content", "tpl.adm_content.html");
+//		$this->tpl->addBlockFile("STATUSLINE", "statusline", "tpl.statusline.html");
 	}
 	
 	/**
@@ -251,7 +251,6 @@ class ilPersonalDesktopGUI
 		//$this->tpl->addBlockFile("CONTENT", "content", "tpl.adm_tree_content.html");
 		$this->tpl->addBlockFile("CONTENT", "content", "tpl.adm_content.html");
 		$this->tpl->addBlockFile("STATUSLINE", "statusline", "tpl.statusline.html");
-		$this->tpl->addBlockFile("LOCATOR", "locator", "tpl.locator.html");
 	}
 	
 	/**
@@ -509,9 +508,9 @@ class ilPersonalDesktopGUI
 	*/
 	function setTabs()
 	{
-		global $ilCtrl, $ilSetting;
+		global $ilCtrl, $ilSetting, $ilTabs;
 		
-		$this->tpl->addBlockFile("TABS", "tabs", "tpl.tabs.html");
+//		$this->tpl->addBlockFile("TABS", "tabs", "tpl.tabs.html");
 		
 		$script_name = basename($_SERVER["SCRIPT_NAME"]);
 		
@@ -525,34 +524,33 @@ class ilPersonalDesktopGUI
 		// to do: use ilTabsGUI here!
 		
 		// personal desktop home
-		$inc_type = (strtolower($_GET["baseClass"]) == "ilpersonaldesktopgui" &&
-		(strtolower($this->cmdClass) == "ilpersonaldesktopgui" ||
-		$this->cmdClass == "" || (strtolower($this->cmdClass)) == "ilfeedbackgui"
-		|| $ilCtrl->getNextClass() == "ilcolumngui"))
-		? "tabactive"
-		: "tabinactive";
-		$inhalt1[] = array($inc_type, $this->ctrl->getLinkTarget($this), $this->lng->txt("overview"));
+		$ilTabs->addTarget("overview", $this->ctrl->getLinkTarget($this));
+		if ((strtolower($_GET["baseClass"]) == "ilpersonaldesktopgui" &&
+			(strtolower($this->cmdClass) == "ilpersonaldesktopgui" ||
+			$this->cmdClass == "" || (strtolower($this->cmdClass)) == "ilfeedbackgui"
+			|| $ilCtrl->getNextClass() == "ilcolumngui")))
+		{
+			$ilTabs->setTabActive("overview");
+		}
 		
 		// user profile
-		$inc_type = (strtolower($this->cmdClass) == "ilpersonalprofilegui")
-		? "tabactive"
-		: "tabinactive";
-		
-		$inhalt1[] = array($inc_type, $this->ctrl->getLinkTargetByClass("ilPersonalProfileGUI"),
-		$this->lng->txt("personal_profile"));
+		$ilTabs->addTarget("personal_profile", $this->ctrl->getLinkTargetByClass("ilPersonalProfileGUI"));
+		if (strtolower($this->cmdClass) == "ilpersonalprofilegui")
+		{
+			$ilTabs->setTabActive("personal_profile");
+		}
+
 		
 		if ($_SESSION["AccountId"] != ANONYMOUS_USER_ID)
 		{
 			// news
 			if ($ilSetting->get("block_activated_news"))
 			{
-				$inc_type = ($ilCtrl->getNextClass() == "ilpdnewsgui")
-					? "tabactive"
-					: "tabinactive";
-					
-				$inhalt1[] = array($inc_type,
-					$this->ctrl->getLinkTargetByClass("ilpdnewsgui"),
-					$this->lng->txt("news"));
+				$ilTabs->addTarget("news", $this->ctrl->getLinkTargetByClass("ilpdnewsgui"));
+				if ($ilCtrl->getNextClass() == "ilpdnewsgui")
+				{
+					$ilTabs->setTabActive("news");
+				}
 			}
 
 			// new calendar			
@@ -560,65 +558,46 @@ class ilPersonalDesktopGUI
 			$settings = ilCalendarSettings::_getInstance();
 			if($settings->isEnabled())
 			{
-				$inc_type = (strtolower($this->cmdClass) == "ilcalendarpresentationgui")
-					? "tabactive"
-					: "tabinactive";
-
-				$inhalt1[] = array($inc_type,
-					$this->ctrl->getLinkTargetByClass("ilcalendarpresentationgui"),
-					$this->lng->txt("calendar"));
+				$ilTabs->addTarget("calendar", $this->ctrl->getLinkTargetByClass("ilcalendarpresentationgui"));
+				if (strtolower($this->cmdClass) == "ilcalendarpresentationgui")
+				{
+					$ilTabs->setTabActive("calendar");
+				}
 			}
 
 			// private notes
 			if (!$this->ilias->getSetting("disable_notes"))
 			{
-				$inc_type = (strtolower($this->cmdClass) == "ilpdnotesgui" ||
-				strtolower($this->cmdClass) == "ilnotegui")
-				? "tabactive"
-				: "tabinactive";
-				$inhalt1[] = array($inc_type,
-				$this->ctrl->getLinkTargetByClass("ilpdnotesgui"),
-				$this->lng->txt("notes_and_comments"));
+				$ilTabs->addTarget("notes_and_comments", $this->ctrl->getLinkTargetByClass("ilpdnotesgui"));
+				if (strtolower($this->cmdClass) == "ilpdnotesgui" ||
+					strtolower($this->cmdClass) == "ilnotegui")
+				{
+					$ilTabs->setTabActive("notes_and_comments");
+				}
 			}
 			
 			// user bookmarks
 			if (!$this->ilias->getSetting("disable_bookmarks"))
 			{
-				$inc_type = (strtolower($this->cmdClass) == "ilbookmarkadministrationgui")
-				? "tabactive"
-				: "tabinactive";
-				$inhalt1[] = array($inc_type,
-				$this->ctrl->getLinkTargetByClass("ilbookmarkadministrationgui"),
-				$this->lng->txt("bookmarks"));
+				$ilTabs->addTarget("bookmarks", $this->ctrl->getLinkTargetByClass("ilbookmarkadministrationgui"));
+				if (strtolower($this->cmdClass) == "ilbookmarkadministrationgui")
+				{
+					$ilTabs->setTabActive("bookmarks");
+				}
 			}			
 		}
 		
-		// Tracking
-		
+		// Learning Progress
 		include_once("Services/Tracking/classes/class.ilObjUserTracking.php");
 		if (ilObjUserTracking::_enabledLearningProgress())
 		{
+			$ilTabs->addTarget("learning_progress", $this->ctrl->getLinkTargetByClass("ilLearningProgressGUI"));
 			$cmd_classes = array('illplistofobjectsgui','illplistofsettingsgui','illearningprogressgui','illplistofprogressgui');
-			$inc_type = in_array(strtolower($this->cmdClass),$cmd_classes) ? 'tabactive' : 'tabinactive';
-			
-			$inhalt1[] = array($inc_type, $this->ctrl->getLinkTargetByClass("ilLearningProgressGUI"),
-			$this->lng->txt("learning_progress"));
-		}	
-		
-		for ( $i=0; $i<sizeof($inhalt1); $i++)
-		{
-			if ($inhalt1[$i][1] != "")
-			{	$this->tpl->setCurrentBlock("tab");
-				$this->tpl->setVariable("TAB_TYPE",$inhalt1[$i][0]);
-				$this->tpl->setVariable("TAB_LINK",$inhalt1[$i][1]);
-				$this->tpl->setVariable("TAB_TEXT",$inhalt1[$i][2]);
-				$this->tpl->setVariable("TAB_TARGET",$inhalt1[$i][3]);
-				$this->tpl->parseCurrentBlock();
+			if (in_array(strtolower($this->cmdClass),$cmd_classes))
+			{
+				$ilTabs->setTabActive("learning_progress");
 			}
-		}
-		
-		$this->tpl->setCurrentBlock("tabs");
-		$this->tpl->parseCurrentBlock();
+		}	
 	}
 	
 	/**

@@ -1693,7 +1693,7 @@ class ilObjChatGUI extends ilObjectGUI
 		global $tree;
 		global $ilias_locator;
 
-		$this->tpl->addBlockFile("LOCATOR", "locator", "tpl.locator.html");
+		$this->tpl->addBlockFile("LOCATOR", "locator", "tpl.locator.html", "Services/Locator");
 
 		$counter = 0;
 		foreach ($tree->getPathFull($this->object->getRefId()) as $key => $row)

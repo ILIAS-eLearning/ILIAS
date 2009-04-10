@@ -336,6 +336,16 @@ class ilTabsGUI
 				$tpl->setVariable($pre2."TAB_TARGET", $target["frame"]);
 				$tpl->parseCurrentBlock();
 			}
+			
+			if ($a_get_sub_tabs)
+			{
+				$tpl->setVariable("TXT_SUBTABS", $lng->txt("subtabs"));
+			}
+			else
+			{
+				$tpl->setVariable("TXT_TABS", $lng->txt("tabs"));
+			}
+
 			return $tpl->get();
 		}
 		else

@@ -118,6 +118,7 @@ class ilMainMenuGUI
 		{
 
 			$this->tpl->setCurrentBlock("nav_history");
+			$this->tpl->setVariable("TXT_LAST_VISITED", $lng->txt("last_visited"));
 			$this->tpl->setVariable("NAVIGATION_HISTORY", $nav_html);
 			$this->tpl->parseCurrentBlock();
 		}
@@ -390,6 +391,8 @@ class ilMainMenuGUI
 			//$this->tpl->setVariable("SCRIPT_START", $this->getScriptTarget("start.php"));
 		}
 
+		$this->tpl->setVariable("TXT_MAIN_MENU", $lng->txt("main_menu"));
+		
 		$this->tpl->parseCurrentBlock();
 	}
 
