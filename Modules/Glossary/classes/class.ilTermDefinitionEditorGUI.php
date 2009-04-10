@@ -84,11 +84,6 @@ class ilTermDefinitionEditorGUI
 			ilObjStyleSheet::getSyntaxStylePath());
 		$this->tpl->parseCurrentBlock();
 
-		//$this->tpl->setVariable("TXT_LOCATOR",$this->lng->txt("locator"));
-
-		//$this->main_header($this->lng->txt("cont_term").": ".$this->term->getTerm().", ".
-		//	$this->lng->txt("cont_definition")." ".$this->definition->getNr());
-
 		require_once ("./Modules/Glossary/classes/class.ilGlossaryLocatorGUI.php");
 		$gloss_loc =& new ilGlossaryLocatorGUI();
 		$gloss_loc->setTerm($this->term);
@@ -107,19 +102,6 @@ class ilTermDefinitionEditorGUI
 
 		switch ($next_class)
 		{
-			/*
-			case "ilmdeditorgui":
-				$this->tpl->setTitleIcon(ilUtil::getImagePath("icon_pg.gif"));
-				$gloss_loc->display();
-				$this->setTabs();
-				include_once 'Services/MetaData/classes/class.ilMDEditorGUI.php';
-
-				$md_gui =& new ilMDEditorGUI($this->glossary->getId(), $this->definition->getId(), "gdf");
-				//$md_gui->addObserver($this->definition,'MDUpdateListener','General');
-
-				$this->ctrl->forwardCommand($md_gui);
-				break;*/
-
 
 			case "ilpageobjectgui":
 			
@@ -152,14 +134,7 @@ class ilTermDefinitionEditorGUI
 				$page_gui->setLinkParams("ref_id=".$_GET["ref_id"]);
 				$page_gui->setHeader($this->term->getTerm());
 				$page_gui->setFileDownloadLink("ilias.php?baseClass=ilGlossaryPresentationGUI&amp;cmd=downloadFile&amp;ref_id=".$_GET["ref_id"]);
-				/*
-				$page_gui->setTabs(array(array("cont_all_definitions", "listDefinitions"),
-						array("edit", "view"),
-						array("cont_preview", "preview"),
-						array("meta_data", "editDefinitionMetaData")
-						));*/
 				$page_gui->setPresentationTitle($this->term->getTerm());
-				//$page_gui->executeCommand();
 				$ret =& $this->ctrl->forwardCommand($page_gui);
 				$tpl->setContent($ret);
 				break;
@@ -196,12 +171,7 @@ class ilTermDefinitionEditorGUI
 		global $ilTabs;
 
 		// catch feedback message
-		#include_once("classes/class.ilTabsGUI.php");
-		#$tabs_gui =& new ilTabsGUI();
 		$this->getTabs($ilTabs);
-
-		#$this->tpl->setVariable("TABS", $tabs_gui->getHTML());
-
 	}
 
 	/**
@@ -209,28 +179,6 @@ class ilTermDefinitionEditorGUI
 	*/
 	function getTabs(&$tabs_gui)
 	{
-		// edit page
-/*
-		$tabs_gui->addTarget("edit",
-			$this->ctrl->getLinkTargetByClass("ilPageObjectGUI", "edit"), "edit",
-			"ilPageObjectGUI");
-
-		// preview page
-		$tabs_gui->addTarget("cont_preview",
-			$this->ctrl->getLinkTargetByClass("ilPageObjectGUI", "preview"), "preview",
-			"ilPageObjectGUI");
-
-		// meta data
-		$tabs_gui->addTarget("meta_data",
-			 $this->ctrl->getLinkTargetByClass('ilmdeditorgui',''),
-			"", "ilmdeditorgui");
-*/
-
-/*
-		$tabs_gui->addTarget("meta_data",
-			$this->ctrl->getLinkTarget($this, "editMeta"), "editMeta",
-			get_class($this));
-*/
 		// back to glossary
 		$tabs_gui->setBack2Target($this->lng->txt("glossary"),
 			$this->ctrl->getParentReturn($this));
@@ -239,46 +187,8 @@ class ilTermDefinitionEditorGUI
 		$tabs_gui->setBackTarget($this->lng->txt("term"),
 			$this->ctrl->getLinkTargetByClass("ilglossarytermgui", "editTerm"));
 
-		/*
-		$tabs_gui->addTarget("cont_back",
-			$this->ctrl->getParentReturn($this), "",
-			"");*/
-
 	}
 
-	/*
-	function displayLocator()
-	{
-		$this->tpl->addBlockFile("LOCATOR", "locator", "tpl.locator.html");
-
-		$this->tpl->touchBlock("locator_separator");
-
-		$this->tpl->setCurrentBlock("locator_item");
-		$this->tpl->setVariable("ITEM", $this->glossary->getTitle());
-		$this->tpl->setVariable("LINK_ITEM", "glossary_edit.php?ref_id=".$_GET["ref_id"]);
-		$this->tpl->parseCurrentBlock();
-
-		$this->tpl->touchBlock("locator_separator");
-
-		$this->tpl->setCurrentBlock("locator_item");
-		$this->tpl->setVariable("ITEM", $this->term->getTerm());
-		$this->tpl->setVariable("LINK_ITEM", "glossary_edit.php?ref_id=".$_GET["ref_id"].
-			"&cmd=listDefinitions&term_id=".$this->term->getId());
-		$this->tpl->parseCurrentBlock();
-
-		$this->tpl->setCurrentBlock("locator_item");
-		$this->tpl->setVariable("ITEM", $this->lng->txt("cont_definition")." ".$this->definition->getNr());
-		$this->tpl->setVariable("LINK_ITEM", "glossary_edit.php?ref_id=".$_GET["ref_id"].
-			"&cmd=".$_GET["cmd"]."&def=".$_GET["def"]);
-		$this->tpl->parseCurrentBlock();
-
-		//$this->tpl->touchBlock("locator_separator");
-
-		$this->tpl->setCurrentBlock("locator");
-		$this->tpl->setVariable("TXT_LOCATOR", $debug.$this->lng->txt("locator"));
-		$this->tpl->parseCurrentBlock();
-	}
-	*/
 
 	function saveShortText()
 	{

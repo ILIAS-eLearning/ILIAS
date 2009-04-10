@@ -9165,6 +9165,10 @@ search#:#lucene_num_frag_info#:#Bitte geben Sie die Maximalanzahl von Textabschn
 search#:#lucene_size_fragments#:#Länge der Textabschnitte
 search#:#lucene_size_frag_info#:#Bitte wählen Sie die maximale Länge der Textabschnitte, die zur Hervorhebung der Suchtreffer ausgegeben werden.
 search#:#lucene_max_sub#:#Anzahl von Unterobjekten
+common#:#main_menu#:#Hauptmenü
+common#:#breadcrumb_navigation#:#Brotkrumen-Navigation
+common#:#tabs#:#Reiter
+common#:#subtabs#:#Unterpunkte
 search#:#lucene_max_sub_info#:#Bitte geben Sie Anzahl von Unterobjekten (Forenthemen, Glossarbegriffe...) ein, die maximal angezeigt werden.
 search#:#lucene_relevance#:#Relevanz der Suchergebnisse
 search#:#lucene_show_relevance#:#Relevanz anzeigen

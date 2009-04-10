@@ -83,7 +83,7 @@ class ilGlossaryLocatorGUI
 	{
 		global $lng, $ilCtrl;
 
-		$this->tpl->addBlockFile("LOCATOR", "locator", "tpl.locator.html");
+		$this->tpl->addBlockFile("LOCATOR", "locator", "tpl.locator.html", "Services/Locator");
 
 		$path = $this->tree->getPathFull($_GET["ref_id"]);
 

@@ -3,7 +3,7 @@
 	+-----------------------------------------------------------------------------+
 	| ILIAS open source                                                           |
 	+-----------------------------------------------------------------------------+
-	| Copyright (c) 1998-2005 ILIAS open source, University of Cologne            |
+	| Copyright (c) 1998-2009 ILIAS open source, University of Cologne            |
 	|                                                                             |
 	| This program is free software; you can redistribute it and/or               |
 	| modify it under the terms of the GNU General Public License                 |
@@ -260,11 +260,11 @@ class ilLocatorGUI
 		
 		if ($this->getTextOnly())
 		{
-			$loc_tpl = new ilTemplate("tpl.locator_text_only.html", true, true);
+			$loc_tpl = new ilTemplate("tpl.locator_text_only.html", true, true, "Services/Locator");
 		}
 		else
 		{
-			$loc_tpl = new ilTemplate("tpl.locator.html", true, true);
+			$loc_tpl = new ilTemplate("tpl.locator.html", true, true, "Services/Locator");
 		}
 		
 		$items = $this->getItems();
@@ -318,6 +318,7 @@ class ilLocatorGUI
 			$loc_tpl->setVariable("NOITEM", "&nbsp;");
 			$loc_tpl->touchBlock("locator");
 		}
+		$loc_tpl->setVariable("TXT_BREADCRUMBS", $lng->txt("breadcrumb_navigation"));
 		
 		return trim($loc_tpl->get());
 	}

@@ -155,9 +155,8 @@ class ilInitialisation
 		require_once "classes/class.ilObjectDataCache.php";
 		require_once 'Services/Tracking/classes/class.ilOnlineTracking.php';
 
-		// ### AA 03.10.29 added new LocatorGUI class ###
 		//include LocatorGUI
-		require_once "classes/class.ilLocatorGUI.php";
+		require_once "./Services/Locator/classes/class.ilLocatorGUI.php";
 
 		// include error_handling
 		require_once "classes/class.ilErrorHandling.php";

@@ -90,7 +90,8 @@ class ilForumLocatorGUI
 	{
 		global $lng;
 
-		$this->tpl->addBlockFile($this->temp_var, "locator", "tpl.locator.html");
+		$this->tpl->addBlockFile($this->temp_var, "locator", "tpl.locator.html",
+			"Services/Locator");
 
 		$path = $this->tree->getPathFull($this->ref_id);
 

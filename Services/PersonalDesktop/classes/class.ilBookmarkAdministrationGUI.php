@@ -420,7 +420,7 @@ class ilBookmarkAdministrationGUI
 			return;
 		}
 
-		$this->tpl->addBlockFile("LOCATOR", "locator", "tpl.locator.html");
+		$this->tpl->addBlockFile("LOCATOR", "locator", "tpl.locator.html", "Services/Locator");
 
 		$path = $this->tree->getPathFull($this->id);
 //print_r($path);
