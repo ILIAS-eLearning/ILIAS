@@ -4,7 +4,7 @@
 	+-----------------------------------------------------------------------------+
 	| ILIAS open source                                                           |
 	+-----------------------------------------------------------------------------+
-	| Copyright (c) 1998-2001 ILIAS open source, University of Cologne            |
+	| Copyright (c) 1998-2009 ILIAS open source, University of Cologne            |
 	|                                                                             |
 	| This program is free software; you can redistribute it and/or               |
 	| modify it under the terms of the GNU General Public License                 |
@@ -603,7 +603,7 @@ return;
 		// check title
 		if (empty($_POST["title"]))
 		{
-			ilUtil::sendInfo($this->lng->txt("please_enter_title"));
+			ilUtil::sendFailure($this->lng->txt("please_enter_title"));
 			$this->newFormBookmarkFolder();
 		}
 		else
@@ -627,7 +627,7 @@ return;
 		// check title
 		if (empty($_POST["title"]))
 		{
-			ilUtil::sendInfo($this->lng->txt("please_enter_title"));
+			ilUtil::sendFailure($this->lng->txt("please_enter_title"));
 			$this->editFormBookmarkFolder();
 		}
 		else
@@ -650,12 +650,12 @@ return;
 		// check title and target
 		if (empty($_POST["title"]))
 		{
-			ilUtil::sendInfo($this->lng->txt("please_enter_title"));
+			ilUtil::sendFailure($this->lng->txt("please_enter_title"));
 			$this->newFormBookmark();
 		}
 		else if (empty($_POST["target"]))
 		{
-			ilUtil::sendInfo($this->lng->txt("please_enter_target"));
+			ilUtil::sendFailure($this->lng->txt("please_enter_target"));
 			$this->newFormBookmark();
 		}
 		else
@@ -680,12 +680,12 @@ return;
 		// check title and target
 		if (empty($_POST["title"]))
 		{
-			ilUtil::sendInfo($this->lng->txt("please_enter_title"));
+			ilUtil::sendFailure($this->lng->txt("please_enter_title"));
 			$this->editFormBookmark();
 		}
 		else if (empty($_POST["target"]))
 		{
-			ilUtil::sendInfo($this->lng->txt("please_enter_target"));
+			ilUtil::sendFailure($this->lng->txt("please_enter_target"));
 			$this->editFormBookmark();
 		}
 		else
@@ -765,7 +765,7 @@ return;
 
 		$this->tpl->addBlockFile("ADM_CONTENT", "objects", "tpl.obj_confirm.html");
 
-		ilUtil::sendInfo($this->lng->txt("info_delete_sure"));
+		ilUtil::sendQuestion($this->lng->txt("info_delete_sure"));
 		$this->ctrl->setParameter($this, "bmf_id", $this->id);
 		$this->tpl->setVariable("FORMACTION",
 			$this->ctrl->getFormAction($this));
@@ -898,7 +898,7 @@ return;
 		}
 
 		// Feedback
-		ilUtil::sendInfo($this->lng->txt("info_deleted"),true);
+		ilUtil::sendSuccess($this->lng->txt("info_deleted"),true);
 
 		$this->view();
 	}
@@ -972,7 +972,7 @@ return;
 	{
 		if ($_FILES["bkmfile"]["error"] > UPLOAD_ERR_OK)
 		{
-			ilUtil::sendInfo($this->lng->txt("import_file_not_valid"));
+			ilUtil::sendFailure($this->lng->txt("import_file_not_valid"));
 			$this->newFormBookmark();
 			return;
 		}
@@ -980,7 +980,7 @@ return;
 		$objects=ilBookmarkImportExport::_parseFile ($_FILES["bkmfile"]['tmp_name']);
 		if ($objects===false)
 		{
-			ilUtil::sendInfo($this->lng->txt("import_file_not_valid"));
+			ilUtil::sendFailure($this->lng->txt("import_file_not_valid"));
 			$this->newFormBookmark();
 			return;
 		}
@@ -988,7 +988,7 @@ return;
 		$num_create=array('bm'=>0,'bmf'=>0);
 		$this->__importBookmarks($objects,$num_create,$this->id,0);
 
-		ilUtil::sendInfo(sprintf($this->lng->txt("bkm_import_ok"),$num_create['bm'],
+		ilUtil::sendSuccess(sprintf($this->lng->txt("bkm_import_ok"),$num_create['bm'],
 			$num_create[ 'bmf']));
 		$this->view();
 

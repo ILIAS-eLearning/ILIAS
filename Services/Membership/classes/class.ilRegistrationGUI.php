@@ -250,7 +250,7 @@ abstract class ilRegistrationGUI
 
 		if(!$this->validate())
 		{
-			ilUtil::sendInfo($this->join_error);
+			ilUtil::sendFailure($this->join_error);
 			$this->show();
 			return false;
 		}

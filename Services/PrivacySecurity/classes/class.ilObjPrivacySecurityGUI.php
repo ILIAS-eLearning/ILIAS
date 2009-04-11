@@ -3,7 +3,7 @@
 	+-----------------------------------------------------------------------------+
 	| ILIAS open source                                                           |
 	+-----------------------------------------------------------------------------+
-	| Copyright (c) 1998-2006 ILIAS open source, University of Cologne            |
+	| Copyright (c) 1998-2009 ILIAS open source, University of Cologne            |
 	|                                                                             |
 	| This program is free software; you can redistribute it and/or               |
 	| modify it under the terms of the GNU General Public License                 |
@@ -319,14 +319,14 @@ class ilObjPrivacySecurityGUI extends ilObjectGUI
         if ($code != 0)
         {
             $msg = $this->getErrorMessage ($code);
-            ilUtil::sendInfo($msg);
+            ilUtil::sendFailure($msg);
         }
         else
         {
             $privacy->save();
 		    include_once('Modules/Course/classes/class.ilCourseAgreement.php');
 		    ilCourseAgreement::_reset();
-		    ilUtil::sendInfo($this->lng->txt('settings_saved'));
+		    ilUtil::sendSuccess($this->lng->txt('settings_saved'));
         }
 
 		$this->showPrivacy();
@@ -378,11 +378,11 @@ class ilObjPrivacySecurityGUI extends ilObjectGUI
         if ($code != 0)
         {
             $msg = $this->getErrorMessage ($code);
-            ilUtil::sendInfo($msg);
+            ilUtil::sendFailure($msg);
         } else
         {
             $security->save();
-		    ilUtil::sendInfo($this->lng->txt('settings_saved'));
+		    ilUtil::sendSuccess($this->lng->txt('settings_saved'));
         }
 
 		$this->showSecurity();

@@ -160,7 +160,7 @@ class ilPersonalProfileGUI
 				if (!ilUtil::moveUploadedFile($_FILES["userfile"]["tmp_name"], $_FILES["userfile"]["name"],
 					$uploaded_file, false))
 				{
-					ilUtil::sendInfo($this->lng->txt("upload_error", true));
+					ilUtil::sendFailure($this->lng->txt("upload_error", true));
 					$this->ctrl->redirect($this, "showProfile");
 				}
 				chmod($uploaded_file, 0770);
@@ -250,7 +250,7 @@ class ilPersonalProfileGUI
 
 			if (empty($this->password_error))
 			{
-				ilUtil::sendInfo($this->lng->txt("saved_successfully"));
+				ilUtil::sendSuccess($this->lng->txt("saved_successfully"));
 				$ilUser->updatePassword($_POST["current_password"], $_POST["new_passwd"], $_POST["new_passwd"]);
 			}
 		}
@@ -281,7 +281,7 @@ class ilPersonalProfileGUI
 					{
 						if( $ilUser->updatePassword($_POST["current_password"], $_POST["desired_password"], $_POST["retype_password"]) )
 						{
-							ilUtil::sendInfo($this->lng->txt("saved_successfully"));
+							ilUtil::sendSuccess($this->lng->txt("saved_successfully"));
  							$ilUser->setLastPasswordChangeToNow();
 						}
 					}
@@ -292,7 +292,7 @@ class ilPersonalProfileGUI
 				}
 				else
 				{
-					ilUtil::sendInfo($this->lng->txt("saved_successfully"));
+					ilUtil::sendSuccess($this->lng->txt("saved_successfully"));
 					$ilUser->updatePassword($_POST["current_password"], $_POST["desired_password"], $_POST["retype_password"]);
 					$ilUser->setLastPasswordChangeToNow();
 				}
@@ -380,7 +380,7 @@ class ilPersonalProfileGUI
 					{
 						if (empty($_POST["usr_" . $val]))
 						{
-							ilUtil::sendInfo($this->lng->txt("fill_out_all_required_fields") . ": " . $this->lng->txt($val));
+							ilUtil::sendFailure($this->lng->txt("fill_out_all_required_fields") . ": " . $this->lng->txt($val));
 							$form_valid = false;
 						}
 					}
@@ -391,7 +391,7 @@ class ilPersonalProfileGUI
 		// Check user defined required fields
 		if($form_valid and !$this->__checkUserDefinedRequiredFields())
 		{
-			ilUtil::sendInfo($this->lng->txt("fill_out_all_required_fields"));
+			ilUtil::sendFailure($this->lng->txt("fill_out_all_required_fields"));
 			$form_valid = false;
 		}
 
@@ -400,7 +400,7 @@ class ilPersonalProfileGUI
 		{
 			if (!ilUtil::is_email($_POST["usr_email"]) and !empty($_POST["usr_email"]) and $form_valid)
 			{
-				ilUtil::sendInfo($this->lng->txt("email_not_valid"));
+				ilUtil::sendFailure($this->lng->txt("email_not_valid"));
 				$form_valid = false;
 			}
 		}
@@ -511,13 +511,13 @@ class ilPersonalProfileGUI
 			if($_POST['usr_login'] == '' || 
 			   !ilUtil::isLogin(ilUtil::stripSlashes($_POST['usr_login'])))
 			{
-				ilUtil::sendInfo($this->lng->txt('no_valid_login'));
+				ilUtil::sendFailure($this->lng->txt('no_valid_login'));
 				$form_valid = false;	
 			}
 			else if(ilObjUser::_loginExists(ilUtil::stripSlashes($_POST['usr_login']), $ilUser->getId()))
 			{
 
-				ilUtil::sendInfo($this->lng->txt('loginname_already_exists'));
+				ilUtil::sendFailure($this->lng->txt('loginname_already_exists'));
 				$form_valid = false;
 			}				
 			else if($ilSetting->get('create_history_loginname') == 1)
@@ -527,7 +527,7 @@ class ilPersonalProfileGUI
 			
 				if($found == 1 && $ilSetting->get('allow_history_loginname_again') == 0)
 				{
-					ilUtil::sendInfo($this->lng->txt('loginname_already_exists'));
+					ilUtil::sendFailure($this->lng->txt('loginname_already_exists'));
 					$form_valid = false;
 				}
 				else if($ilSetting->get('allow_history_loginname_again') == 1 || !$found)
@@ -641,22 +641,22 @@ class ilPersonalProfileGUI
 			// feedback
 			if (!empty($this->password_error))
 			{
-				ilUtil::sendInfo($this->password_error,true);
+				ilUtil::sendFailure($this->password_error,true);
 			}
 			elseif (!empty($this->upload_error))
 			{
-				ilUtil::sendInfo($this->upload_error,true);
+				ilUtil::sendFailure($this->upload_error,true);
 			}
 			else if ($reload)
 			{
 				// feedback
-				ilUtil::sendInfo($this->lng->txt("saved_successfully"),true);
+				ilUtil::sendSuccess($this->lng->txt("saved_successfully"),true);
 				$this->ctrl->redirect($this, "");
 				//$this->tpl->setVariable("RELOAD","<script language=\"Javascript\">\ntop.location.href = \"./start.php\";\n</script>\n");
 			}
 			else
 			{
-				ilUtil::sendInfo($this->lng->txt("saved_successfully"),true);
+				ilUtil::sendSuccess($this->lng->txt("saved_successfully"),true);
 			}
 		}
 
@@ -676,32 +676,10 @@ class ilPersonalProfileGUI
 
 		$this->tpl->addBlockFile("ADM_CONTENT", "adm_content", "tpl.usr_profile.html");
 
-		// set locator
-/*
-		$this->tpl->setVariable("TXT_LOCATOR", $this->lng->txt("locator"));
-		$this->tpl->touchBlock("locator_separator");
-		$this->tpl->touchBlock("locator_item");
-		//$this->tpl->setCurrentBlock("locator_item");
-		//$this->tpl->setVariable("ITEM", $this->lng->txt("personal_desktop"));
-		//$this->tpl->setVariable("LINK_ITEM",
-		//	$this->ctrl->getLinkTargetByClass("ilpersonaldesktopgui"));
-		//$this->tpl->parseCurrentBlock();
-
-		$this->tpl->setCurrentBlock("locator_item");
-		$this->tpl->setVariable("ITEM", $this->lng->txt("personal_profile"));
-		$this->tpl->setVariable("LINK_ITEM",
-			$this->ctrl->getLinkTargetByClass("ilpersonalprofilegui", "showProfile"));
-		$this->tpl->parseCurrentBlock();
-*/
-
 		// catch feedback message
 		if ($ilUser->getProfileIncomplete())
 		{
 			ilUtil::sendInfo($lng->txt("profile_incomplete"));
-		}
-		else
-		{
-			ilUtil::sendInfo();
 		}
 
 		// display infopanel if something happened
@@ -1354,7 +1332,7 @@ class ilPersonalProfileGUI
 		$this->lng->loadLanguageModule("mail");
 
 		$mailOptions->updateOptions($_POST["signature"],(int) $_POST["linebreak"],(int) $_POST["incoming_type"],(int) $_POST["cronjob_notification"]);
-		ilUtil::sendInfo($this->lng->txt("mail_options_saved"),true);
+		ilUtil::sendSuccess($this->lng->txt("mail_options_saved"),true);
 
 		$this->showMailOptions();
 	}
@@ -1809,10 +1787,6 @@ exit; // comes later
 		if ($ilUser->getProfileIncomplete())
 		{
 			ilUtil::sendInfo($lng->txt("profile_incomplete"));
-		}
-		else
-		{
-			ilUtil::sendInfo();
 		}
 		// display infopanel if something happened
 		ilUtil::infoPanel();

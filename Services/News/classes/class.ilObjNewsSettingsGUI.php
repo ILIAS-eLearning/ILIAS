@@ -3,7 +3,7 @@
 	+-----------------------------------------------------------------------------+
 	| ILIAS open source                                                           |
 	+-----------------------------------------------------------------------------+
-	| Copyright (c) 1998-2006 ILIAS open source, University of Cologne            |
+	| Copyright (c) 1998-2009 ILIAS open source, University of Cologne            |
 	|                                                                             |
 	| This program is free software; you can redistribute it and/or               |
 	| modify it under the terms of the GNU General Public License                 |
@@ -339,7 +339,7 @@ class ilObjNewsSettingsGUI extends ilObjectGUI
 		$feed_set->set("proxy", trim($_POST["proxy"]));
 		$feed_set->set("proxy_port", trim($_POST["proxy_port"]));
 		
-		ilUtil::sendInfo($this->lng->txt("settings_saved"),true);
+		ilUtil::sendSuccess($this->lng->txt("settings_saved"),true);
 		
 		$ilCtrl->redirect($this, "view");
 	}

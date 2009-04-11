@@ -3,7 +3,7 @@
 	+-----------------------------------------------------------------------------+
 	| ILIAS open source                                                           |
 	+-----------------------------------------------------------------------------+
-	| Copyright (c) 1998-2006 ILIAS open source, University of Cologne            |
+	| Copyright (c) 1998-2009 ILIAS open source, University of Cologne            |
 	|                                                                             |
 	| This program is free software; you can redistribute it and/or               |
 	| modify it under the terms of the GNU General Public License                 |
@@ -248,7 +248,7 @@ class ilObjPersonalDesktopSettingsGUI extends ilObjectGUI
 		// Validate personal desktop view
 		if(!(int)$_POST['enable_my_offers'] && !(int)$_POST['enable_my_memberships'])
 		{
-			ilUtil::sendInfo($this->lng->txt('pd_view_select_at_least_one'), true);
+			ilUtil::sendFailure($this->lng->txt('pd_view_select_at_least_one'), true);
 			$ilCtrl->redirect($this, 'view');
 		}
 		
@@ -268,7 +268,7 @@ class ilObjPersonalDesktopSettingsGUI extends ilObjectGUI
 		// Default view of personal items
 		$ilSetting->set('personal_items_default_view', (int)$_POST['personal_items_default_view']);
 		
-		ilUtil::sendInfo($this->lng->txt("settings_saved"), true);
+		ilUtil::sendSuccess($this->lng->txt("settings_saved"), true);
 		
 		$ilCtrl->redirect($this, "view");
 	}

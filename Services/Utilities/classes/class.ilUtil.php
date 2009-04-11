@@ -3511,7 +3511,7 @@ class ilUtil
 			}
 			else
 			{
-				ilUtil::sendInfo($lng->txt("file_is_infected")."<br />".
+				ilUtil::sendFailure($lng->txt("file_is_infected")."<br />".
 					$vir[1], true);
 			}
 			return false;

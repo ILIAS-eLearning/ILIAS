@@ -3,7 +3,7 @@
 	+-----------------------------------------------------------------------------+
 	| ILIAS open source                                                           |
 	+-----------------------------------------------------------------------------+
-	| Copyright (c) 1998-2008 ILIAS open source, University of Cologne            |
+	| Copyright (c) 1998-2009 ILIAS open source, University of Cologne            |
 	|                                                                             |
 	| This program is free software; you can redistribute it and/or               |
 	| modify it under the terms of the GNU General Public License                 |
@@ -142,8 +142,6 @@ class ilObjUserGUI extends ilObjectGUI
 	function cancelObject()
 	{
 		session_unregister("saved_post");
-
-		ilUtil::sendInfo($this->lng->txt("msg_cancel"),true);
 
 		if(strtolower($_GET["baseClass"]) == 'iladministrationgui')
 		{
@@ -985,14 +983,19 @@ class ilObjUserGUI extends ilObjectGUI
 				if ($acc_mail->send())
 				{
 					$msg = $msg.'<br />'.$this->lng->txt('mail_sent');
+					ilUtil::sendSuccess($msg, true);
 				}
 				else
 				{
 					$msg = $msg.'<br />'.$this->lng->txt('mail_not_sent');
+					ilUtil::sendInfo($msg, true);
 				}
 			}
+			else
+			{
+				ilUtil::sendSuccess($msg, true);
+			}
 
-			ilUtil::sendInfo($msg, true);
 
 			if(strtolower($_GET["baseClass"]) == 'iladministrationgui')
 			{
@@ -1169,7 +1172,7 @@ class ilObjUserGUI extends ilObjectGUI
 			$this->uploadUserPictureObject();
 
 			// feedback
-			ilUtil::sendInfo($msg,true);
+			ilUtil::sendSuccess($msg,true);
 
 			if (strtolower($_GET["baseClass"]) == 'iladministrationgui')
 			{
@@ -2363,7 +2366,7 @@ class ilObjUserGUI extends ilObjectGUI
 		}
 		if ($_FILES["userfile"]["size"] == 0)
 		{
-			ilUtil::sendInfo($this->lng->txt("msg_no_file"));
+			ilUtil::sendFailure($this->lng->txt("msg_no_file"));
 		}
 		else
 		{
@@ -2380,7 +2383,7 @@ class ilObjUserGUI extends ilObjectGUI
 			if (!ilUtil::moveUploadedFile($_FILES["userfile"]["tmp_name"], $_FILES["userfile"]["name"],
 				$uploaded_file, false))
 			{
-				ilUtil::sendInfo($this->lng->txt("upload_error", true));
+				ilUtil::sendFailure($this->lng->txt("upload_error", true));
 				$this->ctrl->redirect($this, "showProfile");
 			}
 			chmod($uploaded_file, 0770);
@@ -2419,7 +2422,7 @@ class ilObjUserGUI extends ilObjectGUI
 		// remove user pref file name
 		$this->object->setPref("profile_image", "");
 		$this->object->update();
-		ilUtil::sendInfo($this->lng->txt("user_image_removed"));
+		ilUtil::sendSuccess($this->lng->txt("user_image_removed"));
 
 		if (@is_file($file))
 		{
@@ -2840,7 +2843,7 @@ class ilObjUserGUI extends ilObjectGUI
 			{
 				$_SESSION['error_post_vars'] = $_POST;
 
-				ilUtil::sendInfo($this->lng->txt('time_limit_not_within_owners'));
+				ilUtil::sendFailure($this->lng->txt('time_limit_not_within_owners'));
 				$this->editObject();
 
 				return false;
@@ -2910,7 +2913,7 @@ class ilObjUserGUI extends ilObjectGUI
 		$msg = $this->lng->txt('saved_successfully').$mail_message;
 
 		// feedback
-		ilUtil::sendInfo($msg,true);
+		ilUtil::sendSuccess($msg,true);
 
 		if (strtolower($_GET["baseClass"]) == 'iladministrationgui')
 		{
@@ -2959,7 +2962,7 @@ class ilObjUserGUI extends ilObjectGUI
 		{
             //$this->ilias->raiseError($this->lng->txt("msg_min_one_role")."<br/>".$this->lng->txt("action_aborted"),$this->ilias->error_obj->MESSAGE);
             // workaround. sometimes jumps back to wrong page
-            ilUtil::sendInfo($this->lng->txt("msg_min_one_role")."<br/>".$this->lng->txt("action_aborted"),true);
+            ilUtil::sendFailure($this->lng->txt("msg_min_one_role")."<br/>".$this->lng->txt("action_aborted"),true);
             $this->ctrl->redirect($this,'roleassignment');
 		}
 
@@ -2978,7 +2981,7 @@ class ilObjUserGUI extends ilObjectGUI
 		// update object data entry (to update last modification date)
 		$this->object->update();
 
-		ilUtil::sendInfo($this->lng->txt("msg_roleassignment_changed"),true);
+		ilUtil::sendSuccess($this->lng->txt("msg_roleassignment_changed"),true);
 
 		if(strtolower($_GET["baseClass"]) == 'iladministrationgui')
 		{
