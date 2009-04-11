@@ -3,7 +3,7 @@
 	+-----------------------------------------------------------------------------+
 	| ILIAS open source                                                           |
 	+-----------------------------------------------------------------------------+
-	| Copyright (c) 1998-2001 ILIAS open source, University of Cologne            |
+	| Copyright (c) 1998-2009 ILIAS open source, University of Cologne            |
 	|                                                                             |
 	| This program is free software; you can redistribute it and/or               |
 	| modify it under the terms of the GNU General Public License                 |
@@ -121,7 +121,7 @@ class ilObjMediaCastGUI extends ilObjectGUI
 		// put here object specific stuff
 			
 		// always send a message
-		ilUtil::sendInfo($this->lng->txt("object_added"),true);
+		ilUtil::sendSuccess($this->lng->txt("object_added"),true);
 		
 		ilUtil::redirect("ilias.php?baseClass=ilMediaCastHandlerGUI&ref_id=".$newObj->getRefId()."&cmd=editSettings");
 	}
@@ -390,7 +390,7 @@ class ilObjMediaCastGUI extends ilObjectGUI
 		$this->initAddCastItemForm();
 		
 		if ($_POST["url_Standard"] == "" && !$_FILES['file_Standard']['tmp_name']) {
-			ilUtil::sendInfo($lng->txt("msg_input_either_file_or_url"));
+			ilUtil::sendFailure($lng->txt("msg_input_either_file_or_url"));
 			$this->populateFormFromPost();
 		} else if ($this->form_gui->checkInput())
 		{
@@ -736,7 +736,7 @@ class ilObjMediaCastGUI extends ilObjectGUI
 		        ilUtil::deliverFile($file, $m_item->getLocation());
 		    }
 		    else {
-		        ilUtil::sendInfo("File not found!",true);
+		        ilUtil::sendFailure("File not found!",true);
 		        $ilCtrl->redirect($this, "listItems");
 		    }
 		}
@@ -996,7 +996,7 @@ class ilObjMediaCastGUI extends ilObjectGUI
 					0, $this->object->getId());
 			}
 			
-			ilUtil::sendInfo($this->lng->txt("msg_obj_modified"),true);
+			ilUtil::sendSuccess($this->lng->txt("msg_obj_modified"),true);
 			$ilCtrl->redirect($this, "editSettings");
 		}
 		else
@@ -1042,7 +1042,7 @@ class ilObjMediaCastGUI extends ilObjectGUI
 			$_GET["cmd"] = "frameset";
 			$_GET["target"] = "";
 			$_GET["ref_id"] = ROOT_FOLDER_ID;
-			ilUtil::sendInfo(sprintf($lng->txt("msg_no_perm_read_item"),
+			ilUtil::sendFailure(sprintf($lng->txt("msg_no_perm_read_item"),
 				ilObject::_lookupTitle(ilObject::_lookupObjId($a_target))), true);
 			include("repository.php");
 			exit;

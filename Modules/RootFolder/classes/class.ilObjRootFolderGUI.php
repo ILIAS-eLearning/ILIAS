@@ -3,7 +3,7 @@
 	+-----------------------------------------------------------------------------+
 	| ILIAS open source                                                           |
 	+-----------------------------------------------------------------------------+
-	| Copyright (c) 1998-2008 ILIAS open source, University of Cologne            |
+	| Copyright (c) 1998-2009 ILIAS open source, University of Cologne            |
 	|                                                                             |
 	| This program is free software; you can redistribute it and/or               |
 	| modify it under the terms of the GNU General Public License                 |
@@ -67,7 +67,6 @@ class ilObjRootFolderGUI extends ilContainerGUI
 	*/
 	function importCancelledObject()
 	{
-		ilUtil::sendInfo($this->lng->txt("action_aborted"),true);
 		$this->ctrl->returnToParent($this);
 	}
 
@@ -457,7 +456,7 @@ class ilObjRootFolderGUI extends ilContainerGUI
 		ilContainer::_writeContainerSetting($this->object->getId(), "hide_header_icon_and_title",
 			ilUtil::stripSlashes($_POST["hide_header_icon_and_title"]));
 
-		ilUtil::sendInfo($this->lng->txt("msg_obj_modified"),true);
+		ilUtil::sendSuccess($this->lng->txt("msg_obj_modified"),true);
 		ilUtil::redirect($this->getReturnLocation("update",$this->ctrl->getTargetScript()."?".$this->link_params));
 	}
 

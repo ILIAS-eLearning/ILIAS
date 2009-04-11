@@ -443,7 +443,7 @@ class ilTemplate extends ilTemplateX
 	function fillTabs()
 	{
 		global $ilias,$ilTabs;
-		
+
 		$thtml = $ilTabs->getHTML();
 		if ($thtml != "")
 		{

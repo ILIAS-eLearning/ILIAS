@@ -4,7 +4,7 @@
 	+-----------------------------------------------------------------------------+
 	| ILIAS open source                                                           |
 	+-----------------------------------------------------------------------------+
-	| Copyright (c) 1998-2008 ILIAS open source, University of Cologne            |
+	| Copyright (c) 1998-2009 ILIAS open source, University of Cologne            |
 	|                                                                             |
 	| This program is free software; you can redistribute it and/or               |
 	| modify it under the terms of the GNU General Public License                 |
@@ -285,7 +285,7 @@ class ilObjFolderGUI extends ilContainerGUI
 		}
 		// END ChangeEvent: Record write event.
 
-		ilUtil::sendInfo($this->lng->txt("fold_added"),true);
+		ilUtil::sendSuccess($this->lng->txt("fold_added"),true);
 		$this->ctrl->returnToParent($this);
 		//$this->ctrl->redirect($this,"");
 	}
@@ -311,7 +311,7 @@ class ilObjFolderGUI extends ilContainerGUI
 		}
 		// END ChangeEvent: Record write event.
 		
-		ilUtil::sendInfo($this->lng->txt("msg_obj_modified"),true);
+		ilUtil::sendSuccess($this->lng->txt("msg_obj_modified"),true);
 
 		if ($a_return_to_parent)
 		{

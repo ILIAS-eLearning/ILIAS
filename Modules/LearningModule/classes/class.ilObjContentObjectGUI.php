@@ -3,7 +3,7 @@
 	+-----------------------------------------------------------------------------+
 	| ILIAS open source                                                           |
 	+-----------------------------------------------------------------------------+
-	| Copyright (c) 1998-2006 ILIAS open source, University of Cologne            |
+	| Copyright (c) 1998-2009 ILIAS open source, University of Cologne            |
 	|                                                                             |
 	| This program is free software; you can redistribute it and/or               |
 	| modify it under the terms of the GNU General Public License                 |
@@ -435,7 +435,7 @@ class ilObjContentObjectGUI extends ilObjectGUI
 			$this->object->setPublicNotes($_POST["cobj_pub_notes"]);
 			$this->object->setHistoryUserComments($_POST["cobj_user_comments"]);
 			$this->object->updateProperties();
-			ilUtil::sendInfo($this->lng->txt("msg_obj_modified"), true);
+			ilUtil::sendSuccess($this->lng->txt("msg_obj_modified"), true);
 			$this->ctrl->redirect($this, "properties");
 		}
 		else
@@ -571,7 +571,7 @@ class ilObjContentObjectGUI extends ilObjectGUI
 		{
 			$this->object->setStyleSheetId(ilUtil::stripSlashes($_POST["style_id"]));
 			$this->object->update();
-			ilUtil::sendInfo($this->lng->txt("msg_obj_modified"), true);
+			ilUtil::sendSuccess($this->lng->txt("msg_obj_modified"), true);
 		}
 		$this->ctrl->redirect($this, "editStyleProperties");
 	}
@@ -731,7 +731,7 @@ class ilObjContentObjectGUI extends ilObjectGUI
 		$this->__initLMMenuEditor();
 		$this->lmme_obj->updateActiveStatus($_POST["menu_entries"]);
 
-		ilUtil::sendInfo($this->lng->txt("msg_obj_modified"), true);
+		ilUtil::sendSuccess($this->lng->txt("msg_obj_modified"), true);
 		$this->ctrl->redirect($this, "editMenuProperties");
 	}
 
@@ -983,7 +983,7 @@ class ilObjContentObjectGUI extends ilObjectGUI
 			$newObj->createLMTree();
 
 			// always send a message
-			ilUtil::sendInfo($this->lng->txt($this->type."_added"), true);
+			ilUtil::sendSuccess($this->lng->txt($this->type."_added"), true);
 			ilUtil::redirect("ilias.php?ref_id=".$newObj->getRefId().
 				"&baseClass=ilLMEditorGUI");
 		}
@@ -1261,7 +1261,7 @@ class ilObjContentObjectGUI extends ilObjectGUI
 
 		// delete import directory
 		ilUtil::delDir($newObj->getImportDirectory());
-		ilUtil::sendInfo($this->lng->txt($this->type."_added"),true);
+		ilUtil::sendSuccess($this->lng->txt($this->type."_added"),true);
 
 		// handle internal links to this learning module
 		include_once("./Services/COPage/classes/class.ilPageObject.php");
@@ -1728,7 +1728,7 @@ class ilObjContentObjectGUI extends ilObjectGUI
 
 		$this->tpl->addBlockFile("ADM_CONTENT", "adm_content", "tpl.confirm_deletion.html", "Modules/LearningModule");
 
-		ilUtil::sendInfo($this->lng->txt("info_delete_sure"));
+		ilUtil::sendQuestion($this->lng->txt("info_delete_sure"));
 
 		if ($a_parent_subobj_id != 0)
 		{
@@ -1845,7 +1845,7 @@ class ilObjContentObjectGUI extends ilObjectGUI
 		$this->object->checkTree();
 
 		// feedback
-		ilUtil::sendInfo($this->lng->txt("info_deleted"),true);
+		ilUtil::sendSuccess($this->lng->txt("info_deleted"),true);
 
 		if ($a_parent_subobj_id == 0)
 		{
@@ -2499,7 +2499,7 @@ class ilObjContentObjectGUI extends ilObjectGUI
 
 		$this->tpl->addBlockFile("ADM_CONTENT", "adm_content", "tpl.confirm_deletion.html", "Modules/LearningModule");
 
-		ilUtil::sendInfo($this->lng->txt("info_delete_sure"));
+		ilUtil::sendQuestion($this->lng->txt("info_delete_sure"));
 
 		$this->tpl->setVariable("FORMACTION", $this->ctrl->getFormAction($this));
 
@@ -2595,7 +2595,6 @@ class ilObjContentObjectGUI extends ilObjectGUI
 	*/
 	function cancelObject($in_rep = false)
 	{
-		ilUtil::sendInfo($this->lng->txt("msg_cancel"),true);
 		ilUtil::redirect("repository.php?cmd=frameset&ref_id=".$_GET["ref_id"]);
 		//$this->ctrl->redirectByClass("ilrepositorygui", "frameset");
 	}
@@ -2614,7 +2613,7 @@ class ilObjContentObjectGUI extends ilObjectGUI
 	function fixTree()
 	{
 		$this->object->fixTree();
-		ilUtil::sendInfo($this->lng->txt("cont_tree_fixed"), true);
+		ilUtil::sendSuccess($this->lng->txt("cont_tree_fixed"), true);
 		$this->ctrl->redirect($this, "properties");
 	}
 
@@ -3105,7 +3104,7 @@ class ilObjContentObjectGUI extends ilObjectGUI
 		$this->object->setPublicAccessMode($_POST["lm_public_mode"]);
 		$this->object->updateProperties();
 		ilLMObject::_writePublicAccessStatus($_POST["pages"],$this->object->getId());
-		ilUtil::sendInfo($this->lng->txt("msg_obj_modified"), true);
+		ilUtil::sendSuccess($this->lng->txt("msg_obj_modified"), true);
 		$this->ctrl->redirect($this, "editPublicSection");
 	}
 
@@ -3225,12 +3224,12 @@ class ilObjContentObjectGUI extends ilObjectGUI
 
 		if($_POST['link_check_message'])
 		{
-			ilUtil::sendInfo($this->lng->txt('link_check_message_enabled'));
+			ilUtil::sendSuccess($this->lng->txt('link_check_message_enabled'));
 			$link_check_notify->addNotifier();
 		}
 		else
 		{
-			ilUtil::sendInfo($this->lng->txt('link_check_message_disabled'));
+			ilUtil::sendSuccess($this->lng->txt('link_check_message_disabled'));
 			$link_check_notify->deleteNotifier();
 		}
 		$this->linkChecker();
@@ -3246,14 +3245,14 @@ class ilObjContentObjectGUI extends ilObjectGUI
 
 		if(!$this->link_checker_obj->checkPear())
 		{
-			ilUtil::sendInfo($this->lng->txt('missing_pear_library'));
+			ilUtil::sendFailure($this->lng->txt('missing_pear_library'));
 			$this->linkChecker();
 
 			return false;
 		}
 
 		$this->link_checker_obj->checkLinks();
-		ilUtil::sendInfo($this->lng->txt('link_checker_refreshed'));
+		ilUtil::sendSuccess($this->lng->txt('link_checker_refreshed'));
 
 		$this->linkChecker();
 
@@ -3327,13 +3326,13 @@ class ilObjContentObjectGUI extends ilObjectGUI
 		if (empty($_POST["title"]))
 		{
 			//$this->ilias->raiseError($this->lng->txt("please_enter_title"),$this->ilias->error_obj->MESSAGE);
-			ilUtil::sendInfo($this->lng->txt("please_enter_title") , true);
+			ilUtil::sendFailure($this->lng->txt("please_enter_title") , true);
 			$ilCtrl->redirect($this, "addMenuEntry");
 		}
 		if (empty($_POST["target"]))
 		{
 			//$this->ilias->raiseError($this->lng->txt("please_enter_target"),$this->ilias->error_obj->MESSAGE);
-			ilUtil::sendInfo($this->lng->txt("please_enter_target"), true);
+			ilUtil::sendFailure($this->lng->txt("please_enter_target"), true);
 			$ilCtrl->redirect($this, "addMenuEntry");
 		}
 
@@ -3349,7 +3348,7 @@ class ilObjContentObjectGUI extends ilObjectGUI
 
 		$this->lmme_obj->create();
 
-		ilUtil::sendInfo($this->lng->txt("msg_entry_added"), true);
+		ilUtil::sendSuccess($this->lng->txt("msg_entry_added"), true);
 		$this->ctrl->redirect($this, "editMenuProperties");
 	}
 
@@ -3366,7 +3365,7 @@ class ilObjContentObjectGUI extends ilObjectGUI
 		$this->__initLMMenuEditor();
 		$this->lmme_obj->delete($_GET["menu_entry"]);
 
-		ilUtil::sendInfo($this->lng->txt("msg_entry_removed"), true);
+		ilUtil::sendSuccess($this->lng->txt("msg_entry_removed"), true);
 		$this->ctrl->redirect($this, "editMenuProperties");
 	}
 
@@ -3427,7 +3426,7 @@ class ilObjContentObjectGUI extends ilObjectGUI
 		$this->lmme_obj->setTarget($_POST["target"]);
 		$this->lmme_obj->update();
 
-		ilUtil::sendInfo($this->lng->txt("msg_entry_updated"), true);
+		ilUtil::sendSuccess($this->lng->txt("msg_entry_updated"), true);
 		$this->ctrl->redirect($this, "editMenuProperties");
 	}
 
@@ -3679,7 +3678,7 @@ class ilObjContentObjectGUI extends ilObjectGUI
 			$_GET["cmd"] = "frameset";
 			$_GET["target"] = "";
 			$_GET["ref_id"] = ROOT_FOLDER_ID;
-			ilUtil::sendInfo(sprintf($lng->txt("msg_no_perm_read_item"),
+			ilUtil::sendFailure(sprintf($lng->txt("msg_no_perm_read_item"),
 				ilObject::_lookupTitle(ilObject::_lookupObjId($a_target))), true);
 			include("repository.php");
 			exit;
@@ -3699,7 +3698,7 @@ class ilObjContentObjectGUI extends ilObjectGUI
 		$items = ilUtil::stripSlashesArray($_POST["id"]);
 		if (!is_array($items))
 		{
-			ilUtil::sendInfo($lng->txt("no_checkbox"), true);
+			ilUtil::sendFailure($lng->txt("no_checkbox"), true);
 			$ilCtrl->redirect($this, $a_return);
 		}
 
@@ -3732,7 +3731,7 @@ class ilObjContentObjectGUI extends ilObjectGUI
 		$items = ilUtil::stripSlashesArray($_POST["id"]);
 		if (!is_array($items))
 		{
-			ilUtil::sendInfo($lng->txt("no_checkbox"), true);
+			ilUtil::sendFailure($lng->txt("no_checkbox"), true);
 			$ilCtrl->redirect($this, "chapters");
 		}
 

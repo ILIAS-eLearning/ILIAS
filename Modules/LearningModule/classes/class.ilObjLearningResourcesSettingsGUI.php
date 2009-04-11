@@ -3,7 +3,7 @@
 	+-----------------------------------------------------------------------------+
 	| ILIAS open source                                                           |
 	+-----------------------------------------------------------------------------+
-	| Copyright (c) 1998-2006 ILIAS open source, University of Cologne            |
+	| Copyright (c) 1998-2009 ILIAS open source, University of Cologne            |
 	|                                                                             |
 	| This program is free software; you can redistribute it and/or               |
 	| modify it under the terms of the GNU General Public License                 |
@@ -153,7 +153,7 @@ class ilObjLearningResourcesSettingsGUI extends ilObjectGUI
 		$lm_set = new ilSetting("lm");
 		$lm_set->set("time_scheduled_page_activation",
 			ilUtil::stripSlashes($_POST["time_scheduled_page_activation"]));
-		ilUtil::sendInfo($this->lng->txt("settings_saved"),true);
+		ilUtil::sendSuccess($this->lng->txt("settings_saved"),true);
 		
 		$ilCtrl->redirect($this, "view");
 	}

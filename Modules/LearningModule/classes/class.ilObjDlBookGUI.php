@@ -3,7 +3,7 @@
 	+-----------------------------------------------------------------------------+
 	| ILIAS open source                                                           |
 	+-----------------------------------------------------------------------------+
-	| Copyright (c) 1998-2001 ILIAS open source, University of Cologne            |
+	| Copyright (c) 1998-2009 ILIAS open source, University of Cologne            |
 	|                                                                             |
 	| This program is free software; you can redistribute it and/or               |
 	| modify it under the terms of the GNU General Public License                 |
@@ -443,7 +443,7 @@ class ilObjDlBookGUI extends ilObjContentObjectGUI
 						$this->object->addTranslation($id);
 					}
 				}
-				ilUtil::sendInfo($this->lng->txt("cont_translations_assigned"),true);
+				ilUtil::sendSuccess($this->lng->txt("cont_translations_assigned"),true);
 				$this->ctrl->redirect($this, "properties");
 				exit;
 			}
@@ -461,12 +461,12 @@ class ilObjDlBookGUI extends ilObjContentObjectGUI
 			switch(count($result["meta"]))
 			{
 				case 0:
-					ilUtil::sendInfo($this->lng->txt("cont_no_object_found"));
+					ilUtil::sendFailure($this->lng->txt("cont_no_object_found"));
 					break;
 				case 1:
 					if($result["meta"][0]["id"] == $this->object->getRefId())
 					{
-						ilUtil::sendInfo($this->lng->txt("cont_no_assign_itself"));
+						ilUtil::sendFailure($this->lng->txt("cont_no_assign_itself"));
 						break;
 					}
 				default:
@@ -492,12 +492,12 @@ class ilObjDlBookGUI extends ilObjContentObjectGUI
 	{
 		if(!$_POST["id"])
 		{
-			ilUtil::sendInfo($this->lng->txt("cont_select_one_translation"));
+			ilUtil::sendFailure($this->lng->txt("cont_select_one_translation"));
 			$this->ctrl->redirect($this, "properties");
 			exit;
 		}
 		$this->object->deleteTranslations($_POST["id"]);
-		ilUtil::sendInfo($this->lng->txt("cont_assignments_deleted"));
+		ilUtil::sendSuccess($this->lng->txt("cont_assignments_deleted"));
 		$this->ctrl->redirect($this, "properties");
 		exit;
 	}

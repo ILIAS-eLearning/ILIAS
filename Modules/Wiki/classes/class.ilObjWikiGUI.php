@@ -3,7 +3,7 @@
 	+-----------------------------------------------------------------------------+
 	| ILIAS open source                                                           |
 	+-----------------------------------------------------------------------------+
-	| Copyright (c) 1998-2008 ILIAS open source, University of Cologne            |
+	| Copyright (c) 1998-2009 ILIAS open source, University of Cologne            |
 	|                                                                             |
 	| This program is free software; you can redistribute it and/or               |
 	| modify it under the terms of the GNU General Public License                 |
@@ -206,7 +206,7 @@ class ilObjWikiGUI extends ilObjectGUI
 				
 					
 				// always send a message
-				ilUtil::sendInfo($this->lng->txt("object_added"),true);
+				ilUtil::sendSuccess($this->lng->txt("object_added"),true);
 				
 				//ilUtil::redirect("ilias.php?baseClass=ilWikiHandlerGUI&ref_id=".$newObj->getRefId()."&cmd=editSettings");
 				ilUtil::redirect(ilObjWikiGUI::getGotoLink($newObj->getRefId()));
@@ -580,7 +580,7 @@ class ilObjWikiGUI extends ilObjectGUI
 				$this->object->setIntroduction($this->form_gui->getInput("intro"));
 				$this->object->update();
 							
-				ilUtil::sendInfo($this->lng->txt("msg_obj_modified"),true);
+				ilUtil::sendSuccess($this->lng->txt("msg_obj_modified"),true);
 				$ilCtrl->redirect($this, "editSettings");
 			}
 		}
@@ -689,7 +689,7 @@ class ilObjWikiGUI extends ilObjectGUI
 			$_GET["cmd"] = "frameset";
 			$_GET["target"] = "";
 			$_GET["ref_id"] = ROOT_FOLDER_ID;
-			ilUtil::sendInfo(sprintf($lng->txt("msg_no_perm_read_item"),
+			ilUtil::sendFailure(sprintf($lng->txt("msg_no_perm_read_item"),
 				ilObject::_lookupTitle(ilObject::_lookupObjId($tarr[0]))), true);
 			include("repository.php");
 			exit;

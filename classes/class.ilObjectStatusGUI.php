@@ -3,7 +3,7 @@
 	+-----------------------------------------------------------------------------+
 	| ILIAS open source                                                           |
 	+-----------------------------------------------------------------------------+
-	| Copyright (c) 1998-2005 ILIAS open source, University of Cologne            |
+	| Copyright (c) 1998-2009 ILIAS open source, University of Cologne            |
 	|                                                                             |
 	| This program is free software; you can redistribute it and/or               |
 	| modify it under the terms of the GNU General Public License                 |
@@ -76,7 +76,7 @@ class ilObjectStatusGUI
 			if ($this->user === false or $this->user->getType() != 'usr')
 			{
 				$this->user =& $ilUser;
-				ilUtil::sendInfo($lng->txt('info_err_user_not_exist'));
+				ilUtil::sendFailure($lng->txt('info_err_user_not_exist'));
 			}
 			else
 			{

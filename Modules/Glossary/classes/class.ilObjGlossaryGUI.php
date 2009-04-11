@@ -3,7 +3,7 @@
 	+-----------------------------------------------------------------------------+
 	| ILIAS open source                                                           |
 	+-----------------------------------------------------------------------------+
-	| Copyright (c) 1998-2006 ILIAS open source, University of Cologne            |
+	| Copyright (c) 1998-2009 ILIAS open source, University of Cologne            |
 	|                                                                             |
 	| This program is free software; you can redistribute it and/or               |
 	| modify it under the terms of the GNU General Public License                 |
@@ -304,7 +304,7 @@ class ilObjGlossaryGUI extends ilObjectGUI
 		$newObj->notify("new",$_GET["ref_id"],$_GET["parent_non_rbac_id"],$_GET["ref_id"],$newObj->getRefId());
 
 		// always send a message
-		ilUtil::sendInfo($this->lng->txt("glo_added"),true);
+		ilUtil::sendSuccess($this->lng->txt("glo_added"),true);
 		ilUtil::redirect("ilias.php?baseClass=ilGlossaryEditorGUI&ref_id=".$newObj->getRefId());
 
 		//ilUtil::redirect($this->getReturnLocation("save","adm_object.php?".$this->link_params));
@@ -392,7 +392,7 @@ class ilObjGlossaryGUI extends ilObjectGUI
 		// delete import directory
 		ilUtil::delDir($newObj->getImportDirectory());
 
-		ilUtil::sendInfo($this->lng->txt("glo_added"),true);
+		ilUtil::sendSuccess($this->lng->txt("glo_added"),true);
 		ilUtil::redirect("ilias.php?baseClass=ilGlossaryEditorGUI&ref_id=".$newObj->getRefId());
 		//ilUtil::redirect($this->getReturnLocation("save","adm_object.php?".$this->link_params));
 	}
@@ -503,7 +503,7 @@ class ilObjGlossaryGUI extends ilObjectGUI
 		$this->object->setActiveGlossaryMenu(ilUtil::yn2tf($_POST["glo_act_menu"]));
 		$this->object->setActiveDownloads(ilUtil::yn2tf($_POST["glo_act_downloads"]));
 		$this->object->update();
-		ilUtil::sendInfo($this->lng->txt("msg_obj_modified"), true);
+		ilUtil::sendSuccess($this->lng->txt("msg_obj_modified"), true);
 		$this->ctrl->redirect($this, "properties");
 	}
 
@@ -934,7 +934,7 @@ class ilObjGlossaryGUI extends ilObjectGUI
 		//	$this->lng->txt("cont_term").": ".$term->getTerm());
 
 		$this->tpl->addBlockfile("ADM_CONTENT", "def_list", "tpl.glossary_definition_delete.html", true);
-		ilUtil::sendInfo($this->lng->txt("info_delete_sure"));
+		ilUtil::sendQuestion($this->lng->txt("info_delete_sure"));
 
 		$this->tpl->setVariable("TXT_TERM", $term->getTerm());
 
@@ -966,7 +966,6 @@ class ilObjGlossaryGUI extends ilObjectGUI
 	*/
 	function cancelObject($in_rep = false)
 	{
-		ilUtil::sendInfo($this->lng->txt("msg_cancel"),true);
 		ilUtil::redirect("repository.php?cmd=frameset&ref_id=".$_GET["ref_id"]);
 		//$this->ctrl->redirectByClass("ilrepositorygui", "frameset");
 	}
@@ -1021,7 +1020,7 @@ class ilObjGlossaryGUI extends ilObjectGUI
 		$term->setTerm(ilUtil::stripSlashes($_POST["term"]));
 		$term->setLanguage($_POST["term_language"]);
 		$term->update();
-		ilUtil::sendInfo($this->lng->txt("msg_obj_modified"),true);
+		ilUtil::sendSuccess($this->lng->txt("msg_obj_modified"),true);
 		$this->ctrl->redirect($this, "listTerms");
 	}
 
@@ -1280,7 +1279,7 @@ class ilObjGlossaryGUI extends ilObjectGUI
 
 		$this->tpl->addBlockFile("ADM_CONTENT", "adm_content", "tpl.confirm_deletion.html", "Modules/Glossary");
 
-		ilUtil::sendInfo($this->lng->txt("info_delete_sure"));
+		ilUtil::sendQuestion($this->lng->txt("info_delete_sure"));
 
 		$this->tpl->setVariable("FORMACTION", $this->ctrl->getFormAction($this));
 
@@ -1362,7 +1361,7 @@ class ilObjGlossaryGUI extends ilObjectGUI
 
 		$this->tpl->addBlockFile("ADM_CONTENT", "adm_content", "tpl.obj_confirm.html");
 
-		ilUtil::sendInfo($this->lng->txt("info_delete_sure"));
+		ilUtil::sendQuestion($this->lng->txt("info_delete_sure"));
 		$this->tpl->setVariable("FORMACTION", $this->ctrl->getFormAction($this));
 
 		// output table header
@@ -1411,7 +1410,6 @@ class ilObjGlossaryGUI extends ilObjectGUI
 	function cancelTermDeletion()
 	{
 		session_unregister("term_delete");
-		ilUtil::sendInfo($this->lng->txt("msg_cancel"),true);
 		$this->ctrl->redirect($this, "listTerms");
 	}
 
@@ -1491,7 +1489,7 @@ class ilObjGlossaryGUI extends ilObjectGUI
 		$term_gui->setGlossary($this->object);
 		$term_gui->save();
 
-		ilUtil::sendInfo($this->lng->txt("cont_added_term"),true);
+		ilUtil::sendSuccess($this->lng->txt("cont_added_term"),true);
 
 		//ilUtil::redirect("glossary_edit.php?ref_id=".$_GET["ref_id"]."&cmd=listTerms");
 		$ilCtrl->redirect($this, "listTerms");
@@ -1537,8 +1535,6 @@ class ilObjGlossaryGUI extends ilObjectGUI
 
 		$title = $this->object->getTitle();
 
-		// catch feedback message
-		ilUtil::sendInfo();
 
 		if ($_GET["term_id"] > 0)
 		{
@@ -1660,7 +1656,7 @@ class ilObjGlossaryGUI extends ilObjectGUI
 			$_GET["cmd"] = "frameset";
 			$_GET["target"] = "";
 			$_GET["ref_id"] = ROOT_FOLDER_ID;
-			ilUtil::sendInfo(sprintf($lng->txt("msg_no_perm_read_item"),
+			ilUtil::sendFailure(sprintf($lng->txt("msg_no_perm_read_item"),
 				ilObject::_lookupTitle(ilObject::_lookupObjId($a_target))), true);
 			include("repository.php");
 			exit;

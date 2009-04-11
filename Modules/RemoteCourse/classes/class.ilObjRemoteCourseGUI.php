@@ -3,7 +3,7 @@
 	+-----------------------------------------------------------------------------+
 	| ILIAS open source                                                           |
 	+-----------------------------------------------------------------------------+
-	| Copyright (c) 1998-2006 ILIAS open source, University of Cologne            |
+	| Copyright (c) 1998-2009 ILIAS open source, University of Cologne            |
 	|                                                                             |
 	| This program is free software; you can redistribute it and/or               |
 	| modify it under the terms of the GNU General Public License                 |
@@ -71,7 +71,7 @@ class ilObjRemoteCourseGUI extends ilObjectGUI
 			$_GET["cmd"] = "frameset";
 			$_GET["target"] = "";
 			$_GET["ref_id"] = ROOT_FOLDER_ID;
-			ilUtil::sendInfo(sprintf($lng->txt("msg_no_perm_read_item"),
+			ilUtil::sendFailure(sprintf($lng->txt("msg_no_perm_read_item"),
 				ilObject::_lookupTitle(ilObject::_lookupObjId($a_target))), true);
 			include("repository.php");
 			exit;
@@ -196,7 +196,7 @@ class ilObjRemoteCourseGUI extends ilObjectGUI
 		}
 		else
 		{
-			ilUtil::sendInfo('Cannot call remote course.');
+			ilUtil::sendFailure('Cannot call remote course.');
 			$this->infoScreenObject();
 			return false;
 		}
@@ -332,7 +332,7 @@ class ilObjRemoteCourseGUI extends ilObjectGUI
 		$record_gui->loadFromPost();
 		$record_gui->saveValues();
 
-		ilUtil::sendInfo($this->lng->txt("settings_saved"));
+		ilUtil::sendSuccess($this->lng->txt("settings_saved"));
 		$this->editObject();
 		return true;
 	}

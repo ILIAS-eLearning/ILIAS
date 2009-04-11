@@ -3,7 +3,7 @@
 	+-----------------------------------------------------------------------------+
 	| ILIAS open source                                                           |
 	+-----------------------------------------------------------------------------+
-	| Copyright (c) 1998-2006 ILIAS open source, University of Cologne            |
+	| Copyright (c) 1998-2009 ILIAS open source, University of Cologne            |
 	|                                                                             |
 	| This program is free software; you can redistribute it and/or               |
 	| modify it under the terms of the GNU General Public License                 |
@@ -224,7 +224,6 @@ class ilObjMediaPoolGUI extends ilObjectGUI
 						break;
 
 					case "cancelObject":
-						ilUtil::sendInfo($this->lng->txt("action_aborted"), true);
 						if ($_GET["foldereditmode"])
 						{
 							$this->ctrl->setParameter($this, "obj_id", $this->getParentFolderId());
@@ -309,7 +308,7 @@ class ilObjMediaPoolGUI extends ilObjectGUI
 		// put here object specific stuff
 
 		// always send a message
-		ilUtil::sendInfo($this->lng->txt("object_added"),true);
+		ilUtil::sendSuccess($this->lng->txt("object_added"),true);
 
 		//ilUtil::redirect($this->getReturnLocation("save","adm_object.php?".$this->link_params));
 		ilUtil::redirect("ilias.php?baseClass=ilMediaPoolPresentationGUI&ref_id=".$newObj->getRefId());
@@ -360,7 +359,6 @@ class ilObjMediaPoolGUI extends ilObjectGUI
 	*/
 	function cancelObject($in_rep = false)
 	{
-		ilUtil::sendInfo($this->lng->txt("msg_cancel"),true);
 		ilUtil::redirect("repository.php?cmd=frameset&ref_id=".$_GET["ref_id"]);
 		//$this->ctrl->redirectByClass("ilrepositorygui", "frameset");
 	}
@@ -657,7 +655,7 @@ class ilObjMediaPoolGUI extends ilObjectGUI
 
 		$this->tpl->addBlockFile("ADM_CONTENT", "adm_content", "tpl.confirm_deletion.html", "Modules/MediaPool");
 
-		ilUtil::sendInfo($this->lng->txt("info_delete_sure"));
+		ilUtil::sendQuestion($this->lng->txt("info_delete_sure"));
 
 		$this->tpl->setVariable("FORMACTION", $this->ctrl->getFormAction($this));
 
@@ -773,7 +771,7 @@ class ilObjMediaPoolGUI extends ilObjectGUI
 			$this->object->deleteChild($obj_id);
 		}
 
-		ilUtil::sendInfo($this->lng->txt("cont_obj_removed"),true);
+		ilUtil::sendSuccess($this->lng->txt("cont_obj_removed"),true);
 		session_unregister("ilMepRemove");
 		$this->ctrl->redirect($this, "listMedia");
 	}
@@ -949,7 +947,7 @@ class ilObjMediaPoolGUI extends ilObjectGUI
 			$_GET["cmd"] = "frameset";
 			$_GET["target"] = "";
 			$_GET["ref_id"] = ROOT_FOLDER_ID;
-			ilUtil::sendInfo(sprintf($lng->txt("msg_no_perm_read_item"),
+			ilUtil::sendFailure(sprintf($lng->txt("msg_no_perm_read_item"),
 				ilObject::_lookupTitle(ilObject::_lookupObjId($a_target))), true);
 			include("repository.php");
 			exit;

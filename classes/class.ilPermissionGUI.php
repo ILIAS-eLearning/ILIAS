@@ -3,7 +3,7 @@
 	+-----------------------------------------------------------------------------+
 	| ILIAS open source                                                           |
 	+-----------------------------------------------------------------------------+
-	| Copyright (c) 1998-2006 ILIAS open source, University of Cologne            |
+	| Copyright (c) 1998-2009 ILIAS open source, University of Cologne            |
 	|                                                                             |
 	| This program is free software; you can redistribute it and/or               |
 	| modify it under the terms of the GNU General Public License                 |
@@ -326,7 +326,7 @@ class ilPermissionGUI
 			}
 		}
 		
-		ilUtil::sendInfo($this->lng->txt("saved_successfully"),true);
+		ilUtil::sendSuccess($this->lng->txt("saved_successfully"),true);
 		
 		// redirect to default page if user revokes himself access to the permission panel
 		if (!$rbacsystem->checkAccess("edit_permission",$this->gui_obj->object->getRefId()))
@@ -399,7 +399,7 @@ class ilPermissionGUI
 			$roleObj = $rfoldObj->createRole($_POST["Fobject"]["title"],$_POST["Fobject"]["desc"]);
 		}
 
-		ilUtil::sendInfo($this->lng->txt("role_added"),true);
+		ilUtil::sendSuccess($this->lng->txt("role_added"),true);
 		
 		// in administration jump to deault perm settings screen
 		// alex, ILIAS 3.6.5, 1.9.2006: this does not work and leads to errors in
@@ -569,7 +569,7 @@ class ilPermissionGUI
 
 		if(!$user_id = ilObjUser::_lookupId($_POST['owner']))
 		{
-			ilUtil::sendInfo($this->lng->txt('user_not_known'));
+			ilUtil::sendFailure($this->lng->txt('user_not_known'));
 			$this->owner();
 			return true;
 		}
@@ -577,7 +577,7 @@ class ilPermissionGUI
 		$this->gui_obj->object->setOwner($user_id);
 		$this->gui_obj->object->updateOwner();
 		$ilObjDataCache->deleteCachedEntry($this->gui_obj->object->getId());
-		ilUtil::sendInfo($this->lng->txt('owner_updated'),true);
+		ilUtil::sendSuccess($this->lng->txt('owner_updated'),true);
 
 		if (!$rbacsystem->checkAccess("edit_permission",$this->gui_obj->object->getRefId()))
 		{

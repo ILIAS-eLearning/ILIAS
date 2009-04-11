@@ -510,7 +510,7 @@ class ilCtrl
 						$ilLog->write("Invalid Request (class ilCtrl). Possible attack or Control Structure broken (see Setup). ".
 							$user_str."IP: ".$_SERVER["REMOTE_ADDR"].", URI: ".$_SERVER["REQUEST_URI"]);
 					}
-					ilUtil::sendInfo("Sorry, but the request includes invalid parameters." ,true);
+					ilUtil::sendFailure("Sorry, but the request includes invalid parameters." ,true);
 					ilUtil::redirect("repository.php?cmd=frameset");
 				}
 			}

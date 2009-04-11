@@ -3,7 +3,7 @@
 	+-----------------------------------------------------------------------------+
 	| ILIAS open source                                                           |
 	+-----------------------------------------------------------------------------+
-	| Copyright (c) 1998-2005 ILIAS open source, University of Cologne            |
+	| Copyright (c) 1998-2009 ILIAS open source, University of Cologne            |
 	|                                                                             |
 	| This program is free software; you can redistribute it and/or               |
 	| modify it under the terms of the GNU General Public License                 |
@@ -160,7 +160,7 @@ class ilLMEditorGUI
 				// (horrible) workaround for preventing template engine
 				// from hiding paragraph text that is enclosed
 				// in curly brackets (e.g. "{a}", see ilPageObjectGUI::showPage())
-				$this->tpl->fillTabs();
+//				$this->tpl->fillTabs();
 				$output =  $this->tpl->get("DEFAULT", true, true, $show_footer,true);
 				$output = str_replace("&#123;", "{", $output);
 				$output = str_replace("&#125;", "}", $output);
@@ -186,7 +186,7 @@ class ilLMEditorGUI
 				// (horrible) workaround for preventing template engine
 				// from hiding paragraph text that is enclosed
 				// in curly brackets (e.g. "{a}", see ilPageObjectGUI::showPage())
-				$this->tpl->fillTabs();
+//				$this->tpl->fillTabs();
 				$output =  $this->tpl->get("DEFAULT", true, true, $show_footer,true);
 				$output = str_replace("&#123;", "{", $output);
 				$output = str_replace("&#125;", "}", $output);

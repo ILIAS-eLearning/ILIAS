@@ -3,7 +3,7 @@
 	+-----------------------------------------------------------------------------+
 	| ILIAS open source                                                           |
 	+-----------------------------------------------------------------------------+
-	| Copyright (c) 1998-2001 ILIAS open source, University of Cologne            |
+	| Copyright (c) 1998-2009 ILIAS open source, University of Cologne            |
 	|                                                                             |
 	| This program is free software; you can redistribute it and/or               |
 	| modify it under the terms of the GNU General Public License                 |
@@ -268,7 +268,7 @@ class ilConditionHandlerInterface
 
 		if(!$_GET['condition_id'])
 		{
-			ilUtil::sendInfo("Missing id: condition_id");
+			ilUtil::sendFailure("Missing id: condition_id");
 			$this->listConditions();
 			return false;
 		}
@@ -287,7 +287,7 @@ class ilConditionHandlerInterface
 
 		if(!$_GET['condition_id'])
 		{
-			ilUtil::sendInfo("Missing id: condition_id");
+			ilUtil::sendFailure("Missing id: condition_id");
 			$this->listConditions();
 			return false;
 		}
@@ -326,7 +326,7 @@ class ilConditionHandlerInterface
 			}
 		}
 
-		ilUtil::sendInfo($this->lng->txt('settings_saved'));
+		ilUtil::sendSuccess($this->lng->txt('settings_saved'));
 		$this->listConditions();
 	}
 		
@@ -335,7 +335,7 @@ class ilConditionHandlerInterface
 	{
 		if(!count($_POST['conditions']))
 		{
-			ilUtil::sendInfo('no_condition_selected');
+			ilUtil::sendFailure('no_condition_selected');
 			$this->listConditions();
 			return true;
 		}
@@ -344,7 +344,7 @@ class ilConditionHandlerInterface
 		{
 			$this->ch_obj->deleteCondition($condition_id);
 		}
-		ilUtil::sendInfo($this->lng->txt('condition_deleted'));
+		ilUtil::sendSuccess($this->lng->txt('condition_deleted'));
 		$this->listConditions();
 
 		return true;
@@ -385,7 +385,7 @@ class ilConditionHandlerInterface
 
 		if(!$_GET['source_id'])
 		{
-			ilUtil::sendInfo("Missing id: condition_id");
+			ilUtil::sendFailure("Missing id: condition_id");
 			$this->selector();
 			return false;
 		}
@@ -409,7 +409,7 @@ class ilConditionHandlerInterface
 		}
 		if(!strlen($_POST['operator']))
 		{
-			ilUtil::sendInfo($this->lng->txt('no_operator_selected'));
+			ilUtil::sendFailure($this->lng->txt('no_operator_selected'));
 			$this->add();
 
 			return false;
@@ -458,11 +458,11 @@ class ilConditionHandlerInterface
 		$this->ch_obj->enableAutomaticValidation($this->getAutomaticValidation());
 		if(!$this->ch_obj->storeCondition())
 		{
-			ilUtil::sendInfo($this->ch_obj->getErrorMessage());
+			ilUtil::sendFailure($this->ch_obj->getErrorMessage());
 		}
 		else
 		{
-			ilUtil::sendInfo($this->lng->txt('added_new_condition'));
+			ilUtil::sendSuccess($this->lng->txt('added_new_condition'));
 		}
 
 		$this->listConditions();
@@ -485,7 +485,7 @@ class ilConditionHandlerInterface
 			$this->ch_obj->updateCondition($condition['id']);
 
 		}
-		ilUtil::sendInfo($this->lng->txt('conditions_updated'));
+		ilUtil::sendSuccess($this->lng->txt('conditions_updated'));
 		
 		$this->ctrl->returnToParent($this);
 
