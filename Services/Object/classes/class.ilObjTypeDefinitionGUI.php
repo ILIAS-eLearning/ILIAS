@@ -3,7 +3,7 @@
 	+-----------------------------------------------------------------------------+
 	| ILIAS open source                                                           |
 	+-----------------------------------------------------------------------------+
-	| Copyright (c) 1998-2001 ILIAS open source, University of Cologne            |
+	| Copyright (c) 1998-2009 ILIAS open source, University of Cologne            |
 	|                                                                             |
 	| This program is free software; you can redistribute it and/or               |
 	| modify it under the terms of the GNU General Public License                 |
@@ -250,7 +250,7 @@ class ilObjTypeDefinitionGUI extends ilObjectGUI
 
 		$this->update = $this->object->update();
 
-		ilUtil::sendInfo($this->lng->txt("saved_successfully"),true);
+		ilUtil::sendSuccess($this->lng->txt("saved_successfully"),true);
 
 		header("Location: adm_object.php?ref_id=".$_GET["ref_id"]."&obj_id=".$_GET["obj_id"]);
 		exit();

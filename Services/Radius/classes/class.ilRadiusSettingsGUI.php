@@ -3,7 +3,7 @@
 	+-----------------------------------------------------------------------------+
 	| ILIAS open source                                                           |
 	+-----------------------------------------------------------------------------+
-	| Copyright (c) 1998-2006 ILIAS open source, University of Cologne            |
+	| Copyright (c) 1998-2009 ILIAS open source, University of Cologne            |
 	|                                                                             |
 	| This program is free software; you can redistribute it and/or               |
 	| modify it under the terms of the GNU General Public License                 |
@@ -197,24 +197,24 @@ class ilRadiusSettingsGUI
 	 	
 	 	if(!$this->settings->validateRequired())
 	 	{
-	 		ilUtil::sendInfo($this->lng->txt("fill_out_all_required_fields"));
+	 		ilUtil::sendFailure($this->lng->txt("fill_out_all_required_fields"));
 	 		$this->settings();
 			return false;
 	 	}
 	 	if(!$this->settings->validatePort())
 	 	{
-	 		ilUtil::sendInfo($this->lng->txt("err_invalid_port"));
+	 		ilUtil::sendFailure($this->lng->txt("err_invalid_port"));
 	 		$this->settings();
 	 		return false;
 	 	}
 	 	if(!$this->settings->validateServers())
 	 	{
-	 		ilUtil::sendInfo($this->lng->txt("err_invalid_server"));
+	 		ilUtil::sendFailure($this->lng->txt("err_invalid_server"));
 	 		$this->settings();
 	 		return false;
 	 	}
 	 	$this->settings->save();
-	 	ilUtil::sendInfo($this->lng->txt('settings_saved'));
+	 	ilUtil::sendSuccess($this->lng->txt('settings_saved'));
 	 	$this->settings();
 	 	return true;
 	}

@@ -855,7 +855,7 @@ class ilMediaItem
 		if (!is_file($this->getMapWorkCopyName()))
 		{
 		    
-			ilUtil::sendInfo($lng->txt("cont_map_file_not_generated"));
+			ilUtil::sendFailure($lng->txt("cont_map_file_not_generated"));
 			return false;
 		}
 		return true;

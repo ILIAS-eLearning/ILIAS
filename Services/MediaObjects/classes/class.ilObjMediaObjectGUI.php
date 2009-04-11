@@ -3,7 +3,7 @@
 	+-----------------------------------------------------------------------------+
 	| ILIAS open source                                                           |
 	+-----------------------------------------------------------------------------+
-	| Copyright (c) 1998-2008 ILIAS open source, University of Cologne            |
+	| Copyright (c) 1998-2009 ILIAS open source, University of Cologne            |
 	|                                                                             |
 	| This program is free software; you can redistribute it and/or               |
 	| modify it under the terms of the GNU General Public License                 |
@@ -996,7 +996,7 @@ class ilObjMediaObjectGUI extends ilObjectGUI
 			}
 	
 			$this->object->update();
-			ilUtil::sendInfo($lng->txt("msg_obj_modified"), true);
+			ilUtil::sendSuccess($lng->txt("msg_obj_modified"), true);
 			$this->ctrl->redirect($this, "edit");
 		}
 		else
@@ -1553,18 +1553,12 @@ class ilObjMediaObjectGUI extends ilObjectGUI
 	function setAdminTabs()
 	{
 		// catch feedback message
-		ilUtil::sendInfo();
-		#include_once("classes/class.ilTabsGUI.php");
-		#$tabs_gui =& new ilTabsGUI();
 		$this->getTabs($this->tabs_gui);
 
 		//$tabs_gui->setTargetScript($this->ctrl->getLinkTarget($this));
 		if (is_object($this->object) && strtolower(get_class($this->object)) == "ilobjmediaobject")
 		{
 			$this->tpl->setTitleIcon(ilUtil::getImagePath("icon_mob_b.gif"));
-			//$this->tpl->setCurrentBlock("header_image");
-			//$this->tpl->setVariable("IMG_HEADER", ilUtil::getImagePath("icon_mob_b.gif"));
-			//$this->tpl->parseCurrentBlock();
 			$this->tpl->setCurrentBlock();
 			$title = $this->object->getTitle();
 			$this->tpl->setVariable("HEADER", $title);
@@ -1573,9 +1567,6 @@ class ilObjMediaObjectGUI extends ilObjectGUI
 		{
 			//$title = $this->object->getTitle();
 			$this->tpl->setTitleIcon(ilUtil::getImagePath("icon_mob_b.gif"));
-			//$this->tpl->setCurrentBlock("header_image");
-			//$this->tpl->setVariable("IMG_HEADER", ilUtil::getImagePath("icon_mob_b.gif"));
-			//$this->tpl->parseCurrentBlock();
 			$this->tpl->setVariable("HEADER", $this->lng->txt("cont_create_mob"));
 		}
 	}

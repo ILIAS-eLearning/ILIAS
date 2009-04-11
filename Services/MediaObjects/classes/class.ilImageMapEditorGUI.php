@@ -3,7 +3,7 @@
 	+-----------------------------------------------------------------------------+
 	| ILIAS open source                                                           |
 	+-----------------------------------------------------------------------------+
-	| Copyright (c) 1998-2008 ILIAS open source, University of Cologne            |
+	| Copyright (c) 1998-2009 ILIAS open source, University of Cologne            |
 	|                                                                             |
 	| This program is free software; you can redistribute it and/or               |
 	| modify it under the terms of the GNU General Public License                 |
@@ -165,7 +165,7 @@ class ilImageMapEditorGUI
 			$area->update();
 		}
 
-		ilUtil::sendInfo($lng->txt("cont_saved_map_data"), true);
+		ilUtil::sendSuccess($lng->txt("cont_saved_map_data"), true);
 		$ilCtrl->redirect($this, "editMapAreas");
 	}
 	
@@ -671,7 +671,7 @@ class ilImageMapEditorGUI
 		}
 
 		//$this->initMapParameters();
-		ilUtil::sendInfo($lng->txt("cont_saved_map_area"), true);
+		ilUtil::sendSuccess($lng->txt("cont_saved_map_area"), true);
 		$ilCtrl->redirect($this, "editMapAreas");
 	}
 
@@ -714,14 +714,14 @@ class ilImageMapEditorGUI
 		}
 		if (!isset($_POST["area"]))
 		{
-			ilUtil::sendInfo($lng->txt("no_checkbox"), true);
+			ilUtil::sendFailure($lng->txt("no_checkbox"), true);
 			$ilCtrl->redirect($this, "editMapAreas");
 		}
 
 		if (count($_POST["area"]) > 1)
 		{
 			//$this->ilias->raiseError($this->lng->txt("cont_select_max_one_item"),$this->ilias->error_obj->MESSAGE);
-			ilUtil::sendInfo($lng->txt("cont_select_max_one_item"), true);
+			ilUtil::sendFailure($lng->txt("cont_select_max_one_item"), true);
 			$ilCtrl->redirect($this, "editMapAreas");
 		}
 
@@ -806,7 +806,7 @@ class ilImageMapEditorGUI
 		
 		if (!isset($_POST["area"]))
 		{
-			ilUtil::sendInfo($lng->txt("no_checkbox"), true);
+			ilUtil::sendFailure($lng->txt("no_checkbox"), true);
 			$ilCtrl->redirect($this, "editMapAreas");
 		}
 
@@ -824,7 +824,7 @@ class ilImageMapEditorGUI
 			}
 
 			$this->media_object->update();
-			ilUtil::sendInfo($lng->txt("cont_areas_deleted"), true);
+			ilUtil::sendSuccess($lng->txt("cont_areas_deleted"), true);
 		}
 
 		$ilCtrl->redirect($this, "editMapAreas");
@@ -897,13 +897,13 @@ class ilImageMapEditorGUI
 		}
 		if (!isset($_POST["area"]))
 		{
-			ilUtil::sendInfo($lng->txt("no_checkbox"), true);
+			ilUtil::sendFailure($lng->txt("no_checkbox"), true);
 			$ilCtrl->redirect($this, "editMapAreas");
 		}
 
 		if (count($_POST["area"]) > 1)
 		{
-			ilUtil::sendInfo($lng->txt("cont_select_max_one_item"), true);
+			ilUtil::sendFailure($lng->txt("cont_select_max_one_item"), true);
 			$ilCtrl->redirect($this, "editMapAreas");
 		}
 

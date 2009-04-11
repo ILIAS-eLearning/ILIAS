@@ -941,11 +941,11 @@ class ilObjUser extends ilObject
 			$ilSetting->get('allow_history_loginname_again') == 0 &&
 			$login_exists_in_history == 1)
 		{
-			ilUtil::sendInfo($this->lng->txt('loginname_already_exists'));
+			ilUtil::sendFailure($this->lng->txt('loginname_already_exists'));
 		}
 		else 			
 		{
-			ilUtil::sendInfo($this->lng->txt('loginname_changed_successfully'));
+			ilUtil::sendSuccess($this->lng->txt('loginname_changed_successfully'));
 			
 			if($ilSetting->get('create_history_loginname') == 1)
 			{

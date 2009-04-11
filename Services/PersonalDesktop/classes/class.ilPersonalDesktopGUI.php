@@ -3,7 +3,7 @@
 +-----------------------------------------------------------------------------+
 | ILIAS open source                                                           |
 +-----------------------------------------------------------------------------+
-| Copyright (c) 1998-2005 ILIAS open source, University of Cologne            |
+| Copyright (c) 1998-2009 ILIAS open source, University of Cologne            |
 |                                                                             |
 | This program is free software; you can redistribute it and/or               |
 | modify it under the terms of the GNU General Public License                 |
@@ -136,7 +136,7 @@ class ilPersonalDesktopGUI
 			case "ilbookmarkadministrationgui":
 				if ($ilSetting->get('disable_bookmarks'))
 				{
-					ilUtil::sendInfo($this->lng->txt('permission_denied'), true);					
+					ilUtil::sendFailure($this->lng->txt('permission_denied'), true);					
 					ilUtil::redirect('ilias.php?baseClass=ilPersonalDesktopGUI');
 					return;
 				}				
@@ -182,7 +182,7 @@ class ilPersonalDesktopGUI
 			case "ilpdnotesgui":
 				if ($ilSetting->get('disable_notes'))
 				{
-					ilUtil::sendInfo($this->lng->txt('permission_denied'), true);					
+					ilUtil::sendFailure($this->lng->txt('permission_denied'), true);					
 					ilUtil::redirect('ilias.php?baseClass=ilPersonalDesktopGUI');
 					return;
 				}
@@ -262,10 +262,7 @@ class ilPersonalDesktopGUI
 		// add template for content
 		$this->pd_tpl = new ilTemplate("tpl.usr_personaldesktop.html", true, true);
 		$this->tpl->getStandardTemplate();
-		
-		// catch feedback message
-		ilUtil::sendInfo();
-		
+
 		// display infopanel if something happened
 		ilUtil::infoPanel();
 		
@@ -388,10 +385,7 @@ class ilPersonalDesktopGUI
 		// add template for content
 		$this->pd_tpl = new ilTemplate("tpl.usr_personaldesktop.html", true, true);
 		$this->tpl->getStandardTemplate();
-		
-		// catch feedback message
-		ilUtil::sendInfo();
-		
+				
 		// display infopanel if something happened
 		ilUtil::infoPanel();
 		
@@ -615,7 +609,7 @@ class ilPersonalDesktopGUI
 	{
 		if ($this->ilias->getSetting("disable_bookmarks"))
 		{
-			ilUtil::sendInfo($this->lng->txt('permission_denied'), true);					
+			ilUtil::sendFailure($this->lng->txt('permission_denied'), true);					
 			ilUtil::redirect('ilias.php?baseClass=ilPersonalDesktopGUI');
 			return;
 		}
@@ -630,7 +624,7 @@ class ilPersonalDesktopGUI
 	{
 		if ($this->ilias->getSetting('disable_notes'))
 		{
-			ilUtil::sendInfo($this->lng->txt('permission_denied'), true);					
+			ilUtil::sendFailure($this->lng->txt('permission_denied'), true);					
 			ilUtil::redirect('ilias.php?baseClass=ilPersonalDesktopGUI');
 			return;
 		}		

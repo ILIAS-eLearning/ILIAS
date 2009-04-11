@@ -102,27 +102,8 @@ class ilPDNotesGUI
 		$this->tpl->setTitleIcon(ilUtil::getImagePath("icon_pd_b.gif"),
 			$this->lng->txt("personal_desktop"));
 		$this->tpl->setTitle($this->lng->txt("personal_desktop"));
-		
-		// set locator
-/*
-		$this->tpl->setVariable("TXT_LOCATOR", $this->lng->txt("locator"));
-		$this->tpl->touchBlock("locator_separator");
-		$this->tpl->touchBlock("locator_item");
-		//$this->tpl->setCurrentBlock("locator_item");
-		//$this->tpl->setVariable("ITEM", $this->lng->txt("personal_desktop"));
-		//$this->tpl->setVariable("LINK_ITEM",
-		//	$this->ctrl->getLinkTargetByClass("ilpersonaldesktopgui"));
-		//$this->tpl->parseCurrentBlock();
-		
-		$this->tpl->setCurrentBlock("locator_item");
-		$this->tpl->setVariable("ITEM", $this->lng->txt("private_notes"));
-		$this->tpl->setVariable("LINK_ITEM",
-			$this->ctrl->getLinkTargetByClass("ilpdnotesgui"));
-		$this->tpl->parseCurrentBlock();
-*/
-		
+				
 		// catch feedback message
-		ilUtil::sendInfo();
 		// display infopanel if something happened
 		ilUtil::infoPanel();
 

@@ -3,7 +3,7 @@
 	+-----------------------------------------------------------------------------+
 	| ILIAS open source                                                           |
 	+-----------------------------------------------------------------------------+
-	| Copyright (c) 1998-2006 ILIAS open source, University of Cologne            |
+	| Copyright (c) 1998-2009 ILIAS open source, University of Cologne            |
 	|                                                                             |
 	| This program is free software; you can redistribute it and/or               |
 	| modify it under the terms of the GNU General Public License                 |
@@ -501,7 +501,7 @@ class ilPDNewsBlockGUI extends ilNewsForContextBlockGUI
 		// Deactivate private Feed - just delete the password
 		if (empty($_POST["enable_private_feed"])) 
 		{
-			ilUtil::sendInfo($lng->txt("priv_feed_disabled"),true);
+			ilUtil::sendSuccess($lng->txt("priv_feed_disabled"),true);
 			$ilUser->_setFeedPass($_SESSION["AccountId"],"");
 			$ilCtrl->returnToParent($this);			
 		}
@@ -510,24 +510,24 @@ class ilPDNewsBlockGUI extends ilNewsForContextBlockGUI
 			// check old password
 			if ($_POST["desired_password"] != $_POST["retype_password"])
 			{
-				ilUtil::sendInfo($lng->txt("passwd_not_match"),true);
+				ilUtil::sendFailure($lng->txt("passwd_not_match"),true);
 				$ilCtrl->redirectByClass("ilPDNewsBlockGUI", "editSettings");
 			}
 			// validate password
 			else if (!ilUtil::isPassword($_POST["desired_password"]))
 			{
-				ilUtil::sendInfo($lng->txt("passwd_invalid"),true);
+				ilUtil::sendFailure($lng->txt("passwd_invalid"),true);
 				$ilCtrl->redirectByClass("ilPDNewsBlockGUI", "editSettings");
 			}
 			// only works for ILIAS3 passwords
 			else if (md5($_POST["desired_password"]) == $ilUser->getPasswd())
 			{
-				ilUtil::sendInfo($lng->txt("passwd_equals_ilpasswd"),true);
+				ilUtil::sendFailure($lng->txt("passwd_equals_ilpasswd"),true);
 				$ilCtrl->redirectByClass("ilPDNewsBlockGUI", "editSettings");
 			}
 			else if ($_POST["desired_password"] != "")
 			{
-				ilUtil::sendInfo($lng->txt("saved_successfully"),true);
+				ilUtil::sendSuccess($lng->txt("saved_successfully"),true);
 				$ilUser->_setFeedPass($_SESSION["AccountId"],$_POST["desired_password"]);
 				$ilCtrl->returnToParent($this);
 			}
