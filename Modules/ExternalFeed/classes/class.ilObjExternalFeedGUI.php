@@ -3,7 +3,7 @@
 	+-----------------------------------------------------------------------------+
 	| ILIAS open source                                                           |
 	+-----------------------------------------------------------------------------+
-	| Copyright (c) 1998-2001 ILIAS open source, University of Cologne            |
+	| Copyright (c) 1998-2009 ILIAS open source, University of Cologne            |
 	|                                                                             |
 	| This program is free software; you can redistribute it and/or               |
 	| modify it under the terms of the GNU General Public License                 |
@@ -129,7 +129,7 @@ class ilObjExternalFeedGUI extends ilObjectGUI
 		global $ilCtrl;
 
 		// always send a message
-		ilUtil::sendInfo($this->lng->txt("object_added"), true);
+		ilUtil::sendSuccess($this->lng->txt("object_added"), true);
 		$this->ctrl->returnToParent($this);
 	}
 	
@@ -155,8 +155,6 @@ class ilObjExternalFeedGUI extends ilObjectGUI
 	{
 		global $ilCtrl, $tree;
 
-		// always send a message
-		//ilUtil::sendInfo($this->lng->txt("object_added"), true);
 
 		$par = $tree->getParentId($_GET["ref_id"]);
 		$_GET["ref_id"] = $par;

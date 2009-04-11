@@ -3,7 +3,7 @@
 	+-----------------------------------------------------------------------------+
 	| ILIAS open source                                                           |
 	+-----------------------------------------------------------------------------+
-	| Copyright (c) 1998-2006 ILIAS open source, University of Cologne            |
+	| Copyright (c) 1998-2009 ILIAS open source, University of Cologne            |
 	|                                                                             |
 	| This program is free software; you can redistribute it and/or               |
 	| modify it under the terms of the GNU General Public License                 |
@@ -453,7 +453,7 @@ class ilObjCategoryGUI extends ilContainerGUI
 		
 
 		// always send a message
-		ilUtil::sendInfo($this->lng->txt("cat_added"),true);
+		ilUtil::sendSuccess($this->lng->txt("cat_added"),true);
 		//$this->ctrl->setParameter($this, "ref_id", $newObj->getRefId());
 		
 		// BEGIN ChangeEvent: Record object creation
@@ -558,7 +558,7 @@ class ilObjCategoryGUI extends ilContainerGUI
 		$record_gui->loadFromPost();
 		$record_gui->saveValues();
 
-		ilUtil::sendInfo($this->lng->txt("settings_saved"));
+		ilUtil::sendSuccess($this->lng->txt("settings_saved"));
 		$this->editInfoObject();
 		return true;
 	}
@@ -828,7 +828,7 @@ class ilObjCategoryGUI extends ilContainerGUI
 		}
 		// END ChangeEvent: Record update
 
-		ilUtil::sendInfo($this->lng->txt("msg_obj_modified"),true);
+		ilUtil::sendSuccess($this->lng->txt("msg_obj_modified"),true);
 		ilUtil::redirect($this->getReturnLocation("update",$this->ctrl->getTargetScript()."?".$this->link_params));
 	}
 
@@ -978,7 +978,6 @@ class ilObjCategoryGUI extends ilContainerGUI
 	*/
 	function importCancelledObject()
 	{
-		ilUtil::sendInfo($this->lng->txt("action_aborted"),true);
 		$this->ctrl->redirect($this);
 	}
 
@@ -1035,7 +1034,7 @@ class ilObjCategoryGUI extends ilContainerGUI
 
 		// added to prevent empty file names
 		if (!strcmp($file_name,"")) {
-		  ilUtil::sendInfo($lng->txt("no_import_file_found"), true);
+		  ilUtil::sendFailure($lng->txt("no_import_file_found"), true);
 		  $this->ctrl->redirect($this);
 		}
 
@@ -1054,7 +1053,7 @@ class ilObjCategoryGUI extends ilContainerGUI
 		$importParser = new ilCategoryImportParser($xml_file, $a_ref_id, $withrol_tmp);
 		$importParser->startParsing();
 
-		ilUtil::sendInfo($lng->txt("categories_imported"), true);
+		ilUtil::sendSuccess($lng->txt("categories_imported"), true);
 		$this->ctrl->redirect($this);
 	}
 
@@ -1221,7 +1220,7 @@ class ilObjCategoryGUI extends ilContainerGUI
 			}
 			$tmp_obj->delete();
 		}
-		ilUtil::sendInfo($this->lng->txt('deleted_users'));
+		ilUtil::sendSuccess($this->lng->txt('deleted_users'));
 		$this->listUsersObject();
 
 		return true;
@@ -1231,14 +1230,14 @@ class ilObjCategoryGUI extends ilContainerGUI
 	{
 		if(!count($_POST['user_ids']))
 		{
-			ilUtil::sendInfo($this->lng->txt('no_users_selected'));
+			ilUtil::sendFailure($this->lng->txt('no_users_selected'));
 			$this->listUsersObject();
 			
 			return true;
 		}
 		$_SESSION['delete_users'] = $_POST['user_ids'];
 
-		ilUtil::sendInfo($this->lng->txt('sure_delete_selected_users'));
+		ilUtil::sendQuestion($this->lng->txt('sure_delete_selected_users'));
 		$this->listUsersObject(true);
 		return true;
 	}
@@ -1251,7 +1250,7 @@ class ilObjCategoryGUI extends ilContainerGUI
 
 		if(!isset($_GET['obj_id']))
 		{
-			ilUtil::sendInfo('no_user_selected');
+			ilUtil::sendFailure('no_user_selected');
 			$this->listUsersObject();
 
 			return true;
@@ -1305,7 +1304,7 @@ class ilObjCategoryGUI extends ilContainerGUI
 		// check hack
 		if(!isset($_GET['obj_id']) or !in_array($_REQUEST['obj_id'],ilLocalUser::_getAllUserIds()))
 		{
-			ilUtil::sendInfo('no_user_selected');
+			ilUtil::sendFailure('no_user_selected');
 			$this->listUsersObject();
 
 			return true;
@@ -1315,7 +1314,7 @@ class ilObjCategoryGUI extends ilContainerGUI
 		// check minimum one global role
 		if(!$this->__checkGlobalRoles($_POST['role_ids']))
 		{
-			ilUtil::sendInfo($this->lng->txt('no_global_role_left'));
+			ilUtil::sendFailure($this->lng->txt('no_global_role_left'));
 			$this->assignRolesObject();
 
 			return false;
@@ -1334,7 +1333,7 @@ class ilObjCategoryGUI extends ilContainerGUI
 				$rbacadmin->deassignUser($role['obj_id'],(int) $_REQUEST['obj_id']);
 			}
 		}
-		ilUtil::sendInfo($this->lng->txt('role_assignment_updated'));
+		ilUtil::sendSuccess($this->lng->txt('role_assignment_updated'));
 		$this->assignRolesObject();
 		
 		return true;
@@ -1637,7 +1636,7 @@ class ilObjCategoryGUI extends ilContainerGUI
 			$_GET["cmd"] = "frameset";
 			$_GET["target"] = "";
 			$_GET["ref_id"] = ROOT_FOLDER_ID;
-			ilUtil::sendInfo(sprintf($lng->txt("msg_no_perm_read_item"),
+			ilUtil::sendFailure(sprintf($lng->txt("msg_no_perm_read_item"),
 				ilObject::_lookupTitle(ilObject::_lookupObjId($a_target))), true);
 			include("repository.php");
 			exit;

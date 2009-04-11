@@ -693,12 +693,12 @@ class ilObjExercise extends ilObject
 					$this->file_obj->$storageMethod($a_http_post_files, true, true);				
 				}
 			}
-			ilUtil::sendInfo($this->lng->txt("file_added"),$persistentErrorMessage);					
+			ilUtil::sendSuccess($this->lng->txt("file_added"),$persistentErrorMessage);					
 
 		} 
 		catch (ilFileUtilsException $e) 
 		{
-			ilUtil::sendInfo($e->getMessage(), $persistentErrorMessage);
+			ilUtil::sendFailure($e->getMessage(), $persistentErrorMessage);
 		}
 		
 

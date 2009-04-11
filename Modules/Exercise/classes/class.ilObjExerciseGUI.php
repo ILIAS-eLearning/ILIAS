@@ -3,7 +3,7 @@
 	+-----------------------------------------------------------------------------+
 	| ILIAS open source                                                           |
 	+-----------------------------------------------------------------------------+
-	| Copyright (c) 1998-2001 ILIAS open source, University of Cologne            |
+	| Copyright (c) 1998-2009 ILIAS open source, University of Cologne            |
 	|                                                                             |
 	| This program is free software; you can redistribute it and/or               |
 	| modify it under the terms of the GNU General Public License                 |
@@ -192,7 +192,7 @@ return;
 		
 		if (mktime() > $this->object->getTimestamp())
 		{
-			ilUtil::sendInfo($this->lng->txt("exercise_time_over"));
+			ilUtil::sendFailure($this->lng->txt("exercise_time_over"));
 		}
 
 
@@ -204,7 +204,7 @@ return;
 			}
 			else
 			{
-				ilUtil::sendInfo($this->lng->txt("please_select_a_delivered_file_to_delete"));
+				ilUtil::sendFailure($this->lng->txt("please_select_a_delivered_file_to_delete"));
 			}
 		}
 
@@ -216,7 +216,7 @@ return;
 			}
 			else
 			{
-				ilUtil::sendInfo($this->lng->txt("please_select_a_delivered_file_to_download"));
+				ilUtil::sendFailure($this->lng->txt("please_select_a_delivered_file_to_download"));
 			}
 		}
 
@@ -303,7 +303,7 @@ return;
 		{
 			if(!$this->object->deliverFile($_FILES["deliver"], $ilUser->id))
 			{
-				ilUtil::sendInfo($this->lng->txt("exc_upload_error"),true);
+				ilUtil::sendFailure($this->lng->txt("exc_upload_error"),true);
 			}
 		}
 		
@@ -323,7 +323,7 @@ return;
 		
 		if (!isset($file))
 		{
-			ilUtil::sendInfo($this->lng->txt("exc_select_one_file"),true);
+			ilUtil::sendFailure($this->lng->txt("exc_select_one_file"),true);
 			$this->ctrl->redirect($this, "view");
 		}
 		$files = $this->object->getFiles();
@@ -379,7 +379,7 @@ return;
 			$newObj->update();
 		
 			// always send a message
-			ilUtil::sendInfo($this->lng->txt("exc_added"),true);
+			ilUtil::sendSuccess($this->lng->txt("exc_added"),true);
 			ilUtil::redirect("ilias.php?baseClass=ilExerciseHandlerGUI&ref_id=".$newObj->getRefId()."&cmd=edit");
 		}
 		else
@@ -551,7 +551,7 @@ return;
 			
 			$this->object->update();
 			
-			ilUtil::sendInfo($this->lng->txt("msg_obj_modified"),true);
+			ilUtil::sendSuccess($this->lng->txt("msg_obj_modified"),true);
 			$this->ctrl->redirect($this, "edit");
 		}
 		else
@@ -574,14 +574,13 @@ return;
 		$this->object->setDescription(ilUtil::stripSlashes($_POST["Fobject"]["desc"]));
 		$this->update = $this->object->update();
 	
-		ilUtil::sendInfo($this->lng->txt("msg_obj_modified"),true);
+		ilUtil::sendSuccess($this->lng->txt("msg_obj_modified"),true);
 	
 		$this->ctrl->redirect($this, "edit");
 	}
   
 	function cancelEditObject()
 	{
-		ilUtil::sendInfo($this->lng->txt("msg_cancel"),true);
 		$this->ctrl->redirect($this, "view");
 	}
 
@@ -593,7 +592,7 @@ return;
 
 		if(!$this->object->addUploadedFile($_FILES["zipfile"], true))
 		{
-			ilUtil::sendInfo($this->lng->txt("exc_upload_error"),true);
+			ilUtil::sendFailure($this->lng->txt("exc_upload_error"),true);
 		}
 		$this->ctrl->redirect($this, "edit");
 	
@@ -607,7 +606,7 @@ return;
 
 		if(!$this->object->addUploadedFile($_FILES["file"]))
 		{
-			ilUtil::sendInfo($this->lng->txt("exc_upload_error"),true);
+			ilUtil::sendFailure($this->lng->txt("exc_upload_error"),true);
 		}
 		$this->ctrl->redirect($this, "edit");
 	}
@@ -638,12 +637,12 @@ return;
 				case "send_member":
 					if(!count($_POST["member"]))
 					{
-						ilUtil::sendInfo($this->lng->txt("select_one"),true);
+						ilUtil::sendFailure($this->lng->txt("select_one"),true);
 					}
 					else
 					{
 						$this->object->send($_POST["member"]);
-						ilUtil::sendInfo($this->lng->txt("exc_sent"),true);
+						ilUtil::sendSuccess($this->lng->txt("exc_sent"),true);
 					}
 				break;
 				
@@ -712,18 +711,18 @@ return;
 		$this->checkPermission("write");
 		if(!count($_POST['user']))
 		{
-			ilUtil::sendInfo($this->lng->txt("no_checkbox"));
+			ilUtil::sendFailure($this->lng->txt("no_checkbox"));
 			return false;
 		}
 
 		if(!$this->object->members_obj->assignMembers($_POST["user"]))
 		{
-			ilUtil::sendInfo($this->lng->txt("exc_members_already_assigned"));
+			ilUtil::sendFailure($this->lng->txt("exc_members_already_assigned"));
 			return false;
 		}
 		else
 		{
-			ilUtil::sendInfo($this->lng->txt("exc_members_assigned"),true);
+			ilUtil::sendSuccess($this->lng->txt("exc_members_assigned"),true);
 		}
 		$this->ctrl->redirect($this, "members");
 		return false;
@@ -1127,7 +1126,7 @@ return;
 			ilUtil::redirect("ilias.php?baseClass=ilMailGUI&type=new&rcp_to=".$logins);
 		}
 
-		ilUtil::sendInfo($this->lng->txt("select_one"),true);
+		ilUtil::sendFailure($this->lng->txt("select_one"),true);
 		$this->ctrl->redirect($this, "members");
 	}
 	
@@ -1224,7 +1223,7 @@ return;
 		}
   		else
 		{
-			ilUtil::sendInfo($this->lng->txt("select_one"),true);
+			ilUtil::sendFailure($this->lng->txt("select_one"),true);
 			return false;
 		}
 	}
@@ -1240,7 +1239,7 @@ return;
   
 		$this->object->members_obj->setNoticeForMember($_GET["member_id"],
 			ilUtil::stripSlashes($_POST["comments_value"]));
-		ilUtil::sendInfo($this->lng->txt("exc_members_comments_saved"));
+		ilUtil::sendSuccess($this->lng->txt("exc_members_comments_saved"));
 		$this->membersObject();
 	}
 
@@ -1295,7 +1294,7 @@ return;
 		{
 			$save_for_str = "(".implode($saved_for, " - ").")";
 		}
-		ilUtil::sendInfo($this->lng->txt("exc_status_saved")." ".$save_for_str,true);
+		ilUtil::sendSuccess($this->lng->txt("exc_status_saved")." ".$save_for_str,true);
 		return true;
 	}
 
@@ -1669,7 +1668,7 @@ return;
 			$_GET["cmd"] = "frameset";
 			$_GET["target"] = "";
 			$_GET["ref_id"] = ROOT_FOLDER_ID;
-			ilUtil::sendInfo(sprintf($lng->txt("msg_no_perm_read_item"),
+			ilUtil::sendFailure(sprintf($lng->txt("msg_no_perm_read_item"),
 				ilObject::_lookupTitle(ilObject::_lookupObjId($a_target))), true);
 			include("repository.php");
 			exit;

@@ -3,7 +3,7 @@
 	+-----------------------------------------------------------------------------+
 	| ILIAS open source                                                           |
 	+-----------------------------------------------------------------------------+
-	| Copyright (c) 1998-2006 ILIAS open source, University of Cologne            |
+	| Copyright (c) 1998-2009 ILIAS open source, University of Cologne            |
 	|                                                                             |
 	| This program is free software; you can redistribute it and/or               |
 	| modify it under the terms of the GNU General Public License                 |
@@ -344,7 +344,7 @@ class ilStructureObjectGUI extends ilLMObjectGUI
 		$items = ilUtil::stripSlashesArray($_POST["id"]);
 		if (!is_array($items))
 		{
-			ilUtil::sendInfo($lng->txt("no_checkbox"), true);
+			ilUtil::sendFailure($lng->txt("no_checkbox"), true);
 			$ilCtrl->redirect($this, "showHierarchy");
 		}
 		
@@ -363,7 +363,7 @@ class ilStructureObjectGUI extends ilLMObjectGUI
 		
 		if (!ilLMObject::uniqueTypesCheck($items))
 		{
-			ilUtil::sendInfo($lng->txt("cont_choose_pages_or_chapters_only"), true);
+			ilUtil::sendFailure($lng->txt("cont_choose_pages_or_chapters_only"), true);
 			$ilCtrl->redirect($this, "showHierarchy");
 		}
 
@@ -385,7 +385,7 @@ class ilStructureObjectGUI extends ilLMObjectGUI
 		$items = ilUtil::stripSlashesArray($_POST["id"]);
 		if (!is_array($items))
 		{
-			ilUtil::sendInfo($lng->txt("no_checkbox"), true);
+			ilUtil::sendFailure($lng->txt("no_checkbox"), true);
 			$ilCtrl->redirect($this, "showHierarchy");
 		}
 		
@@ -404,7 +404,7 @@ class ilStructureObjectGUI extends ilLMObjectGUI
 		
 		if (!ilLMObject::uniqueTypesCheck($items))
 		{
-			ilUtil::sendInfo($lng->txt("cont_choose_pages_or_chapters_only"), true);
+			ilUtil::sendFailure($lng->txt("cont_choose_pages_or_chapters_only"), true);
 			$ilCtrl->redirect($this, "showHierarchy");
 		}
 
@@ -911,7 +911,7 @@ class ilStructureObjectGUI extends ilLMObjectGUI
 		}
 		else
 		{
-			ilUtil::sendInfo($lng->txt("no_checkbox"), true);
+			ilUtil::sendFailure($lng->txt("no_checkbox"), true);
 		}
 		
 		$this->ctrl->redirect($this, "view");
@@ -940,7 +940,6 @@ class ilStructureObjectGUI extends ilLMObjectGUI
 	*/
 	function cancel()
 	{
-		ilUtil::sendInfo($this->lng->txt("msg_cancel"), true);
 		if ($_GET["obj_id"] != 0)
 		{
 			if ($_GET["new_type"] == "pg")
@@ -1044,7 +1043,7 @@ class ilStructureObjectGUI extends ilLMObjectGUI
 			$_GET["cmd"] = "frameset";
 			$_GET["target"] = "";
 			$_GET["ref_id"] = ROOT_FOLDER_ID;
-			ilUtil::sendInfo(sprintf($lng->txt("msg_no_perm_read_item"),
+			ilUtil::sendFailure(sprintf($lng->txt("msg_no_perm_read_item"),
 				ilObject::_lookupTitle($lm_id)), true);
 			include("repository.php");
 			exit;

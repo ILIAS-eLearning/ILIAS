@@ -3,7 +3,7 @@
 	+-----------------------------------------------------------------------------+
 	| ILIAS open source                                                           |
 	+-----------------------------------------------------------------------------+
-	| Copyright (c) 1998-2006 ILIAS open source, University of Cologne            |
+	| Copyright (c) 1998-2009 ILIAS open source, University of Cologne            |
 	|                                                                             |
 	| This program is free software; you can redistribute it and/or               |
 	| modify it under the terms of the GNU General Public License                 |
@@ -3077,7 +3077,7 @@ class ilLMPresentationGUI
 		}
 		else
 		{
-			ilUtil::sendInfo($lng->txt("cont_print_no_page_selected"),true);
+			ilUtil::sendFailure($lng->txt("cont_print_no_page_selected"),true);
 			$ilCtrl->redirect($this, "showPrintViewSelection");
 		}
 		
@@ -3528,7 +3528,7 @@ class ilLMPresentationGUI
 				// ONLY ONE EDITION
 				if(count($_POST["target"]) != 1)
 				{
-					ilUtil::sendInfo($this->lng->txt("cont_citation_err_one"));
+					ilUtil::sendFailure($this->lng->txt("cont_citation_err_one"));
 					$_POST["action"] = "";
 					$_POST["target"] = 0;
 					return false;

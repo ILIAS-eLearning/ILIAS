@@ -396,28 +396,28 @@ class ilObjSystemFolderGUI extends ilObjectGUI
 			or empty($_POST["admin_phone"]) or empty($_POST["admin_email"]))
 		{
 			// feedback
-			ilUtil::sendInfo($this->lng->txt("fill_out_all_required_fields"));
+			ilUtil::sendFailure($this->lng->txt("fill_out_all_required_fields"));
 			$form_valid = false;
 		}
 		// check email adresses
 		// feedback_recipient
 		if (!ilUtil::is_email($_POST["feedback_recipient"]) and !empty($_POST["feedback_recipient"]) and $form_valid)
 		{
-			ilUtil::sendInfo($this->lng->txt("input_error").": '".$this->lng->txt("feedback_recipient")."'<br/>".$this->lng->txt("email_not_valid"));
+			ilUtil::sendFailure($this->lng->txt("input_error").": '".$this->lng->txt("feedback_recipient")."'<br/>".$this->lng->txt("email_not_valid"));
 			$form_valid = false;
 		}
 
 		// error_recipient
 		if (!ilUtil::is_email($_POST["error_recipient"]) and !empty($_POST["error_recipient"]) and $form_valid)
 		{
-			ilUtil::sendInfo($this->lng->txt("input_error").": '".$this->lng->txt("error_recipient")."'<br/>".$this->lng->txt("email_not_valid"));
+			ilUtil::sendFailure($this->lng->txt("input_error").": '".$this->lng->txt("error_recipient")."'<br/>".$this->lng->txt("email_not_valid"));
 			$form_valid = false;
 		}
 
 		// admin email
 		if (!ilUtil::is_email($_POST["admin_email"]) and $form_valid)
 		{
-			ilUtil::sendInfo($this->lng->txt("input_error").": '".$this->lng->txt("email")."'<br/>".$this->lng->txt("email_not_valid"));
+			ilUtil::sendFailure($this->lng->txt("input_error").": '".$this->lng->txt("email")."'<br/>".$this->lng->txt("email_not_valid"));
 			$form_valid = false;
 		}
 
@@ -1513,7 +1513,7 @@ class ilObjSystemFolderGUI extends ilObjectGUI
 			$this->object->addHeaderTitleTranslation(ilUtil::stripSlashes($val["title"]),ilUtil::stripSlashes($val["desc"]),$val["lang"],$default);
 		}
 
-		ilUtil::sendInfo($this->lng->txt("msg_obj_modified"),true);
+		ilUtil::sendSuccess($this->lng->txt("msg_obj_modified"),true);
 
 		$this->ctrl->redirect($this);
 	}
@@ -1710,7 +1710,7 @@ class ilObjSystemFolderGUI extends ilObjectGUI
 //echo ":".$_POST["max_records"].":<br>"; exit;
 		$ilBench->setMaximumRecords($_POST["max_records"]);
 
-		ilUtil::sendInfo($this->lng->txt("msg_obj_modified"), true);
+		ilUtil::sendSuccess($this->lng->txt("msg_obj_modified"), true);
 
 		$this->ctrl->redirect($this, "benchmark");
 	}

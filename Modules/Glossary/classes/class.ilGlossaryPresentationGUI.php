@@ -3,7 +3,7 @@
 	+-----------------------------------------------------------------------------+
 	| ILIAS open source                                                           |
 	+-----------------------------------------------------------------------------+
-	| Copyright (c) 1998-2006 ILIAS open source, University of Cologne            |
+	| Copyright (c) 1998-2009 ILIAS open source, University of Cologne            |
 	|                                                                             |
 	| This program is free software; you can redistribute it and/or               |
 	| modify it under the terms of the GNU General Public License                 |
@@ -155,9 +155,6 @@ class ilGlossaryPresentationGUI
 		$this->tpl->addBlockFile("CONTENT", "content", "tpl.adm_content.html");
 		$this->tpl->addBlockFile("STATUSLINE", "statusline", "tpl.statusline.html");
 		$title = $this->glossary->getTitle();
-
-		// catch feedback message
-		ilUtil::sendInfo();
 
 		$this->tpl->setTitle($title);
 		$this->tpl->setTitleIcon(ilUtil::getImagePath("icon_glo_b.gif"));

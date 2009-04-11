@@ -3,7 +3,7 @@
 	+-----------------------------------------------------------------------------+
 	| ILIAS open source                                                           |
 	+-----------------------------------------------------------------------------+
-	| Copyright (c) 1998-2008 ILIAS open source, University of Cologne            |
+	| Copyright (c) 1998-2009 ILIAS open source, University of Cologne            |
 	|                                                                             |
 	| This program is free software; you can redistribute it and/or               |
 	| modify it under the terms of the GNU General Public License                 |
@@ -169,7 +169,7 @@ class ilGlossaryTermGUI
 		$_SESSION["il_text_lang_".$_GET["ref_id"]] = $_POST["term_language"];
 		$term->create();
 
-		ilUtil::sendInfo($this->lng->txt("cont_added_term"),true);
+		ilUtil::sendSuccess($this->lng->txt("cont_added_term"),true);
 		$this->ctrl->returnToParent($this);
 	}
 
@@ -211,7 +211,7 @@ class ilGlossaryTermGUI
 		$this->term->setTerm(ilUtil::stripSlashes($_POST["term"]));
 		$this->term->setLanguage($_POST["term_language"]);
 		$this->term->update();
-		ilUtil::sendInfo($this->lng->txt("msg_obj_modified"),true);
+		ilUtil::sendSuccess($this->lng->txt("msg_obj_modified"),true);
 		$this->ctrl->redirect($this, "editTerm");
 	}
 
@@ -427,7 +427,7 @@ class ilGlossaryTermGUI
 		$this->tpl->setTitleIcon(ilUtil::getImagePath("icon_term_b.gif"));
 
 		$this->tpl->addBlockfile("ADM_CONTENT", "def_list", "tpl.glossary_definition_delete.html", true);
-		ilUtil::sendInfo($this->lng->txt("info_delete_sure"));
+		ilUtil::sendQuestion($this->lng->txt("info_delete_sure"));
 
 		$this->tpl->setVariable("TXT_TERM", $this->term->getTerm());
 
@@ -521,7 +521,6 @@ class ilGlossaryTermGUI
 	*/
 	function cancel()
 	{
-		ilUtil::sendInfo($this->lng->txt("msg_cancel"),true);
 		$this->ctrl->redirect($this, "listDefinitions");
 	}
 
@@ -547,7 +546,6 @@ class ilGlossaryTermGUI
 	{
 		$this->tpl->addBlockFile("CONTENT", "content", "tpl.adm_content.html");
 		$this->tpl->addBlockFile("STATUSLINE", "statusline", "tpl.statusline.html");
-		ilUtil::sendInfo();
 	}
 
 	/**
@@ -643,7 +641,7 @@ class ilGlossaryTermGUI
 			$_GET["cmd"] = "frameset";
 			$_GET["target"] = "";
 			$_GET["ref_id"] = ROOT_FOLDER_ID;
-			ilUtil::sendInfo(sprintf($lng->txt("msg_no_perm_read_item"),
+			ilUtil::sendFailure(sprintf($lng->txt("msg_no_perm_read_item"),
 				ilObject::_lookupTitle($glo_id)), true);
 			include("repository.php");
 			exit;

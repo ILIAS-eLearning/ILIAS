@@ -4,7 +4,7 @@
 	+-----------------------------------------------------------------------------+
 	| ILIAS open source                                                           |
 	+-----------------------------------------------------------------------------+
-	| Copyright (c) 1998-2006 ILIAS open source, University of Cologne            |
+	| Copyright (c) 1998-2009 ILIAS open source, University of Cologne            |
 	|                                                                             |
 	| This program is free software; you can redistribute it and/or               |
 	| modify it under the terms of the GNU General Public License                 |
@@ -322,11 +322,11 @@ class ilObjFileGUI extends ilObjectGUI
 						$_GET["ref_id"],
 						$containerType,
 						true);
-					ilUtil::sendInfo($this->lng->txt("file_added"),true);					
+					ilUtil::sendSuccess($this->lng->txt("file_added"),true);					
 				}
 				catch (ilFileUtilsException $e) 
 				{
-					ilUtil::sendInfo($e->getMessage(), true);
+					ilUtil::sendFailure($e->getMessage(), true);
 				}
 
 				ilUtil::delDir($newDir);
@@ -408,7 +408,7 @@ class ilObjFileGUI extends ilObjectGUI
 				ilChangeEvent::_recordWriteEvent($fileObj->getId(), $ilUser->getId(), 'create');
 			}
 			// END ChangeEvent: Record write event.
-			ilUtil::sendInfo($this->lng->txt("file_added"),true);
+			ilUtil::sendSuccess($this->lng->txt("file_added"),true);
 			
 			$this->ctrl->setParameter($this, "ref_id", $fileObj->getRefId());
 			if ($this->ctrl->getCmd() == "saveAndMeta")
@@ -516,7 +516,7 @@ class ilObjFileGUI extends ilObjectGUI
 		}
 		// END ChangeEvent: Record update event.
 		
-		ilUtil::sendInfo($this->lng->txt("msg_obj_modified"),true);
+		ilUtil::sendSuccess($this->lng->txt("msg_obj_modified"),true);
 		ilUtil::redirect($this->ctrl->getLinkTarget($this,'edit'));
 	}
 
@@ -826,7 +826,7 @@ class ilObjFileGUI extends ilObjectGUI
 			$_GET["cmd"] = "frameset";
 			$_GET["target"] = "";
 			$_GET["ref_id"] = ROOT_FOLDER_ID;
-			ilUtil::sendInfo(sprintf($lng->txt("msg_no_perm_read_item"),
+			ilUtil::sendFailure(sprintf($lng->txt("msg_no_perm_read_item"),
 				ilObject::_lookupTitle(ilObject::_lookupObjId($a_target))), true);
 			include("repository.php");
 			exit;
