@@ -918,7 +918,6 @@ class ilObjSurvey extends ilObject
 		if ($result->numRows() == 1) 
 		{
 			$data = $ilDB->fetchAssoc($result);
-			
 			$this->setSurveyId($data["survey_id"]);
 			if (strlen($this->getAuthor()) == 0)
 			{
@@ -940,9 +939,9 @@ class ilObjSurvey extends ilObject
 			$this->setInvitationMode($data["invitation_mode"]);
 			$this->setShowQuestionTitles($data["show_question_titles"]);
 			$this->setStartDate($data["startdate"]);
-			$this->setStartDateEnabled(strlen($data["startdate"]))
+			$this->setStartDateEnabled(strlen($data["startdate"]));
 			$this->setEndDate($data["enddate"]);
-			$this->setEndDateEnabled(strlen($data["enddate"]))
+			$this->setEndDateEnabled(strlen($data["enddate"]));
 			$this->setAnonymize($data["anonymize"]);
 			$this->setEvaluationAccess($data["evaluation_access"]);
 			$this->loadQuestionsFromDb();
@@ -2366,7 +2365,7 @@ class ilObjSurvey extends ilObject
 	{
 		global $ilDB;
 		$obligatory_states = array();
-		$result = $ilDB->uqeryF("SELECT * FROM svy_qst_oblig WHERE survey_fi = %s",
+		$result = $ilDB->queryF("SELECT * FROM svy_qst_oblig WHERE survey_fi = %s",
 			array('integer'),
 			array($this->getSurveyId())
 		);
@@ -2755,7 +2754,7 @@ class ilObjSurvey extends ilObject
 		if ($result->numRows() < 1)
 		{
 			$next_id = $ilDB->nextId('svy_inv_usr');
-			$affectedRows = $ilDB->manipulateF("INSERT INTO svy_inv_usr (invited_user_id, survey_fi, user_fi, tstamp) "
+			$affectedRows = $ilDB->manipulateF("INSERT INTO svy_inv_usr (invited_user_id, survey_fi, user_fi, tstamp) " .
 				"VALUES (%s, %s, %s, %s)",
 				array('integer','integer','integer','integer'),
 				array($next_id, $this->getSurveyId(), $user_id, time())
@@ -3233,23 +3232,31 @@ class ilObjSurvey extends ilObject
 	function getUserDataFromActiveId($active_id)
 	{
 		global $ilDB;
-		
+
+		$surveySetting = new ilSetting("survey");
+		$use_anonymous_id = array_key_exists("use_anonymous_id", $_GET) ? $_GET["use_anonymous_id"] : $surveySetting->get("use_anonymous_id");
 		$result = $ilDB->queryF("SELECT * FROM svy_finished WHERE finished_id = %s",
 			array('integer'),
 			array($active_id)
 		);
+		$row = array();
+		$foundrows = $result->numRows();
+		if ($foundrows)
+		{
+			$row = $ilDB->fetchAssoc($result);
+		}
+		$name = ($use_anonymous_id) ? $row["anonymous_id"] : $this->lng->txt("anonymous");
 		$userdata = array(
-			"fullname" => $this->lng->txt("anonymous"),
-			"sortname" => $this->lng->txt("anonymous"),
+			"fullname" => $name,
+			"sortname" => $name,
 			"firstname" => "",
 			"lastname" => "",
 			"login" => "",
 			"gender" => "",
 			"active_id" => "$active_id"
 		);
-		if ($result->numRows())
+		if ($foundrows)
 		{
-			$row = $ilDB->fetchAssoc($result);
 			if (($row["user_fi"] > 0) && ($row["user_fi"] != ANONYMOUS_USER_ID) && ($this->getAnonymize() == 0))
 			{
 				include_once './Services/User/classes/class.ilObjUser.php';
@@ -3367,7 +3374,7 @@ class ilObjSurvey extends ilObject
 		$result_array = array();
 		$result = $ilDB->query("SELECT svy_question.*, svy_qtype.type_tag FROM svy_question, svy_qtype WHERE ".
 			"svy_question.questiontype_fi = svy_qtype.questiontype_id AND ".
-			$ilDB->in('svy_question.question_id', $question_ids, false, 'integer'))
+			$ilDB->in('svy_question.question_id', $question_ids, false, 'integer'));
 		while ($row = $ilDB->fetchAssoc($result))
 		{
 			array_push($result_array, $row);
@@ -3472,7 +3479,7 @@ class ilObjSurvey extends ilObject
 			" $where$order");
 		$max = $query_result->numRows();
 		$ilDB->setLimit($maxentries, $startrow);
-		$query_result = $ilDB->query("SELECT svy_question.*, svy_qtype.type_tag, svy_qtype.plugin, object_reference.ref_id FROM "
+		$query_result = $ilDB->query("SELECT svy_question.*, svy_qtype.type_tag, svy_qtype.plugin, object_reference.ref_id FROM " .
 			"svy_question, svy_qtype, object_reference WHERE svy_question.questiontype_fi = svy_qtype.questiontype_id".
 			"$forbidden$existing AND svy_question.obj_fi = object_reference.obj_id AND ISNULL(svy_question.original_id) " . 
 			" $where$order");
@@ -4845,6 +4852,16 @@ class ilObjSurvey extends ilObject
 		{
 			return FALSE;
 		}
+	}
+	
+	/**
+	* Sets the survey id
+	*
+	* @param integer $survey_id The survey id
+	*/
+	public function setSurveyId($survey_id)
+	{
+		$this->survey_id = $survey_id;
 	}
 } // END class.ilObjSurvey
 ?>
