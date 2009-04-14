@@ -1229,6 +1229,15 @@ Runtime.onTerminate = function (data, msec) /// or user walks away
 	{
 		data.cmi.success_status = 'incomplete';
 	}
+	
+	/*
+	if (guiItem) {
+		var activeId = guiItem.id;
+		updateNav();
+		addClass(all(activeId), "current");		
+	}
+	*/
+		
 
 };
 

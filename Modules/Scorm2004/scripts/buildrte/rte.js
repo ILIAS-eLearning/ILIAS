@@ -1,4 +1,4 @@
-// Build: 20081228214605 
+// Build: 2009414194233 
 /*
 	+-----------------------------------------------------------------------------+
 	| ILIAS open source                                                           |
@@ -8980,6 +8980,7 @@ function sclog(mess, type)
 
 	if (type=="seq" && disable_sequencer_logging==true) return;
 	log_auto_flush=true;
+
 	switch (type)
 	{
 		case "cmi": 
@@ -9043,6 +9044,8 @@ function sclogdump(param, type)
 	if (disable_all_logging) {
 		return;
 	}
+	
+	
 	depth = 0;
 	
 	var pre = ''
@@ -10904,6 +10907,7 @@ function init(config)
 	//set data from LMS
 	globalAct.learner_id=this.config.learner_id;
 	globalAct.learner_name=this.config.learner_name;
+	globalAct.auto_review = this.config.auto_review;
 	
 	// walk throught activities and add some helpful properties
 	camWalk(cam.item, rootAct);
@@ -11160,20 +11164,22 @@ function load()
 		act = activitiesByCMI[row[remoteMapping.comment.cmi_node_id]];
 		act.comments[dat.cmi_comment_id] = dat;
 	}
-	var interactions = {};
-	for (i=0;i<cmi.data.interaction.length; i++ )
+	
+	var interactions = {};	
+	for (i=cmi.data.interaction.length; i--; )
 	{
-		row = cmi.data.interaction[i];
-		dat = new Interaction();
-		for (j=remoteMapping.interaction.length; j--; ) 
-		{
-			//dat[remoteMapping.interaction[j]] = row[j];
-			setItemValue(j, dat, row, remoteMapping.interaction[j]);
-		}
-		act = activitiesByCMI[row[remoteMapping.interaction.cmi_node_id]];
-		act.interactions[dat.id] = dat;
-		interactions[dat.cmi_interaction_id] = dat;
+	    row = cmi.data.interaction[i];
+	    dat = new Interaction();
+	    for (j=remoteMapping.interaction.length; j--; )
+	    {
+	        //dat[remoteMapping.interaction[j]] = row[j];
+	        setItemValue(j, dat, row, remoteMapping.interaction[j]);
+	    }
+	    act = activitiesByCMI[row[remoteMapping.interaction.cmi_node_id]];
+	    act.interactions[dat.cmi_interaction_id] = dat;
+	    interactions[dat.cmi_interaction_id] = dat;
 	}
+	
 	for (i=cmi.data.correct_response.length; i--; )
 	{
 		row = cmi.data.correct_response[i];
@@ -11240,7 +11246,13 @@ function save()
 		for (var k in collection) 
 		{
 			var item = collection[k];
-			if (item.dirty===0) {continue;}
+			if (item.dirty===0)  {continue;}
+			if (item.options) {
+				if (item.options.notracking === true) 
+				{
+					continue;
+				}
+			}
 			var data = [];
 			for (var i=0, ni=schem.length; i<ni; i++) 
 			{
@@ -11622,6 +11634,16 @@ function onItemDeliver(item) // onDeliver called from sequencing process (delive
 	syncSharedCMI(item);
 		
 	scoStartTime = currentTime();
+	
+	//support for auto-review
+	item.options = new Object();
+	item.options.notracking = false;
+	if (globalAct.auto_review) {
+		if (item.completion_status == 'completed' || item.success_status == 'passed') {
+			pubAPI.mode = "review";
+			item.options.notracking = true;
+		}
+	}
 	
 	//clear existing completion status in case of 2nd attempt
 	if (currentAPI) {
@@ -12048,6 +12070,7 @@ function updateNav() {
 			}
 		}
 		var elm = all(ITEM_PREFIX + tree[i].mActivityID);
+		if (!elm) {return;}
 		toggleClass(elm, 'disabled', disable); 
 		
 		//search for the node to change
@@ -12057,7 +12080,6 @@ function updateNav() {
 		
 			var node_stat_completion=activities[tree[i].mActivityID].completion_status;
 			//not attempted
-	
 			if (node_stat_completion==null || node_stat_completion=="not attempted") {
 				toggleClass(elm,"not_attempted",1);
 			}
@@ -13442,6 +13464,15 @@ Runtime.onTerminate = function (data, msec) /// or user walks away
 	{
 		data.cmi.success_status = 'incomplete';
 	}
+	
+	/*
+	if (guiItem) {
+		var activeId = guiItem.id;
+		updateNav();
+		addClass(all(activeId), "current");		
+	}
+	*/
+		
 
 };
 

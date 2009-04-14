@@ -286,8 +286,10 @@ class ilSCORM13Player
 			'learner_name' => $ilUser->getFirstname()." ".$ilUser->getLastname(),
 			'mode' => 'normal',
 			'credit' => 'credit',
+			'auto_review' => $this->slm->getAutoReview(),
 			'package_url' =>  $this->getDataDirectory()."/"
 		);
+				
 		
 		//language strings
 		$langstrings['btnStart'] = $lng->txt('scplayer_start');
@@ -851,7 +853,6 @@ class ilSCORM13Player
 						$no = $schem['cmi_interaction_id']['no'];
 						$row[$no] = $map['interaction'][$row[$no]];
 						
-						//check this value $map['interaction'][$row[$no]];
 					case 'comment':
 					case 'interaction':
 						$no = $schem['cmi_node_id']['no'];

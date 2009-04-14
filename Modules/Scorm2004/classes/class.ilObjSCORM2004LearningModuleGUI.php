@@ -110,6 +110,15 @@ class ilObjSCORM2004LearningModuleGUI extends ilObjSCORMLearningModuleGUI
 			"credit_mode", $credit_modes, false, true);
 		$this->tpl->setVariable("SEL_CREDIT_MODE", $sel_credit);
 
+		// auto review mode
+		$this->tpl->setVariable("TXT_AUTO_REVIEW", $this->lng->txt("cont_sc_auto_review"));
+		$this->tpl->setVariable("CBOX_AUTO_REVIEW", "auto_review");
+		$this->tpl->setVariable("VAL_AUTO_REVIEW", "y");
+		if ($this->object->getAutoReview())
+		{
+			$this->tpl->setVariable("CHK_AUTO_REVIEW", "checked");
+		}
+		
 		// max attempts
 		$this->tpl->setVariable("MAX_ATTEMPTS", $this->lng->txt("cont_sc_max_attempt"));
 		$this->tpl->setVariable("VAL_MAX_ATTEMPT", $this->object->getMaxAttempt());
@@ -133,7 +142,7 @@ class ilObjSCORM2004LearningModuleGUI extends ilObjSCORMLearningModuleGUI
 		$this->object->setOnline(ilUtil::yn2tf($_POST["cobj_online"]));
 		$this->object->setCreditMode($_POST["credit_mode"]);
 		$this->object->setMaxAttempt($_POST["max_attempt"]);
-		
+		$this->object->setAutoReview(ilUtil::yn2tf($_POST["auto_review"]));
 		$this->object->setDefaultLessonMode($_POST["lesson_mode"]);
 		$this->object->update();
 		ilUtil::sendInfo($this->lng->txt("msg_obj_modified"), true);
