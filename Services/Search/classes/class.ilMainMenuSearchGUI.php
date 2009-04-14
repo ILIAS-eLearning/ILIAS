@@ -77,6 +77,10 @@ class ilMainMenuSearchGUI
 		{
 			#return '';
 		}
+		if($_GET['baseClass'] == 'ilSearchController')
+		{
+			return '';
+		}
 		
 		$this->tpl = new ilTemplate('tpl.main_menu_search.html',true,true,'Services/Search');
 		$this->tpl->setVariable('FORMACTION','ilias.php?baseClass=ilSearchController&cmd=post'.

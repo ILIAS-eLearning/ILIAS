@@ -51,7 +51,8 @@ class ilLuceneAdvancedSearchActivationTableGUI extends ilTable2GUI
 	 	
 	 	parent::__construct($a_parent_obj,$a_parent_cmd);
 	 	$this->addColumn('','id','0px');
-	 	$this->addColumn($this->lng->txt('title'),'title','100%');
+	 	$this->addColumn($this->lng->txt('title'),'title','60%');
+	 	$this->addColumn($this->lng->txt('type'),'type','40%');
 		$this->setRowTemplate('tpl.lucene_activation_row.html','Services/Search');
 		$this->disable('sort');
 		$this->setLimit(100);
@@ -68,6 +69,7 @@ class ilLuceneAdvancedSearchActivationTableGUI extends ilTable2GUI
 		$this->tpl->setVariable('VAL_ID',$a_set['id']);
 		$this->tpl->setVariable('VAL_CHECKED',$a_set['active'] ? 'checked="checked"' : '');
 		$this->tpl->setVariable('VAL_TITLE',$a_set['title']);
+		$this->tpl->setVariable('VAL_TYPE',$a_set['type']);
 		
 	}
 	
@@ -78,6 +80,10 @@ class ilLuceneAdvancedSearchActivationTableGUI extends ilTable2GUI
 			$tmp_arr['id'] = $field;
 			$tmp_arr['active'] = $settings->isActive($field);
 			$tmp_arr['title'] = $translation;
+			
+			$tmp_arr['type'] = (substr($field,0,3) == 'lom') ?
+				$this->lng->txt('search_lom') :
+				$this->lng->txt('search_adv_md'); 
 			
 			$content[] = $tmp_arr;
 		}

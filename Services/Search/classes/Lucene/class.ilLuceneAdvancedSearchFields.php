@@ -106,7 +106,22 @@ class ilLuceneAdvancedSearchFields
 			'lom_purpose'				=> $lng->txt('meta_purpose'),	
 			'lom_taxon'					=> $lng->txt('meta_taxon')
 			);
-		
+			
+		// Append all advanced meta data fields
+		/*
+		include_once './Services/AdvancedMetaData/classes/class.ilAdvancedMDRecord.php';
+		include_once './Services/AdvancedMetaData/classes/class.ilAdvancedMDFieldDefinition.php';
+		foreach(ilAdvancedMDRecord::_getRecords() as $record)
+		{
+			foreach(ilAdvancedMDFieldDefinition::_getDefinitionsByRecordId($record->getRecordId()) as $def)
+			{
+				if($def->isSearchable())
+				{
+					$fields['adv_'.$def->getFieldId()] = $def->getTitle();
+				}
+			}	
+		}
+		*/
 		return $fields;
 	}
 	
@@ -303,6 +318,25 @@ class ilLuceneAdvancedSearchFields
 				$text->setSize(30);
 				$text->setMaxLength(255);
 				return $text;
+				
+			default:
+				if(substr($a_field_name,0,3) != 'adv')
+					break;
+					
+				// Advanced meta data
+				$field_id = substr($a_field_name,4);
+				include_once './Services/AdvancedMetaData/classes/class.ilAdvancedMDFieldDefinition.php';
+				$field = ilAdvancedMDFieldDefinition::_getInstanceByFieldId($field_id);
+				
+				switch($field->getFieldType())
+				{
+					case ilAdvancedMDFieldDefinition::TYPE_TEXT:
+						$text = new ilTextInputGUI($this->active_fields[$a_field_name],$a_post_name);
+						$text->setValue($a_query[$a_field_name]);
+						$text->setSize(30);
+						$text->setMaxLength(255);
+						return $text;
+				}
 		}
 		return null;
 	}
@@ -369,6 +403,24 @@ class ilLuceneAdvancedSearchFields
 
 			case 'lom_taxon':
 				return 'lomTaxon:'.$a_query;
+				
+			default:
+				if(substr($a_field,0,3) != 'adv')
+					break;
+					
+				// Advanced meta data
+				$field_id = substr($a_field,4);
+				include_once './Services/AdvancedMetaData/classes/class.ilAdvancedMDFieldDefinition.php';
+				$field = ilAdvancedMDFieldDefinition::_getInstanceByFieldId($field_id);
+				
+				switch($field->getFieldType())
+				{
+					case ilAdvancedMDFieldDefinition::TYPE_TEXT:
+					case ilAdvancedMDFieldDefinition::TYPE_SELECT:
+						return 'advancedMetaData_'.$field_id.':'.$a_query;
+
+				}
+				break;
 		}
 	}
 	
@@ -501,7 +553,21 @@ class ilLuceneAdvancedSearchFields
 					$this->active_sections['classification']['fields'][] = 'lom_taxon';
 					$this->active_sections['classification']['name'] = $this->lng->txt('meta_classification');
 					break;
-				 
+					
+				default:
+					if(substr($field_name,0,3) != 'adv')
+						break;
+
+					// Advanced meta data
+					$field_id = substr($field_name,4);
+					include_once './Services/AdvancedMetaData/classes/class.ilAdvancedMDFieldDefinition.php';
+					include_once './Services/AdvancedMetaData/classes/class.ilAdvancedMDRecord.php';
+					$field = ilAdvancedMDFieldDefinition::_getInstanceByFieldId($field_id);
+					$record_id = $field->getRecordId();
+					
+					$this->active_sections['adv_record_'.$record_id]['fields'][] = $field_name;
+					$this->active_sections['adv_record_'.$record_id]['name'] = ilAdvancedMDRecord::_lookupTitle($record_id);
+					break;
 			}
 		}
 	}
