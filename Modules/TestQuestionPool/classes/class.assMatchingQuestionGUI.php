@@ -104,7 +104,10 @@ class assMatchingQuestionGUI extends assQuestionGUI
 		{
 			foreach ($terms as $index => $term)
 			{
-				$this->object->setTerm($term, $index);
+				if (!in_array($term, $this->object->getTerms()))
+				{
+					$this->object->setTerm($term, $index);
+				}
 			}
 		}
 		
