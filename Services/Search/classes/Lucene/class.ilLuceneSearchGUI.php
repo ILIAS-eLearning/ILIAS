@@ -22,6 +22,7 @@
 */
 
 include_once './Services/Search/classes/class.ilSearchBaseGUI.php';
+include_once './Services/Search/classes/Lucene/class.ilLuceneAdvancedSearchFields.php';
 include_once './Services/PersonalDesktop/interfaces/interface.ilDesktopItemHandling.php';
 include_once './Services/Administration/interfaces/interface.ilAdministrationCommandHandling.php';
 
@@ -51,7 +52,9 @@ class ilLuceneSearchGUI extends ilSearchBaseGUI implements ilDesktopItemHandling
 		
 		$this->tabs_gui = $ilTabs;
 		parent::__construct();
+		$this->fields = ilLuceneAdvancedSearchFields::getInstance(); 
 		$this->initUserSearchCache();
+		
 	}
 	
 	/**
@@ -483,7 +486,10 @@ class ilLuceneSearchGUI extends ilSearchBaseGUI implements ilDesktopItemHandling
 	protected function getTabs()
 	{
 		$this->tabs_gui->addTarget('search',$this->ctrl->getLinkTarget($this));
-		$this->tabs_gui->addTarget('search_advanced',$this->ctrl->getLinkTargetByClass('illuceneAdvancedSearchgui'));
+		if($this->fields->getActiveFields())
+		{
+			$this->tabs_gui->addTarget('search_advanced',$this->ctrl->getLinkTargetByClass('illuceneAdvancedSearchgui'));
+		}
 		
 		$this->tabs_gui->setTabActive('search');
 		

@@ -40,6 +40,7 @@ class ilUserSearchCache
 	const SHOP_ADVANCED_SEARCH = 3;
 	const ADVANCED_MD_SEARCH = 4;
 	const LUCENE_DEFAULT = 5;
+	const LUCENE_ADVANCED = 6;
 
 	private static $instance = null;
 	private $db;

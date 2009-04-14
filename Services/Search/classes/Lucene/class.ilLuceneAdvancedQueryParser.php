@@ -21,68 +21,64 @@
 	+-----------------------------------------------------------------------------+
 */
 
-include_once './Services/Table/classes/class.ilTable2GUI.php';
+include_once './Services/Search/classes/Lucene/class.ilLuceneQueryParser.php';
 include_once './Services/Search/classes/Lucene/class.ilLuceneAdvancedSearchFields.php';
 
 /** 
-* Activation of meta data fields
+* 
 * 
 * @author Stefan Meyer <meyer@leifos.com>
 * @version $Id$
 * 
 *
-* @ingroup 
+* @ingroup ServicesSearch
 */
-class ilLuceneAdvancedSearchActivationTableGUI extends ilTable2GUI
+class ilLuceneAdvancedQueryParser extends ilLuceneQueryParser
 {
+	protected $field_definition = null;
+	protected $query_data = array();
+
 	/**
-	 * constructor
-	 *
-	 * @access public
-	 * @param
-	 * 
+	 * Constructor
 	 */
-	public function __construct($a_parent_obj,$a_parent_cmd = '')
+	public function __construct($a_query_data)
 	{
-	 	global $lng,$ilCtrl;
-	 	
-	 	$this->lng = $lng;
-	 	$this->ctrl = $ilCtrl;
-	 	
-	 	parent::__construct($a_parent_obj,$a_parent_cmd);
-	 	$this->addColumn('','id','0px');
-	 	$this->addColumn($this->lng->txt('title'),'title','100%');
-		$this->setRowTemplate('tpl.lucene_activation_row.html','Services/Search');
-		$this->disable('sort');
-		$this->setLimit(100);
-		$this->setSelectAllCheckbox('fid');
-		$this->setFormAction($this->ctrl->getFormAction($a_parent_obj));
-		$this->addMultiCommand('saveAdvancedLuceneSettings',$this->lng->txt('lucene_activate_field'));
-	}
-	
-	/**
-	 * Fill template row
-	 */
-	public function fillRow($a_set)
-	{
-		$this->tpl->setVariable('VAL_ID',$a_set['id']);
-		$this->tpl->setVariable('VAL_CHECKED',$a_set['active'] ? 'checked="checked"' : '');
-		$this->tpl->setVariable('VAL_TITLE',$a_set['title']);
+		parent::__construct('');
 		
+		$this->field_definition = ilLuceneAdvancedSearchFields::getInstance();
+		$this->query_data = $a_query_data;
 	}
 	
-	public function parse(ilLuceneAdvancedSearchSettings $settings)
+	/**
+	 * Get field definition settings
+	 */
+	public function getFieldDefinition()
 	{
-		foreach(ilLuceneAdvancedSearchFields::getFields() as $field => $translation)
-		{
-			$tmp_arr['id'] = $field;
-			$tmp_arr['active'] = $settings->isActive($field);
-			$tmp_arr['title'] = $translation;
-			
-			$content[] = $tmp_arr;
-		}
-		$this->setData($content ? $content : array());
+		return $this->field_definition;
 	}
 	
+	public function getQueryData()
+	{
+		return $this->query_data ? $this->query_data : array();
+	}
+	
+	public function parse()
+	{
+		foreach($this->getQueryData() as $field => $query)
+		{
+			if(!trim($query))
+			{
+				continue;
+			}
+			$parsed = $this->getFieldDefinition()->parseFieldQuery($field,$query);
+			if(strlen($parsed))
+			{
+				$this->parsed_query .= " +(";
+				$this->parsed_query .= $parsed;
+				$this->parsed_query .= ") ";
+			}
+		}
+		return true;
+	}	
 }
 ?>

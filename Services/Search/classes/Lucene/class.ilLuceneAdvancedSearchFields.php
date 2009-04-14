@@ -21,6 +21,9 @@
 	+-----------------------------------------------------------------------------+
 */
 
+
+include_once './Services/Search/classes/Lucene/class.ilLuceneAdvancedSearchSettings.php';
+
 /** 
 * Field definitions of advanced meta data search
 * 
@@ -32,6 +35,46 @@
 */
 class ilLuceneAdvancedSearchFields
 {
+	private static $instance = null;
+	private $settings = null;
+	
+	protected $lng = null;
+	
+	private static $fields = null;
+	private $active_fields = array();
+	
+	private static $sections = null;
+	private $active_sections = array(); 
+	
+	
+	protected function __construct()
+	{
+		global $lng;
+		
+		$this->settings = ilLuceneAdvancedSearchSettings::getInstance();
+		
+		$this->lng = $lng;
+		$this->lng->loadLanguageModule('meta');
+		
+		$this->readFields();
+		$this->readSections();
+	}
+	
+	/**
+	 * Get singleton instance
+	 */
+	public static function getInstance()
+	{
+		if(isset(self::$instance) and self::$instance)
+		{
+			return self::$instance;
+		}
+		return self::$instance = new ilLuceneAdvancedSearchFields();
+	}
+	
+	/**
+	 * Return an array of all meta data fields
+	 */
 	public static function getFields()
 	{
 		global $lng;
@@ -66,5 +109,402 @@ class ilLuceneAdvancedSearchFields
 		
 		return $fields;
 	}
+	
+	/**
+	 * Get all active fields 
+	 */
+	public function getActiveFields()
+	{
+		return $this->active_fields ? $this->active_fields : array();
+	}
+	
+	public function getActiveSections()
+	{
+		return $this->active_sections ? $this->active_sections : array();
+	}
+	
+	public function getFormElement($a_query,$a_field_name)
+	{
+		include_once './Services/MetaData/classes/class.ilMDUtilSelect.php';
+
+		$a_post_name = 'query['.$a_field_name.']';
+
+		switch($a_field_name)
+		{
+			case 'lom_content':
+				$text = new ilTextInputGUI($this->active_fields[$a_field_name],$a_post_name);
+				$text->setValue($a_query['lom_content']);
+				$text->setSize(30);
+				$text->setMaxLength(255);
+				return $text;
+			
+			// General	
+			case 'lom_language':
+				$select = new ilSelectInputGUI($this->active_fields[$a_field_name],$a_post_name);
+				$select->setValue($a_query['lom_language']);
+				$select->setOptions(ilMDUtilSelect::_getLanguageSelect(
+					'',
+					$a_field_name,
+					array(0 => $this->lng->txt('meta_please_select')),
+					true));
+				return $select;
+							
+			case 'lom_keyword':
+				$text = new ilTextInputGUI($this->active_fields[$a_field_name],$a_post_name);
+				$text->setValue($a_query['lom_keyword']);
+				$text->setSize(30);
+				$text->setMaxLength(255);
+				return $text;
+
+			case 'lom_coverage':
+				$text = new ilTextInputGUI($this->active_fields[$a_field_name],$a_post_name);
+				$text->setValue($a_query['lom_coverage']);
+				$text->setSize(30);
+				$text->setMaxLength(255);
+				return $text;
+
+			case 'lom_structure':
+				$select = new ilSelectInputGUI($this->active_fields[$a_field_name],$a_post_name);
+				$select->setValue($a_query['lom_structure']);
+				$select->setOptions(ilMDUtilSelect::_getStructureSelect(
+					'',
+					$a_field_name,
+					array(0 => $this->lng->txt('meta_please_select')),
+					true));
+				return $select;
+
+			// Lifecycle
+			case 'lom_status':
+				$select = new ilSelectInputGUI($this->active_fields[$a_field_name],$a_post_name);
+				$select->setValue($a_query['lom_status']);
+				$select->setOptions(ilMDUtilSelect::_getStatusSelect(
+					'',
+					$a_field_name,
+					array(0 => $this->lng->txt('meta_please_select')),
+					true));
+				return $select;
+
+			case 'lom_version':
+				$text = new ilTextInputGUI($this->active_fields[$a_field_name],$a_post_name);
+				$text->setValue($a_query['lom_version']);
+				$text->setSize(30);
+				$text->setMaxLength(255);
+				return $text;
+
+			// Technical
+			case 'lom_format':
+				$select = new ilSelectInputGUI($this->active_fields[$a_field_name],$a_post_name);
+				$select->setValue($a_query['lom_format']);
+				$select->setOptions(ilMDUtilSelect::_getFormatSelect(
+					'',
+					$a_field_name,
+					array(0 => $this->lng->txt('meta_please_select')),
+					true));
+				return $select;
+
+			case 'lom_operating_system':
+				$select = new ilSelectInputGUI($this->active_fields[$a_field_name],$a_post_name);
+				$select->setValue($a_query['lom_operating_system']);
+				$select->setOptions(ilMDUtilSelect::_getOperatingSystemSelect(
+					'',
+					$a_field_name,
+					array(0 => $this->lng->txt('meta_please_select')),
+					true));
+				return $select;
+
+			case 'lom_browser':
+				$select = new ilSelectInputGUI($this->active_fields[$a_field_name],$a_post_name);
+				$select->setValue($a_query['lom_browser']);
+				$select->setOptions(ilMDUtilSelect::_getBrowserSelect(
+					'',
+					$a_field_name,
+					array(0 => $this->lng->txt('meta_please_select')),
+					true));
+				return $select;
+			
+			// Education
+			case 'lom_interactivity':
+				$select = new ilSelectInputGUI($this->active_fields[$a_field_name],$a_post_name);
+				$select->setValue($a_query['lom_interactivity']);
+				$select->setOptions(ilMDUtilSelect::_getInteractivityTypeSelect(
+					'',
+					$a_field_name,
+					array(0 => $this->lng->txt('meta_please_select')),
+					true));
+				return $select;
+			
+			case 'lom_resource':
+				$select = new ilSelectInputGUI($this->active_fields[$a_field_name],$a_post_name);
+				$select->setValue($a_query['lom_resource']);
+				$select->setOptions(ilMDUtilSelect::_getLearningResourceTypeSelect(
+					'',
+					$a_field_name,
+					array(0 => $this->lng->txt('meta_please_select')),
+					true));
+				return $select;
+			
+			case 'lom_user_role':
+				$select = new ilSelectInputGUI($this->active_fields[$a_field_name],$a_post_name);
+				$select->setValue($a_query['lom_user_role']);
+				$select->setOptions(ilMDUtilSelect::_getIntendedEndUserRoleSelect(
+					'',
+					$a_field_name,
+					array(0 => $this->lng->txt('meta_please_select')),
+					true));
+				return $select;
+			
+			case 'lom_context':
+				$select = new ilSelectInputGUI($this->active_fields[$a_field_name],$a_post_name);
+				$select->setValue($a_query['lom_context']);
+				$select->setOptions(ilMDUtilSelect::_getContextSelect(
+					'',
+					$a_field_name,
+					array(0 => $this->lng->txt('meta_please_select')),
+					true));
+				return $select;
+
+			// Rights				
+			case 'lom_costs':
+				$select = new ilSelectInputGUI($this->active_fields[$a_field_name],$a_post_name);
+				$select->setValue($a_query['lom_costs']);
+				$select->setOptions(ilMDUtilSelect::_getCostsSelect(
+					'',
+					$a_field_name,
+					array(0 => $this->lng->txt('meta_please_select')),
+					true));
+				return $select;
+
+			case 'lom_copyright':
+				$select = new ilSelectInputGUI($this->active_fields[$a_field_name],$a_post_name);
+				$select->setValue($a_query['lom_copyright']);
+				$select->setOptions(ilMDUtilSelect::_getCopyrightAndOtherRestrictionsSelect(
+					'',
+					$a_field_name,
+					array(0 => $this->lng->txt('meta_please_select')),
+					true));
+				return $select;
+				
+
+
+			// Classification
+			case 'lom_purpose':
+				$select = new ilSelectInputGUI($this->active_fields[$a_field_name],$a_post_name);
+				$select->setValue($a_query['lom_purpose']);
+				$select->setOptions(ilMDUtilSelect::_getPurposeSelect(
+					'',
+					$a_field_name,
+					array(0 => $this->lng->txt('meta_please_select')),
+					true));
+				return $select;
+
+			case 'lom_taxon':
+				$text = new ilTextInputGUI($this->active_fields[$a_field_name],$a_post_name);
+				$text->setValue($a_query['lom_taxon']);
+				$text->setSize(30);
+				$text->setMaxLength(255);
+				return $text;
+		}
+		return null;
+	}
+	
+	
+	/** 
+	 * Called from ilLuceneAdvancedQueryParser
+	 * Parse a field specific query
+	 */
+	public function parseFieldQuery($a_field,$a_query)
+	{
+		switch($a_field)
+		{
+			case 'lom_content':
+				return $a_query;
+				
+			case 'lom_language':
+				return 'lomLanguage:'.$a_query;
+				
+			case 'lom_keyword':
+				return 'lomKeyword:'.$a_query;
+				
+			case 'lom_coverage':
+				return 'lomCoverage:'.$a_query;
+				
+			case 'lom_structure':
+				return 'lomStructure:'.$a_query;
+							
+			case 'lom_status':
+				return 'lomStatus:'.$a_query;
+
+			case 'lom_version':
+				return 'lomVersion:'.$a_query;
+
+			case 'lom_format':
+				return 'lomFormat:'.$a_query;
+
+			case 'lom_operating_system':
+				return 'lomOS:'.$a_query;
+
+			case 'lom_browser':
+				return 'lomBrowser:'.$a_query;
+
+			case 'lom_interactivity':
+				return 'lomInteractivity:'.$a_query;
+
+			case 'lom_resource':
+				return 'lomResource:'.$a_query;
+				
+			case 'lom_user_role':
+				return 'lomUserRole:'.$a_query;
+
+			case 'lom_context':
+				return 'lomContext:'.$a_query;
+			
+			case 'lom_costs':
+				return 'lomCosts:'.$a_query;
+
+			case 'lom_copyright':
+				return 'lomCopyright:'.$a_query;
+
+			case 'lom_purpose':
+				return 'lomPurpose:'.$a_query;
+
+			case 'lom_taxon':
+				return 'lomTaxon:'.$a_query;
+		}
+	}
+	
+	
+	/**
+	 * Read active fields
+	 */
+	protected function readFields()
+	{
+		foreach(self::getFields() as $name => $translation)
+		{
+			if($this->settings->isActive($name))
+			{
+				$this->active_fields[$name] = $translation;
+			}
+		}
+	}
+	
+	/**
+	 * Read active sections
+	 */
+	protected function readSections()
+	{
+		foreach($this->getActiveFields() as $field_name => $translation)
+		{
+			switch($field_name)
+			{
+				// Default section
+				case 'lom_content':
+					$this->active_sections['default']['fields'][] = 'lom_content';
+					$this->active_sections['default']['name'] = '';
+					break;
+				case 'lom_type':
+					$this->active_sections['default']['fields'][] = 'lom_type';
+					$this->active_sections['default']['name'] = '';
+					break;
+				
+				// General	
+				case 'lom_language':
+					$this->active_sections['general']['fields'][] = 'lom_language';
+					$this->active_sections['general']['name'] = $this->lng->txt('meta_general');
+					break;
+				case 'lom_keyword':
+					$this->active_sections['general']['fields'][] = 'lom_keyword';
+					$this->active_sections['general']['name'] = $this->lng->txt('meta_general');
+					break;
+				case 'lom_coverage':
+					$this->active_sections['general']['fields'][] = 'lom_coverage';
+					$this->active_sections['general']['name'] = $this->lng->txt('meta_general');
+					break;
+				case 'lom_structure':
+					$this->active_sections['general']['fields'][] = 'lom_structure';
+					$this->active_sections['general']['name'] = $this->lng->txt('meta_general');
+					break;
+					
+				// Lifecycle
+				case 'lom_status':
+					$this->active_sections['lifecycle']['fields'][] = 'lom_status';
+					$this->active_sections['lifecycle']['name'] = $this->lng->txt('meta_lifecycle');
+					break;
+				case 'lom_version':
+					$this->active_sections['lifecycle']['fields'][] = 'lom_version';
+					$this->active_sections['lifecycle']['name'] = $this->lng->txt('meta_lifecycle');
+					break;
+				case 'lom_contribute':
+					$this->active_sections['lifecycle']['fields'][] = 'lom_contribute';
+					$this->active_sections['lifecycle']['name'] = $this->lng->txt('meta_lifecycle');
+					break;
+					
+				// Technical
+				case 'lom_format':
+					$this->active_sections['technical']['fields'][] = 'lom_format';
+					$this->active_sections['technical']['name'] = $this->lng->txt('meta_technical');
+					break;
+				case 'lom_operating_system':
+					$this->active_sections['technical']['fields'][] = 'lom_operating_system';
+					$this->active_sections['technical']['name'] = $this->lng->txt('meta_technical');
+					break;
+				case 'lom_browser':
+					$this->active_sections['technical']['fields'][] = 'lom_browser';
+					$this->active_sections['technical']['name'] = $this->lng->txt('meta_technical');
+					break;
+					
+				// Education
+				case 'lom_interactivity':
+					$this->active_sections['education']['fields'][] = 'lom_interactivity';
+					$this->active_sections['education']['name'] = $this->lng->txt('meta_education');
+					break;
+				case 'lom_resource':
+					$this->active_sections['education']['fields'][] = 'lom_resource';
+					$this->active_sections['education']['name'] = $this->lng->txt('meta_education');
+					break;
+				case 'lom_level':
+					$this->active_sections['education']['fields'][] = 'lom_level';
+					$this->active_sections['education']['name'] = $this->lng->txt('meta_education');
+					break;
+				case 'lom_density':
+					$this->active_sections['education']['fields'][] = 'lom_density';
+					$this->active_sections['education']['name'] = $this->lng->txt('meta_education');
+					break;
+				case 'lom_user_role':
+					$this->active_sections['education']['fields'][] = 'lom_user_role';
+					$this->active_sections['education']['name'] = $this->lng->txt('meta_education');
+					break;
+				case 'lom_context':
+					$this->active_sections['education']['fields'][] = 'lom_context';
+					$this->active_sections['education']['name'] = $this->lng->txt('meta_education');
+					break;
+				case 'lom_difficulty':
+					$this->active_sections['education']['fields'][] = 'lom_difficulty';
+					$this->active_sections['education']['name'] = $this->lng->txt('meta_education');
+					break;
+					
+				// Rights
+				case 'lom_costs':
+					$this->active_sections['rights']['fields'][] = 'lom_costs';
+					$this->active_sections['rights']['name'] = $this->lng->txt('meta_rights');
+					break;
+				case 'lom_copyright':
+					$this->active_sections['rights']['fields'][] = 'lom_copyright';
+					$this->active_sections['rights']['name'] = $this->lng->txt('meta_rights');
+					break;
+				
+				// Classification
+				case 'lom_purpose':
+					$this->active_sections['classification']['fields'][] = 'lom_purpose';
+					$this->active_sections['classification']['name'] = $this->lng->txt('meta_classification');
+					break;
+				case 'lom_taxon':
+					$this->active_sections['classification']['fields'][] = 'lom_taxon';
+					$this->active_sections['classification']['name'] = $this->lng->txt('meta_classification');
+					break;
+				 
+			}
+		}
+	}
+
 }
 ?>
