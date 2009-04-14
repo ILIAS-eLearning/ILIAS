@@ -20,81 +20,56 @@
         +-----------------------------------------------------------------------------+
 */
 
-package de.ilias.services.object;
+package de.ilias.services.lucene.index.file;
 
-import java.io.File;
+import java.io.BufferedReader;
 import java.io.IOException;
-import java.sql.ResultSet;
-
-import de.ilias.services.lucene.index.CommandQueueElement;
-import de.ilias.services.lucene.index.DocumentHandlerException;
-import de.ilias.services.lucene.index.file.ExtensionFileHandler;
-import de.ilias.services.lucene.index.file.FileHandlerException;
-import de.ilias.services.lucene.index.file.path.PathCreator;
-import de.ilias.services.lucene.index.file.path.PathCreatorException;
-
-
+import java.io.InputStream;
+import java.io.InputStreamReader;
 
 /**
- * 
+ * Handle plain text files
  *
  * @author Stefan Meyer <smeyer.ilias@gmx.de>
  * @version $Id$
  */
-public class FileDataSource extends DataSource {
+public class PlainTextHandler implements FileHandler {
 
-	private PathCreator pathCreator = null;
-	
 	/**
-	 * @param type
+	 * 
 	 */
-	public FileDataSource(int type) {
-
-		super(type);
+	public PlainTextHandler() {
 	}
 
 	/**
-	 * @see de.ilias.services.lucene.index.DocumentHandler#writeDocument(de.ilias.services.lucene.index.CommandQueueElement, java.sql.ResultSet)
+	 * @see de.ilias.services.lucene.index.file.FileHandler#getContent(java.io.InputStream)
 	 */
-	public void writeDocument(CommandQueueElement el, ResultSet res)
-			throws DocumentHandlerException {
+	public String getContent(InputStream is) throws FileHandlerException {
 
-		File file;
-		ExtensionFileHandler handler = new ExtensionFileHandler();
-		
-		try {
-			if(getPathCreator() == null) {
-				logger.info("No path creator defined");
-				return;
+		StringBuilder content = new StringBuilder();
+        BufferedReader br = new BufferedReader(new InputStreamReader(is));
+
+        is = transformStream(is);
+        
+        try {
+            String line = null;
+			while((line = br.readLine()) != null) {
+			    content.append(' ');
+				content.append(line);
 			}
-			file = getPathCreator().buildFile(el, res);
-			
-			// Analyze encoding (transfer encoding), parse file extension and finally read content
-			for(Object field : getFields()) {
-				((FieldDefinition) field).writeDocument(handler.getContent(file));
-			}
-			logger.debug("File path is: " + file.getAbsolutePath());
-			return;
-		}
-		catch (PathCreatorException e) {
-			throw new DocumentHandlerException(e);
+	        br.close();
+	        return content.toString();
 		} 
-		catch (FileHandlerException e) {
-			throw new DocumentHandlerException(e);
-		}
+        catch (IOException e) {
+        	throw new FileHandlerException("Cannot read plain text file: " + e);
+        }
 	}
 
 	/**
-	 * @param pathCreator the pathCreator to set
+	 * @see de.ilias.services.lucene.index.file.FileHandler#transformStream(java.io.InputStream)
 	 */
-	public void setPathCreator(PathCreator pathCreator) {
-		this.pathCreator = pathCreator;
-	}
+	public InputStream transformStream(InputStream is) {
 
-	/**
-	 * @return the pathCreator
-	 */
-	public PathCreator getPathCreator() {
-		return pathCreator;
+		return is;
 	}
 }

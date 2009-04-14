@@ -20,27 +20,45 @@
         +-----------------------------------------------------------------------------+
 */
 
-package de.ilias.services.lucene.transform;
+package de.ilias.services.lucene.index.transform;
 
-import java.io.InputStream;
+import java.util.HashMap;
+
+import javax.xml.transform.Transformer;
 
 import org.apache.log4j.Logger;
 
 /**
- * Interface for all transformer classes.
+ * A caching transformer factory
  *
  * @author Stefan Meyer <smeyer.ilias@gmx.de>
  * @version $Id$
  */
-public interface ContentTransformer {
+public class TransformerFactory {
 
-	static Logger logger = Logger.getLogger(ContentTransformer.class);
+	protected static Logger logger = Logger.getLogger(Transformer.class);
 	
-	/**
-	 * String which will be filtered
-	 * 
-	 * @param content
-	 * @return
-	 */
-	public String transform(String content);
+	private static HashMap<String, ContentTransformer> map = new HashMap<String, ContentTransformer>();
+	
+	public static ContentTransformer factory(String name) {
+		
+		if(map.containsKey(name))
+			return map.get(name);
+		
+		if(name.equalsIgnoreCase("QuotingSanitizer")) {
+			map.put(name,new QuotingSanitizer());
+			return map.get(name);
+		}
+		if(name.equalsIgnoreCase("ContentObjectTransformer")) {
+			map.put(name, new ContentObjectTransformer());
+			return map.get(name);
+		}
+		if(name.equalsIgnoreCase("LinefeedSanitizer")) {
+			map.put(name, new LinefeedSanitizer());
+			return map.get(name);
+		}
+		logger.error("Cannot find transformer with name: " + name);
+		return null;
+	}
+	
 }

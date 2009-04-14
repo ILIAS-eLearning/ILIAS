@@ -20,26 +20,27 @@
         +-----------------------------------------------------------------------------+
 */
 
-package de.ilias.services.lucene.transform;
+package de.ilias.services.lucene.index.file.path;
 
-import java.io.InputStream;
-import java.util.regex.Pattern;
+import org.apache.log4j.Logger;
+
+import de.ilias.services.object.ObjectDefinitionException;
 
 /**
- * Sanitizes Content from [quote]asdasd[/quote] snippets
+ * 
  *
  * @author Stefan Meyer <smeyer.ilias@gmx.de>
  * @version $Id$
  */
-public class QuotingSanitizer implements ContentTransformer {
-
-	/**
-	 * 
-	 * @see de.ilias.services.lucene.transform.ContentTransformer#transform(java.io.InputStream)
-	 */
-	public String transform(String content) {
-
-		return Pattern.compile("\\[quote\\].*?\\[/quote\\]",Pattern.DOTALL).matcher(content).replaceAll("");
+public class PathCreatorFactory {
+	
+	private static Logger logger = Logger.getLogger(PathCreator.class);
+	
+	public static PathCreator factory(String name) throws ObjectDefinitionException {
+		
+		if(name.equalsIgnoreCase("FileObjectPathCreator")) {
+			return (PathCreator) new FileObjectPathCreator();
+		}
+		throw new ObjectDefinitionException("Invalid path creator name given: " + name);
 	}
-
 }

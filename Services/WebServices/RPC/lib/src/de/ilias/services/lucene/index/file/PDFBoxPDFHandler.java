@@ -20,20 +20,15 @@
         +-----------------------------------------------------------------------------+
 */
 
-package de.ilias.services.object;
+package de.ilias.services.lucene.index.file;
 
-import java.io.File;
 import java.io.IOException;
-import java.sql.ResultSet;
+import java.io.InputStream;
+import java.io.StringWriter;
 
-import de.ilias.services.lucene.index.CommandQueueElement;
-import de.ilias.services.lucene.index.DocumentHandlerException;
-import de.ilias.services.lucene.index.file.ExtensionFileHandler;
-import de.ilias.services.lucene.index.file.FileHandlerException;
-import de.ilias.services.lucene.index.file.path.PathCreator;
-import de.ilias.services.lucene.index.file.path.PathCreatorException;
-
-
+import org.apache.log4j.Logger;
+import org.pdfbox.pdmodel.PDDocument;
+import org.pdfbox.util.PDFTextStripper;
 
 /**
  * 
@@ -41,60 +36,68 @@ import de.ilias.services.lucene.index.file.path.PathCreatorException;
  * @author Stefan Meyer <smeyer.ilias@gmx.de>
  * @version $Id$
  */
-public class FileDataSource extends DataSource {
+public class PDFBoxPDFHandler implements FileHandler {
 
-	private PathCreator pathCreator = null;
+	protected Logger logger = Logger.getLogger(PDFBoxPDFHandler.class);
+	
 	
 	/**
-	 * @param type
+	 * @throws IOException 
+	 * @see de.ilias.services.lucene.index.file.FileHandler#getContent(java.io.InputStream)
 	 */
-	public FileDataSource(int type) {
+	public String getContent(InputStream is) throws FileHandlerException {
 
-		super(type);
-	}
-
-	/**
-	 * @see de.ilias.services.lucene.index.DocumentHandler#writeDocument(de.ilias.services.lucene.index.CommandQueueElement, java.sql.ResultSet)
-	 */
-	public void writeDocument(CommandQueueElement el, ResultSet res)
-			throws DocumentHandlerException {
-
-		File file;
-		ExtensionFileHandler handler = new ExtensionFileHandler();
+		PDDocument pddo = null;
+		StringWriter writer = new StringWriter();
 		
 		try {
-			if(getPathCreator() == null) {
-				logger.info("No path creator defined");
-				return;
+			PDFTextStripper stripper;
+			pddo = PDDocument.load(is);
+
+			if(pddo.isEncrypted()) {
+				logger.warn("PDF Document is encrypted. Trying empty password...");
+				return writer.toString();
 			}
-			file = getPathCreator().buildFile(el, res);
 			
-			// Analyze encoding (transfer encoding), parse file extension and finally read content
-			for(Object field : getFields()) {
-				((FieldDefinition) field).writeDocument(handler.getContent(file));
+			writer = new StringWriter();
+			stripper = new PDFTextStripper();
+			stripper.writeText(pddo, writer);
+			return writer.toString();
+
+		}
+		catch (NullPointerException e) {
+			e.printStackTrace();
+			logger.warn(e.getMessage());
+		}
+		
+		catch (IOException e) {
+			e.printStackTrace();
+			logger.warn(e.getMessage());
+			throw new FileHandlerException(e);
+		}
+		catch (Exception e) {
+			e.printStackTrace();
+			logger.error(e.getMessage());
+			throw new FileHandlerException(e);			
+		}
+		finally {
+			try {
+				logger.debug("Closing pdDocument");
+				pddo.close();
 			}
-			logger.debug("File path is: " + file.getAbsolutePath());
-			return;
+			catch (IOException e) {
+				;
+			}
 		}
-		catch (PathCreatorException e) {
-			throw new DocumentHandlerException(e);
-		} 
-		catch (FileHandlerException e) {
-			throw new DocumentHandlerException(e);
-		}
+		return "";
 	}
 
 	/**
-	 * @param pathCreator the pathCreator to set
+	 * @see de.ilias.services.lucene.index.file.FileHandler#transformStream(java.io.InputStream)
 	 */
-	public void setPathCreator(PathCreator pathCreator) {
-		this.pathCreator = pathCreator;
+	public InputStream transformStream(InputStream is) {
+		// TODO Auto-generated method stub
+		return null;
 	}
 
-	/**
-	 * @return the pathCreator
-	 */
-	public PathCreator getPathCreator() {
-		return pathCreator;
-	}
 }

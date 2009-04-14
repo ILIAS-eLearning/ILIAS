@@ -28,8 +28,6 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.Vector;
 
-import org.apache.lucene.document.Document;
-
 import de.ilias.services.db.DBFactory;
 import de.ilias.services.lucene.index.CommandQueueElement;
 import de.ilias.services.lucene.index.DocumentHandler;
@@ -146,12 +144,12 @@ public class JDBCDataSource extends DataSource {
 	 * @see de.ilias.services.lucene.index.DocumentHandler#writeDocument(de.ilias.services.lucene.index.CommandQueueElement, java.sql.ResultSet)
 	 */
 	public void writeDocument(CommandQueueElement el, ResultSet parentResult)
-			throws DocumentHandlerException, IOException {
+			throws DocumentHandlerException {
 		
 		logger.debug("Handling data source: " + getType());
 		
 		try {
-			// Create Statement for JDBC datasource
+			// Create Statement for JDBC data source
 			DocumentHolder doc = DocumentHolder.factory();
 			this.sta = getStatement();
 			
@@ -184,6 +182,10 @@ public class JDBCDataSource extends DataSource {
 			}
 		}
 		catch (SQLException e) {
+			logger.error("Cannot parse data source.");
+			throw new DocumentHandlerException(e);
+		} 
+		catch (IOException e) {
 			logger.error("Cannot parse data source.");
 			throw new DocumentHandlerException(e);
 		}

@@ -20,23 +20,27 @@
         +-----------------------------------------------------------------------------+
 */
 
-package de.ilias.services.lucene.index;
+package de.ilias.services.lucene.index.transform;
 
+import java.io.InputStream;
 
-import java.io.IOException;
-import java.sql.ResultSet;
-
-import org.apache.lucene.document.Document;
+import org.apache.log4j.Logger;
 
 /**
- * 
+ * Interface for all transformer classes.
  *
  * @author Stefan Meyer <smeyer.ilias@gmx.de>
  * @version $Id$
  */
-public interface DocumentHandler {
+public interface ContentTransformer {
+
+	public static Logger logger = Logger.getLogger(ContentTransformer.class);
 	
-	void writeDocument(CommandQueueElement el) throws DocumentHandlerException, IOException;
-	
-	void writeDocument(CommandQueueElement el,ResultSet res) throws DocumentHandlerException;
+	/**
+	 * String which will be filtered
+	 * 
+	 * @param content
+	 * @return
+	 */
+	public String transform(String content);
 }

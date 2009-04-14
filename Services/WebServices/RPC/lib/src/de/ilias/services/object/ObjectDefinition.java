@@ -144,7 +144,7 @@ public class ObjectDefinition implements DocumentHandler {
 	 * @see de.ilias.services.lucene.index.DocumentHandler#writeDocument(de.ilias.services.lucene.index.CommandQueueElement, java.sql.ResultSet)
 	 */
 	public void writeDocument(CommandQueueElement el, ResultSet res)
-			throws DocumentHandlerException, IOException {
+			throws DocumentHandlerException {
 		// TODO Auto-generated method stub
 		
 	}

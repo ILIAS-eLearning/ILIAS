@@ -20,14 +20,11 @@
         +-----------------------------------------------------------------------------+
 */
 
-package de.ilias.services.lucene.transform;
+package de.ilias.services.lucene.index.file.path;
 
-import java.util.Stack;
+import java.util.Vector;
 
 import org.apache.log4j.Logger;
-import org.xml.sax.Attributes;
-import org.xml.sax.SAXException;
-import org.xml.sax.helpers.DefaultHandler;
 
 /**
  * 
@@ -35,92 +32,86 @@ import org.xml.sax.helpers.DefaultHandler;
  * @author Stefan Meyer <smeyer.ilias@gmx.de>
  * @version $Id$
  */
-public class PageObjectHandler extends DefaultHandler {
-
-	protected Logger logger = Logger.getLogger(PageObjectHandler.class);
+public class PathUtils {
 	
-	private StringBuffer buffer = new StringBuffer();
-	private boolean isContent = false;
+	protected static final int FACTOR = 100;
+	protected static final int MAX_EXPONENT = 3;
 	
-	public void endDocument() {
-		
-	}
-    
+	protected static Logger logger = Logger.getLogger(PathUtils.class);
+	
+	
 	/**
 	 * 
-	 */
-    public void startElement (String uri, String localName, String qName, Attributes attributes)
-	throws SAXException
-	{
-    	if(localName.equalsIgnoreCase("Paragraph")) {
-    		isContent = true;
-    	}
-    	/*
-    	if(localName.equalsIgnoreCase("Strong")) {
-    	}
-    	if(localName.equalsIgnoreCase("Comment")) {
-    		
-    	}
-    	if(localName.equalsIgnoreCase("Emph")) {
-    		
-    	}
-    	if(localName.equalsIgnoreCase("Footnote")) {
-    		
-    	}
-    	if(localName.equalsIgnoreCase("Quotation")) {
-    		
-    	}
-    	if(localName.equalsIgnoreCase("Code")) {
-    		
-    	}
-    	*/
-	}
-
-	/**
-	 * 
-	 */
-	public void endElement (String uri, String localName, String qName)
-	throws SAXException
-    {
-		if(localName.equalsIgnoreCase("Paragraph")) {
-			isContent = false;
-		}
-    }
-
-	/**
-	 * 
-	 */
-    public void characters (char ch[], int start, int length)
-	throws SAXException
-    {
-    	if(!isContent) {
-    		return;
-    	}
-    	
-    	for(int i = start; i < start + length; i++) {
-    		
-    		switch(ch[i]) {
-    		
-    		case '\\':
-    		case '"':
-    		case '\r':
-    		case '\n':
-    		case '\t':
-    			break;
-    		default:
-    			buffer.append(ch[i]);
-    		}
-    	}
-    	buffer.append(' ');
-    }
-
-	/**
+	 * @param objId
 	 * @return
 	 */
-	public String getContent() {
-
-		logger.debug("Parsed content:" + buffer.toString());
-		return buffer.toString();
+	public static String buildSplittedPathFromId(int objId) {
+		
+		boolean found	= false;
+		int num		= objId;
+		Vector<String>	path	= new Vector<String>();
+		StringBuilder pathString = new StringBuilder();
+		
+		for(int i = PathUtils.MAX_EXPONENT; i > 0; i--) {
+			
+			int tmp = 0;
+			int factor = (int) Math.pow(PathUtils.FACTOR, i);
+			
+			if(((tmp = (num / factor)) != 0) || found) {
+				
+				path.add(String.valueOf(tmp));
+				num = num % factor;
+				found = true;
+			}
+		}
+		
+		for(int i = 0; i < path.size(); i++) {
+			
+			pathString.append(path.get(i));
+			pathString.append(System.getProperty("file.separator"));
+		}
+		
+		return pathString.toString();
+	}
+	
+	/**
+	 * 
+	 * @param objId
+	 * @param name
+	 * @return
+	 */
+	public static String buildSplittedPathFromId(int objId, String name) {
+		
+		StringBuilder fullPath = new StringBuilder();
+		
+		fullPath.append(PathUtils.buildSplittedPathFromId(objId));
+		if(fullPath.length() == 0) {
+			return "";
+		}
+		fullPath.append(name);
+		fullPath.append('_');
+		fullPath.append(String.valueOf(objId));
+		fullPath.append(System.getProperty("file.separator"));
+		
+		return fullPath.toString();
+	}
+	
+	public static String buildVersionDirectory(int version) {
+		
+		StringBuilder directoryName = new StringBuilder();
+		
+		if(version < 10) {
+			directoryName.append("00");
+			directoryName.append(String.valueOf(version));
+			return directoryName.toString();
+		}
+		else if(version < 100) {
+			directoryName.append("0");
+			directoryName.append(String.valueOf(version));
+			return directoryName.toString();
+			
+		}
+		return "";
 	}
 
 }

@@ -37,6 +37,7 @@ import org.jdom.Element;
 import org.xml.sax.SAXException;
 
 import de.ilias.services.lucene.index.FieldInfo;
+import de.ilias.services.lucene.index.file.path.PathCreatorFactory;
 import de.ilias.services.settings.ClientSettings;
 import de.ilias.services.settings.ConfigurationException;
 import de.ilias.services.settings.LocalSettings;
@@ -249,6 +250,11 @@ public class ObjectDefinitionParser {
 			ds = new FileDataSource(DataSource.TYPE_FILE);
 			ds.setAction(source.getAttributeValue("action"));
 			
+			Element pathCreator = source.getChild("PathCreator");
+			if(pathCreator != null) {
+				((FileDataSource) ds).setPathCreator(
+						PathCreatorFactory.factory(pathCreator.getAttributeValue("name")));
+			}
 		}
 		else
 			throw new ObjectDefinitionException("Invalid type for element 'DataSource' type=" + 

@@ -20,20 +20,14 @@
         +-----------------------------------------------------------------------------+
 */
 
-package de.ilias.services.object;
+package de.ilias.services.lucene.index.transform;
 
-import java.io.File;
-import java.io.IOException;
-import java.sql.ResultSet;
+import java.util.Stack;
 
-import de.ilias.services.lucene.index.CommandQueueElement;
-import de.ilias.services.lucene.index.DocumentHandlerException;
-import de.ilias.services.lucene.index.file.ExtensionFileHandler;
-import de.ilias.services.lucene.index.file.FileHandlerException;
-import de.ilias.services.lucene.index.file.path.PathCreator;
-import de.ilias.services.lucene.index.file.path.PathCreatorException;
-
-
+import org.apache.log4j.Logger;
+import org.xml.sax.Attributes;
+import org.xml.sax.SAXException;
+import org.xml.sax.helpers.DefaultHandler;
 
 /**
  * 
@@ -41,60 +35,92 @@ import de.ilias.services.lucene.index.file.path.PathCreatorException;
  * @author Stefan Meyer <smeyer.ilias@gmx.de>
  * @version $Id$
  */
-public class FileDataSource extends DataSource {
+public class PageObjectHandler extends DefaultHandler {
 
-	private PathCreator pathCreator = null;
+	protected Logger logger = Logger.getLogger(PageObjectHandler.class);
 	
-	/**
-	 * @param type
-	 */
-	public FileDataSource(int type) {
-
-		super(type);
-	}
-
-	/**
-	 * @see de.ilias.services.lucene.index.DocumentHandler#writeDocument(de.ilias.services.lucene.index.CommandQueueElement, java.sql.ResultSet)
-	 */
-	public void writeDocument(CommandQueueElement el, ResultSet res)
-			throws DocumentHandlerException {
-
-		File file;
-		ExtensionFileHandler handler = new ExtensionFileHandler();
+	private StringBuffer buffer = new StringBuffer();
+	private boolean isContent = false;
+	
+	public void endDocument() {
 		
-		try {
-			if(getPathCreator() == null) {
-				logger.info("No path creator defined");
-				return;
-			}
-			file = getPathCreator().buildFile(el, res);
-			
-			// Analyze encoding (transfer encoding), parse file extension and finally read content
-			for(Object field : getFields()) {
-				((FieldDefinition) field).writeDocument(handler.getContent(file));
-			}
-			logger.debug("File path is: " + file.getAbsolutePath());
-			return;
-		}
-		catch (PathCreatorException e) {
-			throw new DocumentHandlerException(e);
-		} 
-		catch (FileHandlerException e) {
-			throw new DocumentHandlerException(e);
-		}
+	}
+    
+	/**
+	 * 
+	 */
+    public void startElement (String uri, String localName, String qName, Attributes attributes)
+	throws SAXException
+	{
+    	if(localName.equalsIgnoreCase("Paragraph")) {
+    		isContent = true;
+    	}
+    	/*
+    	if(localName.equalsIgnoreCase("Strong")) {
+    	}
+    	if(localName.equalsIgnoreCase("Comment")) {
+    		
+    	}
+    	if(localName.equalsIgnoreCase("Emph")) {
+    		
+    	}
+    	if(localName.equalsIgnoreCase("Footnote")) {
+    		
+    	}
+    	if(localName.equalsIgnoreCase("Quotation")) {
+    		
+    	}
+    	if(localName.equalsIgnoreCase("Code")) {
+    		
+    	}
+    	*/
 	}
 
 	/**
-	 * @param pathCreator the pathCreator to set
+	 * 
 	 */
-	public void setPathCreator(PathCreator pathCreator) {
-		this.pathCreator = pathCreator;
-	}
+	public void endElement (String uri, String localName, String qName)
+	throws SAXException
+    {
+		if(localName.equalsIgnoreCase("Paragraph")) {
+			isContent = false;
+		}
+    }
 
 	/**
-	 * @return the pathCreator
+	 * 
 	 */
-	public PathCreator getPathCreator() {
-		return pathCreator;
+    public void characters (char ch[], int start, int length)
+	throws SAXException
+    {
+    	if(!isContent) {
+    		return;
+    	}
+    	
+    	for(int i = start; i < start + length; i++) {
+    		
+    		switch(ch[i]) {
+    		
+    		case '\\':
+    		case '"':
+    		case '\r':
+    		case '\n':
+    		case '\t':
+    			break;
+    		default:
+    			buffer.append(ch[i]);
+    		}
+    	}
+    	buffer.append(' ');
+    }
+
+	/**
+	 * @return
+	 */
+	public String getContent() {
+
+		logger.debug("Parsed content:" + buffer.toString());
+		return buffer.toString();
 	}
+
 }

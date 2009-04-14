@@ -31,8 +31,8 @@ import org.apache.lucene.document.Field;
 import org.apache.lucene.document.Field.Store;
 
 import de.ilias.services.lucene.index.DocumentHolder;
-import de.ilias.services.lucene.transform.ContentTransformer;
-import de.ilias.services.lucene.transform.TransformerFactory;
+import de.ilias.services.lucene.index.transform.ContentTransformer;
+import de.ilias.services.lucene.index.transform.TransformerFactory;
 
 /**
  * 
@@ -277,6 +277,21 @@ public class FieldDefinition {
 	}
 
 	/**
+	 * @param content
+	 */
+	public void writeDocument(String content) {
+
+		if(content != null && content.length() != 0) {
+
+			String purged = callTransformers(content);
+			DocumentHolder.factory().add(getName(),purged, isGlobal(), store, index);
+			return;
+		}
+		
+	}
+
+	
+	/**
 	 * @param string
 	 * @return
 	 */
@@ -291,6 +306,7 @@ public class FieldDefinition {
 		}
 		return value;
 	}
+
 
 
 

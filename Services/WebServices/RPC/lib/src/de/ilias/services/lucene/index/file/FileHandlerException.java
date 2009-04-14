@@ -20,41 +20,51 @@
         +-----------------------------------------------------------------------------+
 */
 
-package de.ilias.services.lucene.transform;
-
-import java.util.HashMap;
-
-import javax.xml.transform.Transformer;
-
-import org.apache.log4j.Logger;
+package de.ilias.services.lucene.index.file;
 
 /**
- * A caching transformer factory
+ * 
  *
  * @author Stefan Meyer <smeyer.ilias@gmx.de>
  * @version $Id$
  */
-public class TransformerFactory {
+public class FileHandlerException extends Exception {
 
-	protected static Logger logger = Logger.getLogger(Transformer.class);
-	
-	private static HashMap<String, ContentTransformer> map = new HashMap<String, ContentTransformer>();
-	
-	public static ContentTransformer factory(String name) {
-		
-		if(map.containsKey(name))
-			return map.get(name);
-		
-		if(name.equalsIgnoreCase("QuotingSanitizer")) {
-			map.put(name,new QuotingSanitizer());
-			return map.get(name);
-		}
-		if(name.equalsIgnoreCase("ContentObjectTransformer")) {
-			map.put(name, new ContentObjectTransformer());
-			return map.get(name);
-		}
-		logger.error("Cannot find transformer with name: " + name);
-		return null;
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = 1L;
+
+	/**
+	 * 
+	 */
+	public FileHandlerException() {
+		// TODO Auto-generated constructor stub
 	}
-	
+
+	/**
+	 * @param message
+	 */
+	public FileHandlerException(String message) {
+		super(message);
+		// TODO Auto-generated constructor stub
+	}
+
+	/**
+	 * @param cause
+	 */
+	public FileHandlerException(Throwable cause) {
+		super(cause);
+		// TODO Auto-generated constructor stub
+	}
+
+	/**
+	 * @param message
+	 * @param cause
+	 */
+	public FileHandlerException(String message, Throwable cause) {
+		super(message, cause);
+		// TODO Auto-generated constructor stub
+	}
+
 }

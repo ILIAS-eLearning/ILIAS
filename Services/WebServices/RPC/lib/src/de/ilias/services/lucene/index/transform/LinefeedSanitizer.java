@@ -20,13 +20,11 @@
         +-----------------------------------------------------------------------------+
 */
 
-package de.ilias.services.lucene.index;
+package de.ilias.services.lucene.index.transform;
 
+import java.util.regex.Pattern;
 
-import java.io.IOException;
-import java.sql.ResultSet;
-
-import org.apache.lucene.document.Document;
+import org.apache.log4j.Logger;
 
 /**
  * 
@@ -34,9 +32,22 @@ import org.apache.lucene.document.Document;
  * @author Stefan Meyer <smeyer.ilias@gmx.de>
  * @version $Id$
  */
-public interface DocumentHandler {
+public class LinefeedSanitizer implements ContentTransformer {
+
+	protected Logger logger = Logger.getLogger(LinefeedSanitizer.class);
 	
-	void writeDocument(CommandQueueElement el) throws DocumentHandlerException, IOException;
-	
-	void writeDocument(CommandQueueElement el,ResultSet res) throws DocumentHandlerException;
+	/**
+	 * @see de.ilias.services.lucene.index.transform.ContentTransformer#transform(java.lang.String)
+	 */
+	public String transform(String content) {
+
+		content = Pattern.compile("\\r\\n",Pattern.DOTALL).matcher(content).replaceAll(" ");
+		content = Pattern.compile("\\r",Pattern.DOTALL).matcher(content).replaceAll(" ");
+		content = Pattern.compile("\\n",Pattern.DOTALL).matcher(content).replaceAll(" ");
+		
+		logger.debug("Content is: " + content);
+		
+		return content;
+	}
+
 }
