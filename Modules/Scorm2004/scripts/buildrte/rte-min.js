@@ -1,4 +1,4 @@
-// Build: 20081228214605 
+// Build: 2009414194233 
 
 function ADLAuxiliaryResource()
 {}
@@ -2286,7 +2286,7 @@ delete seq.id;delete seq.sequencingId;}}
 for(k in cam)
 {if(typeof cam[k]!=="object")
 {globalAct[k]=cam[k];}}
-globalAct.cp_node_id=globalAct.foreignId;globalAct.index=activitiesByNo.length;activitiesByNo.push(globalAct);activitiesByCAM[globalAct.foreignId]=globalAct;activities[globalAct.id]=globalAct;globalAct.learner_id=this.config.learner_id;globalAct.learner_name=this.config.learner_name;camWalk(cam.item,rootAct);load();loadGlobalObj();suspendData=sendJSONRequest(this.config.get_suspend_url);var wasSuspended=false;var wasFirstSession;if(suspendData){if(suspendData!=null){wasSuspended=true;}}
+globalAct.cp_node_id=globalAct.foreignId;globalAct.index=activitiesByNo.length;activitiesByNo.push(globalAct);activitiesByCAM[globalAct.foreignId]=globalAct;activities[globalAct.id]=globalAct;globalAct.learner_id=this.config.learner_id;globalAct.learner_name=this.config.learner_name;globalAct.auto_review=this.config.auto_review;camWalk(cam.item,rootAct);load();loadGlobalObj();suspendData=sendJSONRequest(this.config.get_suspend_url);var wasSuspended=false;var wasFirstSession;if(suspendData){if(suspendData!=null){wasSuspended=true;}}
 if(wasSuspended==true){wasSuspended=true;wasFirstSession=false;for(var element in suspendData.mTracking){msequencer.mSeqTree.mActivityMap[element].mTracking=suspendData.mTracking[element];}
 var cur=suspendData.mCurActivity;msequencer.mSeqTree.mCurActivity=null;var first=suspendData.mFirstCandidate;msequencer.mSeqTree.mFirstCandidate=null;msequencer.mSeqTree.mLastLeaf=suspendData.mLastLeaf;var suspendAll=suspendData.mSuspendAll;msequencer.mSeqTree.mSuspendAll=msequencer.mSeqTree.mActivityMap[suspendAll];var valid=suspendData.mValidReq;msequencer.mSeqTree.mValidReq=valid;for(var element in suspendData.root){msequencer[element]=suspendData.root[element];}
 for(var element in suspendData.States){var source=suspendData.States[element];for(var subelement in source){msequencer.mSeqTree.mActivityMap[element][subelement]=source[subelement];}}
@@ -2326,10 +2326,10 @@ for(i=0;i<cmi.data.comment.length;i++)
 {row=cmi.data.comment[i];dat=new Comment();for(j=remoteMapping.comment.length;j--;)
 {setItemValue(j,dat,row,remoteMapping.comment[j]);}
 act=activitiesByCMI[row[remoteMapping.comment.cmi_node_id]];act.comments[dat.cmi_comment_id]=dat;}
-var interactions={};for(i=0;i<cmi.data.interaction.length;i++)
+var interactions={};for(i=cmi.data.interaction.length;i--;)
 {row=cmi.data.interaction[i];dat=new Interaction();for(j=remoteMapping.interaction.length;j--;)
 {setItemValue(j,dat,row,remoteMapping.interaction[j]);}
-act=activitiesByCMI[row[remoteMapping.interaction.cmi_node_id]];act.interactions[dat.id]=dat;interactions[dat.cmi_interaction_id]=dat;}
+act=activitiesByCMI[row[remoteMapping.interaction.cmi_node_id]];act.interactions[dat.cmi_interaction_id]=dat;interactions[dat.cmi_interaction_id]=dat;}
 for(i=cmi.data.correct_response.length;i--;)
 {row=cmi.data.correct_response[i];dat=new CorrectResponse();for(j=remoteMapping.correct_response.length;j--;)
 {setItemValue(j,dat,row,remoteMapping.correct_response[j]);}
@@ -2353,6 +2353,8 @@ function save()
 {function walk(collection,type)
 {var schem=remoteMapping[type];var res=result[type];for(var k in collection)
 {var item=collection[k];if(item.dirty===0){continue;}
+if(item.options){if(item.options.notracking===true)
+{continue;}}
 var data=[];for(var i=0,ni=schem.length;i<ni;i++)
 {data.push(item[schem[i]]);}
 res.push(data);for(z in collection[k])
@@ -2438,7 +2440,8 @@ else
 {v=null;}
 data.cmi.scaled_passing_score=v;break;}}}
 pubAPI=data;currentAPI=window[Runtime.apiname]=new Runtime(data,onCommit,onTerminate);}
-syncSharedCMI(item);scoStartTime=currentTime();if(currentAPI){if((item.exit=="normal"||item.exit==""||item.exit=="time-out"||item.exit=="logout")&&(item.exit!="suspend"&&item.entry!="resume")){err=currentAPI.SetValueIntern("cmi.completion_status","unknown");err=currentAPI.SetValueIntern("cmi.success_status","unknown");err=currentAPI.SetValueIntern("cmi.entry","ab-initio");pubAPI.cmi.entry="ab-initio";pubAPI.cmi.suspend_data=null;pubAPI.cmi.total_time="PT0H0M0S";}
+syncSharedCMI(item);scoStartTime=currentTime();item.options=new Object();item.options.notracking=false;if(globalAct.auto_review){if(item.completion_status=='completed'||item.success_status=='passed'){pubAPI.mode="review";item.options.notracking=true;}}
+if(currentAPI){if((item.exit=="normal"||item.exit==""||item.exit=="time-out"||item.exit=="logout")&&(item.exit!="suspend"&&item.entry!="resume")){err=currentAPI.SetValueIntern("cmi.completion_status","unknown");err=currentAPI.SetValueIntern("cmi.success_status","unknown");err=currentAPI.SetValueIntern("cmi.entry","ab-initio");pubAPI.cmi.entry="ab-initio";pubAPI.cmi.suspend_data=null;pubAPI.cmi.total_time="PT0H0M0S";}
 if(item.exit=="suspend"){pubAPI.cmi.entry="resume";pubAPI.cmi.exit="";}
 if(item.exit=="time-out"||item.exit=="logout"){err=currentAPI.SetValueIntern("cmi.session_time","PT0H0M0S");pubAPI.cmi.total_time="PT0H0M0S";}}
 updateNav();updateControls();setResource(item.id,item.href+"?"+item.parameters,this.config.package_url);}
@@ -2500,7 +2503,8 @@ if(navReq)
 return true;}
 var apiIndents={'cmi':{'score':['raw','min','max','scaled'],'learner_preference':['audio_captioning','audio_level','delivery_speed','language']},'objective':{'score':['raw','min','max','scaled']}};function updateNav(){setToc();var tree=msequencer.mSeqTree.mActivityMap;var disable;for(i in tree){var disable=true;var test=null;if(mlaunch.mNavState.mChoice!=null){test=mlaunch.mNavState.mChoice[i];}
 if(test){if(test['mIsSelectable']==true&&test['mIsEnabled']==true){disable=false;}else{disable=true;}}
-var elm=all(ITEM_PREFIX+tree[i].mActivityID);toggleClass(elm,'disabled',disable);if(activities[tree[i].mActivityID].sco&&activities[tree[i].mActivityID].href){var node_stat_completion=activities[tree[i].mActivityID].completion_status;if(node_stat_completion==null||node_stat_completion=="not attempted"){toggleClass(elm,"not_attempted",1);}
+var elm=all(ITEM_PREFIX+tree[i].mActivityID);if(!elm){return;}
+toggleClass(elm,'disabled',disable);if(activities[tree[i].mActivityID].sco&&activities[tree[i].mActivityID].href){var node_stat_completion=activities[tree[i].mActivityID].completion_status;if(node_stat_completion==null||node_stat_completion=="not attempted"){toggleClass(elm,"not_attempted",1);}
 if(node_stat_completion=="unknown"||node_stat_completion=="incomplete"){removeClass(elm,"not_attempted",1);toggleClass(elm,"incomplete",1);}
 if(node_stat_completion=="browsed"){removeClass(elm,"not_attempted",1);toggleClass(elm,"browsed",1);}
 if(node_stat_completion=="completed"){removeClass(elm,"not_attempted",1);removeClass(elm,"incomplete",1);removeClass(elm,"browsed",1);toggleClass(elm,"completed",1);}
