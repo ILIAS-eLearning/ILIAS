@@ -270,7 +270,7 @@ class ilAdvancedSearchGUI extends ilSearchBaseGUI
 		$content->setValue($this->options['title']);
 		$content->setSize(30);
 		$content->setMaxLength(255);
-		$content->setSubformMode('right');
+//		$content->setSubformMode('right');
 		$group = new ilRadioGroupInputGUI('','title_ao');
 		$group->setValue($this->options['title_ao']);
 		$radio_option = new ilRadioOption($this->lng->txt("search_any_word"),0);

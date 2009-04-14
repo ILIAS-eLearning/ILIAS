@@ -2219,7 +2219,7 @@ class ilObjUser extends ilObject
 		
     	$this->setLastPasswordChangeTS( time() );
 
-    	$query = "UPDATE usr_data SET usr_data.last_password_change = ? " .
+    	$query = "UPDATE usr_data SET usr_data.last_password_change = %s " .
     			"WHERE usr_data.usr_id = %s";
     	$affected = $ilDB->manipulateF($query,
 		 	array('integer','integer'),
@@ -3717,7 +3717,7 @@ class ilObjUser extends ilObject
 				$field_def[$field] = array('text',$value);
 			}
 		}
-		
+
 		if(!$field_def)
 		{
 			return true;

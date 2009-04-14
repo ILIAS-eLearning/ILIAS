@@ -2267,7 +2267,7 @@ common#:#gdf_new#:#New Definition
 common#:#gender#:#Gender
 common#:#gender_f#:#Female
 common#:#gender_m#:#Male
-common#:#general_settings#:#General settings
+common#:#general_settings#:#General Settings
 common#:#generate#:#Generate
 common#:#glo#:#Glossary
 common#:#glo_a#:#a Glossary
@@ -9184,6 +9184,9 @@ common#:#failure_message#:#Failure Message
 common#:#success_message#:#Success Message
 common#:#question_message#:#Question
 common#:#form_input_not_valid#:#Some data is incomplete or not valid. Please correct the form input.
+user#:#user_public_profile_info#:#Please select which personal data should be visible to other users.
+user#:#user_activate_public_profile#:#Activate Public Profile
+user#:#user_activate_public_profile_info#:#Global activation of your public profile. If activated your first and last name will be visible to other users.
 search#:#lucene_general_settings#:#General Settings
 search#:#lucene_advanced_settings#:#Advanced Search
 search#:#lucene_advances_settings_table#:#Advances Search Settings

@@ -3,7 +3,7 @@
 	+-----------------------------------------------------------------------------+
 	| ILIAS open source                                                           |
 	+-----------------------------------------------------------------------------+
-	| Copyright (c) 1998-2006 ILIAS open source, University of Cologne            |
+	| Copyright (c) 1998-2009 ILIAS open source, University of Cologne            |
 	|                                                                             |
 	| This program is free software; you can redistribute it and/or               |
 	| modify it under the terms of the GNU General Public License                 |
@@ -66,7 +66,6 @@ class ilPropertyFormGUI extends ilFormGUI
 	private $items = array();
 	protected $mode = "std";
 	protected $check_input_called = false;
-	protected $subformmode = "bottom";
 	
 	/**
 	* Constructor
@@ -145,26 +144,6 @@ class ilPropertyFormGUI extends ilFormGUI
 	}
 
 	/**
-	* Set Subform Mode. ("bottom" | "right")
-	*
-	* @param	string	$a_subformmode	Subform Mode
-	*/
-	function setSubformMode($a_subformmode)
-	{
-		$this->subformmode = $a_subformmode;
-	}
-
-	/**
-	* Get Subform Mode. ("bottom" | "right")
-	*
-	* @return	string	Subform Mode
-	*/
-	function getSubformMode()
-	{
-		return $this->subformmode;
-	}
-
-	/**
 	* Set TitleIcon.
 	*
 	* @param	string	$a_titleicon	TitleIcon
@@ -184,6 +163,25 @@ class ilPropertyFormGUI extends ilFormGUI
 		return $this->titleicon;
 	}
 
+	/**
+	* Set description
+	*
+	* @param	string	description
+	*/
+	function setDescription($a_val)
+	{
+		$this->description = $a_val;
+	}
+	
+	/**
+	* Get description
+	*
+	* @return	string	description
+	*/
+	function getDescription()
+	{
+		return $this->description;
+	}
 	/**
 	* Add Item (Property, SectionHeader).
 	*
@@ -383,14 +381,7 @@ class ilPropertyFormGUI extends ilFormGUI
 		{
 			$this->tpl->setCurrentBlock("header");
 			$this->tpl->setVariable("TXT_TITLE", $this->getTitle());
-			if ($this->getSubformMode() == "right")
-			{
-				$this->tpl->setVariable("HEAD_COLSPAN", "3");
-			}
-			else
-			{
-				$this->tpl->setVariable("HEAD_COLSPAN", "2");
-			}		
+			$this->tpl->setVariable("TXT_DESCRIPTION", $this->getDescription());
 			$this->tpl->parseCurrentBlock();
 		}
 		$this->tpl->touchBlock("item");
@@ -497,14 +488,6 @@ class ilPropertyFormGUI extends ilFormGUI
 				{
 					$this->tpl->setVariable("LAB_ID", $item->getFieldId());
 				}
-				if ($this->getSubformMode() != "right")
-				{
-					$this->tpl->setVariable("PS_STYLE", "padding-left:40px; vertical-align:top;");
-				}
-				else
-				{
-					$this->tpl->setVariable("PS_STYLE", "vertical-align:top;");
-				}
 				$this->tpl->parseCurrentBlock();
 			}
 			else
@@ -558,26 +541,7 @@ class ilPropertyFormGUI extends ilFormGUI
 					$this->setMultipart(true);
 				}
 			}
-			if ($this->getSubformMode() == "right")
-			{
-				if ($sf_content != "")
-				{
-					$this->tpl->setVariable("PROP_SUB_FORM",
-						'</td><td class="option_value">'.$sf_content);
-				}
-				else
-				{
-					if ($this->getMode() != "subform")
-					{
-						$this->tpl->setVariable("PROP_SUB_FORM",
-							'</td><td class="option_value">&nbsp;');
-					}
-				}
-			}
-			else
-			{
-				$this->tpl->setVariable("PROP_SUB_FORM", $sf_content);
-			}
+			$this->tpl->setVariable("PROP_SUB_FORM", $sf_content);
 
 			$this->tpl->parseCurrentBlock();
 		}

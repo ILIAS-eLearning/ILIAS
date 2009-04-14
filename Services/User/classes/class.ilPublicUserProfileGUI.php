@@ -293,12 +293,15 @@ class ilPublicUserProfileGUI
 			{
 				if ($im_id = $user->getInstantMessengerId($im_name))
 				{
-					$tpl->setCurrentBlock("profile_data");
-					$tpl->setVariable("TXT_DATA", $lng->txt('im_'.$im_name));
-					$tpl->setVariable("IMG_ICON", ilUtil::getImagePath($im_name.'online.gif'));
-					$tpl->setVariable("TXT_ICON", $lng->txt("im_".$im_name."_icon"));
-					$tpl->setVariable("DATA", $im_id);
-					$tpl->parseCurrentBlock();
+					if ($user->getPref("public_im_".$im_name) != "n")
+					{
+						$tpl->setCurrentBlock("profile_data");
+						$tpl->setVariable("TXT_DATA", $lng->txt('im_'.$im_name));
+						$tpl->setVariable("IMG_ICON", ilUtil::getImagePath($im_name.'online.gif'));
+						$tpl->setVariable("TXT_ICON", $lng->txt("im_".$im_name."_icon"));
+						$tpl->setVariable("DATA", $im_id);
+						$tpl->parseCurrentBlock();
+					}
 				}
 			}
 		}
