@@ -4,5 +4,11 @@
 		<xi:include href="../../Services/Object/LuceneDataSource.xml" />
 		<xi:include href="../../Services/Tagging/LuceneDataSource.xml" />
 		<xi:include href="../../Services/MetaData/LuceneDataSource.xml" />
+		<DataSource type="Directory" action="append">
+			<PathCreator name="HTLMObjectPathCreator" />
+			<Field store="YES" index="ANALYZED" name="content">
+				<Transformer name="LinefeedSanitizer" />
+			</Field>
+		</DataSource>
 	</Document>
 </ObjectDefinition>

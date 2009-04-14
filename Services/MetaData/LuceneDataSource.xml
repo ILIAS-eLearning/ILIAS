@@ -114,8 +114,8 @@
 		<Param format="list" type="string" value="metaType" />
 		<Field store="YES" index="ANALYZED" column="costs" name="lomCosts" />
 		<Field store="YES" index="ANALYZED" column="costs" name="metaData" />
-		<Field store="YES" index="ANALYZED" column="copyright_and_other_restrictions" name="lomCopyright" />
-		<Field store="YES" index="ANALYZED" column="copyright_and_other_restrictions" name="metaData" />
+		<Field store="YES" index="ANALYZED" column="cpr_and_or" name="lomCopyright" />
+		<Field store="YES" index="ANALYZED" column="cpr_and_or" name="metaData" />
 	</DataSource>
 	<DataSource type="JDBC" action="append">
 		<Query>

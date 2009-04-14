@@ -80,6 +80,7 @@ public class CommandController {
 		//queue.debug("svy");
 		//queue.debug("wiki");
 		//queue.debug("mep");
+		//queue.debug("htlm");
 		queue.debugAll();
 		queue.loadFromDb();
 		

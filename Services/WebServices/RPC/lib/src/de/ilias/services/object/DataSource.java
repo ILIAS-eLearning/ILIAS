@@ -41,6 +41,7 @@ public abstract class DataSource implements DocumentHandler {
 	
 	public static final int TYPE_JDBC = 1;
 	public static final int TYPE_FILE = 2;
+	public static final int TYPE_DIRECTORY = 3;
 	
 	public static final String ACTION_APPEND = "append";
 	public static final String ACTION_CREATE = "create";
@@ -143,13 +144,8 @@ public abstract class DataSource implements DocumentHandler {
 	 * 
 	 * @see de.ilias.services.lucene.index.DocumentHandler#writeDocument(de.ilias.services.lucene.index.CommandQueueElement)
 	 */
-	public void writeDocument(CommandQueueElement el)
-			throws DocumentHandlerException, IOException {
-
-		logger.warn("Called abstract DataSource!");
-		return;
-
-	}
+	abstract public void writeDocument(CommandQueueElement el)
+			throws DocumentHandlerException, IOException;
 
 	/**
 	 * 

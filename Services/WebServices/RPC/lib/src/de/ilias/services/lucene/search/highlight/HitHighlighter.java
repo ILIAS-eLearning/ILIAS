@@ -174,7 +174,7 @@ public class HitHighlighter {
 					allContent.toString(),
 					luceneSettings.getNumFragments(),
 					HIGHLIGHT_SEPARATOR);
-			//logger.debug("Fragmented: " + fragment);
+			logger.debug("Fragmented: " + fragment);
 			
 			if(fragment.length() != 0) {
 				logger.debug("Found fragment: " + fragment);

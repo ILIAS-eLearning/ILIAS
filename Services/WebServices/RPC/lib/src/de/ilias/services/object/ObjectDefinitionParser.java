@@ -256,6 +256,17 @@ public class ObjectDefinitionParser {
 						PathCreatorFactory.factory(pathCreator.getAttributeValue("name")));
 			}
 		}
+		else if(source.getAttributeValue("type").equalsIgnoreCase("Directory")) {
+
+			ds = new DirectoryDataSource(DataSource.TYPE_DIRECTORY);
+			ds.setAction(source.getAttributeValue("action"));
+			
+			Element pathCreator = source.getChild("PathCreator");
+			if(pathCreator != null) {
+				((DirectoryDataSource) ds).setPathCreator(
+						PathCreatorFactory.factory(pathCreator.getAttributeValue("name")));
+			}
+		}
 		else
 			throw new ObjectDefinitionException("Invalid type for element 'DataSource' type=" + 
 					source.getAttributeValue("type"));

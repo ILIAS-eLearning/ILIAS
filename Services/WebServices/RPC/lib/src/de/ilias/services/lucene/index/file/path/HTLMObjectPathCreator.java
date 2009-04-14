@@ -22,9 +22,13 @@
 
 package de.ilias.services.lucene.index.file.path;
 
-import org.apache.log4j.Logger;
+import java.io.File;
+import java.sql.ResultSet;
 
-import de.ilias.services.object.ObjectDefinitionException;
+import de.ilias.services.lucene.index.CommandQueueElement;
+import de.ilias.services.settings.ClientSettings;
+import de.ilias.services.settings.ConfigurationException;
+import de.ilias.services.settings.LocalSettings;
 
 /**
  * 
@@ -32,18 +36,47 @@ import de.ilias.services.object.ObjectDefinitionException;
  * @author Stefan Meyer <smeyer.ilias@gmx.de>
  * @version $Id$
  */
-public class PathCreatorFactory {
-	
-	private static Logger logger = Logger.getLogger(PathCreator.class);
-	
-	public static PathCreator factory(String name) throws ObjectDefinitionException {
+public class HTLMObjectPathCreator implements PathCreator {
+
+	/**
+	 * @see de.ilias.services.lucene.index.file.path.PathCreator#buildFile(de.ilias.services.lucene.index.CommandQueueElement, java.sql.ResultSet)
+	 */
+	public File buildFile(CommandQueueElement el, ResultSet res)
+			throws PathCreatorException {
+
+		int objId = el.getObjId();
+		StringBuilder fullPath = new StringBuilder();
 		
-		if(name.equalsIgnoreCase("FileObjectPathCreator")) {
-			return (PathCreator) new FileObjectPathCreator();
+		File file;
+		
+		try {
+			fullPath.append(ClientSettings.getInstance(LocalSettings.getClientKey()).getAbsolutePath());
+			fullPath.append(System.getProperty("file.separator"));
+			fullPath.append("data");
+			fullPath.append(System.getProperty("file.separator"));
+			fullPath.append(ClientSettings.getInstance(LocalSettings.getClientKey()).getClient());
+			fullPath.append(System.getProperty("file.separator"));
+			fullPath.append("lm_data");
+			fullPath.append(System.getProperty("file.separator"));
+			fullPath.append("lm_");
+			fullPath.append(String.valueOf(objId));
+			
+			file = new File(fullPath.toString());
+			if(file.exists() && file.canRead()) {
+				return file;
+			}
+			throw new PathCreatorException("Cannot access directory: " + fullPath.toString());
 		}
-		if(name.equalsIgnoreCase("HTLMObjectPathCreator")) {
-			return (PathCreator) new HTLMObjectPathCreator();
+		catch (ConfigurationException e) {
+			throw new PathCreatorException(e);	
 		}
-		throw new ObjectDefinitionException("Invalid path creator name given: " + name);
 	}
+	/**
+	 * @see de.ilias.services.lucene.index.file.path.PathCreator#buildFile(de.ilias.services.lucene.index.CommandQueueElement)
+	 */
+	public File buildFile(CommandQueueElement el) throws PathCreatorException {
+
+		return buildFile(el, null);
+	}
+
 }
