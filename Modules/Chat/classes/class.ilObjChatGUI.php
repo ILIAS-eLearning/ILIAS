@@ -1112,7 +1112,10 @@ class ilObjChatGUI extends ilObjectGUI
 		}
 
 		$this->__showInputAreas();
-		$this->tpl->show(false);
+		$this->tpl->fillJavaScriptFiles();
+		$this->tpl->fillCssFiles();
+		$this->tpl->fillContentStyle();
+		$this->tpl->show(false, false);
 		exit;		
 	}
 	
