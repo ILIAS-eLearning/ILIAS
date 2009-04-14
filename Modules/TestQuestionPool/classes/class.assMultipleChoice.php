@@ -878,7 +878,7 @@ class assMultipleChoice extends assQuestion
 			ilUtil::makeDirParents($imagepath);
 		}
 		ilUtil::delDir($imagepath_original);
-		ilUtil::makeDir($imagepath_original);
+		ilUtil::makeDirParents($imagepath_original);
 		foreach ($this->answers as $answer)
 		{
 			$filename = $answer->getImage();
