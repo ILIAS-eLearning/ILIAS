@@ -362,7 +362,7 @@ function showTrackingItem()
 	// load template for table
 	$this->tpl->addBlockfile("ADM_CONTENT", "adm_content", "tpl.table.html");
 	// load template for table content data
-	$this->tpl->addBlockfile("TBL_CONTENT", "tbl_content", "tpl.scorm_track_item.html", "Modules/ScormAicc");
+	$this->tpl->addBlockfile("TBL_CONTENT", "tbl_content", "tpl.scorm2004_track_item.html", "Modules/Scorm2004");
 
 	$num = 2;
 
