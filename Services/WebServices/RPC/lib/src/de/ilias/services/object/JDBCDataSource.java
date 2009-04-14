@@ -46,6 +46,7 @@ import de.ilias.services.lucene.index.IndexHolder;
 public class JDBCDataSource extends DataSource {
 
 	String query;
+	PreparedStatement sta = null;
 	Vector<ParameterDefinition> parameters = new Vector<ParameterDefinition>();
 	
 
@@ -71,6 +72,22 @@ public class JDBCDataSource extends DataSource {
 		this.query = query;
 	}
 
+	/**
+	 * 
+	 * @return {@link PreparedStatement} 
+	 * @throws SQLException
+	 */
+	public PreparedStatement getStatement() throws SQLException {
+		
+		logger.debug("Query: " + getQuery());
+		if(this.sta == null) {
+			return this.sta = DBFactory.factory().prepareStatement(getQuery());
+		}
+		return 	this.sta;
+
+	}
+	
+	
 	/**
 	 * @return the parameters
 	 */
@@ -136,14 +153,14 @@ public class JDBCDataSource extends DataSource {
 		try {
 			// Create Statement for JDBC datasource
 			DocumentHolder doc = DocumentHolder.factory();
-			PreparedStatement pst = DBFactory.factory().prepareStatement(getQuery());
-
+			this.sta = getStatement();
+			
 			int paramNumber = 1;
 			for(Object param : getParameters()) {
 				
-				((ParameterDefinition) param).writeParameter(pst,paramNumber++,el,parentResult);
+				((ParameterDefinition) param).writeParameter(this.sta,paramNumber++,el,parentResult);
 			}
-			ResultSet res = pst.executeQuery();
+			ResultSet res = this.sta.executeQuery();
 			while(res.next()) {
 				
 				logger.debug("Found new result");

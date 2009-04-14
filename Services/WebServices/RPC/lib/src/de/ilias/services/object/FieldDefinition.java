@@ -49,58 +49,21 @@ public class FieldDefinition {
 	private String column;
 	private String name;
 	private boolean global = true;
+	private boolean isDynamic = false;
 	
 	Vector<TransformerDefinition> transformers = new Vector<TransformerDefinition>();
 	
 	
 	/**
-	 * 
 	 * @param store
 	 * @param index
 	 * @param name
 	 * @param column
+	 * @param isGlobal
+	 * @param dynamicName
 	 */
-	public FieldDefinition(Store store,Field.Index index,String name,String column) {
+	public FieldDefinition(String store, String index, String name, String column, String isGlobal, String dynamicName) {
 
-		this.store = store;
-		this.index = index;
-		this.name = name;
-		this.column = column;
-	
-	}
-	
-	/**
-	 * 
-	 * @param store
-	 * @param index
-	 * @param name
-	 */
-	public FieldDefinition(Store store,Field.Index index,String name) {
-		
-		this(store,index,name,"");
-	}
-	
-	/**
-	 * 
-	 * @param store
-	 * @param index
-	 * @param name
-	 * @param column
-	 */
-	public FieldDefinition(String store, String index, String name, String column) {
-		
-		this(store,index,name,column,"YES");
-	}
-	
-	/**
-	 * 
-	 * @param store
-	 * @param index
-	 * @param name
-	 * @param column
-	 */
-	public FieldDefinition(String store, String index, String name, String column, String isGlobal) {
-		
 		if(store.equalsIgnoreCase("YES")) {
 			this.store = Store.YES;
 		}
@@ -122,22 +85,18 @@ public class FieldDefinition {
 		else {
 			this.global = false;
 		}
-		this.name = name;
+		
+		if(dynamicName != null) {
+			this.name = dynamicName;
+			this.isDynamic = true;
+		}
+		else {
+			this.name = name;
+		}
+
 		this.column = column;
 	}
-
-	/**
-	 * 
-	 * @param store
-	 * @param index
-	 * @param name
-	 */
-	public FieldDefinition(String store, String index, String name) {
-		this(store,index,name,"");
-	}
 	
-
-
 	/**
 	 * @return the index
 	 */
@@ -200,6 +159,28 @@ public class FieldDefinition {
 	public void setName(String name) {
 		this.name = name;
 	}
+	
+	/**
+	 * 
+	 * @param res
+	 * @return String name of lucene field
+	 * @throws SQLException 
+	 */
+	public String parseName(ResultSet res) throws SQLException {
+		
+		if(isDynamic == false) {
+			return getName();
+		}
+		if(res != null) {
+			String value = res.getString(getName());
+			if(value != null) {
+				logger.debug("Dynamic name value: " + value);
+				logger.debug("Dynamic name:" + getName());
+				return value;
+			}
+		}
+		throw new SQLException("Invalid result set for dynamic field name: " + getName());
+	}
 
 	/**
 	 * @return the transformers
@@ -239,6 +220,20 @@ public class FieldDefinition {
 		return global;
 	}
 	
+	/**
+	 * @param isDynamic the isDynamic to set
+	 */
+	public void setDynamic(boolean isDynamic) {
+		this.isDynamic = isDynamic;
+	}
+
+
+	/**
+	 * @return the isDynamic
+	 */
+	public boolean isDynamic() {
+		return isDynamic;
+	}
 
 	/* (non-Javadoc)
 	 * @see java.lang.Object#toString()
@@ -266,13 +261,13 @@ public class FieldDefinition {
 	 */
 	public void writeDocument(ResultSet res) throws SQLException {
 
-		// TODO: call transformer
 		try {
 			Object value = res.getObject(getColumn());
 			if(value != null && value.toString() != "") {
 				String purged = callTransformers(value.toString());
-				logger.debug("Found value: " + purged + " for name: " + getName());
-				DocumentHolder.factory().add(getName(),purged, isGlobal(), store, index);
+				String fieldName = parseName(res);
+				logger.debug("Found value: " + purged + " for name: " + fieldName);
+				DocumentHolder.factory().add(fieldName,purged, isGlobal(), store, index);
 			}
 			return;
 		}
@@ -296,5 +291,7 @@ public class FieldDefinition {
 		}
 		return value;
 	}
+
+
 
 }
