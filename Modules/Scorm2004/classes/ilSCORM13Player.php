@@ -897,7 +897,7 @@ class ilSCORM13Player
 				$ret = false;
 
 				$sql = 'REPLACE INTO cmi_' . $table . ' (' . implode(', ', array_values($keys)). 
-					') VALUES ('.implode(",", ilUtil::quoteJSONArray($row)).')';
+					') VALUES ('.implode(",", self::quoteJSONArray($row)).')';
 				$ilDB->query($sql);
 				$ret = true;
 				
