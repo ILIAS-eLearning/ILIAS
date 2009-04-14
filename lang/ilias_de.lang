@@ -9194,3 +9194,7 @@ common#:#failure_message#:#Fehlermeldung
 common#:#success_message#:#Bestätigungsmeldung
 common#:#question_message#:#Frage
 common#:#form_input_not_valid#:#Einige Angaben sind unvollständig oder ungültig. Bitte korrigieren Sie Ihre Eingabe.
+search#:#lucene_general_settings#:#Allgemeine Einstellungen
+search#:#lucene_advanced_settings#:#Erweiterte Suche
+search#:#lucene_advanced_settings_table#:#Einstellungen zur Erweiterten Suche
+search#:#lucene_activate_field#:#Suche aktivieren

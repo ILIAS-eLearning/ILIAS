@@ -9184,3 +9184,7 @@ common#:#failure_message#:#Failure Message
 common#:#success_message#:#Success Message
 common#:#question_message#:#Question
 common#:#form_input_not_valid#:#Some data is incomplete or not valid. Please correct the form input.
+search#:#lucene_general_settings#:#General Settings
+search#:#lucene_advanced_settings#:#Advanced Search
+search#:#lucene_advances_settings_table#:#Advances Search Settings
+search#:#lucene_activate_field#:#Activate Search

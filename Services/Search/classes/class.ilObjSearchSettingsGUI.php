@@ -238,6 +238,10 @@ class ilObjSearchSettingsGUI extends ilObjectGUI
 	 */
 	protected function luceneSettingsObject()
 	{
+		$this->initSubTabs('lucene');
+		$this->tabs_gui->setTabActive('lucene_settings_tab');
+		$this->tabs_gui->setSubTabActive('lucene_general_settings');
+		
 		$this->initFormLuceneSettings();
 		$this->tpl->setContent($this->form->getHTML());
 	}
@@ -350,6 +354,53 @@ class ilObjSearchSettingsGUI extends ilObjectGUI
 		ilUtil::sendInfo($this->lng->txt('err_check_input'));
 		$this->luceneSettingsObject();
 		return false;
+	}
+	
+	protected function advancedLuceneSettingsObject()
+	{
+		$this->initSubTabs('lucene');
+		$this->tabs_gui->setTabActive('lucene_settings_tab');
+		$this->tabs_gui->setSubTabActive('lucene_advanced_settings');
+		
+		include_once './Services/Search/classes/Lucene/class.ilLuceneAdvancedSearchActivationTableGUI.php';
+		include_once './Services/Search/classes/Lucene/class.ilLuceneAdvancedSearchSettings.php';
+		
+		$table = new ilLuceneAdvancedSearchActivationTableGUI($this,'advancedLuceneSettings');
+		$table->setTitle($this->lng->txt('lucene_advanced_settings_table'));
+		$table->parse(ilLuceneAdvancedSearchSettings::getInstance());
+		
+		$this->tpl->setContent($table->getHTML());
+	}
+	
+	protected function saveAdvancesLuceneSettingsObject()
+	{
+		include_once './Services/Search/classes/Lucene/class.ilLuceneAdvancedSearchSettings.php';
+		
+		$settings = ilLuceneAdvancedSearchSettings::getInstance();
+		foreach(ilLuceneAdvancedSearchFields::getFields() as $field => $translation)
+		{
+			$settings->setActive($field,in_array($field,(array) $_POST['fid']) ? true : false);
+		}
+		$settings->save();
+		ilUtil::sendInfo($this->lng->txt('settings_saved'));
+		$this->advancedLuceneSettingsObject();
+	}
+	
+	/**
+	 * 
+	 */
+	protected function initSubTabs($a_section)
+	{
+		switch($a_section)
+		{
+			case 'lucene':
+				$this->tabs_gui->addSubTabTarget('lucene_general_settings',
+					$this->ctrl->getLinkTarget($this,'luceneSettings'));
+
+				$this->tabs_gui->addSubTabTarget('lucene_advanced_settings',
+					$this->ctrl->getLinkTarget($this,'advancedLuceneSettings'));
+				break;
+		}
 	}
 	
 	
