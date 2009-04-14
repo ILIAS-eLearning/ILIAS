@@ -149,11 +149,61 @@ class ilPermanentLinkGUI
 	}
 
 	/**
+	* Add Current Link to Bookmarks
+	*/
+	function addToBookmarks()
+	{
+		global $ilObjDataCache, $lng;
+		$result = new stdClass();
+		
+		include_once 'Services/PersonalDesktop/classes/class.ilBookmark.php';
+		
+		include_once('classes/class.ilLink.php');
+		$href = ilLink::_getStaticLink($this->getId(), $this->getType(),
+			true, $this->getAppend());
+
+		$bookmark = new ilBookmark();
+		
+		// try to find title if none is given
+		if ($_REQUEST["pm_bm_title"])
+		{
+			$title = $_REQUEST["pm_bm_title"];
+			$bookmark->setTitle($title);
+		}
+		else
+		{
+			$title = $ilObjDataCache->lookupTitle($this->getId());
+			
+			if ($title)
+			{
+				$bookmark->setTitle($title);
+			}
+			else
+			{
+				$obj_id = $ilObjDataCache->lookupObjId($this->getId());
+				$title = $ilObjDataCache->lookupTitle($obj_id);
+				if ($title)
+					$bookmark->setTitle($title);
+				else
+					$bookmark->setTitle("untitled");
+			}
+		}
+		
+		$bookmark->setDescription($lng->txt('perma_link') . ': ' . $title);
+		$bookmark->setParent(1);
+		$bookmark->setTarget($href);
+		$bookmark->create();
+		
+		ilUtil::sendInfo($lng->txt('bookmark_added'), true);
+		ilUtil::redirect($href);
+	}
+	
+	/**
 	* Get HTML for link
 	*/
 	function getHTML()
 	{
-		global $lng;
+		global $lng, $ilCtrl, $ilObjDataCache;
 		
 		$tpl = new ilTemplate("tpl.permanent_link.html", true, true,
 			"Services/PermanentLink");
@@ -161,7 +211,13 @@ class ilPermanentLinkGUI
 		include_once('classes/class.ilLink.php');
 		$href = ilLink::_getStaticLink($this->getId(), $this->getType(),
 			true, $this->getAppend());
-			
+
+		// check if current page should be bookmarked
+		if ($_REQUEST["addToBookmark"] == "true")
+		{
+			$this->addToBookmarks();
+		}
+		
 		// delicous link
 		$d_set = new ilSetting("delicious");
 		if ($d_set->get("add_info_links") == "1")
@@ -179,6 +235,27 @@ class ilPermanentLinkGUI
 			$tpl->setVariable("TXT_PERMA", $lng->txt("perma_link").": ");
 		}
 		$tpl->setVariable("LINK", $href);
+
+		if ($_SESSION["AccountId"] != ANONYMOUS_USER_ID)
+		{
+			// bookmark field
+			$tpl->setVariable("TXT_SAVE", $lng->txt('bookmark_save_to'));
+			$tpl->setVariable("TXT_ADD_BOOKMARK", $lng->txt('save'));
+			$tpl->setVariable("TXT_TITLE", $lng->txt('title'));
+			
+			// fetch default title for bookmark
+			$title = $ilObjDataCache->lookupTitle($this->getId());
+			
+			if (!$title)
+			{
+				$obj_id = $ilObjDataCache->lookupObjId($this->getId());
+				$title = $ilObjDataCache->lookupTitle($obj_id);
+				if (!$title)
+					$bookmark->setTitle("untitled");
+			}
+			$tpl->setVariable("TXT_BOOKMARK_DEFAULT", $title);
+		}
+
 		if ($this->getTarget() != "")
 		{
 			$tpl->setVariable("TARGET", 'target="'.$this->getTarget().'"');

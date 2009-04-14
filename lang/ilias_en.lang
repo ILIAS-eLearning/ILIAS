@@ -9188,3 +9188,5 @@ search#:#lucene_general_settings#:#General Settings
 search#:#lucene_advanced_settings#:#Advanced Search
 search#:#lucene_advances_settings_table#:#Advances Search Settings
 search#:#lucene_activate_field#:#Activate Search
+common#:#bookmark_added#:#The Bookmark has been created.
+common#:#bookmark_save_to#:#save as bookmark
