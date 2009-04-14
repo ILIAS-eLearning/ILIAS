@@ -43,6 +43,9 @@ public class DataSourceFactory {
 			
 		case DataSource.TYPE_FILE:
 			return new FileDataSource(type);
+			
+		case DataSource.TYPE_DIRECTORY:
+			return new DirectoryDataSource(type);
 		}
 		
 		throw new ObjectDefinitionException("Invalid type: " + type);
@@ -51,11 +54,17 @@ public class DataSourceFactory {
 
 	public static DataSource factory(String type) throws ObjectDefinitionException {
 		
+		logger.info("Type: " + type);
+		
 		if(type.equalsIgnoreCase("JDBC")) {
 			return factory(DataSource.TYPE_JDBC);
 		}
 		else if(type.equalsIgnoreCase("File")) {
 			return factory(DataSource.TYPE_FILE);
+		}
+		else if(type.equalsIgnoreCase("Directory")) {
+			logger.info("Directory DataSource");
+			return factory(DataSource.TYPE_DIRECTORY);
 		}
 		throw new ObjectDefinitionException("Invalid type: " + type);
 		

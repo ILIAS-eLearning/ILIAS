@@ -23,17 +23,15 @@
 package de.ilias.services.object;
 
 import java.io.File;
-import java.io.IOException;
+import java.io.FileFilter;
 import java.sql.ResultSet;
+import java.util.Vector;
 
 import de.ilias.services.lucene.index.CommandQueueElement;
 import de.ilias.services.lucene.index.DocumentHandlerException;
 import de.ilias.services.lucene.index.file.ExtensionFileHandler;
 import de.ilias.services.lucene.index.file.FileHandlerException;
-import de.ilias.services.lucene.index.file.path.PathCreator;
 import de.ilias.services.lucene.index.file.path.PathCreatorException;
-
-
 
 /**
  * 
@@ -41,70 +39,96 @@ import de.ilias.services.lucene.index.file.path.PathCreatorException;
  * @author Stefan Meyer <smeyer.ilias@gmx.de>
  * @version $Id$
  */
-public class FileDataSource extends DataSource {
+public class DirectoryDataSource extends FileDataSource {
 
-	private PathCreator pathCreator = null;
+	
+	protected Vector<File> files = new Vector<File>();
 	
 	/**
 	 * @param type
 	 */
-	public FileDataSource(int type) {
-
+	public DirectoryDataSource(int type) {
 		super(type);
+		
 	}
 
 	/**
-	 * @see de.ilias.services.lucene.index.DocumentHandler#writeDocument(de.ilias.services.lucene.index.CommandQueueElement, java.sql.ResultSet)
+	 * 
+	 * @return files
 	 */
-	public void writeDocument(CommandQueueElement el, ResultSet res)
-			throws DocumentHandlerException {
-
-		File file;
+	public Vector<File> getCandidates() {
+		return files;
+	}
+	
+	/**
+	 * write Document
+	 */
+	public void writeDocument(CommandQueueElement el, ResultSet res) 
+		throws DocumentHandlerException {
+		
+		File start;
 		ExtensionFileHandler handler = new ExtensionFileHandler();
+		StringBuilder content = new StringBuilder();
+		
+
+		logger.info("Start scanning directory...");
 		
 		try {
 			if(getPathCreator() == null) {
 				logger.info("No path creator defined");
 				return;
 			}
-			file = getPathCreator().buildFile(el, res);
+			start = getPathCreator().buildFile(el,res);
+			traverse(start);
 			
-			// Analyze encoding (transfer encoding), parse file extension and finally read content
-			for(Object field : getFields()) {
-				((FieldDefinition) field).writeDocument(handler.getContent(file));
+			for(int i = 0; i < getCandidates().size(); i++) {
+				// Analyze encoding (transfer encoding), parse file extension
+				// and finally read content
+				try {
+					content.append(" " + handler.getContent(getCandidates().get(i)));
+				} 
+				catch (FileHandlerException e) {
+					logger.warn("Cannot parse file " + getCandidates().get(i).getAbsolutePath());
+				}
 			}
-			logger.debug("File path is: " + file.getAbsolutePath());
-			return;
+			// Write content
+			for(Object field : getFields()) {
+				((FieldDefinition) field).writeDocument(content.toString());
+			}
+			logger.debug("Content is : " + content.toString());
 		}
 		catch (PathCreatorException e) {
 			throw new DocumentHandlerException(e);
-		} 
-		catch (FileHandlerException e) {
-			throw new DocumentHandlerException(e);
 		}
 	}
 
 	/**
-	 * @param pathCreator the pathCreator to set
+	 * @param dir
 	 */
-	public void setPathCreator(PathCreator pathCreator) {
-		this.pathCreator = pathCreator;
-	}
+	private void traverse(File dir) {
 
-	/**
-	 * @return the pathCreator
-	 */
-	public PathCreator getPathCreator() {
-		return pathCreator;
-	}
-
-	/**
-	 * @see de.ilias.services.object.DataSource#writeDocument(de.ilias.services.lucene.index.CommandQueueElement)
-	 */
-	@Override
-	public void writeDocument(CommandQueueElement el)
-			throws DocumentHandlerException, IOException {
-
-		writeDocument(el, null);
+		File[] entries = dir.listFiles(
+				new FileFilter()
+				{
+					public boolean accept(File path) {
+						
+						if(path.isDirectory()) {
+							if(!path.getName().equals(".svn")) {
+								return true;
+							}
+							return false;
+						}
+						else
+						{
+							getCandidates().add(path);
+							return false;
+						}
+					}
+				});
+		
+		for(int i = 0; i < entries.length; i++) {
+			// there are only directories
+			traverse(entries[i]);
+		}
 	}
 }
