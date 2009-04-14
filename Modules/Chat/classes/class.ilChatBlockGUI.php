@@ -41,7 +41,6 @@ class ilChatBlockGUI extends ilBlockGUI
 		global $ilCtrl, $lng, $ilUser;
 		parent::ilBlockGUI();
 		$lng->loadLanguageModule("chat");
-		//$this->setLimit(5);
 		$this->setImage(ilUtil::getImagePath("icon_chat.gif"));
 		$this->setTitle($lng->txt("chat_chatviewer"));
 		$this->setAvailableDetailLevels(1, 0);
