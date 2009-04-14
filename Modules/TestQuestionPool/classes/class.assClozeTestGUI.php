@@ -756,7 +756,8 @@ class assClozeTestGUI extends assQuestionGUI
 				if ($graphicalOutput)
 				{
 					// output of ok/not ok icons for user entered solutions
-					$check = $this->object->testGapSolution($found["value2"], $gap_index);
+					$details = $this->object->calculateReachedPoints($active_id, $pass, TRUE);
+					$check = $details[$gap_index];
 					if ($check["best"])
 					{
 						$gaptemplate->setCurrentBlock("icon_ok");

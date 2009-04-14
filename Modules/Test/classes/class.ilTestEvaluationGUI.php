@@ -1534,7 +1534,7 @@ class ilTestEvaluationGUI extends ilTestServiceGUI
 				array(
 						$question_title, 
 						$answered,
-						"<a href=\"" . $this->ctrl->getLinkTarget($this, "singleResults"). "\">" . $this->lng->txt("pdf_export") . "</a>"
+						"<a href=\"" . $this->ctrl->getLinkTarget($this, "exportQuestionForAllParticipants"). "\">" . $this->lng->txt("pdf_export") . "</a>"
 				)
 			);
 		}

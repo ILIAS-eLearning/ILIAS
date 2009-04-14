@@ -1065,12 +1065,13 @@ class assClozeTest extends assQuestion
 	* @param integer $test_id The database Id of the test containing the question
 	* @access public
 	*/
-	function calculateReachedPoints($active_id, $pass = NULL)
+	function calculateReachedPoints($active_id, $pass = NULL, $returndetails = FALSE)
 	{
 		global $ilDB;
 		
 		$found_value1 = array();
 		$found_value2 = array();
+		$detailed = array();
 		if (is_null($pass))
 		{
 			$pass = $this->getSolutionMaxPass($active_id);
@@ -1126,6 +1127,7 @@ class assClozeTest extends assQuestion
 							}
 						}
 						$points += $gappoints;
+						$detailed[$gap_id] = array("points" =>$gappoints, "best" => ($this->getMaximumGapPoints($gap_id) == $gappoints) ? TRUE : FALSE, "positive" => ($gappoints > 0) ? TRUE : FALSE);
 						array_push($solution_values_text, $value["value"]);
 						break;
 					case CLOZE_NUMERIC:
@@ -1156,6 +1158,7 @@ class assClozeTest extends assQuestion
 							}
 						}
 						$points += $gappoints;
+						$detailed[$gap_id] = array("points" =>$gappoints, "best" => ($this->getMaximumGapPoints($gap_id) == $gappoints) ? TRUE : FALSE, "positive" => ($gappoints > 0) ? TRUE : FALSE);
 						array_push($solution_values_numeric, $value["value"]);
 						break;
 					case CLOZE_SELECT:
@@ -1176,6 +1179,7 @@ class assClozeTest extends assQuestion
 										}
 									}
 									$points += $answerpoints;
+									$detailed[$gap_id] = array("points" =>$answerpoints, "best" => ($this->getMaximumGapPoints($gap_id) == $answerpoints) ? TRUE : FALSE, "positive" => ($answerpoints > 0) ? TRUE : FALSE);
 									array_push($solution_values_select, $answer->getAnswertext());
 								}
 							}
@@ -1184,8 +1188,15 @@ class assClozeTest extends assQuestion
 				}
 			}
 		}
-		$points = parent::calculateReachedPoints($active_id, $pass = NULL, $points);
-		return $points;
+		if ($returndetails)
+		{
+			return $detailed;
+		}
+		else
+		{
+			$points = parent::calculateReachedPoints($active_id, $pass = NULL, $points);
+			return $points;
+		}
 	}
 
 	/**
@@ -1398,89 +1409,6 @@ class assClozeTest extends assQuestion
 	function getFixedTextLength()
 	{
 		return $this->fixedTextLength;
-	}
-
-	/**
-	* Returns TRUE if a given value is the best solution for a gap, FALSE otherwise
-	*
-	* @param string $value The value which should be checked
-	* @param integer $gap_index The index of the gap which should be tested
-	* @return array "best" => TRUE if the given value is the best solution for a gap, "positive" => TRUE if the resulting points are greater 0, FALSE otherwise
-	* @access public
-	*/
-	function testGapSolution($value, $gap_index)
-	{
-		if (strlen($value) == 0) return FALSE;
-		if (!array_key_exists($gap_index, $this->gaps)) return FALSE;
-		$max_points = 0;
-		foreach ($this->gaps[$gap_index]->getItems() as $answer)
-		{
-			if ($answer->getPoints() > $max_points) $max_points = $answer->getPoints();
-		}
-		switch ($this->gaps[$gap_index]->getType())
-		{
-			case CLOZE_SELECT:
-				$positive = FALSE;
-				if ($this->gaps[$gap_index]->getItem($value)->getPoints() > 0)
-				{
-					$positive = TRUE;
-				}
-				if ($max_points == $this->gaps[$gap_index]->getItem($value)->getPoints())
-				{
-					return array("best" => TRUE, "positive" => $positive);
-				}
-				else
-				{
-					return array("best" => FALSE, "positive" => $positive);
-				}
-				break;
-			case CLOZE_NUMERIC:
-				$gappoints = 0;
-				$max_points = 0;
-				foreach ($this->gaps[$gap_index]->getItems() as $answer) 
-				{
-					$gotpoints = $this->getNumericgapPoints($answer->getAnswertext(), $value, $answer->getPoints(), $answer->getLowerBound(), $answer->getUpperBound());
-					if ($gotpoints > $gappoints) $gappoints = $gotpoints;
-					if ($answer->getPoints() > $max_points) $max_points = $answer->getPoints();
-				}
-				$positive = FALSE;
-				if ($gappoints > 0)
-				{
-					$positive = TRUE;
-				}
-				if ($gappoints == $max_points)
-				{
-					return array("best" => TRUE, "positive" => $positive);
-				}
-				else
-				{
-					return array("best" => FALSE, "positive" => $positive);
-				}
-				break;
-			case CLOZE_TEXT:
-				$gappoints = 0;
-				$max_points = 0;
-				foreach ($this->gaps[$gap_index]->getItems() as $answer) 
-				{
-					$gotpoints = $this->getTextgapPoints($answer->getAnswertext(), $value, $answer->getPoints());
-					if ($gotpoints > $gappoints) $gappoints = $gotpoints;
-					if ($answer->getPoints() > $max_points) $max_points = $answer->getPoints();
-				}
-				$positive = FALSE;
-				if ($gappoints > 0)
-				{
-					$positive = TRUE;
-				}
-				if ($gappoints == $max_points)
-				{
-					return array("best" => TRUE, "positive" => $positive);
-				}
-				else
-				{
-					return array("best" => FALSE, "positive" => $positive);
-				}
-				break;
-		}
 	}
 
 	/**
