@@ -70,7 +70,8 @@ class ilColumnGUI
 		"ilPDExternalFeedBlockGUI" => "Services/Feeds/",
 		"ilHtmlBlockGUI" => "Services/Block/",
 		"ilPDFeedbackBlockGUI" => "Services/Feedback/",
-		'ilPDTaggingBlockGUI' => 'Services/Tagging/'
+		'ilPDTaggingBlockGUI' => 'Services/Tagging/',
+		'ilChatBlockGUI' => 'Modules/Chat/'
 			);
 	
 	static protected $block_types = array(
@@ -88,7 +89,8 @@ class ilColumnGUI
 			"ilPDSysMessageBlockGUI" => "pdsysmess",
 			"ilPDSelectedItemsBlockGUI" => "pditems",
 			"ilHtmlBlockGUI" => "html",
-			'ilPDTaggingBlockGUI' => 'pdtag'
+			'ilPDTaggingBlockGUI' => 'pdtag',
+			'ilChatBlockGUI' => 'chatviewer'
 		);
 	
 		
@@ -116,6 +118,7 @@ class ilColumnGUI
 			"ilUsersOnlineBlockGUI" => IL_COL_RIGHT,
 			"ilBookmarkBlockGUI" => IL_COL_RIGHT,
 			"ilPDTaggingBlockGUI" => IL_COL_RIGHT,
+			"ilChatBlockGUI" => IL_COL_RIGHT,
 			)
 		);
 
@@ -142,7 +145,8 @@ class ilColumnGUI
 			"pdusers" => true,
 			"pdbookm" => true,
 			"pdtag" => true,
-			"pdnotes" => true);
+			"pdnotes" => true,
+			"chatviewer" => true);
 			
 	protected $check_nr_limit =
 		array("pdfeed" => true);
@@ -604,6 +608,7 @@ class ilColumnGUI
 			"html" => $lng->txt("html_block"),
 			"pdtag" => $lng->txt("tagging_my_tags"),
 			"pdcal" => $lng->txt('calendar'),
+			"chatviewer" => $lng->txt('chat'),
 			);
 
 		foreach($this->blocks[$this->getSide()] as $block)
