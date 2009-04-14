@@ -1,0 +1,15 @@
+<?xml version="1.0" ?>
+<DataSources>
+	<DataSource type="JDBC" action="append">
+		<Query>
+			SELECT concat('advancedMetaData_',amv.field_id) field_name, amv.field_id field_id, value FROM adv_md_values amv 
+			JOIN adv_md_field_definition adf ON amv.field_id = adf.field_id 
+			JOIN adv_md_record_objs amr ON adf.record_id = amr.record_id 
+			WHERE searchable = 1 AND obj_id IN (?) AND obj_type IN (?);
+		</Query>
+		<Param format="list" type="int" value="objId" />
+		<Param format="list" type="string" value="objType" />
+		<Field store="YES" index="ANALYZED" column="value" dynamicName="field_name" />
+		<Field store="YES" index="ANALYZED" column="value" name="metaData" />
+	</DataSource>
+</DataSources>
