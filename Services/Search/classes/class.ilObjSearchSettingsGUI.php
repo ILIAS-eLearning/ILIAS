@@ -226,6 +226,8 @@ class ilObjSearchSettingsGUI extends ilObjectGUI
 				break;
 		}
 		$settings->update();
+
+		unset($_SESSION['search_last_class']);
 		
 		ilUtil::sendInfo($this->lng->txt('settings_saved'));
 		$this->settingsObject();
@@ -372,7 +374,7 @@ class ilObjSearchSettingsGUI extends ilObjectGUI
 		$this->tpl->setContent($table->getHTML());
 	}
 	
-	protected function saveAdvancesLuceneSettingsObject()
+	protected function saveAdvancedLuceneSettingsObject()
 	{
 		include_once './Services/Search/classes/Lucene/class.ilLuceneAdvancedSearchSettings.php';
 		

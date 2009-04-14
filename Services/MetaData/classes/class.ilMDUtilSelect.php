@@ -40,7 +40,9 @@ class ilMDUtilSelect
 	 *
 	 * @return string Complete html select
 	 */
-	function _getLanguageSelect($a_selected,$a_name,$prepend = array())
+	// BEGIN PATCH Lucene search 
+	function _getLanguageSelect($a_selected,$a_name,$prepend = array(),$a_options_only = false)
+	// END PATCH Lucene Search
 	{
 		include_once 'Services/MetaData/classes/class.ilMDLanguageItem.php';
 
@@ -57,6 +59,9 @@ class ilMDUtilSelect
 			$options[$value] = $translation;
 		}
 		$options = array_merge($options,$tmp_options);
+		// BEGIN PATCH Lucene search
+		return $a_options_only ? $options : ilUtil::formSelect($a_selected,$a_name,$options,false,true);
+		// END PATCH Lucene Search
 		return ilUtil::formSelect($a_selected,$a_name,$options,false,true);
 	}
 
@@ -69,7 +74,9 @@ class ilMDUtilSelect
 	 *
 	 * @return string Complete html select
 	 */
-	function _getStructureSelect($a_selected,$a_name,$prepend = array())
+	// BEGIN PATCH Lucene search
+	function _getStructureSelect($a_selected,$a_name,$prepend = array(),$a_options_only = false)
+	// END PATCH Lucene Search
 	{
 		global $lng;
 
@@ -84,6 +91,9 @@ class ilMDUtilSelect
 		{
 			$options[$item] = $lng->txt('meta_'.strtolower($item));
 		}
+		// BEGIN PATCH Lucene search
+		return $a_options_only ? $options : ilUtil::formSelect($a_selected,$a_name,$options,false,true);
+		// END PATCH Lucene Search
 		return ilUtil::formSelect($a_selected,$a_name,$options,false,true);
 	}
 	/**
@@ -95,7 +105,9 @@ class ilMDUtilSelect
 	 *
 	 * @return string Complete html select
 	 */
-	function _getStatusSelect($a_selected,$a_name,$prepend = array())
+	// BEGIN PATCH Lucene search
+	function _getStatusSelect($a_selected,$a_name,$prepend = array(), $a_options_only = false)
+	// END PATCH Lucene Search
 	{
 		global $lng;
 
@@ -110,6 +122,9 @@ class ilMDUtilSelect
 		{
 			$options[$item] = $lng->txt('meta_'.strtolower($item));
 		}
+		// BEGIN PATCH Lucene search
+		return $a_options_only ? $options : ilUtil::formSelect($a_selected,$a_name,$options,false,true);
+		// END PATCH Lucene Search
 		return ilUtil::formSelect($a_selected,$a_name,$options,false,true);
 	}
 	/**
@@ -149,7 +164,9 @@ class ilMDUtilSelect
 	 *
 	 * @return string Complete html select
 	 */
-	function _getOperatingSystemSelect($a_selected,$a_name,$prepend = array())
+	// BEGIN PATCH Lucene search
+	function _getOperatingSystemSelect($a_selected,$a_name,$prepend = array(), $a_options_only = false)
+	// END PATCH Lucene Search
 	{
 		global $lng;
 
@@ -164,6 +181,9 @@ class ilMDUtilSelect
 		{
 			$options[$item] = $item;
 		}
+		// BEGIN PATCH Lucene search
+		return $a_options_only ? $options : ilUtil::formSelect($a_selected,$a_name,$options,false,true);
+		// END PATCH Lucene Search
 		return ilUtil::formSelect($a_selected,$a_name,$options,false,true);
 	}
 	/**
@@ -175,7 +195,9 @@ class ilMDUtilSelect
 	 *
 	 * @return string Complete html select
 	 */
-	function _getBrowserSelect($a_selected,$a_name,$prepend = array())
+	// BEGIN PATCH Lucene search
+	function _getBrowserSelect($a_selected,$a_name,$prepend = array(), $a_options_only = false)
+	// END PATCH Lucene Search
 	{
 		global $lng;
 
@@ -190,6 +212,9 @@ class ilMDUtilSelect
 		{
 			$options[$item] = $item;
 		}
+		// BEGIN PATCH Lucene search
+		return $a_options_only ? $options : ilUtil::formSelect($a_selected,$a_name,$options,false,true);
+		// END PATCH Lucene Search
 		return ilUtil::formSelect($a_selected,$a_name,$options,false,true);
 	}
 	/**
@@ -202,7 +227,9 @@ class ilMDUtilSelect
 	 *
 	 * @return string Complete html select
 	 */
-	function _getFormatSelect($a_selected,$a_name,$prepend = array())
+	// BEGIN PATCH Lucene search
+	function _getFormatSelect($a_selected,$a_name,$prepend = array(), $a_options_only = false)
+	// END PATCH Lucene Search
 	{
 		global $lng,$ilDB;
 
@@ -226,6 +253,9 @@ class ilMDUtilSelect
 			}
 		}
 		
+		// BEGIN PATCH Lucene search
+		return $a_options_only ? $options : ilUtil::formSelect($a_selected,$a_name,$options,false,true);
+		// END PATCH Lucene Search
 		return ilUtil::formSelect($a_selected,$a_name,$options,false,true);
 	}
 	/**
@@ -272,7 +302,9 @@ class ilMDUtilSelect
 	 *
 	 * @return string Complete html select
 	 */
-	function _getInteractivityTypeSelect($a_selected,$a_name,$prepend = array())
+	// BEGIN PATCH Lucene search
+	function _getInteractivityTypeSelect($a_selected,$a_name,$prepend = array(), $a_options_only = false)
+	// END PATCH Lucene Search
 	{
 		global $lng;
 
@@ -287,6 +319,9 @@ class ilMDUtilSelect
 		{
 			$options[$item] = $item;
 		}
+		// BEGIN PATCH Lucene search
+		return $a_options_only ? $options : ilUtil::formSelect($a_selected,$a_name,$options,false,true);
+		// END PATCH Lucene Search
 		return ilUtil::formSelect($a_selected,$a_name,$options,false,true);
 	}
 	/**
@@ -299,7 +334,9 @@ class ilMDUtilSelect
 	 *
 	 * @return string Complete html select
 	 */
-	function _getLearningResourceTypeSelect($a_selected,$a_name,$prepend = array())
+	// BEGIN PATCH Lucene search
+	function _getLearningResourceTypeSelect($a_selected,$a_name,$prepend = array(), $a_options_only = false)
+	// END PATCH Lucene Search
 	{
 		global $lng;
 
@@ -315,6 +352,9 @@ class ilMDUtilSelect
 		{
 			$options[$item] = $item;
 		}
+		// BEGIN PATCH Lucene search
+		return $a_options_only ? $options : ilUtil::formSelect($a_selected,$a_name,$options,false,true);
+		// END PATCH Lucene Search
 		return ilUtil::formSelect($a_selected,$a_name,$options,false,true);
 	}
 	/**
@@ -381,7 +421,9 @@ class ilMDUtilSelect
 	 *
 	 * @return string Complete html select
 	 */
-	function _getIntendedEndUserRoleSelect($a_selected,$a_name,$prepend = array())
+	// BEGIN PATCH Lucene search
+	function _getIntendedEndUserRoleSelect($a_selected,$a_name,$prepend = array(), $a_options_only = false)
+	// END PATCH Lucene Search
 	{
 		global $lng;
 
@@ -396,6 +438,9 @@ class ilMDUtilSelect
 		{
 			$options[$item] = $item;
 		}
+		// BEGIN PATCH Lucene search
+		return $a_options_only ? $options : ilUtil::formSelect($a_selected,$a_name,$options,false,true);
+		// END PATCH Lucene Search
 		return ilUtil::formSelect($a_selected,$a_name,$options,false,true);
 	}
 	/**
@@ -407,7 +452,9 @@ class ilMDUtilSelect
 	 *
 	 * @return string Complete html select
 	 */
-	function _getContextSelect($a_selected,$a_name,$prepend = array())
+	// BEGIN PATCH Lucene search
+	function _getContextSelect($a_selected,$a_name,$prepend = array(), $a_options_only)
+	// END PATCH Lucene Search
 	{
 		global $lng;
 
@@ -422,6 +469,9 @@ class ilMDUtilSelect
 		{
 			$options[$item] = $item;
 		}
+		// BEGIN PATCH Lucene search
+		return $a_options_only ? $options : ilUtil::formSelect($a_selected,$a_name,$options,false,true);
+		// END PATCH Lucene Search
 		return ilUtil::formSelect($a_selected,$a_name,$options,false,true);
 	}
 
@@ -551,7 +601,9 @@ class ilMDUtilSelect
 	 *
 	 * @return string Complete html select
 	 */
-	function _getCostsSelect($a_selected,$a_name,$prepend = array())
+	// BEGIN PATCH Lucene search
+	function _getCostsSelect($a_selected,$a_name,$prepend = array(), $a_options_only = false)
+	// END PATCH Lucene Search
 	{
 		global $lng;
 
@@ -566,6 +618,9 @@ class ilMDUtilSelect
 		{
 			$options[$item] = $item;
 		}
+		// BEGIN PATCH Lucene search
+		return $a_options_only ? $options : ilUtil::formSelect($a_selected,$a_name,$options,false,true);
+		// END PATCH Lucene Search
 		return ilUtil::formSelect($a_selected,$a_name,$options,false,true);
 	}
 	/**
@@ -578,7 +633,9 @@ class ilMDUtilSelect
 	 *
 	 * @return string Complete html select
 	 */
-	function _getCopyrightAndOtherRestrictionsSelect($a_selected,$a_name,$prepend = array())
+	// BEGIN PATCH Lucene search
+	function _getCopyrightAndOtherRestrictionsSelect($a_selected,$a_name,$prepend = array(), $a_options_only = false)
+	// END PATCH Lucene Search
 	{
 		global $lng;
 
@@ -593,6 +650,9 @@ class ilMDUtilSelect
 		{
 			$options[$item] = $item;
 		}
+		// BEGIN PATCH Lucene search
+		return $a_options_only ? $options : ilUtil::formSelect($a_selected,$a_name,$options,false,true);
+		// END PATCH Lucene Search
 		return ilUtil::formSelect($a_selected,$a_name,$options,false,true);
 	}
 	/**
@@ -605,7 +665,9 @@ class ilMDUtilSelect
 	 *
 	 * @return string Complete html select
 	 */
-	function _getPurposeSelect($a_selected,$a_name,$prepend = array())
+	// BEGIN PATCH Lucene search
+	function _getPurposeSelect($a_selected,$a_name,$prepend = array(), $a_options_only = false)
+	// END PATCH Lucene Search
 	{
 		global $lng;
 
@@ -621,6 +683,9 @@ class ilMDUtilSelect
 		{
 			$options[$item] = $item;
 		}
+		// BEGIN PATCH Lucene search
+		return $a_options_only ? $options : ilUtil::formSelect($a_selected,$a_name,$options,false,true);
+		// END PATCH Lucene Search
 		return ilUtil::formSelect($a_selected,$a_name,$options,false,true);
 	}
 
