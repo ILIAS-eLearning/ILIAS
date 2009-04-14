@@ -23,12 +23,10 @@
 package de.ilias.services.object;
 
 import java.io.IOException;
-import java.sql.PreparedStatement;
 import java.util.Vector;
 
 import org.apache.log4j.Logger;
 
-import de.ilias.services.db.DBFactory;
 import de.ilias.services.lucene.index.CommandQueueElement;
 import de.ilias.services.lucene.index.DocumentHandler;
 import de.ilias.services.lucene.index.DocumentHandlerException;

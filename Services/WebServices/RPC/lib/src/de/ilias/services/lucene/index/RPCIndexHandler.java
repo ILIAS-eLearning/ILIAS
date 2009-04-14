@@ -64,6 +64,8 @@ public class RPCIndexHandler {
 		
 		
 		try {
+			long s_start = new java.util.Date().getTime();
+
 			client = ClientSettings.getInstance(LocalSettings.getClientKey());
 			properties = ObjectDefinitionReader.getInstance(client.getAbsolutePath());
 			parser = new ObjectDefinitionParser(properties.getObjectPropertyFiles());
@@ -72,6 +74,8 @@ public class RPCIndexHandler {
 			controller = new CommandController(ObjectDefinitions.getInstance(client.getAbsolutePath()));
 			controller.start();
 			
+			long s_end = new java.util.Date().getTime();
+			logger.info("Index time: " + ((s_end - s_start)/(1000))+ " seconds");
 			logger.debug(client.getIndexPath());
 			
 		} 
