@@ -481,31 +481,33 @@ class assTextSubset extends assQuestion
 	*/
 	function isAnswerCorrect($answers, $answer)
 	{
+		include_once "./Services/Utilities/classes/class.ilStr.php";
+		$result = 0;
 		$textrating = $this->getTextRating();
 		foreach ($answers as $key => $value)
 		{
 			switch ($textrating)
 			{
 				case TEXTGAP_RATING_CASEINSENSITIVE:
-					if (strcmp(strtolower(utf8_decode($value)), strtolower(utf8_decode($answer))) == 0) return $key;
+					if (strcmp(ilStr::strToLower($value), ilStr::strToLower($answer)) == 0) return $key;
 					break;
 				case TEXTGAP_RATING_CASESENSITIVE:
-					if (strcmp(utf8_decode($value), utf8_decode($answer)) == 0) return $key;
+					if (strcmp($value, $answer) == 0) return $key;
 					break;
 				case TEXTGAP_RATING_LEVENSHTEIN1:
-					if (levenshtein(utf8_decode($value), utf8_decode($answer)) <= 1) return $key;
+					if (levenshtein($value, $answer) <= 1) return $key;
 					break;
 				case TEXTGAP_RATING_LEVENSHTEIN2:
-					if (levenshtein(utf8_decode($value), utf8_decode($answer)) <= 2) return $key;
+					if (levenshtein($value, $answer) <= 2) return $key;
 					break;
 				case TEXTGAP_RATING_LEVENSHTEIN3:
-					if (levenshtein(utf8_decode($value), utf8_decode($answer)) <= 3) return $key;
+					if (levenshtein($value, $answer) <= 3) return $key;
 					break;
 				case TEXTGAP_RATING_LEVENSHTEIN4:
-					if (levenshtein(utf8_decode($value), utf8_decode($answer)) <= 4) return $key;
+					if (levenshtein($value, $answer) <= 4) return $key;
 					break;
 				case TEXTGAP_RATING_LEVENSHTEIN5:
-					if (levenshtein(utf8_decode($value), utf8_decode($answer)) <= 5) return $key;
+					if (levenshtein($value, $answer) <= 5) return $key;
 					break;
 			}
 		}

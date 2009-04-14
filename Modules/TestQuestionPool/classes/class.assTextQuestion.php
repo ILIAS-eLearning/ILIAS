@@ -411,7 +411,7 @@ class assTextQuestion extends assQuestion
 				if (ilStr::strPos(ilStr::strToLower($answertext), ilStr::strToLower($a_keyword)) !== false) return TRUE;
 				break;
 			case TEXTGAP_RATING_CASESENSITIVE:
-				if (ilStr::strPos(utf8_decode($answertext), $a_keyword) !== false) return TRUE;
+				if (ilStr::strPos($answertext, $a_keyword) !== false) return TRUE;
 				break;
 		}
 		$answerwords = array();
@@ -427,19 +427,19 @@ class assTextQuestion extends assQuestion
 			switch ($textrating)
 			{
 				case TEXTGAP_RATING_LEVENSHTEIN1:
-					if (levenshtein(utf8_decode($a_original), utf8_decode($a_keyword)) <= 1) return TRUE;
+					if (levenshtein($a_original, $a_keyword) <= 1) return TRUE;
 					break;
 				case TEXTGAP_RATING_LEVENSHTEIN2:
-					if (levenshtein(utf8_decode($a_original), utf8_decode($a_keyword)) <= 2) return TRUE;
+					if (levenshtein($a_original, $a_keyword) <= 2) return TRUE;
 					break;
 				case TEXTGAP_RATING_LEVENSHTEIN3:
-					if (levenshtein(utf8_decode($a_original), utf8_decode($a_keyword)) <= 3) return TRUE;
+					if (levenshtein($a_original, $a_keyword) <= 3) return TRUE;
 					break;
 				case TEXTGAP_RATING_LEVENSHTEIN4:
-					if (levenshtein(utf8_decode($a_original), utf8_decode($a_keyword)) <= 4) return TRUE;
+					if (levenshtein($a_original, $a_keyword) <= 4) return TRUE;
 					break;
 				case TEXTGAP_RATING_LEVENSHTEIN5:
-					if (levenshtein(utf8_decode($a_original), utf8_decode($a_keyword)) <= 5) return TRUE;
+					if (levenshtein($a_original, $a_keyword) <= 5) return TRUE;
 					break;
 			}
 		}
