@@ -133,6 +133,82 @@ class ilTemplate extends ilTemplateX
 		}
 	}
 
+		/**
+	* Set message. Please use ilUtil::sendInfo(), ilUtil::sendSuccess()
+	* and ilUtil::sendFailure()
+	*/
+	function setMessage($a_type, $a_txt, $a_keep = false)
+	{
+		if (!in_array($a_type, array("info", "success", "failure", "question")) || $a_txt == "")
+		{
+			return;
+		}
+		if ($a_type == "question")
+		{
+			$a_type = "mess_question";
+		}
+		if (!$a_keep)
+		{
+			$this->message[$a_type] = $a_txt;
+		}
+		else
+		{
+			$_SESSION[$a_type] = $a_txt;
+		}
+	}
+	
+	function fillMessage()
+	{
+		global $lng;
+		
+		$ms = array("info", "success", "failure", "question");
+		$out = "";
+		
+		foreach ($ms as $m)
+		{
+			if ($m == "question")
+			{
+				$m = "mess_question";
+			}
+
+			$txt = ($_SESSION[$m] != "")
+				? $_SESSION[$m]
+				: $this->message[$m];
+				
+			if ($m == "mess_question")
+			{
+				$m = "question";
+			}
+
+			if ($txt != "")
+			{
+				$mtpl = new ilTemplate("tpl.message.html", true, true, "Services/Utilities");
+				$mtpl->setCurrentBlock($m."_message");
+				$mtpl->setVariable("TEXT", $txt);
+				$mtpl->setVariable("MESSAGE_HEADING", $lng->txt($m."_message"));
+				$mtpl->setVariable("ALT_IMAGE", $lng->txt("icon")." ".$lng->txt($m."_message"));
+				$mtpl->setVariable("SRC_IMAGE", ilUtil::getImagePath("mess_".$m.".gif"));
+				$mtpl->parseCurrentBlock();
+				$out.= $mtpl->get();
+			}
+		
+			if ($m == "question")
+			{
+				$m = "mess_question";
+			}
+
+			if ($_SESSION[$m])
+			{
+				session_unregister($m);
+			}
+		}
+		
+		if ($out != "")
+		{
+			$this->setVariable("MESSAGE", $out);
+		}
+	}
+
 	/**
 	* check if block exists in actual template
 	* @access	private
