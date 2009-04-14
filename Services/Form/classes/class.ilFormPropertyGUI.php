@@ -3,7 +3,7 @@
 	+-----------------------------------------------------------------------------+
 	| ILIAS open source                                                           |
 	+-----------------------------------------------------------------------------+
-	| Copyright (c) 1998-2007 ILIAS open source, University of Cologne            |
+	| Copyright (c) 1998-2009 ILIAS open source, University of Cologne            |
 	|                                                                             |
 	| This program is free software; you can redistribute it and/or               |
 	| modify it under the terms of the GNU General Public License                 |
@@ -243,11 +243,6 @@ class ilFormPropertyGUI
 		return "";
 	}
 	
-	function getSubformMode()
-	{
-		return "none";
-	}
-
 	/**
 	* Get item by post var
 	*

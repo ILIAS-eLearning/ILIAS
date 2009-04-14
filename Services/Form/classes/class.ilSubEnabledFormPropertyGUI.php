@@ -31,7 +31,6 @@
 class ilSubEnabledFormPropertyGUI extends ilFormPropertyGUI
 {
 	protected $sub_items = array();
-	protected $subformmode = "bottom";
 	
 	/**
 	* Add Subitem
@@ -51,26 +50,6 @@ class ilSubEnabledFormPropertyGUI extends ilFormPropertyGUI
 	function getSubItems()
 	{
 		return $this->sub_items;
-	}
-
-	/**
-	* Set Subform Mode. ("bottom" | "right")
-	*
-	* @param	string	$a_subformmode	Subform Mode
-	*/
-	function setSubformMode($a_subformmode)
-	{
-		$this->subformmode = $a_subformmode;
-	}
-
-	/**
-	* Get Subform Mode. ("bottom" | "right")
-	*
-	* @return	string	Subform Mode
-	*/
-	function getSubformMode()
-	{
-		return $this->subformmode;
 	}
 
 	/**
@@ -103,7 +82,6 @@ class ilSubEnabledFormPropertyGUI extends ilFormPropertyGUI
 		if (count($this->getSubItems()) > 0)
 		{
 			$pf = new ilPropertyFormGUI();
-			$pf->setSubformMode($this->getSubformMode());
 			$pf->setMode("subform");
 			$pf->setItems($this->getSubItems());
 		}
