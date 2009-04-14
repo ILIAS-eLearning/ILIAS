@@ -107,7 +107,7 @@
 	</DataSource>
 	<DataSource type="JDBC" action="append">
 		<Query>
-			SELECT costs, copyright_and_other_restrictions FROM il_meta_rights
+			SELECT costs, cpr_and_or FROM il_meta_rights
 			WHERE obj_id IN (?) AND obj_type IN (?);
 		</Query>
 		<Param format="list" type="int" value="metaObjId" />

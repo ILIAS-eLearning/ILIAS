@@ -3,7 +3,7 @@
 	<DataSource type="JDBC" action="append">
 		<Query>
 			SELECT concat('advancedMetaData_',amv.field_id) field_name, amv.field_id field_id, value FROM adv_md_values amv 
-			JOIN adv_md_field_definition adf ON amv.field_id = adf.field_id 
+			JOIN adv_mdf_definition adf ON amv.field_id = adf.field_id 
 			JOIN adv_md_record_objs amr ON adf.record_id = amr.record_id 
 			WHERE searchable = 1 AND obj_id IN (?) AND obj_type IN (?);
 		</Query>
