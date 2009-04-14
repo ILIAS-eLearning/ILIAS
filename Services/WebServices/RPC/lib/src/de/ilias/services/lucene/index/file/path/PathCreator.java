@@ -20,20 +20,14 @@
         +-----------------------------------------------------------------------------+
 */
 
-package de.ilias.services.object;
+package de.ilias.services.lucene.index.file.path;
 
 import java.io.File;
-import java.io.IOException;
 import java.sql.ResultSet;
 
+import org.apache.log4j.Logger;
+
 import de.ilias.services.lucene.index.CommandQueueElement;
-import de.ilias.services.lucene.index.DocumentHandlerException;
-import de.ilias.services.lucene.index.file.ExtensionFileHandler;
-import de.ilias.services.lucene.index.file.FileHandlerException;
-import de.ilias.services.lucene.index.file.path.PathCreator;
-import de.ilias.services.lucene.index.file.path.PathCreatorException;
-
-
 
 /**
  * 
@@ -41,60 +35,25 @@ import de.ilias.services.lucene.index.file.path.PathCreatorException;
  * @author Stefan Meyer <smeyer.ilias@gmx.de>
  * @version $Id$
  */
-public class FileDataSource extends DataSource {
+public interface PathCreator {
 
-	private PathCreator pathCreator = null;
+	public static Logger logger = Logger.getLogger(PathCreator.class);
+	
 	
 	/**
-	 * @param type
+	 * Build absolute file path
+	 * @param el
+	 * @param res
+	 * @return
+	 * @throws PathCreatorException
 	 */
-	public FileDataSource(int type) {
-
-		super(type);
-	}
+	public File buildFile(CommandQueueElement el, ResultSet res) throws PathCreatorException;
 
 	/**
-	 * @see de.ilias.services.lucene.index.DocumentHandler#writeDocument(de.ilias.services.lucene.index.CommandQueueElement, java.sql.ResultSet)
+	 * Build absolute file path
+	 * @param el
+	 * @return
+	 * @throws PathCreatorException
 	 */
-	public void writeDocument(CommandQueueElement el, ResultSet res)
-			throws DocumentHandlerException {
-
-		File file;
-		ExtensionFileHandler handler = new ExtensionFileHandler();
-		
-		try {
-			if(getPathCreator() == null) {
-				logger.info("No path creator defined");
-				return;
-			}
-			file = getPathCreator().buildFile(el, res);
-			
-			// Analyze encoding (transfer encoding), parse file extension and finally read content
-			for(Object field : getFields()) {
-				((FieldDefinition) field).writeDocument(handler.getContent(file));
-			}
-			logger.debug("File path is: " + file.getAbsolutePath());
-			return;
-		}
-		catch (PathCreatorException e) {
-			throw new DocumentHandlerException(e);
-		} 
-		catch (FileHandlerException e) {
-			throw new DocumentHandlerException(e);
-		}
-	}
-
-	/**
-	 * @param pathCreator the pathCreator to set
-	 */
-	public void setPathCreator(PathCreator pathCreator) {
-		this.pathCreator = pathCreator;
-	}
-
-	/**
-	 * @return the pathCreator
-	 */
-	public PathCreator getPathCreator() {
-		return pathCreator;
-	}
+	public File buildFile(CommandQueueElement el) throws PathCreatorException;
 }

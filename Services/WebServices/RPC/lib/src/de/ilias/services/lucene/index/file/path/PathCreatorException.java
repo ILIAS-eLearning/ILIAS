@@ -20,20 +20,7 @@
         +-----------------------------------------------------------------------------+
 */
 
-package de.ilias.services.object;
-
-import java.io.File;
-import java.io.IOException;
-import java.sql.ResultSet;
-
-import de.ilias.services.lucene.index.CommandQueueElement;
-import de.ilias.services.lucene.index.DocumentHandlerException;
-import de.ilias.services.lucene.index.file.ExtensionFileHandler;
-import de.ilias.services.lucene.index.file.FileHandlerException;
-import de.ilias.services.lucene.index.file.path.PathCreator;
-import de.ilias.services.lucene.index.file.path.PathCreatorException;
-
-
+package de.ilias.services.lucene.index.file.path;
 
 /**
  * 
@@ -41,60 +28,43 @@ import de.ilias.services.lucene.index.file.path.PathCreatorException;
  * @author Stefan Meyer <smeyer.ilias@gmx.de>
  * @version $Id$
  */
-public class FileDataSource extends DataSource {
+public class PathCreatorException extends Exception {
 
-	private PathCreator pathCreator = null;
-	
 	/**
-	 * @param type
+	 * 
 	 */
-	public FileDataSource(int type) {
+	private static final long serialVersionUID = 1L;
 
-		super(type);
+	/**
+	 * 
+	 */
+	public PathCreatorException() {
+		// TODO Auto-generated constructor stub
 	}
 
 	/**
-	 * @see de.ilias.services.lucene.index.DocumentHandler#writeDocument(de.ilias.services.lucene.index.CommandQueueElement, java.sql.ResultSet)
+	 * @param message
 	 */
-	public void writeDocument(CommandQueueElement el, ResultSet res)
-			throws DocumentHandlerException {
-
-		File file;
-		ExtensionFileHandler handler = new ExtensionFileHandler();
-		
-		try {
-			if(getPathCreator() == null) {
-				logger.info("No path creator defined");
-				return;
-			}
-			file = getPathCreator().buildFile(el, res);
-			
-			// Analyze encoding (transfer encoding), parse file extension and finally read content
-			for(Object field : getFields()) {
-				((FieldDefinition) field).writeDocument(handler.getContent(file));
-			}
-			logger.debug("File path is: " + file.getAbsolutePath());
-			return;
-		}
-		catch (PathCreatorException e) {
-			throw new DocumentHandlerException(e);
-		} 
-		catch (FileHandlerException e) {
-			throw new DocumentHandlerException(e);
-		}
+	public PathCreatorException(String message) {
+		super(message);
+		// TODO Auto-generated constructor stub
 	}
 
 	/**
-	 * @param pathCreator the pathCreator to set
+	 * @param cause
 	 */
-	public void setPathCreator(PathCreator pathCreator) {
-		this.pathCreator = pathCreator;
+	public PathCreatorException(Throwable cause) {
+		super(cause);
+		// TODO Auto-generated constructor stub
 	}
 
 	/**
-	 * @return the pathCreator
+	 * @param message
+	 * @param cause
 	 */
-	public PathCreator getPathCreator() {
-		return pathCreator;
+	public PathCreatorException(String message, Throwable cause) {
+		super(message, cause);
+		// TODO Auto-generated constructor stub
 	}
+
 }

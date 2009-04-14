@@ -277,7 +277,7 @@ class ilLuceneSearchGUI extends ilSearchBaseGUI implements ilDesktopItemHandling
 		
 		if($filter->getResultIds())
 		{	
-			$this->fillAdminPanel();
+			#$this->fillAdminPanel();
 		}
 	}
 	
@@ -354,7 +354,7 @@ class ilLuceneSearchGUI extends ilSearchBaseGUI implements ilDesktopItemHandling
 		
 		if($filter->getResultIds())
 		{
-			$this->fillAdminPanel();
+			#$this->fillAdminPanel();
 		}
 	}
 	

@@ -20,58 +20,26 @@
         +-----------------------------------------------------------------------------+
 */
 
-package de.ilias.services.lucene.transform;
+package de.ilias.services.lucene.index.transform;
 
-import java.io.IOException;
-import java.io.StringReader;
-
-import org.apache.log4j.Logger;
-import org.xml.sax.InputSource;
-import org.xml.sax.SAXException;
-import org.xml.sax.XMLReader;
-import org.xml.sax.helpers.XMLReaderFactory;
+import java.io.InputStream;
+import java.util.regex.Pattern;
 
 /**
- * 
+ * Sanitizes Content from [quote]asdasd[/quote] snippets
  *
  * @author Stefan Meyer <smeyer.ilias@gmx.de>
  * @version $Id$
  */
-public class ContentObjectTransformer implements ContentTransformer {
-
-	protected Logger logger = Logger.getLogger(ContentObjectTransformer.class);
-	
-	
+public class QuotingSanitizer implements ContentTransformer {
 
 	/**
-	 * Extract text from page_objects
-	 * @see de.ilias.services.lucene.transform.ContentTransformer#transform(java.lang.String)
+	 * 
+	 * @see de.ilias.services.lucene.index.transform.ContentTransformer#transform(java.io.InputStream)
 	 */
 	public String transform(String content) {
 
-		XMLReader reader = null;
-		PageObjectHandler handler = null;
-		StringReader stringReader = new StringReader(content);
-		
-		try {
-			reader = XMLReaderFactory.createXMLReader();
-			handler = new PageObjectHandler();
-			
-			reader.setContentHandler(handler);
-			reader.parse(new InputSource(stringReader));
-			
-			return handler.getContent();
-			
-		} 
-		catch (SAXException e) {
-			logger.warn("Cannot parse page_object content." + e);
-		} 
-		catch (IOException e) {
-			logger.warn("Found invalid content." + e);
-		}
-		
-		return "";
+		return Pattern.compile("\\[quote\\].*?\\[/quote\\]",Pattern.DOTALL).matcher(content).replaceAll("");
 	}
-
 
 }
