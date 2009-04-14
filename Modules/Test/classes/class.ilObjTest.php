@@ -8806,7 +8806,8 @@ function loadQuestions($active_id = "", $pass = NULL)
 			"isRandomTest" => $this->isRandomTest(),
 			"RandomQuestionCount" => $this->getRandomQuestionCount(),
 			"CountSystem" => $this->getCountSystem(),
-			"MCScoring" => $this->getMCScoring()
+			"MCScoring" => $this->getMCScoring(),
+			"ListOfQuestionsSettings" => $this->getListOfQuestionsSettings()
 		);
 		$next_id = $ilDB->nextId('tst_test_defaults');
 		$affectedRows = $ilDB->manipulateF("INSERT INTO tst_test_defaults (test_defaults_id, name, user_fi, defaults, marks, tstamp) VALUES (%s, %s, %s, %s, %s, %s)",
@@ -8866,6 +8867,7 @@ function loadQuestions($active_id = "", $pass = NULL)
 			$this->setRandomQuestionCount($testsettings["RandomQuestionCount"]);
 			$this->setCountSystem($testsettings["CountSystem"]);
 			$this->setMCScoring($testsettings["MCScoring"]);
+			$this->setListOfQuestionsSettings($testsettings["ListOfQuestionsSettings"]);
 			$this->saveToDb();
 			$result = TRUE;
 		}
