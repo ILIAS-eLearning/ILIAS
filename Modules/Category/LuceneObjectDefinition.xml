@@ -3,5 +3,6 @@
 	<Document type="default">
 		<xi:include href="../../Services/Object/LuceneDataSource.xml" />
 		<xi:include href="../../Services/Tagging/LuceneDataSource.xml" />
+		<xi:include href="../../Services/AdvancedMetaData/LuceneDataSource.xml" />
 	</Document>
 </ObjectDefinition>

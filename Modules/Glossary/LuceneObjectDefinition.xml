@@ -3,6 +3,7 @@
 	<Document type="default">
 		<xi:include href="../../Services/Object/LuceneDataSource.xml" />
 		<xi:include href="../../Services/Tagging/LuceneDataSource.xml" />
+		<xi:include href="../../Services/MetaData/LuceneDataSource.xml" />
 	</Document>
 	<Document type="subItem">
 		<DataSource type="JDBC" action="create">
