@@ -543,7 +543,7 @@ class assTextQuestion extends assQuestion
 		}
 		else
 		{
-			$text = htmlentities($text, ENT_QUOTES, "UTF-8");
+			//$text = htmlentities($text, ENT_QUOTES, "UTF-8");
 		}
 		$entered_values = 0;
 		if (strlen($text))
