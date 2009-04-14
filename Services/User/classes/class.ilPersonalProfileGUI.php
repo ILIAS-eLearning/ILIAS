@@ -1743,14 +1743,10 @@ class ilPersonalProfileGUI
 		global $ilCtrl, $ilSetting, $lng, $ilUser;
 
 		$this->__initSubTabs('showChatOptions');
-		
+
 		$this->tpl->setTitleIcon(ilUtil::getImagePath("icon_pd_b.gif"), $this->lng->txt("personal_desktop"));
 		$this->tpl->setVariable("HEADER", $this->lng->txt("personal_desktop"));
 		
-		if ($ilSetting->get('chat_message_notify_status') != 1) {
-			die ('setting not available');
-		}
-
 		$form = false;
 		if ($by_post) {
 			$form = $this->getChatSettingsForm(true);
@@ -1765,8 +1761,7 @@ class ilPersonalProfileGUI
 			$form = $this->getChatSettingsForm($values);
 			
 		}
-		$this->tpl->setContent($form->getHTML());
-		$this->tpl->parseCurrentBlock();
+		$this->tpl->setVariable("ADM_CONTENT", $form->getHTML());
 		$this->tpl->show();
 	}
 	
