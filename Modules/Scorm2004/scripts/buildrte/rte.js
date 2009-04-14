@@ -1,4 +1,4 @@
-// Build: 2009414194233 
+// Build: 2009414223037 
 /*
 	+-----------------------------------------------------------------------------+
 	| ILIAS open source                                                           |
@@ -12349,7 +12349,7 @@ function Runtime(cmiItem, onCommit, onTerminate, onDebug)
 				return setReturn(142, '', 'false');
 			case RUNNING:
 				var returnValue = onCommit(cmiItem);
-				//updateNav();
+				save();
 				if (returnValue) 
 				{
 					dirty = false;

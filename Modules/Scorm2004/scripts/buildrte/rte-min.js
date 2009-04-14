@@ -1,4 +1,4 @@
-// Build: 2009414194233 
+// Build: 2009414223037 
 
 function ADLAuxiliaryResource()
 {}
@@ -2539,7 +2539,7 @@ function Commit(param)
 {setReturn(-1,'Commit('+param+')');if(param!=='')
 {return setReturn(201,'param must be empty string','false');}
 switch(state)
-{case NOT_INITIALIZED:return setReturn(142,'','false');case RUNNING:var returnValue=onCommit(cmiItem);if(returnValue)
+{case NOT_INITIALIZED:return setReturn(142,'','false');case RUNNING:var returnValue=onCommit(cmiItem);save();if(returnValue)
 {dirty=false;return setReturn(0,'','true');}
 else
 {return setReturn(391,'Persisting failed','false');}

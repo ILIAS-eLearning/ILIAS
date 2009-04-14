@@ -897,7 +897,7 @@ class ilSCORM13Player
 				$ret = false;
 
 				$sql = 'REPLACE INTO cmi_' . $table . ' (' . implode(', ', array_values($keys)). 
-					') VALUES ('.implode(",", ilUtil::quoteArray($row)).')';
+					') VALUES ('.implode(",", ilUtil::quoteJSONArray($row)).')';
 				$ilDB->query($sql);
 				$ret = true;
 				
@@ -923,6 +923,28 @@ class ilSCORM13Player
 		}
 		//$return===false ? ilSCORM13DB::rollback() : ilSCORM13DB::commit();
 		return $result;
+	}
+	
+	function quoteJSONArray($a_array)
+	{
+		global $ilDB;
+
+
+		if(!is_array($a_array) or !count($a_array))
+		{
+			return array("''");
+		}
+
+		foreach($a_array as $k => $item)
+		{	
+			if ($item !=  null) {
+				$a_array[$k] = $ilDB->quote($item);
+			} else {
+				$a_array[$k] = "NULL";
+			}
+		}
+
+		return $a_array;
 	}
 	
 	/**

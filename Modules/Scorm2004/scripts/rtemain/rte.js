@@ -114,7 +114,7 @@ function Runtime(cmiItem, onCommit, onTerminate, onDebug)
 				return setReturn(142, '', 'false');
 			case RUNNING:
 				var returnValue = onCommit(cmiItem);
-				//updateNav();
+				save();
 				if (returnValue) 
 				{
 					dirty = false;
