@@ -208,7 +208,7 @@ class ilLuceneAdvancedSearchGUI extends ilSearchBaseGUI implements ilDesktopItem
 		{
 			$this->tpl->setVariable('SEARCH_RESULTS',$presentation->getHTML());
 		}
-		else
+		elseif(strlen(trim($qp->getQuery())))
 		{
 			ilUtil::sendInfo($this->lng->txt('search_no_match'));
 		}
@@ -259,6 +259,16 @@ class ilLuceneAdvancedSearchGUI extends ilSearchBaseGUI implements ilDesktopItem
 		return true;
 	}
 	
+	/**
+	 * Search from main menu
+	 */
+	protected function remoteSearch()
+	{
+		$this->search_cache->setRoot((int) $_POST['root_id']);
+		$this->search_cache->setQuery(array('lom_content' => ilUtil::stripSlashes($_POST['queryString'])));
+		$this->search_cache->save();
+		$this->search();
+	}
 	
 	protected function search()
 	{
@@ -300,6 +310,13 @@ class ilLuceneAdvancedSearchGUI extends ilSearchBaseGUI implements ilDesktopItem
 		include_once './Services/Search/classes/Lucene/class.ilLuceneAdvancedQueryParser.php';
 		$qp = new ilLuceneAdvancedQueryParser($this->search_cache->getQuery());
 		$qp->parse();
+		if(!strlen(trim($qp->getQuery())))
+		{		
+			ilUtil::sendInfo($this->lng->txt('msg_no_search_string'));
+			$this->showSavedResults();
+			return false;
+		}
+		
 		$searcher = ilLuceneSearcher::getInstance($qp);
 		$searcher->search();
 		

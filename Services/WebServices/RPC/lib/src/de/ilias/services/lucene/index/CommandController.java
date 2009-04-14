@@ -137,12 +137,8 @@ public class CommandController {
 			} 
 			catch (IOException e) {
 				logger.error("Cought IOException" + e);
-				e.printStackTrace();
 				throw e;
 			} 
-			catch (DocumentHandlerException e) {
-				logger.error("Cought IOException" + e);
-			}
 		}
 		// TODO: write index earlier
 		writeToIndex(finished);
@@ -185,13 +181,21 @@ public class CommandController {
 	 * @throws ObjectDefinitionException 
 	 * @throws DocumentHandlerException 
 	 */
-	private void addDocument(CommandQueueElement el) throws CorruptIndexException, IOException, ObjectDefinitionException, DocumentHandlerException {
+	private void addDocument(CommandQueueElement el) throws CorruptIndexException, ObjectDefinitionException {
 
 		ObjectDefinition definition;
 		
-		logger.debug("Adding new document!");
-		definition = objDefinitions.getDefinitionByType(el.getObjType());
-		definition.writeDocument(el);
+		try {
+			logger.debug("Adding new document!");
+			definition = objDefinitions.getDefinitionByType(el.getObjType());
+			definition.writeDocument(el);
+		}
+		catch (DocumentHandlerException e) {
+			logger.warn(e);
+		}
+		catch (IOException e) {
+			logger.warn(e);
+		}
 	}
 
 	/**
