@@ -9192,3 +9192,5 @@ common#:#bookmark_added#:#The Bookmark has been created.
 common#:#bookmark_save_to#:#save as bookmark
 common#:#pd_enable_chatviewer#:#Enable Chatviewer
 common#:#chat_settings#:#Chat Settings
+survey#:#use_anonymous_id#:#Show survey code
+survey#:#use_anonymous_id_desc#:#If checked, the user name in anonymized surveys will be shown as the survey code, otherwise the text "Anonymous" will be shown.

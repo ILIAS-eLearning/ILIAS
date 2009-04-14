@@ -238,6 +238,7 @@ class ilObjSurveyAdministrationGUI extends ilObjectGUI
 		$surveySetting = new ilSetting("survey");
 		$unlimited_invitation = array_key_exists("unlimited_invitation", $_GET) ? $_GET["unlimited_invitation"] : $surveySetting->get("unlimited_invitation");
 		$googlechart = array_key_exists("googlechart", $_GET) ? $_GET["googlechart"] : $surveySetting->get("googlechart");
+		$use_anonymous_id = array_key_exists("use_anonymous_id", $_GET) ? $_GET["use_anonymous_id"] : $surveySetting->get("use_anonymous_id");
 		if (!$ilAccess->checkAccess("write", "", $this->object->getRefId()))
 		{
 			$this->ilias->raiseError($this->lng->txt("permission_denied"),$this->ilias->error_obj->MESSAGE);
@@ -260,6 +261,12 @@ class ilObjSurveyAdministrationGUI extends ilObjectGUI
 		$enable->setInfo($lng->txt("use_google_chart_api_desc"));
 		$form->addItem($enable);
 
+		// Survey Code
+		$code = new ilCheckboxInputGUI($lng->txt("use_anonymous_id"), "use_anonymous_id");
+		$code->setChecked($use_anonymous_id);
+		$code->setInfo($lng->txt("use_anonymous_id_desc"));
+		$form->addItem($code);
+
 		$form->addCommandButton("saveSettings", $lng->txt("save"));
 		$form->addCommandButton("defaults", $lng->txt("cancel"));
 		
@@ -276,6 +283,7 @@ class ilObjSurveyAdministrationGUI extends ilObjectGUI
 		$surveySetting = new ilSetting("survey");
 		$surveySetting->set("unlimited_invitation", ($_POST["unlimited_invitation"]) ? "1" : "0");
 		$surveySetting->set("googlechart", ($_POST["googlechart"]) ? "1" : "0");
+		$surveySetting->set("use_anonymous_id", ($_POST["use_anonymous_id"]) ? "1" : "0");
 		$ilCtrl->redirect($this, "settings");
 	}
 	
