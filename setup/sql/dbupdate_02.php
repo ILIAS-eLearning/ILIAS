@@ -11101,3 +11101,13 @@ $ilMySQLAbstraction->performAbstraction('chat_records');
 	$ilDB->addPrimaryKey('chat_smilies', array('smiley_id'));
 	$ilDB->createSequence('chat_smilies');
 ?>
+
+<#2305>
+<?php
+	$ilDB->addIndex('il_meta_format',array('format'),'i2');
+?>
+
+<#2306>
+<?php
+	$ilDB->modifyTableColumn('il_meta_format', 'format', array('type' => 'text','length' => 255, 'notnull' => false));
+?>
