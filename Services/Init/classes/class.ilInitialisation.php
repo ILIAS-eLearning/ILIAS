@@ -810,7 +810,8 @@ class ilInitialisation
 	*/
 	function initLanguage()
 	{
-		global $ilBench, $lng, $ilUser;
+		global $ilBench, $lng, $ilUser, $ilSetting;
+		
 		//init language
 		$ilBench->start("Core", "HeaderInclude_initLanguage");
 
@@ -828,6 +829,7 @@ class ilInitialisation
 				}
 			}
 		}
+
 		if ($_POST['change_lang_to'] != "")
 		{
 			$_GET['lang'] = ilUtil::stripSlashes($_POST['change_lang_to']);
@@ -842,6 +844,21 @@ class ilInitialisation
 			$_SESSION['lang'] = $ilUser->getPref("language");
 		}
 
+		// check whether lang selection is valid
+		$langs = ilLanguage::getInstalledLanguages();
+		if (!in_array($_SESSION['lang'], $langs))
+		{
+			if (is_object($ilSetting) && $ilSetting->get("language") != "")
+			{
+				$_SESSION['lang'] = $ilSetting->get("language");
+			}
+			else
+			{
+				$_SESSION['lang'] = $langs[0];
+			}
+		}
+		$_GET['lang'] = $_SESSION['lang'];
+		
 		$lng = new ilLanguage($_SESSION['lang']);
 		$GLOBALS['lng'] =& $lng;
 		$ilBench->stop("Core", "HeaderInclude_initLanguage");
