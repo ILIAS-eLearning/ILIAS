@@ -231,5 +231,27 @@ class ilBookmark
 	{
 		return $this->parent;
 	}
+	
+	/**
+	* get type of a given id
+	* @param number id
+	*/
+	public static function _getTypeOfId($a_id)
+	{
+		global $ilias, $ilDB;
+
+		$q = "SELECT * FROM bookmark_data WHERE obj_id = ".
+			$ilDB->quote($a_id, "integer");
+		$bm_set = $ilDB->query($q);
+		if ($ilDB->numRows($bm_set) == 0)
+		{
+			return null;
+		}
+		else
+		{
+			$bm = $ilDB->fetchAssoc($bm_set);
+			return $bm["type"];
+		}
+	}
 }
 ?>

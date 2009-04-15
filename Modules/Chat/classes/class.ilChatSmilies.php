@@ -125,9 +125,65 @@ class ilChatSmilies {
 	}
 	
 	/**
+	 *	checks if smiley folder is available; if not
+	 *	it will try to create folder and performs
+	 *	actions for an initial smiley set
+	 */
+	public static function _checkSetup()
+	{
+		global $lng;
+		$path = self::_getSmileyDir();
+		if (!is_dir($path))
+		{
+			ilUtil::sendInfo($lng->txt('chat_smilies_dir_not_exists'));
+			ilUtil::makeDirParents($path);
+			if (!is_dir($path))
+			{
+				ilUtil::sendFailure($lng->txt('chat_smilies_dir_not_available'));
+				return false;
+			}
+			else
+			{
+				$smilies = array
+				(
+					"icon_smile.gif",
+					"icon_wink.gif",
+					"icon_laugh.gif",
+					"icon_sad.gif",
+					"icon_shocked.gif",
+					"icon_tongue.gif",
+					"icon_cool.gif",
+					"icon_eek.gif",
+					"icon_angry.gif",
+					"icon_flush.gif",
+					"icon_idea.gif",
+					"icon_thumbup.gif",
+					"icon_thumbdown.gif",
+				);
+				
+				foreach($smilies as $smiley)
+				{
+					copy("templates/default/images/emoticons/$smiley", $path . "/$smiley");
+				}
+				
+				self::_insertDefaultValues();
+
+				ilUtil::sendSuccess($lng->txt('chat_smilies_initialized'));
+			}
+
+		}
+
+		if (!is_writable($path))
+		{
+			ilUtil::sendInfo($lng->txt('chat_smilies_dir_not_writable'));
+		}
+		
+		return true;
+	}
+	
+	/**
 	 *	@return array
 	 */
-	
 	public static function _getSmilies() {
 		global $ilDB;
 		
@@ -335,7 +391,7 @@ class ilChatSmilies {
 
 				$tpl = new ilTemplate("tpl.chat_smiley_line.html", true, true, "Modules/Chat");				
 				$tpl->setVariable("SMILEY_PATH", ilUtil::getHtmlPath(self::_getSmiliesBasePath().$row[1]));
-				$tpl->setVariable("SMILEY_ALT", $keywords[$x]);
+				$tpl->setVariable("SMILEY_ALT", urlencode($keywords[$x]));
 				$tpl->parseCurrentBlock();
 				
 				$ar_replace[] = $tpl->get();

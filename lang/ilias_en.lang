@@ -9197,3 +9197,7 @@ common#:#pd_enable_chatviewer#:#Enable Chatviewer
 common#:#chat_settings#:#Chat Settings
 survey#:#use_anonymous_id#:#Show survey code
 survey#:#use_anonymous_id_desc#:#If checked, the user name in anonymized surveys will be shown as the survey code, otherwise the text "Anonymous" will be shown.
+chat#:#chat_smilies_dir_not_exists#:#The smiley data directory does not exist. Trying to setup folders and database.
+chat#:#chat_smilies_dir_not_available#:#The smiley data directory could not be created. This ILIAS will not be able to use chat smilies as further actions are needed.
+chat#:#chat_smilies_dir_not_writable#:#Your smiley data directory exists but is not writable. You will not be able to add smiles.
+chat#:#chat_smilies_initialized#:#The smiley data has been initialized and is ready to use.
