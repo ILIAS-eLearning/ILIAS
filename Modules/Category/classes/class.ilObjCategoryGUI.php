@@ -133,7 +133,7 @@ class ilObjCategoryGUI extends ilContainerGUI
 				break;
 				
 			default:
-				$this->checkPermission("read");
+				$this->checkPermission("visible");
 				
 				// add entry to navigation history
 				if (!$this->getCreationMode() &&
@@ -537,6 +537,7 @@ class ilObjCategoryGUI extends ilContainerGUI
 	 */
 	protected function editInfoObject()
 	{
+		$this->checkPermission("write");
 		$this->getSubTabs('edit');
 		$this->tabs_gui->setTabActive('edit_properties');
 		$this->tabs_gui->setSubTabActive('edit_cat_settings');
@@ -552,6 +553,7 @@ class ilObjCategoryGUI extends ilContainerGUI
 	 */
 	protected function updateInfoObject()
 	{
+		$this->checkPermission("write");
 		include_once('Services/AdvancedMetaData/classes/class.ilAdvancedMDRecordGUI.php');
 		$record_gui = new ilAdvancedMDRecordGUI(ilAdvancedMDRecordGUI::MODE_EDITOR,
 			'crs',$this->object->getId());
@@ -839,6 +841,7 @@ class ilObjCategoryGUI extends ilContainerGUI
 	*/
 	function addTranslationObject()
 	{
+		$this->checkPermission("write");
 		if (!($_GET["mode"] != "create" or $_GET["mode"] != "edit"))
 		{
 			$message = get_class($this)."::addTranslationObject(): Missing or wrong parameter! mode: ".$_GET["mode"];
@@ -859,6 +862,7 @@ class ilObjCategoryGUI extends ilContainerGUI
 	*/
 	function removeTranslationObject()
 	{
+		$this->checkPermission("write");
 		if (!($_GET["mode"] != "create" or $_GET["mode"] != "edit"))
 		{
 			$message = get_class($this)."::removeTranslationObject(): Missing or wrong parameter! mode: ".$_GET["mode"];
@@ -879,6 +883,7 @@ class ilObjCategoryGUI extends ilContainerGUI
 	*/
 	function removeBigIconObject()
 	{
+		$this->checkPermission("write");
 		$_SESSION["translation_post"] = $_POST;
 		$this->object->removeBigIcon();
 		ilUtil::redirect($this->ctrl->getLinkTarget($this, $_GET["mode"]));
@@ -891,6 +896,7 @@ class ilObjCategoryGUI extends ilContainerGUI
 	*/
 	function removeSmallIconObject()
 	{
+		$this->checkPermission("write");
 		$_SESSION["translation_post"] = $_POST;
 		$this->object->removeSmallIcon();
 		ilUtil::redirect($this->ctrl->getLinkTarget($this, $_GET["mode"]));
@@ -903,6 +909,7 @@ class ilObjCategoryGUI extends ilContainerGUI
 	*/
 	function removeTinyIconObject()
 	{
+		$this->checkPermission("write");
 		$_SESSION["translation_post"] = $_POST;
 		$this->object->removeTinyIcon();
 		ilUtil::redirect($this->ctrl->getLinkTarget($this, $_GET["mode"]));
@@ -1207,6 +1214,7 @@ class ilObjCategoryGUI extends ilContainerGUI
 	function performDeleteUsersObject()
 	{
 		include_once './Services/User/classes/class.ilLocalUser.php';
+		$this->checkPermission("cat_administrate_users");
 
 		foreach($_SESSION['delete_users'] as $user_id)
 		{
@@ -1228,6 +1236,7 @@ class ilObjCategoryGUI extends ilContainerGUI
 			
 	function deleteUserObject()
 	{
+		$this->checkPermission("cat_administrate_users");
 		if(!count($_POST['user_ids']))
 		{
 			ilUtil::sendFailure($this->lng->txt('no_users_selected'));
@@ -1245,6 +1254,8 @@ class ilObjCategoryGUI extends ilContainerGUI
 	function assignRolesObject()
 	{
 		global $rbacreview;
+		
+		$this->checkPermission("cat_administrate_users");
 
 		include_once './Services/User/classes/class.ilLocalUser.php';
 
@@ -1299,6 +1310,7 @@ class ilObjCategoryGUI extends ilContainerGUI
 	function assignSaveObject()
 	{
 		global $rbacreview,$rbacadmin;
+		$this->checkPermission("cat_administrate_users");
 
 		include_once './Services/User/classes/class.ilLocalUser.php';
 		// check hack
@@ -1367,6 +1379,8 @@ class ilObjCategoryGUI extends ilContainerGUI
 	{
 		global $rbacreview,$ilUser;
 
+		$this->checkPermission("cat_administrate_users");
+
 		// return true if it's not a local user
 		$tmp_obj =& ilObjectFactory::getInstanceByObjId($_REQUEST['obj_id']);
 		if($tmp_obj->getTimeLimitOwner() != $this->object->getRefId() and
@@ -1408,6 +1422,8 @@ class ilObjCategoryGUI extends ilContainerGUI
 
 	function __showRolesTable($a_result_set,$a_from = "")
 	{
+		$this->checkPermission("cat_administrate_users");
+
 		$tbl =& $this->__initTableGUI();
 		$tpl =& $tbl->getTemplateObject();
 
@@ -1461,6 +1477,8 @@ class ilObjCategoryGUI extends ilContainerGUI
 
 	function __showUsersTable($a_result_set,$a_from = "",$a_footer = true)
 	{
+		$this->checkPermission("cat_administrate_users");
+		
 		$tbl =& $this->__initTableGUI();
 		$tpl =& $tbl->getTemplateObject();
 
@@ -1653,6 +1671,8 @@ class ilObjCategoryGUI extends ilContainerGUI
 	 */
 	protected function showSortingSettings()
 	{
+		$this->checkPermission("write");
+		
 		$this->tpl->setVariable('TXT_SORTING',$this->lng->txt('sorting_header'));
 		$this->tpl->setVariable('TXT_SORT_TITLE',$this->lng->txt('sorting_title_header'));
 		$this->tpl->setVariable('INFO_SORT_TITLE',$this->lng->txt('sorting_info_title'));
