@@ -238,8 +238,8 @@ class ilMDUtilSelect
 			$options[$value] = $translation;
 		}
 
-
-		$query = "SELECT DISTINCT(format) forma from il_meta_format ORDER BY format";
+		$ilDB->setLimit(200,0);
+		$query = "SELECT format FROM il_meta_format GROUP BY format ORDER BY format";
 		$res = $ilDB->query($query);
 		if(!$res->numRows())
 		{
@@ -247,9 +247,9 @@ class ilMDUtilSelect
 		}
 		while($row = $res->fetchRow(DB_FETCHMODE_OBJECT))
 		{
-			if(strlen($row->forma))
+			if(strlen($row->format))
 			{
-				$options[$row->forma] = substr($row->forma,0,48);
+				$options[$row->format] = substr($row->format,0,48);
 			}
 		}
 		
