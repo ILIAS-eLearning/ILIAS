@@ -234,6 +234,8 @@ class ilCalendarAppointmentGUI
 	 */
 	protected function save()
 	{
+		global $ilErr;
+		
 		$this->load();
 		
 		if($this->app->validate())
@@ -257,6 +259,10 @@ class ilCalendarAppointmentGUI
 			
 			ilUtil::sendInfo($this->lng->txt('cal_created_appointment'));
 			$this->ctrl->returnToParent($this);
+		}
+		else
+		{
+			ilUtil::sendInfo($ilErr->getMessage());
 		}
 		$this->add();
 	}
@@ -356,6 +362,8 @@ class ilCalendarAppointmentGUI
 	 */
 	protected function update()
 	{
+		global $ilErr;
+
 		$this->load();
 		
 		if($this->app->validate())
@@ -381,6 +389,11 @@ class ilCalendarAppointmentGUI
 			ilUtil::sendInfo($this->lng->txt('settings_saved'));
 			$this->ctrl->returnToParent($this);
 		}
+		else
+		{
+			ilUtil::sendInfo($ilErr->getMessage());
+		}
+		
 		$this->edit();
 		
 	}

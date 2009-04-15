@@ -507,7 +507,21 @@ class ilCalendarEntry implements ilDatePeriod
 	 */
 	public function validate()
 	{
-		return (bool) strlen($this->getTitle());
+		global $ilErr,$lng;
+		
+		$success = true;
+		$ilErr->setMessage('');
+		if(!strlen($this->getTitle()))
+		{
+			$success = false;
+			$ilErr->appendMessage($lng->txt('err_missing_title'));
+		}
+		if(ilDateTime::_before($this->getEnd(),$this->getStart(),''))
+		{
+			$success = false;
+			$ilErr->appendMessage($lng->txt('err_end_before_start'));
+		}
+		return $success;
 	}
 	
 	
