@@ -498,7 +498,7 @@ class ilContainer extends ilObject
 		
 		$type_grps = $this->getGroupedObjTypes();
 		$objects = $tree->getChilds($this->getRefId(), "title");
-		
+
 		$found = false;
 
 		include_once('Services/Container/classes/class.ilContainerSorting.php');
@@ -561,6 +561,7 @@ class ilContainer extends ilObject
 				$this->items["_non_sess"][$key] = $object;
 			}
 		}
+
 		$this->items[(int) $a_include_hidden_files][(int) $a_include_side_block]
 			= $sort->sortItems($this->items);
 
