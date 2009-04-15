@@ -480,8 +480,8 @@ class ilObjGroupGUI extends ilContainerGUI
 		}
 		// END PATCH ChangeEvents: Record update Object.
 
-		ilUtil::sendInfo($this->lng->txt("msg_obj_modified"));
-		$this->editObject();
+		ilUtil::sendInfo($this->lng->txt("msg_obj_modified"),true);
+		$this->ctrl->redirect($this,'edit');
 		return true;
 	}
 	
