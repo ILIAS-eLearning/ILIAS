@@ -2060,7 +2060,7 @@ class ilObjCourseGUI extends ilContainerGUI
 		if(count($part->getAdmins()))
 		{
 			// Security: display the list of course administrators read-only, 
-                        // if the user doesn't have the 'edit_permission' permission. 
+			// if the user doesn't have the 'edit_permission' permission. 
  			$showEditLink = $rbacsystem->checkAccess("edit_permission", $this->object->getRefId());
 			if($ilUser->getPref('crs_admin_hide'))
 			{
