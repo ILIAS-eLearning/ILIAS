@@ -483,10 +483,12 @@ class ilObjChatServerGUI extends ilObjectGUI
 		global $rbacsystem;
 		
 		$this->tabs_gui->setTabActive('edit_smilies');
-
+		
 		if(!$rbacsystem->checkAccess('read', $this->ref_id)) {
 			$this->ilias->raiseError($this->lng->txt('msg_no_perm_read'), $this->ilias->error_obj->MESSAGE);
 		}
+		include_once 'Modules/Chat/classes/class.ilChatSmilies.php';
+		ilChatSmilies::_checkSetup();
 		
 		$this->initSmiliesForm('edit');
 		include_once "Modules/Chat/classes/class.ilChatSmiliesGUI.php";
