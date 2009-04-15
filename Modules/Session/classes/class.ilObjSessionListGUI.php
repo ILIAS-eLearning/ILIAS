@@ -96,7 +96,14 @@ class ilObjSessionListGUI extends ilObjectListGUI
 			$date = new ilDate($app_info['start'],IL_CAL_UNIX);
 			#$date = new ilDateTime($app_info['start'],IL_CAL_UNIX);
 		}
-		return ilDatePresentation::formatDate($date).': '.$this->title;
+		if(strlen($this->title))
+		{
+			return ilDatePresentation::formatDate($date).': '.$this->title;
+		}
+		else
+		{
+			return ilDatePresentation::formatDate($date);
+		}
 	}
 	
 	
