@@ -1080,7 +1080,7 @@ class ilObjUserGUI extends ilObjectGUI
 		$this->initForm("edit");
 		if ($this->form_gui->checkInput())
 		{
-// @todo: external account; time limit
+			// @todo: external account; time limit
 			// if not allowed or empty -> do no change password
 			if (!ilAuthUtils::_allowPasswordModificationByAuthMode(ilAuthUtils::_getAuthMode($_POST['auth_mode']))
 				|| trim($_POST['passwd']) == "")
@@ -1346,9 +1346,9 @@ class ilObjUserGUI extends ilObjectGUI
 		// login
 		$lo = new ilUserLoginInputGUI($lng->txt("login"), "login");
 		$lo->setRequired(true);
-		if ($a_mode == "create")
+		if ($a_mode == "edit")
 		{
-			$lo->setCheckUnused(true);
+			$lo->setCurrentUserId($this->object->getId());
 		}
 		$this->form_gui->addItem($lo);
 
