@@ -414,6 +414,7 @@ class ilMySQLAbstraction
 		foreach ($a_fields as $field => $d)
 		{
 			$def = $this->reverse->getTableFieldDefinition($a_table, $field);
+			$this->il_db->handleError($def);
 			$best_alt = $this->analyzer->getBestDefinitionAlternative($def);
 			$def = $def[$best_alt];
 
