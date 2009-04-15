@@ -33,7 +33,7 @@ class ilUserLoginInputGUI extends ilFormPropertyGUI
 	protected $value;
 	protected $size = 40;
 	protected $max_length = 80;
-	protected $checkunused = false;
+	protected $checkunused = 0;
 	
 	/**
 	* Constructor
@@ -79,11 +79,11 @@ class ilUserLoginInputGUI extends ilFormPropertyGUI
 	/**
 	* Set Check whether login is unused.
 	*
-	* @param	boolean	$a_checkunused	Check whether login is unused
+	* @param	int	$a_checkunused	user id of current user
 	*/
-	function setCheckUnused($a_checkunused)
+	function setCurrentUserId($a_user_id)
 	{
-		$this->checkunused = $a_checkunused;
+		$this->checkunused = $a_user_id;
 	}
 
 	/**
@@ -91,7 +91,7 @@ class ilUserLoginInputGUI extends ilFormPropertyGUI
 	*
 	* @return	boolean	Check whether login is unused
 	*/
-	function getCheckUnused()
+	function getCurrentUserId()
 	{
 		return $this->checkunused;
 	}
@@ -119,7 +119,7 @@ class ilUserLoginInputGUI extends ilFormPropertyGUI
 			return false;
 		}
 		
-		if ($this->getCheckUnused() && ilObjUser::_loginExists($_POST[$this->getPostVar()]))
+		if (ilObjUser::_loginExists($_POST[$this->getPostVar()],$this->getCurrentUserId()))
 		{
 			$this->setAlert($lng->txt("login_exists"));
 
