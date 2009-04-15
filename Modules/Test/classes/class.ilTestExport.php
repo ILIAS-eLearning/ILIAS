@@ -127,7 +127,8 @@ class ilTestExport
 
 		//get Log File
 		$expDir = $this->test_obj->getExportDirectory();
-		$expLog = &$log;
+		//$expLog = &$log;
+		$expLog = new ilLog($expDir, "export.log");
 		$expLog->delete();
 		$expLog->setLogFormat("");
 		$expLog->write(date("[y-m-d H:i:s] ")."Start Export Of Results");
