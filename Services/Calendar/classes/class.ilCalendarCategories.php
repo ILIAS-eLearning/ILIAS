@@ -519,7 +519,7 @@ class ilCalendarCategories
 				{
 					continue;
 				}
-				if($ilAccess->checkAccess('write','',$ref_id))
+				if($ilAccess->checkAccess('edit_event','',$ref_id))
 				{
 					$exists = true;
 					$editable = true;
