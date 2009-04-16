@@ -2151,6 +2151,8 @@ class ilLMPresentationGUI
 		$ilBench->start("ContentPresentation", "ilLMNavigation");
 		include_once("./Services/COPage/classes/class.ilPageObject.php");
 		
+		include_once("./Services/Accessibility/classes/class.ilAccessKeyGUI.php");
+		
 		$page_id = $this->getCurrentPageId();
 
 		if(empty($page_id))
@@ -2196,6 +2198,8 @@ class ilLMPresentationGUI
 			$this->tpl->setVariable("FRAME_PREV", $back_target);
 			$this->tpl->setVariable("TXT_PREV", $this->lng->txt("back"));
 			$this->tpl->setVariable("ALT_PREV", $this->lng->txt("back"));
+			$this->tpl->setVariable("PREV_ACC_KEY",
+				ilAccessKeyGUI::getAttribute(ilAccessKey::PREVIOUS));
 			$this->tpl->parseCurrentBlock();
 			$this->tpl->setCurrentBlock("ilLMNavigation_Prev2");
 			$this->tpl->setVariable("IMG_PREV2", $back_img);
@@ -2347,6 +2351,8 @@ class ilLMPresentationGUI
 			$this->tpl->setVariable("FRAME_PREV", $prev_target);
 			$this->tpl->setVariable("TXT_PREV", $prev_title);
 			$this->tpl->setVariable("ALT_PREV", $this->lng->txt("previous"));
+			$this->tpl->setVariable("PREV_ACC_KEY",
+				ilAccessKeyGUI::getAttribute(ilAccessKey::PREVIOUS));
 			$this->tpl->parseCurrentBlock();
 			$this->tpl->setCurrentBlock("ilLMNavigation_Prev2");
 			$this->tpl->setVariable("IMG_PREV2", $prev_img);
@@ -2402,6 +2408,8 @@ class ilLMPresentationGUI
 			$this->tpl->setVariable("FRAME_SUCC", $succ_target);
 			$this->tpl->setVariable("TXT_SUCC", $succ_title);
 			$this->tpl->setVariable("ALT_SUCC", $this->lng->txt("next"));
+			$this->tpl->setVariable("NEXT_ACC_KEY",
+				ilAccessKeyGUI::getAttribute(ilAccessKey::NEXT));
 			$this->tpl->parseCurrentBlock();
 			$this->tpl->setCurrentBlock("ilLMNavigation_Next2");
 			$this->tpl->setVariable("IMG_SUCC2", $succ_img);

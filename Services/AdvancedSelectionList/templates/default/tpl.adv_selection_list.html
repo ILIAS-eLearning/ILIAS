@@ -7,7 +7,7 @@
 	<!-- BEGIN no_js_form_begin -->
 	<form id="{FRM_ID}" class="{FRM_CLASS}" method="post" action="{FRM_ACTION}" target="{FRM_TARGET}">
 	<!-- END no_js_form_begin -->
-	<select name="{FRM_SELECT_NAME}"  class="{FRM_SELECT_CLASS}" size="0">
+	<select {ACCKEYNJS} name="{FRM_SELECT_NAME}"  class="{FRM_SELECT_CLASS}" size="0">
 	<!-- BEGIN no_js_form_option -->
 	<option value="{FRM_OPTION_VAL}" {SELECTED}>{FRM_OPTION_TXT}</option>
 	<!-- END no_js_form_option -->
@@ -22,8 +22,8 @@
 </noscript>
 <!-- END no_js_section -->
 <!-- BEGIN js_section -->
-<span onclick="ilAdvSelListToggle('{ID}', {TOGGLE_OPTIONS}); return false;" xonmouseout="ilAdvSelListOff('{ID}');" style="display:none;" id="ilAdvSelListAnchorElement_{ID}">
-<a class="{CLASS_SEL_TOP}" href="#" target="_top">
+<span style="display:none;" id="ilAdvSelListAnchorElement_{ID}">
+<a onclick="ilAdvSelListToggle('{ID}', {TOGGLE_OPTIONS}); return false;" {ACCKEY} xonmouseout="ilAdvSelListOff('{ID}');" class="{CLASS_SEL_TOP}" href="#" target="_top">
 <!-- BEGIN top_img --><img border="0" src="{IMG_DOWN}" alt="{ALT_SEL_TOP}" style="position:relative; top:-1px; vertical-align:middle;"/><!-- END top_img --> <span id="ilAdvSelListAnchorText_{ID}">{TXT_SEL_TOP}</span>
 </a>
 </span>

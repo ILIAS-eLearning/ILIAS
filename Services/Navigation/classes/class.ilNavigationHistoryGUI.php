@@ -59,6 +59,8 @@ class ilNavigationHistoryGUI
 		$selection->setHeaderIcon(ilAdvancedSelectionListGUI::NO_ICON);
 		$selection->setItemLinkClass("small");
 		$selection->setUseImages(true);
+		include_once("./Services/Accessibility/classes/class.ilAccessKey.php");
+		$selection->setAccessKey(ilAccessKey::LAST_VISITED);
 		
 		$items = $ilNavigationHistory->getItems();
 		//$sel_arr = array(0 => "-- ".$lng->txt("last_visited")." --");

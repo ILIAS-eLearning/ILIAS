@@ -857,6 +857,8 @@ class ilMailFolderGUI
 		$this->tpl->addBlockFile("ADM_CONTENT", "adm_content", "tpl.mail_read.html", "Services/Mail");
 		$this->tpl->setVariable("HEADER",$this->lng->txt("mail_mails_of"));
 		
+		include_once("./Services/Accessibility/classes/class.ilAccessKeyGUI.php");
+		
 		//buttons
 		$tplbtn = new ilTemplate("tpl.buttons.html", true, true);
 		if($mailData["sender_id"] &&
@@ -868,6 +870,7 @@ class ilMailFolderGUI
 			$tplbtn->setVariable("BTN_LINK", $this->ctrl->getLinkTargetByClass("ilmailformgui"));
 			$this->ctrl->clearParametersByClass("iliasmailformgui");
 			$tplbtn->setVariable("BTN_TXT", $this->lng->txt("reply"));
+			$tplbtn->setVariable("BTN_ACC_KEY", ilAccessKeyGUI::getAttribute(ilAccessKey::REPLY));
 			$tplbtn->parseCurrentBlock();
 		}
 		$tplbtn->setCurrentBlock("btn_cell");
@@ -876,6 +879,7 @@ class ilMailFolderGUI
 		$tplbtn->setVariable("BTN_LINK", $this->ctrl->getLinkTargetByClass("ilmailformgui"));
 		$this->ctrl->clearParametersByClass("iliasmailformgui");
 		$tplbtn->setVariable("BTN_TXT", $this->lng->txt("forward"));
+		$tplbtn->setVariable("BTN_ACC_KEY", ilAccessKeyGUI::getAttribute(ilAccessKey::FORWARD_MAIL));
 		$tplbtn->parseCurrentBlock();
 		$tplbtn->setCurrentBlock("btn_cell");
 		$this->ctrl->setParameter($this, "mail_id", $_GET["mail_id"]);
@@ -892,6 +896,7 @@ class ilMailFolderGUI
 		$tplbtn->setVariable("BTN_LINK", $this->ctrl->getLinkTarget($this));
 		$this->ctrl->clearParameters($this);
 		$tplbtn->setVariable("BTN_TXT", $this->lng->txt("delete"));
+		$tplbtn->setVariable("BTN_ACC_KEY", ilAccessKeyGUI::getAttribute(ilAccessKey::DELETE));
 		$tplbtn->parseCurrentBlock();
 		
 		$tplbtn->setCurrentBlock("btn_row");
