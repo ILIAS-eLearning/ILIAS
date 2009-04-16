@@ -3,7 +3,7 @@
 	+-----------------------------------------------------------------------------+
 	| ILIAS open source                                                           |
 	+-----------------------------------------------------------------------------+
-	| Copyright (c) 1998-2006 ILIAS open source, University of Cologne            |
+	| Copyright (c) 1998-2009 ILIAS open source, University of Cologne            |
 	|                                                                             |
 	| This program is free software; you can redistribute it and/or               |
 	| modify it under the terms of the GNU General Public License                 |
@@ -623,12 +623,16 @@ class ilObjForumGUI extends ilObjectGUI
 				
 				$this->tpl->setVariable('IMGPATH', $this->tpl->tplPath);
 				
+				include_once("./Services/Accessibility/classes/class.ilAccessKeyGUI.php");
+				
 				// button: mark all read
 				if($ilUser->getId() != ANONYMOUS_USER_ID)
 				{
 					$this->tpl->setCurrentBlock('btn_cell');
 					$this->tpl->setVariable('BTN_LINK', $this->ctrl->getLinkTarget($this, 'markAllRead'));
 					$this->tpl->setVariable('BTN_TXT', $this->lng->txt('forums_mark_read'));
+					$this->tpl->setVariable('BTN_ACC_KEY',
+						ilAccessKeyGUI::getAttribute(ilAccessKey::MARK_ALL_READ));
 					$this->tpl->parseCurrentBlock();
 				}
 				
@@ -1848,6 +1852,8 @@ class ilObjForumGUI extends ilObjectGUI
 				$menutpl->parseCurrentBlock();
 			}*/
 		
+			include_once("./Services/Accessibility/classes/class.ilAccessKeyGUI.php");
+			
 			// mark read
 			if($ilUser->getId() != ANONYMOUS_USER_ID &&
 			   $forumObj->getCountUnread($ilUser->getId(), (int) $this->objCurrentTopic->getId()))
@@ -1860,6 +1866,8 @@ class ilObjForumGUI extends ilObjectGUI
 				$t_frame = ilFrameTargetInfo::_getFrame('MainContent');
 				$menutpl->setVariable('BTN_TARGET', ' target="'.$t_frame.'"');
 				$menutpl->setVariable('BTN_TXT', $lng->txt('forums_mark_read'));
+				$menutpl->setVariable('BTN_ACC_KEY',
+					ilAccessKeyGUI::getAttribute(ilAccessKey::MARK_ALL_READ));
 				$menutpl->parseCurrentBlock();
 			}
 

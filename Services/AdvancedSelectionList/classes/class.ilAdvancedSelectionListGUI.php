@@ -280,6 +280,26 @@ class ilAdvancedSelectionListGUI
 	}
 
 	/**
+	* Set access key
+	*
+	* @param	integer		access function id
+	*/
+	function setAccessKey($a_val)
+	{
+		$this->access_key = $a_val;
+	}
+	
+	/**
+	* Get access key
+	*
+	* @return	integer		access key function id
+	*/
+	function getAccessKey()
+	{
+		return $this->access_key;
+	}
+	
+	/**
 	* Set "onClick"- Mode
 	*
 	* Valid values are:
@@ -487,6 +507,11 @@ class ilAdvancedSelectionListGUI
 		
 		// js section
 		$tpl->setCurrentBlock("js_section");
+		if ($this->getAccessKey() > 0)
+		{
+			include_once("./Services/Accessibility/classes/class.ilAccessKeyGUI.php");
+			$tpl->setVariable("ACCKEY", ilAccessKeyGUI::getAttribute($this->getAccessKey()));
+		}
 		$toggle = $this->getAdditionalToggleElement();
 		if (is_array($toggle))
 		{
@@ -558,6 +583,12 @@ class ilAdvancedSelectionListGUI
 				}
 				$tpl->setVariable("FRM_SELECT_NAME", $this->form_mode["select_name"]);
 				$tpl->setVariable("FRM_SELECT_CLASS", $this->form_mode["select_class"]);
+				
+				if ($this->getAccessKey() > 0)
+				{
+					include_once("./Services/Accessibility/classes/class.ilAccessKeyGUI.php");
+					$tpl->setVariable("ACCKEYNJS", ilAccessKeyGUI::getAttribute($this->getAccessKey()));
+				}
 				
 				$tpl->setCurrentBlock("no_js_section");
 				$tpl->parseCurrentBlock();

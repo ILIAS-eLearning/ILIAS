@@ -9211,3 +9211,19 @@ common#:#accs_read#:#Read access to Accessibility Settings
 common#:#accs_write#:#Edit Accessibility Settings
 common#:#obj_accs#:#Accessibility
 common#:#obj_accs_desc#:#Settings for accessibility features.
+acc#:#acc_access_keys#:#Access Keys
+acc#:#acc_access_key#:#Access Key
+acc#:#acc_component#:#Component
+acc#:#acc_function#:#Function
+acc#:#acc_next#:#Next
+acc#:#acc_previous#:#Previous
+acc#:#acc_delete#:#Delete
+acc#:#acc_last_visited#:#Last Visited
+acc#:#acc_tree_on#:#Tree On
+acc#:#acc_tree_off#:#Tree Off
+acc#:#acc_reply#:#Reply
+acc#:#acc_forward_mail#:#Forward Mail
+acc#:#acc_mark_all_read#:#Mark All Read
+acc#:#acc_comp_global#:#Global
+acc#:#acc_comp_mail#:#Mail
+acc#:#acc_comp_frm#:#Forum

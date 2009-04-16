@@ -2353,11 +2353,6 @@ form.ilNavHistoryForm
 	padding: 5px 5px 2px 5px;
 	border: 0px;
 	display: inline;
-	background-color: #FFF9EC;
-	border-width: 1px;
-	border-style: solid;
-	border-color: #F9E690;
-	border-bottom-width: 0px;
 	font-size: 80%;
 }
 
@@ -2368,13 +2363,11 @@ input.ilNavHistorySubmit {
 	border-width: 0px;
 	/* font-size: 80%; */
 	cursor:pointer;
-	background-color: #FFF9EC;
+	background-color: #F0F0F0;
 }
 
 select.ilNavHistorySelect {
-	background-color: #FFF9EC;
 	border-width:0px;
-	border-color:#bbbbbb;
 	padding:0px;
 	background-image: none;
 	text-decoration:none;

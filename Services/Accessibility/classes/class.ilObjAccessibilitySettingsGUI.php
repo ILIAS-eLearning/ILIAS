@@ -81,7 +81,7 @@ class ilObjAccessibilitySettingsGUI extends ilObjectGUI
 			default:
 				if(!$cmd || $cmd == 'view')
 				{
-					$cmd = "editSettings";
+					$cmd = "editAccessKeys";
 				}
 
 				$this->$cmd();
@@ -98,42 +98,49 @@ class ilObjAccessibilitySettingsGUI extends ilObjectGUI
 	 */
 	public function getAdminTabs()
 	{
-		global $rbacsystem, $ilAccess;
+		global $rbacsystem, $ilAccess, $ilTabs;
 
-		if ($ilAccess->checkAccess("read", "", $this->object->getRefId()))
+		if ($ilAccess->checkAccess("write", "", $this->object->getRefId()))
 		{
-			$this->tabs_gui->addTarget("news_edit_news_settings",
-				$this->ctrl->getLinkTarget($this, "editSettings"),
-				array("editSettings", "view"));
+			$ilTabs->addTarget("acc_access_keys",
+				$this->ctrl->getLinkTarget($this, "editAccessKeys"),
+				array("editAccessKeys", "view"));
 		}
 
 		if ($ilAccess->checkAccess('edit_permission', "", $this->object->getRefId()))
 		{
-			$this->tabs_gui->addTarget("perm_settings",
+			$ilTabs->addTarget("perm_settings",
 				$this->ctrl->getLinkTargetByClass('ilpermissiongui',"perm"),
 				array(),'ilpermissiongui');
 		}
 	}
 
 	/**
-	* Edit news settings.
+	* Edit access keys
 	*/
-	public function editSettings()
+	function editAccessKeys()
 	{
-		global $ilCtrl, $lng, $ilSetting;
+		global $tpl;
 		
-		$acc_set = new ilSetting("acc");
+		include_once("./Services/Accessibility/classes/class.ilAccessKeyTableGUI.php");
+		$table = new ilAccessKeyTableGUI($this, "editAccessKeys");
+		
+		$tpl->setContent($table->getHTML());
 	}
-
+	
 	/**
-	* Save news and external webfeeds settings
+	* Save access keys
 	*/
-	public function saveSettings()
+	function saveAccessKeys()
 	{
-		global $ilCtrl, $ilSetting;
+		global $ilCtrl, $lng;
 		
-		$news_set = new ilSetting("acc");
-		$ilCtrl->redirect($this, "view");
+		include_once("./Services/Accessibility/classes/class.ilAccessKey.php");
+		ilAccessKey::writeKeys(ilUtil::stripSlashesArray($_POST["acckey"]));
+		ilUtil::sendSuccess($lng->txt("msg_obj_modified"), true);
+		$ilCtrl->redirect($this, "editAccessKeys");
 	}
+	
+
 }
 ?>
