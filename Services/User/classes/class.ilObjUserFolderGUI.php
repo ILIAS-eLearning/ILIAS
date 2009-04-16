@@ -3568,7 +3568,8 @@ class ilObjUserFolderGUI extends ilObjectGUI
 	*/
 	function exportObject()
 	{
-		global $ilias;
+		global $ilias, $ilCtrl;
+		
 		if ($_POST["cmd"]["export"])
 		{
 			$this->object->buildExportFile($_POST["export_type"]);
@@ -3600,6 +3601,7 @@ class ilObjUserFolderGUI extends ilObjectGUI
 
 		$tbl->setHeaderNames(array("", $this->lng->txt("userfolder_export_file"),
 			$this->lng->txt("userfolder_export_file_size"), $this->lng->txt("date") ));
+		$tbl->setHeaderVars(array(), $ilCtrl->getParameterArray($this, "export"));
 
 		$tbl->enabled["sort"] = false;
 		$tbl->setColumnWidth(array("1%", "49%", "25%", "25%"));
