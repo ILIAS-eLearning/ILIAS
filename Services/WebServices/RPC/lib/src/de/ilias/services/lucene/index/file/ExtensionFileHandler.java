@@ -29,6 +29,11 @@ import java.io.FileNotFoundException;
 import java.io.IOException;
 
 import org.apache.log4j.Logger;
+import org.apache.poi.POITextExtractor;
+import org.apache.poi.extractor.ExtractorFactory;
+import org.apache.poi.openxml4j.exceptions.InvalidFormatException;
+import org.apache.poi.openxml4j.exceptions.OpenXML4JException;
+import org.apache.xmlbeans.XmlException;
 
 /**
  * 
@@ -53,14 +58,13 @@ public class ExtensionFileHandler {
      */
     public String getContent(File file) throws FileHandlerException {
 
-    	// TODO: handle extension read from database
     	
     	// Stop here if no read permission is given
         if(!file.canRead()) {
             throw new FileHandlerException("No permission to read file: " + file.getAbsolutePath());
         }
        
-        String fname = file.getName();
+    	String fname = file.getName();
         int dotIndex = fname.lastIndexOf(".");
         if((dotIndex > 0) && (dotIndex < fname.length())) {
             String extension = fname.substring(dotIndex + 1, fname.length());
@@ -84,6 +88,43 @@ public class ExtensionFileHandler {
                 logger.info("No file handler found for: " + fname);
             }
         }
+        
+    	// Start with poi
+    	try {
+    		
+    		StringBuilder content = new StringBuilder();
+    		POITextExtractor extractor;
+    		extractor = ExtractorFactory.createExtractor(file);
+    		content.append(extractor.getText());
+    		
+    		if(content.length() > 0) {
+    			logger.info("Parsed file: " + file.getName());
+    		}
+    		else {
+    			logger.warn("No content found for" + file.getName());
+    		}
+    		logger.debug("Parsed content is: " + content.toString());
+    		return content.toString();
+    	}
+    	catch(IOException e) {
+    		logger.warn(e);
+    	} 
+    	catch (InvalidFormatException e) {
+    		logger.debug("File is not a compatible POI file.");
+    	}
+    	catch(IllegalArgumentException e) {
+    		logger.info("File is not a compatible POI file.");
+    	}
+    	catch (OpenXML4JException e) {
+    		logger.info(e);
+    	} 
+    	catch (XmlException e) {
+    		logger.info(e);
+		}
+    	catch (Exception e) {
+    		logger.warn(e);
+    	}
+        
         return "";
     }
     
