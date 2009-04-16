@@ -57,6 +57,10 @@ public class TransformerFactory {
 			map.put(name, new LinefeedSanitizer());
 			return map.get(name);
 		}
+		if(name.equalsIgnoreCase("WhitespaceSanitizer")) {
+			map.put(name, new WhitespaceSanitizer());
+			return map.get(name);
+		}
 		logger.error("Cannot find transformer with name: " + name);
 		return null;
 	}

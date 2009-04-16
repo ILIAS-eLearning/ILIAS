@@ -26,6 +26,7 @@ import org.apache.log4j.Logger;
 import org.jdom.Element;
 
 import de.ilias.services.lucene.search.ResultExport;
+import de.ilias.services.xml.XMLUtils;
 
 /**
  * 
@@ -85,7 +86,8 @@ public class HighlightField implements ResultExport {
 
 		Element field = new Element("Field");
 		field.setAttribute("name", getName());
-		field.addContent(getHighlight());
+		//field.addContent(getHighlight());
+		field.setText(XMLUtils.stripNonValidXMLCharacters(getHighlight()));
 		
 		return field;
 	}

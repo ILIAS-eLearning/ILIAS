@@ -297,10 +297,14 @@ public class FieldDefinition {
 	 */
 	private String callTransformers(String value) {
 
+		// Default whitespace sanitizer
+		ContentTransformer trans = TransformerFactory.factory("WhitespaceSanitizer");
+		value = trans.transform(value);
+		
 		for(int i = 0; i < getTransformers().size(); i++) {
 			
 			logger.info(getTransformers().get(i).getName());
-			ContentTransformer trans = TransformerFactory.factory(getTransformers().get(i).getName());
+			trans = TransformerFactory.factory(getTransformers().get(i).getName());
 			if(trans != null) 
 				value = trans.transform(value);
 		}
