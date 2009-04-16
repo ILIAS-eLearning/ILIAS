@@ -9205,3 +9205,9 @@ dateplaner#:#err_missing_title#:#Please enter an appointment title.
 dateplaner#:#err_end_before_start#:#The appointment must not start before the end.
 administration#:#adm_locale#:#Locale
 administration#:#adm_locale_info#:#Locale setting influences e.g. sorting in lists. Examples are nl_NL or de_DE. Multiple locales can be separated by comma. The first valid one will be used.
+common#:#accs_edit_permission#:#Change permission settings
+common#:#accs_visible#:#Accessibility Settings are visible
+common#:#accs_read#:#Read access to Accessibility Settings
+common#:#accs_write#:#Edit Accessibility Settings
+common#:#obj_accs#:#Accessibility
+common#:#obj_accs_desc#:#Settings for accessibility features.
