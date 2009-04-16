@@ -190,7 +190,8 @@ class ilObjPrivacySecurityGUI extends ilObjectGUI
 	 */
 	public function showSecurity()
 	{
-
+		global $ilSetting;
+		
 		include_once("./Services/Form/classes/class.ilPropertyFormGUI.php");
 
 		$security = ilSecuritySettings::_getInstance();
@@ -283,6 +284,14 @@ class ilObjPrivacySecurityGUI extends ilObjectGUI
 		$check->setChecked( $security->isPasswordChangeOnFirstLoginEnabled() ? 1 : 0 );
 		$form->addItem($check);
 
+		// file suffix replacement
+		$ti = new ilTextInputGUI($this->lng->txt("file_suffix_repl"), "suffix_repl_additional");
+		$ti->setMaxLength(200);
+		$ti->setSize(40);
+		$ti->setInfo($this->lng->txt("file_suffix_repl_info")." ".SUFFIX_REPL_DEFAULT);
+		$ti->setValue($ilSetting->get("suffix_repl_additional"));
+		$form->addItem($ti);
+		
 
 		$form->addCommandButton('save_security',$this->lng->txt('save'));
 		$this->tpl->setVariable('NEW_FORM',$form->getHTML());
@@ -296,7 +305,7 @@ class ilObjPrivacySecurityGUI extends ilObjectGUI
 	 */
 	public function save_privacy()
 	{
-		global $ilErr,$ilAccess;
+		global $ilErr,$ilAccess, $ilSetting;
 
 		if(!$ilAccess->checkAccess('write','',$this->object->getRefId()))
 		{
@@ -340,7 +349,7 @@ class ilObjPrivacySecurityGUI extends ilObjectGUI
 	 */
 	public function save_security()
 	{
-		global $ilErr,$ilAccess;
+		global $ilErr,$ilAccess, $ilSetting;
 
 		if(!$ilAccess->checkAccess('write','',$this->object->getRefId()))
 		{
@@ -352,8 +361,8 @@ class ilObjPrivacySecurityGUI extends ilObjectGUI
 
 		// auto https detection settings
         $security->setAutomaticHTTPSEnabled((int) $_POST["auto_https_detect_enabled"]);
-        $security->setAutomaticHTTPSHeaderName($_POST["auto_https_detect_header_name"]);
-        $security->setAutomaticHTTPSHeaderValue($_POST["auto_https_detect_header_value"]);
+        $security->setAutomaticHTTPSHeaderName(ilUtil::stripSlashes($_POST["auto_https_detect_header_name"]));
+        $security->setAutomaticHTTPSHeaderValue(ilUtil::stripSlashes($_POST["auto_https_detect_header_value"]));
 
         // ilias https handling settings
         $security->setHTTPSEnabled($_POST["https_enabled"]);
@@ -370,6 +379,8 @@ class ilObjPrivacySecurityGUI extends ilObjectGUI
 		// change password on first login settings
 		$security->setPasswordChangeOnFirstLoginEnabled((bool) $_POST['password_change_on_first_login_enabled']);
 
+		// file suffic replacements
+		$ilSetting->set("suffix_repl_additional", $_POST["suffix_repl_additional"]);
 
         // validate settings
         $code = $security->validate();

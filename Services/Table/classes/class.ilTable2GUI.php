@@ -139,9 +139,32 @@ class ilTable2GUI extends ilTableGUI
 		return $this->enabled["header"];
 	}
 
+	/**
+	* Set title and title icon
+	*/
 	final public function setTitle($a_title, $a_icon = 0, $a_icon_alt = 0)
 	{
 		parent::setTitle($a_title, $a_icon, $a_icon_alt);
+	}
+	
+	/**
+	* Set description
+	*
+	* @param	string description
+	*/
+	function setDescription($a_val)
+	{
+		$this->description = $a_val;
+	}
+	
+	/**
+	* Get description
+	*
+	* @return	string	description
+	*/
+	function getDescription()
+	{
+		return $this->description;
 	}
 	
 	/**
@@ -459,10 +482,21 @@ class ilTable2GUI extends ilTableGUI
 		$this->tpl->parseCurrentBlock();
 	}
 
+	/**
+	* Anything that must be done before HTML is generated
+	*/
+	protected function prepareOutput()
+	{
+	}
 	
+	/**
+	* Get HTML
+	*/
 	final public function getHTML()
 	{
 		global $lng, $ilCtrl;
+		
+		$this->prepareOutput();
 		
 		$ilCtrl->saveParameter($this->getParentObject(), $this->getNavParameter());
 		
@@ -584,6 +618,14 @@ class ilTable2GUI extends ilTableGUI
 		global $lng;
 		
 		$this->tpl->setVariable("CSS_TABLE",$this->getStyle("table"));
+		
+		// description
+		if ($this->getDescription() != "")
+		{
+			$this->tpl->setCurrentBlock("tbl_header_description");
+			$this->tpl->setVariable("TBL_DESCRIPTION", $this->getDescription());
+			$this->tpl->parseCurrentBlock();
+		}
 		
 		// table title and icon
 		if ($this->enabled["title"])

@@ -93,6 +93,9 @@ class ilObjSystemFolderGUI extends ilObjectGUI
 	{
 		global $rbacsystem;
 
+return $this->showServerInfoObject();
+// old stuff
+		
 		if (!$rbacsystem->checkAccess("visible,read",$this->object->getRefId()))
 		{
 			$this->ilias->raiseError($this->lng->txt("permission_denied"),$this->ilias->error_obj->MESSAGE);
@@ -621,7 +624,8 @@ class ilObjSystemFolderGUI extends ilObjectGUI
 	{
 		global $rbacsystem, $ilCtrl, $ilClientIniFile;
 
-		$this->tpl->addBlockFile("SYSTEMSETTINGS", "systemsettings", "tpl.adm_basicdata.html");
+		$this->tpl->addBlockFile("SYSTEMSETTINGS", "systemsettings", "tpl.adm_basicdata.html",
+			"Modules/SystemFolder");
 
 		$settings = $this->ilias->getAllSettings();
 
@@ -853,43 +857,6 @@ class ilObjSystemFolderGUI extends ilObjectGUI
 			$this->ctrl->getLinkTarget($this, "showPHPInfo"));
 
 		// get all templates
-		/*
-		$templates = $styleDefinition->getAllTemplates();
-
-		$this->tpl->setCurrentBlock("selectskin");
-
-		foreach ($templates as $template)
-		{
-			// get styles definition for template
-			$styleDef =& new ilStyleDefinition($template["id"]);
-			$styleDef->startParsing();
-			$styles = $styleDef->getStyles();
-
-			foreach ($styles as $style)
-			{
-				if ($this->ilias->ini->readVariable("layout","skin") == $template["id"] &&
-					$this->ilias->ini->readVariable("layout","style") == $style["id"])
-				{
-					$this->tpl->setVariable("SKINSELECTED", "selected=\"selected\"");
-				}
-
-				$this->tpl->setVariable("SKINVALUE", $template["id"].":".$style["id"]);
-				$this->tpl->setVariable("SKINOPTION", $styleDef->getTemplateName()." / ".$style["name"]);
-				$this->tpl->parseCurrentBlock();
-			}
-		}*/
-
-		// default view target
-		/*$view_target = $this->ilias->ini->readVariable("layout","view_target");
-		if ($view_target == "frame")
-		{
-			$this->tpl->setVariable("OPEN_VIEWS_INSIDE_FRAMESET","checked=\"checked\"");
-		}
-		else
-		{
-			$this->tpl->setVariable("OPEN_VIEWS_INSIDE_FRAMESET","");
-		}*/
-
 		if ($settings["pub_section"])
 		{
 			$this->tpl->setVariable("PUB_SECTION","checked=\"checked\"");
@@ -904,10 +871,6 @@ class ilObjSystemFolderGUI extends ilObjectGUI
 			$this->tpl->setVariable("FLATSELECTED","selected=\"1\"");
 		}
 
-		/*if($settings['https'])
-		{
-			$this->tpl->setVariable("HTTPS","checked=\"checked\"");
-		}*/
 		if($settings['password_assistance'])
 		{
 			$this->tpl->setVariable("PASSWORD_ASSISTANCE","checked=\"checked\"");
@@ -1747,10 +1710,26 @@ class ilObjSystemFolderGUI extends ilObjectGUI
 
 		$this->ctrl->setParameter($this,"ref_id",$this->object->getRefId());
 
-		if ($rbacsystem->checkAccess("visible,read",$this->object->getRefId()))
+/*		if ($rbacsystem->checkAccess("visible,read",$this->object->getRefId()))
 		{
 			$tabs_gui->addTarget("settings",
 				$this->ctrl->getLinkTarget($this, "view"), array("view", "saveSettings"), get_class($this));
+		}*/
+
+		// server info
+		if ($rbacsystem->checkAccess("visible,read",$this->object->getRefId()))
+		{
+			$tabs_gui->addTarget("server_data",
+				$this->ctrl->getLinkTarget($this, "showServerInfo"),
+				array("showServerInfo", "view"), get_class($this));
+		}
+
+		// general settings
+		if ($rbacsystem->checkAccess("visible,read",$this->object->getRefId()))
+		{
+			$tabs_gui->addTarget("general_settings",
+				$this->ctrl->getLinkTarget($this, "showBasicSettings"),
+				array("showBasicSettings", "saveBasicSettings"), get_class($this));
 		}
 
 		if ($rbacsystem->checkAccess("write",$this->object->getRefId()))
@@ -1781,5 +1760,905 @@ class ilObjSystemFolderGUI extends ilObjectGUI
 		exit;
 	}
 
-} // END class.ilObjSystemFolderGUI
+	//
+	//
+	// Server Info
+	//
+	//
+	
+	/**
+	* Show server info
+	*/
+	function showServerInfoObject()
+	{
+		global $tpl, $ilCtrl;
+		
+		$this->initServerInfoForm();
+		
+		$btpl = new ilTemplate("tpl.server_data.html", true, true, "Modules/SystemFolder");
+		$btpl->setVariable("FORM", $this->form->getHTML());
+		$btpl->setVariable("PHP_INFO_TARGET", $ilCtrl->getLinkTarget($this, "showPHPInfo"));
+		$tpl->setContent($btpl->get());
+	}
+	
+	/**
+	* Init server info form.
+	*
+	* @param        int        $a_mode        Edit Mode
+	*/
+	public function initServerInfoForm()
+	{
+		global $lng, $ilClientIniFile, $ilSetting;
+		
+		include_once("Services/Form/classes/class.ilPropertyFormGUI.php");
+		$this->form = new ilPropertyFormGUI();
+		
+		// installation name
+		$ne = new ilNonEditableValueGUI($lng->txt("inst_name"), "");
+		$ne->setValue($ilClientIniFile->readVariable("client","name"));
+		$ne->setInfo($ilClientIniFile->readVariable("client","description"));
+		$this->form->addItem($ne);
+
+		// client id
+		$ne = new ilNonEditableValueGUI($lng->txt("client_id"), "");
+		$ne->setValue(CLIENT_ID);
+		$this->form->addItem($ne);
+		
+		// installation id
+		$ne = new ilNonEditableValueGUI($lng->txt("inst_id"), "");
+		$ne->setValue($ilSetting->get("inst_id"));
+		$this->form->addItem($ne);
+		
+		// database version
+		$ne = new ilNonEditableValueGUI($lng->txt("db_version"), "");
+		$ne->setValue($ilSetting->get("db_version"));
+				include_once ("./Services/Database/classes/class.ilDBUpdate.php");
+		$dbupdate = new ilDBUpdate($this->ilias->db,true);
+		if (!$dbupdate->getDBVersionStatus())
+		{
+			ilUtil::sendFailure($this->lng->txt("db_need_update"));
+		}
+		$this->form->addItem($ne);
+		
+		// ilias version
+		$ne = new ilNonEditableValueGUI($lng->txt("ilias_version"), "");
+		$ne->setValue($ilSetting->get("ilias_version"));
+		$this->form->addItem($ne);
+		
+		// host
+		$ne = new ilNonEditableValueGUI($lng->txt("host"), "");
+		$ne->setValue($_SERVER["SERVER_NAME"]);
+		$this->form->addItem($ne);
+		
+		// ip & port
+		$ne = new ilNonEditableValueGUI($lng->txt("ip_address")." & ".$this->lng->txt("port"), "");
+		$ne->setValue($_SERVER["SERVER_ADDR"].":".$_SERVER["SERVER_PORT"]);
+		$this->form->addItem($ne);
+		
+		// server
+		$ne = new ilNonEditableValueGUI($lng->txt("server_software"), "");
+		$ne->setValue($_SERVER["SERVER_SOFTWARE"]);
+		$this->form->addItem($ne);
+		
+		// http path
+		$ne = new ilNonEditableValueGUI($lng->txt("http_path"), "");
+		$ne->setValue(ILIAS_HTTP_PATH);
+		$this->form->addItem($ne);
+		
+		// absolute path
+		$ne = new ilNonEditableValueGUI($lng->txt("absolute_path"), "");
+		$ne->setValue(ILIAS_ABSOLUTE_PATH);
+		$this->form->addItem($ne);
+		
+		$not_set = $lng->txt("path_not_set");
+		
+		// convert
+		$ne = new ilNonEditableValueGUI($lng->txt("path_to_convert"), "");
+		$ne->setValue((PATH_TO_CONVERT) ? PATH_TO_CONVERT : $not_set);
+		$this->form->addItem($ne);
+		
+		// zip
+		$ne = new ilNonEditableValueGUI($lng->txt("path_to_zip"), "");
+		$ne->setValue((PATH_TO_ZIP) ? PATH_TO_ZIP : $not_set);
+		$this->form->addItem($ne);
+
+		// unzip
+		$ne = new ilNonEditableValueGUI($lng->txt("path_to_unzip"), "");
+		$ne->setValue((PATH_TO_UNZIP) ? PATH_TO_UNZIP : $not_set);
+		$this->form->addItem($ne);
+
+		// java
+		$ne = new ilNonEditableValueGUI($lng->txt("path_to_java"), "");
+		$ne->setValue((PATH_TO_JAVA) ? PATH_TO_JAVA : $not_set);
+		$this->form->addItem($ne);
+		
+		// htmldoc
+		$ne = new ilNonEditableValueGUI($lng->txt("path_to_htmldoc"), "");
+		$ne->setValue((PATH_TO_HTMLDOC) ? PATH_TO_HTMLDOC : $not_set);
+		$this->form->addItem($ne);
+
+		// latex
+		$ne = new ilNonEditableValueGUI($lng->txt("url_to_latex"), "");
+		$ne->setValue((URL_TO_LATEX) ? URL_TO_LATEX : $not_set);
+		$this->form->addItem($ne);
+
+
+		$this->form->setTitle($lng->txt("server_data"));
+		$this->form->setFormAction($this->ctrl->getFormAction($this));
+	 
+	}
+	
+	//
+	//
+	// General Settings
+	//
+	//
+	
+	/**
+	* Set sub tabs for general settings
+	*/
+	function setGeneralSettingsSubTabs($a_activate)
+	{
+		global $ilTabs, $ilCtrl;
+		
+		$ilTabs->addSubTabTarget("basic_settings", $ilCtrl->getLinkTarget($this, "showBasicSettings"));
+		$ilTabs->addSubTabTarget("header_title", $ilCtrl->getLinkTarget($this, "showHeaderTitle"));
+		$ilTabs->addSubTabTarget("cron_jobs", $ilCtrl->getLinkTarget($this, "showCronJobs"));
+		$ilTabs->addSubTabTarget("contact_data", $ilCtrl->getLinkTarget($this, "showContactInformation"));
+		$ilTabs->addSubTabTarget("webservices", $ilCtrl->getLinkTarget($this, "showWebServices"));
+		$ilTabs->addSubTabTarget("java_server", $ilCtrl->getLinkTarget($this, "showJavaServer"));
+		
+		$ilTabs->setSubTabActive($a_activate);
+		$ilTabs->setTabActive("general_settings");
+	}
+
+	//
+	//
+	// Basic Settings
+	//
+	//
+	
+	/**
+	* Show basic settings
+	*/
+	function showBasicSettingsObject()
+	{
+		global $tpl;
+		
+		$this->initBasicSettingsForm();
+		$this->setGeneralSettingsSubTabs("basic_settings");
+		
+		$tpl->setContent($this->form->getHTML());
+	}
+	
+	
+	/**
+	* Init basic settings form.
+	*/
+	public function initBasicSettingsForm()
+	{
+		global $lng, $ilSetting, $ilClientIniFile;
+		
+		include_once("Services/Form/classes/class.ilPropertyFormGUI.php");
+		$this->form = new ilPropertyFormGUI();
+	
+		// installation short title
+		$ti = new ilTextInputGUI($this->lng->txt("short_inst_name"), "short_inst_name");
+		$ti->setMaxLength(200);
+		$ti->setSize(40);
+		$ti->setValue($ilSetting->get("short_inst_name"));
+		$ti->setInfo($this->lng->txt("short_inst_name_info"));
+		$this->form->addItem($ti);
+		
+		// public section
+		$cb = new ilCheckboxInputGUI($this->lng->txt("pub_section"), "pub_section");
+			if ($ilSetting->get("pub_section"))
+			{
+				$cb->setChecked(true);
+			}
+			// search engine
+			include_once('Services/PrivacySecurity/classes/class.ilRobotSettings.php');
+			$robot_settings = ilRobotSettings::_getInstance();
+			$cb2 = new ilCheckboxInputGUI("", "open_google");
+			$cb2->setOptionTitle($this->lng->txt("search_engine"));
+			$cb2->setInfo($this->lng->txt("enable_search_engine"));
+			$cb->addSubItem($cb2);
+			if(!$robot_settings->checkModRewrite())
+			{
+				$cb2->setAlert($lng->txt("mod_rewrite_disabled"));
+				$cb2->setChecked(false);
+				$cb2->setDisabled(true);
+			}
+			elseif(!$robot_settings->checkRewrite())
+			{
+				$cb2->setAlert($lng->txt("allow_override_alert"));
+				$cb2->setChecked(false);
+				$cb2->setDisabled(true);
+			}
+			else
+			{
+				if ($ilSetting->get("open_google"))
+				{
+					$cb2->setChecked(true);
+				}
+			}
+		$this->form->addItem($cb);
+		
+		// default repository view
+		$options = array(
+			"flat" => $lng->txt("flatview"),
+			"tree" => $lng->txt("treeview")
+			);
+		$si = new ilSelectInputGUI($this->lng->txt("def_repository_view"), "default_rep_view");
+		$si->setOptions($options);
+		$si->setInfo($this->lng->txt(""));
+		if ($ilSetting->get("default_repository_view") == "tree")
+		{
+			$si->setValue("tree");
+		}
+		else
+		{
+			$si->setValue("flat");
+		}
+		$this->form->addItem($si);
+				
+		// trash
+		$cb = new ilCheckboxInputGUI($this->lng->txt("enable_trash"), "enable_trash");
+		$cb->setInfo($this->lng->txt("enable_trash_info"));
+		if ($ilSetting->get("enable_trash"))
+		{
+			$cb->setChecked(true);
+		}
+		$this->form->addItem($cb);
+		
+		// session reminder
+		$cb = new ilCheckboxInputGUI($this->lng->txt("session_reminder"), "session_reminder_enabled");
+		$expires = $ilClientIniFile->readVariable("session", "expire");
+		$time = ilFormat::_secondsToString($expires, true);
+		$cb->setInfo($this->lng->txt("session_reminder_info")."<br />".
+			sprintf($this->lng->txt('session_reminder_session_duration'), $time));
+		if ($ilSetting->get("session_reminder_enabled"))
+		{
+			$cb->setChecked(true);
+		}
+		$this->form->addItem($cb);
+		
+		// password assistance
+		$cb = new ilCheckboxInputGUI($this->lng->txt("enable_password_assistance"), "password_assistance");
+		if ($ilSetting->get("password_assistance"))
+		{
+			$cb->setChecked(true);
+		}
+		$cb->setInfo($this->lng->txt("password_assistance_info"));
+		$this->form->addItem($cb);
+		
+		// password generation
+		$cb = new ilCheckboxInputGUI($this->lng->txt("passwd_generation"), "passwd_auto_generate");
+		if ($ilSetting->get("passwd_auto_generate"))
+		{
+			$cb->setChecked(true);
+		}
+		$cb->setInfo($this->lng->txt("passwd_generation_info"));
+		$this->form->addItem($cb);
+		
+		// dynamic web links
+		$cb = new ilCheckboxInputGUI($this->lng->txt("links_dynamic"), "links_dynamic");
+		$cb->setInfo($this->lng->txt("links_dynamic_info"));
+		if ($ilSetting->get("links_dynamic"))
+		{
+			$cb->setChecked(true);
+		}
+		$this->form->addItem($cb);
+
+		// save and cancel commands
+		$this->form->addCommandButton("saveBasicSettings", $lng->txt("save"));
+	                
+		$this->form->setTitle($lng->txt("basic_settings"));
+		$this->form->setFormAction($this->ctrl->getFormAction($this));
+	 
+	}
+	
+	/**
+	* Save basic settings form
+	*
+	*/
+	public function saveBasicSettingsObject()
+	{
+		global $tpl, $lng, $ilCtrl, $ilSetting;
+	
+		$this->initBasicSettingsForm();
+		if ($this->form->checkInput())
+		{
+			$ilSetting->set("short_inst_name", $_POST["short_inst_name"]);
+			$ilSetting->set("pub_section", $_POST["pub_section"]);
+			$ilSetting->set("open_google", $_POST["open_google"]);
+			$ilSetting->set("default_repository_view", $_POST["default_rep_view"]);
+			$ilSetting->set("links_dynamic", $_POST["links_dynamic"]);
+			$ilSetting->set("enable_trash", $_POST["enable_trash"]);
+			$ilSetting->set("session_reminder_enabled", $_POST["session_reminder_enabled"]);
+			$ilSetting->set("password_assistance", $_POST["password_assistance"]);
+			$ilSetting->set("passwd_auto_generate", $_POST["passwd_auto_generate"]);
+			
+			ilUtil::sendSuccess($lng->txt("msg_obj_modified"), true);
+			$ilCtrl->redirect($this, "showBasicSettings");
+		}
+		$this->setGeneralSettingsSubTabs("basic_settings");
+		$this->form->setValuesByPost();
+		$tpl->setContent($this->form->getHtml());
+	}
+	
+	//
+	//
+	// Header title
+	//
+	//
+
+	/**
+	* Show header title
+	*/
+	function showHeaderTitleObject($a_get_post_values = false)
+	{
+		global $tpl;
+		
+		$this->setGeneralSettingsSubTabs("header_title");
+		include_once("./Services/Object/classes/class.ilObjectTranslationTableGUI.php");
+		$table = new ilObjectTranslationTableGUI($this, "showHeaderTitle", false);
+		if ($a_get_post_values)
+		{
+			$vals = array();
+			foreach($_POST["title"] as $k => $v)
+			{
+				$vals[] = array("title" => $v,
+					"desc" => $_POST["desc"][$k],
+					"lang" => $_POST["lang"][$k],
+					"default" => ($_POST["default"] == $k));
+			}
+			$table->setData($vals);
+		}
+		else
+		{
+			$data = $this->object->getHeaderTitleTranslations();
+			if (is_array($data["Fobject"]))
+			{
+				foreach($data["Fobject"] as $k => $v)
+				{
+					if ($k == $data["default_language"])
+					{
+						$data["Fobject"][$k]["default"] = true;
+					}
+					else
+					{
+						$data["Fobject"][$k]["default"] = false;
+					}
+				}
+			}
+			else
+			{
+				$data["Fobject"] = array();
+			}
+			$table->setData($data["Fobject"]);
+		}
+		$tpl->setContent($table->getHTML());
+	}
+
+	/**
+	* Save header titles
+	*/
+	function saveHeaderTitlesObject()
+	{
+		global $ilCtrl, $lng;
+		
+//		var_dump($_POST);
+		
+		// default language set?
+		if (!isset($_POST["default"]) && count($_POST["lang"]) > 0)
+		{
+			ilUtil::sendFailure($lng->txt("msg_no_default_language"));
+			return $this->showHeaderTitleObject(true);
+		}
+
+		// all languages set?
+		if (array_key_exists("",$_POST["lang"]))
+		{
+			ilUtil::sendFailure($lng->txt("msg_no_language_selected"));
+			return $this->showHeaderTitleObject(true);
+		}
+
+		// no single language is selected more than once?
+		if (count(array_unique($_POST["lang"])) < count($_POST["lang"]))
+		{
+			ilUtil::sendFailure($lng->txt("msg_multi_language_selected"));
+			return $this->showHeaderTitleObject(true);
+		}
+
+		// save the stuff
+		$this->object->removeHeaderTitleTranslations();
+		foreach($_POST["title"] as $k => $v)
+		{
+			$this->object->addHeaderTitleTranslation(
+				ilUtil::stripSlashes($v),
+				ilUtil::stripSlashes($_POST["desc"][$k]),
+				ilUtil::stripSlashes($_POST["lang"][$k]),
+				($_POST["default"] == $k));
+		}
+		
+		ilUtil::sendSuccess($lng->txt("msg_obj_modified"), true);
+		$ilCtrl->redirect($this, "showHeaderTitle");
+	}
+	
+	/**
+	* Add a header title
+	*/
+	function addHeaderTitleObject()
+	{
+		global $ilCtrl, $lng;
+		
+		if (is_array($_POST["title"]))
+		{
+			foreach($_POST["title"] as $k => $v) {}
+		}
+		$k++;
+		$_POST["title"][$k] = "";
+		$this->showHeaderTitleObject(true);
+	}
+	
+	/**
+	* Remove header titles
+	*/
+	function deleteHeaderTitlesObject()
+	{
+		global $ilCtrl, $lng;
+//var_dump($_POST);
+		foreach($_POST["title"] as $k => $v)
+		{
+			if ($_POST["check"][$k])
+			{
+				unset($_POST["title"][$k]);
+				unset($_POST["desc"][$k]);
+				unset($_POST["lang"][$k]);
+				if ($k == $_POST["default"])
+				{
+					unset($_POST["default"]);
+				}
+			}
+		}
+		$this->saveHeaderTitlesObject();
+	}
+	
+	
+	//
+	//
+	// Cron Jobs
+	//
+	//
+	
+	/**
+	* Show cron jobs settings
+	*/
+	function showCronJobsObject()
+	{
+		global $tpl;
+		
+		$this->initCronJobsForm();
+		$this->setGeneralSettingsSubTabs("cron_jobs");
+		$tpl->setContent($this->form->getHTML());
+	}
+	
+	/**
+	* Init cron jobs form.
+	*/
+	public function initCronJobsForm()
+	{
+		global $lng, $ilSetting;
+		
+		include_once("Services/Form/classes/class.ilPropertyFormGUI.php");
+		$this->form = new ilPropertyFormGUI();
+	
+		// check user accounts
+		$cb = new ilCheckboxInputGUI($this->lng->txt("check_user_accounts"), "cron_user_check");
+		$cb->setInfo($this->lng->txt("check_user_accounts_desc"));
+		if ($ilSetting->get("cron_user_check"))
+		{
+			$cb->setChecked(true);
+		}
+		$this->form->addItem($cb);
+		
+		// link check
+		$cb = new ilCheckboxInputGUI($this->lng->txt("check_link"), "cron_link_check");
+		$cb->setInfo($this->lng->txt("check_link_desc"));
+		if ($ilSetting->get("cron_link_check"))
+		{
+			$cb->setChecked(true);
+		}
+		$this->form->addItem($cb);
+		
+		// check web resources
+		$options = array(
+			"0" => $lng->txt("never"),
+			"1" => $lng->txt("daily"),
+			"2" => $lng->txt("weekly"),
+			"3" => $lng->txt("monthly"),
+			"4" => $lng->txt("quarterly")
+			);
+		$si = new ilSelectInputGUI($this->lng->txt("check_web_resources"), "cron_web_resource_check");
+		$si->setOptions($options);
+		$si->setInfo($this->lng->txt("check_web_resources_desc"));
+		$si->setValue($ilSetting->get("cron_web_resource_check"));
+		$this->form->addItem($si);
+		
+		// update lucene
+		$cb = new ilCheckboxInputGUI($this->lng->txt("cron_lucene_index"), "cron_lucene_index");
+		$cb->setInfo($this->lng->txt("cron_lucene_index_info"));
+		if ($ilSetting->get("cron_lucene_index"))
+		{
+			$cb->setChecked(true);
+		}
+		$this->form->addItem($cb);
+		
+		// forum notifications
+		$options = array(
+			"0" => $lng->txt("cron_forum_notification_never"),
+			"1" => $lng->txt("cron_forum_notification_directly"),
+			"2" => $lng->txt("cron_forum_notification_cron"),
+			);
+		$si = new ilSelectInputGUI($this->lng->txt("cron_forum_notification"), "forum_notification");
+		$si->setOptions($options);
+		$si->setInfo($this->lng->txt("cron_forum_notification_desc"));
+		$si->setValue($ilSetting->get("forum_notification"));
+		$this->form->addItem($si);
+		
+		// mail notifications
+		$options = array(
+			"0" => $lng->txt("cron_mail_notification_never"),
+			"1" => $lng->txt("cron_mail_notification_cron")
+			);
+		$si = new ilSelectInputGUI($this->lng->txt("cron_mail_notification"), "mail_notification");
+		$si->setOptions($options);
+		$si->setInfo($this->lng->txt("cron_mail_notification_desc"));
+		$si->setValue($ilSetting->get("mail_notification"));
+		$this->form->addItem($si);
+		
+		$this->form->addCommandButton("saveCronJobs", $lng->txt("save"));
+	                
+		$this->form->setTitle($lng->txt("cron_jobs"));
+		$this->form->setDescription($lng->txt("cron_jobs_desc"));
+		$this->form->setFormAction($this->ctrl->getFormAction($this));
+	 
+	}
+
+	/**
+	* Save cron jobs form
+	*
+	*/
+	public function saveCronJobsObject()
+	{
+		global $tpl, $lng, $ilCtrl, $ilSetting;
+	
+		$this->initCronJobsForm();
+		if ($this->form->checkInput())
+		{
+			$ilSetting->set("cron_user_check", $_POST["cron_user_check"]);
+			$ilSetting->set("cron_link_check", $_POST["cron_link_check"]);
+			$ilSetting->set("cron_web_resource_check", $_POST["cron_web_resource_check"]);
+			$ilSetting->set("cron_lucene_index", $_POST["cron_lucene_index"]);
+			$ilSetting->set("forum_notification", $_POST["forum_notification"]);
+			$ilSetting->set("mail_notification", $_POST["mail_notification"]);
+			
+			ilUtil::sendSuccess($lng->txt("msg_obj_modified"), true);
+			$ilCtrl->redirect($this, "showCronJobs");
+		}
+		else
+		{
+			$this->setGeneralSettingsSubTabs("cron_jobs");
+			$this->form->setValuesByPost();
+			$tpl->setContent($this->form->getHtml());
+		}
+	}
+	
+	//
+	//
+	// Contact Information
+	//
+	//
+	
+	/**
+	* Show contact information
+	*/
+	function showContactInformationObject()
+	{
+		global $tpl;
+		
+		$this->initContactInformationForm();
+		$this->setGeneralSettingsSubTabs("contact_data");
+		$tpl->setContent($this->form->getHTML());
+	}
+	
+	/**
+	* Init contact information form.
+	*/
+	public function initContactInformationForm()
+	{
+		global $lng, $ilSetting;
+		
+		include_once("Services/Form/classes/class.ilPropertyFormGUI.php");
+		$this->form = new ilPropertyFormGUI();
+	
+		// first name
+		$ti = new ilTextInputGUI($this->lng->txt("firstname"), "admin_firstname");
+		$ti->setMaxLength(64);
+		$ti->setSize(40);
+		$ti->setRequired(true);
+		$ti->setValue($ilSetting->get("admin_firstname"));
+		$this->form->addItem($ti);
+		
+		// last name
+		$ti = new ilTextInputGUI($this->lng->txt("lastname"), "admin_lastname");
+		$ti->setMaxLength(64);
+		$ti->setSize(40);
+		$ti->setRequired(true);
+		$ti->setValue($ilSetting->get("admin_lastname"));
+		$this->form->addItem($ti);
+		
+		// title
+		$ti = new ilTextInputGUI($this->lng->txt("title"), "admin_title");
+		$ti->setMaxLength(64);
+		$ti->setSize(40);
+		$ti->setValue($ilSetting->get("admin_title"));
+		$this->form->addItem($ti);
+		
+		// position
+		$ti = new ilTextInputGUI($this->lng->txt("position"), "admin_position");
+		$ti->setMaxLength(64);
+		$ti->setSize(40);
+		$ti->setValue($ilSetting->get("admin_position"));
+		$this->form->addItem($ti);
+		
+		// institution
+		$ti = new ilTextInputGUI($this->lng->txt("institution"), "admin_institution");
+		$ti->setMaxLength(200);
+		$ti->setSize(40);
+		$ti->setValue($ilSetting->get("admin_institution"));
+		$this->form->addItem($ti);
+		
+		// street
+		$ti = new ilTextInputGUI($this->lng->txt("street"), "admin_street");
+		$ti->setMaxLength(64);
+		$ti->setSize(40);
+		$ti->setRequired(true);
+		$ti->setValue($ilSetting->get("admin_street"));
+		$this->form->addItem($ti);
+		
+		// zip code
+		$ti = new ilTextInputGUI($this->lng->txt("zipcode"), "admin_zipcode");
+		$ti->setMaxLength(10);
+		$ti->setSize(5);
+		$ti->setRequired(true);
+		$ti->setValue($ilSetting->get("admin_zipcode"));
+		$this->form->addItem($ti);
+		
+		// city
+		$ti = new ilTextInputGUI($this->lng->txt("city"), "admin_city");
+		$ti->setMaxLength(64);
+		$ti->setSize(40);
+		$ti->setRequired(true);
+		$ti->setValue($ilSetting->get("admin_city"));
+		$this->form->addItem($ti);
+		
+		// country
+		$ti = new ilTextInputGUI($this->lng->txt("country"), "admin_country");
+		$ti->setMaxLength(64);
+		$ti->setSize(40);
+		$ti->setRequired(true);
+		$ti->setValue($ilSetting->get("admin_country"));
+		$this->form->addItem($ti);
+		
+		// phone
+		$ti = new ilTextInputGUI($this->lng->txt("phone"), "admin_phone");
+		$ti->setMaxLength(64);
+		$ti->setSize(40);
+		$ti->setRequired(true);
+		$ti->setValue($ilSetting->get("admin_phone"));
+		$this->form->addItem($ti);
+		
+		// email
+		$ti = new ilTextInputGUI($this->lng->txt("email"), "admin_email");
+		$ti->setMaxLength(64);
+		$ti->setSize(40);
+		$ti->setRequired(true);
+		$ti->setValue($ilSetting->get("admin_email"));
+		$this->form->addItem($ti);
+		
+		// feedback recipient
+		$ti = new ilEmailInputGUI($this->lng->txt("feedback_recipient"), "feedback_recipient");
+		$ti->setValue($ilSetting->get("feedback_recipient"));
+		$this->form->addItem($ti);
+		
+		// error recipient
+		$ti = new ilEmailInputGUI($this->lng->txt("error_recipient"), "error_recipient");
+		$ti->setValue($ilSetting->get("error_recipient"));
+		$this->form->addItem($ti);
+		
+		$this->form->addCommandButton("saveContactInformation", $lng->txt("save"));
+	                
+		$this->form->setTitle($lng->txt("contact_data"));
+		$this->form->setFormAction($this->ctrl->getFormAction($this));
+	 
+	}
+	
+	/**
+	* Save contact information form
+	*
+	*/
+	public function saveContactInformationObject()
+	{
+		global $tpl, $lng, $ilCtrl, $ilSetting;
+	
+		$this->initContactInformationForm();
+		if ($this->form->checkInput())
+		{
+			$fs = array("admin_firstname", "admin_lastname", "admin_title", "admin_position", 
+				"admin_institution", "admin_street", "admin_zipcode", "admin_city", 
+				"admin_country", "admin_phone", "admin_email",
+				"feedback_recipient", "error_recipient");
+			foreach ($fs as $f)
+			{
+				$ilSetting->set($f, $_POST[$f]);
+			}
+			ilUtil::sendSuccess($lng->txt("msg_obj_modified"), true);
+			$ilCtrl->redirect($this, "showContactInformation");
+		}
+		else
+		{
+			$this->setGeneralSettingsSubTabs("contact_data");
+			$this->form->setValuesByPost();
+			$tpl->setContent($this->form->getHtml());
+		}
+	}
+
+	//
+	//
+	// Web Services
+	//
+	//
+
+	/**
+	* Show Web Services
+	*/
+	function showWebServicesObject()
+	{
+		global $tpl;
+		
+		$this->initWebServicesForm();
+		$this->setGeneralSettingsSubTabs("webservices");
+		$tpl->setContent($this->form->getHTML());
+	}
+	
+	/**
+	* Init web services form.
+	*/
+	public function initWebServicesForm()
+	{
+		global $lng, $ilSetting;
+
+		include_once("Services/Form/classes/class.ilPropertyFormGUI.php");
+		$this->form = new ilPropertyFormGUI();
+	
+		// soap administration
+		$cb = new ilCheckboxInputGUI($this->lng->txt("soap_user_administration"), "soap_user_administration");
+		$cb->setInfo($this->lng->txt("soap_user_administration_desc"));
+		if ($ilSetting->get("soap_user_administration"))
+		{
+			$cb->setChecked(true);
+		}
+		$this->form->addItem($cb);
+		
+	
+		$this->form->addCommandButton("saveWebServices", $lng->txt("save"));
+	                
+		$this->form->setTitle($lng->txt("webservices"));
+		$this->form->setFormAction($this->ctrl->getFormAction($this));
+	 
+	}
+	
+	/**
+	* Save web services form
+	*
+	*/
+	public function saveWebServicesObject()
+	{
+		global $tpl, $lng, $ilCtrl, $ilSetting;
+	
+		$this->initWebServicesForm();
+		if ($this->form->checkInput())
+		{
+			$ilSetting->set("soap_user_administration", $_POST["soap_user_administration"]);
+			ilUtil::sendSuccess($lng->txt("msg_obj_modified"), true);
+			$ilCtrl->redirect($this, "showWebServices");
+		}
+		else
+		{
+			$this->setGeneralSettingsSubTabs("webservices");
+			$this->form->setValuesByPost();
+			$tpl->setContent($this->form->getHtml());
+		}
+	}
+	
+	//
+	//
+	// Java Server
+	//
+	//
+
+	/**
+	* Show Java Server Settings
+	*/
+	function showJavaServerObject()
+	{
+		global $tpl;
+		
+		$this->initJavaServerForm();
+		$this->setGeneralSettingsSubTabs("java_server");
+		$tpl->setContent($this->form->getHTML());
+	}
+	
+	/**
+	* Init java server form.
+	*/
+	public function initJavaServerForm()
+	{
+		global $lng, $ilSetting;
+		
+		include_once("Services/Form/classes/class.ilPropertyFormGUI.php");
+		$this->form = new ilPropertyFormGUI();
+	
+		// host
+		$ti = new ilTextInputGUI($this->lng->txt("java_server_host"), "rpc_server_host");
+		$ti->setMaxLength(64);
+		$ti->setSize(32);
+		$ti->setValue($ilSetting->get("rpc_server_host"));
+		$this->form->addItem($ti);
+		
+		// port
+		$ti = new ilNumberInputGUI($this->lng->txt("java_server_port"), "rpc_server_port");
+		$ti->setMaxLength(5);
+		$ti->setSize(5);
+		$ti->setValue($ilSetting->get("rpc_server_port"));
+		$this->form->addItem($ti);
+		
+	
+		// save and cancel commands
+		$this->form->addCommandButton("saveJavaServer", $lng->txt("save"));
+	                
+		$this->form->setTitle($lng->txt("java_server"));
+		$this->form->setDescription($lng->txt("java_server_info").
+			'<br /><a href="Services/WebServices/RPC/lib/README.txt" target="_blank">'.
+			$lng->txt("java_server_readme").'</a>');
+		$this->form->setFormAction($this->ctrl->getFormAction($this));
+	 
+	}
+	
+	/**
+	* Save java server form
+	*
+	*/
+	public function saveJavaServerObject()
+	{
+		global $tpl, $lng, $ilCtrl, $ilSetting;
+	
+		$this->initJavaServerForm();
+		if ($this->form->checkInput())
+		{
+			$ilSetting->set("rpc_server_host", trim($_POST["rpc_server_host"]));
+			$ilSetting->set("rpc_server_port", trim($_POST["rpc_server_port"]));
+			ilUtil::sendSuccess($lng->txt("msg_obj_modified"), true);
+			$ilCtrl->redirect($this, "showJavaServer");
+		}
+		else
+		{
+			$this->setGeneralSettingsSubTabs("java_server");
+			$this->form->setValuesByPost();
+			$tpl->setContent($this->form->getHtml());
+		}
+	}
+}
 ?>
