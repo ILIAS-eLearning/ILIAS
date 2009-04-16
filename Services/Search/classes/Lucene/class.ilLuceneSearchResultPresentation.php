@@ -131,6 +131,11 @@ class ilLuceneSearchResultPresentation
 			$title = $this->lookupTitle($obj_id,0);
 			$description = $this->lookupDescription($obj_id,0);
 			
+			if(!$type)
+			{
+				continue;
+			}
+			
 			include_once './Services/Search/classes/Lucene/class.ilLuceneSearchObjectListGUIFactory.php';
 			$item_list_gui = ilLuceneSearchObjectListGUIFactory::factory($type);
 			$item_list_gui->setContainerObject($this->getContainer());
