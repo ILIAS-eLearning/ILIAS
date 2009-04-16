@@ -11161,3 +11161,52 @@ $ilDB->manipulateF("INSERT INTO rbac_ta (typ_id, ops_id) VALUES (%s, %s)",
 $ilCtrlStructureReader->getStructure();
 ?>
 
+<#2309>
+<?php
+	$fields = array(
+		'lang_key' => array(
+			'type' => 'text',
+			'fixed' => true,
+			'length' => 2,
+			'notnull' => true
+		),
+		'function_id' => array(
+			'type' => 'integer',
+			'length' => 4,
+			'notnull' => true
+		),
+		'access_key' => array(
+			'type' => 'text',
+			'fixed' => true,
+			'length' => 1
+		)
+	);
+	
+	$ilDB->createTable('acc_access_key', $fields);
+	$ilDB->addPrimaryKey('acc_access_key', array('lang_key','function_id'));
+?>
+
+<#2310>
+<?php
+	$fields = array(
+		'user_id' => array(
+			'type' => 'integer',
+			'length' => 4,
+			'notnull' => true
+		),
+		'function_id' => array(
+			'type' => 'integer',
+			'length' => 2,
+			'notnull' => true
+		),
+		'access_key' => array(
+			'type' => 'text',
+			'fixed' => true,
+			'length' => 1
+		)
+	);
+	
+	$ilDB->createTable('acc_user_access_key', $fields);
+	$ilDB->addPrimaryKey('acc_user_access_key', array('user_id','function_id'));
+?>
+
