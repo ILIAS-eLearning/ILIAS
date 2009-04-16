@@ -1858,7 +1858,7 @@ common#:#cron_mail_notification#:#Send Mail Notifications
 common#:#cron_mail_notification_never#:#never
 common#:#cron_mail_notification_cron#:#regularly per cron job
 common#:#cron_mail_notification_desc#:#If enabled, all users, who want to be informed about new mail, will get notifications by external mail.
-common#:#cron_jobs#:#Cron jobs
+common#:#cron_jobs#:#Cron Jobs
 common#:#cron_jobs_desc#:#A cron job is an automated process that operates at predefined time intervals. You will find information about the setup in the 'INSTALL Documentation.
 common#:#cron_lucene_index#:#Update Lucene search index
 common#:#cron_lucene_index_info#:#If enabled, the lucene search index will be updated. Please configure the lucene server at 'Administration -> Search'.
@@ -2764,7 +2764,7 @@ common#:#linked_object#:#The object has been linked
 common#:#linked_pages#:#Linked Pages
 common#:#links_add_param#:#Add parameter:
 common#:#links_dyn_parameter#:#Dynamic parameters
-common#:#links_dynamic#:#Dynamic Web Links parameters
+common#:#links_dynamic#:#Dynamic Web Links Parameters
 common#:#links_dynamic_info#:#If enabled, it is possible to append dynamic parameters to Web Links. E.g. the ILIAS user id or the username.
 common#:#links_existing_params#:#Existing parameters:
 common#:#links_name#:#Parameter name
@@ -3468,7 +3468,7 @@ common#:#parse#:#Parse
 common#:#passed#:#Passed
 common#:#passwd#:#Password
 common#:#passwd_generation#:#Password Generation
-common#:#passwd_generation_info#:#If enabled, passwords can only be selected from a pretended list.
+common#:#passwd_generation_info#:#If enabled, passwords can only be selected from a generated list.
 common#:#passwd_invalid#:#The new password is invalid! Only the following characters are allowed (minimum 6 characters): A-Z a-z 0-9 _.-+?#*@!$%~
 common#:#passwd_not_match#:#Your entries for the new password don't match! Please re-enter your new password.
 common#:#passwd_wrong#:#The password you entered is wrong!
@@ -3772,7 +3772,7 @@ common#:#sent#:#Sent
 common#:#sequence#:#Sequence
 common#:#sequences#:#Sequences
 common#:#server#:#Server
-common#:#server_data#:#Server data
+common#:#server_data#:#Server Data
 common#:#server_software#:#Server Software
 common#:#set#:#Set
 common#:#set_edit_mode#:#Set Edit Mode
