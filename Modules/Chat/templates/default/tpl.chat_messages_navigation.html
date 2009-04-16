@@ -1,0 +1,27 @@
+<div id="ilChatMessagesMainMenuDiv" style="float: right; padding-right: 5px; text-align: right; display: none; width: 200px;">
+	<a id="ilChatMessagesMainMenuLink" onmouseover="ilChatMessagesMainMenuOn();" onmouseover="ilChatMessagesMainMenuOn();" class="MMInactive" href="#" target="_top" title="{TXT_CHAT_INVITATIONS}">{CHAT_RECENT_POSTINGS}</a>
+	<div id="ilChatMessagesMainMenuTableContainer" style="display: none; width: 200px;" onmouseout="ilChatMessagesMainMenuOff();">
+	<table class="std" id="ilChatMessagesMainMenuTable" onmouseout="ilChatMessagesMainMenuOff();" style="width: 200px;">
+	<!-- BEGIN msg_item -->
+	<tr class="tblrow1_mo" onmouseover="ilChatMessagesMainMenuOn();">
+		<td class="std" style="font-weight: bold;">{TXT_ROOM}</td>
+	</tr>
+	<tr class="tblrow2_mo" onmouseover="ilChatMessagesMainMenuOn();">
+		<td class="std">{TXT_MSG}</td>
+	</tr>
+	<!-- END msg_item -->
+	</table>
+	</div>
+	<!-- BEGIN beep -->
+	<script type="text/javascript">
+	ilAddOnLoad(initChatMessagesSound);	
+	function initChatMessagesSound() {
+		try {
+			ChatMessagesSound.play('{BEEP_SRC}');
+		} catch(e) {
+			alert(e);
+		}
+	}
+	</script>
+	<!-- END beep -->
+</div>

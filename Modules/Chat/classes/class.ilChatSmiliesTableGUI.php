@@ -25,7 +25,7 @@ class ilChatSmiliesTableGUI extends ilTable2GUI {
 	{		
 		global $ilCtrl;
 		$this->tpl->setVariable('VAL_SMILEY_ID', $a_set['smiley_id']);
-		$this->tpl->setVariable('VAL_SMILEY_PATH', $a_set['smiley_path']);
+		$this->tpl->setVariable('VAL_SMILEY_PATH', $a_set['smiley_fullpath']);
 		$this->tpl->setVariable('VAL_SMILEY_KEYWORDS', $a_set['smiley_keywords']);
 		$this->tpl->setVariable('VAL_SMILEY_KEYWORDS_NONL', str_replace("\n", "", $a_set['smiley_keywords']));
 		$this->tpl->setVariable('VAL_SORTING_TEXTINPUT', ilUtil::formInput('sorting['.$a_set['id'].']', $a_set['sorting']));
