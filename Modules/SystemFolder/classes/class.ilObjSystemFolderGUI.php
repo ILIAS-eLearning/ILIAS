@@ -2001,7 +2001,16 @@ return $this->showServerInfoObject();
 			$si->setValue("flat");
 		}
 		$this->form->addItem($si);
-				
+		
+		// locale
+		$ti = new ilTextInputGUI($this->lng->txt("adm_locale"), "locale");
+		$ti->setMaxLength(80);
+		$ti->setSize(40);
+		$ti->setInfo($this->lng->txt("adm_locale_info"));
+		$ti->setValue($ilSetting->get("locale"));
+		$this->form->addItem($ti);
+		
+		
 		// trash
 		$cb = new ilCheckboxInputGUI($this->lng->txt("enable_trash"), "enable_trash");
 		$cb->setInfo($this->lng->txt("enable_trash_info"));
@@ -2078,6 +2087,7 @@ return $this->showServerInfoObject();
 			$ilSetting->set("session_reminder_enabled", $_POST["session_reminder_enabled"]);
 			$ilSetting->set("password_assistance", $_POST["password_assistance"]);
 			$ilSetting->set("passwd_auto_generate", $_POST["passwd_auto_generate"]);
+			$ilSetting->set("locale", $_POST["locale"]);
 			
 			ilUtil::sendSuccess($lng->txt("msg_obj_modified"), true);
 			$ilCtrl->redirect($this, "showBasicSettings");
