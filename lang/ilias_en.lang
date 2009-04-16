@@ -9201,3 +9201,5 @@ chat#:#chat_smilies_dir_not_exists#:#The smiley data directory does not exist. T
 chat#:#chat_smilies_dir_not_available#:#The smiley data directory could not be created. This ILIAS will not be able to use chat smilies as further actions are needed.
 chat#:#chat_smilies_dir_not_writable#:#Your smiley data directory exists but is not writable. You will not be able to add smiles.
 chat#:#chat_smilies_initialized#:#The smiley data has been initialized and is ready to use.
+dateplaner#:#err_missing_title#:#Please enter an appointment title.
+dateplaner#:#err_end_before_start#:#The appointment must not start before the end.
