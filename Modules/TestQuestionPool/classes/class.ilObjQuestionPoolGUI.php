@@ -253,8 +253,8 @@ class ilObjQuestionPoolGUI extends ilObjectGUI
 	{
 		include_once("./Services/COPage/classes/class.ilPageObject.php");
 		include_once("./Services/COPage/classes/class.ilPageObjectGUI.php");
-		$page =& new ilPageObject("qpl", $_GET["pg_id"]);
-		$page_gui =& new ilPageObjectGUI($page);
+		//$page =& new ilPageObject("qpl", $_GET["pg_id"]);
+		$page_gui =& new ilPageObjectGUI("qpl", $_GET["pg_id"]);
 		$page_gui->showMediaFullscreen();
 		
 	}
