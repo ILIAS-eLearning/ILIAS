@@ -629,6 +629,32 @@ class ilInitialisation
 		// load account data of current user
 		$ilUser->read();
 	}
+	
+	/**
+	* Init Locale
+	*/
+	function initLocale()
+	{
+		global $ilSetting;
+		
+		if (trim($ilSetting->get("locale") != ""))
+		{
+			$larr = explode(",", trim($ilSetting->get("locale")));
+			$ls = array();
+			foreach ($larr as $l)
+			{
+				if (trim($l) != "")
+				{
+					$ls[] = $l;
+				}
+			}
+			if (count($ls) > 0)
+			{
+				setlocale(LC_ALL, $ls);
+			}
+		}
+	}
+	
 
 	function checkUserClientIP()
 	{
@@ -1089,6 +1115,8 @@ class ilInitialisation
 			$this->handleStyle();
 		}
 
+		// init locale
+		$this->initLocale();
 
 		// handle ILIAS 2 imported users:
 		// check ilias 2 password, if authentication failed

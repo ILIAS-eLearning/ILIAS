@@ -2819,12 +2819,12 @@ class ilUtil
 
 		if ($array_sortorder == "asc")
 		{
-			return strnatcasecmp($a[$array_sortby], $b[$array_sortby]);
+			return strcoll($a[$array_sortby], $b[$array_sortby]);
 		}
 
 		if ($array_sortorder == "desc")
 		{
-			return strnatcasecmp($b[$array_sortby], $a[$array_sortby]);
+			return strcoll($b[$array_sortby], $a[$array_sortby]);
 		}
 	}
 

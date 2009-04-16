@@ -9203,3 +9203,5 @@ chat#:#chat_smilies_dir_not_writable#:#Your smiley data directory exists but is 
 chat#:#chat_smilies_initialized#:#The smiley data has been initialized and is ready to use.
 dateplaner#:#err_missing_title#:#Please enter an appointment title.
 dateplaner#:#err_end_before_start#:#The appointment must not start before the end.
+administration#:#adm_locale#:#Locale
+administration#:#adm_locale_info#:#Locale setting influences e.g. sorting in lists. Examples are nl_NL or de_DE. Multiple locales can be separated by comma. The first valid one will be used.

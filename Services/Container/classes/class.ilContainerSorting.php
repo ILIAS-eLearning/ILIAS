@@ -152,7 +152,7 @@ class ilContainerSorting
 				case ilContainer::SORT_TITLE:
 					foreach((array) $a_items as $type => $data)
 					{
-//						$sorted[$type] = ilUtil::sortArray((array) $data,'title','asc',true);
+//						$sorted[$type] = ilUtil::sortArray((array) $data,'title','asc',false);
 						$sorted[$type] = $data;
 					}
 					return $sorted ? $sorted : array();
