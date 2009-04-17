@@ -122,11 +122,26 @@ class ilSelectInputGUI extends ilSubEnabledFormPropertyGUI
 	*/
 	function insert(&$a_tpl)
 	{
+		// determin value to select. Due to accessibility reasons we
+		// should always select a value (per default the first one)
+		$first = true;
+		foreach($this->getOptions() as $option_value => $option_text)
+		{
+			if ($first)
+			{
+				$sel_value = $option_value;
+			}
+			$first = false;
+			if ($option_value == $this->getValue())
+			{
+				$sel_value = $option_value;
+			}
+		}
 		foreach($this->getOptions() as $option_value => $option_text)
 		{
 			$a_tpl->setCurrentBlock("prop_select_option");
 			$a_tpl->setVariable("VAL_SELECT_OPTION", $option_value);
-			if ($option_value == $this->getValue())
+			if ($option_value == $sel_value)
 			{
 				$a_tpl->setVariable("CHK_SEL_OPTION",
 					'selected="selected"');
