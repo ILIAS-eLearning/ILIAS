@@ -242,6 +242,35 @@ class ilFormPropertyGUI
 	{
 		return "";
 	}
+
+	/**
+	* Sub form hidden on init?
+	*
+	*/
+	public function hideSubForm()
+	{
+		return false;
+	}
+
+	/**
+	* Set hidden title (for screenreaders)
+	*
+	* @param	string	hidden title
+	*/
+	function setHiddenTitle($a_val)
+	{
+		$this->hidden_title = $a_val;
+	}
+	
+	/**
+	* Get hidden title
+	*
+	* @return	string	hidden title
+	*/
+	function getHiddenTitle()
+	{
+		return $this->hidden_title;
+	}
 	
 	/**
 	* Get item by post var

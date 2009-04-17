@@ -232,9 +232,9 @@ class ilTabsGUI
 	/**
 	* get tabs code as html
 	*/
-	function getHTML()
+	function getHTML($a_after_tabs_anchor = false)
 	{
-		return $this->__getHTML(false,$this->manual_activation);
+		return $this->__getHTML(false,$this->manual_activation, $a_after_tabs_anchor);
 	}
 	
 	/**
@@ -253,9 +253,9 @@ class ilTabsGUI
 	* @param bool manual activation
 	* @access Private
 	*/
-	function __getHTML($a_get_sub_tabs,$a_manual)
+	function __getHTML($a_get_sub_tabs,$a_manual, $a_after_tabs_anchor = false)
 	{
-		global $ilCtrl, $lng;
+		global $ilCtrl, $lng, $ilUser;
 
 		$cmd = $ilCtrl->getCmd();
 		$cmdClass = $ilCtrl->getCmdClass();
@@ -265,10 +265,15 @@ class ilTabsGUI
 			$tpl = new ilTemplate("tpl.sub_tabs.html", true, true);
 			$pre = "sub";
 			$pre2 = "SUB_";
+			$sr_pre = "sub_";
 		}
 		else
 		{
 			$tpl = new ilTemplate("tpl.tabs.html", true, true);
+			if ($a_after_tabs_anchor)
+			{
+				$tpl->touchBlock("after_tabs");
+			}
 			$pre = $pre2 = "";
 			
 			// back 2 tab
@@ -324,7 +329,11 @@ class ilTabsGUI
 	
 				$tpl->setCurrentBlock($pre."tab");
 				$tpl->setVariable($pre2."TAB_TYPE", $tabtype);
-				$tpl->setVariable($pre2."TAB_LINK", $target["link"]);
+				$hash = ($ilUser->prefs["screen_reader_optimization"])
+					? "#after_".$sr_pre."tabs"
+					: "";
+				
+				$tpl->setVariable($pre2."TAB_LINK", $target["link"].$hash);
 				if ($target["dir_text"])
 				{
 					$tpl->setVariable($pre2."TAB_TEXT", $target["text"]);

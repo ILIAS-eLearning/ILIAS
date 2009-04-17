@@ -42,8 +42,11 @@ class ilFileInputGUI extends ilSubEnabledFormPropertyGUI
 	*/
 	function __construct($a_title = "", $a_postvar = "")
 	{
+		global $lng;
+		
 		parent::__construct($a_title, $a_postvar);
 		$this->setType("file");
+		$this->setHiddenTitle("(".$lng->txt("form_file_input").")");
 	}
 	
 	/**
@@ -259,33 +262,38 @@ class ilFileInputGUI extends ilSubEnabledFormPropertyGUI
 	{
 		global $lng;
 		
+		$f_tpl = new ilTemplate("tpl.prop_file.html", true, true, "Services/Form");
+		
+		
 		// show filename selection if enabled
 		if($this->isFileNameSelectionEnabled())
 		{
-			$a_tpl->setCurrentBlock('filename');
-			$a_tpl->setVariable('POST_FILENAME',$this->getFileNamePostVar());
-			$a_tpl->setVariable('VAL_FILENAME',$this->getFilename());
-			$a_tpl->setVariable('FILENAME_ID',$this->getFieldId());
-			$a_tpl->setVAriable('TXT_FILENAME_HINT',$lng->txt('if_no_title_then_filename'));
-			$a_tpl->parseCurrentBlock();
+			$f_tpl->setCurrentBlock('filename');
+			$f_tpl->setVariable('POST_FILENAME',$this->getFileNamePostVar());
+			$f_tpl->setVariable('VAL_FILENAME',$this->getFilename());
+			$f_tpl->setVariable('FILENAME_ID',$this->getFieldId());
+			$f_tpl->setVAriable('TXT_FILENAME_HINT',$lng->txt('if_no_title_then_filename'));
+			$f_tpl->parseCurrentBlock();
 		}
 		else
 		{
 			if (trim($this->getValue() != ""))
 			{
-				$a_tpl->setCurrentBlock('prop_file_propval');
-				$a_tpl->setVariable('FILE_VAL', $this->getValue());
-				$a_tpl->parseCurrentBlock();
+				$f_tpl->setCurrentBlock('prop_file_propval');
+				$f_tpl->setVariable('FILE_VAL', $this->getValue());
+				$f_tpl->parseCurrentBlock();
 			}
 		}
 
-		$this->outputSuffixes($a_tpl);
+		$this->outputSuffixes($f_tpl);
 		
-		$a_tpl->setCurrentBlock("prop_file");
-		$a_tpl->setVariable("POST_VAR", $this->getPostVar());
-		$a_tpl->setVariable("ID", $this->getFieldId());
-		$a_tpl->setVariable("TXT_MAX_SIZE", $lng->txt("file_notice")." ".
+		$f_tpl->setVariable("POST_VAR", $this->getPostVar());
+		$f_tpl->setVariable("ID", $this->getFieldId());
+		$f_tpl->setVariable("TXT_MAX_SIZE", $lng->txt("file_notice")." ".
 			$this->getMaxFileSizeString());
+			
+		$a_tpl->setCurrentBlock("prop_generic");
+		$a_tpl->setVariable("PROP_GENERIC", $f_tpl->get());
 		$a_tpl->parseCurrentBlock();
 	}
 

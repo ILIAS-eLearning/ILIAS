@@ -173,6 +173,7 @@ class ilTemplate extends ilTemplateX
 			// these fill blocks in tpl.adm_content.html
 			$this->fillHeaderIcon();
 			$this->fillSideIcons();
+			$this->fillScreenReaderFocus();
 			$this->fillStopFloating();
 			$this->fillPageFormAction();
 			$this->fillLeftContent();
@@ -358,6 +359,7 @@ class ilTemplate extends ilTemplateX
 			// these fill blocks in tpl.adm_content.html
 			$this->fillHeaderIcon();
 			$this->fillSideIcons();
+			$this->fillScreenReaderFocus();
 			$this->fillStopFloating();
 			$this->fillPageFormAction();
 			$this->fillLeftContent();
@@ -444,7 +446,8 @@ class ilTemplate extends ilTemplateX
 	{
 		global $ilias,$ilTabs;
 
-		$thtml = $ilTabs->getHTML();
+		$sthtml = $ilTabs->getSubTabHTML();
+		$thtml = $ilTabs->getHTML((trim($sthtml) == ""));
 		if ($thtml != "")
 		{
 			$this->touchBlock("tabs_outer_start");
@@ -453,7 +456,7 @@ class ilTemplate extends ilTemplateX
 			$this->touchBlock("tabs_inner_end");
 			$this->setVariable("TABS",$thtml);
 		}
-		$this->setVariable("SUB_TABS",$ilTabs->getSubTabHTML());
+		$this->setVariable("SUB_TABS", $sthtml);
 	}
 	
 	function fillPageFormAction()
@@ -469,12 +472,13 @@ class ilTemplate extends ilTemplateX
 	
 	function fillJavaScriptFiles()
 	{
-		global $ilias,$ilTabs,$ilSetting;
+		global $ilias, $ilTabs, $ilSetting, $ilUser;
 		
 		if (is_object($ilSetting))		// maybe this one can be removed
 		{
 			$vers = "vers=".str_replace(array(".", " "), "-", $ilSetting->get("ilias_version"));
 		}
+		
 		if ($this->blockExists("js_file"))
 		{
 			foreach($this->js_files as $file)
@@ -1293,6 +1297,19 @@ class ilTemplate extends ilTemplateX
 		$this->upper_icon_frame = $a_frame;
 	}
 
+	/**
+	* Accessibility focus for screen readers
+	*/
+	function fillScreenReaderFocus()
+	{
+		global $ilUser;
+
+		if (is_object($ilUser) && $ilUser->prefs["screen_reader_optimization"])
+		{
+			$this->touchBlock("sr_focus");
+		}
+	}
+	
 	/**
 	* Fill side icons (upper icon, tree icon, webfolder icon)
 	*/

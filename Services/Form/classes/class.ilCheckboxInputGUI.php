@@ -155,6 +155,15 @@ class ilCheckboxInputGUI extends ilSubEnabledFormPropertyGUI
 		$ok = $this->checkSubItemsInput();
 		return $ok;
 	}
+	
+	/**
+	* Sub form hidden on init?
+	*
+	*/
+	public function hideSubForm()
+	{
+		return !$this->getChecked();
+	}
 
 	/**
 	* Insert property html
@@ -162,6 +171,7 @@ class ilCheckboxInputGUI extends ilSubEnabledFormPropertyGUI
 	*/
 	function insert(&$a_tpl)
 	{
+		
 		$a_tpl->setCurrentBlock("prop_checkbox");
 		$a_tpl->setVariable("POST_VAR", $this->getPostVar());
 		$a_tpl->setVariable("ID", $this->getFieldId());

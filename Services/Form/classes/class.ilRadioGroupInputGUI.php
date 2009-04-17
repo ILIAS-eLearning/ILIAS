@@ -155,10 +155,33 @@ class ilRadioGroupInputGUI extends ilFormPropertyGUI
 				$a_tpl->parseCurrentBlock();
 			}
 			
+			
+			if (count($option->getSubItems()) > 0)
+			{
+				if ($option->getValue() != $this->getValue())
+				{
+					$a_tpl->touchBlock("prop_radio_opt_hide");
+					$a_tpl->setVariable("HOP_ID", $this->getFieldId()."_".$option->getValue());
+					$a_tpl->parseCurrentBlock();
+				}
+				$a_tpl->setCurrentBlock("prop_radio_option_subform");
+				$pf = new ilPropertyFormGUI();
+				$pf->setMode("subform");
+				$pf->setItems($option->getSubItems());
+				$a_tpl->setVariable("SUB_FORM", $pf->getContent());
+				$a_tpl->setVariable("SOP_ID", $this->getFieldId()."_".$option->getValue());
+				if ($pf->getMultipart())
+				{
+					$this->getParentForm()->setMultipart(true);
+				}
+				$a_tpl->parseCurrentBlock();
+			}
+
 			$a_tpl->setCurrentBlock("prop_radio_option");
 			$a_tpl->setVariable("POST_VAR", $this->getPostVar());
 			$a_tpl->setVariable("VAL_RADIO_OPTION", $option->getValue());
 			$a_tpl->setVariable("OP_ID", $this->getFieldId()."_".$option->getValue());
+			$a_tpl->setVariable("ID", $this->getFieldId());
 			if($this->getDisabled() or $option->getDisabled())
 			{
 				$a_tpl->setVariable('DISABLED','disabled="disabled" ');
@@ -170,21 +193,11 @@ class ilRadioGroupInputGUI extends ilFormPropertyGUI
 			}
 			$a_tpl->setVariable("TXT_RADIO_OPTION", $option->getTitle());
 			
-			if (count($option->getSubItems()) > 0)
-			{
-				$pf = new ilPropertyFormGUI();
-				$pf->setMode("subform");
-				$pf->setItems($option->getSubItems());
-				$a_tpl->setVariable("SUB_FORM", $pf->getContent());
-				if ($pf->getMultipart())
-				{
-					$this->getParentForm()->setMultipart(true);
-				}
-			}
 			
 			$a_tpl->parseCurrentBlock();
 		}
 		$a_tpl->setCurrentBlock("prop_radio");
+		$a_tpl->setVariable("ID", $this->getFieldId());
 		$a_tpl->parseCurrentBlock();
 
 	}

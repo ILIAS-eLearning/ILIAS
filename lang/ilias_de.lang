@@ -9202,3 +9202,5 @@ survey#:#use_anonymous_id#:#Zugangsschlüssel anzeigen
 survey#:#use_anonymous_id_desc#:#Zeigt bei anonymisierten Umfragen statt des Benutzernamens den Zugangsschlüssel an. Wenn die Option nicht ausgewählt ist, wird stattdessen die Zeichenkette "Unbekannt" angezeigt.
 dateplaner#:#err_missing_title#:#Bitte geben Sie einen Titel ein.
 dateplaner#:#err_end_before_start#:#Der Endtermin darf nicht vor dem Starttermin liegen.
+form#:#form_image_file_input#:#Bilddatei auswählen
+form#:#form_file_input#:#Datei auswählen

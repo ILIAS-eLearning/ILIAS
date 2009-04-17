@@ -135,6 +135,8 @@ class ilContainerObjectiveGUI extends ilContainerContentGUI
 		}
 		$info_tpl = new ilTemplate('tpl.crs_objectives_view_info_table.html',true,true,'Modules/Course');
 		$info_tpl->setVariable("INFO_STRING",$lng->txt('crs_objectives_info_'.$status));
+		$info_tpl->setVariable("IMG_INFO", ilUtil::getImagePath("mess_info.gif"));
+//		ilUtil::sendInfo($this->lng->txt('crs_objectives_info_'.$status));
 		
 		$tpl->setVariable('CONTAINER_PAGE_CONTENT',$info_tpl->get());
 		$tpl->parseCurrentBlock();

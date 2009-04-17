@@ -227,3 +227,23 @@ function openChatWindow(oLink, width, height)
 
 	oChatWindow.focus();
 }
+
+// Set focus for screen reader
+function ilScreenReaderFocus()
+{
+	obj = document.getElementById("il_message_focus");
+	if (obj)
+	{
+		obj.focus();
+		self.location.hash = 'il_message_focus';
+	}
+	else
+	{
+		obj = document.getElementById("il_mhead_t_focus");
+		if (obj && self.location.hash == '')
+		{
+			obj.focus();
+			self.location.hash = 'il_mhead_t_focus';
+		}
+	}
+}

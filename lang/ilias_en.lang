@@ -9227,3 +9227,7 @@ acc#:#acc_mark_all_read#:#Mark All Read
 acc#:#acc_comp_global#:#Global
 acc#:#acc_comp_mail#:#Mail
 acc#:#acc_comp_frm#:#Forum
+form#:#form_image_file_input#:#Image File Input
+form#:#form_file_input#:#File Input
+user#:#user_screen_reader_optimization#:#Screen Reader Optimization
+user#:#user_screen_reader_optimization_info#:#Automatic focus and Ajax optimization to improve screen reader performance.

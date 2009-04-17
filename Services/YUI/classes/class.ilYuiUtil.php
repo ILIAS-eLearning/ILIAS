@@ -43,6 +43,40 @@ class ilYuiUtil
 	}
 	
 	/**
+	* Init YUI Event
+	*/
+	static function initEvent()
+	{
+		global $tpl;
+
+		$tpl->addJavaScript("./Services/YUI/js/2_5_0/yahoo/yahoo-min.js");
+		$tpl->addJavaScript("./Services/YUI/js/2_5_0/event/event-min.js");
+	}
+
+	/**
+	* Init YUI Dom
+	*/
+	static function initDom()
+	{
+		global $tpl;
+
+		$tpl->addJavaScript("./Services/YUI/js/2_5_0/yahoo/yahoo-min.js");
+		$tpl->addJavaScript("./Services/YUI/js/2_5_0/dom/dom-min.js");
+	}
+
+	/**
+	* Init YUI Animation
+	*/
+	static function initAnimation()
+	{
+		global $tpl;
+
+		$tpl->addJavaScript("./Services/YUI/js/2_5_0/yahoo/yahoo-min.js");
+		$tpl->addJavaScript("./Services/YUI/js/2_5_0/yahoo-dom-event/yahoo-dom-event.js");
+		$tpl->addJavaScript("./Services/YUI/js/2_5_0/animation/animation-min.js");
+	}
+
+	/**
 	* Init YUI Drag and Drop
 	*/
 	static function initDragDrop()

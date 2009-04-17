@@ -366,6 +366,14 @@ class ilPropertyFormGUI extends ilFormGUI
 	{
 		global $lng, $tpl;
 		
+		include_once("./Services/YUI/classes/class.ilYuiUtil.php");
+		ilYuiUtil::initEvent();
+		ilYuiUtil::initDom();
+		ilYuiUtil::initAnimation();
+
+		$tpl->addJavaScript("Services/JavaScript/js/Basic.js");
+		$tpl->addJavaScript("Services/Form/js/ServiceForm.js");
+
 		$this->tpl = new ilTemplate("tpl.property_form.html", true, true, "Services/Form");
 
 		// title icon
@@ -459,8 +467,6 @@ class ilPropertyFormGUI extends ilFormGUI
 			// info text
 			if ($item->getInfo() != "")
 			{
-				$tpl->addJavaScript("Services/JavaScript/js/Basic.js");
-				$tpl->addJavaScript("Services/Form/js/ServiceForm.js");
 				$this->tpl->setCurrentBlock("description");
 				//$this->tpl->setVariable("IMG_INFO",
 				//	ilUtil::getImagePath("icon_info_s.gif"));
@@ -482,6 +488,16 @@ class ilPropertyFormGUI extends ilFormGUI
 						$this->required_text = true;
 					}
 				}
+				
+				// hidden title (for accessibility, e.g. file upload)
+				if ($item->getHiddenTitle() != "")
+				{
+					$this->tpl->setCurrentBlock("sub_hid_title");
+					$this->tpl->setVariable("SPHID_TITLE",
+						$item->getHiddenTitle());
+					$this->tpl->parseCurrentBlock();
+				}
+				
 				$this->tpl->setCurrentBlock("sub_prop_start");
 				$this->tpl->setVariable("PROPERTY_TITLE", $item->getTitle());
 				if ($item->getType() != "non_editable_value")
@@ -501,6 +517,16 @@ class ilPropertyFormGUI extends ilFormGUI
 						$this->required_text = true;
 					}
 				}
+				
+				// hidden title (for accessibility, e.g. file upload)
+				if ($item->getHiddenTitle() != "")
+				{
+					$this->tpl->setCurrentBlock("std_hid_title");
+					$this->tpl->setVariable("PHID_TITLE",
+						$item->getHiddenTitle());
+					$this->tpl->parseCurrentBlock();
+				}
+				
 				$this->tpl->setCurrentBlock("std_prop_start");
 				$this->tpl->setVariable("PROPERTY_TITLE", $item->getTitle());
 				if ($item->getType() != "non_editable_value")
@@ -523,14 +549,20 @@ class ilPropertyFormGUI extends ilFormGUI
 				$this->tpl->parseCurrentBlock();
 			}
 			
-			$this->tpl->setCurrentBlock("prop");
-			
 			// subitems
 			$sf = null;
 			if ($item->getType() != "non_editable_value" or 1)
 			{
+				if ($item->hideSubForm())
+				{
+					$this->tpl->setCurrentBlock("sub_form_hide");
+					$this->tpl->setVariable("DSFID", $item->getFieldId());
+					$this->tpl->parseCurrentBlock();
+				}
 				$sf = $item->getSubForm();
 			}
+			
+			$this->tpl->setCurrentBlock("prop");
 
 			$sf_content = "";
 			if (is_object($sf))
@@ -542,7 +574,7 @@ class ilPropertyFormGUI extends ilFormGUI
 				}
 			}
 			$this->tpl->setVariable("PROP_SUB_FORM", $sf_content);
-
+			$this->tpl->setVariable("SFID", $item->getFieldId());
 			$this->tpl->parseCurrentBlock();
 		}
 		

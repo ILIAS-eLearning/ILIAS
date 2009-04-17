@@ -2489,7 +2489,8 @@ return;
 				{
 					$cb->setChecked(true);
 				}
-				$cb->setInfo($value);
+				//$cb->setInfo($value);
+				$cb->setOptionTitle($value);
 				$this->form->addItem($cb);
 			}
 		}
@@ -2501,7 +2502,8 @@ return;
 			{
 				// public setting
 				$cb = new ilCheckboxInputGUI($this->lng->txt("im_".$im), "chk_im_".$im);
-				$cb->setInfo($ilUser->getInstantMessengerId($im));
+				//$cb->setInfo($ilUser->getInstantMessengerId($im));
+				$cb->setOptionTitle($ilUser->getInstantMessengerId($im));
 				if ($ilUser->prefs["public_im_".$im] != "n")
 				{
 					$cb->setChecked(true);
@@ -2516,7 +2518,8 @@ return;
 		{
 			// public setting
 			$cb = new ilCheckboxInputGUI($this->lng->txt("delicious"), "chk_delicious");
-			$cb->setInfo($ilUser->getDelicious());
+			//$cb->setInfo($ilUser->getDelicious());
+			$cb->setOptionTitle($ilUser->getDelicious());
 			if ($ilUser->prefs["public_delicious"] == "y")
 			{
 				$cb->setChecked(true);
@@ -2890,6 +2893,16 @@ return;
 			}
 		}
 
+		// screen reader optimization
+		if ($this->userSettingVisible("screen_reader_optimization"))
+		{ 
+			$cb = new ilCheckboxInputGUI($this->lng->txt("user_screen_reader_optimization"), "screen_reader_optimization");
+			$cb->setChecked($ilUser->prefs["screen_reader_optimization"]);
+			$cb->setDisabled($ilSetting->get("usr_settings_disable_screen_reader_optimization"));
+			$cb->setInfo($this->lng->txt("user_screen_reader_optimization_info"));
+			$this->form->addItem($cb);
+		}
+
 		// hits per page
 		if ($this->userSettingVisible("hits_per_page"))
 		{
@@ -3000,6 +3013,12 @@ return;
 				{
 					$ilUser->setPref("hide_own_online_status","n");
 				}
+			}
+
+			// set show users online
+			if ($this->workWithUserSetting("screen_reader_optimization"))
+			{
+				$ilUser->setPref("screen_reader_optimization", $_POST["screen_reader_optimization"]);
 			}
 
 			$ilUser->update();

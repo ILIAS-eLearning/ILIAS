@@ -206,7 +206,7 @@ class ilCourseObjectivePresentationGUI
 
 		$this->tpl->addBlockfile('INFO_BLOCK','info_block','tpl.crs_objectives_view_info_table.html','Modules/Course');
 		$this->tpl->setVariable("INFO_STRING",$this->lng->txt('crs_objectives_info_'.$this->status));
-		
+//		ilUtil::sendInfo($this->lng->txt('crs_objectives_info_'.$this->status));
 		return true;
 	}
 

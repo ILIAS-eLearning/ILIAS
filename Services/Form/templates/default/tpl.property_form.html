@@ -1,33 +1,33 @@
 <!-- BEGIN std_table -->
 <!-- Please note the usage of datatable attribute which is non-standard
 	but ensures that JAWS treats this table as a layout table -->
-<table class="std" width="{STD_TABLE_WIDTH}" datatable="0">
+<table class="ilForm" width="{STD_TABLE_WIDTH}" datatable="0">
 <!-- END std_table -->
 <!-- BEGIN sub_table -->
-<table class="nobackground">
+<table class="nobackground" datatable="0">
 <!-- END sub_table -->
 <!-- BEGIN item -->
 <!-- BEGIN header -->
-	<tr class="tblheader">
-		<td class="std" colspan="2">
-<!-- BEGIN title_icon --><img src="{IMG_ICON}" alt="{IMG_ALT}" border="0"/><!-- END title_icon -->
-		<a name="{LABEL}"/>{TXT_TITLE}<div class="subtitle">{TXT_DESCRIPTION}</div></td>
+	<tr class="ilFormHeader">
+		<td class="ilFormHeader" colspan="2">
+<!-- BEGIN title_icon --><!-- <img src="{IMG_ICON}" alt="{IMG_ALT}" border="0"/> --><!-- END title_icon -->
+		<a name="{LABEL}"/><h3 class="ilFormHeader">{TXT_TITLE}</h3><div class="ilFormInfo" style="margin-left:0px;">{TXT_DESCRIPTION}</div></td>
 	</tr>
 <!-- END header -->
 <!-- BEGIN prop -->
 <!-- BEGIN std_prop_start -->
 	<tr>
-		<td class="option">
-		<label for="{LAB_ID}">{PROPERTY_TITLE}</label><!-- BEGIN required --> <span class="asterisk">*</span><!-- END required -->
+		<td class="ilFormOption" id="il_prop_cont_{LAB_ID}">
+		<label for="{LAB_ID}">{PROPERTY_TITLE}<!-- BEGIN std_hid_title --> <span class="ilAccHeadingHidden">{PHID_TITLE}</span><!-- END std_hid_title --></label><!-- BEGIN required --> <span class="asterisk">*</span><!-- END required -->
 		</td>
-		<td class="option_value">
+		<td class="ilFormValue">
 <!-- END std_prop_start -->
 <!-- BEGIN sub_prop_start -->
 	<tr>
-		<td class="std" style="padding-left:40px; vertical-align:top;">
-		<label for="{LAB_ID}">{PROPERTY_TITLE}</label><!-- BEGIN sub_required --> <span class="asterisk">*</span><!-- END sub_required -->
+		<td class="ilFormSubOption">
+		<label for="{LAB_ID}">{PROPERTY_TITLE}<!-- BEGIN sub_hid_title --> <span class="ilAccHeadingHidden">{SPHID_TITLE}</span><!-- END sub_hid_title --></label><!-- BEGIN sub_required --> <span class="asterisk">*</span><!-- END sub_required -->
 		</td>
-		<td class="std">
+		<td class="ilFormSubValue">
 <!-- END sub_prop_start -->
 <!-- BEGIN non_editable_value -->
 		{VALUE}
@@ -48,13 +48,13 @@
 <!-- END prop_text -->
 <!-- BEGIN prop_number -->
 		<input style="text-align:right;" type="TEXT" style="text-align:right;" size="{SIZE}" id="{ID}" maxlength="{MAXLENGTH}" name="{POST_VAR}" <!-- BEGIN prop_number_propval -->value="{PROPERTY_VALUE}" <!-- END prop_number_propval -->{DISABLED}/>
-		<div style="margin-top:3px; margin-left:3px;"><span class="subtitle">{TXT_NUMBER_CONSTRAINTS}</span></div>
+		<div class="ilFormInfo">{TXT_NUMBER_CONSTRAINTS}</div>
 <!-- END prop_number -->
 <!-- BEGIN prop_login -->
-		<input type="{PROP_INPUT_TYPE}" size="{SIZE}" id="{ID}" maxlength="{MAXLENGTH}" name="{POST_VAR}" value="{PROPERTY_VALUE}" {DISABLED}/>
+		<input type="text" size="{SIZE}" id="{ID}" maxlength="{MAXLENGTH}" name="{POST_VAR}" value="{PROPERTY_VALUE}" {DISABLED}/>
 <!-- END prop_login -->
 <!-- BEGIN prop_email -->
-		<input type="{PROP_INPUT_TYPE}" size="{SIZE}" id="{ID}" maxlength="{MAXLENGTH}" name="{POST_VAR}" value="{PROPERTY_VALUE}" {DISABLED}/>
+		<input type="text" size="{SIZE}" id="{ID}" maxlength="{MAXLENGTH}" name="{POST_VAR}" value="{PROPERTY_VALUE}" {DISABLED}/>
 <!-- END prop_email -->
 <!-- BEGIN prop_textarea -->
 		<textarea name="{POST_VAR}" id="{ID}" <!-- BEGIN no_rteditor -->class="noRTEditor" <!-- END no_rteditor --> wrap="virtual" <!-- BEGIN prop_ta_c -->cols="{COLS}"<!-- END prop_ta_c --> rows="{ROWS}" <!-- BEGIN prop_ta_w -->style="width:90%;"<!-- END prop_ta_w --> {DISABLED}>{PROPERTY_VALUE}</textarea>
@@ -63,18 +63,28 @@
 		{CUSTOM_CONTENT}
 <!-- END prop_custom -->
 <!-- BEGIN prop_checkbox -->
-		<input type="checkbox" id="{ID}" name="{POST_VAR}" value="{PROPERTY_VALUE}" {PROPERTY_CHECKED} {DISABLED} {PROP_CHECK_ATTRS} /> <label for="{ID}">{OPTION_TITLE}</label>
+		<input style="position:absolute;" onclick="ilFormShowSubForm('subform_{ID}','il_prop_cont_{ID}', this);" type="checkbox" id="{ID}" name="{POST_VAR}" value="{PROPERTY_VALUE}" {PROPERTY_CHECKED} {DISABLED} {PROP_CHECK_ATTRS} />
+		<div style="margin-left:28px; margin-bottom:5px;"><label for="{ID}">{OPTION_TITLE}</label>&nbsp;</div>
 <!-- END prop_checkbox -->
 <!-- BEGIN prop_radio -->
+		<div id="{ID}">
 <!-- BEGIN prop_radio_option -->
-			<div style="margin-bottom: 4px;">
-			<div><input type="radio" name="{POST_VAR}" id="{OP_ID}" value="{VAL_RADIO_OPTION}" {CHK_RADIO_OPTION} {DISABLED}/> <label for="{OP_ID}">{TXT_RADIO_OPTION}</label></div>
+			<div style="margin-bottom: 8px;">
+			<input type="radio" onclick="ilFormShowSubForm('subform_{OP_ID}', '{ID}', null);" name="{POST_VAR}" id="{OP_ID}" style="position:absolute;" value="{VAL_RADIO_OPTION}" {CHK_RADIO_OPTION} {DISABLED}/>
+			<div style="margin-left:28px;"><label for="{OP_ID}">{TXT_RADIO_OPTION}</label>
 <!-- BEGIN radio_option_desc -->
-			<div style="margin:0px 0px 8px 3px;"><span class="subtitle">{RADIO_OPTION_DESC}</span></div>
+			<div class="ilFormInfo" style="padding-left:0px; margin-left:0px;">{RADIO_OPTION_DESC}</div>
 <!-- END radio_option_desc -->
-			{SUB_FORM}
+			</div>
+			<!-- BEGIN radio_option_subform -->
+			<div class="ilSubForm" id="subform_{SOP_ID}">{SUB_FORM}</div>
+			<!-- BEGIN prop_radio_opt_hide --><script type="text/javascript">
+			ilFormHideSubForm('subform_{HOP_ID}');
+			</script><!-- END prop_radio_opt_hide -->
+			<!-- END radio_option_subform -->
 			</div>
 <!-- END prop_radio_option -->
+		</div>
 <!-- END prop_radio -->
 <!-- BEGIN prop_select -->
 		<select name="{POST_VAR}" {DISABLED}>
@@ -92,7 +102,7 @@
 		<input type="text" id="{MAP_ID}_lng" size="14" maxlength="18" name="{POST_VAR}[longitude]" value="{PROPERTY_VALUE_LONG}"
 			onchange="ilUpdateMap('{MAP_ID}');" />
 		&nbsp;&nbsp;{TXT_ZOOM}: {ZOOM_SELECT}<br /><input type="text" name="address" value="{TXT_ADDRESS}" size="50" /><input type="button" value="{TXT_LOOKUP}" onclick="ilLookupAddress('{MAP_ID}', this.form.address.value)" /><br />
-		<div style="margin-top:3px; margin-left:3px;"><span class="subtitle">{LOC_DESCRIPTION}</span></div>
+		<div class="ilFormInfo">{LOC_DESCRIPTION}</div>
 		{MAP}
 <!-- END prop_location -->
 <!-- BEGIN prop_color -->
@@ -101,29 +111,6 @@
 		<input type="text" id="{PROP_COLOR_ID}" size="10" maxlength="20" name="{POST_VAR}" value="{PROPERTY_VALUE_COLOR}" {COLOR_DISABLED}/> <span style="vertical-align:bottom;" id="{POST_VAR}-bc"></span>
 		</div>
 <!-- END prop_color -->
-<!-- BEGIN prop_file -->
-<!-- BEGIN filename -->
-		<div style="margin-bottom:3px"><input type="text" id="{FILENAME_ID}" size="30" maxlength="70" name="{POST_FILENAME}" value="{VAL_FILENAME}" /></div>
-		<div style="margin-top:3px; margin-left:3px; margin-bottom:3px;"><span class="subtitle">{TXT_FILENAME_HINT}</span></div>
-<!--  END filename -->
-		<!-- BEGIN prop_file_propval --><div style="margin-bottom:3px; margin-left:3px;"><span class="subtitle">{FILE_VAL}</span></div><!-- END prop_file_propval -->
-		<input type="file" id="{ID}" name="{POST_VAR}" size="30" />
-		<div style="margin-top:3px; margin-left:3px;"><span class="subtitle">{TXT_MAX_SIZE}</span></div>
-<!-- BEGIN allowed_suffixes -->
-		<div style="margin-top:3px; margin-left:3px;"><span class="subtitle">{TXT_ALLOWED_SUFFIXES}</span></div>
-<!-- END allowed_suffixes -->
-<!-- END prop_file -->
-<!-- BEGIN prop_image_file -->
-<!-- BEGIN image -->
-		<input type="checkbox" name="{POST_VAR_D}_delete" id="{POST_VAR_D}_delete" value="1" /><label for="{POST_VAR_D}_delete">{TXT_DELETE_EXISTING}</label><br />
-		<img style="margin: 5px 0px 5px 0px;" src="{SRC_IMAGE}" alt="{ALT_IMAGE}" {WIDTH} {HEIGHT} border="0" /><br />
-<!-- END image -->
-		<input type="file" id="{ID}" name="{POST_VAR}" size="30" />
-		<div style="margin-top:3px; margin-left:3px;"><span class="subtitle">{TXT_MAX_SIZE}</span></div>
-<!-- BEGIN allowed_image_suffixes -->
-		<div style="margin-top:3px; margin-left:3px;"><span class="subtitle">{TXT_ALLOWED_SUFFIXES}</span></div>
-<!-- END allowed_image_suffixes -->
-<!-- END prop_image_file -->
 <!-- BEGIN prop_flash_file -->
 <!-- BEGIN applet -->
 		<input type="checkbox" name="{POST_VAR_D}_delete" id="{POST_VAR_D}_delete" value="1" /><label for="{POST_VAR_D}_delete">{TXT_DELETE_EXISTING}</label><br />
@@ -156,7 +143,7 @@
 </object><br />
 <!-- END applet -->
 		<input type="file" id="{ID}" name="{POST_VAR}" size="30" />
-		<div style="margin-top:3px; margin-left:3px;"><span class="subtitle">{TXT_MAX_SIZE}</span></div>
+		<div class="ilFormInfo">{TXT_MAX_SIZE}</div>
 {JAVASCRIPT_FLASH}
 <!-- END prop_flash_file -->
 <!-- BEGIN prop_datetime -->
@@ -194,20 +181,22 @@
 		<div style="margin-top:3px; margin-left:3px;"><span class="ilFormHelpLink"><img border="0" src="{IMG_INFO}" alt="{ALT_INFO}" /></span><span class="subtitle"> {PROPERTY_DESCRIPTION}</span></div>
 <!-- END exp_description -->
 <!-- BEGIN description -->
-		<div style="margin-top:3px; margin-left:3px;"><span class="subtitle">{PROPERTY_DESCRIPTION}</span></div>
+		<div class="ilFormInfo">{PROPERTY_DESCRIPTION}</div>
 <!-- END description -->
 <!-- BEGIN alert -->
-		<div style="margin-top:3px; margin-left:3px;"><img border="0" src="{IMG_ALERT}" alt="{ALT_ALERT}" />
-		<span class="subtitle">{TXT_ALERT}</span></div>
+		<div class="ilFormInfo"><img border="0" src="{IMG_ALERT}" alt="{ALT_ALERT}" />{TXT_ALERT}</div>
 <!-- END alert -->
-		{PROP_SUB_FORM}
+		<div class="ilSubForm" id="subform_{SFID}">{PROP_SUB_FORM}</div>
+		<!-- BEGIN sub_form_hide --><script type="text/javascript">
+			ilFormHideSubForm('subform_{DSFID}');
+			</script><!-- END sub_form_hide -->
 		</td>
 	</tr>
 <!-- END prop -->
 <!-- END item -->
 <!-- BEGIN commands -->
 	<tr>
-	<td class="submit" colspan="2">
+	<td class="ilFormFooter" colspan="2">
 <!-- BEGIN hidden -->
 		<input type="{PROP_INPUT_TYPE}" id="{ID}" name="{POST_VAR}" value="{PROPERTY_VALUE}"/>
 <!-- END hidden -->
