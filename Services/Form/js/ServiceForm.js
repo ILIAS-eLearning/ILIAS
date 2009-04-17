@@ -63,4 +63,118 @@ function ilFormShowHide(obj)
 	}
 }
 
+var ilFormSubActive = Array();
+
+/**
+* Hide Subform
+*/
+function ilFormHideSubForm(id)
+{
+	obj = document.getElementById(id);
+	if (obj)
+	{
+		obj.style.display = 'none';
+	}
+}
+
+/** 
+* Show Subform
+*/
+function ilFormShowSubForm(id, cont_id, cb)
+{
+	if (cb == null)
+	{
+		ilFormSubActive[cont_id] = id;
+	}
+	else
+	{
+		if (cb.checked)
+		{
+			ilFormSubActive[cont_id] = id;
+		}
+		else
+		{
+			ilFormSubActive[cont_id] = null;
+		}
+	}
+	var subforms = YAHOO.util.Dom.getElementsByClassName('ilSubForm', 'div', cont_id);
+	for (k in subforms)
+	{
+		if (subforms[k].id != id)
+		{
+			subforms[k].style.overflow = 'hidden';
+			var myAnim = new YAHOO.util.Anim(subforms[k], { 
+				height: { to: 0 }  
+				}, 1, YAHOO.util.Easing.easeOut);
+			myAnim.onComplete.subscribe(function(a, b, t) {
+					t.style.display = 'none';
+					// activated in the meantime?
+					for(k in ilFormSubActive)
+					{
+						if (t.id == ilFormSubActive[k])
+						{
+							t.style.display = '';
+						}
+					}
+					t.style.height = 'auto';
+					t.style.overflow = '';
+				}, subforms[k]);
+			myAnim.duration = 0.4;
+			myAnim.animate();
+		}
+
+		/* subforms[k].style.display = 'none'; */
+	}
+	obj = document.getElementById(id);
+	if (obj && obj.style.display == 'none' && (cb == null || cb.checked == true))
+	{
+		obj.style.display = '';
+		obj.style.position = 'relative';
+		obj.style.left = '-1000px';
+		obj.style.display = 'block';
+		var nh = obj.scrollHeight
+		obj.style.height = '0px';
+		obj.style.position = '';
+		obj.style.left = '';
+		obj.style.overflow = 'hidden';
+		var myAnim = new YAHOO.util.Anim(obj, { 
+			height: {
+				from: 0,
+				to: nh }  
+			}, 1, YAHOO.util.Easing.easeOut);
+		myAnim.onComplete.subscribe(function(a, b, t) {
+				t.style.height = 'auto';
+				t.style.overflow = '';
+			}, obj);
+		myAnim.onStart.subscribe(function(a, b, t) {
+				t.style.display = '';
+			}, obj);
+		myAnim.duration = 0.4;
+		myAnim.animate();
+	}
+	
+	// deactivate subform of checkbox
+	if (obj && (cb != null && cb.checked == false))
+	{
+		obj.style.overflow = 'hidden';
+		var myAnim = new YAHOO.util.Anim(obj, { 
+			height: { to: 0 }  
+			}, 1, YAHOO.util.Easing.easeOut);
+		myAnim.onComplete.subscribe(function(a, b, t) {
+				t.style.display = 'none';
+				// activated in the meantime?
+				for(k in ilFormSubActive)
+				{
+					if (t.id == ilFormSubActive[k])
+					{
+						t.style.display = '';
+					}
+				}
+				t.style.height = 'auto';
+				t.style.overflow = '';
+			}, obj);
+		myAnim.duration = 0.4;
+		myAnim.animate();
+	}
+}
 

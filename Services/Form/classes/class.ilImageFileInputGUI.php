@@ -3,7 +3,7 @@
 	+-----------------------------------------------------------------------------+
 	| ILIAS open source                                                           |
 	+-----------------------------------------------------------------------------+
-	| Copyright (c) 1998-2007 ILIAS open source, University of Cologne            |
+	| Copyright (c) 1998-2009 ILIAS open source, University of Cologne            |
 	|                                                                             |
 	| This program is free software; you can redistribute it and/or               |
 	| modify it under the terms of the GNU General Public License                 |
@@ -39,9 +39,12 @@ class ilImageFileInputGUI extends ilFileInputGUI
 	*/
 	function __construct($a_title = "", $a_postvar = "")
 	{
+		global $lng;
+
 		parent::__construct($a_title, $a_postvar);
 		$this->setType("image_file");
 		$this->setSuffixes(array("jpg", "jpeg", "png", "gif"));
+		$this->setHiddenTitle("(".$lng->txt("form_image_file_input").")");
 	}
 
 	/**
@@ -91,24 +94,28 @@ class ilImageFileInputGUI extends ilFileInputGUI
 	{
 		global $lng;
 		
-		$this->outputSuffixes($a_tpl, "allowed_image_suffixes");
+		$i_tpl = new ilTemplate("tpl.prop_image_file.html", true, true, "Services/Form");
+		
+		$this->outputSuffixes($i_tpl, "allowed_image_suffixes");
 		
 		if ($this->getImage() != "")
 		{
-			$a_tpl->setCurrentBlock("image");
-			$a_tpl->setVariable("SRC_IMAGE", $this->getImage());
-			$a_tpl->setVariable("ALT_IMAGE", $this->getAlt());
-			$a_tpl->setVariable("POST_VAR_D", $this->getPostVar());
-			$a_tpl->setVariable("TXT_DELETE_EXISTING",
+			$i_tpl->setCurrentBlock("image");
+			$i_tpl->setVariable("SRC_IMAGE", $this->getImage());
+			$i_tpl->setVariable("ALT_IMAGE", $this->getAlt());
+			$i_tpl->setVariable("POST_VAR_D", $this->getPostVar());
+			$i_tpl->setVariable("TXT_DELETE_EXISTING",
 				$lng->txt("delete_existing_file"));
-			$a_tpl->parseCurrentBlock();
+			$i_tpl->parseCurrentBlock();
 		}
 		
-		$a_tpl->setCurrentBlock("prop_image_file");
-		$a_tpl->setVariable("POST_VAR", $this->getPostVar());
-		$a_tpl->setVariable("ID", $this->getFieldId());
-		$a_tpl->setVariable("TXT_MAX_SIZE", $lng->txt("file_notice")." ".
+		$i_tpl->setVariable("POST_VAR", $this->getPostVar());
+		$i_tpl->setVariable("ID", $this->getFieldId());
+		$i_tpl->setVariable("TXT_MAX_SIZE", $lng->txt("file_notice")." ".
 			$this->getMaxFileSizeString());
+			
+		$a_tpl->setCurrentBlock("prop_generic");
+		$a_tpl->setVariable("PROP_GENERIC", $i_tpl->get());
 		$a_tpl->parseCurrentBlock();
 	}
 

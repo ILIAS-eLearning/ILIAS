@@ -549,12 +549,131 @@ h2.ilLocatorTitle
 	overflow:hidden;
 }
 
-/* form */
-form.il_Form
+/* Forms */
+form.il_Form, form.ilForm
 {
 	padding: 0px;
 	margin: 0px;
 	border: 0px;
+}
+
+table.ilForm
+{
+	background-color:#F3F6FF;
+	border-spacing:0px;
+	border-collapse:collapse;
+	border-width:1px;
+	border-style:solid;
+	border-color:#D0D5EA;
+}
+
+td.ilFormHeader, td.ilFormFooter
+{
+	background-color:#E0E5F6;
+	padding: 4px 5px 1px 5px;
+	font-size:90%;
+	color: #000560;
+}
+
+h3.ilFormHeader
+{
+	font-weight: normal;
+	margin:0px;
+	padding:0px;
+	font-size: 100%;
+	display: inline;
+}
+
+td.ilFormOption
+{
+	padding: 10px;
+	text-align:right;
+	vertical-align:top;
+	border-right-width: 1px;
+	border-right-style: solid;
+	border-right-color: #E0E5F6;
+	width: 200px;
+}
+
+td.ilFormSubOption
+{
+	padding: 10px;
+	padding-left: 40px;
+	text-align:right;
+	vertical-align:top;
+	border-right-width: 1px;
+	border-right-style: solid;
+	border-right-color: #E0E5F6;
+}
+
+td.ilFormValue
+{
+	padding: 10px;
+	vertical-align:top;
+}
+
+td.ilFormSubValue
+{
+	padding: 10px;
+	vertical-align:top;
+}
+
+div.ilFormInfo
+{
+	margin: 2px 0px 4px 3px;
+	font-size: 80%;
+}
+
+label, input[type=checkbox], input[type=radio], select
+{
+	cursor:pointer;
+}
+
+input[type=text], input[type=file], input[type=password]
+{
+	font-size: 80%;
+	border-width: 1px;
+	border-style: solid;
+	border-color: #D0D5E6;
+	padding:3px;
+}
+
+select
+{
+	font-size: 80%;
+	border-width: 1px;
+	border-style: solid;
+	border-color: #D0D5E6;
+	padding:2px;
+}
+
+
+input[type=text].numeric
+{
+	text-align: right;
+	font-size: 80%;
+}
+
+input[type=checkbox], input[type=radio]
+{
+	border-style: none;
+	background-color: transparent;
+}
+
+textarea
+{
+	font-family:Verdana,Arial,Helvetica,sans-serif;
+	border-width: 1px;
+	border-style: solid;
+	border-color: #D0D5E6;
+	padding:3px;
+	text-decoration:none;
+	font-size: 80%;
+}
+
+textarea.fullwidth
+{
+	width: 98%;
 }
 
 
@@ -1046,22 +1165,6 @@ input.submit_disabled, a.submit_disabled, a.submit_disabled:hover {
 	cursor:pointer;
 }
 
-label, input[type=checkbox], input[type=radio], select
-{
-	cursor:pointer;
-}
-
-input[type=text].numeric
-{
-	text-align: right;
-}
-
-input[type=checkbox], input[type=radio]
-{
-	border-style: none;
-	background-color: transparent;
-}
-
 a.ilEditSubmit {
 	background-color: #FFFFFF;
 	background-image: url(images/ButtonsBack.gif);
@@ -1115,24 +1218,6 @@ input.tblrow1, input.tblrow2
 	color:#000000;
 	background-image: none;
 	padding:0px;
-}
-
-textarea
-{
-	font-family:Verdana,Arial,Helvetica,sans-serif;
-	background-color:#ffffff;
-	color:#000000;
-	border-width:1px;
-	border-color:#9EADBA;
-	border-style:inset;
-	padding:3px;
-	text-decoration:none;
-	font-size: 100%;
-}
-
-textarea.fullwidth
-{
-	width: 98%;
 }
 
 
@@ -2374,7 +2459,7 @@ select.ilNavHistorySelect {
 	/* font-size: 80%; */
 }
 
-.ilAccHeadingHidden
+.ilAccHeadingHidden, .ilAccHidden
 {
 	position:absolute;
 	left:-2000px;
