@@ -64,29 +64,78 @@ public class ExtensionFileHandler {
             throw new FileHandlerException("No permission to read file: " + file.getAbsolutePath());
         }
        
-    	String fname = file.getName();
-        int dotIndex = fname.lastIndexOf(".");
-        if((dotIndex > 0) && (dotIndex < fname.length())) {
-            String extension = fname.substring(dotIndex + 1, fname.length());
-            
-            // Handled extensions are: html,pdf,txt
-            if(extension.equalsIgnoreCase("pdf")) {
-                logger.info("Using getPDFDocument() for " + file.getName());
-                return getPDFDocument(file);
-            }
-            /*
-            if(extension.equalsIgnoreCase("html") || extension.equalsIgnoreCase("htm")) {
-                logger.info("Using getHTMLDocument() for " + file.getName());
-                return getHTMLDocument(file);
-            }
-            */
-            if(extension.equalsIgnoreCase("txt") || extension.length() == 0) {
-                logger.info("Using getTextDocument() for: " + file.getName() );
-                return getTextDocument(file);
-            }
-            else {
-                logger.info("No file handler found for: " + fname);
-            }
+    	try {
+	        String fname = file.getName();
+	        int dotIndex = fname.lastIndexOf(".");
+	        if((dotIndex > 0) && (dotIndex < fname.length())) {
+	            String extension = fname.substring(dotIndex + 1, fname.length());
+	            
+	            // Handled extensions are: html,pdf,txt
+	            if(extension.equalsIgnoreCase("pdf")) {
+	                logger.info("Using getPDFDocument() for " + file.getName());
+	                return getPDFDocument(file);
+	            }
+	            if(extension.equalsIgnoreCase("html") || extension.equalsIgnoreCase("htm")) {
+	                logger.info("Using getHTMLDocument() for " + file.getName());
+	                return getHTMLDocument(file);
+	            }
+	            if(extension.equalsIgnoreCase("txt") || extension.length() == 0) {
+	                logger.info("Using getTextDocument() for: " + file.getName() );
+	                return getTextDocument(file);
+	            }
+	            // Open office
+	            if(extension.equalsIgnoreCase("odt")) {
+	            	logger.info("Using getOpenOfficeDocument() for " + file.getName());
+	            	return getOpenOfficeDocument(file);
+	            }
+	            if(extension.equalsIgnoreCase("ott")) {
+	            	logger.info("Using getOpenOfficeDocument() for " + file.getName());
+	            	return getOpenOfficeDocument(file);
+	            }
+	            if(extension.equalsIgnoreCase("stw")) {
+	            	logger.info("Using getOpenOfficeDocument() for " + file.getName());
+	            	return getOpenOfficeDocument(file);
+	            }
+	            if(extension.equalsIgnoreCase("sxw")) {
+	            	logger.info("Using getOpenOfficeDocument() for " + file.getName());
+	            	return getOpenOfficeDocument(file);
+	            }
+	            if(extension.equalsIgnoreCase("odg")) {
+	            	logger.info("Using getOpenOfficeDocument() for " + file.getName());
+	            	return getOpenOfficeDocument(file);
+	            }
+	            if(extension.equalsIgnoreCase("odp")) {
+	            	logger.info("Using getOpenOfficeDocument() for " + file.getName());
+	            	return getOpenOfficeDocument(file);
+	            }
+	            if(extension.equalsIgnoreCase("sti")) {
+	            	logger.info("Using getOpenOfficeDocument() for " + file.getName());
+	            	return getOpenOfficeDocument(file);
+	            }
+	            if(extension.equalsIgnoreCase("sxd")) {
+	            	logger.info("Using getOpenOfficeDocument() for " + file.getName());
+	            	return getOpenOfficeDocument(file);
+	            }
+	            if(extension.equalsIgnoreCase("sxw")) {
+	            	logger.info("Using getOpenOfficeDocument() for " + file.getName());
+	            	return getOpenOfficeDocument(file);
+	            }
+	            // Flat XML OO documents
+	            if(extension.equalsIgnoreCase("fodt")) {
+	            	logger.info("Using getOpenOfficeDocument() for " + file.getName());
+	            	return getFlatOpenOfficeDocument(file);
+	            }
+	            if(extension.equalsIgnoreCase("fodp")) {
+	            	logger.info("Using getOpenOfficeDocument() for " + file.getName());
+	            	return getFlatOpenOfficeDocument(file);
+	            }
+	            
+	        }
+        }
+        catch(Exception e) {
+        	logger.info("Parsing failed with message: " + e);
+        	logger.info("Current file is: " + file.getAbsolutePath());
+        	return "";
         }
         
     	// Start with poi
@@ -128,7 +177,8 @@ public class ExtensionFileHandler {
         return "";
     }
     
-    /**
+
+	/**
      * 
      * @param file
      * @return
@@ -195,7 +245,7 @@ public class ExtensionFileHandler {
         catch(Exception e) {
             throw new FileHandlerException("Caught unknown exception " + e.getMessage());
         }
-    }
+	}
 
     /*
     private Document getHTMLDocument(File file)
@@ -216,7 +266,40 @@ public class ExtensionFileHandler {
         return doc;
     }
     */
-    /*
+    /**
+	 * @param file
+	 * @return
+	 */
+	private String getOpenOfficeDocument(File file) throws FileHandlerException {
+		
+		FileHandler doch = (FileHandler) new OpenOfficeDefaultHandler();
+		
+		try {
+			return doch.getContent(new FileInputStream(file.getAbsolutePath()));
+		}
+		catch(IOException e) {
+			throw new FileHandlerException(e);
+		}
+	}
+
+    /**
+     * Get 
+	 * @param file
+	 * @return
+	 */
+	private String getFlatOpenOfficeDocument(File file) throws FileHandlerException {
+		
+		OpenOfficeDefaultHandler doch =  new OpenOfficeDefaultHandler();
+		
+		try {
+			return doch.extractContent(new FileInputStream(file.getAbsolutePath()));
+		}
+		catch(IOException e) {
+			throw new FileHandlerException(e);
+		}
+	}
+	
+	/*
     private Document getFlashDocument(File file)
         throws ilFileHandlerException {
             
