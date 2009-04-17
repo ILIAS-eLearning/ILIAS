@@ -2539,7 +2539,7 @@ class ilObjChatGUI extends ilObjectGUI
 	{
 		global $lng, $ilUser;
 		$result = new stdClass();
-		include_once 'Services/Mail/classes/class.ilAddressbook.php';
+		include_once 'Services/Contact/classes/class.ilAddressbook.php';
 		$addressbook = new ilAddressbook($ilUser->getId());
 		if ($addressbook->checkEntryByLogin($_REQUEST["ulogin"]))
 		{

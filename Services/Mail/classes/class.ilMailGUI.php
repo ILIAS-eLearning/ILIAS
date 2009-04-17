@@ -193,7 +193,7 @@ class ilMailGUI
 				break;
 
 			case 'ilmailaddressbookgui':
-				include_once 'Services/Mail/classes/class.ilMailAddressbookGUI.php';
+				include_once 'Services/Contact/classes/class.ilMailAddressbookGUI.php';
 
 				$this->ctrl->forwardCommand(new ilMailAddressbookGUI());
 				break;

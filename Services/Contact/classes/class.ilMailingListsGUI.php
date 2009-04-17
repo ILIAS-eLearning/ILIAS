@@ -22,9 +22,9 @@
 */
 
 require_once "Services/Table/classes/class.ilTable2GUI.php";
-require_once "Services/Mail/classes/class.ilMailingLists.php";
+require_once "Services/Contact/classes/class.ilMailingLists.php";
 require_once "Services/Mail/classes/class.ilFormatMail.php";
-require_once "Services/Mail/classes/class.ilAddressbook.php";
+require_once "Services/Contact/classes/class.ilAddressbook.php";
 
 /**
 * @author Michael Jansen <mjansen@databay.de>
@@ -102,7 +102,7 @@ class ilMailingListsGUI
 		}
 		
 		$this->tpl->setVariable('HEADER', $this->lng->txt('mail'));
-		$this->tpl->addBlockFile('ADM_CONTENT', 'adm_content', 'tpl.mail_mailing_lists_list.html', 'Services/Mail');
+		$this->tpl->addBlockFile('ADM_CONTENT', 'adm_content', 'tpl.mail_mailing_lists_list.html', 'Services/Contact');
 		$this->tpl->setVariable('DELETE_CONFIRMATION', $c_gui->getHTML());
 		
 		$this->tpl->show();
@@ -185,12 +185,12 @@ class ilMailingListsGUI
 		$this->ctrl->setParameter($this, 'cmd', 'post');
 		
 		$this->tpl->setVariable('HEADER', $this->lng->txt('mail'));		
-		$this->tpl->addBlockFile('ADM_CONTENT', 'adm_content', 'tpl.mail_mailing_lists_list.html', 'Services/Mail');
+		$this->tpl->addBlockFile('ADM_CONTENT', 'adm_content', 'tpl.mail_mailing_lists_list.html', 'Services/Contact');
 						
 		$tbl = new ilTable2GUI($this);
 		$tbl->setFormAction($this->ctrl->getFormAction($this), 'showForm');
 		$tbl->setTitle($this->lng->txt('mail_mailing_lists'));
-		$tbl->setRowTemplate('tpl.mail_mailing_lists_listrow.html', 'Services/Mail');				
+		$tbl->setRowTemplate('tpl.mail_mailing_lists_listrow.html', 'Services/Contact');				
 
 	 	$tbl->setDefaultOrderField('title');	
 		
@@ -288,12 +288,13 @@ class ilMailingListsGUI
 	public function showForm()
 	{
 		$this->tpl->setVariable('HEADER', $this->lng->txt('mail'));		
-		$this->tpl->addBlockFile('ADM_CONTENT', 'adm_content', 'tpl.mail_mailing_lists_form.html', 'Services/Mail');
+		$this->tpl->addBlockFile('ADM_CONTENT', 'adm_content', 'tpl.mail_mailing_lists_form.html', 'Services/Contact');
 		
 		include_once('./Services/Form/classes/class.ilPropertyFormGUI.php');
 		
 		$form = new ilPropertyFormGUI();
-		if ($this->mlists->getCurrentMailingList()->getId()) $this->ctrl->setParameter($this, 'ml_id', $this->mlists->getCurrentMailingList()->getId());
+		if ($this->mlists->getCurrentMailingList()->getId())
+			$this->ctrl->setParameter($this, 'ml_id', $this->mlists->getCurrentMailingList()->getId());
 		$form->setFormAction($this->ctrl->getFormAction($this, 'saveForm'));
 		$form->setTitle($this->lng->txt('mail_mailing_list'));
 		
@@ -329,12 +330,12 @@ class ilMailingListsGUI
 		$this->ctrl->setParameter($this, 'ml_id', $this->mlists->getCurrentMailingList()->getId());
 		
 		$this->tpl->setVariable('HEADER', $this->lng->txt('mail'));		
-		$this->tpl->addBlockFile('ADM_CONTENT', 'adm_content', 'tpl.mail_mailing_lists_members.html', 'Services/Mail');
+		$this->tpl->addBlockFile('ADM_CONTENT', 'adm_content', 'tpl.mail_mailing_lists_members.html', 'Services/Contact');
 		
 		$tbl = new ilTable2GUI($this);
 		$tbl->setFormAction($this->ctrl->getFormAction($this), 'showMemberForm');
 		$tbl->setTitle($this->lng->txt('mail_members_of_mailing_list') . ' ' .$this->mlists->getCurrentMailingList()->getTitle());
-		$tbl->setRowTemplate('tpl.mail_mailing_lists_membersrow.html', 'Services/Mail');				
+		$tbl->setRowTemplate('tpl.mail_mailing_lists_membersrow.html', 'Services/Contact');				
 
 		$this->ctrl->setParameter($this, 'cmd', 'showMembersList');
 
@@ -411,7 +412,7 @@ class ilMailingListsGUI
 		}
 				
 		$this->tpl->setVariable('HEADER', $this->lng->txt('mail'));
-		$this->tpl->addBlockFile('ADM_CONTENT', 'adm_content', 'tpl.mail_mailing_lists_members.html', 'Services/Mail');
+		$this->tpl->addBlockFile('ADM_CONTENT', 'adm_content', 'tpl.mail_mailing_lists_members.html', 'Services/Contact');
 		$this->tpl->setVariable('DELETE_CONFIRMATION', $c_gui->getHTML());
 		
 		$this->tpl->show();
@@ -480,7 +481,7 @@ class ilMailingListsGUI
 		}
 			
 		$this->tpl->setVariable('HEADER', $this->lng->txt('mail'));		
-		$this->tpl->addBlockFile('ADM_CONTENT', 'adm_content', 'tpl.mail_mailing_lists_members_form.html', 'Services/Mail');
+		$this->tpl->addBlockFile('ADM_CONTENT', 'adm_content', 'tpl.mail_mailing_lists_members_form.html', 'Services/Contact');
 		
 		include_once('./Services/Form/classes/class.ilPropertyFormGUI.php');
 		

@@ -21,7 +21,7 @@
 	+-----------------------------------------------------------------------------+
 */
 
-require_once "Services/Mail/classes/class.ilMailingList.php";
+require_once "Services/Contact/classes/class.ilMailingList.php";
 
 /**
 * @author Michael Jansen <mjansen@databay.de>

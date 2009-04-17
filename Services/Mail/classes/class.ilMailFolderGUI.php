@@ -21,18 +21,22 @@
 	+-----------------------------------------------------------------------------+
 */
 
-require_once './Services/User/classes/class.ilObjUser.php';
-require_once "Services/Mail/classes/class.ilMailbox.php";
-require_once "Services/Mail/classes/class.ilMail.php";
+require_once 'Services/User/classes/class.ilObjUser.php';
+require_once 'Services/Mail/classes/class.ilMailbox.php';
+require_once 'Services/Mail/classes/class.ilMail.php';
 
 /**
 * @author Jens Conze
 * @version $Id$
 *
 * @ingroup ServicesMail
-* @ilCtrl_Calls ilMailFolderGUI: ilMailAddressbookGUI, ilMailAttachmentGUI, ilMailSearchGUI, ilMailOptionsGUI
+* @ilCtrl_Calls ilMailFolderGUI: ilMailOptionsGUI, ilMailAttachmentGUI, ilMailSearchGUI
 * @ilCtrl_Calls ilMailFolderGUI: ilPublicUserProfileGUI
 */
+
+// removed ilCtrl_Calls
+// ilMailAddressbookGUI
+
 class ilMailFolderGUI
 {
 	private $tpl = null;
@@ -88,7 +92,7 @@ class ilMailFolderGUI
 		switch($forward_class)
 		{
 			case 'ilmailaddressbookgui':
-				include_once 'Services/Mail/classes/class.ilMailAddressbookGUI.php';
+				include_once 'Services/Contact/classes/class.ilMailAddressbookGUI.php';
 
 				$this->ctrl->forwardCommand(new ilMailAddressbookGUI());
 				break;
@@ -100,7 +104,7 @@ class ilMailFolderGUI
 				break;
 
 			case 'ilpublicuserprofilegui':
-				include_once("./Services/User/classes/class.ilPublicUserProfileGUI.php");
+				include_once("Services/User/classes/class.ilPublicUserProfileGUI.php");
 				$profile_gui = new ilPublicUserProfileGUI($_GET["user"]);
 				$ret = $this->ctrl->forwardCommand($profile_gui);
 				break;
@@ -124,7 +128,7 @@ class ilMailFolderGUI
 		{
 			if (is_array($mail_data = $this->umail->getMail($_GET["mail_id"])))
 			{
-				require_once "Services/Mail/classes/class.ilAddressbook.php";
+				require_once "Services/Contact/classes/class.ilAddressbook.php";
 				$abook = new ilAddressbook($ilUser->getId());
 
 				$tmp_user = new ilObjUser($mail_data["sender_id"]);
@@ -911,7 +915,7 @@ class ilMailFolderGUI
 		    $mailData["sender_id"] != $ilUser->getId() && 
 			$mailData["sender_id"] != ANONYMOUS_USER_ID)
 		{
-			require_once "Services/Mail/classes/class.ilAddressbook.php";
+			require_once "Services/Contact/classes/class.ilAddressbook.php";
 			$abook = new ilAddressbook($ilUser->getId());
 
 			$tmp_user = new ilObjUser($mailData["sender_id"]);

@@ -21,10 +21,10 @@
 	+-----------------------------------------------------------------------------+
 */
 
-require_once './Services/User/classes/class.ilObjUser.php';
-require_once "Services/Mail/classes/class.ilMailbox.php";
-require_once "Services/Mail/classes/class.ilFormatMail.php";
-require_once "classes/class.ilFileDataMail.php";
+require_once 'Services/User/classes/class.ilObjUser.php';
+require_once 'Services/Mail/classes/class.ilMailbox.php';
+require_once 'Services/Mail/classes/class.ilFormatMail.php';
+require_once 'classes/class.ilFileDataMail.php';
 
 /**
 * @author Jens Conze
@@ -77,21 +77,21 @@ class ilMailFormGUI
 				break;
 
 			case 'ilmailsearchgui':
-				include_once 'Services/Mail/classes/class.ilMailSearchGUI.php';
+				include_once 'Services/Contact/classes/class.ilMailSearchGUI.php';
 
 				$this->ctrl->setReturn($this, "searchResults");
 				$this->ctrl->forwardCommand(new ilMailSearchGUI());
 				break;
 
 			case 'ilmailsearchcoursesgui':
-				include_once 'Services/Mail/classes/class.ilMailSearchCoursesGUI.php';
+				include_once 'Services/Contact/classes/class.ilMailSearchCoursesGUI.php';
 
 				$this->ctrl->setReturn($this, "searchResults");
 				$this->ctrl->forwardCommand(new ilMailSearchCoursesGUI());
 				break;
 
 			case 'ilmailsearchgroupsgui':
-				include_once 'Services/Mail/classes/class.ilMailSearchGroupsGUI.php';
+				include_once 'Services/Contact/classes/class.ilMailSearchGroupsGUI.php';
 
 				$this->ctrl->setReturn($this, "searchResults");
 				$this->ctrl->forwardCommand(new ilMailSearchGroupsGUI());

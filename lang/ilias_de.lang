@@ -2748,7 +2748,7 @@ common#:#los_last_visited#:#Zuletzt besuchte Lernmodule
 common#:#los#:#Lernmodule
 common#:#lres#:#Lernmaterialien
 common#:#mail_a_root#:#Nachrichten
-common#:#mail_addressbook#:#Adressbuch
+common#:#mail_addressbook#:#Kontakte
 common#:#mail_allow_smtp#:#SMTP zulassen
 common#:#mail_b_inbox#:#Posteingang
 common#:#mail_c_trash#:#Papierkorb
@@ -5501,7 +5501,7 @@ mail#:#mail_account_mail#:#Benutzerkonten-Nachricht
 mail#:#mail_add_recipient#:#Bitte geben Sie einen Empfänger ein
 mail#:#mail_add_subfolder#:#Unterordner hinzufügen
 mail#:#mail_add_subject#:#Bitte geben Sie einen Betreff ein
-mail#:#mail_add_to_addressbook#:#Zum Adressbuch hinzufügen
+mail#:#mail_add_to_addressbook#:#Zu Kontakten hinzufügen
 mail#:#mail_add_type#:#Bitte geben Sie den Typ der Nachricht an
 mail#:#mail_addr_entries#:#Einträge
 mail#:#mail_attachments#:#Anhänge
@@ -5535,8 +5535,8 @@ mail#:#mail_folder_options#:#Ordner Einstellungen
 mail#:#mail_following_rcp_not_valid#:#Die folgenden Empfänger sind nicht gültig:
 mail#:#mail_global_options#:#Allgemeine Einstellungen
 mail#:#mail_group_members#:#Gruppenmitglieder
-mail#:#mail_in_addressbook#:#Bereits im Adressbuch
-mail#:#mail_entry_of_addressbook#:#Eintrag aus dem Adressbuch
+mail#:#mail_in_addressbook#:#Bereits in den Kontakten
+mail#:#mail_entry_of_addressbook#:#Eintrag aus den Kontakten
 mail#:#mail_incoming_both#:#Lokal und Weiterleitung
 mail#:#mail_incoming_local#:#Nur lokal
 mail#:#mail_incoming_smtp#:#An eingetragene E-Mail-Adresse weiterleiten
@@ -5544,12 +5544,12 @@ mail#:#mail_incoming#:#Nachrichten Empfang
 mail#:#mail_insert_folder_name#:#Bitte geben Sie einen Ordnernamen ein
 mail#:#mail_insert_query#:#Bitte geben Sie einen Suchbegriff ein
 mail#:#mail_intern#:#Intern
-mail#:#mail_into_addressbook#:#In Addressbuch übernehmen
+mail#:#mail_into_addressbook#:#In Kontakte übernehmen
 mail#:#mail_list_members#:#Mitglieder auflisten
 mail#:#mail_mark_read#:#Als gelesen markieren
 mail#:#mail_mark_unread#:#Als ungelesen markieren
 mail#:#mail_maxsize_attachment_error#:#Die maximale Dateigröße beträgt:
-mail#:#mail_members_added_addressbook#:#Mitglieder zum Adressbuch hinzugefügt
+mail#:#mail_members_added_addressbook#:#Mitglieder zu den Kontakten hinzugefügt
 mail#:#mail_message_send#:#Ihre Nachricht wurde versandt
 mail#:#mail_move_error#:#Fehler beim Senden der Nachricht
 mail#:#mail_move_to#:#Verschieben nach:
@@ -5562,8 +5562,8 @@ mail#:#mail_my_groups#:#Meine Gruppen
 mail#:#mail_my_mailing_lists#:#Meine Verteilerlisten
 mail#:#mail_mailing_lists#:#Verteilerlisten
 mail#:#mail_mailing_list#:#Verteilerliste
-mail#:#mail_mailing_lists_no_addressbook_entries#:#Sie haben keine Einträge im Adressbuch die Sie zur Verteilerliste hinzufügen können.
-mail#:#mail_mailing_lists_all_addressbook_entries_assigned#:#Sie haben bereits all Ihre Adressbucheinträge diesem Verteiler zugeordnet.
+mail#:#mail_mailing_lists_no_addressbook_entries#:#Sie haben keine Einträge in den Kontakten die Sie zur Verteilerliste hinzufügen können.
+mail#:#mail_mailing_lists_all_addressbook_entries_assigned#:#Sie haben bereits all Ihre Kontakte diesem Verteiler zugeordnet.
 mail#:#mail_assign_entry_to_mailing_list#:#Zuordnung eines Adressbucheintrags zum Verteiler
 mail#:#mail_members_of_mailing_list#:#Mitglieder der Verteilerliste
 mail#:#mail_notification_subject#:#Neue Mails im Posteingang
@@ -5594,7 +5594,7 @@ mail#:#mail_salutation_female#:#Anrede, weiblich
 mail#:#mail_salutation_general#:#Anrede, allgemein
 mail#:#mail_salutation_male#:#Anrede, männlich
 mail#:#mail_saved#:#Ihre Nachricht wurde gespeichert
-mail#:#mail_search_addressbook#:#im Addressbuch suchen
+mail#:#mail_search_addressbook#:#in Kontakten suchen
 mail#:#mail_search_system#:#im System suchen
 mail#:#mail_select_attachment#:#Bitte einen Anhang zum Herunterladen auswählen.
 mail#:#mail_select_course#:#Bitte mindestens einen Kurs auswählen.

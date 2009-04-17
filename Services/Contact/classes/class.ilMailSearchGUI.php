@@ -22,10 +22,10 @@
 */
 
 require_once './Services/User/classes/class.ilObjUser.php';
-require_once "Services/Mail/classes/class.ilMailbox.php";
-require_once "Services/Mail/classes/class.ilFormatMail.php";
-require_once "Services/Mail/classes/class.ilAddressbook.php";
-include_once('Services/Table/classes/class.ilTable2GUI.php');
+require_once 'Services/Mail/classes/class.ilMailbox.php';
+require_once 'Services/Mail/classes/class.ilFormatMail.php';
+require_once 'Services/Contact/classes/class.ilAddressbook.php';
+include_once 'Services/Table/classes/class.ilTable2GUI.php';
 
 /**
 * @author Jens Conze
@@ -141,7 +141,7 @@ class ilMailSearchGUI
 		
 		$this->saveMailData();
 
-		$this->tpl->addBlockFile("ADM_CONTENT", "adm_content", "tpl.mail_search.html", "Services/Mail");
+		$this->tpl->addBlockFile("ADM_CONTENT", "adm_content", "tpl.mail_search.html", "Services/Contact");
 		$this->tpl->setVariable("HEADER", $this->lng->txt("mail"));
 
 		$this->tpl->setVariable("ACTION", $this->ctrl->getFormAction($this));
@@ -199,7 +199,7 @@ class ilMailSearchGUI
 			{
 				$tbl_addr = new ilTable2GUI($this);
 				$tbl_addr->setTitle($lng->txt('mail_addressbook'));
-				$tbl_addr->setRowTemplate('tpl.mail_search_addr_row.html', 'Services/Mail');				
+				$tbl_addr->setRowTemplate('tpl.mail_search_addr_row.html', 'Services/Contact');				
 				
 				$result = array();
 				$counter = 0;		
@@ -240,7 +240,6 @@ class ilMailSearchGUI
 			 	$tbl_addr->setDefaultOrderField('login');							
 				$tbl_addr->setPrefix('addr_');			
 				// disabled. template creates nested forms... must be fixed
-				// - jposselt
 				//$tbl_addr->enable('select_all');				
 				//$tbl_addr->setSelectAllCheckbox('search_name_to');					
 
@@ -281,7 +280,7 @@ class ilMailSearchGUI
 			{
 				$tbl_users = new ilTable2GUI($this);
 				$tbl_users->setTitle($lng->txt('system').': '.$lng->txt('persons'));
-				$tbl_users->setRowTemplate('tpl.mail_search_users_row.html','Services/Mail');
+				$tbl_users->setRowTemplate('tpl.mail_search_users_row.html','Services/Contact');
 				
 				$result = array();				
 				$counter = 0;				
@@ -333,7 +332,6 @@ class ilMailSearchGUI
 			 	$tbl_users->setDefaultOrderField('login');						
 				$tbl_users->setPrefix('usr_');
 				// disabled. template creates nested forms... must be fixed
-				// - jposselt 				
 				//$tbl_users->enable('select_all');				
 				//$tbl_users->setSelectAllCheckbox('search_name_to');				
 	
@@ -345,7 +343,7 @@ class ilMailSearchGUI
 			{					
 				$tbl_grp = new ilTable2GUI($this);
 				$tbl_grp->setTitle($lng->txt('system').': '.$lng->txt('groups'));
-				$tbl_grp->setRowTemplate('tpl.mail_search_groups_row.html','Services/Mail');
+				$tbl_grp->setRowTemplate('tpl.mail_search_groups_row.html','Services/Contact');
 				
 				$result = array();				
 				$counter = 0;

@@ -34,6 +34,7 @@ include_once "Services/Mail/classes/class.ilMail.php";
 * @ilCtrl_Calls ilPersonalDesktopGUI: ilPersonalProfileGUI, ilBookmarkAdministrationGUI
 * @ilCtrl_Calls ilPersonalDesktopGUI: ilObjUserGUI, ilPDNotesGUI, ilLearningProgressGUI, ilFeedbackGUI
 * @ilCtrl_Calls ilPersonalDesktopGUI: ilColumnGUI, ilPDNewsGUI, ilCalendarPresentationGUI
+* @ilCtrl_Calls ilPersonalDesktopGUI: ilMailSearchGUI, ilMailAddressbookGUI
 *
 */
 class ilPersonalDesktopGUI
@@ -220,7 +221,18 @@ class ilPersonalDesktopGUI
 				$this->initColumn($column_gui);
 				$this->show();
 				break;
-				
+
+			// contacts
+			case 'ilmailaddressbookgui':
+				$this->getStandardTemplates();
+				$this->setTabs();
+				$this->tpl->setTitle($this->lng->txt("personal_desktop"));
+				$this->tpl->setTitleIcon(ilUtil::getImagePath("icon_pd_b.gif"),
+					$this->lng->txt("personal_desktop"));
+				include_once 'Services/Contact/classes/class.ilMailAddressbookGUI.php';
+				$mailgui = new ilMailAddressbookGUI();
+				$ret = $this->ctrl->forwardCommand($mailgui);
+				break;
 			default:
 				$this->getStandardTemplates();
 				$this->setTabs();
@@ -578,7 +590,13 @@ class ilPersonalDesktopGUI
 				{
 					$ilTabs->setTabActive("bookmarks");
 				}
-			}			
+			}
+
+			$ilTabs->addTarget("mail_addressbook", $this->ctrl->getLinkTargetByClass("ilmailaddressbookgui"));
+			if (strtolower($this->cmdClass) == "ilmailaddressbookgui")
+			{
+				$ilTabs->setTabActive("mail_addressbook");
+			}
 		}
 		
 		// Learning Progress
