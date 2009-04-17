@@ -58,7 +58,6 @@ public class ExtensionFileHandler {
      */
     public String getContent(File file) throws FileHandlerException {
 
-    	
     	// Stop here if no read permission is given
         if(!file.canRead()) {
             throw new FileHandlerException("No permission to read file: " + file.getAbsolutePath());
@@ -130,9 +129,20 @@ public class ExtensionFileHandler {
 	            	return getFlatOpenOfficeDocument(file);
 	            }
 	            
+	            // RTF
+	            if(extension.equalsIgnoreCase("rtf")) {
+	            	logger.info("Using getRTFDocument() for " + file.getName());
+	            	return getRTFDocument(file);
+	            }
 	        }
         }
-        catch(Exception e) {
+    	catch (FileHandlerException e) {
+        	logger.info("Parsing failed with message: " + e);
+        	logger.info("Current file is: " + file.getAbsolutePath());
+        	return "";
+    	}
+    	
+    	catch(Exception e) {
         	logger.info("Parsing failed with message: " + e);
         	logger.info("Current file is: " + file.getAbsolutePath());
         	return "";
@@ -155,23 +165,17 @@ public class ExtensionFileHandler {
     		logger.debug("Parsed content is: " + content.toString());
     		return content.toString();
     	}
-    	catch(IOException e) {
-    		logger.warn(e);
-    	} 
     	catch (InvalidFormatException e) {
-    		logger.debug("File is not a compatible POI file.");
+    		logger.info("File is not a compatible POI file.");
+        	logger.info("Current file is: " + file.getAbsolutePath());
     	}
     	catch(IllegalArgumentException e) {
-    		logger.info("File is not a compatible POI file.");
+    		logger.info("No handler found.");
+        	logger.info("Current file is: " + file.getAbsolutePath());
     	}
-    	catch (OpenXML4JException e) {
-    		logger.info(e);
-    	} 
-    	catch (XmlException e) {
-    		logger.info(e);
-		}
     	catch (Exception e) {
-    		logger.warn(e);
+        	logger.info("Parsing failed with message: " + e);
+        	logger.info("Current file is: " + file.getAbsolutePath());
     	}
         
         return "";
@@ -299,6 +303,23 @@ public class ExtensionFileHandler {
 		}
 	}
 	
+    /**
+     * Get rtf document
+	 * @param file
+	 * @return
+	 */
+	private String getRTFDocument(File file) throws FileHandlerException {
+		
+		FileHandler doch = (FileHandler) new RTFHandler();
+		
+		try {
+			return doch.getContent(new FileInputStream(file.getAbsolutePath()));
+		}
+		catch(IOException e) {
+			throw new FileHandlerException(e);
+		}
+	}
+
 	/*
     private Document getFlashDocument(File file)
         throws ilFileHandlerException {

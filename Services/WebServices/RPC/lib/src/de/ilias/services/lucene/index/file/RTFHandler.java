@@ -18,34 +18,54 @@
         | along with this program; if not, write to the Free Software                 |
         | Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA. |
         +-----------------------------------------------------------------------------+
-*/
+ */
 
 package de.ilias.services.lucene.index.file;
 
-import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStream;
-import java.io.InputStreamReader;
+
+import javax.swing.text.BadLocationException;
+import javax.swing.text.DefaultStyledDocument;
+import javax.swing.text.rtf.RTFEditorKit;
 
 /**
  * 
- *
+ * 
  * @author Stefan Meyer <smeyer.ilias@gmx.de>
  * @version $Id$
  */
-public class OpenOfficeDefaultHandler extends ZipBasedOfficeHandler  implements FileHandler {
+public class RTFHandler implements FileHandler {
 
 	/**
-	 * @see de.ilias.services.lucene.index.file.FileHandler#getContent(java.io.InputStream)
+	 * From Lucene in Action
+	 * Use Swing lib
+	 * 
+	 * @seede.ilias.services.lucene.index.file.FileHandler#getContent(java.io.
+	 * InputStream)
 	 */
-	public String getContent(InputStream is) throws FileHandlerException, IOException {
+	public String getContent(InputStream is) throws FileHandlerException,
+			IOException {
 
-		InputStream contentStream = extractContentStream(is);
-		StringBuilder content = new StringBuilder();
-		content.append(extractContent(contentStream));
-		logger.debug(content.toString());
-		
-		return content.toString();
+		String bodyText = null;
+		DefaultStyledDocument styledDoc = new DefaultStyledDocument();
+
+		try {
+
+			new RTFEditorKit().read(is, styledDoc, 0);
+			bodyText = styledDoc.getText(0, styledDoc.getLength());
+		} 
+		catch (IOException e) {
+			throw new FileHandlerException(
+					"Cannot extract text from a RTF document", e);
+
+		} 
+		catch (BadLocationException e) {
+			throw new FileHandlerException(
+					"Cannot extract text from a RTF document", e);
+		}
+
+		return bodyText;
 	}
 
 	/**
@@ -54,25 +74,5 @@ public class OpenOfficeDefaultHandler extends ZipBasedOfficeHandler  implements 
 	public InputStream transformStream(InputStream is) {
 		return null;
 	}
-
-	/**
-	 * @see de.ilias.services.lucene.index.file.ZipBasedOfficeHandler#getContentFileName()
-	 */
-	protected String getContentFileName() {
-		
-		return "content.xml";
-	}
-
-	/**
-	 * @see de.ilias.services.lucene.index.file.ZipBasedOfficeHandler#getXPath()
-	 */
-	protected String getXPath() {
-
-		return "//text:p";
-	}
-	
-	
-	
-	
 
 }
