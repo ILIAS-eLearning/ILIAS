@@ -237,7 +237,7 @@ class ilMail
 	{
 		require_once "classes/class.ilFileDataMail.php";
 		require_once "Services/Mail/classes/class.ilMailOptions.php";
-		require_once "Services/Mail/classes/class.ilMailingLists.php";
+		require_once "Services/Contact/classes/class.ilMailingLists.php";
 
 		global $ilias, $lng, $ilUser;
 

@@ -24,7 +24,7 @@
 require_once './Services/User/classes/class.ilObjUser.php';
 require_once "Services/Mail/classes/class.ilMailbox.php";
 require_once "Services/Mail/classes/class.ilFormatMail.php";
-require_once "Services/Mail/classes/class.ilAddressbook.php";
+require_once "Services/Contact/classes/class.ilAddressbook.php";
 
 /**
 * @author Jens Conze
@@ -295,13 +295,13 @@ class ilMailSearchCoursesGUI
 	
 		$this->tpl->setVariable('HEADER', $this->lng->txt('mail') );
 		
-		$searchTpl = new ilTemplate('tpl.mail_search_template.html', true, true, 'Services/Mail');
+		$searchTpl = new ilTemplate('tpl.mail_search_template.html', true, true, 'Services/Contact');
 		
 		$_GET['view'] = 'mycourses';
 
 		$lng->loadLanguageModule('crs');
 
-		include_once 'Services/Mail/classes/class.ilMailSearchCoursesTableGUI.php';
+		include_once 'Services/Contact/classes/class.ilMailSearchCoursesTableGUI.php';
 		$table = new ilMailSearchCoursesTableGUI($this);
 		
 		include_once 'Modules/Course/classes/class.ilCourseParticipants.php';
@@ -429,11 +429,11 @@ class ilMailSearchCoursesGUI
 			$this->ctrl->clearParameters($this);
 
 			$lng->loadLanguageModule('crs');
-			include_once 'Services/Mail/classes/class.ilMailSearchCoursesMembersTableGUI.php';
+			include_once 'Services/Contact/classes/class.ilMailSearchCoursesMembersTableGUI.php';
 			$table = new ilMailSearchCoursesMembersTableGUI($this, 'crs');
 	
 			$tableData = array();
-			$searchTpl = new ilTemplate('tpl.mail_search_template.html', true, true, 'Services/Mail');
+			$searchTpl = new ilTemplate('tpl.mail_search_template.html', true, true, 'Services/Contact');
 			foreach($_POST["search_crs"] as $crs_id) 
 			{
 				$members_obj = ilCourseParticipants::_getinstanceByObjId($crs_id);

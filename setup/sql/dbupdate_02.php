@@ -11209,4 +11209,7 @@ $ilCtrlStructureReader->getStructure();
 	$ilDB->createTable('acc_user_access_key', $fields);
 	$ilDB->addPrimaryKey('acc_user_access_key', array('user_id','function_id'));
 ?>
-
+<#2311>
+<?php
+$ilCtrlStructureReader->getStructure();
+?>

@@ -32,11 +32,12 @@
 include_once('Services/Table/classes/class.ilTable2GUI.php');
 
 
-class ilMailSearchCoursesMembersTableGUI extends ilTable2GUI
+class ilMailSearchCoursesTableGUI extends ilTable2GUI
 {
 	protected $lng = null;
 	protected $ctrl;
 	protected $parentObject;
+	protected $mode;
 	
 	/**
 	 * Constructor
@@ -44,34 +45,39 @@ class ilMailSearchCoursesMembersTableGUI extends ilTable2GUI
 	 * @access public
 	 * @param object	parent object
 	 * @param string	type; valid values are 'crs' for courses and
-	 *			and 'grp' for groups
-	 * 
+	 *			'grp' for groups
 	 */
-	public function __construct($a_parent_obj, $type = 'crs')
+	public function __construct($a_parent_obj, $type='crs')
 	{
 	 	global $lng,$ilCtrl, $ilUser, $lng;
 		parent::__construct($a_parent_obj);
 		$lng->loadLanguageModule('crs');
-		$this->parentObject = $a_parent_obj;
+		
 		$mode = array();
-		if ($type == 'crs')
+		
+		if ($type == "crs")
 		{
-			$mode["checkbox"] = 'search_crs';
-			$mode["short"] = 'crs';
-			$mode["long"] = 'course';
-			$mode["lng_type"] = $lng->txt('course');
-			$mode["view"] = "crs_members";
-			$mode["tableprefix"] = "crstable_members";
+			$mode["short"] = "crs";
+			$mode["long"] = "course";
+			$mode["checkbox"] = "search_crs";
+			$mode["tableprefix"] = "crstable";
+			$mode["lng_mail"] = $lng->txt("mail_my_courses");
+			$mode["view"] = "mycourses";
 		}
-		else if ($type == 'grp')
+		else if ($type == "grp")
 		{
-			$mode["checkbox"] = 'search_grp';
-			$mode["short"] = 'grp';
-			$mode["long"] = 'group';
-			$mode["lng_type"] = $lng->txt('group');
-			$mode["view"] = "grp_members";
-			$mode["tableprefix"] = "grptable_members";
-		}		
+			$mode["short"] = "grp";
+			$mode["long"] = "group";
+			$mode["checkbox"] = "search_grp";
+			$mode["tableprefix"] = "grptable";
+			$mode["lng_mail"] = $lng->txt("mail_my_groups");
+			$mode["view"] = "mygroups";
+		}
+				
+		//$this->courseIds = $crs_ids;
+		$this->parentObject = $a_parent_obj;
+		$this->mode = $mode;
+		
 		$ilCtrl->setParameter($a_parent_obj, 'view', $mode['view']);
 		if ($_GET['ref'] != '')
 			$ilCtrl->setParameter($a_parent_obj, 'ref', $_GET['ref']);
@@ -82,15 +88,14 @@ class ilMailSearchCoursesMembersTableGUI extends ilTable2GUI
 		$ilCtrl->clearParameters($a_parent_obj);
 
 		$this->setPrefix($mode['tableprefix']);
-		$this->setSelectAllCheckbox('search_members[]');
-		$this->setRowTemplate('tpl.mail_search_courses_members_row.html', 'Services/Mail');
+		$this->setSelectAllCheckbox($mode["checkbox"].'[]');
+		$this->setRowTemplate('tpl.mail_search_courses_row.html', 'Services/Contact');
 
 		// setup columns
 		$this->addColumn('', 'select', '1%');
-		$this->addColumn($lng->txt('login'), 'USR_LOGIN', '24%');
-		$this->addColumn($lng->txt('name'), 'USR_NAME', '24%');
-		$this->addColumn($lng->txt($mode['long']), 'CRS_GRP', '24%');
-		$this->addColumn($lng->txt('mail_in_addressbook'), 'USR_IN_ADDRESSBOOK', '24%');
+		$this->addColumn($mode["lng_mail"], 'CRS_COURSES', '30%');
+		$this->addColumn($lng->txt('path'), 'CRS_COURSES_PATHS', '30%');
+		$this->addColumn($lng->txt('crs_count_members'), 'CRS_NO_MEMBERS', '30%');
 		
 		$this->addCommandButton('cancel', $lng->txt('cancel'));
 	}
@@ -104,10 +109,17 @@ class ilMailSearchCoursesMembersTableGUI extends ilTable2GUI
 	 */
 	public function fillRow($a_set)
 	{
+		if ($a_set['hidden_members'])
+		{
+			$this->tpl->setCurrentBlock('caption_asterisk');
+			$this->tpl->touchBlock('caption_asterisk');
+			$this->tpl->parseCurrentBlock();	
+		}
 		foreach ($a_set as $key => $value)
 		{
 			$this->tpl->setVariable(strtoupper($key), $value);
 		}
+		$this->tpl->setVariable('SHORT', $this->mode["short"]);
 	}	
 } 
 ?>

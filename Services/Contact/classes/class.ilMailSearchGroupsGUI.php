@@ -22,9 +22,9 @@
 */
 
 require_once './Services/User/classes/class.ilObjUser.php';
-require_once "Services/Mail/classes/class.ilMailbox.php";
-require_once "Services/Mail/classes/class.ilFormatMail.php";
-require_once "Services/Mail/classes/class.ilAddressbook.php";
+require_once 'Services/Mail/classes/class.ilMailbox.php';
+require_once 'Services/Mail/classes/class.ilFormatMail.php';
+require_once 'Services/Contact/classes/class.ilAddressbook.php';
 
 /**
 * @author Jens Conze
@@ -291,7 +291,7 @@ class ilMailSearchGroupsGUI
 
 		$this->tpl->setVariable('HEADER', $this->lng->txt('mail'));
 
-		$searchTpl = new ilTemplate('tpl.mail_search_template.html', true, true, 'Services/Mail');
+		$searchTpl = new ilTemplate('tpl.mail_search_template.html', true, true, 'Services/Contact');
 		
 		$_GET['view'] = 'mygroups';
 
@@ -299,7 +299,7 @@ class ilMailSearchGroupsGUI
 		
 		$this->ctrl->setParameter($this, 'view', 'mygroups');
 		
-		include_once 'Services/Mail/classes/class.ilMailSearchCoursesTableGUI.php';
+		include_once 'Services/Contact/classes/class.ilMailSearchCoursesTableGUI.php';
 		$table = new ilMailSearchCoursesTableGUI($this, 'grp');
 		
 		$grp_ids = ilGroupParticipants::_getMembershipByType($ilUser->getId(), 'grp');
@@ -380,14 +380,14 @@ class ilMailSearchGroupsGUI
 		else
 		{
 			$this->tpl->setVariable("HEADER", $this->lng->txt("mail"));
-			include_once 'Services/Mail/classes/class.ilMailSearchCoursesMembersTableGUI.php';
+			include_once 'Services/Contact/classes/class.ilMailSearchCoursesMembersTableGUI.php';
 			$table = new ilMailSearchCoursesMembersTableGUI($this, 'grp');
 
 			$lng->loadLanguageModule('crs');
 	
 			$counter = 0;
 			$tableData = array();
-			$searchTpl = new ilTemplate('tpl.mail_search_template.html', true, true, 'Services/Mail');
+			$searchTpl = new ilTemplate('tpl.mail_search_template.html', true, true, 'Services/Contact');
 			
 			foreach($_POST["search_grp"] as $grp_id) 
 			{

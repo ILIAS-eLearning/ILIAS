@@ -24,8 +24,8 @@
 require_once './Services/User/classes/class.ilObjUser.php';
 require_once "Services/Mail/classes/class.ilMailbox.php";
 require_once "Services/Mail/classes/class.ilFormatMail.php";
-require_once "Services/Mail/classes/class.ilAddressbook.php";
-require_once "Services/Mail/classes/class.ilAddressbookTableGUI.php";
+require_once "Services/Contact/classes/class.ilAddressbook.php";
+require_once "Services/Contact/classes/class.ilAddressbookTableGUI.php";
 
 
 /**
@@ -34,7 +34,7 @@ require_once "Services/Mail/classes/class.ilAddressbookTableGUI.php";
 *
 * @ingroup ServicesMail
 * @ilCtrl_Calls ilMailAddressbookGUI: ilMailSearchCoursesGUI, ilMailSearchGroupsGUI, ilMailingListsGUI
-* @ilCtrl_Calls ilMailAddressbookGUI: ilObjChat, ilObjChatGUI
+* @ilCtrl_Calls ilMailAddressbookGUI: ilObjChat, ilObjChatGUI, ilMailFormGUI
 */
 class ilMailAddressbookGUI
 {
@@ -66,16 +66,16 @@ class ilMailAddressbookGUI
 		$this->showSubTabs();
 
 		$forward_class = $this->ctrl->getNextClass($this);
+		
 		switch($forward_class)
 		{
 			case 'ilmailformgui':
 				include_once 'Services/Mail/classes/class.ilMailFormGUI.php';
-
 				$this->ctrl->forwardCommand(new ilMailFormGUI());
 				break;
 
 			case 'ilmailsearchcoursesgui':
-				include_once 'Services/Mail/classes/class.ilMailSearchCoursesGUI.php';
+				include_once 'Services/Contact/classes/class.ilMailSearchCoursesGUI.php';
 
 				$this->tabs_gui->setSubTabActive('mail_my_courses');
 
@@ -84,7 +84,7 @@ class ilMailAddressbookGUI
 				break;
 
 			case 'ilmailsearchgroupsgui':
-				include_once 'Services/Mail/classes/class.ilMailSearchGroupsGUI.php';
+				include_once 'Services/Contact/classes/class.ilMailSearchGroupsGUI.php';
 
 				$this->tabs_gui->setSubTabActive('mail_my_groups');
 
@@ -93,7 +93,7 @@ class ilMailAddressbookGUI
 				break;
 			
 			case 'ilmailinglistsgui':
-				include_once 'Services/Mail/classes/class.ilMailingListsGUI.php';
+				include_once 'Services/Contact/classes/class.ilMailingListsGUI.php';
 
 				$this->tabs_gui->setSubTabActive('mail_my_mailing_lists');
 
@@ -162,10 +162,10 @@ class ilMailAddressbookGUI
 			if ($_GET["addr_id"])
 			{
 				$this->abook->updateEntry(ilUtil::stripSlashes($_GET["addr_id"]),
-										  ilUtil::stripSlashes($_POST["login"]),
-									      ilUtil::stripSlashes($_POST["firstname"]),
-										  ilUtil::stripSlashes($_POST["lastname"]),
-										  ilUtil::stripSlashes($_POST["email"]));
+										ilUtil::stripSlashes($_POST["login"]),
+										ilUtil::stripSlashes($_POST["firstname"]),
+										ilUtil::stripSlashes($_POST["lastname"]),
+										ilUtil::stripSlashes($_POST["email"]));
 				ilUtil::sendInfo($lng->txt("mail_entry_changed"));
 			}
 			else
@@ -220,7 +220,7 @@ class ilMailAddressbookGUI
 		}
 		
 		$this->tpl->setVariable("HEADER", $this->lng->txt("mail"));
-		$this->tpl->addBlockFile("ADM_CONTENT", "adm_content", "tpl.mail_addressbook.html", "Services/Mail");
+		$this->tpl->addBlockFile("ADM_CONTENT", "adm_content", "tpl.mail_addressbook.html", "Services/Contact");
 		$this->tpl->setVariable('DELETE_CONFIRMATION', $c_gui->getHTML());
 		
 		$this->tpl->show();
@@ -269,7 +269,7 @@ class ilMailAddressbookGUI
 		global $rbacsystem, $lng, $ilUser;
 
 		$this->tpl->setVariable("HEADER", $this->lng->txt("mail"));		
-		$this->tpl->addBlockFile("ADM_CONTENT", "adm_content", "tpl.mail_addressbook_form.html", "Services/Mail");
+		$this->tpl->addBlockFile("ADM_CONTENT", "adm_content", "tpl.mail_addressbook_form.html", "Services/Contact");
 		
 		include_once("./Services/Form/classes/class.ilPropertyFormGUI.php");
 		$form = new ilPropertyFormGUI();		
@@ -313,7 +313,7 @@ class ilMailAddressbookGUI
 	{
 		global $ilUser;
 		
-		if (!isset($_POST['addr_id']))
+		if (!isset($_REQUEST['addr_id']))
 	 	{
 	 		ilUtil::sendInfo($this->lng->txt('mail_select_one_entry'));
 	 		$this->showAddressbook();	 		
@@ -327,7 +327,7 @@ class ilMailAddressbookGUI
 		}	
 		
 		$members = array();	
-		foreach ($_POST['addr_id'] as $addr_id)
+		foreach ($_REQUEST['addr_id'] as $addr_id)
 		{
 			$entry = $this->abook->getEntry($addr_id);
 			
@@ -371,10 +371,10 @@ class ilMailAddressbookGUI
 	 */
 	public function showAddressbook()
 	{
-		global $rbacsystem, $lng, $ilUser, $ilCtrl;
+		global $rbacsystem, $lng, $ilUser, $ilCtrl, $ilias;
 
 		$this->tpl->setVariable("HEADER", $this->lng->txt("mail"));		
-		$this->tpl->addBlockFile("ADM_CONTENT", "adm_content", "tpl.mail_addressbook.html", "Services/Mail");		
+		$this->tpl->addBlockFile("ADM_CONTENT", "adm_content", "tpl.mail_addressbook.html", "Services/Contact");		
 
 		// searchbox
 		include_once('./Services/Form/classes/class.ilPropertyFormGUI.php');
@@ -407,10 +407,10 @@ class ilMailAddressbookGUI
 			$this->tpl->setVariable("VALUE_SEARCH_FOR", ilUtil::prepareFormOutput(trim($_SESSION["addr_search"]), true));
 		}
 		
-		$this->ctrl->setParameter($this, "cmd", "post");		
+		//$this->ctrl->setParameter($this, "cmd", "post");		
 		$tbl = new ilAddressbookTableGUI($this);
 		$tbl->setTitle($lng->txt("mail_addr_entries"));
-		$tbl->setRowTemplate("tpl.mail_addressbook_row.html", "Services/Mail");				
+		$tbl->setRowTemplate("tpl.mail_addressbook_row.html", "Services/Contact");				
 
 	 	$tbl->setDefaultOrderField('login');	
 		
@@ -437,25 +437,27 @@ class ilMailAddressbookGUI
 				
 				if ($entry["login"] != "")
 				{
-					$this->ctrl->setParameterByClass("ilmailformgui", "type", "address");
-					$this->ctrl->setParameterByClass("ilmailformgui", "rcp", urlencode($entry["login"]));
-					$result[$counter]['login'] = "<a class=\"navigation\" href=\"" .  $this->ctrl->getLinkTargetByClass("ilmailformgui") . "\">" . $entry["login"] . "</a>";
-					$this->ctrl->clearParametersByClass("ilmailformgui");
+					//$this->ctrl->setParameterByClass("ilmailformgui", "type", "address");
+					//$this->ctrl->setParameterByClass("ilmailformgui", "rcp", urlencode($entry["login"]));
+					//$result[$counter]['login'] = "<a class=\"navigation\" href=\"" .  $this->ctrl->getLinkTargetByClass("ilmailformgui") . "\">" . $entry["login"] . "</a>";
+					//$this->ctrl->clearParametersByClass("ilmailformgui");
+					$result[$counter]['login'] = "<a class=\"navigation\" href=\"" .  $this->ctrl->getLinkTarget($this, 'mailToUsers') . "&addr_id[]=".$entry['addr_id']."\">" . $entry["login"] . "</a>";
 				}				
 				
 				$result[$counter]['firstname'] = $entry["firstname"];
 				$result[$counter]['lastname'] = $entry["lastname"];
 				
-				if ($rbacsystem->checkAccess("smtp_mail", $this->umail->getMailObjectReferenceId()))
+				if ($_GET["baseClass"] == "ilMailGUI" && $rbacsystem->checkAccess("smtp_mail", $this->umail->getMailObjectReferenceId()))
 				{
 					$this->ctrl->setParameterByClass("ilmailformgui", "type", "address");
 					$this->ctrl->setParameterByClass("ilmailformgui", "rcp", urlencode($entry["email"]));
 					$result[$counter]['email'] = "<a class=\"navigation\" href=\"" .  $this->ctrl->getLinkTargetByClass("ilmailformgui") . "\">" . $entry["email"] . "</a>";
 					$this->ctrl->clearParametersByClass("ilmailformgui");
+					//$result[$counter]['email'] = "<a class=\"navigation\" href=\"" .  $this->ctrl->getLinkTarget($this, 'mailToUsers') . "&addr_id[]=".$entry['addr_id'] . "\">" . $entry["email"] . "</a>";
 				}
 				else
 				{
-					$result[$counter]['email'] = $entry["email"];
+					$result[$counter]['email'] = $entry["email"] ? $entry["email"] : "&nbsp;";
 				}
 				
 				$this->ctrl->setParameter($this, 'addr_id',  $entry['addr_id']);
@@ -467,7 +469,9 @@ class ilMailAddressbookGUI
 			
 			$tbl->addMultiCommand('mailToUsers', $this->lng->txt('send_mail_to'));
 			$tbl->addMultiCommand('confirmDelete', $this->lng->txt('delete'));
-			$tbl->addMultiCommand('inviteToChat', $this->lng->txt('invite_to_chat'));			
+			
+			if ($ilias->getSetting("chat_active"))
+				$tbl->addMultiCommand('inviteToChat', $this->lng->txt('invite_to_chat'));			
 		}
 		else
 		{
@@ -778,14 +782,10 @@ class ilMailAddressbookGUI
 	
 	function showSubTabs()
 	{
-		$this->tabs_gui->addSubTabTarget('mail_my_entries',
-										 $this->ctrl->getLinkTarget($this));
-		$this->tabs_gui->addSubTabTarget('mail_my_mailing_lists',
-										 $this->ctrl->getLinkTargetByClass('ilmailinglistsgui'));
-		$this->tabs_gui->addSubTabTarget('mail_my_courses',
-										 $this->ctrl->getLinkTargetByClass('ilmailsearchcoursesgui'));
-		$this->tabs_gui->addSubTabTarget('mail_my_groups',
-										 $this->ctrl->getLinkTargetByClass('ilmailsearchgroupsgui'));		
+		$this->tabs_gui->addSubTabTarget('mail_my_entries', $this->ctrl->getLinkTarget($this));
+		$this->tabs_gui->addSubTabTarget('mail_my_mailing_lists', $this->ctrl->getLinkTargetByClass('ilmailinglistsgui'));
+		$this->tabs_gui->addSubTabTarget('mail_my_courses', $this->ctrl->getLinkTargetByClass('ilmailsearchcoursesgui'));
+		$this->tabs_gui->addSubTabTarget('mail_my_groups', $this->ctrl->getLinkTargetByClass('ilmailsearchgroupsgui'));		
 	}
 }
 ?>

@@ -2840,7 +2840,7 @@ common#:#last_visited#:#Last Visited
 common#:#lres#:#Learning Resources
 common#:#mail#:#Mail
 common#:#mail_a_root#:#Mailbox
-common#:#mail_addressbook#:#Address Book
+common#:#mail_addressbook#:#Contacts
 common#:#mail_allow_smtp#:#Allow SMTP
 common#:#mail_b_inbox#:#Inbox
 common#:#mail_c_trash#:#Trash
@@ -5698,12 +5698,12 @@ mail#:#mail_account_mail_check#:#Send Account Mail
 mail#:#mail_add_recipient#:#Please enter a recipient
 mail#:#mail_add_subfolder#:#Add Subfolder
 mail#:#mail_add_subject#:#Please enter a subject
-mail#:#mail_add_to_addressbook#:#Add to address book
+mail#:#mail_add_to_addressbook#:#Add to Contacts
 mail#:#mail_add_type#:#Please add the type of mail you want to send
 mail#:#mail_addr_entries#:#Entries
-mail#:#mail_mailing_lists_no_addressbook_entries#:#You have no entries in your addressbook to add to a list.
-mail#:#mail_mailing_lists_all_addressbook_entries_assigned#:#You have already assigned all of your addressbook entries to this mailing list.
-mail#:#mail_assign_entry_to_mailing_list#:#Assign an Entry of Your Address Book to Mailing List
+mail#:#mail_mailing_lists_no_addressbook_entries#:#You have no entries in your contacts to add to a list.
+mail#:#mail_mailing_lists_all_addressbook_entries_assigned#:#You have already assigned all of your contacts to this mailing list.
+mail#:#mail_assign_entry_to_mailing_list#:#Assign an Entry of Your Contacts to Mailing List
 mail#:#mail_attachments#:#Attachments
 mail#:#mail_bc_not_valid#:#The BCC recipient is not valid
 mail#:#mail_bc_search#:#BCC search
@@ -5777,7 +5777,7 @@ mail#:#mail_salutation_female#:#Salutation, female
 mail#:#mail_salutation_general#:#Salutation, general
 mail#:#mail_salutation_male#:#Salutation, male
 mail#:#mail_saved#:#The message has been saved
-mail#:#mail_search_addressbook#:#search in address book
+mail#:#mail_search_addressbook#:#search in Contacts
 mail#:#mail_search_system#:#search in system
 mail#:#mail_select_one_entry#:#You must select one entry
 mail#:#mail_select_one_file#:#You must select one file
@@ -7503,8 +7503,8 @@ exercise#:#exc_crs_add_members#:#Add students of this course
 common#:#mail_settings#:#Mail Settings
 common#:#my_courses#:#My Courses
 mail#:#mail_list_members#:#List members
-mail#:#mail_members_added_addressbook#:#Members added to addressbook
-mail#:#mail_in_addressbook#:#Already in addressbook
+mail#:#mail_members_added_addressbook#:#Members added to Contacts
+mail#:#mail_in_addressbook#:#Already in Contacts
 ldap#:#ldap_server_name#:#Name of LDAP Configuration
 ldap#:#ldap_referrals#:#Referrals
 ldap#:#ldap_server_security_settings#:#Security Settings
@@ -7661,9 +7661,9 @@ mail#:#mail_my_mailing_lists#:#My Mailing Lists
 mail#:#mail_mailing_lists#:#Mailing Lists
 mail#:#mail_mailing_list#:#Mailing List
 mail#:#mail_members_of_mailing_list#:#Members of Mailing List
-mail#:#mail_into_addressbook#:#Take into Addressbook
+mail#:#mail_into_addressbook#:#Take into Contacts
 mail#:#mail_group_members#:#Group Members
-mail#:#mail_entry_of_addressbook#:#Entry of Address Book
+mail#:#mail_entry_of_addressbook#:#Entry of Contacts
 ps#:#ps_error_message_https_header_missing#:#If you enable the automatic https detection you have to provide a header name and header value.
 ps#:#ps_auto_https#:#Autodetect HTTPS
 ps#:#ps_auto_https_description#:#If enabled, ILIAS tries to detect the HTTPs Status by analysing the header value specified below.
@@ -9138,7 +9138,7 @@ chat#:#chat_open#:#Enter Room
 chat#:#chat_kick#:#Kick
 chat#:#chat_unkick#:#Unkick
 chat#:#chat_add_to_bookmark#:#Add to Bookmarks
-chat#:#chat_add_to_addressbook#:#Add to Addressbook
+chat#:#chat_add_to_addressbook#:#Add to Contacts
 chat#:#chat_confirm_delete_private_room#:#Are you sure to delete this private room?
 chat#:#chat_confirm_kick_user#:#Are you sure to kick this user?
 chat#:#chat_user_unkicked#:#The user has been unkicked.
@@ -9148,8 +9148,8 @@ chat#:#chat_confirm_user_invite#:#The User will be invited to this Chat Room
 chat#:#chat_added_to_bookmarks#:#The Room ' %s ' has been added to the top folder of your Bookmarks
 chat#:#chat_default_bookmark_title#:#Chat Link: %s
 chat#:#chat_default_bookmark_description#:#Link to Chat Room ' %s '
-chat#:#chat_added_to_addressbook#:#The User ' %s ' has been added to your Addressbook.
-chat#:#chat_user_already_in_addressbook#:#The User is already in your Addressbook.
+chat#:#chat_added_to_addressbook#:#The User ' %s ' has been added to your Contacts.
+chat#:#chat_user_already_in_addressbook#:#The User is already in your Contacts.
 chat#:#chat_recent_postings#:#Recent Chat Postings
 chat#:#chat_available_smilies#:#Available Smilies
 chat#:#chat_smiley_image#:#Smiley Image
