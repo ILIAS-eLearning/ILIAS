@@ -9,7 +9,7 @@
 	<a href="{HREF_IMG_LINK}" {TARGET_IMG_LINK}><img alt="{ALT_IMG_LINK}" border="0" src="{SRC_IMG_LINK}" /></a><!-- END tbl_header_img_link --></div>
 <div class="ilTableHeaderTitle">
 <!-- BEGIN tbl_header_title_icon --><img src="{TBL_TITLE_IMG}" style="vertical-align:middle" alt="{TBL_TITLE_IMG_ALT}" title="{TBL_TITLE_IMG_ALT}" border="0" />
-<!-- END tbl_header_title_icon -->{TBL_TITLE}
+<!-- END tbl_header_title_icon --><h3 class="ilTableHeaderTitle"><a name="il_table_head" id="il_table_head">{TBL_TITLE}</a></h3>
 </div>
 <!-- END tbl_header_title --><!-- BEGIN tbl_header_description --><div class="subtitle" style="clear:left;">{TBL_DESCRIPTION}</div>
 <!-- END tbl_header_description -->
@@ -27,7 +27,7 @@
 <!-- END top_navigation -->
 <div class="ilTableOuter">
 <!-- BEGIN tbl_table_start -->
-<table class="{CSS_TABLE}" {WIDTH}>
+<table class="{CSS_TABLE}" {WIDTH} {ID}>
 <!-- END tbl_table_start -->
 <!-- BEGIN tbl_header -->
   <tr class="tblheader">

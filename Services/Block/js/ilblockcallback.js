@@ -50,6 +50,10 @@ var ilBlockSuccessHandler = function(o)
 		var block_div = document.getElementById(o.argument.block_id);
 		block_div.innerHTML = '';
 		block_div.appendChild(newdiv);
+		if (il_sr_opt)
+		{
+			ilGoSRFocus(o.argument.block_id + "_blhead");
+		}
 		
 		//div.innerHTML = "Transaction id: " + o.tId;
 		//div.innerHTML += "HTTP status: " + o.status;
@@ -69,6 +73,11 @@ var ilBlockFailureHandler = function(o)
 
 function ilBlockJSHandler(block_id, sUrl)
 {
+	obj = document.getElementById(block_id + "_blimg");
+	if (obj)
+	{
+		obj.src = "./templates/default/images/loader.gif";
+	}
 	var ilBlockCallback =
 	{
 		success: ilBlockSuccessHandler,

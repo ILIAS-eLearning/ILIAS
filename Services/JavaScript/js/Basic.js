@@ -229,6 +229,17 @@ function openChatWindow(oLink, width, height)
 }
 
 // Set focus for screen reader
+function ilGoSRFocus(id)
+{
+	obj = document.getElementById(id);
+	if (obj)
+	{
+		obj.focus();
+		self.location.hash = id;
+	}
+}
+
+// Set focus for screen reader
 function ilScreenReaderFocus()
 {
 	obj = document.getElementById("il_message_focus");
@@ -239,11 +250,20 @@ function ilScreenReaderFocus()
 	}
 	else
 	{
-		obj = document.getElementById("il_mhead_t_focus");
+		obj = document.getElementById("il_lm_head");
 		if (obj && self.location.hash == '')
 		{
 			obj.focus();
-			self.location.hash = 'il_mhead_t_focus';
+			self.location.hash = 'il_lm_head';
+		}
+		else
+		{
+			obj = document.getElementById("il_mhead_t_focus");
+			if (obj && self.location.hash == '')
+			{
+				obj.focus();
+				self.location.hash = 'il_mhead_t_focus';
+			}
 		}
 	}
 }

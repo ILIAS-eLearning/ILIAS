@@ -1929,8 +1929,11 @@ class ilPageObjectGUI
 	{
 		global $tpl, $lng, $ilAccess;
 		
+		$tpl->addJavaScript("./Services/COPage/js/page_history.js");
+		
 		include_once("./Services/COPage/classes/class.ilPageHistoryTableGUI.php");
 		$table_gui = new ilPageHistoryTableGUI($this, "history");
+		$table_gui->setId("hist_table");
 		$entries = $this->getPageObject()->getHistoryEntries();
 		$entries[] = array('page_id' => $this->getPageObject()->getId(),
 			'parent_type' => $this->getPageObject()->getParentType(),
