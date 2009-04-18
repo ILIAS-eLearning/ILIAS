@@ -18,82 +18,114 @@
         | along with this program; if not, write to the Free Software                 |
         | Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA. |
         +-----------------------------------------------------------------------------+
-*/
+ */
 
 package de.ilias.services.lucene.index.file;
 
 import java.io.IOException;
 import java.io.InputStream;
-import java.io.StringWriter;
 
 import org.apache.log4j.Logger;
-import org.pdfbox.pdmodel.PDDocument;
-import org.pdfbox.util.PDFTextStripper;
+import org.w3c.dom.Element;
+import org.w3c.dom.Node;
+import org.w3c.dom.NodeList;
+import org.w3c.dom.Text;
+import org.w3c.tidy.Tidy;
 
 /**
  * 
- *
+ * 
  * @author Stefan Meyer <smeyer.ilias@gmx.de>
  * @version $Id$
  */
-public class PDFBoxPDFHandler implements FileHandler {
+public class JTidyHTMLHandler implements FileHandler {
 
-	protected Logger logger = Logger.getLogger(PDFBoxPDFHandler.class);
-	
-	
+	protected Logger logger = Logger.getLogger(JTidyHTMLHandler.class);
+
+	private Tidy tidy;
+
 	/**
-	 * @throws IOException 
 	 * @see de.ilias.services.lucene.index.file.FileHandler#getContent(java.io.InputStream)
 	 */
-	public String getContent(InputStream is) throws FileHandlerException {
+	public String getContent(InputStream is) throws FileHandlerException,
+			IOException {
 
-		PDDocument pddo = null;
-		StringWriter writer = new StringWriter();
-		
-		try {
-			PDFTextStripper stripper;
-			pddo = PDDocument.load(is);
+		StringBuilder builder = new StringBuilder();
 
-			if(pddo.isEncrypted()) {
-				logger.warn("PDF Document is encrypted. Trying empty password...");
-				return writer.toString();
-			}
-			
-			writer = new StringWriter();
-			stripper = new PDFTextStripper();
-			stripper.writeText(pddo, writer);
-			return writer.toString();
+		tidy = new Tidy();
 
+		tidy.setQuiet(true);
+		tidy.setShowWarnings(false);
+
+		org.w3c.dom.Document root = tidy.parseDOM(is, null);
+		Element rawDoc = root.getDocumentElement();
+
+		String title = getTitle(rawDoc);
+		String body = getBody(rawDoc);
+
+		if (title != null && !title.equals("")) {
+			builder.append(title);
 		}
-		catch (NumberFormatException e) {
-			logger.warn("Invalid PDF version number given. Aborting");
+		if (body != null && !body.equals("")) {
+			builder.append(body);
 		}
-		catch (IOException e) {
-			logger.warn(e.getMessage());
-			throw new FileHandlerException(e);
-		}
-		catch (Exception e) {
-			logger.error(e.getMessage());
-			throw new FileHandlerException(e);			
-		}
-		finally {
-			try {
-				logger.debug("Closing pdDocument");
-				pddo.close();
-			}
-			catch (IOException e) {
-				;
-			}
-		}
-		return writer.toString();
+		return builder.toString();
+
 	}
 
 	/**
 	 * @see de.ilias.services.lucene.index.file.FileHandler#transformStream(java.io.InputStream)
 	 */
 	public InputStream transformStream(InputStream is) {
-		// TODO Auto-generated method stub
+
 		return null;
 	}
 
+	private String getTitle(Element rawDoc) {
+		if (rawDoc == null) {
+			return null;
+		}
+
+		String title = "";
+		NodeList children = rawDoc.getElementsByTagName("title");
+		if (children.getLength() > 0) {
+			Element titleElement = (Element) children.item(0);
+			Text text = (Text) titleElement.getFirstChild();
+			if (text != null) {
+				title = text.getData();
+			}
+		}
+		return title;
+	}
+
+	private String getBody(Element rawDoc) {
+		if (rawDoc == null) {
+			return null;
+		}
+		String body = "";
+		NodeList children = rawDoc.getElementsByTagName("body");
+		if (children.getLength() > 0) {
+			body = getText(children.item(0));
+		}
+		return body;
+	}
+
+	private String getText(Node node) {
+		NodeList children = node.getChildNodes();
+		StringBuilder sb = new StringBuilder();
+
+		for (int i = 0; i < children.getLength(); i++) {
+			Node child = children.item(i);
+			switch (child.getNodeType()) {
+			case Node.ELEMENT_NODE:
+				sb.append(getText(child));
+				sb.append(" ");
+				break;
+			case Node.TEXT_NODE:
+				sb.append(((Text) child).getData());
+				break;
+			}
+		}
+		return sb.toString();
+	}
 }

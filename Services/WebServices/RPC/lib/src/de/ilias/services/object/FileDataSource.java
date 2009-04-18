@@ -59,7 +59,7 @@ public class FileDataSource extends DataSource {
 	public void writeDocument(CommandQueueElement el, ResultSet res)
 			throws DocumentHandlerException {
 
-		File file;
+		File file = null;
 		ExtensionFileHandler handler = new ExtensionFileHandler();
 		
 		try {
@@ -77,9 +77,13 @@ public class FileDataSource extends DataSource {
 			return;
 		}
 		catch (PathCreatorException e) {
+			if(file != null)
+				logger.info("Current Files is: " + file.getAbsolutePath());
 			throw new DocumentHandlerException(e);
 		} 
 		catch (FileHandlerException e) {
+			if(file != null)
+				logger.info("Current Files is: " + file.getAbsolutePath());
 			throw new DocumentHandlerException(e);
 		}
 	}

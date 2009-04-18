@@ -206,35 +206,17 @@ public class ExtensionFileHandler {
 		}
     }
 
+    /**
+     * 
+     * @param file
+     * @return
+     * @throws FileHandlerException
+     */
 	private String getPDFDocument(File file) throws FileHandlerException {
         
     	FileHandler doch = (FileHandler) new PDFBoxPDFHandler();
         logger.debug("Start PDFBoxPDFHandler...");
 
-        /*
-        String name = file.getName();
-        if(name.startsWith("Dive")) {
-        	logger.info("DiveInside ignored");
-        	return "";
-        }
-        if(name.startsWith("Anemonen")) {
-        	logger.info("DiveInside ignored");
-        	return "";
-        }
-        if(name.startsWith("DI")) {
-        	logger.info("DiveInside ignored");
-        	return "";
-        }
-        if(name.startsWith("hur")) {
-        	logger.info("DiveInside ignored");
-        	return "";
-        }
-        if(name.startsWith("Lucene")) {
-        	logger.info("DiveInside ignored");
-        	return "";
-        }
-        */
-        
         try {
             logger.debug(file.getAbsolutePath());
         	return doch.getContent(new FileInputStream(file.getAbsolutePath()));
@@ -245,31 +227,32 @@ public class ExtensionFileHandler {
         catch(FileHandlerException e) {
             throw e;
         }
-
         catch(Exception e) {
             throw new FileHandlerException("Caught unknown exception " + e.getMessage());
         }
 	}
 
-    /*
-    private Document getHTMLDocument(File file)
-    	throws ilFileHandlerException {
+	/**
+	 * 
+	 * @param file
+	 * @return
+	 * @throws FileHandlerException
+	 */
+    private String getHTMLDocument(File file) throws FileHandlerException {
         
-        Document doc = null;
-        ilDocumentHandler doch = (ilDocumentHandler) new ilJTidyHTMLHandler();
+        FileHandler doch = (FileHandler) new JTidyHTMLHandler();
         
         try {
-            doc = doch.getDocument(new FileInputStream(file.getAbsolutePath()));
+            return doch.getContent(new FileInputStream(file.getAbsolutePath()));
         }
-        catch(FileNotFoundException e) {
-            throw new ilFileHandlerException("Cannot find file: " + file.getAbsolutePath());
+        catch(FileHandlerException e) {
+            throw e;
         }
-        catch(ilDocumentHandlerException e) {
-            throw new ilFileHandlerException(e.getMessage());
+        catch(IOException e) {
+            throw new FileHandlerException(e);
         }
-        return doc;
     }
-    */
+    
     /**
 	 * @param file
 	 * @return
