@@ -22,8 +22,11 @@
 
 package de.ilias.services.lucene.index.file;
 
+import java.io.ByteArrayOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
+import java.io.PrintWriter;
+import java.io.StringWriter;
 
 import org.apache.log4j.Logger;
 import org.w3c.dom.Element;
@@ -51,13 +54,14 @@ public class JTidyHTMLHandler implements FileHandler {
 			IOException {
 
 		StringBuilder builder = new StringBuilder();
+		ByteArrayOutputStream bout = new ByteArrayOutputStream();
 
 		tidy = new Tidy();
-
+		tidy.setErrout(new PrintWriter(new ByteArrayOutputStream()));
 		tidy.setQuiet(true);
 		tidy.setShowWarnings(false);
 
-		org.w3c.dom.Document root = tidy.parseDOM(is, null);
+		org.w3c.dom.Document root = tidy.parseDOM(is, bout);
 		Element rawDoc = root.getDocumentElement();
 
 		String title = getTitle(rawDoc);
