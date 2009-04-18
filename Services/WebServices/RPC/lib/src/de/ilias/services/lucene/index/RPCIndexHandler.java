@@ -35,10 +35,10 @@ import de.ilias.services.db.DBFactory;
 import de.ilias.services.object.ObjectDefinitionException;
 import de.ilias.services.object.ObjectDefinitionParser;
 import de.ilias.services.object.ObjectDefinitionReader;
-import de.ilias.services.object.ObjectDefinitions;
 import de.ilias.services.settings.ClientSettings;
 import de.ilias.services.settings.ConfigurationException;
 import de.ilias.services.settings.LocalSettings;
+import de.ilias.services.settings.ServerSettings;
 
 /**
  * 
@@ -57,6 +57,7 @@ public class RPCIndexHandler {
 		LocalSettings.setClientKey(clientKey);
 		DBFactory.init();
 		ClientSettings client;
+		ServerSettings server;
 		ObjectDefinitionReader properties;
 		ObjectDefinitionParser parser;
 		
@@ -67,12 +68,30 @@ public class RPCIndexHandler {
 			long s_start = new java.util.Date().getTime();
 
 			client = ClientSettings.getInstance(LocalSettings.getClientKey());
+			server = ServerSettings.getInstance();
 			properties = ObjectDefinitionReader.getInstance(client.getAbsolutePath());
 			parser = new ObjectDefinitionParser(properties.getObjectPropertyFiles());
 			parser.parse();
 			
-			controller = new CommandController(ObjectDefinitions.getInstance(client.getAbsolutePath()));
-			controller.start();
+			controller = CommandController.getInstance();
+			controller.init();
+			
+			if(server.getNumThreads() > 1) {
+				
+				CommandControllerThread tControllerA = new CommandControllerThread(clientKey);
+				CommandControllerThread tControllerB = new CommandControllerThread(clientKey);
+				
+				tControllerA.start();
+				tControllerB.start();
+				tControllerA.join();
+				tControllerB.join();
+			}
+			else {
+				controller.start();
+			}
+
+			controller.writeToIndex();
+			CommandController.reset();
 			
 			long s_end = new java.util.Date().getTime();
 			logger.info("Index time: " + ((s_end - s_start)/(1000))+ " seconds");

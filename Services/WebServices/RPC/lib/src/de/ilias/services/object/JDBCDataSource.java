@@ -28,6 +28,8 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.Vector;
 
+import javax.sql.PooledConnection;
+
 import de.ilias.services.db.DBFactory;
 import de.ilias.services.lucene.index.CommandQueueElement;
 import de.ilias.services.lucene.index.DocumentHandler;
@@ -77,12 +79,7 @@ public class JDBCDataSource extends DataSource {
 	 */
 	public PreparedStatement getStatement() throws SQLException {
 		
-		logger.debug("Query: " + getQuery());
-		if(this.sta == null) {
-			return this.sta = DBFactory.factory().prepareStatement(getQuery());
-		}
-		return 	this.sta;
-
+		return DBFactory.getPreparedStatement(getQuery());
 	}
 	
 	
@@ -141,9 +138,10 @@ public class JDBCDataSource extends DataSource {
 	}
 
 	/**
+	 * @todo remove the synchronized (cannot use more than one result set for one prepared statement)
 	 * @see de.ilias.services.lucene.index.DocumentHandler#writeDocument(de.ilias.services.lucene.index.CommandQueueElement, java.sql.ResultSet)
 	 */
-	public void writeDocument(CommandQueueElement el, ResultSet parentResult)
+	public synchronized void writeDocument(CommandQueueElement el, ResultSet parentResult)
 			throws DocumentHandlerException {
 		
 		logger.debug("Handling data source: " + getType());

@@ -24,7 +24,10 @@ package de.ilias.services.db;
 
 import java.sql.Connection;
 import java.sql.DriverManager;
+import java.sql.PreparedStatement;
 import java.sql.SQLException;
+import java.util.HashMap;
+import java.util.Vector;
 
 import org.apache.log4j.Logger;
 
@@ -42,7 +45,19 @@ public class DBFactory {
 
 	private static Logger logger = Logger.getLogger(DBFactory.class);
 	
+	private static ThreadLocal<HashMap<String, PreparedStatement>> ps = new ThreadLocal<HashMap<String,PreparedStatement>>() {
+		protected HashMap<String, PreparedStatement> initialValue() {
+			
+			return new HashMap<String, PreparedStatement>();
+		}
+		
+		public void remove() {
+			super.remove();
+		}
+	};
+	
 	private static ThreadLocal<Connection> connection = new ThreadLocal<Connection>() {
+
 		protected Connection initialValue() {
 			try {
 				ClientSettings client = ClientSettings.getInstance(LocalSettings.getClientKey());
@@ -66,7 +81,7 @@ public class DBFactory {
 			return null;
 		}
 
-		/* (non-Javadoc)
+		/**
 		 * @see java.lang.ThreadLocal#remove()
 		 */
 		@Override
@@ -96,5 +111,15 @@ public class DBFactory {
 		
 		logger.debug("------------------------------------- Destroying cached DB connector.");
 		connection.remove();
+		ps.remove();
+	}
+	
+	public static PreparedStatement getPreparedStatement(String query) throws SQLException {
+		
+		if((ps.get().containsKey(query))) {
+			return ps.get().get(query);
+		}
+		ps.get().put(query, DBFactory.factory().prepareStatement(query));
+		return ps.get().get(query);
 	}
 }
