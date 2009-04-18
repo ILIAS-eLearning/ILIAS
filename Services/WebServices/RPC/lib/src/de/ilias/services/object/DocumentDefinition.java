@@ -27,7 +27,6 @@ import java.sql.ResultSet;
 import java.util.Vector;
 
 import org.apache.log4j.Logger;
-import org.apache.lucene.document.Document;
 
 import de.ilias.services.lucene.index.CommandQueueElement;
 import de.ilias.services.lucene.index.DocumentHandler;
@@ -126,17 +125,25 @@ public class DocumentDefinition implements DocumentHandler {
 	public void writeDocument(CommandQueueElement el, ResultSet res)
 			throws DocumentHandlerException {
 
-		
-		try {
-			DocumentHolder doc = DocumentHolder.factory();
-			doc.newDocument();
-	
-			for(int i = 0; i < getDataSource().size();i++) {
-				
+		DocumentHolder doc = DocumentHolder.factory();
+		doc.newDocument();
+
+		for(int i = 0; i < getDataSource().size();i++) {
+			
+			try {
 				getDataSource().get(i).writeDocument(el);
 			}
-			
-			IndexHolder writer = IndexHolder.getInstance();
+			catch(IOException e) {
+				logger.warn("Cannot parse data source: " + e);
+			}
+			catch( DocumentHandlerException e) {
+				logger.warn(e);
+			}
+		}
+		
+		IndexHolder writer;
+		try {
+			writer = IndexHolder.getInstance();
 			if(doc.getDocument() == null) {
 				logger.warn("Found empty document.");
 			}
@@ -144,8 +151,8 @@ public class DocumentDefinition implements DocumentHandler {
 				writer.getWriter().addDocument(doc.getDocument());
 			}
 		}
-		catch(Exception e) {
-			e.printStackTrace();
+		catch (IOException e) {
+			logger.warn(e);
 		}
 	}
 }

@@ -47,20 +47,34 @@ import de.ilias.services.settings.LocalSettings;
  */
 public class CommandQueue {
 
-	
+	private static CommandQueue instance = null;
 	protected Logger logger = Logger.getLogger(CommandQueue.class);
 	
 	private Connection db = null;
 	private Vector<CommandQueueElement> elements = new Vector<CommandQueueElement>();
+	private int currentIndex = 0;
 	
 	/**
 	 * @throws SQLException 
 	 * 
 	 */
-	public CommandQueue() throws SQLException {
+	private CommandQueue() throws SQLException {
 
 		db = DBFactory.factory();
 	}
+	
+	/**
+	 * @throws SQLException 
+	 * 
+	 */
+	public static CommandQueue getInstance() throws SQLException {
+		
+		if(instance == null) {
+			return instance = new CommandQueue();
+		}
+		return instance;
+	}
+	
 	
 	/**
 	 * 
@@ -153,7 +167,7 @@ public class CommandQueue {
 	 * 
 	 * @throws SQLException
 	 */
-	private void substituteRebuildCommand() throws SQLException {
+	private synchronized void substituteRebuildCommand() throws SQLException {
 		
 		try {
 			PreparedStatement sta = db.prepareStatement("SELECT COUNT(*) num FROM search_command_queue " +
@@ -205,7 +219,7 @@ public class CommandQueue {
 	 * @throws SQLException 
 	 * 
 	 */
-	private void substituteResetCommands() throws SQLException {
+	private synchronized void substituteResetCommands() throws SQLException {
 
 		try {
 			PreparedStatement sta = db.prepareStatement("SELECT * FROM search_command_queue " +
@@ -231,7 +245,7 @@ public class CommandQueue {
 	 * @param string
 	 * @throws SQLException 
 	 */
-	private void deleteResetCommandByType(String objType) throws SQLException {
+	private synchronized void deleteResetCommandByType(String objType) throws SQLException {
 
 		try {
 			PreparedStatement sta = db.prepareStatement("DELETE FROM search_command_queue " +
@@ -251,7 +265,7 @@ public class CommandQueue {
 	 * @param string
 	 * @throws SQLException 
 	 */
-	private void deleteCommandsByType(String objType) throws SQLException {
+	private synchronized void deleteCommandsByType(String objType) throws SQLException {
 
 		try {
 			PreparedStatement sta = db.prepareStatement("DELETE FROM search_command_queue " + 
@@ -270,7 +284,7 @@ public class CommandQueue {
 	 * @param string
 	 * @throws SQLException 
 	 */
-	private void addCommandsByType(String objType) throws SQLException {
+	private synchronized void addCommandsByType(String objType) throws SQLException {
 
 		// TODO: Error handling
 		
@@ -303,12 +317,28 @@ public class CommandQueue {
 		return;
 		
 	}
+	
+	
+	/**
+	 * Thread safe 
+	 * @return
+	 */
+	public synchronized CommandQueueElement nextElement() {
+		
+		try {
+			return elements.get(currentIndex++);
+		}
+		catch(IndexOutOfBoundsException e) {
+			return null;
+		}
+	}
 
 
 	/**
+	 * Not thread save
 	 * @return the elements
 	 */
-	public Vector<CommandQueueElement> getElements() {
+	public synchronized Vector<CommandQueueElement> getElements() {
 		return elements;
 	}
 	
@@ -317,7 +347,7 @@ public class CommandQueue {
 	 * @param type
 	 * @throws SQLException 
 	 */
-	public void debug(String type) throws SQLException {
+	public synchronized void debug(String type) throws SQLException {
 		
 		PreparedStatement resetType = db.prepareStatement(
 				"INSERT INTO search_command_queue SET obj_id = ?,obj_type = ?, sub_id = ?, sub_type = ?, command = ?, last_update = ?, finished = ? ");
@@ -337,7 +367,7 @@ public class CommandQueue {
 	 * @param type
 	 * @throws SQLException 
 	 */
-	public void debugAll() throws SQLException {
+	public synchronized void debugAll() throws SQLException {
 		
 		try {
 			
@@ -360,7 +390,7 @@ public class CommandQueue {
 		}
 	}
 	
-	public void debugDelete() throws SQLException {
+	public synchronized void debugDelete() throws SQLException {
 		
 		Statement delete = db.createStatement();
 		delete.execute("DELETE FROM search_command_queue");

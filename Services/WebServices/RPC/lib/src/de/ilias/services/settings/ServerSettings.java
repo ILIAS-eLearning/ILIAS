@@ -51,6 +51,7 @@ public class ServerSettings {
 	private File indexPath;
 	private File logFile;
 	private Level logLevel;
+	private int numThreads = 1;
 
 
 
@@ -215,5 +216,17 @@ public class ServerSettings {
             throw new ConfigurationException(e);
         }
 
+	}
+
+	/**
+	 * @param purgeString
+	 */
+	public void setThreadNumber(String purgeString) {
+
+		this.numThreads = Integer.valueOf(purgeString);
+	}
+	
+	public int getNumThreads() {
+		return numThreads;
 	}
 }

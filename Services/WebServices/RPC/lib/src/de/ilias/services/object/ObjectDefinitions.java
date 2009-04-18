@@ -46,7 +46,7 @@ public class ObjectDefinitions {
 	 * Singleton
 	 * 
 	 */
-	private ObjectDefinitions(File absolutePath) {
+	public ObjectDefinitions(File absolutePath) {
 		
 		this.setAbsolutePath(absolutePath);
 	}
@@ -134,8 +134,4 @@ public class ObjectDefinitions {
 		}
 		return out.toString();
 	}
-	
-	
-	
-	
 }

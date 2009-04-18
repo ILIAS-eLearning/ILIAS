@@ -80,6 +80,8 @@ public class IniFileParser {
 					if(section.containsKey("LogLevel"))
 						serverSettings.setLogLevel(purgeString(section.get("LogLevel")));
 					serverSettings.initLogger();
+					if(section.containsKey("NumThreads"))
+						serverSettings.setThreadNumber(purgeString(section.get("NumThreads")));
 				}
 				if(section.getName().startsWith("Client") && parseClientSettings) {
 					if(section.containsKey("ClientId")) {

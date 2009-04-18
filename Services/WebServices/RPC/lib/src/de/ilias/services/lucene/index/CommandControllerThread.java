@@ -20,10 +20,12 @@
         +-----------------------------------------------------------------------------+
 */
 
-package de.ilias.services.lucene.index.file;
+package de.ilias.services.lucene.index;
 
-import java.io.IOException;
-import java.io.InputStream;
+import org.apache.log4j.Logger;
+
+import de.ilias.services.db.DBFactory;
+import de.ilias.services.settings.LocalSettings;
 
 /**
  * 
@@ -31,46 +33,39 @@ import java.io.InputStream;
  * @author Stefan Meyer <smeyer.ilias@gmx.de>
  * @version $Id$
  */
-public class OpenOfficeDefaultHandler extends ZipBasedOfficeHandler  implements FileHandler {
+public class CommandControllerThread extends Thread {
 
+	protected Logger logger = Logger.getLogger(CommandControllerThread.class);
+	protected String clientKey = null;
+	
+	protected CommandController controller = null;
+	
 	/**
-	 * @see de.ilias.services.lucene.index.file.FileHandler#getContent(java.io.InputStream)
+	 * Constructor
 	 */
-	public String getContent(InputStream is) throws FileHandlerException, IOException {
-
-		InputStream contentStream = extractContentStream(is);
-		StringBuilder content = new StringBuilder();
-		content.append(extractContent(contentStream));
-		logger.debug(content.toString());
+	public CommandControllerThread(String ck) {
 		
-		return content.toString();
+		clientKey = ck;
 	}
-
+	
 	/**
-	 * @see de.ilias.services.lucene.index.file.FileHandler#transformStream(java.io.InputStream)
+	 * Initialize the thread 
 	 */
-	public InputStream transformStream(InputStream is) {
-		return null;
-	}
-
-	/**
-	 * @see de.ilias.services.lucene.index.file.ZipBasedOfficeHandler#getContentFileName()
-	 */
-	protected String getContentFileName() {
+	public void run() {
+	
+		logger.info("Started new indexer thread...");
 		
-		return "content.xml";
+		// Initialize thread local settings
+		LocalSettings.setClientKey(clientKey);
+		DBFactory.init();
+		
+		try {
+			controller = CommandController.getInstance();
+			controller.start();
+		} 
+		catch (Exception e) {
+			logger.error("Cannot start indexer thread: " + e);
+			this.interrupt();
+		} 
 	}
-
-	/**
-	 * @see de.ilias.services.lucene.index.file.ZipBasedOfficeHandler#getXPath()
-	 */
-	protected String getXPath() {
-
-		return "//text:p";
-	}
-	
-	
-	
-	
-
 }
