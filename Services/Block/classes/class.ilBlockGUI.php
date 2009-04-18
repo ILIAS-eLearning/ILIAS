@@ -796,6 +796,10 @@ abstract class ilBlockGUI
 		{
 			$this->tpl->setCurrentBlock("block_img");
 			$this->tpl->setVariable("IMG_BLOCK", $this->getImage());
+			$this->tpl->setVariable("IMID",
+				"block_".$this->getBlockType()."_".$this->block_id);
+			$this->tpl->setVariable("IMG_ALT",
+				str_replace(array("'",'"'), "", strip_tags($lng->txt("icon")." ".$this->getTitle())));
 			$this->tpl->parseCurrentBlock();
 		}
 		
@@ -935,8 +939,12 @@ abstract class ilBlockGUI
 		}
 		
 		// title
+		$this->tpl->setVariable("BTID",
+			"block_".$this->getBlockType()."_".$this->block_id);
 		$this->tpl->setVariable("BLOCK_TITLE",
 			$this->getTitle());
+		$this->tpl->setVariable("TXT_BLOCK",
+			$lng->txt("block"));
 		$this->tpl->setVariable("COLSPAN", $this->getColSpan());
 		if ($this->getBigMode())
 		{

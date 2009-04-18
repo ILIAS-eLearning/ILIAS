@@ -251,6 +251,26 @@ class ilTable2GUI extends ilTableGUI
 	}
 	
 	/**
+	* Set id
+	*
+	* @param	string	element id
+	*/
+	function setId($a_val)
+	{
+		$this->id = $a_val;
+	}
+	
+	/**
+	* Get element id
+	*
+	* @return	string	id
+	*/
+	function getId()
+	{
+		return $this->id;
+	}
+
+	/**
 	* Get the name of the checkbox that should be toggled with a select all button
 	*
 	* @return	string	name of the checkbox
@@ -411,8 +431,14 @@ class ilTable2GUI extends ilTableGUI
 	
 	function setOrderLink($sort_field, $order_dir)
 	{
-		global $ilCtrl;
+		global $ilCtrl, $ilUser;
 		
+		$hash = "";
+		if (is_object($ilUser) && $ilUser->prefs["screen_reader_optimization"])
+		{
+			$hash = "#il_table_head";
+		}
+
 		$old = $_GET[$this->getNavParameter()];
 		
 		// set order link
@@ -420,7 +446,7 @@ class ilTable2GUI extends ilTableGUI
 			$this->getNavParameter(),
 			$sort_field.":".$order_dir.":".$this->offset);
 		$this->tpl->setVariable("TBL_ORDER_LINK",
-			$ilCtrl->getLinkTarget($this->parent_obj, $this->parent_cmd));
+			$ilCtrl->getLinkTarget($this->parent_obj, $this->parent_cmd).$hash);
 		
 		// set old value of nav variable
 		$ilCtrl->setParameter($this->parent_obj,
@@ -494,7 +520,7 @@ class ilTable2GUI extends ilTableGUI
 	*/
 	final public function getHTML()
 	{
-		global $lng, $ilCtrl;
+		global $lng, $ilCtrl, $ilUser;
 		
 		$this->prepareOutput();
 		
@@ -583,8 +609,14 @@ class ilTable2GUI extends ilTableGUI
 		// set form action		
 		if ($this->form_action != "")
 		{
+			$hash = "";
+			if (is_object($ilUser) && $ilUser->prefs["screen_reader_optimization"])
+			{
+				$hash = "#il_table_head";
+			}
+
 			$this->tpl->setCurrentBlock("tbl_form_header");
-			$this->tpl->setVariable("FORMACTION", $this->getFormAction());
+			$this->tpl->setVariable("FORMACTION", $this->getFormAction().$hash);
 			$this->tpl->setVariable("FORMNAME", $this->getFormName());
 			$this->tpl->parseCurrentBlock();
 			$this->tpl->touchBlock("tbl_form_footer");
@@ -618,6 +650,10 @@ class ilTable2GUI extends ilTableGUI
 		global $lng;
 		
 		$this->tpl->setVariable("CSS_TABLE",$this->getStyle("table"));
+		if ($this->getId() != "")
+		{
+			$this->tpl->setVariable("ID", 'id="'.$this->getId().'"');
+		}
 		
 		// description
 		if ($this->getDescription() != "")
@@ -817,8 +853,14 @@ class ilTable2GUI extends ilTableGUI
 	*/
 	function getLinkbar($a_num)
 	{
-		global $ilCtrl, $lng;
+		global $ilCtrl, $lng, $ilUser;
 		
+		$hash = "";
+		if (is_object($ilUser) && $ilUser->prefs["screen_reader_optimization"])
+		{
+			$hash = "#il_table_head";
+		}
+
 		$link = $ilCtrl->getLinkTargetByClass(get_class($this->parent_obj), $this->parent_cmd).
 			"&".$this->getNavParameter()."=".
 			$this->getOrderField().":".$this->getOrderDirection().":";
@@ -834,7 +876,7 @@ class ilTable2GUI extends ilTableGUI
 			if ($this->getOffset() >= 1)
 			{
 				$prevoffset = $this->getOffset() - $this->getLimit();
-				$LinkBar .= "<a href=\"".$link.$prevoffset."\">".$layout_prev."&nbsp;</a>";
+				$LinkBar .= "<a href=\"".$link.$prevoffset.$hash."\">".$layout_prev."&nbsp;</a>";
 			}
 			else
 			{
@@ -880,7 +922,7 @@ class ilTable2GUI extends ilTableGUI
 				if ($LinkBar != "")
 					$LinkBar .= "<span> | </span>"; 
 				$newoffset = $this->getOffset() + $this->getLimit();
-				$LinkBar .= "<a href=\"".$link.$newoffset."\">&nbsp;".$layout_next."</a>";
+				$LinkBar .= "<a href=\"".$link.$newoffset.$hash."\">&nbsp;".$layout_next."</a>";
 			}
 			else
 			{

@@ -890,6 +890,7 @@ class ilLMPresentationGUI
 		$this->tpl->addJavascript("./Services/Javascript/js/Basic.js");
 		$this->tpl->addJavascript("./Services/Navigation/js/ServiceNavigation.js");
 		$this->tpl->fillJavaScriptFiles();
+		$this->tpl->fillScreenReaderFocus();
 		
 		//require_once("Services/Navigation/classes/class.ilNavigationHistoryGUI.php");
 		//$nav_hist = new ilNavigationHistoryGUI();

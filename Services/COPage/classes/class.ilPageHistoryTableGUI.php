@@ -85,6 +85,15 @@ class ilPageHistoryTableGUI extends ilTable2GUI
 				$ilCtrl->getLinkTarget($this->getParentObject(), "rollbackConfirmation"));
 			$this->tpl->parseCurrentBlock();
 			$ilCtrl->setParameter($this->getParentObject(), "old_nr", "");
+			if (!$this->lselect)
+			{
+				$this->tpl->setVariable("LSELECT", 'checked="checked"');
+				$this->lselect = true;
+			}
+		}
+		else
+		{
+			$this->tpl->setVariable("RSELECT", 'checked="checked"');
 		}
 		
 		$this->tpl->setVariable("NR", $a_set["nr"]);

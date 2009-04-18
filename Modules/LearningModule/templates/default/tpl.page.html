@@ -20,7 +20,9 @@
 <style>
 body { margin:0px; }
 </style>
-{MAINMENU}
+{MAINMENU}<!-- BEGIN sr_focus -->
+<script type="text/javascript">ilAddOnLoad(ilScreenReaderFocus);</script>
+<!-- END sr_focus -->
 {NAVIGATION_HISTORY}
 <!-- BEGIN ilLocator -->
 {STATUSLINE}
@@ -52,7 +54,7 @@ body { margin:0px; }
 <!-- END ilLMNavigation -->
 <!-- BEGIN ilPage -->
 <table class="ilc_page_cont_PageContainer" width="100%" cellspacing="0" cellpadding="0">
-<tr><td>
+<tr><td><span class="ilAccHidden"><a name="il_lm_head" id="il_lm_head"></a></span>
 {PAGE_CONTENT}
 </td></tr>
 </table>

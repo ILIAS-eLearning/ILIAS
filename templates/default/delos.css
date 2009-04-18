@@ -587,7 +587,7 @@ h3.ilFormHeader
 td.ilFormOption
 {
 	padding: 10px;
-	text-align:right;
+	text-align: right;
 	vertical-align:top;
 	border-right-width: 1px;
 	border-right-style: solid;
@@ -1986,6 +1986,7 @@ ul.il_Tab
 	list-style:none;
 	position: relative;
 	top: 2px;
+	white-space: nowrap;
 }
 
 li.tabinactive
@@ -2368,8 +2369,16 @@ div.il_adv_cont {
 div.ilTableHeaderTitle
 {
 	margin-bottom: 5px;
-	font-size: 120%;
 	float:left;
+}
+
+h3.ilTableHeaderTitle
+{
+	font-size: 120%;
+	font-weight-normal;
+	display:inline;
+	padding: 0px;
+	margin: 0px;
 }
 
 div.ilTableOuter
