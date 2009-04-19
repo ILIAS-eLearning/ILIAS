@@ -665,6 +665,11 @@ class ilObject
 		$log->write("ilObject::create(), finished, obj_id: ".$this->id.", type: ".
 			$this->type.", title: ".$this->getTitle());
 
+		$GLOBALS['ilAppEventHandler']->raise(
+			'Services/Object',
+			'create',
+			array('obj_id' => $this->id,'obj_type' => $this->type));
+
 		return $this->id;
 	}
 
@@ -715,7 +720,14 @@ class ilObject
 					'obj_id'		=> array('integer',$this->getId()));
 				$ilDB->insert('object_description',$values);
 			}
-		}		
+		}
+		
+		$GLOBALS['ilAppEventHandler']->raise(
+			'Services/Object',
+			'update',
+			array('obj_id' => $this->getId(),
+				'obj_type' => $this->getType(),
+				'ref_id' => $this->getRefId()));
 
 		return true;
 	}
