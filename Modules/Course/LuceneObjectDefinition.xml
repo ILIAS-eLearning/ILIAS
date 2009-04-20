@@ -20,13 +20,4 @@
 			<Field store="YES" index="ANALYZED" column="contact_consultation" name="propertyLow" />
 		</DataSource>
 	</Document>
-	<Document type="subItem">
-		<DataSource type="File" action="create">
-			<FileInfo name="ilCourseFileInfo" />
-			<Field store="YES" index="NOT_ANALYZED" parameter="objId" name="objId" global="NO" />
-			<Field store="YES" index="NOT_ANALYZED" parameter="fileId" name="subItem"  global="NO" />
-			<Field store="YES" index="NOT_ANALYZED" fixed="crsInfoFile" name="subType"  global="NO" />
-			<Field store="YES" index="ANALYZED" name="file"  global="YES" />
-		</DataSource>
-	</Document>
 </ObjectDefinition>

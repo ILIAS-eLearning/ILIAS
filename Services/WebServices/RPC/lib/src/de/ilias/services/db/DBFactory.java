@@ -116,9 +116,15 @@ public class DBFactory {
 	
 	public static PreparedStatement getPreparedStatement(String query) throws SQLException {
 		
+		// Delete, if satement is closed
+		if(ps.get().containsKey(query) && ps.get().get(query).isClosed()) {
+			ps.get().remove(query);
+		}
+		// Return if exists 
 		if((ps.get().containsKey(query))) {
 			return ps.get().get(query);
 		}
+		// Create new Prepared statement
 		ps.get().put(query, DBFactory.factory().prepareStatement(query));
 		return ps.get().get(query);
 	}

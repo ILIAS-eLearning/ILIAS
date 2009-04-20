@@ -50,8 +50,14 @@ public class RPCIndexHandler {
 
 	protected static Logger logger = Logger.getLogger(RPCIndexHandler.class);
 	
+	
 
-	public boolean refreshIndex(String clientKey) {
+	/**
+	 * Refresh index
+	 * @param clientKey
+	 * @return
+	 */
+	public boolean index(String clientKey, boolean incremental) {
 		
 		// Set client key
 		LocalSettings.setClientKey(clientKey);
@@ -74,7 +80,12 @@ public class RPCIndexHandler {
 			parser.parse();
 			
 			controller = CommandController.getInstance();
-			controller.init();
+			if(incremental) {
+				controller.initRefresh();
+			}
+			else {
+				controller.initCreate();
+			}
 			
 			if(server.getNumThreads() > 1) {
 				
@@ -98,29 +109,9 @@ public class RPCIndexHandler {
 			logger.debug(client.getIndexPath());
 			
 		} 
-		catch (ConfigurationException e) {
-			logger.error(e);
-		} 
-		catch (CorruptIndexException e) {
-			logger.fatal(e);
-		} 
-		catch (LockObtainFailedException e) {
-			logger.error(e);
-		} 
-		catch (IOException e) {
-			logger.error(e);
-		} 
-		catch (ObjectDefinitionException e) {
-			logger.error(e);
-		} 
-		catch (SQLException e) {
-			logger.error(e);
-		}
 		catch (Exception e) {
 			
-			StringWriter writer = new StringWriter();
-			e.printStackTrace(new PrintWriter(writer));
-			logger.error(writer.toString());
+			logger.error(e);
 		}
 		return true;
 	}

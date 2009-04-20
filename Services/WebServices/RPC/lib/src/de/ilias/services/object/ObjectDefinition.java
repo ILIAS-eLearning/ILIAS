@@ -43,10 +43,25 @@ import de.ilias.services.lucene.index.IndexHolder;
  */
 public class ObjectDefinition implements DocumentHandler {
 
+	public static final String TYPE_FULL = "full";
+	public static final String TYPE_INCREMENTAL = "incremental";
+
 	protected Logger logger = Logger.getLogger(ObjectDefinition.class);
 	
 	private String type;
+	private String indexType = "full";
 	private Vector<DocumentDefinition> documents = new Vector<DocumentDefinition>();
+	
+	/**
+	 * 
+	 * @param type
+	 * @param indexType
+	 */
+	public ObjectDefinition(String type,String indexType) {
+		
+		this(type);
+		this.setIndexType(indexType);
+	}
 	
 	/**
 	 * 
@@ -78,6 +93,20 @@ public class ObjectDefinition implements DocumentHandler {
 	 */
 	public String getType() {
 		return type;
+	}
+
+	/**
+	 * @param indexType the indexType to set
+	 */
+	public void setIndexType(String indexType) {
+		this.indexType = indexType;
+	}
+
+	/**
+	 * @return the indexType
+	 */
+	public String getIndexType() {
+		return indexType;
 	}
 
 	/**
@@ -148,6 +177,7 @@ public class ObjectDefinition implements DocumentHandler {
 		// TODO Auto-generated method stub
 		
 	}
+
 	
 	
 	
