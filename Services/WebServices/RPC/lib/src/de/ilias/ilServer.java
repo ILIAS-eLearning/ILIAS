@@ -98,15 +98,24 @@ public class ilServer {
 			}
 			return stopServer();
 		}
-		else if(command.compareTo("index") == 0) {
+		else if(command.compareTo("createIndex") == 0) {
 			if(arguments.length != 3) {
-				logger.error("Usage java -jar ilServer.jar index PATH_TO_SERVER_INI CLIENT_KEY");
+				logger.error("Usage java -jar ilServer.jar createIndex PATH_TO_SERVER_INI CLIENT_KEY");
+				return false;
 			}
-			return startIndexer();
+			return createIndexer();
+		}
+		else if(command.compareTo("updateIndex") == 0) {
+			if(arguments.length != 3) {
+				logger.error("Usage java -jar ilServer.jar updateIndex PATH_TO_SERVER_INI CLIENT_KEY");
+				return false;
+			}
+			return updateIndexer();
 		}
 		else if(command.compareTo("search") == 0) {
 			if(arguments.length != 4) {
 				logger.error("Usage java -jar ilServer.jar search PATH_TO_SERVER_INI CLIENT_KEY QUERY_STRING");
+				return false;
 			}
 			return startSearch();
 			
@@ -121,7 +130,7 @@ public class ilServer {
 	 * @return
 	 */
 	@SuppressWarnings("unchecked")
-	private boolean startIndexer() {
+	private boolean createIndexer() {
 
 		ServerSettings settings;
 		XmlRpcClient client;
@@ -141,7 +150,44 @@ public class ilServer {
 			client = new XmlRpcClient(settings.getHost().getHostAddress(),settings.getPort());
 			Vector params = new Vector();
 			params.add(arguments[2]);
-			client.execute("index.refreshIndex",params);
+			params.add(false);
+			client.execute("index.index",params);
+			return true;
+		} 
+		catch (Exception e) {
+			System.err.println(e);
+			logger.fatal(e.getMessage());
+			System.exit(1);
+		}
+		return false;
+	}
+
+	/**
+	 * @return
+	 */
+	@SuppressWarnings("unchecked")
+	private boolean updateIndexer() {
+
+		ServerSettings settings;
+		XmlRpcClient client;
+		IniFileParser parser;
+		
+		
+		try {
+			parser = new IniFileParser();
+			parser.parseServerSettings(arguments[1],true);
+			
+			if(!ClientSettings.exists(arguments[2])) {
+				throw new ConfigurationException("Unknown client given: " + arguments[2]);
+			}
+
+			settings = ServerSettings.getInstance();
+			
+			client = new XmlRpcClient(settings.getHost().getHostAddress(),settings.getPort());
+			Vector params = new Vector();
+			params.add(arguments[2]);
+			params.add(true);
+			client.execute("index.index",params);
 			return true;
 		} 
 		catch (Exception e) {

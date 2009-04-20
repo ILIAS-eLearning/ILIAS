@@ -28,8 +28,6 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.Vector;
 
-import javax.sql.PooledConnection;
-
 import de.ilias.services.db.DBFactory;
 import de.ilias.services.lucene.index.CommandQueueElement;
 import de.ilias.services.lucene.index.DocumentHandler;
@@ -46,7 +44,6 @@ import de.ilias.services.lucene.index.IndexHolder;
 public class JDBCDataSource extends DataSource {
 
 	String query;
-	PreparedStatement sta = null;
 	Vector<ParameterDefinition> parameters = new Vector<ParameterDefinition>();
 	
 
@@ -141,7 +138,7 @@ public class JDBCDataSource extends DataSource {
 	 * @todo remove the synchronized (cannot use more than one result set for one prepared statement)
 	 * @see de.ilias.services.lucene.index.DocumentHandler#writeDocument(de.ilias.services.lucene.index.CommandQueueElement, java.sql.ResultSet)
 	 */
-	public synchronized void writeDocument(CommandQueueElement el, ResultSet parentResult)
+	public void writeDocument(CommandQueueElement el, ResultSet parentResult)
 			throws DocumentHandlerException {
 		
 		logger.debug("Handling data source: " + getType());
@@ -149,14 +146,13 @@ public class JDBCDataSource extends DataSource {
 		try {
 			// Create Statement for JDBC data source
 			DocumentHolder doc = DocumentHolder.factory();
-			this.sta = getStatement();
 			
 			int paramNumber = 1;
 			for(Object param : getParameters()) {
 				
-				((ParameterDefinition) param).writeParameter(this.sta,paramNumber++,el,parentResult);
+				((ParameterDefinition) param).writeParameter(getStatement(),paramNumber++,el,parentResult);
 			}
-			ResultSet res = this.sta.executeQuery();
+			ResultSet res = getStatement().executeQuery();
 			while(res.next()) {
 				
 				logger.debug("Found new result");

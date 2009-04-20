@@ -50,6 +50,7 @@ public class CommandController {
 	private static CommandController instance = null;
 	protected static Logger logger = Logger.getLogger(CommandController.class);
 	
+	private Vector<Integer> finished = new Vector<Integer>();
 	private CommandQueue queue;
 	private ObjectDefinitions objDefinitions;
 	private IndexHolder holder;
@@ -112,6 +113,20 @@ public class CommandController {
 	}
 	
 	/**
+	 * @param finished the finished to set
+	 */
+	public void setFinished(Vector<Integer> finished) {
+		this.finished = finished;
+	}
+
+	/**
+	 * @return the finished
+	 */
+	public Vector<Integer> getFinished() {
+		return finished;
+	}
+
+	/**
 	 * Reset instance
 	 */
 	public static void reset() {
@@ -120,34 +135,30 @@ public class CommandController {
 	}
 	
 	/**
-	 * 
+	 * Init command queue for new index
 	 * @throws SQLException
 	 */
-	public void init() throws SQLException {
-		
-		queue.debugDelete();
-		//queue.debug("frm");
-		//queue.debug("frm");
-		//queue.debug("cat");
-		//queue.debug("crs");
-		//queue.debug("fold");
-		//queue.debug("grp");
-		//queue.debug("lm");
-		//queue.debug("glo");
-		//queue.debug("svy");
-		//queue.debug("wiki");
-		//queue.debug("mep");
-		//queue.debug("htlm");
-		queue.debugAll();
+	public void initCreate() throws SQLException {
+	
+		queue.deleteAll();
+		queue.addAll();
 		queue.loadFromDb();
 	}
+	
+
+	public void initRefresh() throws SQLException {
+		
+		queue.deleteNonIncremental();
+		queue.addNonIncremental();
+		queue.loadFromDb();
+	}
+	
 	
 	/**
 	 * handle command queue.
 	 */
 	public void start() {
 		
-		Vector<Integer> finished = new Vector<Integer>();
 		CommandQueueElement currentElement = null;
 		
 		try {
@@ -178,10 +189,8 @@ public class CommandController {
 					// only delete it
 					deleteDocument(currentElement);
 				}
-				
-				finished.add(currentElement.getObjId());
+				getFinished().add(currentElement.getObjId());
 			}
-			//writeToIndex();
 		}
 		catch (ObjectDefinitionException e) {
 			logger.warn("No definition found for objType: " + currentElement.getObjType());
@@ -208,6 +217,9 @@ public class CommandController {
 			logger.info("Writer optimized!");
 			holder.close();
 			
+			// Finally update status in search_command_queue
+			queue.setFinished(getFinished());
+			
 			// Refresh index reader
 			SearchHolder.getInstance().init();
 			
@@ -223,6 +235,9 @@ public class CommandController {
 		} 
 		catch (IOException e) {
 			logger.fatal("Index Corrupted. Aborting!" + e);
+		} 
+		catch (SQLException e) {
+			logger.error("Cannot update search_command_queue: " + e);
 		}
 	}
 
@@ -274,4 +289,5 @@ public class CommandController {
 	public CommandQueue getQueue() {
 		return queue;
 	}
+
 }

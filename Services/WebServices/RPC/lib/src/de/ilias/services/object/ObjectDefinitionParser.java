@@ -172,7 +172,12 @@ public class ObjectDefinitionParser {
 			throw new ObjectDefinitionException("Cannot find root element 'ObjectDefinition'");
 		}
 		
-		definition = new ObjectDefinition(root.getAttributeValue("type"));
+		if(root.getAttributeValue("indexType") != null) {
+			definition = new ObjectDefinition(root.getAttributeValue("type"),root.getAttributeValue("indexType"));
+		}
+		else {
+			definition = new ObjectDefinition(root.getAttributeValue("type"));	
+		}
 		
 		// parse documents
 		for(Object element : root.getChildren()) {

@@ -35,7 +35,6 @@ import de.ilias.services.db.DBFactory;
 import de.ilias.services.object.ObjectDefinition;
 import de.ilias.services.object.ObjectDefinitions;
 import de.ilias.services.settings.ClientSettings;
-import de.ilias.services.settings.ConfigurationException;
 import de.ilias.services.settings.LocalSettings;
 
 
@@ -87,17 +86,18 @@ public class CommandQueue {
 			throw new IllegalArgumentException("Cannot find element!");
 		}
 		
-		PreparedStatement sta = db.prepareStatement("UPDATE search_command_queue " +
-				"SET finished = 1 " +
+		PreparedStatement sta = DBFactory.getPreparedStatement("UPDATE search_command_queue " +
+				"SET finished = 1, " +
+				"last_update = ? " +
 				"WHERE  obj_id = ? " +
 				"AND obj_type = ? " +
 				"AND sub_id = ? " +
 				"AND sub_type = ? ");
 		sta.setInt(1, el.getObjId());
-		sta.setString(2, el.getObjType());
-		sta.setInt(3, el.getSubId());
-		sta.setString(4, el.getSubType());
-		
+		sta.setDate(2,new java.sql.Date(new java.util.Date().getTime()));
+		sta.setString(3, el.getObjType());
+		sta.setInt(4, el.getSubId());
+		sta.setString(5, el.getSubType());
 		sta.executeUpdate();
 	}
 	
@@ -111,7 +111,7 @@ public class CommandQueue {
 		if(objIds.size() == 0) {
 			return;
 		}
-		PreparedStatement psta = db.prepareStatement("UPDATE search_command_queue SET finished = 1 WHERE obj_id = ?");
+		PreparedStatement psta = DBFactory.getPreparedStatement("UPDATE search_command_queue SET finished = 1 WHERE obj_id = ?");
 		for(int i = 0; i < objIds.size(); i++) {
 			psta.setInt(1,objIds.get(i));
 			psta.addBatch();
@@ -129,9 +129,6 @@ public class CommandQueue {
 	public synchronized void loadFromDb() throws SQLException {
 
 		logger.debug("Start reading command queue");
-		
-		// Handle rebuild_index
-		substituteRebuildCommand();
 		
 		
 		// Substitute all reset_all commands withc reset command for each undeleted object id 
@@ -163,56 +160,6 @@ public class CommandQueue {
 		logger.info("Found " + counter + " new update events!");
 	}
 	
-	/**
-	 * 
-	 * @throws SQLException
-	 */
-	private synchronized void substituteRebuildCommand() throws SQLException {
-		
-		try {
-			PreparedStatement sta = db.prepareStatement("SELECT COUNT(*) num FROM search_command_queue " +
-				"WHERE command = ?");
-			sta.setString(1, "rebuild_index");
-			
-			ResultSet res = sta.executeQuery();
-			while(res.next()) {
-				if(res.getInt("num") <= 0) {
-					return;
-				}
-			}
-			
-			// Received rebuildIndex command
-			Statement delete = db.createStatement();
-			delete.executeUpdate("DELETE FROM search_command_queue");
-			
-			ClientSettings client = ClientSettings.getInstance(LocalSettings.getClientKey());
-
-			PreparedStatement pst = db.prepareStatement("INSERT INTO search_command_queue " +
-			"SET obj_id = ?,obj_type = ?, sub_id = ?, sub_type = ?, command = ?, last_update = ?, finished = ? ");
-
-			for(Object def : ObjectDefinitions.getInstance(client.getAbsolutePath()).getDefinitions()) {
-				
-				logger.info("Adding reset command for " + ((ObjectDefinition) def).getType());
-					pst.setInt(1,0);
-					pst.setString(2, ((ObjectDefinition) def).getType());
-					pst.setInt(3,0);
-					pst.setString(4,"");
-					pst.setString(5,"reset_all");
-					pst.setDate(6,new java.sql.Date(new java.util.Date().getTime()));
-					pst.setInt(7,0);
-				pst.executeUpdate();
-			}
-			return;
-		} 
-		catch(SQLException e) {
-			logger.fatal("Invalid SQL statement!");
-			throw e;
-		} 
-		catch (ConfigurationException e) {
-			logger.error("Missing client key. " + e.getMessage());
-		}
-		
-	}
 
 
 	/**
@@ -363,37 +310,113 @@ public class CommandQueue {
 	}
 
 	/**
-	 * 
+	 * Delete  and add all types
 	 * @param type
 	 * @throws SQLException 
 	 */
-	public synchronized void debugAll() throws SQLException {
+	public synchronized void addAll() throws SQLException {
 		
 		try {
+
+			Statement delete = db.createStatement();
+			delete.executeUpdate("DELETE FROM search_command_queue");
 			
-			PreparedStatement resetType = db.prepareStatement(
-					"INSERT INTO search_command_queue SET obj_id = ?,obj_type = ?, sub_id = ?, sub_type = ?, command = ?, last_update = ?, finished = ? ");
-			resetType.setInt(1,0);
-			resetType.setString(2,"");
-			resetType.setInt(3,0);
-			resetType.setString(4,"");
-			resetType.setString(5,"rebuild_index");
-			resetType.setDate(6,new java.sql.Date(new java.util.Date().getTime()));
-			resetType.setInt(7,0);
-	
-			int affectedRows = resetType.executeUpdate();
-			
-			logger.debug("Affected rows: " + affectedRows);
+			ClientSettings client = ClientSettings.getInstance(LocalSettings.getClientKey());
+
+			PreparedStatement pst = DBFactory.getPreparedStatement("INSERT INTO search_command_queue " +
+			"SET obj_id = ?,obj_type = ?, sub_id = ?, sub_type = ?, command = ?, last_update = ?, finished = ? ");
+
+			for(Object def : ObjectDefinitions.getInstance(client.getAbsolutePath()).getDefinitions()) {
+				
+				logger.info("Adding reset command for " + ((ObjectDefinition) def).getType());
+					pst.setInt(1,0);
+					pst.setString(2, ((ObjectDefinition) def).getType());
+					pst.setInt(3,0);
+					pst.setString(4,"");
+					pst.setString(5,"reset_all");
+					pst.setDate(6,new java.sql.Date(new java.util.Date().getTime()));
+					pst.setInt(7,0);
+				pst.executeUpdate();
+			}
+			pst.close();
 		}
 		catch (Exception e) {
 			logger.error(e);
 		}
 	}
 	
-	public synchronized void debugDelete() throws SQLException {
+	
+	/**
+	 * Delete command queue
+	 * @throws SQLException
+	 */
+	public synchronized void deleteAll() throws SQLException {
 		
 		Statement delete = db.createStatement();
 		delete.execute("DELETE FROM search_command_queue");
+	}
+
+	/**
+	 * 
+	 */
+	public synchronized void deleteNonIncremental()  throws SQLException {
+
+		try {
+			
+			ClientSettings client = ClientSettings.getInstance(LocalSettings.getClientKey());
+			
+			PreparedStatement pst = DBFactory.getPreparedStatement("DELETE FROM search_command_queue " +
+					"WHERE obj_type = ?");
+			for(Object def : ObjectDefinitions.getInstance(client.getAbsolutePath()).getDefinitions()) {
+				
+				if(((ObjectDefinition) def).getIndexType() == ObjectDefinition.TYPE_FULL) {
+					
+					pst.setString(1, ((ObjectDefinition) def).getType());
+					pst.executeUpdate();
+				}
+			}
+			pst.close();
+		}
+		catch (Exception e) {
+			
+			logger.error(e);
+		}
+		
+	}
+
+	/**
+	 * 
+	 */
+	public synchronized void addNonIncremental() throws SQLException {
+
+		try {
+
+			ClientSettings client = ClientSettings.getInstance(LocalSettings.getClientKey());
+			
+			PreparedStatement pst = DBFactory.getPreparedStatement("INSERT INTO search_command_queue " +
+					"(obj_id, obj_type,sub_id,sub_type,command,last_update,finished) " +
+					"VALUES (?,?,?,?,?,?,?)");
+			for(Object def : ObjectDefinitions.getInstance(client.getAbsolutePath()).getDefinitions()) {
+
+				if(((ObjectDefinition) def).getIndexType() == ObjectDefinition.TYPE_FULL) {
+				
+					logger.info("Adding reset command for " + ((ObjectDefinition) def).getType());
+					pst.setInt(1,0);
+					pst.setString(2, ((ObjectDefinition) def).getType());
+					pst.setInt(3,0);
+					pst.setString(4,"");
+					pst.setString(5,"reset_all");
+					pst.setDate(6,new java.sql.Date(new java.util.Date().getTime()));
+					pst.setInt(7,0);
+					pst.executeUpdate();
+				}
+			}
+			pst.close();
+		}
+		catch (Exception e) {
+			
+			logger.error(e);
+		}
 	}
 
 }
