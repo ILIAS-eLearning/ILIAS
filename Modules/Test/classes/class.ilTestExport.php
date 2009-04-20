@@ -282,6 +282,8 @@ class ilTestExport
 	*/
 	function exportToExcel($deliver = TRUE, $filterby = "", $filtertext = "", $passedonly = FALSE)
 	{
+		global $ilLog;
+		
 		if (strcmp($this->mode, "aggregated") == 0) return $this->aggregatedResultsToExcel($deliver);
 		
 		include_once "./classes/class.ilExcelWriterAdapter.php";
@@ -477,22 +479,26 @@ class ilTestExport
 						$worksheet->write($row, $col++, ilExcelUtils::_convert_text($pass+1));
 						if (is_object($data->getParticipant($active_id)) && is_array($data->getParticipant($active_id)->getQuestions($pass)))
 						{
-							foreach ($data->getParticipant($active_id)->getQuestions($pass) as $question)
-							{
-								$question_data = $data->getParticipant($active_id)->getPass($pass)->getAnsweredQuestionByQuestionId($question["id"]);
-								$worksheet->write($row, $col, ilExcelUtils::_convert_text($question_data["reached"]));
-								if ($this->test_obj->isRandomTest() || $this->test_obj->getShuffleQuestions())
+							try {
+								foreach ($data->getParticipant($active_id)->getQuestions($pass) as $question)
 								{
-									$worksheet->write($row-1, $col, ilExcelUtils::_convert_text(preg_replace("/<.*?>/", "", $data->getQuestionTitle($question["id"]))), $format_title);
-								}
-								else
-								{
-									if ($pass == 0)
+									$question_data = $data->getParticipant($active_id)->getPass($pass)->getAnsweredQuestionByQuestionId($question["id"]);
+									$worksheet->write($row, $col, ilExcelUtils::_convert_text($question_data["reached"]));
+									if ($this->test_obj->isRandomTest() || $this->test_obj->getShuffleQuestions())
 									{
-										$worksheet->write(0, $col, ilExcelUtils::_convert_text(preg_replace("/<.*?>/", "", $data->getQuestionTitle($question["id"]))), $format_title);
+										$worksheet->write($row-1, $col, ilExcelUtils::_convert_text(preg_replace("/<.*?>/", "", $data->getQuestionTitle($question["id"]))), $format_title);
 									}
+									else
+									{
+										if ($pass == 0)
+										{
+											$worksheet->write(0, $col, ilExcelUtils::_convert_text(preg_replace("/<.*?>/", "", $data->getQuestionTitle($question["id"]))), $format_title);
+										}
+									}
+									$col++;
 								}
-								$col++;
+							} catch (Exception $e) {
+								$ilLog->write("exportToExcel: ERROR getting the question list for active id $active_id and pass $pass. " . $e->getMessage());
 							}
 						}
 					}
@@ -502,6 +508,9 @@ class ilTestExport
 		}
 		// test participant result export
 		$usernames = array();
+		$participantcount = count($data->getParticipants());
+		$allusersheet = false;
+		$pages = 0;
 		foreach ($data->getParticipants() as $active_id => $userdata) 
 		{
 			$username = (!is_null($userdata) && ilExcelUtils::_convert_text($userdata->getName())) ? ilExcelUtils::_convert_text($userdata->getName()) : "ID $active_id";
@@ -514,11 +523,20 @@ class ilTestExport
 			{
 				$usernames[$username] = 1;
 			}
-			$resultsheet =& $workbook->addWorksheet($username);
+			if ($participantcount > 250) {
+				if (!$allusersheet || ($pages-1) < floor($row / 64000)) {
+					$resultsheet =& $workbook->addWorksheet($this->lng->txt("eval_all_users") . (($pages > 0) ? " (".($pages+1).")" : ""));
+					$allusersheet = true;
+					$row = 0;
+					$pages++;
+				}
+			} else {
+				$resultsheet =& $workbook->addWorksheet($username);
+			}
 			if (method_exists($resultsheet, "writeString"))
 			{
 				$pass = $userdata->getScoredPass();
-				$row = 0;
+				$row = ($allusersheet) ? $row : 0;
 				$resultsheet->writeString($row, 0, ilExcelUtils::_convert_text(sprintf($this->lng->txt("tst_result_user_name_pass"), $pass+1, $userdata->getName())), $format_bold);
 				$row += 2;
 				if (is_object($userdata) && is_array($userdata->getQuestions($pass)))
@@ -557,6 +575,8 @@ class ilTestExport
 	*/
 	function exportToCSV($deliver = TRUE, $filterby = "", $filtertext = "", $passedonly = FALSE)
 	{
+		global $ilLog;
+		
 		if (strcmp($this->mode, "aggregated") == 0) return $this->aggregatedResultsToCSV($deliver);
 
 		$rows = array();
@@ -747,11 +767,16 @@ class ilTestExport
 							array_push($datarow, "");
 						}
 						array_push($datarow2, $pass+1);
-						foreach ($data->getParticipant($active_id)->getQuestions($pass) as $question)
-						{
-							$question_data = $data->getParticipant($active_id)->getPass($pass)->getAnsweredQuestionByQuestionId($question["id"]);
-							array_push($datarow2, $question_data["reached"]);
-							array_push($datarow, preg_replace("/<.*?>/", "", $data->getQuestionTitle($question["id"])));
+						try {
+							foreach ($data->getParticipant($active_id)->getQuestions($pass) as $question)
+							{
+								$question_data = $data->getParticipant($active_id)->getPass($pass)->getAnsweredQuestionByQuestionId($question["id"]);
+								array_push($datarow2, $question_data["reached"]);
+								array_push($datarow, preg_replace("/<.*?>/", "", $data->getQuestionTitle($question["id"])));
+							}
+						}
+						catch (Exception $e) {
+							$ilLog->write("exportToCSV: ERROR getting the question list for active id $active_id and pass $pass. " . $e->getMessage());
 						}
 						if ($this->test_obj->isRandomTest() || $this->test_obj->getShuffleQuestions() || ($counter == 1 && $pass == 0))
 						{
