@@ -22,9 +22,11 @@
 
 package de.ilias.services.lucene.settings;
 
+import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
+import java.util.Date;
 import java.util.HashMap;
 
 import org.apache.log4j.Logger;
@@ -50,6 +52,7 @@ public class LuceneSettings {
 	private int fragmentSize = 30;
 	private int numFragments = 3;
 	private int defaultOperator = OPERATOR_AND;
+	private Date lastIndexTime = new java.util.Date();
 	
 	/**
 	 * Constructor
@@ -134,7 +137,40 @@ public class LuceneSettings {
 	public void setDefaultOperator(int defaultOperator) {
 		this.defaultOperator = defaultOperator;
 	}
+	
+	public static void writeLastIndexTime() throws SQLException {
+		
+		Statement sta = DBFactory.factory().createStatement();
+		sta.executeUpdate("DELETE FROM settings " + 
+				"WHERE module = 'common' AND keyword = 'lucene_last_index_time'");
+		
+		PreparedStatement pst = DBFactory.getPreparedStatement("INSERT INTO settings (value,module,keyword) " +
+				"VALUES (?,?,?) ");
+		
+		pst.setString(1,String.valueOf(new java.util.Date().getTime()/1000));
+		pst.setString(2,"common");
+		pst.setString(3, "lucene_last_index_time");
+		pst.executeUpdate();
+		pst.close();
+	}
 
+	/**
+	 * @param date
+	 */
+	public void setLastIndexTime(Date date) {
+
+		lastIndexTime = date;
+	}
+	
+	/**
+	 * get datetime of last index
+	 * @return
+	 */
+	public Date getLastIndexTime() {
+		return lastIndexTime;
+	}
+
+	
 	/**
 	 * @throws SQLException 
 	 * 
@@ -162,5 +198,18 @@ public class LuceneSettings {
 			setNumFragments(Integer.parseInt(res.getString("value")));
 			logger.info("Number of fragments is: " + getNumFragments());
 		}
+
+		res = sta.executeQuery("SELECT value FROM settings WHERE module = 'common' " +
+			"AND keyword = 'lucene_last_index_time'");
+		while(res.next()) {
+			logger.info("Date:" + res.getString("value"));
+			Date date = new Date((long) Integer.parseInt(res.getString("value")) * 1000);
+			logger.info(date);
+			setLastIndexTime(
+					new Date((long) Integer.parseInt(
+							res.getString("value")) * 1000));
+		}
 	}
+
+
 }

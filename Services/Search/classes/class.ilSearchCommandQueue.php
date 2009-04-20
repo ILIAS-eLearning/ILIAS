@@ -88,11 +88,11 @@ class ilSearchCommandQueue
 			"VALUES( ".
 			$ilDB->quote($element->getObjId()).", ".
 			$ilDB->quote($element->getObjType()).", ".
-			$ilDB->quote(0).", ".
+			"0, ".
 			"'',".
 			$ilDB->quote($element->getCommand()).", ".
 			"NOW(), ".
-			$ilDB->quote(0)." ".
+			"0 ".
 			")";
 		$res = $ilDB->manipulate($query);
 		return true;

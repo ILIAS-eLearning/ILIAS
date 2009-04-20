@@ -32,6 +32,7 @@ import java.util.Vector;
 import org.apache.log4j.Logger;
 
 import de.ilias.services.db.DBFactory;
+import de.ilias.services.lucene.settings.LuceneSettings;
 import de.ilias.services.object.ObjectDefinition;
 import de.ilias.services.object.ObjectDefinitions;
 import de.ilias.services.settings.ClientSettings;
@@ -94,7 +95,7 @@ public class CommandQueue {
 				"AND sub_id = ? " +
 				"AND sub_type = ? ");
 		sta.setInt(1, el.getObjId());
-		sta.setDate(2,new java.sql.Date(new java.util.Date().getTime()));
+		sta.setTimestamp(2,new java.sql.Timestamp(new java.util.Date().getTime()));
 		sta.setString(3, el.getObjType());
 		sta.setInt(4, el.getSubId());
 		sta.setString(5, el.getSubType());
@@ -134,12 +135,15 @@ public class CommandQueue {
 		// Substitute all reset_all commands withc reset command for each undeleted object id 
 		substituteResetCommands();
 		
-		
-		Statement sta = db.createStatement();
-		// TODO: Only retrieve data sets newer than date XYZ
-		ResultSet res = sta.executeQuery("SELECT * FROM search_command_queue " +
+		PreparedStatement pst = DBFactory.getPreparedStatement("SELECT * FROM search_command_queue " +
 				"WHERE finished = 0 " +
+				"OR last_update >= ? " + 
 				"ORDER BY last_update ");
+		pst.setTimestamp(
+				1,
+				new java.sql.Timestamp(LuceneSettings.getInstance().getLastIndexTime().getTime()));
+		ResultSet res = pst.executeQuery();
+		
 		
 		
 		int counter = 0;
@@ -255,7 +259,7 @@ public class CommandQueue {
 			objReset.setInt(3,0);
 			objReset.setString(4,"");
 			objReset.setString(5,"reset");
-			objReset.setDate(6,new java.sql.Date(new java.util.Date().getTime()));
+			objReset.setTimestamp(6,new java.sql.Timestamp(new java.util.Date().getTime()));
 			objReset.setInt(7,0);
 			
 			objReset.executeUpdate();
@@ -303,7 +307,7 @@ public class CommandQueue {
 		resetType.setInt(3,0);
 		resetType.setString(4,"");
 		resetType.setString(5,"reset_all");
-		resetType.setDate(6,new java.sql.Date(new java.util.Date().getTime()));
+		resetType.setTimestamp(6,new java.sql.Timestamp(new java.util.Date().getTime()));
 		resetType.setInt(7,0);
 
 		resetType.executeUpdate();
@@ -334,7 +338,7 @@ public class CommandQueue {
 					pst.setInt(3,0);
 					pst.setString(4,"");
 					pst.setString(5,"reset_all");
-					pst.setDate(6,new java.sql.Date(new java.util.Date().getTime()));
+					pst.setTimestamp(6,new java.sql.Timestamp(new java.util.Date().getTime()));
 					pst.setInt(7,0);
 				pst.executeUpdate();
 			}
@@ -362,7 +366,6 @@ public class CommandQueue {
 	public synchronized void deleteNonIncremental()  throws SQLException {
 
 		try {
-			
 			ClientSettings client = ClientSettings.getInstance(LocalSettings.getClientKey());
 			
 			PreparedStatement pst = DBFactory.getPreparedStatement("DELETE FROM search_command_queue " +
@@ -406,7 +409,7 @@ public class CommandQueue {
 					pst.setInt(3,0);
 					pst.setString(4,"");
 					pst.setString(5,"reset_all");
-					pst.setDate(6,new java.sql.Date(new java.util.Date().getTime()));
+					pst.setTimestamp(6,new java.sql.Timestamp(new java.util.Date().getTime()));
 					pst.setInt(7,0);
 					pst.executeUpdate();
 				}

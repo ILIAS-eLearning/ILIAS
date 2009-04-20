@@ -32,6 +32,7 @@ import org.apache.lucene.index.Term;
 import org.apache.lucene.store.LockObtainFailedException;
 
 import de.ilias.services.lucene.search.SearchHolder;
+import de.ilias.services.lucene.settings.LuceneSettings;
 import de.ilias.services.object.ObjectDefinition;
 import de.ilias.services.object.ObjectDefinitionException;
 import de.ilias.services.object.ObjectDefinitions;
@@ -219,6 +220,9 @@ public class CommandController {
 			
 			// Finally update status in search_command_queue
 			queue.setFinished(getFinished());
+			
+			LuceneSettings.writeLastIndexTime();
+			LuceneSettings.getInstance().refresh();
 			
 			// Refresh index reader
 			SearchHolder.getInstance().init();
