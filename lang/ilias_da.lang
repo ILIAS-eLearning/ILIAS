@@ -2580,7 +2580,7 @@ common#:#tracking_data_del_confirm#:#Vil du slette alle sporingsdata for den spe
 common#:#tracking_data_deleted#:#Sporings data er slettet
 common#:#tracking_settings#:#Sporings indstillinger
 common#:#translation#:#Oversættelse
-common#:#trash#:#Slettede ting
+common#:#trash#:#Slettede ting/skrald
 common#:#tree_frame#:#Tree Frame
 common#:#tree_frame_info#:#Defines whether the tree frame (e.g. repository tree) should appear on the left or on the right.
 common#:#tree_left#:#Left
@@ -2737,8 +2737,8 @@ common#:#usrimport_action_failed#:#Action %1$s failed.###09 Mar 2005 new variabl
 common#:#usrimport_action_ignored#:#Ignored action %1$s.###09 Mar 2005 new variable
 common#:#usrimport_action_replaced#:#Replaced action %1$s by %2$s.###09 Mar 2005 new variable
 common#:#usrimport_cant_delete#:#Kan ikke udføre handlingen \"fjern\". Der er ikke en sådan bruger i databasen.
-common#:#usrimport_cant_insert#:#Kan ikke udføre <i>insæt</i> handlingen, da brugeren allerede findes i databasen
-common#:#usrimport_cant_update#:#Kan ikke udføre handlingen \"opdater\". Der er ikke en sådan global rolle for\"%1$s\" handlingen.
+common#:#usrimport_cant_insert#:#Kan ikke udføre <i>indsætning</i>, da brugeren allerede findes i databasen
+common#:#usrimport_cant_update#:#Kan ikke udføre <i>opdatering</i>handlingen. Der er ikke en sådan global rolle for\"%1$s\" handlingen.
 common#:#usrimport_conflict_handling_info#:#Når \\
 common#:#usrimport_global_role_for_action_required#:#At least one global role must be specified for \"%1$s\" action.###09 Mar 2005 new variable
 common#:#usrimport_ignore_role#:#Ignorer rolle
@@ -7717,7 +7717,7 @@ content#:#scplayer_start#:#Start
 content#:#scplayer_phpmysqlcheck#:#Du skal bryge MySQL 4.1 eller højere og aktivere JSON-understøttelse for at bruge JavaScript-RTE
 trac#:#trac_mode_scorm_package#:#Automatic by SCORM Course Status###27 11 2007 new variable
 trac#:#trac_mode_scorm_package_info#:#The learning progress status will be determined by the SCORM course package status directly.###27 11 2007 new variable
-ps#:#ps_show_grp_access#:#Vis hvornår gruppemedlemmer sidst have adgang
+ps#:#ps_show_grp_access#:#Vis dato for gruppemedlemmers sidste besøg
 administration#:#auth_auth_mode_determination#:#Authentication Method Determination (for Login)###27 11 2007 new variable
 administration#:#auth_kind_determination#:#Kind of Determination###27 11 2007 new variable
 administration#:#auth_by_user#:#Af brugeren
@@ -8355,8 +8355,8 @@ common#:#res_links_short#:#Links
 grp#:#reg_grp_max_members_short#:#Antal medlemmer
 grp#:#grp_wrong_max_members#:#Please check the maximum number of users.###23 07 2008 new variable
 crs#:#crs_subscription_max_members_short#:#Antal medlemmer
-crs#:#max_members_not_numeric#:#Please check the maximum number of users.###23 07 2008 new variable
-ps#:#ps_show_crs_access#:#Show last access time of course participants###23 07 2008 new variable
+crs#:#max_members_not_numeric#:#Vælg venligst det maksimale antal brugere.
+ps#:#ps_show_crs_access#:#Vis hvornår deltagere sidst besøgte kurset.
 assessment#:#assessment_eval_settings#:#Show the following fields in Evaluation for All Users###23 07 2008 new variable
 mail#:#mail_external_sender_noreply#:#noreply-Adresse
 mail#:#info_mail_external_sender_noreply#:#Tragen Sie hier die E-Mail Adresse für externe System- oder Benachrichtigungsmails ein, die als Absender verwendet werden soll.###23 07 2008 new variable
