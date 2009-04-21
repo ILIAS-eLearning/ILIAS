@@ -2588,6 +2588,10 @@ class ilObjSurveyGUI extends ilObjectGUI
 		
 		if ($rbacsystem->checkAccess("write", $this->ref_id)) 
 		{
+			if ($_GET["fill"] > 0) 
+			{
+				for ($i = 0; $i < $_GET["fill"]; $i++) $this->object->fillSurveyForUser();
+			}
 			$this->tpl->addBlockFile("ADM_CONTENT", "adm_content", "tpl.il_svy_svy_maintenance.html", "Modules/Survey");
 			$total =& $this->object->getSurveyParticipants();
 			if (count($total))

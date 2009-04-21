@@ -2924,6 +2924,39 @@ class ilObjSurvey extends ilObject
 			return $result_array;
 		}
 	}
+	
+	/**
+	* Fills a survey randomly with data for a given user.
+	*
+	* @param integer $user_id The database id of the user. If empty an anonymous user will be taken
+	* @access public
+	*/
+	function fillSurveyForUser($user_id = ANONYMOUS_USER_ID)
+	{
+		global $ilDB;
+		// create an anonymous key
+		$anonymous_id = $this->createNewAccessCode();
+		$this->saveUserAccessCode($user_id, $anonymous_id);
+		// create the survey_finished dataset and set the survey finished already
+		$active_id = $ilDB->nextId('svy_finished');
+		$affectedRows = $ilDB->manipulateF("INSERT INTO svy_finished (finished_id, survey_fi, user_fi, anonymous_id, state, tstamp) ".
+			"VALUES (%s, %s, %s, %s, %s, %s)",
+			array('integer','integer','integer','text','text','integer'),
+			array($active_id, $this->getSurveyId(), $user_id, $anonymous_id, 1, time())
+		);
+		// fill the questions randomly
+		$pages =& $this->getSurveyPages();
+		foreach ($pages as $key => $question_array)
+		{
+			foreach ($question_array as $question)
+			{
+				// instanciate question
+				require_once "./Modules/SurveyQuestionPool/classes/class.SurveyQuestion.php";
+				$question =& SurveyQuestion::_instanciateQuestion($question["question_id"]);
+				$question->saveRandomData($active_id);
+			}
+		}		
+	}
 
 /**
 * Starts the survey creating an entry in the database
