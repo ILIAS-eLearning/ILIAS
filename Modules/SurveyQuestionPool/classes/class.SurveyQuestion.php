@@ -1994,5 +1994,14 @@ class SurveyQuestion
 		return $this->original_id;
 	}
 	
+	/**
+	* Saves random answers for a given active user in the database
+	*
+	* @param integer $active_id The database ID of the active user
+	*/
+	public function saveRandomData($active_id)
+	{
+		// do nothing, overwrite in parent classes
+	}
 }
 ?>
