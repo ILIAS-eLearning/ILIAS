@@ -479,6 +479,41 @@ class SurveyNominalQuestion extends SurveyQuestion
 		return "";
 	}
 	
+	/**
+	* Saves random answers for a given active user in the database
+	*
+	* @param integer $active_id The database ID of the active user
+	*/
+	public function saveRandomData($active_id)
+	{
+		global $ilDB;
+		if ($this->getSubType() == SUBTYPE_MCMR)
+		{
+			// multiple responses
+			for ($i = 0; $i < $this->categories->getCategoryCount(); $i++)
+			{
+				if (rand(0,1)) 
+				{
+					$next_id = $ilDB->nextId('svy_answer');
+					$affectedRows = $ilDB->manipulateF("INSERT INTO svy_answer (answer_id, question_fi, active_fi, value, textanswer, tstamp) VALUES (%s, %s, %s, %s, %s, %s)",
+						array('integer','integer','integer','float','text','integer'),
+						array($next_id, $this->getId(), $active_id, $i, NULL, time())
+					);
+				}
+			}
+		}
+		else
+		{
+			// single responses
+			$category = rand(0, $this->categories->getCategoryCount()-1);
+			$next_id = $ilDB->nextId('svy_answer');
+			$affectedRows = $ilDB->manipulateF("INSERT INTO svy_answer (answer_id, question_fi, active_fi, value, textanswer, tstamp) VALUES (%s, %s, %s, %s, %s, %s)",
+				array('integer','integer','integer','float','text','integer'),
+				array($next_id, $this->getId(), $active_id, $category, NULL, time())
+			);
+		}
+	}
+	
 	function saveUserInput($post_data, $active_id)
 	{
 		global $ilDB;

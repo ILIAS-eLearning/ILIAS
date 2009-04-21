@@ -397,6 +397,37 @@ class SurveyTextQuestion extends SurveyQuestion
 		return "";
 	}
 	
+	function randomText($length)
+	{
+		$random= "";
+		$char_list = "ABCDEFGHIJKLMNOPQRSTUVWXYZ";
+		$char_list .= "abcdefghijklmnopqrstuvwxyz";
+		$char_list .= "1234567890";
+		for($i = 0; $i < $length; $i++)
+		{ 
+			$random .= substr($char_list,(rand()%(strlen($char_list))), 1);
+			if (!rand(0,5)) $random .= ' ';
+		}
+		return $random;
+	}
+	
+	/**
+	* Saves random answers for a given active user in the database
+	*
+	* @param integer $active_id The database ID of the active user
+	*/
+	public function saveRandomData($active_id)
+	{
+		global $ilDB;
+		// single response
+		$randomtext = $this->randomText(rand(25,100));
+		$next_id = $ilDB->nextId('svy_answer');
+		$affectedRows = $ilDB->manipulateF("INSERT INTO svy_answer (answer_id, question_fi, active_fi, value, textanswer, tstamp) VALUES (%s, %s, %s, %s, %s, %s)",
+			array('integer', 'integer', 'integer', 'float', 'text', 'integer'),
+			array($next_id, $this->getId(), $active_id, NULL, $randomtext, time())
+		);
+	}
+
 	function saveUserInput($post_data, $active_id)
 	{
 		global $ilDB;

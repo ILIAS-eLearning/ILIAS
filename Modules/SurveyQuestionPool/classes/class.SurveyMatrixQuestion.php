@@ -1229,6 +1229,45 @@ class SurveyMatrixQuestion extends SurveyQuestion
 		return "";
 	}
 
+	/**
+	* Saves random answers for a given active user in the database
+	*
+	* @param integer $active_id The database ID of the active user
+	*/
+	public function saveRandomData($active_id)
+	{
+		global $ilDB;
+		$columncount = ($this->hasNeutralColumn()) ? $this->getColumnCount()+1 : $this->getColumnCount();
+		for ($row = 0; $row < $this->getRowCount(); $row++)
+		{
+			if ($this->getSubType() == 1)
+			{
+				// multiple responses
+				for ($i = 0; $i < $columncount; $i++)
+				{
+					if (rand(0,1)) 
+					{
+						$next_id = $ilDB->nextId('svy_answer');
+						$affectedRows = $ilDB->manipulalteF("INSERT INTO svy_answer (answer_id, question_fi, active_fi, value, textanswer, rowvalue, tstamp) VALUES (%s, %s, %s, %s, %s, %s, %s)",
+							array('integer','integer','integer','float','text','integer','integer'),
+							array($next_id, $this->getId(), $active_id, $i, NULL, $row, time())
+						);
+					}
+				}
+			}
+			else
+			{
+				// single responses
+				$category = rand(0, $columncount-1);
+				$next_id = $ilDB->nextId('svy_answer');
+				$affectedRows = $ilDB->manipulalteF("INSERT INTO svy_answer (answer_id, question_fi, active_fi, value, textanswer, rowvalue, tstamp) VALUES (%s, %s, %s, %s, %s, %s, %s)",
+					array('integer','integer','integer','float','text','integer','integer'),
+					array($next_id, $this->getId(), $active_id, $category, NULL, $row, time())
+				);
+			}
+		}
+	}
+
 	function saveUserInput($post_data, $active_id)
 	{
 		global $ilDB;
