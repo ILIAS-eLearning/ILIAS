@@ -49,8 +49,11 @@
 <table class="calstd">
 	<thead>
 		<tr class="calheader">
+			<th class="calstd">
+				<span class="small">{TXT_TIME}</span> 
+			</th>
 			<th class="calstd" colspan="{COLSPAN}">
-				<font class="small">{HEADER_DAY}, {HEADER_DATE}</font> 
+				<span class="small">{HEADER_DAY}, {HEADER_DATE}</span> 
 				<a class="callink" href="{NEW_APP_LINK}">
 					<img style="vertical-align: top" src="{H_NEW_APP_SRC}" alt="{H_NEW_APP_ALT}" title="{H_NEW_APP_ALT}" />
 				</a>
@@ -58,6 +61,9 @@
 		</tr>
 		<!-- BEGIN fullday_apps -->
 		<tr class="calstd" style="height: 1em">
+			<td class="calstd">
+				&nsbsp;
+			</td>
 			<td class="calstd" colspan="{COLSPAN}">
 				<!-- BEGIN fullday_app -->
 				{PANEL_F_DAY_DATA}
@@ -80,6 +86,7 @@
 				</a>
 			</td>
 			<!-- BEGIN app -->
+			<!-- PLEASE APPLY ALL CHANGES TO THIS BLOCK ALSO TO THE NEXT scrd_app BLOCK -->
 			<td id="show_{PANEL_NUM}" class="calevent" style="background-color: {APP_BGCOLOR};color: {APP_COLOR}" rowspan="{APP_ROWSPAN}">
 				{PANEL_DATA}
 				<a id="link_{PANEL_NUM}" class="callink" href="{APP_EDIT_LINK}">
@@ -87,6 +94,18 @@
 				</a>
 			</td>
 			<!-- END app -->
+			<!-- BEGIN scrd_app_cell -->
+			<td class="calempty" style="vertical-align:top;">
+			<!-- BEGIN scrd_app -->
+			<div id="show_{PANEL_NUM}" class="calevent" style="background-color: {APP_BGCOLOR};color: {APP_COLOR}" rowspan="{APP_ROWSPAN}">
+				{PANEL_DATA}
+				<a id="link_{PANEL_NUM}" class="callink" href="{APP_EDIT_LINK}">
+					{APP_TITLE}
+				</a>
+			</div>
+			<!-- END scrd_app -->
+			</td>
+			<!-- END scrd_app_cell -->
 			<!-- BEGIN empty_cell -->
 			<td class="calempty" width="99%"></td>
 			<!-- END empty_cell -->

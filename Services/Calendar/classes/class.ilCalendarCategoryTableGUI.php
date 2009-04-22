@@ -43,7 +43,7 @@ class ilCalendarCategoryTableGUI extends ilTable2GUI
 	 */
 	public function __construct($a_parent_obj)
 	{
-	 	global $lng,$ilCtrl;
+	 	global $lng,$ilCtrl,$ilUser;
 	 	
 	 	$this->lng = $lng;
 		$this->lng->loadLanguageModule('dateplaner');
@@ -51,17 +51,22 @@ class ilCalendarCategoryTableGUI extends ilTable2GUI
 	 	
 		parent::__construct($a_parent_obj,'showCategories');
 		$this->setFormName('categories');
-	 	$this->addColumn('','f',"1");
+	 	$this->addColumn('','',"1", true);
+		$this->addColumn($this->lng->txt('type'),'',"1");
 	 	$this->addColumn($this->lng->txt('title'),'title',"100%");
 	 	
 	 	$this->setPrefix('categories');
 		$this->setFormAction($this->ctrl->getFormAction($a_parent_obj));
 		$this->setRowTemplate("tpl.show_category_row.html","Services/Calendar");
 		$this->disable('sort');
-		$this->disable('header');
+		if (!$ilUser->prefs["screen_reader_optimization"])
+		{
+			$this->disable('header');
+		}
 		$this->disable('numinfo');
 		$this->enable('select_all');
 		$this->setSelectAllCheckbox('selected_cat_ids');
+		$this->setDisplayAsBlock(true);
 
 		$this->setDefaultOrderDirection('asc');
 		$this->setDefaultOrderField('title');
@@ -96,7 +101,7 @@ class ilCalendarCategoryTableGUI extends ilTable2GUI
 		{
 			case ilCalendarCategory::TYPE_GLOBAL:
 				$this->tpl->setVariable('IMG_SRC',ilUtil::getImagePath('icon_calg_s.gif'));
-				$this->tpl->setVariable('IMG_ALT',$this->lng->txt('cal_type_system'));
+				$this->tpl->setVariable('IMG_ALT', $this->lng->txt('cal_type_system'));
 				break;
 				
 			case ilCalendarCategory::TYPE_USR:

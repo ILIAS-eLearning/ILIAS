@@ -271,6 +271,26 @@ class ilTable2GUI extends ilTableGUI
 	}
 
 	/**
+	* Set display as block
+	*
+	* @param	boolean	display as block
+	*/
+	function setDisplayAsBlock($a_val)
+	{
+		$this->display_as_block = $a_val;
+	}
+	
+	/**
+	* Get display as block
+	*
+	* @return	boolean		display as block
+	*/
+	function getDisplayAsBlock()
+	{
+		return $this->display_as_block;
+	}
+	
+	/**
 	* Get the name of the checkbox that should be toggled with a select all button
 	*
 	* @return	string	name of the checkbox
@@ -415,12 +435,15 @@ class ilTable2GUI extends ilTableGUI
 	* @param	string		Sort field name (corresponds to data array field)
 	* @param	string		Width string
 	*/
-	final public function addColumn($a_text, $a_sort_field = "", $a_width = "")
+	final public function addColumn($a_text, $a_sort_field = "", $a_width = "",
+		$a_is_checkbox_action_column = false)
 	{
 		$this->column[] = array(
 			"text" => $a_text,
 			"sort_field" => $a_sort_field,
-			"width" => $a_width);
+			"width" => $a_width,
+			"is_checkbox_action_column" => $a_is_checkbox_action_column
+			);
 		$this->column_count = count($this->column);
 	}
 	
@@ -455,17 +478,28 @@ class ilTable2GUI extends ilTableGUI
 
 	function fillHeader()
 	{
+		global $lng;
+		
 		foreach ($this->column as $column)
 		{
-			if (!$this->enabled["sort"] || $column["sort_field"] == "")
+			if (!$this->enabled["sort"] || $column["sort_field"] == "" || $column["is_checkbox_action_column"])
 			{
 				$this->tpl->setCurrentBlock("tbl_header_no_link");
 				if ($column["width"] != "")
 				{
 					$this->tpl->setVariable("TBL_COLUMN_WIDTH_NO_LINK"," width=\"".$column["width"]."\"");
 				}
-				$this->tpl->setVariable("TBL_HEADER_CELL_NO_LINK",
-					$column["text"]);
+				if (!$column["is_checkbox_action_column"])
+				{
+					$this->tpl->setVariable("TBL_HEADER_CELL_NO_LINK",
+						$column["text"]);
+				}
+				else
+				{
+					$this->tpl->setVariable("TBL_HEADER_CELL_NO_LINK",
+						ilUtil::img(ilUtil::getImagePath("spacer.gif"), $lng->txt("action")));
+				}
+				
 				$this->tpl->parseCurrentBlock();
 				$this->tpl->touchBlock("tbl_header_th");
 				continue;
@@ -808,10 +842,14 @@ class ilTable2GUI extends ilTableGUI
 							"prev"	=> $this->footer_previous,
 							"next"	=> $this->footer_next,
 							);
-			$linkbar = $this->getLinkbar("1");
-			$this->tpl->setCurrentBlock("tbl_footer_linkbar");
-			$this->tpl->setVariable("LINKBAR", $linkbar);
-			$this->tpl->parseCurrentBlock();
+			if (!$this->getDisplayAsBlock())
+			{
+				$linkbar = $this->getLinkbar("1");
+				$this->tpl->setCurrentBlock("tbl_footer_linkbar");
+				$this->tpl->setVariable("LINKBAR", $linkbar);
+				$this->tpl->parseCurrentBlock();
+			}
+			$linkbar = true;
 			$footer = true;
 		}
 
@@ -931,12 +969,15 @@ class ilTable2GUI extends ilTableGUI
 				$LinkBar .= '<span class="ilTableFootLight">&nbsp;'.$layout_next."</span>";
 			}
 			
-			if (count($offset_arr))
+			if (count($offset_arr) && !$this->getDisplayAsBlock())
 			{				
-				$LinkBar .= "&nbsp;&nbsp;&nbsp;&nbsp;".ilUtil::formSelect($this->nav_value,
-					$this->getNavParameter().$a_num, $offset_arr, false, true, 0, "ilEditSelect").
+				$LinkBar .= "&nbsp;&nbsp;&nbsp;&nbsp;".
+					'<label for="tab_page_sel_'.$a_num.'">'.$lng->txt("select_page").'</label> '.
+					ilUtil::formSelect($this->nav_value,
+					$this->getNavParameter().$a_num, $offset_arr, false, true, 0, "ilEditSelect",
+					array("id" => "tab_page_sel_".$a_num)).
 					' <input class="ilEditSubmit" type="submit" name="cmd['.$this->parent_cmd.']" value="'.
-					$lng->txt("select_page").'" /> ';
+					$lng->txt("ok").'" /> ';
 			}
 
 			return $LinkBar;

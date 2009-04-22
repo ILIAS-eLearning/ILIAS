@@ -1,14 +1,16 @@
 <tr class="{CSS_ROW}">
-	<td class="std" style="vertical-align:top;background-color: {BGCOLOR}">
-		<input style="background-color: {BGCOLOR}" type="checkbox" name="selected_cat_ids[]" value="{VAL_ID}" {VAL_CHECKED} />
+	<td class="std" style="vertical-align:top; white-space:nowrap;">
+		<input type="checkbox" name="selected_cat_ids[]" value="{VAL_ID}" {VAL_CHECKED} />
 		<input type="hidden" name="shown_cat_ids[]" value="{VAL_ID}" />
+		<span style="padding: 0px 5px; background-color: {BGCOLOR}">&nbsp;</span>
 	</td>
-	<td class="std" style="vertical-align:top;" width="100%">
-		<div style="float:left">
-			&nbsp;<img src="{IMG_SRC}" alt="{IMG_ALT}" title="{IMG_ALT}" />&nbsp;<font class="small"><a href="{EDIT_LINK}">{VAL_TITLE}</a></font>
-			<div class="il_Description">
-				<font class="small">{ADD_PATH_INFO}</font>
-			</div>
+	<td class="std" style="vertical-align:top;">
+	<img src="{IMG_SRC}" alt="{IMG_ALT}" title="{IMG_ALT}" />
+	</td>
+	<td class="std" style="vertical-align:top;">
+		<a class="small" href="{EDIT_LINK}">{VAL_TITLE}</a>
+		<div class="il_Description">
+			<span class="small">{ADD_PATH_INFO}</span>
 		</div>
 	</td>
 </tr>

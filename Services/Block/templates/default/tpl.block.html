@@ -3,8 +3,9 @@
 <!-- BEGIN move_link --><a href="{HREF_MOVE}" alt="{ALT_MOVE}"><img border="0" src="{IMG_MOVE}"/></a><!-- END move_link -->
 </div>
 <!-- END move -->
-<table class="il_Block">
-<tr><th <!-- BEGIN hclass -->class="ilBlockHeader"<!-- END hclass --><!-- BEGIN hclassb -->class="ilBlockHeaderBig"<!-- END hclassb --> colspan="{COLSPAN}">
+<table class="il_Block" datatable="0">
+<tr><td <!-- BEGIN hclass -->class="ilBlockHeader"<!-- END hclass --><!-- BEGIN hclassb -->class="ilBlockHeaderBig"<!-- END hclassb --> colspan="{COLSPAN}">
+<!-- BEGIN hitem -->
 <!-- BEGIN header_commands -->
 <div style="float:right;">
 <!-- BEGIN header_command -->
@@ -14,10 +15,18 @@
 <!-- <a href="{HREF_CONFIG}" <!-- BEGIN oncclick -->onclick="return ilBlockJSHandler('{OC_BLOCK_ID}','{OC_HREF}')"<!-- END oncclick -->><img border="0" alt="{ALT_CONFIG}" src="{IMG_CONFIG}" /></a> -->
 <!-- END header_config -->
 <!-- BEGIN header_close -->
-<a href="{HREF_CLOSE}"><img border="0" alt="{ALT_CLOSE}" src="{IMG_CLOSE}" /></a>
+<a href="{HREF_CLOSE}"><img border="0" alt="{ALT_CLOSE}" title="{ALT_CLOSE}" src="{IMG_CLOSE}" /></a>
 <!-- END header_close -->
 </div>
 <!-- END header_commands -->
+<!-- BEGIN header_title -->
+<div style="float:left;">
+<!-- BEGIN block_img --><img border="0" src="{IMG_BLOCK}" alt="{IMG_ALT}" title="{IMG_ALT}" id="{IMID}_blimg" /><!-- END block_img -->
+<h3 class="ilBlockHeader"><a name="{BTID}_blhead" id="{BTID}_blhead">{BLOCK_TITLE}</a><span class="ilAccHidden"> ({TXT_BLOCK})</span></h3>
+<!-- BEGIN block_subtitle --><div>{BLOCK_SUBTITLE}</div><!-- END block_subtitle -->
+</div>
+<!-- END header_title -->
+<!-- END hitem -->
 <!-- BEGIN header_links -->
 <div style="float:right;" class="il_BlockInfo">
 <!-- BEGIN head_item -->
@@ -27,10 +36,7 @@
 <!-- END head_item -->
 </div>
 <!-- END header_links -->
-<!-- BEGIN block_img --><img border="0" src="{IMG_BLOCK}" alt="{IMG_ALT}" title="{IMG_ALT}" id="{IMID}_blimg" /><!-- END block_img -->
-<h3 class="ilBlockHeader"><a name="{ID}_blhead" id="{BTID}_blhead">{BLOCK_TITLE}</a><span class="ilAccHidden"> ({TXT_BLOCK})</span></h3>
-<!-- BEGIN block_subtitle --><div>{BLOCK_SUBTITLE}</div><!-- END block_subtitle -->
-</th>
+</td>
 </tr>
 <!-- BEGIN top_row -->
 <tr class="tblfooter">
@@ -56,8 +62,8 @@
 	<div style="float:right;" class="il_BlockInfo">{TXT_DETAILS}:
 	<!-- BEGIN det_item -->
 	<!-- BEGIN det_delim --> | <!-- END det_delim -->
-	<!-- BEGIN det_text --><img border="0"  alt="{ALT_NO_LINK}" style="margin: 0px 1px 1px 1px;" src="{SRC_NO_LINK}"/><!-- END det_text -->
-	<!-- BEGIN det_link --><a href="{DHREF}" <!-- BEGIN onclick -->onclick="return ilBlockJSHandler('{OC_BLOCK_ID}','{OC_HREF}')"<!-- END onclick -->><img border="0" style="margin: 0px 1px 1px 1px;" alt="{ALT_LINK}" src="{SRC_LINK}"/></a><!-- END det_link -->
+	<!-- BEGIN det_text --><img border="0"  alt="{ALT_NO_LINK}" title="{ALT_NO_LINK}" style="margin: 0px 1px 1px 1px;" src="{SRC_NO_LINK}"/><!-- END det_text -->
+	<!-- BEGIN det_link --><a href="{DHREF}" <!-- BEGIN onclick -->onclick="return ilBlockJSHandler('{OC_BLOCK_ID}','{OC_HREF}')"<!-- END onclick -->><img border="0" style="margin: 0px 1px 1px 1px;" title="{ALT_LINK}" alt="{ALT_LINK}" src="{SRC_LINK}"/></a><!-- END det_link -->
 	<!-- END det_item -->
 	</div>
 	<!-- BEGIN det_info -->

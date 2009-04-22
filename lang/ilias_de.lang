@@ -9204,3 +9204,4 @@ dateplaner#:#err_missing_title#:#Bitte geben Sie einen Titel ein.
 dateplaner#:#err_end_before_start#:#Der Endtermin darf nicht vor dem Starttermin liegen.
 form#:#form_image_file_input#:#Bilddatei auswählen
 form#:#form_file_input#:#Datei auswählen
+dateplaner#:#cal_week_abbrev#:#KW

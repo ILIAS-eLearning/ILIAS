@@ -109,15 +109,15 @@ class ilMiniCalendarGUI
 		
 		// weekdays
 		include_once('Services/Calendar/classes/class.ilCalendarUtil.php');
+		$a_tpl->setCurrentBlock('month_header_col');
+		$a_tpl->setVariable('TXT_WEEKDAY', $lng->txt("cal_week_abbrev"));
+		$a_tpl->parseCurrentBlock();
 		for($i = (int) $this->user_settings->getWeekStart();$i < (7 + (int) $this->user_settings->getWeekStart());$i++)
 		{
 			$a_tpl->setCurrentBlock('month_header_col');
 			$a_tpl->setVariable('TXT_WEEKDAY',ilCalendarUtil::_numericDayToString($i,false));
 			$a_tpl->parseCurrentBlock();
 		}
-		$a_tpl->setCurrentBlock('month_header_col');
-		$a_tpl->setVariable('TXT_WEEKDAY', "&nbsp;");
-		$a_tpl->parseCurrentBlock();
 		
 		include_once('Services/Calendar/classes/class.ilCalendarSchedule.php');
 		$this->scheduler = new ilCalendarSchedule($this->seed,ilCalendarSchedule::TYPE_MONTH);

@@ -448,12 +448,14 @@ class ilTemplate extends ilTemplateX
 
 		$sthtml = $ilTabs->getSubTabHTML();
 		$thtml = $ilTabs->getHTML((trim($sthtml) == ""));
+
+		$this->touchBlock("tabs_outer_start");
+		$this->touchBlock("tabs_outer_end");
+		$this->touchBlock("tabs_inner_start");
+		$this->touchBlock("tabs_inner_end");
+
 		if ($thtml != "")
 		{
-			$this->touchBlock("tabs_outer_start");
-			$this->touchBlock("tabs_outer_end");
-			$this->touchBlock("tabs_inner_start");
-			$this->touchBlock("tabs_inner_end");
 			$this->setVariable("TABS",$thtml);
 		}
 		$this->setVariable("SUB_TABS", $sthtml);
@@ -615,9 +617,10 @@ class ilTemplate extends ilTemplateX
 	{
 		if (!$this->getAddFooter()) return;
 		global $ilias, $ilClientIniFile, $ilCtrl, $ilDB, $ilSetting;
-
-		$this->addBlockFile("FOOTER", "footer", "tpl.footer.html");
-		$this->setVariable("ILIAS_VERSION", $ilias->getSetting("ilias_version"));
+		
+		$ftpl = new ilTemplate("tpl.footer.html", true, true);
+		
+		$ftpl->setVariable("ILIAS_VERSION", $ilias->getSetting("ilias_version"));
 
 		// output translation link
 		if ($ilSetting->get("lang_ext_maintenance") == "1")
@@ -626,7 +629,7 @@ class ilTemplate extends ilTemplateX
 			if (ilObjLanguageAccess::_checkTranslate())
 			{
 				include_once("Services/Language/classes/class.ilObjLanguageExtGUI.php");
-				$this->setVariable("TRANSLATION_LINK",
+				$ftpl->setVariable("TRANSLATION_LINK",
 					ilObjLanguageExtGUI::_getTranslationLink());
 			}
 		}
@@ -646,10 +649,10 @@ class ilTemplate extends ilTemplateX
 			}
 			if ($mem_usage != "")
 			{
-				$this->setVariable("MEMORY_USAGE", $mem_usage);
+				$ftpl->setVariable("MEMORY_USAGE", $mem_usage);
 			}
 
-			$this->setVariable("SESS_INFO", "<br />maxlifetime: ".
+			$ftpl->setVariable("SESS_INFO", "<br />maxlifetime: ".
 				ini_get("session.gc_maxlifetime")." (".
 				(ini_get("session.gc_maxlifetime")/60)."), id: ".session_id()."<br />".
 				"timestamp: ".date("Y-m-d H:i:s", $_SESSION["_authsession"]["timestamp"]).
@@ -660,34 +663,34 @@ class ilTemplate extends ilTemplateX
 			
 			if (version_compare(PHP_VERSION,'5','>='))
 			{
-				$this->setVariable("VALIDATION_LINKS",
+				$ftpl->setVariable("VALIDATION_LINKS",
 					'<br /><a href="'.
 					ilUtil::appendUrlParameterString($_SERVER["REQUEST_URI"], "do_dev_validate=xhtml").
 					'">Validate</a> | <a href="'.
 					ilUtil::appendUrlParameterString($_SERVER["REQUEST_URI"], "do_dev_validate=accessibility").
 					'">Accessibility</a>');
 			}
-			if (!empty($_GET["do_dev_validate"]) && $this->blockExists("xhtml_validation"))
+			if (!empty($_GET["do_dev_validate"]) && $ftpl->blockExists("xhtml_validation"))
 			{
 				require_once("Services/XHTMLValidator/classes/class.ilValidatorAdapter.php");
 				$template2 = ilPHP::cloneObject($this);
 //echo "-".ilValidatorAdapter::validate($template2->get(), $_GET["do_dev_validate"])."-";
-				$this->setCurrentBlock("xhtml_validation");
-				$this->setVariable("VALIDATION",
+				$ftpl->setCurrentBlock("xhtml_validation");
+				$ftpl->setVariable("VALIDATION",
 					ilValidatorAdapter::validate($template2->get("DEFAULT",
 					false, false, false, true), $_GET["do_dev_validate"]));
-				$this->parseCurrentBlock();
+				$ftpl->parseCurrentBlock();
 			}
 			
 			// controller history
-			if (is_object($ilCtrl) && $this->blockExists("c_entry") &&
-				$this->blockExists("call_history"))
+			if (is_object($ilCtrl) && $ftpl->blockExists("c_entry") &&
+				$ftpl->blockExists("call_history"))
 			{
 				$hist = $ilCtrl->getCallHistory();
 				foreach($hist as $entry)
 				{
-					$this->setCurrentBlock("c_entry");
-					$this->setVariable("C_ENTRY", $entry["class"]);
+					$ftpl->setCurrentBlock("c_entry");
+					$ftpl->setVariable("C_ENTRY", $entry["class"]);
 					if (is_object($ilDB))
 					{
 						$file = $ilCtrl->lookupClassPath($entry["class"]);
@@ -696,23 +699,23 @@ class ilTemplate extends ilTemplateX
 						{
 							$add.= " - ".$file;
 						}
-						$this->setVariable("C_FILE", $add);
+						$ftpl->setVariable("C_FILE", $add);
 					}
-					$this->parseCurrentBlock();
+					$ftpl->parseCurrentBlock();
 				}
-				$this->setCurrentBlock("call_history");
-				$this->parseCurrentBlock();
+				$ftpl->setCurrentBlock("call_history");
+				$ftpl->parseCurrentBlock();
 				
 				// debug hack
 				$debug = $ilCtrl->getDebug();
 				foreach($debug as $d)
 				{
-					$this->setCurrentBlock("c_entry");
-					$this->setVariable("C_ENTRY", $d);
-					$this->parseCurrentBlock();
+					$ftpl->setCurrentBlock("c_entry");
+					$ftpl->setVariable("C_ENTRY", $d);
+					$ftpl->parseCurrentBlock();
 				}
-				$this->setCurrentBlock("call_history");
-				$this->parseCurrentBlock();
+				$ftpl->setCurrentBlock("call_history");
+				$ftpl->parseCurrentBlock();
 			}
 		}
 
@@ -720,9 +723,11 @@ class ilTemplate extends ilTemplateX
 		// The corresponding $ilBench->start invocation is in inc.header.php
 		global $ilBench;
 		$ilBench->stop("Core", "ElapsedTimeUntilFooter");
-		$this->setVariable("ELAPSED_TIME",
+		$ftpl->setVariable("ELAPSED_TIME",
 			", ".number_format($ilBench->getMeasuredTime("Core", "ElapsedTimeUntilFooter"),1).' seconds');
 		// END Usability: Non-Delos Skins can display the elapsed time in the footer
+		
+		$this->setVariable("FOOTER", $ftpl->get());
 	}
 
 

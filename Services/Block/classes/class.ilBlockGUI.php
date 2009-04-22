@@ -714,7 +714,7 @@ abstract class ilBlockGUI
 	*/
 	function getHTML()
 	{
-		global $ilCtrl, $lng, $ilAccess;
+		global $ilCtrl, $lng, $ilAccess, $ilUser;
 		
 		if ($this->isRepositoryObject())
 		{
@@ -791,18 +791,6 @@ abstract class ilBlockGUI
 			$this->tpl->parseCurrentBlock();
 		}
 		
-		// image
-		if ($this->getImage() != "")
-		{
-			$this->tpl->setCurrentBlock("block_img");
-			$this->tpl->setVariable("IMG_BLOCK", $this->getImage());
-			$this->tpl->setVariable("IMID",
-				"block_".$this->getBlockType()."_".$this->block_id);
-			$this->tpl->setVariable("IMG_ALT",
-				str_replace(array("'",'"'), "", strip_tags($lng->txt("icon")." ".$this->getTitle())));
-			$this->tpl->parseCurrentBlock();
-		}
-		
 		// fill previous next
 		$this->fillPreviousNext();
 
@@ -818,90 +806,6 @@ abstract class ilBlockGUI
 			$this->fillMoveRow();
 		}
 
-		// header commands
-		if (count($this->getHeaderCommands()) > 0 ||
-			($this->detail_max > $this->detail_min && $this->detail_min == 0) ||
-			$this->close_command != "" || $this->allow_moving)
-		{
-
-			foreach($this->getHeaderCommands() as $command)
-			{
-				$this->tpl->setCurrentBlock("header_command");
-				$this->tpl->setVariable("HREF_HCOMM", $command["href"]);
-				$this->tpl->setVariable("TXT_HCOMM", $command["text"]);
-				$this->tpl->parseCurrentBlock();
-			}
-
-			// close button
-			if (($this->detail_max > $this->detail_min && $this->detail_min == 0 &&
-				!$this->getRepositoryMode())
-				||
-				$this->close_command != "")
-			{
-				$this->tpl->setCurrentBlock("header_close");
-				$this->tpl->setVariable("ALT_CLOSE", $lng->txt("close"));
-				if ($this->getBigMode())
-				{
-					$this->tpl->setVariable("IMG_CLOSE", ilUtil::getImagePath("icon_close2.gif"));
-				}
-				else
-				{
-					$this->tpl->setVariable("IMG_CLOSE", ilUtil::getImagePath("icon_close2_s.gif"));
-				}
-				if ($this->close_command != "")
-				{
-					$this->tpl->setVariable("HREF_CLOSE",
-						$this->close_command);
-				}
-				else
-				{
-					$ilCtrl->setParameterByClass("ilcolumngui",
-						$this->getDetailParameter(), "0");
-					$this->tpl->setVariable("HREF_CLOSE",
-							$ilCtrl->getLinkTargetByClass("ilcolumngui",
-							""));
-					$ilCtrl->setParameterByClass("ilcolumngui",
-						$this->getDetailParameter(), "");
-				}
-				$this->tpl->parseCurrentBlock();
-			}
-			
-			// move button
-	/*		
-			if ($this->allow_moving)
-			{
-				$ilCtrl->setParameterByClass("ilcolumngui",
-					$this->getConfigParameter(), "toggle");
-
-					// ajax link
-				$ilCtrl->setParameterByClass("ilcolumngui",
-					"block_id", "block_".$this->getBlockType()."_".$this->block_id);
-				$this->tpl->setCurrentBlock("oncclick");
-				$this->tpl->setVariable("OC_BLOCK_ID",
-					"block_".$this->getBlockType()."_".$this->block_id);
-				$this->tpl->setVariable("OC_HREF",
-					$ilCtrl->getLinkTargetByClass("ilcolumngui",
-					"updateBlock", "", true));
-				$this->tpl->parseCurrentBlock();
-				$ilCtrl->setParameterByClass("ilcolumngui",
-					"block_id", "");
-
-				// normal link
-				$this->tpl->setCurrentBlock("header_config");
-				$this->tpl->setVariable("IMG_CONFIG", ilUtil::getImagePath("icon_move_s.gif"));
-				$this->tpl->setVariable("ALT_CONFIG", $lng->txt("move"));
-				$this->tpl->setVariable("HREF_CONFIG",
-					$ilCtrl->getLinkTargetByClass("ilcolumngui", ""));
-				$this->tpl->parseCurrentBlock();
-				$ilCtrl->setParameterByClass("ilcolumngui",
-					$this->getConfigParameter(), "");
-			}
-*/
-
-			$this->tpl->setCurrentBlock("header_commands");
-			$this->tpl->parseCurrentBlock();
-		}
-		
 		// header links
 		if(count($this->getHeaderLinks()))
 		{
@@ -938,13 +842,21 @@ abstract class ilBlockGUI
 			$this->tpl->parseCurrentBlock();
 		}
 		
-		// title
-		$this->tpl->setVariable("BTID",
-			"block_".$this->getBlockType()."_".$this->block_id);
-		$this->tpl->setVariable("BLOCK_TITLE",
-			$this->getTitle());
-		$this->tpl->setVariable("TXT_BLOCK",
-			$lng->txt("block"));
+		// for screen readers we first output the title and the commands
+		// (e.g. close icon afterwards), otherwise we first output the
+		// header commands, since we want to have the close icon top right
+		// and not floated after the title
+		if (is_object($ilUser) && $ilUser->prefs["screen_reader_optimization"])
+		{
+			$this->fillHeaderTitleBlock();
+			$this->fillHeaderCommands();
+		}
+		else
+		{
+			$this->fillHeaderCommands();
+			$this->fillHeaderTitleBlock();
+		}
+			
 		$this->tpl->setVariable("COLSPAN", $this->getColSpan());
 		if ($this->getBigMode())
 		{
@@ -967,6 +879,107 @@ abstract class ilBlockGUI
 				$this->tpl->get().'</div>';
 		}
 	}
+	
+	/**
+	* Fill header commands block
+	*/
+	function fillHeaderCommands()
+	{
+		global $lng, $ilCtrl;
+		
+		// header commands
+		if (count($this->getHeaderCommands()) > 0 ||
+			($this->detail_max > $this->detail_min && $this->detail_min == 0) ||
+			$this->close_command != "" || $this->allow_moving)
+		{
+
+			foreach($this->getHeaderCommands() as $command)
+			{
+				$this->tpl->setCurrentBlock("header_command");
+				$this->tpl->setVariable("HREF_HCOMM", $command["href"]);
+				$this->tpl->setVariable("TXT_HCOMM", $command["text"]);
+				$this->tpl->parseCurrentBlock();
+			}
+
+			// close button
+			if (($this->detail_max > $this->detail_min && $this->detail_min == 0 &&
+				!$this->getRepositoryMode())
+				||
+				$this->close_command != "")
+			{
+				$this->tpl->setCurrentBlock("header_close");
+				$this->tpl->setVariable("ALT_CLOSE",
+					strip_tags(str_replace(array("'",'"'), "", $this->getTitle())).
+					" (".$lng->txt("block")."): ".$lng->txt("close")
+					);
+				if ($this->getBigMode())
+				{
+					$this->tpl->setVariable("IMG_CLOSE", ilUtil::getImagePath("icon_close2.gif"));
+				}
+				else
+				{
+					$this->tpl->setVariable("IMG_CLOSE", ilUtil::getImagePath("icon_close2_s.gif"));
+				}
+				if ($this->close_command != "")
+				{
+					$this->tpl->setVariable("HREF_CLOSE",
+						$this->close_command);
+				}
+				else
+				{
+					$ilCtrl->setParameterByClass("ilcolumngui",
+						$this->getDetailParameter(), "0");
+					$this->tpl->setVariable("HREF_CLOSE",
+							$ilCtrl->getLinkTargetByClass("ilcolumngui",
+							""));
+					$ilCtrl->setParameterByClass("ilcolumngui",
+						$this->getDetailParameter(), "");
+				}
+				$this->tpl->parseCurrentBlock();
+			}
+			
+			$this->tpl->setCurrentBlock("header_commands");
+			$this->tpl->parseCurrentBlock();
+		}
+		
+		$this->tpl->setCurrentBlock("hitem");
+		$this->tpl->parseCurrentBlock();
+	}
+	
+	
+	/**
+	* Fill header title block (title and 
+	*/
+	function fillHeaderTitleBlock()
+	{
+		global $lng;
+		
+		// image
+		if ($this->getImage() != "")
+		{
+			$this->tpl->setCurrentBlock("block_img");
+			$this->tpl->setVariable("IMG_BLOCK", $this->getImage());
+			$this->tpl->setVariable("IMID",
+				"block_".$this->getBlockType()."_".$this->block_id);
+			$this->tpl->setVariable("IMG_ALT",
+				str_replace(array("'",'"'), "", strip_tags($lng->txt("icon")." ".$this->getTitle())));
+			$this->tpl->parseCurrentBlock();
+		}
+
+		// header title
+		$this->tpl->setCurrentBlock("header_title");
+		$this->tpl->setVariable("BTID",
+			"block_".$this->getBlockType()."_".$this->block_id);
+		$this->tpl->setVariable("BLOCK_TITLE",
+			$this->getTitle());
+		$this->tpl->setVariable("TXT_BLOCK",
+			$lng->txt("block"));
+		$this->tpl->parseCurrentBlock();
+			
+		$this->tpl->setCurrentBlock("hitem");
+		$this->tpl->parseCurrentBlock();
+	}
+	
 	
 	/**
 	* Call this from overwritten fillDataSection(), if standard row based data is not used.
@@ -1282,7 +1295,9 @@ abstract class ilBlockGUI
 					$this->tpl->setVariable("SRC_LINK",
 						ilUtil::getImagePath("details".$i.".gif"));
 					$this->tpl->setVariable("ALT_LINK",
-						$lng->txt("details_".$i));
+						strip_tags(str_replace(array("'",'"'), "", $this->getTitle())).
+						" (".$lng->txt("block")."): ".$lng->txt("details")." ".$i
+						);
 					$this->tpl->setVariable("DHREF",
 						$ilCtrl->getLinkTargetByClass("ilcolumngui",
 						""));
@@ -1294,7 +1309,9 @@ abstract class ilBlockGUI
 					$this->tpl->setCurrentBlock("det_text");
 					//$this->tpl->setVariable("DTEXT", $i);
 					$this->tpl->setVariable("ALT_NO_LINK",
-						$lng->txt("details_".$i));
+						strip_tags(str_replace(array("'",'"'), "", $this->getTitle())).
+						" (".$lng->txt("block")."): ".$lng->txt("details")." ".$i.
+						" (".$lng->txt("selected").")");
 					$this->tpl->setVariable("SRC_NO_LINK",
 						ilUtil::getImagePath("details".$i."off.gif"));
 					$this->tpl->parseCurrentBlock();

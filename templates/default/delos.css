@@ -1,14 +1,56 @@
 /* -- for link pseudo-classes, respect order: Link, Visited, Hover, Active -- */
 
+div.ilFrame{
+	padding:5px;
+	background-image: url(images/frame_back.gif);
+	background-repeat: repeat-x;
+	background-color: #f0f0f0;
+}
+
+div.ilFrameH{
+	background-image: url(images/head_back.gif);
+	background-repeat: repeat-x;
+	background-color: #a7d3ff;
+}
+
+div.ilFrameTL{
+	background-image: url(images/tl.gif);
+	background-repeat: no-repeat;
+}
+
+div.ilFrameTR{
+	background-image: url(images/tr.gif);
+	background-repeat: no-repeat;
+	background-position: top right;
+}
 
 body.il_Explorer {
-	color:#222222;
-	background-color:#FFFFFF;
+	background-image: url(images/frame_back.gif);
+	background-repeat: repeat-x;
+	background-color: #f0f0f0;
 	font-family:Verdana,Arial,Helvetica,sans-serif;
 	margin:0px;
 	font-size:0.9em;
 }
 
+table.ilExplorer {
+	width:100%;
+	background-color: #F6F6F6;
+	/* background-image: url(images/head_back.gif);
+	background-repeat: repeat-x;
+	background-color: #a7d3ff; */
+}
+
+div.ilExplorerFrame {
+	padding:5px;
+	min-height:600px;
+}
+
+td.ilExpH {
+	background-image: url(images/tr.gif);
+	background-repeat: no-repeat;
+	background-position: top right; 
+}
 
 .btnbar {
 	background-color:#ffffff;
@@ -351,10 +393,6 @@ div.il_ContainerItemCommands
 }
 
 /*Link, Visited, Hover, Focus, Activ*/
-a.il_ContainerItemTitle:link, a.il_ContainerItemTitle:visited, a.il_ContainerItemTitle:hover
-{
-	text-decoration: none;
-}
 
 h4.il_ContainerItemTitle
 {
@@ -415,7 +453,7 @@ span.il_ItemProperty
 div.ilTopTitle
 {
 	font-size: 120%;
-	color: #606060;
+	color: #335599;
 	letter-spacing: 0.05em;
 	word-spacing: -0.1em;
 	white-space: nowrap;
@@ -523,6 +561,7 @@ table.il_Locator
 
 div.il_Locator {
 	padding-top: 2px;
+	padding-left: 13px;
 	vertical-align:top;
 	font-size: 80%;
 	font-weight: normal;
@@ -559,7 +598,7 @@ form.il_Form, form.ilForm
 
 table.ilForm
 {
-	background-color:#F3F6FF;
+	background-color:#FAFAFA;
 	border-spacing:0px;
 	border-collapse:collapse;
 	border-width:1px;
@@ -569,10 +608,10 @@ table.ilForm
 
 td.ilFormHeader, td.ilFormFooter
 {
-	background-color:#E0E5F6;
+	background-color:#EAEAEA;
 	padding: 4px 5px 1px 5px;
 	font-size:90%;
-	color: #000560;
+	color: #303030;
 }
 
 h3.ilFormHeader
@@ -586,36 +625,42 @@ h3.ilFormHeader
 
 td.ilFormOption
 {
-	padding: 10px;
+	padding: 8px;
 	text-align: right;
 	vertical-align:top;
 	border-right-width: 1px;
 	border-right-style: solid;
-	border-right-color: #E0E5F6;
+	border-right-color: #EAEAEA;
+	font-size:90%;
 	width: 200px;
+	font-weight: bold;
 }
 
 td.ilFormSubOption
 {
-	padding: 10px;
+	font-weight: bold;
+	padding: 8px;
 	padding-left: 40px;
 	text-align:right;
 	vertical-align:top;
 	border-right-width: 1px;
 	border-right-style: solid;
-	border-right-color: #E0E5F6;
+	border-right-color: #EAEAEA;
+	font-size:90%;
 }
 
 td.ilFormValue
 {
-	padding: 10px;
+	padding: 8px;
 	vertical-align:top;
+	font-size:90%;
 }
 
 td.ilFormSubValue
 {
-	padding: 10px;
+	padding: 8px;
 	vertical-align:top;
+	font-size:90%;
 }
 
 div.ilFormInfo
@@ -631,19 +676,19 @@ label, input[type=checkbox], input[type=radio], select
 
 input[type=text], input[type=file], input[type=password]
 {
-	font-size: 80%;
+	font-size: 90%;
 	border-width: 1px;
 	border-style: solid;
-	border-color: #D0D5E6;
+	border-color: #E0E0E0;
 	padding:3px;
 }
 
 select
 {
-	font-size: 80%;
+	font-size: 90%;
 	border-width: 1px;
 	border-style: solid;
-	border-color: #D0D5E6;
+	border-color: #E0E0E0;
 	padding:2px;
 }
 
@@ -651,7 +696,7 @@ select
 input[type=text].numeric
 {
 	text-align: right;
-	font-size: 80%;
+	font-size: 90%;
 }
 
 input[type=checkbox], input[type=radio]
@@ -668,7 +713,7 @@ textarea
 	border-color: #D0D5E6;
 	padding:3px;
 	text-decoration:none;
-	font-size: 80%;
+	font-size: 90%;
 }
 
 textarea.fullwidth
@@ -730,16 +775,29 @@ div.il_Explorer
 {
 	margin:0px;
 	padding:3px;
-	background-color: #FFFFFF;
+	min-height: 400px;
 }
 
-div.il_ExplorerHeader
+div.ilExpH{
+	background-image: url(images/tl.gif);
+	background-repeat: no-repeat;
+	min-height: 35px;
+}
+
+td.ilExpBody{
+	border-top: 1px solid #E0E0E0;
+	background-color: #FAFAFA;
+	padding: 10px 5px;
+}
+
+h3.ilExplorerHead
 {
-	padding: 1px 3px;
+	color: #404040;
+	margin: 0px;
+	padding: 10px 5px 10px 28px;
 	vertical-align:top;
 	text-align:left;
 	font-weight: bold;
-	background-color: #FFFFFF;
 	font-size: 90%;
 }
 
@@ -751,23 +809,22 @@ div.il_ExplorerTree
 ul.il_Explorer
 {
 	margin: 0px 0px 0px 10px;
-	padding: 0px 0px 0px 0px;
+	padding: 0px;
 	list-style:none;
 }
 
 ul.il_ExplorerNoIndent
 {
 	margin: 0px;
-	padding: 0px 0px;
+	padding: 0px;
 	list-style:none;
 }
 
 li.il_Explorer
 {
-	margin: 0px 0px 0px 0px;
-	padding: 0px 0px 0px 0px;
+	margin: 0px;
+	padding: 0px;
 	white-space: nowrap;
-	background-color: #FFFFFF;
 }
 
 li.il_ExplorerInline
@@ -834,15 +891,21 @@ div.il_HeaderOuter
 	clear: both;
 }
 
-div.il_Header
+div.il_Header, a#il_mhead_t_focus
 {
+	color: #505050;
+}
+
+h1.il_Header
+{
+	padding-left: 5px;
 }
 
 div.il_HeaderInner
 {
 	float:left;
 	margin: 0px;
-	padding: 0px;
+	padding-left: 10px;
 	color:#222222;
 }
 
@@ -893,10 +956,11 @@ span.il_menu
 
 div.il_Footer
 {
-	margin-top:30px;
-	margin-bottom:10px;
+	padding-top:10px;
+	padding-bottom:10px;
 	font-size: 90%;
 	text-align:center;
+	background-color: #F9F9F9;
 }
 
 div.ilPermaLink
@@ -923,7 +987,7 @@ td.ilInvisibleBorder
 
 td.il_LeftColumn
 {
-	padding-right:15px;
+	padding-right:10px;
 	vertical-align:top;
 	width:23%;
 }
@@ -935,7 +999,7 @@ td.il_CenterColumn
 
 td.il_RightColumn
 {
-	padding-left:15px;
+	padding-left:10px;
 	vertical-align:top;
 	width:23%;
 }
@@ -1045,7 +1109,7 @@ a:link, a:visited {
 
 a:hover {
 	color:#000000;
-	/* text-decoration: underline; */
+	text-decoration: underline;
 }
 
 
@@ -1829,7 +1893,8 @@ div.il_SearchFragment
 div.ilMainHeader
 {
 	right: 0px;
-	min-height: 48px;
+	min-height: 50px;
+	padding-top: 8px;
 }
 
 a.ilLogin, a.ilLogin:visited
@@ -1844,7 +1909,7 @@ div.il_MainMenu
 	background-repeat: repeat-x;
 	background-position: bottom;	
 	margin: 0px;
-	padding: 0px 0px 6px 0px;
+	padding: 0px 0px 6px 20px;
 	line-height: normal;
 }
 
@@ -1852,9 +1917,9 @@ a.MMInactive:link, a.MMInactive:visited
 {
 	color:#FFFFFF;
     padding: 0px 0px;
-	font-size: 85%;
+	font-size: 90%;
 	text-decoration:none;
-	margin: 0px 0px 5px 15px;
+	margin: 0px 15px 5px 0px;
 	font-weight: normal;
 	white-space: nowrap;
 }
@@ -1862,32 +1927,23 @@ a.MMInactive:link, a.MMInactive:visited
 a.MMInactive:hover
 {
 	color: #8CC6FF;
-    padding: 0px 0px;
-	font-size: 85%;
 	text-decoration:none;
-	margin: 0px 0px 5px 15px;
-	font-weight: normal;
 }
 
 a.MMActive:link, a.MMActive:visited
 {
 	color: #8CC6FF;
     padding: 0px 0px;
-	font-size: 85%;
+	font-size: 90%;
 	text-decoration:none;
-	margin: 0px 0px 5px 15px;
+	margin: 0px 15px 5px 0px;
 	font-weight: normal;
 	white-space: nowrap;
 }
 
 a.MMActive:hover
 {
-	color: #8CC6FF;
-    padding: 0px 0px;
-	font-size: 85%;
 	text-decoration:none;
-	margin: 0px 0px 5px 15px;
-	font-weight: normal;
 }
 
 div.ilMainMenuSearch {
@@ -1908,7 +1964,12 @@ input.ilMainMenuSearch {
 	border-color: #D6D6D6;
 	width:150px;
 	padding: 1px;
+	padding-right: 20px;
 	margin: 0px;
+	background-image: url(images/icon_seas_s.gif);
+	background-repeat: no-repeat;
+	background-position: center right;
+	min-height:16px;
 }
 
 input.ilMainMenuSearchSubmit
@@ -1938,7 +1999,7 @@ table.ilTabContentOuter
 	border-style: solid;
 	border-color: #bccae5;
 	background-color: #FFFFFF;
-	border-width: 2px 1px;
+	border-width: 1px 1px;
 	margin: 0px;
 	clear:both;
 	width:100%;
@@ -1946,17 +2007,17 @@ table.ilTabContentOuter
 
 div.ilTabContentInner
 {
-	padding: 0px 15px;
+	padding: 0px 5px;
 	margin: 10px 0px;
 	clear:both;
-	min-height: 250px;
+	min-height: 300px;
 }
 
 
 div.ilBelowMainMenu
 {
-	background-color: #FFFFFF;
-	padding: 0px 15px;
+	background-color: #F9F9F9;
+	padding: 0px 5px 10px 5px;
 }
 
 body {
@@ -1973,10 +2034,10 @@ div.il_Tab
 {
     float:left;
 	padding-left:0px;
-    line-height:normal;
+	line-height:normal;
 	border-bottom-color: #bccae5;
-	border-bottom-width: 2px;
-	margin: 0px 15px;
+	border-bottom-width: 1px;
+	margin: 0px 10px;
 }
 
 ul.il_Tab
@@ -1985,7 +2046,7 @@ ul.il_Tab
 	padding: 0px;
 	list-style:none;
 	position: relative;
-	top: 2px;
+	top: 1px;
 	white-space: nowrap;
 }
 
@@ -1994,7 +2055,7 @@ li.tabinactive
 	float:left;
 	margin: 0px 2px 0px 0px;
 	padding: 0px;
-	border-bottom-width: 2px;
+	border-bottom-width: 1px;
 	border-bottom-style: solid;
 	border-bottom-color: #bccae5;
 }
@@ -2028,9 +2089,10 @@ li.tabactive
 	border-width: 1px;
 	border-style: solid;
 	border-color: #bccae5;
-	border-bottom-width: 2px;
+	border-bottom-width: 1px;
 	border-bottom-style: solid;
 	border-bottom-color: #FFFFFF;
+	background-color: #FFFFFF;
 }
 
 a.tabactive:link, a.tabactive:visited, a.tabactive:hover
@@ -2088,7 +2150,7 @@ div.il_SubTab
     float:left;
     width:100%;
 	margin: 0px;
-	/* background-color: #E5F0FF; */
+	padding-left: 2px;
 }
 
 ul.il_SubTab
@@ -2103,20 +2165,19 @@ li.subtabinactive
 {
 	float:left;
 	margin:0px;
-	padding:0px 5px;
+	padding-right: 15px;
 }
 
 a.subtabinactive
 {
 	float: left;
 	display:block;
-    padding: 3px 5px 3px 5px;
+    padding: 3px 0px 3px 0px;
 	font-size: 80%;
 }
 
 a.subtabinactive:hover
 {
-	/* background-color: #FFFFFF; */
 	text-decoration: underline;
 }
 
@@ -2124,14 +2185,14 @@ li.subtabactive
 {
 	float:left;
 	margin:0;
-	padding:0px 5px;
+	padding-right: 15px;
 }
 
 a.subtabactive, a.subtabactive:hover
 {
 	float: left;
 	display:block;
-    padding: 3px 5px 3px 5px;
+    padding: 3px 0px 3px 0px;
 	font-size: 80%;
 	color: #000000;
 	/* background-color: #FFFFFF; */
@@ -2167,21 +2228,23 @@ table.il_Block
 	clear:both;
 }
 
-th.ilBlockHeader
+td.ilBlockHeader
 {
 	font-weight: bold;
 	padding: 3px;
 	background-color: #F3F3F3;
 	text-align:left;
 	font-size: 90%;
+	color: #404040;
 }
 
-th.ilBlockHeaderBig
+td.ilBlockHeaderBig
 {
 	font-weight: bold;
 	padding: 3px;
 	background-color: #F3F3F3;
 	text-align:left;
+	color: #404040;
 }
 
 h3.ilBlockHeader
@@ -2263,10 +2326,10 @@ h3.ilPDBlockSubHeader
 
 div.tblfooter {
 	font-weight:normal;
-	/* background-color: #F8F8F8; */
-	margin-top: 6px;
+	background-color: #F9F9F9;
+	padding: 3px;
 	font-size: 80%;
-	float:right;
+	text-align:right;
 }
 
 td.tblfooter {
@@ -2368,14 +2431,17 @@ div.il_adv_cont {
 
 div.ilTableHeaderTitle
 {
-	margin-bottom: 5px;
-	float:left;
+	font-weight: bold;
+	background-color: #F3F3F3;
+	padding: 3px;
+	font-size: 90%;
+	color: #404040;
 }
 
 h3.ilTableHeaderTitle
 {
-	font-size: 120%;
-	font-weight-normal;
+	font-weight: bold;
+	font-size: 100%;
 	display:inline;
 	padding: 0px;
 	margin: 0px;
@@ -2386,7 +2452,7 @@ div.ilTableOuter
 	border-width:1px;
 	border-style:solid;
 	border-color:#D6D6D6;
-	clear:both;
+	padding:0px;
 }
 
 div.ilTableSelectAll
@@ -2419,7 +2485,7 @@ table.fullwidth {
 tr.tblheader
 {
 	font-weight: normal;
-	background-color: #F0F0F0;
+	background-color: #F9F9F9;
 	font-size:90%;
 	border-bottom-color:#D6D6D6;
 	border-bottom-style:solid;
