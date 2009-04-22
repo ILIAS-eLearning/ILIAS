@@ -1285,7 +1285,7 @@ class ilObjectListGUI
 		if(strlen($this->getSearchFragment()))
 		{
 			$this->tpl->setCurrentBlock('search_fragment');
-			$this->tpl->setVariable('TXT_SEARCH_FRAGMENT','... '.$this->getSearchFragment().' ...');
+			$this->tpl->setVariable('TXT_SEARCH_FRAGMENT',$this->getSearchFragment().' ...');
 			$this->tpl->parseCurrentBlock();
 		}
 	}
