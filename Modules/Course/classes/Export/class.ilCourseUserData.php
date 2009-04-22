@@ -77,8 +77,8 @@ class ilCourseUserData
 		{
 			return array();
 		}
-		$where = ("WHERE field_id IN (".implode(",",ilUtil::quoteArray($field_ids)).") ");
-		
+				
+		$where = "WHERE ".$ilDB->in('field_id',$field_ids,false,'integer');
 		$query = "SELECT * FROM crs_user_data ".
 			$where;
 		
@@ -113,11 +113,14 @@ class ilCourseUserData
 			return true;
 		}
 		
-		$and = ("AND field_id IN (".implode(",",ilUtil::quoteArray($required)).")");
-		$query = "SELECT COUNT(*) as num_entries FROM crs_user_data ".
-			"WHERE usr_id = ".$ilDB->quote($a_usr_id)." ".
+		//$and = ("AND field_id IN (".implode(",",ilUtil::quoteArray($required)).")");
+		$and = "AND ".$ilDB->in('field_id',$required,false,'integer');
+		
+		$query = "SELECT 1 empty, COUNT(*) num_entries FROM crs_user_data ".
+			"WHERE usr_id = ".$ilDB->quote($a_usr_id ,'integer')." ".
 			"AND value != '' ".
-			$and;
+			$and." ".
+			"GROUP BY (empty) ";
 		$res = $ilDB->query($query);
 		$row = $res->fetchRow(DB_FETCHMODE_OBJECT);
 		
@@ -137,8 +140,8 @@ class ilCourseUserData
 		global $ilDB;
 		
 		$query = "DELETE FROM crs_user_data ".
-			"WHERE usr_id = ".$ilDB->quote($a_user_id);
-		$ilDB->query($query);
+			"WHERE usr_id = ".$ilDB->quote($a_user_id ,'integer');
+		$res = $ilDB->manipulate($query);
 				 	
 	}
 	
@@ -154,8 +157,8 @@ class ilCourseUserData
 		global $ilDB;
 		
 		$query = "DELETE FROM crs_user_data ".
-			"WHERE field_id = ".$ilDB->quote($a_field_id);
-		$ilDB->query($query);
+			"WHERE field_id = ".$ilDB->quote($a_field_id ,'integer');
+		$res = $ilDB->manipulate($query);
 	}
 	
 	public function setValue($a_value)
@@ -187,10 +190,12 @@ class ilCourseUserData
 	 */
 	public function delete()
 	{
+	 	global $ilDB;
+	 	
 	 	$query = "DELETE FROM crs_user_data ".
-	 		"WHERE usr_id = ".$this->db->quote($this->user_id)." ".
-	 		"AND field_id = ".$this->db->quote($this->field_id);
-	 	$this->db->query($query);
+	 		"WHERE usr_id = ".$this->db->quote($this->user_id ,'integer')." ".
+	 		"AND field_id = ".$this->db->quote($this->field_id ,'integer');
+	 	$res = $ilDB->manipulate($query);
 	}
 	
 	/**
@@ -201,11 +206,15 @@ class ilCourseUserData
 	 */
 	public function create()
 	{
-	 	$query = "INSERT INTO crs_user_data SET ".
-	 		"value = ".$this->db->quote($this->getValue()).", ".
-	 		"usr_id = ".$this->db->quote($this->user_id).", ".
-	 		"field_id = ".$this->db->quote($this->field_id)." ";
-	 	$this->db->query($query);
+	 	global $ilDB;
+	 	
+	 	$query = "INSERT INTO crs_user_data (value,usr_id,field_id) ".
+	 		"VALUES( ".
+	 		$this->db->quote($this->getValue() ,'integer').", ".
+	 		$this->db->quote($this->user_id ,'integer').", ".
+	 		$this->db->quote($this->field_id ,'integer')." ".
+	 		")";
+	 	$res = $ilDB->manipulate($query);
 	}
 
 	/**
@@ -215,9 +224,11 @@ class ilCourseUserData
 	 */
 	private function read()
 	{
+	 	global $ilDB;
+	 	
 	 	$query = "SELECT * FROM crs_user_data ".
-	 		"WHERE usr_id = ".$this->db->quote($this->user_id)." ".
-	 		"AND field_id = ".$this->db->quote($this->field_id);
+	 		"WHERE usr_id = ".$this->db->quote($this->user_id ,'integer')." ".
+	 		"AND field_id = ".$this->db->quote($this->field_id ,'integer');
 	 	$res = $this->db->query($query);
 	 	$row = $res->fetchRow(DB_FETCHMODE_OBJECT);
 

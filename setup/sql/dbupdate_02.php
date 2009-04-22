@@ -11213,3 +11213,67 @@ $ilCtrlStructureReader->getStructure();
 <?php
 $ilCtrlStructureReader->getStructure();
 ?>
+
+<#2312>
+ALTER TABLE `crs_settings` CHANGE `syllabus` `syllabus` VARCHAR( 4000 ) NULL DEFAULT NULL;
+
+<#2313>
+ALTER TABLE `crs_settings` CHANGE `contact_consultation` `contact_consultation` VARCHAR( 4000 ) NULL DEFAULT NULL;
+  
+<#2314>
+ALTER TABLE `crs_settings` CHANGE `important` `important` VARCHAR( 4000 ) NOT NULL;
+
+<#2315>
+ALTER TABLE `crs_settings` CHANGE `subscription_limitation_type` `sub_limitation_type` TINYINT( 1 ) NOT NULL DEFAULT '0' ;
+
+<#2316>
+ALTER TABLE `crs_settings` CHANGE `subscription_start` `sub_start` INT( 11 ) NULL DEFAULT NULL;
+
+<#2317>
+ALTER TABLE `crs_settings` CHANGE `subscription_end` `sub_end` INT( 11 ) NULL DEFAULT NULL;
+
+<#2318>
+ALTER TABLE `crs_settings` CHANGE `subscription_type` `sub_type` INT( 2 ) NULL DEFAULT NULL;
+
+<#2319>
+ALTER TABLE `crs_settings` CHANGE `subscription_password` `sub_password` VARCHAR( 32 ) NULL DEFAULT NULL;
+
+<#2320>
+ALTER TABLE `crs_settings` CHANGE `subscription_membership_limitation` `sub_mem_limit` TINYINT( 1 ) NOT NULL DEFAULT '0';
+
+<#2321>
+ALTER TABLE `crs_settings` CHANGE `subscription_max_members` `sub_max_members` INT( 4 ) NULL DEFAULT NULL;
+
+<#2322>
+ALTER TABLE `crs_settings` CHANGE `subscription_notify` `sub_notify` INT( 2 ) NULL DEFAULT NULL;  
+
+<#2323>
+<?php 
+	$ilMySQLAbstraction->performAbstraction('crs_settings');
+?>
+
+<#2324>
+<?php 
+	$ilMySQLAbstraction->performAbstraction('crs_start');
+?>
+
+<#2325>
+<?php 
+	$ilMySQLAbstraction->performAbstraction('crs_timings_planed');
+?>
+
+<#2326>
+ALTER TABLE `crs_timings_usr_accept` CHANGE `remark` `remark` VARCHAR( 4000 ) NOT NULL;
+
+<#2327>
+<?php 
+	$ilMySQLAbstraction->performAbstraction('crs_timings_usr_accept');
+?>
+
+<#2328>
+ALTER TABLE `crs_user_data` CHANGE `value` `value` VARCHAR( 4000 ) NOT NULL;  
+
+<#2329>
+<?php 
+	$ilMySQLAbstraction->performAbstraction('crs_user_data');
+?>
