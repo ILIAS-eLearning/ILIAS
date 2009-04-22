@@ -315,6 +315,12 @@ class ilObjSearchSettingsGUI extends ilObjectGUI
 		$relevance->setValue(1);
 		$relevance->setChecked($this->settings->isRelevanceVisible());
 		$this->form->addItem($relevance);
+		
+		$last_index = new ilDateTimeInputGUI($this->lng->txt('lucene_last_index_time'),'last_index');
+		$last_index->setShowTime(true);
+		$last_index->setDate($this->settings->getLastIndexTime());
+		$last_index->setInfo($this->lng->txt('lucene_last_index_time_info'));
+		$this->form->addItem($last_index);
 	
 		return true;
 	}
@@ -338,6 +344,7 @@ class ilObjSearchSettingsGUI extends ilObjectGUI
 		
 		if($this->form->checkInput())
 		{
+			$settings->setLastIndexTime($this->form->getItemByPostVar('last_index')->getDate());
 			$settings->update();
 			
 			// refresh lucene server

@@ -36,6 +36,7 @@ class ilLuceneSearchResultPresentation
 	protected $lng;
 
 	private $results = array();
+	private $has_more_ref_ids = array();
 	private $searcher = null;
 	
 	private $container = null;
@@ -46,10 +47,11 @@ class ilLuceneSearchResultPresentation
 	 */
 	public function __construct($container = null)
 	{
-		global $tpl,$lng;
+		global $tpl,$lng,$ilCtrl;
 		
 		$this->lng = $lng;
 		$this->container = $container;
+		$this->ctrl = $ilCtrl;
 		
 		if(isset($_GET['details']))
 		{
@@ -82,6 +84,42 @@ class ilLuceneSearchResultPresentation
 	public function getResults()
 	{
 		return $this->results ? $this->results : array();
+	}
+	
+	/**
+	 * Check if more than one reference is visible 
+	 */
+	protected function parseResultReferences()
+	{
+		global $ilAccess;
+		
+		foreach($this->getResults() as $ref_id => $obj_id)
+		{
+			$counter = 0;
+			foreach(ilObject::_getAllReferences($obj_id) as $new_ref)
+			{
+				if($new_ref == $ref_id)
+				{
+					continue;
+				}
+				if(!$ilAccess->checkAccess('read','',$new_ref))
+				{
+					continue;
+				}
+				++$counter;
+			}
+			$this->has_more_ref_ids[$ref_id] = $counter;
+		}
+	}
+	
+	protected function hasMoreReferences($a_ref_id)
+	{
+		if(!isset($this->has_more_ref_ids[$a_ref_id]) or !$this->has_more_ref_ids[$a_ref_id])
+		{
+			return false;
+		}
+		
+		return $this->has_more_ref_ids[$a_ref_id];
 	}
 	
 	/**
@@ -122,6 +160,7 @@ class ilLuceneSearchResultPresentation
 		$this->html = '';
 		$this->newBockTemplate();
 		$item_html = array();
+		$this->parseResultReferences();
 		foreach($this->getResults() as $ref_id => $res_data)
 		{
 			$obj_id = $res_data;
@@ -143,9 +182,12 @@ class ilLuceneSearchResultPresentation
 			
 			if($html = $item_list_gui->getListItemHTML($ref_id,$obj_id,$title,$description))
 			{
-				$html .= $this->appendSubItems($item_list_gui,$ref_id,$obj_id,$type);
-				$html .= $this->appendPath($ref_id);
-				$html .= $this->appendRelevance($obj_id);
+				$html .= $this->appendAdditionalInformation($item_list_gui,$ref_id,$obj_id,$type);
+				
+#				$html .= $this->appendSubItems($item_list_gui,$ref_id,$obj_id,$type);
+#				$html .= $this->appendPath($ref_id);
+#				$html .= $this->appendMorePathes($ref_id);
+#				$html .= $this->appendRelevance($obj_id);
 				//$html = $this->appendRelevance($obj_id).$html;
 				
 				$item_html[$ref_id]['html'] = $html;
@@ -261,6 +303,38 @@ class ilLuceneSearchResultPresentation
 		return $this->searcher->getHighlighter()->getContent($a_obj_id,$a_sub_id);
 	}
 	
+	/**
+	 * Append path, relevance information
+	 */
+	protected function appendAdditionalInformation($item_list_gui,$ref_id,$obj_id,$type)
+	{
+		$sub = $this->appendSubItems($item_list_gui,$ref_id,$obj_id,$type);
+		$path = $this->appendPath($ref_id);
+		$more = $this->appendMorePathes($ref_id);
+		$rel = $this->appendRelevance($obj_id);
+		
+		if(!strlen($sub) and 
+			!strlen($path) and
+			!strlen($more) and
+			!strlen($rel))
+		{
+			return '';
+		}
+		$tpl = new ilTemplate('tpl.lucene_additional_information.html',true,true,'Services/Search');
+		$tpl->setVariable('SUBITEM',$sub);
+		if(strlen($path)) {
+			$tpl->setVariable('PATH',$path);
+		}
+		if(strlen($more)) {
+			$tpl->setVariable('MORE_PATH',$more);
+		}
+		if(strlen($rel)) {
+			$tpl->setVariable('RELEVANCE',$rel);
+		}
+		
+		return $tpl->get();
+	}
+	
 	
 	/**
 	 * Append path  
@@ -275,7 +349,26 @@ class ilLuceneSearchResultPresentation
 		
 		$tpl = new ilTemplate('tpl.lucene_path.html',true,true,'Services/Search');
 		$tpl->setVariable('PATH_ITEM',$path_gui->getPath(ROOT_FOLDER_ID,$a_ref_id));
-		return $tpl->get();		
+		return $tpl->get();	
+	}
+	
+	/**
+	 * Append more occurences link 
+	 * @return
+	 */
+	protected function appendMorePathes($a_ref_id)
+	{
+		if(!$num_refs = $this->hasMoreReferences($a_ref_id))
+		{
+			return '';
+		}
+		$tpl = new ilTemplate('tpl.lucene_more_references.html',true,true,'Services/Search');
+		$this->ctrl->setParameter($this->getContainer(),'refs',$a_ref_id);
+		$tpl->setVariable('MORE_REFS_LINK',$this->ctrl->getLinkTarget($this->getContainer(),''));
+		$this->ctrl->clearParameters($this->getContainer());
+		
+		$tpl->setVariable('TXT_MORE_REFS',sprintf($this->lng->txt('lucene_all_occurrences'),$num_refs));
+		return $tpl->get();
 	}
 	
 	/**
@@ -308,7 +401,8 @@ class ilLuceneSearchResultPresentation
 		$tpl->setVariable('IMG_A',ilUtil::getImagePath("relevance_blue.gif"));
 		$tpl->setVariable('IMG_B',ilUtil::getImagePath("relevance_dark.gif"));
 		$tpl->parseCurrentBlock();
-		return $tpl->get();
+		$html = $tpl->get();
+		return $html;
 	}
 	
 	/**

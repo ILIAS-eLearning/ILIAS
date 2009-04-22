@@ -9213,3 +9213,6 @@ dateplaner#:#cal_month_selection#:#Monatsauswahl
 dateplaner#:#cal_day_overview#:#Tagesübersicht
 dateplaner#:#cal_week_overview#:#Wochenübersicht
 dateplaner#:#cal_month_overview#:#Monatsübersicht
+search#:#lucene_last_index_time#:#Letzte Indexerstellung
+search#:#lucene_last_index_time_info#:#Bitte ändern Sie dieses Einstellung nur dann, wenn Sie ein Backup einer Lucene Indexdatei installiert haben.
+search#:#lucene_all_occurrences#:#... %s weitere(s) Vorkommen

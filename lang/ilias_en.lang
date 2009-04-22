@@ -9244,3 +9244,6 @@ dateplaner#:#cal_day_overview#:#Day Overview
 dateplaner#:#cal_week_overview#:#Week Overview
 dateplaner#:#cal_month_overview#:#Month Overview
 common#:#stat_selected#:#Selected
+search#:#lucene_last_index_time#:#Last Index Generation
+search#:#lucene_last_index_time_info#:#Please modify this settings only if you have installed an index backup.
+search#:#lucene_all_occurrences#:#... %s other occurrence(s)
