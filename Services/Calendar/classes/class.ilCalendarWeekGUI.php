@@ -119,6 +119,8 @@ class ilCalendarWeekGUI
 	 */
 	public function show()
 	{
+		global $ilUser, $lng;
+		
 		$this->tpl = new ilTemplate('tpl.week_view.html',true,true,'Services/Calendar');
 		
 		include_once('./Services/YUI/classes/class.ilYuiUtil.php');
@@ -190,6 +192,9 @@ class ilCalendarWeekGUI
 			$this->tpl->parseCurrentBlock();
 			$counter++;
 		}
+		$this->tpl->setCurrentBlock('fullday_apps');
+		$this->tpl->setVariable('TXT_F_DAY', $lng->txt("cal_all_day"));
+		$this->tpl->parseCurrentBlock();
 		
 		$new_link_counter = 0;
 		foreach($hours as $num_hour => $hours_per_day)
@@ -200,6 +205,16 @@ class ilCalendarWeekGUI
 				{
 					$this->showAppointment($app);
 				}
+				
+				// screen reader: appointments are divs, now output cell
+				if ($ilUser->prefs["screen_reader_optimization"])
+				{
+					$this->tpl->setCurrentBlock('scrd_day_cell');
+					$this->tpl->setVariable('TD_CLASS','calstd');
+					$this->tpl->parseCurrentBlock();
+				}
+
+								
 				#echo "NUMDAY: ".$num_day;
 				#echo "COLAPANS: ".max($colspans[$num_day],1).'<br />';
 				$num_apps = $hour['apps_num'];
@@ -207,7 +222,7 @@ class ilCalendarWeekGUI
 				
 				
 				// Show new apointment link
-				if(!$hour['apps_num'])
+				if(!$hour['apps_num'] && !$ilUser->prefs["screen_reader_optimization"])
 				{
 					$this->tpl->setCurrentBlock('new_app_link');
 					$this->ctrl->setParameterByClass('ilcalendarappointmentgui','seed',$this->weekdays[$num_day]->get(IL_CAL_DATE));
@@ -223,7 +238,12 @@ class ilCalendarWeekGUI
 
 				for($i = $colspan;$i > $hour['apps_num'];$i--)
 				{
+					if ($ilUser->prefs["screen_reader_optimization"])
+					{
+						continue;
+					}
 					$this->tpl->setCurrentBlock('day_cell');
+
 					if($i == ($hour['apps_num'] + 1))
 					{
 						$this->tpl->setVariable('TD_CLASS','calempty calrightborder');
@@ -248,6 +268,8 @@ class ilCalendarWeekGUI
 			$this->tpl->setVariable('TIME',$hour['txt']);
 			$this->tpl->parseCurrentBlock();
 		}
+		
+		$this->tpl->setVariable("TXT_TIME", $lng->txt("time"));
 	}
 	
 	/**
@@ -293,12 +315,20 @@ class ilCalendarWeekGUI
 	 */
 	protected function showAppointment($a_app)
 	{
+		global $ilUser;
+		
 		$this->tpl->setCurrentBlock('panel_code');
 		$this->tpl->setVariable('NUM',$this->num_appointments);
 		$this->tpl->parseCurrentBlock();
 		
-		
-		$this->tpl->setCurrentBLock('not_empty');
+		if (!$ilUser->prefs["screen_reader_optimization"])
+		{
+			$this->tpl->setCurrentBLock('not_empty');
+		}
+		else
+		{
+			$this->tpl->setCurrentBLock('scrd_not_empty');
+		}
 
 		include_once('./Services/Calendar/classes/class.ilCalendarAppointmentPanelGUI.php');
 		$this->tpl->setVariable('PANEL_DATA',ilCalendarAppointmentPanelGUI::_getInstance()->getHTML($a_app));
@@ -323,7 +353,21 @@ class ilCalendarWeekGUI
 					$title = $a_app['event']->getStart()->get(IL_CAL_FKT_DATE,'h:ia',$this->timezone);
 					break;
 			}
-			
+			// add end time for screen readers
+			if ($ilUser->prefs["screen_reader_optimization"])
+			{
+				switch($this->user_settings->getTimeFormat())
+				{
+					case ilCalendarSettings::TIME_FORMAT_24:
+						$title.= "-".$a_app['event']->getEnd()->get(IL_CAL_FKT_DATE,'H:i',$this->timezone);
+						break;
+						
+					case ilCalendarSettings::TIME_FORMAT_12:
+						$title.= "-".$a_app['event']->getEnd()->get(IL_CAL_FKT_DATE,'h:ia',$this->timezone);
+						break;
+				}
+			}
+
 			
 			$title .= (' '.$a_app['event']->getPresentationTitle());
 		}
@@ -331,18 +375,34 @@ class ilCalendarWeekGUI
 		$this->tpl->setVariable('APP_TITLE',$title);
 		
 		$this->tpl->setVariable('LINK_NUM',$this->num_appointments);
-		$this->tpl->parseCurrentBlock();
-		
-		$this->tpl->setCurrentBlock('day_cell');
-		$this->tpl->setVariable('DAY_CELL_NUM',$this->num_appointments);
-		$this->tpl->setVariable('TD_ROWSPAN',$a_app['rowspan']);
 		
 		$color = $this->app_colors->getColorByAppointment($a_app['event']->getEntryId());
 		$style = 'background-color: '.$color.';';
 		$style .= ('color:'.ilCalendarUtil::calculateFontColor($color));
-		$this->tpl->setVariable('TD_STYLE',$style);
-		$this->tpl->setVariable('TD_CLASS','calevent');
-		$this->tpl->parseCurrentBlock();
+
+		if (!$ilUser->prefs["screen_reader_optimization"])
+		{
+			// provide table cell attributes
+			$this->tpl->parseCurrentBlock();
+			
+			$this->tpl->setCurrentBlock('day_cell');
+		
+			if (!$ilUser->prefs["screen_reader_optimization"])
+			{
+				$this->tpl->setVariable('DAY_CELL_NUM',$this->num_appointments);
+				$this->tpl->setVariable('TD_ROWSPAN',$a_app['rowspan']);
+				$this->tpl->setVariable('TD_STYLE',$style);
+				$this->tpl->setVariable('TD_CLASS','calevent');
+			}
+			
+			$this->tpl->parseCurrentBlock();
+		}
+		else
+		{
+			// screen reader: work on div attributes
+			$this->tpl->setVariable('DIV_STYLE',$style);
+			$this->tpl->parseCurrentBlock();
+		}
 		
 		$this->num_appointments++;
 
@@ -359,6 +419,8 @@ class ilCalendarWeekGUI
 	protected function parseHourInfo($daily_apps,$date,$num_day,$hours = null,
 		$morning_aggr = 7, $evening_aggr = 20)
 	{
+		global $ilUser;
+		
 		for($i = $morning_aggr;$i <= $evening_aggr;$i++)
 		{
 			$hours[$i][$num_day]['apps_start'] = array();
@@ -425,6 +487,12 @@ class ilCalendarWeekGUI
 				$end = $app['end_info']['hours'];
 			}
 			
+			// set end to next hour for screen readers
+			if ($ilUser->prefs["screen_reader_optimization"])
+			{
+				$end = $start +1;
+			}
+			
 			if ($start < $morning_aggr)
 			{
 				$start = $morning_aggr;
@@ -451,7 +519,14 @@ class ilCalendarWeekGUI
 			{
 				if($first)
 				{
-					$app['rowspan'] = $end - $start;
+					if (!$ilUser->prefs["screen_reader_optimization"])
+					{
+						$app['rowspan'] = $end - $start;
+					}
+					else  	// screen readers get always a rowspan of 1
+					{
+						$app['rowspan'] = 1;
+					}
 					$hours[$i][$num_day]['apps_start'][] = $app;
 					$first = false;
 				}
@@ -470,11 +545,19 @@ class ilCalendarWeekGUI
 	 */
 	protected function calculateColspans($hours)
 	{
+		global $ilUser;
+		
 		foreach($hours as $hour_num => $hours_per_day)
 		{
 			foreach($hours_per_day as $num_day => $hour)
 			{
 				$colspans[$num_day] = max($colspans[$num_day],$hour['apps_num']);
+				
+				// screen reader: always one col
+				if ($ilUser->prefs["screen_reader_optimization"])
+				{
+					$colspans[$num_day] = 1;
+				}
 			}
 		}
 		return $colspans;

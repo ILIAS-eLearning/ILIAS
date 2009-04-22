@@ -96,6 +96,7 @@ class ilMiniCalendarGUI
 		$ftpl->setVariable("IMG_BLOCK", ilUtil::getImagePath("icon_cals_s.gif"));
 		$ftpl->setVariable("BLOCK_TITLE", $lng->txt("calendar"));
 		$ftpl->setVariable("CONTENT", $tpl->get());
+		$ftpl->setVariable("ALT_BLOCK", $lng->txt("icon")." ".$lng->txt("calendar"));
 		return $ftpl->get();
 	}
 	

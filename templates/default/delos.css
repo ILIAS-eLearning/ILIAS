@@ -2016,7 +2016,7 @@ div.ilTabContentInner
 
 div.ilBelowMainMenu
 {
-	background-color: #F9F9F9;
+	background-color: #F5F5F5;
 	padding: 0px 5px 10px 5px;
 }
 
@@ -2026,6 +2026,10 @@ body {
 	font-family:Verdana,Arial,Helvetica,sans-serif;
 	margin:0px;
 	font-size:0.89em;
+}
+
+body.std {
+	background-color: #f0f0f0;
 }
 
 /* Tabs */
@@ -2326,7 +2330,7 @@ h3.ilPDBlockSubHeader
 
 div.tblfooter {
 	font-weight:normal;
-	background-color: #F9F9F9;
+	background-color: #F5F5F5;
 	padding: 3px;
 	font-size: 80%;
 	text-align:right;

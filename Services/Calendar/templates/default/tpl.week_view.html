@@ -65,7 +65,7 @@
 <table class="calstd">
 	<thead>
 		<tr class="calheader">
-			<th class="calstd"></th>
+			<th class="calstd">{TXT_TIME}</th>
 			<!-- BEGIN day_header_row -->
 			<th class="calstd" width="13%" colspan="{DAY_COLSPAN}">
 					<a class="callink" href="{DAY_VIEW_LINK}">
@@ -78,9 +78,11 @@
 			</th>
 			<!-- END day_header_row -->
 		</tr>
+	</thead>
+	<tbody>
 		<!-- BEGIN fullday_apps -->
 		<tr class="calstd" style="height: 1em">
-			<th class="calstd"></th>
+			<td class="calheadertime">{TXT_F_DAY}</th>
 			<!-- BEGIN f_day_row -->
 			<td class="calstd" colspan="{COLSPAN}">
 				<!-- BEGIN fullday_app -->
@@ -94,13 +96,25 @@
 			<!-- END f_day_row -->
 		</tr>
 		<!-- END fullday_apps -->
-	</thead>
-	<tbody>
 		<!-- BEGIN time_row -->
 		<tr class="calstdtime">
 			<td class="calheadertime" style="vertical-align: top" nowrap="nowrap">
 				{TIME}
 			</td>
+			<!-- BEGIN scrd_day_cell -->
+			<td id="show_{DAY_CELL_NUM}" class="{TD_CLASS}" style="{TD_STYLE}" valign="top" rowspan="{TD_ROWSPAN}"
+				onmouseover="timer = setTimeout('showNewAppLink({DAY_ID})',400)"
+				onmouseout="clearTimeout(timer);">
+				<!-- BEGIN scrd_not_empty -->
+				<div class="calevent" style="{DIV_STYLE}">
+				{PANEL_DATA}
+				<a id="link_{LINK_NUM}" class="callink" href="{APP_EDIT_LINK}">
+					<font class="small">{APP_TITLE}</font>
+				</a>
+				</div>
+				<!-- END scrd_not_empty -->
+			</td>
+			<!-- END scrd_day_cell -->
 			<!-- BEGIN day_cell -->
 			<td id="show_{DAY_CELL_NUM}" class="{TD_CLASS}" style="{TD_STYLE}" valign="top" rowspan="{TD_ROWSPAN}"
 				onmouseover="timer = setTimeout('showNewAppLink({DAY_ID})',400)"
