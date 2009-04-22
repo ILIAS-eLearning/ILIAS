@@ -124,12 +124,20 @@ class ilCalendarDayGUI
 		ilYuiUtil::initDragDrop();
 		ilYuiUtil::initPanel();
 		
+		include_once('Services/Calendar/classes/class.ilCalendarSchedule.php');
+		$this->scheduler = new ilCalendarSchedule($this->seed,ilCalendarSchedule::TYPE_DAY);
+		$this->scheduler->addSubitemCalendars(true);
+		$this->scheduler->calculate();
+		$daily_apps = $this->scheduler->getByDay($this->seed,$this->timezone);
+		$hours = $this->parseHourInfo($daily_apps);
+		$colspan = $this->calculateColspan($hours);
 		
 		$navigation = new ilCalendarHeaderNavigationGUI($this,$this->seed,ilDateTime::DAY);
 		$this->tpl->setVariable('NAVIGATION',$navigation->getHTML());
 		
 		$this->tpl->setVariable('HEADER_DATE',$this->seed_info['mday'].' '.ilCalendarUtil::_numericMonthToString($this->seed_info['mon'],false));
 		$this->tpl->setVariable('HEADER_DAY',ilCalendarUtil::_numericDayToString($this->seed_info['wday'],true));
+		$this->tpl->setVariable('HCOLSPAN',$colspan - 1);
 		
 		$this->tpl->setVariable('H_NEW_APP_SRC',ilUtil::getImagePath('date_add.gif'));
 		$this->tpl->setVariable('H_NEW_APP_ALT',$this->lng->txt('cal_new_app'));
@@ -139,17 +147,7 @@ class ilCalendarDayGUI
 		$this->tpl->setVariable('NEW_APP_LINK',$this->ctrl->getLinkTargetByClass('ilcalendarappointmentgui','add'));
 		$this->ctrl->clearParametersByClass('ilcalendarappointmentgui');
 		
-		include_once('Services/Calendar/classes/class.ilCalendarSchedule.php');
-		$this->scheduler = new ilCalendarSchedule($this->seed,ilCalendarSchedule::TYPE_DAY);
-		$this->scheduler->addSubitemCalendars(true);
-		$this->scheduler->calculate();
 		
-		$daily_apps = $this->scheduler->getByDay($this->seed,$this->timezone);
-		
-		$hours = $this->parseHourInfo($daily_apps);
-		$colspan = $this->calculateColspan($hours);
-
-		$this->tpl->setVariable('COLSPAN',$colspan - 1);
 		$this->tpl->setVariable('TXT_TIME', $lng->txt("time"));
 
 		// show fullday events
@@ -160,6 +158,11 @@ class ilCalendarDayGUI
 				$this->showFulldayAppointment($event);
 			}
 		}
+		$this->tpl->setCurrentBlock('fullday_apps');
+		$this->tpl->setVariable('TXT_F_DAY', $lng->txt("cal_all_day"));
+		$this->tpl->setVariable('COLSPAN',$colspan - 1);
+		$this->tpl->parseCurrentBlock();
+		
 
 		// parse the hour rows
 		foreach($hours as $numeric => $hour)

@@ -3540,6 +3540,7 @@ common#:#select#:#Auswählen
 common#:#selected_items_back#:#Zurück zu Angeboten
 common#:#selected_items#:#Ausgewählte Angebote
 common#:#selected#:#Ausgewählte
+common#:#stat_selected#:#Ausgewählt
 common#:#send_mail_selected#:#Mail-Empfänger aus Liste auswählen
 common#:#send_mail#:#Mail senden
 common#:#send#:#Abschicken
@@ -9205,3 +9206,10 @@ dateplaner#:#err_end_before_start#:#Der Endtermin darf nicht vor dem Starttermin
 form#:#form_image_file_input#:#Bilddatei auswählen
 form#:#form_file_input#:#Datei auswählen
 dateplaner#:#cal_week_abbrev#:#KW
+dateplaner#:#cal_all_day#:#Ganztags
+dateplaner#:#cal_day_selection#:#Tagesauswahl
+dateplaner#:#cal_week_selection#:#Wochenauswahl
+dateplaner#:#cal_month_selection#:#Monatsauswahl
+dateplaner#:#cal_day_overview#:#Tagesübersicht
+dateplaner#:#cal_week_overview#:#Wochenübersicht
+dateplaner#:#cal_month_overview#:#Monatsübersicht

@@ -71,7 +71,10 @@ class ilCalendarHeaderNavigationGUI
 	 */
 	public function getHTML()
 	{
+		global $lng;
+		
 	 	$this->tpl = new ilTemplate('tpl.navigation_header.html',true,true,'Services/Calendar');
+		
 	 	$this->seed->increment($this->increment,-2);
 		$num = 0;
 		do
@@ -104,7 +107,27 @@ class ilCalendarHeaderNavigationGUI
 			$this->ctrl->clearParametersByClass(get_class($this->cmdClass));
 			$this->seed->increment($this->increment,1);
 		} while($num < 6);
-	 	
+
+		// header
+		switch ($this->increment)
+		{
+			case ilDateTime::DAY:
+				$this->tpl->setVariable('TXT_SELECT_TITLE', $lng->txt("cal_day_selection"));
+				$this->tpl->setVariable('TXT_VIEW_HEAD', $lng->txt("cal_day_overview"));
+				break;
+				
+			case ilDateTime::WEEK:
+				$this->tpl->setVariable('TXT_SELECT_TITLE', $lng->txt("cal_week_selection"));
+				$this->tpl->setVariable('TXT_VIEW_HEAD', $lng->txt("cal_week_overview"));
+				break;
+				
+			case ilDateTime::MONTH:
+				$this->tpl->setVariable('TXT_SELECT_TITLE', $lng->txt("cal_month_selection"));
+				$this->tpl->setVariable('TXT_VIEW_HEAD', $lng->txt("cal_month_overview"));
+				break;
+		}
+	 	$this->tpl->setVariable('TXT_SELECTED', $lng->txt("stat_selected"));
+		
 	 	return $this->tpl->get();
 	}
 }

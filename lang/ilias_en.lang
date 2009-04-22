@@ -9236,3 +9236,11 @@ common#:#block_management#:#Block Management
 common#:#show_hidden_block#:#Show Hidden Block
 common#:#create_block#:#Create Block
 dateplaner#:#cal_week_abbrev#:#W
+dateplaner#:#cal_all_day#:#All Day
+dateplaner#:#cal_day_selection#:#Select Day
+dateplaner#:#cal_week_selection#:#Select Week
+dateplaner#:#cal_month_selection#:#Select Month
+dateplaner#:#cal_day_overview#:#Day Overview
+dateplaner#:#cal_week_overview#:#Week Overview
+dateplaner#:#cal_month_overview#:#Month Overview
+common#:#stat_selected#:#Selected

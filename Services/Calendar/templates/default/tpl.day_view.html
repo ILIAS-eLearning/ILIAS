@@ -52,17 +52,19 @@
 			<th class="calstd">
 				<span class="small">{TXT_TIME}</span> 
 			</th>
-			<th class="calstd" colspan="{COLSPAN}">
+			<th class="calstd" colspan="{HCOLSPAN}">
 				<span class="small">{HEADER_DAY}, {HEADER_DATE}</span> 
 				<a class="callink" href="{NEW_APP_LINK}">
 					<img style="vertical-align: top" src="{H_NEW_APP_SRC}" alt="{H_NEW_APP_ALT}" title="{H_NEW_APP_ALT}" />
 				</a>
 			</th>
 		</tr>
+		</thead>
+		<tbody>
 		<!-- BEGIN fullday_apps -->
 		<tr class="calstd" style="height: 1em">
-			<td class="calstd">
-				&nsbsp;
+			<td class="calheadertime">
+				{TXT_F_DAY}
 			</td>
 			<td class="calstd" colspan="{COLSPAN}">
 				<!-- BEGIN fullday_app -->
@@ -75,8 +77,6 @@
 			</td>
 		</tr>
 		<!-- END fullday_apps -->
-	</thead>
-	<tbody>
 		<!-- BEGIN time_row -->
 		<tr class="calstdtime">
 			<td class="calheadertime" width="1" style="vertical-align: top" nowrap="nowrap">
