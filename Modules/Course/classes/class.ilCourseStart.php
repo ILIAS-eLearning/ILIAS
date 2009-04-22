@@ -118,11 +118,9 @@ class ilCourseStart
 		global $ilDB;
 		
 		$query = "DELETE FROM crs_start ".
-			"WHERE crs_start_id = ".$ilDB->quote($a_crs_start_id)." ".
-			"AND crs_id = ".$ilDB->quote($this->getId())." ";
-
-		$this->db->query($query);
-
+			"WHERE crs_start_id = ".$ilDB->quote($a_crs_start_id ,'integer')." ".
+			"AND crs_id = ".$ilDB->quote($this->getId(),'integer')." ";
+		$res = $ilDB->manipulate($query);
 		return true;
 	}
 
@@ -131,9 +129,8 @@ class ilCourseStart
 		global $ilDB;
 		
 		$query = "SELECT * FROM crs_start ".
-			"WHERE crs_id = ".$ilDB->quote($this->getId())." ".
-			"AND item_ref_id = ".$a_item_ref_id." ";
-
+			"WHERE crs_id = ".$ilDB->quote($this->getId() ,'integer')." ".
+			"AND item_ref_id = ".$ilDB->quote($a_item_ref_id ,'integer')." ";
 		$res = $this->db->query($query);
 
 		return $res->numRows() ? true : false;
@@ -145,12 +142,14 @@ class ilCourseStart
 		
 		if($a_item_ref_id)
 		{
-			$query = "INSERT INTO crs_start ".
-				"SET crs_id = ".$ilDB->quote($this->getId()).", ".
-				"item_ref_id = ".$ilDB->quote($a_item_ref_id)." ";
-
-			$this->db->query($query);
-
+			$next_id = $ilDB->nextId('crs_start');
+			$query = "INSERT INTO crs_start (crs_start_id,crs_id,item_ref_id) ".
+				"VALUES( ".
+				$ilDB->quote($next_id, 'integer').", ".
+				$ilDB->quote($this->getId() ,'integer').", ".
+				$ilDB->quote($a_item_ref_id ,'integer')." ".
+				")";
+			$res = $ilDB->manipulate($query);
 			return true;
 		}
 		return false;
@@ -161,10 +160,8 @@ class ilCourseStart
 		global $ilDB;
 		
 		$query = "DELETE FROM crs_start ".
-			"WHERE crs_id = ".$ilDB->quote($this->getId())." ";
-
-
-		$this->db->query($query);
+			"WHERE crs_id = ".$ilDB->quote($this->getId() ,'integer')." ";
+		$res = $ilDB->manipulate($query);
 
 		return true;
 	}
@@ -254,7 +251,7 @@ class ilCourseStart
 		$this->start_objs = array();
 
 		$query = "SELECT * FROM crs_start ".
-			"WHERE crs_id = ".$ilDB->quote($this->getId())." ";
+			"WHERE crs_id = ".$ilDB->quote($this->getId() ,'integer')." ";
 
 		$res = $this->db->query($query);
 		while($row = $res->fetchRow(DB_FETCHMODE_OBJECT))

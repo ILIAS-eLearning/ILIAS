@@ -100,12 +100,14 @@ class ilTimingPlaned
 	{
 		global $ilDB;
 		
-		$query = "INSERT INTO crs_timings_planed ".
-			"SET item_id = ".$ilDB->quote($this->getItemId()).", ".
-			"usr_id = ".$ilDB->quote($this->getUserId()).", ".
-			"planed_start = ".$ilDB->quote($this->getPlanedStartingTime()).", ".
-			"planed_end = ".$ilDB->quote($this->getPlanedEndingTime())." ";
-		$this->db->query($query);
+		$query = "INSERT INTO crs_timings_planed (item_id,usr_id,planed_start,planed_end) ".
+			"VALUES( ".
+			$ilDB->quote($this->getItemId() ,'integer').", ".
+			$ilDB->quote($this->getUserId() ,'integer').", ".
+			$ilDB->quote($this->getPlanedStartingTime() ,'integer').", ".
+			$ilDB->quote($this->getPlanedEndingTime() ,'integer')." ".
+			")";
+		$res = $ilDB->manipulate($query);
 	}
 
 	function delete()
@@ -118,9 +120,9 @@ class ilTimingPlaned
 		global $ilDB;
 
 		$query = "DELETE FROM crs_timings_planed ".
-			"WHERE item_id = ".$ilDB->quote($a_item_id)." ".
-			"AND usr_id = ".$ilDB->quote($a_usr_id)." ";
-		$ilDB->query($query);
+			"WHERE item_id = ".$ilDB->quote($a_item_id ,'integer')." ".
+			"AND usr_id = ".$ilDB->quote($a_usr_id ,'integer')." ";
+		$res = $ilDB->manipulate($query);
 	}
 
 	// Static
@@ -129,8 +131,8 @@ class ilTimingPlaned
 		global $ilDB;
 
 		$query = "SELECT * FROM crs_timings_planed ".
-			"WHERE item_id = ".$ilDB->quote($a_item_id)." ".
-			"AND usr_id = ".$a_usr_id." ";
+			"WHERE item_id = ".$ilDB->quote($a_item_id ,'integer')." ".
+			"AND usr_id = ".$ilDB->quote($a_usr_id ,'integer')." ";
 		$res = $ilDB->query($query);
 		while($row = $res->fetchRow(DB_FETCHMODE_OBJECT))
 		{
@@ -146,7 +148,7 @@ class ilTimingPlaned
 		global $ilDB;
 
 		$query = "SELECT * FROM crs_timings_planed ".
-			"WHERE item_id = ".$ilDB->quote($a_item_id)." ";
+			"WHERE item_id = ".$ilDB->quote($a_item_id ,'integer')." ";
 		$res = $ilDB->query($query);
 		while($row = $res->fetchRow(DB_FETCHMODE_OBJECT))
 		{
@@ -161,8 +163,8 @@ class ilTimingPlaned
 		global $ilDB;
 
 		$query = "DELETE FROM crs_timings_planed ".
-			"WHERE item_id = ".$ilDB->quote($a_item_id)." ";
-		$ilDB->query($query);
+			"WHERE item_id = ".$ilDB->quote($a_item_id ,'integer')." ";
+		$res = $ilDB->manipulate($query);
 	}
 
 	function _deleteByUser($a_usr_id)
@@ -170,8 +172,8 @@ class ilTimingPlaned
 		global $ilDB;
 
 		$query = "DELETE FROM crs_timings_planed ".
-			"WHERE usr_id = ".$ilDB->quote($a_usr_id)." ";
-		$ilDB->query($query);
+			"WHERE usr_id = ".$ilDB->quote($a_usr_id ,'integer')." ";
+		$res = $ilDB->manipulate($query);
 	}
 
 	function __read()
@@ -179,8 +181,8 @@ class ilTimingPlaned
 		global $ilDB;
 		
 		$query = "SELECT * FROM crs_timings_planed ".
-			"WHERE item_id = ".$ilDB->quote($this->getItemId())." ".
-			"AND usr_id = ".$ilDB->quote($this->getUserId())." ";
+			"WHERE item_id = ".$ilDB->quote($this->getItemId() ,'integer')." ".
+			"AND usr_id = ".$ilDB->quote($this->getUserId() ,'integer')." ";
 		$res = $this->db->query($query);
 		while($row = $res->fetchRow(DB_FETCHMODE_OBJECT))
 		{

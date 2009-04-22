@@ -95,13 +95,15 @@ class ilTimingAccepted
 	{
 		global $ilDB;
 		
-		$query = "INSERT INTO crs_timings_usr_accept ".
-			"SET crs_id = ".$ilDB->quote($this->getCourseId()).", ".
-			"usr_id = ".$ilDB->quote($this->getUserId()).", ".
-			"visible = ".$ilDB->quote($this->isVisible()).", ".
-			"accept = ".$ilDB->quote($this->isAccepted()).", ".
-			"remark = ".$ilDB->quote($this->getRemark())." ";
-		$this->db->query($query);
+		$query = "INSERT INTO crs_timings_usr_accept (crs_id,usr_id,visible,accept,remark) ".
+			"VALUES( ".
+			$ilDB->quote($this->getCourseId() ,'integer').", ".
+			$ilDB->quote($this->getUserId() ,'integer').", ".
+			$ilDB->quote($this->isVisible() ,'integer').", ".
+			$ilDB->quote($this->isAccepted() ,'integer').", ".
+			$ilDB->quote($this->getRemark() ,'text')." ".
+			")";
+		$res = $ilDB->manipulate($query);
 	}
 
 	function delete()
@@ -114,9 +116,9 @@ class ilTimingAccepted
 		global $ilDB;
 
 		$query = "DELETE FROM crs_timings_usr_accept ".
-			"WHERE crs_id = ".$ilDB->quote($a_crs_id)." ".
-			"AND usr_id = ".$ilDB->quote($a_usr_id)." ";
-		$ilDB->query($query);
+			"WHERE crs_id = ".$ilDB->quote($a_crs_id ,'integer')." ".
+			"AND usr_id = ".$ilDB->quote($a_usr_id ,'integer')." ";
+		$res = $ilDB->manipulate($query);
 	}
 
 	function _deleteByCourse($a_crs_id)
@@ -124,8 +126,8 @@ class ilTimingAccepted
 		global $ilDB;
 
 		$query = "DELETE FROM crs_timings_usr_accept ".
-			"WHERE crs_id = ".$ilDB->quote($a_crs_id)." ";
-		$ilDB->query($query);
+			"WHERE crs_id = ".$ilDB->quote($a_crs_id ,'integer')." ";
+		$res = $ilDB->manipulate($query);
 	}
 
 	function _deleteByUser($a_usr_id)
@@ -133,8 +135,8 @@ class ilTimingAccepted
 		global $ilDB;
 
 		$query = "DELETE FROM crs_timings_usr_accept ".
-			"WHERE usr_id = ".$ilDB->quote($a_usr_id)."";
-		$ilDB->query($query);
+			"WHERE usr_id = ".$ilDB->quote($a_usr_id ,'integer')."";
+		$res = $ilDB->manipulate($query);
 	}
 
 	function __read()
@@ -142,8 +144,8 @@ class ilTimingAccepted
 		global $ilDB;
 		
 		$query = "SELECT * FROM crs_timings_usr_accept ".
-			"WHERE crs_id = ".$ilDB->quote($this->getCourseId())." ".
-			"AND usr_id = ".$this->getUserId()."";
+			"WHERE crs_id = ".$ilDB->quote($this->getCourseId() ,'integer')." ".
+			"AND usr_id = ".$ilDB->quote($this->getUserId() ,'integer')."";
 		$res = $this->db->query($query);
 		while($row = $res->fetchRow(DB_FETCHMODE_OBJECT))
 		{

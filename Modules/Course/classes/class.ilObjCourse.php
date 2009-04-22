@@ -64,6 +64,12 @@ class ilObjCourse extends ilContainer
 	var $members_obj;
 	var $archives_obj;
 	var $items_obj;
+	
+	
+	private $latitude = '';
+	private $longitude = '';
+	private $locationzoom = 0;
+	private $enablemap = 0;
 
 	/**
 	* Constructor
@@ -317,8 +323,8 @@ class ilObjCourse extends ilContainer
 		global $ilDB;
 		
 		$query = "SELECT * FROM crs_settings ".
-			"WHERE obj_id = ".$ilDB->quote($a_course_id)." ".
-			"AND subscription_notify = 1";
+			"WHERE obj_id = ".$ilDB->quote($a_course_id ,'integer')." ".
+			"AND sub_notify = 1";
 		$res = $ilDB->query($query);
 		return $res->numRows() ? true : false;
 	}
@@ -346,7 +352,7 @@ class ilObjCourse extends ilContainer
 	{
 		global $ilDB;
 
-		$query = "SELECT view_mode FROM crs_settings WHERE obj_id = ".$ilDB->quote($a_id)." ";
+		$query = "SELECT view_mode FROM crs_settings WHERE obj_id = ".$ilDB->quote($a_id ,'integer')." ";
 		$res = $ilDB->query($query);
 		while($row = $res->fetchRow(DB_FETCHMODE_OBJECT))
 		{
@@ -359,7 +365,7 @@ class ilObjCourse extends ilContainer
 	{
 		global $ilDB;
 
-		$query = "SELECT abo FROM crs_settings WHERE obj_id = ".$ilDB->quote($a_id)." ";
+		$query = "SELECT abo FROM crs_settings WHERE obj_id = ".$ilDB->quote($a_id ,'integer')." ";
 		$res = $ilDB->query($query);
 		while($row = $res->fetchRow(DB_FETCHMODE_OBJECT))
 		{
@@ -468,7 +474,7 @@ class ilObjCourse extends ilContainer
 		global $ilDB;
 
 		$query = "SELECT * FROM crs_settings ".
-			"WHERE obj_id = ".$ilDB->quote($a_obj_id)." ";
+			"WHERE obj_id = ".$ilDB->quote($a_obj_id ,'integer')." ";
 
 		$res = $ilDB->query($query);
 		while($row = $res->fetchRow(DB_FETCHMODE_OBJECT))
@@ -503,14 +509,14 @@ class ilObjCourse extends ilContainer
 		global $ilDB;
 
 		$query = "SELECT * FROM crs_settings ".
-			"WHERE obj_id = ".$ilDB->quote($a_obj_id)." ";
+			"WHERE obj_id = ".$ilDB->quote($a_obj_id ,'integer')." ";
 
 		$res = $ilDB->query($query);
 		while($row = $res->fetchRow(DB_FETCHMODE_OBJECT))
 		{
-			$type = $row->subscription_limitation_type;
-			$reg_start = $row->subscription_start;
-			$reg_end = $row->subscription_end;
+			$type = $row->sub_limitation_type;
+			$reg_start = $row->sub_start;
+			$reg_end = $row->sub_end;
 		}
 
 		switch($type)
@@ -948,7 +954,7 @@ class ilObjCourse extends ilContainer
 
 		// Due to a bug 3.5.alpha maybe no settings exist. => create default settings
 
-		$query = "SELECT * FROM crs_settings WHERE obj_id = ".$ilDB->quote($this->getId())." ";
+		$query = "SELECT * FROM crs_settings WHERE obj_id = ".$ilDB->quote($this->getId() ,'integer')." ";
 		$res = $ilDB->query($query);
 
 		if(!$res->numRows())
@@ -957,42 +963,38 @@ class ilObjCourse extends ilContainer
 		}
 
 		$query = "UPDATE crs_settings SET ".
-			"syllabus = ".$ilDB->quote($this->getSyllabus()).", ".
-			"contact_name = ".$ilDB->quote($this->getContactName()).", ".
-			"contact_responsibility = ".$ilDB->quote($this->getContactResponsibility()).", ".
-			"contact_phone = ".$ilDB->quote($this->getContactPhone()).", ".
-			"contact_email = ".$ilDB->quote($this->getContactEmail()).", ".
-			"contact_consultation = ".$ilDB->quote($this->getContactConsultation()).", ".
-			"activation_type = ".$ilDB->quote($this->getActivationType()).", ".
-			#"activation_unlimited = '".(int) $this->getActivationUnlimitedStatus()."', ".
-			"activation_start = ".$ilDB->quote($this->getActivationStart()).", ".
-			"activation_end = ".$ilDB->quote($this->getActivationEnd()).", ".
-			#"activation_offline = '".(int) $this->getOfflineStatus()."', ".
-			"subscription_limitation_type = ".$ilDB->quote($this->getSubscriptionLimitationType()).", ".
-			#"subscription_unlimited = '".(int) $this->getSubscriptionUnlimitedStatus()."', ".
-			"subscription_start = ".$ilDB->quote($this->getSubscriptionStart()).", ".
-			"subscription_end = ".$ilDB->quote($this->getSubscriptionEnd()).", ".
-			"subscription_type = ".$ilDB->quote($this->getSubscriptionType()).", ".
-			"subscription_password = ".$ilDB->quote($this->getSubscriptionPassword()).", ".
-			"subscription_membership_limitation = ".$ilDB->quote((int) $this->isSubscriptionMembershipLimited()).", ".
-			"subscription_max_members = ".$ilDB->quote($this->getSubscriptionMaxMembers()).", ".
-			"subscription_notify = ".$ilDB->quote($this->getSubscriptionNotify()).", ".
-			"view_mode = ".$ilDB->quote($this->getViewMode()).", ".
-			"archive_start = ".$ilDB->quote($this->getArchiveStart()).", ".
-			"archive_end = ".$ilDB->quote($this->getArchiveEnd()).", ".
-			"archive_type = ".$ilDB->quote($this->getArchiveType()).", ".
-			"abo = ".$ilDB->quote($this->getAboStatus()).", ".
-			#"objective_view = '".(int) $this->enabledObjectiveView()."', ".
-			"waiting_list = ".$ilDB->quote($this->enabledWaitingList()).", ".
-			"important = ".$ilDB->quote($this->getImportantInformation()).", ".
-			"show_members = ".$ilDB->quote($this->getShowMembers()).", ".
-			"latitude = ".$ilDB->quote($this->getLatitude()).", ".
-			"longitude = ".$ilDB->quote($this->getLongitude()).", ".
-			"location_zoom = ".$ilDB->quote($this->getLocationZoom()).", ".
-			"enable_course_map = ".$ilDB->quote($this->getEnableCourseMap())." ".
-			"WHERE obj_id = ".$ilDB->quote($this->getId())."";
+			"syllabus = ".$ilDB->quote($this->getSyllabus() ,'text').", ".
+			"contact_name = ".$ilDB->quote($this->getContactName() ,'text').", ".
+			"contact_responsibility = ".$ilDB->quote($this->getContactResponsibility() ,'text').", ".
+			"contact_phone = ".$ilDB->quote($this->getContactPhone() ,'text').", ".
+			"contact_email = ".$ilDB->quote($this->getContactEmail() ,'text').", ".
+			"contact_consultation = ".$ilDB->quote($this->getContactConsultation() ,'text').", ".
+			"activation_type = ".$ilDB->quote($this->getActivationType() ,'integer').", ".
+			"activation_start = ".$ilDB->quote($this->getActivationStart() ,'integer').", ".
+			"activation_end = ".$ilDB->quote($this->getActivationEnd() ,'integer').", ".
+			"sub_limitation_type = ".$ilDB->quote($this->getSubscriptionLimitationType() ,'integer').", ".
+			"sub_start = ".$ilDB->quote($this->getSubscriptionStart() ,'integer').", ".
+			"sub_end = ".$ilDB->quote($this->getSubscriptionEnd() ,'integer').", ".
+			"sub_type = ".$ilDB->quote($this->getSubscriptionType() ,'integer').", ".
+			"sub_password = ".$ilDB->quote($this->getSubscriptionPassword() ,'text').", ".
+			"sub_mem_limit = ".$ilDB->quote((int) $this->isSubscriptionMembershipLimited() ,'integer').", ".
+			"sub_max_members = ".$ilDB->quote($this->getSubscriptionMaxMembers() ,'integer').", ".
+			"sub_notify = ".$ilDB->quote($this->getSubscriptionNotify() ,'integer').", ".
+			"view_mode = ".$ilDB->quote($this->getViewMode() ,'integer').", ".
+			"archive_start = ".$ilDB->quote($this->getArchiveStart() ,'integer').", ".
+			"archive_end = ".$ilDB->quote($this->getArchiveEnd() ,'integer').", ".
+			"archive_type = ".$ilDB->quote($this->getArchiveType() ,'integer').", ".
+			"abo = ".$ilDB->quote($this->getAboStatus() ,'integer').", ".
+			"waiting_list = ".$ilDB->quote($this->enabledWaitingList() ,'integer').", ".
+			"important = ".$ilDB->quote($this->getImportantInformation() ,'text').", ".
+			"show_members = ".$ilDB->quote($this->getShowMembers() ,'integer').", ".
+			"latitude = ".$ilDB->quote($this->getLatitude() ,'text').", ".
+			"longitude = ".$ilDB->quote($this->getLongitude() ,'text').", ".
+			"location_zoom = ".$ilDB->quote($this->getLocationZoom() ,'integer').", ".
+			"enable_course_map = ".$ilDB->quote($this->getEnableCourseMap() ,'integer')." ".
+			"WHERE obj_id = ".$ilDB->quote($this->getId() ,'integer')."";
 
-		$res = $ilDB->query($query);
+		$res = $ilDB->manipulate($query);
 	}
 	
 	/**
@@ -1037,43 +1039,45 @@ class ilObjCourse extends ilContainer
 	{
 		global $ilDB;
 
-		$query = "INSERT INTO crs_settings SET ".
-			"obj_id = ".$ilDB->quote($this->getId()).", ".
-			"syllabus = ".$ilDB->quote($this->getSyllabus()).", ".
-			"contact_name = ".$ilDB->quote($this->getContactName()).", ".
-			"contact_responsibility = ".$ilDB->quote($this->getContactResponsibility()).", ".
-			"contact_phone = ".$ilDB->quote($this->getContactPhone()).", ".
-			"contact_email = ".$ilDB->quote($this->getContactEmail()).", ".
-			"contact_consultation = ".$ilDB->quote($this->getContactConsultation()).", ".
-			"activation_type = ".$ilDB->quote(IL_CRS_ACTIVATION_OFFLINE).", ".
-			#"activation_unlimited = '1', ".
-			"activation_start = ".$ilDB->quote($this->getActivationStart()).", ".
-			"activation_end = ".$ilDB->quote($this->getActivationEnd()).", ".
-			#"activation_offline = '1', ".
-			"subscription_limitation_type = ".$ilDB->quote(IL_CRS_SUBSCRIPTION_DEACTIVATED).", ".
-			#"subscription_unlimited = '1', ".
-			"subscription_start = ".$ilDB->quote($this->getSubscriptionStart()).", ".
-			"subscription_end = ".$ilDB->quote($this->getSubscriptionEnd()).", ".
-			"subscription_type = ".$ilDB->quote(IL_CRS_SUBSCRIPTION_DIRECT).", ".
-			"subscription_password = ".$ilDB->quote($this->getSubscriptionPassword()).", ".
-			"subscription_membership_limitation = ".$ilDB->quote(0).", ".
-			"subscription_max_members = ".$ilDB->quote($this->getSubscriptionMaxMembers()).", ".
-			"subscription_notify = '1', ".
-			"view_mode = '0', ".
-			"archive_start = ".$ilDB->quote($this->getArchiveStart()).", ".
-			"archive_end = ".$ilDB->quote($this->getArchiveEnd()).", ".
-			"archive_type = ".$ilDB->quote(IL_CRS_ARCHIVE_NONE).", ".
-			"abo = ".$ilDB->quote($this->ABO_ENABLED).", ".
-			"latitude = ".$ilDB->quote($this->getLatitude()).", ".
-			"longitude = ".$ilDB->quote($this->getLongitude()).", ".
-			"location_zoom = ".$ilDB->quote($this->getLocationZoom()).", ".
-			"enable_course_map = ".$ilDB->quote($this->getEnableCourseMap()).", ".
+		$query = "INSERT INTO crs_settings (obj_id,syllabus,contact_name,contact_responsibility,".
+			"contact_phone,contact_email,contact_consultation,activation_type,activation_start,".
+			"activation_end,sub_limitation_type,sub_start,sub_end,sub_type,sub_password,sub_mem_limit,".
+			"sub_max_members,sub_notify,view_mode,archive_start,archive_end,archive_type,abo," .
+			"latitude,longitude,location_zoom,enable_course_map,waiting_list,show_members)" .
+			"VALUES( ".
+			$ilDB->quote($this->getId() ,'integer').", ".
+			$ilDB->quote($this->getSyllabus() ,'text').", ".
+			$ilDB->quote($this->getContactName() ,'text').", ".
+			$ilDB->quote($this->getContactResponsibility() ,'text').", ".
+			$ilDB->quote($this->getContactPhone() ,'text').", ".
+			$ilDB->quote($this->getContactEmail() ,'text').", ".
+			$ilDB->quote($this->getContactConsultation() ,'text').", ".
+			$ilDB->quote(IL_CRS_ACTIVATION_OFFLINE ,'integer').", ".
+			$ilDB->quote($this->getActivationStart() ,'integer').", ".
+			$ilDB->quote($this->getActivationEnd() ,'integer').", ".
+			$ilDB->quote(IL_CRS_SUBSCRIPTION_DEACTIVATED ,'integer').", ".
+			$ilDB->quote($this->getSubscriptionStart() ,'integer').", ".
+			$ilDB->quote($this->getSubscriptionEnd() ,'integer').", ".
+			$ilDB->quote(IL_CRS_SUBSCRIPTION_DIRECT ,'integer').", ".
+			$ilDB->quote($this->getSubscriptionPassword() ,'text').", ".
+			"0, ".
+			$ilDB->quote($this->getSubscriptionMaxMembers() ,'integer').", ".
+			"1, ".
+			"0, ".
+			$ilDB->quote($this->getArchiveStart() ,'integer').", ".
+			$ilDB->quote($this->getArchiveEnd() ,'integer').", ".
+			$ilDB->quote(IL_CRS_ARCHIVE_NONE ,'integer').", ".
+			"abo = ".$ilDB->quote($this->ABO_ENABLED ,'integer').", ".
+			$ilDB->quote($this->getLatitude() ,'text').", ".
+			$ilDB->quote($this->getLongitude() ,'text').", ".
+			$ilDB->quote($this->getLocationZoom() ,'integer').", ".
+			$ilDB->quote($this->getEnableCourseMap() ,'integer').", ".
 			#"objective_view = '0', ".
-			"waiting_list = '1', ".
-			"show_members = '1'";
+			"waiting_list = 1, ".
+			"show_members = 1".
+			")";
 			
-			
-		$res = $ilDB->query($query);
+		$res = $ilDB->manipulate($query);
 		$this->__readSettings();
 
 		include_once('./Services/Container/classes/class.ilContainerSortingSettings.php');
@@ -1087,7 +1091,7 @@ class ilObjCourse extends ilContainer
 	{
 		global $ilDB;
 
-		$query = "SELECT * FROM crs_settings WHERE obj_id = ".$ilDB->quote($this->getId())."";
+		$query = "SELECT * FROM crs_settings WHERE obj_id = ".$ilDB->quote($this->getId() ,'integer')."";
 
 		$res = $ilDB->query($query);
 		while($row = $res->fetchRow(DB_FETCHMODE_OBJECT))
@@ -1099,19 +1103,16 @@ class ilObjCourse extends ilContainer
 			$this->setContactEmail($row->contact_email);
 			$this->setContactConsultation($row->contact_consultation);
 			$this->setActivationType($row->activation_type);
-			#$this->setActivationUnlimitedStatus($row->activation_unlimited);
 			$this->setActivationStart($row->activation_start);
 			$this->setActivationEnd($row->activation_end);
-			#$this->setOfflineStatus($row->activation_offline);
-			$this->setSubscriptionLimitationType($row->subscription_limitation_type);
-			#$this->setSubscriptionUnlimitedStatus($row->subscription_unlimited);
-			$this->setSubscriptionStart($row->subscription_start);
-			$this->setSubscriptionEnd($row->subscription_end);
-			$this->setSubscriptionType($row->subscription_type);
-			$this->setSubscriptionPassword($row->subscription_password);
-			$this->enableSubscriptionMembershipLimitation($row->subscription_membership_limitation);
-			$this->setSubscriptionMaxMembers($row->subscription_max_members);
-			$this->setSubscriptionNotify($row->subscription_notify);
+			$this->setSubscriptionLimitationType($row->sub_limitation_type);
+			$this->setSubscriptionStart($row->sub_start);
+			$this->setSubscriptionEnd($row->sub_end);
+			$this->setSubscriptionType($row->sub_type);
+			$this->setSubscriptionPassword($row->sub_password);
+			$this->enableSubscriptionMembershipLimitation($row->sub_mem_limit);
+			$this->setSubscriptionMaxMembers($row->sub_max_members);
+			$this->setSubscriptionNotify($row->sub_notify);
 			$this->setViewMode($row->view_mode);
 			$this->setArchiveStart($row->archive_start);
 			$this->setArchiveEnd($row->archive_end);
@@ -1473,9 +1474,8 @@ class ilObjCourse extends ilContainer
 		global $ilDB;
 		
 		$query = "DELETE FROM crs_settings ".
-			"WHERE obj_id = ".$ilDB->quote($this->getId())." ";
-
-		$this->ilias->db->query($query);
+			"WHERE obj_id = ".$ilDB->quote($this->getId() ,'integer')." ";
+		$res = $ilDB->manipulate($query);
 
 		return true;
 	}	

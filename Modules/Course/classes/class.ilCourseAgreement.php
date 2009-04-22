@@ -301,7 +301,7 @@ class ilCourseAgreement
 	 	$query = "INSERT INTO member_agreement ".
 	 		"SET usr_id = ".$this->db->quote($this->user_id).", ".
 	 		"obj_id = ".$this->db->quote($this->obj_id).", ".
-	 		"accepted = ".$this->db->quote((int) $this->isAccepted()).", ".
+	 		"accepted = ".$this->db->quote((int) $this->isAccepted() ,'integer').", ".
 	 		"acceptance_time = ".$this->db->quote($this->getAcceptanceTime());
 	 		
 		$this->db->query($query);
