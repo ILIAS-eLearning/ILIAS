@@ -1873,7 +1873,7 @@ div#agreement
 
 span.ilSearchHighlight
 {
-	background-color: #FFFF99;
+	font-weight: bold;
 }
 
 div.il_SearchFragment

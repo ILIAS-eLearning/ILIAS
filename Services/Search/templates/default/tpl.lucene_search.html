@@ -7,7 +7,29 @@
 <!-- BEGIN next --><a href="{NEXT_LINK}">{TXT_NEXT}</a><!-- END next -->
   	</center>
 <br />
-<!--  END prev_next -->	  
+<!--  END prev_next -->
+
+<!-- BEGIN lucene_adm_panel -->
+<table class="fullwidth" style="clear:both;" >
+	<!-- BEGIN lucene_adm_view_components --><!-- END lucene_adm_view_components -->
+    <tr class="tblfooter">
+	<td class="std">
+	    <div style="float:right">
+	<!-- BEGIN lucene_admin_view -->
+		<!-- BEGIN lucene_admin_panel_cmd -->
+		<input class="il_ContainerListCommand" type="submit" name="cmd[{LUCENE_PANEL_CMD}]" value="{LUCENE_TXT_PANEL_CMD}" /> |
+		<!-- END lucene_admin_panel_cmd -->
+		<a class="il_ContainerListCommand" href="" onclick="javascript:setChecked('ilAdmContentForm','id[]',true);return false;" title="{LUCENE_TXT_CHECK_ALL}">[x]</a>
+		<a class="il_ContainerListCommand" href="" onclick="javascript:setChecked('ilAdmContentForm','id[]',false);return false;" title="{LUCENE_TXT_UNCHECK_ALL}">[-]</a>
+	| <!-- END lucene_admin_view -->
+	<!-- BEGIN lucene_admin_button -->
+	<a class="il_ContainerListCommand" href="{LUCENE_ADMIN_MODE_LINK}">{LUCENE_TXT_ADMIN_MODE}</a>
+	<!-- END lucene_admin_button -->
+	    </div>
+    </td>
+    </tr>
+</table>
+<!-- END lucene_adm_panel -->
 <table class="fullwidth">
 {SEARCH_RESULTS}
 </table>
