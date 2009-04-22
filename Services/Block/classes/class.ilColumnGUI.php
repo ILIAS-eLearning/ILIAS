@@ -3,7 +3,7 @@
 	+-----------------------------------------------------------------------------+
 	| ILIAS open source                                                           |
 	+-----------------------------------------------------------------------------+
-	| Copyright (c) 1998-2006 ILIAS open source, University of Cologne            |
+	| Copyright (c) 1998-2009 ILIAS open source, University of Cologne            |
 	|                                                                             |
 	| This program is free software; you can redistribute it and/or               |
 	| modify it under the terms of the GNU General Public License                 |
@@ -594,6 +594,8 @@ class ilColumnGUI
 	{
 		global $lng, $ilUser, $ilCtrl, $ilSetting;
 		
+		$bl_management = false;
+		
 		// show selector for hidden blocks
 		include_once("Services/Block/classes/class.ilBlockSetting.php");
 		$hidden_blocks = array();
@@ -651,9 +653,13 @@ class ilColumnGUI
 			$this->tpl->setCurrentBlock("hidden_block_selector");
 			$this->tpl->setVariable("HB_ACTION", $ilCtrl->getFormAction($this));
 			$this->tpl->setVariable("BLOCK_SEL", ilUtil::formSelect("", "block", $hidden_blocks,
-				false, true, 0, "ilEditSelect"));
+				false, true, 0, "ilEditSelect", array("id" => "il_show_bl_sel_".$this->getSide())));
+			$this->tpl->setVariable("LAB_ID", "il_show_bl_sel_".$this->getSide());
 			$this->tpl->setVariable("TXT_ACTIVATE", $lng->txt("show"));
+			$this->tpl->setVariable("TXT_SHOW_HIDDEN_BLOCK",
+				$lng->txt("show_hidden_block"));
 			$this->tpl->parseCurrentBlock();
+			$bl_management = true;
 		}
 		
 		// create block selection list
@@ -687,9 +693,13 @@ class ilColumnGUI
 				$this->tpl->setCurrentBlock("add_block_selector");
 				$this->tpl->setVariable("AB_ACTION", $ilCtrl->getFormAction($this));
 				$this->tpl->setVariable("ADD_BLOCK_SEL", ilUtil::formSelect("", "block_type", $add_blocks,
-					false, true, 0, "ilEditSelect"));
+					false, true, 0, "ilEditSelect", array("id" => "il_add_bl_sel_".$this->getSide())));
+				$this->tpl->setVariable("LAB_ID", "il_add_bl_sel_".$this->getSide());
 				$this->tpl->setVariable("TXT_ADD", $lng->txt("create"));
+				$this->tpl->setVariable("TXT_CREATE_BLOCK",
+					$lng->txt("create_block"));
 				$this->tpl->parseCurrentBlock();
+				$bl_management = true;
 			}
 		}
 		
@@ -708,6 +718,15 @@ class ilColumnGUI
 				$this->tpl->setVariable("TXT_TOGGLE_MOVEMENT",
 					$lng->txt("move_blocks"));
 			}
+			$this->tpl->parseCurrentBlock();
+			$bl_management = true;
+		}
+		
+		if ($bl_management)
+		{
+			$this->tpl->setCurrentBlock("block_management");
+			$this->tpl->setVariable("TXT_BLOCK_MANAGEMENT",
+				$lng->txt("block_management"));
 			$this->tpl->parseCurrentBlock();
 		}
 		

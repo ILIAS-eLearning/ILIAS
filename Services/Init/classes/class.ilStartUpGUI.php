@@ -201,7 +201,8 @@ class ilStartUpGUI
 
 		// Instantiate login template
 		// Use Shibboleth-only authentication if auth_mode is set to Shibboleth
-		$tpl->addBlockFile("CONTENT", "content", "tpl.login.html");
+		$tpl->addBlockFile("CONTENT", "content", "tpl.login.html",
+			"Services/Init");
 
 		//language handling
 		if ($_GET["lang"] == "")
@@ -486,7 +487,8 @@ class ilStartUpGUI
 	 	global $tpl,$lng;
 	 	
 		$lng->loadLanguageModule('auth');
-	 	$tpl->addBlockFile("CONTENT", "content", "tpl.login_account_migration.html");
+	 	$tpl->addBlockFile("CONTENT", "content", "tpl.login_account_migration.html",
+			"Services/Init");
 	 	$tpl->addJavaScript('./Services/Authentication/js/account_migration.js');
 	 	
 	 	if(strlen($a_message))
@@ -628,7 +630,8 @@ class ilStartUpGUI
 		ilUtil::setCookie("ilClientId","");
 
 		//instantiate logout template
-		$tpl->addBlockFile("CONTENT", "content", "tpl.logout.html");
+		$tpl->addBlockFile("CONTENT", "content", "tpl.logout.html",
+			"Services/Init");
 
 		if ($ilSetting->get("pub_section"))
 		{
@@ -665,7 +668,8 @@ class ilStartUpGUI
 
 		$valid = $ilAuth->getValidationData();
 
-		$tpl->addBlockFile("CONTENT", "content", "tpl.user_mapping_selection.html");
+		$tpl->addBlockFile("CONTENT", "content", "tpl.user_mapping_selection.html",
+			"Services/Init");
 		$email_user = ilObjUser::_getLocalAccountsForEmail($valid["email"]);
 
 
@@ -744,7 +748,8 @@ class ilStartUpGUI
 		$tpl->setVariable("LOCATION_STYLESHEET","./templates/default/delos.css");
 
 		// load client list template
-		$tpl->addBlockfile("CONTENT", "content", "tpl.client_list.html");
+		$tpl->addBlockfile("CONTENT", "content", "tpl.client_list.html",
+			"Services/Init");
 
 		// load template for table
 		$tpl->addBlockfile("CLIENT_LIST", "client_list", "tpl.table.html");
@@ -866,7 +871,8 @@ class ilStartUpGUI
 
 		require_once "./Services/User/classes/class.ilUserAgreement.php";
 
-		$tpl->addBlockFile("CONTENT", "content", "tpl.view_usr_agreement.html");
+		$tpl->addBlockFile("CONTENT", "content", "tpl.view_usr_agreement.html",
+			"Services/Init");
 		$tpl->addBlockFile("STATUSLINE", "statusline", "tpl.statusline.html");
 
 //		ilUtil::sendInfo();

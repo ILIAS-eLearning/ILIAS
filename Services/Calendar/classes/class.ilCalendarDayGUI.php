@@ -116,6 +116,8 @@ class ilCalendarDayGUI
 	 */
 	protected function show()
 	{
+		global $lng;
+		
 		$this->tpl = new ilTemplate('tpl.day_view.html',true,true,'Services/Calendar');
 		
 		include_once('./Services/YUI/classes/class.ilYuiUtil.php');
@@ -147,7 +149,8 @@ class ilCalendarDayGUI
 		$hours = $this->parseHourInfo($daily_apps);
 		$colspan = $this->calculateColspan($hours);
 
-		$this->tpl->setVariable('COLSPAN',$colspan);
+		$this->tpl->setVariable('COLSPAN',$colspan - 1);
+		$this->tpl->setVariable('TXT_TIME', $lng->txt("time"));
 
 		// show fullday events
 		foreach($daily_apps as $event)
@@ -174,6 +177,12 @@ class ilCalendarDayGUI
 			{
 				$this->showAppointment($app);
 			}
+			
+			if ($ilUser->prefs["screen_reader_optimization"])
+			{
+				$this->tpl->touchBlock('scrd_app_cell');
+			}
+			
 			for($i = ($colspan - 1);$i > $hour['apps_num'];$i--)
 			{
 				$this->tpl->touchBlock('empty_cell');
@@ -229,13 +238,20 @@ class ilCalendarDayGUI
 	 */
 	protected function showAppointment($a_app)
 	{
+		global $ilUser;
+		
 		$this->tpl->setCurrentBlock('panel_code');
 		$this->tpl->setVariable('NUM',$this->num_appointments);
 		$this->tpl->parseCurrentBlock();
 		
-		
-		
-		$this->tpl->setCurrentBlock('app');
+		if (!$ilUser->prefs["screen_reader_optimization"])
+		{
+			$this->tpl->setCurrentBlock('app');
+		}
+		else
+		{
+			$this->tpl->setCurrentBlock('scrd_app');
+		}
 
 		include_once('./Services/Calendar/classes/class.ilCalendarAppointmentPanelGUI.php');
 		$this->tpl->setVariable('PANEL_DATA',ilCalendarAppointmentPanelGUI::_getInstance()->getHTML($a_app));
@@ -254,8 +270,23 @@ class ilCalendarDayGUI
 				$title = $a_app['event']->getStart()->get(IL_CAL_FKT_DATE,'h:ia',$this->timezone);
 				break;
 		}
-		$title .= (' '.$a_app['event']->getPresentationTitle());
 		
+		// add end time for screen readers
+		if ($ilUser->prefs["screen_reader_optimization"])
+		{
+			switch($this->user_settings->getTimeFormat())
+			{
+				case ilCalendarSettings::TIME_FORMAT_24:
+					$title.= "-".$a_app['event']->getEnd()->get(IL_CAL_FKT_DATE,'H:i',$this->timezone);
+					break;
+					
+				case ilCalendarSettings::TIME_FORMAT_12:
+					$title.= "-".$a_app['event']->getEnd()->get(IL_CAL_FKT_DATE,'h:ia',$this->timezone);
+					break;
+			}
+		}
+		$title .= (' '.$a_app['event']->getPresentationTitle());
+
 		$this->tpl->setVariable('APP_TITLE',$title);
 
 		$color = $this->app_colors->getColorByAppointment($a_app['event']->getEntryId());
@@ -317,6 +348,8 @@ class ilCalendarDayGUI
 		
 		foreach($daily_apps as $app)
 		{
+			global $ilUser;
+			
 			// fullday appointment are not relavant
 			if($app['fullday'])
 			{
@@ -344,6 +377,13 @@ class ilCalendarDayGUI
 			{
 				$end = $app['end_info']['hours'];
 			}
+			
+			// set end to next hour for screen readers
+			if ($ilUser->prefs["screen_reader_optimization"])
+			{
+				$end = $start +1;
+			}
+			
 			if ($start < $morning_aggr)
 			{
 				$start = $morning_aggr;
@@ -370,7 +410,14 @@ class ilCalendarDayGUI
 			{
 				if($first)
 				{
-					$app['rowspan'] = $end - $start;
+					if (!$ilUser->prefs["screen_reader_optimization"])
+					{
+						$app['rowspan'] = $end - $start;
+					}
+					else  	// screen readers get always a rowspan of 1
+					{
+						$app['rowspan'] = 1;
+					}
 					$hours[$i]['apps_start'][] = $app;
 					$first = false;
 				}
@@ -389,11 +436,20 @@ class ilCalendarDayGUI
 	 */
 	protected function calculateColspan($hours)
 	{
+		global $ilUser;
+		
 		$colspan = 1;
 		foreach($hours as $hour)
 		{
 			$colspan = max($colspan,$hour['apps_num'] + 1);
 		}
+		
+		// screen reader: always two cols (time and event col)
+		if ($ilUser->prefs["screen_reader_optimization"])
+		{
+			$colspan = 2;
+		}
+		
 		return max($colspan,2);
 	}
 	

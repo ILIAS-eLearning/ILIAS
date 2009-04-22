@@ -220,7 +220,7 @@ class ilCalendarEntry implements ilDatePeriod
 		{
 			$title = $this->getTitle().' ('.$lng->txt($this->getSubtitle()).')';
 		}
-		
+
 		return ilUtil::shortenText(ilUtil::shortenWords($title,20),40,true);
 	}
 	

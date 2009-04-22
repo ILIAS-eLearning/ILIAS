@@ -1393,7 +1393,7 @@ return;
 			$this->tpl->parseCurrentBlock();
 		}
 		$this->tpl->setVariable("FORMACTION", $this->ctrl->getFormAction($this));
-		$this->tpl->setVariable("GLOBAL_OPTIONS",$this->lng->txt("mail_global_options"));
+		$this->tpl->setVariable("GLOBAL_OPTIONS",$this->lng->txt("mail_settings"));
 		$this->tpl->setVariable("TXT_INCOMING", $this->lng->txt("mail_incoming"));
 		$this->tpl->setVariable("TXT_LINEBREAK", $this->lng->txt("linebreak"));
 		$this->tpl->setVariable("TXT_SIGNATURE", $this->lng->txt("signature"));

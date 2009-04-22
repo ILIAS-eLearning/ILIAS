@@ -2,26 +2,37 @@
 {BLOCK}
 <!-- END col_block -->
 
+<!-- BEGIN block_management -->
+<table class="il_Block" datatable="0">
+<tr><td class="ilBlockHeader" colspan="1">{TXT_BLOCK_MANAGEMENT}</td></tr>
 <!-- BEGIN hidden_block_selector -->
+<tr class="tblrow1"><td class="std">
 <form method="post" action="{HB_ACTION}" class="ilForm">
-<div style="text-align:right;">
+<div class="small" style="margin-bottom:3px;"><label for="{LAB_ID}">{TXT_SHOW_HIDDEN_BLOCK}</label></div>
+<div>
 {BLOCK_SEL}
 <input type="submit" class="ilEditSubmit" name="cmd[activateBlock]" value="{TXT_ACTIVATE}" />
 </div>
 </form>
-<br />
+</td></tr>
 <!-- END hidden_block_selector -->
 <!-- BEGIN add_block_selector -->
+<tr class="tblrow1"><td class="std">
 <form method="post" action="{AB_ACTION}" class="ilForm">
-<div style="text-align:right;">
+<div class="small" style="margin-bottom:3px;"><label for="{LAB_ID}">{TXT_CREATE_BLOCK}</label></div>
+<div>
 {ADD_BLOCK_SEL}
 <input type="submit" class="ilEditSubmit" name="cmd[addBlock]" value="{TXT_ADD}" />
 </div>
 </form>
-<br />
+</td></tr>
 <!-- END add_block_selector -->
 <!-- BEGIN toggle_movement -->
-<div class="il_ContainerItemCommands" style="text-align:right;">
+<tr class="tblrow1"><td class="std">
+<div class="il_ContainerItemCommands">
 <a class="il_ContainerItemCommand" href="{HREF_TOGGLE_MOVEMENT}">{TXT_TOGGLE_MOVEMENT}</a>
 </div>
+</td></tr>
 <!-- END toggle_movement -->
+</table>
+<!-- END block_management -->

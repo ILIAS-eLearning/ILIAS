@@ -6,25 +6,25 @@ table.calstd {
 	border-collapse:collapse;
 	border-width:0px;
 	border-style:solid;
-	border-color:#9EADBA;
+	border-color:#D6D6D6;
 	font-size: 100%;
 }
 
 .calheader {
 	color:#222222;
 	font-weight: normal;
-	background-color: #EDEDED;
+	background-color: #F9F9F9;
 }
 
 
 th.calstd {
 	text-align: center;
 	border-spacing:0px;
-	background-color: #EDEDED;
+	background-color: #F9F9F9;
 	border-collapse:collapse;
 	border-width:1px;
 	border-style:solid;
-	border-color:#9EADBA;
+	border-color:#D6D6D6;
 	font-weight: normal;
 }
 
@@ -35,8 +35,8 @@ td.calheadertime {
 	background-color: #FFFFFF;
 	border-collapse:collapse;
 	border-width:1px;
-	border-style: dotted solid;
-	border-color:#9EADBA;
+	border-style: solid;
+	border-color:#D6D6D6;
 	font-size: 90%;
 	padding: 3px;
 }
@@ -45,8 +45,8 @@ td.calempty {
 	background-color:#ffffff;
 	border-spacing:0px;
 	border-bottom-width:1px;
-	border-bottom-style:dotted;
-	border-bottom-color:#9EADBA;
+	border-bottom-style:solid;
+	border-bottom-color:#D6D6D6;
 }
 
 th.calempty {
@@ -57,7 +57,7 @@ td.calrightborder {
 	border-spacing:0px;
 	border-right-width:1px;
 	border-right-style:solid;
-	border-right-color:#9EADBA;
+	border-right-color:#D6D6D6;
 }	
 
 
@@ -71,7 +71,7 @@ tr.calstdtime {
 	background-color: inherit;
 	border-right-width:1px;
 	border-right-style:solid;
-	border-right-color:#9EADBA;
+	border-right-color:#D6D6D6;
 }
 		
 
@@ -82,7 +82,7 @@ td.calstd {
 	border-collapse:collapse;
 	border-width:1px;
 	border-style:solid;
-	border-color:#9EADBA;
+	border-color:#D6D6D6;
 	padding: 2px 0px;
 }
 
@@ -93,7 +93,7 @@ td.caltoday {
 	border-collapse:collapse;
 	border-width:1px;
 	border-style:solid;
-	border-color:#9EADBA;
+	border-color:#D6D6D6;
 }
 
 
@@ -104,27 +104,27 @@ td.calnow {
 	border-collapse:collapse;
 	border-width:1px;
 	border-style:solid;
-	border-color:#9EADBA;
+	border-color:#D6D6D6;
 }
 
 td.calnext { 
 	vertical-align: top;
-	background-color:#EDEDED;
+	background-color:#F9F9F9;
 	border-spacing:0px;
 	border-collapse:collapse;
 	border-width:1px;
 	border-style:solid;
-	border-color:#9EADBA;
+	border-color:#D6D6D6;
 }
 
 td.calprev {
 	vertical-align: top;
-	background-color:#EDEDED;
+	background-color:#F9F9F9;
 	border-spacing:0px;
 	border-collapse:collapse;
 	border-width:1px;
 	border-style:solid;
-	border-color:#9EADBA;
+	border-color:#D6D6D6;
 }
 
 p.il_calevent {
@@ -142,9 +142,15 @@ td.calevent {
 	border-spacing:0px;
 	border-collapse:collapse;
 	border-width:1px;
-	border-style:dotted solid;
+	border-style: solid;
 	border-color:grey;
 	font-size:90%;
+}
+
+div.calevent {
+	font-size:90%;
+	padding: 3px;
+	margin: 3px;
 }
 
 p.il_cal_monthday {
@@ -175,12 +181,12 @@ table.calmini
 	border-collapse:collapse;
 	border-width:1px;
 	border-style:solid;
-	border-color:#9EADBA;
+	border-color:#D6D6D6;
 }
 
 .calminiheader {
 	color:#222222;
-	background-color: #EDEDED;
+	background-color: #F9F9F9;
 }
 
 th.calmini {
@@ -209,7 +215,7 @@ td.calministd {
 	border-spacing:0px;
 	border-width:1px;
 	border-style:solid;
-	border-color:#9EADBA;
+	border-color:#D6D6D6;
 	font-size:90%;
 	text-align:center;
 	vertical-align:middle;
@@ -220,7 +226,7 @@ td.calminitoday {
 	background-color:#FFE79C;
 	border-width:1px;
 	border-style:solid;
-	border-color:#9EADBA;
+	border-color:#D6D6D6;
 	font-size:90%;
 	text-align:center;
 	vertical-align:middle;
@@ -231,7 +237,7 @@ td.calmininow {
 	background-color:#FFF0C4;
 	border-width:1px;
 	border-style:solid;
-	border-color:#9EADBA;
+	border-color:#D6D6D6;
 	font-size:90%;
 	text-align:center;
 	vertical-align:middle;
@@ -239,10 +245,10 @@ td.calmininow {
 
 td.calmininext { 
 	vertical-align: top;
-	background-color:#EDEDED;
+	background-color:#F9F9F9;
 	border-width:1px;
 	border-style:solid;
-	border-color:#9EADBA;
+	border-color:#D6D6D6;
 	font-size:90%;
 	text-align:center;
 	vertical-align:middle;
@@ -250,10 +256,10 @@ td.calmininext {
 
 td.calminiprev {
 	vertical-align: top;
-	background-color:#EDEDED;
+	background-color:#F9F9F9;
 	border-width:1px;
 	border-style:solid;
-	border-color:#9EADBA;
+	border-color:#D6D6D6;
 	font-size:90%;
 	text-align:center;
 	vertical-align:middle;
