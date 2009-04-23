@@ -152,10 +152,6 @@ class ilGroupXMLWriter extends ilXmlWriter
 		{
 			$this->xmlElement('password',null,$pwd);
 		}
-		if($timest = $this->group_obj->getExpirationTimestamp())
-		{
-			$this->xmlElement('expiration',null,$timest);
-		}
 
 		
 		// limited registration period

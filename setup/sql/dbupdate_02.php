@@ -11277,3 +11277,38 @@ ALTER TABLE `crs_user_data` CHANGE `value` `value` VARCHAR( 4000 ) NOT NULL;
 <?php 
 	$ilMySQLAbstraction->performAbstraction('crs_user_data');
 ?>
+
+<#2330>
+<?php 
+	$ilMySQLAbstraction->performAbstraction('member_agreement');
+?>
+
+<#2331>
+ALTER TABLE `member_export_user_settings` CHANGE `settings` `settings` VARCHAR( 4000 ) NOT NULL;
+
+<#2332>
+RENAME TABLE `member_export_user_settings`  TO `member_usr_settings`;
+
+<#2333>
+<?php 
+	$ilMySQLAbstraction->performAbstraction('member_usr_settings');
+?>
+
+<#2334>
+<?php 
+	$ilMySQLAbstraction->performAbstraction('file_data');
+?>
+
+<#2335>
+DROP TABLE `grp_data`;
+
+<#2336>
+ALTER TABLE `grp_settings` CHANGE `information` `information` VARCHAR( 4000 ) NOT NULL;
+
+<#2337>
+ALTER TABLE `grp_settings` CHANGE `registration_membership_limited` `registration_mem_limit` TINYINT( 4 ) NOT NULL DEFAULT '0'; 
+
+<#2338>
+<?php 
+	$ilMySQLAbstraction->performAbstraction('grp_settings');
+?>

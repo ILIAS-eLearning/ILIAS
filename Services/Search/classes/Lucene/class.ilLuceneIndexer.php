@@ -59,8 +59,11 @@ class ilLuceneIndexer
 		
 		global $tree;
 
+
+		$mimes = array('text/plain','application/pdf','text/html','text/x-pdf','application/x-pdf');
+
 		$query = "SELECT * FROM file_data ".
-			"WHERE file_type IN ('text/plain','application/pdf','text/html','text/x-pdf','application/x-pdf')";
+			"WHERE ".$ilDB->in('file_type',$mimes,false,'text');
 
 		$res = $this->db->query($query);
 

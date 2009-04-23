@@ -152,12 +152,17 @@ class ilExportUserSettings
 	 */
 	public function store()
 	{
-	 	$query = "DELETE FROM member_export_user_settings WHERE user_id = ".$this->db->quote($this->user_id);
-	 	$this->db->query($query);
+	 	global $ilDB;
+	 	
+	 	$query = "DELETE FROM member_usr_settings WHERE user_id = ".$this->db->quote($this->user_id ,'integer');
+	 	$res = $ilDB->manipulate($query);
 		
-		$query = "INSERT INTO member_export_user_settings SET user_id = ".$this->db->quote($this->user_id).", ".
-			"settings = '".addslashes(serialize($this->settings))."' ";
-		$this->db->query($query);
+		$query = "INSERT INTO member_usr_settings (user_id,settings) ".
+		"VALUES( ".
+		$this->db->quote($this->user_id ,'integer').", ".
+		$ilDB->quote(serialize($this->settings) ,'text')." ".
+		")";
+		$res = $ilDB->manipulate($query);
 		$this->read();
 	}
 	
@@ -170,12 +175,12 @@ class ilExportUserSettings
 	 */
 	private function read()
 	{
-	 	$query = "SELECT * FROM member_export_user_settings WHERE user_id = ".$this->db->quote($this->user_id);
+	 	$query = "SELECT * FROM member_export_user_settings WHERE user_id = ".$this->db->quote($this->user_id ,'integer');
 	 	$res = $this->db->query($query);
 		
 	 	if($row = $res->fetchRow(DB_FETCHMODE_OBJECT))
 	 	{
-	 		$this->settings = unserialize(stripslashes($row->settings));
+	 		$this->settings = unserialize($row->settings);
 	 	}
 		return true;
 	}

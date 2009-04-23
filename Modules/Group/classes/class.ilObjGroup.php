@@ -77,10 +77,11 @@ class ilObjGroup extends ilContainer
 	
 	
 	// Map
-	protected $latitude;
-	protected $longitude;
-	protected $location_zoom;
-	protected $enablemap;
+	private $latitude = '';
+	private $longitude = '';
+	private $locationzoom = 0;
+	private $enablemap = 0;
+	
 	
 	public $members_obj;
 
@@ -504,25 +505,28 @@ class ilObjGroup extends ilContainer
 			return false;
 		}
 
-		$query = "INSERT INTO grp_settings ".
-			"SET obj_id = ".$ilDB->quote($this->getId()).", ".
-			"information = ".$ilDB->quote($this->getInformation()).", ".
-			"grp_type = ".$ilDB->quote((int) $this->getGroupType()).", ".
-			"registration_type = ".$ilDB->quote($this->getRegistrationType()).", ".
-			"registration_enabled = ".($this->isRegistrationEnabled() ? 1 : 0).", ".
-			"registration_unlimited = ".($this->isRegistrationUnlimited() ? 1 : 0).", ".
-			"registration_start = ".$ilDB->quote($this->getRegistrationStart()->get(IL_CAL_DATETIME,'')).", ".
-			"registration_end = ".$ilDB->quote($this->getRegistrationEnd()->get(IL_CAL_DATETIME,'')).", ".
-			"registration_password = ".$ilDB->quote($this->getPassword()).", ".
-			"registration_membership_limited = ".$ilDB->quote((int) $this->isMembershipLimited()).", ".
-			"registration_max_members = ".$ilDB->quote($this->getMaxMembers()).", ".
-			"waiting_list = ".$ilDB->quote($this->isWaitingListEnabled() ? 1 : 0).", ".
-			"latitude = ".$ilDB->quote($this->getLatitude()).", ".
-			"longitude = ".$ilDB->quote($this->getLongitude()).", ".
-			"location_zoom = ".$ilDB->quote($this->getLocationZoom()).", ".
-			"enablemap = ".$ilDB->quote($this->getEnableGroupMap())." ";
-
-		$ilDB->query($query);
+		$query = "INSERT INTO grp_settings (obj_id,information,grp_type,registration_type,registration_enabled,".
+			"registration_unlimited,registration_start,registration_end,registration_password,registration_mem_limit,".
+			"registration_max_members,waiting_list,latitude,longitude,location_zoom,enablemap) ".
+			"VALUES(".
+			$ilDB->quote($this->getId() ,'integer').", ".
+			$ilDB->quote($this->getInformation() ,'text').", ".
+			$ilDB->quote((int) $this->getGroupType() ,'integer').", ".
+			$ilDB->quote($this->getRegistrationType() ,'integer').", ".
+			$ilDB->quote(($this->isRegistrationEnabled() ? 1 : 0) ,'integer').", ".
+			$ilDB->quote(($this->isRegistrationUnlimited() ? 1 : 0) ,'integer').", ".
+			$ilDB->quote($this->getRegistrationStart()->get(IL_CAL_DATETIME,'') ,'timestamp').", ".
+			$ilDB->quote($this->getRegistrationEnd()->get(IL_CAL_DATETIME,'') ,'timestamp').", ".
+			$ilDB->quote($this->getPassword() ,'text').", ".
+			$ilDB->quote((int) $this->isMembershipLimited() ,'integer').", ".
+			$ilDB->quote($this->getMaxMembers() ,'integer').", ".
+			$ilDB->quote($this->isWaitingListEnabled() ? 1 : 0 ,'integer').", ".
+			$ilDB->quote($this->getLatitude() ,'text').", ".
+			$ilDB->quote($this->getLongitude() ,'text').", ".
+			$ilDB->quote($this->getLocationZoom() ,'integer').", ".
+			$ilDB->quote($this->getEnableGroupMap() ,'integer')." ".
+			")";
+		$res = $ilDB->manipulate($query);
 
 		$ilAppEventHandler->raise('Modules/Group',
 			'create',
@@ -546,24 +550,23 @@ class ilObjGroup extends ilContainer
 		}
 
 		$query = "UPDATE grp_settings ".
-			"SET information = ".$ilDB->quote($this->getInformation()).", ".
-			"grp_type = ".$ilDB->quote((int) $this->getGroupType()).", ".
-			"registration_type = ".$ilDB->quote($this->getRegistrationType()).", ".
-			"registration_enabled = ".($this->isRegistrationEnabled() ? 1 : 0).", ".
-			"registration_unlimited = ".($this->isRegistrationUnlimited() ? 1 : 0).", ".
-			"registration_start = ".$ilDB->quote($this->getRegistrationStart()->get(IL_CAL_DATETIME,'')).", ".
-			"registration_end = ".$ilDB->quote($this->getRegistrationEnd()->get(IL_CAL_DATETIME,'')).", ".
-			"registration_password = ".$ilDB->quote($this->getPassword()).", ".
-			"registration_membership_limited = ".$ilDB->quote((int) $this->isMembershipLimited()).", ".
-			"registration_max_members = ".$ilDB->quote($this->getMaxMembers()).", ".
-			"waiting_list = ".$ilDB->quote($this->isWaitingListEnabled() ? 1 : 0).", ".
-			"latitude = ".$ilDB->quote($this->getLatitude()).", ".
-			"longitude = ".$ilDB->quote($this->getLongitude()).", ".
-			"location_zoom = ".$ilDB->quote($this->getLocationZoom()).", ".
-			"enablemap = ".$ilDB->quote($this->getEnableGroupMap())." ".
-			"WHERE obj_id = ".$ilDB->quote($this->getId())." ";
-
-		$ilDB->query($query);
+			"SET information = ".$ilDB->quote($this->getInformation() ,'text').", ".
+			"grp_type = ".$ilDB->quote((int) $this->getGroupType() ,'integer').", ".
+			"registration_type = ".$ilDB->quote($this->getRegistrationType() ,'integer').", ".
+			"registration_enabled = ".$ilDB->quote($this->isRegistrationEnabled() ? 1 : 0 ,'integer').", ".
+			"registration_unlimited = ".$ilDB->quote($this->isRegistrationUnlimited() ? 1 : 0 ,'integer').", ".
+			"registration_start = ".$ilDB->quote($this->getRegistrationStart()->get(IL_CAL_DATETIME,'') ,'timestamp').", ".
+			"registration_end = ".$ilDB->quote($this->getRegistrationEnd()->get(IL_CAL_DATETIME,'') ,'timestamp').", ".
+			"registration_password = ".$ilDB->quote($this->getPassword() ,'text').", ".
+			"registration_membership_limited = ".$ilDB->quote((int) $this->isMembershipLimited() ,'integer').", ".
+			"registration_max_members = ".$ilDB->quote($this->getMaxMembers() ,'integer').", ".
+			"waiting_list = ".$ilDB->quote($this->isWaitingListEnabled() ? 1 : 0 ,'integer').", ".
+			"latitude = ".$ilDB->quote($this->getLatitude() ,'text').", ".
+			"longitude = ".$ilDB->quote($this->getLongitude() ,'text').", ".
+			"location_zoom = ".$ilDB->quote($this->getLocationZoom() ,'integer').", ".
+			"enablemap = ".$ilDB->quote($this->getEnableGroupMap() ,'integer')." ".
+			"WHERE obj_id = ".$ilDB->quote($this->getId() ,'integer')." ";
+		$res = $ilDB->manipulate($query);
 		
 		$ilAppEventHandler->raise('Modules/Group',
 			'update',
@@ -592,8 +595,8 @@ class ilObjGroup extends ilContainer
 		}
 
 		$query = "DELETE FROM grp_settings ".
-			"WHERE obj_id = ".$ilDB->quote($this->getId());
-		$ilDB->query($query);
+			"WHERE obj_id = ".$ilDB->quote($this->getId() ,'integer');
+		$res = $ilDB->manipulate($query);
 		
 		include_once('./Modules/Group/classes/class.ilGroupParticipants.php');
 		ilGroupParticipants::_deleteAllEntries($this->getId());
@@ -619,7 +622,7 @@ class ilObjGroup extends ilContainer
 		parent::read();
 
 		$query = "SELECT * FROM grp_settings ".
-			"WHERE obj_id = ".$ilDB->quote($this->getId());
+			"WHERE obj_id = ".$ilDB->quote($this->getId() ,'integer');
 		
 		$res = $ilDB->query($query);
 		while($row = $res->fetchRow(DB_FETCHMODE_OBJECT))
@@ -631,7 +634,7 @@ class ilObjGroup extends ilContainer
 			$this->setRegistrationStart(new ilDateTime($row->registration_start,IL_CAL_DATETIME));
 			$this->setRegistrationEnd(new ilDateTime($row->registration_end,IL_CAL_DATETIME));
 			$this->setPassword($row->registration_password);
-			$this->enableMembershipLimitation((bool) $row->registration_membership_limited);
+			$this->enableMembershipLimitation((bool) $row->registration_mem_limit);
 			$this->setMaxMembers($row->registration_max_members);
 			$this->enableWaitingList($row->waiting_list);
 			$this->setLatitude($row->latitude);
@@ -1102,64 +1105,6 @@ class ilObjGroup extends ilContainer
 		return $row["obj_id"];
 	}
 
-	/**
-	* set Expiration Date and Time
-	* @access	public
-	* @param	date
-	*/
-	function setExpirationDateTime($a_date)
-	{
-		global $ilDB;
-
-		$q = "SELECT * FROM grp_data WHERE grp_id= ".
-			$ilDB->quote($this->getId());
-		$res = $this->ilias->db->query($q);
-		$date = ilFormat::input2date($a_date);
-
-		if ($res->numRows() == 0)
-		{
-			$q = "INSERT INTO grp_data (grp_id, expiration) VALUES(".
-				$ilDB->quote($this->getId()).",".$ilDB->quote($date).")";
-			$res = $this->ilias->db->query($q);
-		}
-		else
-		{
-			$q = "UPDATE grp_data SET expiration=".
-				$ilDB->quote($date)." WHERE grp_id=".$ilDB->quote($this->getId());
-			$res = $this->ilias->db->query($q);
-		}
-	}
-
-	/**
-	 * Get expiration
-	 *
-	 * @access public
-	 * @param
-	 *
-	 */
-	public function getExpiration()
-	{
-		global $ilDB;
-
-		$q = "SELECT * FROM grp_data WHERE grp_id= ".
-			$ilDB->quote($this->getId());
-		$res = $this->ilias->db->query($q);
-		$row = $res->fetchRow(DB_FETCHMODE_ASSOC);
-		return $datetime = $row["expiration"];
-	}
-
-
-	function getExpirationTimestamp()
-	{
-		global $ilDB;
-
-		$query = "SELECT UNIX_TIMESTAMP(expiration) as timest FROM grp_data WHERE grp_id = ".
-			$ilDB->quote($this->getId());
-
-		$res = $this->ilias->db->query($query);
-		$row = $res->fetchRow(DB_FETCHMODE_ASSOC);
-		return $row['timest'];
-	}
 
 	
 	/**
