@@ -191,7 +191,7 @@ class ilNoteGUI
 	/***
 	* get note lists html code
 	*/
-	function getNotesHTML()
+	function getNotesHTML($a_init_form = true)
 	{
 		global $ilUser, $lng, $ilCtrl;
 		
@@ -204,7 +204,7 @@ class ilNoteGUI
 		if ($this->private_enabled && ($ilUser->getId() != ANONYMOUS_USER_ID))
 		{
 			$ntpl->setCurrentBlock("notes_col");
-			$ntpl->setVariable("NOTES", $this->getNoteListHTML(IL_NOTE_PRIVATE));
+			$ntpl->setVariable("NOTES", $this->getNoteListHTML(IL_NOTE_PRIVATE, $a_init_form));
 			$ntpl->parseCurrentBlock();
 			$nodes_col = true;
 		}
@@ -212,7 +212,7 @@ class ilNoteGUI
 		$comments_col = false;
 		if ($this->public_enabled && (!$this->delete_note || $this->public_deletion_enabled))
 		{
-			$ntpl->setVariable("COMMENTS", $this->getNoteListHTML(IL_NOTE_PUBLIC));
+			$ntpl->setVariable("COMMENTS", $this->getNoteListHTML(IL_NOTE_PUBLIC, $a_init_form));
 			$comments_col = true;
 		}
 		
@@ -294,7 +294,7 @@ class ilNoteGUI
 	/**
 	* get notes/comments list as html code
 	*/
-	function getNoteListHTML($a_type = IL_NOTE_PRIVATE)
+	function getNoteListHTML($a_type = IL_NOTE_PRIVATE, $a_init_form = true)
 	{
 		global $lng, $ilCtrl, $ilUser, $ilAccess, $tree, $objDefinition;
 
@@ -344,12 +344,14 @@ class ilNoteGUI
 		else if ($a_type == IL_NOTE_PRIVATE)
 		{
 			$tpl->setVariable("TXT_NOTES", $lng->txt("private_notes").$cnt_str);
+			$tpl->setVariable("ALT_NOTES", $lng->txt("icon")." ".$lng->txt("private_notes"));
 			$tpl->setVariable("A_NAME", "notes_top");
 			$ilCtrl->setParameterByClass("ilnotegui", "note_type", IL_NOTE_PRIVATE);
 		}
 		else
 		{
 			$tpl->setVariable("TXT_NOTES", $lng->txt("notes_public_comments").$cnt_str);
+			$tpl->setVariable("ALT_NOTES", $lng->txt("icon")." ".$lng->txt("notes_public_comments"));
 			$tpl->setVariable("A_NAME", "comments_top");
 			$ilCtrl->setParameterByClass("ilnotegui", "note_type", IL_NOTE_PUBLIC);
 		}
@@ -446,8 +448,16 @@ class ilNoteGUI
 		// show add new note text area
 		if ($this->add_note_form && $a_type == $_GET["note_type"])
 		{
-			$tpl->setCurrentBlock("edit_note");
-			$tpl->setVariable("TXT_SUBJECT", $lng->txt("subject"));
+			if ($a_init_form)
+			{
+				$this->initNoteForm("create", $a_type);
+			}
+
+			$tpl->setCurrentBlock("edit_note_form");
+			$tpl->setVariable("EDIT_FORM", $this->form->getHTML());
+			$tpl->parseCurrentBlock();
+
+/*			$tpl->setVariable("TXT_SUBJECT", $lng->txt("subject"));
 			if ($a_type == IL_NOTE_PUBLIC)
 			{
 				$tpl->setVariable("TXT_NOTE", $lng->txt("notes_comment"));
@@ -474,6 +484,7 @@ class ilNoteGUI
 			$tpl->setVariable("TXT_LABEL_PRO", $lng->txt("pro"));
 			$tpl->setVariable("VAL_LABEL_CONTRA", IL_NOTE_CONTRA);
 			$tpl->setVariable("TXT_LABEL_CONTRA", $lng->txt("contra"));
+*/
 			$tpl->parseCurrentBlock();
 			$tpl->setCurrentBlock("note_row");
 			$tpl->parseCurrentBlock();
@@ -487,59 +498,12 @@ class ilNoteGUI
 				if ($this->edit_note_form && ($note->getId() == $_GET["note_id"])
 					&& $a_type == $_GET["note_type"])
 				{
+					if ($a_init_form)
+					{
+						$this->initNoteForm("edit", $a_type, $note);
+					}
 					$tpl->setCurrentBlock("edit_note_form");
-					$tpl->setVariable("TXT_SUBJECT", $lng->txt("subject"));
-					if ($a_type == IL_NOTE_PUBLIC)
-					{
-						$tpl->setVariable("TXT_NOTE", $lng->txt("notes_comment"));
-					}
-					else
-					{
-						$tpl->setVariable("TXT_NOTE", $lng->txt("note"));
-					}
-					$tpl->setVariable("NOTE_SUBJECT",
-						ilUtil::prepareFormOutput($note->getSubject()));
-					$tpl->setVariable("SUB_NOTE", "sub_note");
-					$tpl->setVariable("TA_NOTE", "note");
-					$tpl->setVariable("NOTE_CONTENT",
-						ilUtil::prepareFormOutput($note->getText()));
-					$tpl->setVariable("BTN_ADD_NOTE", "updateNote");
-					$tpl->setVariable("TXT_ADD_NOTE", $lng->txt("save"));
-					$tpl->setVariable("BTN_CANCEL_ADD_NOTE", "cancelUpdateNote");
-					$tpl->setVariable("TXT_CANCEL_ADD_NOTE", $lng->txt("cancel"));
-					$tpl->setVariable("VAL_LABEL_NONE", IL_NOTE_UNLABELED);
-					$tpl->setVariable("TXT_LABEL_NONE", $lng->txt("unlabeled"));
-					$tpl->setVariable("VAL_LABEL_QUESTION", IL_NOTE_QUESTION);
-					$tpl->setVariable("TXT_LABEL_QUESTION", $lng->txt("question"));
-					$tpl->setVariable("VAL_LABEL_IMPORTANT", IL_NOTE_IMPORTANT);
-					$tpl->setVariable("TXT_LABEL_IMPORTANT", $lng->txt("important"));
-					$tpl->setVariable("VAL_LABEL_PRO", IL_NOTE_PRO);
-					$tpl->setVariable("TXT_LABEL_PRO", $lng->txt("pro"));
-					$tpl->setVariable("VAL_LABEL_CONTRA", IL_NOTE_CONTRA);
-					$tpl->setVariable("TXT_LABEL_CONTRA", $lng->txt("contra"));
-					$tpl->setVariable("VAL_NOTE_ID", $_GET["note_id"]);
-					switch($note->getLabel())
-					{
-						case IL_NOTE_UNLABELED:
-							$tpl->setVariable("SEL_NONE", 'selected="selected"');
-							break;
-							
-						case IL_NOTE_IMPORTANT:
-							$tpl->setVariable("SEL_IMPORTANT", 'selected="selected"');
-							break;
-							
-						case IL_NOTE_QUESTION:
-							$tpl->setVariable("SEL_QUESTION", 'selected="selected"');
-							break;
-							
-						case IL_NOTE_PRO:
-							$tpl->setVariable("SEL_PRO", 'selected="selected"');
-							break;
-							
-						case IL_NOTE_CONTRA:
-							$tpl->setVariable("SEL_CONTRA", 'selected="selected"');
-							break;
-					}
+					$tpl->setVariable("EDIT_FORM", $this->form->getHTML());
 					$tpl->parseCurrentBlock();
 				}
 				else
@@ -735,6 +699,88 @@ class ilNoteGUI
 	}
 	
 	/**
+	* Init note form.
+	*
+	* @param        int        $a_mode        Edit Mode
+	*/
+	public function initNoteForm($a_mode = "edit", $a_type, $a_note = null)
+	{
+		global $lng;
+		include_once("Services/Form/classes/class.ilPropertyFormGUI.php");
+		$this->form = new ilPropertyFormGUI();
+		$this->form->setOpenTag(false);
+		$this->form->setCloseTag(false);
+	
+		// subject
+		$ti = new ilTextInputGUI($this->lng->txt("subject"), "sub_note");
+		$ti->setRequired(true);
+		$ti->setMaxLength(200);
+		$ti->setSize(40);
+		if ($a_note)
+		{
+			$ti->setValue($a_note->getSubject());
+		}
+		$this->form->addItem($ti);
+		
+		// text
+		$ta = new ilTextAreaInputGUI(($a_type == IL_NOTE_PUBLIC)
+			? $lng->txt("notes_comment")
+			: $lng->txt("note"), "note");
+		$ta->setCols(40);
+		$ta->setRows(4);
+		if ($a_note)
+		{
+			$ta->setValue($a_note->getText());
+		}
+		$this->form->addItem($ta);
+		
+		// label
+		$options = array(
+			IL_NOTE_UNLABELED => $lng->txt("unlabeled"),
+			IL_NOTE_QUESTION => $lng->txt("question"),
+			IL_NOTE_IMPORTANT => $lng->txt("important"),
+			IL_NOTE_PRO => $lng->txt("pro"),
+			IL_NOTE_CONTRA => $lng->txt("contra"),
+			);
+		$si = new ilSelectInputGUI($this->lng->txt("notes_label"), "note_label");
+		$si->setOptions($options);
+		if ($a_note)
+		{
+			$si->setValue($a_note->getLabel());
+		}
+		$this->form->addItem($si);
+		
+		// hidden note id
+		if ($a_note)
+		{ 
+			$hi = new ilHiddenInputGUI("note_id");
+			$hi->setValue($_GET["note_id"]);
+			$this->form->addItem($hi);
+		}
+
+		// save and cancel commands
+		if ($a_mode == "create")
+		{
+			$this->form->addCommandButton("addNote", $lng->txt("save"));
+			$this->form->addCommandButton("cancelAddNote", $lng->txt("cancel"));
+			$this->form->setTitle($a_type == IL_NOTE_PUBLIC
+				? $lng->txt("notes_add_comment")
+				: $lng->txt("notes_add_note"));
+		}
+		else
+		{
+			$this->form->addCommandButton("updateNote", $lng->txt("save"));
+			$this->form->addCommandButton("cancelUpdateNote", $lng->txt("cancel"));
+			$this->form->setTitle($a_type == IL_NOTE_PUBLIC
+				? $lng->txt("notes_edit_comment")
+				: $lng->txt("notes_edit_note"));
+		}
+	                
+		$this->form->setFormAction($this->ctrl->getFormAction($this));
+	 
+	}
+	
+	/**
 	* Note display for personal desktop
 	*/
 	function getPDNoteHTML($note_id)
@@ -900,7 +946,7 @@ class ilNoteGUI
 	/**
 	* get notes list including add note area
 	*/ 
-	function addNoteForm()
+	function addNoteForm($a_init_form = true)
 	{
 		global $ilUser;
 		
@@ -910,7 +956,7 @@ class ilNoteGUI
 		$ilUser->setPref("notes_".$suffix, "y");
 
 		$this->add_note_form = true;
-		return $this->getNotesHTML();
+		return $this->getNotesHTML($a_init_form);
 	}
 	
 	/**
@@ -956,27 +1002,36 @@ class ilNoteGUI
 	*/
 	function updateNote()
 	{
-		global $ilUser;
+		global $ilUser, $lng;
 
-		$note = new ilNote($_POST["note_id"]);
-		//$note->setObject($this->obj_type, $this->rep_obj_id, $this->obj_id);
-		//$note->setType(IL_NOTE_PRIVATE);
-		//$note->setAuthor($ilUser->getId());
-		$note->setText(ilUtil::stripSlashes($_POST["note"]));
-		$note->setSubject(ilUtil::stripSlashes($_POST["sub_note"]));
-		$note->setLabel($_POST["note_label"]);
-		$note->update();
+		$note = new ilNote(ilUtil::stripSlashes($_POST["note_id"]));
+		$this->initNoteForm("edit", $note->getType(),
+			$note);
+
+		if ($this->form->checkInput())
+		{
+			$note->setText($_POST["note"]);
+			$note->setSubject($_POST["sub_note"]);
+			$note->setLabel($_POST["note_label"]);
+			$note->update();
+			ilUtil::sendSuccess($lng->txt("msg_obj_modified"));
+			return $this->getNotesHTML();
+		}
 		
-		return $this->getNotesHTML();
+		$this->form->setValuesByPost();
+		$_GET["note_id"] = $note->getId();
+		$_GET["note_type"] = $note->getType();
+		return $this->editNoteForm(false);
 	}
-
+	
 	/**
 	* get notes list including add note area
 	*/ 
-	function editNoteForm()
+	function editNoteForm($a_init_form = true)
 	{
 		$this->edit_note_form = true;
-		return $this->getNotesHTML();
+		
+		return $this->getNotesHTML($a_init_form);
 	}
 
 	/**

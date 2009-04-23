@@ -168,6 +168,26 @@ class ilFormGUI
 	}
 	
 	/**
+	* Set close tag
+	*
+	* @param	boolean		close tag true/false
+	*/
+	function setCloseTag($a_val)
+	{
+		$this->setKeepOpen(!$a_val);
+	}
+	
+	/**
+	* Get close tag
+	*
+	* @return	boolean		close tag true/false
+	*/
+	function getCloseTag()
+	{
+		return !$this->getKeepOpen();
+	}
+	
+	/**
 	* Get HTML.
 	*/
 	function getHTML()

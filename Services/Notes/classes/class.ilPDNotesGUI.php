@@ -199,6 +199,7 @@ class ilPDNotesGUI
 			$this->tpl->setCurrentBlock("related_selection");
 			$this->tpl->setVariable("TXT_CHANGE", $lng->txt("change"));
 			$this->tpl->setVariable("TXT_RELATED_TO", $lng->txt("related_to"));
+			$this->tpl->setVariable("TXT_FILTER", $lng->txt("filter"));
 			$this->tpl->setVariable("FORMACTION", $this->ctrl->getFormAction($this));
 			$this->tpl->parseCurrentBlock();
 		}

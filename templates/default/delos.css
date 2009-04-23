@@ -1375,6 +1375,7 @@ div.il_droparea
 	background-repeat: repeat;
 	padding: 0px 0px;
 	text-align: center;
+	height: 12px;
 }
 
 div.il_droparea_active
@@ -1387,6 +1388,7 @@ div.il_droparea_active
 	background-image: url(images/drop_back_active.gif);
 	background-repeat: repeat;
 	text-align: center;
+	height: 12px;
 }
 
 div.il_droparea_valid_target
@@ -1399,6 +1401,7 @@ div.il_droparea_valid_target
 	background-image: url(images/drop_back.gif);
 	background-repeat: repeat;
 	text-align: center;
+	height: 12px;
 }
 
 div.il_editarea_nojs
@@ -2546,4 +2549,24 @@ select.ilNavHistorySelect {
 	width:1px;
 	height:1px;
 	overflow:hidden;
+}
+
+a.ilAccAnchor{
+	text-decoration: none;
+}
+
+/* Notes */
+
+div.ilNotesHeader{
+	border-bottom-width: 1px;
+	border-bottom-style: solid;
+	border-bottom-color: #606060;
+	margin-bottom:5px;
+	padding-bottom:5px;
+}
+
+h3.ilNotesHeader{
+	font-size:110%;
+	color: #606060;
+	display: inline;
 }
