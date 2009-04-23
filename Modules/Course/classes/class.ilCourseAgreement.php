@@ -79,7 +79,7 @@ class ilCourseAgreement
 		global $ilDB;
 		
 		$query = "SELECT * FROM member_agreement ".
-			"WHERE obj_id = ".$ilDB->quote($a_obj_id);
+			"WHERE obj_id = ".$ilDB->quote($a_obj_id ,'integer');
 			
 		$res = $ilDB->query($query);
 		while($row = $res->fetchRow(DB_FETCHMODE_OBJECT))
@@ -103,7 +103,7 @@ class ilCourseAgreement
 		global $ilDB;
 		
 		$query = "SELECT * FROM member_agreement ".
-			"WHERE obj_id = ".$ilDB->quote($a_obj_id)." ".
+			"WHERE obj_id = ".$ilDB->quote($a_obj_id ,'integer')." ".
 			"AND accepted = 1";
 		
 		$res = $ilDB->query($query);
@@ -142,8 +142,8 @@ class ilCourseAgreement
 		global $ilDB;
 		
 		$query = "SELECT accepted FROM member_agreement ".
-			"WHERE usr_id = ".$ilDB->quote($a_usr_id)." ".
-			"AND obj_id = ".$ilDB->quote($a_obj_id);
+			"WHERE usr_id = ".$ilDB->quote($a_usr_id ,'integer')." ".
+			"AND obj_id = ".$ilDB->quote($a_obj_id ,'integer');
 		$res = $ilDB->query($query);
 		$row = $res->fetchRow(DB_FETCHMODE_OBJECT);
 		
@@ -164,8 +164,8 @@ class ilCourseAgreement
 	 	global $ilDB;
 	 	
 	 	$query = "DELETE FROM member_agreement ".
-	 		"WHERE usr_id =".$ilDB->quote($a_usr_id)." ";
-		$ilDB->query($query);
+	 		"WHERE usr_id =".$ilDB->quote($a_usr_id ,'integer')." ";
+		$res = $ilDB->manipulate($query);
 		
 		return true;
 	}
@@ -182,8 +182,8 @@ class ilCourseAgreement
 	 	global $ilDB;
 	 	
 	 	$query = "DELETE FROM member_agreement ".
-	 		"WHERE obj_id =".$ilDB->quote($a_obj_id)." ";
-		$ilDB->query($query);
+	 		"WHERE obj_id =".$ilDB->quote($a_obj_id ,'integer')." ";
+		$res = $ilDB->manipulate($query);
 		
 		return true;
 	 	
@@ -202,7 +202,7 @@ class ilCourseAgreement
 	 	global $ilDB;
 	 	
 	 	$query = "UPDATE member_agreement SET accepted = 0 ";
-	 	$ilDB->query($query);
+	 	$res = $ilDB->manipulate($query);
 	 	
 	 	return true;
 	}
@@ -220,8 +220,8 @@ class ilCourseAgreement
 	 	
 	 	$query = "UPDATE member_agreement ".
 	 		"SET accepted = 0 ".
-	 		"WHERE obj_id = ".$ilDB->quote($a_container_id)." ";
-	 	$ilDB->query($query);
+	 		"WHERE obj_id = ".$ilDB->quote($a_container_id ,'integer')." ";
+	 	$res = $ilDB->manipulate($query);
 		
 		return true;
 	}
@@ -296,15 +296,18 @@ class ilCourseAgreement
 	 */
 	public function save()
 	{
+		global $ilDB;
+		
 		$this->delete();
 		
-	 	$query = "INSERT INTO member_agreement ".
-	 		"SET usr_id = ".$this->db->quote($this->user_id).", ".
-	 		"obj_id = ".$this->db->quote($this->obj_id).", ".
-	 		"accepted = ".$this->db->quote((int) $this->isAccepted() ,'integer').", ".
-	 		"acceptance_time = ".$this->db->quote($this->getAcceptanceTime());
-	 		
-		$this->db->query($query);
+	 	$query = "INSERT INTO member_agreement (usr_id,obj_id,accepted,acceptance_time) ".
+	 		"VALUES( ".
+	 		$this->db->quote($this->user_id ,'integer').", ".
+	 		$this->db->quote($this->obj_id ,'integer').", ".
+	 		$this->db->quote((int) $this->isAccepted() ,'integer').", ".
+	 		$this->db->quote($this->getAcceptanceTime() ,'integer')." ".
+	 		")";
+	 	$res = $ilDB->manipulate($query);
 		return true;	
 	}
 	
@@ -316,11 +319,12 @@ class ilCourseAgreement
 	 */
 	public function delete()
 	{
-	 	$query = "DELETE FROM member_agreement ".
-	 		"WHERE usr_id = ".$this->db->quote($this->user_id)." ".
-	 		"AND obj_id = ".$this->db->quote($this->obj_id);
+	 	global $ilDB;
 	 	
-	 	$this->db->query($query);
+	 	$query = "DELETE FROM member_agreement ".
+	 		"WHERE usr_id = ".$this->db->quote($this->user_id ,'integer')." ".
+	 		"AND obj_id = ".$this->db->quote($this->obj_id ,'integer');
+	 	$res = $ilDB->manipulate($query);
 		return true;			
 	}
 	
@@ -329,16 +333,18 @@ class ilCourseAgreement
 	 *
 	 * @access private
 	 */
-	private function read()
+	public function read()
 	{
 	 	$query = "SELECT * FROM member_agreement ".
-	 		"WHERE usr_id = ".$this->db->quote($this->user_id)." ".
-	 		"AND obj_id = ".$this->db->quote($this->obj_id)." ";
+	 		"WHERE usr_id = ".$this->db->quote($this->user_id ,'integer')." ".
+	 		"AND obj_id = ".$this->db->quote($this->obj_id ,'integer')." ";
 	 		
 	 	$res = $this->db->query($query);
-	 	$row = $res->fetchRow(DB_FETCHMODE_OBJECT);
-	 	$this->accepted = $row->accepted;
-	 	$this->acceptance_time = $row->acceptance_time;
+		while($row = $res->fetchRow(DB_FETCHMODE_OBJECT))
+		{
+		 	$this->accepted = $row->accepted;
+		 	$this->acceptance_time = $row->acceptance_time;
+		}
 	}
 }
 ?>
