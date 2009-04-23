@@ -486,7 +486,7 @@ class ilSoapObjectAdministration extends ilSoapAdministration
 
 		// Include main header
 		include_once './include/inc.header.php';
-		global $rbacsystem, $objDefinition,$ilUser, $lng;
+		global $rbacsystem, $objDefinition,$ilUser, $lng, $ilObjDataCache;
 
 		if(!$target_obj =& ilObjectFactory::getInstanceByRefId($a_target_id,false))
 		{
@@ -570,6 +570,26 @@ class ilSoapObjectAdministration extends ilSoapAdministration
 			require_once($location."/class.ilObj".$class_name.".php");
 
 			$newObj = new $class_constr();
+			
+			if(isset($object_data['owner']) && strlen($object_data['owner']))
+			{
+				if((int)$object_data['owner'])
+				{
+					if(ilObject::_exists((int)$object_data['owner']) && 
+					   $ilObjDataCache->lookupType((int)$object_data['owner']) == 'usr')
+					{
+						$newObj->setOwner((int)$object_data['owner']);
+					}
+				}
+				else
+				{
+					$usr_id = ilObjUser::_lookupId(trim($object_data['owner']));
+					if((int)$usr_id)
+					{
+						$newObj->setOwner((int)$usr_id);
+					}
+				}
+			}
 
 			$newObj->setType($object_data['type']);
 			if(strlen($object_data['import_id']))
