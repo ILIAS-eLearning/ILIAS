@@ -395,7 +395,7 @@ class ilLuceneSearchResultPresentation
 		
 		$tpl->setCurrentBlock('relevance');
 		#$tpl->setVariable('TXT_RELEVANCE',$lng->txt('search_relevance'));
-		$tpl->setVariable('VAL_REL',sprintf("%.02f %%",$this->getRelevance($a_obj_id)));
+		$tpl->setVariable('VAL_REL',sprintf("%d %%",$this->getRelevance($a_obj_id)));
 		$tpl->setVariable('WIDTH_A',$width1);
 		$tpl->setVariable('WIDTH_B',$width2);
 		$tpl->setVariable('IMG_A',ilUtil::getImagePath("relevance_blue.gif"));
