@@ -96,7 +96,7 @@ class ilObjFileAccess extends ilObjectAccess
 	{
 		global $ilDB;
 
-		$q = "SELECT * FROM file_data WHERE file_id = ".$ilDB->quote($a_id);
+		$q = "SELECT * FROM file_data WHERE file_id = ".$ilDB->quote($a_id ,'integer');
 		$r = $ilDB->query($q);
 		$row = $r->fetchRow(DB_FETCHMODE_ASSOC);
 
@@ -110,7 +110,7 @@ class ilObjFileAccess extends ilObjectAccess
 	{
 		global $ilDB;
 
-		$q = "SELECT version FROM file_data WHERE file_id = ".$ilDB->quote($a_id);
+		$q = "SELECT version FROM file_data WHERE file_id = ".$ilDB->quote($a_id ,'integer');
 		$r = $ilDB->query($q);
 		$row = $r->fetchRow(DB_FETCHMODE_OBJECT);
 
@@ -124,7 +124,7 @@ class ilObjFileAccess extends ilObjectAccess
 	{
 		global $ilDB;
 
-		$q = "SELECT file_size FROM file_data WHERE file_id = ".$ilDB->quote($a_id);
+		$q = "SELECT file_size FROM file_data WHERE file_id = ".$ilDB->quote($a_id ,'integer');
 		$r = $ilDB->query($q);
 		$row = $r->fetchRow(DB_FETCHMODE_OBJECT);
 		
@@ -153,7 +153,7 @@ class ilObjFileAccess extends ilObjectAccess
 	{
 		global $ilDB;
 
-		$q = "SELECT * FROM file_data WHERE file_id = ".$ilDB->quote($a_id);
+		$q = "SELECT * FROM file_data WHERE file_id = ".$ilDB->quote($a_id ,'integer');
 		$r = $ilDB->query($q);
 		$row = $r->fetchRow(DB_FETCHMODE_OBJECT);
         
