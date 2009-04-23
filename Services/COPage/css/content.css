@@ -271,8 +271,10 @@ div.ilc_section_Example
 {
 	margin-top: 10px;
 	margin-bottom: 10px;
-	color: brown;
-	font-style: italic;
+	padding-left: 20px;
+	border-left: 3px;
+	border-left-style: solid;
+	border-left-color: blue;
 }
 
 div.ilc_text_block_Mnemonic
@@ -288,6 +290,28 @@ div.ilc_text_block_Mnemonic
 }
 
 div.ilc_section_Mnemonic
+{
+	margin-top: 10px;
+	margin-bottom: 10px;
+	margin-left: 20px;
+	margin-right: 20px;
+	padding: 10px;
+	border-width: 2px;
+	border-style: solid;
+	border-color: red;
+}
+
+div.ilc_text_block_Additional
+{
+	margin-top: 10px;
+	margin-bottom: 10px;
+	padding: 10px;
+	border-width: 1px;
+	border-style: solid;
+	border-color: blue;
+}
+
+div.ilc_section_Additional
 {
 	margin-top: 10px;
 	margin-bottom: 10px;

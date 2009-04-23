@@ -946,7 +946,7 @@ div.ilLogin
 span.il_menu
 {
 	line-height: 150%;
-	padding-right: 20px;
+	padding-left: 30px;
 }
 
 .ilLanguageSelection
@@ -1902,7 +1902,7 @@ div.ilMainHeader
 
 a.ilLogin, a.ilLogin:visited
 {
-	border-bottom: 1px dotted #2020C0;
+
 }
 
 /* MainMenu */
@@ -2019,7 +2019,7 @@ div.ilTabContentInner
 
 div.ilBelowMainMenu
 {
-	background-color: #F5F5F5;
+	background-color: #F9F9F9;
 	padding: 0px 5px 10px 5px;
 }
 

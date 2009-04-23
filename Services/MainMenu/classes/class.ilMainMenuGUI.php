@@ -333,21 +333,25 @@ class ilMainMenuGUI
 					$this->tpl->parseCurrentBlock();
 				}
 	
+				// language selection
+				include_once("./Services/AdvancedSelectionList/classes/class.ilAdvancedSelectionListGUI.php");
+				$selection = new ilAdvancedSelectionListGUI();
+				$selection->setFormSelectMode("change_lang_to", "ilLanguageSelection", true,
+					"#", "ilNavHistory", "ilNavHistoryForm",
+					"_top", $lng->txt("ok"), "ilLogin");
+				//$selection->setListTitle($lng->txt("choose_language"));
+				$selection->setListTitle($lng->txt("language"));
+				$selection->setItemLinkClass("small");
 				$languages = $lng->getInstalledLanguages();
-				
 				foreach ($languages as $lang_key)
 				{
-					$this->tpl->setCurrentBlock("languages");
-					$this->tpl->setVariable("LANG_KEY", $lang_key);
-					$this->tpl->setVariable("LANG_NAME",
-						ilLanguage::_lookupEntry($lang_key, "meta", "meta_l_".$lang_key));
-					$this->tpl->parseCurrentBlock();
+					$selection->addItem(ilLanguage::_lookupEntry($lang_key, "meta", "meta_l_".$lang_key),
+						$lang_key, "?lang=".$lang_key, "", "", "_top");
 				}
-	
-				$this->tpl->setVariable("TXT_OK", $lng->txt("ok"));
-				//$this->tpl->setVariable("LANG_FORM_ACTION", "repository.php?ref_id=".$_GET["ref_id"]);
-				$this->tpl->setVariable("LANG_FORM_ACTION", "#");
-				$this->tpl->setVariable("TXT_CHOOSE_LANGUAGE", $lng->txt("choose_language"));
+				if (count($languages) > 0)
+				{
+					$this->tpl->setVariable("LANG_SELECT", $selection->getHTML());
+				}
 	
 				$this->tpl->setCurrentBlock("userisanonymous");
 				$this->tpl->setVariable("TXT_NOT_LOGGED_IN",$lng->txt("not_logged_in"));
