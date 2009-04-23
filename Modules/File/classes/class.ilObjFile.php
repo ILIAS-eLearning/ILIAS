@@ -116,12 +116,12 @@ class ilObjFile extends ilObject
 		}
 
 		$q = "INSERT INTO file_data (file_id,file_name,file_type,file_size,version,mode) "
-			."VALUES (".$ilDB->quote($this->getId()).","
-			.$ilDB->quote($this->getFileName()).","
-			.$ilDB->quote($this->getFileType()).","
-			.$ilDB->quote($this->getFileSize()).","
-			.$ilDB->quote("1").",".$ilDB->quote($this->getMode()).")";
-		$this->ilias->db->query($q);
+			."VALUES (".$ilDB->quote($this->getId() ,'integer').","
+			.$ilDB->quote($this->getFileName() ,'text').","
+			.$ilDB->quote($this->getFileType() ,'text').","
+			.$ilDB->quote($this->getFileSize() ,'integer').","
+			.$ilDB->quote(1 ,'integer').",".$ilDB->quote($this->getMode() ,'text').")";
+		$res = $ilDB->manipulate($q);
 		
 		// no meta data handling for file list files
 		if ($this->getMode() != "filelist")
@@ -282,7 +282,7 @@ class ilObjFile extends ilObject
 	{
 		global $ilDB;
 		
-		$ilDB->query("UPDATE file_data SET version = 1 WHERE file_id = ".$ilDB->quote($this->getId()));
+		$ilDB->manipulate("UPDATE file_data SET version = 1 WHERE file_id = ".$ilDB->quote($this->getId() ,'integer'));
 		$this->setVersion(0);
 		$this->clearDataDirectory();
 		
@@ -300,7 +300,7 @@ class ilObjFile extends ilObject
 		
 		parent::read();
 
-		$q = "SELECT * FROM file_data WHERE file_id = ".$ilDB->quote($this->getId());
+		$q = "SELECT * FROM file_data WHERE file_id = ".$ilDB->quote($this->getId() ,'integer');
 		$r = $this->ilias->db->query($q);
 		$row = $r->fetchRow(DB_FETCHMODE_OBJECT);
 
@@ -331,13 +331,13 @@ class ilObjFile extends ilObject
 		
 		$ilLog->write(__METHOD__.' File type: '.$this->getFileType());
 		
-		$q = "UPDATE file_data SET file_name = ".$ilDB->quote($this->getFileName()).
-			", file_type = ".$ilDB->quote($this->getFiletype())." ".
-			", file_size = ".$ilDB->quote($this->getFileSize())." ".
-			", version = ".$ilDB->quote($this->getVersion())." ".
-			", mode = ".$ilDB->quote($this->getMode())." ".
-			"WHERE file_id = ".$ilDB->quote($this->getId());
-		$this->ilias->db->query($q);
+		$q = "UPDATE file_data SET file_name = ".$ilDB->quote($this->getFileName() ,'text').
+			", file_type = ".$ilDB->quote($this->getFiletype() ,'text')." ".
+			", file_size = ".$ilDB->quote($this->getFileSize() ,'integer')." ".
+			", version = ".$ilDB->quote($this->getVersion() ,'integer')." ".
+			", mode = ".$ilDB->quote($this->getMode() ,'text')." ".
+			"WHERE file_id = ".$ilDB->quote($this->getId() ,'integer');
+		$res = $ilDB->manipulate($q);
 		
 		return true;
 	}
@@ -474,9 +474,9 @@ class ilObjFile extends ilObject
 		global $ilDB;
 		
 		$q = "UPDATE file_data SET ".
-			" file_type = ".$ilDB->quote($a_format).
-			" WHERE file_id = ".$ilDB->quote($a_id);
-		$ilDB->query($q);
+			" file_type = ".$ilDB->quote($a_format ,'text').
+			" WHERE file_id = ".$ilDB->quote($a_id ,'integer');
+		$res = $ilDB->manipulate($q);
 		
 	}
 
@@ -484,7 +484,7 @@ class ilObjFile extends ilObject
 	{
 		global $ilDB;
 
-		$q = "SELECT * FROM file_data WHERE file_id = ".$ilDB->quote($a_id);
+		$q = "SELECT * FROM file_data WHERE file_id = ".$ilDB->quote($a_id ,'integer');
 		$r = $ilDB->query($q);
 		$row = $r->fetchRow(DB_FETCHMODE_OBJECT);
 
@@ -686,13 +686,13 @@ class ilObjFile extends ilObject
 	 	
 	 	// object created now copy other settings
 		$query = "INSERT INTO file_data (file_id,file_name,file_type,file_size,version,mode) VALUES (".
-				$ilDB->quote($new_obj->getId()).",".
-				$ilDB->quote($this->getFileName()).",".
-				$ilDB->quote($this->getFileType()).",".
-				$ilDB->quote($this->getFileSize()).", ".
-				$ilDB->quote($this->getVersion()).", ".
-				$ilDB->quote($this->getMode()).")";
-		$ilDB->query($query);
+				$ilDB->quote($new_obj->getId() ,'integer').",".
+				$ilDB->quote($this->getFileName() ,'text').",".
+				$ilDB->quote($this->getFileType() ,'text').",".
+				$ilDB->quote($this->getFileSize() ,'integer').", ".
+				$ilDB->quote($this->getVersion() ,'integer').", ".
+				$ilDB->quote($this->getMode() ,'text').")";
+		$res = $ilDB->manipulate($query);
 
 		// copy history entries
 		require_once("classes/class.ilHistory.php");
@@ -727,7 +727,7 @@ class ilObjFile extends ilObject
 			}
 
 			// delete file data entry
-			$q = "DELETE FROM file_data WHERE file_id = ".$ilDB->quote($this->getId());
+			$q = "DELETE FROM file_data WHERE file_id = ".$ilDB->quote($this->getId() ,'integer');
 			$this->ilias->db->query($q);
 			
 			// delete history entries
