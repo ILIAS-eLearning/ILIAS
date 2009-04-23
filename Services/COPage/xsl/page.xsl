@@ -425,6 +425,7 @@
 				</xsl:attribute>
 			</xsl:otherwise>
 		</xsl:choose>
+		<xsl:comment>Break</xsl:comment>
 		</a>
 	</xsl:if>
 </xsl:template>

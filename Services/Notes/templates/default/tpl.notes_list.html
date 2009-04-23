@@ -38,11 +38,9 @@ a.il_PrintBack
 <a class="il_PrintBack" href="{LINK_BACK}">{TXT_BACK}</a>
 <!-- END print_back -->
 <form action="{FORMACTION}" name="cmd" method="post">
-<div style="border-bottom-width: 1px;
-	border-bottom-style: solid; border-bottom-color: #606060; margin-bottom:5px; padding-bottom:5px;">
-<a name="{A_NAME}"><img alt="{TXT_NOTES}" src="{IMG_NOTES}" border="0" style="vertical-align:text-bottom;" /></a>
-<span style="font-size:110%; color: #606060;">
-{TXT_NOTES}</span>
+<div class="ilNotesHeader">
+<img alt="{ALT_NOTES}" title="{ALT_NOTES}" src="{IMG_NOTES}" border="0" style="vertical-align:text-bottom;" />
+<h3 class="ilNotesHeader"><a class="ilAccAnchor" name="{A_NAME}">{TXT_NOTES}</a></h3>
 </div>
 	<div class="il_ContainerItemCommands2" style="text-align:right;">
 	<!-- BEGIN show_notes -->
@@ -65,29 +63,11 @@ a.il_PrintBack
 <!-- BEGIN note_row -->
 <!-- BEGIN edit_note_form -->
 <tr class="std">
-	<td width="1" valign="top"><a name="note_edit" />{TXT_SUBJECT}</td>
-	<td width="95%">
-		<input type="text" style="width:95%" maxlength="200" name="{SUB_NOTE}" value="{NOTE_SUBJECT}" />
+	<td valign="top">&nbsp;
 	</td>
-</tr>
-<tr class="std">
-	<td width="1" valign="top">{TXT_NOTE}</td>
-	<td>
-		<textarea name="{TA_NOTE}" style="width:95%" rows="7" wrap="virtual">{NOTE_CONTENT}</textarea>
-	</td>
-</tr>
-<tr>
-	<td class="submit" style="text-align:right; white-space:nowrap;" colspan="2">
-		<select name="note_label">
-			<option value="{VAL_LABEL_NONE}" {SEL_NONE}>{TXT_LABEL_NONE}</option>
-			<option value="{VAL_LABEL_QUESTION}" {SEL_QUESTION}>{TXT_LABEL_QUESTION}</option>
-			<option value="{VAL_LABEL_IMPORTANT}" {SEL_IMPORTANT}>{TXT_LABEL_IMPORTANT}</option>
-			<option value="{VAL_LABEL_PRO}" {SEL_PRO}>{TXT_LABEL_PRO}</option>
-			<option value="{VAL_LABEL_CONTRA}" {SEL_CONTRA}>{TXT_LABEL_CONTRA}</option>
-		</select>
-		<input class="submit" type="submit" name="cmd[{BTN_ADD_NOTE}]" value="{TXT_ADD_NOTE}" />
-		<input class="submit" type="submit" name="cmd[{BTN_CANCEL_ADD_NOTE}]" value="{TXT_CANCEL_ADD_NOTE}" />
-		<input type="hidden" name="note_id" value="{VAL_NOTE_ID}" />
+	<td valign="top">
+	<a name="note_edit"></a>
+	{EDIT_FORM}
 	</td>
 </tr>
 <!-- END edit_note_form -->

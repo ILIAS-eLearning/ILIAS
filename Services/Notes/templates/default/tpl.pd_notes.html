@@ -1,7 +1,8 @@
 <!-- BEGIN related_selection -->
+<h3 class="ilAccHidden">{TXT_FILTER}</h3>
 <form class="il_Form" method="post" action="{FORMACTION}">
-{TXT_RELATED_TO}
-<select name="rel_obj">
+<label for="rel_obj_sel">{TXT_RELATED_TO}</label>
+<select name="rel_obj" id="rel_obj_sel">
 <!-- BEGIN related_option -->
 <option value="{VAL_RELATED}" {SEL} >{TXT_RELATED}</option>
 <!-- END related_option -->
