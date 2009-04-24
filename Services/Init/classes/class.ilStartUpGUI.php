@@ -456,6 +456,12 @@ class ilStartUpGUI
 		{
 			$tpl->setVariable("TXT_MSG_LOGIN_FAILED", $lng->txt('wrong_ip_detected')." (".$_SERVER["REMOTE_ADDR"].")");
 		}
+		
+		// outout simultaneous login message
+		if($_GET['simultaneous_login'])
+		{
+			$tpl->setVariable('TXT_MSG_LOGIN_FAILED', $lng->txt('simultaneous_login_detected'));
+		}
 
 		$this->ctrl->setTargetScript("ilias.php");
 		$tpl->setVariable("PHP_SELF", $_SERVER['PHP_SELF']);

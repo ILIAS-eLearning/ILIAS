@@ -68,6 +68,8 @@ class ilSecuritySettings
 	private $login_max_attempts					= 0;
 
 	private $password_change_on_first_login_enabled = false;
+	
+	private $prevent_simultaneous_logins = false;
 
 	/**
 	 * Private constructor: use _getInstance()
@@ -388,6 +390,7 @@ class ilSecuritySettings
 		$this->settings->set('ps_login_max_attempts',(int) $this->getLoginMaxAttempts());
 
 		$this->settings->set('ps_password_change_on_first_login_enabled',(bool) $this->isPasswordChangeOnFirstLoginEnabled());
+		$this->settings->set('ps_prevent_simultaneous_logins', (int)$this->isPreventionOfSimultaneousLoginsEnabled());
 	}
 	/**
 	 * read settings
@@ -423,6 +426,7 @@ class ilSecuritySettings
 		$this->login_max_attempts = (int) $this->settings->get('ps_login_max_attempts',0);
 
 		$this->password_change_on_first_login_enabled = (bool) $this->settings->get('ps_password_change_on_first_login_enabled',false);
+		$this->prevent_simultaneous_logins = (bool) $this->settings->get('ps_prevent_simultaneous_logins', false);
 	}
 
 	/**
@@ -504,6 +508,24 @@ class ilSecuritySettings
 	    return 0;
 	}
 
-
+	/**
+	 * Prevention of simultaneous logins with the same account
+	 *
+	 * @return boolean  true, if prevention of simultaneous logins with the same account is enabled, false otherwise
+	 */
+    public function isPreventionOfSimultaneousLoginsEnabled()
+    {
+    	return (bool)$this->prevent_simultaneous_logins;
+    }
+    
+	/**
+	 * Enable/Disable prevention of simultaneous logins with the same account
+	 *
+	 * @param boolean $value
+	 */
+    public function setPreventionOfSimultaneousLogins($value)
+    {
+    	$this->prevent_simultaneous_logins = (bool)$value;
+    }
 }
 ?>
