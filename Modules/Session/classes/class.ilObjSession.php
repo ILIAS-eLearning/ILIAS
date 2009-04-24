@@ -79,7 +79,7 @@ class ilObjSession extends ilObject
 		global $ilDB;
 		
 		$query = "SELECT registration FROM event ".
-			"WHERE obj_id = ".$ilDB->quote($a_obj_id)." ";
+			"WHERE obj_id = ".$ilDB->quote($a_obj_id ,'integer')." ";
 		$res = $ilDB->query($query);
 		while($row = $res->fetchRow(DB_FETCHMODE_OBJECT))
 		{
@@ -441,21 +441,25 @@ class ilObjSession extends ilObject
 	 */
 	public function create()
 	{
+		global $ilDB;
 		global $ilAppEventHandler;
 	
 		parent::create();
 		
-		$query = "INSERT INTO event SET ".
-			"obj_id = ".$this->db->quote($this->getId()).", ".
-			"location = ".$this->db->quote($this->getLocation()).",".
-			"tutor_name = ".$this->db->quote($this->getName()).", ".
-			"tutor_phone = ".$this->db->quote($this->getPhone()).", ".
-			"tutor_email = ".$this->db->quote($this->getEmail()).", ".
-			"details = ".$this->db->quote($this->getDetails()).",".
-			"registration = ".$this->db->quote($this->enabledRegistration())." ";
-
-		$this->db->query($query);
-		$this->event_id = $this->db->getLastInsertId();
+		$next_id = $ilDB->nextId('event');
+		$query = "INSERT INTO event (event_id,obj_id,location,tutor_name,tutor_phone,tutor_email,details,registration) ".
+			"VALUES( ".
+			$ilDB->quote($next_id,'integer').", ".
+			$this->db->quote($this->getId() ,'integer').", ".
+			$this->db->quote($this->getLocation() ,'text').",".
+			$this->db->quote($this->getName() ,'text').", ".
+			$this->db->quote($this->getPhone() ,'text').", ".
+			$this->db->quote($this->getEmail() ,'text').", ".
+			$this->db->quote($this->getDetails() ,'text').",".
+			$this->db->quote($this->enabledRegistration() ,'integer')." ".
+			")";
+		$res = $ilDB->manipulate($query);
+		$this->event_id = $next_id;
 		
 		$ilAppEventHandler->raise('Modules/Session',
 			'create',
@@ -475,6 +479,7 @@ class ilObjSession extends ilObject
 	 */
 	public function update()
 	{
+		global $ilDB;
 		global $ilAppEventHandler;
 
 		if(!parent::update())
@@ -482,15 +487,14 @@ class ilObjSession extends ilObject
 			return false;
 		}
 		$query = "UPDATE event SET ".
-			"location = ".$this->db->quote($this->getLocation()).",".
-			"tutor_name = ".$this->db->quote($this->getName()).", ".
-			"tutor_phone = ".$this->db->quote($this->getPhone()).", ".
-			"tutor_email = ".$this->db->quote($this->getEmail()).", ".
-			"details = ".$this->db->quote($this->getDetails()).", ".
-			"registration = ".$this->db->quote($this->enabledRegistration())." ".
-			"WHERE obj_id = ".$this->db->quote($this->getId())." ";
-
-		$this->db->query($query);
+			"location = ".$this->db->quote($this->getLocation() ,'text').",".
+			"tutor_name = ".$this->db->quote($this->getName() ,'text').", ".
+			"tutor_phone = ".$this->db->quote($this->getPhone() ,'text').", ".
+			"tutor_email = ".$this->db->quote($this->getEmail() ,'text').", ".
+			"details = ".$this->db->quote($this->getDetails() ,'text').", ".
+			"registration = ".$this->db->quote($this->enabledRegistration() ,'integer')." ".
+			"WHERE obj_id = ".$this->db->quote($this->getId() ,'integer')." ";
+		$res = $ilDB->manipulate($query);
 		
 		$ilAppEventHandler->raise('Modules/Session',
 			'update',
@@ -509,6 +513,7 @@ class ilObjSession extends ilObject
 	 */
 	public function delete()
 	{
+		global $ilDB;
 		global $ilAppEventHandler;
 		
 		if(!parent::delete())
@@ -516,8 +521,8 @@ class ilObjSession extends ilObject
 			return false;
 		}
 		$query = "DELETE FROM event ".
-			"WHERE obj_id = ".$this->db->quote($this->getId())." ";
-		$this->db->query($query);
+			"WHERE obj_id = ".$this->db->quote($this->getId() ,'integer')." ";
+		$res = $ilDB->manipulate($query);
 		
 		include_once('./Modules/Session/classes/class.ilSessionAppointment.php');
 		ilSessionAppointment::_deleteBySession($this->getId());
@@ -555,7 +560,7 @@ class ilObjSession extends ilObject
 		parent::read();
 		
 		$query = "SELECT * FROM event WHERE ".
-			"obj_id = ".$this->db->quote($this->getId())." ";
+			"obj_id = ".$this->db->quote($this->getId() ,'integer')." ";
 		$res = $this->db->query($query);
 		
 		while($row = $res->fetchRow(DB_FETCHMODE_OBJECT))

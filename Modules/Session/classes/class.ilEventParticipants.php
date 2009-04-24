@@ -96,18 +96,20 @@ class ilEventParticipants
 		global $ilDB;
 		
 		$query = "DELETE FROM event_participants ".
-			"WHERE event_id = ".$ilDB->quote($this->getEventId())." ".
-			"AND usr_id = ".$ilDB->quote($this->getUserId())." ";
-		$this->db->query($query);
+			"WHERE event_id = ".$ilDB->quote($this->getEventId() ,'integer')." ".
+			"AND usr_id = ".$ilDB->quote($this->getUserId() ,'integer')." ";
+		$res = $ilDB->manipulate($query);
 
-		$query = "INSERT INTO event_participants ".
-			"SET event_id = ".$ilDB->quote($this->getEventId()).", ".
-			"usr_id = ".$ilDB->quote($this->getUserId()).", ".
-			"registered = ".$ilDB->quote($this->getRegistered()).", ".
-			"participated = ".$ilDB->quote($this->getParticipated()).", ".
-			"mark = ".$ilDB->quote($this->getMark()).", ".
-			"comment = ".$ilDB->quote($this->getComment())."";
-		$this->db->query($query);
+		$query = "INSERT INTO event_participants (event_id,usr_id,registered,participated,mark,comment) ".
+			"VALUES( ".
+			$ilDB->quote($this->getEventId() ,'integer').", ".
+			$ilDB->quote($this->getUserId() ,'integer').", ".
+			$ilDB->quote($this->getRegistered() ,'integer').", ".
+			$ilDB->quote($this->getParticipated() ,'integer').", ".
+			$ilDB->quote($this->getMark() ,'text').", ".
+			$ilDB->quote($this->getComment() ,'text')." ".
+			")";
+		$res = $ilDB->manipulate($query);
 		return true;
 	}
 
@@ -141,25 +143,27 @@ class ilEventParticipants
 		global $ilDB;
 
 		$query = "SELECT * FROM event_participants ".
-			"WHERE event_id = ".$ilDB->quote($a_event_id)." ".
-			"AND usr_id = ".$ilDB->quote($a_usr_id)." ";
+			"WHERE event_id = ".$ilDB->quote($a_event_id ,'integer')." ".
+			"AND usr_id = ".$ilDB->quote($a_usr_id ,'integer')." ";
 		$res = $ilDB->query($query);
 		if($res->numRows())
 		{
 			$query = "UPDATE event_participants ".
-				"SET participated = ".$ilDB->quote($a_status)." ".
-				"WHERE event_id = ".$ilDB->quote($a_event_id)." ".
-				"AND usr_id = ".$ilDB->quote($a_usr_id)." ";
-			$ilDB->query($query);
+				"SET participated = ".$ilDB->quote($a_status ,'integer')." ".
+				"WHERE event_id = ".$ilDB->quote($a_event_id ,'integer')." ".
+				"AND usr_id = ".$ilDB->quote($a_usr_id ,'integer')." ";
+			$res = $ilDB->manipulate($query);
 		}
 		else
 		{
-			$query = "INSERT INTO event_participants ".
-				"SET registered = '0', ".
-				"participated = ".$ilDB->quote($a_status).", ".
-				"event_id = ".$ilDB->quote($a_event_id).", ".
-				"usr_id = ".$ilDB->quote($a_usr_id)." ";
-			$ilDB->query($query);
+			$query = "INSERT INTO event_participants (registered,participated,event_id,usr_id) ".
+				"VALUES( ".
+				$ilDB->quote(0 ,'integer').", ".
+				$ilDB->quote($a_status ,'integer').", ".
+				$ilDB->quote($a_event_id ,'integer').", ".
+				$ilDB->quote($a_usr_id ,'integer')." ".
+				")";
+			$res = $ilDB->manipulate($query);
 		}
 		return true;
 	}
@@ -169,8 +173,8 @@ class ilEventParticipants
 		global $ilDB;
 
 		$query = "SELECT * FROM event_participants ".
-			"WHERE event_id = ".$ilDB->quote($a_event_id)." ".
-			"AND registered = '1'";
+			"WHERE event_id = ".$ilDB->quote($a_event_id ,'integer')." ".
+			"AND registered = ".$ilDB->quote(1 ,'integer');
 		$res = $ilDB->query($query);
 		while($row = $res->fetchRow(DB_FETCHMODE_OBJECT))
 		{
@@ -184,8 +188,8 @@ class ilEventParticipants
 		global $ilDB;
 
 		$query = "SELECT * FROM event_participants ".
-			"WHERE event_id = ".$ilDB->quote($a_event_id)." ".
-			"AND participated = '1'";
+			"WHERE event_id = ".$ilDB->quote($a_event_id ,'integer')." ".
+			"AND participated = 1";
 		$res = $ilDB->query($query);
 		while($row = $res->fetchRow(DB_FETCHMODE_OBJECT))
 		{
@@ -199,8 +203,8 @@ class ilEventParticipants
 		global $ilDB;
 
 		$query = "SELECT * FROM event_participants ".
-			"WHERE event_id = ".$ilDB->quote($a_event_id)." ".
-			"AND usr_id = ".$ilDB->quote($a_usr_id)." ";
+			"WHERE event_id = ".$ilDB->quote($a_event_id ,'integer')." ".
+			"AND usr_id = ".$ilDB->quote($a_usr_id ,'integer')." ";
 		$res = $ilDB->query($query);
 		while($row = $res->fetchRow(DB_FETCHMODE_OBJECT))
 		{
@@ -214,25 +218,27 @@ class ilEventParticipants
 		global $ilDB;
 
 		$query = "SELECT * FROM event_participants ".
-			"WHERE event_id = ".$ilDB->quote($a_event_id)." ".
-			"AND usr_id = ".$ilDB->quote($a_usr_id)." ";
+			"WHERE event_id = ".$ilDB->quote($a_event_id ,'integer')." ".
+			"AND usr_id = ".$ilDB->quote($a_usr_id ,'integer')." ";
 		$res = $ilDB->query($query);
 		if($res->numRows())
 		{
 			$query = "UPDATE event_participants ".
 				"SET registered = '1' ".
-				"WHERE event_id = ".$ilDB->quote($a_event_id)." ".
-				"AND usr_id = ".$ilDB->quote($a_usr_id)." ";
-			$ilDB->query($query);
+				"WHERE event_id = ".$ilDB->quote($a_event_id ,'integer')." ".
+				"AND usr_id = ".$ilDB->quote($a_usr_id ,'integer')." ";
+			$res = $ilDB->manipulate($query);
 		}
 		else
 		{
-			$query = "INSERT INTO event_participants ".
-				"SET registered = '1', ".
-				"participated = '0', ".
-				"event_id = ".$ilDB->quote($a_event_id).", ".
-				"usr_id = ".$ilDB->quote($a_usr_id)." ";
-			$ilDB->query($query);
+			$query = "INSERT INTO event_participants (registered,participated,event_id,usr_id) ".
+				"VALUES( ".
+				"1, ".
+				"0, ".
+				$ilDB->quote($a_event_id ,'integer').", ".
+				$ilDB->quote($a_usr_id ,'integer')." ".
+				")";
+			$res = $ilDB->manipulate($query);
 		}
 		return true;
 	}
@@ -246,25 +252,27 @@ class ilEventParticipants
 		global $ilDB;
 
 		$query = "SELECT * FROM event_participants ".
-			"WHERE event_id = ".$ilDB->quote($a_event_id)." ".
-			"AND usr_id = ".$ilDB->quote($a_usr_id)." ";
+			"WHERE event_id = ".$ilDB->quote($a_event_id ,'integer')." ".
+			"AND usr_id = ".$ilDB->quote($a_usr_id ,'integer')." ";
 		$res = $ilDB->query($query);
 		if($res->numRows())
 		{
 			$query = "UPDATE event_participants ".
-				"SET registered = '0' ".
-				"WHERE event_id = ".$ilDB->quote($a_event_id)." ".
-				"AND usr_id = ".$ilDB->quote($a_usr_id)." ";
-			$ilDB->query($query);
+				"SET registered = 0 ".
+				"WHERE event_id = ".$ilDB->quote($a_event_id ,'integer')." ".
+				"AND usr_id = ".$ilDB->quote($a_usr_id ,'integer')." ";
+			$res = $ilDB->manipulate($query);
 		}
 		else
 		{
-			$query = "INSERT INTO event_participants ".
-				"SET registered = '0', ".
-				"participated = '0', ".
-				"event_id = ".$ilDB->quote($a_event_id).", ".
-				"usr_id = ".$ilDB->quote($a_usr_id)." ";
-			$ilDB->query($query);
+			$query = "INSERT INTO event_participants (registered,participated,event_id,usr_id) ".
+				"VALUES( ".
+				"0, ".
+				"0, ".
+				$ilDB->quote($a_event_id ,'integer').", ".
+				$ilDB->quote($a_usr_id ,'integer')." ".
+				")";
+			$res = $ilDB->manipulate($query);
 		}
 		return true;
 	}
@@ -278,8 +286,8 @@ class ilEventParticipants
 		global $ilDB;
 
 		$query = "SELECT * FROM event_participants ".
-			"WHERE event_id = ".$ilDB->quote($a_event_id)." ".
-			"AND usr_id = ".$ilDB->quote($a_usr_id)." ";
+			"WHERE event_id = ".$ilDB->quote($a_event_id ,'integer')." ".
+			"AND usr_id = ".$ilDB->quote($a_usr_id ,'integer')." ";
 		$res = $ilDB->query($query);
 		while($row = $res->fetchRow(DB_FETCHMODE_OBJECT))
 		{
@@ -293,8 +301,8 @@ class ilEventParticipants
 		global $ilDB;
 
 		$query = "SELECT * FROM event_participants ".
-			"WHERE event_id = ".$ilDB->quote($a_event_id)." ".
-			"AND usr_id = ".$ilDB->quote($a_usr_id)." ";
+			"WHERE event_id = ".$ilDB->quote($a_event_id ,'integer')." ".
+			"AND usr_id = ".$ilDB->quote($a_usr_id ,'integer')." ";
 		$res = $ilDB->query($query);
 		while($row = $res->fetchRow(DB_FETCHMODE_OBJECT))
 		{
@@ -318,8 +326,8 @@ class ilEventParticipants
 		global $ilDB;
 
 		$query = "DELETE FROM event_participants ".
-			"WHERE event_id = ".$ilDB->quote($a_event_id)." ";
-		$ilDB->query($query);
+			"WHERE event_id = ".$ilDB->quote($a_event_id ,'integer')." ";
+		$res = $ilDB->manipulate($query);
 		return true;
 	}
 	function _deleteByUser($a_usr_id)
@@ -327,8 +335,8 @@ class ilEventParticipants
 		global $ilDB;
 		
 		$query = "DELETE FROM event_participants ".
-			"WHERE usr_id = ".$ilDB->quote($a_usr_id)." ";
-		$ilDB->query($query);
+			"WHERE usr_id = ".$ilDB->quote($a_usr_id ,'integer')." ";
+		$res = $ilDB->manipulate($query);
 		return true;
 	}
 

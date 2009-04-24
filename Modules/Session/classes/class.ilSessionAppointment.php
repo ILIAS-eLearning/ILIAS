@@ -68,7 +68,7 @@ class ilSessionAppointment implements ilDatePeriod
 		global $ilDB;
 		
 		$query = "SELECT * FROM event_appointment ".
-			"WHERE event_id = ".$ilDB->quote($a_obj_id)." ";
+			"WHERE event_id = ".$ilDB->quote($a_obj_id ,'integer')." ";
 		$res = $ilDB->query($query);
 		while($row = $res->fetchRow(DB_FETCHMODE_OBJECT))
 		{
@@ -107,9 +107,10 @@ class ilSessionAppointment implements ilDatePeriod
 			return false;
 		}
 		$query = "SELECT event_id FROM event_appointment ".
-			"WHERE start > NOW() ".
-			"AND event_id IN (".implode(',',ilUtil::quoteArray($obj_ids)).") ".
-			"ORDER BY start LIMIT 1";
+			"WHERE start > ".$ilDB->now()." ".
+			"AND ".$ilDB->in('event_id',$obj_ids,false,'integer')." ".
+			"ORDER BY start ";
+		$ilDB->setLimit(1);
 		$res = $ilDB->query($query);
 		while($row = $res->fetchRow(DB_FETCHMODE_OBJECT))
 		{
@@ -141,9 +142,10 @@ class ilSessionAppointment implements ilDatePeriod
 			return false;
 		}
 		$query = "SELECT event_id FROM event_appointment ".
-			"WHERE start < NOW() ".
-			"AND event_id IN (".implode(',',ilUtil::quoteArray($obj_ids)).") ".
-			"ORDER BY start DESC LIMIT 1";
+			"WHERE start < ".$ilDB->now()." ".
+			"AND ".$ilDB->in('event_id',$obj_ids,false,'integer')." ".
+			"ORDER BY start DESC ";
+		$ilDB->setLimit(1);
 		$res = $ilDB->query($query);
 		while($row = $res->fetchRow(DB_FETCHMODE_OBJECT))
 		{
@@ -323,16 +325,17 @@ class ilSessionAppointment implements ilDatePeriod
 		{
 			return false;
 		}
-		$query = "INSERT INTO event_appointment ".
-			"SET event_id = ".$ilDB->quote($this->getSessionId()).", ".
-			"start = ".$ilDB->quote($this->getStart()->get(IL_CAL_DATETIME,'','UTC')).", ".
-			"end = ".$ilDB->quote($this->getEnd()->get(IL_CAL_DATETIME,'','UTC')).", ".
-			"fulltime = ".$ilDB->quote($this->enabledFullTime())." ";
-		
-		$this->appointment_id = $ilDB->getLastInsertId();
-
-		$this->db->query($query);
-		
+		$next_id = $ilDB->nextId('event_appointment');
+		$query = "INSERT INTO event_appointment (appointment_id,event_id,start,end,fulltime) ".
+			"VALUES( ".
+			$ilDB->quote($next_id,'integer').", ".
+			$ilDB->quote($this->getSessionId() ,'integer').", ".
+			$ilDB->quote($this->getStart()->get(IL_CAL_DATETIME,'','UTC') ,'timestamp').", ".
+			$ilDB->quote($this->getEnd()->get(IL_CAL_DATETIME,'','UTC') ,'timestamp').", ".
+			"fulltime = ".$ilDB->quote($this->enabledFullTime() ,'integer')." ".
+			")";
+		$this->appointment_id = $next_id;
+		$res = $ilDB->manipulate($query);
 		
 		return true;
 	}
@@ -346,13 +349,12 @@ class ilSessionAppointment implements ilDatePeriod
 			return false;
 		}
 		$query = "UPDATE event_appointment ".
-			"SET event_id = ".$ilDB->quote($this->getSessionId()).", ".
-			"start = ".$ilDB->quote($this->getStart()->get(IL_CAL_DATETIME,'','UTC')).", ".
-			"end = ".$ilDB->quote($this->getEnd()->get(IL_CAL_DATETIME,'','UTC')).", ".
-			"fulltime = ".$ilDB->quote($this->enabledFullTime())." ".
-			"WHERE appointment_id = ".$ilDB->quote($this->getAppointmentId())." ";
-
-		$this->db->query($query);
+			"SET event_id = ".$ilDB->quote($this->getSessionId() ,'integer').", ".
+			"start = ".$ilDB->quote($this->getStart()->get(IL_CAL_DATETIME,'','UTC') ,'timestamp').", ".
+			"end = ".$ilDB->quote($this->getEnd()->get(IL_CAL_DATETIME,'','UTC'), 'timestamp').", ".
+			"fulltime = ".$ilDB->quote($this->enabledFullTime() ,'integer')." ".
+			"WHERE appointment_id = ".$ilDB->quote($this->getAppointmentId() ,'integer')." ";
+		$res = $ilDB->manipulate($query);
 		return true;
 	}
 
@@ -366,8 +368,8 @@ class ilSessionAppointment implements ilDatePeriod
 		global $ilDB;
 
 		$query = "DELETE FROM event_appointment ".
-			"WHERE appointment_id = ".$ilDB->quote($a_appointment_id)." ";
-		$this->db->query($query);
+			"WHERE appointment_id = ".$ilDB->quote($a_appointment_id ,'integer')." ";
+		$res = $ilDB->manipulate($query);
 
 		return true;
 	}
@@ -377,8 +379,8 @@ class ilSessionAppointment implements ilDatePeriod
 		global $ilDB;
 
 		$query = "DELETE FROM event_appointment ".
-			"WHERE event_id = ".$ilDB->quote($a_event_id)." ";
-		$ilDB->query($query);
+			"WHERE event_id = ".$ilDB->quote($a_event_id ,'integer')." ";
+		$res = $ilDB->manipulate($query);
 
 		return true;
 	}
@@ -388,7 +390,7 @@ class ilSessionAppointment implements ilDatePeriod
 		global $ilDB;
 
 		$query = "SELECT * FROM event_appointment ".
-			"WHERE event_id = ".$ilDB->quote($a_event_id)." ".
+			"WHERE event_id = ".$ilDB->quote($a_event_id ,'integer')." ".
 			"ORDER BY starting_time";
 
 		$res = $ilDB->query($query);
@@ -420,7 +422,7 @@ class ilSessionAppointment implements ilDatePeriod
 		}
 
 		$query = "SELECT * FROM event_appointment ".
-			"WHERE appointment_id = ".$ilDB->quote($this->getAppointmentId())." ";
+			"WHERE appointment_id = ".$ilDB->quote($this->getAppointmentId() ,'integer')." ";
 		$res = $this->db->query($query);
 		while($row = $res->fetchRow(DB_FETCHMODE_OBJECT))
 		{

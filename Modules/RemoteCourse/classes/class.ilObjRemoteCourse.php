@@ -75,7 +75,7 @@ class ilObjRemoteCourse extends ilObject
 		global $ilDB;
 		
 		$query = "SELECT * FROM remote_course_settings ".
-			"WHERE obj_id = ".$ilDB->quote($a_obj_id)." ";
+			"WHERE obj_id = ".$ilDB->quote($a_obj_id ,'integer')." ";
 		$res = $ilDB->query($query);
 		$row = $res->fetchRow(DB_FETCHMODE_OBJECT);
 		switch($row->availability_type)
@@ -109,7 +109,7 @@ class ilObjRemoteCourse extends ilObject
 		global $ilDB;
 		
 		$query = "SELECT organization FROM remote_course_settings ".
-			"WHERE obj_id = ".$ilDB->quote($a_obj_id)." ";
+			"WHERE obj_id = ".$ilDB->quote($a_obj_id ,'integer')." ";
 		$res = $ilDB->query($query);
 		while($row = $res->fetchRow(DB_FETCHMODE_OBJECT))
 		{
@@ -311,7 +311,7 @@ class ilObjRemoteCourse extends ilObject
 		global $ilDB;
 		
 		$query = "SELECT mid FROM remote_course_settings WHERE ".
-			"obj_id = ".$ilDB->quote($a_obj_id)." ";
+			"obj_id = ".$ilDB->quote($a_obj_id ,'integer')." ";
 		$res = $ilDB->query($query);
 		while($row = $res->fetchRow(DB_FETCHMODE_OBJECT))
 		{
@@ -333,7 +333,7 @@ class ilObjRemoteCourse extends ilObject
 		global $ilDB;
 		
 		$query = "SELECT * FROM remote_course_settings ".
-			"WHERE mid = ".$ilDB->quote($a_mid)." ";
+			"WHERE mid = ".$ilDB->quote($a_mid ,'integer')." ";
 			
 		$res = $ilDB->query($query);
 		while($row = $res->fetchRow(DB_FETCHMODE_OBJECT))
@@ -385,10 +385,22 @@ class ilObjRemoteCourse extends ilObject
 	 */
 	public function create($a_upload = false)
 	{
+		global $ilDB;
+		
 		$obj_id = parent::create($a_upload);
 		
-		$query = "INSERT INTO remote_course_settings SET obj_id = ".$this->db->quote($this->getId())." ";
-		$res = $this->db->query($query);
+		$query = "INSERT INTO remote_course_settings (obj_id,local_information,availibility_type,start,end,remote_link,mid,organization) ".
+			"VALUES( ".			
+			$this->db->quote($this->getId() ,'integer').", ".
+			$ilDB->quote('','text').", ".
+			$ilDB->quote(0,'integer').", ".
+			$ilDB->quote(0,'integer').", ".
+			$ilDB->quote(0,'integer').", ".
+			$ilDB->quote('','text').", ".
+			$ilDB->quote(0,'integer').", ".
+			$ilDB->quote('','text').", ".
+			")";
+		$res = $ilDB->manipulate($query);
 		
 		return $obj_id;
 	}
@@ -412,16 +424,15 @@ class ilObjRemoteCourse extends ilObject
 		}
 		
 		$query = "UPDATE remote_course_settings SET ".
-			"availability_type = ".(int) $this->db->quote($this->getAvailabilityType()).", ".
-			"start = ".$this->db->quote($this->getStartingTime()).", ".
-			"end = ".$this->db->quote($this->getEndingTime()).", ".
-			"local_information = ".$this->db->quote($this->getLocalInformation()).", ".
-			"remote_link = ".$this->db->quote($this->getRemoteLink()).", ".
-			"mid = ".$this->db->quote($this->getMID()).", ".
-			"organization = ".$this->db->quote($this->getOrganization())." ".
-			"WHERE obj_id = ".$this->db->quote($this->getId())." ";
-			
-		$this->db->query($query);
+			"availability_type = ".(int) $this->db->quote($this->getAvailabilityType() ,'integer').", ".
+			"start = ".$this->db->quote($this->getStartingTime() ,'integer').", ".
+			"end = ".$this->db->quote($this->getEndingTime() ,'integer').", ".
+			"local_information = ".$this->db->quote($this->getLocalInformation() ,'text').", ".
+			"remote_link = ".$this->db->quote($this->getRemoteLink() ,'text').", ".
+			"mid = ".$this->db->quote($this->getMID() ,'integer').", ".
+			"organization = ".$this->db->quote($this->getOrganization() ,'text')." ".
+			"WHERE obj_id = ".$this->db->quote($this->getId() ,'integer')." ";
+		$res = $ilDB->manipulate($query);	
 		return true;
 	}
 	
@@ -442,9 +453,8 @@ class ilObjRemoteCourse extends ilObject
 		include_once('./Services/WebServices/ECS/classes/class.ilECSImport.php');
 		ilECSImport::_deleteByObjId($this->getId());
 		
-		$query = "DELETE FROM remote_course_settings WHERE obj_id = ".$this->db->quote($this->getId())." ";
-		$this->db->query($query);
-		
+		$query = "DELETE FROM remote_course_settings WHERE obj_id = ".$this->db->quote($this->getId() ,'integer')." ";
+		$res = $ilDB->manipulate($query);
 		
 		return true;
 	}
@@ -461,7 +471,7 @@ class ilObjRemoteCourse extends ilObject
 		parent::read($a_force_db);
 
 		$query = "SELECT * FROM remote_course_settings ".
-			"WHERE obj_id = ".$this->db->quote($this->getId())." ";
+			"WHERE obj_id = ".$this->db->quote($this->getId() ,'integer')." ";
 		$res = $this->db->query($query);
 		while($row = $res->fetchRow(DB_FETCHMODE_OBJECT))
 		{

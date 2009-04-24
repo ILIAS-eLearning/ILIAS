@@ -84,8 +84,8 @@ class ilEventItems
 		global $ilDB;
 
 		$query = "DELETE FROM event_items ".
-			"WHERE event_id = ".$ilDB->quote($a_event_id)." ";
-		$ilDB->query($query);
+			"WHERE event_id = ".$ilDB->quote($a_event_id ,'integer')." ";
+		$res = $ilDB->manipulate($query);
 		return true;
 	}
 	
@@ -97,10 +97,12 @@ class ilEventItems
 		
 		foreach($this->items as $item)
 		{
-			$query = "INSERT INTO event_items ".
-				"SET event_id = ".$ilDB->quote($this->getEventId()).", ".
-				"item_id = ".$ilDB->quote($item)." ";
-			$this->db->query($query);
+			$query = "INSERT INTO event_items (event_id,item_id) ".
+				"VALUES( ".
+				$ilDB->quote($this->getEventId() ,'integer').", ".
+				$ilDB->quote($item ,'integer')." ".
+				")";
+			$res = $ilDB->manipulate($query);
 		}
 		return true;
 	}
@@ -114,10 +116,8 @@ class ilEventItems
 		{
 			$session_ids[] = $node['obj_id'];
 		}
-		$in = "IN (".implode(",",ilUtil::quoteArray($session_ids)).") ";
-
 		$query = "SELECT item_id FROM event_items ".
-			"WHERE event_id ".$in;
+			"WHERE ".$ilDB->in('event_id',$session_ids,false,'integer');
 			
 
 		$res = $ilDB->query($query);
@@ -141,7 +141,7 @@ class ilEventItems
 		global $ilDB;
 		
 		$query = "SELECT * FROM event_items ".
-			"WHERE event_id = ".$ilDB->quote($a_event_id);
+			"WHERE event_id = ".$ilDB->quote($a_event_id ,'integer');
 		$res = $ilDB->query($query);
 		while($row = $res->fetchRow(DB_FETCHMODE_OBJECT))
 		{
@@ -155,7 +155,7 @@ class ilEventItems
 		global $ilDB;
 
 		$query = "SELECT * FROM event_items ".
-			"WHERE item_id = ".$ilDB->quote($a_item_id)." ";
+			"WHERE item_id = ".$ilDB->quote($a_item_id ,'integer')." ";
 		$res = $ilDB->query($query);
 
 		return $res->numRows() ? true : false;
@@ -205,7 +205,7 @@ class ilEventItems
 		global $ilDB,$tree;
 		
 		$query = "SELECT * FROM event_items ".
-			"WHERE event_id = ".$ilDB->quote($this->getEventId())." ";
+			"WHERE event_id = ".$ilDB->quote($this->getEventId() ,'integer')." ";
 
 		$res = $this->db->query($query);
 		$this->items = array();
@@ -218,8 +218,8 @@ class ilEventItems
 			if(!$tree->isInTree($row->item_id))
 			{
 				$query = "DELETE FROM event_items ".
-					"WHERE item_id = ".$ilDB->quote($row->item_id);
-				$ilDB->query($query);
+					"WHERE item_id = ".$ilDB->quote($row->item_id ,'integer');
+				$res = $ilDB->manipulate($query);
 				continue;
 			}
 			

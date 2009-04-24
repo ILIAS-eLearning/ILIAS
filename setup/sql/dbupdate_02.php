@@ -11312,3 +11312,54 @@ ALTER TABLE `grp_settings` CHANGE `registration_membership_limited` `registratio
 <?php 
 	$ilMySQLAbstraction->performAbstraction('grp_settings');
 ?>
+
+<#2339>
+ALTER TABLE `remote_course_settings` CHANGE `local_information` `local_information` VARCHAR( 4000 ) NOT NULL;
+
+<#2340>
+ALTER TABLE `remote_course_settings` CHANGE `remote_link` `remote_link` VARCHAR( 4000 ) NOT NULL;
+
+<#2341>  
+ALTER TABLE `remote_course_settings` CHANGE `organization` `organization` VARCHAR( 4000 ) NOT NULL;
+
+<#2342>
+<?php 
+	$ilMySQLAbstraction->performAbstraction('remote_course_settings');
+?>
+
+<#2343>
+ALTER TABLE `event` CHANGE `description` `description` VARCHAR( 4000 ) NOT NULL;
+ 
+<#2344>
+ALTER TABLE `event` CHANGE `location` `location` VARCHAR( 4000 ) NOT NULL;
+
+<#2345>
+ALTER TABLE `event` CHANGE `tutor_name` `tutor_name` VARCHAR( 4000 ) NOT NULL;
+
+<#2346>
+ALTER TABLE `event` CHANGE `details` `details` VARCHAR( 4000 ) NOT NULL;
+
+<#2347>
+<?php 
+	$ilMySQLAbstraction->performAbstraction('event');
+?>
+
+<#2348>
+<?php 
+	$ilMySQLAbstraction->performAbstraction('event_appointment');
+?>
+
+<#2349>
+<?php 
+	$ilMySQLAbstraction->performAbstraction('event_file');
+?>
+
+<#2350>
+<?php 
+	$ilMySQLAbstraction->performAbstraction('event_items');
+?>
+
+<#2351>
+<?php 
+	$ilMySQLAbstraction->performAbstraction('event_participants');
+?>
