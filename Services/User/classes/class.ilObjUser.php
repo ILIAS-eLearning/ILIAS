@@ -2345,12 +2345,28 @@ class ilObjUser extends ilObject
      */
 	function checkUserId()
 	{
-		global $ilDB,$ilAuth;
+		global $ilDB,$ilAuth, $ilSetting;
 
 		$login = ilObjUser::getLoginFromAuth();
 		$id = ilObjUser::_lookupId($login);
 		if ($id > 0)
 		{
+			// check for simultaneous logins 
+			if((int)$ilSetting->get('ps_prevent_simultaneous_logins') == 1)
+			{
+				$res = $ilDB->queryf('
+					SELECT * FROM usr_session WHERE user_id = %s AND expires > %s',
+					array('integer', 'integer'),
+					array($id, time()));						
+				while($row = $res->fetchRow(DB_FETCHMODE_OBJECT))
+				{
+					$ilAuth->logout();
+					@session_destroy();
+					ilUtil::redirect('login.php?simultaneous_login=true');
+					exit();
+				}
+			}
+			
 			return $id;
 		}
 		return false;

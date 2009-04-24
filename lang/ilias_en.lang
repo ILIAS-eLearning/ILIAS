@@ -9250,3 +9250,6 @@ notes#:#notes_label#:#Label
 search#:#lucene_last_index_time#:#Last Index Generation
 search#:#lucene_last_index_time_info#:#Please modify this settings only if you have installed an index backup.
 search#:#lucene_all_occurrences#:#... %s other occurrence(s)
+ps#:#ps_prevent_simultaneous_logins#:#Prevent Simultaneous Logins
+ps#:#ps_prevent_simultaneous_logins_info#:#If enabled, simultaneous logins with the same account from different computers are not possible.
+common#:#simultaneous_login_detected#:#Your access is denied because of a simultaneous login with the same account.

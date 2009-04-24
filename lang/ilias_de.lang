@@ -9216,3 +9216,6 @@ dateplaner#:#cal_month_overview#:#Monatsübersicht
 search#:#lucene_last_index_time#:#Letzte Indexerstellung
 search#:#lucene_last_index_time_info#:#Bitte ändern Sie dieses Einstellung nur dann, wenn Sie ein Backup einer Lucene Indexdatei installiert haben.
 search#:#lucene_all_occurrences#:#... %s weitere(s) Vorkommen
+ps#:#ps_prevent_simultaneous_logins#:#Verhindern gleichzeitiger Logins
+ps#:#ps_prevent_simultaneous_logins_info#:#Wenn dies aktiviert ist, werden gleichzeitige Logins mit gleichem Account auf verschiedenen Rechnern verhindert.
+common#:#simultaneous_login_detected#:#Der Zugang zum System wird verweigert, da sich bereits ein Benutzer mit diesen Zugangsdaten in einer ILIAS-Sitzung befindet.

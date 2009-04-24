@@ -292,6 +292,13 @@ class ilObjPrivacySecurityGUI extends ilObjectGUI
 		$ti->setValue($ilSetting->get("suffix_repl_additional"));
 		$form->addItem($ti);
 		
+		// prevent login from multiple pcs at the same time
+		$objCb = new ilCheckboxInputGUI($this->lng->txt('ps_prevent_simultaneous_logins'), 'ps_prevent_simultaneous_logins');
+		$objCb->setChecked((int)$security->isPreventionOfSimultaneousLoginsEnabled());
+		$objCb->setValue(1);
+		$objCb->setOptionTitle($this->lng->txt('ps_prevent_simultaneous_logins_info'));
+		$form->addItem($objCb);
+		
 
 		$form->addCommandButton('save_security',$this->lng->txt('save'));
 		$this->tpl->setVariable('NEW_FORM',$form->getHTML());
@@ -363,6 +370,9 @@ class ilObjPrivacySecurityGUI extends ilObjectGUI
         $security->setAutomaticHTTPSEnabled((int) $_POST["auto_https_detect_enabled"]);
         $security->setAutomaticHTTPSHeaderName(ilUtil::stripSlashes($_POST["auto_https_detect_header_name"]));
         $security->setAutomaticHTTPSHeaderValue(ilUtil::stripSlashes($_POST["auto_https_detect_header_value"]));
+        
+         // prevention of simultaneous logins with the same account
+        $security->setPreventionOfSimultaneousLogins((bool)$_POST['ps_prevent_simultaneous_logins']);
 
         // ilias https handling settings
         $security->setHTTPSEnabled($_POST["https_enabled"]);
