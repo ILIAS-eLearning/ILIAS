@@ -181,14 +181,18 @@ class ilSessionFile
 			return false;
 		}
 
-		$query = "INSERT INTO event_file ".
-			"SET event_id = ".$ilDB->quote($this->getSessionId()).", ".
-			"file_name = ".$ilDB->quote($this->getFileName()).", ".
-			"file_size = ".$ilDB->quote($this->getFileSize()).", ".
-			"file_type = ".$ilDB->quote($this->getFileType())." ";
+		$next_id = $ilDB->nextId('event_file');
+		$query = "INSERT INTO event_file (file_id,event_id,file_name,file_size,file_type) ".
+			"VALUES( ".
+			$ilDB->quote($next_id ,'integer').", ".
+			$ilDB->quote($this->getSessionId() ,'integer').", ".
+			$ilDB->quote($this->getFileName() ,'text').", ".
+			$ilDB->quote($this->getFileSize() ,'integer').", ".
+			$ilDB->quote($this->getFileType() ,'text')." ".
+			")";
 		
-		$res = $this->db->query($query);
-		$this->setFileId($this->db->getLastInsertId());
+		$res = $ilDB->manipulate($query);
+		$this->setFileId($next_id);
 
 		$this->fss_storage = new ilFSStorageSession($this->getSessionId());
 		$this->fss_storage->createDirectory();
@@ -211,8 +215,8 @@ class ilSessionFile
 		
 		// Delete db entry
 		$query = "DELETE FROM event_file ".
-			"WHERE file_id = ".$this->getFileId()." ";
-		$this->db->query($query);
+			"WHERE file_id = ".$ilDB->quote($this->getFileId() ,'integer')." ";
+		$res = $ilDB->manipulate($query);
 
 		// Delete file
 		$this->fss_storage->deleteFile($this->getAbsolutePath());
@@ -225,8 +229,8 @@ class ilSessionFile
 
 		// delete all event ids and delete assigned files
 		$query = "DELETE FROM event_file ".
-			"WHERE event_id = ".$ilDB->quote($a_event_id)."";
-		$res = $ilDB->query($query);
+			"WHERE event_id = ".$ilDB->quote($a_event_id ,'integer')."";
+		$res = $ilDB->manipulate($query);
 
 		#$this->fss_storage->delete();
 		return true;
@@ -237,7 +241,7 @@ class ilSessionFile
 		global $ilDB;
 
 		$query = "SELECT * FROM event_file ".
-			"WHERE event_id = ".$ilDB->quote($a_event_id)."";
+			"WHERE event_id = ".$ilDB->quote($a_event_id ,'integer')."";
 
 		$res = $ilDB->query($query);
 		while($row = $res->fetchRow(DB_FETCHMODE_OBJECT))
@@ -257,7 +261,7 @@ class ilSessionFile
 		}
 
 		// read file data
-		$query = "SELECT * FROM event_file WHERE file_id = ".$ilDB->quote($this->file_id)."";
+		$query = "SELECT * FROM event_file WHERE file_id = ".$ilDB->quote($this->file_id ,'integer')."";
 		$res = $this->db->query($query);
 		while($row = $res->fetchRow(DB_FETCHMODE_OBJECT))
 		{
