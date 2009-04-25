@@ -264,14 +264,7 @@ class ilTemplate extends ilTemplateX
 
 			if ($txt != "")
 			{
-				$mtpl = new ilTemplate("tpl.message.html", true, true, "Services/Utilities");
-				$mtpl->setCurrentBlock($m."_message");
-				$mtpl->setVariable("TEXT", $txt);
-				$mtpl->setVariable("MESSAGE_HEADING", $lng->txt($m."_message"));
-				$mtpl->setVariable("ALT_IMAGE", $lng->txt("icon")." ".$lng->txt($m."_message"));
-				$mtpl->setVariable("SRC_IMAGE", ilUtil::getImagePath("mess_".$m.".gif"));
-				$mtpl->parseCurrentBlock();
-				$out.= $mtpl->get();
+				$out.= $this->getMessageHTML($txt, $m);
 			}
 		
 			if ($m == "question")
@@ -291,6 +284,24 @@ class ilTemplate extends ilTemplateX
 		}
 	}
 
+	/**
+	* Get HTML for a system message
+	*/
+	public function getMessageHTML($a_txt, $a_type = "info")
+	{
+		global $lng;
+		
+		$mtpl = new ilTemplate("tpl.message.html", true, true, "Services/Utilities");
+		$mtpl->setCurrentBlock($a_type."_message");
+		$mtpl->setVariable("TEXT", $a_txt);
+		$mtpl->setVariable("MESSAGE_HEADING", $lng->txt($a_type."_message"));
+		$mtpl->setVariable("ALT_IMAGE", $lng->txt("icon")." ".$lng->txt($a_type."_message"));
+		$mtpl->setVariable("SRC_IMAGE", ilUtil::getImagePath("mess_".$a_type.".gif"));
+		$mtpl->parseCurrentBlock();
+		
+		return $mtpl->get();
+	}
+	
 	/**
 	* Get the content type for the template output
 	*

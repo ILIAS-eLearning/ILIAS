@@ -176,6 +176,7 @@ class ilExplorer
 	*/
 	var $root_id = null;
 	
+	var $use_standard_frame = false;
 
 	/**
 	* Constructor
@@ -235,6 +236,26 @@ class ilExplorer
 	public function initItemCounter($a_number)
 	{
 	 	$this->counter = $a_number;
+	}
+	
+	/**
+	* Set title
+	*
+	* @param	title
+	*/
+	function setTitle($a_val)
+	{
+		$this->title = $a_val;
+	}
+	
+	/**
+	* Get title
+	*
+	* @return	title
+	*/
+	function getTitle()
+	{
+		return $this->title;
 	}
 	
 	/**
@@ -464,6 +485,27 @@ class ilExplorer
 	}
 
 	/**
+	* Set use standard frame. If true, the standard
+	* explorer frame (like in the repository) is put around the tree.
+	*
+	* @param	boolean		use standard explorer frame
+	*/
+	function setUseStandardFrame($a_val)
+	{
+		$this->use_standard_frame = $a_val;
+	}
+	
+	/**
+	* Get use standard explorer frame
+	*
+	* @return	boolean		use standard explorer frame
+	*/
+	function getUseStandardFrame()
+	{
+		return $this->use_standard_frame;
+	}
+	
+	/**
 	* Creates output for explorer view in admin menue
 	* recursive method
 	* @access	public
@@ -649,7 +691,7 @@ class ilExplorer
 	*/
 	function getOutput()
 	{
-		global $ilBench, $tpl;
+		global $ilBench, $tpl, $lng;
 
 		$ilBench->start("Explorer", "getOutput");
 
@@ -705,8 +747,30 @@ class ilExplorer
 		
 		$ilBench->stop("Explorer", "getOutput");
 		
-		return $tpl_tree->get();
+		$html = $tpl_tree->get();
+		
+		if ($this->getUseStandardFrame())
+		{
+			$mtpl = new ilTemplate("tpl.main.html", true, true);
+			$mtpl->setVariable("LOCATION_STYLESHEET", ilUtil::getStyleSheetLocation());
+			$mtpl->setVariable("BODY_CLASS", "il_Explorer");
+			$mtpl->addBlockFile("CONTENT", "content", "tpl.explorer.html");
+			if ($this->getTitle() != "")
+			{
+				$mtpl->setVariable("TXT_EXPLORER_HEADER", $this->getTitle());
+			}
+			$mtpl->setVariable("IMG_SPACE", ilUtil::getImagePath("spacer.gif", false));
+			$mtpl->setCurrentBlock("content");
+			$mtpl->setVariable("EXPLORER", $html);
+			$mtpl->setVariable("EXP_REFRESH", $lng->txt("refresh"));
+			$mtpl->parseCurrentBlock();
+			$html = $mtpl->get();
+		}
+		
+		return $html;
 	}
+	
+	
 	
 	/**
 	* handle list end tags (</li> and </ul>)

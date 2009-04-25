@@ -50,7 +50,7 @@ class ilRepositoryExplorer extends ilExplorer
 	*/
 	function ilRepositoryExplorer($a_target)
 	{
-		global $tree,$ilCtrl;
+		global $tree, $ilCtrl, $lng;
 
 		$this->ctrl = $ilCtrl;
 
@@ -59,6 +59,7 @@ class ilRepositoryExplorer extends ilExplorer
 		$this->root_id = $this->tree->readRootId();
 		$this->order_column = "title";
 		$this->setSessionExpandVariable("repexpand");
+		$this->setTitle($lng->txt("overview"));
 
 		// please do not uncomment this
 		$this->addFilter("root");

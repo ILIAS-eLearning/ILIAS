@@ -66,6 +66,7 @@ class ilPropertyFormGUI extends ilFormGUI
 	private $items = array();
 	protected $mode = "std";
 	protected $check_input_called = false;
+	protected $disable_standard_message = false;
 	
 	/**
 	* Constructor
@@ -253,6 +254,26 @@ class ilPropertyFormGUI extends ilFormGUI
 	}
 
 	/**
+	* Set disable standard message
+	*
+	* @param	boolean		disable standard message
+	*/
+	function setDisableStandardMessage($a_val)
+	{
+		$this->disable_standard_message = $a_val;
+	}
+	
+	/**
+	* Get disable standard message
+	*
+	* @return	boolean		disable standard message
+	*/
+	function getDisableStandardMessage()
+	{
+		return $this->disable_standard_message;
+	}
+	
+	/**
 	* Set form values from an array
 	*
 	* @param	array	$a_values	Value array (key is post variable name, value is value)
@@ -304,7 +325,7 @@ class ilPropertyFormGUI extends ilFormGUI
 		
 		$this->check_input_called = true;
 		
-		if (!$ok)
+		if (!$ok && !$this->getDisableStandardMessage())
 		{
 			ilUtil::sendFailure($lng->txt("form_input_not_valid"));
 		}
