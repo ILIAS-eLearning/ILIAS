@@ -40,7 +40,7 @@ a.il_PrintBack
 <form action="{FORMACTION}" name="cmd" method="post">
 <div class="ilNotesHeader">
 <img alt="{ALT_NOTES}" title="{ALT_NOTES}" src="{IMG_NOTES}" border="0" style="vertical-align:text-bottom;" />
-<h3 class="ilNotesHeader"><a class="ilAccAnchor" name="{A_NAME}">{TXT_NOTES}</a></h3>
+<h3 class="ilNotesHeader">{TXT_NOTES}</h3>
 </div>
 	<div class="il_ContainerItemCommands2" style="text-align:right;">
 	<!-- BEGIN show_notes -->
@@ -74,15 +74,15 @@ a.il_PrintBack
 <!-- BEGIN note -->
 <tr>
 	<!-- BEGIN checkbox_col -->
-	<td width="1" valign="top"><input type="checkbox" name="{CHK_NOTE}" value="{CHK_NOTE_ID}"/>
+	<td width="1" class="ilNoteList"><input type="checkbox" name="{CHK_NOTE}" value="{CHK_NOTE_ID}"/>
 	</td>
 	<!-- END checkbox_col -->
-	<td class="std" colspan="{CNT_COL}">
+	<td class="ilNoteList" colspan="{CNT_COL}">
 	<!-- BEGIN delete_ids --><input type="hidden" name="{HID_NOTE}" value="{HID_NOTE_ID}"/><!-- END delete_ids -->
-	<div style="padding: 10px 0px; border-bottom: 1px dotted #A0A0A0;">
-	<!-- BEGIN user_img --><div class="small" style="float:right; text-align:right; margin:0px 0px 4px 10px;"><img alt="{USR_ALT}" src="{USR_IMG}" border="0"/><br />[{USR_ALT}]</div><!-- END user_img -->
+	<div>
+	<!-- BEGIN user_img --><div class="small" style="float:right; text-align:right; margin:0px 0px 4px 10px;"><img alt="{USR_ALT}" title="{USR_ALT}" src="{USR_IMG}" border="0"/><br />[{TXT_USR}]</div><!-- END user_img -->
 	<a name="note_{NOTE_ID}">{EXP_ICON}<!-- BEGIN note_img --><img src="{IMG_NOTE}" alt="{ALT_NOTE}" title="{ALT_NOTE}" border="0" style="vertical-align:text-bottom; margin-bottom:2px;"/><!-- END note_img --></a>
-	{VAL_SUBJECT}
+	<h4 class="ilNoteTitle">{VAL_SUBJECT}</h4>
 	<!-- BEGIN author --><!-- END author -->  
 		<br /><div class="small" style="margin: 6px 0px;">{NOTE_TEXT}</div>
 	<div class="il_BlockInfo" style="text-align:right; margin-top:4px; clear:both;">{TXT_CREATED} {VAL_DATE}<!-- BEGIN last_edit --><br />
@@ -91,13 +91,13 @@ a.il_PrintBack
 	<!-- BEGIN target_objects -->
 		<div style="margin-top:4px;" class="subtitle">
 		<!-- BEGIN target_object -->
-			<div><img src="{IMG_CONTAINER}" border="0" /> {TXT_CONTAINER} > <img src="{IMG_TARGET}" border="0" /> <a href="{LINK_TARGET}">{TXT_TARGET}</a>
-			<!-- BEGIN target_sub_object -->> <img src="{IMG_SUB_TARGET}" border="0" /> <a href="{LINK_SUB_TARGET}">{TXT_SUB_TARGET}</a><!-- END target_sub_object -->
+			<div><!-- <img src="{IMG_CONTAINER}" border="0" />--> {TXT_CONTAINER} > <!--<img src="{IMG_TARGET}" border="0" />--> <a href="{LINK_TARGET}">{TXT_TARGET}</a>
+			<!-- BEGIN target_sub_object -->> <!-- <img src="{IMG_SUB_TARGET}" border="0" />--> <a href="{LINK_SUB_TARGET}">{TXT_SUB_TARGET}</a><!-- END target_sub_object -->
 			</div>
 		<!-- END target_object -->
 		<!-- BEGIN exp_target_object -->
-			<div><img src="{IMG_CONTAINER}" border="0" /> {TXT_CONTAINER} > <img src="{IMG_TARGET}" border="0" /> {TXT_TARGET}
-			<!-- BEGIN exp_target_sub_object -->> <img src="{IMG_SUB_TARGET}" border="0" /> {TXT_SUB_TARGET}<!-- END exp_target_sub_object -->
+			<div><!-- <img src="{IMG_CONTAINER}" border="0" />--> {TXT_CONTAINER} > <!--<img src="{IMG_TARGET}" border="0" />--> {TXT_TARGET}
+			<!-- BEGIN exp_target_sub_object -->> <!-- <img src="{IMG_SUB_TARGET}" border="0" />--> {TXT_SUB_TARGET}<!-- END exp_target_sub_object -->
 			</div>
 		<!-- END exp_target_object -->
 		</div>

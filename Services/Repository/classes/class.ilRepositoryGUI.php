@@ -418,15 +418,9 @@ class ilRepositoryGUI
 	*/
 	function showTree()
 	{
-		$this->tpl = new ilTemplate("tpl.main.html", true, true);
-		$this->tpl->setVariable("LOCATION_STYLESHEET", ilUtil::getStyleSheetLocation());
-
-		//$this->tpl = new ilTemplate("tpl.explorer.html", false, false);
-		$this->tpl->addBlockFile("CONTENT", "content", "tpl.explorer.html");
-		$this->tpl->setVariable("IMG_SPACE", ilUtil::getImagePath("spacer.gif", false));
-
 		include_once ("./Services/Repository/classes/class.ilRepositoryExplorer.php");
 		$exp = new ilRepositoryExplorer("repository.php?cmd=goto");
+		$exp->setUseStandardFrame(true);
 		$exp->setExpandTarget("repository.php?cmd=showTree");
 		$exp->setTargetGet("ref_id");
 
@@ -445,14 +439,7 @@ class ilRepositoryGUI
 		$exp->setOutput(0);
 		$output = $exp->getOutput();
 
-		$this->tpl->setCurrentBlock("content");
-		//$this->tpl->setVariable("TXT_EXPLORER_HEADER", $this->lng->txt("repository"));
-		$this->tpl->setVariable("EXP_REFRESH", $this->lng->txt("refresh"));
-		$this->tpl->setVariable("EXPLORER", $output);
-		//$this->tpl->setVariable("ACTION", "repository.php?repexpand=".$_GET["repexpand"]);
-		$this->tpl->parseCurrentBlock();
-		//$this->tpl->show(true);
-		$this->tpl->show(false);
+		echo $output;
 	}
 
 } // END class.ilRepository

@@ -47,7 +47,7 @@ div.ilExplorerFrame {
 }
 
 td.ilExpH {
-	background-image: url(images/tr.gif);
+	background-image: url(images/trbw.gif);
 	background-repeat: no-repeat;
 	background-position: top right; 
 }
@@ -779,7 +779,7 @@ div.il_Explorer
 }
 
 div.ilExpH{
-	background-image: url(images/tl.gif);
+	background-image: url(images/tlbw.gif);
 	background-repeat: no-repeat;
 	min-height: 35px;
 }
@@ -845,6 +845,16 @@ a.il_HighlightedNode
 div.il_ExplorerItemDescription
 {
 	margin-left: 44px;
+}
+
+a.ilTreeView {
+	position:absolute;
+	left:-3px;
+	top: 250px;
+}
+
+a.ilTreeView:hover {
+	left: 0px;
 }
 
 /* Table Links */
@@ -2570,3 +2580,17 @@ h3.ilNotesHeader{
 	color: #606060;
 	display: inline;
 }
+
+h4.ilNoteTitle{
+	font-size:100%;
+	display: inline;
+	margin: 0px;
+	padding: 0px;
+}
+
+td.ilNoteList {
+	padding: 10px 5px;
+	border-bottom: 1px dotted #A0A0A0;
+	vertical-align: top;
+}
+

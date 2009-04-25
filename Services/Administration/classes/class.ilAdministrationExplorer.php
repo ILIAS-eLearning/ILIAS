@@ -59,6 +59,7 @@ class ilAdministrationExplorer extends ilExplorer
 		$this->root_id = $this->tree->readRootId();
 		$this->order_column = "title";
 		$this->setSessionExpandVariable("expand");
+		$this->setTitle($lng->txt("overview"));
 	}
 
 	/**

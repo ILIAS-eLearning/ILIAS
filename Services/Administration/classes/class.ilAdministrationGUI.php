@@ -304,14 +304,12 @@ class ilAdministrationGUI
 	{
 		global $tpl, $tree, $lng;
 
-		require_once "classes/class.ilAdministrationExplorer.php";
+		require_once "./Services/Administration/classes/class.ilAdministrationExplorer.php";
 
-		$tpl->addBlockFile("CONTENT", "content", "tpl.explorer.html");
-		$tpl->setVariable("IMG_SPACE", ilUtil::getImagePath("spacer.gif", false));
-		
 		$explorer = new ilAdministrationExplorer("ilias.php?baseClass=ilAdministrationGUI&cmd=view");		
 		$explorer->setExpand($_GET["expand"]);
 		$explorer->setExpandTarget($this->ctrl->getLinkTarget($this, "showTree"));
+		$explorer->setUseStandardFrame(true);
 		
 		// hide RecoveryFolder if empty
 		if (!$tree->getChilds(RECOVERY_FOLDER_ID))
@@ -346,15 +344,8 @@ class ilAdministrationGUI
 		//$explorer->setFiltered(false);
 		$explorer->setOutput(0);		
 		$output = $explorer->getOutput();		
-		$tpl->setCurrentBlock("content");
-		//$tpl->setVariable("TXT_EXPLORER_HEADER", $lng->txt("all_objects"));
-		$tpl->setVariable("EXP_REFRESH", $lng->txt("refresh"));
-		$tpl->setVariable("EXPLORER",$output);
 		$this->ctrl->setParameter($this, "expand", $_GET["expand"]);
-		$tpl->setVariable("ACTION", $this->ctrl->getLinkTarget($this, "showTree"));
-		$tpl->parseCurrentBlock();
-		
-		$tpl->show(false);
+		echo $output;
 	}
 
 } // END class.ilRepository
