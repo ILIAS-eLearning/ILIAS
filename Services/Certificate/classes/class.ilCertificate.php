@@ -413,7 +413,7 @@ class ilCertificate
 		if ($deliver)
 		{
 			include_once "./Services/Utilities/classes/class.ilUtil.php";
-			ilUtil::deliverData($result, "certificate.pdf", "application/pdf");
+			ilUtil::deliverData($result, $this->getAdapter()->getCertificateFilename($params), "application/pdf");
 		}
 		else
 		{
@@ -432,7 +432,7 @@ class ilCertificate
 		$fo2pdf->setFOString($this->exchangeCertificateVariables($xslfo));
 		$result = $fo2pdf->send();
 		include_once "./Services/Utilities/classes/class.ilUtil.php";
-		ilUtil::deliverData($result, "certificate.pdf", "application/pdf");
+		ilUtil::deliverData($result, $this->getAdapter()->getCertificateFilename(), "application/pdf");
 	}
 	
 	/**
