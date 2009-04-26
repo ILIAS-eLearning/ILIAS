@@ -130,4 +130,15 @@ abstract class ilCertificateAdapter
 	{
 		
 	}
+	
+	/**
+	* Set the name of the certificate file
+	* This method will be called when the certificate will be generated
+	*
+	* @return string The certificate file name
+	*/
+	public function getCertificateFilename($params = array())
+	{
+		return "certificate.pdf";
+	}
 }
