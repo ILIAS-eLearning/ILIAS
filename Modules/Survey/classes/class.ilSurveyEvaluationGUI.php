@@ -404,11 +404,11 @@ class ilSurveyEvaluationGUI
 	*/
 	function exportUserSpecificResults($export_format)
 	{
+		global $ilLog;
 		$surveyname = ilUtil::getASCIIFilename(preg_replace("/\s/", "_", $this->object->getTitle()));
 		$csvfile = array();
 		$csvrow = array();
 		$questions = array();
-		$eval =& $this->object->getEvaluationForAllUsers();
 		$questions =& $this->object->getSurveyQuestions(true);
 		array_push($csvrow, $this->lng->txt("username"));
 		if ($this->object->canExportSurveyCode())
@@ -428,9 +428,11 @@ class ilSurveyEvaluationGUI
 			$questions[$question_data["question_id"]] = $question;
 		}
 		array_push($csvfile, $csvrow);
+		$participants =& $this->object->getSurveyFinishedIds();
 
-		foreach ($eval as $user_id => $resultset)
+		foreach ($participants as $user_id)
 		{
+			$resultset =& $this->object->getEvaluationByUser($questions, $user_id);
 			$csvrow = array();
 			array_push($csvrow, $resultset["name"]);
 			if ($this->object->canExportSurveyCode())
@@ -472,7 +474,12 @@ class ilSurveyEvaluationGUI
 				$format_title_plain->setPattern(1);
 				$format_title_plain->setFgColor('silver');
 				// Creating a worksheet
-				$mainworksheet =& $workbook->addWorksheet();
+				$pages = floor((count($csvfile[0])) / 250) + 1;
+				$worksheets = array();
+				for ($i = 0; $i < $pages; $i++)
+				{
+					$worksheets[$i] =& $workbook->addWorksheet();
+				}
 				$row = 0;
 				include_once "./classes/class.ilExcelUtils.php";
 				foreach ($csvfile as $csvrow)
@@ -480,13 +487,24 @@ class ilSurveyEvaluationGUI
 					$col = 0;
 					if ($row == 0)
 					{
+						$worksheet = 0;
+						$mainworksheet =& $worksheets[$worksheet];
 						foreach ($csvrow as $text)
 						{
 							$mainworksheet->writeString($row, $col++, ilExcelUtils::_convert_text($text, $_POST["export_format"]), $format_title);
+							if ($col % 251 == 0) 
+							{
+								$worksheet++;
+								$col = 1;
+								$mainworksheet =& $worksheets[$worksheet];
+								$mainworksheet->writeString($row, 0, ilExcelUtils::_convert_text($csvrow[0], $_POST["export_format"]), $format_title);
+							}
 						}
 					}
 					else
 					{
+						$worksheet = 0;
+						$mainworksheet =& $worksheets[$worksheet];
 						foreach ($csvrow as $text)
 						{
 							if (is_numeric($text))
@@ -496,6 +514,13 @@ class ilSurveyEvaluationGUI
 							else
 							{
 								$mainworksheet->writeString($row, $col++, ilExcelUtils::_convert_text($text, $_POST["export_format"]));
+							}
+							if ($col % 251 == 0) 
+							{
+								$worksheet++;
+								$col = 1;
+								$mainworksheet =& $worksheets[$worksheet];
+								$mainworksheet->writeString($row, 0, ilExcelUtils::_convert_text($csvrow[0], $_POST["export_format"]));
 							}
 						}
 					}
@@ -529,7 +554,7 @@ class ilSurveyEvaluationGUI
 	*/
 	function evaluationuser()
 	{
-		global $ilAccess;
+		global $ilAccess, $ilLog;
 		
 		if (!$ilAccess->checkAccess("write", "", $this->object->getRefId()))
 		{

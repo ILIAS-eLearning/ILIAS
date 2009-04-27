@@ -3193,9 +3193,15 @@ class ilObjSurvey extends ilObject
 		return ($result->numRows()) ? true : false;
 	}
 
-	function &getEvaluationForAllUsers()
+	/**
+	* Get the finished id's of all survey participants
+	*
+	* @return array An array containing finished_id's of all survey participants
+	* @access public
+	*/
+	function &getSurveyFinishedIds()
 	{
-		global $ilDB;
+		global $ilDB, $ilLog;
 		
 		$users = array();
 		$result = $ilDB->queryF("SELECT * FROM svy_finished WHERE survey_fi = %s",
@@ -3206,16 +3212,10 @@ class ilObjSurvey extends ilObject
 		{
 			while ($row = $ilDB->fetchAssoc($result))
 			{
-				array_push($users, $row);
+				array_push($users, $row["finished_id"]);
 			}
 		}
-		$evaluation = array();
-		$questions =& $this->getSurveyQuestions();
-		foreach ($users as $row)
-		{
-			$evaluation[$row["finished_id"]] = $this->getEvaluationByUser($questions, $row["finished_id"]);
-		}
-		return $evaluation;
+		return $users;
 	}
 	
 /**
