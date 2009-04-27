@@ -245,7 +245,7 @@ class ilDAVLocks
 		$objId  = $objDAV->getObjectId();
 		$nodeId = $objDAV->getNodeId();
 
-		return udpateLockWithoutCheckingObj($objId, $nodeId, $token, $expires);
+		return $this->udpateLockWithoutCheckingObj($objId, $nodeId, $token, $expires);
 	}
 	/**
 	 * Updates a write lock.
