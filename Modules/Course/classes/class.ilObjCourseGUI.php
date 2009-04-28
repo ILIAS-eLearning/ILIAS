@@ -2820,10 +2820,10 @@ class ilObjCourseGUI extends ilContainerGUI
 	
 	function unsubscribeObject()
 	{
-		global $rbacsystem;
+		global $rbacsystem,$ilAccess;
 
 		// CHECK ACCESS
-		if(!$rbacsystem->checkAccess("leave", $this->ref_id))
+		if(!$ilAccess->checkAccess("leave",'', $this->ref_id))
 		{
 			$this->ilias->raiseError($this->lng->txt("msg_no_perm_write"),$this->ilias->error_obj->MESSAGE);
 		}
@@ -4183,11 +4183,15 @@ class ilObjCourseGUI extends ilContainerGUI
 				if( !$this->creation_mode
 					&& $cmd != 'infoScreen'
 					&& $cmd != 'sendfile'
+					&& $cmd != 'unsubscribe'
+					&& $cmd != 'performUnsubscribe'
 					&& !$ilAccess->checkAccess("read",'',$this->object->getRefId())
 					|| $cmd == 'join'
 					|| $cmd == 'subscribe')
 				{
-					if($ilAccess->checkAccess('join','',$this->object->getRefId()))
+					include_once './Modules/Course/classes/class.ilCourseParticipants.php';
+					if($ilAccess->checkAccess('join','',$this->object->getRefId()) &&
+						!ilCourseParticipants::_isParticipant($this->object->getRefId(),$ilUser->getId()))
 					{
 						include_once('./Modules/Course/classes/class.ilCourseRegistrationGUI.php');
 						$this->ctrl->redirectByClass("ilCourseRegistrationGUI", "show");

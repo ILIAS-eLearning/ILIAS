@@ -112,7 +112,7 @@ class ilCourseObjectiveResult
 		else
 		{
 			// Pretest 
-			$query = "SELECT objective_id FROM crs_objective_status_pretest ".
+			$query = "SELECT objective_id FROM crs_objective_status_p ".
 				"WHERE ".$ilDB->in('objective_id',$objectives,false,'integer').' '.
 				"AND user_id = ".$ilDB->quote($a_user_id ,'integer');
 			$res = $ilDB->query($query);
@@ -162,7 +162,7 @@ class ilCourseObjectiveResult
 				"AND user_id = ".$ilDB->quote($this->getUserId() ,'integer')." ";
 			$res = $ilDB->manipulate($query);
 
-			$query = "DELETE FROM crs_objective_status_pretest ".
+			$query = "DELETE FROM crs_objective_status_p ".
 				"WHERE ".$ilDB->in('objective_id',$objectives,false,'integer').' '.
 				"AND user_id = ".$ilDB->quote($this->getUserId())."";
 			$res = $ilDB->manipulate($query);
@@ -270,7 +270,7 @@ class ilCourseObjectiveResult
 			"WHERE user_id = ".$ilDB->quote($user_id ,'integer')." ";
 		$res = $ilDB->manipulate($query);
 
-		$query = "DELETE FROM crs_objective_status_pretest ".
+		$query = "DELETE FROM crs_objective_status_p ".
 			"WHERE user_id = ".$ilDB->quote($user_id ,'integer')." ";
 		$res = $ilDB->manipulate($query);
 		return true;
@@ -405,7 +405,7 @@ class ilCourseObjectiveResult
 		}
 		if(count($pretest))
 		{
-			$ilDB->executeMultiple($ilDB->prepare("REPLACE INTO crs_objective_status_pretest VALUES(?,?)"),
+			$ilDB->executeMultiple($ilDB->prepare("REPLACE INTO crs_objective_status_p VALUES(?,?)"),
 								   $pretest);
 		}
 		
