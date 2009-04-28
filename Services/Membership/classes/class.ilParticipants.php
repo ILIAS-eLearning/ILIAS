@@ -96,7 +96,7 @@ class ilParticipants
 	{
 		global $ilDB;
 		
-		$query = "SELECT DISTINCT obd.obj_id,obr.ref_id FROM rbac_ua AS ua ".
+		$query = "SELECT DISTINCT obd.obj_id,obr.ref_id FROM rbac_ua ua ".
 			"JOIN rbac_fa fa ON ua.rol_id = fa.rol_id ".
 			"JOIN tree t1 ON t1.child = fa.parent ".
 			"JOIN object_reference obr ON t1.parent = obr.ref_id ".

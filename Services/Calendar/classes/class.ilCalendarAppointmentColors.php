@@ -136,7 +136,7 @@ class ilCalendarAppointmentColors
 		}
 		
 		$query = "SELECT cat.cat_id,cat.color, ass.cal_id  FROM cal_categories cat ".
-			"JOIN cal_cat_assignments ass USING (cat_id) ".
+			"JOIN cal_cat_assignments ass ON cat.cat_id = ass.cat_id ".
 			"WHERE ".$ilDB->in('cat.cat_id',$this->categories->getCategories(true),false,'integer');
 
 		$res = $this->db->query($query);

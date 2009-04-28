@@ -3679,7 +3679,7 @@ class ilUtil
 		// is assigned to the system role
 		if($rbacreview->isAssigned($a_usr_id,SYSTEM_ROLE_ID))
 		{
-			$query = "SELECT ref_id FROM object_reference obr LEFT JOIN object_data obd USING(obj_id) ".
+			$query = "SELECT ref_id FROM object_reference obr LEFT JOIN object_data obd ON obr.obj_id = obd.obj_id ".
 				"LEFT JOIN tree ON obr.ref_id = tree.child ".
 				$where.
 				"AND tree = 1";

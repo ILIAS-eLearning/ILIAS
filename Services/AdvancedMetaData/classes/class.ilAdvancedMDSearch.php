@@ -97,7 +97,7 @@ class ilAdvancedMDSearch extends ilAbstractSearch
 			case ilAdvancedMDFieldDefinition::TYPE_DATETIME:
 				$query = "SELECT amv.obj_id,type ".
 					"FROM adv_md_values amv ".
-					"JOIN object_data USING (obj_id) ".
+					"JOIN object_data od ON amv.obj_id = od.obj_id ".
 					"WHERE value >= ".$ilDB->quote($this->range_start ,'text')." ".
 					"AND value <= ".$ilDB->quote($this->range_end ,'text')." ".
 					"AND field_id = ".$this->db->quote($this->getDefinition()->getFieldId() ,'integer')." ".
@@ -112,7 +112,7 @@ class ilAdvancedMDSearch extends ilAbstractSearch
 				$query = "SELECT amv.obj_id,type ".
 					$locate.
 					"FROM adv_md_values amv ".
-					"JOIN object_data USING(obj_id) ".
+					"JOIN object_data od ON amv.obj_id = od.obj_id ".
 					$where.
 					"AND field_id = ".$this->db->quote($this->getDefinition()->getFieldId() ,'integer')." ".
 					$and;
