@@ -137,7 +137,7 @@ class ilMDAnnotation extends ilMDBase
 					 'obj_id'	=> array('integer',$this->getObjId()),
 					 'obj_type'	=> array('text',$this->getObjType()),
 					 'entity'	=> array('clob',$this->getEntity()),
-					 'date'		=> array('clob',$this->getDate()),
+					 'a_date'		=> array('clob',$this->getDate()),
 					 'description' => array('clob',$this->getDescription()),
 					 'description_language' => array('text',$this->getDescriptionLanguageCode()));
 	}
@@ -160,7 +160,7 @@ class ilMDAnnotation extends ilMDBase
 				$this->setObjId($row->obj_id);
 				$this->setObjType($row->obj_type);
 				$this->setEntity($row->entity);
-				$this->setDate($row->date);
+				$this->setDate($row->a_date);
 				$this->setDescription($row->description);
 				$this->description_language =& new ilMDLanguageItem($row->description_language);
 			}

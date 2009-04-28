@@ -122,7 +122,7 @@ class ilLPMarks
 		}
 		$query = "UPDATE ut_lp_marks ".
 			"SET mark = ".$ilDB->quote($this->getMark(), 'text').", ".
-			"comment = ".$ilDB->quote($this->getComment() ,'text').", ".
+			"u_comment = ".$ilDB->quote($this->getComment() ,'text').", ".
 			"completed = ".$ilDB->quote($this->getCompleted() ,'integer')." ".
 			"WHERE obj_id = ".$ilDB->quote($this->getObjId() ,'integer')." ".
 			"AND usr_id = ".$ilDB->quote($this->getUserId(), 'integer');
@@ -175,7 +175,7 @@ class ilLPMarks
 		$res = $ilDB->query($query);
 		while($row = $res->fetchRow(DB_FETCHMODE_OBJECT))
 		{
-			return $row->comment;
+			return $row->u_comment;
 		}
 		return '';
 	}
@@ -192,7 +192,7 @@ class ilLPMarks
 		{
 			$this->has_entry = true;
 			$this->completed = (int) $row->completed;
-			$this->comment = $row->comment;
+			$this->comment = $row->u_comment;
 			$this->mark = $row->mark;
 
 			return true;
@@ -205,7 +205,7 @@ class ilLPMarks
 	{
 		global $ilDB;
 		
-		$query = "INSERT INTO ut_lp_marks (mark,comment, completed,obj_id,usr_id) ".
+		$query = "INSERT INTO ut_lp_marks (mark,u_comment, completed,obj_id,usr_id) ".
 			"VALUES( ".
 			$ilDB->quote($this->getMark(),'text').", ".
 			$ilDB->quote($this->getComment() ,'text').", ".

@@ -87,7 +87,7 @@ class ilObjRemoteCourse extends ilObject
 				return false;
 				
 			case self::ACTIVATION_LIMITED:
-				return time() > $row->start && time < $row->end;
+				return time() > $row->r_start && time < $row->r_end;
 				
 			default:
 				return false;
@@ -389,7 +389,7 @@ class ilObjRemoteCourse extends ilObject
 		
 		$obj_id = parent::create($a_upload);
 		
-		$query = "INSERT INTO remote_course_settings (obj_id,local_information,availibility_type,start,end,remote_link,mid,organization) ".
+		$query = "INSERT INTO remote_course_settings (obj_id,local_information,availibility_type,r_start,r_end,remote_link,mid,organization) ".
 			"VALUES( ".			
 			$this->db->quote($this->getId() ,'integer').", ".
 			$ilDB->quote('','text').", ".
@@ -425,8 +425,8 @@ class ilObjRemoteCourse extends ilObject
 		
 		$query = "UPDATE remote_course_settings SET ".
 			"availability_type = ".(int) $this->db->quote($this->getAvailabilityType() ,'integer').", ".
-			"start = ".$this->db->quote($this->getStartingTime() ,'integer').", ".
-			"end = ".$this->db->quote($this->getEndingTime() ,'integer').", ".
+			"r_start = ".$this->db->quote($this->getStartingTime() ,'integer').", ".
+			"r_end = ".$this->db->quote($this->getEndingTime() ,'integer').", ".
 			"local_information = ".$this->db->quote($this->getLocalInformation() ,'text').", ".
 			"remote_link = ".$this->db->quote($this->getRemoteLink() ,'text').", ".
 			"mid = ".$this->db->quote($this->getMID() ,'integer').", ".
@@ -477,8 +477,8 @@ class ilObjRemoteCourse extends ilObject
 		{
 			$this->setLocalInformation($row->local_information);
 			$this->setAvailabilityType($row->availability_type);
-			$this->setStartingTime($row->start);
-			$this->setEndingTime($row->end);
+			$this->setStartingTime($row->r_start);
+			$this->setEndingTime($row->r_end);
 			$this->setRemoteLink($row->remote_link);
 			$this->setMID($row->mid);
 			$this->setOrganization($row->organization);

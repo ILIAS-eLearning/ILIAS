@@ -216,14 +216,18 @@ class ilClient
 	*/
 	function isInstalledDB(&$a_db)
 	{
+		if(method_exists($a_db,'loadModule'))
+		{
+			$a_db->loadModule('Manager');
+		}
 		$tables = $a_db->listTables();
+		
 		// check existence of some basic tables from ilias3 to determine if ilias3 is already installed in given database
 		if (in_array("object_data",$tables) and in_array("object_reference",$tables) and in_array("usr_data",$tables) and in_array("rbac_ua",$tables))
 		{
 			$this->db_installed = true;
 			return true;
 		}
-		
 		$this->db_installed = false;
 		return false;
 	}
@@ -231,7 +235,6 @@ class ilClient
 	/**
 	* set the dsn and dsn_host
 	*/
-/*
 	function setDSN()
 	{
 		switch($this->getDbType())
@@ -248,7 +251,6 @@ class ilClient
 				break;
 		}				
 	}
-*/
 
 	/**
 	* set the host
@@ -374,7 +376,7 @@ class ilClient
 	function checkDatabaseHost()
 	{
 		global $lng;
-return true;
+
 		if ($this->getDbType() == "oracle")
 		{
 			return true;
