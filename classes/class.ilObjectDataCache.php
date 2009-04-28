@@ -191,7 +191,7 @@ class ilObjectDataCache
 		}
 		
 		$query = "SELECT * FROM object_data WHERE obj_id = ".
-			$ilDB->quote($a_obj_id);
+			$ilDB->quote($a_obj_id ,'integer');
 		$res = $this->db->query($query);
 		while($row = $res->fetchRow(DB_FETCHMODE_OBJECT))
 		{
@@ -250,8 +250,9 @@ class ilObjectDataCache
 		if (!is_array($a_obj_ids)) return;
 		if (count($a_obj_ids) == 0) return;
 		
-		$query = "SELECT * FROM object_data WHERE obj_id IN (".
-			implode(",",ilUtil::quoteArray($a_obj_ids)).")";
+		
+		$query = "SELECT * FROM object_data ".
+			"WHERE ".$ilDB->in('obj_id',$a_obj_ids,false,'integer');
 		$res = $ilDB->query($query);
 		while($row = $res->fetchRow(DB_FETCHMODE_OBJECT))
 		{

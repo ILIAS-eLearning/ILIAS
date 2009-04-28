@@ -50,7 +50,7 @@ class ilObjectFactory
 		global $ilias, $ilDB;
 
 		$query = "SELECT * FROM object_data ".
-			"WHERE obj_id = ".$ilDB->quote($a_obj_id);
+			"WHERE obj_id = ".$ilDB->quote($a_obj_id ,'integer');
 
 		$res = $ilias->db->query($query);
 		
@@ -110,7 +110,7 @@ class ilObjectFactory
 
 		// read object data
 		$q = "SELECT * FROM object_data ".
-			 "WHERE obj_id = ".$ilDB->quote($a_obj_id);
+			 "WHERE obj_id = ".$ilDB->quote($a_obj_id ,'integer');
 		$object_set = $ilias->db->query($q);
 		// check number of records
 		if ($object_set->numRows() == 0)

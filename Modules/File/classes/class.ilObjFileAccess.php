@@ -243,7 +243,7 @@ class ilObjFileAccess extends ilObjectAccess
 		global $ilDB;
 		
 		// BEGIN WebDAV: Filename suffix is determined by file title
-		$q = "SELECT * FROM object_data WHERE obj_id = '".$a_id."'";
+		$q = "SELECT * FROM object_data WHERE obj_id = ".$ilDB->quote($a_id ,'integer');
 		$r = $ilDB->query($q);
 		$row = $r->fetchRow(DB_FETCHMODE_OBJECT);
 		require_once 'Modules/File/classes/class.ilObjFile.php';
@@ -275,7 +275,7 @@ class ilObjFileAccess extends ilObjectAccess
 		// 
 		global $ilDB, $lng;
 		
-		$q = "SELECT obj_id FROM object_data WHERE type = 'file' AND owner = $user_id";
+		$q = "SELECT obj_id FROM object_data WHERE type = 'file' AND owner = ".$ilDB->quote($user_id ,'integer');
 		$us_set = $ilDB->query($q);
 		$size = 0;
 		$count = 0;
