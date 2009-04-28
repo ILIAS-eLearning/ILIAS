@@ -1005,12 +1005,10 @@ class ilRbacReview
 	{
 		global $ilDB;
 
+	    $ilDB->setLimit(1,0);
 	    $query = "SELECT usr_id FROM rbac_ua WHERE ".
                     $ilDB->in('rol_id',$a_role_ids,false,'integer').
-                    " AND usr_id= ".$ilDB->quote($a_usr_id).
-                    " LIMIT 1"
-                    ;
-
+                    " AND usr_id= ".$ilDB->quote($a_usr_id);
 		$res = $ilDB->query($query);
 
         return $ilDB->numRows($res) == 1;
