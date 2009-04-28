@@ -657,7 +657,7 @@ class ilObjCategoryGUI extends ilContainerGUI
 		// stripslashes in form?
 		$strip = isset($_SESSION["translation_post"]) ? true : false;
 
-		foreach ($data["Fobject"] as $key => $val)
+		foreach ((array) $data["Fobject"] as $key => $val)
 		{
 			// add translation button
 			if ($key == $count -1)
