@@ -174,7 +174,7 @@ class ilMDContribute extends ilMDBase
 					 'parent_type' => array('text',$this->getParentType()),
 					 'parent_id' => array('integer',$this->getParentId()),
 					 'role'	=> array('text',$this->getRole()),
-					 'date' => array('text',$this->getDate()));
+					 'c_date' => array('text',$this->getDate()));
 	}
 
 	function read()
@@ -197,7 +197,7 @@ class ilMDContribute extends ilMDBase
 				$this->setParentId($row->parent_id);
 				$this->setParentType($row->parent_type);
 				$this->setRole($row->role);
-				$this->setDate($row->date);
+				$this->setDate($row->c_date);
 			}
 		}
 		return true;

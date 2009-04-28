@@ -100,7 +100,7 @@ class ilEventParticipants
 			"AND usr_id = ".$ilDB->quote($this->getUserId() ,'integer')." ";
 		$res = $ilDB->manipulate($query);
 
-		$query = "INSERT INTO event_participants (event_id,usr_id,registered,participated,mark,comment) ".
+		$query = "INSERT INTO event_participants (event_id,usr_id,registered,participated,mark,e_comment) ".
 			"VALUES( ".
 			$ilDB->quote($this->getEventId() ,'integer').", ".
 			$ilDB->quote($this->getUserId() ,'integer').", ".
@@ -306,7 +306,7 @@ class ilEventParticipants
 		$res = $ilDB->query($query);
 		while($row = $res->fetchRow(DB_FETCHMODE_OBJECT))
 		{
-			return $row->comment;
+			return $row->e_comment;
 		}
 		return '';
 	}
@@ -355,7 +355,7 @@ class ilEventParticipants
 			$this->participants[$row->usr_id]['registered'] = $row->registered;
 			$this->participants[$row->usr_id]['participated'] = $row->participated;
 			$this->participants[$row->usr_id]['mark'] = $row->mark;
-			$this->participants[$row->usr_id]['comment'] = $row->comment;
+			$this->participants[$row->usr_id]['comment'] = $row->e_comment;
 		}
 	}
 }

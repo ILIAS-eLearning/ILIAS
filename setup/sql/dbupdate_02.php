@@ -11379,4 +11379,57 @@ ALTER TABLE `event` CHANGE `details` `details` VARCHAR( 4000 ) NOT NULL;
 	$ilDB->renameTable('crs_objective_status_pretest','crs_objective_status_p');
 ?>
 
+<#2355>
+<?php
+	$ilDB->renameTableColumn('event_appointment','start','e_start');
+?>
 
+<#2356>
+<?php
+	$ilDB->renameTableColumn('event_appointment','end','e_end');
+?>
+
+<#2357>
+<?php
+	$ilDB->renameTableColumn('event_participants','comment','e_comment');
+?>
+
+<#2358>
+<?php
+	$ilDB->renameTableColumn('file_data','mode','f_mode');
+?>
+
+<#2359>
+<?php
+	$ilDB->renameTableColumn('il_meta_annotation','date','a_date');
+?>
+
+<#2360>
+<?php
+	$ilDB->renameTableColumn('il_meta_contribute','date','c_date');
+?>
+
+<#2361>
+<?php
+	$ilDB->renameTableColumn('il_meta_technical','size','t_size');
+?>
+
+<#2362>
+<?php
+	$ilDB->renameTableColumn('remote_course_settings','start','r_start');
+?>
+
+<#2363>
+<?php
+	$ilDB->renameTableColumn('remote_course_settings','end','r_end');
+?>
+
+<#2364>
+<?php
+	$ilDB->renameTableColumn('ut_lp_marks','comment','u_comment');
+?>
+
+<#2365>
+<?php
+	$ilDB->renameTableColumn('ut_lp_settings','mode','u_mode');
+?>

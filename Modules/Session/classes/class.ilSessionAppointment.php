@@ -74,9 +74,9 @@ class ilSessionAppointment implements ilDatePeriod
 		{
 			$info['fullday'] = $row->fulltime;
 			
-			$date = new ilDateTime($row->start,IL_CAL_DATETIME,'UTC');
+			$date = new ilDateTime($row->e_start,IL_CAL_DATETIME,'UTC');
 			$info['start'] =  $date->getUnixTime();
-			$date = new ilDateTime($row->end,IL_CAL_DATETIME,'UTC');
+			$date = new ilDateTime($row->e_end,IL_CAL_DATETIME,'UTC');
 			$info['end'] = $date->getUnixTime();
 			
 			return $info;
@@ -107,9 +107,9 @@ class ilSessionAppointment implements ilDatePeriod
 			return false;
 		}
 		$query = "SELECT event_id FROM event_appointment ".
-			"WHERE start > ".$ilDB->now()." ".
+			"WHERE e_start > ".$ilDB->now()." ".
 			"AND ".$ilDB->in('event_id',$obj_ids,false,'integer')." ".
-			"ORDER BY start ";
+			"ORDER BY e_start ";
 		$ilDB->setLimit(1);
 		$res = $ilDB->query($query);
 		while($row = $res->fetchRow(DB_FETCHMODE_OBJECT))
@@ -142,9 +142,9 @@ class ilSessionAppointment implements ilDatePeriod
 			return false;
 		}
 		$query = "SELECT event_id FROM event_appointment ".
-			"WHERE start < ".$ilDB->now()." ".
+			"WHERE e_start < ".$ilDB->now()." ".
 			"AND ".$ilDB->in('event_id',$obj_ids,false,'integer')." ".
-			"ORDER BY start DESC ";
+			"ORDER BY e_start DESC ";
 		$ilDB->setLimit(1);
 		$res = $ilDB->query($query);
 		while($row = $res->fetchRow(DB_FETCHMODE_OBJECT))
@@ -326,7 +326,7 @@ class ilSessionAppointment implements ilDatePeriod
 			return false;
 		}
 		$next_id = $ilDB->nextId('event_appointment');
-		$query = "INSERT INTO event_appointment (appointment_id,event_id,start,end,fulltime) ".
+		$query = "INSERT INTO event_appointment (appointment_id,event_id,e_start,e_end,fulltime) ".
 			"VALUES( ".
 			$ilDB->quote($next_id,'integer').", ".
 			$ilDB->quote($this->getSessionId() ,'integer').", ".
@@ -350,8 +350,8 @@ class ilSessionAppointment implements ilDatePeriod
 		}
 		$query = "UPDATE event_appointment ".
 			"SET event_id = ".$ilDB->quote($this->getSessionId() ,'integer').", ".
-			"start = ".$ilDB->quote($this->getStart()->get(IL_CAL_DATETIME,'','UTC') ,'timestamp').", ".
-			"end = ".$ilDB->quote($this->getEnd()->get(IL_CAL_DATETIME,'','UTC'), 'timestamp').", ".
+			"e_start = ".$ilDB->quote($this->getStart()->get(IL_CAL_DATETIME,'','UTC') ,'timestamp').", ".
+			"e_end = ".$ilDB->quote($this->getEnd()->get(IL_CAL_DATETIME,'','UTC'), 'timestamp').", ".
 			"fulltime = ".$ilDB->quote($this->enabledFullTime() ,'integer')." ".
 			"WHERE appointment_id = ".$ilDB->quote($this->getAppointmentId() ,'integer')." ";
 		$res = $ilDB->manipulate($query);
@@ -431,13 +431,13 @@ class ilSessionAppointment implements ilDatePeriod
 			
 			if($this->isFullday())
 			{
-				$this->start = new ilDate($row->start,IL_CAL_DATETIME);
-				$this->end = new ilDate($row->end,IL_CAL_DATETIME);
+				$this->start = new ilDate($row->e_start,IL_CAL_DATETIME);
+				$this->end = new ilDate($row->e_end,IL_CAL_DATETIME);
 			}
 			else
 			{
-				$this->start = new ilDateTime($row->start,IL_CAL_DATETIME,'UTC');
-				$this->end = new ilDateTime($row->end,IL_CAL_DATETIME,'UTC');
+				$this->start = new ilDateTime($row->e_start,IL_CAL_DATETIME,'UTC');
+				$this->end = new ilDateTime($row->e_end,IL_CAL_DATETIME,'UTC');
 			}
 			$this->starting_time = $this->start->getUnixTime();
 			$this->ending_time = $this->end->getUnixTime();			

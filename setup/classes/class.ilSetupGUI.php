@@ -1582,7 +1582,7 @@ class ilSetupGUI
 			$this->setup->getClient()->setDbUser($_POST["form"]["db_user"]);
 			$this->setup->getClient()->setDbPass($_POST["form"]["db_pass"]);
 			$this->setup->getClient()->setDbType($_POST["form"]["db_type"]);
-			//$this->setup->getClient()->setDSN();
+			$this->setup->getClient()->setDSN();
 			
 			// try to connect to database
 			if (!$this->setup->getClient()->checkDatabaseHost())
@@ -1966,6 +1966,7 @@ class ilSetupGUI
 
 			include_once "./Services/Database/classes/class.ilDBUpdate.php";
 			$ilDB = $this->setup->getClient()->db;
+
 			$this->lng->setDbHandler($ilDB);
 			$dbupdate = new ilDBUpdate($ilDB);
 

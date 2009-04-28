@@ -316,7 +316,7 @@ class ilMDTechnical extends ilMDBase
 		return array('rbac_id'	=> array('integer',$this->getRBACId()),
 					 'obj_id'	=> array('integer',$this->getObjId()),
 					 'obj_type'	=> array('text',$this->getObjType()),
-					 'size'		=> array('text',$this->getSize()),
+					 't_size'		=> array('text',$this->getSize()),
 					 'ir' => array('text',$this->getInstallationRemarks()),
 					 'ir_language' => array('text',$this->getInstallationRemarksLanguageCode()),
 					 'opr' => array('text',$this->getOtherPlatformRequirements()),
@@ -342,7 +342,7 @@ class ilMDTechnical extends ilMDBase
 				$this->setRBACId($row->rbac_id);
 				$this->setObjId($row->obj_id);
 				$this->setObjType($row->obj_type);
-				$this->setSize($row->size);
+				$this->setSize($row->t_size);
 				$this->setInstallationRemarks($row->installation_remarks);
 				$this->setInstallationRemarksLanguage(new ilMDLanguageItem($row->installation_remarks_language));
 				$this->setOtherPlatformRequirements($row->other_platform_requirements);

@@ -86,7 +86,7 @@ class ilLPObjSettings
 	{
 		global $ilDB;
 
-	 	$query = "INSERT INTO ut_lp_settings (obj_id,obj_type,mode,visits) ".
+	 	$query = "INSERT INTO ut_lp_settings (obj_id,obj_type,u_mode,visits) ".
 	 		"VALUES( ".
 	 		$this->db->quote($a_new_obj_id ,'integer').", ".
 	 		$this->db->quote($this->getObjType() ,'text').", ".
@@ -133,7 +133,7 @@ class ilLPObjSettings
 		{
 			return $this->insert();
 		}
-		$query = "UPDATE ut_lp_settings SET mode = ".$ilDB->quote($this->getMode() ,'integer').", ".
+		$query = "UPDATE ut_lp_settings SET u_mode = ".$ilDB->quote($this->getMode() ,'integer').", ".
 			"visits = ".$ilDB->quote($this->getVisits() ,'integer')." ".
 			"WHERE obj_id = ".$ilDB->quote($this->getObjId() ,'integer');
 		$res = $ilDB->manipulate($query);
@@ -147,7 +147,7 @@ class ilLPObjSettings
 		
 		$ilLog->logStack();
 		
-		$query = "INSERT INTO ut_lp_settings (obj_id,obj_type,mode,visits) ".
+		$query = "INSERT INTO ut_lp_settings (obj_id,obj_type,u_mode,visits) ".
 			"VALUES(".
 			$ilDB->quote($this->getObjId() ,'integer').", ".
 			$ilDB->quote($this->getObjType(),'text').", ".
@@ -214,7 +214,7 @@ class ilLPObjSettings
 		$res = $ilDB->query($query);
 		while($row = $res->fetchRow(DB_FETCHMODE_OBJECT))
 		{
-			return $row->mode;
+			return $row->u_mode;
 		}
 		
 		// no db entry exists => return default mode by type
@@ -464,7 +464,7 @@ class ilLPObjSettings
 		{
 			$this->is_stored = true;
 			$this->obj_type = $row->obj_type;
-			$this->obj_mode = $row->mode;
+			$this->obj_mode = $row->u_mode;
 			$this->visits = $row->visits;
 
 			if(ilLPObjSettings::_checkObjectives($this->obj_id))
