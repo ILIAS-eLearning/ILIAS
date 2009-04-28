@@ -251,7 +251,7 @@ class ilAdvancedMDFieldDefinition
 		global $ilDB;
 		
 		$query = "SELECT field_id FROM adv_md_record amr ".
-			"JOIN adv_mdf_definition amfd USING (record_id) ".
+			"JOIN adv_mdf_definition amfd ON amr.record_id = amfd.record_id ".
 			"WHERE active = 1 ".
 			"AND searchable = 1";
 		$res = $ilDB->query($query);
