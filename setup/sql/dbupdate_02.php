@@ -11363,3 +11363,20 @@ ALTER TABLE `event` CHANGE `details` `details` VARCHAR( 4000 ) NOT NULL;
 <?php 
 	$ilMySQLAbstraction->performAbstraction('event_participants');
 ?>
+
+<#2352>
+<?php
+	$ilDB->addPrimaryKey('webr_items',array('link_id'));
+?>
+
+<#2353>
+<?php
+	$ilDB->renameTable('container_sorting_settings','container_sorting_set');
+?>
+
+<#2354>
+<?php
+	$ilDB->renameTable('crs_objective_status_pretest','crs_objective_status_p');
+?>
+
+

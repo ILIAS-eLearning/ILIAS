@@ -52,6 +52,20 @@ class ilDBGenerator
 		$this->allowed_attributes = $ilDB->getAllowedAttributes();
 	}
 	
+	public static function lookupAbstractedTables()
+	{
+		global $ilDB;
+		
+		$query = "SELECT DISTINCT(table_name) FROM abstraction_progress ".
+			"GROUP BY table_name";
+		$res = $ilDB->query($query);
+		while($row = $res->fetchRow(DB_FETCHMODE_OBJECT))
+		{
+			$names[] = $row->table_name;
+		}
+		return $names ? $names : array();
+	}
+	
 	/**
 	* Set Table Black List.
 	* (Tables that should not be included in the processing)
