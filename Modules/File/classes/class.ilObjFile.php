@@ -115,7 +115,7 @@ class ilObjFile extends ilObject
 				1, 0, $this->getId());
 		}
 
-		$q = "INSERT INTO file_data (file_id,file_name,file_type,file_size,version,mode) "
+		$q = "INSERT INTO file_data (file_id,file_name,file_type,file_size,version,f_mode) "
 			."VALUES (".$ilDB->quote($this->getId() ,'integer').","
 			.$ilDB->quote($this->getFileName() ,'text').","
 			.$ilDB->quote($this->getFileType() ,'text').","
@@ -308,7 +308,7 @@ class ilObjFile extends ilObject
 		$this->setFileType($row->file_type);
 		$this->setFileSize($row->file_size);
 		$this->setVersion($row->version);
-		$this->setMode($row->mode);
+		$this->setMode($row->f_mode);
 		
 		$this->initFileStorage();
 	}
@@ -335,7 +335,7 @@ class ilObjFile extends ilObject
 			", file_type = ".$ilDB->quote($this->getFiletype() ,'text')." ".
 			", file_size = ".$ilDB->quote($this->getFileSize() ,'integer')." ".
 			", version = ".$ilDB->quote($this->getVersion() ,'integer')." ".
-			", mode = ".$ilDB->quote($this->getMode() ,'text')." ".
+			", f_mode = ".$ilDB->quote($this->getMode() ,'text')." ".
 			"WHERE file_id = ".$ilDB->quote($this->getId() ,'integer');
 		$res = $ilDB->manipulate($q);
 		
@@ -685,7 +685,7 @@ class ilObjFile extends ilObject
 	 	ilUtil::rCopy($this->getDirectory(),$new_obj->getDirectory());
 	 	
 	 	// object created now copy other settings
-		$query = "INSERT INTO file_data (file_id,file_name,file_type,file_size,version,mode) VALUES (".
+		$query = "INSERT INTO file_data (file_id,file_name,file_type,file_size,version,f_mode) VALUES (".
 				$ilDB->quote($new_obj->getId() ,'integer').",".
 				$ilDB->quote($this->getFileName() ,'text').",".
 				$ilDB->quote($this->getFileType() ,'text').",".
