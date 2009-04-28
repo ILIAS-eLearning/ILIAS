@@ -635,16 +635,15 @@ class ilRbacReview
 		$role_hierarchy = array();
 		
 		// CREATE IN() STATEMENT
-		$in = " IN(";
-		$in .= implode(",",ilUtil::quoteArray($a_path));
-		$in .= ") ";
+		$in = $ilDB->in('t.parent',$a_path,false,'integer');
 
-        $q = "SELECT t.* FROM tree AS t ".
-             "JOIN object_reference AS r ON r.ref_id=t.child ".
-             "JOIN object_data AS o ON o.obj_id=r.obj_id ".
-             "WHERE t.parent ".$in." ".
-             "AND o.type='rolf' ".
-             "ORDER BY t.depth ASC ";
+        $q = "SELECT t.* FROM tree t ".
+             "JOIN object_reference r ON r.ref_id = t.child ".
+             "JOIN object_data o ON o.obj_id = r.obj_id ".
+             "WHERE ".$in." ".
+             "AND o.type= ".$ilDB->quote('rolf','text')." ".
+             "ORDER BY t.depth ASC";
+             
         $r = $this->ilDB->query($q);
 
         while ($row = $r->fetchRow(DB_FETCHMODE_OBJECT))
@@ -724,11 +723,12 @@ class ilRbacReview
 		$where = $this->__setTemplateFilter($a_templates);
 	
 		$query = "SELECT * FROM object_data ".
-			 "JOIN rbac_fa ".$where.
+			 "JOIN rbac_fa ON obj_id = rol_id ".
+			 $where.
 			 "AND object_data.obj_id = rbac_fa.rol_id ".
 			 "AND rbac_fa.parent = ".$ilDB->quote($a_ref_id,'integer')." ";
+			 
 		$res = $ilDB->query($query);
-
 		while ($row = $ilDB->fetchAssoc($res))
 		{
 			$row["desc"] = $row["description"];
@@ -842,13 +842,15 @@ class ilRbacReview
 	*/
 	function __setTemplateFilter($a_templates)
 	{
+		global $ilDB;
+		
 		if ($a_templates === true)
 		{
-			 $where = "WHERE object_data.type IN ('role','rolt') ";		
+			$where = "WHERE ".$ilDB->in('object_data.type',array('role','rolt'),false,'text')." ";
 		}
 		else
 		{
-			$where = "WHERE object_data.type = 'role' ";
+			$where = "WHERE ".$ilDB->in('object_data.type',array('role'),false,'text')." ";
 		}
 		
 		return $where;

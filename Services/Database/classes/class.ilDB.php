@@ -1807,6 +1807,12 @@ if ($this->getDBType() == "mysql")
 	{
 		global $ilDB;
 		
+		if($ilDB instanceof ilDBOracle)
+		{
+			return true;	
+		}
+		
+		
 		$lock_str = 'LOCK TABLES ';
 		$counter = 0;
 		foreach($a_table_params as $table_name => $type)
@@ -1826,6 +1832,11 @@ if ($this->getDBType() == "mysql")
 	static function _unlockTables()
 	{
 		global $ilDB;
+		
+		if($ilDB instanceof ilDBOracle)
+		{
+			return true;	
+		}
 		
 		$ilDB->query('UNLOCK TABLES');
 

@@ -1305,11 +1305,12 @@ class ilObject
 			$this->raiseError($message,$this->ilias->error_obj->WARNING);
 		}
 
+		$next_id = $ilDB->nextId('object_reference');
 		$query = "INSERT INTO object_reference ".
-			 "(ref_id, obj_id) VALUES (".$ilDB->nextId('object_reference').','.$ilDB->quote($this->id).")";
+			 "(ref_id, obj_id) VALUES (".$ilDB->quote($next_id,'integer').','.$ilDB->quote($this->id ,'integer').")";
 		$this->ilias->db->query($query);
 
-		$this->ref_id = $ilDB->getLastInsertId();
+		$this->ref_id = $next_id;
 		$this->referenced = true;
 
 		return $this->ref_id;
@@ -1629,11 +1630,11 @@ class ilObject
 	{
 		global $ilDB,$lng;
 		
-		$query = "SELECT obj_data.title as obj_title,path_data.title as path_title,child FROM tree ".
-			"JOIN object_reference as obj_ref ON child = obj_ref.ref_id ".
-			"JOIN object_data as obj_data ON obj_ref.obj_id = obj_data.obj_id ".
-			"JOIN object_reference as path_ref ON parent = path_ref.ref_id ".
-			"JOIN object_data as path_data ON path_ref.obj_id = path_data.obj_id ".
+		$query = "SELECT obj_data.title obj_title,path_data.title path_title,child FROM tree ".
+			"JOIN object_reference obj_ref ON child = obj_ref.ref_id ".
+			"JOIN object_data obj_data ON obj_ref.obj_id = obj_data.obj_id ".
+			"JOIN object_reference path_ref ON parent = path_ref.ref_id ".
+			"JOIN object_data path_data ON path_ref.obj_id = path_data.obj_id ".
 			"WHERE ".$ilDB->in("child", $a_ref_ids, false, "integer")." ".
 			"ORDER BY obj_data.title ";
 		$res = $ilDB->query($query);
