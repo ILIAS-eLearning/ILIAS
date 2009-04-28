@@ -134,7 +134,7 @@ class ilObjStyleSettings extends ilObject
 	{
 		global $ilDB;
 		
-		$q = "SELECT count(*) AS cnt FROM settings_deactivated_styles".
+		$q = "SELECT count(*) cnt FROM settings_deactivated_s".
 			" WHERE skin = ".$ilDB->quote($a_skin, "text").
 			" AND style = ".$ilDB->quote($a_style, "text")." ".
 			"GROUP BY skin";
@@ -160,7 +160,7 @@ class ilObjStyleSettings extends ilObject
 		global $ilDB;
 
 		ilObjStyleSettings::_activateStyle($a_skin, $a_style);
-		$q = "INSERT into settings_deactivated_styles".
+		$q = "INSERT into settings_deactivated_s".
 			" (skin, style) VALUES ".
 			" (".$ilDB->quote($a_skin, "text").",".
 			" ".$ilDB->quote($a_style, "text").")";
@@ -175,7 +175,7 @@ class ilObjStyleSettings extends ilObject
 	{
 		global $ilDB;
 
-		$q = "DELETE FROM settings_deactivated_styles".
+		$q = "DELETE FROM settings_deactivated_s".
 			" WHERE skin = ".$ilDB->quote($a_skin, "text").
 			" AND style = ".$ilDB->quote($a_style, "text");
 

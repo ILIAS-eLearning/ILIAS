@@ -11433,3 +11433,13 @@ ALTER TABLE `event` CHANGE `details` `details` VARCHAR( 4000 ) NOT NULL;
 <?php
 	$ilDB->renameTableColumn('ut_lp_settings','mode','u_mode');
 ?>
+
+<#2366>
+<?php
+	$ilDB->renameTable('settings_deactivated_styles','settings_deactivated_s');
+?>
+
+<#2367>
+<?php
+	$ilDB->dropIndex('ut_lp_marks','i1');
+?>
