@@ -878,8 +878,9 @@ class ilObject
 	{
 		global $ilDB;
 		
+		$ilDB->setLimit(1,0);
 		$q = "SELECT * FROM object_data WHERE import_id = ".$ilDB->quote($a_import_id, "text").
-			" ORDER BY create_date DESC LIMIT 1";
+			" ORDER BY create_date DESC";
 		$obj_set = $ilDB->query($q);
 
 		if ($obj_rec = $ilDB->fetchAssoc($obj_set))

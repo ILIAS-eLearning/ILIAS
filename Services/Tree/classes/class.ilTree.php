@@ -310,7 +310,6 @@ class ilTree
 	*/
 	function buildJoin()
 	{
-		// DONE smeyer
 		if ($this->table_obj_reference)
 		{
 			return "LEFT JOIN ".$this->table_obj_reference." ON ".$this->table_tree.".child=".$this->table_obj_reference.".".$this->ref_pk." ".
@@ -428,12 +427,12 @@ class ilTree
             // Performance optimization: A node can only have exactly one
             // role folder as its child. Therefore we don't need to sort the
             // results, and we can let the database know about the expected limit.
+            $ilDB->setLimit(1,0);
             $query = sprintf("SELECT * FROM ".$this->table_tree." ".
                 $this->buildJoin().
                 "WHERE parent = %s ".
                 "AND ".$this->table_tree.".".$this->tree_pk." = %s ".
-                "AND ".$this->table_obj_data.".type = %s ".
-                "LIMIT 1",
+                "AND ".$this->table_obj_data.".type = %s ",
                 $ilDB->quote($a_node_id,'integer'),
                 $ilDB->quote($this->tree_id,'integer'),
                 $ilDB->quote($a_type,'text'));

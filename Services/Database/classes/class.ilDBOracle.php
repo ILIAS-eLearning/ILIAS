@@ -43,6 +43,14 @@ class ilDBOracle extends ilDB
 	*/
 	function getDSN()
 	{
+		// TODO: check if there is another solution.
+		// This works with 11g
+		if(!isset($GLOBALS['_MDB2_dsninfo_default']['charset']) or		
+			$GLOBALS['_MDB2_dsninfo_default']['charset'] != 'utf8')
+		{
+			$GLOBALS['_MDB2_dsninfo_default']['charset'] = 'utf8'; 
+		} 
+
 		return "oci8://".$this->getDBUser().":".$this->getDBPassword()."@".
 			$this->getDBHost()."/?service=".$this->getDBName();
 	}
@@ -85,6 +93,7 @@ class ilDBOracle extends ilDB
 	*/
 	function initConnection()
 	{
+		$GLOBALS['_MDB2_dsninfo_default']['charset'] = 'utf8'; 
 	}
 
 /*	function manipulate($sql)

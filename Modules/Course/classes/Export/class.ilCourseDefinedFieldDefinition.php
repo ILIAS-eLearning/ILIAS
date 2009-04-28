@@ -204,7 +204,7 @@ class ilCourseDefinedFieldDefinition
 		
 	 	$query = "SELECT field_id FROM crs_f_definitions ".
 	 		"WHERE obj_id = ".$ilDB->quote($a_container_id,'integer')." ".
-	 		"ORDER BY ".$ilDB->quoteIdentifier($a_sort);
+	 		"ORDER BY ".$a_sort;
 	 	$res = $ilDB->query($query);
 	 	while($row = $ilDB->fetchObject($res))
 	 	{

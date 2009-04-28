@@ -1067,14 +1067,14 @@ class ilObjCourse extends ilContainer
 			$ilDB->quote($this->getArchiveStart() ,'integer').", ".
 			$ilDB->quote($this->getArchiveEnd() ,'integer').", ".
 			$ilDB->quote(IL_CRS_ARCHIVE_NONE ,'integer').", ".
-			"abo = ".$ilDB->quote($this->ABO_ENABLED ,'integer').", ".
+			$ilDB->quote($this->ABO_ENABLED ,'integer').", ".
 			$ilDB->quote($this->getLatitude() ,'text').", ".
 			$ilDB->quote($this->getLongitude() ,'text').", ".
 			$ilDB->quote($this->getLocationZoom() ,'integer').", ".
 			$ilDB->quote($this->getEnableCourseMap() ,'integer').", ".
 			#"objective_view = '0', ".
-			"waiting_list = 1, ".
-			"show_members = 1".
+			"1, ".
+			"1".
 			")";
 			
 		$res = $ilDB->manipulate($query);
