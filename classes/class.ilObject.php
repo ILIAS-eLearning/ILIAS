@@ -1078,7 +1078,7 @@ class ilObject
 		$q = "UPDATE object_data ".
 			"SET ".
 			"title = ".$ilDB->quote($a_title, "text").",".
-			"last_update = now() ".
+			"last_update = ".$ilDB->now()." ".
 			"WHERE obj_id = ".$ilDB->quote($a_obj_id, "integer");
 
 		$ilDB->manipulate($q);
@@ -1143,7 +1143,7 @@ class ilObject
 		$q = "UPDATE object_data ".
 			"SET ".
 			"import_id = ".$ilDB->quote($a_import_id, "text").",".
-			"last_update = now() ".
+			"last_update = ".$ilDB->now()." ".
 			"WHERE obj_id = ".$ilDB->quote($a_obj_id. "integer");
 
 		$ilDB->manipulate($q);
@@ -1168,7 +1168,7 @@ class ilObject
 
 		if ($a_reference === true)
 		{
-			$q = "SELECT type FROM object_reference as obr, object_data as obd ".
+			$q = "SELECT type FROM object_reference obr, object_data obd ".
 				"WHERE obr.ref_id = ".$ilDB->quote($a_id, "integer")." ".
 				"AND obr.obj_id = obd.obj_id ";
 		}

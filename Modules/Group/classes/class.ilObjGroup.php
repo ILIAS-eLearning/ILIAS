@@ -1589,7 +1589,7 @@ class ilObjGroup extends ilContainer
 		global $ilDB;
 
 		$query = "SELECT * FROM object_data WHERE title = ".
-			$ilDB->quote($a_title)." AND type = 'grp'";
+			$ilDB->quote($a_title ,'text')." AND type = 'grp'";
 		$res = $ilDB->query($query);
 		while($row = $res->fetchRow(DB_FETCHMODE_OBJECT))
 		{

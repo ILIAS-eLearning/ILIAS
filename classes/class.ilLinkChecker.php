@@ -279,7 +279,7 @@ class ilLinkChecker
 		global $ilDB;
 		
 		$query = "SELECT title FROM object_data ".
-			"WHERE obj_id = ".$ilDB->quote($a_lm_obj_id)." ";
+			"WHERE obj_id = ".$ilDB->quote($a_lm_obj_id ,'integer')." ";
 
 		$row = $this->db->getRow($query,DB_FETCHMODE_OBJECT);
 

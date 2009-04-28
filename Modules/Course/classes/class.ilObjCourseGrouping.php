@@ -251,7 +251,7 @@ class ilObjCourseGrouping
 		global $ilObjDataCache,$ilDB;
 
 		$query = "SELECT * FROM object_data ".
-			"WHERE obj_id = ".$ilDB->quote($this->getId())." ";
+			"WHERE obj_id = ".$ilDB->quote($this->getId() ,'integer')." ";
 
 		$res = $this->db->query($query);
 		while($row = $res->fetchRow(DB_FETCHMODE_OBJECT))

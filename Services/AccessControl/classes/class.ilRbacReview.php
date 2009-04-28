@@ -183,7 +183,7 @@ class ilRbacReview
 				{
 					// Search for roles like local-part in objects = host
 					$query = "SELECT rdat.obj_id ".
-						"FROM object_data AS odat ".
+						"FROM object_data odat ".
 						"JOIN object_reference oref ON oref.obj_id = odat.obj_id ".
 						"JOIN tree otree ON otree.child = oref.ref_id ".
 						"JOIN tree rtree ON rtree.parent = otree.child ".
