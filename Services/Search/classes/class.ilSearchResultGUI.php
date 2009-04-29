@@ -392,6 +392,8 @@ return;
 
 	function prepareOutput()
 	{
+		global $lng;
+		
 		parent::prepareOutput();
 		
 		// SHOW ADD FOLDER
@@ -402,10 +404,6 @@ return;
 		$this->tpl->setVariable("BTN_NAME", "create");
 		$this->tpl->setVariable("TXT_ADD", $this->lng->txt("add"));
 		$this->tpl->setVariable("H_FORMACTION",$this->ctrl->getFormAction($this));
-		$this->tpl->parseCurrentBlock();
-
-		$this->tpl->setCurrentBlock("header_image");
-		$this->tpl->setVariable("IMG_HEADER", ilUtil::getImagePath("icon_src_b.gif"));
 		$this->tpl->parseCurrentBlock();
 
 		$this->ctrl->setParameter($this,'folder_id',$this->folder_obj->getFolderId());
