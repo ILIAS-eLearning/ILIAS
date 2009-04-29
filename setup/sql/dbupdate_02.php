@@ -11453,3 +11453,20 @@ $ilCtrlStructureReader->getStructure();
 	$ilMySQLAbstraction->performAbstraction('usr_search');
 ?>
 
+<#2370>
+ALTER TABLE `svy_qst_mat` DROP INDEX `c1_idx`;
+
+<#2371>
+<?php
+	$ilDB->addPrimaryKey("svy_qst_mat", array("material_id"));
+?>
+
+<#2372>
+<?php
+$ilMySQLAbstraction->performAbstraction('svy_qst_mat');
+?>
+
+<#2373>
+<?php
+$ilDB->addIndex('svy_qst_mat',array('question_fi'),'i1');
+?>
