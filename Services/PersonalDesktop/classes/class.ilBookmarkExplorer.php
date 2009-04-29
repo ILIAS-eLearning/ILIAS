@@ -92,59 +92,6 @@ class ilBookmarkExplorer extends ilExplorer
 		return $this->enablesmallmode;
 	}
 
-	/**
-	* Creates output
-	* overwritten method from class Explorer
-	* @access	public
-	* @return	string
-	*/
-	function getOutput()
-	{
-		global $ilBench, $tpl;
-		
-		$this->format_options[0]["tab"] = array();
-
-		$depth = $this->tree->getMaximumDepth();
-
-		for ($i=0;$i<$depth;++$i)
-		{
-			$this->createLines($i);
-		}
-		
-		$tpl_tree = new ilTemplate("tpl.tree_tooltip.html", true, true);
-
-		$cur_depth = -1;
-		foreach ($this->format_options as $key => $options)
-		{
-			if (!$options["visible"])
-			{
-				continue;
-			}
-
-			
-			// end tags
-			$this->handleListEndTags($tpl_tree, $cur_depth, $options["depth"]);
-			
-			// start tags
-			$this->handleListStartTags($tpl_tree, $cur_depth, $options["depth"]);
-			
-			$cur_depth = $options["depth"];
-			
-			if ($options["visible"] and $key != 0)
-			{
-				$this->formatObject($tpl_tree, $options["child"],$options,$options['obj_id']);
-			}
-			if ($key == 0)
-			{
-				//$this->formatHeader($tpl_tree, $options["child"],$options);
-			}
-		}
-		
-		$this->handleListEndTags($tpl_tree, $cur_depth, -1);
-
-		return $tpl_tree->get();
-	}
-
 
 	/**
 	* Overwritten method from class.Explorer.php to avoid checkAccess selects
@@ -233,139 +180,6 @@ class ilBookmarkExplorer extends ilExplorer
 			} //foreach
 		} //if
 	} //function
-	/**
-	* Overwritten method from class.Explorer.php to use Tooltips
-	* recursive method
-	* Creates output
-	* recursive method
-	* @access	private
-	* @param	integer
-	* @param	array
-	* @return	string
-	*/
-	function formatObject(&$tpl, $a_node_id,$a_option,$a_obj_id = 0)
-	{
-		global $lng;
-		
-		if (!isset($a_node_id) or !is_array($a_option))
-		{
-			$this->ilias->raiseError(get_class($this)."::formatObject(): Missing parameter or wrong datatype! ".
-									"node_id: ".$a_node_id." options:".var_dump($a_option),$this->ilias->error_obj->WARNING);
-		}
-
-		$pic = false;
-		foreach ($a_option["tab"] as $picture)
-		{
-				//$tpl->touchBlock("checkbox");
-				//$tpl->parseCurrentBlock();
-
-			if ($picture == 'plus')
-			{
-				$tpl->setCurrentBlock("exp_desc");
-				$tpl->setVariable("EXP_DESC", $lng->txt("expand"));
-				$tpl->parseCurrentBlock();
-				$target = $this->createTarget('+',$a_node_id);
-				$tpl->setCurrentBlock("expander");
-				$tpl->setVariable("LINK_NAME", $a_node_id);
-				$tpl->setVariable("LINK_TARGET_EXPANDER", $target);
-				$tpl->setVariable("IMGPATH", $this->getImage("browser/plus.gif"));
-				$tpl->parseCurrentBlock();
-				$pic = true;
-			}
-
-			if ($picture == 'minus')
-			{
-				$tpl->setCurrentBlock("exp_desc");
-				$tpl->setVariable("EXP_DESC", $lng->txt("collapse"));
-				$tpl->parseCurrentBlock();
-				$target = $this->createTarget('-',$a_node_id);
-				$tpl->setCurrentBlock("expander");
-				$tpl->setVariable("LINK_NAME", $a_node_id);
-				$tpl->setVariable("LINK_TARGET_EXPANDER", $target);
-				$tpl->setVariable("IMGPATH", $this->getImage("browser/minus.gif"));
-				$tpl->parseCurrentBlock();
-				$pic = true;
-			}
-
-			/*
-			if ($picture == 'blank' or $picture == 'winkel'
-			   or $picture == 'hoch' or $picture == 'quer' or $picture == 'ecke')
-			{
-				$picture = "blank";
-				$tpl->setCurrentBlock("lines");
-				$tpl->setVariable("IMGPATH_LINES", $this->getImage("browser/".$picture.".gif"));
-				$tpl->parseCurrentBlock();
-			}
-			*/
-		}
-		
-		if (!$pic)
-		{
-			$tpl->setCurrentBlock("blank");
-			$tpl->setVariable("BLANK_PATH", $this->getImage("browser/blank.gif"));
-			$tpl->parseCurrentBlock();
-		}
-
-		if ($this->output_icons)
-		{
-			$small = ($this->getEnableSmallMode())
-				? "_s"
-				: "";
-			$small = "_s";
-			$tpl->setCurrentBlock("icon");
-			$tpl->setVariable("ICON_IMAGE" , $this->getImage("icon_".$a_option["type"].$small.".gif", $a_option["type"], $a_obj_id));
-			$tpl->setVariable("TARGET_ID" , "iconid_".$a_node_id);
-			$this->iconList[] = "iconid_".$a_node_id;
-			$tpl->setVariable("TXT_ALT_IMG", $lng->txt($a_option["type"]));
-			$tpl->parseCurrentBlock();
-		}
-
-		if ($this->isClickable($a_option["type"], $a_node_id,$a_obj_id))	// output link
-		{
-			$tpl->setCurrentBlock("link");
-			//$target = (strpos($this->target, "?") === false) ?
-			//	$this->target."?" : $this->target."&";
-			//$tpl->setVariable("LINK_TARGET", $target.$this->target_get."=".$a_node_id.$this->params_get);
-			$tpl->setVariable("LINK_TARGET", $this->buildLinkTarget($a_node_id, $a_option["type"]));
-			if (($onclick = $this->buildOnClick($a_node_id, $a_option["type"], $a_option["title"])) != "")
-			{
-				$tpl->setVariable("ONCLICK", "onClick=\"$onclick\"");
-			}
-			if (($tooltip = $this->buildToolTip($a_node_id, $a_option["type"],$a_option["description"])) != "")
-			{
-				$tpl->setVariable("TOOLTIP", 'title="'.ilUtil::prepareFormOutput($tooltip).'"');
-			}
-			$tpl->setVariable("LINK_NAME", $a_node_id);
-			$tpl->setVariable("TITLE", ilUtil::prepareFormOutput(ilUtil::shortenText(
-				$this->buildTitle($a_option["title"], $a_node_id, $a_option["type"]),
-				$this->textwidth, true)));
-			$tpl->setVariable("DESC",
-				$this->buildDescription($a_option["description"], $a_node_id, $a_option["type"]));
-			$frame_target = $this->buildFrameTarget($a_option["type"], $a_node_id, $a_option["obj_id"]);
-			if ($frame_target != "")
-			{
-				$tpl->setVariable("TARGET", " target=\"".$frame_target."\"");
-			}
-			$tpl->parseCurrentBlock();
-		}
-		else			// output text only
-		{
-			$tpl->setCurrentBlock("text");
-			$tpl->setVariable("OBJ_TITLE",ilUtil::prepareFormOutput(ilUtil::shortenText(
-				$this->buildTitle($a_option["title"], $a_node_id, $a_option["type"]), $this->textwidth, true)));
-			$tpl->setVariable("OBJ_DESC",
-				$this->buildDescription($a_option["description"], $a_node_id, $a_option["type"]));
-			$tpl->parseCurrentBlock();
-		}
-
-		$tpl->setCurrentBlock("list_item");
-		if ($this->getEnableSmallMode())
-		{
-			$tpl->setVariable("DIVCLASS", ' class="small" ');
-		}
-		$tpl->parseCurrentBlock();
-		$tpl->touchBlock("element");
-	}
 
 	/**
 	* overwritten method from base class
@@ -377,19 +191,6 @@ class ilBookmarkExplorer extends ilExplorer
 	function formatHeader($a_obj_id,$a_option)
 	{
 		global $lng, $ilias;
-
-		$tpl->setCurrentBlock("link");
-		$tpl->setVariable("TYPE", $a_option["type"]);
-		$tpl->setVariable("TITLE", $lng->txt("bookmarks_of")." ".$ilias->account->getFullname());
-		$sep = (is_int(strpos($this->target, "?")))
-			? "&"
-			: "?";
-		$tpl->setVariable("LINK_TARGET", $this->target.$sep.$this->target_get."=1");
-		$tpl->setVariable("TARGET", " target=\"content\"");
-		$tpl->parseCurrentBlock();
-
-		$tpl->setCurrentBlock("element");
-		$tpl->parseCurrentBlock();
 
 	}
 
@@ -454,21 +255,6 @@ class ilBookmarkExplorer extends ilExplorer
 	}
 
 	/**
-	* buid tooltip
-	*/
-	function buildToolTip($a_node_id, $a_type, $a_desc)
-	{
-		if ($this->show_details!='y' && !empty($a_desc))
-		{
-			return $a_desc;
-		}
-		else
-		{
-			return "";
-		}
-	}
-
-	/**
 	* set the alowed object types
 	* @access	private
 	* @param	array		arraye of object types
@@ -495,7 +281,7 @@ class ilBookmarkExplorer extends ilExplorer
 	{
 		if ($this->show_details=='y' && !empty($a_desc))
 		{
-			return '<br />'.ilUtil::prepareFormOutput($a_desc);
+			return $a_desc;
 
 		}
 		else

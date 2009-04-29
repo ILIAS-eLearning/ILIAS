@@ -28,7 +28,7 @@
 * @version $Id$
 * @ingroup	ServicesForm
 */
-class ilNonEditableValueGUI extends ilSubEnabledFormPropertyGUI
+class ilNonEditableValueGUI extends ilSubEnabledFormPropertyGUI implements ilTableFilterItem
 {
 	protected $type;
 	protected $value;
@@ -134,14 +134,27 @@ class ilNonEditableValueGUI extends ilSubEnabledFormPropertyGUI
 	}
 
 	/**
+	* render
+	*/
+	function render()
+	{
+		$tpl = new ilTemplate("tpl.non_editable_value.html", true, true, "Services/Form");
+		$tpl->setVariable("VALUE", $this->getValue());
+		$tpl->setVariable("ID", $this->getFieldId());
+		$tpl->setVariable('NON_EDITABLE_ID',$this->getPostVar());
+		$tpl->parseCurrentBlock();
+		
+		return $tpl->get();
+	}
+	
+	/**
 	* Insert property html
 	*
 	*/
 	function insert(&$a_tpl)
 	{
-		$a_tpl->setCurrentBlock("non_editable_value");
-		$a_tpl->setVariable("VALUE", $this->getValue());
-		$a_tpl->setVariable('NON_EDITABLE_ID',$this->getPostVar());
+		$a_tpl->setCurrentBlock("prop_generic");
+		$a_tpl->setVariable("PROP_GENERIC", $this->render());
 		$a_tpl->parseCurrentBlock();
 	}
 	
@@ -159,5 +172,13 @@ class ilNonEditableValueGUI extends ilSubEnabledFormPropertyGUI
 		}
 	}
 	
+	/**
+	* Get HTML for table filter
+	*/
+	function getTableFilterHTML()
+	{
+		$html = $this->render();
+		return $html;
+	}
 
 }

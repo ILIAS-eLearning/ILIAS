@@ -36,7 +36,7 @@ class ilFormPropertyGUI
 	protected $info;
 	protected $alert;
 	protected $required = false;
-	protected $parentform;
+	protected $parentgui;
 	
 	/**
 	* Constructor
@@ -49,6 +49,19 @@ class ilFormPropertyGUI
 		$this->setTitle($a_title);
 		$this->setPostVar($a_postvar);
 		$this->setDisabled(false);
+	}
+
+	/**
+	* Execute command.
+	*/
+	function &executeCommand()
+	{
+		global $ilCtrl;
+		
+		$next_class = $ilCtrl->getNextClass($this);
+		$cmd = $ilCtrl->getCmd();
+		
+		return $this->$cmd();
 	}
 
 	/**
@@ -221,7 +234,7 @@ class ilFormPropertyGUI
 	*/
 	function setParentForm($a_parentform)
 	{
-		$this->parentform = $a_parentform;
+		$this->setParent($a_parentform);
 	}
 
 	/**
@@ -231,7 +244,27 @@ class ilFormPropertyGUI
 	*/
 	function getParentForm()
 	{
-		return $this->parentform;
+		return $this->getParent();
+	}
+
+	/**
+	* Set Parent GUI object.
+	*
+	* @param	object	parent gui object
+	*/
+	function setParent($a_val)
+	{
+		$this->parent_gui = $a_val;
+	}
+	
+	/**
+	* Get  Parent GUI object.
+	*
+	* @return	object	parent gui object
+	*/
+	function getParent()
+	{
+		return $this->parent_gui;
 	}
 
 	/**
@@ -285,6 +318,58 @@ class ilFormPropertyGUI
 		}
 		
 		return false;
+	}
+	
+	/**
+	* serialize data
+	*/
+	function serializeData()
+	{
+		return serialize($this->getValue());
+	}
+	
+	/**
+	* unserialize data
+	*/
+	function unserializeData($a_data)
+	{
+		$data = unserialize($a_data);
+
+		if ($data)
+		{
+			$this->setValue($data);
+		}
+		else
+		{
+			$this->setValue(false);
+		}
+	}
+	
+	/**
+	* Write to session
+	*/
+	function writeToSession()
+	{
+		$parent = $this->getParent();
+		if (!is_object($parent))
+		{
+			die("You must set parent for ".get_class($this)." to use serialize feature.");
+		}
+		$_SESSION["form_".$parent->getId()][$this->getFieldId()] =
+			$this->serializeData();
+	}
+
+	/**
+	* Read from session
+	*/
+	function readFromSession()
+	{
+		$parent = $this->getParent();
+		if (!is_object($parent))
+		{
+			die("You must set parent for ".get_class($this)." to use serialize feature.");
+		}
+		$this->unserializeData($_SESSION["form_".$parent->getId()][$this->getFieldId()]);
 	}
 
 }

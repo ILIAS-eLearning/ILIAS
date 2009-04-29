@@ -309,30 +309,38 @@ class ilLearningProgressBaseGUI
 
 	function __showImageByStatus(&$tpl,$a_status,$tpl_prefix = "")
 	{
+		return ilLearningProgressBaseGUI::_showImageByStatus($tpl,$a_status,$tpl_prefix);
+	}
+	
+	// we need this public in table classes
+	public static function _showImageByStatus(&$tpl,$a_status,$tpl_prefix = "")
+	{
+		global $lng;
+		
 		switch($a_status)
 		{
 			case LP_STATUS_IN_PROGRESS:
 			case LP_STATUS_REGISTERED:
 				$tpl->setVariable($tpl_prefix."STATUS_IMG",ilUtil::getImagePath('scorm/incomplete.gif'));
-				$tpl->setVariable($tpl_prefix."STATUS_ALT",$this->lng->txt($a_status));
+				$tpl->setVariable($tpl_prefix."STATUS_ALT",$lng->txt($a_status));
 				break;
 
 			case LP_STATUS_COMPLETED:
 			case LP_STATUS_PARTICIPATED:
 				$tpl->setVariable($tpl_prefix."STATUS_IMG",ilUtil::getImagePath('scorm/complete.gif'));
-				$tpl->setVariable($tpl_prefix."STATUS_ALT",$this->lng->txt($a_status));
+				$tpl->setVariable($tpl_prefix."STATUS_ALT",$lng->txt($a_status));
 				break;
 			
 			case LP_STATUS_NOT_ATTEMPTED:
 			case LP_STATUS_NOT_PARTICIPATED:
 			case LP_STATUS_NOT_REGISTERED:
 				$tpl->setVariable($tpl_prefix."STATUS_IMG",ilUtil::getImagePath('scorm/not_attempted.gif'));
-				$tpl->setVariable($tpl_prefix."STATUS_ALT",$this->lng->txt($a_status));
+				$tpl->setVariable($tpl_prefix."STATUS_ALT",$lng->txt($a_status));
 				break;
 
 			case LP_STATUS_FAILED:
 				$tpl->setVariable($tpl_prefix."STATUS_IMG",ilUtil::getImagePath('scorm/failed.gif'));
-				$tpl->setVariable($tpl_prefix."STATUS_ALT",$this->lng->txt($a_status));
+				$tpl->setVariable($tpl_prefix."STATUS_ALT",$lng->txt($a_status));
 				break;
 		}
 		return true;

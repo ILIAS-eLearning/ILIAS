@@ -1267,6 +1267,7 @@ class ilCtrl
 		{
 			$script = $script."#".$a_anchor;
 		}
+
 		ilUtil::redirect($script);
 	}
 

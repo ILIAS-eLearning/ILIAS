@@ -3,7 +3,7 @@
 	+-----------------------------------------------------------------------------+
 	| ILIAS open source                                                           |
 	+-----------------------------------------------------------------------------+
-	| Copyright (c) 1998-2007 ILIAS open source, University of Cologne            |
+	| Copyright (c) 1998-2009 ILIAS open source, University of Cologne            |
 	|                                                                             |
 	| This program is free software; you can redistribute it and/or               |
 	| modify it under the terms of the GNU General Public License                 |
@@ -21,101 +21,60 @@
 	+-----------------------------------------------------------------------------+
 */
 
-include_once("./Services/Form/classes/class.ilFormPropertyGUI.php");
-
 /**
-* This class represents a property that may include a sub form
+* Form property dispatcher. Forwards control flow to property form input GUI
+* classes.
 *
-* @author Alex Killing <alex.killing@gmx.de> 
+* @author Alex Killing <alex.killing@gmx.de>
 * @version $Id$
-* @ingroup	ServicesForm
+* @ingroup 
 */
-class ilSubEnabledFormPropertyGUI extends ilFormPropertyGUI
+class ilFormPropertyDispatchGUI
 {
-	protected $sub_items = array();
+	/**
+	* Constructor
+	*/
+	function _construct()
+	{
+	}
 	
 	/**
-	* Add Subitem
+	* Set filter item
 	*
-	* @param	object	$a_item		Item
+	* @param	object		filter item
 	*/
-	function addSubItem($a_item)
+	function setFilterItem($a_val)
 	{
-		$this->sub_items[] = $a_item;
+		$this->filter_item = $a_val;
 	}
-
+	
 	/**
-	* Get Subitems
+	* Get filter item
 	*
-	* @return	array	Array of items
+	* @return	object		filter item
 	*/
-	function getSubItems()
+	function getFilterItem()
 	{
-		return $this->sub_items;
+		return $this->filter_item;
 	}
-
+	
 	/**
-	* Check SubItems
-	*
-	* @return	boolean		Input ok, true/false
-	*/	
-	final function checkSubItemsInput()
-	{
-		$ok = true;
-		foreach($this->getSubItems() as $item)
-		{
-			$item_ok = $item->checkInput();
-			if(!$item_ok)
-			{
-				$ok = false;
-			}
-		}
-		return $ok;
-	}
-
-	/**
-	* Get sub form html
-	*
+	* Execute command.
 	*/
-	final function getSubForm()
+	function &executeCommand()
 	{
-		// subitems
-		$pf = null;
-		if (count($this->getSubItems()) > 0)
+		global $ilCtrl;
+		
+		$next_class = $ilCtrl->getNextClass($this);
+		$cmd = $ilCtrl->getCmd();
+		
+//echo "-".strtolower(get_class($this->getFilterItem()))."-".$next_class."-";
+		if (strtolower(get_class($this->getFilterItem())) != $next_class)
 		{
-			$pf = new ilPropertyFormGUI();
-			$pf->setMode("subform");
-			$pf->setItems($this->getSubItems());
-		}
-
-		return $pf;
-	}
-
-	/**
-	* Get item by post var
-	*
-	* @return	mixed	false or item object
-	*/
-	function getItemByPostVar($a_post_var)
-	{
-		if ($this->getPostVar() == $a_post_var)
-		{
-			return $this;
-		}
-
-		foreach($this->getSubItems() as $item)
-		{
-			if ($item->getType() != "section_header")
-			{
-				$ret = $item->getItemByPostVar($a_post_var);
-				if (is_object($ret))
-				{
-					return $ret;
-				}
-			}
+			die("ilFormPropertyDispatch: Forward Error.");
 		}
 		
-		return false;
+		return $ilCtrl->forwardCommand($this->getFilterItem());
 	}
 
 }

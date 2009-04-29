@@ -67,6 +67,7 @@ class ilPropertyFormGUI extends ilFormGUI
 	protected $mode = "std";
 	protected $check_input_called = false;
 	protected $disable_standard_message = false;
+	protected $top_anchor = "il_form_top";
 	
 	/**
 	* Constructor
@@ -183,6 +184,27 @@ class ilPropertyFormGUI extends ilFormGUI
 	{
 		return $this->description;
 	}
+	
+	/**
+	* Set top anchor
+	*
+	* @param	string	top anchor
+	*/
+	function setTopAnchor($a_val)
+	{
+		$this->top_anchor = $a_val;
+	}
+	
+	/**
+	* Get top anchor
+	*
+	* @return	string	top anchor
+	*/
+	function getTopAnchor()
+	{
+		return $this->top_anchor;
+	}
+
 	/**
 	* Add Item (Property, SectionHeader).
 	*
@@ -410,6 +432,7 @@ class ilPropertyFormGUI extends ilFormGUI
 		{
 			$this->tpl->setCurrentBlock("header");
 			$this->tpl->setVariable("TXT_TITLE", $this->getTitle());
+			$this->tpl->setVariable("LABEL", $this->getTopAnchor());
 			$this->tpl->setVariable("TXT_DESCRIPTION", $this->getDescription());
 			$this->tpl->parseCurrentBlock();
 		}

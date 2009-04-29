@@ -106,18 +106,18 @@ class ilLPFilterGUI
 		}
 
 		$tpl->setVariable("TXT_QUERY",$this->lng->txt('trac_query'));
-		$tpl->setVariable("QUERY",ilUtil::prepareFormOutput($this->filter->getQueryString()));
+		$tpl->setVariable("QUERY", ilUtil::prepareFormOutput($this->filter->getQueryString()));
 
 		$tpl->setVariable("UPDATE_AREA",$this->lng->txt('change'));
 		$tpl->setVariable("TYPES",$this->lng->txt('obj_types'));
 		$tpl->setVariable("TYPE_SELECTOR",ilUtil::formSelect($this->filter->getFilterType(),
 															 'type',
-															 $this->__getPossibleTypes(),
+															 $this->getPossibleTypes(),
 															 false,
 															 true));
 		$tpl->setVariable("TXT_HIDDEN",$this->lng->txt('trac_filter_hidden'));
 
-		if(count($hidden = $this->__prepareHidden()))
+		if(count($hidden = $this->prepareHidden()))
 		{
 			$tpl->setVariable("HIDDEN_SELECTOR",ilUtil::formSelect(0,'hide',$hidden,false,true));
 			$tpl->setCurrentBlock("editable");
@@ -207,7 +207,25 @@ class ilLPFilterGUI
 		$this->ctrl->returnToParent($this);
 
 	}
-		
+	
+	function applyFilter()
+	{
+		$hidden = $this->prepareHidden();
+
+		foreach ($hidden as $k => $v)
+		{
+			if (!is_array($_POST["hide"]) ||
+				!in_array($k, $_POST["hide"]))
+			{
+				$this->filter->removeHidden((int) $k);
+			}
+		}
+		$this->filter->setRootNode((int) $_POST['area']);
+
+		$this->filter->update();
+		$this->refresh();
+	}
+	
 	function refresh()
 	{
 		$this->filter->setFilterType($_POST['type']);
@@ -259,22 +277,25 @@ class ilLPFilterGUI
 		return true;
 	}
 
-	function __getPossibleTypes()
+	/**
+	* Get possible subtypes
+	*/
+	static public function getPossibleTypes()
 	{
-		return array('lm' => $this->lng->txt('learning_resources'),
-					 'crs' => $this->lng->txt('objs_crs'),
-					 'tst' => $this->lng->txt('objs_tst'),
-					 'grp' => $this->lng->txt('objs_grp'),
-					 'exc' => $this->lng->txt('objs_exc'));
-					 
+		global $lng;
+
+		return array('lm' => $lng->txt('learning_resources'),
+					 'crs' => $lng->txt('objs_crs'),
+					 'tst' => $lng->txt('objs_tst'),
+					 'grp' => $lng->txt('objs_grp'),
+					 'exc' => $lng->txt('objs_exc'));
 	}
 
-	function __prepareHidden()
+	public function prepareHidden()
 	{
-		$types = $this->filter->prepareType();
-
-
 		global $ilObjDataCache;
+
+		$types = $this->filter->prepareType();
 
 		foreach($this->filter->getHidden() as $obj_id)
 		{

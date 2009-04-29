@@ -36,6 +36,10 @@ class ilTable2GUI extends ilTableGUI
 	protected $close_command = "";
 	private $unique_id;
 	private $headerHTML;
+	protected $top_anchor = "il_table_top";
+	protected $filters = array();
+	protected $optional_filters = array();
+	protected $filter_cols = 4;
 	
 	/**
 	* Constructor
@@ -59,6 +63,40 @@ class ilTable2GUI extends ilTableGUI
 		$this->setLimit($ilUser->getPref("hits_per_page"));
 	}
 	
+	
+	/**
+	* Execute command.
+	*/
+	function &executeCommand()
+	{
+		global $ilCtrl;
+		
+		$next_class = $ilCtrl->getNextClass($this);
+		$cmd = $ilCtrl->getCmd();
+			
+		switch($next_class)
+		{
+			case 'ilformpropertydispatchgui':
+				include_once './Services/Form/classes/class.ilFormPropertyDispatchGUI.php';
+				$form_prop_dispatch = new ilFormPropertyDispatchGUI();
+				$this->initFilter();
+				$item = $this->getFilterItemByPostVar($_GET["postvar"]);
+				$form_prop_dispatch->setFilterItem($item);
+				return $ilCtrl->forwardCommand($form_prop_dispatch);
+				break;
+
+		}
+		return false;
+	}
+
+	/**
+	* Init filter. Overwrite this to initialize all filter input property
+	* objects.
+	*/
+	function initFilter()
+	{
+	}
+	
 	/**
 	* Get parent object
 	*
@@ -79,6 +117,26 @@ class ilTable2GUI extends ilTableGUI
 	 	return $this->parent_cmd;
 	}
 
+	/**
+	* Set top anchor
+	*
+	* @param	string	top anchor
+	*/
+	function setTopAnchor($a_val)
+	{
+		$this->top_anchor = $a_val;
+	}
+	
+	/**
+	* Get top anchor
+	*
+	* @return	string	top anchor
+	*/
+	function getTopAnchor()
+	{
+		return $this->top_anchor;
+	}
+	
 	/**
 	* Set text for an empty table.
 	*
@@ -209,7 +267,74 @@ class ilTable2GUI extends ilTableGUI
 		$this->prefix = $a_prefix;
 	}
 	
+	/**
+	* Add filter item. Filter items are property form inputs that implement
+	* the ilTableFilterItem interface
+	*/
+	final function addFilterItem($a_input_item, $a_optional = false)
+	{
+		$a_input_item->setParent($this);
+		if (!$a_optional)
+		{
+			$this->filters[] = $a_input_item;
+		}
+		else
+		{
+			$this->optional_filters[] = $a_input_item;
+		}
+	}
+	
+	/**
+	* Get filter items
+	*/
+	final function getFilterItems($a_optionals = false)
+	{
+		if (!$a_optionals)
+		{
+			return $this->filters;
+		}
+		return $this->optional_filters;
+	}
+	
+	final function getFilterItemByPostVar($a_post_var)
+	{
+		foreach ($this->getFilterItems() as $item)
+		{
+			if ($item->getPostVar() == $a_post_var)
+			{
+				return $item;
+			}
+		}
+		foreach ($this->getFilterItems(true) as $item)
+		{
+			if ($item->getPostVar() == $a_post_var)
+			{
+				return $item;
+			}
+		}
+		return false;
+	}
 
+	/**
+	* Set filter columns
+	*
+	* @param	int		number of filter columns
+	*/
+	function setFilterCols($a_val)
+	{
+		$this->filter_cols = $a_val;
+	}
+	
+	/**
+	* Get filter columns
+	*
+	* @return	int		number of filter columns
+	*/
+	function getFilterCols()
+	{
+		return $this->filter_cols;
+	}
+	
 	/**
 	* Set Form action parameter.
 	*
@@ -459,7 +584,7 @@ class ilTable2GUI extends ilTableGUI
 		$hash = "";
 		if (is_object($ilUser) && $ilUser->prefs["screen_reader_optimization"])
 		{
-			$hash = "#il_table_head";
+			$hash = "#".$this->getTopAnchor();
 		}
 
 		$old = $_GET[$this->getNavParameter()];
@@ -646,7 +771,7 @@ class ilTable2GUI extends ilTableGUI
 			$hash = "";
 			if (is_object($ilUser) && $ilUser->prefs["screen_reader_optimization"])
 			{
-				$hash = "#il_table_head";
+				$hash = "#".$this->getTopAnchor();
 			}
 
 			$this->tpl->setCurrentBlock("tbl_form_header");
@@ -695,6 +820,19 @@ class ilTable2GUI extends ilTableGUI
 			$this->tpl->setCurrentBlock("tbl_header_description");
 			$this->tpl->setVariable("TBL_DESCRIPTION", $this->getDescription());
 			$this->tpl->parseCurrentBlock();
+		}
+		
+		$this->renderFilter();
+		
+		if ($this->getDisplayAsBlock())
+		{
+			$this->tpl->touchBlock("outer_start_1");
+			$this->tpl->touchBlock("outer_end_1");
+		}
+		else
+		{
+			$this->tpl->touchBlock("outer_start_2");
+			$this->tpl->touchBlock("outer_end_2");
 		}
 		
 		// table title and icon
@@ -752,6 +890,11 @@ class ilTable2GUI extends ilTableGUI
 			$this->tpl->setCurrentBlock("tbl_header_title");
 			$this->tpl->setVariable("COLUMN_COUNT",$this->column_count);
 			$this->tpl->setVariable("TBL_TITLE",$this->title);
+			$this->tpl->setVariable("TOP_ANCHOR",$this->getTopAnchor());
+			if ($this->getDisplayAsBlock())
+			{
+				$this->tpl->setVariable("BLK_CLASS", "Block");
+			}
 			$this->tpl->parseCurrentBlock();
 		}
 
@@ -766,6 +909,62 @@ class ilTable2GUI extends ilTableGUI
 		return $this->tpl->get();
 	}
 
+	/**
+	* Render Filter section
+	*/
+	private function renderFilter()
+	{
+		global $lng;
+		
+		$filter = $this->getFilterItems();
+		$opt_filter = $this->getFilterItems(true);
+
+		if (count($filter) == 0 && count($opt_filter) == 0)
+		{
+			return;
+		}
+
+		// render standard filter (always shown)
+		if (count($filter) > 0)
+		{
+			$ccnt = 0;
+			foreach ($filter as $item)
+			{
+				if ($ccnt >= $this->getFilterCols())
+				{
+					$this->tpl->setCurrentBlock("filter_row");
+					$this->tpl->parseCurrentBlock();
+					$ccnt = 0;
+				}
+				$this->tpl->setCurrentBlock("filter_item");
+				$this->tpl->setVariable("OPTION_NAME",
+					$item->getTitle());
+				$this->tpl->setVariable("F_INPUT_ID",
+					$item->getFieldId());
+				$this->tpl->setVariable("INPUT_HTML",
+					$item->getTableFilterHTML());
+				$this->tpl->parseCurrentBlock();
+				$ccnt++;
+			}
+			if ($ccnt < $this->getFilterCols())
+			{
+				for($i = $ccnt; $i<=$this->getFilterCols(); $i++)
+				{
+					$this->tpl->touchBlock("filter_empty_cell");
+				}
+			}
+			$this->tpl->setCurrentBlock("filter_row");
+			$this->tpl->parseCurrentBlock();
+			
+			$this->tpl->setVariable("TXT_FILTER", $lng->txt("filter"));
+			$this->tpl->setVariable("CMD_APPLY", "applyFilter");
+			$this->tpl->setVariable("TXT_APPLY", $lng->txt("apply_filter"));
+
+			$this->tpl->setCurrentBlock("filter_section");
+			$this->tpl->parseCurrentBlock();
+		}
+	}
+	
 	/**
 	* Standard Version of Fill Row. Most likely to
 	* be overwritten by derived class.
@@ -857,6 +1056,10 @@ class ilTable2GUI extends ilTableGUI
 		{
 			$this->tpl->setCurrentBlock("tbl_footer");
 			$this->tpl->setVariable("COLUMN_COUNT", $this->getColumnCount());
+			if ($this->getDisplayAsBlock())
+			{
+				$this->tpl->setVariable("BLK_CLASS", "Block");
+			}
 			$this->tpl->parseCurrentBlock();
 			
 			// top navigation, if number info or linkbar given
@@ -877,6 +1080,10 @@ class ilTable2GUI extends ilTableGUI
 				}
 				$this->tpl->setCurrentBlock("top_navigation");
 				$this->tpl->setVariable("COLUMN_COUNT", $this->getColumnCount());
+				if ($this->getDisplayAsBlock())
+				{
+					$this->tpl->setVariable("BLK_CLASS", "Block");
+				}
 				$this->tpl->parseCurrentBlock();
 			}
 		}
@@ -896,7 +1103,7 @@ class ilTable2GUI extends ilTableGUI
 		$hash = "";
 		if (is_object($ilUser) && $ilUser->prefs["screen_reader_optimization"])
 		{
-			$hash = "#il_table_head";
+			$hash = "#".$this->getTopAnchor();
 		}
 
 		$link = $ilCtrl->getLinkTargetByClass(get_class($this->parent_obj), $this->parent_cmd).
