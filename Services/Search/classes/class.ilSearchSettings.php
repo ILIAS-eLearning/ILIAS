@@ -201,7 +201,7 @@ class ilSearchSettings
 	{
 		// setSetting writes to db
 		$this->ilias->setSetting('search_max_hits',$this->getMaxHits());
-		$this->ilias->setSetting('search_index',$this->enabledIndex());
+		$this->ilias->setSetting('search_index',(int) $this->enabledIndex());
 		$this->ilias->setSetting('search_lucene',(int) $this->enabledLucene());
 		
 		// BEGIN PATCH Lucene search
