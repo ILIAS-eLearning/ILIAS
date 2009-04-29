@@ -209,10 +209,10 @@ class ilRbacReview
 				if ($count == 0 && strtolower($address->host) == 'ilias')
 				{
 					$q = "SELECT dat.obj_id ".
-						"FROM object_data AS dat ".
-						"JOIN object_reference AS ref ON ref.obj_id = dat.obj_id ".
-						"JOIN tree AS t ON t.child = ref.ref_id ".
-						"WHERE dat.title = ".$this->ilDB->quote($domain)." ".
+						"FROM object_data dat ".
+						"JOIN object_reference ref ON ref.obj_id = dat.obj_id ".
+						"JOIN tree t ON t.child = ref.ref_id ".
+						"WHERE dat.title = ".$this->ilDB->quote($domain ,'text')." ".
 						"AND dat.type = 'role' ".
 						"AND t.tree = 1 ";
 					$r = $this->ilDB->query($q);
@@ -366,7 +366,8 @@ class ilRbacReview
 				"JOIN object_reference ref ON ref.obj_id = dat.obj_id ".
 				"JOIN tree ON tree.child = ref.ref_id ".
 				"WHERE title = ".$this->ilDB->quote($object_title,'text')." ".
-				"AND tree.tree = 1";
+				"AND tree.tree = 1 ".
+				"GROUP BY dat.obj_id";
 			$r = $this->ilDB->query($q);
 			$row = $r->fetchRow(DB_FETCHMODE_OBJECT);
 
@@ -422,7 +423,8 @@ class ilRbacReview
 					"JOIN object_reference ref ON ref.obj_id = dat.obj_id ".
 					"JOIN tree ON tree.child = ref.ref_id ".
 					"WHERE title = ".$this->ilDB->quote($local_part,'text')." ".
-					"AND tree.tree = 1";
+					"AND tree.tree = 1 ".
+					"GROUP BY dat.obj_id";
 			}
 			else
 			{
@@ -433,7 +435,8 @@ class ilRbacReview
 					 "WHERE fa.assign = 'y' ".
 					 "AND t.parent = ".$this->ilDB->quote($object_ref,'integer')." ".
 					 "AND rd.title LIKE ".$this->ilDB->quote(
-						'%'.preg_replace('/([_%])/','\\\\$1', $local_part).'%','text');
+						'%'.preg_replace('/([_%])/','\\\\$1', $local_part).'%','text')." ".
+					"GROUP BY rd.obj_id";
 			}
 
 			$r = $this->ilDB->query($q);
@@ -494,7 +497,7 @@ class ilRbacReview
 		{
 			$q = "SELECT title ".
 				"FROM object_data ".
-				"WHERE obj_id = ".$this->ilDB->quote($a_role_id);
+				"WHERE obj_id = ".$this->ilDB->quote($a_role_id ,'integer');
 			$r = $this->ilDB->query($q);
 
 			if ($row = $r->fetchRow(DB_FETCHMODE_OBJECT))
@@ -528,10 +531,11 @@ class ilRbacReview
 		
 		$clause = ($a_id) ? " AND obj_id != ".$ilDB->quote($a_id)." " : "";
 		
-		$q = "SELECT DISTINCT(obj_id) as obj_id FROM object_data ".
+		$q = "SELECT DISTINCT(obj_id) obj_id FROM object_data ".
 			 "WHERE title =".$ilDB->quote($a_title)." ".
 			 "AND type IN('role','rolt')".
-			 $clause;
+			 $clause." ".
+			 "GROUP BY obj_id";
 		$r = $this->ilDB->query($q);
 
 		while($row = $r->fetchRow(DB_FETCHMODE_OBJECT))
@@ -758,7 +762,8 @@ class ilRbacReview
 		$query = "SELECT DISTINCT * FROM object_data ".
 			 "JOIN rbac_fa ".$where.
 			 "AND object_data.obj_id = rbac_fa.rol_id ".
-			 "AND rbac_fa.assign = 'y'";
+			 "AND rbac_fa.assign = 'y' ".
+			 "GROUP BY object_data.obj_id";
 		$res = $ilDB->query($query);
 
 		while ($row = $ilDB->fetchAssoc($res))
@@ -1390,7 +1395,7 @@ class ilRbacReview
 	{
 		global $ilDB;
 		
-		$query = "SELECT * FROM object_data WHERE type = 'typ' AND title = ".$ilDB->quote($a_type)." ";
+		$query = "SELECT * FROM object_data WHERE type = 'typ' AND title = ".$ilDB->quote($a_type ,'text')." ";
 
 		$res = $this->ilDB->query($query);
 		while($row = $res->fetchRow(DB_FETCHMODE_OBJECT))
@@ -1511,7 +1516,8 @@ class ilRbacReview
 		$query = "SELECT DISTINCT * FROM object_data ".
 			 "JOIN rbac_fa ".$where.
 			 "AND object_data.obj_id = rbac_fa.rol_id ".
-			 "AND rbac_fa.assign = ".$ilDB->quote($assign,'text')." ";
+			 "AND rbac_fa.assign = ".$ilDB->quote($assign,'text')." ".
+			 "GROUP BY object_data.obj_id";
 		
 		$res = $ilDB->query($query);
 		while($row = $ilDB->fetchAssoc($res))
@@ -1546,7 +1552,7 @@ class ilRbacReview
 		global $ilDB;
 
 		$q = "SELECT obj_id FROM object_data ".
-			 "WHERE title=".$ilDB->quote($a_type)." AND type='typ'";
+			 "WHERE title=".$ilDB->quote($a_type ,'text')." AND type='typ'";
 		$r = $ilDB->query($q);
 		
 		$row = $r->fetchRow(DB_FETCHMODE_OBJECT);
@@ -1831,7 +1837,8 @@ class ilRbacReview
 			 "JOIN rbac_fa ".$where.
 			 "AND object_data.obj_id = rbac_fa.rol_id ".
 			 "AND rbac_fa.assign = 'y' " .
-			 'AND '.$ilDB->in('object_data.obj_id',$role_ids,false,'integer');
+			 'AND '.$ilDB->in('object_data.obj_id',$role_ids,false,'integer')." ".
+			 "GROUP BY object_data.obj_id";
 		
 		$res = $ilDB->query($query);
 		while($row = $ilDB->fetchAssoc($res))

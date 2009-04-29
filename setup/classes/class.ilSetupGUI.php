@@ -2026,6 +2026,7 @@ class ilSetupGUI
 			// output version
 			$this->tpl->setVariable("TXT_DB_VERSION", $this->lng->txt("version"));
 			$this->tpl->setVariable("VAL_DB_VERSION", $ilDB->getDBVersion());
+			$this->tpl->setVariable('VAL_DB_TYPE',$ilDB->getDBType());
 			//$this->tpl->setVariable("TXT_DB_MODE", $this->lng->txt("ilias_db_mode"));
 			
 			/*if ($ilDB->isMySQL4_1OrHigher())
@@ -2080,6 +2081,10 @@ class ilSetupGUI
 				$this->tpl->setVariable("COLLATION_INFO2", "<br />".$this->lng->txt("info_text_db_collation2")." ".
 					"<a target=\"_new\" href=\"http://dev.mysql.com/doc/mysql/en/charset-unicode-sets.html\">".
 					" MySQL Reference Manual :: 10.11.1 Unicode Character Sets</a>");
+			}
+			else
+			{
+				$this->setup->getClient()->getDB()->getDBVersion();
 			}
 		}
 		

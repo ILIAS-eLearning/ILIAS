@@ -63,6 +63,19 @@ class ilDBOracle extends ilDB
 		return "oracle";
 	}
 	
+	public function getDBVersion()
+	{
+		$query = 'SELECT * FROM v$version';
+		$res = $this->db->query($query);
+		
+		if(MDB2::isError($res))
+		{
+			return parent::getDBVersion();
+		}
+		$row = $res->fetchRow(DB_FETCHMODE_ASSOC);
+		return isset($row['banner']) ? $row['banner'] : parent::getDBVersion();
+	}
+	
 	/**
 	* Get reserved words
 	*/

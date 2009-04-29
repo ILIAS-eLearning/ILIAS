@@ -104,7 +104,7 @@ class ilContainerReference extends ilObject
 	 	
 	 	$query = "SELECT title FROM object_data od ".
 	 		"JOIN container_reference cr ON target_obj_id = od.obj_id ".
-	 		"WHERE cr.obj_id = ".$ilDB->quote($a_obj_id);
+	 		"WHERE cr.obj_id = ".$ilDB->quote($a_obj_id ,'integer');
 	 	$res = $ilDB->query($query);
 	 	while($row = $res->fetchRow(DB_FETCHMODE_OBJECT))
 	 	{
