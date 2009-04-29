@@ -304,12 +304,23 @@ class ilSearch
 
 	function __updateDBResult()
 	{
+		global $ilDB;
+		
 		if ($this->getUserId() != 0 and $this->getUserId() != ANONYMOUS_USER_ID)
 		{
-			$query = "REPLACE INTO usr_search ".
-				"VALUES(".$this->ilias->db->quote($this->getUserId()).",'".addslashes(serialize($this->getResults()))."','0')";
+			$ilDB->manipulate("DELETE FROM usr_search ".
+				"WHERE usr_id = ".$ilDB->quote($this->getUserId() ,'integer')." ".
+				"AND search_type = 0 ");
 
-			$res = $this->ilias->db->query($query);
+			$ilDB->insert('usr_search',array(
+				'usr_id'		=> array('integer',$this->getUserId()),
+				'search_result'	=> array('clob',serialize($this->getResults())),
+				'checked'		=> array('clob',serialize(array())),
+				'failed'		=> array('clob',serialize(array())),
+				'page'			=> array('integer',0),
+				'search_type'	=> array('integer',0),
+				'query'			=> array('text',''),
+				'root'			=> array('integer',ROOT_FOLDER_ID)));
 
 			return true;
 		}
@@ -319,13 +330,15 @@ class ilSearch
 	
 	function __readDBResult()
 	{
+		global $ilDB;
+		
 		if ($this->getUserId() != 0 and $this->getUserId() != ANONYMOUS_USER_ID and $this->read_db_result)
 		{
 			$query = "SELECT search_result FROM usr_search ".
-				"WHERE usr_id = ".$this->ilias->db->quote($this->getUserId())." ";
+				"WHERE usr_id = ".$ilDB->quote($this->getUserId() ,'integer');
+			
 
-			$res = $this->ilias->db->query($query);
-
+			$res = $ilDB->query($query);
 			if ($res->numRows())
 			{
 				$row = $res->fetchRow(DB_FETCHMODE_OBJECT);

@@ -11448,3 +11448,8 @@ ALTER TABLE `event` CHANGE `details` `details` VARCHAR( 4000 ) NOT NULL;
 $ilCtrlStructureReader->getStructure();
 ?>
 
+<#2369>
+<?php
+	$ilMySQLAbstraction->performAbstraction('usr_search');
+?>
+
