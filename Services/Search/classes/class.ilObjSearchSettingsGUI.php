@@ -214,7 +214,7 @@ class ilObjSearchSettingsGUI extends ilObjectGUI
 		{
 			case ilSearchSettings::LIKE_SEARCH:
 				$settings->enableIndex(false);
-				$settings->enabledLucene(false);
+				$settings->enableLucene(false);
 				break;
 			case ilSearchSettings::INDEX_SEARCH:
 				$settings->enableIndex(true);
