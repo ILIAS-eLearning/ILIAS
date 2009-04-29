@@ -172,6 +172,7 @@ class ilBookmarkAdministrationGUI
 		}
 
 		$exp->setExpand($expanded);
+		$exp->highlightNode($_GET["bmf_id"]);
 
 		// build html-output
 		$exp->setOutput(0);
@@ -226,8 +227,8 @@ class ilBookmarkAdministrationGUI
 				? "flat"
 				: "tree";
 
-		$this->tpl->setTreeFlatIcon($this->ctrl->getLinkTarget($this)."&set_mode=".$s_mode,
-			$s_mode);
+//		$this->tpl->setTreeFlatIcon($this->ctrl->getLinkTarget($this)."&set_mode=".$s_mode,
+//			$s_mode);
 
 		include_once 'Services/PersonalDesktop/classes/class.ilBookmarkAdministrationTableGUI.php';
 		$table = new ilBookmarkAdministrationTableGUI($this);
@@ -364,9 +365,11 @@ return;
 	*/
 	private function initFormBookmarkFolder($action = 'createBookmarkFolder')
 	{
-		global $lng, $ilCtrl;
+		global $lng, $ilCtrl, $ilUser;
+
 		include_once 'Services/Form/classes/class.ilPropertyFormGUI.php';
 		$form = new ilPropertyFormGUI();
+		$form->setTopAnchor("bookmark_top");
 		
 		$form->setTitle($lng->txt("bookmark_folder_new"));
 		
@@ -376,7 +379,11 @@ return;
 			$ilCtrl->setParameter($this, 'obj_id', $_GET["obj_id"]);
 		}
 		
-		$form->setFormAction($ilCtrl->getFormAction($this));
+		$hash = ($ilUser->prefs["screen_reader_optimization"])
+			? "bookmark_top"
+			: "";
+
+		$form->setFormAction($ilCtrl->getFormAction($this, $action, $hash));
 		
 		$ilCtrl->clearParameters($this);
 
@@ -416,9 +423,11 @@ return;
 	*/
 	private function initFormBookmark($action = 'createBookmark')
 	{
-		global $lng, $ilCtrl;
+		global $lng, $ilCtrl, $ilUser;
+
 		include_once 'Services/Form/classes/class.ilPropertyFormGUI.php';
 		$form = new ilPropertyFormGUI();
+		$form->setTopAnchor("bookmark_top");
 		
 		$form->setTitle($lng->txt("bookmark_new"));
 		
@@ -428,7 +437,11 @@ return;
 			$ilCtrl->setParameter($this, 'obj_id', $_GET["obj_id"]);
 		}
 		
-		$form->setFormAction($ilCtrl->getFormAction($this));
+		$hash = ($ilUser->prefs["screen_reader_optimization"])
+			? "bookmark_top"
+			: "";
+
+		$form->setFormAction($ilCtrl->getFormAction($this, $action, $hash));
 		$ilCtrl->clearParameters($this);
 		// title
 		$prop = new ilTextInputGUI($lng->txt("title"), "title");

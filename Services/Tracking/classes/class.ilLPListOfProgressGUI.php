@@ -28,7 +28,7 @@
    *
    * @version $Id$
    *
-   * @ilCtrl_Calls ilLPListOfProgressGUI: ilLPFilterGUI, ilPDFPresentation
+   * @ilCtrl_Calls ilLPListOfProgressGUI: ilLPFilterGUI, ilPDFPresentation, ilLPProgressTableGUI
    *
    * @package ilias-tracking
    *
@@ -82,6 +82,14 @@ class ilLPListOfProgressGUI extends ilLearningProgressBaseGUI
 				$this->ctrl->forwardCommand($pdf_gui);
 				break;
 
+			case 'illpprogresstablegui':
+				include_once("./Services/Tracking/classes/class.ilLPProgressTableGUI.php");
+				$lp_table = new ilLPProgressTableGUI($this, "");
+				$lp_table->initFilter();
+				$this->ctrl->setReturn($this,'show');
+				$this->ctrl->forwardCommand($lp_table);
+				break;
+				
 			default:
 				$cmd = $this->__getDefaultCommand();
 				$this->$cmd();
@@ -93,7 +101,7 @@ class ilLPListOfProgressGUI extends ilLearningProgressBaseGUI
 	function show()
 	{
 		global $ilObjDataCache;
-	
+
 		switch($this->getMode())
 		{
 			// Show only detail of current repository item if called from repository
@@ -330,7 +338,6 @@ class ilLPListOfProgressGUI extends ilLearningProgressBaseGUI
 
 	function __appendUserInfo(&$info)
 	{
-
 		if($this->show_user_info)
 		{
 			$info->addSection($this->lng->txt("trac_user_data"));
@@ -340,8 +347,9 @@ class ilLPListOfProgressGUI extends ilLearningProgressBaseGUI
 				ilDatePresentation::formatDate(new ilDateTime($this->tracked_user->getLastLogin(),IL_CAL_DATETIME)));
 			$info->addProperty($this->lng->txt('trac_total_online'),
 							   ilFormat::_secondsToString(ilOnlineTracking::_getOnlineTime($this->tracked_user->getId())));
+			return true;
 		}
-
+		return false;
 	}
 
 	function __showFilter()
@@ -356,15 +364,17 @@ class ilLPListOfProgressGUI extends ilLearningProgressBaseGUI
 		include_once './Services/Tracking/classes/ItemList/class.ilLPItemListFactory.php';
 
 		$this->tpl->addBlockFile('ADM_CONTENT','adm_content','tpl.lp_list_progress.html','Services/Tracking');
-		$this->__showFilter();
+//		$this->__showFilter();
 
 		// User info
 		include_once("./Services/InfoScreen/classes/class.ilInfoScreenGUI.php");
 		$info = new ilInfoScreenGUI($this);
 		$info->setFormAction($ilCtrl->getFormAction($this));
 		
-		$this->__appendUserInfo($info);
-		$this->tpl->setVariable("USER_INFO",$info->getHTML());
+		if ($this->__appendUserInfo($info))
+		{
+			$this->tpl->setVariable("USER_INFO",$info->getHTML());
+		}
 
 		if($this->activePDF())
 		{
@@ -377,7 +387,7 @@ class ilLPListOfProgressGUI extends ilLearningProgressBaseGUI
 		if(!count($objs = $this->filter->getObjects()))
 		{
 			ilUtil::sendInfo($this->lng->txt('trac_filter_no_access'));
-			return true;
+//			return true;
 		}
 
 		// Output filter limit info
@@ -388,19 +398,20 @@ class ilLPListOfProgressGUI extends ilLearningProgressBaseGUI
 		}
 
 		$type = $this->filter->getFilterType();
-		$tpl->setVariable("HEADER_IMG",ilUtil::getImagePath('icon_'.$type.'.gif'));
+		
+/*		$tpl->setVariable("HEADER_IMG",ilUtil::getImagePath('icon_'.$type.'.gif'));
 		$tpl->setVariable("HEADER_ALT",$this->lng->txt('objs_'.$type));
 		$tpl->setVariable("BLOCK_HEADER_CONTENT",$this->lng->txt('objs_'.$type));
 
 		// Show table header
 		$tpl->setVariable("HEAD_STATUS",$this->lng->txt('trac_status'));
 		$tpl->setVariable("HEAD_OPTIONS",$this->lng->txt('actions'));
-
+*/
 		// Sort objects by title
 		$sorted_objs = $this->__sort(array_keys($objs),'object_data','title','obj_id');
 		// Render item list
 		$counter = 0;
-		foreach($sorted_objs as $object_id)
+/*		foreach($sorted_objs as $object_id)
 		{
 			$item_list =& ilLPItemListFactory::_getInstance(0,$object_id,$ilObjDataCache->lookupType($object_id));
 			$item_list->setCurrentUser($this->tracked_user->getId());
@@ -431,14 +442,22 @@ class ilLPListOfProgressGUI extends ilLearningProgressBaseGUI
 			$this->__showImageByStatus($tpl,$item_list->getUserStatus());
 			$tpl->setVariable("TBLROW",ilUtil::switchColor($counter++,'tblrow1','tblrow2'));
 			$tpl->parseCurrentBlock();
-		}
+		}*/
+		
+// new table
+reset($sorted_objs);
+include_once("./Services/Tracking/classes/class.ilLPProgressTableGUI.php");
+$lp_table = new ilLPProgressTableGUI($this, "", $type, $this->tracked_user, $sorted_objs);
+$lp_table->setData($sorted_objs);
+//$tpl->setVariable("LP_TABLE", $lp_table->getHTML());
+$this->tpl->setVariable("LP_OBJECTS", $lp_table->getHTML());
 
 		// Hide button
-		$tpl->setVariable("DOWNRIGHT",ilUtil::getImagePath('arrow_downright.gif'));
+/*		$tpl->setVariable("DOWNRIGHT",ilUtil::getImagePath('arrow_downright.gif'));
 		$tpl->setVariable("BTN_HIDE_SELECTED",$this->lng->txt('trac_hide'));
 		$tpl->setVariable("FORMACTION",$this->ctrl->getFormActionByClass('illpfiltergui'));
-
-		$this->tpl->setVariable("LP_OBJECTS",$tpl->get());
+*/
+//		$this->tpl->setVariable("LP_OBJECTS",$tpl->get());
 		$this->tpl->setVariable("LEGEND", $this->__getLegendHTML());
 	}
 		

@@ -1369,8 +1369,8 @@ common#:#application_completed#:#Application is complete
 common#:#application_date#:#Application Date
 common#:#applied_users#:#Applied users
 common#:#apply#:#Apply
-common#:#apply_filter#:#Apply filter
-common#:#reset_filter#:#Reset filter
+common#:#apply_filter#:#Apply Filter
+common#:#reset_filter#:#Reset Filter
 common#:#activate#:#Set Active
 common#:#deactivate#:#Set Inactive
 common#:#appointment#:#Appointment
@@ -2182,9 +2182,9 @@ common#:#filename#:#Filename
 common#:#files#:#Files
 common#:#files_location#:#Files Location
 common#:#fill_out_all_required_fields#:#Please fill out all required fields
-common#:#filter#:#Filter:
+common#:#filter#:#Filter
 common#:#firstname#:#First Name
-common#:#flatview#:#Flat View
+common#:#flatview#:#Hide Sidebar
 common#:#fold#:#Folder
 common#:#fold_a#:#a Folder
 common#:#fold_add#:#Add Folder
@@ -3993,7 +3993,7 @@ common#:#tree_frame#:#Tree Frame
 common#:#tree_frame_info#:#Defines whether the tree frame (e.g. repository tree) should appear on the left or on the right.
 common#:#tree_left#:#Left
 common#:#tree_right#:#Right
-common#:#treeview#:#Tree View
+common#:#treeview#:#Show Sidebar
 common#:#tst#:#Test
 common#:#tst_add#:#Add test
 common#:#tst_anon_eval#:#Results
@@ -7434,7 +7434,7 @@ trac#:#trac_occurrences#:#Path:
 trac#:#trac_participated#:#Participated
 trac#:#trac_processing_time#:#Assumed Processing Time
 trac#:#trac_progress#:#Personal Learning Progress
-trac#:#trac_query#:#Title / Description:
+trac#:#trac_title_description#:#Title / Description
 trac#:#trac_reached_objectives#:#Reached Learning Objectives
 trac#:#trac_reached_points#:#Achieved Score
 trac#:#trac_reached_visits#:#Required Visits
@@ -9257,3 +9257,5 @@ common#:#user_image#:#User Image
 ps#:#ps_prevent_simultaneous_logins#:#Prevent Simultaneous Logins
 ps#:#ps_prevent_simultaneous_logins_info#:#If enabled, simultaneous logins with the same account from different computers are not possible.
 common#:#simultaneous_login_detected#:#Your access is denied because of a simultaneous login with the same account.
+trac#:#trac_select_area#:#Select Area
+trac#:#trac_hide_selected#:#Hide Selected Items

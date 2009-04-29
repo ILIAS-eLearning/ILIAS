@@ -21,6 +21,9 @@
 	+-----------------------------------------------------------------------------+
 */
 
+include_once("./Services/Table/interfaces/interface.ilTableFilterItem.php");
+include_once("./Services/Form/classes/class.ilSubEnabledFormPropertyGUI.php");
+
 /**
 * This class represents a text property in a property form.
 *
@@ -28,7 +31,7 @@
 * @version $Id$
 * @ingroup	ServicesForm
 */
-class ilTextInputGUI extends ilSubEnabledFormPropertyGUI
+class ilTextInputGUI extends ilSubEnabledFormPropertyGUI implements ilTableFilterItem
 {
 	protected $value;
 	protected $maxlength = 200;
@@ -282,11 +285,9 @@ class ilTextInputGUI extends ilSubEnabledFormPropertyGUI
 	}
 	
 	/**
-	* Insert property html
-	*
-	* @return	int	Size
+	* Render item
 	*/
-	function insert(&$a_tpl)
+	protected function render()
 	{
 		$tpl = new ilTemplate("tpl.prop_textinput.html", true, true, "Services/Form");
 		if (strlen($this->getValue()))
@@ -338,9 +339,31 @@ class ilTextInputGUI extends ilSubEnabledFormPropertyGUI
 				$tpl->setVariable('DELIMITER_ARRAY', ilJsonUtil::encode($this->getDataSourceDelimiter()));	
 			}
 		}
+		
+		return $tpl->get();
+	}
+	
+	/**
+	* Insert property html
+	*
+	* @return	int	Size
+	*/
+	function insert(&$a_tpl)
+	{
+		$html = $this->render();
 
 		$a_tpl->setCurrentBlock("prop_generic");
-		$a_tpl->setVariable("PROP_GENERIC", $tpl->get());
+		$a_tpl->setVariable("PROP_GENERIC", $html);
 		$a_tpl->parseCurrentBlock();
 	}
+	
+	/**
+	* Get HTML for table filter
+	*/
+	function getTableFilterHTML()
+	{
+		$html = $this->render();
+		return $html;
+	}
+	
 }

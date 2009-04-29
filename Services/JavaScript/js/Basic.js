@@ -130,7 +130,8 @@ function setChecked(the_form, checkbox_name, do_check)
 	for (var i=0;i<document.forms[the_form].elements.length;i++)
 	{
 		var e = document.forms[the_form].elements[i];
-		if (e.name.indexOf(checkbox_name) == 0)
+
+		if (e.name != undefined && e.name.indexOf(checkbox_name) == 0)
 		{
 			e.checked = do_check;
 		}

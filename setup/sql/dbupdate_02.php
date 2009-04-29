@@ -11443,3 +11443,8 @@ ALTER TABLE `event` CHANGE `details` `details` VARCHAR( 4000 ) NOT NULL;
 <?php
 	$ilDB->dropIndex('ut_lp_marks','i1');
 ?>
+<#2368>
+<?php
+$ilCtrlStructureReader->getStructure();
+?>
+

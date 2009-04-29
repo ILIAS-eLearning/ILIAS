@@ -78,8 +78,16 @@ class ilNavigationHistoryGUI
 					$lng->txt("obj_".$item["type"]), "_top");
 			}
 		}
-
-		return $selection->getHTML();
+		$html = $selection->getHTML();
+		
+		if ($html == "")
+		{
+			$selection->addItem($lng->txt("no_items"), "", "#",
+				"", "", "_top");
+			$selection->setUseImages(false);
+			$html = $selection->getHTML();
+		}
+		return $html;
 	}
 	
 	/**

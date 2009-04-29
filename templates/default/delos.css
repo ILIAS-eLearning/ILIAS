@@ -683,6 +683,16 @@ input[type=text], input[type=file], input[type=password]
 	padding:3px;
 }
 
+div.input
+{
+	border-width: 1px;
+	border-style: solid;
+	border-color: #E0E0E0;
+	background-color: #FFFFFF;
+	padding:3px;
+	overflow: auto;
+}
+
 select
 {
 	font-size: 90%;
@@ -733,7 +743,7 @@ table.il_InfoScreen
 	border-collapse:collapse;
 	border-width:1px;
 	border-style:solid;
-	border-color:#9EADBA;
+	border-color:#D6D6D6;
 }
 
 th.il_InfoScreen
@@ -741,12 +751,12 @@ th.il_InfoScreen
 	text-align:left;
 }
 
-div.il_InfoScreenSection,th.il_InfoScreenSection
+h3.il_InfoScreenSection,th.il_InfoScreenSection
 {
 	margin: 10px 4px 8px 4px;
 	border-bottom-width:1px;
 	border-bottom-style:solid;
-	border-bottom-color:#909090;
+	border-bottom-color:#D6D6D6;
 	color:#909090;
 	font-weight:normal;
 	font-size:130%;
@@ -790,7 +800,7 @@ td.ilExpBody{
 	padding: 10px 5px;
 }
 
-h3.ilExplorerHead
+h1.ilExplorerHead
 {
 	color: #404040;
 	margin: 0px;
@@ -844,7 +854,7 @@ a.il_HighlightedNode
 
 div.il_ExplorerItemDescription
 {
-	margin-left: 44px;
+	margin-left: 40px;
 }
 
 a.ilTreeView {
@@ -2249,19 +2259,29 @@ td.ilBlockHeader
 {
 	font-weight: bold;
 	padding: 3px;
-	background-color: #F3F3F3;
 	text-align:left;
 	font-size: 90%;
 	color: #404040;
+	background-color: #F8F8F8;
+	background-image: url(images/block_top.gif);
+	background-repeat: repeat-x;
+	border-bottom-width:1px;
+	border-bottom-style:solid;
+	border-bottom-color:#E9E9E9;
 }
 
 td.ilBlockHeaderBig
 {
 	font-weight: bold;
 	padding: 3px;
-	background-color: #F3F3F3;
 	text-align:left;
 	color: #404040;
+	background-color: #F8F8F8;
+	background-image: url(images/block_top.gif);
+	background-repeat: repeat-x;
+	border-bottom-width:1px;
+	border-bottom-style:solid;
+	border-bottom-color:#E9E9E9;
 }
 
 h3.ilBlockHeader
@@ -2295,6 +2315,11 @@ th.ilContainerBlockHeader
 	text-align:left;
 	vertical-align: middle;
 	background-color: #F8F8F8;
+	background-image: url(images/block_top.gif);
+	background-repeat: repeat-x;
+	border-bottom-width:1px;
+	border-bottom-style:solid;
+	border-bottom-color:#E9E9E9;
 }
 
 h3.ilContainerBlockHeader
@@ -2341,9 +2366,16 @@ h3.ilPDBlockSubHeader
 
 /* Tables */
 
-div.tblfooter {
+div.tblfooter, div.ilTableNavBlock {
 	font-weight:normal;
 	background-color: #F5F5F5;
+	padding: 3px;
+	font-size: 80%;
+	text-align:right;
+}
+
+div.ilTableNav {
+	font-weight:normal;
 	padding: 3px;
 	font-size: 80%;
 	text-align:right;
@@ -2445,19 +2477,41 @@ div.il_adv_cont {
 }
 
 /* tables */
-
-div.ilTableHeaderTitle
+div.ilTableHeaderTitleBlock
 {
 	font-weight: bold;
-	background-color: #F3F3F3;
 	padding: 3px;
 	font-size: 90%;
 	color: #404040;
+	background-color: #F8F8F8;
+	background-image: url(images/block_top.gif);
+	background-repeat: repeat-x;
+	border-bottom-width:1px;
+	border-bottom-style:solid;
+	border-bottom-color:#E9E9E9;
 }
 
-h3.ilTableHeaderTitle
+div.ilTableHeaderTitle
 {
+	margin: 0px 0px 5px 0px;
+	padding: 0px 0px 2px 0px;
+	font-size: 120%;
+	color: #404040;
+	border-bottom-width:1px;
+	border-bottom-style:solid;
+	border-bottom-color:#E9E9E9;
+}
+
+h3.ilTableHeaderTitleBlock {
 	font-weight: bold;
+	font-size: 100%;
+	display:inline;
+	padding: 0px;
+	margin: 0px;
+}
+
+h3.ilTableHeaderTitle {
+	font-weight: normal;
 	font-size: 100%;
 	display:inline;
 	padding: 0px;
@@ -2487,6 +2541,56 @@ div.ilTableCommandRow
 span.ilTableFootLight
 {
 	color: #909090;
+}
+
+div.ilTableFilter {
+	padding: 0px 10px 5px 10px;
+	margin: 0px;
+}
+
+legend.ilTableFilter {
+	font-size: 80%;
+	border-width: 0px;
+	padding: 2px 5px;
+	margin: 0px;
+	font-weight: normal;
+}
+
+fieldset.ilTableFilter {
+	border: 1px #D0D0D0 solid;
+	background-color: #F9F9F9;
+	padding: 5px;
+	margin: 5px;
+}
+
+div.ilTableFilterLabel {
+	font-style: italic;
+	border-bottom: 1px #C0C0C0 solid;
+	background-color: #F0F0F0;
+	padding: 3px 5px;
+}
+
+div.ilTableFilterInput {
+	min-width: 150px;
+	padding: 5px 0px;
+}
+
+td.ilFilterOption {
+	text-align: left;
+	vertical-align: top;
+	font-size: 80%;
+	white-space: nowrap;
+	padding: 0px 5px 5px 0px;
+	min-width: 150px;
+}
+
+
+td.ilFilterType {
+	font-size: 80%;
+	font-weight: bold;
+	text-align: left;
+	white-space: nowrap;
+	padding: 3px;
 }
 
 table.fullwidth {

@@ -2055,7 +2055,7 @@ common#:#files#:#Dateien
 common#:#fill_out_all_required_fields#:#Bitte füllen Sie alle benötigten Felder aus
 common#:#filter#:#Filter:
 common#:#firstname#:#Vorname
-common#:#flatview#:#Flache Ansicht
+common#:#flatview#:#Baumansicht ausschalten
 common#:#fold_a#:#ein Ordner
 common#:#fold_add#:#Ordner anlegen
 common#:#fold_added#:#Ordner angelegt
@@ -3748,7 +3748,7 @@ common#:#tree_frame_info#:#Legt fest, ob die Baumansicht (z.B. im Magazin) auf d
 common#:#tree_frame#:#Baumansicht
 common#:#tree_left#:#Links
 common#:#tree_right#:#Rechts
-common#:#treeview#:#Baumansicht
+common#:#treeview#:#Baumansicht einschalten
 common#:#tst_add#:#Test hinzufügen
 common#:#tst_anon_eval#:#Resultate
 common#:#tst_copy#:#Test kopieren
@@ -7249,7 +7249,7 @@ trac#:#info_valid_request#:#Finden zwei Anfragen eines Benutzers innerhalb diese
 trac#:#last_login#:#Letztes Login
 trac#:#meta_typical_learning_time#:#Typische Lernzeit
 trac#:#newUT_settings#:#Lernmodul Statistik
-trac#:#obj_types#:#Objekttypen:
+trac#:#obj_types#:#Objekttypen
 trac#:#search_area_info#:#Bitte wählen Sie ein Objekt aus.
 trac#:#search_terms#:#Suchbegriff(e)
 trac#:#select_one#:#Bitte wählen Sie ein Objekt aus.
@@ -7373,8 +7373,8 @@ trac#:#trac_edit_visits#:#Bitte stellen Sie nun die notwendige Anzahl der Besuch
 trac#:#trac_edited_scos#:#Bearbeitete Inhalte
 trac#:#trac_editing_time_passed#:#Bearbeitungszeit überschritten
 trac#:#trac_failed#:#Nicht bestanden
-trac#:#trac_filter_area#:#Bereich:
-trac#:#trac_filter_hidden#:#Ausgeblendet:
+trac#:#trac_filter_area#:#Bereich
+trac#:#trac_filter_hidden#:#Ausgeblendet
 trac#:#trac_filter_limit_reached#:#Es können nur %s Treffer dargestellt werden. Bitte benutzen Sie den Filter, um die Auswahl einzuschränken.
 trac#:#trac_filter_no_access#:#Es wurden keine passenden Objekte gefunden.
 trac#:#trac_filter_none#:#Keine
@@ -8626,7 +8626,7 @@ cntr#:#cntr_switch_to_new_editor_message#:#Dies ist der Standard-Seiteneditor. W
 cntr#:#cntr_switch_to_new_editor_cmd#:#Zu untenstehenden Inhalten wechseln. Alte Inhalte werden gelöscht.
 cntr#:#cntr_switched_editor#:#Auf neue Darstellung umgestellt
 cntr#:#cntr_view_sessions#:#Sitzungsansicht
-common#:#no_items#:#Keine Elemente
+common#:#no_items#:#Keine Einträge
 content#:#cont_first_row_style#:#Stil der ersten Zeile
 content#:#cont_selected_items_have_been_copied#:#Die ausgewählten Elemente wurden in die Zwischenablage kopiert. Klicken Sie jetzt auf den entsprechenden Platzhalter, um diese in das Lernmodul einzufügen
 content#:#cont_selected_items_have_been_cut#:#Die ausgewählten Elemente wurden in die Zwischenablage verschoben. Klicken Sie jetzt auf den entsprechenden Platzhalter, um diese in das Lernmodul einzufügen.
@@ -9219,3 +9219,6 @@ search#:#lucene_all_occurrences#:#... %s weitere(s) Vorkommen
 ps#:#ps_prevent_simultaneous_logins#:#Verhindern gleichzeitiger Logins
 ps#:#ps_prevent_simultaneous_logins_info#:#Wenn dies aktiviert ist, werden gleichzeitige Logins mit gleichem Account auf verschiedenen Rechnern verhindert.
 common#:#simultaneous_login_detected#:#Der Zugang zum System wird verweigert, da sich bereits ein Benutzer mit diesen Zugangsdaten in einer ILIAS-Sitzung befindet.
+trac#:#trac_select_area#:#Bereich ändern
+trac#:#trac_title_description#:#Titel / Beschreibung
+trac#:#trac_hide_selected#:#Ausgewählte Inhalte ausblenden
