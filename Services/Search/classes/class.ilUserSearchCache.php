@@ -275,14 +275,18 @@ class ilUserSearchCache
 	 */
 	public function deleteCachedEntries()
 	{
-		$query = "UPDATE usr_search SET ".
-			"search_result = ".$this->db->quote(serialize(array())).", ".
-			"checked = ".$this->db->quote(serialize(array())).", ".
-			"failed = ".$this->db->quote(serialize(array())).", ".
-			"page = 0 ".
-			"WHERE usr_id = ".$this->db->quote($this->usr_id)." ".
-			"AND search_type = ".$this->db->quote($this->search_type);
-		$this->db->query($query);
+		global $ilDB;
+		
+		$ilDB->update('usr_search',
+			array(
+				'search_result'	=> array('clob',serialize(array())),
+				'checked'		=> array('clob',serialize(array())),
+				'failed'		=> array('clob',serialize(array())),
+				'page'			=> array('integer',0)),
+			array(
+				'usr_id'		=> array('integer',$this->usr_id),
+				'search_type'	=> array('integer',$this->search_type)
+		));			
 
 		$this->setResultPageNumber(1);
 		$this->search_result = array();
@@ -299,12 +303,13 @@ class ilUserSearchCache
 	 */
 	public function delete()
 	{
-	 	
+	 	global $ilDB;
+
 	 	$query = "DELETE FROM usr_search ".
-	 		"WHERE usr_id = ".$this->db->quote($this->usr_id)." ".
-	 		"AND search_type = ".$this->db->quote($this->search_type);
-			
-	 	$res = $this->db->query($query);
+	 		"WHERE usr_id = ".$this->db->quote($this->usr_id ,'integer')." ".
+	 		"AND search_type = ".$this->db->quote($this->search_type ,'integer');
+		$res = $ilDB->manipulate($query);	
+
 	 	$this->read();
 		return true;
 	}
@@ -317,67 +322,31 @@ class ilUserSearchCache
 	 */
 	public function save()
 	{
+		global $ilDB;
+		
 		if($this->usr_id == ANONYMOUS_USER_ID)
 		{
 			return false;
 		}
-/*		
-	 	$query = "DELETE FROM usr_search ".
-	 		"WHERE usr_id = ".$this->db->quote($this->usr_id)." ".
-	 		"AND search_type = ".$this->db->quote($this->search_type);
-		$res = $this->db->query($query);
-		
-	 	$query = "INSERT INTO usr_search ".
-	 		"SET usr_id = ".$this->db->quote($this->usr_id).", ".
-	 		"search_result = '".addslashes(serialize($this->search_result))."', ".
-	 		"checked = '".addslashes(serialize($this->checked))."', ".
-	 		"failed = '".addslashes(serialize($this->failed))."', ".
-	 		"page = ".$this->db->quote((int)$this->page_number).", ".
-	 		"search_type = ".$this->db->quote($this->search_type).", ".
-	 		"query = ".$this->db->quote(serialize($this->getQuery())).", ".
-	 		"root = ".$this->db->quote($this->getRoot());
-	 	$res = $this->db->query($query);
-*/
-		/**/
 		if(!$this->usr_id) $this->usr_id = 0;
-		#if(!$this->search_result) $this->search_result = NULL;
-		#if(!$this->checked) $this->checked = NULL;
-		#if(!$this->failed) $this->failed = NULL;
 		if(!$this->page_number) $this->page_number = 0;
 		if(!$this->search_type) $this->search_type = 0;
-		/**/
 		
-		$query = $this->db->manipulateF('
-			DELETE FROM usr_search 
-			WHERE usr_id = %s
-			AND search_type = %s',
-			array('integer', 'integer'),
-			array($this->usr_id, $this->search_type)
-		);
+		$query = "DELETE FROM usr_search ".
+			"WHERE usr_id = ".$ilDB->quote($this->usr_id ,'integer')." ".
+			"AND search_type = ".$ilDB->quote($this->search_type ,'integer');
+		$res = $ilDB->manipulate($query);
 		
-		$query = $this->db->manipulateF('
-			INSERT INTO usr_search
-			(	usr_id,
-				search_result,
-				checked,
-				failed,
-				page,
-				search_type,
-				query,
-				root
-			)
-			VALUES(%s, %s, %s, %s, %s, %s, %s, %s)',
-			array('integer', 'text', 'text', 'text', 'integer', 'integer', 'text', 'integer'),
-			array(	$this->usr_id,
-					addslashes(serialize($this->search_result)),
-					addslashes(serialize($this->checked)),
-					addslashes(serialize($this->failed)),
-					$this->page_number,
-					$this->search_type,
-					serialize($this->getQuery()),
-					$this->getRoot()
-			)
-		);
+		$ilDB->insert('usr_search',array(
+			'usr_id'		=> array('integer',$this->usr_id),
+			'search_result'	=> array('clob',serialize($this->search_result)),
+			'checked'		=> array('clob',serialize($this->checked)),
+			'failed'		=> array('clob',serialize($this->failed)),
+			'page'			=> array('integer',$this->page_number),
+			'search_type'	=> array('integer',$this->search_type),
+			'query'			=> array('clob',serialize($this->getQuery())),
+			'root'			=> array('integer',$this->getRoot())));
+		
 	}
 	
 	
@@ -400,8 +369,8 @@ class ilUserSearchCache
 		}
 
 	 	$query = "SELECT * FROM usr_search ".
-	 		"WHERE usr_id = ".$this->db->quote($this->usr_id)." ".
-	 		"AND search_type = ".$this->db->quote($this->search_type);
+	 		"WHERE usr_id = ".$this->db->quote($this->usr_id ,'integer')." ".
+	 		"AND search_type = ".$this->db->quote($this->search_type ,'integer');
 		
 	 	$res = $this->db->query($query);
 	 	while($row = $res->fetchRow(DB_FETCHMODE_OBJECT))

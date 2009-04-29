@@ -208,7 +208,7 @@ class ilLPObjSettings
 			return LP_MODE_SCORM;
 		}
 
-		$query = "SELECT mode FROM ut_lp_settings ".
+		$query = "SELECT u_mode FROM ut_lp_settings ".
 			"WHERE obj_id = ".$ilDB->quote($a_obj_id ,'integer');
 
 		$res = $ilDB->query($query);
