@@ -1660,7 +1660,7 @@ class ilTree
 				'AND lang_code = %s '.
 				'AND NOT lang_default = %s';
 
-			$res = $ilDB->queryF($query,array('integer','integer','text'),array(
+			$res = $ilDB->queryF($query,array('integer','text','integer'),array(
 				$data['obj_id'],
 				$this->lang_code,
 				1));
@@ -2181,12 +2181,12 @@ class ilTree
 		
 		if($type)
 		{
-			$query = 'SELECT 1 all_rows, count(*) cnt FROM '.$this->table_tree.' '.
+			$query = 'SELECT count(*) cnt FROM '.$this->table_tree.' '.
 				$this->buildJoin().
 				'WHERE lft <= %s '.
 				'AND type = %s '.
 				'AND parent = %s '.
-				'AND '.$this->table_tree.'.'.$this->tree_pk.' = %s GROUP BY all_rows';
+				'AND '.$this->table_tree.'.'.$this->tree_pk.' = %s ';
 
 			$res = $ilDB->queryF($query,array('integer','text','integer','integer'),array(
 				$a_node['lft'],
@@ -2196,11 +2196,11 @@ class ilTree
 		}
 		else
 		{
-			$query = 'SELECT 1 all_rows, count(*) cnt FROM '.$this->table_tree.' '.
+			$query = 'SELECT count(*) cnt FROM '.$this->table_tree.' '.
 				$this->buildJoin().
 				'WHERE lft <= %s '.
 				'AND parent = %s '.
-				'AND '.$this->table_tree.'.'.$this->tree_pk.' = %s GROUP BY all_rows';
+				'AND '.$this->table_tree.'.'.$this->tree_pk.' = %s ';
 
 			$res = $ilDB->queryF($query,array('integer','integer','integer'),array(
 				$a_node['lft'],

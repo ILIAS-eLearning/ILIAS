@@ -489,10 +489,10 @@ class ilObjExercise extends ilObject
 	{
   		global $ilDB;
 
-  		$q = "SELECT 1 empty,count(*) AS cnt FROM exc_members".
+  		$q = "SELECT count(*) AS cnt FROM exc_members".
 			" WHERE NOT sent_time IS NULL".
 			" AND obj_id = ".$ilDB->quote($a_exc_id, "integer")." ".
-			"GROUP BY empty";
+			" ";
 		$set = $ilDB->query($q);
 		$rec = $ilDB->fetchAssoc($set);
 

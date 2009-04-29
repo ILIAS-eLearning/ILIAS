@@ -11470,3 +11470,13 @@ $ilMySQLAbstraction->performAbstraction('svy_qst_mat');
 <?php
 $ilDB->addIndex('svy_qst_mat',array('question_fi'),'i1');
 ?>
+
+<#2374>
+<?php
+	$ilMySQLAbstraction->performAbstraction('catch_write_events');
+?>
+
+<#2375>
+<?php
+	$ilMySQLAbstraction->performAbstraction('search_command_queue');
+?>
