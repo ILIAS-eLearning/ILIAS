@@ -405,8 +405,9 @@ class ilObjUserTracking extends ilObject
 	{
 		global $ilDB;
 
-		$q = "SELECT distinct A.obj_id,A.type,A.title FROM object_data as A,object_data as B WHERE A.type = ".
-			$ilDB->quote($a_type)." AND A.obj_id = B.owner AND B.type=".$ilDB->quote($type);
+		$q = "SELECT DISTINCT A.obj_id,A.type,A.title FROM object_data  A,object_data B WHERE A.type = ".
+			$ilDB->quote($a_type ,'text')." AND A.obj_id = B.owner AND B.type=".$ilDB->quote($type ,'text')." ".
+			"GROUP BY A.obj_id";
 		//echo $q;
 		$author = $ilDB->query($q);
 		$all = array();
@@ -425,7 +426,7 @@ class ilObjUserTracking extends ilObject
 	{
 		global $ilDB;
 
-		$q = "SELECT title,obj_id FROM object_data WHERE owner = ".$ilDB->quote($id)." and type=".$ilDB->quote($type);
+		$q = "SELECT title,obj_id FROM object_data WHERE owner = ".$ilDB->quote($id ,'integer')." and type=".$ilDB->quote($type ,'text');
 		//echo $q."<br>";
 		$lms = $ilDB->query($q);
 		$all = array();
@@ -444,7 +445,7 @@ class ilObjUserTracking extends ilObject
 	function getObjId($title,$type)
 	{
 		global $ilDB;
-		$q ="SELECT obj_id FROM object_data WHERE type = ".$ilDB->quote($type)." and title=".$ilDB->quote($title);
+		$q ="SELECT obj_id FROM object_data WHERE type = ".$ilDB->quote($type ,'text')." and title=".$ilDB->quote($title ,'text');
 		$id = $ilDB->query($q);
 		$obj_id = $id->fetchRow(DB_FETCHMODE_ASSOC);
 		return $obj_id["obj_id"];
@@ -457,7 +458,7 @@ class ilObjUserTracking extends ilObject
 	{
 		$q = "select obj_id from object_data "
 		." where type = 'tst' and "
-		." owner = ".$id;
+		." owner = ".$ilDB->quote($id ,'integer');
 		$res = $this->ilias->db->query($q);
 		for ($i=0;$i<$res->numRows();$i++)
 		{
@@ -484,7 +485,7 @@ class ilObjUserTracking extends ilObject
 	*/
 	function getOwnerName($id)
 	{
-		$q =" select A.login from usr_data as A, object_data as B where A.usr_id=B.owner and B.obj_id = ".$id;
+		$q =" select A.login from usr_data A, object_data B where A.usr_id=B.owner and B.obj_id = ".$ilDB->quote($id ,'integer');
 		$res = $this->ilias->db->query($q);
 		$result = $res->fetchRow();
 		return $result[0];

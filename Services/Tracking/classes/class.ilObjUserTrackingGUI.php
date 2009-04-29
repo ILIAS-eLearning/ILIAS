@@ -1360,7 +1360,7 @@ class ilObjUserTrackingGUI extends ilObjectGUI
 			}
 			if ($sub_ret != "")
 			{
-				return " INNER JOIN object_data AS oa ON oa.obj_id = acc_obj_id WHERE (".substr($sub_ret, 0, strlen($sub_ret)-4) . ") AND ";
+				return " INNER JOIN object_data oa ON oa.obj_id = acc_obj_id WHERE (".substr($sub_ret, 0, strlen($sub_ret)-4) . ") AND ";
 			}
 		}
 

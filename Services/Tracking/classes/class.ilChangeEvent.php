@@ -536,9 +536,9 @@ class ilChangeEvent
 			$query = sprintf('INSERT INTO write_event '.
 				'(obj_id,parent_obj_id,usr_id,action,ts) '.
 				'SELECT r1.obj_id,r2.obj_id,d.owner,%s,d.create_date '.
-				'FROM object_data AS d '.
+				'FROM object_data d '.
 				'LEFT JOIN write_event w ON d.obj_id = w.obj_id '.
-				'JOIN object_reference AS r1 ON d.obj_id=r1.obj_id '.
+				'JOIN object_reference r1 ON d.obj_id=r1.obj_id '.
 				'JOIN tree t ON t.child=r1.ref_id '.
 				'JOIN object_reference r2 on r2.ref_id=t.parent '.
 				'WHERE w.obj_id IS NULL',

@@ -192,9 +192,11 @@ class ilTracking {
 	}
 	function TestTitle($user_id)
 	{
+		global $ilDB;
+		
 		$q = " SELECT title from object_data "
 			." WHERE type = 'tst'"
-			." AND owner = ".$user_id;
+			." AND owner = ".$ilDB->quote($user_id ,'integer');
 		$res = $this->ilias->db->query($q);
 		for($i=0;$i<$res->numRows();$i++)
 		{
@@ -203,19 +205,6 @@ class ilTracking {
 		return $result;
 	}
 
-	/*
-	function searchTitle($user_id)
-	{
-		$q = " SELECT title from object_data "
-			." WHERE type = 'lm '"
-			." AND owner = ".$user_id;
-		$res = $this->ilias->db->query($q);
-		for($i=0;$i<$res->numRows();$i++)
-		{
-			$result[$i]=$res->fetchRow();
-		}
-		return $result;
-	}*/
 
 
 	function numDay($from,$to)

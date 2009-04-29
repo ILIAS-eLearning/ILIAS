@@ -41,9 +41,9 @@ class ilLMStatisticsGUI extends ilLearningProgressBaseGUI {
 	*/
 
 	function show() {
-		global $tpl, $lng, $ilias;
+		global $tpl, $lng, $ilias,$ilDB;
 
-		$q = "SELECT obj_id, type,title FROM object_data WHERE type ='lm' and obj_id=".$this->obj_id;
+		$q = "SELECT obj_id, type,title FROM object_data WHERE type ='lm' and obj_id=".$ilDB->quote($this->obj_id ,'integer');
 		$result = $ilias->db->query($q);
 		while ($row = $result->fetchRow()) {
 			$Lehrmodulanz ++;

@@ -375,7 +375,8 @@ if ($this->getDBType() == "mysql")
 		 		$stack = $e->getTraceAsString();
 	 		}
 
-			$ilLog->logStack();
+			if(is_object($ilLog))
+				$ilLog->logStack();
 			$this->raisePearError("ilDB Error: ".$a_info."<br />".
 				$a_res->getMessage()."<br />".$a_res->getUserInfo()."<br />".$stack, $a_level);
 			
