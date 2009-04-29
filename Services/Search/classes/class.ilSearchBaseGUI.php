@@ -63,19 +63,16 @@ class ilSearchBaseGUI
 
 	function prepareOutput()
 	{
-		global $ilLocator;
+		global $ilLocator, $lng;
 		
 		$this->tpl->getStandardTemplate();
 		
-		$ilLocator->addItem($this->lng->txt('search'),$this->ctrl->getLinkTarget($this));
-		$this->tpl->setLocator();
+//		$ilLocator->addItem($this->lng->txt('search'),$this->ctrl->getLinkTarget($this));
+//		$this->tpl->setLocator();
 		
-		$this->tpl->setCurrentBlock("header_image");
-		$this->tpl->setVariable("IMG_HEADER", ilUtil::getImagePath("icon_src_b.gif"));
-		$this->tpl->parseCurrentBlock();
+		$this->tpl->setTitleIcon(ilUtil::getImagePath("icon_src_b.gif"), $lng->txt("search"));
+		$this->tpl->setTitle($lng->txt("search"));
 
-		$this->tpl->setVariable("TXT_HEADER",$this->lng->txt('search'));
-		
 		ilUtil::infoPanel();
 
 	}
