@@ -213,7 +213,7 @@ class ilObjSearchSettingsGUI extends ilObjectGUI
 		switch((int) $_POST['search_type'])
 		{
 			case ilSearchSettings::LIKE_SEARCH:
-				$settings->enableIndex(true);
+				$settings->enableIndex(false);
 				$settings->enabledLucene(false);
 				break;
 			case ilSearchSettings::INDEX_SEARCH:
