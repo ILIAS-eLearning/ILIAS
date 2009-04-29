@@ -64,8 +64,8 @@ class ilSearchCommandQueue
 		global $ilDB;
 		
 		$query = "SELECT obj_id, obj_type FROM search_command_queue ".
-			"WHERE obj_id = ".$ilDB->quote($element->getObjId())." ".
-			"AND obj_type = ".$ilDB->quote($element->getObjType());
+			"WHERE obj_id = ".$ilDB->quote($element->getObjId() ,'integer')." ".
+			"AND obj_type = ".$ilDB->quote($element->getObjType() ,'text');
 		$res = $ilDB->query($query);
 		if($res->numRows())
 		{
@@ -86,12 +86,12 @@ class ilSearchCommandQueue
 		
 		$query = "INSERT INTO search_command_queue (obj_id,obj_type,sub_id,sub_type,command,last_update,finished) ".
 			"VALUES( ".
-			$ilDB->quote($element->getObjId()).", ".
-			$ilDB->quote($element->getObjType()).", ".
+			$ilDB->quote($element->getObjId() ,'integer').", ".
+			$ilDB->quote($element->getObjType() ,'text').", ".
 			"0, ".
 			"'',".
-			$ilDB->quote($element->getCommand()).", ".
-			"NOW(), ".
+			$ilDB->quote($element->getCommand() ,'text').", ".
+			$ilDB->now().", ".
 			"0 ".
 			")";
 		$res = $ilDB->manipulate($query);
@@ -106,11 +106,11 @@ class ilSearchCommandQueue
 		global $ilDB;
 		
 		$query = "UPDATE search_command_queue ".
-			"SET command = ".$ilDB->quote($element->getCommand()).", ".
-			"last_update = NOW(), ".
-			"finished = ".$ilDB->quote(0)." ".
-			"WHERE obj_id = ".$ilDB->quote($element->getObjId())." ".
-			"AND obj_type = ".$ilDB->quote($element->getObjType());
+			"SET command = ".$ilDB->quote($element->getCommand() ,'text').", ".
+			"last_update = ".$ilDB->now().", ".
+			"finished = ".$ilDB->quote(0 ,'integer')." ".
+			"WHERE obj_id = ".$ilDB->quote($element->getObjId() ,'integer')." ".
+			"AND obj_type = ".$ilDB->quote($element->getObjType() ,'text');
 		$res = $ilDB->manipulate($query);
 		return true;
 	}

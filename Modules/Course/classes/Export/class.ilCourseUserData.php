@@ -116,11 +116,11 @@ class ilCourseUserData
 		//$and = ("AND field_id IN (".implode(",",ilUtil::quoteArray($required)).")");
 		$and = "AND ".$ilDB->in('field_id',$required,false,'integer');
 		
-		$query = "SELECT 1 empty, COUNT(*) num_entries FROM crs_user_data ".
+		$query = "SELECT COUNT(*) num_entries FROM crs_user_data ".
 			"WHERE usr_id = ".$ilDB->quote($a_usr_id ,'integer')." ".
 			"AND value != '' ".
 			$and." ".
-			"GROUP BY (empty) ";
+			" ";
 		$res = $ilDB->query($query);
 		$row = $res->fetchRow(DB_FETCHMODE_OBJECT);
 		

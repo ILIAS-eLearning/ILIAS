@@ -187,7 +187,7 @@ class ilObjRootFolder extends ilContainer
 			 $ilDB->quote($a_title,'text').",".
 			 $ilDB->quote($a_desc,'text').",".
 			 $ilDB->quote($a_lang,'text').",".
-			 $ilDB->quote($a_lang_default,'text').")";
+			 $ilDB->quote($a_lang_default,'integer').")";
 		$res = $ilDB->manipulate($query);
 		return true;
 	}

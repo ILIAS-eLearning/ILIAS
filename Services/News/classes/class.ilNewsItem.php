@@ -97,14 +97,13 @@ class ilNewsItem extends ilNewsItemGen
 		if ($this->getLimitation())
 		{
 			// Determine how many rows should be deleted
-			$query = "SELECT 1 empty, count(*) cnt ".
+			$query = "SELECT count(*) cnt ".
 				"FROM il_news_item ".
 				"WHERE ".
 					"context_obj_id = ".$ilDB->quote($this->getContextObjId(), "integer").
 					" AND context_obj_type = ".$ilDB->quote($this->getContextObjType(), "text").
 					" AND context_sub_obj_id = ".$ilDB->quote($this->getContextSubObjId(), "integer").
-					" AND ".$ilDB->equals("context_sub_obj_type", $this->getContextSubObjType(), "text", true)." ".
-					"GROUP BY empty";
+					" AND ".$ilDB->equals("context_sub_obj_type", $this->getContextSubObjType(), "text", true)." ";
 	
 			$set = $ilDB->query($query);
 			$rec = $ilDB->fetchAssoc($set);

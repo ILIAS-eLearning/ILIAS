@@ -2082,10 +2082,6 @@ class ilSetupGUI
 					"<a target=\"_new\" href=\"http://dev.mysql.com/doc/mysql/en/charset-unicode-sets.html\">".
 					" MySQL Reference Manual :: 10.11.1 Unicode Character Sets</a>");
 			}
-			else
-			{
-				$this->setup->getClient()->getDB()->getDBVersion();
-			}
 		}
 		
 		$this->tpl->parseCurrentBlock();

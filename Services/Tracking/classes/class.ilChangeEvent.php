@@ -173,7 +173,33 @@ class ilChangeEvent
 	{
 		global $ilDB;
 		
+		$query = "SELECT obj_id FROM catch_write_events ".
+			"WHERE obj_id = ".$ilDB->quote($obj_id ,'integer')." ".
+			"AND usr_id  = ".$ilDB->quote($usr_id ,'integer');
+		$res = $ilDB->query($query);
+		if($res->numRows())
+		{
+			$ilDB->update('catch_write_events',
+				array(
+					'ts'		=> array('timestamp',$timestamp == null ? $ilDB->now() : $timestamp)
+					),
+				array(
+					'obj_id'	=> array('integer',$obj_id),
+					'usr_id'	=> array('integer',$usr_id)
+			));
+		}
+		else
+		{
+			$ilDB->insert('catch_write_events',
+				array(
+					'ts'		=> array('timestamp',$ilDB->now()),
+					'obj_id'	=> array('integer',$obj_id),
+					'usr_id'	=> array('integer',$usr_id)
+			));
+			
+		}
 		
+		/*
 		$q = "INSERT INTO catch_write_events ".
 			"(obj_id, usr_id, ts) ".
 			"VALUES (".
@@ -190,6 +216,7 @@ class ilChangeEvent
 		}
 		//error_log ('ilChangeEvent::_catchupWriteEvents '.$q);
 		$r = $ilDB->query($q);
+		*/
 	}
 	/**
 	 * Catches up with all write events which occured before the specified
@@ -244,8 +271,8 @@ class ilChangeEvent
 		
 		$q = "SELECT ts ".
 			"FROM catch_write_events ".
-			"WHERE obj_id=".$ilDB->quote($obj_id)." ".
-			"AND usr_id=".$ilDB->quote($usr_id);
+			"WHERE obj_id=".$ilDB->quote($obj_id ,'integer')." ".
+			"AND usr_id=".$ilDB->quote($usr_id ,'integer');
 		$r = $ilDB->query($q);
 		$catchup = null;
 		while ($row = $r->fetchRow(DB_FETCHMODE_ASSOC)) {
@@ -297,8 +324,8 @@ class ilChangeEvent
 		
 		$q = "SELECT ts ".
 			"FROM catch_write_events ".
-			"WHERE obj_id=".$ilDB->quote($obj_id)." ".
-			"AND usr_id=".$ilDB->quote($usr_id);
+			"WHERE obj_id=".$ilDB->quote($obj_id ,'integer')." ".
+			"AND usr_id=".$ilDB->quote($usr_id ,'integer');
 		$r = $ilDB->query($q);
 		$catchup = null;
 		while ($row = $r->fetchRow(DB_FETCHMODE_ASSOC)) {

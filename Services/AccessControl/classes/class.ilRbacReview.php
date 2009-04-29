@@ -759,11 +759,10 @@ class ilRbacReview
 
 		$where = $this->__setTemplateFilter($a_templates);
 
-		$query = "SELECT DISTINCT * FROM object_data ".
-			 "JOIN rbac_fa ".$where.
-			 "AND object_data.obj_id = rbac_fa.rol_id ".
-			 "AND rbac_fa.assign = 'y' ".
-			 "GROUP BY object_data.obj_id";
+		$query = "SELECT * FROM object_data ".
+			 "JOIN rbac_fa ON obj_id = rol_id ".
+			 $where.
+			 "AND rbac_fa.assign = 'y' ";
 		$res = $ilDB->query($query);
 
 		while ($row = $ilDB->fetchAssoc($res))
@@ -1103,7 +1102,8 @@ class ilRbacReview
 		}
 
 		$query = "SELECT DISTINCT parent FROM rbac_fa ".
-			 "WHERE rol_id = ".$ilDB->quote($a_rol_id,'integer')." ".$where;
+			 "WHERE rol_id = ".$ilDB->quote($a_rol_id,'integer')." ".$where." ".
+			 "GROUP BY parent";
 
 		$res = $ilDB->query($query);
 		while($row = $ilDB->fetchObject($res))
@@ -1513,11 +1513,10 @@ class ilRbacReview
 		
 		$roles = array();
 
-		$query = "SELECT DISTINCT * FROM object_data ".
-			 "JOIN rbac_fa ".$where.
-			 "AND object_data.obj_id = rbac_fa.rol_id ".
-			 "AND rbac_fa.assign = ".$ilDB->quote($assign,'text')." ".
-			 "GROUP BY object_data.obj_id";
+		$query = "SELECT * FROM object_data ".
+			 "JOIN rbac_fa ON obj_id = rol_id ".
+			 $where.
+			 "AND rbac_fa.assign = ".$ilDB->quote($assign,'text')." ";
 		
 		$res = $ilDB->query($query);
 		while($row = $ilDB->fetchAssoc($res))
@@ -1833,12 +1832,11 @@ class ilRbacReview
 
 		$where = $this->__setTemplateFilter($use_templates);
 
-		$query = "SELECT DISTINCT * FROM object_data ".
+		$query = "SELECT * FROM object_data ".
 			 "JOIN rbac_fa ".$where.
 			 "AND object_data.obj_id = rbac_fa.rol_id ".
 			 "AND rbac_fa.assign = 'y' " .
-			 'AND '.$ilDB->in('object_data.obj_id',$role_ids,false,'integer')." ".
-			 "GROUP BY object_data.obj_id";
+			 'AND '.$ilDB->in('object_data.obj_id',$role_ids,false,'integer');
 		
 		$res = $ilDB->query($query);
 		while($row = $ilDB->fetchAssoc($res))
@@ -1849,6 +1847,7 @@ class ilRbacReview
 		}
 		
 		$role_list = $this->__setRoleType($role_list);
+		var_dump('<pre>',$role_list,'</pre>');
 
 		return $role_list;
 	}
