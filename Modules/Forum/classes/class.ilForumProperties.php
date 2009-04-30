@@ -57,7 +57,7 @@ class ilForumProperties
 	 * Activation of new posts
 	 * @access	private
 	 */
-	private $post_activation_enabled = 0; //false;
+	private $post_activation_enabled = 0; //false; 
 
 	/**
 	 * DB Object
@@ -123,11 +123,13 @@ class ilForumProperties
 		if ($this->obj_id)
 		{
 			$statement = $this->db->manipulateF('INSERT INTO frm_settings 
-				SET obj_id = %s, 
-					default_view = %s, 
-					anonymized = %s, 
-					statistics_enabled = %s,
-					post_activation = %s',
+				(	obj_id,
+					default_view,
+					anonymized,
+					statistics_enabled,
+					post_activation
+				)
+				VALUES( %s, %s, %s, %s, %s)',
 			array('integer', 'integer', 'integer', 'integer', 'integer'),
 			array($this->obj_id, $this->default_view, $this->anonymized, $this->statistics_enabled, $this->post_activation_enabled));
 			
@@ -160,11 +162,13 @@ class ilForumProperties
 		if ($a_new_obj_id)
 		{		
 			$statement = $this->db->manipulateF('INSERT INTO frm_settings
-				SET obj_id = %s,
-					default_view = %s,
-					anonymized = %s,
-					statistics_enabled = %s,
-					post_activation = %s',
+				(	obj_id,
+					default_view,
+					anonymized,
+					statistics_enabled,
+					post_activation
+				)
+				VALUES( %s, %s, %s, %s, %s)',
 				array ('integer', 'integer', 'integer', 'integer', 'integer'),
 				array($a_new_obj_id, $this->default_view, $this->anonymized, $this->statistics_enabled, $this->post_activation_enabled));
 			

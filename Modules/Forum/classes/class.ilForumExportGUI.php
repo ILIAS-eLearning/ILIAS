@@ -277,8 +277,9 @@ class ilForumExportGUI
 	*/
 	function exportHTML()
 	{
-		global $lng, $tpl, $ilDB, $ilUser, $ilAccess, $ilias;
 		
+		global $lng, $tpl, $ilDB, $ilUser, $ilAccess, $ilias;
+	
 		if (!$ilAccess->checkAccess('read,visible', '', $_GET['ref_id']))
 		{
 			$ilias->raiseError($lng->txt('permission_denied'), $ilias->error_obj->MESSAGE);
@@ -287,9 +288,11 @@ class ilForumExportGUI
 		$tplEx = new ilTemplate('tpl.forums_export_html.html', true, true, 'Modules/Forum');
 
 		// threads
-		for ($j = 0; $j < count($_POST['forum_id']); $j++)
+		//for ($j = 0; $j < count($_POST['forum_id']); $j++)
+		for ($j = 0; $j < count($_POST['thread_ids']); $j++)
 		{	
-			$objCurrentTopic = new ilForumTopic(addslashes($_POST['forum_id'][$j]), $ilAccess->checkAccess('moderate_frm', '', $_GET['ref_id']));
+			//$objCurrentTopic = new ilForumTopic(addslashes($_POST['forum_id'][$j]), $ilAccess->checkAccess('moderate_frm', '', $_GET['ref_id']));
+			$objCurrentTopic = new ilForumTopic(addslashes($_POST['thread_ids'][$j]), $ilAccess->checkAccess('moderate_frm', '', $_GET['ref_id']));
 
 			// get forum- and thread-data
 			$this->frm->setMDB2WhereCondition('top_pk = %s ', array('integer'), array($objCurrentTopic->getForumId()));

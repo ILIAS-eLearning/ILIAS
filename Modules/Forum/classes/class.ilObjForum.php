@@ -236,10 +236,12 @@ class ilObjForum extends ilObject
 
 		$res = $ilDB->manipulateF('
 			INSERT INTO frm_user_read
-			SET usr_id = %s,
-				obj_id = %s,
-				thread_id = %s,
-				post_id = %s',
+			(	usr_id,
+				obj_id,
+				thread_id,
+				post_id
+			)
+			VALUES (%s,%s,%s,%s)',
 			array('integer', 'integer', 'integer', 'integer'),
 			array($a_usr_id, $this->getId(), $a_thread_id, $a_post_id));
 		
@@ -505,29 +507,33 @@ class ilObjForum extends ilObject
 		$this->Forum->setMDB2WhereCondition('top_frm_fk = %s ', array('integer'), array($this->getId()));
 		
 		$topData = $this->Forum->getOneTopic();
-
+		
+		$nextId = $ilDB->nextId('frm_data');
+		
 		$statement = $ilDB->manipulateF('
 			INSERT INTO frm_data 
-			(top_frm_fk,
+			(	top_pk,
+				top_frm_fk,
 				top_name,
 				top_description,
 				top_num_posts,
 				top_num_threads,
-			'//	top_last_post,
-			.'	top_mods,
+				top_last_post,
+				top_mods,
 				top_date,
 				visits,
 				top_update,
 				update_user,
 				top_usr_id
 			)
-			VALUES(%s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s )',  //, %s)',
-				array(	'integer', 
+			VALUES(%s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s )', 
+				array(	'integer',
+						'integer', 
 						'text', 
 						'text', 
 						'integer', 
 						'integer',
-						//'text', 
+						'text', 
 						'integer', 
 						'timestamp',
 						'integer', 
@@ -535,12 +541,13 @@ class ilObjForum extends ilObject
 						'integer', 
 						'integer'
 				),
-				array(	$new_obj->getId(),
+				array(	$nextId,
+						$new_obj->getId(),
 						$topData['top_name'],
 						$topData['top_description'],
 						'0',
 						'0',
-			//			'',
+						NULL,
 						ilObjForum::_lookupModeratorRole($new_obj->getRefId()),
 						date('Y-m-d H:i:s', time()),
 						'0',

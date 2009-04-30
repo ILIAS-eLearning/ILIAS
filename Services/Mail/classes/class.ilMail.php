@@ -1081,7 +1081,7 @@ class ilMail
 					$a_m_message
 		));
 		
-		return $nex_id; //$ilDB->getLastInsertId();
+		return $next_id; //$ilDB->getLastInsertId();
 		
 	}
 	

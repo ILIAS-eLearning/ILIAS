@@ -545,7 +545,7 @@ class ilForum
 	* @return	integer	$lastInsert: new post ID
 	* @access	public
 	*/
-	function generatePost($forum_id, $thread_id, $user, $message, $parent_pos, $notify, $subject = '', $alias = '', $date = '', $status = 1, $send_activation_mail = false)
+	function generatePost($forum_id, $thread_id, $user, $message, $parent_pos, $notify, $subject = '', $alias = '', $date = '', $status = 1, $send_activation_mail = 0)
 	{
 		global $ilUser, $ilDB;
 	
@@ -622,17 +622,18 @@ class ilForum
 		$pos_data["ref_id"] = $this->getForumRefId();
 
 		// FINALLY SEND MESSAGE
-		$this->__sendMessage($parent_pos, $pos_data);
 
-		// SEND NOTIFICATIONS ABOUT NEW POSTS IN A SPECIFIED TOPIC
-		if ($this->ilias->getSetting("forum_notification") == 1)
+		if ($this->ilias->getSetting("forum_notification") == 1 && (int)$status )
 		{
+			$this->__sendMessage($parent_pos, $pos_data);
+
 			$pos_data["top_name"] = $forum_obj->getTitle();			
 			$this->sendForumNotifications($pos_data);
 			$this->sendThreadNotifications($pos_data);
 		}
 		
 		// Send notification to moderators if they have to enable a post
+		
 		if (!$status && $send_activation_mail)
 		{
 			$pos_data["top_name"] = $forum_obj->getTitle();			
@@ -750,7 +751,6 @@ class ilForum
 						$notify,
 						$pos_pk
 		));
-
 		
 		if ($thr_pk > 0 &&
 			$pos_pk == $this->getFirstPostByThread($thr_pk))
@@ -839,7 +839,7 @@ class ilForum
 	* @param    integer	object id of dest forum
 	* @access	public
 	*/
-	public function moveThreads($tread_ids = array(), $src_ref_id = 0, $dest_top_frm_fk = 0)
+	public function moveThreads($thread_ids = array(), $src_ref_id = 0, $dest_top_frm_fk = 0)
 	{	
 		global $ilDB;
 		
@@ -861,7 +861,7 @@ class ilForum
 				$moved_posts = 0;
 				$moved_threads = 0;
 				$visits = 0;
-				foreach ($tread_ids as $id)
+				foreach ($thread_ids as $id)
 				{
 					$objTmpThread = new ilForumTopic($id);					
 
@@ -1570,18 +1570,23 @@ class ilForum
 		{
 			$a_node_id = $a_tree_id;
 		}
-
+		
+		$nextId = $ilDB->nextId('frm_posts_tree');
+		
 		$statement = $ilDB->manipulateF('
 			INSERT INTO frm_posts_tree
-			SET	thr_fk = %s, 
-				pos_fk = %s, 
-				parent_pos = %s, 
-				lft = %s, 
-				rgt = %s, 
-				depth = %s,
-				date = %s',
-			array('integer', 'integer', 'integer', 'integer', 'integer', 'integer', 'timestamp'),
-			array($a_tree_id, $a_node_id, '0', '1', '2', '1', $a_date));		
+			( 	fpt_pk,
+				thr_fk,
+				pos_fk,
+				parent_pos,
+				lft,
+				rgt,
+				depth,
+				date
+			)
+			VALUES(%s, %s, %s, %s,  %s,  %s, %s, %s )',
+			array('integer','integer', 'integer', 'integer', 'integer', 'integer', 'integer', 'timestamp'),
+			array($nextId, $a_tree_id, $a_node_id, '0', '1', '2', '1', $a_date));		
 		
 		return true;
 	}
@@ -1634,17 +1639,22 @@ class ilForum
 		$depth = $this->getPostDepth($a_parent_id, $tree_id) + 1;
 	
 		// insert node
+		$nextId = $ilDB->nextId('frm_posts_tree');
 		$statement = $ilDB->manipulateF('
 			INSERT INTO frm_posts_tree
-			SET thr_fk = %s,
-				pos_fk = %s,
-				parent_pos = %s,
-				lft = %s,
-				rgt = %s,
-				depth = %s,
-				date = %s',
-			array('integer', 'integer', 'integer', 'integer', 'integer', 'integer', 'timestamp'),
-			array(	$tree_id, 
+			(	fpt_pk,
+				thr_fk,
+				pos_fk,
+				parent_pos,
+				lft,
+				rgt,
+				depth,
+				date
+			)
+			VALUES(%s,%s,%s, %s, %s, %s,%s, %s)',
+			array('integer','integer', 'integer', 'integer', 'integer', 'integer', 'integer', 'timestamp'),
+			array(	$nextId,
+					$tree_id, 
 					$a_node_id, 
 					$a_parent_id,
 					$lft,
@@ -2300,12 +2310,17 @@ class ilForum
 
 			/* Insert forum notification */ 
 
+			$nextId = $ilDB->nextId('frm_notification');
+			
 			$statement = $ilDB->manipulateF('
 				INSERT INTO frm_notification
-				SET user_id = %s, 
-					frm_id = %s',
-				array('integer', 'integer'),
-				array($user_id, $this->id));
+				( 	notification_id,
+					user_id, 
+					frm_id
+				)
+				VALUES(%s, %s, %s)',
+				array('integer','integer', 'integer'),
+				array($nextId, $user_id, $this->id));
 		
 		}
 
@@ -2352,7 +2367,7 @@ class ilForum
 		
 		return false;
 	}
-
+ 
 	/**
 	* Enable a user's notification about new posts in a thread
 	* @param    integer	user_id	A user's ID
@@ -2366,11 +2381,15 @@ class ilForum
 		
 		if (!$this->isThreadNotificationEnabled($user_id, $thread_id))
 		{
+			$nextId = $ilDB->nextId('frm_notification');
 			$statement = $ilDB->manipulateF('
 				INSERT INTO frm_notification
-				SET user_id = %s,
-					thread_id = %s',
-				array('integer', 'integer'), array($user_id, $thread_id));
+				(	notification_id,
+					user_id,
+					thread_id
+				)
+				VALUES (%s, %s, %s)',
+				array('integer', 'integer', 'integer'), array($nextId, $user_id, $thread_id));
 			
 		}
 
@@ -2471,7 +2490,7 @@ class ilForum
 				$message = $mail_obj->sendMail(ilObjUser::_lookupLogin($row["user_id"]),"","",
 												   $this->formatNotificationSubject($post_data),
 												   $this->formatNotification($post_data),
-												   array(),array("system"));
+												  array(),array("system"));
 			}
 		}
 	}
@@ -2548,6 +2567,7 @@ class ilForum
 												   $this->formatNotificationSubject($post_data),
 												   $this->formatNotification($post_data),
 												   array(),array("system"));
+			
 			}
 		}
 	}
@@ -2609,7 +2629,7 @@ class ilForum
 			
 			$subject = $this->formatPostActivationNotificationSubject();
 			$message = $this->formatPostActivationNotification($post_data);
-			
+
 			$mail_obj = new ilMail(ANONYMOUS_USER_ID);
 			foreach ($moderators as $moderator)
 			{
