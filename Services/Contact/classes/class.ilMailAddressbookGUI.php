@@ -418,7 +418,7 @@ class ilMailAddressbookGUI
 		$this->abook->setSearchQuery($_SESSION['addr_search']);
 		$entries = $this->abook->getEntries();
 		
-		$tbl->addColumn('', 'check', '10%');
+		$tbl->addColumn('', 'check', '10%', true);
 	 	$tbl->addColumn($this->lng->txt('login'), 'login', '20%');
 	 	$tbl->addColumn($this->lng->txt('firstname'), 'firstname', '20%');
 		$tbl->addColumn($this->lng->txt('lastname'), 'lastname', '20%');

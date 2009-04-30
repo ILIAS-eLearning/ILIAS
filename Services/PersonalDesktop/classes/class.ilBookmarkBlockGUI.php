@@ -223,7 +223,7 @@ class ilBookmarkBlockGUI extends ilBlockGUI
 		// flat
 		if ($ilUser->getPref("il_pd_bkm_mode") == 'tree')
 		{
-			$this->addFooterLink( $lng->txt("flatview"),
+			$this->addFooterLink( $lng->txt("list"),
 				$ilCtrl->getLinkTarget($this, "setPdFlatMode"),
 				$ilCtrl->getLinkTarget($this, "setPdFlatMode",
 				"", true),
@@ -231,17 +231,17 @@ class ilBookmarkBlockGUI extends ilBlockGUI
 		}
 		else
 		{
-			$this->addFooterLink($lng->txt("flatview"));
+			$this->addFooterLink($lng->txt("list"));
 		}
 
 		// as tree
 		if ($ilUser->getPref("il_pd_bkm_mode") == 'tree')
 		{
-			$this->addFooterLink($lng->txt("treeview"));
+			$this->addFooterLink($lng->txt("tree"));
 		}
 		else
 		{
-			$this->addFooterLink($lng->txt("treeview"),
+			$this->addFooterLink($lng->txt("tree"),
 				$ilCtrl->getLinkTarget($this,
 					"setPdTreeMode"),
 				$ilCtrl->getLinkTarget($this,

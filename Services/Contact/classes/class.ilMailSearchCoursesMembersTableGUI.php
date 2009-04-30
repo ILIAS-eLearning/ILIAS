@@ -86,7 +86,7 @@ class ilMailSearchCoursesMembersTableGUI extends ilTable2GUI
 		$this->setRowTemplate('tpl.mail_search_courses_members_row.html', 'Services/Contact');
 
 		// setup columns
-		$this->addColumn('', 'select', '1%');
+		$this->addColumn('', 'select', '1%', true);
 		$this->addColumn($lng->txt('login'), 'USR_LOGIN', '24%');
 		$this->addColumn($lng->txt('name'), 'USR_NAME', '24%');
 		$this->addColumn($lng->txt($mode['long']), 'CRS_GRP', '24%');
