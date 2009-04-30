@@ -8894,7 +8894,7 @@ content#:#cont_deactivated#:#Deaktiviert
 content#:#cont_scheduled_activation#:#Zeitliche Aktivierung
 content#:#cont_start#:#Start
 content#:#cont_end#:#Ende
-common#:#expanded#:#Ausgelappt
+common#:#expanded#:#Geöffnet
 common#:#page_layouts#:#Seitenlayouts
 common#:#page_layout#:#Seitenlayout
 style#:#sty_list_char#:#Liste
@@ -9275,3 +9275,6 @@ search#:#lucene_err_and_or_not#:#Anfragen mit AND/OR/NOT müssen folgende Form h
 search#:#lucene_err_quotes#:#Bitte schließen Sie all Anführungszeichen (").
 search#:#lucene_err_quotes_not_empty#:#Anführungszeichen dürfen nicht leer sein.
 search#:#lucene_err_colon#:#Felddeklarationen (:) muss mindestens ein Buchstabe oder eine Nummer vorausgehen und mindestens ein Buchstabe oder eine Nummer folgen.
+common#:#collapsed#:#Geschlossen
+common#:#tree#:#Baum
+common#:#list#:#Liste

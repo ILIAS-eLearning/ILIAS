@@ -862,7 +862,7 @@ class ilExplorer
 			if ($picture == 'plus')
 			{
 				$tpl->setCurrentBlock("exp_desc");
-				$tpl->setVariable("EXP_DESC", $lng->txt("expand"));
+				$tpl->setVariable("EXP_DESC", $lng->txt("collapsed"));
 				$tpl->parseCurrentBlock();
 				$target = $this->createTarget('+',$a_node_id);
 				$tpl->setCurrentBlock("expander");
@@ -890,7 +890,7 @@ class ilExplorer
 			if ($picture == 'minus' && $this->show_minus)
 			{
 				$tpl->setCurrentBlock("exp_desc");
-				$tpl->setVariable("EXP_DESC", $lng->txt("collapse"));
+				$tpl->setVariable("EXP_DESC", $lng->txt("expanded"));
 				$tpl->parseCurrentBlock();
 				$target = $this->createTarget('-',$a_node_id);
 				$tpl->setCurrentBlock("expander");
@@ -928,7 +928,7 @@ class ilExplorer
 			$tpl->setVariable("TARGET_ID" , "iconid_".$a_node_id);
 			$this->iconList[] = "iconid_".$a_node_id;
 			$tpl->setVariable("TXT_ALT_IMG",
-				$this->getImageAlt($lng->txt($a_option["desc"]), $a_option["type"], $a_obj_id));
+				$this->getImageAlt($lng->txt("icon")." ".$lng->txt($a_option["desc"]), $a_option["type"], $a_obj_id));
 			$tpl->parseCurrentBlock();
 		}
 		

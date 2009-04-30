@@ -597,7 +597,7 @@ class ilRepositoryExplorer extends ilExplorer
 		}
 
 		$tpl->setVariable("ICON_IMAGE", $path);
-		$tpl->setVariable("TXT_ALT_IMG", $title);
+		$tpl->setVariable("TXT_ALT_IMG", $lng->txt("icon")." ".$title);
 		$tpl->parseCurrentBlock();
 
 		$tpl->setCurrentBlock("link");

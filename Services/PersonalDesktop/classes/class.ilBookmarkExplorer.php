@@ -288,7 +288,14 @@ class ilBookmarkExplorer extends ilExplorer
 		{
 			return "";
 		}
-
 	}
+	
+	function getImageAlt($a_def, $a_type, $a_obj_id)
+	{
+		global $lng;
+		
+		return $lng->txt("icon")." ".$lng->txt($a_type);
+	}
+
 }
 ?>

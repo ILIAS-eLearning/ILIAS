@@ -9275,3 +9275,6 @@ search#:#lucene_err_quotes#:#Please close all quote (") marks.
 search#:#lucene_err_quotes_not_empty#:#Quotes (") must contain at least one character.
 search#:#lucene_err_colon#:#Field declarations (:) must be preceded by at least one alphabet or number and followed by at least one alphabet or number.
 news#:#news_time_period#:#Time Period
+common#:#collapsed#:#Collapsed
+common#:#tree#:#Tree
+common#:#list#:#List
