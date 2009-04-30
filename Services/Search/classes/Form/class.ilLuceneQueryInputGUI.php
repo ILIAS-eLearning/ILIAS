@@ -22,59 +22,49 @@
 */
 
 /** 
-* Parses Lucene search results
+* Lucene query input form gui
 * 
 * @author Stefan Meyer <meyer@leifos.com>
 * @version $Id$
 * 
 *
-* @ingroup ServicesSearch 
+* @ingroup ServicesSearch
 */
-class ilLuceneSearchResultParser
+class ilLuceneQueryInputGUI extends ilTextInputGUI
 {
-	private $xml;
 	
 	/**
-	 * Constructor 
-	 * @param string search result
-	 * @return
+	 * Constructor
 	 */
-	public function __construct($a_xml)
+	public function __construct($a_title,$a_postvar)
 	{
-		$this->xml = $a_xml;	 
-	}
+		parent::__construct($a_title,$a_postvar);
+	}	
 	
-
-	/**
-	 * get xml
-	 * @param
-	 * @return
-	 */
-	public function getXML()
+	public function checkInput()
 	{
-		return $this->xml;		 
-	}
-	
-	/**
-	 * Parse XML 
-	 * @param object ilLuceneSearchResult
-	 * @return
-	 */
-	public function parse(ilLuceneSearchResult $result)
-	{
-		if(!strlen($this->getXML())) {
-			return $result;
-		}
-		$hits = new SimpleXMLElement($this->getXML());
-		$result->setLimit($result->getLimit() +  (string) $hits['limit']);
-		$result->setMaxScore( (string) $hits['maxScore']);
-		$result->setTotalHits((string) $hits['totalHits']);
+		global $lng,$ilUser;
 		
-		foreach($hits->children() as $object)
+		$ok = parent::checkInput();
+		
+		$query = ilUtil::stripSlashes($_POST[$this->getPostVar()]);
+		
+		if(!$ok or !strlen($query))
 		{
-			$result->addObject((string) $object['id'],(float) $object['absoluteScore']);
+			return false;
 		}
-		return $result;
+		
+		include_once './Services/Search/classes/Lucene/class.ilLuceneQueryParser.php';
+		try {
+			ilLuceneQueryParser::validateQuery($query);
+			return true;
+		}
+		catch(ilLuceneQueryParserException $e)
+		{
+			$this->setAlert($lng->txt($e->getMessage()));
+			return false;
+		}
 	}
+	
 }
 ?>
