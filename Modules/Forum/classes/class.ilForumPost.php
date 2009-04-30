@@ -100,25 +100,27 @@ class ilForumPost
 	public function insert()
 	{
 		if ($this->forum_id && $this->thread_id)
-		{		
-			
+		{
+			$this->id = $this->db->nextId('frm_posts');	
 			$statement = $this->db->manipulateF('
 				INSERT INTO frm_posts 
-				SET pos_pk = %s,
-					pos_top_fk = %s, 
-					pos_thr_fk = %s,
-					pos_usr_id = %s, 
-					pos_usr_alias = %s,
-					pos_subject = %s, 
-					pos_message = %s,
-					pos_date = %s, 
-					pos_update = %s, 
-					update_user = %s, 
-					pos_cens = %s,
+				( 	pos_pk,
+					pos_top_fk,
+					pos_thr_fk,
+					pos_usr_id,
+					pos_usr_alias,
+					pos_subject,
+					pos_message,
+					pos_date,
+					pos_update,
+					update_user,
+					pos_cens,
 				'//	pos_cens_com = %s, 
-				.'	notify = %s,
-					import_name = %s, 
-					pos_status = %s ',
+				.'	notify,
+					import_name,
+					pos_status
+				)
+				VALUES( %s,%s,%s, %s, %s, %s,%s,%s, %s,%s, %s, %s, %s, %s ) ',
 				array(	'integer',
 						'integer',
 						'integer',
@@ -152,7 +154,7 @@ class ilForumPost
 							$this->status
 			));
 							
-			$this->id = $this->db->getLastInsertId();
+
 			
 			return true;
 		}

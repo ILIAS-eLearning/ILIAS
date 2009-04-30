@@ -118,7 +118,7 @@ class ilForumModerators
 			if(strpos($role['title'], 'il_frm_moderator') !== false)
 			{
 				$assigned_users = $rbacreview->assignedUsers($role['rol_id']);
-				vd($assigned_users);
+				//vd($assigned_users);
 				break;
 			}
 		}

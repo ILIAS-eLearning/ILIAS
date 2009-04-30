@@ -98,46 +98,51 @@ class ilForumTopic
 	{			
 		if ($this->forum_id)
 		{	
+			$nextId = $this->db->nextId('frm_threads');
 			$statement = $this->db->manipulateF('
 				INSERT INTO frm_threads
-				SET thr_top_fk = %s,
-					thr_subject = %s,
-					thr_usr_id = %s,
-					thr_usr_alias = %s,
-					thr_num_posts = %s,
-				'//	thr_last_post = %s,
-				.'	thr_date = %s,					
-					thr_update = %s,
-					import_name = %s,
-					is_sticky = %s,
-					is_closed = %s',
+				(	thr_pk,
+					thr_top_fk,
+					thr_subject,
+					thr_usr_id,
+					thr_usr_alias,
+					thr_num_posts,
+					thr_last_post,
+					thr_date, 			
+					thr_update,
+					import_name,
+					is_sticky,
+					is_closed
+				)
+				VALUES(%s,%s,%s,%s,%s,%s,%s,%s, %s, %s,%s,%s)',
 
 				array(	'integer',
-						'text',
 						'integer',
 						'text',
 						'integer',
-					//	'text',
+						'text',
+						'integer',
+						'text',
 						'timestamp',
 						'timestamp',
 						'text',
 						'integer',
 						'integer'),
-				array(	$this->forum_id,
-							$this->subject,
-							$this->user_id,
-							$this->user_alias,
-							$this->num_posts,
-						//	$this->last_post_string,
-							$this->createdate,
-							$this->changedate,
-							$this->import_name,
-							$this->is_sticky,
-							$this->is_closed
+				array(	$nextId,	
+						$this->forum_id,
+						$this->subject,
+						$this->user_id,
+						$this->user_alias,
+						$this->num_posts,
+						$this->last_post_string,
+						$this->createdate,
+						$this->changedate,
+						$this->import_name,
+						$this->is_sticky,
+						$this->is_closed
 			));
-			
-			$this->id = $this->db->getLastInsertId();
-			
+			$this->id = $nextId;
+							
 			return true;
 		}
 		
@@ -164,11 +169,11 @@ class ilForumTopic
 				WHERE thr_pk = %s',
 				array('integer', 'text','timestamp', 'integer', 'text', 'integer'),
 				array(	$this->forum_id, 
-							$this->subject, 
-							$this->changedate, 
-							$this->num_posts, 
-							$this->last_post_string, 
-							$this->id
+						$this->subject, 
+						$this->changedate, 
+						$this->num_posts, 
+						$this->last_post_string, 
+						$this->id
 			));
 			
 			return true;
@@ -428,10 +433,10 @@ class ilForumTopic
 			AND usr_id IS NULL',
 			array('integer', 'integer', 'timestamp','timestamp', 'integer'),
 			array(	$a_user_id, 
-						$this->id, 
-						date('Y-m-d H:i:s', $timest),
-						date('Y-m-d H:i:s', $timest), 
-						$a_user_id 
+					$this->id, 
+					date('Y-m-d H:i:s', $timest),
+					date('Y-m-d H:i:s', $timest), 
+					$a_user_id 
 		));
 		
 		$rec = $res->fetchRow(DB_FETCHMODE_ASSOC);
@@ -471,13 +476,13 @@ class ilForumTopic
 					'integer',
 					'integer'), 
 			array(	$a_user_id, 
-						$this->id,
-						date('Y-m-d H:i:s', $timest),
-						date('Y-m-d H:i:s', $timest), 
-						$a_user_id, 
-						'1',
-						'0', 
-						$ilUser->getId()
+					$this->id,
+					date('Y-m-d H:i:s', $timest),
+					date('Y-m-d H:i:s', $timest), 
+					$a_user_id, 
+					'1',
+					'0', 
+					$ilUser->getId()
 		));
 
 		$rec = $res->fetchRow(DB_FETCHMODE_ASSOC);
@@ -729,7 +734,7 @@ class ilForumTopic
 			$new_obj_id = ilForum::_lookupObjIdForForumId($new_pk);
 
 			while($post = $posts->fetchRow(DB_FETCHMODE_ASSOC))
-			{
+			{ 
 				include_once("./Services/News/classes/class.ilNewsItem.php");
 				$news_id = ilNewsItem::getFirstNewsIdForContext($old_obj_id,
 					"frm", $post["pos_pk"], "pos");
@@ -846,14 +851,16 @@ class ilForumTopic
 		{
 			if (!$this->isNotificationEnabled($a_user_id))
 			{
+				$nextId = $this->db->nextId('frm_notification');
 				$statement = $this->db->manipulateF('
 					INSERT INTO frm_notification
-					(	user_id,
+					(	notification_id,
+						user_id,
 						thread_id
 					)
-					VALUES(%s, %s)',
-					array('integer', 'integer'),
-					array($a_user_id, $this->id));
+					VALUES(%s,%s, %s)',
+					array('integer', 'integer', 'integer'),
+					array($nextId, $a_user_id, $this->id));
 					
 				return true;
 			}
@@ -947,7 +954,7 @@ class ilForumTopic
 	* @access 	public
 	*/
 	public function close()
-	{
+	{ 
 		if ($this->id && !$this->is_closed)
 		{
 			$statement = $this->db->manipulateF('
@@ -1066,6 +1073,8 @@ class ilForumTopic
 	}
 	public function setLastPostString($a_last_post)
 	{
+		if($a_last_post == '') $a_last_post = NULL;
+		
 		$this->last_post_string = $a_last_post;
 	}
 	public function getLastPostString()

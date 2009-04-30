@@ -346,21 +346,24 @@ class ilForumImportParser extends ilSaxParser
 	{
 		global $ilDB;
 
+		$nextId= $ilDB->nextId('frm_data');
 		$statement = $ilDB->manipulateF('
 			INSERT INTO frm_data 
-			SET top_pk = %s,
-				top_frm_fk = %s,
-				top_name = %s,
-				top_description = %s,
-				top_num_posts = %s,
-				top_num_threads = %s,
-				top_las_post = %s,
-				top_mods = %s,
-				top_date = %s,
-				visits = %s,
-				top_update = %s,
-				update_user = %s,
-				top_usr_id = %s',
+			(	top_pk,
+				top_frm_fk,
+				top_name,
+				top_description,
+				top_num_posts,
+				top_num_threads,
+				top_las_post,
+				top_mods,
+				top_date,
+				visits,
+				top_update,
+				update_user,
+				top_usr_id
+			)
+			VALUES(%s, %s, %s,%s,%s,%s,%s,%s,%s,%s,%s,%s, %s)',
 		
 			array(	'integer',
 					'integer',
@@ -375,13 +378,13 @@ class ilForumImportParser extends ilSaxParser
 					'timestamp',
 					'integer',
 					'integer'),
-			array(	'0',
+			array(		$nextId, 
 						$this->forum->getId(),
 						$this->forum->getTitle(),
 						$this->forum->getDescription(),
 						'0',
 						'0',
-						'',
+						NULL,
 						$this->roles[0],
 						date("Y:m:d H:i:s"),
 						'0',

@@ -11480,3 +11480,55 @@ $ilDB->addIndex('svy_qst_mat',array('question_fi'),'i1');
 <?php
 	$ilMySQLAbstraction->performAbstraction('search_command_queue');
 ?>
+
+<#2376>
+<?php 
+	$ilMySQLAbstraction->performAbstraction('frm_data');
+?>
+
+<#2377>
+<?php 
+
+	$ilMySQLAbstraction->performAbstraction('frm_notification');
+?>
+
+<#2378>
+ALTER TABLE `frm_posts` CHANGE `pos_message` `pos_message` VARCHAR( 4000 ) NULL DEFAULT NULL;  
+
+<#2379>
+ALTER TABLE `frm_posts` CHANGE `pos_subject` `pos_subject` VARCHAR( 4000 ) NULL DEFAULT NULL;  
+
+<#2380>
+ALTER TABLE `frm_posts` CHANGE `pos_cens_com` `pos_cens_com` VARCHAR( 4000 ) NULL DEFAULT NULL;  
+
+<#2381>
+ALTER TABLE `frm_posts` CHANGE `import_name` `import_name` VARCHAR( 4000 ) NULL DEFAULT NULL;  
+
+
+<#2382>
+<?php 
+	$ilMySQLAbstraction->performAbstraction('frm_posts');
+?>
+
+<#2383>
+<?php 
+	$ilMySQLAbstraction->performAbstraction('frm_posts_tree');
+?>
+
+<#2384>
+ALTER TABLE `frm_threads` CHANGE `import_name` `import_name` VARCHAR( 4000 ) NULL DEFAULT NULL;  	
+
+<#2385>
+<?php 
+	$ilMySQLAbstraction->performAbstraction('frm_threads');
+?>
+
+<#2386>
+<?php 
+	$ilMySQLAbstraction->performAbstraction('frm_user_read');
+?>
+
+<#2387>
+<?php 
+	$ilMySQLAbstraction->performAbstraction('frm_settings');
+?>
