@@ -140,6 +140,7 @@ class ilValidator extends PEAR
 		$this->PEAR();
 		$this->db =& $ilDB;
 		$this->rbac_object_types = "'".implode("','",$objDefinition->getAllRBACObjects())."'";
+		$this->rbac_object_types = $objDefinition->getAllRBACObjects();
 
         $this->setErrorHandling(PEAR_ERROR_CALLBACK,array(&$this, 'handleErr'));
 		
@@ -597,7 +598,7 @@ class ilValidator extends PEAR
 			 "WHERE tree.child IS NULL ".
 			 "AND (object_reference.obj_id IS NOT NULL ".
 			 "    OR object_data.type <> 'file' AND ".
-			 $ilDB->in('object_data.type',$this->rbac_object_types,false,'text');
+			 $ilDB->in('object_data.type',$this->rbac_object_types,false,'text').
 			 ")";
 		$r = $this->db->query($q);
 		
@@ -834,7 +835,6 @@ class ilValidator extends PEAR
 		$this->invalid_references = array();
 		
 		$this->writeScanLogLine("\nfindInvalidReferences:");
-
 		$q = "SELECT object_reference.* FROM object_reference ".
 			 "LEFT JOIN object_data ON object_data.obj_id = object_reference.obj_id ".
 			 "WHERE object_data.obj_id IS NULL ".
@@ -962,9 +962,9 @@ class ilValidator extends PEAR
 		$this->writeScanLogLine("\nfindUnboundObjects:");
 
 		$q = "SELECT T1.tree,T1.child,T1.parent,".
-				"T2.tree AS deleted,T2.parent AS grandparent ".
-			 "FROM tree AS T1 ".
-			 "LEFT JOIN tree AS T2 ON T2.child=T1.parent ".
+				"T2.tree deleted,T2.parent grandparent ".
+			 "FROM tree T1 ".
+			 "LEFT JOIN tree T2 ON T2.child=T1.parent ".
 			 "WHERE (T2.tree!=1 OR T2.tree IS NULL) AND T1.parent!=0";
 		$r = $this->db->query($q);
 		
@@ -2090,7 +2090,7 @@ restore starts here
 			."RIGHT JOIN object_reference ref ON tree.child = ref.ref_id "
 			."RIGHT JOIN object_data dat ON ref.obj_id = dat.obj_id "
 			."LEFT JOIN usr_data usr ON usr.usr_id = dat.owner "
-		 	."ORDER BY tree, lft, type, title";
+		 	."ORDER BY tree, lft, type, dat.title";
 		$r = $this->db->query($q);
 		
 		$this->writeScanLogLine(
