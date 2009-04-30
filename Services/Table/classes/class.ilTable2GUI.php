@@ -81,7 +81,7 @@ class ilTable2GUI extends ilTableGUI
 				$form_prop_dispatch = new ilFormPropertyDispatchGUI();
 				$this->initFilter();
 				$item = $this->getFilterItemByPostVar($_GET["postvar"]);
-				$form_prop_dispatch->setFilterItem($item);
+				$form_prop_dispatch->setItem($item);
 				return $ilCtrl->forwardCommand($form_prop_dispatch);
 				break;
 

@@ -6400,7 +6400,6 @@ trac#:#trac_occurrences#:#Ścieżka:
 trac#:#trac_participated#:#Uczestniczy
 trac#:#trac_processing_time#:#Czas wykonania
 trac#:#trac_progress#:#Osobisty postęp nauczania
-trac#:#trac_query#:#Tytuł/opis:
 trac#:#trac_reached_objectives#:#Osiągnięte cele nauczania
 trac#:#trac_reached_points#:#Osiągnięta punktacja
 trac#:#trac_reached_visits#:#Żądane wizyty
@@ -9074,3 +9073,191 @@ common#:#save_customer_address#:#Store billing address###24 02 2009 new variable
 common#:#save_customer_address_info#:#If enabled, the customers billing address will be stored###24 02 2009 new variable
 common#:#bookings#:#Bookings###24 02 2009 new variable
 forum#:#frm_sure_delete_threads#:#Are you sure you want to delete the following threads###24 02 2009 new variable
+trac#:#trac_title_description#:#Title / Description###30 04 2009 new variable
+common#:#file_locked_by#:#File locked by###30 04 2009 new variable
+common#:#lock_file#:#Lock file###30 04 2009 new variable
+common#:#permission_denied_filed_locked_by#:#Access denied. The file was locked by '%s'.###30 04 2009 new variable
+common#:#file_lock_unlock_file#:#Lock/Unlock file###30 04 2009 new variable
+search#:#lucene_more_hits_link#:#%s more hits...###30 04 2009 new variable
+dateplaner#:#cal_rec_err_limit#:#Please enter a valid number of appointments.###30 04 2009 new variable
+payment#:#payment_news#:#Shop News###30 04 2009 new variable
+payment#:#payment_news_add_news#:#Add Shop News ###30 04 2009 new variable
+payment#:#payment_news_created#:#Shop news added###30 04 2009 new variable
+payment#:#payment_news_no_news_items#:#No news available###30 04 2009 new variable
+payment#:#payment_news_delete_sure#:#Are you sure, you want to delete this shop news?###30 04 2009 new variable
+payment#:#payment_news_deleted#:#Shop news deleted###30 04 2009 new variable
+payment#:#payment_news_updated#:#The news have been saved###30 04 2009 new variable
+payment#:#payment_news_settings#:#Shop News Settings###30 04 2009 new variable
+payment#:#payment_news_archive_period#:#Archive-Period###30 04 2009 new variable
+payment#:#payment_news_archive_period_info#:#Time period to define when news move to archive ###30 04 2009 new variable
+payment#:#payment_news_settings_saved#:#The settings have been saved###30 04 2009 new variable
+cntr#:#cntr_page_actions#:#Page Actions###30 04 2009 new variable
+cntr#:#cntr_enable_multi_commands#:#Enable Multi Commands###30 04 2009 new variable
+cntr#:#cntr_disable_multi_commands#:#Disable Multi Commands###30 04 2009 new variable
+cntr#:#cntr_add_new_item#:#Add New Item###30 04 2009 new variable
+search#:#lucene_settings_tab#:#Lucene###30 04 2009 new variable
+search#:#lucene_settings_title#:#Lucene Settings###30 04 2009 new variable
+search#:#lucene_default_operator#:#Default Operator###30 04 2009 new variable
+search#:#lucene_and#:#AND###30 04 2009 new variable
+search#:#lucene_or#:#OR###30 04 2009 new variable
+search#:#lucene_default_operator_info#:#Please choose the default operator for boolean queries. In default mode ("AND") terms are considered to be in conjunction. In "OR" mode terms without any modifiers are considered optional.###30 04 2009 new variable
+search#:#lucene_num_fragments#:#Number of Text Fragments###30 04 2009 new variable
+search#:#lucene_num_frag_info#:#Please choose the maximum number of highlighted text fragments.###30 04 2009 new variable
+search#:#lucene_size_fragments#:#Size of Text Fragments###30 04 2009 new variable
+search#:#lucene_size_frag_info#:#Please choose the maximum size of highlighted test fragments.###30 04 2009 new variable
+search#:#lucene_max_sub#:#Number of Subitems###30 04 2009 new variable
+search#:#lucene_max_sub_info#:#Please enter maximum number of subitems (Forum threads, Glossary terms...) that are shown by default.###30 04 2009 new variable
+common#:#main_menu#:#Main Menu###30 04 2009 new variable
+common#:#breadcrumb_navigation#:#Breadcrumb Navigation###30 04 2009 new variable
+common#:#tabs#:#Tabs###30 04 2009 new variable
+common#:#subtabs#:#SubTabs###30 04 2009 new variable
+search#:#lucene_relevance#:#Relevance of Search Results###30 04 2009 new variable
+search#:#lucene_show_relevance#:#Show Relevance###30 04 2009 new variable
+search#:#lucene_show_relevance_info#:#Search results are sorted by their relevance. If activated, the relevance is shown as additional information for each search result.###30 04 2009 new variable
+payment#:#pay_payed_bill#:#Rechnung bezahlt###30 04 2009 new variable
+payment#:#vat_title#:#Vat-Title###30 04 2009 new variable
+payment#:#vat_rate#:#Vat-Rate###30 04 2009 new variable
+payment#:#vat_unit#:#Vat-Unit###30 04 2009 new variable
+payment#:#paya_insert_vats#:#Insert Vat-Rate###30 04 2009 new variable
+payment#:#paya_no_vats_assigned#:#No vats assigned###30 04 2009 new variable
+payment#:#paya_vat_not_valid#:#This vat is not valid###30 04 2009 new variable
+payment#:#paya_vat_already_exists#:#This vat rate already exists###30 04 2009 new variable
+payment#:#paya_no_vat_id_given#:#There is no vat-id given###30 04 2009 new variable
+payment#:#paya_sure_delete_vat#:#Are you sure, you want to delete this vat?###30 04 2009 new variable
+payment#:#paya_vat_not_deleted#:#This vat rate is not deleted###30 04 2009 new variable
+payment#:#unlimited_duration#:#Unlimited duration###30 04 2009 new variable
+payment#:#vats#:#Vats###30 04 2009 new variable
+mail#:#invite_to_chat#:#Invite to Chat###30 04 2009 new variable
+mail#:#mail_invite_users_to_chat#:#Invite Users to Chat###30 04 2009 new variable
+mail#:#chat_select_room#:#Select Chat Room###30 04 2009 new variable
+mail#:#chat_users_without_permission#:#The following Users don't have access to the selected Chat Room.###30 04 2009 new variable
+mail#:#chat_users_have_been_invited#:#The Users have been invited.###30 04 2009 new variable
+mail#:#goto_invitation_chat#:#Open Chat Room###30 04 2009 new variable
+mail#:#chat_users_without_login#:#The following Users don't have an ILIAS Account and can't be invited to a Chat Room###30 04 2009 new variable
+chat#:#chat_open#:#Enter Room###30 04 2009 new variable
+chat#:#chat_kick#:#Kick###30 04 2009 new variable
+chat#:#chat_unkick#:#Unkick###30 04 2009 new variable
+chat#:#chat_add_to_bookmark#:#Add to Bookmarks###30 04 2009 new variable
+chat#:#chat_add_to_addressbook#:#Add to Contacts###30 04 2009 new variable
+chat#:#chat_confirm_delete_private_room#:#Are you sure to delete this private room?###30 04 2009 new variable
+chat#:#chat_confirm_kick_user#:#Are you sure to kick this user?###30 04 2009 new variable
+chat#:#chat_user_unkicked#:#The user has been unkicked.###30 04 2009 new variable
+chat#:#chat_invite#:#Invite###30 04 2009 new variable
+chat#:#chat_disinvite#:#Disinvite###30 04 2009 new variable
+chat#:#chat_confirm_user_invite#:#The User will be invited to this Chat Room###30 04 2009 new variable
+chat#:#chat_added_to_bookmarks#:#The Room ' %s ' has been added to the top folder of your Bookmarks###30 04 2009 new variable
+chat#:#chat_default_bookmark_title#:#Chat Link: %s###30 04 2009 new variable
+chat#:#chat_default_bookmark_description#:#Link to Chat Room ' %s '###30 04 2009 new variable
+chat#:#chat_added_to_addressbook#:#The User ' %s ' has been added to your Contacts.###30 04 2009 new variable
+chat#:#chat_user_already_in_addressbook#:#The User is already in your Contacts.###30 04 2009 new variable
+chat#:#chat_recent_postings#:#Recent Chat Postings###30 04 2009 new variable
+chat#:#chat_available_smilies#:#Available Smilies###30 04 2009 new variable
+chat#:#chat_smiley_image#:#Smiley Image###30 04 2009 new variable
+chat#:#chat_smiley_keyword#:#Smiley Keyword###30 04 2009 new variable
+chat#:#chat_add_smiley#:#Add Smiley###30 04 2009 new variable
+chat#:#chat_edit_smiley#:#Edit Smiley###30 04 2009 new variable
+chat#:#chat_image_path#:#Image Path###30 04 2009 new variable
+chat#:#chat_current_image_path#:#Current Image Path###30 04 2009 new variable
+chat#:#chat_smiley_keywords#:#Smiley Keyword###30 04 2009 new variable
+chat#:#chat_smiley_keywords_one_per_line_note#:#You can enter multiple Keywords for each Smiley. Each line will be used as a seperate Keyword.###30 04 2009 new variable
+chat#:#chat_upload_smiley#:#Upload Smiley###30 04 2009 new variable
+chat#:#chat_smiley_image_only_if_changed#:#Please enter a new Image only if you want to change the existing. If no new Image is given, the existing won't be changed.###30 04 2009 new variable
+chat#:#chat_delete_selected#:#Delete selected Smilies###30 04 2009 new variable
+chat#:#chat_new_message_sound_status#:#Play a sound if a new Message is received###30 04 2009 new variable
+chat#:#edit_smilies#:#Edit Smilies###30 04 2009 new variable
+chat#:#chat_message_notify#:#Message Notifier###30 04 2009 new variable
+chat#:#chat_message_notify_activate#:#Activate Message Notify###30 04 2009 new variable
+chat#:#chat_message_notify_deactivate#:#Deactivate Message Notify###30 04 2009 new variable
+chat#:#chat_smilies_status#:#Chat Smilies###30 04 2009 new variable
+chat#:#chat_smilies_activate#:#Activate Smilies###30 04 2009 new variable
+chat#:#chat_smilies_deactivate#:#Deactivate Smilies###30 04 2009 new variable
+chat#:#chat_enable_autoscroll#:#Enable Autoscroll###30 04 2009 new variable
+chat#:#chat_chatviewer#:#Chat Viewer###30 04 2009 new variable
+chat#:#chat_room_does_not_exist#:#The Chat Room does not exist. Maybe it has been removed or you used an invalid link.###30 04 2009 new variable
+chat#:#chat_user_hidden#:#hidden###30 04 2009 new variable
+chat#:#chat_user_visible#:#visible###30 04 2009 new variable
+common#:#content_frame#:#Content Frame###30 04 2009 new variable
+common#:#side_frame#:#Side Frame###30 04 2009 new variable
+common#:#icon#:#Icon###30 04 2009 new variable
+common#:#info_message#:#Information Message###30 04 2009 new variable
+common#:#failure_message#:#Failure Message###30 04 2009 new variable
+common#:#success_message#:#Success Message###30 04 2009 new variable
+common#:#question_message#:#Question###30 04 2009 new variable
+common#:#form_input_not_valid#:#Some data is incomplete or not valid. Please correct the form input.###30 04 2009 new variable
+user#:#user_public_profile_info#:#Please select which personal data should be visible to other users.###30 04 2009 new variable
+user#:#user_activate_public_profile#:#Activate Public Profile###30 04 2009 new variable
+user#:#user_activate_public_profile_info#:#Global activation of your public profile. If activated your first and last name will be visible to other users.###30 04 2009 new variable
+search#:#lucene_general_settings#:#General Settings###30 04 2009 new variable
+search#:#lucene_advanced_settings#:#Advanced Search###30 04 2009 new variable
+search#:#lucene_advances_settings_table#:#Advances Search Settings###30 04 2009 new variable
+search#:#lucene_activate_field#:#Activate Search###30 04 2009 new variable
+common#:#bookmark_added#:#The Bookmark has been created.###30 04 2009 new variable
+common#:#bookmark_save_to#:#save as bookmark###30 04 2009 new variable
+common#:#pd_enable_chatviewer#:#Enable Chatviewer###30 04 2009 new variable
+common#:#chat_settings#:#Chat Settings###30 04 2009 new variable
+survey#:#use_anonymous_id#:#Show survey code###30 04 2009 new variable
+survey#:#use_anonymous_id_desc#:#If checked, the user name in anonymized surveys will be shown as the survey code, otherwise the text "Anonymous" will be shown.###30 04 2009 new variable
+chat#:#chat_smilies_dir_not_exists#:#The smiley data directory does not exist. Trying to setup folders and database.###30 04 2009 new variable
+chat#:#chat_smilies_dir_not_available#:#The smiley data directory could not be created. This ILIAS will not be able to use chat smilies as further actions are needed.###30 04 2009 new variable
+chat#:#chat_smilies_dir_not_writable#:#Your smiley data directory exists but is not writable. You will not be able to add smiles.###30 04 2009 new variable
+chat#:#chat_smilies_initialized#:#The smiley data has been initialized and is ready to use.###30 04 2009 new variable
+dateplaner#:#err_missing_title#:#Please enter an appointment title.###30 04 2009 new variable
+dateplaner#:#err_end_before_start#:#The appointment must not start before the end.###30 04 2009 new variable
+administration#:#adm_locale#:#Locale###30 04 2009 new variable
+administration#:#adm_locale_info#:#Locale setting influences e.g. sorting in lists. Examples are nl_NL or de_DE. Multiple locales can be separated by comma. The first valid one will be used.###30 04 2009 new variable
+common#:#accs_edit_permission#:#Change permission settings###30 04 2009 new variable
+common#:#accs_visible#:#Accessibility Settings are visible###30 04 2009 new variable
+common#:#accs_read#:#Read access to Accessibility Settings###30 04 2009 new variable
+common#:#accs_write#:#Edit Accessibility Settings###30 04 2009 new variable
+common#:#obj_accs#:#Accessibility###30 04 2009 new variable
+common#:#obj_accs_desc#:#Settings for accessibility features.###30 04 2009 new variable
+acc#:#acc_access_keys#:#Access Keys###30 04 2009 new variable
+acc#:#acc_access_key#:#Access Key###30 04 2009 new variable
+acc#:#acc_component#:#Component###30 04 2009 new variable
+acc#:#acc_function#:#Function###30 04 2009 new variable
+acc#:#acc_next#:#Next###30 04 2009 new variable
+acc#:#acc_previous#:#Previous###30 04 2009 new variable
+acc#:#acc_delete#:#Delete###30 04 2009 new variable
+acc#:#acc_last_visited#:#Last Visited###30 04 2009 new variable
+acc#:#acc_tree_on#:#Tree On###30 04 2009 new variable
+acc#:#acc_tree_off#:#Tree Off###30 04 2009 new variable
+acc#:#acc_reply#:#Reply###30 04 2009 new variable
+acc#:#acc_forward_mail#:#Forward Mail###30 04 2009 new variable
+acc#:#acc_mark_all_read#:#Mark All Read###30 04 2009 new variable
+acc#:#acc_comp_global#:#Global###30 04 2009 new variable
+acc#:#acc_comp_mail#:#Mail###30 04 2009 new variable
+acc#:#acc_comp_frm#:#Forum###30 04 2009 new variable
+form#:#form_image_file_input#:#Image File Input###30 04 2009 new variable
+form#:#form_file_input#:#File Input###30 04 2009 new variable
+user#:#user_screen_reader_optimization#:#Screen Reader Optimization###30 04 2009 new variable
+user#:#user_screen_reader_optimization_info#:#Automatic focus and Ajax optimization to improve screen reader performance.###30 04 2009 new variable
+common#:#block#:#Block###30 04 2009 new variable
+common#:#block_management#:#Block Management###30 04 2009 new variable
+common#:#show_hidden_block#:#Show Hidden Block###30 04 2009 new variable
+common#:#create_block#:#Create Block###30 04 2009 new variable
+dateplaner#:#cal_week_abbrev#:#W###30 04 2009 new variable
+dateplaner#:#cal_all_day#:#All Day###30 04 2009 new variable
+dateplaner#:#cal_day_selection#:#Select Day###30 04 2009 new variable
+dateplaner#:#cal_week_selection#:#Select Week###30 04 2009 new variable
+dateplaner#:#cal_month_selection#:#Select Month###30 04 2009 new variable
+dateplaner#:#cal_day_overview#:#Day Overview###30 04 2009 new variable
+dateplaner#:#cal_week_overview#:#Week Overview###30 04 2009 new variable
+dateplaner#:#cal_month_overview#:#Month Overview###30 04 2009 new variable
+common#:#stat_selected#:#Selected###30 04 2009 new variable
+notes#:#notes_edit_note#:#Edit Note###30 04 2009 new variable
+notes#:#notes_edit_comment#:#Edit Comment###30 04 2009 new variable
+notes#:#notes_label#:#Label###30 04 2009 new variable
+search#:#lucene_last_index_time#:#Last Index Generation###30 04 2009 new variable
+search#:#lucene_last_index_time_info#:#Please modify this settings only if you have installed an index backup.###30 04 2009 new variable
+search#:#lucene_all_occurrences#:#... %s other occurrence(s)###30 04 2009 new variable
+notes#:#notes_add_note#:#Add Note###30 04 2009 new variable
+notes#:#notes_note_deleted#:#The note has been deleted.###30 04 2009 new variable
+notes#:#notes_notes_deleted#:#The notes have been deleted.###30 04 2009 new variable
+common#:#user_image#:#User Image###30 04 2009 new variable
+ps#:#ps_prevent_simultaneous_logins#:#Prevent Simultaneous Logins###30 04 2009 new variable
+ps#:#ps_prevent_simultaneous_logins_info#:#If enabled, simultaneous logins with the same account from different computers are not possible.###30 04 2009 new variable
+common#:#simultaneous_login_detected#:#Your access is denied because of a simultaneous login with the same account.###30 04 2009 new variable
+trac#:#trac_select_area#:#Select Area###30 04 2009 new variable
+trac#:#trac_hide_selected#:#Hide Selected Items###30 04 2009 new variable
+search#:#search_term_combination#:#Combination###30 04 2009 new variable
+search#:#search_select_search_area#:#Select Search Area###30 04 2009 new variable

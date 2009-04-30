@@ -188,7 +188,6 @@ assessment#:#ass_file#:#Datei
 assessment#:#ass_question#:#Frage
 assessment#:#ass_size#:#Größe
 assessment#:#assClozeTest#:#Lückentext-Frage
-assessment#:#assFlashApp#:#Flash-Frage
 assessment#:#assImagemapQuestion#:#ImageMap-Frage
 assessment#:#assJavaApplet#:#Java-Applet-Frage
 assessment#:#assMatchingQuestion#:#Zuordnungsfrage
@@ -212,83 +211,6 @@ assessment#:#cannot_export_test#:#Sie besitzen keine ausreichenden Rechte, um de
 assessment#:#cannot_maintain_test#:#Sie besitzen keine ausreichenden Rechte, um den Test zu warten!
 assessment#:#cannot_read_questionpool#:#Sie besitzen keine ausreichenden Rechte, um auf den Fragenpool zuzugreifen!
 assessment#:#cannot_save_metaobject#:#Sie besitzen keine ausreichenden Rechte, um die Metadaten zu speichern!
-assessment#:#certificate_a4_landscape#:#A4 Quer (210 mm x 297 mm)
-assessment#:#certificate_a4#:#A4 (297 mm x 210 mm)
-assessment#:#certificate_a5_landscape#:#A5 Quer (148 mm x 210 mm)
-assessment#:#certificate_a5#:#A5 (210 mm x 148 mm)
-assessment#:#certificate_background_image#:#Hintergrundbild
-assessment#:#certificate_bottom#:#Unten
-assessment#:#certificate_confirm_deletion_text#:#Wollen Sie wirklich die Zertifikatvorlage und alle zugehörigen Daten löschen?
-assessment#:#certificate_custom#:#Eigenes Format...
-assessment#:#certificate_delete#:#Zertifikat löschen
-assessment#:#certificate_edit#:#Zertifikatvorlage erstellen/bearbeiten
-assessment#:#certificate_error_import#:#Während des Zertifikatimports ist ein Fehler aufgetreten!
-assessment#:#certificate_error_upload_bgimage#:#Beim Hochladen des Hintergrundbildes ist ein Fehler aufgetreten!
-assessment#:#certificate_export#:#Zertifikat exportieren
-assessment#:#certificate_failed#:#nicht bestanden
-assessment#:#certificate_left#:#Links
-assessment#:#certificate_letter_landscape#:#US Brief Quer (8,5 inch x 11 inch)
-assessment#:#certificate_letter#:#US Brief (11 inch x 8.5 inch)
-assessment#:#certificate_margin_body#:#Ränder des Textbereiches
-assessment#:#certificate_not_well_formed#:#Der Zertifikatstext ist nicht wohlgeformt. Bitte verwenden Sie gültiges XHTML für den Text!
-assessment#:#certificate_padding_top#:#Abstand vom oberen Seitenrand
-assessment#:#certificate_page_format#:#Seitenformat
-assessment#:#certificate_pageheight#:#Seitenhöhe
-assessment#:#certificate_pagewidth#:#Seitenbreite
-assessment#:#certificate_passed#:#bestanden
-assessment#:#certificate_ph_date#:#Aktuelles Datum
-assessment#:#certificate_ph_datetime#:#Aktuelles Datum und Uhrzeit
-assessment#:#certificate_ph_firstname#:#Vorname des Teilnehmers oder der Teilnehmerin
-assessment#:#certificate_ph_fullname#:#Name des Teilnehmers oder der Teilnehmerin (Titel, Vorname und Nachname)
-assessment#:#certificate_ph_introduction#:#Die folgenden Platzhalter dürfen verwendet werden
-assessment#:#certificate_ph_lastname#:#Nachname des Teilnehmers oder der Teilnehmerin
-assessment#:#certificate_ph_marklong#:#Erreichte Note (Offizielle Bezeichnung)
-assessment#:#certificate_ph_markshort#:#Erreichte Note (Kurzbezeichnung)
-assessment#:#certificate_ph_maxpoints#:#Maximal erreichbare Punktezahl
-assessment#:#certificate_ph_passed#:#"bestanden" oder "nicht bestanden", abhängig vom Testergebnis
-assessment#:#certificate_ph_resultpercent#:#Erreichte Gesamtprozentzahl des Teilnehmers oder der Teilnehmerin
-assessment#:#certificate_ph_resultpoints#:#Erreichte Punkte des Teilnehmers oder der Teilnehmerin
-assessment#:#certificate_ph_testtitle#:#Titel des Tests
-assessment#:#certificate_preview#:#Vorschau des Zertifikats anzeigen
-assessment#:#certificate_right#:#Rechts
-assessment#:#certificate_show#:#Zertifikat anzeigen
-assessment#:#certificate_status_complete#:#Das Zertifikat ist vollständig und kann verwendet werden
-assessment#:#certificate_status_incomplete#:#Das Zertifikat ist unvollständig
-assessment#:#certificate_status#:#Status
-assessment#:#certificate_text#:#Zertifikatstext
-assessment#:#certificate_top#:#Oben
-assessment#:#certificate_unit_description#:#Geben Sie Maße immer in der Form WERT[cm|mm|in|pt|pc|px|em] an, d.h. 10mm oder 3in
-assessment#:#certificate_var_max_points#:#46
-assessment#:#certificate_var_result_mark_long#:#Gut
-assessment#:#certificate_var_result_mark_short#:#2
-assessment#:#certificate_var_result_passed#:#bestanden
-assessment#:#certificate_var_result_percent#:#83%
-assessment#:#certificate_var_result_points#:#38
-assessment#:#certificate_var_user_firstname#:#Erika
-assessment#:#certificate_var_user_fullname#:#Erika Mustermann
-assessment#:#certificate_var_user_lastname#:#Mustermann
-assessment#:#certificate_var_user_title#:#Dr.
-assessment#:#certificate_var_user_institution#:#ILIAS Open Source
-assessment#:#certificate_var_user_department#:#Benutzerbetreuung
-assessment#:#certificate_var_user_street#:#Heidestraße 17
-assessment#:#certificate_var_user_city#:#Köln
-assessment#:#certificate_var_user_zipcode#:#51147
-assessment#:#certificate_var_user_country#:#Deutschland
-assessment#:#certificate_ph_title#:#Titel des Teilnehmers oder der Teilnehmerin
-assessment#:#certificate_ph_institution#:#Institution des Teilnehmers oder der Teilnehmerin
-assessment#:#certificate_ph_department#:#Abteilung des Teilnehmers oder der Teilnehmerin
-assessment#:#certificate_ph_street#:#Straße der Adresse des Teilnehmers oder der Teilnehmerin
-assessment#:#certificate_ph_city#:#Stadt der Adresse des Teilnehmers oder der Teilnehmerin
-assessment#:#certificate_ph_zipcode#:#Postleitzahl der Adresse des Teilnehmers oder der Teilnehmerin
-assessment#:#certificate_ph_country#:#Land der Adresse des Teilnehmers oder der Teilnehmerin
-assessment#:#certificate_visibility_always#:#Immer sichtbar
-assessment#:#certificate_visibility_introduction#:#Die Schaltfläche, die den Teilnehmern und Teilnehmerinnen in der Ergebnisansicht das Zertifikat anbietet ist
-assessment#:#certificate_visibility_never#:#Nicht sichtbar
-assessment#:#certificate_visibility_passed#:#Nur sichtbar, wenn der Teilnehmer oder die Teilnehmerin den Test bestanden hat
-assessment#:#certificate_visibility#:#Sichtbarkeit
-assessment#:#certificate_wrong_unit#:#Sie haben einen falschen Wert oder eine falsche Einheit eingetragen
-assessment#:#certificate_wrong_units#:#Sie haben einen falschen Abfolge von Werten und Einheiten eingetragen
-assessment#:#certificate#:#Zertifikat
 assessment#:#change_properties_from_random_to_standard#:#Sie wollen Ihre Testeinstellungen von einem Zufallstest zu einem Test mit festen Fragen ändern. Die Fragenpools, die Sie bereits zu diesem Zufallstest hinzugefügt haben werden aus dem Test entfernt. Wollen Sie die Testeinstellungen wirklich ändern?
 assessment#:#change_properties_from_standard_to_random#:#Sie wollen Ihre Testeinstellungen von einem Test mit festen Fragen zu einem Zufallstest ändern. Die Fragen, die Sie bereits zu diesem Test hinzugefügt haben werden aus dem Test entfernt. Wollen Sie die Testeinstellungen wirklich ändern?
 assessment#:#change_solution#:#Musterlösung wechseln
@@ -7436,7 +7358,6 @@ trac#:#trac_occurrences#:#Pfad:
 trac#:#trac_participated#:#Teilgenommen
 trac#:#trac_processing_time#:#Angenommene Bearbeitungszeit
 trac#:#trac_progress#:#Persönlicher Lernfortschritt
-trac#:#trac_query#:#Titel/Beschreibung:
 trac#:#trac_reached_objectives#:#Erreichte Lernziele
 trac#:#trac_reached_points#:#Erreichte Punktzahl
 trac#:#trac_reached_visits#:#Benötigte Aufrufe
@@ -9197,7 +9118,6 @@ common#:#question_message#:#Frage
 common#:#form_input_not_valid#:#Einige Angaben sind unvollständig oder ungültig. Bitte korrigieren Sie Ihre Eingabe.
 search#:#lucene_general_settings#:#Allgemeine Einstellungen
 search#:#lucene_advanced_settings#:#Erweiterte Suche
-search#:#lucene_advanced_settings_table#:#Einstellungen zur Erweiterten Suche
 search#:#lucene_activate_field#:#Suche aktivieren
 survey#:#use_anonymous_id#:#Zugangsschlüssel anzeigen
 survey#:#use_anonymous_id_desc#:#Zeigt bei anonymisierten Umfragen statt des Benutzernamens den Zugangsschlüssel an. Wenn die Option nicht ausgewählt ist, wird stattdessen die Zeichenkette "Unbekannt" angezeigt.
@@ -9222,8 +9142,126 @@ common#:#simultaneous_login_detected#:#Der Zugang zum System wird verweigert, da
 trac#:#trac_select_area#:#Bereich ändern
 trac#:#trac_title_description#:#Titel / Beschreibung
 trac#:#trac_hide_selected#:#Ausgewählte Inhalte ausblenden
+search#:#search_select_search_area#:#Suchbereich ändern
+gmaps#:#gmaps_lookup_address#:#Adresse suchen
+common#:#notes_and_comments#:#Notizen und Kommentare
+ps#:#ps_error_message_invalid_password_min_length#:#Minimum password size may not be less than 0.###30 04 2009 new variable
+content#:#cont_tracking_byuser#:#By User###30 04 2009 new variable
+content#:#cont_tracking_bysco#:#By Chapter###30 04 2009 new variable
+content#:#cont_adjust_size#:#Grösse anpassen
+content#:#cont_use_same_resource_as_above#:#Obige Datei benutzen
+content#:#cont_constrain_proportions#:#Proportionen erhalten
+content#:#cont_resource_size#:#Resource Size###30 04 2009 new variable
+content#:#cont_resize_img#:#Resize Image File###30 04 2009 new variable
+content#:#cont_autostart#:#Autostart###30 04 2009 new variable
+content#:#cont_default#:#Default###30 04 2009 new variable
+content#:#cont_custom#:#Custom###30 04 2009 new variable
+content#:#cont_no_parameters#:#No Parameters###30 04 2009 new variable
+content#:#cont_no_caption#:#No Caption###30 04 2009 new variable
+content#:#cont_custom_size#:#Custom Size###30 04 2009 new variable
+common#:#session_reminder_extended#:#Your Session was extended for %s###30 04 2009 new variable
+common#:#session_reminder_session_duration#:#(Session Duration: %s).###30 04 2009 new variable
+content#:#cont_print_no_page_selected#:#Please select at least one page.###30 04 2009 new variable
+mail#:#invite_to_chat#:#Invite to Chat###30 04 2009 new variable
+mail#:#mail_invite_users_to_chat#:#Invite Users to Chat###30 04 2009 new variable
+mail#:#chat_select_room#:#Select Chat Room###30 04 2009 new variable
+mail#:#chat_users_without_permission#:#The following Users don't have access to the selected Chat Room.###30 04 2009 new variable
+mail#:#chat_users_have_been_invited#:#The Users have been invited.###30 04 2009 new variable
+mail#:#goto_invitation_chat#:#Open Chat Room###30 04 2009 new variable
+mail#:#chat_users_without_login#:#The following Users don't have an ILIAS Account and can't be invited to a Chat Room###30 04 2009 new variable
+chat#:#chat_open#:#Enter Room###30 04 2009 new variable
+chat#:#chat_kick#:#Kick###30 04 2009 new variable
+chat#:#chat_unkick#:#Unkick###30 04 2009 new variable
+chat#:#chat_add_to_bookmark#:#Add to Bookmarks###30 04 2009 new variable
+chat#:#chat_add_to_addressbook#:#Add to Contacts###30 04 2009 new variable
+chat#:#chat_confirm_delete_private_room#:#Are you sure to delete this private room?###30 04 2009 new variable
+chat#:#chat_confirm_kick_user#:#Are you sure to kick this user?###30 04 2009 new variable
+chat#:#chat_user_unkicked#:#The user has been unkicked.###30 04 2009 new variable
+chat#:#chat_invite#:#Invite###30 04 2009 new variable
+chat#:#chat_disinvite#:#Disinvite###30 04 2009 new variable
+chat#:#chat_confirm_user_invite#:#The User will be invited to this Chat Room###30 04 2009 new variable
+chat#:#chat_added_to_bookmarks#:#The Room ' %s ' has been added to the top folder of your Bookmarks###30 04 2009 new variable
+chat#:#chat_default_bookmark_title#:#Chat Link: %s###30 04 2009 new variable
+chat#:#chat_default_bookmark_description#:#Link to Chat Room ' %s '###30 04 2009 new variable
+chat#:#chat_added_to_addressbook#:#The User ' %s ' has been added to your Contacts.###30 04 2009 new variable
+chat#:#chat_user_already_in_addressbook#:#The User is already in your Contacts.###30 04 2009 new variable
+chat#:#chat_recent_postings#:#Recent Chat Postings###30 04 2009 new variable
+chat#:#chat_available_smilies#:#Available Smilies###30 04 2009 new variable
+chat#:#chat_smiley_image#:#Smiley Image###30 04 2009 new variable
+chat#:#chat_smiley_keyword#:#Smiley Keyword###30 04 2009 new variable
+chat#:#chat_add_smiley#:#Add Smiley###30 04 2009 new variable
+chat#:#chat_edit_smiley#:#Edit Smiley###30 04 2009 new variable
+chat#:#chat_image_path#:#Image Path###30 04 2009 new variable
+chat#:#chat_current_image_path#:#Current Image Path###30 04 2009 new variable
+chat#:#chat_smiley_keywords#:#Smiley Keyword###30 04 2009 new variable
+chat#:#chat_smiley_keywords_one_per_line_note#:#You can enter multiple Keywords for each Smiley. Each line will be used as a seperate Keyword.###30 04 2009 new variable
+chat#:#chat_upload_smiley#:#Upload Smiley###30 04 2009 new variable
+chat#:#chat_smiley_image_only_if_changed#:#Please enter a new Image only if you want to change the existing. If no new Image is given, the existing won't be changed.###30 04 2009 new variable
+chat#:#chat_delete_selected#:#Delete selected Smilies###30 04 2009 new variable
+chat#:#chat_new_message_sound_status#:#Play a sound if a new Message is received###30 04 2009 new variable
+chat#:#edit_smilies#:#Edit Smilies###30 04 2009 new variable
+chat#:#chat_message_notify#:#Message Notifier###30 04 2009 new variable
+chat#:#chat_message_notify_activate#:#Activate Message Notify###30 04 2009 new variable
+chat#:#chat_message_notify_deactivate#:#Deactivate Message Notify###30 04 2009 new variable
+chat#:#chat_smilies_status#:#Chat Smilies###30 04 2009 new variable
+chat#:#chat_smilies_activate#:#Activate Smilies###30 04 2009 new variable
+chat#:#chat_smilies_deactivate#:#Deactivate Smilies###30 04 2009 new variable
+chat#:#chat_enable_autoscroll#:#Enable Autoscroll###30 04 2009 new variable
+chat#:#chat_chatviewer#:#Chat Viewer###30 04 2009 new variable
+chat#:#chat_room_does_not_exist#:#The Chat Room does not exist. Maybe it has been removed or you used an invalid link.###30 04 2009 new variable
+chat#:#chat_user_hidden#:#hidden###30 04 2009 new variable
+chat#:#chat_user_visible#:#visible###30 04 2009 new variable
+user#:#user_public_profile_info#:#Bitte wählen Sie aus, welche Daten im öffentlichen Profil erscheinen sollen.
+user#:#user_activate_public_profile#:#Öffentliches Profil aktivieren
+user#:#user_activate_public_profile_info#:#Globale Aktivierung Ihres öffentlichen Profiles. Vor- und Nachname werden sichtbar.
+search#:#lucene_advances_settings_table#:#Advances Search Settings###30 04 2009 new variable
+common#:#bookmark_added#:#The Bookmark has been created.###30 04 2009 new variable
+common#:#bookmark_save_to#:#save as bookmark###30 04 2009 new variable
+common#:#pd_enable_chatviewer#:#Enable Chatviewer###30 04 2009 new variable
+common#:#chat_settings#:#Chat Settings###30 04 2009 new variable
+chat#:#chat_smilies_dir_not_exists#:#The smiley data directory does not exist. Trying to setup folders and database.###30 04 2009 new variable
+chat#:#chat_smilies_dir_not_available#:#The smiley data directory could not be created. This ILIAS will not be able to use chat smilies as further actions are needed.###30 04 2009 new variable
+chat#:#chat_smilies_dir_not_writable#:#Your smiley data directory exists but is not writable. You will not be able to add smiles.###30 04 2009 new variable
+chat#:#chat_smilies_initialized#:#The smiley data has been initialized and is ready to use.###30 04 2009 new variable
+administration#:#adm_locale#:#Locale
+administration#:#adm_locale_info#:#Die Locale-Einstellung beeinflusst die alphabetische Sortierung in Listen. Beispiele sind nl_NL oder de_DE. Es können mehrere Werte angegeben werden (kommagetrennt). Der erste gültige Wert wird genutzt.
+common#:#accs_edit_permission#:#Change permission settings###30 04 2009 new variable
+common#:#accs_visible#:#Accessibility Settings are visible###30 04 2009 new variable
+common#:#accs_read#:#Read access to Accessibility Settings###30 04 2009 new variable
+common#:#accs_write#:#Edit Accessibility Settings###30 04 2009 new variable
+common#:#obj_accs#:#Barrierefreiheit
+common#:#obj_accs_desc#:#Einstellungen zur Barrierefreiheit
+acc#:#acc_access_keys#:#Access-Keys
+acc#:#acc_access_key#:#Access-Key
+acc#:#acc_component#:#Komponente
+acc#:#acc_function#:#Funktion
+acc#:#acc_next#:#Next###Weiter (zur nächsten Seite)
+acc#:#acc_previous#:#Zurück (zur vorigen Seite)
+acc#:#acc_delete#:#Löschen
+acc#:#acc_last_visited#:#Zuletzt besucht
+acc#:#acc_tree_on#:#Baumansicht an
+acc#:#acc_tree_off#:#Baumansicht aus
+acc#:#acc_reply#:#Antworten
+acc#:#acc_forward_mail#:#Weiterleiten
+acc#:#acc_mark_all_read#:#Alle auf gelesen setzen
+acc#:#acc_comp_global#:#Global
+acc#:#acc_comp_mail#:#Mail
+acc#:#acc_comp_frm#:#Forum
+user#:#user_screen_reader_optimization#:#Screen-Reader-Optimierung
+user#:#user_screen_reader_optimization_info#:#Automatischer Fokus and Ajax Optimierungen.
+common#:#block#:#Block
+common#:#block_management#:#Block Management
+common#:#show_hidden_block#:#Deaktivieren Block anzeigen
+common#:#create_block#:#Block erstellen
+notes#:#notes_edit_note#:#Notiz ändern
+notes#:#notes_edit_comment#:#Kommentar ändern
+notes#:#notes_label#:#Label
+notes#:#notes_add_note#:#Notiz hinzufügen
+notes#:#notes_note_deleted#:#Die Notiz wurde gelöscht
+notes#:#notes_notes_deleted#:#Die Notizen wurden gelöscht.
+common#:#user_image#:#Benutzerbild
+search#:#search_term_combination#:#Kombination
 search#:#lucene_err_allowed_characters#:#Es kann nur nach den folgenden Zeichen gesucht werden: a-z A-Z 0-9.  _ + - : () \" & * ? | ! {} [ ] ^ ~ \\ @ = # % $ ' /
-search#:#lucene_all_occurrences#:#... %s other occurrence(s)
 search#:#lucene_err_asterisk#:#Dem Wildcard-Zeichen (*) muss mindestens ein Buchstabe oder eine Zahl vorausgehen.
 search#:#lucene_err_ampersand#:#Anfragen mit dem Spezialzeichen && müssen folgende Form haben: term1 && term2.
 search#:#lucene_err_caret#:#Dem Zirkumflex-Zeichen (^) muss ein alphanumerisches Zeichen vorausgehen und Zahlen folgen.

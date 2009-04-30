@@ -5087,7 +5087,7 @@ crs#:#crs_role_status#:#Role / Status
 crs#:#crs_search_enter_search_string#:#Please enter a search string
 crs#:#crs_search_for#:#Search for
 crs#:#crs_search_members#:#User search
-crs#:#crs_search_str#:#Search term
+crs#:#crs_search_str#:#Search Term
 crs#:#crs_select_archive_language#:#Please select a language for the archive
 crs#:#crs_select_exactly_one_lm#:#Please select exactly one learning module.
 crs#:#crs_select_exactly_one_tst#:#Please select exactly one test.
@@ -6672,7 +6672,7 @@ search#:#search_all_words#:#All words
 search#:#search_and#:#and
 search#:#search_any#:#-- Any --
 search#:#search_any_word#:#Any word
-search#:#search_area#:#Search area
+search#:#search_area#:#Search Area
 search#:#search_area_info#:#Please select an area where the search should start.
 search#:#search_below#:#Beneath:
 search#:#search_change#:#Change
@@ -6730,7 +6730,7 @@ search#:#search_save_as_select#:#Save as:
 search#:#search_search_for#:#Search for
 search#:#search_search_no_results_saved#:#There are no search results saved
 search#:#search_search_results#:#Search results
-search#:#search_search_term#:#Search term
+search#:#search_search_term#:#Search Term
 search#:#search_select_exactly_one_object#:#You must select exactly one object.
 search#:#search_select_folder#:#Please select exactly one folder. It is not possible to rename search results.
 search#:#search_select_one#:#Select one folder
@@ -7256,7 +7256,7 @@ trac#:#meta_typical_learning_time#:#Typical learning time
 trac#:#newUT_settings#:#Learning Module Statistics
 trac#:#obj_types#:#Object Types
 trac#:#search_area_info#:#Please choose one object.
-trac#:#search_terms#:#Search term(s)
+trac#:#search_terms#:#Search Term(s)
 trac#:#select_one#:#Please select one object
 trac#:#stats_access#:#Access
 trac#:#stats_accesses#:#Accesses
@@ -9259,6 +9259,8 @@ ps#:#ps_prevent_simultaneous_logins_info#:#If enabled, simultaneous logins with 
 common#:#simultaneous_login_detected#:#Your access is denied because of a simultaneous login with the same account.
 trac#:#trac_select_area#:#Select Area
 trac#:#trac_hide_selected#:#Hide Selected Items
+search#:#search_term_combination#:#Combination
+search#:#search_select_search_area#:#Select Search Area
 search#:#lucene_err_asterisk#:#The wildcard (*) character must be preceded by at least one alphabet or number.
 search#:#lucene_err_ampersand#:#Queries containing the special characters && must be in the form: term1 && term2.
 search#:#lucene_err_caret#:#The caret (^) character must be preceded by alphanumeric characters and followed by numbers.

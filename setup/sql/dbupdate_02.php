@@ -11532,3 +11532,7 @@ ALTER TABLE `frm_threads` CHANGE `import_name` `import_name` VARCHAR( 4000 ) NUL
 <?php 
 	$ilMySQLAbstraction->performAbstraction('frm_settings');
 ?>
+<#2388>
+<?php
+$ilCtrlStructureReader->getStructure();
+?>

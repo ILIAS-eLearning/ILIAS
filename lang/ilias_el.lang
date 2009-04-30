@@ -221,83 +221,6 @@ assessment#:#cannot_export_test#:#Δεν έχετε επαρκή δικαιώμ�
 assessment#:#cannot_maintain_test#:#Δεν έχετε επαρκή δικαιώματα για να συντηρήσετε το διαγώνισμα!
 assessment#:#cannot_read_questionpool#:#Δεν έχετε επαρκή δικαιώματα για να διαβάσετε τη δεξαμενη ερωτήσεων!
 assessment#:#cannot_save_metaobject#:#Δεν έχετε επαρκή δικαιώματα για να αποθηκεύσετε τα μετα-δεδομένα!
-assessment#:#certificate#:#Πιστοποιητικό
-assessment#:#certificate_a4#:#Πιστοποιητικό A4 (297 mm x 210 mm)
-assessment#:#certificate_a4_landscape#:#Πιστοποιητικό A4 Landscape (210 mm x 297 mm)
-assessment#:#certificate_a5#:# Πιστοποιητικό A5 (210 mm x 148 mm)
-assessment#:#certificate_a5_landscape#:#Πιστοποιητικό A5 Landscape (148 mm x 210 mm)
-assessment#:#certificate_background_image#:#Πιστοποιητικό εικόνα φόντου
-assessment#:#certificate_bottom#:#Πιστοποιητικό τέλος σελίδας
-assessment#:#certificate_confirm_deletion_text#:#Θέλετε να διαγράψετε το πιστοποιητικό και τα σχετιζόμενα με αυτό δεδομένα ?
-assessment#:#certificate_custom#:#Πιστοποιητικό Παραμετροποίηση
-assessment#:#certificate_delete#:#Διαγραφή δεδομένων Πιστοποιητικού
-assessment#:#certificate_edit#:#Δημιουργία-επεξεργασία φόρμας πιστοποιητικού
-assessment#:#certificate_error_import#:#Σφάλμα προέκυψε κατα την εισαγωγή πιστοποιητικού!
-assessment#:#certificate_error_upload_bgimage#:#Σφάλμα προέκυψε κατα το ανέβασμα της εικόνας φόντου!
-assessment#:#certificate_export#:#Εξαγωγή Πιστοποιητικού
-assessment#:#certificate_failed#:#Η ενέργεια απέτυχε
-assessment#:#certificate_left#:#Αριστερά
-assessment#:#certificate_letter#:#Γράμμα (11 inch x 8.5 inch)
-assessment#:#certificate_letter_landscape#:#Γράμμα Landscape (8.5 inch x 11 inch)
-assessment#:#certificate_margin_body#:#Περιθώρια σώματος
-assessment#:#certificate_not_well_formed#:#Το κείμενο του πιστοποιητικού δέν ειναι καλα μορφοποιημένα. Παρακαλώ εισάγετε έγκυρο XHTML για το κείμενο του Πιστοποιητικού!
-assessment#:#certificate_padding_top#:#Top Padding
-assessment#:#certificate_pageheight#:#Υψος σελίδας
-assessment#:#certificate_pagewidth#:#Πλάτος σελίδας
-assessment#:#certificate_page_format#:#Μορφοποίηση σελίδας
-assessment#:#certificate_passed#:#Επιτυχής παρακολούθηση
-assessment#:#certificate_ph_city#:#Πόλη καταγωγής του Χρήστη
-assessment#:#certificate_ph_country#:#Χώρα καταγωγής του Χρήστη
-assessment#:#certificate_ph_date#:#Ακριβής ημερομηνία
-assessment#:#certificate_ph_datetime#:#Ακριβής ημερα και ώρα
-assessment#:#certificate_ph_department#:#Τμήμα του Χρήστη
-assessment#:#certificate_ph_firstname#:#Ονομα Χρήστη
-assessment#:#certificate_ph_fullname#:#Πλήρες Όνομα Χρήστη (Τίτλος, Ονομα, Επώνυμο)
-assessment#:#certificate_ph_institution#:#Οργανισμός που ανήκει ο Χρήστης
-assessment#:#certificate_ph_introduction#:#Οι ακόλουθοι στηλοδέικτες μπορούν να χρησιμοποιηθούν
-assessment#:#certificate_ph_lastname#:#Επώνυμο Χρήστη
-assessment#:#certificate_ph_marklong#:#Σύμβολο Χρήστη (επίσημο)
-assessment#:#certificate_ph_markshort#:#Σύμβολο Χρήστη (Συντμημένο)
-assessment#:#certificate_ph_maxpoints#:#Μέγιστος αριθμός διαθέσιμων πόντων
-assessment#:#certificate_ph_passed#:#"Συγχαρητήρια !" ή "Αποτύχατε", ανάλογα με το αποτέλεσμα των τέστ
-assessment#:#certificate_ph_resultpercent#:#Ποσοστό "%" που προσέγγισε ο Χρήστης
-assessment#:#certificate_ph_resultpoints#:#Βαθμολογία Χρήστη
-assessment#:#certificate_ph_street#:#Διεύθυνση Χρήστη
-assessment#:#certificate_ph_testtitle#:#Τίτλος του τέστ
-assessment#:#certificate_ph_title#:#Τίτλος του Χρήστη
-assessment#:#certificate_ph_zipcode#:#Ταχ. Κωδικας του Χρήστη
-assessment#:#certificate_preview#:#Προεπισκόπηση Πιστοποιητικού
-assessment#:#certificate_right#:#Δεξιά
-assessment#:#certificate_show#:#Εμφάνιση Πιστοποιητικού
-assessment#:#certificate_status#:#Κατάσταση
-assessment#:#certificate_status_complete#:#Το πιστοποιητικό είναι πλήρες και μπορεί να χρησιμοποιηθεί
-assessment#:#certificate_status_incomplete#:#Το πιστοποιητικό είναι ημιτελές
-assessment#:#certificate_text#:#Κείμενο πιστοποιητικού
-assessment#:#certificate_top#:#Κορυφή
-assessment#:#certificate_unit_description#:#Εισάγετε μονάδα μέτρησης [cm|mm|in|pt|pc|px|em], π.χ.10mm or 3in
-assessment#:#certificate_var_max_points#:#46
-assessment#:#certificate_var_result_mark_long#:#Καλά
-assessment#:#certificate_var_result_mark_short#:#B
-assessment#:#certificate_var_result_passed#:#Πέρασε
-assessment#:#certificate_var_result_percent#:#83%
-assessment#:#certificate_var_result_points#:#38
-assessment#:#certificate_var_user_city#:#Πόλη Χρήστη
-assessment#:#certificate_var_user_country#:#Χώρα Χρήστη
-assessment#:#certificate_var_user_department#:#Υποστήριξη πελατών
-assessment#:#certificate_var_user_firstname#:#Ονομα
-assessment#:#certificate_var_user_fullname#:#Πλήρες Ονομα
-assessment#:#certificate_var_user_institution#:#Ανοιχτός κώδικας ILIAS
-assessment#:#certificate_var_user_lastname#:#Doe
-assessment#:#certificate_var_user_street#:#100 Main Street
-assessment#:#certificate_var_user_title#:#Dr.
-assessment#:#certificate_var_user_zipcode#:#12345
-assessment#:#certificate_visibility#:#Ορατό
-assessment#:#certificate_visibility_always#:#Πάντοτε ορατό
-assessment#:#certificate_visibility_introduction#:#Το κουμπί που προσφέρει στους χρήστες το πιστοποιητικό είναι
-assessment#:#certificate_visibility_never#:#Μή Ορατό
-assessment#:#certificate_visibility_passed#:#Ορατό μόνο εφόσον ο Χρήστης περάσει τη δοκιμασία
-assessment#:#certificate_wrong_unit#:#Έχετε εισάγει λάθος μονάδα
-assessment#:#certificate_wrong_units#:#Έχετε εισάγει λάθος σειρά μονάδων
 assessment#:#changelog_description#:#Ο ακόλουθος πίνακας περιλαμβάνει όλες τις αλλαγές των συγγραφέων που έγιναν σ' αυτό το διαγώνισμα.
 assessment#:#changelog_heading#:#Αρχείο καταγραφής αλλαγών
 assessment#:#change_properties_from_random_to_standard#:#Πρόκειται ν' αλλάξετε τις ιδιότητες του διαγωνίσματος από τυχαίο σε μη τυχαίο. Οι πληροφορίες στις πηγές ερωτήσεων που έχετε ήδη προσθέσει στο τυχαίο διαγώνισμα θα διαγραφούν από αυτό. Είστε σίγουροι ότι θέλετε ν' αλλάξετε τις ιδιότητες του διαγωνίσματος;
@@ -8615,7 +8538,6 @@ trac#:#trac_occurrences#:#Διαδρομή:
 trac#:#trac_participated#:#Συμμετείχαν
 trac#:#trac_processing_time#:#Χρόνος επεξεργασίας
 trac#:#trac_progress#:#Προσωπική εκπαιδευτική πρόοδος
-trac#:#trac_query#:#Τίτλος/περιγραφή:
 trac#:#trac_reached_objectives#:#Επιτευχέντες αντικειμενικοί σκοποί
 trac#:#trac_reached_points#:#Σκορ που επιτεύχθηκε
 trac#:#trac_reached_visits#:#Απαιτούμενες επισκέψεις
@@ -8758,3 +8680,588 @@ assessment#:#err_no_numeric_value#:#Please enter a numeric value###02 03 2009 ne
 common#:#chat_enter_public_room#:#Public Chat###02 03 2009 new variable
 common#:#chat_enter_public_room_tooltip#:#Enter public chat.###02 03 2009 new variable
 common#:#chat_invite_public_room_tooltip#:#Invite to public chat###02 03 2009 new variable
+common#:#cert_edit_permission#:#Change permission settings###30 04 2009 new variable
+common#:#cert_visible#:#Certificate Settings are visible###30 04 2009 new variable
+common#:#cert_read#:#Read access to Certificate Settings###30 04 2009 new variable
+common#:#cert_write#:#Edit Certificate Settings###30 04 2009 new variable
+gmaps#:#gmaps_lookup_address#:#Lookup Address###30 04 2009 new variable
+common#:#obj_cert#:#Certificates###30 04 2009 new variable
+common#:#obj_cert_desc#:#Settings for certificates###30 04 2009 new variable
+common#:#notes_and_comments#:#Notes and Comments###30 04 2009 new variable
+trac#:#trac_title_description#:#Title / Description###30 04 2009 new variable
+common#:#file_locked_by#:#File locked by###30 04 2009 new variable
+common#:#lock_file#:#Lock file###30 04 2009 new variable
+common#:#permission_denied_filed_locked_by#:#Access denied. The file was locked by '%s'.###30 04 2009 new variable
+common#:#file_lock_unlock_file#:#Lock/Unlock file###30 04 2009 new variable
+content#:#cont_ed_insert_plach#:#Insert Placeholder###30 04 2009 new variable
+content#:#cont_ed_plachtext#:#Placeholder Text###30 04 2009 new variable
+content#:#cont_ed_plachmedia#:#Placeholder Media###30 04 2009 new variable
+content#:#cont_ed_plachquestion#:#Placeholder Question###30 04 2009 new variable
+content#:#cont_ed_plachprop#:#Placeholder Properties###30 04 2009 new variable
+content#:#cont_media_placehl#:#Media Placeholder###30 04 2009 new variable
+content#:#cont_question_placehl#:#Question Placeholder###30 04 2009 new variable
+content#:#cont_text_placehl#:#Text Placeholder###30 04 2009 new variable
+content#:#cont_ed_pglprop#:#Page Layout Properties###30 04 2009 new variable
+style#:#sty_based_on#:#Based on###30 04 2009 new variable
+style#:#sty_add_pgl#:#Add Page Layout###30 04 2009 new variable
+style#:#sty_create_pgl#:#Create Page Layout###30 04 2009 new variable
+style#:#sty_name#:#Name###30 04 2009 new variable
+style#:#sty_example#:#Example###30 04 2009 new variable
+style#:#sty_commands#:#Commands###30 04 2009 new variable
+style#:#sty_msg_input_must_be_numeric#:#Input must be numeric.###30 04 2009 new variable
+style#:#sty_style_chars#:#Style Classes###30 04 2009 new variable
+style#:#sty_images#:#Images###30 04 2009 new variable
+style#:#sty_add_image#:#Add Image###30 04 2009 new variable
+style#:#sty_width_height#:#Width x Height###30 04 2009 new variable
+style#:#sty_image_file#:#Image File###30 04 2009 new variable
+style#:#sty_horizontal#:#Horizontal###30 04 2009 new variable
+style#:#sty_vertical#:#Vertical###30 04 2009 new variable
+style#:#sty_text_block_char#:#Text (Block)###30 04 2009 new variable
+style#:#sty_text_inline_char#:#Text (Character)###30 04 2009 new variable
+style#:#sty_section_char#:#Section###30 04 2009 new variable
+style#:#sty_link_char#:#Link###30 04 2009 new variable
+style#:#sty_table_char#:#Table###30 04 2009 new variable
+style#:#sty_table_cell_char#:#Table Cell###30 04 2009 new variable
+style#:#sty_add_characteristic#:#Add Style Class###30 04 2009 new variable
+style#:#sty_page_char#:#Page###30 04 2009 new variable
+style#:#sty_min_height#:#Minimum Height###30 04 2009 new variable
+style#:#sty_confirm_char_deletion#:#Are you sure that you want to delete the following style classe(s)?###30 04 2009 new variable
+style#:#sty_msg_characteristic_must_only_include#:#The title of style classes may only include the following characters:###30 04 2009 new variable
+style#:#sty_msg_characteristic_already_exists#:#A style class with this title already exisits in this style.###30 04 2009 new variable
+style#:#sty_added_characteristic#:#Added style class.###30 04 2009 new variable
+sahs#:#sahs_new_chapter#:#New Chapter###30 04 2009 new variable
+sahs#:#sahs_new_page#:#New Page###30 04 2009 new variable
+sahs#:#sahs_new_sco#:#New SCO###30 04 2009 new variable
+forum#:#frm_moderators#:#Moderators###30 04 2009 new variable
+forum#:#frm_detach_moderator_role#:#Detach Moderator Role###30 04 2009 new variable
+forum#:#frm_moderators_select_at_least_one#:#Please choose at least one moderator.###30 04 2009 new variable
+forum#:#frm_moderators_detached_role_successfully#:#The moderator role was detached for all selected users successfully.###30 04 2009 new variable
+forum#:#frm_moderators_search#:#User Search###30 04 2009 new variable
+forum#:#frm_moderators_search_query#:#Searchterm(s)###30 04 2009 new variable
+forum#:#frm_moderators_do_search#:#Search###30 04 2009 new variable
+forum#:#frm_moderator_role_added_successfully#:#The moderator role was added successfully.###30 04 2009 new variable
+forum#:#frm_moderators_select_one#:#Please choose one user.###30 04 2009 new variable
+forum#:#frm_moderators_not_exist_yet#:#Please choose a moderator. ###30 04 2009 new variable
+forum#:#frm_moderators_matches_in_no_results#:#Your search did not match any results.###30 04 2009 new variable
+payment#:#shop_info#:#Shop Information###30 04 2009 new variable
+common#:#payment_demo#:#Demo###30 04 2009 new variable
+payment#:#payment_back_to_shop#:#Back to Shop###30 04 2009 new variable
+content#:#cont_adjust_size#:#Adjust Size###30 04 2009 new variable
+content#:#cont_use_same_resource_as_above#:#Use the same resource as above###30 04 2009 new variable
+content#:#cont_constrain_proportions#:#Constrain Proportions###30 04 2009 new variable
+content#:#cont_resource_size#:#Resource Size###30 04 2009 new variable
+content#:#cont_resize_img#:#Resize Image File###30 04 2009 new variable
+content#:#cont_autostart#:#Autostart###30 04 2009 new variable
+content#:#cont_default#:#Default###30 04 2009 new variable
+content#:#cont_custom#:#Custom###30 04 2009 new variable
+content#:#cont_no_parameters#:#No Parameters###30 04 2009 new variable
+content#:#cont_no_caption#:#No Caption###30 04 2009 new variable
+content#:#cont_custom_size#:#Custom Size###30 04 2009 new variable
+content#:#cont_assign_characteristic#:#Assign Characteristic###30 04 2009 new variable
+content#:#cont_anchor#:#Anchor###30 04 2009 new variable
+content#:#cont_choose_characteristic#:#Choose Characteristic###30 04 2009 new variable
+content#:#cont_choose_characteristic_text#:#Text Elements###30 04 2009 new variable
+content#:#cont_choose_characteristic_section#:#Sections###30 04 2009 new variable
+common#:#certificate#:#Certificate###30 04 2009 new variable
+certificate#:#certificate_top#:#Top###30 04 2009 new variable
+certificate#:#certificate_right#:#Right###30 04 2009 new variable
+certificate#:#certificate_bottom#:#Bottom###30 04 2009 new variable
+certificate#:#certificate_left#:#Left###30 04 2009 new variable
+certificate#:#certificate_a4#:#A4 (297 mm x 210 mm)###30 04 2009 new variable
+certificate#:#certificate_a4_landscape#:#A4 Landscape (210 mm x 297 mm)###30 04 2009 new variable
+certificate#:#certificate_a5#:#A5 (210 mm x 148 mm)###30 04 2009 new variable
+certificate#:#certificate_a5_landscape#:#A5 Landscape (148 mm x 210 mm)###30 04 2009 new variable
+certificate#:#certificate_letter#:#Letter (11 inch x 8.5 inch)###30 04 2009 new variable
+certificate#:#certificate_letter_landscape#:#Letter Landscape (8.5 inch x 11 inch)###30 04 2009 new variable
+certificate#:#certificate_custom#:#Custom...###30 04 2009 new variable
+certificate#:#certificate_edit#:#Create/Edit a Certificate Template###30 04 2009 new variable
+certificate#:#certificate_export#:#Export Certificate###30 04 2009 new variable
+certificate#:#certificate_page_format#:#Page Format###30 04 2009 new variable
+certificate#:#certificate_page_format_info#:#Please select the default page format for new certificates.###30 04 2009 new variable
+certificate#:#certificate_background_image#:#Background Image###30 04 2009 new variable
+certificate#:#certificate_padding_top#:#Top Padding###30 04 2009 new variable
+certificate#:#certificate_margin_body#:#Body Margin###30 04 2009 new variable
+certificate#:#certificate_not_well_formed#:#The certificate text is not well formed. Please enter valid XHTML for the certificate text!###30 04 2009 new variable
+certificate#:#certificate_show#:#Show Certificate###30 04 2009 new variable
+certificate#:#certificate_status#:#Status###30 04 2009 new variable
+certificate#:#certificate_status_complete#:#The certificate is complete and could be used###30 04 2009 new variable
+certificate#:#certificate_status_incomplete#:#The certificate is incomplete###30 04 2009 new variable
+certificate#:#certificate_delete#:#Delete Certificate Data###30 04 2009 new variable
+certificate#:#certificate_preview#:#Show Certificate Preview###30 04 2009 new variable
+certificate#:#certificate_text#:#Certificate Text###30 04 2009 new variable
+certificate#:#certificate_var_user_fullname#:#Dr. Jane Doe###30 04 2009 new variable
+certificate#:#certificate_var_user_firstname#:#Jane###30 04 2009 new variable
+certificate#:#certificate_var_user_lastname#:#Doe###30 04 2009 new variable
+certificate#:#certificate_var_user_title#:#Dr.###30 04 2009 new variable
+certificate#:#certificate_var_user_institution#:#ILIAS Open Source###30 04 2009 new variable
+certificate#:#certificate_var_user_department#:#Customer Support###30 04 2009 new variable
+certificate#:#certificate_var_user_street#:#100 Main Street###30 04 2009 new variable
+certificate#:#certificate_var_user_city#:#Anytown, NY###30 04 2009 new variable
+certificate#:#certificate_var_user_zipcode#:#12345###30 04 2009 new variable
+certificate#:#certificate_var_user_country#:#USA###30 04 2009 new variable
+certificate#:#certificate_var_result_passed#:#passed###30 04 2009 new variable
+certificate#:#certificate_var_result_points#:#38###30 04 2009 new variable
+certificate#:#certificate_var_result_percent#:#83%###30 04 2009 new variable
+certificate#:#certificate_var_max_points#:#46###30 04 2009 new variable
+certificate#:#certificate_var_result_mark_short#:#B###30 04 2009 new variable
+certificate#:#certificate_var_result_mark_long#:#Good###30 04 2009 new variable
+certificate#:#certificate_passed#:#passed###30 04 2009 new variable
+certificate#:#certificate_failed#:#failed###30 04 2009 new variable
+certificate#:#certificate_pageheight#:#Page Height###30 04 2009 new variable
+certificate#:#certificate_pagewidth#:#Page Width###30 04 2009 new variable
+certificate#:#certificate_wrong_unit#:#You have entered a wrong unit###30 04 2009 new variable
+certificate#:#certificate_wrong_units#:#You have entered a wrong set of units###30 04 2009 new variable
+certificate#:#certificate_confirm_deletion_text#:#Do you really want to delete the certificate and all its related data?###30 04 2009 new variable
+certificate#:#certificate_enabled_scorm#:#Enabled###30 04 2009 new variable
+certificate#:#certificate_enabled_scorm_introduction#:#If checked, the certificate will be offered for all users who finished the SCORM learning module.###30 04 2009 new variable
+certificate#:#certificate_ph_lastaccess#:#Last access date and time of the user###30 04 2009 new variable
+certificate#:#certificate_ph_scormtitle#:#Title of the SCORM learning module###30 04 2009 new variable
+certificate#:#certificate_ph_introduction#:#The following placeholders may be used###30 04 2009 new variable
+certificate#:#certificate_ph_fullname#:#Full name of the user (title, firstname and lastname)###30 04 2009 new variable
+certificate#:#certificate_ph_firstname#:#First name of the user###30 04 2009 new variable
+certificate#:#certificate_ph_lastname#:#Last name of the user###30 04 2009 new variable
+certificate#:#certificate_ph_passed#:#"passed" or "failed", depending on the test results###30 04 2009 new variable
+certificate#:#certificate_ph_resultpoints#:#Reached points of the user###30 04 2009 new variable
+certificate#:#certificate_ph_resultpercent#:#Reached percentage of the user###30 04 2009 new variable
+certificate#:#certificate_ph_maxpoints#:#Maximum available points###30 04 2009 new variable
+certificate#:#certificate_ph_markshort#:#Users mark (short version)###30 04 2009 new variable
+certificate#:#certificate_ph_marklong#:#Users mark (official version)###30 04 2009 new variable
+certificate#:#certificate_ph_testtitle#:#Title of the test###30 04 2009 new variable
+certificate#:#certificate_ph_date#:#Actual date###30 04 2009 new variable
+certificate#:#certificate_ph_datetime#:#Actual date and time###30 04 2009 new variable
+certificate#:#certificate_ph_title#:#Title of the user###30 04 2009 new variable
+certificate#:#certificate_ph_institution#:#Institution of the user###30 04 2009 new variable
+certificate#:#certificate_ph_department#:#Department of the user###30 04 2009 new variable
+certificate#:#certificate_ph_street#:#Street of the user's address###30 04 2009 new variable
+certificate#:#certificate_ph_city#:#City of the user's address###30 04 2009 new variable
+certificate#:#certificate_ph_zipcode#:#ZIP code of the user's address###30 04 2009 new variable
+certificate#:#certificate_ph_country#:#Country of the user's address###30 04 2009 new variable
+certificate#:#certificate_unit_description#:#Enter units of measure as VALUE[cm|mm|in|pt|pc|px|em], e.g. 10mm or 3in###30 04 2009 new variable
+certificate#:#certificate_visibility#:#Visibility###30 04 2009 new variable
+certificate#:#certificate_visibility_introduction#:#The button in the test results to offer users this certificate is###30 04 2009 new variable
+certificate#:#certificate_visibility_always#:#Always Visible###30 04 2009 new variable
+certificate#:#certificate_visibility_never#:#Not Visible###30 04 2009 new variable
+certificate#:#certificate_visibility_passed#:#Only Visible if a User Passed the Test###30 04 2009 new variable
+certificate#:#certificate_error_import#:#An error occured during the import of a certificate!###30 04 2009 new variable
+certificate#:#certificate_error_upload_bgimage#:#An error occured during the upload of the background image!###30 04 2009 new variable
+certificate#:#certificate_settings#:#Certificate Settings###30 04 2009 new variable
+certificate#:#default_background_info#:#This background image will be chosen as default background for all certificates. If you need another background image in a certficiate, you have to upload one in the certificate editor.###30 04 2009 new variable
+certificate#:#certificate_usage#:#Please note that the usage of certificates is only available if the ILIAS Java-Server is running. The configuration for Java-Server is available on the main page of the ILIAS administration in section Webservices.###30 04 2009 new variable
+certificate#:#download_certificate#:#Download Certificate###30 04 2009 new variable
+common#:#to_filter#:#Filter###30 04 2009 new variable
+common#:#user_status#:#User Status###30 04 2009 new variable
+assessment#:#manscoring_done#:#Scored Participants###30 04 2009 new variable
+assessment#:#manscoring_none#:#Unscored Participants###30 04 2009 new variable
+assessment#:#manscoring_pending#:#Partially Scored Participants###30 04 2009 new variable
+common#:#save_params_for_cron#:#Save Parameter for Cronjob###30 04 2009 new variable
+common#:#systemcheck_cronform#:#Activation of System Check in Cronjob###30 04 2009 new variable
+common#:#systemcheck_cron#:#Process System Check in Cronjob###30 04 2009 new variable
+content#:#cont_general_properties#:#General Properties###30 04 2009 new variable
+content#:#cont_current_style#:#Current Style###30 04 2009 new variable
+content#:#cont_edit_style#:#Edit Style###30 04 2009 new variable
+content#:#cont_delete_style#:#Delete Style###30 04 2009 new variable
+content#:#cont_layout_toc2win_desc#:#Table of contents in the left, content in the right frame. FAQ, glossary and media links open in separate window.###30 04 2009 new variable
+content#:#cont_layout_1window_desc#:#Content in the main frame. FAQ, glossary and media links open in separate window.###30 04 2009 new variable
+content#:#cont_layout_2window_desc#:#Content in the left frame. FAQ, glossary and media links open in right frame.###30 04 2009 new variable
+content#:#cont_layout_3window_desc#:#Content in the left frame. FAQ and media links open in top-right frame, glossary links in bottom-right frame.###30 04 2009 new variable
+content#:#cont_layout_toc2windyn_desc#:#Table of contents in the left, content in the right frame. FAQ, glossary and media links open dynamically a frame at bottom-right.###30 04 2009 new variable
+content#:#cont_layout_presentation_desc#:#Content in the main frame. FAQ, glossary and media links open in separate window. No ILIAS main menu.###30 04 2009 new variable
+content#:#cont_layout_fullscreen_desc#:#Content in the main frame. FAQ, glossary and media links open in separate window. No ILIAS main menu and no navigation bar.###30 04 2009 new variable
+content#:#cont_layout_toc2win#:#Table of Contents###30 04 2009 new variable
+content#:#cont_layout_1window#:#One Window###30 04 2009 new variable
+content#:#cont_layout_2window#:#Two Windows###30 04 2009 new variable
+content#:#cont_layout_3window#:#Three Windows###30 04 2009 new variable
+content#:#cont_layout_toc2windyn#:#Table of Contents Dynamic###30 04 2009 new variable
+content#:#cont_layout_presentation#:#Presentation###30 04 2009 new variable
+content#:#cont_layout_fullscreen#:#Full Screen###30 04 2009 new variable
+common#:#obj_lrss#:#Learning Resources###30 04 2009 new variable
+common#:#obj_lrss_desc#:#Configure all types of learning modules.###30 04 2009 new variable
+content#:#cont_lrs_settings#:#Settings###30 04 2009 new variable
+content#:#cont_enable_time_scheduled_page_activation#:#Time Scheduled Page Activation###30 04 2009 new variable
+content#:#cont_enable_time_scheduled_page_activation_info#:#If enabled, an activation period (date/time) can be selected in the learning module editor for each page.###30 04 2009 new variable
+common#:#lrss_edit_permission#:#Change permission settings###30 04 2009 new variable
+common#:#lrss_visible#:#Learning Resources Settings are visible###30 04 2009 new variable
+common#:#lrss_read#:#Read access to Learning Resources Settings###30 04 2009 new variable
+common#:#lrss_write#:#Edit Learning Resources Settings###30 04 2009 new variable
+content#:#cont_edit_lrs_settings#:#Edit Settings###30 04 2009 new variable
+content#:#cont_activation#:#Activation###30 04 2009 new variable
+content#:#cont_page_activation#:#Page Activation###30 04 2009 new variable
+content#:#cont_activated#:#Activated###30 04 2009 new variable
+content#:#cont_deactivated#:#Deactivated###30 04 2009 new variable
+content#:#cont_scheduled_activation#:#Scheduled Activation###30 04 2009 new variable
+content#:#cont_start#:#Start###30 04 2009 new variable
+content#:#cont_end#:#End###30 04 2009 new variable
+shib#:#shib_settings#:#Shibboleth Settings###30 04 2009 new variable
+shib#:#shib_role_assignment#:#Role Assignments###30 04 2009 new variable
+shib#:#shib_role_ass_table#:#New Rule for Role Assignments###30 04 2009 new variable
+shib#:#shib_new_rule#:#Add new Rule###30 04 2009 new variable
+shib#:#shib_role_name#:#ILIAS Role Name###30 04 2009 new variable
+shib#:#shib_global_role#:#Global Role###30 04 2009 new variable
+shib#:#shib_local_role#:#Local Role###30 04 2009 new variable
+shib#:#shib_role_name_info#:#Please choose either a global role or enter the name of a local role.###30 04 2009 new variable
+shib#:#shib_update_roles#:#Role Assignments###30 04 2009 new variable
+shib#:#shib_add_missing#:#Assign Missing Roles###30 04 2009 new variable
+shib#:#shib_remove_deprecated#:#Deassign Deprecated Roles###30 04 2009 new variable
+shib#:#shib_check_role_assignment#:#Assignment of Roles After Later Logins###30 04 2009 new variable
+shib#:#shib_assignment_type#:#Kind of Assignment###30 04 2009 new variable
+shib#:#shib_attribute#:#User Attribute###30 04 2009 new variable
+shib#:#shib_attribute_name#:#Attribute Name###30 04 2009 new variable
+shib#:#shib_attribute_value#:#Attribute Value###30 04 2009 new variable
+shib#:#shib_attr_info#:#Assign by a specific attribute in the Shibboleth User Profile.###30 04 2009 new variable
+shib#:#shib_missing_role#:#Please select one role.###30 04 2009 new variable
+shib#:#shib_missing_attr_name#:#Please enter the attribute name.###30 04 2009 new variable
+shib#:#shib_missing_attr_value#:#Please enter the attribute value.###30 04 2009 new variable
+shib#:#shib_rules_tables#:#Active Role Assignment Rules###30 04 2009 new variable
+shib#:#shib_role_by_attribute#:#Shibboleth Attribute###30 04 2009 new variable
+shib#:#shib_rule_type#:#Type of Assignment###30 04 2009 new variable
+shib#:#shib_ilias_role#:#ILIAS Role Name###30 04 2009 new variable
+shib#:#shib_rule_condition#:#Condition###30 04 2009 new variable
+shib#:#shib_confirm_del_role_ass#:#Do you really want to delete the following rules?###30 04 2009 new variable
+shib#:#shib_deleted_rule#:#Deleted role assignments.###30 04 2009 new variable
+common#:#expanded#:#Expanded###30 04 2009 new variable
+shib#:#shib_update_role_ass_table#:#Edit Role Assignment Rule###30 04 2009 new variable
+shib#:#shib_missing_plugin_id#:#Please enter a valid plugin id.###30 04 2009 new variable
+shib#:#shib_plugin#:#Assignment by Plugin###30 04 2009 new variable
+shib#:#shib_plugin_info#:#Validate the role assignment with a plugin. Please enter a valid plugin id.###30 04 2009 new variable
+shib#:#shib_role_by_plugin#:#By Plugin###30 04 2009 new variable
+shib#:#shib_plugin_id#:#Plugin Id###30 04 2009 new variable
+shib#:#shib_role_selection#:#Role Selection###30 04 2009 new variable
+shib#:#shib_choose_role#:#Choose Role###30 04 2009 new variable
+shib#:#shib_add_remove#:#Add/Remove Roles###30 04 2009 new variable
+common#:#page_layouts#:#Page Layouts###30 04 2009 new variable
+common#:#page_layout#:#Page Layout###30 04 2009 new variable
+style#:#sty_list_char#:#List###30 04 2009 new variable
+style#:#sty_media_char#:#Media###30 04 2009 new variable
+style#:#sty_question_char#:#Question###30 04 2009 new variable
+style#:#sty_sco_char#:#SCO & Objective###30 04 2009 new variable
+style#:#sty_ol#:#Numbered List###30 04 2009 new variable
+style#:#sty_ul#:#Bullet List###30 04 2009 new variable
+style#:#sty_list_style_type#:#List Style Type###30 04 2009 new variable
+style#:#sty_list_style_position#:#List Style Position###30 04 2009 new variable
+style#:#sty_list_style_image#:#List Style Image###30 04 2009 new variable
+style#:#sty_table#:#Table###30 04 2009 new variable
+style#:#sty_border_collapse#:#Border Collapse###30 04 2009 new variable
+style#:#sty_type_media#:#Media###30 04 2009 new variable
+style#:#sty_type_media_caption#:#Media Caption###30 04 2009 new variable
+style#:#sty_type_text_block#:#Text Block###30 04 2009 new variable
+style#:#sty_type_text_inline#:#Character###30 04 2009 new variable
+style#:#sty_type_section#:#Section###30 04 2009 new variable
+style#:#sty_type_link#:#Link###30 04 2009 new variable
+style#:#sty_type_table#:#Table###30 04 2009 new variable
+style#:#sty_type_table_cell#:#Table Cell###30 04 2009 new variable
+style#:#sty_type_list_item#:#List Item###30 04 2009 new variable
+style#:#sty_type_list_o#:#Numbered List###30 04 2009 new variable
+style#:#sty_type_list_u#:#Bulleted List###30 04 2009 new variable
+style#:#sty_type_question#:#Question###30 04 2009 new variable
+style#:#sty_type_page#:#Page###30 04 2009 new variable
+style#:#sty_type#:#Type###30 04 2009 new variable
+style#:#sty_type_sco#:#SCO###30 04 2009 new variable
+content#:#cont_StandardTable#:#Standard Table###30 04 2009 new variable
+style#:#sty_opacity#:#Opacity###30 04 2009 new variable
+style#:#sty_positioning#:#Positioning###30 04 2009 new variable
+style#:#sty_width#:#Width###30 04 2009 new variable
+style#:#sty_height#:#Height###30 04 2009 new variable
+style#:#sty_overflow#:#Overflow###30 04 2009 new variable
+style#:#sty_position#:#Position###30 04 2009 new variable
+content#:#cont_Media#:#Media (Standard)###30 04 2009 new variable
+style#:#sty_flist_char#:#File List###30 04 2009 new variable
+style#:#sty_type_flist#:#File List###30 04 2009 new variable
+style#:#sty_type_flist_cont#:#File List Container###30 04 2009 new variable
+style#:#sty_type_flist_li#:#File List Item###30 04 2009 new variable
+style#:#sty_type_flist_head#:#File List Heading###30 04 2009 new variable
+content#:#cont_file_from_repository#:#File From Repository###30 04 2009 new variable
+content#:#cont_position#:#Position###30 04 2009 new variable
+content#:#cont_ed_edit_files#:#Edit Files###30 04 2009 new variable
+content#:#cont_save_positions#:#Save Positions###30 04 2009 new variable
+content#:#cont_add_file#:#Add File###30 04 2009 new variable
+content#:#cont_save_positions_and_classes#:#Save Positions and Style Classes###30 04 2009 new variable
+content#:#cont_FileListItem#:#File List Item (Standard)###30 04 2009 new variable
+style#:#sty_type_media_cont#:#Media Container###30 04 2009 new variable
+style#:#sty_type_page_fn#:#Footnote###30 04 2009 new variable
+style#:#sty_type_page_nav#:#Footnote###30 04 2009 new variable
+style#:#sty_type_page_title#:#Page Title###30 04 2009 new variable
+style#:#sty_float#:#Float###30 04 2009 new variable
+style#:#sty_type_page_bnav#:#Bottom Navigation###30 04 2009 new variable
+style#:#sty_type_page_tnav#:#Top Navigation###30 04 2009 new variable
+style#:#sty_type_page_lnav#:#Left Navigation###30 04 2009 new variable
+style#:#sty_type_page_rnav#:#Right Navigation###30 04 2009 new variable
+style#:#sty_type_page_cont#:#Page Container###30 04 2009 new variable
+style#:#sty_type_page_frame#:#Page Frame###30 04 2009 new variable
+style#:#sty_type_page_lnavlink#:#Left Navigation Link###30 04 2009 new variable
+style#:#sty_type_page_rnavlink#:#Right Navigation Link###30 04 2009 new variable
+style#:#sty_type_page_lnavimage#:#Left Navigation Image###30 04 2009 new variable
+style#:#sty_type_page_rnavimage#:#Right Navigation Image###30 04 2009 new variable
+style#:#sty_type_qtitle#:#Question Title###30 04 2009 new variable
+style#:#sty_type_qanswer#:#Answer###30 04 2009 new variable
+style#:#sty_type_qfeedr#:#Feedback, Right###30 04 2009 new variable
+style#:#sty_type_qfeedw#:#Feedback, Wrong###30 04 2009 new variable
+style#:#sty_type_qinput#:#Text Input###30 04 2009 new variable
+style#:#sty_type_qlinput#:#Long Text Input###30 04 2009 new variable
+style#:#sty_type_qsubmit#:#Question Submit Buttons###30 04 2009 new variable
+style#:#sty_type_sco_desc#:#SCO Description###30 04 2009 new variable
+style#:#sty_type_sco_title#:#SCO Title###30 04 2009 new variable
+style#:#sty_type_sco_obj#:#SCO Objective###30 04 2009 new variable
+style#:#sty_type_sco_keyw#:#SCO Keywords###30 04 2009 new variable
+common#:#im_jabber#:#Jabber###30 04 2009 new variable
+common#:#im_jabber_icon#:#Jabber Logo###30 04 2009 new variable
+common#:#im_voip#:#VoIP###30 04 2009 new variable
+common#:#im_voip_icon#:#VoIP Logo###30 04 2009 new variable
+common#:#paste_clipboard_items_into_multiple_objects#:#Paste Into Multiple Objects###30 04 2009 new variable
+common#:#select_at_least_one_object#:#Please choose at least one object.###30 04 2009 new variable
+common#:#msg_obj_exists_in_folder#:#The object %s already exists in the folder %s.###30 04 2009 new variable
+common#:#msg_obj_may_not_contain_objects_of_type#:#The object %s may not contain objects of type: %s.###30 04 2009 new variable
+common#:#msg_no_perm_paste_object_in_folder#:#You have no permission to paste the object %s in the folder %s.###30 04 2009 new variable
+common#:#msg_paste_object_not_in_itself#:#It's not possible to paste the object %s in itself.###30 04 2009 new variable
+common#:#mgs_objects_linked_to_the_following_folders#:#The object(s) was/were linked to the following folder(s): %s###30 04 2009 new variable
+common#:#session_reminder_alert#:#Your session expires in 5 minutes. Please choose OK to continue your Session###30 04 2009 new variable
+common#:#session_reminder#:#Session-Reminder###30 04 2009 new variable
+common#:#session_reminder_info#:#If enabled, you receive a reminder before your session expires.###30 04 2009 new variable
+export#:#export_select_resources#:#Select Resources###30 04 2009 new variable
+export#:#export_resource#:#Resource###30 04 2009 new variable
+export#:#export_last_export_file#:#Use Last Export File###30 04 2009 new variable
+export#:#export_last_export#:#Last Export###30 04 2009 new variable
+export#:#export_create_new_file#:#Create New Export File###30 04 2009 new variable
+export#:#export_omit_resource#:#Omit Resource###30 04 2009 new variable
+export#:#export_omit#:#Omit###30 04 2009 new variable
+export#:#export_create#:#Create###30 04 2009 new variable
+export#:#export_last_file#:#Last File###30 04 2009 new variable
+export#:#export_export_date#:#Export Date###30 04 2009 new variable
+common#:#session_reminder_extended#:#Your Session was extended for %s###30 04 2009 new variable
+common#:#session_reminder_session_duration#:#(Session Duration: %s).###30 04 2009 new variable
+assessment#:#showSuggestedSolution#:#Suggested solution###30 04 2009 new variable
+assessment#:#deleteSuggestedSolution#:#Remove this suggested solution###30 04 2009 new variable
+assessment#:#suggestedSolutionType#:#Suggested solution type###30 04 2009 new variable
+assessment#:#changeSuggestedSolution#:#Change suggested solution###30 04 2009 new variable
+assessment#:#addSuggestedSolution#:#Add suggested solution###30 04 2009 new variable
+assessment#:#fileDownload#:#File download###30 04 2009 new variable
+assessment#:#solutionText#:#Text###30 04 2009 new variable
+assessment#:#log_manual_feedback#:#%s added manual feedback for test person %s and question %s: %s###30 04 2009 new variable
+assessment#:#set_manscoring_done#:#Mark this participant as "Scored Participant"###30 04 2009 new variable
+assessment#:#tst_show_solution_suggested#:#Show Suggested Solution###30 04 2009 new variable
+assessment#:#matching_pairs#:#Matching Pairs###30 04 2009 new variable
+assessment#:#error_duplicate_term#:#You selected a matching term more than once###30 04 2009 new variable
+assessment#:#matching_type#:#Matching Question Subtype###30 04 2009 new variable
+common#:#msg_form_save_error#:#The form data could not be saved. Please check the input fields for any error messages.###30 04 2009 new variable
+assessment#:#thumb_geometry#:#Thumbnail Geometry###30 04 2009 new variable
+assessment#:#thumb_geometry_info#:#The image thumbnails will be created with a maximum values of height and width given, aspect ratio preserved.###30 04 2009 new variable
+assessment#:#element_height#:#Minimum Height###30 04 2009 new variable
+assessment#:#element_height_info#:#This is the minimum height in pixels for term and definition/picture items during the test output.###30 04 2009 new variable
+assessment#:#assOrderingHorizontal#:#Ordering Question (Horizontal)###30 04 2009 new variable
+assessment#:#ordertext#:#Ordering Text###30 04 2009 new variable
+assessment#:#ordertext_info#:#Please enter the text that should be ordered horizontally. The ordering text will be separated by the whitespace signs in the text. If you need a different separation, you may use the separator %s to separate your text units.###30 04 2009 new variable
+assessment#:#textsize#:#Text Size###30 04 2009 new variable
+assessment#:#textsize_info#:#Enter the text size of the ordering text in percent if you want another size than 100 percent.###30 04 2009 new variable
+common#:#loginname_settings#:#Loginname-Settings###30 04 2009 new variable
+common#:#allow_change_loginname#:#Allow to change the login name###30 04 2009 new variable
+common#:#create_history_loginname#:#Create a history for changed login names###30 04 2009 new variable
+common#:#allow_history_loginname_again#:#It is allowed to use login names again, which are saved in the history###30 04 2009 new variable
+common#:#loginname_already_exists#:#This login name already exists.###30 04 2009 new variable
+common#:#create_history_loginname_must_be_enabled#:#To reuse login names the history must be enabled.###30 04 2009 new variable
+ecs#:#ecs_unique_id#:#Participant-ID###30 04 2009 new variable
+ecs#:#ecs_new_category_mapping#:#New Assignment of Course-Links to Categories###30 04 2009 new variable
+ecs#:#ecs_attribute_name#:#Attribute Name###30 04 2009 new variable
+ecs#:#ecs_cat_mapping_type#:#Assignment Type###30 04 2009 new variable
+ecs#:#ecs_cat_mapping_fixed#:#Fixed Values###30 04 2009 new variable
+ecs#:#ecs_cat_mapping_values#:#Attribute Value###30 04 2009 new variable
+ecs#:#ecs_cat_mapping_fixed_info#:#Choose this mode for assigning Course-Links to categories based on fixed values.###30 04 2009 new variable
+ecs#:#ecs_cat_mapping_duration#:#Date Range###30 04 2009 new variable
+ecs#:#ecs_cat_mapping_duration_info#:#Choose this mode for assigning Course-Links based on date ranges (e.g starting time of a course).###30 04 2009 new variable
+ecs#:#ecs_err_missing_value#:#Please check your input: Attribute values.###30 04 2009 new variable
+ecs#:#ecs_err_invalid_dates#:#The starting must be earlier than the ending time.###30 04 2009 new variable
+ecs#:#ecs_err_invalid_type#:#Please choose an assignment mode.###30 04 2009 new variable
+ecs#:#ecs_field_part_id#:#Participant ID###30 04 2009 new variable
+ecs#:#ecs_category_mapping#:#Assignment to Categories###30 04 2009 new variable
+ecs#:#ecs_tbl_active_rules#:#Active Rules for Category Assignment###30 04 2009 new variable
+ecs#:#ecs_edit_category_mapping#:#Edit Assignment###30 04 2009 new variable
+assessment#:#assFileUpload#:#File Upload Question###30 04 2009 new variable
+assessment#:#allowedextensions#:#Allowed File Extensions###30 04 2009 new variable
+assessment#:#allowedextensions_info#:#Enter a comma separated list of allowed file extensions if you want to restrict the upload to a given set of file extensions (e.g. doc,xls,odt).###30 04 2009 new variable
+assessment#:#maxsize#:#Maximum file upload size ###30 04 2009 new variable
+assessment#:#maxsize_info#:#Enter the maximum size in bytes that should be allowed for file uploads. If you leave this field empty, the maximum size of this installation will be chosen instead.###30 04 2009 new variable
+common#:#save_customer_address#:#Store billing address###30 04 2009 new variable
+common#:#save_customer_address_info#:#If enabled, the customers billing address will be stored###30 04 2009 new variable
+common#:#bookings#:#Bookings###30 04 2009 new variable
+forum#:#frm_sure_delete_threads#:#Are you sure you want to delete the following threads?###30 04 2009 new variable
+search#:#lucene_more_hits_link#:#%s more hits...###30 04 2009 new variable
+dateplaner#:#cal_rec_err_limit#:#Please enter a valid number of appointments.###30 04 2009 new variable
+payment#:#payment_news#:#Shop News###30 04 2009 new variable
+payment#:#payment_news_add_news#:#Add Shop News ###30 04 2009 new variable
+payment#:#payment_news_created#:#Shop news added###30 04 2009 new variable
+payment#:#payment_news_no_news_items#:#No news available###30 04 2009 new variable
+payment#:#payment_news_delete_sure#:#Are you sure, you want to delete this shop news?###30 04 2009 new variable
+payment#:#payment_news_deleted#:#Shop news deleted###30 04 2009 new variable
+payment#:#payment_news_updated#:#The news have been saved###30 04 2009 new variable
+payment#:#payment_news_settings#:#Shop News Settings###30 04 2009 new variable
+payment#:#payment_news_archive_period#:#Archive-Period###30 04 2009 new variable
+payment#:#payment_news_archive_period_info#:#Time period to define when news move to archive ###30 04 2009 new variable
+payment#:#payment_news_settings_saved#:#The settings have been saved###30 04 2009 new variable
+cntr#:#cntr_page_actions#:#Page Actions###30 04 2009 new variable
+cntr#:#cntr_enable_multi_commands#:#Enable Multi Commands###30 04 2009 new variable
+cntr#:#cntr_disable_multi_commands#:#Disable Multi Commands###30 04 2009 new variable
+cntr#:#cntr_add_new_item#:#Add New Item###30 04 2009 new variable
+search#:#lucene_settings_tab#:#Lucene###30 04 2009 new variable
+search#:#lucene_settings_title#:#Lucene Settings###30 04 2009 new variable
+search#:#lucene_default_operator#:#Default Operator###30 04 2009 new variable
+search#:#lucene_and#:#AND###30 04 2009 new variable
+search#:#lucene_or#:#OR###30 04 2009 new variable
+search#:#lucene_default_operator_info#:#Please choose the default operator for boolean queries. In default mode ("AND") terms are considered to be in conjunction. In "OR" mode terms without any modifiers are considered optional.###30 04 2009 new variable
+search#:#lucene_num_fragments#:#Number of Text Fragments###30 04 2009 new variable
+search#:#lucene_num_frag_info#:#Please choose the maximum number of highlighted text fragments.###30 04 2009 new variable
+search#:#lucene_size_fragments#:#Size of Text Fragments###30 04 2009 new variable
+search#:#lucene_size_frag_info#:#Please choose the maximum size of highlighted test fragments.###30 04 2009 new variable
+search#:#lucene_max_sub#:#Number of Subitems###30 04 2009 new variable
+search#:#lucene_max_sub_info#:#Please enter maximum number of subitems (Forum threads, Glossary terms...) that are shown by default.###30 04 2009 new variable
+common#:#main_menu#:#Main Menu###30 04 2009 new variable
+common#:#breadcrumb_navigation#:#Breadcrumb Navigation###30 04 2009 new variable
+common#:#tabs#:#Tabs###30 04 2009 new variable
+common#:#subtabs#:#SubTabs###30 04 2009 new variable
+search#:#lucene_relevance#:#Relevance of Search Results###30 04 2009 new variable
+search#:#lucene_show_relevance#:#Show Relevance###30 04 2009 new variable
+search#:#lucene_show_relevance_info#:#Search results are sorted by their relevance. If activated, the relevance is shown as additional information for each search result.###30 04 2009 new variable
+payment#:#pay_payed_bill#:#Rechnung bezahlt###30 04 2009 new variable
+payment#:#vat_title#:#Vat-Title###30 04 2009 new variable
+payment#:#vat_rate#:#Vat-Rate###30 04 2009 new variable
+payment#:#vat_unit#:#Vat-Unit###30 04 2009 new variable
+payment#:#paya_insert_vats#:#Insert Vat-Rate###30 04 2009 new variable
+payment#:#paya_no_vats_assigned#:#No vats assigned###30 04 2009 new variable
+payment#:#paya_vat_not_valid#:#This vat is not valid###30 04 2009 new variable
+payment#:#paya_vat_already_exists#:#This vat rate already exists###30 04 2009 new variable
+payment#:#paya_no_vat_id_given#:#There is no vat-id given###30 04 2009 new variable
+payment#:#paya_sure_delete_vat#:#Are you sure, you want to delete this vat?###30 04 2009 new variable
+payment#:#paya_vat_not_deleted#:#This vat rate is not deleted###30 04 2009 new variable
+payment#:#unlimited_duration#:#Unlimited duration###30 04 2009 new variable
+payment#:#vats#:#Vats###30 04 2009 new variable
+mail#:#invite_to_chat#:#Invite to Chat###30 04 2009 new variable
+mail#:#mail_invite_users_to_chat#:#Invite Users to Chat###30 04 2009 new variable
+mail#:#chat_select_room#:#Select Chat Room###30 04 2009 new variable
+mail#:#chat_users_without_permission#:#The following Users don't have access to the selected Chat Room.###30 04 2009 new variable
+mail#:#chat_users_have_been_invited#:#The Users have been invited.###30 04 2009 new variable
+mail#:#goto_invitation_chat#:#Open Chat Room###30 04 2009 new variable
+mail#:#chat_users_without_login#:#The following Users don't have an ILIAS Account and can't be invited to a Chat Room###30 04 2009 new variable
+chat#:#chat_open#:#Enter Room###30 04 2009 new variable
+chat#:#chat_kick#:#Kick###30 04 2009 new variable
+chat#:#chat_unkick#:#Unkick###30 04 2009 new variable
+chat#:#chat_add_to_bookmark#:#Add to Bookmarks###30 04 2009 new variable
+chat#:#chat_add_to_addressbook#:#Add to Contacts###30 04 2009 new variable
+chat#:#chat_confirm_delete_private_room#:#Are you sure to delete this private room?###30 04 2009 new variable
+chat#:#chat_confirm_kick_user#:#Are you sure to kick this user?###30 04 2009 new variable
+chat#:#chat_user_unkicked#:#The user has been unkicked.###30 04 2009 new variable
+chat#:#chat_invite#:#Invite###30 04 2009 new variable
+chat#:#chat_disinvite#:#Disinvite###30 04 2009 new variable
+chat#:#chat_confirm_user_invite#:#The User will be invited to this Chat Room###30 04 2009 new variable
+chat#:#chat_added_to_bookmarks#:#The Room ' %s ' has been added to the top folder of your Bookmarks###30 04 2009 new variable
+chat#:#chat_default_bookmark_title#:#Chat Link: %s###30 04 2009 new variable
+chat#:#chat_default_bookmark_description#:#Link to Chat Room ' %s '###30 04 2009 new variable
+chat#:#chat_added_to_addressbook#:#The User ' %s ' has been added to your Contacts.###30 04 2009 new variable
+chat#:#chat_user_already_in_addressbook#:#The User is already in your Contacts.###30 04 2009 new variable
+chat#:#chat_recent_postings#:#Recent Chat Postings###30 04 2009 new variable
+chat#:#chat_available_smilies#:#Available Smilies###30 04 2009 new variable
+chat#:#chat_smiley_image#:#Smiley Image###30 04 2009 new variable
+chat#:#chat_smiley_keyword#:#Smiley Keyword###30 04 2009 new variable
+chat#:#chat_add_smiley#:#Add Smiley###30 04 2009 new variable
+chat#:#chat_edit_smiley#:#Edit Smiley###30 04 2009 new variable
+chat#:#chat_image_path#:#Image Path###30 04 2009 new variable
+chat#:#chat_current_image_path#:#Current Image Path###30 04 2009 new variable
+chat#:#chat_smiley_keywords#:#Smiley Keyword###30 04 2009 new variable
+chat#:#chat_smiley_keywords_one_per_line_note#:#You can enter multiple Keywords for each Smiley. Each line will be used as a seperate Keyword.###30 04 2009 new variable
+chat#:#chat_upload_smiley#:#Upload Smiley###30 04 2009 new variable
+chat#:#chat_smiley_image_only_if_changed#:#Please enter a new Image only if you want to change the existing. If no new Image is given, the existing won't be changed.###30 04 2009 new variable
+chat#:#chat_delete_selected#:#Delete selected Smilies###30 04 2009 new variable
+chat#:#chat_new_message_sound_status#:#Play a sound if a new Message is received###30 04 2009 new variable
+chat#:#edit_smilies#:#Edit Smilies###30 04 2009 new variable
+chat#:#chat_message_notify#:#Message Notifier###30 04 2009 new variable
+chat#:#chat_message_notify_activate#:#Activate Message Notify###30 04 2009 new variable
+chat#:#chat_message_notify_deactivate#:#Deactivate Message Notify###30 04 2009 new variable
+chat#:#chat_smilies_status#:#Chat Smilies###30 04 2009 new variable
+chat#:#chat_smilies_activate#:#Activate Smilies###30 04 2009 new variable
+chat#:#chat_smilies_deactivate#:#Deactivate Smilies###30 04 2009 new variable
+chat#:#chat_enable_autoscroll#:#Enable Autoscroll###30 04 2009 new variable
+chat#:#chat_chatviewer#:#Chat Viewer###30 04 2009 new variable
+chat#:#chat_room_does_not_exist#:#The Chat Room does not exist. Maybe it has been removed or you used an invalid link.###30 04 2009 new variable
+chat#:#chat_user_hidden#:#hidden###30 04 2009 new variable
+chat#:#chat_user_visible#:#visible###30 04 2009 new variable
+common#:#content_frame#:#Content Frame###30 04 2009 new variable
+common#:#side_frame#:#Side Frame###30 04 2009 new variable
+common#:#icon#:#Icon###30 04 2009 new variable
+common#:#info_message#:#Information Message###30 04 2009 new variable
+common#:#failure_message#:#Failure Message###30 04 2009 new variable
+common#:#success_message#:#Success Message###30 04 2009 new variable
+common#:#question_message#:#Question###30 04 2009 new variable
+common#:#form_input_not_valid#:#Some data is incomplete or not valid. Please correct the form input.###30 04 2009 new variable
+user#:#user_public_profile_info#:#Please select which personal data should be visible to other users.###30 04 2009 new variable
+user#:#user_activate_public_profile#:#Activate Public Profile###30 04 2009 new variable
+user#:#user_activate_public_profile_info#:#Global activation of your public profile. If activated your first and last name will be visible to other users.###30 04 2009 new variable
+search#:#lucene_general_settings#:#General Settings###30 04 2009 new variable
+search#:#lucene_advanced_settings#:#Advanced Search###30 04 2009 new variable
+search#:#lucene_advances_settings_table#:#Advances Search Settings###30 04 2009 new variable
+search#:#lucene_activate_field#:#Activate Search###30 04 2009 new variable
+common#:#bookmark_added#:#The Bookmark has been created.###30 04 2009 new variable
+common#:#bookmark_save_to#:#save as bookmark###30 04 2009 new variable
+common#:#pd_enable_chatviewer#:#Enable Chatviewer###30 04 2009 new variable
+common#:#chat_settings#:#Chat Settings###30 04 2009 new variable
+survey#:#use_anonymous_id#:#Show survey code###30 04 2009 new variable
+survey#:#use_anonymous_id_desc#:#If checked, the user name in anonymized surveys will be shown as the survey code, otherwise the text "Anonymous" will be shown.###30 04 2009 new variable
+chat#:#chat_smilies_dir_not_exists#:#The smiley data directory does not exist. Trying to setup folders and database.###30 04 2009 new variable
+chat#:#chat_smilies_dir_not_available#:#The smiley data directory could not be created. This ILIAS will not be able to use chat smilies as further actions are needed.###30 04 2009 new variable
+chat#:#chat_smilies_dir_not_writable#:#Your smiley data directory exists but is not writable. You will not be able to add smiles.###30 04 2009 new variable
+chat#:#chat_smilies_initialized#:#The smiley data has been initialized and is ready to use.###30 04 2009 new variable
+dateplaner#:#err_missing_title#:#Please enter an appointment title.###30 04 2009 new variable
+dateplaner#:#err_end_before_start#:#The appointment must not start before the end.###30 04 2009 new variable
+administration#:#adm_locale#:#Locale###30 04 2009 new variable
+administration#:#adm_locale_info#:#Locale setting influences e.g. sorting in lists. Examples are nl_NL or de_DE. Multiple locales can be separated by comma. The first valid one will be used.###30 04 2009 new variable
+common#:#accs_edit_permission#:#Change permission settings###30 04 2009 new variable
+common#:#accs_visible#:#Accessibility Settings are visible###30 04 2009 new variable
+common#:#accs_read#:#Read access to Accessibility Settings###30 04 2009 new variable
+common#:#accs_write#:#Edit Accessibility Settings###30 04 2009 new variable
+common#:#obj_accs#:#Accessibility###30 04 2009 new variable
+common#:#obj_accs_desc#:#Settings for accessibility features.###30 04 2009 new variable
+acc#:#acc_access_keys#:#Access Keys###30 04 2009 new variable
+acc#:#acc_access_key#:#Access Key###30 04 2009 new variable
+acc#:#acc_component#:#Component###30 04 2009 new variable
+acc#:#acc_function#:#Function###30 04 2009 new variable
+acc#:#acc_next#:#Next###30 04 2009 new variable
+acc#:#acc_previous#:#Previous###30 04 2009 new variable
+acc#:#acc_delete#:#Delete###30 04 2009 new variable
+acc#:#acc_last_visited#:#Last Visited###30 04 2009 new variable
+acc#:#acc_tree_on#:#Tree On###30 04 2009 new variable
+acc#:#acc_tree_off#:#Tree Off###30 04 2009 new variable
+acc#:#acc_reply#:#Reply###30 04 2009 new variable
+acc#:#acc_forward_mail#:#Forward Mail###30 04 2009 new variable
+acc#:#acc_mark_all_read#:#Mark All Read###30 04 2009 new variable
+acc#:#acc_comp_global#:#Global###30 04 2009 new variable
+acc#:#acc_comp_mail#:#Mail###30 04 2009 new variable
+acc#:#acc_comp_frm#:#Forum###30 04 2009 new variable
+form#:#form_image_file_input#:#Image File Input###30 04 2009 new variable
+form#:#form_file_input#:#File Input###30 04 2009 new variable
+user#:#user_screen_reader_optimization#:#Screen Reader Optimization###30 04 2009 new variable
+user#:#user_screen_reader_optimization_info#:#Automatic focus and Ajax optimization to improve screen reader performance.###30 04 2009 new variable
+common#:#block#:#Block###30 04 2009 new variable
+common#:#block_management#:#Block Management###30 04 2009 new variable
+common#:#show_hidden_block#:#Show Hidden Block###30 04 2009 new variable
+common#:#create_block#:#Create Block###30 04 2009 new variable
+dateplaner#:#cal_week_abbrev#:#W###30 04 2009 new variable
+dateplaner#:#cal_all_day#:#All Day###30 04 2009 new variable
+dateplaner#:#cal_day_selection#:#Select Day###30 04 2009 new variable
+dateplaner#:#cal_week_selection#:#Select Week###30 04 2009 new variable
+dateplaner#:#cal_month_selection#:#Select Month###30 04 2009 new variable
+dateplaner#:#cal_day_overview#:#Day Overview###30 04 2009 new variable
+dateplaner#:#cal_week_overview#:#Week Overview###30 04 2009 new variable
+dateplaner#:#cal_month_overview#:#Month Overview###30 04 2009 new variable
+common#:#stat_selected#:#Selected###30 04 2009 new variable
+notes#:#notes_edit_note#:#Edit Note###30 04 2009 new variable
+notes#:#notes_edit_comment#:#Edit Comment###30 04 2009 new variable
+notes#:#notes_label#:#Label###30 04 2009 new variable
+search#:#lucene_last_index_time#:#Last Index Generation###30 04 2009 new variable
+search#:#lucene_last_index_time_info#:#Please modify this settings only if you have installed an index backup.###30 04 2009 new variable
+search#:#lucene_all_occurrences#:#... %s other occurrence(s)###30 04 2009 new variable
+notes#:#notes_add_note#:#Add Note###30 04 2009 new variable
+notes#:#notes_note_deleted#:#The note has been deleted.###30 04 2009 new variable
+notes#:#notes_notes_deleted#:#The notes have been deleted.###30 04 2009 new variable
+common#:#user_image#:#User Image###30 04 2009 new variable
+ps#:#ps_prevent_simultaneous_logins#:#Prevent Simultaneous Logins###30 04 2009 new variable
+ps#:#ps_prevent_simultaneous_logins_info#:#If enabled, simultaneous logins with the same account from different computers are not possible.###30 04 2009 new variable
+common#:#simultaneous_login_detected#:#Your access is denied because of a simultaneous login with the same account.###30 04 2009 new variable
+trac#:#trac_select_area#:#Select Area###30 04 2009 new variable
+trac#:#trac_hide_selected#:#Hide Selected Items###30 04 2009 new variable
+search#:#search_term_combination#:#Combination###30 04 2009 new variable
+search#:#search_select_search_area#:#Select Search Area###30 04 2009 new variable
