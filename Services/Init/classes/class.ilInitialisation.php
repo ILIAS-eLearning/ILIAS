@@ -1359,6 +1359,11 @@ class ilInitialisation
 		include_once 'classes/class.ilTabsGUI.php';
 		$ilTabs = new ilTabsGUI();
 		$GLOBALS['ilTabs'] =& $ilTabs;
+		
+		// main toolbar gui
+		include_once './Services/UIComponent/Toolbar/classes/class.ilToolbarGUI.php';
+		$ilToolbar = new ilToolbarGUI();
+		$GLOBALS['ilToolbar'] =& $ilToolbar;
 
 		// main menu
 		include_once './Services/MainMenu/classes/class.ilMainMenuGUI.php';

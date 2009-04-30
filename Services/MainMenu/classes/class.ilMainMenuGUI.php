@@ -135,6 +135,7 @@ class ilMainMenuGUI
 			if ($this->active == "administration")
 			{
 				$this->tpl->setVariable("MM_CLASS", "MMActive");
+				$this->tpl->setVariable("SEL", '<span class="ilAccHidden">('.$lng->txt("stat_selected").')</span>');
 			}
 			else
 			{
@@ -154,6 +155,7 @@ class ilMainMenuGUI
 			if ($this->active == "search")
 			{
 				$this->tpl->setVariable("MM_CLASS", "MMActive");
+				$this->tpl->setVariable("SEL", '<span class="ilAccHidden">('.$lng->txt("stat_selected").')</span>');
 			}
 			else
 			{
@@ -187,6 +189,7 @@ class ilMainMenuGUI
 			if($this->active == 'shop')
 			{
 				$this->tpl->setVariable('MM_CLASS', 'MMActive');
+				$this->tpl->setVariable("SEL", '<span class="ilAccHidden">('.$lng->txt("stat_selected").')</span>');
 			}
 			else
 			{
@@ -216,6 +219,7 @@ class ilMainMenuGUI
 			if ($this->active == "desktop")
 			{
 				$this->tpl->setVariable("MM_CLASS", "MMActive");
+				$this->tpl->setVariable("SEL", '<span class="ilAccHidden">('.$lng->txt("stat_selected").')</span>');
 			}
 			else
 			{
@@ -254,6 +258,7 @@ class ilMainMenuGUI
 				if ($this->active == "mail")
 				{
 					$this->tpl->setVariable("MM_CLASS", "MMActive");
+					$this->tpl->setVariable("SEL", '<span class="ilAccHidden">('.$lng->txt("stat_selected").')</span>');
 				}
 				else
 				{
@@ -304,6 +309,7 @@ class ilMainMenuGUI
 		if ($this->active == "repository" || $this->active == "")
 		{
 			$this->tpl->setVariable("MM_CLASS", "MMActive");
+			$this->tpl->setVariable("SEL", '<span class="ilAccHidden">('.$lng->txt("stat_selected").')</span>');
 		}
 		else
 		{

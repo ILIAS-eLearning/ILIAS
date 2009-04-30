@@ -24,39 +24,42 @@
 	{SEARCHBOX}
 	<!-- END search_box -->
 	<!-- END top_section -->
-	<div class="il_MainMenu" style="clear:both;">
-		<h2 class="ilAccHeadingHidden">{TXT_MAIN_MENU}</h2>
+	<div class="ilMainMenu">
+	<h2 class="ilAccHeadingHidden">{TXT_MAIN_MENU}</h2>
+	<ul class="ilMainMenu">
 		<!-- BEGIN chat_lastmsg -->
-		{CHAT_LAST_MESSAGE}		
+		<li class="ilMainMenu">{CHAT_LAST_MESSAGE}</li>
 		<!-- END chat_lastmsg -->	
 		<!-- BEGIN chatbutton -->
-		{CHAT_INVITATIONS}		
+		<li class="ilMainMenu">{CHAT_INVITATIONS}</li>		
 		<!-- END chatbutton -->
 		<!-- BEGIN desktopbutton -->
-		<a class="{MM_CLASS}" href="{SCRIPT_DESK}" target="{TARGET_DESK}">{TXT_PERSONAL_DESKTOP}</a>
+		<li class="ilMainMenu"><a class="{MM_CLASS}" href="{SCRIPT_DESK}" target="{TARGET_DESK}">{TXT_PERSONAL_DESKTOP}</a>{SEL}</li>
 		<!-- END desktopbutton -->
 		<!-- BEGIN rep_button -->
-		<a class="{MM_CLASS}" href="{SCRIPT_CATALOG}" target="{TARGET}">{TXT_CATALOG}</a>
+		<li class="ilMainMenu"><a class="{MM_CLASS}" href="{SCRIPT_CATALOG}" target="{TARGET}">{TXT_CATALOG}</a>{SEL}</li>
 		<!-- END rep_button -->
 		<!-- BEGIN searchbutton -->
-		<a class="{MM_CLASS}" href="{SCRIPT_SEARCH}" target="{TARGET_SEARCH}">{TXT_SEARCH}</a>
+		<li class="ilMainMenu"><a class="{MM_CLASS}" href="{SCRIPT_SEARCH}" target="{TARGET_SEARCH}">{TXT_SEARCH}</a>{SEL}</li>
 		<!-- END searchbutton -->
 		<!-- BEGIN mailbutton -->
-		<a class="{MM_CLASS}" href="{SCRIPT_MAIL}" target="{TARGET_MAIL}">{TXT_MAIL}</a>
+		<li class="ilMainMenu"><a class="{MM_CLASS}" href="{SCRIPT_MAIL}" target="{TARGET_MAIL}">{TXT_MAIL}</a>{SEL}</li>
 		<!-- END mailbutton -->		
 		<!-- BEGIN shopbutton -->
-		<a class="{MM_CLASS}" href="{SCRIPT_SHOP}" target="{TARGET_SHOP}">{TXT_SHOP}</a>
+		<li class="ilMainMenu"><a class="{MM_CLASS}" href="{SCRIPT_SHOP}" target="{TARGET_SHOP}">{TXT_SHOP}</a>{SEL}</li>
 		<!-- END shopbutton -->
 		<!-- BEGIN userisadmin -->
-		<a class="{MM_CLASS}" href="{SCRIPT_ADMIN}" target="{TARGET_ADMIN}">{TXT_ADMINISTRATION}</a>
+		<li class="ilMainMenu"><a class="{MM_CLASS}" href="{SCRIPT_ADMIN}" target="{TARGET_ADMIN}">{TXT_ADMINISTRATION}</a>{SEL}</li>
 		<!-- END userisadmin -->		
 		<!-- BEGIN userhelp -->
-		<a class="{MM_CLASS}" href="{SCRIPT_HELP}" target="{TARGET_HELP}">{TXT_HELP}</a>
+		<li class="ilMainMenu"><a class="{MM_CLASS}" href="{SCRIPT_HELP}" target="{TARGET_HELP}">{TXT_HELP}</a></li>
 		<!-- END userhelp -->
 		<!-- BEGIN nav_history -->
-		<h2 class="ilAccHeadingHidden">{TXT_LAST_VISITED}</h2>
-		{NAVIGATION_HISTORY}
+		<li class="ilMainMenu"><h2 class="ilAccHeadingHidden">{TXT_LAST_VISITED}</h2>
+		{NAVIGATION_HISTORY}</li>
 		<!-- END nav_history -->
+	</ul>
+	<div style="clear:both;"></div>
 	</div>
 	<div style="clear:both;"></div>
 </div>
