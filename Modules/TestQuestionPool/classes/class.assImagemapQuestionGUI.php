@@ -548,7 +548,7 @@ class assImagemapQuestionGUI extends assQuestionGUI
 						$this->object->saveToDb();
 						$this->ctrl->setParameter($this, "q_id", $this->object->getId());
 						$saved = true;
-						ilUtil::sendInfo($this->lng->txt("question_saved_for_upload"));
+						ilUtil::sendSuccess($this->lng->txt("question_saved_for_upload"));
 					}
 					$this->object->setImageFilename($_FILES['imageName']['name'], $_FILES['imageName']['tmp_name']);
 				}
@@ -582,7 +582,7 @@ class assImagemapQuestionGUI extends assQuestionGUI
 						$this->object->saveToDb();
 						$this->ctrl->setParameter($this, "q_id", $this->object->getId());
 						$saved = TRUE;
-						ilUtil::sendInfo($this->lng->txt("question_saved_for_upload"), TRUE);
+						ilUtil::sendSuccess($this->lng->txt("question_saved_for_upload"), TRUE);
 					}
 					$this->object->setImagemapFilename($_FILES['imagemapName']['name'], $_FILES['imagemapName']['tmp_name']);
 				}

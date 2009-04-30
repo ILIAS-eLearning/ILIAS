@@ -246,7 +246,7 @@ class ilObjTestGUI extends ilObjectGUI
 		}
 
 		// always send a message
-		ilUtil::sendInfo($this->lng->txt("object_added"),true);
+		ilUtil::sendSuccess($this->lng->txt("object_added"),true);
 		ilUtil::redirect("ilias.php?baseClass=ilObjTestGUI&ref_id=".$newObj->getRefId()."&cmd=properties");
 	}
 
@@ -452,7 +452,7 @@ class ilObjTestGUI extends ilObjectGUI
 
 		$this->tpl->addBlockFile("ADM_CONTENT", "adm_content", "tpl.confirm_deletion.html", "Modules/Test");
 
-		ilUtil::sendInfo($this->lng->txt("info_delete_sure"));
+		ilUtil::sendQuestion($this->lng->txt("info_delete_sure"));
 
 		$this->tpl->setVariable("FORMACTION", $this->ctrl->getFormAction($this));
 
@@ -491,7 +491,6 @@ class ilObjTestGUI extends ilObjectGUI
 	*/
 	function cancelObject($in_rep = false)
 	{
-		ilUtil::sendInfo($this->lng->txt("msg_cancel"),true);
 		ilUtil::redirect("repository.php?cmd=frameset&ref_id=".$_GET["ref_id"]);
 	}
 
@@ -578,7 +577,7 @@ class ilObjTestGUI extends ilObjectGUI
 
 		if ($_FILES["xmldoc"]["error"] > UPLOAD_ERR_OK)
 		{
-			ilUtil::sendInfo($this->lng->txt("error_upload"));
+			ilUtil::sendFailure($this->lng->txt("error_upload"));
 			$this->importObject();
 			return;
 		}
@@ -756,7 +755,7 @@ class ilObjTestGUI extends ilObjectGUI
 
 		// delete import directory
 		ilUtil::delDir(ilObjTest::_getImportDirectory());
-		ilUtil::sendInfo($this->lng->txt("object_imported"),true);
+		ilUtil::sendSuccess($this->lng->txt("object_imported"),true);
 		ilUtil::redirect("ilias.php?ref_id=".$newObj->getRefId().
 				"&baseClass=ilObjTestGUI");
 	}
@@ -1067,7 +1066,7 @@ class ilObjTestGUI extends ilObjectGUI
 
 		$this->object->saveToDb(true);
 
-		ilUtil::sendInfo($this->lng->txt("msg_obj_modified"));
+		ilUtil::sendSuccess($this->lng->txt("msg_obj_modified"));
 		if ($randomtest_switch)
 		{
 			if ($this->object->isRandomTest())
@@ -1153,7 +1152,7 @@ class ilObjTestGUI extends ilObjectGUI
 			$this->object->setReportingDate("");
 		}
 		$this->object->saveToDb(true);
-		ilUtil::sendInfo($this->lng->txt("msg_obj_modified"), TRUE);
+		ilUtil::sendSuccess($this->lng->txt("msg_obj_modified"), TRUE);
 
 		$this->ctrl->redirect($this, "scoring");
 	}
@@ -1969,7 +1968,7 @@ class ilObjTestGUI extends ilObjectGUI
 			}
 			else
 			{
-				ilUtil::sendInfo($this->lng->txt("tst_questions_inserted"), TRUE);
+				ilUtil::sendSuccess($this->lng->txt("tst_questions_inserted"), TRUE);
 			}
 			$this->ctrl->redirect($this, "questions");
 			return;
@@ -2610,7 +2609,7 @@ class ilObjTestGUI extends ilObjectGUI
 				$this->object->insertQuestion($value);
 			}
 			$this->object->saveCompleteStatus();
-			ilUtil::sendInfo($this->lng->txt("tst_questions_inserted"), true);
+			ilUtil::sendSuccess($this->lng->txt("tst_questions_inserted"), true);
 			$this->ctrl->redirect($this, "questions");
 			return;
 		}
@@ -2948,7 +2947,7 @@ class ilObjTestGUI extends ilObjectGUI
 	*/
 	function confirmRemoveQuestionsObject()
 	{
-		ilUtil::sendInfo($this->lng->txt("tst_questions_removed"));
+		ilUtil::sendSuccess($this->lng->txt("tst_questions_removed"));
 		$checked_questions = array();
 		foreach ($_POST as $key => $value) {
 			if (preg_match("/id_(\d+)/", $key, $matches)) {
@@ -3440,7 +3439,6 @@ class ilObjTestGUI extends ilObjectGUI
 	*/
 	function cancelMarksObject()
 	{
-		ilUtil::sendInfo($this->lng->txt("msg_cancel"), true);
 		$this->ctrl->redirect($this, "marks");
 	}
 	
@@ -3497,7 +3495,7 @@ class ilObjTestGUI extends ilObjectGUI
 				}
 				$this->object->saveECTSStatus($_POST["chbECTS"], $fxpercent, $this->object->ects_grades["A"], $this->object->ects_grades["B"], $this->object->ects_grades["C"], $this->object->ects_grades["D"], $this->object->ects_grades["E"]);
 			}
-			ilUtil::sendInfo($this->lng->txt("msg_obj_modified"), true);
+			ilUtil::sendSuccess($this->lng->txt("msg_obj_modified"), true);
 		}
 		$this->marksObject();
 	}
@@ -3619,7 +3617,7 @@ class ilObjTestGUI extends ilObjectGUI
 	function confirmDeleteAllUserResultsObject()
 	{
 		$this->object->removeAllTestEditings();
-		ilUtil::sendInfo($this->lng->txt("tst_all_user_data_deleted"), true);
+		ilUtil::sendSuccess($this->lng->txt("tst_all_user_data_deleted"), true);
 		$this->ctrl->redirect($this, "participants");
 	}
 	
@@ -3645,7 +3643,7 @@ class ilObjTestGUI extends ilObjectGUI
 			}
 		}
 		$this->object->removeSelectedTestResults($active_ids);
-		ilUtil::sendInfo($this->lng->txt("tst_selected_user_data_deleted"), true);
+		ilUtil::sendSuccess($this->lng->txt("tst_selected_user_data_deleted"), true);
 		$this->ctrl->redirect($this, "participants");
 	}
 	
@@ -3670,7 +3668,7 @@ class ilObjTestGUI extends ilObjectGUI
 	*/
 	function deleteAllUserDataObject()
 	{
-		ilUtil::sendInfo($this->lng->txt("confirm_delete_all_user_data"));
+		ilUtil::sendQuestion($this->lng->txt("confirm_delete_all_user_data"));
 		$this->tpl->addBlockFile("ADM_CONTENT", "adm_content", "tpl.il_as_tst_maintenance.html", "Modules/Test");
 
 		$this->tpl->setCurrentBlock("confirm_delete");
@@ -3729,7 +3727,7 @@ class ilObjTestGUI extends ilObjectGUI
 			ilUtil::sendInfo($this->lng->txt("select_one_user"), TRUE);
 			$this->ctrl->redirect($this, "participants");
 		}
-		ilUtil::sendInfo($this->lng->txt("confirm_delete_single_user_data"));
+		ilUtil::sendQuestion($this->lng->txt("confirm_delete_single_user_data"));
 		$this->tpl->addBlockFile("ADM_CONTENT", "adm_content", "tpl.il_as_tst_maintenance.html", "Modules/Test");
 
 		foreach ($_POST["chbUser"] as $key => $value)
@@ -5072,7 +5070,7 @@ class ilObjTestGUI extends ilObjectGUI
 				}
 				else
 				{
-					ilUtil::sendInfo($this->lng->txt("tst_defaults_applied"));
+					ilUtil::sendSuccess($this->lng->txt("tst_defaults_applied"));
 				}
 			}
 		}

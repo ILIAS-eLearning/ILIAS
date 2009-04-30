@@ -276,11 +276,11 @@ class ilTestScoringGUI extends ilTestServiceGUI
 			$result = assQuestion::_setReachedPoints($_GET["active_id"], $question_id, $points, $maxpoints, $_GET["pass"], 1);
 			if ($result) 
 			{
-				ilUtil::sendInfo($this->lng->txt("tst_change_points_done"));
+				ilUtil::sendSuccess($this->lng->txt("tst_change_points_done"));
 			}
 			else
 			{
-				ilUtil::sendInfo($this->lng->txt("tst_change_points_not_done"));
+				ilUtil::sendFailure($this->lng->txt("tst_change_points_not_done"));
 			}
 		}
 		$this->manscoring();
@@ -297,11 +297,11 @@ class ilTestScoringGUI extends ilTestServiceGUI
 			$result = $this->object->saveManualFeedback($_GET["active_id"], $question_id, $_GET["pass"], $feedback);
 			if ($result) 
 			{
-				ilUtil::sendInfo($this->lng->txt("tst_set_feedback_done"));
+				ilUtil::sendSuccess($this->lng->txt("tst_set_feedback_done"));
 			}
 			else
 			{
-				ilUtil::sendInfo($this->lng->txt("tst_set_feedback_not_done"));
+				ilUtil::sendFailure($this->lng->txt("tst_set_feedback_not_done"));
 			}
 		}
 		$this->setPointsManual();

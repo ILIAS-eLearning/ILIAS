@@ -104,7 +104,7 @@ class ilObjSurveyAdministrationGUI extends ilObjectGUI
 		// put here object specific stuff
 
 		// always send a message
-		ilUtil::sendInfo($this->lng->txt("object_added"),true);
+		ilUtil::sendSuccess($this->lng->txt("object_added"),true);
 
 		$this->ctrl->redirect($this);
 	}

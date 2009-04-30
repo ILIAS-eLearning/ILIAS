@@ -658,7 +658,7 @@ class SurveyNominalQuestionGUI extends SurveyQuestionGUI
 		
 		$this->writeCategoryData(true);
 		$_SESSION["spl_modified"] = false;
-		ilUtil::sendInfo($this->lng->txt("saved_successfully"), true);
+		ilUtil::sendSuccess($this->lng->txt("saved_successfully"), true);
 		$originalexists = $this->object->_questionExists($this->object->original_id);
 		$this->ctrl->setParameter($this, "q_id", $this->object->getId());
 		include_once "./Modules/SurveyQuestionPool/classes/class.SurveyQuestion.php";

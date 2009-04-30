@@ -413,12 +413,12 @@ class ilCertificateGUI
 					$xslfo = $this->object->processXHTML2FO($form_fields);
 					$this->object->getAdapter()->saveFormFields($form_fields);
 					$this->object->saveCertificate($xslfo);
-					ilUtil::sendInfo($this->lng->txt("saved_successfully"), TRUE);
+					ilUtil::sendSuccess($this->lng->txt("saved_successfully"), TRUE);
 					$this->ctrl->redirect($this, "certificateEditor");
 				}
 				catch (Exception $e)
 				{
-					ilUtil::sendInfo($e->getMessage());
+					ilUtil::sendFailure($e->getMessage());
 				}
 			}
 		}
