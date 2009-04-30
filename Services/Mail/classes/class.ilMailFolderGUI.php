@@ -190,18 +190,12 @@ class ilMailFolderGUI
 	
 	public function showUser()
 	{
-		global $ilCtrl;
+		global $ilCtrl, $ilToolbar;
 		
-		$this->tpl->setVariable("HEADER", $this->lng->txt("mail"));
-		
-		$this->tpl->addBlockfile("BUTTONS", "buttons", "tpl.buttons.html");
-		
-		$this->tpl->setCurrentBlock("btn_cell");
 		$this->ctrl->setParameter($this, "mail_id", $_GET["mail_id"]);
-		$this->tpl->setVariable("BTN_LINK",$this->ctrl->getLinkTarget($this, "showMail"));
-		$this->tpl->setVariable("BTN_TXT", $this->lng->txt("back"));		
-		$this->tpl->parseCurrentBlock();	
 		
+		$this->tpl->setTitle($this->lng->txt("mail"));
+		$ilToolbar->addButton($this->lng->txt("back"), $this->ctrl->getLinkTarget($this, "showMail"));
 		
 		$this->tpl->setVariable("TBL_TITLE", $this->lng->txt("profile_of")." ".
 			ilObjUser::_lookupLogin($_GET["user"]));
@@ -863,61 +857,54 @@ class ilMailFolderGUI
 		
 		include_once("./Services/Accessibility/classes/class.ilAccessKeyGUI.php");
 		
-		//buttons
-		$tplbtn = new ilTemplate("tpl.buttons.html", true, true);
+		// buttons...
+		// reply
+		include_once("./Services/UIComponent/Toolbar/classes/class.ilToolbarGUI.php");
+		$toolbar = new ilToolbarGUI();
 		if($mailData["sender_id"] &&
 		   $mailData["sender_id"] != ANONYMOUS_USER_ID)
 		{
-			$tplbtn->setCurrentBlock("btn_cell");
 			$this->ctrl->setParameterByClass("ilmailformgui", "mail_id", $_GET["mail_id"]);
 			$this->ctrl->setParameterByClass("ilmailformgui", "type", "reply");
-			$tplbtn->setVariable("BTN_LINK", $this->ctrl->getLinkTargetByClass("ilmailformgui"));
 			$this->ctrl->clearParametersByClass("iliasmailformgui");
-			$tplbtn->setVariable("BTN_TXT", $this->lng->txt("reply"));
-			$tplbtn->setVariable("BTN_ACC_KEY", ilAccessKeyGUI::getAttribute(ilAccessKey::REPLY));
-			$tplbtn->parseCurrentBlock();
+			
+			$toolbar->addButton($this->lng->txt("reply"), $this->ctrl->getLinkTargetByClass("ilmailformgui"),
+				"", ilAccessKey::REPLY);
 		}
-		$tplbtn->setCurrentBlock("btn_cell");
+		
+		// forward
 		$this->ctrl->setParameterByClass("ilmailformgui", "mail_id", $_GET["mail_id"]);
 		$this->ctrl->setParameterByClass("ilmailformgui", "type", "forward");
-		$tplbtn->setVariable("BTN_LINK", $this->ctrl->getLinkTargetByClass("ilmailformgui"));
 		$this->ctrl->clearParametersByClass("iliasmailformgui");
-		$tplbtn->setVariable("BTN_TXT", $this->lng->txt("forward"));
-		$tplbtn->setVariable("BTN_ACC_KEY", ilAccessKeyGUI::getAttribute(ilAccessKey::FORWARD_MAIL));
-		$tplbtn->parseCurrentBlock();
-		$tplbtn->setCurrentBlock("btn_cell");
+		$toolbar->addButton($this->lng->txt("forward"), $this->ctrl->getLinkTargetByClass("ilmailformgui"),
+				"", ilAccessKey::FORWARD_MAIL);
+		
+		// print
 		$this->ctrl->setParameter($this, "mail_id", $_GET["mail_id"]);
 		$this->ctrl->setParameter($this, "cmd", "printMail");
-		$tplbtn->setVariable("BTN_LINK", $this->ctrl->getLinkTarget($this));
+		$toolbar->addButton($this->lng->txt("print"), $this->ctrl->getLinkTarget($this),
+				"_blank");
 		$this->ctrl->clearParameters($this);
-		$tplbtn->setVariable("BTN_TXT", $this->lng->txt("print"));
-		$tplbtn->setVariable("BTN_TARGET","target=\"_blank\"");
-		$tplbtn->parseCurrentBlock();
 		
-		$tplbtn->setCurrentBlock("btn_cell");
+		// delete
 		$this->ctrl->setParameter($this, "mail_id", $_GET["mail_id"]);
 		$this->ctrl->setParameter($this, "selected_cmd", "deleteMails");
-		$tplbtn->setVariable("BTN_LINK", $this->ctrl->getLinkTarget($this));
+		$toolbar->addButton($this->lng->txt("delete"), $this->ctrl->getLinkTarget($this),
+				"", ilAccessKey::DELETE);
 		$this->ctrl->clearParameters($this);
-		$tplbtn->setVariable("BTN_TXT", $this->lng->txt("delete"));
-		$tplbtn->setVariable("BTN_ACC_KEY", ilAccessKeyGUI::getAttribute(ilAccessKey::DELETE));
-		$tplbtn->parseCurrentBlock();
 		
-		$tplbtn->setCurrentBlock("btn_row");
-		$tplbtn->parseCurrentBlock();
-		
-		$this->tpl->setVariable("BUTTONS2",$tplbtn->get());
+		$this->tpl->setVariable("BUTTONS2",$toolbar->getHTML());
+
 		$this->ctrl->setParameter($this, "mail_id", $_GET["mail_id"]);
 		$this->tpl->setVariable("ACTION", $this->ctrl->getFormAction($this));
 		$this->ctrl->clearParameters($this);
-		
+
 		if ($mailData["sender_id"] && 
 		    $mailData["sender_id"] != $ilUser->getId() && 
 			$mailData["sender_id"] != ANONYMOUS_USER_ID)
 		{
 			require_once "Services/Contact/classes/class.ilAddressbook.php";
 			$abook = new ilAddressbook($ilUser->getId());
-
 			$tmp_user = new ilObjUser($mailData["sender_id"]);
 			if ($abook->checkEntryByLogin($tmp_user->getLogin()) == 0)
 			{

@@ -180,6 +180,7 @@ class ilTemplate extends ilTemplateX
 			$this->fillRightContent();
 			$this->fillAdminPanel();
 			$this->fillPermanentLink();
+			$this->fillToolbar();
 
 			// these fill just plain placeholder variables in tpl.adm_content.html
 			if ($this->blockExists("content"))
@@ -377,6 +378,7 @@ class ilTemplate extends ilTemplateX
 			$this->fillRightContent();
 			$this->fillAdminPanel();
 			$this->fillPermanentLink();
+			$this->fillToolbar();
 			
 			// these fill just plain placeholder variables in tpl.adm_content.html
 			// these fill just plain placeholder variables in tpl.adm_content.html
@@ -472,6 +474,13 @@ class ilTemplate extends ilTemplateX
 		$this->setVariable("SUB_TABS", $sthtml);
 	}
 	
+	function fillToolbar()
+	{
+		global $ilToolbar;
+		
+		$this->setVariable("BUTTONS", $ilToolbar->getHTML());
+	}
+
 	function fillPageFormAction()
 	{
 		if ($this->page_form_action != "")

@@ -34,12 +34,15 @@ include_once("Services/Table/classes/class.ilTable2GUI.php");
 class ilPDNewsTableGUI extends ilTable2GUI
 {
 
-	function ilPDNewsTableGUI($a_parent_obj, $a_parent_cmd = "")
+	function ilPDNewsTableGUI($a_parent_obj, $a_parent_cmd = "", $a_contexts,
+		$a_selected_context)
 	{
 		global $ilCtrl, $lng;
 		
 		parent::__construct($a_parent_obj, $a_parent_cmd);
 		
+		$this->contexts = $a_contexts;
+		$this->selected_context = $a_selected_context;
 		$this->addColumn("");
 		//$this->addColumn($lng->txt("date"), "creation_date", "1");
 		//$this->addColumn($lng->txt("news_news_item_content"), "");
@@ -51,7 +54,62 @@ class ilPDNewsTableGUI extends ilTable2GUI
 		$this->setEnableTitle(false);
 		$this->setEnableHeader(false);
 		//$this->setCloseCommand($ilCtrl->getParentReturnByClass("ilpdnewsgui"));
+		$this->setIsDataTable(false);
+		$this->initFilter();
 	}
+	
+	/**
+	* Init Filter
+	*/
+	function initFilter()
+	{
+		global $lng;
+		
+		// period
+		$per = ($_SESSION["news_pd_news_per"] != "")
+			? $_SESSION["news_pd_news_per"]
+			: ilNewsItem::_lookupUserPDPeriod($ilUser->getId());
+		$news_set = new ilSetting("news");
+		$allow_shorter_periods = $news_set->get("allow_shorter_periods");
+		$allow_longer_periods = $news_set->get("allow_longer_periods");
+		$default_per = ilNewsItem::_lookupDefaultPDPeriod();
+
+		$options = array(
+			2 => sprintf($lng->txt("news_period_x_days"), 2),
+			3 => sprintf($lng->txt("news_period_x_days"), 3),
+			5 => sprintf($lng->txt("news_period_x_days"), 5),
+			7 => $lng->txt("news_period_1_week"),
+			14 => sprintf($lng->txt("news_period_x_weeks"), 2),
+			30 => $lng->txt("news_period_1_month"),
+			60 => sprintf($lng->txt("news_period_x_months"), 2),
+			120 => sprintf($lng->txt("news_period_x_months"), 4),
+			180 => sprintf($lng->txt("news_period_x_months"), 6),
+			366 =>  $lng->txt("news_period_1_year"));
+			
+		$unset = array();
+		foreach($options as $k => $opt)
+		{
+			if (!$allow_shorter_periods && ($k < $default_per)) $unset[$k] = $k;
+			if (!$allow_longer_periods && ($k > $default_per)) $unset[$k] = $k;
+		}
+		foreach($unset as $k)
+		{
+			unset($options[$k]);
+		}
+
+		include_once("./Services/Form/classes/class.ilSelectInputGUI.php");
+		$si = new ilSelectInputGUI($this->lng->txt("news_time_period"), "news_per");
+		$si->setOptions($options);
+		$si->setValue($per);
+		$this->addFilterItem($si);
+		
+		// related to...
+		$si = new ilSelectInputGUI($this->lng->txt("context"), "news_ref_id");
+		$si->setOptions($this->contexts);
+		$si->setValue($this->selected_context);
+		$this->addFilterItem($si);
+	}
+	
 	
 	/**
 	* Standard Version of Fill Row. Most likely to

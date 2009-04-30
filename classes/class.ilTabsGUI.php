@@ -326,6 +326,13 @@ class ilTabsGUI
 				{
 					$tabtype = $pre."tabactive";
 				}
+				
+				if ($tabtype == "tabactive" || $tabtype == "subtabactive")
+				{
+					$tpl->setCurrentBlock("sel_text");
+					$tpl->setVariable("TXT_SELECTED", $lng->txt("stat_selected"));
+					$tpl->parseCurrentBlock();
+				}
 	
 				$tpl->setCurrentBlock($pre."tab");
 				$tpl->setVariable($pre2."TAB_TYPE", $tabtype);

@@ -1926,14 +1926,29 @@ a.ilLogin, a.ilLogin:visited
 }
 
 /* MainMenu */
-div.il_MainMenu
+div.ilMainMenu
 {
 	background-image: url(images/MainMenuBack.gif);
 	background-repeat: repeat-x;
 	background-position: bottom;	
 	margin: 0px;
-	padding: 0px 0px 6px 20px;
+	padding: 1px 0px 6px 20px;
 	line-height: normal;
+	clear: both;
+}
+ul.ilMainMenu
+{
+	margin: 0px;
+	padding: 0px;
+	list-style:none;
+	white-space: nowrap;
+}
+
+li.ilMainMenu
+{
+	float:left;
+	margin: 0px;
+	padding: 0px;
 }
 
 a.MMInactive:link, a.MMInactive:visited
@@ -2665,8 +2680,9 @@ select.ilNavHistorySelect {
 	overflow:hidden;
 }
 
-a.ilAccAnchor{
+a.ilAccAnchor, a.ilAccAnchor:hover {
 	text-decoration: none;
+	color: inherit;
 }
 
 /* Notes */

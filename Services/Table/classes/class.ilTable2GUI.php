@@ -61,6 +61,7 @@ class ilTable2GUI extends ilTableGUI
 		$this->tpl = new ilTemplate("tpl.table2.html", true, true, "Services/Table");
 		
 		$this->setLimit($ilUser->getPref("hits_per_page"));
+		$this->setIsDataTable(true);
 	}
 	
 	
@@ -157,6 +158,26 @@ class ilTable2GUI extends ilTableGUI
 		return $this->noentriestext;
 	}
 
+	/**
+	* Set is data table 
+	*
+	* @param	boolean		is data table
+	*/
+	function setIsDataTable($a_val)
+	{
+		$this->datatable = $a_val;
+	}
+	
+	/**
+	* Get is data table
+	*
+	* @return	boolean		is data table
+	*/
+	function getIsDataTable()
+	{
+		return $this->datatable;
+	}
+	
 	/**
 	* Set Enable Title.
 	*
@@ -809,6 +830,7 @@ class ilTable2GUI extends ilTableGUI
 		global $lng;
 		
 		$this->tpl->setVariable("CSS_TABLE",$this->getStyle("table"));
+		$this->tpl->setVariable("DATA_TABLE", (int) $this->getIsDataTable());
 		if ($this->getId() != "")
 		{
 			$this->tpl->setVariable("ID", 'id="'.$this->getId().'"');
