@@ -321,8 +321,7 @@ class ilMailbox
 			SELECT count(mail_id) cnt FROM mail 
 			WHERE folder_id = %s 
 			AND user_id = %s
-			AND m_status = %s
-			GROUP BY mail_id',
+			AND m_status = %s',
 			array('integer', 'integer', 'text'),
 			array('0', $a_user_id, 'unread'));
 		
@@ -334,8 +333,7 @@ class ilMailbox
 		 	AND m.folder_id = mo.obj_id 
 		 	AND mo.type = %s
 			AND m.user_id = %s
-	 		AND m.m_status = %s
-	 		GROUP BY mail_id',
+	 		AND m.m_status = %s',
 			array('text', 'integer', 'text'),
 			array('inbox', $a_user_id, 'unread'));
 			

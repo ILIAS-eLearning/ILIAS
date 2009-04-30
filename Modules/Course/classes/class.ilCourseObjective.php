@@ -394,8 +394,7 @@ class ilCourseObjective
 		global $ilDB;
 		
 		$query = "SELECT MAX(position) pos FROM crs_objectives ".
-			"WHERE crs_id = ".$ilDB->quote($this->course_obj->getId() ,'integer')." ".
-			"GROUP BY position";
+			"WHERE crs_id = ".$ilDB->quote($this->course_obj->getId() ,'integer')." ";
 
 		$res = $this->db->query($query);
 		while($row = $res->fetchRow(DB_FETCHMODE_OBJECT))

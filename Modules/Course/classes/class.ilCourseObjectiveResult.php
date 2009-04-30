@@ -451,8 +451,7 @@ class ilCourseObjectiveResult
 			$query = "SELECT COUNT(cs.objective_id) num_passed FROM crs_objective_status cs ".
 				"JOIN crs_objectives co ON cs.objective_id = co.objective_id ".
 				"WHERE crs_id = ".$ilDB->quote($row->crs_id ,'integer')." ".
-				"AND user_id = ".$ilDB->quote($a_user_id ,'integer')." ".
-				"GROUP BY cs.objective_id";
+				"AND user_id = ".$ilDB->quote($a_user_id ,'integer')." ";
 
 			$user_res = $ilDB->query($query);
 			while($user_row = $user_res->fetchRow(DB_FETCHMODE_OBJECT))

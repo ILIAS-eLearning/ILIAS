@@ -366,8 +366,7 @@ class ilRbacReview
 				"JOIN object_reference ref ON ref.obj_id = dat.obj_id ".
 				"JOIN tree ON tree.child = ref.ref_id ".
 				"WHERE title = ".$this->ilDB->quote($object_title,'text')." ".
-				"AND tree.tree = 1 ".
-				"GROUP BY dat.obj_id";
+				"AND tree.tree = 1 ";
 			$r = $this->ilDB->query($q);
 			$row = $r->fetchRow(DB_FETCHMODE_OBJECT);
 
@@ -423,8 +422,7 @@ class ilRbacReview
 					"JOIN object_reference ref ON ref.obj_id = dat.obj_id ".
 					"JOIN tree ON tree.child = ref.ref_id ".
 					"WHERE title = ".$this->ilDB->quote($local_part,'text')." ".
-					"AND tree.tree = 1 ".
-					"GROUP BY dat.obj_id";
+					"AND tree.tree = 1 ";
 			}
 			else
 			{
@@ -435,8 +433,7 @@ class ilRbacReview
 					 "WHERE fa.assign = 'y' ".
 					 "AND t.parent = ".$this->ilDB->quote($object_ref,'integer')." ".
 					 "AND rd.title LIKE ".$this->ilDB->quote(
-						'%'.preg_replace('/([_%])/','\\\\$1', $local_part).'%','text')." ".
-					"GROUP BY rd.obj_id";
+						'%'.preg_replace('/([_%])/','\\\\$1', $local_part).'%','text')." ";
 			}
 
 			$r = $this->ilDB->query($q);
@@ -534,8 +531,7 @@ class ilRbacReview
 		$q = "SELECT DISTINCT(obj_id) obj_id FROM object_data ".
 			 "WHERE title =".$ilDB->quote($a_title)." ".
 			 "AND type IN('role','rolt')".
-			 $clause." ".
-			 "GROUP BY obj_id";
+			 $clause." ";
 		$r = $this->ilDB->query($q);
 
 		while($row = $r->fetchRow(DB_FETCHMODE_OBJECT))
@@ -1102,8 +1098,7 @@ class ilRbacReview
 		}
 
 		$query = "SELECT DISTINCT parent FROM rbac_fa ".
-			 "WHERE rol_id = ".$ilDB->quote($a_rol_id,'integer')." ".$where." ".
-			 "GROUP BY parent";
+			 "WHERE rol_id = ".$ilDB->quote($a_rol_id,'integer')." ".$where." ";
 
 		$res = $ilDB->query($query);
 		while($row = $ilDB->fetchObject($res))

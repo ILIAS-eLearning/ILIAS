@@ -627,7 +627,7 @@ class ilTree
 						// parent and parent rgt.
 						$query = sprintf('SELECT MAX(rgt) max_rgt FROM '.$this->table_tree.' '.
 							'WHERE parent = %s '.
-							'AND '.$this->tree_pk.' = %s GROUP BY rgt',
+							'AND '.$this->tree_pk.' = %s',
 							$ilDB->quote($a_parent_id,'integer'),
 							$ilDB->quote($this->tree_id,'integer'));
 						$res = $ilDB->query($query);
@@ -1531,7 +1531,7 @@ class ilTree
 	{
 		global $ilDB;
 		
-		$query = 'SELECT MAX(depth) depth FROM '.$this->table_tree.' GROUP BY depth';
+		$query = 'SELECT MAX(depth) depth FROM '.$this->table_tree;
 		$res = $ilDB->query($query);		
 		
 		$row = $ilDB->fetchAssoc($res);

@@ -3895,7 +3895,7 @@ function loadQuestions($active_id = "", $pass = NULL)
 	{
 		global $ilDB;
 
-		$result = $ilDB->queryF("SELECT COUNT(active_id) total FROM tst_active WHERE test_fi = %s GROUP BY active_id",
+		$result = $ilDB->queryF("SELECT COUNT(active_id) total FROM tst_active WHERE test_fi = %s",
 			array('integer'),
 			array($this->getTestId())
 		);
