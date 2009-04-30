@@ -524,11 +524,11 @@ class assQuestionGUI
 				$this->editQuestion();
 				if (strcmp($_SESSION["info"], "") != 0)
 				{
-					ilUtil::sendInfo($_SESSION["info"] . "<br />" . $this->lng->txt("msg_obj_modified"), false);
+					ilUtil::sendSuccess($_SESSION["info"] . "<br />" . $this->lng->txt("msg_obj_modified"), false);
 				}
 				else
 				{
-					ilUtil::sendInfo($this->lng->txt("msg_obj_modified"), false);
+					ilUtil::sendSuccess($this->lng->txt("msg_obj_modified"), false);
 				}
 				$this->ctrl->setParameterByClass("ilpageobjectgui", "q_id", $this->object->getId());
 				$this->ctrl->redirectByClass("ilpageobjectgui", "edit");
@@ -581,16 +581,16 @@ class assQuestionGUI
 					// first save
 					$this->ctrl->setParameterByClass($_GET["cmdClass"], "q_id", $this->object->getId());
 					$this->ctrl->setParameterByClass($_GET["cmdClass"], "sel_question_types", $_GET["sel_question_types"]);
-					ilUtil::sendInfo($this->lng->txt("msg_obj_modified"), true);
+					ilUtil::sendSuccess($this->lng->txt("msg_obj_modified"), true);
 					$this->ctrl->redirectByClass($_GET["cmdClass"], "editQuestion");
 				}
 				if (strcmp($_SESSION["info"], "") != 0)
 				{
-					ilUtil::sendInfo($_SESSION["info"] . "<br />" . $this->lng->txt("msg_obj_modified"), false);
+					ilUtil::sendSuccess($_SESSION["info"] . "<br />" . $this->lng->txt("msg_obj_modified"), false);
 				}
 				else
 				{
-					ilUtil::sendInfo($this->lng->txt("msg_obj_modified"), false);
+					ilUtil::sendSuccess($this->lng->txt("msg_obj_modified"), false);
 				}
 				$this->editQuestion();
 			}
@@ -809,7 +809,7 @@ class assQuestionGUI
 		{
 			$this->object->suggested_solutions = array();
 			$this->object->updateSuggestedSolutions();
-			ilUtil::sendInfo($this->lng->txt("msg_obj_modified"), true);
+			ilUtil::sendSuccess($this->lng->txt("msg_obj_modified"), true);
 			$this->ctrl->redirect($this, "suggestedsolution");
 		}
 
@@ -908,7 +908,7 @@ class assQuestionGUI
 						}
 						else
 						{
-							ilUtil::sendInfo($this->lng->txt("suggested_solution_added_successfully"), TRUE);
+							ilUtil::sendSuccess($this->lng->txt("suggested_solution_added_successfully"), TRUE);
 							$this->ctrl->redirect($this, "suggestedsolution");
 						}
 					}
@@ -967,7 +967,7 @@ class assQuestionGUI
 					}
 					else
 					{
-						ilUtil::sendInfo($this->lng->txt("msg_obj_modified"), true);
+						ilUtil::sendSuccess($this->lng->txt("msg_obj_modified"), true);
 						$this->ctrl->redirect($this, "suggestedsolution");
 					}
 				}
@@ -1218,7 +1218,7 @@ class assQuestionGUI
 			case "lm":
 				$subquestion_index = ($_GET["subquestion_index"] > 0) ? $_GET["subquestion_index"] : 0;
 				$this->object->saveSuggestedSolution("lm", "il__lm_" . $_GET["source_id"], $subquestion_index);
-				ilUtil::sendInfo($this->lng->txt("suggested_solution_added_successfully"), TRUE);
+				ilUtil::sendSuccess($this->lng->txt("suggested_solution_added_successfully"), TRUE);
 				$this->ctrl->redirect($this, "suggestedsolution");
 				break;
 		}
@@ -1232,7 +1232,7 @@ class assQuestionGUI
 			$subquestion_index = $_GET["subquestion_index"];
 		}
 		$this->object->saveSuggestedSolution("pg", "il__pg_" . $_GET["pg"], $subquestion_index);
-		ilUtil::sendInfo($this->lng->txt("suggested_solution_added_successfully"), TRUE);
+		ilUtil::sendSuccess($this->lng->txt("suggested_solution_added_successfully"), TRUE);
 		$this->ctrl->redirect($this, "suggestedsolution");
 	}
 
@@ -1244,7 +1244,7 @@ class assQuestionGUI
 			$subquestion_index = $_GET["subquestion_index"];
 		}
 		$this->object->saveSuggestedSolution("st", "il__st_" . $_GET["st"], $subquestion_index);
-		ilUtil::sendInfo($this->lng->txt("suggested_solution_added_successfully"), TRUE);
+		ilUtil::sendSuccess($this->lng->txt("suggested_solution_added_successfully"), TRUE);
 		$this->ctrl->redirect($this, "suggestedsolution");
 	}
 
@@ -1256,7 +1256,7 @@ class assQuestionGUI
 			$subquestion_index = $_GET["subquestion_index"];
 		}
 		$this->object->saveSuggestedSolution("git", "il__git_" . $_GET["git"], $subquestion_index);
-		ilUtil::sendInfo($this->lng->txt("suggested_solution_added_successfully"), TRUE);
+		ilUtil::sendSuccess($this->lng->txt("suggested_solution_added_successfully"), TRUE);
 		$this->ctrl->redirect($this, "suggestedsolution");
 	}		
 }

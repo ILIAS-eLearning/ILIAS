@@ -141,7 +141,7 @@ class ilSurveyExecutionGUI
 				else
 				{
 					unset($_POST["cmd"]["resume"]);
-					ilUtil::sendInfo(sprintf($this->lng->txt("error_retrieving_anonymous_survey"), $_POST["anonymous_id"]));
+					ilUtil::sendFailure(sprintf($this->lng->txt("error_retrieving_anonymous_survey"), $_POST["anonymous_id"]));
 				}
 			}
 		}
@@ -156,7 +156,7 @@ class ilSurveyExecutionGUI
 			}
 			else
 			{
-				ilUtil::sendInfo(sprintf($this->lng->txt("error_retrieving_anonymous_survey"), $_POST["anonymous_id"]), true);
+				ilUtil::sendFailure(sprintf($this->lng->txt("error_retrieving_anonymous_survey"), $_POST["anonymous_id"]), true);
 				$this->ctrl->redirectByClass("ilobjsurveygui", "infoScreen");
 			}
 		}
@@ -427,11 +427,11 @@ class ilSurveyExecutionGUI
 		{
 			if ($page_error == 1)
 			{
-				ilUtil::sendInfo($this->lng->txt("svy_page_error"), TRUE);
+				ilUtil::sendFailure($this->lng->txt("svy_page_error"), TRUE);
 			}
 			else
 			{
-				ilUtil::sendInfo($this->lng->txt("svy_page_errors"), TRUE);
+				ilUtil::sendFailure($this->lng->txt("svy_page_errors"), TRUE);
 			}
 		}
 		else
@@ -472,11 +472,11 @@ class ilSurveyExecutionGUI
 		{
 			if ($page_error == 1)
 			{
-				ilUtil::sendInfo($this->lng->txt("svy_page_error"));
+				ilUtil::sendFailure($this->lng->txt("svy_page_error"));
 			}
 			else
 			{
-				ilUtil::sendInfo($this->lng->txt("svy_page_errors"));
+				ilUtil::sendFailure($this->lng->txt("svy_page_errors"));
 			}
 		}
 		else

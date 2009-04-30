@@ -227,7 +227,7 @@ class SurveyQuestionGUI
 			}
 			else
 			{
-				ilUtil::sendInfo($this->lng->txt("msg_obj_modified"), true);
+				ilUtil::sendSuccess($this->lng->txt("msg_obj_modified"), true);
 				$this->ctrl->setParameterByClass($_GET["cmdClass"], "q_id", $this->object->getId());
 				$this->ctrl->setParameterByClass($_GET["cmdClass"], "sel_question_types", $_GET["sel_question_types"]);
 				$this->ctrl->setParameterByClass($_GET["cmdClass"], "new_for_survey", $_GET["new_for_survey"]);
@@ -351,7 +351,7 @@ class SurveyQuestionGUI
 		$this->object->setMaterial("il__pg_" . $_GET["pg"]);
 		unset($_SESSION["link_new_type"]);
 		unset($_SESSION["search_link_type"]);
-		ilUtil::sendInfo($this->lng->txt("material_added_successfully"));
+		ilUtil::sendSuccess($this->lng->txt("material_added_successfully"));
 		$this->editQuestion();
 	}
 	
@@ -360,7 +360,7 @@ class SurveyQuestionGUI
 		$this->object->setMaterial("il__st_" . $_GET["st"]);
 		unset($_SESSION["link_new_type"]);
 		unset($_SESSION["search_link_type"]);
-		ilUtil::sendInfo($this->lng->txt("material_added_successfully"));
+		ilUtil::sendSuccess($this->lng->txt("material_added_successfully"));
 		$this->editQuestion();
 	}
 
@@ -369,7 +369,7 @@ class SurveyQuestionGUI
 		$this->object->setMaterial("il__git_" . $_GET["git"]);
 		unset($_SESSION["link_new_type"]);
 		unset($_SESSION["search_link_type"]);
-		ilUtil::sendInfo($this->lng->txt("material_added_successfully"));
+		ilUtil::sendSuccess($this->lng->txt("material_added_successfully"));
 		$this->editQuestion();
 	}
 	
@@ -465,7 +465,7 @@ class SurveyQuestionGUI
 				$this->object->setMaterial("il__lm_" . $_GET["source_id"]);
 				unset($_SESSION["link_new_type"]);
 				unset($_SESSION["search_link_type"]);
-				ilUtil::sendInfo($this->lng->txt("material_added_successfully"));
+				ilUtil::sendSuccess($this->lng->txt("material_added_successfully"));
 				$this->editQuestion();
 				break;
 		}

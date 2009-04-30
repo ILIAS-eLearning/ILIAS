@@ -141,7 +141,7 @@ class ilSurveyEvaluationGUI
 		}
 		else
 		{
-			ilUtil::sendInfo($this->lng->txt("svy_check_evaluation_wrong_key", true));
+			ilUtil::sendFailure($this->lng->txt("svy_check_evaluation_wrong_key", true));
 			$this->cancelEvaluationAccess();
 		}
 	}
@@ -298,7 +298,7 @@ class ilSurveyEvaluationGUI
 
 		if (!$rbacsystem->checkAccess("read",$_GET["ref_id"]))
 		{
-			ilUtil::sendInfo($this->lng->txt("permission_denied"));
+			ilUtil::sendFailure($this->lng->txt("permission_denied"));
 			return;
 		}
 		switch ($this->object->getEvaluationAccess())
@@ -306,7 +306,7 @@ class ilSurveyEvaluationGUI
 			case EVALUATION_ACCESS_OFF:
 				if (!$rbacsystem->checkAccess("write", $_GET["ref_id"]))
 				{
-					ilUtil::sendInfo($this->lng->txt("permission_denied"));
+					ilUtil::sendFailure($this->lng->txt("permission_denied"));
 					return;
 				}
 				break;
@@ -314,7 +314,7 @@ class ilSurveyEvaluationGUI
 				include_once "./Modules/Survey/classes/class.ilObjSurveyAccess.php";
 				if (!($rbacsystem->checkAccess("write",$_GET["ref_id"]) || ilObjSurveyAccess::_hasEvaluationAccess($this->object->getId(), $ilUser->getId())))
 				{
-					ilUtil::sendInfo($this->lng->txt("permission_denied"));
+					ilUtil::sendFailure($this->lng->txt("permission_denied"));
 					return;
 				}
 				break;
@@ -558,7 +558,7 @@ class ilSurveyEvaluationGUI
 		
 		if (!$ilAccess->checkAccess("write", "", $this->object->getRefId()))
 		{
-			ilUtil::sendInfo($this->lng->txt("no_permission"), TRUE);
+			ilUtil::sendFailure($this->lng->txt("no_permission"), TRUE);
 			$this->ctrl->redirectByClass("ilObjSurveyGUI", "infoScreen");
 		}
 		if (!is_array($_POST))

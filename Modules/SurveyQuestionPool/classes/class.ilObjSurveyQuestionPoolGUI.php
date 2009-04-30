@@ -134,7 +134,6 @@ class ilObjSurveyQuestionPoolGUI extends ilObjectGUI
 	*/
 	function cancelObject()
 	{
-		ilUtil::sendInfo($this->lng->txt("msg_cancel"),true);
 		ilUtil::redirect("repository.php?cmd=frameset&ref_id=".$_GET["ref_id"]);
 	}
 
@@ -151,7 +150,7 @@ class ilObjSurveyQuestionPoolGUI extends ilObjectGUI
 		$newObj = parent::saveObject();
 
 		// always send a message
-		ilUtil::sendInfo($this->lng->txt("object_added"),true);
+		ilUtil::sendSuccess($this->lng->txt("object_added"),true);
 
 		ilUtil::redirect("ilias.php?ref_id=".$newObj->getRefId().
 			"&baseClass=ilObjSurveyQuestionPoolGUI");
@@ -207,7 +206,7 @@ class ilObjSurveyQuestionPoolGUI extends ilObjectGUI
 		if (strlen($qpl_online) == 0) $qpl_online = "0";
 		$this->object->setOnline($qpl_online);
 		$this->object->saveToDb();
-		ilUtil::sendInfo($this->lng->txt("saved_successfully"), true);
+		ilUtil::sendSuccess($this->lng->txt("saved_successfully"), true);
 		$this->ctrl->redirect($this, "properties");
 	}
 	
@@ -294,11 +293,11 @@ class ilObjSurveyQuestionPoolGUI extends ilObjectGUI
 		{
 			if ($rbacsystem->checkAccess('write', $this->ref_id)) 
 			{
-				ilUtil::sendInfo($this->lng->txt("qpl_confirm_delete_questions"));
+				ilUtil::sendQuestion($this->lng->txt("qpl_confirm_delete_questions"));
 			} 
 			else 
 			{
-				ilUtil::sendInfo($this->lng->txt("qpl_delete_rbac_error"));
+				ilUtil::sendFailure($this->lng->txt("qpl_delete_rbac_error"));
 				$this->questionsObject();
 				return;
 			}
@@ -348,7 +347,7 @@ class ilObjSurveyQuestionPoolGUI extends ilObjectGUI
 	function confirmDeleteQuestionsObject()
 	{
 		// delete questions after confirmation
-		ilUtil::sendInfo($this->lng->txt("qpl_questions_deleted"), true);
+		ilUtil::sendSuccess($this->lng->txt("qpl_questions_deleted"), true);
 		$checked_questions = array();
 		foreach ($_POST as $key => $value) {
 			if (preg_match("/id_(\d+)/", $key, $matches)) {
@@ -385,7 +384,7 @@ class ilObjSurveyQuestionPoolGUI extends ilObjectGUI
 		// paste button was pressed
 		if (count($_SESSION["spl_copied_questions"]) == 0)
 		{
-			ilUtil::sendInfo($this->lng->txt("qpl_past_questions_confirmation"));
+			ilUtil::sendQuestion($this->lng->txt("qpl_past_questions_confirmation"));
 		}
 		$this->tpl->addBlockFile("ADM_CONTENT", "adm_content", "tpl.il_svy_qpl_confirm_paste_questions.html", "Modules/SurveyQuestionPool");
 		$questions_info =& $this->object->getQuestionsInfo($_SESSION["spl_copied_questions"]);
@@ -426,7 +425,7 @@ class ilObjSurveyQuestionPoolGUI extends ilObjectGUI
 	function confirmPasteQuestionsObject()
 	{
 		// paste questions after confirmation
-		ilUtil::sendInfo($this->lng->txt("qpl_questions_pasted"), true);
+		ilUtil::sendSuccess($this->lng->txt("qpl_questions_pasted"), true);
 		$checked_questions = array();
 		foreach ($_POST as $key => $value) {
 			if (preg_match("/id_(\d+)/", $key, $matches)) {
@@ -809,7 +808,7 @@ class ilObjSurveyQuestionPoolGUI extends ilObjectGUI
 	function updateObject() 
 	{
 		$this->update = $this->object->update();
-		ilUtil::sendInfo($this->lng->txt("msg_obj_modified"), true);
+		ilUtil::sendSuccess($this->lng->txt("msg_obj_modified"), true);
 	}
 
 	/*
@@ -984,7 +983,7 @@ class ilObjSurveyQuestionPoolGUI extends ilObjectGUI
 
 		$this->tpl->addBlockFile("ADM_CONTENT", "adm_content", "tpl.confirm_deletion.html", "Modules/SurveyQuestionPool");
 
-		ilUtil::sendInfo($this->lng->txt("info_delete_sure"));
+		ilUtil::sendQuestion($this->lng->txt("info_delete_sure"));
 
 		$this->tpl->setVariable("FORMACTION", $this->ctrl->getFormAction($this));
 
@@ -1204,7 +1203,7 @@ class ilObjSurveyQuestionPoolGUI extends ilObjectGUI
 		$this->ctrl->setParameter($this, "new_type", $this->type);
 		$ref_id = $this->uploadSplObject(false);
 		// always send a message
-		ilUtil::sendInfo($this->lng->txt("object_imported"),true);
+		ilUtil::sendSuccess($this->lng->txt("object_imported"),true);
 
 		ilUtil::redirect("ilias.php?ref_id=".$ref_id.
 			"&baseClass=ilObjSurveyQuestionPoolGUI");
@@ -1388,7 +1387,7 @@ class ilObjSurveyQuestionPoolGUI extends ilObjectGUI
 			$_GET["cmd"] = "frameset";
 			$_GET["target"] = "";
 			$_GET["ref_id"] = ROOT_FOLDER_ID;
-			ilUtil::sendInfo(sprintf($lng->txt("msg_no_perm_read_item"),
+			ilUtil::sendFailure(sprintf($lng->txt("msg_no_perm_read_item"),
 				ilObject::_lookupTitle(ilObject::_lookupObjId($a_target))), true);
 			include("repository.php");
 			exit;

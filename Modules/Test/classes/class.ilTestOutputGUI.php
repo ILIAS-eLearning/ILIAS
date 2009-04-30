@@ -483,7 +483,7 @@ class ilTestOutputGUI extends ilTestServiceGUI
 		}
 		else
 		{
-			ilUtil::sendInfo($this->lng->txt("tst_password_entered_wrong_password"), true);
+			ilUtil::sendFailure($this->lng->txt("tst_password_entered_wrong_password"), true);
 			$this->ctrl->redirectByClass("ilobjtestgui", "infoScreen"); 
 		}
 	}

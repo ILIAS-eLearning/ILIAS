@@ -220,7 +220,7 @@ class ilSurveyPhrasesGUI
 			}
 		}
 		$this->object->deletePhrases($phrases);
-		ilUtil::sendInfo($this->lng->txt("qpl_phrases_deleted"), true);
+		ilUtil::sendSuccess($this->lng->txt("qpl_phrases_deleted"), true);
 		$this->ctrl->redirect($this, "phrases");
 	}
 	

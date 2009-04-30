@@ -924,7 +924,7 @@ class ilTestEvaluationGUI extends ilTestServiceGUI
 			}
 		}
 		$this->object->setEvaluationAdditionalFields($additionalFields);
-		ilUtil::sendInfo($this->lng->txt("msg_obj_modified"), TRUE);
+		ilUtil::sendSuccess($this->lng->txt("msg_obj_modified"), TRUE);
 		$this->ctrl->redirect($this, "evalSettings");
 	}
 	
