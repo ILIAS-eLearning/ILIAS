@@ -39,23 +39,23 @@ class ilFormPropertyDispatchGUI
 	}
 	
 	/**
-	* Set filter item
+	* Set item
 	*
-	* @param	object		filter item
+	* @param	object		item
 	*/
-	function setFilterItem($a_val)
+	function setItem($a_val)
 	{
-		$this->filter_item = $a_val;
+		$this->item = $a_val;
 	}
 	
 	/**
-	* Get filter item
+	* Get item
 	*
-	* @return	object		filter item
+	* @return	object		item
 	*/
-	function getFilterItem()
+	function getItem()
 	{
-		return $this->filter_item;
+		return $this->item;
 	}
 	
 	/**
@@ -68,13 +68,12 @@ class ilFormPropertyDispatchGUI
 		$next_class = $ilCtrl->getNextClass($this);
 		$cmd = $ilCtrl->getCmd();
 		
-//echo "-".strtolower(get_class($this->getFilterItem()))."-".$next_class."-";
-		if (strtolower(get_class($this->getFilterItem())) != $next_class)
+		if (strtolower(get_class($this->getItem())) != $next_class)
 		{
 			die("ilFormPropertyDispatch: Forward Error.");
 		}
 		
-		return $ilCtrl->forwardCommand($this->getFilterItem());
+		return $ilCtrl->forwardCommand($this->getItem());
 	}
 
 }

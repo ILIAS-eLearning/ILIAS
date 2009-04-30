@@ -145,14 +145,16 @@ class ilRadioGroupInputGUI extends ilFormPropertyGUI
 	*/
 	function insert(&$a_tpl)
 	{
+		$tpl = new ilTemplate("tpl.prop_radio.html", true, true, "Services/Form");
+		
 		foreach($this->getOptions() as $option)
 		{
 			// information text for option
 			if ($option->getInfo() != "")
 			{
-				$a_tpl->setCurrentBlock("radio_option_desc");
-				$a_tpl->setVariable("RADIO_OPTION_DESC", $option->getInfo());
-				$a_tpl->parseCurrentBlock();
+				$tpl->setCurrentBlock("radio_option_desc");
+				$tpl->setVariable("RADIO_OPTION_DESC", $option->getInfo());
+				$tpl->parseCurrentBlock();
 			}
 			
 			
@@ -160,44 +162,46 @@ class ilRadioGroupInputGUI extends ilFormPropertyGUI
 			{
 				if ($option->getValue() != $this->getValue())
 				{
-					$a_tpl->touchBlock("prop_radio_opt_hide");
-					$a_tpl->setVariable("HOP_ID", $this->getFieldId()."_".$option->getValue());
-					$a_tpl->parseCurrentBlock();
+					$tpl->touchBlock("prop_radio_opt_hide");
+					$tpl->setVariable("HOP_ID", $this->getFieldId()."_".$option->getValue());
+					$tpl->parseCurrentBlock();
 				}
-				$a_tpl->setCurrentBlock("prop_radio_option_subform");
+				$tpl->setCurrentBlock("radio_option_subform");
 				$pf = new ilPropertyFormGUI();
 				$pf->setMode("subform");
 				$pf->setItems($option->getSubItems());
-				$a_tpl->setVariable("SUB_FORM", $pf->getContent());
-				$a_tpl->setVariable("SOP_ID", $this->getFieldId()."_".$option->getValue());
+				$tpl->setVariable("SUB_FORM", $pf->getContent());
+				$tpl->setVariable("SOP_ID", $this->getFieldId()."_".$option->getValue());
 				if ($pf->getMultipart())
 				{
 					$this->getParentForm()->setMultipart(true);
 				}
-				$a_tpl->parseCurrentBlock();
+				$tpl->parseCurrentBlock();
 			}
 
-			$a_tpl->setCurrentBlock("prop_radio_option");
-			$a_tpl->setVariable("POST_VAR", $this->getPostVar());
-			$a_tpl->setVariable("VAL_RADIO_OPTION", $option->getValue());
-			$a_tpl->setVariable("OP_ID", $this->getFieldId()."_".$option->getValue());
-			$a_tpl->setVariable("ID", $this->getFieldId());
+			$tpl->setCurrentBlock("prop_radio_option");
+			$tpl->setVariable("POST_VAR", $this->getPostVar());
+			$tpl->setVariable("VAL_RADIO_OPTION", $option->getValue());
+			$tpl->setVariable("OP_ID", $this->getFieldId()."_".$option->getValue());
+			$tpl->setVariable("FID", $this->getFieldId());
 			if($this->getDisabled() or $option->getDisabled())
 			{
-				$a_tpl->setVariable('DISABLED','disabled="disabled" ');
+				$tpl->setVariable('DISABLED','disabled="disabled" ');
 			}
 			if ($option->getValue() == $this->getValue())
 			{
-				$a_tpl->setVariable("CHK_RADIO_OPTION",
+				$tpl->setVariable("CHK_RADIO_OPTION",
 					'checked="checked"');
 			}
-			$a_tpl->setVariable("TXT_RADIO_OPTION", $option->getTitle());
+			$tpl->setVariable("TXT_RADIO_OPTION", $option->getTitle());
 			
 			
-			$a_tpl->parseCurrentBlock();
+			$tpl->parseCurrentBlock();
 		}
-		$a_tpl->setCurrentBlock("prop_radio");
-		$a_tpl->setVariable("ID", $this->getFieldId());
+		$tpl->setVariable("ID", $this->getFieldId());
+		
+		$a_tpl->setCurrentBlock("prop_generic");
+		$a_tpl->setVariable("PROP_GENERIC", $tpl->get());
 		$a_tpl->parseCurrentBlock();
 
 	}

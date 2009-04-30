@@ -58,6 +58,7 @@ include_once('./Services/Form/classes/class.ilImageWizardInputGUI.php');
 *
 * @author Alex Killing <alex.killing@gmx.de> 
 * @version $Id$
+* @ilCtrl_Calls ilPropertyFormGUI: ilFormPropertyDispatchGUI
 * @ingroup	ServicesForm
 */
 class ilPropertyFormGUI extends ilFormGUI
@@ -80,6 +81,30 @@ class ilPropertyFormGUI extends ilFormGUI
 		
 		$lng->loadLanguageModule("form");
 		parent::ilFormGUI();
+	}
+
+	/**
+	* Execute command.
+	*/
+	function &executeCommand()
+	{
+		global $ilCtrl;
+		
+		$next_class = $ilCtrl->getNextClass($this);
+		$cmd = $ilCtrl->getCmd();
+			
+		switch($next_class)
+		{
+			case 'ilformpropertydispatchgui':
+				include_once './Services/Form/classes/class.ilFormPropertyDispatchGUI.php';
+				$form_prop_dispatch = new ilFormPropertyDispatchGUI();
+				$item = $this->getItemByPostVar($_GET["postvar"]);
+				$form_prop_dispatch->setItem($item);
+				return $ilCtrl->forwardCommand($form_prop_dispatch);
+				break;
+
+		}
+		return false;
 	}
 
 	/**

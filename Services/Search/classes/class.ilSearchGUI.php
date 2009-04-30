@@ -21,17 +21,6 @@
 	+-----------------------------------------------------------------------------+
 */
 
-/**
-* Class ilSearchGUI
-*
-* GUI class for 'simple' search
-*
-* @author Stefan Meyer <smeyer@databay.de>
-* @version $Id$
-* 
-* @package ilias-search
-*
-*/
 include_once 'Services/Search/classes/class.ilSearchBaseGUI.php';
 
 define('SEARCH_FAST',1);
@@ -39,6 +28,17 @@ define('SEARCH_DETAILS',2);
 define('SEARCH_AND','and');
 define('SEARCH_OR','or');
 
+
+/**
+* Class ilSearchGUI
+*
+* GUI class for 'simple' search
+*
+* @author Stefan Meyer <smeyer@databay.de>
+* @version $Id$
+* @ilCtrl_Calls ilSearchGUI: ilPropertyFormGUI
+* @ingroup	ServicesSearch
+*/
 class ilSearchGUI extends ilSearchBaseGUI
 {
 	protected $search_cache = null;
@@ -48,14 +48,42 @@ class ilSearchGUI extends ilSearchBaseGUI
 	var $string;
 	var $type;
 
+	
 	/**
 	* Constructor
 	* @access public
 	*/
 	function ilSearchGUI()
 	{
-		global $ilUser;
+		global $ilUser, $lng;
 		
+		$lng->loadLanguageModule("search");
+		
+		$this->obj_types = array (
+			"lms" => $lng->txt("learning_resources"),
+			"glo" => $lng->txt("objs_glo"),
+			"wiki" => $lng->txt("objs_wiki"),
+			"mcst" => $lng->txt("objs_mcst"),
+			"fil" => $lng->txt("objs_file"),
+			"frm" => $lng->txt("objs_frm"),
+			"exc" => $lng->txt("objs_exc"),
+			"tst" => $lng->txt("search_tst_svy"),
+			"mep" => $lng->txt("objs_mep")
+			);
+		
+		// put form values into "old" post variables
+		$this->initStandardSearchForm();
+		$this->form->checkInput();
+		reset($this->obj_types);
+		foreach($this->obj_types as $k => $t)
+		{
+			$_POST["search"]["details"][$k] = $_POST[$k];
+		}
+		$_POST["search"]["string"] = $_POST["term"];
+		$_POST["search"]["combination"] = $_POST["combination"];
+		$_POST["search"]["type"] = $_POST["type"];
+		$_SESSION['search_root'] = $_POST["area"];
+
 		$this->root_node = $_SESSION['search_root'] ? $_SESSION['search_root'] : ROOT_FOLDER_ID;
 		$this->setType($_POST['search']['type'] ? $_POST['search']['type'] : $_SESSION['search']['type']);
 		$this->setCombination($_POST['search']['combination'] ? $_POST['search']['combination'] : $_SESSION['search']['combination']);
@@ -131,7 +159,7 @@ class ilSearchGUI extends ilSearchBaseGUI
 	*/
 	function &executeCommand()
 	{
-		global $rbacsystem;
+		global $rbacsystem, $ilCtrl;
 
 
 		$next_class = $this->ctrl->getNextClass($this);
@@ -139,6 +167,13 @@ class ilSearchGUI extends ilSearchBaseGUI
 
 		switch($next_class)
 		{
+			case "ilpropertyformgui":
+				$this->initStandardSearchForm();
+				$this->prepareOutput();
+				$ilCtrl->setReturn($this, "");
+				return $ilCtrl->forwardCommand($this->form);
+				break;
+			
 			default:
 				$this->initUserSearchCache();
 				if(!$cmd)
@@ -207,8 +242,13 @@ class ilSearchGUI extends ilSearchBaseGUI
 	{
 		global $ilLocator;
 
+		
 		$this->tpl->addBlockFile('ADM_CONTENT','adm_content','tpl.search.html','Services/Search');
 
+		$this->initStandardSearchForm();
+		$this->tpl->setVariable("FORM", $this->form->getHTML());
+
+/*
 		$this->tpl->setVariable("TBL_TITLE",$this->lng->txt('search'));
 		$this->tpl->setVariable("TXT_SEARCHAREA",$this->lng->txt('search_area'));
 		$this->tpl->setVariable("SEARCH_ACTION",$this->ctrl->getFormAction($this));
@@ -281,7 +321,7 @@ class ilSearchGUI extends ilSearchBaseGUI
 			$text .= "'";
 			$this->tpl->setVariable("SEARCHAREA",$text);
 		}
-
+*/
 		return true;
 	}
 
@@ -313,6 +353,68 @@ class ilSearchGUI extends ilSearchBaseGUI
 		return true;
 	}
 
+	/**
+	* Init standard search form.
+	*/
+	public function initStandardSearchForm()
+	{
+		global $lng, $ilCtrl;
+	
+		include_once("Services/Form/classes/class.ilPropertyFormGUI.php");
+		$this->form = new ilPropertyFormGUI();
+
+		// search term
+		$ti = new ilTextInputGUI($lng->txt("search_search_term"), "term");
+		$ti->setMaxLength(200);
+		$ti->setSize(30);
+		$ti->setValue($this->getString());
+		$this->form->addItem($ti);
+		
+		// term combination 
+		$radg = new ilRadioGroupInputGUI($lng->txt("search_term_combination"),
+			"combination");
+		$radg->setValue(($this->getCombination() == SEARCH_AND) ? "and" : "or");
+		$op1 = new ilRadioOption($lng->txt("search_any_word"), "or");
+		$radg->addOption($op1);
+		$op2 = new ilRadioOption($lng->txt("search_all_words"), "and");
+		$radg->addOption($op2);
+		$this->form->addItem($radg);
+		
+		// search area
+		include_once("./Services/Form/classes/class.ilRepositorySelectorInputGUI.php");
+		$ti = new ilRepositorySelectorInputGUI($lng->txt("search_area"), "area");
+		$ti->setSelectText($lng->txt("search_select_search_area"));
+		$this->form->addItem($ti);
+		$ti->readFromSession();
+		
+		// search type
+		$radg = new ilRadioGroupInputGUI($lng->txt("search_type"), "type");
+		$radg->setValue($this->getType() == SEARCH_FAST ? SEARCH_FAST : SEARCH_DETAILS);
+		$op1 = new ilRadioOption($lng->txt("search_fast_info"), SEARCH_FAST);
+		$radg->addOption($op1);
+		$op2 = new ilRadioOption($lng->txt("search_details_info"), SEARCH_DETAILS);
+		
+			// resource types
+			$details = $this->getDetails();
+			reset($this->obj_types);
+			foreach ($this->obj_types as $k => $t)
+			{
+				$cb = new ilCheckboxInputGUI($t, $k);
+				$cb->setChecked($details[$k]);
+				$op2->addSubItem($cb);
+			}
+			
+		$radg->addOption($op2);
+		$this->form->addItem($radg);
+		
+		
+		// search command
+		$this->form->addCommandButton("performSearch", $lng->txt("search"));
+	                
+		$this->form->setTitle($lng->txt("search"));
+		$this->form->setFormAction($ilCtrl->getFormAction($this));
+	 
+	}
 	
 	function showSavedResults()
 	{
@@ -355,7 +457,7 @@ class ilSearchGUI extends ilSearchBaseGUI
 	function performSearch()
 	{
 		global $ilUser;
-	
+		
 		if(!isset($_GET['page_number']) and $this->search_mode != 'in_results' )
 		{
 			unset($_SESSION['max_page']);
