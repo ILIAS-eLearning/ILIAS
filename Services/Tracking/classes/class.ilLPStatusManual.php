@@ -123,8 +123,7 @@ class ilLPStatusManual extends ilLPStatus
 
 		$query = "SELECT DISTINCT(usr_id) user_id FROM ut_lp_marks ".
 			"WHERE obj_id = ".$ilDB->quote($a_obj_id ,'integer')." ".
-			"AND completed = '1' ".
-			"GROUP BY usr_id";
+			"AND completed = '1' ";
 
 		$res = $ilDB->query($query);
 		while($row = $res->fetchRow(DB_FETCHMODE_OBJECT))

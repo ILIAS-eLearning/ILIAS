@@ -139,8 +139,7 @@ class ilCourseObjectiveMaterials
 		global $ilDB;
 		
 		$query = "SELECT DISTINCT(ref_id) ref_id FROM crs_objective_lm ".
-			"WHERE objective_id = ".$ilDB->quote($a_objective_id ,'integer')." ".
-			"GROUP BY ref_id";
+			"WHERE objective_id = ".$ilDB->quote($a_objective_id ,'integer')." ";
 		$res = $ilDB->query($query);
 		while($row = $res->fetchRow(DB_FETCHMODE_OBJECT))
 		{
@@ -206,7 +205,6 @@ class ilCourseObjectiveMaterials
 			"JOIN object_reference obr ON com.ref_id = obr.ref_id ".
 			"JOIN object_data obd ON obr.obj_id = obd.obj_id ".
 			"WHERE co.crs_id = ".$ilDB->quote($a_container_id,'integer')." ".
-			"GROUP BY com.ref_id ".
 			"ORDER BY obd.title ";
 			
 		$res = $ilDB->query($query);

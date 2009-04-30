@@ -54,8 +54,7 @@ class ilMDOrComposite extends ilMDRequirement
 		{
 			$query = "SELECT MAX(or_composite_id) orc FROM il_meta_requirement ".
 				"WHERE rbac_id = ".$ilDB->quote($this->getRBACId() ,'integer')." ".
-				"AND obj_id = ".$ilDB->quote($this->getObjId() ,'integer')." ".
-				"GROUP BY or_composite_id";
+				"AND obj_id = ".$ilDB->quote($this->getObjId() ,'integer')." ";
 
 			$res = $this->db->query($query);
 			while($row = $res->fetchRow(DB_FETCHMODE_OBJECT))

@@ -58,8 +58,7 @@ class ilMediaPoolSearch extends ilAbstractSearch
 			$locate.
 			"FROM object_data,mep_tree ".
 			"WHERE obj_id = child ".
-			$and." ".
-			"GROUP BY mep_id";
+			$and." ";
 
 		$res = $this->db->query($query);
 		while($row = $res->fetchRow(DB_FETCHMODE_OBJECT))

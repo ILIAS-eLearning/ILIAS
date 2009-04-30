@@ -1011,8 +1011,7 @@ class ilObject
 		}
 		$types = array();
 		$set = $ilDB->query("SELECT max(last_update) as last_update FROM object_data ".
-			"WHERE ".$ilDB->in("obj_id", $a_objs, false, "integer")." ".
-			"GROUP BY obj_id");
+			"WHERE ".$ilDB->in("obj_id", $a_objs, false, "integer")." ");
 		$rec = $ilDB->fetchAssoc($set);
 		
 		return ($rec["last_update"]);
@@ -1336,8 +1335,7 @@ class ilObject
 		}
 
 		$query = "SELECT COUNT(ref_id) num FROM object_reference ".
-		 	"WHERE obj_id = ".$ilDB->quote($this->id,'integer')." ".
-		 	"GROUP BY ref_id";
+		 	"WHERE obj_id = ".$ilDB->quote($this->id,'integer')." ";
 		$res = $ilDB->query($query);
 		$row = $ilDB->fetchObject($res);
 

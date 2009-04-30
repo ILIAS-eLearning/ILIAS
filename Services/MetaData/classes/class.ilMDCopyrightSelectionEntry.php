@@ -389,7 +389,7 @@ class ilMDCopyrightSelectionEntry
 	 	
 	 	$desc = $ilDB->quote('il_copyright_entry__'.IL_INST_ID.'__'.$this->getEntryId(),'text');
 	 	$query = "SELECT count(meta_rights_id) used FROM il_meta_rights ".
-	 		"WHERE description = ".$desc." GROUP BY meta_rights_id";
+	 		"WHERE description = ".$ilDB->quote($desc ,'text');
 	 	$res = $this->db->query($query);
 	 	$row = $res->fetchRow(DB_FETCHMODE_OBJECT);
 	 	$this->usage = $row->used;

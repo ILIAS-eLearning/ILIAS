@@ -95,8 +95,7 @@ class ilAdvancedMDRecord
 		
 		$query = "SELECT DISTINCT(amr.record_id) FROM adv_md_record amr ".
 			"JOIN adv_mdf_definition amfd ON amr.record_id = amfd.record_id ".
-			"WHERE searchable = 1 AND active = 1 ".
-			"GROUP BY amr.record_id";
+			"WHERE searchable = 1 AND active = 1 ";
 			
 		$res = $ilDB->query($query);
 		while($row = $res->fetchRow(DB_FETCHMODE_OBJECT))

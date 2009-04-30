@@ -136,8 +136,7 @@ class ilObjStyleSettings extends ilObject
 		
 		$q = "SELECT count(*) cnt FROM settings_deactivated_s".
 			" WHERE skin = ".$ilDB->quote($a_skin, "text").
-			" AND style = ".$ilDB->quote($a_style, "text")." ".
-			"GROUP BY skin";
+			" AND style = ".$ilDB->quote($a_style, "text")." ";
 		
 		$cnt_set = $ilDB->query($q);
 		$cnt_rec = $ilDB->fetchAssoc($cnt_set);
