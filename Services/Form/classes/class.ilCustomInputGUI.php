@@ -44,13 +44,6 @@ class ilCustomInputGUI extends ilSubEnabledFormPropertyGUI
 		$this->setType("custom");
 	}
 	
-	// BEGIN PATCH Lucene search
-	public function checkInput()
-	{
-		return true;
-	}
-	// END PATCH Lucene Search
-
 	/**
 	* Set Html.
 	*
