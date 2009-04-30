@@ -7039,9 +7039,9 @@ $statement = $ilDB->prepare("SHOW INDEXES FROM tst_test_result");
 $result = $ilDB->execute($statement);
 while ($data = $ilDB->fetchAssoc($result))
 {
-	if (strpos($data['Key_name'], 'active_fi_') !== FALSE)
+	if ((strpos($data['Key_name'], 'active_fi_') !== FALSE) || (strpos($data['key_name'], 'active_fi_') !== FALSE))
 	{
-		$statement = $ilDB->prepareManip("ALTER TABLE tst_test_result DROP INDEX " . $data['Key_name']);
+		$statement = $ilDB->prepareManip("ALTER TABLE tst_test_result DROP INDEX " . $data['key_name']);
 		$ilDB->execute($statement);
 	}
 }
