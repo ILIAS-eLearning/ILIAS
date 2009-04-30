@@ -1029,7 +1029,7 @@ class ilValidator extends PEAR
 		include_once './Services/Calendar/classes/class.ilDateTime.php';
 		while ($row = $r->fetchRow(DB_FETCHMODE_OBJECT))
 		{
-			$tmp_date = new ilDateTime($row->deleted,IL_CAL_TIMESTAMP);
+			$tmp_date = new ilDateTime($row->deleted,IL_CAL_DATETIME);
 			
 			$this->deleted_objects[] = array(
 											"child"			=> $row->child,
