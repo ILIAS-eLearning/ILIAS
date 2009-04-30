@@ -11536,3 +11536,8 @@ ALTER TABLE `frm_threads` CHANGE `import_name` `import_name` VARCHAR( 4000 ) NUL
 <?php
 $ilCtrlStructureReader->getStructure();
 ?>
+
+<#2389>
+<?php
+$ilCtrlStructureReader->getStructure();
+?>

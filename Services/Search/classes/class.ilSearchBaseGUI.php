@@ -21,20 +21,28 @@
 	+-----------------------------------------------------------------------------+
 */
 
+include_once 'Services/Search/classes/class.ilSearchSettings.php';
+include_once './Services/PersonalDesktop/interfaces/interface.ilDesktopItemHandling.php';
+include_once './Services/Administration/interfaces/interface.ilAdministrationCommandHandling.php';
+
 /**
 * Class ilSearchBaseGUI
 *
 * Base class for all search gui classes. Offers functionallities like set Locator set Header ...
 *
-* @author Stefan Meyer <smeyer@databay.de>
+* @author Stefan Meyer <smeyer.ilias@gmx.de>
 * @version $Id$
 * 
 * @package ilias-search
 *
+* @ilCtrl_IsCalledBy ilSearchBaseGUI: ilSearchController
+* @ilCtrl_Calls ilSearchBaseGUI: ilObjectGUI, ilContainerGUI
+* @ilCtrl_Calls ilSearchBaseGUI: ilObjCategoryGUI, ilObjCourseGUI, ilObjFolderGUI, ilObjGroupGUI
+* @ilCtrl_Calls ilSearchBaseGUI: ilObjRootFolderGUI
+* 
+*
 */
-include_once 'Services/Search/classes/class.ilSearchSettings.php';
-
-class ilSearchBaseGUI
+class ilSearchBaseGUI implements ilDesktopItemHandling, ilAdministrationCommandHandling
 {
 	var $settings = null;
 
@@ -76,6 +84,101 @@ class ilSearchBaseGUI
 		ilUtil::infoPanel();
 
 	}
+	
+	/**
+	 * Interface methods
+	 */
+	 public function addToDesk()
+	 {
+	 	include_once './Services/PersonalDesktop/classes/class.ilDesktopItemGUI.php';
+	 	ilDesktopItemGUI::addToDesktop();
+	 	$this->showSavedResults();
+	 }
+	 
+	 /**
+	  * Remove from dektop  
+	  */
+	 public function removeFromDesk()
+	 {
+	 	include_once './Services/PersonalDesktop/classes/class.ilDesktopItemGUI.php';
+	 	ilDesktopItemGUI::removeFromDesktop();
+	 	$this->showSavedResults();
+	 }
+	 
+	 /**
+	  * Show deletion screen
+	  */
+	 public function delete()
+	 {
+	 	include_once './Services/Administration/classes/class.ilAdministrationCommandGUI.php';
+	 	$admin = new ilAdministrationCommandGUI($this);
+	 	$admin->delete();
+	 }
+	 
+	 /**
+	  * Cancel delete
+	  */
+	 public function cancelDelete()
+	 {
+	 	$this->showSavedResults();
+	 }
+	 
+	 /**
+	  * Delete objects
+	  */
+	 public function performDelete()
+	 {
+	 	include_once './Services/Administration/classes/class.ilAdministrationCommandGUI.php';
+	 	$admin = new ilAdministrationCommandGUI($this);
+	 	$admin->performDelete();
+	 }
+	 
+	/**
+	 * Interface ilAdministrationCommandHandler
+	 */
+	 public function cut()
+	 {
+	 	include_once './Services/Administration/classes/class.ilAdministrationCommandGUI.php';
+	 	$admin = new ilAdministrationCommandGUI($this);
+	 	$admin->cut();
+	 }
+	 
+	/**
+	 * Interface ilAdministrationCommandHandler
+	 */
+	public function link()
+	{
+	 	include_once './Services/Administration/classes/class.ilAdministrationCommandGUI.php';
+	 	$admin = new ilAdministrationCommandGUI($this);
+	 	$admin->link();
+	}
+	
+	 
+	public function paste()
+	{
+		include_once './Services/Administration/classes/class.ilAdministrationCommandGUI.php';
+		$admin = new ilAdministrationCommandGUI($this);
+		$admin->paste();
+	}
+	
+	public function clear()
+	{
+		unset($_SESSION['clipboard']);
+		$this->ctrl->redirect($this);
+	}
+
+	public function enableAdministrationPanel()
+	{
+		$_SESSION["il_cont_admin_panel"] = true;
+		$this->ctrl->redirect($this);
+	}
+	
+	public function disableAdministrationPanel()
+	{
+		$_SESSION["il_cont_admin_panel"] = false;
+		$this->ctrl->redirect($this);
+	}
+	
 	
 	/**
 	 * Add Locator
