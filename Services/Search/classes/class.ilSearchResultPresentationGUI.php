@@ -68,10 +68,7 @@ class ilSearchResultPresentationGUI
 	{
 		// Get results
 		$results = $this->result->getResultsForPresentation();
-
 		return $html =& $this->renderItemList($results);
-
-
 	}
 
 	function &renderItemList(&$results)

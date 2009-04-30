@@ -435,9 +435,19 @@ class ilSearchGUI extends ilSearchBaseGUI
 			$this->__showSearchInResults();
 			$this->addPager($result_obj,'max_page');
 
-			include_once 'Services/Search/classes/class.ilSearchResultPresentationGUI.php';
-			$search_result_presentation = new ilSearchResultPresentationGUI($result_obj);
-			$this->tpl->setVariable("RESULTS",$search_result_presentation->showResults());
+			#include_once 'Services/Search/classes/class.ilSearchResultPresentationGUI.php';
+			#$search_result_presentation = new ilSearchResultPresentationGUI($result_obj);
+			#$this->tpl->setVariable("RESULTS",$search_result_presentation->showResults());
+			
+			include_once './Services/Search/classes/Lucene/class.ilLuceneSearchResultPresentation.php';
+			$presentation = new ilLuceneSearchResultPresentation($this, ilLuceneSearchResultPresentation::MODE_STANDARD);
+			$presentation->setResults($result_obj->getResultsForPresentation());
+			#$presentation->setSearcher($searcher);
+
+			if($presentation->render())
+			{
+				$this->tpl->setVariable('SEARCH_RESULTS',$presentation->getHTML());
+			}
 		}
 
 		return true;
@@ -536,10 +546,15 @@ class ilSearchGUI extends ilSearchBaseGUI
 
 		// Step 6: show results
 		$this->addPager($result,'max_page');
+		
+		include_once './Services/Search/classes/Lucene/class.ilLuceneSearchResultPresentation.php';
+		$presentation = new ilLuceneSearchResultPresentation($this, ilLuceneSearchResultPresentation::MODE_STANDARD);
+		$presentation->setResults($result->getResultsForPresentation());
 
-		include_once 'Services/Search/classes/class.ilSearchResultPresentationGUI.php';
-		$search_result_presentation = new ilSearchResultPresentationGUI($result);
-		$this->tpl->setVariable("RESULTS",$search_result_presentation->showResults());
+		if($presentation->render())
+		{
+			$this->tpl->setVariable('SEARCH_RESULTS',$presentation->getHTML());
+		}
 
 		return true;
 	}

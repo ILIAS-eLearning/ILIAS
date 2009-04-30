@@ -32,6 +32,11 @@
 */
 class ilLuceneSearchResultPresentation
 {
+	const MODE_LUCENE = 1;
+	const MODE_STANDARD = 2;
+	
+	protected $mode;
+	
 	protected $tpl;
 	protected $lng;
 
@@ -45,10 +50,11 @@ class ilLuceneSearchResultPresentation
 	 * Constructor 
 	 * @param object	$container container gui object
 	 */
-	public function __construct($container = null)
+	public function __construct($container = null, $a_mode = self::MODE_LUCENE)
 	{
 		global $tpl,$lng,$ilCtrl;
 		
+		$this->mode = $a_mode;
 		$this->lng = $lng;
 		$this->container = $container;
 		$this->ctrl = $ilCtrl;
@@ -66,6 +72,11 @@ class ilLuceneSearchResultPresentation
 	public function getContainer()
 	{
 		return $this->container;
+	}
+	
+	public function getMode()
+	{
+		return $this->mode;
 	}
 	
 	/**
@@ -177,6 +188,7 @@ class ilLuceneSearchResultPresentation
 			
 			include_once './Services/Search/classes/Lucene/class.ilLuceneSearchObjectListGUIFactory.php';
 			$item_list_gui = ilLuceneSearchObjectListGUIFactory::factory($type);
+			
 			$item_list_gui->setContainerObject($this->getContainer());
 			$item_list_gui->setSearchFragment($this->lookupContent($obj_id,0));
 			
@@ -262,7 +274,11 @@ class ilLuceneSearchResultPresentation
 	 */
 	protected function getRelevance($a_obj_id)
 	{
-		return $this->searcher->getResult()->getRelevance($a_obj_id);
+		if($this->getMode() == self::MODE_LUCENE)
+		{
+			return $this->searcher->getResult()->getRelevance($a_obj_id);
+		}
+		return 0;
 	}
 	
 	/**
@@ -272,6 +288,10 @@ class ilLuceneSearchResultPresentation
 	 */
 	protected function lookupTitle($a_obj_id,$a_sub_id)
 	{
+		if($this->getMode() != self::MODE_LUCENE)
+		{
+			return ilObject::_lookupTitle($a_obj_id);
+		}
 		if(strlen($title = $this->searcher->getHighlighter()->getTitle($a_obj_id,$a_sub_id)))
 		{
 			return $title;
@@ -286,6 +306,10 @@ class ilLuceneSearchResultPresentation
 	 */
 	protected function lookupDescription($a_obj_id,$a_sub_id)
 	{
+		if($this->getMode() != self::MODE_LUCENE)
+		{
+			return ilObject::_lookupDescription($a_obj_id);
+		}
 		if(strlen($title = $this->searcher->getHighlighter()->getDescription($a_obj_id,$a_sub_id)))
 		{
 			return $title;
@@ -300,6 +324,10 @@ class ilLuceneSearchResultPresentation
 	 */
 	protected function lookupContent($a_obj_id,$a_sub_id)
 	{
+		if($this->getMode() != self::MODE_LUCENE)
+		{
+			return '';
+		}
 		return $this->searcher->getHighlighter()->getContent($a_obj_id,$a_sub_id);
 	}
 	
@@ -377,6 +405,11 @@ class ilLuceneSearchResultPresentation
 	 */
 	protected function appendRelevance($a_obj_id)
 	{
+		if($this->getMode() != self::MODE_LUCENE)
+		{
+			return '';
+		}
+
 		if(!((int) $this->getRelevance($a_obj_id)))
 		{
 			return '';
@@ -411,9 +444,14 @@ class ilLuceneSearchResultPresentation
 	 */
 	protected function appendSubItems($item_list_gui,$ref_id,$obj_id,$a_type)
 	{
+		if($this->getMode() != self::MODE_LUCENE)
+		{
+			return;
+		}
+		
 		if(!count($this->searcher->getHighlighter()->getSubItemIds($obj_id)))
 		{
-			return ;
+			return;
 		}
 		
 		include_once './Services/Search/classes/Lucene/class.ilLuceneSubItemListGUIFactory.php';

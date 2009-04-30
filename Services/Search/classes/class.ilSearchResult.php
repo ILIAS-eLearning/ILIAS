@@ -331,33 +331,14 @@ class ilSearchResult
 
 	function getResultsForPresentation()
 	{
+		$res = array();
+		
 		foreach($this->getResults() as $result)
 		{
-			switch($result['type'])
-			{
-				// learning material
-				case "sahs":
-				case "lm":
-				case "dbk":
-				case "htlm":
-					$type = "lres";
-					break;
-
-				default:
-					$type = $result['type'];
-					break;
-			}
-			$title = ilObject::_lookupTitle($result['obj_id']);
-			$description = ilObject::_lookupDescription($result['obj_id']);
-
-			$presentation_result[$type][] = array('ref_id' => $result['ref_id'],
-												  'title' => $title,
-												  'description' => $description,
-												  'type' => $result['type'],
-												  'obj_id' => $result['obj_id'],
-												  'child' => $result['child']);
+			$res[$result['ref_id']] = $result['obj_id']; 	
 		}
-		return $presentation_result ? $presentation_result : array();
+		
+		return $res;
 	}
 	
 	/**
