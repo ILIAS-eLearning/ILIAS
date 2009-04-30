@@ -290,6 +290,15 @@ class ilLuceneSearchGUI extends ilSearchBaseGUI implements ilDesktopItemHandling
 	 */
 	protected function search()
 	{
+		$this->initFormSearch();
+		
+		if(!$this->form->checkInput())
+		{
+			ilUtil::sendInfo($this->lng->txt('err_check_input'));
+			$this->showSavedResults();
+			return false;
+		}
+		
 		if(!strlen($this->search_cache->getQuery()))
 		{
 			ilUtil::sendInfo($this->lng->txt('msg_no_search_string'));
@@ -313,7 +322,7 @@ class ilLuceneSearchGUI extends ilSearchBaseGUI implements ilDesktopItemHandling
 	{
 		global $ilUser,$ilBench;
 		
-		
+
 		include_once './Services/Search/classes/Lucene/class.ilLuceneSearcher.php';
 		include_once './Services/Search/classes/Lucene/class.ilLuceneQueryParser.php';
 		$qp = new ilLuceneQueryParser($this->search_cache->getQuery());
@@ -370,12 +379,18 @@ class ilLuceneSearchGUI extends ilSearchBaseGUI implements ilDesktopItemHandling
 		
 		include_once './Services/Form/classes/class.ilPropertyFormGUI.php';
 		
+		if(is_object($this->form))
+		{
+			return true;
+		}
+		
 		$this->form = new ilPropertyFormGUI();
 		$this->form->setFormAction($this->ctrl->getFormAction($this,'search'));
 		$this->form->setTitle($this->lng->txt('search'));
 		$this->form->addCommandButton('search',$this->lng->txt('search'));
 		
-		$term = new ilTextInputGUI($this->lng->txt('search_search_term'),'query');
+		include_once './Services/Search/classes/Form/class.ilLuceneQueryInputGUI.php';
+		$term = new ilLuceneQueryInputGUI($this->lng->txt('search_search_term'),'query');
 		$term->setValue($this->search_cache->getQuery());
 		$term->setSize(40);
 		$term->setMaxLength(255);

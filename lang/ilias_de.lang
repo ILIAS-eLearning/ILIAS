@@ -9222,3 +9222,18 @@ common#:#simultaneous_login_detected#:#Der Zugang zum System wird verweigert, da
 trac#:#trac_select_area#:#Bereich ändern
 trac#:#trac_title_description#:#Titel / Beschreibung
 trac#:#trac_hide_selected#:#Ausgewählte Inhalte ausblenden
+search#:#lucene_err_allowed_characters#:#Es kann nur nach den folgenden Zeichen gesucht werden: a-z A-Z 0-9.  _ + - : () \" & * ? | ! {} [ ] ^ ~ \\ @ = # % $ ' /
+search#:#lucene_all_occurrences#:#... %s other occurrence(s)
+search#:#lucene_err_asterisk#:#Dem Wildcard-Zeichen (*) muss mindestens ein Buchstabe oder eine Zahl vorausgehen.
+search#:#lucene_err_ampersand#:#Anfragen mit dem Spezialzeichen && müssen folgende Form haben: term1 && term2.
+search#:#lucene_err_caret#:#Dem Zirkumflex-Zeichen (^) muss ein alphanumerisches Zeichen vorausgehen und Zahlen folgen.
+search#:#lucene_err_squigglet#:#Dem Tilde-Zeichen (~) müssen alphanumerische Zeichen vorausgehen und Zahlen folgen.
+search#:#lucene_err_exclamation_mark#:#Anfragen mit dem Spezialzeichen ! müssen folgende Form haben: term1 ! term2.
+search#:#lucene_err_question_mark#:#Dem Fragezeichen (?) muss mindestens ein Buchstabe oder eine Nummer vorausgehen.
+search#:#lucene_err_parenthesis_not_closed#:#Klammern müssen geschlossen werden.
+search#:#lucene_err_parenthesis_empty#:#Klammern dürfen nicht leer sein.
+search#:#lucene_err_plus_minus#:# (+) und (-) muß mindestens ein Buchstabe oder eine Zahl nachfolgen.
+search#:#lucene_err_and_or_not#:#Anfragen mit AND/OR/NOT müssen folgende Form haben: term1 AND|OR|NOT|AND NOT term2.
+search#:#lucene_err_quotes#:#Bitte schließen Sie all Anführungszeichen (").
+search#:#lucene_err_quotes_not_empty#:#Anführungszeichen dürfen nicht leer sein.
+search#:#lucene_err_colon#:#Felddeklarationen (:) muss mindestens ein Buchstabe oder eine Nummer vorausgehen und mindestens ein Buchstabe oder eine Nummer folgen.

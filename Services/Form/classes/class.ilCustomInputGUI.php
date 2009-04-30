@@ -43,6 +43,13 @@ class ilCustomInputGUI extends ilSubEnabledFormPropertyGUI
 		parent::__construct($a_title, $a_postvar);
 		$this->setType("custom");
 	}
+	
+	// BEGIN PATCH Lucene search
+	public function checkInput()
+	{
+		return true;
+	}
+	// END PATCH Lucene Search
 
 	/**
 	* Set Html.

@@ -21,60 +21,19 @@
 	+-----------------------------------------------------------------------------+
 */
 
+include_once './Services/Exceptions/classes/class.ilException.php';
+
 /** 
-* Parses Lucene search results
+* Query parser exception
 * 
 * @author Stefan Meyer <meyer@leifos.com>
 * @version $Id$
 * 
 *
-* @ingroup ServicesSearch 
+* @ingroup ServicesSearch
 */
-class ilLuceneSearchResultParser
+class ilLuceneQueryParserException extends ilException
 {
-	private $xml;
 	
-	/**
-	 * Constructor 
-	 * @param string search result
-	 * @return
-	 */
-	public function __construct($a_xml)
-	{
-		$this->xml = $a_xml;	 
-	}
-	
-
-	/**
-	 * get xml
-	 * @param
-	 * @return
-	 */
-	public function getXML()
-	{
-		return $this->xml;		 
-	}
-	
-	/**
-	 * Parse XML 
-	 * @param object ilLuceneSearchResult
-	 * @return
-	 */
-	public function parse(ilLuceneSearchResult $result)
-	{
-		if(!strlen($this->getXML())) {
-			return $result;
-		}
-		$hits = new SimpleXMLElement($this->getXML());
-		$result->setLimit($result->getLimit() +  (string) $hits['limit']);
-		$result->setMaxScore( (string) $hits['maxScore']);
-		$result->setTotalHits((string) $hits['totalHits']);
-		
-		foreach($hits->children() as $object)
-		{
-			$result->addObject((string) $object['id'],(float) $object['absoluteScore']);
-		}
-		return $result;
-	}
 }
 ?>

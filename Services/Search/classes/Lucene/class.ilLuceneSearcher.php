@@ -174,7 +174,7 @@ class ilLuceneSearcher
 		$adapter->setMode('search');
 		$res = $adapter->send();
 		$ilBench->stop('Lucene','SearchCombinedIndex');
-	
+		
 		// Parse results
 		$ilBench->start('Lucene','ParseSearchResult');
 		include_once './Services/Search/classes/Lucene/class.ilLuceneSearchResultParser.php';

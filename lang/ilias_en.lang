@@ -9259,3 +9259,16 @@ ps#:#ps_prevent_simultaneous_logins_info#:#If enabled, simultaneous logins with 
 common#:#simultaneous_login_detected#:#Your access is denied because of a simultaneous login with the same account.
 trac#:#trac_select_area#:#Select Area
 trac#:#trac_hide_selected#:#Hide Selected Items
+search#:#lucene_err_asterisk#:#The wildcard (*) character must be preceded by at least one alphabet or number.
+search#:#lucene_err_ampersand#:#Queries containing the special characters && must be in the form: term1 && term2.
+search#:#lucene_err_caret#:#The caret (^) character must be preceded by alphanumeric characters and followed by numbers.
+search#:#lucene_err_squigglet#:#The tilde (~) character must be preceded by alphanumeric characters and followed by numbers.
+search#:#lucene_err_exclamation_mark#:#Queries containing the special character (!) must be in the form: term1 ! term2.
+search#:#lucene_err_question_mark#:#The question mark (?) character must be preceded by at least one alphabet or number.
+search#:#lucene_err_parenthesis_not_closed#:#Parentheses must be closed.
+search#:#lucene_err_parenthesis_empty#:#Parentheses must contain at least one character.
+search#:#lucene_err_plus_minus#:#(+) and (-) modifiers must be followed by at least one alphabet or number.
+search#:#lucene_err_and_or_not#:#Queries containing AND/OR/NOT must be in the form: term1 AND|OR|NOT|AND NOT term2.
+search#:#lucene_err_quotes#:#Please close all quote (") marks.
+search#:#lucene_err_quotes_not_empty#:#Quotes (") must contain at least one character.
+search#:#lucene_err_colon#:#Field declarations (:) must be preceded by at least one alphabet or number and followed by at least one alphabet or number.
