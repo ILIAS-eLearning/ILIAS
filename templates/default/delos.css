@@ -2247,16 +2247,21 @@ table.il_Block
 	background-color:#FFFFFF;
 	width:100%;
 	border-spacing:0px;
-	border-collapse:collapse;
 	border-width:1px;
 	border-style:solid;
 	border-color:#D6D6D6;
 	margin-bottom:25px;
 	clear:both;
+	-moz-border-radius: 10px;
+	-webkit-border-radius: 10px;
+	border-radius: 10px;
 }
 
 td.ilBlockHeader
 {
+	-moz-border-radius: 10px;
+	-webkit-border-radius: 10px;
+	border-radius: 10px;
 	font-weight: bold;
 	padding: 3px;
 	text-align:left;
