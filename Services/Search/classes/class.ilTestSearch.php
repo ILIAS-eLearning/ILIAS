@@ -66,7 +66,7 @@ class ilTestSearch extends ilAbstractSearch
 	}
 	function &__searchTestTitle()
 	{
-		$this->setFields(array('title','comment'));
+		$this->setFields(array('title','description'));
 
 		$where = $this->__createWhereCondition(implode(',',$this->getFields()));
 		$locate = $this->__createLocateString();
