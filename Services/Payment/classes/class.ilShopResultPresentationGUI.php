@@ -21,7 +21,6 @@
 	+-----------------------------------------------------------------------------+
 */
 
-include_once('Services/Search/classes/class.ilSearchResultPresentationGUI.php');
 include_once 'payment/classes/class.ilPaymentPrices.php';
 include_once 'payment/classes/class.ilPaymentObject.php';
 include_once 'Services/Payment/classes/class.ilFileDataShop.php';
@@ -34,14 +33,37 @@ include_once 'Services/Payment/classes/class.ilFileDataShop.php';
 * 
 * @ingroup ServicesPayment
 */
-class ilShopResultPresentationGUI extends ilSearchResultPresentationGUI
+class ilShopResultPresentationGUI
 {	
+	protected $search_cache = null;
+
+	var $tpl;
+	var $lng;
+
+	var $result = 0;
+
+
 	private $sort_field = '';
 	private $sort_direction = '';
 
 	public function ilShopResultPresentationGUI($result)
 	{
-		parent::__construct($result);		
+		global $tpl,$lng,$ilCtrl,$ilUser;
+
+		$this->lng =& $lng;
+		
+		$this->result =& $result;
+
+		$this->type_ordering = array(
+			"cat", "crs", "grp", "chat", "frm", "wiki", "lres",
+			"glo", "webr", "file",'mcst', "exc",
+			"tst", "svy", "sess","mep", "qpl", "spl");
+
+		$this->ctrl =& $ilCtrl;
+		
+		include_once('Services/Search/classes/class.ilUserSearchCache.php');
+		$this->search_cache = ilUserSearchCache::_getInstance($ilUser->getId());
+
 	}	
 	
 	function showResults()
@@ -295,6 +317,176 @@ class ilShopResultPresentationGUI extends ilSearchResultPresentationGUI
 		#$a_tpl->setVariable("ITEM_ID",$a_ref_id);
 		$a_tpl->parseCurrentBlock();
 		$a_tpl->touchBlock("container_row");
+	}
+
+	/**
+	* returns a new list block template
+	*
+	* @access	private
+	* @return	object		block template
+	*/
+	function &newBlockTemplate()
+	{
+		$tpl =& new ilTemplate ("tpl.container_list_block.html",true, true,
+			"Services/Container");
+		$this->cur_row_type = "row_type_1";
+
+		return $tpl;
+	}
+	
+	/**
+	* adds a header row to a block template
+	*
+	* @param	object		$a_tpl		block template
+	* @param	string		$a_type		object type
+	* @access	private
+	*/
+	function addHeaderRow(&$a_tpl, $a_type)
+	{
+		if ($a_type != "lres")
+		{
+			$icon = ilUtil::getImagePath("icon_".$a_type.".gif");
+			$title = $this->lng->txt("objs_".$a_type);
+		}
+		else
+		{
+			$icon = ilUtil::getImagePath("icon_lm.gif");
+			$title = $this->lng->txt("learning_resources");
+		}
+
+		$a_tpl->setCurrentBlock("container_header_row_image");
+		$a_tpl->setVariable("HEADER_IMG", $icon);
+		$a_tpl->setVariable("HEADER_ALT", $title);
+		$a_tpl->setVariable("BLOCK_HEADER_CONTENT", $title);
+		$a_tpl->parseCurrentBlock();
+
+
+		#$a_tpl->setCurrentBlock("container_header_row");
+		#$a_tpl->parseCurrentBlock();
+		#$a_tpl->touchBlock("container_row");
+	}
+	
+	function addSeparatorRow(&$a_tpl)
+	{
+		$a_tpl->touchBlock("separator_row");
+		$a_tpl->touchBlock("container_row");
+	}
+
+	
+	function __appendChildLinks($html,$item,&$item_list_gui)
+	{
+		if(!count($item['child']))
+		{
+			return $html;
+		}
+		$tpl = new ilTemplate('tpl.detail_links.html',true,true,'Services/Search');
+		$tpl->setVariable("HITS",$this->lng->txt('search_hits'));
+		
+		switch($item['type'])
+		{
+			case 'lm':
+				include_once 'Modules/LearningModule/classes/class.ilLMObject.php';
+				foreach($item['child'] as $child)
+				{
+					$tpl->setCurrentBlock("link_row");
+					
+					switch(ilLMObject::_lookupType($child))
+					{
+						case 'pg':
+							$tpl->setVariable("CHAPTER_PAGE",$this->lng->txt('obj_pg'));
+							break;
+						case 'st':
+							$tpl->setVariable("CHAPTER_PAGE",$this->lng->txt('obj_st'));
+							break;
+					}
+					$item_list_gui->setChildId($child);
+					$tpl->setVariable("SEPERATOR",' -> ');
+					$tpl->setVariable("LINK",$item_list_gui->getCommandLink('page'));
+					$tpl->setVariable("TARGET",$item_list_gui->getCommandFrame('page'));
+					$tpl->setVariable("TITLE",ilLMObject::_lookupTitle($child));
+					$tpl->parseCurrentBlock();
+				}
+				break;
+
+			case 'frm':
+				include_once './Modules/Forum/classes/class.ilObjForum.php';
+				
+				foreach($item['child'] as $child)
+				{
+					$thread_post = explode('_',$child);
+
+					$tpl->setCurrentBlock("link_row");
+					$tpl->setVariable("CHAPTER_PAGE",$this->lng->txt('thread'));
+
+					$item_list_gui->setChildId($thread_post);
+					$tpl->setVariable("SEPERATOR",': ');
+					$tpl->setVariable("LINK",$item_list_gui->getCommandLink('posting'));
+					$tpl->setVariable("TARGET",$item_list_gui->getCommandFrame(''));
+					$tpl->setVariable("TITLE",ilObjForum::_lookupThreadSubject($thread_post[0]));
+					$tpl->parseCurrentBlock();
+				}
+				break;
+							
+			case 'glo':
+				include_once './Modules/Glossary/classes/class.ilGlossaryTerm.php';
+
+				$this->lng->loadLanguageModule('content');
+				foreach($item['child'] as $child)
+				{
+					$tpl->setCurrentBlock("link_row");
+					$tpl->setVariable("CHAPTER_PAGE",$this->lng->txt('cont_term'));
+					$tpl->setVariable("SEPERATOR",': ');
+					$tpl->setVariable("LINK",ilLink::_getLink($item['ref_id'],'git',array('target' => 'git_'.$child.'_'.$item['ref_id'])));
+					$tpl->setVariable("TITLE",ilGlossaryTerm::_lookGlossaryTerm($child));
+					$tpl->parseCurrentBlock();
+				}
+				break;
+
+			case 'wiki':
+				include_once './Modules/Wiki/classes/class.ilWikiPage.php';
+				include_once './Modules/Wiki/classes/class.ilWikiUtil.php';
+
+				$this->lng->loadLanguageModule('wiki');
+				foreach($item['child'] as $child)
+				{
+					$page_title = ilWikiPage::lookupTitle($child);
+					$tpl->setCurrentBlock("link_row");
+					$tpl->setVariable("CHAPTER_PAGE",$this->lng->txt('wiki_page'));
+					$tpl->setVariable("SEPERATOR",': ');
+					$tpl->setVariable("LINK",ilLink::_getLink($item['ref_id'],'wiki',array(), "_".
+						ilWikiUtil::makeUrlTitle($page_title)));
+					$tpl->setVariable("TITLE", $page_title);
+					$tpl->parseCurrentBlock();
+				}
+				break;
+
+			case 'mcst':
+				include_once("./Services/News/classes/class.ilNewsItem.php");
+			
+				foreach($item['child'] as $child)
+				{
+					$tpl->setCurrentBlock("link_row");
+					//$tpl->setVariable("CHAPTER_PAGE",$this->lng->txt('item'));
+
+					$item_list_gui->setChildId($child);
+					//$tpl->setVariable("SEPERATOR",': ');
+					$tpl->setVariable("LINK", $item_list_gui->getCommandLink('listItems'));
+					$tpl->setVariable("TARGET", $item_list_gui->getCommandFrame(''));
+					$tpl->setVariable("TITLE", ilNewsItem::_lookupTitle($child));
+					$tpl->parseCurrentBlock();
+				}
+				break;
+
+			default:
+				;
+		}
+
+		return $html . $tpl->get();
+	}
+
+	function resetRowType()
+	{
+		$this->cur_row_type = "";
 	}
 }
 
