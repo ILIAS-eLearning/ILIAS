@@ -36,9 +36,6 @@ include_once './Services/Administration/interfaces/interface.ilAdministrationCom
 * @package ilias-search
 *
 * @ilCtrl_IsCalledBy ilSearchBaseGUI: ilSearchController
-* @ilCtrl_Calls ilSearchBaseGUI: ilObjectGUI, ilContainerGUI
-* @ilCtrl_Calls ilSearchBaseGUI: ilObjCategoryGUI, ilObjCourseGUI, ilObjFolderGUI, ilObjGroupGUI
-* @ilCtrl_Calls ilSearchBaseGUI: ilObjRootFolderGUI
 * 
 *
 */

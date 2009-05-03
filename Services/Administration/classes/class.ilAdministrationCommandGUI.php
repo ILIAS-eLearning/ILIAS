@@ -62,7 +62,7 @@ class ilAdministrationCommandGUI
 	 */
 	public function delete() 
 	{
-		global $tpl;
+		global $tpl,$ilSetting;
 
 		$to_delete = array ();
 		if ((int) $_GET['item_ref_id']) 
@@ -91,6 +91,14 @@ class ilAdministrationCommandGUI
 
 			$confirm->addItem('id[]', $delete, ilObject :: _lookupTitle($obj_id), ilUtil :: getTypeIconPath($type, $obj_id));
 		}
+
+		$msg = $this->lng->txt("info_delete_sure");
+			
+		if(!$ilSetting->get('enable_trash'))
+		{
+			$msg .= "<br/>".$this->lng->txt("info_delete_warning_no_trash");
+		}
+		ilUtil::sendQuestion($msg);
 
 		$tpl->setContent($confirm->getHTML());
 	}

@@ -196,12 +196,6 @@ class ilLuceneSearchResultPresentation
 			{
 				$html .= $this->appendAdditionalInformation($item_list_gui,$ref_id,$obj_id,$type);
 				
-#				$html .= $this->appendSubItems($item_list_gui,$ref_id,$obj_id,$type);
-#				$html .= $this->appendPath($ref_id);
-#				$html .= $this->appendMorePathes($ref_id);
-#				$html .= $this->appendRelevance($obj_id);
-				//$html = $this->appendRelevance($obj_id).$html;
-				
 				$item_html[$ref_id]['html'] = $html;
 				$item_html[$ref_id]['type'] = $type;
 			}
@@ -386,6 +380,12 @@ class ilLuceneSearchResultPresentation
 	 */
 	protected function appendMorePathes($a_ref_id)
 	{
+		if($this->getMode() != self::MODE_LUCENE)
+		{
+			return '';
+		}
+		
+		
 		if(!$num_refs = $this->hasMoreReferences($a_ref_id))
 		{
 			return '';

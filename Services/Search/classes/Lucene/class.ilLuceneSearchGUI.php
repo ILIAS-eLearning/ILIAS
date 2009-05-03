@@ -39,7 +39,7 @@ include_once './Services/Administration/interfaces/interface.ilAdministrationCom
 * 
 * @ingroup ServicesSearch
 */
-class ilLuceneSearchGUI extends ilSearchBaseGUI implements ilDesktopItemHandling, ilAdministrationCommandHandling
+class ilLuceneSearchGUI extends ilSearchBaseGUI
 {
 	protected $ilTabs;
 	
@@ -77,100 +77,6 @@ class ilLuceneSearchGUI extends ilSearchBaseGUI implements ilDesktopItemHandling
 				break;
 		}
 		return true;
-	}
-	
-	/**
-	 * Interface methods
-	 */
-	 public function addToDesk()
-	 {
-	 	include_once './Services/PersonalDesktop/classes/class.ilDesktopItemGUI.php';
-	 	ilDesktopItemGUI::addToDesktop();
-	 	$this->showSavedResults();
-	 }
-	 
-	 /**
-	  * Remove from dektop  
-	  */
-	 public function removeFromDesk()
-	 {
-	 	include_once './Services/PersonalDesktop/classes/class.ilDesktopItemGUI.php';
-	 	ilDesktopItemGUI::removeFromDesktop();
-	 	$this->showSavedResults();
-	 }
-	 
-	 /**
-	  * Show deletion screen
-	  */
-	 public function delete()
-	 {
-	 	include_once './Services/Administration/classes/class.ilAdministrationCommandGUI.php';
-	 	$admin = new ilAdministrationCommandGUI($this);
-	 	$admin->delete();
-	 }
-	 
-	 /**
-	  * Cancel delete
-	  */
-	 public function cancelDelete()
-	 {
-	 	$this->showSavedResults();
-	 }
-	 
-	 /**
-	  * Delete objects
-	  */
-	 public function performDelete()
-	 {
-	 	include_once './Services/Administration/classes/class.ilAdministrationCommandGUI.php';
-	 	$admin = new ilAdministrationCommandGUI($this);
-	 	$admin->performDelete();
-	 }
-	 
-	/**
-	 * Interface ilAdministrationCommandHandler
-	 */
-	 public function cut()
-	 {
-	 	include_once './Services/Administration/classes/class.ilAdministrationCommandGUI.php';
-	 	$admin = new ilAdministrationCommandGUI($this);
-	 	$admin->cut();
-	 }
-	 
-	/**
-	 * Interface ilAdministrationCommandHandler
-	 */
-	public function link()
-	{
-	 	include_once './Services/Administration/classes/class.ilAdministrationCommandGUI.php';
-	 	$admin = new ilAdministrationCommandGUI($this);
-	 	$admin->link();
-	}
-	
-	 
-	public function paste()
-	{
-		include_once './Services/Administration/classes/class.ilAdministrationCommandGUI.php';
-		$admin = new ilAdministrationCommandGUI($this);
-		$admin->paste();
-	}
-	
-	public function clear()
-	{
-		unset($_SESSION['clipboard']);
-		$this->ctrl->redirect($this);
-	}
-
-	public function enableAdministrationPanel()
-	{
-		$_SESSION["il_cont_admin_panel"] = true;
-		$this->ctrl->redirect($this);
-	}
-	
-	public function disableAdministrationPanel()
-	{
-		$_SESSION["il_cont_admin_panel"] = false;
-		$this->ctrl->redirect($this);
 	}
 	
 	/**
