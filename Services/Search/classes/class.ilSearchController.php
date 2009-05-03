@@ -29,8 +29,8 @@
 *
 * @package ilias-search
 *
-* @ilCtrl_Calls ilSearchController: ilSearchGUI, ilAdvancedSearchGUI, ilSearchResultGUI
-* @ilCtrl_Calls ilSearchController: ilLuceneSearchGUI
+* @ilCtrl_Calls ilSearchController: ilSearchGUI, ilAdvancedSearchGUI
+* @ilCtrl_Calls ilSearchController: ilLuceneSearchGUI, ilLuceneAdvancedSearchGUI
 *
 */
 
@@ -125,15 +125,6 @@ class ilSearchController
 				$this->ctrl->forwardCommand(new ilLuceneAdvancedSearchGUI());
 				break;
 				
-			case 'ilsearchresultgui':
-				// Remember last class
-				$this->setLastClass('ilsearchresultgui');
-
-				include_once 'Services/Search/classes/class.ilSearchResultGUI.php';
-
-				$this->ctrl->forwardCommand(new ilSearchResultGUI());
-				break;
-
 			case 'iladvancedsearchgui':
 				// Remember last class
 				$this->setLastClass('iladvancedsearchgui');

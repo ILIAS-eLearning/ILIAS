@@ -29,6 +29,10 @@
 * @author Stefan Meyer <smeyer@databay.de>
 * @version $Id$
 * 
+* @ilCtrl_Calls ilAdvancedSearchGUI: ilObjectGUI, ilContainerGUI
+* @ilCtrl_Calls ilAdvancedSearchGUI: ilObjCategoryGUI, ilObjCourseGUI, ilObjFolderGUI, ilObjGroupGUI
+* @ilCtrl_Calls ilAdvancedSearchGUI: ilObjRootFolderGUI
+*
 * @package ilias-search
 *
 */
@@ -224,10 +228,6 @@ class ilAdvancedSearchGUI extends ilSearchBaseGUI
 		{
 			ilUtil::sendInfo($this->lng->txt('search_no_match'));
 		}
-		else
-		{
-			$this->__showSearchInResults();
-		}			
 
 		if($res->isLimitReached())
 		{
@@ -345,10 +345,6 @@ class ilAdvancedSearchGUI extends ilSearchBaseGUI
 		{
 			ilUtil::sendInfo($this->lng->txt('search_no_match'));
 		}
-		else
-		{
-			$this->__showSearchInResults();
-		}			
 
 		if($res->isLimitReached())
 		{
@@ -659,58 +655,7 @@ class ilAdvancedSearchGUI extends ilSearchBaseGUI
 		$this->tpl->setVariable("TAB_LINK",$this->ctrl->getLinkTarget($this));
 		$this->tpl->setVariable("TAB_TEXT",$this->lng->txt("search_advanced"));
 		$this->tpl->parseCurrentBlock();
-
-		$this->tpl->setCurrentBlock("tab");
-		$this->tpl->setVariable("TAB_TYPE","tabinactive");
-		$this->tpl->setVariable("TAB_LINK",$this->ctrl->getLinkTargetByClass('ilsearchresultgui'));
-		$this->tpl->setVariable("TAB_TEXT",$this->lng->txt("search_search_results"));
-		$this->tpl->parseCurrentBlock();
-		
 	}
-	function saveResult()
-	{
-		include_once 'Services/Search/classes/class.ilUserResult.php';
-		include_once 'Services/Search/classes/class.ilSearchFolder.php';
-
-		global $ilUser;
-
-		$this->initSearchType(self::TYPE_LOM);
-		if(!$_POST['folder'])
-		{
-			ilUtil::sendInfo($this->lng->txt('search_select_one'));
-			$this->showSavedResults();
-
-			return false;
-		}
-		if(!count($_POST['result']))
-		{
-			ilUtil::sendInfo($this->lng->txt('search_select_one_result'));
-			$this->showSavedResults();
-
-			return false;
-		}
-
-		$folder_obj =& new ilSearchFolder($ilUser->getId(),(int) $_POST['folder']);
-
-		foreach($_POST['result'] as $ref_id)
-		{
-
-			$title = ilObject::_lookupTitle(ilObject::_lookupObjId($ref_id));
-			$target = addslashes(serialize(array('type' => ilObject::_lookupType(ilObject::_lookupObjId($ref_id)),
-												 'id'	=> $ref_id)));
-
-			$search_res_obj =& new ilUserResult($ilUser->getId());
-			$search_res_obj->setTitle($title);
-			$search_res_obj->setTarget($target);
-
-			$folder_obj->assignResult($search_res_obj);
-			unset($search_res_obj);
-		}
-		ilUtil::sendInfo($this->lng->txt('search_results_saved'));
-		$this->showSavedResults();
-
-	}
-
 
 	// PRIVATE
 	/**
@@ -735,7 +680,6 @@ class ilAdvancedSearchGUI extends ilSearchBaseGUI
 		// Show them
 		if(count($result_obj->getResults()))
 		{
-			$this->__showSearchInResults();
 			$this->addPager($result_obj,'adv_max_page');
 
 			include_once './Services/Search/classes/Lucene/class.ilLuceneSearchResultPresentation.php';
@@ -768,7 +712,6 @@ class ilAdvancedSearchGUI extends ilSearchBaseGUI
 		// Show them
 		if(count($result_obj->getResults()))
 		{
-			$this->__showSearchInResults();
 			$this->addPager($result_obj,'adv_max_page');
 
 			include_once './Services/Search/classes/Lucene/class.ilLuceneSearchResultPresentation.php';
@@ -1317,56 +1260,6 @@ class ilAdvancedSearchGUI extends ilSearchBaseGUI
 			
 			return true;
 		}
-	}
-	/**
-	* Show search in results button. If search was successful
-	* @return void
-	* @access public
-	*/
-	function __showSearchInResults()
-	{
-		$this->tpl->setCurrentBlock("search_results");
-		$this->tpl->setVariable("BTN_SEARCHRESULTS",$this->lng->txt('search_in_result'));
-		$this->tpl->parseCurrentBlock();
-
-		$this->tpl->setCurrentBlock("save_result");
-		$this->tpl->setVariable("DOWNRIGHT",ilUtil::getImagePath('arrow_downright.gif'));
-		$this->tpl->setVariable("BTN_SAVE_RESULT",$this->lng->txt('save'));
-		$this->tpl->setVariable("SELECT_FOLDER",$this->__getFolderSelect());
-		$this->tpl->parseCurrentBlock();
-
-		return true;
-	}
-	function __getFolderSelect()
-	{
-		global $ilUser;
-
-		include_once 'Services/Search/classes/class.ilSearchFolder.php';
-
-		// INITIATE SEARCH FOLDER OBJECT
-		$folder_obj =& new ilSearchFolder($ilUser->getId());
-
-
-		$subtree = $folder_obj->getSubtree();
-
-		$options[0] = $this->lng->txt("search_select_one_folder_select");
-		$options[$folder_obj->getRootId()] = $this->lng->txt("search_save_as_select")." ".$this->lng->txt("search_search_results");
-		
-		foreach($subtree as $node)
-		{
-			if($node["obj_id"] == $folder_obj->getRootId())
-			{
-				continue;
-			}
-			// CREATE PREFIX
-			$prefix = $this->lng->txt("search_save_as_select");
-			for($i = 1; $i < $node["depth"];++$i)
-			{
-				$prefix .= "&nbsp;&nbsp;";
-			}
-			$options[$node["obj_id"]] = $prefix.$node["title"];
-		}
-		return ilUtil::formSelect(0,'folder',$options,false,true);
 	}
 	
 	/**

@@ -34,9 +34,13 @@ define('SEARCH_OR','or');
 *
 * GUI class for 'simple' search
 *
-* @author Stefan Meyer <smeyer@databay.de>
+* @author Stefan Meyer <smeyer.ilias@gmx.de>
 * @version $Id$
 * @ilCtrl_Calls ilSearchGUI: ilPropertyFormGUI
+* @ilCtrl_Calls ilSearchGUI: ilObjectGUI, ilContainerGUI
+* @ilCtrl_Calls ilSearchGUI: ilObjCategoryGUI, ilObjCourseGUI, ilObjFolderGUI, ilObjGroupGUI
+* @ilCtrl_Calls ilSearchGUI: ilObjRootFolderGUI
+* 
 * @ingroup	ServicesSearch
 */
 class ilSearchGUI extends ilSearchBaseGUI
@@ -195,49 +199,6 @@ class ilSearchGUI extends ilSearchBaseGUI
 		
 	}
 
-	function saveResult()
-	{
-		include_once 'Services/Search/classes/class.ilUserResult.php';
-		include_once 'Services/Search/classes/class.ilSearchFolder.php';
-
-		global $ilUser;
-
-		if(!$_POST['folder'])
-		{
-			ilUtil::sendInfo($this->lng->txt('search_select_one'));
-			$this->showSavedResults();
-
-			return false;
-		}
-		if(!count($_POST['id']))
-		{
-			ilUtil::sendInfo($this->lng->txt('search_select_one_result'));
-			$this->showSavedResults();
-
-			return false;
-		}
-
-		$folder_obj =& new ilSearchFolder($ilUser->getId(),(int) $_POST['folder']);
-
-		foreach($_POST['id'] as $ref_id)
-		{
-			$title = ilObject::_lookupTitle(ilObject::_lookupObjId($ref_id));
-			$target = addslashes(serialize(array('type' => ilObject::_lookupType(ilObject::_lookupObjId($ref_id)),
-												 'id'	=> $ref_id)));
-
-			$search_res_obj =& new ilUserResult($ilUser->getId());
-			$search_res_obj->setTitle($title);
-			$search_res_obj->setTarget($target);
-
-			$folder_obj->assignResult($search_res_obj);
-			unset($search_res_obj);
-		}
-		ilUtil::sendInfo($this->lng->txt('search_results_saved'));
-		$this->showSavedResults();
-
-	}
-
-
 	function showSearch()
 	{
 		global $ilLocator;
@@ -248,80 +209,6 @@ class ilSearchGUI extends ilSearchBaseGUI
 		$this->initStandardSearchForm();
 		$this->tpl->setVariable("FORM", $this->form->getHTML());
 
-/*
-		$this->tpl->setVariable("TBL_TITLE",$this->lng->txt('search'));
-		$this->tpl->setVariable("TXT_SEARCHAREA",$this->lng->txt('search_area'));
-		$this->tpl->setVariable("SEARCH_ACTION",$this->ctrl->getFormAction($this));
-		$this->tpl->setVariable("TXT_SEARCHTERM",$this->lng->txt("search_search_term"));
-		$this->tpl->setVariable("TXT_AND",$this->lng->txt('search_all_words'));
-		$this->tpl->setVariable("TXT_OR",$this->lng->txt('search_any_word'));
-		$this->tpl->setVariable("BTN_SEARCH",$this->lng->txt('search'));
-
-		// Check 'or' as default
-		if($this->getCombination() == SEARCH_AND)
-		{
-			$this->tpl->setVariable("AND_CHECKED",'checked=checked');
-		}
-		else
-		{
-			$this->tpl->setVariable("OR_CHECKED",'checked=checked');
-		}
-		// Set old query string
-		$this->tpl->setVariable("FORM_SEARCH_STR",ilUtil::prepareFormOutput($this->getString(),true));
-
-		$this->tpl->setVariable("HREF_UPDATE_AREA",$this->ctrl->getLinkTarget($this,'showSelectRoot'));
-		$this->tpl->setVariable("UPDATE_AREA",$this->lng->txt('search_change'));
-
-		// SEARCHTYPE
-		$this->tpl->setVariable("TXT_SEARCH_TYPE",$this->lng->txt('search_type'));
-		$this->tpl->setVariable("INFO_FAST",$this->lng->txt('search_fast_info'));
-		$this->tpl->setVariable("INFO_DETAILS",$this->lng->txt('search_details_info'));
-
-		$this->tpl->setVariable("CHECK_FAST",ilUtil::formRadioButton($this->getType() == SEARCH_FAST ? 1 : 0,
-																	 'search[type]',
-																	 SEARCH_FAST ));
-
-		$this->tpl->setVariable("CHECK_DETAILS",ilUtil::formRadioButton($this->getType() == SEARCH_DETAILS ? 1 : 0,
-																	 'search[type]',
-																	 SEARCH_DETAILS));
-		// SEARCH DETAILS
-		$this->tpl->setVariable("LMS",$this->lng->txt('learning_resources'));
-		$this->tpl->setVariable("GLO",$this->lng->txt('objs_glo'));
-		$this->tpl->setVariable("MEP",$this->lng->txt('objs_mep'));
-		$this->tpl->setVariable("TST",$this->lng->txt('search_tst_svy'));
-		$this->tpl->setVariable("FOR",$this->lng->txt('objs_frm'));
-		$this->tpl->setVariable("EXC",$this->lng->txt('objs_exc'));
-		$this->tpl->setVariable("MCST",$this->lng->txt('objs_mcst'));
-		$this->tpl->setVariable("WIKI",$this->lng->txt('objs_wiki'));
-		$this->tpl->setVariable("FIL",$this->lng->txt('objs_file'));
-
-		
-		$details = $this->getDetails();
-		$this->tpl->setVariable("CHECK_GLO",ilUtil::formCheckbox($details['glo'] ? 1 : 0,'search[details][glo]',1));
-		$this->tpl->setVariable("CHECK_LMS",ilUtil::formCheckbox($details['lms'] ? 1 : 0,'search[details][lms]',1));
-		$this->tpl->setVariable("CHECK_MEP",ilUtil::formCheckbox($details['mep'] ? 1 : 0,'search[details][mep]',1));
-		$this->tpl->setVariable("CHECK_TST",ilUtil::formCheckbox($details['tst'] ? 1 : 0,'search[details][tst]',1));
-		$this->tpl->setVariable("CHECK_FOR",ilUtil::formCheckbox($details['frm'] ? 1 : 0,'search[details][frm]',1));
-		$this->tpl->setVariable("CHECK_EXC",ilUtil::formCheckbox($details['exc'] ? 1 : 0,'search[details][exc]',1));
-		$this->tpl->setVariable("CHECK_FIL",ilUtil::formCheckbox($details['fil'] ? 1 : 0,'search[details][fil]',1));
-		$this->tpl->setVariable("CHECK_MCST",ilUtil::formCheckbox($details['mcst'] ? 1 : 0,'search[details][mcst]',1));
-		$this->tpl->setVariable("CHECK_WIKI",ilUtil::formCheckbox($details['wiki'] ? 1 : 0,'search[details][wiki]',1));
-
-
-
-		// SEARCHAREA
-		if($this->getRootNode() == ROOT_FOLDER_ID)
-		{
-			$this->tpl->setVariable("SEARCHAREA",$this->lng->txt('search_in_magazin'));
-		}
-		else
-		{
-			$text = $this->lng->txt('search_below')." '";
-			$text .= ilObject::_lookupTitle(ilObject::_lookupObjId($this->getRootNode()));
-			$text .= "'";
-			$this->tpl->setVariable("SEARCHAREA",$text);
-		}
-*/
 		return true;
 	}
 
@@ -432,7 +319,6 @@ class ilSearchGUI extends ilSearchBaseGUI
 		// Show them
 		if(count($result_obj->getResults()))
 		{
-			$this->__showSearchInResults();
 			$this->addPager($result_obj,'max_page');
 
 			include_once './Services/Search/classes/Lucene/class.ilLuceneSearchResultPresentation.php';
@@ -478,7 +364,6 @@ class ilSearchGUI extends ilSearchBaseGUI
 			return false;
 		}
 
-		
 		// Step 1: parse query string
 		if(!is_object($query_parser =& $this->__parseQueryString()))
 		{
@@ -529,10 +414,6 @@ class ilSearchGUI extends ilSearchBaseGUI
 		{
 			ilUtil::sendInfo($this->lng->txt('search_no_match'));
 		}
-		else
-		{
-			$this->__showSearchInResults();
-		}
 
 		if($result->isLimitReached())
 		{
@@ -574,20 +455,18 @@ class ilSearchGUI extends ilSearchBaseGUI
 		$this->tpl->setVariable("TAB_LINK",$this->ctrl->getLinkTargetByClass('iladvancedsearchgui'));
 		$this->tpl->setVariable("TAB_TEXT",$this->lng->txt("search_advanced"));
 		$this->tpl->parseCurrentBlock();
-
-		$this->tpl->setCurrentBlock("tab");
-		$this->tpl->setVariable("TAB_TYPE","tabinactive");
-		$this->tpl->setVariable("TAB_LINK",$this->ctrl->getLinkTargetByClass('ilsearchresultgui'));
-		$this->tpl->setVariable("TAB_TEXT",$this->lng->txt("search_search_results"));
-		$this->tpl->parseCurrentBlock();
-		
 	}
 
 	// PRIVATE
 	function &__performDetailsSearch(&$query_parser,&$result)
 	{
-		foreach($this->getDetails() as $type => $always_one)
+		foreach($this->getDetails() as $type => $enabled)
 		{
+			if(!$enabled)
+			{
+				continue;
+			}
+
 			switch($type)
 			{
 				case 'lms':
@@ -750,6 +629,11 @@ class ilSearchGUI extends ilSearchBaseGUI
 		
 		foreach($this->getDetails() as $key => $detail_type)
 		{
+			if(!$detail_type)
+			{
+				continue;
+			}
+			
 			switch($key)
 			{
 				case 'lms':
@@ -801,57 +685,6 @@ class ilSearchGUI extends ilSearchBaseGUI
 		return $filter ? $filter : array();
 	}
 
-	/**
-	* Show search in results button. If search was successful
-	* @return void
-	* @access public
-	*/
-	function __showSearchInResults()
-	{
-		$this->tpl->setCurrentBlock("search_results");
-		$this->tpl->setVariable("BTN_SEARCHRESULTS",$this->lng->txt('search_in_result'));
-		$this->tpl->parseCurrentBlock();
-
-		$this->tpl->setCurrentBlock("save_result");
-		$this->tpl->setVariable("DOWNRIGHT",ilUtil::getImagePath('arrow_downright.gif'));
-		$this->tpl->setVariable("BTN_SAVE_RESULT",$this->lng->txt('save'));
-		$this->tpl->setVariable("SELECT_FOLDER",$this->__getFolderSelect());
-		$this->tpl->parseCurrentBlock();
-
-		return true;
-	}
-
-	function __getFolderSelect()
-	{
-		global $ilUser;
-
-		include_once 'Services/Search/classes/class.ilSearchFolder.php';
-
-		// INITIATE SEARCH FOLDER OBJECT
-		$folder_obj =& new ilSearchFolder($ilUser->getId());
-
-
-		$subtree = $folder_obj->getSubtree();
-
-		$options[0] = $this->lng->txt("search_select_one_folder_select");
-		$options[$folder_obj->getRootId()] = $this->lng->txt("search_save_as_select")." ".$this->lng->txt("search_search_results");
-		
-		foreach($subtree as $node)
-		{
-			if($node["obj_id"] == $folder_obj->getRootId())
-			{
-				continue;
-			}
-			// CREATE PREFIX
-			$prefix = $this->lng->txt("search_save_as_select");
-			for($i = 1; $i < $node["depth"];++$i)
-			{
-				$prefix .= "&nbsp;&nbsp;";
-			}
-			$options[$node["obj_id"]] = $prefix.$node["title"];
-		}
-		return ilUtil::formSelect(0,'folder',$options,false,true);
-	}
 	/**
 	 * Init user search cache
 	 *
