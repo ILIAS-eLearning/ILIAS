@@ -135,7 +135,7 @@ class ilSelectInputGUI extends ilSubEnabledFormPropertyGUI implements ilTableFil
 				$sel_value = $option_value;
 			}
 			$first = false;
-			if ($option_value == $this->getValue())
+			if ((string) $option_value == (string) $this->getValue())
 			{
 				$sel_value = $option_value;
 			}
@@ -144,7 +144,7 @@ class ilSelectInputGUI extends ilSubEnabledFormPropertyGUI implements ilTableFil
 		{
 			$tpl->setCurrentBlock("prop_select_option");
 			$tpl->setVariable("VAL_SELECT_OPTION", $option_value);
-			if ($option_value == $sel_value)
+			if((string) $sel_value == (string) $option_value)
 			{
 				$tpl->setVariable("CHK_SEL_OPTION",
 					'selected="selected"');

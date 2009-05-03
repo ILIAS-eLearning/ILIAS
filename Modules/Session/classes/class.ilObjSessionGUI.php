@@ -1192,14 +1192,16 @@ class ilObjSessionGUI extends ilObjectGUI
 		$start->setMinuteStepSize(5);
 		$start->setDate($this->object->getFirstAppointment()->getStart());
 		$start->setShowTime(true);
-		$full->addSubItem($start);
+		$this->form->addItem($start);
+		#$full->addSubItem($start);
 		
 		// end
 		$end = new ilDateTimeInputGUI($this->lng->txt('event_end_date'),'end');
 		$end->setMinuteStepSize(5);
 		$end->setDate($this->object->getFirstAppointment()->getEnd());
 		$end->setShowTime(true);
-		$full->addSubItem($end);
+		$this->form->addItem($end);
+		#$full->addSubItem($end);
 
 		// Recurrence
 		if($a_mode == 'create')

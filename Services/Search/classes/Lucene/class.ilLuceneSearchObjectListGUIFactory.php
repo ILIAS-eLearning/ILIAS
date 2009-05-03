@@ -73,7 +73,7 @@ class ilLuceneSearchObjectListGUIFactory
 		$item_list_gui->enableRelevance(false);
 		if($_SESSION["il_cont_admin_panel"])
 		{
-			$item_list_gui->enableCheckbox(true);
+			$item_list_gui->enableCheckbox(false);
 		}
 
 		return self::$item_list_gui[$a_type] = $item_list_gui;

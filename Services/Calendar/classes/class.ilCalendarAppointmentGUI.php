@@ -184,13 +184,15 @@ class ilCalendarAppointmentGUI
 		$start->setDate($this->app->getStart());
 		$start->setShowTime(true);
 		$start->setMinuteStepSize(5);
-		$fullday->addSubItem($start);
+		$this->form->addItem($start);
+		#$fullday->addSubItem($start);
 		
 		$end = new ilDateTimeInputGUI($this->lng->txt('cal_end'),'end');
 		$end->setDate($this->app->getEnd());
 		$end->setShowTime(true);
 		$end->setMinuteStepSize(5);
-		$fullday->addSubItem($end);
+		#$fullday->addSubItem($end);
+		$this->form->addItem($end);
 		
 		// Recurrence
 		include_once('./Services/Calendar/classes/Form/class.ilRecurrenceInputGUI.php');

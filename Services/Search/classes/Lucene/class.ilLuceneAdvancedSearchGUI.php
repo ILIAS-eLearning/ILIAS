@@ -274,6 +274,7 @@ class ilLuceneAdvancedSearchGUI extends ilSearchBaseGUI
 	{
 		parent::prepareOutput();
 		$this->getTabs();
+		return true;
 		
 		global $ilAccess, $ilSetting;
 		global $ilUser;

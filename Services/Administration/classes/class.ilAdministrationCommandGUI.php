@@ -62,7 +62,9 @@ class ilAdministrationCommandGUI
 	 */
 	public function delete() 
 	{
-		global $tpl,$ilSetting;
+		global $tpl,$ilSetting,$ilErr;
+
+		$this->ctrl->setReturnByClass(get_class($this->getContainer()), '');
 
 		$to_delete = array ();
 		if ((int) $_GET['item_ref_id']) 
@@ -75,6 +77,11 @@ class ilAdministrationCommandGUI
 		if (isset ($_POST['id']) and is_array($_POST['id'])) 
 		{
 			$to_delete = $_POST['id'];
+		}
+
+		if(!$_POST['id'])
+		{
+			$ilErr->raiseError($this->lng->txt('no_checkbox'),$ilErr->MESSAGE);
 		}
 
 		include_once ('./Services/Utilities/classes/class.ilConfirmationGUI.php');
