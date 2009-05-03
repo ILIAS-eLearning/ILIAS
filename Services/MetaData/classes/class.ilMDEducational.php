@@ -399,7 +399,7 @@ class ilMDEducational extends ilMDBase
 	{
 		return array('rbac_id'	=> array('integer',$this->getRBACId()),
 					 'obj_id'	=> array('integer',$this->getObjId()),
-					 'obj_type'	=> array('integer',$this->getObjType()),
+					 'obj_type'	=> array('text',$this->getObjType()),
 					 'interactivity_type' => array('text',$this->getInteractivityType()),
 					 'learning_resource_type' => array('text',$this->getLearningResourceType()),
 					 'interactivity_level' => array('text',$this->getInteractivityLevel()),
