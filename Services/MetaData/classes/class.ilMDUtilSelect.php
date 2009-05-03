@@ -136,7 +136,9 @@ class ilMDUtilSelect
 	 *
 	 * @return string Complete html select
 	 */
-	function _getRoleSelect($a_selected,$a_name,$prepend = array())
+	// BEGIN PATCH Lucene search
+	function _getRoleSelect($a_selected,$a_name,$prepend = array(),$a_options_only = false)
+	// END PATCH Lucene Search
 	{
 		global $lng;
 
@@ -153,6 +155,9 @@ class ilMDUtilSelect
 		{
 			$options[$item] = $lng->txt('meta_'.strtolower($item));
 		}
+		// BEGIN PATCH Lucene search
+		return $a_options_only ? $options : ilUtil::formSelect($a_selected,$a_name,$options,false,true);
+		// END PATCH Lucene Search
 		return ilUtil::formSelect($a_selected,$a_name,$options,false,true);
 	}
 	/**
@@ -367,7 +372,7 @@ class ilMDUtilSelect
 	 *
 	 * @return string Complete html select
 	 */
-	function _getInteractivityLevelSelect($a_selected,$a_name,$prepend = array())
+	function _getInteractivityLevelSelect($a_selected,$a_name,$prepend = array(), $a_options_only = false)
 	{
 		global $lng;
 
@@ -382,6 +387,9 @@ class ilMDUtilSelect
 		{
 			$options[$key] = $item;
 		}
+		// BEGIN PATCH Lucene search
+		return $a_options_only ? $options : ilUtil::formSelect($a_selected,$a_name,$options,false,true);
+		// END PATCH Lucene Search
 		return ilUtil::formSelect($a_selected,$a_name,$options,false,true);
 	}
 	/**
@@ -394,7 +402,9 @@ class ilMDUtilSelect
 	 *
 	 * @return string Complete html select
 	 */
-	function _getSemanticDensitySelect($a_selected,$a_name,$prepend = array())
+	// BEGIN PATCH Lucene search
+	function _getSemanticDensitySelect($a_selected,$a_name,$prepend = array(), $a_options_only = false)
+	// END PATCH Lucene Search
 	{
 		global $lng;
 
@@ -409,6 +419,9 @@ class ilMDUtilSelect
 		{
 			$options[$key] = $item;
 		}
+		// BEGIN PATCH Lucene search
+		return $a_options_only ? $options : ilUtil::formSelect($a_selected,$a_name,$options,false,true);
+		// END PATCH Lucene Search
 		return ilUtil::formSelect($a_selected,$a_name,$options,false,true);
 	}
 	/**
@@ -512,7 +525,9 @@ class ilMDUtilSelect
 	 *
 	 * @return string Complete html select
 	 */
-	function _getDifficultySelect($a_selected,$a_name,$prepend = array())
+	// BEGIN PATCH Lucene search
+	function _getDifficultySelect($a_selected,$a_name,$prepend = array(), $a_options_only = false)
+	// END PATCH Lucene Search
 	{
 		global $lng;
 
@@ -527,6 +542,9 @@ class ilMDUtilSelect
 		{
 			$options[$key] = $item;
 		}
+		// BEGIN PATCH Lucene search
+		return $a_options_only ? $options : ilUtil::formSelect($a_selected,$a_name,$options,false,true);
+		// END PATCH Lucene Search
 		return ilUtil::formSelect($a_selected,$a_name,$options,false,true);
 	}
 	/**
