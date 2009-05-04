@@ -141,6 +141,11 @@ public class RPCServer {
 			logger.info("Waiting for connections...");
 			alive = true;
 		}
+		catch(RuntimeException e)
+		{
+			logger.error("Cannot bind to host: " + getHost() + ", port: " + port);
+			throw new ConfigurationException(e.getMessage());
+		}
 		catch(Exception e) {
 			logger.error("Cannot bind to host: " + getHost() + ", port: " + port);
 			throw new ConfigurationException(e.getMessage());
