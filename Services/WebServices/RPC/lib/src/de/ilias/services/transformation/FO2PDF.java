@@ -20,7 +20,8 @@
 +-----------------------------------------------------------------------------------------+
 */
 
-package ilias.transformation;
+package de.ilias.services.transformation;
+
 
 import java.io.ByteArrayInputStream;
 import java.io.ByteArrayOutputStream;
@@ -30,6 +31,7 @@ import java.io.UnsupportedEncodingException;
 import javax.xml.transform.Result;
 import javax.xml.transform.Source;
 import javax.xml.transform.Transformer;
+import javax.xml.transform.TransformerConfigurationException;
 import javax.xml.transform.TransformerException;
 import javax.xml.transform.TransformerFactory;
 import javax.xml.transform.sax.SAXResult;
@@ -42,22 +44,21 @@ import org.apache.fop.apps.FopFactory;
 import org.apache.fop.apps.FormattingResults;
 import org.apache.fop.apps.MimeConstants;
 import org.apache.fop.apps.PageSequenceResults;
-import org.apache.log4j.Level;
 import org.apache.log4j.Logger;
 
-public class ilFO2PDF {
+public class FO2PDF {
     
     private Logger logger = Logger.getLogger(this.getClass().getName());
     private String foString = null;
     private byte[] pdfByteArray = null;
 
-    public ilFO2PDF() {
+    public FO2PDF() {
 
         
     }
     
     public void transform()
-        throws ilTransformerException {
+        throws TransformationException {
        
         try {
             logger.info("Started transformation. FO -> PDF.");
@@ -90,13 +91,23 @@ public class ilFO2PDF {
             
             this.setPdf(out.toByteArray());
 
-        } catch (UnsupportedEncodingException e) {
-            throw new ilTransformerException(e);
-        } catch (FOPException e) {
-            throw new ilTransformerException(e);
-        } catch (TransformerException e) {
-            throw new ilTransformerException(e);
         }
+        catch (UnsupportedEncodingException e) {
+        	logger.warn("Unsuppoorted encoding: " + e);
+            throw new TransformationException(e);
+        } 
+        catch (FOPException e) {
+        	logger.warn("FOP excception: " + e);
+            throw new TransformationException(e);
+        } 
+        catch (TransformerConfigurationException e) {
+        	logger.warn("Configuration exception: " + e);
+            throw new TransformationException(e);
+		} 
+        catch (TransformerException e) {
+        	logger.warn("Transformer exception: " + e);
+            throw new TransformationException(e);
+		}
     }
 
 

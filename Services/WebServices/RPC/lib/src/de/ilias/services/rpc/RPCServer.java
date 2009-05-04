@@ -30,6 +30,7 @@ import org.apache.xmlrpc.WebServer;
 import de.ilias.services.lucene.index.RPCIndexHandler;
 import de.ilias.services.lucene.search.RPCSearchHandler;
 import de.ilias.services.settings.ConfigurationException;
+import de.ilias.services.transformation.RPCTransformationHandler;
 
 
 /**
@@ -166,6 +167,7 @@ public class RPCServer {
 		this.server.addHandler("administration",new RPCAdministration());
 		this.server.addHandler("index", new RPCIndexHandler());
 		this.server.addHandler("search",new RPCSearchHandler());
+		this.server.addHandler("transform", new RPCTransformationHandler());
 		logger.debug("Added RPC-Handlers");
 		
 	}
