@@ -188,10 +188,10 @@ class ilLuceneSearchResultPresentation
 		$this->parseResultReferences();
 		
 
-$set = array();
+		$set = array();
 		foreach($this->getResults() as $ref_id => $res_data)
 		{
-$set[] = array("ref_id" => $ref_id, "obj_id" => $res_data);
+			$set[] = array("ref_id" => $ref_id, "obj_id" => $res_data);
 			$obj_id = $res_data;
 			#$obj_id = ilObject::_lookupObjId($res_data);
 			$type = ilObject::_lookupType($obj_id);
@@ -229,12 +229,12 @@ $set[] = array("ref_id" => $ref_id, "obj_id" => $res_data);
 		}
 		$this->html = $this->tpl->get();
 
-// new table
-include_once("./Services/Search/classes/class.ilSearchResultTableGUI.php");
-$result_table = new ilSearchResultTableGUI($this->container, "showSavedResults", $this);
-$result_table->setCustomPreviousNext($this->prev, $this->next);
-$result_table->setData($set);
-$this->thtml = $result_table->getHTML();
+		// new table
+		include_once("./Services/Search/classes/class.ilSearchResultTableGUI.php");
+		$result_table = new ilSearchResultTableGUI($this->container, "showSavedResults", $this);
+		$result_table->setCustomPreviousNext($this->prev, $this->next);
+		$result_table->setData($set);
+		$this->thtml = $result_table->getHTML();
 		
 		return true;
 	}

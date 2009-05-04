@@ -169,10 +169,11 @@ class ilLuceneSearchGUI extends ilSearchBaseGUI
 		$presentation = new ilLuceneSearchResultPresentation($this);
 		$presentation->setResults($filter->getResultIds());
 		$presentation->setSearcher($searcher);
+		$presentation->setPreviousNext($this->prev_link, $this->next_link);
 		
 		if($presentation->render())
 		{
-			$this->tpl->setVariable('SEARCH_RESULTS',$presentation->getHTML());
+			$this->tpl->setVariable('SEARCH_RESULTS',$presentation->getHTML(true));
 		}
 		else
 		{
@@ -256,9 +257,11 @@ class ilLuceneSearchGUI extends ilSearchBaseGUI
 		$presentation = new ilLuceneSearchResultPresentation($this);
 		$presentation->setResults($filter->getResultIds());
 		$presentation->setSearcher($searcher);
+		$presentation->setPreviousNext($this->prev_link, $this->next_link);
+
 		if($presentation->render())
 		{
-			$this->tpl->setVariable('SEARCH_RESULTS',$presentation->getHTML());
+			$this->tpl->setVariable('SEARCH_RESULTS',$presentation->getHTML(true));
 		}
 		else
 		{
