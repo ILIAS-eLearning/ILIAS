@@ -85,7 +85,7 @@ class ilFO2PDF extends ilRPCServerAdapter
 	}
 	function __prepareFO2PDFParams()
 	{
-		$this->__initMessage('Transformer.ilFO2PDF',array(new XML_RPC_Value($this->getFOString(),"string")));
+		$this->__initMessage('transform.ilFO2PDF',array(new XML_RPC_Value($this->getFOString(),"string")));
 
 		return true;
 	}
