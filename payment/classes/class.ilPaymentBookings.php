@@ -273,7 +273,7 @@ class ilPaymentBookings
 				price,
 				discount,
 				payed,
-				access,
+				access_granted,
 				voucher,
 				transaction_extern,
 				street,
@@ -334,7 +334,7 @@ class ilPaymentBookings
 			$statement = $this->db->manipulateF('
 				UPDATE payment_statistic 
 				SET payed = %s, 
-					access = %s
+					access_granted = %s
 				WHERE booking_id = %s', 
 				array('integer', 'integer', 'integer'),
 				array((int) $this->getPayedStatus(), (int) $this->getAccessStatus(), $this->getBookingId()));
@@ -382,7 +382,7 @@ class ilPaymentBookings
 			$booking[$row->booking_id]['price'] = $row->price;
 			$booking[$row->booking_id]['discount'] = $row->discount;
 			$booking[$row->booking_id]['payed'] = $row->payed;
-			$booking[$row->booking_id]['access'] = $row->access;
+			$booking[$row->booking_id]['access'] = $row->access_granted;
 			$booking[$row->booking_id]['ref_id'] = $row->ref_id;
 			$booking[$row->booking_id]['status'] = $row->status;
 			$booking[$row->booking_id]['pay_method'] = $row->pay_method;
@@ -427,7 +427,7 @@ class ilPaymentBookings
 			$booking['price'] = $row->price;
 			$booking['discount'] = $row->discount;			
 			$booking['payed'] = $row->payed;
-			$booking['access'] = $row->access;
+			$booking['access'] = $row->access_granted;
 			$booking['ref_id'] = $row->ref_id;
 			$booking['status'] = $row->status;
 			$booking['pay_method'] = $row->pay_method;
@@ -508,7 +508,7 @@ class ilPaymentBookings
 			WHERE pobject_id = %s
 			AND customer_id = %s
 			AND payed = %s
-			AND access = %s',
+			AND access_granted = %s',
 			array('integer', 'integer', 'integer', 'integer'),
 			array($a_pobject_id, $usr_id, '1', '1'));
 
@@ -558,7 +558,7 @@ class ilPaymentBookings
 			WHERE pobject_id = %s
 			AND customer_id = %s
 			AND payed = %s
-			AND access = %s',
+			AND access_granted = %s',
 			array('integer', 'integer', 'integer', 'integer'),
 			array($a_pobject_id, $usr_id, '1', '1'));
 		
@@ -710,7 +710,7 @@ class ilPaymentBookings
 		if ($_SESSION['pay_statistics']['access'] == '0' ||
 			$_SESSION['pay_statistics']['access'] == '1')
 		{
-			$query .= 'AND access = %s ';
+			$query .= 'AND access_granted = %s ';
 			array_push($data, $_SESSION['pay_statistics']['access']);
 			array_push($data_types, 'integer');
 		}
@@ -776,7 +776,7 @@ class ilPaymentBookings
 			$this->bookings[$row->booking_id]['price'] = $row->price;
 			$this->bookings[$row->booking_id]['discount'] = $row->discount;
 			$this->bookings[$row->booking_id]['payed'] = $row->payed;
-			$this->bookings[$row->booking_id]['access'] = $row->access;
+			$this->bookings[$row->booking_id]['access'] = $row->access_granted;
 			$this->bookings[$row->booking_id]['ref_id'] = $row->ref_id;
 			$this->bookings[$row->booking_id]['status'] = $row->status;
 			$this->bookings[$row->booking_id]['pay_method'] = $row->pay_method;

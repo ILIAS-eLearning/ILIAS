@@ -123,6 +123,22 @@ class ilShopVats
 		return $vats;		
 	}
 	
+	public static function _getVatId($a_vat_rate)
+	{
+		global $ilDB;
+		
+		$res = $ilDB->queryF('
+			SELECT * FROM payment_vats WHERE
+				vat_rate = %s',
+		array('float'),
+		array($a_vat_rate));
+		
+		while($row = $res->fetchRow(DB_FETCHMODE_ASSOC))
+		{
+			$vat_id = $row['vat_id'];
+		}
+		return $vat_id;
+	}	
 	public static function _getVatRate($a_vat_id)
 	{
 		global $ilDB;

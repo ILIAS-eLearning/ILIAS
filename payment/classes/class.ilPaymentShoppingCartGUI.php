@@ -901,7 +901,7 @@ class ilPaymentShoppingCartGUI extends ilPaymentBaseGUI
 					$amount .= '</td>\n';
 					$amount .= '</tr>\n';
 				}
-				
+			
 				
 				if ($totalAmount[$a_pay_method] < 0)
 				{
@@ -910,9 +910,7 @@ class ilPaymentShoppingCartGUI extends ilPaymentBaseGUI
 				}
 				else
 				{
-					
-					$this->totalVat = $sc_obj->getVat($totalAmount[$a_pay_method]);	
-						
+					//$this->totalVat = $sc_obj->getVat($totalAmount[$a_pay_method]);	
 				}	
 			}				
 		}		

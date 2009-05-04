@@ -139,7 +139,16 @@ class ilShopBoughtObjectsGUI extends ilShopBaseGUI
 			$f_result[$counter][] = '['.$tmp_vendor->getLogin().']';
 			$f_result[$counter][] = '['.$tmp_purchaser->getLogin().']';
 			$f_result[$counter][] = date("Y-m-d H:i:s", $booking['order_date']);
-			$f_result[$counter][] = $booking['duration'];
+			
+			if($booking['duration'] != 0)
+			{
+				$f_result[$counter][] = $booking['duration'].' '.$this->lng->txt('paya_months');
+			
+			}
+			else
+			{
+				$f_result[$counter][] = ilFormat::formatDate($booking['duration_from'],'date') .' - '. ilFormat::formatDate($booking['duration_until'],'date') ;
+			}
 			$f_result[$counter][] = $booking['price'];
 			$f_result[$counter][] = ($booking['discount'] != '' ? $booking['discount'] : '&nbsp;');
 
