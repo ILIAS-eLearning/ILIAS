@@ -906,6 +906,8 @@ class ilObjUser extends ilObject
 	{
 		global $ilDB;
 			
+		return false; // Temporarily disabled (missing oracle support) 
+
 		$result = $ilDB->queryF('
 			SELECT * FROM loginname_history
 			WHERE login = %s',
@@ -4368,6 +4370,7 @@ class ilObjUser extends ilObject
 	{
 		global $ilDB;
 
+		return true; // Temporarily disabled (missing oracle support)
 			
 		$res = $ilDB->queryF('SELECT * FROM loginname_history WHERE usr_id = %s AND login = %s AND date = %s',
 						array('integer', 'text', 'integer'),
