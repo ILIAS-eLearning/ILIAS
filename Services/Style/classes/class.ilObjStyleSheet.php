@@ -275,7 +275,8 @@ class ilObjStyleSheet extends ilObject
 
 	// these types are expandable, i.e. the user can define new style classes
 	public static $expandable_types = array (
-			"text_block", "section", "media_cont", "table", "table_cell", "flist_li"
+			"text_block", "section", "media_cont", "table", "table_cell", "flist_li",
+				"list_o", "list_u"
 		);
 		
 	// tag that are used by style types
@@ -1215,6 +1216,12 @@ class ilObjStyleSheet extends ilObject
 				$cur_par = $par["parameter"];
 				$cur_val = $par["value"];
 				
+				// replace named colors
+				if (is_int(strpos($cur_par, "color")) && substr(trim($cur_val), 0, 1) == "!")
+				{
+					$cur_val = $this->getColorCodeForName(substr($cur_val, 1));
+				}
+				
 				if ($tag[0]["type"] == "table" && is_int(strpos($par["parameter"], "border")))
 				{
 					$t_border[$cur_par] = $cur_val;
@@ -2038,5 +2045,330 @@ class ilObjStyleSheet extends ilObject
 		$ilDB->execute($st, array("page_cont", $this->getId()));
 
 	}
-} // END class.ilObjStyleSheet
+
+	/**
+	* Get colors of style
+	*/
+	function getColors()
+	{
+		global $ilDB;
+		
+		$set = $ilDB->query("SELECT * FROM style_color WHERE ".
+			"style_id = ".$ilDB->quote($this->getId(), "integer")." ".
+			"ORDER BY color_name");
+		
+		$colors = array();
+		while ($rec = $ilDB->fetchAssoc($set))
+		{
+			$colors[] = array(
+				"name" => $rec["color_name"],
+				"code" => $rec["color_code"]
+				);
+		}
+		
+		return $colors;
+	}
+
+	/**
+	* Add color
+	*/
+	function addColor($a_name, $a_code)
+	{
+		global $ilDB;
+		
+		$ilDB->manipulate("INSERT INTO style_color (style_id, color_name, color_code)".
+			" VALUES (".
+			$ilDB->quote($this->getId(), "integer").",".
+			$ilDB->quote($a_name, "text").",".
+			$ilDB->quote($a_code, "text").
+			")");
+	}
+
+	/**
+	* Update color
+	*/
+	function updateColor($a_name, $a_new_name, $a_code)
+	{
+		global $ilDB;
+		
+		// todo: update names in parameters as well
+		
+		$ilDB->manipulate("UPDATE style_color SET ".
+			"color_name = ".$ilDB->quote($a_new_name, "text").", ".
+			"color_code = ".$ilDB->quote($a_code, "text").
+			" WHERE style_id = ".$ilDB->quote($this->getId(), "integer").
+			" AND color_name = ".$ilDB->quote($a_name, "text"));
+		ilObjStyleSheet::_writeUpToDate($this->getId(), false);
+		
+		// rename also the name in the style parameter values
+		if ($a_name != $a_new_name)
+		{
+			$set = $ilDB->query("SELECT * FROM style_parameter ".
+				" WHERE style_id = ".$ilDB->quote($this->getId(), "integer").
+				" AND (".
+				" parameter = ".$ilDB->quote("background-color", "text"). " OR ".
+				" parameter = ".$ilDB->quote("color", "text"). " OR ".
+				" parameter = ".$ilDB->quote("border-color", "text"). " OR ".
+				" parameter = ".$ilDB->quote("border-top-color", "text"). " OR ".
+				" parameter = ".$ilDB->quote("border-bottom-color", "text"). " OR ".
+				" parameter = ".$ilDB->quote("border-left-color", "text"). " OR ".
+				" parameter = ".$ilDB->quote("border-right-color", "text").
+				")");
+			while ($rec = $ilDB->fetchAssoc($set))
+			{
+				if ($rec["value"] == "!".$a_name ||
+					is_int(strpos($rec["value"], "!".$a_name."(")))
+				{
+					// parameter is based on color -> rename it
+					$this->replaceStylePar($rec["tag"], $rec["class"],
+						$rec["parameter"], str_replace($a_name, $a_new_name, $rec["value"]), $rec["type"]);
+				}
+			}
+		}
+	}
+
+	/**
+	* Remove a color
+	*/
+	function removeColor($a_name)
+	{
+		global $ilDB;
+		
+		$ilDB->manipulate("DELETE FROM style_color WHERE ".
+			" style_id = ".$ilDB->quote($this->getId(), "integer")." AND ".
+			" color_name = ".$ilDB->quote($a_name, "text"));
+	}
+
+	/**
+	* Check whether color exists
+	*/
+	function colorExists($a_color_name)
+	{
+		global $ilDB;
+		
+		$set = $ilDB->query("SELECT * FROM style_color WHERE ".
+			"style_id = ".$ilDB->quote($this->getId(), "integer")." AND ".
+			"color_name = ".$ilDB->quote($a_color_name, "text"));
+		if ($rec = $ilDB->fetchAssoc($set))
+		{
+			return true;
+		}
+		return false;
+	}
+
+	/**
+	* Remove a color
+	*/
+	function getColorCodeForName($a_name)
+	{
+		global $ilDB;
+		
+		$pos = strpos($a_name, "(");
+		if ($pos > 0)
+		{
+			$a_i = substr($a_name, $pos + 1);
+			$a_i = str_replace(")", "", $a_i);
+			$a_name = substr($a_name, 0, $pos); 
+		}
+		
+		$set = $ilDB->query("SELECT color_code FROM style_color WHERE ".
+			" style_id = ".$ilDB->quote($this->getId(), "integer")." AND ".
+			" color_name = ".$ilDB->quote($a_name, "text"));
+		if ($rec = $ilDB->fetchAssoc($set))
+		{
+			if ($a_i == "")
+			{
+				return "#".$rec["color_code"];
+			}
+			else
+			{
+				return "#".ilObjStyleSheet::_getColorFlavor($rec["color_code"],
+					(int) $a_i);
+			}
+		}
+	}
+
+	/**
+	* Get color flavor
+	*/
+	static function _getColorFlavor($a_rgb, $a_i)
+	{
+		$rgb = ilObjStyleSheet::_explodeRGB($a_rgb, true);
+		$hls = ilObjStyleSheet::_RGBToHLS($rgb);
+
+		if ($a_i > 0)
+		{
+			$hls["l"] = $hls["l"] + ((255 - $hls["l"]) * ($a_i / 100));
+		}
+		if ($a_i < 0)
+		{
+			$hls["l"] = $hls["l"] - (($hls["l"]) * (-$a_i / 100));
+		}
+		
+		$rgb = ilObjStyleSheet::_HLSToRGB($hls);
+		
+		foreach ($rgb as $k => $v)
+		{
+			$rgb[$k] = str_pad(dechex($v), 2, "0", STR_PAD_LEFT);
+		}
+		
+		return $rgb["r"].$rgb["g"].$rgb["b"];
+	}
+	
+	/**
+	* Explode an RGB string into an array
+	*/
+	static function _explodeRGB($a_rgb, $as_dec = false)
+	{
+		$r["r"] = substr($a_rgb, 0, 2);
+		$r["g"] = substr($a_rgb, 2, 2);
+		$r["b"] = substr($a_rgb, 4, 2);
+		
+		if ($as_dec)
+		{
+			$r["r"] = (int) hexdec($r["r"]);
+			$r["g"] = (int) hexdec($r["g"]);
+			$r["b"] = (int) hexdec($r["b"]);
+		}
+		
+		return $r;
+	}
+	
+	/**
+	* RGB to HLS (both arrays, 0..255)
+	*/
+	static function _RGBToHLS($a_rgb)
+	{
+		$r = $a_rgb["r"] / 255;
+		$g = $a_rgb["g"] / 255;
+		$b = $a_rgb["b"] / 255;
+
+		// max / min
+		$max = max($r,$g,$b);
+		$min = min($r,$g,$b);
+		
+		//lightness
+		$l = ($max + $min) / 2;
+		
+		if ($max == $min)
+		{
+			$s = 0;
+			$h = 0;
+		}
+		else
+		{
+			if ($l < 0.5)
+			{
+				$s = ($max - $min) / ($max + $min);
+			}
+			else
+			{
+				$s = ($max - $min) / (2.0 - $max - $min);
+			}
+		}
+		
+		if ($r == $max)
+		{
+			$h  = ($g - $b) / ($max - $min);
+		}
+		else if ($g == $max)
+		{
+			$h = 2.0 + ($b - $r) / ($max - $min);
+		}
+		else if ($b == $max)
+		{
+			$h = 4.0 + ($r - $g) / ($max - $min);
+		}
+		
+		$hls["h"] = round(($h / 6) * 255);
+		$hls["l"] = round($l * 255);
+		$hls["s"] = round($s * 255);
+		
+		return $hls;
+	}
+
+	/**
+	* HLS to RGB (both arrays, 0..255)
+	*/
+	static function _HLSToRGB($a_hls)
+	{
+		$h = $a_hls["h"] / 255;
+		$l = $a_hls["l"] / 255;
+		$s = $a_hls["s"] / 255;
+		
+		$rgb["r"] = $rgb["g"] = $rgb["b"] = 0;
+		
+		//  If S=0, define R, G, and B all to L
+		if ($s == 0)
+		{
+			$rgb["r"] = $rgb["g"] = $rgb["b"] = $l;
+		}
+		else
+		{
+
+			if ($l < 0.5)
+			{
+				$temp2 = $l * (1.0 + $s);
+			}
+			else
+			{
+				$temp2 = $l + $s - $l * $s;
+			}
+
+			$temp1 = 2.0 * $l - $temp2;
+			
+
+			# For each of R, G, B, compute another temporary value, temp3, as follows:
+			foreach ($rgb as $k => $v)
+			{
+				switch ($k)
+				{
+					case "r":
+						$temp3 = $h + 1.0 / 3.0;
+						break;
+						
+					case "g":
+						$temp3 = $h;
+						break;
+						
+					case "b":
+						$temp3 = $h - 1.0/3.0;
+						break;
+				}
+				if ($temp3 < 0)
+				{
+					$temp3 = $temp3 + 1.0;
+				}
+				if ($temp3 > 1)
+				{
+					$temp3 = $temp3 - 1.0;
+				}
+
+				if (6.0 * $temp3 < 1)
+				{
+					$rgb[$k] = $temp1 + ($temp2 - $temp1) * 6.0 * $temp3;
+				}
+				else if (2.0 * $temp3 < 1)
+				{
+					$rgb[$k] = $temp2;
+				}
+				else if (3.0 * $temp3 < 2)
+				{
+					$rgb[$k] = $temp1 + ($temp2 - $temp1) * ((2.0/3.0) - $temp3) * 6.0;
+				}
+				else
+				{
+					$rgb[$k] = $temp1;
+				}
+			}
+		}
+
+		$rgb["r"] = round($rgb["r"] * 255);
+		$rgb["g"] = round($rgb["g"] * 255);
+		$rgb["b"] = round($rgb["b"] * 255);
+		
+		return $rgb;
+	}
+
+}
 ?>

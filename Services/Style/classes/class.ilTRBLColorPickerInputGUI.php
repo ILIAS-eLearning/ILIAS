@@ -55,7 +55,15 @@ class ilTRBLColorPickerInputGUI extends ilTextInputGUI
 	*/
 	function setAllValue($a_allvalue)
 	{
-		$this->allvalue = ilColorPickerInputGUI::determineHexcode($a_allvalue);
+		$a_allvalue = trim($a_allvalue);
+		if ($this->getAcceptNamedColors() && substr($a_allvalue, 0, 1) == "!")
+		{
+			$this->allvalue = $a_allvalue;
+		}
+		else
+		{
+			$this->allvalue = ilColorPickerInputGUI::determineHexcode($a_allvalue);
+		}
 	}
 
 	/**
@@ -75,7 +83,15 @@ class ilTRBLColorPickerInputGUI extends ilTextInputGUI
 	*/
 	function setTopValue($a_topvalue)
 	{
-		$this->topvalue = ilColorPickerInputGUI::determineHexcode($a_topvalue);
+		$a_topvalue = trim($a_topvalue);
+		if ($this->getAcceptNamedColors() && substr($a_topvalue, 0, 1) == "!")
+		{
+			$this->topvalue = $a_topvalue;
+		}
+		else
+		{
+			$this->topvalue = ilColorPickerInputGUI::determineHexcode($a_topvalue);
+		}
 	}
 
 	/**
@@ -95,7 +111,15 @@ class ilTRBLColorPickerInputGUI extends ilTextInputGUI
 	*/
 	function setBottomValue($a_bottomvalue)
 	{
-		$this->bottomvalue = ilColorPickerInputGUI::determineHexcode($a_bottomvalue);
+		$a_bottomvalue = trim($a_bottomvalue);
+		if ($this->getAcceptNamedColors() && substr($a_bottomvalue, 0, 1) == "!")
+		{
+			$this->bottomvalue = $a_bottomvalue;
+		}
+		else
+		{
+			$this->bottomvalue = ilColorPickerInputGUI::determineHexcode($a_bottomvalue);
+		}
 	}
 
 	/**
@@ -115,7 +139,15 @@ class ilTRBLColorPickerInputGUI extends ilTextInputGUI
 	*/
 	function setLeftValue($a_leftvalue)
 	{
-		$this->leftvalue = ilColorPickerInputGUI::determineHexcode($a_leftvalue);
+		$a_leftvalue = trim($a_leftvalue);
+		if ($this->getAcceptNamedColors() && substr($a_leftvalue, 0, 1) == "!")
+		{
+			$this->leftvalue = $a_leftvalue;
+		}
+		else
+		{
+			$this->leftvalue = ilColorPickerInputGUI::determineHexcode($a_leftvalue);
+		}
 	}
 
 	/**
@@ -135,7 +167,15 @@ class ilTRBLColorPickerInputGUI extends ilTextInputGUI
 	*/
 	function setRightValue($a_rightvalue)
 	{
-		$this->rightvalue = ilColorPickerInputGUI::determineHexcode($a_rightvalue);
+		$a_rightvalue = trim($a_rightvalue);
+		if ($this->getAcceptNamedColors() && substr($a_rightvalue, 0, 1) == "!")
+		{
+			$this->rightvalue = $a_rightvalue;
+		}
+		else
+		{
+			$this->rightvalue = ilColorPickerInputGUI::determineHexcode($a_rightvalue);
+		}
 	}
 
 	/**
@@ -169,6 +209,26 @@ class ilTRBLColorPickerInputGUI extends ilTextInputGUI
 	}
 
 	/**
+	* Set Accept Named Colors (Leading '!').
+	*
+	* @param	boolean	$a_acceptnamedcolors	Accept Named Colors (Leading '!')
+	*/
+	function setAcceptNamedColors($a_acceptnamedcolors)
+	{
+		$this->acceptnamedcolors = $a_acceptnamedcolors;
+	}
+
+	/**
+	* Get Accept Named Colors (Leading '!').
+	*
+	* @return	boolean	Accept Named Colors (Leading '!')
+	*/
+	function getAcceptNamedColors()
+	{
+		return $this->acceptnamedcolors;
+	}
+
+	/**
 	 * check input
 	 *
 	 * @access public
@@ -180,7 +240,7 @@ class ilTRBLColorPickerInputGUI extends ilTextInputGUI
 		{
 			$value = $_POST[$this->getPostVar()][$dir]["value"] = 
 				ilUtil::stripSlashes($_POST[$this->getPostVar()][$dir]["value"]);
-				
+
 			if (trim($value) != "")
 			{
 				switch ($dir)
@@ -210,15 +270,25 @@ class ilTRBLColorPickerInputGUI extends ilTextInputGUI
 		
 		$layout_tpl = new ilTemplate("tpl.prop_trbl_layout.html", true, true, "Services/Style");
 		
+		$funcs = array(
+			"all" => "getAllValue", "top" => "getTopValue",
+			"bottom" => "getBottomValue", "left" => "getLeftValue",
+			"right" => "getRightValue");
+		
 		foreach ($this->dirs as $dir)
 		{
-			switch($dir)
+			/*switch($dir)
 			{
 				case "all": $value = strtoupper(trim($this->getAllValue())); break;
 				case "top": $value = strtoupper(trim($this->getTopValue())); break;
 				case "bottom": $value = strtoupper(trim($this->getBottomValue())); break;
 				case "left": $value = strtoupper(trim($this->getLeftValue())); break;
 				case "right": $value = strtoupper(trim($this->getRightValue())); break;
+			}*/
+			$value = trim($this->$funcs[$dir]());
+			if (!$this->getAcceptNamedColors() || substr($value, 0, 1) != "!")
+			{
+				$value = strtoupper($value);
 			}
 
 			$ctpl = new ilTemplate("tpl.prop_trbl_color.html", true, true, "Services/Style");

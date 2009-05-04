@@ -6756,7 +6756,7 @@ style#:#sty_border_style#:#Border Style
 style#:#sty_border_width#:#Border Width
 style#:#sty_bottom#:#Bottom
 style#:#sty_clear#:#Clear
-style#:#sty_color#:#Colour
+style#:#sty_color#:#Color
 style#:#sty_confirm_del_ind_styles#:#Confirm Deletion of Individual Content Styles
 style#:#sty_confirm_del_ind_styles_desc#:#All learning modules with individual styles will be assigned to style '%s'. This will also delete all individual content styles. Are you sure to continue?
 style#:#sty_copy_other_stylesheet#:#Copy Style from Local Source
@@ -9279,3 +9279,17 @@ common#:#collapsed#:#Collapsed
 common#:#tree#:#Tree
 common#:#list#:#List
 search#:#search_title_description#:#Title / Description
+assessment#:#qst_nr_of_tries#:#Number of tries
+assessment#:#qst_hint_self#:#Self-Assessment-Mode active! Enter 0 points for incorrect answers, 1 point for correct answers.
+content#:#cont_qtries#:#Number of tries for questions
+content#:#cont_sc_preview#:#Preview
+style#:#sty_colors#:#Colors
+style#:#sty_color_name#:#Color Name
+style#:#sty_color_code#:#Color Code
+style#:#sty_color_flavors#:#Color Flavors
+style#:#sty_add_color#:#Add Color
+style#:#sty_delete_color#:#Delete Color
+style#:#sty_confirm_color_deletion#:#Confirm Color Deletion
+style#:#sty_msg_color_must_only_include#:#The color name may only include the following characters:
+style#:#sty_color_already_exists#:#A color with this name already exisits in this style.
+style#:#sty_color_info#:#Predefined colors make it easy to reuse a color for different purposes. You refer to a predefined color by using its name with a leading "!" for any color attribute in your style classes. To use a flavor, append a lightness value in brackets to the color name, e.g. !MyColor(20).
