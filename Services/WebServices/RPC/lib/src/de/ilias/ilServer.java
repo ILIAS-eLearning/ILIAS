@@ -23,6 +23,7 @@
 package de.ilias;
 
 import java.io.IOException;
+import java.net.BindException;
 import java.net.MalformedURLException;
 import java.util.Vector;
 
@@ -80,48 +81,48 @@ public class ilServer {
 	private boolean handleRequest() {
 		
 		if(arguments.length < 1) {
-			logger.error("Usage: java -jar ilServer.jar start|stop|index|search PARAMS");
+			logger.error(getUsage());
 			return false;
 		}
-		command = arguments[0];
+		command = arguments[1];
 		if(command.compareTo("start") == 0) {
 			if(arguments.length != 2) {
-				logger.error("Usage: java -jar ilServer.jar start PATH_TO_SERVER_INI");
+				logger.error("Usage: java -jar ilServer.jar PATH_TO_SERVER_INI start");
 				return false;
 			}
 			return startServer();
 		}
 		else if(command.compareTo("stop") == 0) {
 			if(arguments.length != 2) {
-				logger.error("Usage: java -jar ilServer.jar stop PATH_TO_SERVER_INI");
+				logger.error("Usage: java -jar ilServer.jar PATH_TO_SERVER_INI stop");
 				return false;
 			}
 			return stopServer();
 		}
 		else if(command.compareTo("createIndex") == 0) {
 			if(arguments.length != 3) {
-				logger.error("Usage java -jar ilServer.jar createIndex PATH_TO_SERVER_INI CLIENT_KEY");
+				logger.error("Usage java -jar ilServer.jar PATH_TO_SERVER_INI createIndex CLIENT_KEY");
 				return false;
 			}
 			return createIndexer();
 		}
 		else if(command.compareTo("updateIndex") == 0) {
 			if(arguments.length != 3) {
-				logger.error("Usage java -jar ilServer.jar updateIndex PATH_TO_SERVER_INI CLIENT_KEY");
+				logger.error("Usage java -jar ilServer.jar PATH_TO_SERVER_INI updateIndex CLIENT_KEY");
 				return false;
 			}
 			return updateIndexer();
 		}
 		else if(command.compareTo("search") == 0) {
 			if(arguments.length != 4) {
-				logger.error("Usage java -jar ilServer.jar search PATH_TO_SERVER_INI CLIENT_KEY QUERY_STRING");
+				logger.error("Usage java -jar ilServer.jar PATH_TO_SERVER_INI CLIENT_KEY search QUERY_STRING");
 				return false;
 			}
 			return startSearch();
 			
 		}
 		else {
-			logger.error("Usage: java -jar ilServer.jar start|stop|index|search PARAMS");
+			logger.error(getUsage());
 			return false;
 		}
 	}
@@ -138,7 +139,7 @@ public class ilServer {
 		
 		try {
 			parser = new IniFileParser();
-			parser.parseServerSettings(arguments[1],true);
+			parser.parseServerSettings(arguments[0],true);
 			
 			if(!ClientSettings.exists(arguments[2])) {
 				throw new ConfigurationException("Unknown client given: " + arguments[2]);
@@ -174,7 +175,7 @@ public class ilServer {
 		
 		try {
 			parser = new IniFileParser();
-			parser.parseServerSettings(arguments[1],true);
+			parser.parseServerSettings(arguments[0],true);
 			
 			if(!ClientSettings.exists(arguments[2])) {
 				throw new ConfigurationException("Unknown client given: " + arguments[2]);
@@ -210,7 +211,7 @@ public class ilServer {
 		
 		try {
 			parser = new IniFileParser();
-			parser.parseServerSettings(arguments[1],true);
+			parser.parseServerSettings(arguments[0],true);
 			
 			if(!ClientSettings.exists(arguments[2])) {
 				throw new ConfigurationException("Unknown client given: " + arguments[2]);
@@ -235,7 +236,7 @@ public class ilServer {
 
 	
 	/**
-	 * 
+	 * Start RPC services
 	 */
 	private boolean startServer() {
 		
@@ -246,7 +247,7 @@ public class ilServer {
 		try {
 
 			parser = new IniFileParser();
-			parser.parseServerSettings(arguments[1],true);
+			parser.parseServerSettings(arguments[0],true);
 			
 			settings = ServerSettings.getInstance();
 			
@@ -273,7 +274,6 @@ public class ilServer {
 		} 
 		catch (InterruptedException e) {
 			logger.error("VM did not allow to sleep. Aborting!");
-			e.printStackTrace();
 		}
 		return false;
 	}
@@ -292,7 +292,7 @@ public class ilServer {
 
 		try {
 			parser = new IniFileParser();
-			parser.parseServerSettings(arguments[1],false);
+			parser.parseServerSettings(arguments[0],false);
 			
 			settings = ServerSettings.getInstance();
 
@@ -313,6 +313,15 @@ public class ilServer {
 			logger.error("IOException " + e.getMessage());
 		}
 		return false;
+	}
+	
+	/**
+	 * 
+	 * @return String usage
+	 */
+	private String getUsage() {
+		
+		return "Usage: java -jar ilServer.jar PATH_TO_SERVER_INI start|stop|createIndex|updateIndex|search PARAMS";
 	}
 
 }
