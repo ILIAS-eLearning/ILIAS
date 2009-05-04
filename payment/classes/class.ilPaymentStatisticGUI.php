@@ -999,7 +999,7 @@ class ilPaymentStatisticGUI extends ilShopBaseGUI
 		}
 
 		$this->tpl->parseCurrentBlock();
-				vd($a_cmd.$a_text.$a_target);
+				//vd($a_cmd.$a_text.$a_target);
 	}		
 
 	function __search($a_search_string)

@@ -2222,7 +2222,7 @@ return;
 	*/
 	public function savePersonalData()
 	{
-		global $tpl, $lng, $ilCtrl, $ilUser, $ilSetting;
+		global $tpl, $lng, $ilCtrl, $ilUser, $ilSetting, $ilAuth;
 	
 		$this->initPersonalDataForm();
 		if ($this->form->checkInput())

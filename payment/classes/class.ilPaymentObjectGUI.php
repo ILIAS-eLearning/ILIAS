@@ -204,7 +204,7 @@ class ilPaymentObjectGUI extends ilShopBaseGUI
 					break;
 			}
 
-			if($data['vat_rate'] == 0)
+			if($data['vat_rate'] <= 0)
 			{
 			
 			 	$vat_rate = '0 %';
@@ -327,8 +327,6 @@ class ilPaymentObjectGUI extends ilShopBaseGUI
 		}
 		
 		// vats
-
-
 		if(is_array($vats = ilShopVats::_read()) && count($vats))
 		{
 			$oVatsGUI = new ilSelectInputGUI($this->lng->txt('vat_rate'), 'vat_rate');
@@ -344,7 +342,6 @@ class ilPaymentObjectGUI extends ilShopBaseGUI
 			$oVatsGUI->setValue($this->pobject->getVatRate());
 			$oForm->addItem($oVatsGUI);
 		}
-		
 		
 		$oThumbnail = new ilImageFileInputGUI($this->lng->txt('pay_thumbnail'), 'thumbnail');
 		$oFile = new ilFileDataShop($this->pobject->getPobjectId());

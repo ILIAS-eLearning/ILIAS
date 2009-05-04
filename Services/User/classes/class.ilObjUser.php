@@ -4367,12 +4367,23 @@ class ilObjUser extends ilObject
 	public static function _writeHistory($a_usr_id, $a_login)
 	{
 		global $ilDB;
-		
-		$statement = $ilDB->prepareManip('REPLACE INTO loginname_history (usr_id, login, date) VALUES (?, ?, ?)', 
-			array('integer', 'text', 'integer'));
-		$data = array($a_usr_id, $a_login, time());
-		$affectedRows = $ilDB->execute($statement, $data);	
 
+			
+		$res = $ilDB->queryF('SELECT * FROM loginname_history WHERE usr_id = %s AND login = %s AND date = %s',
+						array('integer', 'text', 'integer'),
+						array($a_usr_id, $a_login, time()));
+		
+		if($count = $ilDB->numRows($res) == 0 )
+		{
+			$result = $ilDB->manipulateF('
+						INSERT INTO loginname_history 
+								(usr_id, login, date)
+						VALUES 	(%s, %s, %s)',
+						array('integer', 'text', 'integer'),
+						array($a_usr_id, $a_login, time()));
+		}
+		
+		
 		return true;
 	}
 	

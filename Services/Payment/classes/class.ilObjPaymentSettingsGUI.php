@@ -193,9 +193,8 @@ class ilObjPaymentSettingsGUI extends ilObjectGUI
 					case 'editVat':												
 					case 'vats' :				include_once 'Services/Payment/classes/class.ilShopVats.php';						
 												$this->__setSection($this->OTHERS);
-													$this->__setMainSection($this->VATS);
-													$this->tabs_gui->setTabActive('vats');					
-																
+												$this->__setMainSection($this->VATS);
+												$this->tabs_gui->setTabActive('vats');					
 												break;
 												
 					default :					$this->__setSection($this->OTHERS);
@@ -395,6 +394,7 @@ class ilObjPaymentSettingsGUI extends ilObjectGUI
 			$this->objectObjects();
 			return true;
 		}
+		
 		$this->__initPaymentObject((int) $_GET['pobject_id']);
 		$this->ctrl->setParameter($this,'pobject_id',(int) $_GET['pobject_id']);
 
@@ -1200,6 +1200,18 @@ class ilObjPaymentSettingsGUI extends ilObjectGUI
 					$f_result[$counter][] = $this->lng->txt('pays_paypal');
 					break;
 			}
+			if($data['vat_rate'] <= 0)
+			{
+			
+			 	$vat_rate = '0 %';
+			}
+			else 
+			{
+				$vat_rate = $data['vat_rate'] .' %';  
+			}
+			
+			$f_result[$counter][] = $vat_rate;
+						
 			$tmp_user =& ilObjectFactory::getInstanceByObjId($data['vendor_id']);
 			$f_result[$counter][] = $tmp_user->getFullname().' ['.$tmp_user->getLogin().']';
 
@@ -1258,6 +1270,7 @@ class ilObjPaymentSettingsGUI extends ilObjectGUI
 		$tbl->setHeaderNames(array($this->lng->txt('title'),
 								   $this->lng->txt('status'),
 								   $this->lng->txt('paya_pay_method'),
+								   $this->lng->txt("vat_rate"),
 								   $this->lng->txt('paya_vendor'),
 								   $this->lng->txt('paya_count_purchaser'),
 								   ''));
@@ -1267,6 +1280,7 @@ class ilObjPaymentSettingsGUI extends ilObjectGUI
 		$tbl->setHeaderVars(array('title',
 								  'status',
 								  'pay_method',
+								   'vat_rate',
 								  'vendor',
 								  'purchasers',
 								  'options'),$header_params);
@@ -1546,6 +1560,8 @@ class ilObjPaymentSettingsGUI extends ilObjectGUI
 									: $this->lng->txt('user_deleted'));
 			$f_result[$counter][] = date("Y-m-d H:i:s", $booking['order_date']);
 			$f_result[$counter][] = $booking['duration'];
+			
+
 			$f_result[$counter][] = $booking['price'];
 			$f_result[$counter][] = ($booking['discount'] != '' ? $booking['discount'] : '&nbsp;');
 

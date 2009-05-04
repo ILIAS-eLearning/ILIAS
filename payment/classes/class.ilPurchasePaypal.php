@@ -429,6 +429,8 @@ class ilPurchasePaypal
 		$tpl->setVariable("TXT_DATE", utf8_decode($this->lng->txt("date")));
 
 		$tpl->setVariable("TXT_ARTICLE", utf8_decode($this->lng->txt("pay_article")));
+		$tpl->setVariable('TXT_VAT_RATE', utf8_decode($this->lng->txt('vat_rate')));
+		$tpl->setVariable('TXT_VAT_UNIT', utf8_decode($this->lng->txt('vat_unit')));				
 		$tpl->setVariable("TXT_PRICE", utf8_decode($this->lng->txt("price_a")));
 
 		for ($i = 0; $i < count($bookings["list"]); $i++)
@@ -456,7 +458,7 @@ class ilPurchasePaypal
 			$tpl->setVariable("LOOP_TXT_ENTITLED_RETRIEVE", utf8_decode($this->lng->txt("pay_entitled_retrieve")));
 			$tpl->setVariable("LOOP_DURATION", $bookings["list"][$i]["duration"] . " " . utf8_decode($this->lng->txt("paya_months")));
 			$tpl->setVariable("LOOP_VAT_RATE", $bookings["list"][$i]["vat_rate"]);
-			$tpl->setVariable("LOOP_VAT_UNIT", $bookings["list"][$i]["vat_unit"]);			
+			$tpl->setVariable('LOOP_VAT_UNIT', $bookings['list'][$i]['vat_unit'].' '.$genSet->get('currency_unit'));			
 			$tpl->setVariable("LOOP_PRICE", $bookings["list"][$i]["price"]);
 			$tpl->parseCurrentBlock("loop");
 			

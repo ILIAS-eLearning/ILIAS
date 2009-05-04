@@ -22,6 +22,8 @@
 <table width="100%" cellspacing=1 cellpadding=3 border=0>
 <tr bgcolor="#CCCCCC">
 	<td width="99%"><b>{TXT_ARTICLE}</b></td>
+	<td width="1%"><b>{TXT_VAT_RATE}</b></td>
+	<td width="1%"><b>{TXT_VAT_UNIT}</b></td>		
 	<td width="1%"><b>{TXT_PRICE}</b></td>
 </tr>
 <!-- BEGIN loop -->
@@ -31,11 +33,13 @@
 		{LOOP_TITLE}<br>
 		<font size=-2>{LOOP_TXT_ENTITLED_RETRIEVE}: {LOOP_DURATION}</font>
 	</td>
+	<td nowrap valign="top">{LOOP_VAT_RATE}</td>
+	<td nowrap valign="top">{LOOP_VAT_UNIT}</td>
 	<td nowrap valign="top">{LOOP_PRICE}</td>
 </tr>
 <!-- END loop -->
 <tr bgcolor="#CCCCCC">
-	<td width="100%" colspan="2">
+	<td width="100%" colspan="4">
 		<div align="right">
 		<table align="right">
 		<!-- BEGIN coupons -->

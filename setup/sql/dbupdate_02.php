@@ -11546,3 +11546,9 @@ $ilCtrlStructureReader->getStructure();
 <?php
 	$ilCtrlStructureReader->getStructure();
 ?>
+
+<#2391>
+ALTER TABLE `payment_coupons_codes` DROP INDEX `i2_idx`; 
+
+<#2392>
+ALTER TABLE `payment_statistic` CHANGE `access` `access_granted` INT( 11 ) NOT NULL DEFAULT '0';

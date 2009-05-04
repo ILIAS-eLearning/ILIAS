@@ -979,8 +979,10 @@ class ilPurchaseBMFGUI
 		$resultObj = $payment->zahlenUndAnlegenKunde($customer, $creditCard, $bookingList);
 		$result = $resultObj->ergebnis;
 
+
 		if (is_object($result))
 		{
+
 			if ($result->code < 0)
 			{
 				$this->tpl->setVariable("HEADER",$this->lng->txt('error'));
@@ -1125,6 +1127,8 @@ class ilPurchaseBMFGUI
 		$tpl->setVariable("TXT_DATE", utf8_decode($this->lng->txt("date")));
 
 		$tpl->setVariable("TXT_ARTICLE", utf8_decode($this->lng->txt("pay_article")));
+		$tpl->setVariable('TXT_VAT_RATE', utf8_decode($this->lng->txt('vat_rate')));
+		$tpl->setVariable('TXT_VAT_UNIT', utf8_decode($this->lng->txt('vat_unit')));		
 		$tpl->setVariable("TXT_PRICE", utf8_decode($this->lng->txt("price_a")));
 
 		$bookEntries = $sc_obj->getShoppingCart();
@@ -1152,6 +1156,9 @@ class ilPurchaseBMFGUI
 			$tpl->setVariable("LOOP_TITLE", $bookEntries[$i]["buchungstext"]. $assigned_coupons);
 			$tpl->setVariable("LOOP_TXT_ENTITLED_RETRIEVE", utf8_decode($this->lng->txt("pay_entitled_retrieve")));
 			$tpl->setVariable("LOOP_DURATION", $bookEntries[$i]["dauer"] . " " . utf8_decode($this->lng->txt("paya_months")));
+			$tpl->setVariable('LOOP_VAT_RATE', $bookEntries[$i]['vat_rate']);
+			$tpl->setVariable('LOOP_VAT_UNIT', $bookEntries[$i]['vat_unit'].' '.$genSet->get('currency_unit'));			
+			
 			$tpl->setVariable("LOOP_PRICE", number_format($bookEntries[$i]["betrag"], 2, ",", ".") . " " . $genSet->get("currency_unit"));
 			$tpl->parseCurrentBlock("loop");
 			
@@ -1205,13 +1212,14 @@ class ilPurchaseBMFGUI
 		$tpl->setVariable("TOTAL_AMOUNT", number_format($bookingList->betrag, 2, ",", ".") . " " . $genSet->get("currency_unit"));
 		
 		//if (($vat = $sc_obj->getVat($bookingList->betrag)) > 0)
-		if ($this->totalVat > 0)
+	
+		if ($this->totalVat  > 0)		
 		{
 			//$tpl->setVariable("VAT", number_format($vat, 2, ",", ".") . " " . $genSet->get("currency_unit"));
 			//$tpl->setVariable("TXT_VAT", $genSet->get("vat_rate") . "% " . utf8_decode($this->lng->txt("pay_bmf_vat_included")));
 
-			$tpl->setVariable("VAT", $this->totalVat  . " " . $genSet->get('currency_unit'));
-			$tpl->setVariable("TXT_VAT", utf8_decode($this->lng->txt("pay_bmf_vat_included")));
+			$tpl->setVariable("TOTAL_VAT", $this->totalVat  . " " . $genSet->get('currency_unit'));
+			$tpl->setVariable("TXT_TOTAL_VAT", utf8_decode($this->lng->txt("pay_bmf_vat_included")));
 		}
 
 		if ($paymentType == "debit_entry")
@@ -1593,7 +1601,8 @@ class ilPurchaseBMFGUI
 				$f_result[$counter][] = $price_arr['duration'] . ' ' . $this->lng->txt('paya_months');	
 			}
 			
-			$f_result[$counter][] = $tmp_pobject->getVatUnit().' % ';
+			$f_result[$counter][] = $tmp_pobject->getVatRate().' % ';
+			
 					
 			//$f_result[$counter][] = $tmp_pobject->getVat($price_arr['unit_value'],$item['pobject_id']).' '.$genSet->get('currency_unit');
 			//$this->totalVat = $this->totalVat + $tmp_pobject->getVat($price_arr['unit_value'],$item['pobject_id']);
@@ -1603,7 +1612,7 @@ class ilPurchaseBMFGUI
 			$f_result[$counter][] = ilPaymentPrices::_getPriceString($item['price_id']);
 
 			unset($tmp_obj);
-			//unset($tmp_pobject);
+			unset($tmp_pobject);
 
 			++$counter;
 		}
