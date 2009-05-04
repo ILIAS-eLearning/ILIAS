@@ -164,7 +164,6 @@ class ilDAVServer extends HTTP_WebDAV_Server
 		{
 			$this->clientBrowser = 'konqueror';
 		}
-		$this->writelog('userAgent='.$userAgent);
 	}
 
 	/**
@@ -185,7 +184,7 @@ class ilDAVServer extends HTTP_WebDAV_Server
 
 		try {
 			$start = time();
-				$this->writelog('serveRequest():'.$_SERVER['REQUEST_METHOD'].' ...');
+				$this->writelog('serveRequest():'.$_SERVER['REQUEST_METHOD'].' '.$_SERVER['PATH_INFO'].' ...');
 			parent::serveRequest();
 			$end = time();
 					$this->writelog('serveRequest():'.$_SERVER['REQUEST_METHOD'].' done status='.$this->_http_status.' elapsed='.($end - $start));
@@ -854,6 +853,8 @@ class ilDAVServer extends HTTP_WebDAV_Server
 		{
 			if (! $parentDAV->isPermitted('create', $parentDAV->getILIASFileType()))
 			{
+                $this->writelog('PUT is forbidden, because user has no create permission');
+
 				return '403 Forbidden';
 			}
 			$options["new"] = true;
@@ -876,6 +877,7 @@ class ilDAVServer extends HTTP_WebDAV_Server
 		{
 			if (! $parentDAV->isPermitted('create', $parentDAV->getILIASFileType()))
 			{
+                $this->writelog('PUT is forbidden, because user has no create permission');
 				return '403 Forbidden';
 			}
 			$options["new"] = false;
@@ -898,6 +900,7 @@ class ilDAVServer extends HTTP_WebDAV_Server
 		{
 			if (! $objDAV->isPermitted('write'))
 			{
+                $this->writelog('PUT is forbidden, because user has no write permission');
 				return '403 Forbidden';
 			}
 			$options["new"] = false;

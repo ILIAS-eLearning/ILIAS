@@ -305,7 +305,7 @@ class ilDAVLocks
 		// clean up expired locks in 1 out of 100 unlock requests
 		if (rand(1,100) == 1)
 		{
-			ilDAVLocks::cleanUp();
+			$this->cleanUp();
 		}
 		
 		return $success;
@@ -430,7 +430,7 @@ class ilDAVLocks
 	public function getLocksOnPathDAV(&$pathDAV)
 	{
 		global $ilDB;
-		$this->writelog('getLocksOnPath('.$pathDAV.')');
+		$this->writelog('getLocksOnPathDAV('.var_export($pathDAV,true).')');
 		
 		$q = 'SELECT obj_id, node_id, ilias_owner, dav_owner, token, expires, depth, scope'
 					.' FROM '.$this->table
@@ -452,7 +452,7 @@ class ilDAVLocks
 		}
 		$q .= ')';
 				
-		$this->writelog('getLocksOnPath('.$objDAV.') query='.$q);
+		$this->writelog('getLocksOnPathDAV('.$objDAV.') query='.$q);
 		$r = $ilDB->query($q);
 		
 		$result = array();		
@@ -462,6 +462,7 @@ class ilDAVLocks
 			$row['scope'] = ($row['scope'] == 'x') ? 'exclusive' : 'shared';
 			$result[] = $row;
 		}
+		$this->writelog('getLocksOnPathDAV:'.var_export($result,true));
 		return $result;
 	}
 	/**
@@ -482,7 +483,7 @@ class ilDAVLocks
 	public function getLocksOnPathRef($refId)
 	{
 		global $ilDB, $tree;
-		$this->writelog('getLocksOnPathForRefId('.$refId.')');
+		$this->writelog('getLocksOnPathRef('.$refId.')');
 
 		$pathFull = $tree->getPathFull($refId);
 		
@@ -523,7 +524,7 @@ class ilDAVLocks
 	 * an hour ago. Since we have no index over the 'expires' column,
 	 * this causes a (very slow) table space scan.
 	 */
-	public static function cleanUp()
+	public function cleanUp()
 	{
 		global $ilDB, $tree;
 
