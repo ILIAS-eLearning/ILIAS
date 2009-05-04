@@ -746,7 +746,25 @@ class ilObjectListGUI
 		return $this->search_fragment;	 
 	}
 	
+	/**
+	* Set separate commands
+	*
+	* @param	boolean	 separate commands
+	*/
+	function setSeparateCommands($a_val)
+	{
+		$this->separate_commands = $a_val;
+	}
 	
+	/**
+	* Get separate commands
+	*
+	* @return	boolean	 separate commands
+	*/
+	function getSeparateCommands()
+	{
+		return $this->separate_commands;
+	}
 	/**
 	 * get command id
 	 * Normally the ref id.
@@ -759,6 +777,26 @@ class ilObjectListGUI
 	public function getCommandId()
 	{
 		return $this->ref_id;
+	}
+	
+	/**
+	* Set additional information
+	*
+	* @param	string		additional information
+	*/
+	function setAdditionalInformation($a_val)
+	{
+		$this->additional_information = $a_val;
+	}
+	
+	/**
+	* Get additional information
+	*
+	* @return	string		additional information
+	*/
+	function getAdditionalInformation()
+	{
+		return $this->additional_information;
 	}
 	
 	/**
@@ -1471,10 +1509,10 @@ class ilObjectListGUI
 		{	
 			if(ilPaymentObject::_hasAccess($this->ref_id))
 			{
-				$this->tpl->setCurrentBlock('payment');
-				$this->tpl->setVariable('PAYMENT_TYPE_IMG', ilUtil::getImagePath('icon_pays_access_b.gif'));
-				$this->tpl->setVariable('PAYMENT_ALT_IMG', $this->lng->txt('payment_system') . ': ' . $this->lng->txt('payment_payed_access'));
-				$this->tpl->parseCurrentBlock();				
+				$this->ctpl->setCurrentBlock('payment');
+				$this->ctpl->setVariable('PAYMENT_TYPE_IMG', ilUtil::getImagePath('icon_pays_access_b.gif'));
+				$this->ctpl->setVariable('PAYMENT_ALT_IMG', $this->lng->txt('payment_system') . ': ' . $this->lng->txt('payment_payed_access'));
+				$this->ctpl->parseCurrentBlock();				
 			}
 			else if(ilPaymentObject::_isInCart($this->ref_id))
 			{
@@ -1614,15 +1652,15 @@ class ilObjectListGUI
 	{
 		if ($a_frame != "")
 		{
-			$this->tpl->setCurrentBlock("item_frame");
-			$this->tpl->setVariable("TARGET_COMMAND", $a_frame);
-			$this->tpl->parseCurrentBlock();
+			$this->ctpl->setCurrentBlock("item_frame");
+			$this->ctpl->setVariable("TARGET_COMMAND", $a_frame);
+			$this->ctpl->parseCurrentBlock();
 		}
 
-		$this->tpl->setCurrentBlock("item_command");
-		$this->tpl->setVariable("HREF_COMMAND", $a_href);
-		$this->tpl->setVariable("TXT_COMMAND", $a_text);
-		$this->tpl->parseCurrentBlock();
+		$this->ctpl->setCurrentBlock("item_command");
+		$this->ctpl->setVariable("HREF_COMMAND", $a_href);
+		$this->ctpl->setVariable("TXT_COMMAND", $a_text);
+		$this->ctpl->parseCurrentBlock();
 		
 		$this->current_selection_list->addItem($a_text, "", $a_href, $a_img, $a_text, $a_frame);
 	}
@@ -2027,7 +2065,7 @@ class ilObjectListGUI
 		}
 		$this->ctrl->clearParametersByClass($this->gui_class_name);
 		
-		$this->tpl->setVariable("COMMAND_SELECTION_LIST",
+		$this->ctpl->setVariable("COMMAND_SELECTION_LIST",
 			$this->current_selection_list->getHTML());
 	}
 
@@ -2207,6 +2245,7 @@ class ilObjectListGUI
 		// initialization
 		$ilBench->start("ilObjectListGUI", "1000_getListHTML_init$type");
 		$this->tpl =& new ilTemplate ("tpl.container_list_item.html", true, true);
+		$this->ctpl =& new ilTemplate ("tpl.container_list_item_commands.html", true, true);
 		$this->initItem($a_ref_id, $a_obj_id, $a_title, $a_description);
 		$ilBench->stop("ilObjectListGUI", "1000_getListHTML_init$type");
 
@@ -2237,7 +2276,10 @@ class ilObjectListGUI
 		if ($this->getCommandsStatus() || 
 		    ($this->payment_enabled && (bool)ilGeneralSettings::_getInstance()->get('shop_enabled')))
 		{
-			$this->tpl->touchBlock("command_block");
+			if (!$this->getSeparateCommands())
+			{
+				$this->tpl->setVariable("COMMANDS", $this->ctpl->get());
+			}
 		}
 
 		// insert title and describtion
@@ -2313,8 +2355,17 @@ class ilObjectListGUI
 		$this->position_enabled = false;
 
 		$this->tpl->setVariable("DIV_ID", 'id = "lg_div_'.$this->ref_id.'"');
+		$this->tpl->setVariable("ADDITIONAL", $this->getAdditionalInformation());
 		
 		return $this->tpl->get();
+	}
+	
+	/**
+	* Get commands HTML (must be called after get list item html)
+	*/
+	function getCommandsHTML()
+	{
+		return $this->ctpl->get();
 	}
 	
 	/**

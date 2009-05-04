@@ -324,11 +324,13 @@ class ilSearchGUI extends ilSearchBaseGUI
 			include_once './Services/Search/classes/Lucene/class.ilLuceneSearchResultPresentation.php';
 			$presentation = new ilLuceneSearchResultPresentation($this, ilLuceneSearchResultPresentation::MODE_STANDARD);
 			$presentation->setResults($result_obj->getResultsForPresentation());
+			$presentation->setPreviousNext($this->prev_link, $this->next_link);
 			#$presentation->setSearcher($searcher);
 
 			if($presentation->render())
 			{
-				$this->tpl->setVariable('SEARCH_RESULTS',$presentation->getHTML());
+//				$this->tpl->setVariable('SEARCH_RESULTS',$presentation->getHTML());
+				$this->tpl->setVariable('RESULTS_TABLE',$presentation->getHTML(true));
 			}
 		}
 
@@ -427,10 +429,12 @@ class ilSearchGUI extends ilSearchBaseGUI
 		include_once './Services/Search/classes/Lucene/class.ilLuceneSearchResultPresentation.php';
 		$presentation = new ilLuceneSearchResultPresentation($this, ilLuceneSearchResultPresentation::MODE_STANDARD);
 		$presentation->setResults($result->getResultsForPresentation());
+		$presentation->setPreviousNext($this->prev_link, $this->next_link);
 
 		if($presentation->render())
 		{
-			$this->tpl->setVariable('SEARCH_RESULTS',$presentation->getHTML());
+//			$this->tpl->setVariable('SEARCH_RESULTS',$presentation->getHTML());
+			$this->tpl->setVariable('RESULTS_TABLE',$presentation->getHTML(true));
 		}
 
 		return true;

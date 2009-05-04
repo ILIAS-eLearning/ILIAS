@@ -397,5 +397,24 @@ class ilYuiUtil
 	 	$tpl->addJavaScript('./Services/YUI/js/2_5_0/json/json-min.js');
 	 }
 	 
+	 /**
+	 * Init layout (alpha!)
+	 */
+	 public static function initLayout()
+	 {
+		 global $tpl;
+		 
+//		 $tpl->addCss("./Services/YUI/js/2_5_0/reset-fonts-grids/reset-fonts-grids.css");
+		 $tpl->addCss("./Services/YUI/js/2_5_0/assets/skins/sam/resize.css");
+		 $tpl->addCss("./Services/YUI/js/2_5_0/assets/skins/sam/layout.css");
+		 
+		 $tpl->addJavaScript('./Services/YUI/js/2_5_0/yahoo-dom-event/yahoo-dom-event.js');
+		 $tpl->addJavaScript('./Services/YUI/js/2_5_0/dragdrop/dragdrop-min.js');
+		 $tpl->addJavaScript('./Services/YUI/js/2_5_0/element/element-beta-min.js');
+		 $tpl->addJavaScript('./Services/YUI/js/2_5_0/animation/animation-min.js');
+		 $tpl->addJavaScript('./Services/YUI/js/2_5_0/resize/resize-beta-min.js');
+		 $tpl->addJavaScript('./Services/YUI/js/2_5_0/layout/layout-beta-min.js');
+	 }
+	 
 } // END class.ilUtil
 ?>

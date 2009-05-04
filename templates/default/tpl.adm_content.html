@@ -31,7 +31,7 @@
 <div style="clear:both;">{SUB_TABS}</div><span class="ilAccHidden"><a id="after_sub_tabs" name="after_sub_tabs"></a></span>
 <!-- BEGIN tabs_inner_start --><div class="ilTabContentInner"><!-- END tabs_inner_start -->
 <!-- BEGIN page_form_start --><form id="main_page_form" action="{PAGE_FORM_ACTION}" method="post"><!-- END page_form_start -->
-<table class="il_ColumnLayout" style="clear:both;"><tr>
+<table class="il_ColumnLayout{COL_LAY_SKIN}" style="clear:both;"><tr>
 <!-- BEGIN left_columnt -->
 <td></td>
 <!-- END left_columnt -->
@@ -69,9 +69,35 @@
 <!-- END right_columnt -->
 </tr><tr>
 <!-- BEGIN left_column -->
-<td class="il_LeftColumn">{LEFT_CONTENT}</td>
+<td class="il_LeftColumn" id="il_left_col_td"><div id="il_left_col">{LEFT_CONTENT}</div></td>
 <!-- END left_column -->
 <td class="il_CenterColumn" id="il_CenterColumn">
+<!-- BEGIN adv_layout_init -->
+<div id="il_adv_center_col" style="width:800px; height:450px;"></div>
+<style type="text/css">
+<!--
+.yui-skin-sam .yui-layout .yui-layout-unit div.yui-layout-bd {
+    border: 1px solid #FFFFFF;
+    background-color: #FFFFFF;
+}
+-->
+</style>
+<script type="text/javascript">
+//Element Based Layout
+ilAddOnLoad(function() {
+var ltd = document.getElementById('il_left_col_td');
+ltd.style.width = 0;
+var layoutEl = new YAHOO.widget.Layout('il_adv_center_col', { units: [
+		{ position: 'right', width: 200, scroll: false }, //Width required here
+        { position: 'left', width: 300, body: 'il_left_col', scroll: true }, //Width required here
+        { position: 'center', body: 'il_center_col', scroll: true }
+    ]
+});
+layoutEl.render();
+});
+</script>
+<!-- END adv_layout_init -->
+<div id="il_center_col">
 {BUTTONS}
 {RTE_SWITCH}
 {ADM_CONTENT}
@@ -85,6 +111,7 @@
 	<!-- END admin_panel_cmd2 -->
 	</div>
 	<!-- END adm_view_components2 -->
+</div>
 </td>
 <!-- BEGIN right_column -->
 <td class="il_RightColumn">{RIGHT_CONTENT}</td>

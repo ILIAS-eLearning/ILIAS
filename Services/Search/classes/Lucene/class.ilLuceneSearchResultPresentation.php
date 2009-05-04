@@ -137,9 +137,12 @@ class ilLuceneSearchResultPresentation
 	 * Get HTML 
 	 * @return string HTML 
 	 */
-	public function getHTML()
+	public function getHTML($a_new = false)
 	{
-		return $this->html;
+		if ($a_new)
+			return $this->thtml;
+		else
+			return $this->html;
 	}
 	
 	/**
@@ -163,17 +166,32 @@ class ilLuceneSearchResultPresentation
 	}
 	
 	/**
+	* Set previous next
+	*/
+	function setPreviousNext($a_p, $a_n)
+	{
+		$this->prev = $a_p;
+		$this->next = $a_n;
+	}
+	
+	
+	/**
 	 * Render item list 
 	 * @return void
 	 */
 	protected function renderItemList()
 	{
 		$this->html = '';
+		
 		$this->newBockTemplate();
 		$item_html = array();
 		$this->parseResultReferences();
+		
+
+$set = array();
 		foreach($this->getResults() as $ref_id => $res_data)
 		{
+$set[] = array("ref_id" => $ref_id, "obj_id" => $res_data);
 			$obj_id = $res_data;
 			#$obj_id = ilObject::_lookupObjId($res_data);
 			$type = ilObject::_lookupType($obj_id);
@@ -194,8 +212,7 @@ class ilLuceneSearchResultPresentation
 			
 			if($html = $item_list_gui->getListItemHTML($ref_id,$obj_id,$title,$description))
 			{
-				$html .= $this->appendAdditionalInformation($item_list_gui,$ref_id,$obj_id,$type);
-				
+				$html .= $this->appendAdditionalInformation($item_list_gui,$ref_id,$obj_id,$type);				
 				$item_html[$ref_id]['html'] = $html;
 				$item_html[$ref_id]['type'] = $type;
 			}
@@ -211,6 +228,14 @@ class ilLuceneSearchResultPresentation
 			$this->addStandardRow($ref_id,$data['type'],$data['html']);
 		}
 		$this->html = $this->tpl->get();
+
+// new table
+include_once("./Services/Search/classes/class.ilSearchResultTableGUI.php");
+$result_table = new ilSearchResultTableGUI($this->container, "showSavedResults", $this);
+$result_table->setCustomPreviousNext($this->prev, $this->next);
+$result_table->setData($set);
+$this->thtml = $result_table->getHTML();
+		
 		return true;
 	}
 	
@@ -280,7 +305,7 @@ class ilLuceneSearchResultPresentation
 	 * @param
 	 * @return
 	 */
-	protected function lookupTitle($a_obj_id,$a_sub_id)
+	public function lookupTitle($a_obj_id,$a_sub_id)
 	{
 		if($this->getMode() != self::MODE_LUCENE)
 		{
@@ -298,7 +323,7 @@ class ilLuceneSearchResultPresentation
 	 * @param
 	 * @return
 	 */
-	protected function lookupDescription($a_obj_id,$a_sub_id)
+	public function lookupDescription($a_obj_id,$a_sub_id)
 	{
 		if($this->getMode() != self::MODE_LUCENE)
 		{
@@ -316,7 +341,7 @@ class ilLuceneSearchResultPresentation
 	 * @param
 	 * @return
 	 */
-	protected function lookupContent($a_obj_id,$a_sub_id)
+	public function lookupContent($a_obj_id,$a_sub_id)
 	{
 		if($this->getMode() != self::MODE_LUCENE)
 		{
@@ -328,7 +353,7 @@ class ilLuceneSearchResultPresentation
 	/**
 	 * Append path, relevance information
 	 */
-	protected function appendAdditionalInformation($item_list_gui,$ref_id,$obj_id,$type)
+	public function appendAdditionalInformation(&$item_list_gui,$ref_id,$obj_id,$type)
 	{
 		$sub = $this->appendSubItems($item_list_gui,$ref_id,$obj_id,$type);
 		$path = $this->appendPath($ref_id);
@@ -354,7 +379,8 @@ class ilLuceneSearchResultPresentation
 			$tpl->setVariable('RELEVANCE',$rel);
 		}
 		
-		return $tpl->get();
+		$item_list_gui->setAdditionalInformation($tpl->get());
+		//$item_list_gui->setAdditionalInformation("Hello");
 	}
 	
 	

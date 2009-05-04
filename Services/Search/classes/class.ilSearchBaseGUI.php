@@ -208,41 +208,48 @@ class ilSearchBaseGUI implements ilDesktopItemHandling, ilAdministrationCommandH
 		if($this->search_cache->getResultPageNumber() > 1)
 		{
 			$this->ctrl->setParameter($this,'page_number',$this->search_cache->getResultPageNumber() - 1);
-			$this->tpl->setCurrentBlock('prev');
+/*			$this->tpl->setCurrentBlock('prev');
 			$this->tpl->setVariable('PREV_LINK',$this->ctrl->getLinkTarget($this,'performSearch'));
 			$this->tpl->setVariable('TXT_PREV',$this->lng->txt('search_page_prev'));
 			$this->tpl->parseCurrentBlock();
+*/
+$this->prev_link = $this->ctrl->getLinkTarget($this,'performSearch');
 		}
 		for($i = 1;$i <= $_SESSION["$a_session_key"];$i++)
 		{
 			if($i == $this->search_cache->getResultPageNumber())
 			{
-				$this->tpl->setCurrentBlock('pages_link');
+/*				$this->tpl->setCurrentBlock('pages_link');
 				$this->tpl->setVariable('NUMBER',$i);
 				$this->tpl->parseCurrentBlock();
+*/
 				continue;
 			}
 			
 			$this->ctrl->setParameter($this,'page_number',$i);
 			$link = '<a href="'.$this->ctrl->getLinkTarget($this,'performSearch').'" /a>'.$i.'</a> ';
-			$this->tpl->setCurrentBlock('pages_link');
+/*			$this->tpl->setCurrentBlock('pages_link');
 			$this->tpl->setVariable('NUMBER',$link);
 			$this->tpl->parseCurrentBlock();
+*/
 		}
 		
 
 		if(count($result->getResults()) >= $result->getMaxHits())
 		{
-			$this->tpl->setCurrentBlock('next');
 			$this->ctrl->setParameter($this,'page_number',$this->search_cache->getResultPageNumber() + 1);
+/*			$this->tpl->setCurrentBlock('next');
 			$this->tpl->setVariable('NEXT_LINK',$this->ctrl->getLinkTarget($this,'performSearch'));
 		 	$this->tpl->setVariable('TXT_NEXT',$this->lng->txt('search_page_next'));
 		 	$this->tpl->parseCurrentBlock();
+*/
+$this->next_link = $this->ctrl->getLinkTarget($this,'performSearch');
 		}
 
-		$this->tpl->setCurrentBlock('prev_next');
+/*		$this->tpl->setCurrentBlock('prev_next');
 	 	$this->tpl->setVariable('SEARCH_PAGE',$this->lng->txt('search_page'));
 	 	$this->tpl->parseCurrentBlock();
+*/
 	 	
 	 	$this->ctrl->clearParameters($this);
 	}
