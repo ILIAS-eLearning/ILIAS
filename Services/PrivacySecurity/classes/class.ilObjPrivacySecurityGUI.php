@@ -59,7 +59,7 @@ class ilObjPrivacySecurityGUI extends ilObjectGUI
 	       ilSecuritySettings::SECURITY_SETTINGS_ERR_CODE_INVALID_PASSWORD_MAX_AGE => $this->lng->txt('ps_error_message_invalid_password_max_age'),
 	       ilSecuritySettings::SECURITY_SETTINGS_ERR_CODE_INVALID_LOGIN_MAX_ATTEMPTS => $this->lng->txt('ps_error_message_invalid_login_max_attempts'),
 	       ilSecuritySettings::SECURITY_SETTINGS_ERR_CODE_PASSWORD_MIN_LENGTH_MIN2 => $this->lng->txt('ps_error_message_password_min2_because_chars_numbers'),
-	       ilSecuritySettings::SECURITY_SETTINGS_ERR_CODE_PASSWORD_MIN_LENGTH_MIN3 => $this->lng->txt('ps_error_message_password_min3_because_chars_numbers_specialchars'),
+	       ilSecuritySettings::SECURITY_SETTINGS_ERR_CODE_PASSWORD_MIN_LENGTH_MIN3 => $this->lng->txt('ps_error_message_password_min3_because_chars_numbers_sc'),
 	       ilSecuritySettings::SECURITY_SETTINGS_ERR_CODE_PASSWORD_MAX_LENGTH_LESS_MIN_LENGTH => $this->lng->txt('ps_error_message_password_max_less_min')
 		);
 	}
