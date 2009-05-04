@@ -167,7 +167,7 @@ administration#:#view_log#:#View details
 search#:#search_user_extended#:#Extended User Search
 search#:#search_user_simple#:#Simple User Search
 search#:#last_search_result#:#Last Search Result
-common#:#search_results#:#Search results
+common#:#search_results#:#Search Results
 assessment#:#0_unlimited#:#(0=unlimited)
 assessment#:#action#:#Action
 assessment#:#add_answer#:#Add Answer
@@ -3737,7 +3737,7 @@ common#:#search_minimum_characters#:#The minimum word length is:
 common#:#search_new#:#New Search
 common#:#search_note#:#If &quot;search in&quot; is left blank, all users will be searched. This allows you to find all active or all inactive users.
 common#:#search_recipient#:#Search Recipient
-common#:#search_result#:#Search result
+common#:#search_result#:#Search Result
 common#:#search_to_short#:#Your query is to short.
 common#:#search_user#:#Search User
 common#:#seas_edit_permission#:#Change permission settings
@@ -6666,7 +6666,7 @@ search#:#add_members_header#:#Add members
 search#:#append_results#:#Append results
 search#:#search_active#:#Include active users
 search#:#search_added_new_folder#:#Added new folder.
-search#:#search_advanced#:#Advanced search
+search#:#search_advanced#:#Advanced Search
 search#:#search_all_results#:#All results
 search#:#search_all_words#:#All words
 search#:#search_and#:#and
@@ -6723,13 +6723,13 @@ search#:#search_objects_moved#:#Objects moved.
 search#:#search_one_action#:#Select one action.
 search#:#search_or#:#or
 search#:#search_rename_title#:#Rename title
-search#:#search_results#:#Search results
+search#:#search_results#:#Search Results
 search#:#search_results_saved#:#Search results saved
 search#:#search_role_title#:#Role name
 search#:#search_save_as_select#:#Save as:
 search#:#search_search_for#:#Search for
 search#:#search_search_no_results_saved#:#There are no search results saved
-search#:#search_search_results#:#Search results
+search#:#search_search_results#:#Search Results
 search#:#search_search_term#:#Search Term
 search#:#search_select_exactly_one_object#:#You must select exactly one object.
 search#:#search_select_folder#:#Please select exactly one folder. It is not possible to rename search results.
