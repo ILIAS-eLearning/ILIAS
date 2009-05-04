@@ -8411,7 +8411,7 @@ ps#:#ps_error_message_invalid_password_max_length#:#Maximale Passwortlänge darf
 ps#:#ps_error_message_invalid_password_max_age#:#Maximales Passwortalter darf nicht kleiner als 0 sein.
 ps#:#ps_error_message_invalid_login_max_attempts#:#Maximale Anzahl von Anmeldeversuchen darf nicht kleiner als 0 sein.
 ps#:#ps_error_message_password_min2_because_chars_numbers#:#Minimale Passwortlänge darf nicht kleiner als 2 sein, wenn es Buchstaben und Zahlen enthalten muss.
-ps#:#ps_error_message_password_min3_because_chars_numbers_specialchars#:#Minimale Passwortlänge darf nicht kleiner als 3 sein, wenn es Buchstaben, Zahlen und Sonderzeichen enthalten muss.
+ps#:#ps_error_message_password_min3_because_chars_numbers_sc#:#Minimale Passwortlänge darf nicht kleiner als 3 sein, wenn es Buchstaben, Zahlen und Sonderzeichen enthalten muss.
 ps#:#ps_error_message_password_max_less_min#:#Maximale Passwortlänge darf nicht kleiner sein als die minimale Passwortlänge.
 common#:#password_empty#:#Das Passwort darf nicht leer sein.
 common#:#password_expired#:#Ihr Passwort ist abgelaufen und muss geändert werden, da es zuletzt vor %s Tag(en) geändert wurde.
