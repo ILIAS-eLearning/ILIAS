@@ -20,39 +20,33 @@
 +-----------------------------------------------------------------------------------------+
 */
 
-package ilias.transformation;
+package de.ilias.services.transformation;
 
-import org.apache.log4j.Logger;
+public class TransformationException extends Exception {
 
-public class ilTransformationHandler {
+    /**
+     * 
+     */
+    private static final long serialVersionUID = 1L;
 
-    private Logger logger = Logger.getLogger(this.getClass().getName());
-    private ilFO2PDF fo2pdf;
-    
-
-    public ilTransformationHandler() {
-        
-        fo2pdf = new ilFO2PDF();
-
+    public TransformationException() {
+        super();
+        // TODO Auto-generated constructor stub
     }
-    
-    public boolean ping() {
-        
-        return true;
-    }
-    
-    public byte[] ilFO2PDF(String foString) { 
-        
-        try {
-            fo2pdf.setFoString(foString);
-            fo2pdf.transform();
-            return fo2pdf.getPdf();
-        }
-        catch(ilTransformerException e) {
-            logger.error("Error creating pdf: " + e);
-        }
-        
-        return null;
 
+    public TransformationException(String message) {
+        super(message);
+        // TODO Auto-generated constructor stub
     }
+
+    public TransformationException(String message, Throwable cause) {
+        super(message, cause);
+        // TODO Auto-generated constructor stub
+    }
+
+    public TransformationException(Throwable cause) {
+        super(cause);
+        // TODO Auto-generated constructor stub
+    }
+
 }

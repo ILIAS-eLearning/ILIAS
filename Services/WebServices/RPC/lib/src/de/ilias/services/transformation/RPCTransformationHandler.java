@@ -20,33 +20,42 @@
 +-----------------------------------------------------------------------------------------+
 */
 
-package ilias.transformation;
+package de.ilias.services.transformation;
 
-public class ilTransformerException extends Exception {
 
-    /**
-     * 
-     */
-    private static final long serialVersionUID = 1L;
 
-    public ilTransformerException() {
-        super();
-        // TODO Auto-generated constructor stub
+import org.apache.log4j.Logger;
+
+public class RPCTransformationHandler {
+
+    protected static Logger logger = Logger.getLogger(RPCTransformationHandler.class);
+	
+    private FO2PDF fo2pdf;
+    
+
+    public RPCTransformationHandler() {
+        
+        fo2pdf = new FO2PDF();
+
     }
-
-    public ilTransformerException(String message) {
-        super(message);
-        // TODO Auto-generated constructor stub
+    
+    public boolean ping() {
+        
+        return true;
     }
+    
+    public byte[] ilFO2PDF(String foString) { 
+        
+    	try {
+    		fo2pdf.setFoString(foString);
+			fo2pdf.transform();
+			return fo2pdf.getPdf();
+		} 
+		catch (TransformationException e) {
+			
+			logger.warn("Transformation failed:" + e);
+		}
+        return null;
 
-    public ilTransformerException(String message, Throwable cause) {
-        super(message, cause);
-        // TODO Auto-generated constructor stub
     }
-
-    public ilTransformerException(Throwable cause) {
-        super(cause);
-        // TODO Auto-generated constructor stub
-    }
-
 }

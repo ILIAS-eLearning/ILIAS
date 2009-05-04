@@ -97,9 +97,10 @@ public class QueryRewriter {
 	 */
 	private String rewriteSearch() {
 
-		rewritten.append("( ");
+		rewritten.append("(");
 		rewritten.append(getQuery());
-		rewritten.append(" ) AND docType:combined");
+		rewritten.append(")");
+		rewritten.append(" AND +docType:combined");
 		
 		logger.debug("Searching for: " + rewritten.toString());
 		return rewritten.toString();
