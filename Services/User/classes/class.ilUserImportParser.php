@@ -2340,7 +2340,7 @@ class ilUserImportParser extends ilSaxParser
 	 				}
 	 				break;
 	 			case 'street':
-	 				if(!strlen($user_obj->getStreet))
+	 				if(!strlen($user_obj->getStreet()))
 	 				{
 	 					return true;
 	 				}
@@ -2352,13 +2352,13 @@ class ilUserImportParser extends ilSaxParser
 	 				}
 	 				break;
 	 			case 'city':
-	 				if(!strlen($user_obj->getCity))
+	 				if(!strlen($user_obj->getCity()))
 	 				{
 	 					return true;
 	 				}
 	 				break;
 	 			case 'country':
-	 				if(!strlen($user_obj->getCountry))
+	 				if(!strlen($user_obj->getCountry()))
 	 				{
 	 					return true;
 	 				}
