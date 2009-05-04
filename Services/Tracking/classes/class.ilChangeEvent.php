@@ -179,24 +179,22 @@ class ilChangeEvent
 		$res = $ilDB->query($query);
 		if($res->numRows())
 		{
-			$ilDB->update('catch_write_events',
-				array(
-					'ts'		=> array('timestamp',$timestamp == null ? $ilDB->now() : $timestamp)
-					),
-				array(
-					'obj_id'	=> array('integer',$obj_id),
-					'usr_id'	=> array('integer',$usr_id)
-			));
+			$query = "UPDATE catch_write_events ".
+				"SET ts = ".($timestamp == null ? $ilDB->now() : $ilDB->quote($timestamp, 'timestamp'))." ".
+				"WHERE usr_id = ".$ilDB->quote($usr_id ,'integer')." ".
+				"AND obj_id = ".$ilDB->quote($obj_id ,'integer');
+			$res = $ilDB->manipulate($query);
 		}
 		else
 		{
-			$ilDB->insert('catch_write_events',
-				array(
-					'ts'		=> array('timestamp',$ilDB->now()),
-					'obj_id'	=> array('integer',$obj_id),
-					'usr_id'	=> array('integer',$usr_id)
-			));
-			
+			$query = "INSERT INTO catch_write_events (ts,obj_id,usr_id) ".
+				"VALUES( ".
+				$ilDB->now().", ".
+				$ilDB->quote($obj_id,'integer').", ".
+				$ilDB->quote($usr_id,'integer')." ".
+				")";
+			$res = $ilDB->manipulate($query);
+
 		}
 		
 		/*

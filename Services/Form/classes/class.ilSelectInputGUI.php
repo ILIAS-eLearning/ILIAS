@@ -33,7 +33,7 @@ include_once("./Services/Form/classes/class.ilSubEnabledFormPropertyGUI.php");
 */
 class ilSelectInputGUI extends ilSubEnabledFormPropertyGUI implements ilTableFilterItem
 {
-	protected $options;
+	protected $options = array();
 	protected $value;
 	
 	/**
@@ -65,7 +65,7 @@ class ilSelectInputGUI extends ilSubEnabledFormPropertyGUI implements ilTableFil
 	*/
 	function getOptions()
 	{
-		return $this->options;
+		return $this->options ? $this->options : array();
 	}
 
 	/**
