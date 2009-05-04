@@ -11552,3 +11552,32 @@ ALTER TABLE `payment_coupons_codes` DROP INDEX `i2_idx`;
 
 <#2392>
 ALTER TABLE `payment_statistic` CHANGE `access` `access_granted` INT( 11 ) NOT NULL DEFAULT '0';
+<#2393>
+<?php
+	if (!$ilDB->tableExists("style_color"))
+	{
+		$fields = array(
+			'style_id' => array(
+				'type' => 'integer',
+				'length' => 4,
+				'notnull' => true
+			),
+			'color_name' => array(
+				'type' => 'text',
+				'length' => 30,
+				'fixed' => false,
+				'default' => ".",
+				'notnull' => true
+			),
+			'color_code' => array(
+				'type' => 'text',
+				'fixed' => true,
+				'length' => 10,
+				'notnull' => false
+			)
+		);
+		
+		$ilDB->createTable('style_color', $fields);
+		$ilDB->addPrimaryKey('style_color', array('style_id','color_name'));
+	}
+?>

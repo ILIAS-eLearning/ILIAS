@@ -1069,13 +1069,16 @@ class ilTable2GUI extends ilTableGUI
 				$end = $this->max_count;
 			}
 			
-			if ($this->lang_support)
+			if ($this->max_count > 0)
 			{
-				$numinfo = "(".$start." - ".$end." ".strtolower($this->lng->txt("of"))." ".$this->max_count.")";
-			}
-			else
-			{
-				$numinfo = "(".$start." - ".$end." of ".$this->max_count.")";
+				if ($this->lang_support)
+				{
+					$numinfo = "(".$start." - ".$end." ".strtolower($this->lng->txt("of"))." ".$this->max_count.")";
+				}
+				else
+				{
+					$numinfo = "(".$start." - ".$end." of ".$this->max_count.")";
+				}
 			}
 			if ($this->max_count > 0)
 			{

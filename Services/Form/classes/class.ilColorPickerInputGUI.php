@@ -68,8 +68,16 @@ class ilColorPickerInputGUI extends ilTextInputGUI
 	 */
 	public function setValue($a_value)
 	{
-		$this->hex = ilColorPickerInputGUI::determineHexcode($a_value);
-		parent::setValue($this->getHexcode());
+		$a_value = trim($a_value);
+		if ($this->getAcceptNamedColors() && substr($a_value, 0, 1) == "!")
+		{
+			parent::setValue($a_value);
+		}
+		else
+		{
+			$this->hex = ilColorPickerInputGUI::determineHexcode($a_value);
+			parent::setValue($this->getHexcode());
+		}
 	}
 	
 	/**
@@ -90,6 +98,26 @@ class ilColorPickerInputGUI extends ilTextInputGUI
 	function getDefaultColor()
 	{
 		return $this->defaultcolor;
+	}
+
+	/**
+	* Set Accept Named Colors (Leading '!').
+	*
+	* @param	boolean	$a_acceptnamedcolors	Accept Named Colors (Leading '!')
+	*/
+	function setAcceptNamedColors($a_acceptnamedcolors)
+	{
+		$this->acceptnamedcolors = $a_acceptnamedcolors;
+	}
+
+	/**
+	* Get Accept Named Colors (Leading '!').
+	*
+	* @return	boolean	Accept Named Colors (Leading '!')
+	*/
+	function getAcceptNamedColors()
+	{
+		return $this->acceptnamedcolors;
 	}
 
 	/**
@@ -120,7 +148,7 @@ class ilColorPickerInputGUI extends ilTextInputGUI
 			$a_value = substr($a_value,1);
 		}
 		
-		// handle named colors
+		// handle standard color names (no leading (!))
 		switch ($a_value)
 		{
 			// html4 colors
@@ -160,7 +188,7 @@ class ilColorPickerInputGUI extends ilTextInputGUI
 		$a_value = trim(strtolower($a_value));
 		
 		// expand three digit hex numbers
-		if (preg_match("/^[0-9a-f]3/", $a_value))
+		if (preg_match("/^[0-9a-f]3/", $a_value) && strlen($a_value == 3))
 		{
 			$a_value = "".$a_value;
 			$a_value = "0".$a_value[0]."0".$a_value[1]."0".$a_value[2];
@@ -214,7 +242,15 @@ class ilColorPickerInputGUI extends ilTextInputGUI
 		}
 		$a_tpl->setVariable("POST_VAR", $this->getPostVar());
 		$a_tpl->setVariable("PROP_COLOR_ID", $this->getFieldId());
-		$a_tpl->setVariable("PROPERTY_VALUE_COLOR",ilUtil::prepareFormOutput($this->getHexcode()));
+
+		if (substr(trim($this->getValue()), 0, 1) == "!" && $this->getAcceptNamedColors())
+		{
+			$a_tpl->setVariable("PROPERTY_VALUE_COLOR",ilUtil::prepareFormOutput(trim($this->getValue())));
+		}
+		else
+		{
+			$a_tpl->setVariable("PROPERTY_VALUE_COLOR",ilUtil::prepareFormOutput($this->getHexcode()));
+		}
 		$a_tpl->parseCurrentBlock();
 	}
 	

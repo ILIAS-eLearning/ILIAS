@@ -283,7 +283,7 @@ class ilObjStyleSheetGUI extends ilObjectGUI
 
 				case "color":
 					$color = trim($_POST[$basepar]);
-					if ($color != "")
+					if ($color != "" && trim(substr($color,0,1) != "!"))
 					{
 						$color = "#".$color;
 					}
@@ -303,7 +303,18 @@ class ilObjStyleSheetGUI extends ilObjectGUI
 
 				case "trbl_color":
 					$in = $this->form_gui->getItemByPostVar($basepar);
-					$this->writeStylePar($cur_tag, $cur_class, $v["subpar"][0],
+					$tblr_p = array (0 => "getAllValue", 1 => "getTopValue", 2 => "getRightValue", 
+						3 => "getBottomValue", 4 => "getLeftValue");
+					foreach ($tblr_p as $k => $func)
+					{
+						$val = trim($in->$func());
+						$val = (($in->getAcceptNamedColors() && substr($val, 0, 1) == "!")
+							|| $val == "")
+							? $val
+							: "#".$val;
+						$this->writeStylePar($cur_tag, $cur_class, $v["subpar"][$k], $val, $_GET["style_type"]);
+					}
+					/*$this->writeStylePar($cur_tag, $cur_class, $v["subpar"][0],
 						trim($in->getAllValue() != "") ? "#".$in->getAllValue() : "", $_GET["style_type"]);
 					$this->writeStylePar($cur_tag, $cur_class, $v["subpar"][1],
 						trim($in->getTopValue() != "") ? "#".$in->getTopValue() : "", $_GET["style_type"]);
@@ -313,6 +324,7 @@ class ilObjStyleSheetGUI extends ilObjectGUI
 						trim($in->getBottomValue() != "") ? "#".$in->getBottomValue() : "", $_GET["style_type"]);
 					$this->writeStylePar($cur_tag, $cur_class, $v["subpar"][4],
 						trim($in->getLeftValue() != "") ? "#".$in->getLeftValue() : "", $_GET["style_type"]);
+					*/
 					break;
 
 				case "background_position":
@@ -481,6 +493,7 @@ class ilObjStyleSheetGUI extends ilObjectGUI
 						//include_once("./Services/Style/classes/class.ilNumericStyleValueInputGUI.php");
 						$col_input = new ilColorPickerInputGUI($lng->txt("sty_".$var), $basepar);
 						$col_input->setDefaultColor("");
+						$col_input->setAcceptNamedColors(true);
 						$this->form_gui->addItem($col_input);
 						break;
 
@@ -509,6 +522,7 @@ class ilObjStyleSheetGUI extends ilObjectGUI
 					case "trbl_color":
 						include_once("./Services/Style/classes/class.ilTRBLColorPickerInputGUI.php");
 						$col_input = new ilTRBLColorPickerInputGUI($lng->txt("sty_".$var), $basepar);
+						$col_input->setAcceptNamedColors(true);
 						$this->form_gui->addItem($col_input);
 						break;
 
@@ -913,6 +927,11 @@ class ilObjStyleSheetGUI extends ilObjectGUI
 				$this->ctrl->getLinkTarget($this, "edit"), array("edit", ""),
 				get_class($this));
 	
+			// colors
+			$tabs_gui->addTarget("sty_colors",
+				$this->ctrl->getLinkTarget($this, "listColors"), "listColors",
+				get_class($this));
+
 			// images
 			$tabs_gui->addTarget("sty_images",
 				$this->ctrl->getLinkTarget($this, "listImages"), "listImages",
@@ -1011,7 +1030,7 @@ class ilObjStyleSheetGUI extends ilObjectGUI
 	}
 	
 	/**
-	*
+	* Add an image
 	*/
 	function addImageObject()
 	{
@@ -1020,7 +1039,7 @@ class ilObjStyleSheetGUI extends ilObjectGUI
 		$this->initImageForm();
 		$tpl->setContent($this->form_gui->getHTML());
 	}
-	
+
 	/**
 	* Cancel Upload
 	*/
@@ -1267,5 +1286,225 @@ class ilObjStyleSheetGUI extends ilObjectGUI
 		return $ex_tpl->get();
 	}
 
-} // END class.ObjStyleSheetGUI
+	//
+	// Color management
+	//
+	
+	/**
+	* List colors of style
+	*/
+	function listColorsObject()
+	{
+		global $tpl;
+		
+		include_once("./Services/Style/classes/class.ilStyleColorTableGUI.php");
+		$table_gui = new ilStyleColorTableGUI($this, "listColors",
+			$this->object);
+		$tpl->setContent($table_gui->getHTML());
+		
+	}
+
+	/**
+	* Add a color
+	*/
+	function addColorObject()
+	{
+		global $tpl;
+		
+		$this->initColorForm();
+		$tpl->setContent($this->form_gui->getHTML());
+	}
+	
+	/**
+	* Add a color
+	*/
+	function editColorObject()
+	{
+		global $tpl, $ilCtrl;
+		
+		$ilCtrl->setParameter($this, "c_name", $_GET["c_name"]);
+		$this->initColorForm("edit");
+		$this->getColorFormValues();
+		$tpl->setContent($this->form_gui->getHTML());
+	}
+
+	
+	/**
+	* Init color form
+	*/
+	function initColorForm($a_mode = "create")
+	{
+		global $lng, $ilCtrl;
+		
+		include_once("Services/Form/classes/class.ilPropertyFormGUI.php");
+		$this->form_gui = new ilPropertyFormGUI();
+		
+		$this->form_gui->setTitle($lng->txt("sty_add_color"));
+		
+		// name
+		$name_input = new ilRegExpInputGUI($lng->txt("sty_color_name"), "color_name");
+		$name_input->setPattern("/^[a-zA-Z]+[a-zA-Z0-9]*$/");
+		$name_input->setNoMatchMessage($lng->txt("sty_msg_color_must_only_include")." A-Z, a-z, 1-9");
+		$name_input->setRequired(true);
+		$name_input->setSize(15);
+		$name_input->setMaxLength(15);
+		$this->form_gui->addItem($name_input);
+
+		// code
+		$color_input = new ilColorPickerInputGUI($lng->txt("sty_color_code"), "color_code");
+		$color_input->setRequired(true);
+		$color_input->setDefaultColor("");
+		$this->form_gui->addItem($color_input);
+		
+		if ($a_mode == "create")
+		{
+			$this->form_gui->addCommandButton("saveColor", $lng->txt("save"));
+			$this->form_gui->addCommandButton("cancelColorSaving", $lng->txt("cancel"));
+		}
+		else
+		{
+			$this->form_gui->addCommandButton("updateColor", $lng->txt("save"));
+			$this->form_gui->addCommandButton("cancelColorSaving", $lng->txt("cancel"));
+		}
+		$this->form_gui->setFormAction($ilCtrl->getFormAction($this));
+	}
+
+	/**
+	* Set values for color editing
+	*/
+	function getColorFormValues()
+	{
+		if ($_GET["c_name"] != "")
+		{
+			$values["color_name"] = $_GET["c_name"];
+			$values["color_code"] = $this->object->getColorCodeForName($_GET["c_name"]);
+			$this->form_gui->setValuesByArray($values);
+		}
+	}
+	
+	/**
+	* Cancel color saving
+	*/
+	function cancelColorSavingObject()
+	{
+		global $ilCtrl;
+		
+		$ilCtrl->redirect($this, "listColors");
+	}
+	
+	/**
+	* Save color
+	*/
+	function saveColorObject()
+	{
+		global $tpl, $ilCtrl, $lng;
+		
+		$this->initColorForm();
+		
+		if ($this->form_gui->checkInput())
+		{
+			if ($this->object->colorExists($_POST["color_name"]))
+			{
+				$col_input = $this->form_gui->getItemByPostVar("color_name");
+				$col_input->setAlert($lng->txt("sty_color_already_exists"));
+			}
+			else
+			{
+				$this->object->addColor($_POST["color_name"],
+					$_POST["color_code"]);
+				$ilCtrl->redirect($this, "listColors");
+			}
+		}
+		$this->form_gui->setValuesByPost();
+		$tpl->setContent($this->form_gui->getHTML());
+	}
+
+	/**
+	* Update color
+	*/
+	function updateColorObject()
+	{
+		global $tpl, $ilCtrl, $lng;
+		
+		$this->initColorForm("edit");
+		
+		if ($this->form_gui->checkInput())
+		{
+			if ($this->object->colorExists($_POST["color_name"]) &&
+				$_POST["color_name"] != $_GET["c_name"])
+			{
+				$col_input = $this->form_gui->getItemByPostVar("color_name");
+				$col_input->setAlert($lng->txt("sty_color_already_exists"));
+			}
+			else
+			{
+				$this->object->updateColor($_GET["c_name"], $_POST["color_name"],
+					$_POST["color_code"]);
+				$ilCtrl->redirect($this, "listColors");
+			}
+		}
+		$ilCtrl->setParameter($this, "c_name", $_GET["c_name"]);
+		$this->form_gui->setValuesByPost();
+		$tpl->setContent($this->form_gui->getHTML());
+	}
+
+	/**
+	* Delete color confirmation
+	*/
+	function deleteColorConfirmationObject()
+	{
+		global $ilCtrl, $tpl, $lng;
+		
+		if (!is_array($_POST["color"]) || count($_POST["color"]) == 0)
+		{
+			ilUtil::sendInfo($lng->txt("no_checkbox"), true);
+			$ilCtrl->redirect($this, "listColors");
+		}
+		else
+		{
+			include_once("./Services/Utilities/classes/class.ilConfirmationGUI.php");
+			$cgui = new ilConfirmationGUI();
+			$cgui->setFormAction($ilCtrl->getFormAction($this));
+			$cgui->setHeaderText($lng->txt("sty_confirm_color_deletion"));
+			$cgui->setCancel($lng->txt("cancel"), "cancelColorDeletion");
+			$cgui->setConfirm($lng->txt("delete"), "deleteColor");
+			
+			foreach ($_POST["color"] as $c)
+			{
+				$cgui->addItem("color[]", ilUtil::prepareFormOutput($c), $c);
+			}
+			
+			$tpl->setContent($cgui->getHTML());
+		}
+	}
+
+	/**
+	* Cancel color deletion
+	*/
+	function cancelColorDeletionObject()
+	{
+		global $ilCtrl;
+		
+		$ilCtrl->redirect($this, "listColors");
+	}
+
+	/**
+	* Delete colors
+	*/
+	function deleteColorObject()
+	{
+		global $ilCtrl;
+		
+		if (is_array($_POST["color"]))
+		{
+			foreach ($_POST["color"] as $c)
+			{
+				$this->object->removeColor($c);
+			}
+		}
+			
+		$ilCtrl->redirect($this, "listColors");
+	}
+
+}
 ?>
