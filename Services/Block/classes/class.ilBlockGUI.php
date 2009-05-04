@@ -1042,9 +1042,9 @@ abstract class ilBlockGUI
 	
 	final protected function fillRowColor($a_placeholder = "CSS_ROW")
 	{
-		$this->css_row = ($this->css_row != "tblrow1")
-			? "tblrow1"
-			: "tblrow2";
+		$this->css_row = ($this->css_row != "ilBlockRow1")
+			? "ilBlockRow1"
+			: "ilBlockRow2";
 		$this->tpl->setVariable($a_placeholder, $this->css_row);
 	}
 

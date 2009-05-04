@@ -63,7 +63,7 @@ class ilPDNewsTableGUI extends ilTable2GUI
 	*/
 	function initFilter()
 	{
-		global $lng;
+		global $lng, $ilUser;
 		
 		// period
 		$per = ($_SESSION["news_pd_news_per"] != "")

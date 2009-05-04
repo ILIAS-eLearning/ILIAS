@@ -62,6 +62,7 @@ class ilTable2GUI extends ilTableGUI
 		
 		$this->setLimit($ilUser->getPref("hits_per_page"));
 		$this->setIsDataTable(true);
+		$this->setEnableNumInfo(true);
 	}
 	
 	
@@ -219,6 +220,26 @@ class ilTable2GUI extends ilTableGUI
 	}
 
 	/**
+	* Set enable num info
+	*
+	* @param	boolean		enable number of records info
+	*/
+	function setEnableNumInfo($a_val)
+	{
+		$this->num_info = $a_val;
+	}
+	
+	/**
+	* Get enable num info
+	*
+	* @return	boolean		enable number of records info
+	*/
+	function getEnableNumInfo()
+	{
+		return $this->num_info;
+	}
+	
+	/**
 	* Set title and title icon
 	*/
 	final public function setTitle($a_title, $a_icon = 0, $a_icon_alt = 0)
@@ -355,6 +376,17 @@ class ilTable2GUI extends ilTableGUI
 	{
 		return $this->filter_cols;
 	}
+	
+	/**
+	* Set custom previous/next links
+	*/
+	function setCustomPreviousNext($a_prev_link, $a_next_link)
+	{
+		$this->custom_prev_next = true;
+		$this->custom_prev = $a_prev_link;
+		$this->custom_next = $a_next_link;
+	}
+	
 	
 	/**
 	* Set Form action parameter.
@@ -1047,9 +1079,12 @@ class ilTable2GUI extends ilTableGUI
 			}
 			if ($this->max_count > 0)
 			{
-				$this->tpl->setCurrentBlock("tbl_footer_numinfo");
-				$this->tpl->setVariable("NUMINFO", $numinfo);
-				$this->tpl->parseCurrentBlock();
+				if ($this->getEnableNumInfo())
+				{
+					$this->tpl->setCurrentBlock("tbl_footer_numinfo");
+					$this->tpl->setVariable("NUMINFO", $numinfo);
+					$this->tpl->parseCurrentBlock();
+				}
 			}
 			$footer = true;
 		}
@@ -1087,7 +1122,7 @@ class ilTable2GUI extends ilTableGUI
 			// top navigation, if number info or linkbar given
 			if ($numinfo != "" || $linkbar != "")
 			{
-				if ($numinfo != "")
+				if ($numinfo != "" && $this->getEnableNumInfo())
 				{
 					$this->tpl->setCurrentBlock("top_numinfo");
 					$this->tpl->setVariable("NUMINFO", $numinfo);
@@ -1137,10 +1172,14 @@ class ilTable2GUI extends ilTableGUI
 		$layout_next = $lng->txt("next");
 		
 		// if more entries then entries per page -> show link bar
-		if ($this->max_count > $this->getLimit())
+		if ($this->max_count > $this->getLimit() || $this->custom_prev_next)
 		{
 			// previous link
-			if ($this->getOffset() >= 1)
+			if ($this->custom_prev_next && $this->custom_prev != "")
+			{
+				$LinkBar .= "<a href=\"".$this->custom_prev.$hash."\">".$layout_prev."&nbsp;</a>";
+			}
+			else if ($this->getOffset() >= 1 && !$this->custom_prev_next)
 			{
 				$prevoffset = $this->getOffset() - $this->getLimit();
 				$LinkBar .= "<a href=\"".$link.$prevoffset.$hash."\">".$layout_prev."&nbsp;</a>";
@@ -1184,7 +1223,14 @@ class ilTable2GUI extends ilTableGUI
 			}
 			
 			// show next link (if not last page)
-			if (! ( ($this->getOffset() / $this->getLimit())==($pages-1) ) && ($pages!=1) )
+			if ($this->custom_prev_next && $this->custom_next != "")
+			{
+				if ($LinkBar != "")
+					$LinkBar .= "<span> | </span>";
+				$LinkBar .= "<a href=\"".$this->custom_next.$hash."\">&nbsp;".$layout_next."</a>";
+			}
+			else if (! ( ($this->getOffset() / $this->getLimit())==($pages-1) ) && ($pages!=1) &&
+				!$this->custom_prev_next)
 			{
 				if ($LinkBar != "")
 					$LinkBar .= "<span> | </span>"; 
@@ -1198,7 +1244,7 @@ class ilTable2GUI extends ilTableGUI
 				$LinkBar .= '<span class="ilTableFootLight">&nbsp;'.$layout_next."</span>";
 			}
 			
-			if (count($offset_arr) && !$this->getDisplayAsBlock())
+			if (count($offset_arr) && !$this->getDisplayAsBlock() && !$this->custom_prev_next)
 			{				
 				$LinkBar .= "&nbsp;&nbsp;&nbsp;&nbsp;".
 					'<label for="tab_page_sel_'.$a_num.'">'.$lng->txt("select_page").'</label> '.

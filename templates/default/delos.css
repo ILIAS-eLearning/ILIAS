@@ -598,7 +598,9 @@ form.il_Form, form.ilForm
 
 table.ilForm
 {
-	background-color:#FAFAFA;
+	background-image: url(images/form_back.gif);
+	background-repeat: repeat-y;
+	background-color:#F6F6F6;
 	border-spacing:0px;
 	border-collapse:collapse;
 	border-width:1px;
@@ -608,7 +610,9 @@ table.ilForm
 
 td.ilFormHeader, td.ilFormFooter
 {
-	background-color:#EAEAEA;
+	background-color:#E3E3E3;
+	background-image: url(images/form_top_back.gif);
+	background-repeat: repeat-y;
 	padding: 4px 5px 1px 5px;
 	font-size:90%;
 	color: #303030;
@@ -2379,6 +2383,13 @@ h3.ilPDBlockSubHeader
 	font-size: 100%;
 }
 
+.ilBlockRow1, .ilBlockRow2 {
+	padding:3px;
+	border-top-color: #F0F0F0;
+	border-top-style: solid;
+	border-top-width: 1px;
+}
+
 /* Tables */
 
 div.tblfooter, div.ilTableNavBlock {
@@ -2408,7 +2419,7 @@ tr.tblfooter {
 	border-top-width: 1px;
 }
 
-.tblrow2 {
+.tblrow1 {
 	padding:3px;
 	background-color: #FFFFFF;
 	border-top-color: #F0F0F0;
@@ -2416,12 +2427,13 @@ tr.tblfooter {
 	border-top-width: 1px;
 }
 
-.tblrow1 {
+.tblrow2 {
 	padding:3px;
 	background-color: #FFFFFF;
 	border-top-color: #F0F0F0;
 	border-top-style: solid;
 	border-top-width: 1px;
+	background-color: #FAFAFA;
 }
 
 
@@ -2434,13 +2446,24 @@ td.submit {
 /* List Items */
 div.ilContainerListItemOuter
 {
-	padding: 8px;
+	padding: 15px;
 }
 
 div.ilContainerListItemOuterHighlight
 {
-	padding: 8px;
+	padding: 15px;
 	background-color: #FFFFD9;
+}
+
+.ilCLIRow1, .ilCLIRow2 {
+	padding: 0px;
+	border-top-color: #F0F0F0;
+	border-top-style: solid;
+	border-top-width: 1px;
+}
+
+td.ilCLI {
+	padding: 0px;
 }
 
 div.il_ContainerListItem
@@ -2559,7 +2582,7 @@ span.ilTableFootLight
 }
 
 div.ilTableFilter {
-	padding: 0px 10px 5px 10px;
+	padding: 0px 0px 5px 0px;
 	margin: 0px;
 }
 
@@ -2572,10 +2595,10 @@ legend.ilTableFilter {
 }
 
 fieldset.ilTableFilter {
-	border: 1px #D0D0D0 solid;
-	background-color: #F9F9F9;
+	border: 1px #E0E0E0 solid;
+	background-color: #FBFBFB;
 	padding: 5px;
-	margin: 5px;
+	margin: 5px 0px;
 }
 
 div.ilTableFilterLabel {

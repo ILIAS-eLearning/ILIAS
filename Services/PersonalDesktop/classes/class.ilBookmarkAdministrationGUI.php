@@ -70,6 +70,9 @@ class ilBookmarkAdministrationGUI
 	function ilBookmarkAdministrationGUI()
 	{
 		global $ilias, $tpl, $lng, $ilCtrl;
+		
+//		$tpl->enableAdvancedColumnLayout(true, false);
+		
 		//print_r($_SESSION["error_post_vars"]);
 		// if no bookmark folder id is given, take dummy root node id (that is 1)
 		$this->id = (empty($_GET["bmf_id"]))
@@ -151,8 +154,10 @@ class ilBookmarkAdministrationGUI
 	*/
 	function explorer()
 	{
-		$this->tpl->setCurrentBlock("left_column");
-		$this->tpl->addBlockFile("LEFT_CONTENT", "adm_tree_content", "tpl.bookmark_explorer.html");
+		global $tpl;
+		
+		$etpl = new ilTemplate("tpl.bookmark_explorer.html", true, true,
+			"Services/PersonalDesktop");
 		$exp = new ilBookmarkExplorer($this->ctrl->getLinkTarget($this),$_SESSION["AccountId"]);
 		$exp->setAllowedTypes(array('dum','bmf'));
 		$exp->setTargetGet("bmf_id");
@@ -179,13 +184,13 @@ class ilBookmarkAdministrationGUI
 		$exp->highlightNode($this->id);
 		$output = $exp->getOutput();
 
-		$this->tpl->setCurrentBlock("adm_tree_content");
-		$this->tpl->setVariable("TXT_EXPLORER_HEADER", $this->lng->txt("bookmarks"));
+		$etpl->setCurrentBlock("adm_tree_content");
+		$etpl->setVariable("TXT_EXPLORER_HEADER", $this->lng->txt("bookmarks"));
 		$this->ctrl->setParameter($this, "bmf_id", 1);
-		$this->tpl->setVariable("LINK_EXPLORER_HEADER",$this->ctrl->getLinkTarget($this));
+		$etpl->setVariable("LINK_EXPLORER_HEADER",$this->ctrl->getLinkTarget($this));
 
-		$this->tpl->setVariable("EXPLORER",$output);
-		$this->tpl->parseCurrentBlock();
+		$etpl->setVariable("EXPLORER",$output);
+		$tpl->setLeftContent($etpl->get());;
 	}
 
 
