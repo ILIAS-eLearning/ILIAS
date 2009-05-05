@@ -1784,7 +1784,7 @@ class ilObjForumGUI extends ilObjectGUI
 		if ($_SESSION[$session_name] == 'flat')
 		{
 			$new_order = 'answers';
-			$orderField = 'frm_posts_tree.date';
+			$orderField = 'frm_posts_tree.fpt_date';
 		}
 		else
 		{
