@@ -3,7 +3,7 @@
 	+-----------------------------------------------------------------------------+
 	| ILIAS open source                                                           |
 	+-----------------------------------------------------------------------------+
-	| Copyright (c) 1998-2008 ILIAS open source, University of Cologne            |
+	| Copyright (c) 1998-2009 ILIAS open source, University of Cologne            |
 	|                                                                             |
 	| This program is free software; you can redistribute it and/or               |
 	| modify it under the terms of the GNU General Public License                 |
@@ -449,6 +449,10 @@ echo htmlentities($a_text);*/
 		$a_text = eregi_replace("\[\/quot\]","</Quotation>",$a_text);
 		$a_text = eregi_replace("\[code\]","<Code>",$a_text);
 		$a_text = eregi_replace("\[\/code\]","</Code>",$a_text);
+		$a_text = eregi_replace("\[acc\]","<Accent>",$a_text);
+		$a_text = eregi_replace("\[\/acc\]","</Accent>",$a_text);
+		$a_text = eregi_replace("\[imp\]","<Important>",$a_text);
+		$a_text = eregi_replace("\[\/imp\]","</Important>",$a_text);
 
 		// internal links
 		//$any = "[^\]]*";	// this doesn't work :-(
@@ -855,6 +859,10 @@ echo htmlentities($a_text);*/
 		$a_text = eregi_replace("<Code[^>]*>","[code]",$a_text);
 		$a_text = eregi_replace("</Code>","[/code]",$a_text);
 		$a_text = eregi_replace("<Code/>","[code][/code]",$a_text);
+		$a_text = eregi_replace("<Accent>","[acc]",$a_text);
+		$a_text = eregi_replace("</Accent>","[/acc]",$a_text);
+		$a_text = eregi_replace("<Important>","[imp]",$a_text);
+		$a_text = eregi_replace("</Important>","[/imp]",$a_text);
 
 		// replace lists
 		$a_text = ilPCParagraph::xml2outputReplaceLists($a_text);

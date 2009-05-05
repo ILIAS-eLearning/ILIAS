@@ -32,6 +32,7 @@
 <!-- END Example_list_u -->
 <!-- BEGIN Example_table -->
 <table class="{EX_CLASS}">
+<caption>{TXT_CAPTION}</caption>
 <tr><td >{EX_TEXT}</td><td >{EX_TEXT}</td></tr>
 <tr><td >{EX_TEXT}</td><td >{EX_TEXT}</td></tr>
 </table>
@@ -41,20 +42,26 @@
 <td class="{EX_CLASS}">{EX_TEXT}</td>
 </tr></table>
 <!-- END Example_table_cell -->
+<!-- BEGIN Example_table_caption -->
+<table border="0" cellpadding="0" cellspacing="0">
+<caption class="{EX_CLASS}">{TXT_CAPTION}</caption>
+<tr><td>{EX_TEXT}</td>
+</tr></table>
+<!-- END Example_table_caption -->
 <!-- BEGIN Example_flist_cont -->
 <div class="ilc_flist_cont_FileListContainer" style="position:static;">
 <div class="ilc_flist_head_FileListHeading" style="position:static;">{EX_TEXT}
 </div>
 <ul class="ilc_flist_FileList">
-<li class="ilc_flist_li_FileListItem"><a href="#">{EX_TEXT}</a></li>
-<li class="ilc_flist_li_FileListItem"><a href="#">{EX_TEXT}</a></li>
+<li class="ilc_flist_li_FileListItem"><a class="ilc_flist_a_FileListItemLink" href="#">{EX_TEXT}</a></li>
+<li class="ilc_flist_li_FileListItem"><a class="ilc_flist_a_FileListItemLink" href="#">{EX_TEXT}</a></li>
 </ul>
 </div>
 <!-- END Example_flist_cont -->
 <!-- BEGIN Example_flist -->
 <ul class="ilc_flist_FileList">
-<li class="ilc_flist_li_FileListItem"><a href="#">{EX_TEXT}</a></li>
-<li class="ilc_flist_li_FileListItem"><a href="#">{EX_TEXT}</a></li>
+<li class="ilc_flist_li_FileListItem"><a class="ilc_flist_a_FileListItemLink" href="#">{EX_TEXT}</a></li>
+<li class="ilc_flist_li_FileListItem"><a class="ilc_flist_a_FileListItemLink" href="#">{EX_TEXT}</a></li>
 </ul>
 <!-- END Example_flist -->
 <!-- BEGIN Example_flist_head -->
@@ -63,10 +70,13 @@
 <!-- END Example_flist_head -->
 <!-- BEGIN Example_flist_li -->
 <ul class="ilc_flist_FileList">
-<li class="{EX_CLASS}"><a href="#">{EX_TEXT}</a></li>
-<li class="{EX_CLASS}"><a href="#">{EX_TEXT}</a></li>
+<li class="{EX_CLASS}"><a class="ilc_flist_a_FileListItemLink" href="#">{EX_TEXT}</a></li>
+<li class="{EX_CLASS}"><a class="ilc_flist_a_FileListItemLink" href="#">{EX_TEXT}</a></li>
 </ul>
 <!-- END Example_flist_li -->
+<!-- BEGIN Example_flist_a -->
+<a class="{EX_CLASS}" href="#">{EX_TEXT}</a>
+<!-- END Example_flist_a -->
 <!-- BEGIN Example_media_cont -->
 <table class="{EX_CLASS}">
 <tr><td ><img src="{IMG_MEDIA_DISABLED}" /></td></tr>

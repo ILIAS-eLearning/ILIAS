@@ -9293,3 +9293,48 @@ style#:#sty_confirm_color_deletion#:#Confirm Color Deletion
 style#:#sty_msg_color_must_only_include#:#The color name may only include the following characters:
 style#:#sty_color_already_exists#:#A color with this name already exisits in this style.
 style#:#sty_color_info#:#Predefined colors make it easy to reuse a color for different purposes. You refer to a predefined color by using its name with a leading "!" for any color attribute in your style classes. To use a flavor, append a lightness value in brackets to the color name, e.g. !MyColor(20).
+style#:#sty_table_templates#:#Table Templates
+style#:#sty_table_templates_info#:#Table templates use a set of style rules to define a complex table design.
+style#:#sty_template_name#:#Name
+style#:#sty_preview#:#Preview
+style#:#sty_add_template#:#Add Template
+style#:#sty_edit_template#:#Edit Template
+style#:#sty_table_class#:#Table Style Class
+style#:#sty_row_head_class#:#Row Header
+style#:#sty_row_foot_class#:#Row Footer
+style#:#sty_col_head_class#:#Column Header
+style#:#sty_col_foot_class#:#Column Footer
+style#:#sty_odd_row_class#:#Odd Rows
+style#:#sty_even_row_class#:#Even Rows
+style#:#sty_odd_col_class#:#Odd Columns
+style#:#sty_even_col_class#:#Even Columns
+content#:#cont_ed_flist#:# File List
+content#:#cont_nr_row_header#:#Header Rows
+content#:#cont_nr_col_header#:#Header Columns
+content#:#cont_nr_row_footer#:#Footer Rows
+content#:#cont_nr_col_footer#:#Footer Columns
+style#:#sty_type_table_caption#:#Table Caption
+style#:#sty_caption_side#:#Caption Side
+style#:#sty_caption#:#Caption
+style#:#sty_caption_class#:#Caption
+style#:#sty_confirm_template_deletion#:#Confirm Template Deletion
+style#:#sty_generate_template#:#Generate Template
+style#:#sty_template_layout#:#Template Layout
+style#:#sty_table_template_colored_zebra#:#Colored Zebra
+style#:#sty_table_template_bw_zebra#:#Gray Zebra
+style#:#sty_table_template_no_zebra#:#No Zebra
+style#:#sty_top_bottom_padding#:#Cell Padding Top/Bottom
+style#:#sty_left_right_padding#:#Cell Padding Left/Right
+style#:#sty_base_color#:#Base Color
+style#:#sty_lightness_border#:#Lightness Border
+style#:#sty_lightness_header_text#:#Lightness Header Text
+style#:#sty_lightness_header_bg#:#Lightness Header Background
+style#:#sty_lightness_cell1_text#:#Lightness Cell 1 Text
+style#:#sty_lightness_cell1_bg#:#Lightness Cell 1 Background
+style#:#sty_lightness_cell2_text#:#Lightness Cell 2 Text
+style#:#sty_lightness_cell2_bg#:#Lightness Cell 2 Background
+style#:#sty_type_flist_a#:#File List Item Link
+style#:#sty_hide#:#Hide
+style#:#sty_save_hide_status#:#Save Hide Status
+content#:#cont_text_imp#:#Important:
+content#:#cont_text_acc#:#Accent:

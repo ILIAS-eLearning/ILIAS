@@ -1288,9 +1288,19 @@ class ilPageObjectGUI
 		//$content = $this->obj->getXMLFromDom(false, true, true,
 		//	$this->getLinkXML().$this->getQuestionXML().$this->getComponentPluginsXML());
 		$link_xml = $this->getLinkXML();
+		
+		if ($this->getStyleId() > 0)
+		{
+			if (ilObject::_lookupType($this->getStyleId()) == "sty")
+			{
+				include_once("./Services/Style/classes/class.ilObjStyleSheet.php");
+				$style = new ilObjStyleSheet($this->getStyleId());
+				$template_xml = $style->getTableTemplateXML();
+			}
+		}
 		$content = $this->obj->getXMLFromDom(false, true, true,
-			$link_xml.$this->getQuestionXML());
-
+			$link_xml.$this->getQuestionXML().$template_xml);
+//echo htmlentities($template_xml);
 //echo "<br>-".htmlentities($content)."-";
 
 		// get page component plugins
@@ -1447,7 +1457,7 @@ class ilPageObjectGUI
 		
 		// run xslt
 		
-		$md5 = md5(serialize($params).$link_xml);
+		$md5 = md5(serialize($params).$link_xml.$template_xml);
 		
 //$a = microtime();
 		

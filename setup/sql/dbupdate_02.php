@@ -11586,4 +11586,199 @@ ALTER TABLE `payment_statistic` CHANGE `access` `access_granted` INT( 11 ) NOT N
 ALTER TABLE `loginname_history` CHANGE `date` `history_date` INT( 11 ) NOT NULL; 
 
 <#2395>
-ALTER TABLE `frm_posts_tree` CHANGE `date` `fpt_date` DATETIME NULL DEFAULT NULL; 
+ALTER TABLE `frm_posts_tree` CHANGE `date` `fpt_date` DATETIME NULL DEFAULT NULL;
+
+<#2396>
+<?php
+$set = $ilDB->query("SELECT * FROM object_data WHERE type = 'sty'");
+while ($rec = $ilDB->fetchAssoc($set))
+{
+	$set2 = $ilDB->query("SELECT * FROM style_char WHERE ".
+		"style_id = ".$ilDB->quote($rec["obj_id"], "integer")." AND ".
+		"characteristic = ".$ilDB->quote("FileListItemLink", "text")." AND ".
+		"type = ".$ilDB->quote("flist_a", "text"));
+	if (!$ilDB->fetchAssoc($set2))
+	{
+		$ilDB->manipulate("INSERT INTO style_char (style_id, type, characteristic)".
+			" VALUES (".
+			$ilDB->quote($rec["obj_id"], "integer").",".
+			$ilDB->quote("flist_a", "text").",".
+			$ilDB->quote("FileListItemLink", "text").")");
+	}
+}
+
+?>
+
+<#2397>
+<?php
+$ilDB->query("ALTER TABLE style_char ADD COLUMN hide TINYINT NOT NULL DEFAULT 0");
+?>
+
+<#2398>
+<?php
+$set = $ilDB->query("SELECT * FROM object_data WHERE type = 'sty'");
+while ($rec = $ilDB->fetchAssoc($set))
+{
+	$set2 = $ilDB->query("SELECT * FROM style_char WHERE ".
+		"style_id = ".$ilDB->quote($rec["obj_id"], "integer")." AND ".
+		"characteristic = ".$ilDB->quote("Important", "text")." AND ".
+		"type = ".$ilDB->quote("text_inline", "text"));
+	if (!$ilDB->fetchAssoc($set2))
+	{
+		$ilDB->manipulate("INSERT INTO style_char (style_id, type, characteristic)".
+			" VALUES (".
+			$ilDB->quote($rec["obj_id"], "integer").",".
+			$ilDB->quote("text_inline", "text").",".
+			$ilDB->quote("Important", "text").")");
+		$nid = $ilDB->nextId("style_parameter");
+		$ilDB->manipulate("INSERT INTO style_parameter (id, style_id, type, class, tag, parameter, value)".
+			" VALUES (".
+			$ilDB->quote($nid, "integer").",".
+			$ilDB->quote($rec["obj_id"], "integer").",".
+			$ilDB->quote("text_inline", "text").",".
+			$ilDB->quote("Important", "text").",".
+			$ilDB->quote("span", "text").",".
+			$ilDB->quote("text-decoration", "text").",".
+			$ilDB->quote("underline", "text").
+			")");
+	}
+	$set2 = $ilDB->query("SELECT * FROM style_char WHERE ".
+		"style_id = ".$ilDB->quote($rec["obj_id"], "integer")." AND ".
+		"characteristic = ".$ilDB->quote("Accent", "text")." AND ".
+		"type = ".$ilDB->quote("text_inline", "text"));
+	if (!$ilDB->fetchAssoc($set2))
+	{
+		$ilDB->manipulate("INSERT INTO style_char (style_id, type, characteristic)".
+			" VALUES (".
+			$ilDB->quote($rec["obj_id"], "integer").",".
+			$ilDB->quote("text_inline", "text").",".
+			$ilDB->quote("Accent", "text").")");
+		$nid = $ilDB->nextId("style_parameter");
+		$ilDB->manipulate("INSERT INTO style_parameter (id, style_id, type, class, tag, parameter, value)".
+			" VALUES (".
+			$ilDB->quote($nid, "integer").",".
+			$ilDB->quote($rec["obj_id"], "integer").",".
+			$ilDB->quote("text_inline", "text").",".
+			$ilDB->quote("Accent", "text").",".
+			$ilDB->quote("span", "text").",".
+			$ilDB->quote("color", "text").",".
+			$ilDB->quote("#E000E0", "text").
+			")");
+	}
+}
+?>
+
+<#2399>
+<?php
+if (!$ilDB->tableExists("style_template_class"))
+{
+	$fields = array(
+		'template_id' => array(
+			'type' => 'integer',
+			'length' => 4,
+			'notnull' => true
+		),
+		'class_type' => array(
+			'type' => 'text',
+			'length' => 30,
+			'fixed' => true,
+			'notnull' => false
+		),
+		'class' => array(
+			'type' => 'text',
+			'length' => 30,
+			'fixed' => true,
+			'notnull' => false
+		)
+	);
+	
+	$ilDB->createTable('style_template_class', $fields);
+}
+?>
+
+<#2400>
+<?php
+if (!$ilDB->tableExists("style_template"))
+{
+	$fields = array(
+		'id' => array(
+			'type' => 'integer',
+			'length' => 4,
+			'notnull' => true
+		),
+		'style_id' => array(
+			'type' => 'integer',
+			'length' => 4,
+			'notnull' => true
+		),
+		'name' => array(
+			'type' => 'text',
+			'length' => 30,
+			'fixed' => false,
+			'notnull' => true
+		),
+		'preview' => array(
+			'type' => 'text',
+			'length' => 4000,
+			'fixed' => false,
+			'notnull' => false
+		),
+		'temp_type' => array(
+			'type' => 'text',
+			'length' => 30,
+			'fixed' => false,
+			'notnull' => false
+		)
+	);
+	
+	$ilDB->createTable('style_template', $fields);
+	$ilDB->addPrimaryKey('style_template', array('id'));
+}
+$ilDB->createSequence('style_template');
+?>
+
+<#2401>
+<?php
+if (!$ilDB->tableExists("page_style_usage"))
+{
+	$fields = array(
+		'page_id' => array(
+			'type' => 'integer',
+			'length' => 4,
+			'notnull' => true
+		),
+		'page_type' => array(
+			'type' => 'text',
+			'length' => 10,
+			'fixed' => true,
+			'notnull' => true
+		),
+		'page_nr' => array(
+			'type' => 'integer',
+			'length' => 4,
+			'notnull' => true
+		),
+		'template' => array(
+			'type' => 'integer',
+			'length' => 1,
+			'notnull' => true,
+			'default' => 0
+		),
+		'stype' => array(
+			'type' => 'text',
+			'length' => 30,
+			'fixed' => false,
+			'notnull' => false
+		),
+		'sname' => array(
+			'type' => 'text',
+			'length' => 30,
+			'fixed' => true,
+			'notnull' => false
+		)
+	);
+	
+	$ilDB->createTable('page_style_usage', $fields);
+}
+?>
+

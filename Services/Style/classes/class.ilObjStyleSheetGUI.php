@@ -125,6 +125,18 @@ class ilObjStyleSheetGUI extends ilObjectGUI
 		$select = ilUtil::formSelect("", "source_style", $clonable_styles, false, true);
 		$this->tpl->setVariable("SOURCE_SELECT", $select);
 	}
+
+	/**
+	* Include CSS in output
+	*/
+	function includeCSS()
+	{
+		// set style sheet
+		$this->tpl->setCurrentBlock("ContentStyle");
+		$this->tpl->setVariable("LOCATION_CONTENT_STYLESHEET",
+			$this->object->getContentStylePath($this->object->getId()));
+		$this->tpl->parseCurrentBlock();
+	}
 	
 	/**
 	* edit style sheet
@@ -135,11 +147,7 @@ class ilObjStyleSheetGUI extends ilObjectGUI
 //ilObjStyleSheet::_addMissingStyleClassesToAllStyles();
 		$this->setSubTabs();
 		
-		// set style sheet
-		$this->tpl->setCurrentBlock("ContentStyle");
-		$this->tpl->setVariable("LOCATION_CONTENT_STYLESHEET",
-			$this->object->getContentStylePath($this->object->getId()));
-		$this->tpl->parseCurrentBlock();
+		$this->includeCSS();
 
 		$ctpl = new ilTemplate("tpl.sty_classes.html", true, true, "Services/Style");
 
@@ -154,7 +162,8 @@ class ilObjStyleSheetGUI extends ilObjectGUI
 		$ilTabs->setSubTabActive("sty_".$style_type."_char");
 
 		include_once("./Services/Style/classes/class.ilStyleTableGUI.php");
-		$table_gui = new ilStyleTableGUI($this, "edit", $chars, $style_type);
+		$table_gui = new ilStyleTableGUI($this, "edit", $chars, $style_type,
+			$this->object);
 		
 		$ctpl->setCurrentBlock("style_table");
 		$ctpl->setVariable("STYLE_TABLE", $table_gui->getHTML());
@@ -566,6 +575,7 @@ class ilObjStyleSheetGUI extends ilObjectGUI
 		$cur_tag = $cur[0];
 		$cur_class = $cur[1];
 		$cur_parameters = $this->extractParametersOfTag($cur_tag, $cur_class, $style, $_GET["style_type"]);
+
 		$parameters = ilObjStyleSheet::_getStyleParameters();
 		foreach($parameters as $p => $v)
 		{
@@ -936,6 +946,11 @@ class ilObjStyleSheetGUI extends ilObjectGUI
 			$tabs_gui->addTarget("sty_images",
 				$this->ctrl->getLinkTarget($this, "listImages"), "listImages",
 				get_class($this));
+
+			// table templates
+			$tabs_gui->addTarget("sty_table_templates",
+				$this->ctrl->getLinkTarget($this, "listTableTemplates"), "listTableTemplates",
+				get_class($this));
 				
 			// settings
 			$tabs_gui->addTarget("settings",
@@ -1272,6 +1287,8 @@ class ilObjStyleSheetGUI extends ilObjectGUI
 	*/
 	static function getStyleExampleHTML($a_type, $a_class)
 	{
+		global $lng;
+		
 		$ex_tpl = new ilTemplate("tpl.style_example.html", true, true, "Services/Style");
 		
 		$ex_tpl->setCurrentBlock("Example_".$a_type);
@@ -1281,11 +1298,36 @@ class ilObjStyleSheetGUI extends ilObjectGUI
 		{
 			$ex_tpl->setVariable("IMG_MEDIA_DISABLED", ilUtil::getImagePath("media_disabled.gif"));
 		}
+		if (in_array($a_type, array("table", "table_caption")))
+		{
+			$ex_tpl->setVariable("TXT_CAPTION", $lng->txt("sty_caption"));
+		}
 		$ex_tpl->parseCurrentBlock();
 
 		return $ex_tpl->get();
 	}
 
+	/**
+	* Save hide status for characteristics
+	*/
+	function saveHideStatusObject()
+	{
+		global $ilCtrl, $lng;
+		
+		//var_dump($_POST);
+		
+		foreach ($_POST["all_chars"] as $char)
+		{
+			$ca = explode(".", $char);
+			$this->object->saveHideStatus($ca[0], $ca[2],
+				(is_array($_POST["hide"]) && in_array($char, $_POST["hide"])));
+		}
+		
+		ilUtil::sendInfo($lng->txt("msg_obj_modified"), true);
+		$ilCtrl->redirect($this, "edit");
+	}
+	
+	
 	//
 	// Color management
 	//
@@ -1316,7 +1358,7 @@ class ilObjStyleSheetGUI extends ilObjectGUI
 	}
 	
 	/**
-	* Add a color
+	* Edit color
 	*/
 	function editColorObject()
 	{
@@ -1504,6 +1546,606 @@ class ilObjStyleSheetGUI extends ilObjectGUI
 		}
 			
 		$ilCtrl->redirect($this, "listColors");
+	}
+
+	//
+	// Table templates management
+	//
+	
+	/**
+	* List table templates
+	*/
+	function listTableTemplatesObject()
+	{
+		global $tpl;
+		
+		$this->includeCSS();
+		include_once("./Services/Style/classes/class.ilTableTemplatesTableGUI.php");
+		$table_gui = new ilTableTemplatesTableGUI($this, "listTableTemplates",
+			$this->object);
+		$tpl->setContent($table_gui->getHTML());
+		
+	}
+	
+	/**
+	* Add table template
+	*/
+	function addTableTemplateObject()
+	{
+		global $tpl;
+		
+		$this->initTableTemplateForm();
+		$tpl->setContent($this->form_gui->getHTML());
+	}
+
+	/**
+	* Edit table template
+	*/
+	function editTableTemplateObject()
+	{
+		global $tpl, $ilCtrl;
+
+		$ilCtrl->setParameter($this, "t_id", $_GET["t_id"]);
+		$this->initTableTemplateForm("edit");
+		$this->getTableTemplateFormValues();
+		
+		$this->displayTableTemplateEditForm();
+	}
+
+	/**
+	* Get table template preview
+	*/
+	function getTableTemplatePreview($a_t_id, $a_small_mode = false)
+	{
+		global $lng;
+
+		$kr = $kc = 7;
+		if ($a_small_mode)
+		{
+			$kr = 6;
+			$kc = 5;
+		}
+		
+		$t = $this->object->getTableTemplate($a_t_id);
+		
+		// preview
+		$p_content = '<PageContent><Table DataTable="y"';
+		if ($t["row_head_class"] != "")
+		{
+			$p_content.= ' HeaderRows="1"';
+		}
+		if ($t["row_foot_class"] != "")
+		{
+			$p_content.= ' FooterRows="1"';
+		}
+		if ($t["col_head_class"] != "")
+		{
+			$p_content.= ' HeaderCols="1"';
+		}
+		if ($t["col_foot_class"] != "")
+		{
+			$p_content.= ' FooterCols="1"';
+		}
+		$p_content.= ' Template="'.$this->object->lookupTableTemplateName($a_t_id).'">';
+		if (!$a_small_mode)
+		{
+			$p_content.= '<Caption>'.$lng->txt("sty_caption").'</Caption>';
+		}
+		for($i = 1; $i<=$kr; $i++)
+		{
+			$p_content.= '<TableRow>';
+			for($j = 1; $j<=$kc; $j++)
+			{
+				if ($a_small_mode)
+				{
+					$cell = '&lt;div style="height:2px;"&gt;&lt;/div&gt;';
+				}
+				else
+				{
+					$cell = 'xxx';
+				}
+				$p_content.= '<TableData><PageContent><Paragraph Characteristic="TableContent">'.$cell.'</Paragraph></PageContent></TableData>';
+			}
+			$p_content.= '</TableRow>';
+		}
+		$p_content.= '</Table></PageContent>';
+		$txml = $this->object->getTableTemplateXML();
+		$p_content.= $txml;
+		include_once("./Services/COPage/classes/class.ilPCTableGUI.php");
+		$r_content = ilPCTableGUI::_renderTable($p_content, "");
+
+		return $r_content;
+	}
+
+	/**
+	* Init table template form
+	*/
+	function initTableTemplateForm($a_mode = "create")
+	{
+		global $lng, $ilCtrl;
+		
+		include_once("Services/Form/classes/class.ilPropertyFormGUI.php");
+		$this->form_gui = new ilPropertyFormGUI();
+		
+		if ($a_mode == "create")
+		{
+			$this->form_gui->setTitle($lng->txt("sty_add_template"));
+		}
+		else
+		{
+			$this->form_gui->setTitle($lng->txt("sty_edit_template"));
+		}
+		
+		// name
+		$name_input = new ilRegExpInputGUI($lng->txt("sty_template_name"), "name");
+		$name_input->setPattern("/^[a-zA-Z]+[a-zA-Z0-9]*$/");
+		$name_input->setNoMatchMessage($lng->txt("sty_msg_color_must_only_include")." A-Z, a-z, 1-9");
+		$name_input->setRequired(true);
+		$name_input->setSize(30);
+		$name_input->setMaxLength(30);
+		$this->form_gui->addItem($name_input);
+
+		// template style classes
+		$scs = array("table_class" => "table",
+			"caption_class" => "table_caption",
+			"row_head_class" => "table_cell",
+			"row_foot_class" => "table_cell",
+			"col_head_class" => "table_cell",
+			"col_foot_class" => "table_cell",
+			"odd_row_class" => "table_cell",
+			"even_row_class" => "table_cell",
+			"odd_col_class" => "table_cell",
+			"even_col_class" => "table_cell");
+		foreach ($scs as $sc => $st)
+		{
+			$sc_input = new ilSelectInputGUI($lng->txt("sty_".$sc), $sc);
+			$chars = $this->object->getCharacteristics($st);
+			$options = array("" => "");
+			foreach($chars as $char)
+			{
+				$options[$char] = $char;
+			}
+			$sc_input->setOptions($options);
+			$this->form_gui->addItem($sc_input);
+		}
+		
+		if ($a_mode == "create")
+		{
+			$this->form_gui->addCommandButton("saveTableTemplate", $lng->txt("save"));
+			$this->form_gui->addCommandButton("cancelTableTemplateSaving", $lng->txt("cancel"));
+		}
+		else
+		{
+			$this->form_gui->addCommandButton("refreshTableTemplate", $lng->txt("save_refresh"));
+			$this->form_gui->addCommandButton("updateTableTemplate", $lng->txt("save_return"));
+			$this->form_gui->addCommandButton("cancelTableTemplateSaving", $lng->txt("cancel"));
+		}
+		$this->form_gui->setFormAction($ilCtrl->getFormAction($this));
+	}
+
+	/**
+	* Cancel color saving
+	*/
+	function cancelTableTemplateSavingObject()
+	{
+		global $ilCtrl;
+		
+		$ilCtrl->redirect($this, "listTableTemplates");
+	}
+
+	/**
+	* Save table template
+	*/
+	function saveTableTemplateObject()
+	{
+		global $tpl, $ilCtrl, $lng;
+		
+		$this->initTableTemplateForm();
+		
+		if ($this->form_gui->checkInput())
+		{
+			if ($this->object->tableTemplateExists($_POST["name"]))
+			{
+				$name_input = $this->form_gui->getItemByPostVar("name");
+				$name_input->setAlert($lng->txt("sty_table_template_already_exists"));
+			}
+			else
+			{
+				$t_id = $this->object->addTableTemplate($_POST["name"], $_POST["table_class"],
+					$_POST["row_head_class"], $_POST["row_foot_class"],
+					$_POST["col_head_class"], $_POST["col_foot_class"],
+					$_POST["odd_row_class"], $_POST["even_row_class"],
+					$_POST["odd_col_class"], $_POST["even_col_class"],
+					$_POST["caption_class"]
+					);
+				$this->object->writeTableTemplatePreview($t_id,
+					$this->getTableTemplatePreview($t_id, true));
+				$ilCtrl->redirect($this, "listTableTemplates");
+			}
+		}
+		$this->form_gui->setValuesByPost();
+		$tpl->setContent($this->form_gui->getHTML());
+	}
+
+	/**
+	* Update table template
+	*/
+	function updateTableTemplateObject($a_refresh = false)
+	{
+		global $tpl, $ilCtrl, $lng;
+		
+		$ilCtrl->setParameter($this, "t_id", $_GET["t_id"]);
+		$this->initTableTemplateForm("edit");
+		
+		if ($this->form_gui->checkInput())
+		{
+			if ($this->object->tableTemplateExists($_POST["name"]) &&
+				$_POST["name"] != ilObjStyleSheet::lookupTableTemplateName($_GET["t_id"]))
+			{
+				$name_input = $this->form_gui->getItemByPostVar("name");
+				$name_input->setAlert($lng->txt("sty_template_already_exists"));
+			}
+			else
+			{
+				$this->object->updateTableTemplate($_GET["t_id"],
+					$_POST["name"], $_POST["table_class"],
+					$_POST["row_head_class"], $_POST["row_foot_class"],
+					$_POST["col_head_class"], $_POST["col_foot_class"],
+					$_POST["odd_row_class"], $_POST["even_row_class"],
+					$_POST["odd_col_class"], $_POST["even_col_class"],
+					$_POST["caption_class"]
+					);
+				$this->object->writeTableTemplatePreview($_GET["t_id"],
+					$this->getTableTemplatePreview($_GET["t_id"], true));
+				if(!$a_refresh)
+				{
+					$ilCtrl->redirect($this, "listTableTemplates");
+				}
+			}
+		}
+		
+		$this->form_gui->setValuesByPost();
+		$this->displayTableTemplateEditForm();
+	}
+	
+	/**
+	* Display table tempalte edit form
+	*/
+	function displayTableTemplateEditForm()
+	{
+		global $tpl;
+		
+		$a_tpl = new ilTemplate("tpl.table_template_edit.html", true, true,
+			"Services/Style");
+		$this->includeCSS();
+		$a_tpl->setVariable("FORM", $this->form_gui->getHTML());
+		$a_tpl->setVariable("PREVIEW", $this->getTableTemplatePreview($_GET["t_id"]));
+		$tpl->setContent($a_tpl->get());
+	}
+
+	/**
+	* Refresh table template
+	*/
+	function refreshTableTemplateObject()
+	{
+		$this->updateTableTemplateObject(true);
+	}
+
+	/**
+	* Set values for table template editing
+	*/
+	function getTableTemplateFormValues()
+	{
+		if ($_GET["t_id"] > 0)
+		{
+			$t = $this->object->getTableTemplate($_GET["t_id"]);
+			$values["name"] = $t["name"];
+			$scs = array("table_class" => "table",
+				"caption_class" => "table_caption",
+				"row_head_class" => "table_cell",
+				"row_foot_class" => "table_cell",
+				"col_head_class" => "table_cell",
+				"col_foot_class" => "table_cell",
+				"odd_row_class" => "table_cell",
+				"even_row_class" => "table_cell",
+				"odd_col_class" => "table_cell",
+				"even_col_class" => "table_cell");
+			foreach ($scs as $k => $type)
+			{
+				$values[$k] = $t[$k];
+			}
+
+			$this->form_gui->setValuesByArray($values);
+		}
+	}
+
+	/**
+	* Delete table template confirmation
+	*/
+	function deleteTableTemplateConfirmationObject()
+	{
+		global $ilCtrl, $tpl, $lng;
+		
+		if (!is_array($_POST["tid"]) || count($_POST["tid"]) == 0)
+		{
+			ilUtil::sendInfo($lng->txt("no_checkbox"), true);
+			$ilCtrl->redirect($this, "listTableTemplates");
+		}
+		else
+		{
+			include_once("./Services/Utilities/classes/class.ilConfirmationGUI.php");
+			$cgui = new ilConfirmationGUI();
+			$cgui->setFormAction($ilCtrl->getFormAction($this));
+			$cgui->setHeaderText($lng->txt("sty_confirm_template_deletion"));
+			$cgui->setCancel($lng->txt("cancel"), "cancelTableTemplateDeletion");
+			$cgui->setConfirm($lng->txt("delete"), "deleteTableTemplate");
+			
+			foreach ($_POST["tid"] as $tid)
+			{
+				$cgui->addItem("tid[]", $tid, $this->object->lookupTableTemplateName($tid));
+			}
+			
+			$tpl->setContent($cgui->getHTML());
+		}
+	}
+
+	/**
+	* Cancel table template deletion
+	*/
+	function cancelTableTemplateDeletionObject()
+	{
+		global $ilCtrl;
+		
+		$ilCtrl->redirect($this, "listTableTemplates");
+	}
+
+	/**
+	* Delete table template
+	*/
+	function deleteTableTemplateObject()
+	{
+		global $ilCtrl;
+		
+		if (is_array($_POST["tid"]))
+		{
+			foreach ($_POST["tid"] as $tid)
+			{
+				$this->object->removeTableTemplate($tid);
+			}
+		}
+			
+		$ilCtrl->redirect($this, "listTableTemplates");
+	}
+
+	/**
+	* Generate table template
+	*/
+	function generateTableTemplateObject()
+	{
+		global $tpl;
+		
+		$this->initTableTemplateGenerationForm();
+		$tpl->setContent($this->form_gui->getHTML());
+	}
+
+	/**
+	* Init table template generation form
+	*/
+	function initTableTemplateGenerationForm()
+	{
+		global $lng, $ilCtrl;
+		
+		include_once("Services/Form/classes/class.ilPropertyFormGUI.php");
+		$this->form_gui = new ilPropertyFormGUI();
+		
+		$this->form_gui->setTitle($lng->txt("sty_generate_template"));
+		
+		// name
+		$name_input = new ilRegExpInputGUI($lng->txt("sty_template_name"), "name");
+		$name_input->setPattern("/^[a-zA-Z]+[a-zA-Z0-9]*$/");
+		$name_input->setNoMatchMessage($lng->txt("sty_msg_color_must_only_include")." A-Z, a-z, 1-9");
+		$name_input->setRequired(true);
+		$name_input->setSize(30);
+		$name_input->setMaxLength(30);
+		$this->form_gui->addItem($name_input);
+
+		// basic layout
+		$bl_input = new ilSelectInputGUI($lng->txt("sty_template_layout"), "layout");
+		$options = array(
+			"coloredZebra" => $lng->txt("sty_table_template_colored_zebra"),
+			"bwZebra" => $lng->txt("sty_table_template_bw_zebra"),
+			"noZebra" => $lng->txt("sty_table_template_no_zebra")
+			);
+		$bl_input->setOptions($options);
+		$this->form_gui->addItem($bl_input);
+		
+		// top bottom padding
+		include_once("./Services/Style/classes/class.ilNumericStyleValueInputGUI.php");
+		$num_input = new ilNumericStyleValueInputGUI($lng->txt("sty_top_bottom_padding"), "tb_padding");
+		$num_input->setAllowPercentage(false);
+		$num_input->setValue("3px");
+		$this->form_gui->addItem($num_input);
+
+		// left right padding
+		$num_input = new ilNumericStyleValueInputGUI($lng->txt("sty_left_right_padding"), "lr_padding");
+		$num_input->setAllowPercentage(false);
+		$num_input->setValue("10px");
+		$this->form_gui->addItem($num_input);
+
+		// base color
+		$bc_input = new ilSelectInputGUI($lng->txt("sty_base_color"), "base_color");
+		$cs = $this->object->getColors();
+		$options = array();
+		foreach ($cs as $c)
+		{
+			$options[$c["name"]] = $c["name"];
+		}
+		$bc_input->setOptions($options);
+		$this->form_gui->addItem($bc_input);
+		
+		// Lightness Settings
+		$lss = array("border" => 90, "header_text" => 70, "header_bg" => 0,
+			"cell1_text" => -60, "cell1_bg" => 90, "cell2_text" => -60, "cell2_bg" => 75);
+		foreach ($lss as $ls => $v)
+		{
+			$l_input = new ilNumberInputGUI($lng->txt("sty_lightness_".$ls), "lightness_".$ls);
+			$l_input->setMaxValue(100);
+			$l_input->setMinValue(-100);
+			$l_input->setValue($v);
+			$l_input->setSize(4);
+			$l_input->setMaxLength(4);
+			$this->form_gui->addItem($l_input);
+		}
+		
+		$this->form_gui->addCommandButton("tableTemplateGeneration", $lng->txt("generate"));
+		$this->form_gui->addCommandButton("cancelTableTemplateSaving", $lng->txt("cancel"));
+		$this->form_gui->setFormAction($ilCtrl->getFormAction($this));
+	}
+
+	/**
+	* Table template generation
+	*/
+	function tableTemplateGenerationObject()
+	{
+		global $tpl, $ilCtrl, $lng;
+		
+		$this->initTableTemplateGenerationForm();
+		
+		if ($this->form_gui->checkInput())
+		{
+			if ($this->object->tableTemplateExists($_POST["name"]))
+			{
+				$name_input = $this->form_gui->getItemByPostVar("name");
+				$name_input->setAlert($lng->txt("sty_table_template_already_exists"));
+			}
+			else
+			{
+				// -> move to application class!
+				
+				// cell classes
+				$cells = array("H" => "header", "C1" => "cell1", "C2" => "cell2");
+				$tb_p = $this->form_gui->getItemByPostVar("tb_padding");
+				$tb_padding = $tb_p->getValue();
+				$lr_p = $this->form_gui->getItemByPostVar("lr_padding");
+				$lr_padding = $lr_p->getValue();
+				$cell_color = $_POST["base_color"];
+
+				// use mid gray as cell color for bw zebra
+				if ($_POST["layout"] == "bwZebra")
+				{
+					$cell_color = "MidGray";
+					if (!$this->object->colorExists($cell_color))
+					{
+						$this->object->addColor($cell_color, "7F7F7F");
+					}
+					$this->object->updateColor($cell_color, $cell_color, "7F7F7F");
+				}
+
+				foreach ($cells as $k => $cell)
+				{
+					$cell_class[$k] = $_POST["name"].$k;
+					if (!$this->object->characteristicExists($cell_class[$k], "table_cell"))
+					{
+						$this->object->addCharacteristic("table_cell", $cell_class[$k]);
+					}
+					if ($_POST["layout"] == "bwZebra" && $k == "H")
+					{
+						$this->object->replaceStylePar("td", $cell_class[$k], "color",
+							"!".$_POST["base_color"]."(".$_POST["lightness_".$cell."_text"].")", "table_cell");
+						$this->object->replaceStylePar("td", $cell_class[$k], "background-color",
+							"!".$_POST["base_color"]."(".$_POST["lightness_".$cell."_bg"].")", "table_cell");
+					}
+					else
+					{
+						$this->object->replaceStylePar("td", $cell_class[$k], "color",
+							"!".$cell_color."(".$_POST["lightness_".$cell."_text"].")", "table_cell");
+						$this->object->replaceStylePar("td", $cell_class[$k], "background-color",
+							"!".$cell_color."(".$_POST["lightness_".$cell."_bg"].")", "table_cell");
+					}
+					$this->object->replaceStylePar("td", $cell_class[$k], "padding-top",
+						$tb_padding, "table_cell");
+					$this->object->replaceStylePar("td", $cell_class[$k], "padding-bottom",
+						$tb_padding, "table_cell");
+					$this->object->replaceStylePar("td", $cell_class[$k], "padding-left",
+						$lr_padding, "table_cell");
+					$this->object->replaceStylePar("td", $cell_class[$k], "padding-right",
+						$lr_padding, "table_cell");
+					$this->object->replaceStylePar("td", $cell_class[$k], "border-width",
+						"1px", "table_cell");
+					$this->object->replaceStylePar("td", $cell_class[$k], "border-style",
+						"solid", "table_cell");
+					$this->object->replaceStylePar("td", $cell_class[$k], "border-color",
+						"!".$cell_color."(".$_POST["lightness_border"].")", "table_cell");
+					$this->object->replaceStylePar("td", $cell_class[$k], "font-weight",
+						"normal", "table_cell");
+				}
+				
+				// table class
+				$table_class = $_POST["name"]."T";
+				if (!$this->object->characteristicExists($table_class, "table"))
+				{
+						$this->object->addCharacteristic("table", $table_class);
+				}
+				$this->object->replaceStylePar("table", $table_class, "caption-side",
+					"bottom", "table");
+				$this->object->replaceStylePar("table", $table_class, "border-collapse",
+					"collapse", "table");
+				$this->object->replaceStylePar("table", $table_class, "margin-top",
+					"5px", "table");
+				$this->object->replaceStylePar("table", $table_class, "margin-bottom",
+					"5px", "table");
+				if ($_POST["layout"] == "bwZebra")
+				{
+					$this->object->replaceStylePar("table", $table_class, "border-bottom-color",
+						"!".$_POST["base_color"], "table");
+					$this->object->replaceStylePar("table", $table_class, "border-bottom-style",
+						"solid", "table");
+					$this->object->replaceStylePar("table", $table_class, "border-bottom-width",
+						"3px", "table");
+					$sb = array("left", "right", "top");
+					foreach ($sb as $b)
+					{
+						$this->object->replaceStylePar("table", $table_class, "border-".$b."-width",
+							"0px", "table");
+					}
+				}
+				
+				switch ($_POST["layout"])
+				{
+					case "coloredZebra":
+						$row_head_class = $cell_class["H"];
+						$odd_row_class = $cell_class["C1"];
+						$even_row_class = $cell_class["C2"];
+						break;
+						
+					case "bwZebra":
+						$row_head_class = $cell_class["H"];
+						$odd_row_class = $cell_class["C1"];
+						$even_row_class = $cell_class["C2"];
+						break;
+						
+					case "noZebra":
+						$row_head_class = $cell_class["H"];
+						$odd_row_class = $cell_class["C1"];
+						$even_row_class = $cell_class["C1"];
+						$col_head_class = $cell_class["C2"];
+						break;
+				}
+				
+				$t_id = $this->object->addTableTemplate($_POST["name"], $table_class,
+					$row_head_class, $row_foot_class,
+					$col_head_class, $col_foot_class,
+					$odd_row_class, $even_row_class,
+					$odd_col_class, $even_col_class,
+					$caption_class
+					);
+				$this->object->writeTableTemplatePreview($t_id,
+					$this->getTableTemplatePreview($t_id, true));
+				$ilCtrl->redirect($this, "listTableTemplates");
+			}
+		}
+		$this->form_gui->setValuesByPost();
+		$tpl->setContent($this->form_gui->getHTML());
 	}
 
 }

@@ -145,7 +145,7 @@ class ilPCTable extends ilPageContent
 	*/
 	function getLanguage()
 	{
-		return $this->tab_node->get_attribute("Language");
+		return $this->getTableAttribute("Language");
 	}
 
 	/**
@@ -157,7 +157,7 @@ class ilPCTable extends ilPageContent
 	{
 		if($a_lang != "")
 		{
-			$this->tab_node->set_attribute("Language", $a_lang);
+			$this->setTableAttribute("Language", $a_lang);
 		}
 	}
 
@@ -166,7 +166,7 @@ class ilPCTable extends ilPageContent
 	*/
 	function getWidth()
 	{
-		return $this->tab_node->get_attribute("Width");
+		return $this->getTableAttribute("Width");
 	}
 
 	/**
@@ -176,27 +176,15 @@ class ilPCTable extends ilPageContent
 	*/
 	function setWidth($a_width)
 	{
-		if($a_width != "")
-		{
-			$this->tab_node->set_attribute("Width", $a_width);
-		}
-		else
-		{
-			if ($this->tab_node->has_attribute("Width"))
-			{
-				$this->tab_node->remove_attribute("Width");
-			}
-		}
+		$this->setTableAttribute("Width", $a_width);
 	}
-
-
 
 	/**
 	* get table border width
 	*/
 	function getBorder()
 	{
-		return $this->tab_node->get_attribute("Border");
+		return $this->getTableAttribute("Border");
 	}
 
 	/**
@@ -206,17 +194,7 @@ class ilPCTable extends ilPageContent
 	*/
 	function setBorder($a_border)
 	{
-		if($a_border != "")
-		{
-			$this->tab_node->set_attribute("Border", $a_border);
-		}
-		else
-		{
-			if ($this->tab_node->has_attribute("Border"))
-			{
-				$this->tab_node->remove_attribute("Border");
-			}
-		}
+		$this->setTableAttribute("Border", $a_border);
 	}
 
 	/**
@@ -224,7 +202,7 @@ class ilPCTable extends ilPageContent
 	*/
 	function getCellSpacing()
 	{
-		return $this->tab_node->get_attribute("CellSpacing");
+		return $this->getTableAttribute("CellSpacing");
 	}
 
 	/**
@@ -234,17 +212,7 @@ class ilPCTable extends ilPageContent
 	*/
 	function setCellSpacing($a_spacing)
 	{
-		if($a_spacing != "")
-		{
-			$this->tab_node->set_attribute("CellSpacing", $a_spacing);
-		}
-		else
-		{
-			if ($this->tab_node->has_attribute("CellSpacing"))
-			{
-				$this->tab_node->remove_attribute("CellSpacing");
-			}
-		}
+		$this->setTableAttribute("CellSpacing", $a_spacing);
 	}
 
 	/**
@@ -252,7 +220,7 @@ class ilPCTable extends ilPageContent
 	*/
 	function getCellPadding()
 	{
-		return $this->tab_node->get_attribute("CellPadding");
+		return $this->getTableAttribute("CellPadding");
 	}
 
 	/**
@@ -262,17 +230,7 @@ class ilPCTable extends ilPageContent
 	*/
 	function setCellPadding($a_padding)
 	{
-		if($a_padding != "")
-		{
-			$this->tab_node->set_attribute("CellPadding", $a_padding);
-		}
-		else
-		{
-			if ($this->tab_node->has_attribute("CellPadding"))
-			{
-				$this->tab_node->remove_attribute("CellPadding");
-			}
-		}
+		$this->setTableAttribute("CellPadding", $a_padding);
 	}
 
 	/**
@@ -288,7 +246,7 @@ class ilPCTable extends ilPageContent
 	*/
 	function getHorizontalAlign()
 	{
-		return $this->tab_node->get_attribute("HorizontalAlign");
+		return $this->getTableAttribute("HorizontalAlign");
 	}
 
 	/**
@@ -595,17 +553,7 @@ class ilPCTable extends ilPageContent
 	*/
 	function setClass($a_class)
 	{
-		if (!empty($a_class))
-		{
-			$this->tab_node->set_attribute("Class", $a_class);
-		}
-		else
-		{
-			if ($this->tab_node->has_attribute("Class"))
-			{
-				$this->tab_node->remove_attribute("Class");
-			}
-		}
+		$this->setTableAttribute("Class", $a_class);
 	}
 
 	/**
@@ -615,10 +563,140 @@ class ilPCTable extends ilPageContent
 	*/
 	function getClass()
 	{
+		return $this->getTableAttribute("Class");
+	}
+
+	/**
+	* Set template
+	*
+	* @param	string	$a_template		template
+	*/
+	function setTemplate($a_template)
+	{
+		$this->setTableAttribute("Template", $a_template);
+	}
+
+	/**
+	* Get template
+	*
+	* @return	string		template
+	*/
+	function getTemplate()
+	{
+		return $this->getTableAttribute("Template");
+	}
+
+	/**
+	* Set header rows
+	*
+	* @param	string		number of header rows
+	*/
+	function setHeaderRows($a_nr)
+	{
+		$this->setTableAttribute("HeaderRows", $a_nr);
+	}
+
+	/**
+	* Get header rows
+	*
+	* @return	string		number of header rows
+	*/
+	function getHeaderRows()
+	{
+		return $this->getTableAttribute("HeaderRows");
+	}
+
+	/**
+	* Set footer rows
+	*
+	* @param	string		number of footer rows
+	*/
+	function setFooterRows($a_nr)
+	{
+		$this->setTableAttribute("FooterRows", $a_nr);
+	}
+
+	/**
+	* Get footer rows
+	*
+	* @return	string		number of footer rows
+	*/
+	function getFooterRows()
+	{
+		return $this->getTableAttribute("FooterRows");
+	}
+
+	/**
+	* Set header cols
+	*
+	* @param	string		number of header cols
+	*/
+	function setHeaderCols($a_nr)
+	{
+		$this->setTableAttribute("HeaderCols", $a_nr);
+	}
+
+	/**
+	* Get header cols
+	*
+	* @return	string		number of header cols
+	*/
+	function getHeaderCols()
+	{
+		return $this->getTableAttribute("HeaderCols");
+	}
+
+	/**
+	* Set footer cols
+	*
+	* @param	string		number of footer cols
+	*/
+	function setFooterCols($a_nr)
+	{
+		$this->setTableAttribute("FooterCols", $a_nr);
+	}
+
+	/**
+	* Get footer cols
+	*
+	* @return	string		number of footer cols
+	*/
+	function getFooterCols()
+	{
+		return $this->getTableAttribute("FooterCols");
+	}
+
+	/**
+	* Set attribute of table tag
+	*
+	* @param	string		attribute name
+	* @param	string		attribute value
+	*/
+	protected function setTableAttribute($a_attr, $a_value)
+	{
+		if (!empty($a_value))
+		{
+			$this->tab_node->set_attribute($a_attr, $a_value);
+		}
+		else
+		{
+			if ($this->tab_node->has_attribute($a_attr))
+			{
+				$this->tab_node->remove_attribute($a_attr);
+			}
+		}
+	}
+
+	/**
+	* Get table tag attribute
+	*
+	* @return	string		attribute name
+	*/
+	function getTableAttribute($a_attr)
+	{
 		if (is_object($this->tab_node))
 		{
-			$class =  $this->tab_node->get_attribute("Class");
-			return $class;
+			return  $this->tab_node->get_attribute($a_attr);
 		}
 	}
 

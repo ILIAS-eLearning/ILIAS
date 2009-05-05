@@ -62,6 +62,10 @@
 	<StyleParameter Name="padding" Value="3px"/>
 </Style>
 
+<!-- File List Item Link -->
+<Style Tag="a" Type="flist_a" Class="FileListItemLink">
+</Style>
+
 <!-- Media Container -->
 <Style Tag="table" Type="media_cont" Class="MediaContainer">
 	<StyleParameter Name="margin" Value="10px"/>
@@ -395,5 +399,11 @@
 </Style>
 <Style Tag="span" Type="text_inline" Class="Strong">
 	<StyleParameter Name="font-weight" Value="bold"/>
+</Style>
+<Style Tag="span" Type="text_inline" Class="Important">
+	<StyleParameter Name="text-decoration" Value="underline"/>
+</Style>
+<Style Tag="span" Type="text_inline" Class="Accent">
+	<StyleParameter Name="color" Value="#E000E0"/>
 </Style>
 </StyleSheet>

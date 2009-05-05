@@ -37,13 +37,14 @@ class ilStyleTableGUI extends ilTable2GUI
 	/**
 	* Constructor
 	*/
-	function __construct($a_parent_obj, $a_parent_cmd, $a_chars, $a_super_type)
+	function __construct($a_parent_obj, $a_parent_cmd, $a_chars, $a_super_type, $a_style)
 	{
 		global $ilCtrl, $lng, $ilAccess, $lng;
 		
 		parent::__construct($a_parent_obj, $a_parent_cmd);
 		$this->media_object = $a_media_object;
 		$this->super_type = $a_super_type;
+		$this->style = $a_style;
 		$all_super_types = ilObjStyleSheet::_getStyleSuperTypes();
 		$this->types = $all_super_types[$this->super_type];
 		$this->core_styles = ilObjStyleSheet::_getCoreStyles();
@@ -53,11 +54,16 @@ class ilStyleTableGUI extends ilTable2GUI
 		
 		// check, whether any of the types is expandable
 		$this->expandable = false;
+		$this->hideable = false;
 		foreach ($this->types as $t)
 		{
 			if (ilObjStyleSheet::_isExpandable($t))
 			{
 				$this->expandable = true;
+			}
+			if (ilObjStyleSheet::_isHideable($t))
+			{
+				$this->hideable = true;
 			}
 		}
 
@@ -68,12 +74,22 @@ class ilStyleTableGUI extends ilTable2GUI
 		$this->addColumn($this->lng->txt("sty_name"), "", "1");
 		$this->addColumn($this->lng->txt("sty_type"), "", "");
 		$this->addColumn($this->lng->txt("sty_example"), "", "");
+		if ($this->hideable)
+		{
+			$this->addColumn($this->lng->txt("sty_hide"), "", "");	// hide checkbox
+		}
 		$this->addColumn($this->lng->txt("sty_commands"), "", "1");
 		$this->setEnableHeader(true);
 		$this->setFormAction($ilCtrl->getFormAction($a_parent_obj));
 		$this->setRowTemplate("tpl.style_row.html", "Services/Style");
 		$this->disable("footer");
 
+		// action commands
+		if ($this->hideable)
+		{
+			$this->addCommandButton("saveHideStatus", $lng->txt("sty_save_hide_status"));
+		}
+		
 		// action commands
 		if ($this->expandable)
 		{
@@ -119,6 +135,26 @@ class ilStyleTableGUI extends ilTable2GUI
 			}
 		}
 
+		if ($this->hideable)
+		{
+			if (!ilObjStyleSheet::_isHideable($a_set["type"]))
+			{
+				$this->tpl->touchBlock("no_hide_checkbox");
+			}
+			else
+			{
+				$this->tpl->setCurrentBlock("hide_checkbox");
+				$this->tpl->setVariable("CHAR", $a_set["type"].".".
+					ilObjStyleSheet::_determineTag($a_set["type"]).
+					".".$a_set["class"]);
+				if ($this->style->getHideStatus($a_set["type"], $a_set["class"]))
+				{
+					$this->tpl->setVariable("CHECKED", "checked='checked'");
+				}
+				$this->tpl->parseCurrentBlock();
+			}
+		}
+		
 		// example
 		$this->tpl->setVariable("EXAMPLE",
 			ilObjStyleSheetGUI::getStyleExampleHTML($a_set["type"], $a_set["class"]));
