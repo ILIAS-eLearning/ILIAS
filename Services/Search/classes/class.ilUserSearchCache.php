@@ -276,18 +276,17 @@ class ilUserSearchCache
 	public function deleteCachedEntries()
 	{
 		global $ilDB;
-		
+
 		$ilDB->update('usr_search',
 			array(
-				'search_result'	=> array('clob',serialize(array())),
-				'checked'		=> array('clob',serialize(array())),
-				'failed'		=> array('clob',serialize(array())),
+				'search_result'	=> array('clob',serialize(array(0))),
+				'checked'		=> array('clob',serialize(array(0))),
+				'failed'		=> array('clob',serialize(array(0))),
 				'page'			=> array('integer',0)),
 			array(
-				'usr_id'		=> array('integer',$this->usr_id),
-				'search_type'	=> array('integer',$this->search_type)
+				'usr_id'		=> array('integer',(int) $this->usr_id),
+				'search_type'	=> array('integer',(int) $this->search_type)
 		));			
-
 		$this->setResultPageNumber(1);
 		$this->search_result = array();
 		$this->checked = array();

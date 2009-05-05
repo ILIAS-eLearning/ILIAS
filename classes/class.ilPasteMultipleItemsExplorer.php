@@ -21,7 +21,7 @@
 	+-----------------------------------------------------------------------------+
 */
 
-require_once('./classes/class.ilRepositoryExplorer.php');
+require_once('./Services/Repository/classes/class.ilRepositoryExplorer.php');
 
 /*
 * ilPasteMultipleItemsExplorer Explorer
