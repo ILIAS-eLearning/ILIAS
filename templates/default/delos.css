@@ -488,6 +488,74 @@ th.il_PDBlockHeader
 }
 
 
+/* Accordions */
+div.il_VAccordionContainer
+{
+	border-bottom-width:1px;
+	border-bottom-color:#9EADBA;
+	border-bottom-style:solid;
+}
+
+div.il_VAccordionHead
+{
+	padding: 3px;
+	background-color: #E2EAF4;
+	text-align:left;
+	border-width:1px;
+	border-color:#9EADBA;
+	border-style:solid;
+	border-bottom-width:0px;
+	cursor: pointer;
+}
+
+div.il_VAccordionHead:hover
+{
+	background-color: #D2D8E2;
+}
+
+div.il_VAccordionContent
+{
+	padding: 3px;
+	border-width:1px;
+	border-color:#9EADBA;
+	border-style:solid;
+	border-bottom-width:0px;
+}
+
+div.il_HAccordionContainer
+{
+	border-left-width:1px;
+	border-left-color:#9EADBA;
+	border-left-style:solid;
+}
+
+div.il_HAccordionHead
+{
+	padding: 3px;
+	background-color: #E2EAF4;
+	text-align:left;
+	border-width:1px;
+	border-color:#9EADBA;
+	border-style:solid;
+	border-left-width:0px;
+	cursor: pointer;
+}
+
+div.il_HAccordionHead:hover
+{
+	background-color: #D2D8E2;
+}
+
+div.il_HAccordionContent
+{
+	padding: 3px;
+	border-width:1px;
+	border-color:#9EADBA;
+	border-style:solid;
+	border-left-width:0px;
+}
+
+
 /* Repository Header */
 table.ilc_RepHeader {
 	border-width: 0px;
@@ -1472,27 +1540,6 @@ div.il_editarea_active_selected
 	border-style: solid;
 	border-width: 2px;
 	border-color: #000000;
-}
-
-div.il_edit_pc_tab_head
-{
-	background-color: #F0F0F0;
-	border-style: solid;
-	border-width: 1px;
-	border-color: #909090;
-	border-bottom-width: 0px;
-	font-size: 90%;
-	margin-top: 5px;
-	padding: 2px;
-}
-
-div.il_edit_pc_tab
-{
-	border-style: solid;
-	border-width: 1px;
-	border-color: #909090;
-	margin-bottom: 5px;
-	padding: 5px;
 }
 
 table.il_editmenu

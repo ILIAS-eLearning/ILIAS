@@ -527,3 +527,74 @@ div.ilc_sco_title_Title
 	margin-bottom: 20px;
 	margin-top: 5px;
 }
+
+/* Tabs */
+div.ilc_va_cntr_VAccordCntr
+{
+	margin-top: 5px;
+}
+
+div.ilc_va_icntr_VAccordICntr
+{
+	background-color: #FFFFFF;
+	margin-bottom: 5px;
+	border-width:1px;
+	border-color:#9EADBA;
+	border-style:solid;
+}
+
+div.ilc_va_ihead_VAccordIHead
+{
+	padding: 3px 3px 3px 24px;
+	background-color: #E2EAF4;
+	text-align:left;
+	cursor: pointer;
+	background-image: url(../../../templates/default/images/accordion_arrow.gif);
+	background-repeat: no-repeat;
+	background-position: 3px 4px;
+}
+
+div.ilc_va_ihead_VAccordIHead:hover
+{
+	background-color: #D2D8E2;
+}
+
+div.ilc_va_icont_VAccordICont
+{
+	padding: 3px;
+	background-color: #FFFFFF;
+}
+
+div.ilc_ha_cntr_HAccordCntr
+{
+}
+
+div.ilc_ha_icntr_HAccordICntr
+{
+	background-color: #FFFFFF;
+	border-width:1px;
+	border-color:#9EADBA;
+	border-style:solid;
+	margin-right:5px;
+}
+
+div.ilc_ha_ihead_HAccordIHead
+{
+	padding: 3px 10px 3px 20px;
+	background-color: #E2EAF4;
+	text-align:left;
+	cursor: pointer;
+	background-image: url(../../../templates/default/images/haccordion_arrow.gif);
+	background-repeat: no-repeat;
+	background-position: 3px 4px;
+}
+
+div.ilc_ha_ihead_HAccordIHead:hover
+{
+	background-color: #D2D8E2;
+}
+
+div.ilc_ha_icont_HAccordICont
+{
+	padding: 3px;
+}

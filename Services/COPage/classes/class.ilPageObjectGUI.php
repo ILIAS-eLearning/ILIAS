@@ -1295,7 +1295,7 @@ class ilPageObjectGUI
 			{
 				include_once("./Services/Style/classes/class.ilObjStyleSheet.php");
 				$style = new ilObjStyleSheet($this->getStyleId());
-				$template_xml = $style->getTableTemplateXML();
+				$template_xml = $style->getTemplateXML();
 			}
 		}
 		$content = $this->obj->getXMLFromDom(false, true, true,
@@ -1384,8 +1384,11 @@ class ilPageObjectGUI
 		
 		if ($this->getEnabledPCTabs())
 		{
-			include_once("./Services/YUI/classes/class.ilYuiUtil.php");
-			ilYuiUtil::initTabView();
+			//include_once("./Services/YUI/classes/class.ilYuiUtil.php");
+			//ilYuiUtil::initTabView();
+			include_once("./Services/Accordion/classes/class.ilAccordionGUI.php");
+			ilAccordionGUI::addJavaScript();
+			ilAccordionGUI::addCss();
 		}
 
 		// default values for various parameters (should be used by
@@ -1438,7 +1441,7 @@ class ilPageObjectGUI
 						 'citate' => $this->lng->txt('citate'),
 						 'enable_rep_objects' => $this->getEnabledRepositoryObjects() ? "y" : "n",
 						 'enable_map' => $this->getEnabledMaps() ? "y" : "n",
-						 'enable_tabs' => $this->getEnabledPCTabs() ? "n" : "n",
+						 'enable_tabs' => $this->getEnabledPCTabs() ? "y" : "n",
 						 'enable_file_list' => $this->getEnabledFileLists() ? "y" : "n",
 						 'media_mode' => $media_mode,
 						 'javascript' => $sel_js_mode,

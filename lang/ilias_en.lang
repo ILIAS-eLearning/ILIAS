@@ -9294,7 +9294,6 @@ style#:#sty_msg_color_must_only_include#:#The color name may only include the fo
 style#:#sty_color_already_exists#:#A color with this name already exisits in this style.
 style#:#sty_color_info#:#Predefined colors make it easy to reuse a color for different purposes. You refer to a predefined color by using its name with a leading "!" for any color attribute in your style classes. To use a flavor, append a lightness value in brackets to the color name, e.g. !MyColor(20).
 style#:#sty_table_templates#:#Table Templates
-style#:#sty_table_templates_info#:#Table templates use a set of style rules to define a complex table design.
 style#:#sty_template_name#:#Name
 style#:#sty_preview#:#Preview
 style#:#sty_add_template#:#Add Template
@@ -9338,3 +9337,41 @@ style#:#sty_hide#:#Hide
 style#:#sty_save_hide_status#:#Save Hide Status
 content#:#cont_text_imp#:#Important:
 content#:#cont_text_acc#:#Accent:
+content#:#cont_ed_insert_tabs#:#Insert Tabs
+content#:#cont_number_of_tabs#:#Number of Tabs
+content#:#cont_tabs_acc_hor#:#Horizontal Accordion
+content#:#cont_tabs_acc_ver#:#Vertical Accordion
+content#:#cont_edit_tabs#:#Properties
+content#:#cont_new_tab#:#New Tab
+content#:#cont_tabs#:#Tabs
+content#:#cont_add_tab#:#Add Tab
+content#:#cont_tabs_confirm_deletion#:#Are you sure that all of the tabs and their contents should be deleted?
+content#:#cont_tab_cont_width#:#Content Width
+content#:#cont_tab_cont_height#:#Content Height
+content#:#cont_tabs_hor_align_info#:#Horizontal accordions will always be aligned left.
+style#:#sty_templates#:#Templates
+style#:#sty_tabs_char#:#Tabs & Accordions
+style#:#sty_type_va_cntr#:#Vert. Accordion Container
+style#:#sty_type_va_icntr#:#Vert. Accordion Item Container
+style#:#sty_type_va_ihead#:#Vert. Accordion Item Header
+style#:#sty_type_va_icont#:#Vert. Accordion Item Content
+style#:#sty_type_ha_cntr#:#Hor. Accordion Container
+style#:#sty_type_ha_icntr#:#Hor. Accordion Item Container
+style#:#sty_type_ha_ihead#:#Hor. Accordion Item Header
+style#:#sty_type_ha_icont#:#Hor. Accordion Item Content
+style#:#sty_va_cntr_class#:#Vert. Accordion Container
+style#:#sty_va_icntr_class#:#Vert. Accordion Item Container
+style#:#sty_va_ihead_class#:#Vert. Accordion Item Header
+style#:#sty_va_icont_class#:#Vert. Accordion Item Content
+style#:#sty_ha_cntr_class#:#Hor. Accordion Container
+style#:#sty_ha_icntr_class#:#Hor. Accordion Item Container
+style#:#sty_ha_ihead_class#:#Hor. Accordion Item Header
+style#:#sty_ha_icont_class#:#Hor. Accordion Item Content
+style#:#sty_style_class#:#Style Classes
+style#:#sty_del_template_keep_classes#:#Delete and keep Style Classes
+style#:#sty_del_template#:#Delete Templates and Classes
+style#:#sty_vaccordion_templates#:#Vert. Accordion Templates
+style#:#sty_haccordion_templates#:#Hor. Accordion Templates
+style#:#sty_acopy#:#Copy
+style#:#sty_tag_normal#:#Normal
+style#:#sty_tag_hover#:#:hover

@@ -36,6 +36,7 @@ class ilConfirmationGUI
 	private $hidden_item = array();
 	private $item = array();
 	private $use_images = false;
+	private $buttons = array();
 	
 	/**
 	* Constructor
@@ -73,6 +74,18 @@ class ilConfirmationGUI
 	function getHeaderText()
 	{
 		return $this->headertext;
+	}
+
+	/**
+	* Set cancel button command and text
+	*
+	* @param	string		cancel text
+	* @param	string		cancel command
+	*/
+	final public function addButton($a_txt, $a_cmd)
+	{
+		$this->buttons[] = array(
+			"txt" => $a_txt, "cmd" => $a_cmd);
 	}
 
 	/**
@@ -139,6 +152,15 @@ class ilConfirmationGUI
 		
 		$tpl = new ilTemplate("tpl.confirmation.html", true, true, "Services/Utilities");
 
+		// other buttons
+		foreach ($this->buttons as $b)
+		{
+			$tpl->setCurrentBlock("cmd");
+			$tpl->setVariable("TXT_CMD", $b["txt"]);
+			$tpl->setVariable("CMD", $b["cmd"]);
+			$tpl->parseCurrentBlock();
+		}
+		
 		// cancel/confirm buttons
 		$tpl->setCurrentBlock("cmd");
 		$tpl->setVariable("TXT_CMD", $this->confirm_txt);

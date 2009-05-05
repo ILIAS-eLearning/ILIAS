@@ -285,9 +285,13 @@
 <!-- TabbedContent -->
 <!ELEMENT Tabs (Tab*)>
 <!ATTLIST Tabs
-	Type (HorizontalTabs | Accordion) #IMPLIED
+	Type (HorizontalAccordion | VerticalAccordion) #REQUIRED
+	HorizontalAlign (Left | Center | Right | LeftFloat | RightFloat) #IMPLIED
+	ContentWidth CDATA #IMPLIED
+	ContentHeight CDATA #IMPLIED
+	Template CDATA #IMPLIED
 >
-<!ELEMENT Tab (TabCaption?, PageContent*)>
+<!ELEMENT Tab (PageContent*, TabCaption?)>
 <!ATTLIST Tab
 	PCID CDATA #IMPLIED
 >

@@ -117,7 +117,7 @@ class ilPageContentGUI
 		{
 			include_once("./Services/Style/classes/class.ilObjStyleSheet.php");
 			$style = new ilObjStyleSheet($this->getStyleId());
-			$chars = $style->getCharacteristics($a_type);
+			$chars = $style->getCharacteristics($a_type, true);
 			$new_chars = array();
 			if (is_array($chars))
 			{
@@ -151,7 +151,7 @@ class ilPageContentGUI
 	*/
 	function getCharacteristics()
 	{
-		return $this->chars;
+		return $this->chars ? $this->chars : array();
 	}
 	// scorm2004-end
 
@@ -487,6 +487,26 @@ class ilPageContentGUI
 		}
 	
 	 	$this->ctrl->returnToParent($this, "jump".$this->hier_id);	 	
+	}
+
+	/**
+	* Get table templates
+	*/
+	function getTemplateOptions($a_type)
+	{
+		$style = $this->getStyle();
+
+		if (is_object($style))
+		{
+			$ts = $style->getTemplates($a_type);
+			$options = array();
+			foreach ($ts as $t)
+			{
+				$options["t:".$t["id"].":".$t["name"]] = $t["name"];
+			}
+			return $options;
+		}
+		return array();
 	}
 
 }
