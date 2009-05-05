@@ -173,6 +173,26 @@ class ilPCTabs extends ilPageContent
 	}
 
 	/**
+	* Set behavior
+	*
+	* @param	string		behavior
+	*/
+	function setBehavior($a_val)
+	{
+		$this->setTabsAttribute("Behavior", $a_val);
+	}
+	
+	/**
+	* Get behavior
+	*
+	* @return	string	behavior
+	*/
+	function getBehavior()
+	{
+		return $this->tabs_node->get_attribute("Behavior");
+	}
+	
+	/**
 	* Get captions
 	*/
 	function getCaptions()

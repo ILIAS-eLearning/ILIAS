@@ -272,6 +272,13 @@ function doActionForm(cmd, node, first_child, multi)
 	hform_fc.value = first_child;
 	var hform_multi = document.getElementById("il_hform_multi");
 	hform_multi.value = multi;
+	// autoexpand node on first child operation
+
+	if (first_child == 1)
+	{
+		var hform_ex = document.getElementById("il_hform_expand");
+		hform_ex.value = node;
+	}
 //alert("-" + cmd + "-" + node + "-" + first_child + "-" + multi + "-");
 	doCloseContextMenuCounter = 2;
 	obj.submit();

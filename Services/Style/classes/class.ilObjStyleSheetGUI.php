@@ -184,9 +184,6 @@ class ilObjStyleSheetGUI extends ilObjectGUI
 			$this->object->getContentStylePath($this->object->getId()));
 		$this->tpl->parseCurrentBlock();
 
-		$this->getTemplateFile("edit", "sty");
-		$this->tpl->setVariable("TXT_ACTION", $this->lng->txt("edit_stylesheet"));
-		
 		// add button button
 		$this->tpl->addBlockfile("BUTTONS", "buttons", "tpl.buttons.html");
 
@@ -195,6 +192,14 @@ class ilObjStyleSheetGUI extends ilObjectGUI
 		$this->tpl->setVariable("BTN_LINK", $this->ctrl->getLinkTarget($this, "exportStyle"));
 		$this->tpl->setVariable("BTN_TXT",$this->lng->txt("export"));
 		$this->tpl->parseCurrentBlock();
+
+		$this->initPropertiesForm();
+		$this->getPropertiesValues();
+		$this->tpl->setContent($this->form->getHTML());
+		
+/*
+		$this->getTemplateFile("edit", "sty");
+		$this->tpl->setVariable("TXT_ACTION", $this->lng->txt("edit_stylesheet"));
 
 		// title and description
 		$this->tpl->setVariable("TXT_TITLE", $this->lng->txt("title"));
@@ -207,6 +212,93 @@ class ilObjStyleSheetGUI extends ilObjectGUI
 		$this->tpl->setVariable("TXT_SAVE", $this->lng->txt("save"));
 		$this->tpl->setVariable("BTN_SAVE", "update");
 		$this->tpl->setVariable("TXT_REQUIRED_FLD", $this->lng->txt("required_field"));
+*/
+	}
+	
+	/**
+	* Get current values for properties from 
+	*
+	*/
+	public function getPropertiesValues()
+	{
+		$values = array();
+	
+		$values["style_title"] = $this->object->getTitle();
+		$values["style_description"] = $this->object->getDescription();
+		$values["disable_auto_margins"] = (int) $this->object->lookupStyleSetting("disable_auto_margins");
+	
+		$this->form->setValuesByArray($values);
+	}
+	
+	/**
+	* FORM: Init properties form.
+	*
+	* @param        int        $a_mode        Edit Mode
+	*/
+	public function initPropertiesForm($a_mode = "edit")
+	{
+		global $lng;
+		include_once("Services/Form/classes/class.ilPropertyFormGUI.php");
+		$this->form = new ilPropertyFormGUI();
+	
+		// title
+		$ti = new ilTextInputGUI($this->lng->txt("title"), "style_title");
+		$ti->setMaxLength(128);
+		$ti->setSize(40);
+		$ti->setRequired(true);
+		$this->form->addItem($ti);
+		
+		// description
+		$ta = new ilTextAreaInputGUI($this->lng->txt("description"), "style_description");
+		//$ta->setCols();
+		//$ta->setRows();
+		$this->form->addItem($ta);
+		
+		// disable automatic margins for left/right alignment
+		$cb = new ilCheckboxInputGUI($this->lng->txt("sty_disable_auto_margins"), "disable_auto_margins");
+		$cb->setInfo($this->lng->txt("sty_disable_auto_margins_info"));
+		$this->form->addItem($cb);
+		
+	
+		// save and cancel commands
+		if ($a_mode == "create")
+		{
+			$this->form->addCommandButton("save", $lng->txt("save"));
+			$this->form->addCommandButton("cancelSave", $lng->txt("cancel"));
+		}
+		else
+		{
+			$this->form->addCommandButton("update", $lng->txt("save"));
+		}
+	                
+		$this->form->setTitle($lng->txt("edit_stylesheet"));
+		$this->form->setFormAction($this->ctrl->getFormAction($this));
+	 
+	}
+	
+	/**
+	* Update properties
+	*/
+	function updateObject()
+	{
+		global $lng, $ilCtrl, $tpl;
+		
+		$this->initPropertiesForm("edit");
+		if ($this->form->checkInput())
+		{
+			$this->object->setTitle($this->form->getInput("style_title"));
+			$this->object->setDescription($this->form->getInput("style_description"));
+			$this->object->writeStyleSetting("disable_auto_margins",
+				$this->form->getInput("disable_auto_margins"));
+			$this->object->update();
+			ilUtil::sendInfo($lng->txt("msg_obj_modified"), true);
+			$ilCtrl->redirect($this, "properties");
+		}
+		else
+		{
+			$this->form->setValuesByPost();
+			$tpl->setContent($this->form->getHtml());
+		}
 	}
 	
 	/**
@@ -781,21 +873,6 @@ class ilObjStyleSheetGUI extends ilObjectGUI
 		}
 
 		return $newObj->getId();
-	}
-
-	/**
-	* update style sheet
-	*/
-	function updateObject()
-	{
-		global $lng;
-		
-		$this->object->setTitle(ilUtil::stripSlashes($_POST["style_title"]));
-		$this->object->setDescription(ilUtil::stripSlashes($_POST["style_description"]));
-
-		$this->object->update();
-		ilUtil::sendInfo($lng->txt("msg_saved_modifications"));
-		$this->ctrl->redirect($this, "properties");
 	}
 
 	/**

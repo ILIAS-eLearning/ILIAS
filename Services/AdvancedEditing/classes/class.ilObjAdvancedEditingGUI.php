@@ -44,10 +44,11 @@ class ilObjAdvancedEditingGUI extends ilObjectGUI
 
 	function ilObjAdvancedEditingGUI($a_data,$a_id,$a_call_by_reference)
 	{
-		global $rbacsystem;
+		global $rbacsystem, $lng;
 
 		$this->type = "adve";
 		$this->ilObjectGUI($a_data,$a_id,$a_call_by_reference,false);
+		$this->lng->loadLanguageModule('adve');
 		$this->lng->loadLanguageModule('meta');
 
 		if (!$rbacsystem->checkAccess('read',$this->object->getRefId()))
@@ -375,11 +376,100 @@ class ilObjAdvancedEditingGUI extends ilObjectGUI
 		$this->getTabs($tabs_gui);
 	}
 	
+	/**
+	* Show page editor settings
+	*/
+	function showPageEditorSettingsObject()
+	{
+		global $tpl, $ilTabs, $ilCtrl;
+		
+		$this->addPageEditorSettingsSubTabs();
+		
+		include_once("./Services/COPage/classes/class.ilPageEditorSettings.php");
+		$grps = ilPageEditorSettings::getGroups();
+		
+		$this->cgrp = $_GET["grp"];
+		if ($this->cgrp == "")
+		{
+			$this->cgrp = key($grps);
+		}
+
+		$ilCtrl->setParameter($this, "grp", $this->cgrp);
+		$ilTabs->setSubTabActive("adve_grp_".$this->cgrp);
+		
+		$this->initPageEditorForm();
+		$tpl->setContent($this->form->getHtml());
+	}
+	
+	/**
+	* Init page editor form.
+	*
+	* @param        int        $a_mode        Edit Mode
+	*/
+	public function initPageEditorForm($a_mode = "edit")
+	{
+		global $lng;
+		
+		$lng->loadLanguageModule("content");
+		
+		include_once("Services/Form/classes/class.ilPropertyFormGUI.php");
+		$this->form = new ilPropertyFormGUI();
+	
+		include_once("./Services/COPage/classes/class.ilPageEditorSettings.php");
+		
+		include_once("./Services/COPage/classes/class.ilPageContentGUI.php");
+		$buttons = ilPageContentGUI::_getCommonBBButtons();
+		foreach ($buttons as $b => $t)
+		{
+			// command button activation
+			$cb = new ilCheckboxInputGUI(str_replace(":", "", $this->lng->txt("cont_text_".$b)), "active_".$b);
+			$cb->setChecked(ilPageEditorSettings::lookupSetting($this->cgrp, "active_".$b, true));
+			$this->form->addItem($cb);
+		}
+	
+		// save and cancel commands
+		$this->form->addCommandButton("savePageEditorSettings", $lng->txt("save"));
+	                
+		$this->form->setTitle($lng->txt("adve_text_content_features"));
+		$this->form->setFormAction($this->ctrl->getFormAction($this));
+	 
+	}
+	
+	/**
+	* Save page editor settings form
+	*
+	*/
+	public function savePageEditorSettingsObject()
+	{
+		global $tpl, $lng, $ilCtrl;
+	
+		$this->initPageEditorForm();
+		if ($this->form->checkInput())
+		{
+			include_once("./Services/COPage/classes/class.ilPageEditorSettings.php");
+			include_once("./Services/COPage/classes/class.ilPageContentGUI.php");
+			$buttons = ilPageContentGUI::_getCommonBBButtons();
+			foreach ($buttons as $b => $t)
+			{
+				ilPageEditorSettings::writeSetting($_GET["grp"], "active_".$b,
+					$this->form->getInput("active_".$b));
+			}
+			ilUtil::sendInfo($lng->txt("msg_obj_modified"), true);
+		}
+		
+		$ilCtrl->setParameter($this, "grp", $_GET["grp"]);
+		$ilCtrl->redirect($this, "showPageEditorSettings");
+	}
+	
+	/**
+	* Add rte subtabs
+	*/
 	function addSubtabs(&$tabs_gui)
 	{
 		global $ilCtrl;
 		
-		if ($ilCtrl->getNextClass() != "ilpermissiongui")
+		if ($ilCtrl->getNextClass() != "ilpermissiongui" &&
+			$ilCtrl->getCmd() != "showPageEditorSettings")
 		{
 			$tabs_gui->addSubTabTarget("adve_general_settings",
 											 $this->ctrl->getLinkTarget($this, "settings"),
@@ -404,6 +494,28 @@ class ilObjAdvancedEditingGUI extends ilObjectGUI
 		}
 	}
 	
+	
+	/**
+	* Show page editor settings subtabs
+	*/
+	function addPageEditorSettingsSubtabs()
+	{
+		global $ilCtrl, $ilTabs;
+		
+		include_once("./Services/COPage/classes/class.ilPageEditorSettings.php");
+		$grps = ilPageEditorSettings::getGroups();
+		
+		foreach ($grps as $g => $types)
+		{
+			$ilCtrl->setParameter($this, "grp", $g);
+			$ilTabs->addSubTabTarget("adve_grp_".$g,
+				 $ilCtrl->getLinkTarget($this, "showPageEditorSettings"),
+				 array("showPageEditorSettings")); 
+		}
+		$ilCtrl->setParameter($this, "grp", $_GET["grp"]);
+	}
+
+	
 	/**
 	* get tabs
 	* @access	public
@@ -415,11 +527,14 @@ class ilObjAdvancedEditingGUI extends ilObjectGUI
 
 		if ($rbacsystem->checkAccess("visible,read",$this->object->getRefId()))
 		{
-			$tabs_gui->addTarget("settings",
+			$tabs_gui->addTarget("adve_rte_settings",
 				$this->ctrl->getLinkTarget($this, "settings"),
 					array("settings","","view", "assessment", "survey", "learningModule",
 					"category"), "", "");
 			
+			$tabs_gui->addTarget("adve_page_editor_settings",
+				$this->ctrl->getLinkTarget($this, "showPageEditorSettings"),
+					array("showPageEditorSettings"));
 		}
 
 		if ($rbacsystem->checkAccess('edit_permission',$this->object->getRefId()))

@@ -96,11 +96,32 @@ class ilPCTableGUI extends ilPageContentGUI
 			get_class($this));
 
 		$ilTabs->addTarget("cont_table_cell_properties",
-			$ilCtrl->getLinkTarget($this, "editCells"), "editCells",
+			$ilCtrl->getLinkTarget($this, "editCellStyle"), "editCellStyle",
 			get_class($this));
 
 	}
 	
+	/**
+	* Set tabs
+	*/
+	function setCellPropertiesSubTabs()
+	{
+		global $ilTabs, $ilCtrl, $lng;
+
+		$ilTabs->addSubTabTarget("cont_style",
+			$ilCtrl->getLinkTarget($this, "editCellStyle"), "editCellStyle",
+			get_class($this));
+
+		$ilTabs->addSubTabTarget("cont_width",
+			$ilCtrl->getLinkTarget($this, "editCellWidth"), "editCellWidth",
+			get_class($this));
+
+		$ilTabs->addSubTabTarget("cont_span",
+			$ilCtrl->getLinkTarget($this, "editCellSpan"), "editCellSpan",
+			get_class($this));
+
+	}
+
 	/**
 	* Get table templates
 	*/
@@ -194,8 +215,8 @@ class ilPCTableGUI extends ilPageContentGUI
 		$this->form->addItem($spacing);
 
 		// table templates and table classes
-		require_once("./Services/Form/classes/class.ilRadioMatrixInputGUI.php");
-		$char_prop = new ilRadioMatrixInputGUI($this->lng->txt("cont_characteristic"),
+		require_once("./Services/Form/classes/class.ilAdvSelectInputGUI.php");
+		$char_prop = new ilAdvSelectInputGUI($this->lng->txt("cont_characteristic"),
 			"characteristic");
 		$chars = $this->getCharacteristics();
 		$templates = $this->getTemplateOptions();
@@ -214,15 +235,15 @@ class ilPCTableGUI extends ilPageContentGUI
 			if (strpos($k, ":") > 0)
 			{
 				$t = explode(":", $k);
-				$chars[$k] = $this->style->lookupTemplatePreview($t[1])."<div>$char</div>";
+				$html = $this->style->lookupTemplatePreview($t[1]).'<div style="clear:both;" class="small">'.$char."</div>";
 			}
 			else
 			{
-				$chars[$k] = '<table class="ilc_table_'.$k.'"><tr><td>'.
+				$html = '<table class="ilc_table_'.$k.'"><tr><td class="small">'.
 					$char.'</td></tr></table>';
 			}
+			$char_prop->addOption($k, $char, $html);
 		}
-		$char_prop->setOptions($chars);
 		$char_prop->setValue("StandardTable");
 		$this->form->addItem($char_prop);
 		
@@ -259,20 +280,21 @@ class ilPCTableGUI extends ilPageContentGUI
 		if ($a_mode == "create")
 		{
 			// first row style
-			require_once("./Services/Form/classes/class.ilRadioMatrixInputGUI.php");
-			$fr_style = new ilRadioMatrixInputGUI($this->lng->txt("cont_first_row_style"), "first_row_style");
+			require_once("./Services/Form/classes/class.ilAdvSelectInputGUI.php");
+			$fr_style = new ilAdvSelectInputGUI($this->lng->txt("cont_first_row_style"),
+				"first_row_style");
 			$this->setBasicTableCellStyles();
 			$this->getCharacteristicsOfCurrentStyle("table_cell");	// scorm-2004
 			$chars = $this->getCharacteristics();	// scorm-2004
 			$options = array_merge(array("" => $this->lng->txt("none")), $chars);	// scorm-2004
 			foreach($options as $k => $option)
 			{
-				$options[$k] = '<table border="0" cellspacing="0" cellpadding="0"><tr><td class="ilc_table_cell_'.$k.'">'.
+				$html = '<table border="0" cellspacing="0" cellpadding="0"><tr><td class="ilc_table_cell_'.$k.'">'.
 					$option.'</td></tr></table>';
+				$fr_style->addOption($k, $option, $html);
 			}
 				
 			$fr_style->setValue("");
-			$fr_style->setOptions($options);
 			$this->form->addItem($fr_style);
 		}
 
@@ -383,7 +405,7 @@ class ilPCTableGUI extends ilPageContentGUI
 	/**
 	* Render the table
 	*/
-	function renderTable($a_mode = "table_edit")
+	function renderTable($a_mode = "table_edit", $a_submode = "")
 	{
 		$tab_node = $this->content_obj->getNode();
 		$content = $this->dom->dump_node($tab_node);
@@ -401,13 +423,13 @@ class ilPCTableGUI extends ilPageContentGUI
 
 		$content = $content.$mobs.$trans.$template_xml;
 		
-		return ilPCTableGUI::_renderTable($content, $a_mode);
+		return ilPCTableGUI::_renderTable($content, $a_mode, $a_submode, $this->content_obj);
 	}
 		
 	/**
 	* Static render table function
 	*/
-	static function _renderTable($content, $a_mode = "table_edit")
+	static function _renderTable($content, $a_mode = "table_edit", $a_submode = "", $a_table_obj = null)
 	{
 		global $ilUser;
 		
@@ -434,18 +456,127 @@ class ilPCTableGUI extends ilPageContentGUI
 		$output = str_replace("&gt;",">",$output);
 		$output = str_replace("&amp;","&",$output);
 		
+		if ($a_mode == "table_edit" && !is_null($a_table_obj))
+		{
+			switch ($a_submode)
+			{
+				case "style":
+					$output = ilPCTableGUI::_addStyleCheckboxes($output, $a_table_obj);
+					break;
+
+				case "width":
+					$output = ilPCTableGUI::_addWidthInputs($output, $a_table_obj);
+					break;
+
+				case "span":
+					$output = ilPCTableGUI::_addSpanInputs($output, $a_table_obj);
+					break;
+			}
+		}
+		
+		
 		return '<div style="float:left;">'.$output.'</div>';
 	}
 	
 	/**
-	* edit properties form
+	* Add style checkboxes in edit mode
 	*/
-	function editCells()
+	static function _addStyleCheckboxes($a_output, $a_table)
 	{
-		global $ilCtrl, $tpl, $lng;
+		global $lng;
+		
+		$classes = $a_table->getAllCellClasses();
+		
+		foreach ($classes as $k => $v)
+		{
+			if ($v == "")
+			{
+				$v = $lng->txt("none");
+			}
+			if (substr($v, 0, 4) == "ilc_")
+			{
+				$v = substr($v, 4);
+			}
+			$check = $lng->txt("cont_style").": ".
+				'<input type="checkbox" value="1"'.
+				' name="target['.$k.']">'.'</input> '.$v;
+
+			$a_output = str_replace("{{{{{TableEdit;".$k."}}}}}", $check, $a_output);
+		}
+		return $a_output;
+	}
+	
+	/**
+	* Add width inputs
+	*/
+	static function _addWidthInputs($a_output, $a_table)
+	{
+		global $lng;
+		
+		$widths = $a_table->getAllCellWidths();
+		
+		foreach ($widths as $k => $v)
+		{
+			$check = $lng->txt("cont_width").": ".
+				'<input class="small" type="text" size="5" maxlength="10"'.
+				' name="width['.$k.']" value="'.$v.'">'.'</input>';
+
+			$a_output = str_replace("{{{{{TableEdit;".$k."}}}}}", $check, $a_output);
+		}
+		return $a_output;
+	}
+	
+	/**
+	* Add span inputs
+	*/
+	static function _addSpanInputs($a_output, $a_table)
+	{
+		global $lng;
+		
+		$spans = $a_table->getAllCellSpans();
+		
+		foreach ($spans as $k => $v)
+		{
+			// colspans
+			$selects = '<div style="white-space:nowrap;">'.$lng->txt("cont_colspan").": ".
+				'<select class="small" name="colspan['.$k.']">';
+			for ($i = 1; $i <= $v["max_x"] - $v["x"] + 1; $i++)
+			{
+				$sel_str = ($i == $v["colspan"])
+					? 'selected="selected"'
+					: '';
+				$selects.= '<option value="'.$i.'" '.$sel_str.'>'.$i.'</option>';
+			}
+			$selects.= "</select></div>";
+
+			// rowspans
+			$selects.= '<div style="margin-top:3px; white-space:nowrap;">'.$lng->txt("cont_rowspan").": ".
+				'<select class="small" name="rowspan['.$k.']">';
+			for ($i = 1; $i <= $v["max_y"] - $v["y"] + 1; $i++)
+			{
+				$sel_str = ($i == $v["rowspan"])
+					? 'selected="selected"'
+					: '';
+				$selects.= '<option value="'.$i.'" '.$sel_str.'>'.$i.'</option>';
+			}
+			$selects.= "</select></div>";
+
+			$a_output = str_replace("{{{{{TableEdit;".$k."}}}}}", $selects, $a_output);
+		}
+		return $a_output;
+	}
+	
+	/**
+	* Edit cell styles
+	*/
+	function editCellStyle()
+	{
+		global $ilCtrl, $tpl, $lng, $ilTabs;
 		
 		$this->displayValidationError();
 		$this->setTabs();
+		$this->setCellPropertiesSubTabs();
+		$ilTabs->setSubTabActive("cont_style");
 		
 		// edit form
 		include_once("./Services/Form/classes/class.ilPropertyFormGUI.php");
@@ -454,36 +585,85 @@ class ilPCTableGUI extends ilPageContentGUI
 		$form->setTitle($this->lng->txt("cont_table_cell_properties"));
 
 		// first row style
-		require_once("./Services/Form/classes/class.ilRadioMatrixInputGUI.php");
-		$style = new ilRadioMatrixInputGUI($this->lng->txt("cont_style"), "style");
+		require_once("./Services/Form/classes/class.ilAdvSelectInputGUI.php");
+		$style = new ilAdvSelectInputGUI($this->lng->txt("cont_style"),
+			"style");
 		$this->setBasicTableCellStyles();
 		$this->getCharacteristicsOfCurrentStyle("table_cell");	// scorm-2004
 		$chars = $this->getCharacteristics();	// scorm-2004
 		$options = array_merge(array("" => $this->lng->txt("none")), $chars);	// scorm-2004
 		foreach($options as $k => $option)
 		{
-			$options[$k] = '<table border="0" cellspacing="0" cellpadding="0"><tr><td class="ilc_table_cell_'.$k.'">'.
+			$html = '<table border="0" cellspacing="0" cellpadding="0"><tr><td class="ilc_table_cell_'.$k.'">'.
 				$option.'</td></tr></table>';
+			$style->addOption($k, $option, $html);
 		}
 			
 		$style->setValue("");
 		$style->setInfo($lng->txt("cont_set_tab_style_info"));
-		$style->setOptions($options);
 		$form->addItem($style);
 		$form->setKeepOpen(true);
 
-		$form->addCommandButton("setStylesAndWidths", $lng->txt("cont_set_styles_and_widths"));
+		$form->addCommandButton("setStyles", $lng->txt("cont_set_styles"));
 
 		$html = $form->getHTML();
-		$html.= "<br />".$this->renderTable()."</form>";
+		$html.= "<br />".$this->renderTable("table_edit", "style")."</form>";
 		$tpl->setContent($html);
 		
 	}
 
 	/**
-	* Set cell styles and widths
+	* Edit cell widths
 	*/
-	function setStylesAndWidths()
+	function editCellWidth()
+	{
+		global $ilCtrl, $tpl, $lng, $ilTabs;
+		
+		$this->displayValidationError();
+		$this->setTabs();
+		$this->setCellPropertiesSubTabs();
+		$ilTabs->setSubTabActive("cont_width");
+		$ilTabs->setTabActive("cont_table_cell_properties");
+		
+		$ctpl = new ilTemplate("tpl.table_cell_properties.html", true, true, "Services/COPage");
+		$ctpl->setVariable("BTN_NAME", "setWidths");
+		$ctpl->setVariable("BTN_TEXT", $lng->txt("cont_save_widths"));
+		$ctpl->setVariable("FORMACTION", $ilCtrl->getFormAction($this));
+
+		$html = $ctpl->get();
+		$html.= "<br />".$this->renderTable("table_edit", "width")."</form>";
+		$tpl->setContent($html);
+		
+	}
+
+	/**
+	* Edit cell spans
+	*/
+	function editCellSpan()
+	{
+		global $ilCtrl, $tpl, $lng, $ilTabs;
+		
+		$this->displayValidationError();
+		$this->setTabs();
+		$this->setCellPropertiesSubTabs();
+		$ilTabs->setSubTabActive("cont_span");
+		$ilTabs->setTabActive("cont_table_cell_properties");
+		
+		$ctpl = new ilTemplate("tpl.table_cell_properties.html", true, true, "Services/COPage");
+		$ctpl->setVariable("BTN_NAME", "setSpans");
+		$ctpl->setVariable("BTN_TEXT", $lng->txt("cont_save_spans"));
+		$ctpl->setVariable("FORMACTION", $ilCtrl->getFormAction($this));
+
+		$html = $ctpl->get();
+		$html.= "<br />".$this->renderTable("table_edit", "span")."</form>";
+		$tpl->setContent($html);
+		
+	}
+
+	/**
+	* Set cell styles and
+	*/
+	function setStyles()
 	{
 		if (is_array($_POST["target"]))
 		{
@@ -492,22 +672,51 @@ class ilPCTableGUI extends ilPageContentGUI
 				if ($value > 0)
 				{
 					$cid = explode(":", $k);
-					$this->content_obj->setTDClass($cid[0], $_POST["style"], $cid[1]);
+					$this->content_obj->setTDClass(ilUtil::stripSlashes($cid[0]),
+						ilUtil::stripSlashes($_POST["style"]), ilUtil::stripSlashes($cid[1]));
 				}
 			}
 		}
+		$this->updated = $this->pg_obj->update();
+		$this->ctrl->redirect($this, "editCellStyle");
+	}
+	
+	/**
+	* Set cell widths
+	*/
+	function setWidths()
+	{
 		if (is_array($_POST["width"]))
 		{
 			foreach ($_POST["width"] as $k => $width)
 			{
 				$cid = explode(":", $k);
-				$this->content_obj->setTDWidth($cid[0], $width, $cid[1]);
+				$this->content_obj->setTDWidth(ilUtil::stripSlashes($cid[0]),
+					ilUtil::stripSlashes($width), ilUtil::stripSlashes($cid[1]));
 			}
 		}
 		$this->updated = $this->pg_obj->update();
-		$this->ctrl->redirect($this, "editCells");
+		$this->ctrl->redirect($this, "editCellWidth");
 	}
-	
+
+	/**
+	* Set cell spans
+	*/
+	function setSpans()
+	{
+		if (is_array($_POST["colspan"]))
+		{
+			foreach ($_POST["colspan"] as $k => $span)
+			{
+				$_POST["colspan"][$k] = ilUtil::stripSlashes($span);
+				$_POST["rowspan"][$k] = ilUtil::stripSlashes($_POST["rowspan"][$k]);
+			}
+			$this->content_obj->setTDSpans($_POST["colspan"], $_POST["rowspan"]);
+		}
+		$this->updated = $this->pg_obj->update();
+		$this->ctrl->redirect($this, "editCellSpan");
+	}
+
 	/**
 	* Set properties from input form
 	*/

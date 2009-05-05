@@ -45,21 +45,29 @@ class ilPCList extends ilPageContent
 		$this->setType("list");
 	}
 
+	/**
+	* Set pc node
+	*/
 	function setNode(&$a_node)
 	{
 		parent::setNode($a_node);		// this is the PageContent node
 		$this->list_node =& $a_node->first_child();		// this is the Table node
 	}
 
+	/**
+	* Create new list
+	*/
 	function create(&$a_pg_obj, $a_hier_id, $a_pc_id = "")
 	{
-//echo "::".is_object($this->dom).":";
 		$this->node = $this->createPageContentNode();
 		$a_pg_obj->insertContent($this, $a_hier_id, IL_INSERT_AFTER, $a_pc_id);
 		$this->list_node =& $this->dom->create_element("List");
 		$this->list_node =& $this->node->append_child($this->list_node);
 	}
 
+	/**
+	* Add a number of items to list
+	*/
 	function addItems($a_nr)
 	{
 		for ($i=1; $i<=$a_nr; $i++)
@@ -69,6 +77,9 @@ class ilPCList extends ilPageContent
 		}
 	}
 
+	/**
+	* Set order type
+	*/
 	function setOrderType($a_type = "Unordered")
 	{
 		switch ($a_type)
@@ -82,31 +93,72 @@ class ilPCList extends ilPageContent
 				break;
 
 			case "Number":
-				$this->list_node->set_attribute("Type", "Ordered");
-				$this->list_node->set_attribute("NumberingType", "Number");
-				break;
-
 			case "Roman":
-				$this->list_node->set_attribute("Type", "Ordered");
-				$this->list_node->set_attribute("NumberingType", "Roman");
-				break;
-
 			case "roman":
-				$this->list_node->set_attribute("Type", "Ordered");
-				$this->list_node->set_attribute("NumberingType", "roman");
-				break;
-
 			case "Alphabetic":
-				$this->list_node->set_attribute("Type", "Ordered");
-				$this->list_node->set_attribute("NumberingType", "Alphabetic");
-				break;
-
 			case "alphabetic":
+			case "Decimal":
 				$this->list_node->set_attribute("Type", "Ordered");
-				$this->list_node->set_attribute("NumberingType", "alphabetic");
+				$this->list_node->set_attribute("NumberingType", $a_type);
 				break;
 		}
 	}
 
+	/**
+	* Get order type
+	*/
+	function getOrderType()
+	{
+		if ($this->list_node->get_attribute("Type") == "Unordered")
+		{
+			return "Unordered";
+		}
+		
+		$nt = $this->list_node->get_attribute("NumberingType");
+		switch ($nt)
+		{
+			case "Number":
+			case "Roman":
+			case "roman":
+			case "Alphabetic":
+			case "alphabetic":
+			case "Decimal":
+				return $nt;
+				break;
+				
+			default:
+				return "Number";
+		}
+	}
+
+	/**
+	* Set start value
+	*
+	* @param	int		start value
+	*/
+	function setStartValue($a_val)
+	{
+		if ($a_val != "")
+		{
+			$this->list_node->set_attribute("StartValue", $a_val);
+		}
+		else
+		{
+			if ($this->list_node->has_attribute("StartValue"))
+			{
+				$this->list_node->remove_attribute("StartValue");
+			}
+		}
+	}
+	
+	/**
+	* Get start value
+	*
+	* @return	int		start value
+	*/
+	function getStartValue()
+	{
+		return $this->list_node->get_attribute("StartValue");
+	}
 }
 ?>

@@ -1296,6 +1296,11 @@ class ilPageObjectGUI
 				include_once("./Services/Style/classes/class.ilObjStyleSheet.php");
 				$style = new ilObjStyleSheet($this->getStyleId());
 				$template_xml = $style->getTemplateXML();
+				$disable_auto_margins = "n";
+				if ($style->lookupStyleSetting("disable_auto_margins"))
+				{
+					$disable_auto_margins = "y";
+				}
 			}
 		}
 		$content = $this->obj->getXMLFromDom(false, true, true,
@@ -1445,8 +1450,9 @@ class ilPageObjectGUI
 						 'enable_file_list' => $this->getEnabledFileLists() ? "y" : "n",
 						 'media_mode' => $media_mode,
 						 'javascript' => $sel_js_mode,
-						 'paragraph_plugins' => $paragraph_plugin_string);
-						 
+						 'paragraph_plugins' => $paragraph_plugin_string,
+						 'disable_auto_margins' => $disable_auto_margins
+						);
 		if($this->link_frame != "")		// todo other link types
 			$params["pg_frame"] = $this->link_frame;
 

@@ -67,7 +67,7 @@ class ilPageObject
 	var $offline_handler;
 	var $dom_builded;
 	var $history_saved;
-
+	
 	/**
 	* Constructor
 	* @access	public
@@ -2345,6 +2345,132 @@ if ($_GET["pgEdMediaMode"] != "") {echo "ilPageObject::error media"; exit;}
 		{
 			return $this->update();
 		}
+	}
+	
+	/**
+	* Copy contents to clipboard and cut them from the page
+	*
+	* @param	string		$a_hids		array of hierarchical ids of content objects
+	*/
+	function cutContents($a_hids)
+	{
+		$this->copyContents($a_hids);
+		return $this->deleteContents($a_hids);
+	}
+	
+	/**
+	* Copy contents to clipboard
+	*
+	* @param	string		$a_hids		array of hierarchical ids of content objects
+	*/
+	function copyContents($a_hids)
+	{
+		global $ilUser;
+//var_dump($a_hids);
+		if (!is_array($a_hids))
+		{
+			return;
+		}
+
+		$time = date("Y-m-d H:i:s", time());
+		
+		$hier_ids = array();
+		$skip = array();
+		foreach($a_hids as $a_hid)
+		{
+			if ($a_hid == "")
+			{
+				continue;
+			}
+			$a_hid = explode(":", $a_hid);
+			
+			// check, whether new hid is child of existing one or vice versa
+			reset($hier_ids);
+			foreach($hier_ids as $h)
+			{
+				if($h."_" == substr($a_hid[0], 0, strlen($h) + 1))
+				{
+					$skip[] = $a_hid[0];
+				}
+				if($a_hid[0]."_" == substr($h, 0, strlen($a_hid[0]) + 1))
+				{
+					$skip[] = $h;
+				}
+			}
+			$pc_id[$a_hid[0]] = $a_hid[1];
+			if ($a_hid[0] != "")
+			{
+				$hier_ids[$a_hid[0]] = $a_hid[0];
+			}
+		}
+		foreach ($skip as $s)
+		{
+			unset($hier_ids[$s]);
+		}
+		include_once("./Services/COPage/classes/class.ilPageContent.php");
+		$hier_ids = ilPageContent::sortHierIds($hier_ids);
+		$nr = 1;
+		foreach($hier_ids as $hid)
+		{
+			$curr_node = $this->getContentNode($hid, $pc_id[$hid]);
+			if (is_object($curr_node))
+			{
+				if ($curr_node->node_name() == "PageContent")
+				{
+					$content = $this->dom->dump_node($curr_node);
+					// remove pc and hier ids
+					$content = eregi_replace("PCID=\"[a-z0-9]*\"","",$content);
+					$content = eregi_replace("HierId=\"[a-z0-9_]*\"","",$content);
+					
+					$ilUser->addToPCClipboard($content, $time, $nr);
+					$nr++;
+				}
+			}
+		}
+		include_once("./Modules/LearningModule/classes/class.ilEditClipboard.php");
+		ilEditClipboard::setAction("copy");
+	}
+
+	/**
+	* Paste contents from pc clipboard
+	*/
+	function pasteContents($a_hier_id)
+	{
+		global $ilUser;
+		
+		$a_hid = explode(":", $a_hier_id);
+		$content = $ilUser->getPCClipboardContent();
+		
+		// we insert from last to first, because we insert all at the
+		// same hier_id
+		for ($i = count($content) - 1; $i >= 0; $i--)
+		{
+
+			$c = $content[$i];
+			$temp_dom = domxml_open_mem('<?xml version="1.0" encoding="UTF-8"?>'.$c,
+				DOMXML_LOAD_PARSING, $error);
+			if(empty($error))
+			{
+				$this->newQuestionCopies($temp_dom);
+				$xpc = xpath_new_context($temp_dom);
+				$path = "//PageContent";
+				$res = xpath_eval($xpc, $path);
+				if (count($res->nodeset) > 0)
+				{
+					$new_pc_node = $res->nodeset[0];
+					$cloned_pc_node = $new_pc_node->clone_node (true);
+					$cloned_pc_node->unlink_node ($cloned_pc_node);
+					$this->insertContentNode ($cloned_pc_node, $a_hid[0],
+						IL_INSERT_AFTER, $a_hid[1]);
+				}
+			}
+			else
+			{
+//var_dump($error);
+			}
+		}
+		$e = $this->update();
+//var_dump($e);
 	}
 	
 	/**

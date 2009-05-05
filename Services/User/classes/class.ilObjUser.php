@@ -3136,6 +3136,49 @@ class ilObjUser extends ilObject
 	}
 
 	/**
+	* Add a page content item to PC clipboard (should go to another class)
+	*/
+	function addToPCClipboard($a_content, $a_time, $a_nr)
+	{
+		global $ilDB;
+		if ($a_time == 0)
+		{
+			$a_time = date("Y-m-d H:i:s", time());
+		}
+		$st = $ilDB->prepareManip("INSERT INTO personal_pc_clipboard ".
+			"(user_id, content, insert_time, order_nr) VALUES ".
+			" (?,?,?,?)",
+			array("integer", "text", "timestamp", "integer"));
+		$ilDB->execute($st,
+			array($this->getId(), $a_content, $a_time, $a_nr));
+	}
+
+	/**
+	* Add a page content item to PC clipboard (should go to another class)
+	*/
+	function getPCClipboardContent()
+	{
+		global $ilDB;
+
+		$st = $ilDB->prepare("SELECT MAX(insert_time) mtime FROM personal_pc_clipboard ".
+			" WHERE user_id = ?", array("integer"));
+		$set = $ilDB->execute($st, array($this->getId()));
+		$row = $ilDB->fetchAssoc($set);
+		
+		$st = $ilDB->prepare("SELECT * FROM personal_pc_clipboard ".
+			" WHERE user_id = ? AND insert_time = ? ORDER BY order_nr ASC",
+			array("integer", "timestamp"));
+		$set = $ilDB->execute($st, array($this->getId(), $row["mtime"]));
+		$content = array();
+		while ($row = $ilDB->fetchAssoc($set))
+		{
+			$content[] = $row["content"];
+		}
+
+		return $content;
+	}
+
+	/**
 	* Check whether clipboard has objects of a certain type
 	*/
 	function clipboardHasObjectsOfType($a_type)

@@ -121,7 +121,6 @@ class ilYuiUtil
 		
 	}
 
-
 	/**
 	* Init YUI Connection module
 	*/

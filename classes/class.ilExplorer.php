@@ -360,6 +360,19 @@ class ilExplorer
 	}
 	
 	/**
+	* Set Explorer Updater
+	*
+	* @param	object	$a_tree	Tree Object
+	*/
+	function setFrameUpdater($a_up_frame, $a_up_script, $a_params = "")
+	{
+		$this->up_frame = $a_up_frame;
+		$this->up_script = $a_up_script;
+		$this->up_params = $a_params;
+	}
+
+	
+	/**
 	* set highlighted node
 	*/
 	function highlightNode($a_id)
@@ -513,7 +526,7 @@ class ilExplorer
 	* @param	integer		depth level where to start (default=1)
 	* @return	string
 	*/
-	function setOutput($a_parent_id, $a_depth = 1,$a_obj_id = 0)
+	function setOutput($a_parent_id, $a_depth = 1,$a_obj_id = 0, $a_highlighted_subtree = false)
 	{
 		global $rbacadmin, $rbacsystem, $ilBench;
 
@@ -586,6 +599,7 @@ class ilExplorer
 						$this->format_options["$this->counter"]["depth"]		= $tab;
 						$this->format_options["$this->counter"]["container"]	= false;
 						$this->format_options["$this->counter"]["visible"]	= true;
+						$this->format_options["$this->counter"]["highlighted_subtree"] = $a_highlighted_subtree;
 						
 						// Create prefix array
 						for ($i = 0; $i < $tab; ++$i)
@@ -651,8 +665,13 @@ class ilExplorer
 						if ($this->expand_all or in_array($object["parent"],$this->expanded) or ($object["parent"] == 0)
 							or $this->forceExpanded($object["child"]))
 						{
+							$highlighted_subtree = ($a_highlighted_subtree ||
+								($object["child"] == $this->highlighted))
+								? true
+								: false;
+							
 							// recursive
-							$this->setOutput($object["child"],$a_depth,$object['obj_id']);
+							$this->setOutput($object["child"],$a_depth,$object['obj_id'], $highlighted_subtree);
 						}
 					} //if
 				} //if FILTER
@@ -714,6 +733,25 @@ class ilExplorer
 		$tpl->setVariable("BODY_CLASS", "il_Explorer");
 		
 		$tpl_tree = new ilTemplate("tpl.tree.html", true, true);
+		
+		// updater
+		if (($_GET["ict"] || $_POST["collapseAll"] != "" || $_POST["expandAll"] != "") && $this->up_frame != "")
+		{
+			$tpl_tree->setCurrentBlock("updater");
+			$tpl_tree->setVariable("UPDATE_FRAME", $this->up_frame);
+			$tpl_tree->setVariable("UPDATE_SCRIPT", $this->up_script);
+			if (is_array($this->up_params))
+			{
+				$up_str = $lim = "";
+				foreach ($this->up_params as $p)
+				{
+					$up_str.=  $lim."'".$p."'";
+					$lim = ",";
+				}
+				$tpl_tree->setVariable("UPDATE_PARAMS", $up_str);
+			}
+			$tpl_tree->parseCurrentBlock();
+		}
 		
 		$cur_depth = -1;
 		foreach ($this->format_options as $key => $options)
@@ -864,7 +902,7 @@ class ilExplorer
 				$tpl->setCurrentBlock("exp_desc");
 				$tpl->setVariable("EXP_DESC", $lng->txt("collapsed"));
 				$tpl->parseCurrentBlock();
-				$target = $this->createTarget('+',$a_node_id);
+				$target = $this->createTarget('+',$a_node_id, $a_option["highlighted_subtree"]);
 				$tpl->setCurrentBlock("expander");
 				$tpl->setVariable("LINK_NAME", $a_node_id);
 				$tpl->setVariable("LINK_TARGET_EXPANDER", $target);
@@ -892,7 +930,7 @@ class ilExplorer
 				$tpl->setCurrentBlock("exp_desc");
 				$tpl->setVariable("EXP_DESC", $lng->txt("expanded"));
 				$tpl->parseCurrentBlock();
-				$target = $this->createTarget('-',$a_node_id);
+				$target = $this->createTarget('-',$a_node_id, $a_option["highlighted_subtree"]);
 				$tpl->setCurrentBlock("expander");
 				$tpl->setVariable("LINK_NAME", $a_node_id);
 				$tpl->setVariable("LINK_TARGET_EXPANDER", $target);
@@ -1075,7 +1113,7 @@ class ilExplorer
 	* @param	integer
 	* @return	string
 	*/
-	function createTarget($a_type,$a_node_id)
+	function createTarget($a_type,$a_node_id,$a_highlighted_subtree = false)
 	{
 		if (!isset($a_type) or !is_string($a_type) or !isset($a_node_id))
 		{
@@ -1091,7 +1129,12 @@ class ilExplorer
 		$sep = (is_int(strpos($this->expand_target, "?")))
 			? "&"
 			: "?";
-		return $this->expand_target.$sep.$this->expand_variable."=".$a_node_id.$this->params_get."#".abs($a_node_id);
+		
+		// in current tree flag
+		$ict_str = ($a_highlighted_subtree || $this->highlighted == "")
+			? "&ict=1"
+			: "";
+		return $this->expand_target.$sep.$this->expand_variable."=".$a_node_id.$this->params_get.$ict_str."#".abs($a_node_id);
 	}
 
 	/**

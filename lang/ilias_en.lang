@@ -9375,3 +9375,35 @@ style#:#sty_haccordion_templates#:#Hor. Accordion Templates
 style#:#sty_acopy#:#Copy
 style#:#sty_tag_normal#:#Normal
 style#:#sty_tag_hover#:#:hover
+content#:#cont_span#:#Span
+content#:#cont_colspan#:#Col. Span
+content#:#cont_rowspan#:#Row Span
+content#:#cont_save_spans#:#Save Spans
+content#:#cont_save_widths#:#Save Widths
+content#:#cont_set_styles#:#Set Styles
+style#:#sty_disable_auto_margins#:#Disable Auto Margins
+style#:#sty_disable_auto_margins_info#:#Disables automatic setting of left/right to 0px, if media objects or tables are left/right aligned.
+content#:#cont_number_std#:#Numeric (Standard)
+content#:#cont_decimal#:#Decimal
+content#:#cont_start_value#:#Start Value
+content#:#cont_start_value_info#:#Enter start value as decimal number. Default is 1.
+common#:#collapse_all#:#Collapse All
+common#:#expand_all#:#Expand All
+sahs#:#sahs_objective#:#Learning Objective
+sahs#:#sahs_objectives#:#Learning Objectives
+style#:#sty_type_sco_desct#:#SCO Description Heading
+style#:#sty_type_sco_objt#:#SCO Objectives Heading
+adve#:#adve_rte_settings#:#Rich Text Editor Settings
+adve#:#adve_page_editor_settings#:#ILIAS Page Editor Settings
+adve#:#adve_grp_lm#:#ILIAS Learning Modules
+adve#:#adve_grp_wiki#:#Wikis
+adve#:#adve_grp_scorm#:#SCORM Editing
+adve#:#adve_grp_glo#:#Glossaries
+adve#:#adve_grp_test#:#Test & Assessment
+adve#:#adve_grp_rep#:#Repository Pages
+adve#:#adve_text_content_features#:#Text Content Menu
+content#:#cont_edit_style#:#Edit Style
+content#:#cont_behavior#:#Behavior
+content#:#cont_all_closed#:#All Closed
+content#:#cont_first_open#:#First Opened
+content#:#cont_force_all_open#:#Force All Opened

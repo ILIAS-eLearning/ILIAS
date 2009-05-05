@@ -50,6 +50,7 @@ class ilPCTableData extends ilPageContent
 	*/
 	function newRowAfter()
 	{
+		$this->initTablePCNode();
 		$td =& $this->getNode();
 		$parent_tr =& $td->parent_node();
 		$new_tr = $parent_tr->clone_node(true);
@@ -71,6 +72,7 @@ class ilPCTableData extends ilPageContent
 
 		// remove td content of new row
 		$this->deleteRowContent($new_tr);
+		$this->fixHideAndSpans();
 	}
 
 
@@ -79,6 +81,7 @@ class ilPCTableData extends ilPageContent
 	*/
 	function newRowBefore()
 	{
+		$this->initTablePCNode();
 		$td =& $this->getNode();
 		$parent_tr =& $td->parent_node();
 		$new_tr = $parent_tr->clone_node(true);
@@ -90,6 +93,7 @@ class ilPCTableData extends ilPageContent
 
 		// remove td content of new row
 		$this->deleteRowContent($new_tr);
+		$this->fixHideAndSpans();
 	}
 
 
@@ -114,6 +118,7 @@ class ilPCTableData extends ilPageContent
 				$tds[$i]->remove_child($td_childs[$j]);
 			}
 		}
+		
 	}
 
 	/**
@@ -136,9 +141,11 @@ class ilPCTableData extends ilPageContent
 	*/
 	function deleteRow()
 	{
+		$this->initTablePCNode();
 		$td =& $this->getNode();
 		$parent_tr =& $td->parent_node();
 		$parent_tr->unlink($parent_tr);
+		$this->fixHideAndSpans();
 	}
 
 
@@ -147,6 +154,7 @@ class ilPCTableData extends ilPageContent
 	*/
 	function newColAfter()
 	{
+		$this->initTablePCNode();
 		$td =& $this->getNode();
 
 		// determine current column nr
@@ -185,6 +193,7 @@ class ilPCTableData extends ilPageContent
 				$this->deleteTDContent($new_td);
 			}
 		}
+		$this->fixHideAndSpans();
 	}
 
 	/**
@@ -192,6 +201,7 @@ class ilPCTableData extends ilPageContent
 	*/
 	function newColBefore()
 	{
+		$this->initTablePCNode();
 		$td =& $this->getNode();
 
 		// determine current column nr
@@ -223,6 +233,7 @@ class ilPCTableData extends ilPageContent
 				$this->deleteTDContent($new_td);
 			}
 		}
+		$this->fixHideAndSpans();
 	}
 
 	/**
@@ -230,6 +241,7 @@ class ilPCTableData extends ilPageContent
 	*/
 	function deleteCol()
 	{
+		$this->initTablePCNode();
 		$td =& $this->getNode();
 
 		// determine current column nr
@@ -252,6 +264,7 @@ class ilPCTableData extends ilPageContent
 				$tds[$col_nr]->unlink($tds[$col_nr]);
 			}
 		}
+		$this->fixHideAndSpans();
 	}
 
 	/**
@@ -259,12 +272,14 @@ class ilPCTableData extends ilPageContent
 	*/
 	function moveRowDown()
 	{
+		$this->initTablePCNode();
 		$td =& $this->getNode();
 		$tr =& $td->parent_node();
 		$next =& $tr->next_sibling();
 		$next_copy = $next->clone_node(true);
 		$next_copy =& $tr->insert_before($next_copy, $tr);
 		$next->unlink($next);
+		$this->fixHideAndSpans();
 	}
 
 	/**
@@ -272,12 +287,14 @@ class ilPCTableData extends ilPageContent
 	*/
 	function moveRowUp()
 	{
+		$this->initTablePCNode();
 		$td =& $this->getNode();
 		$tr =& $td->parent_node();
 		$prev =& $tr->previous_sibling();
 		$tr_copy = $tr->clone_node(true);
 		$tr_copy =& $prev->insert_before($tr_copy, $prev);
 		$tr->unlink($tr);
+		$this->fixHideAndSpans();
 	}
 
 	/**
@@ -285,6 +302,7 @@ class ilPCTableData extends ilPageContent
 	*/
 	function moveColRight()
 	{
+		$this->initTablePCNode();
 		$td =& $this->getNode();
 
 		// determine current column nr
@@ -311,6 +329,7 @@ class ilPCTableData extends ilPageContent
 				$next->unlink($next);
 			}
 		}
+		$this->fixHideAndSpans();
 	}
 
 	/**
@@ -318,6 +337,7 @@ class ilPCTableData extends ilPageContent
 	*/
 	function moveColLeft()
 	{
+		$this->initTablePCNode();
 		$td =& $this->getNode();
 
 		// determine current column nr
@@ -343,7 +363,31 @@ class ilPCTableData extends ilPageContent
 				$td->unlink($td);
 			}
 		}
+		$this->fixHideAndSpans();
 	}
 
+	/**
+	* Table PC Node
+	*/
+	function initTablePCNode()
+	{
+		$td = $this->getNode();
+		$tr = $td->parent_node();
+		$table = $tr->parent_node();
+		$this->table_pc_node = $table->parent_node();
+	}
+	
+	/**
+	* Fix hide attribute and spans
+	*/
+	function fixHideAndSpans()
+	{
+		include_once("./Services/COPage/classes/class.ilPCTable.php");
+		$table_obj = new ilPCTable($this->dom);
+		$table_obj->setNode($this->table_pc_node);
+		$table_obj->readHierId();
+		$table_obj->readPCId();
+		$table_obj->fixHideAndSpans();
+	}
 }
 ?>

@@ -49,17 +49,17 @@ var current_row_col;
 	<!-- END  empty_td -->
 	<!-- BEGIN col_icon -->
 	<td style="text-align: center;">
-		<img src="{COL_ICON}" alt="{COL_ICON_ALT}" onclick="current_row_col = {NR}; doMouseClick(event, '{COL_ONCLICK}');" border="0" />
+		<img src="{COL_ICON}" onclick="current_row_col = {NR}; doMouseClick(event, '{COL_ONCLICK}');" border="0" />
 	</td>
 	<!-- END col_icon -->
 	<!-- BEGIN row_icon -->
 	<td style="vertical-align: middle;">
-		<img src="{ROW_ICON}" alt="{ROW_ICON_ALT}" onclick="current_row_col = {NR}; doMouseClick(event, '{ROW_ONCLICK}');" border="0" />
+		<img src="{ROW_ICON}" onclick="current_row_col = {NR}; doMouseClick(event, '{ROW_ONCLICK}');" border="0" />
 	</td>
 	<!-- END row_icon -->
 	<!-- BEGIN cell -->
-	<td>
-	<textarea id="{PAR_TA_NAME}" name="{PAR_TA_NAME}" onkeyup="handleTDInput(this);" onselect="handleTDInput(this);" onclick="handleTDInput(this);" onkeyup="handleTDInput(this);" style="width:140px; height:80px;" wrap="virtual">{PAR_TA_CONTENT}</textarea>
+	<td {COLSPAN} {ROWSPAN}>
+	<textarea id="{PAR_TA_ID}" name="{PAR_TA_NAME}" onkeyup="handleTDInput(this);" onselect="handleTDInput(this);" onclick="handleTDInput(this);" onkeyup="handleTDInput(this);" style="width:{WIDTH}px; height:{HEIGHT}px; padding:2px; margin:0px; border-width:1px; overflow:auto;" wrap="virtual">{PAR_TA_CONTENT}</textarea>
 	</td>
 	<!-- END cell -->
 </tr>

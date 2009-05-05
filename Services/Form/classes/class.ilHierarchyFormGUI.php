@@ -58,6 +58,37 @@ class ilHierarchyFormGUI extends ilFormGUI
 	}
 
 	/**
+	* Set parent gui object/cmd
+	*
+	* This is needed, if the expand feature is used.
+	*/
+	function setParentCommand($a_parent_obj, $a_parent_cmd)
+	{
+		$this->parent_obj = $a_parent_obj;
+		$this->parent_cmd = $a_parent_cmd;
+	}
+	
+	/**
+	* Get Parent object
+	*
+	* @return	object		parent gui object
+	*/
+	function getParentObject()
+	{
+		return $this->parent_obj;
+	}
+	
+	/**
+	* Get parent command
+	*
+	* @return	string		parent command
+	*/
+	function getParentCommand()
+	{
+		return $this->parent_cmd;
+	}
+
+	/**
 	* Set Id. Currently not possible, due to js handling (ID must always be "hform")
 	*
 	* @param	string	$a_id	Id
@@ -230,6 +261,16 @@ class ilHierarchyFormGUI extends ilFormGUI
 	}
 	
 	/**
+	* Set Explorer Updater
+	*
+	* @param	object	$a_tree	Tree Object
+	*/
+	function setTriggeredUpdateCommand($a_triggered_update_command)
+	{
+		$this->triggered_update_command = $a_triggered_update_command;
+	}
+
+	/**
 	* Get all help items
 	*/
 	function addHelpItem($a_text, $a_image = "")
@@ -306,6 +347,129 @@ class ilHierarchyFormGUI extends ilFormGUI
 	{
 		$this->commands[] = array("text" => $a_txt, "cmd" => $a_cmd);
 	}
+	
+	/**
+	* Set highlighted nodes
+	*
+	* @param	array		highlighted nodes
+	*/
+	function setHighlightedNodes($a_val)
+	{
+		$this->highlighted_nodes = $a_val;
+	}
+	
+	/**
+	* Get highlighted nodes.
+	*
+	* @return	array		highlighted nodes
+	*/
+	function getHighlightedNodes()
+	{
+		return $this->highlighted_nodes;
+	}
+	
+	/**
+	* Set focus if
+	*
+	* @param	int		node id
+	*/
+	function setFocusId($a_val)
+	{
+		$this->focus_id = $a_val;
+	}
+	
+	/**
+	* Get focus id
+	*
+	* @return	int		node id
+	*/
+	function getFocusId()
+	{
+		return $this->focus_id;
+	}
+	
+	/**
+	* Set expand variable
+	*
+	* @param	
+	*/
+	function setExpandVariable($a_val)
+	{
+		$this->expand_variable = $a_val;
+	}
+	
+	/**
+	* Get expand variable
+	*
+	* @return	
+	*/
+	function getExpandVariable()
+	{
+		return $this->expand_variable;
+	}
+	
+	/**
+	* Set expanded Array
+	*
+	* @param	array	expanded array
+	*/
+	function setExpanded($a_val)
+	{
+		$this->expanded = $a_val;
+	}
+	
+	/**
+	* Get expanded array
+	*
+	* @return	array	expanded array
+	*/
+	function getExpanded()
+	{
+		return $this->expanded;
+	}
+	
+	/**
+	* Update expand information in session
+	*
+	* @param	string		node id
+	*/
+	function updateExpanded()
+	{
+		$ev = $this->getExpandVariable();
+
+		if ($ev == "")
+		{
+			return;
+		}
+		
+		// init empty session
+		if (!is_array($_SESSION[$ev]))
+		{
+			$_SESSION[$ev] = array($this->getTree()->getRootId());
+		}
+
+		if ($_POST["il_hform_expand"] != "")
+		{
+			$node_id = $_POST["il_hform_expand"];
+		}
+		if ($_GET[$ev] != "")
+		{
+			$node_id = $_GET[$ev];
+		}
+		
+		// if positive => expand this node
+		if ($node_id > 0 && !in_array($node_id,$_SESSION[$ev]))
+		{
+			array_push($_SESSION[$ev], $node_id);
+		}
+		// if negative => compress this node
+		if ($node_id < 0)
+		{
+			$key = array_keys($_SESSION[$ev],-(int) $node_id);
+			unset($_SESSION[$ev][$key[0]]);
+		}
+		$this->setExpanded($_SESSION[$ev]);
+	}
 
 	/**
 	* Get all childs of current node. Standard implementation uses
@@ -336,6 +500,11 @@ class ilHierarchyFormGUI extends ilFormGUI
 	function getContent()
 	{
 		global $lng;
+		
+		if ($this->getExpandVariable() != "")
+		{
+			$this->updateExpanded();
+		}
 		
 		$ttpl = new ilTemplate("tpl.hierarchy_form.html", true, true, "Services/Form");
 		$top_node_data = $this->getTree()->getNodeData($this->getCurrentTopNodeId());
@@ -495,12 +664,20 @@ class ilHierarchyFormGUI extends ilFormGUI
 			$ttpl->parseCurrentBlock();
 		}
 
+		if ($this->triggered_update_command != "")
+		{
+			$ttpl->setCurrentBlock("tr_update");
+			$ttpl->setVariable("UPDATE_CMD", $this->triggered_update_command);
+			$ttpl->parseCurrentBlock();
+		}
+
 		// nodes
 		$ttpl->setVariable("NODES", $nodes_html);
 		
 		// title
 //echo "<br>".htmlentities($this->getTitle())." --- ".htmlentities(ilUtil::prepareFormOutput($this->getTitle()));
 		$ttpl->setVariable("TITLE", $this->getTitle());
+		
 		
 		return $ttpl->get();
 	}
@@ -609,11 +786,14 @@ class ilHierarchyFormGUI extends ilFormGUI
 	*/
 	function renderChild($a_tpl, $a_child, $a_depth, $next_sibling = null)
 	{
+		global $ilCtrl;
+		
 		// image
 		$a_tpl->setCurrentBlock("img");
 		$a_tpl->setVariable("IMGPATH", $this->getChildIcon($a_child));
 		$a_tpl->setVariable("IMGALT", $this->getChildIconAlt($a_child));
 		$a_tpl->setVariable("IMG_NODE", $a_child["node_id"]);
+		$a_tpl->setVariable("NODE_ID", $a_child["node_id"]);
 		$a_tpl->setVariable("TYPE", $a_child["type"]);
 		$a_tpl->parseCurrentBlock();
 		
@@ -638,11 +818,56 @@ class ilHierarchyFormGUI extends ilFormGUI
 		
 		// title
 		$a_tpl->setCurrentBlock("text");
+		$hl = $this->getHighlightedNodes();
+		if (is_array($hl) && in_array($a_child["node_id"], $hl))
+		{
+			$a_tpl->setVariable("CLASS", ' class="ilHFormHighlighted" ');
+		}
 		$a_tpl->setVariable("VAL_TITLE", ilUtil::prepareFormOutput($a_child["title"]));
 		$a_tpl->setVariable("TNODE_ID", $a_child["node_id"]);
 		$a_tpl->parseCurrentBlock();
 		$grandchilds = null;
 		$grandchilds_html = $this->getLevelHTML($a_child, $a_depth + 1, $grandchilds);
+		
+		// focus
+		if ($this->getFocusId() == $a_child["node_id"])
+		{
+			$a_tpl->setCurrentBlock("focus");
+			$a_tpl->setVariable("FNODE_ID", $a_child["node_id"]);
+			$a_tpl->parseCurrentBlock();
+		}
+		
+		// expander
+		if ($this->getExpandVariable() != "")
+		{
+			$a_tpl->setCurrentBlock("expand_icon");
+			if (!is_null($grandchilds) && count($grandchilds) > 0)
+			{
+				if (!in_array($a_child["node_id"],$this->getExpanded()))
+				{
+					$ilCtrl->setParameter($this->getParentObject(), $this->getExpandVariable(), $a_child["node_id"]);
+					$a_tpl->setVariable("IMG_EXPAND", ilUtil::getImagePath("browser/plus.gif"));
+					$a_tpl->setVariable("HREF_NAME", "n".$a_child["node_id"]);
+					$a_tpl->setVariable("HREF_EXPAND",
+						$ilCtrl->getLinkTarget($this->getParentObject(), $this->getParentCommand(), "n".$a_child["node_id"]));
+					$grandchilds_html = "";
+				}
+				else
+				{
+					$ilCtrl->setParameter($this->getParentObject(), $this->getExpandVariable(), -$a_child["node_id"]);
+					$a_tpl->setVariable("IMG_EXPAND", ilUtil::getImagePath("browser/minus.gif"));
+					$a_tpl->setVariable("HREF_NAME", "n".$a_child["node_id"]);
+					$a_tpl->setVariable("HREF_EXPAND",
+						$ilCtrl->getLinkTarget($this->getParentObject(), $this->getParentCommand(), "n".$a_child["node_id"]));
+				}
+				$ilCtrl->setParameter($this->getParentObject(), $this->getExpandVariable(), "");
+			}
+			else
+			{
+				$a_tpl->setVariable("IMG_EXPAND", ilUtil::getImagePath("spacer.gif"));
+			}
+			$a_tpl->parseCurrentBlock();
+		}
 		
 		// childs
 		$a_tpl->setCurrentBlock("list_item");
