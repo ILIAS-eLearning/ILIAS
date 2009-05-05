@@ -106,21 +106,7 @@ class ilPCTableGUI extends ilPageContentGUI
 	*/
 	function getTemplateOptions()
 	{
-		if ($this->getStyleId() > 0 &&
-			ilObject::_lookupType($this->getStyleId()) == "sty")
-		{
-			include_once("./Services/Style/classes/class.ilObjStyleSheet.php");
-			$style = new ilObjStyleSheet($this->getStyleId());
-			$this->style = $style;
-			$ts = $style->getTableTemplates();
-			$options = array();
-			foreach ($ts as $t)
-			{
-				$options["t:".$t["id"].":".$t["name"]] = $t["name"];
-			}
-			return $options;
-		}
-		return false;
+		return parent::getTemplateOptions("table");
 	}
 
 	/**
@@ -228,7 +214,7 @@ class ilPCTableGUI extends ilPageContentGUI
 			if (strpos($k, ":") > 0)
 			{
 				$t = explode(":", $k);
-				$chars[$k] = $this->style->lookupTableTemplatePreview($t[1])."<div>$char</div>";
+				$chars[$k] = $this->style->lookupTemplatePreview($t[1])."<div>$char</div>";
 			}
 			else
 			{
@@ -376,7 +362,7 @@ class ilPCTableGUI extends ilPageContentGUI
 		if ($this->content_obj->getTemplate() != "")
 		{
 			$values["characteristic"] = "t:".
-				ilObjStyleSheet::_lookupTableTemplateIdByName($this->getStyleId(), $this->content_obj->getTemplate()).":".
+				ilObjStyleSheet::_lookupTemplateIdByName($this->getStyleId(), $this->content_obj->getTemplate()).":".
 				$this->content_obj->getTemplate();
 		}
 		else
@@ -409,7 +395,7 @@ class ilPCTableGUI extends ilPageContentGUI
 			{
 				include_once("./Services/Style/classes/class.ilObjStyleSheet.php");
 				$style = new ilObjStyleSheet($this->getStyleId());
-				$template_xml = $style->getTableTemplateXML();
+				$template_xml = $style->getTemplateXML();
 			}
 		}
 

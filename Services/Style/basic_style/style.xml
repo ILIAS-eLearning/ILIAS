@@ -406,4 +406,76 @@
 <Style Tag="span" Type="text_inline" Class="Accent">
 	<StyleParameter Name="color" Value="#E000E0"/>
 </Style>
+
+<!-- Tabs -->
+<Style Tag="div" Type="va_cntr" Class="VAccordCntr">
+	<StyleParameter Name="margin-top" Value="5px"/>
+</Style>
+<Style Tag="div" Type="va_icntr" Class="VAccordICntr">
+	<StyleParameter Name="background-color" Value="#FFFFFF"/>
+	<StyleParameter Name="margin-bottom" Value="5px"/>
+	<StyleParameter Name="border-width" Value="1px"/>
+	<StyleParameter Name="border-color" Value="#9EADBA"/>
+	<StyleParameter Name="border-style" Value="solid"/>
+</Style>
+<Style Tag="div" Type="va_ihead" Class="VAccordIHead">
+	<StyleParameter Name="padding-left" Value="24px"/>
+	<StyleParameter Name="padding-right" Value="3px"/>
+	<StyleParameter Name="padding-bottom" Value="3px"/>
+	<StyleParameter Name="padding-top" Value="3px"/>
+	<StyleParameter Name="background-color" Value="#E2EAF4"/>
+	<StyleParameter Name="text-align" Value="left"/>
+	<StyleParameter Name="cursor" Value="pointer"/>
+	<StyleParameter Name="background-image" Value="accordion_arrow.gif"/>
+	<StyleParameter Name="background-repeat" Value="no-repeat"/>
+	<StyleParameter Name="background-position" Value="3px 4px"/>
+</Style>
+<Style Tag="div" Type="va_ihead" Class="VAccordIHead:hover">
+	<StyleParameter Name="background-color" Value="#D2D8E2"/>
+</Style>
+<Style Tag="div" Type="va_icont" Class="VAccordICont">
+	<StyleParameter Name="padding" Value="3px"/>
+	<StyleParameter Name="background-color" Value="#FFFFFF"/>
+</Style>
+
+<Style Tag="div" Type="ha_cntr" Class="HAccordCntr">
+</Style>
+<Style Tag="div" Type="ha_icntr" Class="HAccordICntr">
+	<StyleParameter Name="background-color" Value="#FFFFFF"/>
+	<StyleParameter Name="margin-right" Value="5px"/>
+	<StyleParameter Name="border-width" Value="1px"/>
+	<StyleParameter Name="border-color" Value="#9EADBA"/>
+	<StyleParameter Name="border-style" Value="solid"/>
+</Style>
+<Style Tag="div" Type="ha_ihead" Class="HAccordIHead">
+	<StyleParameter Name="padding-left" Value="20px"/>
+	<StyleParameter Name="padding-right" Value="10px"/>
+	<StyleParameter Name="padding-bottom" Value="3px"/>
+	<StyleParameter Name="padding-top" Value="3px"/>
+	<StyleParameter Name="background-color" Value="#E2EAF4"/>
+	<StyleParameter Name="text-align" Value="left"/>
+	<StyleParameter Name="cursor" Value="pointer"/>
+	<StyleParameter Name="background-image" Value="haccordion_arrow.gif"/>
+	<StyleParameter Name="background-repeat" Value="no-repeat"/>
+	<StyleParameter Name="background-position" Value="3px 4px"/>
+</Style>
+<Style Tag="div" Type="ha_ihead" Class="HAccordIHead:hover">
+	<StyleParameter Name="background-color" Value="#D2D8E2"/>
+</Style>
+<Style Tag="div" Type="ha_icont" Class="HAccordICont">
+	<StyleParameter Name="padding" Value="3px"/>
+	<StyleParameter Name="background-color" Value="#FFFFFF"/>
+</Style>
+<StyleTemplate Type="vaccordion" Name="VerticalAccordion">
+<StyleTemplateClass ClassType="va_cntr" Class="VAccordCntr" />
+<StyleTemplateClass ClassType="va_icntr" Class="VAccordICntr" />
+<StyleTemplateClass ClassType="va_ihead" Class="VAccordIHead" />
+<StyleTemplateClass ClassType="va_icont" Class="VAccordICont" />
+</StyleTemplate>
+<StyleTemplate Type="haccordion" Name="HorizontalAccordion">
+<StyleTemplateClass ClassType="ha_cntr" Class="HAccordCntr" />
+<StyleTemplateClass ClassType="ha_icntr" Class="HAccordICntr" />
+<StyleTemplateClass ClassType="ha_ihead" Class="HAccordIHead" />
+<StyleTemplateClass ClassType="ha_icont" Class="HAccordICont" />
+</StyleTemplate>
 </StyleSheet>

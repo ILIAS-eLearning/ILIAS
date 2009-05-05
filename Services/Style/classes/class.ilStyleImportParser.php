@@ -102,6 +102,22 @@ class ilStyleImportParser extends ilSaxParser
 					"type" => $this->current_type,
 					"value" => $a_attribs["Value"]);
 				break;
+				
+			case "StyleColor":
+				$this->style_obj->addColor($a_attribs["Name"], $a_attribs["Code"]);
+				break;
+
+			case "StyleTemplate":
+				$this->cur_template = array("type" => $a_attribs["Type"],
+					"name" => $a_attribs["Name"]);
+				$this->cur_template_classes = array();
+				break;
+				
+			case "StyleTemplateClass":
+				$this->cur_template_classes[$a_attribs["ClassType"]] =
+					$a_attribs["Class"];
+				break;
+
 		}
 		$this->cdata = "";
 	}
@@ -125,6 +141,12 @@ class ilStyleImportParser extends ilSaxParser
 			case "Style":
 				$this->styles[] = $this->current_tags;
 				break;
+				
+			case "StyleTemplate":
+				$this->style_obj->addTemplate($this->cur_template["type"],
+					$this->cur_template["name"], $this->cur_template_classes);
+				break;
+
 		}
 	}
 

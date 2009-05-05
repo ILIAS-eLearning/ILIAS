@@ -586,6 +586,7 @@ class ilPageEditorGUI
 				$this->tabs_gui->clearTargets();
 				include_once ("./Services/COPage/classes/class.ilPCTabsGUI.php");
 				$tabs_gui =& new ilPCTabsGUI($this->page, $cont_obj, $hier_id, $pc_id);
+				$tabs_gui->setStyleId($this->page_gui->getStyleId());
 				$ret =& $this->ctrl->forwardCommand($tabs_gui);
 				break;
 

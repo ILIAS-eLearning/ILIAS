@@ -54,7 +54,7 @@ class ilObjStyleSheetGUI extends ilObjectGUI
 		$this->ctrl =& $ilCtrl;
 		$this->lng =& $lng;
 		$this->lng->loadLanguageModule("style");
-		$ilCtrl->saveParameter($this, array("tag", "style_type"));
+		$ilCtrl->saveParameter($this, array("tag", "style_type", "temp_type"));
 		if ($_GET["style_type"] != "")
 		{
 			$this->super_type = ilObjStyleSheet::_getStyleSuperTypeForType($_GET["style_type"]);
@@ -97,7 +97,6 @@ class ilObjStyleSheetGUI extends ilObjectGUI
 		global $rbacsystem, $lng, $tpl;
 
 		//$this->setTabs();
-		
 
 		$this->lng =& $lng;
 		//$this->ctrl->setParameter($this,'new_type',$this->type);
@@ -205,7 +204,7 @@ class ilObjStyleSheetGUI extends ilObjectGUI
 		$this->tpl->parseCurrentBlock();
 
 		$this->tpl->setVariable("FORMACTION", $this->ctrl->getFormAction($this));
-		$this->tpl->setVariable("TXT_SAVE", $this->lng->txt("save_return"));
+		$this->tpl->setVariable("TXT_SAVE", $this->lng->txt("save"));
 		$this->tpl->setVariable("BTN_SAVE", "update");
 		$this->tpl->setVariable("TXT_REQUIRED_FLD", $this->lng->txt("required_field"));
 	}
@@ -374,7 +373,7 @@ class ilObjStyleSheetGUI extends ilObjectGUI
 	function editTagStyleObject()
 	{
 		global $tpl;
-
+		
 		$cur = explode(".",$_GET["tag"]);
 		$cur_tag = $cur[0];
 		$cur_class = $cur[1];
@@ -918,19 +917,49 @@ class ilObjStyleSheetGUI extends ilObjectGUI
 	*/
 	function getTabs(&$tabs_gui)
 	{
-		global $lng, $ilCtrl;
+		global $lng, $ilCtrl, $ilTabs;
 		
 		if ($ilCtrl->getCmd() == "editTagStyle")
 		{
 			// back to upper context
 			$tabs_gui->setBackTarget($lng->txt("back"),
 				$ilCtrl->getLinkTarget($this, "edit"));
+				
+			$t = explode(".", $_GET["tag"]);
+			$t2 = explode(":", $t[1]);
+			$pc = $this->object->_getPseudoClasses($t[0]);
+			if (is_array($pc) && count($pc) > 0)
+			{
+				// style classes
+				$ilCtrl->setParameter($this, "tag", $t[0].".".$t2[0]);
+				$tabs_gui->addTarget("sty_tag_normal",
+					$this->ctrl->getLinkTarget($this, "editTagStyle"), array("editTagStyle", ""),
+					get_class($this));
+				if ($t2[1] == "")
+				{
+					$ilTabs->setTabActive("sty_tag_normal");
+				}
+				
+				foreach ($pc as $p)
+				{
+					// style classes
+					$ilCtrl->setParameter($this, "tag", $t[0].".".$t2[0].":".$p);
+					$tabs_gui->addTarget("sty_tag_".$p,
+						$this->ctrl->getLinkTarget($this, "editTagStyle"), array("editTagStyle", ""),
+						get_class($this));
+					if ($t2[1] == $p)
+					{
+						$ilTabs->setTabActive("sty_tag_".$p);
+					}
+				}
+				$ilCtrl->setParameter($this, "tag", $_GET["tag"]);
+			}
 		}
 		else
 		{
 			// back to upper context
 			$tabs_gui->setBackTarget($lng->txt("back"),
-				$this->ctrl->getParentReturn($this));
+				$this->ctrl->getLinkTarget($this, "returnToUpperContext"));
 	
 			// style classes
 			$tabs_gui->addTarget("sty_style_chars",
@@ -948,14 +977,20 @@ class ilObjStyleSheetGUI extends ilObjectGUI
 				get_class($this));
 
 			// table templates
-			$tabs_gui->addTarget("sty_table_templates",
-				$this->ctrl->getLinkTarget($this, "listTableTemplates"), "listTableTemplates",
+			$tabs_gui->addTarget("sty_templates",
+				$this->ctrl->getLinkTarget($this, "listTemplates"), "listTemplates",
 				get_class($this));
 				
 			// settings
 			$tabs_gui->addTarget("settings",
 				$this->ctrl->getLinkTarget($this, "properties"), "properties",
 				get_class($this));
+
+			// accordiontest
+/*
+			$tabs_gui->addTarget("accordiontest",
+				$this->ctrl->getLinkTarget($this, "accordiontest"), "accordiontest",
+				get_class($this));*/
 		}
 
 	}
@@ -981,6 +1016,28 @@ class ilObjStyleSheetGUI extends ilObjectGUI
 		}
 
 		$ilCtrl->setParameter($this, "style_type", $_GET["style_type"]);
+	}
+
+	/**
+	* adds tabs to tab gui object
+	*
+	* @param	object		$tabs_gui		ilTabsGUI object
+	*/
+	function setTemplatesSubTabs()
+	{
+		global $lng, $ilTabs, $ilCtrl;
+		
+		$types = ilObjStyleSheet::_getTemplateClassTypes();
+		
+		foreach ($types as $t => $c)
+		{
+			$ilCtrl->setParameter($this, "temp_type", $t);
+			$ilTabs->addSubTabTarget("sty_".$t."_templates",
+				$this->ctrl->getLinkTarget($this, "listTemplates"), array("listTemplates", ""),
+				get_class($this));
+		}
+
+		$ilCtrl->setParameter($this, "temp_type", $_GET["temp_type"]);
 	}
 
 	/**
@@ -1289,6 +1346,9 @@ class ilObjStyleSheetGUI extends ilObjectGUI
 	{
 		global $lng;
 		
+		$c = explode(":", $a_class);
+		$a_class = $c[0];
+		
 		$ex_tpl = new ilTemplate("tpl.style_example.html", true, true, "Services/Style");
 		
 		$ex_tpl->setCurrentBlock("Example_".$a_type);
@@ -1549,55 +1609,75 @@ class ilObjStyleSheetGUI extends ilObjectGUI
 	}
 
 	//
-	// Table templates management
+	// Templates management
 	//
 	
 	/**
-	* List table templates
+	* List templates
 	*/
-	function listTableTemplatesObject()
+	function listTemplatesObject()
 	{
-		global $tpl;
+		global $tpl, $ilTabs, $ilCtrl;
+		
+		$ctype = $_GET["temp_type"];
+		if ($ctype == "")
+		{
+			$ctype = "table";
+			$ilCtrl->setParameter($this, "temp_type", $ctype);
+			$_GET["temp_type"] = $ctype;
+		}
+		
+		$this->setTemplatesSubTabs();
+		$ilTabs->setSubTabActive("sty_".$ctype."_templates");
 		
 		$this->includeCSS();
 		include_once("./Services/Style/classes/class.ilTableTemplatesTableGUI.php");
-		$table_gui = new ilTableTemplatesTableGUI($this, "listTableTemplates",
+		$table_gui = new ilTableTemplatesTableGUI($ctype, $this, "listTemplates",
 			$this->object);
 		$tpl->setContent($table_gui->getHTML());
 		
 	}
 	
 	/**
-	* Add table template
+	* Add template
 	*/
-	function addTableTemplateObject()
+	function addTemplateObject()
 	{
 		global $tpl;
 		
-		$this->initTableTemplateForm();
+		$this->initTemplateForm();
 		$tpl->setContent($this->form_gui->getHTML());
 	}
 
 	/**
 	* Edit table template
 	*/
-	function editTableTemplateObject()
+	function editTemplateObject()
 	{
 		global $tpl, $ilCtrl;
 
 		$ilCtrl->setParameter($this, "t_id", $_GET["t_id"]);
-		$this->initTableTemplateForm("edit");
-		$this->getTableTemplateFormValues();
+		$this->initTemplateForm("edit");
+		$this->getTemplateFormValues();
 		
-		$this->displayTableTemplateEditForm();
+		$this->displayTemplateEditForm();
 	}
 
 	/**
 	* Get table template preview
 	*/
-	function getTableTemplatePreview($a_t_id, $a_small_mode = false)
+	function getTemplatePreview($a_type, $a_t_id, $a_small_mode = false)
 	{
-		global $lng;
+		return $this->_getTemplatePreview(
+			$this->object, $a_type, $a_t_id, $a_small_mode);
+	}
+
+	/**
+	* Get table template preview
+	*/
+	function _getTemplatePreview($a_style, $a_type, $a_t_id, $a_small_mode = false)
+	{
+		global $lng, $tpl;
 
 		$kr = $kc = 7;
 		if ($a_small_mode)
@@ -1606,50 +1686,100 @@ class ilObjStyleSheetGUI extends ilObjectGUI
 			$kc = 5;
 		}
 		
-		$t = $this->object->getTableTemplate($a_t_id);
-		
+		$ts = $a_style->getTemplate($a_t_id);
+		$t = $ts["classes"];
+
 		// preview
-		$p_content = '<PageContent><Table DataTable="y"';
-		if ($t["row_head_class"] != "")
+		if ($a_type == "table")
 		{
-			$p_content.= ' HeaderRows="1"';
-		}
-		if ($t["row_foot_class"] != "")
-		{
-			$p_content.= ' FooterRows="1"';
-		}
-		if ($t["col_head_class"] != "")
-		{
-			$p_content.= ' HeaderCols="1"';
-		}
-		if ($t["col_foot_class"] != "")
-		{
-			$p_content.= ' FooterCols="1"';
-		}
-		$p_content.= ' Template="'.$this->object->lookupTableTemplateName($a_t_id).'">';
-		if (!$a_small_mode)
-		{
-			$p_content.= '<Caption>'.$lng->txt("sty_caption").'</Caption>';
-		}
-		for($i = 1; $i<=$kr; $i++)
-		{
-			$p_content.= '<TableRow>';
-			for($j = 1; $j<=$kc; $j++)
+			$p_content = '<PageContent><Table DataTable="y"';
+			if ($t["row_head"] != "")
 			{
+				$p_content.= ' HeaderRows="1"';
+			}
+			if ($t["row_foot"] != "")
+			{
+				$p_content.= ' FooterRows="1"';
+			}
+			if ($t["col_head"] != "")
+			{
+				$p_content.= ' HeaderCols="1"';
+			}
+			if ($t["col_foot"] != "")
+			{
+				$p_content.= ' FooterCols="1"';
+			}
+			$p_content.= ' Template="'.$a_style->lookupTemplateName($a_t_id).'">';
+			if (!$a_small_mode)
+			{
+				$p_content.= '<Caption>'.$lng->txt("sty_caption").'</Caption>';
+			}
+			for($i = 1; $i<=$kr; $i++)
+			{
+				$p_content.= '<TableRow>';
+				for($j = 1; $j<=$kc; $j++)
+				{
+					if ($a_small_mode)
+					{
+						$cell = '&lt;div style="height:2px;"&gt;&lt;/div&gt;';
+					}
+					else
+					{
+						$cell = 'xxx';
+					}
+					$p_content.= '<TableData><PageContent><Paragraph Characteristic="TableContent">'.$cell.'</Paragraph></PageContent></TableData>';
+				}
+				$p_content.= '</TableRow>';
+			}
+			$p_content.= '</Table></PageContent>';
+		}
+		
+		if ($a_type == "vaccordion" || $a_type == "haccordion")
+		{
+			include_once("./Services/Accordion/classes/class.ilAccordionGUI.php");
+			ilAccordionGUI::addCss();
+			
+			if ($a_small_mode)
+			{
+				$c = '&amp;nbsp;';
+				$h = '&amp;nbsp;';
+			}
+			else
+			{
+				$c = 'xxx';
+				$h = 'head';
+			}
+			if ($a_type == "vaccordion")
+			{
+				$p_content = '<PageContent><Tabs HorizontalAlign="Left" Type="VerticalAccordion" ';
 				if ($a_small_mode)
 				{
-					$cell = '&lt;div style="height:2px;"&gt;&lt;/div&gt;';
+					$p_content.= ' ContentWidth="70"';
+				}
+			}
+			else
+			{
+				$p_content = '<PageContent><Tabs Type="HorizontalAccordion"';
+				if ($a_small_mode)
+				{
+					$p_content.= ' ContentHeight="40"';
+					$p_content.= ' ContentWidth="70"';
+					$c = '&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;';
 				}
 				else
 				{
-					$cell = 'xxx';
+					$p_content.= ' ContentHeight="40"';
 				}
-				$p_content.= '<TableData><PageContent><Paragraph Characteristic="TableContent">'.$cell.'</Paragraph></PageContent></TableData>';
 			}
-			$p_content.= '</TableRow>';
+			$p_content.= ' Template="'.$a_style->lookupTemplateName($a_t_id).'">';
+			$p_content.= '<Tab><PageContent><Paragraph>'.$c.'</Paragraph></PageContent>';
+			$p_content.= '<TabCaption>'.$h.'</TabCaption>';
+			$p_content.= '</Tab>';
+			$p_content.= '</Tabs></PageContent>';
 		}
-		$p_content.= '</Table></PageContent>';
-		$txml = $this->object->getTableTemplateXML();
+//echo htmlentities($p_content);
+		$txml = $a_style->getTemplateXML();
+//echo htmlentities($txml);
 		$p_content.= $txml;
 		include_once("./Services/COPage/classes/class.ilPCTableGUI.php");
 		$r_content = ilPCTableGUI::_renderTable($p_content, "");
@@ -1660,7 +1790,7 @@ class ilObjStyleSheetGUI extends ilObjectGUI
 	/**
 	* Init table template form
 	*/
-	function initTableTemplateForm($a_mode = "create")
+	function initTemplateForm($a_mode = "create")
 	{
 		global $lng, $ilCtrl;
 		
@@ -1686,19 +1816,10 @@ class ilObjStyleSheetGUI extends ilObjectGUI
 		$this->form_gui->addItem($name_input);
 
 		// template style classes
-		$scs = array("table_class" => "table",
-			"caption_class" => "table_caption",
-			"row_head_class" => "table_cell",
-			"row_foot_class" => "table_cell",
-			"col_head_class" => "table_cell",
-			"col_foot_class" => "table_cell",
-			"odd_row_class" => "table_cell",
-			"even_row_class" => "table_cell",
-			"odd_col_class" => "table_cell",
-			"even_col_class" => "table_cell");
+		$scs = ilObjStyleSheet::_getTemplateClassTypes($_GET["temp_type"]);
 		foreach ($scs as $sc => $st)
 		{
-			$sc_input = new ilSelectInputGUI($lng->txt("sty_".$sc), $sc);
+			$sc_input = new ilSelectInputGUI($lng->txt("sty_".$sc."_class"), $sc."_class");
 			$chars = $this->object->getCharacteristics($st);
 			$options = array("" => "");
 			foreach($chars as $char)
@@ -1711,14 +1832,14 @@ class ilObjStyleSheetGUI extends ilObjectGUI
 		
 		if ($a_mode == "create")
 		{
-			$this->form_gui->addCommandButton("saveTableTemplate", $lng->txt("save"));
-			$this->form_gui->addCommandButton("cancelTableTemplateSaving", $lng->txt("cancel"));
+			$this->form_gui->addCommandButton("saveTemplate", $lng->txt("save"));
+			$this->form_gui->addCommandButton("cancelTemplateSaving", $lng->txt("cancel"));
 		}
 		else
 		{
-			$this->form_gui->addCommandButton("refreshTableTemplate", $lng->txt("save_refresh"));
-			$this->form_gui->addCommandButton("updateTableTemplate", $lng->txt("save_return"));
-			$this->form_gui->addCommandButton("cancelTableTemplateSaving", $lng->txt("cancel"));
+			$this->form_gui->addCommandButton("refreshTemplate", $lng->txt("save_refresh"));
+			$this->form_gui->addCommandButton("updateTemplate", $lng->txt("save_return"));
+			$this->form_gui->addCommandButton("cancelTemplateSaving", $lng->txt("cancel"));
 		}
 		$this->form_gui->setFormAction($ilCtrl->getFormAction($this));
 	}
@@ -1726,41 +1847,40 @@ class ilObjStyleSheetGUI extends ilObjectGUI
 	/**
 	* Cancel color saving
 	*/
-	function cancelTableTemplateSavingObject()
+	function cancelTemplateSavingObject()
 	{
 		global $ilCtrl;
 		
-		$ilCtrl->redirect($this, "listTableTemplates");
+		$ilCtrl->redirect($this, "listTemplates");
 	}
 
 	/**
 	* Save table template
 	*/
-	function saveTableTemplateObject()
+	function saveTemplateObject()
 	{
 		global $tpl, $ilCtrl, $lng;
 		
-		$this->initTableTemplateForm();
+		$this->initTemplateForm();
 		
 		if ($this->form_gui->checkInput())
 		{
-			if ($this->object->tableTemplateExists($_POST["name"]))
+			if ($this->object->templateExists($_POST["name"]))
 			{
 				$name_input = $this->form_gui->getItemByPostVar("name");
 				$name_input->setAlert($lng->txt("sty_table_template_already_exists"));
 			}
 			else
 			{
-				$t_id = $this->object->addTableTemplate($_POST["name"], $_POST["table_class"],
-					$_POST["row_head_class"], $_POST["row_foot_class"],
-					$_POST["col_head_class"], $_POST["col_foot_class"],
-					$_POST["odd_row_class"], $_POST["even_row_class"],
-					$_POST["odd_col_class"], $_POST["even_col_class"],
-					$_POST["caption_class"]
-					);
-				$this->object->writeTableTemplatePreview($t_id,
-					$this->getTableTemplatePreview($t_id, true));
-				$ilCtrl->redirect($this, "listTableTemplates");
+				$classes = array();
+				foreach (ilObjStyleSheet::_getTemplateClassTypes($_GET["temp_type"]) as $tct => $ct)
+				{
+					$classes[$tct] = $_POST[$tct."_class"];
+				}
+				$t_id = $this->object->addTemplate($_GET["temp_type"], $_POST["name"], $classes);
+				$this->object->writeTemplatePreview($t_id,
+					$this->getTemplatePreview($_GET["temp_type"], $t_id, true));
+				$ilCtrl->redirect($this, "listTemplates");
 			}
 		}
 		$this->form_gui->setValuesByPost();
@@ -1770,91 +1890,82 @@ class ilObjStyleSheetGUI extends ilObjectGUI
 	/**
 	* Update table template
 	*/
-	function updateTableTemplateObject($a_refresh = false)
+	function updateTemplateObject($a_refresh = false)
 	{
 		global $tpl, $ilCtrl, $lng;
 		
 		$ilCtrl->setParameter($this, "t_id", $_GET["t_id"]);
-		$this->initTableTemplateForm("edit");
+		$this->initTemplateForm("edit");
 		
 		if ($this->form_gui->checkInput())
 		{
-			if ($this->object->tableTemplateExists($_POST["name"]) &&
-				$_POST["name"] != ilObjStyleSheet::lookupTableTemplateName($_GET["t_id"]))
+			if ($this->object->templateExists($_POST["name"]) &&
+				$_POST["name"] != ilObjStyleSheet::lookupTemplateName($_GET["t_id"]))
 			{
 				$name_input = $this->form_gui->getItemByPostVar("name");
 				$name_input->setAlert($lng->txt("sty_template_already_exists"));
 			}
 			else
 			{
-				$this->object->updateTableTemplate($_GET["t_id"],
-					$_POST["name"], $_POST["table_class"],
-					$_POST["row_head_class"], $_POST["row_foot_class"],
-					$_POST["col_head_class"], $_POST["col_foot_class"],
-					$_POST["odd_row_class"], $_POST["even_row_class"],
-					$_POST["odd_col_class"], $_POST["even_col_class"],
-					$_POST["caption_class"]
-					);
-				$this->object->writeTableTemplatePreview($_GET["t_id"],
-					$this->getTableTemplatePreview($_GET["t_id"], true));
+				$classes = array();
+				foreach (ilObjStyleSheet::_getTemplateClassTypes($_GET["temp_type"]) as $tct => $ct)
+				{
+					$classes[$tct] = $_POST[$tct."_class"];
+				}
+
+				$this->object->updateTemplate($_GET["t_id"],
+					$_POST["name"], $classes);
+				$this->object->writeTemplatePreview($_GET["t_id"],
+					$this->getTemplatePreview($_GET["temp_type"], $_GET["t_id"], true));
 				if(!$a_refresh)
 				{
-					$ilCtrl->redirect($this, "listTableTemplates");
+					$ilCtrl->redirect($this, "listTemplates");
 				}
 			}
 		}
 		
 		$this->form_gui->setValuesByPost();
-		$this->displayTableTemplateEditForm();
+		$this->displayTemplateEditForm();
 	}
 	
 	/**
 	* Display table tempalte edit form
 	*/
-	function displayTableTemplateEditForm()
+	function displayTemplateEditForm()
 	{
 		global $tpl;
 		
-		$a_tpl = new ilTemplate("tpl.table_template_edit.html", true, true,
+		$a_tpl = new ilTemplate("tpl.template_edit.html", true, true,
 			"Services/Style");
 		$this->includeCSS();
 		$a_tpl->setVariable("FORM", $this->form_gui->getHTML());
-		$a_tpl->setVariable("PREVIEW", $this->getTableTemplatePreview($_GET["t_id"]));
+		$a_tpl->setVariable("PREVIEW", $this->getTemplatePreview($_GET["temp_type"], $_GET["t_id"]));
 		$tpl->setContent($a_tpl->get());
 	}
 
 	/**
 	* Refresh table template
 	*/
-	function refreshTableTemplateObject()
+	function refreshTemplateObject()
 	{
-		$this->updateTableTemplateObject(true);
+		$this->updateTemplateObject(true);
 	}
 
 	/**
 	* Set values for table template editing
 	*/
-	function getTableTemplateFormValues()
+	function getTemplateFormValues()
 	{
 		if ($_GET["t_id"] > 0)
 		{
-			$t = $this->object->getTableTemplate($_GET["t_id"]);
+			$t = $this->object->getTemplate($_GET["t_id"]);
+
 			$values["name"] = $t["name"];
-			$scs = array("table_class" => "table",
-				"caption_class" => "table_caption",
-				"row_head_class" => "table_cell",
-				"row_foot_class" => "table_cell",
-				"col_head_class" => "table_cell",
-				"col_foot_class" => "table_cell",
-				"odd_row_class" => "table_cell",
-				"even_row_class" => "table_cell",
-				"odd_col_class" => "table_cell",
-				"even_col_class" => "table_cell");
+			$scs = ilObjStyleSheet::_getTemplateClassTypes($_GET["temp_type"]);
 			foreach ($scs as $k => $type)
 			{
-				$values[$k] = $t[$k];
+				$values[$k."_class"] = $t["classes"][$k];
 			}
-
 			$this->form_gui->setValuesByArray($values);
 		}
 	}
@@ -1862,14 +1973,14 @@ class ilObjStyleSheetGUI extends ilObjectGUI
 	/**
 	* Delete table template confirmation
 	*/
-	function deleteTableTemplateConfirmationObject()
+	function deleteTemplateConfirmationObject()
 	{
 		global $ilCtrl, $tpl, $lng;
 		
 		if (!is_array($_POST["tid"]) || count($_POST["tid"]) == 0)
 		{
 			ilUtil::sendInfo($lng->txt("no_checkbox"), true);
-			$ilCtrl->redirect($this, "listTableTemplates");
+			$ilCtrl->redirect($this, "listTemplates");
 		}
 		else
 		{
@@ -1877,13 +1988,32 @@ class ilObjStyleSheetGUI extends ilObjectGUI
 			$cgui = new ilConfirmationGUI();
 			$cgui->setFormAction($ilCtrl->getFormAction($this));
 			$cgui->setHeaderText($lng->txt("sty_confirm_template_deletion"));
-			$cgui->setCancel($lng->txt("cancel"), "cancelTableTemplateDeletion");
-			$cgui->setConfirm($lng->txt("delete"), "deleteTableTemplate");
+			$cgui->setCancel($lng->txt("cancel"), "cancelTemplateDeletion");
+			$cgui->setConfirm($lng->txt("sty_del_template"), "deleteTemplate");
 			
 			foreach ($_POST["tid"] as $tid)
 			{
-				$cgui->addItem("tid[]", $tid, $this->object->lookupTableTemplateName($tid));
+				$classes = $this->object->getTemplateClasses($tid);
+				$cl_str = "";
+				$listed = array();
+				foreach ($classes as $cl)
+				{
+					if ($cl != "" && !$listed[$cl])
+					{
+						$cl_str.= '<div>- '.
+							$cl."</div>";
+						$listed[$cl]  = true;
+					}
+				}
+				if ($cl_str != "")
+				{
+					$cl_str = '<div style="padding-left:30px;" class="small">'.
+						"<div><i>".$lng->txt("sty_style_class")."</i></div>".$cl_str."</div>";
+				}
+				$cgui->addItem("tid[]", $tid, $this->object->lookupTemplateName($tid).$cl_str);
 			}
+			
+			$cgui->addButton($lng->txt("sty_del_template_keep_classes"), "deleteTemplateKeepClasses");
 			
 			$tpl->setContent($cgui->getHTML());
 		}
@@ -1892,17 +2022,17 @@ class ilObjStyleSheetGUI extends ilObjectGUI
 	/**
 	* Cancel table template deletion
 	*/
-	function cancelTableTemplateDeletionObject()
+	function cancelTemplateDeletionObject()
 	{
 		global $ilCtrl;
 		
-		$ilCtrl->redirect($this, "listTableTemplates");
+		$ilCtrl->redirect($this, "listTemplates");
 	}
 
 	/**
 	* Delete table template
 	*/
-	function deleteTableTemplateObject()
+	function deleteTemplateKeepClassesObject()
 	{
 		global $ilCtrl;
 		
@@ -1910,28 +2040,53 @@ class ilObjStyleSheetGUI extends ilObjectGUI
 		{
 			foreach ($_POST["tid"] as $tid)
 			{
-				$this->object->removeTableTemplate($tid);
+				$this->object->removeTemplate($tid);
 			}
 		}
 			
-		$ilCtrl->redirect($this, "listTableTemplates");
+		$ilCtrl->redirect($this, "listTemplates");
+	}
+	
+	/**
+	* Delete table template
+	*/
+	function deleteTemplateObject()
+	{
+		global $ilCtrl;
+		
+		if (is_array($_POST["tid"]))
+		{
+			foreach ($_POST["tid"] as $tid)
+			{
+				$cls = $this->object->getTemplateClasses($tid);
+				foreach ($cls as $k => $cls)
+				{
+					$ty = $this->object->determineTemplateStyleClassType($_GET["temp_type"], $k);
+					$ta = ilObjStyleSheet::_determineTag($ty);
+					$this->object->deleteCharacteristic($ty, $ta, $cls);
+				}
+				$this->object->removeTemplate($tid);
+			}
+		}
+			
+		$ilCtrl->redirect($this, "listTemplates");
 	}
 
 	/**
 	* Generate table template
 	*/
-	function generateTableTemplateObject()
+	function generateTemplateObject()
 	{
 		global $tpl;
 		
-		$this->initTableTemplateGenerationForm();
+		$this->initTemplateGenerationForm();
 		$tpl->setContent($this->form_gui->getHTML());
 	}
 
 	/**
 	* Init table template generation form
 	*/
-	function initTableTemplateGenerationForm()
+	function initTemplateGenerationForm()
 	{
 		global $lng, $ilCtrl;
 		
@@ -1997,23 +2152,23 @@ class ilObjStyleSheetGUI extends ilObjectGUI
 			$this->form_gui->addItem($l_input);
 		}
 		
-		$this->form_gui->addCommandButton("tableTemplateGeneration", $lng->txt("generate"));
-		$this->form_gui->addCommandButton("cancelTableTemplateSaving", $lng->txt("cancel"));
+		$this->form_gui->addCommandButton("templateGeneration", $lng->txt("generate"));
+		$this->form_gui->addCommandButton("cancelTemplateSaving", $lng->txt("cancel"));
 		$this->form_gui->setFormAction($ilCtrl->getFormAction($this));
 	}
 
 	/**
 	* Table template generation
 	*/
-	function tableTemplateGenerationObject()
+	function templateGenerationObject()
 	{
 		global $tpl, $ilCtrl, $lng;
 		
-		$this->initTableTemplateGenerationForm();
+		$this->initTemplateGenerationForm();
 		
 		if ($this->form_gui->checkInput())
 		{
-			if ($this->object->tableTemplateExists($_POST["name"]))
+			if ($this->object->templateExists($_POST["name"]))
 			{
 				$name_input = $this->form_gui->getItemByPostVar("name");
 				$name_input->setAlert($lng->txt("sty_table_template_already_exists"));
@@ -2046,7 +2201,7 @@ class ilObjStyleSheetGUI extends ilObjectGUI
 					$cell_class[$k] = $_POST["name"].$k;
 					if (!$this->object->characteristicExists($cell_class[$k], "table_cell"))
 					{
-						$this->object->addCharacteristic("table_cell", $cell_class[$k]);
+						$this->object->addCharacteristic("table_cell", $cell_class[$k], true);
 					}
 					if ($_POST["layout"] == "bwZebra" && $k == "H")
 					{
@@ -2081,31 +2236,31 @@ class ilObjStyleSheetGUI extends ilObjectGUI
 				}
 				
 				// table class
-				$table_class = $_POST["name"]."T";
-				if (!$this->object->characteristicExists($table_class, "table"))
+				$classes["table"] = $_POST["name"]."T";
+				if (!$this->object->characteristicExists($classes["table"], "table"))
 				{
-						$this->object->addCharacteristic("table", $table_class);
+						$this->object->addCharacteristic("table", $classes["table"], true);
 				}
-				$this->object->replaceStylePar("table", $table_class, "caption-side",
+				$this->object->replaceStylePar("table", $classes["table"], "caption-side",
 					"bottom", "table");
-				$this->object->replaceStylePar("table", $table_class, "border-collapse",
+				$this->object->replaceStylePar("table", $classes["table"], "border-collapse",
 					"collapse", "table");
-				$this->object->replaceStylePar("table", $table_class, "margin-top",
+				$this->object->replaceStylePar("table", $classes["table"], "margin-top",
 					"5px", "table");
-				$this->object->replaceStylePar("table", $table_class, "margin-bottom",
+				$this->object->replaceStylePar("table", $classes["table"], "margin-bottom",
 					"5px", "table");
 				if ($_POST["layout"] == "bwZebra")
 				{
-					$this->object->replaceStylePar("table", $table_class, "border-bottom-color",
+					$this->object->replaceStylePar("table", $classes["table"], "border-bottom-color",
 						"!".$_POST["base_color"], "table");
-					$this->object->replaceStylePar("table", $table_class, "border-bottom-style",
+					$this->object->replaceStylePar("table", $classes["table"], "border-bottom-style",
 						"solid", "table");
-					$this->object->replaceStylePar("table", $table_class, "border-bottom-width",
+					$this->object->replaceStylePar("table", $classes["table"], "border-bottom-width",
 						"3px", "table");
 					$sb = array("left", "right", "top");
 					foreach ($sb as $b)
 					{
-						$this->object->replaceStylePar("table", $table_class, "border-".$b."-width",
+						$this->object->replaceStylePar("table", $classes["table"], "border-".$b."-width",
 							"0px", "table");
 					}
 				}
@@ -2113,39 +2268,68 @@ class ilObjStyleSheetGUI extends ilObjectGUI
 				switch ($_POST["layout"])
 				{
 					case "coloredZebra":
-						$row_head_class = $cell_class["H"];
-						$odd_row_class = $cell_class["C1"];
-						$even_row_class = $cell_class["C2"];
+						$classes["row_head"] = $cell_class["H"];
+						$classes["odd_row"] = $cell_class["C1"];
+						$classes["even_row"] = $cell_class["C2"];
 						break;
 						
 					case "bwZebra":
-						$row_head_class = $cell_class["H"];
-						$odd_row_class = $cell_class["C1"];
-						$even_row_class = $cell_class["C2"];
+						$classes["row_head"] = $cell_class["H"];
+						$classes["odd_row"] = $cell_class["C1"];
+						$classes["even_row"] = $cell_class["C2"];
 						break;
 						
 					case "noZebra":
-						$row_head_class = $cell_class["H"];
-						$odd_row_class = $cell_class["C1"];
-						$even_row_class = $cell_class["C1"];
-						$col_head_class = $cell_class["C2"];
+						$classes["row_head"] = $cell_class["H"];
+						$classes["odd_row"] = $cell_class["C1"];
+						$classes["even_row"] = $cell_class["C1"];
+						$classes["col_head"] = $cell_class["C2"];
 						break;
 				}
 				
-				$t_id = $this->object->addTableTemplate($_POST["name"], $table_class,
-					$row_head_class, $row_foot_class,
-					$col_head_class, $col_foot_class,
-					$odd_row_class, $even_row_class,
-					$odd_col_class, $even_col_class,
-					$caption_class
-					);
-				$this->object->writeTableTemplatePreview($t_id,
-					$this->getTableTemplatePreview($t_id, true));
-				$ilCtrl->redirect($this, "listTableTemplates");
+
+				$t_id = $this->object->addTemplate($_GET["temp_type"],
+					$_POST["name"], $classes);
+				$this->object->writeTemplatePreview($t_id,
+					$this->getTemplatePreview($_GET["temp_type"], $_GET["temp_type"], $t_id, true));
+				$ilCtrl->redirect($this, "listTemplates");
 			}
 		}
 		$this->form_gui->setValuesByPost();
 		$tpl->setContent($this->form_gui->getHTML());
+	}
+
+	function accordiontestObject()
+	{
+		global $tpl;
+		
+		include_once("./Services/Accordion/classes/class.ilAccordionGUI.php");
+		
+		$acc = new ilAccordionGUI();
+		$acc->addItem("Header 1", str_repeat("bla bla bla bla bla bla", 30));
+		$acc->addItem("Header 2", str_repeat("xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx xx x xx x xx", 30));
+		$acc->setOrientation(ilAccordionGUI::HORIZONTAL);
+
+		$ac2 = new ilAccordionGUI();
+		$ac2->addItem("Header 1", str_repeat("bla bla bla bla bla bla", 30));
+		$ac2->addItem("Header 2", $acc->getHTML());
+		$ac2->setOrientation(ilAccordionGUI::VERTICAL);
+		
+		$tpl->setContent($ac2->getHTML());
+	}
+	
+	/**
+	* return to upper context
+	*/
+	function returnToUpperContextObject()
+	{
+		global $ilCtrl;
+
+		if ($_GET["baseClass"] == "ilAdministrationGUI")
+		{
+			$ilCtrl->redirectByClass("ilobjstylesettingsgui", "editContentStyles");
+		}
+		$ilCtrl->returnToParent($this);
 	}
 
 }

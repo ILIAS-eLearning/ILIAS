@@ -1803,6 +1803,7 @@ if ($_GET["pgEdMediaMode"] != "") {echo "ilPageObject::error media"; exit;}
 //echo "<br><br>+$a_no_history+$h_query";
 						$ilDB->query($h_query);*/
 						$this->saveMobUsage($old_rec["content"], $last_nr["mnr"] + 1);
+						$this->saveStyleUsage($old_rec["content"], $last_nr["mnr"] + 1);
 						$this->saveFileUsage($old_rec["content"], $last_nr["mnr"] + 1);
 						$this->history_saved = true;		// only save one time
 					}
@@ -1870,6 +1871,9 @@ if ($_GET["pgEdMediaMode"] != "") {echo "ilPageObject::error media"; exit;}
 				}
 			}
 			
+			// save style usage
+			$this->saveStyleUsage($this->getXMLFromDom());
+			
 			// save internal link information
 			$this->saveInternalLinks($this->getXMLFromDom());
 			$this->saveAnchors($this->getXMLFromDom());
@@ -1903,6 +1907,9 @@ if ($_GET["pgEdMediaMode"] != "") {echo "ilPageObject::error media"; exit;}
 
 		// delete mob usages
 		$this->saveMobUsage("<dummy></dummy>");
+
+		// delete style usages
+		$this->saveStyleUsage("<dummy></dummy>");
 
 		// delete internal links
 		$this->saveInternalLinks("<dummy></dummy>");
@@ -2016,6 +2023,115 @@ if ($_GET["pgEdMediaMode"] != "") {echo "ilPageObject::error media"; exit;}
 		foreach($file_ids as $file_id)
 		{
 			ilObjFile::_saveUsage($file_id, $this->getParentType().":pg", $this->getId(), $a_old_nr);
+		}
+	}
+
+	/**
+	* Save all style class/template usages
+	*
+	* @param	string		$a_xml		xml data of page
+	*/
+	function saveStyleUsage($a_xml, $a_old_nr = 0)
+	{
+		global $ilDB;
+
+		$doc = domxml_open_mem($a_xml);
+
+		// media aliases
+		$xpc = xpath_new_context($doc);
+		$path = "//Paragraph | //Section | //MediaAlias | //FileItem".
+			" | //Table | //TableData | //Tabs";
+		$res = xpath_eval($xpc, $path);
+		$usages = array();
+		for ($i=0; $i < count($res->nodeset); $i++)
+		{
+			switch ($res->nodeset[$i]->node_name())
+			{
+				case "Paragraph":
+					$sname = $res->nodeset[$i]->get_attribute("Characteristic");
+					$stype = "text_block";
+					$template = 0;
+					break;
+
+				case "Section":
+					$sname = $res->nodeset[$i]->get_attribute("Characteristic");
+					$stype = "section";
+					$template = 0;
+					break;
+
+				case "MediaAlias":
+					$sname = $res->nodeset[$i]->get_attribute("Class");
+					$stype = "media_cont";
+					$template = 0;
+					break;
+
+				case "FileItem":
+					$sname = $res->nodeset[$i]->get_attribute("Class");
+					$stype = "flist_li";
+					$template = 0;
+					break;
+
+				case "Table":
+					$sname = $res->nodeset[$i]->get_attribute("Template");
+					if ($sname == "")
+					{
+						$sname = $res->nodeset[$i]->get_attribute("Class");
+						$stype = "table";
+						$template = 0;
+					}
+					else
+					{
+						$stype = "table";
+						$template = 1;
+					}
+					break;
+
+				case "TableData":
+					$sname = $res->nodeset[$i]->get_attribute("Class");
+					$stype = "table_cell";
+					$template = 0;
+					break;
+
+				case "Tabs":
+					$sname = $res->nodeset[$i]->get_attribute("Template");
+					if ($sname != "")
+					{
+						if ($res->nodeset[$i]->get_attribute("Type") == "HorizontalAccordion")
+						{
+							$stype = "haccordion";
+						}
+						if ($res->nodeset[$i]->get_attribute("Type") == "VerticalAccordion")
+						{
+							$stype = "vaccordion";
+						}
+					}
+					$template = 1;
+					break;
+			}
+			if ($sname != "" &&  $stype != "")
+			{
+				$usages[$sname.":".$stype.":".$template] = array("sname" => $sname,
+					"stype" => $stype, "template" => $template);
+			}
+		}
+		
+		$ilDB->manipulate("DELETE FROM page_style_usage WHERE ".
+			" page_id = ".$ilDB->quote($this->getId(), "integer").
+			" AND page_type = ".$ilDB->quote($this->getParentType(), "text").
+			" AND page_nr = ".$ilDB->quote($a_old_nr, "integer")
+			);
+		
+		foreach ($usages as $u)
+		{
+			$ilDB->manipulate("INSERT INTO page_style_usage ".
+				"(page_id, page_type, page_nr, template, stype, sname) VALUES (".
+				$ilDB->quote($this->getId(), "integer").",".
+				$ilDB->quote($this->getParentType(), "text").",".
+				$ilDB->quote($a_old_nr, "integer").",".
+				$ilDB->quote($u["template"], "integer").",".
+				$ilDB->quote($u["stype"], "text").",".
+				$ilDB->quote($u["sname"], "text").
+				")");
 		}
 	}
 

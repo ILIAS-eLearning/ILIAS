@@ -36,7 +36,6 @@ require_once("./Services/COPage/classes/class.ilPageContentGUI.php");
 */
 class ilPCTabsGUI extends ilPageContentGUI
 {
-
 	/**
 	* Constructor
 	* @access	public
@@ -45,7 +44,7 @@ class ilPCTabsGUI extends ilPageContentGUI
 	{
 		parent::ilPageContentGUI($a_pg_obj, $a_content_obj, $a_hier_id, $a_pc_id);
 	}
-
+	
 	/**
 	* execute command
 	*/
@@ -67,100 +66,209 @@ class ilPCTabsGUI extends ilPageContentGUI
 		return $ret;
 	}
 
-
 	/**
 	* Insert new tabs
 	*/
 	function insert()
 	{
-		$this->edit(true);
+		global $tpl;
+		
+		$this->displayValidationError();
+
+		$this->initForm("create");
+		$html = $this->form->getHTML();
+		$tpl->setContent($html);
+	}
+
+	/**
+	* Edit tabs
+	*/
+	function edit()
+	{
+		global $ilCtrl, $lng, $tpl;
+		
+		$this->displayValidationError();
+		$this->setTabs();
+		
+		$this->initForm();
+		$this->getFormValues();
+		$html = $this->form->getHTML();
+		$tpl->setContent($html);
 	}
 
 	/**
 	* Insert tabs form.
 	*/
-	function edit($a_insert = false)
+	function initForm($a_mode = "edit")
 	{
 		global $ilCtrl, $tpl, $lng;
 
-		$this->displayValidationError();
-		
+		include_once("./Services/Accordion/classes/class.ilAccordionGUI.php");
+		ilAccordionGUI::addCss();
+
 		// edit form
 		include_once("./Services/Form/classes/class.ilPropertyFormGUI.php");
-		$form = new ilPropertyFormGUI();
-		$form->setFormAction($ilCtrl->getFormAction($this));
-		if ($a_insert)
+		$this->form = new ilPropertyFormGUI();
+		$this->form->setFormAction($ilCtrl->getFormAction($this));
+		if ($a_mode != "edit")
 		{
-			$form->setTitle($this->lng->txt("cont_insert_tabs"));
+			$this->form->setTitle($lng->txt("cont_ed_insert_tabs"));
 		}
 		else
 		{
-			$form->setTitle($this->lng->txt("cont_update_tabs"));
+			$this->form->setTitle($lng->txt("cont_edit_tabs"));
 		}
 		
 		// tabs type
-		$type_prop = new ilSelectInputGUI($this->lng->txt("cont_type"),
+		/*$type_prop = new ilSelectInputGUI($lng->txt("cont_type"),
 			"type");
-		$types = array("HorizontalTabs" => $this->lng->txt("cont_tabs_hor_tabs"),
-			"Accordion" => $this->lng->txt("cont_tabs_accordion"));
-		$selected = ($a_insert)
-			? ""
-			: $this->content_obj->getTabType();
-		$type_prop->setValue($selected);
+		$types = array(ilPCTabs::ACCORDION_VER => $lng->txt("cont_tabs_acc_ver"),
+			ilPCTabs::ACCORDION_HOR => $lng->txt("cont_tabs_acc_hor"));
 		$type_prop->setOptions($types);
-		$form->addItem($type_prop);
+		$this->form->addItem($type_prop);*/
+		
+		$templ = $this->getTemplateOptions("vaccordion");
+
+		require_once("./Services/Form/classes/class.ilRadioMatrixInputGUI.php");
+		$vchar_prop = new ilRadioMatrixInputGUI($this->lng->txt("cont_characteristic"),
+			"vaccord_templ");
+		$vchars = array();
+		foreach($templ as $k => $te)
+		{
+			$t = explode(":", $k);
+			$vchars[$k] = $this->style->lookupTemplatePreview($t[1])."<div>$te</div>";
+		}
+		$vchar_prop->setOptions($vchars);
+
+		$templ = $this->getTemplateOptions("haccordion");
+		$hchar_prop = new ilRadioMatrixInputGUI($this->lng->txt("cont_characteristic"),
+			"haccord_templ");
+		$hchars = array();
+		foreach($templ as $k => $te)
+		{
+			$t = explode(":", $k);
+			$hchars[$k] = $this->style->lookupTemplatePreview($t[1])."<div>$te</div>";
+		}
+		$hchar_prop->setOptions($hchars);
+		
+		$radg = new ilRadioGroupInputGUI($lng->txt("cont_type"), "type");
+		$radg->setValue(ilPCTabs::ACCORDION_VER);
+		$op1 = new ilRadioOption($lng->txt("cont_tabs_acc_ver"), ilPCTabs::ACCORDION_VER);
+		$op1->addSubItem($vchar_prop);
+		$radg->addOption($op1);
+		$op2 = new ilRadioOption($lng->txt("cont_tabs_acc_hor"), ilPCTabs::ACCORDION_HOR);
+		$op2->addSubItem($hchar_prop);
+		$radg->addOption($op2);
+		$this->form->addItem($radg);
+		
 		
 		// number of initial tabs
-		if ($a_insert)
+		if ($a_mode == "create")
 		{
-			$nr_prop = new ilSelectInputGUI($this->lng->txt("cont_number_of_tabs"),
+			$nr_prop = new ilSelectInputGUI($lng->txt("cont_number_of_tabs"),
 				"nr");
 			$nrs = array(1 => 1, 2 => 2, 3 => 3, 4 => 4, 5 => 5, 6 => 6, 
 				7 => 7, 8 => 8, 9 => 9, 10 => 10);
 			$nr_prop->setOptions($nrs);
-			$form->addItem($nr_prop);
-		}
-		else
-		{
-			$captions = $this->content_obj->getCaptions();
-			$i = 0;
-			foreach($captions as $caption)
-			{
-				$cap_prop[$i] = new ilTextInputGUI($this->lng->txt("cont_caption")." ".($i + 1),
-					"caption[$i]");
-				$cap_prop[$i]->setValue($caption);
-				$form->addItem($cap_prop[$i]);
-				$i++;
-			}
+			$this->form->addItem($nr_prop);
 		}
 		
+		$ni = new ilNumberInputGUI($this->lng->txt("cont_tab_cont_width"), "content_width");
+		$ni->setMaxLength(4);
+		$ni->setSize(4);
+		$this->form->addItem($ni);
+		
+		$ni = new ilNumberInputGUI($this->lng->txt("cont_tab_cont_height"), "content_height");
+		$ni->setMaxLength(4);
+		$ni->setSize(4);
+		$this->form->addItem($ni);
+
+		// alignment
+		$align_opts = array("Left" => $lng->txt("cont_left"),
+			"Right" => $lng->txt("cont_right"), "Center" => $lng->txt("cont_center"),
+			"LeftFloat" => $lng->txt("cont_left_float"),
+			"RightFloat" => $lng->txt("cont_right_float"));
+		$align = new ilSelectInputGUI($this->lng->txt("cont_align"), "align");
+		$align->setOptions($align_opts);
+		$align->setValue("Center");
+		$align->setInfo($lng->txt("cont_tabs_hor_align_info"));
+		$this->form->addItem($align);
+
 		// save/cancel buttons
-		if ($a_insert)
+		if ($a_mode == "create")
 		{
-			$form->addCommandButton("create_section", $lng->txt("save"));
-			$form->addCommandButton("cancelCreate", $lng->txt("cancel"));
+			$this->form->addCommandButton("create_section", $lng->txt("save"));
+			$this->form->addCommandButton("cancelCreate", $lng->txt("cancel"));
 		}
 		else
 		{
-			$form->addCommandButton("update_section", $lng->txt("save"));
-			$form->addCommandButton("cancelUpdate", $lng->txt("cancel"));
+			$this->form->addCommandButton("update", $lng->txt("save"));
+			$this->form->addCommandButton("cancelUpdate", $lng->txt("cancel"));
 		}
-		$html = $form->getHTML();
-		$tpl->setContent($html);
-		return $ret;
 	}
 
+	/**
+	* Get form values
+	*/
+	function getFormValues()
+	{
+		$values["type"] = $this->content_obj->getTabType();
+		$values["content_width"] = $this->content_obj->getContentWidth();
+		$values["content_height"] = $this->content_obj->getContentHeight();
+		$values["align"] = $this->content_obj->getHorizontalAlign();
+		$this->form->setValuesByArray($values);
+		
+		if ($values["type"] == ilPCTabs::ACCORDION_VER)
+		{
+			$va = $this->form->getItemByPostVar("vaccord_templ");
+			$v = "t:".
+				ilObjStyleSheet::_lookupTemplateIdByName($this->getStyleId(), $this->content_obj->getTemplate()).":".
+				$this->content_obj->getTemplate();
+			$va->setValue($v);
+		}
+		if ($values["type"] == ilPCTabs::ACCORDION_HOR)
+		{
+			$ha = $this->form->getItemByPostVar("haccord_templ");
+			$v = "t:".
+				ilObjStyleSheet::_lookupTemplateIdByName($this->getStyleId(), $this->content_obj->getTemplate()).":".
+				$this->content_obj->getTemplate();
+			$ha->setValue($v);
+		}
+	}
 
 	/**
 	* Create new tabs in dom and update page in db
 	*/
 	function create()
 	{
-		$this->content_obj = new ilPCTabs($this->dom);
-		$this->content_obj->create($this->pg_obj, $this->hier_id, $this->pc_id);
-		$this->content_obj->addItems($_POST["nr"]);
-		$this->content_obj->setTabType($_POST["type"]);
+		global $ilDB, $lng;
+		
+		$this->initForm();
+		if ($this->form->checkInput())
+		{
+			$this->content_obj = new ilPCTabs($this->dom);
+			$this->content_obj->create($this->pg_obj, $this->hier_id, $this->pc_id);
+			$this->content_obj->setTabType($_POST["type"]);
+			$this->content_obj->setContentWidth($_POST["content_width"]);
+			$this->content_obj->setContentHeight($_POST["content_height"]);
+			$this->content_obj->setHorizontalAlign($_POST["align"]);
+			for ($i = 0; $i < (int) $_POST["nr"]; $i++)
+			{
+				$this->content_obj->addTab($lng->txt("cont_new_tab"));
+			}
+			if ($_POST["type"] == ilPCTabs::ACCORDION_VER)
+			{
+				$t = explode(":", $_POST["vaccord_templ"]);
+				$this->content_obj->setTemplate($t[2]);
+			}
+			if ($_POST["type"] == ilPCTabs::ACCORDION_HOR)
+			{
+				$t = explode(":", $_POST["haccord_templ"]);
+				$this->content_obj->setTemplate($t[2]);
+			}
+		}
 		$this->updated = $this->pg_obj->update();
+
 		if ($this->updated === true)
 		{
 			$this->ctrl->returnToParent($this, "jump".$this->hier_id);
@@ -176,15 +284,24 @@ class ilPCTabsGUI extends ilPageContentGUI
 	*/
 	function update()
 	{
-		$this->content_obj->setTabType(ilUtil::stripSlashes($_POST["type"]));
-		if (is_array($_POST["caption"]))
+		$this->initForm();
+		if ($this->form->checkInput())
 		{
-			$caption = array();
-			foreach($_POST["caption"] as $k => $v)
+			$this->content_obj->setTabType(ilUtil::stripSlashes($_POST["type"]));
+			$this->content_obj->setContentWidth($_POST["content_width"]);
+			$this->content_obj->setContentHeight($_POST["content_height"]);
+			$this->content_obj->setHorizontalAlign($_POST["align"]);
+			$this->content_obj->setTemplate("");
+			if ($_POST["type"] == ilPCTabs::ACCORDION_VER)
 			{
-				$caption[$k] = ilUtil::stripSlashes($v);
+				$t = explode(":", $_POST["vaccord_templ"]);
+				$this->content_obj->setTemplate($t[2]);
 			}
-			$this->content_obj->setCaptions($caption);
+			if ($_POST["type"] == ilPCTabs::ACCORDION_HOR)
+			{
+				$t = explode(":", $_POST["haccord_templ"]);
+				$this->content_obj->setTemplate($t[2]);
+			}
 		}
 		$this->updated = $this->pg_obj->update();
 		if ($this->updated === true)
@@ -196,6 +313,139 @@ class ilPCTabsGUI extends ilPageContentGUI
 			$this->pg_obj->addHierIDs();
 			$this->edit();
 		}
+	}
+	
+	//
+	// Edit Tabs
+	//
+	
+	
+	/**
+	* List all tabs
+	*/
+	function editTabs()
+	{
+		global $tpl;
+		
+		$this->setTabs();
+		include_once("./Services/COPage/classes/class.ilPCTabsTableGUI.php");
+		$table_gui = new ilPCTabsTableGUI($this, "editTabs", $this->content_obj);
+		$tpl->setContent($table_gui->getHTML());
+	}
+	
+	/**
+	* Save tabs properties in db and return to page edit screen
+	*/
+	function saveTabs()
+	{
+		global $ilCtrl;
+
+		if (is_array($_POST["caption"]))
+		{
+			$this->content_obj->saveCaptions($_POST["caption"]);
+		}
+		if (is_array($_POST["position"]))
+		{
+			$this->content_obj->savePositions($_POST["position"]);
+		}
+		$this->updated = $this->pg_obj->update();
+		$ilCtrl->redirect($this, "editTabs");
+	}
+
+	/**
+	* Save tabs properties in db and return to page edit screen
+	*/
+	function addTab()
+	{
+		global $lng, $ilCtrl;
+		
+		$this->content_obj->addTab($lng->txt("cont_new_tab"));
+		$this->updated = $this->pg_obj->update();
+		$ilCtrl->redirect($this, "editTabs");
+	}
+	
+	/**
+	* Confirm tabs deletion
+	*/
+	function confirmTabsDeletion()
+	{
+		global $ilCtrl, $tpl, $lng;
+
+		$this->setTabs();
+
+		if (!is_array($_POST["tid"]) || count($_POST["tid"]) == 0)
+		{
+			ilUtil::sendInfo($lng->txt("no_checkbox"), true);
+			$ilCtrl->redirect($this, "editTabs");
+		}
+		else
+		{
+			include_once("./Services/Utilities/classes/class.ilConfirmationGUI.php");
+			$cgui = new ilConfirmationGUI();
+			$cgui->setFormAction($ilCtrl->getFormAction($this));
+			$cgui->setHeaderText($lng->txt("cont_tabs_confirm_deletion"));
+			$cgui->setCancel($lng->txt("cancel"), "cancelTabDeletion");
+			$cgui->setConfirm($lng->txt("delete"), "deleteTabs");
+			
+			foreach ($_POST["tid"] as $k => $i)
+			{
+				$id = explode(":", $k);
+				$cgui->addItem("tid[]", $k,
+					$this->content_obj->getCaption($id[0], $id[1]));
+			}
+			
+			$tpl->setContent($cgui->getHTML());
+		}
+	}
+	
+	/**
+	* Cancel tab deletion
+	*/
+	function cancelTabDeletion()
+	{
+		global $ilCtrl;
+		$ilCtrl->redirect($this, "editTabs");
+	}
+	
+	/**
+	* Delete Tabs
+	*/
+	function deleteTabs()
+	{
+		global $ilCtrl;
+		
+		if (is_array($_POST["tid"]))
+		{
+			foreach($_POST["tid"] as $tid)
+			{
+				$ids = explode(":", $tid);
+				$this->content_obj->deleteTab($ids[0], $ids[1]);
+			}
+		}
+		$this->updated = $this->pg_obj->update();
+		
+		$ilCtrl->redirect($this, "editTabs");
+	}
+	
+	
+	/**
+	* Set tabs
+	*/
+	function setTabs()
+	{
+		global $ilTabs, $ilCtrl, $lng;
+
+		$ilTabs->setBackTarget($lng->txt("pg"),
+			$this->ctrl->getParentReturn($this));
+		
+		$ilTabs->addTarget("cont_edit_tabs",
+			$ilCtrl->getLinkTarget($this, "edit"), "edit",
+			get_class($this));
+
+		$ilTabs->addTarget("cont_tabs",
+			$ilCtrl->getLinkTarget($this, "editTabs"), "editTabs",
+			get_class($this));
+
 	}
 }
 ?>

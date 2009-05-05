@@ -36,6 +36,8 @@ require_once("./Services/COPage/classes/class.ilPageContent.php");
 class ilPCTabs extends ilPageContent
 {
 	var $tabs_node;
+	const ACCORDION_HOR = "HorizontalAccordion";
+	const ACCORDION_VER = "VerticalAccordion";
 
 	/**
 	* Init page content component.
@@ -66,14 +68,23 @@ class ilPCTabs extends ilPageContent
 	}
 
 	/**
-	* Add Tab items
+	* Set attribute of tabs tag
+	*
+	* @param	string		attribute name
+	* @param	string		attribute value
 	*/
-	function addItems($a_nr)
+	protected function setTabsAttribute($a_attr, $a_value)
 	{
-		for ($i=1; $i<=$a_nr; $i++)
+		if (!empty($a_value))
 		{
-			$new_item =& $this->dom->create_element("Tab");
-			$new_item =& $this->tabs_node->append_child($new_item);
+			$this->tabs_node->set_attribute($a_attr, $a_value);
+		}
+		else
+		{
+			if ($this->tabs_node->has_attribute($a_attr))
+			{
+				$this->tabs_node->remove_attribute($a_attr);
+			}
 		}
 	}
 
@@ -86,8 +97,8 @@ class ilPCTabs extends ilPageContent
 	{
 		switch ($a_type)
 		{
-			case "HorizontalTabs":
-			case "Accordion":
+			case ilPCTabs::ACCORDION_VER:
+			case ilPCTabs::ACCORDION_HOR:
 				$this->tabs_node->set_attribute("Type", $a_type);
 				break;
 		}
@@ -102,30 +113,63 @@ class ilPCTabs extends ilPageContent
 	}
 	
 	/**
-	* Add Tab items
+	* Set content width
+	*
+	* @param	int		content width
 	*/
-	function setCaptions($a_captions)
+	function setContentWidth($a_val)
 	{
-		// iterate all tab nodes
-		$j = 0;
-		$tab_nodes = $this->tabs_node->child_nodes();
-		for($i = 0; $i < count($tab_nodes); $i++)
-		{
-			if ($tab_nodes[$i]->node_name() == "Tab")
-			{
-				// if caption given, set it, otherwise delete caption subitem
-				if ($a_captions[$j] != "")
-				{
-					ilDOMUtil::setFirstOptionalElement($this->dom, $tab_nodes[$i], "TabCaption",
-						array("PageContent"), $a_captions[$j], array());
-				}
-				else
-				{
-					ilDOMUtil::deleteAllChildsByName($tab_nodes[$i], array("TabCaption"));
-				}
-				$j++;
-			}
-		}
+		$this->setTabsAttribute("ContentWidth", $a_val);
+	}
+	
+	/**
+	* Get content width
+	*
+	* @return	int		content width
+	*/
+	function getContentWidth()
+	{
+		return $this->tabs_node->get_attribute("ContentWidth");
+	}
+	
+	/**
+	* Set content height
+	*
+	* @param	int		content height
+	*/
+	function setContentHeight($a_val)
+	{
+		$this->setTabsAttribute("ContentHeight", $a_val);
+	}
+	
+	/**
+	* Get content height
+	*
+	* @return	int		content height
+	*/
+	function getContentHeight()
+	{
+		return $this->tabs_node->get_attribute("ContentHeight");
+	}
+
+	/**
+	* Set horizontal align
+	*
+	* @param	string		horizontal align
+	*/
+	function setHorizontalAlign($a_val)
+	{
+		$this->setTabsAttribute("HorizontalAlign", $a_val);
+	}
+	
+	/**
+	* Get horizontal align
+	*
+	* @return	string		horizontal align
+	*/
+	function getHorizontalAlign()
+	{
+		return $this->tabs_node->get_attribute("HorizontalAlign");
 	}
 
 	/**
@@ -135,10 +179,14 @@ class ilPCTabs extends ilPageContent
 	{
 		$captions = array();
 		$tab_nodes = $this->tabs_node->child_nodes();
+		$k = 0;
 		for($i = 0; $i < count($tab_nodes); $i++)
 		{
 			if ($tab_nodes[$i]->node_name() == "Tab")
 			{
+				$pc_id = $tab_nodes[$i]->get_attribute("PCID");
+				$hier_id = $tab_nodes[$i]->get_attribute("HierId");
+
 				$tab_node_childs = $tab_nodes[$i]->child_nodes();
 				$current_caption = "";
 				for($j = 0; $j < count($tab_node_childs); $j++)
@@ -148,11 +196,153 @@ class ilPCTabs extends ilPageContent
 						$current_caption = $tab_node_childs[$j]->get_content();
 					}
 				}
-				$captions[] = $current_caption;
+				$captions[] = array("pos" => $k,
+					"caption" => $current_caption, "pc_id" => $pc_id, "hier_id" => $hier_id);
+				$k++;
 			}
 		}
 		
 		return $captions;
+	}
+
+	/**
+	* Get caption
+	*/
+	function getCaption($a_hier_id, $a_pc_id)
+	{
+		$captions = array();
+		$tab_nodes = $this->tabs_node->child_nodes();
+		$k = 0;
+		for($i = 0; $i < count($tab_nodes); $i++)
+		{
+			if ($tab_nodes[$i]->node_name() == "Tab")
+			{
+				if ($a_pc_id == $tab_nodes[$i]->get_attribute("PCID") &&
+					($a_hier_id == $tab_nodes[$i]->get_attribute("HierId")))
+				{
+					$tab_node_childs = $tab_nodes[$i]->child_nodes();
+					for($j = 0; $j < count($tab_node_childs); $j++)
+					{
+						if ($tab_node_childs[$j]->node_name() == "TabCaption")
+						{
+							return $tab_node_childs[$j]->get_content();
+						}
+					}
+				}
+			}
+		}
+		
+		return "";
+	}
+
+	/**
+	* Save positions of tabs
+	*/
+	function savePositions($a_pos)
+	{
+		asort($a_pos);
+		
+		// File Item
+		$childs = $this->tabs_node->child_nodes();
+		$nodes = array();
+		for ($i=0; $i<count($childs); $i++)
+		{
+			if ($childs[$i]->node_name() == "Tab")
+			{
+				$pc_id = $childs[$i]->get_attribute("PCID");
+				$hier_id = $childs[$i]->get_attribute("HierId");
+				$nodes[$hier_id.":".$pc_id] = $childs[$i];
+				$childs[$i]->unlink($childs[$i]);
+			}
+		}
+		
+		foreach($a_pos as $k => $v)
+		{
+			if (is_object($nodes[$k]))
+			{
+				$nodes[$k] = $this->tabs_node->append_child($nodes[$k]);
+			}
+		}
+	}
+
+	/**
+	* Add Tab items
+	*/
+	function saveCaptions($a_captions)
+	{
+		// iterate all tab nodes
+		$tab_nodes = $this->tabs_node->child_nodes();
+		for($i = 0; $i < count($tab_nodes); $i++)
+		{
+			if ($tab_nodes[$i]->node_name() == "Tab")
+			{
+				$pc_id = $tab_nodes[$i]->get_attribute("PCID");
+				$hier_id = $tab_nodes[$i]->get_attribute("HierId");
+				$k = $hier_id.":".$pc_id;
+				// if caption given, set it, otherwise delete caption subitem
+				if ($a_captions[$k] != "")
+				{
+					ilDOMUtil::setFirstOptionalElement($this->dom, $tab_nodes[$i], "TabCaption",
+						array(), $a_captions[$k], array());
+				}
+				else
+				{
+					ilDOMUtil::deleteAllChildsByName($tab_nodes[$i], array("TabCaption"));
+				}
+			}
+		}
+	}
+
+	/**
+	* Save positions of tabs
+	*/
+	function deleteTab($a_hier_id, $a_pc_id)
+	{
+		// File Item
+		$childs = $this->tabs_node->child_nodes();
+		$nodes = array();
+		for ($i=0; $i<count($childs); $i++)
+		{
+			if ($childs[$i]->node_name() == "Tab")
+			{
+				if ($a_pc_id == $childs[$i]->get_attribute("PCID") &&
+					$a_hier_id == $childs[$i]->get_attribute("HierId"))
+				{
+					$childs[$i]->unlink($childs[$i]);
+				}
+			}
+		}
+	}
+
+	/**
+	* Add a tab
+	*/
+	function addTab($a_caption)
+	{
+		$new_item = $this->dom->create_element("Tab");
+		$new_item = $this->tabs_node->append_child($new_item);
+		ilDOMUtil::setFirstOptionalElement($this->dom, $new_item, "TabCaption",
+			array(), $a_caption, array());
+	}
+	
+	/**
+	* Set template
+	*
+	* @param	string	$a_template		template
+	*/
+	function setTemplate($a_template)
+	{
+		$this->setTabsAttribute("Template", $a_template);
+	}
+
+	/**
+	* Get template
+	*
+	* @return	string		template
+	*/
+	function getTemplate()
+	{
+		return $this->tabs_node->get_attribute("Template");
 	}
 
 }
