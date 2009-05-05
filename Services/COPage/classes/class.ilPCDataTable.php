@@ -115,6 +115,28 @@ class ilPCDataTable extends ilPCTable
 	}
 	
 	/**
+	* Make cell empty
+	*/
+	function makeEmptyCell($td_node)
+	{
+		// delete children of paragraph node
+		$children = $td_node->child_nodes();
+		for($i=0; $i<count($children); $i++)
+		{
+			$td_node->remove_child($children[$i]);
+		}
+		
+		// create page content and paragraph node here.
+		$pc_node = $this->createPageContentNode(false);
+		$pc_node = $td_node->append_child($pc_node);
+		$par_node = $this->dom->create_element("Paragraph");
+		$par_node = $pc_node->append_child($par_node);
+		$par_node->set_attribute("Characteristic", "TableContent");
+		$par_node->set_attribute("Language",
+			$this->getLanguage());
+	}
+
+	/**
 	* Get cell text of row $i and cell $j
 	*/
 	function getCellText($i, $j)

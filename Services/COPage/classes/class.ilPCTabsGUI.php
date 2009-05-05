@@ -129,27 +129,36 @@ class ilPCTabsGUI extends ilPageContentGUI
 		
 		$templ = $this->getTemplateOptions("vaccordion");
 
-		require_once("./Services/Form/classes/class.ilRadioMatrixInputGUI.php");
-		$vchar_prop = new ilRadioMatrixInputGUI($this->lng->txt("cont_characteristic"),
+		require_once("./Services/Form/classes/class.ilAdvSelectInputGUI.php");
+		$vchar_prop = new ilAdvSelectInputGUI($this->lng->txt("cont_characteristic"),
 			"vaccord_templ");
+
 		$vchars = array();
 		foreach($templ as $k => $te)
 		{
 			$t = explode(":", $k);
-			$vchars[$k] = $this->style->lookupTemplatePreview($t[1])."<div>$te</div>";
+			$html = $this->style->lookupTemplatePreview($t[1]).'<div style="clear:both" class="small">'.$te."</div>";
+			$vchar_prop->addOption($k, $te, $html);
+			if ($t[2] == "VerticalAccordion")
+			{
+				$vchar_prop->setValue($k);
+			}
 		}
-		$vchar_prop->setOptions($vchars);
 
 		$templ = $this->getTemplateOptions("haccordion");
-		$hchar_prop = new ilRadioMatrixInputGUI($this->lng->txt("cont_characteristic"),
+		$hchar_prop = new ilAdvSelectInputGUI($this->lng->txt("cont_characteristic"),
 			"haccord_templ");
 		$hchars = array();
 		foreach($templ as $k => $te)
 		{
 			$t = explode(":", $k);
-			$hchars[$k] = $this->style->lookupTemplatePreview($t[1])."<div>$te</div>";
+			$html = $this->style->lookupTemplatePreview($t[1]).'<div style="clear:both" class="small">'.$te."</div>";
+			$hchar_prop->addOption($k, $te, $html);
+			if ($t[2] == "HorizontalAccordion")
+			{
+				$hchar_prop->setValue($k);
+			}
 		}
-		$hchar_prop->setOptions($hchars);
 		
 		$radg = new ilRadioGroupInputGUI($lng->txt("cont_type"), "type");
 		$radg->setValue(ilPCTabs::ACCORDION_VER);
@@ -183,6 +192,17 @@ class ilPCTabsGUI extends ilPageContentGUI
 		$ni->setSize(4);
 		$this->form->addItem($ni);
 
+		// behaviour 
+		$options = array(
+			"AllClosed" => $lng->txt("cont_all_closed"),
+			"FirstOpen" => $lng->txt("cont_first_open"),
+			"ForceAllOpen" => $lng->txt("cont_force_all_open"),
+			);
+		$si = new ilSelectInputGUI($this->lng->txt("cont_behavior"), "behavior");
+		$si->setOptions($options);
+		$this->form->addItem($si);
+		
+		
 		// alignment
 		$align_opts = array("Left" => $lng->txt("cont_left"),
 			"Right" => $lng->txt("cont_right"), "Center" => $lng->txt("cont_center"),
@@ -216,6 +236,7 @@ class ilPCTabsGUI extends ilPageContentGUI
 		$values["content_width"] = $this->content_obj->getContentWidth();
 		$values["content_height"] = $this->content_obj->getContentHeight();
 		$values["align"] = $this->content_obj->getHorizontalAlign();
+		$values["behavior"] = $this->content_obj->getBehavior();
 		$this->form->setValuesByArray($values);
 		
 		if ($values["type"] == ilPCTabs::ACCORDION_VER)
@@ -252,6 +273,7 @@ class ilPCTabsGUI extends ilPageContentGUI
 			$this->content_obj->setContentWidth($_POST["content_width"]);
 			$this->content_obj->setContentHeight($_POST["content_height"]);
 			$this->content_obj->setHorizontalAlign($_POST["align"]);
+			$this->content_obj->setBehavior($_POST["behavior"]);
 			for ($i = 0; $i < (int) $_POST["nr"]; $i++)
 			{
 				$this->content_obj->addTab($lng->txt("cont_new_tab"));
@@ -292,6 +314,7 @@ class ilPCTabsGUI extends ilPageContentGUI
 			$this->content_obj->setContentHeight($_POST["content_height"]);
 			$this->content_obj->setHorizontalAlign($_POST["align"]);
 			$this->content_obj->setTemplate("");
+			$this->content_obj->setBehavior($_POST["behavior"]);
 			if ($_POST["type"] == ilPCTabs::ACCORDION_VER)
 			{
 				$t = explode(":", $_POST["vaccord_templ"]);

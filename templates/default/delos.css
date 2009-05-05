@@ -664,6 +664,11 @@ form.il_Form, form.ilForm
 	border: 0px;
 }
 
+input.ilHFormHighlighted
+{
+	background-color: #FFFF99;
+}
+
 table.ilForm
 {
 	background-image: url(images/form_back.gif);
@@ -1360,12 +1365,12 @@ input.ilEditSubmit {
 	border-style:solid;
 }
 
-input.ilEditHelpline {
-	border-style:none;
-	background-image: none;
-	text-decoration:none;
-	margin: 2px 0px;
+div.ilEditHelpline {
+	margin: 3px 0px;
+	padding: 0px;
 	font-size: 80%;
+	background-color:#FFFFFF;
+	color:#000000;
 }
 
 input.tblrow1, input.tblrow2

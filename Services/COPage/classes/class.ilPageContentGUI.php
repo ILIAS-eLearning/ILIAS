@@ -45,6 +45,13 @@ class ilPageContentGUI
 	var $target_script;
 	var $return_location;
 
+	// common bb buttons (special ones are iln and wln)
+	protected static $common_bb_buttons = array(
+		"str" => "Strong", "emp" => "Emph", "imp" => "Important", "com" => "Comment",
+		"quot" => "Quotation", "acc" => "Accent", "code" => "Code", "tex" => "Tex",
+		"fn" => "Footnote", "xln" => "ExternalLink"
+		);
+
 	/**
 	* Constructor
 	* @access	public
@@ -67,6 +74,14 @@ class ilPageContentGUI
 //echo "-".$this->pc_id."-";
 			$this->dom =& $a_pg_obj->getDom();
 		}
+	}
+
+	/**
+	* Get common bb buttons
+	*/
+	static function _getCommonBBButtons()
+	{
+		return self::$common_bb_buttons;
 	}
 
 	// scorm2004-start
@@ -185,9 +200,11 @@ class ilPageContentGUI
 	/**
 	* Get the bb menu incl. script
 	*/
-	function getBBMenu()
+	function getBBMenu($a_ta_name = "par_content")
 	{
 		global $lng;
+		
+		include_once("./Services/COPage/classes/class.ilPageEditorSettings.php");
 		
 		$btpl = new ilTemplate("tpl.bb_menu.html", true, true, "Services/COPage");
 
@@ -208,12 +225,10 @@ class ilPageContentGUI
 			$btpl->parseCurrentBlock();
 		}
 
-		$cls = array("str" => "Strong", "emp" => "Emph", "quot" => "Quotation",
-			"com" => "Comment", "acc" => "Accent", "imp" => "Important");
 		$style = $this->getStyle();
-		foreach ($cls as $c => $st)
+		foreach (self::$common_bb_buttons as $c => $st)
 		{
-			if (!$style || !$style->getHideStatus("text_inline", $st))
+			if (ilPageEditorSettings::lookupSettingByParentType($this->pg_obj->getParentType(), "active_".$c, true))
 			{
 				$btpl->touchBlock("bb_".$c."_button");
 				$btpl->setVariable("TXT_".strtoupper($c), $this->lng->txt("cont_text_".$c));
@@ -221,17 +236,17 @@ class ilPageContentGUI
 		}
 		
 		// footnote
-		$btpl->setVariable("TXT_FN", $this->lng->txt("cont_text_fn"));
+//		$btpl->setVariable("TXT_FN", $this->lng->txt("cont_text_fn"));
 		
-		$btpl->setVariable("TXT_CODE", $this->lng->txt("cont_text_code"));
+//		$btpl->setVariable("TXT_CODE", $this->lng->txt("cont_text_code"));
 		$btpl->setVariable("TXT_ILN", $this->lng->txt("cont_text_iln"));
-		$btpl->setVariable("TXT_XLN", $this->lng->txt("cont_text_xln"));
-		$btpl->setVariable("TXT_TEX", $this->lng->txt("cont_text_tex"));
+//		$btpl->setVariable("TXT_XLN", $this->lng->txt("cont_text_xln"));
+//		$btpl->setVariable("TXT_TEX", $this->lng->txt("cont_text_tex"));
 		$btpl->setVariable("TXT_BB_TIP", $this->lng->txt("cont_bb_tip"));
 		$btpl->setVariable("TXT_WLN", $lng->txt("wiki_wiki_page"));
 		$btpl->setVariable("TXT_ANC", $lng->txt("cont_anchor").":");
 		
-		$btpl->setVariable("PAR_TA_NAME", "par_content");
+		$btpl->setVariable("PAR_TA_NAME", $a_ta_name);
 		
 		return $btpl->get();
 	}

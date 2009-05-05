@@ -253,7 +253,7 @@ class ilObjStyleSheet extends ilObject
 	// displayed with matching tag (group -> tags)
 	public static $filtered_groups =
 			array("ol" => array("ol"), "ul" => array("ul"),
-				"table" => array("table"), "positioning" => array("div", "img"));
+				"table" => array("table"), "positioning" => array("div", "img", "table"));
 
 	// style types and their super type
 	public static $style_super_types = array(
@@ -271,7 +271,7 @@ class ilObjStyleSheet extends ilObject
 		"page" => array("page_frame", "page_cont", "page_title", "page_fn",
 			"page_tnav", "page_bnav", "page_lnav", "page_rnav", "page_lnavlink", "page_rnavlink",
 			"page_lnavimage", "page_rnavimage"),
-		"sco" => array("sco_title", "sco_keyw", "sco_desc", "sco_obj")
+		"sco" => array("sco_title", "sco_keyw", "sco_desc", "sco_desct", "sco_obj", "sco_objt")
 		);
 
 	// these types are expandable, i.e. the user can define new style classes
@@ -302,6 +302,8 @@ class ilObjStyleSheet extends ilObject
 		"sco_keyw" => "div",
 		"sco_desc" => "div",
 		"sco_obj" => "div",
+		"sco_desct" => "div",
+		"sco_objt" => "div",
 		"list_o" => "ol",
 		"list_u" => "ul",
 		"list_item" => "li",
@@ -378,8 +380,10 @@ class ilObjStyleSheet extends ilObject
 			array("type" => "page_title", "class" => "PageTitle"),
 			array("type" => "sco_title", "class" => "Title"),
 			array("type" => "sco_desc", "class" => "Description"),
+			array("type" => "sco_desct", "class" => "DescriptionTop"),
 			array("type" => "sco_keyw", "class" => "Keywords"),
 			array("type" => "sco_obj", "class" => "Objective"),
+			array("type" => "sco_objt", "class" => "ObjectiveTop"),
 			array("type" => "list_o", "class" => "NumberedList"),
 			array("type" => "list_u", "class" => "BulletedList"),
 			array("type" => "list_item", "class" => "StandardListItem"),
@@ -2847,6 +2851,43 @@ class ilObjStyleSheet extends ilObject
 			);
 
 	}
+	
+	/**
+	* Write Style Setting
+	*/
+	function writeStyleSetting($a_name, $a_value)
+	{
+		global $ilDB;
+		
+		$ilDB->manipulate("DELETE FROM style_setting WHERE ".
+			" style_id = ".$ilDB->quote($this->getId(), "integer").
+			" AND name = ".$ilDB->quote($a_name, "text")
+			);
+		
+		$ilDB->manipulate("INSERT INTO style_setting ".
+			"(style_id, name, value) VALUES (".
+			$ilDB->quote($this->getId(), "integer").",".
+			$ilDB->quote($a_name, "text").",".
+			$ilDB->quote($a_value, "text").
+			")");
+	}
+	
+	/**
+	* Lookup style setting
+	*/
+	function lookupStyleSetting($a_name)
+	{
+		global $ilDB;
+		
+		$set = $ilDB->query("SELECT value FROM style_setting ".
+			" WHERE style_id = ".$ilDB->quote($this->getId(), "integer").
+			" AND name = ".$ilDB->quote($a_name, "text")
+			);
+		$rec  = $ilDB->fetchAssoc($set);
+		
+		return $rec["value"];
+	}
+	
 
 }
 ?>

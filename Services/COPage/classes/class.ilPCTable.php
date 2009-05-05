@@ -281,6 +281,287 @@ class ilPCTable extends ilPageContent
 			}
 		}
 	}
+	
+	/**
+	* Set TDSpans
+	*/
+	function setTDSpans($a_colspans, $a_rowspans)
+	{
+		$y = 0;
+		$rows = $this->tab_node->child_nodes();
+		foreach($rows as $row)
+		{
+			if ($row->node_name() == "TableRow")
+			{
+				$x = 0;
+				$cells = $row->child_nodes();
+				foreach($cells as $cell)
+				{
+					if ($cell->node_name() == "TableData")
+					{
+						$ckey = $cell->get_attribute("HierId").":".$cell->get_attribute("PCID");
+						if((int) $a_colspans[$ckey] > 1)
+						{
+							$cell->set_attribute("ColSpan", (int) $a_colspans[$ckey]);
+						}
+						else
+						{
+							if ($cell->has_attribute("ColSpan"))
+							{
+								$cell->remove_attribute("ColSpan");
+							}
+						}
+						if((int) $a_rowspans[$ckey] > 1)
+						{
+							$cell->set_attribute("RowSpan", (int) $a_rowspans[$ckey]);
+						}
+						else
+						{
+							if ($cell->has_attribute("RowSpan"))
+							{
+								$cell->remove_attribute("RowSpan");
+							}
+						}
+					}
+					$x++;
+				}
+				$y++;
+			}
+		}
+		$this->fixHideAndSpans();
+	}
+	
+	/**
+	* Fix Hide and Spans. Reduces col and rowspans that are to high.
+	* Sets Hide attribute for all cells that are hidden due to other span
+	* attributes. Sets hidden cells to empty.
+	*/
+	function fixHideAndSpans()
+	{
+		
+		// first: get max x and y
+		$max_x = $max_y = 0;
+		$y = 0;
+		$rows = $this->tab_node->child_nodes();
+
+		foreach($rows as $row)
+		{
+			if ($row->node_name() == "TableRow")
+			{
+				$x = 0;
+				$cells = $row->child_nodes();
+				foreach($cells as $cell)
+				{
+					if ($cell->node_name() == "TableData")
+					{
+						$max_x = max ($max_x, $x);
+						$max_y = max ($max_y, $y);
+					}
+					$x++;
+				}
+				$y++;
+			}
+		}
+
+		// second: fix hidden/colspans for all cells
+		$y = 0;
+		$rows = $this->tab_node->child_nodes();
+		foreach($rows as $row)
+		{
+			if ($row->node_name() == "TableRow")
+			{
+				$x = 0;
+				$cells = $row->child_nodes();
+				foreach($cells as $cell)
+				{
+					if ($cell->node_name() == "TableData")
+					{
+						$cspan = max(1, (int) $cell->get_attribute("ColSpan"));
+						$rspan = max(1, (int) $cell->get_attribute("RowSpan"));
+						
+						// if col or rowspan is to high: reduce it to the max
+						if ($cspan > $max_x - $x + 1)
+						{
+							$cell->set_attribute("ColSpan", $max_x - $x + 1);
+							$cspan = $max_x - $x + 1;
+						}
+						if ($rspan > $max_y - $y + 1)
+						{
+							$cell->set_attribute("RowSpan", $max_y - $y + 1);
+							$rspan = $max_y - $y + 1;
+						}
+						
+						// check hidden status
+						if ($this->checkCellHidden($colspans, $rowspans, $x, $y))
+						{
+							// hidden: set hidden flag, remove col and rowspan
+							$cell->set_attribute("Hidden", "Y");
+							$cspan = 1;
+							$rspan = 1;
+							if ($cell->has_attribute("ColSpan"))
+							{
+								$cell->remove_attribute("ColSpan");
+							}
+							if ($cell->has_attribute("RowSpan"))
+							{
+								$cell->remove_attribute("RowSpan");
+							}
+							$this->makeEmptyCell($cell);
+						}
+						else
+						{
+							// not hidden: remove hidden flag if existing
+							if ($cell->has_attribute("Hidden"))
+							{
+								$cell->remove_attribute("Hidden");
+							}
+						}
+						
+						$colspans[$x][$y] = $cspan;
+						$rowspans[$x][$y] = $rspan;
+					}
+					$x++;
+				}
+				$y++;
+			}
+		}
+
+	}
+
+	
+	/**
+	* Make cell empty
+	*/
+	function makeEmptyCell($td_node)
+	{
+		// delete children of paragraph node
+		$children = $td_node->child_nodes();
+		for($i=0; $i<count($children); $i++)
+		{
+			$td_node->remove_child($children[$i]);
+		}
+	}
+
+	/**
+	* Check hidden status
+	*/
+	function checkCellHidden($colspans, $rowspans, $x, $y)
+	{
+		for ($i = 0; $i<=$x; $i++)
+		{
+			for ($j = 0; $j<=$y; $j++)
+			{
+				if ($i != $x || $j != $y)
+				{
+					if ((($i + $colspans[$i][$j] > $x) &&
+						($j + $rowspans[$i][$j] > $y)))
+					{
+						return true;
+					}
+				}
+			}
+		}
+		return false;
+	}
+	
+	/**
+	* Get all cell classes
+	*
+	* @return	array		array of cell style classes
+	*/
+	function getAllCellClasses()
+	{
+		$classes = array();
+		$rows = $this->tab_node->child_nodes();
+		foreach($rows as $row)
+		{
+			if ($row->node_name() == "TableRow")
+			{
+				$cells = $row->child_nodes();
+				foreach($cells as $cell)
+				{
+					if ($cell->node_name() == "TableData")
+					{
+						$classes[$cell->get_attribute("HierId").":".$cell->get_attribute("PCID")]
+							= $cell->get_attribute("Class");
+					}
+				}
+			}
+		}
+		
+		return $classes;
+	}
+
+
+	/**
+	* Get all cell spans
+	*
+	* @return	array		array of cell style classes
+	*/
+	function getAllCellSpans()
+	{
+		$spans = array();
+		$rows = $this->tab_node->child_nodes();
+		$y = 0;
+		$max_x = 0;
+		$max_y = 0;
+		foreach($rows as $row)
+		{
+			if ($row->node_name() == "TableRow")
+			{
+				$x = 0;
+				$cells = $row->child_nodes();
+				foreach($cells as $cell)
+				{
+					if ($cell->node_name() == "TableData")
+					{
+						$spans[$cell->get_attribute("HierId").":".$cell->get_attribute("PCID")]
+							= array("x" => $x, "y" => $y, "colspan" => $cell->get_attribute("ColSpan"),
+								"rowspan" => $cell->get_attribute("RowSpan"));
+						$max_x = max($max_x, $x);
+						$max_y = max($max_y, $y);
+					}
+					$x++;
+				}
+				$y++;
+			}
+		}
+		foreach ($spans as $k => $v)
+		{
+			$spans[$k]["max_x"] = $max_x;
+			$spans[$k]["max_y"] = $max_y;
+		}
+		
+		return $spans;
+	}
+
+	/**
+	* Get all cell widhts
+	*
+	* @return	array		array of cell style classes
+	*/
+	function getAllCellWidths()
+	{
+		$widths = array();
+		$rows = $this->tab_node->child_nodes();
+		foreach($rows as $row)
+		{
+			if ($row->node_name() == "TableRow")
+			{
+				$cells = $row->child_nodes();
+				foreach($cells as $cell)
+				{
+					if ($cell->node_name() == "TableData")
+					{
+						$widths[$cell->get_attribute("HierId").":".$cell->get_attribute("PCID")]
+							= $cell->get_attribute("Width");
+					}
+				}
+			}
+		}
+		
+		return $widths;
+	}
 
 	/**
 	* set class of table data cell

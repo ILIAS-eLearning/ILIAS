@@ -23,16 +23,27 @@
 <!-- END drop_area_menu -->
 <!-- BEGIN list_item -->
 <div style="margin-bottom:5px;">
+<!-- BEGIN expand_icon -->
+<a href="{HREF_EXPAND}" name="{HREF_NAME}" width="19" height="19" style="position:absolute; padding: 0px; margin:0px;"><img border="0" alt="{ALT_EXPAND}" src="{IMG_EXPAND}"/></a><!-- END expand_icon -->
+<!-- BEGIN cbox -->
+<input style="position:absolute; padding: 0px; margin:2px 0px 0px 22px;" type="checkbox" name="{CBOX_NAME}[]" value="{CNODE_ID}" /><!-- END cbox -->
 <!-- BEGIN img -->
 <!-- display: block, none, inline - visibility: hidden -->
-<div style="position: absolute; margin: 1px 0px 0px 22px; ">
-<img class="il_img_{TYPE}" id="il_img_{IMG_NODE}" style="position: absolute;" title="{IMGALT}" alt="{IMGALT}" src="{IMGPATH}" border="0" width="19px"/>
+<div style="position: absolute; margin: 1px 0px 0px 44px; ">
+<a name="node_{NODE_ID}"><img class="il_img_{TYPE}" id="il_img_{IMG_NODE}" style="position: absolute;" title="{IMGALT}" alt="{IMGALT}" src="{IMGPATH}" border="0" width="19px"/></a>
 </div>
 <!-- END img -->
-<!-- BEGIN cbox -->
-<input style="position:absolute; padding: 0px; margin-top:2px;" type="checkbox" name="{CBOX_NAME}[]" value="{CNODE_ID}" /><!-- END cbox -->
-<div style="margin: 0px 0px 0px 46px; padding: 0px;">
-<!-- BEGIN text --><input name="title[{TNODE_ID}]" style="width: 400px; border-width:1px; border-style:solid; border-color:#BBBBBB;" type="text" maxlength="200" value="{VAL_TITLE}" /><!-- END text -->
+<div style="margin: 0px 0px 0px 68px; padding: 0px;">
+<!-- BEGIN text --><input id="inp{TNODE_ID}" name="title[{TNODE_ID}]" {CLASS} style="width: 400px; border-width:1px; border-style:solid; border-color:#BBBBBB;" type="text" maxlength="200" value="{VAL_TITLE}" /><!-- END text -->
+<!-- BEGIN focus -->
+<script type="text/javascript" language="javascript">
+function ilHFormFocus()
+{
+	document.getElementById("inp{FNODE_ID}").focus();
+}
+ilAddOnLoad(ilHFormFocus);
+</script>
+<!-- END focus -->
 <span class="small"><!-- BEGIN node_cmd --><a class="il_ContainerItemCommand2" href="{HREF_NODE_CMD}">{TXT_NODE_CMD}</a><!-- END node_cmd --></span>
 </div>
 </div>

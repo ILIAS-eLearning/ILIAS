@@ -522,6 +522,7 @@ class ilAdvancedSelectionListGUI
 		{
 			$tpl->setVariable("TOGGLE_OPTIONS", "null");
 		}
+
 		$tpl->setVariable("TXT_SEL_TOP", $this->getListTitle());
 		$tpl->setVariable("ID", $this->getId());
 		$tpl->setVariable("CLASS_SEL_TOP", $this->getSelectionHeaderClass());

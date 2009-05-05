@@ -14,7 +14,16 @@ var help_line = {
 		n: '{TXT_ANC} [anc name="..."]text[/anc]  (alt+n)',
 		t: '{TXT_TEX} [tex]LaTeX code[/tex]  (alt+t)'
 		m: '{TXT_IMP} [imp]text[/imp]  (alt+m)',
-		a: '{TXT_ACC} [acc]text[/acc]  (alt+a)',
+		a: '{TXT_ACC} [acc]text[/acc]  (alt+a)'
+}
+
+function myhelpline(help)
+{
+	var h = document.getElementById("helpbox");
+	if (h)
+	{
+		h.innerHTML = help_line[help];
+	}
 }
 
 // Define the bbCode tags
@@ -31,37 +40,44 @@ var upload = false;
 //-->
 </script>
 
-<div id="bbcodebuttons" style="position:relative;visibility:visible;">
-<input type="text" name="helpbox" size="90" maxlength="100" class="ilEditHelpline" value="{TXT_BB_TIP}" />
-<br />
-<!-- <input type="button" class="ilEditSubmit" accesskey="s" name="addbbcode0" value=" str " onClick="bbstyle(0); return true;" onMouseOver="helpline('s')" /> -->
+<div id="bbcodebuttons" style="visibility:visible;">
+<div id="helpbox" class="ilEditHelpline">{TXT_BB_TIP}</div>
+<!-- <input type="button" class="ilEditSubmit" accesskey="s" name="addbbcode0" value=" str " onClick="bbstyle(0); return true;" onMouseOver="myhelpline('s')" /> -->
 <!-- BEGIN bb_str_button -->
-<a style="color:black;" class="ilEditSubmit" href="#" accesskey="s" name="addbbcode0" onClick="bbstyle(0); return true;" onMouseOver="helpline('s')" ><span class="ilc_text_inline_Strong">&nbsp;str&nbsp;</span></a>&nbsp;
+<a style="color:black;" class="ilEditSubmit" href="#" accesskey="s" name="addbbcode0" onClick="bbstyle(0); return true;" onMouseOver="myhelpline('s')" ><span class="ilc_text_inline_Strong">&nbsp;str&nbsp;</span></a>&nbsp;
 <!-- END bb_str_button -->
 <!-- BEGIN bb_emp_button -->
-<a style="color:black;" class="ilEditSubmit" href="#" accesskey="e" name="addbbcode2" onClick="bbstyle(2)" onMouseOver="helpline('e')" ><span class="ilc_text_inline_Emph">&nbsp;emp&nbsp;</span></a>&nbsp;
+<a style="color:black;" class="ilEditSubmit" href="#" accesskey="e" name="addbbcode2" onClick="bbstyle(2)" onMouseOver="myhelpline('e')" ><span class="ilc_text_inline_Emph">&nbsp;emp&nbsp;</span></a>&nbsp;
 <!-- END bb_emp_button -->
 <!-- BEGIN bb_imp_button -->
-<a style="color:black;" class="ilEditSubmit" href="#" accesskey="m" name="addbbcode26" onClick="bbstyle(26)" onMouseOver="helpline('m')" ><span class="ilc_text_inline_Important">&nbsp;imp&nbsp;</span></a>&nbsp;
+<a style="color:black;" class="ilEditSubmit" href="#" accesskey="m" name="addbbcode26" onClick="bbstyle(26)" onMouseOver="myhelpline('m')" ><span class="ilc_text_inline_Important">&nbsp;imp&nbsp;</span></a>&nbsp;
 <!-- END bb_imp_button -->
 <!-- BEGIN bb_com_button -->
-<a style="color:black;" class="ilEditSubmit" href="#" accesskey="c" name="addbbcode4" onClick="bbstyle(4)" onMouseOver="helpline('c')" ><span class="ilc_text_inline_Comment">&nbsp;com&nbsp;</span></a>&nbsp;
+<a style="color:black;" class="ilEditSubmit" href="#" accesskey="c" name="addbbcode4" onClick="bbstyle(4)" onMouseOver="myhelpline('c')" ><span class="ilc_text_inline_Comment">&nbsp;com&nbsp;</span></a>&nbsp;
 <!-- END bb_com_button -->
 <!-- BEGIN bb_quot_button -->
-<a style="color:black;" class="ilEditSubmit" href="#" accesskey="q" name="addbbcode6" onClick="bbstyle(6)" onMouseOver="helpline('q')" ><span class="ilc_text_inline_Quotation">&nbsp;quot&nbsp;</span></a>&nbsp;
+<a style="color:black;" class="ilEditSubmit" href="#" accesskey="q" name="addbbcode6" onClick="bbstyle(6)" onMouseOver="myhelpline('q')" ><span class="ilc_text_inline_Quotation">&nbsp;quot&nbsp;</span></a>&nbsp;
 <!-- END bb_quot_button -->
 <!-- BEGIN bb_acc_button -->
-<a style="color:black;" class="ilEditSubmit" href="#" accesskey="a" name="addbbcode24" onClick="bbstyle(24)" onMouseOver="helpline('a')" ><span class="ilc_text_inline_Accent">&nbsp;acc&nbsp;</span></a>&nbsp;
+<a style="color:black;" class="ilEditSubmit" href="#" accesskey="a" name="addbbcode24" onClick="bbstyle(24)" onMouseOver="myhelpline('a')" ><span class="ilc_text_inline_Accent">&nbsp;acc&nbsp;</span></a>&nbsp;
 <!-- END bb_acc_button -->
-<a style="color:black;" class="ilEditSubmit" href="#" accesskey="d" name="addbbcode8" onClick="bbstyle(8)" onMouseOver="helpline('d')" ><code>&nbsp;code&nbsp;</code></a>&nbsp;
-<a style="color:black;" class="ilEditSubmit" href="#" accesskey="t" name="addbbcode18" onClick="bbstyle(18)" onMouseOver="helpline('t')" ><span>&nbsp;tex&nbsp;</span></a>&nbsp;
-<a class="ilEditSubmit" href="#" accesskey="f" name="addbbcode10" onClick="bbstyle(10)" onMouseOver="helpline('f')" >&nbsp;fn&nbsp;</a>&nbsp;
-<a class="ilEditSubmit" href="#" accesskey="n" name="addbbcode22" onClick="bbstyle(22)" onMouseOver="helpline('n')" >&nbsp;anc&nbsp;</a>&nbsp;
-<a class="ilEditSubmit" href="#" accesskey="x" name="addbbcode14" onClick="bbstyle(14)" onMouseOver="helpline('x')" >&nbsp;xln&nbsp;</a>&nbsp;
+<!-- BEGIN bb_code_button -->
+<a style="color:black;" class="ilEditSubmit" href="#" accesskey="d" name="addbbcode8" onClick="bbstyle(8)" onMouseOver="myhelpline('d')" ><code>&nbsp;code&nbsp;</code></a>&nbsp;
+<!-- END bb_code_button -->
+<!-- BEGIN bb_tex_button -->
+<a style="color:black;" class="ilEditSubmit" href="#" accesskey="t" name="addbbcode18" onClick="bbstyle(18)" onMouseOver="myhelpline('t')" ><span>&nbsp;tex&nbsp;</span></a>&nbsp;
+<!-- END bb_tex_button -->
+<!-- BEGIN bb_fn_button -->
+<a class="ilEditSubmit" href="#" accesskey="f" name="addbbcode10" onClick="bbstyle(10)" onMouseOver="myhelpline('f')" >&nbsp;fn&nbsp;</a>&nbsp;
+<!-- END bb_fn_button -->
+<a class="ilEditSubmit" href="#" accesskey="n" name="addbbcode22" onClick="bbstyle(22)" onMouseOver="myhelpline('n')" >&nbsp;anc&nbsp;</a>&nbsp;
+<!-- BEGIN bb_xln_button -->
+<a class="ilEditSubmit" href="#" accesskey="x" name="addbbcode14" onClick="bbstyle(14)" onMouseOver="myhelpline('x')" >&nbsp;xln&nbsp;</a>&nbsp;
+<!-- END bb_xln_button -->
 <!-- BEGIN bb_ilink_button -->
-<a class="ilEditSubmit" href="{BB_LINK_ILINK}" accesskey="i" target="tree" onMouseOver="helpline('i')">&nbsp;iln&nbsp;</a>
+<a class="ilEditSubmit" href="{BB_LINK_ILINK}" accesskey="i" target="tree" onMouseOver="myhelpline('i')">&nbsp;iln&nbsp;</a>
 <!-- END bb_ilink_button -->
 <!-- BEGIN bb_wikilink_button -->
-<a class="ilEditSubmit" href="#" accesskey="w" name="addbbcode14" onClick="bbstyle(20)" onMouseOver="helpline('w')" >&nbsp;[[{TXT_WLN2}]]&nbsp;</a>&nbsp;
+<a class="ilEditSubmit" href="#" accesskey="w" name="addbbcode14" onClick="bbstyle(20)" onMouseOver="myhelpline('w')" >&nbsp;[[{TXT_WLN2}]]&nbsp;</a>&nbsp;
 <!-- END bb_wikilink_button -->
 </div>

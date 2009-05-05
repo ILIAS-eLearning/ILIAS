@@ -149,8 +149,8 @@ class ilPCSectionGUI extends ilPageContentGUI
 		}
 		
 		// characteristic selection
-		require_once("./Services/Form/classes/class.ilRadioMatrixInputGUI.php");
-		$char_prop = new ilRadioMatrixInputGUI($this->lng->txt("cont_characteristic"),
+		require_once("./Services/Form/classes/class.ilAdvSelectInputGUI.php");
+		$char_prop = new ilAdvSelectInputGUI($this->lng->txt("cont_characteristic"),
 			"characteristic");
 			
 		$chars = $this->getCharacteristics();
@@ -170,12 +170,12 @@ class ilPCSectionGUI extends ilPageContentGUI
 			
 		foreach($chars as $k => $char)
 		{
-			$chars[$k] = '<div class="ilc_section_'.$k.'">'.
+			$html = '<div class="ilc_section_'.$k.'">'.
 				$char.'</div>';
+			$char_prop->addOption($k, $char, $html);
 		}
 
-		$char_prop->setValue($selected);
-		$char_prop->setOptions($chars);
+		$char_prop->setValue($selected); 
 		$form->addItem($char_prop);
 		
 		// save/cancel buttons

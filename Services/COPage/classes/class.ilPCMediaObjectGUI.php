@@ -1113,8 +1113,8 @@ class ilPCMediaObjectGUI extends ilPageContentGUI
 		$form->setTitle($this->lng->txt("cont_edit_style"));
 		
 		// characteristic selection
-		require_once("./Services/Form/classes/class.ilRadioMatrixInputGUI.php");
-		$char_prop = new ilRadioMatrixInputGUI($this->lng->txt("cont_characteristic"),
+		require_once("./Services/Form/classes/class.ilAdvSelectInputGUI.php");
+		$char_prop = new ilAdvSelectInputGUI($this->lng->txt("cont_characteristic"),
 			"characteristic");
 			
 		$chars = $this->getCharacteristics();
@@ -1131,17 +1131,17 @@ class ilPCMediaObjectGUI extends ilPageContentGUI
 		$selected = $this->content_obj->getClass();
 		if ($selected == "")
 		{
-			$selected = "Media";
+			$selected = "MediaContainer";
 		}
 			
 		foreach ($chars as $k => $char)
 		{
-			$chars[$k] = '<table class="ilc_media_cont_'.$k.'"><tr><td>'.
+			$html = '<table class="ilc_media_cont_'.$k.'"><tr><td>'.
 				$char.'</td></tr></table>';
+			$char_prop->addOption($k, $char, $html);
 		}
 
 		$char_prop->setValue($selected);
-		$char_prop->setOptions($chars);
 		$form->addItem($char_prop);
 		
 		// save button

@@ -5,6 +5,7 @@
 <input type="hidden" id="il_hform_multi" name="il_hform_multi" value="" />
 <input type="hidden" id="il_hform_source_id" name="il_hform_source_id" value="" />
 <input type="hidden" id="il_hform_target_id" name="il_hform_target_id" value="" />
+<input type="hidden" id="il_hform_expand" name="il_hform_expand" value="" />
 <table class="fullwidth">
 <tr class="tblheader">
 	<th class="std"><!-- BEGIN icon --><img src="{SRC_ICON}" alt="{ALT_ICON}" border="0" /><!-- END icon --> {TITLE}</th>
@@ -72,3 +73,13 @@ as_subitem['{SI_NODE_ID}' + '_' + '{SI_GRP}'] = "{SI_SI}";
 parent.{UPDATER_FRAME}.updater('{EXP_ID_UPDATER}', '{HREF_UPDATER}');
 </script>
 <!-- END updater -->
+
+<!-- This one is called from other frames/contents -->
+<!-- BEGIN tr_update -->
+<script language="JavaScript" type="text/javascript">
+function ilHierarchyFormUpdater()
+{
+	doActionForm('{UPDATE_CMD}', 0, 0, 0);
+}
+</script>
+<!-- END tr_update -->

@@ -166,7 +166,8 @@
 <!ATTLIST List
 	Id ID #IMPLIED
 	Type (Ordered | Unordered) #REQUIRED
-	NumberingType (Roman | roman | Alphabetic | alphabetic | Number) #IMPLIED
+	NumberingType (Decimal | Roman | roman | Alphabetic | alphabetic | Number) #IMPLIED
+	StartValue CDATA #IMPLIED
 >
 <!ELEMENT ListItem (PageContent*)>
 <!ATTLIST ListItem
@@ -216,11 +217,17 @@
 <!ATTLIST TableRow
 	PCID CDATA #IMPLIED
 >
+
+<!-- Table Cell. The Hidden Attribute must be set to "Y", if a cell is hidden due to anothers (non-hidden) cell 
+col or row span. -->
 <!ELEMENT TableData (PageContent*)>
 <!ATTLIST TableData
 	Width CDATA #IMPLIED
 	Class CDATA #IMPLIED
 	PCID CDATA #IMPLIED
+	ColSpan CDATA #IMPLIED
+	RowSpan CDATA #IMPLIED
+	Hidden (Y | N) #IMPLIED
 >
 
 <!-- ExtLink -->
@@ -287,6 +294,7 @@
 <!ATTLIST Tabs
 	Type (HorizontalAccordion | VerticalAccordion) #REQUIRED
 	HorizontalAlign (Left | Center | Right | LeftFloat | RightFloat) #IMPLIED
+	Behavior (AllClosed | FirstOpen | ForceAllOpen) #IMPLIED
 	ContentWidth CDATA #IMPLIED
 	ContentHeight CDATA #IMPLIED
 	Template CDATA #IMPLIED

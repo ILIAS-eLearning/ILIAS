@@ -174,11 +174,10 @@ class ilAccordionGUI
 	{
 		global $tpl;
 		
-		$tpl->addJavaScript("./Services/Accordion/stickmanlabs_2_0/javascript/prototype.js");
-		//$tpl->addJavaScript("./Services/Accordion/stickmanlabs_2_0/javascript/prototype-1.6.0.3.js");
-		$tpl->addJavaScript("./Services/Accordion/stickmanlabs_2_0/javascript/effects.js");
-		//$tpl->addJavaScript("./Services/Accordion/scriptaculous/scriptaculous-js-1.8.2/src/effects.js");
-		$tpl->addJavaScript("./Services/Accordion/stickmanlabs_2_0/javascript/accordion.js");
+		include_once("./Services/YUI/classes/class.ilYUIUtil.php");
+		ilYuiUtil::initEvent();
+		ilYuiUtil::initDom();
+		ilYuiUtil::initAnimation();
 		$tpl->addJavaScript("./Services/Accordion/js/accordion.js");
 	}
 	

@@ -91,7 +91,7 @@ class ilPCDataTableGUI extends ilPCTableGUI
 		$dtpl = $this->tpl;
 		//$dtpl = new ilTemplate("tpl.tabledata.html", true, true, "Services/COPage");
 		$dtpl->setVariable("FORMACTION", $this->ctrl->getFormAction($this, "tableAction"));
-		$dtpl->setVariable("BB_MENU", $this->getBBMenu());
+		$dtpl->setVariable("BB_MENU", $this->getBBMenu("cell_0_0"));
 		
 		$this->tpl->addJavascript("./Services/COPage/phpBB/3_0_0/editor.js");
 		$this->tpl->addJavascript("./Services/COPage/js/page_editing.js");
@@ -184,20 +184,39 @@ class ilPCDataTableGUI extends ilPCTableGUI
 				}
 				
 				// cell
-				$dtpl->setCurrentBlock("cell");
-				
-				if (is_array($_POST["cmd"]) && key($_POST["cmd"]) == "update")
+				if ($res2->nodeset[$j]->get_attribute("Hidden") != "Y")
 				{
-					$s_text = ilUtil::stripSlashes("cell_".$i."_".$j, false);
+					$dtpl->setCurrentBlock("cell");
+					
+					if (is_array($_POST["cmd"]) && key($_POST["cmd"]) == "update")
+					{
+						$s_text = ilUtil::stripSlashes("cell_".$i."_".$j, false);
+					}
+					else
+					{
+						$s_text = ilPCParagraph::xml2output($this->content_obj->getCellText($i, $j));
+					}
+	
+					$dtpl->setVariable("PAR_TA_NAME", "cell[".$i."][".$j."]");
+					$dtpl->setVariable("PAR_TA_ID", "cell_".$i."_".$j);
+					$dtpl->setVariable("PAR_TA_CONTENT", $s_text);
+					
+					$cs = $res2->nodeset[$j]->get_attribute("ColSpan");
+					$rs = $res2->nodeset[$j]->get_attribute("RowSpan");
+					$dtpl->setVariable("WIDTH", "140");
+					$dtpl->setVariable("HEIGHT", "80");
+					if ($cs > 1)
+					{
+						$dtpl->setVariable("COLSPAN", 'colspan="'.$cs.'"');
+						$dtpl->setVariable("WIDTH", (140 + ($cs - 1) * 146));
+					}
+					if ($rs > 1)
+					{
+						$dtpl->setVariable("ROWSPAN", 'rowspan="'.$rs.'"');
+						$dtpl->setVariable("HEIGHT", (80 + ($rs - 1) * 86));
+					}
+					$dtpl->parseCurrentBlock();
 				}
-				else
-				{
-					$s_text = ilPCParagraph::xml2output($this->content_obj->getCellText($i, $j));
-				}
-
-				$dtpl->setVariable("PAR_TA_NAME", "cell[".$i."][".$j."]");
-				$dtpl->setVariable("PAR_TA_CONTENT", $s_text);
-				$dtpl->parseCurrentBlock();
 			}
 			$dtpl->setCurrentBlock("row");
 			$dtpl->parseCurrentBlock();

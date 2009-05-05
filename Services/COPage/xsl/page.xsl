@@ -71,6 +71,7 @@
 <xsl:param name="enable_map"/>
 <xsl:param name="enable_tabs"/>
 <xsl:param name="enable_file_list"/>
+<xsl:param name="disable_auto_margins"/>
 
 <xsl:template match="PageObject">
 	<!-- <xsl:value-of select="@HierId"/> -->
@@ -334,12 +335,12 @@
 			<xsl:if test="(./MediaObject/MediaAliasItem[@Purpose = 'Standard']/Layout/@HorizontalAlign = 'RightFloat') or
 				(./Map/Layout/@HorizontalAlign = 'RightFloat') or
 				(./Table/@HorizontalAlign = 'RightFloat')">
-				<xsl:attribute name="style"><xsl:if test="./Table/@Width">width:<xsl:value-of select="./Table/@Width"/>;</xsl:if> float:right; clear:both; background-color:#FFFFFF;</xsl:attribute>
+				<xsl:attribute name="style"><!--<xsl:if test="./Table/@Width">width:<xsl:value-of select="./Table/@Width"/>;</xsl:if>--> float:right; clear:both; background-color:#FFFFFF;</xsl:attribute>
 			</xsl:if>
 			<xsl:if test="(./MediaObject/MediaAliasItem[@Purpose = 'Standard']/Layout/@HorizontalAlign = 'LeftFloat') or
 				(./Map/Layout/@HorizontalAlign = 'LeftFloat') or
 				(./Table/@HorizontalAlign = 'LeftFloat')">
-				<xsl:attribute name="style"><xsl:if test="./Table/@Width">width:<xsl:value-of select="./Table/@Width"/>;</xsl:if> float:left; clear:both; background-color:#FFFFFF;</xsl:attribute>
+				<xsl:attribute name="style"><!--<xsl:if test="./Table/@Width">width:<xsl:value-of select="./Table/@Width"/>;</xsl:if>--> float:left; clear:both; background-color:#FFFFFF;</xsl:attribute>
 			</xsl:if>
 			<div>
 				<xsl:if test="not(../../../@DataTable) or (../../../@DataTable = 'n')">
@@ -1180,7 +1181,8 @@
 		<xsl:attribute name="width"><xsl:value-of select="@Width"/></xsl:attribute>
 	</xsl:if>
 	<xsl:if test="$mode = 'edit' and (@HorizontalAlign = 'RightFloat' or @HorizontalAlign = 'LeftFloat')">
-		<xsl:attribute name="width">100%</xsl:attribute>
+		<xsl:attribute name="width">100%</xsl:attribute><!-- old -->
+		<xsl:attribute name="width"></xsl:attribute>
 	</xsl:if>
 	<xsl:attribute name="border"><xsl:value-of select="@Border"/></xsl:attribute>
 	<xsl:attribute name="cellspacing"><xsl:value-of select="@CellSpacing"/></xsl:attribute>
@@ -1188,19 +1190,28 @@
 	<xsl:if test="$mode = 'edit'">
 		<xsl:attribute name="style">
 			<xsl:choose>
-				<xsl:when test="@HorizontalAlign = 'RightFloat'">margin-right: 0px;</xsl:when>
-				<xsl:when test="@HorizontalAlign = 'LeftFloat'">margin-left: 0px;</xsl:when>
+				<xsl:when test="@HorizontalAlign = 'RightFloat' and $disable_auto_margins != 'y'">margin-right: 0px;</xsl:when>
+				<xsl:when test="@HorizontalAlign = 'LeftFloat' and $disable_auto_margins != 'y'">margin-left: 0px;</xsl:when>
 				<xsl:when test="@HorizontalAlign = 'Center'">margin-left: auto; margin-right: auto;</xsl:when>
 			</xsl:choose>
 		</xsl:attribute>
 	</xsl:if>
 	<xsl:if test="$mode != 'edit'">
 		<xsl:attribute name="style">
-			<xsl:choose>
-				<xsl:when test="@HorizontalAlign = 'RightFloat'">float:right; margin-right: 0px;</xsl:when>
-				<xsl:when test="@HorizontalAlign = 'LeftFloat'">float:left; margin-left: 0px;</xsl:when>
-				<xsl:when test="@HorizontalAlign = 'Center'">margin-left: auto; margin-right: auto;</xsl:when>
-			</xsl:choose>
+			<xsl:if	test="$disable_auto_margins != 'y'">
+				<xsl:choose>
+					<xsl:when test="@HorizontalAlign = 'RightFloat'">float:right; margin-right: 0px;</xsl:when>
+					<xsl:when test="@HorizontalAlign = 'LeftFloat'">float:left; margin-left: 0px;</xsl:when>
+					<xsl:when test="@HorizontalAlign = 'Center'">margin-left: auto; margin-right: auto;</xsl:when>
+				</xsl:choose>
+			</xsl:if>
+			<xsl:if	test="$disable_auto_margins = 'y'">
+				<xsl:choose>
+					<xsl:when test="@HorizontalAlign = 'RightFloat'">float:right;</xsl:when>
+					<xsl:when test="@HorizontalAlign = 'LeftFloat'">float:left;</xsl:when>
+					<xsl:when test="@HorizontalAlign = 'Center'">margin-left: auto; margin-right: auto;</xsl:when>
+				</xsl:choose>
+			</xsl:if>
 		</xsl:attribute>
 	</xsl:if>
 	<xsl:for-each select="Caption">
@@ -1218,39 +1229,41 @@
 		<tr valign="top">
 			<xsl:variable name = "cols" select = "count(./TableData)"/>
 			<xsl:for-each select = "TableData">
-				<xsl:variable name = "colpos" select = "position()"/>
-				<xsl:choose>
-				<xsl:when test="../../@Template and
-					(//StyleTemplates/StyleTemplate[@Name=$ttemp and $headerrows >= $rowpos] or 
-					//StyleTemplates/StyleTemplate[@Name=$ttemp and $headercols >= $colpos])">
-					<th>
-						<xsl:call-template name="TableDataContent">
-							<xsl:with-param name="cols" select="$cols"/>
-							<xsl:with-param name="rows" select="$rows"/>
-							<xsl:with-param name="rowpos" select="$rowpos"/>
-							<xsl:with-param name="ttemp" select="$ttemp"/>
-							<xsl:with-param name="headerrows" select="$headerrows"/>
-							<xsl:with-param name="headercols" select="$headercols"/>
-							<xsl:with-param name="footerrows" select="$footerrows"/>
-							<xsl:with-param name="footercols" select="$footercols"/>
-						</xsl:call-template>
-					</th>
-				</xsl:when>
-				<xsl:otherwise>
-					<td>
-						<xsl:call-template name="TableDataContent">
-							<xsl:with-param name="cols" select="$cols"/>
-							<xsl:with-param name="rows" select="$rows"/>
-							<xsl:with-param name="rowpos" select="$rowpos"/>
-							<xsl:with-param name="ttemp" select="$ttemp"/>
-							<xsl:with-param name="headerrows" select="$headerrows"/>
-							<xsl:with-param name="headercols" select="$headercols"/>
-							<xsl:with-param name="footerrows" select="$footerrows"/>
-							<xsl:with-param name="footercols" select="$footercols"/>
-						</xsl:call-template>
-					</td>
-				</xsl:otherwise>
-				</xsl:choose>
+				<xsl:if test="not(@Hidden) or @Hidden != 'Y'">
+					<xsl:variable name = "colpos" select = "position()"/>
+					<xsl:choose>
+					<xsl:when test="../../@Template and
+						(//StyleTemplates/StyleTemplate[@Name=$ttemp and $headerrows >= $rowpos] or 
+						//StyleTemplates/StyleTemplate[@Name=$ttemp and $headercols >= $colpos])">
+						<th>
+							<xsl:call-template name="TableDataContent">
+								<xsl:with-param name="cols" select="$cols"/>
+								<xsl:with-param name="rows" select="$rows"/>
+								<xsl:with-param name="rowpos" select="$rowpos"/>
+								<xsl:with-param name="ttemp" select="$ttemp"/>
+								<xsl:with-param name="headerrows" select="$headerrows"/>
+								<xsl:with-param name="headercols" select="$headercols"/>
+								<xsl:with-param name="footerrows" select="$footerrows"/>
+								<xsl:with-param name="footercols" select="$footercols"/>
+							</xsl:call-template>
+						</th>
+					</xsl:when>
+					<xsl:otherwise>
+						<td>
+							<xsl:call-template name="TableDataContent">
+								<xsl:with-param name="cols" select="$cols"/>
+								<xsl:with-param name="rows" select="$rows"/>
+								<xsl:with-param name="rowpos" select="$rowpos"/>
+								<xsl:with-param name="ttemp" select="$ttemp"/>
+								<xsl:with-param name="headerrows" select="$headerrows"/>
+								<xsl:with-param name="headercols" select="$headercols"/>
+								<xsl:with-param name="footerrows" select="$footerrows"/>
+								<xsl:with-param name="footercols" select="$footercols"/>
+							</xsl:call-template>
+						</td>
+					</xsl:otherwise>
+					</xsl:choose>
+				</xsl:if>
 			</xsl:for-each>
 		</tr>
 	</xsl:for-each>
@@ -1299,6 +1312,12 @@
 	<xsl:param name="footerrows" />
 	<xsl:param name="headercols" />
 	<xsl:param name="footercols" />
+	<xsl:if test="@ColSpan and number(@ColSpan) > 1">
+		<xsl:attribute name="colspan"><xsl:value-of select = "@ColSpan"/></xsl:attribute>
+	</xsl:if>
+	<xsl:if test="@RowSpan and number(@RowSpan) > 1">
+		<xsl:attribute name="rowspan"><xsl:value-of select = "@RowSpan"/></xsl:attribute>
+	</xsl:if>
 	<xsl:choose>
 		<xsl:when test="substring(@Class, 1, 4) = 'ilc_'">
 			<xsl:attribute name = "class">ilc_table_cell_<xsl:value-of select="substring-after(@Class, 'ilc_')"/></xsl:attribute>
@@ -1399,21 +1418,22 @@
 	</xsl:if>
 	<!-- class and width output for table edit -->
 	<xsl:if test="$mode = 'table_edit'">
-		<div class="small" style="white-space:nowrap; padding:2px; margin:2px; background-color:#FFFFFF;">
-			<xsl:value-of select="//LVs/LV[@name='ed_class']/@value"/>:
+		<div class="small" style="white-space:nowrap; padding:2px; margin:2px; background-color:#FFFFFF; border: solid 1px #C0C0C0; color:#000000;">
+			{{{{{TableEdit;<xsl:value-of select="@HierId"/>:<xsl:value-of select="@PCID"/>}}}}}
+			<!--  <xsl:value-of select="//LVs/LV[@name='ed_class']/@value"/>:
 			<xsl:if test="@Class">
 				<xsl:value-of select="substring(@Class, 5)"/>
 			</xsl:if>
 			<xsl:if test="not(@Class)">None</xsl:if>
 			<input type="checkbox" value="1">
 				<xsl:attribute name="name">target[<xsl:value-of select="@HierId"/>:<xsl:value-of select="@PCID"/>]</xsl:attribute>
-			</input>
-			<br />
+			</input> -->
+			<!--  <br />
 			<xsl:value-of select="//LVs/LV[@name='ed_width']/@value"/>:
 			<input class="small" type="text" size="5" maxlength="10">
 				<xsl:attribute name="name">width[<xsl:value-of select="@HierId"/>:<xsl:value-of select="@PCID"/>]</xsl:attribute>
 				<xsl:attribute name="value"><xsl:value-of select="@Width"/></xsl:attribute>
-			</input>
+			</input>-->
 		</div>
 	</xsl:if>
 	<!-- content -->
@@ -1518,11 +1538,15 @@
 	<xsl:call-template name="EditReturnAnchors"/>
 	<xsl:if test="@Type = 'Ordered'">
 		<ol class="ilc_list_o_NumberedList">
+		<xsl:if test="@StartValue and number(@StartValue) > 1">
+			<xsl:attribute name="start"><xsl:value-of select="@StartValue"/></xsl:attribute>
+		</xsl:if>
 		<xsl:choose>
-			<xsl:when test="@NumberingType = 'Roman'"><xsl:attribute name="type">I</xsl:attribute></xsl:when>
-			<xsl:when test="@NumberingType = 'roman'"><xsl:attribute name="type">i</xsl:attribute></xsl:when>
-			<xsl:when test="@NumberingType = 'Alphabetic'"><xsl:attribute name="type">A</xsl:attribute></xsl:when>
-			<xsl:when test="@NumberingType = 'alphabetic'"><xsl:attribute name="type">a</xsl:attribute></xsl:when>
+			<xsl:when test="@NumberingType = 'Roman'"><xsl:attribute name="style">list-style-type: upper-roman;</xsl:attribute></xsl:when>
+			<xsl:when test="@NumberingType = 'roman'"><xsl:attribute name="style">list-style-type: lower-roman;</xsl:attribute></xsl:when>
+			<xsl:when test="@NumberingType = 'Alphabetic'"><xsl:attribute name="style">list-style-type: upper-alpha;</xsl:attribute></xsl:when>
+			<xsl:when test="@NumberingType = 'alphabetic'"><xsl:attribute name="style">list-style-type: lower-alpha;</xsl:attribute></xsl:when>
+			<xsl:when test="@NumberingType = 'Decimal'"><xsl:attribute name="style">list-style-type: decimal;</xsl:attribute></xsl:when>
 		</xsl:choose>
 		<xsl:apply-templates/>
 		</ol>
@@ -1752,13 +1776,13 @@
 		</xsl:if>
 		<xsl:if test="$mode != 'print'">
 			<xsl:if test="$mode != 'offline'">
-				<a class="ilc_flist_a_FileListItemLink">
+				<a class="ilc_flist_a_FileListItemLink" target="_blank">
 					<xsl:attribute name="href"><xsl:value-of select="$file_download_link"/>&amp;file_id=<xsl:value-of select="./Identifier/@Entry"/></xsl:attribute>
 					<xsl:call-template name="FileItemText"/>
 				</a>
 			</xsl:if>
 			<xsl:if test="$mode = 'offline'">
-				<a>
+				<a class="ilc_flist_a_FileListItemLink" target="_blank">
 					<xsl:attribute name="href">./files/file_<xsl:value-of select="substring-after(./Identifier/@Entry,'file_')"/>/<xsl:value-of select="./Location"/></xsl:attribute>
 					<xsl:call-template name="FileItemText"/>
 				</a>
@@ -1844,26 +1868,20 @@
 		<!-- Alignment Part 2 (LeftFloat, RightFloat) -->
 		<xsl:if test="../MediaAliasItem[@Purpose='Standard']/Layout[1]/@HorizontalAlign = 'LeftFloat'
 			and $mode != 'fullscreen' and $mode != 'media'">
-			<xsl:attribute name="style">margin-left: 0px;</xsl:attribute>
-			<xsl:if test="$mode != 'edit'">
-				<xsl:attribute name="style">float:left; clear:both; margin-left: 0px;</xsl:attribute>
-			</xsl:if>
+			<xsl:attribute name="style"><xsl:if test="$mode != 'edit'">float:left; clear:both; </xsl:if><xsl:if test="$disable_auto_margins != 'y'">margin-left: 0px;</xsl:if></xsl:attribute>
 		</xsl:if>
 		<xsl:if test="../MediaAliasItem[@Purpose='Standard']/Layout[1]/@HorizontalAlign = 'RightFloat'
 			and $mode != 'fullscreen' and $mode != 'media'">
-			<xsl:attribute name="style">margin-right: 0px;</xsl:attribute>
-			<xsl:if test="$mode != 'edit'">
-				<xsl:attribute name="style">float:right; clear:both; margin-right: 0px;</xsl:attribute>
-			</xsl:if>
+			<xsl:attribute name="style"><xsl:if test="$mode != 'edit'">float:right; clear:both; </xsl:if><xsl:if test="$disable_auto_margins != 'y'">margin-right: 0px;</xsl:if></xsl:attribute>
 		</xsl:if>
 
 		<!-- make object fit to left/right border -->
 		<xsl:if test="../MediaAliasItem[@Purpose='Standard']/Layout[1]/@HorizontalAlign = 'Left'
-			and $mode != 'fullscreen' and $mode != 'media'">
+			and $mode != 'fullscreen' and $mode != 'media' and $disable_auto_margins != 'y'">
 			<xsl:attribute name="style">margin-left: 0px;</xsl:attribute>
 		</xsl:if>
 		<xsl:if test="../MediaAliasItem[@Purpose='Standard']/Layout[1]/@HorizontalAlign = 'Right'
-			and $mode != 'fullscreen' and $mode != 'media'">
+			and $mode != 'fullscreen' and $mode != 'media' and $disable_auto_margins != 'y'">
 			<xsl:attribute name="style">margin-right: 0px;</xsl:attribute>
 		</xsl:if>
 
@@ -2665,9 +2683,9 @@
 	<xsl:call-template name="EditReturnAnchors"/>
 	<xsl:variable name="halign"><xsl:choose>
 		<xsl:when test="@HorizontalAlign = 'Center'">margin-left: auto; margin-right: auto;</xsl:when>
-		<xsl:when test="@HorizontalAlign = 'Right'">margin-left: auto; margin-right: 0px;</xsl:when>
-		<xsl:when test="@HorizontalAlign = 'LeftFloat'">float:left; margin-left: 0px; margin-right:10px;</xsl:when>
-		<xsl:when test="@HorizontalAlign = 'RightFloat'">float:right; margin-left: 10px; margin-right:0px;</xsl:when>
+		<xsl:when test="@HorizontalAlign = 'Right'">margin-left: auto; <xsl:if test="$disable_auto_margins != 'y'">margin-right: 0px;</xsl:if></xsl:when>
+		<xsl:when test="@HorizontalAlign = 'LeftFloat'">float:left; <xsl:if test="$disable_auto_margins != 'y'">margin-left: 0px;</xsl:if></xsl:when>
+		<xsl:when test="@HorizontalAlign = 'RightFloat'">float:right; <xsl:if test="$disable_auto_margins != 'y'">margin-right:0px;</xsl:if></xsl:when>
 		<xsl:otherwise></xsl:otherwise>
 	</xsl:choose></xsl:variable>
 	<div>
@@ -2735,14 +2753,14 @@
 			<script type="text/javascript">
 				ilInitAccordion('ilc_accordion_<xsl:number count="Tabs" level="any" />',
 					'il_VAccordionToggleDef', 'il_VAccordionToggleActiveDef',
-					'il_VAccordionContentDef', null, null, 'vertical');
+					'il_VAccordionContentDef', null, null, 'vertical', '<xsl:value-of select="@Behavior"/>');
 			</script>
 			</xsl:if>
 			<xsl:if test="@Type = 'HorizontalAccordion'">
 			<script type="text/javascript">
 				ilInitAccordion('ilc_accordion_<xsl:number count="Tabs" level="any" />',
 					'il_HAccordionToggleDef', 'il_HAccordionToggleActiveDef',
-					'il_HAccordionContentDef', <xsl:value-of select="$cwidth" />, null, 'horizontal');
+					'il_HAccordionContentDef', <xsl:value-of select="$cwidth" />, null, 'horizontal', '<xsl:value-of select="@Behavior"/>');
 			</script>
 			</xsl:if>
 		</xsl:if>
@@ -2755,6 +2773,8 @@
 	<xsl:param name="cheight"/>
 	<xsl:param name="ttemp"/>
 	<xsl:variable name="cstyle">overflow:auto; <xsl:if test="$cheight != 'null' and $mode != 'edit'">height: <xsl:value-of select="$cheight" />px;</xsl:if></xsl:variable>
+	
+	<!-- TabContainer -->
 	<div>
 	<xsl:choose>
 	<xsl:when test="../@Type = 'VerticalAccordion' or $mode = 'edit'">
@@ -2771,6 +2791,8 @@
 		</xsl:if>
 	</xsl:when>
 	</xsl:choose>
+	
+	<!-- Caption -->
 	<div>
 	<xsl:choose>
 	<xsl:when test="../@Type = 'VerticalAccordion' or $mode = 'edit'">
@@ -2837,6 +2859,8 @@
 		<xsl:comment>Break</xsl:comment>
 		</div>
 	</div>
+	
+	<!-- Content -->
 	<div>
 		<xsl:choose>
 		<xsl:when test="../@Type = 'VerticalAccordion' or $mode = 'edit'">
@@ -2846,6 +2870,9 @@
 			<xsl:attribute name="class">il_HAccordionContentDef</xsl:attribute>
 		</xsl:when>
 		</xsl:choose>
+		<xsl:if test="../@Type = 'HorizontalAccordion' and $mode != 'edit' and ../@Behavior = 'ForceAllOpen'">
+			<xsl:attribute name="style">width:<xsl:value-of select = "$cwidth" />px;</xsl:attribute>
+		</xsl:if>
 		<div>
 			<xsl:choose>
 			<xsl:when test="../@Type = 'VerticalAccordion' or $mode = 'edit'">
