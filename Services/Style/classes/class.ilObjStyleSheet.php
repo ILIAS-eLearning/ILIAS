@@ -61,12 +61,6 @@ class ilObjStyleSheet extends ilObject
 						"values" => array("small-caps", "normal"),
 						"input" => "select",
 						"group" => "text"),
-		"font-stretch" => array(
-						"values" => array("wider", "narrower", "condensed", "semi-condensed",
-							"extra-condensed", "ultra-condensed", "expanded", "semi-expanded",
-							"extra-expanded", "ultra-expanded", "normal"),
-						"input" => "select",
-						"group" => "text"),
 		"word-spacing" => array(
 						"values" => array(),
 						"input" => "numeric_no_perc",
@@ -248,6 +242,11 @@ class ilObjStyleSheet extends ilObject
 						"input" => "select",
 						"group" => "table"
 						),
+		"caption-side" => array(
+						"values" => array ("top","bottom","left","right"),
+						"input" => "select",
+						"group" => "table"
+						)
 		);
 
 	// filter groups of properties that should only be
@@ -262,9 +261,9 @@ class ilObjStyleSheet extends ilObject
 		"text_inline" => array("text_inline"),
 		"section" => array("section"),
 		"link" => array("link"),
-		"table" => array("table", "table_cell"),
+		"table" => array("table", "table_cell", "table_caption"),
 		"list" => array("list_o", "list_u", "list_item"),
-		"flist" => array("flist_cont", "flist_head", "flist", "flist_li"),
+		"flist" => array("flist_cont", "flist_head", "flist", "flist_li", "flist_a"),
 		"media" => array("media_cont", "media_caption"),
 		"question" => array("question", "qtitle", "qanswer", "qinput", "qlinput", "qsubmit", "qfeedr", "qfeedw"),
 		"page" => array("page_frame", "page_cont", "page_title", "page_fn",
@@ -275,10 +274,15 @@ class ilObjStyleSheet extends ilObject
 
 	// these types are expandable, i.e. the user can define new style classes
 	public static $expandable_types = array (
-			"text_block", "section", "media_cont", "table", "table_cell", "flist_li",
+			"text_block", "section", "media_cont", "table", "table_cell", "flist_li", "table_caption",
 				"list_o", "list_u"
 		);
 		
+	// these types can be hidden in the content editor
+	public static $hideable_types = array (
+			"text_inline"
+		);
+
 	// tag that are used by style types
 	public static $assigned_tags = array (
 		"text_block" => "div",
@@ -287,6 +291,7 @@ class ilObjStyleSheet extends ilObject
 		"link" => "a",
 		"table" => "table",
 		"table_cell" => "td",
+		"table_caption" => "caption",
 		"media_cont" => "table",
 		"media_caption" => "div",
 		"sco_title" => "div",
@@ -300,6 +305,7 @@ class ilObjStyleSheet extends ilObject
 		"flist_head" => "div",
 		"flist" => "ul",
 		"flist_li" => "li",
+		"flist_a" => "a",
 		"question" => "div",
 		"qtitle" => "div",
 		"qanswer" => "div",
@@ -322,7 +328,7 @@ class ilObjStyleSheet extends ilObject
 		"page_title" => "div"
 		);
 		
-	// core styles these styles MUST exists
+	// core styles these styles MUST exists -> see also basic_style/style.xml
 	public static $core_styles = array(
 			array("type" => "text_block", "class" => "Standard"),
 			array("type" => "text_block", "class" => "List"),
@@ -334,6 +340,8 @@ class ilObjStyleSheet extends ilObject
 			array("type" => "text_inline", "class" => "Emph"),
 			array("type" => "text_inline", "class" => "Quotation"),
 			array("type" => "text_inline", "class" => "Strong"),
+			array("type" => "text_inline", "class" => "Accent"),
+			array("type" => "text_inline", "class" => "Important"),
 			array("type" => "link", "class" => "IntLink"),
 			array("type" => "link", "class" => "ExtLink"),
 			array("type" => "link", "class" => "FootnoteLink"),
@@ -377,7 +385,8 @@ class ilObjStyleSheet extends ilObject
 			array("type" => "flist_cont", "class" => "FileListContainer"),
 			array("type" => "flist_head", "class" => "FileListHeading"),
 			array("type" => "flist", "class" => "FileList"),
-			array("type" => "flist_li", "class" => "FileListItem")
+			array("type" => "flist_li", "class" => "FileListItem"),
+			array("type" => "flist_a", "class" => "FileListItemLink")
 		);
 	
 	// basic style xml file, image directory and dom
@@ -864,7 +873,38 @@ class ilObjStyleSheet extends ilObject
 		// $this->chars_by_type[$a_type];
 	}
 
+	/**
+	* Save characteristic hide status
+	*/
+	function saveHideStatus($a_type, $a_char, $a_hide)
+	{
+		global $ilDB;
+
+		$ilDB->manipulate("UPDATE style_char SET ".
+			" hide = ".$ilDB->quote((int) $a_hide, "integer").
+			" WHERE style_id = ".$ilDB->quote($this->getId(), "integer")." AND ".
+			" type = ".$ilDB->quote($a_type, "text")." AND ".
+			" characteristic = ".$ilDB->quote($a_char, "text")
+			);
+	}
 	
+	/**
+	* Get characteristic hide status
+	*/
+	function getHideStatus($a_type, $a_char)
+	{
+		global $ilDB;
+
+		$set = $ilDB->query("SELECT hide FROM  style_char ".
+			" WHERE style_id = ".$ilDB->quote($this->getId(), "integer")." AND ".
+			" type = ".$ilDB->quote($a_type, "text")." AND ".
+			" characteristic = ".$ilDB->quote($a_char, "text")
+			);
+		$rec = $ilDB->fetchAssoc($set);
+		
+		return $rec["hide"];
+	}
+
 	/**
 	* clone style sheet (note: styles have no ref ids and return an object id)
 	* 
@@ -1206,6 +1246,10 @@ class ilObjStyleSheet extends ilObject
 		foreach ($style as $tag)
 		{
 			fwrite ($css_file, $tag[0]["tag"].".ilc_".$tag[0]["type"]."_".$tag[0]["class"]."\n");
+			if ($tag[0]["tag"] = "td")
+			{
+				fwrite ($css_file, ",th".".ilc_".$tag[0]["type"]."_".$tag[0]["class"]."\n");
+			}
 			fwrite ($css_file, "{\n");
 
 			// collect table border attributes
@@ -1837,6 +1881,11 @@ class ilObjStyleSheet extends ilObject
 		return in_array($a_type, self::$expandable_types);
 	}
 
+	static function _isHideable($a_type)
+	{
+		return in_array($a_type, self::$hideable_types);
+	}
+
 	static function _getStyleSuperTypeForType($a_type)
 	{
 		foreach (self::$style_super_types as $s => $t)
@@ -1990,6 +2039,10 @@ class ilObjStyleSheet extends ilObject
 			}
 		}
 	}
+	
+	//
+	// Color management
+	//
 	
 	/**
 	* Migrates 3.10 style to 3.11 style
@@ -2265,19 +2318,19 @@ class ilObjStyleSheet extends ilObject
 			{
 				$s = ($max - $min) / (2.0 - $max - $min);
 			}
-		}
 		
-		if ($r == $max)
-		{
-			$h  = ($g - $b) / ($max - $min);
-		}
-		else if ($g == $max)
-		{
-			$h = 2.0 + ($b - $r) / ($max - $min);
-		}
-		else if ($b == $max)
-		{
-			$h = 4.0 + ($r - $g) / ($max - $min);
+			if ($r == $max)
+			{
+				$h  = ($g - $b) / ($max - $min);
+			}
+			else if ($g == $max)
+			{
+				$h = 2.0 + ($b - $r) / ($max - $min);
+			}
+			else if ($b == $max)
+			{
+				$h = 4.0 + ($r - $g) / ($max - $min);
+			}
 		}
 		
 		$hls["h"] = round(($h / 6) * 255);
@@ -2368,6 +2421,246 @@ class ilObjStyleSheet extends ilObject
 		$rgb["b"] = round($rgb["b"] * 255);
 		
 		return $rgb;
+	}
+
+	//
+	// Table template management
+	//
+
+	/**
+	* Get table templates of style
+	*/
+	function getTableTemplates()
+	{
+		global $ilDB;
+		
+		$set = $ilDB->query("SELECT * FROM style_table_template WHERE ".
+			"style_id = ".$ilDB->quote($this->getId(), "integer")." ".
+			"ORDER BY name");
+		
+		$templates = array();
+		while ($rec = $ilDB->fetchAssoc($set))
+		{
+			$templates[] = $rec;
+		}
+		
+		return $templates;
+	}
+
+	/**
+	* Add table template
+	*/
+	function addTableTemplate($a_name, $a_table_class, $a_row_head_class, $a_row_foot_class,
+		$a_col_head_class, $a_col_foot_class, $a_odd_row_class, $a_even_row_class,
+		$a_odd_col_class, $a_even_col_class, $a_caption_class)
+	{
+		global $ilDB;
+		
+		$ilDB->manipulate($q = "INSERT INTO style_table_template ".
+			"(style_id, name, table_class, row_head_class, row_foot_class,".
+			"col_head_class, col_foot_class, odd_row_class, even_row_class,".
+			"odd_col_class, even_col_class, caption_class)".
+			" VALUES (".
+			$ilDB->quote($this->getId(), "integer").",".
+			$ilDB->quote($a_name, "text").",".
+			$ilDB->quote($a_table_class, "text").",".
+			$ilDB->quote($a_row_head_class, "text").",".
+			$ilDB->quote($a_row_foot_class, "text").",".
+			$ilDB->quote($a_col_head_class, "text").",".
+			$ilDB->quote($a_col_foot_class, "text").",".
+			$ilDB->quote($a_odd_row_class, "text").",".
+			$ilDB->quote($a_even_row_class, "text").",".
+			$ilDB->quote($a_odd_col_class, "text").",".
+			$ilDB->quote($a_even_col_class, "text").",".
+			$ilDB->quote($a_caption_class, "text").
+			")");
+		return $ilDB->getLastInsertId();
+	}
+
+	/**
+	* Update table template
+	*/
+	function updateTableTemplate($a_t_id, $a_name, $a_table_class, $a_row_head_class, $a_row_foot_class,
+		$a_col_head_class, $a_col_foot_class, $a_odd_row_class, $a_even_row_class,
+		$a_odd_col_class, $a_even_col_class, $a_caption_class)
+	{
+		global $ilDB;
+		
+		$ilDB->manipulate("UPDATE style_table_template SET ".
+			"name = ".$ilDB->quote($a_name, "text").",".
+			"table_class = ".$ilDB->quote($a_table_class, "text").",".
+			"row_head_class = ".$ilDB->quote($a_row_head_class, "text").",".
+			"row_foot_class = ".$ilDB->quote($a_row_foot_class, "text").",".
+			"col_head_class = ".$ilDB->quote($a_col_head_class, "text").",".
+			"col_foot_class = ".$ilDB->quote($a_col_foot_class, "text").",".
+			"odd_row_class = ".$ilDB->quote($a_odd_row_class, "text").",".
+			"even_row_class = ".$ilDB->quote($a_even_row_class, "text").",".
+			"odd_col_class = ".$ilDB->quote($a_odd_col_class, "text").",".
+			"even_col_class = ".$ilDB->quote($a_even_col_class, "text").",".
+			"caption_class = ".$ilDB->quote($a_caption_class, "text").
+			" WHERE id = ".$ilDB->quote($a_t_id, "integer"));
+	}
+
+	/**
+	* Check whether table template exists
+	*/
+	function tableTemplateExists($a_template_name)
+	{
+		global $ilDB;
+		
+		$set = $ilDB->query("SELECT * FROM style_table_template WHERE ".
+			"style_id = ".$ilDB->quote($this->getId(), "integer")." AND ".
+			"name = ".$ilDB->quote($a_template_name, "text"));
+		if ($rec = $ilDB->fetchAssoc($set))
+		{
+			return true;
+		}
+		return false;
+	}
+
+	/**
+	* Get table template
+	*/
+	function getTableTemplate($a_t_id)
+	{
+		global $ilDB;
+		
+		$set = $ilDB->query("SELECT * FROM style_table_template WHERE ".
+			"style_id = ".$ilDB->quote($this->getId(), "integer")." ".
+			" AND id = ".$ilDB->quote($a_t_id, "integer"));
+		
+		if ($rec = $ilDB->fetchAssoc($set))
+		{
+			$template = $rec;
+			return $template;
+		}
+		
+		return array();
+	}
+
+	/**
+	* Lookup table template name for template ID
+	*/
+	function lookupTableTemplateName($a_t_id)
+	{
+		global $ilDB;
+		
+		$set = $ilDB->query("SELECT name FROM style_table_template WHERE ".
+			" id = ".$ilDB->quote($a_t_id, "integer"));
+		
+		if ($rec = $ilDB->fetchAssoc($set))
+		{
+			return $rec["name"];
+		}
+		
+		return false;
+	}
+
+	/**
+	* Get table template xml
+	*/
+	function getTableTemplateXML()
+	{
+		global $ilDB;
+		
+		$ts = $this->getTableTemplates();
+//var_dump($ts);
+		$tag = "<TableTemplates>";
+		
+		foreach($ts as $t)
+		{
+			$atts = array("table_class" => "TableClass",
+				"caption_class" => "CaptionClass",
+				"row_head_class" => "RowHeadClass",
+				"row_foot_class" => "RowFootClass",
+				"col_head_class" => "ColHeadClass",
+				"col_foot_class" => "ColFootClass",
+				"odd_row_class" => "OddRowClass",
+				"even_row_class" => "EvenRowClass",
+				"odd_col_class" => "OddColClass",
+				"even_col_class" => "EvenColClass");
+	
+			$tag.= '<TableTemplate Name="'.$t["name"].'"';
+			
+			foreach ($atts as $par => $att)
+			{
+				if ($t[$par] != "")
+				{
+					$tag.= ' '.$att.'="'.$t[$par].'"';
+				}
+			}
+			
+			$tag.= " />\n";
+		}
+		$tag.= "</TableTemplates>";
+//echo htmlentities($tag);
+		return $tag;
+	}
+
+	/**
+	* Write table template preview
+	*/
+	function writeTableTemplatePreview($a_t_id, $a_preview_html)
+	{
+		global $ilDB;
+		$a_preview_html = str_replace(' width=""', "", $a_preview_html);
+		$a_preview_html = str_replace(' valign="top"', "", $a_preview_html);
+		$a_preview_html = str_replace('<div class="ilc_text_block_TableContent">', "", $a_preview_html);
+		$a_preview_html = str_replace('</div></div>', "</div>", $a_preview_html);
+		if (strlen($a_preview_html) > 4000)
+		{
+			$a_preview_html = "";
+		}
+		$ilDB->manipulate("UPDATE style_table_template SET ".
+			"preview = ".$ilDB->quote($a_preview_html, "text").
+			" WHERE id = ".$ilDB->quote($a_t_id, "integer"));
+	}
+
+	/**
+	* Lookup table template preview
+	*/
+	function lookupTableTemplatePreview($a_t_id)
+	{
+		global $ilDB;
+		
+		$set = $ilDB->query("SELECT preview FROM style_table_template ".
+			" WHERE id = ".$ilDB->quote($a_t_id, "integer"));
+		if ($rec = $ilDB->fetchAssoc($set))
+		{
+			return $rec["preview"];
+		}
+		
+		return "";
+	}
+	
+	/**
+	* Lookup table template preview
+	*/
+	static function _lookupTableTemplateIdByName($a_style_id, $a_name)
+	{
+		global $ilDB;
+		
+		$set = $ilDB->query("SELECT id FROM style_table_template ".
+			" WHERE style_id = ".$ilDB->quote($a_style_id, "integer").
+			" AND name = ".$ilDB->quote($a_name, "text"));
+		if ($rec = $ilDB->fetchAssoc($set))
+		{
+			return $rec["id"];
+		}
+		
+		return false;
+	}
+
+	/**
+	* Remove table template
+	*/
+	function removeTableTemplate($a_t_id)
+	{
+		global $ilDB;
+		
+		$ilDB->manipulate("DELETE FROM style_table_template WHERE ".
+			" style_id = ".$ilDB->quote($this->getId(), "integer")." AND ".
+			" id = ".$ilDB->quote($a_t_id, "integer"));
 	}
 
 }

@@ -91,6 +91,23 @@ class ilPageContentGUI
 	}
 
 	/**
+	* Get style object
+	*/
+	function getStyle()
+	{
+		if ((!is_object($this->style) || $this->getStyleId() != $this->style->getId()) && $this->getStyleId() > 0)
+		{
+			if (ilObject::_lookupType($this->getStyleId()) == "sty")
+			{
+				include_once("./Services/Style/classes/class.ilObjStyleSheet.php");
+				$this->style = new ilObjStyleSheet($this->getStyleId());
+			}
+		}
+		
+		return $this->style;
+	}
+	
+	/**
 	* Get characteristics of current style
 	*/
 	protected function getCharacteristicsOfCurrentStyle($a_type)
@@ -191,11 +208,21 @@ class ilPageContentGUI
 			$btpl->parseCurrentBlock();
 		}
 
-		$btpl->setVariable("TXT_STR", $this->lng->txt("cont_text_str"));
-		$btpl->setVariable("TXT_EMP", $this->lng->txt("cont_text_emp"));
-		$btpl->setVariable("TXT_COM", $this->lng->txt("cont_text_com"));
+		$cls = array("str" => "Strong", "emp" => "Emph", "quot" => "Quotation",
+			"com" => "Comment", "acc" => "Accent", "imp" => "Important");
+		$style = $this->getStyle();
+		foreach ($cls as $c => $st)
+		{
+			if (!$style || !$style->getHideStatus("text_inline", $st))
+			{
+				$btpl->touchBlock("bb_".$c."_button");
+				$btpl->setVariable("TXT_".strtoupper($c), $this->lng->txt("cont_text_".$c));
+			}
+		}
+		
+		// footnote
 		$btpl->setVariable("TXT_FN", $this->lng->txt("cont_text_fn"));
-		$btpl->setVariable("TXT_QUOT", $this->lng->txt("cont_text_quot"));
+		
 		$btpl->setVariable("TXT_CODE", $this->lng->txt("cont_text_code"));
 		$btpl->setVariable("TXT_ILN", $this->lng->txt("cont_text_iln"));
 		$btpl->setVariable("TXT_XLN", $this->lng->txt("cont_text_xln"));

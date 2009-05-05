@@ -971,7 +971,7 @@
 </xsl:template>
 
 <!-- Emph, Strong, Comment, Quotation -->
-<xsl:template match="Emph|Strong|Comment|Quotation">
+<xsl:template match="Emph|Strong|Comment|Quotation|Important|Accent">
 	<xsl:variable name="Tagname" select="name()"/>
 	<span class="ilc_text_inline_{$Tagname}"><xsl:apply-templates/></span>
 </xsl:template>
@@ -1116,6 +1116,9 @@
 <xsl:template match="LinkTargets">
 </xsl:template>
 
+<xsl:template match="TableTemplates">
+</xsl:template>
+
 <!-- ExtLink -->
 <xsl:template match="ExtLink">
 	<a class="ilc_link_ExtLink">
@@ -1157,12 +1160,22 @@
 <!-- Table Tag -->
 <xsl:template name="TableTag">
 	<table>
-	<xsl:if test="not(@Class)">
-		<xsl:attribute name="class">ilc_table_StandardTable</xsl:attribute>
-	</xsl:if>
-	<xsl:if test="@Class">
-		<xsl:attribute name="class">ilc_table_<xsl:value-of select="@Class"/></xsl:attribute>
-	</xsl:if>
+	<xsl:variable name="ttemp" select="@Template"/>
+	<xsl:variable name = "headerrows" select = "@HeaderRows"/>
+	<xsl:variable name = "footerrows" select = "@FooterRows"/>
+	<xsl:variable name = "headercols" select = "@HeaderCols"/>
+	<xsl:variable name = "footercols" select = "@FooterCols"/>
+	<xsl:choose>
+		<xsl:when test="@Template and //TableTemplates/TableTemplate[@Name=$ttemp]/@TableClass">
+			<xsl:attribute name = "class">ilc_table_<xsl:value-of select = "//TableTemplates/TableTemplate[@Name=$ttemp]/@TableClass"/></xsl:attribute>
+		</xsl:when>
+		<xsl:when test="@Class">
+			<xsl:attribute name="class">ilc_table_<xsl:value-of select="@Class"/></xsl:attribute>
+		</xsl:when>
+		<xsl:otherwise>
+			<xsl:attribute name="class">ilc_table_StandardTable</xsl:attribute>
+		</xsl:otherwise>
+	</xsl:choose>
 	<xsl:if test="$mode != 'edit' or not(@HorizontalAlign) or (@HorizontalAlign != 'RightFloat' and @HorizontalAlign != 'LeftFloat')">
 		<xsl:attribute name="width"><xsl:value-of select="@Width"/></xsl:attribute>
 	</xsl:if>
@@ -1192,101 +1205,52 @@
 	</xsl:if>
 	<xsl:for-each select="Caption">
 		<caption>
+		<xsl:if test="../@Template and //TableTemplates/TableTemplate[@Name=$ttemp]/@CaptionClass">
+			<xsl:attribute name = "class">ilc_table_caption_<xsl:value-of select = "//TableTemplates/TableTemplate[@Name=$ttemp]/@CaptionClass"/></xsl:attribute>
+		</xsl:if>
 		<xsl:attribute name="align"><xsl:value-of select="@Align"/></xsl:attribute>
 		<xsl:value-of select="."/>
 		</caption>
 	</xsl:for-each>
+	<xsl:variable name = "rows" select = "count(./TableRow)"/>
 	<xsl:for-each select = "TableRow">
 		<xsl:variable name = "rowpos" select = "position()"/>
 		<tr valign="top">
+			<xsl:variable name = "cols" select = "count(./TableData)"/>
 			<xsl:for-each select = "TableData">
-				<td>
-					<xsl:if test="substring(@Class, 1, 4) = 'ilc_'">
-						<xsl:attribute name = "class">ilc_table_cell_<xsl:value-of select="substring-after(@Class, 'ilc_')"/></xsl:attribute>
-					</xsl:if>
-					<xsl:if test="substring(@Class, 1, 4) != 'ilc_'">
-						<xsl:attribute name = "class">ilc_table_cell_<xsl:value-of select = "@Class"/></xsl:attribute>
-					</xsl:if>
-					<xsl:attribute name = "width"><xsl:value-of select = "@Width"/></xsl:attribute>
-					<!-- insert commands -->
-					<!-- <xsl:value-of select="@HierId"/> -->
-					<xsl:call-template name="EditReturnAnchors"/>
-					<xsl:if test="($mode = 'edit' and ((../../@DataTable != 'y' or not(../../@DataTable))) or $mode = 'table_edit')">
-						<!-- checkbox -->
-						<xsl:if test="$javascript = 'disable'">
-							<input type="checkbox" name="target[]">
-								<xsl:attribute name="value"><xsl:value-of select="@HierId"/>:<xsl:value-of select="@PCID"/>
-								</xsl:attribute>
-							</input>
-						</xsl:if>
-						<!-- insert select list -->
-						<xsl:if test="$mode = 'edit'">
-							<xsl:if test= "$javascript = 'disable'">
-								<select size="1" class="ilEditSelect">
-									<xsl:attribute name="name">command<xsl:value-of select="@HierId"/>
-									</xsl:attribute>
-									<xsl:call-template name="TableDataMenu"/>
-								</select>
-								<input class="ilEditSubmit" type="submit">
-									<xsl:attribute name="value"><xsl:value-of select="//LVs/LV[@name='ed_go']/@value"/></xsl:attribute>
-									<xsl:attribute name="name">cmd[exec_<xsl:value-of select="@HierId"/>:<xsl:value-of select="@PCID"/>]</xsl:attribute>
-								</input>
-								<br/>
-							</xsl:if>
-							<xsl:if test= "$javascript = 'enable'">
-								<xsl:if test = "position() = 1">
-									<xsl:call-template name="Icon">
-										<xsl:with-param name="img_src"><xsl:value-of select="$img_row"/></xsl:with-param>
-										<xsl:with-param name="img_id">CONTENTr<xsl:value-of select="@HierId"/>:<xsl:value-of select="@PCID"/></xsl:with-param>
-									</xsl:call-template>
-									<div style="position:absolute;left:0;top:0;visibility:hidden;">
-										<xsl:attribute name="id">contextmenu_r<xsl:value-of select="@HierId"/></xsl:attribute>
-										<table class="il_editmenu" cellspacing="0" cellpadding="3">
-											<xsl:call-template name="TableRowMenu"/>
-										</table>
-									</div>
-								</xsl:if>
-								<xsl:if test = "$rowpos = 1">
-									<xsl:call-template name="Icon">
-										<xsl:with-param name="img_src"><xsl:value-of select="$img_col"/></xsl:with-param>
-										<xsl:with-param name="img_id">CONTENTc<xsl:value-of select="@HierId"/>:<xsl:value-of select="@PCID"/></xsl:with-param>
-									</xsl:call-template>
-									<div style="position:absolute;left:0;top:0;visibility:hidden;">
-										<xsl:attribute name="id">contextmenu_c<xsl:value-of select="@HierId"/></xsl:attribute>
-										<table class="il_editmenu" cellspacing="0" cellpadding="3">
-											<xsl:call-template name="TableColMenu"/>
-										</table>
-									</div>
-								</xsl:if>
-								<xsl:call-template name="DropArea">
-									<xsl:with-param name="hier_id"><xsl:value-of select="@HierId"/></xsl:with-param>
-									<xsl:with-param name="pc_id"><xsl:value-of select="@PCID"/></xsl:with-param>
-								</xsl:call-template>
-							</xsl:if>
-						</xsl:if>
-					</xsl:if>
-					<!-- class and width output for table edit -->
-					<xsl:if test="$mode = 'table_edit'">
-						<div class="small" style="white-space:nowrap; padding:2px; margin:2px; background-color:#FFFFFF;">
-							<xsl:value-of select="//LVs/LV[@name='ed_class']/@value"/>:
-							<xsl:if test="@Class">
-								<xsl:value-of select="substring(@Class, 5)"/>
-							</xsl:if>
-							<xsl:if test="not(@Class)">None</xsl:if>
-							<input type="checkbox" value="1">
-								<xsl:attribute name="name">target[<xsl:value-of select="@HierId"/>:<xsl:value-of select="@PCID"/>]</xsl:attribute>
-							</input>
-							<br />
-							<xsl:value-of select="//LVs/LV[@name='ed_width']/@value"/>:
-							<input class="small" type="text" size="5" maxlength="10">
-								<xsl:attribute name="name">width[<xsl:value-of select="@HierId"/>:<xsl:value-of select="@PCID"/>]</xsl:attribute>
-								<xsl:attribute name="value"><xsl:value-of select="@Width"/></xsl:attribute>
-							</input>
-						</div>
-					</xsl:if>
-					<!-- content -->
-					<xsl:apply-templates/>
-				</td>
+				<xsl:variable name = "colpos" select = "position()"/>
+				<xsl:choose>
+				<xsl:when test="../../@Template and
+					(//TableTemplates/TableTemplate[@Name=$ttemp and $headerrows >= $rowpos] or 
+					//TableTemplates/TableTemplate[@Name=$ttemp and $headercols >= $colpos])">
+					<th>
+						<xsl:call-template name="TableDataContent">
+							<xsl:with-param name="cols" select="$cols"/>
+							<xsl:with-param name="rows" select="$rows"/>
+							<xsl:with-param name="rowpos" select="$rowpos"/>
+							<xsl:with-param name="ttemp" select="$ttemp"/>
+							<xsl:with-param name="headerrows" select="$headerrows"/>
+							<xsl:with-param name="headercols" select="$headercols"/>
+							<xsl:with-param name="footerrows" select="$footerrows"/>
+							<xsl:with-param name="footercols" select="$footercols"/>
+						</xsl:call-template>
+					</th>
+				</xsl:when>
+				<xsl:otherwise>
+					<td>
+						<xsl:call-template name="TableDataContent">
+							<xsl:with-param name="cols" select="$cols"/>
+							<xsl:with-param name="rows" select="$rows"/>
+							<xsl:with-param name="rowpos" select="$rowpos"/>
+							<xsl:with-param name="ttemp" select="$ttemp"/>
+							<xsl:with-param name="headerrows" select="$headerrows"/>
+							<xsl:with-param name="headercols" select="$headercols"/>
+							<xsl:with-param name="footerrows" select="$footerrows"/>
+							<xsl:with-param name="footercols" select="$footercols"/>
+						</xsl:call-template>
+					</td>
+				</xsl:otherwise>
+				</xsl:choose>
 			</xsl:for-each>
 		</tr>
 	</xsl:for-each>
@@ -1323,6 +1287,138 @@
 			</div>
 		</xsl:if>
 	</xsl:if>
+</xsl:template>
+
+<!-- Table Tag -->
+<xsl:template name="TableDataContent">
+	<xsl:param name="cols" />
+	<xsl:param name="rows" />
+	<xsl:param name="rowpos" />
+	<xsl:param name="ttemp" />
+	<xsl:param name="headerrows" />
+	<xsl:param name="footerrows" />
+	<xsl:param name="headercols" />
+	<xsl:param name="footercols" />
+	<xsl:choose>
+		<xsl:when test="substring(@Class, 1, 4) = 'ilc_'">
+			<xsl:attribute name = "class">ilc_table_cell_<xsl:value-of select="substring-after(@Class, 'ilc_')"/></xsl:attribute>
+		</xsl:when>
+		<xsl:when test="@Class and @Class != ''">
+			<xsl:attribute name = "class">ilc_table_cell_<xsl:value-of select = "@Class"/></xsl:attribute>
+		</xsl:when>
+		<!-- header row -->
+		<xsl:when test="../../@Template and //TableTemplates/TableTemplate[@Name=$ttemp]/@RowHeadClass and number($headerrows) >= number($rowpos)">
+			<xsl:attribute name = "class">ilc_table_cell_<xsl:value-of select = "//TableTemplates/TableTemplate[@Name=$ttemp]/@RowHeadClass"/></xsl:attribute>
+		</xsl:when>
+		<!-- last row -->
+		<xsl:when test="../../@Template and //TableTemplates/TableTemplate[@Name=$ttemp]/@RowFootClass and $rowpos > ($rows - number($footerrows))">
+			<xsl:attribute name = "class">ilc_table_cell_<xsl:value-of select = "//TableTemplates/TableTemplate[@Name=$ttemp]/@RowFootClass"/></xsl:attribute>
+		</xsl:when>
+		<!-- first col -->
+		<xsl:when test="../../@Template and //TableTemplates/TableTemplate[@Name=$ttemp]/@ColHeadClass and number($headercols) >= position()">
+			<xsl:attribute name = "class">ilc_table_cell_<xsl:value-of select = "//TableTemplates/TableTemplate[@Name=$ttemp]/@ColHeadClass"/></xsl:attribute>
+		</xsl:when>
+		<!-- last col -->
+		<xsl:when test="../../@Template and //TableTemplates/TableTemplate[@Name=$ttemp]/@ColFootClass and position() > ($cols - number($footercols))">
+			<xsl:attribute name = "class">ilc_table_cell_<xsl:value-of select = "//TableTemplates/TableTemplate[@Name=$ttemp]/@ColFootClass"/></xsl:attribute>
+		</xsl:when>
+		<!-- even row -->
+		<xsl:when test="../../@Template and //TableTemplates/TableTemplate[@Name=$ttemp]/@EvenRowClass and $rowpos mod 2 = 0">
+			<xsl:attribute name = "class">ilc_table_cell_<xsl:value-of select = "//TableTemplates/TableTemplate[@Name=$ttemp]/@EvenRowClass"/></xsl:attribute>
+		</xsl:when>
+		<!-- odd row -->
+		<xsl:when test="../../@Template and //TableTemplates/TableTemplate[@Name=$ttemp]/@OddRowClass and $rowpos mod 2 = 1">
+			<xsl:attribute name = "class">ilc_table_cell_<xsl:value-of select = "//TableTemplates/TableTemplate[@Name=$ttemp]/@OddRowClass"/></xsl:attribute>
+		</xsl:when>
+		<!-- even col -->
+		<xsl:when test="../../@Template and //TableTemplates/TableTemplate[@Name=$ttemp]/@EvenColClass and position() mod 2 = 0">
+			<xsl:attribute name = "class">ilc_table_cell_<xsl:value-of select = "//TableTemplates/TableTemplate[@Name=$ttemp]/@EvenColClass"/></xsl:attribute>
+		</xsl:when>
+		<!-- odd col -->
+		<xsl:when test="../../@Template and //TableTemplates/TableTemplate[@Name=$ttemp]/@OddColClass and position() mod 2 = 1">
+			<xsl:attribute name = "class">ilc_table_cell_<xsl:value-of select = "//TableTemplates/TableTemplate[@Name=$ttemp]/@OddColClass"/></xsl:attribute>
+		</xsl:when>						
+	</xsl:choose>
+	<xsl:attribute name = "width"><xsl:value-of select = "@Width"/></xsl:attribute>
+	<!-- insert commands -->
+	<!-- <xsl:value-of select="@HierId"/> -->
+	<xsl:call-template name="EditReturnAnchors"/>
+	<xsl:if test="($mode = 'edit' and ((../../@DataTable != 'y' or not(../../@DataTable))) or $mode = 'table_edit')">
+		<!-- checkbox -->
+		<xsl:if test="$javascript = 'disable'">
+			<input type="checkbox" name="target[]">
+				<xsl:attribute name="value"><xsl:value-of select="@HierId"/>:<xsl:value-of select="@PCID"/>
+				</xsl:attribute>
+			</input>
+		</xsl:if>
+		<!-- insert select list -->
+		<xsl:if test="$mode = 'edit'">
+			<xsl:if test= "$javascript = 'disable'">
+				<select size="1" class="ilEditSelect">
+					<xsl:attribute name="name">command<xsl:value-of select="@HierId"/>
+					</xsl:attribute>
+					<xsl:call-template name="TableDataMenu"/>
+				</select>
+				<input class="ilEditSubmit" type="submit">
+					<xsl:attribute name="value"><xsl:value-of select="//LVs/LV[@name='ed_go']/@value"/></xsl:attribute>
+					<xsl:attribute name="name">cmd[exec_<xsl:value-of select="@HierId"/>:<xsl:value-of select="@PCID"/>]</xsl:attribute>
+				</input>
+				<br/>
+			</xsl:if>
+			<xsl:if test= "$javascript = 'enable'">
+				<xsl:if test = "position() = 1">
+					<xsl:call-template name="Icon">
+						<xsl:with-param name="img_src"><xsl:value-of select="$img_row"/></xsl:with-param>
+						<xsl:with-param name="img_id">CONTENTr<xsl:value-of select="@HierId"/>:<xsl:value-of select="@PCID"/></xsl:with-param>
+					</xsl:call-template>
+					<div style="position:absolute;left:0;top:0;visibility:hidden;">
+						<xsl:attribute name="id">contextmenu_r<xsl:value-of select="@HierId"/></xsl:attribute>
+						<table class="il_editmenu" cellspacing="0" cellpadding="3">
+							<xsl:call-template name="TableRowMenu"/>
+						</table>
+					</div>
+				</xsl:if>
+				<xsl:if test = "$rowpos = 1">
+					<xsl:call-template name="Icon">
+						<xsl:with-param name="img_src"><xsl:value-of select="$img_col"/></xsl:with-param>
+						<xsl:with-param name="img_id">CONTENTc<xsl:value-of select="@HierId"/>:<xsl:value-of select="@PCID"/></xsl:with-param>
+					</xsl:call-template>
+					<div style="position:absolute;left:0;top:0;visibility:hidden;">
+						<xsl:attribute name="id">contextmenu_c<xsl:value-of select="@HierId"/></xsl:attribute>
+						<table class="il_editmenu" cellspacing="0" cellpadding="3">
+							<xsl:call-template name="TableColMenu"/>
+						</table>
+					</div>
+				</xsl:if>
+				<xsl:call-template name="DropArea">
+					<xsl:with-param name="hier_id"><xsl:value-of select="@HierId"/></xsl:with-param>
+					<xsl:with-param name="pc_id"><xsl:value-of select="@PCID"/></xsl:with-param>
+				</xsl:call-template>
+			</xsl:if>
+		</xsl:if>
+	</xsl:if>
+	<!-- class and width output for table edit -->
+	<xsl:if test="$mode = 'table_edit'">
+		<div class="small" style="white-space:nowrap; padding:2px; margin:2px; background-color:#FFFFFF;">
+			<xsl:value-of select="//LVs/LV[@name='ed_class']/@value"/>:
+			<xsl:if test="@Class">
+				<xsl:value-of select="substring(@Class, 5)"/>
+			</xsl:if>
+			<xsl:if test="not(@Class)">None</xsl:if>
+			<input type="checkbox" value="1">
+				<xsl:attribute name="name">target[<xsl:value-of select="@HierId"/>:<xsl:value-of select="@PCID"/>]</xsl:attribute>
+			</input>
+			<br />
+			<xsl:value-of select="//LVs/LV[@name='ed_width']/@value"/>:
+			<input class="small" type="text" size="5" maxlength="10">
+				<xsl:attribute name="name">width[<xsl:value-of select="@HierId"/>:<xsl:value-of select="@PCID"/>]</xsl:attribute>
+				<xsl:attribute name="value"><xsl:value-of select="@Width"/></xsl:attribute>
+			</input>
+		</div>
+	</xsl:if>
+	<!-- content -->
+	<xsl:apply-templates/>
+	<!-- <xsl:value-of select = "$ttemp" /> -->
 </xsl:template>
 
 <!-- Table Data Menu -->
