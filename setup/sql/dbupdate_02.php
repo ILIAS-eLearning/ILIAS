@@ -11583,7 +11583,7 @@ ALTER TABLE `payment_statistic` CHANGE `access` `access_granted` INT( 11 ) NOT N
 ?>
 
 <#2394>
-ALTER TABLE `loginname_history` CHANGE `date` `history_date` INT( 11 ) NOT NULL 
+ALTER TABLE `loginname_history` CHANGE `date` `history_date` INT( 11 ) NOT NULL; 
 
 <#2395>
-ALTER TABLE `frm_posts_tree` CHANGE `date` `fpt_date` DATETIME NULL DEFAULT NULL 
+ALTER TABLE `frm_posts_tree` CHANGE `date` `fpt_date` DATETIME NULL DEFAULT NULL; 
