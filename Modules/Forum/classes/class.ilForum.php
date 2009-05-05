@@ -1582,7 +1582,7 @@ class ilForum
 				lft,
 				rgt,
 				depth,
-				date
+				fpt_date
 			)
 			VALUES(%s, %s, %s, %s,  %s,  %s, %s, %s )',
 			array('integer','integer', 'integer', 'integer', 'integer', 'integer', 'integer', 'timestamp'),
@@ -1649,7 +1649,7 @@ class ilForum
 				lft,
 				rgt,
 				depth,
-				date
+				fpt_date
 			)
 			VALUES(%s,%s,%s, %s, %s, %s,%s, %s)',
 			array('integer','integer', 'integer', 'integer', 'integer', 'integer', 'integer', 'timestamp'),
@@ -1718,7 +1718,7 @@ class ilForum
 		array_push($data_types, 'integer', 'integer', 'integer');
 		array_push($data, $a_node['lft'], $a_node['rgt'], $a_node['tree']);
 		
-		if($this->orderField == 'frm_posts_tree.date')
+		if($this->orderField == 'frm_posts_tree.fpt_date')
 		{
 			$query .= " ORDER BY %s ASC";	
 			array_push($data_types, 'text');
@@ -1868,7 +1868,8 @@ class ilForum
 					"subject"		=> $a_row->pos_subject,	
 					"pos_cens_com"	=> $a_row->pos_cens_com,
 					"pos_cens"		=> $a_row->pos_cens,
-					"date"			=> $a_row->date,
+				//	"date"			=> $a_row->date,
+					"date"			=> $a_row->fpt_date,
 					"create_date"	=> $a_row->pos_date,
 					"update"		=> $a_row->pos_update,					
 					"update_user"	=> $a_row->update_user,

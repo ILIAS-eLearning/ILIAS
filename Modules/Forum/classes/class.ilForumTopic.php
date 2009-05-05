@@ -621,7 +621,7 @@ class ilForumTopic
 		array_push($data_types, 'integer', 'integer', 'integer');
 		array_push($data, $a_post_node->getLft(), $a_post_node->getRgt(), $a_post_node->getThreadId());
 
-		if ($this->orderField == "frm_posts_tree.date")
+		if ($this->orderField == "frm_posts_tree.fpt_date")
 		{
 			$query .= " ORDER BY %s ASC";
 			array_push($data_types, 'text');

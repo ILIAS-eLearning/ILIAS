@@ -906,7 +906,7 @@ class ilObjUser extends ilObject
 	{
 		global $ilDB;
 			
-		return false; // Temporarily disabled (missing oracle support) 
+//		return false; // Temporarily disabled (missing oracle support) 
 
 		$result = $ilDB->queryF('
 			SELECT * FROM loginname_history
@@ -4370,9 +4370,9 @@ class ilObjUser extends ilObject
 	{
 		global $ilDB;
 
-		return true; // Temporarily disabled (missing oracle support)
+//		return true; // Temporarily disabled (missing oracle support)
 			
-		$res = $ilDB->queryF('SELECT * FROM loginname_history WHERE usr_id = %s AND login = %s AND date = %s',
+		$res = $ilDB->queryF('SELECT * FROM loginname_history WHERE usr_id = %s AND login = %s AND history_date = %s',
 						array('integer', 'text', 'integer'),
 						array($a_usr_id, $a_login, time()));
 		
@@ -4380,7 +4380,7 @@ class ilObjUser extends ilObject
 		{
 			$result = $ilDB->manipulateF('
 						INSERT INTO loginname_history 
-								(usr_id, login, date)
+								(usr_id, login, history_date)
 						VALUES 	(%s, %s, %s)',
 						array('integer', 'text', 'integer'),
 						array($a_usr_id, $a_login, time()));
