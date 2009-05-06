@@ -909,7 +909,7 @@ class ilObjStyleSheet extends ilObject
 		
 		// delete characteristic record
 		$ilDB->manipulateF("INSERT INTO style_char (style_id, type, characteristic, hide)".
-			" VALUES (%s,%s,%s) ",
+			" VALUES (%s,%s,%s,%s) ",
 			array("integer", "text", "text", "integer"),
 			array($this->getId(), $a_type, $a_char, $a_hidden));
 		
@@ -2623,14 +2623,15 @@ class ilObjStyleSheet extends ilObject
 	{
 		global $ilDB;
 		
+		$tid = $ilDB->nextId("style_template");
 		$ilDB->manipulate($q = "INSERT INTO style_template ".
-			"(style_id, name, temp_type)".
+			"(id, style_id, name, temp_type)".
 			" VALUES (".
+			$ilDB->quote($tid, "integer").",".
 			$ilDB->quote($this->getId(), "integer").",".
 			$ilDB->quote($a_name, "text").",".
 			$ilDB->quote($a_type, "text").
 			")");
-		$tid = $ilDB->getLastInsertId();
 		
 		foreach ($a_classes as $t => $c)
 		{
