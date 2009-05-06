@@ -1423,7 +1423,7 @@ class ilObjForumGUI extends ilObjectGUI
 			ilUtil::sendInfo($this->lng->txt('forums_post_and_children_were_activated'), true);
 			
 			
-// wenn posting aktiviert überprüfen ob user eine notification wollen und versenden
+// wenn posting aktiviert ï¿½berprï¿½fen ob user eine notification wollen und versenden
 		}
 		
 		$this->viewThreadObject();
