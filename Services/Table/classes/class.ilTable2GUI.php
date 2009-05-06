@@ -890,7 +890,9 @@ class ilTable2GUI extends ilTableGUI
 		}
 		
 		// table title and icon
-		if ($this->enabled["title"])
+		if ($this->enabled["title"] && ($this->title != ""
+			|| $this->icon != "" || count($this->header_commands) > 0 ||
+			$this->headerHTML != "" || $this->close_command != ""))
 		{
 			if ($this->enabled["icon"])
 			{
@@ -942,7 +944,6 @@ class ilTable2GUI extends ilTableGUI
 			}
 
 			$this->tpl->setCurrentBlock("tbl_header_title");
-			$this->tpl->setVariable("COLUMN_COUNT",$this->column_count);
 			$this->tpl->setVariable("TBL_TITLE",$this->title);
 			$this->tpl->setVariable("TOP_ANCHOR",$this->getTopAnchor());
 			if ($this->getDisplayAsBlock())
