@@ -174,7 +174,7 @@ class ilAccordionGUI
 	{
 		global $tpl;
 		
-		include_once("./Services/YUI/classes/class.ilYUIUtil.php");
+		include_once("./Services/YUI/classes/class.ilYuiUtil.php");
 		ilYuiUtil::initEvent();
 		ilYuiUtil::initDom();
 		ilYuiUtil::initAnimation();
