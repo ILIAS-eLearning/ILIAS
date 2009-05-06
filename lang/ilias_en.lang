@@ -9337,8 +9337,6 @@ style#:#sty_hide#:#Hide
 style#:#sty_save_hide_status#:#Save Hide Status
 content#:#cont_text_imp#:#Important:
 content#:#cont_text_acc#:#Accent:
-content#:#cont_ed_insert_tabs#:#Insert Tabs
-content#:#cont_number_of_tabs#:#Number of Tabs
 content#:#cont_tabs_acc_hor#:#Horizontal Accordion
 content#:#cont_tabs_acc_ver#:#Vertical Accordion
 content#:#cont_edit_tabs#:#Properties
@@ -9402,7 +9400,6 @@ adve#:#adve_grp_glo#:#Glossaries
 adve#:#adve_grp_test#:#Test & Assessment
 adve#:#adve_grp_rep#:#Repository Pages
 adve#:#adve_text_content_features#:#Text Content Menu
-content#:#cont_edit_style#:#Edit Style
 content#:#cont_behavior#:#Behavior
 content#:#cont_all_closed#:#All Closed
 content#:#cont_first_open#:#First Opened
