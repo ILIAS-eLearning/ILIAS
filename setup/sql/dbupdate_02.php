@@ -11953,3 +11953,41 @@ while ($rec = $ilDB->fetchAssoc($set))	// all styles
 }
 
 ?>
+
+<#2404>
+<?php
+
+$set = $ilDB->query("SELECT * FROM object_data WHERE type = 'sty'");
+
+while ($rec = $ilDB->fetchAssoc($set))	// all styles
+{
+	$imgs = array("accordion_arrow.gif", "haccordion_arrow.gif");
+	
+	$a_style_id = $rec["obj_id"];
+	
+	$sty_data_dir = CLIENT_WEB_DIR."/sty";
+	ilUtil::makeDir($sty_data_dir);
+
+	$style_dir = $sty_data_dir."/sty_".$a_style_id;
+	ilUtil::makeDir($style_dir);
+
+	// create images subdirectory
+	$im_dir = $style_dir."/images";
+	ilUtil::makeDir($im_dir);
+
+	// create thumbnails directory
+	$thumb_dir = $style_dir."/images/thumbnails";
+	ilUtil::makeDir($thumb_dir);
+	
+//	ilObjStyleSheet::_createImagesDirectory($rec["obj_id"]);
+	$imdir = CLIENT_WEB_DIR."/sty/sty_".$a_style_id.
+			"/images";
+	foreach($imgs as $cim)
+	{
+		if (!is_file($imdir."/".$cim))
+		{
+			copy("./Services/Style/basic_style/images/".$cim, $imdir."/".$cim);
+		}
+	}
+}
+?>
