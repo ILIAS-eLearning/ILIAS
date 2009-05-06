@@ -2964,8 +2964,6 @@
 	</div>
 </xsl:template>
 
-<<<<<<< .working
-=======
 <!-- PlaceHolder -->
 <xsl:template match="PlaceHolder">
 	  <xsl:if test="@ContentClass='Media'">
@@ -3035,8 +3033,6 @@
 	</xsl:for-each>
 </xsl:template>
 
-
->>>>>>> .merge-right.r19403
 <!-- dump language variable data -->
 <xsl:template match="LV"/>
 <xsl:template match="LVs"/>
