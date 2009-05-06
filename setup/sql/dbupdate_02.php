@@ -11991,3 +11991,110 @@ while ($rec = $ilDB->fetchAssoc($set))	// all styles
 	}
 }
 ?>
+
+<#2405>
+<?php
+if (!$ilDB->tableExists("style_setting"))
+{
+	$fields = array(
+		'style_id' => array(
+			'type' => 'integer',
+			'length' => 4,
+			'notnull' => true
+		),
+		'name' => array(
+			'type' => 'text',
+			'length' => 30,
+			'fixed' => false,
+			'notnull' => true
+		),
+		'value' => array(
+			'type' => 'text',
+			'length' => 30,
+			'fixed' => false,
+			'notnull' => false
+		)
+	);
+	
+	$ilDB->createTable('style_setting', $fields);
+	$ilDB->addPrimaryKey('style_setting', array('style_id', 'name'));
+}
+?>
+
+<#2406>
+<?php
+
+$set = $ilDB->query("SELECT * FROM object_data WHERE type = 'sty'");
+while ($rec = $ilDB->fetchAssoc($set))	// all styles
+{
+	$ast = array(
+		array("tag" => "div", "type" => "sco_desct", "class" => "DescriptionTop",
+			"par" => array()),
+		array("tag" => "div", "type" => "sco_objt", "class" => "ObjectiveTop",
+			"par" => array())
+				);
+				
+	foreach($ast as $st)
+	{
+			
+		$set2 = $ilDB->query("SELECT * FROM style_char WHERE ".
+			"style_id = ".$ilDB->quote($rec["obj_id"], "integer")." AND ".
+			"characteristic = ".$ilDB->quote($st["class"], "text")." AND ".
+			"type = ".$ilDB->quote($st["type"], "text"));
+		if (!$ilDB->fetchAssoc($set2))
+		{
+			$q = "INSERT INTO style_char (style_id, type, characteristic)".
+				" VALUES (".
+				$ilDB->quote($rec["obj_id"], "integer").",".
+				$ilDB->quote($st["type"], "text").",".
+				$ilDB->quote($st["class"], "text").")";
+			$ilDB->manipulate($q);
+			foreach ($st["par"] as $par)
+			{
+				$nid = $ilDB->nextId("style_parameter");
+				$q = "INSERT INTO style_parameter (id, style_id, type, class, tag, parameter, value)".
+					" VALUES (".
+					$ilDB->quote($nid, "integer").",".
+					$ilDB->quote($rec["obj_id"], "integer").",".
+					$ilDB->quote($st["type"], "text").",".
+					$ilDB->quote($st["class"], "text").",".
+					$ilDB->quote($st["tag"], "text").",".
+					$ilDB->quote($par["name"], "text").",".
+					$ilDB->quote($par["value"], "text").
+					")";
+			$ilDB->manipulate($q);
+			}
+		}
+	}
+}
+?>
+
+<#2407>
+<?php
+if (!$ilDB->tableExists("page_editor_settings"))
+{
+	$fields = array(
+		'settings_grp' => array(
+			'type' => 'text',
+			'length' => 10,
+			'fixed' => false,
+			'notnull' => true
+		),
+		'name' => array(
+			'type' => 'text',
+			'length' => 30,
+			'fixed' => false,
+			'notnull' => true
+		),
+		'value' => array(
+			'type' => 'text',
+			'length' => 30,
+			'fixed' => false,
+			'notnull' => false
+		)
+	);
+	
+	$ilDB->createTable('page_editor_settings', $fields);
+	$ilDB->addPrimaryKey('page_editor_settings', array('settings_grp', 'name'));
+}
+?>
