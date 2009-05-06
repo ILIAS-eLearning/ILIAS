@@ -11782,3 +11782,174 @@ if (!$ilDB->tableExists("page_style_usage"))
 }
 ?>
 
+<#2402>
+<?php
+$set = $ilDB->query("SELECT * FROM object_data WHERE type = 'sty'");
+while ($rec = $ilDB->fetchAssoc($set))	// all styles
+{
+	$ast = array(
+		array("tag" => "div", "type" => "va_cntr", "class" => "VAccordCntr",
+			"par" => array(
+				array("name" => "margin-top", "value" => "5px")
+				)),
+		array("tag" => "div", "type" => "va_icntr", "class" => "VAccordICntr",
+			"par" => array(
+				array("name" => "background-color", "value" => "#FFFFFF"),
+				array("name" => "margin-bottom", "value" => "5px"),
+				array("name" => "border-width", "value" => "1px"),
+				array("name" => "border-color", "value" => "#9EADBA"),
+				array("name" => "border-style", "value" => "solid")
+				)),
+		array("tag" => "div", "type" => "va_ihead", "class" => "VAccordIHead",
+			"par" => array(
+				array("name" => "padding-left", "value" => "24px"),
+				array("name" => "padding-right", "value" => "3px"),
+				array("name" => "padding-bottom", "value" => "3px"),
+				array("name" => "padding-top", "value" => "3px"),
+				array("name" => "background-color", "value" => "#E2EAF4"),
+				array("name" => "text-align", "value" => "left"),
+				array("name" => "cursor", "value" => "pointer"),
+				array("name" => "background-image", "value" => "accordion_arrow.gif"),
+				array("name" => "background-repeat", "value" => "no-repeat"),
+				array("name" => "background-position", "value" => "3px 4px"),
+				)),
+		array("tag" => "div", "type" => "va_ihead", "class" => "VAccordIHead:hover",
+			"par" => array(
+				array("name" => "background-color", "value" => "#D2D8E2")
+				)),
+		array("tag" => "div", "type" => "va_icont", "class" => "VAccordICont",
+			"par" => array(
+				array("name" => "background-color", "value" => "#FFFFFF"),
+				array("name" => "padding", "value" => "3px")
+				)),
+				
+		array("tag" => "div", "type" => "ha_cntr", "class" => "HAccordCntr",
+			"par" => array(
+				)),
+		array("tag" => "div", "type" => "ha_icntr", "class" => "HAccordICntr",
+			"par" => array(
+				array("name" => "background-color", "value" => "#FFFFFF"),
+				array("name" => "margin-right", "value" => "5px"),
+				array("name" => "border-width", "value" => "1px"),
+				array("name" => "border-color", "value" => "#9EADBA"),
+				array("name" => "border-style", "value" => "solid")
+				)),
+		array("tag" => "div", "type" => "ha_ihead", "class" => "HAccordIHead",
+			"par" => array(
+				array("name" => "padding-left", "value" => "20px"),
+				array("name" => "padding-right", "value" => "10px"),
+				array("name" => "padding-bottom", "value" => "3px"),
+				array("name" => "padding-top", "value" => "3px"),
+				array("name" => "background-color", "value" => "#E2EAF4"),
+				array("name" => "text-align", "value" => "left"),
+				array("name" => "cursor", "value" => "pointer"),
+				array("name" => "background-image", "value" => "haccordion_arrow.gif"),
+				array("name" => "background-repeat", "value" => "no-repeat"),
+				array("name" => "background-position", "value" => "3px 4px"),
+				)),
+		array("tag" => "div", "type" => "ha_ihead", "class" => "HAccordIHead:hover",
+			"par" => array(
+				array("name" => "background-color", "value" => "#D2D8E2")
+				)),
+		array("tag" => "div", "type" => "ha_icont", "class" => "HAccordICont",
+			"par" => array(
+				array("name" => "background-color", "value" => "#FFFFFF"),
+				array("name" => "padding", "value" => "3px")
+				)),
+				);
+				
+	foreach($ast as $st)
+	{
+			
+		$set2 = $ilDB->query("SELECT * FROM style_char WHERE ".
+			"style_id = ".$ilDB->quote($rec["obj_id"], "integer")." AND ".
+			"characteristic = ".$ilDB->quote($st["class"], "text")." AND ".
+			"type = ".$ilDB->quote($st["type"], "text"));
+		if (!$ilDB->fetchAssoc($set2))
+		{
+			$q = "INSERT INTO style_char (style_id, type, characteristic)".
+				" VALUES (".
+				$ilDB->quote($rec["obj_id"], "integer").",".
+				$ilDB->quote($st["type"], "text").",".
+				$ilDB->quote($st["class"], "text").")";
+
+			$ilDB->manipulate($q);
+			foreach ($st["par"] as $par)
+			{
+				$nid = $ilDB->nextId("style_parameter");
+				$q = "INSERT INTO style_parameter (id, style_id, type, class, tag, parameter, value)".
+					" VALUES (".
+					$ilDB->quote($nid, "integer").",".
+					$ilDB->quote($rec["obj_id"], "integer").",".
+					$ilDB->quote($st["type"], "text").",".
+					$ilDB->quote($st["class"], "text").",".
+					$ilDB->quote($st["tag"], "text").",".
+					$ilDB->quote($par["name"], "text").",".
+					$ilDB->quote($par["value"], "text").
+					")";
+
+			$ilDB->manipulate($q);
+			}
+		}
+	}
+}
+
+?>
+
+<#2403>
+<?php
+
+$set = $ilDB->query("SELECT * FROM object_data WHERE type = 'sty'");
+while ($rec = $ilDB->fetchAssoc($set))	// all styles
+{
+	$ast = array(
+		array("type" => "vaccordion", "name" => "VerticalAccordion",
+			"class" => array(
+				array("class_type" => "va_cntr", "class" => "VAccordCntr"),
+				array("class_type" => "va_icntr", "class" => "VAccordICntr"),
+				array("class_type" => "va_ihead", "class" => "VAccordIHead"),
+				array("class_type" => "va_icont", "class" => "VAccordICont")
+				)),
+		array("type" => "haccordion", "name" => "HorizontalAccordion",
+			"class" => array(
+				array("class_type" => "ha_cntr", "class" => "HAccordCntr"),
+				array("class_type" => "ha_icntr", "class" => "HAccordICntr"),
+				array("class_type" => "ha_ihead", "class" => "HAccordIHead"),
+				array("class_type" => "ha_icont", "class" => "HAccordICont")
+				))
+				);
+				
+	foreach($ast as $st)
+	{
+			
+		$set2 = $ilDB->query("SELECT * FROM style_template WHERE ".
+			"style_id = ".$ilDB->quote($rec["obj_id"], "integer")." AND ".
+			"temp_type = ".$ilDB->quote($st["type"], "text")." AND ".
+			"name = ".$ilDB->quote($st["name"], "text"));
+		if (!$ilDB->fetchAssoc($set2))
+		{
+			$nid = $ilDB->nextId("style_template");
+			$q = "INSERT INTO style_template (id, style_id, name, temp_type)".
+				" VALUES (".
+				$ilDB->quote($nid, "integer").",".
+				$ilDB->quote($rec["obj_id"], "integer").",".
+				$ilDB->quote($st["name"], "text").",".
+				$ilDB->quote($st["type"], "text").")";
+			$ilDB->manipulate($q);
+			$tid = $ilDB->getLastInsertId();
+			
+			foreach ($st["class"] as $c)
+			{
+				$q = "INSERT INTO style_template_class (template_id, class_type, class)".
+					" VALUES (".
+					$ilDB->quote($tid, "integer").",".
+					$ilDB->quote($c["class_type"], "text").",".
+					$ilDB->quote($c["class"], "text").
+					")";
+			$ilDB->manipulate($q);
+			}
+		}
+	}
+}
+
+?>
