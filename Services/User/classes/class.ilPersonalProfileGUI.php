@@ -538,18 +538,34 @@ class ilPersonalProfileGUI
 				{	
 					$ilUser->setLogin(ilUtil::stripSlashes($_POST['usr_login']));
 					
-					$ilUser->updateLogin($ilUser->login);
+					try 
+					{
+						$ilUser->updateLogin($ilUser->getLogin());
+					}
+					catch (ilUserException $e)
+					{
+						ilUtil::sendFailure($e->getMessage());
+						return $this->showProfile();							
+					}
 					
 					$ilAuth->setAuth($ilUser->getLogin());
 					$ilAuth->start();
-					
-					ilObjUser::_writeHistory($ilUser->getId(), $ilUser->getLogin());
 				}
 			}
 			else if($ilSetting->get('create_history_loginname') == 0)
 			{
-				$ilUser->setLogin(ilUtil::stripSlashes($_POST['usr_login']));				
-				$ilUser->updateLogin($ilUser->login);
+				$ilUser->setLogin(ilUtil::stripSlashes($_POST['usr_login']));
+				
+				try 
+				{
+					$ilUser->updateLogin($ilUser->getLogin());
+				}
+				catch (ilUserException $e)
+				{
+					ilUtil::sendFailure($e->getMessage());
+					return $this->showProfile();							
+				}
+				
 				$ilAuth->setAuth($ilUser->getLogin());
 				$ilAuth->start();
 			}
@@ -2367,18 +2383,34 @@ return;
 					{	
 						$ilUser->setLogin($_POST['username']);
 						
-						$ilUser->updateLogin($ilUser->login);
+						try 
+						{
+							$ilUser->updateLogin($ilUser->getLogin());
+						}
+						catch (ilUserException $e)
+						{
+							ilUtil::sendFailure($e->getMessage());
+							$this->form->setValuesByPost();
+							return $this->showPersonalData(true);
+						}
 						
 						$ilAuth->setAuth($ilUser->getLogin());
 						$ilAuth->start();
-						
-						ilObjUser::_writeHistory($ilUser->getId(), $ilUser->getLogin());
 					}
 				}
 				else if($ilSetting->get('create_history_loginname') == 0)
 				{
 					$ilUser->setLogin($_POST['username']);				
-					$ilUser->updateLogin($ilUser->login);
+					try 
+					{
+						$ilUser->updateLogin($ilUser->getLogin());
+					}
+					catch (ilUserException $e)
+					{
+						ilUtil::sendFailure($e->getMessage());
+						$this->form->setValuesByPost();
+						return $this->showPersonalData(true);							
+					}
 					$ilAuth->setAuth($ilUser->getLogin());
 					$ilAuth->start();
 				}
