@@ -1855,6 +1855,8 @@ class ilObjStyleSheet extends ilObject
 		}
 
 		ilObjStyleSheet::_addMissingStyleClassesToStyle($this->getId());
+		$this->read();
+		$this->writeCSSFile();
 	}
 	
 	/**
