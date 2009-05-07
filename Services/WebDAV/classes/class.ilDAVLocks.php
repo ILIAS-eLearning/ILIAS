@@ -430,7 +430,7 @@ class ilDAVLocks
 	public function getLocksOnPathDAV(&$pathDAV)
 	{
 		global $ilDB;
-		$this->writelog('getLocksOnPathDAV('.var_export($pathDAV,true).')');
+		$this->writelog('getLocksOnPathDAV');
 		
 		$q = 'SELECT obj_id, node_id, ilias_owner, dav_owner, token, expires, depth, scope'
 					.' FROM '.$this->table
