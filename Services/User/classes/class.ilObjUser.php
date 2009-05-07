@@ -27,6 +27,7 @@ define ("IL_PASSWD_CRYPT", "crypt");		// ILIAS 2 Password
 
 
 require_once "classes/class.ilObject.php";
+require_once 'Services/User/exceptions/class.ilUserException.php'; 
 
 /**
 * @defgroup ServicesUser Services/User
@@ -921,37 +922,42 @@ class ilObjUser extends ilObject
 	* @param	string	new login
 	* @return	boolean	true on success; otherwise false
 	* @access	public
+	* @throws ilUserException
 	*/
 	function updateLogin($a_login)
 	{
 		global $ilDB, $ilSetting;
 
-		if (func_num_args() != 1)
+		if(func_num_args() != 1)
 		{
 			return false;
 		}
 
-		if (!isset($a_login))
+		if(!isset($a_login))
 		{
 			return false;
 		}
+
+		// Update not necessary
+		if($a_login == self::_lookupLogin($this->getId()))
+		{
+			return false;
+		}		
 	
 		//check if loginname exists in history
-		$login_exists_in_history = $this->getLoginHistory($this->login);		
+		$login_exists_in_history = $this->getLoginHistory($a_login);		
 
 		if($ilSetting->get('create_history_loginname')== 1 &&
-			$ilSetting->get('allow_history_loginname_again') == 0 &&
-			$login_exists_in_history == 1)
+		   $ilSetting->get('allow_history_loginname_again') == 0 &&
+		   $login_exists_in_history == 1)
 		{
-			ilUtil::sendFailure($this->lng->txt('loginname_already_exists'));
+			throw new ilUserException($this->lng->txt('loginname_already_exists'));
 		}
 		else 			
-		{
-			ilUtil::sendSuccess($this->lng->txt('loginname_changed_successfully'));
-			
+		{			
 			if($ilSetting->get('create_history_loginname') == 1)
 			{
-				ilObjUser::_writeHistory($this->id, $this->login);	
+				ilObjUser::_writeHistory($this->getId(), self::_lookupLogin($this->getId()));	
 			}
 
 			//update login
@@ -961,10 +967,11 @@ class ilObjUser extends ilObject
 				UPDATE usr_data
 				SET login = %s
 				WHERE usr_id = %s',
-				array('text', 'integer'), array($this->login, $this->id));
+				array('text', 'integer'), array($this->getLogin(), $this->getId()));
 			
 		}
-		//return true;
+		
+		return true;
 	}
 
 	/**
@@ -4045,7 +4052,7 @@ class ilObjUser extends ilObject
 
 		if ($a_user_id > 0)
 		{
-			return ilObjUser::_lookupPref($a_usr_id, "priv_feed_pass");
+			return ilObjUser::_lookupPref($a_user_id, "priv_feed_pass");
 		}
 		return false;
 	}

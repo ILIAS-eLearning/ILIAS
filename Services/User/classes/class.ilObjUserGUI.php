@@ -1125,8 +1125,18 @@ class ilObjUserGUI extends ilObjectGUI
 				}
 			}
 			$this->object->setUserDefinedData($udf);
-
-			$this->object->updateLogin($_POST["login"]);
+			
+			try 
+			{
+				$this->object->updateLogin($_POST['login']);
+			}
+			catch (ilUserException $e)
+			{
+				ilUtil::sendFailure($e->getMessage());
+				$this->form_gui->setValuesByPost();
+				return $tpl->setContent($this->form_gui->getHtml());				
+			}			
+			
 			$this->object->setTitle($this->object->getFullname());
 			$this->object->setDescription($this->object->getEmail());
 			$this->object->setLanguage($_POST["language"]);
@@ -2873,7 +2883,17 @@ class ilObjUserGUI extends ilObjectGUI
 		$this->object->assignData($_POST["Fobject"]);
 		$this->object->setUserDefinedData($_POST['udf']);
 
-		$this->object->updateLogin($_POST["Fobject"]["login"]);
+		try 
+		{
+			$this->object->updateLogin($_POST['Fobject']['login']);
+		}
+		catch (ilUserException $e)
+		{
+			ilUtil::sendFailure($e->getMessage());
+			$this->form_gui->setValuesByPost();
+			return $tpl->setContent($this->form_gui->getHtml());				
+		}
+		
 		$this->object->setTitle($this->object->getFullname());
 		$this->object->setDescription($this->object->getEmail());
 		$this->object->setLanguage($_POST["Fobject"]["language"]);

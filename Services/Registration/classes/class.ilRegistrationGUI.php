@@ -585,9 +585,7 @@ class ilRegistrationGUI
 			return false;	
 		}
 		else 
-		{
-			//ilObjUser::_writeHistory($this->userObj->getId(), $this->userObj->getLogin());
-			
+		{			
 			//insert user data in table user_data
 			$this->userObj->saveAsNew();
 		}

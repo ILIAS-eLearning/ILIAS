@@ -1346,15 +1346,14 @@ class ilUserImportParser extends ilSaxParser
 
 							// update login
 							if (!is_null($this->userObj->getLogin()) && $this->user_id != -1)
-							{
-								
-								//check if loginname exists in history								
-								if((int)$ilSetting->get('create_history_loginname'))
-							    {
-									ilObjUser::_writeHistory($this->userObj->getId(), $this->userObj->getLogin());
+							{							
+								try 
+								{
+									$updateUser->updateLogin($this->userObj->getLogin());
 								}
-								
-								$updateUser->updateLogin($this->userObj->getLogin());
+								catch (ilUserException $e)
+								{									
+								}
 							}
 								
 
