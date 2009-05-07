@@ -71,7 +71,7 @@ class ilObjMediaObject extends ilObject
 
 	function getRefId()
 	{
-		$this->ilias->raiseError("Operation ilObjMedia::getRefId() not allowed.",$this->ilias->error_obj->FATAL);
+		return false;
 	}
 
 	function putInTree()
