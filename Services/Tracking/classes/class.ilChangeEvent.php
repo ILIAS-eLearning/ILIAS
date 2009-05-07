@@ -75,7 +75,7 @@ class ilChangeEvent
 		
 		if ($parent_obj_id == null)
 		{
-			$query = sprintf('INSERT INTO write_event '.
+			$query = sprintf('INSERT IGNORE INTO write_event '.
 				'(obj_id, parent_obj_id, usr_id, action, ts) '.
 				'SELECT %s,r2.obj_id,%s,%s,'.$ilDB->now().' FROM object_reference r1 '.
 				'JOIN tree t ON t.child = r1.ref_id '.
@@ -90,7 +90,7 @@ class ilChangeEvent
 		}
 		else
 		{
-			$query = sprintf('INSERT INTO write_event '.
+			$query = sprintf('INSERT IGNORE INTO write_event '.
 				'(obj_id, parent_obj_id, usr_id, action, ts) '.
 				'VALUES(%s,%s,%s,%s,'.$ilDB->now().')',
 				$ilDB->quote($obj_id,'integer'),
