@@ -2368,51 +2368,23 @@ return;
 					ilUtil::sendFailure($lng->txt("form_input_not_valid"));
 					$un->setAlert($this->lng->txt('loginname_already_exists'));
 					$form_valid = false;
-				}				
-				else if($ilSetting->get('create_history_loginname') == 1)
-				{	
-					// check login history					
-					$found = ilObjUser::getLoginHistory($_POST['username']);
-					if($found == 1 && $ilSetting->get('allow_history_loginname_again') == 0)
-					{
-						ilUtil::sendFailure($lng->txt("form_input_not_valid"));
-						$un->setAlert($this->lng->txt('loginname_already_exists'));
-						$form_valid = false;
-					}
-					else if($ilSetting->get('allow_history_loginname_again') == 1 || !$found)
-					{	
-						$ilUser->setLogin($_POST['username']);
-						
-						try 
-						{
-							$ilUser->updateLogin($ilUser->getLogin());
-						}
-						catch (ilUserException $e)
-						{
-							ilUtil::sendFailure($e->getMessage());
-							$this->form->setValuesByPost();
-							return $this->showPersonalData(true);
-						}
-						
-						$ilAuth->setAuth($ilUser->getLogin());
-						$ilAuth->start();
-					}
-				}
-				else if($ilSetting->get('create_history_loginname') == 0)
+				}	
+				else
 				{
-					$ilUser->setLogin($_POST['username']);				
+					$ilUser->setLogin($_POST['username']);
+					
 					try 
 					{
 						$ilUser->updateLogin($ilUser->getLogin());
+						$ilAuth->setAuth($ilUser->getLogin());
+						$ilAuth->start();
 					}
 					catch (ilUserException $e)
 					{
-						ilUtil::sendFailure($e->getMessage());
-						$this->form->setValuesByPost();
-						return $this->showPersonalData(true);							
+						ilUtil::sendFailure($lng->txt('form_input_not_valid'));
+						$un->setAlert($e->getMessage());
+						$form_valid = false;							
 					}
-					$ilAuth->setAuth($ilUser->getLogin());
-					$ilAuth->start();
 				}
 			}
 
