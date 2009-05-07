@@ -1541,6 +1541,9 @@
 		<xsl:if test="@StartValue and number(@StartValue) > 1">
 			<xsl:attribute name="start"><xsl:value-of select="@StartValue"/></xsl:attribute>
 		</xsl:if>
+		<xsl:if test="@Class and @Class != 'NumberedList'">
+			<xsl:attribute name="class">ilc_list_o_<xsl:value-of select="@Class"/></xsl:attribute>
+		</xsl:if>
 		<xsl:choose>
 			<xsl:when test="@NumberingType = 'Roman'"><xsl:attribute name="style">list-style-type: upper-roman;</xsl:attribute></xsl:when>
 			<xsl:when test="@NumberingType = 'roman'"><xsl:attribute name="style">list-style-type: lower-roman;</xsl:attribute></xsl:when>
@@ -1553,6 +1556,9 @@
 	</xsl:if>
 	<xsl:if test="@Type = 'Unordered'">
 		<ul class="ilc_list_u_BulletedList">
+			<xsl:if test="@Class and @Class != 'BulletedList'">
+				<xsl:attribute name="class">ilc_list_u_<xsl:value-of select="@Class"/></xsl:attribute>
+			</xsl:if>
 		<xsl:apply-templates/>
 		</ul>
 	</xsl:if>

@@ -80,7 +80,7 @@ class ilPCList extends ilPageContent
 	/**
 	* Set order type
 	*/
-	function setOrderType($a_type = "Unordered")
+/*	function setOrderType($a_type = "Unordered")
 	{
 		switch ($a_type)
 		{
@@ -102,7 +102,7 @@ class ilPCList extends ilPageContent
 				$this->list_node->set_attribute("NumberingType", $a_type);
 				break;
 		}
-	}
+	}*/
 
 	/**
 	* Get order type
@@ -128,6 +128,70 @@ class ilPCList extends ilPageContent
 				
 			default:
 				return "Number";
+		}
+	}
+
+	/**
+	* Get list type
+	*/
+	function getListType()
+	{
+		if ($this->list_node->get_attribute("Type") == "Unordered")
+		{
+			return "Unordered";
+		}
+		return "Ordered";
+	}
+
+	/**
+	* Set list type
+	*
+	* @param	string		list type
+	*/
+	function setListType($a_val)
+	{
+		$this->list_node->set_attribute("Type", $a_val);
+	}
+
+	/**
+	* Get numbering type
+	*/
+	function getNumberingType()
+	{
+		$nt = $this->list_node->get_attribute("NumberingType");
+		switch ($nt)
+		{
+			case "Number":
+			case "Roman":
+			case "roman":
+			case "Alphabetic":
+			case "alphabetic":
+			case "Decimal":
+				return $nt;
+				break;
+				
+			default:
+				return "Number";
+		}
+	}
+
+	/**
+	* Set numbering type
+	*
+	* @param	string	numbering type
+	*/
+	function setNumberingType($a_val)
+	{
+		if ($a_val != "")
+		{
+			$this->list_node->set_attribute("NumberingType", $a_val);
+		}
+		else
+		{
+			if ($this->list_node->has_attribute("NumberingType"))
+			{
+				$this->list_node->remove_attribute("NumberingType");
+			}
 		}
 	}
 
@@ -160,5 +224,36 @@ class ilPCList extends ilPageContent
 	{
 		return $this->list_node->get_attribute("StartValue");
 	}
+	
+	/**
+	* Set style class
+	*
+	* @param	string		style class
+	*/
+	function setStyleClass($a_val)
+	{
+		if (!in_array($a_val, array("", "BulletedList", "NumberedList")))
+		{
+			$this->list_node->set_attribute("Class", $a_val);
+		}
+		else
+		{
+			if ($this->list_node->has_attribute("Class"))
+			{
+				$this->list_node->remove_attribute("Class");
+			}
+		}
+	}
+	
+	/**
+	* Get style class
+	*
+	* @return	string		style class
+	*/
+	function getStyleClass()
+	{
+		return $this->list_node->get_attribute("Class");
+	}
+
 }
 ?>
