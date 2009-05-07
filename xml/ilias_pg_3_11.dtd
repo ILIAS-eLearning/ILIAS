@@ -166,6 +166,7 @@
 <!ATTLIST List
 	Id ID #IMPLIED
 	Type (Ordered | Unordered) #REQUIRED
+	Class CDATA #IMPLIED
 	NumberingType (Decimal | Roman | roman | Alphabetic | alphabetic | Number) #IMPLIED
 	StartValue CDATA #IMPLIED
 >

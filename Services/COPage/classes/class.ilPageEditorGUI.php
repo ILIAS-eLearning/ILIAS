@@ -391,9 +391,7 @@ class ilPageEditorGUI
 				include_once ("./Services/COPage/classes/class.ilPCParagraphGUI.php");
 				$par_gui =& new ilPCParagraphGUI($this->page, $cont_obj, $hier_id, $pc_id);
 				$par_gui->setEnableWikiLinks($this->page_gui->getEnabledWikiLinks());
-				// scorm2004-start
 				$par_gui->setStyleId($this->page_gui->getStyleId());
-				// scorm2004-end
 				$ret =& $this->ctrl->forwardCommand($par_gui);
 				break;
 
@@ -402,9 +400,7 @@ class ilPageEditorGUI
 				$this->tabs_gui->clearTargets();
 				include_once ("./Services/COPage/classes/class.ilPCTableGUI.php");
 				$tab_gui =& new ilPCTableGUI($this->page, $cont_obj, $hier_id, $pc_id);
-				// scorm2004-start
 				$tab_gui->setStyleId($this->page_gui->getStyleId());
-				// scorm2004-end
 				$ret =& $this->ctrl->forwardCommand($tab_gui);
 				break;
 
@@ -507,6 +503,7 @@ class ilPageEditorGUI
 				$this->tabs_gui->clearTargets();
 				include_once ("./Services/COPage/classes/class.ilPCListGUI.php");
 				$list_gui =& new ilPCListGUI($this->page, $cont_obj, $hier_id, $pc_id);
+				$list_gui->setStyleId($this->page_gui->getStyleId());
 				//$ret =& $list_gui->executeCommand();
 				$ret =& $this->ctrl->forwardCommand($list_gui);
 				break;

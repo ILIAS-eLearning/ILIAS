@@ -651,7 +651,7 @@ class ilObjStyleSheetGUI extends ilObjectGUI
 		$this->form_gui->addCommandButton("updateTagStyle", $lng->txt("save_return"));
 		$this->form_gui->addCommandButton("refreshTagStyle", $lng->txt("save_refresh"));
 		
-		$this->form_gui->setTitle($lng->txt("edit"));
+//		$this->form_gui->setTitle($lng->txt("edit"));
 		$this->form_gui->setFormAction($this->ctrl->getFormAction($this));
 	}
 	

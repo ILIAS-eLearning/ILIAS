@@ -2040,7 +2040,7 @@ if ($_GET["pgEdMediaMode"] != "") {echo "ilPageObject::error media"; exit;}
 		// media aliases
 		$xpc = xpath_new_context($doc);
 		$path = "//Paragraph | //Section | //MediaAlias | //FileItem".
-			" | //Table | //TableData | //Tabs";
+			" | //Table | //TableData | //Tabs | //List";
 		$res = xpath_eval($xpc, $path);
 		$usages = array();
 		for ($i=0; $i < count($res->nodeset); $i++)
@@ -2106,6 +2106,19 @@ if ($_GET["pgEdMediaMode"] != "") {echo "ilPageObject::error media"; exit;}
 						}
 					}
 					$template = 1;
+					break;
+				
+				case "List":
+					$sname = $res->nodeset[$i]->get_attribute("Class");
+					if ($res->nodeset[$i]->get_attribute("Type") == "Ordered")
+					{
+						$stype = "list_o";
+					}
+					else
+					{
+						$stype = "list_u";
+					}
+					$template = 0;
 					break;
 			}
 			if ($sname != "" &&  $stype != "")

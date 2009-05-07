@@ -93,8 +93,18 @@ class ilPCListGUI extends ilPageContentGUI
 			$this->content_obj = new ilPCList($this->dom);
 			$this->content_obj->create($this->pg_obj, $this->hier_id, $this->pc_id);
 			$this->content_obj->addItems($_POST["nr_items"]);
-			$this->content_obj->setOrderType($_POST["list_order"]);
 			$this->content_obj->setStartValue($_POST["start_value"]);
+			$this->content_obj->setListType($_POST["list_type"]);
+			if ($_POST["list_type"] == "Unordered")
+			{
+				$this->content_obj->setNumberingType("");
+				$this->content_obj->setStyleClass($_POST["bullet_style"]);
+			}
+			else
+			{
+				$this->content_obj->setNumberingType($_POST["numbering_type"]);
+				$this->content_obj->setStyleClass($_POST["number_style"]);
+			}
 			$this->updated = $this->pg_obj->update();
 			if ($this->updated === true)
 			{
@@ -127,8 +137,19 @@ class ilPCListGUI extends ilPageContentGUI
 		$this->initListForm("edit");
 		if ($this->form->checkInput())
 		{
-			$this->content_obj->setOrderType($_POST["list_order"]);
 			$this->content_obj->setStartValue($_POST["start_value"]);
+			$this->content_obj->setListType($_POST["list_type"]);
+			if ($_POST["list_type"] == "Unordered")
+			{
+				$this->content_obj->setNumberingType("");
+				$this->content_obj->setStyleClass($_POST["bullet_style"]);
+			}
+			else
+			{
+				$this->content_obj->setNumberingType($_POST["numbering_type"]);
+				$this->content_obj->setStyleClass($_POST["number_style"]);
+			}
+			
 			$this->updated = $this->pg_obj->update();
 			if ($this->updated === true)
 			{
@@ -151,18 +172,95 @@ class ilPCListGUI extends ilPageContentGUI
 		$this->form = new ilPropertyFormGUI();
 	
 		// type
-		$options = array(
-			"Unordered" => $this->lng->txt("cont_Unordered"),
-			"Number" => $this->lng->txt("cont_number_std"),
-			"Decimal" => $this->lng->txt("cont_decimal"),
-			"Roman" => $this->lng->txt("cont_roman"),
-			"roman" => $this->lng->txt("cont_roman_s"),
-			"Alphabetic" => $this->lng->txt("cont_alphabetic"),
-			"alphabetic" => $this->lng->txt("cont_alphabetic_s")
-			);
-		$si = new ilSelectInputGUI($this->lng->txt("cont_order"), "list_order");
-		$si->setOptions($options);
-		$this->form->addItem($si);
+		$radg = new ilRadioGroupInputGUI($lng->txt("type"), "list_type");
+		$op1 = new ilRadioOption($lng->txt("cont_bullet_list"), "Unordered");
+		
+			// style of bullet list
+			require_once("./Services/Form/classes/class.ilAdvSelectInputGUI.php");
+			$style = new ilAdvSelectInputGUI($this->lng->txt("cont_style"),
+				"bullet_style");
+			$this->getCharacteristicsOfCurrentStyle("list_u");
+			$options = $this->getCharacteristics();
+			if ($a_mode == "edit" && $this->content_obj->getListType() == "Unordered"
+				&& $this->content_obj->getStyleClass() != ""
+				&& !in_array($this->content_obj->getStyleClass(), $options))
+			{
+				$options[$this->content_obj->getStyleClass()] = 
+					$this->content_obj->getStyleClass();
+			}
+			if (count($options) > 1)
+			{
+				foreach($options as $k => $option)
+				{
+					$html = '<ul class="ilc_list_u_'.$k.'"><li class="ilc_list_item_StandardListItem">'.
+						$option.'</li></ul>';
+					if ($k == "BulletedList")
+					{
+						$k = "";
+					}
+					$style->addOption($k, $option, $html);
+				}
+				$style->setValue("");
+				$op1->addSubItem($style);
+			}
+			
+		$radg->addOption($op1);
+
+		
+		$op2 = new ilRadioOption($lng->txt("cont_numbered_list"), "Ordered");
+
+			// style of numbered list
+			require_once("./Services/Form/classes/class.ilAdvSelectInputGUI.php");
+			$style = new ilAdvSelectInputGUI($this->lng->txt("cont_style"),
+				"number_style");
+			$this->getCharacteristicsOfCurrentStyle("list_o");
+			$options = $this->getCharacteristics();
+			if ($a_mode == "edit" && $this->content_obj->getListType() == "Ordered"
+				&& $this->content_obj->getStyleClass() != ""
+				&& !in_array($this->content_obj->getStyleClass(), $options))
+			{
+				$options[$this->content_obj->getStyleClass()] = 
+					$this->content_obj->getStyleClass();
+			}
+			if (count($options) > 1)
+			{
+				foreach($options as $k => $option)
+				{
+					$html = '<ol class="ilc_list_o_'.$k.'"><li class="ilc_list_item_StandardListItem">'.
+						$option.'</li></ol>';
+					if ($k == "NumberedList")
+					{
+						$k = "";
+					}
+					$style->addOption($k, $option, $html);
+				}
+				$style->setValue("");
+				$op2->addSubItem($style);
+			}
+		
+			// numeric type
+			$options = array(
+				"Number" => $this->lng->txt("cont_number_std"),
+				"Decimal" => $this->lng->txt("cont_decimal"),
+				"Roman" => $this->lng->txt("cont_roman"),
+				"roman" => $this->lng->txt("cont_roman_s"),
+				"Alphabetic" => $this->lng->txt("cont_alphabetic"),
+				"alphabetic" => $this->lng->txt("cont_alphabetic_s")
+				);
+			$si = new ilSelectInputGUI($this->lng->txt("cont_number_type"), "numbering_type");
+			$si->setOptions($options);
+			$op2->addSubItem($si);
+		
+			// starting value
+			$ni = new ilNumberInputGUI($this->lng->txt("cont_start_value"), "start_value");
+			$ni->setMaxLength(3);
+			$ni->setSize(3);
+			$ni->setInfo($lng->txt("cont_start_value_info"));
+			$op2->addSubItem($ni);
+
+		$radg->addOption($op2);
+		$radg->setValue("Unordered");
+		$this->form->addItem($radg);
 		
 		// nr of items
 		$options = array();
@@ -177,14 +275,7 @@ class ilPCListGUI extends ilPageContentGUI
 			$si->setValue(2);
 			$this->form->addItem($si);
 		}
-		
-		// starting value
-		$ni = new ilNumberInputGUI($this->lng->txt("cont_start_value"), "start_value");
-		$ni->setMaxLength(3);
-		$ni->setSize(3);
-		$ni->setInfo($lng->txt("cont_start_value_info"));
-		$this->form->addItem($ni);
-	
+
 		// save and cancel commands
 		if ($a_mode == "create")
 		{
@@ -210,9 +301,21 @@ class ilPCListGUI extends ilPageContentGUI
 	{
 		$values = array();
 	
-		$values["list_order"] = $this->content_obj->getOrderType();
+		//$values["list_order"] = $this->content_obj->getOrderType();
 		$values["start_value"] = $this->content_obj->getStartValue();
-	
+		$values["list_type"] = $this->content_obj->getListType();
+		$values["numbering_type"] = $this->content_obj->getNumberingType();
+		if ($values["list_type"] == "Ordered")
+		{
+			$values["number_style"] = $this->content_obj->getStyleClass();
+			$values["bullet_style"] = "";
+		}
+		else
+		{
+			$values["bullet_style"] = $this->content_obj->getStyleClass();
+			$values["number_style"] = "";
+		}
+
 		$this->form->setValuesByArray($values);
 	}
 }

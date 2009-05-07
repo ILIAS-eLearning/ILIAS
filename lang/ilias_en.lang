@@ -9381,7 +9381,7 @@ content#:#cont_save_widths#:#Save Widths
 content#:#cont_set_styles#:#Set Styles
 style#:#sty_disable_auto_margins#:#Disable Auto Margins
 style#:#sty_disable_auto_margins_info#:#Disables automatic setting of left/right to 0px, if media objects or tables are left/right aligned.
-content#:#cont_number_std#:#Numeric (Standard)
+content#:#cont_number_std#:#Standard
 content#:#cont_decimal#:#Decimal
 content#:#cont_start_value#:#Start Value
 content#:#cont_start_value_info#:#Enter start value as decimal number. Default is 1.
@@ -9404,3 +9404,4 @@ content#:#cont_behavior#:#Behavior
 content#:#cont_all_closed#:#All Closed
 content#:#cont_first_open#:#First Opened
 content#:#cont_force_all_open#:#Force All Opened
+content#:#cont_number_type#:#Number Type
