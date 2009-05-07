@@ -119,7 +119,7 @@ class ilObjFile extends ilObject
 			."VALUES (".$ilDB->quote($this->getId() ,'integer').","
 			.$ilDB->quote($this->getFileName() ,'text').","
 			.$ilDB->quote($this->getFileType() ,'text').","
-			.$ilDB->quote($this->getFileSize() ,'integer').","
+			.$ilDB->quote((int) $this->getFileSize() ,'integer').","
 			.$ilDB->quote(1 ,'integer').",".$ilDB->quote($this->getMode() ,'text').")";
 		$res = $ilDB->manipulate($q);
 		
@@ -333,7 +333,7 @@ class ilObjFile extends ilObject
 		
 		$q = "UPDATE file_data SET file_name = ".$ilDB->quote($this->getFileName() ,'text').
 			", file_type = ".$ilDB->quote($this->getFiletype() ,'text')." ".
-			", file_size = ".$ilDB->quote($this->getFileSize() ,'integer')." ".
+			", file_size = ".$ilDB->quote((int) $this->getFileSize() ,'integer')." ".
 			", version = ".$ilDB->quote($this->getVersion() ,'integer')." ".
 			", f_mode = ".$ilDB->quote($this->getMode() ,'text')." ".
 			"WHERE file_id = ".$ilDB->quote($this->getId() ,'integer');
@@ -689,7 +689,7 @@ class ilObjFile extends ilObject
 				$ilDB->quote($new_obj->getId() ,'integer').",".
 				$ilDB->quote($this->getFileName() ,'text').",".
 				$ilDB->quote($this->getFileType() ,'text').",".
-				$ilDB->quote($this->getFileSize() ,'integer').", ".
+				$ilDB->quote((int) $this->getFileSize() ,'integer').", ".
 				$ilDB->quote($this->getVersion() ,'integer').", ".
 				$ilDB->quote($this->getMode() ,'text').")";
 		$res = $ilDB->manipulate($query);
