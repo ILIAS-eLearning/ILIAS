@@ -489,6 +489,8 @@ class ilMailAddressbookGUI
 		
 		$this->tpl->show();
 		
+		unset($_SESSION['addr_search']);
+		
 		return true;
 	}
 
@@ -738,6 +740,8 @@ class ilMailAddressbookGUI
 	public function lookupAddressbookAsync()
 	{
 		include_once 'Services/JSON/classes/class.ilJsonUtil.php';
+		include_once 'Services/Contact/classes/class.ilMailAddressbook.php';
+		
 		$search = "%" . $_REQUEST["query"] . "%";
 		$result = new stdClass();
 		$result->response = new stdClass();
@@ -748,34 +752,10 @@ class ilMailAddressbookGUI
 			echo ilJsonUtil::encode($result);
 			exit;
 		}
-		global $ilDB, $ilUser;
-		$ilDB->setLimit(0,20);
-		$query_res = $ilDB->queryF
-		(
-			'SELECT DISTINCT
-				abook.login as login,
-				abook.firstname as firstname,
-				abook.lastname as lastname,
-				"addressbook" as type
-			FROM addressbook as abook
-			WHERE abook.user_id = %s
-			AND (
-				abook.login LIKE %s OR
-				abook.firstname LIKE %s OR
-				abook.lastname LIKE %s
-			)',
-			array('integer', 'text', 'text', 'text'),
-			array($ilUser->getId(), $search, $search, $search)
-		);
-		while ($row = $query_res->fetchRow(DB_FETCHMODE_OBJECT))
-		{
-			$tmp = new stdClass();
-			$tmp->login = $row->login;
-			$tmp->firstname = $row->firstname;
-			$tmp->lastname = $row->lastname;
-			$result->response->results[] = $tmp;
-		}
-		$result->response->total = count($result->response->results);
+
+		$mailAdrBookObj = new ilMailAddressbook;
+		$result = $mailAdrBookObj->getAddressbookAsync($search);
+		
 		echo ilJsonUtil::encode($result);
 		exit;
 	}

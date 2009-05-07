@@ -748,6 +748,8 @@ class ilMailFormGUI
 	{
 		global $ilUser, $rbacsystem;
 		include_once 'Services/JSON/classes/class.ilJsonUtil.php';
+		include_once 'Services/Mail/classes/class.ilMailForm.php';
+		
 		$search = "%" . $_REQUEST["query"] . "%";
 		$result = new stdClass();
 		$result->response = new stdClass();
@@ -758,89 +760,10 @@ class ilMailFormGUI
 			echo ilJsonUtil::encode($result);
 			exit;
 		}
-		global $ilDB;
-		$ilDB->setLimit(0,20);
 		
-		$allow_smtp = $rbacsystem->checkAccess('smtp_mail', MAIL_SETTINGS_ID);
-		
-		$query_res = $ilDB->queryF(
-			'SELECT DISTINCT
-				abook.login as login,
-				abook.firstname as firstname,
-				abook.lastname as lastname,
-				"addressbook" as type
-			FROM addressbook as abook
-			WHERE abook.user_id = %s
-			AND abook.login IS NOT NULL
-			AND (
-				abook.login LIKE %s OR
-				abook.firstname LIKE %s OR
-				abook.lastname LIKE %s
-			)
-			UNION
-			SELECT DISTINCT
-				abook.email as login,
-				abook.firstname as firstname,
-				abook.lastname as lastname,
-				"addressbook" as type
-			FROM addressbook as abook
-			WHERE 1='.($allow_smtp ? 1 : 0).'
-			AND abook.user_id = %s
-			AND abook.login IS NULL
-			AND (
-				abook.email LIKE %s OR
-				abook.firstname LIKE %s OR
-				abook.lastname LIKE %s
-			)			
-			UNION
-			SELECT DISTINCT
-				mail.rcp_to as login,
-				"" as firstname,
-				"" as lastname,
-				"mail" as type
-			FROM mail
-			WHERE mail.rcp_to LIKE %s
-				AND sender_id = %s',
-			array('integer', 'text', 'text', 'text', 'integer', 'text', 'text', 'text', 'text', 'integer'),
-			array($ilUser->getId(), $search, $search, $search, $ilUser->getId(), $search, $search, $search, $search, $ilUser->getId())
-		);
-		
-		$setMap = array();
-		$i = 0;
-		while ($row = $query_res->fetchRow(DB_FETCHMODE_OBJECT))
-		{
-			if ($i > 20)
-				break;
-			if (isset($setMap[$row->login]))
-				continue;
-			$parts = array();
-			if (strpos($row->login, ',') || strpos($row->login, ';'))
-			{
-				$parts = split("[ ]*[;,][ ]*", trim($row->login));
-				foreach($parts as $part)
-				{
-					$tmp = new stdClass();
-					$tmp->login = $part;
-					$i++;
-					$setMap[$part] = 1;
-				}
-			}
-			else
-			{
-				$tmp = new stdClass();
-				$tmp->login = $row->login;
-				if ($row->public_profile == 'y' || $row->type = 'addressbook')
-				{
-					$tmp->firstname = $row->firstname;
-					$tmp->lastname = $row->lastname;
-				}
-				$result->response->results[] = $tmp;
-				$i++;
-				$setMap[$row->login] = 1;
-			}
-
-		}
-		$result->response->total = count($result->response->results);
+		$mailFormObj = new ilMailForm;
+		$result = $mailFormObj->getRecipientAsync($search);
+	
 		echo ilJsonUtil::encode($result);
 		exit;
 	}
