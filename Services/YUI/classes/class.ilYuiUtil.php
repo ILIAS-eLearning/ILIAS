@@ -30,6 +30,8 @@
 */
 class ilYuiUtil
 {
+	private static $ver = "2_7_0b";
+	
 	/**
 	* Init YUI Connection module
 	*/
@@ -37,9 +39,8 @@ class ilYuiUtil
 	{
 		global $tpl;
 		
-		$tpl->addJavaScript("./Services/YUI/js/2_5_0/yahoo/yahoo-min.js");
-		$tpl->addJavaScript("./Services/YUI/js/2_5_0/event/event-min.js");
-		$tpl->addJavaScript("./Services/YUI/js/2_5_0/connection/connection-min.js");
+		$tpl->addJavaScript("./Services/YUI/js/".self::$ver."/yahoo-dom-event/yahoo-dom-event.js");
+		$tpl->addJavaScript("./Services/YUI/js/".self::$ver."/connection/connection-min.js");
 	}
 	
 	/**
@@ -49,8 +50,7 @@ class ilYuiUtil
 	{
 		global $tpl;
 
-		$tpl->addJavaScript("./Services/YUI/js/2_5_0/yahoo/yahoo-min.js");
-		$tpl->addJavaScript("./Services/YUI/js/2_5_0/event/event-min.js");
+		$tpl->addJavaScript("./Services/YUI/js/".self::$ver."/yahoo-dom-event/yahoo-dom-event.js");
 	}
 
 	/**
@@ -60,8 +60,8 @@ class ilYuiUtil
 	{
 		global $tpl;
 
-		$tpl->addJavaScript("./Services/YUI/js/2_5_0/yahoo/yahoo-min.js");
-		$tpl->addJavaScript("./Services/YUI/js/2_5_0/dom/dom-min.js");
+		$tpl->addJavaScript("./Services/YUI/js/".self::$ver."/yahoo-dom-event/yahoo-dom-event.js");
+
 	}
 
 	/**
@@ -71,9 +71,8 @@ class ilYuiUtil
 	{
 		global $tpl;
 
-		$tpl->addJavaScript("./Services/YUI/js/2_5_0/yahoo/yahoo-min.js");
-		$tpl->addJavaScript("./Services/YUI/js/2_5_0/yahoo-dom-event/yahoo-dom-event.js");
-		$tpl->addJavaScript("./Services/YUI/js/2_5_0/animation/animation-min.js");
+		$tpl->addJavaScript("./Services/YUI/js/".self::$ver."/yahoo-dom-event/yahoo-dom-event.js");
+		$tpl->addJavaScript("./Services/YUI/js/".self::$ver."/animation/animation-min.js");
 	}
 
 	/**
@@ -83,8 +82,8 @@ class ilYuiUtil
 	{
 		global $tpl;
 
-		$tpl->addJavaScript("./Services/YUI/js/2_5_0/yahoo-dom-event/yahoo-dom-event.js");
-		$tpl->addJavaScript("./Services/YUI/js/2_5_0/dragdrop/dragdrop-min.js");
+		$tpl->addJavaScript("./Services/YUI/js/".self::$ver."/yahoo-dom-event/yahoo-dom-event.js");
+		$tpl->addJavaScript("./Services/YUI/js/".self::$ver."/dragdrop/dragdrop-min.js");
 	}
 	
 	/**
@@ -94,8 +93,7 @@ class ilYuiUtil
 	{
 		global $tpl;
 
-		$tpl->addJavaScript("./Services/YUI/js/2_5_0/yahoo/yahoo-min.js");
-		$tpl->addJavaScript("./Services/YUI/js/2_5_0/yahoo-dom-event/yahoo-dom-event.js");
+		$tpl->addJavaScript("./Services/YUI/js/".self::$ver."/yahoo-dom-event/yahoo-dom-event.js");
 	}
 	
 	/**
@@ -109,15 +107,10 @@ class ilYuiUtil
 	{
 		global $tpl;
 		
-		$tpl->addJavaScript('./Services/YUI/js/2_5_0/yahoo-dom-event/yahoo-dom-event.js');
-		// optional
-		//$tpl->addJavaScript('./Services/YUI/js/2_5_0/animation/animation-min.js');
-		// optional
-		//$tpl->addJavaScript('./Services/YUI/js/2_5_0/dragdrop/dragdrop-min.js');
-		$tpl->addJavaScript('./Services/YUI/js/2_5_0/container/container-min.js');
-		$tpl->addCss("./Services/YUI/js/2_5_0/container/assets/skins/sam/container.css");
-		#$tpl->addCss("./Services/YUI/js/2_5_0/container/assets/container-core.css");
-		$tpl->addCss('./Services/Calendar/css/panel_min.css');
+		$tpl->addJavaScript("./Services/YUI/js/".self::$ver."/yahoo-dom-event/yahoo-dom-event.js");
+		$tpl->addJavaScript("./Services/YUI/js/".self::$ver."/container/container-min.js");
+		$tpl->addCss("./Services/YUI/js/".self::$ver."/container/assets/skins/sam/container.css");
+		$tpl->addCss("./Services/Calendar/css/panel_min.css");
 		
 	}
 
@@ -128,10 +121,9 @@ class ilYuiUtil
 	{
 		global $tpl;
 		
-		$tpl->addJavaScript("./Services/YUI/js/2_5_0/yahoo/yahoo-min.js");
-		$tpl->addJavaScript("./Services/YUI/js/2_5_0/animation/animation-min.js");
-		$tpl->addJavaScript("./Services/YUI/js/2_5_0/yahoo-dom-event/yahoo-dom-event.js");
-		$tpl->addJavaScript("./Services/YUI/js/2_5_0/connection/connection-min.js");
+		$tpl->addJavaScript("./Services/YUI/js/".self::$ver."/yahoo-dom-event/yahoo-dom-event.js");
+		$tpl->addJavaScript("./Services/YUI/js/".self::$ver."/animation/animation-min.js");
+		$tpl->addJavaScript("./Services/YUI/js/".self::$ver."/connection/connection-min.js");
 	}
 
 	/**
@@ -141,12 +133,10 @@ class ilYuiUtil
 	{
 		global $tpl;
 		
-		$tpl->addJavaScript("./Services/YUI/js/2_5_0/yahoo/yahoo-min.js");
-		$tpl->addJavaScript("./Services/YUI/js/2_5_0/event/event.js");
-		$tpl->addJavaScript("./Services/YUI/js/2_5_0/dom/dom.js");
-		$tpl->addJavaScript("./Services/YUI/js/2_5_0/container/container_core.js");
-		$tpl->addJavaScript("./Services/YUI/js/2_5_0/menu/menu.js");
-		$tpl->addCss("./Services/YUI/js/2_5_0/menu/assets/menu.css");
+		$tpl->addJavaScript("./Services/YUI/js/".self::$ver."/yahoo-dom-event/yahoo-dom-event.js");
+		$tpl->addJavaScript("./Services/YUI/js/".self::$ver."/container/container_core.js");
+		$tpl->addJavaScript("./Services/YUI/js/".self::$ver."/menu/menu-min.js");
+		$tpl->addCss("./Services/YUI/js/".self::$ver."/menu/assets/menu.css");
 	}
 
 	/**
@@ -156,10 +146,8 @@ class ilYuiUtil
 	{
 		global $tpl;
 		
-		$tpl->addJavaScript("./Services/YUI/js/2_5_0/yahoo/yahoo-min.js");
-		$tpl->addJavaScript("./Services/YUI/js/2_5_0/event/event.js");
-		$tpl->addJavaScript("./Services/YUI/js/2_5_0/dom/dom.js");
-		$tpl->addJavaScript("./Services/YUI/js/2_5_0/container/container_core.js");
+		$tpl->addJavaScript("./Services/YUI/js/".self::$ver."/yahoo-dom-event/yahoo-dom-event.js");
+		$tpl->addJavaScript("./Services/YUI/js/".self::$ver."/container/container_core-min.js");
 	}
 	
 	/**
@@ -169,12 +157,10 @@ class ilYuiUtil
 	{
 		global $tpl;
 
-		$tpl->addJavaScript("./Services/YUI/js/2_5_0/yahoo/yahoo-min.js");
-		$tpl->addJavaScript("./Services/YUI/js/2_5_0/event/event.js");
-		$tpl->addJavaScript("./Services/YUI/js/2_5_0/dom/dom.js");
-		$tpl->addJavaScript("./Services/YUI/js/2_5_0/container/container.js");
-		$tpl->addJavaScript("./Services/YUI/js/2_5_0/dragdrop/dragdrop.js");
-		$tpl->addCss("./Services/YUI/js/2_5_0/container/assets/container.css");
+		$tpl->addJavaScript("./Services/YUI/js/".self::$ver."/yahoo-dom-event/yahoo-dom-event.js");
+		$tpl->addJavaScript("./Services/YUI/js/".self::$ver."/container/container-min.js");
+		$tpl->addJavaScript("./Services/YUI/js/".self::$ver."/dragdrop/dragdrop-min.js");
+		$tpl->addCss("./Services/YUI/js/".self::$ver."/container/assets/container.css");
 		$tpl->addCss("./Services/YUI/templates/default/tpl.simpledialog.css");
 	}
 	
@@ -185,9 +171,9 @@ class ilYuiUtil
 	{
 		global $tpl;
 
-		$tpl->addJavaScript("./Services/YUI/js/2_5_0/yahoo-dom-event/yahoo-dom-event.js");
-		$tpl->addJavaScript("./Services/YUI/js/2_5_0/animation/animation-min.js");
-		$tpl->addJavaScript("./Services/YUI/js/2_5_0/dragdrop/dragdrop-min.js");
+		$tpl->addJavaScript("./Services/YUI/js/".self::$ver."/yahoo-dom-event/yahoo-dom-event.js");
+		$tpl->addJavaScript("./Services/YUI/js/".self::$ver."/animation/animation-min.js");
+		$tpl->addJavaScript("./Services/YUI/js/".self::$ver."/dragdrop/dragdrop-min.js");
 		$tpl->addCss("./Services/YUI/templates/default/DragDropList.css");
 	}
 	
@@ -198,9 +184,9 @@ class ilYuiUtil
 	{
 		global $tpl;
 
-		$tpl->addJavaScript("./Services/YUI/js/2_5_0/yahoo-dom-event/yahoo-dom-event.js");
-		$tpl->addJavaScript("./Services/YUI/js/2_5_0/animation/animation-min.js");
-		$tpl->addJavaScript("./Services/YUI/js/2_5_0/dragdrop/dragdrop-min.js");
+		$tpl->addJavaScript("./Services/YUI/js/".self::$ver."/yahoo-dom-event/yahoo-dom-event.js");
+		$tpl->addJavaScript("./Services/YUI/js/".self::$ver."/animation/animation-min.js");
+		$tpl->addJavaScript("./Services/YUI/js/".self::$ver."/dragdrop/dragdrop-min.js");
 	}
 	
 	/**
@@ -298,13 +284,11 @@ class ilYuiUtil
 	{
 		global $tpl;
 		
-		$tpl->addJavaScript('./Services/YUI/js/2_5_0/yahoo/yahoo.js');
-		$tpl->addJavaScript('./Services/YUI/js/2_5_0/event/event.js');
-		$tpl->addJavaScript('./Services/YUI/js/2_5_0/dom/dom.js');
-		$tpl->addJavaScript('./Services/YUI/js/2_5_0/calendar/calendar.js');
+		$tpl->addJavaScript("./Services/YUI/js/".self::$ver."/yahoo-dom-event/yahoo-dom-event.js");
+		$tpl->addJavaScript("./Services/YUI/js/".self::$ver."/calendar/calendar-min.js");
 			
-		$tpl->addCss('./Services/YUI/js/2_5_0/calendar/assets/skins/sam/calendar.css');
-		$tpl->addCss('./Services/Calendar/css/calendar.css');
+		$tpl->addCss("./Services/YUI/js/".self::$ver."/calendar/assets/skins/sam/calendar.css");
+		$tpl->addCss("./Services/Calendar/css/calendar.css");
 	}
 	
 	/**
@@ -319,16 +303,23 @@ class ilYuiUtil
 	{
 		global $tpl;
 		
-		$tpl->addJavaScript("./Services/YUI/js/2_5_0/yahoo-dom-event/yahoo-dom-event.js");
-		$tpl->addJavaScript("./Services/YUI/js/2_5_0/element/element-beta-min.js");
+		$tpl->addJavaScript("./Services/YUI/js/".self::$ver."/yahoo-dom-event/yahoo-dom-event.js");
+		if (self::$ver == "2_5_0")
+		{
+			$tpl->addJavaScript("./Services/YUI/js/2_5_0/element/element-beta-min.js");
+		}
+		else
+		{
+			$tpl->addJavaScript("./Services/YUI/js/".self::$ver."/element/element-min.js");
+		}
 		
-		$tpl->addJavaScript('./Services/YUI/js/2_5_0/container/container_core-min.js');
-		$tpl->addJavaScript('./Services/YUI/js/2_5_0/menu/menu-min.js');
+		$tpl->addJavaScript("./Services/YUI/js/".self::$ver."/container/container_core-min.js");
+		$tpl->addJavaScript("./Services/YUI/js/".self::$ver."/menu/menu-min.js");
 		
-		$tpl->addJavaScript('./Services/YUI/js/2_5_0/button/button-min.js');
+		$tpl->addJavaScript("./Services/YUI/js/".self::$ver."/button/button-min.js");
 
-		$tpl->addCss("./Services/YUI/js/2_5_0/button/assets/skins/sam/button.css");
-		$tpl->addCss("./Services/YUI/js/2_5_0/menu/assets/skins/sam/menu.css");
+		$tpl->addCss("./Services/YUI/js/".self::$ver."/button/assets/skins/sam/button.css");
+		$tpl->addCss("./Services/YUI/js/".self::$ver."/menu/assets/skins/sam/menu.css");
 	}
 	
 	/**
@@ -344,12 +335,12 @@ class ilYuiUtil
 
 		self::initButtonControl();
 		
-		$tpl->addJavaScript('./Services/YUI/js/2_5_0/dragdrop/dragdrop-min.js');
-		$tpl->addJavaScript('./Services/YUI/js/2_5_0/slider/slider-min.js');
-		$tpl->addJavaScript('./Services/YUI/js/2_5_0/colorpicker/colorpicker-min.js');
+		$tpl->addJavaScript("./Services/YUI/js/".self::$ver."/dragdrop/dragdrop-min.js");
+		$tpl->addJavaScript("./Services/YUI/js/".self::$ver."/slider/slider-min.js");
+		$tpl->addJavaScript("./Services/YUI/js/".self::$ver."/colorpicker/colorpicker-min.js");
 
 		$tpl->addCss('./Services/Form/css/color_picker.css');
-		$tpl->addCss("./Services/YUI/js/2_5_0/colorpicker/assets/skins/sam/colorpicker.css");
+		$tpl->addCss("./Services/YUI/js/".self::$ver."/colorpicker/assets/skins/sam/colorpicker.css");
 	}
 	
 	/**
@@ -359,12 +350,17 @@ class ilYuiUtil
 	{
 		global $tpl;
 		
-		$tpl->addCss("./Services/YUI/js/2_5_0/tabview/assets/skins/sam/tabview.css");
-		$tpl->addJavaScript('./Services/YUI/js/2_5_0/yahoo-dom-event/yahoo-dom-event.js');
-		$tpl->addJavaScript('./Services/YUI/js/2_5_0/element/element-beta-min.js');
-		$tpl->addJavaScript('./Services/YUI/js/2_5_0/tabview/tabview-min.js');
-
-		//<script type="text/javascript" src="http://yui.yahooapis.com/2.5.1/build/tabview/tabview-min.js"></script>
+		$tpl->addCss("./Services/YUI/js/".self::$ver."/tabview/assets/skins/sam/tabview.css");
+		$tpl->addJavaScript("./Services/YUI/js/".self::$ver."/yahoo-dom-event/yahoo-dom-event.js");
+		if (self::$ver == "2_5_0")
+		{
+			$tpl->addJavaScript("./Services/YUI/js/2_5_0/element/element-beta-min.js");
+		}
+		else
+		{
+			$tpl->addJavaScript("./Services/YUI/js/".self::$ver."/element/element-min.js");
+		}
+		$tpl->addJavaScript("./Services/YUI/js/".self::$ver."/tabview/tabview-min.js");
 	}
 	
 	/**
@@ -377,12 +373,19 @@ class ilYuiUtil
 
 		self::initJson();
 
-	 	$tpl->addCss("./Services/YUI/js/2_5_0/autocomplete/assets/skins/sam/autocomplete.css");
+	 	$tpl->addCss("./Services/YUI/js/".self::$ver."/autocomplete/assets/skins/sam/autocomplete.css");
 
-		$tpl->addJavaScript('./Services/YUI/js/2_5_0/yahoo-dom-event/yahoo-dom-event.js');
-		$tpl->addJavaScript('./Services/YUI/js/2_5_0/datasource/datasource-beta-min.js');
-		$tpl->addJavaScript('./Services/YUI/js/2_5_0/connection/connection-min.js');		
-	 	$tpl->addJavaScript('./Services/YUI/js/2_5_0/autocomplete/autocomplete-min.js');
+		$tpl->addJavaScript("./Services/YUI/js/".self::$ver."/yahoo-dom-event/yahoo-dom-event.js");
+		if (self::$ver == "2_5_0")
+		{
+			$tpl->addJavaScript('./Services/YUI/js/2_5_0/datasource/datasource-beta-min.js');
+		}
+		else
+		{
+			$tpl->addJavaScript("./Services/YUI/js/".self::$ver."/datasource/datasource-min.js");
+		}
+		$tpl->addJavaScript("./Services/YUI/js/".self::$ver."/connection/connection-min.js");		
+	 	$tpl->addJavaScript("./Services/YUI/js/".self::$ver."/autocomplete/autocomplete-min.js");
 	 }
 	 
 	 /**
@@ -392,28 +395,43 @@ class ilYuiUtil
 	 public static function initJson()
 	 {
 		global $tpl;
-		$tpl->addJavaScript('./Services/YUI/js/2_5_0/yahoo/yahoo-min.js');		
-	 	$tpl->addJavaScript('./Services/YUI/js/2_5_0/json/json-min.js');
+		$tpl->addJavaScript("./Services/YUI/js/".self::$ver."/yahoo-dom-event/yahoo-dom-event.js");		
+	 	$tpl->addJavaScript("./Services/YUI/js/".self::$ver."/json/json-min.js");
 	 }
 	 
-	 /**
-	 * Init layout (alpha!)
-	 */
-	 public static function initLayout()
-	 {
-		 global $tpl;
-		 
+	/**
+	* Init layout (alpha!)
+	*/
+	public static function initLayout()
+	{
+		global $tpl;
+		
 //		 $tpl->addCss("./Services/YUI/js/2_5_0/reset-fonts-grids/reset-fonts-grids.css");
-		 $tpl->addCss("./Services/YUI/js/2_5_0/assets/skins/sam/resize.css");
-		 $tpl->addCss("./Services/YUI/js/2_5_0/assets/skins/sam/layout.css");
-		 
-		 $tpl->addJavaScript('./Services/YUI/js/2_5_0/yahoo-dom-event/yahoo-dom-event.js');
-		 $tpl->addJavaScript('./Services/YUI/js/2_5_0/dragdrop/dragdrop-min.js');
-		 $tpl->addJavaScript('./Services/YUI/js/2_5_0/element/element-beta-min.js');
-		 $tpl->addJavaScript('./Services/YUI/js/2_5_0/animation/animation-min.js');
-		 $tpl->addJavaScript('./Services/YUI/js/2_5_0/resize/resize-beta-min.js');
-		 $tpl->addJavaScript('./Services/YUI/js/2_5_0/layout/layout-beta-min.js');
-	 }
+		$tpl->addCss("./Services/YUI/js/".self::$ver."/assets/skins/sam/resize.css");
+		$tpl->addCss("./Services/YUI/js/".self::$ver."/assets/skins/sam/layout.css");
+		
+		$tpl->addJavaScript("./Services/YUI/js/".self::$ver."/yahoo-dom-event/yahoo-dom-event.js");
+		$tpl->addJavaScript("./Services/YUI/js/".self::$ver."/dragdrop/dragdrop-min.js");
+		if (self::$ver == "2_5_0")
+		{
+			$tpl->addJavaScript("./Services/YUI/js/2_5_0/element/element-beta-min.js");
+		}
+		else
+		{
+			$tpl->addJavaScript("./Services/YUI/js/".self::$ver."/element/element-min.js");
+		}
+		$tpl->addJavaScript("./Services/YUI/js/".self::$ver."/animation/animation-min.js");
+		if (self::$ver == "2_5_0")
+		{
+			$tpl->addJavaScript("./Services/YUI/js/2_5_0/resize/resize-beta-min.js");
+			$tpl->addJavaScript("./Services/YUI/js/2_5_0/layout/layout-beta-min.js");
+		}
+		else
+		{
+			$tpl->addJavaScript("./Services/YUI/js/".self::$ver."/resize/resize-min.js");
+			$tpl->addJavaScript("./Services/YUI/js/".self::$ver."/layout/layout-min.js");
+		}
+	}
 	 
 } // END class.ilUtil
 ?>
