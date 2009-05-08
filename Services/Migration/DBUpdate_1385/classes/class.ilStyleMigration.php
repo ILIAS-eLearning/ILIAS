@@ -145,18 +145,20 @@ class ilStyleMigration
 		$add_str = "";
 		if ($a_id != "")
 		{
-			$add_str = " AND style_id = ".$a_id;
+			$add_str = " AND style_id = ".$ilDB->quote($a_id, "integer");
 		}
 
-		$set = $ilDB->query("SELECT DISTINCT style_id, tag, class FROM style_parameter WHERE type = ''".$add_str);
+		$set = $ilDB->query($q = "SELECT DISTINCT style_id, tag, class FROM style_parameter WHERE ".
+			$ilDB->equals("type", "", "text", true)." ".$add_str);
+
 		while ($rec = $ilDB->fetchAssoc($set))
 		{
-//echo "<br><b>".$rec["tag"]."-".$rec["class"]."-</b>";
 			// derive types from tag
 			$types = array();
 			switch ($rec["tag"])
 			{
 				case "div":
+				case "p":
 					if (in_array($rec["class"], array("Headline3", "Headline1",
 						"Headline2", "TableContent", "List", "Standard", "Remark",
 						"Additional", "Mnemonic", "Citation", "Example")))
@@ -223,26 +225,25 @@ class ilStyleMigration
 				if (count($types) > 0)
 				{
 					$ilDB->manipulateF("UPDATE style_parameter SET type = %s ".
-						" WHERE style_id = %s AND class = %s AND type = %s",
-						array("text", "integer", "text", "text"),
-						array($types[0], $rec["style_id"], $rec["class"], ""));
+						" WHERE style_id = %s AND class = %s AND ".$ilDB->equals("type", "", "text", true),
+						array("text", "integer", "text"),
+						array($types[0], $rec["style_id"], $rec["class"]));
 
 					// links extra handling
 					if ($types[0] == "link")
 					{
 						$ilDB->manipulateF("UPDATE style_parameter SET type = %s ".
-							" WHERE style_id = %s AND (class = %s OR class = %s) AND type = %s",
-							array("text", "integer", "text", "text", "text"),
+							" WHERE style_id = %s AND (class = %s OR class = %s) AND ".$ilDB->equals("type", "", "text", true),
+							array("text", "integer", "text", "text"),
 							array($types[0], $rec["style_id"], $rec["class"].":visited",
-							$rec["class"].":hover", ""));
+							$rec["class"].":hover"));
 //echo "<br>4-".$types[0]."-".$rec["style_id"]."-".$rec["class"].":visited"."-".
 //	$rec["class"].":hover";
 					}
 				}
-//echo "A";
+
 				if (count($types) == 2)
 				{
-//echo "B";
 					// select all records of first type and add second type 
 					// records if necessary.
 					$set2 = $ilDB->queryF("SELECT * FROM style_parameter ".
@@ -251,11 +252,10 @@ class ilStyleMigration
 						array($rec["style_id"], $rec["class"], $types[0]));
 					while ($rec2 = $ilDB->fetchAssoc($set2))
 					{
-//echo "C";
 						// check if second type already exists
 						$set3 = $ilDB->queryF("SELECT * FROM style_parameter ".
 							" WHERE style_id = %s AND tag = %s AND class = %s AND type = %s AND parameter = %s",
-							array("integer", "text", "text", "text", "text", "text"),
+							array("integer", "text", "text", "text", "text"),
 							array($rec["style_id"], $rec["tag"], $rec["class"], $types[1], $rec["parameter"]));
 						if ($rec3 = $ilDB->fetchAssoc($set3))
 						{
@@ -263,7 +263,6 @@ class ilStyleMigration
 						}
 						else
 						{
-//echo "D";
 							$ilDB->manipulateF("INSERT INTO style_parameter ".
 								" (style_id, tag, class, parameter, value, type) VALUES ".
 								" (%s,%s,%s,%s,%s,%s) ",
