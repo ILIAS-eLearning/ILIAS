@@ -1310,21 +1310,6 @@ class ilContainerGUI extends ilObjectGUI
 	}
 	// END WebDAV: Lock/Unlock objects
 
-	/**
-	* Get Actions
-	*/
-	function getActions()
-	{
-		// standard actions for container
-		return array(
-			"cut" => array("name" => "cut", "lng" => "cut"),
-			"delete" => array("name" => "delete", "lng" => "delete"),
-			"link" => array("name" => "link", "lng" => "link"),
-			"paste" => array("name" => "paste", "lng" => "paste"),
-			"clear" => array("name" => "clear", "lng" => "clear")
-		);
-	}
-
 	
 	/**
 	* unsubscribe item
@@ -1359,7 +1344,7 @@ class ilContainerGUI extends ilObjectGUI
 	*/
 	function cutObject()
 	{
-		global $rbacsystem;
+		global $rbacsystem, $ilCtrl;
 		
 		if ($_GET["item_ref_id"] != "")
 		{
@@ -1407,9 +1392,7 @@ class ilContainerGUI extends ilObjectGUI
 		}
 		//echo "GET";var_dump($_GET);echo "POST";var_dump($_POST);
 		$_SESSION["clipboard"]["parent"] = $_GET["ref_id"];
-		$_SESSION["clipboard"]["cmd"] = ($_GET["cmd"] != "" && $_GET["cmd"] != "post")
-			? $_GET["cmd"]
-			: key($_POST["cmd"]);
+		$_SESSION["clipboard"]["cmd"] = $ilCtrl->getCmd();
 //echo "-".$clipboard["cmd"]."-";
 		$_SESSION["clipboard"]["ref_ids"] = $_POST["id"];
 //echo "-".$_SESSION["clipboard"]["cmd"]."-";
@@ -1429,7 +1412,7 @@ class ilContainerGUI extends ilObjectGUI
 	*/
 	function linkObject()
 	{
-		global $clipboard, $rbacsystem, $rbacadmin;
+		global $clipboard, $rbacsystem, $rbacadmin, $ilCtrl;
 		
 		if ($_GET["item_ref_id"] != "")
 		{
@@ -1481,9 +1464,7 @@ class ilContainerGUI extends ilObjectGUI
 
 		// WRITE TO CLIPBOARD
 		$clipboard["parent"] = $_GET["ref_id"];
-		$clipboard["cmd"] = ($_GET["cmd"] != "" && $_GET["cmd"] != "post")
-			? $_GET["cmd"]
-			: key($_POST["cmd"]);
+		$clipboard["cmd"] = $ilCtrl->getCmd();
 
 		foreach ($_POST["id"] as $ref_id)
 		{

@@ -73,49 +73,9 @@ class ilObjRecoveryFolderGUI extends ilContainerGUI
 	{
 		global $rbacsystem;
 		
-		// AT LEAST ONE OBJECT HAS TO BE CHOSEN.
-		if (!isset($_POST["id"]))
-		{
-			$this->ilias->raiseError($this->lng->txt("no_checkbox"),$this->ilias->error_obj->MESSAGE);
-		}
-
-		$this->object->notify("removeFromSystem", $_GET["ref_id"],$_GET["parent_non_rbac_id"],$_GET["ref_id"],$_POST["trash_id"]);
-
-		$affected_ids = array();
-		
-		// DELETE THEM
-		foreach ($_POST["id"] as $id)
-		{
-			// GET COMPLETE NODE_DATA OF ALL SUBTREE NODES
-			$node_data = $this->tree->getNodeData($id);
-			$subtree_nodes = $this->tree->getSubTree($node_data);
-
-			// remember already checked deleted node_ids
-			$checked[] = $id;
-
-			// dive in recursive manner in each already deleted subtrees and remove these objects too
-			$this->removeDeletedNodes($id, $checked, true, $affected_ids);
-
-			foreach ($subtree_nodes as $node)
-			{
-				$node_obj =& $this->ilias->obj_factory->getInstanceByRefId($node["ref_id"]);
-				
-				// this is due to bug #1860 (even if this will not completely fix it)
-				// and the fact, that media pool folders may find their way into
-				// the recovery folder (what results in broken pools, if the are deleted)
-				// Alex, 2006-07-21
-				if ($node_obj->getType() != "fold")
-				{
-					$node_obj->delete();
-				}
-			}
-
-			// FIRST DELETE ALL ENTRIES IN RBAC TREE
-			$this->tree->deleteTree($node_data);
-		}
-		
-		ilUtil::sendSuccess($this->lng->txt("msg_removed"),true);
-
+		include_once("./Services/Repository/classes/class.ilRepUtilGUI.php");
+		$ru = new ilRepUtilGUI($this);
+		$ru->removeObjectsFromSystem($_POST["id"], true);
 		$this->ctrl->redirect($this, "view");
 	}
 	
