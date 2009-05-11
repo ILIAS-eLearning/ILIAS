@@ -95,13 +95,13 @@ class ilRepUtilGUI
 	*/
 	function showTrashTable($a_ref_id)
 	{
-		global $tpl, $tree;
+		global $tpl, $tree, $lng;
 		
 		$objects = $tree->getSavedNodeData($a_ref_id);
 		
 		if (count($objects) == 0)
 		{
-			ilUtil::sendInfo($this->lng->txt("msg_trash_empty"));
+			ilUtil::sendInfo($lng->txt("msg_trash_empty"));
 			return;
 		}
 		include_once("./Services/Repository/classes/class.ilTrashTableGUI.php");
@@ -181,7 +181,7 @@ class ilRepUtilGUI
 	/**
 	* Remove objects from system
 	*/
-	function removeObjectsFromSystem($a_ref_ids)
+	function removeObjectsFromSystem($a_ref_ids, $a_from_recovery_folder = false)
 	{
 		global $lng;
 		
@@ -195,7 +195,7 @@ class ilRepUtilGUI
 			include_once("./Services/Repository/classes/class.ilRepUtil.php");
 			try
 			{
-				ilRepUtil::removeObjectsFromSystem($a_ref_ids);
+				ilRepUtil::removeObjectsFromSystem($a_ref_ids, $a_from_recovery_folder);
 				ilUtil::sendSuccess($lng->txt("msg_removed"),true);
 			}
 			catch (Exception $e)

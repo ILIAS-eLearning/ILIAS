@@ -177,18 +177,18 @@ abstract class ilObject2GUI extends ilObjectGUI
 	final public  function trashObject() { return parent::trashObject(); }		// done
 	// -> ilRepUtil
 	final public function undeleteObject() { return parent::undeleteObject(); } // done
-	final private function insertSavedNodes($a_source_id,$a_dest_id,$a_tree_id, &$a_affected_ids) { return parent::insertSavedNodes($a_source_id,$a_dest_id,$a_tree_id, $a_affected_ids); } // done
 	final public function confirmedDeleteObject() { return parent::confirmedDeleteObject(); } // done
 	final public function cancelDeleteObject() { return parent::cancelDeleteObject(); } // ok
 	final public function removeFromSystemObject() { return parent::removeFromSystemObject(); } // done 
-	final private function removeDeletedNodes($a_node_id, $a_checked, $a_delete_objects, &$a_affected_ids) { return parent::removeDeletedNodes($a_node_id, $a_checked, $a_delete_objects, $a_affected_ids); } // done
+	final protected function redirectToRefId() { return parent::redirectToRefId(); } // ok
 	
-	final protected function redirectToRefId() { return parent::redirectToRefId(); }
+	// -> stefan
 	final protected function fillCloneTemplate($a_tpl_varname,$a_type) { return parent::fillCloneTemplate($a_tpl_varname,$a_type); }
 	final protected function fillCloneSearchTemplate($a_tpl_varname,$a_type) { return parent::fillCloneSearchTemplate($a_tpl_varname,$a_type); }
 	final protected function searchCloneSourceObject() { return parent::searchCloneSourceObject(); }
 	final public function cloneAllObject() { return parent::cloneAllObject(); }
 	final protected function buildCloneSelect($existing_objs) { return parent::buildCloneSelect($existing_objs); }
+
 	// -> ilAdministration
 	final private function displayList() { return parent::displayList(); }
 	final public function viewObject() { return parent::viewObject(); }
@@ -199,22 +199,20 @@ abstract class ilObject2GUI extends ilObjectGUI
 	/**
 	* Deprecated functions
 	*/
-	final private function setActions() {}
-	final protected function getActions() {}
-	final private function setSubObjects() {}
-	final public function getFormAction() {}
-	final protected  function setFormAction() {}
-	final protected  function getReturnLocation() {}
-	final protected  function setReturnLocation() {}
-	final protected function showActions() {}
-	final public function getTemplateFile() {}
-	final protected function getTitlesByRefId() {}
-	final protected function getTabs() {}
-	final protected function __showButton() {}
-	final protected function hitsperpageObject() {}
-	final protected function __initTableGUI() {}
-	final protected function __setTableGUIBasicData() {}
-	final protected function __showClipboardTable() {}
+	final private function setSubObjects() { die("ilObject2GUI::setSubObjects() is deprecated."); }
+	final public function getFormAction() { die("ilObject2GUI::getFormAction() is deprecated."); }
+	final protected  function setFormAction() { die("ilObject2GUI::setFormAction() is deprecated."); }
+	final protected  function getReturnLocation() { die("ilObject2GUI::getReturnLocation() is deprecated."); }
+	final protected  function setReturnLocation() { die("ilObject2GUI::setReturnLocation() is deprecated."); }
+	final protected function showActions() { die("ilObject2GUI::showActions() is deprecated."); }
+	final public function getTemplateFile() { die("ilObject2GUI::getTemplateFile() is deprecated."); }
+	final protected function getTitlesByRefId() { die("ilObject2GUI::getTitlesByRefId() is deprecated."); }
+	final protected function getTabs() { die("ilObject2GUI::getTabs() is deprecated."); }
+	final protected function __showButton() { die("ilObject2GUI::__showButton() is deprecated."); }
+	final protected function hitsperpageObject() { die("ilObject2GUI::hitsperpageObject() is deprecated."); }
+	final protected function __initTableGUI() { die("ilObject2GUI::__initTableGUI() is deprecated."); }
+	final protected function __setTableGUIBasicData() { die("ilObject2GUI::__setTableGUIBasicData() is deprecated."); }
+	final protected function __showClipboardTable() { die("ilObject2GUI::__showClipboardTable() is deprecated."); }
 	
 	/**
 	* Functions to be overwritten
@@ -239,6 +237,8 @@ abstract class ilObject2GUI extends ilObjectGUI
 //	final private function ownerObject() { parent::ownerObject(); }
 //	final private function changeOwnerObject() { parent::changeOwnerObject(); }
 //	final private function addRoleObject() { parent::addRoleObject(); }
+//	final private function setActions() { die("ilObject2GUI::setActions() is deprecated."); }
+//	final protected function getActions() { die("ilObject2GUI::getActions() is deprecated."); }
 
 	/**
 	* create new object form

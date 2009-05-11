@@ -205,9 +205,9 @@ throw new ilRepositoryException($lng->txt("ilRepUtil::deleteObjects: Type inform
 	*
 	* @access	public
 	*/
-	public function removeObjectsFromSystem($a_ref_ids)
+	public function removeObjectsFromSystem($a_ref_ids, $a_from_recovery_folder = false)
 	{
-		global $rbacsystem, $log, $ilAppEventHandler;
+		global $rbacsystem, $log, $ilAppEventHandler, $tree;
 		
 		$affected_ids = array();
 		
@@ -215,9 +215,17 @@ throw new ilRepositoryException($lng->txt("ilRepUtil::deleteObjects: Type inform
 		foreach ($a_ref_ids as $id)
 		{
 			// GET COMPLETE NODE_DATA OF ALL SUBTREE NODES
-			$saved_tree = new ilTree(-(int)$id);
-			$node_data = $saved_tree->getNodeData($id);
-			$subtree_nodes = $saved_tree->getSubTree($node_data);
+			if (!$a_from_recovery_folder)
+			{
+				$saved_tree = new ilTree(-(int)$id);
+				$node_data = $saved_tree->getNodeData($id);
+				$subtree_nodes = $saved_tree->getSubTree($node_data);
+			}
+			else
+			{
+				$node_data = $tree->getNodeData($id);
+				$subtree_nodes = $tree->getSubTree($node_data);
+			}
 
 			// BEGIN ChangeEvent: Record remove from system.
 			require_once('Services/Tracking/classes/class.ilChangeEvent.php');
@@ -232,7 +240,14 @@ throw new ilRepositoryException($lng->txt("ilRepUtil::deleteObjects: Type inform
 			// END ChangeEvent: Record remove from system.
 
 			// remember already checked deleted node_ids
-			$checked[] = -(int) $id;
+			if (!$a_from_recovery_folder)
+			{
+				$checked[] = -(int) $id;
+			}
+			else
+			{
+				$checked[] = $id;
+			}
 
 			// dive in recursive manner in each already deleted subtrees and remove these objects too
 			ilRepUtil::removeDeletedNodes($id, $checked, true, $affected_ids);
@@ -251,14 +266,25 @@ throw new ilRepositoryException($lng->txt("ilRepUtil::deleteObjects: Type inform
 				$affected_ids[$node["ref_id"]] = array("ref_id" => $node["ref_id"],
 					"obj_id" => $node_obj->getId(), "type" => $node_obj->getType());
 					
-				$node_obj->delete();
-				
+				// this is due to bug #1860 (even if this will not completely fix it)
+				// and the fact, that media pool folders may find their way into
+				// the recovery folder (what results in broken pools, if the are deleted)
+				// Alex, 2006-07-21
+				if (!$a_from_recovery_folder || $node_obj->getType() != "fold")
+				{
+					$node_obj->delete();
+				}
 			}
 
-			// FIRST DELETE ALL ENTRIES IN RBAC TREE
-			#$this->tree->deleteTree($node_data);
 			// Use the saved tree object here (negative tree_id)
-			$saved_tree->deleteTree($node_data);
+			if (!$a_from_recovery_folder)
+			{
+				$saved_tree->deleteTree($node_data);
+			}
+			else
+			{
+				$tree->deleteTree($node_data);
+			}
 
 			// write log entry
 			$log->write("ilObjectGUI::removeFromSystemObject(), deleted tree, tree_id: ".$node_data["tree"].
