@@ -6365,6 +6365,7 @@ function loadQuestions($active_id = "", $pass = NULL)
 		$newObj->setStartingTime($this->getStartingTime());
 		$newObj->setTitleOutput($this->getTitleOutput());
 		$newObj->setUsePreviousAnswers($this->getUsePreviousAnswers());
+		$newObj->setCertificateVisibility($this->getCertificateVisibility());
 		$newObj->mark_schema = clone $this->mark_schema;
 		$newObj->saveToDb();
 		
