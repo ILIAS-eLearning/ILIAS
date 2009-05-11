@@ -88,7 +88,7 @@ class ilAuthContainerMDB2 extends Auth_Container_MDB2
 	/** 
 	 * Enables/disables the observers of this container.
 	 */
-        public function setObserversEnabled($boolean) 
+	public function setObserversEnabled($boolean) 
 	{
 	        $this->isObserversEnabled = $boolean;
 	}

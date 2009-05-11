@@ -21,73 +21,55 @@
 	+-----------------------------------------------------------------------------+
 */
 
-include_once('./Services/Authentication/classes/class.ilAuthUtils.php');
-include_once('./Services/Authentication/classes/class.ilAuthContainerDecorator.php');
-include_once('./Services/Authentication/classes/class.ilAuthModeDetermination.php');
 
+include_once './Services/Authentication/classes/class.ilAuthDecorator.php';
+include_once 'Auth/HTTP.php';
 
-/**   
-* @author Stefan Meyer <smeyer@leifos.com>
+/** 
+* Base class for ilAuth, ilAuthHTTP ....
+* 
+* @author Stefan Meyer <meyer@leifos.com>
 * @version $Id$
 * 
-* 
+*
 * @ingroup ServicesAuthentication
 */
-class ilAuthMultiple extends ilAuthContainerDecorator
+class ilAuthHTTP extends ilAuthDecorator
 {
-	/**
-	 * Constructor
-	 * @return 
-	 */
-	public function __construct()
-	{
-		parent::__construct();
+   
+    /**
+     * Constructor
+     * 
+	 * @param object ilAuthContainerDecorator
+	 * @param array	further options Not used in the moment
+     */
+    function __construct(ilAuthContainerDecorator $container, $a_further_options = array())
+    {
+    	parent::__construct($container);
 		
-		$this->initContainer();
-	}
-	
-	protected function initMultipleParams()
-	{
-		include_once 'Auth/Container/Multiple.php';
-
-		$multiple_params = array();
+		$this->appendOption('sessionName',"_authhttp".md5(CLIENT_ID));
+		$this->appendOption('sessionSharing',false);
+		$this->initAuth();
+		$this->initCallbacks();
 		
-		// Determine sequence of authentication methods
-		foreach(ilAuthModeDetermination::_getInstance()->getAuthModeSequence() as $auth_mode)
-		{
-			if($auth_mode == AUTH_LDAP)
-			{
-				include_once './Services/Authentication/classes/class.ilAuthContainerLDAP.php';
-				
-				$multiple_params[] = array(
-					'type'		=> 'LDAP',
-					'container' => new ilAuthContainerLDAP(),
-					'options'	=> array()
-				);
-			}			
-			if($auth_mode == AUTH_LOCAL)
-			{
-				include_once './Services/Datebase/classes/class.ilAuthContainerMDB2.php';
-				
-				$multiple_params[] = array(
-					'type'		=>	'MDB2',
-					'container'	=>	new ilAuthContainerMDB2(),
-					'options'	=> array()
-				);
-			}
-		}
-		return $multiple_params ? $multiple_params : array();
-	}
-	
-	/**
-	 * Init PEAR container
-	 * @return bool 
-	 */
-	protected function initContainer()
-	{
-		$this->setContainer(
-			new Auth_Container_Multiple($this->initMultipleParams()));
-		return true;
-	}
+    }
+   
+   
+    /**
+     * @see ilAuthDecorator::initAuth()
+     */
+    public function initAuth()
+    {
+		global $ilLog;
+		
+		$ilLog->write(__METHOD__.': Using Auth_HTTP');
+		$this->setAuthObject(
+			new Auth_HTTP(
+				$this->getContainer(),
+				$this->getOptions()
+			));
+		$this->setRealm(CLIENT_ID);
+    }
 }
+
 ?>

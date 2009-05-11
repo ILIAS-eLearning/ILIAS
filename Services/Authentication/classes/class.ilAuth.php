@@ -21,73 +21,46 @@
 	+-----------------------------------------------------------------------------+
 */
 
-include_once('./Services/Authentication/classes/class.ilAuthUtils.php');
-include_once('./Services/Authentication/classes/class.ilAuthContainerDecorator.php');
-include_once('./Services/Authentication/classes/class.ilAuthModeDetermination.php');
 
+include_once './Services/Authentication/classes/class.ilAuthDecorator.php';
 
-/**   
-* @author Stefan Meyer <smeyer@leifos.com>
+/** 
+* Wrapper for PEAR AUTH
+* 
+* @author Stefan Meyer <meyer@leifos.com>
 * @version $Id$
 * 
-* 
+*
 * @ingroup ServicesAuthentication
 */
-class ilAuthMultiple extends ilAuthContainerDecorator
+class ilAuth extends ilAuthDecorator
 {
+
 	/**
 	 * Constructor
-	 * @return 
+	 * 
+	 * @param object ilAuthContainerDecorator
+	 * @param array	further options Not used in the moment
 	 */
-	public function __construct()
+	public function __construct(ilAuthContainerDecorator $container,$a_further_options = array())
 	{
-		parent::__construct();
-		
-		$this->initContainer();
-	}
-	
-	protected function initMultipleParams()
-	{
-		include_once 'Auth/Container/Multiple.php';
+		parent::__construct($container);
 
-		$multiple_params = array();
+		$this->appendOption('sessionName',"_authhttp".md5(CLIENT_ID));
+		$this->initAuth();
+		$this->initCallbacks();
 		
-		// Determine sequence of authentication methods
-		foreach(ilAuthModeDetermination::_getInstance()->getAuthModeSequence() as $auth_mode)
-		{
-			if($auth_mode == AUTH_LDAP)
-			{
-				include_once './Services/Authentication/classes/class.ilAuthContainerLDAP.php';
-				
-				$multiple_params[] = array(
-					'type'		=> 'LDAP',
-					'container' => new ilAuthContainerLDAP(),
-					'options'	=> array()
-				);
-			}			
-			if($auth_mode == AUTH_LOCAL)
-			{
-				include_once './Services/Datebase/classes/class.ilAuthContainerMDB2.php';
-				
-				$multiple_params[] = array(
-					'type'		=>	'MDB2',
-					'container'	=>	new ilAuthContainerMDB2(),
-					'options'	=> array()
-				);
-			}
-		}
-		return $multiple_params ? $multiple_params : array();
 	}
 	
-	/**
-	 * Init PEAR container
-	 * @return bool 
-	 */
-	protected function initContainer()
+	public function initAuth()
 	{
-		$this->setContainer(
-			new Auth_Container_Multiple($this->initMultipleParams()));
-		return true;
+		$this->setAuthObject(
+			new Auth(
+				$this->getContainer(),
+				$this->getOptions(),
+				'',
+				false
+			));
 	}
 }
 ?>

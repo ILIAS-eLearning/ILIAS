@@ -24,14 +24,6 @@
 include_once('Services/Calendar/classes/class.ilDateTimeException.php');
 include_once('Services/Calendar/classes/class.ilTimeZone.php');
 
-/** 
-* 
-* @author Stefan Meyer <smeyer@databay.de>
-* @version $Id$
-* 
-* 
-* @ingroup ServicesCalendar 
-*/
 
 define('IL_CAL_DATETIME',1);
 define('IL_CAL_DATE',2);
@@ -46,6 +38,15 @@ define('IL_CAL_WEEK','week');
 define('IL_CAL_DAY','day');
 define('IL_CAL_HOUR','hour');
 
+
+/** 
+* @classDescription Date and time handling
+* @author Stefan Meyer <smeyer@databay.de>
+* @version $Id$
+* 
+* 
+* @ingroup ServicesCalendar 
+*/
 class ilDateTime
 {
 	const YEAR = 'year';
