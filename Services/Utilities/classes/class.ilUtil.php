@@ -2817,14 +2817,17 @@ class ilUtil
 	{
 		global $array_sortby,$array_sortorder;
 
+		// this comparison should give optimal results if
+		// locale is provided and mb string functions are supported
 		if ($array_sortorder == "asc")
 		{
-			return strcoll($a[$array_sortby], $b[$array_sortby]);
+			return ilStr::strCmp($a[$array_sortby], $b[$array_sortby]);
 		}
 
 		if ($array_sortorder == "desc")
 		{
-			return strcoll($b[$array_sortby], $a[$array_sortby]);
+			return !ilStr::strCmp($a[$array_sortby], $b[$array_sortby]);
+			return strcoll(ilStr::strToUpper($b[$array_sortby]), ilStr::strToUpper($a[$array_sortby]));
 		}
 	}
 
@@ -2863,6 +2866,8 @@ class ilUtil
 	function sortArray($array,$a_array_sortby,$a_array_sortorder = 0,$a_numeric = false,
 		$a_keep_keys = false)
 	{
+		include_once("./Services/Utilities/classes/class.ilStr.php");
+		
 		// BEGIN WebDAV: Provide a 'stable' sort algorithm
 		if (! $a_keep_keys) {
 			return self::stableSortArray($array,$a_array_sortby,$a_array_sortorder,$a_numeric,$a_keep_keys);
@@ -2946,6 +2951,7 @@ class ilUtil
 		{
 			ilUtil::mergesort($sort_array, array("ilUtil", "sort_func"));
 		}
+
 		return $sort_array;
 	}
 	function mergesort(&$array, $cmp_function = 'strcmp') {

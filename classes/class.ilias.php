@@ -138,7 +138,7 @@ class ILIAS
 		$this->auth =& $ilAuth;
 
 		// create instance of object factory
-		require_once("classes/class.ilObjectFactory.php");
+		include_once("./classes/class.ilObjectFactory.php");
 		$this->obj_factory =& new ilObjectFactory();
 	}
 

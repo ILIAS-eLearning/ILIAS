@@ -22,7 +22,7 @@
 */
 
 
-include_once("./classes/class.ilObjectGUI.php");
+include_once("./Services/Object/classes/class.ilObject2GUI.php");
 include_once("./Modules/MediaPool/classes/class.ilObjMediaPool.php");
 include_once("./Services/Table/classes/class.ilTableGUI.php");
 include_once("./Modules/Folder/classes/class.ilObjFolderGUI.php");
@@ -43,7 +43,7 @@ include_once("./Services/Clipboard/classes/class.ilEditClipboardGUI.php");
 *
 * @ingroup ModulesMediaPool
 */
-class ilObjMediaPoolGUI extends ilObjectGUI
+class ilObjMediaPoolGUI extends ilObject2GUI
 {
 	var $output_prepared;
 
@@ -52,13 +52,18 @@ class ilObjMediaPoolGUI extends ilObjectGUI
 	*
 	* @access	public
 	*/
-	function ilObjMediaPoolGUI($a_data,$a_id = 0,$a_call_by_reference = true, $a_prepare_output = false)
+	function __construct($a_data,$a_id = 0,$a_call_by_reference = true, $a_prepare_output = false)
 	{
-		global $lng, $ilCtrl, $lng;
-
-//echo "<br>ilobjmediapoolgui-constructor-id-$a_id";
-
-		$this->ctrl =& $ilCtrl;
+		parent::__construct($a_id, $a_call_by_reference);
+	}
+	
+	/**
+	* Initialisation
+	*/
+	protected function afterConstructor()
+	{
+		global $lng;
+		
 		$lng->loadLanguageModule("mep");
 		
 		if ($this->ctrl->getCmd() == "explorer")
@@ -70,14 +75,17 @@ class ilObjMediaPoolGUI extends ilObjectGUI
 			$this->ctrl->saveParameter($this, array("ref_id", "obj_id"));
 		}
 		
-		$this->type = "mep";
 		$lng->loadLanguageModule("content");
-		parent::ilObjectGUI($a_data, $a_id, $a_call_by_reference, $a_prepare_output);
-
-		$this->output_prepared = $a_prepare_output;
-
 	}
 
+	/**
+	* Get type
+	*/
+	final function getType()
+	{
+		return "mep";
+	}
+	
 	/**
 	* execute command
 	*/
@@ -261,21 +269,11 @@ class ilObjMediaPoolGUI extends ilObjectGUI
 			default:
 				$this->prepareOutput();
 				$cmd = $this->ctrl->getCmd("frameset");
-				if ($this->creation_mode)
-				{
-					$cmd.= "Object";
-				}
 				$this->$cmd();	
 				break;
 		}
 	}
-	
-	function createObject()
-	{
-		parent::createObject();
-		$this->tpl->setVariable("TARGET", ' target="'.
-				ilFrameTargetInfo::_getFrame("MainContent").'" ');
-	}
+
 	
 	function createMediaObject()
 	{
@@ -292,27 +290,13 @@ class ilObjMediaPoolGUI extends ilObjectGUI
 	* save object
 	* @access	public
 	*/
-	function saveObject()
+	function afterSave($newObj)
 	{
-		global $rbacadmin;
-
-		// create and insert forum in objecttree
-		$newObj = parent::saveObject();
-
-		// setup rolefolder & default local roles
-		//$roles = $newObj->initDefaultRoles();
-
-		// ...finally assign role to creator of object
-		//$rbacadmin->assignUser($roles[0], $newObj->getOwner(), "y");
-
-		// put here object specific stuff
-
 		// always send a message
 		ilUtil::sendSuccess($this->lng->txt("object_added"),true);
 
 		//ilUtil::redirect($this->getReturnLocation("save","adm_object.php?".$this->link_params));
 		ilUtil::redirect("ilias.php?baseClass=ilMediaPoolPresentationGUI&ref_id=".$newObj->getRefId());
-
 	}
 
 	/**
@@ -347,22 +331,10 @@ class ilObjMediaPoolGUI extends ilObjectGUI
 	/**
 	* cancel editing
 	*/
-	function cancel()
+	protected function cancel()
 	{
 		$this->ctrl->redirect($this, "listMedia");
 	}
-	
-	/**
-	* cancel action and go back to previous page
-	* @access	public
-	*
-	*/
-	function cancelObject($in_rep = false)
-	{
-		ilUtil::redirect("repository.php?cmd=frameset&ref_id=".$_GET["ref_id"]);
-		//$this->ctrl->redirectByClass("ilrepositorygui", "frameset");
-	}
-
 
 	/**
 	* update properties
@@ -435,6 +407,7 @@ class ilObjMediaPoolGUI extends ilObjectGUI
 	* show upper icon (standard procedure will work, if no
 	* obj_id is given)
 	*/
+/*
 	function showUpperIcon()
 	{
 		global $tpl;
@@ -455,7 +428,8 @@ class ilObjMediaPoolGUI extends ilObjectGUI
 			$this->ctrl->setParameter($this, "obj_id", $_GET["obj_id"]);
 		}
 	}
-	
+*/
+
 	/**
 	* output main frameset of media pool
 	* left frame: explorer tree of folders
@@ -870,26 +844,16 @@ class ilObjMediaPoolGUI extends ilObjectGUI
 
 
 	/**
-	* output tabs
+	* Set tabs
 	*/
 	function setTabs()
 	{
-		$this->getTabs($this->tabs_gui);
-	}
-
-	/**
-	* adds tabs to tab gui object
-	*
-	* @param	object		$tabs_gui		ilTabsGUI object
-	*/
-	function getTabs(&$tabs_gui)
-	{
-		global $ilAccess;
+		global $ilAccess, $ilTabsGUI;
 		
 		if ($ilAccess->checkAccess('read', '', $this->ref_id) ||
 			$ilAccess->checkAccess('write', '', $this->ref_id))
 		{
-			$tabs_gui->addTarget("view_content", $this->ctrl->getLinkTarget($this, "listMedia"),
+			$ilTabsGUI->addTarget("view_content", $this->ctrl->getLinkTarget($this, "listMedia"),
 				"listMedia", "");
 		}
 
@@ -901,7 +865,7 @@ class ilObjMediaPoolGUI extends ilObjectGUI
 				? true
 				: false;
 	//echo "-$force_active-";
-			$tabs_gui->addTarget("info_short",
+			$ilTabsGUI->addTarget("info_short",
 				 $this->ctrl->getLinkTargetByClass(
 				 array("ilobjmediapoolgui", "ilinfoscreengui"), "showSummary"),
 				 array("showSummary", "infoScreen"),
@@ -910,19 +874,19 @@ class ilObjMediaPoolGUI extends ilObjectGUI
 
 		if ($ilAccess->checkAccess("write", "", $this->object->getRefId()))
 		{
-			$tabs_gui->addTarget("edit_properties", $this->ctrl->getLinkTarget($this, "edit"),
+			$ilTabsGUI->addTarget("edit_properties", $this->ctrl->getLinkTarget($this, "edit"),
 				"edit", array("", "ilobjmediapoolgui"));
 		}
 
 		if ($ilAccess->checkAccess("edit_permission", "", $this->object->getRefId()))
 		{
-			$tabs_gui->addTarget("perm_settings",
+			$ilTabsGUI->addTarget("perm_settings",
 				$this->ctrl->getLinkTargetByClass(array(get_class($this),'ilpermissiongui'), "perm"), array("perm","info","owner"), 'ilpermissiongui');
 		}
 
 		if ($ilAccess->checkAccess("write", "", $this->object->getRefId()))
 		{
-			$tabs_gui->addTarget("clipboard", $this->ctrl->getLinkTarget($this, "openClipboard"),
+			$ilTabsGUI->addTarget("clipboard", $this->ctrl->getLinkTarget($this, "openClipboard"),
 				"view", "ileditclipboardgui");
 		}
 	}

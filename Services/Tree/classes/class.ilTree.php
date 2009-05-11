@@ -1921,6 +1921,8 @@ class ilTree
  	*/
 	function removeTree($a_tree_id)
 	{
+		global $ilDB;
+		
 		// OPERATION NOT ALLOWED ON MAIN TREE
 		if($this->__isMainTree())
 		{

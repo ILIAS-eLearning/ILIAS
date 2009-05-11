@@ -89,18 +89,14 @@
   	<td class="std" style="text-align:center;" colspan="{TBL_NO_ENTRY_COLUMN_COUNT}">{TBL_NO_ENTRY_TEXT}</td>
   </tr>
 <!-- END tbl_no_entries -->
-<!-- BEGIN tbl_hidden_row -->
-  <tr>
-  	<td>
-  		<!-- BEGIN tbl_hidden_field -->
-  			<input type="hidden" name="{FIELD_NAME}" value="{FIELD_VALUE}" />
-  		<!-- END tbl_hidden_field -->
-  	</td>
-  </tr>
-<!-- END tbl_hidden_row -->
 <!-- BEGIN tbl_table_end -->
 </table>
 <!-- END tbl_table_end -->
+<!-- BEGIN tbl_hidden_row -->
+<!-- BEGIN tbl_hidden_field -->
+	<input type="hidden" name="{FIELD_NAME}" value="{FIELD_VALUE}" />
+<!-- END tbl_hidden_field -->
+<!-- END tbl_hidden_row -->
 <!-- BEGIN select_all_checkbox -->
 <div class="ilTableSelectAll">
 	<input type="checkbox" name="{CHECKBOXNAME}" id="{CHECKBOXNAME}" value="1" onClick="javascript:setChecked('{SELECT_ALL_FORM_NAME}', '{SELECT_ALL_CHECKBOX_NAME}', document.{SELECT_ALL_FORM_NAME}.{CHECKBOXNAME}.checked);" />

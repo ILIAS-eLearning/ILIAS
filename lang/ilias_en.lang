@@ -1539,7 +1539,7 @@ common#:#btn_new_value#:#New value
 common#:#btn_next#:#Continue
 common#:#btn_previous#:#Back
 common#:#btn_remove_system#:#Remove from System
-common#:#btn_undelete#:#Undelete
+common#:#btn_undelete#:#Restore
 common#:#by#:#By
 common#:#by_location#:#Order by location
 common#:#by_type#:#Order by type
@@ -3002,7 +3002,7 @@ common#:#msg_no_perm_read#:#You have no permission to access this item.
 common#:#msg_no_perm_read_item#:#You have no permission to access item '%s'.
 common#:#msg_no_perm_read_lm#:#You have no permission to read this learning module.
 common#:#msg_no_perm_read_track#:#You have no permission to access the user tracking.
-common#:#msg_no_perm_undelete#:#You have no permission to undelete the following object(s):
+common#:#msg_no_perm_undelete#:#You have no permission to restore the following object(s):
 common#:#msg_no_perm_write#:#You have no permission to write
 common#:#msg_no_rolf_allowed1#:#The object
 common#:#msg_no_rolf_allowed2#:#is not allowed to contain a Role Folder
@@ -3037,7 +3037,7 @@ common#:#msg_roleassignment_changed#:#Role assignment changed
 common#:#msg_sysrole_not_deletable#:#The system role cannot be deleted
 common#:#msg_sysrole_not_editable#:#The permission settings of the system role may not be changed. The system role grants all assigned users unlimited access to all objects & functions.
 common#:#msg_trash_empty#:#There are no deleted objects
-common#:#msg_undeleted#:#Object(s) undeleted.
+common#:#msg_undeleted#:#Object(s) restored.
 common#:#msg_user_last_role1#:#The following users are assigned to this role only:
 common#:#msg_user_last_role2#:#Please delete the users or assign them to another role in order to delete this role.
 common#:#msg_userassignment_changed#:#User assignment changed

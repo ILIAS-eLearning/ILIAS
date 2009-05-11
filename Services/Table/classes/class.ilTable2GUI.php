@@ -1034,7 +1034,6 @@ class ilTable2GUI extends ilTableGUI
 		}
 	}
 	
-	
 	/**
 	* Fill footer row
 	*/
