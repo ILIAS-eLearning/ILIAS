@@ -992,8 +992,8 @@ class ilTree
 			//$this->log->write('ilTree.deleteTree('.$a_node['child'].') closing gap at '.$a_node['lft'].'...'.$a_node['rgt']);
 			// close gaps
 			$query = sprintf('UPDATE '.$this->table_tree.' SET '.
-				'lft CASE WHEN lft > %s THEN lft - %s ELSE lft END, '.
-				'rgt CASE WHEN rgt > %s THEN rgt - %s ELSE rgt END '.
+				'lft = CASE WHEN lft > %s THEN lft - %s ELSE lft END, '.
+				'rgt = CASE WHEN rgt > %s THEN rgt - %s ELSE rgt END '.
 				'WHERE '.$this->tree_pk.' = %s ',
 				$ilDB->quote($a_node['lft'],'integer'),
 				$ilDB->quote($diff,'integer'),
