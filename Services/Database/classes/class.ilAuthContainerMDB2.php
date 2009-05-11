@@ -21,73 +21,65 @@
 	+-----------------------------------------------------------------------------+
 */
 
-include_once('./Services/Authentication/classes/class.ilAuthUtils.php');
-include_once('./Services/Authentication/classes/class.ilAuthContainerDecorator.php');
-include_once('./Services/Authentication/classes/class.ilAuthModeDetermination.php');
+include_once 'Auth/Container/MDB2.php';
+include_once './Services/Authentication/classes/class.ilAuthContainerDecorator.php';
 
 
-/**   
-* @author Stefan Meyer <smeyer@leifos.com>
+/** 
+* Authentication against ILIAS database
+* 
+* @author Stefan Meyer <meyer@leifos.com>
 * @version $Id$
 * 
-* 
-* @ingroup ServicesAuthentication
+*
+* @ingroup ServicesDatabase
 */
-class ilAuthMultiple extends ilAuthContainerDecorator
+class ilAuthContainerMDB2 extends ilAuthContainerDecorator
 {
+
 	/**
 	 * Constructor
-	 * @return 
 	 */
 	public function __construct()
 	{
+		global $ilClientIniFile;
+
 		parent::__construct();
+
+		$this->appendParameter('dsn',IL_DSN);
+		$this->appendParameter('table',$ilClientIniFile->readVariable("auth", "table"));
+		$this->appendParameter('usernamecol',$ilClientIniFile->readVariable("auth", "usercol"));
+		$this->appendParameter('passwordcol',$ilClientIniFile->readVariable("auth", "passcol"));
 		
 		$this->initContainer();
 	}
 	
-	protected function initMultipleParams()
-	{
-		include_once 'Auth/Container/Multiple.php';
-
-		$multiple_params = array();
-		
-		// Determine sequence of authentication methods
-		foreach(ilAuthModeDetermination::_getInstance()->getAuthModeSequence() as $auth_mode)
-		{
-			if($auth_mode == AUTH_LDAP)
-			{
-				include_once './Services/Authentication/classes/class.ilAuthContainerLDAP.php';
-				
-				$multiple_params[] = array(
-					'type'		=> 'LDAP',
-					'container' => new ilAuthContainerLDAP(),
-					'options'	=> array()
-				);
-			}			
-			if($auth_mode == AUTH_LOCAL)
-			{
-				include_once './Services/Datebase/classes/class.ilAuthContainerMDB2.php';
-				
-				$multiple_params[] = array(
-					'type'		=>	'MDB2',
-					'container'	=>	new ilAuthContainerMDB2(),
-					'options'	=> array()
-				);
-			}
-		}
-		return $multiple_params ? $multiple_params : array();
-	}
-	
-	/**
-	 * Init PEAR container
-	 * @return bool 
-	 */
 	protected function initContainer()
 	{
 		$this->setContainer(
-			new Auth_Container_Multiple($this->initMultipleParams()));
+			new Auth_Container_MDB2($this->getParameters()));
 		return true;
 	}
+	
+	/**
+	 * Static function removes Microsoft domain name from username
+	 */
+	public static function toUsernameWithoutDomain($username)
+	{
+		// Remove all characters including the last slash or the last backslash
+		// in the username
+		$pos = strrpos($username, '/');
+		$pos2 = strrpos($username, '\\');
+		if ($pos === false || $pos < $pos2) 
+		{
+			$pos = $pos2;
+		}
+		if ($pos !== false)
+		{
+			$username = substr($username, $pos + 1);
+		}
+		return $username;
+	}
+	
 }
 ?>

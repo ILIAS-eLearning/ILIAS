@@ -51,6 +51,9 @@ define('AUTH_MODE_INACTIVE',-1000);
 define('AUTH_SOAP_NO_ILIAS_USER_BUT_EMAIL', -101);
 define('AUTH_CAS_NO_ILIAS_USER', -90);
 
+include_once './Services/Authentication/classes/class.ilAuthFactory.php';
+
+
 /**
 * static utility functions used to manage authentication modes
 *
@@ -58,7 +61,6 @@ define('AUTH_CAS_NO_ILIAS_USER', -90);
 * @version $Id$
 *
 */
-
 class ilAuthUtils
 {
 	
@@ -252,6 +254,12 @@ class ilAuthUtils
 		switch ($authmode)
 		{
 			case AUTH_LDAP:
+
+				include_once './Services/LDAP/classes/class.ilAuthContainerLDAP.php';
+				$ilAuth = ilAuthFactory::factory(new ilAuthContainerLDAP());
+				break;
+				
+				/*
 				if (WebDAV_Authentication == 'HTTP')
 				{
 					// Use HTTP authentication as the frontend for WebDAV clients:
@@ -275,8 +283,13 @@ class ilAuthUtils
         				$ilAuth = new ilAuthLDAP($auth_params);
 				}
 				break;
-				
+				*/
 			case AUTH_RADIUS:
+
+				include_once './Services/Radius/classes/class.ilAuthContainerRadius.php';
+				$ilAuth = ilAuthFactory::factory(new ilAuthContainerRadius());
+
+				/*
 				if (WebDAV_Authentication == 'HTTP')
 				{
                                         // FIXME - WebDAV Authentication with RADIUS is broken!!!
@@ -300,7 +313,7 @@ class ilAuthUtils
 					$ilAuth = new ilAuthRadius($auth_params);
 				}
 				break;
-			
+				*/
 				
 			case AUTH_SHIBBOLETH:
 				// build option string for SHIB::Auth
@@ -319,6 +332,7 @@ class ilAuthUtils
 				break;
 				
 			case AUTH_MULTIPLE:
+				/*
 				if (WebDAV_Authentication == 'HTTP')
 				{
 					// Determine sequence of authentication methods
@@ -384,12 +398,18 @@ class ilAuthUtils
 							$options['container']->setObserversEnabled(true);
 					}
 				}
+				*/
+				/*
 				else
 				{
 					require_once('./Services/Authentication/classes/class.ilAuthMultiple.php');
 					$ilAuth = new ilAuthMultiple();
 				}
+				*/
+				include_once './Services/Authentication/classes/class.ilAuthContainerMultiple.php';
+				$ilAuth = ilAuthFactory::factory(new ilAuthContainerMultiple());
 				break;
+				
 			case AUTH_ECS:
 				$auth_params = array();
 				$auth_params['sessionName'] = "_authhttp".md5($realm);
@@ -404,6 +424,16 @@ class ilAuthUtils
 				
 			case AUTH_LOCAL:
 			default:
+				
+				global $ilLog;
+
+				include_once './Services/Database/classes/class.ilAuthContainerMDB2.php';
+				$ilAuth = ilAuthFactory::factory(new ilAuthContainerMDB2());
+				break;
+				
+			
+			
+				/*			
 				// build option string for PEAR::Auth
 				$auth_params = array();
 				$auth_params['dsn'] = IL_DSN;
@@ -435,6 +465,7 @@ class ilAuthUtils
 					$ilAuth = new Auth($authContainer, $auth_params,"",false);
 				}
 				break;
+				*/
 			
 		}
 
@@ -447,6 +478,7 @@ class ilAuthUtils
 		$ilAuth->setExpire(0);
                 
 		// In developer mode, enable logging on the Pear Auth object
+		/*
 	 	if (DEVMODE == 1)
 	 	{
 			global $ilLog;
@@ -463,7 +495,7 @@ class ilAuthUtils
 			 	}
 	 		}
 	 	}
-            
+		*/
 		ini_set("session.cookie_lifetime", "0");
 //echo "-".get_class($ilAuth)."-";
 		$GLOBALS['ilAuth'] =& $ilAuth;

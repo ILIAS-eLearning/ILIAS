@@ -21,73 +21,55 @@
 	+-----------------------------------------------------------------------------+
 */
 
-include_once('./Services/Authentication/classes/class.ilAuthUtils.php');
-include_once('./Services/Authentication/classes/class.ilAuthContainerDecorator.php');
-include_once('./Services/Authentication/classes/class.ilAuthModeDetermination.php');
+include_once ('./Services/Authentication/classes/class.ilAuthDecorator.php');
 
 
-/**   
-* @author Stefan Meyer <smeyer@leifos.com>
+/** 
+* @classDescription Frontend class for SOAP based authentication
+* 
+* @author Stefan Meyer <meyer@leifos.com>
 * @version $Id$
 * 
-* 
+*
 * @ingroup ServicesAuthentication
 */
-class ilAuthMultiple extends ilAuthContainerDecorator
-{
-	/**
-	 * Constructor
-	 * @return 
-	 */
-	public function __construct()
-	{
-		parent::__construct();
-		
-		$this->initContainer();
-	}
-	
-	protected function initMultipleParams()
-	{
-		include_once 'Auth/Container/Multiple.php';
 
-		$multiple_params = array();
-		
-		// Determine sequence of authentication methods
-		foreach(ilAuthModeDetermination::_getInstance()->getAuthModeSequence() as $auth_mode)
-		{
-			if($auth_mode == AUTH_LDAP)
-			{
-				include_once './Services/Authentication/classes/class.ilAuthContainerLDAP.php';
-				
-				$multiple_params[] = array(
-					'type'		=> 'LDAP',
-					'container' => new ilAuthContainerLDAP(),
-					'options'	=> array()
-				);
-			}			
-			if($auth_mode == AUTH_LOCAL)
-			{
-				include_once './Services/Datebase/classes/class.ilAuthContainerMDB2.php';
-				
-				$multiple_params[] = array(
-					'type'		=>	'MDB2',
-					'container'	=>	new ilAuthContainerMDB2(),
-					'options'	=> array()
-				);
-			}
-		}
-		return $multiple_params ? $multiple_params : array();
-	}
-	
-	/**
-	 * Init PEAR container
-	 * @return bool 
-	 */
-	protected function initContainer()
+class ilSOAPAuth extends ilAuthDecorator
+{
+   
+	public function __construct(ilAuthContainerDecorator $deco, $a_further_options = array())
 	{
-		$this->setContainer(
-			new Auth_Container_Multiple($this->initMultipleParams()));
-		return true;
+    	parent::__construct($container);
+
+		if(isset($a_further_options['username']))
+		{
+			$_POST['username'] = $a_further_options['username'];
+		}
+		if(isset($a_further_options['password']))
+		{
+			$_POST['password'] = $a_further_options['password'];
+		}
+
+		$this->appendOption('sessionName',"_authhttp".md5(CLIENT_ID));
+		$this->appendOption('sessionSharing',false);
+		$this->initAuth();
+		$this->initCallbacks();
 	}
+   
+    /**
+     * @see ilAuthDecorator::initAuth()
+     */
+    public function initAuth()
+    {
+		global $ilLog;
+		
+		$ilLog->write(__METHOD__.': Using SOAP Auth');
+
+		$this->setAuthObject(new Auth(
+			$this->getContainer(),
+			$this->getOptions()
+		));
+    }
 }
+
 ?>

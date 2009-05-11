@@ -1402,7 +1402,8 @@ restore starts here
 			return false;
 		}
 		
-		$query = "INSERT INTO object_reference (ref_id,obj_id) VALUES (".$next_id = $ilDB->nextId().",".$this->db->quote($a_obj_id,'integer')." )";
+		$query = "INSERT INTO object_reference (ref_id,obj_id) ".
+			"VALUES (".$next_id = $ilDB->nextId('object_reference').",".$this->db->quote($a_obj_id,'integer')." )";
 		$res = $ilDB->manipulate($query);
 
 		$message = sprintf('%s::restoreReference(): new reference %s for obj_id %s created',

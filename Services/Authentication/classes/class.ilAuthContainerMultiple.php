@@ -21,9 +21,11 @@
 	+-----------------------------------------------------------------------------+
 */
 
-include_once('./Services/Authentication/classes/class.ilAuthUtils.php');
-include_once('./Services/Authentication/classes/class.ilAuthContainerDecorator.php');
-include_once('./Services/Authentication/classes/class.ilAuthModeDetermination.php');
+include_once 'Auth/Container/Multiple.php';
+
+include_once './Services/Authentication/classes/class.ilAuthUtils.php';
+include_once './Services/Authentication/classes/class.ilAuthContainerDecorator.php';
+include_once './Services/Authentication/classes/class.ilAuthModeDetermination.php';
 
 
 /**   
@@ -33,7 +35,7 @@ include_once('./Services/Authentication/classes/class.ilAuthModeDetermination.ph
 * 
 * @ingroup ServicesAuthentication
 */
-class ilAuthMultiple extends ilAuthContainerDecorator
+class ilAuthContainerMultiple extends ilAuthContainerDecorator
 {
 	/**
 	 * Constructor
@@ -57,22 +59,22 @@ class ilAuthMultiple extends ilAuthContainerDecorator
 		{
 			if($auth_mode == AUTH_LDAP)
 			{
-				include_once './Services/Authentication/classes/class.ilAuthContainerLDAP.php';
+				include_once './Services/LDAP/classes/class.ilAuthContainerLDAP.php';
 				
 				$multiple_params[] = array(
 					'type'		=> 'LDAP',
-					'container' => new ilAuthContainerLDAP(),
-					'options'	=> array()
+					'container' => $tmp = new ilAuthContainerLDAP(),
+					'options'	=> $tmp->getParameters()
 				);
 			}			
 			if($auth_mode == AUTH_LOCAL)
 			{
-				include_once './Services/Datebase/classes/class.ilAuthContainerMDB2.php';
+				include_once './Services/Database/classes/class.ilAuthContainerMDB2.php';
 				
 				$multiple_params[] = array(
 					'type'		=>	'MDB2',
-					'container'	=>	new ilAuthContainerMDB2(),
-					'options'	=> array()
+					'container'	=>	$tmp = new ilAuthContainerMDB2(),
+					'options'	=> 	$tmp->getParameters()
 				);
 			}
 		}

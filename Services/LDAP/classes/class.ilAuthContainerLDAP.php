@@ -21,7 +21,8 @@
 	+-----------------------------------------------------------------------------+
 */
 
-include_once('Auth/Container/LDAP.php');
+include_once 'Auth/Container/LDAP.php';
+include_once './Services/Authentication/classes/class.ilAuthContainerDecorator.php';
 
 /** 
 * Overwritten Pear class AuthContainerLDAP
@@ -40,28 +41,22 @@ include_once('Auth/Container/LDAP.php');
 *       In a future revision of ILIAS, the class ilAuthLDAP should be removed.
 *       
 *
-* @author Stefan Meyer <smeyer@databay.de>
+* @author Stefan Meyer <smeyer@leifos.com.de>
 * @version $Id$
 * 
 * 
 * @ingroup ServicesLDAP
 */
-class ilAuthContainerLDAP extends Auth_Container_LDAP
+class ilAuthContainerLDAP extends ilAuthContainerDecorator
 {
+	private static $force_creation = false;
+	
 	private $optional_check = false;
 	
 	private $log = null;
 	private $server = null;
 	private $ldap_attr_to_user = null;
         
-        /**
-         * If this variable is set to true, function fetchData calls
-         * function loginObserver on a successful login and function 
-         * failedLoginObserver on a failed login.
-         * 
-         * @var boolean
-         */
-        private $isObserversEnabled;
         
 	/**
 	 * Constructor
@@ -70,36 +65,30 @@ class ilAuthContainerLDAP extends Auth_Container_LDAP
 	 * @param array array of pear parameters
 	 * 
 	 */
-	public function __construct(ilLDAPServer $server,$a_params)
+	public function __construct()
 	{
 		global $ilLog;
 		
-		$this->server = $server;
-	 	parent::__construct($a_params);
+		parent::__construct();
+
+		include_once 'Services/LDAP/classes/class.ilLDAPServer.php';
+		$this->server = new ilLDAPServer(ilLDAPServer::_getFirstActiveServer());
+		$this->server->doConnectionCheck();
+		
+		$this->appendParameters($this->server->toPearAuthArray());
+		$this->initContainer();
+		
 	 	$this->log = $ilLog;
 	}
-
-	/**
-	 * Fetch data from storage container
-	 *
-	 * @access public
-	 */
-	function fetchData($username, $password, $isChallengeResponse=false)
+	
+	protected function initContainer()
 	{
-		$isSuccessful = parent::fetchData($username, $password, $isChallengeResponse);
-		if ($this->isObserversEnabled)
-		{
-			if ($isSuccessful)
-			{
-				$this->loginObserver($username);        
-			}
-			else
-			{
-				$this->failedLoginObserver();        
-			}
-		}
-		return $isSuccessful;
+		$this->setContainer(
+			new Auth_Container_LDAP($this->getParameters())
+		);
+		return true;
 	}
+
 	/**
 	 * enable optional group check
 	 *
@@ -162,23 +151,6 @@ class ilAuthContainerLDAP extends Auth_Container_LDAP
 		}
 	 	return false;	
 	}
-	/**
-	 * Overwritten debug method
-	 * Writes infos to log file
-	 *
-	 * @access public
-	 * @param string message
-	 * @param int line
-	 * 
-	 */
-	public function _debug($a_message = '',$a_line = 0)
-	{
-		if(is_object($this->log))
-		{
-		 	$this->log->write('LDAP PEAR: '.$a_message);
-		}
-	 	parent::_debug($a_message,$a_line);
-	}
 	
 	/**
 	 * Update user filter
@@ -188,42 +160,21 @@ class ilAuthContainerLDAP extends Auth_Container_LDAP
 	 */
 	private function updateUserFilter()
 	{
-	 	$this->options['userfilter'] = $this->server->getGroupUserFilter();
+	 	$this->getContainer()->options['userfilter'] = $this->server->getGroupUserFilter();
 	}
 
-	/** 
-	 * Enables/disables the observers of this container.
-	 */
-        public function setObserversEnabled($boolean) 
-	{
-	        $this->isObserversEnabled = $boolean;
-	}
-	
-	/** 
-	 * Returns true, if the observers of this container are enabled.
-	 */
-	public function isObserversEnabled() 
-	{
-		$this->isObserversEnabled;
-	}
-	
 	/** 
 	 * Called from fetchData after successful login.
 	 *
 	 * @param string username
 	 */
-	public function loginObserver($a_username)
+	public function loginObserver($a_username,$a_auth)
 	{
 		global $ilBench;
 		global $ilLog;
 		
-		$ilLog->write(__METHOD__.': logged in as '.$a_username.
-			', remote:'.$_SERVER['REMOTE_ADDR'].':'.$_SERVER['REMOTE_PORT'].
-			', server:'.$_SERVER['SERVER_ADDR'].':'.$_SERVER['SERVER_PORT']
-		);
-		
 		$ilBench->start('Auth','LDAPLoginObserver');
-		$user_data = array_change_key_case($this->_auth_obj->getAuthData(),CASE_LOWER);
+		$user_data = array_change_key_case($a_auth->getAuthData(),CASE_LOWER);
 		
 		$a_username = $this->extractUserName($user_data);
 
@@ -233,9 +184,11 @@ class ilAuthContainerLDAP extends Auth_Container_LDAP
 		
 		if($this->server->enabledSyncOnLogin())
 		{
-			if(!$user_data['ilInternalAccount'] and $this->server->isAccountMigrationEnabled() and !$this->_auth_obj->force_creation)
+			if(!$user_data['ilInternalAccount'] and 
+				$this->server->isAccountMigrationEnabled() and 
+				!self::$force_creation)
 			{
-				$this->_auth_obj->logout();
+				$a_auth->logout();
 				$_SESSION['tmp_auth_mode'] = 'ldap';
 				$_SESSION['tmp_external_account'] = $a_username;
 				$_SESSION['tmp_pass'] = $_POST['password'];
@@ -264,15 +217,15 @@ class ilAuthContainerLDAP extends Auth_Container_LDAP
 		if(!$user_data['ilInternalAccount'])
 		{
 			// No syncronisation allowed => create Error
-			$this->_auth_obj->status = AUTH_LDAP_NO_ILIAS_USER;
-			$this->_auth_obj->logout();
+			$a_auth->status = AUTH_LDAP_NO_ILIAS_USER;
+			$a_auth->logout();
 			$ilBench->stop('Auth','LDAPLoginObserver');
 			return;
 		}
 		
 		
 		// Finally setAuth
-		$this->_auth_obj->setAuth($user_data['ilInternalAccount']);
+		$a_auth->setAuth($user_data['ilInternalAccount']);
 		$ilBench->stop('Auth','LDAPLoginObserver');
 		return;
 		
@@ -291,22 +244,16 @@ class ilAuthContainerLDAP extends Auth_Container_LDAP
 	
 	/** 
 	 * Called from fetchData after failed login
-	 *
 	 * @param string username
+	 * @param object PEAR auth object
 	 */
-	public function failedLoginObserver()
+	public function failedLoginObserver($a_username,$a_auth)
 	{
-                global $ilLog;
-		$ilLog->write(__METHOD__.': login failed'.
-			', remote:'.$_SERVER['REMOTE_ADDR'].':'.$_SERVER['REMOTE_PORT'].
-			', server:'.$_SERVER['SERVER_ADDR'].':'.$_SERVER['SERVER_PORT']
-		);
-                
 		if(!$this->enabledOptionalGroupCheck() and $this->server->isMembershipOptional())
 		{
-			$this->_auth_obj->logout();
+			$a_auth->logout();
 			$this->enableOptionalGroupCheck();
-			$this->_auth_obj->start();
+			$a_auth->start();
 		}
 	}
 	
@@ -337,8 +284,6 @@ class ilAuthContainerLDAP extends Auth_Container_LDAP
 		// No existing user found  => return first name
 		return $a_username[0];				
 	}
-	
-	
 }
 
 ?>

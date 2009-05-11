@@ -1223,6 +1223,7 @@ class ilInitialisation
                         // request login again.
 			if ($context == "webdav") 
 			{
+				$ilLog->write(__METHOD__.': Current Auth Class: '. get_class($ilAuth));
 				$ilAuth->logout();
 				$ilAuth->start();
 
