@@ -58,57 +58,41 @@ class ilObjLanguageFolderGUI extends ilObjectGUI
 	 */
 	function viewObject()
 	{
-		global $rbacsystem, $ilSetting, $tpl;
+		global $rbacsystem, $ilSetting, $tpl, $ilToolbar, $lng;
 		
 		if (!$rbacsystem->checkAccess("visible,read",$this->object->getRefId()))
 		{
 			$this->ilias->raiseError($this->lng->txt("permission_denied"),$this->ilias->error_obj->MESSAGE);
 		}
 
-		//add template for buttons
-		$this->tpl->addBlockfile("BUTTONS", "buttons", "tpl.buttons.html");
-		
+		// refresh
 		if ($ilSetting->get("lang_ext_maintenance") == "1")
 		{
-			$this->tpl->setCurrentBlock("btn_cell");
-			$this->tpl->setVariable("BTN_LINK",
+			$ilToolbar->addButton($lng->txt("refresh_languages"),
 				$this->ctrl->getLinkTarget($this, "confirmRefresh"));
-			$this->tpl->setVariable("BTN_TXT",$this->lng->txt("refresh_languages"));
-			$this->tpl->parseCurrentBlock();
 		}
 		else
 		{
-			$this->tpl->setCurrentBlock("btn_cell");
-			$this->tpl->setVariable("BTN_LINK",
+			$ilToolbar->addButton($lng->txt("refresh_languages"),
 				$this->ctrl->getLinkTarget($this, "refresh"));
-			$this->tpl->setVariable("BTN_TXT",$this->lng->txt("refresh_languages"));
-			$this->tpl->parseCurrentBlock();
 		}
-		
-		$this->tpl->setCurrentBlock("btn_cell");
-		$this->tpl->setVariable("BTN_LINK",
+
+		// check languages
+		$ilToolbar->addButton($lng->txt("check_languages"),
 			$this->ctrl->getLinkTarget($this, "checkLanguage"));
-		$this->tpl->setVariable("BTN_TXT",$this->lng->txt("check_languages"));
-		$this->tpl->parseCurrentBlock();
 		
 		// extended language maintenance
 		if ($rbacsystem->checkAccess("write",$this->object->getRefId()))
 		{
 			if ($ilSetting->get("lang_ext_maintenance") == "1")
 			{
-				$this->tpl->setCurrentBlock("btn_cell");
-				$this->tpl->setVariable("BTN_LINK",
+				$ilToolbar->addButton($lng->txt("disable_ext_lang_maint"),
 					$this->ctrl->getLinkTarget($this, "disableExtendedLanguageMaintenance"));
-				$this->tpl->setVariable("BTN_TXT",$this->lng->txt("disable_ext_lang_maint"));
-				$this->tpl->parseCurrentBlock();
 			}
 			else
 			{
-				$this->tpl->setCurrentBlock("btn_cell");
-				$this->tpl->setVariable("BTN_LINK",
+				$ilToolbar->addButton($lng->txt("enable_ext_lang_maint"),
 					$this->ctrl->getLinkTarget($this, "enableExtendedLanguageMaintenance"));
-				$this->tpl->setVariable("BTN_TXT",$this->lng->txt("enable_ext_lang_maint"));
-				$this->tpl->parseCurrentBlock();
 			}
 		}
 
