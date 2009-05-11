@@ -90,6 +90,16 @@ class ilStr
 			return strtoupper($a_string);
 		}		
 	}
+	
+	/**
+	* Compare two strings
+	*/
+	function strCmp($a, $b)
+	{
+//echo "<br>-$a-$b-".strcoll(ilStr::strToUpper($a), ilStr::strToUpper($b))."-";
+		return (strcoll(ilStr::strToUpper($a), ilStr::strToUpper($b)) > 0);
+	}
+	
 
 } // END class.ilUtil
 ?>

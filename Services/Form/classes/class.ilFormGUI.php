@@ -193,18 +193,18 @@ class ilFormGUI
 	function getHTML()
 	{
 		$tpl = new ilTemplate("tpl.form.html", true, true, "Services/Form");
-		if ($this->getTarget() != "")
-		{
-			$tpl->setCurrentBlock("form_target");
-			$tpl->setVariable("FORM_TARGET", $this->getTarget());
-			$tpl->parseCurrentBlock();
-		}
 		
 		// this line also sets multipart, so it must be before the multipart check
 		$content = $this->getContent();
 		if ($this->getOpenTag())
 		{
 			$opentpl = new ilTemplate('tpl.form_open.html', true, true, "Services/Form");
+			if ($this->getTarget() != "")
+			{
+				$opentpl->setCurrentBlock("form_target");
+				$opentpl->setVariable("FORM_TARGET", $this->getTarget());
+				$opentpl->parseCurrentBlock();
+			}
 			if ($this->getMultipart())
 			{
 				$opentpl->touchBlock("multipart");
