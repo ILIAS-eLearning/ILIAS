@@ -6368,6 +6368,13 @@ function loadQuestions($active_id = "", $pass = NULL)
 		$newObj->mark_schema = clone $this->mark_schema;
 		$newObj->saveToDb();
 		
+		// clone certificate
+		include_once "./Services/Certificate/classes/class.ilCertificate.php";
+		include_once "./Modules/Test/classes/class.ilTestCertificateAdapter.php";
+		$cert = new ilCertificate(new ilTestCertificateAdapter($this));
+		$newcert = new ilCertificate(new ilTestCertificateAdapter($newObj));
+		$cert->cloneCertificate($newcert);
+		
 		if ($this->isRandomTest())
 		{
 			$newObj->saveRandomQuestionCount($newObj->getRandomQuestionCount());

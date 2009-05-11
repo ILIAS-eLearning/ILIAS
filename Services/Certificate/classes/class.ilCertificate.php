@@ -210,6 +210,32 @@ class ilCertificate
 	}
 
 	/**
+	* Clone the certificate for another test object
+	*
+	* @param $newObject The new certificate object
+	*/
+	public function cloneCertificate($newObject)
+	{
+		$xsl = $this->getXSLPath();
+		$bgimage = $this->getBackgroundImagePath();
+		$bgimagethumb = $this->getBackgroundImageThumbPath();
+		$certificatepath = $this->getAdapter()->getCertificatePath();
+		
+		$new_xsl = $newObject->getXSLPath();
+		$new_bgimage = $newObject->getBackgroundImagePath();
+		$new_bgimagethumb = $newObject->getBackgroundImageThumbPath();
+		$new_certificatepath = $newObject->getAdapter()->getCertificatePath();
+		
+		if (@file_exists($xsl))
+		{
+			ilUtil::makeDirParents($new_certificatepath);
+			@copy($xsl, $new_xsl);
+			if (@file_exists($bgimage)) @copy($bgimage, $new_bgimage);
+			if (@file_exists($bgimagethumb)) @copy($bgimagethumb, $new_bgimagethumb);
+		}
+	}
+
+	/**
 	* Deletes the certificate and all it's data
 	*
 	* @access public
