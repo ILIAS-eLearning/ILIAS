@@ -9053,6 +9053,7 @@ common#:#bookings#:#Bestellungen
 assessment#:#assFileUpload#:#Datei hochladen
 assessment#:#allowedextensions#:#Erlaubte Dateierweiterungen
 assessment#:#allowedextensions_info#:#Geben Sie eine kommagetrennte Liste der erlaubten Dateierweiterungen an, wenn Sie das Hochladen auf bestimmte Dateitypen einschränken wollen (z.B. doc,xls,odt).
+assessment#:#file_uploads#:#Hochgeladene Dateien
 assessment#:#maxsize#:#Maximale Dateigröße
 assessment#:#maxsize_info#:#Geben Sie die maximale Größe in Bytes an, die eine hochgeladene Datei haben darf. Wenn Sie das Feld leer lassen, wird die Einstellung des zugrunde liegenden Systems verwendet.
 forum#:#frm_sure_delete_threads#:#Sind Sie sicher, dass die folgenden Themen gelöscht werden sollen?

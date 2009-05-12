@@ -9072,6 +9072,7 @@ common#:#chat_invite_public_room_tooltip#:#Invite to public chat.
 assessment#:#assFileUpload#:#File Upload Question
 assessment#:#allowedextensions#:#Allowed File Extensions
 assessment#:#allowedextensions_info#:#Enter a comma separated list of allowed file extensions if you want to restrict the upload to a given set of file extensions (e.g. doc,xls,odt).
+assessment#:#file_uploads#:#File Uploads
 assessment#:#maxsize#:#Maximum file upload size 
 assessment#:#maxsize_info#:#Enter the maximum size in bytes that should be allowed for file uploads. If you leave this field empty, the maximum size of this installation will be chosen instead.
 common#:#save_customer_address#:#Store billing address

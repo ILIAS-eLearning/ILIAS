@@ -403,9 +403,10 @@ class assFileUpload extends assQuestion
 	/**
 	* Returns the filesystem path for file uploads
 	*/
-	protected function getFileUploadPath()
+	protected function getFileUploadPath($test_id, $active_id, $question_id = null)
 	{
-		return CLIENT_WEB_DIR . "/assessment/$this->obj_id/$this->id/files/";
+		if (is_null($question_id)) $question_id = $this->getId();
+		return CLIENT_WEB_DIR . "/assessment/tst_$test_id/$active_id/$question_id/files/";
 	}
 
 	/**
@@ -413,10 +414,11 @@ class assFileUpload extends assQuestion
 	*
 	* @access public
 	*/
-	function getFileUploadPathWeb()
+	function getFileUploadPathWeb($test_id, $active_id, $question_id = null)
 	{
+		if (is_null($question_id)) $question_id = $this->getId();
 		include_once "./Services/Utilities/classes/class.ilUtil.php";
-		$webdir = ilUtil::removeTrailingPathSeparators(CLIENT_WEB_DIR) . "/assessment/$this->obj_id/$this->id/files/";
+		$webdir = ilUtil::removeTrailingPathSeparators(CLIENT_WEB_DIR) . "/assessment/tst_$test_id/$active_id/$question_id/files/";
 		return str_replace(ilUtil::removeTrailingPathSeparators(ILIAS_ABSOLUTE_PATH), ilUtil::removeTrailingPathSeparators(ILIAS_HTTP_PATH), $webdir);
 	}
 
@@ -447,10 +449,22 @@ class assFileUpload extends assQuestion
 	*/
 	public function getUploadedFilesForWeb($active_id, $pass)
 	{
+		global $ilDB;
+		
 		$found = $this->getUploadedFiles($active_id, $pass);
-		foreach ($found as $idx => $data)
+		$result = $ilDB->queryF("SELECT test_fi FROM tst_active WHERE active_id = %s",
+			array('integer'),
+			array($active_id)
+		);
+		if ($result->numRows() == 1)
 		{
-			$found[$idx]['webpath'] = $this->getFileUploadPathWeb();
+			$row = $ilDB->fetchAssoc($result);
+			$test_id = $row["test_fi"];
+			$path = $this->getFileUploadPathWeb($test_id, $active_id);
+			foreach ($found as $idx => $data)
+			{
+				$found[$idx]['webpath'] = $path;
+			}
 		}
 		return $found;
 	}
@@ -460,7 +474,7 @@ class assFileUpload extends assQuestion
 	*
   * @param array Array with ID's of the file datasets
 	*/
-	protected function deleteUploadedFiles($files)
+	protected function deleteUploadedFiles($files, $test_id, $active_id)
 	{
 		global $ilDB;
 		
@@ -477,7 +491,7 @@ class assFileUpload extends assQuestion
 				$data = $ilDB->fetchAssoc($result);
 				$pass = $data['pass'];
 				$active_id = $data['active_fi'];
-				@unlink($this->getFileUploadPath() . $data['value1']);
+				@unlink($this->getFileUploadPath($test_id, $active_id) . $data['value1']);
 			}
 		}
 		foreach ($files as $solution_id)
@@ -542,6 +556,17 @@ class assFileUpload extends assQuestion
 			$pass = ilObjTest::_getPass($active_id);
 		}
 
+		$result = $ilDB->queryF("SELECT test_fi FROM tst_active WHERE active_id = %s",
+			array('integer'),
+			array($active_id)
+		);
+		$test_id = 0;
+		if ($result->numRows() == 1)
+		{
+			$row = $ilDB->fetchAssoc($result);
+			$test_id = $row["test_fi"];
+		}
+
 		$entered_values = false;
 
 		if (strcmp($_POST['cmd']['gotoquestion'], $this->lng->txt('delete')) == 0)
@@ -549,7 +574,7 @@ class assFileUpload extends assQuestion
 			$deletefiles = $_POST['file'];
 			if (is_array($deletefiles) && count($deletefiles) > 0)
 			{
-				$this->deleteUploadedFiles($deletefiles);
+				$this->deleteUploadedFiles($deletefiles, $test_id, $active_id);
 			}
 			else
 			{
@@ -562,12 +587,12 @@ class assFileUpload extends assQuestion
 			{
 				if ($this->checkUpload())
 				{
-					if (!@file_exists($this->getFileUploadPath())) ilUtil::makeDirParents($this->getFileUploadPath());
+					if (!@file_exists($this->getFileUploadPath($test_id, $active_id))) ilUtil::makeDirParents($this->getFileUploadPath($test_id, $active_id));
 					$version = time();
 					$filename_arr = pathinfo($_FILES["upload"]["name"]);
 					$extension = $filename_arr["extension"];
 					$newfile = "file_" . $active_id . "_" . $pass . "_" . $version . "." . $extension;
-					ilUtil::moveUploadedFile($_FILES["upload"]["tmp_name"], $_FILES["upload"]["name"], $this->getFileUploadPath() . $newfile);
+					ilUtil::moveUploadedFile($_FILES["upload"]["tmp_name"], $_FILES["upload"]["name"], $this->getFileUploadPath($test_id, $active_id) . $newfile);
 					$next_id = $ilDB->nextId('tst_solutions');
 					$affectedRows = $ilDB->manipulateF("INSERT INTO tst_solutions (solution_id, active_fi, question_fi, value1, value2, pass, tstamp) VALUES (%s, %s, %s, %s, %s, %s, %s)", 
 						array("integer","integer", "integer", "text", "text", "integer","integer"),
@@ -808,6 +833,73 @@ class assFileUpload extends assQuestion
 		}
 	}
 	
+	/**
+	* Checks if file uploads exist for a given test and the original id of the question
+	*
+	* @return boolean TRUE if file uploads exist, FALSE otherwise
+	*/
+	public function hasFileUploads($test_id)
+	{
+		global $ilDB;
+		$result = $ilDB->queryF("SELECT tst_solutions.solution_id FROM tst_solutions, tst_active, qpl_questions WHERE tst_solutions.active_fi = tst_active.active_id AND tst_solutions.question_fi = qpl_questions.question_id AND qpl_questions.original_id = %s AND tst_active.test_fi = %s",
+			array("integer", "integer"),
+			array($this->getId(), $test_id)
+		);
+		if ($result->numRows() > 0)
+		{
+			return true;
+		}
+		else
+		{
+			return false;
+		}
+	}
+	
+	/**
+	* Generates a ZIP file containing all file uploads for a given test and the original id of the question
+	*/
+	public function getFileUploadZIPFile($test_id)
+	{
+		global $ilDB, $ilLog;
+		$result = $ilDB->queryF("SELECT tst_solutions.solution_id, tst_solutions.pass, tst_solutions.active_fi, tst_solutions.question_fi, tst_solutions.value1, tst_solutions.value2, tst_solutions.tstamp FROM tst_solutions, tst_active, qpl_questions WHERE tst_solutions.active_fi = tst_active.active_id AND tst_solutions.question_fi = qpl_questions.question_id AND qpl_questions.original_id = %s AND tst_active.test_fi = %s ORDER BY tst_solutions.active_fi, tst_solutions.tstamp",
+			array("integer", "integer"),
+			array($this->getId(), $test_id)
+		);
+		$zipfile = ilUtil::ilTempnam() . ".zip";
+		$tempdir = ilUtil::ilTempnam();
+		if ($result->numRows())
+		{
+			$userdata = array();
+			$data .= "<html><head>";
+			$data .= '<meta http-equiv="content-type" content="text/html; charset=UTF-8" />';
+			$data .= "<title>" . $this->getTitle() . "</title></head><body>\n";
+			$data .= "<h1>" . $this->getTitle() . "</h1>\n";
+			$data .= "<table><thead>\n";
+			$data .= "<tr><th>" . $this->lng->txt("name") . "</th><th>" . $this->lng->txt("filename") . "</th><th>" . $this->lng->txt("pass") . "</th><th>" . $this->lng->txt("location") . "</th></tr></thead><tbody>\n";
+			while ($row = $ilDB->fetchAssoc($result))
+			{
+				ilUtil::makeDirParents($tempdir . "/" . $row["active_fi"]."/".$row["question_fi"]);
+				@copy($this->getFileUploadPath($test_id, $row["active_fi"], $row["question_fi"]) . $row["value1"], $tempdir . "/" . $row["active_fi"]."/".$row["question_fi"] . "/" . $row["value1"]);
+				if (!array_key_exists($row["active_fi"], $userdata))
+				{
+					include_once "./Modules/Test/classes/class.ilObjTestAccess.php";
+					$userdata[$row["active_fi"]] = ilObjTestAccess::_getParticipantData($row["active_fi"]);
+				}
+				$data .= "<tr><td>".$userdata[$row["active_fi"]]."</td><td><a href=\"".$row["active_fi"]."/".$row["question_fi"]."/".$row["value1"]."\">".$row["value2"]."</a></td><td>".$row["pass"]."</td><td>".$row["active_fi"]."/".$row["question_fi"]."/".$row["value1"]."</td></tr>\n";
+			}
+			$data .= "</tbody></table>\n";
+			$data .= "</body></html>\n";
+
+			$indexfile = $tempdir . "/index.html";
+			$fh = fopen($indexfile, 'w');
+			fwrite($fh, $data);
+			fclose($fh);
+//			echo $data;
+		}
+		ilUtil::zip($tempdir, $zipfile);
+		ilUtil::delDir($tempdir);
+		ilUtil::deliverFile($zipfile, ilUtil::getASCIIFilename($this->getTitle().".zip"), "application/zip", false, true);
+	}
 }
 
 ?>
