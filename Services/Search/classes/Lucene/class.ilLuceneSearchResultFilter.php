@@ -196,11 +196,12 @@ class ilLuceneSearchResultFilter
 	 */
 	public function filter()
 	{
-		global $ilAccess,$ilLog;
+		global $ilAccess,$ilLog,$tree;
 
 		// get ref_ids and check access
 		$counter = 0;
 		$offset_counter = 0;
+		
 		foreach($this->getCandidates() as $obj_id)
 		{
 			// Check referenced objects
@@ -209,6 +210,7 @@ class ilLuceneSearchResultFilter
 				// Check filter
 				if(!$this->checkFilter($ref_id))
 				{
+					$this->cache->appendToFailed($ref_id);
 					continue;
 				}
 
@@ -222,9 +224,9 @@ class ilLuceneSearchResultFilter
 				{
 					$ilLog->write(__METHOD__.': Result was checked.');
 					$offset_counter++;
-					continue;
+					break;
 				}
-
+				
 				// RBAC check
 				if($ilAccess->checkAccessOfUser($this->getUserId(),
 													  $this->getRequiredPermission(),
@@ -238,6 +240,10 @@ class ilLuceneSearchResultFilter
 					$this->append($ref_id,$obj_id);
 					$this->cache->appendToChecked($ref_id,$obj_id);
 					break;
+				}
+				else
+				{
+					$this->cache->appendToFailed($ref_id);
 				}
 			}
 			if($counter >= $this->settings->getMaxHits())
