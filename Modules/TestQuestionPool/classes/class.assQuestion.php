@@ -1288,7 +1288,6 @@ class assQuestion
 		{
 			return true; // nothing to do
 		}
-
 		try
 		{
 			$this->deletePageOfQuestion($question_id);
@@ -1370,8 +1369,11 @@ class assQuestion
 			foreach($mobs as $mob)
 			{
 				ilObjMediaObject::_removeUsage($mob, "qpl:html", $question_id);
-				$mob_obj =& new ilObjMediaObject($mob);
-				$mob_obj->delete();
+				if (ilObjMediaObject::_exists($mob))
+				{
+					$mob_obj =& new ilObjMediaObject($mob);
+					$mob_obj->delete();
+				}
 			}
 		}
 		catch (Exception $e)
@@ -2542,11 +2544,14 @@ class assQuestion
 				$moblabel = "il_" . IL_INST_ID . "_mob_" . $mob;
 				if (strpos($a_material, "mm_$mob") !== FALSE)
 				{
-					$mob_obj =& new ilObjMediaObject($mob);
-					$imgattrs = array(
-						"label" => $moblabel,
-						"uri" => "objects/" . "il_" . IL_INST_ID . "_mob_" . $mob . "/" . $mob_obj->getTitle()
-					);
+					if (ilObjMediaObject::_exists($mob))
+					{
+						$mob_obj =& new ilObjMediaObject($mob);
+						$imgattrs = array(
+							"label" => $moblabel,
+							"uri" => "objects/" . "il_" . IL_INST_ID . "_mob_" . $mob . "/" . $mob_obj->getTitle()
+						);
+					}
 					$a_xml_writer->xmlElement("matimage", $imgattrs, NULL);
 				}
 			}

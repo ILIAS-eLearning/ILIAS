@@ -658,8 +658,11 @@ class ilObjTest extends ilObject
 		foreach($mobs as $mob)
 		{
 			ilObjMediaObject::_removeUsage($mob, "tst:html", $this->getId());
-			$mob_obj =& new ilObjMediaObject($mob);
-			$mob_obj->delete();
+			if (ilObjMediaObject::_exists($mob))
+			{
+				$mob_obj =& new ilObjMediaObject($mob);
+				$mob_obj->delete();
+			}
 		}
 	}
 
@@ -6015,10 +6018,13 @@ function loadQuestions($active_id = "", $pass = NULL)
 		foreach ($this->mob_ids as $mob_id)
 		{
 			$expLog->write(date("[y-m-d H:i:s] ")."Media Object ".$mob_id);
-			$media_obj = new ilObjMediaObject($mob_id);
-			$media_obj->exportXML($a_xml_writer, $a_inst);
-			$media_obj->exportFiles($a_target_dir);
-			unset($media_obj);
+			if (ilObjMediaObject::_exists($mob_id))
+			{
+				$media_obj = new ilObjMediaObject($mob_id);
+				$media_obj->exportXML($a_xml_writer, $a_inst);
+				$media_obj->exportFiles($a_target_dir);
+				unset($media_obj);
+			}
 		}
 	}
 
@@ -8439,11 +8445,14 @@ function loadQuestions($active_id = "", $pass = NULL)
 			$moblabel = "il_" . IL_INST_ID . "_mob_" . $mob;
 			if (strpos($a_material, "mm_$mob") !== FALSE)
 			{
-				$mob_obj =& new ilObjMediaObject($mob);
-				$imgattrs = array(
-					"label" => $moblabel,
-					"uri" => "objects/" . "il_" . IL_INST_ID . "_mob_" . $mob . "/" . $mob_obj->getTitle()
-				);
+				if (ilObjMediaObject::_exists($mob))
+				{
+					$mob_obj =& new ilObjMediaObject($mob);
+					$imgattrs = array(
+						"label" => $moblabel,
+						"uri" => "objects/" . "il_" . IL_INST_ID . "_mob_" . $mob . "/" . $mob_obj->getTitle()
+					);
+				}
 				$a_xml_writer->xmlElement("matimage", $imgattrs, NULL);
 			}
 		}
@@ -8980,7 +8989,6 @@ function loadQuestions($active_id = "", $pass = NULL)
 			$html = str_replace("&nbsp;", "&#160;", $html);
 			$html = str_replace("&otimes;", "X", $html);
 		}
-		
 		// remove the following two lines if the new HTML2PDF RPC function works
 		$this->deliverPDFfromFO($this->processPrintoutput2FO($html), $title);
 		return;

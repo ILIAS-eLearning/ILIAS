@@ -264,6 +264,7 @@ class ilObjQuestionPool extends ilObject
 	function deleteQuestion($question_id)
 	{
 		include_once "./Modules/Test/classes/class.ilObjTest.php";
+		
 		$question =& ilObjTest::_instanciateQuestion($question_id);
 		$question->delete($question_id);
 	}
@@ -794,10 +795,13 @@ class ilObjQuestionPool extends ilObject
 		foreach ($this->mob_ids as $mob_id)
 		{
 			$expLog->write(date("[y-m-d H:i:s] ")."Media Object ".$mob_id);
-			$media_obj = new ilObjMediaObject($mob_id);
-			$media_obj->exportXML($a_xml_writer, $a_inst);
-			$media_obj->exportFiles($a_target_dir);
-			unset($media_obj);
+			if (ilObjMediaObject::_exists($mob_id))
+			{
+				$media_obj = new ilObjMediaObject($mob_id);
+				$media_obj->exportXML($a_xml_writer, $a_inst);
+				$media_obj->exportFiles($a_target_dir);
+				unset($media_obj);
+			}
 		}
 	}
 

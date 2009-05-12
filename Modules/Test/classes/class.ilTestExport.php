@@ -891,18 +891,24 @@ class ilTestExport
 		$mobs = ilObjMediaObject::_getMobsOfObject("tst:html", $this->test_obj->getId());
 		foreach ($mobs as $mob)
 		{
-			$mob_obj =& new ilObjMediaObject($mob);
-			$mob_obj->exportFiles($a_export_dir);
-			unset($mob_obj);
+			if (ilObjMediaObject::_exists($mob))
+			{
+				$mob_obj =& new ilObjMediaObject($mob);
+				$mob_obj->exportFiles($a_export_dir);
+				unset($mob_obj);
+			}
 		}
 		foreach ($this->test_obj->questions as $question_id)
 		{
 			$mobs = ilObjMediaObject::_getMobsOfObject("qpl:html", $question_id);
 			foreach ($mobs as $mob)
 			{
-				$mob_obj =& new ilObjMediaObject($mob);
-				$mob_obj->exportFiles($a_export_dir);
-				unset($mob_obj);
+				if (ilObjMediaObject::_exists($mob))
+				{
+					$mob_obj =& new ilObjMediaObject($mob);
+					$mob_obj->exportFiles($a_export_dir);
+					unset($mob_obj);
+				}
 			}
 		}
 	}
