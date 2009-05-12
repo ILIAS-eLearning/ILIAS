@@ -231,9 +231,12 @@ class ilRTE
 				{
 					foreach ($matches[2] as $idx => $mob)
 					{
-						$mob_obj =& new ilObjMediaObject($mob);
-						$replace = "il_" . $matches[1][$idx] . "_mob_" . $mob;
-						$resulttext = str_replace("src=\"$replace\"", "src=\"" . ILIAS_HTTP_PATH . "/data/" . CLIENT_ID . "/mobs/mm_" . $mob . "/" . $mob_obj->getTitle() . "\"", $resulttext);
+						if (ilObjMediaObject::_exists($mob))
+						{
+							$mob_obj =& new ilObjMediaObject($mob);
+							$replace = "il_" . $matches[1][$idx] . "_mob_" . $mob;
+							$resulttext = str_replace("src=\"$replace\"", "src=\"" . ILIAS_HTTP_PATH . "/data/" . CLIENT_ID . "/mobs/mm_" . $mob . "/" . $mob_obj->getTitle() . "\"", $resulttext);
+						}
 					}
 				}
 				$a_text = $resulttext;

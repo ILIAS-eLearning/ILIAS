@@ -197,9 +197,12 @@ class ilQuestionpoolExport
 			$mobs = ilObjMediaObject::_getMobsOfObject("qpl:html", $question_id);
 			foreach ($mobs as $mob)
 			{
-				$mob_obj =& new ilObjMediaObject($mob);
-				$mob_obj->exportFiles($a_export_dir);
-				unset($mob_obj);
+				if (ilObjMediaObject::_exists($mob))
+				{
+					$mob_obj =& new ilObjMediaObject($mob);
+					$mob_obj->exportFiles($a_export_dir);
+					unset($mob_obj);
+				}
 			}
 		}
 	}

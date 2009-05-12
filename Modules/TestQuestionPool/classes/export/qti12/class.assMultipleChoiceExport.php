@@ -144,10 +144,10 @@ class assMultipleChoiceExport extends assQuestionExport
 				"ident" => $index
 			);
 			$a_xml_writer->xmlStartTag("response_label", $attrs);
-			$this->object->addQTIMaterial($a_xml_writer, $answer->getAnswertext(), FALSE, FALSE);
 			
 			if (strlen($answer->getImage()))
 			{
+				$this->object->addQTIMaterial($a_xml_writer, $answer->getAnswertext(), FALSE, FALSE);
 				$imagetype = "image/jpeg";
 				if (preg_match("/.*\.(png|gif)$/", $answer->getImage(), $matches))
 				{
@@ -179,8 +179,12 @@ class assMultipleChoiceExport extends assQuestionExport
 						$a_xml_writer->xmlElement("matimage", $attrs, $base64, FALSE, FALSE);
 					}
 				}
+				$a_xml_writer->xmlEndTag("material");
 			}
-			$a_xml_writer->xmlEndTag("material");
+			else
+			{
+				$this->object->addQTIMaterial($a_xml_writer, $answer->getAnswertext());
+			}
 			$a_xml_writer->xmlEndTag("response_label");
 		}
 		$a_xml_writer->xmlEndTag("render_choice");

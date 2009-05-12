@@ -50,7 +50,6 @@ class assMultipleChoiceImport extends assQuestionImport
 	function fromXML(&$item, &$questionpool_id, &$tst_id, &$tst_object, &$question_counter, &$import_mapping)
 	{
 		global $ilUser;
-
 		// empty session variable for imported xhtml mobs
 		unset($_SESSION["import_mob_xhtml"]);
 		$presentation = $item->getPresentation(); 
@@ -74,10 +73,22 @@ class assMultipleChoiceImport extends assQuestionImport
 							$foundimage = FALSE;
 							foreach ($rendertype->response_labels as $response_label)
 							{
-								$ident = $response_label->getIdent();
-								$answertext = "";
-								$answerimage = array();
-								foreach ($response_label->material as $mat)
+								$embedded = false;
+								for ($m = 0; $m < $mat->getMaterialCount(); $m++)
+								{
+									$foundmat = $mat->getMaterial($m);
+									if (strcmp($foundmat["type"], "mattext") == 0)
+									{
+									}
+									if (strcmp($foundmat["type"], "matimage") == 0)
+									{
+										if (strlen($foundmat["material"]->getEmbedded()))
+										{
+											$embedded = true;
+										}
+									}
+								}
+								if ($embedded)
 								{
 									for ($m = 0; $m < $mat->getMaterialCount(); $m++)
 									{
@@ -96,6 +107,10 @@ class assMultipleChoiceImport extends assQuestionImport
 											);
 										}
 									}
+								}
+								else
+								{
+									$answertext = $this->object->QTIMaterialToString($mat);
 								}
 								$answers[$ident] = array(
 									"answertext" => $answertext,

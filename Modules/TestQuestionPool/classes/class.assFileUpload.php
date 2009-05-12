@@ -894,7 +894,6 @@ class assFileUpload extends assQuestion
 			$fh = fopen($indexfile, 'w');
 			fwrite($fh, $data);
 			fclose($fh);
-//			echo $data;
 		}
 		ilUtil::zip($tempdir, $zipfile);
 		ilUtil::delDir($tempdir);
