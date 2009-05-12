@@ -9279,3 +9279,4 @@ search#:#lucene_err_colon#:#Felddeklarationen (:) muss mindestens ein Buchstabe 
 common#:#collapsed#:#Geschlossen
 common#:#tree#:#Baum
 common#:#list#:#Liste
+search#:#search_no_match_hint#:#Es wurden keine mit Ihrer Suchanfrage - <b>%s</b> - übereinstimmenden Dokumente gefunden.<br />Vorschläge:<br /><br />Vergewissern Sie sich, dass alle Wörter richtig geschrieben sind.<br />Probieren Sie andere Suchbegriffe.<br />Probieren Sie allgemeinere Suchbegriffe.<br />Probieren Sie weniger Suchbegriffe.
