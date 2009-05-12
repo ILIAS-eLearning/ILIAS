@@ -14,6 +14,7 @@
 			<parent id="fold">fold</parent>
 			<parent id="grp">grp</parent>
 			<parent id="recf">recf</parent>
+			<parent id="root">root</parent>
 		</object>
 		<object id="chac" class_name="ChatServer" dir="classes"
 			checkbox="0" inherit="0" translate="sys" rbac="1" system="1">

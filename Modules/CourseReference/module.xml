@@ -10,6 +10,7 @@
 			<subobj id="rolf" max="1">rolf</subobj>
 			<parent id="recf">recf</parent>
 			<parent id="cat">cat</parent>
+			<parent id="root">root</parent>
 		</object>
 	</objects>
 </module>
