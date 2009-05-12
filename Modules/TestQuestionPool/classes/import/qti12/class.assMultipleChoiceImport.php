@@ -73,44 +73,50 @@ class assMultipleChoiceImport extends assQuestionImport
 							$foundimage = FALSE;
 							foreach ($rendertype->response_labels as $response_label)
 							{
-								$embedded = false;
-								for ($m = 0; $m < $mat->getMaterialCount(); $m++)
+								$ident = $response_label->getIdent();
+								$answertext = "";
+								$answerimage = array();
+								foreach ($response_label->material as $mat)
 								{
-									$foundmat = $mat->getMaterial($m);
-									if (strcmp($foundmat["type"], "mattext") == 0)
-									{
-									}
-									if (strcmp($foundmat["type"], "matimage") == 0)
-									{
-										if (strlen($foundmat["material"]->getEmbedded()))
-										{
-											$embedded = true;
-										}
-									}
-								}
-								if ($embedded)
-								{
+									$embedded = false;
 									for ($m = 0; $m < $mat->getMaterialCount(); $m++)
 									{
 										$foundmat = $mat->getMaterial($m);
 										if (strcmp($foundmat["type"], "mattext") == 0)
 										{
-											$answertext .= $foundmat["material"]->getContent();
 										}
 										if (strcmp($foundmat["type"], "matimage") == 0)
 										{
-											$foundimage = TRUE;
-											$answerimage = array(
-												"imagetype" => $foundmat["material"]->getImageType(),
-												"label" => $foundmat["material"]->getLabel(),
-												"content" => $foundmat["material"]->getContent()
-											);
+											if (strlen($foundmat["material"]->getEmbedded()))
+											{
+												$embedded = true;
+											}
 										}
 									}
-								}
-								else
-								{
-									$answertext = $this->object->QTIMaterialToString($mat);
+									if ($embedded)
+									{
+										for ($m = 0; $m < $mat->getMaterialCount(); $m++)
+										{
+											$foundmat = $mat->getMaterial($m);
+											if (strcmp($foundmat["type"], "mattext") == 0)
+											{
+												$answertext .= $foundmat["material"]->getContent();
+											}
+											if (strcmp($foundmat["type"], "matimage") == 0)
+											{
+												$foundimage = TRUE;
+												$answerimage = array(
+													"imagetype" => $foundmat["material"]->getImageType(),
+													"label" => $foundmat["material"]->getLabel(),
+													"content" => $foundmat["material"]->getContent()
+												);
+											}
+										}
+									}
+									else
+									{
+										$answertext = $this->object->QTIMaterialToString($mat);
+									}
 								}
 								$answers[$ident] = array(
 									"answertext" => $answertext,
