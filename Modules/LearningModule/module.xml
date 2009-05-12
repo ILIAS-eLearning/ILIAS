@@ -18,6 +18,7 @@
 			<parent id="fold">fold</parent>
 			<parent id="grp">grp</parent>
 			<parent id="recf">recf</parent>
+			<parent id="root">root</parent>
 		</object>
 		<object id="dbk" class_name="DlBook" dir="classes" checkbox="1"
 			inherit="1" translate="0" allow_link="1" rbac="1" group="lres"
@@ -28,6 +29,7 @@
 			<parent id="fold">fold</parent>
 			<parent id="grp">grp</parent>
 			<parent id="recf">recf</parent>
+			<parent id="root">root</parent>
 		</object>
 		<object id="lrss" class_name="LearningResourcesSettings" dir="classes"
 			checkbox="0" inherit="0" translate="sys" rbac="1" system="1">

@@ -9,6 +9,7 @@
 			<parent id="cat">cat</parent>
 			<parent id="crs">crs</parent>
 			<parent id="grp">grp</parent>
+			<parent id="root">root</parent>
 		</object>
 	</objects>
 </module>

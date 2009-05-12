@@ -12,6 +12,7 @@
 			<parent id="grp">grp</parent>
 			<parent id="fold">fold</parent>
 			<parent id="recf">recf</parent>
+			<parent id="root">root</parent>
 		</object>
 	</objects>
 </module>

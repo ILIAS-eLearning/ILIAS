@@ -10,6 +10,7 @@
 			<parent id="cat">cat</parent>
 			<parent id="crs">crs</parent>
 			<parent id="grp">grp</parent>
+			<parent id="root">root</parent>
 		</object>
 		<object id="icla" class_name="iLincClassroom" dir="classes" default_pos="240" default_pres_pos="60"
 			checkbox="0" inherit="0" translate="0" rbac="0" devmode="0">

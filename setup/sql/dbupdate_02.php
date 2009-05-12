@@ -12098,3 +12098,8 @@ if (!$ilDB->tableExists("page_editor_settings"))
 	$ilDB->addPrimaryKey('page_editor_settings', array('settings_grp', 'name'));
 }
 ?>
+<#2408>
+<?php
+$ilCtrlStructureReader->getStructure();
+?>
+
