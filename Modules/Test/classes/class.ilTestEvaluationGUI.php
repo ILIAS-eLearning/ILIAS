@@ -585,6 +585,25 @@ class ilTestEvaluationGUI extends ilTestServiceGUI
 		$this->getQuestionResultForTestUsers($_GET["qid"], $this->object->getTestId());
 	}
 	
+	/**
+	* Creates a ZIP file containing all file uploads for a given question in a test
+	*
+	* @access public
+	*/
+	function exportFileUploadsForAllParticipants()
+	{
+		$question_object =& ilObjTest::_instanciateQuestion($_GET["qid"]);
+		$download = "";
+		if (method_exists($question_object, "getFileUploadZIPFile"))
+		{
+			$question_object->getFileUploadZIPFile($this->object->getTestId());
+		}
+		else
+		{
+			$this->ctrl->redirect($this, "singleResults");
+		}
+	}
+	
 /**
 * Output of anonymous aggregated results for the test
 *
@@ -1470,77 +1489,64 @@ class ilTestEvaluationGUI extends ilTestServiceGUI
 		$foundParticipants =& $data->getParticipants();
 		if (count($foundParticipants) == 0)
 		{
-			$this->tpl->setCurrentBlock("no_participants");
-			$this->tpl->setVariable("NO_PARTICIPANTS", $this->lng->txt("tst_no_evaluation_data"));
-			$this->tpl->parseCurrentBlock();
-			$this->tpl->setVariable("TXT_SINGLE_ANSWERS", $this->lng->txt("tst_answered_questions"));
+			ilUtil::sendInfo($this->lng->txt("tst_no_evaluation_data"));
 			return;
 		}
-		$this->tpl->setVariable("TXT_SINGLE_ANSWERS", $this->lng->txt("tst_answered_questions"));
-
-		global $ilUser;
-		$maxentries = $ilUser->getPref("hits_per_page");
-		if ($maxentries < 1)
+		else
 		{
-			$maxentries = 9999;
-		}
-
-		$offset = ($_GET["offset"]) ? $_GET["offset"] : 0;
-		$orderdirection = ($_GET["sort_order"]) ? $_GET["sort_order"] : "asc";
-		$defaultOrderColumn = "name";
-		if ($this->object->getAnonymity()) $defaultOrderColumn = "counter";
-		$ordercolumn = ($_GET["sort_by"]) ? $_GET["sort_by"] : $defaultOrderColumn;
-
-		$counter = 0;
-		include_once("./Services/Table/classes/class.ilTableGUI.php");
-		$table = new ilTableGUI(0, FALSE);
-		$table->setTitle($this->lng->txt("tst_answered_questions_test"));
-		$table->setHeaderNames(array($this->lng->txt("question_title"), $this->lng->txt("number_of_answers"), $this->lng->txt("output")));
-
-		$table->enable("auto_sort");
-		$table->enable("sort");
-		$table->setLimit($maxentries);
-
-		$header_params = $this->ctrl->getParameterArray($this, "singleResults");
-		$header_vars = array("question_title", "number_of_answers", "export");
-		$table->setHeaderVars($header_vars, $header_params);
-		$table->setFooter("tblfooter", $this->lng->txt("previous"), $this->lng->txt("next"));
-
-		$table->setOffset($offset);
-		$table->setMaxCount(count($data->getQuestionTitles()));
-		$table->setOrderColumn($ordercolumn);
-		$table->setOrderDirection($orderdirection);
-		$rows = array();
-		foreach ($data->getQuestionTitles() as $question_id => $question_title)
-		{
-			$answered = 0;
-			$reached = 0;
-			$max = 0;
-			foreach ($foundParticipants as $userdata)
+			$rows = array();
+			foreach ($data->getQuestionTitles() as $question_id => $question_title)
 			{
-				$pass = $userdata->getScoredPass();
-				if (is_object($userdata->getPass($pass)))
+				$answered = 0;
+				$reached = 0;
+				$max = 0;
+				foreach ($foundParticipants as $userdata)
 				{
-					$question =& $userdata->getPass($pass)->getAnsweredQuestionByQuestionId($question_id);
-					if (is_array($question))
+					$pass = $userdata->getScoredPass();
+					if (is_object($userdata->getPass($pass)))
 					{
-						$answered++;
+						$question =& $userdata->getPass($pass)->getAnsweredQuestionByQuestionId($question_id);
+						if (is_array($question))
+						{
+							$answered++;
+						}
 					}
 				}
+				$counter++;
+				$this->ctrl->setParameter($this, "qid", $question_id);
+				$question_object =& ilObjTest::_instanciateQuestion($question_id);
+				$download = "";
+				if (method_exists($question_object, "hasFileUploads"))
+				{
+					if ($question_object->hasFileUploads($this->object->getTestId()))
+					{
+						$download = "<a href=\"" . $this->ctrl->getLinkTarget($this, "exportFileUploadsForAllParticipants"). "\">" . $this->lng->txt("download") . "</a>";
+					}
+				}
+				array_push($rows, 
+					array(
+							$question_title, 
+							$answered,
+							"<a href=\"" . $this->ctrl->getLinkTarget($this, "exportQuestionForAllParticipants"). "\">" . $this->lng->txt("pdf_export") . "</a>",
+							$download
+					)
+				);
 			}
-			$counter++;
-			$this->ctrl->setParameter($this, "qid", $question_id);
-			array_push($rows, 
-				array(
-						$question_title, 
-						$answered,
-						"<a href=\"" . $this->ctrl->getLinkTarget($this, "exportQuestionForAllParticipants"). "\">" . $this->lng->txt("pdf_export") . "</a>"
-				)
-			);
+			if (count($rows))
+			{
+				include_once("./Modules/Test/classes/class.ilResultsByQuestionTableGUI.php");
+				$table_gui = new ilResultsByQuestionTableGUI($this, "singleResults");
+
+				$table_gui->setTitle($this->lng->txt("tst_answered_questions_test"));
+				$table_gui->setData($rows);
+
+				$this->tpl->setVariable("TBL_SINGLE_ANSWERS", $table_gui->getHTML());
+			}
+			else
+			{
+				$this->tpl->setVariable("TBL_SINGLE_ANSWERS", $this->lng->txt("adm_no_special_users"));
+			}
 		}
-		$table->setData($rows);
-		$tableoutput = $table->render();
-		$this->tpl->setVariable("TBL_SINGLE_ANSWERS", $tableoutput);
 	}
 
 	/**
