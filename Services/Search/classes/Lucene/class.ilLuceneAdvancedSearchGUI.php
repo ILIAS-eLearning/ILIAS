@@ -103,7 +103,9 @@ class ilLuceneAdvancedSearchGUI extends ilSearchBaseGUI
 		$filter->loadFromDb();
 
 		// Highlight
-		$searcher->highlight($filter->getResultObjIds());
+		if($filter->getResultObjIds()) {
+			$searcher->highlight($filter->getResultObjIds());
+		}
 		
 		$this->tpl->addBlockFile('ADM_CONTENT','adm_content','tpl.lucene_adv_search.html','Services/Search');
 		include_once './Services/Search/classes/Lucene/class.ilLuceneSearchResultPresentation.php';

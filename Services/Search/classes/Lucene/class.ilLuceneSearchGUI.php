@@ -201,7 +201,7 @@ class ilLuceneSearchGUI extends ilSearchBaseGUI
 		
 		if(!$this->form->checkInput())
 		{
-			ilUtil::sendInfo($this->lng->txt('err_check_input'));
+			#ilUtil::sendInfo($this->lng->txt('err_check_input'));
 			$this->showSavedResults();
 			return false;
 		}

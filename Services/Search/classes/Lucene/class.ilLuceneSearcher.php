@@ -87,6 +87,12 @@ class ilLuceneSearcher
 	{
 		global $ilBench;
 
+		// TODO error handling
+		if(!$this->query_parser->getQuery())
+		{
+			return;
+		}
+
 		// Search in combined index
 		$ilBench->start('Lucene','SearchHighlight');
 		include_once './Services/Search/classes/Lucene/class.ilLuceneRPCAdapter.php';
