@@ -27,7 +27,7 @@ include_once './Services/PersonalDesktop/interfaces/interface.ilDesktopItemHandl
 include_once './Services/Administration/interfaces/interface.ilAdministrationCommandHandling.php';
 
 /** 
-* Lucene Search GUI
+* @classDescription GUI for simple Lucene search
 * 
 * @author Stefan Meyer <meyer@leifos.com>
 * @version $Id$
@@ -175,9 +175,9 @@ class ilLuceneSearchGUI extends ilSearchBaseGUI
 		{
 			$this->tpl->setVariable('SEARCH_RESULTS',$presentation->getHTML(true));
 		}
-		else
+		elseif(strlen($this->search_cache->getQuery()))
 		{
-			ilUtil::sendInfo($this->lng->txt('search_no_match'));
+			ilUtil::sendInfo(sprintf($this->lng->txt('search_no_match_hint'),$qp->getQuery()));
 		}
 		
 		// and finally add search form
@@ -265,7 +265,7 @@ class ilLuceneSearchGUI extends ilSearchBaseGUI
 		}
 		else
 		{
-			ilUtil::sendInfo($this->lng->txt('search_no_match'));
+			ilUtil::sendInfo(sprintf($this->lng->txt('search_no_match_hint'),$this->search_cache->getQuery()));
 		}
 		
 		// and finally add search form

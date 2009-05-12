@@ -9406,3 +9406,4 @@ content#:#cont_all_closed#:#All Closed
 content#:#cont_first_open#:#First Opened
 content#:#cont_force_all_open#:#Force All Opened
 content#:#cont_number_type#:#Number Type
+search#:#search_no_match_hint#:#Your search - <b>%s</b> - did not match any documents.<br /><br />Suggestions:<br />Make sure all words are spelled correctly.<br />Try different keywords.<br />Try more general keywords.<br />Try fewer keywords.
