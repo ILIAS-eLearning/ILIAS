@@ -3231,6 +3231,7 @@ common#:#previous#:#zurück
 common#:#print_view#:#Druckansicht
 common#:#print#:#Drucken
 common#:#private_notes#:#Private Notizen
+common#:#notes_and_comments#:#Notizen und Kommentare
 common#:#pro#:#Pro
 common#:#proceed#:#Fortfahren
 common#:#profile_changed#:#ILIAS eLearning - Ihre Profildaten wurden geändert
@@ -9144,7 +9145,6 @@ trac#:#trac_title_description#:#Titel / Beschreibung
 trac#:#trac_hide_selected#:#Ausgewählte Inhalte ausblenden
 search#:#search_select_search_area#:#Suchbereich ändern
 gmaps#:#gmaps_lookup_address#:#Adresse suchen
-common#:#notes_and_comments#:#Notizen und Kommentare
 ps#:#ps_error_message_invalid_password_min_length#:#Minimum password size may not be less than 0.###30 04 2009 new variable
 content#:#cont_tracking_byuser#:#By User###30 04 2009 new variable
 content#:#cont_tracking_bysco#:#By Chapter###30 04 2009 new variable
