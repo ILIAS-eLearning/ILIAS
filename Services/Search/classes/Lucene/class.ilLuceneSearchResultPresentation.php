@@ -181,6 +181,8 @@ class ilLuceneSearchResultPresentation
 	 */
 	protected function renderItemList()
 	{
+		global $tree;
+
 		$this->html = '';
 		
 		$this->newBockTemplate();
@@ -191,6 +193,11 @@ class ilLuceneSearchResultPresentation
 		$set = array();
 		foreach($this->getResults() as $ref_id => $res_data)
 		{
+			if(!$tree->isInTree($ref_id))
+			{
+				continue;
+			}
+			
 			$set[] = array("ref_id" => $ref_id, "obj_id" => $res_data);
 			$obj_id = $res_data;
 			#$obj_id = ilObject::_lookupObjId($res_data);
