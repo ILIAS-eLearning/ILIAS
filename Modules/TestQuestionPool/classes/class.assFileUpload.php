@@ -695,7 +695,19 @@ class assFileUpload extends assQuestion
 		include_once ("./classes/class.ilExcelUtils.php");
 		$worksheet->writeString($startrow, 0, ilExcelUtils::_convert_text($this->lng->txt($this->getQuestionType())), $format_title);
 		$worksheet->writeString($startrow, 1, ilExcelUtils::_convert_text($this->getTitle()), $format_title);
-		return $startrow + 1;
+		$i = 1;
+		$solutions = $this->getSolutionValues($active_id, $pass);
+		foreach ($solutions as $solution)
+		{
+			$worksheet->writeString($startrow + $i, 0, ilExcelUtils::_convert_text($this->lng->txt("result")), $format_bold);
+			if (strlen($solution["value1"]))
+			{
+				$worksheet->write($startrow + $i, 1, ilExcelUtils::_convert_text($solution["value1"]));
+				$worksheet->write($startrow + $i, 2, ilExcelUtils::_convert_text($solution["value2"]));
+			}
+			$i++;
+		}
+		return $startrow + $i + 1;
 	}
 	
 	/**
