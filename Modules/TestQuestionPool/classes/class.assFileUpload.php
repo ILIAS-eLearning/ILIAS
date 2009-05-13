@@ -430,9 +430,9 @@ class assFileUpload extends assQuestion
 	public function getUploadedFiles($active_id, $pass)
 	{
 		global $ilDB;
-		$result = $ilDB->queryF("SELECT * FROM tst_solutions WHERE active_fi = %s AND pass = %s ORDER BY tstamp",
-			array("integer", "integer"),
-			array($active_id, $pass)
+		$result = $ilDB->queryF("SELECT * FROM tst_solutions WHERE active_fi = %s AND question_fi = %s AND pass = %s ORDER BY tstamp",
+			array("integer", "integer", "integer"),
+			array($active_id, $this->getId(), $pass)
 		);
 		$found = array();
 		while ($data = $ilDB->fetchAssoc($result))
