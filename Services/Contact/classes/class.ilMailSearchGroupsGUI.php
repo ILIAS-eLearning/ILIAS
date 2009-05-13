@@ -303,18 +303,33 @@ class ilMailSearchGroupsGUI
 		$table = new ilMailSearchCoursesTableGUI($this, 'grp');
 		
 		$grp_ids = ilGroupParticipants::_getMembershipByType($ilUser->getId(), 'grp');
+		
 		$counter = 0;
 		$tableData = array();
 		if (is_array($grp_ids) &&
 			count($grp_ids) > 0)
 		{				
 	
+
 			foreach($grp_ids as $grp_id) 
 			{
 				if(ilObject::_hasUntrashedReference($grp_id))
 				{
 					$oGroupParticipants = ilGroupParticipants::_getInstanceByObjId($grp_id);
 					$grp_members = $oGroupParticipants->getParticipants();
+					
+					$cnt_members = 0;
+					foreach ($grp_members as $member)
+					{
+						$tmp_usr = new ilObjUser($member);
+						
+						if($tmp_usr->checkTimeLimit()== false || $tmp_usr->getActive() == false )
+						{
+							unset($grp_members[$cnt_members]);
+						}	
+						$cnt_members++;			
+					}
+					unset($tmp_usr);
 					
 					$ref_ids = ilObject::_getAllReferences($grp_id);
 					$ref_id = current($ref_ids);				
@@ -330,6 +345,7 @@ class ilMailSearchGroupsGUI
 						$path .= $data['title'];
 					}
 					$path = $this->lng->txt('path').': '.$path;
+					
 					$rowData = array
 					(
 						'CRS_ID' => $grp_id,
@@ -399,7 +415,8 @@ class ilMailSearchGroupsGUI
 					$grp_members = $group_obj->getGroupMemberData($group_obj->getGroupMemberIds());
 					
 					foreach($grp_members as $member)
-					{
+					{ 
+						
 						$fullname = "";
 						if(ilObjUser::_lookupPref($member['id'], 'public_profile') == 'y')
 							$fullname = $member['lastname'].', '.$member['firstname'];
