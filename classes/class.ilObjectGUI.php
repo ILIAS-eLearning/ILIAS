@@ -241,11 +241,11 @@ class ilObjectGUI
 		{
 			if ($this->call_by_reference)
 			{
-				$this->object =& $this->ilias->obj_factory->getInstanceByRefId($this->id);
+				$this->object = ilObjectFactory::getInstanceByRefId($this->id);
 			}
 			else
 			{
-				$this->object =& $this->ilias->obj_factory->getInstanceByObjId($this->id);
+				$this->object = ilObjectFactory::getInstanceByObjId($this->id);
 			}
 		}
 	}
@@ -255,7 +255,7 @@ class ilObjectGUI
 	*/
 	protected function prepareOutput()
 	{
-		global $ilLocator, $tpl;
+		global $ilLocator, $tpl, $ilUser;
 
 		$this->tpl->getStandardTemplate();
 		// administration prepare output
@@ -310,7 +310,7 @@ class ilObjectGUI
 			// BEGIN WebDAV: Display Mount Webfolder icon.
 			require_once 'Services/WebDAV/classes/class.ilDAVServer.php';
 			if (ilDAVServer::_isActive() && 
-				$this->ilias->account->getId() != ANONYMOUS_USER_ID)
+				$ilUser->getId() != ANONYMOUS_USER_ID)
 			{
 				$this->showMountWebfolderIcon();
 			}
@@ -324,14 +324,14 @@ class ilObjectGUI
 	/**
 	* called by prepare output
 	*/
-	private function setTitleAndDescription()
+	protected function setTitleAndDescription()
 	{
 		$this->tpl->setTitle($this->object->getPresentationTitle());
 		$this->tpl->setDescription($this->object->getLongDescription());
 		$this->tpl->setTitleIcon(ilUtil::getImagePath("icon_".$this->object->getType()."_b.gif"), $this->lng->txt("obj_" . $this->object->getType()));
 	}
 	
-	private function showUpperIcon()
+	final private function showUpperIcon()
 	{
 		global $tree, $tpl, $objDefinition;
 
@@ -380,7 +380,7 @@ class ilObjectGUI
 		}
 	}
 	// BEGIN WebDAV: Show Mount Webfolder Icon.
-	private function showMountWebfolderIcon()
+	final private function showMountWebfolderIcon()
 	{
 		global $tree, $tpl, $objDefinition;
 
@@ -398,7 +398,7 @@ class ilObjectGUI
 	* set admin tabs
 	* @access	public
 	*/
-	private function setTabs()
+	protected function setTabs()
 	{
 		$this->getTabs($this->tabs_gui);
 	}
@@ -407,7 +407,7 @@ class ilObjectGUI
 	* set admin tabs
 	* @access	public
 	*/
-	private function setAdminTabs()
+	final private function setAdminTabs()
 	{
 		$this->getAdminTabs($this->tabs_gui);
 	}
@@ -460,7 +460,7 @@ class ilObjectGUI
 	*
 	* @param	array		$a_actions		array with $command => $lang_var pairs
 	*/
-	private function setActions($a_actions = "")
+	final private function setActions($a_actions = "")
 	{
 		if (is_array($a_actions))
 		{
@@ -481,7 +481,7 @@ class ilObjectGUI
 	*
 	* @param	array		$a_actions		array with $command => $lang_var pairs
 	*/
-	private function setSubObjects($a_sub_objects = "")
+	final private function setSubObjects($a_sub_objects = "")
 	{
 		if (is_array($a_sub_objects))
 		{
@@ -838,7 +838,7 @@ class ilObjectGUI
 	* @access	public
 	* @return	string
 	*/
-	public function getFormAction($a_cmd, $a_formaction ="")
+/*	public function getFormAction($a_cmd, $a_formaction = "")
 	{
 		if ($this->formaction[$a_cmd] != "")
 		{
@@ -848,7 +848,7 @@ class ilObjectGUI
 		{
 			return $a_formaction;
 		}
-	}
+	}*/
 
 	/**
 	* set specific form action for command
@@ -858,10 +858,10 @@ class ilObjectGUI
 	*										formaction was set)
 	* @access	public 
 	*/
-	protected function setFormAction($a_cmd, $a_formaction)
+/*	protected function setFormAction($a_cmd, $a_formaction)
 	{
 		$this->formaction[$a_cmd] = $a_formaction;
-	}
+	}*/
 
 	/**
 	* get return location for command (command is method name without "Object", e.g. "perm")

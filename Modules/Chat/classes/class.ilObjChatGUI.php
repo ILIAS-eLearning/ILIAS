@@ -1731,7 +1731,7 @@ class ilObjChatGUI extends ilObjectGUI
 		$this->tpl->parseCurrentBlock();
 	}
 	
-	private function _goto($a_target)
+	public function _goto($a_target)
 	{
 		global $ilAccess, $ilErr, $lng;
 

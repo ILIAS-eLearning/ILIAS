@@ -3,7 +3,7 @@
 	+-----------------------------------------------------------------------------+
 	| ILIAS open source                                                           |
 	+-----------------------------------------------------------------------------+
-	| Copyright (c) 1998-2006 ILIAS open source, University of Cologne            |
+	| Copyright (c) 1998-2009 ILIAS open source, University of Cologne            |
 	|                                                                             |
 	| This program is free software; you can redistribute it and/or               |
 	| modify it under the terms of the GNU General Public License                 |
@@ -292,6 +292,80 @@ class ilObjMediaPool extends ilObject
 		return $objs;
 	}
 
+	/**
+	* Get media objects
+	*/
+	function getMediaObjects($a_title_filter = "", $a_format_filter = "")
+	{
+		global $ilDB;
+
+		$query = "SELECT DISTINCT mep_tree.*, object_data.* FROM mep_tree JOIN object_data ".
+			"ON (mep_tree.child = object_data.obj_id) ";
+			
+		if ($a_format_filter != "")
+		{
+			$query.= " JOIN media_item ON (media_item.mob_id = object_data.obj_id) ";
+		}
+			
+		$query .=
+			" WHERE mep_tree.mep_id = ".$ilDB->quote($this->getId(), "integer").
+			" AND object_data.type = ".$ilDB->quote("mob", "text");
+			
+		// filter
+		if (trim($a_title_filter) != "")	// title
+		{
+			$query.= " AND ".$ilDB->like("object_data.title", "text", "%".trim($a_title_filter)."%");
+		}
+		if ($a_format_filter != "")			// format
+		{
+			$filter = ($a_format_filter == "unknown")
+				? ""
+				: $a_format_filter;
+			$query.= " AND ".$ilDB->equals("media_item.format", $filter, "text", true);
+		}
+			
+		$query.=
+			" ORDER BY object_data.title";
+		
+		$objs = array();
+		$set = $ilDB->query($query);
+		while ($rec = $ilDB->fetchAssoc($set))
+		{
+			$objs[] = $rec;
+		}
+		return $objs;
+	}
+	
+	/**
+	* Get used formats
+	*/
+	function getUsedFormats()
+	{
+		global $ilDB, $lng;
+
+		$query = "SELECT DISTINCT media_item.format f FROM mep_tree ".
+			" JOIN object_data ON (mep_tree.child = object_data.obj_id) ".
+			" JOIN media_item ON (media_item.mob_id = object_data.obj_id) ".
+			" WHERE mep_tree.mep_id = ".$ilDB->quote($this->getId(), "integer").
+			" AND object_data.type = ".$ilDB->quote("mob", "text").
+			" ORDER BY f";
+		$formats = array();
+		$set = $ilDB->query($query);
+		while ($rec = $ilDB->fetchAssoc($set))
+		{
+			if ($rec["f"] != "")
+			{
+				$formats[$rec["f"]] = $rec["f"];
+			}
+			else
+			{
+				$formats["unknown"] = $lng->txt("mep_unknown");
+			}
+		}
+		
+		return $formats;
+	}
+	
 	function getParentId($obj_id = "")
 	{
 		if ($obj_id == "")

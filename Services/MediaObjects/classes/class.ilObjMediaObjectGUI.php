@@ -180,6 +180,11 @@ class ilObjMediaObjectGUI extends ilObjectGUI
 		
 		include_once("Services/Form/classes/class.ilPropertyFormGUI.php");
 		
+		if ($a_mode == "edit")
+		{
+			$std_item = $this->object->getMediaItem("Standard");
+		}
+
 		$this->form_gui = new ilPropertyFormGUI();
 		
 		// standard view resource
@@ -205,6 +210,7 @@ class ilObjMediaObjectGUI extends ilObjectGUI
 		if ($a_mode == "edit")
 		{
 			$format = new ilNonEditableValueGUI($lng->txt("cont_format"), "standard_format");
+			$format->setValue($std_item->getFormat());
 			$this->form_gui->addItem($format);
 		}
 		
@@ -212,7 +218,6 @@ class ilObjMediaObjectGUI extends ilObjectGUI
 		$radio_size = new ilRadioGroupInputGUI($lng->txt("size"), "standard_size");
 		if ($a_mode == "edit")
 		{
-			$std_item = $this->object->getMediaItem("Standard");
 			if ($orig_size = $std_item->getOriginalSize())
 			{
 				$add_str = " (".$orig_size["width"]." x ".$orig_size["height"].")";
@@ -275,6 +280,11 @@ class ilObjMediaObjectGUI extends ilObjectGUI
 				$this->form_gui->addItem($par);
 			}
 		}
+
+		if ($a_mode == "edit")
+		{
+			$full_item = $this->object->getMediaItem("Fullscreen");
+		}
 		
 		// fullscreen view resource
 		$fs_sec = new ilFormSectionHeaderGUI();
@@ -302,15 +312,18 @@ class ilObjMediaObjectGUI extends ilObjectGUI
 		// fullscreen format
 		if ($a_mode == "edit")
 		{
-			$format = new ilNonEditableValueGUI($lng->txt("cont_format"), "full_format");
-			$this->form_gui->addItem($format);
+			if ($this->object->hasFullscreenItem())
+			{
+				$format = new ilNonEditableValueGUI($lng->txt("cont_format"), "full_format");
+				$format->setValue($full_item->getFormat());
+				$this->form_gui->addItem($format);
+			}
 		}
 		
 		// fullscreen size
 		$radio_size = new ilRadioGroupInputGUI($lng->txt("size"), "full_size");
 		if ($a_mode == "edit")
 		{
-			$full_item = $this->object->getMediaItem("Fullscreen");
 			$add_str = "";
 			if ($this->object->hasFullscreenItem() && ($orig_size = $full_item->getOriginalSize()))
 			{
@@ -1550,8 +1563,11 @@ class ilObjMediaObjectGUI extends ilObjectGUI
 	/**
 	* set admin tabs
 	*/
-	function setAdminTabs()
+	//function setAdminTabs()
+	function setTabs()
 	{
+//echo "setAdminTabs should not be called.";
+
 		// catch feedback message
 		$this->getTabs($this->tabs_gui);
 
@@ -1571,6 +1587,7 @@ class ilObjMediaObjectGUI extends ilObjectGUI
 		}
 	}
 
+	
 	/**
 	* Get Tabs
 	*/

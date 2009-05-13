@@ -120,7 +120,9 @@ class ilPermissionGUI
 		/////////////////////
 		$this->__initSubTabs("perm");
 
-		$this->gui_obj->getTemplateFile("perm");
+//		$this->gui_obj->getTemplateFile("perm");
+		$this->tpl->addBlockFile("ADM_CONTENT", "adm_content",
+			"tpl.edit_permissions.html", "Services/AccessControl");
 
 		$this->num_roles = count($this->roles);
 
@@ -151,7 +153,7 @@ class ilPermissionGUI
 			));
 		$this->tpl->setVariable("COLSPAN", $this->num_roles);
 		$this->tpl->setVariable("FORMACTION",
-			$this->gui_obj->getFormAction("permSave",$this->ctrl->getLinkTarget($this,"permSave")));
+			$this->ctrl->getLinkTarget($this,"permSave"));
 		$this->tpl->setVariable("TXT_SAVE", $this->lng->txt("save"));
 		
 		// needed for display correct role context of global roles
@@ -723,7 +725,8 @@ class ilPermissionGUI
 				$this->tpl->setVariable(strtoupper($key), $val);
 			}
 
-			$this->tpl->setVariable("FORMACTION_LR",$this->gui_obj->getFormAction("addRole", $this->ctrl->getLinkTarget($this, "addRole")));
+			$this->tpl->setVariable("FORMACTION_LR",
+				$this->ctrl->getLinkTarget($this, "addRole"));
 			$this->tpl->setVariable("TXT_LR_HEADER", $this->lng->txt("you_may_add_local_roles"));
 			$this->tpl->setVariable("TXT_ADD_ROLE", $this->lng->txt("role_add_local"));
 			$this->tpl->setVariable("TXT_REQUIRED_FLD", $this->lng->txt("required_field"));

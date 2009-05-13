@@ -375,7 +375,7 @@ class ilObjUserFolderGUI extends ilObjectGUI
 		$ilToolbar->addButton($this->lng->txt("import_users"),
 			$this->ctrl->getLinkTarget($this, "importUserForm"));
 
-if (!true)
+if (true)
 {
 	include_once("./Services/User/classes/class.ilUserTableGUI.php");
 	$utab = new ilUserTableGUI($this, "view");
