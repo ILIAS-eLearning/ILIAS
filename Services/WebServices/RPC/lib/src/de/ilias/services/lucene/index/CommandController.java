@@ -24,6 +24,7 @@ package de.ilias.services.lucene.index;
 
 import java.io.IOException;
 import java.sql.SQLException;
+import java.util.HashMap;
 import java.util.Vector;
 
 import org.apache.log4j.Logger;
@@ -48,7 +49,23 @@ import de.ilias.services.settings.LocalSettings;
  */
 public class CommandController {
 
-	private static CommandController instance = null;
+	private static ThreadLocal<CommandController> instance = new ThreadLocal<CommandController>() {
+		
+		/**
+		 *  Init value 
+		 */
+		protected CommandController initialValue() {
+			
+			try {
+				return new CommandController();
+			}
+			catch(Throwable t) {
+				logger.error(t);
+			}
+			return null;
+		}
+	};
+	
 	protected static Logger logger = Logger.getLogger(CommandController.class);
 	
 	private Vector<Integer> finished = new Vector<Integer>();
@@ -71,13 +88,14 @@ public class CommandController {
 		IOException, 
 		ConfigurationException {
 
-		queue = CommandQueue.getInstance();
-		queue.loadFromDb();
+		queue = new CommandQueue();
 		
 		this.objDefinitions = objDefinitions;
 		
 		holder = IndexHolder.getInstance();
 		holder.init();
+
+		logger.info("New command controller created.");
 	}
 	
 	/**
@@ -88,7 +106,7 @@ public class CommandController {
 	 * @throws CorruptIndexException 
 	 * 
 	 */
-	public CommandController() 
+	private CommandController() 
 	throws CorruptIndexException, LockObtainFailedException, SQLException, IOException, ConfigurationException {
 
 		this(ObjectDefinitions.getInstance(
@@ -105,12 +123,17 @@ public class CommandController {
 	 * @throws IOException
 	 * @throws ConfigurationException
 	 */
-	public static CommandController getInstance() throws CorruptIndexException, LockObtainFailedException, SQLException, IOException, ConfigurationException {
+	public static CommandController getInstance() {
 		
-		if(instance == null) {
-			return instance = new CommandController();
+		try {
+			logger.info("Creating new command controller...");
+			return new CommandController();
 		}
-		return instance;
+		catch(Throwable t) {
+			logger.error(t);
+		}
+		return null;
+		//return instance.get();
 	}
 	
 	/**
@@ -127,13 +150,6 @@ public class CommandController {
 		return finished;
 	}
 
-	/**
-	 * Reset instance
-	 */
-	public static void reset() {
-		
-		instance = null;
-	}
 	
 	/**
 	 * Init command queue for new index

@@ -47,7 +47,6 @@ import de.ilias.services.settings.LocalSettings;
  */
 public class CommandQueue {
 
-	private static CommandQueue instance = null;
 	protected Logger logger = Logger.getLogger(CommandQueue.class);
 	
 	private Connection db = null;
@@ -58,21 +57,9 @@ public class CommandQueue {
 	 * @throws SQLException 
 	 * 
 	 */
-	private CommandQueue() throws SQLException {
+	public CommandQueue() throws SQLException {
 
 		db = DBFactory.factory();
-	}
-	
-	/**
-	 * @throws SQLException 
-	 * 
-	 */
-	public static CommandQueue getInstance() throws SQLException {
-		
-		if(instance == null) {
-			return instance = new CommandQueue();
-		}
-		return instance;
 	}
 	
 	

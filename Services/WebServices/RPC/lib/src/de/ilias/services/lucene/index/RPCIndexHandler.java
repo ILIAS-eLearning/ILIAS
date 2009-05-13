@@ -26,6 +26,7 @@ import java.io.IOException;
 import java.io.PrintWriter;
 import java.io.StringWriter;
 import java.sql.SQLException;
+import java.util.Vector;
 
 import org.apache.log4j.Logger;
 import org.apache.lucene.index.CorruptIndexException;
@@ -69,7 +70,6 @@ public class RPCIndexHandler {
 		
 		CommandController controller;
 		
-		
 		try {
 			long s_start = new java.util.Date().getTime();
 
@@ -86,23 +86,22 @@ public class RPCIndexHandler {
 			else {
 				controller.initCreate();
 			}
-			
-			if(server.getNumThreads() > 1) {
+
+			// Start threads
+			Vector<CommandControllerThread> threads = new Vector<CommandControllerThread>();
+			for(int i = 0; i < server.getNumThreads(); i++) {
 				
-				CommandControllerThread tControllerA = new CommandControllerThread(clientKey);
-				CommandControllerThread tControllerB = new CommandControllerThread(clientKey);
-				
-				tControllerA.start();
-				tControllerB.start();
-				tControllerA.join();
-				tControllerB.join();
+				CommandControllerThread t = new CommandControllerThread(clientKey,controller);
+				t.start();
+				threads.add(t);
 			}
-			else {
-				controller.start();
+			// Join threads
+			for(int i = 0; i < server.getNumThreads();i++) {
+				
+				threads.get(i).join();
 			}
 
 			controller.writeToIndex();
-			CommandController.reset();
 			
 			long s_end = new java.util.Date().getTime();
 			logger.info("Index time: " + ((s_end - s_start)/(1000))+ " seconds");
