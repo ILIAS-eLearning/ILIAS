@@ -51,6 +51,8 @@ class ilRepositorySelectorInputGUI extends ilFormPropertyGUI implements ilTableF
 		global $lng;
 		
 		parent::__construct($a_title, $a_postvar);
+		$this->setClickableTypes(array("root", "cat", "grp", "fold", "crs"));
+		$this->setHeaderMessage($lng->txt('search_area_info'));
 		$this->setType("rep_select");
 		$this->setSelectText($lng->txt("select"));
 	}
@@ -106,6 +108,46 @@ class ilRepositorySelectorInputGUI extends ilFormPropertyGUI implements ilTableF
 	}
 	
 	/**
+	* Set header message
+	*
+	* @param	string		header message
+	*/
+	function setHeaderMessage($a_val)
+	{
+		$this->hm = $a_val;
+	}
+	
+	/**
+	* Get header message
+	*
+	* @return	string		header message
+	*/
+	function getHeaderMessage()
+	{
+		return $this->hm;
+	}
+	
+	/**
+	* Set clickable types
+	*
+	* @param	array	 clickable types
+	*/
+	function setClickableTypes($a_types)
+	{
+		$this->clickable_types = $a_types;
+	}
+	
+	/**
+	* Get  clickable types
+	*
+	* @return	array	 clickable types
+	*/
+	function getClickableTypes()
+	{
+		return $this->clickable_types;
+	}
+	
+	/**
 	* Check input, strip slashes etc. set alert, if input is not ok.
 	*
 	* @return	boolean		Input ok, true/false
@@ -136,13 +178,14 @@ class ilRepositorySelectorInputGUI extends ilFormPropertyGUI implements ilTableF
 		include_once 'Services/Search/classes/class.ilSearchRootSelector.php';
 		$ilCtrl->setParameter($this, "postvar", $this->getPostVar());
 
-		ilUtil::sendInfo($lng->txt('search_area_info'));
+		ilUtil::sendInfo($this->getHeaderMessage());
 		
 		$exp = new ilSearchRootSelector($ilCtrl->getLinkTarget($this,'showRepositorySelection'));
 		$exp->setExpand($_GET["search_root_expand"] ? $_GET["search_root_expand"] : $tree->readRootId());
 		$exp->setExpandTarget($ilCtrl->getLinkTarget($this,'showRepositorySelection'));
 		$exp->setTargetClass(get_class($this));
 		$exp->setCmd('selectRepositoryItem');
+		$exp->setClickableTypes($this->getClickableTypes());
 
 		// build html-output
 		$exp->setOutput(0);
@@ -166,6 +209,22 @@ class ilRepositorySelectorInputGUI extends ilFormPropertyGUI implements ilTableF
 		$ilCtrl->returnToParent($this, $anchor);
 	}
 	
+	/**
+	* Reset
+	*/
+	function reset()
+	{
+		global $ilCtrl, $ilUser;
+
+		$anchor = $ilUser->prefs["screen_reader_optimization"]
+			? $this->getFieldId()."_anchor"
+			: "";
+
+		$this->setValue("");
+		$this->writeToSession();
+
+		$ilCtrl->returnToParent($this, $anchor);
+	}
 	
 	/**
 	* Render item
@@ -180,6 +239,7 @@ class ilRepositorySelectorInputGUI extends ilFormPropertyGUI implements ilTableF
 		$tpl->setVariable("ID", $this->getFieldId());
 		$tpl->setVariable("PROPERTY_VALUE", ilUtil::prepareFormOutput($this->getValue()));
 		$tpl->setVariable("TXT_SELECT", $this->getSelectText());
+		$tpl->setVariable("TXT_RESET", $lng->txt("reset"));
 		switch ($a_mode)
 		{
 			case "property_form":
@@ -196,6 +256,9 @@ class ilRepositorySelectorInputGUI extends ilFormPropertyGUI implements ilTableF
 		$tpl->setVariable("HREF_SELECT",
 			$ilCtrl->getLinkTargetByClass(array($parent_gui, "ilformpropertydispatchgui", "ilrepositoryselectorinputgui"),
 			"showRepositorySelection"));
+		$tpl->setVariable("HREF_RESET",
+			$ilCtrl->getLinkTargetByClass(array($parent_gui, "ilformpropertydispatchgui", "ilrepositoryselectorinputgui"),
+			"reset"));
 
 		if ($this->getValue() > 0 && $this->getValue() != ROOT_FOLDER_ID)
 		{
@@ -210,7 +273,10 @@ class ilRepositorySelectorInputGUI extends ilFormPropertyGUI implements ilTableF
 			{
 				$title = $lng->txt("repository");
 			}
-			$tpl->setVariable("TXT_ITEM", $title);
+			if (in_array($nd["type"], $this->getClickableTypes()))
+			{
+				$tpl->setVariable("TXT_ITEM", $title);
+			}
 		}
 		return $tpl->get();
 	}

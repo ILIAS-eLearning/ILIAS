@@ -40,6 +40,8 @@ class ilTable2GUI extends ilTableGUI
 	protected $filters = array();
 	protected $optional_filters = array();
 	protected $filter_cols = 4;
+	protected $ext_sort = false;
+	protected $ext_seg = false;
 	
 	/**
 	* Constructor
@@ -489,6 +491,46 @@ class ilTable2GUI extends ilTableGUI
 	}
 
 	/**
+	* Set external sorting
+	*
+	* @param	boolean		data is sorted externally
+	*/
+	function setExternalSorting($a_val)
+	{
+		$this->ext_sort = $a_val;
+	}
+	
+	/**
+	* Get external sorting
+	*
+	* @return	boolean		data is sorted externally
+	*/
+	function getExternalSorting()
+	{
+		return $this->ext_sort;
+	}
+
+	/**
+	* Set external segmentation
+	*
+	* @param	boolean		data is segmented externally
+	*/
+	function setExternalSegmentation($a_val)
+	{
+		$this->ext_seg = $a_val;
+	}
+	
+	/**
+	* Get external segmentation
+	*
+	* @return	boolean		data is segmented externally
+	*/
+	function getExternalSegmentation()
+	{
+		return $this->ext_seg;
+	}
+	
+	/**
 	* Set row template.
 	*
 	* @param	string	$a_template			Template file name.
@@ -727,22 +769,12 @@ class ilTable2GUI extends ilTableGUI
 	{
 	}
 	
+	
 	/**
-	* Get HTML
+	* Determine offset and order
 	*/
-	final public function getHTML()
+	function determineOffsetAndOrder()
 	{
-		global $lng, $ilCtrl, $ilUser;
-		
-		$this->prepareOutput();
-		
-		$ilCtrl->saveParameter($this->getParentObject(), $this->getNavParameter());
-		
-		if(!$this->enabled['content'])
-		{
-			return $this->render();
-		}
-
 		if ($_POST[$this->getNavParameter()."1"] != "")
 		{
 			if ($_POST[$this->getNavParameter()."1"] != $_POST[$this->getNavParameter()])
@@ -763,23 +795,53 @@ class ilTable2GUI extends ilTableGUI
 			$this->nav_value = $_SESSION[$this->getNavParameter()];
 		}
 
-		
 		$nav = explode(":", $this->nav_value);
 		
 		// $nav[0] is order by
 		$this->setOrderField(($nav[0] != "") ? $nav[0] : $this->getDefaultOrderField());
 		$this->setOrderDirection(($nav[1] != "") ? $nav[1] : $this->getDefaultOrderDirection());
 		$this->setOffset($nav[2]);
-		$this->setMaxCount(count($this->row_data));
+	}
+	
+	
+	/**
+	* Get HTML
+	*/
+	final public function getHTML()
+	{
+		global $lng, $ilCtrl, $ilUser;
+		
+		$this->prepareOutput();
+		
+		$ilCtrl->saveParameter($this->getParentObject(), $this->getNavParameter());
+		
+		if(!$this->enabled['content'])
+		{
+			return $this->render();
+		}
+
+		$this->determineOffsetAndOrder();
+		
+		if (!$this->getExternalSegmentation())
+		{
+			$this->setMaxCount(count($this->row_data));
+		}
+		
 		$this->setFooter("tblfooter",$this->lng->txt("previous"),$this->lng->txt("next"));
 		
 		// sort
 		$data = $this->getData();
-		$data = ilUtil::sortArray($data, $this->getOrderField(),
-			$this->getOrderDirection(), $this->numericOrdering($this->getOrderField()));
+		if (!$this->getExternalSorting())
+		{
+			$data = ilUtil::sortArray($data, $this->getOrderField(),
+				$this->getOrderDirection(), $this->numericOrdering($this->getOrderField()));
+		}
 				
 		// slice
-		$data = array_slice($data, $this->getOffset(), $this->getLimit());
+		if (!$this->getExternalSegmentation())
+		{
+			$data = array_slice($data, $this->getOffset(), $this->getLimit());
+		}
 		
 		// fill rows
 		if(count($data) > 0)
@@ -1020,6 +1082,34 @@ class ilTable2GUI extends ilTableGUI
 		}
 	}
 	
+	/**
+	* Write filter values to session
+	*/
+	public function writeFilterToSession()
+	{
+		global $lng;
+		
+		$filter = $this->getFilterItems();
+		$opt_filter = $this->getFilterItems(true);
+
+		foreach ($filter as $item)
+		{
+			if ($item->checkInput())
+			{
+				$item->setValueByArray($_POST);
+				$item->writeToSession();
+			}
+		}
+		foreach ($opt_filter as $item)
+		{
+			if ($item->checkInput())
+			{
+				$item->setValueByArray($_POST);
+				$item->writeToSession();
+			}
+		}
+	}
+
 	/**
 	* Standard Version of Fill Row. Most likely to
 	* be overwritten by derived class.

@@ -239,8 +239,7 @@ class ilStructureObjectGUI extends ilLMObjectGUI
 				{
 					$acts["pastePage"] = "pastePage";
 				}
-				$this->setActions($acts);
-				$this->showActions();
+				$this->showActions($acts);
 			//}
 	
 			// SHOW POSSIBLE SUB OBJECTS
@@ -491,12 +490,7 @@ class ilStructureObjectGUI extends ilLMObjectGUI
 			{
 				$acts["pasteChapter"] =  "pasteChapter";
 			}
-			/*if(!empty($_SESSION["ilEditClipboard"]))
-			{
-				$acts["paste"] = "paste";
-			}*/
-			$this->setActions($acts);
-			$this->showActions();
+			$this->showActions($acts);
 		//}
 
 		// SHOW POSSIBLE SUB OBJECTS

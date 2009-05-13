@@ -52,7 +52,7 @@ common#:#short_inst_name#:#Short Title
 common#:#short_inst_name_info#:#This title will appear in the browser header title bar. If no value is entered, 'ILIAS' is used.
 common#:#usr_filter_empty_result#:#No users found that match the selected filter criteria
 administration#:#clean_desc#:#Remove invalid references & tree entries. Initialize gaps in tree structure.
-common#:#access_unlimited#:#unlimited
+common#:#access_unlimited#:#Unlimited
 common#:#usr_limited_access_only#:#Users with limited access only
 common#:#usr_without_courses#:#Users without courses assigned
 administration#:#cleaning#:#Cleaning...
@@ -9406,4 +9406,14 @@ content#:#cont_all_closed#:#All Closed
 content#:#cont_first_open#:#First Opened
 content#:#cont_force_all_open#:#Force All Opened
 content#:#cont_number_type#:#Number Type
+user#:#user_activation#:#Activation
+user#:#user_all#:#All
+user#:#user_last_login_before#:#Last Login Before
+user#:#user_limited_access#:#Limited Access
+user#:#user_no_courses#:#No Courses Assigned
+user#:#user_member_of_course_group#:#Member of Course/Group
+user#:#user_select_course_group#:#Select Course/Group
 search#:#search_no_match_hint#:#Your search - <b>%s</b> - did not match any documents.<br /><br />Suggestions:<br />Make sure all words are spelled correctly.<br />Try different keywords.<br />Try more general keywords.<br />Try fewer keywords.
+user#:#user_please_select_course_group#:#Please select a course or a group.
+user#:#user_any#:#Any
+user#:#user_global_role#:#Global Role

@@ -30,7 +30,7 @@
 * @author Helmut Schottmüller <helmut.schottmueller@mac.com>
 * @version $Id$
 * 
-* @ilCtrl_Calls ilObjUserFolderGUI: ilPermissionGUI, ilAdminUserSearchGUI
+* @ilCtrl_Calls ilObjUserFolderGUI: ilPermissionGUI, ilAdminUserSearchGUI, ilUserTableGUI
 *
 * @extends ilObjectGUI
 */
@@ -54,6 +54,7 @@ class ilObjUserFolderGUI extends ilObjectGUI
 		$this->ilObjectGUI($a_data,$a_id,$a_call_by_reference,false);
 		
 		$this->lng->loadLanguageModule('search');
+		$this->lng->loadLanguageModule("user");
 	}
 
 	function setUserOwnerId($a_id)
@@ -69,11 +70,18 @@ class ilObjUserFolderGUI extends ilObjectGUI
 	{
 		$next_class = $this->ctrl->getNextClass($this);
 		$cmd = $this->ctrl->getCmd();
-
 		$this->prepareOutput();
-		
+
 		switch($next_class)
 		{
+			case 'ilusertablegui':
+				include_once("./Services/User/classes/class.ilUserTableGUI.php");
+				$u_table = new ilUserTableGUI($this, "view");
+				$u_table->initFilter();
+				$this->ctrl->setReturn($this,'view');
+				$this->ctrl->forwardCommand($u_table);
+				break;
+
 			case 'ilpermissiongui':
 				include_once("./classes/class.ilPermissionGUI.php");
 				$perm_gui =& new ilPermissionGUI($this);
@@ -325,15 +333,57 @@ class ilObjUserFolderGUI extends ilObjectGUI
 	}
 
 	/**
+	* Add new user;
+	*/
+	function addUserObject()
+	{
+		global $ilCtrl;
+		
+		$ilCtrl->setParameterByClass("ilobjusergui", "new_type", "usr");
+		$ilCtrl->redirectByClass(array("iladministrationgui", "ilobjusergui"), "create");
+	}
+	
+	
+	/**
+	* Apply filter
+	*/
+	function applyFilterObject()
+	{
+		include_once("./Services/User/classes/class.ilUserTableGUI.php");
+		$utab = new ilUserTableGUI($this, "view");
+		$utab->writeFilterToSession();
+		$this->viewObject();
+	}
+
+	/**
 	* list users
 	*
 	* @access	public
 	*/
 	function viewObject($reset_filter = FALSE)
 	{
-		global $rbacsystem;
-		global $ilUser;
+		global $rbacsystem, $ilUser, $ilToolbar, $tpl;
 		
+		// toolbar
+		$ilToolbar->addButton($this->lng->txt("search_user_extended"),
+			$this->ctrl->getLinkTargetByClass('ilAdminUserSearchGUI','startExtended'));
+		if ($_SESSION['rep_search']['usr'])		// last search result
+		{
+			$ilToolbar->addButton($this->lng->txt("last_search_result"),
+				$this->ctrl->getLinkTargetByClass('ilAdminUserSearchGUI','show'));
+		}
+		$ilToolbar->addButton($this->lng->txt("import_users"),
+			$this->ctrl->getLinkTarget($this, "importUserForm"));
+
+if (!true)
+{
+	include_once("./Services/User/classes/class.ilUserTableGUI.php");
+	$utab = new ilUserTableGUI($this, "view");
+	$tpl->setContent($utab->getHTML());
+	return;
+}
+		
+			
 		if ($reset_filter)
 		{
 			$_SESSION["user_filter"] = 1;
@@ -513,28 +563,6 @@ class ilObjUserFolderGUI extends ilObjectGUI
 			$tmp[] = $val["obj_id"];
 			unset($this->data["data"][$key]["obj_id"]);
 		}
-
-		//add template for buttons
-		$this->tpl->addBlockfile("BUTTONS", "buttons", "tpl.buttons.html");
-
-		// search user new functionality
-		$this->tpl->setCurrentBlock("btn_cell");
-		$this->tpl->setVariable("BTN_LINK",$this->ctrl->getLinkTargetByClass('ilAdminUserSearchGUI','startExtended'));
-		$this->tpl->setVariable("BTN_TXT",$this->lng->txt("search_user_extended"));
-		$this->tpl->parseCurrentBlock();
-		// last search result
-		if ($_SESSION['rep_search']['usr'])
-		{
-			$this->tpl->setCurrentBlock("btn_cell");
-			$this->tpl->setVariable("BTN_LINK",$this->ctrl->getLinkTargetByClass('ilAdminUserSearchGUI','show'));
-			$this->tpl->setVariable("BTN_TXT",$this->lng->txt("last_search_result"));
-			$this->tpl->parseCurrentBlock();
-		}
-		
-		$this->tpl->setCurrentBlock("btn_cell");
-		$this->tpl->setVariable("BTN_LINK",$this->ctrl->getLinkTarget($this, "importUserForm"));
-		$this->tpl->setVariable("BTN_TXT", $this->lng->txt("import_users"));
-		$this->tpl->parseCurrentBlock();
 
 		$this->tpl->addBlockfile("ADM_CONTENT", "adm_content", "tpl.usr_list.html");
 		
@@ -1379,6 +1407,59 @@ class ilObjUserFolderGUI extends ilObjectGUI
 		}
 	}
 
+	/**
+	* Delete users
+	*/
+	function deleteUsersObject()
+	{
+		$_POST["selectedAction"] = "delete";
+		$this->showActionConfirmation($_POST["selectedAction"]);
+	}
+	
+	/**
+	* Activate users
+	*/
+	function activateUsersObject()
+	{
+		$_POST["selectedAction"] = "activate";
+		$this->showActionConfirmation($_POST["selectedAction"]);
+	}
+	
+	/**
+	* Deactivate users
+	*/
+	function deactivateUsersObject()
+	{
+		$_POST["selectedAction"] = "deactivate";
+		$this->showActionConfirmation($_POST["selectedAction"]);
+	}
+
+	/**
+	* Restrict access
+	*/
+	function restrictAccessObject()
+	{
+		$_POST["selectedAction"] = "accessRestrict";
+		$this->showActionConfirmation($_POST["selectedAction"]);
+	}
+
+	/**
+	* Free access
+	*/
+	function freeAccessObject()
+	{
+		$_POST["selectedAction"] = "accessFree";
+		$this->showActionConfirmation($_POST["selectedAction"]);
+	}
+
+	/**
+	* Export users
+	*/
+	function exportUsersObject()
+	{
+		$_POST["selectedAction"] = "export";
+		$this->showActionConfirmation($_POST["selectedAction"]);
+	}
 
 	function userActionObject()
 	{
@@ -3907,7 +3988,7 @@ class ilObjUserFolderGUI extends ilObjectGUI
 		ilUtil::sendSuccess($this->lng->txt('saved_successfully'));
 	
 		return $this->showLoginnameSettingsObject();		
-	} 
+	}
 	
 	/*
 	function showUpperIcon()

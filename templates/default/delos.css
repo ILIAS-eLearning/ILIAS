@@ -1288,7 +1288,7 @@ a.btn:hover {
 
 div.il_ButtonGroup
 {
-	margin: 3px 0px 3px 0px;
+	margin: 3px 0px 10px 0px;
 	line-height: 150%;
 	white-space: nowrap;
 	display: block;
