@@ -317,20 +317,18 @@ class ilMailSearchGroupsGUI
 				{
 					$oGroupParticipants = ilGroupParticipants::_getInstanceByObjId($grp_id);
 					$grp_members = $oGroupParticipants->getParticipants();
-					
-					$cnt_members = 0;
-					foreach ($grp_members as $member)
+
+					foreach ($grp_members as $key => $member)
 					{
 						$tmp_usr = new ilObjUser($member);
 						
 						if($tmp_usr->checkTimeLimit()== false || $tmp_usr->getActive() == false )
 						{
-							unset($grp_members[$cnt_members]);
-						}	
-						$cnt_members++;			
+							unset($grp_members[$key]);
+						}			
 					}
 					unset($tmp_usr);
-					
+
 					$ref_ids = ilObject::_getAllReferences($grp_id);
 					$ref_id = current($ref_ids);				
 					$path_arr = $tree->getPathFull($ref_id, $tree->getRootId());
@@ -413,9 +411,16 @@ class ilMailSearchGroupsGUI
 				if (is_object($group_obj = ilObjectFactory::getInstanceByRefId($ref_id,false)))
 				{
 					$grp_members = $group_obj->getGroupMemberData($group_obj->getGroupMemberIds());
-					
+
 					foreach($grp_members as $member)
 					{ 
+						$tmp_usr = new ilObjUser($member['id']);
+						if($tmp_usr->checkTimeLimit()== false || $tmp_usr->getActive() == false )
+						{
+							unset($tmp_usr);
+							continue;
+						}
+						unset($tmp_usr);
 						
 						$fullname = "";
 						if(ilObjUser::_lookupPref($member['id'], 'public_profile') == 'y')

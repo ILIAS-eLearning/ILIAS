@@ -319,16 +319,13 @@ class ilMailSearchCoursesGUI
 					$oCrsParticipants = ilCourseParticipants::_getInstanceByObjId($crs_id);
 					$crs_members = $oCrsParticipants->getParticipants();
 
-					$cnt_members = 0;
-					foreach ($crs_members as $member)
+					foreach($crs_members as $key => $member)
 					{
-						$tmp_usr = new ilObjUser($member);
-						
+						$tmp_usr = new ilObjUser($member);						
 						if($tmp_usr->checkTimeLimit()== false || $tmp_usr->getActive() == false )
 						{
-							unset($crs_members[$cnt_members]);
-						}	
-						$cnt_members++;			
+							unset($crs_members[$key]);
+						}
 					}
 					unset($tmp_usr);
 					
@@ -451,23 +448,18 @@ class ilMailSearchCoursesGUI
 			{
 				$members_obj = ilCourseParticipants::_getinstanceByObjId($crs_id);
 				$tmp_members = $members_obj->getParticipants();
-				$course_members[$crs_id] = ilUtil::_sortIds($tmp_members,'usr_data','lastname','usr_id');
+				$course_members = ilUtil::_sortIds($tmp_members,'usr_data','lastname','usr_id');
 					
-				$cnt_members = 0;		
-				foreach ($course_members[$crs_id] as $member)
+				foreach ($course_members as $member)
 				{
 					$tmp_usr = new ilObjUser($member);
 					if($tmp_usr->checkTimeLimit()== false || $tmp_usr->getActive() == false )
 					{
-						unset($course_members[$crs_id][$cnt_members]);
-					}	
-					$cnt_members++;						
-				}
-				unset($tmp_usr);
-				
-				foreach ($course_members[$crs_id] as $member)
-				{
-
+						unset($tmp_usr);
+						continue;
+					}
+					unset($tmp_usr);
+					
 					$name = ilObjUser::_lookupName($member);
 					$login = ilObjUser::_lookupLogin($member);
 	
