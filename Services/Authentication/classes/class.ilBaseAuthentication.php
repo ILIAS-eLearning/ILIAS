@@ -293,6 +293,7 @@ class ilBaseAuthentication
 
 	function __buildAuth()
 	{
+		
 		// BEGIN WebDAV
 		// The realm is needed to support a common session between Auth_HTTP and Auth.
 		// It also helps us to distinguish between parallel sessions run on different clients.
@@ -318,8 +319,8 @@ class ilBaseAuthentication
 			$this->auth_params['cryptType'] = 'none';
 		}
 
-		require_once 'class.ilAuthContainerMDB2.php';
-		$authContainerDB = new ilAuthContainerMDB2($this->auth_params);
+		include_once './Services/Authentication/classes/class.ilAuthContainerDatabase.php';
+		$authContainerDB = new ilAuthContainerDatabase($this->auth_params);
 		$this->auth = new Auth($authContainerDB, $this->auth_params,"",false);
 
 		return true;

@@ -34,7 +34,7 @@ include_once ('./Services/Authentication/classes/class.ilAuthDecorator.php');
 * @ingroup ServicesAuthentication
 */
 
-class ilSOAPAuth extends ilAuthDecorator
+class ilAuthSOAP extends ilAuthDecorator
 {
    
 	public function __construct(ilAuthContainerDecorator $deco, $a_further_options = array())

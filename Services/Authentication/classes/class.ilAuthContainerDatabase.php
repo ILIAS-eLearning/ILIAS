@@ -21,8 +21,10 @@ require_once 'Auth/Container/MDB2.php';
 *
  * @author Werner Randelshofer, Lucerne University of Applied Sciences and Arts, werner.randelshofer@hslu.ch
  * @version $Id$
+ *
+ * @deprecated Will be replace by ilAuthContainerMDB in Services/Database 
  */
-class ilAuthContainerMDB2 extends Auth_Container_MDB2
+class ilAuthContainerDatabase extends Auth_Container_MDB2
 {
         /**
          * If this variable is set to true, function fetchData calls
@@ -33,14 +35,14 @@ class ilAuthContainerMDB2 extends Auth_Container_MDB2
          */
         private $isObserversEnabled;
         
-	function ilAuthContainerMDB2($dsn)
+	function ilAuthContainerDatabase($dsn)
 	{
 		$this->Auth_Container_MDB2($dsn);
 	}
 
 	function getUser($username)
 	{
-		$username = ilAuthContainerMDB2::toUsernameWithoutDomain($username);
+		$username = ilAuthContainerDatabase::toUsernameWithoutDomain($username);
 
 		// Fetch the data
 		return parent::getUser($username);
@@ -48,7 +50,7 @@ class ilAuthContainerMDB2 extends Auth_Container_MDB2
 
 	function fetchData($username, $password, $isChallengeResponse=false)
 	{
-		$username = ilAuthContainerMDB2::toUsernameWithoutDomain($username);
+		$username = ilAuthContainerDatabase::toUsernameWithoutDomain($username);
 
 		$isSuccessful = parent::fetchData($username, $password, $isChallengeResponse);
 		if ($this->isObserversEnabled)
