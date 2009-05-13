@@ -42,6 +42,7 @@ class ilLuceneSearchResultPresentation
 
 	private $results = array();
 	private $has_more_ref_ids = array();
+	private $all_references = null;
 	private $searcher = null;
 	
 	private $container = null;
@@ -58,6 +59,8 @@ class ilLuceneSearchResultPresentation
 		$this->lng = $lng;
 		$this->container = $container;
 		$this->ctrl = $ilCtrl;
+		
+		$this->initReferences();
 		
 		if(isset($_GET['details']))
 		{
@@ -106,6 +109,7 @@ class ilLuceneSearchResultPresentation
 		
 		foreach($this->getResults() as $ref_id => $obj_id)
 		{
+			$this->all_references[$ref_id][] = $ref_id;
 			$counter = 0;
 			foreach(ilObject::_getAllReferences($obj_id) as $new_ref)
 			{
@@ -117,6 +121,7 @@ class ilLuceneSearchResultPresentation
 				{
 					continue;
 				}
+				$this->all_references[$ref_id][] = $new_ref;
 				++$counter;
 			}
 			$this->has_more_ref_ids[$ref_id] = $counter;
@@ -125,12 +130,26 @@ class ilLuceneSearchResultPresentation
 	
 	protected function hasMoreReferences($a_ref_id)
 	{
-		if(!isset($this->has_more_ref_ids[$a_ref_id]) or !$this->has_more_ref_ids[$a_ref_id])
+		if(!isset($this->has_more_ref_ids[$a_ref_id]) or 
+			!$this->has_more_ref_ids[$a_ref_id] or
+			isset($_SESSION['vis_references'][$a_ref_id]))
 		{
 			return false;
 		}
 		
 		return $this->has_more_ref_ids[$a_ref_id];
+	}
+	
+	protected function getAllReferences($a_ref_id)
+	{
+		if(isset($_SESSION['vis_references'][$a_ref_id]))
+		{
+			return $this->all_references[$a_ref_id] ? $this->all_references[$a_ref_id] : array();
+		}
+		else
+		{
+			return array($a_ref_id);	
+		}
 	}
 	
 	/**
@@ -181,48 +200,67 @@ class ilLuceneSearchResultPresentation
 	 */
 	protected function renderItemList()
 	{
-		global $tree;
+		global $tree,$ilBench;
 
 		$this->html = '';
 		
+		$ilBench->start('Lucene','2000_pr');
 		$this->newBockTemplate();
 		$item_html = array();
 		$this->parseResultReferences();
+		$ilBench->stop('Lucene','2000_pr');
 		
 
 		$set = array();
-		foreach($this->getResults() as $ref_id => $res_data)
+		foreach($this->getResults() as $c_ref_id => $res_data)
 		{
-			if(!$tree->isInTree($ref_id))
+			$ilBench->start('Lucene','2100_res');
+			foreach($this->getAllReferences($c_ref_id) as $ref_id)
 			{
-				continue;
+				$ilBench->start('Lucene','2110_ref');
+				
+				$ilBench->start('Lucene','2120_tree');
+				if(!$tree->isInTree($ref_id))
+				{
+					continue;
+				}
+				$ilBench->stop('Lucene','2120_tree');
+				
+				$ilBench->start('Lucene','2130_lookup');
+				$set[] = array("ref_id" => $ref_id, "obj_id" => $res_data);
+				$obj_id = $res_data;
+				#$obj_id = ilObject::_lookupObjId($res_data);
+				$type = ilObject::_lookupType($obj_id);
+				$title = ilObject::_lookupTitle($obj_id);
+				$title = $this->lookupTitle($obj_id,0);
+				$description = $this->lookupDescription($obj_id,0);
+				$ilBench->stop('Lucene','2130_lookup');
+				
+				if(!$type)
+				{
+					continue;
+				}
+				
+				$ilBench->start('Lucene','2140_fragments');
+				include_once './Services/Search/classes/Lucene/class.ilLuceneSearchObjectListGUIFactory.php';
+				$item_list_gui = ilLuceneSearchObjectListGUIFactory::factory($type);
+				
+				$item_list_gui->setContainerObject($this->getContainer());
+				$item_list_gui->setSearchFragment($this->lookupContent($obj_id,0));
+				$ilBench->stop('Lucene','2140_fragments');
+				
+				$ilBench->start('Lucene','2150_list_item');
+				if($html = $item_list_gui->getListItemHTML($ref_id,$obj_id,$title,$description))
+				{
+					$html .= $this->appendAdditionalInformation($item_list_gui,$ref_id,$obj_id,$type);				
+					$item_html[$ref_id]['html'] = $html;
+					$item_html[$ref_id]['type'] = $type;
+				}
+				$ilBench->stop('Lucene','2150_list_item');
+				
+				$ilBench->stop('Lucene','2110_ref');
 			}
-			
-			$set[] = array("ref_id" => $ref_id, "obj_id" => $res_data);
-			$obj_id = $res_data;
-			#$obj_id = ilObject::_lookupObjId($res_data);
-			$type = ilObject::_lookupType($obj_id);
-			$title = ilObject::_lookupTitle($obj_id);
-			$title = $this->lookupTitle($obj_id,0);
-			$description = $this->lookupDescription($obj_id,0);
-			
-			if(!$type)
-			{
-				continue;
-			}
-			
-			include_once './Services/Search/classes/Lucene/class.ilLuceneSearchObjectListGUIFactory.php';
-			$item_list_gui = ilLuceneSearchObjectListGUIFactory::factory($type);
-			
-			$item_list_gui->setContainerObject($this->getContainer());
-			$item_list_gui->setSearchFragment($this->lookupContent($obj_id,0));
-			
-			if($html = $item_list_gui->getListItemHTML($ref_id,$obj_id,$title,$description))
-			{
-				$html .= $this->appendAdditionalInformation($item_list_gui,$ref_id,$obj_id,$type);				
-				$item_html[$ref_id]['html'] = $html;
-				$item_html[$ref_id]['type'] = $type;
-			}
+			$ilBench->stop('Lucene','2100_res');
 		}
 		
 		if(!count($item_html))
@@ -236,12 +274,14 @@ class ilLuceneSearchResultPresentation
 		}
 		$this->html = $this->tpl->get();
 
+		$ilBench->start('Lucene','2900_tb');
 		// new table
 		include_once("./Services/Search/classes/class.ilSearchResultTableGUI.php");
 		$result_table = new ilSearchResultTableGUI($this->container, "showSavedResults", $this);
 		$result_table->setCustomPreviousNext($this->prev, $this->next);
 		$result_table->setData($set);
 		$this->thtml = $result_table->getHTML();
+		$ilBench->stop('Lucene','2900_tb');
 		
 		return true;
 	}
@@ -460,7 +500,6 @@ class ilLuceneSearchResultPresentation
 		$width2 = (int) (100 - $width1);
 		
 		$tpl->setCurrentBlock('relevance');
-		#$tpl->setVariable('TXT_RELEVANCE',$lng->txt('search_relevance'));
 		$tpl->setVariable('VAL_REL',sprintf("%d %%",$this->getRelevance($a_obj_id)));
 		$tpl->setVariable('WIDTH_A',$width1);
 		$tpl->setVariable('WIDTH_B',$width2);
@@ -493,6 +532,14 @@ class ilLuceneSearchResultPresentation
 		$sub_list->init($item_list_gui,$ref_id,$this->searcher->getHighlighter()->getSubItemIds($obj_id));
 		return $sub_list->getHTML();
 		
+	}
+	
+	protected function initReferences()
+	{
+		if(isset($_REQUEST['refs']))
+		{
+			$_SESSION['vis_references'][(int) $_REQUEST['refs']] = (int) $_REQUEST['refs'];
+		}
 	}
 }
 ?>

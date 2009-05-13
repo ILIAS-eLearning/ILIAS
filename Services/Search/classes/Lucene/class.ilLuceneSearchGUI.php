@@ -62,6 +62,9 @@ class ilLuceneSearchGUI extends ilSearchBaseGUI
 	 */
 	public function executeCommand()
 	{
+		global $ilBench;
+		
+		$ilBench->start('Lucene','0900_executeCommand');
 		$next_class = $this->ctrl->getNextClass($this);
 		$cmd = $this->ctrl->getCmd();
 
@@ -76,6 +79,7 @@ class ilLuceneSearchGUI extends ilSearchBaseGUI
 				$this->$cmd();
 				break;
 		}
+		$ilBench->stop('Lucene','0900_executeCommand');
 		return true;
 	}
 	
@@ -135,9 +139,12 @@ class ilLuceneSearchGUI extends ilSearchBaseGUI
 	 */
 	protected function remoteSearch()
 	{
+		$_POST['query'] = $_POST['queryString'];
 		$this->search_cache->setRoot((int) $_POST['root_id']);
 		$this->search_cache->setQuery(ilUtil::stripSlashes($_POST['queryString']));
 		$this->search_cache->save();
+		
+		$this->initFormSearch();
 		$this->search();
 	}
 	
@@ -147,8 +154,12 @@ class ilLuceneSearchGUI extends ilSearchBaseGUI
 	 */
 	protected function showSavedResults()
 	{
-		global $ilUser;
+		global $ilUser,$ilBench;
 		
+		$ilBench->start('Lucene','1000_savedResults');
+		
+		$ilBench->start('Lucene','1000_qp');
+
 		include_once './Services/Search/classes/Lucene/class.ilLuceneSearcher.php';
 		include_once './Services/Search/classes/Lucene/class.ilLuceneQueryParser.php';
 		$qp = new ilLuceneQueryParser($this->search_cache->getQuery());
@@ -156,21 +167,31 @@ class ilLuceneSearchGUI extends ilSearchBaseGUI
 		$searcher = ilLuceneSearcher::getInstance($qp);
 		$searcher->search();
 
+		$ilBench->stop('Lucene','1000_qp');
+
+		$ilBench->start('Lucene','1100_lr');
 		// Load saved results
 		include_once './Services/Search/classes/Lucene/class.ilLuceneSearchResultFilter.php';
 		$filter = ilLuceneSearchResultFilter::getInstance($ilUser->getId());
 		$filter->loadFromDb();
+		$ilBench->stop('Lucene','1100_lr');
 
 		// Highlight
+		$ilBench->start('Lucene','1200_hi');
 		$searcher->highlight($filter->getResultObjIds());
+		$ilBench->stop('Lucene','1200_hi');
 		
+		$ilBench->start('Lucene','1300_pr');
 		$this->tpl->addBlockFile('ADM_CONTENT','adm_content','tpl.lucene_search.html','Services/Search');
 		include_once './Services/Search/classes/Lucene/class.ilLuceneSearchResultPresentation.php';
 		$presentation = new ilLuceneSearchResultPresentation($this);
 		$presentation->setResults($filter->getResultIds());
+		
 		$presentation->setSearcher($searcher);
 		$presentation->setPreviousNext($this->prev_link, $this->next_link);
+		$ilBench->stop('Lucene','1300_pr');
 		
+		$ilBench->start('Lucene','1400_re');
 		if($presentation->render())
 		{
 			$this->tpl->setVariable('SEARCH_RESULTS',$presentation->getHTML(true));
@@ -179,16 +200,15 @@ class ilLuceneSearchGUI extends ilSearchBaseGUI
 		{
 			ilUtil::sendInfo(sprintf($this->lng->txt('search_no_match_hint'),$qp->getQuery()));
 		}
+		$ilBench->stop('Lucene','1400_re');
 		
+		$ilBench->start('Lucene','1500_fo');
 		// and finally add search form
 		$this->initFormSearch();
 		$this->tpl->setVariable('SEARCH_TABLE',$this->form->getHTML());
 		$this->addPager($filter,'max_page');
-		
-		if($filter->getResultIds())
-		{	
-			#$this->fillAdminPanel();
-		}
+		$ilBench->stop('Lucene','1500_fo');
+		$ilBench->stop('Lucene','1000_savedResults');
 	}
 	
 	/**
@@ -229,6 +249,7 @@ class ilLuceneSearchGUI extends ilSearchBaseGUI
 	{
 		global $ilUser,$ilBench;
 		
+		unset($_SESSION['vis_references']);
 
 		include_once './Services/Search/classes/Lucene/class.ilLuceneSearcher.php';
 		include_once './Services/Search/classes/Lucene/class.ilLuceneQueryParser.php';

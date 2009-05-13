@@ -216,6 +216,8 @@ class ilLuceneAdvancedSearchGUI extends ilSearchBaseGUI
 	{
 		global $ilUser,$ilBench;
 		
+		unset($_SESSION['vis_references']);
+		
 		include_once './Services/Search/classes/Lucene/class.ilLuceneSearcher.php';
 		include_once './Services/Search/classes/Lucene/class.ilLuceneAdvancedQueryParser.php';
 		$qp = new ilLuceneAdvancedQueryParser($this->search_cache->getQuery());
