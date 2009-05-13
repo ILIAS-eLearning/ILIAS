@@ -29,6 +29,7 @@ import java.sql.SQLException;
 import java.util.HashMap;
 import java.util.Vector;
 
+
 import org.apache.log4j.Logger;
 
 import de.ilias.services.settings.ClientSettings;
@@ -61,13 +62,39 @@ public class DBFactory {
 		protected Connection initialValue() {
 			try {
 				ClientSettings client = ClientSettings.getInstance(LocalSettings.getClientKey());
-				logger.debug("+++++++++++++++++++++++++++++++++++++++++++ New Thread local " + LocalSettings.getClientKey());
-				// TODO: receive from local settings
-				Class.forName( "com.mysql.jdbc.Driver");
-				return DriverManager.getConnection(
-						client.getDbUrl(),
-						client.getDbUser(),
-						client.getDbPass());
+				logger.info("+++++++++++++++++++++++++++++++++++++++++++ New Thread local " + LocalSettings.getClientKey());
+
+				// MySQL
+				if(client.getDbType().equalsIgnoreCase("mysql")) {
+
+					logger.info("Loading Mysql driver...");
+					Class.forName( "com.mysql.jdbc.Driver");
+					return DriverManager.getConnection(
+							client.getDbUrl(),
+							client.getDbUser(),
+							client.getDbPass());
+				}
+				// Oracle
+				if(client.getDbType().equalsIgnoreCase("oracle")) {
+					
+					logger.info("Loading Oracle driver...");
+					Class.forName("oracle.jdbc.driver.OracleDriver");
+					
+					logger.info(
+							"jdbc:oracle:thin:" +
+							client.getDbUser() + "/" +
+							client.getDbPass() + "@" + 
+							client.getDbHost() + "/" +
+							client.getDbName()
+					);
+					return DriverManager.getConnection(
+							"jdbc:oracle:thin:" +
+							client.getDbUser() + "/" +
+							client.getDbPass() + "@" + 
+							client.getDbHost() + "/" +
+							client.getDbName()
+					);
+				}
 			} 
 			catch (SQLException e) {
 				logger.error("Cannot connect to database.");
@@ -76,7 +103,8 @@ public class DBFactory {
 				logger.error("Cannot connect to database.");
 			} 
 			catch (ClassNotFoundException e) {
-				logger.error("Cannot connect to database.");
+				// no oracle driver!
+				logger.error("Could not load the JDBC driver. Check your CLASSPATH for a proper Oracle JDBC driver.");
 			}
 			return null;
 		}
