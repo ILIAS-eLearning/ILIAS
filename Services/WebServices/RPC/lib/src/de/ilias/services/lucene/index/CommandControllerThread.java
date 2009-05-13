@@ -43,9 +43,10 @@ public class CommandControllerThread extends Thread {
 	/**
 	 * Constructor
 	 */
-	public CommandControllerThread(String ck) {
+	public CommandControllerThread(String ck, CommandController con) {
 		
 		clientKey = ck;
+		controller = con;
 	}
 	
 	/**
@@ -60,7 +61,6 @@ public class CommandControllerThread extends Thread {
 		DBFactory.init();
 		
 		try {
-			controller = CommandController.getInstance();
 			controller.start();
 		} 
 		catch (Exception e) {
