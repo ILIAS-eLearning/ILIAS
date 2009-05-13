@@ -41,18 +41,25 @@ class ilMediaPoolTableGUI extends ilTable2GUI
 	*/
 	function __construct($a_parent_obj, $a_parent_cmd,
 		$a_media_pool, $a_folder_par = "obj_id",
-		$a_mode = ilMediaPoolTableGUI::IL_MEP_EDIT)
+		$a_mode = ilMediaPoolTableGUI::IL_MEP_EDIT, $a_all_objects = false)
 	{
 		global $ilCtrl, $lng, $ilAccess, $lng;
 		
 		parent::__construct($a_parent_obj, $a_parent_cmd);
 		$this->setMode($a_mode);
+		$this->setId("mep_table");
+		$this->all_objects = $a_all_objects;
 		$lng->loadLanguageModule("mep");
 		
 		$this->media_pool = $a_media_pool;
 		$this->tree = ilObjMediaPool::getPoolTree($this->media_pool->getId());
 		$this->folder_par = $a_folder_par;
 		
+		if ($this->all_objects)
+		{
+			$this->setExternalSorting(true);
+			$this->initFilter();
+		}
 		// folder determination
 		if ($_GET[$this->folder_par] > 0)
 		{
@@ -77,7 +84,7 @@ class ilMediaPoolTableGUI extends ilTable2GUI
 		$this->getItems();
 
 		// title
-		if ($this->current_folder != $this->tree->getRootId())
+		if ($this->current_folder != $this->tree->getRootId() && !$this->all_objects)
 		{
 			$node = $this->tree->getNodeData($this->current_folder);
 			$this->setTitle($node["title"], "icon_fold.gif",
@@ -97,8 +104,11 @@ class ilMediaPoolTableGUI extends ilTable2GUI
 			$this->addMultiCommand("copyToClipboard", $lng->txt("cont_copy_to_clipboard"));
 			$this->addMultiCommand("confirmRemove", $lng->txt("remove"));
 			
-			$this->addCommandButton("createFolderForm", $lng->txt("mep_create_folder"));
-			$this->addCommandButton("createMediaObject", $lng->txt("mep_create_mob"));
+			if (!$this->all_objects)
+			{
+				$this->addCommandButton("createFolderForm", $lng->txt("mep_create_folder"));
+				$this->addCommandButton("createMediaObject", $lng->txt("mep_create_mob"));
+			}
 		}
 		
 		if ($this->getMode() == ilMediaPoolTableGUI::IL_MEP_SELECT)
@@ -113,14 +123,47 @@ class ilMediaPoolTableGUI extends ilTable2GUI
 			$this->setSelectAllCheckbox("id");
 		}
 		
-		if ($this->current_folder != $this->tree->getRootId())
+		if ($this->current_folder != $this->tree->getRootId() && !$this->all_objects)
 		{
 			$ilCtrl->setParameter($this->parent_obj, $this->folder_par,
 				$this->tree->getParentId($this->current_folder));
 			$this->addHeaderCommand($ilCtrl->getLinkTarget($this->parent_obj, $this->parent_cmd),
 				$lng->txt("mep_parent_folder"));
+			$ilCtrl->setParameter($this->parent_obj, $this->folder_par,
+				$this->current_folder);
 		}
 
+	}
+
+	/**
+	* Init filter
+	*/
+	function initFilter()
+	{
+		global $lng, $rbacreview, $ilUser;
+		
+		// title/description
+		include_once("./Services/Form/classes/class.ilTextInputGUI.php");
+		$ti = new ilTextInputGUI($lng->txt("title"), "title");
+		$ti->setMaxLength(64);
+		$ti->setSize(20);
+		$this->addFilterItem($ti);
+		$ti->readFromSession();
+		$this->filter["title"] = $ti->getValue();
+		
+		// format
+		include_once("./Services/Form/classes/class.ilSelectInputGUI.php");
+		$options = array(
+			"" => $lng->txt("mep_all"),
+			);
+		$formats = $this->media_pool->getUsedFormats();
+		$options = array_merge($options, $formats);
+		$si = new ilSelectInputGUI($this->lng->txt("mep_format"), "format");
+		$si->setOptions($options);
+		$this->addFilterItem($si);
+		$si->readFromSession();
+		$this->filter["format"] = $si->getValue();
+		
 	}
 
 	/**
@@ -148,25 +191,33 @@ class ilMediaPoolTableGUI extends ilTable2GUI
 	*/
 	function getItems()
 	{
-		$fobjs = $this->media_pool->getChilds($this->current_folder, "fold");
-		$f2objs = array();
-		foreach ($fobjs as $obj)
+		if (!$this->all_objects)
 		{
-			$f2objs[$obj["title"].":".$obj["id"]] = $obj;
+			$fobjs = $this->media_pool->getChilds($this->current_folder, "fold");
+			$f2objs = array();
+			foreach ($fobjs as $obj)
+			{
+				$f2objs[$obj["title"].":".$obj["id"]] = $obj;
+			}
+			ksort($f2objs);
+			
+			// get current media objects
+			$mobjs = $this->media_pool->getChilds($this->current_folder, "mob");
+			$m2objs = array();
+			foreach ($mobjs as $obj)
+			{
+				$m2objs[$obj["title"].":".$obj["id"]] = $obj;
+			}
+			ksort($m2objs);
+			
+			// merge everything together
+			$objs = array_merge($f2objs, $m2objs);
 		}
-		ksort($f2objs);
-		
-		// get current media objects
-		$mobjs = $this->media_pool->getChilds($this->current_folder, "mob");
-		$m2objs = array();
-		foreach ($mobjs as $obj)
+		else
 		{
-			$m2objs[$obj["title"].":".$obj["id"]] = $obj;
+			$objs = $this->media_pool->getMediaObjects($this->filter["title"],
+				$this->filter["format"]);
 		}
-		ksort($m2objs);
-		
-		// merge everything together
-		$objs = array_merge($f2objs, $m2objs);
 
 		$this->setData($objs);
 	}

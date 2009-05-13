@@ -156,9 +156,9 @@ abstract class ilObject2GUI extends ilObjectGUI
 	final public function getCreationMode() { return parent::getCreationMode(); }
 	final protected function assignObject() { return parent::assignObject(); }
 	final protected function prepareOutput() { return parent::prepareOutput(); }
-	final private function setTitleAndDescription() { return parent::setTitleAndDescription(); }
-	final private function showUpperIcon() { return parent::showUpperIcon(); }
-	final private function showMountWebfolderIcon() { return parent::showMountWebfolderIcon(); }
+	final protected function setTitleAndDescription() { return parent::setTitleAndDescription(); }
+//	final private function showUpperIcon() { return parent::showUpperIcon(); }
+//	final private function showMountWebfolderIcon() { return parent::showMountWebfolderIcon(); }
 	final public function getHTML() { return parent::getHTML(); }
 	final protected function setLocator() { return parent::setLocator(); }
 	final protected function omitLocator($a_omit = true) { return parent::omitLocator($a_omit); }
@@ -192,22 +192,22 @@ abstract class ilObject2GUI extends ilObjectGUI
 	// -> ilAdministration
 	final private function displayList() { return parent::displayList(); }
 	final public function viewObject() { return parent::viewObject(); }
-	final private function setAdminTabs() { return parent::setAdminTabs(); }
+//	final private function setAdminTabs() { return parent::setAdminTabs(); }
 	final public function getAdminTabs() { return parent::getAdminTabs(); }
 	final protected function addAdminLocatorItems() { return parent::addAdminLocatorItems(); }
 	
 	/**
 	* Deprecated functions
 	*/
-	final private function setSubObjects() { die("ilObject2GUI::setSubObjects() is deprecated."); }
-	final public function getFormAction() { die("ilObject2GUI::getFormAction() is deprecated."); }
-	final protected  function setFormAction() { die("ilObject2GUI::setFormAction() is deprecated."); }
+//	final private function setSubObjects() { die("ilObject2GUI::setSubObjects() is deprecated."); }
+//	final public function getFormAction() { die("ilObject2GUI::getFormAction() is deprecated."); }
+//	final protected  function setFormAction() { die("ilObject2GUI::setFormAction() is deprecated."); }
 	final protected  function getReturnLocation() { die("ilObject2GUI::getReturnLocation() is deprecated."); }
 	final protected  function setReturnLocation() { die("ilObject2GUI::setReturnLocation() is deprecated."); }
 	final protected function showActions() { die("ilObject2GUI::showActions() is deprecated."); }
-	final public function getTemplateFile() { die("ilObject2GUI::getTemplateFile() is deprecated."); }
+	final public function getTemplateFile() {mk(); die("ilObject2GUI::getTemplateFile() is deprecated."); }
 	final protected function getTitlesByRefId() { die("ilObject2GUI::getTitlesByRefId() is deprecated."); }
-	final protected function getTabs() { die("ilObject2GUI::getTabs() is deprecated."); }
+	final protected function getTabs() {nj(); die("ilObject2GUI::getTabs() is deprecated."); }
 	final protected function __showButton() { die("ilObject2GUI::__showButton() is deprecated."); }
 	final protected function hitsperpageObject() { die("ilObject2GUI::hitsperpageObject() is deprecated."); }
 	final protected function __initTableGUI() { die("ilObject2GUI::__initTableGUI() is deprecated."); }
@@ -219,7 +219,7 @@ abstract class ilObject2GUI extends ilObjectGUI
 	*/
 	protected function addLocatorItems() {}
 	public function copyWizardHasOptions($a_mode) { return false; }
-	private function setTabs() { return parent::setTabs(); }
+	protected function setTabs() { }
 	
 	/**
 	* Functions that must be overwritten
@@ -313,7 +313,7 @@ abstract class ilObject2GUI extends ilObjectGUI
 	*
 	* @param        int        $a_mode        Edit Mode
 	*/
-	public function initStandardForm($a_mode = "edit", $a_new_type)
+	public function initStandardForm($a_mode = "edit", $a_new_type = "")
 	{
 		global $lng, $ilCtrl;
 	
@@ -339,18 +339,29 @@ abstract class ilObject2GUI extends ilObjectGUI
 		{
 			$this->form->addCommandButton("save", $lng->txt($a_new_type."_add"));
 			$this->form->addCommandButton("cancelCreation", $lng->txt("cancel"));
+			$this->form->setTitle($lng->txt($a_new_type."_new"));
 		}
 		else
 		{
 			$this->form->addCommandButton("update", $lng->txt("save"));
 			$this->form->addCommandButton("cancelUpdate", $lng->txt("cancel"));
+			$this->form->setTitle($lng->txt("edit"));
 		}
 	                
-		$this->form->setTitle($lng->txt($a_new_type."_new"));
 		$this->form->setFormAction($ilCtrl->getFormAction($this));
 	 
 	}
 
+	/**
+	* Get values for standard form
+	*/
+	function getStandardFormValues()
+	{
+		$values["title"] = $this->object->getTitle();
+		$values["desc"] = $this->object->getDescription();
+		$this->form->setValuesByArray($values);
+	}
+	
 	/**
 	* cancel action and go back to previous page
 	* @access	public
@@ -378,8 +389,23 @@ abstract class ilObject2GUI extends ilObjectGUI
 	*/
 	function editObject()
 	{
+		global $tpl;
+		
+		$this->initStandardForm("edit");
+		$this->getStandardFormValues();
+		$tpl->setContent($this->form->getHTML());
 	}
 	
+	/**
+	* cancel action and go back to previous page
+	* @access	public
+	*
+	*/
+	final function cancelUpdate()
+	{
+		$this->ctrl->redirect($this);
+	}
+
 	/**
 	* updates object entry in object_data
 	*
@@ -387,13 +413,20 @@ abstract class ilObject2GUI extends ilObjectGUI
 	*/
 	function updateObject()
 	{
-		$this->object->setTitle(ilUtil::stripSlashes($_POST["Fobject"]["title"]));
-		$this->object->setDescription(ilUtil::stripSlashes($_POST["Fobject"]["desc"]));
-		$this->update = $this->object->update();
-
-		ilUtil::sendSuccess($this->lng->txt("msg_obj_modified"),true);
+		global $lng;
 		
-		$this->afterUpdate();
+		$this->initStandardForm("edit");
+		if ($this->form->checkInput())
+		{
+			$this->object->setTitle($_POST["title"]);
+			$this->object->setDescription($_POST["desc"]);
+			$this->update = $this->object->update();
+			ilUtil::sendSuccess($lng->txt("msg_obj_modified"), true);
+			$this->afterUpdate();
+			return;
+		}
+		$this->form->setValuesByPost();
+		$tpl->setContent($this->form->getHtml());
 	}
 	
 	function afterUpdate()

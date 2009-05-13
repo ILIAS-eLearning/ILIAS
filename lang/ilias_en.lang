@@ -9417,3 +9417,8 @@ search#:#search_no_match_hint#:#Your search - <b>%s</b> - did not match any docu
 user#:#user_please_select_course_group#:#Please select a course or a group.
 user#:#user_any#:#Any
 user#:#user_global_role#:#Global Role
+mep#:#mep_folder_content#:#Folder Content
+mep#:#mep_all_mobs#:#All Media Objects
+mep#:#mep_unknown#:#Unknown
+mep#:#mep_all#:#All
+mep#:#mep_format#:#Format
