@@ -328,7 +328,7 @@ class ilMailbox
 		$row = $res->fetchRow(DB_FETCHMODE_OBJECT);
 					
 		$res2 = $ilDB->queryf('
-			SELECT count(mail_id) as cnt FROM mail m,mail_obj_data mo 
+			SELECT count(mail_id) cnt FROM mail m,mail_obj_data mo 
 		 	WHERE m.user_id = mo.user_id 
 		 	AND m.folder_id = mo.obj_id 
 		 	AND mo.type = %s

@@ -12102,4 +12102,46 @@ if (!$ilDB->tableExists("page_editor_settings"))
 <?php
 $ilCtrlStructureReader->getStructure();
 ?>
+<#2409>
+<?php 
+	$ilMySQLAbstraction->performAbstraction('addressbook');
+?>
 
+<#2410>
+ALTER TABLE `addressbook_mlist` CHANGE `description` `description` VARCHAR( 4000 ) NOT NULL;
+
+<#2411>
+<?php 
+	$ilMySQLAbstraction->performAbstraction('addressbook_mlist');
+?>
+
+<#2412>
+<?php 
+	$ilMySQLAbstraction->performAbstraction('addressbook_mlist_ass');
+?>
+
+
+<#2413>
+ALTER TABLE `mail_attachment` CHANGE `path` `path` VARCHAR( 4000 ) NOT NULL;
+
+<#2414>
+<?php 
+	$ilMySQLAbstraction->performAbstraction('mail_attachment');
+?>
+
+<#2415>
+ALTER TABLE `mail_saved` CHANGE `rcp_to` `rcp_to` VARCHAR( 4000 ) NULL DEFAULT NULL;
+
+<#2416>
+ALTER TABLE `mail_saved` CHANGE `rcp_cc` `rcp_cc` VARCHAR( 4000 ) NULL DEFAULT NULL;
+
+<#2417>
+ALTER TABLE `mail_saved` CHANGE `rcp_bcc` `rcp_bcc` VARCHAR( 4000 ) NULL DEFAULT NULL;
+
+<#2418>
+ALTER TABLE `mail_saved` CHANGE `m_message` `m_message` VARCHAR( 4000 ) NULL DEFAULT NULL;
+
+<#2419>
+<?php 
+	$ilMySQLAbstraction->performAbstraction('mail_saved');
+?>

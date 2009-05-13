@@ -76,8 +76,9 @@ class ilAddressbook
 
 		$this->table_addr = 'addressbook';
 	}
+	
 	/**
-	* Search users in addressbook
+	* Search users in addressbook     // tab: compose -> search user
 	* @param string query string
 	* @return array array of entries found in addressbook
 	* @access	public
@@ -88,16 +89,16 @@ class ilAddressbook
 
 		if($a_query_str)
 		{
-				$res = $ilDB->queryf("SELECT * FROM ".$this->table_addr." WHERE 
-				(login LIKE %s OR firstname LIKE %s OR lastname LIKE %s OR email LIKE %s) AND user_id = %s",
-				array('text', 'text', 'text', 'text', 'integer'), 
-				array( 	'%'.$a_query_str.'%', 
-							'%'.$a_query_str.'%', 
-							'%'.$a_query_str.'%', 
-							'%'.$a_query_str.'%',
-							$this->user_id			
-			));
+		
+			$query = "SELECT * FROM ".$this->table_addr." 
+				WHERE ( " .$ilDB->like('login', 'text', '%'.$a_query_str.'%'). " 
+				OR " .$ilDB->like('firstname', 'text', '%'.$a_query_str.'%'). "
+				OR " .$ilDB->like('lastname', 'text', '%'.$a_query_str.'%'). "
+				OR " .$ilDB->like('email', 'text', '%'.$a_query_str.'%'). ") 
+				AND user_id = ".$ilDB->quote($this->user_id, 'integer'). " " ;
+				
 			
+			$res = $ilDB->query($query);
 		}
 		else
 		{
@@ -130,16 +131,24 @@ class ilAddressbook
 	{
 		global $ilDB;
 		
+		//$nextId = $ilDB->nextId($this->table_addr);   //addr_id,
 		$statement = $ilDB->manipulateF("
 			INSERT INTO ".$this->table_addr."
-			SET user_id = %s,
-				login = %s,
-				firstname = %s,
-				lastname = %s,
-				email = %s",
-			array('integer', 'text', 'text', 'text', 'text'),
+			( 	
+				user_id,
+				login,
+				firstname,
+				lastname,
+				email
+			)
+			VALUES (%s, %s, %s, %s, %s)",
+			array( 'integer', 'text', 'text', 'text', 'text'),
 			array($this->user_id, $a_login, $a_firstname, $a_lastname, $a_email));
 		
+		/*VALUES (%s, %s, %s, %s, %s, %s)",
+			array('integer', 'integer', 'text', 'text', 'text', 'text'),
+			array($nextId, $this->user_id, $a_login, $a_firstname, $a_lastname, $a_email));
+		*/
 		return true;
 	}
 
@@ -159,9 +168,9 @@ class ilAddressbook
 		$statement = $ilDB->manipulateF( 
 			"UPDATE ".$this->table_addr ."
 			SET login = %s,
-			firstname = %s,
-			lastname = %s,
-			email = %s
+				firstname = %s,
+				lastname = %s,
+				email = %s
 			WHERE user_id = %s
 			AND addr_id = %s",
 			array('text', 'text', 'text', 'text', 'integer', 'integer'),
@@ -181,29 +190,27 @@ class ilAddressbook
 		
 		$data_types = array();
 		$data = array();
-		$query = "SELECT * FROM ".$this->table_addr." WHERE user_id = %s";
-		
-		array_push($data_types, 'integer');
-		array_push($data, $this->user_id);
+		$query = ("SELECT * FROM ".$this->table_addr." WHERE user_id = ".$ilDB->quote($this->user_id, 'integer')). " ";
 
 		if (trim($this->getSearchQuery()) != '')
 		{
-			$query .= " AND (login LIKE %s 
-				OR firstname LIKE %s 
-				OR lastname LIKE %s 
-				OR email LIKE %s) ";
-			
-			array_push($data_types, 'text', 'text', 'text', 'text');
-			array_push($data, 	'%'.trim($this->getSearchQuery()).'%', 
-								'%'.trim($this->getSearchQuery()).'%', 
-								'%'.trim($this->getSearchQuery()).'%', 
-								'%'.trim($this->getSearchQuery()).'%'
+			$sub_query .= " AND ( %s 
+				OR %s 
+				OR %s 
+				OR %s) ";
+
+			$query .= sprintf($sub_query, 	$ilDB->like('login','text','%'.trim($this->getSearchQuery()).'%'), 
+											$ilDB->like('firstname','text','%'.trim($this->getSearchQuery()).'%'), 
+											$ilDB->like('lastname','text','%'.trim($this->getSearchQuery()).'%'),  
+											$ilDB->like('email','text','%'.trim($this->getSearchQuery()).'%')
 			);
+			
+		
 		}
 		
 		$query .= " ORDER BY login, lastname";
 		
-		$res = $ilDB->queryf($query, $data_types, $data);
+		$res = $ilDB->query($query, $data_types, $data);
 		
 		while($row = $res->fetchRow(DB_FETCHMODE_OBJECT))
 		{
