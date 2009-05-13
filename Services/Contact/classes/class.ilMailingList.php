@@ -55,21 +55,24 @@ class ilMailingList
 	
 	public function insert()
 	{
+		$nextId = $this->db->nextId('addressbook_mlist');
 		$statement = $this->db->manipulateF('
 			INSERT INTO addressbook_mlist 
-			SET ml_id = %s, 
-				user_id = %s, 
-				title = %s, 
-				description = %s, 
-				createdate = %s, 
-				changedate = %s',
+			(   ml_id,
+				user_id,
+				title,
+				description,
+				createdate,
+				changedate
+			)
+			VALUES(%s, %s, %s, %s, %s, %s)',
 			array(	'integer',
 					'integer',
 					'text', 
 					'text', 
 					'timestamp',
 					'timestamp'),
-			array(	'', 
+			array(	$nextId,  
 					$this->getUserId(), 
 					$this->getTitle(), 
 					$this->getDescription(), 
@@ -77,7 +80,7 @@ class ilMailingList
 					''
 		));
 		
-		$this->mail_id = $this->db->getLastInsertId();
+		$this->mail_id = $nextId;
 		
 		return true;
 	}
@@ -198,13 +201,16 @@ class ilMailingList
 	
 	public function assignAddressbookEntry($addr_id = 0)	
 	{
+		$nextId = $this->db->nextId('addressbook_mlist_ass');
 		$statement = $this->db->manipulateF('
 			INSERT INTO addressbook_mlist_ass 
-			SET a_id = %s, 
-				ml_id = %s, 
-				addr_id = %s',
+			( 	a_id, 
+				ml_id,
+				addr_id
+			)
+			VALUES(%s,%s,%s )',
 			array('integer', 'integer', 'integer'),
-			array('', $this->getId(), $addr_id));
+			array($nextId, $this->getId(), $addr_id));
 		
 		return true;
 	}
@@ -214,10 +220,10 @@ class ilMailingList
 	
 		$statement = $this->db->manipulateF('	
 		DELETE FROM addressbook_mlist_ass 
-				WHERE 1 
-				AND a_id = %s',
-				array('integer'),
-				array($a_id));
+			WHERE 1 
+			AND a_id = %s',
+			array('integer'),
+			array($a_id));
 		
 		return true;
 	}

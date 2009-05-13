@@ -115,12 +115,21 @@ class ilFileDataMail extends ilFileData
 	{
 		global $ilDB;
 		
-		$query = "SELECT path FROM mail_attachment ".
+/*		$query = "SELECT path FROM mail_attachment ".
 			"WHERE mail_id = ".$ilDB->quote($a_mail_id)."";
 		
 		$row = $this->ilias->db->getRow($query,DB_FETCHMODE_OBJECT);
 		$path = $this->getMailPath().'/'.$row->path;
-
+*/
+		$query = $ilDB->query("SELECT path FROM mail_attachment 
+				  WHERE mail_id = ".$ilDB->quote($a_mail_id,'integer')."");
+		
+		while($row = $ilDB->fetchObject($query))
+		{
+			$path = $this->getMailPath().'/'.$row->path;	
+		}
+		
+		
 		$files = ilUtil::getDir($path);
 		foreach((array)$files as $file)
 		{
@@ -147,12 +156,20 @@ class ilFileDataMail extends ilFileData
 	{
 		global $ilDB;
 		
-		$query = "SELECT path FROM mail_attachment ".
+/*		$query = "SELECT path FROM mail_attachment ".
 			"WHERE mail_id = ".$ilDB->quote($a_mail_id)."";
 		
 		$row = $this->ilias->db->getRow($query,DB_FETCHMODE_OBJECT);
 		$path = $this->getMailPath().'/'.$row->path.'/'.$a_filename;
+*/
+		$query = $ilDB->query("SELECT path FROM mail_attachment ".
+			"WHERE mail_id = ".$ilDB->quote($a_mail_id, 'integer')."");
 
+		while($row = $ilDB->fetchObject($query))
+		{
+			$path = $this->getMailPath().'/'.$row->path.'/'.$a_filename;			
+		}
+			
 		if(file_exists($path))
 		{
 			if(is_readable($path))
@@ -438,10 +455,18 @@ class ilFileDataMail extends ilFileData
 	{
 		global $ilDB;
 		
-		$query = "INSERT INTO mail_attachment ".
+/*		$query = "INSERT INTO mail_attachment ".
 			"SET mail_id = ".$ilDB->quote($a_mail_id).", ".
 			"path = ".$ilDB->quote($this->user_id."_".$a_sent_mail_id)." ";
 		$res = $this->ilias->db->query($query);
+*/
+		$res = $ilDB->manipulateF('
+			INSERT INTO mail_attachment 
+			( mail_id, path) VALUES (%s, %s)',
+			array('integer', 'text'),
+			array($a_mail_id, $this->user_id."_".$a_sent_mail_id)
+		); 
+				
 	}
 	/**
 	* dassign attachments from mail directory
@@ -453,20 +478,18 @@ class ilFileDataMail extends ilFileData
 	{
 		global $ilDB;
 		// IF IT'S THE LAST MAIL CONTAINING THESE ATTACHMENTS => DELETE ATTACHMENTS
-		$query = "SELECT path FROM mail_attachment ".
-			"WHERE mail_id = ".$ilDB->quote($a_mail_id)." ";
-
-		$res = $this->ilias->db->query($query);
+		$res = $ilDB->query("SELECT path FROM mail_attachment
+				WHERE mail_id = ".$ilDB->quote($a_mail_id,'integer'));
+	
 		while($row = $res->fetchRow(DB_FETCHMODE_OBJECT))
 		{
 			$path = $row->path;
 		}
 		if($path)
 		{
-			$query = "SELECT COUNT(mail_id) AS count_mail_id FROM mail_attachment ".
-				"WHERE path = ".$ilDB->quote($path)." ";
-
-			$res = $this->ilias->db->query($query);
+			$res = $ilDB->query("SELECT COUNT(mail_id) count_mail_id FROM mail_attachment 
+					WHERE path = ".$ilDB->quote($path,'text')) ;
+			
 			while($row = $res->fetchRow(DB_FETCHMODE_OBJECT))
 			{
 				$cnt_mail_id = $row->count_mail_id;
@@ -477,9 +500,10 @@ class ilFileDataMail extends ilFileData
 			}
 		}
 
-		$query = "DELETE FROM mail_attachment ".
-			"WHERE mail_id = ".$ilDB->quote($a_mail_id)." ";
-		$res = $this->ilias->db->query($query);
+		$res = $ilDB->manipulateF("DELETE FROM mail_attachment 
+				WHERE mail_id = %s",
+				array('integer'),
+				array($a_mail_id));
 		return true;
 	}
 
@@ -533,11 +557,10 @@ class ilFileDataMail extends ilFileData
 		
 		$mail_data_dir = ilUtil::getDataDir('filesystem').DIRECTORY_SEPARATOR."mail";
 		
-		$q = "SELECT path ".
-			"FROM mail_attachment AS ma ".
-			"JOIN mail AS m ON ma.mail_id=m.mail_id ".
-			"WHERE m.user_id = ".$ilDB->quote($user_id);
-		$result_set = $ilDB->query($q);
+		$result_set = $ilDB->query("SELECT path FROM mail_attachment ma ".
+			"JOIN mail m ON ma.mail_id = m.mail_id ".
+			"WHERE m.user_id = ".$ilDB->quote($user_id, 'integer'));
+	
 		$size = 0;
 		$count = 0;
 		while($row = $result_set->fetchRow(DB_FETCHMODE_ASSOC))
