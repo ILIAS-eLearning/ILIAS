@@ -537,16 +537,6 @@ class ilObjRootFolderGUI extends ilContainerGUI
 		$this->object->removeTinyIcon();
 		ilUtil::redirect($this->ctrl->getLinkTarget($this, $_GET["mode"]));
 	}
-
-	/**
-	* Get Actions
-	*/
-	function getActions()
-	{
-		$d = parent::getActions();
-		unset($d["link"]);			// in root folder we have only categories (cannot be linked)
-		return $d;
-	}
 	
 	/**
 	* goto target group

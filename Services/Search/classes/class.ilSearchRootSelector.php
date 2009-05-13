@@ -71,10 +71,25 @@ class ilSearchRootSelector extends ilExplorer
 		$this->addFilter("grp");
 		$this->addFilter("fold");
 		$this->addFilter("crs");
+		$this->setClickableTypes(array("root", "cat", "grp", "fold", "crs"));
 
 		$this->setFiltered(true);
 		$this->setFilterMode(IL_FM_POSITIVE);
 
+	}
+	
+	function setClickableTypes($a_types)
+	{
+		$this->clickable_types = $a_types;
+	}
+	
+	function isClickable($a_type, $a_ref_id = 0)
+	{
+		if (in_array($a_type, $this->clickable_types))
+		{
+			return true;
+		}
+		return false;
 	}
 
 	function setTargetClass($a_class)
@@ -150,14 +165,17 @@ class ilSearchRootSelector extends ilExplorer
 
 		#$tpl = new ilTemplate("tpl.tree.html", true, true);
 
-		$tpl->setCurrentBlock("link");
-		$tpl->setVariable("LINK_NAME",$lng->txt('repository'));
-		
-		$this->ctrl->setParameterByClass($this->getTargetClass(),'root_id',ROOT_FOLDER_ID);
-		$tpl->setVariable("LINK_TARGET",$this->ctrl->getLinkTargetByClass($this->getTargetClass(),$this->getCmd()));
-		$tpl->setVariable("TITLE", $lng->txt("repository"));
-		
-		$tpl->parseCurrentBlock();
+		if (in_array("root", $this->clickable_types))
+		{
+			$tpl->setCurrentBlock("link");
+			$tpl->setVariable("LINK_NAME",$lng->txt('repository'));
+			
+			$this->ctrl->setParameterByClass($this->getTargetClass(),'root_id',ROOT_FOLDER_ID);
+			$tpl->setVariable("LINK_TARGET",$this->ctrl->getLinkTargetByClass($this->getTargetClass(),$this->getCmd()));
+			$tpl->setVariable("TITLE", $lng->txt("repository"));
+			
+			$tpl->parseCurrentBlock();
+		}
 		$tpl->setCurrentBlock("row");
 		$tpl->parseCurrentBlock();
 

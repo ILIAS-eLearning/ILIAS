@@ -285,9 +285,11 @@ class ilDateTimeInputGUI extends ilSubEnabledFormPropertyGUI
 	* Insert property html
 	*
 	*/
-	function insert(&$a_tpl)
+	function render()
 	{
 		global $lng,$ilUser;
+		
+		$tpl = new ilTemplate("tpl.prop_datetime.html", true, true, "Services/Form");
 		
 		if(is_a($this->getDate(),'ilDate'))
 		{
@@ -310,49 +312,94 @@ class ilDateTimeInputGUI extends ilSubEnabledFormPropertyGUI
 		
 		if(strlen($this->getActivationPostVar()))
 		{
-			$a_tpl->setCurrentBlock('prop_date_activation');
-			$a_tpl->setVariable('CHECK_ENABLED_DATE',$this->getActivationPostVar());
-			$a_tpl->setVariable('TXT_DATE_ENABLED',$this->activation_title);
-			$a_tpl->setVariable('CHECKED_ENABLED',$this->activation_checked ? 'checked="checked"' : '');
-			$a_tpl->setVariable('CHECKED_DISABLED',$this->getDisabled() ? 'disabled="disabled" ' : '');
-			$a_tpl->parseCurrentBlock();
+			$tpl->setCurrentBlock('prop_date_activation');
+			$tpl->setVariable('CHECK_ENABLED_DATE',$this->getActivationPostVar());
+			$tpl->setVariable('TXT_DATE_ENABLED',$this->activation_title);
+			$tpl->setVariable('CHECKED_ENABLED',$this->activation_checked ? 'checked="checked"' : '');
+			$tpl->setVariable('CHECKED_DISABLED',$this->getDisabled() ? 'disabled="disabled" ' : '');
+			$tpl->parseCurrentBlock();
 		}
 		
 		if ($this->getShowDate())
 		{
-			$a_tpl->setCurrentBlock("prop_date");
-			$a_tpl->setVariable("IMG_DATE_CALENDAR", ilUtil::getImagePath("calendar.png"));
-			$a_tpl->setVariable("TXT_DATE_CALENDAR", $lng->txt("open_calendar"));
-			$a_tpl->setVariable("DATE_ID", $this->getPostVar());
-			$a_tpl->setVariable("INPUT_FIELDS_DATE", $this->getPostVar()."[date]");
-			$a_tpl->setVariable("DATE_SELECT",
+			$tpl->setCurrentBlock("prop_date");
+			$tpl->setVariable("IMG_DATE_CALENDAR", ilUtil::getImagePath("calendar.png"));
+			$tpl->setVariable("TXT_DATE_CALENDAR", $lng->txt("open_calendar"));
+			$tpl->setVariable("DATE_ID", $this->getPostVar());
+			$tpl->setVariable("INPUT_FIELDS_DATE", $this->getPostVar()."[date]");
+			$tpl->setVariable("DATE_SELECT",
 				ilUtil::makeDateSelect($this->getPostVar()."[date]", $date_info['year'], $date_info['mon'], $date_info['mday'],
 					'',true,array('disabled' => $this->getDisabled())));
-			$a_tpl->parseCurrentBlock();
+			$tpl->parseCurrentBlock();
 			
 		}
 		if($this->getShowTime())
 		{
-			$a_tpl->setCurrentBlock("prop_time");
+			$tpl->setCurrentBlock("prop_time");
 			#$time = explode(":", $this->getTime());
-			$a_tpl->setVariable("TIME_SELECT",
+			$tpl->setVariable("TIME_SELECT",
 				ilUtil::makeTimeSelect($this->getPostVar()."[time]", !$this->getShowSeconds(),
 				$date_info['hours'], $date_info['minutes'], $date_info['seconds'],
 				true,array('minute_steps' => $this->getMinuteStepSize(),
 							'disabled' => $this->getDisabled())));
 				
 			
-			$a_tpl->setVariable("TXT_TIME", $this->getShowSeconds()
+			$tpl->setVariable("TXT_TIME", $this->getShowSeconds()
 				? "(".$lng->txt("hh_mm_ss").")"
 				: "(".$lng->txt("hh_mm").")");
-			$a_tpl->parseCurrentBlock();
+			$tpl->parseCurrentBlock();
 		}
-		$a_tpl->setCurrentBlock("prop_datetime");
+		
 		if ($this->getShowTime() && $this->getShowDate())
 		{
-			$a_tpl->setVariable("DELIM", "<br />");
+			$tpl->setVariable("DELIM", "<br />");
 		}
+
+		return $tpl->get();
+	}
+
+	/**
+	* Insert property html
+	*
+	* @return	int	Size
+	*/
+	function insert(&$a_tpl)
+	{
+		$html = $this->render();
+
+		$a_tpl->setCurrentBlock("prop_generic");
+		$a_tpl->setVariable("PROP_GENERIC", $html);
 		$a_tpl->parseCurrentBlock();
+	}
+
+	/**
+	* Get HTML for table filter
+	*/
+	function getTableFilterHTML()
+	{
+		$html = $this->render();
+		return $html;
+	}
+
+	/**
+	* serialize data
+	*/
+	function serializeData()
+	{
+		return serialize($this->getDate());
+	}
+	
+	/**
+	* unserialize data
+	*/
+	function unserializeData($a_data)
+	{
+		$data = unserialize($a_data);
+
+		if (is_object($data))
+		{
+			$this->setDate($data);
+		}
 	}
 
 }

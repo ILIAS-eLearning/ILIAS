@@ -272,12 +272,17 @@ class ilLMObjectGUI
 	*
 	* @access	public
 	*/
-	function showActions()
+	function showActions($a_actions)
 	{
+		foreach ($a_actions as $name => $lng)
+		{
+			$d[$name] = array("name" => $name, "lng" => $lng);
+		}
+
 		$notoperations = array();
 		$operations = array();
 
-		$operations = $this->actions;
+		$operations = $d;
 
 		if (count($operations) > 0)
 		{

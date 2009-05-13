@@ -58,10 +58,6 @@
 <!-- BEGIN prop_custom -->
 		{CUSTOM_CONTENT}
 <!-- END prop_custom -->
-<!-- BEGIN prop_checkbox -->
-		<input style="position:absolute;" onclick="ilFormShowSubForm('subform_{ID}','il_prop_cont_{ID}', this);" type="checkbox" id="{ID}" name="{POST_VAR}" value="{PROPERTY_VALUE}" {PROPERTY_CHECKED} {DISABLED} {PROP_CHECK_ATTRS} />
-		<div style="margin-left:28px; margin-bottom:5px;"><label for="{ID}">{OPTION_TITLE}</label>&nbsp;</div>
-<!-- END prop_checkbox -->
 <!-- BEGIN prop_generic -->
 		{PROP_GENERIC}
 <!-- END prop_generic -->
@@ -115,30 +111,6 @@
 		<div class="ilFormInfo">{TXT_MAX_SIZE}</div>
 {JAVASCRIPT_FLASH}
 <!-- END prop_flash_file -->
-<!-- BEGIN prop_datetime -->
-<!-- BEGIN prop_date_activation -->
-			<input type="checkbox" name="{CHECK_ENABLED_DATE}" value="1" {CHECKED_ENABLED} {CHECKED_DISABLED}/> {TXT_DATE_ENABLED}<br />
-<!-- END prop_date_activation -->
-<!-- BEGIN prop_date -->
-			<span style="white-space:nowrap;">
-			{DATE_SELECT}
-			<input type="image" alt="{TXT_DATE_CALENDAR}" title="{TXT_DATE_CALENDAR}" src="{IMG_DATE_CALENDAR}" id="btn_cal_{DATE_ID}" />
-			</span>
-			<script type="text/javascript">
-			//<![CDATA[
-			Calendar.setup( 
-			{ 
-				button : "btn_cal_{DATE_ID}",
-				inputFieldsDate : "{INPUT_FIELDS_DATE}"
-			}
-			);
-			//]]>
-			</script>
-<!-- END prop_date -->{DELIM}
-<!-- BEGIN prop_time -->
-			{TIME_SELECT} {TXT_TIME}
-<!-- END prop_time -->
-<!-- END prop_datetime -->
 <!-- BEGIN prop_duration -->
 <!-- BEGIN dur_months -->{TXT_MONTHS}: {SELECT_MONTHS}&nbsp;<!-- END dur_months -->
 <!-- BEGIN dur_days -->{TXT_DAYS}: {SELECT_DAYS}&nbsp;<!-- END dur_days -->

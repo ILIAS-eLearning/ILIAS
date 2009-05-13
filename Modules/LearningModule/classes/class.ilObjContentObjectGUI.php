@@ -1381,8 +1381,7 @@ class ilObjContentObjectGUI extends ilObjectGUI
 				{
 					$acts["pasteChapter"] =  "pasteChapter";
 				}
-				$this->setActions($acts);
-				$this->showActions();
+				$this->showActions($acts);
 			}
 	
 			// SHOW POSSIBLE SUB OBJECTS
@@ -1532,9 +1531,8 @@ class ilObjContentObjectGUI extends ilObjectGUI
 			{
 				$acts["pasteChapter"] =  "pasteChapter";
 			}*/
-			$this->setActions($acts);
 			$this->tpl->setVariable("NUM_COLS", 4);
-			$this->showActions();
+			$this->showActions($acts);
 
 			// SHOW VALID ACTIONS
 			/*
@@ -1888,13 +1886,16 @@ class ilObjContentObjectGUI extends ilObjectGUI
 	*
 	* @access	public
 	*/
-	function showActions()
+	function showActions($a_actions)
 	{
+		foreach ($a_actions as $name => $lng)
+		{
+			$d[$name] = array("name" => $name, "lng" => $lng);
+		}
+
 		$notoperations = array();
 
 		$operations = array();
-
-		$d = $this->actions;
 
 		if (is_array($d))
 		{

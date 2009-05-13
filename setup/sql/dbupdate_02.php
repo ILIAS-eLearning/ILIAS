@@ -12145,3 +12145,7 @@ ALTER TABLE `mail_saved` CHANGE `m_message` `m_message` VARCHAR( 4000 ) NULL DEF
 <?php 
 	$ilMySQLAbstraction->performAbstraction('mail_saved');
 ?>
+<#2420>
+<?php
+$ilCtrlStructureReader->getStructure();
+?>

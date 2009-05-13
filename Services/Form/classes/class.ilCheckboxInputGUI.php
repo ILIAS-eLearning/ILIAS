@@ -166,32 +166,76 @@ class ilCheckboxInputGUI extends ilSubEnabledFormPropertyGUI
 	}
 
 	/**
-	* Insert property html
-	*
+	* Render item
 	*/
-	function insert(&$a_tpl)
+	function render()
 	{
+		$tpl = new ilTemplate("tpl.prop_checkbox.html", true, true, "Services/Form");
 		
-		$a_tpl->setCurrentBlock("prop_checkbox");
-		$a_tpl->setVariable("POST_VAR", $this->getPostVar());
-		$a_tpl->setVariable("ID", $this->getFieldId());
-		$a_tpl->setVariable("PROPERTY_VALUE", $this->getValue());
-		$a_tpl->setVariable("OPTION_TITLE", $this->getOptionTitle());
+		$tpl->setVariable("POST_VAR", $this->getPostVar());
+		$tpl->setVariable("ID", $this->getFieldId());
+		$tpl->setVariable("PROPERTY_VALUE", $this->getValue());
+		$tpl->setVariable("OPTION_TITLE", $this->getOptionTitle());
 		if(strlen($this->getAdditionalAttributes()))
 		{
-			$a_tpl->setVariable('PROP_CHECK_ATTRS',$this->getAdditionalAttributes());
+			$tpl->setVariable('PROP_CHECK_ATTRS',$this->getAdditionalAttributes());
 		}
 		if ($this->getChecked())
 		{
-			$a_tpl->setVariable("PROPERTY_CHECKED",
+			$tpl->setVariable("PROPERTY_CHECKED",
 				'checked="checked"');
 		}
 		if ($this->getDisabled())
 		{
-			$a_tpl->setVariable("DISABLED",
+			$tpl->setVariable("DISABLED",
 				'disabled="disabled"');
 		}
+		return $tpl->get();
+	}
+
+	/**
+	* Insert property html
+	*
+	* @return	int	Size
+	*/
+	function insert(&$a_tpl)
+	{
+		$html = $this->render();
+
+		$a_tpl->setCurrentBlock("prop_generic");
+		$a_tpl->setVariable("PROP_GENERIC", $html);
 		$a_tpl->parseCurrentBlock();
+	}
+
+	/**
+	* Get HTML for table filter
+	*/
+	function getTableFilterHTML()
+	{
+		$html = $this->render();
+		return $html;
+	}
+
+	/**
+	* serialize data
+	*/
+	function serializeData()
+	{
+		return serialize($this->getChecked());
+	}
+	
+	/**
+	* unserialize data
+	*/
+	function unserializeData($a_data)
+	{
+		$data = unserialize($a_data);
+
+		if ($data)
+		{
+			$this->setValue($data);
+			$this->setChecked(true);
+		}
 	}
 
 }

@@ -722,12 +722,6 @@ class ilObjGlossaryGUI extends ilObjectGUI
 		$term_list = $this->object->getTermList();
 		$tbl->setMaxCount(count($term_list));
 
-//echo "maxcount:".count($term_list).":";
-//echo "+".$_GET["offset"]."+".$_GET["limit"]."+";
-
-		$this->setActions(array("confirmTermDeletion" => "delete", "addDefinition" => "cont_add_definition"));
-		//$this->setSubObjects(array("term" => array()));
-
 		// footer
 		$tbl->setFooter("tblfooter",$this->lng->txt("previous"),$this->lng->txt("next"));
 
@@ -741,7 +735,7 @@ class ilObjGlossaryGUI extends ilObjectGUI
 		if (count($term_list) > 0)
 		{
 			$this->tpl->setVariable("COLUMN_COUNTS", 4);
-			$this->showActions(true);
+			$this->showActions(array("confirmTermDeletion" => "delete", "addDefinition" => "cont_add_definition"));
 
 			$i=1;
 			foreach($term_list as $key => $term)
@@ -850,6 +844,39 @@ class ilObjGlossaryGUI extends ilObjectGUI
 			$this->tpl->setCurrentBlock("notfound");
 			$this->tpl->setVariable("TXT_OBJECT_NOT_FOUND", $this->lng->txt("obj_not_found"));
 			$this->tpl->setVariable("NUM_COLS", $num);
+			$this->tpl->parseCurrentBlock();
+		}
+	}
+
+		/**
+	* show possible action (form buttons)
+	*
+	* @access	public
+	*/
+	function showActions($a_actions)
+	{
+		foreach ($a_actions as $name => $lng)
+		{
+			$d[$name] = array("name" => $name, "lng" => $lng);
+		}
+
+		$notoperations = array();
+		$operations = array();
+
+		$operations = $d;
+
+		if (count($operations) > 0)
+		{
+			foreach ($operations as $val)
+			{
+				$this->tpl->setCurrentBlock("tbl_action_btn");
+				$this->tpl->setVariable("BTN_NAME", $val["name"]);
+				$this->tpl->setVariable("BTN_VALUE", $this->lng->txt($val["lng"]));
+				$this->tpl->parseCurrentBlock();
+			}
+
+			$this->tpl->setCurrentBlock("tbl_action_row");
+			$this->tpl->setVariable("IMG_ARROW",ilUtil::getImagePath("arrow_downright.gif"));
 			$this->tpl->parseCurrentBlock();
 		}
 	}
