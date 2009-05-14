@@ -331,7 +331,7 @@ class ilObjectGUI
 		$this->tpl->setTitleIcon(ilUtil::getImagePath("icon_".$this->object->getType()."_b.gif"), $this->lng->txt("obj_" . $this->object->getType()));
 	}
 	
-	final private function showUpperIcon()
+	protected function showUpperIcon()
 	{
 		global $tree, $tpl, $objDefinition;
 
