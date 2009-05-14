@@ -257,6 +257,7 @@ class ilObjMediaPoolGUI extends ilObject2GUI
 			case 'ilinfoscreengui':
 				$this->prepareOutput();
 				$this->infoScreen();
+				$this->tpl->show();
 				break;
 
 			case 'ilpermissiongui':
@@ -270,7 +271,11 @@ class ilObjMediaPoolGUI extends ilObject2GUI
 			default:
 				$this->prepareOutput();
 				$cmd = $this->ctrl->getCmd("frameset");
-				$this->$cmd();	
+				$this->$cmd();
+				if (!$this->getCreationMode())
+				{
+					$this->tpl->show();
+				}
 				break;
 		}
 	}
@@ -288,6 +293,89 @@ class ilObjMediaPoolGUI extends ilObject2GUI
 	}
 
 	/**
+	* Init object creation form
+	*
+	* @param        int        $a_mode        Edit Mode
+	*/
+	public function initEditForm($a_mode = "edit", $a_new_type = "")
+	{
+		global $lng, $ilCtrl;
+	
+		include_once("Services/Form/classes/class.ilPropertyFormGUI.php");
+		$this->form = new ilPropertyFormGUI();
+		if ($a_mode != "edit")
+		{
+			$this->form->setTarget("_top");
+		}
+	
+		// title
+		$ti = new ilTextInputGUI($this->lng->txt("title"), "title");
+		$ti->setMaxLength(128);
+		$ti->setSize(40);
+		$ti->setRequired(true);
+		$this->form->addItem($ti);
+		
+		// description
+		$ta = new ilTextAreaInputGUI($this->lng->txt("description"), "desc");
+		$ta->setCols(40);
+		$ta->setRows(2);
+		$this->form->addItem($ta);
+		
+		if ($a_mode == "edit")
+		{
+			// default width
+			$ni = new ilNumberInputGUI($this->lng->txt("mep_default_width"), "default_width");
+			$ni->setMinValue(0);
+			$ni->setMaxLength(5);
+			$ni->setSize(5);
+			$this->form->addItem($ni);
+			
+			// default height
+			$ni = new ilNumberInputGUI($this->lng->txt("mep_default_height"), "default_height");
+			$ni->setMinValue(0);
+			$ni->setMaxLength(5);
+			$ni->setSize(5);
+			$ni->setInfo($this->lng->txt("mep_default_width_height_info"));
+			$this->form->addItem($ni);
+		}
+	
+		// save and cancel commands
+		if ($a_mode == "create")
+		{
+			$this->form->addCommandButton("save", $lng->txt($a_new_type."_add"));
+			$this->form->addCommandButton("cancelCreation", $lng->txt("cancel"));
+			$this->form->setTitle($lng->txt($a_new_type."_new"));
+		}
+		else
+		{
+			$this->form->addCommandButton("update", $lng->txt("save"));
+			//$this->form->addCommandButton("cancelUpdate", $lng->txt("cancel"));
+			$this->form->setTitle($lng->txt("edit"));
+		}
+	                
+		$this->form->setFormAction($ilCtrl->getFormAction($this));
+	 
+	}
+
+	/**
+	* Get values for edit form
+	*/
+	function getEditFormValues()
+	{
+		$values["title"] = $this->object->getTitle();
+		$values["desc"] = $this->object->getDescription();
+		if ($this->object->getDefaultWidth() > 0)
+		{
+			$values["default_width"] = $this->object->getDefaultWidth();
+		}
+		if ($this->object->getDefaultHeight() > 0)
+		{
+			$values["default_height"] = $this->object->getDefaultHeight();
+		}
+		$this->form->setValuesByArray($values);
+	}
+
+	/**
 	* save object
 	* @access	public
 	*/
@@ -297,7 +385,7 @@ class ilObjMediaPoolGUI extends ilObject2GUI
 		ilUtil::sendSuccess($this->lng->txt("object_added"),true);
 
 		//ilUtil::redirect($this->getReturnLocation("save","adm_object.php?".$this->link_params));
-		ilUtil::redirect("ilias.php?baseClass=ilMediaPoolPresentationGUI&ref_id=".$newObj->getRefId());
+		ilUtil::redirect("ilias.php?baseClass=ilMediaPoolPresentationGUI&ref_id=".$newObj->getRefId()."&cmd=edit");
 	}
 
 	/**
@@ -326,7 +414,7 @@ class ilObjMediaPoolGUI extends ilObject2GUI
 	function edit()
 	{
 		$this->editObject();
-		$this->tpl->show();
+//		$this->tpl->show();
 	}
 
 	/**
@@ -352,9 +440,34 @@ class ilObjMediaPoolGUI extends ilObject2GUI
 		$this->updateObject();
 	}
 
+	/**
+	* updates object entry in object_data
+	*
+	* @access	public
+	*/
+	function updateObject()
+	{
+		global $lng, $tpl;
+		
+		$this->initEditForm("edit");
+		if ($this->form->checkInput())
+		{
+			$this->object->setTitle($_POST["title"]);
+			$this->object->setDescription($_POST["desc"]);
+			$this->object->setDefaultWidth($_POST["default_width"]);
+			$this->object->setDefaultHeight($_POST["default_height"]);
+			$this->update = $this->object->update();
+			ilUtil::sendSuccess($lng->txt("msg_obj_modified"), true);
+			$this->afterUpdate();
+			return;
+		}
+		$this->form->setValuesByPost();
+		$tpl->setContent($this->form->getHtml());
+	}
+
 	function afterUpdate()
 	{
-		$this->ctrl->redirect($this);
+		$this->ctrl->redirect($this, "edit");
 	}
 
 	/**
@@ -374,7 +487,7 @@ class ilObjMediaPoolGUI extends ilObject2GUI
 		include_once("./Modules/MediaPool/classes/class.ilMediaPoolTableGUI.php");
 		$mep_table_gui = new ilMediaPoolTableGUI($this, "listMedia", $this->object);
 		$tpl->setContent($mep_table_gui->getHTML());
-		$this->tpl->show();
+//		$this->tpl->show();
 	}
 
 	/**
@@ -395,7 +508,7 @@ class ilObjMediaPoolGUI extends ilObject2GUI
 		$mep_table_gui = new ilMediaPoolTableGUI($this, "allMedia", $this->object,
 			"obj_id", ilMediaPoolTableGUI::IL_MEP_EDIT, true);
 		$tpl->setContent($mep_table_gui->getHTML());
-		$this->tpl->show();
+//		$this->tpl->show();
 	}
 
 	/**
@@ -552,7 +665,7 @@ class ilObjMediaPoolGUI extends ilObject2GUI
 		$exp->setOutput(0);
 		$output = $exp->getOutput();
 		echo $output;
-		
+		exit;
 /*		$this->tpl->setCurrentBlock("content");
 		$this->tpl->setVariable("TXT_EXPLORER_HEADER", $this->lng->txt("cont_mep_structure"));
 		$this->tpl->setVariable("EXP_REFRESH", $this->lng->txt("refresh"));
@@ -625,7 +738,7 @@ class ilObjMediaPoolGUI extends ilObject2GUI
 		$this->tpl->setVariable("MEDIA_CONTENT", $output);
 
 		$this->tpl->parseCurrentBlock();
-		$this->tpl->show();
+//		$this->tpl->show();
 	}
 
 	/**
@@ -693,7 +806,7 @@ class ilObjMediaPoolGUI extends ilObject2GUI
 			$this->tpl->setVariable("BTN_VALUE",$value);
 			$this->tpl->parseCurrentBlock();
 		}
-		$this->tpl->show();
+//		$this->tpl->show();
 	}
 	
 	/**
@@ -870,7 +983,7 @@ class ilObjMediaPoolGUI extends ilObject2GUI
 		$folder_gui->setFormAction("save",
 			$this->ctrl->getFormActionByClass("ilobjfoldergui"));
 		$folder_gui->createObject();
-		$this->tpl->show();
+//		$this->tpl->show();
 	}
 
 	/**
@@ -1010,7 +1123,7 @@ class ilObjMediaPoolGUI extends ilObject2GUI
 		// forward the command
 		$this->ctrl->forwardCommand($info);
 		
-		$this->tpl->show();
+//		$this->tpl->show();
 	}
 
 }

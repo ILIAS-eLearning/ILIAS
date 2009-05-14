@@ -838,7 +838,7 @@ class ilObjectGUI
 	* @access	public
 	* @return	string
 	*/
-/*	public function getFormAction($a_cmd, $a_formaction = "")
+	public function getFormAction($a_cmd, $a_formaction = "")
 	{
 		if ($this->formaction[$a_cmd] != "")
 		{
@@ -848,7 +848,7 @@ class ilObjectGUI
 		{
 			return $a_formaction;
 		}
-	}*/
+	}
 
 	/**
 	* set specific form action for command
@@ -858,10 +858,10 @@ class ilObjectGUI
 	*										formaction was set)
 	* @access	public 
 	*/
-/*	protected function setFormAction($a_cmd, $a_formaction)
+	protected function setFormAction($a_cmd, $a_formaction)
 	{
 		$this->formaction[$a_cmd] = $a_formaction;
-	}*/
+	}
 
 	/**
 	* get return location for command (command is method name without "Object", e.g. "perm")

@@ -258,7 +258,7 @@ abstract class ilObject2GUI extends ilObjectGUI
 		else
 		{
 			$this->ctrl->setParameter($this, "new_type", $new_type);
-			$this->initStandardForm("create", $new_type);
+			$this->initEditForm("create", $new_type);
 			$tpl->setContent($this->form->getHTML());
 			
 		}
@@ -282,7 +282,7 @@ abstract class ilObject2GUI extends ilObjectGUI
 			$this->ilias->raiseError($this->lng->txt("no_create_permission"), $this->ilias->error_obj->MESSAGE);
 		}
 		$this->ctrl->setParameter($this, "new_type", $new_type);
-		$this->initStandardForm("create", $new_type);
+		$this->initEditForm("create", $new_type);
 		if ($this->form->checkInput())
 		{
 			
@@ -313,7 +313,7 @@ abstract class ilObject2GUI extends ilObjectGUI
 	*
 	* @param        int        $a_mode        Edit Mode
 	*/
-	public function initStandardForm($a_mode = "edit", $a_new_type = "")
+	public function initEditForm($a_mode = "edit", $a_new_type = "")
 	{
 		global $lng, $ilCtrl;
 	
@@ -353,9 +353,9 @@ abstract class ilObject2GUI extends ilObjectGUI
 	}
 
 	/**
-	* Get values for standard form
+	* Get values for edit form
 	*/
-	function getStandardFormValues()
+	function getEditFormValues()
 	{
 		$values["title"] = $this->object->getTitle();
 		$values["desc"] = $this->object->getDescription();
@@ -391,8 +391,8 @@ abstract class ilObject2GUI extends ilObjectGUI
 	{
 		global $tpl;
 		
-		$this->initStandardForm("edit");
-		$this->getStandardFormValues();
+		$this->initEditForm("edit");
+		$this->getEditFormValues();
 		$tpl->setContent($this->form->getHTML());
 	}
 	
@@ -413,9 +413,9 @@ abstract class ilObject2GUI extends ilObjectGUI
 	*/
 	function updateObject()
 	{
-		global $lng;
+		global $lng, $tpl;
 		
-		$this->initStandardForm("edit");
+		$this->initEditForm("edit");
 		if ($this->form->checkInput())
 		{
 			$this->object->setTitle($_POST["title"]);
