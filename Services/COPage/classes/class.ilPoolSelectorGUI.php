@@ -45,6 +45,7 @@ class ilPoolSelectorGUI extends ilExplorer
 
 		$this->ctrl =& $ilCtrl;
 		parent::ilExplorer($a_target);
+		$this->setFrameTarget("");
 	}
 
 	function setSelectableTypes($a_types)
