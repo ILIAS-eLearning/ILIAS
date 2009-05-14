@@ -884,10 +884,16 @@ class assFileUpload extends assQuestion
 			$userdata = array();
 			$data .= "<html><head>";
 			$data .= '<meta http-equiv="content-type" content="text/html; charset=UTF-8" />';
+			$data .= '<style>
+			 table { border: 1px #333 solid; border-collapse:collapse;}	
+			 td, th { border: 1px #333 solid; padding: 0.25em;}	
+			 th { color: #fff; background-color: #666;}
+			</style>
+			';
 			$data .= "<title>" . $this->getTitle() . "</title></head><body>\n";
 			$data .= "<h1>" . $this->getTitle() . "</h1>\n";
 			$data .= "<table><thead>\n";
-			$data .= "<tr><th>" . $this->lng->txt("name") . "</th><th>" . $this->lng->txt("filename") . "</th><th>" . $this->lng->txt("pass") . "</th><th>" . $this->lng->txt("location") . "</th></tr></thead><tbody>\n";
+			$data .= "<tr><th>" . $this->lng->txt("name") . "</th><th>" . $this->lng->txt("filename") . "</th><th>" . $this->lng->txt("pass") . "</th><th>" . $this->lng->txt("location") . "</th><th>" . $this->lng->txt("date") . "</th></tr></thead><tbody>\n";
 			while ($row = $ilDB->fetchAssoc($result))
 			{
 				ilUtil::makeDirParents($tempdir . "/" . $row["active_fi"]."/".$row["question_fi"]);
@@ -897,7 +903,9 @@ class assFileUpload extends assQuestion
 					include_once "./Modules/Test/classes/class.ilObjTestAccess.php";
 					$userdata[$row["active_fi"]] = ilObjTestAccess::_getParticipantData($row["active_fi"]);
 				}
-				$data .= "<tr><td>".$userdata[$row["active_fi"]]."</td><td><a href=\"".$row["active_fi"]."/".$row["question_fi"]."/".$row["value1"]."\">".$row["value2"]."</a></td><td>".$row["pass"]."</td><td>".$row["active_fi"]."/".$row["question_fi"]."/".$row["value1"]."</td></tr>\n";
+				$data .= "<tr><td>".$userdata[$row["active_fi"]]."</td><td><a href=\"".$row["active_fi"]."/".$row["question_fi"]."/".$row["value1"]."\" target=\"_blank\">".$row["value2"]."</a></td><td>".$row["pass"]."</td><td>".$row["active_fi"]."/".$row["question_fi"]."/".$row["value1"]."</td>";
+				$data .= "<td>" . ilFormat::fmtDateTime(ilFormat::unixtimestamp2datetime($row["tstamp"]), $this->lng->txt("lang_dateformat"), $this->lng->txt("lang_timeformat"), "datetime", FALSE) . "</td>";
+				$data .= "</tr>\n";
 			}
 			$data .= "</tbody></table>\n";
 			$data .= "</body></html>\n";

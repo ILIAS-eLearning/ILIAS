@@ -51,9 +51,9 @@ class assFileUploadFileTableGUI extends ilTable2GUI
 
 		$this->setFormName('test_output');
 		$this->setStyle('table', 'std');
-		$this->addColumn('','f','1');
-		$this->addColumn($this->lng->txt('filename'),'filename', 300);
-		$this->addColumn($this->lng->txt('date'),'date', 250);
+		$this->addColumn('','f','1%');
+		$this->addColumn($this->lng->txt('filename'),'filename', '70%');
+		$this->addColumn($this->lng->txt('date'),'date', '29%');
 	 	
 		$this->setPrefix('file');
 		$this->setSelectAllCheckbox('file');
@@ -80,7 +80,7 @@ class assFileUploadFileTableGUI extends ilTable2GUI
 		$this->tpl->setVariable('VAL_ID', $a_set['solution_id']);
 		if (strlen($a_set['webpath']))
 		{
-			$this->tpl->setVariable('VAL_FILE', '<a href="' . $a_set['webpath'] . $a_set['value1'] . '">' . ilUtil::prepareFormOutput($a_set['value2']) . '</a>');
+			$this->tpl->setVariable('VAL_FILE', '<a href="' . $a_set['webpath'] . $a_set['value1'] . '" target=\"_blank\">' . ilUtil::prepareFormOutput($a_set['value2']) . '</a>');
 		}
 		else
 		{
