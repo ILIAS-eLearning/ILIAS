@@ -157,7 +157,7 @@ abstract class ilObject2GUI extends ilObjectGUI
 	final protected function assignObject() { return parent::assignObject(); }
 	final protected function prepareOutput() { return parent::prepareOutput(); }
 	final protected function setTitleAndDescription() { return parent::setTitleAndDescription(); }
-//	final private function showUpperIcon() { return parent::showUpperIcon(); }
+	final protected function showUpperIcon() { return parent::showUpperIcon(); }
 //	final private function showMountWebfolderIcon() { return parent::showMountWebfolderIcon(); }
 	final public function getHTML() { return parent::getHTML(); }
 	final protected function setLocator() { return parent::setLocator(); }
