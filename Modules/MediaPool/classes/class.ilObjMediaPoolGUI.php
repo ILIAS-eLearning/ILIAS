@@ -145,6 +145,8 @@ class ilObjMediaPoolGUI extends ilObject2GUI
 				{
 					$ret_obj = $_GET["obj_id"];
 					$ilObjMediaObjectGUI =& new ilObjMediaObjectGUI("", 0, false, false);
+					$ilObjMediaObjectGUI->setWidthPreset($this->object->getDefaultWidth());
+					$ilObjMediaObjectGUI->setHeightPreset($this->object->getDefaultHeight());
 				}
 				else
 				{
