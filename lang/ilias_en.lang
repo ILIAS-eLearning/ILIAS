@@ -9422,3 +9422,6 @@ mep#:#mep_all_mobs#:#All Media Objects
 mep#:#mep_unknown#:#Unknown
 mep#:#mep_all#:#All
 mep#:#mep_format#:#Format
+mep#:#mep_default_width#:#Default Width
+mep#:#mep_default_height#:#Default Height
+mep#:#mep_default_width_height_info#:#Default width and height are used as presets for new media object creation.

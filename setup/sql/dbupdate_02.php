@@ -12149,3 +12149,49 @@ ALTER TABLE `mail_saved` CHANGE `m_message` `m_message` VARCHAR( 4000 ) NULL DEF
 <?php
 $ilCtrlStructureReader->getStructure();
 ?>
+<#2421>
+<?php
+if (!$ilDB->tableExists("mep_data"))
+{
+	$fields = array(
+		'id' => array(
+			'type' => 'integer',
+			'length' => 4,
+			'notnull' => true
+		),
+		'default_width' => array(
+			'type' => 'integer',
+			'length' => 4,
+			'notnull' => false
+		),
+		'default_height' => array(
+			'type' => 'integer',
+			'length' => 4,
+			'notnull' => false
+		)
+	);
+	
+	$ilDB->createTable('mep_data', $fields);
+	$ilDB->addPrimaryKey('mep_data', array('id'));
+}
+?>
+<#2422>
+<?php
+
+// create a mep_data entry for all media pools
+$set = $ilDB->query("SELECT * FROM object_data WHERE type = ".$ilDB->quote("mep", "text"));
+while ($rec = $ilDB->fetchAssoc($set))
+{
+	$set = $ilDB->query("SELECT * FROM mep_data ".
+		" WHERE id = ".$ilDB->quote($rec["obj_id"], "integer")
+		);
+	if (!$ilDB->fetchAssoc($set))
+	{
+		$ilDB->manipulate("INSERT INTO mep_data ".
+			"(id) VALUES (".
+			$ilDB->quote($rec["obj_id"], "integer").
+			")");
+	}
+}
+
+?>

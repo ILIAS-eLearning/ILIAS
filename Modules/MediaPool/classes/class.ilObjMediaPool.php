@@ -56,12 +56,62 @@ class ilObjMediaPool extends ilObject
 	}
 
 	/**
+	* Set default width
+	*
+	* @param	int		default width
+	*/
+	function setDefaultWidth($a_val)
+	{
+		$this->default_width = $a_val;
+	}
+	
+	/**
+	* Get default width
+	*
+	* @return	int		default width
+	*/
+	function getDefaultWidth()
+	{
+		return $this->default_width;
+	}
+
+	/**
+	* Set default height
+	*
+	* @param	int		default height
+	*/
+	function setDefaultHeight($a_val)
+	{
+		$this->default_height = $a_val;
+	}
+	
+	/**
+	* Get default height
+	*
+	* @return	int		default height
+	*/
+	function getDefaultHeight()
+	{
+		return $this->default_height;
+	}
+	
+	/**
 	* Read pool data
 	*/
 	function read()
 	{
+		global $ilDB;
+		
 		parent::read();
 
+		$set = $ilDB->query("SELECT * FROM mep_data ".
+			" WHERE id = ".$ilDB->quote($this->getId(), "integer")
+			);
+		if ($rec = $ilDB->fetchAssoc($set))
+		{
+			$this->setDefaultWidth($rec["default_width"]);
+			$this->setDefaultHeight($rec["default_height"]);
+		}
 		$this->tree = ilObjMediaPool::getPoolTree($this->getId());
 	}
 
@@ -86,8 +136,15 @@ class ilObjMediaPool extends ilObject
 	*/
 	function create()
 	{
+		global $ilDB;
+		
 		parent::create();
 
+		$ilDB->manipulate("INSERT INTO mep_data ".
+			"(id) VALUES (".
+			$ilDB->quote($this->getId(), "integer").
+			")");
+			
 		// create media pool tree
 		$this->tree =& new ilTree($this->getId());
 		$this->tree->setTreeTablePK("mep_id");
@@ -112,12 +169,19 @@ class ilObjMediaPool extends ilObject
 	*/
 	function update()
 	{
+		global $ilDB;
+		
 		if (!parent::update())
 		{
 			return false;
 		}
 
 		// put here object specific stuff
+		$ilDB->manipulate("UPDATE mep_data SET ".
+			" default_width = ".$ilDB->quote($this->getDefaultWidth(), "integer").",".
+			" default_height = ".$ilDB->quote($this->getDefaultHeight(), "integer").
+			" WHERE id = ".$ilDB->quote($this->getId(), "integer")
+			);
 
 		return true;
 	}
