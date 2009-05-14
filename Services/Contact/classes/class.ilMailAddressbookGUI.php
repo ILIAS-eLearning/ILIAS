@@ -331,9 +331,10 @@ class ilMailAddressbookGUI
 		{
 			$entry = $this->abook->getEntry($addr_id);
 			
-			if(!$this->umail->doesRecipientStillExists($entry['login'], $mail_data['rcp_to']))
-			{
+			if(strlen($entry['login']) && !$this->umail->doesRecipientStillExists($entry['login'], $mail_data['rcp_to'])) {
 				$members[] = $entry['login'];
+			} else if(strlen($entry['email']) && !$this->umail->doesRecipientStillExists($entry['email'], $mail_data['rcp_to'])) {
+				$members[] = $entry['email'];
 			}
 		}
 		
