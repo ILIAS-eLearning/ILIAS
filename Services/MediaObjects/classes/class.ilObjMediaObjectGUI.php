@@ -83,6 +83,46 @@ class ilObjMediaObjectGUI extends ilObjectGUI
 	{
 		return $this->enabledmapareas;
 	}
+	
+	/**
+	* Set width preset
+	*
+	* @param	int		width preset
+	*/
+	function setWidthPreset($a_val)
+	{
+		$this->width_preset = $a_val;
+	}
+	
+	/**
+	* Get width preset
+	*
+	* @return	int		width preset
+	*/
+	function getWidthPreset()
+	{
+		return $this->width_preset;
+	}
+
+	/**
+	* Set height preset
+	*
+	* @param	int		height preset
+	*/
+	function setHeightPreset($a_val)
+	{
+		$this->height_preset = $a_val;
+	}
+	
+	/**
+	* Get height preset
+	*
+	* @return	int		height preset
+	*/
+	function getHeightPreset()
+	{
+		return $this->height_preset;
+	}
 
 	/**
 	* Get form
@@ -253,6 +293,12 @@ class ilObjMediaObjectGUI extends ilObjectGUI
 			}
 			
 		$radio_size->setValue("original");
+		if ($a_mode == "create" && ($this->getHeightPreset() > 0 || $this->getWidthPreset() > 0))
+		{
+			$radio_size->setValue("selected");
+			$width_height->setWidth($this->getWidthPreset());
+			$width_height->setHeight($this->getHeightPreset());
+		}
 		$radio_size->addOption($op2);
 		$this->form_gui->addItem($radio_size);
 		
