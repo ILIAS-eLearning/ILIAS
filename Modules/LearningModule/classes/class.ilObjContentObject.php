@@ -191,6 +191,26 @@ class ilObjContentObject extends ilObject
 		$this->import_id = $a_id;
 	}
 
+	/**
+	* Set layout per page
+	*
+	* @param	boolean		layout per page
+	*/
+	function setLayoutPerPage($a_val)
+	{
+		$this->layout_per_page = $a_val;
+	}
+	
+	/**
+	* Get layout per page
+	*
+	* @return	boolean		layout per page
+	*/
+	function getLayoutPerPage()
+	{
+		return $this->layout_per_page;
+	}
+	
 	function &getTree()
 	{
 		return $this->lm_tree;
@@ -833,6 +853,7 @@ class ilObjContentObject extends ilObject
 		$this->setPublicAccessMode($lm_rec["public_access_mode"]);
 		$this->setPublicExportFile("xml", $lm_rec["public_xml_file"]);
 		$this->setPublicExportFile("html", $lm_rec["public_html_file"]);
+		$this->setLayoutPerPage($lm_rec["layout_per_page"]);
 	}
 
 	/**
@@ -841,6 +862,12 @@ class ilObjContentObject extends ilObject
 	function updateProperties()
 	{
 		global $ilDB;
+		
+		// force clean_frames to be set, if layout per page is activated
+		if ($this->getLayoutPerPage())
+		{
+			$this->setCleanFrames(true);
+		}
 		
 		$q = "UPDATE content_object SET ".
 			" default_layout = ".$ilDB->quote($this->getLayout(), "text").", ".
@@ -862,7 +889,8 @@ class ilObjContentObject extends ilObject
 			" public_html_file = ".$ilDB->quote($this->getPublicExportFile("html"), "text").",".
 			" header_page = ".$ilDB->quote($this->getHeaderPage(), "integer").",".
 			" footer_page = ".$ilDB->quote($this->getFooterPage(), "integer").",".
-			" lm_menu_active = ".$ilDB->quote(ilUtil::tf2yn($this->isActiveLMMenu()), "text")." ".
+			" lm_menu_active = ".$ilDB->quote(ilUtil::tf2yn($this->isActiveLMMenu()), "text").", ".
+			" layout_per_page = ".$ilDB->quote($this->getLayoutPerPage(), "integer")." ".
 			" WHERE id = ".$ilDB->quote($this->getId(), "integer");
 		$ilDB->manipulate($q);
 	}

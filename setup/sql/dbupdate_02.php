@@ -12195,3 +12195,22 @@ while ($rec = $ilDB->fetchAssoc($set))
 }
 
 ?>
+<#2423>
+<?php
+$atts = array(
+	'type' => 'text',
+	'length' => 100,
+	'notnull' => false,
+	'fixed' => false
+);
+$ilDB->addTableColumn("lm_data", "layout", $atts);
+?>
+<#2424>
+<?php
+$atts = array(
+	'type' => 'integer',
+	'length' => 1,
+	'notnull' => false
+);
+$ilDB->addTableColumn("content_object", "layout_per_page", $atts);
+?>

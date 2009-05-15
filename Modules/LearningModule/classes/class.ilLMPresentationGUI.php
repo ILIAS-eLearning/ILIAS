@@ -545,6 +545,36 @@ class ilLMPresentationGUI
 	}
 	
 	/**
+	* Determine layout
+	*/
+	function determineLayout()
+	{
+		if ($this->getExportFormat() == "scorm")
+		{
+			$layout = "1window";
+		}
+		else
+		{
+			$layout = $this->lm->getLayout();
+			if ($this->lm->getLayoutPerPage())
+			{
+				$pg_id = $this->getCurrentPageId();
+				if ($pg_id > 0)
+				{
+					$lay = ilLMObject::lookupLayout($pg_id);
+					if ($lay != "")
+					{
+						$layout = $lay;
+					}
+				}
+			}
+		}
+		
+		return $layout;
+	}
+	
+	
+	/**
 	* generates frame layout
 	*/
 	function layout($a_xml = "main.xml", $doShow = true)
@@ -553,15 +583,8 @@ class ilLMPresentationGUI
 
 		$ilBench->start("ContentPresentation", "layout");
 
-		// export scorm always to 1window
-		if ($this->getExportFormat() == "scorm")
-		{
-			$layout = "1window";
-		}
-		else
-		{
-			$layout = $this->lm->getLayout();
-		}
+		$layout = $this->determineLayout();
+
 		// xmldocfile is deprecated! Use domxml_open_file instead.
 		// But since using relative pathes with domxml under windows don't work,
 		// we need another solution:
@@ -876,8 +899,8 @@ class ilLMPresentationGUI
 
 		$ilBench->start("ContentPresentation", "ilMainMenu");
 
-		if ($this->lm->getLayout() == "2window" || 
-			$this->lm->getLayout() == "3window")
+		if ($this->determineLayout() == "2window" || 
+			$this->determineLayout() == "3window")
 		{
 			$ilMainMenu->setSmallMode(true);
 		}

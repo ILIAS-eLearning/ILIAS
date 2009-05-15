@@ -90,7 +90,7 @@ class ilEditClipboardGUI
 					$ilCtrl->getLinkTarget($this, "view"));
 				require_once("classes/class.ilTabsGUI.php");
 				$mob_gui =& new ilObjMediaObjectGUI("", $_GET["clip_mob_id"],false, false);
-				$mob_gui->setAdminTabs();
+				$mob_gui->setTabs();
 				$ret =& $ilCtrl->forwardCommand($mob_gui);
 				switch($cmd)
 				{
