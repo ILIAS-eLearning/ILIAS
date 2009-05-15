@@ -450,6 +450,15 @@ class ilPageObjectGUI
 	}
 	
 	/**
+	* Set tab hook
+	*/
+	function setTabHook($a_object, $a_function)
+	{
+		$this->tab_hook = array("obj" => $a_object, "func" => $a_function);
+	}
+	
+	
+	/**
 	* Set Enable internal links.
 	*
 	* @param	boolean	$a_enabledinternallinks	Enable internal links
@@ -2087,6 +2096,12 @@ class ilPageObjectGUI
 				"editActivation", get_class($this));
 		}
 
+		// external hook to add tabs
+		if (is_array($this->tab_hook))
+		{
+			$func = $this->tab_hook["func"];
+			$this->tab_hook["obj"]->$func();
+		}
 		//$ilTabs->setTabActive("pg");
 	}
 

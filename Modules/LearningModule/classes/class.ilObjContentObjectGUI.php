@@ -367,6 +367,11 @@ class ilObjContentObjectGUI extends ilObjectGUI
 			$this->form->addItem($pub_nodes);
 		}
 
+		// layout per page
+		$lpp = new ilCheckboxInputGUI($lng->txt("cont_layout_per_page"), "layout_per_page");
+		$lpp->setInfo($this->lng->txt("cont_layout_per_page_info"));
+		$this->form->addItem($lpp);
+
 		// synchronize frames
 		$synch = new ilCheckboxInputGUI($lng->txt("cont_synchronize_frames"), "cobj_clean_frames");
 		$synch->setInfo($this->lng->txt("cont_synchronize_frames_desc"));
@@ -374,7 +379,7 @@ class ilObjContentObjectGUI extends ilObjectGUI
 		
 		// history user comments
 		$com = new ilCheckboxInputGUI($lng->txt("enable_hist_user_comments"), "cobj_user_comments");
-		$com->setInfo($this->lng->txt("enable_hist_user_comments"));
+		$com->setInfo($this->lng->txt("enable_hist_user_comments_desc"));
 		$this->form->addItem($com);
 
 		$this->form->setTitle($lng->txt("cont_general_properties"));
@@ -411,7 +416,7 @@ class ilObjContentObjectGUI extends ilObjectGUI
 		{
 			$values["cobj_user_comments"] = true;
 		}
-
+		$values["layout_per_page"] = $this->object->getLayoutPerPage();
 		
 		$this->form->setValuesByArray($values);
 	}
@@ -434,6 +439,7 @@ class ilObjContentObjectGUI extends ilObjectGUI
 			$this->object->setCleanFrames($_POST["cobj_clean_frames"]);
 			$this->object->setPublicNotes($_POST["cobj_pub_notes"]);
 			$this->object->setHistoryUserComments($_POST["cobj_user_comments"]);
+			$this->object->setLayoutPerPage($_POST["layout_per_page"]);
 			$this->object->updateProperties();
 			ilUtil::sendSuccess($this->lng->txt("msg_obj_modified"), true);
 			$this->ctrl->redirect($this, "properties");

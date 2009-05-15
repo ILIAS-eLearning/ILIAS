@@ -212,6 +212,7 @@ class ilLMObject
 		$this->type = $this->data_record["type"];
 		$this->setImportId($this->data_record["import_id"]);
 		$this->setTitle($this->data_record["title"]);
+		$this->setLayout($this->data_record["layout"]);
 		//$this->setActive(ilUtil::yn2tf($this->data_record["active"]));
 
 		$ilBench->stop("ContentPresentation", "ilLMObject_read");
@@ -238,7 +239,12 @@ class ilLMObject
 	}
 
 
-	function _lookupTitle($a_obj_id)
+	/**
+	* Lookup title
+	*
+	* @param	int		lm object id
+	*/
+	static function _lookupTitle($a_obj_id)
 	{
 		global $ilDB;
 
@@ -250,7 +256,12 @@ class ilLMObject
 		return $obj_rec["title"];
 	}
 	
-	function _lookupType($a_obj_id)
+	/**
+	* Lookup type
+	*
+	* @param	int		lm object id
+	*/
+	static function _lookupType($a_obj_id)
 	{
 		global $ilDB;
 
@@ -336,6 +347,26 @@ class ilLMObject
 	}
 
 	/**
+	* Set layout
+	*
+	* @param	string	layout
+	*/
+	function setLayout($a_val)
+	{
+		$this->layout = $a_val;
+	}
+	
+	/**
+	* Get layout
+	*
+	* @return	string	layout
+	*/
+	function getLayout()
+	{
+		return $this->layout;
+	}
+	
+	/**
 	* write import id to db (static)
 	*
 	* @param	int		$a_id				lm object id
@@ -395,6 +426,7 @@ class ilLMObject
 		$query = "UPDATE lm_data SET ".
 			" lm_id = ".$ilDB->quote($this->getLMId(), "integer").
 			" ,title = ".$ilDB->quote($this->getTitle(), "text").
+			" ,layout = ".$ilDB->quote($this->getLayout(), "text").
 			" WHERE obj_id = ".$ilDB->quote($this->getId(), "integer");
 
 		$ilDB->manipulate($query);
@@ -1109,6 +1141,40 @@ class ilLMObject
 			return false;
 		}
 		return true;
+	}
+
+	/**
+	* Write layout setting
+	*
+	* @param	int		lm object id
+	* @param	string	layout
+	*/
+	static function writeLayout($a_obj_id, $a_layout)
+	{
+		global $ilDB;
+
+		$query = "UPDATE lm_data SET ".
+			" layout = ".$ilDB->quote($a_layout, "text").
+			" WHERE obj_id = ".$ilDB->quote($a_obj_id, "integer");
+
+		$ilDB->manipulate($query);
+	}
+	
+	/**
+	* Lookup type
+	*
+	* @param	int		lm object id
+	*/
+	static function lookupLayout($a_obj_id)
+	{
+		global $ilDB;
+
+		$query = "SELECT layout FROM lm_data WHERE obj_id = ".
+			$ilDB->quote($a_obj_id, "integer");
+		$obj_set = $ilDB->query($query);
+		$obj_rec = $ilDB->fetchAssoc($obj_set);
+
+		return $obj_rec["layout"];
 	}
 
 }

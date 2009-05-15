@@ -81,18 +81,6 @@ class ilLMPageObjectGUI extends ilLMObjectGUI
 
 		switch($next_class)
 		{
-			/*case 'ilmdeditorgui':
-
-				$this->setTabs();
-				include_once 'Services/MetaData/classes/class.ilMDEditorGUI.php';
-
-				$md_gui =& new ilMDEditorGUI($this->content_object->getID(),
-					$this->obj->getId(), $this->obj->getType());
-				$md_gui->addObserver($this->obj,'MDUpdateListener','General');
-
-				$this->ctrl->forwardCommand($md_gui);
-				break;*/
-
 			case "ilpageobjectgui":
 
 				// Determine whether the view of a learning resource should
@@ -102,13 +90,6 @@ class ilLMPageObjectGUI extends ilLMObjectGUI
 				$lm_set = new ilSetting("lm");
 
 				$this->ctrl->setReturn($this, "edit");
-/*				$page_object =& $this->obj->getPageObject();
-				$page_object->buildDom();
-				$page_object->addUpdateListener($this, "updateHistory");
-				$int_links = $page_object->getInternalLinks();
-				$link_xml = $this->getLinkXML($int_links);
-*/
-//				$page_gui =& new ilPageObjectGUI($page_object);
 				$page_gui =& new ilPageObjectGUI($this->obj->content_object->getType(),
 					$this->obj->getId());
 				$page_gui->setEditPreview(true);
@@ -164,8 +145,12 @@ class ilLMPageObjectGUI extends ilLMObjectGUI
 				
 				$tpl->setTitleIcon(ilUtil::getImagePath("icon_pg_b.gif"));
 				$tpl->setTitle($this->lng->txt("page").": ".$this->obj->getTitle());
-				
+				if ($this->content_object->getLayoutPerPage())
+				{
+					$page_gui->setTabHook($this, "addPageTabs");
+				}
 				$ret = $this->ctrl->forwardCommand($page_gui);
+				
 				//$ret =& $page_gui->executeCommand();
 				$tpl->setContent($ret);
 				break;
@@ -197,7 +182,7 @@ class ilLMPageObjectGUI extends ilLMObjectGUI
 		$this->ctrl->setCmdClass("ilpageobjectgui");
 		$this->ctrl->setCmd("preview");
 		$this->executeCommand();
-		$this->setTabs();
+//		$this->setTabs();
 	}
 
 	/**
@@ -345,6 +330,7 @@ class ilLMPageObjectGUI extends ilLMObjectGUI
 	*
 	* @access	public
 	*/
+/*
 	function history()
 	{
 		$this->setTabs();
@@ -358,7 +344,7 @@ class ilLMPageObjectGUI extends ilLMObjectGUI
 			);
 		
 		$this->tpl->setVariable("ADM_CONTENT", $hist_html);
-	}
+	}*/
 
 	/**
 	* update history
@@ -371,13 +357,13 @@ class ilLMPageObjectGUI extends ilLMObjectGUI
 			"", true);
 	}
 
-
 	/**
 	* output tabs
 	*/
 	function setTabs()
 	{
 		global $ilTabs;
+return;
 //echo "setTabs";
 		// catch feedback message
 		#include_once("classes/class.ilTabsGUI.php");
@@ -399,6 +385,7 @@ class ilLMPageObjectGUI extends ilLMObjectGUI
 	*
 	* @param	object		$tabs_gui		ilTabsGUI object
 	*/
+/*
 	function getTabs(&$tabs_gui)
 	{
 		// back to upper context
@@ -429,6 +416,7 @@ class ilLMPageObjectGUI extends ilLMObjectGUI
 		//	, "view", "ilEditClipboardGUI");
 
 	}
+*/
 
 	/**
 	* redirect script
@@ -501,6 +489,107 @@ class ilLMPageObjectGUI extends ilLMObjectGUI
 		}
 
 		$ilErr->raiseError($lng->txt("msg_no_perm_read_lm"), $ilErr->FATAL);
+	}
+
+	/**
+	* Edit layout of page
+	*/
+	function editLayout()
+	{
+		global $tpl, $ilCtrl, $ilTabs;
+		
+		$page_gui =& new ilPageObjectGUI($this->obj->content_object->getType(),
+			$this->obj->getId());
+		$page_gui->setEditPreview(true);
+		$page_gui->activateMetaDataEditor($this->content_object->getID(),
+			$this->obj->getId(), $this->obj->getType(),
+			$this->obj, "MDUpdateListener");
+		$page_gui->setActivationListener($this, "activatePage");
+		$page_gui->setTabHook($this, "addPageTabs");
+		$page_gui->setEnabledActivation(true);
+		$lm_set = new ilSetting("lm");
+		if ($lm_set->get("time_scheduled_page_activation"))
+		{
+			$page_gui->setEnabledScheduledActivation(true);
+		}
+		$tpl->setTitleIcon(ilUtil::getImagePath("icon_pg_b.gif"));
+		$tpl->setTitle($this->lng->txt("page").": ".$this->obj->getTitle());
+		$ilCtrl->getHTML($page_gui);
+		$ilTabs->setTabActive("cont_layout");
+		$this->initEditLayoutForm();
+		$tpl->setContent($this->form->getHTML());
+	}
+	
+	/**
+	* Init edit layout form.
+	*
+	* @param        int        $a_mode        Edit Mode
+	*/
+	public function initEditLayoutForm()
+	{
+		global $lng, $ilCtrl;
+	
+		include_once("Services/Form/classes/class.ilPropertyFormGUI.php");
+		$this->form = new ilPropertyFormGUI();
+	
+		// default layout
+		$layout = new ilRadioMatrixInputGUI($lng->txt("cont_layout"), "layout");
+		$option = array();
+		if (is_file($im = ilUtil::getImagePath("layout_".$this->content_object->getLayout().".gif")))
+		{
+			$im_tag = ilUtil::img($im, $this->content_object->getLayout());
+		}
+		$option[""] =
+			"<table><tr><td>".$im_tag."</td><td><b>".$lng->txt("cont_lm_default_layout").
+			"</b>: ".$lng->txt("cont_layout_".$this->content_object->getLayout())."</td></tr></table>";
+		foreach(ilObjContentObject::getAvailableLayouts() as $l)
+		{
+			$im_tag = "";
+			if (is_file($im = ilUtil::getImagePath("layout_".$l.".gif")))
+			{
+				$im_tag = ilUtil::img($im, $l);
+			}
+			$option[$l] = "<table><tr><td>".$im_tag."</td><td><b>".$lng->txt("cont_layout_".$l)."</b>: ".$lng->txt("cont_layout_".$l."_desc")."</td></tr></table>";
+		}
+		$layout->setOptions($option);
+		$layout->setValue($this->obj->getLayout());
+		$this->form->addItem($layout);
+
+		$this->form->addCommandButton("saveLayout", $lng->txt("save"));
+	                
+		$this->form->setTitle($lng->txt("cont_page_layout"));
+		$this->form->setFormAction($ilCtrl->getFormAction($this));
+	 
+	}
+	
+	/**
+	* Save layout
+	*
+	*/
+	public function saveLayout()
+	{
+		global $tpl, $lng, $ilCtrl;
+	
+		$this->initEditLayoutForm();
+		if ($this->form->checkInput())
+		{
+			ilLMObject::writeLayout($this->obj->getId(), $this->form->getInput("layout"));
+			ilUtil::sendSuccess($lng->txt("msg_obj_modified"), true);
+			$ilCtrl->redirect($this, "editLayout");
+		}
+		$this->form->setValuesByPost();
+		$tpl->setContent($this->form->getHtml());
+	}
+	
+	/**
+	* Add page tabs
+	*/
+	function addPageTabs()
+	{
+		global $ilTabs, $ilCtrl;
+		
+		$ilTabs->addTarget("cont_layout",
+			 $ilCtrl->getLinkTarget($this, 'editLayout'), "editLayout");
 	}
 
 }

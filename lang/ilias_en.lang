@@ -4700,7 +4700,7 @@ content#:#cont_std_view#:#Standard View
 content#:#cont_structure#:#structure
 content#:#cont_style#:#Style
 content#:#cont_subchapters#:#Subchapters
-content#:#cont_synchronize_frames#:#Synchronise frames
+content#:#cont_synchronize_frames#:#Synchronize Frames
 content#:#cont_synchronize_frames_desc#:#This option synchronises the table of contents frame with the content frame and clears additional frames in 3 window view. But it also decreases performance.
 content#:#cont_paste_table#:#Paste Table
 content#:#cont_html_table#:#HTML Table
@@ -4732,7 +4732,7 @@ content#:#cont_time_limit_action#:#adlcp:timelimitaction
 content#:#cont_title#:#title
 content#:#cont_title_footnotes#:#Footnotes
 content#:#cont_toc#:#Table of Contents
-content#:#cont_toc_mode#:#Table of Contents shows
+content#:#cont_toc_mode#:#Table of Contents Items
 content#:#cont_top#:#Top
 content#:#cont_total_time#:#Total Time
 content#:#cont_tracking_data#:#Tracking Data
@@ -9425,3 +9425,8 @@ mep#:#mep_format#:#Format
 mep#:#mep_default_width#:#Default Width
 mep#:#mep_default_height#:#Default Height
 mep#:#mep_default_width_height_info#:#Default width and height are used as presets for new media object creation.
+content#:#cont_layout#:#Layout
+content#:#cont_lm_default_layout#:#Default Layout of Learning Module
+content#:#cont_page_layout#:#Page Layout
+content#:#cont_layout_per_page#:#Layout per Page
+content#:#cont_layout_per_page_info#:#Allow to set individual layouts for each page. This automatically activates the "Synchronize Frames" setting, too.
