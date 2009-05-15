@@ -8677,7 +8677,6 @@ content#:#PDF export#:#PDF Export###07 10 2008 new variable
 content#:#pages from#:#Pages From###07 10 2008 new variable
 content#:#read offline#:#Read Offline###07 10 2008 new variable
 content#:#start export#:#Start Export###07 10 2008 new variable
-ps#:#ps_error_message_password_min3_because_chars_numbers_specialchars#:#Minimum password size may not be less than 3 if password have to contain characters, numbers and special characters.###07 10 2008 new variable
 common#:#clone_target_title#:#Selection of Target Folder (Step 1/2)###07 10 2008 new variable
 common#:#clone_target#:#Target Folder###07 10 2008 new variable
 common#:#clone_option_in_cat#:#Copy in Existing Category###07 10 2008 new variable
@@ -9265,3 +9264,173 @@ trac#:#trac_select_area#:#Select Area###30 04 2009 new variable
 trac#:#trac_hide_selected#:#Hide Selected Items###30 04 2009 new variable
 search#:#search_term_combination#:#Combination###30 04 2009 new variable
 search#:#search_select_search_area#:#Select Search Area###30 04 2009 new variable
+ps#:#ps_error_message_password_min3_because_chars_numbers_sc#:#Minimum password size may not be less than 3 if password have to contain characters, numbers and special characters.###15 05 2009 new variable
+assessment#:#file_uploads#:#File Uploads###15 05 2009 new variable
+search#:#lucene_err_asterisk#:#The wildcard (*) character must be preceded by at least one alphabet or number.###15 05 2009 new variable
+search#:#lucene_err_ampersand#:#Queries containing the special characters && must be in the form: term1 && term2.###15 05 2009 new variable
+search#:#lucene_err_caret#:#The caret (^) character must be preceded by alphanumeric characters and followed by numbers.###15 05 2009 new variable
+search#:#lucene_err_squigglet#:#The tilde (~) character must be preceded by alphanumeric characters and followed by numbers.###15 05 2009 new variable
+search#:#lucene_err_exclamation_mark#:#Queries containing the special character (!) must be in the form: term1 ! term2.###15 05 2009 new variable
+search#:#lucene_err_question_mark#:#The question mark (?) character must be preceded by at least one alphabet or number.###15 05 2009 new variable
+search#:#lucene_err_parenthesis_not_closed#:#Parentheses must be closed.###15 05 2009 new variable
+search#:#lucene_err_parenthesis_empty#:#Parentheses must contain at least one character.###15 05 2009 new variable
+search#:#lucene_err_plus_minus#:#(+) and (-) modifiers must be followed by at least one alphabet or number.###15 05 2009 new variable
+search#:#lucene_err_and_or_not#:#Queries containing AND/OR/NOT must be in the form: term1 AND|OR|NOT|AND NOT term2.###15 05 2009 new variable
+search#:#lucene_err_quotes#:#Please close all quote (") marks.###15 05 2009 new variable
+search#:#lucene_err_quotes_not_empty#:#Quotes (") must contain at least one character.###15 05 2009 new variable
+search#:#lucene_err_colon#:#Field declarations (:) must be preceded by at least one alphabet or number and followed by at least one alphabet or number.###15 05 2009 new variable
+news#:#news_time_period#:#Time Period###15 05 2009 new variable
+common#:#collapsed#:#Collapsed###15 05 2009 new variable
+common#:#tree#:#Tree###15 05 2009 new variable
+common#:#list#:#List###15 05 2009 new variable
+search#:#search_title_description#:#Title / Description###15 05 2009 new variable
+assessment#:#qst_nr_of_tries#:#Number of tries###15 05 2009 new variable
+assessment#:#qst_hint_self#:#Self-Assessment-Mode active! Enter 0 points for incorrect answers, 1 point for correct answers.###15 05 2009 new variable
+content#:#cont_qtries#:#Number of tries for questions###15 05 2009 new variable
+content#:#cont_sc_preview#:#Preview###15 05 2009 new variable
+style#:#sty_colors#:#Colors###15 05 2009 new variable
+style#:#sty_color_name#:#Color Name###15 05 2009 new variable
+style#:#sty_color_code#:#Color Code###15 05 2009 new variable
+style#:#sty_color_flavors#:#Color Flavors###15 05 2009 new variable
+style#:#sty_add_color#:#Add Color###15 05 2009 new variable
+style#:#sty_delete_color#:#Delete Color###15 05 2009 new variable
+style#:#sty_confirm_color_deletion#:#Confirm Color Deletion###15 05 2009 new variable
+style#:#sty_msg_color_must_only_include#:#The color name may only include the following characters:###15 05 2009 new variable
+style#:#sty_color_already_exists#:#A color with this name already exisits in this style.###15 05 2009 new variable
+style#:#sty_color_info#:#Predefined colors make it easy to reuse a color for different purposes. You refer to a predefined color by using its name with a leading "!" for any color attribute in your style classes. To use a flavor, append a lightness value in brackets to the color name, e.g. !MyColor(20).###15 05 2009 new variable
+style#:#sty_table_templates#:#Table Templates###15 05 2009 new variable
+style#:#sty_template_name#:#Name###15 05 2009 new variable
+style#:#sty_preview#:#Preview###15 05 2009 new variable
+style#:#sty_add_template#:#Add Template###15 05 2009 new variable
+style#:#sty_edit_template#:#Edit Template###15 05 2009 new variable
+style#:#sty_table_class#:#Table Style Class###15 05 2009 new variable
+style#:#sty_row_head_class#:#Row Header###15 05 2009 new variable
+style#:#sty_row_foot_class#:#Row Footer###15 05 2009 new variable
+style#:#sty_col_head_class#:#Column Header###15 05 2009 new variable
+style#:#sty_col_foot_class#:#Column Footer###15 05 2009 new variable
+style#:#sty_odd_row_class#:#Odd Rows###15 05 2009 new variable
+style#:#sty_even_row_class#:#Even Rows###15 05 2009 new variable
+style#:#sty_odd_col_class#:#Odd Columns###15 05 2009 new variable
+style#:#sty_even_col_class#:#Even Columns###15 05 2009 new variable
+content#:#cont_ed_flist#:# File List###15 05 2009 new variable
+content#:#cont_nr_row_header#:#Header Rows###15 05 2009 new variable
+content#:#cont_nr_col_header#:#Header Columns###15 05 2009 new variable
+content#:#cont_nr_row_footer#:#Footer Rows###15 05 2009 new variable
+content#:#cont_nr_col_footer#:#Footer Columns###15 05 2009 new variable
+style#:#sty_type_table_caption#:#Table Caption###15 05 2009 new variable
+style#:#sty_caption_side#:#Caption Side###15 05 2009 new variable
+style#:#sty_caption#:#Caption###15 05 2009 new variable
+style#:#sty_caption_class#:#Caption###15 05 2009 new variable
+style#:#sty_confirm_template_deletion#:#Confirm Template Deletion###15 05 2009 new variable
+style#:#sty_generate_template#:#Generate Template###15 05 2009 new variable
+style#:#sty_template_layout#:#Template Layout###15 05 2009 new variable
+style#:#sty_table_template_colored_zebra#:#Colored Zebra###15 05 2009 new variable
+style#:#sty_table_template_bw_zebra#:#Gray Zebra###15 05 2009 new variable
+style#:#sty_table_template_no_zebra#:#No Zebra###15 05 2009 new variable
+style#:#sty_top_bottom_padding#:#Cell Padding Top/Bottom###15 05 2009 new variable
+style#:#sty_left_right_padding#:#Cell Padding Left/Right###15 05 2009 new variable
+style#:#sty_base_color#:#Base Color###15 05 2009 new variable
+style#:#sty_lightness_border#:#Lightness Border###15 05 2009 new variable
+style#:#sty_lightness_header_text#:#Lightness Header Text###15 05 2009 new variable
+style#:#sty_lightness_header_bg#:#Lightness Header Background###15 05 2009 new variable
+style#:#sty_lightness_cell1_text#:#Lightness Cell 1 Text###15 05 2009 new variable
+style#:#sty_lightness_cell1_bg#:#Lightness Cell 1 Background###15 05 2009 new variable
+style#:#sty_lightness_cell2_text#:#Lightness Cell 2 Text###15 05 2009 new variable
+style#:#sty_lightness_cell2_bg#:#Lightness Cell 2 Background###15 05 2009 new variable
+style#:#sty_type_flist_a#:#File List Item Link###15 05 2009 new variable
+style#:#sty_hide#:#Hide###15 05 2009 new variable
+style#:#sty_save_hide_status#:#Save Hide Status###15 05 2009 new variable
+content#:#cont_text_imp#:#Important:###15 05 2009 new variable
+content#:#cont_text_acc#:#Accent:###15 05 2009 new variable
+content#:#cont_tabs_acc_hor#:#Horizontal Accordion###15 05 2009 new variable
+content#:#cont_tabs_acc_ver#:#Vertical Accordion###15 05 2009 new variable
+content#:#cont_edit_tabs#:#Properties###15 05 2009 new variable
+content#:#cont_new_tab#:#New Tab###15 05 2009 new variable
+content#:#cont_tabs#:#Tabs###15 05 2009 new variable
+content#:#cont_add_tab#:#Add Tab###15 05 2009 new variable
+content#:#cont_tabs_confirm_deletion#:#Are you sure that all of the tabs and their contents should be deleted?###15 05 2009 new variable
+content#:#cont_tab_cont_width#:#Content Width###15 05 2009 new variable
+content#:#cont_tab_cont_height#:#Content Height###15 05 2009 new variable
+content#:#cont_tabs_hor_align_info#:#Horizontal accordions will always be aligned left.###15 05 2009 new variable
+style#:#sty_templates#:#Templates###15 05 2009 new variable
+style#:#sty_tabs_char#:#Tabs & Accordions###15 05 2009 new variable
+style#:#sty_type_va_cntr#:#Vert. Accordion Container###15 05 2009 new variable
+style#:#sty_type_va_icntr#:#Vert. Accordion Item Container###15 05 2009 new variable
+style#:#sty_type_va_ihead#:#Vert. Accordion Item Header###15 05 2009 new variable
+style#:#sty_type_va_icont#:#Vert. Accordion Item Content###15 05 2009 new variable
+style#:#sty_type_ha_cntr#:#Hor. Accordion Container###15 05 2009 new variable
+style#:#sty_type_ha_icntr#:#Hor. Accordion Item Container###15 05 2009 new variable
+style#:#sty_type_ha_ihead#:#Hor. Accordion Item Header###15 05 2009 new variable
+style#:#sty_type_ha_icont#:#Hor. Accordion Item Content###15 05 2009 new variable
+style#:#sty_va_cntr_class#:#Vert. Accordion Container###15 05 2009 new variable
+style#:#sty_va_icntr_class#:#Vert. Accordion Item Container###15 05 2009 new variable
+style#:#sty_va_ihead_class#:#Vert. Accordion Item Header###15 05 2009 new variable
+style#:#sty_va_icont_class#:#Vert. Accordion Item Content###15 05 2009 new variable
+style#:#sty_ha_cntr_class#:#Hor. Accordion Container###15 05 2009 new variable
+style#:#sty_ha_icntr_class#:#Hor. Accordion Item Container###15 05 2009 new variable
+style#:#sty_ha_ihead_class#:#Hor. Accordion Item Header###15 05 2009 new variable
+style#:#sty_ha_icont_class#:#Hor. Accordion Item Content###15 05 2009 new variable
+style#:#sty_style_class#:#Style Classes###15 05 2009 new variable
+style#:#sty_del_template_keep_classes#:#Delete and keep Style Classes###15 05 2009 new variable
+style#:#sty_del_template#:#Delete Templates and Classes###15 05 2009 new variable
+style#:#sty_vaccordion_templates#:#Vert. Accordion Templates###15 05 2009 new variable
+style#:#sty_haccordion_templates#:#Hor. Accordion Templates###15 05 2009 new variable
+style#:#sty_acopy#:#Copy###15 05 2009 new variable
+style#:#sty_tag_normal#:#Normal###15 05 2009 new variable
+style#:#sty_tag_hover#:#:hover###15 05 2009 new variable
+content#:#cont_span#:#Span###15 05 2009 new variable
+content#:#cont_colspan#:#Col. Span###15 05 2009 new variable
+content#:#cont_rowspan#:#Row Span###15 05 2009 new variable
+content#:#cont_save_spans#:#Save Spans###15 05 2009 new variable
+content#:#cont_save_widths#:#Save Widths###15 05 2009 new variable
+content#:#cont_set_styles#:#Set Styles###15 05 2009 new variable
+style#:#sty_disable_auto_margins#:#Disable Auto Margins###15 05 2009 new variable
+style#:#sty_disable_auto_margins_info#:#Disables automatic setting of left/right to 0px, if media objects or tables are left/right aligned.###15 05 2009 new variable
+content#:#cont_number_std#:#Standard###15 05 2009 new variable
+content#:#cont_decimal#:#Decimal###15 05 2009 new variable
+content#:#cont_start_value#:#Start Value###15 05 2009 new variable
+content#:#cont_start_value_info#:#Enter start value as decimal number. Default is 1.###15 05 2009 new variable
+common#:#collapse_all#:#Collapse All###15 05 2009 new variable
+common#:#expand_all#:#Expand All###15 05 2009 new variable
+sahs#:#sahs_objective#:#Learning Objective###15 05 2009 new variable
+sahs#:#sahs_objectives#:#Learning Objectives###15 05 2009 new variable
+style#:#sty_type_sco_desct#:#SCO Description Heading###15 05 2009 new variable
+style#:#sty_type_sco_objt#:#SCO Objectives Heading###15 05 2009 new variable
+adve#:#adve_rte_settings#:#Rich Text Editor Settings###15 05 2009 new variable
+adve#:#adve_page_editor_settings#:#ILIAS Page Editor Settings###15 05 2009 new variable
+adve#:#adve_grp_lm#:#ILIAS Learning Modules###15 05 2009 new variable
+adve#:#adve_grp_wiki#:#Wikis###15 05 2009 new variable
+adve#:#adve_grp_scorm#:#SCORM Editing###15 05 2009 new variable
+adve#:#adve_grp_glo#:#Glossaries###15 05 2009 new variable
+adve#:#adve_grp_test#:#Test & Assessment###15 05 2009 new variable
+adve#:#adve_grp_rep#:#Repository Pages###15 05 2009 new variable
+adve#:#adve_text_content_features#:#Text Content Menu###15 05 2009 new variable
+content#:#cont_behavior#:#Behavior###15 05 2009 new variable
+content#:#cont_all_closed#:#All Closed###15 05 2009 new variable
+content#:#cont_first_open#:#First Opened###15 05 2009 new variable
+content#:#cont_force_all_open#:#Force All Opened###15 05 2009 new variable
+content#:#cont_number_type#:#Number Type###15 05 2009 new variable
+user#:#user_activation#:#Activation###15 05 2009 new variable
+user#:#user_all#:#All###15 05 2009 new variable
+user#:#user_last_login_before#:#Last Login Before###15 05 2009 new variable
+user#:#user_limited_access#:#Limited Access###15 05 2009 new variable
+user#:#user_no_courses#:#No Courses Assigned###15 05 2009 new variable
+user#:#user_member_of_course_group#:#Member of Course/Group###15 05 2009 new variable
+user#:#user_select_course_group#:#Select Course/Group###15 05 2009 new variable
+search#:#search_no_match_hint#:#Your search - <b>%s</b> - did not match any documents.<br /><br />Suggestions:<br />Make sure all words are spelled correctly.<br />Try different keywords.<br />Try more general keywords.<br />Try fewer keywords.###15 05 2009 new variable
+user#:#user_please_select_course_group#:#Please select a course or a group.###15 05 2009 new variable
+user#:#user_any#:#Any###15 05 2009 new variable
+user#:#user_global_role#:#Global Role###15 05 2009 new variable
+mep#:#mep_folder_content#:#Folder Content###15 05 2009 new variable
+mep#:#mep_all_mobs#:#All Media Objects###15 05 2009 new variable
+mep#:#mep_unknown#:#Unknown###15 05 2009 new variable
+mep#:#mep_all#:#All###15 05 2009 new variable
+mep#:#mep_format#:#Format###15 05 2009 new variable
+mep#:#mep_default_width#:#Default Width###15 05 2009 new variable
+mep#:#mep_default_height#:#Default Height###15 05 2009 new variable
+mep#:#mep_default_width_height_info#:#Default width and height are used as presets for new media object creation.###15 05 2009 new variable
+content#:#cont_layout#:#Layout###15 05 2009 new variable
+content#:#cont_lm_default_layout#:#Default Layout of Learning Module###15 05 2009 new variable
+content#:#cont_page_layout#:#Page Layout###15 05 2009 new variable
+content#:#cont_layout_per_page#:#Layout per Page###15 05 2009 new variable
+content#:#cont_layout_per_page_info#:#Allow to set individual layouts for each page. This automatically activates the "Synchronize Frames" setting, too.###15 05 2009 new variable
