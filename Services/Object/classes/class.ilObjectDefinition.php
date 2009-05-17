@@ -160,7 +160,19 @@ class ilObjectDefinition extends ilSaxParser
 	*/
 	function getClassName($a_obj_name)
 	{
-		return $this->obj_data[$a_obj_name]["class_name"];
+		if (isset($this->obj_data[$a_obj_name]))
+		{
+			return $this->obj_data[$a_obj_name]["class_name"];
+		}
+		else
+		{
+			include_once("./Services/Repository/classes/class.ilRepositoryObjectPluginSlot.php");
+			if (ilRepositoryObjectPluginSlot::isTypePlugin($a_obj_name, true))
+			{
+				include_once("./Services/Repository/classes/class.ilRepositoryObjectPlugin.php");
+				return ilRepositoryObjectPlugin::_getName($a_obj_name);
+			}
+		}
 	}
 
 

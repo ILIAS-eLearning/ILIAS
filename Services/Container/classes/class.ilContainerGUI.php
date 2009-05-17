@@ -325,26 +325,14 @@ class ilContainerGUI extends ilObjectGUI
 		$type = $this->object->getType();
 
 		$d = $this->objDefinition->getCreatableSubObjects($type);
-
+		include_once("./Services/Repository/classes/class.ilRepositoryObjectPluginSlot.php");
+		$d = ilRepositoryObjectPluginSlot::addCreatableSubObjects($d);
+		
 		if (count($d) > 0)
 		{
 			foreach ($d as $row)
 			{
 			    $count = 0;
-				if ($row["max"] > 0)
-				{
-					//how many elements are present?
-					//var_dump($this->data);
-					// this is broken
-					/*
-					for ($i=0; $i<count($this->data["ctrl"]); $i++)
-					{
-						if ($this->data["ctrl"][$i]["type"] == $row["name"])
-						{
-						    $count++;
-						}
-					}*/
-				}
 
 				if ($row["max"] == "" || $count < $row["max"])
 				{
@@ -352,10 +340,21 @@ class ilContainerGUI extends ilObjectGUI
 					{
 						if ($this->rbacsystem->checkAccess("create", $this->object->getRefId(), $row["name"]))
 						{
-							$subobj[] = array("value" => $row["name"],
-								"title" => $lng->txt("obj_".$row["name"]),
-								"img" => ilUtil::getImagePath("icon_".$row["name"]."_s.gif"),
-								"alt" => $lng->txt("obj_".$row["name"]));
+							if (!$row["plugin"])
+							{
+								$subobj[] = array("value" => $row["name"],
+									"title" => $lng->txt("obj_".$row["name"]),
+									"img" => ilObject::_getIcon("", "tiny", $row["name"]),
+									"alt" => $lng->txt("obj_".$row["name"]));
+							}
+							else
+							{
+								include_once("./Services/Component/classes/class.ilPlugin.php");
+								$subobj[] = array("value" => $row["name"],
+									"title" => ilPlugin::lookupTxt("rep_robj", $row["name"], "obj_".$row["name"]),
+									"img" => ilObject::_getIcon("", "tiny", $row["name"]),
+									"alt" => $lng->txt("obj_".$row["name"]));
+							}
 						}
 					}
 				}

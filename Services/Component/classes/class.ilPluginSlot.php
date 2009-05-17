@@ -159,6 +159,16 @@ class ilPluginSlot
 	}
 	
 	/**
+	* Get plugins directory
+	*/
+	function _getPluginsDirectory($a_ctype, $a_cname, $a_slot_id)
+	{
+		return "./Customizing/global/plugins/".$a_ctype.
+			"/".$a_cname."/".ilPluginSlot::lookupSlotName($a_ctype, $a_cname, $a_slot_id);
+	}
+	
+	
+	/**
 	* Get File name for plugin.php
 	*/
 	function getPluginPhpFileName($a_plugin_name)
@@ -279,7 +289,7 @@ class ilPluginSlot
 	/**
 	* Lookup slot ID for component and slot name
 	*/
-	function lookupSlotId($a_ctype, $a_cname, $a_slot_name)
+	static function lookupSlotId($a_ctype, $a_cname, $a_slot_name)
 	{
 		global $ilDB;
 		
@@ -294,7 +304,7 @@ class ilPluginSlot
 	/**
 	* Lookup slot name for component and slot id
 	*/
-	function lookupSlotName($a_ctype, $a_cname, $a_slot_id)
+	static function lookupSlotName($a_ctype, $a_cname, $a_slot_id)
 	{
 		global $ilDB;
 		

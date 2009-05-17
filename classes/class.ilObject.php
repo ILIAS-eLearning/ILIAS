@@ -1779,10 +1779,18 @@ class ilObject
 		return true;	 	
 	}
 	
+	/**
+	* Get icon for repository item.
+	*
+	* @param	int			object id
+	* @param	string		size (big, small, tiny)
+	* @param	string		object type
+	* @param	boolean		true: offline, false: online
+	*/
 	public static function _getIcon($a_obj_id = "", $a_size = "big", $a_type = "",
 		$a_offline = false)
 	{
-		global $ilSetting;
+		global $ilSetting, $objDefinition;
 		
 		if ($a_obj_id == "" && $a_type == "")
 		{
@@ -1824,7 +1832,20 @@ class ilObject
 		
 		if (!$a_offline)
 		{
-			return ilUtil::getImagePath("icon_".$a_type.$suff.".gif");
+			if ($objDefinition->isRBACObject($a_type))
+			{
+				return ilUtil::getImagePath("icon_".$a_type.$suff.".gif");
+			}
+			else
+			{
+				include_once("./Services/Repository/classes/class.ilRepositoryObjectPluginSlot.php");
+				if (ilRepositoryObjectPluginSlot::isTypePlugin($a_type, true))
+				{
+					include_once("./Services/Repository/classes/class.ilRepositoryObjectPlugin.php");
+					$img = ilRepositoryObjectPlugin::_getIcon($a_type, $a_size);
+					return $img;
+				}
+			}
 		}
 		else
 		{
