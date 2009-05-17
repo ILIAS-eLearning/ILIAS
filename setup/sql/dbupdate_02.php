@@ -12214,3 +12214,18 @@ $atts = array(
 );
 $ilDB->addTableColumn("content_object", "layout_per_page", $atts);
 ?>
+<#2425>
+<?php
+$ilCtrlStructureReader->getStructure();
+?>
+<#2426>
+<?php
+$atts = array(
+	'type' => 'text',
+	'length' => 20,
+	'notnull' => false,
+	'fixed' => false
+);
+$ilDB->addTableColumn("il_plugin", "plugin_id", $atts);
+?>
+

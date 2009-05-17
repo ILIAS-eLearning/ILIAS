@@ -765,7 +765,13 @@ class ilCtrl
 			$ilDB->quote($a_class_name, "text"));
 		$class_rec = $ilDB->fetchAssoc($class_set);
 
-		return $class_rec["filename"];
+		if ($class_rec["comp_prefix"] != "")
+		{
+		}
+		else
+		{
+			return $class_rec["filename"];
+		}
 	}
 
 	/**

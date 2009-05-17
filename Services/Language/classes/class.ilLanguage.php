@@ -330,7 +330,7 @@ class ilLanguage
 	{
 		global $ilDB;
 		
-		$set = $ilDB->query(sprintf("SELECT * FROM lng_data WHERE module = %s ".
+		$set = $ilDB->query($q = sprintf("SELECT * FROM lng_data WHERE module = %s ".
 			"AND lang_key = %s AND identifier = %s",
 			$ilDB->quote((string) $a_mod, "text"), $ilDB->quote((string) $a_lang_key, "text"),
 			$ilDB->quote((string) $a_id, "text")));

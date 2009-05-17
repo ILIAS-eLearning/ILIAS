@@ -192,6 +192,20 @@ class ilPluginAdmin
 	}
 
 	/**
+	* Checks whether plugin exists
+	*
+	* @param	string	$a_ctype	Component Type
+	* @param	string	$a_cname	Component Name
+	* @param	string	$a_slot_id	Slot ID
+	* @param	string	$a_pname	Plugin Name
+	*/
+	function exists($a_ctype, $a_cname, $a_slot_id, $a_pname)
+	{
+		$this->getPluginData($a_ctype, $a_cname, $a_slot_id, $a_pname);
+		return isset($this->data[$a_ctype][$a_cname][$a_slot_id][$a_pname]);
+	}
+
+	/**
 	* Get version.
 	*
 	* @param	string	$a_ctype	Component Type

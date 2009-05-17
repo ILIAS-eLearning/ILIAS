@@ -283,6 +283,16 @@ abstract class ilPlugin
 	{
 		return $this->getSlotObject()->getPluginsDirectory()."/".$this->getPluginName();
 	}
+	
+	/**
+	* Get plugin directory
+	*/
+	static protected final function _getDirectory($a_ctype, $a_cname, $a_slot_id, $a_pname)
+	{
+		return ilPluginSlot::_getPluginsDirectory($a_ctype, $a_cname, $a_slot_id)."/".$a_pname;
+		
+	}
+	
 
 	/**
 	* Get Plugin's classes Directory
@@ -400,6 +410,8 @@ abstract class ilPlugin
 					{
 						$a = explode("#:#",trim($row));
 						$lang_array[$prefix."_".trim($a[0])] = trim($a[1]);
+						ilObjLanguage::replaceLangEntry($prefix, $prefix."_".trim($a[0]),
+							$lang["key"], trim($a[1]));
 					}
 				}
 			}
@@ -463,6 +475,17 @@ abstract class ilPlugin
 	}
 	
 	/**
+	* Lookup language text
+	*/
+	static function lookupTxt($a_slot_id, $a_pl_id, $a_lang_var)
+	{
+		global $lng;
+		
+		return $lng->_lookupEntry($lng->lang_key, $a_slot_id."_".$a_pl_id,
+			$a_slot_id."_".$a_pl_id."_".$a_lang_var);
+	}
+	
+	/**
 	* Get template from plugin
 	*/
 	public final function getTemplate($a_template, $a_par1 = true, $a_par2 = true)
@@ -472,6 +495,24 @@ abstract class ilPlugin
 		return $tpl;
 	}
 
+	/**
+	* Get image path
+	*/
+	public static final function _getImagePath($a_ctype, $a_cname, $a_slot_id,
+		$a_pname, $a_img)
+	{
+		$d = ilPlugin::_getDirectory($a_ctype, $a_cname, $a_slot_id, $a_pname);
+		return $d."/templates/images/".$a_img;
+	}
+
+	/**
+	* Get image path
+	*/
+	public final function getImagePath($a_img)
+	{
+		return $this->getDirectory()."/templates/images/".$a_img;
+	}
+	
 	/**
 	* Get css file location
 	*/
@@ -637,7 +678,8 @@ abstract class ilPlugin
 		// activate plugin
 		if ($result === true)
 		{
-			$q = "UPDATE il_plugin SET active = ".$ilDB->quote(1, "integer").
+			$q = "UPDATE il_plugin SET active = ".$ilDB->quote(1, "integer").",".
+				" plugin_id = ".$ilDB->quote($this->getId(), "text").
 				" WHERE component_type = ".$ilDB->quote($this->getComponentType(), "text").
 				" AND component_name = ".$ilDB->quote($this->getComponentName(), "text").
 				" AND slot_id = ".$ilDB->quote($this->getSlotId(), "text").
@@ -645,6 +687,14 @@ abstract class ilPlugin
 				
 			$ilDB->manipulate($q);
 		}
+		$this->afterActivation($result);
+	}
+	
+	/**
+	* After activation processing
+	*/
+	protected function afterActivation($a_success)
+	{
 	}
 
 	/**
@@ -686,11 +736,9 @@ abstract class ilPlugin
 		$this->updateLanguages();
 		
 		// load control structure
-		chdir("./setup");
-		include_once("./classes/class.ilCtrlStructureReader.php");
+		include_once("./setup/classes/class.ilCtrlStructureReader.php");
 		$structure_reader = new ilCtrlStructureReader();
-		$structure_reader->readStructure(true, "../".$this->getDirectory(), $this->getPrefix());
-		chdir("..");
+		$structure_reader->readStructure(true, "./".$this->getDirectory(), $this->getPrefix());
 		$ilCtrl->storeCommonStructures();
 		
 		// set last update version to current version
@@ -792,5 +840,26 @@ abstract class ilPlugin
 		
 		return $plugins;
 	}
+	
+	/**
+	* Lookup name for id
+	*/
+	function lookupNameForId($a_ctype, $a_cname, $a_slot_id, $a_plugin_id)
+	{
+		global $ilDB;
+		
+		$q = "SELECT name FROM il_plugin ".
+			" WHERE component_type = ".$ilDB->quote($a_ctype, "text").
+			" AND component_name = ".$ilDB->quote($a_cname, "text").
+			" AND slot_id = ".$ilDB->quote($a_slot_id, "text").
+			" AND plugin_id = ".$ilDB->quote($a_plugin_id, "text");
+
+		$set = $ilDB->query($q);
+		if ($rec = $ilDB->fetchAssoc($set))
+		{
+			return $rec["name"];
+		}
+	}
+	
 }
 ?>

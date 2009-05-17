@@ -156,7 +156,7 @@ class ilCtrlStructureReader
 										// delete all class to file assignments
 										$ilDB->manipulate("DELETE FROM ctrl_classfile WHERE comp_prefix = ".
 											$ilDB->quote($this->comp_prefix, "text"));
-										if ($comp_prefix == "")
+										if ($this->comp_prefix == "")
 										{
 											$ilDB->manipulate("DELETE FROM ctrl_classfile WHERE comp_prefix IS NULL");
 										}
@@ -164,7 +164,7 @@ class ilCtrlStructureReader
 										// delete all call entries
 										$ilDB->manipulate("DELETE FROM ctrl_calls WHERE comp_prefix = ".
 											$ilDB->quote($this->comp_prefix, "text"));
-										if ($comp_prefix == "")
+										if ($this->comp_prefix == "")
 										{
 											$ilDB->manipulate("DELETE FROM ctrl_calls WHERE comp_prefix IS NULL");
 										}
@@ -233,7 +233,7 @@ class ilCtrlStructureReader
 		// delete all class to file assignments
 		$ilDB->manipulate("DELETE FROM ctrl_classfile WHERE comp_prefix = ".
 			$ilDB->quote($this->comp_prefix, "text"));
-		if ($comp_prefix == "")
+		if ($this->comp_prefix == "")
 		{
 			$ilDB->manipulate($q = "DELETE FROM ctrl_classfile WHERE ".
 				$ilDB->equals("comp_prefix", "", "text", true));
@@ -242,7 +242,7 @@ class ilCtrlStructureReader
 		// delete all call entries
 		$ilDB->manipulate("DELETE FROM ctrl_calls WHERE comp_prefix = ".
 			$ilDB->quote($this->comp_prefix, "text"));
-		if ($comp_prefix == "")
+		if ($this->comp_prefix == "")
 		{
 			$ilDB->manipulate("DELETE FROM ctrl_calls WHERE ".
 				$ilDB->equals("comp_prefix", "", "text", true));
