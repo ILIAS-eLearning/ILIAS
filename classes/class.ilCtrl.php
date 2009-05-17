@@ -767,6 +767,7 @@ class ilCtrl
 
 		if ($class_rec["comp_prefix"] != "")
 		{
+//
 		}
 		else
 		{
