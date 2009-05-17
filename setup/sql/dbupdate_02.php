@@ -12228,4 +12228,14 @@ $atts = array(
 );
 $ilDB->addTableColumn("il_plugin", "plugin_id", $atts);
 ?>
+<#2427>
+<?php
+$atts = array(
+	'type' => 'text',
+	'length' => 250,
+	'notnull' => false,
+	'fixed' => false
+);
+$ilDB->addTableColumn("ctrl_classfile", "plugin_path", $atts);
+?>
 
