@@ -237,6 +237,11 @@ class ilObjFileAccessSettings extends ilObject
 		$ilClientIniFile->setVariable('file_access', 'webdav_actions_visible', $this->webdavActionsVisible ? '1' : '0');
 		$ilClientIniFile->write();
 
+        if ($ilClientIniFile->getError()) {
+            global $ilErr;
+			$ilErr->raiseError($ilClientIniFile->getError(),$ilErr->WARNING);
+        }
+
 		require_once 'Services/Administration/classes/class.ilSetting.php';
 		$settings = new ilSetting('file_access');
 		$settings->set('inline_file_extensions', $this->inlineFileExtensions);
