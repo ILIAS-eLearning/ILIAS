@@ -227,7 +227,6 @@ class assNumericGUI extends assQuestionGUI
 		$this->object->setComment(ilUtil::stripSlashes($_POST["comment"]));
 		include_once "./Services/AdvancedEditing/classes/class.ilObjAdvancedEditing.php";
 		$questiontext = ilUtil::stripSlashes($_POST["question"], false, ilObjAdvancedEditing::_getUsedHTMLTagsAsString("assessment"));
-		$questiontext = preg_replace("/[\n\r]+/", "<br />", $questiontext);
 		$this->object->setQuestion($questiontext);
 		$this->object->setShuffle($_POST["shuffle"]);
 		$this->object->setMaxChars($_POST["maxchars"]);
