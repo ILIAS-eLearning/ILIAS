@@ -462,6 +462,9 @@
 			<xsl:if test="@width">
 				<xsl:attribute name="width"><xsl:value-of select="@width"/></xsl:attribute>
 			</xsl:if>
+			<xsl:if test="@rowspan">
+				<xsl:attribute name="number-rows-spanned"><xsl:value-of select="@rowspan"/></xsl:attribute>
+			</xsl:if>
 			<xsl:if test="@colspan">
 				<xsl:attribute name="number-columns-spanned"><xsl:value-of select="@colspan"/></xsl:attribute>
 			</xsl:if>
@@ -475,6 +478,9 @@
 		<fo:table-cell xmlns:fo="http://www.w3.org/1999/XSL/Format">
 			<xsl:if test="@width">
 				<xsl:attribute name="width"><xsl:value-of select="@width"/></xsl:attribute>
+			</xsl:if>
+			<xsl:if test="@rowspan">
+				<xsl:attribute name="number-rows-spanned"><xsl:value-of select="@rowspan"/></xsl:attribute>
 			</xsl:if>
 			<xsl:if test="@colspan">
 				<xsl:attribute name="number-columns-spanned"><xsl:value-of select="@colspan"/></xsl:attribute>
