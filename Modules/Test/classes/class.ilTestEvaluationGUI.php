@@ -1230,6 +1230,7 @@ class ilTestEvaluationGUI extends ilTestServiceGUI
 	{
 		global $ilUser, $ilias;
 
+		if (!$this->object->canShowTestResults($ilUser->getId())) $this->ctrl->redirectByClass("ilobjtestgui", "infoScreen");
 		include_once("./classes/class.ilTemplate.php");
 		$templatehead = new ilTemplate("tpl.il_as_tst_results_participants.html", TRUE, TRUE, "Modules/Test");
 		$template = new ilTemplate("tpl.il_as_tst_results_participant.html", TRUE, TRUE, "Modules/Test");
