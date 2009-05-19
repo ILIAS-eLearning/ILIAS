@@ -1199,6 +1199,7 @@ class ilTestOutputGUI extends ilTestServiceGUI
 			
 		if ($this->object->getKioskMode())
 		{
+			ilUtil::sendInfo();
 			if ($this->object->getShowKioskModeTitle())
 			{
 				$this->tpl->setCurrentBlock("kiosk_show_title");
