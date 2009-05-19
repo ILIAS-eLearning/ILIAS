@@ -242,10 +242,11 @@ class ilCertificate
 	*/
 	public function deleteCertificate()
 	{
-		if (file_exists($this->getAdapter()->getCertificatePath()))
+		if (@file_exists($this->getAdapter()->getCertificatePath()))
 		{
 			include_once "./Services/Utilities/classes/class.ilUtil.php";
 			ilUtil::delDir($this->getAdapter()->getCertificatePath());
+			$this->getAdapter()->deleteCertificate();
 		}
 	}
 	
@@ -254,7 +255,7 @@ class ilCertificate
 	*/
 	public function getFormFieldsFromFO()
 	{
-		if (file_exists($this->getXSLPath()))
+		if (@file_exists($this->getXSLPath()))
 		{
 			$xslfo = file_get_contents($this->getXSLPath());
 		}
