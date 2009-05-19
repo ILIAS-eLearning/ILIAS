@@ -196,9 +196,17 @@ class ilObjSAHSLearningModuleAccess extends ilObjectAccess
 	*/
 	public static function _lookupCertificate($a_id)
 	{
-		global $ilSetting;
-		$scormSetting = new ilSetting("scorm");
-		return ($scormSetting->get("certificate_" . $a_id) == 1) ? true : false;
+		$certificatefile = CLIENT_WEB_DIR . "/certificates/scorm/" . $a_id . "/certificate.xml";
+		if (@file_exists($certificatefile))
+		{
+			global $ilSetting;
+			$scormSetting = new ilSetting("scorm");
+			return ($scormSetting->get("certificate_" . $a_id) == 1) ? true : false;
+		}
+		else
+		{
+			return false;
+		}
 	}
 	
 	/**

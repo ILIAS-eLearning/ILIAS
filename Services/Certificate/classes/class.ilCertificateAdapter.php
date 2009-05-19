@@ -132,6 +132,16 @@ abstract class ilCertificateAdapter
 	}
 	
 	/**
+	* Is called when the certificate is deleted
+	* Add some adapter specific code if more work has to be done when the
+	* certificate file was deleted
+	*/
+	public function deleteCertificate()
+	{
+		
+	}
+	
+	/**
 	* Set the name of the certificate file
 	* This method will be called when the certificate will be generated
 	*

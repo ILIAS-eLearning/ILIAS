@@ -235,6 +235,18 @@ class ilSCORMCertificateAdapter extends ilCertificateAdapter
 	{
 		return $this->object->getId();
 	}
+
+	/**
+	* Is called when the certificate is deleted
+	* Add some adapter specific code if more work has to be done when the
+	* certificate file was deleted
+	*/
+	public function deleteCertificate()
+	{
+		global $ilSetting;
+		$scormSetting = new ilSetting("scorm");
+		$scormSetting->delete("certificate_" . $this->object->getId());
+	}
 }
 
 ?>
