@@ -3,7 +3,7 @@
 	+-----------------------------------------------------------------------------+
 	| ILIAS open source                                                           |
 	+-----------------------------------------------------------------------------+
-	| Copyright (c) 1998-2001 ILIAS open source, University of Cologne            |
+	| Copyright (c) 1998-2009 ILIAS open source, University of Cologne            |
 	|                                                                             |
 	| This program is free software; you can redistribute it and/or               |
 	| modify it under the terms of the GNU General Public License                 |
@@ -21,32 +21,52 @@
 	+-----------------------------------------------------------------------------+
 */
 
+include_once("./classes/class.ilObject.php");
 
-/**
-* Repository
+/*
+* Object class for plugins. This one wraps around ilObject
 *
 * @author Alex Killing <alex.killing@gmx.de>
 * @version $Id$
-*
-* @package ilias-core
+* @ingroup ServicesRepository
 */
-
-global $ilCtrl, $ilBench;
-
-require_once "include/inc.header.php";
-include_once "./Services/Repository/classes/class.ilRepositoryGUI.php";
-
-$ilCtrl->setTargetScript("repository.php");
-
-$ilBench->start("Core", "getCallStructure");
-$ilCtrl->getCallStructure("ilrepositorygui");
-$ilBench->stop("Core", "getCallStructure");
-
-$repository_gui =& new ilRepositoryGUI();
-//$repository_gui->prepareOutput();
-//$repository_gui->executeCommand();
-$ilCtrl->forwardCommand($repository_gui);
-
-$ilBench->save();
-
-?>
+abstract class ilObjectPlugin extends ilObject
+{
+	private $object;
+	
+	/**
+	* Constructor.
+	*/
+	function __construct($a_ref_id = 0)
+	{
+		$this->initType();
+		parent::__construct($a_id = 0, true);
+		$this->plugin =
+			ilPlugin::getPluginObject(IL_COMP_SERVICE, "Repository", "robj",
+				ilPlugin::lookupNameForId(IL_COMP_SERVICE, "Repository", "robj", $this->getType()));
+		if (!is_object($this->plugin))
+		{
+			die("ilObjectPluginGUI: Could not instantiate plugin object for type ".$this->getType().".");
+		}
+	}
+	
+	abstract function initType();
+	
+	/**
+	* Get plugin object
+	*
+	* @return	object	plugin object
+	*/
+	final private function getPlugin()
+	{
+		return $this->plugin;
+	}
+	
+	/**
+	* Wrapper for txt function
+	*/
+	final protected function txt($a_var)
+	{
+		return $this->getPlugin()->txt($a_var);
+	}
+}

@@ -486,7 +486,10 @@ class ilCtrl
 		{
 			$this->readCallStructure($a_class, $a_nr, $a_parent);
 		}
-		
+//var_dump($this->call_node);
+//var_dump($this->forward);
+//var_dump($this->parent);
+//var_dump($this->root_class);
 		// check whether command node and command class fit together
 		if ($_GET["cmdNode"] > 0)
 		{
@@ -598,14 +601,33 @@ class ilCtrl
 		{
 			foreach($a_to_class as $to_class)
 			{
-				$this->forward[$a_from_class][] = strtolower($to_class);
-				$this->parent[strtolower($to_class)][] = $a_from_class;
+				if ($a_from_class != "" && $to_class != "")
+				{
+					if (!is_array($this->forward[$a_from_class]) || !in_array(strtolower($to_class), $this->forward[$a_from_class]))
+					{
+						$this->forward[$a_from_class][] = strtolower($to_class);
+					}
+					if (!is_array($this->parent[strtolower($to_class)]) || !in_array($a_from_class, $this->parent[strtolower($to_class)]))
+					{
+						$this->parent[strtolower($to_class)][] = $a_from_class;
+					}
+				}
 			}
 		}
 		else
 		{
-			$this->forward[strtolower(get_class($a_obj))][] = strtolower($a_to_class);
-			$this->parent[strtolower($a_to_class)][] = strtolower(get_class($a_obj));
+			$to_class = $a_to_class;
+			if ($a_from_class != "" && $to_class != "")
+			{
+				if (!is_array($this->forward[$a_from_class]) || !in_array(strtolower($to_class), $this->forward[$a_from_class]))
+				{
+					$this->forward[$a_from_class][] = strtolower($to_class);
+				}
+				if (!is_array($this->parent[strtolower($to_class)]) || !in_array($a_from_class, $this->parent[strtolower($to_class)]))
+				{
+					$this->parent[strtolower($to_class)][] = $a_from_class;
+				}
+			}
 		}
 	}
 
@@ -765,9 +787,9 @@ class ilCtrl
 			$ilDB->quote($a_class_name, "text"));
 		$class_rec = $ilDB->fetchAssoc($class_set);
 
-		if ($class_rec["comp_prefix"] != "")
+		if ($class_rec["plugin_path"] != "")
 		{
-//
+			return $class_rec["plugin_path"]."/".$class_rec["filename"];
 		}
 		else
 		{

@@ -94,7 +94,7 @@ class ilObjectDefinition extends ilSaxParser
 	*/
 	function readDefinitionData()
 	{
-		global $ilDB;
+		global $ilDB, $ilPluginAdmin;
 		
 		$this->obj_data = array();
 		
@@ -143,6 +143,39 @@ class ilObjectDefinition extends ilSaxParser
 		{
 			$this->obj_group[$rec["id"]] = $rec;
 		}
+
+		// now get objects from repository plugin
+		$pl_names = $ilPluginAdmin->getActivePluginsForSlot(IL_COMP_SERVICE, "Repository", "robj");
+		foreach ($pl_names as $pl_name)
+		{
+			include_once("./Services/Component/classes/class.ilPlugin.php");
+			$pl_id = ilPlugin::lookupIdForName(IL_COMP_SERVICE, "Repository", "robj", $pl_name);
+			if ($pl_id != "" && !isset($this->obj_data[$pl_id]))
+			{
+				include_once("./Services/Repository/classes/class.ilRepositoryObjectPlugin.php");
+				$loc = ilPlugin::_getDirectory(IL_COMP_SERVICE, "Repository", "robj",
+					$pl_name)."/classes";
+
+				$this->obj_data[$pl_id] = array(
+					"name" => $pl_id,
+					"class_name" => $pl_name,
+					"plugin" => "1",
+					"location" => $loc,
+					"checkbox" => "1",
+					"inherit" => "0",
+					"component" => "",
+					"translate" => "0",
+					"devmode" => "0",
+					"allow_link" => "1",
+					"allow_copy" => "0",
+					"rbac" => "1",
+					"group" => null,
+					"system" => "0",
+					"default_pos" => "2000",
+					"sideblock" => "0");
+				$this->obj_data[$rec["id"]]["subobjects"] = array();
+			}
+		}
 //var_dump($this->obj_data);
 //var_dump($this->obj_data["root"]);
 //var_dump($this->obj_data2["root"]);
@@ -160,19 +193,7 @@ class ilObjectDefinition extends ilSaxParser
 	*/
 	function getClassName($a_obj_name)
 	{
-		if (isset($this->obj_data[$a_obj_name]))
-		{
-			return $this->obj_data[$a_obj_name]["class_name"];
-		}
-		else
-		{
-			include_once("./Services/Repository/classes/class.ilRepositoryObjectPluginSlot.php");
-			if (ilRepositoryObjectPluginSlot::isTypePlugin($a_obj_name, true))
-			{
-				include_once("./Services/Repository/classes/class.ilRepositoryObjectPlugin.php");
-				return ilRepositoryObjectPlugin::_getName($a_obj_name);
-			}
-		}
+		return $this->obj_data[$a_obj_name]["class_name"];
 	}
 
 
@@ -301,6 +322,18 @@ class ilObjectDefinition extends ilSaxParser
 	function isRBACObject($a_obj_name)
 	{
 		return (bool) $this->obj_data[$a_obj_name]["rbac"];
+	}
+
+	/**
+	* get RBAC status by type
+	* returns true if object type is a RBAC object type
+	*
+	* @param	string	object type
+	* @access	public
+	*/
+	function isPlugin($a_obj_name)
+	{
+		return (bool) $this->obj_data[$a_obj_name]["plugin"];
 	}
 
 	/**
@@ -714,7 +747,7 @@ class ilObjectDefinition extends ilSaxParser
 	*/
 	static function getGroupedRepositoryObjectTypes($a_parent_obj_type)
 	{
-		global $ilDB;
+		global $ilDB, $ilPluginAdmin;
 		
 		$set = $ilDB->query("SELECT * FROM il_object_group");
 		$groups = array();
@@ -754,6 +787,23 @@ class ilObjectDefinition extends ilSaxParser
 			}
 		}
 //var_dump($grouped_obj);
+		// now get objects from repository plugin
+		$pl_names = $ilPluginAdmin->getActivePluginsForSlot(IL_COMP_SERVICE, "Repository", "robj");
+		foreach ($pl_names as $pl_name)
+		{
+			include_once("./Services/Component/classes/class.ilPlugin.php");
+			$pl_id = ilPlugin::lookupIdForName(IL_COMP_SERVICE, "Repository", "robj", $pl_name);
+			if (!isset($grouped_obj[$pl_id]))
+			{
+				$grouped_obj[$pl_id] = array(
+					"pos" => 2000,
+					"objs" => array(0 => $pl_id)
+					);
+			}
+		}
+
+//var_dump($grouped_obj);
+
 		$ret = ilUtil::sortArray($grouped_obj, "pos", "asc", true, true);
 //var_dump($ret);
 		return $ret;

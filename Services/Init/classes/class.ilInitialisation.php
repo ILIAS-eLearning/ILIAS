@@ -733,21 +733,6 @@ class ilInitialisation
 			die("ANONYMOUS user with the object_id ".ANONYMOUS_USER_ID." not found!");
 		}
 
-		// BEGIN WebDAV: Don't do a redirect to the public area, if the user
-		//             performs a get request.
-		/*
-		if (ilPlugin::isPluginActive('ilUsabilityPlugin'))
-		{
-			if ($_SERVER['REQUEST_METHOD'] == 'GET')
-			{
-				$_SESSION["AccountId"] = ANONYMOUS_USER_ID;
-				$this->initUserAccount();
-				return;
-			}
-		}
-		*/
-		// END WebDAV: Don't do a redirect to the public area, if the user
-
 		// if target given, try to go there
 		if ($_GET["target"] != "")
 		{

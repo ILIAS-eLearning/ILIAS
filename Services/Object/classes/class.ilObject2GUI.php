@@ -52,7 +52,7 @@ abstract class ilObject2GUI extends ilObjectGUI
 	function __construct($a_id = 0, $a_call_by_reference = true)
 	{
 		global $objDefinition, $tpl, $ilCtrl, $ilErr, $lng, $ilTabs;
-		
+
 		$this->type = $this->getType();
 		
 		$this->tabs_gui =& $ilTabs;
@@ -82,6 +82,7 @@ abstract class ilObject2GUI extends ilObjectGUI
 		$this->ctrl->saveParameter($this, $params);
 		
 		$this->id = $a_id;
+
 		$this->call_by_reference = $a_call_by_reference;
 		$this->creation_mode = false;
 		$this->ref_id = ($this->call_by_reference) ? $this->id : $_GET["ref_id"];
