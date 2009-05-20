@@ -23,6 +23,8 @@
 
 
 include_once 'payment/classes/class.ilGeneralSettings.php';
+include_once 'Services/Payment/exceptions/class.ilShopException.php';
+include_once 'Services/Payment/classes/class.ilShopUtils.php';
 
 /**
 * Class ilShopVats
@@ -34,225 +36,227 @@ include_once 'payment/classes/class.ilGeneralSettings.php';
 *  
 */
 class ilShopVats
-{
-	private static $instance;
-		
-	private $vat_id = 0;
-	private $vat_title = '';
-	private $vat_rate = 0;
-
+{		
+	private $id = 0;
+	private $title = '';
+	private $rate = 0;
 	
-	public function __construct($a_vat_id = null, $a_vat_rate = null)
+	/**
+	* Constructor
+	* 
+	* @param	$a_vat_id	The primary key of a vat dataset.
+	* @access	public
+	*  
+	*/
+	public function __construct($a_vat_id = 0)
 	{
-		global $ilDB;
+		global $ilDB, $lng;
 
 		$this->db = $ilDB;
-				
-		$this->vat_id = (int)$a_vat_id;
-		$this->vat_title = $a_vat_title;
-		$this->vat_rate = $a_vat_rate; 
+		$this->lng = $lng;
 		
-		$this->_read();
+		if((int)$a_vat_id)
+		{
+			$this->id = $a_vat_id;
+			$this->read();
+		}
 	}
-
 	
-	public static function _read($a_vat_id = null, $a_vat_rate = null, $a_sort_by = null, $a_sort_order = null, $a_offset = 0)
+	/**
+	* Fetches the data of a vat dataset from database.
+	* 
+	* @access	private
+	* @throws	ilShopException  
+	*/
+	private function read()
 	{
-		global $ilDB;
-
-		$vats = array();
-
-		$data_types = array();
-		$data_values = array();
-		
-		$query = 'SELECT * FROM payment_vats';
-		
-		if(isset($a_vat_id))
-		{
-			$query .= ' WHERE vat_id = %s';
-			array_push($data_types, 'integer');
-			array_push($data_values, (int)$a_vat_id);
-		}
-		else
-		if(isset($a_vat_rate))
+		if((int)$this->id)
 		{
 	
-			$query .= ' WHERE vat_rate = %s ';
-			array_push($data_types, 'float');
-			array_push($data_values, $a_vat_rate);
-		}
-
-		if(isset($a_sort_by))
-		{
-				$query .= ' ORDER BY '.$a_sort_by;
-		}
-		else $query .= ' ORDER BY vat_rate ';
-		
-		if(isset($a_sort_order))
-		{ 
-				$query .= ' '.$a_sort_order;
-		}
-		
-
-		if(count($data_types) >= 1 && count($data_values) >= 1)
-		{
+			$res = $this->db->queryf('SELECT * FROM payment_vats 
+			   			WHERE 1 
+			  			AND vat_id = %s',
+			array('integer'), array($this->id) );	
 			
-			$res = $ilDB->queryF($query, $data_types, $data_values);
 			while($row = $res->fetchRow(DB_FETCHMODE_OBJECT))
+			{		
+				$this->setTitle($row->vat_title);
+				$this->setRate($row->vat_rate);	
+				
+				return true;	
+			}
+
+			throw new ilShopException($this->lng->txt('payment_cannot_find_vat'));
+		}
+		
+		throw new ilShopException($this->lng->txt('payment_cannot_read_nonexisting_vat'));
+	}
+
+	/**
+	* Public interface to reload the capsuled data of a vat from database. Throws a
+	* ilShopException if the object property $this->id has no valid value
+	* (because $this->read() is called).
+	* 
+	* @access	public
+	* @return	ilShopVats  
+	*/
+	public function reloadFromDatabase()
+	{
+		$this->read();
+		
+		return $this;
+	}
+	
+	/**
+	* Updates an existing vat dataset.
+	* 
+	* @access	public
+	* @return	bool	Returns true if no error occured.
+	* @throws   ilShopException
+	*/
+	public function update()
+	{
+		if((int)$this->id)
+		{
+			if(ilShopVatsList::_isVATAlreadyCreated($this->rate, $this->id))
 			{
-				$vats['vat_id'] = $row->vat_id;
-				$vats['vat_title'] = $row->vat_title;
-				$vats['vat_rate'] = $row->vat_rate;			
-			}	
+				throw new ilShopException($this->lng->txt('payment_vat_already_created'));
+			}
+			
+				   
+			$this->db->manipulatef('			
+					UPDATE payment_vats
+					SET vat_title = %s,
+						vat_rate = %s
+					WHERE vat_id = %s',
+					array('text', 'float', 'integer'),
+					array($this->getTitle(),$this->getRate(),$this->getId())
+				);
+				   
+			return true;
 		}
-		else 
-		{	
-			$res = $ilDB->query($query);
+		
+		throw new ilShopException($this->lng->txt('payment_cannot_update_nonexisting_vat'));
+	}
 	
-			$counter = 0;
-			while($row = $res->fetchRow(DB_FETCHMODE_OBJECT))
+	/**
+	* Saves a new vat dataset.
+	* 
+	* @access	public
+	* @return	bool	Returns true if no error occured.
+	* @throws   ilShopException
+	*/
+	public function save()
+	{
+		if(!(int)$this->id)
+		{
+			if(ilShopVatsList::_isVATAlreadyCreated($this->rate))
 			{
-				$vats[$counter]['vat_id'] = $row->vat_id;
-				$vats[$counter]['vat_title'] = $row->vat_title;
-				$vats[$counter]['vat_rate'] = $row->vat_rate;			
-				$counter++;
-			}	
-	
+				throw new ilShopException($this->lng->txt('payment_vat_already_created'));
+			}
+
+			$next_id = $this->db->nextId('payment_vats');
+		
+			$this->db->manipulateF('
+				INSERT INTO payment_vats
+				(vat_id, vat_title, vat_rate)
+				VALUES (%s,%s,%s)',
+				array('integer', 'text', 'float'),
+				array($next_id, $this->getTitle(), $this->getRate())
+			);		
+			return true;
 		}
-
-		return $vats;		
+		
+		throw new ilShopException($this->lng->txt('payment_cannot_save_existing_vat'));
 	}
 	
-	public static function _getVatId($a_vat_rate)
+	/**
+	* Deletes an existing vat dataset.
+	* 
+	* @access	public
+	* @return	bool	Returns true if no error occured.
+	* @throws   ilShopException
+	*/
+	public function delete()
 	{
-		global $ilDB;
-		
-		$res = $ilDB->queryF('
-			SELECT * FROM payment_vats WHERE
-				vat_rate = %s',
-		array('float'),
-		array($a_vat_rate));
-		
-		while($row = $res->fetchRow(DB_FETCHMODE_ASSOC))
+		if((int)$this->id)
 		{
-			$vat_id = $row['vat_id'];
-		}
-		return $vat_id;
-	}	
-	public static function _getVatRate($a_vat_id)
-	{
-		global $ilDB;
+			$result = $this->db->queryF('
+				SELECT * FROM payment_objects 
+				WHERE vat_id = %s',
+				array('integer'),
+				array($this->getId())
+			);
+
+			while($row = $result->fetchRow(DB_FETCHMODE_OBJECT))
+			{
+				throw new ilShopException(sprintf($this->lng->txt('paya_vat_not_deleted'), $this->title));
+			}		
 		
-		$res = $ilDB->queryF('
-			SELECT * FROM payment_vats WHERE
-				vat_id = %s',
-		array('integer'),
-		array($a_vat_id));
-		
-		while($row = $res->fetchRow(DB_FETCHMODE_ASSOC))
-		{
-			$vat_rate = $row['vat_rate'];
-		}
-		return $vat_rate;
-	}
-	
-	function setVatId($a_vat_id)
-	{
-		$this->vat_id = $a_vat_id;
-	}
-	
-	function getVatId()
-	{
-		return $this->vat_id;
-	}
-
-	function setVatRate($a_vat_rate)
-	{
-		$this->vat_rate = $a_vat_rate;
-	}	
-	
-
-	function getVatRate()
-	{
-		return $this->vat_rate;
-	}
-	
-	function setVatUnit($a_vat_unit)
-	{
-		$this->vat_unit = $a_vat_unit;
-	}	
-	function getVatUnit()
-	{
-		return $this->vat_unit;
-	}	
-	function setVatTitle($a_vat_title)
-	{
-		$this->vat_title = $a_vat_title;
-	}
-	
-	function getVatTitle()
-	{
-		return $this->vat_title;
-	}	
-	
-	function updateVat()
-	{
-		global $ilDB;
-		
-		$res = $ilDB->manipulateF('
-			UPDATE payment_vats
-			SET vat_title = %s,
-				vat_rate = %s
-			WHERE vat_id = %s',
-			array('text', 'float', 'integer'),
-			array($this->getVatTitle(),$this->getVatRate(),$this->getVatId())
-		);
-		return true;
-	}
-	
-	function deleteVat()
-	{
-		global $ilDB;
-
-		$res = $ilDB->queryF('
-			SELECT * FROM payment_objects 
-			WHERE vat_rate = %s',
-			array('integer'),
-			array($this->getVatRate())
-		);
-
-		if($ilDB->numRows($res) == 0)
-		{
-		 	$ilDB->manipulateF('
+		 	$this->db->manipulateF('
 				DELETE FROM payment_vats
 				WHERE vat_id = %s',
 				array('integer'),
-				array($this->getVatId())
+				array($this->getId())
 				
 			);
 			return true;	
 		}
-		else 
-		{
-			//vat_id exists in payment_objects table
-			return false;	
-		}
+
+		throw new ilShopException($this->lng->txt('payment_cannot_delete_nonexisting_vat'));
 	}
 	
-	function insertVat()
+	/**
+	* Setter for the title.
+	* 
+	* @access	public
+	* @paramt	string	$a_title
+	* @return	ilShopVats
+	*/
+	public function setTitle($a_title)
 	{
-		global $ilDB;
+		$this->title = $a_title;
 		
-		$next_id = $ilDB->nextId('payment_vats');
+		return $this;
+	}
+	public function getTitle()
+	{
+		return $this->title;	
+	}
+	/**
+	* Setter for the id.
+	* 
+	* @access	public
+	* @param	int	$a_id
+	* @return	ilShopVats
+	*/
+	public function setId($a_id)
+	{
+		$this->id = $a_id;
 		
-		$ilDB->manipulateF('
-			INSERT INTO payment_vats
-			(vat_id, vat_title, vat_rate)
-			VALUES (%s,%s,%s)',
-			array('integer', 'text', 'float'),
-			array($next_id, $this->getVatTitle(), $this->getVatRate())
-		);
-	}		
-	
+		return $this;
+	}
+	public function getId()
+	{
+		return $this->id;
+	}
+	/**
+	* Setter for the vat rate.
+	* 
+	* @access	public
+	* @param	float $a_rate
+	* @return	ilShopVats
+	*/
+	public function setRate($a_rate)
+	{
+		$this->rate = $a_rate;
+		
+		return $this;
+	}
+	public function getRate()
+	{
+		return $this->rate;
+	}
 }
+
 ?>

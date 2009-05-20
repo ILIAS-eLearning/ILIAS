@@ -9430,3 +9430,24 @@ content#:#cont_lm_default_layout#:#Standardlayout des Lernmoduls
 content#:#cont_page_layout#:#Seitenlayout
 content#:#cont_layout_per_page#:#Layout je Seite erlauben
 content#:#cont_layout_per_page_info#:#Erlaubt es, je Seite ein anderes Layout zu wählen.
+payment#:#paya_vats_info#:#Wenn Sie einen Artikel ohne MwSt verkaufen möchten, legen Sie bitte einen Steuersatz mit 0 % an.
+payment#:#payment_tax_rates#:#Steuersätze
+payment#:#payment_vat_already_created#:#Es existiert bereits ein Steuersatz mit diesem Wert.
+payment#:#payment_cannot_save_existing_vat#:#Ein  vorhandener Steuersatz kann nicht angelegt werden.
+payment#:#payment_cannot_delete_nonexisting_vat#:#Ein nicht vorhandener Steuersatz kann nicht gelöscht werden.
+payment#:#payment_cannot_find_vat#:#Es konnte kein Steuersatz zur übergebenen ID gefunden werden.
+payment#:#payment_cannot_read_nonexisting_vat#:#Die ID zum Einlesen des Steuersatzes wurde nicht übertragen.
+payment#:#payment_edit_vat#:#Steuersatz bearbeiten
+payment#:#payment_add_vat#:#Steuersatz anlegen
+payment#:#payment_vat_title_info#:#Tragen Sie hier eine Bezeichnung/einen Titel für den Steuersatz ein.
+payment#:#payment_vat_rate_info#:#Tragen Sie hier den Prozentsatz (ohne das %-Zeichen) für den Steuersatz ein, z.B. 7.
+payment#:#payment_vat_deleted_successfully#:#Die gewählten Steuersätze wurden gelöscht.
+payment#:#payment_vat_has_to_be_defined_by_administration_short#:#----
+payment#:#payment_object_not_buyable_if_not_vat_assigned#:#Bevor dem Objekt kein Steuersatz zugewiesen wird ist dieses nicht kaufbar.
+payment#:#payment_vat_administration#:#Verwaltung
+payment#:#payment_vat_input_invalid#:#Bitte geben Sie einen gültigen Wert für den Steuersatz ein.
+payment#:#payment_no_price_selected#:#Es wurde kein Preis ausgewählt.
+payment#:#payment_no_price_type_selected#:#Bitte wählen Sie einen Preistyp.
+payment#:#payment_price_invalid_price#:#Bitte geben Sie einen gültigen Preis ein.
+payment#:#paya_updated_price#:#Der Preis wurde erfolgreich gespeichert.
+payment#:#payment_already_bought_but_no_access#:#Sie haben das Objekt %s bereits gekauft, haben jedoch noch keinen Zugriff oder Ihre Lizenz ist bereits abgelaufen.

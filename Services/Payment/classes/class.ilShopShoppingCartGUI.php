@@ -26,7 +26,7 @@ include_once './payment/classes/class.ilPaymentShoppingCart.php';
 include_once 'Services/Payment/classes/class.ilShopBaseGUI.php';
 include_once './payment/classes/class.ilPaypalSettings.php';
 include_once './payment/classes/class.ilPaymentCoupons.php';
-include_once 'Services/Payment/classes/class.ilShopVats.php';
+include_once 'Services/Payment/classes/class.ilShopVatsList.php';
 
 /**
 * Class ilShopShoppingCartGUI
@@ -445,10 +445,19 @@ class ilShopShoppingCartGUI extends ilShopBaseGUI
 						else
 						$f_result[$counter][] = $price_arr['duration'].' '.$this->lng->txt('paya_months');
 						
-						$f_result[$counter][] = $tmp_pobject->getVatRate().' % ';
-					
+/*						$f_result[$counter][] = $tmp_pobject->getVatRate().' % ';
 						$f_result[$counter][] = $tmp_pobject->getVat($price_arr['price'],$item['pobject_id']).' '.$genSet->get('currency_unit');
 						$this->totalVat = $this->totalVat + $tmp_pobject->getVat($price_arr['price'],$item['pobject_id']);
+*/	
+						
+						$float_price = $price_arr['price'];
+						
+						$oVAT = new ilShopVats((int)$tmp_pobject->getVatId());						
+						$f_result[$counter][] = ilShopUtils::_formatVAT($oVAT->getRate());
+						$f_result[$counter][] = $tmp_pobject->getVat($float_price, 'GUI').' '.$genSet->get('currency_unit');
+						$this->totalVat = $this->totalVat + $tmp_pobject->getVat($float_price);
+						
+						
 						
 						$f_result[$counter][] = ilPaymentPrices::_getPriceString($item['price_id']);
 
@@ -934,7 +943,7 @@ class ilShopShoppingCartGUI extends ilShopBaseGUI
 			$amount .=  $this->lng->txt('pay_bmf_vat_included') . ":";
 			$amount .= "</td>\n";
 			$amount .= "<td>\n";
-			$amount .= $this->totalVat  . " " . $genSet->get('currency_unit');
+			$amount .= ilShopUtils::_formatFloat($this->totalVat) . " " . $genSet->get('currency_unit');			
 			$amount .= "</td>\n";
 			$amount .= "</tr>\n";
 		}

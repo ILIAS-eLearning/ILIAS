@@ -200,28 +200,19 @@ class ilPaymentPrices
 	}
 	function setDuration($a_duration)
 	{
-		if($a_duration == '' || null) $a_duration = 0;
+		if($this->unlimited_duration == '1' && ($a_duration == '' || null)) 
+		$a_duration = 0;
 		
-		$this->duration = $a_duration;
+		$this->duration = (int)$a_duration;
 	}
+	
 	function setUnlimitedDuration($a_unlimited_duration)
 	{
-		if($a_unlimited_duration == '' || null) $a_unlimited_duration = 0;
-		if($a_unlimited_duration == 0) $this->setDuration(0);
-		
-		$this->unlimited_duration = $a_unlimited_duration;
+		if($a_unlimited_duration) 
+			$this->unlimited_duration = (int)$a_unlimited_duration;
+		else
+			$this->unlimited_duration = 0;
 	}
-
-/*	function setVatUnit($a_vat_unit)
-	{
-		$this->vat_unit = $a_vat_unit;
-	}
-		
-	function setVatId($a_vat_id)
-	{
-		$this->vat_id = $a_vat_id;
-	}
-*/	
 	
 	function add()
 	{
@@ -298,24 +289,31 @@ class ilPaymentPrices
 	}
 
 	function validate()
-	{
+	{	
+		
 		$duration_valid = false;
-		$price_valid = false;
-	
-
-		//if(preg_match('/^[1-9][0-9]{0,1}$/',$this->__getDuration()))
-		if(preg_match('/^(([1-9][0-9]{0,1})|[0])?$/',$this->__getDuration()))
+		$price_valid = false; 
+		
+		if(preg_match('/^(([1-9][0-9]{0,1})|[0])?$/',$this->__getDuration())	
+		|| ((int)$this->__getDuration() == 0 && $this->__getUnlimitedDuration() == 1))
 		{
 			$duration_valid = true;
 		}
-		
+
 		if(preg_match('/[0-9]/',$this->__getPrice()))
 		{
+			
 			$price_valid = true;
 		}
 			
+	if($duration_valid == true && $price_valid == true)
+	{
+		return true;
+		
+	}
+
+	else return false;
 	
-		return $duration_valid and $price_valid;
 	}
 	// STATIC
 	function _priceExists($a_price_id,$a_pobject_id)
@@ -350,15 +348,7 @@ class ilPaymentPrices
 	{
 		return $this->unlimited_duration;
 	}
-/*	function __getVatUnit()
-	{
-		return $this->vat_unit;		
-	}
-	function __getVatId()
-	{
-		return $this->vat_id;		
-	}
-*/	
+
 	function __read()
 	{
 		$this->prices = array();
@@ -394,7 +384,6 @@ class ilPaymentPrices
 
 		foreach ($this->prices as $price_id => $data)
 		{
-			//$current_price = self::_formatPriceToFloat($data['unit_value'], $data['sub_unit_value']);
 			$current_price = $data['price'];
 
 			if($lowest_price  == 0|| 

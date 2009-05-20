@@ -274,9 +274,9 @@ class ilPaymentStatisticGUI extends ilShopBaseGUI
 			{
 				$booking['duration'] = $this->lng->txt('unlimited_duration');
 			}
-			
+
 			$f_result[$counter][] = $booking['duration'];
-			$f_result[$counter][] = $booking['price'];
+			$f_result[$counter][] = ilFormat::_getLocalMoneyFormat($booking['price']);
 			$f_result[$counter][] = $booking['discount'];
 
 			$payed_access = $booking['payed'] ? 
@@ -552,7 +552,7 @@ class ilPaymentStatisticGUI extends ilShopBaseGUI
 		}
 		else	
 		$this->tpl->setVariable("DURATION",$booking['duration'].' '.$this->lng->txt('paya_months'));
-		$this->tpl->setVariable("PRICE",$booking['price']);
+		$this->tpl->setVariable("PRICE",ilFormat::_getLocalMoneyFormat($booking['price']));
 		
 		$yes_no = array(0 => $this->lng->txt('no'),1 => $this->lng->txt('yes'));
 
@@ -896,7 +896,7 @@ class ilPaymentStatisticGUI extends ilShopBaseGUI
 
 	// PRIVATE
 	function __showStatisticTable($a_result_set)
-	{
+	{		
 		$tbl =& $this->initTableGUI();
 		$tpl =& $tbl->getTemplateObject();
 
