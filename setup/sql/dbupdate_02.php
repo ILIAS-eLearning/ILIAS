@@ -12238,4 +12238,7 @@ $atts = array(
 );
 $ilDB->addTableColumn("ctrl_classfile", "plugin_path", $atts);
 ?>
-
+<#2428>
+<?php
+	$res = $ilDB->manipulate("ALTER TABLE `payment_prices` ADD `unlimited_duration` tinyint(4) NOT NULL default '0'");
+?>
