@@ -622,5 +622,25 @@ class ilFormat
 		return sprintf("%02d:%02d:%02d:%02d",$days,$hours,$minutes,$rest);
 
 	}
+
+	/**
+	 * converts a float number to money format, 
+	 * depending on system language 
+	 * 
+	 **/	 
+	static function _getLocalMoneyFormat($float_number)
+	{
+		global $ilias;
+		
+		$language = $ilias->getSetting("language");
+		$money_locale = $language.'_'.strtoupper($language);
+		/* de_DE en_US en_EN fr_FR .UTF-8
+		*/ //$money_locale = 'de_DE.UTF-8';
+		//vd($_SERVER['HTTP_ACCEPT_LANGUAGE']);
+		
+		setlocale(LC_MONETARY, $money_locale);
+		
+		return money_format('%!2n', $float_number);
+	}
 }
 ?>

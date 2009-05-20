@@ -32,6 +32,7 @@ include_once './payment/classes/class.ilPaymentObject.php';
 include_once './payment/classes/class.ilPaymentShoppingCart.php';
 include_once './payment/classes/class.ilPaypalSettings.php';
 include_once './payment/classes/class.ilPaymentCoupons.php';
+include_once 'Services/Payment/classes/class.ilShopVatsList.php';
 
 define('SUCCESS', 0);
 define('ERROR_OPENSOCKET', 1);
@@ -457,8 +458,8 @@ class ilPurchasePaypal
 			$tpl->setVariable("LOOP_TITLE", utf8_decode($bookings["list"][$i]["title"]) . $assigned_coupons);
 			$tpl->setVariable("LOOP_TXT_ENTITLED_RETRIEVE", utf8_decode($this->lng->txt("pay_entitled_retrieve")));
 			$tpl->setVariable("LOOP_DURATION", $bookings["list"][$i]["duration"] . " " . utf8_decode($this->lng->txt("paya_months")));
-			$tpl->setVariable("LOOP_VAT_RATE", $bookings["list"][$i]["vat_rate"]);
-			$tpl->setVariable('LOOP_VAT_UNIT', $bookings['list'][$i]['vat_unit'].' '.$genSet->get('currency_unit'));			
+			$tpl->setVariable("LOOP_VAT_RATE", ilShopUtils::_formatVAT($bookings["list"][$i]["vat_rate"]));
+			$tpl->setVariable('LOOP_VAT_UNIT', ilShopUtils::_formatFloat($bookings['list'][$i]['vat_unit']).' '.$genSet->get('currency_unit'));			
 			$tpl->setVariable("LOOP_PRICE", $bookings["list"][$i]["price"]);
 			$tpl->parseCurrentBlock("loop");
 			
@@ -520,7 +521,7 @@ class ilPurchasePaypal
 		$tpl->setVariable("TOTAL_AMOUNT", number_format($bookings["total"], 2, ",", ".") . " " . $genSet->get("currency_unit"));
 		if ($bookings["total_vat"] > 0)
 		{
-			$tpl->setVariable("TOTAL_VAT",$bookings["total_vat"]. " " . $genSet->get("currency_unit"));			
+			$tpl->setVariable("TOTAL_VAT", ilShopUtils::_formatFloat($bookings["total_vat"]). " " . $genSet->get("currency_unit"));			
 			$tpl->setVariable("TXT_TOTAL_VAT", utf8_decode($this->lng->txt("pay_bmf_vat_included")));
 		}
 

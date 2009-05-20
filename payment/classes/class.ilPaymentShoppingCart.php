@@ -282,6 +282,7 @@ class ilPaymentShoppingCart
 		
 	function getShoppingCart($a_pay_method = 0)
 	{
+
 		if(!count($items = $this->getEntries($a_pay_method)))
 		{
 	
@@ -307,13 +308,17 @@ class ilPaymentShoppingCart
 
 			$price = (float)$price_data['price'];
 
-			$f_result[$counter]["betrag"] = (float) $price;
+			$f_result[$counter]["betrag"] = ilFormat::_getLocalMoneyFormat( (float) $price);
 			$f_result[$counter]["betrag_string"] = $price_string;
-			$f_result[$counter]["vat_rate"] = $tmp_pobject->getVatRate().' % ';
-
+ 
+			$oVAT = new ilShopVats((int)$tmp_pobject->getVatId());						
+			$f_result[$counter]['vat_rate'] = $oVAT->getRate();
+			$f_result[$counter]['vat_unit'] = $tmp_pobject->getVat($price);
+			
+/*			$f_result[$counter]["vat_rate"] = $tmp_pobject->getVatRate().' % ';
 			$f_result[$counter]["vat_unit"] = $tmp_pobject->getVat($price_data['price'],$item['pobject_id']);
 			$this->totalVat = $this->totalVat + $tmp_pobject->getVat($price_data['price'],$item['pobject_id']);
-		
+*/		
 			$f_result[$counter]["dauer"] = $price_data["duration"];
 
 

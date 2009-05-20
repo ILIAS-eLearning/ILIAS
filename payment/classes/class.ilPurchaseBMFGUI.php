@@ -35,6 +35,7 @@ include_once './payment/classes/class.ilPaymentCoupons.php';
 include_once './payment/classes/class.ilBMFSettings.php';
 #include_once dirname(__FILE__)."/../bmf/lib/ePayment/cfg_epayment.inc.php";
 include_once dirname(__FILE__)."/../bmf/lib/SOAP/class.ilBMFClient.php";
+include_once 'Services/Payment/classes/class.ilShopVatsList.php';
 
 class ilPurchaseBMFGUI
 {
@@ -1156,8 +1157,10 @@ class ilPurchaseBMFGUI
 			$tpl->setVariable("LOOP_TITLE", $bookEntries[$i]["buchungstext"]. $assigned_coupons);
 			$tpl->setVariable("LOOP_TXT_ENTITLED_RETRIEVE", utf8_decode($this->lng->txt("pay_entitled_retrieve")));
 			$tpl->setVariable("LOOP_DURATION", $bookEntries[$i]["dauer"] . " " . utf8_decode($this->lng->txt("paya_months")));
-			$tpl->setVariable('LOOP_VAT_RATE', $bookEntries[$i]['vat_rate']);
-			$tpl->setVariable('LOOP_VAT_UNIT', $bookEntries[$i]['vat_unit'].' '.$genSet->get('currency_unit'));			
+			$tpl->setVariable('LOOP_VAT_RATE', ilShopUtils::_formatVAT($bookEntries[$i]['vat_rate']));      
+		    $tpl->setVariable('LOOP_VAT_UNIT', ilShopUtils::_formatFloat($bookEntries[$i]['vat_unit']).' '.$genSet->get('currency_unit'));
+		      
+		    $totalVat += (float)$bookEntries[$i]['vat_unit'];			
 			
 			$tpl->setVariable("LOOP_PRICE", number_format($bookEntries[$i]["betrag"], 2, ",", ".") . " " . $genSet->get("currency_unit"));
 			$tpl->parseCurrentBlock("loop");
@@ -1210,15 +1213,10 @@ class ilPurchaseBMFGUI
 
 		$tpl->setVariable("TXT_TOTAL_AMOUNT", utf8_decode($this->lng->txt("pay_bmf_total_amount")));
 		$tpl->setVariable("TOTAL_AMOUNT", number_format($bookingList->betrag, 2, ",", ".") . " " . $genSet->get("currency_unit"));
-		
-		//if (($vat = $sc_obj->getVat($bookingList->betrag)) > 0)
 	
 		if ($this->totalVat  > 0)		
 		{
-			//$tpl->setVariable("VAT", number_format($vat, 2, ",", ".") . " " . $genSet->get("currency_unit"));
-			//$tpl->setVariable("TXT_VAT", $genSet->get("vat_rate") . "% " . utf8_decode($this->lng->txt("pay_bmf_vat_included")));
-
-			$tpl->setVariable("TOTAL_VAT", $this->totalVat  . " " . $genSet->get('currency_unit'));
+			$tpl->setVariable("TOTAL_VAT",  ilShopUtils::_formatFloat($totalVat)  . " " . $genSet->get('currency_unit'));
 			$tpl->setVariable("TXT_TOTAL_VAT", utf8_decode($this->lng->txt("pay_bmf_vat_included")));
 		}
 
@@ -1555,7 +1553,6 @@ class ilPurchaseBMFGUI
 		include_once './payment/classes/class.ilGeneralSettings.php';
 
 		$genSet = new ilGeneralSettings();
-		
 		$this->psc_obj = new ilPaymentShoppingCart($this->user_obj);
 
 		if(!count($items = $this->psc_obj->getEntries(PAY_METHOD_BMF)))
@@ -1601,13 +1598,17 @@ class ilPurchaseBMFGUI
 				$f_result[$counter][] = $price_arr['duration'] . ' ' . $this->lng->txt('paya_months');	
 			}
 			
-			$f_result[$counter][] = $tmp_pobject->getVatRate().' % ';
-			
-					
-			//$f_result[$counter][] = $tmp_pobject->getVat($price_arr['unit_value'],$item['pobject_id']).' '.$genSet->get('currency_unit');
-			//$this->totalVat = $this->totalVat + $tmp_pobject->getVat($price_arr['unit_value'],$item['pobject_id']);
+/*			$f_result[$counter][] = $tmp_pobject->getVatRate().' % ';
 			$f_result[$counter][] = $tmp_pobject->getVat($price_arr['price'],$item['pobject_id']).' '.$genSet->get('currency_unit');
 			$this->totalVat = $this->totalVat + $tmp_pobject->getVat($price_arr['price'],$item['pobject_id']);
+*/		
+			$oVAT = new ilShopVats((int)$tmp_pobject->getVatId());
+		    $f_result[$counter][] = ilShopUtils::_formatVAT($oVAT->getRate());
+		
+		    $float_price = $price_arr['price'];
+		
+		    $f_result[$counter][] = $tmp_pobject->getVat($float_price, 'GUI').' '.$genSet->get('currency_unit');
+		    $this->totalVat = $this->totalVat + $tmp_pobject->getVat($float_price);			
 			
 			$f_result[$counter][] = ilPaymentPrices::_getPriceString($item['price_id']);
 
@@ -1763,7 +1764,7 @@ class ilPurchaseBMFGUI
 			$amount .=  $this->lng->txt('pay_bmf_vat_included') . ":";			
 			$amount .= "</td>\n";
 			$amount .= "<td>\n";
-			$amount .= $this->totalVat  . " " . $genSet->get('currency_unit');			
+			$amount .= ilShopUtils::_formatFloat($this->totalVat)  . " " . $genSet->get('currency_unit');			
 			$amount .= "</td>\n";
 			$amount .= "</tr>\n";	
 		}

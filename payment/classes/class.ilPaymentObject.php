@@ -45,7 +45,7 @@ class ilPaymentObject
 	private $vendor_id = null;
 	private $topic_id = 0;
 	private $vat_id = 0;
-	private $vat_rate = 0;
+
 
 	public function __construct($user_obj, $a_pobject_id = null)
 	{
@@ -122,37 +122,23 @@ class ilPaymentObject
 	{
 		$this->vat_id = $a_vat_id;
 	}
-	public function getVatRate()
-	{
 		
-		return $this->vat_rate;
-	}
-	public function setVatRate($a_vat_rate)
-	{
-		$this->vat_rate = $a_vat_rate;
-	}
-		
-	
-	
-	function getVat($a_amount = 0, $a_pobject_id = 0)
-	{	
-		global $ilDB;
-		
-		include_once './Services/Payment/classes/class.ilShopVats.php';
-		
-		$res = $ilDB->queryF('
-		SELECT * FROM payment_objects WHERE pobject_id = %s',
-		array('integer'),
-		array($a_pobject_id));
-			
-		while($row = $res->fetchRow(DB_FETCHMODE_OBJECT))
+	function getVat($a_amount = 0, $type = 'CALCULATION')
+	{		
+		$oVAT = new ilShopVats($this->getVatId());
+		switch($type)
 		{
-			$this->vat_rate = $row->vat_rate;
+			case 'CALCULATION':
+				return (float)($a_amount - (round(($a_amount / (1 + ($oVAT->getRate() / 100))) * 100) / 100));
+			default:
+				global $lng;
+				
+				$val = (float)($a_amount - (round(($a_amount / (1 + ($oVAT->getRate() / 100))) * 100) / 100));
+				$val = ilShopUtils::_formatFloat($val);
+				return $val; 
 		}
-		
-		return (float) ($a_amount - (round(($a_amount / (1 + ($this->vat_rate / 100.0))) * 100) / 100));		
-
 	}
+	
 	public function add()
 	{	
 		$next_id = $this->db->nextId('payment_objects');
@@ -164,18 +150,18 @@ class ilPaymentObject
 				 pay_method,
 				 vendor_id,
 				 pt_topic_fk,
-				 vat_rate
+				 vat_id
 			) 
 			VALUES
 			(%s, %s,%s,%s,%s,%s,%s)', 
-			array('integer','integer', 'integer', 'integer', 'integer', 'integer','float'),
+			array('integer','integer', 'integer', 'integer', 'integer', 'integer','integer'),
 			array(	$next_id,
 					$this->getRefId(), 
 					$this->getStatus(),
 					$this->getPayMethod(),
 					$this->getVendorId(),
 					$this->getTopicId(),
-					$this->getVatRate()
+					$this->getVatId()
 				)
 			);
 		
@@ -212,15 +198,15 @@ class ilPaymentObject
 				 pay_method = %s,
 				 vendor_id = %s,
 				 pt_topic_fk = %s,
-				 vat_rate = %s
+				 vat_id = %s
 				 WHERE pobject_id = %s', 
-				array('integer', 'integer', 'integer', 'integer', 'integer', 'float', 'integer'),
+				array('integer', 'integer', 'integer', 'integer', 'integer', 'integer', 'integer'),
 				array($this->getRefId(), 
 						  $this->getStatus(),
 						  $this->getPayMethod(),
 						  $this->getVendorId(),
 						  $this->getTopicId(),
-						  $this->getVatRate(),
+						  $this->getVatId(),
 						  $this->getPobjectId()
 				));
 	
@@ -357,7 +343,7 @@ class ilPaymentObject
 			$objects[$row->pobject_id]['pay_method'] = $row->pay_method;
 			$objects[$row->pobject_id]['vendor_id'] = $row->vendor_id;
 			$objects[$row->pobject_id]['topic_id'] = $row->pt_topic_fk;
-			$objects[$row->pobject_id]['vat_rate'] = $row->vat_rate;
+			$objects[$row->pobject_id]['vat_id'] = $row->vat_id;
 		}
 		return $objects ? $objects : array();
 	}
@@ -452,7 +438,7 @@ class ilPaymentObject
 			$objects[$row->pobject_id]['pay_method'] = $row->pay_method;
 			$objects[$row->pobject_id]['vendor_id'] = $row->vendor_id;
 			$objects[$row->pobject_id]['topic_id'] = $row->pt_topic_fk;
-			$objects[$row->pobject_id]['vat_rate'] = $row->vat_rate;
+			$objects[$row->pobject_id]['vat_id'] = $row->vat_id;			
 		}
 		return $objects ? $objects : array();
 	}
@@ -626,7 +612,7 @@ class ilPaymentObject
 				$this->setPayMethod($row->pay_method);
 				$this->setVendorId($row->vendor_id);
 				$this->setTopicId($row->pt_topic_fk);
-				$this->setVatRate($row->vat_rate);
+				$this->setVatId($row->vat_id);
 				
 				return true;
 			}
