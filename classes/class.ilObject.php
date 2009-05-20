@@ -1834,16 +1834,14 @@ class ilObject
 		{
 			if ($objDefinition->isRBACObject($a_type))
 			{
-				return ilUtil::getImagePath("icon_".$a_type.$suff.".gif");
-			}
-			else
-			{
-				include_once("./Services/Repository/classes/class.ilRepositoryObjectPluginSlot.php");
-				if (ilRepositoryObjectPluginSlot::isTypePlugin($a_type, true))
+				if (!$objDefinition->isPlugin($a_type))
+				{
+					return ilUtil::getImagePath("icon_".$a_type.$suff.".gif");
+				}
+				else
 				{
 					include_once("./Services/Repository/classes/class.ilRepositoryObjectPlugin.php");
-					$img = ilRepositoryObjectPlugin::_getIcon($a_type, $a_size);
-					return $img;
+					return ilRepositoryObjectPlugin::_getIcon($a_type, $a_size);
 				}
 			}
 		}

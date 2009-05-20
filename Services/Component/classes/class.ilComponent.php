@@ -266,18 +266,16 @@ abstract class ilComponent
 	{
 		global $lng;
 		
-		$lng->loadLanguageModule("cmps");
-		
 		$parts = explode(".", $a_ver);
 		
 		if (count($parts) != 3)
 		{
-			return $lng->txt("cmps_version_nr_format_error");
+			return "Version Number does not conform to format a.b.c";
 		}
 		
 		if (!is_numeric($parts[0]) || !is_numeric($parts[1]) || !is_numeric($parts[2]))
 		{
-			return $lng->txt("cmps_version_nr_parts_not_numeric");
+			return "Not all version number parts a.b.c are numeric.";
 		}
 		
 		return $parts;

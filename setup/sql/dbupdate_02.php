@@ -12244,3 +12244,8 @@ $ilDB->addTableColumn("ctrl_classfile", "plugin_path", $atts);
 ?>
 <#2429>
 ALTER TABLE `payment_objects` CHANGE `vat_rate` `vat_id` INT NOT NULL DEFAULT '0';
+<#2430>
+<?php
+$ilCtrlStructureReader->getStructure();
+?>
+

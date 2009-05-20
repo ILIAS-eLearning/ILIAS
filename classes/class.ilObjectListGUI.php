@@ -2132,7 +2132,7 @@ class ilObjectListGUI
 	*/
 	function insertIconsAndCheckboxes()
 	{
-		global $lng;
+		global $lng, $objDefinition;
 		
 		$cnt = 0;
 		if ($this->getCheckboxStatus())
@@ -2174,7 +2174,17 @@ class ilObjectListGUI
 				$this->tpl->touchBlock("i_1");	// indent
 			}
 			$this->tpl->setCurrentBlock("icon");
-			$this->tpl->setVariable("ALT_ICON", $lng->txt("icon")." ".$lng->txt("obj_".$this->getIconImageType()));
+			if (!$objDefinition->isPlugin($this->getIconImageType()))
+			{
+				$this->tpl->setVariable("ALT_ICON", $lng->txt("icon")." ".$lng->txt("obj_".$this->getIconImageType()));
+			}
+			else
+			{
+				include_once("./Services/Component/classes/class.ilPlugin.php");
+				$this->tpl->setVariable("ALT_ICON", $lng->txt("icon")." ".
+					ilPlugin::lookupTxt("rep_robj", $this->getIconImageType(), "obj_".$this->getIconImageType()));
+			}
+
 			$this->tpl->setVariable("SRC_ICON",
 				ilObject::_getIcon($this->obj_id, "small", $this->getIconImageType()));
 			$this->tpl->parseCurrentBlock();

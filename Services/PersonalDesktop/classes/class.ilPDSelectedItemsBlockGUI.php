@@ -731,7 +731,6 @@ class ilPDSelectedItemsBlockGUI extends ilBlockGUI
 			$grp = $t["grp"];
 
 			$items = $ilUser->getDesktopItems($type);
-//var_dump($items);
 			$item_html = array();
 			
 			if ($this->getCurrentDetailLevel() == 3)
@@ -1007,8 +1006,20 @@ class ilPDSelectedItemsBlockGUI extends ilBlockGUI
 	*/
 	function addHeaderRow(&$a_tpl, $a_type, $a_show_image = true)
 	{
+		global $objDefinition;
+		
 		$icon = ilUtil::getImagePath("icon_".$a_type.".gif");
-		$title = $this->lng->txt("objs_".$a_type);
+		if (!$objDefinition->isPlugin($a_type))
+		{
+			$title = $this->lng->txt("objs_".$a_type);
+		}
+		else
+		{
+			include_once("./Services/Component/classes/class.ilPlugin.php");
+			$title =
+				ilPlugin::lookupTxt("rep_robj", $a_type, "objs_".$a_type);
+
+		}
 		$header_id = "th_".$a_type;
 
 		if ($a_show_image)

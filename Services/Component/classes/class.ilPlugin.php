@@ -287,7 +287,7 @@ abstract class ilPlugin
 	/**
 	* Get plugin directory
 	*/
-	static protected final function _getDirectory($a_ctype, $a_cname, $a_slot_id, $a_pname)
+	static public final function _getDirectory($a_ctype, $a_cname, $a_slot_id, $a_pname)
 	{
 		return ilPluginSlot::_getPluginsDirectory($a_ctype, $a_cname, $a_slot_id)."/".$a_pname;
 		
@@ -477,12 +477,11 @@ abstract class ilPlugin
 	/**
 	* Lookup language text
 	*/
-	static function lookupTxt($a_slot_id, $a_pl_id, $a_lang_var)
+	static function lookupTxt($a_mod_prefix, $a_pl_id, $a_lang_var)
 	{
 		global $lng;
-		
-		return $lng->_lookupEntry($lng->lang_key, $a_slot_id."_".$a_pl_id,
-			$a_slot_id."_".$a_pl_id."_".$a_lang_var);
+		return $lng->_lookupEntry($lng->lang_key, $a_mod_prefix."_".$a_pl_id,
+			$a_mod_prefix."_".$a_pl_id."_".$a_lang_var);
 	}
 	
 	/**
@@ -738,7 +737,8 @@ abstract class ilPlugin
 		// load control structure
 		include_once("./setup/classes/class.ilCtrlStructureReader.php");
 		$structure_reader = new ilCtrlStructureReader();
-		$structure_reader->readStructure(true, "./".$this->getDirectory(), $this->getPrefix());
+		$structure_reader->readStructure(true, "./".$this->getDirectory(), $this->getPrefix(),
+			$this->getDirectory());
 		$ilCtrl->storeCommonStructures();
 		
 		// set last update version to current version
@@ -858,6 +858,26 @@ abstract class ilPlugin
 		if ($rec = $ilDB->fetchAssoc($set))
 		{
 			return $rec["name"];
+		}
+	}
+
+	/**
+	* Lookup id for name
+	*/
+	function lookupIdForName($a_ctype, $a_cname, $a_slot_id, $a_plugin_name)
+	{
+		global $ilDB;
+		
+		$q = "SELECT plugin_id FROM il_plugin ".
+			" WHERE component_type = ".$ilDB->quote($a_ctype, "text").
+			" AND component_name = ".$ilDB->quote($a_cname, "text").
+			" AND slot_id = ".$ilDB->quote($a_slot_id, "text").
+			" AND name = ".$ilDB->quote($a_plugin_name, "text");
+
+		$set = $ilDB->query($q);
+		if ($rec = $ilDB->fetchAssoc($set))
+		{
+			return $rec["plugin_id"];
 		}
 	}
 	

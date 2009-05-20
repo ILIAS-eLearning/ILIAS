@@ -544,7 +544,7 @@ class ilContainer extends ilObject
 			{
 				continue;
 			}
-			
+
 			// group object type groups together (e.g. learning resources)
 			$type = $objDefinition->getGroupOfObj($object["type"]);
 			if ($type == "")

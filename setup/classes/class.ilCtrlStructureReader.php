@@ -59,7 +59,8 @@ class ilCtrlStructureReader
 	/**
 	* read structure
 	*/
-	function readStructure($a_force = false, $a_dir = "", $a_comp_prefix = "")
+	function readStructure($a_force = false, $a_dir = "", $a_comp_prefix = "",
+		$a_plugin_path = "")
 	{
 
 		if (!$this->get_structure && !$a_force)
@@ -69,6 +70,9 @@ class ilCtrlStructureReader
 		
 		// prefix for component
 		$this->comp_prefix = $a_comp_prefix;
+
+		// plugin path
+		$this->plugin_path = $a_plugin_path;
 
 		// only run one time per db_update request
 		if (!$this->executed)
@@ -253,11 +257,13 @@ class ilCtrlStructureReader
 			$file = substr($script, strlen($this->start_dir) + 1);
 			
 			// store class to file assignment
-			$ilDB->manipulate(sprintf("INSERT INTO ctrl_classfile (class, filename, comp_prefix) ".
-				" VALUES (%s,%s,%s)",
+			$ilDB->manipulate(sprintf("INSERT INTO ctrl_classfile (class, filename, comp_prefix, plugin_path) ".
+				" VALUES (%s,%s,%s,%s)",
 				$ilDB->quote($class, "text"),
 				$ilDB->quote($file, "text"),
-				$ilDB->quote($this->comp_prefix, "text")));
+				$ilDB->quote($this->comp_prefix, "text"),
+				$ilDB->quote($this->plugin_path, "text")
+				));
 		}
 //$this->class_childs[$parent][] = $child;
 		foreach($this->class_childs as $parent => $v)

@@ -533,11 +533,19 @@ abstract class ilContainerContentGUI
 	*/
 	function addHeaderRow($a_tpl, $a_type = "", $a_text = "")
 	{
-		global $lng, $ilSetting;
+		global $lng, $ilSetting, $objDefinition;
 		
 		if ($a_text == "" && $a_type != "")
 		{
-			$title = $lng->txt("objs_".$a_type);
+			if (!$objDefinition->isPlugin($a_type))
+			{
+				$title = $lng->txt("objs_".$a_type);
+			}
+			else
+			{
+				include_once("./Services/Component/classes/class.ilPlugin.php");
+				$title = ilPlugin::lookupTxt("rep_robj", $a_type, "objs_".$a_type);
+			}
 		}
 		else
 		{
@@ -611,7 +619,15 @@ abstract class ilContainerContentGUI
 
 		$a_tpl->touchBlock($this->cur_row_type);
 		
-		$type = $lng->txt("obj_".$a_type);
+		if (!$objDefinition->isPlugin($type))
+		{
+			$type = $lng->txt("obj_".$a_type);
+		}
+		else
+		{
+			include_once("./Services/Component/classes/class.ilPlugin.php");
+			$title = ilPlugin::lookupTxt("rep_robj", $a_type, "objs_".$a_type);
+		}
 		$a_message = str_replace("[type]", $type, $a_message);
 		
 		$a_tpl->setVariable("ROW_NBSP", "&nbsp;");

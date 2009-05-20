@@ -2,6 +2,7 @@
 <service xmlns="http://www.w3.org" version="$Id$"
 	id="rep">
 	<baseclasses>
+		<baseclass name="ilObjPluginDispatchGUI" dir="classes" />
 	</baseclasses>
 	<objects>
 	</objects>

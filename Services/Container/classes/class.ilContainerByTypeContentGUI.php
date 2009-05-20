@@ -104,7 +104,7 @@ class ilContainerByTypeContentGUI extends ilContainerContentGUI
 		$this->clearAdminCommandsDetermination();
 		
 		$type_grps = $this->getGroupedObjTypes();
-		
+
 // old behaviour
 /*
 		$xpage_id = ilContainer::_lookupContainerSetting($this->getContainerObject()->getId(),
