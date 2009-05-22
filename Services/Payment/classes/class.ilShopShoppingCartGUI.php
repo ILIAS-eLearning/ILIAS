@@ -445,19 +445,12 @@ class ilShopShoppingCartGUI extends ilShopBaseGUI
 						else
 						$f_result[$counter][] = $price_arr['duration'].' '.$this->lng->txt('paya_months');
 						
-/*						$f_result[$counter][] = $tmp_pobject->getVatRate().' % ';
-						$f_result[$counter][] = $tmp_pobject->getVat($price_arr['price'],$item['pobject_id']).' '.$genSet->get('currency_unit');
-						$this->totalVat = $this->totalVat + $tmp_pobject->getVat($price_arr['price'],$item['pobject_id']);
-*/	
-						
 						$float_price = $price_arr['price'];
 						
 						$oVAT = new ilShopVats((int)$tmp_pobject->getVatId());						
 						$f_result[$counter][] = ilShopUtils::_formatVAT($oVAT->getRate());
 						$f_result[$counter][] = $tmp_pobject->getVat($float_price, 'GUI').' '.$genSet->get('currency_unit');
 						$this->totalVat = $this->totalVat + $tmp_pobject->getVat($float_price);
-						
-						
 						
 						$f_result[$counter][] = ilPaymentPrices::_getPriceString($item['price_id']);
 
@@ -855,9 +848,6 @@ class ilShopShoppingCartGUI extends ilShopBaseGUI
 
 		$totalAmount =  $sc_obj->getTotalAmount();
 
-
-		//$vat = $sc_obj->getVat($totalAmount[$a_pay_method], $sc_obj->getPobjectId());
-
 		$tpl->setCurrentBlock('tbl_footer_linkbar');
 		$amount .= "<table class=\"\" style=\"float: right;\">\n";		
 		if (!empty($_SESSION['coupons'][$coupon_session]))
@@ -912,15 +902,9 @@ class ilShopShoppingCartGUI extends ilShopBaseGUI
 				
 				if ($totalAmount[$a_pay_method] < 0)
 				{
-					
 					$totalAmount[$a_pay_method] = 0;
 					$this->totalVat = 0;
 				}
-				else
-				{
-				
-					$this->totalVat = $sc_obj->getVat($totalAmount[$a_pay_method]);	
-				}	
 			}				
 		}		
 		
@@ -934,7 +918,6 @@ class ilShopShoppingCartGUI extends ilShopBaseGUI
 		$amount .= "</tr>\n";
 		
 		$this->totalAmount[$a_pay_method] = $totalAmount[$a_pay_method];
-
 
 		if ($this->totalVat > 0)
 		{

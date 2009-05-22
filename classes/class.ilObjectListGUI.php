@@ -1516,19 +1516,19 @@ class ilObjectListGUI
 			}
 			else if(ilPaymentObject::_isInCart($this->ref_id))
 			{
-				$this->tpl->setCurrentBlock('payment');
-				$this->tpl->setVariable('PAYMENT_TYPE_IMG', ilUtil::getImagePath('icon_pays_cart_b.gif'));
-				$this->tpl->setVariable('PAYMENT_ALT_IMG', $this->lng->txt('payment_system') . ': ' . $this->lng->txt('payment_in_sc'));
-				$this->tpl->parseCurrentBlock();
+				$this->ctpl->setCurrentBlock('payment');
+				$this->ctpl->setVariable('PAYMENT_TYPE_IMG', ilUtil::getImagePath('icon_pays_cart_b.gif'));
+				$this->ctpl->setVariable('PAYMENT_ALT_IMG', $this->lng->txt('payment_system') . ': ' . $this->lng->txt('payment_in_sc'));
+				$this->ctpl->parseCurrentBlock();
 
 				$this->insertPaymentCommand();				
 			}
 			else
 			{
-				$this->tpl->setCurrentBlock('payment');
-				$this->tpl->setVariable('PAYMENT_TYPE_IMG', ilUtil::getImagePath('icon_pays_b.gif'));
-				$this->tpl->setVariable('PAYMENT_ALT_IMG', $this->lng->txt('payment_system') . ': ' . $this->lng->txt('payment_buyable'));
-				$this->tpl->parseCurrentBlock();				
+				$this->ctpl->setCurrentBlock('payment');
+				$this->ctpl->setVariable('PAYMENT_TYPE_IMG', ilUtil::getImagePath('icon_pays_b.gif'));
+				$this->ctpl->setVariable('PAYMENT_ALT_IMG', $this->lng->txt('payment_system') . ': ' . $this->lng->txt('payment_buyable'));
+				$this->ctpl->parseCurrentBlock();				
 
 				$this->insertPaymentCommand();
 			}
@@ -1548,7 +1548,7 @@ class ilObjectListGUI
 		
 		$commands = $this->getCommands($this->ref_id, $this->obj_id);		
 		foreach($commands as $command)
-		{
+		{ 
 			if($command['default'] === true)
 			{
 				$command = $this->createDefaultCommand($command);
@@ -1578,8 +1578,10 @@ class ilObjectListGUI
 		
 		$this->ctrl->clearParametersByClass($this->gui_class_name);
 		
-		$this->tpl->setVariable("COMMAND_SELECTION_LIST",
+		$this->ctpl->setVariable("COMMAND_SELECTION_LIST",
 			$this->current_selection_list->getHTML());
+			
+	
 	}
 
 	/**

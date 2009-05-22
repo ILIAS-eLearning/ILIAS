@@ -512,10 +512,6 @@ class ilPurchasePaypal
 			$bookings["total"] = 0.0;
 			$bookings["total_vat"] = 0.0;
 		}
-		else
-		{
-//			$bookings["vat"] = $this->psc_obj->getVat($bookings["total"]);
-		}
 
 		$tpl->setVariable("TXT_TOTAL_AMOUNT", utf8_decode($this->lng->txt("pay_bmf_total_amount")));
 		$tpl->setVariable("TOTAL_AMOUNT", number_format($bookings["total"], 2, ",", ".") . " " . $genSet->get("currency_unit"));

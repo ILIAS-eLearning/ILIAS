@@ -315,10 +315,6 @@ class ilPaymentShoppingCart
 			$f_result[$counter]['vat_rate'] = $oVAT->getRate();
 			$f_result[$counter]['vat_unit'] = $tmp_pobject->getVat($price);
 			
-/*			$f_result[$counter]["vat_rate"] = $tmp_pobject->getVatRate().' % ';
-			$f_result[$counter]["vat_unit"] = $tmp_pobject->getVat($price_data['price'],$item['pobject_id']);
-			$this->totalVat = $this->totalVat + $tmp_pobject->getVat($price_data['price'],$item['pobject_id']);
-*/		
 			$f_result[$counter]["dauer"] = $price_data["duration"];
 
 

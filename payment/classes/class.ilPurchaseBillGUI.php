@@ -577,17 +577,12 @@ class ilPurchaseBillGUI
 			$bookings['total'] = 0.0;
 			$bookings['total_vat'] = 0.0;
 		}
-		else
-		{
-			//$bookings['total_vat'] = $this->psc_obj->getVat($bookings['total']);
-		}
+
 
 		$tpl->setVariable('TXT_TOTAL_AMOUNT', utf8_decode($this->lng->txt('pay_bmf_total_amount')));
 		$tpl->setVariable('TOTAL_AMOUNT', number_format($bookings['total'], 2, ',', '.') . ' ' . $genSet->get('currency_unit'));
 		if ($bookings['total_vat'] > 0)
 		{
-			//$tpl->setVariable('VAT', number_format($bookings['vat'], 2, ',', '.') . ' ' . $genSet->get('currency_unit'));
-			//$tpl->setVariable('TXT_VAT', $genSet->get('vat_rate') . '% ' . utf8_decode($this->lng->txt('pay_bmf_vat_included')));
 			$tpl->setVariable('TOTAL_VAT', $bookings['total_vat']. ' ' . $genSet->get('currency_unit'));
 			$tpl->setVariable('TXT_TOTAL_VAT', utf8_decode($this->lng->txt('pay_bmf_vat_included')));
 		}
@@ -1008,17 +1003,18 @@ class ilPurchaseBillGUI
 			}
 			
 			
-			$f_result[$counter][] = $tmp_pobject->getVatRate().' % ';
-
-			//$f_result[$counter][] = $tmp_pobject->getVat($price_arr['unit_value'],$item['pobject_id']).' '.$genSet->get('currency_unit');
-			//$this->totalVat = $this->totalVat + $tmp_pobject->getVat($price_arr['unit_value'],$item['pobject_id']);
-			$f_result[$counter][] = $tmp_pobject->getVat($price_arr['price'],$item['pobject_id']).' '.$genSet->get('currency_unit');
-			$this->totalVat = $this->totalVat + $tmp_pobject->getVat($price_arr['price'],$item['pobject_id']);
+			$oVAT = new ilShopVats((int)$tmp_pobject->getVatId());
+		    $f_result[$counter][] = ilShopUtils::_formatVAT($oVAT->getRate());
+		
+		    $float_price = $price_arr['price'];
+		
+		    $f_result[$counter][] = $tmp_pobject->getVat($float_price, 'GUI').' '.$genSet->get('currency_unit');
+		    $this->totalVat = $this->totalVat + $tmp_pobject->getVat($float_price);			
 			
 			$f_result[$counter][] = ilPaymentPrices::_getPriceString($item['price_id']);
-
+			
 			unset($tmp_obj);
-			//unset($tmp_pobject);
+			unset($tmp_pobject);
 
 			++$counter;
 		}
@@ -1083,9 +1079,6 @@ class ilPurchaseBillGUI
 		$sc_obj =& new ilPaymentShoppingCart($this->user_obj);
 
 		$totalAmount =  $sc_obj->getTotalAmount();
-		//$vat = $sc_obj->getVat($totalAmount[PAY_METHOD_BILL]);
-
-		//$this->totalVat = $sc_obj->getVat($totalAmount[PAY_METHOD_BILL]);
 
 		$tpl->setCurrentBlock('tbl_footer_linkbar');
 		$amount .= "<table class=\"\" style=\"float: right;\">\n";		
@@ -1119,7 +1112,6 @@ class ilPurchaseBillGUI
 						if ($this->coupon_obj->isObjectAssignedToCoupon($tmp_pobject->getRefId()))
 						{			
 							$price_data = ilPaymentPrices::_getPrice($item['price_id']);									
-							//$price = ((int) $price_data['unit_value']) . '.' . sprintf('%02d', ((int) $price_data['sub_unit_value']));
 							$price = (float) $price_data['price'];
 														
 							$total_object_price += $price;																						
@@ -1143,15 +1135,9 @@ class ilPurchaseBillGUI
 				
 				if ($totalAmount[PAY_METHOD_BILL] < 0)
 				{
-				
 					$totalAmount[PAY_METHOD_BILL] = 0;
 					$this->totalVat = 0;
 				}
-				else
-				{
-					
-					//$this->totalVat = $sc_obj->getVat($totalAmount[PAY_METHOD_BILL]);	
-				}	
 			}				
 		}		
 		
@@ -1168,12 +1154,10 @@ class ilPurchaseBillGUI
 		{		
 			$amount .= "<tr>\n";
 			$amount .= "<td>\n";					
-//			$amount .= $genSet->get("vat_rate") . "% " . $this->lng->txt("pay_bmf_vat_included") . ":";
 			$amount .= $this->lng->txt("pay_bmf_vat_included") . ":";
 			$amount .= "</td>\n";
 			$amount .= "<td>\n";
-//			$amount .= number_format($vat, 2, ",", ".") . " " . $genSet->get("currency_unit");
-			$amount .= $this->totalVat  . " " . $genSet->get('currency_unit');
+			$amount .= ilShopUtils::_formatFloat($this->totalVat) . " " . $genSet->get('currency_unit');			
 			$amount .= "</td>\n";
 			$amount .= "</tr>\n";	
 		}
