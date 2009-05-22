@@ -327,5 +327,29 @@ class ilPluginSlot
 			$this->getComponentName(), $this->getSlotId());
 	}
 	
+	
+	/**
+	* Get all plugin slots
+	*/
+	static function getAllSlots()
+	{
+		global $ilDB;
+		
+		$set = $ilDB->query("SELECT * FROM il_pluginslot ");
+		$slots = array();
+		while ($rec  = $ilDB->fetchAssoc($set))
+		{
+			$pos = strpos($rec["component"], "/");
+			$slots[] = array(
+				"component_type" => substr($rec["component"], 0, $pos),
+				"component_name" => substr($rec["component"], $pos + 1),
+				"slot_id" => $rec["id"],
+				"slot_name" => $rec["name"]
+				);
+		}
+		
+		return $slots;
+	}
+	
 }
 ?>

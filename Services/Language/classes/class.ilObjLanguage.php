@@ -235,6 +235,8 @@ class ilObjLanguage extends ilObject
 	*/
 	static function refreshAll()
 	{
+		global $ilPluginAdmin;
+		
 		$languages = ilObject::_getObjectsByType("lng");
 
 		foreach ($languages as $lang)
@@ -267,6 +269,25 @@ class ilObjLanguage extends ilObject
 			}
 
 			unset($langObj);
+		}
+
+		// refresh languages of activated plugins
+		include_once("./Services/Component/classes/class.ilPluginSlot.php");
+		$slots = ilPluginSlot::getAllSlots();
+		foreach ($slots as $slot)
+		{
+			$act_plugins = $ilPluginAdmin->getActivePluginsForSlot($slot["component_type"],
+				$slot["component_name"], $slot["slot_id"]);
+			foreach ($act_plugins as $plugin)
+			{
+				include_once("./Services/Component/classes/class.ilPlugin.php");
+				$pl = ilPlugin::getPluginObject($slot["component_type"],
+					$slot["component_name"], $slot["slot_id"], $plugin);
+				if (is_object($pl))
+				{
+					$pl->updateLanguages();
+				}
+			}
 		}
 	}
 	
