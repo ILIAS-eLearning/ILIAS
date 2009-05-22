@@ -23,6 +23,7 @@
 
 
 include_once("./Services/Component/classes/class.ilComponent.php");
+include_once("./Services/Component/exceptions/class.ilPluginException.php");
 
 /**
 * @defgroup ServicesComponent Services/Component
@@ -665,7 +666,7 @@ abstract class ilPlugin
 		// check whether update is necessary
 		if ($this->needsUpdate())
 		{
-			$result = $this->isUpdatePossible();
+			//$result = $this->isUpdatePossible();
 			
 			// do update
 			if ($result === true)
@@ -673,26 +674,41 @@ abstract class ilPlugin
 				$result = $this->update();
 			}
 		}
-		
-		// activate plugin
 		if ($result === true)
 		{
-			$q = "UPDATE il_plugin SET active = ".$ilDB->quote(1, "integer").",".
-				" plugin_id = ".$ilDB->quote($this->getId(), "text").
-				" WHERE component_type = ".$ilDB->quote($this->getComponentType(), "text").
-				" AND component_name = ".$ilDB->quote($this->getComponentName(), "text").
-				" AND slot_id = ".$ilDB->quote($this->getSlotId(), "text").
-				" AND name = ".$ilDB->quote($this->getPluginName(), "text");
-				
-			$ilDB->manipulate($q);
+			$result = $this->beforeActivation();
+			// activate plugin
+			if ($result === true)
+			{
+				$q = "UPDATE il_plugin SET active = ".$ilDB->quote(1, "integer").",".
+					" plugin_id = ".$ilDB->quote($this->getId(), "text").
+					" WHERE component_type = ".$ilDB->quote($this->getComponentType(), "text").
+					" AND component_name = ".$ilDB->quote($this->getComponentName(), "text").
+					" AND slot_id = ".$ilDB->quote($this->getSlotId(), "text").
+					" AND name = ".$ilDB->quote($this->getPluginName(), "text");
+					
+				$ilDB->manipulate($q);
+				$this->afterActivation();
+			}
 		}
-		$this->afterActivation($result);
+		return $result;
 	}
 	
 	/**
+	* Before activation processing
+	*/
+	protected function beforeActivation()
+	{
+		return true;	// false would indicate that anything went wrong
+						// activation would not proceed
+						// throw an exception in this case
+		//throw new ilPluginException($lng->txt(""));
+	}
+
+	/**
 	* After activation processing
 	*/
-	protected function afterActivation($a_success)
+	protected function afterActivation()
 	{
 	}
 

@@ -9434,7 +9434,6 @@ payment#:#paya_vats_info#:#Wenn Sie einen Artikel ohne MwSt verkaufen möchten, 
 payment#:#payment_tax_rates#:#Steuersätze
 payment#:#payment_vat_already_created#:#Es existiert bereits ein Steuersatz mit diesem Wert.
 payment#:#payment_cannot_save_existing_vat#:#Ein  vorhandener Steuersatz kann nicht angelegt werden.
-payment#:#payment_cannot_delete_nonexisting_vat#:#Ein nicht vorhandener Steuersatz kann nicht gelöscht werden.
 payment#:#payment_cannot_find_vat#:#Es konnte kein Steuersatz zur übergebenen ID gefunden werden.
 payment#:#payment_cannot_read_nonexisting_vat#:#Die ID zum Einlesen des Steuersatzes wurde nicht übertragen.
 payment#:#payment_edit_vat#:#Steuersatz bearbeiten
@@ -9451,3 +9450,6 @@ payment#:#payment_no_price_type_selected#:#Bitte wählen Sie einen Preistyp.
 payment#:#payment_price_invalid_price#:#Bitte geben Sie einen gültigen Preis ein.
 payment#:#paya_updated_price#:#Der Preis wurde erfolgreich gespeichert.
 payment#:#payment_already_bought_but_no_access#:#Sie haben das Objekt %s bereits gekauft, haben jedoch noch keinen Zugriff oder Ihre Lizenz ist bereits abgelaufen.
+payment#:#payment_cannot_update_nonexisting_vat#:#Cannot update a nonexisting VAT.###22 05 2009 new variable
+cmps#:#cmps_plugin_activated#:#The plugin has been activated.###22 05 2009 new variable
+cmps#:#cmps_plugin_deactivated#:#The plugin has been deactivated.###22 05 2009 new variable

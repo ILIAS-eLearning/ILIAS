@@ -283,42 +283,8 @@ class ilObjLanguageFolderGUI extends ilObjectGUI
 	 */
 	function refreshObject()
 	{
-		$languages = ilObject::_getObjectsByType("lng");
-
-		foreach ($languages as $lang)
-		{
-			$langObj = new ilObjLanguage($lang["obj_id"],false);
-
-			if ($langObj->isInstalled() == true)
-			{
-				if ($langObj->check())
-				{
-					$langObj->flush('keep_local');
-					$langObj->insert();
-					$langObj->setTitle($langObj->getKey());
-					$langObj->setDescription($langObj->getStatus());
-					$langObj->update();
-					$langObj->optimizeData();
-
-					if ($langObj->isLocal() == true)
-					{
-						if ($langObj->check('local'))
-						{
-							$langObj->insert('local');
-							$langObj->setTitle($langObj->getKey());
-							$langObj->setDescription($langObj->getStatus());
-							$langObj->update();
-							$langObj->optimizeData();
-						}
-					}
-				}
-			}
-
-			unset($langObj);
-		}
-
+		ilObjLanguage::refreshAll();
 		$this->data = $this->lng->txt("languages_updated");
-
 		$this->out();
 	}
 
