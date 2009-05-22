@@ -497,7 +497,7 @@ class ilPaymentObjectGUI extends ilShopBaseGUI
 		$this->ctrl->setParameter($this,'pobject_id',(int) $_GET['pobject_id']);
 
 
-		$this->__showButton('objects',$this->lng->txt('back'));	
+		$this->__showButton('showObjects',$this->lng->txt('back'));	
 		$this->__showButton('editDetails',$this->lng->txt('paya_edit_details'));
 		$this->__showButton('editPrices',$this->lng->txt('paya_edit_prices'));
 

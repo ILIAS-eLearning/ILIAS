@@ -408,7 +408,7 @@ class ilPaymentShoppingCartGUI extends ilPaymentBaseGUI
 						$obj_title = $ilObjDataCache->lookupTitle($obj_id);
 						$price_arr = ilPaymentPrices::_getPrice($item['price_id']);
 						
-								$price = $price_arr['price'];
+						$price = $price_arr['price'];
 						
 						$direct_paypal_info_output = true;						
 						$assigned_coupons = '';					
@@ -439,13 +439,16 @@ class ilPaymentShoppingCartGUI extends ilPaymentBaseGUI
 		
 						$f_result[$counter][] = $price_arr['duration'].' '.$this->lng->txt('paya_months');
 
-						$f_result[$counter][] = $tmp_pobject->getVatUnit().' % ';
+						$oVAT = new ilShopVats((int)$tmp_pobject->getVatId());
+					    $f_result[$counter][] = ilShopUtils::_formatVAT($oVAT->getRate());
 					
-							$f_result[$counter][] = $tmp_pobject->getVat($price_arr['price'],$item['pobject_id']).' '.$genSet->get('currency_unit');
-						$this->totalVat = $this->totalVat + $tmp_pobject->getVat($price_arr['price'],$item['pobject_id']);			
-						
-						$f_result[$counter][] = ilPaymentPrices::_getPriceString($item['price_id']);
-
+					    $float_price = $price_arr['price'];
+					
+					    $f_result[$counter][] = $tmp_pobject->getVat($float_price, 'GUI').' '.$genSet->get('currency_unit');
+					    $this->totalVat = $this->totalVat + $tmp_pobject->getVat($float_price);			
+									
+					    $f_result[$counter][] = ilPaymentPrices::_getPriceString($item['price_id']);
+			
 						if ($pay_methods[$p] == PAY_METHOD_PAYPAL)
 						{
 							if ($direct_paypal_info_output == true) // Paypal information in hidden fields
@@ -849,8 +852,6 @@ class ilPaymentShoppingCartGUI extends ilPaymentBaseGUI
 
 		$totalAmount =  $sc_obj->getTotalAmount();
 
-//		$vat = $sc_obj->getVat($totalAmount[$a_pay_method]);
-
 		$tpl->setCurrentBlock('tbl_footer_linkbar');
 		$amount .= '<table class=\'\' style=\'float: right;\'>\n';		
 		if (!empty($_SESSION['coupons'][$coupon_session]))
@@ -908,10 +909,6 @@ class ilPaymentShoppingCartGUI extends ilPaymentBaseGUI
 					$totalAmount[$a_pay_method] = 0;
 					$this->totalVat = 0;
 				}
-				else
-				{
-					//$this->totalVat = $sc_obj->getVat($totalAmount[$a_pay_method]);	
-				}	
 			}				
 		}		
 		
@@ -925,14 +922,14 @@ class ilPaymentShoppingCartGUI extends ilPaymentBaseGUI
 		$amount .= '</tr>\n';
 		
 		$this->totalAmount[$a_pay_method] = $totalAmount[$a_pay_method];
-/***/		
+		
 		if ($this->totalVat > 0)
 		{
 			$amount .= '<tr>\n';
 			$amount .= '<td>\n';					
 			$amount .= '</td>\n';
 			$amount .= '<td>\n';
-			$amount .= $this->totalVat  . " " . $genSet->get('currency_unit');
+			$amount .= ilShopUtils::_formatFloat($this->totalVat) . " " . $genSet->get('currency_unit');			
 			$amount .= '</td>\n';
 			$amount .= '</tr>\n';
 		}

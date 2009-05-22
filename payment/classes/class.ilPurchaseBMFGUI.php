@@ -1598,10 +1598,6 @@ class ilPurchaseBMFGUI
 				$f_result[$counter][] = $price_arr['duration'] . ' ' . $this->lng->txt('paya_months');	
 			}
 			
-/*			$f_result[$counter][] = $tmp_pobject->getVatRate().' % ';
-			$f_result[$counter][] = $tmp_pobject->getVat($price_arr['price'],$item['pobject_id']).' '.$genSet->get('currency_unit');
-			$this->totalVat = $this->totalVat + $tmp_pobject->getVat($price_arr['price'],$item['pobject_id']);
-*/		
 			$oVAT = new ilShopVats((int)$tmp_pobject->getVatId());
 		    $f_result[$counter][] = ilShopUtils::_formatVAT($oVAT->getRate());
 		
@@ -1679,7 +1675,6 @@ class ilPurchaseBMFGUI
 		$sc_obj =& new ilPaymentShoppingCart($this->user_obj);
 
 		$totalAmount =  $sc_obj->getTotalAmount();
-		//$vat = $sc_obj->getVat($totalAmount[PAY_METHOD_BMF]);
 
 		$tpl->setCurrentBlock("tbl_footer_linkbar");
 		$amount .= "<table class=\"\" style=\"float: right;\">\n";		
@@ -1740,11 +1735,6 @@ class ilPurchaseBMFGUI
 					$totalAmount[PAY_METHOD_BMF] = 0;
 					$this->totalVat = 0;
 				}
-/*				else
-				{
-				//$vat = $sc_obj->getVat($totalAmount[PAY_METHOD_BMF]);	
-				
-				}	*/
 			}				
 		}		
 		
