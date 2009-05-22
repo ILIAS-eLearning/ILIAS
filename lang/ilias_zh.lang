@@ -9445,3 +9445,26 @@ content#:#cont_lm_default_layout#:#Default Layout of Learning Module###15 05 200
 content#:#cont_page_layout#:#Page Layout###15 05 2009 new variable
 content#:#cont_layout_per_page#:#Layout per Page###15 05 2009 new variable
 content#:#cont_layout_per_page_info#:#Allow to set individual layouts for each page. This automatically activates the "Synchronize Frames" setting, too.###15 05 2009 new variable
+payment#:#paya_vats_info#:#If you like to sell an object without a vat, please insert a vat-rate with 0 %###22 05 2009 new variable
+payment#:#payment_tax_rates#:#Tax Rates###22 05 2009 new variable
+payment#:#payment_vat_already_created#:#A VAT with this rate is already created.###22 05 2009 new variable
+payment#:#payment_cannot_save_existing_vat#:#Cannot save an existing VAT.###22 05 2009 new variable
+payment#:#payment_cannot_update_nonexisting_vat#:#Cannot update a nonexisting VAT.###22 05 2009 new variable
+payment#:#payment_cannot_find_vat#:#Cannot find VAT dataset for the passed id.###22 05 2009 new variable
+payment#:#payment_cannot_read_nonexisting_vat#:#The ID for fechting the VAT dataset was not passed.###22 05 2009 new variable
+payment#:#payment_edit_vat#:#Edit VAT###22 05 2009 new variable
+payment#:#payment_add_vat#:#Create VAT###22 05 2009 new variable
+payment#:#payment_vat_title_info#:#Please insert a label/title for the VAT.###22 05 2009 new variable
+payment#:#payment_vat_rate_info#:#Please insert the VAT rate (without the %-sign), e.g. 7.###22 05 2009 new variable
+payment#:#payment_vat_deleted_successfully#:#The selected VAT rates were deleted.###22 05 2009 new variable
+payment#:#payment_vat_has_to_be_defined_by_administration_short#:#----###22 05 2009 new variable
+payment#:#payment_object_not_buyable_if_not_vat_assigned#:#Until there is no VAT assigned the object is not buyable in the webshop.###22 05 2009 new variable
+payment#:#payment_vat_administration#:#Administration###22 05 2009 new variable
+payment#:#payment_vat_input_invalid#:#Please insert a valid value for the VAT rate.###22 05 2009 new variable
+payment#:#payment_no_price_selected#:#No price selected.###22 05 2009 new variable
+payment#:#payment_no_price_type_selected#:#Please select a type for the price.###22 05 2009 new variable
+payment#:#payment_price_invalid_price#:#Please enter a valid price.###22 05 2009 new variable
+payment#:#paya_updated_price#:#The price was saved.###22 05 2009 new variable
+payment#:#payment_already_bought_but_no_access#:#You already bought the object %s, but you do not have access yet or your license is expired.###22 05 2009 new variable
+cmps#:#cmps_plugin_activated#:#The plugin has been activated.###22 05 2009 new variable
+cmps#:#cmps_plugin_deactivated#:#The plugin has been deactivated.###22 05 2009 new variable

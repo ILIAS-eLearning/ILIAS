@@ -1,7 +1,7 @@
 ﻿/**
 * ILIAS language file
 *
-* @module		language file English
+* @module		language file hungarian
 * @modulegroup	language
 * @author 		Matthias Kunkel <m.kunkel@uni-koeln.de>
 * @version		$Id$
@@ -187,7 +187,7 @@ assessment#:#answer_is_right#:#A megoldása helyes
 assessment#:#answer_is_wrong#:#A megoldása rossz
 assessment#:#answer_picture#:#Válaszkép
 assessment#:#answer_text#:#Válaszszöveg
-assessment#:#applet_attributes#:#Applet-attribútumok
+assessment#:#applet_attributes#:#Applet-tulajdonságok
 assessment#:#applet_new_parameter#:#Új paraméter
 assessment#:#applet_parameter#:#Paraméter
 assessment#:#applet_parameters#:#Applet-paraméterek
@@ -996,10 +996,8 @@ assessment#:#with_order#:#sorrendben
 assessment#:#worked_through#:#Megválaszolva
 assessment#:#working_time#:#Megoldási idő
 assessment#:#working_time_avg#:#Átlag megoldási idő
-assessment#:#you_received_a_of_b_points#:#Ön %d pontot kapott a lehetséges %d pontból
+assessment#:#you_received_a_of_b_points#:#Ön %s pontot kapott a lehetséges %s pontból
 barometer#:#anonymous#:#Anonymous
-barometer#:#barometer_add#:#Új visszacsatolás felvétele
-barometer#:#barometer_conflict_anon_req#:#Az anonimizáció nem kombináltható a 'Kötelező' típussal. Válasszon ezek közül a beállítások közül!
 barometer#:#barometer_title#:#Visszajelzés
 barometer#:#best#:#Legjobb válasz pontszáma
 barometer#:#change_course#:#Kurzus változtatása
@@ -1554,11 +1552,6 @@ common#:#cannot_uninstall_systemlanguage#:#Nem távolíthatja el a rendszernyelv
 common#:#cannot_unzip_file#:#Nem lehet kicsomagolni a fájlt.
 common#:#cant_deactivate_if_users_assigned#:#Nem tudja kikapcsolni a stílust, amíg felhasználó van hozzárendelve.
 common#:#cat#:#Kategória
-common#:#mcst#:#MediaCast
-common#:#obj_mcst#:#MediaCast
-common#:#objs_mcst#:#MediaCasts
-common#:#mcst_new#:#Új MediaCast
-common#:#mcst_add#:#MediaCast felvétele
 common#:#wiki#:#Wiki
 common#:#wiki_edit_content#:#Wikilap szerkesztése
 common#:#wiki_write#:#Wikibeállítások, tanulók osztályozása
@@ -1575,7 +1568,6 @@ common#:#obj_wiki#:#Wiki
 common#:#objs_wiki#:#Wikik
 common#:#objs_lres#:#Tananyagforrások
 common#:#wiki_new#:#Új wiki
-common#:#wiki_add#:#Wiki hozzáadása
 wiki#:#wiki_contributors#:#Közreműködők
 wiki#:#wiki_page_deletion_confirmation#:#Do you really want to delete this wiki page?
 wiki#:#wiki_wiki_page#:#Wikilap
@@ -1626,6 +1618,11 @@ wiki#:#wiki_page#:#Lap
 wiki#:#wiki_wiki_search#:#Wikikeresés
 wiki#:#wiki_search#:#Keresés
 wiki#:#wiki_search_results#:#Keresési eredmények
+common#:#mcst#:#Mediacast
+common#:#obj_mcst#:#Mediacast
+common#:#objs_mcst#:#Mediacasts
+common#:#mcst_new#:#Új Mediacast
+common#:#mcst_add#:#Mediacast felvétele
 common#:#obj_pdts#:#Munkaasztal
 common#:#obj_pdts_desc#:#Munkaasztal konfigurálása
 common#:#move_blocks#:#Blokkok mozgatása
@@ -1797,7 +1794,6 @@ common#:#city#:#Város, állam
 common#:#cleaned_file#:#A fájl törlésre került.
 common#:#cleaning_failed#:#A rendbetétel nem sikerült.
 common#:#clear#:#Törlés
-common#:#clear_clipboard#:#Vágólap ürítése
 common#:#client#:#Kliens
 common#:#client_id#:#Kliensazonosító
 common#:#client_ip#:#Kliens IP
@@ -1970,7 +1966,6 @@ common#:#delete_all#:#Mindet töröl
 common#:#delete_all_rec#:#Minden rekord törlése
 common#:#delete_object#:#Objektum(ok) törlése
 common#:#delete_selected#:#Kijelöltek törlése
-common#:#delete_selected_items#:#Törlés
 common#:#delete_tr_data#:#Nyomkövetési adatok törlése
 common#:#deleted#:#Törölve
 common#:#deleted_user#:#A felhasználó törölve lett.
@@ -2764,7 +2759,6 @@ common#:#link_check_message_enabled#:#Üzenetek engedélyezve.
 common#:#link_check_subject#:#[ILIAS 3] Linkellenőrzés
 common#:#link_checker_refreshed#:#Frissített nézet
 common#:#link_dynamic_info#:#Dinamikus paramétereket vehet fel, mint az ILIAS felhasználói azonosító.
-common#:#link_selected_items#:#Linkelés
 common#:#linked_object#:#Az objektum linkelve van.
 common#:#linked_pages#:#Csatolt lapok
 common#:#links_add_param#:#Paraméter felvétele:
@@ -2955,15 +2949,14 @@ common#:#move_up#:#Feljebb helyezés
 common#:#move_down#:#Lejjebb helyezés
 common#:#moveChapter#:#Áthelyez
 common#:#movePage#:#Áthelyez
-common#:#move_selected_items#:#Áthelyezés
-common#:#move_to#:#Áthelyez (hova)
+common#:#move_to#:#Áthelyezés ide:
 common#:#move_users_to_style#:#Felhasználók stílushoz rendelése
 common#:#msg_cancel#:#Tevékenység megszakítva.
 common#:#msg_changes_ok#:#A változtatások rendben voltak
-common#:#msg_clear_clipboard#:#Vágólap üres
+common#:#msg_clear_clipboard#:#A vágólap üres.
 common#:#msg_cloned#:#Kiválasztott objektum(ok) lemásolva
-common#:#msg_copy_clipboard#:#Kiválasztott objektum(ok) vágólapra mentve (tevékenység: másolás)
-common#:#msg_cut_clipboard#:#Kiválasztott objektum(ok) vágólapra mentve (tevékenység: kivágás)
+common#:#msg_copy_clipboard#:#Kiválasztott objektum(ok) vágólapra mentve. A kívánt helyen használja a bemásolást az objektum(ok) másolására.
+common#:#msg_cut_clipboard#:#Kiválasztott objektum(ok) vágólapra mentve. A kívánt helyen használja a bemásolást az objektum(ok) beillesztésére.
 common#:#msg_cut_copied#:#Kiválasztott objektum(ok) áthelyezve.
 common#:#msg_deleted_role#:#Szerep törölve
 common#:#msg_deleted_roles#:#Szerepek törölve
@@ -3028,7 +3021,7 @@ common#:#msg_nothing_found#:#Nem található üzenet
 common#:#msg_obj_created#:#Objektum létrehozva.
 common#:#msg_obj_exists#:#Ez az objektum már létezik ebben a mappában
 common#:#msg_obj_modified#:#Módosítások elmentve.
-common#:#msg_obj_no_link#:#nem engedélyezett linkelése
+common#:#msg_obj_no_link#:#linkelése nem engedélyezett
 common#:#msg_obj_not_deletable_sold#:#A fizetés aktiválásra került az alábbi objektumokhoz. Az objektumok nem törölhetők.
 common#:#msg_perm_adopted_from1#:#A jogosultsági beállítások elődje
 common#:#msg_perm_adopted_from2#:#(Beállítások elmentve.)
@@ -3063,7 +3056,6 @@ common#:#new_language#:#Új nyelv
 common#:#new_list_password#:#Új javaslat
 common#:#new_lowercase#:#új
 common#:#new_mail#:#Új e-mail!
-common#:#news#:#Hírek
 common#:#html_block#:#HTML blokk
 common#:#feed#:#Webhírforrás
 common#:#obj_feed#:#Webhírforrás
@@ -3095,8 +3087,6 @@ common#:#cat_create_mcst#:#MediaCast létrehozása
 common#:#grp_create_mcst#:#MediaCast létrehozása
 common#:#crs_create_mcst#:#MediaCast létrehozása
 common#:#fold_create_mcst#:#MediaCast létrehozása
-common#:#further_informations#:#További információk
-common#:#applications#:#Alkalmazások
 block_html#:#block_html_block_head#:#HTML blokk
 block_html#:#block_html_block_title#:#Cím
 block_html#:#block_html_block_content#:#Tartalom
@@ -3215,7 +3205,6 @@ rep#:#rep_intro2#:#Három lépés szükséges a kezdeti struktúra elkészítés
 rep#:#rep_intro3#:#Kattintson a <i>%s</i> gombra a kiválasztási lista mellett jobb felül.
 rep#:#rep_intro4#:#A következő űrlapon adjon meg címet és leírást, majd kattintson ide: <i>%s</i>.
 rep#:#rep_intro5#:#Az Ön által megadott kategória címére kattintva belép a kategóriába.
-rep#:#rep_intro6#:#Ezután az eljárás után felvehet bármilyen tanulási vagy munkaforrást kategóriájába.
 delic#:#delic_settings#:#del.icio.us beállítások
 delic#:#delic_add_to_delicious#:#Felvétel del.icio.us-be
 delic#:#delic_extt_delicious#:#del.icio.us
@@ -3337,7 +3326,6 @@ common#:#obj_lngf_desc#:#Rendszernyelvek kezelése
 common#:#obj_lo#:#Tananyag
 common#:#obj_mail#:#Levelezés
 common#:#obj_mail_desc#:#Globális e-mail beállítások konfigurálása
-common#:#obj_mep#:#Médiagyűjtemény
 mep#:#mep_thumbnail#:#Bélyegkép
 mep#:#mep_title_and_description#:#Cím és leírás
 mep#:#mep_create_mob#:#Médiaobjektum létrehozása
@@ -3477,7 +3465,7 @@ common#:#parse#:#Szövegszerkezet elemzés
 common#:#passed#:#Teljesített
 common#:#passwd#:#Jelszó
 common#:#passwd_generation#:#Jelszógenerálás
-common#:#passwd_generation_info#:#Ha engedélyezett, a jelszavak csak egy listából választhatók.
+common#:#passwd_generation_info#:#Ha engedélyezett, a jelszavak csak egy generált listából választhatók.
 common#:#passwd_invalid#:#Az új jelszó nem megfelelő. Csak a következő karakterek használhatók (min. 6 karakter): A-Z a-z 0-9 _.-+?#*@!$%~
 common#:#passwd_not_match#:#A begépelt nem illeszkedik az új jelszóra. Adja meg ismét az új jelszót!
 common#:#passwd_wrong#:#A megadott jelszó hibás.
@@ -3487,7 +3475,6 @@ common#:#password_assistance_info#:#Ha engedélyezett a jelszótámogatás, "Elf
 common#:#paste#:#Beillesztés
 common#:#pasteChapter#:#Beillesztés
 common#:#pastePage#:#Beillesztés
-common#:#paste_clipboard_items#:#Bemásolás
 common#:#path#:#Elérési útvonal
 common#:#path_not_set#:#Az útvonal nincs beállítva.
 common#:#path_to_babylon#:#Útvonal Babylonhoz
@@ -3858,7 +3845,6 @@ notes#:#notes_all_comments#:#Minden megjegyzés
 notes#:#notes_my_comments#:#Az én megjegyzéseim
 notes#:#notes_comment#:#Megjegyzés
 notes#:#notes_activate_comments#:#Nyilvános megjegyzések aktiválása
-notes#:#notes_deactivate_comments#:#Nyilvános megjegyzések deaktiválása
 common#:#show_private_notes#:#Jegyzek megjelenítése
 common#:#show_structure#:#Strukturált nézet engedélyezése
 common#:#show_users_online#:#Bejelentkezett felhasználók megjelenítése
@@ -3915,18 +3901,18 @@ common#:#svy_add#:#Kérdőív hozzáadása
 common#:#svy_delete#:#Kérdőív törlése
 common#:#svy_edit_permission#:#Jogosultsági beállítások változtatása
 common#:#svy_evaluation#:#Statisztika
-common#:#svy_finished#:#befejezve
+common#:#svy_finished#:#Befejezte a kérdőív kitöltését.
 common#:#svy_invite#:#Felhasználók meghívása kérdőív készítésére
 common#:#svy_new#:#Új kérdőív
 common#:#svy_no_content#:#Nincs elérhető kérdőív
-common#:#svy_not_finished#:#nem befejezett
-common#:#svy_not_started#:#nincs elkezdve
+common#:#svy_not_finished#:#Még nem fejezte be a kérdőív kitöltését.
+common#:#svy_not_started#:#Nem vett részt annek a kérdőívnek a kitöltésében.
 common#:#svy_participate#:#Részvétel kérdőív kitöltésében
 common#:#svy_read#:#Olvasási elérés kérdőívhez
 common#:#svy_run#:#Indítás
 common#:#svy_upload_file#:#Fájl feltöltése
 common#:#svy_visible#:#A kérdőív látható
-common#:#svy_warning_survey_not_complete#:#A kérdőív nincs befejezve.
+common#:#svy_warning_survey_not_complete#:#A kérdőívet még nem fejezte be.
 common#:#svy_write#:#Kérdőív szerkesztése
 common#:#system#:#Rendszer
 common#:#system_check#:#Rendszerellenőrzés
@@ -4263,7 +4249,7 @@ content#:#cont_update_map#:#Térkép szerkesztése
 content#:#cont_table_properties#:#Táblázat tulajdonságai
 content#:#cont_table_cell_properties#:#Táblázatcella tulajdonságai
 content#:#cont_set_tab_style_info#:#Táblázatcellákban levő jelölőnégyzetek aktiválása stílusbeállításhoz.
-content#:#cont_set_styles_and_widths#:#Stílus és szelesség beállítása
+content#:#cont_set_styles_and_widths#:#Stílus és szelességek mentése
 content#:#cont_location#:#Elhelyezkedés
 content#:#cont_align#:#Igazítás
 content#:#cont_revision#:#Átdolgozás
@@ -4300,8 +4286,6 @@ content#:#citate_to#:#Idéz hol…
 content#:#cont_Additional#:#További információ
 content#:#cont_Special#:#Különleges
 content#:#cont_Excursus#:#Eltérések
-common#:#edit_grouping#:#Tagságkorlátozás szerkesztése
-common#:#grouping_select_exactly_one#:#Csak egy tagságkorlátozást válasszon!
 common#:#no_start_file#:#Nincs kezdőfájl.
 content#:#cont_left#:#Balra
 content#:#cont_right#:#Jobbra
@@ -4364,7 +4348,7 @@ content#:#cont_chap_select_target_now#:#A fejezet áthelyezésre bejelölt. Most
 content#:#cont_chapters#:#Fejezetek
 content#:#cont_chapters_and_pages#:#Fejezetek és lapok
 content#:#cont_chapters_only#:#Csak fejezetek
-content#:#cont_characteristic#:#Jellemző
+content#:#cont_characteristic#:#Stílusosztály
 content#:#cont_choose_cont_obj#:#Tartalom-objektum választása
 content#:#cont_choose_glossary#:#Fogalomtár választása
 content#:#cont_choose_media_source#:#Médiaforrás választása
@@ -4503,11 +4487,11 @@ content#:#cont_fix_tree_confirm#:#Csak akkor hajtsa végre ezt az utasítást, h
 content#:#cont_footer#:#Lábléc
 content#:#cont_format#:#Formázás
 content#:#cont_format_error#:#Ez a művelet nincs engedélyezve itt.
-content#:#cont_frame_botright#:#Tananyagsegédletek (fogalomtár)
-content#:#cont_frame_maincontent#:#Tananyagforrás fő tartalma
-content#:#cont_frame_right#:#Tananyagsegédletek
-content#:#cont_frame_toc#:#Tartalomjegyzék
-content#:#cont_frame_topright#:#Tananyagsegédletek (GYIK és média)
+content#:#cont_frame_botright#:#Tartalomelemek (fogalomtár) keret
+content#:#cont_frame_maincontent#:#Tartalomkeret
+content#:#cont_frame_right#:#Tartalomelemek kerete
+content#:#cont_frame_toc#:#Oldalkeret
+content#:#cont_frame_topright#:#Tartalomelemek (GYIK és média) keret
 content#:#cont_free_pages#:#Szabad lapok
 content#:#cont_full_is_in_dir#:#A törlés nem lehetséges. Teljes képernyős fájl van a könyvtárban.
 content#:#cont_fullscreen#:#Teljes képernyő
@@ -5029,13 +5013,13 @@ crs#:#crs_objective_insert_percent#:#Csak 0 és 100 közötti számot adjon meg.
 crs#:#crs_objective_modified#:#Frissített tanulási célkitűzés.
 crs#:#crs_objective_no_title_given#:#Adjon meg címet!
 crs#:#crs_objective_not_accomplished#:#Nem befejezett
-crs#:#crs_objective_overview_objectives#:#Célkitűzések áttekintése
+crs#:#crs_objective_overview_objectives#:#Áttekintés
 crs#:#crs_objective_overview_question_assignment#:#Kérdés-hozzárendelés áttekintése
 crs#:#crs_objective_pretest#:#Kezdőteszt után
 crs#:#crs_objective_question_assignment#:#Kérdés-hozzárendelés
 crs#:#crs_objective_result#:#Befejezőteszt után
 crs#:#crs_objective_updated_test#:#Frissített
-crs#:#crs_objective_view#:#Célkitűzés-orientált nézet
+crs#:#crs_objective_view#:#Tanulási célkitűzés nézet
 crs#:#crs_objectives#:#Tanulási célkitűzések
 crs#:#crs_objectives_assign_chapter#:#Fejezet hozzárendelése
 crs#:#crs_objectives_assigned_lm#:#A kiválasztott segédanyag hozzárendelve.
@@ -5132,7 +5116,7 @@ crs#:#crs_status#:#Állapot
 crs#:#crs_status_changed#:#Állapot "%s" kurzusban
 crs#:#crs_status_changed_body#:#Állapota "%s" kurzusban megváltozott.
 crs#:#crs_structure#:#Kurzusstruktúra
-crs#:#crs_subscribers#:#Feliratkozások
+crs#:#crs_subscribers#:#Csatlakozási kérések
 crs#:#crs_subscribers_deleted#:#Törölt feliratkozó(k)
 crs#:#crs_subscription#:#Feliratkozás
 crs#:#crs_subscription_max_members#:#Felhasználók korlátozott száma
@@ -5207,12 +5191,12 @@ cntr#:#cntr_view_info_by_type#:#Ez a tartalommegjelenítés forrástípus alapj�
 cntr#:#cntr_hide_title_and_icon#:#Cím és ikon elrejtése
 crs#:#crs_view_info_timing#:#Prezentációs mód időzített előbeállításokhoz
 crs#:#crs_view_mode#:#Kurzusprezentáció
-crs#:#crs_view_objective#:#Objektum-orientált nézet
+crs#:#crs_view_objective#:#Tanyagcélkitűzések nézet
 cntr#:#cntr_old_editor_warning#:#Ennek a szerkesztőnek a karbantartása az ILIAS jövőbeni verzióiban nem fog folytatódni. Most még használhatja ennek a lapnak a szerkesztéséhez, de azt ajánljuk, hogy amint lehet, kapcsoljon át az ILIAS szabványos lapszerkesztőjére.
 cntr#:#cntr_old_editor_open_standard_editor#:#Szabványos szerkesztő megnyitása
 cntr#:#cntr_back_to_old_editor#:#Vissza a régi szerkesztőhöz
-cntr#:#cntr_switch_to_new_editor_message#:#Ez a támogatott szabványos szerkesztő. Használja ezt a tartalomlap beállításához. Ha a következő linkre kattint, a tartalombemutató a taneszköz tárolóban átkapcsol a régi szerkesztő tartalmáról erre a lapra.
-cntr#:#cntr_switch_to_new_editor_cmd#:#Kapcsolás ehhez a laphoz bemutatóhoz
+cntr#:#cntr_switch_to_new_editor_message#:#Ez a támogatott szabványos szerkesztő. A régi szerkesztő tartalma nem hozható át. Alább vegyen fel új laptartalmat. Ha a következő linkre kattint, az új tartalom kerül használatra.
+cntr#:#cntr_switch_to_new_editor_cmd#:#Új tartalom kapcsolása ehhez a laphoz. A régi tartalom eltávolításra kerül.
 cntr#:#cntr_switched_editor#:#Új tartalomhoz kapcsolva.
 cntr#:#cntr_view_sessions#:#Kurzusesemények nézete
 cntr#:#cntr_view_simple#:#Egyszerű  nézet
@@ -5338,15 +5322,15 @@ dateplaner#:#We_long#:#Szerda
 dateplaner#:#We_short#:#Sze.
 dateplaner#:#Week_long#:#Heti nézet
 dateplaner#:#add_data#:#További adatok
-dateplaner#:#app_#:#Beérkezett
+dateplaner#:#app_#:#Eseménylista
 dateplaner#:#app_date#:#Esemény létrehozása
 dateplaner#:#app_day#:#Napi nézet
 dateplaner#:#app_freetime#:#Más csoporttagok szabadideje (időpont keresése)
-dateplaner#:#app_inbox#:#Beérkezett
+dateplaner#:#app_inbox#:#Eseménylista
 dateplaner#:#app_list#:#Eseménylista
 dateplaner#:#app_month#:#Havi nézet
 dateplaner#:#app_properties#:#tulajdonságok
-dateplaner#:#app_week#:#heti nézet
+dateplaner#:#app_week#:#Heti nézet
 dateplaner#:#application#:#Határidőnapló
 dateplaner#:#apply#:#alkalmaz
 dateplaner#:#back#:#vissza
@@ -5477,7 +5461,7 @@ dateplaner#:#newKeyword#:#Új:
 dateplaner#:#new_doc#:#Új esemény létrehozása
 dateplaner#:#no_entry#:#Nincs elérhető esemény
 dateplaner#:#o_day_date#:#24 órás dátum
-dateplaner#:#of#:#Mikortól:
+dateplaner#:#of#:#összesen:
 dateplaner#:#open_day#:#Napi nézet
 dateplaner#:#pmonth#:#Következő hónap
 dateplaner#:#printlist#:#Nyomtatás
@@ -5529,7 +5513,6 @@ exercise#:#exc_notgraded#:#Nem javított
 exercise#:#exc_passed#:#Elfogadva
 exercise#:#exc_send_mail#:#E-mail küldése
 exercise#:#exc_your_submission#:#Az Ön megoldása
-exercise#:#exc_crs_add_members#:#Tanulók hozzáadása ehhez a kurzushoz
 forum#:#threads_moved_successfully#:#A kiválasztott témák sikeresen áthelyezésre kerültek egy másik fórumba.
 forum#:#select_at_least_one_thread#:#Válasszon legalább egy témát!
 forum#:#topics_please_select_one_action#:#Válasszon ki egy tevékenységet!
@@ -5625,10 +5608,7 @@ forum#:#is_read#:#Megjelölés olvasottnak
 forum#:#new_post#:#Új hozzászólás
 forum#:#activate_new_posts#:#Hozzászólások aktiválása
 forum#:#thread#:#Téma
-forum#:#frm_wizard_page#:#Fórum másolása (2/2. lépés)
-forum#:#fmr_copy_threads_info#:#Lehetősége van egyszerű hozzászólások másolására. Csak a kiválasztott hozzászólások kezdete lesz megkétszerezve.
 forum#:#post_activation_desc#:#Ha engedélyezett, a moderátornak engedélyeznie kell az új hozzászólásokat.
-forum#:#forums_notification_disabled#:#Értesítés letiltása
 grp#:#grp_registration_unlimited#:#Nem korlátozott
 ilinc#:#ilinc_member_administration#:#Résztvevők szerkesztése
 ilinc#:#akclassvalue1#:#1. költségközpont
@@ -5714,9 +5694,9 @@ mail#:#mail_add_subject#:#Adjon meg egy témát!
 mail#:#mail_add_to_addressbook#:#Címlistához hozzáadás
 mail#:#mail_add_type#:#Adja meg az elküldendő levél típusát!
 mail#:#mail_addr_entries#:#Bejegyzések
-mail#:#mail_mailing_lists_no_addressbook_entries#:#Még nincs címbejegyzése.
-mail#:#mail_mailing_lists_all_addressbook_entries_assigned#:#Már minden címbejegyzését hozzárendelte ehhez a levelezési listához.
-mail#:#mail_assign_entry_to_mailing_list#:#Rendelje hozzá egy címbejegyzését az e-mail listájához!
+mail#:#mail_mailing_lists_no_addressbook_entries#:#Még nincs címbejegyzés a címlistájában, hogy felvegye a listára.
+mail#:#mail_mailing_lists_all_addressbook_entries_assigned#:#Minden címbejegyzését hozzárendelte ehhez a levelezési listához.
+mail#:#mail_assign_entry_to_mailing_list#:#Rendelje hozzá egy címbejegyzését az e-mail listához!
 mail#:#mail_attachments#:#Csatolások
 mail#:#mail_bc_not_valid#:#A BCC címzett nem megfelelő
 mail#:#mail_bc_search#:#BCC keresése
@@ -6609,7 +6589,6 @@ pwassist#:#pwassist_password_assigned#:#A jelszó sikeresen hozzárendelésre ke
 pwassist#:#pwassist_session_expired#:#Töltse ki újra ezt az űrlapot!\nJelszótámogatási munkamenete lejárt. Ez azért történhetett, mert megpróbált használni egy olyan linket, amely több mint egyszer lett e-mail-ben elküldve Önnek, vagy mert túl sok idő telt el azóta, hogy elküldték önnek a linket.
 pwassist#:#pwassist_update_error#:#Vegye fel a kapcsolatot rendszeradminisztrátorával.\nA jelszó nem rendelhető a felhasználói postafiókhoz egy hiba miatt, amely az adatbázis frissítésekor keletkezett.
 pwassist#:#pwassist_username_mail_body#:#Ezek az aktív felhasználói nevek találhatók a megadott e-mail címhez:\n%s\n\nEzt az üzenetet automatikusan állította elő az alábbi ILIAS szerver:\n\t%s\n\nÖnt (vagy valakit a %s IP-vel) keresünk a következő e-mail címhez elfelejtett felhasználói név miatt: '%s'.\n\nKérjük, ellenőrizze az alábbiakat, és tegyen a javasoltak szerint::\n\n-Lehet, hogy véletlenül kapta ezt a levelet:\nTörölje ezt a levelet.\n\n-Biztos lehet benne, hogy többé nem keressük meg ilyen e-mail-lel:\nVegye fel a kapcsolatot a következővel: %s.\n\n- Ha megkapta ezt az e-mail-t, tegyen az alábbiak szerint::\n\n1. Indítsa el internet-böngészőjét.\n\n2. Adja meg a következő url-t:\n\t%s\n\nFontos: A cím egy soros. Ha több sorba törve látja a címet, az Ön levelezőprogramja sortöréseket illesztett be a címbe.\n\n3. Böngészőjében megjelenik a jelszószolgáltatás. Használja ezt a lapot az e-mail cím szerinti felhasználói nevek egyikével, hogy új jelszót kapjon.
-pwassist#:#pwassist_no_email_found#:#Nem tudja használni a jelszótámogatást, mivel nem tartozik e-mail cím az Ön által megadott felhasználói fiókhoz.
 rbac#:#edit_learning_progress#:#Tanulmányi előmenetel szerkesztése
 rbac#:#filter_all_roles#:#Érvényes tartalom minden szerepének megjelenítése
 rbac#:#filter_global_roles#:#Csak a globális szerepek megjelenítése
@@ -6676,11 +6655,6 @@ registration#:#reg_access_limitation_mode#:#Elérési korlátozás mód
 registration#:#reg_access_limitation_mode_unlimited#:#Nincs elérési korlátozás
 registration#:#reg_access_limitation_mode_absolute#:#Az elérés megadott dátummal van korlátozva.
 registration#:#reg_access_limitation_mode_relative#:#Korlátozott elérés a regisztráció utáni, megadott időperiódushoz
-registration#:#auth_radius_name#:#RADIUS konfiguráció neve
-registration#:#auth_radius_name_desc#:#Válasszon nevet ennek a szerverkonfigurációnak!
-registration#:#auth_radius_sync#:#Felhasználó szinkronizáció
-registration#:#auth_radius_role_select#:#Szerep:
-registration#:#auth_radius_sync_info#:#Ha engedélyezett, új felhasználói fiókok automatikusan kerülnek létrehozásra sikeres hitelesítés után.
 search#:#add_members_header#:#Tagok hozzáadása
 search#:#append_results#:#Eredmények hozzáfűzése
 search#:#search_active#:#Aktív felhasználókat beleértve
@@ -6762,11 +6736,6 @@ search#:#search_tst_svy#:#Tesztek/Kérdőívek
 search#:#search_type#:#Keresési típus
 search#:#search_user#:#Felhasználók
 search#:#until#:#up to
-search#:#search_page#:#Találati oldal:
-search#:#search_page_next#:#Következő
-search#:#search_page_prev#:#Előző
-search#:#search_users#:#Felhasználók keresése
-ldap#:#ldap_mapping_info_type#:#Információ megjelenítése a Taneszköz tárolóban / Munkaasztalon is
 style#:#sty_all#:#Mind
 style#:#sty_background#:#Háttér
 style#:#sty_background_attachment#:#Háttércsatolás
@@ -7165,7 +7134,6 @@ survey#:#search_questions#:#Kérdések szűréssel
 survey#:#search_roles#:#Talált szerepek
 survey#:#search_term#:#Fogalom keresése
 survey#:#search_type_all#:#Keresés minden kérdéstípusban
-survey#:#search_users#:#Felhasználók keresése
 survey#:#found_users#:#Talált felhasználók
 survey#:#select_option#:#--- Válasszon ki egy beállítást! ---
 survey#:#select_phrase_to_add#:#Válasszon ki egy mondatot a kérdéshez való hozzáadáshoz!
@@ -7269,7 +7237,6 @@ survey#:#view_phrase#:#Mondat nézete
 survey#:#warning_question_in_use#:#Figyelmeztetés: Az Ön által szerkesztendő kérdést az alább listázott kérdőívek használják. Ha úgy dönt, folytatja és menti/alkalmazza a kérdést, az alább listázott kérdőívek minden válasza törlődik. Ha meg akarja változtatni a kérdést és másik kérdőívben akarja használni, válassza a másodpéldány létrehozását a kérdésböngészőben, a kérdés új példányának létrehozásához.
 survey#:#warning_question_not_complete#:#Nem teljes a kérdés.
 survey#:#wrong_categories_selected_for_insert#:#Az ILIAS nem tudja végrehajtani a kívánt tevékenységet. Csak egy választ válasszon célként!
-survey#:#wrong_survey_code_used#:#Nem teljes a kérdőív.
 trac#:#found_objects#:#Megtalált objektumok
 trac#:#found_too_much_objects#:#Összesen több mint %s objektum van a találati listán, ezért finomítsa keresési kérését.
 trac#:#info_all_objects#:#%s' típus minden objektumára az alábbi felhasználói nyomkövetések hivatkoznak.
@@ -7372,6 +7339,7 @@ trac#:#stats_tracked_user#:#Kiválasztott felhasználók
 trac#:#stats_until#:#meddig:
 trac#:#stats_user#:#felhasználó
 common#:#access_until#:#Hozzáférés (meddig)
+common#:#news#:#Hírek
 common#:#access_from#:#Hozzáférés (honnan)
 common#:#access_restrict_enter#:#Adja meg a korlátozott hozzáférés megszorításhoz a periódust
 trac#:#stats_user_selected#:#Felhasználó kiválasztva.
@@ -7506,8 +7474,9 @@ crs#:#crs_map_settings#:#Térképbeállítások
 crs#:#crs_enable_map#:#Kurzustérkép engedélyezése
 crs#:#crs_map_location#:#Kurzustérkép helye
 crs#:#crs_members_map#:#Kurzustagok térképe
+common#:#edit_grouping#:#Tagságkorlátozás szerkesztése
 crs#:#grouping_change_assignment#:#Hozzárendelés változtatása
-trac#:#trac_mode_deactivated_info#:#Az előrehaladás nem lesz kiértékelve.
+common#:#grouping_select_exactly_one#:#Csak egy tagságkorlátozást válasszon!
 grp#:#crs_grp_table_assigned_courses#:#Hozzárendelt kurzusok
 grp#:#grouping_change_assignment#:#Hozzárendelés változtatása
 grp#:#crs_grp_assign_crs#:#Csoportok hozzárendelése
@@ -7515,12 +7484,18 @@ grp#:#crs_grp_no_courses_assigned#:#Nincsenek hozzárendelt kurzusok
 grp#:#crs_grouping_select_one#:#Válasszon egy tagságkorlátozást!
 grp#:#crs_grp_info_reg#:#Ezen csoportok közül csak egybe tud regisztrálni:
 trac#:#trac_anonymized_info_short#:#(Anonimizált)
+barometer#:#barometer_add#:#Új visszacsatolás felvétele
+chat#:#chat_server_ssl_settings#:#SSL beállítások
+chat#:#chat_server_ssl_port#:#Szerver SSL Port
+chat#:#chat_server_ssl_active#:#SSL aktíve
+chat#:#chat_add_ssl_port#:#Vegye fel a szerver SSL portját!
 crs#:#crs_reg_type_info#:#Ez a beállítás csak akkor lényeges, ha engedélyezett a regisztráció.
+exercise#:#exc_crs_add_members#:#Hallgatók felvétele a kurzushoz
 common#:#mail_settings#:#Levelezési beállítások
 common#:#my_courses#:#Kurzusaim
 mail#:#mail_list_members#:#Tagok listázása
 mail#:#mail_members_added_addressbook#:#Címlistába felvett tagok
-mail#:#mail_in_addressbook#:#Címlistában van
+mail#:#mail_in_addressbook#:#A címlistában van
 ldap#:#ldap_server_name#:#LDAP-konfiguráció neve
 ldap#:#ldap_referrals#:#Hivatkozások
 ldap#:#ldap_server_security_settings#:#Biztonsági beállítások
@@ -7551,7 +7526,7 @@ ldap#:#ldap_scope_one#:#Egy
 ldap#:#ldap_scope_sub#:#Al-
 ldap#:#ldap_scope_base#:#Alap
 ldap#:#ldap_server_name_info#:#Válasszon nevet ennek az LDAP szerver konfigurációnak!
-ldap#:#ldap_server_url_info#:#Teljesen minősített URL a protokol meghatározásához, url és port, amihez kapcsolódni kell. Pl. "ldap://ldap.ilias.de:389" Felvehet többszörös szervert vesszőkkel elválasztva.  A szerverek Round robin módon rotálódnak ha szükséges.
+ldap#:#ldap_server_url_info#:#Teljesen minősített URL a protokol meghatározásához, url és port, amihez kapcsolódni kell. Pl. "ldap://ldap.ilias.de:389" Felvehet többszörös szervert vesszőkkel elválasztva.
 ldap#:#ldap_server_version_info#:#Általában v3 LDAP használata
 ldap#:#ldap_referrals_info#:#Ha be van állítva, meghatározza, hogy az LDAP könyvtár automatikusan követi az LDAP szerver által visszaküldött hivatkozásokat vagy sem. Nem engedélyezettnek kell lennie, ha  Ön active directory szervert használ.
 ldap#:#ldap_search_base_info#:#Keresési bázis felhasználása felhasználókereséshez. "BaseDN" kerül alkalmazásra. Pl. ou=People
@@ -7628,8 +7603,6 @@ ps#:#ps_privacy_protection#:#Személyes beállítások
 ps#:#ps_security_protection#:#Biztonsági beállítások
 ps#:#ps_profile_export#:#Felhasználói adatok védelme
 ps#:#ps_export_course#:#Felhasználó kurzusokban levő személyes adatainak kibővített exportja
-ps#:#ps_export_confirm#:#Felhasználói megerősítés, amikor belép a kurzusba
-crs#:#user_fields#:#Felhasználói mezők
 ps#:#ps_crs_user_fields#:#Kurzusspecifikus felhasználói mezők
 ps#:#ps_cdf_add_field#:#Felhasználói mező felvétele
 ps#:#ps_cdf_name#:#Név
@@ -7665,8 +7638,6 @@ ps#:#ps_agreement_accepted#:#Felhasználói megállapodás elfogadva
 ps#:#ps_not_accepted#:#Nincs elfogadva
 ps#:#ps_cdf_warning_modify#:#Figyelmeztetés: Legalább egy felhasználó elfogadta a felhasználói megállapodást. Ezeknek a kurzusspecifikus mezőknek a módosítása visszaállítja alapértékre az összes felhasználói elfogadást.
 ps#:#ps_agreement_req_info#:#Fogadja el a felhasználói megállapodást, hogy hozzáférhessen a kurzustartalomhoz!
-ps#:#ps_cdf_info#:#További kurzusspecifikus adatok:
-crs#:#crs_user_agreement_info#:#Látható adatok a kurzusadminisztrátor számára
 ps#:#ps_required_info#:#További kurzusspecifikus adatok szükségesek a kurzustartalom hozzárendeléshez.
 ps#:#ps_warning_modify#:#Figyelmeztetés: Legalább egy felhasználó elfogadta a felhasználói megállapodást. Ezeknek a kurzusspecifikus mezőknek a módosítása visszaállítja alapértékre az összes felhasználói elfogadást.
 mail#:#mail_select_group#:#Legalább egy csoportot válasszon!
@@ -7703,7 +7674,13 @@ common#:#login_information#:#Bejelentkezési információk
 common#:#login_information_desc#:#Adjon meg bejelentkezési információkat a megfelelő nyelven!
 common#:#login_information_settings_saved#:#A bejelentkezési információk sikeresen mentésre kerültek.
 common#:#obj_frm_duplicate#:#Fórum másolása
+common#:#file_locked_by#:#A fájlt zárolja:
+common#:#lock_file#:#Lock fájl
+common#:#permission_denied_filed_locked_by#:#Hozzáférés megtagadva. A fájlt zárólta: '%s'.
+common#:#file_lock_unlock_file#:#Fájl zárolása/feloldása
 common#:#obj_frm_select#:#-- Válasszon ki egy fórumot --
+forum#:#frm_wizard_page#:#Fórum másolása (2/2. lépés)
+forum#:#fmr_copy_threads_info#:#Lehetősége van egyszerű hozzászólások másolására. Csak a kiválasztott hozzászólások kezdete lesz megkétszerezve.
 common#:#btn_back#:#Vissza
 mail#:#mail_new_entry#:#Új bejegyzés
 mail#:#mail_edit_entry#:#Bejegyzés szerkesztése
@@ -7762,6 +7739,11 @@ common#:#svy_copy#:#Kérdőív másolása
 common#:#tst_copy#:#Teszt másolása
 common#:#webr_copy#:#Webforrások másolása
 common#:#missing_perm#:#Jogosultsághiány
+registration#:#auth_radius_name#:#RADIUS konfiguráció neve
+registration#:#auth_radius_name_desc#:#Válasszon nevet ennek a szerverkonfigurációnak!
+registration#:#auth_radius_sync#:#Felhasználó szinkronizáció
+registration#:#auth_radius_role_select#:#Szerep:
+registration#:#auth_radius_sync_info#:#Ha engedélyezett, az új felhasználói fiókok automatikusan kerülnek létrehozásra sikeres hitelesítés után.
 common#:#forums_anonymized#:#Anonimizált fórum
 common#:#forums_anonymous#:#anonym
 common#:#forums_your_name#:#Az Ön neve
@@ -7770,8 +7752,7 @@ common#:#forums_enable_forum_notification#:#Értesítés engedélyezése ehhez a
 common#:#forums_disable_forum_notification#:#Értesítés küldésének letiltása ehhez a fórumhoz
 common#:#forums_forum_notification_enabled#:#Értesítést fog kapni, ha új hozzászólás születik ebben a fórumban.
 common#:#object_copy_in_progress#:#Másolás megkezdve.
-common#:#wizard_title_info#:#Adja meg a duplikálandó objektum címét.
-common#:#wizard_search_list#:#Keresése az alábbi találatokat eredményezte. Válasszon egyet közülük.
+trac#:#trac_mode_deactivated_info#:#Az előrehaladás nem lesz kiértékelve.
 trac#:#trac_mode_tlt_info#:#Azok a felhasználók, akik elérik a tipikus tanulási időt, megkapják a 'befejezett' állapotot.
 trac#:#trac_mode_visits_info#:#Adja meg a látogatások számát, amelyek ennek a tanulási segédanyagnak a befejezéséhez kellenek.
 trac#:#trac_mode_manual_info#:#A hallgatóknak el kell dönteniük, hogy állapotuk befejezett vagy sem.
@@ -7792,9 +7773,16 @@ ldap#:#ldap_server_short#:#Szerver-URL:
 ldap#:#ldap_group_dn_short#:#Csoport DN:
 ldap#:#ldap_group_member_short#:#Tulajdonság:
 ldap#:#ldap_ilias_role_short#:#Szerep:
+pwassist#:#pwassist_no_email_found#:#Nem tudja használni a jelszótámogatást, mivel nem tartozik e-mail cím az Ön által megadott felhasználói fiókhoz.
 ldap#:#ldap_info_text#:#Információs szöveg
 ldap#:#ldap_info_text_info#:#Ha meg van adva, ez a szöveg fog megjelenni az információs képernyőn azokhoz az objektumokhoz, amelyek ehhez a szerephez vannak rendelve. Választhatóan ez a szöveg elérhető a Taneszköz tárolóban és a Munkaasztalon is.
 ldap#:#ldap_info_text_short#:#Információs szöveg:
+common#:#further_informations#:#További információk
+chat#:#chat_notification_intro#:#Ezt az e-mail-t automatikusan küldte Önnek az ILIAS %s, %s installációja
+common#:#applications#:#Alkalmazások
+search#:#search_page#:#Találati oldal:
+search#:#search_page_next#:#Következő
+search#:#search_page_prev#:#Előző
 payment#:#paya_coupons_codes_import#:#Kódok importálása
 payment#:#paya_coupons_add#:#Kupon felvétele
 payment#:#paya_coupons_edit#:#Kupon szerkesztése
@@ -7858,10 +7846,15 @@ payment#:#pays_bmf_timeout#:#Időtúllépés
 payment#:#pays_updated_bmf_settings#:#Beállításai a BMF-beállításokhoz frissítve lettek.
 payment#:#pays_bmf_settings_not_valid#:#Az Ön BMF-beállításai nem érvényesek. Ellenőrizze hogy korrektül kitöltötte-e az összes mezőt!
 payment#:#import_use_only_textfile#:#Útmutatás: Egyszerű szöveges fájlt használjon egy kóddal soronként.
+ldap#:#ldap_mapping_info_type#:#Információ megjelenítése a Taneszköz tárolóban / Munkaasztalon is
 crs#:#crs_show_link_session#:#Kurzusesemények mutatása
 crs#:#crs_hide_link_session#:#Kurzusesemények elrejtése
+forum#:#forums_notification_disabled#:#Értesítés letiltása
 crs#:#save_status#:#Állapotok mentése
 crs#:#crs_selected_users#:#Kiválasztott résztvevők
+search#:#search_users#:#Felhasználók keresése
+common#:#wizard_title_info#:#Adja meg a duplikálandó objektum címét.
+common#:#wizard_search_list#:#Keresése az alábbi találatokat eredményezte. Válasszon egyet közülük.
 common#:#err_auth_ldap_no_ilias_user#:#A bejelentkezés nem sikerült. Az LDAP-azonosítás sikerült, de nem létezik megfelelő ILIAS-felhasználó. Vegye fel a kapcsolatot rendszeradminisztrátorával!
 common#:#ext_acccount_required#:#Adja meg a külső felhasználó fiók nevét!
 crs#:#event_select_one#:#-- Válasszon egy munkamenetet --
@@ -7902,6 +7895,7 @@ meta#:#md_adv_delete_fields_sure#:#Biztosan törölni akarja az alábbi meződef
 meta#:#md_adv_added_new_record#:#Hozzáadott új adatcsoportok
 meta#:#md_adv_create_record#:#Új adatcsoport
 meta#:#md_adv_delete_record_sure#:#Biztosan törölni akarja az alábbi adatcsoportokat?
+barometer#:#barometer_conflict_anon_req#:#Az anonimizáció nem kombináltható a 'Kötelező' típussal. Válasszon ezek közül a beállítások közül!
 meta#:#md_adv_active#:#Aktív
 common#:#default_auth_mode#:#Alapértelmezett azonosítási módszer
 common#:#default_auth_mode_info#:#Válassza ki a bejelentkező képernyőn előre kiválasztott bejelentkezési módot.
@@ -7976,8 +7970,8 @@ auth#:#auth_radius_charset_info#:#Válassza ki a karakterkódolást a radius-sze
 common#:#frm_add_post#:#Új hozzászólás hozzáadása
 common#:#frm_moderate_frm#:#Hozzászólás törlése, cenzorálás
 chat#:#chat_user_dropped_private#:#A felhasználó kiutasításra/eltávolításra került a privát csevegőszobából.
-chat#:#chat_user_invited_public#:#A felhasználó meghívásra került a publikus csevegésbe.
-chat#:#chat_user_invited_private#:#A felhasználó meghívásra került a privát csevegőszobába.
+chat#:#chat_user_invited_public#:#A felhasználó meghívásra került ebbe a csevegésbe: '%s'.
+chat#:#chat_user_invited_private#:#A felhasználó meghívásra került ebbe a privát csevegőszobába: '%s'.
 chat#:#chat_disinvite_user#:#Felhasználó kiutasítása/eltávolítása a privát csevegőszobából.
 chat#:#chat_no_online_users#:#Nincs további on-line felhasználó
 search#:#search_lom#:#LOM metaadatok
@@ -8030,9 +8024,14 @@ common#:#obj_file_inline#:#Tananyagfájl
 common#:#yesterday#:#Tegnap
 common#:#tomorrow#:#Holnap
 common#:#show_profile#:#Profil megjelenítése
+common#:#delete_selected_items#:#Törlés
+common#:#link_selected_items#:#Linkelés
+common#:#move_selected_items#:#Áthelyezés
 common#:#copy_selected_items#:#Másolás
 common#:#mail_no_recipient_found#:#Adjon meg egy másik e-mail címet! Az ILIAS nem talál címzettet ezzel az e-mail címmel.
 common#:#mail_multiple_recipients_found#:#Jellemzőbb e-mail címet adjon meg! Az ILIAS több lehetséges címzettet talált ezzel a címmel: %s
+common#:#paste_clipboard_items#:#Bemásolás
+common#:#clear_clipboard#:#Vágólap ürítése
 common#:#disk_space_used#:#Lemezterület használatban
 common#:#in_use_by#:#Használja
 common#:#filename_extension_missing#:#Hiányzik a fájlnévkiterjesztés
@@ -8120,7 +8119,6 @@ dateplaner#:#cal_calendar_color#:#Szín
 dateplaner#:#cal_del_cal_sure#:#Biztosan törölni szeretné a kiválasztott határidőnaplókat?
 dateplaner#:#cal_no_ending#:#Nincs befejeződátum
 dateplaner#:#cal_create#:#Létrehozás
-dateplaner#:#cal_appointments#:#Találkozó(k)
 forum#:#frm_moderator_f#:#Moderátor
 forum#:#frm_moderator_m#:#Moderátor
 dateplaner#:#cal_assigned_appointments#:#Hozzárendelt találkozók
@@ -8147,6 +8145,7 @@ common#:#obj_sess_duplicate#:#Kurzusesemény másolása
 common#:#obj_sess_select#:#-- Válasszon egy kurzuseseményt --
 common#:#sess#:#Kurzusesemény
 survey#:#specialusers#:#Speciális felhasználók
+survey#:#search_users#:#Felhasználók keresése
 survey#:#adm_no_users_found#:#Nem találhatók olyan felhasználók, akik illeszkednek a keresőszövegre.
 survey#:#adm_search_string_too_small#:#Legalább 2 karaktert adjon meg a keresési mezőben!
 survey#:#adm_search_select_user#:#Válasszon legalább egy felhasználót!
@@ -8236,7 +8235,7 @@ grp#:#grp_btn_unsubscribe#:#Kiíratkozás a csoportból
 dateplaner#:#grp_cal_reg_end#:#Regisztráció vége
 dateplaner#:#grp_cal_reg_start#:#Regisztráció kezdete
 grp#:#grp_membership_request_subject#:#%1$s %2$s szeretne csatlakozni a "%3$s" csoporthoz.
-grp#:#grp_membership_request_body#:#%1$s %2$s rendelkezik a megkívánt tagsággal a  "%5$s" csoporthoz.\n\nFogadja el vagy utasítsa el ezt a kérést a csoport "Csatlakozási kérés" lapján\n\nCsoport: %5$s", %6$s\n\nKérő: %1$s %2$s, %3$s, Címzett:%4$s.\n\nTárgy:\n%7$s
+grp#:#grp_membership_request_body#:#%1$s %2$s rendelkezik a kívánt tagsággal a  "%5$s" csoporthoz.\n\nFogadja el vagy utasítsa el ezt a kérést a csoport "Csatlakozási kérés" lapján\n\nCsoport: %5$s", %6$s\n\nKérő: %1$s %2$s, %3$s, Címzett:%4$s.\n\nTárgy:\n%7$s
 grp#:#grp_accept_subscriber#:#Engedély a "%s" csoporthoz
 grp#:#grp_accept_subscriber_body#:#Van engedélye a "%1$s".\n\n%2$s csoporthoz
 grp#:#grp_reject_subscriber#:#Elutasítva a "%s" csoporttól
@@ -8443,7 +8442,7 @@ payment#:#topic#:#Téma
 payment#:#edit_topic#:#Téma szerkesztése
 payment#:#new_topic#:#Új téma
 payment#:#topic_title#:#Cím
-payment#:#advanced_search#:#Továbbfejlesztett keresés
+payment#:#advanced_search#:#Bővített keresés
 payment#:#set_filter#:#Szűrő beállítása
 payment#:#reset_filter#:#Szűrő alapállapotba állítása
 payment#:#filter_by#:#by
@@ -8731,6 +8730,92 @@ content#:#cont_anchor#:#Horgony
 content#:#cont_choose_characteristic#:#Válasszon jellemzőt
 content#:#cont_choose_characteristic_text#:#Szövegelemek
 content#:#cont_choose_characteristic_section#:#Részek
+common#:#certificate#:#Bizonyítvány
+certificate#:#certificate_top#:#Fenn
+certificate#:#certificate_right#:#Jobbra
+certificate#:#certificate_bottom#:#Alul
+certificate#:#certificate_left#:#Balra
+certificate#:#certificate_a4#:#A4 (297 mm x 210 mm)
+certificate#:#certificate_a4_landscape#:#A4 fekvő (210 mm x 297 mm)
+certificate#:#certificate_a5#:#A5 (210 mm x 148 mm)
+certificate#:#certificate_a5_landscape#:#A5 fekvő (148 mm x 210 mm)
+certificate#:#certificate_letter#:#Levél (11 inch x 8,5 inch)
+certificate#:#certificate_letter_landscape#:#Levél fektetve (8,5 inch x 11 inch)
+certificate#:#certificate_custom#:#Egyedi…
+certificate#:#certificate_edit#:#Bizonyítványsablon létrehozása/szerkesztése
+certificate#:#certificate_export#:#Bizonyítvány exportálása
+certificate#:#certificate_page_format#:#Lapformátum
+certificate#:#certificate_page_format_info#:#Please select the default page format for new certificates.
+certificate#:#certificate_background_image#:#Háttérkép
+certificate#:#certificate_padding_top#:#Felső cellaköz
+certificate#:#certificate_margin_body#:#Szövegmargó
+certificate#:#certificate_not_well_formed#:#A bizonyítványszöveg nem jólformázott. Érvényes XHTML-t adjon meg a bizonyítványszövegnek!
+certificate#:#certificate_show#:#Bizonyítvány mutatása
+certificate#:#certificate_status#:#Státusz
+certificate#:#certificate_status_complete#:#A bizonyítvány teljes és használható
+certificate#:#certificate_status_incomplete#:#A bizonyítvány nem teljes
+certificate#:#certificate_delete#:#Bizonyítványadatok törlése
+certificate#:#certificate_preview#:#Bizonyítvány előnézete
+certificate#:#certificate_text#:#Bizonyítványszöveg
+certificate#:#certificate_var_user_fullname#:#Dr. Jane Doe
+certificate#:#certificate_var_user_firstname#:#Jane
+certificate#:#certificate_var_user_lastname#:#Doe
+certificate#:#certificate_var_user_title#:#Dr.
+certificate#:#certificate_var_user_institution#:#ILIAS Open Source
+certificate#:#certificate_var_user_department#:#Felhasználói támogatás
+certificate#:#certificate_var_user_street#:#Etele út 68.
+certificate#:#certificate_var_user_city#:#Budapest
+certificate#:#certificate_var_user_zipcode#:#12345
+certificate#:#certificate_var_user_country#:#Magyarország
+certificate#:#certificate_var_result_passed#:#teljesítve
+certificate#:#certificate_var_result_points#:#38
+certificate#:#certificate_var_result_percent#:#83%
+certificate#:#certificate_var_max_points#:#46
+certificate#:#certificate_var_result_mark_short#:#B
+certificate#:#certificate_var_result_mark_long#:#Jó
+certificate#:#certificate_passed#:#teljesítve
+certificate#:#certificate_failed#:#nem teljesítve
+certificate#:#certificate_pageheight#:#Lapmagasság
+certificate#:#certificate_pagewidth#:#Lapszélesség
+certificate#:#certificate_wrong_unit#:#Rossz egységet adott meg.
+certificate#:#certificate_wrong_units#:#Rossz egységcsoportot adott meg.
+certificate#:#certificate_confirm_deletion_text#:#Valóban törli a bizonyítványt és annak minden kapcsolódó adatát?
+certificate#:#certificate_enabled_scorm#:#Enabled
+certificate#:#certificate_enabled_scorm_introduction#:#Ha bejelölt, a bizonyítvány fel lesz ajánlva minden felhasználónak, aki befejezte a SCORM tananyag.
+certificate#:#certificate_ph_lastaccess#:#A felhasználó utolsó hozzáférési dátuma és ideje
+certificate#:#certificate_ph_scormtitle#:#A SCORM tananyag címe
+certificate#:#certificate_ph_introduction#:#Az alábbi dzsókerelemek használhatók
+certificate#:#certificate_ph_fullname#:#A felhasználó teljes neve (előnév, vezetéknév, keresztnév)
+certificate#:#certificate_ph_firstname#:#A felhasználó vezetékneve
+certificate#:#certificate_ph_lastname#:#A felhasználó keresztneve
+certificate#:#certificate_ph_passed#:#"teljesítve" vagy "nem teljesítve", a teszteredményektől függően
+certificate#:#certificate_ph_resultpoints#:#A felhasználó által elért pontszám
+certificate#:#certificate_ph_resultpercent#:#A felhasználó által elért százalékos eredmény
+certificate#:#certificate_ph_maxpoints#:#Maximálisan elérhető pontszám
+certificate#:#certificate_ph_markshort#:#A felhasználó jegye (rövid változat)
+certificate#:#certificate_ph_marklong#:#A felhasználó jegye (hivatalos változat)
+certificate#:#certificate_ph_testtitle#:#Teszt címe
+certificate#:#certificate_ph_date#:#Aktuális dátum
+certificate#:#certificate_ph_datetime#:#Aktuális dátum és idő
+certificate#:#certificate_ph_title#:#Név előtag
+certificate#:#certificate_ph_institution#:#Felhasználó intézménye
+certificate#:#certificate_ph_department#:#Felhasználó szervezeti egysége
+certificate#:#certificate_ph_street#:#Felhasználói cím - utca
+certificate#:#certificate_ph_city#:#Felhasználói cím - város
+certificate#:#certificate_ph_zipcode#:#Felhasználói cím - irányítószám
+certificate#:#certificate_ph_country#:#Felhasználói cím - ország
+certificate#:#certificate_unit_description#:#Adja meg értékként a mérték egységeit [cm|mm|in|pt|pc|px|em], pl. 10 mm vagy 3 in!
+certificate#:#certificate_visibility#:#Láthatóság
+certificate#:#certificate_visibility_introduction#:#A teszteredményekben levő gomb a felhasználóknak a bizonyítványt felajánlja
+certificate#:#certificate_visibility_always#:#Mindig látható
+certificate#:#certificate_visibility_never#:#Nem látható
+certificate#:#certificate_visibility_passed#:#Csak akkor látható, ha a felhasználó elvégezte a tesztet
+certificate#:#certificate_error_import#:#Hiba fordult elő egy bizonyítvány importálásakor.
+certificate#:#certificate_error_upload_bgimage#:#Hiba fordult elő a háttérkép feltöltése közben.
+certificate#:#certificate_settings#:#Bizonyítvány beállításai
+certificate#:#default_background_info#:#Ez a háttérkép kerül kiválasztásra alapértelmezettként minden bizonyítványhoz. Ha másik háttérképre van szüksége a bizonyítványba, fel kell töltenie azt a bizonyítványszerkesztőbe.
+certificate#:#certificate_usage#:#A bizonyítványkezelés csak akkor elérhető, ha az ILIAS Java-szerver fut. A Java-szerver konfigurálása az ILIAS adminisztráció főlapján érhető el a webszolgáltatások részben.
+certificate#:#download_certificate#:#Bizonyítvány letöltése
 dateplaner#:#cal_delete_app_sure#:#Valóban törölni akarja az alábbi időpontokat?
 dateplaner#:#cal_deleted_app#:#A kiválasztott időpontok törlésre kerültek.
 common#:#to_filter#:#Szűrő
@@ -8903,7 +8988,6 @@ common#:#msg_paste_object_not_in_itself#:#Nem lehet beilleszteni a(z) %s objektu
 common#:#mgs_objects_linked_to_the_following_folders#:#Az objektum(ok) az alábbi mappá(k)ba lettek belinkelve: %s
 common#:#session_reminder_alert#:#Munkamenete 5 perc múlva lejár. Kattintson az OK gombra, ha folytatni szeretné munkamenetét!
 common#:#session_reminder#:#Munkamenet-emlékeztető
-common#:#session_reminder_info#:#Ha engedélyezett, emlékeztető üzenetet fog kapni munkamenete lejárta előtt.
 ecs#:#ecs_no_owner#:#Válasszon egy közösségnevet!
 export#:#export_select_resources#:#Források kiválasztása
 export#:#export_resource#:#Forrás
@@ -8917,516 +9001,454 @@ export#:#export_last_file#:#Legutolsó fájl
 export#:#export_export_date#:#Exportálási dátum
 common#:#session_reminder_extended#:#Munkamenete meghosszabbításra került: %s
 common#:#session_reminder_session_duration#:#(Munkamenet időtartam: %s).
-crs#:#crs_user_already_assigned#:#A kiválasztott felhasználó már hozzárendelésre került ehhez a kurzushoz.
-chat#:#chat_server_ssl_settings#:#SSL beállítások
-chat#:#chat_server_ssl_port#:#Szerver SSL Port
-chat#:#chat_server_ssl_active#:#SSL aktíve
-chat#:#chat_add_ssl_port#:#Vegye fel a szerver SSL portját!
-chat#:#chat_notification_intro#:#Ezt az e-mail-t automatikusan küldte Önnek az ILIAS %s, %s installációja
-common#:#certificate#:#Bizonyítvány
-certificate#:#certificate_top#:#Fenn
-certificate#:#certificate_right#:#Jobbra
-certificate#:#certificate_bottom#:#Alul
-certificate#:#certificate_left#:#Balra
-certificate#:#certificate_a4#:#A4 (297 mm x 210 mm)
-certificate#:#certificate_a4_landscape#:#A4 fekvő (210 mm x 297 mm)
-certificate#:#certificate_a5#:#A5 (210 mm x 148 mm)
-certificate#:#certificate_a5_landscape#:#A5 fekvő (148 mm x 210 mm)
-certificate#:#certificate_letter#:#Levél (11 inch x 8,5 inch)
-certificate#:#certificate_letter_landscape#:#Levél fektetve (8,5 inch x 11 inch)
-certificate#:#certificate_custom#:#Egyedi…
-certificate#:#certificate_edit#:#Bizonyítványsablon létrehozása/szerkesztése
-certificate#:#certificate_export#:#Bizonyítvány exportálása
-certificate#:#certificate_page_format#:#Lapformátum
-certificate#:#certificate_page_format_info#:#Please select the default page format for new certificates.
-certificate#:#certificate_background_image#:#Háttérkép
-certificate#:#certificate_padding_top#:#Felső cellaköz
-certificate#:#certificate_margin_body#:#Szövegmargó
-certificate#:#certificate_not_well_formed#:#A bizonyítványszöveg nem jólformázott. Érvényes XHTML-t adjon meg a bizonyítványszövegnek!
-certificate#:#certificate_show#:#Bizonyítvány mutatása
-certificate#:#certificate_status#:#Státusz
-certificate#:#certificate_status_complete#:#A bizonyítvány teljes és használható
-certificate#:#certificate_status_incomplete#:#A bizonyítvány nem teljes
-certificate#:#certificate_delete#:#Bizonyítványadatok törlése
-certificate#:#certificate_preview#:#Bizonyítvány előnézete
-certificate#:#certificate_text#:#Bizonyítványszöveg
-certificate#:#certificate_var_user_fullname#:#Dr. Jane Doe
-certificate#:#certificate_var_user_firstname#:#Jane
-certificate#:#certificate_var_user_lastname#:#Doe
-certificate#:#certificate_var_user_title#:#Dr.
-certificate#:#certificate_var_user_institution#:#ILIAS Open Source
-certificate#:#certificate_var_user_department#:#Felhasználói támogatás
-certificate#:#certificate_var_user_street#:#Etele út 68.
-certificate#:#certificate_var_user_city#:#Budapest
-certificate#:#certificate_var_user_zipcode#:#12345
-certificate#:#certificate_var_user_country#:#Magyarország
-certificate#:#certificate_var_result_passed#:#teljesítve
-certificate#:#certificate_var_result_points#:#38
-certificate#:#certificate_var_result_percent#:#83%
-certificate#:#certificate_var_max_points#:#46
-certificate#:#certificate_var_result_mark_short#:#B
-certificate#:#certificate_var_result_mark_long#:#Jó
-certificate#:#certificate_passed#:#teljesítve
-certificate#:#certificate_failed#:#nem teljesítve
-certificate#:#certificate_pageheight#:#Lapmagasság
-certificate#:#certificate_pagewidth#:#Lapszélesség
-certificate#:#certificate_wrong_unit#:#Rossz egységet adott meg.
-certificate#:#certificate_wrong_units#:#Rossz egységcsoportot adott meg.
-certificate#:#certificate_confirm_deletion_text#:#Valóban törli a bizonyítványt és annak minden kapcsolódó adatát?
-certificate#:#certificate_enabled_scorm#:#Enabled
-certificate#:#certificate_enabled_scorm_introduction#:#Ha bejelölt, a bizonyítvány fel lesz ajánlva minden felhasználónak, aki befejezte a SCORM tananyag.
-certificate#:#certificate_ph_lastaccess#:#A felhasználó utolsó hozzáférési dátuma és ideje
-certificate#:#certificate_ph_scormtitle#:#A SCORM tananyag címe
-certificate#:#certificate_ph_introduction#:#Az alábbi dzsókerelemek használhatók
-certificate#:#certificate_ph_fullname#:#A felhasználó teljes neve (előnév, vezetéknév, keresztnév)
-certificate#:#certificate_ph_firstname#:#A felhasználó vezetékneve
-certificate#:#certificate_ph_lastname#:#A felhasználó keresztneve
-certificate#:#certificate_ph_passed#:#"teljesítve" vagy "nem teljesítve", a teszteredményektől függően
-certificate#:#certificate_ph_resultpoints#:#A felhasználó által elért pontszám
-certificate#:#certificate_ph_resultpercent#:#A felhasználó által elért százalékos eredmény
-certificate#:#certificate_ph_maxpoints#:#Maximálisan elérhető pontszám
-certificate#:#certificate_ph_markshort#:#A felhasználó jegye (rövid változat)
-certificate#:#certificate_ph_marklong#:#A felhasználó jegye (hivatalos változat)
-certificate#:#certificate_ph_testtitle#:#Teszt címe
-certificate#:#certificate_ph_date#:#Aktuális dátum
-certificate#:#certificate_ph_datetime#:#Aktuális dátum és idő
-certificate#:#certificate_ph_title#:#Név előtag
-certificate#:#certificate_ph_institution#:#Felhasználó intézménye
-certificate#:#certificate_ph_department#:#Felhasználó szervezeti egysége
-certificate#:#certificate_ph_street#:#Felhasználói cím - utca
-certificate#:#certificate_ph_city#:#Felhasználói cím - város
-certificate#:#certificate_ph_zipcode#:#Felhasználói cím - irányítószám
-certificate#:#certificate_ph_country#:#Felhasználói cím - ország
-certificate#:#certificate_unit_description#:#Adja meg értékként a mérték egységeit [cm|mm|in|pt|pc|px|em], pl. 10 mm vagy 3 in!
-certificate#:#certificate_visibility#:#Láthatóság
-certificate#:#certificate_visibility_introduction#:#A teszteredményekben levő gomb a felhasználóknak a bizonyítványt felajánlja
-certificate#:#certificate_visibility_always#:#Mindig látható
-certificate#:#certificate_visibility_never#:#Nem látható
-certificate#:#certificate_visibility_passed#:#Csak akkor látható, ha a felhasználó elvégezte a tesztet
-certificate#:#certificate_error_import#:#Hiba fordult elő egy bizonyítvány importálásakor.
-certificate#:#certificate_error_upload_bgimage#:#Hiba fordult elő a háttérkép feltöltése közben.
-certificate#:#certificate_settings#:#Bizonyítvány beállításai
-certificate#:#default_background_info#:#Ez a háttérkép kerül kiválasztásra alapértelmezettként minden bizonyítványhoz. Ha másik háttérképre van szüksége a bizonyítványba, fel kell töltenie azt a bizonyítványszerkesztőbe.
-certificate#:#certificate_usage#:#A bizonyítványkezelés csak akkor elérhető, ha az ILIAS Java-szerver fut. A Java-szerver konfigurálása az ILIAS adminisztráció főlapján érhető el a webszolgáltatások részben.
-certificate#:#download_certificate#:#Bizonyítvány letöltése
-content#:#cont_alphabetic#:#Alphabetic A, B, ...###24 02 2009 new variable
-content#:#cont_localfile#:#Local File###24 02 2009 new variable
-content#:#cont_roman#:#Roman I, II, ...###24 02 2009 new variable
-assessment#:#showSuggestedSolution#:#Suggested solution###24 02 2009 new variable
-assessment#:#deleteSuggestedSolution#:#Remove this suggested solution###24 02 2009 new variable
-assessment#:#suggestedSolutionType#:#Suggested solution type###24 02 2009 new variable
-assessment#:#changeSuggestedSolution#:#Change suggested solution###24 02 2009 new variable
-assessment#:#addSuggestedSolution#:#Add suggested solution###24 02 2009 new variable
-assessment#:#fileDownload#:#File download###24 02 2009 new variable
-assessment#:#solutionText#:#Text###24 02 2009 new variable
-content#:#cont_print_no_page_selected#:#Please select at least one page.###24 02 2009 new variable
-assessment#:#log_manual_feedback#:#%s added manual feedback for test person %s and question %s: %s###24 02 2009 new variable
-assessment#:#set_manscoring_done#:#Mark this participant as "Scored Participant"###24 02 2009 new variable
-assessment#:#tst_show_solution_suggested#:#Show Suggested Solution###24 02 2009 new variable
-survey#:#err_no_pool_name#:#Please enter the name of a survey question pool###24 02 2009 new variable
-assessment#:#err_no_numeric_value#:#Please enter a numeric value###24 02 2009 new variable
-assessment#:#matching_pairs#:#Matching Pairs###24 02 2009 new variable
-assessment#:#error_duplicate_term#:#You selected a matching term more than once###24 02 2009 new variable
-assessment#:#matching_type#:#Matching Question Subtype###24 02 2009 new variable
-common#:#msg_form_save_error#:#The form data could not be saved. Please check the input fields for any error messages.###24 02 2009 new variable
-assessment#:#thumb_geometry#:#Thumbnail Geometry###24 02 2009 new variable
-assessment#:#thumb_geometry_info#:#The image thumbnails will be created with a maximum values of height and width given, aspect ratio preserved.###24 02 2009 new variable
-assessment#:#element_height#:#Minimum Height###24 02 2009 new variable
-assessment#:#element_height_info#:#This is the minimum height in pixels for term and definition/picture items during the test output.###24 02 2009 new variable
-assessment#:#assOrderingHorizontal#:#Ordering Question (Horizontal)###24 02 2009 new variable
-assessment#:#ordertext#:#Ordering Text###24 02 2009 new variable
-assessment#:#ordertext_info#:#Please enter the text that should be ordered horizontally. The ordering text will be separated by the whitespace signs in the text. If you need a different separation, you may use the separator %s to separate your text units.###24 02 2009 new variable
-assessment#:#textsize#:#Text Size###24 02 2009 new variable
-assessment#:#textsize_info#:#Enter the text size of the ordering text in percent if you want another size than 100 percent.###24 02 2009 new variable
-common#:#loginname_settings#:#Loginname-Settings###24 02 2009 new variable
-common#:#allow_change_loginname#:#Allow to change the login name###24 02 2009 new variable
-common#:#create_history_loginname#:#Create a history for changed login names###24 02 2009 new variable
-common#:#allow_history_loginname_again#:#It is allowed to use login names again, which are saved in the history###24 02 2009 new variable
-common#:#loginname_already_exists#:#This login name already exists.###24 02 2009 new variable
-common#:#create_history_loginname_must_be_enabled#:#To reuse login names the history must be enabled.###24 02 2009 new variable
-ecs#:#ecs_unique_id#:#Participant-ID###24 02 2009 new variable
-ecs#:#ecs_new_category_mapping#:#New Assignment of Course-Links to Categories###24 02 2009 new variable
-ecs#:#ecs_attribute_name#:#Attribute Name###24 02 2009 new variable
-ecs#:#ecs_cat_mapping_type#:#Assignment Type###24 02 2009 new variable
-ecs#:#ecs_cat_mapping_fixed#:#Fixed Values###24 02 2009 new variable
-ecs#:#ecs_cat_mapping_values#:#Attribute Value###24 02 2009 new variable
-ecs#:#ecs_cat_mapping_fixed_info#:#Choose this mode for assigning Course-Links to categories based on fixed values.###24 02 2009 new variable
-ecs#:#ecs_cat_mapping_duration#:#Date Range###24 02 2009 new variable
-ecs#:#ecs_cat_mapping_duration_info#:#Choose this mode for assigning Course-Links based on date ranges (e.g starting time of a course).###24 02 2009 new variable
-ecs#:#ecs_err_missing_value#:#Please check your input: Attribute values.###24 02 2009 new variable
-ecs#:#ecs_err_invalid_dates#:#The starting must be earlier than the ending time.###24 02 2009 new variable
-ecs#:#ecs_err_invalid_type#:#Please choose an assignment mode.###24 02 2009 new variable
-ecs#:#ecs_field_part_id#:#Participant ID###24 02 2009 new variable
-ecs#:#ecs_category_mapping#:#Assignment to Categories###24 02 2009 new variable
-ecs#:#ecs_tbl_active_rules#:#Active Rules for Category Assignment###24 02 2009 new variable
-ecs#:#ecs_edit_category_mapping#:#Edit Assignment###24 02 2009 new variable
-common#:#chat_enter_public_room#:#Public Chat###24 02 2009 new variable
-common#:#chat_enter_public_room_tooltip#:#Enter public chat.###24 02 2009 new variable
-common#:#chat_invite_public_room_tooltip#:#Invite to public chat.###24 02 2009 new variable
-assessment#:#assFileUpload#:#File Upload Question###24 02 2009 new variable
-assessment#:#allowedextensions#:#Allowed File Extensions###24 02 2009 new variable
-assessment#:#allowedextensions_info#:#Enter a comma separated list of allowed file extensions if you want to restrict the upload to a given set of file extensions (e.g. doc,xls,odt).###24 02 2009 new variable
-assessment#:#maxsize#:#Maximum file upload size ###24 02 2009 new variable
-assessment#:#maxsize_info#:#Enter the maximum size in bytes that should be allowed for file uploads. If you leave this field empty, the maximum size of this installation will be chosen instead.###24 02 2009 new variable
-common#:#save_customer_address#:#Store billing address###24 02 2009 new variable
-common#:#save_customer_address_info#:#If enabled, the customers billing address will be stored###24 02 2009 new variable
-common#:#bookings#:#Bookings###24 02 2009 new variable
-forum#:#frm_sure_delete_threads#:#Are you sure you want to delete the following threads###24 02 2009 new variable
-trac#:#trac_title_description#:#Title / Description###30 04 2009 new variable
-common#:#file_locked_by#:#File locked by###30 04 2009 new variable
-common#:#lock_file#:#Lock file###30 04 2009 new variable
-common#:#permission_denied_filed_locked_by#:#Access denied. The file was locked by '%s'.###30 04 2009 new variable
-common#:#file_lock_unlock_file#:#Lock/Unlock file###30 04 2009 new variable
-search#:#lucene_more_hits_link#:#%s more hits...###30 04 2009 new variable
-dateplaner#:#cal_rec_err_limit#:#Please enter a valid number of appointments.###30 04 2009 new variable
-payment#:#payment_news#:#Shop News###30 04 2009 new variable
-payment#:#payment_news_add_news#:#Add Shop News ###30 04 2009 new variable
-payment#:#payment_news_created#:#Shop news added###30 04 2009 new variable
-payment#:#payment_news_no_news_items#:#No news available###30 04 2009 new variable
-payment#:#payment_news_delete_sure#:#Are you sure, you want to delete this shop news?###30 04 2009 new variable
-payment#:#payment_news_deleted#:#Shop news deleted###30 04 2009 new variable
-payment#:#payment_news_updated#:#The news have been saved###30 04 2009 new variable
-payment#:#payment_news_settings#:#Shop News Settings###30 04 2009 new variable
-payment#:#payment_news_archive_period#:#Archive-Period###30 04 2009 new variable
-payment#:#payment_news_archive_period_info#:#Time period to define when news move to archive ###30 04 2009 new variable
-payment#:#payment_news_settings_saved#:#The settings have been saved###30 04 2009 new variable
-cntr#:#cntr_page_actions#:#Page Actions###30 04 2009 new variable
-cntr#:#cntr_enable_multi_commands#:#Enable Multi Commands###30 04 2009 new variable
-cntr#:#cntr_disable_multi_commands#:#Disable Multi Commands###30 04 2009 new variable
-cntr#:#cntr_add_new_item#:#Add New Item###30 04 2009 new variable
-search#:#lucene_settings_tab#:#Lucene###30 04 2009 new variable
-search#:#lucene_settings_title#:#Lucene Settings###30 04 2009 new variable
-search#:#lucene_default_operator#:#Default Operator###30 04 2009 new variable
-search#:#lucene_and#:#AND###30 04 2009 new variable
-search#:#lucene_or#:#OR###30 04 2009 new variable
-search#:#lucene_default_operator_info#:#Please choose the default operator for boolean queries. In default mode ("AND") terms are considered to be in conjunction. In "OR" mode terms without any modifiers are considered optional.###30 04 2009 new variable
-search#:#lucene_num_fragments#:#Number of Text Fragments###30 04 2009 new variable
-search#:#lucene_num_frag_info#:#Please choose the maximum number of highlighted text fragments.###30 04 2009 new variable
-search#:#lucene_size_fragments#:#Size of Text Fragments###30 04 2009 new variable
-search#:#lucene_size_frag_info#:#Please choose the maximum size of highlighted test fragments.###30 04 2009 new variable
-search#:#lucene_max_sub#:#Number of Subitems###30 04 2009 new variable
-search#:#lucene_max_sub_info#:#Please enter maximum number of subitems (Forum threads, Glossary terms...) that are shown by default.###30 04 2009 new variable
-common#:#main_menu#:#Main Menu###30 04 2009 new variable
-common#:#breadcrumb_navigation#:#Breadcrumb Navigation###30 04 2009 new variable
-common#:#tabs#:#Tabs###30 04 2009 new variable
-common#:#subtabs#:#SubTabs###30 04 2009 new variable
-search#:#lucene_relevance#:#Relevance of Search Results###30 04 2009 new variable
-search#:#lucene_show_relevance#:#Show Relevance###30 04 2009 new variable
-search#:#lucene_show_relevance_info#:#Search results are sorted by their relevance. If activated, the relevance is shown as additional information for each search result.###30 04 2009 new variable
-payment#:#pay_payed_bill#:#Rechnung bezahlt###30 04 2009 new variable
-payment#:#vat_title#:#Vat-Title###30 04 2009 new variable
-payment#:#vat_rate#:#Vat-Rate###30 04 2009 new variable
-payment#:#vat_unit#:#Vat-Unit###30 04 2009 new variable
-payment#:#paya_insert_vats#:#Insert Vat-Rate###30 04 2009 new variable
-payment#:#paya_no_vats_assigned#:#No vats assigned###30 04 2009 new variable
-payment#:#paya_vat_not_valid#:#This vat is not valid###30 04 2009 new variable
-payment#:#paya_vat_already_exists#:#This vat rate already exists###30 04 2009 new variable
-payment#:#paya_no_vat_id_given#:#There is no vat-id given###30 04 2009 new variable
-payment#:#paya_sure_delete_vat#:#Are you sure, you want to delete this vat?###30 04 2009 new variable
-payment#:#paya_vat_not_deleted#:#This vat rate is not deleted###30 04 2009 new variable
-payment#:#unlimited_duration#:#Unlimited duration###30 04 2009 new variable
-payment#:#vats#:#Vats###30 04 2009 new variable
-mail#:#invite_to_chat#:#Invite to Chat###30 04 2009 new variable
-mail#:#mail_invite_users_to_chat#:#Invite Users to Chat###30 04 2009 new variable
-mail#:#chat_select_room#:#Select Chat Room###30 04 2009 new variable
-mail#:#chat_users_without_permission#:#The following Users don't have access to the selected Chat Room.###30 04 2009 new variable
-mail#:#chat_users_have_been_invited#:#The Users have been invited.###30 04 2009 new variable
-mail#:#goto_invitation_chat#:#Open Chat Room###30 04 2009 new variable
-mail#:#chat_users_without_login#:#The following Users don't have an ILIAS Account and can't be invited to a Chat Room###30 04 2009 new variable
-chat#:#chat_open#:#Enter Room###30 04 2009 new variable
-chat#:#chat_kick#:#Kick###30 04 2009 new variable
-chat#:#chat_unkick#:#Unkick###30 04 2009 new variable
-chat#:#chat_add_to_bookmark#:#Add to Bookmarks###30 04 2009 new variable
-chat#:#chat_add_to_addressbook#:#Add to Contacts###30 04 2009 new variable
-chat#:#chat_confirm_delete_private_room#:#Are you sure to delete this private room?###30 04 2009 new variable
-chat#:#chat_confirm_kick_user#:#Are you sure to kick this user?###30 04 2009 new variable
-chat#:#chat_user_unkicked#:#The user has been unkicked.###30 04 2009 new variable
-chat#:#chat_invite#:#Invite###30 04 2009 new variable
-chat#:#chat_disinvite#:#Disinvite###30 04 2009 new variable
-chat#:#chat_confirm_user_invite#:#The User will be invited to this Chat Room###30 04 2009 new variable
-chat#:#chat_added_to_bookmarks#:#The Room ' %s ' has been added to the top folder of your Bookmarks###30 04 2009 new variable
-chat#:#chat_default_bookmark_title#:#Chat Link: %s###30 04 2009 new variable
-chat#:#chat_default_bookmark_description#:#Link to Chat Room ' %s '###30 04 2009 new variable
-chat#:#chat_added_to_addressbook#:#The User ' %s ' has been added to your Contacts.###30 04 2009 new variable
-chat#:#chat_user_already_in_addressbook#:#The User is already in your Contacts.###30 04 2009 new variable
-chat#:#chat_recent_postings#:#Recent Chat Postings###30 04 2009 new variable
-chat#:#chat_available_smilies#:#Available Smilies###30 04 2009 new variable
-chat#:#chat_smiley_image#:#Smiley Image###30 04 2009 new variable
-chat#:#chat_smiley_keyword#:#Smiley Keyword###30 04 2009 new variable
-chat#:#chat_add_smiley#:#Add Smiley###30 04 2009 new variable
-chat#:#chat_edit_smiley#:#Edit Smiley###30 04 2009 new variable
-chat#:#chat_image_path#:#Image Path###30 04 2009 new variable
-chat#:#chat_current_image_path#:#Current Image Path###30 04 2009 new variable
-chat#:#chat_smiley_keywords#:#Smiley Keyword###30 04 2009 new variable
-chat#:#chat_smiley_keywords_one_per_line_note#:#You can enter multiple Keywords for each Smiley. Each line will be used as a seperate Keyword.###30 04 2009 new variable
-chat#:#chat_upload_smiley#:#Upload Smiley###30 04 2009 new variable
-chat#:#chat_smiley_image_only_if_changed#:#Please enter a new Image only if you want to change the existing. If no new Image is given, the existing won't be changed.###30 04 2009 new variable
-chat#:#chat_delete_selected#:#Delete selected Smilies###30 04 2009 new variable
-chat#:#chat_new_message_sound_status#:#Play a sound if a new Message is received###30 04 2009 new variable
-chat#:#edit_smilies#:#Edit Smilies###30 04 2009 new variable
-chat#:#chat_message_notify#:#Message Notifier###30 04 2009 new variable
-chat#:#chat_message_notify_activate#:#Activate Message Notify###30 04 2009 new variable
-chat#:#chat_message_notify_deactivate#:#Deactivate Message Notify###30 04 2009 new variable
-chat#:#chat_smilies_status#:#Chat Smilies###30 04 2009 new variable
-chat#:#chat_smilies_activate#:#Activate Smilies###30 04 2009 new variable
-chat#:#chat_smilies_deactivate#:#Deactivate Smilies###30 04 2009 new variable
-chat#:#chat_enable_autoscroll#:#Enable Autoscroll###30 04 2009 new variable
-chat#:#chat_chatviewer#:#Chat Viewer###30 04 2009 new variable
-chat#:#chat_room_does_not_exist#:#The Chat Room does not exist. Maybe it has been removed or you used an invalid link.###30 04 2009 new variable
-chat#:#chat_user_hidden#:#hidden###30 04 2009 new variable
-chat#:#chat_user_visible#:#visible###30 04 2009 new variable
-common#:#content_frame#:#Content Frame###30 04 2009 new variable
-common#:#side_frame#:#Side Frame###30 04 2009 new variable
-common#:#icon#:#Icon###30 04 2009 new variable
-common#:#info_message#:#Information Message###30 04 2009 new variable
-common#:#failure_message#:#Failure Message###30 04 2009 new variable
-common#:#success_message#:#Success Message###30 04 2009 new variable
-common#:#question_message#:#Question###30 04 2009 new variable
-common#:#form_input_not_valid#:#Some data is incomplete or not valid. Please correct the form input.###30 04 2009 new variable
-user#:#user_public_profile_info#:#Please select which personal data should be visible to other users.###30 04 2009 new variable
-user#:#user_activate_public_profile#:#Activate Public Profile###30 04 2009 new variable
-user#:#user_activate_public_profile_info#:#Global activation of your public profile. If activated your first and last name will be visible to other users.###30 04 2009 new variable
-search#:#lucene_general_settings#:#General Settings###30 04 2009 new variable
-search#:#lucene_advanced_settings#:#Advanced Search###30 04 2009 new variable
-search#:#lucene_advances_settings_table#:#Advances Search Settings###30 04 2009 new variable
-search#:#lucene_activate_field#:#Activate Search###30 04 2009 new variable
-common#:#bookmark_added#:#The Bookmark has been created.###30 04 2009 new variable
-common#:#bookmark_save_to#:#save as bookmark###30 04 2009 new variable
-common#:#pd_enable_chatviewer#:#Enable Chatviewer###30 04 2009 new variable
-common#:#chat_settings#:#Chat Settings###30 04 2009 new variable
-survey#:#use_anonymous_id#:#Show survey code###30 04 2009 new variable
-survey#:#use_anonymous_id_desc#:#If checked, the user name in anonymized surveys will be shown as the survey code, otherwise the text "Anonymous" will be shown.###30 04 2009 new variable
-chat#:#chat_smilies_dir_not_exists#:#The smiley data directory does not exist. Trying to setup folders and database.###30 04 2009 new variable
-chat#:#chat_smilies_dir_not_available#:#The smiley data directory could not be created. This ILIAS will not be able to use chat smilies as further actions are needed.###30 04 2009 new variable
-chat#:#chat_smilies_dir_not_writable#:#Your smiley data directory exists but is not writable. You will not be able to add smiles.###30 04 2009 new variable
-chat#:#chat_smilies_initialized#:#The smiley data has been initialized and is ready to use.###30 04 2009 new variable
-dateplaner#:#err_missing_title#:#Please enter an appointment title.###30 04 2009 new variable
-dateplaner#:#err_end_before_start#:#The appointment must not start before the end.###30 04 2009 new variable
-administration#:#adm_locale#:#Locale###30 04 2009 new variable
-administration#:#adm_locale_info#:#Locale setting influences e.g. sorting in lists. Examples are nl_NL or de_DE. Multiple locales can be separated by comma. The first valid one will be used.###30 04 2009 new variable
-common#:#accs_edit_permission#:#Change permission settings###30 04 2009 new variable
-common#:#accs_visible#:#Accessibility Settings are visible###30 04 2009 new variable
-common#:#accs_read#:#Read access to Accessibility Settings###30 04 2009 new variable
-common#:#accs_write#:#Edit Accessibility Settings###30 04 2009 new variable
-common#:#obj_accs#:#Accessibility###30 04 2009 new variable
-common#:#obj_accs_desc#:#Settings for accessibility features.###30 04 2009 new variable
-acc#:#acc_access_keys#:#Access Keys###30 04 2009 new variable
-acc#:#acc_access_key#:#Access Key###30 04 2009 new variable
-acc#:#acc_component#:#Component###30 04 2009 new variable
-acc#:#acc_function#:#Function###30 04 2009 new variable
-acc#:#acc_next#:#Next###30 04 2009 new variable
-acc#:#acc_previous#:#Previous###30 04 2009 new variable
-acc#:#acc_delete#:#Delete###30 04 2009 new variable
-acc#:#acc_last_visited#:#Last Visited###30 04 2009 new variable
-acc#:#acc_tree_on#:#Tree On###30 04 2009 new variable
-acc#:#acc_tree_off#:#Tree Off###30 04 2009 new variable
-acc#:#acc_reply#:#Reply###30 04 2009 new variable
-acc#:#acc_forward_mail#:#Forward Mail###30 04 2009 new variable
-acc#:#acc_mark_all_read#:#Mark All Read###30 04 2009 new variable
-acc#:#acc_comp_global#:#Global###30 04 2009 new variable
-acc#:#acc_comp_mail#:#Mail###30 04 2009 new variable
-acc#:#acc_comp_frm#:#Forum###30 04 2009 new variable
-form#:#form_image_file_input#:#Image File Input###30 04 2009 new variable
-form#:#form_file_input#:#File Input###30 04 2009 new variable
-user#:#user_screen_reader_optimization#:#Screen Reader Optimization###30 04 2009 new variable
-user#:#user_screen_reader_optimization_info#:#Automatic focus and Ajax optimization to improve screen reader performance.###30 04 2009 new variable
-common#:#block#:#Block###30 04 2009 new variable
-common#:#block_management#:#Block Management###30 04 2009 new variable
-common#:#show_hidden_block#:#Show Hidden Block###30 04 2009 new variable
-common#:#create_block#:#Create Block###30 04 2009 new variable
-dateplaner#:#cal_week_abbrev#:#W###30 04 2009 new variable
-dateplaner#:#cal_all_day#:#All Day###30 04 2009 new variable
-dateplaner#:#cal_day_selection#:#Select Day###30 04 2009 new variable
-dateplaner#:#cal_week_selection#:#Select Week###30 04 2009 new variable
-dateplaner#:#cal_month_selection#:#Select Month###30 04 2009 new variable
-dateplaner#:#cal_day_overview#:#Day Overview###30 04 2009 new variable
-dateplaner#:#cal_week_overview#:#Week Overview###30 04 2009 new variable
-dateplaner#:#cal_month_overview#:#Month Overview###30 04 2009 new variable
-common#:#stat_selected#:#Selected###30 04 2009 new variable
-notes#:#notes_edit_note#:#Edit Note###30 04 2009 new variable
-notes#:#notes_edit_comment#:#Edit Comment###30 04 2009 new variable
-notes#:#notes_label#:#Label###30 04 2009 new variable
-search#:#lucene_last_index_time#:#Last Index Generation###30 04 2009 new variable
-search#:#lucene_last_index_time_info#:#Please modify this settings only if you have installed an index backup.###30 04 2009 new variable
-search#:#lucene_all_occurrences#:#... %s other occurrence(s)###30 04 2009 new variable
-notes#:#notes_add_note#:#Add Note###30 04 2009 new variable
-notes#:#notes_note_deleted#:#The note has been deleted.###30 04 2009 new variable
-notes#:#notes_notes_deleted#:#The notes have been deleted.###30 04 2009 new variable
-common#:#user_image#:#User Image###30 04 2009 new variable
-ps#:#ps_prevent_simultaneous_logins#:#Prevent Simultaneous Logins###30 04 2009 new variable
-ps#:#ps_prevent_simultaneous_logins_info#:#If enabled, simultaneous logins with the same account from different computers are not possible.###30 04 2009 new variable
-common#:#simultaneous_login_detected#:#Your access is denied because of a simultaneous login with the same account.###30 04 2009 new variable
-trac#:#trac_select_area#:#Select Area###30 04 2009 new variable
-trac#:#trac_hide_selected#:#Hide Selected Items###30 04 2009 new variable
-search#:#search_term_combination#:#Combination###30 04 2009 new variable
-search#:#search_select_search_area#:#Select Search Area###30 04 2009 new variable
-ps#:#ps_error_message_password_min3_because_chars_numbers_sc#:#Minimum password size may not be less than 3 if password have to contain characters, numbers and special characters.###15 05 2009 new variable
-assessment#:#file_uploads#:#File Uploads###15 05 2009 new variable
-search#:#lucene_err_asterisk#:#The wildcard (*) character must be preceded by at least one alphabet or number.###15 05 2009 new variable
-search#:#lucene_err_ampersand#:#Queries containing the special characters && must be in the form: term1 && term2.###15 05 2009 new variable
-search#:#lucene_err_caret#:#The caret (^) character must be preceded by alphanumeric characters and followed by numbers.###15 05 2009 new variable
-search#:#lucene_err_squigglet#:#The tilde (~) character must be preceded by alphanumeric characters and followed by numbers.###15 05 2009 new variable
-search#:#lucene_err_exclamation_mark#:#Queries containing the special character (!) must be in the form: term1 ! term2.###15 05 2009 new variable
-search#:#lucene_err_question_mark#:#The question mark (?) character must be preceded by at least one alphabet or number.###15 05 2009 new variable
-search#:#lucene_err_parenthesis_not_closed#:#Parentheses must be closed.###15 05 2009 new variable
-search#:#lucene_err_parenthesis_empty#:#Parentheses must contain at least one character.###15 05 2009 new variable
-search#:#lucene_err_plus_minus#:#(+) and (-) modifiers must be followed by at least one alphabet or number.###15 05 2009 new variable
-search#:#lucene_err_and_or_not#:#Queries containing AND/OR/NOT must be in the form: term1 AND|OR|NOT|AND NOT term2.###15 05 2009 new variable
-search#:#lucene_err_quotes#:#Please close all quote (") marks.###15 05 2009 new variable
-search#:#lucene_err_quotes_not_empty#:#Quotes (") must contain at least one character.###15 05 2009 new variable
-search#:#lucene_err_colon#:#Field declarations (:) must be preceded by at least one alphabet or number and followed by at least one alphabet or number.###15 05 2009 new variable
-news#:#news_time_period#:#Time Period###15 05 2009 new variable
-common#:#collapsed#:#Collapsed###15 05 2009 new variable
-common#:#tree#:#Tree###15 05 2009 new variable
-common#:#list#:#List###15 05 2009 new variable
-search#:#search_title_description#:#Title / Description###15 05 2009 new variable
-assessment#:#qst_nr_of_tries#:#Number of tries###15 05 2009 new variable
-assessment#:#qst_hint_self#:#Self-Assessment-Mode active! Enter 0 points for incorrect answers, 1 point for correct answers.###15 05 2009 new variable
-content#:#cont_qtries#:#Number of tries for questions###15 05 2009 new variable
-content#:#cont_sc_preview#:#Preview###15 05 2009 new variable
-style#:#sty_colors#:#Colors###15 05 2009 new variable
-style#:#sty_color_name#:#Color Name###15 05 2009 new variable
-style#:#sty_color_code#:#Color Code###15 05 2009 new variable
-style#:#sty_color_flavors#:#Color Flavors###15 05 2009 new variable
-style#:#sty_add_color#:#Add Color###15 05 2009 new variable
-style#:#sty_delete_color#:#Delete Color###15 05 2009 new variable
-style#:#sty_confirm_color_deletion#:#Confirm Color Deletion###15 05 2009 new variable
-style#:#sty_msg_color_must_only_include#:#The color name may only include the following characters:###15 05 2009 new variable
-style#:#sty_color_already_exists#:#A color with this name already exisits in this style.###15 05 2009 new variable
-style#:#sty_color_info#:#Predefined colors make it easy to reuse a color for different purposes. You refer to a predefined color by using its name with a leading "!" for any color attribute in your style classes. To use a flavor, append a lightness value in brackets to the color name, e.g. !MyColor(20).###15 05 2009 new variable
-style#:#sty_table_templates#:#Table Templates###15 05 2009 new variable
-style#:#sty_template_name#:#Name###15 05 2009 new variable
-style#:#sty_preview#:#Preview###15 05 2009 new variable
-style#:#sty_add_template#:#Add Template###15 05 2009 new variable
-style#:#sty_edit_template#:#Edit Template###15 05 2009 new variable
-style#:#sty_table_class#:#Table Style Class###15 05 2009 new variable
-style#:#sty_row_head_class#:#Row Header###15 05 2009 new variable
-style#:#sty_row_foot_class#:#Row Footer###15 05 2009 new variable
-style#:#sty_col_head_class#:#Column Header###15 05 2009 new variable
-style#:#sty_col_foot_class#:#Column Footer###15 05 2009 new variable
-style#:#sty_odd_row_class#:#Odd Rows###15 05 2009 new variable
-style#:#sty_even_row_class#:#Even Rows###15 05 2009 new variable
-style#:#sty_odd_col_class#:#Odd Columns###15 05 2009 new variable
-style#:#sty_even_col_class#:#Even Columns###15 05 2009 new variable
-content#:#cont_ed_flist#:# File List###15 05 2009 new variable
-content#:#cont_nr_row_header#:#Header Rows###15 05 2009 new variable
-content#:#cont_nr_col_header#:#Header Columns###15 05 2009 new variable
-content#:#cont_nr_row_footer#:#Footer Rows###15 05 2009 new variable
-content#:#cont_nr_col_footer#:#Footer Columns###15 05 2009 new variable
-style#:#sty_type_table_caption#:#Table Caption###15 05 2009 new variable
-style#:#sty_caption_side#:#Caption Side###15 05 2009 new variable
-style#:#sty_caption#:#Caption###15 05 2009 new variable
-style#:#sty_caption_class#:#Caption###15 05 2009 new variable
-style#:#sty_confirm_template_deletion#:#Confirm Template Deletion###15 05 2009 new variable
-style#:#sty_generate_template#:#Generate Template###15 05 2009 new variable
-style#:#sty_template_layout#:#Template Layout###15 05 2009 new variable
-style#:#sty_table_template_colored_zebra#:#Colored Zebra###15 05 2009 new variable
-style#:#sty_table_template_bw_zebra#:#Gray Zebra###15 05 2009 new variable
-style#:#sty_table_template_no_zebra#:#No Zebra###15 05 2009 new variable
-style#:#sty_top_bottom_padding#:#Cell Padding Top/Bottom###15 05 2009 new variable
-style#:#sty_left_right_padding#:#Cell Padding Left/Right###15 05 2009 new variable
-style#:#sty_base_color#:#Base Color###15 05 2009 new variable
-style#:#sty_lightness_border#:#Lightness Border###15 05 2009 new variable
-style#:#sty_lightness_header_text#:#Lightness Header Text###15 05 2009 new variable
-style#:#sty_lightness_header_bg#:#Lightness Header Background###15 05 2009 new variable
-style#:#sty_lightness_cell1_text#:#Lightness Cell 1 Text###15 05 2009 new variable
-style#:#sty_lightness_cell1_bg#:#Lightness Cell 1 Background###15 05 2009 new variable
-style#:#sty_lightness_cell2_text#:#Lightness Cell 2 Text###15 05 2009 new variable
-style#:#sty_lightness_cell2_bg#:#Lightness Cell 2 Background###15 05 2009 new variable
-style#:#sty_type_flist_a#:#File List Item Link###15 05 2009 new variable
-style#:#sty_hide#:#Hide###15 05 2009 new variable
-style#:#sty_save_hide_status#:#Save Hide Status###15 05 2009 new variable
-content#:#cont_text_imp#:#Important:###15 05 2009 new variable
-content#:#cont_text_acc#:#Accent:###15 05 2009 new variable
-content#:#cont_tabs_acc_hor#:#Horizontal Accordion###15 05 2009 new variable
-content#:#cont_tabs_acc_ver#:#Vertical Accordion###15 05 2009 new variable
-content#:#cont_edit_tabs#:#Properties###15 05 2009 new variable
-content#:#cont_new_tab#:#New Tab###15 05 2009 new variable
-content#:#cont_tabs#:#Tabs###15 05 2009 new variable
-content#:#cont_add_tab#:#Add Tab###15 05 2009 new variable
-content#:#cont_tabs_confirm_deletion#:#Are you sure that all of the tabs and their contents should be deleted?###15 05 2009 new variable
-content#:#cont_tab_cont_width#:#Content Width###15 05 2009 new variable
-content#:#cont_tab_cont_height#:#Content Height###15 05 2009 new variable
-content#:#cont_tabs_hor_align_info#:#Horizontal accordions will always be aligned left.###15 05 2009 new variable
-style#:#sty_templates#:#Templates###15 05 2009 new variable
-style#:#sty_tabs_char#:#Tabs & Accordions###15 05 2009 new variable
-style#:#sty_type_va_cntr#:#Vert. Accordion Container###15 05 2009 new variable
-style#:#sty_type_va_icntr#:#Vert. Accordion Item Container###15 05 2009 new variable
-style#:#sty_type_va_ihead#:#Vert. Accordion Item Header###15 05 2009 new variable
-style#:#sty_type_va_icont#:#Vert. Accordion Item Content###15 05 2009 new variable
-style#:#sty_type_ha_cntr#:#Hor. Accordion Container###15 05 2009 new variable
-style#:#sty_type_ha_icntr#:#Hor. Accordion Item Container###15 05 2009 new variable
-style#:#sty_type_ha_ihead#:#Hor. Accordion Item Header###15 05 2009 new variable
-style#:#sty_type_ha_icont#:#Hor. Accordion Item Content###15 05 2009 new variable
-style#:#sty_va_cntr_class#:#Vert. Accordion Container###15 05 2009 new variable
-style#:#sty_va_icntr_class#:#Vert. Accordion Item Container###15 05 2009 new variable
-style#:#sty_va_ihead_class#:#Vert. Accordion Item Header###15 05 2009 new variable
-style#:#sty_va_icont_class#:#Vert. Accordion Item Content###15 05 2009 new variable
-style#:#sty_ha_cntr_class#:#Hor. Accordion Container###15 05 2009 new variable
-style#:#sty_ha_icntr_class#:#Hor. Accordion Item Container###15 05 2009 new variable
-style#:#sty_ha_ihead_class#:#Hor. Accordion Item Header###15 05 2009 new variable
-style#:#sty_ha_icont_class#:#Hor. Accordion Item Content###15 05 2009 new variable
-style#:#sty_style_class#:#Style Classes###15 05 2009 new variable
-style#:#sty_del_template_keep_classes#:#Delete and keep Style Classes###15 05 2009 new variable
-style#:#sty_del_template#:#Delete Templates and Classes###15 05 2009 new variable
-style#:#sty_vaccordion_templates#:#Vert. Accordion Templates###15 05 2009 new variable
-style#:#sty_haccordion_templates#:#Hor. Accordion Templates###15 05 2009 new variable
-style#:#sty_acopy#:#Copy###15 05 2009 new variable
-style#:#sty_tag_normal#:#Normal###15 05 2009 new variable
-style#:#sty_tag_hover#:#:hover###15 05 2009 new variable
-content#:#cont_span#:#Span###15 05 2009 new variable
-content#:#cont_colspan#:#Col. Span###15 05 2009 new variable
-content#:#cont_rowspan#:#Row Span###15 05 2009 new variable
-content#:#cont_save_spans#:#Save Spans###15 05 2009 new variable
-content#:#cont_save_widths#:#Save Widths###15 05 2009 new variable
-content#:#cont_set_styles#:#Set Styles###15 05 2009 new variable
-style#:#sty_disable_auto_margins#:#Disable Auto Margins###15 05 2009 new variable
-style#:#sty_disable_auto_margins_info#:#Disables automatic setting of left/right to 0px, if media objects or tables are left/right aligned.###15 05 2009 new variable
-content#:#cont_number_std#:#Standard###15 05 2009 new variable
-content#:#cont_decimal#:#Decimal###15 05 2009 new variable
-content#:#cont_start_value#:#Start Value###15 05 2009 new variable
-content#:#cont_start_value_info#:#Enter start value as decimal number. Default is 1.###15 05 2009 new variable
-common#:#collapse_all#:#Collapse All###15 05 2009 new variable
-common#:#expand_all#:#Expand All###15 05 2009 new variable
-sahs#:#sahs_objective#:#Learning Objective###15 05 2009 new variable
-sahs#:#sahs_objectives#:#Learning Objectives###15 05 2009 new variable
-style#:#sty_type_sco_desct#:#SCO Description Heading###15 05 2009 new variable
-style#:#sty_type_sco_objt#:#SCO Objectives Heading###15 05 2009 new variable
-adve#:#adve_rte_settings#:#Rich Text Editor Settings###15 05 2009 new variable
-adve#:#adve_page_editor_settings#:#ILIAS Page Editor Settings###15 05 2009 new variable
-adve#:#adve_grp_lm#:#ILIAS Learning Modules###15 05 2009 new variable
-adve#:#adve_grp_wiki#:#Wikis###15 05 2009 new variable
-adve#:#adve_grp_scorm#:#SCORM Editing###15 05 2009 new variable
-adve#:#adve_grp_glo#:#Glossaries###15 05 2009 new variable
-adve#:#adve_grp_test#:#Test & Assessment###15 05 2009 new variable
-adve#:#adve_grp_rep#:#Repository Pages###15 05 2009 new variable
-adve#:#adve_text_content_features#:#Text Content Menu###15 05 2009 new variable
-content#:#cont_behavior#:#Behavior###15 05 2009 new variable
-content#:#cont_all_closed#:#All Closed###15 05 2009 new variable
-content#:#cont_first_open#:#First Opened###15 05 2009 new variable
-content#:#cont_force_all_open#:#Force All Opened###15 05 2009 new variable
-content#:#cont_number_type#:#Number Type###15 05 2009 new variable
-user#:#user_activation#:#Activation###15 05 2009 new variable
-user#:#user_all#:#All###15 05 2009 new variable
-user#:#user_last_login_before#:#Last Login Before###15 05 2009 new variable
-user#:#user_limited_access#:#Limited Access###15 05 2009 new variable
-user#:#user_no_courses#:#No Courses Assigned###15 05 2009 new variable
-user#:#user_member_of_course_group#:#Member of Course/Group###15 05 2009 new variable
-user#:#user_select_course_group#:#Select Course/Group###15 05 2009 new variable
-search#:#search_no_match_hint#:#Your search - <b>%s</b> - did not match any documents.<br /><br />Suggestions:<br />Make sure all words are spelled correctly.<br />Try different keywords.<br />Try more general keywords.<br />Try fewer keywords.###15 05 2009 new variable
-user#:#user_please_select_course_group#:#Please select a course or a group.###15 05 2009 new variable
-user#:#user_any#:#Any###15 05 2009 new variable
-user#:#user_global_role#:#Global Role###15 05 2009 new variable
-mep#:#mep_folder_content#:#Folder Content###15 05 2009 new variable
-mep#:#mep_all_mobs#:#All Media Objects###15 05 2009 new variable
-mep#:#mep_unknown#:#Unknown###15 05 2009 new variable
-mep#:#mep_all#:#All###15 05 2009 new variable
-mep#:#mep_format#:#Format###15 05 2009 new variable
-mep#:#mep_default_width#:#Default Width###15 05 2009 new variable
-mep#:#mep_default_height#:#Default Height###15 05 2009 new variable
-mep#:#mep_default_width_height_info#:#Default width and height are used as presets for new media object creation.###15 05 2009 new variable
-content#:#cont_layout#:#Layout###15 05 2009 new variable
-content#:#cont_lm_default_layout#:#Default Layout of Learning Module###15 05 2009 new variable
-content#:#cont_page_layout#:#Page Layout###15 05 2009 new variable
-content#:#cont_layout_per_page#:#Layout per Page###15 05 2009 new variable
-content#:#cont_layout_per_page_info#:#Allow to set individual layouts for each page. This automatically activates the "Synchronize Frames" setting, too.###15 05 2009 new variable
+crs#:#crs_user_already_assigned#:#A kiválasztott felhasználó hozzárendelésre került ehhez a kurzushoz.
+assessment#:#showSuggestedSolution#:#Javasolt megoldás
+assessment#:#deleteSuggestedSolution#:#Ennek a javasolt megoldásnak az eltávolítása
+assessment#:#suggestedSolutionType#:#Javasolt megoldástípus
+assessment#:#changeSuggestedSolution#:#Javasolt megoldás változtatása
+assessment#:#addSuggestedSolution#:#Javasolt megoldás hozzáadása
+assessment#:#fileDownload#:#Fáljletöltés
+assessment#:#solutionText#:#Szöveg
+content#:#cont_print_no_page_selected#:#Leglább egy lapot válasszon!
+assessment#:#log_manual_feedback#:#%s manuális visszajelzés adva %s tesztet kitöltőnek és %s kérdéshez: %s
+assessment#:#set_manscoring_done#:#A résztvevő pontozott résztvevőként megjelölése
+assessment#:#tst_show_solution_suggested#:#Javasolt megoldás megmutatása
+survey#:#err_no_pool_name#:#Adja meg egy kérdőív-kérdésgyűjtemény nevét!
+assessment#:#err_no_numeric_value#:#Számértéket adjon meg!
+assessment#:#matching_pairs#:#Összeillő párok
+assessment#:#error_duplicate_term#:#Ön több mint egyszer választott ki egy összeillő párt.
+assessment#:#matching_type#:#Párosító kérdés altípusa
+common#:#msg_form_save_error#:#A formadatok nem menthetők. Nézze meg az inputmezők hibaüzeneteit!
+assessment#:#thumb_geometry#:#Bélyegkép geometriája
+assessment#:#thumb_geometry_info#:#A bélyegkép adott magasság és szélesség maximális értékekkel lesz létrehozva, megtartva a kép méretarányát.
+assessment#:#element_height#:#Minimum magasság
+assessment#:#element_height_info#:#Ez a minimális magasság pixelben a kifejezés és definíció/kép elemek számára a tesztkimenethez.
+assessment#:#assOrderingHorizontal#:#Sorrendbe rakó kérdés (horizontális)
+assessment#:#ordertext#:#Sorrendbe rakó szöveg
+assessment#:#ordertext_info#:#Adja meg a horizontálisan sorba rakandó szöveget. A rendezendő szövegegységek fehérkarakterekkel lesznek elválasztva. Ha más elválasztójelre van szüksége, használhatja a %s elválasztójelet szövegegységeinek elkülönítésére.
+assessment#:#textsize#:#Szövegméret
+assessment#:#textsize_info#:#Adja meg a sorrenbe rakó szöveg szövegméretét százalékban, ha nem 100%-ot szeretne.
+common#:#loginname_settings#:#Bejelentkezési név beállításai
+common#:#allow_change_loginname#:#Bejelentkezési név változatásának megengedése
+common#:#create_history_loginname#:#Bejelentkezési név változtatások történeti feljegyzéseinek létrehozása
+common#:#allow_history_loginname_again#:#Megengedett újra használni a történeti feljegyzésekben szereplő neveket.
+common#:#loginname_already_exists#:#Ez a bejelentkezési név már létezik.
+common#:#create_history_loginname_must_be_enabled#:#Meg kell engedni újra használni a történeti feljegyzésekben szereplő neveket.
+ecs#:#ecs_unique_id#:#Résztvevőazonosító
+ecs#:#ecs_new_category_mapping#:#Kurzus új összerendelése - linkek a kategóriákhoz
+ecs#:#ecs_attribute_name#:#Tulajdonságnév
+ecs#:#ecs_cat_mapping_type#:#Hozzárendelési típus
+ecs#:#ecs_cat_mapping_fixed#:#Rögzített értékek
+ecs#:#ecs_cat_mapping_values#:#Tulajdonságérték
+ecs#:#ecs_cat_mapping_fixed_info#:#Válassza ezt a módot a kurzuslinkek kategóriákhoz rendelésére a rögzített értékeken alapulva.
+ecs#:#ecs_cat_mapping_duration#:#Időszak
+ecs#:#ecs_cat_mapping_duration_info#:#Válassza ezt a módot időszakokon alapuló kurzuslinkek összerendelésére (pl. kurzus kezdőideje).
+ecs#:#ecs_err_missing_value#:#Jelölje be inputját: tulajdonságértékek.
+ecs#:#ecs_err_invalid_dates#:#A kezdőidőnek korábbinak kell lennie, mint a befejezőidőnek.
+ecs#:#ecs_err_invalid_type#:#Válasszon egy összerendelési módot!
+ecs#:#ecs_field_part_id#:#Résztvevőazonosító
+ecs#:#ecs_category_mapping#:#Kategóriákhoz rendelés
+ecs#:#ecs_tbl_active_rules#:#Aktív szerepek kategóriaösszerendeléshez
+ecs#:#ecs_edit_category_mapping#:#Összerendelés szerkesztése
+common#:#chat_enter_public_room#:#Nyilvános csevegés
+common#:#chat_enter_public_room_tooltip#:#Belépés nyilvános csevegésbe.
+common#:#chat_invite_public_room_tooltip#:#Meghívás nyilvános csevegésbe.
+assessment#:#assFileUpload#:#Fájlfeltöltési kérdés
+assessment#:#allowedextensions#:#Engedélyezett fájlkiterjesztések
+assessment#:#allowedextensions_info#:#Adja meg az engedélyezett fáljkiterjesztések vesszővel elválasztott listáját, ha  korlátozni akarja a feltölthető fájltípusokat (pl. doc, xls, odt).
+assessment#:#maxsize#:#Feltölthető maximális fájlméret
+assessment#:#maxsize_info#:#Adja meg bájtban a feltölthető fájlméretet. Ha üresen hagyja ezt a mezőt, a rendszerben beállított maximális méret kerül használatra.
+common#:#save_customer_address#:#Számlázási cím tárolása
+common#:#save_customer_address_info#:#Ha engedélyezett, a vásárlói számlázási cím tárolásra kerül.
+common#:#bookings#:#Helyfoglalások
+forum#:#frm_sure_delete_threads#:#Biztos hogy törölni akarja az alábbi témákat?
+search#:#lucene_more_hits_link#:#A találatok száma több, mint: %s.
+dateplaner#:#cal_rec_err_limit#:#Érvényes találkozószámot adjon meg!
+payment#:#payment_news#:#Üzelethírek
+payment#:#payment_news_add_news#:#Üzlethír hozzáadása
+payment#:#payment_news_created#:#Üzlethír hozzáadva
+payment#:#payment_news_no_news_items#:#Nincsenek elérhető hírek
+payment#:#payment_news_delete_sure#:#Biztos, hogy törölni akarja ezt az üzlethírt?
+payment#:#payment_news_deleted#:#Üzlethír törölve.
+payment#:#payment_news_updated#:#A hírek mentésre kerültek
+payment#:#payment_news_settings#:#Üzlethírek beállításai
+payment#:#payment_news_archive_period#:#Archiválási időszak
+payment#:#payment_news_archive_period_info#:#Időszak a hírek archiválásának meghatározásához
+payment#:#payment_news_settings_saved#:#A beállítások mentésre kerültek.
+cntr#:#cntr_page_actions#:#Laptevékenységek.
+cntr#:#cntr_enable_multi_commands#:#Az összes parancs engedélyezése
+cntr#:#cntr_disable_multi_commands#:#Az összes parancs letiltása
+cntr#:#cntr_add_new_item#:#Új tétel hozzáadása
+search#:#lucene_settings_tab#:#Lucene
+search#:#lucene_settings_title#:#Lucene beállítások
+search#:#lucene_default_operator#:#Alapértelmezett beállítások
+search#:#lucene_and#:#AND
+search#:#lucene_or#:#OR
+search#:#lucene_default_operator_info#:#Válassza ki az alapműveletet a Bool-lekérdezésekhez. Alalapértelmezett módban (AND) a kifejezések konjunkcióban vannak figyelembe véve. OR módban a kifejezések alapértelmezetten módosítók nélkül vannak figyelembe véve.
+search#:#lucene_num_fragments#:#Szövegtöredékek száma
+search#:#lucene_num_frag_info#:#Válassza ki a kiemelt szövegtöredékek maximális számát!
+search#:#lucene_size_fragments#:#Szövegtöredékek mérete
+search#:#lucene_size_frag_info#:#Válassza ki a kiemelt teszttöredékek maximális méretét!
+search#:#lucene_max_sub#:#Altételek száma
+search#:#lucene_max_sub_info#:#Adja meg az alapértelmezetten megjelenő altételek maximális számát (fórumtémák, fogalomtár-fogalmak, …) .
+common#:#main_menu#:#Főmenü
+common#:#breadcrumb_navigation#:#Morzsanavigáció
+common#:#tabs#:#Tabok
+common#:#subtabs#:#Atabok
+search#:#lucene_relevance#:#Keresési eredmények megfelelősége
+search#:#lucene_show_relevance#:#Megfelelőség megjelenítése
+search#:#lucene_show_relevance_info#:#A keresési eredmények megfelelőségükkel mentésre kerültek. Ha aktiválja, a megfelelőségi inforációk további információként kerülnek megjelenítésre az egyes keresési eredményekhez.
+payment#:#pay_payed_bill#:#Számla fizetve
+payment#:#vat_title#:#ÁFA-jogcím
+payment#:#vat_rate#:#ÁFA-kulcs
+payment#:#vat_unit#:#ÁFA-egység
+payment#:#paya_insert_vats#:#ÁFA-mérték beszúrása
+payment#:#paya_no_vats_assigned#:#Nincsenek hozzárendelt ÁFA-k
+payment#:#paya_vat_not_valid#:#Ez az ÁFA nem érvényes.
+payment#:#paya_vat_already_exists#:#Ez az ÁFA már rögzítve van.
+payment#:#paya_no_vat_id_given#:#Nincs megadva érvényes ÁFA-azonosító.
+payment#:#paya_sure_delete_vat#:#Biztos benne, hogy törölni akarja ezt az ÁFA-t?
+payment#:#paya_vat_not_deleted#:#Ez az ÁFA-kulcs nincs törölve.
+payment#:#unlimited_duration#:#Nem korlátozott időtartam
+payment#:#vats#:#ÁFA-k
+mail#:#invite_to_chat#:#Meghívás csevegésbe
+mail#:#mail_invite_users_to_chat#:#Felhasználók meghívása csevegésbe
+mail#:#chat_select_room#:#Csevegőszoba kiválasztása
+mail#:#chat_users_without_permission#:#Az alábbi felhasználóknak nincs hozzáférése a kiválasztott csevegőszobához.
+mail#:#chat_users_have_been_invited#:#A felhasználók meghívásra kerültek.
+mail#:#goto_invitation_chat#:#A csevegőszoba nyitva.
+mail#:#chat_users_without_login#:#Az alábbi felhasználóknak nincs ILIAS felhasználói fiókja, nem lehetnek meghívva csevegőszobába.
+chat#:#chat_open#:#Belépés a szobába
+chat#:#chat_kick#:#Kitiltás
+chat#:#chat_unkick#:#Visszavétel
+chat#:#chat_add_to_bookmark#:#Hozzáadás a könyvjelzőkhöz
+chat#:#chat_add_to_addressbook#:#Hozzáadás a címlistához
+chat#:#chat_confirm_delete_private_room#:#Biztosan törölni akarja ezt a privát szobát?
+chat#:#chat_confirm_kick_user#:#Biztos hogy ki akarja tiltani ezt a felhasználót?
+chat#:#chat_user_unkicked#:#A felhasználó visszavételre került.
+chat#:#chat_invite#:#Meghívás
+chat#:#chat_disinvite#:#Elutasítás
+chat#:#chat_confirm_user_invite#:#A felhasználó meg lesz hívva ebbe a csevegőszobába.
+chat#:#chat_added_to_bookmarks#:#A(z) ' %s ' csevegőszoba a könyvjelzői felső mappájához hozzáadásra került.
+chat#:#chat_default_bookmark_title#:#Csevegéslink: %s
+chat#:#chat_default_bookmark_description#:#Link a(z) ' %s ' csetszobába
+chat#:#chat_added_to_addressbook#:#A(z) ' %s ' felhasználó hozzáadásra került címlitájához.
+chat#:#chat_user_already_in_addressbook#:#A felhasználó már az Ön címlistájában van.
+chat#:#chat_recent_postings#:#Mostanában született csethozzászólások.
+chat#:#chat_available_smilies#:#Elérhető érzeleikonok
+chat#:#chat_smiley_image#:#Érzelemikon
+chat#:#chat_smiley_keyword#:#Érzelemikon-kulcsszó
+chat#:#chat_add_smiley#:#Érzelemikon hozzáadása
+chat#:#chat_edit_smiley#:#Érzelemikon szerkesztése
+chat#:#chat_image_path#:#Kép útvonala
+chat#:#chat_current_image_path#:#Jelenlegi kép útvonala
+chat#:#chat_smiley_keywords#:#Érzelemikon-kulcsszó
+chat#:#chat_smiley_keywords_one_per_line_note#:#Több kulcsszót is megadhat az egyes érzelemikonokhoz. Az egyes sorok külön kulcsszavakként lesznek használva.
+chat#:#chat_upload_smiley#:#Érzelemikon feltöltése
+chat#:#chat_smiley_image_only_if_changed#:#Csak akkor adjon meg új képet, ha le akarja cserélni a jelenlegit! Ha nem ad meg új képet, a mostani nem változik.
+chat#:#chat_delete_selected#:#Kiválasztott érzelemikonok törlése.
+chat#:#chat_new_message_sound_status#:#Hang lejátszása, ha a felhasználó új üzenetet kapott
+chat#:#edit_smilies#:#Érzelemikonok szerkesztése
+chat#:#chat_message_notify#:#Üzenetértesítő
+chat#:#chat_message_notify_activate#:#Üzenetértesítő aktiválása
+chat#:#chat_message_notify_deactivate#:#Üzenetértesítő deaktiválása
+chat#:#chat_smilies_status#:#Csevegés-érzelemikonok
+chat#:#chat_smilies_activate#:#Érzelemikonok aktiválása
+chat#:#chat_smilies_deactivate#:#Érzelemikonok deaktiválása
+chat#:#chat_enable_autoscroll#:#Automatikus görgetés engedélyezése
+chat#:#chat_chatviewer#:#Csevegésmegtekintő
+chat#:#chat_room_does_not_exist#:#A csevegőszoba nem létezik. Lehet hogy eltávolításra került, vagy Ön nem érvényes linket használ.
+chat#:#chat_user_hidden#:#rejtett
+chat#:#chat_user_visible#:#látható
+common#:#content_frame#:#Tartalomkeret
+common#:#side_frame#:#Oldalkeret
+common#:#icon#:#Ikon
+common#:#info_message#:#Információs üzenet
+common#:#failure_message#:#Hibaüzenet
+common#:#success_message#:#Sieres üzenet
+common#:#question_message#:#Kérdés
+common#:#form_input_not_valid#:#Néhány adat nem teljes vagy nem érvényes. Javítsa az űrlapadatokat!
+user#:#user_public_profile_info#:#Válassza ki, mely személyes adatait lássák a felhasználók!
+user#:#user_activate_public_profile#:#Nyilvános adatok aktiválása
+user#:#user_activate_public_profile_info#:#Nyilvános adatai globális aktiválása. Ha aktiválja, a vezeték- és keresztnevét látja a többi felhasználó.
+search#:#lucene_general_settings#:#Általános beállítások
+search#:#lucene_advanced_settings#:#Bővített keresés
+search#:#lucene_advances_settings_table#:#Bővített keresési beállítások
+search#:#lucene_activate_field#:#Keresés aktiválása
+common#:#bookmark_added#:#A könyvjelző létrehozásra került.
+common#:#bookmark_save_to#:#mentése könyvjelzőként
+common#:#pd_enable_chatviewer#:#Csevegésmegtekintő engedélyezése
+common#:#chat_settings#:#Csevegésbeállítások
+survey#:#use_anonymous_id#:#Kérdőívkód megjelenítése
+survey#:#use_anonymous_id_desc#:#Ha bejelölt, a felhasználói név az anonimizált kérdőívekben kérdőívkódként fog látszani, máskülönben az "Anonymous" szöveg lesz látható.
+chat#:#chat_smilies_dir_not_exists#:#Az érzelemikonok adatkönyvtár nem létezik. Próbálja meg beállítani a mappákat és az adatbázist.
+chat#:#chat_smilies_dir_not_available#:#Az érzelemikonok adatkönyvtár nem hozható létre. Ez az ILIAS nem fogja tudni használni a csevegés-érzelemikonokat, ha szükség lesz rájuk.
+chat#:#chat_smilies_dir_not_writable#:#Az Ön érzelemikon könyvtára létezik, de nem írható. Nem fog tudni hozzáadni érzelemikonokat.
+chat#:#chat_smilies_initialized#:#Az érzelemikon-adatok inicializáltak és használhatók.
+dateplaner#:#err_missing_title#:#Adjon meg egy találkozócímet!
+dateplaner#:#err_end_before_start#:#A találkozó nem kezdődhet a befejezése előtt.
+administration#:#adm_locale#:#Helyi
+administration#:#adm_locale_info#:#A helyi beállítások befolyásolják pl. a sorbarendező listákat. Például van nl_NL vagy de_DE. A többszörös helyi beállítások vesszővel választhatók el. Az első érvényes lesz használva.
+common#:#accs_edit_permission#:#Jogosultsági beállítások változtatása
+common#:#accs_visible#:#A hozzáférési beállítások láthatóak
+common#:#accs_read#:#Olvasási elérés a hozzáférési beállításokhoz
+common#:#accs_write#:#Hozzáférési beállítások szerkesztése
+common#:#obj_accs#:#Hozzáférés
+common#:#obj_accs_desc#:#Beállítások a hozzáférési tulajdonságokhoz.
+acc#:#acc_access_keys#:#Belépési kulcsok
+acc#:#acc_access_key#:#Belépési kulcs
+acc#:#acc_component#:#Komponens
+acc#:#acc_function#:#Funkció
+acc#:#acc_next#:#Következő
+acc#:#acc_previous#:#Előző
+acc#:#acc_delete#:#Törlés
+acc#:#acc_last_visited#:#Utoljára látogatott
+acc#:#acc_tree_on#:#Fa bekapcsolása
+acc#:#acc_tree_off#:#Fa kikapcsolása
+acc#:#acc_reply#:#Válasz
+acc#:#acc_forward_mail#:#Továbbított e-mail
+acc#:#acc_mark_all_read#:#Mind olvasottnak bejelölése
+acc#:#acc_comp_global#:#Általános
+acc#:#acc_comp_mail#:#E-mail
+acc#:#acc_comp_frm#:#Fórum
+form#:#form_image_file_input#:#Képfájl-input
+form#:#form_file_input#:#Fáljinput
+user#:#user_screen_reader_optimization#:#Képernyőolvasó optimalizálás
+user#:#user_screen_reader_optimization_info#:#Automatikus fókusz és Ajax optimalizáció a képernyőolvasó teljesítményének javításához.
+common#:#block#:#Blokk
+common#:#block_management#:#Blokkmenedzsment
+common#:#show_hidden_block#:#Rejtett blokkok mutatása
+common#:#create_block#:#Blokk létrehozása
+dateplaner#:#cal_week_abbrev#:#H
+dateplaner#:#cal_all_day#:#Minden nap
+dateplaner#:#cal_day_selection#:#Nap kiválasztása
+dateplaner#:#cal_week_selection#:#Hét kiválasztása
+dateplaner#:#cal_month_selection#:#Hónap kiválasztása
+dateplaner#:#cal_day_overview#:#Napi áttekintés
+dateplaner#:#cal_week_overview#:#Heti áttekintés
+dateplaner#:#cal_month_overview#:#Havi áttekintés
+common#:#stat_selected#:#Kiválasztott
+search#:#lucene_last_index_time#:#Utolsó indexgenerálás
+search#:#lucene_last_index_time_info#:#Csak akkor módosítsa a beállításokat, ha installált indexvisszaállítást!
+search#:#lucene_all_occurrences#:#... %s további előforduláscommon#:#wiki_add#:#Add Wiki###22 05 2009 new variable
+rep#:#rep_intro6#:#After that procedure you may add any learning or working resource to your category.###22 05 2009 new variable
+common#:#obj_mep#:#Media Pool###22 05 2009 new variable
+notes#:#notes_deactivate_comments#:#Deactivate Public Comments###22 05 2009 new variable
+content#:#cont_alphabetic#:#Alphabetic A, B, ...###22 05 2009 new variable
+content#:#cont_localfile#:#Local File###22 05 2009 new variable
+content#:#cont_roman#:#Roman I, II, ...###22 05 2009 new variable
+survey#:#wrong_survey_code_used#:#You cannot enter the survey, because you tried to start it with an unauthorized survey code.###22 05 2009 new variable
+trac#:#trac_title_description#:#Title / Description###22 05 2009 new variable
+ps#:#ps_export_confirm#:#User Confirmation when Entering Courses###22 05 2009 new variable
+crs#:#user_fields#:#User Fields###22 05 2009 new variable
+ps#:#ps_cdf_info#:#Further Course-Specific Data:###22 05 2009 new variable
+crs#:#crs_user_agreement_info#:#Visible Personal Data for Course Administrators###22 05 2009 new variable
+dateplaner#:#cal_appointments#:#Appointment(s)###22 05 2009 new variable
+ps#:#ps_error_message_password_min3_because_chars_numbers_sc#:#Minimum password size may not be less than 3 if password have to contain characters, numbers and special characters.###22 05 2009 new variable
+common#:#session_reminder_info#:#If enabled, you receive a reminder before your session expires.###22 05 2009 new variable
+assessment#:#file_uploads#:#File Uploads###22 05 2009 new variable
+notes#:#notes_edit_note#:#Edit Note###22 05 2009 new variable
+notes#:#notes_edit_comment#:#Edit Comment###22 05 2009 new variable
+notes#:#notes_label#:#Label###22 05 2009 new variable
+notes#:#notes_add_note#:#Add Note###22 05 2009 new variable
+notes#:#notes_note_deleted#:#The note has been deleted.###22 05 2009 new variable
+notes#:#notes_notes_deleted#:#The notes have been deleted.###22 05 2009 new variable
+common#:#user_image#:#User Image###22 05 2009 new variable
+ps#:#ps_prevent_simultaneous_logins#:#Prevent Simultaneous Logins###22 05 2009 new variable
+ps#:#ps_prevent_simultaneous_logins_info#:#If enabled, simultaneous logins with the same account from different computers are not possible.###22 05 2009 new variable
+common#:#simultaneous_login_detected#:#Your access is denied because of a simultaneous login with the same account.###22 05 2009 new variable
+trac#:#trac_select_area#:#Select Area###22 05 2009 new variable
+trac#:#trac_hide_selected#:#Hide Selected Items###22 05 2009 new variable
+search#:#search_term_combination#:#Combination###22 05 2009 new variable
+search#:#search_select_search_area#:#Select Search Area###22 05 2009 new variable
+search#:#lucene_err_asterisk#:#The wildcard (*) character must be preceded by at least one alphabet or number.###22 05 2009 new variable
+search#:#lucene_err_ampersand#:#Queries containing the special characters && must be in the form: term1 && term2.###22 05 2009 new variable
+search#:#lucene_err_caret#:#The caret (^) character must be preceded by alphanumeric characters and followed by numbers.###22 05 2009 new variable
+search#:#lucene_err_squigglet#:#The tilde (~) character must be preceded by alphanumeric characters and followed by numbers.###22 05 2009 new variable
+search#:#lucene_err_exclamation_mark#:#Queries containing the special character (!) must be in the form: term1 ! term2.###22 05 2009 new variable
+search#:#lucene_err_question_mark#:#The question mark (?) character must be preceded by at least one alphabet or number.###22 05 2009 new variable
+search#:#lucene_err_parenthesis_not_closed#:#Parentheses must be closed.###22 05 2009 new variable
+search#:#lucene_err_parenthesis_empty#:#Parentheses must contain at least one character.###22 05 2009 new variable
+search#:#lucene_err_plus_minus#:#(+) and (-) modifiers must be followed by at least one alphabet or number.###22 05 2009 new variable
+search#:#lucene_err_and_or_not#:#Queries containing AND/OR/NOT must be in the form: term1 AND|OR|NOT|AND NOT term2.###22 05 2009 new variable
+search#:#lucene_err_quotes#:#Please close all quote (") marks.###22 05 2009 new variable
+search#:#lucene_err_quotes_not_empty#:#Quotes (") must contain at least one character.###22 05 2009 new variable
+search#:#lucene_err_colon#:#Field declarations (:) must be preceded by at least one alphabet or number and followed by at least one alphabet or number.###22 05 2009 new variable
+news#:#news_time_period#:#Time Period###22 05 2009 new variable
+common#:#collapsed#:#Collapsed###22 05 2009 new variable
+common#:#tree#:#Tree###22 05 2009 new variable
+common#:#list#:#List###22 05 2009 new variable
+search#:#search_title_description#:#Title / Description###22 05 2009 new variable
+assessment#:#qst_nr_of_tries#:#Number of tries###22 05 2009 new variable
+assessment#:#qst_hint_self#:#Self-Assessment-Mode active! Enter 0 points for incorrect answers, 1 point for correct answers.###22 05 2009 new variable
+content#:#cont_qtries#:#Number of tries for questions###22 05 2009 new variable
+content#:#cont_sc_preview#:#Preview###22 05 2009 new variable
+style#:#sty_colors#:#Colors###22 05 2009 new variable
+style#:#sty_color_name#:#Color Name###22 05 2009 new variable
+style#:#sty_color_code#:#Color Code###22 05 2009 new variable
+style#:#sty_color_flavors#:#Color Flavors###22 05 2009 new variable
+style#:#sty_add_color#:#Add Color###22 05 2009 new variable
+style#:#sty_delete_color#:#Delete Color###22 05 2009 new variable
+style#:#sty_confirm_color_deletion#:#Confirm Color Deletion###22 05 2009 new variable
+style#:#sty_msg_color_must_only_include#:#The color name may only include the following characters:###22 05 2009 new variable
+style#:#sty_color_already_exists#:#A color with this name already exisits in this style.###22 05 2009 new variable
+style#:#sty_color_info#:#Predefined colors make it easy to reuse a color for different purposes. You refer to a predefined color by using its name with a leading "!" for any color attribute in your style classes. To use a flavor, append a lightness value in brackets to the color name, e.g. !MyColor(20).###22 05 2009 new variable
+style#:#sty_table_templates#:#Table Templates###22 05 2009 new variable
+style#:#sty_template_name#:#Name###22 05 2009 new variable
+style#:#sty_preview#:#Preview###22 05 2009 new variable
+style#:#sty_add_template#:#Add Template###22 05 2009 new variable
+style#:#sty_edit_template#:#Edit Template###22 05 2009 new variable
+style#:#sty_table_class#:#Table Style Class###22 05 2009 new variable
+style#:#sty_row_head_class#:#Row Header###22 05 2009 new variable
+style#:#sty_row_foot_class#:#Row Footer###22 05 2009 new variable
+style#:#sty_col_head_class#:#Column Header###22 05 2009 new variable
+style#:#sty_col_foot_class#:#Column Footer###22 05 2009 new variable
+style#:#sty_odd_row_class#:#Odd Rows###22 05 2009 new variable
+style#:#sty_even_row_class#:#Even Rows###22 05 2009 new variable
+style#:#sty_odd_col_class#:#Odd Columns###22 05 2009 new variable
+style#:#sty_even_col_class#:#Even Columns###22 05 2009 new variable
+content#:#cont_ed_flist#:# File List###22 05 2009 new variable
+content#:#cont_nr_row_header#:#Header Rows###22 05 2009 new variable
+content#:#cont_nr_col_header#:#Header Columns###22 05 2009 new variable
+content#:#cont_nr_row_footer#:#Footer Rows###22 05 2009 new variable
+content#:#cont_nr_col_footer#:#Footer Columns###22 05 2009 new variable
+style#:#sty_type_table_caption#:#Table Caption###22 05 2009 new variable
+style#:#sty_caption_side#:#Caption Side###22 05 2009 new variable
+style#:#sty_caption#:#Caption###22 05 2009 new variable
+style#:#sty_caption_class#:#Caption###22 05 2009 new variable
+style#:#sty_confirm_template_deletion#:#Confirm Template Deletion###22 05 2009 new variable
+style#:#sty_generate_template#:#Generate Template###22 05 2009 new variable
+style#:#sty_template_layout#:#Template Layout###22 05 2009 new variable
+style#:#sty_table_template_colored_zebra#:#Colored Zebra###22 05 2009 new variable
+style#:#sty_table_template_bw_zebra#:#Gray Zebra###22 05 2009 new variable
+style#:#sty_table_template_no_zebra#:#No Zebra###22 05 2009 new variable
+style#:#sty_top_bottom_padding#:#Cell Padding Top/Bottom###22 05 2009 new variable
+style#:#sty_left_right_padding#:#Cell Padding Left/Right###22 05 2009 new variable
+style#:#sty_base_color#:#Base Color###22 05 2009 new variable
+style#:#sty_lightness_border#:#Lightness Border###22 05 2009 new variable
+style#:#sty_lightness_header_text#:#Lightness Header Text###22 05 2009 new variable
+style#:#sty_lightness_header_bg#:#Lightness Header Background###22 05 2009 new variable
+style#:#sty_lightness_cell1_text#:#Lightness Cell 1 Text###22 05 2009 new variable
+style#:#sty_lightness_cell1_bg#:#Lightness Cell 1 Background###22 05 2009 new variable
+style#:#sty_lightness_cell2_text#:#Lightness Cell 2 Text###22 05 2009 new variable
+style#:#sty_lightness_cell2_bg#:#Lightness Cell 2 Background###22 05 2009 new variable
+style#:#sty_type_flist_a#:#File List Item Link###22 05 2009 new variable
+style#:#sty_hide#:#Hide###22 05 2009 new variable
+style#:#sty_save_hide_status#:#Save Hide Status###22 05 2009 new variable
+content#:#cont_text_imp#:#Important:###22 05 2009 new variable
+content#:#cont_text_acc#:#Accent:###22 05 2009 new variable
+content#:#cont_tabs_acc_hor#:#Horizontal Accordion###22 05 2009 new variable
+content#:#cont_tabs_acc_ver#:#Vertical Accordion###22 05 2009 new variable
+content#:#cont_edit_tabs#:#Properties###22 05 2009 new variable
+content#:#cont_new_tab#:#New Tab###22 05 2009 new variable
+content#:#cont_tabs#:#Tabs###22 05 2009 new variable
+content#:#cont_add_tab#:#Add Tab###22 05 2009 new variable
+content#:#cont_tabs_confirm_deletion#:#Are you sure that all of the tabs and their contents should be deleted?###22 05 2009 new variable
+content#:#cont_tab_cont_width#:#Content Width###22 05 2009 new variable
+content#:#cont_tab_cont_height#:#Content Height###22 05 2009 new variable
+content#:#cont_tabs_hor_align_info#:#Horizontal accordions will always be aligned left.###22 05 2009 new variable
+style#:#sty_templates#:#Templates###22 05 2009 new variable
+style#:#sty_tabs_char#:#Tabs & Accordions###22 05 2009 new variable
+style#:#sty_type_va_cntr#:#Vert. Accordion Container###22 05 2009 new variable
+style#:#sty_type_va_icntr#:#Vert. Accordion Item Container###22 05 2009 new variable
+style#:#sty_type_va_ihead#:#Vert. Accordion Item Header###22 05 2009 new variable
+style#:#sty_type_va_icont#:#Vert. Accordion Item Content###22 05 2009 new variable
+style#:#sty_type_ha_cntr#:#Hor. Accordion Container###22 05 2009 new variable
+style#:#sty_type_ha_icntr#:#Hor. Accordion Item Container###22 05 2009 new variable
+style#:#sty_type_ha_ihead#:#Hor. Accordion Item Header###22 05 2009 new variable
+style#:#sty_type_ha_icont#:#Hor. Accordion Item Content###22 05 2009 new variable
+style#:#sty_va_cntr_class#:#Vert. Accordion Container###22 05 2009 new variable
+style#:#sty_va_icntr_class#:#Vert. Accordion Item Container###22 05 2009 new variable
+style#:#sty_va_ihead_class#:#Vert. Accordion Item Header###22 05 2009 new variable
+style#:#sty_va_icont_class#:#Vert. Accordion Item Content###22 05 2009 new variable
+style#:#sty_ha_cntr_class#:#Hor. Accordion Container###22 05 2009 new variable
+style#:#sty_ha_icntr_class#:#Hor. Accordion Item Container###22 05 2009 new variable
+style#:#sty_ha_ihead_class#:#Hor. Accordion Item Header###22 05 2009 new variable
+style#:#sty_ha_icont_class#:#Hor. Accordion Item Content###22 05 2009 new variable
+style#:#sty_style_class#:#Style Classes###22 05 2009 new variable
+style#:#sty_del_template_keep_classes#:#Delete and keep Style Classes###22 05 2009 new variable
+style#:#sty_del_template#:#Delete Templates and Classes###22 05 2009 new variable
+style#:#sty_vaccordion_templates#:#Vert. Accordion Templates###22 05 2009 new variable
+style#:#sty_haccordion_templates#:#Hor. Accordion Templates###22 05 2009 new variable
+style#:#sty_acopy#:#Copy###22 05 2009 new variable
+style#:#sty_tag_normal#:#Normal###22 05 2009 new variable
+style#:#sty_tag_hover#:#:hover###22 05 2009 new variable
+content#:#cont_span#:#Span###22 05 2009 new variable
+content#:#cont_colspan#:#Col. Span###22 05 2009 new variable
+content#:#cont_rowspan#:#Row Span###22 05 2009 new variable
+content#:#cont_save_spans#:#Save Spans###22 05 2009 new variable
+content#:#cont_save_widths#:#Save Widths###22 05 2009 new variable
+content#:#cont_set_styles#:#Set Styles###22 05 2009 new variable
+style#:#sty_disable_auto_margins#:#Disable Auto Margins###22 05 2009 new variable
+style#:#sty_disable_auto_margins_info#:#Disables automatic setting of left/right to 0px, if media objects or tables are left/right aligned.###22 05 2009 new variable
+content#:#cont_number_std#:#Standard###22 05 2009 new variable
+content#:#cont_decimal#:#Decimal###22 05 2009 new variable
+content#:#cont_start_value#:#Start Value###22 05 2009 new variable
+content#:#cont_start_value_info#:#Enter start value as decimal number. Default is 1.###22 05 2009 new variable
+common#:#collapse_all#:#Collapse All###22 05 2009 new variable
+common#:#expand_all#:#Expand All###22 05 2009 new variable
+sahs#:#sahs_objective#:#Learning Objective###22 05 2009 new variable
+sahs#:#sahs_objectives#:#Learning Objectives###22 05 2009 new variable
+style#:#sty_type_sco_desct#:#SCO Description Heading###22 05 2009 new variable
+style#:#sty_type_sco_objt#:#SCO Objectives Heading###22 05 2009 new variable
+adve#:#adve_rte_settings#:#Rich Text Editor Settings###22 05 2009 new variable
+adve#:#adve_page_editor_settings#:#ILIAS Page Editor Settings###22 05 2009 new variable
+adve#:#adve_grp_lm#:#ILIAS Learning Modules###22 05 2009 new variable
+adve#:#adve_grp_wiki#:#Wikis###22 05 2009 new variable
+adve#:#adve_grp_scorm#:#SCORM Editing###22 05 2009 new variable
+adve#:#adve_grp_glo#:#Glossaries###22 05 2009 new variable
+adve#:#adve_grp_test#:#Test & Assessment###22 05 2009 new variable
+adve#:#adve_grp_rep#:#Repository Pages###22 05 2009 new variable
+adve#:#adve_text_content_features#:#Text Content Menu###22 05 2009 new variable
+content#:#cont_behavior#:#Behavior###22 05 2009 new variable
+content#:#cont_all_closed#:#All Closed###22 05 2009 new variable
+content#:#cont_first_open#:#First Opened###22 05 2009 new variable
+content#:#cont_force_all_open#:#Force All Opened###22 05 2009 new variable
+content#:#cont_number_type#:#Number Type###22 05 2009 new variable
+user#:#user_activation#:#Activation###22 05 2009 new variable
+user#:#user_all#:#All###22 05 2009 new variable
+user#:#user_last_login_before#:#Last Login Before###22 05 2009 new variable
+user#:#user_limited_access#:#Limited Access###22 05 2009 new variable
+user#:#user_no_courses#:#No Courses Assigned###22 05 2009 new variable
+user#:#user_member_of_course_group#:#Member of Course/Group###22 05 2009 new variable
+user#:#user_select_course_group#:#Select Course/Group###22 05 2009 new variable
+search#:#search_no_match_hint#:#Your search - <b>%s</b> - did not match any documents.<br /><br />Suggestions:<br />Make sure all words are spelled correctly.<br />Try different keywords.<br />Try more general keywords.<br />Try fewer keywords.###22 05 2009 new variable
+user#:#user_please_select_course_group#:#Please select a course or a group.###22 05 2009 new variable
+user#:#user_any#:#Any###22 05 2009 new variable
+user#:#user_global_role#:#Global Role###22 05 2009 new variable
+mep#:#mep_folder_content#:#Folder Content###22 05 2009 new variable
+mep#:#mep_all_mobs#:#All Media Objects###22 05 2009 new variable
+mep#:#mep_unknown#:#Unknown###22 05 2009 new variable
+mep#:#mep_all#:#All###22 05 2009 new variable
+mep#:#mep_format#:#Format###22 05 2009 new variable
+mep#:#mep_default_width#:#Default Width###22 05 2009 new variable
+mep#:#mep_default_height#:#Default Height###22 05 2009 new variable
+mep#:#mep_default_width_height_info#:#Default width and height are used as presets for new media object creation.###22 05 2009 new variable
+content#:#cont_layout#:#Layout###22 05 2009 new variable
+content#:#cont_lm_default_layout#:#Default Layout of Learning Module###22 05 2009 new variable
+content#:#cont_page_layout#:#Page Layout###22 05 2009 new variable
+content#:#cont_layout_per_page#:#Layout per Page###22 05 2009 new variable
+content#:#cont_layout_per_page_info#:#Allow to set individual layouts for each page. This automatically activates the "Synchronize Frames" setting, too.###22 05 2009 new variable
+payment#:#paya_vats_info#:#If you like to sell an object without a vat, please insert a vat-rate with 0 %###22 05 2009 new variable
+payment#:#payment_tax_rates#:#Tax Rates###22 05 2009 new variable
+payment#:#payment_vat_already_created#:#A VAT with this rate is already created.###22 05 2009 new variable
+payment#:#payment_cannot_save_existing_vat#:#Cannot save an existing VAT.###22 05 2009 new variable
+payment#:#payment_cannot_update_nonexisting_vat#:#Cannot update a nonexisting VAT.###22 05 2009 new variable
+payment#:#payment_cannot_find_vat#:#Cannot find VAT dataset for the passed id.###22 05 2009 new variable
+payment#:#payment_cannot_read_nonexisting_vat#:#The ID for fechting the VAT dataset was not passed.###22 05 2009 new variable
+payment#:#payment_edit_vat#:#Edit VAT###22 05 2009 new variable
+payment#:#payment_add_vat#:#Create VAT###22 05 2009 new variable
+payment#:#payment_vat_title_info#:#Please insert a label/title for the VAT.###22 05 2009 new variable
+payment#:#payment_vat_rate_info#:#Please insert the VAT rate (without the %-sign), e.g. 7.###22 05 2009 new variable
+payment#:#payment_vat_deleted_successfully#:#The selected VAT rates were deleted.###22 05 2009 new variable
+payment#:#payment_vat_has_to_be_defined_by_administration_short#:#----###22 05 2009 new variable
+payment#:#payment_object_not_buyable_if_not_vat_assigned#:#Until there is no VAT assigned the object is not buyable in the webshop.###22 05 2009 new variable
+payment#:#payment_vat_administration#:#Administration###22 05 2009 new variable
+payment#:#payment_vat_input_invalid#:#Please insert a valid value for the VAT rate.###22 05 2009 new variable
+payment#:#payment_no_price_selected#:#No price selected.###22 05 2009 new variable
+payment#:#payment_no_price_type_selected#:#Please select a type for the price.###22 05 2009 new variable
+payment#:#payment_price_invalid_price#:#Please enter a valid price.###22 05 2009 new variable
+payment#:#paya_updated_price#:#The price was saved.###22 05 2009 new variable
+payment#:#payment_already_bought_but_no_access#:#You already bought the object %s, but you do not have access yet or your license is expired.###22 05 2009 new variable
+cmps#:#cmps_plugin_activated#:#The plugin has been activated.###22 05 2009 new variable
+cmps#:#cmps_plugin_deactivated#:#The plugin has been deactivated.###22 05 2009 new variable

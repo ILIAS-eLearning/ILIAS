@@ -49,6 +49,99 @@ abstract class ilObjectPluginGUI extends ilObject2GUI
 	}
 	
 	/**
+	* execute command
+	*/
+	function &executeCommand()
+	{
+		global $ilCtrl, $tpl, $ilAccess, $lng, $ilNavigationHistory, $ilTabs;
+
+		// get standard template (includes main menu and general layout)
+		$tpl->getStandardTemplate();
+
+		// set title
+		if (!$this->getCreationMode())
+		{
+			$tpl->setTitle($this->object->getTitle());
+			$tpl->setTitleIcon($this->plugin->getImagePath("icon_".$this->object->getType()."_b.gif"),
+				$lng->txt("icon")." ".$this->txt("obj_".$this->object->getType()));
+				
+			// set tabs
+			$this->setTabs();
+			$this->setLocator();
+			
+			// add entry to navigation history
+			if ($ilAccess->checkAccess("read", "", $_GET["ref_id"]))
+			{
+				$ilNavigationHistory->addItem($_GET["ref_id"],
+					$ilCtrl->getLinkTarget($this, $this->getStandardCmd()), $this->getType());
+			}
+
+		}
+
+		$next_class = $this->ctrl->getNextClass($this);
+		$cmd = $this->ctrl->getCmd();
+
+		switch($next_class)
+		{
+			case "ilinfoscreengui":
+				$this->checkPermission("visible");
+				$this->infoScreen();	// forwards command
+				break;
+
+			case 'ilpermissiongui':
+				include_once("./classes/class.ilPermissionGUI.php");
+				$perm_gui = new ilPermissionGUI($this);
+				$ilTabs->setTabActive("perm_settings");
+				$ret = $ilCtrl->forwardCommand($perm_gui);
+			break;
+
+			default:
+				if(!$cmd)
+				{
+					$cmd = $this->getStandardCmd();
+				}
+				if ($cmd == "infoScreen")
+				{
+					$ilCtrl->setCmd("showSummary");
+					$ilCtrl->setCmdClass("ilinfoscreengui");
+					$this->infoScreen();
+				}
+				else
+				{
+					$this->performCommand($cmd);
+				}
+				break;
+		}
+
+		if (!$this->getCreationMode())
+		{
+			$tpl->show();
+		}
+	}
+
+	/**
+	* Add object to locator
+	*/
+	function addLocatorItems()
+	{
+		global $ilLocator;
+
+		if (!$this->getCreationMode())
+		{
+			$ilLocator->addItem($this->object->getTitle(),
+				$this->ctrl->getLinkTarget($this, $this->getStandardCmd()), "", $_GET["ref_id"]);
+		}
+	}
+
+	/**
+	* Get standard command
+	*/
+	function getStandardCmd()
+	{
+		return "";
+	}
+
+	/**
 	* Get plugin object
 	*
 	* @return	object	plugin object
@@ -138,5 +231,70 @@ abstract class ilObjectPluginGUI extends ilObject2GUI
 	*/
 	abstract function getAfterCreationCmd();
 	
+	/**
+	* Add info screen tab
+	*/
+	function addInfoTab()
+	{
+		global $ilAccess, $ilTabs;
+		
+		// info screen
+		if ($ilAccess->checkAccess('visible', "", $this->object->getRefId()))
+		{
+			$ilTabs->addTarget("info_short",
+				$this->ctrl->getLinkTargetByClass(
+				"ilinfoscreengui", "showSummary"),
+				"showSummary");
+		}
+	}
+
+	/**
+	* Add permission tab
+	*/
+	function addPermissionTab()
+	{
+		global $ilAccess, $ilTabs, $ilCtrl;
+		
+		// edit permissions
+		if($ilAccess->checkAccess('edit_permission', "", $this->object->getRefId()))
+		{
+			$ilTabs->addTarget("perm_settings",
+				$ilCtrl->getLinkTargetByClass("ilpermissiongui", "perm"),
+				array("perm","info","owner"), 'ilpermissiongui');
+		}
+	}
+	
+	
+	/**
+	* show information screen
+	*/
+	function infoScreen()
+	{
+		global $ilAccess, $ilUser, $lng, $ilCtrl, $tpl, $ilTabs;
+		
+		$ilTabs->setTabActive("info_short");
+		
+		$this->checkPermission("visible");
+
+		include_once("./Services/InfoScreen/classes/class.ilInfoScreenGUI.php");
+		$info = new ilInfoScreenGUI($this);
+		$info->enablePrivateNotes();
+
+		// general information
+		$lng->loadLanguageModule("meta");
+
+		$this->addInfoItems($info);
+
+		// forward the command
+		$ret = $ilCtrl->forwardCommand($info);
+		//$tpl->setContent($ret);
+	}
+
+	/**
+	* Add items to info screen
+	*/
+	function addInfoItems($info)
+	{
+	}
 
 }

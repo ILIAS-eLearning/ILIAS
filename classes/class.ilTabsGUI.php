@@ -81,23 +81,12 @@ class ilTabsGUI
 		$this->back_2_frame = $a_frame;
 	}
 	
-/*	Deprecated
-	function getTargetsByObjectType(&$a_gui_obj, $a_type)
-	{
-		global $ilCtrl;
-
-		$d = $this->objDefinition->getProperties($a_type);
-
-		foreach ($d as $key => $row)
-		{
-			$this->addTarget($row["lng"],
-				$ilCtrl->getLinkTarget($a_gui_obj, $row["name"]),
-				$row["name"], get_class($a_gui_obj));
-		}
-	}
-*/
 
 	/**
+	* DEPRECATED.
+	*
+	* Use addTab/addSubTab and activateTab/activateSubTab.
+	*
 	* Add a target to the tabbed menu. If no target has set $a_activate to
 	* true, ILIAS tries to determine the current activated menu item
 	* automatically using $a_cmd and $a_cmdClass. If one item is set
@@ -126,9 +115,23 @@ class ilTabsGUI
 		}
 		$this->target[] = array("text" => $a_text, "link" => $a_link,
 			"cmd" => $a_cmd, "cmdClass" => $a_cmdClass, "frame" => $a_frame,
-			"activate" => $a_activate, "dir_text" => $a_dir_text);
+			"activate" => $a_activate, "dir_text" => $a_dir_text, "id" => $a_text);
 	}
 	
+	/**
+	* Add a Tab
+	*
+	* @param	string		id
+	* @param	string		text (no lang var!)
+	* @param	string		link
+	* @param	string		frame target
+	*/
+	function addTab($a_id, $a_text, $a_link, $a_frame = "")
+	{
+		$this->target[] = array("text" => $a_text, "link" => $a_link,
+			"frame" => $a_frame, "dir_text" => true, "id" => $a_id);
+	}
+
 	/**
 	* clear all targets
 	*/
@@ -144,6 +147,10 @@ class ilTabsGUI
 	}
 
 	/**
+	* DEPRECATED.
+	*
+	* Use addTab/addSubTab and activateTab/activateSubTab.
+	*
 	* Add a Subtarget to the tabbed menu. If no target has set $a_activate to
 	* true, ILIAS tries to determine the current activated menu item
 	* automatically using $a_cmd and $a_cmdClass. If one item is set
@@ -174,23 +181,40 @@ class ilTabsGUI
 		}
 		$this->sub_target[] = array("text" => $a_text, "link" => $a_link,
 			"cmd" => $a_cmd, "cmdClass" => $a_cmdClass, "frame" => $a_frame,
-			"activate" => $a_activate, "dir_text" => $a_dir_text);
+			"activate" => $a_activate, "dir_text" => $a_dir_text, "id" => $a_text);
 	}
 
 	/**
+	* Add a Subtab
+	*
+	* @param	string		id
+	* @param	string		text (no lang var!)
+	* @param	string		link
+	* @param	string		frame target
+	*/
+	function addSubTab($a_id, $a_text, $a_link, $a_frame = "")
+	{
+		$this->sub_target[] = array("text" => $a_text, "link" => $a_link,
+			"frame" => $a_frame, "dir_text" => true, "id" => $a_id);
+	}
+
+	/**
+	* DEPRECATED.
+	*
+	* Use addTab/addSubTab and activateTab/activateSubTab.
+	*
 	* Activate a specific tab identified by name
 	* This method overrides the definition in YOUR_OBJECT::getTabs() and deactivates all other tabs.
 	*
-	* @param	string		$a_text			menu item text
-	* @param	boolean		
+	* @param	string		$a_text			menu item text		
 	*/
-	function setTabActive($a_text)
+	function setTabActive($a_id)
 	{
 		for($i = 0; $i < count($this->target);$i++)
 		{
-			$this->target[$i]['activate'] = $this->target[$i]['text'] == $a_text;
+			$this->target[$i]['activate'] = $this->target[$i]['id'] == $a_id;
 		}
-		if ($a_text != "")
+		if ($a_id != "")
 		{
 			$this->manual_activation = true;
 		}
@@ -202,6 +226,20 @@ class ilTabsGUI
 	}
 
 	/**
+	* Activate a specific tab identified its id
+	*
+	* @param	string		$a_text			menu item text		
+	*/
+	function activateTab($a_id)
+	{
+		$this->setTabActive($a_id);
+	}
+
+	/**
+	* DEPRECATED.
+	*
+	* Use addTab/addSubTab and activateTab/activateSubTab.
+	*
 	* Activate a specific tab identified by name
 	* This method overrides the definition in YOUR_OBJECT::getTabs() and deactivates all other tabs.
 	*
@@ -212,10 +250,20 @@ class ilTabsGUI
 	{
 		for($i = 0; $i < count($this->sub_target);$i++)
 		{
-			$this->sub_target[$i]['activate'] = $this->sub_target[$i]['text'] == $a_text;
+			$this->sub_target[$i]['activate'] = $this->sub_target[$i]['id'] == $a_text;
 		}
 		$this->subtab_manual_activation = true;
 		return true;
+	}
+
+	/**
+	* Activate a specific subtab identified its id
+	*
+	* @param	string		$a_text			menu item text		
+	*/
+	function activateSubTab($a_id)
+	{
+		$this->setSubTabActive($a_id);
 	}
 
 	/**

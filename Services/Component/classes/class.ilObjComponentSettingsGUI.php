@@ -281,17 +281,27 @@ die ("ilObjComponentSettigsGUI::refreshPluginsInformation: deprecated");
 	*/
 	function activatePlugin()
 	{
-		global $ilCtrl;
+		global $ilCtrl, $lng;
 
 		include_once("./Services/Component/classes/class.ilPlugin.php");
 		$pl = ilPlugin::getPluginObject($_GET["ctype"], $_GET["cname"],
 			$_GET["slot_id"], $_GET["pname"]);
-			
-		$result = $pl->activate();
-		
-		if ($result !== true)
+
+		try
 		{
-			ilUtil::sendInfo($result, true);
+			$result = $pl->activate();
+			if ($result !== true)
+			{
+				ilUtil::sendFailure($result, true);
+			}
+			else
+			{
+				ilUtil::sendSuccess($lng->txt("cmps_plugin_activated"), true);
+			}
+		}
+		catch(ilPluginException $e)
+		{
+			ilUtil::sendFailure($e->getMessage, true);
 		}
 			
 		$ilCtrl->setParameter($this, "ctype", $_GET["ctype"]);
@@ -301,7 +311,7 @@ die ("ilObjComponentSettigsGUI::refreshPluginsInformation: deprecated");
 	}
 	
 	/**
-	* Activate a plugin.
+	* Update a plugin.
 	*/
 	function updatePlugin()
 	{
@@ -333,7 +343,7 @@ die ("ilObjComponentSettigsGUI::refreshPluginsInformation: deprecated");
 	*/
 	function deactivatePlugin()
 	{
-		global $ilCtrl;
+		global $ilCtrl, $lng;
 
 		include_once("./Services/Component/classes/class.ilPlugin.php");
 		$pl = ilPlugin::getPluginObject($_GET["ctype"], $_GET["cname"],
@@ -344,6 +354,10 @@ die ("ilObjComponentSettigsGUI::refreshPluginsInformation: deprecated");
 		if ($result !== true)
 		{
 			ilUtil::sendFailure($result, true);
+		}
+		else
+		{
+			ilUtil::sendSuccess($lng->txt("cmps_plugin_deactivated"), true);
 		}
 			
 		$ilCtrl->setParameter($this, "ctype", $_GET["ctype"]);

@@ -1299,7 +1299,6 @@ class ilTemplate extends ilTemplateX
 	function setLocator()
 	{
 		global $ilLocator, $lng;
-		
 		$this->setVariable("LOCATOR", $ilLocator->getHTML());
 	}
 	
