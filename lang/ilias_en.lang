@@ -9453,3 +9453,4 @@ payment#:#paya_updated_price#:#The price was saved.
 payment#:#payment_already_bought_but_no_access#:#You already bought the object %s, but you do not have access yet or your license is expired.
 cmps#:#cmps_plugin_activated#:#The plugin has been activated.
 cmps#:#cmps_plugin_deactivated#:#The plugin has been deactivated.
+common#:#preferences#:#User-defined Preferences

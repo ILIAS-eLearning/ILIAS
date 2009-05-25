@@ -295,7 +295,7 @@ class ilUserXMLWriter extends ilXmlWriter
 
 		$this->__addElement("Feedhash", $row["feed_hash"]);
 
-		if ($this->attachPreferences)
+		if ($this->attachPreferences || $this->canExport("prefs", "preferences"))
 			$this->__handlePreferences ($prefs, $row);
 		
 		$this->xmlEndTag('User');

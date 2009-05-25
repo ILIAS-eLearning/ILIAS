@@ -3207,6 +3207,8 @@ if (true)
 		$this->setSubTabs('settings');
 		
 		$profile_fields =& $this->object->getProfileFields();
+		
+		$profile_fields [] = "preferences";
 		// For the following fields, the required state can not be changed.
 		// key = field, value = 1 (field is required), 0 (field is not required)
 		$fixed_required_fields = array(
@@ -3219,13 +3221,36 @@ if (true)
 			"hits_per_page" => 0,
 			"show_users_online" => 0,
 			"instant_messengers" => 0,
-			"hide_own_online_status" => 0
+			"hide_own_online_status" => 0,
+			"preferences" => 0,
 		);
+		
 		$no_export_fields = array(
 			"hits_per_page",
 			"show_users_online",
 			"hide_own_online_status"
 		);
+		
+		// fields which won't be changeable
+		$no_changeable_fields = array(
+			"preferences",
+		);
+		
+		// fields which won't be visible
+		$no_visible_fields = array(
+			"preferences",
+		);
+		
+		// disable visible checkbox
+		$disabled_visible_fields= array(
+			"preferences",
+		);
+		
+		//disable changeable checkbox
+		$disabled_changeable_fields= array(
+			"preferences",
+		);
+		
 		// Settings for the course export state
 		// key = field, value = 2 (field is disabled but checked), value = 1 (field is changeable), 0 (checkbox is not shown)
 		$course_export_fields = array(
@@ -3241,7 +3266,8 @@ if (true)
 			"referral_comment" => 0, "matriculation" => 1,
 			"language" => 0, "skin_style" => 0,
 			"hits_per_page" => 0, "show_users_online" => 0,
-			"instant_messengers" => 0
+			"instant_messengers" => 0,
+			"preferences" => 0,
 		);
 		foreach ($profile_fields as $field)
 		{			
@@ -3273,18 +3299,32 @@ if (true)
 			}
 
 			// BEGIN Enable field in Personal Profile
-			if ($ilias->getSetting("usr_settings_disable_".$field) != "1" || 
-			   ($this->confirm_change == 1 && ! $_POST["chb"]["enabled_" . $field]))
+			if (!in_array($field, $no_changeable_fields) &&
+				($ilias->getSetting("usr_settings_disable_".$field) != "1" || 
+			   ($this->confirm_change == 1 && ! $_POST["chb"]["enabled_" . $field])))
 			{
 				$this->tpl->setVariable("CHECKED_ENABLED", " checked=\"checked\"");
 			}
+			
+			if (in_array($field, $disabled_changeable_fields))
+			{
+				$this->tpl->setVariable("DISABLE_ENABLED", " disabled=\"disabled\"");
+			}
+			
 			// END Enable field in Personal Profile
 			// BEGIN Show field in Personal Profile
-			if ($ilias->getSetting("usr_settings_hide_".$field) != "1" || 
-			   ($this->confirm_change == 1 && ! $_POST["chb"]["visible_" . $field]))
+			if (!in_array($field, $no_visible_fields) && 			
+			 	($ilias->getSetting("usr_settings_hide_".$field) != "1" || 
+			    ($this->confirm_change == 1 && ! $_POST["chb"]["visible_" . $field])))
 			{
 				$this->tpl->setVariable("CHECKED_VISIBLE", " checked=\"checked\"");
 			}
+
+			if (in_array($field, $disabled_visible_fields))
+			{
+				$this->tpl->setVariable("DISABLE_VISIBLE", " disabled=\"disabled\"");
+			}
+			
 			// END Show field in Personal Profile
 			if (!in_array($field, $no_export_fields))
 			{
@@ -3511,6 +3551,13 @@ if (true)
 		if ($_POST["select"]["default_show_users_online"])
 		{
 			$ilias->setSetting("show_users_online",$_POST["select"]["default_show_users_online"]);
+		}
+		
+		if ($_POST["chb"]["export_preferences"])
+		{
+			$ilias->setSetting("usr_settings_export_preferences",$_POST["chb"]["export_preferences"]);
+		} else {
+			$ilias->deleteSetting("usr_settings_export_preferences");
 		}
 
 		ilUtil::sendSuccess($this->lng->txt("usr_settings_saved"));
