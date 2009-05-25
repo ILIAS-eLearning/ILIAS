@@ -584,7 +584,7 @@ class ilObjForumGUI extends ilObjectGUI
 					$counter++;		
 			
 				} 
-				
+			$tbl->disable('sort');	
 			$tbl->setData($result);			
 
 				
