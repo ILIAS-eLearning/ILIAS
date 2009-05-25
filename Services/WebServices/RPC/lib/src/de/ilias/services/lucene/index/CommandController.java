@@ -66,6 +66,8 @@ public class CommandController {
 		}
 	};
 	
+	private static final int MAX_ELEMENTS = 1000;
+	
 	protected static Logger logger = Logger.getLogger(CommandController.class);
 	
 	private Vector<Integer> finished = new Vector<Integer>();
@@ -178,6 +180,7 @@ public class CommandController {
 		
 		CommandQueueElement currentElement = null;
 		
+		int elementCounter = 0;
 		try {
 			while((currentElement = queue.nextElement()) != null) {
 			
@@ -207,6 +210,15 @@ public class CommandController {
 					deleteDocument(currentElement);
 				}
 				getFinished().add(currentElement.getObjId());
+				
+				// Write to index if MAX_ELEMTS is reached
+				if(++elementCounter == MAX_ELEMENTS) {
+					
+					if(!writeToIndex()) {
+						break;
+					}
+					elementCounter = 0;
+				}
 			}
 		}
 		catch (ObjectDefinitionException e) {
@@ -224,27 +236,25 @@ public class CommandController {
 	/**
 	 * @param finished
 	 */
-	public synchronized void writeToIndex() {
+	public synchronized boolean writeToIndex() {
 
 		try {
-			logger.info("Closing writer.");
+			logger.info("Writer commit.");
 			holder.getWriter().commit();
 			logger.info("Optimizing writer...");
 			holder.getWriter().optimize();
-			logger.info("Writer optimized!");
-			holder.close();
 			
 			// Finally update status in search_command_queue
 			queue.setFinished(getFinished());
 			
 			LuceneSettings.writeLastIndexTime();
-			LuceneSettings.getInstance().refresh();
 			
 			// Refresh index reader
 			SearchHolder.getInstance().init();
 			
 			// Set object ids finished
 			//queue.setFinished(finished);
+			return true;
 
 		} 
 		catch (ConfigurationException e) {
@@ -259,7 +269,32 @@ public class CommandController {
 		catch (SQLException e) {
 			logger.error("Cannot update search_command_queue: " + e);
 		}
+		return false;
 	}
+	
+	/**
+	 * Close index
+	 */
+	public synchronized void closeIndex() {
+	
+		try {
+			logger.info("Closing writer");
+			holder.getWriter().close();
+			logger.info("Writer closed");
+
+			LuceneSettings.getInstance().refresh();
+		} 
+		catch (CorruptIndexException e) {
+			logger.fatal("Index Corrupted. Aborting!" + e);
+		} 
+		catch (IOException e) {
+			logger.fatal("Index Corrupted. Aborting!" + e);
+		} 
+		catch (SQLException e) {
+			logger.error("Cannot update search_command_queue: " + e);
+		}
+	}
+	
 
 	/**
 	 * @param el

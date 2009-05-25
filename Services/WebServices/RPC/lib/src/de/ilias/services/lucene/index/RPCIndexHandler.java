@@ -100,8 +100,8 @@ public class RPCIndexHandler {
 				
 				threads.get(i).join();
 			}
-
 			controller.writeToIndex();
+			controller.closeIndex();
 			
 			long s_end = new java.util.Date().getTime();
 			logger.info("Index time: " + ((s_end - s_start)/(1000))+ " seconds");
