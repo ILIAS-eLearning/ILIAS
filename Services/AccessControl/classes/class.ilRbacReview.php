@@ -42,6 +42,9 @@ class ilRbacReview
 	protected $assigned_roles = array();
 	var $log = null;
 
+    // Cache operation ids
+    private static $_opsCache = null;
+
 	/**
 	* Constructor
 	* @access	public
@@ -634,8 +637,9 @@ class ilRbacReview
 		$parent_roles = array();
 		$role_hierarchy = array();
 		
+        // Select all role folders on a path using a single SQL-statement.
 		// CREATE IN() STATEMENT
-		$in = $ilDB->in('t.parent',$a_path,false,'integer');
+        $in = $ilDB->in('t.parent',$a_path,false,'integer');
 
         $q = "SELECT t.* FROM tree t ".
              "JOIN object_reference r ON r.ref_id = t.child ".
@@ -643,7 +647,7 @@ class ilRbacReview
              "WHERE ".$in." ".
              "AND o.type= ".$ilDB->quote('rolf','text')." ".
              "ORDER BY t.depth ASC";
-             
+
         $r = $this->ilDB->query($q);
 
         while ($row = $r->fetchRow(DB_FETCHMODE_OBJECT))
@@ -663,6 +667,7 @@ class ilRbacReview
                 }
             }
         }
+
 		if (!$a_keep_protected)
 		{
 			return $this->__setProtectedStatus($parent_roles,$role_hierarchy,$path);
@@ -978,16 +983,18 @@ class ilRbacReview
 	*/
 	function isAssigned($a_usr_id,$a_role_id)
 	{
+        // Quickly determine if user is assigned to a role
 		global $ilDB;
 
 	    $query = "SELECT usr_id FROM rbac_ua WHERE ".
                     "rol_id= ".$ilDB->quote($a_role_id,'integer')." ".
-                    "AND usr_id= ".$ilDB->quote($a_usr_id)
+                    "AND usr_id= ".$ilDB->quote($a_usr_id).
+                    " LIMIT 1"
                     ;
 
 		$res = $ilDB->query($query);
 
-        return $ilDB->numRows($res) == 1;
+        return $res->numRows() == 1;
 	}
     
 	/**
@@ -1598,12 +1605,24 @@ class ilRbacReview
 			$message = "perm::getOperationId(): No operation given!";
 			$ilErr->raiseError($message,$ilErr->WARNING);	
 		}
-	
-		$query = 'SELECT DISTINCT(ops_id) FROM rbac_operations '.
-			 'WHERE operation = '.$ilDB->quote($a_operation,'text');	
-		$res = $ilDB->query($query);
-		$row = $ilDB->fetchObject($res);
-		return $row->ops_id;
+
+        // Cache operation ids
+        if (! is_array(self::$_opsCache)) {
+            self::$_opsCache = array();
+
+            $q = "SELECT ops_id, operation FROM rbac_operations";
+            $r = $ilDB->query($q);
+            while ($row = $r->fetchRow(DB_FETCHMODE_OBJECT))
+            {
+                self::$_opsCache[$row->operation] = $row->ops_id;
+            }
+        }
+
+        // Get operation ID by name from cache
+        if (array_key_exists($a_operation, self::$_opsCache)) {
+            return self::$_opsCache[$a_operation];
+        }
+        return null;
 	}
 
 

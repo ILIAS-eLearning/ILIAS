@@ -329,7 +329,7 @@ class ilObjFile extends ilObject
 		
 		global $ilLog;
 		
-		$ilLog->write(__METHOD__.' File type: '.$this->getFileType());
+		//$ilLog->write(__METHOD__.' File type: '.$this->getFileType());
 		
 		$q = "UPDATE file_data SET file_name = ".$ilDB->quote($this->getFileName() ,'text').
 			", file_type = ".$ilDB->quote($this->getFiletype() ,'text')." ".
