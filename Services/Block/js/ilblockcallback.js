@@ -42,7 +42,7 @@ var ilBlockSuccessHandler = function(o)
 	}
 
 	// perform block modification
-	if(o.responseText !== undefined)
+	if(typeof o.responseText != "undefined")
 	{
 		// this a little bit complex procedure fixes innerHTML with forms in IE
 		var newdiv = document.createElement("div");
@@ -50,7 +50,7 @@ var ilBlockSuccessHandler = function(o)
 		var block_div = document.getElementById(o.argument.block_id);
 		block_div.innerHTML = '';
 		block_div.appendChild(newdiv);
-		if (il_sr_opt)
+		if (typeof il_sr_opt != "undefined")
 		{
 			ilGoSRFocus(o.argument.block_id + "_blhead");
 		}

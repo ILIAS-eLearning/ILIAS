@@ -158,7 +158,7 @@ class ilPluginDBUpdate extends ilDBUpdate
 			is_int(stripos($q, "drop table")))
 			&& !is_int(stripos($q, $this->db_prefix)))
 		{
-			return "Plugin may only create or alter tables that start with prefix ".
+			return "Plugin may only create or alter tables that use prefix ".
 				$this->db_prefix;
 		}
 		else

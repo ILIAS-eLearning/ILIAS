@@ -138,13 +138,62 @@ abstract class ilRepositoryObjectPlugin extends ilPlugin
 				" WHERE typ_id = ".$ilDB->quote($t_id, "integer").
 				" AND ops_id = ".$ilDB->quote($op, "integer")
 				);
-			if (!$rec = $ilDB->fetchAssoc($set))
+			if (!$ilDB->fetchAssoc($set))
 			{
 				$ilDB->manipulate("INSERT INTO rbac_ta ".
 					"(typ_id, ops_id) VALUES (".
 					$ilDB->quote($t_id, "integer").",".
 					$ilDB->quote($op, "integer").
 					")");
+			}
+		}
+		
+		// now add creation permission, if not existing
+		$set = $ilDB->query("SELECT * FROM rbac_operations ".
+			" WHERE class = ".$ilDB->quote("create", "text").
+			" AND operation = ".$ilDB->quote("create_".$type, "text")
+			);
+		if ($rec = $ilDB->fetchAssoc($set))
+		{
+			$create_ops_id = $rec["ops_id"];
+		}
+		else
+		{
+			$create_ops_id = $ilDB->nextId(rbac_operations);
+			$ilDB->manipulate("INSERT INTO rbac_operations ".
+				"(ops_id, operation, description, class) VALUES (".
+				$ilDB->quote($create_ops_id, "integer").",".
+				$ilDB->quote("create_".$type, "text").",".
+				$ilDB->quote("create ".$type, "text").",".
+				$ilDB->quote("create", "text").
+				")");
+		}
+		
+		// assign creation operation to root, cat, crs, grp and fold
+		$par_types = array("root", "cat", "crs", "grp", "fold");
+		foreach ($par_types as $par_type)
+		{
+			$set = $ilDB->query("SELECT obj_id FROM object_data ".
+				" WHERE type = ".$ilDB->quote("typ", "text").
+				" AND title = ".$ilDB->quote($par_type, "text")
+				);
+			if ($rec = $ilDB->fetchAssoc($set))
+			{
+				if ($rec["obj_id"] > 0)
+				{
+					$set = $ilDB->query("SELECT * FROM rbac_ta ".
+						" WHERE typ_id = ".$ilDB->quote($rec["obj_id"], "integer").
+						" AND ops_id = ".$ilDB->quote($create_ops_id, "integer")
+						);
+					if (!$ilDB->fetchAssoc($set))
+					{
+						$ilDB->manipulate("INSERT INTO rbac_ta ".
+							"(typ_id, ops_id) VALUES (".
+							$ilDB->quote($rec["obj_id"], "integer").",".
+							$ilDB->quote($create_ops_id, "integer").
+							")");
+					}
+				}
 			}
 		}
 		

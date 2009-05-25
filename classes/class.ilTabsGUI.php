@@ -129,7 +129,7 @@ class ilTabsGUI
 	function addTab($a_id, $a_text, $a_link, $a_frame = "")
 	{
 		$this->target[] = array("text" => $a_text, "link" => $a_link,
-			"frame" => $a_frame, "dir_text" => true, "id" => $a_id);
+			"frame" => $a_frame, "dir_text" => true, "id" => $a_id, "cmdClass" => array());
 	}
 
 	/**
@@ -195,7 +195,7 @@ class ilTabsGUI
 	function addSubTab($a_id, $a_text, $a_link, $a_frame = "")
 	{
 		$this->sub_target[] = array("text" => $a_text, "link" => $a_link,
-			"frame" => $a_frame, "dir_text" => true, "id" => $a_id);
+			"frame" => $a_frame, "dir_text" => true, "id" => $a_id, "cmdClass" => array());
 	}
 
 	/**

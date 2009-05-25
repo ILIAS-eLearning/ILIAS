@@ -381,7 +381,7 @@ abstract class ilPlugin
 	*/
 	final function getTablePrefix()
 	{
-		return "il_".$this->getPrefix();
+		return $this->getPrefix();
 	}
 	
 	/**

@@ -1628,7 +1628,7 @@ class ilObject
 	 */
 	public static function _prepareCloneSelection($a_ref_ids,$new_type)
 	{
-		global $ilDB,$lng;
+		global $ilDB,$lng,$objDefinition;
 		
 		$query = "SELECT obj_data.title obj_title,path_data.title path_title,child FROM tree ".
 			"JOIN object_reference obj_ref ON child = obj_ref.ref_id ".
@@ -1639,7 +1639,16 @@ class ilObject
 			"ORDER BY obj_data.title ";
 		$res = $ilDB->query($query);
 		
-		$options[0] = $lng->txt('obj_'.$new_type.'_select');
+		if (!$objDefinition->isPlugin($new_type))
+		{
+			$options[0] = $lng->txt('obj_'.$new_type.'_select');
+		}
+		else
+		{
+			include_once("./Services/Component/classes/class.ilPlugin.php");
+			$options[0] = ilPlugin::lookupTxt("rep_robj", $new_type, "obj_".$new_type."_select");
+		}
+
 		while($row = $ilDB->fetchObject($res))
 		{
 			if(strlen($title = $row->obj_title) > 40)
@@ -1754,6 +1763,10 @@ class ilObject
 	/**
 	 * Clone object dependencies
 	 *
+	 * This method allows to refresh any ref id references to other objects
+	 * that are affected in the same copy process. Ask ilCopyWizardOptions for
+	 * the mappings.
+	 *
 	 * @access public
 	 * @param int ref_id of target object
 	 * @param int copy_id
@@ -1762,6 +1775,11 @@ class ilObject
 	public function cloneDependencies($a_target_id,$a_copy_id)
 	{
 	 	return true;
+		
+		//include_once('Services/CopyWizard/classes/class.ilCopyWizardOptions.php');
+	 	//$cwo = ilCopyWizardOptions::_getInstance($a_copy_id);
+	 	//$mappings = $cwo->getMappings();
+
 	}
 	
 	/**
