@@ -9453,3 +9453,4 @@ payment#:#payment_already_bought_but_no_access#:#Sie haben das Objekt %s bereits
 payment#:#payment_cannot_update_nonexisting_vat#:#Cannot update a nonexisting VAT.###22 05 2009 new variable
 cmps#:#cmps_plugin_activated#:#The plugin has been activated.###22 05 2009 new variable
 cmps#:#cmps_plugin_deactivated#:#The plugin has been deactivated.###22 05 2009 new variable
+common#:#preferences#:#Benutzerdefinierte Einstellungen
