@@ -241,7 +241,7 @@ class ilObjComponentSettingsGUI extends ilObjectGUI
 
 		$ptpl->setVariable("TXT_PLUGIN_DB_PREFIX", $lng->txt("cmps_plugin_db_prefixes"));
 		$ptpl->setVariable("VAL_PLUGIN_DB_PREFIX",
-			"il_".$comp->getPluginSlotLanguagePrefix($_GET["slot_id"])."&lt;Plugin_ID&gt;_");
+			$comp->getPluginSlotLanguagePrefix($_GET["slot_id"])."&lt;Plugin_ID&gt;_");
 
 		// plugins table
 		include_once("./Services/Component/classes/class.ilPluginsTableGUI.php");

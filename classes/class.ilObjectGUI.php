@@ -1333,29 +1333,54 @@ class ilObjectGUI
 			return $this->fillCloneSearchTemplate($a_tpl_varname,$a_type);
 		}
 		unset($_SESSION['wizard_search_title']);
-		$this->tpl->addBlockFile(strtoupper($a_tpl_varname),strtolower($a_tpl_varname),'tpl.obj_duplicate.html');
+		$ctpl = new ilTemplate('tpl.obj_duplicate.html', true, true);
 	 	$this->ctrl->setParameter($this,'new_type',$a_type);
-	 	$this->tpl->setVariable('TYPE_IMG3',ilUtil::getImagePath('icon_'.$a_type.'.gif'));
-	 	$this->tpl->setVariable('ALT_IMG3',$this->lng->txt('obj_'.$a_type));
-	 	$this->tpl->setVariable('TXT_DUPLICATE',$this->lng->txt('obj_'.$a_type.'_duplicate'));
-	 	
-	 	$this->tpl->setVariable('WIZARD_TXT_SELECT',$this->lng->txt('obj_'.$a_type));
-	 	$this->tpl->setVariable('WIZARD_OBJS',$this->buildCloneSelect($existing_objs));
-	 	
-		if($this->copyWizardHasOptions(self::COPY_WIZARD_NEEDS_PAGE))
+	 	/*$ctpl->setVariable('TYPE_IMG3',ilUtil::getImagePath('icon_'.$a_type.'.gif'));
+	 	$ctpl->setVariable('ALT_IMG3',$this->lng->txt('obj_'.$a_type));*/
+		if (!$objDefinition->isPlugin($a_type))
 		{
-		 	$this->tpl->setVariable('FORMACTION_CLONE',$this->ctrl->getFormAction($this,'cloneWizardPage'));
-		 	$this->tpl->setVariable('BTN_WIZARD',$this->lng->txt('btn_next'));
-		 	$this->tpl->setVariable('CMD_WIZARD','cloneWizardPage');
+			$ctpl->setVariable('TXT_DUPLICATE',$this->lng->txt('obj_'.$a_type.'_duplicate'));
+			$ctpl->setVariable('WIZARD_TXT_SELECT',$this->lng->txt('obj_'.$a_type));
 		}
 		else
 		{
-		 	$this->tpl->setVariable('FORMACTION_CLONE',$this->ctrl->getFormAction($this,'cloneAll'));
-		 	$this->tpl->setVariable('BTN_WIZARD',$this->lng->txt('obj_'.$a_type.'_duplicate'));
-		 	$this->tpl->setVariable('CMD_WIZARD','cloneAll');
+			include_once("./Services/Component/classes/class.ilPlugin.php");
+			$ctpl->setVariable('TXT_DUPLICATE',ilPlugin::lookupTxt("rep_robj", $a_type, "objs_".$a_type."_duplicate"));
+			$ctpl->setVariable('WIZARD_TXT_SELECT',ilPlugin::lookupTxt("rep_robj", $a_type, "objs_".$a_type));
+		}
+	 	$ctpl->setVariable('WIZARD_OBJS', $this->buildCloneSelect($existing_objs));
+	 	
+		if($this->copyWizardHasOptions(self::COPY_WIZARD_NEEDS_PAGE))
+		{
+		 	$ctpl->setVariable('FORMACTION_CLONE',$this->ctrl->getFormAction($this,'cloneWizardPage'));
+		 	$ctpl->setVariable('BTN_WIZARD',$this->lng->txt('btn_next'));
+		 	$ctpl->setVariable('CMD_WIZARD','cloneWizardPage');
+		}
+		else
+		{
+		 	$ctpl->setVariable('FORMACTION_CLONE',$this->ctrl->getFormAction($this,'cloneAll'));
+			if (!$objDefinition->isPlugin($a_type))
+			{
+				$ctpl->setVariable('BTN_WIZARD',$this->lng->txt('obj_'.$a_type.'_duplicate'));
+			}
+			else
+			{
+				include_once("./Services/Component/classes/class.ilPlugin.php");
+				$ctpl->setVariable('BTN_WIZARD',ilPlugin::lookupTxt("rep_robj", $a_type, "obj_".$a_type."_duplicate"));
+			}
+		 	$ctpl->setVariable('CMD_WIZARD','cloneAll');
 		}
 	 	
-	 	$this->tpl->setVariable('WIZARD_TXT_CANCEL',$this->lng->txt('cancel'));
+	 	$ctpl->setVariable('WIZARD_TXT_CANCEL',$this->lng->txt('cancel'));
+		
+		if ($a_tpl_varname != "")
+		{
+			$this->tpl->setVariable(strtoupper($a_tpl_varname), $ctpl->get());
+		}
+		else
+		{
+			return $ctpl->get();
+		}
 	}
 	
 	/**

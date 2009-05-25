@@ -1043,7 +1043,7 @@ class ilObjMediaCastGUI extends ilObjectGUI
 			$_GET["target"] = "";
 			$_GET["ref_id"] = ROOT_FOLDER_ID;
 			ilUtil::sendFailure(sprintf($lng->txt("msg_no_perm_read_item"),
-				ilObject::_lookupTitle(ilObject::_lookupObjId($a_target))), true);
+				ilObject::_lookupTitle(ilObject::_lookupObjId($a_target))));
 			include("repository.php");
 			exit;
 		}

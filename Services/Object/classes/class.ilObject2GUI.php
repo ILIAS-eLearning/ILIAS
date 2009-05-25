@@ -262,6 +262,9 @@ abstract class ilObject2GUI extends ilObjectGUI
 			$this->initEditForm("create", $new_type);
 			$tpl->setContent($this->form->getHTML());
 			
+			$clone_html = $this->fillCloneTemplate('', $new_type);
+			
+			$tpl->setContent($this->form->getHTML().$clone_html);
 		}
 	}
 	

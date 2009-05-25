@@ -611,7 +611,7 @@ abstract class ilContainerContentGUI
 	*/
 	function addMessageRow(&$a_tpl, $a_message, $a_type)
 	{
-		global $lng;
+		global $lng, $objDefinition;
 		
 		$this->cur_row_type = ($this->cur_row_type == "row_type_1")
 			? "row_type_2"

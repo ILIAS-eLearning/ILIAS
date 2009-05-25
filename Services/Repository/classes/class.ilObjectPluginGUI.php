@@ -73,8 +73,18 @@ abstract class ilObjectPluginGUI extends ilObject2GUI
 			if ($ilAccess->checkAccess("read", "", $_GET["ref_id"]))
 			{
 				$ilNavigationHistory->addItem($_GET["ref_id"],
-					$ilCtrl->getLinkTarget($this, $this->getStandardCmd()), $this->getType());
+					$ilCtrl->getLinkTarget($this, self::getStandardCmd()), $this->getType());
 			}
+
+		}
+		else
+		{
+			// show info of parent
+			$tpl->setTitle(ilObject::_lookupTitle(ilObject::_lookupObjId($_GET["ref_id"])));
+			$tpl->setTitleIcon(
+				ilObject::_getIcon(ilObject::_lookupObjId($_GET["ref_id"]), "big"),
+				$lng->txt("obj_".ilObject::_lookupType($_GET["ref_id"], true)));
+			$this->setLocator();
 
 		}
 
@@ -108,7 +118,14 @@ abstract class ilObjectPluginGUI extends ilObject2GUI
 				}
 				else
 				{
-					$this->performCommand($cmd);
+					if ($this->getCreationMode())
+					{
+						$this->$cmd();
+					}
+					else
+					{
+						$this->performCommand($cmd);
+					}
 				}
 				break;
 		}
@@ -136,11 +153,13 @@ abstract class ilObjectPluginGUI extends ilObject2GUI
 	/**
 	* Get standard command
 	*/
-	function getStandardCmd()
+	static function getStandardCmd()
 	{
 		return "";
 	}
 
+	final public function cloneAll() { return parent::cloneAllObject(); }
+	
 	/**
 	* Get plugin object
 	*
@@ -297,4 +316,42 @@ abstract class ilObjectPluginGUI extends ilObject2GUI
 	{
 	}
 
+	/**
+	* Goto redirection
+	*/
+	function _goto($a_target)
+	{
+		global $ilCtrl, $ilAccess;
+		
+		$t = explode("_", $a_target);
+		$ref_id = (int) $t[0];
+		
+		if ($ilAccess->checkAccess("read", "", $ref_id))
+		{
+			$ilCtrl->initBaseClass("ilObjPluginDispatchGUI");
+			$ilCtrl->setTargetScript("ilias.php");
+			$ilCtrl->getCallStructure(strtolower("ilObjPluginDispatchGUI"));
+			$ilCtrl->setParameterByClass(get_class(self), "ref_id", $ref_id);
+			$ilCtrl->redirectByClass(array("ilobjplugindispatchgui", get_class(self)), self::getStandardCmd());
+		}
+		else if($ilAccess->checkAccess("visible", "", $ref_id))
+		{
+			$ilCtrl->initBaseClass("ilObjPluginDispatchGUI");
+			$ilCtrl->setTargetScript("ilias.php");
+			$ilCtrl->getCallStructure(strtolower("ilObjPluginDispatchGUI"));
+			$ilCtrl->setParameterByClass(get_class($this), "ref_id", $ref_id);
+			$ilCtrl->redirectByClass(array("ilobjplugindispatchgui", get_class($this)), "infoScreen");
+		}
+		else if ($ilAccess->checkAccess("read", "", ROOT_FOLDER_ID))
+		{
+			$_GET["cmd"] = "frameset";
+			$_GET["target"] = "";
+			$_GET["ref_id"] = ROOT_FOLDER_ID;
+			ilUtil::sendFailure(sprintf($lng->txt("msg_no_perm_read_item"),
+				ilObject::_lookupTitle(ilObject::_lookupObjId($ref_id))));
+			include("repository.php");
+			exit;
+		}
+	}
+	
 }

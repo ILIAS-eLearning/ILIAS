@@ -21,7 +21,7 @@
 	+-----------------------------------------------------------------------------+
 */
 
-include_once("./classes/class.ilObject.php");
+include_once("./Services/Object/classes/class.ilObject2.php");
 
 /*
 * Object class for plugins. This one wraps around ilObject
@@ -30,7 +30,7 @@ include_once("./classes/class.ilObject.php");
 * @version $Id$
 * @ingroup ServicesRepository
 */
-abstract class ilObjectPlugin extends ilObject
+abstract class ilObjectPlugin extends ilObject2
 {
 	private $object;
 	
@@ -49,8 +49,6 @@ abstract class ilObjectPlugin extends ilObject
 			die("ilObjectPluginGUI: Could not instantiate plugin object for type ".$this->getType().".");
 		}
 	}
-	
-	abstract function initType();
 	
 	/**
 	* Get plugin object
