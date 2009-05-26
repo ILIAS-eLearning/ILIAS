@@ -137,7 +137,7 @@ class ilMailSearchGUI
 
 	public function showResults()
 	{	
-		global $rbacsystem, $lng, $ilUser, $ilCtrl;
+		global $rbacsystem, $lng, $ilUser, $ilCtrl, $rbacreview;
 		
 		$this->saveMailData();
 
@@ -174,7 +174,7 @@ class ilMailSearchGUI
 		
 		$this->tpl->setVariable('SEARCHFORM', $form->getHtml());
 		// searchform end		
-		
+
 		if (strlen(trim($_SESSION["mail_search_search"])) > 0)
 		{
 			$this->tpl->setVariable("VALUE_SEARCH_FOR", ilUtil::prepareFormOutput(trim($_SESSION["mail_search_search"]), true));
@@ -258,13 +258,13 @@ class ilMailSearchGUI
 			$query_parser->setCombination(QP_COMBINATION_OR);
 			$query_parser->setMinWordLength(3);
 			$query_parser->parse();
-		
+
 			$user_search =& ilObjectSearchFactory::_getUserSearchInstance($query_parser);
 			$user_search->enableActiveCheck(true);
 			$user_search->setFields(array('login'));
 			$result_obj = $user_search->performSearch();
 			$all_results->mergeEntries($result_obj);
-		
+	
 			$user_search->setFields(array('firstname'));
 			$result_obj = $user_search->performSearch();
 			$all_results->mergeEntries($result_obj);		
@@ -272,8 +272,9 @@ class ilMailSearchGUI
 			$user_search->setFields(array('lastname'));
 			$result_obj = $user_search->performSearch();
 			$all_results->mergeEntries($result_obj);
-		
+	
 			$all_results->filter(ROOT_FOLDER_ID,QP_COMBINATION_OR);
+	
 			
 			$users = $all_results->getResults();
 			if (count($users))
@@ -328,7 +329,7 @@ class ilMailSearchGUI
 			 		$tbl_users->addColumn($this->lng->txt('email'), 'email', '15%');
 			 	}
 			 	$tbl_users->setData($result);
-
+	
 			 	$tbl_users->setDefaultOrderField('login');						
 				$tbl_users->setPrefix('usr_');
 				// disabled. template creates nested forms... must be fixed
@@ -339,6 +340,7 @@ class ilMailSearchGUI
 			}			
 		
 			$groups = ilUtil::searchGroups(addslashes(urldecode($_SESSION['mail_search_search'])));
+
 			if (count($groups))
 			{					
 				$tbl_grp = new ilTable2GUI($this);
@@ -347,11 +349,25 @@ class ilMailSearchGUI
 				
 				$result = array();				
 				$counter = 0;
+				$members = array();
+				
 				foreach ($groups as $grp)
 				{	
-					$result[$counter]['check']	= ilUtil::formCheckbox(0, 'search_name_to[]', '#'.$grp['title']) . 
-							  					  ilUtil::formCheckbox(0, 'search_name_cc[]', '#'.$grp['title']) .
-												  ilUtil::formCheckbox(0, 'search_name_bcc[]', '#'.$grp['title']);		
+
+					$roles = $rbacreview->getAssignableChildRoles($grp['ref_id']);
+					foreach ($roles as $role)
+					{
+						if (substr($role['title'], 0, 14) == 'il_grp_member_' ||
+						    substr($role['title'], 0, 13) == 'il_grp_admin_')
+						{
+							array_push($members, $rbacreview->getRoleMailboxAddress($role['obj_id']));
+						}
+					}
+					$str_members = implode(',',$members);
+					
+					$result[$counter]['check']	= ilUtil::formCheckbox(0, 'search_name_to[]', $str_members) . 
+							  					  ilUtil::formCheckbox(0, 'search_name_cc[]', $str_members) .
+												  ilUtil::formCheckbox(0, 'search_name_bcc[]',$str_members);		
 					$result[$counter]['title'] = $grp['title'];
 					$result[$counter]['description'] = $grp['description'];
 											

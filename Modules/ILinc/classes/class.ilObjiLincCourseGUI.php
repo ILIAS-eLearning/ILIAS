@@ -1816,7 +1816,8 @@ class ilObjiLincCourseGUI extends ilContainerGUI
 		
 		include_once 'Services/AccessControl/classes/class.ilObjRole.php';
 		
-		$this->tpl->addBlockFile('ADM_CONTENT', 'adm_content', 'tpl.mail_members.html', 'Services/Mail');
+		//$this->tpl->addBlockFile('ADM_CONTENT', 'adm_content', 'tpl.mail_members.html', 'Services/Mail');
+		$this->tpl->addBlockFile('ADM_CONTENT','adm_content','tpl.mail_members.html','Services/Contact');
 
 		$this->__setSubTabs('members');
 		

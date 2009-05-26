@@ -558,7 +558,8 @@ class ilObjGroup extends ilContainer
 			"registration_start = ".$ilDB->quote($this->getRegistrationStart()->get(IL_CAL_DATETIME,'') ,'timestamp').", ".
 			"registration_end = ".$ilDB->quote($this->getRegistrationEnd()->get(IL_CAL_DATETIME,'') ,'timestamp').", ".
 			"registration_password = ".$ilDB->quote($this->getPassword() ,'text').", ".
-			"registration_membership_limited = ".$ilDB->quote((int) $this->isMembershipLimited() ,'integer').", ".
+//			"registration_membership_limited = ".$ilDB->quote((int) $this->isMembershipLimited() ,'integer').", ".
+			"registration_mem_limit = ".$ilDB->quote((int) $this->isMembershipLimited() ,'integer').", ".
 			"registration_max_members = ".$ilDB->quote($this->getMaxMembers() ,'integer').", ".
 			"waiting_list = ".$ilDB->quote($this->isWaitingListEnabled() ? 1 : 0 ,'integer').", ".
 			"latitude = ".$ilDB->quote($this->getLatitude() ,'text').", ".
