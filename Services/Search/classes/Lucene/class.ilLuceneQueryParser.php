@@ -90,18 +90,18 @@ class ilLuceneQueryParser
 		// First replace all quote characters
 
 		
-		ilLuceneQueryParser::checkAllowedCharacters($a_query);
-		ilLuceneQueryParser::checkAsterisk($a_query);
-		ilLuceneQueryParser::checkAmpersands($a_query);
+		#ilLuceneQueryParser::checkAllowedCharacters($a_query);
+		#ilLuceneQueryParser::checkAsterisk($a_query);
+		#ilLuceneQueryParser::checkAmpersands($a_query);
 		ilLuceneQueryParser::checkCaret($a_query);
 		ilLuceneQueryParser::checkSquiggle($a_query);
-		ilLuceneQueryParser::checkExclamationMark($a_query);
-		ilLuceneQueryParser::checkQuestionMark($a_query);
+		#ilLuceneQueryParser::checkExclamationMark($a_query);
+		#ilLuceneQueryParser::checkQuestionMark($a_query);
 		ilLuceneQueryParser::checkParenthesis($a_query);
-		ilLuceneQueryParser::checkPlusMinus($a_query);
+		#ilLuceneQueryParser::checkPlusMinus($a_query);
 		#ilLuceneQueryParser::checkANDORNOT($a_query);
 		ilLuceneQueryParser::checkQuotes($a_query);
-		ilLuceneQueryParser::checkColon($a_query);
+		#ilLuceneQueryParser::checkColon($a_query);
 		return true;
 	}
 	
