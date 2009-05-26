@@ -3918,7 +3918,8 @@ class ilObjCourseGUI extends ilContainerGUI
 		$this->tabs_gui->setTabActive('members');
 		$this->tabs_gui->setSubTabActive('mail_members');
 		
-		$this->tpl->addBlockFile('ADM_CONTENT','adm_content','tpl.mail_members.html','Modules/Course');
+		//$this->tpl->addBlockFile('ADM_CONTENT','adm_content','tpl.mail_members.html','Modules/Course');
+		$this->tpl->addBlockFile('ADM_CONTENT','adm_content','tpl.mail_members.html','Services/Contact');
 
 
 		$this->tpl->setVariable("MAILACTION",'ilias.php?baseClass=ilmailgui&type=role');

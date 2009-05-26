@@ -1790,7 +1790,9 @@ class ilObjGroupGUI extends ilContainerGUI
 		global $rbacreview, $ilObjDataCache;
 		include_once('./Services/AccessControl/classes/class.ilObjRole.php');
 
-		$this->tpl->addBlockFile('ADM_CONTENT','adm_content','tpl.mail_members.html',"Services/Mail");
+		//$this->tpl->addBlockFile('ADM_CONTENT','adm_content','tpl.mail_members.html',"Services/Mail");
+		$this->tpl->addBlockFile('ADM_CONTENT','adm_content','tpl.mail_members.html','Services/Contact');
+		
 
 		$this->setSubTabs('members');
 		$this->tabs_gui->setTabActive('members');
