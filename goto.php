@@ -237,12 +237,25 @@ switch($target_type)
 	// default implementation (should be used by all new object types)
 	//
 	default:
-		$class_name = "ilObj".$objDefinition->getClassName($target_type)."GUI";
-		$location = $objDefinition->getLocation($target_type);
-		if (is_file($location."/class.".$class_name.".php"))
+		if (!$objDefinition->isPlugin($target_type))
 		{
-			include_once($location."/class.".$class_name.".php");
-			call_user_func(array($class_name, "_goto"), $rest);
+			$class_name = "ilObj".$objDefinition->getClassName($target_type)."GUI";
+			$location = $objDefinition->getLocation($target_type);
+			if (is_file($location."/class.".$class_name.".php"))
+			{
+				include_once($location."/class.".$class_name.".php");
+				call_user_func(array($class_name, "_goto"), $rest);
+			}
+		}
+		else
+		{
+			$class_name = "ilObj".$objDefinition->getClassName($target_type)."GUI";
+			$location = $objDefinition->getLocation($target_type);
+			if (is_file($location."/class.".$class_name.".php"))
+			{
+				include_once($location."/class.".$class_name.".php");
+				call_user_func(array($class_name, "_goto"), array($rest, $class_name));
+			}
 		}
 		break;
 }
