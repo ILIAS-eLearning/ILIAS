@@ -558,7 +558,7 @@ class assNumeric extends assQuestion
 		$math->suppress_errors = TRUE;
 		$result = $math->evaluate($numeric_result);
 		$returnvalue = true;
-		if (($result === FALSE) || ($result === TRUE))
+		if ((($result === FALSE) || ($result === TRUE)) && (strlen($result) > 0))
 		{
 			ilUtil::sendInfo($this->lng->txt("err_no_numeric_value"), true);
 			$returnvalue = false;
