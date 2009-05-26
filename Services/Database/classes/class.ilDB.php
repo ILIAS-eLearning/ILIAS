@@ -929,7 +929,7 @@ if ($this->getDBType() == "mysql")
 
 		if (strlen($a_name) > 22)
 		{
-			$this->error_str = "Invalid column name '".$a_name."'. Maximum column identifer lenght is 22 bytes.";
+			$this->error_str = "Invalid table name '".$a_name."'. Maximum table identifer lenght is 22 bytes.";
 			return false;
 		}
 		

@@ -1145,6 +1145,7 @@ class ilObjectListGUI
 			$permission = $command["permission"];
 			$cmd = $command["cmd"];
 			$lang_var = $command["lang_var"];
+			$txt = $command["txt"];
 
 			// BEGIN WebDAV: Suppress commands that don't make sense for anonymous users.
 			// Suppress commands that don't make sense for anonymous users
@@ -1182,6 +1183,7 @@ class ilObjectListGUI
 				"link" => $cmd_link,
 				"frame" => $cmd_frame,
 				"lang_var" => $lang_var,
+				"txt" => $txt,
 				"granted" => $access_granted,
 				"access_info" => $info_object,
 				"img" => $cmd_image,
@@ -2004,7 +2006,10 @@ class ilObjectListGUI
 						}
 						
 						$cmd_link = $command["link"];
-						$this->insertCommand($cmd_link, $this->lng->txt($command["lang_var"]),
+						$txt = ($command["lang_var"] == "")
+							? $command["txt"]
+							: $this->lng->txt($command["lang_var"]);
+						$this->insertCommand($cmd_link, $txt,
 							$command["frame"], $command["img"]);
 					}
 				}
