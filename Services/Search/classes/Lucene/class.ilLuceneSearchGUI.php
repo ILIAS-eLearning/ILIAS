@@ -157,8 +157,13 @@ class ilLuceneSearchGUI extends ilSearchBaseGUI
 		global $ilUser,$ilBench;
 		
 		$ilBench->start('Lucene','1000_savedResults');
-		
 		$ilBench->start('Lucene','1000_qp');
+		
+		if(!strlen($this->search_cache->getQuery()))
+		{
+			$this->showSearchForm();
+			return false;
+		}
 
 		include_once './Services/Search/classes/Lucene/class.ilLuceneSearcher.php';
 		include_once './Services/Search/classes/Lucene/class.ilLuceneQueryParser.php';
@@ -182,7 +187,6 @@ class ilLuceneSearchGUI extends ilSearchBaseGUI
 		$ilBench->stop('Lucene','1200_hi');
 		
 		$ilBench->start('Lucene','1300_pr');
-		$this->tpl->addBlockFile('ADM_CONTENT','adm_content','tpl.lucene_search.html','Services/Search');
 		include_once './Services/Search/classes/Lucene/class.ilLuceneSearchResultPresentation.php';
 		$presentation = new ilLuceneSearchResultPresentation($this);
 		$presentation->setResults($filter->getResultIds());
@@ -192,6 +196,9 @@ class ilLuceneSearchGUI extends ilSearchBaseGUI
 		$ilBench->stop('Lucene','1300_pr');
 		
 		$ilBench->start('Lucene','1400_re');
+			
+		$this->showSearchForm();	
+
 		if($presentation->render())
 		{
 			$this->tpl->setVariable('SEARCH_RESULTS',$presentation->getHTML(true));
@@ -203,9 +210,6 @@ class ilLuceneSearchGUI extends ilSearchBaseGUI
 		$ilBench->stop('Lucene','1400_re');
 		
 		$ilBench->start('Lucene','1500_fo');
-		// and finally add search form
-		$this->initFormSearch();
-		$this->tpl->setVariable('SEARCH_TABLE',$this->form->getHTML());
 		$this->addPager($filter,'max_page');
 		$ilBench->stop('Lucene','1500_fo');
 		$ilBench->stop('Lucene','1000_savedResults');
@@ -221,17 +225,14 @@ class ilLuceneSearchGUI extends ilSearchBaseGUI
 		
 		if(!$this->form->checkInput())
 		{
-			#ilUtil::sendInfo($this->lng->txt('err_check_input'));
-			$this->showSavedResults();
+			$this->search_cache->deleteCachedEntries();
+			// Reset details
+			include_once './Services/Object/classes/class.ilSubItemListGUI.php';
+			ilSubItemListGUI::resetDetails();
+			$this->showSearchForm();
 			return false;
 		}
 		
-		if(!strlen($this->search_cache->getQuery()))
-		{
-			ilUtil::sendInfo($this->lng->txt('msg_no_search_string'));
-			$this->showSavedResults();
-			return false;
-		}
 		unset($_SESSION['max_page']);
 		$this->search_cache->deleteCachedEntries();
 		
@@ -273,7 +274,8 @@ class ilLuceneSearchGUI extends ilSearchBaseGUI
 		}
 
 		// Show results
-		$this->tpl->addBlockFile('ADM_CONTENT','adm_content','tpl.lucene_search.html','Services/Search');
+		$this->showSearchForm();
+
 		include_once './Services/Search/classes/Lucene/class.ilLuceneSearchResultPresentation.php';
 		$presentation = new ilLuceneSearchResultPresentation($this);
 		$presentation->setResults($filter->getResultIds());
@@ -289,9 +291,6 @@ class ilLuceneSearchGUI extends ilSearchBaseGUI
 			ilUtil::sendInfo(sprintf($this->lng->txt('search_no_match_hint'),$this->search_cache->getQuery()));
 		}
 		
-		// and finally add search form
-		$this->initFormSearch();
-		$this->tpl->setVariable('SEARCH_TABLE',$this->form->getHTML());
 		$this->addPager($filter,'max_page');
 		
 		if($filter->getResultIds())
@@ -463,5 +462,113 @@ class ilLuceneSearchGUI extends ilSearchBaseGUI
 		}
 	}
 	
+	/**
+	* Put admin panel into template:
+	* - creation selector
+	* - admin view on/off button
+	*/
+	protected function fillAdminPanel()
+	{
+		global $lng;
+		
+		$adm_view_cmp = $adm_cmds = $creation_selector = $adm_view = false;
+
+		// admin panel commands
+		if ((count($this->admin_panel_commands) > 0))
+		{
+			foreach($this->admin_panel_commands as $cmd)
+			{
+				$this->tpl->setCurrentBlock("lucene_admin_panel_cmd");
+				$this->tpl->setVariable("LUCENE_PANEL_CMD", $cmd["cmd"]);
+				$this->tpl->setVariable("LUCENE_TXT_PANEL_CMD", $cmd["txt"]);
+				$this->tpl->parseCurrentBlock();
+			}
+
+			$adm_cmds = true;
+		}
+		if ($adm_cmds)
+		{
+			$this->tpl->setCurrentBlock("lucene_adm_view_components");
+			$this->tpl->setVariable("LUCENE_ADM_IMG_ARROW", ilUtil::getImagePath("arrow_upright.gif"));
+			$this->tpl->setVariable("LUCENE_ADM_ALT_ARROW", $lng->txt("actions"));
+			$this->tpl->parseCurrentBlock();
+			$adm_view_cmp = true;
+		}
+		
+		// admin view button
+		if (is_array($this->admin_view_button))
+		{
+			if (is_array($this->admin_view_button))
+			{
+				$this->tpl->setCurrentBlock("lucene_admin_button");
+				$this->tpl->setVariable("LUCENE_ADMIN_MODE_LINK",
+					$this->admin_view_button["link"]);
+				$this->tpl->setVariable("LUCENE_TXT_ADMIN_MODE",
+					$this->admin_view_button["txt"]);
+				$this->tpl->parseCurrentBlock();
+			}
+			$this->tpl->setCurrentBlock("lucene_admin_view");
+			$this->tpl->parseCurrentBlock();
+			$adm_view = true;
+		}
+		
+		// creation selector
+		if (is_array($this->creation_selector))
+		{
+			$this->tpl->setCurrentBlock("lucene_add_commands");
+			if ($adm_cmds)
+			{
+				$this->tpl->setVariable("LUCENE_ADD_COM_WIDTH", 'width="1"');
+			}
+			$this->tpl->setVariable("LUCENE_SELECT_OBJTYPE_REPOS",
+				$this->creation_selector["options"]);
+			$this->tpl->setVariable("LUCENE_BTN_NAME_REPOS",
+				$this->creation_selector["command"]);
+			$this->tpl->setVariable("LUCENE_TXT_ADD_REPOS",
+				$this->creation_selector["txt"]);
+			$this->tpl->parseCurrentBlock();
+			$creation_selector = true;
+		}
+		if ($adm_view || $creation_selector)
+		{
+			$this->tpl->setCurrentBlock("lucene_adm_panel");
+			if ($adm_view_cmp)
+			{
+				$this->tpl->setVariable("LUCENE_ADM_TBL_WIDTH", 'width:"100%";');
+			}
+			$this->tpl->parseCurrentBlock();
+		}
+	}
+	
+	/**
+	* Add a command to the admin panel
+	*/
+	protected function addAdminPanelCommand($a_cmd, $a_txt)
+	{
+		$this->admin_panel_commands[] =
+			array("cmd" => $a_cmd, "txt" => $a_txt);
+	}
+	
+	/**
+	* Show admin view button
+	*/
+	protected function setAdminViewButton($a_link, $a_txt)
+	{
+		$this->admin_view_button =
+			array("link" => $a_link, "txt" => $a_txt);
+	}
+	
+	protected function setPageFormAction($a_action)
+	{
+		$this->page_form_action = $a_action;
+	}
+	
+	protected function showSearchForm()
+	{
+		$this->tpl->addBlockFile('ADM_CONTENT','adm_content','tpl.lucene_search.html','Services/Search');
+		$this->initFormSearch();
+		$this->tpl->setVariable('SEARCH_TABLE',$this->form->getHTML());
+		return true;
+	}
 }
 ?>
