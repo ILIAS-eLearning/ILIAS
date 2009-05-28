@@ -133,7 +133,7 @@ class ilObjSessionGUI extends ilObjectGUI
 		include_once 'Modules/Session/classes/class.ilEventParticipants.php';
 		ilEventParticipants::_register($ilUser->getId(),$this->object->getId());
 
-		ilUtil::sendInfo($this->lng->txt('event_registered'),true);
+		ilUtil::sendSuccess($this->lng->txt('event_registered'),true);
 		$this->ctrl->returnToParent($this);
 	}
 	
@@ -150,7 +150,7 @@ class ilObjSessionGUI extends ilObjectGUI
 		include_once './Modules/Session/classes/class.ilEventParticipants.php';
 		ilEventParticipants::_unregister($ilUser->getId(),$this->object->getId());
 
-		ilUtil::sendInfo($this->lng->txt('event_unregistered'),true);
+		ilUtil::sendSuccess($this->lng->txt('event_unregistered'),true);
 		$this->ctrl->returnToParent($this);
 	}
 	
@@ -324,13 +324,26 @@ class ilObjSessionGUI extends ilObjectGUI
 	}
 	
 	/**
+	 * Save and assign sessoin materials
+	 *  
+	 * @access protected 
+	 */
+	public function saveAndAssignMaterialsObject()
+	{
+		$this->saveObject(false);
+		$this->materialsObject();
+		return true;
+	}
+	
+	
+	/**
 	 * save object
 	 *
 	 * @access protected
-	 * @param
+	 * @param bool	$a_redirect_on_success	Redirect to repository after success.
 	 * @return
 	 */
-	public function saveObject()
+	public function saveObject($a_redirect_on_success = true)
 	{
 		global $ilErr;
 		
@@ -351,7 +364,7 @@ class ilObjSessionGUI extends ilObjectGUI
 
 		if(strlen($ilErr->getMessage()))
 		{
-			ilUtil::sendInfo($ilErr->getMessage().$_GET['ref_id']);
+			ilUtil::sendFailure($ilErr->getMessage().$_GET['ref_id']);
 			$this->createObject();
 			return false;
 		}
@@ -379,11 +392,16 @@ class ilObjSessionGUI extends ilObjectGUI
 		$tmp_course = ilObjectFactory::getInstanceByRefId((int) $_GET['ref_id'],false);
 		$items = new ilCourseItems($tmp_course);
 
-		ilUtil::sendInfo($this->lng->txt('event_add_new_event'),true);
-		$this->ctrl->returnToParent($this);
+		if($a_redirect_on_success) 
+		{
+			ilUtil::sendInfo($this->lng->txt('event_add_new_event'),true);
+			$this->ctrl->returnToParent($this);
+		}
 		return true;
 	
 	}
+	
+	
 	
 	/**
 	 * create recurring sessions
@@ -498,7 +516,7 @@ class ilObjSessionGUI extends ilObjectGUI
 
 		if(strlen($ilErr->getMessage()))
 		{
-			ilUtil::sendInfo($ilErr->getMessage());
+			ilUtil::sendFailure($ilErr->getMessage());
 			$this->editObject();
 			return false;
 		}
@@ -512,7 +530,7 @@ class ilObjSessionGUI extends ilObjectGUI
 			$file_obj->create();
 		}
 		
-		ilUtil::sendInfo($this->lng->txt('event_updated'));
+		ilUtil::sendSuccess($this->lng->txt('event_updated'));
 		$this->object->initFiles();
 		$this->editObject();
 		return true;
@@ -531,7 +549,7 @@ class ilObjSessionGUI extends ilObjectGUI
 
 		if(!count($_POST['file_id']))
 		{
-			ilUtil::sendInfo($this->lng->txt('select_one'));
+			ilUtil::sendFailure($this->lng->txt('select_one'));
 			$this->editObject();
 			return false;
 		}
@@ -551,7 +569,7 @@ class ilObjSessionGUI extends ilObjectGUI
 			$file = new ilSessionFile($file_id);
 			if($file->getSessionId() != $this->object->getEventId())
 			{
-				ilUtil::sendInfo($this->lng->txt('select_one'));
+				ilUtil::sendFailure($this->lng->txt('select_one'));
 				$this->edit();
 				return false;
 			}
@@ -573,7 +591,7 @@ class ilObjSessionGUI extends ilObjectGUI
 	{
 		if(!count($_POST['file_id']))
 		{
-			ilUtil::sendInfo($this->lng->txt('select_one'));
+			ilUtil::sendFailure($this->lng->txt('select_one'));
 			$this->editObject();
 			return false;
 		}
@@ -616,7 +634,7 @@ class ilObjSessionGUI extends ilObjectGUI
 		$this->course_ref_id = $tree->checkForParentType($this->object->getRefId(),'crs');
 		if(!$this->course_ref_id)
 		{
-			ilUtil::sendInfo('No course object found. Aborting');
+			ilUtil::sendFailure('No course object found. Aborting');
 			return true;
 		}
 		$nodes = $tree->getSubTree($tree->getNodeData($this->course_ref_id));
@@ -679,7 +697,7 @@ class ilObjSessionGUI extends ilObjectGUI
 		$this->event_items->setItems(is_array($_POST['items']) ? $_POST['items'] : array());
 		$this->event_items->update();
 
-		ilUtil::sendInfo($this->lng->txt('settings_saved'));
+		ilUtil::sendSuccess($this->lng->txt('settings_saved'));
 		$this->materialsObject();
 	}
 	
@@ -703,7 +721,7 @@ class ilObjSessionGUI extends ilObjectGUI
 		$this->course_obj_id = ilObject::_lookupObjId($this->course_ref_id);
 		if(!$this->course_ref_id)
 		{
-			ilUtil::sendInfo('No course object found. Aborting');
+			ilUtil::sendFailure('No course object found. Aborting');
 			return true;
 		}
 
@@ -745,7 +763,7 @@ class ilObjSessionGUI extends ilObjectGUI
 		$this->course_obj_id = ilObject::_lookupObjId($this->course_ref_id);
 		if(!$this->course_ref_id)
 		{
-			ilUtil::sendInfo('No course object found. Aborting');
+			ilUtil::sendFailure('No course object found. Aborting');
 			return true;
 		}
 		
@@ -765,7 +783,7 @@ class ilObjSessionGUI extends ilObjectGUI
 			$part->setRegistered(ilEventParticipants::_isRegistered($user,$this->object->getId()));
 			$part->updateUser();
 		}
-		ilUtil::sendInfo($this->lng->txt('settings_saved'));
+		ilUtil::sendSuccess($this->lng->txt('settings_saved'));
 		$this->membersObject();
 	}
 	
@@ -840,7 +858,7 @@ class ilObjSessionGUI extends ilObjectGUI
 		$this->course_obj_id = ilObject::_lookupObjId($this->course_ref_id);
 		if(!$this->course_ref_id)
 		{
-			ilUtil::sendInfo('No course object found. Aborting');
+			ilUtil::sendFailure('No course object found. Aborting');
 			return true;
 		}
 		
@@ -929,7 +947,7 @@ class ilObjSessionGUI extends ilObjectGUI
 		$this->course_obj_id = ilObject::_lookupObjId($this->course_ref_id);
 		if(!$this->course_ref_id)
 		{
-			ilUtil::sendInfo('No course object found. Aborting');
+			ilUtil::sendFailure('No course object found. Aborting');
 			return true;
 		}
 		
@@ -1147,41 +1165,8 @@ class ilObjSessionGUI extends ilObjectGUI
 		$this->form->setTableWidth('60%');
 		$this->form->setFormAction($this->ctrl->getFormAction($this));
 		
-		// title
-		$title = new ilTextInputGUI($this->lng->txt('event_title'),'title');
-		$title->setValue($this->object->getTitle());
-		$title->setSize(50);
-		$title->setMaxLength(70);
-		$title->setRequired(TRUE);
-		$this->form->addItem($title);
-		
-		// desc
-		$desc = new ilTextAreaInputGUI($this->lng->txt('event_desc'),'desc');
-		$desc->setValue($this->object->getLongDescription());
-		$desc->setRows(4);
-		$desc->setCols(50);
-		$this->form->addItem($desc);
-		
-		// location
-		$desc = new ilTextAreaInputGUI($this->lng->txt('event_location'),'location');
-		$desc->setValue($this->object->getLocation());
-		$desc->setRows(4);
-		$desc->setCols(50);
-		$this->form->addItem($desc);
-		
-		// registration
-		$reg = new ilCheckboxInputGUI($this->lng->txt('event_registration'),'registration');
-		$reg->setChecked($this->object->enabledRegistration() ? true : false);
-		$reg->setOptionTitle($this->lng->txt('event_registration_info'));
-		$this->form->addItem($reg);
-		
-		// section
-		$section = new ilFormSectionHeaderGUI();
-		$section->setTitle($this->lng->txt('event_date_time'));
-		$this->form->addItem($section);
-		
 		$this->tpl->addJavaScript('./Modules/Session/js/toggle_session_time.js');
-		$full = new ilCheckboxInputGUI($this->lng->txt('sess_date_time'),'fulltime');
+		$full = new ilCheckboxInputGUI('','fulltime');
 		$full->setChecked($this->object->getFirstAppointment()->enabledFulltime() ? true : false);
 		$full->setOptionTitle($this->lng->txt('event_fulltime_info'));
 		$full->setAdditionalAttributes('onchange="ilToggleSessionTime(this);"');
@@ -1193,7 +1178,6 @@ class ilObjSessionGUI extends ilObjectGUI
 		$start->setDate($this->object->getFirstAppointment()->getStart());
 		$start->setShowTime(true);
 		$this->form->addItem($start);
-		#$full->addSubItem($start);
 		
 		// end
 		$end = new ilDateTimeInputGUI($this->lng->txt('event_end_date'),'end');
@@ -1201,7 +1185,6 @@ class ilObjSessionGUI extends ilObjectGUI
 		$end->setDate($this->object->getFirstAppointment()->getEnd());
 		$end->setShowTime(true);
 		$this->form->addItem($end);
-		#$full->addSubItem($end);
 
 		// Recurrence
 		if($a_mode == 'create')
@@ -1218,29 +1201,75 @@ class ilObjSessionGUI extends ilObjectGUI
 			$this->form->addItem($rec);
 		}
 
+		$section = new ilFormSectionHeaderGUI();
+		$section->setTitle($this->lng->txt('event_section_information'));
+		$this->form->addItem($section);
+
+		// title
+		$title = new ilTextInputGUI($this->lng->txt('event_title'),'title');
+		$title->setValue($this->object->getTitle());
+		$title->setSize(50);
+		$title->setMaxLength(70);
+		$this->form->addItem($title);
+		
+		// desc
+		$desc = new ilTextAreaInputGUI($this->lng->txt('event_desc'),'desc');
+		$desc->setValue($this->object->getLongDescription());
+		$desc->setRows(4);
+		$desc->setCols(50);
+		$this->form->addItem($desc);
+		
+		// location
+		$desc = new ilTextAreaInputGUI($this->lng->txt('event_location'),'location');
+		$desc->setValue($this->object->getLocation());
+		$desc->setRows(4);
+		$desc->setCols(50);
+		$this->form->addItem($desc);
+
+		// workflow		
+		$details = new ilTextAreaInputGUI($this->lng->txt('event_details_workflow'),'details');
+		$details->setValue($this->object->getDetails());
+		$details->setCols(50);
+		$details->setRows(4);
+		$this->form->addItem($details);
+
 		// section
 		$section = new ilFormSectionHeaderGUI();
 		$section->setTitle($this->lng->txt('event_tutor_data'));
 		$this->form->addItem($section);
 		
+		// name
 		$tutor_name = new ilTextInputGUI($this->lng->txt('tutor_name'),'tutor_name');
 		$tutor_name->setValue($this->object->getName());
 		$tutor_name->setSize(20);
 		$tutor_name->setMaxLength(70);
 		$this->form->addItem($tutor_name);
 		
+		// email
 		$tutor_email = new ilTextInputGUI($this->lng->txt('tutor_email'),'tutor_email');
 		$tutor_email->setValue($this->object->getEmail());
 		$tutor_email->setSize(20);
 		$tutor_email->setMaxLength(70);
 		$this->form->addItem($tutor_email);
 
+		// phone
 		$tutor_phone = new ilTextInputGUI($this->lng->txt('tutor_phone'),'tutor_phone');
 		$tutor_phone->setValue($this->object->getPhone());
 		$tutor_phone->setSize(20);
 		$tutor_phone->setMaxLength(70);
 		$this->form->addItem($tutor_phone);
 		
+		$section = new ilFormSectionHeaderGUI();
+		$section->setTitle($this->lng->txt('crs_further_settings'));
+		$this->form->addItem($section);
+
+		// registration
+		$reg = new ilCheckboxInputGUI($this->lng->txt('event_registration'),'registration');
+		$reg->setChecked($this->object->enabledRegistration() ? true : false);
+		$reg->setOptionTitle($this->lng->txt('event_registration_info'));
+		$this->form->addItem($reg);
+
+/*
 		$section = new ilFormSectionHeaderGUI();
 		$section->setTitle($this->lng->txt('event_further_informations'));
 		$this->form->addItem($section);
@@ -1256,12 +1285,7 @@ class ilObjSessionGUI extends ilObjectGUI
 		$file = new ilFileInputGUI($this->lng->txt('event_file').' 3','file3');
 		$file->enableFileNameSelection('file_name3');
 		$this->form->addItem($file);
-
-		$details = new ilTextAreaInputGUI($this->lng->txt('event_details_workflow'),'details');
-		$details->setValue($this->object->getDetails());
-		$details->setCols(50);
-		$details->setRows(4);
-		$this->form->addItem($details);
+*/
 
 		switch($a_mode)
 		{
@@ -1270,6 +1294,7 @@ class ilObjSessionGUI extends ilObjectGUI
 				$this->form->setTitleIcon(ilUtil::getImagePath('icon_event.gif'));
 		
 				$this->form->addCommandButton('save',$this->lng->txt('event_btn_add'));
+				$this->form->addCommandButton('saveAndAssignMaterials',$this->lng->txt('event_btn_add_edit'));
 				$this->form->addCommandButton('cancel',$this->lng->txt('cancel'));
 		
 				return true;

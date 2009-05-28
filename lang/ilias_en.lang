@@ -4897,7 +4897,7 @@ crs#:#crs_filename#:#Filename
 crs#:#crs_free_places#:#Available Places
 crs#:#crs_from#:#From:
 crs#:#crs_further_settings#:#Further Settings
-crs#:#crs_general_info#:#General Informations
+crs#:#crs_general_info#:#General Information
 crs#:#crs_general_informations#:#General Information
 crs#:#crs_grouping#:#Course grouping
 crs#:#crs_grouping_assign#:#Change assignment
@@ -4932,14 +4932,14 @@ crs#:#crs_hide_link_objectives#:#Hide objectives
 crs#:#crs_hide_link_or#:#Hide other resources
 crs#:#crs_hide_link_tst#:#Hide tests
 crs#:#crs_html#:#HTML
-crs#:#crs_important_info#:#Important Informations
+crs#:#crs_important_info#:#Important Information
 crs#:#crs_info_download#:#Files for Download
 crs#:#crs_info_reg#:#Admittance
 crs#:#crs_info_reg_confirmation#:#You can request membership for this course. You will get a message from a course administrator when your request has been admitted or declined.
 crs#:#crs_info_reg_deactivated#:#Course admittance is closed.
 crs#:#crs_info_reg_direct#:#You can join this course directly.
 crs#:#crs_info_reg_password#:#If a course administrator has given you the course password, you can join this course.
-crs#:#crs_info_settings#:#Course Informations
+crs#:#crs_info_settings#:#Course Information
 crs#:#crs_info_start#:#Please work through all of the course items stated below.<br />After you have processed all red marked objects new course items will be activated.
 crs#:#crs_item_availability_info#:#Choose this option for making the item available for a fixed period of time. If 'Visiblity' is checked the item will remain visble but not accessible for the learners.
 crs#:#crs_item_presetting_info#:#Choose this option to offer the learners suggested editing times.
@@ -5262,7 +5262,7 @@ crs#:#event_tbl_participated#:#Participated
 crs#:#event_tbl_registered#:#Registered
 crs#:#event_time#:#Time
 crs#:#event_title#:#Title
-crs#:#event_tutor_data#:#Informations About the Lecturer
+crs#:#event_tutor_data#:#Information About the Lecturer
 crs#:#event_unregister#:#Unregister
 crs#:#event_unregistered#:#You have been unregistered.
 crs#:#event_updated#:#Saved Settings
@@ -6351,7 +6351,7 @@ payment#:#currency_cent#:#Cent
 payment#:#currency_euro#:#Euro
 payment#:#duration#:#Duration
 payment#:#excel_export#:#Excel export
-payment#:#info#:#Informations about the pay method
+payment#:#info#:#Information about the pay method
 payment#:#pay_add_to_shopping_cart#:#Add to shopping cart
 payment#:#pay_added_to_shopping_cart#:#Added item to shopping cart.
 payment#:#pay_all#:#All
@@ -8323,7 +8323,7 @@ ecs#:#ecs_import_id#:#Import ID
 ecs#:#ecs_import_id_info#:#Please enter the ID of the category, where new Course-Links will be created
 ecs#:#ecs_error_extract_serial#:#Cannot read serial number of certificate. Please check the client certificate path.
 ecs#:#ecs_participants#:#Participants
-ecs#:#ecs_participants_infos#:#Further Informations
+ecs#:#ecs_participants_infos#:#Further Information
 ecs#:#ecs_active_header#:#Import/Export Allowed
 ecs#:#ecs_enable_participant#:#Allow Im/Export
 ecs#:#ecs_dns#:#Domainname
@@ -8349,13 +8349,13 @@ ecs#:#ecs_export_enabled#:#Release this Course
 ecs#:#ecs_publish_as#:#Publish as:
 ecs#:#ecs_publish_for#:#Release for:
 ecs#:#ecs_check_import_id#:#The import id is not valid. Please check this setting.
-rcrs#:#rcrs_general_info#:#General Informations
+rcrs#:#rcrs_general_info#:#General Information
 meta#:#md_adv_field_names#:#Field Names
 meta#:#md_adv_fields_show#:#Show Field Names
-rcrs#:#rcrs_local_informations#:#Further Informations
+rcrs#:#rcrs_local_informations#:#Further Information
 ecs#:#ecs_abr#:#Abbreviation
 ecs#:#ecs_read_remote_links#:#Update Remote-Courses
-ecs#:#ecs_remote_imported#:#Informations about remote courses have been refreshed.
+ecs#:#ecs_remote_imported#:#Information about remote courses have been refreshed.
 ecs#:#ecs_remote_user_settings#:#Settings for ECS User Accounts
 ecs#:#ecs_role#:#Role Assignment
 ecs#:#ecs_global_role_info#:#The chosen role will be assigned to newly created ECS user accounts.
@@ -9465,3 +9465,6 @@ chat#:#chat_hide_smilies#:#hide smilies
 chat#:#chat_no_room_selected#:#No room has been selected.
 common#:#removed_from_waiting_list#:#You have been detached from the waiting list.
 common#:#membership_leave#:#Leave
+crs#:#event_section_information#:#Session Information
+crs#:#event_btn_add_edit#:#Add Session and Assign Materials
+

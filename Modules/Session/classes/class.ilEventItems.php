@@ -219,7 +219,7 @@ class ilEventItems
 			{
 				$query = "DELETE FROM event_items ".
 					"WHERE item_id = ".$ilDB->quote($row->item_id ,'integer');
-				$res = $ilDB->manipulate($query);
+				$ilDB->manipulate($query);
 				continue;
 			}
 			
