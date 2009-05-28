@@ -466,7 +466,7 @@ class ilObjGroup extends ilContainer
 	{
 		global $ilErr;
 		
-		if($this->getTitle() == 'NO TITLE')
+		if(!$this->getTitle())
 		{
 			$this->title = '';
 			$ilErr->appendMessage(self::ERR_MISSING_TITLE);

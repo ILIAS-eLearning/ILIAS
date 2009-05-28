@@ -337,13 +337,6 @@ class ilObjSession extends ilObject
 	 */
 	public function validate()
 	{
-		global $ilErr;
-		
-		if(!strlen($this->getTitle()))
-		{
-			$ilErr->appendMessage($this->lng->txt('fill_out_all_required_fields'));
-			return false;
-		}
 		return true;
 	}
 	

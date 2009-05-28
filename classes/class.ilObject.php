@@ -400,11 +400,6 @@ class ilObject
 	*/
 	function setTitle($a_title)
 	{
-		if ($a_title == "")
-		{
-			$a_title = "NO TITLE";
-		}
-
 		$this->title = ilUtil::shortenText($a_title, $this->max_title, $this->add_dots);
 		// BEGIN WebDAV: WebDAV needs to access the untranslated title of an object
 		$this->untranslatedTitle = $this->title;

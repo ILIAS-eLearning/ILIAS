@@ -9461,3 +9461,5 @@ chat#:#chat_hide_smilies#:#Smilies verbergen
 chat#:#chat_no_room_selected#:#Es wurde kein Raum ausgewählt.
 common#:#removed_from_waiting_list#:#Sie wurden aus der Warteliste ausgetragen.
 common#:#membership_leave#:#Abmelden
+crs#:#event_section_information#:#Informationen zur Sitzung
+crs#:#event_btn_add_edit#:#Sitzung anlegen und Materialien zuordnen
