@@ -9454,3 +9454,6 @@ payment#:#payment_cannot_update_nonexisting_vat#:#Cannot update a nonexisting VA
 cmps#:#cmps_plugin_activated#:#The plugin has been activated.###22 05 2009 new variable
 cmps#:#cmps_plugin_deactivated#:#The plugin has been deactivated.###22 05 2009 new variable
 common#:#preferences#:#Benutzerdefinierte Einstellungen
+chat#:#chat_show_smilies#:#Smilies anzeigen
+chat#:#chat_hide_smilies#:#Smilies verbergen
+chat#:#chat_no_room_selected#:#Es wurde kein Raum ausgewählt.

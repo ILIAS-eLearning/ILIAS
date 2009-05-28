@@ -100,7 +100,7 @@ class ilChatRoom
 	{
 		global $ilDB;
 		
-		$this->guests = array();
+		//$this->guests = array();
 
 		$res = $ilDB->queryf('
 			SELECT owner FROM chat_rooms WHERE room_id = %s',
@@ -850,7 +850,7 @@ class ilChatRoom
 			return true;
 		}
 		
-		if(self::_isKicked($user_id))
+		if(self::_isKicked($user_id, $ref_id))
 		{
 			return false;
 		}
@@ -862,7 +862,7 @@ class ilChatRoom
 		{
 			return true;
 		}
-		if($this->_isInvited($user_id))
+		if(self::_isInvited($user_id))
 		{
 			return true;
 		}

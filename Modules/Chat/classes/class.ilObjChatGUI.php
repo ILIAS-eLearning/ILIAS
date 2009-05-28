@@ -1110,7 +1110,24 @@ class ilObjChatGUI extends ilObjectGUI
 			$this->tpl->setVariable("TXT_ADD_PRIVATE_CHATROOM", $this->lng->txt("chat_add_private_chatroom"));
 			$this->tpl->setVariable("TXT_ADD", $this->lng->txt("add"));
 		}
-
+		
+		// smilies
+		include_once 'Modules/Chat/classes/class.ilChatSmilies.php';
+		$smilies = ilChatSmilies::_getSmilies();
+		foreach($smilies as $smiley)
+		{
+			$this->tpl->setCurrentBlock("smilies_element");
+			$this->tpl->setVariable("SMILEY_SRC", $smiley['smiley_fullpath']);
+			$parts = explode("\n", $smiley["smiley_keywords"]);
+			$this->tpl->setVariable("SMILEY_CONTENT", $parts[0]);
+			
+			$this->tpl->parseCurrentBlock();
+		}
+		$this->tpl->setCurrentBlock("smilies_selector");
+		$this->tpl->setVariable('TXT_SHOW_SMILIES', $this->lng->txt('chat_show_smilies'));
+		$this->tpl->setVariable('TXT_HIDE_SMILIES', $this->lng->txt('chat_hide_smilies'));
+		$this->tpl->parseCurrentBlock();
+		
 		$this->__showInputAreas();
 		$this->tpl->fillJavaScriptFiles();
 		$this->tpl->fillCssFiles();
@@ -1330,10 +1347,11 @@ class ilObjChatGUI extends ilObjectGUI
 	public function exportObject()
 	{
 		$tmp_tpl =& new ilTemplate("tpl.chat_export.html",true,true,"Modules/Chat");
-
+		$filename = $this->object->getTitle();
 		if($this->object->chat_room->getRoomId())
 		{
 			$tmp_tpl->setVariable("CHAT_NAME",$this->object->chat_room->getTitle());
+			$filename .= ' - ' . $this->object->chat_room->getTitle();
 		}
 		else
 		{
@@ -1341,7 +1359,7 @@ class ilObjChatGUI extends ilObjectGUI
 		}
 		$tmp_tpl->setVariable("CHAT_DATE",strftime("%c",time()));
 		$tmp_tpl->setVariable("CONTENT",$this->object->chat_room->getAllMessages());
-		ilUtil::deliverData($tmp_tpl->get(),"1.html");
+		ilUtil::deliverData($tmp_tpl->get(), $filename . ".html");
 		exit;
 	}
 
@@ -1460,10 +1478,8 @@ class ilObjChatGUI extends ilObjectGUI
 	private function __formatMessage()
 	{
 		$tpl = new ilTemplate("tpl.chat_message.html",true,true,'Modules/Chat');
-
-		$_POST['message'] = htmlentities(trim($_POST['message']),ENT_QUOTES,'utf-8');
+		$_POST['message'] = htmlentities(trim($_POST['message']));
 		$_POST['message'] = ilUtil::stripSlashes($_POST['message']);
-
 		$tpl->setVariable("MESSAGE",$_POST["message"]);
 		$tpl->setVariable("FONT_COLOR",$_POST["color"]);
 		$tpl->setVariable("FONT_FACE",$_POST["type"]);
@@ -1840,7 +1856,7 @@ class ilObjChatGUI extends ilObjectGUI
 		$this->object->chat_room->updateLastVisit();
 	}
 	
-	private function fetchOnlineUsers() {
+	private function fetchOnlineUsers($active_users = array()) {
 		global $ilCtrl, $ilUser;
 		$this->__updateChatSessionAsync();
 		$all_users = $this->object->chat_room->getOnlineUsers();
@@ -1850,10 +1866,16 @@ class ilObjChatGUI extends ilObjectGUI
 		
 		include_once 'Modules/Chat/classes/class.ilChatBlockedUsers.php';
 
+		$activeMap = array();
+		foreach($active_users as $user)
+		{
+			$activeMap[$user->id] = 1;
+		}
+
 		$hidden_count = 0;
 		foreach($all_users as $user)
 		{
-			if($user['user_id'] == $_SESSION['AccountId'] ||  $user['user_id'] == ANONYMOUS_USER_ID) {
+			if($user['user_id'] == $_SESSION['AccountId'] ||  $user['user_id'] == ANONYMOUS_USER_ID || $activeMap[$user['user_id']]) {
 				continue;
 			}
 
@@ -1941,6 +1963,8 @@ class ilObjChatGUI extends ilObjectGUI
 			$user_obj->setId($user);
 			$user_obj->read();
 
+			$new_user->login = $user_obj->getLogin();
+			
 			if ($user_obj->getPref('public_profile') == 'y') {
 				$new_user->public_profile = '1';
 				$new_user->uimage = $user_obj->getPersonalPicturePath();
@@ -2143,7 +2167,7 @@ class ilObjChatGUI extends ilObjectGUI
 		
 		$res->rooms = $this->fetchRooms();
 		$res->activeUsers = $this->fetchActiveUsers();
-		$res->onlineUsers = $this->fetchOnlineUsers();
+		$res->onlineUsers = $this->fetchOnlineUsers($res->activeUsers);
 		
 		include_once 'Services/JSON/classes/class.ilJsonUtil.php';
 		$json = ilJsonUtil::encode($res);
@@ -2567,7 +2591,6 @@ class ilObjChatGUI extends ilObjectGUI
 			$email = ($oUser->getPref('public_email') == 'y' ? $oUser->getEmail() : '') ;
 			$addressbook->addEntry($login, $firstname, $lastname, $email);
 			$result->ok = true;
-			$result->msg = "added";
 		}
 		include_once 'Services/JSON/classes/class.ilJsonUtil.php';
 		echo ilJsonUtil::encode($result);

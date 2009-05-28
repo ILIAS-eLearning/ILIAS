@@ -471,6 +471,7 @@ function ilChatController(linkToOnlineUsers, linkToActiveUsers, linkToCurrentRoo
 		me.whisper_user_id = false;
 		me.target_user_name = false;
 		me.clearRecipientMessage();
+		return false;
 	}
 	
 	this.showProfile = function(uid)
@@ -529,7 +530,7 @@ function ilChatController(linkToOnlineUsers, linkToActiveUsers, linkToCurrentRoo
 		
 		var color = document.forms['txt_input'].color.value;
 		var type = false;
-		for(i in document.forms['txt_input'].elements['type'])
+		for(var i = 0; i < document.forms['txt_input'].elements['type'].length; i++)
 		{
 			if (document.forms['txt_input'].elements['type'][i].checked == true)
 			{
@@ -539,14 +540,13 @@ function ilChatController(linkToOnlineUsers, linkToActiveUsers, linkToCurrentRoo
 		}
 		
 		var face = "";
-		for(i in document.forms['txt_input'].elements['face[]'])
+		for(var i = 0; i < document.forms['txt_input'].elements['face[]'].length; i++)
 		{
-			if (document.forms['txt_input'].elements['face[]'][i].checked == true)
+			if (document.forms['txt_input'].elements['face[]'][i].checked)
 			{
 				face += "&face[]=" + document.forms['txt_input'].elements['face[]'][i].value;
 			}
 		}
-		
 		var request = YAHOO.util.Connect.asyncRequest('POST', me.getLinkTo(cmd, me.baseRefId,params), callback, "color="+color+"&message="+escape(msg)+face+"&type="+type+"&color=" + color);
 		return false;
 	}
@@ -667,6 +667,7 @@ function ilChatController(linkToOnlineUsers, linkToActiveUsers, linkToCurrentRoo
 			a.onclick = function()
 			{
 				il_chat_async_handler.cancelAddress();
+				return false;
 			};
 
 			a.appendChild(document.createTextNode(" (" + chatLanguage.getTxt('cancel') + ")"));
@@ -742,10 +743,9 @@ function ilChatController(linkToOnlineUsers, linkToActiveUsers, linkToCurrentRoo
 
 		if (!login)
 		{
-			if (console)
-				console.log('no_login');
 			return;
 		}
+			
 		var params = new Array();
 		params['ulogin'] = login;
 		var request = YAHOO.util.Connect.asyncRequest('POST', me.getLinkTo(cmd, me.baseRefId,params), callback);
@@ -807,3 +807,45 @@ ilAddOnLoad(
 
 	}
 );
+
+function insertSmiley(strText, objElem)
+{
+	if(document.selection)
+	{
+		objElem.focus();
+		document.selection.createRange().text = strText;
+		document.selection.createRange().select();
+	}
+	else if (objElem.selectionStart || objElem.selectionStart == '0')
+	{
+		intStart = objElem.selectionStart;
+		intEnd = objElem.selectionEnd;
+		objElem.value = (objElem.value).substring(0, intStart) + strText + (objElem.value).substring(intEnd, objElem.value.length);
+		objElem.selectionStart=objElem.selectionEnd=intStart+strText.length;
+		objElem.focus();
+	}
+	else
+	{
+		objElem.value += strText;
+	}
+}
+
+function ilShowSmileySelector()
+{
+	document.getElementById('show_smilies_button').style.display = 'none';
+	document.getElementById('hide_smilies_button').style.display = 'block';
+	document.getElementById('smiley_selector').style.display = 'block';
+}
+
+function ilHideSmileySelector()
+{
+	document.getElementById('show_smilies_button').style.display = 'block';
+	document.getElementById('hide_smilies_button').style.display = 'none';
+	document.getElementById('smiley_selector').style.display = 'none';
+}
+
+function ilExportChat()
+{
+	var url = "ilias.php?cmd=export&baseClass=ilChatPresentationGUI&ref_id="+il_chat_async_handler.baseRefId+"&room_id=" + il_chat_async_handler.baseRoomId;
+	window.open(url, '_blank');
+}
