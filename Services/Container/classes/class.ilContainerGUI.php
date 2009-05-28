@@ -39,6 +39,8 @@ require_once "./Services/Container/classes/class.ilContainer.php";
 
 class ilContainerGUI extends ilObjectGUI
 {
+	var $bl_cnt = 1;		// block counter
+	
 	/**
 	* Constructor
 	* @access public
@@ -377,7 +379,7 @@ class ilContainerGUI extends ilObjectGUI
 	*/
 	function renderObject()
 	{
-		global $ilDB, $tpl;
+		global $ilDB, $tpl, $ilTabs;
 
 		switch ($this->object->getViewMode())
 		{
@@ -414,7 +416,30 @@ class ilContainerGUI extends ilObjectGUI
 		}
 		
 		$container_view->setOutput();
+
+		$this->adminCommands = $container_view->adminCommands;
 		
+		$this->showAdministrationPanel($tpl);
+		$this->showPossibleSubObjects();
+		$this->showPermanentLink($tpl);
+		$this->setContentSubTabs();
+		if ($this->isActiveAdministrationPanel())
+		{
+			$ilTabs->activateSubTab("manage");
+		}
+		else
+		{
+			$ilTabs->activateSubTab("view_content");
+		}
+
+	}
+
+	/**
+	* Set content sub tabs
+	*/
+	function setContentSubTabs()
+	{
+		$this->addStandardContainerSubTabs();
 	}
 
 	/**
@@ -425,47 +450,17 @@ class ilContainerGUI extends ilObjectGUI
 		global $ilAccess, $ilSetting;
 		global $ilUser, $lng;
 
-		$page_actions = array();
-		
 		if ($this->isActiveAdministrationPanel())
-		{
-			/*$GLOBALS["tpl"]->setAdminViewButton(
-				$this->ctrl->getLinkTarget($this, "disableAdministrationPanel"),
-				$this->lng->txt("basic_commands"));*/
-			$page_actions[] = array("txt" => $lng->txt("cntr_disable_multi_commands"),
-				"link" => $this->ctrl->getLinkTarget($this, "disableAdministrationPanel"));
-			
-			// administration panel
-			if ($ilAccess->checkAccess("write", "", $this->object->getRefId())
-				&& $this->object->enablePageEditing())
-			{
-				/*$GLOBALS["tpl"]->setEditPageButton(
-					$this->ctrl->getLinkTarget($this, "editPageFrame"),
-					$this->lng->txt("edit_page"),
-					ilFrameTargetInfo::_getFrame("MainContent")
-				);*/
-				$page_actions[] = array("txt" => $this->lng->txt("edit_page"),
-					"link" => $this->ctrl->getLinkTarget($this, "editPageFrame"),
-					"target" => ilFrameTargetInfo::_getFrame("MainContent"));
-			}
-			
-			if ($this->object->gotItems())
-			{
-				$GLOBALS["tpl"]->addAdminPanelCommand("delete",
-					$this->lng->txt("delete_selected_items"));
-			}
-			
+		{			
+						
 			if (!$_SESSION["clipboard"])
 			{
 				if ($this->object->gotItems())
 				{
+					$GLOBALS["tpl"]->addAdminPanelCommand("delete",
+						$this->lng->txt("delete_selected_items"), true);
 					$GLOBALS["tpl"]->addAdminPanelCommand("cut",
 						$this->lng->txt("move_selected_items"));
-					// BEGIN WebDAV: Support a copy command in the repository
-				// does currently not work
-				//	$GLOBALS["tpl"]->addAdminPanelCommand("copy",
-				//		$this->lng->txt("copy_selected_items"));
-					// END WebDAV: Support a copy command in the repository
 					$GLOBALS["tpl"]->addAdminPanelCommand("link",
 						$this->lng->txt("link_selected_items"));
 				}
@@ -484,6 +479,13 @@ class ilContainerGUI extends ilObjectGUI
 				$GLOBALS["tpl"]->addAdminPanelCommand("clear",
 					$this->lng->txt("clear_clipboard"));
 			}
+
+			$this->ctrl->setParameter($this, "type", "");
+			$this->ctrl->setParameter($this, "item_ref_id", "");
+			$GLOBALS["tpl"]->setPageFormAction($this->ctrl->getFormAction($this));
+		}
+		if ($this->edit_order)
+		{			
 			if($this->object->gotItems() and $ilAccess->checkAccess("write", "", $this->object->getRefId()))
 			{
 				include_once('./Services/Container/classes/class.ilContainer.php');
@@ -494,51 +496,6 @@ class ilContainerGUI extends ilObjectGUI
 						$this->lng->txt('sorting_save'));
 				}
 			}
-
-			$this->ctrl->setParameter($this, "type", "");
-			$this->ctrl->setParameter($this, "item_ref_id", "");
-			$GLOBALS["tpl"]->setPageFormAction($this->ctrl->getFormAction($this));
-		}
-		else if (
-			$ilUser->getId() != ANONYMOUS_USER_ID &&
-				($this->adminCommands ||
-				(is_object($this->object) && 
-				($ilAccess->checkAccess("write", "", $this->object->getRefId())))
-										||
-				(is_object($this->object) && 
-				($this->object->getHiddenFilesFound())) ||
-				$_SESSION["clipboard"]
-				)
-			)
-		{
-			//$GLOBALS["tpl"]->setAdminViewButton(
-			//	$this->ctrl->getLinkTarget($this, "enableAdministrationPanel"),
-			//	$this->lng->txt("all_commands"));
-			$page_actions[] = array("txt" => $lng->txt("cntr_enable_multi_commands"),
-				"link" => $this->ctrl->getLinkTarget($this, "enableAdministrationPanel"));
-			$page_actions[] = array("txt" => $this->lng->txt("edit_page"),
-				"link" => $this->ctrl->getLinkTarget($this, "editPageFrame"),
-				"target" => ilFrameTargetInfo::_getFrame("MainContent"));
-		}
-		
-		if (count($page_actions) > 0)
-		{
-			include_once("./Services/AdvancedSelectionList/classes/class.ilAdvancedSelectionListGUI.php");
-			$selection_list = new ilAdvancedSelectionListGUI();
-			$selection_list->setListTitle($lng->txt("cntr_page_actions"));
-			$selection_list->setId("cntr_pa");
-			//$selection_list->setSelectionHeaderClass("il_ContainerItemCommand2");
-			$selection_list->setItemLinkClass("xsmall");
-			$selection_list->setLinksMode("il_ContainerItemCommand2");
-			$selection_list->setHeaderIcon(ilAdvancedSelectionListGUI::DOWN_ARROW_DARK);
-			$selection_list->setUseImages(false);
-			foreach ($page_actions as $pa)
-			{
-				$selection_list->addItem($pa["txt"], "", $pa["link"], "", "", $pa["target"]);
-			}
-
-			$GLOBALS["tpl"]->setPageActions($selection_list->getHTML());
-			
 		}
 	}
 
@@ -1175,12 +1132,10 @@ class ilContainerGUI extends ilObjectGUI
 		$this->cur_row_type = "";
 	}
 
-	function addSeparatorRow(&$a_tpl)
-	{
-		$a_tpl->touchBlock("separator_row");
-		$a_tpl->touchBlock("container_row");
-	}
 	
+	/**
+	* Add page editor tabs
+	*/
 	function setPageEditorTabs()
 	{
 		global $lng;
@@ -1206,6 +1161,68 @@ class ilContainerGUI extends ilObjectGUI
 		//$this->tpl->setTabs($tabs_gui->getHTML());
 	}
 
+	/**
+	* Add standar container subtabs for view, manage, oderdering and text/media editor link
+	*/
+	function addStandardContainerSubTabs($a_include_view = true)
+	{
+		global $ilTabs, $ilAccess, $lng, $ilCtrl, $ilUser;
+
+		if (!is_object($this->object))
+		{
+			return;
+		}
+		
+		if ($a_include_view && $ilAccess->checkAccess("read", "", $this->object->getRefId()))
+		{
+			if (!$this->isActiveAdministrationPanel())
+			{
+				$ilTabs->addSubTab("view_content", $lng->txt("view"), $ilCtrl->getLinkTarget($this, ""));
+			}
+			else
+			{
+				$ilTabs->addSubTab("view_content", $lng->txt("view"), $ilCtrl->getLinkTarget($this, "disableAdministrationPanel"));
+			}
+		}
+		
+		if ( $ilUser->getId() != ANONYMOUS_USER_ID &&
+				($this->adminCommands ||
+				(is_object($this->object) && 
+				($ilAccess->checkAccess("write", "", $this->object->getRefId())))
+										||
+				(is_object($this->object) && 
+				($this->object->getHiddenFilesFound())) ||
+				$_SESSION["clipboard"]
+				)
+			)
+		{
+			if ($this->isActiveAdministrationPanel())
+			{
+				$ilTabs->addSubTab("manage", $lng->txt("cntr_manage"), $ilCtrl->getLinkTarget($this, ""));
+			}
+			else
+			{
+				$ilTabs->addSubTab("manage", $lng->txt("cntr_manage"), $ilCtrl->getLinkTarget($this, "enableAdministrationPanel"));
+			}
+		}
+		if ($ilUser->getId() != ANONYMOUS_USER_ID &&
+			is_object($this->object) && 
+			$ilAccess->checkAccess("write", "", $this->object->getRefId()) &&
+			$this->object->getOrderType() == ilContainer::SORT_MANUAL
+			)
+		{
+			$ilTabs->addSubTab("ordering", $lng->txt("cntr_ordering"), $ilCtrl->getLinkTarget($this, "editOrder"));
+		}
+		if ($ilUser->getId() != ANONYMOUS_USER_ID &&
+			is_object($this->object) && 
+			$ilAccess->checkAccess("write", "", $this->object->getRefId())
+			)
+		{
+			$ilTabs->addSubTab("page_editor", $lng->txt("cntr_text_media_editor"), $ilCtrl->getLinkTarget($this, "editPageFrame"),
+				ilFrameTargetInfo::_getFrame("MainContent"));
+		}
+	}
+	
 
 	/**
 	* common tabs for all container objects (should be called
@@ -1253,7 +1270,21 @@ class ilContainerGUI extends ilObjectGUI
 		$_SESSION["il_cont_admin_panel"] = false;
 		$this->ctrl->redirect($this, "render");
 	}
-	
+
+	/**
+	* Edit order 
+	*/
+	function editOrderObject()
+	{
+		global $ilTabs;
+		
+		$this->edit_order = true;
+		$_SESSION["il_cont_admin_panel"] = false;
+		$this->renderObject();
+		
+		$ilTabs->activateSubTab("ordering");	
+	}
+			
 	/**
 	* subscribe item
 	*/
@@ -2556,8 +2587,8 @@ class ilContainerGUI extends ilObjectGUI
 		include_once('Services/Container/classes/class.ilContainerSorting.php');
 		$sorting = ilContainerSorting::_getInstance($this->object->getId());
 		$sorting->savePost($_POST['position']);
-		ilUtil::sendSuccess($this->lng->txt('sorting_saved',true));
-		$this->ctrl->returnToParent($this);
+		ilUtil::sendSuccess($this->lng->txt('cntr_saved_sorting'), true);
+		$this->ctrl->redirect($this, "editOrder");
 	}
 	
 	// BEGIN WebDAV: Support a copy command in the repository

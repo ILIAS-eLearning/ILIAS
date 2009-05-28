@@ -69,7 +69,7 @@ class ilTemplate extends ilTemplateX
 		$plugin = false)
 	{
 		global $ilias;
-
+		
 		$this->activeBlock = "__global__";
 		$this->vars = array();
 		$this->addFooter = TRUE;
@@ -337,6 +337,11 @@ class ilTemplate extends ilTemplateX
 	function show($part = "DEFAULT", $a_fill_tabs = true)
 	{
 		global $ilias;
+		
+		// include yahoo dom per default
+		include_once("./Services/YUI/classes/class.ilYuiUtil.php");
+		ilYuiUtil::initDom();
+		
 //echo "-".ilUtil::getP3PLocation()."-";
 		//header('P3P: policyref="'.ilUtil::getP3PLocation().
 		//	'", CP="CURa ADMa DEVa TAIa PSAa PSDa IVAa IVDa OUR BUS IND UNI COM NAV INT CNT STA PRE"');
@@ -1503,10 +1508,14 @@ class ilTemplate extends ilTemplateX
 	/**
 	* Add a command to the admin panel
 	*/
-	function addAdminPanelCommand($a_cmd, $a_txt)
+	function addAdminPanelCommand($a_cmd, $a_txt, $a_arrow = false)
 	{
 		$this->admin_panel_commands[] =
 			array("cmd" => $a_cmd, "txt" => $a_txt);
+		if ($a_arrow)
+		{
+			$this->admin_panel_arrow = true;
+		}
 	}
 	
 	/**
@@ -1520,15 +1529,15 @@ class ilTemplate extends ilTemplateX
 		
 		$adm_view_cmp = $adm_cmds = $creation_selector = $adm_view = false;
 		
+		$toolb = new ilToolbarGUI();
+		$toolb->setFormMode(true);
+		
 		// admin panel commands
 		if ((count($this->admin_panel_commands) > 0))
 		{
 			foreach($this->admin_panel_commands as $cmd)
 			{
-				$this->setCurrentBlock("admin_panel_cmd");
-				$this->setVariable("PANEL_CMD", $cmd["cmd"]);
-				$this->setVariable("TXT_PANEL_CMD", $cmd["txt"]);
-				$this->parseCurrentBlock();
+				$toolb->addButton($cmd["txt"], $cmd["cmd"]);
 			}
 
 			$adm_cmds = true;
@@ -1536,8 +1545,11 @@ class ilTemplate extends ilTemplateX
 		if ($adm_cmds)
 		{
 			$this->setCurrentBlock("adm_view_components");
-			$this->setVariable("ADM_IMG_ARROW", ilUtil::getImagePath("arrow_upright.gif"));
-			$this->setVariable("ADM_ALT_ARROW", $lng->txt("actions"));
+			if ($this->admin_panel_arrow)
+			{
+				$toolb->setLeadingImage(ilUtil::getImagePath("arrow_upright.gif"), $lng->txt("actions"));
+			}
+			$this->setVariable("ADM_PANEL1", $toolb->getHTML());
 			$this->parseCurrentBlock();
 			$adm_view_cmp = true;
 		}
@@ -1545,27 +1557,7 @@ class ilTemplate extends ilTemplateX
 		// admin view button
 		if ($this->page_actions != "")
 		{
-/*			if (is_array($this->edit_page_button))
-			{
-				$this->setCurrentBlock("edit_cmd");
-				$this->setVariable("TXT_EDIT_PAGE", $this->edit_page_button["txt"]);
-				$this->setVariable("LINK_EDIT_PAGE", $this->edit_page_button["link"]);
-				$this->setVariable("FRAME_EDIT_PAGE", $this->edit_page_button["frame"]);
-				$this->parseCurrentBlock();
-			}*/
-/*			if (is_array($this->admin_view_button))
-			{
-				$this->setCurrentBlock("admin_button");
-				$this->setVariable("ADMIN_MODE_LINK",
-					$this->admin_view_button["link"]);
-				$this->setVariable("TXT_ADMIN_MODE",
-					$this->admin_view_button["txt"]);
-				$this->parseCurrentBlock();
-			}
-*/
 			$this->setVariable("PAGE_ACTIONS", $this->page_actions);
-//			$this->setCurrentBlock("admin_view");
-//			$this->parseCurrentBlock();
 			$adm_view = true;
 		}
 
@@ -1600,44 +1592,18 @@ class ilTemplate extends ilTemplateX
 			$this->setVariable("SELECT_OBJTYPE_REPOS",
 				$selection->getHTML());
 			
-			/*
-			$this->setVariable("SELECT_OBJTYPE_REPOS",
-				$this->creation_selector["options"]);
-			$this->setVariable("BTN_NAME_REPOS",
-				$this->creation_selector["command"]);
-			$this->setVariable("TXT_ADD_REPOS",
-				$this->creation_selector["txt"]);*/
 			$this->parseCurrentBlock();
 			$creation_selector = true;
 		}
-		if ($adm_view || $creation_selector)
-		{
-			$this->setCurrentBlock("adm_panel");
-			if ($adm_view_cmp)
-			{
-				$this->setVariable("ADM_TBL_WIDTH", 'width:"100%";');
-			}
-			$this->parseCurrentBlock();
-		}
 		
-		// lower part of admin panel
-		if ((count($this->admin_panel_commands) > 0))
-		{
-			foreach($this->admin_panel_commands as $cmd)
-			{
-				$this->setCurrentBlock("admin_panel_cmd2");
-				$this->setVariable("PANEL_CMD2", $cmd["cmd"]);
-				$this->setVariable("TXT_PANEL_CMD2", $cmd["txt"]);
-				$this->parseCurrentBlock();
-			}
-
-			$adm_cmds2 = true;
-		}
-		if ($adm_cmds2)
+		if ($adm_cmds)
 		{
 			$this->setCurrentBlock("adm_view_components2");
-			$this->setVariable("ADM_IMG_ARROW2", ilUtil::getImagePath("arrow_downright.gif"));
-			$this->setVariable("ADM_ALT_ARROW2", $lng->txt("actions"));
+			if ($this->admin_panel_arrow)
+			{
+				$toolb->setLeadingImage(ilUtil::getImagePath("arrow_downright.gif"), $lng->txt("actions"));
+			}
+			$this->setVariable("ADM_PANEL2", $toolb->getHTML());
 			$this->parseCurrentBlock();
 		}
 

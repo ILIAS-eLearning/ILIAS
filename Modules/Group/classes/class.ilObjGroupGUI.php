@@ -250,26 +250,21 @@ class ilObjGroupGUI extends ilContainerGUI
 		}
 		$this->tabs_gui->setTabActive('view_content');
 		$this->renderObject();
-		
-		/*
-		else if($tree->checkForParentType($this->ref_id,'crs'))
-		{
-			$this->renderObject();
-			//$this->ctrl->returnToParent($this);
-		}
-		else
-		{
-			include_once './Modules/Course/classes/class.ilCourseContentGUI.php';
-			$course_content_obj = new ilCourseContentGUI($this);
-			
-			$this->ctrl->setCmdClass(get_class($course_content_obj));
-			$this->ctrl->forwardCommand($course_content_obj);
-		}
-
-		$this->tabs_gui->setTabActive('view_content');
-		return true;
-		*/
 	}
+	
+	/**
+	* Render group
+	*/
+	function renderObject()
+	{
+		global $ilTabs;
+		
+		$ilTabs->activateTab("view_content");
+		$ret =  parent::renderObject();
+		return $ret;
+
+	}
+
 	
 	/**
 	* Modify Item ListGUI for presentation in container
@@ -1858,17 +1853,12 @@ class ilObjGroupGUI extends ilContainerGUI
 	// get tabs
 	function getTabs(&$tabs_gui)
 	{
-		global $rbacsystem,$ilUser,$ilAccess;
+		global $rbacsystem, $ilUser, $ilAccess, $lng;
 
 		if ($rbacsystem->checkAccess('read',$this->ref_id))
 		{
-			$force_active = (($_GET["cmd"] == "view" || $_GET["cmd"] == "")
-				&& $_GET["cmdClass"] == "")
-				? true
-				: false;
-			$tabs_gui->addTarget("view_content",
-				$this->ctrl->getLinkTarget($this, ""), array("", "view","addToDesk","removeFromDesk"), get_class($this),
-				"", $force_active);
+			$tabs_gui->addTab("view_content", $lng->txt("content"),
+				$this->ctrl->getLinkTarget($this, ""));
 		}
 		if ($rbacsystem->checkAccess('visible',$this->ref_id))
 		{

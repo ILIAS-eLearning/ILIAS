@@ -98,10 +98,10 @@ class ilContainerSessionsContentGUI extends ilContainerContentGUI
 		$this->__showMaterials($tpl);
 			
 		// @todo: Move this completely to GUI class?
-		$this->getContainerGUI()->adminCommands = $this->adminCommands;
+/*		$this->getContainerGUI()->adminCommands = $this->adminCommands;
 		$this->getContainerGUI()->showAdministrationPanel($tpl);
 		$this->getContainerGUI()->showPossibleSubObjects();
-		$this->getContainerGUI()->showPermanentLink($tpl);
+		$this->getContainerGUI()->showPermanentLink($tpl);*/
 
 		return $tpl->get();
 	}

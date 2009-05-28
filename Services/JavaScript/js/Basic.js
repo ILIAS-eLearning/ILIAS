@@ -117,6 +117,11 @@ function CheckAllBoxes(form){
    	}
 }
 
+function setCheckedTest(e)
+{
+	return true;
+}
+
 /**
  * Checks/unchecks checkboxes
  *
@@ -125,15 +130,19 @@ function CheckAllBoxes(form){
  * @param   boolean  whether to check or to uncheck the element
  * @return  boolean  always true
  */
-function setChecked(the_form, checkbox_name, do_check)
-{
-	for (var i=0;i<document.forms[the_form].elements.length;i++)
+function setChecked(parent_el, checkbox_name, do_check){
+	var e = document.forms[parent_el];
+	if (!e)
 	{
-		var e = document.forms[the_form].elements[i];
-
-		if (e.name != undefined && e.name.indexOf(checkbox_name) == 0)
+		e = document.getElementById(parent_el);
+	}
+	ilCheckBoxName = checkbox_name;
+	els = YAHOO.util.Dom.getElementsBy(setCheckedTest, "input", e, null, null, null); 
+	for (var i=0;i<els.length;i++)
+	{
+		if ((typeof els[i].name != 'undefined') && els[i].name.indexOf(checkbox_name) == 0)
 		{
-			e.checked = do_check;
+			els[i].checked = do_check;
 		}
 	}
   return true;

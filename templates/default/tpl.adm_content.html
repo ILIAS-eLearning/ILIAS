@@ -36,33 +36,12 @@
 <td></td>
 <!-- END left_columnt -->
 <td>{MESSAGE}
-	<!-- BEGIN adm_panel -->
-	<!-- BEGIN adm_view_components -->
-	<div style="float:left; margin: 0px 10px 5px 15px;">
-	<img border="0" src="{ADM_IMG_ARROW}" alt="{ADM_ALT_ARROW}" />
-	<!-- BEGIN admin_panel_cmd -->
-	<input class="submit" type="submit" name="cmd[{PANEL_CMD}]" value="{TXT_PANEL_CMD}" />
-	<!-- END admin_panel_cmd -->
-	</div>
-	<!-- END adm_view_components -->
-
-<div style="text-align: right; padding-right:19px; margin-bottom: 5px;">
 	<!-- BEGIN add_commands -->
-	<!-- action="{H_FORMACTION}" -->
-	{SELECT_OBJTYPE_REPOS}&nbsp;&nbsp;&nbsp;
-	{PAGE_ACTIONS}
-	<!-- <input class="submit" type="submit" name="cmd[{BTN_NAME_REPOS}]" value="{TXT_ADD_REPOS}" /> -->
+	<div style="text-align: right; padding-right:19px; margin-bottom: 5px;">{SELECT_OBJTYPE_REPOS}</div>
 	<!-- END add_commands -->
-	<!-- BEGIN admin_view -->
-	<!-- BEGIN edit_cmd -->
-	<a class="il_ContainerItemCommand2" target="{FRAME_EDIT_PAGE}" href="{LINK_EDIT_PAGE}">{TXT_EDIT_PAGE}</a>
-	<!-- END edit_cmd -->
-	<!-- BEGIN admin_button -->
-	<a class="il_ContainerItemCommand2" href="{ADMIN_MODE_LINK}">{TXT_ADMIN_MODE}</a>
-	<!-- END admin_button -->
-	<!-- END admin_view -->
-</div>
-	<!-- END adm_panel -->
+	<!-- BEGIN adm_view_components -->
+	<div style="margin: 10px 0px 20px 0px;">{ADM_PANEL1}</div>
+	<!-- END adm_view_components -->
 </td>
 <!-- BEGIN right_columnt -->
 <td></td>
@@ -104,12 +83,7 @@ layoutEl.render();
 {OBJECTS}
 {SYSTEMSETTINGS}
 	<!-- BEGIN adm_view_components2 -->
-	<div style="margin-bottom:10px;">
-	<img border="0" src="{ADM_IMG_ARROW2}" alt="{ADM_ALT_ARROW2}" />
-	<!-- BEGIN admin_panel_cmd2 -->
-	<input class="submit" type="submit" name="cmd[{PANEL_CMD2}]" value="{TXT_PANEL_CMD2}" />
-	<!-- END admin_panel_cmd2 -->
-	</div>
+	<div style="margin-bottom:10px;">{ADM_PANEL2}</div>
 	<!-- END adm_view_components2 -->
 </div>
 </td>

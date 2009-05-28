@@ -1,4 +1,5 @@
-<table class="ilContainerBlock">
+<!-- BEGIN container_block -->
+<table class="ilContainerBlock" {CB_ID}>
 <!-- BEGIN container_row -->
 <!-- BEGIN container_header_row_image -->
 <tr>
@@ -22,7 +23,6 @@
 <td class="ilCLI">{BLOCK_ROW_CONTENT}</td>
 </tr>
 <!-- END container_standard_row -->
-<!-- BEGIN separator_row -->
 <!-- BEGIN container_details_row -->
 <tr class="tblfooter">
 	<td class="tblfooter" colspan="1">
@@ -34,9 +34,14 @@
 	</td>
 </tr>
 <!-- END container_details_row -->
-</table>
-<br />
-<table class="ilContainerBlock">
-<!-- END separator_row -->
 <!-- END container_row -->
+<!-- BEGIN select_all_row -->
+<tr class="tblfooter">
+	<td class="ilContainerListFooter">
+	<input type="checkbox" name="{CHECKBOXNAME}" id="{CHECKBOXNAME}" value="1" onClick="javascript:setChecked('{SEL_ALL_PARENT}', '{SEL_ALL_CB_NAME}', this.checked);" />
+	<label for="{CHECKBOXNAME}" class="small">{TXT_SELECT_ALL}</label>
+</td>
+</tr>
+<!-- END select_all_row -->
 </table>
+<!-- END container_block -->

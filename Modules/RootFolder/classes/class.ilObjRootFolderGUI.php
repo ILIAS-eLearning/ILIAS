@@ -90,15 +90,14 @@ class ilObjRootFolderGUI extends ilContainerGUI
 
 	function getTabs(&$tabs_gui)
 	{
-		global $rbacsystem;
+		global $rbacsystem, $lng;
 
 		$this->ctrl->setParameter($this,"ref_id",$this->ref_id);
 
 		if ($rbacsystem->checkAccess('read',$this->ref_id))
 		{
-			$tabs_gui->addTarget("view_content",
-				$this->ctrl->getLinkTarget($this, ""),
-				array("", "view", "render"));
+			$tabs_gui->addTab('view_content', $lng->txt("content"),
+				$this->ctrl->getLinkTarget($this, ""));
 		}
 		
 		if ($rbacsystem->checkAccess('write',$this->ref_id))
@@ -177,6 +176,19 @@ class ilObjRootFolderGUI extends ilContainerGUI
 		}
 		return true;
 	}
+	
+	/**
+	* Render root folder
+	*/
+	function renderObject()
+	{
+		global $ilTabs;
+		
+		$ilTabs->activateTab("view_content");
+		$ret =  parent::renderObject();
+		return $ret;
+	}
+	
 	
 	/**
 	* edit category

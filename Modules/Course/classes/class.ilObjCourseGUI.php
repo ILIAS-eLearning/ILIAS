@@ -349,8 +349,8 @@ class ilObjCourseGUI extends ilContainerGUI
 			$this->object->getViewMode() == ilContainer::VIEW_OBJECTIVE
 			)
 		{
-			$this->setContentSubTabs();
-			return parent::renderObject();
+			$ret = parent::renderObject();
+			return $ret;
 		}
 		else
 		{
@@ -3002,12 +3002,12 @@ class ilObjCourseGUI extends ilContainerGUI
 		return true;
 	}
 
-	
-
-
+	/**
+	* Get tabs
+	*/
 	function getTabs(&$tabs_gui)
 	{
-		global $rbacsystem,$ilAccess,$ilUser;
+		global $rbacsystem,$ilAccess,$ilUser, $lng;
 
 		$this->object->initCourseMemberObject();
 
@@ -3015,7 +3015,7 @@ class ilObjCourseGUI extends ilContainerGUI
 
 		if($ilAccess->checkAccess('read','',$this->ref_id))
 		{
-			$tabs_gui->addTarget('view_content',
+			$tabs_gui->addTab('view_content', $lng->txt("content"),
 								 $this->ctrl->getLinkTarget($this,''));
 		}
 		if ($ilAccess->checkAccess('visible','',$this->ref_id))
@@ -4634,9 +4634,12 @@ class ilObjCourseGUI extends ilContainerGUI
 		}
 	}
 	
+	/**
+	* Set content sub tabs
+	*/
 	function setContentSubTabs()
 	{
-		global $ilAccess;
+		global $ilAccess, $lng, $ilCtrl;
 
 		if ($this->object->getType() != 'crs')
 		{
@@ -4663,8 +4666,14 @@ class ilObjCourseGUI extends ilContainerGUI
 		
 		if(!$_SESSION['crs_timings_panel'][$this->object->getId()] or 1)
 		{
-			$this->tabs_gui->addSubTabTarget('crs_content',
-				$this->ctrl->getLinkTargetByClass("ilobjcoursegui",'view'));
+			if (!$this->isActiveAdministrationPanel())
+			{
+				$this->tabs_gui->addSubTab("view_content", $lng->txt("view"), $ilCtrl->getLinkTargetByClass("ilobjcoursegui", "view"));
+			}
+			else
+			{
+				$this->tabs_gui->addSubTab("view_content", $lng->txt("view"), $ilCtrl->getLinkTargetByClass("ilobjcoursegui", "disableAdministrationPanel"));
+			}
 		}
 		include_once 'Modules/Course/classes/class.ilCourseItems.php';
 		if($this->object->getViewMode() == IL_CRS_VIEW_TIMING)
@@ -4672,6 +4681,8 @@ class ilObjCourseGUI extends ilContainerGUI
 			$this->tabs_gui->addSubTabTarget('timings_timings',
 				$this->ctrl->getLinkTargetByClass('ilcoursecontentgui','editUserTimings'));
 		}
+		
+		$this->addStandardContainerSubTabs(false);
 
 		if($is_tutor)
 		{
@@ -4767,7 +4778,7 @@ class ilObjCourseGUI extends ilContainerGUI
 
 		global $rbacsystem,$ilias,$ilUser,$ilAccess,$ilObjDataCache;
 
-		$this->tabs_gui->setSubTabActive('crs_content');
+		$this->tabs_gui->setSubTabActive('view');
 
 		$this->tpl->addBlockFile("ADM_CONTENT", "adm_content", "tpl.crs_start_view.html",'Modules/Course');
 		$this->tpl->setVariable("INFO_STRING",$this->lng->txt('crs_info_start'));
