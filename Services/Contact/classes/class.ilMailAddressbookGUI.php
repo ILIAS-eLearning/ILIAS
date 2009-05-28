@@ -506,7 +506,7 @@ class ilMailAddressbookGUI
 		// check if users has been selected
 		if (!$_POST["addr_id"] || empty($_POST["addr_id"]))
 		{
-			ilUtil::sendInfo('no users selected', true);
+			ilUtil::sendInfo($lng->txt('chat_no_users_selected'), true);
 			ilUtil::redirect($ilCtrl->getLinkTarget($this, 'showAddressbook'));
 			exit;
 		}
@@ -611,14 +611,14 @@ class ilMailAddressbookGUI
 		
 		if (!$_POST["addr_ids"])
 		{
-			ilUtil::showInfo('no users selected');
+			ilUtil::sendInfo($lng->txt('chat_no_users_selected'), true);
 			$this->showAddressbook();
 			exit;
 		}
 
 		if (!$_POST["room_id"])
 		{
-			ilUtil::showInfo('no room selected');
+			ilUtil::sendInfo($lng->txt('chat_no_room_selected'), true);
 			$_POST['addr_id'] = explode(',', $_POST["addr_ids"]);
 			$this->showAddressbook();
 			exit;

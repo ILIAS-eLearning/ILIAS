@@ -131,24 +131,21 @@ class ilAddressbook
 	{
 		global $ilDB;
 		
-		//$nextId = $ilDB->nextId($this->table_addr);   //addr_id,
+		$nextId = $ilDB->nextId($this->table_addr);   //addr_id,
 		$statement = $ilDB->manipulateF("
 			INSERT INTO ".$this->table_addr."
 			( 	
+				addr_id,
 				user_id,
 				login,
 				firstname,
 				lastname,
 				email
 			)
-			VALUES (%s, %s, %s, %s, %s)",
-			array( 'integer', 'text', 'text', 'text', 'text'),
-			array($this->user_id, $a_login, $a_firstname, $a_lastname, $a_email));
-		
-		/*VALUES (%s, %s, %s, %s, %s, %s)",
+			VALUES (%s, %s, %s, %s, %s, %s)",
 			array('integer', 'integer', 'text', 'text', 'text', 'text'),
 			array($nextId, $this->user_id, $a_login, $a_firstname, $a_lastname, $a_email));
-		*/
+		
 		return true;
 	}
 
