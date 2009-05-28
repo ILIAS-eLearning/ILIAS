@@ -122,11 +122,23 @@ class ilObjGroupListGUI extends ilObjectListGUI
 	*/
 	function getProperties()
 	{
-		global $lng, $rbacsystem;
+		global $lng, $rbacsystem,$ilUser;
 
 		// BEGIN WebDAV get parent properties
 		$props = parent::getProperties();
 		// END WebDAV get parent properties
+		
+		// waiting list
+		include_once './Modules/Group/classes/class.ilGroupWaitingList.php';
+		if(ilGroupWaitingList::_isOnList($ilUser->getId(),$this->obj_id))
+		{
+			$props[] = array(
+				"alert" 	=> true,
+				"property" 	=> $lng->txt('member_status'),
+				"value"		=> $lng->txt('on_waiting_list')
+			);
+		}
+		
 
 		return $props;
 	}

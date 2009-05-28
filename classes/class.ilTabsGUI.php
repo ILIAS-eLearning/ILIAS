@@ -131,6 +131,57 @@ class ilTabsGUI
 		$this->target[] = array("text" => $a_text, "link" => $a_link,
 			"frame" => $a_frame, "dir_text" => true, "id" => $a_id, "cmdClass" => array());
 	}
+	
+	/**
+	 * Remove a tab identified by its id.
+	 *
+	 * @param 	string	$a_id	Id of tab to remove
+	 * @return bool	false if tab wasn't found
+	 * @access public
+	 */
+	public function removeTab($a_id)
+	{
+		for($i = 0; $i < count($this->target); $i++)
+		{
+			if($this->target[$i]['id'] == $a_id)
+			{
+				$this->target = array_slice($this->target, $i - 1, 1);
+				return true;
+			}
+		}
+		return false;
+	}
+	
+	/**
+	 * Replace a tab.
+	 * In contrast to a combination of removeTab and addTab, the position is kept. 
+	 * 
+	 * @param string $a_old_id				old id of tab
+	 * @param string $a_new_id				new id if tab
+	 * @param string $a_text				tab text
+	 * @param string $a_link				tab link
+	 * @param string $a_frame[optional]		frame
+	 * @return bool
+	 */
+	public function replaceTab($a_old_id,$a_new_id,$a_text,$a_link,$a_frame = '')
+	{
+		for($i = 0; $i < count($this->target); $i++)
+		{
+			if($this->target[$i]['id'] == $a_old_id)
+			{
+				$this->target[$i] = array();
+				$this->target[$i] = array(
+					"text" => $a_text, 
+					"link" => $a_link,
+					"frame" => $a_frame, 
+					"dir_text" => true, 
+					"id" => $a_new_id, 
+					"cmdClass" => array());
+				return true;
+			}
+		}
+		return false;
+	}
 
 	/**
 	* clear all targets

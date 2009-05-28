@@ -91,10 +91,10 @@ class ilObjGroupGUI extends ilContainerGUI
 
 			case 'ilgroupregistrationgui':
 				$this->ctrl->setReturn($this,'');
+				$this->tabs_gui->setTabActive('join');
 				include_once('./Modules/Group/classes/class.ilGroupRegistrationGUI.php');
 				$registration = new ilGroupRegistrationGUI($this->object);
 				$this->ctrl->forwardCommand($registration);
-				$this->tabs_gui->setTabActive('join');
 				break;
 
 			case 'ilpermissiongui':
@@ -1684,7 +1684,7 @@ class ilObjGroupGUI extends ilContainerGUI
 		$tpl->setVariable('TXT_SUBMIT',$this->lng->txt('grp_btn_unsubscribe'));
 		$tpl->setVariable('TXT_CANCEL',$this->lng->txt('cancel'));
 		
-		ilUtil::sendInfo($this->lng->txt('grp_dismiss_myself'));
+		ilUtil::sendQuestion($this->lng->txt('grp_dismiss_myself'));
 		$this->tpl->setContent($tpl->get());		
 	}
 	
@@ -1702,7 +1702,7 @@ class ilObjGroupGUI extends ilContainerGUI
 		
 		$this->object->members_obj->delete($ilUser->getId());
 		
-		ilUtil::sendInfo($this->lng->txt('grp_msg_membership_annulled'));
+		ilUtil::sendSuccess($this->lng->txt('grp_msg_membership_annulled'),true);
 		ilUtil::redirect('repository.php?ref_id='.$tree->getParentId($this->object->getRefId()));
 	}
 	
@@ -1909,10 +1909,24 @@ class ilObjGroupGUI extends ilContainerGUI
 		if($ilAccess->checkAccess('join','',$this->object->getRefId()) and
 			!$this->object->members_obj->isAssigned($ilUser->getId()))
 		{
-			$tabs_gui->addTarget("join",
-								 $this->ctrl->getLinkTargetByClass('ilgroupregistrationgui', "show"), 
-								 '',
-								 "");
+			include_once './Modules/Group/classes/class.ilGroupWaitingList.php';
+			if(ilGroupWaitingList::_isOnList($ilUser->getId(), $this->object->getId()))
+			{
+				$tabs_gui->addTab(
+					'leave',
+					$this->lng->txt('membership_leave'),
+					$this->ctrl->getLinkTargetByClass('ilgroupregistrationgui','show','')
+				);
+					
+			}
+			else
+			{			
+				
+				$tabs_gui->addTarget("join",
+									 $this->ctrl->getLinkTargetByClass('ilgroupregistrationgui', "show"), 
+									 'show',
+									 "");
+			}
 		}
 		if($ilAccess->checkAccess('leave','',$this->object->getRefId()) and
 			$this->object->members_obj->isMember($ilUser->getId()))

@@ -53,6 +53,8 @@ class ilObjCourseAccess extends ilObjectAccess
 		{
 			$a_user_id = $ilUser->getId();
 		}
+		
+		
 
 		switch ($a_cmd)
 		{
@@ -63,45 +65,29 @@ class ilObjCourseAccess extends ilObjectAccess
 					$ilAccess->addInfoItem(IL_NO_OBJECT_ACCESS, $lng->txt("crs_status_blocked"));
 					return false;
 				} 
-				/*				
-				if($members->isBlocked($a_user_id) and $members->isAssigned($a_user_id))
-				{
-					$ilAccess->addInfoItem(IL_NO_OBJECT_ACCESS, $lng->txt("crs_status_blocked"));
-					return false;
-				}
-				*/					
 				break;
 
-			/*
-			case "info":
-				// Used for permission query ?!
-				include_once 'Modules/Course/classes/class.ilCourseParticipants.php';
-				if(ilCourseParticipants::_isAssigned($a_user_id,$a_obj_id))
-				{
-					$ilAccess->addInfoItem(IL_STATUS_MESSAGE, $lng->txt("info_is_member"));
-				}
-				else
-				{
-					$ilAccess->addInfoItem(IL_STATUS_MESSAGE, $lng->txt("info_is_not_member"));
-				}			
-				break;
-			*/	
 			case 'join':
 				
+				include_once './Modules/Course/classes/class.ilCourseWaitingList.php';
+				if(ilCourseWaitingList::_isOnList($ilUser->getId(), $a_obj_id))
+				{
+					return false;
+				}
+
 				include_once 'Modules/Course/classes/class.ilCourseParticipants.php';
 				if(ilCourseParticipants::_isParticipant($a_ref_id,$a_user_id))
 				{
 					return false;
 				}
-				/*
-				include_once 'Modules/Course/classes/class.ilCourseParticipants.php';
-
-				$members = ilCourseParticipants::_getInstanceByObjId($a_obj_id);
-				if($members->isAssigned($a_user_id))
+				break;
+				
+			case 'leave':
+				include_once './Modules/Course/classes/class.ilCourseWaitingList.php';
+				if(!ilCourseWaitingList::_isOnList($ilUser->getId(), $a_obj_id))
 				{
 					return false;
 				}
-				*/				
 				break;
 		}
 
@@ -174,10 +160,10 @@ class ilObjCourseAccess extends ilObjectAccess
 	{
 		$commands = array();
 		$commands[] = array("permission" => "read", "cmd" => "", "lang_var" => "view", "default" => true);
-		// why here? it just needs info_screen_enabled = true in ilObjCourseListGUI (alex, 30.7.2008)
-		// this is not consistent, with all other objects...
-		// $commands[] = array("permission" => "visible", "cmd" => "infoScreen", "lang_var" => "info_short", "enable_anonymous" => "false");
 		$commands[] = array("permission" => "join", "cmd" => "join", "lang_var" => "join");
+		// only for users on the waiting list
+		$commands[]	= array('permission' => "join", "cmd" => "leave", "lang_var" => "leave_waiting_list");
+
 		// BEGIN WebDAV: Mount as webfolder.
 		require_once 'Services/WebDAV/classes/class.ilDAVServer.php';
 		//if (ilDAVServer::_isActive() && ilDAVServer::_isActionsVisible())		// show always with 3.11

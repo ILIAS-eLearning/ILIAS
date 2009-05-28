@@ -2833,7 +2833,7 @@ class ilObjCourseGUI extends ilContainerGUI
 
 
 		$this->tpl->addBlockFile("ADM_CONTENT", "adm_content", "tpl.crs_unsubscribe_sure.html",'Modules/Course');
-		ilUtil::sendInfo($this->lng->txt('crs_unsubscribe_sure'));
+		ilUtil::sendQuestion($this->lng->txt('crs_unsubscribe_sure'));
 		
 		$this->tpl->setVariable("UNSUB_FORMACTION",$this->ctrl->getFormAction($this));
 		$this->tpl->setVariable("TXT_CANCEL",$this->lng->txt("cancel"));
@@ -3119,13 +3119,28 @@ class ilObjCourseGUI extends ilContainerGUI
 									 $this->ctrl->getLinkTarget($this, "trash"), "trash", get_class($this));
 			}
 		}
+		// Join/Leave
 		if($ilAccess->checkAccess('join','',$this->ref_id)
 			and !$this->object->members_obj->isAssigned($ilUser->getId()))
 		{
-			$tabs_gui->addTarget("join",
-								 $this->ctrl->getLinkTargetByClass('ilcourseregistrationgui', "show"), 
-								 'show',
-								 "");
+			include_once './Modules/Course/classes/class.ilCourseWaitingList.php';
+			if(ilCourseWaitingList::_isOnList($ilUser->getId(), $this->object->getId()))
+			{
+				$tabs_gui->addTab(
+					'leave',
+					$this->lng->txt('membership_leave'),
+					$this->ctrl->getLinkTargetByClass('ilcourseregistrationgui','show','')
+				);
+					
+			}
+			else
+			{			
+				
+				$tabs_gui->addTarget("join",
+									 $this->ctrl->getLinkTargetByClass('ilcourseregistrationgui', "show"), 
+									 'show',
+									 "");
+			}
 		}
 		if($ilAccess->checkAccess('leave','',$this->object->getRefId())
 			and $this->object->members_obj->isMember($ilUser->getId()))
@@ -4195,7 +4210,7 @@ class ilObjCourseGUI extends ilContainerGUI
 						!ilCourseParticipants::_isParticipant($this->object->getRefId(),$ilUser->getId()))
 					{
 						include_once('./Modules/Course/classes/class.ilCourseRegistrationGUI.php');
-						$this->ctrl->redirectByClass("ilCourseRegistrationGUI", "show");
+						$this->ctrl->redirectByClass("ilCourseRegistrationGUI");
 					}
 					else
 					{

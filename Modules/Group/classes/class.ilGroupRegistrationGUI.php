@@ -52,8 +52,15 @@ class ilGroupRegistrationGUI extends ilRegistrationGUI
 	 */
 	public function executeCommand()
 	{
+		global $ilUser,$ilTabs;
+		
 		$next_class = $this->ctrl->getNextClass($this);
 		
+		if($this->getWaitingList()->isOnList($ilUser->getId()))
+		{
+			$ilTabs->activateTab('leave');
+		}
+
 		switch($next_class)
 		{
 			default:
@@ -410,6 +417,17 @@ class ilGroupRegistrationGUI extends ilRegistrationGUI
 		include_once('./Modules/Group/classes/class.ilGroupParticipants.php');
 		$this->participants = ilGroupParticipants::_getInstanceByObjId($this->obj_id);
 	}
+	
+    /**
+     * @see ilRegistrationGUI::initWaitingList()
+     * @access protected
+     */
+    protected function initWaitingList()
+    {
+		include_once './Modules/Group/classes/class.ilGroupWaitingList.php';
+		$this->waiting_list = new ilGroupWaitingList($this->container->getId());
+    }
+	
 	
 }
 ?>
