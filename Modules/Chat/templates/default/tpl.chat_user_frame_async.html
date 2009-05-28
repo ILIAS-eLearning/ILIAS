@@ -91,7 +91,7 @@
   <tr>
   	<td class="ilInvisibleBorder" valign="top">
   <!--<div class="invisible_border">-->
-		<form action="#" name="txt_input" method="post" onsubmit="il_chat_async_handler.postMessage(); return false;" >
+		<form action="" target="_blank" name="txt_input" method="post" onsubmit="il_chat_async_handler.postMessage(); return false;" accept-charset="utf-8">
 		<table class="std" border="0">
 		  <tr class="tblheader">
 			  <th class="std" align="left" nowrap="nowrap" colspan="3">
@@ -121,6 +121,15 @@
 					else document.txt_input.message.focus();
 				//-->
 				</script>
+				<!-- BEGIN smilies_selector -->
+				<div id="show_smilies_button" onclick="ilShowSmileySelector()"><a href="javascript:;">{TXT_SHOW_SMILIES}</a></div>
+				<div id="hide_smilies_button" onclick="ilHideSmileySelector()" style="display:none;"><a href="javascript:;">{TXT_HIDE_SMILIES}</a></div>
+				<div style="width: 350px; text-align: left; display: none;" id="smiley_selector">
+					<!-- BEGIN smilies_element -->
+						<img style="padding: 10px " src="{SMILEY_SRC}" alt="{SMILEY_ALT}" onclick="insertSmiley('{SMILEY_CONTENT}', document.getElementById('chat_post_message'))"/>
+					<!-- END smilies_element -->
+				</div>
+				<!-- END smilies_selector -->
 			  </td>
 		</tr>
 		<tr class="tblfooter">
@@ -129,7 +138,7 @@
 				<!-- BEGIN cancel -->
 				<input class="submit" type="submit" name="cmd[cancelAddressOrWhisperMode]" value="{TXT_SUBMIT_CANCEL}" />&nbsp;
 				<!-- END cancel -->
-				<input class="submit" type="submit" name="cmd[export]" value="{TXT_HTML_EXPORT}" />
+				<input class="submit" type="button" onclick="ilExportChat()" name="cmd[export]" value="{TXT_HTML_EXPORT}" />
 			</td>
 		</tr>
 		</table>

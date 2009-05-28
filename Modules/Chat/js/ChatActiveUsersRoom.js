@@ -29,6 +29,7 @@ function ilChatActiveUsersRoom()
 		var menuconfig = [];
 		var user_id = this.id;
 		var user_display_name = this.display_name;
+		var user_login = this.login;
 		
 		// always grant without permission;
 		menuconfig.push
@@ -58,6 +59,12 @@ function ilChatActiveUsersRoom()
 				{ text : chatLanguage.getTxt('unkick'), onclick : { fn : function() {il_chat_async_handler.unkickUser(user_id);return false;}}}
 			);
 		}
+		
+		menuconfig.push
+		(
+			{ text : chatLanguage.getTxt('add_to_addressbook'), onclick : { fn : function() {il_chat_async_handler.addUserToAddressbook(user_login); return false;}}}
+		);
+		
 		
 		//check for public profile
 		if (this.public_profile == true)

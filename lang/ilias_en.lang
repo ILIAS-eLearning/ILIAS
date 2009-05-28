@@ -9454,3 +9454,6 @@ payment#:#payment_already_bought_but_no_access#:#You already bought the object %
 cmps#:#cmps_plugin_activated#:#The plugin has been activated.
 cmps#:#cmps_plugin_deactivated#:#The plugin has been deactivated.
 common#:#preferences#:#User-defined Preferences
+chat#:#chat_show_smilies#:#show smilies
+chat#:#chat_hide_smilies#:#hide smilies
+chat#:#chat_no_room_selected#:#No room has been selected.
