@@ -40,16 +40,44 @@ class ilToolbarGUI
 	}
 	
 	/**
+	* Set form mode
+	*
+	* @param	boolean	form mode
+	*/
+	function setFormMode($a_val)
+	{
+		$this->form_mode = $a_val;
+	}
+	
+	/**
+	* Get form mode
+	*
+	* @return	boolean	form mode
+	*/
+	function getFormMode()
+	{
+		return $this->form_mode;
+	}
+	
+	/**
+	* Set leading image
+	*/
+	function setLeadingImage($a_img, $a_alt)
+	{
+		$this->lead_img = array("img" => $a_img, "alt" => $a_alt);
+	}
+	
+	/**
 	* Add item to toolbar
 	*
 	* @param	string		text
-	* @param	string		link href
+	* @param	string		link href / submit command
 	* @param	string		frame target
 	* @param	string		access key
 	*/
-	function addButton($a_txt, $a_href, $a_target = "", $a_acc_key = "")
+	function addButton($a_txt, $a_cmd, $a_target = "", $a_acc_key = "")
 	{
-		$this->items[] = array("type" => "button", "txt" => $a_txt, "href" => $a_href,
+		$this->items[] = array("type" => "button", "txt" => $a_txt, "cmd" => $a_cmd,
 			"target" => $a_target, "acc_key" => $a_acc_key);
 	}
 	
@@ -65,26 +93,41 @@ class ilToolbarGUI
 		{
 			foreach($this->items as $item)
 			{
-				$tpl->setCurrentBlock("btn_row");
-				$tpl->setVariable("BTN_TXT", $item["txt"]);
-				$tpl->setVariable("BTN_LINK", $item["href"]);
-				if ($item["target"] != "")
+				if (!$this->getFormMode())
 				{
-					$tpl->setVariable("BTN_TARGET", 'target="'.$item["target"].'"');
+					$tpl->setCurrentBlock("btn_cell");
+					$tpl->setVariable("BTN_TXT", $item["txt"]);
+					$tpl->setVariable("BTN_LINK", $item["cmd"]);
+					if ($item["target"] != "")
+					{
+						$tpl->setVariable("BTN_TARGET", 'target="'.$item["target"].'"');
+					}
+					if ($item["acc_key"] != "")
+					{
+						include_once("./Services/Accessibility/classes/class.ilAccessKeyGUI.php");
+						$tpl->setVariable("BTN_ACC_KEY",
+							ilAccessKeyGUI::getAttribute($item["acc_key"]));
+					}
+					$tpl->parseCurrentBlock();
 				}
-				if ($item["acc_key"] != "")
+				else
 				{
-					include_once("./Services/Accessibility/classes/class.ilAccessKeyGUI.php");
-					$tpl->setVariable("BTN_ACC_KEY",
-						ilAccessKeyGUI::getAttribute($item["acc_key"]));
+					$tpl->setCurrentBlock("btn_sub");
+					$tpl->setVariable("SUB_TXT", $item["txt"]);
+					$tpl->setVariable("SUB_CMD", $item["cmd"]);
+					$tpl->parseCurrentBlock();
 				}
-				$tpl->parseCurrentBlock();
 			}
 			
 			$tpl->setCurrentBlock("btn_row");
 			$tpl->parseCurrentBlock();
 
 			$tpl->setVariable("TXT_FUNCTIONS", $lng->txt("functions"));
+			if ($this->lead_img["img"] != "")
+			{
+				$tpl->setVariable("IMG_SRC", $this->lead_img["img"]);
+				$tpl->setVariable("IMG_ALT", $this->lead_img["alt"]);
+			}
 			
 			return $tpl->get();
 		}

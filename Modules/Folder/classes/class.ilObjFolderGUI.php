@@ -54,6 +54,9 @@ class ilObjFolderGUI extends ilContainerGUI
 	}
 
 
+	/**
+	* View folder
+	*/
 	function viewObject()
 	{
 		global $tree;
@@ -63,32 +66,22 @@ class ilObjFolderGUI extends ilContainerGUI
 			parent::viewObject();
 			return true;
 		}
-//		else if(!$tree->checkForParentType($this->ref_id,'crs'))
-//		{
-			//$this->ctrl->returnToParent($this);
-			$this->renderObject();
-//		}
-//		else
-//		{
-			// BEGIN ChangeEvent record read event
-//			require_once('Services/Tracking/classes/class.ilChangeEvent.php');
-//			if (ilChangeEvent::_isActive())
-//			{
-//				global $ilUser;
-//				ilChangeEvent::_recordReadEvent($this->object->getId(), $ilUser->getId());
-//			}
-			// END ChangeEvent record read event
-//			include_once './Modules/Course/classes/class.ilCourseContentGUI.php';
-//			$course_content_obj = new ilCourseContentGUI($this);
-
-//			$this->ctrl->setCmdClass(get_class($course_content_obj));
-//			$this->ctrl->forwardCommand($course_content_obj);
-//		}
+		$this->renderObject();
 		$this->tabs_gui->setTabActive('view_content');
 		return true;
 	}
 		
-
+	/**
+	* Render folder
+	*/
+	function renderObject()
+	{
+		global $ilTabs;
+		
+		$ilTabs->activateTab("view_content");
+		$ret =  parent::renderObject();
+		return $ret;
+	}
 
 	function &executeCommand()
 	{
@@ -393,21 +386,20 @@ class ilObjFolderGUI extends ilContainerGUI
 	}
 	// END ChangeEvent show info screen on folder object
 
-	// get tabs
+	/**
+	* Get tabs
+	*/
 	function getTabs(&$tabs_gui)
 	{
-		global $rbacsystem,$ilUser;
+		global $rbacsystem, $ilUser, $lng;
 
 		$this->ctrl->setParameter($this,"ref_id",$this->ref_id);
 
 		$tabs_gui->setTabActive("");
 		if ($rbacsystem->checkAccess('read',$this->ref_id))
 		{
-			$tabs_gui->addTarget("view_content",
-				$this->ctrl->getLinkTarget($this, ""), 
-				array("", "view", "cciMove", "enableAdministrationPanel", 
-					"disableAdministrationPanel", "render"), 
-				get_class($this));
+			$tabs_gui->addTab("view_content", $lng->txt("content"),
+				$this->ctrl->getLinkTarget($this, ""));
 
 			//BEGIN ChangeEvent add info tab to category object
 			$force_active = ($this->ctrl->getNextClass() == "ilinfoscreengui"

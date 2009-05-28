@@ -160,9 +160,12 @@ class ilObjCategoryGUI extends ilContainerGUI
 		return true;
 	}
 
+	/**
+	* Get tabs
+	*/
 	function getTabs(&$tabs_gui)
 	{
-		global $rbacsystem;
+		global $rbacsystem, $lng;
 
 		if ($this->ctrl->getCmd() == "editPageContent")
 		{
@@ -175,9 +178,8 @@ class ilObjCategoryGUI extends ilContainerGUI
 			$force_active = ($_GET["cmd"] == "" || $_GET["cmd"] == "render")
 				? true
 				: false;
-			$tabs_gui->addTarget("view_content",
-				$this->ctrl->getLinkTarget($this, ""),
-				array("view", ""), "", "", $force_active);
+			$tabs_gui->addTab("view_content", $lng->txt("content"),
+				$this->ctrl->getLinkTarget($this, ""));
 
 			//BEGIN ChangeEvent add info tab to category object
 			$force_active = ($this->ctrl->getNextClass() == "ilinfoscreengui"
@@ -210,6 +212,19 @@ class ilObjCategoryGUI extends ilContainerGUI
 		
 		// parent tabs (all container: edit_permission, clipboard, trash
 		parent::getTabs($tabs_gui);
+
+	}
+
+	/**
+	* Render category
+	*/
+	function renderObject()
+	{
+		global $ilTabs;
+		
+		$ilTabs->activateTab("view_content");
+		$ret =  parent::renderObject();
+		return $ret;
 
 	}
 

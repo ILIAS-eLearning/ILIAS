@@ -2319,10 +2319,10 @@ table.il_Block
 	width:100%;
 	border-spacing:0px;
 	border-collapse:collapse;
-	border-width:1px;
-	border-style:solid;
-	border-color:#D6D6D6;
-	margin-bottom:25px;
+	border-width: 1px;
+	border-style: solid;
+	border-color: #D6D6D6;
+	margin-bottom: 20px;
 	clear:both;
 }
 
@@ -2411,6 +2411,7 @@ table.ilContainerBlock
 	border-width:1px;
 	border-style:solid;
 	clear:both;
+	margin-bottom:20px;
 }
 
 th.ilPDBlockSubHeader
@@ -2495,10 +2496,25 @@ td.submit {
 	background-color: #F3F3F3;
 }
 
+/* Toolbar */
+div.ilToolbar
+{
+	border-width: 1px;
+	border-style: solid;
+	border-color: #F0F0F0;
+	background-color: #F9F9F9;
+	padding: 5px;
+}
+
 /* List Items */
 div.ilContainerListItemOuter
 {
 	padding: 15px;
+}
+
+td.ilContainerListFooter
+{
+	padding-left: 15px;
 }
 
 div.ilContainerListItemOuterHighlight

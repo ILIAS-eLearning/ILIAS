@@ -366,10 +366,13 @@ abstract class ilContainerContentGUI
 						// if no item has been rendered, add message
 						if (!$item_rendered)
 						{
-							$this->addMessageRow($tpl, $lng->txt("msg_no_type_accessible"), $type);
+							//$this->addMessageRow($tpl, $lng->txt("msg_no_type_accessible"), $type);
+							$this->rendered_block["type"][$type] = "";
 						}
-
-						$this->rendered_block["type"][$type] = $tpl->get();
+						else
+						{
+							$this->rendered_block["type"][$type] = $tpl->get();
+						}
 					}
 				}
 			}
@@ -398,14 +401,14 @@ abstract class ilContainerContentGUI
 		{
 			$item_list_gui->enableIcon(true);
 		}
-		if ($this->getContainerGUI()->isActiveAdministrationPanel())
+		if ($this->getContainerGUI()->isActiveAdministrationPanel() && !$_SESSION["clipboard"])
 		{
 			$item_list_gui->enableCheckbox(true);
-			if ($this->getContainerObject()->getOrderType() == ilContainer::SORT_MANUAL)
-			{
-				$item_list_gui->setPositionInputField("[".$a_item_data["ref_id"]."]",
-					sprintf('%.1f', $a_position));
-			}
+		}
+		if ($this->getContainerGUI()->edit_order)
+		{
+			$item_list_gui->setPositionInputField("[".$a_item_data["ref_id"]."]",
+				sprintf('%.1f', $a_position));
 		}
 		if($a_item_data['type'] == 'sess' and get_class($this) != 'ilContainerObjectiveGUI')
 		{
@@ -535,6 +538,18 @@ abstract class ilContainerContentGUI
 	{
 		global $lng, $ilSetting, $objDefinition;
 		
+		$a_tpl->setVariable("CB_ID", ' id="bl_cntr_'.$this->bl_cnt.'"');
+		if ($this->getContainerGUI()->isActiveAdministrationPanel() && !$_SESSION["clipboard"])
+		{
+			$a_tpl->setCurrentBlock("select_all_row");
+			$a_tpl->setVariable("CHECKBOXNAME", "bl_cb_".$this->bl_cnt);
+			$a_tpl->setVariable("SEL_ALL_PARENT", "bl_cntr_".$this->bl_cnt);
+			$a_tpl->setVariable("SEL_ALL_PARENT", "bl_cntr_".$this->bl_cnt);
+			$a_tpl->setVariable("TXT_SELECT_ALL", $lng->txt("select_all"));
+			$a_tpl->parseCurrentBlock();
+			$this->bl_cnt++;
+		}
+		
 		if ($a_text == "" && $a_type != "")
 		{
 			if (!$objDefinition->isPlugin($a_type))
@@ -644,8 +659,10 @@ abstract class ilContainerContentGUI
 	*/
 	function addSeparatorRow(&$a_tpl)
 	{
-		$a_tpl->touchBlock("separator_row");
-		$a_tpl->touchBlock("container_row");
+		global $lng;
+		
+		$a_tpl->setCurrentBlock("container_block");
+		$a_tpl->parseCurrentBlock();
 	}
 
 	/**
