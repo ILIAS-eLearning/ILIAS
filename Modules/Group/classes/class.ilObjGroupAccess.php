@@ -71,12 +71,28 @@ class ilObjGroupAccess extends ilObjectAccess
 				
 			case "join":
 			
+				include_once './Modules/Group/classes/class.ilGroupWaitingList.php';
+				if(ilGroupWaitingList::_isOnList($ilUser->getId(), $a_obj_id))
+				{
+					return false;
+				}
+				break;
+
 				include_once './Modules/Group/classes/class.ilGroupParticipants.php';
 				if(ilGroupParticipants::_isParticipant($a_ref_id,$a_user_id))
 				{
 					return false;
 				}
 				break;
+				
+			case 'leave':
+				include_once './Modules/Group/classes/class.ilGroupWaitingList.php';
+				if(!ilGroupWaitingList::_isOnList($ilUser->getId(), $a_obj_id))
+				{
+					return false;
+				}
+				break;
+				
 		}
 
 		switch ($a_permission)
@@ -102,10 +118,10 @@ class ilObjGroupAccess extends ilObjectAccess
 	{
 		$commands = array();
 		$commands[] = array("permission" => "read", "cmd" => "view", "lang_var" => "show", "default" => true);
-		// why here? it just needs info_screen_enabled = true in ilObjGroupListGUI (alex, 30.7.2008)
-		// this is not consistent, with all other objects...
-		// $commands[] = array("permission" => "visible", "cmd" => "infoScreen", "lang_var" => "info_short", "enable_anonymous" => "false");
 		$commands[] = array("permission" => "join", "cmd" => "join", "lang_var" => "join");
+		// only for users on the waiting list
+		$commands[]	= array('permission' => "join", "cmd" => "leave", "lang_var" => "leave_waiting_list");
+		
 		// BEGIN WebDAV: Mount Webfolder.
 		require_once 'Services/WebDAV/classes/class.ilDAVServer.php';
 		//if (ilDAVServer::_isActive() && ilDAVServer::_isActionsVisible())		// show always with 3.11

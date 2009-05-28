@@ -177,6 +177,26 @@ abstract class ilWaitingList
 	{
 		return isset($this->users[$a_usr_id]) ? true : false;
 	}
+	
+	/**
+	 * Check if a user on the waiting list
+	 * @return bool
+	 * @param object $a_usr_id
+	 * @param object $a_obj_id
+	 * @access public
+	 * @static
+	 */
+	public static function _isOnList($a_usr_id,$a_obj_id)
+	{
+		global $ilDB;
+		
+		$query = "SELECT usr_id ".
+			"FROM crs_waiting_list ".
+			"WHERE obj_id = ".$ilDB->quote($a_obj_id, 'integer')." ".
+			"AND usr_id = ".$ilDB->quote($a_usr_id, 'integer');
+		$res = $ilDB->query($query);
+		return $res->numRows() ? true : false;
+	}
 
 	/**
 	 * get number of users

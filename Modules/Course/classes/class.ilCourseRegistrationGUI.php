@@ -59,6 +59,13 @@ class ilCourseRegistrationGUI extends ilRegistrationGUI
 	 */
 	public function executeCommand()
 	{
+		global $ilTabs,$ilUser;
+		
+		if($this->getWaitingList()->isOnList($ilUser->getId()))
+		{
+			$ilTabs->activateTab('leave');
+		}
+		
 		$next_class = $this->ctrl->getNextClass($this);
 		switch($next_class)
 		{
@@ -78,6 +85,12 @@ class ilCourseRegistrationGUI extends ilRegistrationGUI
 	 */
 	protected function getFormTitle()
 	{
+		global $ilUser;
+		
+		if($this->getWaitingList()->isOnList($ilUser->getId()))
+		{
+			return $this->lng->txt('member_status');
+		}
 		return $this->lng->txt('crs_registration');
 	}
 	
@@ -580,7 +593,7 @@ class ilCourseRegistrationGUI extends ilRegistrationGUI
 			$waiting_list->addToList($ilUser->getId());
 			$info = sprintf($this->lng->txt('crs_added_to_list'),$waiting_list->getPosition($ilUser->getId()));
 			$this->participants->sendNotification($this->participants->NOTIFY_SUBSCRIPTION_REQUEST,$ilUser->getId());
-			ilUtil::sendInfo($info,true);
+			ilUtil::sendSuccess($info,true);
 			ilUtil::redirect("repository.php?ref_id=".$tree->getParentId($this->container->getRefId()));
 		}
 
@@ -641,5 +654,18 @@ class ilCourseRegistrationGUI extends ilRegistrationGUI
 		include_once('./Modules/Course/classes/class.ilCourseParticipants.php');
 		$this->participants = ilCourseParticipants::_getInstanceByObjId($this->obj_id);
 	}
+	
+
+    /**
+     * @see ilRegistrationGUI::initWaitingList()
+     * @access protected
+     */
+    protected function initWaitingList()
+    {
+		include_once './Modules/Course/classes/class.ilCourseWaitingList.php';
+		$this->waiting_list = new ilCourseWaitingList($this->container->getId());
+    }
+	
+	
 }
 ?>

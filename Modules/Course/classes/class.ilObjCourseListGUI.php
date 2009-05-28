@@ -135,6 +135,16 @@ class ilObjCourseListGUI extends ilObjectListGUI
 			$props[] = array("alert" => true, "property" => $lng->txt("member_status"),
 				"value" => $lng->txt("crs_status_pending"));
 		}
+		// waiting list
+		include_once './Modules/Course/classes/class.ilCourseWaitingList.php';
+		if(ilCourseWaitingList::_isOnList($ilUser->getId(),$this->obj_id))
+		{
+			$props[] = array(
+				"alert" 	=> true,
+				"property" 	=> $lng->txt('member_status'),
+				"value"		=> $lng->txt('on_waiting_list')
+			);
+		}
 
 		return $props;
 	}

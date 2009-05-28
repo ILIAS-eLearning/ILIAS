@@ -37,6 +37,7 @@ abstract class ilRegistrationGUI
 	protected $obj_id;
 	
 	protected $participants;
+	protected $waiting_list = null;
 	protected $form;
 	
 	protected $registration_possible = true;
@@ -72,6 +73,9 @@ abstract class ilRegistrationGUI
 		
 		// Init participants
 		$this->initParticipants();
+		
+		// Init waiting list
+		$this->initWaitingList();
 	}
 	
 	/**
@@ -105,6 +109,35 @@ abstract class ilRegistrationGUI
 	 * @return
 	 */
 	abstract protected function initParticipants();
+	
+	/**
+	 * Init waiting list (course or group waiting list)
+	 * 
+	 * @access protected
+	 * @abstract
+	 * @return 
+	 */
+	abstract protected function initWaitingList();
+	
+	/**
+	 * Get waiting list object
+	 * @return object waiting list
+	 * @access protected
+	 */
+	protected function getWaitingList()
+	{
+		return $this->waiting_list;
+	}
+	
+	protected function leaveWaitingList()
+	{
+		global $ilUser,$tree,$ilCtrl;
+		
+		$this->getWaitingList()->removeFromList($ilUser->getId());
+		$parent = $tree->getParentId($this->container->getRefId());
+		ilUtil::sendSuccess($this->lng->txt('removed_from_waiting_list'),true);
+		ilUtil::redirect('repository.php?ref_id='.$parent);
+	}
 	
 	/**
 	 * Get title for property form
@@ -220,7 +253,10 @@ abstract class ilRegistrationGUI
 	 */
 	public function cancel()
 	{
-		$this->ctrl->returnToParent($this);
+		global $tree;
+		
+		ilUtil::redirect('repository.php?ref_id='.
+			$tree->getParentId($this->container->getRefId()));
 	}
 	
 	/**
@@ -278,6 +314,8 @@ abstract class ilRegistrationGUI
 	 */
 	protected function initForm()
 	{
+		global $ilUser;
+		
 		if(is_object($this->form))
 		{
 			return true;
@@ -306,10 +344,15 @@ abstract class ilRegistrationGUI
 		{
 			$this->fillAgreement();
 		}
-		if($this->isRegistrationPossible())
+		if($this->isRegistrationPossible() and !$this->getWaitingList()->isOnList($ilUser->getId()))
 		{
 			$this->form->addCommandButton('join',$this->lng->txt('join'));
 			$this->form->addCommandButton('cancel',$this->lng->txt('cancel'));
+		}
+		if($this->getWaitingList()->isOnList($ilUser->getId()))
+		{
+			$this->form->addCommandButton('leaveWaitingList', $this->lng->txt('leave_waiting_list'));
+			$this->form->addCommandButton('cancel', $this->lng->txt('cancel'));
 		}
 	}
 }

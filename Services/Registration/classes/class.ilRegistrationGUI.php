@@ -27,7 +27,7 @@
 /**
 * Class ilRegistrationGUI
 *
-* @author Stefan Meyer <smeyer@databay.de>
+* @author Stefan Meyer <smeyer.ilias@gmx.de>
 * @version $Id$
 *
 * @ilCtrl_Calls ilRegistrationGUI:
