@@ -26,7 +26,7 @@
 * Class ilObject
 * Basic functions for all objects
 *
-* @author Stefan Meyer <smeyer@databay.de>
+* @author Stefan Meyer <smeyer.ilias@gmx.de>
 * @author Alex Killing <alex.killing@gmx.de>
 * @version $Id$
 */

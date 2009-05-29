@@ -379,7 +379,6 @@ class ilCalendarAppointmentGUI
 				$cat_id = (int) $_POST['calendar'];
 			}
 			
-			
 			$this->app->update();
 			$this->saveRecurrenceSettings();
 			

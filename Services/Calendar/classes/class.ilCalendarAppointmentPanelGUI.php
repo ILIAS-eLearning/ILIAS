@@ -80,7 +80,7 @@ class ilCalendarAppointmentPanelGUI
 	 */
 	public function getHTML($a_app)
 	{
-		global $tree;
+		global $tree,$lng;
 		
 		self::$counter++;
 		
@@ -154,14 +154,18 @@ class ilCalendarAppointmentPanelGUI
 		if($cat_info['type'] == ilCalendarCategory::TYPE_OBJ)
 		{
 			$refs = ilObject::_getAllReferences($cat_info['obj_id']);
-			
+			$type = ilObject::_lookupType($cat_info['obj_id']);
+			$title = ilObject::_lookupTitle($cat_info['obj_id']) ? 
+				ilObject::_lookupTitle($cat_info['obj_id']) :
+				$lng->txt('obj_'.$type);
+						
 			include_once('classes/class.ilLink.php');
-			$href = ilLink::_getStaticLink(current($refs),ilObject::_lookupType($cat_info['obj_id']),true);
+			$href = ilLink::_getStaticLink(current($refs),ilObject::_lookupType($cat_info['obj_id']));
 			$parent = $tree->getParentId(current($refs));
 			$parent_title = ilObject::_lookupTitle(ilObject::_lookupObjId($parent));
 			$this->tpl->setVariable('PANEL_TXT_LINK',$this->lng->txt('ext_link'));
 			$this->tpl->setVariable('PANEL_LINK_HREF',$href);
-			$this->tpl->setVariable('PANEL_LINK_NAME',ilObject::_lookupTitle($cat_info['obj_id']));
+			$this->tpl->setVariable('PANEL_LINK_NAME',$title);
 			$this->tpl->setVariable('PANEL_PARENT',$parent_title);
 		}
 		

@@ -88,7 +88,6 @@ class ilObjSession extends ilObject
 		return false;
 	}
 	
-	
 	/**
 	 * get title
 	 * (overwritten from base class)
@@ -617,7 +616,7 @@ class ilObjSession extends ilObject
 
 				$app = new ilCalendarAppointmentTemplate(self::CAL_REG_START);
 				$app->setTranslationType(IL_CAL_TRANSLATION_NONE);
-				$app->setTitle($this->getTitle());
+				$app->setTitle($this->getTitle() ? $this->getTitle() : $this->lng->txt('obj_sess'));
 				$app->setDescription($this->getLongDescription());
 				
 				$sess_app = $this->getFirstAppointment();
