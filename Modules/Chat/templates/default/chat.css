@@ -160,13 +160,11 @@ body {
 #il_message_container {
 	width: 99%;
 	overflow: auto;
-	height: 80px;
-	border-bottom: 2px solid silver;
-	border-top: 2px solid silver;
+	height: 42px;
+	padding-bottom: 4px;
 }
 
 #il_message_container div {
-	border-bottom: 1px solid silver;
 	padding-top: 5px;
 	padding-bottom: 5px;
 	width: 90%;
