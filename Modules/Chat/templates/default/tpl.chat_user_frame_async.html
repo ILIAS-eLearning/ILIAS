@@ -80,12 +80,11 @@
 <!-- END add_chatroom -->
 </div><!-- end left col -->
 <div id="bottom_row" style="width: 65%; float: right">
-
-<iframe src="" id="server_iframe" name="server" style="width: 99%; height: 400px;"></iframe>
+  <div id="il_message_container"></div>
+<iframe src="" id="server_iframe" name="server" style="width: 99%; height: 350px;"></iframe>
 
   <p id="il_chat_notification">{MESSAGE}</p>
-  
-  <div id="il_message_container"></div>
+
   <table class="fullwidth_invisible" border="0">
   <!-- BEGIN visible_chat_box -->
   <tr>
@@ -122,8 +121,6 @@
 				//-->
 				</script>
 				<!-- BEGIN smilies_selector -->
-				<div id="show_smilies_button" onclick="ilShowSmileySelector()"><a href="javascript:;">{TXT_SHOW_SMILIES}</a></div>
-				<div id="hide_smilies_button" onclick="ilHideSmileySelector()" style="display:none;"><a href="javascript:;">{TXT_HIDE_SMILIES}</a></div>
 				<div style="width: 350px; text-align: left; display: none;" id="smiley_selector">
 					<!-- BEGIN smilies_element -->
 						<img style="padding: 10px " src="{SMILEY_SRC}" alt="{SMILEY_ALT}" onclick="insertSmiley('{SMILEY_CONTENT}', document.getElementById('chat_post_message'))"/>
@@ -133,12 +130,14 @@
 			  </td>
 		</tr>
 		<tr class="tblfooter">
-			<td class="std" colspan="3">
+			<td class="std" colspan="2" nowrap="nowrap">
 				<input class="submit" type="submit" name="cmd[input]" value="{TXT_SUBMIT_OK}" onclick="il_chat_async_handler.postMessage(); return false;"/>&nbsp;
-				<!-- BEGIN cancel -->
-				<input class="submit" type="submit" name="cmd[cancelAddressOrWhisperMode]" value="{TXT_SUBMIT_CANCEL}" />&nbsp;
-				<!-- END cancel -->
 				<input class="submit" type="button" onclick="ilExportChat()" name="cmd[export]" value="{TXT_HTML_EXPORT}" />
+			</td>
+			<td style="text-align: right; padding: 2px;">
+			<!-- toggle hide/show smiley selector -->	
+				<span id="show_smilies_button" style="width: auto;" onclick="ilShowSmileySelector()"><a href="javascript:;">{TXT_SHOW_SMILIES}</a></span>
+				<span id="hide_smilies_button" onclick="ilHideSmileySelector()" style="width: auto;  display:none;"><a href="javascript:;">{TXT_HIDE_SMILIES}</a></span>			
 			</td>
 		</tr>
 		</table>
