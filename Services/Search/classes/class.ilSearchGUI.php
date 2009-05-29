@@ -60,7 +60,7 @@ class ilSearchGUI extends ilSearchBaseGUI
 	function ilSearchGUI()
 	{
 		global $ilUser, $lng;
-		
+
 		$lng->loadLanguageModule("search");
 		
 		$this->obj_types = array (
@@ -93,7 +93,7 @@ class ilSearchGUI extends ilSearchBaseGUI
 		$this->setCombination($_POST['search']['combination'] ? $_POST['search']['combination'] : $_SESSION['search']['combination']);
 		$this->setString($_POST['search']['string'] ? $_POST['search']['string'] : $_SESSION['search']['string']);
 		$this->setDetails($_POST['search']['details'] ? $_POST['search']['details'] : $_SESSION['search']['details']);
-		
+
 		parent::ilSearchBaseGUI();
 	}
 
@@ -255,6 +255,11 @@ class ilSearchGUI extends ilSearchBaseGUI
 		$ti->setMaxLength(200);
 		$ti->setSize(30);
 		$ti->setValue($this->getString());
+		$dsSchema = array('response.results', 'term');
+		$ti->setDataSource($ilCtrl->getLinkTarget($this, "autoComplete"));
+		$ti->setDataSourceSchema($dsSchema);
+		$ti->setDataSourceResultFormat($dsFormatCallback);
+		$ti->setDataSourceDelimiter($dsDelimiter);
 		$this->form->addItem($ti);
 		
 		// term combination 
@@ -303,6 +308,18 @@ class ilSearchGUI extends ilSearchBaseGUI
 	 
 	}
 	
+	/**
+	* Data resource for autoComplete
+	*/
+	function autoComplete()
+	{
+		$q = $_REQUEST["query"];
+		include_once("./Services/Search/classes/class.ilSearchAutoComplete.php");
+		$list = ilSearchAutoComplete::getList($q);
+		echo $list;
+		exit;
+	}
+
 	function showSavedResults()
 	{
 		global $ilUser;

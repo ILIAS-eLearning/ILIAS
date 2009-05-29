@@ -1,7 +1,55 @@
 <div class="ilMainMenuSearch">
 <form class="ilMainMenuSearch" action="{FORMACTION}" method="post" target="_top">
-	<input class="ilMainMenuSearch" type="text" name="queryString" />
-	<input type="hidden" name="root_id" value="{CONT_REF_ID}" />
-	<input class="ilMainMenuSearchSubmit" type="submit" name="cmd[remoteSearch]" value="{BTN_SEARCH}" />
+<div style="margin-top:3px; position:absolute; text-align:left; right:23px;">
+<div class="yui-skin-sam">
+	<div style="margin-left: width:150px; id="myAutoComplete">
+		<input style="width:150px; font-size:80%" type="text" class="ilMainMenuSearch" id="main_menu_search" name="queryString" />
+		<input type="hidden" name="root_id" value="{CONT_REF_ID}" />
+	    <div style="margin-top:4px;  font-size: 75%;" id="{ID_AUTOCOMPLETE}"></div>
+	</div>
+	<span style="padding-left: 180px;"><input class="ilMainMenuSearchSubmit" type="submit" name="cmd[remoteSearch]" value="{BTN_SEARCH}" /></span>
+</div>
+</div>
+	<script type="text/javascript">
+		ilAddOnLoad(
+			function()
+			{
+				// Define the schema of the delimited results
+				var responseSchema = ["response.results","term"];
+				
+				// source script uri
+				// any existing parameters (after a '?') are stripped off
+				// and passed seperately to the DataSource instance
+				var aUri = "{YUI_DATASOURCE}";
+				var additionalArguments = "";
+				if (aUri.indexOf('?'))
+				{
+					additionalArguments = aUri.substr(aUri.indexOf('?')+1);
+					aUri = aUri.substr(0, aUri.indexOf('?'));
+				}
+				
+				// Use an XHRDataSource
+				var oDS = new YAHOO.widget.DS_XHR(aUri , responseSchema);
+				
+				// Set the responseType
+				oDS.responseType = YAHOO.widget.DS_XHR.TYPE_JSON;
+				
+				// set arguments
+				oDS.scriptQueryAppend = additionalArguments;
+				
+				// Enable caching
+				oDS.maxCacheEntries = 5;
+				
+				// Instantiate the AutoComplete
+				var oAC = new YAHOO.widget.AutoComplete("main_menu_search", "{ID_AUTOCOMPLETE}", oDS);
+				oAC.minQueryLength = 2;
+				oAC.queryDelay = 0.5;
+				oAC.autoHighlight = false;
+				oAC.responseType = YAHOO.widget.DS_XHR.TYPE_JSON;
+				// compatibility for IE < 7
+				oAC.useIFrame = true; 
+			}
+		);
+	</script>
 </form>
 </div>

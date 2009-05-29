@@ -56,7 +56,7 @@ class ilCtrl
 		$this->stored_trees = array
 			("ilrepositorygui", "ilpersonaldesktopgui",
 			"illmpresentationgui", "illmeditorgui",
-			"iladministrationgui");
+			"iladministrationgui", "ilsearchcontroller");
 	}
 	
 	function debug($str)

@@ -36,6 +36,8 @@
 			    var oAC = new YAHOO.widget.AutoComplete("{ID}", "{ID_AUTOCOMPLETE}", oDS);
 			    oAC.minQueryLength = 2;
 			    oAC.queryDelay = 0.5;
+				oAC.animVert = false;
+				oAC.animHoriz = false;
 			    oAC.responseType = YAHOO.widget.DS_XHR.TYPE_JSON;
 			    // compatibility for IE < 7
 			    oAC.useIFrame = true; 
