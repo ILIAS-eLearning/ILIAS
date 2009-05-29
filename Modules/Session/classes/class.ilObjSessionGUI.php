@@ -330,9 +330,14 @@ class ilObjSessionGUI extends ilObjectGUI
 	 */
 	public function saveAndAssignMaterialsObject()
 	{
+		global $ilLog;
+		
 		$this->saveObject(false);
-		$this->materialsObject();
-		return true;
+		
+		$this->ctrl->setParameter($this,'ref_id',$this->object->getRefId());
+		$target = $this->ctrl->getLinkTarget($this,'materials');
+		$target = str_replace('new_type=','nt=',$target);
+		ilUtil::redirect($target);
 	}
 	
 	

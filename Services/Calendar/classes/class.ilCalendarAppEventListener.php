@@ -84,11 +84,13 @@ class ilCalendarAppEventListener implements ilAppEventListener
 	 */
 	public static function createCategory($a_obj)
 	{
+		global $lng;
+		
 		include_once('./Services/Calendar/classes/class.ilCalendarCategory.php');
 		include_once('./Services/Calendar/classes/class.ilCalendarAppointmentColors.php');
 		
 		$cat = new ilCalendarCategory();
-		$cat->setTitle($a_obj->getTitle());
+		$cat->setTitle($a_obj->getTitle() ? $a_obj->getTitle() : $lng->txt('obj_'.$a_obj->getType()));
 		$cat->setType(ilCalendarCategory::TYPE_OBJ);
 		$cat->setColor(ilCalendarAppointmentColors::_getRandomColorByType($a_obj->getType()));
 		$cat->setObjId($a_obj->getId());

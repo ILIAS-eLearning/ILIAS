@@ -9467,3 +9467,4 @@ common#:#removed_from_waiting_list#:#You have been detached from the waiting lis
 common#:#membership_leave#:#Leave
 crs#:#event_section_information#:#Session Information
 crs#:#event_btn_add_edit#:#Add Session and Assign Materials
+dateplaner#:#cal_type_sess#:#Session Calendar
