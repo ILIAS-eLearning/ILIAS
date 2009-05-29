@@ -279,5 +279,18 @@ $this->next_link = $this->ctrl->getLinkTarget($this,'performSearch');
 		}
 		return $path;
 	}
+	
+	/**
+	* Data resource for autoComplete
+	*/
+	function autoComplete()
+	{
+		$q = $_REQUEST["query"];
+		include_once("./Services/Search/classes/class.ilSearchAutoComplete.php");
+		$list = ilSearchAutoComplete::getList($q);
+		echo $list;
+		exit;
+	}
+
 }
 ?>
