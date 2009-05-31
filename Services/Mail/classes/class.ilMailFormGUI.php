@@ -625,7 +625,10 @@ class ilMailFormGUI
 		$this->tpl->setVariable('BUTTON_COURSES_TO', $lng->txt("mail_my_courses"));
 		$this->tpl->setVariable('BUTTON_GROUPS_TO', $lng->txt("mail_my_groups"));
 		
-		$dsSchema = array('response.results', 'login', 'firstname', 'lastname');
+		//$dsSchema = array('response.results', 'login', 'firstname', 'lastname');
+		$dsSchema = array("resultsList" => 'response.results',
+			"fields" => array('login', 'firstname', 'lastname'));
+
 		$dsFormatCallback = 'formatAutoCompleteResults';
 		$dsDataLink = $ilCtrl->getLinkTarget($this, 'lookupRecipientAsync');
 		$dsDelimiter = array(',');

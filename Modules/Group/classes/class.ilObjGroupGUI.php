@@ -959,11 +959,8 @@ class ilObjGroupGUI extends ilContainerGUI
 		$this->tpl->setVariable('FORMACTION',$this->ctrl->getFormAction($this));
 		
 		// add members
-		$this->tpl->addBlockfile("BUTTONS", "buttons", "tpl.buttons.html");
-		$this->tpl->setCurrentBlock("btn_cell");
-		$this->tpl->setVariable("BTN_LINK",$this->ctrl->getLinkTargetByClass('ilRepositorySearchGUI','start'));
-		$this->tpl->setVariable("BTN_TXT",$this->lng->txt("grp_add_member"));
-		$this->tpl->parseCurrentBlock();
+		$ilToolbar->addButton($this->lng->txt("grp_add_member"),
+			$this->ctrl->getLinkTargetByClass('ilRepositorySearchGUI','start'));
 
 		$this->setShowHidePrefs();
 		

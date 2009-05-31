@@ -1183,18 +1183,9 @@ class ilObjectGUI
 	// PROTECTED
 	protected function __showButton($a_cmd,$a_text,$a_target = '')
 	{
-		$this->tpl->addBlockfile("BUTTONS", "buttons", "tpl.buttons.html");
-
-		// display button
-		$this->tpl->setCurrentBlock("btn_cell");
-		$this->tpl->setVariable("BTN_LINK",$this->ctrl->getLinkTarget($this,$a_cmd));
-		$this->tpl->setVariable("BTN_TXT",$a_text);
-		if($a_target)
-		{
-			$this->tpl->setVariable("BTN_TARGET",$a_target);
-		}
-
-		$this->tpl->parseCurrentBlock();
+		global $ilToolbar;
+		
+		$ilToolbar->addButton($a_text, $this->ctrl->getLinkTarget($this, $a_cmd), $a_target);
 	}
 
 	protected function hitsperpageObject()

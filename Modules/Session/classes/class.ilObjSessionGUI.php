@@ -719,7 +719,7 @@ class ilObjSessionGUI extends ilObjectGUI
 		
 		$this->tabs_gui->setTabActive('event_edit_members');
 		
-		$this->__showButton('printViewMembers',$this->lng->txt('print'),'target="_blank"');
+		$this->__showButton('printViewMembers',$this->lng->txt('print'),'_blank');
 		$this->__showButton('attendanceList',$this->lng->txt('sess_gen_attendance_list'));
 		
 		$this->course_ref_id = $tree->checkForParentType($this->object->getRefId(),'crs');

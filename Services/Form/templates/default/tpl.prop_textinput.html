@@ -1,7 +1,7 @@
-<div style="position: relative;">
+<div style="position: relative; {STYLE_PAR}">
 	<input type="{PROP_INPUT_TYPE}" size="{SIZE}" id="{ID}" maxlength="{MAXLENGTH}" name="{POST_VAR}" <!-- BEGIN prop_text_propval -->value="{PROPERTY_VALUE}" <!-- END prop_text_propval -->{DISABLED}/>
 	<!-- BEGIN prop_text_autocomplete -->
-	<div class="yui-skin-sam" id="{ID_AUTOCOMPLETE}"></div>
+	<div class="yui-skin-sam" id="{ID_AUTOCOMPLETE}" {AC_STYLE}></div>
 	<script type="text/javascript">
 		ilAddOnLoad(
 			function()
@@ -21,10 +21,12 @@
 			    }
 			    
 			    // Use an XHRDataSource
-			    var oDS = new YAHOO.widget.DS_XHR(aUri , responseSchema);
-			    
-			    // Set the responseType
-			    oDS.responseType = YAHOO.widget.DS_XHR.TYPE_JSON;
+//			    var oDS = new YAHOO.widget.DS_XHR(aUri , responseSchema);
+//			    oDS.responseType = YAHOO.widget.DS_XHR.TYPE_JSON;
+var oDS = new YAHOO.util.DataSource(aUri);
+oDS.responseType = YAHOO.util.DataSource.TYPE_JSON; 
+oDS.connXhrMode = "queueRequests";
+oDS.responseSchema = responseSchema;
 			    
 			    // set arguments
 			    oDS.scriptQueryAppend = additionalArguments;
@@ -45,6 +47,7 @@
 			    oAC.delimChar = {DELIMITER_ARRAY};
 			    <!-- END delimiter_chars -->
 			    <!-- BEGIN format_callback -->
+				oAC.resultTypeList = false;
 			    oAC.formatResult = {YUI_FORMAT_CALLBACK};
 			    <!-- END format_callback -->
 			}

@@ -1953,7 +1953,7 @@ class ilObjCourseGUI extends ilContainerGUI
 	 */
 	protected function membersObject()
 	{
-		global $ilUser, $rbacsystem;
+		global $ilUser, $rbacsystem, $ilToolbar, $lng, $ilCtrl, $tpl;
 		
 		include_once('./Modules/Course/classes/class.ilCourseParticipants.php');
 		include_once('./Modules/Course/classes/class.ilCourseParticipantsTableGUI.php');
@@ -1984,13 +1984,29 @@ class ilObjCourseGUI extends ilContainerGUI
 		$this->tpl->setVariable('FORMACTION',$this->ctrl->getFormAction($this));
 		
 		// add members
-		$this->tpl->addBlockfile("BUTTONS", "buttons", "tpl.buttons.html");
-		$this->tpl->setCurrentBlock("btn_cell");
-		$this->tpl->setVariable("BTN_LINK",$this->ctrl->getLinkTargetByClass('ilRepositorySearchGUI','start'));
-		$this->tpl->setVariable("BTN_TXT",$this->lng->txt("crs_add_member"));
-		$this->tpl->parseCurrentBlock();
+		// user input
+		include_once("./Services/Form/classes/class.ilTextInputGUI.php");
+		$tpl->addJavaScript("./Services/User/js/ilUserAutoComplete.js");
+		$ti = new ilTextInputGUI($lng->txt("user"), "user_login");
+		$ti->setMaxLength(70);
+		$ti->setSize(30);
+		/*$dsSchema = new stdClass();
+		$dsSchema->resultsList = "response.results";
+		$dsSchema->fields = array('login', 'firstname', 'lastname');*/
+		$dsSchema = array("resultsList" => 'response.results',
+			"fields" => array('login', 'firstname', 'lastname'));
+		//$dsSchema = array("response.results", 'login', 'firstname', 'lastname');
+		$ti->setDataSourceResultFormat("ilUserAutoComplete");
+		$ti->setDataSource($ilCtrl->getLinkTarget($this, "addMemberAutoComplete"));
+		$ti->setDataSourceSchema($dsSchema);
 
-		$this->__showButton("printMembers",$this->lng->txt("crs_print_list"),"target=\"_blank\"");
+		$ilToolbar->addInputItem($ti);
+		$ilToolbar->addFormButton($lng->txt("crs_add_as_member"), "addAsMember");
+		
+		$ilToolbar->addButton($this->lng->txt("crs_add_member"),
+			$this->ctrl->getLinkTargetByClass('ilRepositorySearchGUI','start'));
+		$ilToolbar->addButton($this->lng->txt("crs_print_list"),
+			$this->ctrl->getLinkTarget($this, 'printMembers'), "_blank");
 
 
 		$this->setShowHidePrefs();
@@ -2150,8 +2166,17 @@ class ilObjCourseGUI extends ilContainerGUI
 		
 	}
 	
-	
-	
+	/**
+	* Add Member for autoComplete
+	*/
+	function addMemberAutoCompleteObject()
+	{
+		$q = $_REQUEST["query"];
+		include_once("./Services/User/classes/class.ilUserAutoComplete.php");
+		$list = ilUserAutoComplete::getList($q);
+		echo $list;
+		exit;
+	}
 
 	
 	/**

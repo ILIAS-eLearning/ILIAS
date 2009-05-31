@@ -1581,7 +1581,7 @@ class ilObjRoleGUI extends ilObjectGUI
 		$this->tpl->setVariable("BTN_TXT",$this->lng->txt('role_add_user'));
 		$this->tpl->parseCurrentBlock();
 		
-		$this->__showButton('mailToRole',$this->lng->txt('role_mailto'),'target=\'_blank\'');
+		$this->__showButton('mailToRole',$this->lng->txt('role_mailto'),'_blank');
 		
 		$tpl->setCurrentBlock("tbl_form_header");
 		$tpl->setVariable("FORMACTION",$this->ctrl->getFormAction($this));
