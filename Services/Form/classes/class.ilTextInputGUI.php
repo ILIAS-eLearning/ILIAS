@@ -287,7 +287,7 @@ class ilTextInputGUI extends ilSubEnabledFormPropertyGUI implements ilTableFilte
 	/**
 	* Render item
 	*/
-	protected function render()
+	protected function render($a_mode = "")
 	{
 		$tpl = new ilTemplate("tpl.prop_textinput.html", true, true, "Services/Form");
 		if (strlen($this->getValue()))
@@ -328,7 +328,6 @@ class ilTextInputGUI extends ilSubEnabledFormPropertyGUI implements ilTableFilte
 			$tpl->setVariable('ID_AUTOCOMPLETE', $this->getFieldId() . "_autocomplete");
 			$tpl->setVariable('YUI_DATASOURCE', $this->getDataSource());
 			$tpl->setVariable('YUI_DATASCHEMA', ilJsonUtil::encode($this->getDataSourceSchema()));
-			
 			if ($this->getDataSourceResultFormat())
 			{
 				$tpl->setVariable('YUI_FORMAT_CALLBACK', $this->getDataSourceResultFormat());
@@ -338,6 +337,12 @@ class ilTextInputGUI extends ilSubEnabledFormPropertyGUI implements ilTableFilte
 			{
 				$tpl->setVariable('DELIMITER_ARRAY', ilJsonUtil::encode($this->getDataSourceDelimiter()));	
 			}
+		}
+		
+		if ($a_mode == "toolbar")
+		{
+			$tpl->setVariable("STYLE_PAR", 'display:inline;');
+			$tpl->setVariable("AC_STYLE", 'style="position:absolute; width:200px;"');
 		}
 		
 		return $tpl->get();
@@ -363,6 +368,15 @@ class ilTextInputGUI extends ilSubEnabledFormPropertyGUI implements ilTableFilte
 	function getTableFilterHTML()
 	{
 		$html = $this->render();
+		return $html;
+	}
+
+	/**
+	* Get HTML for toolbar
+	*/
+	function getToolbarHTML()
+	{
+		$html = $this->render("toolbar");
 		return $html;
 	}
 	

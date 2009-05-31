@@ -49,16 +49,10 @@ function insertTextIntoTextField(text, obj_id)
 // formats YUI AutoComplete results for recipients lookup
 function formatAutoCompleteResults (oResData, sQuery, sResultMatch)
 {
-	// oResData
-	// 	[0] contains loginname or email-address (if lookup hits
-	//		addressbook entry without matching ilias user and
-	//		smtp mail is available)
-	//	[1] firstname if available
-	//	[2] lastname if available
-	if (oResData[1] && oResData[2])
-		return oResData[0] + " [" + oResData[2] + ", " + oResData[1] + "]";
-	else
-		return oResData[0];
+    if (oResData.firstname && oResData.lastname)
+	    return oResData.login + " [" + oResData.lastname + ", " + oResData.firstname + "]";
+    else
+	    return oResData.login;
 };
 
 // removes ',' at the ending of recipients textfield

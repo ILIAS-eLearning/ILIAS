@@ -1530,14 +1530,13 @@ class ilTemplate extends ilTemplateX
 		$adm_view_cmp = $adm_cmds = $creation_selector = $adm_view = false;
 		
 		$toolb = new ilToolbarGUI();
-		$toolb->setFormMode(true);
 		
 		// admin panel commands
 		if ((count($this->admin_panel_commands) > 0))
 		{
 			foreach($this->admin_panel_commands as $cmd)
 			{
-				$toolb->addButton($cmd["txt"], $cmd["cmd"]);
+				$toolb->addFormButton($cmd["txt"], $cmd["cmd"]);
 			}
 
 			$adm_cmds = true;

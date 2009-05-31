@@ -384,7 +384,9 @@ class ilMailAddressbookGUI
 		$searchform = new ilPropertyFormGUI();
 		$searchform->setFormAction($this->ctrl->getFormAction($this, "saveEntry"));
 		
-		$dsSchema = array('response.results', 'login', 'firstname', 'lastname');
+		//$dsSchema = array('response.results', 'login', 'firstname', 'lastname');
+		$dsSchema = array("resultsList" => 'response.results',
+			"fields" => array('login', 'firstname', 'lastname'));
 		$dsFormatCallback = 'formatAutoCompleteResults';
 		$dsDataLink = $ilCtrl->getLinkTarget($this, 'lookupAddressbookAsync');
 		

@@ -3,10 +3,10 @@
 <script type="text/javascript">
 function formatAutoCompleteResults (oResData, sQuery, sResultMatch)
 {
-    if (oResData[1] && oResData[2])
-	    return oResData[0] + " [" + oResData[2] + ", " + oResData[1] + "]";
+    if (oResData.firstname && oResData.lastname)
+	    return oResData.login + " [" + oResData.lastname + ", " + oResData.firstname + "]";
     else
-	    return oResData[0];
+	    return oResData.login;
 };
 </script>
 {SEARCHFORM}
