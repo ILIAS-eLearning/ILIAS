@@ -9468,6 +9468,10 @@ common#:#membership_leave#:#Leave
 crs#:#event_section_information#:#Session Information
 crs#:#event_btn_add_edit#:#Add Session and Assign Materials
 dateplaner#:#cal_type_sess#:#Session Calendar
-sess#:#event_tbl_admins#:#Administrators
-sess#:#event_tbl_tutors#:#Tutors
-sess#:#event_tbl_members#:#Members
+crs#:#event_tbl_admins#:#Administrators
+crs#:#event_tbl_tutors#:#Tutors
+crs#:#event_tbl_members#:#Members
+crs#:#event_participant_selection#:#Participant Selection
+crs#:#event_inc_admins#:#Show Administrators
+crs#:#event_inc_tutors#:#Show Tutors
+crs#:#event_inc_members#:#Show Members
