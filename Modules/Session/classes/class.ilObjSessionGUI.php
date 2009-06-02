@@ -707,21 +707,29 @@ class ilObjSessionGUI extends ilObjectGUI
 	}
 	
 	/**
-	 * members
-	 *
-	 * @access protected
+	 * Show participants table
+	 * @return void 
 	 */
 	protected function membersObject()
 	{
-		global $tree;
+		global $tree,$ilUser;
 		
 		$this->checkPermission('write');
-		
 		$this->tabs_gui->setTabActive('event_edit_members');
 		
-		$this->__showButton('printViewMembers',$this->lng->txt('print'),'_blank');
-		$this->__showButton('attendanceList',$this->lng->txt('sess_gen_attendance_list'));
+		$this->tpl->addBlockFile('ADM_CONTENT', 'adm_content', 'tpl.sess_members.html', 'Modules/Session');
 		
+		include_once './Services/UIComponent/Toolbar/classes/class.ilToolbarGUI.php';
+		$toolbar = new ilToolbarGUI();
+		$toolbar->addButton(
+			$this->lng->txt('print'), 
+			$this->ctrl->getLinkTarget($this,'printViewMembers'),
+			'_blank');
+		$toolbar->addButton($this->lng->txt('sess_gen_attendance_list'), 
+			$this->ctrl->getLinkTarget($this,'attendanceList'));		
+		
+		$this->tpl->setVariable('ACTION_BUTTONS',$toolbar->getHTML());
+
 		$this->course_ref_id = $tree->checkForParentType($this->object->getRefId(),'crs');
 		$this->course_obj_id = ilObject::_lookupObjId($this->course_ref_id);
 		if(!$this->course_ref_id)
@@ -735,17 +743,135 @@ class ilObjSessionGUI extends ilObjectGUI
 
 		$members_obj = ilCourseParticipants::_getInstanceByObjId($this->course_obj_id);
 		$event_part = new ilEventParticipants($this->object->getId());
+		
+		// Save hide/show table settings		
+		$this->setShowHidePrefs();
+		
+		// Admins
+		if(count($admins = $members_obj->getAdmins()))
+		{
+			include_once('./Modules/Session/classes/class.ilSessionParticipantsTableGUI.php');
+			if($ilUser->getPref('sess_admin_hide'))
+			{
+				$table = new ilSessionParticipantsTableGUI($this,ilSessionParticipantsTableGUI::TYPE_ADMIN,false);
+				$this->ctrl->setParameter($this,'admin_hide',0);
+				$table->addHeaderCommand($this->ctrl->getLinkTarget($this,'members'),
+					$this->lng->txt('show'),
+					'',
+					ilUtil::getImagePath('edit_add.png'));
+				$this->ctrl->clearParameters($this);
+			}
+			else
+			{
+				$table = new ilSessionParticipantsTableGUI($this,ilSessionParticipantsTableGUI::TYPE_ADMIN,true);
+				$this->ctrl->setParameter($this,'admin_hide',1);
+				$table->addHeaderCommand($this->ctrl->getLinkTarget($this,'members'),
+					$this->lng->txt('hide'),
+					'',
+					ilUtil::getImagePath('edit_remove.png'));
+				$this->ctrl->clearParameters($this);
+			}
 
-		$members = $members_obj->getParticipants();
+			$table->addCommandButton('updateMembers',$this->lng->txt('save'));
+			$table->setTitle($this->lng->txt('event_tbl_admins'),'icon_usr.gif',$this->lng->txt('event_tbl_admins'));
+			$table->enableRegistration($this->object->enabledRegistration());
+			$table->setParticipants($admins);
+			$table->parse();
+			$this->tpl->setVariable('ADMINS',$table->getHTML());
+		}
 		
-		include_once('./Modules/Session/classes/class.ilSessionParticipantsTableGUI.php');
-		$table = new ilSessionParticipantsTableGUI($this);
-		$table->setTitle($this->lng->txt('event_tbl_participants'),'icon_usr.gif',$this->lng->txt('event_tbl_participants'));
-		$table->enableRegistration($this->object->enabledRegistration());
-		$table->setParticipants($members);
-		$table->parse();
+		// Tutors
+		if(count($tutors = $members_obj->getTutors()))
+		{
+			include_once('./Modules/Session/classes/class.ilSessionParticipantsTableGUI.php');
+			if($ilUser->getPref('sess_tutor_hide'))
+			{
+				$table = new ilSessionParticipantsTableGUI($this,ilSessionParticipantsTableGUI::TYPE_TUTOR,false);
+				$this->ctrl->setParameter($this,'tutor_hide',0);
+				$table->addHeaderCommand($this->ctrl->getLinkTarget($this,'members'),
+					$this->lng->txt('show'),
+					'',
+					ilUtil::getImagePath('edit_add.png'));
+				$this->ctrl->clearParameters($this);
+			}
+			else
+			{
+				$table = new ilSessionParticipantsTableGUI($this,ilSessionParticipantsTableGUI::TYPE_TUTOR,true);
+				$this->ctrl->setParameter($this,'tutor_hide',1);
+				$table->addHeaderCommand($this->ctrl->getLinkTarget($this,'members'),
+					$this->lng->txt('hide'),
+					'',
+					ilUtil::getImagePath('edit_remove.png'));
+				$this->ctrl->clearParameters($this);
+			}
+			$table->addCommandButton('updateMembers',$this->lng->txt('save'));
+			$table->setTitle($this->lng->txt('event_tbl_tutors'),'icon_usr.gif',$this->lng->txt('event_tbl_admins'));
+			$table->enableRegistration($this->object->enabledRegistration());
+			$table->setParticipants($tutors);
+			$table->parse();
+			$this->tpl->setVariable('TUTORS',$table->getHTML());
+		}
+
+		// Members
+		if(count($members = $members_obj->getMembers()))
+		{
+			include_once('./Modules/Session/classes/class.ilSessionParticipantsTableGUI.php');
+			if($ilUser->getPref('sess_member_hide'))
+			{
+				$table = new ilSessionParticipantsTableGUI($this,ilSessionParticipantsTableGUI::TYPE_MEMBER,false);
+				$this->ctrl->setParameter($this,'member_hide',0);
+				$table->addHeaderCommand($this->ctrl->getLinkTarget($this,'members'),
+					$this->lng->txt('show'),
+					'',
+					ilUtil::getImagePath('edit_add.png'));
+				$this->ctrl->clearParameters($this);
+			}
+			else
+			{
+				$table = new ilSessionParticipantsTableGUI($this,ilSessionParticipantsTableGUI::TYPE_MEMBER,true);
+				$this->ctrl->setParameter($this,'member_hide',1);
+				$table->addHeaderCommand($this->ctrl->getLinkTarget($this,'members'),
+					$this->lng->txt('hide'),
+					'',
+					ilUtil::getImagePath('edit_remove.png'));
+				$this->ctrl->clearParameters($this);
+			}
+			$table->addCommandButton('updateMembers',$this->lng->txt('save'));
+			$table->setTitle($this->lng->txt('event_tbl_members'),'icon_usr.gif',$this->lng->txt('event_tbl_admins'));
+			$table->enableRegistration($this->object->enabledRegistration());
+			$table->setParticipants($members);
+			$table->parse();
+			$this->tpl->setVariable('MEMBERS',$table->getHTML());
+		}
+
 		
-		$this->tpl->setContent($table->getHTML());
+		
+		
+		
+	}
+	
+	/**
+	 * set preferences (show/hide tabel content)
+	 *
+	 * @access public
+	 * @return
+	 */
+	public function setShowHidePrefs()
+	{
+		global $ilUser;
+		
+		if(isset($_GET['admin_hide']))
+		{
+			$ilUser->writePref('sess_admin_hide',(int) $_GET['admin_hide']);
+		}
+		if(isset($_GET['tutor_hide']))
+		{
+			$ilUser->writePref('sess_tutor_hide',(int) $_GET['tutor_hide']);
+		}
+		if(isset($_GET['member_hide']))
+		{
+			$ilUser->writePref('sess_member_hide',(int) $_GET['member_hide']);
+		}
 	}
 	
 	/**
@@ -760,7 +886,7 @@ class ilObjSessionGUI extends ilObjectGUI
 		global $tree;
 		
 		$this->checkPermission('write');
-		
+
 		include_once 'Modules/Course/classes/class.ilCourseParticipants.php';
 		include_once 'Modules/Session/classes/class.ilEventParticipants.php';
 
@@ -1565,7 +1691,6 @@ class ilObjSessionGUI extends ilObjectGUI
 								 $this->ctrl->getLinkTarget($this,'materials'));
 			$tabs_gui->addTarget('event_edit_members',
 								 $this->ctrl->getLinkTarget($this,'members'));
-	 		
 	 	}
 		// edit permissions
 		if ($ilAccess->checkAccess('edit_permission', "", $this->object->getRefId()))

@@ -9464,3 +9464,6 @@ common#:#membership_leave#:#Abmelden
 crs#:#event_section_information#:#Informationen zur Sitzung
 crs#:#event_btn_add_edit#:#Sitzung anlegen und Materialien zuordnen
 dateplaner#:#cal_type_sess#:#Sitzungskalender
+sess#:#event_tbl_admins#:#Administratoren
+sess#:#event_tbl_tutors#:#Tutoren
+sess#:#event_tbl_member#:#Mitglieder

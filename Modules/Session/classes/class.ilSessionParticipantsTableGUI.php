@@ -32,6 +32,10 @@ include_once('./Services/Table/classes/class.ilTable2GUI.php');
 */
 class ilSessionParticipantsTableGUI extends ilTable2GUI
 {
+	const TYPE_ADMIN = 'admin';
+	const TYPE_TUTOR = 'tutor';
+	const TYPE_MEMBER = 'member';
+	
 	private $session_participants = null;
 	private $participants = array();
 	private $reg_enabled = true;
@@ -43,7 +47,7 @@ class ilSessionParticipantsTableGUI extends ilTable2GUI
 	 * @param object parent object
 	 * @return
 	 */
-	public function __construct($a_parent_obj)
+	public function __construct($a_parent_obj,$a_type = self::TYPE_ADMIN, $a_show_content = true)
 	{
 	 	global $lng,$ilCtrl;
 	 	
@@ -55,6 +59,22 @@ class ilSessionParticipantsTableGUI extends ilTable2GUI
 		
 		parent::__construct($a_parent_obj,'members');
 		
+		if($a_show_content)
+		{
+			$this->enable('sort');
+			$this->enable('header');
+			$this->enable('numinfo');
+			$this->enable('select_all');
+		}
+		else
+		{
+			$this->disable('content');
+			$this->disable('header');
+			$this->disable('footer');
+			$this->disable('numinfo');
+			$this->disable('select_all');
+		}		
+
 		$this->session_participants = new ilEventParticipants($this->getParentObject()->object->getId());
 	}
 	
@@ -190,12 +210,6 @@ class ilSessionParticipantsTableGUI extends ilTable2GUI
 		}
 		$this->addColumn($this->lng->txt('event_tbl_participated'),'participated');
 		$this->setRowTemplate("tpl.sess_members_row.html","Modules/Session");
-		
-		$this->addCommandButton('updateMembers',$this->lng->txt('save'));
-		
-		$this->enable('sort');
-		$this->enable('header');
-		
 		$this->setDefaultOrderField('name');
 	}
 }
