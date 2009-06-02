@@ -62,6 +62,11 @@ class ilEventItems
 	{
 		$this->event_id = $a_event_id;
 	}
+	
+	/**
+	 * get assigned items
+	 * @return array	$items	Assigned items.
+	 */
 	function getItems()
 	{
 		return $this->items ? $this->items : array();

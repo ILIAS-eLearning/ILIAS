@@ -22,6 +22,7 @@
 */
 
 include_once("Services/Block/classes/class.ilBlockGUI.php");
+include_once './Services/PersonalDesktop/interfaces/interface.ilDesktopItemHandling.php';
 
 /**
 * BlockGUI class for Selected Items on Personal Desktop
@@ -31,7 +32,7 @@ include_once("Services/Block/classes/class.ilBlockGUI.php");
 *
 * @ilCtrl_IsCalledBy ilPDSelectedItemsBlockGUI: ilColumnGUI
 */
-class ilPDSelectedItemsBlockGUI extends ilBlockGUI
+class ilPDSelectedItemsBlockGUI extends ilBlockGUI implements ilDesktopItemHandling
 {
 	const VIEW_MY_OFFERS = 0;
 	const VIEW_MY_MEMBERSHIPS = 1;
@@ -62,7 +63,32 @@ class ilPDSelectedItemsBlockGUI extends ilBlockGUI
 		$this->allow_moving = false;		
 		
 		$this->determineViewSettings();
-	}	
+	}
+	
+    /**
+     * @see ilDesktopItemHandling::addToDesk()
+     */
+    public function addToDeskObject()
+    {
+	 	global $ilCtrl;
+		
+		include_once './Services/PersonalDesktop/classes/class.ilDesktopItemGUI.php';
+	 	ilDesktopItemGUI::addToDesktop();
+		$ilCtrl->redirectByClass('ilpersonaldesktopgui', 'show');
+    }
+    
+    /**
+     * @see ilDesktopItemHandling::removeFromDesk()
+     */
+    public function removeFromDeskObject()
+    {
+	 	global $ilCtrl;
+		
+		include_once './Services/PersonalDesktop/classes/class.ilDesktopItemGUI.php';
+	 	ilDesktopItemGUI::removeFromDesktop();
+		$ilCtrl->redirectByClass('ilpersonaldesktopgui', 'show');
+    }
+	
 	
 	/**
      * Method to switch between the different views of personal items block
@@ -217,8 +243,16 @@ class ilPDSelectedItemsBlockGUI extends ilBlockGUI
 
 		$next_class = $ilCtrl->getNextClass();
 		$cmd = $ilCtrl->getCmd("getHTML");
-
-		return $this->$cmd();
+		
+		if(method_exists($this, $cmd))
+		{
+			return $this->$cmd();
+		}
+		else
+		{
+			$cmd .= 'Object';
+			return $this->$cmd();
+		}
 	}
 
 	function getContent()
@@ -774,6 +808,7 @@ class ilPDSelectedItemsBlockGUI extends ilBlockGUI
 						$item_list_gui->enablePayment(false);
 						$item_list_gui->enableLink(false);
 						$item_list_gui->enableInfoScreen(false);
+						$item_list_gui->setContainerObject($this);
 						if ($this->getCurrentDetailLevel() < 3)
 						{
 							$item_list_gui->enableDescription(false);

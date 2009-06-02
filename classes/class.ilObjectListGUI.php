@@ -1882,52 +1882,23 @@ class ilObjectListGUI
 			{
 				if ($this->rbacsystem->checkAccess("read", $this->getCommandId()))
 				{
-					// not so nice, if no container object given, it must
-					// be personal desktop
-					// BEGIN PATCH Lucene search
-					if(is_object($this->container_obj) or $this->getContainerObject() instanceof ilDesktopItemHandling)
-					// END PATCH Lucene Search
+					if($this->getContainerObject() instanceof ilDesktopItemHandling)
 					{
-						#$this->ctrl->setParameter($this->container_obj, "ref_id",
-						#	$this->container_obj->object->getRefId());
 						$this->ctrl->setParameter($this->container_obj, "type", $type);
 						$this->ctrl->setParameter($this->container_obj, "item_ref_id", $this->getCommandId());
 						$cmd_link = $this->ctrl->getLinkTarget($this->container_obj, "addToDesk");
 						$this->insertCommand($cmd_link, $this->lng->txt("to_desktop"), "",
 							ilUtil::getImagePath("cmd_pd_put_s.gif"));
 					}					
-					else
-					{
-						$this->ctrl->setParameterByClass("ilpersonaldesktopgui", "type", $type);
-						$this->ctrl->setParameterByClass("ilpersonaldesktopgui", "item_ref_id", $this->getCommandId());
-						$cmd_link = $this->ctrl->getLinkTargetByClass("ilpersonaldesktopgui",
-							"addItem", "", ilUtil::getImagePath("cmd_pd_put_s.gif"));
-						$this->insertCommand($cmd_link, $this->lng->txt("to_desktop"));
-					}
 				}
 			}
 			else
 			{
-				// not so nice, if no container object given, it must
-				// be personal desktop
-				// BEGIN PATCH Lucene search
-				if (is_object($this->container_obj) or $this->getContainerObject() instanceof ilDesktopItemHandling)
-				// END PATCH Lucene Search
+				if ($this->getContainerObject() instanceof ilDesktopItemHandling)
 				{
-					#$this->ctrl->setParameter($this->container_obj, "ref_id",
-					#	$this->container_obj->object->getRefId());
 					$this->ctrl->setParameter($this->container_obj, "type", $type);
 					$this->ctrl->setParameter($this->container_obj, "item_ref_id", $this->getCommandId());
 					$cmd_link = $this->ctrl->getLinkTarget($this->container_obj, "removeFromDesk");
-					$this->insertCommand($cmd_link, $this->lng->txt("unsubscribe"), "",
-						ilUtil::getImagePath("cmd_pd_rem_s.gif"));
-				}
-				else
-				{
-					$this->ctrl->setParameterByClass("ilpersonaldesktopgui", "type", $type);
-					$this->ctrl->setParameterByClass("ilpersonaldesktopgui", "item_ref_id", $this->getCommandId());
-					$cmd_link = $this->ctrl->getLinkTargetByClass("ilpersonaldesktopgui",
-						"dropItem");
 					$this->insertCommand($cmd_link, $this->lng->txt("unsubscribe"), "",
 						ilUtil::getImagePath("cmd_pd_rem_s.gif"));
 				}

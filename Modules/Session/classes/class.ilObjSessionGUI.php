@@ -24,6 +24,7 @@
 include_once('./classes/class.ilObjectGUI.php');
 include_once('./Modules/Session/classes/class.ilObjSession.php');
 include_once('./Modules/Session/classes/class.ilSessionFile.php');
+include_once './Services/PersonalDesktop/interfaces/interface.ilDesktopItemHandling.php';
 
 /**
 *
@@ -35,7 +36,7 @@ include_once('./Modules/Session/classes/class.ilSessionFile.php');
 * @ingroup ModulesSession 
 */
 
-class ilObjSessionGUI extends ilObjectGUI
+class ilObjSessionGUI extends ilObjectGUI implements ilDesktopItemHandling
 {
 	public $lng;
 	public $ctrl;
@@ -176,6 +177,27 @@ class ilObjSessionGUI extends ilObjectGUI
 		$ilErr->raiseError($lng->txt("msg_no_perm_read"), $ilErr->FATAL);
 	}
 	
+    /**
+     * @see ilDesktopItemHandling::addToDesk()
+     */
+    public function addToDeskObject()
+    {
+	 	include_once './Services/PersonalDesktop/classes/class.ilDesktopItemGUI.php';
+	 	ilDesktopItemGUI::addToDesktop();
+		$this->infoScreenObject();
+    }
+    
+    /**
+     * @see ilDesktopItemHandling::removeFromDesk()
+     */
+    public function removeFromDeskObject()
+    {
+	 	include_once './Services/PersonalDesktop/classes/class.ilDesktopItemGUI.php';
+	 	ilDesktopItemGUI::removeFromDesktop();
+		$this->infoScreenObject();
+    }
+	
+	
 	/**
 	* this one is called from the info button in the repository
 	* not very nice to set cmdClass/Cmd manually, if everything
@@ -199,35 +221,33 @@ class ilObjSessionGUI extends ilObjectGUI
 	{
 		global $ilAccess, $ilUser;
 
-		if (!$ilAccess->checkAccess("visible", "", $this->object->getRefId()))
-		{
-			$this->ilias->raiseError($this->lng->txt("msg_no_perm_read"),$this->ilias->error_obj->MESSAGE);
-		}
-
+		$this->checkPermission('visible');
 		$this->tabs_gui->setTabActive('info_short');
 
-		$appointment_obj =& $this->object->getFirstAppointment();
+		$appointment_obj = $this->object->getFirstAppointment();
 
 		include_once("./Services/InfoScreen/classes/class.ilInfoScreenGUI.php");
 		$info = new ilInfoScreenGUI($this);
-		$info->addSection($this->lng->txt("event_general_properties"));
-		$info->addProperty($this->lng->txt('event_title'),
-						   $this->object->getTitle());
-		/*
-		if(strlen($desc = $this->object->getDescription()))
+		
+		
+		
+		// Session information
+		if(strlen($this->object->getLocation()) or strlen($this->object->getDetails()))
 		{
-			$info->addProperty($this->lng->txt('event_desc'),
-							   nl2br($this->object->getDescription()));
+			$info->addSection($this->lng->txt('event_section_information'));
 		}
-		*/
 		if(strlen($location = $this->object->getLocation()))
 		{
 			$info->addProperty($this->lng->txt('event_location'),
 							   nl2br($this->object->getLocation()));
 		}
-		$info->addProperty($this->lng->txt('event_date'),
-							$appointment_obj->appointmentToString());
-
+		if(strlen($this->object->getDetails()))
+		{
+			$info->addProperty($this->lng->txt('event_details_workflow'),
+							   nl2br($this->object->getDetails()));
+		}
+		
+		// Tutor information
 		if($this->object->hasTutorSettings())
 		{
 			$info->addSection($this->lng->txt('event_tutor_data'));
@@ -247,42 +267,34 @@ class ilObjSessionGUI extends ilObjectGUI
 								   $phone);
 			}
 		}
-
-		$details = $this->object->getDetails();
-
-		$files = $this->object->getFiles();
-		if(strlen($details) or is_array($files))
-		{
-			$info->addSection($this->lng->txt('event_further_informations'));
-			
-			if(strlen($details))
-			{
-				$info->addProperty($this->lng->txt('event_details_workflow'),
-								   nl2br($details));
-			}
-
-			if(count($files))
-			{
-				$tpl = new ilTemplate('tpl.sess_info_file.html',true,true,'Modules/Session');
-
-				foreach($files as $file)
-				{
-					$tpl->setCurrentBlock("files");
-					$this->ctrl->setParameter($this,'file_id',$file->getFileId());
-					$tpl->setVariable("DOWN_LINK",$this->ctrl->getLinkTarget($this,'sendfile'));
-					$tpl->setVariable("DOWN_NAME",$file->getFileName());
-					$tpl->setVariable("DOWN_INFO_TXT",$this->lng->txt('event_file_size_info'));
-					$tpl->setVariable("DOWN_SIZE",$file->getFileSize());
-					$tpl->setVariable("TXT_BYTES",$this->lng->txt('bytes'));
-					$tpl->parseCurrentBlock();
-				}
-				$info->addProperty($this->lng->txt('event_file_download'),
-								   $tpl->get());
-			}
-			
-		}
-		#$info->enablePrivateNotes();
 		
+		include_once './Modules/Session/classes/class.ilSessionObjectListGUIFactory.php';
+		include_once './Modules/Session/classes/class.ilEventItems.php';
+		
+		$html = '';
+		$eventItems = new ilEventItems($this->object->getId());
+		foreach($eventItems->getItems() as $item_id)
+		{
+			$obj_id = ilObject::_lookupObjId($item_id);
+			$type = ilObject::_lookupType($obj_id);
+			
+			$list_gui = ilSessionObjectListGUIFactory::factory($type);
+			$list_gui->setContainerObject($this);
+			$html .= $list_gui->getListItemHTML(
+				$item_id,
+				$obj_id,
+				ilObject::_lookupTitle($obj_id),
+				ilObject::_lookupDescription($obj_id)
+			);
+		}
+		
+		if(strlen($html))
+		{
+			$info->addSection($this->lng->txt('event_materials'));
+			$info->addProperty(
+				'&nbsp;',
+				$html);
+		}
 
 		// forward the command
 		$this->ctrl->forwardCommand($info);

@@ -76,7 +76,7 @@ class ilLuceneSearchGUI extends ilSearchBaseGUI
 				{
 					$cmd = "showSavedResults";
 				}
-				$this->$cmd();
+				$this->handleCommand($cmd);
 				break;
 		}
 		$ilBench->stop('Lucene','0900_executeCommand');
