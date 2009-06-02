@@ -25,6 +25,7 @@ include_once './Services/User/classes/class.ilObjUser.php';
 include_once "Services/Mail/classes/class.ilMail.php";
 
 
+
 /**
 * GUI class for personal desktop
 *
@@ -407,28 +408,7 @@ class ilPersonalDesktopGUI
 		$this->tpl->setVariable("IMG_SPACE", ilUtil::getImagePath("spacer.gif", false));
 	}
 
-	/**
-	* drop item from desktop
-	*/
-	function dropItem()
-	{
-		global $ilUser;
-		
-		$ilUser->dropDesktopItem($_GET["item_ref_id"], $_GET["type"]);
-		$this->show();
-	}
-	
-	/**
-	* add item to desktop
-	*/
-	function addItem()
-	{
-		global $ilUser;
-		
-		$ilUser->addDesktopItem($_GET["item_ref_id"], $_GET["type"]);
-		$this->show();
-	}
-	
+
 	/**
 	* copied from usr_personaldesktop.php
 	*/

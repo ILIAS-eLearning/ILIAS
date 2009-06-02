@@ -75,7 +75,7 @@ class ilLuceneAdvancedSearchGUI extends ilSearchBaseGUI
 				{
 					$cmd = "showSavedResults";
 				}
-				$this->$cmd();
+				$this->handleCommand($cmd);
 				break;
 		}
 		return true;

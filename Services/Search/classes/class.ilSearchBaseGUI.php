@@ -82,10 +82,23 @@ class ilSearchBaseGUI implements ilDesktopItemHandling, ilAdministrationCommandH
 
 	}
 	
+	public function handleCommand($a_cmd)
+	{
+		if(method_exists($this, $a_cmd))
+		{
+			$this->$a_cmd();
+		}
+		else
+		{
+			$a_cmd .= 'Object';
+			$this->$a_cmd();	
+		}
+	}
+	
 	/**
 	 * Interface methods
 	 */
-	 public function addToDesk()
+	 public function addToDeskObject()
 	 {
 	 	include_once './Services/PersonalDesktop/classes/class.ilDesktopItemGUI.php';
 	 	ilDesktopItemGUI::addToDesktop();
@@ -95,7 +108,7 @@ class ilSearchBaseGUI implements ilDesktopItemHandling, ilAdministrationCommandH
 	 /**
 	  * Remove from dektop  
 	  */
-	 public function removeFromDesk()
+	 public function removeFromDeskObject()
 	 {
 	 	include_once './Services/PersonalDesktop/classes/class.ilDesktopItemGUI.php';
 	 	ilDesktopItemGUI::removeFromDesktop();
@@ -213,7 +226,7 @@ class ilSearchBaseGUI implements ilDesktopItemHandling, ilAdministrationCommandH
 			$this->tpl->setVariable('TXT_PREV',$this->lng->txt('search_page_prev'));
 			$this->tpl->parseCurrentBlock();
 */
-$this->prev_link = $this->ctrl->getLinkTarget($this,'performSearch');
+			$this->prev_link = $this->ctrl->getLinkTarget($this,'performSearch');
 		}
 		for($i = 1;$i <= $_SESSION["$a_session_key"];$i++)
 		{

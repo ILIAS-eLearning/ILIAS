@@ -36,8 +36,10 @@
 
 require_once "./classes/class.ilObjectGUI.php";
 require_once "./Services/Container/classes/class.ilContainer.php";
+include_once './Services/PersonalDesktop/interfaces/interface.ilDesktopItemHandling.php';
 
-class ilContainerGUI extends ilObjectGUI
+
+class ilContainerGUI extends ilObjectGUI implements ilDesktopItemHandling
 {
 	var $bl_cnt = 1;		// block counter
 	
@@ -1284,29 +1286,27 @@ class ilContainerGUI extends ilObjectGUI
 		
 		$ilTabs->activateSubTab("ordering");	
 	}
-			
-	/**
-	* subscribe item
-	*/
-	function addToDeskObject()
-	{
-		if ($_GET["item_ref_id"] and $_GET["type"])
-		{
-			$this->ilias->account->addDesktopItem($_GET["item_ref_id"], $_GET["type"]);
-		}
-		else
-		{
-			if ($_POST["items"])
-			{
-				foreach ($_POST["items"] as $item)
-				{
-					$type = ilObject::_lookupType($item, true);
-					$this->ilias->account->addDesktopItem($item, $type);
-				}
-			}
-		}
+	
+    /**
+     * @see ilDesktopItemHandling::addToDesk()
+     */
+    public function addToDeskObject()
+    {
+	 	include_once './Services/PersonalDesktop/classes/class.ilDesktopItemGUI.php';
+	 	ilDesktopItemGUI::addToDesktop();
 		$this->renderObject();
-	}
+    }
+    
+    /**
+     * @see ilDesktopItemHandling::removeFromDesk()
+     */
+    public function removeFromDeskObject()
+    {
+	 	include_once './Services/PersonalDesktop/classes/class.ilDesktopItemGUI.php';
+	 	ilDesktopItemGUI::removeFromDesktop();
+		$this->renderObject();
+    }
+	
 	// BEGIN WebDAV: Lock/Unlock objects
 	function lockObject()
 	{
@@ -1339,32 +1339,6 @@ class ilContainerGUI extends ilObjectGUI
 		$this->renderObject();
 	}
 	// END WebDAV: Lock/Unlock objects
-
-	
-	/**
-	* unsubscribe item
-	*/
-	function removeFromDeskObject()
-	{
-		if ($_GET["item_ref_id"] and $_GET["type"])
-		{
-			$this->ilias->account->dropDesktopItem($_GET["item_ref_id"], $_GET["type"]);
-		}
-		else
-		{
-			if ($_POST["items"])
-			{
-				foreach ($_POST["items"] as $item)
-				{
-					$type = ilObject::_lookupType($item, true);
-					$this->ilias->account->dropDesktopItem($item, $type);
-					unset($tmp_obj);
-				}
-			}
-		}
-		$this->renderObject();
-	}
-
 
 	/**
 	* cut object(s) out from a container and write the information to clipboard
