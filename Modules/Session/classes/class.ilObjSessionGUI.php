@@ -967,7 +967,31 @@ class ilObjSessionGUI extends ilObjectGUI
 		$signature->setValue(1);
 		$this->form->addItem($signature);
 		
+		$part = new ilFormSectionHeaderGUI();
+		$part->setTitle($this->lng->txt('event_participant_selection'));
+		$this->form->addItem($part);
+		
+		// Admins
+		$admin = new ilCheckboxInputGUI($this->lng->txt('event_tbl_admins'),'show_admins');
+		$admin->setOptionTitle($this->lng->txt('event_inc_admins'));
+		$admin->setValue(1);
+		$this->form->addItem($admin);
+		
+		// Tutors
+		$tutor = new ilCheckboxInputGUI($this->lng->txt('event_tbl_tutors'),'show_tutors');
+		$tutor->setOptionTitle($this->lng->txt('event_inc_tutors'));
+		$tutor->setValue(1);
+		$this->form->addItem($tutor);
+
+		// Members
+		$member = new ilCheckboxInputGUI($this->lng->txt('event_tbl_members'),'show_members');
+		$member->setOptionTitle($this->lng->txt('event_inc_members'));
+		$member->setValue(1);
+		$member->setChecked(true);
+		$this->form->addItem($member);
+		
 		$this->form->addCommandButton('printAttendanceList',$this->lng->txt('sess_print_attendance_list'));
+		#$this->form->addCommandButton('members', $this->lng->txt('cancel'));
 		
 	}
 	
@@ -1025,8 +1049,19 @@ class ilObjSessionGUI extends ilObjectGUI
 			$tpl->setVariable("TXT_SIGNATURE",$this->lng->txt('sess_signature'));	
 		}
 		
-		$members = $members_obj->getParticipants();
-		$members = ilUtil::_sortIds($members,'usr_data','lastname','usr_id');
+		if($_POST['show_admins'])
+		{
+			$members = array_merge((array) $members,$members_obj->getAdmins());
+		}
+		if($_POST['show_tutors'])
+		{
+			$members = array_merge((array) $members,$members_obj->getTutors());
+		}
+		if($_POST['show_members'])
+		{
+			$members = array_merge((array) $members,$members_obj->getMembers());
+		}
+		$members = ilUtil::_sortIds((array) $members,'usr_data','lastname','usr_id');
 				
 		foreach($members as $user_id)
 		{
@@ -1072,7 +1107,7 @@ class ilObjSessionGUI extends ilObjectGUI
 		include_once 'Modules/Session/classes/class.ilEventParticipants.php';
 		include_once('./Modules/Course/classes/class.ilCourseParticipants.php');
 
-		global $ilErr,$ilAccess,$tree;
+		global $ilErr,$ilAccess,$tree,$ilUser;
 		
 		$this->course_ref_id = $tree->checkForParentType($this->object->getRefId(),'crs');
 		$this->course_obj_id = ilObject::_lookupObjId($this->course_ref_id);
@@ -1086,7 +1121,6 @@ class ilObjSessionGUI extends ilObjectGUI
 		$event_app = $this->object->getFirstAppointment();
 		$event_part = new ilEventParticipants($this->object->getId());
 		
-
 		$this->tpl = new ilTemplate('tpl.main.html',true,true);
 		// load style sheet depending on user's settings
 		$location_stylesheet = ilUtil::getStyleSheetLocation();
@@ -1099,40 +1133,70 @@ class ilObjSessionGUI extends ilObjectGUI
 		ilDatePresentation::setUseRelativeDates(false);
 		$tpl->setVariable("DATE",ilDatePresentation::formatPeriod($event_app->getStart(),$event_app->getEnd()));
 		ilDatePresentation::setUseRelativeDates(true);
-		$tpl->setVariable("TXT_NAME",$this->lng->txt('name'));
-		$tpl->setVariable("TXT_MARK",$this->lng->txt('trac_mark'));
-		$tpl->setVariable("TXT_COMMENT",$this->lng->txt('trac_comment'));
-		$tpl->setVariable("TXT_PARTICIPATED",$this->lng->txt('event_tbl_participated'));
-		if($this->object->enabledRegistration())
+		
+		
+		if(!$ilUser->getPref('sess_admin_hide') and count($members_obj->getAdmins()))
 		{
-			$tpl->setVariable("TXT_REGISTERED",$this->lng->txt('event_tbl_registered'));
-		}
-
-		$members = $members_obj->getParticipants();
-		$members = ilUtil::_sortIds($members,'usr_data','lastname','usr_id');
-		foreach($members as $user_id)
-		{
+			$tmp['txt'] = $this->lng->txt('event_tbl_admins'); 
+			$tmp['users'] = $members_obj->getAdmins();
 			
-			$user_data = $event_part->getUser($user_id);
-
-			if($this->object->enabledRegistration())
+			$participants[] = $tmp;
+		}
+		if(!$ilUser->getPref('sess_tutor_hide') and count($members_obj->getTutors()))
+		{
+			$tmp['txt'] = $this->lng->txt('event_tbl_tutors'); 
+			$tmp['users'] = $members_obj->getTutors();
+			
+			$participants[] = $tmp;
+		}
+		if(!$ilUser->getPref('sess_member_hide') and count($members_obj->getMembers()))
+		{
+			$tmp['txt'] = $this->lng->txt('event_tbl_members'); 
+			$tmp['users'] = $members_obj->getMembers();
+			
+			$participants[] = $tmp;
+		}
+				
+		foreach((array) $participants as $participants_data)
+		{		
+			$members = ilUtil::_sortIds($participants_data['users'],'usr_data','lastname','usr_id');
+			foreach($members as $user_id)
 			{
-				$tpl->setCurrentBlock("reg_col");
-				$tpl->setVariable("REGISTERED",$event_part->isRegistered($user_id) ? "X" : "");
+				
+				$user_data = $event_part->getUser($user_id);
+	
+				if($this->object->enabledRegistration())
+				{
+					$tpl->setCurrentBlock("reg_col");
+					$tpl->setVariable("REGISTERED",$event_part->isRegistered($user_id) ? "X" : "");
+					$tpl->parseCurrentBlock();
+				}
+				$tpl->setVariable("COMMENT",$user_data['comment']);
+	
+				$tpl->setCurrentBlock("member_row");
+				$name = ilObjUser::_lookupName($user_id);
+				$tpl->setVariable("LASTNAME",$name['lastname']);
+				$tpl->setVariable("FIRSTNAME",$name['firstname']);
+				$tpl->setVariable("LOGIN",ilObjUser::_lookupLogin($user_id));
+				$tpl->setVariable("MARK",$user_data['mark']);
+				$tpl->setVariable("PARTICIPATED",$event_part->hasParticipated($user_id) ? "X" : "");
 				$tpl->parseCurrentBlock();
 			}
-			$tpl->setVariable("COMMENT",$user_data['comment']);
-
-			$tpl->setCurrentBlock("member_row");
-			$name = ilObjUser::_lookupName($user_id);
-			$tpl->setVariable("LASTNAME",$name['lastname']);
-			$tpl->setVariable("FIRSTNAME",$name['firstname']);
-			$tpl->setVariable("LOGIN",ilObjUser::_lookupLogin($user_id));
-			$tpl->setVariable("MARK",$user_data['mark']);
-			$tpl->setVariable("PARTICIPATED",$event_part->hasParticipated($user_id) ? "X" : "");
+			
+			$tpl->setCurrentBlock('part_group');
+			$tpl->setVariable('GROUP_NAME',$participants_data['txt']);
+			$tpl->setVariable("TXT_NAME",$this->lng->txt('name'));
+			$tpl->setVariable("TXT_MARK",$this->lng->txt('trac_mark'));
+			$tpl->setVariable("TXT_COMMENT",$this->lng->txt('trac_comment'));
+			$tpl->setVariable("TXT_PARTICIPATED",$this->lng->txt('event_tbl_participated'));
+			if($this->object->enabledRegistration())
+			{
+				$tpl->setVariable("TXT_REGISTERED",$this->lng->txt('event_tbl_registered'));
+			}
 			$tpl->parseCurrentBlock();
+			
 		}
-
+		
 		$this->tpl->setVariable("CONTENT",$tpl->get());
 		$this->tpl->setVariable("BODY_ATTRIBUTES",'onload="window.print()"');
 		$this->tpl->show();

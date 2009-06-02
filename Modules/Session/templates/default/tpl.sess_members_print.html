@@ -2,46 +2,49 @@
 body { margin:20px; }
 </style>
 
-	
-	<table class="std" border="2">
-		<thead>
-			<tr class="tblheader">
-				<th style="text-align:center" colspan="5"><strong>{EVENT}: {EVENT_NAME} ({DATE})</strong></th>
-			<tr class="tblheader" padding="1px">
-			  <th width="30%">{TXT_NAME}</th>
-			  <th width="10%">{TXT_MARK}</th>
-			  <th width="40%">{TXT_COMMENT}</th>
-			  <!-- BEGIN reg_header -->
-			  <th width="10%">{TXT_REGISTERED}</th>
-			  <!-- END reg_header -->
-			  <th width="10%">{TXT_PARTICIPATED}</th>
-			</tr>
-		</thead>
-		<tbody>
-			<!-- BEGIN member_row -->
-			<tr class="std">
-			  <td class="option_value">
-				{LASTNAME}, {FIRSTNAME} [{LOGIN}]
-			  </td>
-			  <td class="option_value">
-				{MARK}
-			  </td>
-			  <td class="option_value">
-				{COMMENT}
-			  </td>
-			  <!-- BEGIN reg_col -->
-			  <td class="option_value" align="center">
-				<div align="center">
-				  <strong>{REGISTERED}</strong>
-				</div>
-			  </td>
-			  <!-- END reg_col -->
-			  <td class="option_value">
-				<div align="center">
-				  <strong>{PARTICIPATED}</strong>
-				</div>
-			  </td>
-			</tr>
-			<!-- END member_row -->
-		</tbody>
-	</table>
+<h3>{EVENT}: {EVENT_NAME} ({DATE})</h3>
+<!-- BEGIN part_group -->
+<table class="std" width="100%" border="2">
+	<thead>
+		<tr class="tblheader">
+			<th style="text-align:left" colspan="5"><strong>{GROUP_NAME}</strong></th>
+		<tr class="tblheader" padding="1px">
+		  <th width="30%">{TXT_NAME}</th>
+		  <th width="10%">{TXT_MARK}</th>
+		  <th width="40%">{TXT_COMMENT}</th>
+		  <!-- BEGIN reg_header -->
+		  <th width="10%">{TXT_REGISTERED}</th>
+		  <!-- END reg_header -->
+		  <th width="10%">{TXT_PARTICIPATED}</th>
+		</tr>
+	</thead>
+	<tbody>
+		<!-- BEGIN member_row -->
+		<tr class="std">
+		  <td class="option_value">
+			{LASTNAME}, {FIRSTNAME} [{LOGIN}]
+		  </td>
+		  <td class="option_value">
+			{MARK}
+		  </td>
+		  <td class="option_value">
+			{COMMENT}
+		  </td>
+		  <!-- BEGIN reg_col -->
+		  <td class="option_value" align="center">
+			<div align="center">
+			  <strong>{REGISTERED}</strong>
+			</div>
+		  </td>
+		  <!-- END reg_col -->
+		  <td class="option_value">
+			<div align="center">
+			  <strong>{PARTICIPATED}</strong>
+			</div>
+		  </td>
+		</tr>
+		<!-- END member_row -->
+	</tbody>
+</table>
+<br />
+<!-- END part_group -->
