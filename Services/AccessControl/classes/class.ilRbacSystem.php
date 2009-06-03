@@ -38,6 +38,12 @@ class ilRbacSystem
 	protected static $user_role_cache = array();
 	var $ilias;
 
+	// Cache accesses to RBAC PA
+	private static $_paCache = null;
+
+	// Cache outcomes of calls to checkAccessOfuser
+	private static $_checkAccessOfUserCache = null;
+
 	/**
 	* Constructor
 	* @access	public
@@ -98,6 +104,19 @@ class ilRbacSystem
 	{
 		global $ilUser, $rbacreview,$ilObjDataCache,$ilDB;
 
+		// Create the cache key
+		$cacheKey = $a_user_id.':'.$a_operations.':'.$a_ref_id.':'.$a_type;
+
+		// Create the cache if it does not yet exist
+		if (! is_array(self::$_checkAccessOfUserCache)) {
+			self::$_checkAccessOfUserCache = array();
+		}
+		
+		// Try to return result from cache
+		if (array_key_exists($cacheKey, self::$_checkAccessOfUserCache)) {
+			return self::$_checkAccessOfUserCache[$cacheKey];
+		}
+
 		#echo ++$counter;
 
 		// DISABLED 
@@ -107,6 +126,11 @@ class ilRbacSystem
 		// This method call return all operations that are NOT granted by the owner status 
 		if(!$a_operations = $this->__filterOwnerPermissions($a_user_id,$a_operations,$a_ref_id))
 		{
+			// Store positive outcome in cache.
+			// Note: we only cache up to 1000 results to avoid memory overflows
+			if (count(self::$_checkAccessOfUserCache) < 1000) {
+				self::$_checkAccessOfUserCache[$cacheKey] = true;
+			}
 			return true;
 		}
 
@@ -118,6 +142,11 @@ class ilRbacSystem
 		// exclude system role from rbac
 		if (in_array(SYSTEM_ROLE_ID, $roles))
 		{
+			// Store positive outcome in cache.
+			// Note: we only cache up to 1000 results to avoid memory overflows
+			if (count(self::$_checkAccessOfUserCache) < 1000) {
+				self::$_checkAccessOfUserCache[$cacheKey] = true;
+			}
 			return true;		
 		}
 
@@ -132,9 +161,37 @@ class ilRbacSystem
 			$this->ilErr->raiseError(get_class($this)."::checkAccess(): Wrong datatype for operations!",$this->ilErr->WARNING);
 		}
 
+		// Create the PA cache if it does not exist yet
+		if (! is_array(self::$_paCache)) {
+            self::$_paCache = array();
+        }
+
+        if (array_key_exists($a_ref_id, self::$_paCache)) {
+			// Return result from PA cache
+            $ops = self::$_paCache[$a_ref_id];
+        } else {
+			// Data is not in PA cache, perform database query
+			$q = "SELECT * FROM rbac_pa ".
+					 "WHERE ref_id = ".$ilDB->quote($a_ref_id, 'integer');
+
+			$r = $this->ilDB->query($q);
+
+			$ops = array();
+
+			while ($row = $r->fetchRow(DB_FETCHMODE_OBJECT))
+			{
+					if (in_array($row->rol_id, $roles)) {
+					  $ops = array_merge($ops,unserialize(stripslashes($row->ops_id)));
+					}
+			}
+
+			// Cache up to 1000 entries in the PA cache
+			if (count(self::$_paCache) < 1000) {
+				self::$_paCache[$a_ref_id] = $ops;
+			}
+        }
+
 		$operations = explode(",",$a_operations);
-
-
 		foreach ($operations as $operation)
 		{
 			if ($operation == "create")
@@ -144,36 +201,31 @@ class ilRbacSystem
 					$this->ilErr->raiseError(get_class($this)."::CheckAccess(): Expect a type definition for checking a 'create' permission",
 											 $this->ilErr->WARNING);
 				}
-				
+
 				$ops_id = ilRbacReview::_getOperationIdByName($operation."_".$a_type);
 			}
 			else
 			{
 				$ops_id = ilRbacReview::_getOperationIdByName($operation);
 			}
-			
-			$query = "SELECT * FROM rbac_pa ".
-				 "WHERE ".$ilDB->in('rol_id',$roles,false,'integer').' '.
-				 "AND ref_id = ".$ilDB->quote($a_ref_id,'integer')." ";
-			$res = $ilDB->query($query);
 
-			$ops = array();
-			while($row = $ilDB->fetchObject($res))
-			{
-				$ops = array_merge($ops,unserialize($row->ops_id));
-			}
-			if (in_array($ops_id,$ops))
-			{
-				continue;
-			}
-			else
-			{
-				return false;
+			if (! in_array($ops_id,$ops)) {
+					// Store negative outcome in cache.
+					// Note: we only cache up to 1000 results to avoid memory overflows
+					if (count(self::$_checkAccessOfUserCache) < 1000) {
+						self::$_checkAccessOfUserCache[$cacheKey] = false;
+					}
+					return false;
 			}
 		}
-		
+
+		// Store positive outcome in cache.
+		// Note: we only cache up to 1000 results to avoid memory overflows
+		if (count(self::$_checkAccessOfUserCache) < 1000) {
+			self::$_checkAccessOfUserCache[$cacheKey] = true;
+		}
 		return true;
-    }
+	}
 	
 	/**
 	* check if a specific role has the permission '$a_operation' of an object
