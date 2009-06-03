@@ -329,14 +329,13 @@ class ilChangeEvent
 		while ($row = $r->fetchRow(DB_FETCHMODE_ASSOC)) {
 			$catchup = $row['ts'];
 		}
-			
+
 		if($catchup == null)
 		{
 			$ilDB->setLimit(1);
 			$query = sprintf('SELECT * FROM write_event '.
 				'WHERE obj_id = %s '.
 				'AND usr_id <> %s '.
-				'ORDER BY ts DESC ',
 				$ilDB->quote($obj_id,'integer'),
 				$ilDB->quote($usr_id,'integer'));
 			$res = $ilDB->query($query);
@@ -348,7 +347,6 @@ class ilChangeEvent
 				'WHERE obj_id = %s '.
 				'AND usr_id <> %s '.
 				'AND ts > %s '.
-				'ORDER BY ts DESC ',
 				$ilDB->quote($obj_id,'integer'),
 				$ilDB->quote($usr_id,'integer'),
 				$ilDB->quote($catchup,'timestamp'));
@@ -396,14 +394,13 @@ class ilChangeEvent
 		while ($row = $r->fetchRow(DB_FETCHMODE_ASSOC)) {
 			$catchup = $row['ts'];
 		}
-		
+
 		if($catchup == null)
 		{
 			$ilDB->setLimit(1);
 			$query = sprintf('SELECT * FROM write_event '.
 				'WHERE parent_obj_id = %s '.
 				'AND usr_id <> %s '.
-				'ORDER BY ts DESC ',
 				$ilDB->quote($parent_obj_id,'integer'),
 				$ilDB->quote($usr_id,'integer'));
 			$res = $ilDB->query($query);
@@ -415,7 +412,6 @@ class ilChangeEvent
 				'WHERE parent_obj_id = %s '.
 				'AND usr_id <> %s '.
 				'AND ts > %s '.
-				'ORDER BY ts DESC ',
 				$ilDB->quote($parent_obj_id,'integer'),
 				$ilDB->quote($usr_id,'integer'),
 				$ilDB->quote($catchup,'timestamp'));

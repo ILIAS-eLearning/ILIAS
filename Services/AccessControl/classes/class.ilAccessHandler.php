@@ -450,7 +450,6 @@ class ilAccessHandler
 			$this->current_info->addInfoItem(IL_NO_PERMISSION, $lng->txt("no_permission"));
 		}
 		
-		$this->storeAccessResult($a_permission, $a_cmd, $a_ref_id, $access,$a_user_id);
 		$ilBench->stop("AccessControl", "2500_checkAccess_rbac_check");
 
 		return $access;
@@ -493,7 +492,6 @@ class ilAccessHandler
 			{
 				if(!$this->doActivationCheck($a_permission,$a_cmd,$a_ref_id,$a_user_id,$a_all))
 				{
-					$this->storeAccessResult($a_permission,$a_cmd,$a_ref_id,false,$a_user_id);
 					return false;
 				}
 			}
@@ -508,17 +506,10 @@ class ilAccessHandler
 
 				if ($a_all == false)
 				{
-					$ilBench->start("AccessControl", "3200_checkAccess_check_parents_store_result");
-					$this->storeAccessResult($a_permission, $a_cmd, $a_ref_id, $access,$a_user_id,$tmp_info);
-					$ilBench->stop("AccessControl", "3200_checkAccess_check_parents_store_result");
 					return false;
 				}
 			}
 		}
-		
-		$ilBench->start("AccessControl", "3200_checkAccess_check_parents_store_result");
-		$this->storeAccessResult($a_permission, $a_cmd, $a_ref_id, $access,$a_user_id,$tmp_info);
-		$ilBench->stop("AccessControl", "3200_checkAccess_check_parents_store_result");
 		
 		return true;
 	}
@@ -655,14 +646,12 @@ class ilAccessHandler
 						$lng->txt("condition_".$condition["operator"])." ".
 						$condition["value"], $condition);
 				}
-				$this->storeAccessResult($a_permission, $a_cmd, $a_ref_id, false, $a_user_id);
 				$ilBench->stop("AccessControl", "4000_checkAccess_condition_check");
 				return false;
 			}
 			$ilBench->stop("AccessControl", "4000_checkAccess_condition_check");
 		}
 
-		$this->storeAccessResult($a_permission, $a_cmd, $a_ref_id, true, $a_user_id);
 		return true;
 	}
 	
@@ -690,16 +679,12 @@ class ilAccessHandler
 		if (!($obj_access === true))
 		{
 			//$this->current_info->addInfoItem(IL_NO_OBJECT_ACCESS, $obj_acess);
-			$this->storeAccessResult($a_permission, $a_cmd, $a_ref_id, false, $a_user_id);
 			$ilBench->stop("AccessControl", "5000_checkAccess_object_check");
 			return false;
 		}
 		
 		$ilBench->stop("AccessControl", "5000_checkAccess_object_check");
 
-		$ilBench->start("AccessControl", "6000_checkAccess_store_access");
-		$this->storeAccessResult($a_permission, $a_cmd, $a_ref_id, true, $a_user_id);
-		$ilBench->stop("AccessControl", "6000_checkAccess_store_access");
 		return true;
 	}
 	
