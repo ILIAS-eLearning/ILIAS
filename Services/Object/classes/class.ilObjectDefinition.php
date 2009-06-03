@@ -98,6 +98,10 @@ class ilObjectDefinition extends ilSaxParser
 		
 		$this->obj_data = array();
 		
+
+		// Select all object_definitions and collect the definition id's in
+		// this array.
+        $defIds = array();
 		$set = $ilDB->query("SELECT * FROM il_object_def");
 		while ($rec = $ilDB->fetchAssoc($set))
 		{
@@ -119,22 +123,23 @@ class ilObjectDefinition extends ilSaxParser
 				"sideblock" => $rec["sideblock"]);
 			$this->obj_data[$rec["id"]]["subobjects"] = array();
 
-			// get subobjects
-			$set2 = $ilDB->queryF("SELECT * FROM il_object_subobj WHERE parent = %s",
-				array("text"), array($rec["id"]));
-			while ($rec2 = $ilDB->fetchAssoc($set2))
+            $defIds[] = $rec["id"];
+        }
+		// get all subobject definitions in a single query
+		$set2 = $ilDB->query("SELECT * FROM il_object_subobj WHERE ".
+				$ilDB->in('parent', $defIds, false, 'text'));
+		while ($rec2 = $ilDB->fetchAssoc($set2))
+		{
+			$max = $rec2["mmax"];
+			if ($max <= 0)				// for backward compliance
 			{
-				$max = $rec2["mmax"];
-				if ($max <= 0)				// for backward compliance
-				{
-					$max = "";
-				}
-				$this->obj_data[$rec["id"]]["subobjects"][$rec2["subobj"]] = array(
-					"name" => $rec2["subobj"],
-					"max" => $max,
-					"lng" => $rec2["subobj"]
-					);
+				$max = "";
 			}
+			$this->obj_data[$rec2["parent"]]["subobjects"][$rec2["subobj"]] = array(
+				"name" => $rec2["subobj"],
+				"max" => $max,
+				"lng" => $rec2["subobj"]
+				);
 		}
 		
 		$set = $ilDB->query("SELECT * FROM il_object_group");

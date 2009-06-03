@@ -389,8 +389,9 @@ abstract class ilContainerContentGUI
 	function renderItem($a_item_data,$a_position = 0,$a_force_icon = false)
 	{
 		global $ilSetting,$ilAccess;
-		
-		if(!$ilAccess->checkAccess('visible','',$a_item_data['ref_id'],$a_item_data['type'],$a_item_data['obj_id']))
+
+		// Pass type, obj_id and tree to checkAccess method to improve performance
+		if(!$ilAccess->checkAccess('visible','',$a_item_data['ref_id'],$a_item_data['type'],$a_item_data['obj_id'],$a_item_data['tree']))
 		{
 			return '';
 		}

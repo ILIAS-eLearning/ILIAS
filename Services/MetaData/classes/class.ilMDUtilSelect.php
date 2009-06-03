@@ -244,7 +244,9 @@ class ilMDUtilSelect
 		}
 
 		$ilDB->setLimit(200,0);
-		$query = "SELECT format FROM il_meta_format GROUP BY format ORDER BY format";
+		// In case an index is defined on field il_meta_format, this group by
+		// statement takes advantage of it to improve the performance of the query.
+		$query = "SELECT format as forma from il_meta_format GROUP BY format";
 		$res = $ilDB->query($query);
 		if(!$res->numRows())
 		{

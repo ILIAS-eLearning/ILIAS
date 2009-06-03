@@ -191,7 +191,11 @@ class ilTree
 		$this->tree_pk = 'tree';
 		$this->use_cache = false;
 
-		// By default, we create gaps in the tree sequence numbering for 50 nodes 
+		// If cache is activated, cache object translations to improve performance
+		$this->translation_cache = array();
+		$this->parent_type_cache = array();
+
+		// By default, we create gaps in the tree sequence numbering for 50 nodes
 		$this->gap = 50;
 	}
 	
@@ -312,12 +316,14 @@ class ilTree
 	{
 		if ($this->table_obj_reference)
 		{
-			return "LEFT JOIN ".$this->table_obj_reference." ON ".$this->table_tree.".child=".$this->table_obj_reference.".".$this->ref_pk." ".
-				   "LEFT JOIN ".$this->table_obj_data." ON ".$this->table_obj_reference.".".$this->obj_pk."=".$this->table_obj_data.".".$this->obj_pk." ";
+			// Use inner join instead of left join to improve performance
+			return "JOIN ".$this->table_obj_reference." ON ".$this->table_tree.".child=".$this->table_obj_reference.".".$this->ref_pk." ".
+				   "JOIN ".$this->table_obj_data." ON ".$this->table_obj_reference.".".$this->obj_pk."=".$this->table_obj_data.".".$this->obj_pk." ";
 		}
 		else
 		{
-			return "LEFT JOIN ".$this->table_obj_data." ON ".$this->table_tree.".child=".$this->table_obj_data.".".$this->obj_pk." ";
+			// Use inner join instead of left join to improve performance
+			return "JOIN ".$this->table_obj_data." ON ".$this->table_tree.".child=".$this->table_obj_data.".".$this->obj_pk." ";
 		}
 	}
 
@@ -1028,12 +1034,44 @@ class ilTree
 	function getPathFull($a_endnode_id, $a_startnode_id = 0)
 	{
 		$pathIds =& $this->getPathId($a_endnode_id, $a_startnode_id);
-		$dataPath = array();
-		foreach ($pathIds as $id) {
-			$dataPath[] = $this->getNodeData($id);
+
+		// We retrieve the full path in a single query to improve performance
+        global $ilDB;
+
+		// Abort if no path ids were found
+		if (count($pathIds) == 0)
+		{
+			return null;
 		}
 
-		return $dataPath;
+		$inClause = 'child IN (';
+		for ($i=0; $i < count($pathIds); $i++)
+		{
+			if ($i > 0) $inClause .= ',';
+			$inClause .= $ilDB->quote($pathIds[$i]);
+		}
+		$inClause .= ')';
+
+		$q = 'SELECT * '.
+			'FROM '.$this->table_tree.' '.
+            $this->buildJoin().' '.
+			'WHERE '.$inClause.' '.
+            'AND '.$this->table_tree.'.'.$this->tree_pk.' = '.$this->ilDB->quote($this->tree_id).' '.
+			'ORDER BY depth';
+		$r = $ilDB->query($q);
+
+		$pathFull = array();
+		while ($row = $r->fetchRow(DB_FETCHMODE_ASSOC))
+		{
+			$pathFull[] = $this->fetchNodeData($row);
+
+			// is in tree cache
+			if ($this->use_cache && $this->__isMainTree())
+			{
+				$this->in_tree_cache[$row['child']] = $row['tree'] == 1;
+			}
+		}
+		return $pathFull;
 	}
 	/**
 	* get path from a given startnode to a given endnode
@@ -1654,25 +1692,48 @@ class ilTree
 		}
 		elseif ($translation_type == "db")
 		{
-			//$ilBench->start("Tree", "fetchNodeData_getTranslation");
-			$query = 'SELECT title,description FROM object_translation '.
-				'WHERE obj_id = %s '.
-				'AND lang_code = %s '.
-				'AND NOT lang_default = %s';
 
-			$res = $ilDB->queryF($query,array('integer','text','integer'),array(
-				$data['obj_id'],
-				$this->lang_code,
-				1));
-			$row = $ilDB->fetchObject($res);
+			// Try to retrieve object translation from cache
+			if ($this->use_cache &&
+				array_key_exists($data["obj_id"].'.'.$lang_code, $this->translation_cache)) {
 
-			if ($row)
-			{
-				$data["title"] = $row->title;
-				$data["description"] = ilUtil::shortenText($row->description,MAXLENGTH_OBJ_DESC,true);
-				$data["desc"] = $row->description;
+				$key = $data["obj_id"].'.'.$lang_code;
+				$data["title"] = $this->translation_cache[$key]['title'];
+				$data["description"] = $this->translation_cache[$key]['description'];
+				$data["desc"] = $this->translation_cache[$key]['desc'];
+			} else {
+				// Object translation is not in cache, read it from database
+
+				//$ilBench->start("Tree", "fetchNodeData_getTranslation");
+				$query = 'SELECT title,description FROM object_translation '.
+					'WHERE obj_id = %s '.
+					'AND lang_code = %s '.
+					'AND NOT lang_default = %s';
+
+				$res = $ilDB->queryF($query,array('integer','text','integer'),array(
+					$data['obj_id'],
+					$this->lang_code,
+					1));
+				$row = $ilDB->fetchObject($res);
+
+				if ($row)
+				{
+					$data["title"] = $row->title;
+					$data["description"] = ilUtil::shortenText($row->description,MAXLENGTH_OBJ_DESC,true);
+					$data["desc"] = $row->description;
+				}
+				//$ilBench->stop("Tree", "fetchNodeData_getTranslation");
+
+				// Store up to 1000 object translations in cache
+				if ($this->use_cache && count($this->translation_cache) < 1000)
+				{
+					$key = $data["obj_id"].'.'.$lang_code;
+					$this->translation_cache[$key] = array();
+					$this->translation_cache[$key]['title'] = $data["title"] ;
+					$this->translation_cache[$key]['description'] = $data["description"];
+					$this->translation_cache[$key]['desc'] = $data["desc"];
+				}
 			}
-			//$ilBench->stop("Tree", "fetchNodeData_getTranslation");
 		}
 		
 		// TODO: Handle this switch by module.xml definitions
@@ -1749,16 +1810,18 @@ class ilTree
 
 		if ($this->table_obj_reference)
 		{
-			$leftjoin = "LEFT JOIN ".$this->table_obj_reference." ON v.child=".$this->table_obj_reference.".".$this->ref_pk." ".
-				  		"LEFT JOIN ".$this->table_obj_data." ON ".$this->table_obj_reference.".".$this->obj_pk."=".$this->table_obj_data.".".$this->obj_pk." ";
+			// Use inner join instead of left join to improve performance
+			$innerjoin = "JOIN ".$this->table_obj_reference." ON v.child=".$this->table_obj_reference.".".$this->ref_pk." ".
+				  		"JOIN ".$this->table_obj_data." ON ".$this->table_obj_reference.".".$this->obj_pk."=".$this->table_obj_data.".".$this->obj_pk." ";
 		}
 		else
 		{
-			$leftjoin = "LEFT JOIN ".$this->table_obj_data." ON v.child=".$this->table_obj_data.".".$this->obj_pk." ";
+			// Use inner join instead of left join to improve performance
+			$innerjoin = "JOIN ".$this->table_obj_data." ON v.child=".$this->table_obj_data.".".$this->obj_pk." ";
 		}
 
 		$query = 'SELECT * FROM '.$this->table_tree.' s, '.$this->table_tree.' v '.
-			$leftjoin.
+			$innerjoin.
 			'WHERE s.child = %s '.
 			'AND s.parent = v.child '.
 			'AND s.lft > v.lft '.
@@ -2480,8 +2543,18 @@ class ilTree
 	*/
 	function checkForParentType($a_ref_id,$a_type)
 	{
+		// Try to return a cached result
+		if ($this->use_cache &&
+				array_key_exists($a_ref_id.'.'.$a_type, $this->parent_type_cache)) {
+			return $this->parent_type_cache[$a_ref_id.'.'.$a_type];
+		}
+
 		if(!$this->isInTree($a_ref_id))
 		{
+            // Store up to 1000 results in cache
+            if ($this->use_cache && count($this->parent_type_cache) < 1000) {
+                $this->parent_type_cache[$a_ref_id.'.'.$a_type] = false;
+            }
 			return false;
 		}
 		$path = array_reverse($this->getPathFull($a_ref_id));
@@ -2490,8 +2563,16 @@ class ilTree
 		{
 			if($node["type"] == $a_type)
 			{
+            // Store up to 1000 results in cache
+            if ($this->use_cache && count($this->parent_type_cache) < 1000) {
+                $this->parent_type_cache[$a_ref_id.'.'.$a_type] = $node["child"];
+            }
 				return $node["child"];
 			}
+		}
+		// Store up to 1000 results in cache
+		if ($this->use_cache && count($this->parent_type_cache) < 1000) {
+			$this->parent_type_cache[$a_ref_id.'.'.$a_type] = false;
 		}
 		return 0;
 	}

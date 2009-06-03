@@ -1880,7 +1880,9 @@ class ilObjectListGUI
 
 			if (!$this->ilias->account->isDesktopItem($this->getCommandId(), $type))
 			{
-				if ($this->rbacsystem->checkAccess("read", $this->getCommandId()))
+				// Pass type and object ID to ilAccess to improve performance
+			    global $ilAccess;
+    			if ($ilAccess->checkAccess("read", "", $this->ref_id, $this->type, $this->obj_id))
 				{
 					if($this->getContainerObject() instanceof ilDesktopItemHandling)
 					{
