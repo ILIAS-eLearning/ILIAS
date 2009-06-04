@@ -123,6 +123,12 @@ class ilCourseXMLParser extends ilMDSaxParser implements ilSaxSubsetParser
 					$this->course_obj->setImportId($a_attribs['importId']);
 					ilObject::_writeImportId($this->course_obj->getId(),$a_attribs['importId']);
 				}
+				if(strlen($a_attribs['showMembers']))
+				{
+					$this->course_obj->setShowMembers(
+						$a_attribs['showMembers'] == 'Yes' ? true : false
+					);
+				}
 				break;
 
 			case 'Admin':
