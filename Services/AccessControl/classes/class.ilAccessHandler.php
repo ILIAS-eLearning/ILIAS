@@ -416,14 +416,6 @@ class ilAccessHandler
 	{
 		global $lng, $ilBench, $ilErr, $ilLog;
 
-        // get stored result
-		$cached = $this->doCacheCheck($a_permission, $a_cmd, $a_ref_id, $a_user_id);
-		if ($cached["hit"])
-		{
-			return $cached["granted"];
-		}
-
-		//echo "rbacCheck<br/>";
 		$ilBench->start("AccessControl", "2500_checkAccess_rbac_check");
 
 		if ($a_permission == "")
