@@ -1065,7 +1065,7 @@ class ilTree
 		{
 			$pathFull[] = $this->fetchNodeData($row);
 
-			// is in tree cache
+			// Update cache
 			if ($this->use_cache && $this->__isMainTree())
 			{
 				$this->in_tree_cache[$row['child']] = $row['tree'] == 1;
