@@ -400,7 +400,7 @@ class ilChangeEvent
 			$ilDB->setLimit(1);
 			$query = sprintf('SELECT * FROM write_event '.
 				'WHERE parent_obj_id = %s '.
-				'AND usr_id <> %s '.
+				'AND usr_id <> %s ',
 				$ilDB->quote($parent_obj_id,'integer'),
 				$ilDB->quote($usr_id,'integer'));
 			$res = $ilDB->query($query);
@@ -411,7 +411,7 @@ class ilChangeEvent
 			$query = sprintf('SELECT * FROM write_event '.
 				'WHERE parent_obj_id = %s '.
 				'AND usr_id <> %s '.
-				'AND ts > %s '.
+				'AND ts > %s ',
 				$ilDB->quote($parent_obj_id,'integer'),
 				$ilDB->quote($usr_id,'integer'),
 				$ilDB->quote($catchup,'timestamp'));
