@@ -2511,15 +2511,15 @@ common#:#if_no_title_then_filename#:#Leave blank to use file name as title.
 common#:#if_no_title_then_url#:#Leave blank to display the URL
 common#:#ignore_on_conflict#:#Ignore on conflict
 common#:#il_chat_moderator#:#Chat moderator
-common#:#il_crs_admin#:#Course administrator
-common#:#il_crs_member#:#Course member
+common#:#il_crs_admin#:#Course Administrator
+common#:#il_crs_member#:#Course Member
 common#:#il_crs_non_member#:#Course non-member
 common#:#il_grp_status_closed#:#Group closed
 common#:#il_grp_status_open#:#Group open
-common#:#il_crs_tutor#:#Course tutor
+common#:#il_crs_tutor#:#Course Tutor
 common#:#il_frm_moderator#:#Forum moderator
-common#:#il_grp_admin#:#Group administrator
-common#:#il_grp_member#:#Group member
+common#:#il_grp_admin#:#Group Administrator
+common#:#il_grp_member#:#Group Member
 common#:#il_icrs_admin#:#LearnLinc Seminar administrator
 common#:#il_icrs_member#:#LearnLinc Seminar member
 common#:#ilias_version#:#ILIAS version
