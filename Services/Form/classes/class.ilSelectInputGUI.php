@@ -121,7 +121,7 @@ class ilSelectInputGUI extends ilSubEnabledFormPropertyGUI implements ilTableFil
 	/**
 	* Render item
 	*/
-	function render()
+	function render($a_mode = "")
 	{
 		$tpl = new ilTemplate("tpl.prop_select.html", true, true, "Services/Form");
 		
@@ -180,6 +180,15 @@ class ilSelectInputGUI extends ilSubEnabledFormPropertyGUI implements ilTableFil
 	function getTableFilterHTML()
 	{
 		$html = $this->render();
+		return $html;
+	}
+
+	/**
+	* Get HTML for toolbar
+	*/
+	function getToolbarHTML()
+	{
+		$html = $this->render("toolbar");
 		return $html;
 	}
 

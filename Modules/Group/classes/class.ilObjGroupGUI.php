@@ -935,7 +935,7 @@ class ilObjGroupGUI extends ilContainerGUI
 	 */
 	public function membersObject()
 	{
-		global $ilUser;
+		global $ilUser, $ilToolbar, $lng, $ilCtrl;
 		
 		include_once('./Modules/Group/classes/class.ilGroupParticipants.php');
 		include_once('./Modules/Group/classes/class.ilGroupParticipantsTableGUI.php');
@@ -959,7 +959,32 @@ class ilObjGroupGUI extends ilContainerGUI
 		$this->tpl->setVariable('FORMACTION',$this->ctrl->getFormAction($this));
 		
 		// add members
-		$ilToolbar->addButton($this->lng->txt("grp_add_member"),
+		
+		// user input
+		include_once("./Services/Form/classes/class.ilUserLoginAutoCompleteInputGUI.php");
+		$ul = new ilUserLoginAutoCompleteInputGUI($lng->txt("user"), "user_login", $this, "addMemberAutoComplete");
+		$ul->setSize(15);
+		$ilToolbar->addInputItem($ul, true);
+
+		// member type
+		include_once("./Services/Form/classes/class.ilSelectInputGUI.php");
+		$options = array(
+			"member" => $lng->txt("member"),
+			"admin" => $lng->txt("administrator")
+			);
+		$si = new ilSelectInputGUI("", "member_type");
+		$si->setOptions($options);
+		$ilToolbar->addInputItem($si);
+		
+		// add button
+		$ilToolbar->addFormButton($lng->txt("add"), "addAsMember");
+		$ilToolbar->setFormAction($ilCtrl->getFormAction($this));
+		
+		// spacer
+		$ilToolbar->addSeparator();
+
+		// search button
+		$ilToolbar->addButton($this->lng->txt("grp_search_users"),
 			$this->ctrl->getLinkTargetByClass('ilRepositorySearchGUI','start'));
 
 		$this->setShowHidePrefs();
@@ -1090,6 +1115,25 @@ class ilObjGroupGUI extends ilContainerGUI
 		
 	}
 	
+	/**
+	* Add Member for autoComplete
+	*/
+	function addMemberAutoCompleteObject()
+	{
+		include_once("./Services/Form/classes/class.ilUserLoginAutoCompleteInputGUI.php");
+		ilUserLoginAutoCompleteInputGUI::echoAutoCompleteList();
+	}
+
+	/**
+	* Add user as member
+	*/
+	function addAsMemberObject()
+	{	
+		// @todo: finish this
+		echo "Add ".ilUtil::stripSlashes($_POST["user_login"])." as ".
+			ilUtil::stripSlashes($_POST["member_type"]).".";
+	}
+
 	/**
 	 * assign subscribers
 	 *

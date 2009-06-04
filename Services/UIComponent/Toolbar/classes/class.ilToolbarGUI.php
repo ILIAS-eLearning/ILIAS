@@ -38,7 +38,27 @@ class ilToolbarGUI
 	{
 	
 	}
-		
+
+	/**
+	* Set form action (if form action is set, toolbar is wrapped into form tags
+	*
+	* @param	string	form action
+	*/
+	function setFormAction($a_val)
+	{
+		$this->form_action = $a_val;
+	}
+	
+	/**
+	* Get form action
+	*
+	* @return	string	form action
+	*/
+	function getFormAction()
+	{
+		return $this->form_action;
+	}
+
 	/**
 	* Set leading image
 	*/
@@ -77,11 +97,27 @@ class ilToolbarGUI
 	/**
 	* Add input item
 	*/
-	function addInputItem($a_item)
+	function addInputItem($a_item, $a_output_label = false)
 	{
-		$this->items[] = array("type" => "input", "input" => $a_item);
+		$this->items[] = array("type" => "input", "input" => $a_item, "label" => $a_output_label);
 	}
 	
+	/**
+	* Add separator
+	*/
+	function addSeparator()
+	{
+		$this->items[] = array("type" => "separator");
+	}
+	
+	/**
+	* Add spacer
+	*/
+	function addSpacer()
+	{
+		$this->items[] = array("type" => "spacer");
+	}
+
 	/**
 	* Get toolbar html
 	*/
@@ -123,9 +159,25 @@ class ilToolbarGUI
 						break;
 						
 					case "input":
+						if ($item["label"])
+						{
+							$tpl->setCurrentBlock("input_label");
+							$tpl->setVariable("TXT_INPUT", $item["input"]->getTitle());
+							$tpl->parseCurrentBlock();
+						}
 						$tpl->setCurrentBlock("input");
 						$tpl->setVariable("INPUT_HTML", $item["input"]->getToolbarHTML());
 						$tpl->parseCurrentBlock();
+						$tpl->touchBlock("item");
+						break;
+						
+					case "separator":
+						$tpl->touchBlock("separator");
+						$tpl->touchBlock("item");
+						break;
+
+					case "spacer":
+						$tpl->touchBlock("spacer");
 						$tpl->touchBlock("item");
 						break;
 				}
@@ -136,6 +188,15 @@ class ilToolbarGUI
 			{
 				$tpl->setVariable("IMG_SRC", $this->lead_img["img"]);
 				$tpl->setVariable("IMG_ALT", $this->lead_img["alt"]);
+			}
+			
+			// form?
+			if ($this->getFormAction() != "")
+			{
+				$tpl->setCurrentBlock("form_open");
+				$tpl->setVariable("FORMACTION", $this->getFormAction());
+				$tpl->parseCurrentBlock();
+				$tpl->touchBlock("form_close");
 			}
 			
 			return $tpl->get();

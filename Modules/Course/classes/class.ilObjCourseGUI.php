@@ -1984,27 +1984,39 @@ class ilObjCourseGUI extends ilContainerGUI
 		$this->tpl->setVariable('FORMACTION',$this->ctrl->getFormAction($this));
 		
 		// add members
-		// user input
-		include_once("./Services/Form/classes/class.ilTextInputGUI.php");
-		$tpl->addJavaScript("./Services/User/js/ilUserAutoComplete.js");
-		$ti = new ilTextInputGUI($lng->txt("user"), "user_login");
-		$ti->setMaxLength(70);
-		$ti->setSize(30);
-		/*$dsSchema = new stdClass();
-		$dsSchema->resultsList = "response.results";
-		$dsSchema->fields = array('login', 'firstname', 'lastname');*/
-		$dsSchema = array("resultsList" => 'response.results',
-			"fields" => array('login', 'firstname', 'lastname'));
-		//$dsSchema = array("response.results", 'login', 'firstname', 'lastname');
-		$ti->setDataSourceResultFormat("ilUserAutoComplete");
-		$ti->setDataSource($ilCtrl->getLinkTarget($this, "addMemberAutoComplete"));
-		$ti->setDataSourceSchema($dsSchema);
-
-		$ilToolbar->addInputItem($ti);
-		$ilToolbar->addFormButton($lng->txt("crs_add_as_member"), "addAsMember");
 		
-		$ilToolbar->addButton($this->lng->txt("crs_add_member"),
+		// user input
+		include_once("./Services/Form/classes/class.ilUserLoginAutoCompleteInputGUI.php");
+		$ul = new ilUserLoginAutoCompleteInputGUI($lng->txt("user"), "user_login", $this, "addMemberAutoComplete");
+		$ul->setSize(15);
+		$ilToolbar->addInputItem($ul, true);
+
+		// member type
+		include_once("./Services/Form/classes/class.ilSelectInputGUI.php");
+		$options = array(
+			"member" => $lng->txt("crs_member"),
+			"tutor" => $lng->txt("crs_tutor"),
+			"admin" => $lng->txt("crs_admin")
+			);
+		$si = new ilSelectInputGUI("", "member_type");
+		$si->setOptions($options);
+		$ilToolbar->addInputItem($si);
+		
+		// add button
+		$ilToolbar->addFormButton($lng->txt("add"), "addAsMember");
+		$ilToolbar->setFormAction($ilCtrl->getFormAction($this));
+		
+		// spacer
+		$ilToolbar->addSeparator();
+
+		// search button
+		$ilToolbar->addButton($this->lng->txt("crs_search_users"),
 			$this->ctrl->getLinkTargetByClass('ilRepositorySearchGUI','start'));
+			
+		// separator
+		$ilToolbar->addSeparator();
+			
+		// print button
 		$ilToolbar->addButton($this->lng->txt("crs_print_list"),
 			$this->ctrl->getLinkTarget($this, 'printMembers'), "_blank");
 
@@ -2171,14 +2183,20 @@ class ilObjCourseGUI extends ilContainerGUI
 	*/
 	function addMemberAutoCompleteObject()
 	{
-		$q = $_REQUEST["query"];
-		include_once("./Services/User/classes/class.ilUserAutoComplete.php");
-		$list = ilUserAutoComplete::getList($q);
-		echo $list;
-		exit;
+		include_once("./Services/Form/classes/class.ilUserLoginAutoCompleteInputGUI.php");
+		ilUserLoginAutoCompleteInputGUI::echoAutoCompleteList();
 	}
 
-	
+	/**
+	* Add user as member
+	*/
+	function addAsMemberObject()
+	{	
+		// @todo: finish this
+		echo "Add ".ilUtil::stripSlashes($_POST["user_login"])." as ".
+			ilUtil::stripSlashes($_POST["member_type"]).".";
+	}
+
 	/**
 	 * update admin status
 	 *
