@@ -79,7 +79,7 @@ class ilChangeEvent
 				'(obj_id, parent_obj_id, usr_id, action, ts) '.
 				'SELECT %s,r2.obj_id,%s,%s,'.$ilDB->now().' FROM object_reference r1 '.
 				'JOIN tree t ON t.child = r1.ref_id '.
-				'JOIN object_reference r2 ON r2.ref_id = t.parent '.
+				'JOIN object_reference r2 ON r2.ref_id = t.parent ',
 				'WHERE r1.obj_id = %s ',
 				$ilDB->quote($obj_id,'integer'),
 				$ilDB->quote($usr_id,'integer'),
@@ -335,7 +335,7 @@ class ilChangeEvent
 			$ilDB->setLimit(1);
 			$query = sprintf('SELECT * FROM write_event '.
 				'WHERE obj_id = %s '.
-				'AND usr_id <> %s '.
+				'AND usr_id <> %s ',
 				$ilDB->quote($obj_id,'integer'),
 				$ilDB->quote($usr_id,'integer'));
 			$res = $ilDB->query($query);
