@@ -3992,7 +3992,33 @@ class ilObjCourseGUI extends ilContainerGUI
 		// Display roles with user friendly mailbox addresses
 		$role_folder = $rbacreview->getRoleFolderOfObject($this->object->getRefId());
 		$role_ids = $rbacreview->getRolesOfRoleFolder($role_folder['ref_id'], false);
-		foreach ($role_ids as $role_id)
+		
+		// Sort by relevance
+		$sorted_role_ids = array();
+		$counter = 3;
+		foreach($role_ids as $role_id)
+		{
+			switch(substr(ilObject::_lookupTitle($role_id),0,8))
+			{
+				case 'il_crs_a':
+					$sorted_role_ids[2] = $role_id;
+					break;
+					
+				case 'il_crs_t':
+					$sorted_role_ids[1] = $role_id;
+					break;
+
+				case 'il_crs_m':
+					$sorted_role_ids[0] = $role_id;
+					break;
+					
+				default:
+					$sorted_role_ids[$counter++] = $role_id;
+					break;
+			}
+		}
+		ksort($sorted_role_ids,SORT_NUMERIC);
+		foreach ((array) $sorted_role_ids as $role_id)
 		{
 			$this->tpl->setCurrentBlock("mailbox_row");
 			$role_addr = $rbacreview->getRoleMailboxAddress($role_id);
