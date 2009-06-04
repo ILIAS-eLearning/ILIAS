@@ -1296,22 +1296,22 @@ div.il_ButtonGroup
 
 input.submit, a.submit, a.submit:hover
 {
+	font-size: 80%;
+	font-weight:normal;
+	line-height: 100%;
 	background-color: #FFFFFF;
 	background-image: url(images/ButtonsBack.gif);
 	background-position: bottom;
 	background-repeat:repeat-x;
 	color:#2255a0;
 	border-width:1px;
-	border-top-color: #BABABA;
-	border-left-color: #BABABA;
-	border-bottom-color: #808080;
-	border-right-color: #808080;
+	border-color: #BABABA;
 	border-style:solid;
 	padding: 1px 5px;
+	margin: 0px;
 	text-decoration:none;
-	font-size: 80%;
 	cursor:pointer;
-	font-weight:normal;
+	display: inline;
 }
 
 input.submit_disabled, a.submit_disabled, a.submit_disabled:hover {
@@ -2501,9 +2501,19 @@ div.ilToolbar
 {
 	border-width: 1px;
 	border-style: solid;
-	border-color: #F0F0F0;
+	border-color: #E9E9E9;
 	background-color: #F9F9F9;
-	padding: 5px;
+	padding: 3px;
+	margin-bottom: 5px;
+	font-size: 90%;
+}
+
+span.ilToolbarSeparator
+{
+	border-right: solid 1px #E0E0E0;
+	padding-right: 10px;
+	padding-bottom: 2px;
+	margin-right: 10px;
 }
 
 /* List Items */

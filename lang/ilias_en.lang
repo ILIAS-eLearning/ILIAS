@@ -9467,6 +9467,9 @@ common#:#removed_from_waiting_list#:#You have been detached from the waiting lis
 common#:#membership_leave#:#Leave
 crs#:#event_section_information#:#Session Information
 crs#:#event_btn_add_edit#:#Add Session and Assign Materials
+crs#:#crs_search_users#:#Search Users
+crs#:#crs_user_login#:#User Login
+grp#:#grp_search_users#:#Search User
 dateplaner#:#cal_type_sess#:#Session Calendar
 crs#:#event_tbl_admins#:#Administrators
 crs#:#event_tbl_tutors#:#Tutors

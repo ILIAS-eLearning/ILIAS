@@ -1,3 +1,4 @@
+<!-- BEGIN form_open --><form method="post" action="{FORMACTION}" class="ilForm"><!-- END form_open -->
 <div class="ilToolbar"><h3 class="ilAccHeadingHidden">{TXT_FUNCTIONS}</h3>
 <img border="0" src="{IMG_SRC}" alt="{IMG_ALT}" />
 <!-- BEGIN item -->
@@ -8,7 +9,14 @@
 <input class="submit" type="submit" name="cmd[{SUB_CMD}]" value="{SUB_TXT}" />
 <!-- END form_button -->
 <!-- BEGIN input -->
-{INPUT_HTML}
+<!-- BEGIN input_label -->{TXT_INPUT}&nbsp;<!-- END input_label -->{INPUT_HTML}
 <!-- END input -->
+<!-- BEGIN separator -->
+&nbsp;<span class="ilToolbarSeparator"></span>&nbsp;
+<!-- END separator -->
+<!-- BEGIN spacer -->
+<span style="padding:0px 2px;">&nbsp;</span>
+<!-- END spacer -->
 <!-- END item -->
 </div>
+<!-- BEGIN form_close --></form><!-- END form_close -->
