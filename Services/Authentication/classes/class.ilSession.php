@@ -44,7 +44,7 @@ class ilSession
 			$ilDB->quote($a_session_id, "text");
 		$set = $ilDB->query($q);
 		$rec = $ilDB->fetchAssoc($set);
-
+	
 		return $rec["data"];
 	}
 	
@@ -59,30 +59,37 @@ class ilSession
 		global $ilDB;
 
 		$expires = time() + ini_get("session.gc_maxlifetime");
-
-		// Note: We always try to update our entry in usr_session and, in
-		// case no rows were changed, we insert a new row.
-		// We have to do it this way, because rows in usr_session may expire
-		// at any time, and can then be discared by other processes
-		// concurrently.
-
-		// First, try to update our row in table usr_session
-		$r = $ilDB->update("usr_session", array(
-		"user_id" => array("integer", (int) $_SESSION["AccountId"]),
-		"expires" => array("integer", $expires),
-		"data" => array("clob", $a_data),
-		"ctime" => array("integer", time())
-		), array(
-		"session_id" => array("text", $a_session_id)
-		));
-
-		if ($r == 0)
+		if (ilSession::_exists($a_session_id))
 		{
-			// We got here, because our row in table usr_session either
-			// did not exist yet, or because it was deleted in the meantime by
-			// another process.
+			/*$q = "UPDATE usr_session SET ".
+				"expires = ".$ilDB->quote($expires, "integer").", ".
+				"data = ".$ilDB->quote($a_data, "clob").
+				", ctime = ".$ilDB->quote(time(), "integer").
+				", user_id = ".$ilDB->quote((int) $_SESSION["AccountId"], "integer").
+				" WHERE session_id = ".$ilDB->quote($a_session_id, "text");
+				array("integer", "clob", "integer", "integer", "text");
+			$ilDB->manipulate($q);*/
 
-			// Insert a row in table usr_session.
+			$ilDB->update("usr_session", array(
+				"user_id" => array("integer", (int) $_SESSION["AccountId"]),
+				"expires" => array("integer", $expires),
+				"data" => array("clob", $a_data),
+				"ctime" => array("integer", time())
+				), array(
+				"session_id" => array("text", $a_session_id)
+				));
+
+		}
+		else
+		{
+			/*$q = "INSERT INTO usr_session (session_id, expires, data, ctime,user_id) ".
+					"VALUES(".$ilDB->quote($a_session_id, "text").",".
+					$ilDB->quote($expires, "integer").",".
+					$ilDB->quote($a_data, "clob").",".
+					$ilDB->quote(time(), "integer").",".
+					$ilDB->quote((int) $_SESSION["AccountId"], "integer").")";
+			$ilDB->manipulate($q);*/
+
 			$ilDB->insert("usr_session", array(
 				"session_id" => array("text", $a_session_id),
 				"expires" => array("integer", $expires),
