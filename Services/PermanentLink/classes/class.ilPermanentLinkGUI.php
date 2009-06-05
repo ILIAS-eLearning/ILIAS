@@ -28,7 +28,7 @@
 * Class ilInfoScreenGUI
 *
 * @author Alex Killing <alex.killing@gmx.de>
-* @version $Id: class.ilInfoScreenGUI.php 17080 2008-07-30 08:56:48Z smeyer $
+* @version $Id$
 *
 * @ilCtrl_Calls ilPermanentLinkGUI: ilNoteGUI, ilFeedbackGUI, ilColumnGUI, ilPublicUserProfileGUI
 *
@@ -172,21 +172,12 @@ class ilPermanentLinkGUI
 		}
 		else
 		{
-			$title = $ilObjDataCache->lookupTitle($this->getId());
-			
+			$obj_id = $ilObjDataCache->lookupObjId($this->getId());
+			$title = $ilObjDataCache->lookupTitle($obj_id);
 			if ($title)
-			{
 				$bookmark->setTitle($title);
-			}
 			else
-			{
-				$obj_id = $ilObjDataCache->lookupObjId($this->getId());
-				$title = $ilObjDataCache->lookupTitle($obj_id);
-				if ($title)
-					$bookmark->setTitle($title);
-				else
-					$bookmark->setTitle("untitled");
-			}
+				$bookmark->setTitle("untitled");
 		}
 		
 		$bookmark->setDescription($lng->txt('perma_link') . ': ' . $title);
@@ -244,15 +235,12 @@ class ilPermanentLinkGUI
 			$tpl->setVariable("TXT_TITLE", $lng->txt('title'));
 			
 			// fetch default title for bookmark
-			$title = $ilObjDataCache->lookupTitle($this->getId());
-			
+
+			$obj_id = $ilObjDataCache->lookupObjId($this->getId());
+			$title = $ilObjDataCache->lookupTitle($obj_id);
 			if (!$title)
-			{
-				$obj_id = $ilObjDataCache->lookupObjId($this->getId());
-				$title = $ilObjDataCache->lookupTitle($obj_id);
-				if (!$title)
-					$bookmark->setTitle("untitled");
-			}
+				$bookmark->setTitle("untitled");
+
 			$tpl->setVariable("TXT_BOOKMARK_DEFAULT", $title);
 		}
 
