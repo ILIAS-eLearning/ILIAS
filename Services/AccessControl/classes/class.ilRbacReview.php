@@ -986,12 +986,10 @@ class ilRbacReview
         // Quickly determine if user is assigned to a role
 		global $ilDB;
 
+	    $ilDB->setLimit(1,0);
 	    $query = "SELECT usr_id FROM rbac_ua WHERE ".
                     "rol_id= ".$ilDB->quote($a_role_id,'integer')." ".
-                    "AND usr_id= ".$ilDB->quote($a_usr_id).
-                    " LIMIT 1"
-                    ;
-
+                    "AND usr_id= ".$ilDB->quote($a_usr_id);
 		$res = $ilDB->query($query);
 
         return $res->numRows() == 1;
