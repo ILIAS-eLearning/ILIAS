@@ -76,6 +76,66 @@
 
 	<xsl:template match="//p">
 		<fo:block xmlns:fo="http://www.w3.org/1999/XSL/Format">
+			<xsl:if test="contains(@style, 'font-size')">
+				<xsl:attribute name="font-size">
+					<xsl:call-template name="trim">
+						<xsl:with-param name="s">
+							<xsl:call-template name="getFontSize">
+								<xsl:with-param name="s">
+									<xsl:value-of
+										select="substring-before(substring-after(@style, 'font-size:'), ';')"
+									/>
+								</xsl:with-param>
+							</xsl:call-template>
+						</xsl:with-param>
+					</xsl:call-template>
+				</xsl:attribute>
+			</xsl:if>
+			<xsl:if test="contains(@style, 'text-decoration')">
+				<xsl:attribute name="text-decoration">
+					<xsl:call-template name="firstelement">
+						<xsl:with-param name="s">
+							<xsl:call-template name="trim">
+								<xsl:with-param name="s">
+									<xsl:value-of
+										select="substring-before(substring-after(@style, 'text-decoration:'), ';')"
+									/>
+								</xsl:with-param>
+							</xsl:call-template>
+						</xsl:with-param>
+					</xsl:call-template>
+				</xsl:attribute>
+			</xsl:if>
+			<xsl:if test="contains(@style, 'font-style')">
+				<xsl:attribute name="font-style">
+					<xsl:call-template name="firstelement">
+						<xsl:with-param name="s">
+							<xsl:call-template name="trim">
+								<xsl:with-param name="s">
+									<xsl:value-of
+										select="substring-before(substring-after(@style, 'font-style:'), ';')"
+									/>
+								</xsl:with-param>
+							</xsl:call-template>
+						</xsl:with-param>
+					</xsl:call-template>
+				</xsl:attribute>
+			</xsl:if>
+			<xsl:if test="contains(@style, 'font-weight')">
+				<xsl:attribute name="font-weight">
+					<xsl:call-template name="firstelement">
+						<xsl:with-param name="s">
+							<xsl:call-template name="trim">
+								<xsl:with-param name="s">
+									<xsl:value-of
+										select="substring-before(substring-after(@style, 'font-weight:'), ';')"
+									/>
+								</xsl:with-param>
+							</xsl:call-template>
+						</xsl:with-param>
+					</xsl:call-template>
+				</xsl:attribute>
+			</xsl:if>
 			<xsl:if test="contains(@style, 'padding-left')">
 				<xsl:attribute name="padding-left">
 					<xsl:call-template name="trim">
@@ -292,9 +352,13 @@
 				<xsl:attribute name="font-size">
 					<xsl:call-template name="trim">
 						<xsl:with-param name="s">
-							<xsl:value-of
-								select="substring-before(substring-after(@style, 'font-size:'), ';')"
-							/>
+							<xsl:call-template name="getFontSize">
+								<xsl:with-param name="s">
+									<xsl:value-of
+										select="substring-before(substring-after(@style, 'font-size:'), ';')"
+									/>
+								</xsl:with-param>
+							</xsl:call-template>
 						</xsl:with-param>
 					</xsl:call-template>
 				</xsl:attribute>
@@ -307,6 +371,51 @@
 								<xsl:with-param name="s">
 									<xsl:value-of
 										select="substring-before(substring-after(@style, 'font-family:'), ';')"
+									/>
+								</xsl:with-param>
+							</xsl:call-template>
+						</xsl:with-param>
+					</xsl:call-template>
+				</xsl:attribute>
+			</xsl:if>
+			<xsl:if test="contains(@style, 'text-decoration')">
+				<xsl:attribute name="text-decoration">
+					<xsl:call-template name="firstelement">
+						<xsl:with-param name="s">
+							<xsl:call-template name="trim">
+								<xsl:with-param name="s">
+									<xsl:value-of
+										select="substring-before(substring-after(@style, 'text-decoration:'), ';')"
+									/>
+								</xsl:with-param>
+							</xsl:call-template>
+						</xsl:with-param>
+					</xsl:call-template>
+				</xsl:attribute>
+			</xsl:if>
+			<xsl:if test="contains(@style, 'font-style')">
+				<xsl:attribute name="font-style">
+					<xsl:call-template name="firstelement">
+						<xsl:with-param name="s">
+							<xsl:call-template name="trim">
+								<xsl:with-param name="s">
+									<xsl:value-of
+										select="substring-before(substring-after(@style, 'font-style:'), ';')"
+									/>
+								</xsl:with-param>
+							</xsl:call-template>
+						</xsl:with-param>
+					</xsl:call-template>
+				</xsl:attribute>
+			</xsl:if>
+			<xsl:if test="contains(@style, 'font-weight')">
+				<xsl:attribute name="font-weight">
+					<xsl:call-template name="firstelement">
+						<xsl:with-param name="s">
+							<xsl:call-template name="trim">
+								<xsl:with-param name="s">
+									<xsl:value-of
+										select="substring-before(substring-after(@style, 'font-weight:'), ';')"
 									/>
 								</xsl:with-param>
 							</xsl:call-template>
@@ -591,6 +700,38 @@
 				</xsl:call-template>
 			</xsl:with-param>
 		</xsl:call-template>
+	</xsl:template>
+
+	<xsl:template name="getFontSize">
+		<xsl:param name="s"/>
+		<xsl:choose>
+			<xsl:when test="contains($s, 'xx-small')">
+				<xsl:text>8pt</xsl:text>
+			</xsl:when>
+			<xsl:when test="contains($s, 'x-small')">
+				<xsl:text>10pt</xsl:text>
+			</xsl:when>
+			<xsl:when test="contains($s, 'small')">
+				<xsl:text>12pt</xsl:text>
+			</xsl:when>
+			<xsl:when test="contains($s, 'medium')">
+				<xsl:text>14pt</xsl:text>
+			</xsl:when>
+			<xsl:when test="contains($s, 'xx-large')">
+				<xsl:text>36pt</xsl:text>
+			</xsl:when>
+			<xsl:when test="contains($s, 'x-large')">
+				<xsl:text>24pt</xsl:text>
+			</xsl:when>
+			<xsl:when test="contains($s, 'large')">
+				<xsl:text>18pt</xsl:text>
+			</xsl:when>
+			<xsl:otherwise>
+				<xsl:value-of
+					select="$s"
+				/>
+			</xsl:otherwise>
+		</xsl:choose>
 	</xsl:template>
 
 	<xsl:template name="firstelement">
