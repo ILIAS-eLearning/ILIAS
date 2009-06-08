@@ -26,7 +26,7 @@
 *
 * @author	Alex Killing <alex.killing@gmx.de>
 * @version	$Id$
-* @ilCtrl_Calls ilStartUpGUI: ilRegistrationGUI, ilPasswordAssistanceGUI
+* @ilCtrl_Calls ilStartUpGUI: ilAccountRegistrationGUI, ilPasswordAssistanceGUI
 *
 * @ingroup ServicesInit
 */
@@ -55,9 +55,9 @@ class ilStartUpGUI
 
 		switch($next_class)
 		{
-			case "ilregistrationgui":
-				require_once("Services/Registration/classes/class.ilRegistrationGUI.php");
-				return $this->ctrl->forwardCommand(new ilRegistrationGUI());
+			case "ilaccountregistrationgui":
+				require_once("Services/Registration/classes/class.ilAccountRegistrationGUI.php");
+				return $this->ctrl->forwardCommand(new ilAccountRegistrationGUI());
 				break;
 
 			case "ilpasswordassistancegui":
@@ -76,7 +76,7 @@ class ilStartUpGUI
 	*/
 	function jumpToRegistration()
 	{
-		$this->ctrl->setCmdClass("ilregistrationgui");
+		$this->ctrl->setCmdClass("ilaccountregistrationgui");
 		$this->ctrl->setCmd("");
 		$this->executeCommand();
 	}
@@ -236,7 +236,7 @@ class ilStartUpGUI
 			$tpl->setCurrentBlock("new_registration");
 			$tpl->setVariable("REGISTER", $lng->txt("registration"));
 			$tpl->setVariable("CMD_REGISTER",
-				$this->ctrl->getLinkTargetByClass("ilregistrationgui", ""));
+				$this->ctrl->getLinkTargetByClass("ilaccountregistrationgui", ""));
 			$tpl->parseCurrentBlock();
 		}
 		// allow password assistance? Surpress option if Authmode is not local database

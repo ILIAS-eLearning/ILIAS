@@ -56,7 +56,7 @@ class ilCtrl
 		$this->stored_trees = array
 			("ilrepositorygui", "ilpersonaldesktopgui",
 			"illmpresentationgui", "illmeditorgui",
-			"iladministrationgui", "ilsearchcontroller");
+			"iladministrationgui");
 	}
 	
 	function debug($str)
@@ -854,6 +854,8 @@ class ilCtrl
 		{
 //echo "<br>-->".$node.":".$this->call_node[$node]["class"];
 		}
+//echo "<br>-".$a_source_node."-".$a_target_node."-";
+//var_dump($path);
 		return $path;
 	}
 
@@ -1337,7 +1339,6 @@ class ilCtrl
 	*/
 	function searchReturnClass($a_class)
 	{
-//echo "<br>searchReturnClass".$a_class;
 		$a_class = strtolower($a_class);
 
 		$nr = $this->getNodeIdForTargetClass($this->current_node, $a_class);
@@ -1442,6 +1443,8 @@ class ilCtrl
 		}
 
 		$path = $this->getPathNew(1, $nr);
+//echo "$nr"; 
+//var_dump($path);
 		$params = array();
 
 		// append parameters of parent classes

@@ -137,7 +137,7 @@ class ilInitialisation
 		require_once "./Services/Language/classes/class.ilLanguage.php";
 		require_once "./Services/Logging/classes/class.ilLog.php";
 		require_once "Services/Mail/classes/class.ilMailbox.php";
-		require_once "classes/class.ilCtrl.php";
+		require_once "classes/class.ilCtrl2.php";
 		require_once "classes/class.ilConditionHandler.php";
 		require_once "classes/class.ilBrowser.php";
 		require_once "classes/class.ilFrameTargetInfo.php";
@@ -1084,7 +1084,8 @@ class ilInitialisation
 
 
 		// $ilCtrl initialisation
-		$ilCtrl = new ilCtrl();
+		//$ilCtrl = new ilCtrl();
+		$ilCtrl = new ilCtrl2();
 		$GLOBALS['ilCtrl'] =& $ilCtrl;
 
 		// determin current script and up-path to main directory

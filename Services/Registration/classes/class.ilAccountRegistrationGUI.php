@@ -25,12 +25,12 @@
  */
 
 /**
-* Class ilRegistrationGUI
+* Class ilAccountRegistrationGUI
 *
 * @author Stefan Meyer <smeyer.ilias@gmx.de>
 * @version $Id$
 *
-* @ilCtrl_Calls ilRegistrationGUI:
+* @ilCtrl_Calls ilAccountRegistrationGUI:
 *
 * @ingroup ServicesRegistration
 */
@@ -38,7 +38,7 @@
 require_once './Services/Registration/classes/class.ilRegistrationSettings.php';
 require_once "./Services/User/classes/class.ilUserAgreement.php";
 
-class ilRegistrationGUI
+class ilAccountRegistrationGUI
 {
 	var $ctrl;
 	var $tpl;

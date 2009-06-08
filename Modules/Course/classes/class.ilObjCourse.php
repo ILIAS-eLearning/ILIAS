@@ -21,7 +21,6 @@
 	+-----------------------------------------------------------------------------+
 */
 
-
 /**
 * Class ilObjCourse
 *
@@ -464,79 +463,27 @@ class ilObjCourse extends ilContainer
 	}
 
 	/**
-	 * Static version of isActive() to avoid instantiation of course object
+	 * Is activated. Method is in Access class, since it is needed by Access/ListGUI.
 	 *
 	 * @param int id of user
 	 * @return boolean
 	 */
 	function _isActivated($a_obj_id)
 	{
-		global $ilDB;
-
-		$query = "SELECT * FROM crs_settings ".
-			"WHERE obj_id = ".$ilDB->quote($a_obj_id ,'integer')." ";
-
-		$res = $ilDB->query($query);
-		while($row = $res->fetchRow(DB_FETCHMODE_OBJECT))
-		{
-			$type = $row->activation_type;
-			$start = $row->activation_start;
-			$end = $row->activation_end;
-		}
-		switch($type)
-		{
-			case IL_CRS_ACTIVATION_OFFLINE:
-				return false;
-
-			case IL_CRS_ACTIVATION_UNLIMITED:
-				return true;
-
-			case IL_CRS_ACTIVATION_LIMITED:
-				if(time() < $start or
-				   time() > $end)
-				{
-					return false;
-				}
-				return true;
-				
-			default:
-				return false;
-		}
+		include_once("./Modules/Course/classes/class.ilObjCourseAccess.php");
+		return ilObjCourseAccess::_isActivated($a_obj_id);
 	}
 
+	/**
+	 * Registration enabled? Method is in Access class, since it is needed by Access/ListGUI.
+	 *
+	 * @param int id of user
+	 * @return boolean
+	 */
 	function _registrationEnabled($a_obj_id)
 	{
-		global $ilDB;
-
-		$query = "SELECT * FROM crs_settings ".
-			"WHERE obj_id = ".$ilDB->quote($a_obj_id ,'integer')." ";
-
-		$res = $ilDB->query($query);
-		while($row = $res->fetchRow(DB_FETCHMODE_OBJECT))
-		{
-			$type = $row->sub_limitation_type;
-			$reg_start = $row->sub_start;
-			$reg_end = $row->sub_end;
-		}
-
-		switch($type)
-		{
-			case IL_CRS_SUBSCRIPTION_UNLIMITED:
-				return true;
-
-			case IL_CRS_SUBSCRIPTION_DEACTIVATED:
-				return false;
-
-			case IL_CRS_SUBSCRIPTION_LIMITED:
-				if(time() > $reg_start and
-				   time() < $reg_end)
-				{
-					return true;
-				}
-			default:
-				return false;
-		}
-		return false;
+		include_once("./Modules/Course/classes/class.ilObjCourseAccess.php");
+		return ilObjCourseAccess::_registrationEnabled($a_obj_id);
 	}
 
 	function isArchived()

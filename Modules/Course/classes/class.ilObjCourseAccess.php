@@ -3,7 +3,7 @@
 	+-----------------------------------------------------------------------------+
 	| ILIAS open source                                                           |
 	+-----------------------------------------------------------------------------+
-	| Copyright (c) 1998-2001 ILIAS open source, University of Cologne            |
+	| Copyright (c) 1998-2009 ILIAS open source, University of Cologne            |
 	|                                                                             |
 	| This program is free software; you can redistribute it and/or               |
 	| modify it under the terms of the GNU General Public License                 |
@@ -94,9 +94,8 @@ class ilObjCourseAccess extends ilObjectAccess
 		switch ($a_permission)
 		{
 			case "visible":
-				include_once './Modules/Course/classes/class.ilObjCourse.php';
-				$active = ilObjCourse::_isActivated($a_obj_id);
-				$registration = ilObjCourse::_registrationEnabled($a_obj_id);
+				$active = ilObjCourseAccess::_isActivated($a_obj_id);
+				$registration = ilObjCourseAccess::_registrationEnabled($a_obj_id);
 				$tutor = $rbacsystem->checkAccessOfUser($a_user_id,'write',$a_ref_id);
 
 				if(!$active)
@@ -115,8 +114,7 @@ class ilObjCourseAccess extends ilObjectAccess
 				{
 					return true;
 				}				
-				include_once 'Modules/Course/classes/class.ilObjCourse.php';
-				$active = ilObjCourse::_isActivated($a_obj_id);
+				$active = ilObjCourseAccess::_isActivated($a_obj_id);
 
 				if(!$active)
 				{
@@ -197,6 +195,107 @@ class ilObjCourseAccess extends ilObjectAccess
 		}
 		return false;
 	}
+	
+	/**
+	 * Lookup view mode. This is placed here to the need that ilObjFolder must
+	 * always instantiate a Course object.
+	 * @return 
+	 * @param object $a_id
+	 */
+	function _lookupViewMode($a_id)
+	{
+		global $ilDB;
+
+		$query = "SELECT view_mode FROM crs_settings WHERE obj_id = ".$ilDB->quote($a_id ,'integer')." ";
+		$res = $ilDB->query($query);
+		while($row = $res->fetchRow(DB_FETCHMODE_OBJECT))
+		{
+			return $row->view_mode;
+		}
+		return false;
+	}
+
+	/**
+	 * Is activated?
+	 *
+	 * @param int id of user
+	 * @return boolean
+	 */
+	function _isActivated($a_obj_id)
+	{
+		global $ilDB;
+
+		$query = "SELECT * FROM crs_settings ".
+			"WHERE obj_id = ".$ilDB->quote($a_obj_id ,'integer')." ";
+
+		$res = $ilDB->query($query);
+		while($row = $res->fetchRow(DB_FETCHMODE_OBJECT))
+		{
+			$type = $row->activation_type;
+			$start = $row->activation_start;
+			$end = $row->activation_end;
+		}
+		switch($type)
+		{
+			case IL_CRS_ACTIVATION_OFFLINE:
+				return false;
+
+			case IL_CRS_ACTIVATION_UNLIMITED:
+				return true;
+
+			case IL_CRS_ACTIVATION_LIMITED:
+				if(time() < $start or
+				   time() > $end)
+				{
+					return false;
+				}
+				return true;
+				
+			default:
+				return false;
+		}
+	}
+
+	/**
+	 * 
+	 * @return 
+	 * @param object $a_obj_id
+	 */
+	function _registrationEnabled($a_obj_id)
+	{
+		global $ilDB;
+
+		$query = "SELECT * FROM crs_settings ".
+			"WHERE obj_id = ".$ilDB->quote($a_obj_id ,'integer')." ";
+
+		$res = $ilDB->query($query);
+		while($row = $res->fetchRow(DB_FETCHMODE_OBJECT))
+		{
+			$type = $row->sub_limitation_type;
+			$reg_start = $row->sub_start;
+			$reg_end = $row->sub_end;
+		}
+
+		switch($type)
+		{
+			case IL_CRS_SUBSCRIPTION_UNLIMITED:
+				return true;
+
+			case IL_CRS_SUBSCRIPTION_DEACTIVATED:
+				return false;
+
+			case IL_CRS_SUBSCRIPTION_LIMITED:
+				if(time() > $reg_start and
+				   time() < $reg_end)
+				{
+					return true;
+				}
+			default:
+				return false;
+		}
+		return false;
+	}
+
 }
 
 ?>

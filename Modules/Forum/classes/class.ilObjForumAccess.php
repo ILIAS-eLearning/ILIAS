@@ -108,6 +108,170 @@ class ilObjForumAccess extends ilObjectAccess
 		return ilFileDataForum::_getDiskSpaceUsedBy($user_id, $as_string);	
 	}
 	//END DiskQuota: Get used disk space
+	
+	/**
+	* Get number of postings
+	*/
+	static function getNumberOfPostings($a_obj_id, $a_only_active = false)
+	{
+		global $ilDB, $ilUser;
+		
+		$set = $ilDB->query("SELECT top_pk FROM frm_data ".
+			" WHERE top_frm_fk = ".$ilDB->quote($a_obj_id, "integer")
+			);
+		if ($rec = $ilDB->fetchAssoc($set))
+		{
+			$act_clause = $a_only_active
+				?	" AND (pos_status = ".$ilDB->quote(1, "integer").
+					" OR pos_usr_id = ".$ilDB->quote($ilUser->getId(), "integer").") "
+				: "";
+			
+			$frm_id = $rec["top_pk"];
+			$res = $ilDB->queryf("SELECT COUNT(*) cnt
+				FROM frm_posts JOIN frm_threads ON (frm_posts.pos_thr_fk = frm_threads.thr_pk) 
+				WHERE pos_thr_fk IN (SELECT thr_pk FROM frm_threads WHERE thr_top_fk = %s)".
+				$act_clause,
+				array('integer'), array($frm_id));
+			
+			$rec = $ilDB->fetchAssoc($res);
+			return $rec["cnt"];
+		}
+		return 0;
+	}
+	
+	/**
+	* Get number of read posts
+	*/
+	static function getNumberOfReadPostings($a_obj_id, $a_only_active = false)
+	{
+		global $ilDB, $ilUser;
+		
+		$set = $ilDB->query("SELECT top_pk FROM frm_data ".
+			" WHERE top_frm_fk = ".$ilDB->quote($a_obj_id, "integer")
+			);
+		if ($rec = $ilDB->fetchAssoc($set))
+		{
+			$act_clause = $a_only_active
+				?	" AND (pos_status = ".$ilDB->quote(1, "integer").
+					" OR pos_usr_id = ".$ilDB->quote($ilUser->getId(), "integer").") "
+				: "";
+
+			$frm_id = $rec["top_pk"];
+			$res = $ilDB->queryf("SELECT COUNT(*) cnt
+				FROM frm_user_read INNER JOIN frm_posts ON (frm_user_read.post_id = frm_posts.pos_pk) 
+				WHERE usr_id = %s AND thread_id IN (SELECT thr_pk FROM frm_threads WHERE thr_top_fk = %s)".
+				$act_clause,
+				array('integer', 'integer'), array($ilUser->getId(), $frm_id));
+			
+			$rec = $ilDB->fetchAssoc($res);
+			return $rec["cnt"];
+		}
+		return 0;
+	}
+	
+	/**
+	 * Count number of new posts
+	 * @param int $a_user_id
+	 */
+	static function getNumberOfNewPostings($a_obj_id, $a_only_active = false)
+	{
+		global $ilUser, $ilDB, $ilSetting;
+		
+		$set = $ilDB->query("SELECT top_pk FROM frm_data ".
+			" WHERE top_frm_fk = ".$ilDB->quote($a_obj_id, "integer")
+			);
+		if ($rec = $ilDB->fetchAssoc($set))
+		{
+			$act_clause = $a_only_active
+				?	" AND (pos_status = ".$ilDB->quote(1, "integer").
+					" OR pos_usr_id = ".$ilDB->quote($ilUser->getId(), "integer").") "
+				: "";
+
+			$frm_id = $rec["top_pk"];
+			
+			$new_deadline = date('Y-m-d H:i:s',
+				time() - 60 * 60 * 24 * 7 * ($ilSetting->get('frm_store_new')));
+		
+			$res = $ilDB->queryf('
+				SELECT COUNT(pos_pk) cnt
+				FROM frm_posts
+				LEFT JOIN frm_user_read ON (post_id = pos_pk AND usr_id = %s)
+				LEFT JOIN frm_thread_access ON (pos_thr_fk = frm_thread_access.thread_id AND frm_thread_access.usr_id = %s)
+				WHERE pos_top_fk = %s
+				AND ((pos_date > frm_thread_access.access_old_ts OR pos_update > frm_thread_access.access_old_ts)
+					OR (frm_thread_access.access_old IS NULL AND (pos_date > %s OR pos_update > %s)))
+				AND pos_usr_id != %s 
+				AND frm_user_read.usr_id IS NULL'.$act_clause,
+				array('integer','integer', 'integer', 'timestamp','timestamp','integer'),
+				array($ilUser->getId(), $ilUser->getId(), $frm_id, $new_deadline,$new_deadline, $ilUser->getId())
+				);
+			
+			$rec = $res->fetchRow(DB_FETCHMODE_ASSOC);
+				
+			return (int) $rec['cnt'];
+		}
+		
+		return 0;
+	}
+
+	/**
+	 * Count number of new posts
+	 * @param int $a_user_id
+	 */
+	static function getLastPost($a_obj_id)
+	{
+		global $ilUser, $ilDB, $ilSetting;
+		
+		$set = $ilDB->query("SELECT top_pk FROM frm_data ".
+			" WHERE top_frm_fk = ".$ilDB->quote($a_obj_id, "integer")
+			);
+		if ($rec = $ilDB->fetchAssoc($set))
+		{
+			$frm_id = $rec["top_pk"];
+			
+			$ilDB->setLimit(1);
+			$res = $ilDB->queryf('
+				SELECT *
+				FROM frm_posts 
+				WHERE pos_top_fk = %s				 
+				ORDER BY pos_date DESC',
+				array('integer'), array($frm_id));
+			
+			$row = $ilDB->fetchAssoc($res);
+			if ($row["pos_pk"] > 0)
+			{
+				return $row;
+			}
+		}
+		return false;
+	}
+	
+	/**
+	* Prepare message for container view
+	*/
+	function prepareMessageForLists($text)
+	{
+		// remove quotings
+		$text_old = "";
+		while($text != $text_old)
+		{
+			$text_old = $text;
+			$e = strpos($text, "[/quote]");		// first end tag
+			$s = strrpos($text, "[quote", $e - strlen($text));		// last begin tag before first end tag
+			if ($e > $s && is_int($s))
+			{
+				$text = substr($text, 0, $s)." ".substr($text, $e+8);
+			}
+		}
+		
+		// shorten text
+		if (strlen($text) > 40)
+		{
+			$text = substr($text, 0, 37).'...';
+		}
+
+		return $text;
+	}
 }
 
 ?>

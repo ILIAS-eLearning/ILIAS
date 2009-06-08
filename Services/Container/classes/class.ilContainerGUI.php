@@ -21,6 +21,9 @@
 	+-----------------------------------------------------------------------------+
 */
 
+require_once "./classes/class.ilObjectGUI.php";
+require_once "./Services/Container/classes/class.ilContainer.php";
+include_once './Services/PersonalDesktop/interfaces/interface.ilDesktopItemHandling.php';
 
 /**
 * Class ilContainerGUI
@@ -33,12 +36,6 @@
 *
 * @extends ilObjectGUI
 */
-
-require_once "./classes/class.ilObjectGUI.php";
-require_once "./Services/Container/classes/class.ilContainer.php";
-include_once './Services/PersonalDesktop/interfaces/interface.ilDesktopItemHandling.php';
-
-
 class ilContainerGUI extends ilObjectGUI implements ilDesktopItemHandling
 {
 	var $bl_cnt = 1;		// block counter
@@ -217,15 +214,17 @@ class ilContainerGUI extends ilObjectGUI implements ilDesktopItemHandling
 
 		
 		// page object
-		include_once("./Services/COPage/classes/class.ilPageObject.php");
-		include_once("./Services/COPage/classes/class.ilPageObjectGUI.php");
+		
 
 		// if page does not exist, return nothing
-		if (!ilPageObject::_exists($this->object->getType(),
+		include_once("./Services/COPage/classes/class.ilPageUtil.php");
+		if (!ilPageUtil::_existsAndNotEmpty($this->object->getType(),
 			$this->object->getId()))
 		{
 			return "";
 		}
+		include_once("./Services/COPage/classes/class.ilPageObject.php");
+		include_once("./Services/COPage/classes/class.ilPageObjectGUI.php");
 		
 		include_once("./Services/Style/classes/class.ilObjStyleSheet.php");
 		$this->tpl->setVariable("LOCATION_CONTENT_STYLESHEET",

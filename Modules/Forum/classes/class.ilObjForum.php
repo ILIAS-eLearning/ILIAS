@@ -398,6 +398,20 @@ class ilObjForum extends ilObject
 			SET access_old = access_last
 			WHERE usr_id = %s',
 			array('integer'), array($a_usr_id));
+
+		// set access_old_ts value
+		$set = $ilDB->query("SELECT * FROM frm_thread_access ".
+			" WHERE usr_id = ".$ilDB->quote($a_usr_id, "integer")
+			);
+		while ($rec = $ilDB->fetchAssoc($set))
+		{
+			$ilDB->manipulate("UPDATE frm_thread_access SET ".
+				" access_old_ts = ".$ilDB->quote(date('Y-m-d H:i:s', $rec["access_old"]), "timestamp").
+				" WHERE usr_id = ".$ilDB->quote($rec["usr_id"], "integer").
+				" AND obj_id = ".$ilDB->quote($rec["obj_id"], "integer").
+				" AND thread_id = ".$ilDB->quote($rec["thread_id"], "integer")
+				);
+		}
 					
 		// Delete old entries
 

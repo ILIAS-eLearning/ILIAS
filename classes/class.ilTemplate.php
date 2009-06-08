@@ -752,6 +752,33 @@ class ilTemplate extends ilTemplateX
 				$ftpl->setCurrentBlock("call_history");
 				$ftpl->parseCurrentBlock();
 			}
+			
+			// included files
+			if (is_object($ilCtrl) && $ftpl->blockExists("i_entry") &&
+				$ftpl->blockExists("included_files"))
+			{
+				$fs = get_included_files();
+				$ifiles = array();
+				$total = 0;
+				foreach($fs as $f)
+				{
+					$ifiles[] = array("file" => $f, "size" => filesize($f));
+					$total += filesize($f);
+				}
+				$ifiles = ilUtil::sortArray($ifiles, "size", "desc", true);
+				foreach($ifiles as $f)
+				{
+					$ftpl->setCurrentBlock("i_entry");
+					$ftpl->setVariable("I_ENTRY", $f["file"]." (".$f["size"]." Bytes, ".round(100 / $total * $f["size"], 2)."%)");
+					$ftpl->parseCurrentBlock();
+				}
+				$ftpl->setCurrentBlock("i_entry");
+				$ftpl->setVariable("I_ENTRY", "Total (".$total." Bytes, 100%)");
+				$ftpl->parseCurrentBlock();
+				$ftpl->setCurrentBlock("incuded_files");
+				$ftpl->parseCurrentBlock();				
+			}
+
 		}
 
 		// BEGIN Usability: Non-Delos Skins can display the elapsed time in the footer

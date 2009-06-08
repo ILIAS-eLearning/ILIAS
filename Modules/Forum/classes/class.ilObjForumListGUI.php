@@ -86,11 +86,11 @@ class ilObjForumListGUI extends ilObjectListGUI
 		global $ilDB;
 		
 		parent::initItem($a_ref_id, $a_obj_id, $a_title, $a_description);
-		$this->frm_obj =& ilObjectFactory::getInstanceByRefId($this->ref_id);
+/*		$this->frm_obj =& ilObjectFactory::getInstanceByRefId($this->ref_id);
 		$this->frm =& new ilForum();
 		$this->frm->setForumRefId($a_ref_id);
 		$this->frm->setMDB2WhereCondition('top_frm_fk = %s ', array('integer'), array($a_obj_id));
-		
+*/		
 	}
 
 
@@ -117,7 +117,7 @@ class ilObjForumListGUI extends ilObjectListGUI
 			return array();
 		}
 
-		include_once('./Modules/Forum/classes/class.ilForum.php');
+/*		include_once('./Modules/Forum/classes/class.ilForum.php');
 		include_once('./Modules/Forum/classes/class.ilObjForum.php');
 		
 		$forumObj = new ilObjForum($this->ref_id);
@@ -128,9 +128,9 @@ class ilObjForumListGUI extends ilObjectListGUI
 		
 		// Forum Data
 		$frmData = $frm->getOneTopic();	
-		
+*/		
 		// Moderators (Role: Moderator)
-		include_once('./Services/User/classes/class.ilObjUser.php');
+/*		include_once('./Services/User/classes/class.ilObjUser.php');
 		$MODS = ilForum::_getModerators($this->ref_id);
 		$moderators = "";
 		for ($i = 0; $i < count($MODS); $i++)
@@ -154,14 +154,14 @@ class ilObjForumListGUI extends ilObjectListGUI
 		}
 		$props[] = array('alert' => false, 'property' => $lng->txt('forums_moderators'),
 			'value' => $moderators);
-		
+*/		
 		// threads
-		$threads = $frm->getAllThreads($frmData['top_pk']);
-		$props[] = array('alert' => false, 'property' => $lng->txt('forums_threads'),
-			'value' => count($threads));	
+//		$threads = $frm->getAllThreads($frmData['top_pk']);
+//		$props[] = array('alert' => false, 'property' => $lng->txt('forums_threads'),
+//			'value' => count($threads));	
 			
 		// Posts
-		$num_posts_total = 0;
+/*		$num_posts_total = 0;
 		$num_unread_total = 0;
 		$num_new_total = 0;
 		$visits_total = 0;
@@ -199,7 +199,23 @@ class ilObjForumListGUI extends ilObjectListGUI
 				$objLastPost = $objTmpLastPost;
 			}
 		}
+*/
 
+include_once("./Modules/Forum/classes/class.ilObjForumAccess.php");
+if ($ilAccess->checkAccess('moderate_frm', '', $this->ref_id))
+{				
+	$num_posts_total = ilObjForumAccess::getNumberOfPostings($this->obj_id);
+	$num_unread_total = $num_posts_total - ilObjForumAccess::getNumberOfReadPostings($this->obj_id);
+	$num_new_total = ilObjForumAccess::getNumberOfNewPostings($this->obj_id);
+	$last_post = ilObjForumAccess::getLastPost($this->obj_id);
+}
+else
+{
+	$num_posts_total = ilObjForumAccess::getNumberOfPostings($this->obj_id, true);
+	$num_unread_total = $num_posts_total - ilObjForumAccess::getNumberOfReadPostings($this->obj_id, true);
+	$num_new_total = ilObjForumAccess::getNumberOfNewPostings($this->obj_id, true);
+	$last_post = ilObjForumAccess::getLastPost($this->obj_id);
+}
 		// Posts (Unread)		
 		if($ilUser->getId() != ANONYMOUS_USER_ID)
 		{
@@ -225,75 +241,83 @@ class ilObjForumListGUI extends ilObjectListGUI
 		}	
 
 		// Visits
-		$props[] = array('alert' => false, 'property' => $lng->txt('visits'),
-			'value' => $visits_total);	
-			
-
-		// Last Post
-		if ($num_posts > 0)
-		{			
-			if (is_object($objLastPost))
-			{
-				$last_user = $this->frm->getUserData($objLastPost->getUserId(), $objLastPost->getImportName());
-				
-				$lpCont = "<a class=\"il_ItemProperty\" target=\"".
-				ilFrameTargetInfo::_getFrame('MainContent').
-				"\" href=\"repository.php?cmd=showThreadFrameset&cmdClass=ilobjforumgui&target=true&pos_pk=".
-				$objLastPost->getId()."&thr_pk=".$objLastPost->getThreadId()."&ref_id=".
-				$this->ref_id."#".$objLastPost->getId()."\">".$frm->limitMsgString($objLastPost->getMessage())."</a> ".
-				strtolower($lng->txt('from'))."&nbsp;";
-				
-				if (ilForumProperties::getInstance($this->obj_id)->isAnonymized())
-				{
-					if ($objLastPost->getUserAlias() != '')
-					{
-						$lpCont .= $objLastPost->getUserAlias();
-						
-					}
-					else
-					{
-						$lpCont .= $lng->txt('forums_anonymous');					
-					}
-					$lpCont .= ', '.ilDatePresentation::formatDate(new ilDateTime($objLastPost->getCreateDate(),IL_CAL_DATETIME));
-				}
-				else
-				{
-					if ($objLastPost->getUserId() && ilObject::_exists($objLastPost->getUserId()) && $last_user['public_profile'] == 'y')
-					{
-						$lpCont .= "<a class=\"il_ItemProperty\" target=\"".
-						ilFrameTargetInfo::_getFrame('MainContent').
-						"\" href=\"repository.php?cmd=showUser&cmdClass=ilobjforumgui&ref_id=".$this->ref_id."&user=".
-							$last_user['usr_id']."&offset=".$Start."\">".$last_user['login']."</a>, ";
-						$lpCont .= ilDatePresentation::formatDate(new ilDateTime($objLastPost->getCreateDate(),IL_CAL_DATETIME));
-					}
-					else
-					{
-						$lpCont .= $last_user['login'].', '.ilDatePresentation::formatDate(new ilDateTime($objLastPost->getCreateDate(),IL_CAL_DATETIME));
-					}
-				}
-							
-				/* At least one (last) posting? */
-				if ($lpCont != '')
-				{
-					$props[] = array(
-								'alert' => false,
-								'newline' => true,
-								'property' => $lng->txt('forums_last_post'),
-								'value' => $lpCont
-					);
-				}
-			}
-		}
+//		$props[] = array('alert' => false, 'property' => $lng->txt('visits'),
+//			'value' => $visits_total);	
 
 		/* Forum anonymized? */
+		include_once("./Modules/Forum/classes/class.ilForumProperties.php");
 		if (ilForumProperties::getInstance($this->obj_id)->isAnonymized())
 		{
 			$props[] = array(
 						'alert' => false,
-						'newline' => true,
+						'newline' => false,
 						'property' => $lng->txt('forums_anonymized'),
 						'value' => $lng->txt('yes')
 			);
+		}
+		
+		// Last Post
+		if ($last_post["pos_pk"] > 0)
+		{
+			if (ilObject::_lookupType($last_post["pos_usr_id"]) == "usr")
+			{
+				$last_user = ilObjUser::_lookupName($last_post["pos_usr_id"]);
+			}
+			else
+			{
+				$last_user["login"] = $last_post["import_name"]
+					? $last_post["import_name"]." (".$lng->txt("imported").")"
+					: $lng->txt("unknown");
+			}
+			
+			$lpCont = "<a class=\"il_ItemProperty\" target=\"".
+			ilFrameTargetInfo::_getFrame('MainContent').
+			"\" href=\"repository.php?cmd=showThreadFrameset&cmdClass=ilobjforumgui&target=true&pos_pk=".
+			$last_post["pos_pk"]."&thr_pk=".$last_post["pos_thr_fk"]."&ref_id=".
+			$this->ref_id."#".$last_post["pos_pk"]."\">".
+				ilObjForumAccess::prepareMessageForLists($last_post["pos_message"])."</a> ".
+			strtolower($lng->txt('from'))."&nbsp;";
+			
+			if (ilForumProperties::getInstance($this->obj_id)->isAnonymized())
+			{
+				if ($last_post["pos_usr_alias"] != '')
+				{
+					$lpCont .= $last_post["pos_usr_alias"];
+					
+				}
+				else
+				{
+					$lpCont .= $lng->txt('forums_anonymous');					
+				}
+				$lpCont .= ', '.ilDatePresentation::formatDate(new ilDateTime($last_post["pos_date"],IL_CAL_DATETIME));
+			}
+			else
+			{
+				if (ilObject::_lookupType($last_post["pos_usr_id"]) == "usr" &&
+					ilObjUser::_lookupPref($last_post["pos_usr_id"], "public_profile") == 'y')
+				{
+					$lpCont .= "<a class=\"il_ItemProperty\" target=\"".
+					ilFrameTargetInfo::_getFrame('MainContent').
+					"\" href=\"repository.php?cmd=showUser&cmdClass=ilobjforumgui&ref_id=".$this->ref_id."&user=".
+						$last_user['user_id']."&offset=".$Start."\">".$last_user['login']."</a>, ";
+					$lpCont .= ilDatePresentation::formatDate(new ilDateTime($last_post["pos_date"],IL_CAL_DATETIME));
+				}
+				else
+				{
+					$lpCont .= $last_user['login'].', '.ilDatePresentation::formatDate(new ilDateTime($last_post["pos_date"],IL_CAL_DATETIME));
+				}
+			}
+						
+			/* At least one (last) posting? */
+			if ($lpCont != '')
+			{
+				$props[] = array(
+							'alert' => false,
+							'newline' => true,
+							'property' => $lng->txt('forums_last_post'),
+							'value' => $lpCont
+				);
+			}
 		}
 
 		return $props;
@@ -332,7 +356,5 @@ class ilObjForumListGUI extends ilObjectListGUI
 				return parent::getCommandLink($a_cmd);
 		}
 	}
-
-
-} // END class.ilObjForumListGUI
+}
 ?>

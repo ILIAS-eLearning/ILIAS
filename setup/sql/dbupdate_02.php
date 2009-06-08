@@ -12252,3 +12252,52 @@ $ilCtrlStructureReader->getStructure();
 <?php
 	$ilMySQLAbstraction->performAbstraction('mail_tree');
 ?>
+<#2432>
+<?php
+$atts = array(
+	'type' => 'text',
+	'length' => 4,
+	'fixed' => false,
+	'notnull' => false
+);
+$ilDB->addTableColumn("ctrl_classfile", "cid", $atts);
+?>
+<#2433>
+<?php
+$ilCtrlStructureReader->getStructure();
+?>
+<#2434>
+<?php
+$atts = array(
+	'type' => 'integer',
+	'length' => 1,
+	'notnull' => true,
+	'default' => 0
+);
+$ilDB->addTableColumn("page_object", "is_empty", $atts);
+?>
+<#2435>
+<?php
+	$ilDB->addIndex('ctrl_classfile',array('cid'),'i1');
+?>
+<#2436>
+<?php
+$atts = array(
+	'type' => 'timestamp'
+);
+$ilDB->addTableColumn("frm_thread_access", "access_old_ts", $atts);
+?>
+<#2437>
+<?php
+$set = $ilDB->query("SELECT * FROM frm_thread_access "
+	);
+while ($rec  = $ilDB->fetchAssoc($set))
+{
+	$ilDB->manipulate("UPDATE frm_thread_access SET ".
+		" access_old_ts = ".$ilDB->quote(date('Y-m-d H:i:s', $rec["access_old"]), "timestamp").
+		" WHERE usr_id = ".$ilDB->quote($rec["usr_id"], "integer").
+		" AND obj_id = ".$ilDB->quote($rec["obj_id"], "integer").
+		" AND thread_id = ".$ilDB->quote($rec["thread_id"], "integer")
+		);
+}
+?>
