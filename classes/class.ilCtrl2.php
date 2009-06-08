@@ -480,7 +480,7 @@ class ilCtrl2 extends ilCtrl
 		foreach($path as $node_id)
 		{
 			$class = ($node_id == "")
-				? strtolower($baseClass)
+				? strtolower($_GET["baseClass"])
 				: $this->getClassForCid($this->getCurrentCidOfNode($node_id));
 			if (is_array($this->save_parameter[$class]))
 			{
