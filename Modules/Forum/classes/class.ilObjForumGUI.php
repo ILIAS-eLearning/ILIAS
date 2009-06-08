@@ -403,13 +403,12 @@ class ilObjForumGUI extends ilObjectGUI
 				$tbl = new ilTable2GUI($this);
   				$tbl->setRowTemplate('tpl.forums_threads_table.html', 'Modules/Forum');				
 		
-				$tbl->addColumn('','check', '5%');
-				$tbl->addColumn($this->lng->txt('forums_thread'),'th_title','40%');
-			  	$tbl->addColumn($this->lng->txt('forums_created_by'), 'author','10%');
-			  	$tbl->addColumn($this->lng->txt('forums_articles').' ('.$this->lng->txt('unread').')', 'num_posts' , '10%');
-			  	$tbl->addColumn($this->lng->txt('forums_new_articles'),'num_new' , '10%');
-			  	$tbl->addColumn($this->lng->txt('visits'),'num_visit' , '10%');
-			  	$tbl->addColumn($this->lng->txt('forums_last_post'),'lp_date' , '25%');
+				$tbl->addColumn('','check', '1');
+				$tbl->addColumn($this->lng->txt('forums_thread'),'th_title');
+			  	$tbl->addColumn($this->lng->txt('forums_created_by'), 'author');
+			  	$tbl->addColumn($this->lng->txt('forums_articles'), 'num_posts');
+			  	$tbl->addColumn($this->lng->txt('visits'),'num_visit');
+			  	$tbl->addColumn($this->lng->txt('forums_last_post'),'lp_date');
 					
 				foreach ($threads as $thread)
 				{	
@@ -444,19 +443,19 @@ class ilObjForumGUI extends ilObjectGUI
 						
 						if ($thread->isSticky())
 						{
-							$result[$counter]['th_title'] .= '['.$this->lng->txt('sticky').'] ';							
+							$result[$counter]['th_title'] .= '<span class="light">['.$this->lng->txt('sticky').']</span> ';							
 						}
 						
 						if ($thread->isClosed())
 						{
-							$result[$counter]['th_title'] .= '['.$this->lng->txt('topic_close').'] ';								
+							$result[$counter]['th_title'] .= '<span class="light">['.$this->lng->txt('topic_close').']</span> ';								
 						}	
 												
 						if($ilUser->getId() != ANONYMOUS_USER_ID && 
 						   $this->ilias->getSetting('forum_notification') != 0 &&
 						   $thread->isNotificationEnabled($ilUser->getId()))
 						{
-							$result[$counter]['th_title'] .= '['.$this->lng->txt('forums_notification_enabled').'] ';								
+							$result[$counter]['th_title'] .= '<span class="light">['.$this->lng->txt('forums_notification_enabled').']</span> ';								
 						}
 						
 						if ($ilAccess->checkAccess('moderate_frm', '', $this->object->getRefId()))
@@ -474,9 +473,9 @@ class ilObjForumGUI extends ilObjectGUI
 						
 						if ($num_posts > 0)
 						{
-									$result[$counter]['th_title'] .= "<a href=\"".
+									$result[$counter]['th_title'] = "<div><a href=\"".
 										$this->ctrl->getLinkTarget($this, 'showThreadFrameset').
-										"\">".$thread->getSubject()."</a>";								
+										"\">".$thread->getSubject()."</a></div>".$result[$counter]['th_title'];								
 						}
 					// get author data
 						if ($this->objProperties->isAnonymized())
@@ -515,15 +514,19 @@ class ilObjForumGUI extends ilObjectGUI
 							}
 						}
 	
+						$result[$counter]['num_posts'] = $num_posts;
 						if($ilUser->getId() != ANONYMOUS_USER_ID)
 						{
-							$result[$counter]['num_posts'] = $num_posts.' ('.$num_unread.')';		
-							$result[$counter]['num_new'] = $num_new;						
-						}
-						else
-						{
-							$result[$counter]['num_posts'] = $num_posts.' ('.$num_unread.')';		
-							$result[$counter]['num_new'] = 0;							
+							if ($num_unread > 0)
+							{
+								$result[$counter]['num_posts'].= "<br><span class='alert' style='white-space:nowrap;'>".
+									$lng->txt("unread").": ".$num_unread."</span>";
+							}
+							if ($num_new > 0)
+							{
+								$result[$counter]['num_posts'].= "<br><span class='alert' style='white-space:nowrap;'>".
+									$lng->txt("new").": ".$num_new."</span>";
+							}
 						}
 						
 				
@@ -560,9 +563,11 @@ class ilObjForumGUI extends ilObjectGUI
 										
 								$this->ctrl->setParameter($this, 'thr_pk', $objLastPost->getThreadId());
 								
-								$result[$counter]['lp_date'] = $frm->convertDate($objLastPost->getCreateDate()) .'<br>'.$this->lng->txt('from').' '."<a href=\"".
+								$result[$counter]['lp_date'] = '<div style="white-space:nowrap">'.
+										$frm->convertDate($objLastPost->getCreateDate())."</div>".
+										'<div style="white-space:nowrap">'.$this->lng->txt('from').' '."<a href=\"".
 										$this->ctrl->getLinkTarget($this, 'showThreadFrameset').'#'.$objLastPost->getId().
-										"\">".$usr_data['login']."</a>";
+										"\">".$usr_data['login']."</a></div>";
 												
 								
 								if ($this->objProperties->isAnonymized())
