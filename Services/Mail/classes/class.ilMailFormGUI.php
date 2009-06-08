@@ -618,6 +618,7 @@ class ilMailFormGUI
 		include_once('./Services/Form/classes/class.ilPropertyFormGUI.php');
 		
 		$form_gui = new ilPropertyFormGUI();
+		$form_gui->setTitle($this->lng->txt('compose'));
 		$form_gui->setOpenTag(false);
 		$this->tpl->setVariable('FORM_ACTION', $this->ctrl->getFormAction($this, 'sendMessage'));
 
@@ -714,11 +715,10 @@ class ilMailFormGUI
 		$inp->setRows(10);
 
 		// PLACEHOLDERS
-		$chb = new ilCheckboxInputGUI($this->lng->txt('placeholder'), 'use_placeholders');
+		$chb = new ilCheckboxInputGUI($this->lng->txt('activate_serial_letter_placeholders'), 'use_placeholders');
 		$chb->setOptionTitle($this->lng->txt('activate_serial_letter_placeholders'));
 		$chb->setValue(1);
 		$chb->setChecked(false);
-		$chb->setAdditionalAttributes('onclick="togglePlaceholdersBox(this.checked);"');
 		$form_gui->addItem($inp);
 
 		include_once 'Services/Mail/classes/class.ilMailFormPlaceholdersPropertyGUI.php';
@@ -730,10 +730,7 @@ class ilMailFormGUI
 		{
 			$chb->setChecked(true);
 		}
-		else
-		{
-			$this->tpl->touchBlock('hide_placeholders');
-		}
+		
 		$form_gui->addItem($chb);
 
 		$form_gui->addCommandButton('sendMessage', $this->lng->txt('send'));
