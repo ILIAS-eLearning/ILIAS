@@ -8226,13 +8226,12 @@ common#:#mem_reg_not_started#:#The registration has not started
 common#:#mem_waiting_list_position#:#Your Position on the Waiting List:
 common#:#mem_waiting_list#:#Users on Waiting List:
 common#:#mem_alert_no_places#:#There are no free places available.
-common#:#mem_already_on_list#:#You are already subscribed to the waiting list.
 common#:#mem_reg_expired#:#The registration time is expired.
 common#:#mem_unlimited#:#Unlimited
 common#:#mail_attachments#:#Mail attachments
 common#:#forum_attachments#:#Forum attachments
 grp#:#grp_set_on_waiting_list#:#You can add your join request to the waiting list. You will receive a message from a group administrator when your request has been approved or rejected.
-grp#:#grp_added_to_list#:#You have been assigned to the waiting list. You are assigned to position %s on the waiting list.
+grp#:#grp_added_to_list#:#You have been assigned to the waiting list of group "%s". You are assigned to position %s on the waiting list.
 grp#:#grp_users_added#:#Added user to the group.
 grp#:#grp_users_already_assigned#:#The user is already assigned to this  group.
 grp#:#grp_header_waiting_list#:#Waiting List
@@ -9463,7 +9462,8 @@ cntr#:#cntr_saved_sorting#:#Saved Sorting.
 chat#:#chat_show_smilies#:#show smilies
 chat#:#chat_hide_smilies#:#hide smilies
 chat#:#chat_no_room_selected#:#No room has been selected.
-common#:#removed_from_waiting_list#:#You have been detached from the waiting list.
+common#:#grp_removed_from_waiting_list#:#You have been detached from the waiting list of group "%s".
+common#:#crs_removed_from_waiting_list#:#You have been detached from the waiting list of course "%s".
 common#:#membership_leave#:#Leave
 crs#:#event_section_information#:#Session Information
 crs#:#event_btn_add_edit#:#Add Session and Assign Materials
@@ -9479,3 +9479,9 @@ crs#:#event_inc_admins#:#Show Administrators
 crs#:#event_inc_tutors#:#Show Tutors
 crs#:#event_inc_members#:#Show Members
 crs#:#event_materials#:#Session Materials
+common#:#crs_cancel_waiting_list#:#Do you really want to remove yourself from the waiting list of course "%s"?
+common#:#grp_cancel_waiting_list#:#Do you really want to remove yourself from the waiting list of group "%s"? 
+crs#:#crs_warn_no_max_set_on_waiting_list#:#The maximum number of course members is exceeded. You can add your join request to the waiting list. You will receive a message from a course administrator when your request has been approved or rejected.
+crs#:#crs_warn_wl_set_on_waiting_list#:#Some users are already assigned to the waiting list. You can add your join request to the waiting list. You will receive a message from a course administrator when your request has been approved or rejected.
+grp#:#grp_warn_no_max_set_on_waiting_list#:#The maximum number of group members is exceeded. You can add your join request to the waiting list. You will receive a message from a group administrator when your request has been approved or rejected.
+grp#:#grp_warn_wl_set_on_waiting_list#:#Some users are already assigned to the waiting list. You can add your join request to the waiting list. You will receive a message from a group administrator when your request has been approved or rejected.
