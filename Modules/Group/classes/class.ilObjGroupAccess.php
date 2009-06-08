@@ -47,6 +47,7 @@ class ilObjGroupAccess extends ilObjectAccess
 	*/
 	function _checkAccess($a_cmd, $a_permission, $a_ref_id, $a_obj_id, $a_user_id = "")
 	{
+
 		global $ilUser, $lng, $rbacsystem, $ilAccess;
 
 		if ($a_user_id == "")
@@ -76,7 +77,6 @@ class ilObjGroupAccess extends ilObjectAccess
 				{
 					return false;
 				}
-				break;
 
 				include_once './Modules/Group/classes/class.ilGroupParticipants.php';
 				if(ilGroupParticipants::_isParticipant($a_ref_id,$a_user_id))
@@ -86,10 +86,24 @@ class ilObjGroupAccess extends ilObjectAccess
 				break;
 				
 			case 'leave':
-				include_once './Modules/Group/classes/class.ilGroupWaitingList.php';
-				if(!ilGroupWaitingList::_isOnList($ilUser->getId(), $a_obj_id))
+
+				// Regular member
+				if($a_permission == 'leave')
 				{
-					return false;
+					include_once './Modules/Group/classes/class.ilGroupParticipants.php';
+					if(!ilGroupParticipants::_isParticipant($a_ref_id, $a_user_id))
+					{
+						return false;
+					}
+				}
+				// Waiting list
+				if($a_permission == 'join')
+				{
+					include_once './Modules/Group/classes/class.ilGroupWaitingList.php';
+					if(!ilGroupWaitingList::_isOnList($ilUser->getId(), $a_obj_id))
+					{
+						return false;
+					}
 				}
 				break;
 				
@@ -119,9 +133,12 @@ class ilObjGroupAccess extends ilObjectAccess
 		$commands = array();
 		$commands[] = array("permission" => "read", "cmd" => "view", "lang_var" => "show", "default" => true);
 		$commands[] = array("permission" => "join", "cmd" => "join", "lang_var" => "join");
-		// only for users on the waiting list
+
+		// on waiting list
 		$commands[]	= array('permission' => "join", "cmd" => "leave", "lang_var" => "leave_waiting_list");
 		
+		// regualar users
+		$commands[]	= array('permission' => "leave", "cmd" => "leave", "lang_var" => "grp_btn_unsubscribe");
 		// BEGIN WebDAV: Mount Webfolder.
 		require_once ('Services/WebDAV/classes/class.ilDAVActivationChecker.php');
 		if (ilDAVActivationChecker::_isActive())
