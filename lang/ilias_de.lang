@@ -4678,7 +4678,6 @@ crs#:#crs_select_one_archive#:#Bitte wählen Sie genau ein Archiv aus
 crs#:#crs_select_one_object#:#Bitte wählen Sie mindestens ein Objekt aus.
 crs#:#crs_select_registration_type#:#Bitte wählen Sie ein Beitrittsverfahren aus.
 crs#:#crs_select_starter#:#Startobjekt auswählen
-crs#:#crs_set_on_waiting_list#:#Sie können sich auf die Warteliste für diesen Kurs setzen lassen. Sie erhalten eine Nachricht, wenn Ihr Antrag von der Kursleitung angenommen oder abgelehnt wurde.
 crs#:#crs_settings_saved#:#Die Einstellungen wurden gespeichert
 crs#:#crs_settings#:#Kurseinstellungen
 crs#:#crs_show_link_lms#:#Lernmaterialien anzeigen
@@ -8104,13 +8103,11 @@ common#:#mem_reg_not_started#:#Die Anmeldung hat noch nicht begonnen.
 common#:#mem_waiting_list_position#:#Ihre Position auf der Warteliste:
 common#:#mem_waiting_list#:#Personen auf der Warteliste:
 common#:#mem_alert_no_places#:#Es sind keine freien Plätze verfügbar.
-common#:#mem_already_on_list#:#Sie wurden bereits in die Warteliste aufgenommen.
 common#:#mem_reg_expired#:#Die Anmeldungszeit ist abgelaufen.
 common#:#mem_unlimited#:#Unbegrenzt
 common#:#mail_attachments#:#Mailanhänge
 common#:#forum_attachments#:#Forumanhänge
-grp#:#grp_set_on_waiting_list#:#Sie können sich auf die Warteliste für diese Gruppe setzen lassen. Sie erhalten eine Nachricht, wenn Ihr Antrag von der Gruppenleitung angenommen oder abgelehnt wurde.
-grp#:#grp_added_to_list#:#Sie sind in die Warteliste aufgenommen worden.<br />Sie haben Platz %s auf der Warteliste.
+grp#:#grp_added_to_list#:#Sie sind in die Warteliste der Gruppe "%s" aufgenommen worden.<br />Sie haben Platz %s auf der Warteliste.
 grp#:#grp_users_added#:#Der/die Benutzer wurde(n) in die Gruppe aufgenommen.
 grp#:#grp_users_already_assigned#:#Ein Benutzer ist bereits Mitglied dieser Gruppe.
 grp#:#grp_header_waiting_list#:#Warteliste
@@ -9459,7 +9456,8 @@ common#:#leave_waiting_list#:#Von der Warteliste abmelden
 chat#:#chat_show_smilies#:#Smilies anzeigen
 chat#:#chat_hide_smilies#:#Smilies verbergen
 chat#:#chat_no_room_selected#:#Es wurde kein Raum ausgewählt.
-common#:#removed_from_waiting_list#:#Sie wurden aus der Warteliste ausgetragen.
+common#:#grp_removed_from_waiting_list#:#Sie wurden aus der Warteliste der Gruppe "%s" ausgetragen.
+common#:#crs_removed_from_waiting_list#:#Sie wurden aus der Warteliste des Kurses "%s" ausgetragen.
 common#:#membership_leave#:#Abmelden
 crs#:#event_section_information#:#Informationen zur Sitzung
 crs#:#event_btn_add_edit#:#Sitzung anlegen und Materialien zuordnen
@@ -9472,3 +9470,9 @@ crs#:#event_inc_admins#:#Administratoren anzeigen
 crs#:#event_inc_tutors#:#Tutoren anzeigen
 crs#:#event_inc_members#:#Mitglieder anzeigen
 crs#:#event_materials#:#Materialien zur Sitzung
+common#:#crs_cancel_waiting_list#:#Sind Sie sicher, dass Sie sich aus der Warteliste des Kurses "%s" austragen möchten?
+common#:#grp_cancel_waiting_list#:#Sind Sie sicher, dass Sie sich aus der Warteliste der Gruppe "%s" austragen möchten?
+crs#:#crs_warn_no_max_set_on_waiting_list#:#Die maximale Teilnehmeranzahl ist überschritten. Sie können sich jedoch auf die Warteliste für diesen Kurs setzen lassen. Sie erhalten eine Nachricht, sobald Ihr Antrag von der Kursleitung angenommen oder abgelehnt wurde.
+crs#:#crs_warn_wl_set_on_waiting_list#:#Es sind bereits Teilnehmer auf der Warteliste eingetragen. Sie können sich jedoch auf die Warteliste für diesen Kurs setzen lassen. Sie erhalten eine Nachricht, sobald Ihr Antrag von der Kursleitung angenommen oder abgelehnt wurde.
+grp#:#grp_warn_no_max_set_on_waiting_list#:#Die maximale Teilnehmeranzahl ist überschritten. Sie können sich jedoch auf die Warteliste für dieser Gruppe setzen lassen. Sie erhalten eine Nachricht, sobald Ihr Antrag von der Gruppenleitung angenommen oder abgelehnt wurde.
+grp#:#grp_warn_wl_set_on_waiting_list#:#Es sind bereits Teilnehmer auf der Warteliste eingetragen. Sie können sich jedoch auf die Warteliste für diese Gruppe setzen lassen. Sie erhalten eine Nachricht, sobald Ihr Antrag von der Kursleitung angenommen oder abgelehnt wurde.

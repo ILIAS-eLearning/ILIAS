@@ -80,6 +80,12 @@ class ilGroupRegistrationGUI extends ilRegistrationGUI
 	 */
 	protected function getFormTitle()
 	{
+		global $ilUser;
+		
+		if($this->getWaitingList()->isOnList($ilUser->getId()))
+		{
+			return $this->lng->txt('member_status');
+		}
 		return $this->lng->txt('grp_registration');
 	}
 	
@@ -184,10 +190,16 @@ class ilGroupRegistrationGUI extends ilRegistrationGUI
 		
 		$tpl->setVariable('TXT_FREE',$this->lng->txt('mem_free_places').":");
 		$free = max(0,$this->container->getMaxMembers() - $this->participants->getCountMembers());
-		$tpl->setVariable('NUM_FREE',$free);
+		
+		if($free)
+			$tpl->setVariable('NUM_FREE',$free);
+		else
+			$tpl->setVariable('WARN_FREE',$free);
+			
 
 		include_once('./Modules/Group/classes/class.ilGroupWaitingList.php');
 		$waiting_list = new ilGroupWaitingList($this->container->getId());
+		
 		if($this->container->isWaitingListEnabled() and (!$free or $waiting_list->getCountUsers()))
 		{
 			if($waiting_list->isOnList($ilUser->getId()))
@@ -199,7 +211,11 @@ class ilGroupRegistrationGUI extends ilRegistrationGUI
 			else
 			{
 				$tpl->setVariable('TXT_WAIT',$this->lng->txt('mem_waiting_list'));
-				$tpl->setVariable('NUM_WAIT',$waiting_list->getCountUsers());
+				if($free and $waiting_list->getCountUsers())
+					$tpl->setVariable('WARN_WAIT',$waiting_list->getCountUsers());
+				else
+					$tpl->setVariable('NUM_WAIT',$waiting_list->getCountUsers());
+				
 			}
 		}
 		
@@ -214,11 +230,14 @@ class ilGroupRegistrationGUI extends ilRegistrationGUI
 		{
 			// Disable registration
 			$this->enableRegistration(false);
-			$alert = $this->lng->txt('mem_already_on_list');
 		}
 		elseif(!$free and $this->container->isWaitingListEnabled())
 		{
-			$alert = $this->lng->txt('grp_set_on_waiting_list');
+			$alert = $this->lng->txt('grp_warn_no_max_set_on_waiting_list');
+		}
+		elseif($free and $this->container->isWaitingListEnabled())
+		{
+			$alert = $this->lng->txt('grp_warn_wl_set_on_waiting_list');
 		}
 		
 		$max = new ilCustomInputGUI($this->lng->txt('mem_participants'));
@@ -356,7 +375,9 @@ class ilGroupRegistrationGUI extends ilRegistrationGUI
 		if($this->container->isMembershipLimited() and $this->container->isWaitingListEnabled() and (!$free or $waiting_list->getCountUsers()))
 		{
 			$waiting_list->addToList($ilUser->getId());
-			$info = sprintf($this->lng->txt('grp_added_to_list'),$waiting_list->getPosition($ilUser->getId()));
+			$info = sprintf($this->lng->txt('grp_added_to_list'),
+				$this->container->getTitle(),
+				$waiting_list->getPosition($ilUser->getId()));
 			ilUtil::sendInfo($info,true);
 			ilUtil::redirect("repository.php?ref_id=".$tree->getParentId($this->container->getRefId()));
 		}

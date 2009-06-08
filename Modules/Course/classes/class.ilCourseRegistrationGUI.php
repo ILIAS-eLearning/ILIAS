@@ -209,7 +209,12 @@ class ilCourseRegistrationGUI extends ilRegistrationGUI
 		
 		$tpl->setVariable('TXT_FREE',$this->lng->txt('mem_free_places').":");
 		$free = max(0,$this->container->getSubscriptionMaxMembers() - $this->participants->getCountMembers());
-		$tpl->setVariable('NUM_FREE',$free);
+
+		if($free)
+			$tpl->setVariable('NUM_FREE',$free);
+		else
+			$tpl->setVariable('WARN_FREE',$free);
+		
 
 		include_once('./Modules/Course/classes/class.ilCourseWaitingList.php');
 		$waiting_list = new ilCourseWaitingList($this->container->getId());
@@ -224,7 +229,10 @@ class ilCourseRegistrationGUI extends ilRegistrationGUI
 			else
 			{
 				$tpl->setVariable('TXT_WAIT',$this->lng->txt('mem_waiting_list'));
-				$tpl->setVariable('NUM_WAIT',$waiting_list->getCountUsers());
+				if($free and $waiting_list->getCountUsers())
+					$tpl->setVariable('WARN_WAIT',$waiting_list->getCountUsers());
+				else
+					$tpl->setVariable('NUM_WAIT',$waiting_list->getCountUsers());
 			}
 		}
 		
@@ -239,11 +247,14 @@ class ilCourseRegistrationGUI extends ilRegistrationGUI
 		{
 			// Disable registration
 			$this->enableRegistration(false);
-			$alert = $this->lng->txt('mem_already_on_list');
 		}
 		elseif(!$free and $this->container->enabledWaitingList())
 		{
-			$alert = $this->lng->txt('crs_set_on_waiting_list');
+			$alert = $this->lng->txt('crs_warn_no_max_set_on_waiting_list');
+		}
+		elseif($free and $this->container->enabledWaitingList())
+		{
+			$alert = $this->lng->txt('crs_warn_wl_set_on_waiting_list');
 		}
 				
 		$max = new ilCustomInputGUI($this->lng->txt('mem_participants'));

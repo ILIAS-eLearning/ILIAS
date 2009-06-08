@@ -135,7 +135,10 @@ abstract class ilRegistrationGUI
 		
 		$this->getWaitingList()->removeFromList($ilUser->getId());
 		$parent = $tree->getParentId($this->container->getRefId());
-		ilUtil::sendSuccess($this->lng->txt('removed_from_waiting_list'),true);
+		
+		$message = sprintf($this->lng->txt($this->container->getType().'_removed_from_waiting_list'),
+			$this->container->getTitle());
+		ilUtil::sendSuccess($message,true);
 		ilUtil::redirect('repository.php?ref_id='.$parent);
 	}
 	
@@ -351,6 +354,10 @@ abstract class ilRegistrationGUI
 		}
 		if($this->getWaitingList()->isOnList($ilUser->getId()))
 		{
+			ilUtil::sendQuestion(
+				sprintf($this->lng->txt($this->container->getType().'_cancel_waiting_list'),
+				$this->container->getTitle())
+			);
 			$this->form->addCommandButton('leaveWaitingList', $this->lng->txt('leave_waiting_list'));
 			$this->form->addCommandButton('cancel', $this->lng->txt('cancel'));
 		}
