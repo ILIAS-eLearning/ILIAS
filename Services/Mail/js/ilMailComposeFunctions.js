@@ -1,21 +1,3 @@
-// enables/disables area for predefined placeholders
-function togglePlaceholdersBox(status)
-{
-	phObj = document.getElementById('placeholders_box');
-
-	if (phObj)
-	{
-		if (status == true && phObj.style.display == 'none')
-		{
-			 phObj.style.display = '';
-		}
-		else
-		{
-			phObj.style.display = 'none';
-		}
-	}
-}
-
 // inserts placeholder at current coursor position
 function insertTextIntoTextField(text, obj_id)
 {
@@ -74,7 +56,7 @@ ilAddOnLoad(
 	function()
 	{
 		var ar = ['rcp_to', 'rcp_cc', 'rcp_bcc'];
-		for(i in ar)
+		for(var i = 0; i < ar.length; i++)
 		{
 			var obj = document.getElementById(ar[i]); 
 			if (obj)
