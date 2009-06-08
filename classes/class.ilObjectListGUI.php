@@ -870,16 +870,18 @@ class ilObjectListGUI
 	function getCommandLink($a_cmd)
 	{
 		// BEGIN WebDAV Get mount webfolder link.
-		require_once('Services/WebDAV/classes/class.ilDAVServer.php');
-		if ($a_cmd == 'mount_webfolder' && ilDavServer::_isActive()) {
-				$davServer = new ilDAVServer();
+		require_once ('Services/WebDAV/classes/class.ilDAVActivationChecker.php');
+		if ($a_cmd == 'mount_webfolder' && ilDAVActivationChecker::_isActive())
+		{
+			require_once ('Services/WebDAV/classes/class.ilDAVServer.php');
+			$davServer = new ilDAVServer();
 
-				// XXX: The following is a very dirty, ugly trick. 
-				//        To mount URI needs to be put into two attributes:
-				//        href and folder. This hack returns both attributes
-				//        like this:  http://...mount_uri..." folder="http://...folder_uri...
-				return $davServer->getMountURI($this->ref_id).
-							'" folder="'.$davServer->getFolderURI($this->ref_id);
+			// XXX: The following is a very dirty, ugly trick. 
+			//        To mount URI needs to be put into two attributes:
+			//        href and folder. This hack returns both attributes
+			//        like this:  http://...mount_uri..." folder="http://...folder_uri...
+			return $davServer->getMountURI($this->ref_id).
+						'" folder="'.$davServer->getFolderURI($this->ref_id);
 		}
 		// END WebDAV Get mount webfolder link.
 
@@ -905,8 +907,9 @@ class ilObjectListGUI
 	function getCommandFrame($a_cmd)
 	{
 		// BEGIN WebDAV Get mount webfolder link.
-		require_once('Services/WebDAV/classes/class.ilDAVServer.php');
-		if ($a_cmd == 'mount_webfolder' && ilDavServer::_isActive()) {
+		require_once ('Services/WebDAV/classes/class.ilDAVActivationChecker.php');
+		if ($a_cmd == 'mount_webfolder' && ilDAVActivationChecker::_isActive())
+		{
 			return '_blank';        
 		}
 		return "";
@@ -947,9 +950,10 @@ class ilObjectListGUI
 		// ...
 
 		// BEGIN WebDAV Display locking information
-		require_once('Services/WebDAV/classes/class.ilDAVServer.php');
-		if (ilDavServer::_isActive()) 
+		require_once ('Services/WebDAV/classes/class.ilDAVActivationChecker.php');
+		if (ilDAVActivationChecker::_isActive())
 		{
+			require_once ('Services/WebDAV/classes/class.ilDAVServer.php');
 			global $ilias, $lng;
 			
 			// Show lock info
