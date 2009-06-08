@@ -21,12 +21,6 @@
 	+-----------------------------------------------------------------------------+
 */
 
-require_once("./Services/COPage/classes/class.ilPageContent.php");
-require_once("./Services/COPage/classes/class.ilPCParagraph.php");
-require_once("./Services/COPage/syntax_highlight/php/Beautifier/Init.php");
-require_once("./Services/COPage/syntax_highlight/php/Output/Output_css.php");
-
-
 define("IL_INSERT_BEFORE", 0);
 define("IL_INSERT_AFTER", 1);
 define("IL_INSERT_CHILD", 2);
@@ -75,6 +69,9 @@ class ilPageObject
 	function ilPageObject($a_parent_type, $a_id = 0, $a_old_nr = 0, $a_halt = true)
 	{
 		global $ilias;
+
+		require_once("./Services/COPage/syntax_highlight/php/Beautifier/Init.php");
+		require_once("./Services/COPage/syntax_highlight/php/Output/Output_css.php");
 
 		$this->parent_type = $a_parent_type;
 		$this->id = $a_id;
@@ -249,7 +246,7 @@ class ilPageObject
 	{
 		global $ilDB;
 		
-		$query = "SELECT * FROM page_object WHERE page_id = ".$ilDB->quote($a_id)." ".
+		$query = "SELECT page_id FROM page_object WHERE page_id = ".$ilDB->quote($a_id)." ".
 			"AND parent_type= ".$ilDB->quote($a_parent_type);
 
 		$set = $ilDB->query($query);
@@ -263,6 +260,29 @@ class ilPageObject
 		}
 	}
 
+	/**
+	* checks whether page exists and is not empty (may return true on some empty pages)
+	*
+	* @param	string		$a_parent_type	parent type
+	* @param	int			$a_id			page id
+	*/
+	function _existsAndNotEmpty($a_parent_type, $a_id)
+	{
+		global $ilDB;
+		
+		$query = "SELECT page_id, is_empty FROM page_object WHERE page_id = ".$ilDB->quote($a_id, "integer")." ".
+			"AND parent_type= ".$ilDB->quote($a_parent_type, "text");
+
+		$set = $ilDB->query($query);
+		if ($row = $ilDB->fetchAssoc($set))
+		{
+			if ($row["is_empty"] != 1)
+			{
+				return true;
+			}
+		}
+		return false;
+	}
 
 	function buildDom($a_force = false)
 	{
@@ -874,6 +894,7 @@ if ($_GET["pgEdMediaMode"] != "") {echo "ilPageObject::error media"; exit;}
 
 	function getFirstParagraphText()
 	{
+		require_once("./Services/COPage/classes/class.ilPCParagraph.php");
 		$xpc = xpath_new_context($this->dom);
 		$path = "//Paragraph[1]";
 		$res =& xpath_eval($xpc, $path);
@@ -1214,6 +1235,7 @@ if ($_GET["pgEdMediaMode"] != "") {echo "ilPageObject::error media"; exit;}
 
 			if ($sib_hier_id != "")		// set id to sibling id "+ 1"
 			{
+				require_once("./Services/COPage/classes/class.ilPageContent.php");
 				$node_hier_id = ilPageContent::incEdId($sib_hier_id);
 				$res->nodeset[$i]->set_attribute("HierId", $node_hier_id);
 				$this->hier_ids[] = $node_hier_id;
@@ -1708,7 +1730,7 @@ if ($_GET["pgEdMediaMode"] != "") {echo "ilPageObject::error media"; exit;}
 
 //echo "<br>PageObject::updateFromXML[".$this->getId()."]";
 //echo "update:".ilUtil::prepareDBString(($this->getXMLContent())).":<br>";
-//echo "update:".htmlentities(ilUtil::prepareDBString(($this->getXMLContent()))).":<br>";
+//echo "update:".htmlentities($this->getXMLContent()).":<br>";
 
 		$query = "UPDATE page_object ".
 			"SET content = ".$ilDB->quote($this->getXMLContent())." ".
@@ -1813,12 +1835,16 @@ if ($_GET["pgEdMediaMode"] != "") {echo "ilPageObject::error media"; exit;}
 					}
 				}
 			}
-
+//echo htmlentities($content);
+			$em = (trim($content) == "<PageObject/>")
+				? 1
+				: 0;
 			$query = "UPDATE page_object ".
 				"SET content = ".$ilDB->quote($content)." ".
 				", parent_id= ".$ilDB->quote($this->getParentId())." ".
 				", last_change_user= ".$ilDB->quote($ilUser->getId())." ".
 				", last_change = now() ".
+				", is_empty = ".$ilDB->quote($em, "integer")." ".
 				", active = ".$ilDB->quote($this->getActive())." ".
 				", activation_start = ".$ilDB->quote($this->getActivationStart())." ".
 				", activation_end = ".$ilDB->quote($this->getActivationEnd())." ".
@@ -3111,6 +3137,7 @@ if ($_GET["pgEdMediaMode"] != "") {echo "ilPageObject::error media"; exit;}
 		$res = & xpath_eval($xpc, $path);
 
 		$hashes = array();
+		require_once("./Services/COPage/classes/class.ilPCParagraph.php");
 		for ($i = 0; $i < count ($res->nodeset); $i++)
 		{
 			$hier_id = $res->nodeset[$i]->get_attribute("HierId");

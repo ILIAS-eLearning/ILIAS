@@ -88,6 +88,7 @@ class ilCtrlStructureReader
 				$this->read($a_dir);
 			}
 			$this->store();
+			$this->determineClassFileIds();
 			$this->executed = true;
 		}
 		
@@ -162,7 +163,8 @@ class ilCtrlStructureReader
 											$ilDB->quote($this->comp_prefix, "text"));
 										if ($this->comp_prefix == "")
 										{
-											$ilDB->manipulate("DELETE FROM ctrl_classfile WHERE comp_prefix IS NULL");
+											$ilDB->manipulate($q = "DELETE FROM ctrl_classfile WHERE ".
+												$ilDB->equals("comp_prefix", "", "text", true));
 										}
 								
 										// delete all call entries
@@ -215,6 +217,17 @@ class ilCtrlStructureReader
 											$this->class_childs[$parent][] = $child;
 										}
 									}
+								}
+							}
+							
+							if (eregi("^class\.(.*GUI)\.php$", $file, $res))
+							{
+								$cl = strtolower($res[1]);
+								$pos = strpos(strtolower($line), "class ".$cl);
+								if (is_int($pos) && $this->class_script[$cl] == "")
+								{
+									$this->class_script[$cl] = $a_cdir."/".$file;
+		//echo "<br>".$cl."-".$this->class_script[$cl]."-";
 								}
 							}
 						}
@@ -284,4 +297,26 @@ class ilCtrlStructureReader
 
 	}
 
+	/**
+	* Determine class file IDS
+	*/
+	function determineClassFileIds()
+	{
+		global $ilDB;
+	
+		$ilDB->manipulate("UPDATE ctrl_classfile SET ".
+			" cid = ".$ilDB->quote("", "text")
+			);
+		$set = $ilDB->query("SELECT * FROM ctrl_classfile ");
+		$cnt = 1;
+		while ($rec  = $ilDB->fetchAssoc($set))
+		{
+			$cid = base_convert((string) $cnt, 10, 36);
+			$ilDB->manipulate("UPDATE ctrl_classfile SET ".
+				" cid = ".$ilDB->quote($cid, "text").
+				" WHERE class = ".$ilDB->quote($rec["class"], "text")
+				);
+			$cnt++;
+		}
+	}
 }

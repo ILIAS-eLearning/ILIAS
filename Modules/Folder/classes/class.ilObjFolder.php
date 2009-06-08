@@ -217,8 +217,8 @@ class ilObjFolder extends ilContainer
 		// get view mode from course
 		if ($course_ref_id = $tree->checkForParentType($this->ref_id,'crs'))
 		{
-			include_once("./Modules/Course/classes/class.ilObjCourse.php");
-			$view_mode = ilObjCourse::_lookupViewMode(ilObject::_lookupObjId($course_ref_id));
+			include_once("./Modules/Course/classes/class.ilObjCourseAccess.php");
+			$view_mode = ilObjCourseAccess::_lookupViewMode(ilObject::_lookupObjId($course_ref_id));
 			if ($view_mode == ilContainer::VIEW_SESSIONS ||
 				$view_mode == ilContainer::VIEW_BY_TYPE ||
 				$view_mode == ilContainer::VIEW_SIMPLE)

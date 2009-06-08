@@ -131,7 +131,7 @@ class ilHTTPS
 	function __readProtectedClasses()
 	{
 		$this->protected_classes[] = 'ilstartupgui';
-		$this->protected_classes[] = 'ilregistrationgui';
+		$this->protected_classes[] = 'ilaccountregistrationgui';
 	}
 
 	/**
