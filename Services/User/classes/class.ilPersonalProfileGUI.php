@@ -1349,83 +1349,122 @@ return;
 
 	function saveMailOptions()
 	{
-		global $ilUser;
+		global $ilUser, $lng, $ilTabs;
+		
+		$lng->loadLanguageModule('mail');
+		
+		$this->__initSubTabs('showMailOptions');
+		$ilTabs->setSubTabActive('mail_settings');
+		
+		$this->tpl->setTitleIcon(ilUtil::getImagePath('icon_pd_b.gif'),
+			$lng->txt('personal_desktop'));
+		$this->tpl->setTitle($lng->txt('personal_desktop'));		
+		
+		$this->initMailOptionsForm();
+		if($this->form->checkInput())
+		{
+			require_once 'Services/Mail/classes/class.ilMailOptions.php';
+			$mailOptions = new ilMailOptions($ilUser->getId());			
+			$mailOptions->updateOptions(
+				$_POST['signature'],
+				(int)$_POST['linebreak'],
+				(int)$_POST['incoming_type'],
+				(int)$_POST['cronjob_notification']
+			);
+			
+			ilUtil::sendSuccess($lng->txt('mail_options_saved'));			
+		}
+		
+		$this->form->setValuesByPost();
+		
+		$this->tpl->setContent($this->form->getHTML());
+		$this->tpl->show();
+	}
 
-		require_once "Services/Mail/classes/class.ilMailOptions.php";
+	private function initMailOptionsForm()
+	{
+		global $ilCtrl, $ilSetting, $lng, $ilUser;	
+		
+		include_once 'Services/Form/classes/class.ilPropertyFormGUI.php';
+		$this->form = new ilPropertyFormGUI();
+		
+		$this->form->setFormAction($ilCtrl->getFormAction($this, 'saveMailOptions'));
+		$this->form->setTitle($lng->txt('mail_settings'));
+			
+		// BEGIN INCOMING
+		$options = array(
+			$lng->txt('mail_incoming_local'), 
+			$lng->txt('mail_incoming_smtp'),
+			$lng->txt('mail_incoming_both')
+		);		
+		$si = new ilSelectInputGUI($lng->txt('mail_incoming'), 'incoming_type');
+		$si->setOptions($options);
+		if(!strlen(ilObjUser::_lookupEmail($ilUser->getId())))
+		{
+			$si->setDisabled(true);
+		}		
+		$this->form->addItem($si);
+		
+		// BEGIN LINEBREAK_OPTIONS
+		$options = array();
+		for($i = 50; $i <= 80; $i++)
+		{
+			$options[$i] = $i; 
+		}	
+		$si = new ilSelectInputGUI($lng->txt('linebreak'), 'linebreak');
+		$si->setOptions($options);			
+		$this->form->addItem($si);
+		
+		// BEGIN SIGNATURE
+		$ta = new ilTextAreaInputGUI($lng->txt('signature'), 'signature');
+		$ta->setRows(10);
+		$ta->setCols(60);			
+		$this->form->addItem($ta);
+		
+		// BEGIN CRONJOB NOTIFICATION
+		if($ilSetting->get('mail_notification'))
+		{
+			$cb = new ilCheckboxInputGUI($lng->txt('cron_mail_notification'), 'cronjob_notification');			
+			$cb->setInfo($lng->txt('mail_cronjob_notification_info'));
+			$cb->setValue(1);
+			$this->form->addItem($cb);
+		}		
+		
+		$this->form->addCommandButton('saveMailOptions', $lng->txt('save'));
+	}
+	
+	private function setMailOptionsValuesByDB()
+	{
+		global $ilUser;		
+		
+		require_once 'Services/Mail/classes/class.ilMailOptions.php';
 		$mailOptions = new ilMailOptions($ilUser->getId());
-
-		$this->lng->loadLanguageModule("mail");
-
-		$mailOptions->updateOptions($_POST["signature"],(int) $_POST["linebreak"],(int) $_POST["incoming_type"],(int) $_POST["cronjob_notification"]);
-		ilUtil::sendSuccess($this->lng->txt("mail_options_saved"),true);
-
-		$this->showMailOptions();
+		
+		$this->form->setValuesByArray(array(
+			'incoming_type' => $mailOptions->getIncomingType(),
+			'linebreak' => $mailOptions->getLinebreak(),
+			'signature' => $mailOptions->getSignature(),
+			'cronjob_notification' => $mailOptions->getCronjobNotification()
+		));		
 	}
 
 	function showMailOptions()
 	{
-		global $ilUser, $ilias;
+		global $ilTabs, $lng;		
+		
+		$lng->loadLanguageModule('mail');
+		
+		$this->__initSubTabs('showMailOptions');
+		$ilTabs->setSubTabActive('mail_settings');
 
-		$this->__initSubTabs("showMailOptions");
+		$this->tpl->setTitleIcon(ilUtil::getImagePath('icon_pd_b.gif'),
+			$lng->txt('personal_desktop'));
+		$this->tpl->setTitle($lng->txt('personal_desktop'));
 
-		$this->tpl->addBlockFile("ADM_CONTENT", "adm_content", "tpl.usr_profile_mail.html");
+		$this->initMailOptionsForm();
+		$this->setMailOptionsValuesByDB();
 
-		$this->tpl->setTitleIcon(ilUtil::getImagePath("icon_pd_b.gif"), $this->lng->txt("personal_desktop"));
-		$this->tpl->setVariable("HEADER", $this->lng->txt("personal_desktop"));
-
-		require_once "Services/Mail/classes/class.ilMailOptions.php";
-		$mailOptions = new ilMailOptions($ilUser->getId());
-
-		$this->lng->loadLanguageModule("mail");
-
-		// BEGIN INCOMING
-		$this->tpl->setCurrentBlock("option_inc_line");
-
-		$inc = array($this->lng->txt("mail_incoming_local"),$this->lng->txt("mail_incoming_smtp"),$this->lng->txt("mail_incoming_both"));
-		foreach($inc as $key => $option)
-		{
-			$this->tpl->setVariable("OPTION_INC_VALUE",$key);
-			$this->tpl->setVariable("OPTION_INC_NAME",$option);
-			$this->tpl->setVariable("OPTION_INC_SELECTED",$mailOptions->getIncomingType() == $key ? "selected=\"selected\"" : "");
-			$this->tpl->parseCurrentBlock();
-		}
-		if(!strlen(ilObjUser::_lookupEmail($ilUser->getId())))
-		{
-			$this->tpl->setVariable('INC_DISABLED','disabled="disabled"');
-		}
-
-		// BEGIN LINEBREAK_OPTIONS
-		$this->tpl->setCurrentBlock("option_line");
-		$linebreak = $mailOptions->getLinebreak();
-
-		for($i = 50; $i <= 80;$i++)
-		{
-			$this->tpl->setVariable("OPTION_VALUE",$i);
-			$this->tpl->setVariable("OPTION_NAME",$i);
-			if( $i == $linebreak)
-			{
-				$this->tpl->setVariable("OPTION_SELECTED","selected");
-			}
-			$this->tpl->parseCurrentBlock();
-		}
-		$this->tpl->setVariable("FORMACTION", $this->ctrl->getFormAction($this));
-		$this->tpl->setVariable("GLOBAL_OPTIONS",$this->lng->txt("mail_settings"));
-		$this->tpl->setVariable("TXT_INCOMING", $this->lng->txt("mail_incoming"));
-		$this->tpl->setVariable("TXT_LINEBREAK", $this->lng->txt("linebreak"));
-		$this->tpl->setVariable("TXT_SIGNATURE", $this->lng->txt("signature"));
-		$this->tpl->setVariable("CONTENT",$mailOptions->getSignature());
-		$this->tpl->setVariable("TXT_SAVE", $this->lng->txt("save"));
-
-		if ($ilias->getSetting("mail_notification"))
-		{
-			$this->tpl->setVariable("TXT_CRONJOB_NOTIFICATION", $this->lng->txt("cron_mail_notification"));
-			$this->tpl->setVariable("TXT_CRONJOB_NOTIFICATION_INFO", $this->lng->txt("mail_cronjob_notification_info"));
-			if ($mailOptions->getCronjobNotification())
-			{
-				$this->tpl->setVariable("CRONJOB_NOTIFICATION_SELECTED", " checked=\"checked\"");
-			}
-		}
-
+		$this->tpl->setContent($this->form->getHTML());
 		$this->tpl->show();
 	}
 
