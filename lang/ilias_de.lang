@@ -4767,7 +4767,7 @@ crs#:#crs_unblocked_member#:#Status in Kurs "%s"
 crs#:#crs_unblocked#:#Freigeschaltet
 crs#:#crs_unlimited#:#Unbegrenzt
 crs#:#crs_unsubscribe_sure#:#Sind Sie sicher, dass Sie die Mitgliedschaft in diesem Kurs beenden möchten?
-crs#:#crs_unsubscribe#:#Kursmitgliedschaft beenden
+common#:#crs_unsubscribe#:#Kursmitgliedschaft beenden
 crs#:#crs_unsubscribed_from_crs#:#Ihre Kursmitgliedschaft wurde beendet.
 crs#:#crs_update_objective#:#Lernziel bearbeiten
 crs#:#crs_user_agreement_info#:#Für Kursadministratoren freigegebene Daten
@@ -8123,7 +8123,7 @@ grp#:#grp_icon_settings#:#Gruppen-Icon
 grp#:#grp_information_info#:#Die hier angegebenen Informationen werden auf der Info-Seite und bei der Gruppenanmeldung angezeigt.
 grp#:#reg_grp_max_members#:#Begrenzte Teilnehmeranzahl
 grp#:#grp_reg_limited#:#Anmeldungszeitraum
-grp#:#grp_btn_unsubscribe#:#Gruppenmitgliedschaft beenden
+common#:#grp_btn_unsubscribe#:#Gruppenmitgliedschaft beenden
 dateplaner#:#grp_cal_reg_end#:#Ende der Anmeldung
 dateplaner#:#grp_cal_reg_start#:#Beginn der Anmeldung
 grp#:#grp_membership_request_subject#:#%1$s %2$s möchte der Gruppe "%3$s" beitreten.

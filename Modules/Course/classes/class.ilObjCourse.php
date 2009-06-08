@@ -21,6 +21,9 @@
 	+-----------------------------------------------------------------------------+
 */
 
+require_once "./Services/Container/classes/class.ilContainer.php";
+include_once './Modules/Course/classes/class.ilCourseConstants.php';
+
 /**
 * Class ilObjCourse
 *
@@ -28,31 +31,6 @@
 * @version $Id$
 * 
 */
-
-require_once "./Services/Container/classes/class.ilContainer.php";
-
-define('IL_CRS_ACTIVATION_OFFLINE',0);
-define('IL_CRS_ACTIVATION_UNLIMITED',1);
-define('IL_CRS_ACTIVATION_LIMITED',2);
-
-define('IL_CRS_SUBSCRIPTION_DEACTIVATED',0);
-define('IL_CRS_SUBSCRIPTION_UNLIMITED',1);
-define('IL_CRS_SUBSCRIPTION_LIMITED',2);
-
-define('IL_CRS_SUBSCRIPTION_CONFIRMATION',2);
-define('IL_CRS_SUBSCRIPTION_DIRECT',3);
-define('IL_CRS_SUBSCRIPTION_PASSWORD',4);
-
-define('IL_CRS_VIEW_SESSIONS', 0);
-define('IL_CRS_VIEW_OBJECTIVE', 1);
-define('IL_CRS_VIEW_TIMING', 2);
-define('IL_CRS_VIEW_ARCHIVE', 3);
-define('IL_CRS_VIEW_SIMPLE', 4);
-define('IL_CRS_VIEW_BY_TYPE', 5);
-
-define('IL_CRS_ARCHIVE_DOWNLOAD',3);
-define('IL_CRS_ARCHIVE_NONE',0);
-
 class ilObjCourse extends ilContainer
 {
 	const CAL_REG_START = 1;

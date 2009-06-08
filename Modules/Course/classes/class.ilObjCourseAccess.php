@@ -22,6 +22,7 @@
 */
 
 include_once("classes/class.ilObjectAccess.php");
+include_once './Modules/Course/classes/class.ilCourseConstants.php';
 
 /**
 * Class ilObjCourseAccess
@@ -83,10 +84,24 @@ class ilObjCourseAccess extends ilObjectAccess
 				break;
 				
 			case 'leave':
-				include_once './Modules/Course/classes/class.ilCourseWaitingList.php';
-				if(!ilCourseWaitingList::_isOnList($ilUser->getId(), $a_obj_id))
+
+				// Regular member
+				if($a_permission == 'leave')
 				{
-					return false;
+					include_once './Modules/Course/classes/class.ilCourseParticipants.php';
+					if(!ilCourseParticipants::_isParticipant($a_ref_id, $a_user_id))
+					{
+						return false;
+					}
+				}
+				// Waiting list
+				if($a_permission == 'join')
+				{
+					include_once './Modules/Course/classes/class.ilCourseWaitingList.php';
+					if(!ilCourseWaitingList::_isOnList($ilUser->getId(), $a_obj_id))
+					{
+						return false;
+					}
 				}
 				break;
 		}
@@ -97,7 +112,7 @@ class ilObjCourseAccess extends ilObjectAccess
 				$active = ilObjCourseAccess::_isActivated($a_obj_id);
 				$registration = ilObjCourseAccess::_registrationEnabled($a_obj_id);
 				$tutor = $rbacsystem->checkAccessOfUser($a_user_id,'write',$a_ref_id);
-
+				
 				if(!$active)
 				{
 					$ilAccess->addInfoItem(IL_NO_OBJECT_ACCESS, $lng->txt("offline"));
@@ -128,15 +143,6 @@ class ilObjCourseAccess extends ilObjectAccess
 					$ilAccess->addInfoItem(IL_NO_OBJECT_ACCESS, $lng->txt("crs_status_blocked"));
 					return false;
 				} 
-				
-				/*
-				$members = ilCourseParticipants::_getInstanceByObjId($a_obj_id);
-				if($members->isBlocked($a_user_id) and $members->isAssigned($a_user_id))  
-				{
-					$ilAccess->addInfoItem(IL_NO_OBJECT_ACCESS, $lng->txt("crs_status_blocked"));
-					return false;
-				}
-				*/
 				break;
 		}
 		return true;
@@ -159,8 +165,12 @@ class ilObjCourseAccess extends ilObjectAccess
 		$commands = array();
 		$commands[] = array("permission" => "read", "cmd" => "", "lang_var" => "view", "default" => true);
 		$commands[] = array("permission" => "join", "cmd" => "join", "lang_var" => "join");
-		// only for users on the waiting list
+
+		// on waiting list
 		$commands[]	= array('permission' => "join", "cmd" => "leave", "lang_var" => "leave_waiting_list");
+		
+		// regualar users
+		$commands[]	= array('permission' => "leave", "cmd" => "leave", "lang_var" => "crs_unsubscribe");
 
 		// BEGIN WebDAV: Mount as webfolder.
 		require_once ('Services/WebDAV/classes/class.ilDAVActivationChecker.php');
@@ -220,7 +230,7 @@ class ilObjCourseAccess extends ilObjectAccess
 	 * @param int id of user
 	 * @return boolean
 	 */
-	function _isActivated($a_obj_id)
+	public static function _isActivated($a_obj_id)
 	{
 		global $ilDB;
 
@@ -260,7 +270,7 @@ class ilObjCourseAccess extends ilObjectAccess
 	 * @return 
 	 * @param object $a_obj_id
 	 */
-	function _registrationEnabled($a_obj_id)
+	public static function _registrationEnabled($a_obj_id)
 	{
 		global $ilDB;
 
@@ -294,7 +304,6 @@ class ilObjCourseAccess extends ilObjectAccess
 		}
 		return false;
 	}
-
 }
 
 ?>

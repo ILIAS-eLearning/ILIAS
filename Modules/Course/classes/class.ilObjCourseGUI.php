@@ -22,6 +22,7 @@
 */
 
 
+
 require_once "./Services/Container/classes/class.ilContainerGUI.php";
 
 /**
@@ -2861,6 +2862,24 @@ class ilObjCourseGUI extends ilContainerGUI
 		return $this->__showRemoveFromWaitingListTable($f_result);
 	}
 	
+	public function leaveObject()
+	{
+		$this->checkPermission('leave');
+		
+		$this->tabs_gui->setTabActive('crs_unsubscribe');
+		
+		$this->tpl->addBlockFile("ADM_CONTENT", "adm_content", "tpl.crs_unsubscribe_sure.html",'Modules/Course');
+		ilUtil::sendQuestion($this->lng->txt('crs_unsubscribe_sure'));
+		
+		$this->tpl->setVariable("UNSUB_FORMACTION",$this->ctrl->getFormAction($this));
+		$this->tpl->setVariable("TXT_CANCEL",$this->lng->txt("cancel"));
+		$this->tpl->setVariable("CMD_SUBMIT",'performUnsubscribe');
+		$this->tpl->setVariable("TXT_SUBMIT",$this->lng->txt("crs_unsubscribe"));
+		return true;
+				
+	}
+	
+	
 	function unsubscribeObject()
 	{
 		global $rbacsystem,$ilAccess;
@@ -3190,7 +3209,7 @@ class ilObjCourseGUI extends ilContainerGUI
 		{
 			$tabs_gui->addTarget("crs_unsubscribe",
 								 $this->ctrl->getLinkTarget($this, "unsubscribe"), 
-								 'unsubscribe',
+								 'leave',
 								 "");
 			
 		}

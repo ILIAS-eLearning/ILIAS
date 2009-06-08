@@ -5183,7 +5183,7 @@ crs#:#crs_unblocked#:#Free entrance
 crs#:#crs_unblocked_member#:#Status in course "%s"
 crs#:#crs_unblocked_member_body#:#Your membership in course "%s" has been restored
 crs#:#crs_unlimited#:#Unlimited
-crs#:#crs_unsubscribe#:#Unsubscribe
+common#:#crs_unsubscribe#:#Unsubscribe
 crs#:#crs_unsubscribe_sure#:#Do you want to unsubscribe from this course
 crs#:#crs_unsubscribed_from_crs#:#You have been unsubscribed from this course
 crs#:#crs_update_objective#:#Edit Learning Objective
@@ -8245,7 +8245,7 @@ grp#:#grp_icon_settings#:#Group Icon
 grp#:#grp_information_info#:#This information will be show on the info page and for new registrations.
 grp#:#reg_grp_max_members#:#Limited Number of Members
 grp#:#grp_reg_limited#:#Self-Registration
-grp#:#grp_btn_unsubscribe#:#Unsubscribe From Group
+common#:#grp_btn_unsubscribe#:#Unsubscribe From Group
 dateplaner#:#grp_cal_reg_end#:#Registration End
 dateplaner#:#grp_cal_reg_start#:#Registration Start
 grp#:#grp_membership_request_subject#:#%1$s %2$s would like to join group "%3$s".
