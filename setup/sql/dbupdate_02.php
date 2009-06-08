@@ -12248,4 +12248,7 @@ ALTER TABLE `payment_objects` CHANGE `vat_rate` `vat_id` INT NOT NULL DEFAULT '0
 <?php
 $ilCtrlStructureReader->getStructure();
 ?>
-
+<#2431>
+<?php
+	$ilMySQLAbstraction->performAbstraction('mail_tree');
+?>
