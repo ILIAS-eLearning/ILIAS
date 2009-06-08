@@ -859,7 +859,7 @@ class ilObjForumGUI extends ilObjectGUI
         		top_date,
         		top_usr_id
         	)
-        	VALUES(%s, %s, %s, %s, %s, %s, %s, %s, %s)',
+        	VALUES(%s, %s, %s, %s, %s, %s, %s, %s, %s, %s)',
         	array('integer', 'integer', 'text', 'text', 'integer', 'integer', 'text', 'integer', 'timestamp', 'integer'),
         	array(
         	$nextId,
