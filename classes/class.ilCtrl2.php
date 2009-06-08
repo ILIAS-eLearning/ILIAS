@@ -244,7 +244,13 @@ class ilCtrl2 extends ilCtrl
 		}
 		if ($this->class_cid[$a_class] == "")
 		{
-			die("Cannot find cid for class ".$a_class.".");
+			if (DEVMODE == 1)
+			{
+				$add = "<br><br>Please make sure your GUI class name ends with 'GUI' and that the filename is 'class.[YourClassName].php'. In exceptional cases you
+					may solve the issue by putting an empty * @ilCtrl_Calls [YourClassName]: into your class header.".
+					" In both cases you need to reload the control structure in the setup.";
+			}
+			die("Cannot find cid for class ".$a_class.".".$add);
 		}
 		return $this->class_cid[$a_class];
 	}
