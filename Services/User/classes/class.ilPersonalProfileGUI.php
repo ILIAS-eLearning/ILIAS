@@ -1347,7 +1347,14 @@ return;
 		$this->tpl->show();
 	}
 
-	function saveMailOptions()
+	/** 
+	* Called if the user pushes the submit button of the mail options form.
+	* Passes the post data to the mail options model instance to store them.
+	* 
+	* @access public
+	* 
+	*/
+	public function saveMailOptions()
 	{
 		global $ilUser, $lng, $ilTabs;
 		
@@ -1366,7 +1373,7 @@ return;
 			require_once 'Services/Mail/classes/class.ilMailOptions.php';
 			$mailOptions = new ilMailOptions($ilUser->getId());			
 			$mailOptions->updateOptions(
-				$_POST['signature'],
+				ilUtil::stripSlashes($_POST['signature']),
 				(int)$_POST['linebreak'],
 				(int)$_POST['incoming_type'],
 				(int)$_POST['cronjob_notification']
@@ -1381,6 +1388,12 @@ return;
 		$this->tpl->show();
 	}
 
+	/** 
+	* Initialises the mail options form
+	* 
+	* @access private
+	* 
+	*/
 	private function initMailOptionsForm()
 	{
 		global $ilCtrl, $ilSetting, $lng, $ilUser;	
@@ -1433,6 +1446,12 @@ return;
 		$this->form->addCommandButton('saveMailOptions', $lng->txt('save'));
 	}
 	
+	/** 
+	* Fetches data from model and loads this data into form
+	* 
+	* @access private
+	* 
+	*/
 	private function setMailOptionsValuesByDB()
 	{
 		global $ilUser;		
@@ -1448,7 +1467,13 @@ return;
 		));		
 	}
 
-	function showMailOptions()
+	/** 
+	* Called to display the mail options form
+	* 
+	* @access public
+	* 
+	*/
+	public function showMailOptions()
 	{
 		global $ilTabs, $lng;		
 		
