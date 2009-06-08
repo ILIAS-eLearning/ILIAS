@@ -3233,12 +3233,12 @@ if (true)
 		
 		// fields which won't be changeable
 		$no_changeable_fields = array(
-			"preferences",
+			#"preferences",
 		);
 		
 		// fields which won't be visible
 		$no_visible_fields = array(
-			"preferences",
+			#"preferences",
 		);
 		
 		// disable visible checkbox
