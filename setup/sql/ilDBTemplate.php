@@ -10441,13 +10441,25 @@ $in_fields = array("token");
 $ilDB->addIndex("il_request_token", $in_fields, "i3", false);
 
 $ilDB->insert("il_request_token", array(
+'user_id' => array('integer', '6'), 'token' => array('text', '61d8de18fb8475e7f2185ac2d7092c6e'), 'stamp' => array('timestamp', '2009-06-08 10:28:31'), 'session_id' => array('text', 'a142ecc8eea10214e201b98d5645f31d')));
+
+$ilDB->insert("il_request_token", array(
+'user_id' => array('integer', '6'), 'token' => array('text', 'a21df9f2f67688c78725bdb15fe10817'), 'stamp' => array('timestamp', '2009-06-08 10:12:31'), 'session_id' => array('text', '')));
+
+$ilDB->insert("il_request_token", array(
 'user_id' => array('integer', '6'), 'token' => array('text', '767eb5f323ae178d0c460d3e53b88516'), 'stamp' => array('timestamp', '2009-05-04 17:59:45'), 'session_id' => array('text', '')));
+
+$ilDB->insert("il_request_token", array(
+'user_id' => array('integer', '6'), 'token' => array('text', '0d76dbe20ab3666e7079ac2e7d524ed6'), 'stamp' => array('timestamp', '2009-06-08 10:06:48'), 'session_id' => array('text', '096aded383c0eb37403113f88a97959b')));
 
 $ilDB->insert("il_request_token", array(
 'user_id' => array('integer', '6'), 'token' => array('text', '84d2650c04a5af53b2db5e486fe8de24'), 'stamp' => array('timestamp', '2009-04-29 20:54:18'), 'session_id' => array('text', '')));
 
 $ilDB->insert("il_request_token", array(
 'user_id' => array('integer', '6'), 'token' => array('text', '7a06b0faabab45c0c3f99784e2814c86'), 'stamp' => array('timestamp', '2009-04-30 09:51:27'), 'session_id' => array('text', '')));
+
+$ilDB->insert("il_request_token", array(
+'user_id' => array('integer', '6'), 'token' => array('text', 'c7d4ba8da45ff0f853d144a727fa918b'), 'stamp' => array('timestamp', '2009-05-30 21:51:50'), 'session_id' => array('text', '9e7536b1cdad80837e726801450e7fa5')));
 
 $ilDB->insert("il_request_token", array(
 'user_id' => array('integer', '6'), 'token' => array('text', 'e0958b97e77dad492d7b8d04e66cbcec'), 'stamp' => array('timestamp', '2009-05-30 21:48:51'), 'session_id' => array('text', 'da7fb0ab88a4c937ad4c62c829462836')));
@@ -12062,6 +12074,82 @@ $fields = array (
 	)
 );
 $ilDB->createTable("mail_saved", $fields);
+
+
+//
+// mail_tree
+//
+$fields = array (
+	"tree" => array (
+		"notnull" => true
+		,"length" => 4
+		,"unsigned" => false
+		,"default" => "0"
+		,"type" => "integer"
+	)
+	,"child" => array (
+		"notnull" => true
+		,"length" => 4
+		,"unsigned" => false
+		,"default" => "0"
+		,"type" => "integer"
+	)
+	,"parent" => array (
+		"notnull" => false
+		,"length" => 4
+		,"unsigned" => false
+		,"type" => "integer"
+	)
+	,"lft" => array (
+		"notnull" => true
+		,"length" => 4
+		,"unsigned" => false
+		,"default" => "0"
+		,"type" => "integer"
+	)
+	,"rgt" => array (
+		"notnull" => true
+		,"length" => 4
+		,"unsigned" => false
+		,"default" => "0"
+		,"type" => "integer"
+	)
+	,"depth" => array (
+		"notnull" => true
+		,"length" => 2
+		,"unsigned" => false
+		,"default" => "0"
+		,"type" => "integer"
+	)
+);
+$ilDB->createTable("mail_tree", $fields);
+
+$in_fields = array("child");
+$ilDB->addIndex("mail_tree", $in_fields, "i1", false);
+
+$in_fields = array("parent");
+$ilDB->addIndex("mail_tree", $in_fields, "i2", false);
+
+$in_fields = array("tree");
+$ilDB->addIndex("mail_tree", $in_fields, "i3", false);
+
+$ilDB->insert("mail_tree", array(
+'tree' => array('integer', '6'), 'child' => array('integer', '2'), 'parent' => array('integer', '0'), 'lft' => array('integer', '1'), 'rgt' => array('integer', '12'), 'depth' => array('integer', '1')));
+
+$ilDB->insert("mail_tree", array(
+'tree' => array('integer', '6'), 'child' => array('integer', '3'), 'parent' => array('integer', '2'), 'lft' => array('integer', '2'), 'rgt' => array('integer', '3'), 'depth' => array('integer', '2')));
+
+$ilDB->insert("mail_tree", array(
+'tree' => array('integer', '6'), 'child' => array('integer', '4'), 'parent' => array('integer', '2'), 'lft' => array('integer', '4'), 'rgt' => array('integer', '5'), 'depth' => array('integer', '2')));
+
+$ilDB->insert("mail_tree", array(
+'tree' => array('integer', '6'), 'child' => array('integer', '5'), 'parent' => array('integer', '2'), 'lft' => array('integer', '6'), 'rgt' => array('integer', '7'), 'depth' => array('integer', '2')));
+
+$ilDB->insert("mail_tree", array(
+'tree' => array('integer', '6'), 'child' => array('integer', '6'), 'parent' => array('integer', '2'), 'lft' => array('integer', '8'), 'rgt' => array('integer', '9'), 'depth' => array('integer', '2')));
+
+$ilDB->insert("mail_tree", array(
+'tree' => array('integer', '6'), 'child' => array('integer', '7'), 'parent' => array('integer', '2'), 'lft' => array('integer', '10'), 'rgt' => array('integer', '11'), 'depth' => array('integer', '2')));
 
 
 //
@@ -20578,7 +20666,7 @@ $ilDB->insert("settings", array(
 'module' => array('text', 'common'), 'keyword' => array('text', 'convert_path'), 'value' => array('clob', '')));
 
 $ilDB->insert("settings", array(
-'module' => array('text', 'common'), 'keyword' => array('text', 'db_version'), 'value' => array('clob', '2430')));
+'module' => array('text', 'common'), 'keyword' => array('text', 'db_version'), 'value' => array('clob', '2431')));
 
 $ilDB->insert("settings", array(
 'module' => array('text', 'common'), 'keyword' => array('text', 'ilias_version'), 'value' => array('clob', '3.2.3 2004-11-22')));
@@ -24865,7 +24953,7 @@ $in_fields = array("login","passwd");
 $ilDB->addIndex("usr_data", $in_fields, "i1", false);
 
 $ilDB->insert("usr_data", array(
-'usr_id' => array('integer', '6'), 'login' => array('text', 'root'), 'passwd' => array('text', 'dfa8327f5bfa4c672a04f9b38e348a70'), 'firstname' => array('text', 'root'), 'lastname' => array('text', 'user'), 'title' => array('text', ''), 'gender' => array('text', 'm'), 'email' => array('text', 'ilias@yourserver.com'), 'institution' => array('text', ''), 'street' => array('text', ''), 'city' => array('text', ''), 'zipcode' => array('text', ''), 'country' => array('text', ''), 'phone_office' => array('text', ''), 'last_login' => array('timestamp', '2009-05-30 21:48:50'), 'last_update' => array('timestamp', '2003-09-30 19:50:01'), 'create_date' => array('timestamp', ''), 'hobby' => array('text', ''), 'department' => array('text', ''), 'phone_home' => array('text', ''), 'phone_mobile' => array('text', ''), 'fax' => array('text', ''), 'i2passwd' => array('text', ''), 'time_limit_owner' => array('integer', '7'), 'time_limit_unlimited' => array('integer', '1'), 'time_limit_from' => array('integer', '0'), 'time_limit_until' => array('integer', '0'), 'time_limit_message' => array('integer', '0'), 'referral_comment' => array('text', ''), 'matriculation' => array('text', ''), 'active' => array('integer', '1'), 'approve_date' => array('timestamp', ''), 'agree_date' => array('timestamp', ''), 'ilinc_id' => array('integer', ''), 'ilinc_login' => array('text', ''), 'ilinc_passwd' => array('text', ''), 'client_ip' => array('text', ''), 'auth_mode' => array('text', 'default'), 'profile_incomplete' => array('integer', '0'), 'ext_account' => array('text', ''), 'im_icq' => array('text', ''), 'im_yahoo' => array('text', ''), 'im_msn' => array('text', ''), 'im_aim' => array('text', ''), 'im_skype' => array('text', ''), 'feed_hash' => array('text', ''), 'delicious' => array('text', ''), 'latitude' => array('text', ''), 'longitude' => array('text', ''), 'loc_zoom' => array('integer', '0'), 'login_attempts' => array('integer', '0'), 'last_password_change' => array('integer', '1217068076'), 'im_jabber' => array('text', ''), 'im_voip' => array('text', '')));
+'usr_id' => array('integer', '6'), 'login' => array('text', 'root'), 'passwd' => array('text', 'dfa8327f5bfa4c672a04f9b38e348a70'), 'firstname' => array('text', 'root'), 'lastname' => array('text', 'user'), 'title' => array('text', ''), 'gender' => array('text', 'm'), 'email' => array('text', 'ilias@yourserver.com'), 'institution' => array('text', ''), 'street' => array('text', ''), 'city' => array('text', ''), 'zipcode' => array('text', ''), 'country' => array('text', ''), 'phone_office' => array('text', ''), 'last_login' => array('timestamp', '2009-06-08 10:28:30'), 'last_update' => array('timestamp', '2003-09-30 19:50:01'), 'create_date' => array('timestamp', ''), 'hobby' => array('text', ''), 'department' => array('text', ''), 'phone_home' => array('text', ''), 'phone_mobile' => array('text', ''), 'fax' => array('text', ''), 'i2passwd' => array('text', ''), 'time_limit_owner' => array('integer', '7'), 'time_limit_unlimited' => array('integer', '1'), 'time_limit_from' => array('integer', '0'), 'time_limit_until' => array('integer', '0'), 'time_limit_message' => array('integer', '0'), 'referral_comment' => array('text', ''), 'matriculation' => array('text', ''), 'active' => array('integer', '1'), 'approve_date' => array('timestamp', ''), 'agree_date' => array('timestamp', ''), 'ilinc_id' => array('integer', ''), 'ilinc_login' => array('text', ''), 'ilinc_passwd' => array('text', ''), 'client_ip' => array('text', ''), 'auth_mode' => array('text', 'default'), 'profile_incomplete' => array('integer', '0'), 'ext_account' => array('text', ''), 'im_icq' => array('text', ''), 'im_yahoo' => array('text', ''), 'im_msn' => array('text', ''), 'im_aim' => array('text', ''), 'im_skype' => array('text', ''), 'feed_hash' => array('text', ''), 'delicious' => array('text', ''), 'latitude' => array('text', ''), 'longitude' => array('text', ''), 'loc_zoom' => array('integer', '0'), 'login_attempts' => array('integer', '0'), 'last_password_change' => array('integer', '1217068076'), 'im_jabber' => array('text', ''), 'im_voip' => array('text', '')));
 
 $ilDB->insert("usr_data", array(
 'usr_id' => array('integer', '13'), 'login' => array('text', 'anonymous'), 'passwd' => array('text', '294de3557d9d00b3d2d8a1e6aab028cf'), 'firstname' => array('text', 'anonymous'), 'lastname' => array('text', 'anonymous'), 'title' => array('text', ''), 'gender' => array('text', 'm'), 'email' => array('text', 'nomail'), 'institution' => array('text', ''), 'street' => array('text', ''), 'city' => array('text', ''), 'zipcode' => array('text', ''), 'country' => array('text', ''), 'phone_office' => array('text', ''), 'last_login' => array('timestamp', '2003-08-15 11:03:36'), 'last_update' => array('timestamp', '2003-08-15 10:07:30'), 'create_date' => array('timestamp', '2003-08-15 10:07:30'), 'hobby' => array('text', ''), 'department' => array('text', ''), 'phone_home' => array('text', ''), 'phone_mobile' => array('text', ''), 'fax' => array('text', ''), 'i2passwd' => array('text', ''), 'time_limit_owner' => array('integer', '7'), 'time_limit_unlimited' => array('integer', '1'), 'time_limit_from' => array('integer', '0'), 'time_limit_until' => array('integer', '0'), 'time_limit_message' => array('integer', '0'), 'referral_comment' => array('text', ''), 'matriculation' => array('text', ''), 'active' => array('integer', '1'), 'approve_date' => array('timestamp', ''), 'agree_date' => array('timestamp', ''), 'ilinc_id' => array('integer', ''), 'ilinc_login' => array('text', ''), 'ilinc_passwd' => array('text', ''), 'client_ip' => array('text', ''), 'auth_mode' => array('text', 'local'), 'profile_incomplete' => array('integer', '0'), 'ext_account' => array('text', ''), 'im_icq' => array('text', ''), 'im_yahoo' => array('text', ''), 'im_msn' => array('text', ''), 'im_aim' => array('text', ''), 'im_skype' => array('text', ''), 'feed_hash' => array('text', ''), 'delicious' => array('text', ''), 'latitude' => array('text', ''), 'longitude' => array('text', ''), 'loc_zoom' => array('integer', '0'), 'login_attempts' => array('integer', '0'), 'last_password_change' => array('integer', '1217068076'), 'im_jabber' => array('text', ''), 'im_voip' => array('text', '')));
@@ -25169,7 +25257,10 @@ $ilDB->insert("usr_session", array(
 'session_id' => array('text', '6a3950f51f765dc662eeb3d21d7c4e0a'), 'expires' => array('integer', '1241034004'), 'data' => array('clob', '_authhttp14a4e05f1a17c27b25551d40ad49f322|a:10:{s:12:"challengekey";s:32:"a7e93aaa626419154de00e228d8f801f";s:4:"data";a:0:{}s:9:"sessionip";s:9:"127.0.0.1";s:16:"sessionuseragent";s:87:"Mozilla/5.0 (X11; U; Linux i686; en-US; rv:1.9.0.7) Gecko Galeon/2.0.6 (Ubuntu 2.0.6-2)";s:19:"sessionforwardedfor";s:0:"";s:15:"challengecookie";s:32:"41ae50bb64f4aa77b55c77000835bbeb";s:10:"registered";b:1;s:8:"username";s:4:"root";s:9:"timestamp";i:1241032539;s:4:"idle";i:1241032555;}lang|s:2:"en";locator_data|a:0:{}locator_level|i:-1;il_help_targets|a:0:{}post_vars|a:0:{}referer|s:57:"/~shiva/ilias311/ilias.php?baseClass=ilPersonalDesktopGUI";AccountId|s:1:"6";tbl_limit|i:10;il_pd_history|b:0;pdusers_0_blnav|N;'), 'ctime' => array('integer', '1241032564'), 'user_id' => array('integer', '6')));
 
 $ilDB->insert("usr_session", array(
-'session_id' => array('text', 'da7fb0ab88a4c937ad4c62c829462836'), 'expires' => array('integer', '1243714371'), 'data' => array('clob', '_authhttpa51ab372f2d5e5beb99cf3cf8c4fa6ae|a:10:{s:12:"challengekey";s:32:"a7e93aaa626419154de00e228d8f801f";s:4:"data";a:0:{}s:9:"sessionip";s:9:"127.0.0.1";s:16:"sessionuseragent";s:102:"Mozilla/5.0 (X11; U; Linux i686; de; rv:1.9.0.10) Gecko/2009042523 Ubuntu/9.04 (jaunty) Firefox/3.0.10";s:19:"sessionforwardedfor";s:0:"";s:15:"challengecookie";s:32:"c419963a29613463b72f33672646ae41";s:10:"registered";b:1;s:8:"username";s:4:"root";s:9:"timestamp";i:1243709723;s:4:"idle";i:1243709798;}lang|s:2:"en";locator_data|a:0:{}locator_level|i:-1;il_help_targets|a:0:{}post_vars|a:0:{}referer|s:57:"/~shiva/ilias311/ilias.php?baseClass=ilPersonalDesktopGUI";AccountId|s:1:"6";tbl_limit|i:10;il_pd_history|b:0;pdusers_0_blnav|N;il_rep_mode|s:4:"flat";il_rep_ref_id|s:2:"39";il_nav_history|s:141:"a:1:{i:0;a:4:{s:6:"ref_id";s:2:"39";s:4:"link";s:37:"repository.php?cmd=frameset&ref_id=39";s:5:"title";s:7:"Testing";s:4:"type";s:3:"cat";}}";_authhttp14a4e05f1a17c27b25551d40ad49f322|a:10:{s:12:"challengekey";s:32:"a7e93aaa626419154de00e228d8f801f";s:4:"data";a:0:{}s:9:"sessionip";s:9:"127.0.0.1";s:16:"sessionuseragent";s:102:"Mozilla/5.0 (X11; U; Linux i686; de; rv:1.9.0.10) Gecko/2009042523 Ubuntu/9.04 (jaunty) Firefox/3.0.10";s:19:"sessionforwardedfor";s:0:"";s:15:"challengecookie";s:32:"dc019ce716e4fbec4cdfa02fd58c5e2d";s:10:"registered";b:1;s:8:"username";s:4:"root";s:9:"timestamp";i:1243712930;s:4:"idle";i:1243712931;}'), 'ctime' => array('integer', '1243712931'), 'user_id' => array('integer', '6')));
+'session_id' => array('text', 'a142ecc8eea10214e201b98d5645f31d'), 'expires' => array('integer', '1244451158'), 'data' => array('clob', '_authhttp14a4e05f1a17c27b25551d40ad49f322|a:10:{s:12:"challengekey";s:32:"a7e93aaa626419154de00e228d8f801f";s:4:"data";a:0:{}s:9:"sessionip";s:9:"127.0.0.1";s:16:"sessionuseragent";s:102:"Mozilla/5.0 (X11; U; Linux i686; de; rv:1.9.0.10) Gecko/2009042523 Ubuntu/9.04 (jaunty) Firefox/3.0.10";s:19:"sessionforwardedfor";s:0:"";s:15:"challengecookie";s:32:"9702eb8518879dbf735f71c236bad0e6";s:10:"registered";b:1;s:8:"username";s:4:"root";s:9:"timestamp";i:1244449710;s:4:"idle";i:1244449715;}lang|s:2:"en";locator_data|a:0:{}locator_level|i:-1;il_help_targets|a:0:{}post_vars|a:14:{s:4:"term";s:0:"";s:11:"combination";s:0:"";s:4:"area";s:0:"";s:4:"type";s:0:"";s:3:"lms";s:0:"";s:3:"glo";s:0:"";s:4:"wiki";s:0:"";s:4:"mcst";s:0:"";s:3:"fil";s:0:"";s:3:"frm";s:0:"";s:3:"exc";s:0:"";s:3:"tst";s:0:"";s:3:"mep";s:0:"";s:6:"search";a:4:{s:7:"details";a:9:{s:3:"lms";s:0:"";s:3:"glo";s:0:"";s:4:"wiki";s:0:"";s:4:"mcst";s:0:"";s:3:"fil";s:0:"";s:3:"frm";s:0:"";s:3:"exc";s:0:"";s:3:"tst";s:0:"";s:3:"mep";s:0:"";}s:6:"string";s:0:"";s:11:"combination";s:0:"";s:4:"type";s:0:"";}}referer|s:55:"/~shiva/ilias311/ilias.php?baseClass=ilSearchController";AccountId|s:1:"6";tbl_limit|i:10;il_pd_history|b:0;pdusers_0_blnav|N;il_rep_mode|s:4:"flat";il_rep_ref_id|i:1;search_last_class|s:11:"ilsearchgui";search_root|s:0:"";search|a:4:{s:4:"type";N;s:11:"combination";N;s:6:"string";N;s:7:"details";a:9:{s:3:"lms";s:0:"";s:3:"glo";s:0:"";s:4:"wiki";s:0:"";s:4:"mcst";s:0:"";s:3:"fil";s:0:"";s:3:"frm";s:0:"";s:3:"exc";s:0:"";s:3:"tst";s:0:"";s:3:"mep";s:0:"";}}'), 'ctime' => array('integer', '1244449718'), 'user_id' => array('integer', '6')));
+
+$ilDB->insert("usr_session", array(
+'session_id' => array('text', '9e7536b1cdad80837e726801450e7fa5'), 'expires' => array('integer', '1243714587'), 'data' => array('clob', '_authhttpa51ab372f2d5e5beb99cf3cf8c4fa6ae|a:10:{s:12:"challengekey";s:32:"a7e93aaa626419154de00e228d8f801f";s:4:"data";a:0:{}s:9:"sessionip";s:9:"127.0.0.1";s:16:"sessionuseragent";s:102:"Mozilla/5.0 (X11; U; Linux i686; de; rv:1.9.0.10) Gecko/2009042523 Ubuntu/9.04 (jaunty) Firefox/3.0.10";s:19:"sessionforwardedfor";s:0:"";s:15:"challengecookie";s:32:"440cbbb7ff5714cf766670b70bc23f16";s:10:"registered";b:1;s:8:"username";s:4:"root";s:9:"timestamp";i:1243713110;s:4:"idle";i:1243713146;}lang|s:2:"en";locator_data|a:0:{}locator_level|i:-1;il_help_targets|a:0:{}post_vars|a:0:{}referer|s:57:"/~shiva/ilias311/ilias.php?baseClass=ilPersonalDesktopGUI";AccountId|s:1:"6";tbl_limit|i:10;il_pd_history|b:0;pdusers_0_blnav|N;il_rep_mode|s:4:"flat";il_rep_ref_id|s:2:"39";il_nav_history|s:141:"a:1:{i:0;a:4:{s:6:"ref_id";s:2:"39";s:4:"link";s:37:"repository.php?cmd=frameset&ref_id=39";s:5:"title";s:7:"Testing";s:4:"type";s:3:"cat";}}";_authhttp14a4e05f1a17c27b25551d40ad49f322|a:10:{s:12:"challengekey";s:32:"a7e93aaa626419154de00e228d8f801f";s:4:"data";a:0:{}s:9:"sessionip";s:9:"127.0.0.1";s:16:"sessionuseragent";s:102:"Mozilla/5.0 (X11; U; Linux i686; de; rv:1.9.0.10) Gecko/2009042523 Ubuntu/9.04 (jaunty) Firefox/3.0.10";s:19:"sessionforwardedfor";s:0:"";s:15:"challengecookie";s:32:"dc019ce716e4fbec4cdfa02fd58c5e2d";s:10:"registered";b:1;s:8:"username";s:4:"root";s:9:"timestamp";i:1243712930;s:4:"idle";i:1243712940;}'), 'ctime' => array('integer', '1243713147'), 'user_id' => array('integer', '6')));
 
 
 //
@@ -25359,7 +25450,7 @@ $pk_fields = array("usr_id");
 $ilDB->addPrimaryKey("ut_online", $pk_fields);
 
 $ilDB->insert("ut_online", array(
-'usr_id' => array('integer', '6'), 'online_time' => array('integer', '0'), 'access_time' => array('integer', '1243712940')));
+'usr_id' => array('integer', '6'), 'online_time' => array('integer', '0'), 'access_time' => array('integer', '1244449724')));
 
 
 //
