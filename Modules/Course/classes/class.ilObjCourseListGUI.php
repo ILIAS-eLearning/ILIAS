@@ -113,8 +113,8 @@ class ilObjCourseListGUI extends ilObjectListGUI
 		// END WebDAV: Get parent properties
 
 		// offline
-		include_once 'Modules/Course/classes/class.ilObjCourse.php';
-		if(!ilObjCourse::_isActivated($this->obj_id))
+		include_once 'Modules/Course/classes/class.ilObjCourseAccess.php';
+		if(!ilObjCourseAccess::_isActivated($this->obj_id))
 		{
 			$props[] = array("alert" => true, "property" => $lng->txt("status"),
 				"value" => $lng->txt("offline"));
