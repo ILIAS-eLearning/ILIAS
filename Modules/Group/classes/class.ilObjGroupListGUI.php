@@ -87,9 +87,10 @@ class ilObjGroupListGUI extends ilObjectListGUI
 
 			// BEGIN WebDAV: Mount Webfolder.
 			case 'mount_webfolder' :
-				require_once('Services/WebDAV/classes/class.ilDAVServer.php');
-				if (ilDAVServer::_isActive())
+				require_once ('Services/WebDAV/classes/class.ilDAVActivationChecker.php');
+				if (ilDAVActivationChecker::_isActive())
 				{
+					require_once ('Services/WebDAV/classes/class.ilDAVServer.php');
 					$davServer = new ilDAVServer();
 					
 					// XXX: The following is a very dirty, ugly trick. 
@@ -155,8 +156,8 @@ class ilObjGroupListGUI extends ilObjectListGUI
 	*/
 	function getCommandFrame($a_cmd)
 	{
-		require_once('Services/WebDAV/classes/class.ilDAVServer.php');
-		if (ilDAVServer::_isActive())
+		require_once ('Services/WebDAV/classes/class.ilDAVActivationChecker.php');
+		if (ilDAVActivationChecker::_isActive())
 		{
 			return ($a_cmd == 'mount_webfolder') ? '_blank' : '';
 		}

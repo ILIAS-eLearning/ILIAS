@@ -97,9 +97,10 @@ class ilObjCategoryListGUI extends ilObjectListGUI
 		switch ($a_cmd) 
 		{
 			case 'mount_webfolder' :
-				require_once('Services/WebDAV/classes/class.ilDAVServer.php');
-				if (ilDAVServer::_isActive())
+				require_once ('Services/WebDAV/classes/class.ilDAVActivationChecker.php');
+				if (ilDAVActivationChecker::_isActive())
 				{
+					require_once ('Services/WebDAV/classes/class.ilDAVServer.php');
 					$davServer = new ilDAVServer();
 					
 					// FIXME: The following is a very dirty, ugly trick. 

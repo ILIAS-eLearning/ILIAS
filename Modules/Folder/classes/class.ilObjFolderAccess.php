@@ -72,9 +72,8 @@ class ilObjFolderAccess extends ilObjectAccess
 		    $commands[] = array("permission" => "read", "cmd" => "downloadFolder", "lang_var" => "download", "enable_anonymous" => "false");
 		}
 		// BEGIN WebDAV: Mount Webfolder.
-		require_once 'Services/WebDAV/classes/class.ilDAVServer.php';
-		//if (ilDAVServer::_isActive() && ilDAVServer::_isActionsVisible())		// show always with 3.11
-		if (ilDAVServer::_isActive())
+		require_once ('Services/WebDAV/classes/class.ilDAVActivationChecker.php');
+		if (ilDAVActivationChecker::_isActive())
 		{
 			$commands[] = array("permission" => "read", "cmd" => "mount_webfolder", "lang_var" => "mount_webfolder", "enable_anonymous" => "false");
 		}
