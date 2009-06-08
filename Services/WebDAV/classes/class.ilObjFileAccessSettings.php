@@ -229,6 +229,9 @@ class ilObjFileAccessSettings extends ilObject
 	{
 		global $ilClientIniFile;
 
+		// Clear any old error messages
+		$ilClientIniFile->error(null);
+		
 		if (! $ilClientIniFile->groupExists('file_access'))
 		{
 			$ilClientIniFile->addGroup('file_access');
@@ -236,7 +239,7 @@ class ilObjFileAccessSettings extends ilObject
 		$ilClientIniFile->setVariable('file_access', 'webdav_enabled', $this->webdavEnabled ? '1' : '0');
 		$ilClientIniFile->setVariable('file_access', 'webdav_actions_visible', $this->webdavActionsVisible ? '1' : '0');
 		$ilClientIniFile->write();
-
+		
         if ($ilClientIniFile->getError()) {
             global $ilErr;
 			$ilErr->raiseError($ilClientIniFile->getError(),$ilErr->WARNING);
