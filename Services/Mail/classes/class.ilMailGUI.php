@@ -67,6 +67,7 @@ class ilMailGUI
 	public function executeCommand()
 	{
 		global $ilUser;
+
 		// Check for incomplete profile
 		if($ilUser->getProfileIncomplete())
 		{
@@ -92,7 +93,6 @@ class ilMailGUI
 
 			ilUtil::redirect('ilias.php?baseClass=ilPersonalDesktopGUI');
 		}
-
 		if ($_GET["type"] == "search_res")
 		{
 			$this->ctrl->setParameterByClass("ilmailformgui", "cmd", "searchResults");
@@ -172,7 +172,6 @@ class ilMailGUI
 		}
 		
 		$this->forwardClass = $this->ctrl->getNextClass($this);
-
 		if ($this->ctrl->getCmd() != "showMenu" && $this->ctrl->getCmd() != "refresh")
 		{
 			$this->showHeader();
@@ -206,7 +205,6 @@ class ilMailGUI
 
 			case 'ilmailfoldergui':
 				include_once 'Services/Mail/classes/class.ilMailFolderGUI.php';
-
 				$this->ctrl->forwardCommand(new ilMailFolderGUI());
 				break;
 
@@ -262,6 +260,7 @@ class ilMailGUI
 		}
 		else
 		{
+//echo "-".$_GET["target"]."-";
 			$this->ctrl->redirectByClass($_GET["target"]);
 		}
 	}

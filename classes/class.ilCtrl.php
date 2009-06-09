@@ -746,6 +746,7 @@ class ilCtrl
 			else
 			{
 				$path = $this->getPathNew($this->current_node, $cmdNode);
+
 //echo "2:".$this->call_node[$path[1]]["class"]."<br>";
 				return $this->call_node[$path[1]]["class"];
 			}
@@ -804,7 +805,7 @@ class ilCtrl
 	*/
 	function getPathNew($a_source_node, $a_target_node)
 	{
-//echo "-".$a_source_node."-";
+//if ($this->getCmdClass() == "ilmailfoldergui") echo "-".$a_source_node."-".$a_target_node."-";
 		$path_rev = array();
 		$c_target = $a_target_node;
 		while ($a_source_node != $c_target)
@@ -830,12 +831,7 @@ class ilCtrl
 			$path[] = $path_rev[count($path_rev) - ($i + 1)];
 		}
 
-		foreach($path as $node)
-		{
-//echo "<br>-->".$node.":".$this->call_node[$node]["class"];
-		}
-//echo "<br>-".$a_source_node."-".$a_target_node."-";
-//var_dump($path);
+//if ($this->getCmdClass() == "ilmailfoldergui") var_dump($path);
 		return $path;
 	}
 
@@ -1148,6 +1144,7 @@ class ilCtrl
 		
 //echo "<br>class:".get_class($a_gui_obj).":";
 		$script = $this->getLinkTargetByClass(strtolower(get_class($a_gui_obj)), $a_cmd);
+//echo "<br>$script";
 		if  (is_object($ilBench))
 		{
 			$ilBench->save();
