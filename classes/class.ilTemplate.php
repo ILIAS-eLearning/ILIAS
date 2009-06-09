@@ -651,6 +651,11 @@ class ilTemplate extends ilTemplateX
 
 		if (DEVMODE)
 		{
+			// execution time
+			$t1 = explode(" ", $GLOBALS['ilGlobalStartTime']);
+			$t2 = explode(" ", microtime());
+			$diff = $t2[0] - $t1[0] + $t2[1] - $t1[1];
+
 			$mem_usage = "";
 			if(function_exists("memory_get_usage"))
 			{
@@ -662,6 +667,8 @@ class ilTemplate extends ilTemplateX
 				$mem_usage.=
 					"<br /> XDebug Peak Memory Usage: ".xdebug_peak_memory_usage()." Bytes";
 			}
+			$mem_usage.= "<br>".round($diff, 4)." Seconds";
+			
 			if ($mem_usage != "")
 			{
 				$ftpl->setVariable("MEMORY_USAGE", $mem_usage);
