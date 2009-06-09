@@ -4394,7 +4394,7 @@ crs#:#crs_added_member#:#Aufnahme in Kurs "%s"
 crs#:#crs_added_new_archive#:#Ein neues Archiv wurde angelegt.
 crs#:#crs_added_objective#:#Eine neues Lernziel wurde hinzugefügt.
 crs#:#crs_added_starters#:#Die ausgewählten Objekte wurden zugeordnet.
-crs#:#crs_added_to_list#:#Sie sind in die Warteliste aufgenommen worden.<br />Sie haben Platz %s auf der Warteliste.
+crs#:#crs_added_to_list#:#Sie sind in die Warteliste des Kurses "%s" aufgenommen worden.<br />Sie haben Platz %s auf der Warteliste.
 crs#:#crs_added#:#Ein neuer Kurs wurde hinzugefügt
 crs#:#crs_admin_no_notify#:#Administrator (keine Benachrichtigung)
 crs#:#crs_admin_notify#:#Administrator (Benachrichtigung)
@@ -9472,7 +9472,8 @@ crs#:#event_inc_members#:#Mitglieder anzeigen
 crs#:#event_materials#:#Materialien zur Sitzung
 common#:#crs_cancel_waiting_list#:#Sind Sie sicher, dass Sie sich aus der Warteliste des Kurses "%s" austragen möchten?
 common#:#grp_cancel_waiting_list#:#Sind Sie sicher, dass Sie sich aus der Warteliste der Gruppe "%s" austragen möchten?
-crs#:#crs_warn_no_max_set_on_waiting_list#:#Die maximale Teilnehmeranzahl ist überschritten. Sie können sich jedoch auf die Warteliste für diesen Kurs setzen lassen. Sie erhalten eine Nachricht, sobald Ihr Antrag von der Kursleitung angenommen oder abgelehnt wurde.
-crs#:#crs_warn_wl_set_on_waiting_list#:#Es sind bereits Teilnehmer auf der Warteliste eingetragen. Sie können sich jedoch auf die Warteliste für diesen Kurs setzen lassen. Sie erhalten eine Nachricht, sobald Ihr Antrag von der Kursleitung angenommen oder abgelehnt wurde.
-grp#:#grp_warn_no_max_set_on_waiting_list#:#Die maximale Teilnehmeranzahl ist überschritten. Sie können sich jedoch auf die Warteliste für dieser Gruppe setzen lassen. Sie erhalten eine Nachricht, sobald Ihr Antrag von der Gruppenleitung angenommen oder abgelehnt wurde.
-grp#:#grp_warn_wl_set_on_waiting_list#:#Es sind bereits Teilnehmer auf der Warteliste eingetragen. Sie können sich jedoch auf die Warteliste für diese Gruppe setzen lassen. Sie erhalten eine Nachricht, sobald Ihr Antrag von der Kursleitung angenommen oder abgelehnt wurde.
+crs#:#crs_warn_no_max_set_on_waiting_list#:#Die maximale Teilnehmeranzahl ist überschritten. Sie können sich jedoch in die Warteliste dieses Kurses eintragen. Sie erhalten eine Nachricht, sobald Ihr Antrag von der Kursleitung angenommen oder abgelehnt wurde.
+crs#:#crs_warn_wl_set_on_waiting_list#:#Es sind bereits Teilnehmer auf der Warteliste eingetragen. Sie können sich jedoch in die Warteliste dieses Kurses eintragen. Sie erhalten eine Nachricht, sobald Ihr Antrag von der Kursleitung angenommen oder abgelehnt wurde.
+grp#:#grp_warn_no_max_set_on_waiting_list#:#Die maximale Teilnehmeranzahl ist überschritten. Sie können sich jedoch in die Warteliste dieser Gruppe eintragen. Sie erhalten eine Nachricht, sobald Ihr Antrag von der Gruppenleitung angenommen oder abgelehnt wurde.
+grp#:#grp_warn_wl_set_on_waiting_list#:#Es sind bereits Teilnehmer auf der Warteliste eingetragen. Sie können sich jedoch in die Warteliste dieser Gruppe eintragen. Sie erhalten eine Nachricht, sobald Ihr Antrag von der Gruppenleitungleitung angenommen oder abgelehnt wurde.
+common#:#mem_add_to_wl#:#In die Warteliste eintragen

@@ -9485,3 +9485,4 @@ crs#:#crs_warn_no_max_set_on_waiting_list#:#The maximum number of course members
 crs#:#crs_warn_wl_set_on_waiting_list#:#Some users are already assigned to the waiting list. You can add your join request to the waiting list. You will receive a message from a course administrator when your request has been approved or rejected.
 grp#:#grp_warn_no_max_set_on_waiting_list#:#The maximum number of group members is exceeded. You can add your join request to the waiting list. You will receive a message from a group administrator when your request has been approved or rejected.
 grp#:#grp_warn_wl_set_on_waiting_list#:#Some users are already assigned to the waiting list. You can add your join request to the waiting list. You will receive a message from a group administrator when your request has been approved or rejected.
+common#:#mem_add_to_wl#:#Add to Waiting List

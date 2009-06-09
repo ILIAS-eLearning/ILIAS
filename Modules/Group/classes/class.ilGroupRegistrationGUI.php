@@ -235,7 +235,7 @@ class ilGroupRegistrationGUI extends ilRegistrationGUI
 		{
 			$alert = $this->lng->txt('grp_warn_no_max_set_on_waiting_list');
 		}
-		elseif($free and $this->container->isWaitingListEnabled())
+		elseif($free and $this->container->isWaitingListEnabled() and $this->getWaitingList()->getCountUsers())
 		{
 			$alert = $this->lng->txt('grp_warn_wl_set_on_waiting_list');
 		}
@@ -259,6 +259,11 @@ class ilGroupRegistrationGUI extends ilRegistrationGUI
 	protected function fillRegistrationType()
 	{
 		global $ilUser;
+		
+		if($this->getWaitingList()->isOnList($ilUser->getId()))
+		{
+			return true;
+		}
 		
 		switch($this->container->getRegistrationType())
 		{
@@ -290,6 +295,11 @@ class ilGroupRegistrationGUI extends ilRegistrationGUI
 				break;
 				
 			case GRP_REGISTRATION_REQUEST:
+				
+				// no "request" info if waiting list is active
+				if($this->isWaitingListActive())
+					return true;
+					
 				$txt = new ilNonEditableValueGUI($this->lng->txt('mem_reg_type'));
 				$txt->setValue($this->lng->txt('grp_reg_request'));
 			
@@ -308,6 +318,11 @@ class ilGroupRegistrationGUI extends ilRegistrationGUI
 				break;
 				
 			case GRP_REGISTRATION_DIRECT:
+
+				// no "direct registration" info if waiting list is active
+				if($this->isWaitingListActive())
+					return true;
+
 				$txt = new ilNonEditableValueGUI($this->lng->txt('mem_reg_type'));
 				$txt->setValue($this->lng->txt('group_req_direct'));
 				
@@ -449,6 +464,25 @@ class ilGroupRegistrationGUI extends ilRegistrationGUI
 		$this->waiting_list = new ilGroupWaitingList($this->container->getId());
     }
 	
-	
+    /**
+     * @see ilRegistrationGUI::isWaitingListActive()
+     */
+    protected function isWaitingListActive()
+    {
+		global $ilUser;
+		static $active = null;
+		
+		if($active !== null)
+		{
+			return $active;
+		}
+		if(!$this->container->isWaitingListEnabled())
+		{
+			return $active = false;
+		}
+
+		$free = max(0,$this->container->getMaxMembers() - $this->participants->getCountMembers());
+		return $active = (!$free or $this->getWaitingList()->getCountUsers());
+    }
 }
 ?>
