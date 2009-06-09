@@ -120,6 +120,14 @@ abstract class ilRegistrationGUI
 	abstract protected function initWaitingList();
 	
 	/**
+	 * Check if the waiting list is active
+	 * Maximum of members exceeded or
+	 * any user on the waiting list
+	 * @return 
+	 */
+	abstract protected function isWaitingListActive();
+	
+	/**
 	 * Get waiting list object
 	 * @return object waiting list
 	 * @access protected
@@ -337,17 +345,22 @@ abstract class ilRegistrationGUI
 		}
 		if($this->isRegistrationPossible())
 		{
-			$this->fillMaxMembers();
+			$this->fillRegistrationType();
 		}
 		if($this->isRegistrationPossible())
 		{
-			$this->fillRegistrationType();
+			$this->fillMaxMembers();
 		}
 		if($this->isRegistrationPossible())
 		{
 			$this->fillAgreement();
 		}
-		if($this->isRegistrationPossible() and !$this->getWaitingList()->isOnList($ilUser->getId()))
+		if($this->isRegistrationPossible() and $this->isWaitingListActive() and !$this->getWaitingList()->isOnList($ilUser->getId()))
+		{
+			$this->form->addCommandButton('join',$this->lng->txt('mem_add_to_wl'));
+			$this->form->addCommandButton('cancel',$this->lng->txt('cancel'));
+		}
+		elseif($this->isRegistrationPossible() and !$this->getWaitingList()->isOnList($ilUser->getId()))
 		{
 			$this->form->addCommandButton('join',$this->lng->txt('join'));
 			$this->form->addCommandButton('cancel',$this->lng->txt('cancel'));

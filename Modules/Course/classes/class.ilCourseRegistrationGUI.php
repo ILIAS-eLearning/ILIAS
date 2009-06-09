@@ -252,7 +252,7 @@ class ilCourseRegistrationGUI extends ilRegistrationGUI
 		{
 			$alert = $this->lng->txt('crs_warn_no_max_set_on_waiting_list');
 		}
-		elseif($free and $this->container->enabledWaitingList())
+		elseif($free and $this->container->enabledWaitingList() and $this->getWaitingList()->getCountUsers())
 		{
 			$alert = $this->lng->txt('crs_warn_wl_set_on_waiting_list');
 		}
@@ -296,6 +296,11 @@ class ilCourseRegistrationGUI extends ilRegistrationGUI
 		switch($this->container->getSubscriptionType())
 		{
 			case IL_CRS_SUBSCRIPTION_DIRECT:
+
+				// no "request" info if waiting list is active
+				if($this->isWaitingListActive())
+					return true;
+
 				$txt = new ilNonEditableValueGUI($this->lng->txt('mem_reg_type'));
 				$txt->setValue($this->lng->txt('crs_info_reg_direct'));
 				
@@ -319,6 +324,11 @@ class ilCourseRegistrationGUI extends ilRegistrationGUI
 				break;
 				
 			case IL_CRS_SUBSCRIPTION_CONFIRMATION:
+
+				// no "request" info if waiting list is active
+				if($this->isWaitingListActive())
+					return true;
+
 				$txt = new ilNonEditableValueGUI($this->lng->txt('mem_reg_type'));
 				$txt->setValue($this->lng->txt('crs_subscription_options_confirmation'));
 			
@@ -602,9 +612,12 @@ class ilCourseRegistrationGUI extends ilRegistrationGUI
 		if($this->container->isSubscriptionMembershipLimited() and $this->container->enabledWaitingList() and (!$free or $waiting_list->getCountUsers()))
 		{
 			$waiting_list->addToList($ilUser->getId());
-			$info = sprintf($this->lng->txt('crs_added_to_list'),$waiting_list->getPosition($ilUser->getId()));
-			$this->participants->sendNotification($this->participants->NOTIFY_SUBSCRIPTION_REQUEST,$ilUser->getId());
+			$info = sprintf($this->lng->txt('crs_added_to_list'),
+				$this->container->getTitle(),
+				$waiting_list->getPosition($ilUser->getId()));
 			ilUtil::sendSuccess($info,true);
+			
+			$this->participants->sendNotification($this->participants->NOTIFY_SUBSCRIPTION_REQUEST,$ilUser->getId());
 			ilUtil::redirect("repository.php?ref_id=".$tree->getParentId($this->container->getRefId()));
 		}
 
@@ -677,6 +690,25 @@ class ilCourseRegistrationGUI extends ilRegistrationGUI
 		$this->waiting_list = new ilCourseWaitingList($this->container->getId());
     }
 	
-	
+    /**
+     * @see ilRegistrationGUI::isWaitingListActive()
+     */
+    protected function isWaitingListActive()
+    {
+		global $ilUser;
+		static $active = null;
+		
+		if($active !== null)
+		{
+			return $active;
+		}
+		if(!$this->container->enabledWaitingList())
+		{
+			return $active = false;
+		}
+
+		$free = max(0,$this->container->getSubscriptionMaxMembers() - $this->participants->getCountMembers());
+		return $active = (!$free or $this->getWaitingList()->getCountUsers());
+    }
 }
 ?>
