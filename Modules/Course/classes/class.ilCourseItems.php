@@ -919,6 +919,8 @@ class ilCourseItems
 		{
 			$data['parent_id'] = $row->parent_id;
 			$data['obj_id'] = $row->obj_id;
+			$data['ref_id'] = $row->obj_id;
+			$data['child'] = $row->obj_id;
 			$data['timing_type'] = $row->timing_type;
 			$data['timing_start'] = $row->timing_start;
 			$data['timing_end'] = $row->timing_end;
