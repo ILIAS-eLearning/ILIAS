@@ -259,6 +259,7 @@ class ilCtrl2 extends ilCtrl
 	 */	
 	function getPathNew($a_source_node, $a_target_node)
 	{
+//if ($this->getCmdClass() == "ilmailfoldergui") echo "-".$a_source_node."-".$a_target_node."-";
 		if ($a_source_node == 1)
 		{
 			$a_source_node = "";
@@ -271,7 +272,12 @@ class ilCtrl2 extends ilCtrl
 		}
 		
 		$temp_node = $a_source_node;
-		$path = array($a_source_node);
+		
+		$path = array();
+		if ($a_source_node != "")
+		{
+			$path = array($a_source_node);
+		}
 		
 		$diffstart = ($a_source_node == "")
 			? 0
@@ -288,7 +294,7 @@ class ilCtrl2 extends ilCtrl
 			$temp_node.= $cid;
 			$path[] = $temp_node;
 		}
-		
+//if ($this->getCmdClass() == "ilmailfoldergui") var_dump($path);
 		return $path;
 	}
 
@@ -316,7 +322,7 @@ class ilCtrl2 extends ilCtrl
 	/////////////////
 	/////////////////
 	
-		/**
+	/**
 	* forward flow of control to next gui class
 	* this invokes the executeCommand() method of the
 	* gui object that is passed via reference
@@ -422,6 +428,7 @@ class ilCtrl2 extends ilCtrl
 			else
 			{
 				$path = $this->getPathNew($this->current_node, $cmdNode);
+
 //echo "2:".$this->call_node[$path[1]]["class"]."<br>";
 				$this->readCidInfo($this->getCurrentCidOfNode($path[1]));
 //echo ":".$this->cid_class[$this->getCurrentCidOfNode($path[1])].":".$this->getCurrentCidOfNode($path[1]).":";
