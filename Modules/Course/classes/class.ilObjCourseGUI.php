@@ -4659,14 +4659,14 @@ class ilObjCourseGUI extends ilContainerGUI
 	*/
 	function modifyItemGUI($a_item_list_gui, $a_item_data, $a_show_path)
 	{
-		return ilObjCourseGUI::_modifyItemGUI($a_item_list_gui, $a_item_data, $a_show_path,
+		return ilObjCourseGUI::_modifyItemGUI($a_item_list_gui, 'ilcoursecontentgui', $a_item_data, $a_show_path,
 			$this->object->getAboStatus(), $this->object->getRefId(), $this->object->getId());
 	}
 	
 	/**
 	* We need a static version of this, e.g. in folders of the course
 	*/
-	static function _modifyItemGUI($a_item_list_gui, $a_item_data, $a_show_path,
+	static function _modifyItemGUI($a_item_list_gui, $a_cmd_class, $a_item_data, $a_show_path,
 		$a_abo_status, $a_course_ref_id, $a_course_obj_id, $a_parent_ref_id = 0)
 	{
 		global $lng, $ilCtrl, $ilAccess;
@@ -4719,6 +4719,7 @@ class ilObjCourseGUI extends ilContainerGUI
 		if($a_show_path and $is_tutor)
 		{
 			$a_item_list_gui->addCustomProperty($lng->txt('path'),
+				
 				ilContainer::_buildPath($a_item_data['ref_id'], $a_course_ref_id),
 				false,
 				true);
@@ -4731,7 +4732,7 @@ class ilObjCourseGUI extends ilContainerGUI
 			$ilCtrl->setParameterByClass('ilcourseitemadministrationgui',"item_id",
 				$a_item_data['child']);
 			$a_item_list_gui->addCustomCommand($ilCtrl->getLinkTargetByClass(
-				array('ilcoursecontentgui', 'ilCourseItemAdministrationGUI'),
+				array(strtolower($a_cmd_class), 'ilCourseItemAdministrationGUI'),
 				'edit'),
 				'activation');
 		}

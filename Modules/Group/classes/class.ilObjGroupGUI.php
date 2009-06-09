@@ -279,7 +279,7 @@ class ilObjGroupGUI extends ilContainerGUI
 			include_once("./Modules/Course/classes/class.ilObjCourse.php");
 			include_once("./Modules/Course/classes/class.ilObjCourseGUI.php");
 			$course_obj_id = ilObject::_lookupObjId($course_ref_id);
-			ilObjCourseGUI::_modifyItemGUI($a_item_list_gui, $a_item_data, $a_show_path,
+			ilObjCourseGUI::_modifyItemGUI($a_item_list_gui,'ilcoursecontentgui',$a_item_data, $a_show_path,
 				ilObjCourse::_lookupAboStatus($course_obj_id), $course_ref_id, $course_obj_id,
 				$this->object->getRefId());
 		}

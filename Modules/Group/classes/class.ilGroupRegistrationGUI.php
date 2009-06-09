@@ -476,6 +476,10 @@ class ilGroupRegistrationGUI extends ilRegistrationGUI
 		{
 			return $active;
 		}
+		if(!$this->container->getMaxMembers())
+		{
+			return $active = false;
+		}
 		if(!$this->container->isWaitingListEnabled())
 		{
 			return $active = false;

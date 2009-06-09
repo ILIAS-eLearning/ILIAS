@@ -706,6 +706,10 @@ class ilCourseRegistrationGUI extends ilRegistrationGUI
 		{
 			return $active = false;
 		}
+		if(!$this->container->getSubscriptionMaxMembers())
+		{
+			return $active = false;
+		}
 
 		$free = max(0,$this->container->getSubscriptionMaxMembers() - $this->participants->getCountMembers());
 		return $active = (!$free or $this->getWaitingList()->getCountUsers());

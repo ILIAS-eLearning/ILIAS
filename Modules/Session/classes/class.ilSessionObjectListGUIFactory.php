@@ -41,7 +41,7 @@ class ilSessionObjectListGUIFactory
 	 */
 	public static function factory($a_type)
 	{
-		global $objDefinition,$ilLog;
+		global $objDefinition,$ilLog,$ilCtrl;
 		
 		if(isset(self::$item_list_gui[$a_type]))
 		{
@@ -71,7 +71,6 @@ class ilSessionObjectListGUIFactory
 		$item_list_gui->enableSearchFragments(false);
 		$item_list_gui->enableRelevance(false);
 		$item_list_gui->enableCheckbox(false);
-
 		return self::$item_list_gui[$a_type] = $item_list_gui;
 	}	
 }

@@ -31,7 +31,7 @@ include_once './Services/PersonalDesktop/interfaces/interface.ilDesktopItemHandl
 * @author Stefan Meyer <smeyer.ilias@gmx.de>
 * @version $Id$
 * 
-* @ilCtrl_Calls ilObjSessionGUI: ilPermissionGUI, ilInfoScreenGUI
+* @ilCtrl_Calls ilObjSessionGUI: ilPermissionGUI, ilInfoScreenGUI, ilCourseItemAdministrationGUI
 *
 * @ingroup ModulesSession 
 */
@@ -98,6 +98,15 @@ class ilObjSessionGUI extends ilObjectGUI implements ilDesktopItemHandling
 				$perm_gui = new ilPermissionGUI($this);
 				$ret = $this->ctrl->forwardCommand($perm_gui);
 				break;
+				
+			case 'ilcourseitemadministrationgui':
+				include_once 'Modules/Course/classes/class.ilCourseItemAdministrationGUI.php';
+				$this->tabs_gui->clearSubTabs();
+				$this->ctrl->setReturn($this,'info');
+				$item_adm_gui = new ilCourseItemAdministrationGUI($this->object,(int) $_REQUEST['item_id']);
+				$this->ctrl->forwardCommand($item_adm_gui);
+				break;
+				
 		
 			default:
 				if(!$cmd)
@@ -209,7 +218,32 @@ class ilObjSessionGUI extends ilObjectGUI implements ilDesktopItemHandling
 		$this->ctrl->setCmdClass("ilinfoscreengui");
 		$this->infoScreen();
 	}
-	
+
+	/**
+	* Modify Item ListGUI for presentation in container
+	*/
+	function modifyItemGUI($a_item_list_gui,$a_item_data, $a_show_path)
+	{
+		global $tree;
+
+		// if folder is in a course, modify item list gui according to course requirements
+		if ($course_ref_id = $tree->checkForParentType($this->object->getRefId(),'crs'))
+		{
+			include_once("./Modules/Course/classes/class.ilObjCourse.php");
+			include_once("./Modules/Course/classes/class.ilObjCourseGUI.php");
+			$course_obj_id = ilObject::_lookupObjId($course_ref_id);
+			ilObjCourseGUI::_modifyItemGUI(
+				$a_item_list_gui,
+				get_class($this), 
+				$a_item_data, 
+				$a_show_path,
+				ilObjCourse::_lookupAboStatus($course_obj_id),
+				$course_ref_id, 
+				$course_obj_id,
+				$this->object->getRefId());
+		}
+	}
+
 	/**
 	 * info screen
 	 *
@@ -219,7 +253,7 @@ class ilObjSessionGUI extends ilObjectGUI implements ilDesktopItemHandling
 	 */
 	public function infoScreen()
 	{
-		global $ilAccess, $ilUser;
+		global $ilAccess, $ilUser,$ilCtrl,$tree;
 
 		$this->checkPermission('visible');
 		$this->tabs_gui->setTabActive('info_short');
@@ -278,8 +312,11 @@ class ilObjSessionGUI extends ilObjectGUI implements ilDesktopItemHandling
 			$obj_id = ilObject::_lookupObjId($item_id);
 			$type = ilObject::_lookupType($obj_id);
 			
+			
 			$list_gui = ilSessionObjectListGUIFactory::factory($type);
 			$list_gui->setContainerObject($this);
+			$this->modifyItemGUI($list_gui, ilCourseItems::_getItem($item_id),false);
+			
 			$html .= $list_gui->getListItemHTML(
 				$item_id,
 				$obj_id,
