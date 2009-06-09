@@ -31,7 +31,6 @@ var ilSessionExtenderHandler = function(o)
 // Failure Handler
 var ilSessionExtenderFailureHandler = function(o)
 {
-	alert('nein');
 }
 
 var ilSessionExtender = function(url)
