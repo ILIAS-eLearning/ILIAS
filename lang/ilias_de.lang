@@ -9158,8 +9158,8 @@ content#:#cont_custom#:#Custom###30 04 2009 new variable
 content#:#cont_no_parameters#:#No Parameters###30 04 2009 new variable
 content#:#cont_no_caption#:#No Caption###30 04 2009 new variable
 content#:#cont_custom_size#:#Custom Size###30 04 2009 new variable
-common#:#session_reminder_extended#:#Your Session was extended for %s###30 04 2009 new variable
-common#:#session_reminder_session_duration#:#(Session Duration: %s).###30 04 2009 new variable
+common#:#session_reminder_extended#:#Ihre Sitzung wurde um %s verlängert###30 04 2009 new variable
+common#:#session_reminder_session_duration#:#(Sitzungsdauer: %s).###30 04 2009 new variable
 content#:#cont_print_no_page_selected#:#Please select at least one page.###30 04 2009 new variable
 mail#:#invite_to_chat#:#in Chat einladen
 mail#:#mail_invite_users_to_chat#:#Benutzer in Chat einladen
