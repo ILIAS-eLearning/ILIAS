@@ -6850,7 +6850,7 @@ survey#:#dc_yes#:#ja
 survey#:#define_questionblock#:#Definer spørgsmåls blok
 survey#:#disinvite#:#inviter ikke
 survey#:#display_all_available#:#Vis alle tilgængelige
-survey#:#dp_standard_attitude_agree5#:#Standard indstilling (meget enig-enig-ubestemt-uenig-meget uenig)
+survey#:#dp_standard_attitude_agree5#:#Standard indstilling (meget enig-enig-ved ikke-uenig-meget uenig)
 survey#:#dp_standard_attitude_agree_disagree#:#Standard indstilling (enig-uenig)
 survey#:#dp_standard_attitude_agree_undecided_disagree#:#Standard indstilling (enig-ubestemt-uenig)
 survey#:#dp_standard_attitude_desired5#:#Standard indstilling (meget ønsket- ønsket-neutral-uønsket-megetuønsket)
@@ -6880,7 +6880,7 @@ survey#:#end_date_reached#:#Du kan ikke starte spørgeskemaet. Slutdatoen er nå
 survey#:#enter_anonymous_id#:#Undersøgelsens accesskode
 survey#:#enter_phrase_title#:#Indtast venligst en titel
 survey#:#enter_questionblock_title#:#Indtast venligst en spørgsmåls blok titel!
-survey#:#enter_valid_number_of_codes#:#Please enter a valid number to generate survey access codes!###21 Apr 2005 new variable
+survey#:#enter_valid_number_of_codes#:#Indtast et gyldigt tal for at lave adgangskoder til undersøgelsen!
 survey#:#enter_value#:#Indtast en værdi
 survey#:#error_add_heading#:#Indtast venligst en overskrift!
 survey#:#error_retrieving_anonymous_survey#:#Systemet kunne ikke finde spørgeskema data for skema kode %s. Kontroller venligst den kode du har indtastet!
@@ -6898,9 +6898,9 @@ survey#:#export_data_as#:#Eksporter data som
 survey#:#export_all_survey_codes#:#Eksporter alle adgangskoder
 survey#:#fill_out_all_category_fields#:#Udfyld venligst alle svarfelter inden du tilføjer en ny!
 survey#:#fill_out_all_required_fields_add_category#:#Udfyld venligst alle nødvendige felter før du tilføjer flere svar!
-survey#:#fill_out_all_required_fields_delete_category#:#Please fill out all required fields before you delete categories!###21 Apr 2005 new variable
-survey#:#fill_out_all_required_fields_move_category#:#Please fill out all required fields before you move categories!###21 Apr 2005 new variable
-survey#:#fill_out_all_required_fields_save_phrase#:#Please fill out all required fields before you save a phrase!###21 Apr 2005 new variable
+survey#:#fill_out_all_required_fields_delete_category#:#Du skal udfylde alle krævede felter før du sletter kategorier!
+survey#:#fill_out_all_required_fields_move_category#:#Du skal udfylde alle krævede felter før du flytter kategorier!
+survey#:#fill_out_all_required_fields_save_phrase#:#Du skal udfylde alle krævede felter før du gemmer et udtryk!
 survey#:#form_data_modified_press_save#:#Indholdet er blevet ændret. Tryk 'Gem' for at beholde ændringerne.
 survey#:#found_questions#:#Spørgsmål fundet
 survey#:#geometric_mean#:#Geometrisk gennemsnit
@@ -6976,7 +6976,7 @@ survey#:#mode_text#:#Mest valgte værdi (Tekst)
 survey#:#multiple_choice_multiple_response#:#Multiple choice (flere svar)
 survey#:#multiple_choice_single_response#:#Multiple choice (enkelt svar)
 survey#:#multiple_choice_subtype_description#:#Choose Multiple Choice (Single Response) if you want the participants to select only one answer and Multiple Choice (Multiple Response) if you want the participants to select one ore more answers.###15 11 2006 new variable
-survey#:#new_survey_codes#:#new survey access code(s)###21 Apr 2005 new variable
+survey#:#new_survey_codes#:#Ny(e) adgangskode(r) til undersøgelsen
 survey#:#no_available_constraints#:#Der er ikke defineret nogle begræsninger!
 survey#:#no_category_selected_for_deleting#:#Vælg mindst et svar, hvis du ønsker at slette!
 survey#:#no_category_selected_for_move#:#Marker mindst et svar for at kunne flytte det!
@@ -7011,23 +7011,23 @@ survey#:#qpl_savephrase_exists#:#Titlen eksisterer allerede! Indtast venligst en
 survey#:#qpl_unfold_select_none#:#Vælg venligst minimum et spørgsmålblok, hvis du vil åbne spørgsmålsblokkens træoversigt!
 survey#:#question_contains_no_categories#:#Der er ikke defineret noget svar til dette spørgsmål
 survey#:#question_has_constraints#:#Begrænsninger.
-survey#:#question_icon#:#Question icon###28 Feb 2006 new variable
+survey#:#question_icon#:#Spørgsmålsikon
 survey#:#question_obligatory#:#Spørgsmålet er obligatorisk!
 survey#:#questionblock#:#Spørgsmåls blok
 survey#:#questionblock_has_constraints#:#Begrænsninger.
-survey#:#questionblock_icon#:#Questionblock icon###28 Feb 2006 new variable
+survey#:#questionblock_icon#:#Spørgsmålsblok ikon
 survey#:#questionblocks#:#Spørgsmåls blok
 survey#:#questions#:#Spørgsmål
 survey#:#questions_inserted#:#Spørgsmål indsat!
 survey#:#questions_removed#:#Spørgsmål og/eller spørgsmålsblok fjernet!
 survey#:#questiontype#:#Spørgsmåls type
-survey#:#ratio_absolute#:#Ratio-Absolute###21 Apr 2005 new variable
+survey#:#ratio_absolute#:#Absolut interval
 survey#:#ratio_non_absolute#:#Ratio-Non-Absolute###21 Apr 2005 new variable
-survey#:#ratio_scale_ge_zero#:#The minimum value for a ratio scale must be greater or equal zero
+survey#:#ratio_scale_ge_zero#:#Den mindste værdi i ratio scale skal være 0 eller højere
 survey#:#remove_questions#:#Er du sikker på at du vil fjerne følgende spørgsmål og/eller spørgsmålsblokke fra denne test?
-survey#:#results#:#Results###29 11 2006 new variable
+survey#:#results#:#Resultat
 survey#:#resume_survey#:#Genstart spørgeskema
-survey#:#save_back_to_survey#:#Save and go back to the survey
+survey#:#save_back_to_survey#:#Gem og vend tilbage til undersøgelsen
 survey#:#save_obligatory_state#:#Gem obligatoriske states
 survey#:#save_phrase#:#Gem som sætning
 survey#:#save_phrase_categories_not_checked#:#Marker mindst to svar for at kunne gemme svar i en ny sætning!
@@ -7036,16 +7036,16 @@ survey#:#search_field_all#:#Søg i alle felter
 survey#:#search_invitation#:#Søg efter brugere eller grupper at invitere
 survey#:#search_questions#:#Søg efter spørgsmål
 survey#:#search_type_all#:#Søg i alle spørgsmåls typer
-survey#:#select_option#:#--- Please select an option ---###21 Apr 2005 new variable
-survey#:#select_phrase_to_add#:#Please select a phrase to add it to the question!###21 Apr 2005 new variable
+survey#:#select_option#:#--- Valgmuligheder ---
+survey#:#select_phrase_to_add#:#Du skal vælge et udtryk for at bruge den i spørgsmålet!
 survey#:#select_prior_question#:#Vælg et tidligere spørgsmål
 survey#:#select_questionpool_short#:#Spørgsmålsgruppe for spørgeskema
-survey#:#select_relation#:#Select a relation###21 Apr 2005 new variable
+survey#:#select_relation#:#Vælg en relation/forbindelse
 survey#:#select_svy_option#:#--- Vælg et spørgeskema ---
 survey#:#select_target_position_for_move#:#Vælg en destination for at flytte svarene og tryk på en af indsætknapperne!
 survey#:#select_value#:#Vælg en værdi
-survey#:#selection#:#Selection###21 Apr 2005 new variable
-survey#:#show_questiontext#:#Display the Question Text###08 12 2006 new variable
+survey#:#selection#:#Valg
+survey#:#show_questiontext#:#Vis spørgsmålstekst
 survey#:#show_questiontext_description#:#If this checkbox is selected, for every question in the question block the question text will be shown. If this checkbox is not selected, the question text of every question in the question block will be hidden. ###08 12 2006 new variable
 survey#:#spl_general_properties#:#Generelle indstillinger
 survey#:#spl_online_property#:#Aktiveret
@@ -9249,17 +9249,17 @@ notes#:#notes_label#:#Label###30 04 2009 new variable
 search#:#lucene_last_index_time#:#Last Index Generation###30 04 2009 new variable
 search#:#lucene_last_index_time_info#:#Please modify this settings only if you have installed an index backup.###30 04 2009 new variable
 search#:#lucene_all_occurrences#:#... %s other occurrence(s)###30 04 2009 new variable
-notes#:#notes_add_note#:#Add Note###30 04 2009 new variable
-notes#:#notes_note_deleted#:#The note has been deleted.###30 04 2009 new variable
-notes#:#notes_notes_deleted#:#The notes have been deleted.###30 04 2009 new variable
-common#:#user_image#:#User Image###30 04 2009 new variable
+notes#:#notes_add_note#:#Tilføj note
+notes#:#notes_note_deleted#:#Noten er blevet slettet.
+notes#:#notes_notes_deleted#:#Noter slettet. 
+common#:#user_image#:#Brugerbillede
 ps#:#ps_prevent_simultaneous_logins#:#Prevent Simultaneous Logins###30 04 2009 new variable
 ps#:#ps_prevent_simultaneous_logins_info#:#If enabled, simultaneous logins with the same account from different computers are not possible.###30 04 2009 new variable
 common#:#simultaneous_login_detected#:#Your access is denied because of a simultaneous login with the same account.###30 04 2009 new variable
-trac#:#trac_select_area#:#Select Area###30 04 2009 new variable
-trac#:#trac_hide_selected#:#Hide Selected Items###30 04 2009 new variable
-search#:#search_term_combination#:#Combination###30 04 2009 new variable
-search#:#search_select_search_area#:#Select Search Area###30 04 2009 new variable
+trac#:#trac_select_area#:#Vælg område
+trac#:#trac_hide_selected#:#Skjul valgte elementer
+search#:#search_term_combination#:#Kombination
+search#:#search_select_search_area#:#Vælg søgeområde
 ps#:#ps_error_message_password_min3_because_chars_numbers_sc#:#Minimum password size may not be less than 3 if password have to contain characters, numbers and special characters.###15 05 2009 new variable
 assessment#:#file_uploads#:#File Uploads###15 05 2009 new variable
 search#:#lucene_err_asterisk#:#The wildcard (*) character must be preceded by at least one alphabet or number.###15 05 2009 new variable
@@ -9277,16 +9277,16 @@ search#:#lucene_err_quotes_not_empty#:#Quotes (") must contain at least one char
 search#:#lucene_err_colon#:#Field declarations (:) must be preceded by at least one alphabet or number and followed by at least one alphabet or number.###15 05 2009 new variable
 news#:#news_time_period#:#Time Period###15 05 2009 new variable
 common#:#collapsed#:#Collapsed###15 05 2009 new variable
-common#:#tree#:#Tree###15 05 2009 new variable
-common#:#list#:#List###15 05 2009 new variable
+common#:#tree#:#Træ
+common#:#list#:#Liste
 search#:#search_title_description#:#Title / Description###15 05 2009 new variable
 assessment#:#qst_nr_of_tries#:#Number of tries###15 05 2009 new variable
 assessment#:#qst_hint_self#:#Self-Assessment-Mode active! Enter 0 points for incorrect answers, 1 point for correct answers.###15 05 2009 new variable
 content#:#cont_qtries#:#Number of tries for questions###15 05 2009 new variable
 content#:#cont_sc_preview#:#Preview###15 05 2009 new variable
-style#:#sty_colors#:#Colors###15 05 2009 new variable
-style#:#sty_color_name#:#Color Name###15 05 2009 new variable
-style#:#sty_color_code#:#Color Code###15 05 2009 new variable
+style#:#sty_colors#:#Farver
+style#:#sty_color_name#:#Farvenavn
+style#:#sty_color_code#:#Farvekode
 style#:#sty_color_flavors#:#Color Flavors###15 05 2009 new variable
 style#:#sty_add_color#:#Add Color###15 05 2009 new variable
 style#:#sty_delete_color#:#Delete Color###15 05 2009 new variable
@@ -9340,10 +9340,10 @@ content#:#cont_text_imp#:#Important:###15 05 2009 new variable
 content#:#cont_text_acc#:#Accent:###15 05 2009 new variable
 content#:#cont_tabs_acc_hor#:#Horizontal Accordion###15 05 2009 new variable
 content#:#cont_tabs_acc_ver#:#Vertical Accordion###15 05 2009 new variable
-content#:#cont_edit_tabs#:#Properties###15 05 2009 new variable
-content#:#cont_new_tab#:#New Tab###15 05 2009 new variable
-content#:#cont_tabs#:#Tabs###15 05 2009 new variable
-content#:#cont_add_tab#:#Add Tab###15 05 2009 new variable
+content#:#cont_edit_tabs#:#Indstillinger
+content#:#cont_new_tab#:#Ny tab
+content#:#cont_tabs#:#Tabs
+content#:#cont_add_tab#:#Tilføj tab
 content#:#cont_tabs_confirm_deletion#:#Are you sure that all of the tabs and their contents should be deleted?###15 05 2009 new variable
 content#:#cont_tab_cont_width#:#Content Width###15 05 2009 new variable
 content#:#cont_tab_cont_height#:#Content Height###15 05 2009 new variable
@@ -9383,7 +9383,7 @@ content#:#cont_set_styles#:#Set Styles###15 05 2009 new variable
 style#:#sty_disable_auto_margins#:#Disable Auto Margins###15 05 2009 new variable
 style#:#sty_disable_auto_margins_info#:#Disables automatic setting of left/right to 0px, if media objects or tables are left/right aligned.###15 05 2009 new variable
 content#:#cont_number_std#:#Standard###15 05 2009 new variable
-content#:#cont_decimal#:#Decimal###15 05 2009 new variable
+content#:#cont_decimal#:#Decimal
 content#:#cont_start_value#:#Start Value###15 05 2009 new variable
 content#:#cont_start_value_info#:#Enter start value as decimal number. Default is 1.###15 05 2009 new variable
 common#:#collapse_all#:#Collapse All###15 05 2009 new variable
@@ -9406,21 +9406,21 @@ content#:#cont_all_closed#:#All Closed###15 05 2009 new variable
 content#:#cont_first_open#:#First Opened###15 05 2009 new variable
 content#:#cont_force_all_open#:#Force All Opened###15 05 2009 new variable
 content#:#cont_number_type#:#Number Type###15 05 2009 new variable
-user#:#user_activation#:#Activation###15 05 2009 new variable
-user#:#user_all#:#All###15 05 2009 new variable
+user#:#user_activation#:#Aktivering
+user#:#user_all#:#Alle
 user#:#user_last_login_before#:#Last Login Before###15 05 2009 new variable
 user#:#user_limited_access#:#Limited Access###15 05 2009 new variable
 user#:#user_no_courses#:#No Courses Assigned###15 05 2009 new variable
 user#:#user_member_of_course_group#:#Member of Course/Group###15 05 2009 new variable
-user#:#user_select_course_group#:#Select Course/Group###15 05 2009 new variable
+user#:#user_select_course_group#:#Vælg kursus/gruppe
 search#:#search_no_match_hint#:#Your search - <b>%s</b> - did not match any documents.<br /><br />Suggestions:<br />Make sure all words are spelled correctly.<br />Try different keywords.<br />Try more general keywords.<br />Try fewer keywords.###15 05 2009 new variable
 user#:#user_please_select_course_group#:#Please select a course or a group.###15 05 2009 new variable
 user#:#user_any#:#Any###15 05 2009 new variable
-user#:#user_global_role#:#Global Role###15 05 2009 new variable
-mep#:#mep_folder_content#:#Folder Content###15 05 2009 new variable
-mep#:#mep_all_mobs#:#All Media Objects###15 05 2009 new variable
-mep#:#mep_unknown#:#Unknown###15 05 2009 new variable
-mep#:#mep_all#:#All###15 05 2009 new variable
+user#:#user_global_role#:#Global rolle
+mep#:#mep_folder_content#:#Mappeindhold
+mep#:#mep_all_mobs#:#Alle medieobjekter
+mep#:#mep_unknown#:#Ukendt
+mep#:#mep_all#:#Alle
 mep#:#mep_format#:#Format###15 05 2009 new variable
 mep#:#mep_default_width#:#Default Width###15 05 2009 new variable
 mep#:#mep_default_height#:#Default Height###15 05 2009 new variable
@@ -9437,19 +9437,19 @@ payment#:#payment_cannot_save_existing_vat#:#Cannot save an existing VAT.###22 0
 payment#:#payment_cannot_update_nonexisting_vat#:#Cannot update a nonexisting VAT.###22 05 2009 new variable
 payment#:#payment_cannot_find_vat#:#Cannot find VAT dataset for the passed id.###22 05 2009 new variable
 payment#:#payment_cannot_read_nonexisting_vat#:#The ID for fechting the VAT dataset was not passed.###22 05 2009 new variable
-payment#:#payment_edit_vat#:#Edit VAT###22 05 2009 new variable
-payment#:#payment_add_vat#:#Create VAT###22 05 2009 new variable
-payment#:#payment_vat_title_info#:#Please insert a label/title for the VAT.###22 05 2009 new variable
+payment#:#payment_edit_vat#:#Ret moms
+payment#:#payment_add_vat#:#Opret moms
+payment#:#payment_vat_title_info#:#Indsæt en label/titel for moms.
 payment#:#payment_vat_rate_info#:#Please insert the VAT rate (without the %-sign), e.g. 7.###22 05 2009 new variable
 payment#:#payment_vat_deleted_successfully#:#The selected VAT rates were deleted.###22 05 2009 new variable
 payment#:#payment_vat_has_to_be_defined_by_administration_short#:#----###22 05 2009 new variable
 payment#:#payment_object_not_buyable_if_not_vat_assigned#:#Until there is no VAT assigned the object is not buyable in the webshop.###22 05 2009 new variable
-payment#:#payment_vat_administration#:#Administration###22 05 2009 new variable
+payment#:#payment_vat_administration#:#Administration
 payment#:#payment_vat_input_invalid#:#Please insert a valid value for the VAT rate.###22 05 2009 new variable
-payment#:#payment_no_price_selected#:#No price selected.###22 05 2009 new variable
+payment#:#payment_no_price_selected#:#Ingen pris valg.
 payment#:#payment_no_price_type_selected#:#Please select a type for the price.###22 05 2009 new variable
-payment#:#payment_price_invalid_price#:#Please enter a valid price.###22 05 2009 new variable
-payment#:#paya_updated_price#:#The price was saved.###22 05 2009 new variable
+payment#:#payment_price_invalid_price#:#Indtast venligst en gyldig pris.
+payment#:#paya_updated_price#:#Prisen er gemt.
 payment#:#payment_already_bought_but_no_access#:#You already bought the object %s, but you do not have access yet or your license is expired.###22 05 2009 new variable
-cmps#:#cmps_plugin_activated#:#The plugin has been activated.###22 05 2009 new variable
-cmps#:#cmps_plugin_deactivated#:#The plugin has been deactivated.###22 05 2009 new variable
+cmps#:#cmps_plugin_activated#:#Plugin er blevet aktiveret.
+cmps#:#cmps_plugin_deactivated#:#Plugin er blevet deaktiveret.
