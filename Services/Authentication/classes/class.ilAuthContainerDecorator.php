@@ -147,7 +147,7 @@ abstract class ilAuthContainerDecorator
 	{
 		global $ilLog;
 		
-		$ilLog->write(__METHOD__.': checkAuth called');
+		//$ilLog->write(__METHOD__.': checkAuth called');
 	
 		return true;
 	}

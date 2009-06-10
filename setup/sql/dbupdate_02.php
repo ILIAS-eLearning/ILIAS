@@ -3384,7 +3384,7 @@ $r = $ilDB->db->query($q);
 
 // Track existing write events. This MUST always be done, when change event tracking
 // is activated. If it is not done, change event tracking will not work as expected.
-$q = "INSERT IGNORE INTO write_event ".
+$q = "INSERT INTO write_event ".
 	"(obj_id,parent_obj_id,usr_id,action,ts) ".
 	"SELECT r1.obj_id,r2.obj_id,d.owner,'create',d.create_date ".
 	"FROM object_data AS d ".
@@ -3440,7 +3440,7 @@ ALTER TABLE ctrl_classfile ADD COLUMN comp_prefix VARCHAR(50) NOT NULL DEFAULT '
 ALTER TABLE ctrl_calls ADD COLUMN comp_prefix VARCHAR(50) NOT NULL DEFAULT '';
 
 <#1177>
-INSERT IGNORE INTO `settings` ( `module` , `keyword` , `value` )
+INSERT INTO `settings` ( `module` , `keyword` , `value` )
 VALUES ('file_access', 'inline_file_extensions', '');
 
 <#1178>
@@ -12301,3 +12301,8 @@ while ($rec  = $ilDB->fetchAssoc($set))
 		);
 }
 ?>
+<#2438>
+ALTER TABLE write_event
+DROP PRIMARY KEY,
+ADD COLUMN write_id int(11) NOT NULL AUTO_INCREMENT,
+ADD PRIMARY KEY (write_id);
