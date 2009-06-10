@@ -975,7 +975,7 @@ class ilPaymentObjectGUI extends ilShopBaseGUI
 		$this->pobject->setVatId((int)$_POST['vat_id']);
 		//$this->pobject->setVatRate((float) $_POST['vat_rate']);
 
-		if((int)$_POST['thumbnail']['delete'])
+		if((int)$_POST['thumbnail_delete'])
 		{
 			$oFile = new ilFileDataShop($this->pobject->getPobjectId());
 			$oFile->deassignFileFromPaymentObject();

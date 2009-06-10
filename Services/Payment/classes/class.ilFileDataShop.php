@@ -159,7 +159,8 @@ class ilFileDataShop extends ilFileData
 			array('text', 'integer'),
 			array('', $this->pobject_id));
 		
-		if($this->image_current != '') $this->unlinkFile($this->image_current);		
+		if($this->image_current != '') $this->unlinkFile($this->image_current);
+		ilUtil::delDir($this->shop_path);		
 		$this->image_current = '';
 		
 		return true;	
