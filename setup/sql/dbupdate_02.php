@@ -12306,3 +12306,8 @@ ALTER TABLE write_event
 DROP PRIMARY KEY,
 ADD COLUMN write_id int(11) NOT NULL AUTO_INCREMENT,
 ADD PRIMARY KEY (write_id);
+
+<#2439>
+<?php
+	$ilCtrlStructureReader->getStructure();
+?>

@@ -4255,7 +4255,12 @@ class ilUtil
 	
 	public static function setCookie($a_cookie_name,$a_cookie_value = '', $a_also_set_super_global = true, $a_set_cookie_invalid = false)
 	{
+		/*
 		if(!(bool)$a_set_cookie_invalid) $expire = IL_COOKIE_EXPIRE;
+		else $expire = time() - (365*24*60*60);
+		*/
+		// Temporary fix for feed.php 
+		if(!(bool)$a_set_cookie_invalid) $expire = 0;
 		else $expire = time() - (365*24*60*60);
 		
 		setcookie($a_cookie_name,$a_cookie_value,$expire,
