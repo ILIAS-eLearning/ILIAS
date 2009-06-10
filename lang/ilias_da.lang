@@ -6804,7 +6804,7 @@ survey#:#combobox#:#Kombobox
 survey#:#confirm_remove_heading#:#Er du sikker på du vil fjerne overskriften?
 survey#:#constraint_add#:#Tilføj forudsætning
 survey#:#constraints#:#Bindinger
-survey#:#constraints_first_question_description#:#The first entity could not have any preconditions because there are no previous questions.
+survey#:#constraints_first_question_description#:#Det første spørgsmål kan ikke have prækonditioner
 survey#:#constraints_introduction#:#For every entity (a single question or a question block with multiple questions) one or more preconditions could be defined. These preconditions will be derived from the answers of the survey participants of questions which occur earlier in the survey. Since the first entity has no previous questions or questionblocks there is no possibility to define preconditions for it.
 survey#:#constraints_list_of_entities#:#Available survey entities for preconditions###23 Dec 2005 new variable
 survey#:#constraints_no_nonessay_available#:#There are no previous questions or only essay questions available to calculate preconditions (essay questions are not valid to calculate preconditions)###23 Dec 2005 new variable
@@ -6910,8 +6910,8 @@ survey#:#heading#:#Overskrift
 survey#:#horizontal#:#Horisontal
 survey#:#import_error_closing_file#:#Fejl ved forsøg på at lukke importeret fil!
 survey#:#import_error_opening_file#:#Fejl ved forsøg på at åbne importeret fil!
-survey#:#import_error_survey_no_proper_values#:#The survey properties do not contain proper values!###21 Apr 2005 new variable
-survey#:#import_error_survey_no_properties#:#No survey properties found. Cannot import the survey!###21 Apr 2005 new variable
+survey#:#import_error_survey_no_proper_values#:#Egenskaberne i undersøglesen indeholder forkerte værdier!
+survey#:#import_error_survey_no_properties#:#Ingen egenskaber for undersøgelsen blev fundet. Kan ikke importere!
 survey#:#import_no_file_selected#:#Ingen fil valgt!###
 survey#:#import_wrong_file_type#:#Forkert filtype
 survey#:#insert_missing_question#:#Vælg venligst mindst et spørgsmål at indsætte i spørgeskemaet!
@@ -6923,26 +6923,26 @@ survey#:#invitation_mode#:#Invitations mode
 survey#:#invited_groups#:#Inviterede grupper
 survey#:#invited_users#:#Inviterede brugere
 survey#:#label_resume_survey#:#Indtast din 32-cifrede spørgeskemakode
-survey#:#layout#:#Layout###22 12 2006 new variable
+survey#:#layout#:#Layout
 survey#:#lower_limit#:#Laveste grænse
 survey#:#manage_phrases#:#Standard fraser
 survey#:#material_added_successfully#:#You successfully set a material link!###21 Apr 2005 new variable
 survey#:#matrix_error_no_columns#:#Udfyld venligst mindst en kolonnetekst
 survey#:#matrix_error_no_rows#:#Udfyld venligst mindst en rækketekst
 survey#:#matrix_appearance#:#Udseende
-survey#:#matrix_row_delete_select_none#:#Please check at least one row to delete it!###29 11 2006 new variable
-survey#:#matrix_column_delete_select_none#:#Please check at least one column to delete it!###29 11 2006 new variable
-survey#:#matrix_question_radio_button_not_checked#:#Please select an option button for every row!###29 11 2006 new variable
-survey#:#matrix_question_checkbox_not_checked#:#Please check at least one check box in every row!###29 11 2006 new variable
+survey#:#matrix_row_delete_select_none#:#Vælg mindst en række for at slette den!
+survey#:#matrix_column_delete_select_none#:#Vælg mindst en kolonne for at slette!
+survey#:#matrix_question_radio_button_not_checked#:#Vælg venligst i alle rækker!
+survey#:#matrix_question_checkbox_not_checked#:#Lav venligst en afkrydsning i hver række!
 survey#:#matrix_row_separators#:#Række seperatorer
 survey#:#matrix_column_separators#:#Kolonneadskildelse
 survey#:#matrix_neutral_column_separator#:#Neutral kolonneseperator
 survey#:#matrix_neutral_column_separator_description#:#Lav afkrydsning hvis du ønsker en tyk linje mellem den neutrale kolonne og de andre kolonner i resultatet af matrix spørgsmålet
 survey#:#matrix_row_separators_description#:#Lav afkrydsning hvis du ønsker at have tynde linjer mellen rækker
 survey#:#matrix_column_separators_description#:#Lav en afkrydsning hvis du vil have adskildelse (tynde linjer) mellem kolonnerne når matrix-spørgsmålet vises.
-survey#:#matrix_bipolar_adjectives#:#Bipolar Adjectives###29 11 2006 new variable
-survey#:#matrix_bipolar_adjectives_description#:#You may use a pair of bipolar adjectives to scale the column responses to words, short phrases, or texts###29 11 2006 new variable
-survey#:#matrix_column_settings#:#Matrix Column Settings###29 11 2006 new variable
+survey#:#matrix_bipolar_adjectives#:#Modsatrettede tillægsord
+survey#:#matrix_bipolar_adjectives_description#:#Du kan anvende et et par modsatrettede tillægsord til at skalere besvarelserne.
+survey#:#matrix_column_settings#:#Matrixkollonne indstillinger
 survey#:#matrix_subtype_sr#:#Radioknapper (et svar)
 survey#:#matrix_subtype_mr#:#Afkrydsningsbokse (flere svar)
 survey#:#matrix_subtype_text#:#Tekst
@@ -7640,13 +7640,13 @@ common#:#edit_cat_settings#:#Avancerede indstillinger for kategori
 common#:#mail_search_groups_not_found#:#Du er ikke medlem af nogen gruppe.
 common#:#mail_search_courses_not_found#:#Du er ikke medlem af nogen kurser.
 auth#:#auth_radius_charset#:#Tegnsæt enkodning
-auth#:#auth_radius_charset_info#:#Please choose the character encoding for the communication with the radius server. If unsure, choose UTF-8.###23 10 2007 new variable
+auth#:#auth_radius_charset_info#:#Vælg hvilken encoding der skal anvendes i kommunikation med Radius serveren. Hvis du er usikker, så vælg UTF-8.
 common#:#frm_add_post#:#Skriv indlæg
 common#:#frm_moderate_frm#:#Slet indlæg, censur
 chat#:#chat_user_dropped_private#:#The user was disinvited/removed from the private chatroom.###23 10 2007 new variable
 chat#:#chat_user_invited_public#:#Brugeren er inviteret til den offentlige chat.
 chat#:#chat_user_invited_private#:#Brugeren blev inviteret til det private chatrum
-chat#:#chat_disinvite_user#:#Disinvite/remove user from private chatroom###23 10 2007 new variable
+chat#:#chat_disinvite_user#:#Afinviter/fjern bruger fra privat chatrum
 chat#:#chat_no_online_users#:#Ingen andre brugere online.
 search#:#search_lom#:#LOM metadata
 search#:#search_adv_md#:#Udviddede metadata
@@ -7682,8 +7682,8 @@ forum#:#activate_new_posts#:#Aktive indlæg
 mail#:#activate_serial_letter_placeholders#:#Brug felterstatninger
 mail#:#placeholders_advise#:#Felterne kan kun anvendes til modtagerne i 'Til'.%sModtagere i 'CC' og 'BCC' vil se teksten som den skrives.
 mail#:#search_recipients#:#Søg modtagere
-survey#:#on_additional#:#On, and additional###02 11 2007 new variable
-assessment#:#tst_show_solution_answers_only#:#Results print view (answers only)###14 11 2007 new variable
+survey#:#on_additional#:#Til og derudover:
+assessment#:#tst_show_solution_answers_only#:#Udskriftsvisning af resultater (kun svar)
 survey#:#msg_enter_value_for_valid_constraint#:#Please enter a value to create a valid precondition!###14 11 2007 new variable
 grp#:#grp_deleted_export_files#:#Eksportfiler slettet
 grp#:#grp_select_one_file#:#Vælg venligst en fil
@@ -7713,7 +7713,7 @@ content#:#scplayer_suspendall#:#Pause alle
 content#:#scplayer_exitall#:#Luk alle
 content#:#scplayer_exit#:#Luk
 content#:#scplayer_start#:#Start
-content#:#scplayer_phpmysqlcheck#:#Du skal bryge MySQL 4.1 eller højere og aktivere JSON-understøttelse for at bruge JavaScript-RTE
+content#:#scplayer_phpmysqlcheck#:#Du skal bruge MySQL 4.1 eller højere og aktivere JSON-understøttelse for at bruge JavaScript-RTE
 trac#:#trac_mode_scorm_package#:#Automatic by SCORM Course Status###27 11 2007 new variable
 trac#:#trac_mode_scorm_package_info#:#The learning progress status will be determined by the SCORM course package status directly.###27 11 2007 new variable
 ps#:#ps_show_grp_access#:#Vis dato for gruppemedlemmers sidste besøg
@@ -8091,14 +8091,14 @@ content#:#cont_sc_max_attempt_exceed#:#Max. number of attempts for this module h
 content#:#cont_sc_new_version#:#Upload ny version
 content#:#cont_sc_version#:#Version
 content#:#cont_export_all#:#Eksporter alt
-content#:#cont_export_tracking#:#Export Tracking Data###02 06 2008 new variable
+content#:#cont_export_tracking#:#Eksporter sporingsdata
 content#:#cont_export_raw#:#CMI (RAW) data###02 06 2008 new variable
 content#:#cont_export_success#:#Success-data (aggregated)###02 06 2008 new variable
 content#:#cont_export_type#:#Eksporttype
-content#:#cont_import_tracking#:#Import Tracking Data	###02 06 2008 new variable
-content#:#cont_invalid_new_module#:#Incompatible module! Please make sure imsmanifest.xml is not changed###02 06 2008 new variable
-content#:#cont_new_module_added#:#New version of module uploaded successfully###02 06 2008 new variable
-common#:#attempts#:#Attempts###02 06 2008 new variable
+content#:#cont_import_tracking#:#Importer sporingsdata
+content#:#cont_invalid_new_module#:#Modulet er inkompatibelt! Kontroller at imsmanifest.xml ikker er ændret
+content#:#cont_new_module_added#:#Ny version af modulet blev uploaded
+common#:#attempts#:#Forsøg
 common#:#decrease_attempts#:#Attempts - 1 ###02 06 2008 new variable
 grp#:#grp_closed#:#Lukket gruppe
 grp#:#grp_closed_info#:#Gruppen er ikke synlig for ikke-medlemmer
@@ -9408,14 +9408,14 @@ content#:#cont_force_all_open#:#Force All Opened###15 05 2009 new variable
 content#:#cont_number_type#:#Number Type###15 05 2009 new variable
 user#:#user_activation#:#Aktivering
 user#:#user_all#:#Alle
-user#:#user_last_login_before#:#Last Login Before###15 05 2009 new variable
-user#:#user_limited_access#:#Limited Access###15 05 2009 new variable
-user#:#user_no_courses#:#No Courses Assigned###15 05 2009 new variable
-user#:#user_member_of_course_group#:#Member of Course/Group###15 05 2009 new variable
+user#:#user_last_login_before#:#Sidste login før
+user#:#user_limited_access#:#Begrænset adgang
+user#:#user_no_courses#:#Ingen tildelte kurser
+user#:#user_member_of_course_group#:#Medlem af kursus/gruppe
 user#:#user_select_course_group#:#Vælg kursus/gruppe
-search#:#search_no_match_hint#:#Your search - <b>%s</b> - did not match any documents.<br /><br />Suggestions:<br />Make sure all words are spelled correctly.<br />Try different keywords.<br />Try more general keywords.<br />Try fewer keywords.###15 05 2009 new variable
-user#:#user_please_select_course_group#:#Please select a course or a group.###15 05 2009 new variable
-user#:#user_any#:#Any###15 05 2009 new variable
+search#:#search_no_match_hint#:#Sin søgning - <b>%s</b> - gav ingen match.<br /><br />Forslag:<br />Kontroller at søgeord er stavet korrekt.<br />Prøv at søge på andre ord.<br />Prøv at søge mere generelt.<br />Prøv mindre antal søgeord.
+user#:#user_please_select_course_group#:#Vælg et kursus eller en gruppe
+user#:#user_any#:#Enhver
 user#:#user_global_role#:#Global rolle
 mep#:#mep_folder_content#:#Mappeindhold
 mep#:#mep_all_mobs#:#Alle medieobjekter
@@ -9427,7 +9427,7 @@ mep#:#mep_default_height#:#Default Height###15 05 2009 new variable
 mep#:#mep_default_width_height_info#:#Default width and height are used as presets for new media object creation.###15 05 2009 new variable
 content#:#cont_layout#:#Layout###15 05 2009 new variable
 content#:#cont_lm_default_layout#:#Default Layout of Learning Module###15 05 2009 new variable
-content#:#cont_page_layout#:#Page Layout###15 05 2009 new variable
+content#:#cont_page_layout#:#Sidelayout
 content#:#cont_layout_per_page#:#Layout per Page###15 05 2009 new variable
 content#:#cont_layout_per_page_info#:#Allow to set individual layouts for each page. This automatically activates the "Synchronize Frames" setting, too.###15 05 2009 new variable
 payment#:#paya_vats_info#:#If you like to sell an object without a vat, please insert a vat-rate with 0 %###22 05 2009 new variable
