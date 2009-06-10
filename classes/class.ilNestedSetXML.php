@@ -385,8 +385,9 @@ class ilNestedSetXML
     function init($obj_id,$obj_type)
 	{
         // {{{
+		$this->db->setLimit(1);
 		$query = "SELECT * FROM xmlnestedset,xmltags WHERE ns_book_fk='".$obj_id."' AND ns_type='".
-			$obj_type."' AND ns_tag_fk=tag_pk ORDER BY ns_l LIMIT 1";
+			$obj_type."' AND ns_tag_fk=tag_pk ORDER BY ns_l";
         $result = $this->db->query($query);
         $row = $result->fetchRow(DB_FETCHMODE_ASSOC);
 
@@ -408,7 +409,8 @@ class ilNestedSetXML
     function getTagName()
 	{
 
-        $query = "SELECT * FROM xmlnestedset,xmltags WHERE ns_book_fk='".$this->obj_id."' AND ns_type='".$this->obj_type."' AND ns_l='".$this->LEFT."' AND ns_r='".$this->RIGHT."' AND ns_tag_fk=tag_pk LIMIT 1";
+		$this->db->setLimit(1);
+        $query = "SELECT * FROM xmlnestedset,xmltags WHERE ns_book_fk='".$this->obj_id."' AND ns_type='".$this->obj_type."' AND ns_l='".$this->LEFT."' AND ns_r='".$this->RIGHT."' AND ns_tag_fk=tag_pk";
 		$result = $this->db->query($query);
         $row = $result->fetchRow(DB_FETCHMODE_ASSOC);
 
@@ -428,7 +430,8 @@ class ilNestedSetXML
     function setTagName($tagName)
 	{
         
-		$query = "SELECT * FROM xmlnestedset WHERE ns_book_fk='".$this->obj_id."' AND ns_type='".$this->obj_type."' AND ns_l='".$this->LEFT."' AND ns_r='".$this->RIGHT."' LIMIT 1";
+		$this->db->setLimit(1);
+		$query = "SELECT * FROM xmlnestedset WHERE ns_book_fk='".$this->obj_id."' AND ns_type='".$this->obj_type."' AND ns_l='".$this->LEFT."' AND ns_r='".$this->RIGHT."'";
         $result = $this->db->query($query);
         $row = $result->fetchRow(DB_FETCHMODE_ASSOC);
         

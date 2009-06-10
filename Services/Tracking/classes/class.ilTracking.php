@@ -69,10 +69,11 @@ class ilTracking {
 	{
 		global $ilUser, $ilDB;
 
+		$ilDB->setLimit(1);
 		$q = "SELECT * from ut_access "
 		." WHERE "
 		." user_id = ".$ilDB->quote($ilUser->getId())
-		." order by acc_time desc limit 1 ";
+		." ORDER BY acc_time DESC";
 		$res = $ilDB->query($q);
 		return $res->fetchRow(DB_FETCHMODE_ASSOC);
 	}

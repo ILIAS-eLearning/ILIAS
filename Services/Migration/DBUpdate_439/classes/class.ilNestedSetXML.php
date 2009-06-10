@@ -412,8 +412,9 @@ class ilNestedSetXML
 		global $ilDB;
 		
         // {{{
+		$this->db->setLimit(1);
 		$query = "SELECT * FROM xmlnestedset,xmltags WHERE ns_book_fk = ".$ilDB->quote($obj_id)." AND ns_type =".
-			$ilDB->quote($obj_type)." AND ns_tag_fk=tag_pk ORDER BY ns_l LIMIT 1";
+			$ilDB->quote($obj_type)." AND ns_tag_fk=tag_pk ORDER BY ns_l";
         $result = $this->db->query($query);
         $row = $result->fetchRow(DB_FETCHMODE_ASSOC);
 
@@ -436,7 +437,8 @@ class ilNestedSetXML
 	{
 		global $ilDB;
 		
-        $query = "SELECT * FROM xmlnestedset,xmltags WHERE ns_book_fk = ".$ilDB->quote($this->obj_id)." AND ns_type = ".$ilDB->quote($this->obj_type)." AND ns_l = ".$ilDB->quote($this->LEFT)." AND ns_r = ".$ilDB->quote($this->RIGHT)." AND ns_tag_fk = tag_pk LIMIT 1";
+		$this->db->setLimit(1);
+        $query = "SELECT * FROM xmlnestedset,xmltags WHERE ns_book_fk = ".$ilDB->quote($this->obj_id)." AND ns_type = ".$ilDB->quote($this->obj_type)." AND ns_l = ".$ilDB->quote($this->LEFT)." AND ns_r = ".$ilDB->quote($this->RIGHT)." AND ns_tag_fk = tag_pk";
 		$result = $this->db->query($query);
         $row = $result->fetchRow(DB_FETCHMODE_ASSOC);
 
@@ -457,7 +459,8 @@ class ilNestedSetXML
 	{
         global $ilDB;
         
-		$query = "SELECT * FROM xmlnestedset WHERE ns_book_fk = ".$ilDB->quote($this->obj_id)." AND ns_type = ".$ilDB->quote($this->obj_type)." AND ns_l = ".$ilDB->quote($this->LEFT)." AND ns_r = ".$ilDB->quote($this->RIGHT)." LIMIT 1";
+		$this->db->setLimit(1);
+		$query = "SELECT * FROM xmlnestedset WHERE ns_book_fk = ".$ilDB->quote($this->obj_id)." AND ns_type = ".$ilDB->quote($this->obj_type)." AND ns_l = ".$ilDB->quote($this->LEFT)." AND ns_r = ".$ilDB->quote($this->RIGHT);
         $result = $this->db->query($query);
         $row = $result->fetchRow(DB_FETCHMODE_ASSOC);
         
