@@ -12311,3 +12311,253 @@ ADD PRIMARY KEY (write_id);
 <?php
 	$ilCtrlStructureReader->getStructure();
 ?>
+
+<#2440>
+DROP TABLE IF EXISTS tmp_migration;
+CREATE TABLE `tmp_migration` (
+  `obj_id` int(11) NOT NULL default '0',
+  `passed` tinyint(4) NOT NULL default '0');
+
+ALTER TABLE `tmp_migration` ADD INDEX `obj_passed` ( `obj_id` ,`passed` );
+
+
+
+<#2441>
+<?php
+
+	global $ilLog;
+	$ilLog->write($wd);
+
+	include_once('./Services/Migration/DBUpdate_904/classes/class.ilUpdateUtils.php');
+	include_once('./Services/Migration/DBUpdate_904/classes/class.ilFSStorageFile.php');
+	include_once('./Services/Migration/DBUpdate_904/classes/class.ilFSStorageEvent.php');
+
+	
+	$query = "SELECT * FROM event_file";
+	$res = $ilDB->query($query);
+	while($row = $res->fetchRow(DB_FETCHMODE_OBJECT))
+	{
+		// Check if done
+		$query = "SELECT * FROM tmp_migration WHERE obj_id = ".$row->file_id." AND passed = 1";
+		$tmp = $ilDB->query($query);
+		if($tmp->numRows())
+		{
+			continue;
+		}
+		
+		// Find course ref_id
+		$query = "SELECT ref_id,event.obj_id obj_id FROM event JOIN event_file ON event.event_id = event_file.event_id ".
+			"JOIN object_reference ore ON event.obj_id = ore.obj_id ".
+			"WHERE event.event_id = ".$row->event_id." ";
+		$sess = $ilDB->query($query);
+		while($sess_row = $sess->fetchRow(DB_FETCHMODE_OBJECT))
+		{
+			$sess_ref_id = $sess_row->ref_id;
+			$sess_obj_id = $sess_row->obj_id;
+			
+			$query = "SELECT parent FROM tree WHERE child = ".$sess_row->ref_id;
+			$crs = $ilDB->query($query);
+			$crs_row = $crs->fetchRow(DB_FETCHMODE_OBJECT);
+			$crs_ref_id = $crs_row->parent;
+			break;
+		}
+		
+		// Select owner of session
+		$query = "SELECT owner FROM object_data WHERE obj_id = ".$ilDB->quote($sess_obj_id,'integer');
+		$owner_res = $ilDB->query($query);
+		$owner_row = $owner_res->fetchRow(DB_FETCHMODE_OBJECT);
+		$owner = $owner_row->owner ? $owner_row->owner : 6;
+		
+		if(!$crs_ref_id)
+		{
+			$ilLog->write('DB Migration 2441: Found session without course ref_id. event_id: '.$row->event_id);
+			continue;
+		}
+		// Create object data entry
+		$file_obj_id = $ilDB->nextId('object_data');
+		$query = "INSERT INTO object_data (obj_id,type, title, description, owner, create_date, last_update) ".
+			"VALUES (".$file_obj_id.",'file', ".$ilDB->quote($row->file_name).",'', ".$owner.",".$ilDB->now()." ,".$ilDB->now().")";
+		$ilDB->query($query);
+		
+		// Insert long description
+		$query = "INSERT INTO object_description SET obj_id = ".$file_obj_id.", description = ''";
+		$ilDB->query($query);
+		
+		// Create reference
+		$file_ref_id = $ilDB->nextId('object_reference');
+		$query = "INSERT INTO object_reference (ref_id,obj_id) VALUES('".$file_ref_id."','".$file_obj_id."')";
+		$ilDB->query($query);
+			
+		
+		// check if course is deleted
+		// yes => insert into tree with negative tree id
+		$query = "SELECT tree FROM tree WHERE child = ".$crs_ref_id;
+		$tree_res = $ilDB->query($query);
+		$tree_row = $tree_res->fetchRow();
+		$tree_id = $tree_row[0];
+		if($tree_id != 1)
+		{
+			$current_tree = new ilTree($tree_id);
+		}
+		else
+		{
+			$current_tree = new ilTree(ROOT_FOLDER_ID);
+		}
+		// Insert into tree
+		$current_tree->insertNode($file_ref_id,$crs_ref_id);
+		
+		// ops_id copy
+		$query = "SELECT * FROM rbac_operations WHERE operation = 'copy'";
+		$copy_res = $ilDB->query($query);
+		$copy_row = $copy_res->fetchRow(DB_FETCHMODE_OBJECT);
+		$copy_id = $copy_row->ops_id;
+		
+		// adjust permissions
+		$query = "SELECT * FROM rbac_pa WHERE ref_id = ".$sess_ref_id;
+		$pa_res = $ilDB->query($query);
+		while($pa_row = $pa_res->fetchRow(DB_FETCHMODE_OBJECT))
+		{
+			$new_ops = array();
+			$operations = unserialize($pa_row->ops_id);
+	
+			if(in_array(1,$operations))
+			{
+				$new_ops[] = 1;
+			}
+			if(in_array(2,$operations))
+			{
+				$new_ops[] = 2;
+			}
+			if(in_array(3,$operations))
+			{
+				$new_ops[] = 3;
+			}
+			if(in_array(4,$operations))
+			{
+				$new_ops[] = 4;
+			}
+			if(in_array($copy_id,$operations))
+			{
+				$new_ops[] = $copy_id;
+			}
+			if(in_array(6,$operations))
+			{
+				$new_ops[] = 6;
+			}
+			$query = "INSERT INTO rbac_pa SET ".
+				"rol_id = ".$ilDB->quote($pa_row->rol_id).", ".
+				"ops_id = ".$ilDB->quote(serialize($new_ops)).", ".
+				"ref_id = ".$ilDB->quote($file_ref_id)." ";
+			$ilDB->query($query);
+		}
+		
+		// INSERT file_data
+		$query = "INSERT INTO file_data (file_id,file_name,file_type,file_size,version,f_mode) ".
+			"VALUES (".
+			$ilDB->quote($file_obj_id).", ".
+			$ilDB->quote($row->file_name).", ".	
+			$ilDB->quote($row->file_type).", ".	
+			$ilDB->quote($row->file_size).", ".	
+			$ilDB->quote(1).", ".	
+			$ilDB->quote('object').
+			")";	
+		$ilDB->query($query);
+		
+		// Move File
+		$fss = new ilFSStorageFile($file_obj_id);
+		ilUpdateUtils::makeDirParents($fss->getAbsolutePath().'/001');
+		$ess = new ilFSStorageEvent($row->event_id);
+		if($fss->rename($ess->getAbsolutePath().'/'.$row->file_id,$fss->getAbsolutePath().'/001/'.$row->file_name))
+		{
+			$ilLog->write('Success renaming file: '.$ess->getAbsolutePath().'/'.$row->file_id." to ".$fss->getAbsolutePath().'/001/'.$row->file_name);
+		}
+		else
+		{
+			$ilLog->write('Error renaming file: '.$ess->getAbsolutePath().'/'.$row->file_id." to ".$fss->getAbsolutePath().'/001/'.$row->file_name);
+		}
+		
+		// Meta data
+		$next_id = $ilDB->nextId("il_meta_general");
+		$query = "INSERT INTO il_meta_general (meta_general_id,rbac_id,obj_id,obj_type, ".
+			"general_structure,title,title_language,coverage,coverage_language) ".
+			"VALUES( ".
+			$ilDB->quote($next_id, 'integer').", ".	
+			$ilDB->quote($file_obj_id,'integer').", ".	
+			$ilDB->quote($file_obj_id,'integer').", ".	
+			$ilDB->quote('file','text').", ".	
+			$ilDB->quote('Hierarchical','text').", ".	
+			$ilDB->quote($row->file_name,'text').", ".	
+			$ilDB->quote('en','text').", ".	
+			$ilDB->quote('','text').", ".	
+			$ilDB->quote('en','text')." ".	
+			")";
+		$ilDB->query($query);
+				
+		// MD technical
+		$next_id = $ilDB->nextId('il_meta_technical');
+		$query = "INSERT INTO il_meta_technical (meta_technical_id,rbac_id,obj_id,obj_type, ".
+			"t_size,ir,ir_language,opr,opr_language,duration) ".
+			"VALUES( ".
+			$ilDB->quote($next_id, 'integer').", ".	
+			$ilDB->quote($file_obj_id,'integer').", ".	
+			$ilDB->quote($file_obj_id,'integer').", ".	
+			$ilDB->quote('file','text').", ".	
+			$ilDB->quote($row->file_size,'text').", ".	
+			$ilDB->quote('','text').", ".	
+			$ilDB->quote('en','text').", ".	
+			$ilDB->quote('','text').", ".	
+			$ilDB->quote('en','text').", ".	
+			$ilDB->quote('','text')." ".
+			")";
+		$ilDB->query($query);
+		
+		// MD Format
+		$next_id = $ilDB->nextId('il_meta_format');
+		$query = "INSERT INTO il_meta_format (meta_format_id,rbac_id,obj_id,obj_type,format) ".
+			"VALUES( ".
+			$ilDB->quote($next_id, 'integer').", ".	
+			$ilDB->quote($file_obj_id,'integer').", ".	
+			$ilDB->quote($file_obj_id,'integer').", ".	
+			$ilDB->quote('file','text').", ".	
+			$ilDB->quote($row->file_type,'text')." ".
+			")";
+		$ilDB->query($query);
+		
+		// Assign file to Session
+		$query = "INSERT INTO event_items (event_id,item_id) ".
+			"VALUES ( ".
+			$ilDB->quote($sess_obj_id,'integer').", ".
+			$ilDB->quote($file_ref_id,'integer')." ".
+			")";
+		$ilDB->query($query);
+		
+		// Create history entry
+		$next_id = $ilDB->nextId("history");
+		$query = "INSERT INTO history (id,obj_id,obj_type,action,hdate,usr_id,info_params) ".
+			"VALUES ( ".
+			$ilDB->quote($next_id,'integer').", ".
+			$ilDB->quote($file_obj_id,'integer').", ".
+			$ilDB->quote('file','text').", ".
+			$ilDB->quote('create','text').", ".
+			$ilDB->quote(ilUtil::now(),'timestamp').", ".
+			$ilDB->quote($owner,'integer').", ".
+			$ilDB->quote($row->file_name.',1','text').
+			")";
+		$ilDB->query($query);
+		
+		// Remove old event_file entry
+		$query = "DELETE FROM event_file ".
+			"WHERE file_id = ".$ilDB->quote($row->file_id,'integer');
+		$ilDB->query($query);
+		
+		// Save success
+		$query = "REPLACE INTO tmp_migration SET obj_id = '".$row->file_id."',passed = '1'";
+		$ilDB->query($query);
+	}
+
+?>
+
+<#2442>
+DROP TABLE IF EXISTS tmp_migration;
+
+
