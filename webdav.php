@@ -48,6 +48,10 @@ if ($_SERVER['REQUEST_METHOD'] != 'GET' ||
 }
 define ('WebDAV_Authentication', 'HTTP');
 
+// Set context for authentication
+include_once 'Services/Authentication/classes/class.ilAuthFactory.php';
+ilAuthFactory::setContext(ilAuthFactory::CONTEXT_HTTP);
+
 // Launch ILIAS using the client id we have determined
 // -----------------------------------------------------
 $_COOKIE["ilClientId"] = $client_id;
