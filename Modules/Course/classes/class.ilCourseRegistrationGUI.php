@@ -181,7 +181,8 @@ class ilCourseRegistrationGUI extends ilRegistrationGUI
 		{
 			// Disable registration
 			$this->enableRegistration(false);
-			$reg->setAlert($warning);
+			ilUtil::sendFailure($warning);
+			#$reg->setAlert($warning);
 		}
 		$this->form->addItem($reg);
 		return true;
@@ -241,7 +242,8 @@ class ilCourseRegistrationGUI extends ilRegistrationGUI
 		{
 			// Disable registration
 			$this->enableRegistration(false);
-			$alert = $this->lng->txt('mem_alert_no_places');	
+			ilUtil::sendFailure($this->lng->txt('mem_alert_no_places'));
+			#$alert = $this->lng->txt('mem_alert_no_places');	
 		}
 		elseif($this->container->enabledWaitingList() and $waiting_list->isOnList($ilUser->getId()))
 		{
@@ -250,11 +252,13 @@ class ilCourseRegistrationGUI extends ilRegistrationGUI
 		}
 		elseif(!$free and $this->container->enabledWaitingList())
 		{
-			$alert = $this->lng->txt('crs_warn_no_max_set_on_waiting_list');
+			ilUtil::sendFailure($this->lng->txt('crs_warn_no_max_set_on_waiting_list'));
+			#$alert = $this->lng->txt('crs_warn_no_max_set_on_waiting_list');
 		}
 		elseif($free and $this->container->enabledWaitingList() and $this->getWaitingList()->getCountUsers())
 		{
-			$alert = $this->lng->txt('crs_warn_wl_set_on_waiting_list');
+			ilUtil::sendFailure($this->lng->txt('crs_warn_wl_set_on_waiting_list'));
+			#$alert = $this->lng->txt('crs_warn_wl_set_on_waiting_list');
 		}
 				
 		$max = new ilCustomInputGUI($this->lng->txt('mem_participants'));
@@ -282,7 +286,7 @@ class ilCourseRegistrationGUI extends ilRegistrationGUI
 			$reg = new ilCustomInputGUI($this->lng->txt('mem_reg_type'));
 			#$reg->setHtml($this->lng->txt('crs_info_reg_deactivated'));
 			$reg->setAlert($this->lng->txt('crs_info_reg_deactivated'));
-			
+			#ilUtil::sendFailure($this->lng->txt('crs_info_reg_deactivated'));
 			#$reg = new ilNonEditableValueGUI($this->lng->txt('mem_reg_type'));
 			#$reg->setValue($this->lng->txt('crs_info_reg_deactivated'));
 			#$reg->setAlert($this->lng->txt('grp_reg_deactivated_alert'));
@@ -339,7 +343,8 @@ class ilCourseRegistrationGUI extends ilRegistrationGUI
 				$sub->setRows(5);
 				if($this->participants->isSubscriber($ilUser->getId()))
 				{
-					$sub->setAlert($this->lng->txt('crs_reg_user_already_subscribed'));
+					#$sub->setAlert($this->lng->txt('crs_reg_user_already_subscribed'));
+					ilUtil::sendFailure($this->lng->txt('crs_reg_user_already_subscribed'));
 					$this->enableRegistration(false);					
 				}
 				$txt->addSubItem($sub);

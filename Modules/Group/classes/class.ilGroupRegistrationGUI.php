@@ -164,7 +164,8 @@ class ilGroupRegistrationGUI extends ilRegistrationGUI
 		{
 			// Disable registration
 			$this->enableRegistration(false);
-			$reg->setAlert($warning);
+			#$reg->setAlert($warning);
+			ilUtil::sendFailure($warning);
 		}
 		$this->form->addItem($reg);
 		return true;
@@ -244,7 +245,8 @@ class ilGroupRegistrationGUI extends ilRegistrationGUI
 		$max->setHtml($tpl->get());
 		if(strlen($alert))
 		{
-			$max->setAlert($alert);
+			#$max->setAlert($alert);
+			ilUtil::sendFailure($alert);
 		}
 		$this->form->addItem($max);
 	}
@@ -310,7 +312,8 @@ class ilGroupRegistrationGUI extends ilRegistrationGUI
 				$sub->setRows(5);
 				if($this->participants->isSubscriber($ilUser->getId()))
 				{
-					$sub->setAlert($this->lng->txt('grp_already_applied'));
+					#$sub->setAlert($this->lng->txt('grp_already_applied'));
+					ilUtil::sendFailure($this->lng->txt('grp_already_assigned'));
 					$this->enableRegistration(false);					
 				}
 				$txt->addSubItem($sub);
