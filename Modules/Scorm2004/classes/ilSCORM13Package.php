@@ -149,26 +149,6 @@ class ilSCORM13Package
 		print($row["xmldata"]);
 	}
 
-	public function removeCMIData()
-	{
-		global $ilDB;
-		$ilDB->query("DELETE FROM cmi_correct_response WHERE cmi_correct_response.cmi_interaction_id IN (SELECT cmi_interaction.cmi_interaction_id FROM cmi_interaction, cmi_node, cp_node WHERE cp_node.slm_id=".
-			$ilDB->quote($this->packageId).")");
-		$ilDB->query("DELETE FROM cmi_objective WHERE cmi_objective.cmi_interaction_id IN (SELECT cmi_interaction.cmi_interaction_id FROM cmi_interaction, cmi_node, cp_node WHERE cp_node.slm_id=".
-			$ilDB->quote($this->packageId).")");
-		$ilDB->query("DELETE FROM cmi_objective WHERE cmi_objective.cmi_node_id IN (SELECT cmi_node.cmi_node_id FROM cmi_node, cp_node WHERE cp_node.slm_id=".
-			$ilDB->quote($this->packageId).")");
-		$ilDB->query("DELETE FROM cmi_interaction WHERE cmi_interaction.cmi_node_id IN (SELECT cmi_node.cmi_node_id FROM cmi_node, cp_node WHERE cp_node.slm_id=".
-			$ilDB->quote($this->packageId).")");
-		$ilDB->query("DELETE FROM cmi_comment WHERE cmi_comment.cmi_node_id IN (SELECT cmi_node.cmi_node_id FROM cmi_node, cp_node WHERE cp_node.slm_id=".
-			$ilDB->quote($this->packageId).")");
-		$ilDB->query("DELETE FROM cmi_node WHERE cmi_node.cmi_node_id IN (SELECT cmi_node.cmi_node_id FROM cmi_node, cp_node WHERE cp_node.slm_id=".
-			$ilDB->quote($this->packageId).")");
-		$set = $ilDB->query("SELECT * FROM cp_package WHERE obj_id = ".$ilDB->quote($this->$packageId));
-		$row = $set->fetchRow(DB_FETCHMODE_ASSOC);
-
-		return $row["xmldata"];
-	}
 
 	/**
 	* Imports an extracted SCORM 2004 module from ilias-data dir into database
@@ -176,10 +156,14 @@ class ilSCORM13Package
 	* @access       public
 	* @return       string title of package
 	*/
-	public function il_import($packageFolder,$packageId,$ilias,$validate){
+	public function il_import($packageFolder,$packageId,$ilias,$validate,$reimport=false){
 		global $ilDB, $ilLog;
 		
-//$ilLog->write("SCORM: il_import");
+		
+		if ($reimport===true) {
+			$this->packageId = $packageId;
+			$this->dbRemoveAll();
+		}
 		
 	  	$this->packageFolder=$packageFolder;
 	  	$this->packageId=$packageId;
@@ -298,6 +282,7 @@ class ilSCORM13Package
 	  }
 	/**
 	 */
+	
 	private function setProgress($progress, $msg = '')
 	{
 		$this->progress = $progress;
@@ -344,7 +329,7 @@ class ilSCORM13Package
 				'persistPreviousAttempts' => 0,
 				'settings' => '',
 				));*/
-				$ilDB->query("INSERT INTO cp_package ".
+				$ilDB->query("REPLACE INTO cp_package ".
 					"(obj_id, identifier, persistPreviousAttempts, settings) VALUES ".
 					"(".$ilDB->quote($this->packageId).",".
 					$ilDB->quote($this->packageName).",".
@@ -458,41 +443,90 @@ class ilSCORM13Package
 		return true;
 	}
 
-	/**
-	 *
-	 */
-	public function dbRemoveAll()
+
+	public function removeCMIData()
 	{
 		global $ilDB;
+		//cmi nodes
+		$cmi_nodes = array();
+		$set_cmi = $ilDB->query("SELECT cmi_node.cmi_node_id FROM cmi_node, cp_node WHERE(
+							 cp_node.slm_id=".$ilDB->quote($this->packageId)." AND cmi_node.cp_node_id=cp_node.cp_node_id)");
+		while ($data = $set_cmi->fetchRow(DB_FETCHMODE_ASSOC)) {
+			array_push($cmi_nodes,$data['cmi_node_id']);
+		}
+		$cmi_nodes_impl = implode(",",ilUtil::quoteArray($cmi_nodes));		
 		
-		// remove CP element entries
+		//cmi interaction nodes
+		$cmi_inodes = array();
+		$set_icmi = $ilDB->query("SELECT cmi_interaction.cmi_interaction_id FROM cmi_interaction, cmi_node, cp_node WHERE(
+			 				cp_node.slm_id=".$ilDB->quote($this->packageId)." AND cmi_node.cp_node_id=cp_node.cp_node_id
+							AND cmi_node.cmi_node_id=cmi_interaction.cmi_node_id)");
+		while ($data = $set_icmi->fetchRow(DB_FETCHMODE_ASSOC)) {
+			array_push($cmi_inodes,$data['cmi_interaction_id']);
+		}
+		$cmi_inodes_impl = implode(",",ilUtil::quoteArray($cmi_inodes));
+		
+		//response
+		$ilDB->query("DELETE FROM cmi_correct_response WHERE cmi_correct_response.cmi_interaction_id IN
+					  ($cmi_inodes_impl);");
+			
+		//objective interaction
+		$ilDB->query("DELETE FROM cmi_objective WHERE cmi_objective.cmi_interaction_id IN ($cmi_inodes_impl);");
+		
+		//objective
+		$ilDB->query("DELETE FROM cmi_objective WHERE cmi_objective.cmi_node_id IN ($cmi_nodes_impl);");
+		
+		//interaction
+		$ilDB->query("DELETE FROM cmi_interaction WHERE cmi_interaction.cmi_node_id IN ($cmi_nodes_impl);");
+
+		//comment
+		$ilDB->query("DELETE FROM cmi_comment WHERE cmi_comment.cmi_node_id IN ($cmi_nodes_impl);");
+		
+		//node
+		$ilDB->query("DELETE FROM cmi_node WHERE cmi_node.cmi_node_id IN ($cmi_nodes_impl)");
+	
+	}
+	
+	
+	public function removeCPData()
+	{
+		global $ilDB,$ilLog;
+		
+		
+		//get relevant nodes
+		$cp_nodes = array();
+		$set_cp = $ilDB->query("SELECT cp_node.cp_node_id FROM cp_node WHERE cp_node.slm_id=".
+							 $ilDB->quote($this->packageId));
+		while ($data = $set_cp->fetchRow(DB_FETCHMODE_ASSOC)) {
+			array_push($cp_nodes,$data['cp_node_id']);
+		}
+		$cp_nodes_impl = implode(",",ilUtil::quoteArray($cp_nodes));
+				
+		
+		//remove package data
 		foreach (self::$elements['cp'] as $t)
 		{
 			$t = 'cp_' . $t;
-			$ilDB->query("DELETE FROM $t WHERE $t.cp_node_id IN (SELECT cp_node.cp_node_id FROM cp_node WHERE cp_node.slm_id=".
-				$ilDB->quote($this->packageId));
+			$ilDB->query("DELETE FROM $t WHERE $t.cp_node_id IN ($cp_nodes_impl);");
 		}
-		// remove CMI entries
-		$ilDB->query("DELETE FROM cmi_correct_response WHERE cmi_correct_response.cmi_interaction_id IN (SELECT cmi_interaction.cmi_interaction_id FROM cmi_interaction, cmi_node, cp_node WHERE cp_node.slm_id=".
-			$ilDB->quote($this->packageId));
-		$ilDB->query("DELETE FROM cmi_objective WHERE cmi_objective.cmi_interaction_id IN (SELECT cmi_interaction.cmi_interaction_id FROM cmi_interaction, cmi_node, cp_node WHERE cp_node.slm_id=".
-			$ilDB->quote($this->packageId));
-		$ilDB->query("DELETE FROM cmi_objective WHERE cmi_objective.cmi_node_id IN (SELECT cmi_node.cmi_node_id FROM cmi_node, cp_node WHERE cp_node.slm_id=".
-			$ilDB->quote($this->packageId));
-		$ilDB->query("DELETE FROM cmi_interaction WHERE cmi_interaction.cmi_node_id IN (SELECT cmi_node.cmi_node_id FROM cmi_node, cp_node WHERE cp_node.slm_id=".
-			$ilDB->quote($this->packageId));
-		$ilDB->query("DELETE FROM cmi_comment WHERE cmi_comment.cmi_node_id IN (SELECT cmi_node.cmi_node_id FROM cmi_node, cp_node WHERE cp_node.slm_id=".
-			$ilDB->quote($this->packageId));
-		$ilDB->query("DELETE FROM cmi_node WHERE cmi_node.cmi_node_id IN (SELECT cmi_node.cmi_node_id FROM cmi_node, cp_node WHERE cp_node.slm_id=".
-			$ilDB->quote($this->packageId));
+		
 		// remove CP structure entries in tree and node
-		$ilDB->query("DELETE FROM cp_tree WHERE cp_tree.obj_id=".
-			$ilDB->quote($this->packageId));
-		$ilDB->query("DELETE FROM cp_node WHERE cp_node.slm_id=".
-			$ilDB->quote($this->packageId));
+		$ilDB->query("DELETE FROM cp_tree WHERE cp_tree.obj_id=".$ilDB->quote($this->packageId));
+
+		$ilDB->query("DELETE FROM cp_node WHERE cp_node.slm_id=".$ilDB->quote($this->packageId));
+		
 		// remove general package entry
-		$ilDB->query("DELETE FROM cp_package WHERE cp_package.obj_id=".
-			$ilDB->quote($this->packageId));
+		
+		$ilDB->query("DELETE FROM cp_package WHERE cp_package.obj_id=".	$ilDB->quote($this->packageId));
+	
+	}
+	
+
+	public function dbRemoveAll()
+	{
+		//dont change order of calls
+		$this->removeCMIData();
+		$this->removeCPData();
 	}
 
 	public function transform($inputdoc, $xslfile, $outputpath = null)

@@ -1,0 +1,57 @@
+<?xml version = "1.0"?>
+<xs:schema targetNamespace = "http://www.adlnet.org/xsd/adlnav_v1p3"
+           xmlns:xs = "http://www.w3.org/2001/XMLSchema"
+           xmlns:xsi = "http://www.w3.org/2001/XMLSchema-instance"
+           xmlns = "http://www.adlnet.org/xsd/adlnav_v1p3"
+           elementFormDefault = "qualified"
+           version = "ADL Version 1.3">
+
+   <xs:annotation>
+      <xs:documentation>
+          This is a draft version of the ADL namespaced elements for presentation of navigation controls.
+          Further modifications will be made prior to the SCORM 1.3 final release.
+      </xs:documentation>
+   </xs:annotation>
+
+   <!-- *********************** -->
+   <!-- ** Change History ** -->
+   <!-- *********************** -->
+   <xs:annotation>
+      <xs:documentation>
+      *************************************************************************
+      *                                Change History                                  *
+      *************************************************************************
+      2003-18-09  Initial creation.
+      *************************************************************************
+      </xs:documentation>
+   </xs:annotation>
+
+   <xs:element name = "presentation" type = "presentationType"/>
+
+   <xs:element name = "navigationInterface" type = "navigationInterfaceType"/>
+
+   <xs:element name = "hideLMSUI" type = "hideLMSUIType"/>
+
+   <!-- Navigation Extension -->
+   <xs:complexType name = "presentationType">
+      <xs:sequence>
+         <xs:element ref = "navigationInterface" minOccurs = "0" maxOccurs = "1"/>
+      </xs:sequence>
+   </xs:complexType>
+
+   <xs:complexType name = "navigationInterfaceType">
+      <xs:sequence>
+         <xs:element ref = "hideLMSUI" minOccurs = "0" maxOccurs = "unbounded"/>
+      </xs:sequence>
+   </xs:complexType>
+
+   <xs:simpleType name = "hideLMSUIType">
+      <xs:restriction base = "xs:token">
+         <xs:enumeration value = "abandon"/>
+         <xs:enumeration value = "continue"/>
+         <xs:enumeration value = "exit"/>
+         <xs:enumeration value = "previous"/>
+      </xs:restriction>
+   </xs:simpleType>
+
+</xs:schema>
