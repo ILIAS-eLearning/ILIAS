@@ -1,0 +1,133 @@
+<form>
+<!-- BEGIN singlechoice -->
+	<div id="container{VAL_ID}" class="ilc_question_SingleChoice">
+	<div class="ilc_qtitle_Title question id@id">qtitle</div>
+	<span class="ilc_answers answers">
+		<div class="ilc_qanswer_Answer"><input type="radio" class="name order@value" value="0" name="answers{VAL_ID}"> <span class="answertext" /></span></div>
+		</span>	
+	<div id="feedback{VAL_ID}" style="display:none"></div>
+	<input type="button" class="ilc_qsubmit_Submit" {VAL_NO_DISPLAY} id="button{VAL_ID}" onclick="ilias.questions.checkAnswers({VAL_ID})" value="Submit Answers">
+	</div>
+<script>
+	ilias.questions.shuffle(questions[{VAL_ID}]);
+	jQuery('div#container{VAL_ID}').autoRender(questions[{VAL_ID}]);	
+</script>
+<!-- END singlechoice -->
+<!-- BEGIN multiplechoice -->
+<div id="container{VAL_ID}" class="ilc_question_MultipleChoice">
+	<div class="ilc_qtitle_Title question id@id">qtitle</div>
+	<span class="ilc_answers answers">
+		<div class="ilc_qanswer_Answer"><input type="checkbox" class="name order@value" value="0" name="answers{VAL_ID}"> <span class="answertext" /></span></div>
+		</span>	
+	<div id="feedback{VAL_ID}" style="display:none"></div>
+	<input type="button" class="ilc_qsubmit_Submit" id="button{VAL_ID}" {VAL_NO_DISPLAY} onclick="ilias.questions.checkAnswers({VAL_ID})" value="Submit Answers">
+	</div>
+<script>
+	ilias.questions.shuffle(questions[{VAL_ID}]);
+	jQuery('div#container{VAL_ID}').autoRender(questions[{VAL_ID}]);	
+</script>
+<!-- END multiplechoice -->
+<!-- BEGIN orderingquestion -->
+<div id="container{VAL_ID}" class="ilc_question_OrderingQuestion">
+<div class="ilc_qtitle_Title question id@id">qtitle</div>	
+<ul id="order{VAL_ID}">
+	<li class="answers solutionorder@id" style="list-style-type:circle; cursor:move; width:200px; border:1px; border-style:solid; margin:3px; padding:3px;"><div class="ilc_qanswer_Answer answertext"></div></li>
+</ul>
+<div id="feedback{VAL_ID}" style="display:none"></div>
+<input type="button" class="ilc_qsubmit_Submit" id="button{VAL_ID}" {VAL_NO_DISPLAY} onclick="ilias.questions.checkAnswers({VAL_ID})" value="Submit Answers">
+</div>
+<script>
+	ilias.questions.shuffle(questions[{VAL_ID}]);
+	jQuery('div#container{VAL_ID}').autoRender(questions[{VAL_ID}]);	
+	jQuery("#order{VAL_ID}").sortable({});
+</script>
+<!-- END orderingquestion -->
+<!-- BEGIN clozequestion -->
+<div id="container{VAL_ID}" class="ilc_question_ClozeTest">
+<div class="ilc_qanswer_Answer question id@id">qtitle</div>	
+<div id="feedback{VAL_ID}" style="display:none"></div>
+<input type="button" class="ilc_qsubmit_Submit" id="button{VAL_ID}" {VAL_NO_DISPLAY} onclick="ilias.questions.checkAnswers({VAL_ID})" value="Submit Answers">
+</div>
+<script>
+	jQuery('div#container{VAL_ID}').autoRender(questions[{VAL_ID}]);
+	ilias.questions.initClozeTest({VAL_ID});
+</script>
+<!-- END clozequestion -->
+<!-- BEGIN textquestion -->
+<div id="container{VAL_ID}" class="ilc_question_TextQuestion">
+	<div class="ilc_qtitle_Title question id@id">qtitle</div>
+	<textarea class="ilc_qlinput_LongTextInput answer" id="textarea{VAL_ID}" cols="60" rows="5" maxlength="{VAL_MAXLENGTH}"></textarea>
+<div id="feedback{VAL_ID}" style="display:none"></div><br/>
+<input type="button" class="ilc_qsubmit_Submit" id="button{VAL_ID}"  {VAL_NO_DISPLAY} onclick="ilias.questions.checkAnswers({VAL_ID})" value="Submit Answers">
+</div>
+<script>
+	jQuery('div#container{VAL_ID}').autoRender(questions[{VAL_ID}]);	
+//	jQuery("textarea[@maxlength]").textLimiter();
+</script>
+<!-- END textquestion -->
+<!-- BEGIN imagemapquestion -->
+<div id="container{VAL_ID}" class="ilc_question_ImagemapQuestion">
+	<div class="ilc_qtitle_Title question id@id">qtitle</div>
+	<img class="cmap{VAL_ID} imagemap image@src" src="url" usemap="#map{VAL_ID}">
+	<div id="feedback{VAL_ID}" style="display:none"></div>
+	<input type="button" class="ilc_qsubmit_Submit" id="button{VAL_ID}"  {VAL_NO_DISPLAY} onclick="ilias.questions.checkAnswers({VAL_ID})" value="Submit Answers">
+	</div>
+	<map class="map" name="map{VAL_ID}">
+		<!-- BEGIN mapareas -->
+		<area href="javascript:ilias.questions.toggleArea({VAL_ID},{VAL_ORDER});" coords="{VAL_COORDS}" shape="{VAL_AREA}" id="{VAL_ID}_{VAL_ORDER}" />
+		<!-- END mapareas -->
+	</map>
+
+<script>
+	jQuery('div#container{VAL_ID}').autoRender(questions[{VAL_ID}]);	
+//	jQuery('.cmap{VAL_ID}').maphilight({fade:true});
+	
+	ilias.questions.initAreas('{VAL_ID}');
+	if (ScormApi!=null) {
+		ilias.questions.fix_imageurls('div#container{VAL_ID}');	
+	}	
+ 	
+</script>
+<!-- END imagemapquestion -->
+<!-- BEGIN matchingquestion -->
+<div class="ilc_question_MatchingQuestion">
+<div class="ilc_qtitle_Title" id="qtitle{VAL_ID}">qtitle</div>
+<table id="container{VAL_ID}" cellspacing="0">
+  <tbody>
+	<tr>
+		<th valign="middle" style="font-weight:normal;" class="definition ilc_qanswer_Answer">Definition</th>
+		<th valign="middle" style="font-weight:normal;" class="ilc_qanswer_Answer">&nbsp;&harr;&nbsp;</th>
+		<th valign="middle" style="font-weight:normal;" class="termcolumn ilc_qanswer_Answer">
+			<select class="terms">
+				<option class="term">Term</option>
+			</select>
+		</th>
+	</tr>
+  </tbody>	
+</table>
+	<div class="transformation">
+		<div id="render{VAL_ID}"></div>
+	</div>
+	<div id="feedback{VAL_ID}" style="display:none"></div>
+	<input type="button" class="ilc_qsubmit_Submit" id="button{VAL_ID}"  {VAL_NO_DISPLAY} onclick="ilias.questions.checkAnswers({VAL_ID})" value="Submit Answers">
+	</div>
+		
+<script>
+var pairs = jQuery('#container{VAL_ID}').mapDirective({
+	'tbody tr': 'pair <- pairs',
+	'th.definition': 'pair.definition',
+	'select[id]':'pair.definition_id'});
+
+var terms = jQuery('select.terms', pairs).mapDirective({
+	'option.term': ['term <- pair.terms','term.term'],
+	 'option[id]':'term.id'});
+
+	jQuery('th.termcolumn', pairs).html(terms); 
+	$p.compile(pairs, 'f{VAL_ID}');
+	jQuery('table#container{VAL_ID}').hide();
+	jQuery('div#render{VAL_ID}').html( $p.render('f{VAL_ID}', questions[{VAL_ID}]) );
+	jQuery('div#qtitle{VAL_ID}').html( questions[{VAL_ID}].question);
+	
+</script>
+<!-- END matchingquestion -->
+</form>

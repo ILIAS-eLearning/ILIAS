@@ -1,0 +1,42 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<seqTemplate xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+    xsi:noNamespaceSchemaLocation="../xsd/seq_template.xsd" identifier="linearpathforward">
+    <metadata>
+        <version> 1.0</version>
+        <thumbnail>linear_forward.png</thumbnail>
+        <title>Linear Learning Path forward</title>
+        <description>Provides a Linear Learning Path Scenario, the learner can only process forward
+            and can not choose from activities freely. </description>
+        <replacenode>true</replacenode>
+    </metadata>
+    <item type="lesson">
+        <title>Linear Learning Path Chapter</title>
+        <sequencing>
+            <controlMode flow="true" choice="false" forwardOnly="true"/>
+        </sequencing>
+        <item type="sco">
+            <title>SCO 1</title>
+            <sequencing>
+                <objectives>
+                    <primaryObjective objectiveID="SCO 1 Objective"/>
+                </objectives>
+            </sequencing>
+        </item>
+        <item type="sco">
+            <title>SCO 2</title>
+            <sequencing>
+                <objectives>
+                    <primaryObjective objectiveID="SCO 2 Objective"/>
+                </objectives>
+            </sequencing>
+        </item>
+        <item type="sco">
+            <title>SCO 3</title>
+            <sequencing>
+                <objectives>
+                    <primaryObjective objectiveID="SCO 3 Objective"/>
+                </objectives>
+            </sequencing>
+        </item>
+    </item>
+</seqTemplate>

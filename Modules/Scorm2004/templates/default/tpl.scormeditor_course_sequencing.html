@@ -1,0 +1,43 @@
+<form action="{FORMACTION}" {TARGET} method="post" name="form">
+<table class="std">
+<tr class="tblheader">
+	<td class="std" colspan="2">
+	{TXT_TITLE}*</td>
+</tr>
+<tr>
+	<td class="option">
+		User can only navigate forward
+	</td>
+	<td class="option_value">
+		<input type="checkbox" name="forwardonly" {CHK_FORWARDONLY} value="{VAL_FORWARDONLY}" />
+	</td>
+</tr>	
+
+<tr>
+	<td class="option">
+		User can choose activites freely
+	</td>
+	<td class="option_value">
+		<input type="checkbox" name="choice" {CHK_CHOICE} value="{VAL_CHOICE}" />
+	</td>
+</tr>
+
+
+<tr>
+	<td class="option">
+		SCORM 2004 navigation controls enabled
+	</td>
+	<td class="option_value">
+		<input type="checkbox" name="flow" {CHK_FLOW} value="{VAL_FLOW}" />
+	</td>
+</tr>
+
+<tr>
+	<td class="submit" align="right" colspan="3">
+		<input class="submit" type="submit" name="cmd[{BTN_NAME}]" value="{TXT_SAVE}" />
+	</td>
+</tr>
+</table>
+<small>*These settings can be overridden by didactical scenarios assigned to chapters.</small>
+</form>
+

@@ -10,12 +10,53 @@
 			</table>
 		</td>
 	</tr>
+<!-- BEGIN editable -->
+<tr class="std">
+	<td class="option">
+	{TXT_STYLE}
+	</td>
+	<td class="option_value">
+	{VAL_STYLE}
+	<!-- BEGIN style_edit -->
+		<a href="{LINK_STYLE_EDIT}" class="il_ContainerItemCommand">{TXT_STYLE_EDIT}</a>
+		<a href="{LINK_STYLE_DROP}" class="il_ContainerItemCommand">{TXT_STYLE_DROP}</a>
+	<!-- END style_edit -->
+	<!-- BEGIN style_create -->
+		<a class="il_ContainerItemCommand" href="{LINK_STYLE_CREATE}">{TXT_STYLE_CREATE}</a>
+	<!-- END style_create -->
+	</td>
+</tr>
+<tr class="std">
+	<td class="option">
+	{TXT_GLOSSARY}
+	</td>
+	<td class="option_value">
+	{VAL_GLOSSARY}
+	</td>
+</tr>
+<tr class="std">
+	<td class="option">
+	{TXT_QTRIES}
+	</td>
+	<td class="option_value">
+	<input type="text" size="1" length="1" name="q_tries" value="{VAL_QTRIES}">
+	</td>
+</tr><!-- END editable -->
+<!-- BEGIN noneditable -->
 <tr class="std">
 	<td class="option">
 	{TXT_ONLINE}
 	</td>
 	<td class="option_value">
 	<input type="checkbox" name="{CBOX_ONLINE}" value="{VAL_ONLINE}" {CHK_ONLINE}>
+	</td>
+</tr>
+<tr class="std">
+	<td class="option">
+	{MAX_ATTEMPTS}
+	</td>
+	<td class="option_value">
+	<input type="text" size="3" length="3" name="max_attempt" value="{VAL_MAX_ATTEMPT}">
 	</td>
 </tr>
 
@@ -44,7 +85,6 @@
 	{SEL_CREDIT_MODE}
 	</td>
 </tr>
-
 <tr class="std">
 	<td class="option">
 	{TXT_AUTO_REVIEW}
@@ -53,17 +93,13 @@
 	<input type="checkbox" name="{CBOX_AUTO_REVIEW}" value="{VAL_AUTO_REVIEW}" {CHK_AUTO_REVIEW}>
 	</td>
 </tr>
-
-
-
+<!-- END noneditable -->
 <!-- BEGIN commands -->
 <tr>
-	<td class="submit" colspan="2">
+	<td class="submit" colspan="2" style="text-align:right;">
 		<input class="submit" type="submit" name="cmd[{BTN_NAME}]" value="{BTN_TEXT}" />
 	</td>
 </tr>
 <!-- END commands -->
 </table>
 </form>
-
-

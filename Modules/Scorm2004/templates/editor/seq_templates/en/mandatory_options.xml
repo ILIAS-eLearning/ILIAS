@@ -1,0 +1,110 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<seqTemplate xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:noNamespaceSchemaLocation="../xsd/seq_template.xsd" identifier="mandatoryoptions">
+	<metadata>
+		<version> 1.0</version>
+		<thumbnail>mandatory_options.png</thumbnail>
+		<title>Mandatory Learning Path with Options</title>
+		<description>Provides a Mandatory Learning Path with Options Scenario. The learner has to
+			complete the activites corresponding to the mandatory learning path, before he/she gets
+			access to the optional learning materials. </description>
+		<replacenode>true</replacenode>
+	</metadata>
+	<item type="lesson">
+		<title>Mandatory Learning Path + Options</title>
+		<sequencing>
+			<controlMode flow="false" choice="false"/>
+		</sequencing>
+		<item type="sco" nocopy="false" nodelete="true">
+			<title>Mandatory SCO 1</title>
+			<sequencing>
+				<controlMode choiceExit="false"/>
+				<objectives>
+					<primaryObjective satisfiedByMeasure="false"
+						objectiveID="Mandatory SCO Objective 1">
+						<mapInfo targetObjectiveID="mgobj1" readSatisfiedStatus="false"
+							readNormalizedMeasure="false" writeSatisfiedStatus="true"
+							writeNormalizedMeasure="true"/>
+					</primaryObjective>
+				</objectives>
+			</sequencing>
+			<item type="sco" nocopy="false" nodelete="true">
+				<title>Optional SCO 1-1</title>
+				<sequencing>
+					<controlMode flow="false" choice="true"/>
+					<sequencingRules>
+						<preConditionRule>
+							<ruleConditions conditionCombination="all">
+								<ruleCondition operator="noOp"
+									referencedObjective="OSCO 1-1 Objective" condition="satisfied"/>
+							</ruleConditions>
+							<ruleAction action="disabled"/>
+						</preConditionRule>
+					</sequencingRules>
+					<objectives>
+						<primaryObjective objectiveID="OSCO 1 Objective">
+							<mapInfo targetObjectiveID="mgobj1" readSatisfiedStatus="true"
+								readNormalizedMeasure="true" writeSatisfiedStatus="false"
+								writeNormalizedMeasure="false"/>
+						</primaryObjective>
+					</objectives>
+				</sequencing>
+			</item>
+			<item type="sco" nocopy="false" nodelete="true">
+				<title>Optional SCO 1-2</title>
+				<sequencing>
+					<controlMode flow="false" choice="true"/>
+					<sequencingRules>
+						<preConditionRule>
+							<ruleConditions conditionCombination="all">
+								<ruleCondition operator="noOp"
+									referencedObjective="OSCO 1-2 Objective" condition="satisfied"/>
+							</ruleConditions>
+							<ruleAction action="disabled"/>
+						</preConditionRule>
+					</sequencingRules>
+					<objectives>
+						<primaryObjective objectiveID="OSCO 1-2 Objective">
+							<mapInfo targetObjectiveID="mgobj1" readSatisfiedStatus="true"
+								readNormalizedMeasure="true" writeSatisfiedStatus="false"
+								writeNormalizedMeasure="false"/>
+						</primaryObjective>
+					</objectives>
+				</sequencing>
+			</item>
+
+		</item>
+
+		<item type="sco" nocopy="true" nodelete="true">
+			<title>Mandatory SCO 2</title>
+			<sequencing>
+				<controlMode choiceExit="false"/>
+				<objectives>
+					<primaryObjective satisfiedByMeasure="false"
+						objectiveID="Mandatory SCO Objective 2">
+						<mapInfo targetObjectiveID="mgobj2" readSatisfiedStatus="false"
+							readNormalizedMeasure="false" writeSatisfiedStatus="true"
+							writeNormalizedMeasure="true"/>
+					</primaryObjective>
+				</objectives>
+			</sequencing>
+		</item>
+
+
+		<item type="sco" nocopy="true" nodelete="true">
+			<title>Mandatory SCO 3</title>
+			<sequencing>
+				<controlMode choiceExit="false"/>
+				<objectives>
+					<primaryObjective satisfiedByMeasure="false"
+						objectiveID="Mandatory SCO Objective 3">
+						<mapInfo targetObjectiveID="mobj3" readSatisfiedStatus="false"
+							readNormalizedMeasure="false" writeSatisfiedStatus="true"
+							writeNormalizedMeasure="true"/>
+					</primaryObjective>
+				</objectives>
+			</sequencing>
+		</item>
+
+	</item>
+</seqTemplate>

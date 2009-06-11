@@ -852,7 +852,6 @@ class ilSCORM13Player
 					case 'correct_response':
 						$no = $schem['cmi_interaction_id']['no'];
 						$row[$no] = $map['interaction'][$row[$no]];
-						
 					case 'comment':
 					case 'interaction':
 						$no = $schem['cmi_node_id']['no'];
