@@ -38,6 +38,8 @@ include_once './Services/PersonalDesktop/interfaces/interface.ilDesktopItemHandl
 
 class ilObjSessionGUI extends ilObjectGUI implements ilDesktopItemHandling
 {
+
+
 	public $lng;
 	public $ctrl;
 	public $tpl;
@@ -69,6 +71,7 @@ class ilObjSessionGUI extends ilObjectGUI implements ilDesktopItemHandling
 		$this->tpl = $tpl;
 		$this->ctrl = $ilCtrl;
 	}
+	
 	
 	/**
 	 * execute command
@@ -129,6 +132,23 @@ class ilObjSessionGUI extends ilObjectGUI implements ilDesktopItemHandling
   		return true;
 	}
 	
+    /**
+     * @see ilObjectGUI::prepareOutput()
+     */
+    protected function prepareOutput()
+    {
+        parent::prepareOutput();
+		
+		if(!$this->creation_mode)
+		{
+			$title = strlen($this->object->getTitle()) ? (': '.$this->object->getTitle()) : ''; 
+			
+			include_once './Modules/Session/classes/class.ilSessionAppointment.php';
+			$this->tpl->setTitle(
+				$this->object->getFirstAppointment()->appointmentToString().$title);
+		}
+    }
+
 	/**
 	 * register to session
 	 *
