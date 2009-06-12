@@ -12604,3 +12604,18 @@ if (!$ilDB->tableExists("sahs_sc13_tree"))
 				) ENGINE=MyISAM;");
 }
 ?>
+<#2446>
+<?php
+if (!$ilDB->tableColumnExists("sahs_lm", "stylesheet"))
+{
+	$ilDB->query("ALTER TABLE sahs_lm ADD stylesheet INT NOT NULL DEFAULT 0");
+}
+if (!$ilDB->tableColumnExists("sahs_lm", "glossary"))
+{
+	$ilDB->query("ALTER TABLE sahs_lm ADD glossary INT NOT NULL DEFAULT 0");
+}
+if (!$ilDB->tableColumnExists("sahs_lm", "question_tries"))
+{
+	$ilDB->query("ALTER TABLE sahs_lm ADD question_tries INT DEFAULT 3");
+}
+?>
