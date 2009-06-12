@@ -12908,3 +12908,10 @@ $ilDB->query($q);
 $q = "ALTER TABLE `sahs_sc13_seq_item` ADD PRIMARY KEY (`sahs_sc13_tree_node_id`)";
 $ilDB->query($q);
 ?>
+<#2470>
+<?php
+if (!$ilDB->tableColumnExists("sahs_sc13_seq_item", "rootlevel"))
+{
+	$ilDB->query("ALTER TABLE `sahs_sc13_seq_item` ADD COLUMN `rootlevel` tinyint(4) NOT NULL default '0'");
+}
+?>
