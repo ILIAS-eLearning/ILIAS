@@ -2705,7 +2705,11 @@ return;
 			$cpass = new ilPasswordInputGUI($lng->txt("current_password"), "current_password");
 			$cpass->setRetype(false);
 			$cpass->setSkipSyntaxCheck(true);
-			$cpass->setRequired(true);
+			// only if a password exists.
+			if($ilUser->getPasswd())
+			{
+				$cpass->setRequired(true);
+			}
 			$this->form->addItem($cpass);
 			
 			// new password
@@ -2733,6 +2737,7 @@ return;
 					break;
 					
 				case AUTH_SHIBBOLETH :
+				case AUTH_CAS:
 					require_once 'Services/WebDAV/classes/class.ilDAVServer.php';
 					if (ilDAVServer::_isActive())
 					{
@@ -2798,7 +2803,8 @@ return;
 			$error = false;
 			
 			// check current password
-			if (md5($_POST["current_password"]) != $ilUser->getPasswd())
+			if (md5($_POST["current_password"]) != $ilUser->getPasswd() and
+				$ilUser->getPasswd())
 			{
 				$error = true;
 				$cp->setAlert($this->lng->txt("passwd_wrong"));
@@ -2837,7 +2843,7 @@ return;
 			if (!$error)
 			{
 				ilUtil::sendSuccess($this->lng->txt("saved_successfully"), true);
-				$ilUser->updatePassword($_POST["current_password"], $_POST["new_password"], $_POST["new_password"]);
+				$ilUser->resetPassword($_POST["new_password"], $_POST["new_password"]);
 				if ($_POST["current_password"] == $_POST["new_password"])
 				{
 					$ilUser->setLastPasswordChangeToNow();

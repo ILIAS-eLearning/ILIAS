@@ -52,6 +52,10 @@ class ilAuth extends ilAuthDecorator
 		
 	}
 	
+	/**
+	 * Init cas auth
+	 * @return 
+	 */
 	public function initAuth()
 	{
 		$this->setAuthObject(

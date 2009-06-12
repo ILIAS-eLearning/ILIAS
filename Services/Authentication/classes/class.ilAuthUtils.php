@@ -133,22 +133,28 @@ class ilAuthUtils
 			$user_auth_mode = AUTH_LOCAL;
 		}
 		
-	// BEGIN WebDAV: Share session between browser and WebDAV client.
-	// The realm is needed to support a common session between Auth_HTTP and Auth.
-	// It also helps us to distinguish between parallel sessions run on different clients.
-	// Common session only works if we use a common session name starting with "_authhttp".
-	// We must use the "_authttp" prefix, because it is hardcoded in the session name of
-	// class Auth_HTTP.
-	// Whenever we use Auth_HTTP, we need to explicitly switch off "sessionSharing", because
-	// it interfers with the session mechanism of the other Auth modules. If we would
-	// keep this switched on, then users could steal each others session, which would cause
-	// a major security breach.
-	// Note: The realm and sessionName used here, must be the same as in 
-	//       class ilBaseAuthentication. Otherwise, Soap clients won't be able to log
-	//       in to ILIAS.
-	$realm = CLIENT_ID;
-	//$this->writelog('ilias.php realm='.$realm);
-	// END WebDAV: Share session between browser and WebDAV client.
+		if($ilSetting->get("cas_active") && $_GET['forceCASLogin'])
+		{
+			ilAuthFactory::setContext(ilAuthFactory::CONTEXT_CAS);
+			$user_auth_mode = AUTH_CAS;
+		}
+		
+		// BEGIN WebDAV: Share session between browser and WebDAV client.
+		// The realm is needed to support a common session between Auth_HTTP and Auth.
+		// It also helps us to distinguish between parallel sessions run on different clients.
+		// Common session only works if we use a common session name starting with "_authhttp".
+		// We must use the "_authttp" prefix, because it is hardcoded in the session name of
+		// class Auth_HTTP.
+		// Whenever we use Auth_HTTP, we need to explicitly switch off "sessionSharing", because
+		// it interfers with the session mechanism of the other Auth modules. If we would
+		// keep this switched on, then users could steal each others session, which would cause
+		// a major security breach.
+		// Note: The realm and sessionName used here, must be the same as in 
+		//       class ilBaseAuthentication. Otherwise, Soap clients won't be able to log
+		//       in to ILIAS.
+		$realm = CLIENT_ID;
+		//$this->writelog('ilias.php realm='.$realm);
+		// END WebDAV: Share session between browser and WebDAV client.
 
 //var_dump($_SESSION);
 //echo "1-".$ilSetting->get("soap_auth_active")."-";
@@ -191,6 +197,7 @@ class ilAuthUtils
 			define ("AUTH_CURRENT", AUTH_SHIBBOLETH);
 		}
 		// check CAS authentication
+		/*
 		else if ($ilSetting->get("cas_active") && $_POST['username'] == '')
 		{
 			include_once("Services/CAS/classes/class.ilCASAuth.php");
@@ -232,6 +239,7 @@ class ilAuthUtils
 				//session_unset();
 			}
 		}
+		*/
 		else
 		{
 			define ("AUTH_CURRENT", $user_auth_mode);
@@ -323,10 +331,16 @@ class ilAuthUtils
 				break;
 				
 			case AUTH_CAS:
+
+				include_once './Services/CAS/classes/class.ilAuthContainerCAS.php';
+				$ilAuth = ilAuthFactory::factory(new ilAuthContainerCAS());
+				break;
+				
+				/*
 				$ilAuth =& $ilCASAuth;
 				$ilAuth->forceCASAuth();
 				break;
-				
+				*/
 			case AUTH_SOAP:
 				$ilAuth =& $ilSOAPAuth;
 				break;
