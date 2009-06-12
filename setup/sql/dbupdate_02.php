@@ -12559,5 +12559,11 @@ ALTER TABLE `tmp_migration` ADD INDEX `obj_passed` ( `obj_id` ,`passed` );
 
 <#2442>
 DROP TABLE IF EXISTS tmp_migration;
+<#2443>
+<?php
+if (!$ilDB->tableColumnExists("sahs_lm", "editable"))
+{
+	$ilDB->query("ALTER TABLE sahs_lm add editable INT NOT NULL DEFAULT 0");
+}
 
-
+?>
