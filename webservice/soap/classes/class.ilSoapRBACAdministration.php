@@ -214,6 +214,12 @@ class ilSoapRBACAdministration extends ilSoapAdministration
 			return $this->__raiseError('No valid role id given. Please choose an existing id of an ILIAS role',
 									   'Client');
 		}
+		
+		// mjansen@databay.de: dirty fix
+		if(isset($permissions['item']))
+		{
+			$permissions = $permissions['item'];
+		}
 
 		if(!is_array($permissions))
 		{
