@@ -62,6 +62,12 @@ class ilAuthFactory
 	
 	/**
 	 * @var int
+	 * Maybe not required. Cron based authentication 
+	 */
+	const CONTEXT_CAS	= 5;
+
+	/**
+	 * @var int
 	 */
 	private static $context = self::CONTEXT_WEB;
 	
@@ -136,6 +142,10 @@ class ilAuthFactory
 			case self::CONTEXT_SOAP:
 				include_once './Services/WebServices/SOAP/classes/class.ilAuthSOAP.php';
 				return new ilAuthSOAP($deco,$options);
+				
+			case self::CONTEXT_CAS:
+				include_once './Services/CAS/classes/class.ilAuthCAS.php';
+				return new ilAuthCAS($deco,$options);
 			
 		}
 	}

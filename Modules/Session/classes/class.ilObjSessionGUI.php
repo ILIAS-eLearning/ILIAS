@@ -408,8 +408,7 @@ class ilObjSessionGUI extends ilObjectGUI implements ilDesktopItemHandling
 		$this->initForm('create');
 		
 		$ilErr->setMessage('');
-		if(!$this->form->checkInput())
-		{
+		if(!$this->form->checkInput())		{
 			$ilErr->setMessage($this->lng->txt('err_check_input'));
 		}
 
@@ -432,11 +431,17 @@ class ilObjSessionGUI extends ilObjectGUI implements ilDesktopItemHandling
 		$this->object->getFirstAppointment()->setSessionId($this->object->getId());
 		$this->object->getFirstAppointment()->create();
 
+
+		/*
 		foreach($this->files as $file_obj)
 		{
 			$file_obj->setSessionId($this->object->getEventId());
 			$file_obj->create();
 		}
+		*/
+		
+		$this->handleFileUpload();
+		
 		$this->createRecurringSessions();
 
 		// call crs items for creating a new entry for the new session
@@ -453,6 +458,46 @@ class ilObjSessionGUI extends ilObjectGUI implements ilDesktopItemHandling
 		}
 		return true;
 	
+	}
+	
+	public function handleFileUpload()
+	{
+		global $tree;
+		
+		include_once './Modules/Session/classes/class.ilEventItems.php';
+		$ev = new ilEventItems($this->object->getId());
+		$items = $ev->getItems();
+
+		$counter = 0;
+		do 
+		{
+			if(!isset($_FILES['files']['name'][$counter]))
+			{
+				break;
+			}
+			include_once './Modules/File/classes/class.ilObjFile.php';
+			$file = new ilObjFile();
+			$file->setTitle(ilUtil::stripSlashes($_FILES['files']['name'][$counter]));
+			$file->setDescription('');
+			$file->setFileName(ilUtil::stripSlashes($_FILES['files']['name'][$counter]));
+			$file->setFileType($_FILES['files']['type'][$counter]);
+			$file->setFileSize($_FILES['files']['size'][$counter]);
+			$file->create();
+			$new_ref_id = $file->createReference();
+			$file->putInTree($tree->getParentId($this->object->getRefId()));
+			$file->setPermissions($tree->getParentId($this->object->getRefId()));
+			$file->createDirectory();
+			$file->getUploadFile(
+				$_FILES['files']['tmp_name'][$counter],
+				$_FILES['files']['name'][$counter]
+			);
+			
+			$items[] = $new_ref_id;
+			
+		} while($counter++);
+		
+		$ev->setItems($items);
+		$ev->update();			
 	}
 	
 	
@@ -486,6 +531,10 @@ class ilObjSessionGUI extends ilObjectGUI implements ilDesktopItemHandling
 			$this->object->getFirstAppointment()->getStart()->get(IL_CAL_UNIX);
 		$parent_id = $tree->getParentId($this->object->getRefId());
 		
+		include_once './Modules/Session/classes/class.ilEventItems.php';
+		$evi = new ilEventItems($this->object->getId());
+		$eitems = $evi->getItems(); 
+		
 		$counter = 0;
 		foreach($date_list->get() as $date)
 		{
@@ -500,6 +549,10 @@ class ilObjSessionGUI extends ilObjectGUI implements ilDesktopItemHandling
 			$new_obj->getFirstAppointment()->setEndingTime($date->get(IL_CAL_UNIX) + $period_diff);
 			$new_obj->getFirstAppointment()->update();
 			$new_obj->update();
+			
+			$new_evi = new ilEventItems($new_obj->getId());
+			$new_evi->setItems($eitems);
+			$new_evi->update();
 		}	
 	}
 	
@@ -583,6 +636,8 @@ class ilObjSessionGUI extends ilObjectGUI implements ilDesktopItemHandling
 			$file_obj->setSessionId($this->object->getEventId());
 			$file_obj->create();
 		}
+		
+		$this->handleFileUpload();
 		
 		ilUtil::sendSuccess($this->lng->txt('event_updated'));
 		$this->object->initFiles();
@@ -1408,6 +1463,7 @@ class ilObjSessionGUI extends ilObjectGUI implements ilDesktopItemHandling
 		$this->form->setMultipart(true);
 		$this->form->setTableWidth('60%');
 		$this->form->setFormAction($this->ctrl->getFormAction($this));
+		$this->form->setMultipart(true);
 		
 		$this->tpl->addJavaScript('./Modules/Session/js/toggle_session_time.js');
 		$full = new ilCheckboxInputGUI('','fulltime');
@@ -1513,24 +1569,15 @@ class ilObjSessionGUI extends ilObjectGUI implements ilDesktopItemHandling
 		$reg->setOptionTitle($this->lng->txt('event_registration_info'));
 		$this->form->addItem($reg);
 
-/*
+
 		$section = new ilFormSectionHeaderGUI();
-		$section->setTitle($this->lng->txt('event_further_informations'));
+		$section->setTitle($this->lng->txt('event_assign_files'));
 		$this->form->addItem($section);
 		
-		$file = new ilFileInputGUI($this->lng->txt('event_file').' 1','file1');
-		$file->enableFileNameSelection('file_name1');
-		$this->form->addItem($file);
-		
-		$file = new ilFileInputGUI($this->lng->txt('event_file').' 2','file2');
-		$file->enableFileNameSelection('file_name2');
-		$this->form->addItem($file);
-
-		$file = new ilFileInputGUI($this->lng->txt('event_file').' 3','file3');
-		$file->enableFileNameSelection('file_name3');
-		$this->form->addItem($file);
-*/
-
+		$files = new ilFileWizardInputGUI($this->lng->txt('objs_file'),'files');
+		$files->setFilenames(array(0 => ''));
+		$this->form->addItem($files);
+				
 		switch($a_mode)
 		{
 			case 'create':

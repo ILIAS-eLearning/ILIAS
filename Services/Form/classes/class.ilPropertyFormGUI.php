@@ -32,6 +32,7 @@ include_once('./Services/Form/classes/class.ilCSSRectInputGUI.php');
 include_once('./Services/Form/classes/class.ilRadioMatrixInputGUI.php');
 include_once('./Services/Form/classes/class.ilTextWizardInputGUI.php');
 include_once('./Services/Form/classes/class.ilImageWizardInputGUI.php');
+include_once './Services/Form/classes/class.ilFileWizardInputGUI.php';
 
 /**
 * This class represents a property form user interface
