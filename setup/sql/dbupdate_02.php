@@ -12559,11 +12559,48 @@ ALTER TABLE `tmp_migration` ADD INDEX `obj_passed` ( `obj_id` ,`passed` );
 
 <#2442>
 DROP TABLE IF EXISTS tmp_migration;
+
 <#2443>
 <?php
 if (!$ilDB->tableColumnExists("sahs_lm", "editable"))
 {
 	$ilDB->query("ALTER TABLE sahs_lm add editable INT NOT NULL DEFAULT 0");
 }
+?>
 
+<#2444>
+<?php
+if (!$ilDB->tableExists("sahs_sc13_tree_node"))
+{
+	$ilDB->query("CREATE TABLE `sahs_sc13_tree_node` (
+				`obj_id` int(11) NOT NULL auto_increment,
+				`title` varchar(200) NOT NULL default '',
+				`type` char(4) NOT NULL default '',
+				`slm_id` int(11) NOT NULL default '0',
+				`import_id` varchar(50) NOT NULL default '',
+				`create_date` datetime NOT NULL default '0000-00-00 00:00:00',
+				`last_update` datetime NOT NULL default '0000-00-00 00:00:00',
+				PRIMARY KEY  (`obj_id`),
+				KEY `slm_id` (`slm_id`),
+				KEY `type` (`type`)
+				) ENGINE=MyISAM;");
+	$ilDB->query("INSERT INTO sahs_sc13_tree_node (obj_id, title, type, slm_id) VALUES (1, 'Dummy top node for all trees.', '', 0)");
+}
+?>
+<#2445>
+<?php
+if (!$ilDB->tableExists("sahs_sc13_tree"))
+{
+	$ilDB->query("CREATE TABLE `sahs_sc13_tree` (
+				`slm_id` int(11) NOT NULL default '0',
+				`child` int(11) NOT NULL default '0',
+				`parent` int(11) default NULL,
+				`lft` int(11) NOT NULL default '0',
+				`rgt` int(11) NOT NULL default '0',
+				`depth` smallint(5) NOT NULL default '0',
+				KEY `child` (`child`),
+				KEY `parent` (`parent`),
+				KEY `jmp_lm` (`slm_id`)
+				) ENGINE=MyISAM;");
+}
 ?>
