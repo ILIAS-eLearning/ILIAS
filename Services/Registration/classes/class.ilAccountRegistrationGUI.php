@@ -43,7 +43,7 @@ class ilAccountRegistrationGUI
 	var $ctrl;
 	var $tpl;
 
-	function ilRegistrationGUI()
+	public function __construct()
 	{
 		global $ilCtrl,$tpl,$lng;
 
