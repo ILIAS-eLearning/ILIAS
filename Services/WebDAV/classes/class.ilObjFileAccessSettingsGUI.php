@@ -160,7 +160,7 @@ class ilObjFileAccessSettingsGUI extends ilObjectGUI
 		$cb_prop->setChecked($this->object->isWebdavEnabled() && $isPearAuthHTTPInstalled);
 		$cb_prop->setDisabled(! $isPearAuthHTTPInstalled);
 		$cb_prop->setInfo($isPearAuthHTTPInstalled ?
-			sprintf($lng->txt('enable_webdav_info'),$ilDAVServer->getObjectURI($tree->getRootId())) :
+			sprintf($lng->txt('enable_webdav_info'),$ilDAVServer->getFolderURI($tree->getRootId())) :
 			$lng->txt('webdav_pear_auth_http_needed')
 		);
 		$form->addItem($cb_prop);
