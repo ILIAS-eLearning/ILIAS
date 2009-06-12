@@ -363,7 +363,7 @@ class ilContainerGUI extends ilObjectGUI implements ilDesktopItemHandling
 	*/
 	function renderObject()
 	{
-		global $ilDB, $tpl, $ilTabs;
+		global $ilDB, $tpl, $ilTabs, $ilCtrl;
 
 		switch ($this->object->getViewMode())
 		{
@@ -403,8 +403,14 @@ class ilContainerGUI extends ilObjectGUI implements ilDesktopItemHandling
 
 		$this->adminCommands = $container_view->adminCommands;
 		
-		$this->showAdministrationPanel($tpl);
-		$this->showPossibleSubObjects();
+		// it is important not to show the subobjects/admin panel here, since
+		// we will create nested forms in case, e.g. a news/calendar item is added
+		if ($ilCtrl->getNextClass() != "ilcolumngui")
+		{
+			$this->showAdministrationPanel($tpl);
+			$this->showPossibleSubObjects();
+		}
+		
 		$this->showPermanentLink($tpl);
 		$this->setContentSubTabs();
 		if ($this->isActiveAdministrationPanel())
