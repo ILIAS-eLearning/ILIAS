@@ -264,8 +264,11 @@ class ilLocatorGUI
 					$obj_id = ilObject::_lookupObjId($item["ref_id"]);
 					$type = ilObject::_lookupType($obj_id);
 					
-					$icon_path = ilObject::_getIcon($obj_id, "tiny", $type,
-						$this->getOffline());
+					if (!$this->getTextOnly())
+					{
+						$icon_path = ilObject::_getIcon($obj_id, "tiny", $type,
+							$this->getOffline());
+					}
 					
 					$loc_tpl->setCurrentBlock("locator_img");					
 					$loc_tpl->setVariable("IMG_SRC", $icon_path);
