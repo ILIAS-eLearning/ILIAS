@@ -12725,3 +12725,102 @@ if (!$ilDB->tableExists("sahs_sc13_seq_tree"))
 	$ilDB->query("CREATE INDEX parent ON sahs_sc13_seq_tree(parent);");
 }
 ?>
+<#2459>
+<?php
+if (!$ilDB->tableColumnExists("sahs_sc13_seq_objective", "import_objective_id"))
+{
+	$ilDB->query("ALTER TABLE sahs_sc13_seq_objective ADD import_objective_id varchar(200)");
+}
+?>
+
+<#2460>
+<?php
+$set = $ilDB->query("SELECT * FROM sahs_sc13_seq_templates ".
+	" WHERE identifier = ".$ilDB->quote(mandatoryoptions, "text")
+	);
+if (!$ilDB->fetchAssoc($set))
+{
+	$ilDB->query("INSERT INTO sahs_sc13_seq_templates (identifier,filename) values ('mandatoryoptions','mandatory_options.xml');");
+}
+?>
+
+<#2461>
+<?php
+if (!$ilDB->tableExists("page_question"))
+{
+	$ilDB->query("CREATE TABLE `page_question` (
+				`page_parent_type` VARCHAR(4) NOT NULL,
+				`page_id` INT(11) NOT NULL,
+				`question_id` int(11) NOT NULL
+				) ENGINE=MyISAM;");
+}
+?>
+<#2462>
+<?php
+if (!$ilDB->tableColumnExists("cal_entries", "is_milestone"))
+{
+	$atts = array(
+		'type' => 'integer',
+		'length' => 1,
+		'notnull' => true,
+		'default' => 0
+		);
+	$ilDB->addTableColumn("cal_entries", "is_milestone", $atts);
+}
+?>
+
+<#2463>
+<?php
+if (!$ilDB->tableColumnExists("cal_entries", "completion"))
+{
+	$atts = array(
+		'type' => 'integer',
+		'length' => 4,
+		'notnull' => true,
+		'default' => 0
+		);
+	$ilDB->addTableColumn("cal_entries", "completion", $atts);
+}
+?>
+
+<#2464>
+<?php
+if (!$ilDB->tableExists("cal_entry_responsible"))
+{
+	$ilDB->query("CREATE TABLE `cal_entry_responsible` (
+		`cal_id` INT(11) NOT NULL,
+		`user_id` INT(11) NOT NULL,
+		INDEX `cal_id` (`cal_id`),
+		INDEX `user_id` (`user_id`)
+		) ENGINE=MyISAM;");
+}
+?>
+
+<#2465>
+<?php
+if (!$ilDB->tableExists("personal_pc_clipboard"))
+{
+	$ilDB->query("CREATE TABLE `personal_pc_clipboard` (
+				`user_id` INT(11) NOT NULL,
+				`content` MEDIUMTEXT,
+				`insert_time` DATETIME,
+				`order_nr` INT(11),
+				INDEX user_id (user_id)
+				) ENGINE=MyISAM;");
+}
+?>
+
+<#2466>
+<?php
+if (!$ilDB->tableExists("page_layout"))
+{
+	$ilDB->query("CREATE TABLE `page_layout` (
+		 `layout_id` int(11) NOT NULL auto_increment,
+		 `content` mediumtext,
+		 `title` varchar(128) default NULL,
+		 `description` varchar(255) default NULL,
+		 `active` tinyint(4) default '0',
+		  PRIMARY KEY  (`layout_id`)
+		 ) ENGINE=MyISAM;");
+}
+?>
