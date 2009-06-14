@@ -734,8 +734,8 @@ function showTrackingItem()
 			}
 		}
 
-		$this->data["buttons"] = array( "cancelDelete"  => $this->lng->txt("cancel"),
-								  "confirmedDelete"  => $this->lng->txt("confirm"));
+		$this->data["buttons"] = array( "cancelDeleteTracking"  => $this->lng->txt("cancel"),
+								  "confirmedDeleteTracking"  => $this->lng->txt("confirm"));
 
 		$this->getTemplateFile("confirm");
 
@@ -799,14 +799,17 @@ function showTrackingItem()
 	/**
 	* cancel deletion of export files
 	*/
-	function cancelDelete()
+	function cancelDeleteTracking()
 	{
 		session_unregister("scorm_user_delete");
 		ilUtil::sendInfo($this->lng->txt("msg_cancel"),true);
 		$this->ctrl->redirect($this, "showTrackingItems");
 	}
 	
-	function confirmedDelete()
+	/**
+	* Confirmed tracking deletion
+	*/
+	function confirmedDeleteTracking()
 	{
 	 	global $ilDB, $ilUser;
     

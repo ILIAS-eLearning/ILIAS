@@ -1,0 +1,65 @@
+<form enctype="multipart/form-data" action="{FORMACTION}" {TARGET} method="post">
+<table class="std" width="60%">
+<tr class="tblheader">
+  <td class="std" colspan="2">
+  	<img src="{TYPE_IMG}" style="vertical-align:middle;" alt="{ALT_IMG}" title="{ALT_IMG}" border="0" vspace="0" />
+		{TXT_HEADER}
+  </td>
+</tr>
+<tr>
+  <td class="option">{TXT_TITLE} <span class="asterisk">*</span></td>
+  <td class="option_value"><input name="Fobject[title]" value="{TITLE}" size="40" maxlength="128" style="width:300px;"/></td>
+</tr>
+<tr>
+  <td class="option">{TXT_DESC}</td>
+  <td class="option_value"><textarea name="Fobject[desc]" rows="2" cols="40" style="width:300px;">{DESC}</textarea></td>
+</tr>
+<tr>
+  <td class="submit" colspan="2">
+  <div align="right">
+	<input class="submit" type="submit" name="cmd[{CMD_SUBMIT}]" value="{TXT_SUBMIT}" />
+	<input class="submit" type="submit" name="cmd[cancel]" value="{TXT_CANCEL}" />
+  </div>
+  </td>
+</tr>
+</table>
+<table class="std" width="60%">
+<tr class="tblheader">
+	<td class="std" colspan="2">
+	<img src="{TYPE_IMG}" style="vertical-align:middle;" alt="{ALT_IMG}" title="{ALT_IMG}" border="0" vspace="0" />
+	{TXT_IMPORT_LM}</td>
+</tr>
+<tr>
+	<td class="option">{TXT_SELECT_LMTYPE}</td>
+	<td class="option_value">
+		<select name="sub_type">
+			<option value="scorm2004">{TXT_TYPE_SCORM2004}</option>
+			<option value="scorm">{TXT_TYPE_SCORM}</option>
+			<option value="aicc">{TXT_TYPE_AICC}</option>
+			<option value="hacp">{TXT_TYPE_HACP}</option>
+		</select>
+	</td>
+</tr>
+<tr>
+	<td class="option">{TXT_SELECT_FILE}<span class="asterisk">*</span></td>
+	<td class="option_value">
+		<input type="file" name="scormfile" value="{TXT_SAVE}" />
+	</td>
+</tr>
+<tr>
+	<td class="option">{TXT_VALIDATE_FILE}</td>
+	<td class="option_value">
+		<input type="checkbox" name="validate" value="y" checked="1"/>
+	</td>
+</tr>
+<tr>
+	<td class="submit" align="right" colspan="2">
+		<input class="submit" type="submit" name="cmd[{BTN_NAME}]" value="{TXT_UPLOAD}" />
+		<input class="submit" type="submit" name="cmd[cancel]" value="{TXT_CANCEL}" />
+	</td>
+</tr>
+<br>
+</table>
+<span class="asterisk">*</span><span class="small"> {TXT_FILE_INFO}</span>
+</form>
+

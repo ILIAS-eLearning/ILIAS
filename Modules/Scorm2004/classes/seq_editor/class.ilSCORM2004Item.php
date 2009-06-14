@@ -184,7 +184,8 @@ class ilSCORM2004Item
 	public static function getAllowedActions($a_node_id)
 	{
 		global $ilDB,$ilLog;
-		$query = "SELECT * FROM sahs_sc13_seq_item WHERE sahs_sc13_tree_node_id = ".$ilDB->quote($a_node_id);
+		$query = "SELECT * FROM sahs_sc13_seq_item WHERE sahs_sc13_tree_node_id = ".
+			$ilDB->quote($a_node_id, "integer");
 		$obj_set = $ilDB->query($query);
 		$obj_rec = $obj_set->fetchRow(DB_FETCHMODE_ASSOC);
 		return array("copy"=>!$obj_rec['nocopy'],"move"=>!$obj_rec['nomove'],"delete"=>!$obj_rec['nodelete']);
@@ -217,10 +218,10 @@ class ilSCORM2004Item
 	public function loadItem()
 	{
 		global $ilDB;
-		$query = "SELECT * FROM sahs_sc13_seq_item WHERE (sahs_sc13_tree_node_id = ".$ilDB->quote($this->treeNodeId).
-				  " AND rootlevel =".$ilDB->quote($this->rootLevel).")";
+		$query = "SELECT * FROM sahs_sc13_seq_item WHERE (sahs_sc13_tree_node_id = ".$ilDB->quote($this->treeNodeId, "integer").
+				  " AND rootlevel =".$ilDB->quote($this->rootLevel, "integer").")";
 		$obj_set = $ilDB->query($query);
-		$obj_rec = $obj_set->fetchRow(DB_FETCHMODE_ASSOC);
+		$obj_rec = $ilDB->fetchAssoc($obj_set);
 		$this->seqXml = $obj_rec['seqxml'];
 		$this->importId = $obj_rec['importid'];
 		$this->nocopy =  $obj_rec['nocopy'];
@@ -242,22 +243,34 @@ class ilSCORM2004Item
 	public function delete($a_insert_node = false)
 	{
 		global $ilDB;
-		$query = "DELETE FROM sahs_sc13_seq_item"." WHERE (sahs_sc13_tree_node_id = ".$ilDB->quote($this->treeNodeId).
-				  "AND rootlevel=".$ilDB->quote($this->rootLevel).")";
-		$obj_set = $ilDB->query($query);	
+		$query = "DELETE FROM sahs_sc13_seq_item"." WHERE (sahs_sc13_tree_node_id = ".$ilDB->quote($this->treeNodeId, "integer").
+				  "AND rootlevel=".$ilDB->quote($this->rootLevel, "integer").")";
+		$obj_set = $ilDB->manipulate($query);	
 	}
 	
 	public function insert($import = false)
 	{
 
 		global $ilDB;
-		$sql = "REPLACE INTO sahs_sc13_seq_item (`importId`,`seqNodeId`, `sahs_sc13_tree_node_id`".
-		 		", `sequencingId` ,`nocopy` ,`nodelete` ,`nomove`,`seqxml`,`rootlevel` )".
+		$ilDB->replace("sahs_sc13_seq_item",
+			array("sahs_sc13_tree_node_id" => array("integer", $this->treeNodeId)),
+			array(
+				"importid" => array("text", $this->importId),
+				"seqnodeid" => array("integer", (int) $this->seqNodeId),
+				"sequencingid" => array("text", $this->sequencingId),
+				"nocopy" => array("integer", $this->nocopy),
+				"nodelete" => array("integer", $this->nodelete),
+				"nomove" => array("integer", $this->nomove),
+				"seqxml" => array("clob", $this->dom->saveXML()),
+				"rootlevel" => array("integer", $ilDB->quote($this->rootLevel))
+				));
+/*		$sql = "REPLACE INTO sahs_sc13_seq_item (`importid`,`seqnodeid`, `sahs_sc13_tree_node_id`".
+		 		", `sequencingid` ,`nocopy` ,`nodelete` ,`nomove`,`seqxml`,`rootlevel` )".
 				 " values(".$ilDB->quote($this->importId).",".$ilDB->quote($this->seqNodeId).",".$ilDB->quote($this->treeNodeId).",".
 						   $ilDB->quote($this->sequencingId).",".$ilDB->quote($this->nocopy).",".
 						   $ilDB->quote($this->nodelete).",".$ilDB->quote($this->nomove).",".
 						   $ilDB->quote($this->dom->saveXML()). ",".$ilDB->quote($this->rootLevel).");";
-		$result = $ilDB->query($sql);
+		$result = $ilDB->query($sql);*/
 		return true;
 	}
 	

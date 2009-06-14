@@ -109,10 +109,12 @@ class ilSCORM2004Rule extends ilSCORM2004SeqNode
 	public function insert($a_insert_node = false)
 	{
 		if ($a_insert_node==true) {$this->setSeqNodeId(parent::insert());}
-		$sql = "INSERT INTO sahs_sc13_seq_rule (seqNodeId,type,action)".
-				" values(".$this->db->quote($this->seqNodeId).",".$this->db->quote($this->type).",".
-						   $this->db->quote($this->action).");";
-		$result = $this->db->query($sql);
+		$sql = "INSERT INTO sahs_sc13_seq_rule (seqnodeid,type,action)".
+				" values(".
+				$this->db->quote($this->seqNodeId, "integer").",".
+				$this->db->quote($this->type, "text").",".
+				$this->db->quote($this->action, "text").");";
+		$result = $this->db->manipulate($sql);
 		return true;
 	}
 	

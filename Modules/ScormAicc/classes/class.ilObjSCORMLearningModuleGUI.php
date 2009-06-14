@@ -827,8 +827,7 @@ class ilObjSCORMLearningModuleGUI extends ilObjSAHSLearningModuleGUI
 		
 	}
 	
-	
-	
+		
 	function decreaseAttempts()
 	{
 		global $ilDB, $ilUser;
@@ -970,8 +969,7 @@ class ilObjSCORMLearningModuleGUI extends ilObjSAHSLearningModuleGUI
    * show tracking data of item
    */
    function showTrackingItemSco()
-   {
- 
+   { 
  	   global $ilTabs;
 
        include_once "./Services/Table/classes/class.ilTableGUI.php";
@@ -1060,7 +1058,7 @@ class ilObjSCORMLearningModuleGUI extends ilObjSAHSLearningModuleGUI
            $this->tpl->setVariable("NUM_COLS", $num);
            $this->tpl->parseCurrentBlock();
        }
-   }
+	}
 
 	/**
 	* show tracking data of item per user

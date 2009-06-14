@@ -42,9 +42,10 @@ class ilSCORM2004NodeFactory
 	{
 		global $ilias, $ilDB;
 
-		$query = "SELECT * FROM sahs_sc13_tree_node WHERE obj_id = ".$ilDB->quote($a_id);
+		$query = "SELECT * FROM sahs_sc13_tree_node WHERE obj_id = ".
+			$ilDB->quote($a_id, "integer");
 		$obj_set = $ilDB->query($query);
-		$obj_rec = $obj_set->fetchRow(DB_FETCHMODE_ASSOC);
+		$obj_rec = $ilDB->fetchAssoc($obj_set);
 		$obj = null;
 		switch($obj_rec["type"])
 		{

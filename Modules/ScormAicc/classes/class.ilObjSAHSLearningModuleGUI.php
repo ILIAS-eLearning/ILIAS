@@ -58,7 +58,7 @@ class ilObjSAHSLearningModuleGUI extends ilObjectGUI
 	*/
 	function &executeCommand()
 	{
-		global $ilAccess;
+		global $ilAccess, $ilTabs;
 		
 		if (strtolower($_GET["baseClass"]) == "iladministrationgui" ||
 			$this->getCreationMode() == true)
@@ -146,6 +146,27 @@ class ilObjSAHSLearningModuleGUI extends ilObjectGUI
 				$this->ctrl->forwardCommand($info);
 				break;
 
+			case "ilobjstylesheetgui":
+				//$this->addLocations();
+				$this->ctrl->setReturn($this, "properties");
+				$ilTabs->clearTargets();
+				$style_gui =& new ilObjStyleSheetGUI("", $this->object->getStyleSheetId(), false, false);
+				$style_gui->omitLocator();
+				if ($cmd == "create" || $_GET["new_type"]=="sty")
+				{
+					$style_gui->setCreationMode(true);
+				}
+				$ret =& $this->ctrl->forwardCommand($style_gui);
+				//$ret =& $style_gui->executeCommand();
+
+				if ($cmd == "save" || $cmd == "copyStyle" || $cmd == "importStyle")
+				{
+					$style_id = $ret;
+					$this->object->setStyleSheetId($style_id);
+					$this->object->update();
+					$this->ctrl->redirectByClass("ilobjstylesheetgui", "edit");
+				}
+				break;
 			default:
 				$cmd = $this->ctrl->getCmd("frameset");
 				if ((strtolower($_GET["baseClass"]) == "iladministrationgui" ||
@@ -192,7 +213,64 @@ class ilObjSAHSLearningModuleGUI extends ilObjectGUI
 	*/
 	function createObject()
 	{
-		$this->importObject();
+		$this->tpl->addBlockFile("ADM_CONTENT", "adm_content", "tpl.slm_create.html", "Modules/ScormAicc");
+		
+		$this->tpl->setVariable("TYPE_IMG",ilUtil::getImagePath('icon_slm.gif'));
+		
+		$this->tpl->setVariable("ALT_IMG", $this->lng->txt("obj_sahs"));
+		
+		$this->ctrl->setParameter($this, "new_type", "sahs");
+		$this->tpl->setVariable("FORMACTION", $this->ctrl->getFormAction($this));
+		$this->tpl->setVariable("CMD_SUBMIT", "save");
+		
+		$this->tpl->setVariable("TXT_HEADER", $this->lng->txt("scorm_new"));
+		$this->tpl->setVariable("TXT_TITLE", $this->lng->txt("title"));
+		$this->tpl->setVariable("TXT_DESC", $this->lng->txt("desc"));
+		$this->tpl->setVariable("TXT_SUBMIT", $this->lng->txt("scorm_add"));		
+		
+		$this->tpl->setVariable("BTN_NAME", "upload");
+		$this->tpl->setVariable("TARGET", ' target="'.ilFrameTargetInfo::_getFrame("MainContent").'" ');
+
+		$this->tpl->setVariable("TXT_SELECT_LMTYPE", $this->lng->txt("type"));
+		$this->tpl->setVariable("TXT_TYPE_AICC", $this->lng->txt("lm_type_aicc"));
+		$this->tpl->setVariable("TXT_TYPE_HACP", $this->lng->txt("lm_type_hacp"));
+		$this->tpl->setVariable("TXT_TYPE_SCORM", $this->lng->txt("lm_type_scorm"));
+
+		$this->tpl->setVariable("TXT_TYPE_SCORM2004", $this->lng->txt("lm_type_scorm2004"));
+		
+		$this->tpl->setVariable("TXT_UPLOAD", $this->lng->txt("upload"));
+		$this->tpl->setVariable("TXT_CANCEL", $this->lng->txt("cancel"));
+		$this->tpl->setVariable("TXT_IMPORT_LM", $this->lng->txt("import_sahs"));
+		$this->tpl->setVariable("TXT_SELECT_FILE", $this->lng->txt("select_file"));
+		$this->tpl->setVariable("TXT_VALIDATE_FILE", $this->lng->txt("cont_validate_file"));
+
+		// get the value for the maximal uploadable filesize from the php.ini (if available)
+		$umf=get_cfg_var("upload_max_filesize");
+		// get the value for the maximal post data from the php.ini (if available)
+		$pms=get_cfg_var("post_max_size");
+		
+		//convert from short-string representation to "real" bytes
+		$multiplier_a=array("K"=>1024, "M"=>1024*1024, "G"=>1024*1024*1024);
+		
+		$umf_parts=preg_split("/(\d+)([K|G|M])/", $umf, -1, PREG_SPLIT_DELIM_CAPTURE|PREG_SPLIT_NO_EMPTY);
+        $pms_parts=preg_split("/(\d+)([K|G|M])/", $pms, -1, PREG_SPLIT_DELIM_CAPTURE|PREG_SPLIT_NO_EMPTY);
+        
+        if (count($umf_parts) == 2) { $umf = $umf_parts[0]*$multiplier_a[$umf_parts[1]]; }
+        if (count($pms_parts) == 2) { $pms = $pms_parts[0]*$multiplier_a[$pms_parts[1]]; }
+        
+        // use the smaller one as limit
+		$max_filesize=min($umf, $pms);
+
+		if (!$max_filesize) $max_filesize=max($umf, $pms);
+	
+    	//format for display in mega-bytes
+		$max_filesize=sprintf("%.1f MB",$max_filesize/1024/1024);
+
+		// gives out the limit as a little notice
+		$this->tpl->setVariable("TXT_FILE_INFO", $this->lng->txt("file_notice")." $max_filesize");
+		
+	
+		//$this->importObject();
 	}
 
 	/**
@@ -200,8 +278,10 @@ class ilObjSAHSLearningModuleGUI extends ilObjectGUI
 	*
 	* @access	public
 	*/
+/*		DEPRECATED
 	function importObject()
 	{
+				
 		// display import form
 		$this->tpl->addBlockFile("ADM_CONTENT", "adm_content", "tpl.slm_import.html", "Modules/ScormAicc");
 		
@@ -212,8 +292,7 @@ class ilObjSAHSLearningModuleGUI extends ilObjectGUI
 		$this->tpl->setVariable("FORMACTION", $this->ctrl->getFormAction($this));
 
 		$this->tpl->setVariable("BTN_NAME", "save");
-		$this->tpl->setVariable("TARGET", ' target="'.
-			ilFrameTargetInfo::_getFrame("MainContent").'" ');
+		$this->tpl->setVariable("TARGET", ' target="'.ilFrameTargetInfo::_getFrame("MainContent").'" ');
 
 		$this->tpl->setVariable("TXT_SELECT_LMTYPE", $this->lng->txt("type"));
 		$this->tpl->setVariable("TXT_TYPE_AICC", $this->lng->txt("lm_type_aicc"));
@@ -253,6 +332,7 @@ class ilObjSAHSLearningModuleGUI extends ilObjectGUI
 		// gives out the limit as a little notice
 		$this->tpl->setVariable("TXT_FILE_INFO", $this->lng->txt("file_notice")." $max_filesize");
 	}
+*/
 
 	/**
 	* display status information or report errors messages
@@ -370,15 +450,29 @@ class ilObjSAHSLearningModuleGUI extends ilObjectGUI
 	{
 		$this->uploadObject();
 	}
+	
+	
 
 	/**
 	* save new learning module to db
 	*/
 	function saveObject()
 	{
-		global $rbacadmin;
-
-		$this->uploadObject();
+		include_once("./Modules/Scorm2004/classes/class.ilObjSCORM2004LearningModule.php");
+		$newObj = new ilObjSCORM2004LearningModule();
+		$newObj->setTitle($_POST["Fobject"]["title"]);
+		$newObj->setSubType("scorm2004");
+		$newObj->setEditable(true);
+		$newObj->setDescription($_POST["Fobject"]["desc"]);
+		$newObj->create();
+		$newObj->createReference();
+		$newObj->putInTree($_GET["ref_id"]);
+		$newObj->setPermissions($_GET["ref_id"]);
+		$newObj->notify("new",$_GET["ref_id"],$_GET["parent_non_rbac_id"],$_GET["ref_id"],$newObj->getRefId());
+		$newObj->createDataDirectory();
+		$newObj->createScorm2004Tree();
+		ilUtil::sendInfo( $this->lng->txt($newObj->getType()."_added"), true);
+		ilUtil::redirect("ilias.php?baseClass=ilSAHSEditGUI&ref_id=".$newObj->getRefId());
 	}
 
 
@@ -538,12 +632,22 @@ class ilObjSAHSLearningModuleGUI extends ilObjectGUI
 	{
 		global $ilAccess, $ilErr, $lng;
 
-		// to do: force flat view
-		if ($ilAccess->checkAccess("visible", "", $a_target))
+		$parts = explode("_", $a_target);
+
+		if ($ilAccess->checkAccess("write", "", $parts[0]))
+		{
+			$_GET["cmd"] = "";
+			$_GET["baseClass"] = "ilSAHSEditGUI";
+			$_GET["ref_id"] = $parts[0];
+			$_GET["obj_id"] = $parts[1];
+			include("ilias.php");
+			exit;
+		}
+		if ($ilAccess->checkAccess("visible", "", $parts[0]))
 		{
 			$_GET["cmd"] = "infoScreen";
 			$_GET["baseClass"] = "ilSAHSPresentationGUI";
-			$_GET["ref_id"] = $a_target;
+			$_GET["ref_id"] = $parts[0];
 			include("ilias.php");
 			exit;
 		}
@@ -555,7 +659,7 @@ class ilObjSAHSLearningModuleGUI extends ilObjectGUI
 				$_GET["target"] = "";
 				$_GET["ref_id"] = ROOT_FOLDER_ID;
 				ilUtil::sendInfo(sprintf($lng->txt("msg_no_perm_read_item"),
-					ilObject::_lookupTitle(ilObject::_lookupObjId($a_target))), true);
+					ilObject::_lookupTitle(ilObject::_lookupObjId($parts[0]))), true);
 				include("repository.php");
 				exit;
 			}

@@ -12915,3 +12915,79 @@ if (!$ilDB->tableColumnExists("sahs_sc13_seq_item", "rootlevel"))
 	$ilDB->query("ALTER TABLE `sahs_sc13_seq_item` ADD COLUMN `rootlevel` tinyint(4) NOT NULL default '0'");
 }
 ?>
+<#2471>
+<?php 
+	$ilMySQLAbstraction->performAbstraction('sahs_sc13_seq_item');
+?>
+<#2472>
+RENAME TABLE `sahs_sc13_seq_assignment` TO `sahs_sc13_seq_assign` ;
+<#2473>
+<?php 
+	$ilMySQLAbstraction->performAbstraction('sahs_sc13_seq_assign');
+?>
+<#2474>
+RENAME TABLE `sahs_sc13_seq_condition` TO `sahs_sc13_seq_cond` ;
+<#2475>
+ALTER TABLE `sahs_sc13_seq_cond` CHANGE `condition` `cond` VARCHAR(50);
+<#2476>
+<?php 
+	$ilMySQLAbstraction->performAbstraction('sahs_sc13_seq_cond');
+?>
+<#2477>
+<?php 
+	$ilMySQLAbstraction->performAbstraction('sahs_sc13_seq_course');
+?>
+<#2478>
+<?php 
+	$ilMySQLAbstraction->performAbstraction('sahs_sc13_seq_mapinfo');
+?>
+<#2479>
+<?php 
+	$ilMySQLAbstraction->performAbstraction('sahs_sc13_seq_node');
+?>
+<#2480>
+RENAME TABLE `sahs_sc13_seq_objective` TO `sahs_sc13_seq_obj`;
+<#2481>
+ALTER TABLE `sahs_sc13_seq_obj` CHANGE `primary` `primary_obj` TINYINT;
+<#2482>
+<?php 
+	$ilMySQLAbstraction->performAbstraction('sahs_sc13_seq_obj');
+?>
+<#2483>
+<?php 
+	$ilMySQLAbstraction->performAbstraction('sahs_sc13_seq_rule');
+?>
+<#2484>
+RENAME TABLE `sahs_sc13_seq_seqtemplate` TO `sahs_sc13_seq_templ`;
+<#2485>
+<?php 
+	$ilMySQLAbstraction->performAbstraction('sahs_sc13_seq_templ');
+?>
+<#2486>
+RENAME TABLE `sahs_sc13_seq_sequencing` TO `sahs_sc13_seq_seq`;
+<#2487>
+ALTER TABLE `sahs_sc13_seq_seq` CHANGE `activityExperiencedDurationLimit` `activityExperiencedDurLimit` VARCHAR(20);
+ALTER TABLE `sahs_sc13_seq_seq` CHANGE `attemptExperiencedDurationLimit` `attemptExperiencedDurLimit` VARCHAR(20);
+<#2488>
+<?php 
+	$ilMySQLAbstraction->performAbstraction('sahs_sc13_seq_seq');
+?>
+<#2489>
+RENAME TABLE `sahs_sc13_seq_templates` TO `sahs_sc13_seq_templts`;
+<#2490>
+<?php 
+	$ilMySQLAbstraction->performAbstraction('sahs_sc13_seq_templts');
+?>
+<#2491>
+<?php 
+	$ilMySQLAbstraction->performAbstraction('sahs_sc13_seq_tree');
+?>
+<#2492>
+<?php 
+	$ilMySQLAbstraction->performAbstraction('sahs_sc13_tree');
+?>
+<#2493>
+<?php 
+	$ilMySQLAbstraction->performAbstraction('sahs_sc13_tree_node');
+?>
+

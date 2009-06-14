@@ -113,9 +113,9 @@ class ilSCORM2004SeqTemplate extends ilSCORM2004SeqNode
 	{
 		global $ilDB;
 		$arr_templates = array();
-		$query = "SELECT * FROM sahs_sc13_seq_templates ORDER BY identifier";
+		$query = "SELECT * FROM sahs_sc13_seq_templts ORDER BY identifier";
 		$result = $ilDB->query($query);
-		while($row = $result->fetchRow(DB_FETCHMODE_ASSOC)) 
+		while($row = $ilDB->fetchAssoc($result)) 
 		{	
 			if($row['identifier']!="pretestpost") { //temporarily deactivated
 				array_push($arr_templates,new ilScorm2004SeqTemplate($row['identifier']));
@@ -172,8 +172,9 @@ class ilSCORM2004SeqTemplate extends ilSCORM2004SeqNode
 				$a_parent = $this->sahs_sc13_treeId;
 				if ($this->parentchapter==true) 
 	    		{
-	    			$ilDB->query("INSERT INTO sahs_sc13_seq_assignment "."(identifier, sahs_sc13_tree_node_id) VALUES ".
-	    							"(".$ilDB->quote($this->getIdentifier()).",".$ilDB->quote($this->sahs_sc13_treeId).")");
+	    			$ilDB->manipulate("INSERT INTO sahs_sc13_seq_assign (identifier, sahs_sc13_tree_node_id) VALUES ".
+	    				"(".$ilDB->quote($this->getIdentifier(), "text").",".
+						$ilDB->quote($this->sahs_sc13_treeId, "integer").")");
 	    			$this->parentchapter = false;
 	    		}
 				$new_id = $chap->getId();
@@ -258,9 +259,11 @@ class ilSCORM2004SeqTemplate extends ilSCORM2004SeqNode
 	function insert($a_insert_node = false)
 	{
 		if ($a_insert_node==true) {$this->setSeqNodeId(parent::insert());}
-		$sql = "INSERT INTO sahs_sc13_seq_seqtemplate (seqNodeId,id)".
-				" values(".$this->db->quote($this->seqNodeId).",".$this->db->quote($this->id).");";
-		$result = $this->db->query($sql);
+		$sql = "INSERT INTO sahs_sc13_seq_templ (seqnodeid,id)".
+				" values(".
+				$this->db->quote($this->seqNodeId, "integer").",".
+				$this->db->quote($this->id, "text").");";
+		$result = $this->db->manipulate($sql);
 		return true;
 	}
 	
@@ -299,9 +302,10 @@ class ilSCORM2004SeqTemplate extends ilSCORM2004SeqNode
 	public static function getFileNameForIdentifier($a_identifier)
 	{
 		global $ilDB;
-		$query = "SELECT * FROM sahs_sc13_seq_templates WHERE identifier = ".$ilDB->quote($a_identifier);
+		$query = "SELECT * FROM sahs_sc13_seq_templts WHERE identifier = ".
+			$ilDB->quote($a_identifier, "text");
 		$obj_set = $ilDB->query($query);
-		$obj_rec = $obj_set->fetchRow(DB_FETCHMODE_ASSOC);
+		$obj_rec = $ilDB->fetchAssoc($obj_set);
 		return $obj_rec["fileName"];	// fixed, switch to all lowercase fields and tables in the future for mdb2 compliance
 		return $obj_rec["filename"];
 	}
@@ -310,9 +314,10 @@ class ilSCORM2004SeqTemplate extends ilSCORM2004SeqNode
 	{
 		global $ilDB;
 		$template = null;
-		$query = "SELECT * FROM sahs_sc13_seq_assignment WHERE sahs_sc13_tree_node_id = ".$ilDB->quote($a_chapter_id);
+		$query = "SELECT * FROM sahs_sc13_seq_assign WHERE sahs_sc13_tree_node_id = ".
+			$ilDB->quote($a_chapter_id, "integer");
 		$obj_set = $ilDB->query($query);
-		$obj_rec = $obj_set->fetchRow(DB_FETCHMODE_ASSOC);
+		$obj_rec = $ilDB->fetchAssoc($obj_set);
 		if ($obj_rec['identifier']) {
 			$template = new ilScorm2004SeqTemplate($obj_rec['identifier']);
 		} 
