@@ -1467,6 +1467,58 @@ if ($this->getDBType() == "mysql")
 	}
 
 	/**
+	* Replace into method.
+	*
+	* @param	string		table name
+	* @param	array		primary key values: array("field1" => array("text", $name), "field2" => ...)
+	* @param	array		other values: array("field1" => array("text", $name), "field2" => ...)
+	*/
+	function replace($a_table, $a_pk_columns, $a_other_columns)
+	{
+		// this is the mysql implementation
+		$a_columns = array_merge($a_pk_columns, $a_other_columns);
+		$fields = array();
+		$field_values = array();
+		$placeholders = array();
+		$types = array();
+		$values = array();
+		$lobs = false;
+		$lob = array();
+		foreach ($a_columns as $k => $col)
+		{
+			$fields[] = $k;
+			$placeholders[] = "%s";
+			$placeholders2[] = ":$k";
+			$types[] = $col[0];
+			$values[] = $col[1];
+			$field_values[$k] = $col[1];
+			if ($col[0] == "blob" || $col[0] == "clob")
+			{
+				$lobs = true;
+				$lob[$k] = $k;
+			}
+		}
+		if ($lobs)	// lobs -> use prepare execute (autoexecute broken in PEAR 2.4.1)
+		{
+			$st = $this->db->prepare("REPLACE INTO ".$a_table." (".implode($fields,",").") VALUES (".
+				implode($placeholders2,",").")", $types, MDB2_PREPARE_MANIP, $lob);
+			$r = $st->execute($field_values);
+			
+			
+			//$r = $this->db->extended->autoExecute($a_table, $field_values, MDB2_AUTOQUERY_INSERT, null, $types);
+			$this->handleError($r, "insert / prepare/execute(".$a_table.")");
+			$this->free($st);
+		}
+		else	// if no lobs are used, take simple manipulateF
+		{
+			$q = "REPLACE INTO ".$a_table." (".implode($fields,",").") VALUES (".
+				implode($placeholders,",").")";
+			$r = $this->manipulateF($q, $types, $values);
+		}
+		return $r;
+	}
+
+	/**
 	* Fetch row as associative array from result set
 	*
 	* @param	object	result set

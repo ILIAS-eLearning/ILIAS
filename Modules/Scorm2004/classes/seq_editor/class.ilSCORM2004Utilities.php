@@ -87,11 +87,12 @@ class ilSCORM2004Utilities
 	{
 		global $ilDB,$ilLog;
 		$ilLog->write("SCORM: getLeftRightInfo");
-		$query = "SELECT * FROM sahs_sc13_seq_tree WHERE (child = ".$ilDB->quote($this->getSeqNodeId()).
-														  " AND importid=".$ilDB->quote($this->getImportIdent()).")";
+		$query = "SELECT * FROM sahs_sc13_seq_tree WHERE (child = ".
+			$ilDB->quote($this->getSeqNodeId(), "integer").
+			" AND importid=".$ilDB->quote($this->getImportIdent(), "text").")";
 		$obj_set = $ilDB->query($query);
 		$ilLog->write("SCORM: getLeftRightInfo executed".$query);
-		$obj_rec = $obj_set->fetchRow(DB_FETCHMODE_ASSOC);
+		$obj_rec = $ilDB->fetchAssoc($obj_set);
 		return array("left"=> $obj_rec["lft"], "right" => $obj_rec["rgt"]);
 	}
 	
@@ -100,38 +101,41 @@ class ilSCORM2004Utilities
 	{
 		global $ilDB,$ilLog;
 		$all_props = $this->getAllSequencingProperties();
-		$ilLog->write("SCORM: getSeqNodeId: ".$all_props["seqNodeId"]);
-		return $all_props["seqNodeId"];
+		$ilLog->write("SCORM: getSeqNodeId: ".$all_props["seqnodeid"]);
+		return $all_props["seqnodeid"];
 	}
 	
 	private function getSequencingId() 
 	{
 		global $ilDB,$ilLog;
 		$ilLog->write("SCORM: getSequencingId for".$this->getId());
-		$query = "SELECT * FROM sahs_sc13_seq_item WHERE sahs_sc13_tree_node_id = ".$ilDB->quote($this->getId());
+		$query = "SELECT * FROM sahs_sc13_seq_item WHERE sahs_sc13_tree_node_id = ".
+			$ilDB->quote($this->getId(), "integer");
 		$obj_set = $ilDB->query($query);
 		$obj_rec = $obj_set->fetchRow(DB_FETCHMODE_ASSOC);
-		return $obj_rec['sequencingId'];
+		return $obj_rec['sequencingid'];
 	}
 	
 	private function getItemId() 
 	{
 		global $ilDB,$ilLog;
 		$ilLog->write("SCORM: getSequencingId for".$this->getId);
-		$query = "SELECT * FROM sahs_sc13_seq_item WHERE sahs_sc13_tree_node_id = ".$ilDB->quote($this->getId());
+		$query = "SELECT * FROM sahs_sc13_seq_item WHERE sahs_sc13_tree_node_id = ".
+			$ilDB->quote($this->getId(), "integer");
 		$obj_set = $ilDB->query($query);
 		$obj_rec = $obj_set->fetchRow(DB_FETCHMODE_ASSOC);
-		return $obj_rec['seqNodeId'];
+		return $obj_rec['seqnodeid'];
 	}
 	
 	public function getImportIdent() 
 	{
 		global $ilDB,$ilLog;
 		$ilLog->write("SCORM: getImportIdent for".$this->getId);
-		$query = "SELECT * FROM sahs_sc13_seq_item WHERE sahs_sc13_tree_node_id = ".$ilDB->quote($this->getId());
+		$query = "SELECT * FROM sahs_sc13_seq_item WHERE sahs_sc13_tree_node_id = ".
+			$ilDB->quote($this->getId(), "integer");
 		$obj_set = $ilDB->query($query);
 		$obj_rec = $obj_set->fetchRow(DB_FETCHMODE_ASSOC);
-		return $obj_rec['importId'];
+		return $obj_rec['importid'];
 	}
 	
 	
@@ -145,7 +149,8 @@ class ilSCORM2004Utilities
 	{
 		global $ilDB,$ilLog;
 		$ilLog->write("SCORM: getAllowedActions for".$this->tree_node_id);
-		$query = "SELECT * FROM sahs_sc13_seq_item WHERE sahs_sc13_tree_node_id = ".$ilDB->quote($this->getId());
+		$query = "SELECT * FROM sahs_sc13_seq_item WHERE sahs_sc13_tree_node_id = ".
+			$ilDB->quote($this->getId(), "integer");
 		$obj_set = $ilDB->query($query);
 		$obj_rec = $obj_set->fetchRow(DB_FETCHMODE_ASSOC);
 		return array("copy"=>!$obj_rec['nocopy'],"move"=>!$obj_rec['nomove'],"delete"=>!$obj_rec['nodelete']);
@@ -154,22 +159,63 @@ class ilSCORM2004Utilities
 	public function getControlModeProperties()
 	{
 		global $ilDB;
-		$query = "SELECT * FROM sahs_sc13_seq_sequencing WHERE id = ".$ilDB->quote($this->getSequencingId());
+		$query = "SELECT * FROM sahs_sc13_seq_seq WHERE id = ".
+			$ilDB->quote($this->getSequencingId(), "text");
 		$obj_set = $ilDB->query($query);
 		$obj_rec = $obj_set->fetchRow(DB_FETCHMODE_ASSOC);
-		$c_properties = array('flow' => $obj_rec['flow'],'forwardOnly' => $obj_rec['forwardOnly'], 'choice' => $obj_rec['choice'],'choiceExit' => $obj_rec['choiceExit'] );
+		$c_properties = array(
+			'flow' => $obj_rec['flow'],
+			'forwardOnly' => $obj_rec['forwardonly'],
+			'choice' => $obj_rec['choice'],
+			'choiceExit' => $obj_rec['choiceexit'] );
 		return $c_properties;
 	}
 	
 	public function getAllSequencingProperties()
 	{
 		global $ilDB,$ilLog;
-		$query = "SELECT * FROM sahs_sc13_seq_sequencing WHERE (id = ".$ilDB->quote($this->getSequencingId()).
-																" AND importId=".$ilDB->quote($this->getImportIdent()).")";
+		$query = "SELECT * FROM sahs_sc13_seq_seq WHERE (id = ".
+			$ilDB->quote($this->getSequencingId(), "text").
+			" AND importid=".$ilDB->quote($this->getImportIdent(), "text").")";
 		$obj_set = $ilDB->query($query);
 		$ilLog->write("SCORM: getAllSequencingProperties for".$this->getSequencingId());
 		$obj_rec = $obj_set->fetchRow(DB_FETCHMODE_ASSOC);
-		return $obj_rec;
+		$sprop = array(
+			'importId' => $obj_rec['importid'],
+			'activityAbsoluteDurationLimit' => $obj_rec['activityabsolutedurationlimit'],
+			'activityExperiencedDurationLimit' => $obj_rec['activityexperienceddurlimit'],
+			'attemptAbsoluteDurationLimit' => $obj_rec['attemptabsolutedurationlimit'],
+			'attemptExperiencedDurationLimit' => $obj_rec['attemptexperienceddurlimit'],
+			'attemptLimit' => $obj_rec['attemptlimit'],
+			'beginTimeLimit' => $obj_rec['begintimelimit'],
+			'completionSetByContent' => $obj_rec['completionsetbycontent'],
+			'constrainChoice' => $obj_rec['constrainchoice'],
+			'seqNodeId' => $obj_rec['seqnodeid'],
+			'endTimeLimit' => $obj_rec['endtimelimit'],
+			'id' => $obj_rec['id'],
+			'measureSatisfactionIfActive' => $obj_rec['measuresatisfactionifactive'],
+			'objectiveMeasureWeight' => $obj_rec['objectivemeasureweight'],
+			'objectiveSetByContent' => $obj_rec['objectivesetbycontent'],
+			'preventActivation' => $obj_rec['preventactivation'],
+			'randomizationTiming' => $obj_rec['randomizationtiming'],
+			'reorderChildren' => $obj_rec['reorderchildren'],
+			'requiredForCompleted' => $obj_rec['requiredforcompleted'],
+			'requiredForIncomplete' => $obj_rec['requiredforincomplete'],
+			'requiredForNotSatisfied' => $obj_rec['requiredfornotsatisfied'],
+			'requiredForSatisfied' => $obj_rec['requiredforsatisfied'],
+			'rollupObjectiveSatisfied' => $obj_rec['rollupobjectivesatisfied'],
+			'rollupProgressCompletion' => $obj_rec['rollupprogresscompletion'],
+			'selectCount' => $obj_rec['selectcount'],
+			'selectionTiming' => $obj_rec['selectiontiming'],
+			'sequencingId' => $obj_rec['sequencingid'],
+			'tracked' => $obj_rec['tracked'],
+			'useCurrentAttemptObjectiveInfo' => $obj_rec['usecurrentattemptobjectiveinfo'],
+			'useCurrentAttemptProgressInfo' => $obj_rec['usecurrentattemptprogressinfo'],
+			'flow' => $obj_rec['flow'],
+			'forwardOnly' => $obj_rec['forwardonly'],
+			'choice' => $obj_rec['choice'],
+			'choiceExit' => $obj_rec['choiceexit'] );
+		return $sprop;
 	}
 	
 

@@ -936,6 +936,5 @@ class ilObjSCORMLearningModule extends ilObjSAHSLearningModule
 		return $this->getStatusForUser($a_user,$this->getAllScoIds,true);
 	}
 	
-
 } // END class.ilObjSCORMLearningModule
 ?>

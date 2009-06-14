@@ -80,7 +80,9 @@ class ilObjSAHSLearningModuleListGUI extends ilObjectListGUI
 		switch($a_cmd)
 		{
 			case "view":
-				$cmd_link = "ilias.php?baseClass=ilSAHSPresentationGUI&amp;ref_id=".$this->ref_id;
+// temporary link view link to editing
+$cmd_link = "ilias.php?baseClass=ilSAHSEditGUI&amp;ref_id=".$this->ref_id;
+				//$cmd_link = "ilias.php?baseClass=ilSAHSPresentationGUI&amp;ref_id=".$this->ref_id;
 				break;
 
 			case "edit":
@@ -125,6 +127,8 @@ class ilObjSAHSLearningModuleListGUI extends ilObjectListGUI
 				else
 				{
 					$frame = "ilContObj".$this->obj_id;
+// temporary use same frame
+$frame = "";
 				}
 				break;
 

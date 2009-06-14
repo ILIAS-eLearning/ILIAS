@@ -267,7 +267,7 @@ class ilRepositoryGUI
 		{
 			$next_class = "";
 		}
-//echo "<br>cmd:$cmd:nextclass:$next_class:";
+
 		switch ($next_class)
 		{
 			

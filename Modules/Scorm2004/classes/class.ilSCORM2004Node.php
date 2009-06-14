@@ -209,9 +209,10 @@ class ilSCORM2004Node
 
 		if(!isset($this->data_record))
 		{
-			$query = "SELECT * FROM sahs_sc13_tree_node WHERE obj_id = ".$ilDB->quote($this->id);
+			$query = "SELECT * FROM sahs_sc13_tree_node WHERE obj_id = ".
+				$ilDB->quote($this->id, "integer");
 			$obj_set = $ilDB->query($query);
-			$this->data_record = $obj_set->fetchRow(DB_FETCHMODE_ASSOC);
+			$this->data_record = $ilDB->fetchAssoc($obj_set);
 		}
 
 		$this->type = $this->data_record["type"];
@@ -333,9 +334,10 @@ class ilSCORM2004Node
 	{
 		global $ilDB;
 
-		$query = "SELECT * FROM sahs_sc13_tree_node WHERE obj_id = ".$ilDB->quote($a_obj_id);
+		$query = "SELECT * FROM sahs_sc13_tree_node WHERE obj_id = ".
+			$ilDB->quote($a_obj_id, "integer");
 		$obj_set = $ilDB->query($query);
-		$obj_rec = $obj_set->fetchRow(DB_FETCHMODE_ASSOC);
+		$obj_rec = $ilDB->fetchAssoc($obj_set);
 
 		return $obj_rec["title"];
 	}
@@ -350,9 +352,10 @@ class ilSCORM2004Node
 	{
 		global $ilDB;
 
-		$query = "SELECT * FROM sahs_sc13_tree_node WHERE obj_id = ".$ilDB->quote($a_obj_id);
+		$query = "SELECT * FROM sahs_sc13_tree_node WHERE obj_id = ".
+			$ilDB->quote($a_obj_id, "integer");
 		$obj_set = $ilDB->query($query);
-		$obj_rec = $obj_set->fetchRow(DB_FETCHMODE_ASSOC);
+		$obj_rec = $ilDB->fetchAssoc($obj_set);
 
 		return $obj_rec["type"];
 	}
@@ -368,9 +371,9 @@ class ilSCORM2004Node
 		global $ilDB;
 
 		$query = "UPDATE sahs_sc13_tree_node SET ".
-			" title = ".$ilDB->quote($a_title).
-			" WHERE obj_id = ".$ilDB->quote($a_obj_id);
-		$ilDB->query($query);
+			" title = ".$ilDB->quote($a_title, "text").
+			" WHERE obj_id = ".$ilDB->quote($a_obj_id, "integer");
+		$ilDB->manipulate($query);
 	}
 
 	/**
@@ -385,11 +388,11 @@ class ilSCORM2004Node
 
 		$q = "UPDATE sahs_sc13_tree_node ".
 			"SET ".
-			"import_id = ".$ilDB->quote($a_import_id).",".
-			"last_update = now() ".
-			"WHERE obj_id = ".$ilDB->quote($a_id);
+			"import_id = ".$ilDB->quote($a_import_id, "text").",".
+			"last_update = ".$ilDB->now().
+			"WHERE obj_id = ".$ilDB->quote($a_id, "integer");
 
-		$ilDB->query($q);
+		$ilDB->manipulate($q);
 	}
 
 	/**
@@ -402,12 +405,17 @@ class ilSCORM2004Node
 		global $ilDB;
 
 		// insert object data
-		$query = "INSERT INTO sahs_sc13_tree_node (title, type, slm_id, import_id, create_date) ".
-			"VALUES (".$ilDB->quote($this->getTitle()).",".$ilDB->quote($this->getType()).", ".
-			$ilDB->quote($this->getSLMId()).",".$ilDB->quote($this->getImportId()).
-			", now())";
-		$ilDB->query($query);
-		$this->setId($ilDB->getLastInsertId());
+		$id = $ilDB->nextId("sahs_sc13_tree_node");
+		$query = "INSERT INTO sahs_sc13_tree_node (obj_id, title, type, slm_id, import_id, create_date) ".
+			"VALUES (".
+			$ilDB->quote($id, "integer").",".
+			$ilDB->quote($this->getTitle(), "text").",".
+			$ilDB->quote($this->getType(), "text").", ".
+			$ilDB->quote($this->getSLMId(), "integer").",".
+			$ilDB->quote($this->getImportId(), "text").
+			", ".$ilDB->now().")";
+		$ilDB->manipulate($query);
+		$this->setId($id);
 
 		if (!$a_upload)
 		{
@@ -425,11 +433,11 @@ class ilSCORM2004Node
 		$this->updateMetaData();
 
 		$query = "UPDATE sahs_sc13_tree_node SET ".
-			" slm_id = ".$ilDB->quote($this->getSLMId()).
-			" ,title = ".$ilDB->quote($this->getTitle()).
-			" WHERE obj_id = ".$ilDB->quote($this->getId());
+			" slm_id = ".$ilDB->quote($this->getSLMId(), "integer").
+			" ,title = ".$ilDB->quote($this->getTitle(), "text").
+			" WHERE obj_id = ".$ilDB->quote($this->getId(), "integer");
 
-		$ilDB->query($query);
+		$ilDB->manipulate($query);
 	}
 
 	/**
@@ -439,8 +447,9 @@ class ilSCORM2004Node
 	{
 		global $ilDB;
 		
-		$query = "DELETE FROM sahs_sc13_tree_node WHERE obj_id= ".$ilDB->quote($this->getId());
-		$ilDB->query($query);
+		$query = "DELETE FROM sahs_sc13_tree_node WHERE obj_id= ".
+			$ilDB->quote($this->getId(), "integer");
+		$ilDB->manipulate($query);
 
 		$this->deleteMetaData();
 	}
@@ -460,10 +469,12 @@ class ilSCORM2004Node
 	{
 		global $ilDB;
 		
-		$q = "SELECT * FROM sahs_sc13_tree_node WHERE import_id = ".$ilDB->quote($a_import_id)." ".
-			" ORDER BY create_date DESC LIMIT 1";
+		$ilDB->setLimit(1);
+		$q = "SELECT * FROM sahs_sc13_tree_node WHERE import_id = ".
+			$ilDB->quote($a_import_id, "text")." ".
+			" ORDER BY create_date DESC";
 		$obj_set = $ilDB->query($q);
-		while ($obj_rec = $obj_set->fetchRow(DB_FETCHMODE_ASSOC))
+		while ($obj_rec = $ilDB->fetchAssoc($obj_set))
 		{
 			$slm_id = ilSCORM2004Node::_lookupSLMID($obj_rec["obj_id"]);
 
@@ -494,9 +505,10 @@ class ilSCORM2004Node
 			$a_id = ilInternalLink::_extractObjIdOfTarget($a_id);
 		}
 		
-		$q = "SELECT * FROM sahs_sc13_tree_node WHERE obj_id = ".$ilDB->quote($a_id);
+		$q = "SELECT * FROM sahs_sc13_tree_node WHERE obj_id = ".
+			$ilDB->quote($a_id, "integer");
 		$obj_set = $ilDB->query($q);
-		if ($obj_rec = $obj_set->fetchRow(DB_FETCHMODE_ASSOC))
+		if ($obj_rec = $ilDB->fetchAssoc($obj_set))
 		{
 			return true;
 		}
@@ -518,11 +530,11 @@ class ilSCORM2004Node
 		global $ilDB;
 		
 		$query = "SELECT * FROM sahs_sc13_tree_node ".
-			"WHERE slm_id= ".$ilDB->quote($a_slm_object->getId())." ";
+			"WHERE slm_id = ".$ilDB->quote($a_slm_object->getId(), "integer")." ";
 		$obj_set = $ilDB->query($query);
 
 		require_once("./Modules/LearningModule/classes/class.ilScorm2004NodeFactory.php");
-		while($obj_rec = $obj_set->fetchRow(DB_FETCHMODE_ASSOC))
+		while($obj_rec = $ilDB->fetchAssoc($obj_set))
 		{
 			$node_obj = ilSCORM2004NodeFactory::getInstance($a_slm_object, $obj_rec["obj_id"],false);
 
@@ -542,9 +554,10 @@ class ilSCORM2004Node
 	{
 		global $ilDB;
 
-		$query = "SELECT * FROM sahs_sc13_tree_node WHERE obj_id = ".$ilDB->quote($a_id)."";
+		$query = "SELECT * FROM sahs_sc13_tree_node WHERE obj_id = ".
+			$ilDB->quote($a_id, "integer")."";
 		$obj_set = $ilDB->query($query);
-		$obj_rec = $obj_set->fetchRow(DB_FETCHMODE_ASSOC);
+		$obj_rec = $ilDB->fetchAssoc($obj_set);
 
 		return $obj_rec["slm_id"];
 	}

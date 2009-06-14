@@ -89,20 +89,24 @@ class ilSCORM2004SeqNode
 	
 	public function insert()
 	{
-		$sql = "INSERT INTO sahs_sc13_seq_node (tree_node_id,nodeName)".
-				" values(".$this->db->quote($this->treenodeId).",".$this->db->quote($this->nodeName).");";
-		$result = $this->db->query($sql);
-		return $this->db->getLastInsertId();
+		$next_id = $this->db->nextId("sahs_sc13_seq_node");
+		$sql = "INSERT INTO sahs_sc13_seq_node (seqnodeid, tree_node_id,nodename)".
+				" values(".
+				$this->db->quote($next_id, "integer").",".
+				$this->db->quote($this->treenodeId, "integer").",".
+				$this->db->quote($this->nodeName, "text").");";
+		$result = $this->db->manipulate($sql);
+		return $next_id();
 	}
 	
 	public function update($a_seq_node_id)
 	{
 		$sql = "UPDATE sahs_sc13_seq_node SET ".
-				"tree_node_id=".$this->db->quote($this->treenodeId).",nodeName=".$this->db->quote($this->nodeName).
-				" WHERE seqNodeId=".$this->db->quote($a_seq_node_id);
-		$result = $this->db->query($sql);
-		return $this->db->getLastInsertId();
-	    ;
+				"tree_node_id = ".$this->db->quote($this->treenodeId, "integer").",".
+				"nodename=".$this->db->quote($this->nodeName, "text").
+				" WHERE seqnodeid=".$this->db->quote($a_seq_node_id, "integer");
+		$result = $this->db->manipulate($sql);
+		return;
 	}
 	
 	

@@ -142,11 +142,15 @@ class ilSCORM2004MapInfo extends ilSCORM2004SeqNode
 	public function insert($a_insert_node = false)
 	{
 		if ($a_insert_node==true) {$this->setSeqNodeId(parent::insert());}
-		$sql = "INSERT INTO sahs_sc13_seq_mapinfo (seqNodeId,targetObjectiveID,readSatisfiedStatus,readNormalizedMeasure,writeSatisfiedStatus,writeNormalizedMeasure)".
-				" values(".$this->db->quote($this->seqNodeId).",".$this->db->quote($this->targetObjectiveID).",".
-						   $this->db->quote($this->readSatisfiedStatus).",".$this->db->quote($this->readNormalizedMeasure).",".$this->db->quote($this->writeSatisfiedStatus).",".
-						   $this->db->quote($this->writeNormalizedMeasure).");";
-		$result = $this->db->query($sql);
+		$sql = "INSERT INTO sahs_sc13_seq_mapinfo (seqnodeid,targetobjectiveid,readsatisfiedstatus,readnormalizedmeasure,writesatisfiedstatus,writemormalizedmeasure)".
+				" values(".
+				$this->db->quote($this->seqNodeId, "integer").",".
+				$this->db->quote($this->targetObjectiveID, "text").",".
+				$this->db->quote($this->readSatisfiedStatus, "integer").",".
+				$this->db->quote($this->readNormalizedMeasure, "integer").",".
+				$this->db->quote($this->writeSatisfiedStatus, "integer").",".
+				$this->db->quote($this->writeNormalizedMeasure, "integer").");";
+		$result = $this->db->manipulate($sql);
 		return true;
 	}
 	
@@ -154,14 +158,21 @@ class ilSCORM2004MapInfo extends ilSCORM2004SeqNode
 	{
 		global $ilDB;
 		
-		$sql = "SELECT *  FROM sahs_sc13_seq_mapinfo WHERE seqNodeId=".$ilDB->quote($a_seq_node_id).";";
+		$sql = "SELECT *  FROM sahs_sc13_seq_mapinfo WHERE seqnodeid=".
+			$ilDB->quote($a_seq_node_id, "integer").";";
 		$result = $ilDB->query($sql);
-		$row = $result->fetchRow(DB_FETCHMODE_ASSOC);
+		$row = $ilDB->fetchAssoc($result);
 		$obj = new ilSCORM2004MapInfo();
-		foreach ($row as $key=>$value) {
+		$obj->setSeqNodeId($row["seqnodeid"]);
+		$obj->setTargetObjectiveID($row["targetobjectiveid"]);
+		$obj->setReadSatisfiedStatus($row["readsatisfiedstatus"]);
+		$obj->setReadNormalizedMeasure($row["readnormalizedmeasure"]);
+		$obj->setWriteSatisfiedStatus($row["writesatisfiedstatus"]);
+		$obj->setWriteNormalizedMeasure($row["writemormalizedmeasure"]);
+		/*foreach ($row as $key=>$value) {
 			$method = "set".ucwords($key);
 			if (method_exists($obj,$method)) {$obj->$method($value);}
-		}
+		}*/
 		return $obj;
 	}
 	

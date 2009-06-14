@@ -3,7 +3,7 @@
 	+-----------------------------------------------------------------------------+
 	| ILIAS open source                                                           |
 	+-----------------------------------------------------------------------------+
-	| Copyright (c) 1998-2001 ILIAS open source, University of Cologne            |
+	| Copyright (c) 1998-2008 ILIAS open source, University of Cologne            |
 	|                                                                             |
 	| This program is free software; you can redistribute it and/or               |
 	| modify it under the terms of the GNU General Public License                 |
@@ -52,7 +52,6 @@ class ilObjSAHSLearningModule extends ilObject
 	{
 		$this->type = "sahs";
 		parent::ilObject($a_id,$a_call_by_reference);
-
 	}
 
 	/**
@@ -66,22 +65,13 @@ class ilObjSAHSLearningModule extends ilObject
 		$this->createMetaData();
 
 		$this->createDataDirectory();
-
-/*
-		$this->meta_data->setId($this->getId());
-//echo "<br>title:".$this->getId();
-		$this->meta_data->setType($this->getType());
-//echo "<br>title:".$this->getType();
-		$this->meta_data->setTitle($this->getTitle());
-//echo "<br>title:".$this->getTitle();
-		$this->meta_data->setDescription($this->getDescription());
-		$this->meta_data->setObject($this);
-		$this->meta_data->create();
-*/
-
-		$q = "INSERT INTO sahs_lm (id, online, api_adapter, type) VALUES ".
+		
+		$q = "INSERT INTO sahs_lm (id, online, api_adapter, type, editable) VALUES ".
 			" (".$ilDB->quote($this->getID()).",".$ilDB->quote("n").",".
-			$ilDB->quote("API").",".$ilDB->quote($this->getSubType()).")";
+			$ilDB->quote("API").",".$ilDB->quote($this->getSubType()).
+			",".$ilDB->quote($this->getEditable()).
+			")";
+	
 		$ilDB->query($q);
 	}
 
@@ -103,11 +93,12 @@ class ilObjSAHSLearningModule extends ilObject
 		$this->setAPIFunctionsPrefix($lm_rec["api_func_prefix"]);
 		$this->setCreditMode($lm_rec["credit"]);
 		$this->setSubType($lm_rec["type"]);
-		$this->setSubType($lm_rec["type"]);
+		$this->setEditable($lm_rec["editable"]);
+		$this->setStyleSheetId($lm_rec["stylesheet"]);
 		$this->setMaxAttempt($lm_rec["max_attempt"]);
 		$this->setModuleVersion($lm_rec["module_version"]);
-		
-		
+		$this->setAssignedGlossary($lm_rec["glossary"]);
+		$this->setTries($lm_rec["question_tries"]);
 	}
 
 	/**
@@ -141,78 +132,54 @@ class ilObjSAHSLearningModule extends ilObject
 	}
 
 	/**
-	* get title of content object
+	* Set Editable.
 	*
-	* @return	string		title
+	* @param	boolean	$a_editable	Editable
 	*/
-/*
-	function getTitle()
+	function setEditable($a_editable)
 	{
-		return parent::getTitle();
+		$this->editable = $a_editable;
 	}
-*/
 
 	/**
-	* set title of content object
+	* Get Editable.
 	*
-	* @param	string	$a_title		title
+	* @return	boolean	Editable
 	*/
-/*
-	function setTitle($a_title)
+	function getEditable()
 	{
-		parent::setTitle($a_title);
-//		$this->meta_data->setTitle($a_title);
+		return $this->editable;
 	}
-*/
+
 
 	/**
-	* get description of content object
+	* Set default tries for questions
 	*
-	* @return	string		description
+	* @param	boolean	$a_tres	tries
 	*/
-/*
-	function getDescription()
+	function setTries($a_tries)
 	{
-		return $this->meta_data->getDescription();
+		$this->tries = $a_tries;
 	}
-*/
 
 	/**
-	* set description of content object
+	* Get Tries.
 	*
-	* @param	string	$a_description		description
+	* @return	boolean	tries
 	*/
-/*
-	function setDescription($a_description)
+	function getTries()
 	{
-		$this->meta_data->setDescription($a_description);
+		return $this->tries;
 	}
-*/
-
-	/**
-	* assign a meta data object to content object
-	*
-	* @param	object		$a_meta_data	meta data object
-	*/
-/*
-	function assignMetaData(&$a_meta_data)
+	
+	static function _getTries($a_id)
 	{
-		$this->meta_data =& $a_meta_data;
+		global $ilDB;
+		$q = "SELECT question_tries FROM sahs_lm WHERE id = ".$ilDB->quote($a_id);
+		$lm_set = $ilDB->query($q);
+		$lm_rec = $lm_set->fetchRow(DB_FETCHMODE_ASSOC);
+		return $lm_rec['question_tries'];
 	}
-*/
-
-	/**
-	* get meta data object of content object
-	*
-	* @return	object		meta data object
-	*/
-/*
-	function &getMetaData()
-	{
-		return $this->meta_data;
-	}
-*/
-
 
 	/**
 	* creates data directory for package files
@@ -299,6 +266,22 @@ class ilObjSAHSLearningModule extends ilObject
 	{
 		return $this->lesson_mode;
 	}
+	/**
+	* get ID of assigned style sheet object
+	*/
+	function getStyleSheetId()
+	{
+		return $this->style_id;
+	}
+
+	/**
+	* set ID of assigned style sheet object
+	*/
+	function setStyleSheetId($a_style_id)
+	{
+		$this->style_id = $a_style_id;
+	}
+
 
 	/**
 	* get auto review
@@ -340,7 +323,22 @@ class ilObjSAHSLearningModule extends ilObject
 	{
 		return $this->module_version;
 	}
+
+	/**
+	* get assigned glossary
+	*/	
+	function getAssignedGlossary()
+	{
+		return $this->assigned_glossary;
+	}
 	
+	/**
+	* set assigned glossary
+	*/	
+	function setAssignedGlossary($a_assigned_glossary)
+	{
+		$this->assigned_glossary = $a_assigned_glossary;
+	}
 	/**
 	* set max attempt
 	*/
@@ -394,9 +392,13 @@ class ilObjSAHSLearningModule extends ilObject
 			" auto_review = ".$ilDB->quote(ilUtil::tf2yn($this->getAutoReview())).",".
 			" default_lesson_mode = ".$ilDB->quote($this->getDefaultLessonMode()).",".
 			" type = ".$ilDB->quote($this->getSubType()).",".
+			" stylesheet = ".$ilDB->quote($this->getStyleSheetId()).",".
+			" editable = ".$ilDB->quote($this->getEditable()).",".
 			" max_attempt = ".$ilDB->quote($this->getMaxAttempt()).",".
 			" module_version = ".$ilDB->quote($this->getModuleVersion()).",".
-			" credit = ".$ilDB->quote($this->getCreditMode())."".
+			" credit = ".$ilDB->quote($this->getCreditMode()).",".
+			" glossary = ".$ilDB->quote($this->getAssignedGlossary()).",".
+			" question_tries = ".$ilDB->quote($this->getTries())."".
 			" WHERE id = ".$ilDB->quote($this->getId());
 		$this->ilias->db->query($q);
 

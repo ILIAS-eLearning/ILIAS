@@ -131,11 +131,14 @@ class ilSCORM2004Condition extends ilSCORM2004SeqNode
 	public function insert($a_insert_node = false)
 	{
 		if ($a_insert_node==true) {$this->setSeqNodeId(parent::insert());}
-		$sql = "INSERT INTO sahs_sc13_seq_condition (seqNodeId,referencedObjective,`condition`,measureThreshold,operator)".
-				" values(".$this->db->quote($this->seqNodeId).",".$this->db->quote($this->referencedObjective).",".
-						   $this->db->quote($this->condition).",".$this->db->quote($this->measureThreshold).",".
-						   $this->db->quote($this->operator).");";
-		$result = $this->db->query($sql);
+		$sql = "INSERT INTO sahs_sc13_seq_cond (seqnodeid,referencedobjective,cond,measurethreshold,operator)".
+				" values(".
+				$this->db->quote($this->seqNodeId, "integer").",".
+				$this->db->quote($this->referencedObjective, "text").",".
+				$this->db->quote($this->condition, "text").",".
+				$this->db->quote($this->measureThreshold, "text").",".
+				$this->db->quote($this->operator, "text").");";
+		$result = $this->db->manipulate($sql);
 		return true;
 	}
 	
