@@ -1916,12 +1916,13 @@ if (true)
 		// get global roles
 		$all_gl_roles = $rbacreview->getRoleListByObject(ROLE_FOLDER_ID);
 		$gl_roles = array();
+		$roles_of_user = $rbacreview->assignedRoles($ilUser->getId());
 		foreach ($all_gl_roles as $obj_data)
 		{
 			// check assignment permission if called from local admin
 			if($this->object->getRefId() != USER_FOLDER_ID)
 			{
-				if(!in_array(SYSTEM_ROLE_ID,$rbacreview->assignedRoles($ilUser->getId())) && !ilObjRole::_getAssignUsersStatus($obj_data['obj_id']))
+				if(!in_array(SYSTEM_ROLE_ID,$roles_of_user) && !ilObjRole::_getAssignUsersStatus($obj_data['obj_id']))
 				{
 					continue;
 				}
@@ -1930,7 +1931,7 @@ if (true)
 			if ($obj_data["obj_id"] != ANONYMOUS_ROLE_ID)
 			{
 				// do not allow to assign users to administrator role if current user does not has SYSTEM_ROLE_ID
-				if ($obj_data["obj_id"] != SYSTEM_ROLE_ID or in_array(SYSTEM_ROLE_ID,$rbacreview->assignedRoles($ilUser->getId())))
+				if ($obj_data["obj_id"] != SYSTEM_ROLE_ID or in_array(SYSTEM_ROLE_ID,$roles_of_user))
 				{
 					$gl_roles[$obj_data["obj_id"]] = $obj_data["title"];
 				}
@@ -2175,15 +2176,16 @@ if (true)
 		if ($_POST["role_assign"])
 		{
 			$global_roles = $rbacreview->getGlobalRoles();
+			$roles_of_user = $rbacreview->assignedRoles($ilUser->getId());
 			foreach ($_POST["role_assign"] as $role_id)
 			{
 				if ($role_id != "") 
 				{
 					if (in_array($role_id, $global_roles))
 					{
-						if(!in_array(SYSTEM_ROLE_ID,$rbacreview->assignedRoles($ilUser->getId())))
+						if(!in_array(SYSTEM_ROLE_ID,$roles_of_user))
 						{
-							if ($role_id == SYSTEM_ROLE_ID && ! in_array(SYSTEM_ROLE_ID,$rbacreview->assignedRoles($ilUser->getId())) 
+							if ($role_id == SYSTEM_ROLE_ID && ! in_array(SYSTEM_ROLE_ID,$roles_of_user)
 							|| ($this->object->getRefId() != USER_FOLDER_ID 
 								&& ! ilObjRole::_getAssignUsersStatus($role_id))
 							)
