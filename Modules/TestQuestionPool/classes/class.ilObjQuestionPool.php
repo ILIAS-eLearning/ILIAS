@@ -476,6 +476,62 @@ class ilObjQuestionPool extends ilObject
 	*
 	* @access public
 	*/
+	function getQuestionBrowserData($arrFilter)
+	{
+		global $ilUser;
+		global $ilDB;
+		
+		$where = "";
+		if (is_array($arrFilter))
+		{
+			if (array_key_exists('title', $arrFilter) && strlen($arrFilter['title']))
+			{
+				$where .= " AND " . $ilDB->like('qpl_questions.title', 'text', "%%" . $arrFilter['title'] . "%%");
+			}
+			if (array_key_exists('comment', $arrFilter) && strlen($arrFilter['comment']))
+			{
+				$where .= " AND " . $ilDB->like('qpl_questions.description', 'text', "%%" . $arrFilter['comment'] . "%%");
+			}
+			if (array_key_exists('author', $arrFilter) && strlen($arrFilter['author']))
+			{
+				$where .= " AND " . $ilDB->like('qpl_questions.author', 'text', "%%" . $arrFilter['author'] . "%%");
+			}
+			if (array_key_exists('type', $arrFilter) && strlen($arrFilter['type']))
+			{
+				$where .= " AND qpl_qst_type.type_tag = " . $ilDB->quote($arrFilter['type'], 'text');
+			}
+		}
+		$query_result = $ilDB->queryF("SELECT qpl_questions.*, qpl_qst_type.type_tag, qpl_qst_type.plugin FROM qpl_questions, qpl_qst_type WHERE ISNULL(qpl_questions.original_id) AND qpl_questions.tstamp > 0 AND qpl_questions.question_type_fi = qpl_qst_type.question_type_id AND qpl_questions.obj_fi = %s" . $where,
+			array('integer'),
+			array($this->getId())
+		);
+		$rows = array();
+		if ($query_result->numRows())
+		{
+			while ($row = $ilDB->fetchAssoc($query_result))
+			{
+				if ($row["plugin"])
+				{
+					if ($this->isPluginActive($row["type_tag"]))
+					{
+						array_push($rows, $row);
+					}
+				}
+				else
+				{
+					array_push($rows, $row);
+				}
+			}
+		}
+		return $rows;
+	}
+
+
+	/**
+	* Calculates the data for the output of the questionpool
+	*
+	* @access public
+	*/
 	function getQuestionsTable($sort, $sortorder, $filter_text, $sel_filter_type, $startrow = 0)
 	{
 		global $ilUser;

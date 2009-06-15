@@ -19,6 +19,7 @@ class ilTable2GUI extends ilTableGUI
 	protected $top_anchor = "il_table_top";
 	protected $filters = array();
 	protected $optional_filters = array();
+	protected $filter_cmd = 'applyFilter';
 	protected $filter_cols = 4;
 	protected $ext_sort = false;
 	protected $ext_seg = false;
@@ -489,6 +490,26 @@ class ilTable2GUI extends ilTableGUI
 	{
 		return $this->ext_sort;
 	}
+	
+	/**
+	* Set filter command
+	*
+	* @param	string		filter command
+	*/
+	function setFilterCommand($a_val)
+	{
+		$this->filter_cmd = $a_val;
+	}
+
+	/**
+	* Get filter command
+	*
+	* @return	string		filter command
+	*/
+	function getFilterCommand()
+	{
+		return $this->filter_cmd;
+	}
 
 	/**
 	* Set external segmentation
@@ -816,7 +837,7 @@ class ilTable2GUI extends ilTableGUI
 			$data = ilUtil::sortArray($data, $this->getOrderField(),
 				$this->getOrderDirection(), $this->numericOrdering($this->getOrderField()));
 		}
-				
+
 		// slice
 		if (!$this->getExternalSegmentation())
 		{
@@ -1054,7 +1075,7 @@ class ilTable2GUI extends ilTableGUI
 			$this->tpl->parseCurrentBlock();
 			
 			$this->tpl->setVariable("TXT_FILTER", $lng->txt("filter"));
-			$this->tpl->setVariable("CMD_APPLY", "applyFilter");
+			$this->tpl->setVariable("CMD_APPLY", $this->filter_cmd);
 			$this->tpl->setVariable("TXT_APPLY", $lng->txt("apply_filter"));
 
 			$this->tpl->setCurrentBlock("filter_section");

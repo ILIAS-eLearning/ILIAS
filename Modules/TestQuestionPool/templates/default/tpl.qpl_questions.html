@@ -1,70 +1,13 @@
+<!-- BEGIN createquestion -->
 <form name="form_questions" method="POST" action="{ACTION_QUESTION_FORM}">
-<table border="0" cellspacing="0" cellpadding="0" width="100%">
-<tr>
-<td align="left">{FILTER_QUESTION_MANAGER}</td>
-<td align="right">{CREATE_QUESTION}</td>
-</tr>
-</table>
-<table class="fullwidth">
-<thead>
-	<tr class="tblheader">
-		<th class="std"></td>
-		<th class="std">{QUESTION_TITLE}</th>
-		<th class="std">{QUESTION_EDIT}</th>
-		<th class="std">{QUESTION_PREVIEW}</th>
-		<th class="std">{QUESTION_COMMENT}</th>
-		<th class="std">{QUESTION_TYPE}</th>
-		<th class="std">{QUESTION_POINTS}</th>
-		<th class="std">{QUESTION_ASSESSMENT}</th>
-		<th class="std">{QUESTION_AUTHOR}</th>
-		<th class="std">{QUESTION_CREATED}</th>
-		<th class="std">{QUESTION_UPDATED}</th>
-	</tr>
-</thead>
-<!-- BEGIN QTab --> 
-<tr class="{COLOR_CLASS}">
-<td class="{COLOR_CLASS}">
-<!-- BEGIN checkable -->
-<input type="checkbox" name="q_id[]" value="{QUESTION_ID}" id="cb_{QUESTION_ID}" />
-<!-- END checkable -->
-</td>
-<td class="{COLOR_CLASS}">
-<!-- BEGIN qpl_warning -->	
-<img src="{IMAGE_WARNING}" border="0" alt="{ALT_WARNING}" title="{TITLE_WARNING}" />
-<!-- END qpl_warning -->
-<label for="cb_{QUESTION_ID}">{QUESTION_TITLE}</label>
-</td>
-<td class="{COLOR_CLASS}">
-<!-- BEGIN edit_link -->
-<a class="il_ContainerItemCommand" href="{LINK_EDIT}">{TXT_EDIT}</a>
-<!-- END edit_link -->
-</td>
-<td class="{COLOR_CLASS}"><a class="il_ContainerItemCommand" href="{LINK_PREVIEW}">{TXT_PREVIEW}</a></td>
-<td class="{COLOR_CLASS}">{QUESTION_COMMENT}</td>
-<td class="{COLOR_CLASS}">{QUESTION_TYPE}</td>
-<td class="{COLOR_CLASS}"  align="right">{QUESTION_POINTS}</td>
-<td class="{COLOR_CLASS}"><a href="{LINK_ASSESSMENT}"><img alt="{TXT_ASSESSMENT}" title="{TXT_ASSESSMENT}" border="0" src="{IMG_ASSESSMENT}" /></a></td>
-<td class="{COLOR_CLASS}">{QUESTION_AUTHOR}</td>
-<td class="{COLOR_CLASS}">{QUESTION_CREATED}</td>
-<td class="{COLOR_CLASS}">{QUESTION_UPDATED}</td>
-</tr>
-<!-- END QTab --> 
-<!-- BEGIN navigation_bottom -->
-<tr class="tblfooter"><td></td><td colspan="5">({TEXT_ITEM} {TEXT_ITEM_START} - {TEXT_ITEM_END} {TEXT_OF} {TEXT_ITEM_COUNT})</td><td colspan="5"><div align="right"><a href="{HREF_PREV_ROWS}">{TEXT_PREVIOUS}</a> <!-- BEGIN pages --> [{PAGE_NUMBER}] <!-- END pages --><a href="{HREF_NEXT_ROWS}">{TEXT_NEXT}</a></div></td></tr>
-<!-- END navigation_bottom -->
-<!-- BEGIN Emptytable -->
-<tr><td class="option_value" colspan="11">{TEXT_EMPTYTABLE}</td></tr>
-<!-- END Emptytable -->
-<!-- BEGIN selectall -->
-<tr>
-	<td class="{COLOR_CLASS}"><input type="checkbox" name="chb_check_all" value="1" id="chb_check_all" onclick="setChecked('form_questions', 'q_id', document.form_questions.chb_check_all.checked);" /></td>
-	<td class="{COLOR_CLASS}" colspan="5"><label for="chb_check_all"><strong>{SELECT_ALL}</strong></label></td>
-	<td class="{COLOR_CLASS}" colspan="1" align="right">{SUM_POINTS}</td>
-	<td class="{COLOR_CLASS}" colspan="4">&nbsp;</td>
-</tr>
-<!-- END selectall -->
-<!-- BEGIN Footer -->
-<tr><td class="submit">{ARROW}</td><td class="submit" colspan="10">{A_BUTTONS}</td></tr>
-<!-- END Footer -->
-</table>
+	<div style="float: right; text-align: right;">
+		<select name="sel_question_types">
+<!-- BEGIN QTypes -->
+			<option value="{QUESTION_TYPE_ID}"{QUESTION_TYPE_SELECTED}>{QUESTION_TYPE}</option>
+<!-- END QTypes -->
+		</select>
+		<input class="submit" type="submit" name="cmd[createQuestion]" value="{QUESTION_ADD}"{DISABLED} />
+	</div>
 </form>
+<!-- END createquestion -->
+<div style="clear: both;">{QUESTIONBROWSER}</div>
