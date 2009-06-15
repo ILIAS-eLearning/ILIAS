@@ -187,7 +187,58 @@ class ilObjQuestionPoolGUI extends ilObjectGUI
 	*/
 	function propertiesObject()
 	{
-		$this->tpl->addBlockFile("ADM_CONTENT", "adm_content", "tpl.il_as_qpl_properties.html", "Modules/TestQuestionPool");
+		$save = ((strcmp($this->ctrl->getCmd(), "save") == 0)) ? true : false;
+//		$this->tpl->addBlockFile("ADM_CONTENT", "adm_content", "tpl.il_as_qpl_properties.html", "Modules/TestQuestionPool");
+
+		include_once("./Services/Form/classes/class.ilPropertyFormGUI.php");
+		$form = new ilPropertyFormGUI();
+		$form->setFormAction($this->ctrl->getFormAction($this, 'properties'));
+		$form->setTitle($this->lng->txt("properties"));
+		$form->setMultipart(false);
+//		$form->setTableWidth("100%");
+		$form->setId("properties");
+
+		// online
+		$online = new ilCheckboxInputGUI($this->lng->txt("qpl_online_property"), "online");
+		$online->setInfo($this->lng->txt("qpl_online_property_description"));
+		$online->setChecked($this->object->getOnline());
+		$form->addItem($online);
+
+		$qplSetting = new ilSetting("qpl");
+		$tablecols = new ilCustomInputGUI($this->lng->txt('qpl_browsercolumns'), 'browsercolumn');
+		$tablecols->setInfo($this->lng->txt("qpl_browsercolumns_description"));
+		$description = new ilCheckboxInputGUI($this->lng->txt("description"), "description");
+		$description->setChecked($qplSetting->get("description", 1) ? true : false);
+		$type = new ilCheckboxInputGUI($this->lng->txt("question_type"), "type");
+		$type->setChecked($qplSetting->get("type", 1) ? true : false);
+		$points = new ilCheckboxInputGUI($this->lng->txt("points"), "points");
+		$points->setChecked($qplSetting->get("points", 1) ? true : false);
+		$statistics = new ilCheckboxInputGUI($this->lng->txt("statistics"), "statistics");
+		$statistics->setChecked($qplSetting->get("statistics", 1) ? true : false);
+		$author = new ilCheckboxInputGUI($this->lng->txt("author"), "author");
+		$author->setChecked($qplSetting->get("author", 1) ? true : false);
+		$created = new ilCheckboxInputGUI($this->lng->txt("create_date"), "created");
+		$created->setChecked($qplSetting->get("created", 1) ? true : false);
+		$updated = new ilCheckboxInputGUI($this->lng->txt("last_update"), "updated");
+		$updated->setChecked($qplSetting->get("updated", 1) ? true : false);
+		$tablecols->addSubitem($description);
+		$tablecols->addSubitem($type);
+		$tablecols->addSubitem($points);
+		$tablecols->addSubitem($statistics);
+		$tablecols->addSubitem($author);
+		$tablecols->addSubitem($created);
+		$tablecols->addSubitem($updated);
+		$form->addItem($tablecols);
+
+		$form->addCommandButton("saveProperties", $this->lng->txt("save"));
+
+		if ($save)
+		{
+			$form->checkInput();
+		}
+		$this->tpl->setVariable("ADM_CONTENT", $form->getHTML());
+		return;
+
 		$this->tpl->setCurrentBlock("adm_content");
 		$this->tpl->setVariable("FORM_ACTION", $this->ctrl->getFormAction($this));
 		$this->tpl->setVariable("HEADING_GENERAL", $this->lng->txt("qpl_general_properties"));
@@ -229,6 +280,15 @@ class ilObjQuestionPoolGUI extends ilObjectGUI
 		if (strlen($qpl_online) == 0) $qpl_online = "0";
 		$this->object->setOnline($qpl_online);
 		$this->object->saveToDb();
+		
+		$qplSetting = new ilSetting("qpl");
+		$qplSetting->set('description', ($_POST["description"]) ? 1 : 0);
+		$qplSetting->set('type', ($_POST["type"]) ? 1 : 0);
+		$qplSetting->set('points', ($_POST["points"]) ? 1 : 0);
+		$qplSetting->set('statistics', ($_POST["statistics"]) ? 1 : 0);
+		$qplSetting->set('author', ($_POST["author"]) ? 1 : 0);
+		$qplSetting->set('created', ($_POST["created"]) ? 1 : 0);
+		$qplSetting->set('updated', ($_POST["updated"]) ? 1 : 0);
 		ilUtil::sendSuccess($this->lng->txt("saved_successfully"), true);
 		$this->ctrl->redirect($this, "properties");
 	}
@@ -900,7 +960,7 @@ class ilObjQuestionPoolGUI extends ilObjectGUI
 		$this->tpl->setCurrentBlock("adm_content");
 		include_once "./Modules/TestQuestionPool/classes/class.ilQuestionBrowserTableGUI.php";
 		$table_gui = new ilQuestionBrowserTableGUI($this, 'questions', (($rbacsystem->checkAccess('write', $this->ref_id) ? true : false)));
-//		$table_gui->setTitle($this->lng->txt('already_delivered_files'), 'icon_file.gif', $this->lng->txt('already_delivered_files'));
+//		$table_gui->setTitle($this->lng->txt(''), 'icon_file.gif', $this->lng->txt(''));
 		$table_gui->setEditable($rbacsystem->checkAccess('write', $this->ref_id));
 		$arrFilter = array();
 		foreach ($table_gui->getFilterItems() as $item)
