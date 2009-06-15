@@ -2007,14 +2007,31 @@ if (true)
 
 
 			// get local roles
-			// A local role is only displayed, if it is contained in the subtree of 
-			// the localy administrated category. If the import function has been 
-			// invoked from the user folder object, we show all local roles, because
-			// the user folder object is considered the parent of all local roles.
 			if ($this->object->getRefId() == USER_FOLDER_ID)
 			{
-				$loc_roles = $rbacreview->getAssignableRolesInSubtree(1);
+				// The import function has been invoked from the user folder
+				// object. In this case, we show only matching roles,
+				// because the user folder object is considered the parent of all
+				// local roles and may contains thousands of roles on large ILIAS
+				// installations.
+				$loc_roles = array();
+				foreach($roles as $role_id => $role)
+				{
+					if ($role["type"] == "Local")
+					{
+						$searchName = (substr($role['name'],0,1) == '#') ? $role['name'] : '#'.$role['name'];
+						$matching_role_ids = $rbacreview->searchRolesByMailboxAddressList($searchName);
+						foreach ($matching_role_ids as $mid) {
+							if (! in_array($mid, $loc_roles)) {
+								$loc_roles[] = $mid;
+							}
+						}
+					}
+				}
 			} else {
+				// The import function has been invoked from a locally
+				// administrated category. In this case, we show all roles
+				// contained in the subtree of the category.
 				$loc_roles = $rbacreview->getAssignableRolesInSubtree($this->object->getRefId());
 			}
 			$l_roles = array();
