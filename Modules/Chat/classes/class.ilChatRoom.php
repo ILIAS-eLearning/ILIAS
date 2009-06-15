@@ -299,24 +299,26 @@ class ilChatRoom
 	// METHODS FOR EXPORTING CHAT
 	public function appendMessageToDb($message)
 	{
-		if($this->getCountLines() >= MAX_LINES)
-		{
-			$this->deleteFirstLine();
-		}
+		//if($this->getCountLines() >= MAX_LINES)
+		//{
+		//	$this->deleteFirstLine();
+		//}
 		$id = $this->addLine($message);
 		return $id;
 	}
 
-	public function getAllMessages()
+	public function getAllMessages($min_timestamp = 0)
 	{
 		global $ilDB;
 		$res = $ilDB->queryf('
 			SELECT message FROM chat_room_messages 
 			WHERE chat_id = %s
 			AND room_id = %s
+			AND commit_timestamp > %s
 			ORDER BY commit_timestamp',
-			array('integer', 'integer'),
-			array($this->getObjId(), $this->getRoomId()));
+			array('integer', 'integer', 'integer'),
+			array($this->getObjId(), $this->getRoomId(), $min_timestamp)
+		);
 
 		while($row = $res->fetchRow(DB_FETCHMODE_OBJECT))
 		{
@@ -916,7 +918,6 @@ class ilChatRoom
 			$res = $ilDB->manipulateF('
 				DELETE FROM chat_room_messages WHERE entry_id = %s',
 				array('integer'), array($entry_id));
-			
 		}		
 		return true;
 	}
@@ -924,9 +925,8 @@ class ilChatRoom
 	private function addLine($message)
 	{
 		global $ilDB;
-
 		$next_id = $ilDB->nextId('chat_room_messages');
-			$res = $ilDB->manipulateF('
+		$res = $ilDB->manipulateF('
 			INSERT INTO chat_room_messages
 			(	entry_id,
 				chat_id,
@@ -943,7 +943,6 @@ class ilChatRoom
 		$this->chat_record->setRoomId($this->getRoomId());
 		if ($this->chat_record->isRecording())
 		{
-
 			$next_id = $ilDB->nextId('chat_record_data');
 			$res = $ilDB->manipulateF('
 				INSERT INTO chat_record_data

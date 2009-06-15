@@ -215,8 +215,25 @@ class ilObjChatServerGUI extends ilObjectGUI
 		$rg->addOption($ro);
 			$ro = new ilRadioOption($this->lng->txt('chat_smilies_deactivate'), 0);
 		$rg->addOption($ro);
-
 		$this->form_gui->addItem($rg);
+		
+		// message export permissions
+		$rg = new ilRadioGroupInputGUI($this->lng->txt('chat_export_status'), 'chat_export_status');
+			$ro = new ilRadioOption($this->lng->txt('chat_export_all'), 0);
+		$rg->addOption($ro);
+			 $ro = new ilRadioOption($this->lng->txt('chat_export_moderator'), 1);
+		$rg->addOption($ro);
+		$rg->setInfo($this->lng->txt('chat_export_info'));
+		$this->form_gui->addItem($rg);
+		
+		// message export period
+		$inp = new ilTextInputGUI($this->lng->txt('chat_export_period'), 'chat_export_period');
+		$inp->setInfo($this->lng->txt('chat_export_period_info'));
+		$inp->setValidationRegexp('/[1-9][0-9]{0,2}/');
+		$inp->setRequired(true);
+		$inp->setSize(5);
+		$inp->setMaxLength(3);
+		$this->form_gui->addItem($inp);	
 		
 		$this->form_gui->addCommandButton('update', $this->lng->txt('save'));
 		$this->form_gui->addCommandButton('cancel', $this->lng->txt('cancel'));
@@ -392,8 +409,10 @@ class ilObjChatServerGUI extends ilObjectGUI
 		$data['chat_new_message_sound_status'] = (bool)$ilSetting->get('chat_new_message_sound_status');
 		$data['chat_sound_status'] = (int)$ilSetting->get('chat_sound_status');
 		$data['chat_message_notify_status'] = (int) $ilSetting->get('chat_message_notify_status');
-		$data['chat_smilies_status'] = (int)$ilSetting->get('chat_smilies_status'); 
-
+		$data['chat_smilies_status'] = (int)$ilSetting->get('chat_smilies_status');
+		$data['chat_export_status'] = (int)$ilSetting->get('chat_export_status');
+		$data['chat_export_period'] = (int)$ilSetting->get('chat_export_period');
+		
 		$this->form_gui->setValuesByArray($data);
 	}
 
@@ -555,7 +574,7 @@ class ilObjChatServerGUI extends ilObjectGUI
 		else	
 		{
 			$this->object->server_conf->setInternalIp(ilUtil::stripSlashes($_POST['chat_internal_ip']));
-	        $this->object->server_conf->setExternalIp(ilUtil::stripSlashes($_POST['chat_external_ip']));
+			$this->object->server_conf->setExternalIp(ilUtil::stripSlashes($_POST['chat_external_ip']));
 			$this->object->server_conf->setPort(ilUtil::stripSlashes($_POST['chat_port']));
 			$this->object->server_conf->setSSLStatus((int)$_POST['chat_ssl_status'] ? 1 : 0);
 			$this->object->server_conf->setSSLPort(ilUtil::stripSlashes($_POST['chat_ssl_port']));
@@ -571,8 +590,9 @@ class ilObjChatServerGUI extends ilObjectGUI
 		
 			$ilSetting->set('chat_new_message_sound_status', (int)$_POST['chat_new_message_sound_status']);
 			$ilSetting->set('chat_message_notify_status', (int)$_POST['chat_message_notify_status']);
-			//echo (int)$_POST['chat_message_notify_status']; exit;
 			$ilSetting->set('chat_smilies_status', (int)$_POST['chat_smilies_status']);
+			$ilSetting->set('chat_export_status', (int)$_POST['chat_export_status']);
+			$ilSetting->set('chat_export_period', (int)$_POST['chat_export_period']);
 			
 			$this->object->server_conf->setActiveStatus((bool)$_POST['chat_active']);
 			$this->object->server_conf->updateStatus();

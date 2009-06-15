@@ -12990,4 +12990,9 @@ RENAME TABLE `sahs_sc13_seq_templates` TO `sahs_sc13_seq_templts`;
 <?php 
 	$ilMySQLAbstraction->performAbstraction('sahs_sc13_tree_node');
 ?>
-
+<#2494>
+<?php
+	$setting = new ilSetting();
+	$setting->set('chat_export_status', 0);
+	$setting->set('chat_export_period', 1);
+?>
