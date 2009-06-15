@@ -9482,8 +9482,10 @@ common#:#event_assign_files#:#Dateien zuordnen
 assessment#:#qpl_browsercolumns#:#Individuelle Fragenliste
 assessment#:#qpl_browsercolumns_description#:#Wählen Sie die Datenspalten aus, die in der Fragenliste des Fragenpools angezeigt werden sollen. Diese Einstellung wirkt sich auf alle bestehenden Fragenpools aus.
 chat#:#chat_export_status#:#Export Berechtigungen
-chat#:#chat_export_all#:#jeder mit Zugang zum Chatraum
-chat#:#chat_export_moderator#:#nur Moderatoren
+chat#:#chat_export_all#:#Jeder mit Zugang zum Chatraum
+chat#:#chat_export_moderator#:#Nur Moderatoren
 chat#:#chat_export_period#:#Export Zeitraum
-chat#:#chat_export_period_info#:#exportiert die angegebene Anzahl von Tagen
+chat#:#chat_export_period_info#:#Exportiert die angegebene Anzahl von Tagen
 chat#:#chat_export_info#:#Zeigt eine Export Schaltfläche für den aktuellen Raum an. Nachrichten werden nach html exportiert.
+chat#:#chat_textformat#:#Textformat
+chat#:#chat_show_textformat#:#Textformat anzeigen

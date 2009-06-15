@@ -778,16 +778,16 @@ function ilChatController(linkToOnlineUsers, linkToActiveUsers, linkToCurrentRoo
 			if (rec_start_2)
 				rec_start_2.style.display = "none";
 			if (rec_stop_1)
-				rec_stop_1.style.display = "block";
+				rec_stop_1.style.display = "table-row";
 			if (rec_stop_2)
-				rec_stop_2.style.display = "block";
+				rec_stop_2.style.display = "table-row";
 		}
 		else
 		{
 			if (rec_start_1)
-				rec_start_1.style.display = "block";
+				rec_start_1.style.display = "table-row";
 			if (rec_start_2)
-				rec_start_2.style.display = "block";
+				rec_start_2.style.display = "table-row";
 			if (rec_stop_1)
 				rec_stop_1.style.display = "none";
 			if (rec_stop_2)
@@ -842,6 +842,20 @@ function ilHideSmileySelector()
 	document.getElementById('show_smilies_button').style.display = 'block';
 	document.getElementById('hide_smilies_button').style.display = 'none';
 	document.getElementById('smiley_selector').style.display = 'none';
+}
+
+function ilShowTextformatSelector()
+{
+	//document.getElementById('show_textformat_button').style.display = 'none';
+	//document.getElementById('hide_textformat_button').style.display = 'block';
+	document.getElementById('textformat_selector').style.display = 'block';
+}
+
+function ilHideTextformatSelector()
+{
+	//document.getElementById('show_textformat_button').style.display = 'block';
+	//document.getElementById('hide_textformat_button').style.display = 'none';
+	document.getElementById('textformat_selector').style.display = 'none';
 }
 
 function ilExportChat()

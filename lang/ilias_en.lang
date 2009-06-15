@@ -9460,8 +9460,8 @@ cntr#:#cntr_manage#:#Manage
 cntr#:#cntr_ordering#:#Sorting
 cntr#:#cntr_text_media_editor#:#Text/Media Editor
 cntr#:#cntr_saved_sorting#:#Saved Sorting.
-chat#:#chat_show_smilies#:#show smilies
-chat#:#chat_hide_smilies#:#hide smilies
+chat#:#chat_show_smilies#:#Show smilies
+chat#:#chat_hide_smilies#:#Hide smilies
 chat#:#chat_no_room_selected#:#No room has been selected.
 common#:#grp_removed_from_waiting_list#:#You have been detached from the waiting list of group "%s".
 common#:#crs_removed_from_waiting_list#:#You have been detached from the waiting list of course "%s".
@@ -9491,8 +9491,10 @@ common#:#event_assign_files#:#File Assignment
 assessment#:#qpl_browsercolumns#:#Customized question list
 assessment#:#qpl_browsercolumns_description#:#Select the question data columns that are shown in the question list of a question pool. This setting will be applied for each available question pool.
 chat#:#chat_export_status#:#Required export permissions
-chat#:#chat_export_all#:#no restrictions (all users with access may export)
-chat#:#chat_export_moderator#:#moderators only
+chat#:#chat_export_all#:#No restrictions (all users with access may export)
+chat#:#chat_export_moderator#:#Moderators only
 chat#:#chat_export_period#:#Export period
-chat#:#chat_export_period_info#:#export the given number of days
+chat#:#chat_export_period_info#:#Export the given number of days
 chat#:#chat_export_info#:#Displays an export button for the current room. The messages will be exported to html.
+chat#:#chat_textformat#:#Format text
+chat#:#chat_show_textformat#:#Format text
