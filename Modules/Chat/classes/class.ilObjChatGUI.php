@@ -985,7 +985,7 @@ class ilObjChatGUI extends ilObjectGUI
 	*/
 	function showUserFrameObject()
 	{
-		global $ilCtrl, $ilMainMenu, $ilLocator, $ilUser, $rbacsystem, $ilObjDataCache, $lng;
+		global $ilCtrl, $ilSetting, $ilMainMenu, $ilLocator, $ilUser, $rbacsystem, $ilObjDataCache, $lng;
 		include_once 'Modules/Chat/classes/class.ilChatBlockedUsers.php';
 		if (
 			!$rbacsystem->checkAccess("read", $this->ref_id)
@@ -1112,22 +1112,25 @@ class ilObjChatGUI extends ilObjectGUI
 		}
 		
 		// smilies
-		include_once 'Modules/Chat/classes/class.ilChatSmilies.php';
-		$smilies = ilChatSmilies::_getSmilies();
-		foreach($smilies as $smiley)
+		if ($ilSetting->get('chat_smilies_status') == 1)
 		{
-			$this->tpl->setCurrentBlock("smilies_element");
-			$this->tpl->setVariable("SMILEY_SRC", $smiley['smiley_fullpath']);
-			$parts = explode("\n", $smiley["smiley_keywords"]);
-			$this->tpl->setVariable("SMILEY_CONTENT", $parts[0]);
-			
+			include_once 'Modules/Chat/classes/class.ilChatSmilies.php';
+			$smilies = ilChatSmilies::_getSmilies();
+			foreach($smilies as $smiley)
+			{
+				$this->tpl->setCurrentBlock("smilies_element");
+				$this->tpl->setVariable("SMILEY_SRC", $smiley['smiley_fullpath']);
+				$parts = explode("\n", $smiley["smiley_keywords"]);
+				$this->tpl->setVariable("SMILEY_CONTENT", $parts[0]);
+				
+				$this->tpl->parseCurrentBlock();
+			}
+			$this->tpl->setCurrentBlock("smilies_selector");
+			$this->tpl->setVariable('TXT_SHOW_SMILIES', $this->lng->txt('chat_show_smilies'));
+			$this->tpl->setVariable('TXT_HIDE_SMILIES', $this->lng->txt('chat_hide_smilies'));
 			$this->tpl->parseCurrentBlock();
 		}
-		$this->tpl->setCurrentBlock("smilies_selector");
-		$this->tpl->setVariable('TXT_SHOW_SMILIES', $this->lng->txt('chat_show_smilies'));
-		$this->tpl->setVariable('TXT_HIDE_SMILIES', $this->lng->txt('chat_hide_smilies'));
-		$this->tpl->parseCurrentBlock();
-		
+
 		$this->__showInputAreas();
 		$this->tpl->fillJavaScriptFiles();
 		$this->tpl->fillCssFiles();
@@ -1184,7 +1187,7 @@ class ilObjChatGUI extends ilObjectGUI
 	
 	private function __showInputAreas()
 	{
-		global $rbacsystem, $ilCtrl, $ilUser;
+		global $rbacsystem, $ilCtrl, $ilUser, $ilSetting;
 		
 		//$this->tpl = new ilTemplate("tpl.main.html", true, true);
 		$this->__loadStylesheet();
@@ -1246,7 +1249,12 @@ class ilObjChatGUI extends ilObjectGUI
 			{
 				$this->tpl->setVariable("TXT_SUBMIT_OK",$this->lng->txt("ok"));
 			}
-			$this->tpl->setVariable("TXT_HTML_EXPORT",$this->lng->txt('exp_html'));
+			// export
+			if ($ilSetting->get('chat_export_status') == 0 || ($ilSetting->get('chat_export_status') == 1 && $rbacsystem->checkAccess("moderate", $this->ref_id) ) )
+			{
+				$this->tpl->setVariable("TXT_HTML_EXPORT",$this->lng->txt('exp_html'));
+			}
+			
 			
 			$this->tpl->setVariable("SELECT_COLOR",$this->__getColorSelect());
 			$this->tpl->setVariable("RADIO_TYPE",$this->__getFontType());
@@ -1346,21 +1354,34 @@ class ilObjChatGUI extends ilObjectGUI
 
 	public function exportObject()
 	{
-		$tmp_tpl =& new ilTemplate("tpl.chat_export.html",true,true,"Modules/Chat");
-		$filename = $this->object->getTitle();
-		if($this->object->chat_room->getRoomId())
+		global $lng, $ilSetting, $rbacsystem;
+		if ($ilSetting->get('chat_export_status') == 0 || ($ilSetting->get('chat_export_status') == 1 && $rbacsystem->checkAccess("moderate", $this->ref_id) ) )
 		{
-			$tmp_tpl->setVariable("CHAT_NAME",$this->object->chat_room->getTitle());
-			$filename .= ' - ' . $this->object->chat_room->getTitle();
+			$tmp_tpl =& new ilTemplate("tpl.chat_export.html",true,true,"Modules/Chat");
+			$filename = $this->object->getTitle();
+			if($this->object->chat_room->getRoomId())
+			{
+				$tmp_tpl->setVariable("CHAT_NAME",$this->object->chat_room->getTitle());
+				$filename .= ' - ' . $this->object->chat_room->getTitle();
+			}
+			else
+			{
+				$tmp_tpl->setVariable("CHAT_NAME",$this->object->getTitle());
+			}
+			
+			global $ilSetting;
+			
+			$export_period = $ilSetting->get('chat_export_period');
+			$time_min = time() - $export_period * 60 * 60 * 24;
+			$tmp_tpl->setVariable("CHAT_DATE",strftime("%c",time()));
+			$tmp_tpl->setVariable("CONTENT",$this->object->chat_room->getAllMessages($time_min));
+			ilUtil::deliverData($tmp_tpl->get(), $filename . ".html");
+			exit;
 		}
 		else
 		{
-			$tmp_tpl->setVariable("CHAT_NAME",$this->object->getTitle());
+			ilUtil::sendFailure($lng->txt("msg_no_perm_read"));
 		}
-		$tmp_tpl->setVariable("CHAT_DATE",strftime("%c",time()));
-		$tmp_tpl->setVariable("CONTENT",$this->object->chat_room->getAllMessages());
-		ilUtil::deliverData($tmp_tpl->get(), $filename . ".html");
-		exit;
 	}
 
 	

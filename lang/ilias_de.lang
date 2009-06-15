@@ -9479,3 +9479,9 @@ grp#:#grp_warn_no_max_set_on_waiting_list#:#Die maximale Teilnehmeranzahl ist ü
 grp#:#grp_warn_wl_set_on_waiting_list#:#Es sind bereits Teilnehmer auf der Warteliste eingetragen. Sie können sich jedoch in die Warteliste dieser Gruppe eintragen. Sie erhalten eine Nachricht, sobald Ihr Antrag von der Gruppenleitungleitung angenommen oder abgelehnt wurde.
 common#:#mem_add_to_wl#:#In die Warteliste eintragen
 common#:#event_assign_files#:#Dateien zuordnen
+chat#:#chat_export_status#:#Export Berechtigungen
+chat#:#chat_export_all#:#jeder mit Zugang zum Chatraum
+chat#:#chat_export_moderator#:#nur Moderatoren
+chat#:#chat_export_period#:#Export Zeitraum
+chat#:#chat_export_period_info#:#exportiert die angegebene Anzahl von Tagen
+chat#:#chat_export_info#:#Zeigt eine Export Schaltfläche für den aktuellen Raum an. Nachrichten werden nach html exportiert.

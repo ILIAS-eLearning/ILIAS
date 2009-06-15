@@ -9488,3 +9488,9 @@ grp#:#grp_warn_no_max_set_on_waiting_list#:#The maximum number of group members 
 grp#:#grp_warn_wl_set_on_waiting_list#:#Some users are already assigned to the waiting list. You can add your join request to the waiting list. You will receive a message from a group administrator when your request has been approved or rejected.
 common#:#mem_add_to_wl#:#Add to Waiting List
 common#:#event_assign_files#:#File Assignment
+chat#:#chat_export_status#:#Required export permissions
+chat#:#chat_export_all#:#no restrictions (all users with access may export)
+chat#:#chat_export_moderator#:#moderators only
+chat#:#chat_export_period#:#Export period
+chat#:#chat_export_period_info#:#export the given number of days
+chat#:#chat_export_info#:#Displays an export button for the current room. The messages will be exported to html.

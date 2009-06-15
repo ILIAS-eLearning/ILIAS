@@ -132,12 +132,16 @@
 		<tr class="tblfooter">
 			<td class="std" colspan="2" nowrap="nowrap">
 				<input class="submit" type="submit" name="cmd[input]" value="{TXT_SUBMIT_OK}" onclick="il_chat_async_handler.postMessage(); return false;"/>&nbsp;
+				<!-- BEGIN chat_export -->
 				<input class="submit" type="button" onclick="ilExportChat()" name="cmd[export]" value="{TXT_HTML_EXPORT}" />
+				<!-- END chat_export -->
 			</td>
 			<td style="text-align: right; padding: 2px;">
-			<!-- toggle hide/show smiley selector -->	
+			<!-- toggle hide/show smiley selector -->
+			<!-- BEGIN smilies_selector_button -->
 				<span id="show_smilies_button" style="width: auto;" onclick="ilShowSmileySelector()"><a href="javascript:;">{TXT_SHOW_SMILIES}</a></span>
-				<span id="hide_smilies_button" onclick="ilHideSmileySelector()" style="width: auto;  display:none;"><a href="javascript:;">{TXT_HIDE_SMILIES}</a></span>			
+				<span id="hide_smilies_button" onclick="ilHideSmileySelector()" style="width: auto;  display:none;"><a href="javascript:;">{TXT_HIDE_SMILIES}</a></span>
+			<!-- END smilies_selector_button -->
 			</td>
 		</tr>
 		</table>
