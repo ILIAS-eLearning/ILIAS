@@ -175,7 +175,7 @@ class assNumeric extends assQuestion
 			array("integer", "integer"),
 			array(
 				$this->getId(),
-				$this->getMaxChars()
+				($this->getMaxChars()) ? $this->getMaxChars() : 0
 			)
 		);
 

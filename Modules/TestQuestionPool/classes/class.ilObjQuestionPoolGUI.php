@@ -960,7 +960,6 @@ class ilObjQuestionPoolGUI extends ilObjectGUI
 		$this->tpl->setCurrentBlock("adm_content");
 		include_once "./Modules/TestQuestionPool/classes/class.ilQuestionBrowserTableGUI.php";
 		$table_gui = new ilQuestionBrowserTableGUI($this, 'questions', (($rbacsystem->checkAccess('write', $this->ref_id) ? true : false)));
-//		$table_gui->setTitle($this->lng->txt(''), 'icon_file.gif', $this->lng->txt(''));
 		$table_gui->setEditable($rbacsystem->checkAccess('write', $this->ref_id));
 		$arrFilter = array();
 		foreach ($table_gui->getFilterItems() as $item)

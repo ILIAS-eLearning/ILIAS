@@ -10,45 +10,5 @@
 <!-- END QTypes -->
 </select>&nbsp;<input type="submit" class="submit" name="cmd[createQuestion]" value="{BUTTON_CREATE_QUESTION}" /> {TXT_OR} <input type="submit" class="submit" name="cmd[randomselect]" value="{TEXT_RANDOM_SELECT}" /></p>
 <!-- END browser_actions -->
-<table class="fullwidth">
-<thead>
-	<tr class="tblheader">
-		<th class="std"></th>
-		<th class="std">{QUESTION_TITLE}</th>
-		<th class="std">{QUESTION_SEQUENCE}</th>
-		<th class="std">{QUESTION_COMMENT}</th>
-		<th class="std">{QUESTION_TYPE}</th>
-		<th class="std">{QUESTION_POINTS}</th>
-		<th class="std">{QUESTION_AUTHOR}</th>
-		<th class="std">{QUESTION_POOL}</th>
-	</tr>
-</thead>
-<!-- BEGIN QTab --> 
-<tr class="{COLOR_CLASS}">
-<td class="{COLOR_CLASS}"><input type="checkbox" name="cb_{QUESTION_ID}" value="1" /></td>
-<td class="{COLOR_CLASS}">{QUESTION_TITLE}</td>
-<td class="{COLOR_CLASS}"><table border="0"><tr><td width="20">{BUTTON_UP}</td><td width="20">{BUTTON_DOWN}</td><td width="20"><a href="{HREF_EDIT}">{TEXT_EDIT}</a></td></tr></table></td>
-<td class="{COLOR_CLASS}">{QUESTION_COMMENT}</td>
-<td class="{COLOR_CLASS}">{QUESTION_TYPE}</td>
-<td class="{COLOR_CLASS}">{QUESTION_POINTS}</td>
-<td class="{COLOR_CLASS}">{QUESTION_AUTHOR}</td>
-<td class="{COLOR_CLASS}">{QUESTION_POOL}</td>
-</tr>
-<!-- END QTab --> 
-<!-- BEGIN Emptytable -->
-<tr><td class="option_value" colspan="8">{TEXT_EMPTYTABLE}</td></tr>
-<!-- END Emptytable -->
-<!-- BEGIN selectall -->
-<tr>
-	<td class="{COLOR_CLASS}">
-		<input type="checkbox" name="chb_check_all" id="chb_check_all" value="1" onclick="setChecked('form_questions', 'cb_', document.form_questions.chb_check_all.checked);" />
-	</td>
-	<td colspan="4" class="{COLOR_CLASS}"><label for="chb_check_all"><strong>{SELECT_ALL}</strong></label></td>
-	<td colspan="3" class="{COLOR_CLASS}">{TOTAL_POINTS}</td>
-</tr>
-<!-- END selectall -->
-<!-- BEGIN QFooter -->
-<tr><td class="submit">{ARROW}</td><td class="submit" colspan="7">{A_BUTTONS}</td></tr>
-<!-- END QFooter -->
-</table>
 </form>
+{QUESTIONBROWSER}

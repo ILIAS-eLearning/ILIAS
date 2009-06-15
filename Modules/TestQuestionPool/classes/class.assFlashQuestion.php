@@ -153,7 +153,7 @@ class assFlashQuestion extends assQuestion
 			array($this->getId())
 		);
 		$affectedRows = $ilDB->manipulateF("INSERT INTO " . $this->getAdditionalTableName() . " (question_fi, width, height, applet, params) VALUES (%s, %s, %s, %s, %s)", 
-			array("integer", "integer", "integer", "text"),
+			array("integer", "integer", "integer", "text", "text"),
 			array(
 				$this->getId(),
 				(strlen($this->getWidth())) ? $this->getWidth() : 550,
@@ -271,7 +271,6 @@ class assFlashQuestion extends assQuestion
 		$clone->copyXHTMLMediaObjectsOfQuestion($this_id);
 		// duplicate the generic feedback
 		$clone->duplicateFeedbackGeneric($this_id);
-
 		// duplicate the applet
 		$clone->duplicateApplet($this_id);
 

@@ -3032,23 +3032,24 @@ class ilObjTestGUI extends ilObjectGUI
 	function removeQuestionsObject()
 	{
 		$this->getQuestionsSubTabs();
-		$checked_questions = array();
-		foreach ($_POST as $key => $value) {
-			if (preg_match("/cb_(\d+)/", $key, $matches)) {
-				array_push($checked_questions, $matches[1]);
-			}
-		}
-		if (count($checked_questions) > 0) {
+		$checked_questions = $_POST["q_id"];
+		if (count($checked_questions) > 0) 
+		{
 			$total = $this->object->evalTotalPersons();
-			if ($total) {
+			if ($total) 
+			{
 				// the test was executed previously
 				ilUtil::sendInfo(sprintf($this->lng->txt("tst_remove_questions_and_results"), $total));
-			} else {
+			} 
+			else 
+			{
 				ilUtil::sendInfo($this->lng->txt("tst_remove_questions"));
 			}
 			$this->removeQuestionsForm($checked_questions);
 			return;
-		} elseif (count($checked_questions) == 0) {
+		} 
+		elseif (count($checked_questions) == 0) 
+		{
 			ilUtil::sendInfo($this->lng->txt("tst_no_question_selected_for_removal"), true);
 			$this->ctrl->redirect($this, "questions");
 		}
@@ -3200,110 +3201,28 @@ class ilObjTestGUI extends ilObjectGUI
 		}
 
 		$this->tpl->addBlockFile("ADM_CONTENT", "adm_content", "tpl.il_as_tst_questions.html", "Modules/Test");
-		$this->tpl->addBlockFile("A_BUTTONS", "question_buttons", "tpl.il_as_tst_question_buttons.html", "Modules/Test");
 
+		$checked_move = 0;
 		if (strcmp($this->ctrl->getCmd(), "moveQuestions") == 0)
 		{
-			$checked_move = 0;
-			foreach ($_POST as $key => $value)
+			if (is_array($_POST['q_id']))
 			{
-				if (preg_match("/cb_(\d+)/", $key, $matches))
+				foreach ($_POST['q_id'] as $value)
 				{
 					$checked_move++;
 					$this->tpl->setCurrentBlock("move");
-					$this->tpl->setVariable("MOVE_COUNTER", $matches[1]);
-					$this->tpl->setVariable("MOVE_VALUE", $matches[1]);
+					$this->tpl->setVariable("MOVE_COUNTER", $value);
+					$this->tpl->setVariable("MOVE_VALUE", $value);
 					$this->tpl->parseCurrentBlock();
 				}
 			}
-			if ($checked_move)
-			{
-				ilUtil::sendInfo($this->lng->txt("select_target_position_for_move_question"));
-				$this->tpl->setCurrentBlock("move_buttons");
-				$this->tpl->setVariable("INSERT_BEFORE", $this->lng->txt("insert_before"));
-				$this->tpl->setVariable("INSERT_AFTER", $this->lng->txt("insert_after"));
-				$this->tpl->parseCurrentBlock();
-			}
-			else
+			if (!$checked_move)
 			{
 				ilUtil::sendInfo($this->lng->txt("no_question_selected_for_move"));
 			}
 		}
-		
-		$testquestions =& $this->object->getTestQuestions();
-		$colors = array("tblrow1", "tblrow2");
-		$counter = 0;
-		$questionpools = array();
-		$total_points = 0;
+
 		$total = $this->object->evalTotalPersons();
-		if (count($testquestions) > 0)
-		{
-			foreach ($testquestions as $data)
-			{
-				if (!array_key_exists($data->obj_fi, $questionpools))
-				{
-					$pooltitle = $this->object->_lookupTitle($data["obj_fi"]);
-					$questionpools[$data["obj_fi"]] = $pooltitle;
-				}
-				$this->tpl->setCurrentBlock("QTab");
-				$this->tpl->setVariable("QUESTION_ID", $data["question_id"]);
-				if (($ilAccess->checkAccess("write", "", $this->ref_id) and ($total == 0))) 
-				{
-					$q_id = $data["question_id"];
-					$qpl_ref_id = current(ilObject::_getAllReferences($data["obj_fi"]));
-					$this->tpl->setVariable("QUESTION_TITLE", "<a href=\"" . $this->ctrl->getLinkTarget($this, "questions") . "&eqid=$q_id&eqpl=$qpl_ref_id" . "\">" . $data["title"] . "</a>");
-				} else {
-					$this->tpl->setVariable("QUESTION_TITLE", $data["title"]);
-				}
-				$this->tpl->setVariable("QUESTION_SEQUENCE", $this->lng->txt("tst_sequence"));
-
-				if (($ilAccess->checkAccess("write", "", $this->ref_id) and ($total == 0))) 
-				{
-					if ($data["question_id"] != $this->object->questions[1])
-					{
-						$this->tpl->setVariable("BUTTON_UP", "<a href=\"" . $this->ctrl->getLinkTarget($this, "questions") . "&up=".$data["question_id"]."\"><img src=\"" . ilUtil::getImagePath("a_up.gif") . "\" alt=\"" . $this->lng->txt("up") . "\" border=\"0\" /></a>");
-					}
-					if ($data["question_id"] != $this->object->questions[count($this->object->questions)])
-					{
-						$this->tpl->setVariable("BUTTON_DOWN", "<a href=\"" . $this->ctrl->getLinkTarget($this, "questions") . "&down=".$data["question_id"]."\"><img src=\"" . ilUtil::getImagePath("a_down.gif") . "\" alt=\"" . $this->lng->txt("down") . "\" border=\"0\" /></a>");
-					}
-				}
-				$this->tpl->setVariable("QUESTION_COMMENT", $data["description"]);
-				include_once "./Modules/TestQuestionPool/classes/class.assQuestion.php";
-				$this->tpl->setVariable("QUESTION_TYPE", assQuestion::_getQuestionTypeName($data["type_tag"]));
-				$this->tpl->setVariable("QUESTION_POINTS", $data["points"]);
-				$total_points += $data["points"];
-				$this->tpl->setVariable("QUESTION_AUTHOR", $data["author"]);
-				$this->tpl->setVariable("QUESTION_POOL", $questionpools[$data["obj_fi"]]);
-				$this->tpl->setVariable("COLOR_CLASS", $colors[$counter % 2]);
-				$this->tpl->parseCurrentBlock();
-				$counter++;
-			}
-		}
-		if ($counter == 0) 
-		{
-			$this->tpl->setCurrentBlock("Emptytable");
-			$this->tpl->setVariable("TEXT_EMPTYTABLE", $this->lng->txt("tst_no_questions_available"));
-			$this->tpl->parseCurrentBlock();
-		} 
-		else 
-		{
-			if (($ilAccess->checkAccess("write", "", $this->ref_id) and ($total == 0))) 
-			{
-				$this->tpl->setCurrentBlock("selectall");
-				$this->tpl->setVariable("SELECT_ALL", $this->lng->txt("select_all"));
-				$counter++;
-				$this->tpl->setVariable("COLOR_CLASS", $colors[$counter % 2]);
-				$this->tpl->setVariable("TOTAL_POINTS", $total_points);
-				$this->tpl->parseCurrentBlock();
-				$this->tpl->setCurrentBlock("QFooter");
-				$this->tpl->setVariable("ARROW", "<img src=\"" . ilUtil::getImagePath("arrow_downright.gif") . "\" alt=\"".$this->lng->txt("arrow_downright")."\"/>");
-				$this->tpl->setVariable("REMOVE", $this->lng->txt("remove_question"));
-				$this->tpl->setVariable("MOVE", $this->lng->txt("move"));
-				$this->tpl->parseCurrentBlock();
-			}
-		}
-
 		if (($ilAccess->checkAccess("write", "", $this->ref_id) and ($total == 0))) 
 		{
 			global $ilUser;
@@ -3323,14 +3242,6 @@ class ilObjTestGUI extends ilObjectGUI
 			}
 			$this->tpl->parseCurrentBlock();
 		}
-		$this->tpl->setCurrentBlock("adm_content");
-		$this->tpl->setVariable("ACTION_QUESTION_FORM", $this->ctrl->getFormAction($this));
-		$this->tpl->setVariable("QUESTION_TITLE", $this->lng->txt("tst_question_title"));
-		$this->tpl->setVariable("QUESTION_COMMENT", $this->lng->txt("description"));
-		$this->tpl->setVariable("QUESTION_TYPE", $this->lng->txt("tst_question_type"));
-		$this->tpl->setVariable("QUESTION_POINTS", $this->lng->txt("points"));
-		$this->tpl->setVariable("QUESTION_AUTHOR", $this->lng->txt("author"));
-		$this->tpl->setVariable("QUESTION_POOL", $this->lng->txt("qpl"));
 
 		if (($ilAccess->checkAccess("write", "", $this->ref_id) and ($total == 0))) 
 		{
@@ -3341,6 +3252,14 @@ class ilObjTestGUI extends ilObjectGUI
 			$this->tpl->setVariable("TEXT_RANDOM_SELECT", $this->lng->txt("random_selection"));
 		}
 
+		$this->tpl->setCurrentBlock("adm_content");
+		include_once "./Modules/Test/classes/class.ilTestQuestionBrowserTableGUI.php";
+		$table_gui = new ilTestQuestionBrowserTableGUI($this, 'questions', (($ilAccess->checkAccess("write", "", $this->ref_id) ? true : false)), $checked_move);
+		$data = $this->object->getTestQuestions();
+		$table_gui->setData($data);
+		$table_gui->setTotal($total);
+		$this->tpl->setVariable('QUESTIONBROWSER', $table_gui->getHTML());	
+		$this->tpl->setVariable("ACTION_QUESTION_FORM", $this->ctrl->getFormAction($this));
 		$this->tpl->parseCurrentBlock();
 	}
 
