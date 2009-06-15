@@ -80,34 +80,41 @@
 <!-- END add_chatroom -->
 </div><!-- end left col -->
 <div id="bottom_row" style="width: 65%; float: right">
-  <div id="il_message_container"></div>
+<div id="il_message_container"></div>
 <iframe src="" id="server_iframe" name="server" style="width: 99%; height: 350px;"></iframe>
-
-  <p id="il_chat_notification">{MESSAGE}</p>
+<input class="submit" style="float: right; margin-right: 1%" type="button" value="{TXT_REFRESH}" onclick="document.getElementById('server_iframe').src = il_chat_async_handler.baseServerAddress"/>
+<p id="il_chat_notification">{MESSAGE}</p>
 
   <table class="fullwidth_invisible" border="0">
   <!-- BEGIN visible_chat_box -->
   <tr>
   	<td class="ilInvisibleBorder" valign="top">
   <!--<div class="invisible_border">-->
-		<form action="" target="_blank" name="txt_input" method="post" onsubmit="il_chat_async_handler.postMessage(); return false;" accept-charset="utf-8">
+	<form action="" target="_blank" name="txt_input" method="post" onsubmit="il_chat_async_handler.postMessage(); return false;" accept-charset="utf-8">
+
+<table class="std" border="0" id="textformat_selector" style="display: none; position: absolute; margin-left: 30px; margin-top: -15px;">
+	 <tr class="tblheader">
+		  <th class="std" align="left" nowrap="nowrap" colspan="3">{TXT_TEXTFORMAT}</th>
+	</tr>
+	<tr>
+		<td class="option">{TXT_COLOR}</td>
+		<td class="option_value" colspan="2">{SELECT_COLOR}</td>
+	</tr>
+	<tr>
+		<td class="option">{TXT_TYPE}</td>
+		<td class="option_value" colspan="2"><!-- BEGIN FONT_TYPES --><input type="radio" name="type" value="{FONT_TYPE}" {TYPE_CHECKED} />&nbsp;{BL_TXT_TYPE}&nbsp;&nbsp;<!-- END FONT_TYPES --></td>
+	</tr>
+	<tr>
+		<td class="option">{TXT_FACE}</td>
+		<td class="option_value" colspan="2"><!-- BEGIN FONT_FACES --><input type="checkbox" name="face[]" value="{FONT_FACE}" {FACE_CHECKED} />&nbsp;{BL_TXT_FACE}&nbsp;&nbsp;<!-- END FONT_FACES --></td>
+	</tr>
+	<tr><td class="option" colspan="3"><input type="button" class="submit" value="{TXT_SUBMIT_OK}" onclick="ilHideTextformatSelector()"/></td></tr>
+</table>
 		<table class="std" border="0">
 		  <tr class="tblheader">
 			  <th class="std" align="left" nowrap="nowrap" colspan="3">
 				{TXT_NEW_MESSAGE}
 			  </th>
-			</tr>
-		<tr>
-			<td class="option">{TXT_COLOR}</td>
-			<td class="option_value" colspan="2">{SELECT_COLOR}</td>
-		</tr>
-		<tr>
-			<td class="option">{TXT_TYPE}</td>
-			<td class="option_value" colspan="2"><!-- BEGIN FONT_TYPES --><input type="radio" name="type" value="{FONT_TYPE}" {TYPE_CHECKED} />&nbsp;{BL_TXT_TYPE}&nbsp;&nbsp;<!-- END FONT_TYPES --></td>
-		</tr>
-		<tr>
-			<td class="option">{TXT_FACE}</td>
-			<td class="option_value" colspan="2"><!-- BEGIN FONT_FACES --><input type="checkbox" name="face[]" value="{FONT_FACE}" {FACE_CHECKED} />&nbsp;{BL_TXT_FACE}&nbsp;&nbsp;<!-- END FONT_FACES --></td>
 		</tr>
 		<tr>
 <!--			<td class="option">{TXT_INPUT}</td>//-->
@@ -130,18 +137,19 @@
 			  </td>
 		</tr>
 		<tr class="tblfooter">
-			<td class="std" colspan="2" nowrap="nowrap">
-				<input class="submit" type="submit" name="cmd[input]" value="{TXT_SUBMIT_OK}" onclick="il_chat_async_handler.postMessage(); return false;"/>&nbsp;
+			<td class="std" colspan="3" nowrap="nowrap">
+				<input style="float: left; margin: 2px;" class="submit" type="submit" name="cmd[input]" value="{TXT_SUBMIT_OK}" onclick="il_chat_async_handler.postMessage(); return false;"/>
+				<!-- BEGIN textformat_selector_button -->
+				<input type="button" class="submit" id="show_textformat_button" style="float: left; margin: 2px;" onclick="ilShowTextformatSelector(); return false;" value="{TXT_SHOW_TEXTFORMAT}"/>
+				<!-- END textformat_selector_button -->
+				<!-- toggle hide/show smiley selector -->
+				<!-- BEGIN smilies_selector_button -->
+				<input type="button" class="submit" id="show_smilies_button" style="float: left; margin: 2px;" onclick="ilShowSmileySelector(); return false;" value="{TXT_SHOW_SMILIES}" />
+				<input type="button" class="submit" id="hide_smilies_button" style="float: left; display: none; margin: 2px;" onclick="ilHideSmileySelector(); return false;" style="width: auto;  display:none;" value="{TXT_HIDE_SMILIES}"/>
+				<!-- END smilies_selector_button -->
 				<!-- BEGIN chat_export -->
-				<input class="submit" type="button" onclick="ilExportChat()" name="cmd[export]" value="{TXT_HTML_EXPORT}" />
+				<input style="float: left; margin: 2px;" class="submit" type="button" onclick="ilExportChat()" name="cmd[export]" value="{TXT_HTML_EXPORT}" />
 				<!-- END chat_export -->
-			</td>
-			<td style="text-align: right; padding: 2px;">
-			<!-- toggle hide/show smiley selector -->
-			<!-- BEGIN smilies_selector_button -->
-				<span id="show_smilies_button" style="width: auto;" onclick="ilShowSmileySelector()"><a href="javascript:;">{TXT_SHOW_SMILIES}</a></span>
-				<span id="hide_smilies_button" onclick="ilHideSmileySelector()" style="width: auto;  display:none;"><a href="javascript:;">{TXT_HIDE_SMILIES}</a></span>
-			<!-- END smilies_selector_button -->
 			</td>
 		</tr>
 		</table>

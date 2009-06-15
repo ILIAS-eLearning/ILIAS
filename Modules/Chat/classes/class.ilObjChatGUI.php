@@ -1059,7 +1059,7 @@ class ilObjChatGUI extends ilObjectGUI
 		$this->tpl->setVariable("ACTIVE_USERS_TITLE", $this->lng->txt('chat_active_users'));
 		$this->tpl->setVariable("ROOM_LIST_TITLE", $this->lng->txt('chat_rooms'));
 		$this->tpl->setVariable("CHATSERVER_ADDRESS",$this->object->server_comm->getServerFrameSource());		
-	
+
 		$this->tpl->setVariable("CHAT_HIDE", $this->lng->txt('hide'));
 		$this->tpl->setVariable("CHAT_SHOW", $this->lng->txt('show'));
 		$this->tpl->setVariable("CHAT_OPEN", $this->lng->txt('chat_open'));
@@ -1091,6 +1091,11 @@ class ilObjChatGUI extends ilObjectGUI
 		$this->tpl->setVariable("DISINVITE", $this->lng->txt('chat_disinvite'));
 		$this->tpl->setVariable("CHAT_USER_HIDDEN", $this->lng->txt('chat_user_hidden'));
 		$this->tpl->setVariable("CHAT_USER_VISIBLE", $this->lng->txt('chat_user_visible'));
+
+		$this->tpl->setVariable("TXT_REFRESH", $this->lng->txt('chat_refresh'));
+		$this->tpl->setVariable("TXT_HIDE_TEXTFORMAT", $this->lng->txt('chat_hide_textformat'));
+		$this->tpl->setVariable("TXT_SHOW_TEXTFORMAT", $this->lng->txt('chat_show_textformat'));
+		$this->tpl->setVariable("TXT_TEXTFORMAT", $this->lng->txt('chat_textformat'));
 		
 		$this->tpl->parseCurrentBlock();		
 		
@@ -1255,6 +1260,7 @@ class ilObjChatGUI extends ilObjectGUI
 				$this->tpl->setVariable("TXT_HTML_EXPORT",$this->lng->txt('exp_html'));
 			}
 			
+			//$this->tpl->setVariable("TXT_HTML_EXPORT",$this->lng->txt('exp_html'));
 			
 			$this->tpl->setVariable("SELECT_COLOR",$this->__getColorSelect());
 			$this->tpl->setVariable("RADIO_TYPE",$this->__getFontType());
