@@ -25,7 +25,7 @@ include_once('./Services/Table/classes/class.ilTable2GUI.php');
 
 /**
 *
-* @author $author$
+* @author Helmut Schottmüller <ilias@aurealis.de>
 * @version $Id$
 *
 * @ingroup ModulesGroup
