@@ -9488,7 +9488,7 @@ grp#:#grp_warn_no_max_set_on_waiting_list#:#The maximum number of group members 
 grp#:#grp_warn_wl_set_on_waiting_list#:#Some users are already assigned to the waiting list. You can add your join request to the waiting list. You will receive a message from a group administrator when your request has been approved or rejected.
 common#:#mem_add_to_wl#:#Add to Waiting List
 common#:#event_assign_files#:#File Assignment
-assessment#:#qpl_browsercolumns#:#Show question data
+assessment#:#qpl_browsercolumns#:#Customized question list
 assessment#:#qpl_browsercolumns_description#:#Select the question data columns that are shown in the question list of a question pool. This setting will be applied for each available question pool.
 chat#:#chat_export_status#:#Required export permissions
 chat#:#chat_export_all#:#no restrictions (all users with access may export)

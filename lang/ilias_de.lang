@@ -9479,7 +9479,7 @@ grp#:#grp_warn_no_max_set_on_waiting_list#:#Die maximale Teilnehmeranzahl ist ü
 grp#:#grp_warn_wl_set_on_waiting_list#:#Es sind bereits Teilnehmer auf der Warteliste eingetragen. Sie können sich jedoch in die Warteliste dieser Gruppe eintragen. Sie erhalten eine Nachricht, sobald Ihr Antrag von der Gruppenleitungleitung angenommen oder abgelehnt wurde.
 common#:#mem_add_to_wl#:#In die Warteliste eintragen
 common#:#event_assign_files#:#Dateien zuordnen
-assessment#:#qpl_browsercolumns#:#Fragendaten anzeigen
+assessment#:#qpl_browsercolumns#:#Individuelle Fragenliste
 assessment#:#qpl_browsercolumns_description#:#Wählen Sie die Datenspalten aus, die in der Fragenliste des Fragenpools angezeigt werden sollen. Diese Einstellung wirkt sich auf alle bestehenden Fragenpools aus.
 chat#:#chat_export_status#:#Export Berechtigungen
 chat#:#chat_export_all#:#jeder mit Zugang zum Chatraum
