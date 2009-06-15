@@ -364,8 +364,10 @@ class assClozeTest extends assQuestion
 				switch ($gap->getType())
 				{
 					case CLOZE_TEXT:
-						$affectedRows = $ilDB->manipulateF("INSERT INTO qpl_a_cloze (answer_id, question_fi, gap_id, answertext, points, aorder, cloze_type) VALUES (NULL, %s, %s, %s, %s, %s, %s)",
+						$next_id = $ilDB->nextId('qpl_a_cloze');
+						$affectedRows = $ilDB->manipulateF("INSERT INTO qpl_a_cloze (answer_id, question_fi, gap_id, answertext, points, aorder, cloze_type) VALUES (%s, %s, %s, %s, %s, %s, %s)",
 							array(
+								"integer",
 								"integer", 
 								"integer",
 								"text",
@@ -374,6 +376,7 @@ class assClozeTest extends assQuestion
 								"text"
 							),
 							array(
+								$next_id,
 								$this->getId(),
 								$key,
 								strlen($item->getAnswertext()) ? $item->getAnswertext() : "",
@@ -384,8 +387,10 @@ class assClozeTest extends assQuestion
 						);
 						break;
 					case CLOZE_SELECT:
-						$affectedRows = $ilDB->manipulateF("INSERT INTO qpl_a_cloze (answer_id, question_fi, gap_id, answertext, points, aorder, cloze_type, shuffle) VALUES (NULL, %s, %s, %s, %s, %s, %s, %s)",
+						$next_id = $ilDB->nextId('qpl_a_cloze');
+						$affectedRows = $ilDB->manipulateF("INSERT INTO qpl_a_cloze (answer_id, question_fi, gap_id, answertext, points, aorder, cloze_type, shuffle) VALUES (%s, %s, %s, %s, %s, %s, %s, %s)",
 							array(
+								"integer",
 								"integer", 
 								"integer",
 								"text",
@@ -395,6 +400,7 @@ class assClozeTest extends assQuestion
 								"text"
 							),
 							array(
+								$next_id,
 								$this->getId(),
 								$key,
 								strlen($item->getAnswertext()) ? $item->getAnswertext() : "",
@@ -406,8 +412,10 @@ class assClozeTest extends assQuestion
 						);
 						break;
 					case CLOZE_NUMERIC:
-						$affectedRows = $ilDB->manipulateF("INSERT INTO qpl_a_cloze (answer_id, question_fi, gap_id, answertext, points, aorder, cloze_type, lowerlimit, upperlimit) VALUES (NULL, %s, %s, %s, %s, %s, %s, %s, %s)",
+						$next_id = $ilDB->nextId('qpl_a_cloze');
+						$affectedRows = $ilDB->manipulateF("INSERT INTO qpl_a_cloze (answer_id, question_fi, gap_id, answertext, points, aorder, cloze_type, lowerlimit, upperlimit) VALUES (%s, %s, %s, %s, %s, %s, %s, %s, %s)",
 							array(
+								"integer",
 								"integer", 
 								"integer",
 								"text",
@@ -418,6 +426,7 @@ class assClozeTest extends assQuestion
 								"text"
 							),
 							array(
+								$next_id,
 								$this->getId(),
 								$key,
 								strlen($item->getAnswertext()) ? $item->getAnswertext() : "",

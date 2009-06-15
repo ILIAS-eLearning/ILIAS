@@ -59,7 +59,7 @@ class ilQuestionBrowserTableGUI extends ilTable2GUI
 		$qplSetting = new ilSetting("qpl");
 			
 		$this->setFormName('questionbrowser');
-		$this->setStyle('table', 'std');
+		$this->setStyle('table', 'fullwidth');
 		$this->addColumn('','f','1%');
 		$this->addColumn($this->lng->txt("title"),'title', '');
 		$this->addColumn('','edit', '');
