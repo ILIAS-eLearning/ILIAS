@@ -917,47 +917,9 @@ class ilObjQuestionPoolGUI extends ilObjectGUI
 		global $ilUser;
 
 		$this->object->purgeQuestions();
-		$lastquestiontype = $ilUser->getPref("tst_lastquestiontype");
-		$type = $_GET["sel_question_types"];
-
 		// reset test_id SESSION variable
 		$_SESSION["test_id"] = "";
 
-		// create an array of all checked checkboxes
-		$checked_questions = array();
-		foreach ($_POST as $key => $value)
-		{
-			if (preg_match("/cb_(\d+)/", $key, $matches))
-			{
-				array_push($checked_questions, $matches[1]);
-			}
-		}
-
-		$this->tpl->addBlockFile("ADM_CONTENT", "adm_content", "tpl.qpl_questions.html", "Modules/TestQuestionPool");
-
-		if ($rbacsystem->checkAccess('write', $this->ref_id))
-		{
-			// "create question" form
-			$this->tpl->setCurrentBlock("QTypes");
-			$types =& $this->object->getQuestionTypes();
-			foreach ($types as $translation => $data)
-			{
-				if ($data["type_tag"] == $lastquestiontype)
-				{
-					$this->tpl->setVariable("QUESTION_TYPE_SELECTED", " selected=\"selected\"");
-				}
-				$this->tpl->setVariable("QUESTION_TYPE_ID", $data["type_tag"]);
-				$this->tpl->setVariable("QUESTION_TYPE", $translation);
-				$this->tpl->parseCurrentBlock();
-			}
-			$this->tpl->setCurrentBlock("createquestion");
-			$this->tpl->setVariable("QUESTION_ADD", $this->lng->txt("create"));
-			$this->tpl->setVariable("ACTION_QUESTION_FORM", $this->ctrl->getFormAction($this));
-			$this->tpl->setVariable("QUESTION_IMPORT", $this->lng->txt("import"));
-			$this->tpl->parseCurrentBlock();
-		}
-
-		$this->tpl->setCurrentBlock("adm_content");
 		include_once "./Modules/TestQuestionPool/classes/class.ilQuestionBrowserTableGUI.php";
 		$table_gui = new ilQuestionBrowserTableGUI($this, 'questions', (($rbacsystem->checkAccess('write', $this->ref_id) ? true : false)));
 		$table_gui->setEditable($rbacsystem->checkAccess('write', $this->ref_id));
@@ -971,8 +933,7 @@ class ilObjQuestionPoolGUI extends ilObjectGUI
 		}
 		$data = $this->object->getQuestionBrowserData($arrFilter);
 		$table_gui->setData($data);
-		$this->tpl->setVariable('QUESTIONBROWSER', $table_gui->getHTML());	
-		$this->tpl->parseCurrentBlock();
+		$this->tpl->setVariable('ADM_CONTENT', $table_gui->getHTML());	
 	}
 
 	/**

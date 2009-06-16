@@ -612,9 +612,9 @@ class ilTable2GUI extends ilTableGUI
 	* @param	string	command
 	* @param	string	button text
 	*/
-	function addSelectionButton($a_sel_var, $a_options, $a_cmd, $a_text)
+	function addSelectionButton($a_sel_var, $a_options, $a_cmd, $a_text, $a_default_selection = '')
 	{
-		$this->sel_buttons[] = array("sel_var" => $a_sel_var, "options" => $a_options, "cmd" => $a_cmd, "text" => $a_text);
+		$this->sel_buttons[] = array("sel_var" => $a_sel_var, "options" => $a_options, "selected" => $a_default_selection, "cmd" => $a_cmd, "text" => $a_text);
 	}
 	
 	
@@ -1406,7 +1406,7 @@ class ilTable2GUI extends ilTableGUI
 			{
 				$this->tpl->setCurrentBlock("sel_button");
 				$this->tpl->setVariable("SBUTTON_SELECT", 
-					ilUtil::formSelect("", $button["sel_var"],
+					ilUtil::formSelect($button["selected"], $button["sel_var"],
 						$button["options"], false, true));
 				$this->tpl->setVariable("SBTN_NAME", $button["cmd"]);
 				$this->tpl->setVariable("SBTN_VALUE", $button["text"]);
