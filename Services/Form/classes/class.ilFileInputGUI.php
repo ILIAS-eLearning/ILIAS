@@ -56,7 +56,10 @@ class ilFileInputGUI extends ilSubEnabledFormPropertyGUI
 	*/
 	function setValueByArray($a_values)
 	{
-		$this->setValue($a_values[$this->getPostVar()]);
+		if (!is_array($a_values[$this->getPostVar()]))
+		{
+			$this->setValue($a_values[$this->getPostVar()]);
+		}
 		$this->setFilename($a_values[$this->getFileNamePostVar()]);
 	}
 
