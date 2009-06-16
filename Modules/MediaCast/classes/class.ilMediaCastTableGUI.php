@@ -53,7 +53,6 @@ class ilMediaCastTableGUI extends ilTable2GUI
 			"Modules/MediaCast");
 		$this->setDefaultOrderField("creation_date");
 		$this->setDefaultOrderDirection("desc");
-
 	}
 	
 	/**
