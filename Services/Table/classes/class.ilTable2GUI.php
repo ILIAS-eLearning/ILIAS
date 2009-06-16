@@ -670,13 +670,14 @@ class ilTable2GUI extends ilTableGUI
 	* @param	string		Width string
 	*/
 	final public function addColumn($a_text, $a_sort_field = "", $a_width = "",
-		$a_is_checkbox_action_column = false)
+		$a_is_checkbox_action_column = false, $a_class = "")
 	{
 		$this->column[] = array(
 			"text" => $a_text,
 			"sort_field" => $a_sort_field,
 			"width" => $a_width,
-			"is_checkbox_action_column" => $a_is_checkbox_action_column
+			"is_checkbox_action_column" => $a_is_checkbox_action_column,
+			"class" => $a_class
 			);
 		$this->column_count = count($this->column);
 	}
@@ -734,6 +735,10 @@ class ilTable2GUI extends ilTableGUI
 						ilUtil::img(ilUtil::getImagePath("spacer.gif"), $lng->txt("action")));
 				}
 				
+				if ($column["class"] != "")
+				{
+					$this->tpl->setVariable("TBL_HEADER_CLASS"," " . $column["class"]);
+				}
 				$this->tpl->parseCurrentBlock();
 				$this->tpl->touchBlock("tbl_header_th");
 				continue;
@@ -767,6 +772,10 @@ class ilTable2GUI extends ilTableGUI
 				$this->tpl->setVariable("TBL_ORDER_ALT",$lng_change_sort);
 			}
 		
+			if ($column["class"] != "")
+			{
+				$this->tpl->setVariable("TBL_HEADER_CLASS"," " . $column["class"]);
+			}
 			$this->setOrderLink($column["sort_field"], $order_dir);
 			$this->tpl->parseCurrentBlock();
 			$this->tpl->touchBlock("tbl_header_th");
