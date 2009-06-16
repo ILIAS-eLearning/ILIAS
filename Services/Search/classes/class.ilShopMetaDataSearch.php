@@ -101,18 +101,15 @@ class ilShopMetaDataSearch extends ilAbstractSearch
 		}
 		else
 		{
-			$type = "('";
-			$type .= implode("','",$this->getFilter());
-			$type .= "')";
-			
-			$in = " AND obj_type IN ".$type;
-
-			return $in;
+			return ' AND ' . $this->db->in('obj_type', $this->getFilter(), false, 'text');
 		}
 	}
 	
 	private function __searchContribute()
 	{
+		$types = array();
+		$values = array();
+		
 		$this->setFields(array('entity'));
 
 		$in = $this->__createInStatement();
@@ -124,16 +121,20 @@ class ilShopMetaDataSearch extends ilAbstractSearch
 				  INNER JOIN object_reference ON object_reference.ref_id = payment_objects.ref_id
 				  INNER JOIN il_meta_entity ON il_meta_entity.obj_id = object_reference.obj_id ";
 		
-		if($this->getFilterShopTopicId() != 0)
-		{
-			$where .= "	AND pt_topic_fk = ".$this->db->quote($this->getFilterShopTopicId())." ";
-		}
+		$query .= $where['query'];
+		$types = array_merge($types, $where['types']);
+		$values = array_merge($values, $where['values']);
+		$query .= $in;  
 		
-		$query .= $where." ".$in.' ';
 		$query .= " GROUP BY il_meta_entity.obj_id,rbac_id,obj_type,il_meta_entity.entity ";
 
-		$res = $this->db->query($query);
-		while($row = $res->fetchRow(DB_FETCHMODE_OBJECT))
+		$statement = $this->db->queryf(
+			$query,
+			$types,
+			$values
+		);
+		
+		while($row = $statement->fetchRow(DB_FETCHMODE_OBJECT))
 		{
 			$this->search_result->addEntry($row->rbac_id,$row->obj_type,$this->__prepareFound($row),$row->obj_id);
 		}
@@ -143,6 +144,9 @@ class ilShopMetaDataSearch extends ilAbstractSearch
 
 	private function __searchKeywords()
 	{
+		$types = array();
+		$values = array();
+		
 		$this->setFields(array('keyword'));
 
 		$in = $this->__createInStatement();
@@ -154,16 +158,20 @@ class ilShopMetaDataSearch extends ilAbstractSearch
 				  INNER JOIN object_reference ON object_reference.ref_id = payment_objects.ref_id
 				  INNER JOIN il_meta_keyword ON il_meta_keyword.obj_id = object_reference.obj_id ";
 		
-		if($this->getFilterShopTopicId() != 0)
-		{
-			$where .= "	AND pt_topic_fk = ".$this->db->quote($this->getFilterShopTopicId())." ";
-		}
+		$query .= $where['query'];
+		$types = array_merge($types, $where['types']);
+		$values = array_merge($values, $where['values']);
+		$query .= $in;
 		
-		$query .= $where." ".$in.' ';
 		$query .= " GROUP BY il_meta_keyword.obj_id,rbac_id,obj_type,il_meta_keyword.keyword ";
 
-		$res = $this->db->query($query);
-		while($row = $res->fetchRow(DB_FETCHMODE_OBJECT))
+		$statement = $this->db->queryf(
+			$query,
+			$types,
+			$values
+		);
+
+		while($row = $statement->fetchRow(DB_FETCHMODE_OBJECT))
 		{
 			$this->search_result->addEntry($row->rbac_id,$row->obj_type,$this->__prepareFound($row),$row->obj_id);
 		}
@@ -173,6 +181,9 @@ class ilShopMetaDataSearch extends ilAbstractSearch
 	
 	private function __searchTitles()
 	{
+		$types = array();
+		$values = array();
+		
 		$this->setFields(array('title'));
 
 		$in = $this->__createInStatement();
@@ -184,16 +195,20 @@ class ilShopMetaDataSearch extends ilAbstractSearch
 				  INNER JOIN object_reference ON object_reference.ref_id = payment_objects.ref_id
 				  INNER JOIN il_meta_general ON il_meta_general.obj_id = object_reference.obj_id ";
 		
-		if($this->getFilterShopTopicId() != 0)
-		{
-			$where .= "	AND pt_topic_fk = ".$this->db->quote($this->getFilterShopTopicId())." ";
-		}
+		$query .= $where['query'];
+		$types = array_merge($types, $where['types']);
+		$values = array_merge($values, $where['values']);
+		$query .= $in;		
 		
-		$query .= $where." ".$in.' ';
 		$query .= " GROUP BY il_meta_general.obj_id,rbac_id,obj_type,il_meta_general.title ";
 
-		$res = $this->db->query($query);
-		while($row = $res->fetchRow(DB_FETCHMODE_OBJECT))
+		$statement = $this->db->queryf(
+			$query,
+			$types,
+			$values
+		);
+		
+		while($row = $statement->fetchRow(DB_FETCHMODE_OBJECT))
 		{
 			$this->search_result->addEntry($row->rbac_id,$row->obj_type,$this->__prepareFound($row),$row->obj_id);
 		}
@@ -203,6 +218,9 @@ class ilShopMetaDataSearch extends ilAbstractSearch
 	
 	private function __searchDescriptions()
 	{
+		$types = array();
+		$values = array();
+		
 		$this->setFields(array('description'));
 
 		$in = $this->__createInStatement();
@@ -214,16 +232,20 @@ class ilShopMetaDataSearch extends ilAbstractSearch
 				  INNER JOIN object_reference ON object_reference.ref_id = payment_objects.ref_id
 				  INNER JOIN il_meta_description ON il_meta_description.obj_id = object_reference.obj_id ";
 		
-		if($this->getFilterShopTopicId() != 0)
-		{
-			$where .= "	AND pt_topic_fk = ".$this->db->quote($this->getFilterShopTopicId())." ";
-		}
+		$query .= $where['query'];
+		$types = array_merge($types, $where['types']);
+		$values = array_merge($values, $where['values']);
+		$query .= $in;
 		
-		$query .= $where." ".$in.' ';
 		$query .= " GROUP BY il_meta_description.obj_id,rbac_id,obj_type,il_meta_description.description ";
 
-		$res = $this->db->query($query);
-		while($row = $res->fetchRow(DB_FETCHMODE_OBJECT))
+		$statement = $this->db->queryf(
+			$query,
+			$types,
+			$values
+		);
+		
+		while($row = $statement->fetchRow(DB_FETCHMODE_OBJECT))
 		{
 			$this->search_result->addEntry($row->rbac_id,$row->obj_type,$this->__prepareFound($row),$row->obj_id);
 		}

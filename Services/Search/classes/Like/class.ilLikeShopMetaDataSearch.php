@@ -41,8 +41,11 @@ class ilLikeShopMetaDataSearch extends ilShopMetaDataSearch
 
 	public function __createKeywordWhereCondition()
 	{
-		$concat = ' keyword ';
-		$where = ' WHERE (payment_objects.status = 1 OR payment_objects.status = 2) AND (';
+		$where = '';
+		$types = array();
+		$values = array();	
+		
+		$where .= ' WHERE (payment_objects.status = 1 OR payment_objects.status = 2) AND (';
 		$counter = 0;
 		foreach($this->query_parser->getQuotedWords() as $word)
 		{
@@ -50,16 +53,31 @@ class ilLikeShopMetaDataSearch extends ilShopMetaDataSearch
 			{
 				$where .= 'OR';
 			}
-			$where .= $concat;
-			$where .= (" LIKE ('%".$word."%')");
+			
+			$where .= $this->db->like(' keyword', 'text', '%%'.$word.'%%');
 		}
-		return $where.')';
+		
+		if($this->getFilterShopTopicId() != 0)
+		{
+			$where .= '	AND pt_topic_fk = %s ';
+			$types[] = 'integer';
+			$values[] = $this->getFilterShopTopicId();			 
+		}
+		
+		return array(
+			'query' => $where.')',
+			'types' => $types,
+			'values' => $values
+		);
 	}		
 
 	public function __createContributeWhereCondition()
 	{
-		$concat = ' entity ';
-		$where = ' WHERE (payment_objects.status = 1 OR payment_objects.status = 2) AND (';
+		$where = '';
+		$types = array();
+		$values = array();	
+		
+		$where .= ' WHERE (payment_objects.status = 1 OR payment_objects.status = 2) AND (';
 		$counter = 0;
 		foreach($this->query_parser->getQuotedWords() as $word)
 		{
@@ -67,15 +85,59 @@ class ilLikeShopMetaDataSearch extends ilShopMetaDataSearch
 			{
 				$where .= 'OR';
 			}
-			$where .= $concat;
-			$where .= (" LIKE ('%".$word."%')");
+			$where .= $this->db->like(' entity', 'text', '%%'.$word.'%%');
 		}
-		return $where.')';
+		
+		if($this->getFilterShopTopicId() != 0)
+		{
+			$where .= '	AND pt_topic_fk = %s ';
+			$types[] = 'integer';
+			$values[] = $this->getFilterShopTopicId();			 
+		}
+		
+		return array(
+			'query' => $where.')',
+			'types' => $types,
+			'values' => $values
+		);
 	}
 		
 	public function __createTitleWhereCondition()
 	{
-		$concat = ' title ';
+		$where = '';
+		$types = array();
+		$values = array();	
+				
+		$where .= ' WHERE (payment_objects.status = 1 OR payment_objects.status = 2) AND (';
+		$counter = 0;
+		foreach($this->query_parser->getQuotedWords() as $word)
+		{
+			if($counter++)
+			{
+				$where .= 'OR';
+			}
+			$where .= $this->db->like(' title', 'text', '%%'.$word.'%%');
+		}
+		
+		if($this->getFilterShopTopicId() != 0)
+		{
+			$where .= '	AND pt_topic_fk = %s ';
+			$types[] = 'integer';
+			$values[] = $this->getFilterShopTopicId();			 
+		}
+		
+		return array(
+			'query' => $where.')',
+			'types' => $types,
+			'values' => $values
+		);
+	}
+
+	public function __createDescriptionWhereCondition()
+	{
+		$where = '';
+		$types = array();
+		$values = array();	
 		
 		$where = ' WHERE (payment_objects.status = 1 OR payment_objects.status = 2) AND (';
 		$counter = 0;
@@ -85,27 +147,21 @@ class ilLikeShopMetaDataSearch extends ilShopMetaDataSearch
 			{
 				$where .= 'OR';
 			}
-			$where .= $concat;
-			$where .= (" LIKE ('%".$word."%')");
+			$where .= $this->db->like(' description', 'text', '%%'.$word.'%%');
 		}
-		return $where.')';
-	}
-
-	public function __createDescriptionWhereCondition()
-	{
-		$concat = ' description ';
-		$where = ' WHERE (payment_objects.status = 1 OR payment_objects.status = 2) AND (';
-		$counter = 0;
-		foreach($this->query_parser->getQuotedWords() as $word)
+		
+		if($this->getFilterShopTopicId() != 0)
 		{
-			if($counter++)
-			{
-				$where .= 'OR';
-			}
-			$where .= $concat;
-			$where .= (" LIKE ('%".$word."%')");
+			$where .= '	AND pt_topic_fk = %s ';
+			$types[] = 'integer';
+			$values[] = $this->getFilterShopTopicId();			 
 		}
-		return $where.')';
+		
+		return array(
+			'query' => $where.')',
+			'types' => $types,
+			'values' => $values
+		);
 	}
 }
 ?>
