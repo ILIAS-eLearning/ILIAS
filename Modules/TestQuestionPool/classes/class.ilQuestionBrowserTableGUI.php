@@ -73,12 +73,12 @@ class ilQuestionBrowserTableGUI extends ilTable2GUI
 		$this->browsercolumns['updated'] = $qplSetting->get("updated", 1) ? true : false;
 		if ($this->browsercolumns['description']) $this->addColumn($this->lng->txt("description"),'comment', '');
 		if ($this->browsercolumns['type']) $this->addColumn($this->lng->txt("question_type"),'type', '');
-		if ($this->browsercolumns['points']) $this->addColumn($this->lng->txt("points"),'', '');
+		if ($this->browsercolumns['points']) $this->addColumn($this->lng->txt("points"),'', '', false, 'right');
 		if ($this->browsercolumns['statistics']) $this->addColumn('','statistics', '');
 		if ($this->browsercolumns['author']) $this->addColumn($this->lng->txt("author"),'author', '');
 		if ($this->browsercolumns['created']) $this->addColumn($this->lng->txt("create_date"),'created', '');
 		if ($this->browsercolumns['updated']) $this->addColumn($this->lng->txt("last_update"),'updated', '');
-	 	
+
 		$this->setPrefix('q_id');
 		$this->setSelectAllCheckbox('q_id');
 		
@@ -156,7 +156,7 @@ class ilQuestionBrowserTableGUI extends ilTable2GUI
 		include_once("./Modules/TestQuestionPool/classes/class.ilObjQuestionPool.php");
 		$types = ilObjQuestionPool::_getQuestionTypes();
 		$options = array();
-		$options[""] = $lng->txt('filter_all_questionpools');
+		$options[""] = $lng->txt('filter_all_question_types');
 		foreach ($types as $translation => $row)
 		{
 			$options[$row['type_tag']] = $translation;
