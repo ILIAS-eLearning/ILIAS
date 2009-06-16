@@ -36,27 +36,33 @@ class ilShopObjectSearch extends ilAbstractSearch
 	
 	public function performSearch()
 	{
+		$types = array();
+		$values = array();
+		
 		$in = $this->__createInStatement();
 		$where = $this->__createWhereCondition();
 		$locate = $this->__createLocateString();
 		
-		$query = "SELECT object_data.obj_id,object_data.type ".$locate."				  
+		$query = "SELECT object_data.obj_id,object_data.type ".$locate."			  
 				  FROM payment_objects 
 				  INNER JOIN object_reference ON object_reference.ref_id = payment_objects.ref_id
-				  INNER JOIN object_data ON object_data.obj_id = object_reference.obj_id ";
-		
-		if($this->getFilterShopTopicId() != 0)
-		{
-			$where .= "	AND pt_topic_fk = ".$this->db->quote($this->getFilterShopTopicId())." ";
-		}
-					
-		$query .= $where." ".$in.' ';		
-		
-		$query .= " GROUP BY object_data.obj_id,object_data.type,object_data.title,object_data.description ";		
-		$query .= " ORDER BY object_data.obj_id DESC ";
+				  INNER JOIN object_data ON object_data.obj_id = object_reference.obj_id ";	
+				  
+		$query .= $where['query'];
+		$types = array_merge($types, $where['types']);
+		$values = array_merge($values, $where['values']);
+		$query .= $in;  
+				  
+		$query .= " GROUP BY object_data.obj_id,object_data.type,object_data.title,object_data.description";		
+		$query .= " ORDER BY object_data.obj_id DESC";
 
-		$res = $this->db->query($query);
-		while($row = $res->fetchRow(DB_FETCHMODE_OBJECT))
+		$statement = $this->db->queryf(
+			$query,
+			$types,
+			$values
+		);
+				
+		while($row = $statement->fetchRow(DB_FETCHMODE_OBJECT))
 		{
 			$this->search_result->addEntry($row->obj_id,$row->type,$this->__prepareFound($row));
 		}		
@@ -64,14 +70,8 @@ class ilShopObjectSearch extends ilAbstractSearch
 	}
 
 	public function __createInStatement()
-	{
-		$type = "('";
-		$type .= implode("','",$this->object_types);
-		$type .= "')";
-		
-		$in = " AND type IN ".$type;
-
-		return $in;
+	{		
+		return ' AND ' . $this->db->in('type', $this->object_types, false, 'text');
 	}
 }
 ?>

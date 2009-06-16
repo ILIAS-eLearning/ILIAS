@@ -100,10 +100,10 @@ class ilShopTopic
 				AND pt_topic_pk = %s',
 				array('text', 'integer', 'integer', 'integer'),
 				array(	
-							$this->getTitle(),
-							$this->getSorting(),
-							$this->getChangeDate(),
-							$this->getId()
+					$this->getTitle(),
+					$this->getSorting(),
+					$this->getChangeDate(),
+					$this->getId()
 				));
 			
 
@@ -121,7 +121,7 @@ class ilShopTopic
 					pt_topic_title,
 					pt_topic_sort,
 					pt_topic_created
-				) VALUES (%s,%s,%s)',
+				) VALUES (%s, %s, %s, %s)',
 				array('integer','text', 'integer', 'integer'),
 				array($next_id, $this->getTitle(), $this->getSorting(), $this->getCreateDate()));
 
@@ -145,9 +145,7 @@ class ilShopTopic
 				array($this->getId())
 			);
 			
-			
-			//$result = $this->db->$resF('	
-				$result = $this->db->manipulateF('
+			$result = $this->db->manipulateF('
 				DELETE FROM payment_topic_usr_sort		
 				WHERE 1
 				AND ptus_pt_topic_fk = %s',

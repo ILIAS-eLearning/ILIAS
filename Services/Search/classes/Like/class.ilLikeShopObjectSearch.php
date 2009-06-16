@@ -41,23 +41,35 @@ class ilLikeShopObjectSearch extends ilShopObjectSearch
 
 	public function __createWhereCondition()
 	{
-		$concat  = ' CONCAT(';
-		$concat .= 'title, description';
-		$concat .= ') ';
+		$where = '';
+		$types = array();
+		$values = array();		
 
-		$where = 'WHERE (payment_objects.status = 1 OR payment_objects.status = 2) AND (';
+		$where .= 'WHERE (payment_objects.status = 1 OR payment_objects.status = 2) AND (';
 		$counter = 0;
 		foreach($this->query_parser->getQuotedWords() as $word)
 		{
 			if($counter++)
 			{
 				$where .= 'OR';
-			}
-			$where .= $concat;
-			$where .= ("LIKE ('%".$word."%') ");
+			}		
+			$where .= $this->db->like(" CONCAT(title, COALESCE(description, ''))", 'text', '%%'.$word.'%%');
+			
 		}
 		$where .= ') ';
-		return $where;
+		
+		if($this->getFilterShopTopicId() != 0)
+		{
+			$where .= '	AND pt_topic_fk = %s ';
+			$types[] = 'integer';
+			$values[] = $this->getFilterShopTopicId();			 
+		}
+		
+		return array(
+			'query' => $where,
+			'types' => $types,
+			'values' => $values
+		);
 	}
 }
 ?>
