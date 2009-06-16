@@ -260,7 +260,9 @@ class ilCtrl2 extends ilCtrl
 	function getPathNew($a_source_node, $a_target_node)
 	{
 //if ($this->getCmdClass() == "ilmailfoldergui") echo "-".$a_source_node."-".$a_target_node."-";
-		if ($a_source_node == 1)
+//echo "-".$a_source_node."-".$a_target_node."-";
+//echo "<br>:::$a_source_node:::";
+		if ($a_source_node == "1")
 		{
 			$a_source_node = "";
 		}
@@ -270,7 +272,7 @@ class ilCtrl2 extends ilCtrl
 				", Target:".$a_target_node;
 			exit;
 		}
-		
+//echo "<br>:::$a_source_node:::";
 		$temp_node = $a_source_node;
 		
 		$path = array();
@@ -283,7 +285,7 @@ class ilCtrl2 extends ilCtrl
 			? 0
 			: strlen($a_source_node) + 1;
 		$diff = substr($a_target_node, $diffstart);
-//echo ":$diff:";
+//echo "=$diff=$diffstart=";
 		$diff_arr = explode(":", $diff);
 		foreach($diff_arr as $cid)
 		{
@@ -295,6 +297,7 @@ class ilCtrl2 extends ilCtrl
 			$path[] = $temp_node;
 		}
 //if ($this->getCmdClass() == "ilmailfoldergui") var_dump($path);
+//var_dump($path);
 		return $path;
 	}
 
@@ -336,7 +339,7 @@ class ilCtrl2 extends ilCtrl
 	function &forwardCommand(&$a_gui_object)
 	{
 		$class = strtolower(get_class($a_gui_object));
-
+//echo "<br>forward to $class";
 		$nr = $this->getNodeIdForTargetClass($this->current_node, $class);
 		if ($nr != "")
 		{
@@ -411,8 +414,8 @@ class ilCtrl2 extends ilCtrl
 	*/
 	function getNextClass()
 	{
-//echo "getNextClass:";
 		$cmdNode = $this->getCmdNode();
+//echo "<br>getNextClass (current node: ".$this->current_node."; cmd node: ".$cmdNode.") ";
 		if ($cmdNode == "")
 		{
 			return false;
@@ -428,8 +431,8 @@ class ilCtrl2 extends ilCtrl
 			else
 			{
 				$path = $this->getPathNew($this->current_node, $cmdNode);
-
-//echo "2:".$this->call_node[$path[1]]["class"]."<br>";
+//var_dump($path);
+//echo " - Next Node: ".$path[1];
 				$this->readCidInfo($this->getCurrentCidOfNode($path[1]));
 //echo ":".$this->cid_class[$this->getCurrentCidOfNode($path[1])].":".$this->getCurrentCidOfNode($path[1]).":";
 				return $this->cid_class[$this->getCurrentCidOfNode($path[1])];
