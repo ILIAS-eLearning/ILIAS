@@ -79,7 +79,8 @@ class ilLink
 			}
 		}
 		
-		return ILIAS_HTTP_PATH.'/goto_'.urlencode(CLIENT_ID).'_'.$a_type.'_'.$a_ref_id.$append.'.html';
+		// urlencode for append is needed e.g. to process "/" in wiki page names correctly
+		return ILIAS_HTTP_PATH.'/goto_'.urlencode(CLIENT_ID).'_'.$a_type.'_'.$a_ref_id.urlencode($append).'.html';
 	}	
 }
 ?>
