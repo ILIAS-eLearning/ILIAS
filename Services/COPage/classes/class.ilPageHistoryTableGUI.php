@@ -74,7 +74,7 @@ class ilPageHistoryTableGUI extends ilTable2GUI
 	protected function fillRow($a_set)
 	{
 		global $lng, $ilCtrl, $ilAccess;
-
+//var_dump($a_set);
 		// rollback command
 		if ($a_set["nr"] > 0)
 		{
@@ -87,14 +87,26 @@ class ilPageHistoryTableGUI extends ilTable2GUI
 			$ilCtrl->setParameter($this->getParentObject(), "old_nr", "");
 			if (!$this->lselect)
 			{
-				$this->tpl->setVariable("LSELECT", 'checked="checked"');
-				$this->lselect = true;
+//				$this->tpl->setVariable("LSELECT", 'checked="checked"');
+//				$this->lselect = true;
 			}
 		}
 		else
 		{
-			$this->tpl->setVariable("RSELECT", 'checked="checked"');
+//			$this->tpl->setVariable("RSELECT", 'checked="checked"');
 		}
+		
+		if (!$this->rselect)
+		{
+			$this->tpl->setVariable("RSELECT", 'checked="checked"');
+			$this->rselect = true;
+		}
+		else if (!$this->lselect)
+		{
+			$this->tpl->setVariable("LSELECT", 'checked="checked"');
+			$this->lselect = true;
+		}
+
 		
 		$this->tpl->setVariable("NR", $a_set["nr"]);
 		$this->tpl->setVariable("TXT_HDATE",
@@ -122,7 +134,7 @@ class ilPageHistoryTableGUI extends ilTable2GUI
 			$this->tpl->setVariable("IMG_USER", $img);
 		}
 			
-		$ilCtrl->setParameter($a_parent_obj, "old_nr", "");
+		$ilCtrl->setParameter($this->getParentObject(), "old_nr", "");
 	}
 
 }
