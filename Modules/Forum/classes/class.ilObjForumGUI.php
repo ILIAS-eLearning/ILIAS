@@ -52,6 +52,10 @@ class ilObjForumGUI extends ilObjectGUI
 	private $is_moderator = false;
 	var $action = null;
 	
+	private $create_form_gui = null;
+	private $create_import_gui = null;
+	private $create_topic_form_gui = null;
+	
 	public function ilObjForumGUI($a_data, $a_id, $a_call_by_reference, $a_prepare_output = true)
 	{
 		global $ilCtrl, $ilUser, $ilAccess;
@@ -66,7 +70,7 @@ class ilObjForumGUI extends ilObjectGUI
 		$this->lng->loadLanguageModule('forum');
 		
 		$properties_obj_id = is_object($this->object) ? $this->object->getId() : 0;
-		
+
 		// forum properties
 		$this->objProperties = ilForumProperties::getInstance($properties_obj_id);
 
@@ -638,94 +642,127 @@ class ilObjForumGUI extends ilObjectGUI
 		return true;
 	}
 	
+	/**
+	* @access private
+	*/
+	private function initForumCreateForm($object_type)
+	{
+		$this->create_form_gui = new ilPropertyFormGUI();
+		
+		$this->create_form_gui->setTitle($this->lng->txt('frm_new'));
+		$this->create_form_gui->setTitleIcon(ilUtil::getImagePath('icon_frm.gif'));		
+		
+		// form action
+		$this->ctrl->setParameter($this, 'new_type', $object_type);
+		$this->create_form_gui->setFormAction($this->ctrl->getFormAction($this, 'save'));		
+		
+		// title
+		$title_gui = new ilTextInputGUI($this->lng->txt('title'), 'title');
+		$title_gui->setMaxLength(128);
+		$this->create_form_gui->addItem($title_gui);
+		
+		// description
+		$description_gui = new ilTextAreaInputGUI($this->lng->txt('desc'), 'desc');
+		$description_gui->setCols(40);
+		$description_gui->setRows(2);
+		$this->create_form_gui->addItem($description_gui);		
+		
+		// view
+		$view_group_gui = new ilRadioGroupInputGUI($this->lng->txt('frm_default_view'), 'sort');
+			$view_hir = new ilRadioOption($this->lng->txt('order_by').' '.$this->lng->txt('answers'), 1);							
+		$view_group_gui->addOption($view_hir);
+			$view_dat = new ilRadioOption($this->lng->txt('order_by').' '.$this->lng->txt('date'), 2);
+		$view_group_gui->addOption($view_dat);				
+		$this->create_form_gui->addItem($view_group_gui);		
+		
+		// anonymized or not
+		$anonymize_gui = new ilCheckboxInputGUI($this->lng->txt('frm_anonymous_posting'), 'anonymized');
+		$anonymize_gui->setInfo($this->lng->txt('frm_anonymous_posting_desc'));
+		$anonymize_gui->setValue(1);
+		if($this->ilias->getSetting('disable_anonymous_fora', true))
+			$anonymize_gui->setDisabled(true);
+		$this->create_form_gui->addItem($anonymize_gui);		
+		
+		// statistics enabled or not
+		$statistics_gui = new ilCheckboxInputGUI($this->lng->txt('frm_statistics_enabled'), 'statistics_enabled');
+		$statistics_gui->setInfo($this->lng->txt('frm_statistics_enabled_desc'));
+		$statistics_gui->setValue(1);
+		if(!$this->ilias->getSetting('enable_fora_statistics', false))
+			$statistics_gui->setDisabled(true);
+		$this->create_form_gui->addItem($statistics_gui);
+		
+		$this->create_form_gui->addCommandButton('save', $this->lng->txt('save'));
+		$this->create_form_gui->addCommandButton('cancel', $this->lng->txt('cancel'));
+	}
+	
+	/**
+	* @access private
+	*/
+	private function setForumCreateDefaultValues()
+	{
+		$this->create_form_gui->setValuesByArray(array(
+			'title' => '',
+			'desc' => '',
+			'sort' => 1,
+			'anonymized' => false,
+			'statistics_enabled' => false
+		));
+	}
+	
+	/**
+	* @access private
+	*/
+	private function initForumImportForm($object_type)
+	{
+		$this->import_form_gui = new ilPropertyFormGUI();
+		
+		$this->import_form_gui->setTitle($this->lng->txt('forum_import').' (ILIAS 2)');
+		$this->import_form_gui->setTitleIcon(ilUtil::getImagePath('icon_frm.gif'));		
+		
+		// form action
+		$this->ctrl->setParameter($this, 'new_type', $object_type);
+		$this->import_form_gui->setFormAction($this->ctrl->getFormAction($this, 'performImport'));		
+		
+		// file
+		$in_file = new ilFileInputGUI($this->lng->txt('forum_import_file'), 'importFile');
+		$in_file->setRequired(true);
+		$this->import_form_gui->addItem($in_file);
+		
+		$this->import_form_gui->addCommandButton('performImport', $this->lng->txt('import'));
+		$this->import_form_gui->addCommandButton('cancel', $this->lng->txt('cancel'));
+	}
 	
 	/**
 	* creation form
 	*/
-	function createObject()
+	function createObject($subbmitted_form = '')
 	{
-		global $rbacsystem;
+		global $rbacsystem;		
 
-		$new_type = $_POST["new_type"] ? $_POST["new_type"] : $_GET["new_type"];
-
-		if (!$rbacsystem->checkAccess("create", $_GET["ref_id"], $new_type))
+		$new_type = $_POST['new_type'] ? $_POST['new_type'] : $_GET['new_type'];
+		if(!$rbacsystem->checkAccess('create', $_GET['ref_id'], $new_type))
 		{
-			$this->ilias->raiseError($this->lng->txt("permission_denied"),$this->ilias->error_obj->MESSAGE);
+			$this->ilias->raiseError($this->lng->txt('permission_denied'), $this->ilias->error_obj->MESSAGE);
 		}
-
-		$this->tpl->addBlockFile("ADM_CONTENT", "adm_content", "tpl.frm_create.html", "Modules/Forum");
-
-		$this->tpl->setVariable("TYPE_IMG",ilUtil::getImagePath('icon_frm.gif'));
-		$this->tpl->setVariable("ALT_IMG", $this->lng->txt('edit_properties'));
-
-		$this->tpl->setVariable("TXT_TITLE", $this->lng->txt("title"));
-		$this->tpl->setVariable("TXT_DESC", $this->lng->txt("desc"));
-		$this->tpl->setVariable("TITLE",$_POST['title']);
-		$this->tpl->setVariable("DESC",$_POST['description']);
-
-		$this->ctrl->setParameter($this, "new_type", $new_type);
-		$this->tpl->setVariable("FORMACTION",$this->ctrl->getFormAction($this));
-
-		$this->tpl->setVariable("TARGET", ' target="'.
-			ilFrameTargetInfo::_getFrame("MainContent").'" ');
-
-		$this->tpl->setVariable("TXT_HEADER", $this->lng->txt('frm_new'));
-		$this->tpl->setVariable("TXT_CANCEL", $this->lng->txt("cancel"));
-		$this->tpl->setVariable("TXT_SUBMIT", $this->lng->txt("save"));
-		$this->tpl->setVariable("CMD_SUBMIT", "save");
-		$this->tpl->setVariable("TXT_REQUIRED_FLD", $this->lng->txt("required_field"));
-
-		// DEFAULT ORDER
-		$this->tpl->setVariable("TXT_VIEW",$this->lng->txt('frm_default_view'));
-		$this->tpl->setVariable("TXT_ANSWER",$this->lng->txt('order_by').' '.$this->lng->txt('answers'));
-		$this->tpl->setVariable("TXT_DATE",$this->lng->txt('order_by').' '.$this->lng->txt('date'));
-
-		$default_sort = $_POST['sort'] ? $_POST['sort'] : 1;
-
-		$this->tpl->setVariable("CHECK_ANSWER",ilUtil::formRadioButton($default_sort == 1 ? 1 : 0,'sort',1));
-		$this->tpl->setVariable("CHECK_DATE",ilUtil::formRadioButton($default_sort == 2 ? 1 : 0,'sort',2));
-
-		// ANONYMIZED OR NOT
-		$this->tpl->setVariable("TXT_ANONYMIZED",$this->lng->txt('frm_anonymous_posting'));
-		$this->tpl->setVariable("TXT_ANONYMIZED_DESC",$this->lng->txt('frm_anonymous_posting_desc'));
-
-		$anonymized = $_POST['anonymized'] ? $_POST['anonymized'] : 0;
-
-		$this->tpl->setVariable("CHECK_ANONYMIZED",
-				ilUtil::formCheckbox(
-				$anonymized == 1 && !$this->ilias->getSetting('disable_anonymous_fora',true) ? 1 : 0,
-				'anonymized',1,
-				!$this->ilias->getSetting("disable_anonymous_fora", true)?false:true));
-	
-
-		// Statistics enabled or not
 		
-		$statisticsEnabled  = $_POST['statistics_enabled'] ? $_POST['statistics_enabled'] : 1;
+		$this->tpl->addBlockFile('ADM_CONTENT', 'adm_content', 'tpl.frm_create.html', 'Modules/Forum');
 		
-		$this->tpl->setVariable("TXT_STATISTICS_ENABLED", $this->lng->txt("frm_statistics_enabled"));	
-		$this->tpl->setVariable("TXT_STATISTICS_ENABLED_DESC", $this->lng->txt("frm_statistics_enabled_desc"));
-		
-		
-		$this->tpl->setVariable("CHECK_STATISTICS_ENABLED", 
-			ilUtil::formCheckbox(
-				$statisticsEnabled == 1 && $this->ilias->getSetting("enable_fora_statistics", true)? 1 : 0,
-				'statistics_enabled', 1,
-				$this->ilias->getSetting("enable_fora_statistics", true)?false:true));
+		// create form
+		if($this->create_form_gui === null)
+			$this->initForumCreateForm($new_type);
+		if($subbmitted_form == 'create')
+			$this->create_form_gui->setValuesByPost();
+		else
+			$this->setForumCreateDefaultValues();		
+		$this->tpl->setVariable('CREATE_FORM', $this->create_form_gui->getHTML());
 
 		// show ilias 2 forum import for administrators only
-		include_once("./Services/MainMenu/classes/class.ilMainMenuGUI.php");
+		include_once 'Services/MainMenu/classes/class.ilMainMenuGUI.php';
 		if(ilMainMenuGUI::_checkAdministrationPermission())
 		{
-			$this->tpl->setCurrentBlock("forum_import");
-			$this->tpl->setVariable("FORMACTION_IMPORT",
-				$this->ctrl->getFormAction($this));
-			$this->tpl->setVariable("TXT_IMPORT_FORUM", $this->lng->txt("forum_import")." (ILIAS 2)");
-			$this->tpl->setVariable("TXT_IMPORT_FILE", $this->lng->txt("forum_import_file"));
-			$this->tpl->setVariable("BTN2_CANCEL", $this->lng->txt("cancel"));
-			$this->tpl->setVariable("BTN_IMPORT", $this->lng->txt("import"));
-			$this->tpl->setVariable("TYPE_IMG2",ilUtil::getImagePath('icon_frm.gif'));
-			$this->tpl->setVariable("ALT_IMG2", $this->lng->txt("forum_import"));
-			$this->tpl->parseCurrentBlock();
+			if($this->import_form_gui === null)
+				$this->initForumImportForm($new_type);
+			$this->tpl->setVariable('IMPORT_FORM', $this->import_form_gui->getHTML());			
 		}
 		
 		$this->fillCloneTemplate('DUPLICATE','frm');
@@ -747,49 +784,75 @@ class ilObjForumGUI extends ilObjectGUI
 
 	function performImportObject()
 	{
-		$this->__initFileObject();
+		$new_type = $_POST['new_type'] ? $_POST['new_type'] : $_GET['new_type'];
+		$this->initForumImportForm($new_type);
+		if($this->import_form_gui->checkInput())
+		{
+			$file = $this->import_form_gui->getInput('importFile');
+			
+			$error = false;			
+			
+			$this->__initFileObject();
 
-		if(!$this->file_obj->storeUploadedFile($_FILES["importFile"]))	// STEP 1 save file in ...import/mail
-		{
-			$this->message = $this->lng->txt("import_file_not_valid"); 
-			$this->file_obj->unlinkLast();
-		}
-		else if(!$this->file_obj->unzip())
-		{
-			$this->message = $this->lng->txt("cannot_unzip_file");			// STEP 2 unzip uplaoded file
-			$this->file_obj->unlinkLast();
-		}
-		else if(!$this->file_obj->findXMLFile())						// STEP 3 getXMLFile
-		{
-			$this->message = $this->lng->txt("cannot_find_xml");
-			$this->file_obj->unlinkLast();
-		}
-		else if(!$this->__initParserObject($this->file_obj->getXMLFile()) or !$this->parser_obj->startParsing())
-		{
-			$this->message = $this->lng->txt("import_parse_error").":<br/>"; // STEP 5 start parsing
-		}
-
-		// FINALLY CHECK ERROR
-		if(!$this->message)
-		{
-			ilUtil::sendInfo($this->lng->txt("import_forum_finished"),true);
-			$ref_id = $this->parser_obj->getRefId();
-			if ($ref_id > 0)
+			if(!$this->file_obj->storeUploadedFile($file))	// STEP 1 save file in ...import/mail
 			{
-				$this->ctrl->setParameter($this, "ref_id", $ref_id);
-				ilUtil::redirect($this->getReturnLocation("save",
-					$this->ctrl->getLinkTarget($this, "showThreads")));
+				$this->import_form_gui->getItemByPostVar('importFile')
+					 ->setAlert($this->lng->txt('import_file_not_valid'));
+				$error = true; 
+				$this->file_obj->unlinkLast();
+			}
+			else if(!$this->file_obj->unzip()) // STEP 2 unzip uploaded file
+			{
+				$this->import_form_gui->getItemByPostVar('importFile')
+					 ->setAlert($this->lng->txt('cannot_unzip_file'));
+				
+				$error = true;
+				$this->file_obj->unlinkLast();
+			}
+			else if(!$this->file_obj->findXMLFile())// STEP 3 getXMLFile
+			{
+				$this->import_form_gui->getItemByPostVar('importFile')
+					 ->setAlert($this->lng->txt('cannot_find_xml'));
+				
+				$error = true;
+				$this->file_obj->unlinkLast();
+			}
+			else if(!$this->__initParserObject($this->file_obj->getXMLFile()) ||
+			        !$this->parser_obj->startParsing()) // STEP 5 start parsing
+			{
+				$this->import_form_gui->getItemByPostVar('importFile')
+					 ->setAlert($this->lng->txt('import_parse_error'));
+				
+				$error = true;
+				$this->message = $this->lng->txt("import_parse_error").":<br/>";
+			}
+			
+			// FINALLY CHECK ERROR
+			if(!$error)
+			{
+				ilUtil::sendSuccess($this->lng->txt('import_forum_finished'), true);
+				$ref_id = $this->parser_obj->getRefId();
+				if($ref_id > 0)
+				{
+					$this->ctrl->setParameter($this, 'ref_id', $ref_id);
+					ilUtil::redirect($this->getReturnLocation('save',
+						$this->ctrl->getLinkTarget($this, 'showThreads')));
+				}
+				else
+				{
+					ilUtil::redirect('repository.php?cmd=frameset&ref_id='.$_GET['ref_id']);
+				}
 			}
 			else
 			{
-				ilUtil::redirect("repository.php?cmd=frameset&ref_id=".$_GET["ref_id"]);
+				ilUtil::sendFailure($this->lng->txt('form_input_not_valid'));
+				$this->createObject('import');
 			}
 		}
 		else
 		{
-			ilUtil::sendInfo($this->message);
-			$this->createObject();
-		}
+			return $this->createObject('import');
+		}	
 	}
 
 
@@ -799,97 +862,68 @@ class ilObjForumGUI extends ilObjectGUI
 	*/
 	function saveObject($a_prevent_redirect = false)
 	{
-		global $rbacadmin, $ilDB, $ilUser;
+		global $rbacadmin, $rbacsystem;
 
-		$_POST['Fobject']['title'] = $_POST['title'];
-		$_POST['Fobject']['desc'] = $_POST['desc'];
-
-		// create and insert forum in objecttree
-		$forumObj = parent::saveObject();		
-		
-		// save settings
-		$this->objProperties->setObjId($forumObj->getId());
-		$this->objProperties->setDefaultView(((int) $_POST['sort']));
-		
-		if ($this->ilias->getSetting('disable_anonymous_fora' == FALSE))
+		$new_type = $_POST['new_type'] ? $_POST['new_type'] : $_GET['new_type'];		
+		if(!$rbacsystem->checkAccess('create', $_GET['ref_id'], $new_type))
 		{
-			$this->ilias->setSetting('disable_anonymous_fora',0);	
-		}
+			$this->ilias->raiseError($this->lng->txt('permission_denied'), $this->ilias->error_obj->MESSAGE);
+		}		
 		
-		
-		//if (!$this->ilias->getSetting('disable_anonymous_fora') || $this->objProperties->isAnonymized())
-		if ($this->objProperties->isAnonymized())
-		{
-			//$this->objProperties->setAnonymisation(((int) $_POST['anonymized'] == 1) ? true : false);
-			$this->objProperties->setAnonymisation((int) $_POST['anonymized']);
-		}
-		//$this->objProperties->setStatisticsStatus(((int) $_POST['statistics_enabled'] == 1) ? true : false);
-		$this->objProperties->setStatisticsStatus((int) $_POST['statistics_enabled']);
-		$this->objProperties->insert();		
+		$this->initForumCreateForm($new_type);
+		if($this->create_form_gui->checkInput())
+		{			
+			$_POST['Fobject']['title'] = $this->create_form_gui->getInput('title');
+			$_POST['Fobject']['desc'] =  $this->create_form_gui->getInput('desc');
 			
-		$forumObj->createSettings();
-
-		// setup rolefolder & default local roles (moderator)
-		$roles = $forumObj->initDefaultRoles();
-
-		// ...finally assign moderator role to creator of forum object
-		$rbacadmin->assignUser($roles[0], $forumObj->getOwner(), "n");
+			// create and insert forum in objecttree
+			$forumObj = parent::saveObject();
 			
-		// insert new forum as new topic into frm_data
-		$top_data = array(
-            'top_frm_fk'   		=> $forumObj->getId(),
-			'top_name'   		=> $forumObj->getTitle(),
-            'top_description' 	=> $forumObj->getDescription(),
-            'top_num_posts'     => 0,
-            'top_num_threads'   => 0,
-            'top_last_post'     => NULL,
-			'top_mods'      	=> $roles[0],
-			'top_usr_id'      	=> $ilUser->getId(),
-            'top_date' 			=> date("Y-m-d H:i:s")
-        );
-
-        $nextId = $ilDB->nextId('frm_data');
-        
-        $statement = $ilDB->manipulateF('
-        	INSERT INTO frm_data 
-        	( 
-        	 	top_pk,
-        		top_frm_fk, 
-        		top_name,
-        		top_description,
-        		top_num_posts,
-        		top_num_threads,
-        		top_last_post,
-        		top_mods,
-        		top_date,
-        		top_usr_id
-        	)
-        	VALUES(%s, %s, %s, %s, %s, %s, %s, %s, %s, %s)',
-        	array('integer', 'integer', 'text', 'text', 'integer', 'integer', 'text', 'integer', 'timestamp', 'integer'),
-        	array(
-        	$nextId,
-        	$top_data['top_frm_fk'],
-        	$top_data['top_name'],
-        	$top_data['top_description'],
-        	$top_data['top_num_posts'],
-			$top_data['top_num_threads'],
-			$top_data['top_last_post'],
-			$top_data['top_mods'],
-			$top_data['top_date'],
-			$top_data['top_usr_id']
-		));
-		
-		$this->object = $forumObj;
-		
-		// always send a message
-		ilUtil::sendInfo($this->lng->txt('frm_added'), true);
-		
-		$this->ctrl->setParameter($this, 'ref_id', $forumObj->getRefId());
-
-		if (!$a_prevent_redirect)
-		{
-			ilUtil::redirect($this->ctrl->getLinkTarget($this, 'createThread'));
+			// save settings
+			$this->objProperties->setObjId($forumObj->getId());
+			$this->objProperties->setDefaultView(((int)$this->create_form_gui->getInput('sort')));
+			if(!$this->ilias->getSetting('disable_anonymous_fora', true))
+			{
+				$this->objProperties->setAnonymisation((int)$this->create_form_gui->getInput('anonymized'));
+			}
+			else
+			{
+				$this->objProperties->setAnonymisation(0);
+			}			
+			if($this->ilias->getSetting('enable_fora_statistics', false))
+			{
+				$this->objProperties->setStatisticsStatus((int)$this->create_form_gui->getInput('statistics_enabled'));	
+			}	
+			else
+			{
+				$this->objProperties->setStatisticsStatus(0);				
+			}		
+			$this->objProperties->insert();		
+				
+			$forumObj->createSettings();
+	
+			// setup rolefolder & default local roles (moderator)
+			$roles = $forumObj->initDefaultRoles();
+	
+			// ...finally assign moderator role to creator of forum object
+			$rbacadmin->assignUser($roles[0], $forumObj->getOwner(), 'n');
+			
+			// insert new forum as new topic into frm_data
+			$forumObj->saveData($roles);        
+			
+			// always send a message
+			ilUtil::sendSuccess($this->lng->txt('frm_added'), true);
+						
+			$this->ctrl->setParameter($this, 'ref_id', $forumObj->getRefId());	
+			if(!$a_prevent_redirect)
+			{
+				ilUtil::redirect($this->ctrl->getLinkTarget($this, 'createThread'));
+			}
 		}
+		else
+		{
+			return $this->createObject('create');
+		}		
 	}
 
 	function getTabs(&$tabs_gui)
@@ -3261,99 +3295,109 @@ class ilObjForumGUI extends ilObjectGUI
 		return true;
 	}
 	
-	
-	/**
-	* New Thread form.
-	*/
-	function createThreadObject($errors = '')
+	private function initTopicCreateForm()
 	{
-		global $lng, $tpl, $rbacsystem, $ilias, $ilDB, $ilAccess, $ilUser;
+		global $ilUser, $rbacsystem, $ilias;
 		
-		require_once './Modules/Forum/classes/class.ilObjForum.php';
+		$this->create_topic_form_gui = new ilPropertyFormGUI();
 		
-		$lng->loadLanguageModule('forum');
+		$this->create_topic_form_gui->setTitle($this->lng->txt('forums_new_thread'));
+		$this->create_topic_form_gui->setTitleIcon(ilUtil::getImagePath('icon_frm.gif'));		
 		
-		$forumObj = new ilObjForum($_GET['ref_id']);
-		$frm =& $forumObj->Forum;
+		// form action
+		$this->create_topic_form_gui->setFormAction($this->ctrl->getFormAction($this, 'addThread'));
 		
-		$frm->setForumId($forumObj->getId());
-		$frm->setForumRefId($forumObj->getRefId());
-
-		$frm->setMDB2WhereCondition('top_frm_fk = %s ', array('integer'), array($frm->getForumId()));
-		
-		$topicData = $frm->getOneTopic();		
-		
-		$tpl->addBlockFile('ADM_CONTENT', 'adm_content', 'tpl.forums_threads_new.html',	'Modules/Forum');
-				
-		if ($errors != '')
-		{
-			ilUtil::sendInfo($lng->txt('form_empty_fields').' '.$errors);
-		}
-
-		if (!$ilAccess->checkAccess('add_thread,add_post', '', $forumObj->getRefId()))
-		{
-			$ilias->raiseError($lng->txt('permission_denied'), $ilias->error_obj->MESSAGE);
-		}		
-		
-		$tpl->setCurrentBlock('new_thread');
-		$tpl->setVariable('TXT_REQUIRED_FIELDS', $lng->txt('required_field'));
-		$tpl->setVariable('TXT_SUBJECT', $lng->txt('forums_thread'));
-		$tpl->setVariable('SUBJECT_VALUE', $this->forwardInputToOutput($_POST['formData']['subject']));
-		$tpl->setVariable('TXT_MESSAGE', $lng->txt('forums_the_post'));
-		$tpl->setVariable('MESSAGE_VALUE', $this->forwardInputToOutput($_POST['formData']['message']));
-
-	
-		
-		if ($this->objProperties->isAnonymized($forumObj->getId()))
+		if($this->objProperties->isAnonymized())
 		{			
-			$tpl->setVariable('TYPE', 'text');
-			$tpl->setVariable('TXT_ALIAS', $lng->txt('forums_your_name'));
-			$tpl->setVariable('ALIAS_VALUE', $_POST['formData']['alias']);
-			$tpl->setVariable('TXT_ALIAS_INFO', $lng->txt('forums_use_alias'));
+			$alias_gui = new ilTextInputGUI($this->lng->txt('forums_your_name'), 'alias');
+			$alias_gui->setInfo($this->lng->txt('forums_use_alias'));
+			$alias_gui->setMaxLength(255);
+			$alias_gui->setSize(50);
+			$this->create_topic_form_gui->addItem($alias_gui);
 		}
-		else	
-		if (!$this->objProperties->isAnonymized($forumObj->getId()))
-		{	//not anonymized	
-			$tpl->setVariable('TYPE', 'hidden');
-			$tpl->setVariable('ALIAS_VALUE_2', $ilUser->getLogin());
-			$tpl->setVariable('ALIAS_VALUE', $ilUser->getLogin());
-		}		
+		else
+		{
+			$alias_gui = new ilNonEditableValueGUI($this->lng->txt('forums_your_name', 'alias'));
+			$alias_gui->setValue($ilUser->getLogin());
+			$this->create_topic_form_gui->addItem($alias_gui);
+		}
+		
+		// topic
+		$subject_gui = new ilTextInputGUI($this->lng->txt('forums_thread'), 'subject');
+		$subject_gui->setMaxLength(255);
+		$subject_gui->setSize(50);
+		$subject_gui->setRequired(true);
+		$this->create_topic_form_gui->addItem($subject_gui);
+		
+		// message
+		$post_gui = new ilTextAreaInputGUI($this->lng->txt('forums_the_post'), 'message');
+		$post_gui->setCols(50);
+		$post_gui->setRows(15);
+		$post_gui->setRequired(true);
+		$this->create_topic_form_gui->addItem($post_gui);		
+		
+		// file
+		$file_gui = new ilFileInputGUI($this->lng->txt('forums_attachments_add'), 'userfile');
+		$this->create_topic_form_gui->addItem($file_gui);
 		
 		include_once 'Services/Mail/classes/class.ilMail.php';
-		$umail = new ilMail($_SESSION['AccountId']);
+		$umail = new ilMail($ilUser->getId());
 		// catch hack attempts
 		if ($rbacsystem->checkAccess('mail_visible', $umail->getMailObjectReferenceId()) &&
 			!$this->objProperties->isAnonymized())
 		{
-			$tpl->setCurrentBlock('notify');
-			$tpl->setVariable('TXT_NOTIFY', $lng->txt('forum_direct_notification'));
-			$tpl->setVariable('NOTIFY', $lng->txt('forum_notify_me_directly'));
-			if ($_POST['formData']['notify'] == 1) $tpl->setVariable('NOTIFY_CHECKED', 'checked');
-			$tpl->parseCurrentBlock();
-			if ($ilias->getSetting('forum_notification') != 0)
+			// direct notification
+			$dir_notification_gui = new ilCheckboxInputGUI($this->lng->txt('forum_direct_notification'), 'notify');
+			$dir_notification_gui->setInfo($this->lng->txt('forum_notify_me_directly'));
+			$dir_notification_gui->setValue(1);			
+			$this->create_topic_form_gui->addItem($dir_notification_gui);		
+			
+			if($ilias->getSetting('forum_notification') != 0)
 			{
-				$tpl->setCurrentBlock('notify_posts');
-				$tpl->setVariable('TXT_NOTIFY_POSTS', $lng->txt('forum_general_notification'));
-				$tpl->setVariable('NOTIFY_POSTS', $lng->txt('forum_notify_me_generally'));
-				if ($_POST['formData']['notify_posts'] == 1) $tpl->setVariable('NOTIFY_POSTS_CHECKED', "checked=\"checked\"");
-				$tpl->parseCurrentBlock();
+				// gen. notification
+				$gen_notification_gui = new ilCheckboxInputGUI($this->lng->txt('forum_general_notification'), 'notify_posts');
+				$gen_notification_gui->setInfo($this->lng->txt('forum_notify_me_generally'));
+				$gen_notification_gui->setValue(1);
+				$this->create_topic_form_gui->addItem($gen_notification_gui);
 			}
-		}
+		}		
+		
+		$this->create_topic_form_gui->addCommandButton('addThread', $this->lng->txt('save'));
+		$this->create_topic_form_gui->addCommandButton('showThreads', $this->lng->txt('cancel'));
+	}
+	
+	/**
+	* @access private
+	*/
+	private function setTopicCreateDefaultValues()
+	{
+		global $ilUser;
 
-		$tpl->setVariable('SUBMIT', $lng->txt('submit'));
-		$tpl->setVariable('CANCEL', $lng->txt('cancel'));
-		$tpl->setVariable('FORMACTION',	$this->ctrl->getFormAction($this, 'addThread'));
-		$tpl->setVariable('TXT_NEW_TOPIC', $lng->txt('forums_new_thread'));
+		$this->create_topic_form_gui->setValuesByArray(array(
+			'subject' => '',
+			'message' => '',
+			'userfile' => '',
+			'notify' => 0,
+			'notify_posts' => 0	
+		));
+	}	
+	
+	/**
+	* New Thread form.
+	*/
+	function createThreadObject()
+	{
+		global $rbacsystem, $ilAccess;
 		
-		$tpl->setCurrentBlock('attachment');
-		$tpl->setVariable('TXT_ATTACHMENTS_ADD', $lng->txt('forums_attachments_add'));
-		$tpl->parseCurrentBlock('attachment');
+		if(!$ilAccess->checkAccess('add_thread,add_post', '', (int)$_GET['ref_id']))
+		{
+			$this->ilias->raiseError($lng->txt('permission_denied'), $this->ilias->error_obj->MESSAGE);
+		}
 		
-		$tpl->parseCurrentBlock('new_thread');
+		$this->initTopicCreateForm();
+		$this->setTopicCreateDefaultValues();
 		
-		$tpl->setVariable('TPLPATH', $tpl->vars['TPLPATH']);
-		
-		return true;
+		$this->tpl->setContent($this->create_topic_form_gui->getHTML());
 	}	
 
 
@@ -3362,76 +3406,69 @@ class ilObjForumGUI extends ilObjectGUI
 	*/
 	function addThreadObject($a_prevent_redirect = false)
 	{
-
-		global $lng, $tpl, $ilDB, $ilUser;
+		global $ilUser, $ilAccess;		
 		
-		$forumObj = new ilObjForum($_GET['ref_id']);
-		$frm =& $forumObj->Forum;
+		$forumObj = new ilObjForum((int)$_GET['ref_id']);
+		$frm = $forumObj->Forum;
 		$frm->setForumId($forumObj->getId());
 		$frm->setForumRefId($forumObj->getRefId());
+		
+		if(!$ilAccess->checkAccess('add_thread,add_post', '', $forumObj->getRefId()))
+		{
+			$this->ilias->raiseError($lng->txt('permission_denied'), $this->ilias->error_obj->MESSAGE);
+		}
 
 		$frm->setMDB2WhereCondition('top_frm_fk = %s ', array('integer'), array($frm->getForumId()));
 		
 		$topicData = $frm->getOneTopic();
 
-		$formData = $_POST['formData'];
-		// check form-dates
-		$errors = '';
-
-		if (trim($formData['subject']) == '') $errors .= $lng->txt('forums_thread').', ';
-		if (trim($formData['message']) == '') $errors .= $lng->txt('forums_the_post').', ';
-		if ($errors != '') $errors = substr($errors, 0, strlen($errors) - 2);
-		if ($errors != '')
+		$this->initTopicCreateForm();
+		if($this->create_topic_form_gui->checkInput())
 		{
-			$this->createThreadObject($errors);
-		}
-		else
-		{			
 			// build new thread
-			if ($this->objProperties->isAnonymized())
+			if($this->objProperties->isAnonymized())
 			{			
 				$newPost = $frm->generateThread(
-								$topicData['top_pk'],
-								0,
-								$this->handleFormInput($formData['subject']),
-								$this->handleFormInput($formData['message']),
-								$formData['notify'],
-								$formData['notify_posts'],
-								//ilUtil::stripSlashes($formData['alias'])
-								$formData['alias']
+					$topicData['top_pk'],
+					0,
+					$this->handleFormInput($this->create_topic_form_gui->getInput('subject')),
+					$this->handleFormInput($this->create_topic_form_gui->getInput('message')),
+					$this->create_topic_form_gui->getItemByPostVar('notify') ? (int)$this->create_topic_form_gui->getInput('notify') : 0,
+					$this->create_topic_form_gui->getItemByPostVar('notify_posts') ? (int)$this->create_topic_form_gui->getInput('notify_posts') : 0,
+					$this->create_topic_form_gui->getInput('alias')
 				);
 			}
 			else
 			{
 				$newPost = $frm->generateThread(
-								$topicData['top_pk'],
-								$ilUser->getId(),
-								$this->handleFormInput($formData['subject']),
-								$this->handleFormInput($formData['message']),
-								$formData['notify'],
-								$formData['notify_posts'],
-								$formData['alias']
+					$topicData['top_pk'],
+					$ilUser->getId(),
+					$this->handleFormInput($this->create_topic_form_gui->getInput('subject')),
+					$this->handleFormInput($this->create_topic_form_gui->getInput('message')),
+					$this->create_topic_form_gui->getItemByPostVar('notify') ? (int)$this->create_topic_form_gui->getInput('notify') : 0,
+					$this->create_topic_form_gui->getItemByPostVar('notify_posts') ? (int)$this->create_topic_form_gui->getInput('notify_posts') : 0,
+					$ilUser->getLogin()
 				);
 			}
 			
+			$file = $this->create_topic_form_gui->getInput('userfile');
+			
 			// file upload
-			if (isset($_FILES['userfile']))
+			if(is_array($file) && !empty($file))
 			{
 				$tmp_file_obj =& new ilFileDataForum($forumObj->getId(), $newPost);
-				$tmp_file_obj->storeUploadedFile($_FILES['userfile']);
+				$tmp_file_obj->storeUploadedFile($file);
 			}
+			
 			// Visit-Counter
 			$frm->setDbTable('frm_data');
-			$frm->setMDB2WhereCondition('top_pk = %s ', array('integer'), array($topicData['top_pk']));			
-			
-			
-			$frm->updateVisits($topicData['top_pk']);
-			// on success: change location
+			$frm->setMDB2WhereCondition('top_pk = %s ', array('integer'), array($topicData['top_pk']));
+			$frm->updateVisits($topicData['top_pk']);			
 
 			$frm->setMDB2WhereCondition('thr_top_fk = %s AND thr_subject = %s AND thr_num_posts = 1 ', 
-										array('integer', 'text'), array($topicData['top_pk'], $formData['subject']));			
+										array('integer', 'text'), array($topicData['top_pk'], $this->create_topic_form_gui->getInput('subject')));			
 			
-			if (!$a_prevent_redirect)
+			if(!$a_prevent_redirect)
 			{
 				ilUtil::redirect('repository.php?ref_id='.$forumObj->getRefId());
 			}
@@ -3439,6 +3476,11 @@ class ilObjForumGUI extends ilObjectGUI
 			{
 				return $newPost;
 			}
+		}
+		else
+		{
+			$this->create_topic_form_gui->setValuesByPost();
+			return $this->tpl->setContent($this->create_topic_form_gui->getHTML());
 		}
 	}	
 	
