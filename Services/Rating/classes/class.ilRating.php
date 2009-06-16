@@ -29,6 +29,11 @@ class ilRating
 	{
 		global $ilDB;
 
+		if ($a_user_id == ANONYMOUS_USER_ID)
+		{
+			return;
+		}
+
 		$ilDB->manipulate("DELETE FROM il_rating WHERE ".
 			"user_id = ".$ilDB->quote($a_user_id, "integer")." AND ".
 			"obj_id = ".$ilDB->quote((int) $a_obj_id, "integer")." AND ".
