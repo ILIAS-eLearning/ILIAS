@@ -145,34 +145,39 @@ class ilRatingGUI
 		}
 		
 		// (2) user rating
-		$rating = ilRating::getRatingForUserAndObject($this->obj_id, $this->obj_type,
-			$this->sub_obj_id, $this->sub_obj_type, $this->getUserId());
-		
-		// user rating links
-		for($i = 1; $i <= 5; $i++)
+		if ($this->getUserId() != ANONYMOUS_USER_ID)
 		{
-			$ttpl->setCurrentBlock("rating_link");
-			$ilCtrl->setParameter($this, "rating", $i);
-			$ttpl->setVariable("HREF_RATING", $ilCtrl->getLinkTarget($this, "saveRating"));
-			if ($rating >= $i)
-			{
-				$ttpl->setVariable("SRC_ICON",
-					ilUtil::getImagePath("icon_rate_on.gif"));
-			}
-			else
-			{
-				$ttpl->setVariable("SRC_ICON",
-					ilUtil::getImagePath("icon_rate_off.gif"));
-			}
-			$ttpl->setVariable("ALT_ICON", "(".$i."/5)");
-			$ttpl->parseCurrentBlock();
-		}
+			$rating = ilRating::getRatingForUserAndObject($this->obj_id, $this->obj_type,
+				$this->sub_obj_id, $this->sub_obj_type, $this->getUserId());
 			
-		// user rating text
-		$ttpl->setVariable("TXT_YOUR_RATING", $lng->txt("rating_your_rating"));
-		if ($rating > 0)
-		{
-			$ttpl->setVariable("VAL_RATING", "(".$rating."/5)");
+			// user rating links
+			for($i = 1; $i <= 5; $i++)
+			{
+				$ttpl->setCurrentBlock("rating_link");
+				$ilCtrl->setParameter($this, "rating", $i);
+				$ttpl->setVariable("HREF_RATING", $ilCtrl->getLinkTarget($this, "saveRating"));
+				if ($rating >= $i)
+				{
+					$ttpl->setVariable("SRC_ICON",
+						ilUtil::getImagePath("icon_rate_on.gif"));
+				}
+				else
+				{
+					$ttpl->setVariable("SRC_ICON",
+						ilUtil::getImagePath("icon_rate_off.gif"));
+				}
+				$ttpl->setVariable("ALT_ICON", "(".$i."/5)");
+				$ttpl->parseCurrentBlock();
+			}
+			$ttpl->setCurrentBlock("user_rating");
+				
+			// user rating text
+			$ttpl->setVariable("TXT_YOUR_RATING", $lng->txt("rating_your_rating"));
+			if ($rating > 0)
+			{
+				$ttpl->setVariable("VAL_RATING", "(".$rating."/5)");
+			}
+			$ttpl->parseCurrentBlock();
 		}
 		
 		return $ttpl->get();
