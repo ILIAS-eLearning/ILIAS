@@ -94,6 +94,14 @@ class ilQuestionBrowserTableGUI extends ilTable2GUI
 			$this->addMultiCommand('deleteQuestions', $this->lng->txt('delete'));
 
 			$this->addCommandButton('importQuestions', $this->lng->txt('import'));
+			$types = ilObjQuestionPool::_getQuestionTypes();
+			$questiontype = array();
+			foreach ($types as $txt => $row)
+			{
+				$questiontypes[$row['type_tag']] = $txt;
+			}
+			global $ilUser;
+			$this->addSelectionButton('sel_question_types', $questiontypes, 'createQuestion', $this->lng->txt("create"), $ilUser->getPref("tst_lastquestiontype"));
 		}
 
 
