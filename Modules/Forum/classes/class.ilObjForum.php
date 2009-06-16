@@ -833,5 +833,53 @@ class ilObjForum extends ilObject
 		
 		return false;
 	}
+	
+	public function saveData($a_roles = array())
+	{
+		global $ilUser, $ilDB;
+		
+		$nextId = $ilDB->nextId('frm_data');
+		
+		$top_data = array(
+            'top_frm_fk'   		=> $this->getId(),
+			'top_name'   		=> $this->getTitle(),
+            'top_description' 	=> $this->getDescription(),
+            'top_num_posts'     => 0,
+            'top_num_threads'   => 0,
+            'top_last_post'     => NULL,
+			'top_mods'      	=> $a_roles[0],
+			'top_usr_id'      	=> $ilUser->getId(),
+            'top_date' 			=> ilUtil::now()
+        );       
+        
+        $statement = $ilDB->manipulateF('
+        	INSERT INTO frm_data 
+        	( 
+        	 	top_pk,
+        		top_frm_fk, 
+        		top_name,
+        		top_description,
+        		top_num_posts,
+        		top_num_threads,
+        		top_last_post,
+        		top_mods,
+        		top_date,
+        		top_usr_id
+        	)
+        	VALUES(%s, %s, %s, %s, %s, %s, %s, %s, %s, %s)',
+        	array('integer', 'integer', 'text', 'text', 'integer', 'integer', 'text', 'integer', 'timestamp', 'integer'),
+        	array(
+	        	$nextId,
+	        	$top_data['top_frm_fk'],
+	        	$top_data['top_name'],
+	        	$top_data['top_description'],
+	        	$top_data['top_num_posts'],
+				$top_data['top_num_threads'],
+				$top_data['top_last_post'],
+				$top_data['top_mods'],
+				$top_data['top_date'],
+				$top_data['top_usr_id']
+		));
+	}
 } // END class.ilObjForum
 ?>
