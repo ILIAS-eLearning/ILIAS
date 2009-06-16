@@ -117,22 +117,16 @@
 		  <input class="submit" type="submit" name="cmd[{SINGLE_CMD}]" value="{TXT_SINGLE_CMD}" />
 <!-- END tbl_single_cmd -->
 		</div>
-<!-- BEGIN add_object -->
-	<div style="text-align:right;">
-		{SELECT_OBJTYPE}
-		<input class="submit" type="submit" name="cmd[{BTN_NAME}]" value="{TXT_ADD}" />
-	</div>
-<!-- END add_object -->
-<!-- BEGIN plain_buttons -->
-			  <div style="text-align:right;">
-<!-- BEGIN input_text -->
-				<input class="std" type="text" name="{PB_TXT_NAME}" value="{PB_TXT_VALUE}" />
-<!-- END input_text -->
+<!-- BEGIN buttons -->
+<div style="text-align:right;">
+<!-- BEGIN sel_button -->
+	{SBUTTON_SELECT} <input class="submit" type="submit" name="cmd[{SBTN_NAME}]" value="{SBTN_VALUE}" />
+<!-- END sel_button -->
 <!-- BEGIN plain_button -->
-				<input class="submit" type="submit" name="cmd[{PBTN_NAME}]" value="{PBTN_VALUE}" />
+	<input class="submit" type="submit" name="cmd[{PBTN_NAME}]" value="{PBTN_VALUE}" />
 <!-- END plain_button -->
-			  </div>
-<!-- END plain_buttons -->
+</div>
+<!-- END buttons -->
 <div style="clear:both;"></div>
 </div>
 <!-- END tbl_action_row -->

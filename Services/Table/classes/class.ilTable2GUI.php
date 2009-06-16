@@ -603,6 +603,19 @@ class ilTable2GUI extends ilTableGUI
 	{
 		$this->buttons[] = array("cmd" => $a_cmd, "text" => $a_text);
 	}
+
+	/**
+	* Add Selection List + Command button
+	*
+	* @param	string	selection input variable name
+	* @param	array	selection options ("value" => text")
+	* @param	string	command
+	* @param	string	button text
+	*/
+	function addSelectionButton($a_sel_var, $a_options, $a_cmd, $a_text)
+	{
+		$this->sel_buttons[] = array("sel_var" => $a_sel_var, "options" => $a_options, "cmd" => $a_cmd, "text" => $a_text);
+	}
 	
 	
 	/**
@@ -1386,6 +1399,24 @@ class ilTable2GUI extends ilTableGUI
 		$action_row = false;
 		$arrow = false;
 		
+		// add selection buttons
+		if (count($this->sel_buttons) > 0)
+		{
+			foreach ($this->sel_buttons as $button)
+			{
+				$this->tpl->setCurrentBlock("sel_button");
+				$this->tpl->setVariable("SBUTTON_SELECT", 
+					ilUtil::formSelect("", $button["sel_var"],
+						$button["options"], false, true));
+				$this->tpl->setVariable("SBTN_NAME", $button["cmd"]);
+				$this->tpl->setVariable("SBTN_VALUE", $button["text"]);
+				$this->tpl->parseCurrentBlock();
+			}
+			$buttons = true;
+			$action_row = true;
+		}
+		$this->sel_buttons[] = array("options" => $a_options, "cmd" => $a_cmd, "text" => $a_text);
+		
 		// add buttons
 		if (count($this->buttons) > 0)
 		{
@@ -1396,10 +1427,15 @@ class ilTable2GUI extends ilTableGUI
 				$this->tpl->setVariable("PBTN_VALUE", $button["text"]);
 				$this->tpl->parseCurrentBlock();
 			}
+			
+			$buttons = true;
+			$action_row = true;
+		}
+		
+		if ($buttons)
+		{
 			$this->tpl->setCurrentBlock("plain_buttons");
 			$this->tpl->parseCurrentBlock();
-			
-			$action_row = true;
 		}
 		
 		// multi selection 
