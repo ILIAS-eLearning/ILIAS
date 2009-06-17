@@ -312,9 +312,10 @@ function ilChatController(linkToOnlineUsers, linkToActiveUsers, linkToCurrentRoo
 			failure: me.asyncFailure,
 			argument: {}
 		};
-		
+		var params = new Array();
+		params['room_id'] = me.baseRoomId;
 		cmd = "emptyRoomAsync";
-		var request = YAHOO.util.Connect.asyncRequest('GET', me.getLinkTo(cmd, me.baseRefId, false), callback);
+		var request = YAHOO.util.Connect.asyncRequest('GET', me.getLinkTo(cmd, me.baseRefId, params), callback);
 	}
 
 	this.addPrivateRoom = function ()
