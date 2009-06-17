@@ -2023,7 +2023,7 @@ if (true)
 						$matching_role_ids = $rbacreview->searchRolesByMailboxAddressList($searchName);
 						foreach ($matching_role_ids as $mid) {
 							if (! in_array($mid, $loc_roles)) {
-								$loc_roles[] = $mid;
+								$loc_roles[] = array('obj_id'=>$mid);
 							}
 						}
 					}
