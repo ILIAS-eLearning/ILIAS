@@ -2234,6 +2234,12 @@ class ilObjChatGUI extends ilObjectGUI
 			$rbacsystem->checkAccess("moderate", $this->object->getRefId()) &&
 			$this->object->chat_room->checkWriteAccess()
 		) {
+
+			if ($rid = (int)$_REQUEST['room_id'])
+			{
+				$this->object->chat_room->setRoomId($rid);
+			}
+		
 			$this->object->server_comm->setType('delete');
 			$message = $this->__formatMessage();
 			$this->object->server_comm->setMessage($message);
