@@ -176,7 +176,7 @@ class ilSCORM13Player
 	 */
 	function &executeCommand()
 	{
-		global $ilAccess, $ilLog, $ilUser;
+		global $ilAccess, $ilLog, $ilUser, $lng;
 
 		$next_class = $this->ctrl->getNextClass($this);
 		$cmd = $this->ctrl->getCmd();
