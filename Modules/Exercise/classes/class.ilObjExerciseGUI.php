@@ -1,26 +1,5 @@
 <?php
-/*
-	+-----------------------------------------------------------------------------+
-	| ILIAS open source                                                           |
-	+-----------------------------------------------------------------------------+
-	| Copyright (c) 1998-2009 ILIAS open source, University of Cologne            |
-	|                                                                             |
-	| This program is free software; you can redistribute it and/or               |
-	| modify it under the terms of the GNU General Public License                 |
-	| as published by the Free Software Foundation; either version 2              |
-	| of the License, or (at your option) any later version.                      |
-	|                                                                             |
-	| This program is distributed in the hope that it will be useful,             |
-	| but WITHOUT ANY WARRANTY; without even the implied warranty of              |
-	| MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the               |
-	| GNU General Public License for more details.                                |
-	|                                                                             |
-	| You should have received a copy of the GNU General Public License           |
-	| along with this program; if not, write to the Free Software                 |
-	| Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA. |
-	+-----------------------------------------------------------------------------+
-*/
-
+/* Copyright (c) 1998-2009 ILIAS open source, Extended GPL, see docs/LICENSE */
 
 require_once "classes/class.ilObjectGUI.php";
 
@@ -631,51 +610,24 @@ return;
 			switch($_POST["action"])
 			{
 				case "save_status":
-					$users = $this->__saveStatus();
+					$this->saveStatusObject();
 					break;
 					
 				case "send_member":
-					if(!count($_POST["member"]))
-					{
-						ilUtil::sendFailure($this->lng->txt("select_one"),true);
-					}
-					else
-					{
-						$this->object->send($_POST["member"]);
-						ilUtil::sendSuccess($this->lng->txt("exc_sent"),true);
-					}
-				break;
+					$this->sendMembersObject();
+					break;
 				
 				case "redirectFeedbackMail":
 					$this->redirectFeedbackMailObject();
-					/*
-					include_once('./Services/User/classes/class.ilObjUser.php');
-
-					if (!count($_POST["member"]))
-					{
-						ilUtil::sendInfo($this->lng->txt("select_one"),true);
-					}
-					else 
-					{
-						$recipients = "";
-						foreach($_POST["member"] as $rcpt => $value) 
-						{
-							$user = new ilObjUser($rcpt,false);
-							$recipients = $recipients.$user->getLogin().",";
-						}
-		
-						ilUtil::redirect("ilias.php?baseClass=ilMailGUI&type=new&rcp_to=".$recipients);
-					}*/
 					break;
 					
 				case "delete_member":
-						$this->__deassignMembers();
+					$this->deassignMembersObject();
 					break;
 			}
 		}
-		$this->ctrl->redirect($this, "members");
 	}
-	
+
 	/**
 	* Download submitted files of user.
 	*/
@@ -731,7 +683,7 @@ return;
 
 	function membersObject()
 	{
-		global $rbacsystem, $tree;
+		global $rbacsystem, $tree, $tpl;
 
 		include_once 'Services/Tracking/classes/class.ilLPMarks.php';
 	
@@ -750,18 +702,11 @@ return;
 		$parent_id = $tree->getParentId($_GET["ref_id"]);
 		$parent_obj_id = ilObject::_lookupObjId($parent_id);
 		$type = ilObject::_lookupType($parent_obj_id);
-		//$obj = new ilObject($parent_id, true);
-		//$type = $obj->getType();
-
-		// search for a parent course
 		while ($parent_id != 1 && $type != "crs")
 		{
 			$parent_id = $tree->getParentId($parent_id);
 			$parent_obj_id = ilObject::_lookupObjId($parent_id);
 			$type = ilObject::_lookupType($parent_obj_id);
-
-			//$obj = new ilObject($parent_id, true);
-			//$type = $obj->getType();
 		}
 
 		if ($type == "crs") 
@@ -778,6 +723,10 @@ return;
 			$this->tpl->parseCurrentBlock();
 		}
 		
+include_once("./Modules/Exercise/classes/class.ilExerciseMemberTableGUI.php");
+$exc_tab = new ilExerciseMemberTableGUI($this, "members", $this->object);
+$tpl->setContent($exc_tab->getHTML());
+return;		
 		
 		$this->getTemplateFile("members","exc");
 	
@@ -787,28 +736,6 @@ return;
 		}
 		else	
 		{
-			// if we come from edit_comments action button
-			/*
-			if (!empty($_GET["comment_id"])) 
-			{
-				//$tmp_obj = ilObjectFactory::getInstanceByObjId($_GET["comment_id"],false);
-				$tmp_obj = new ilObjUser($_GET["comment_id"]);
-				$this->tpl->setCurrentBlock("comments");
-				$this->tpl->setVariable("COMMENTS_FORMACTION",
-				$this->ctrl->setParameter();
-				$this->getFormAction("saveComments",
-					$this->ctrl->getLinkTarget($this, "saveComments")
-					"exercise.php?ref_id=".$_GET["ref_id"]."&member_id=".$_GET["comment_id"]."&cmd=saveComments&cmdClass=ilobjexercisegui&cmdNode=1&baseClass="));
-				$this->tpl->setVariable("NOTICE_VALUE", $this->getComments($_GET["comment_id"]));
-				$this->tpl->setVariable("MEMBER_PICTURE", $tmp_obj->getPersonalPicturePath("xsmall"));
-				$this->tpl->setVariable("MEMBER_ID", $_GET["comment_id"]);
-				$this->tpl->setVariable("SAVE_COMMENTS", $this->lng->txt("save"));
-				$this->tpl->setVariable("EDIT_COMMENTS", $this->lng->txt("edit_comments"));
-				$this->tpl->setVariable("MEMBER_LOGIN", $tmp_obj->getLastName().", ".$tmp_obj->getFirstName());
-
-				$this->tpl->parseCurrentBlock();
-			}*/
-
 			$counter = 0;
 			$members = $this->object->getMemberListData();
 
@@ -1126,7 +1053,7 @@ return;
 			ilUtil::redirect("ilias.php?baseClass=ilMailGUI&type=new&rcp_to=".$logins);
 		}
 
-		ilUtil::sendFailure($this->lng->txt("select_one"),true);
+		ilUtil::sendFailure($this->lng->txt("no_checkbox"),true);
 		$this->ctrl->redirect($this, "members");
 	}
 	
@@ -1210,21 +1137,46 @@ return;
 		$this->tpl->parseCurrentBlock();
 	}
 
-
-	function __deassignMembers()
+	/**
+	* Send exercise to members
+	*/
+	function sendMembersObject()
 	{
+		global $ilCtrl;
+		
+		if(!count($_POST["member"]))
+		{
+			ilUtil::sendFailure($this->lng->txt("no_checkbox"),true);
+		}
+		else
+		{
+			$this->object->send($_POST["member"]);
+			ilUtil::sendSuccess($this->lng->txt("exc_sent"),true);
+		}
+		$ilCtrl->redirect($this, "members");
+	}
+
+	/**
+	 * Deassign members from exercise 
+	 */
+	function deassignMembersObject()
+	{
+		global $ilCtrl;
+		
+		$this->checkPermission("write");
+		
 		if(is_array($_POST["member"]))
 		{
 			foreach($_POST["member"] as $usr_id => $member)
 			{
 				$this->object->members_obj->deassignMember($usr_id);
 			}
-			return true;
+			$ilCtrl->redirect($this, "members");
 		}
   		else
 		{
-			ilUtil::sendFailure($this->lng->txt("select_one"),true);
-			return false;
+			ilUtil::sendFailure($this->lng->txt("no_checkbox"),true);
+			$ilCtrl->redirect($this, "members");
 		}
 	}
 
@@ -1248,15 +1200,17 @@ return;
 		return $this->object->members_obj->getNoticeByMember($member_id);
 	}
 
-	function __saveStatus()
+	/**
+	 * Save status of selecte members 
+	 */
+	function saveStatusObject()
 	{
+		global $ilCtrl;
+		
 		$this->checkPermission("write");
 		
 		include_once 'Services/Tracking/classes/class.ilLPMarks.php';
 
-//var_dump($_POST["member"]);
-//var_dump($_POST["id"]);
-		
 		$saved_for = array();
 		
 		foreach($_POST["id"] as $key => $value)
@@ -1295,7 +1249,7 @@ return;
 			$save_for_str = "(".implode($saved_for, " - ").")";
 		}
 		ilUtil::sendSuccess($this->lng->txt("exc_status_saved")." ".$save_for_str,true);
-		return true;
+		$ilCtrl->redirect($this, "members");
 	}
 
 	function __getDateSelect($a_type,$a_selected)
