@@ -1727,28 +1727,52 @@ if (true)
 		}
 	}
 
+
 	/**
 	* display form for user import
 	*/
 	function importUserFormObject ()
 	{
+		global $tpl;
+		
 		// Blind out tabs for local user import
 		if($this->ctrl->getTargetScript() == 'repository.php')
 		{
 			$this->tabs_gui->clearTargets();
 		}
 
-		$this->tabs_gui->setTabActive('obj_usrf');
-		$this->tpl->addBlockfile("ADM_CONTENT", "adm_content", "tpl.usr_import_form.html");
+		$this->initUserImportForm();
+		$tpl->setContent($this->form->getHTML());
 
-		$this->tpl->setVariable("FORMACTION", $this->ctrl->getFormaction($this));
+		//$this->tpl->addBlockfile("ADM_CONTENT", "adm_content", "tpl.usr_import_form.html");
+	}
 
-		$this->tpl->setVariable("TXT_IMPORT_USERS", $this->lng->txt("import_users"));
-		$this->tpl->setVariable("TXT_IMPORT_FILE", $this->lng->txt("import_file"));
-		$this->tpl->setVariable("TXT_IMPORT_ROOT_USER", $this->lng->txt("import_root_user"));
+	/**
+	* Init user import form.
+	*
+	* @param        int        $a_mode        Edit Mode
+	*/
+	public function initUserImportForm()
+	{
+		global $lng, $ilCtrl;
+	
+		include_once("Services/Form/classes/class.ilPropertyFormGUI.php");
+		$this->form = new ilPropertyFormGUI();
 
-		$this->tpl->setVariable("BTN_IMPORT", $this->lng->txt("upload"));
-		$this->tpl->setVariable("BTN_CANCEL", $this->lng->txt("cancel"));
+		// Import File
+		include_once("./Services/Form/classes/class.ilFileInputGUI.php");
+		$fi = new ilFileInputGUI($lng->txt("import_file"), "importFile");
+		$fi->setSuffixes(array("xml", "zip"));
+		//$fi->enableFileNameSelection();
+		//$fi->setInfo($lng->txt(""));
+		$this->form->addItem($fi);
+
+		$this->form->addCommandButton("importUserRoleAssignment", $lng->txt("import"));
+		$this->form->addCommandButton("importCancelled", $lng->txt("cancel"));
+	                
+		$this->form->setTitle($lng->txt("import_users"));
+		$this->form->setFormAction($ilCtrl->getFormAction($this));
+	 
 	}
 
 
@@ -1796,7 +1820,7 @@ if (true)
 	*/
 	function importUserRoleAssignmentObject ()
 	{
-		global $ilUser,$rbacreview;
+		global $ilUser,$rbacreview, $tpl, $lng, $ilCtrl;;
 	
 		// Blind out tabs for local user import
 		if($this->ctrl->getTargetScript() == 'repository.php')
@@ -1804,354 +1828,363 @@ if (true)
 			$this->tabs_gui->clearTargets();
 		}
 
-		include_once './Services/AccessControl/classes/class.ilObjRole.php';
-		include_once './Services/User/classes/class.ilUserImportParser.php';
-		
-		global $rbacreview, $rbacsystem, $tree, $lng;
-		
-
-		$this->tpl->addBlockfile("ADM_CONTENT", "adm_content", "tpl.usr_import_roles.html");
-
-		$import_dir = $this->getImportDir();
-
-		// recreate user import directory
-		if (@is_dir($import_dir))
+		$this->initUserImportForm();
+		if ($this->form->checkInput())
 		{
-			ilUtil::delDir($import_dir);
-		}
-		ilUtil::makeDir($import_dir);
-
-		// move uploaded file to user import directory
-		$file_name = $_FILES["importFile"]["name"];
-		$parts = pathinfo($file_name);
-		$full_path = $import_dir."/".$file_name;
-
-		// check if import file exists
-		if (!is_file($_FILES["importFile"]["tmp_name"]))
-		{
-			ilUtil::delDir($import_dir);
-			$this->ilias->raiseError($this->lng->txt("no_import_file_found")
-				, $this->ilias->error_obj->MESSAGE);
-		}
-		ilUtil::moveUploadedFile($_FILES["importFile"]["tmp_name"],
-			$_FILES["importFile"]["name"], $full_path);
-
-		// handle zip file		
-		if (strtolower($parts["extension"]) == "zip")
-		{
-			// unzip file
-			ilUtil::unzip($full_path);
-
-			$xml_file = null;
-			$file_list = ilUtil::getDir($import_dir);
-			foreach ($file_list as $a_file)
-			{
-				if (substr($a_file['entry'],-4) == '.xml')
-				{
-					$xml_file = $import_dir."/".$a_file['entry'];
-					break;
-				}
-			}
-			if (is_null($xml_file))
-			{
-				$subdir = basename($parts["basename"],".".$parts["extension"]);
-				$xml_file = $import_dir."/".$subdir."/".$subdir.".xml";
-			}
-		}
-		// handle xml file
-		else
-		{
-			$xml_file = $full_path;
-		}
-
-		// check xml file		
-		if (!is_file($xml_file))
-		{
-			ilUtil::delDir($import_dir);
-			$this->ilias->raiseError($this->lng->txt("no_xml_file_found_in_zip")
-				." ".$subdir."/".$subdir.".xml", $this->ilias->error_obj->MESSAGE);
-		}
-
-		require_once("./Services/User/classes/class.ilUserImportParser.php");
-
-		// Verify the data
-		// ---------------
-		$importParser = new ilUserImportParser($xml_file, IL_VERIFY);
-		$importParser->startParsing();
-		switch ($importParser->getErrorLevel())
-		{
-			case IL_IMPORT_SUCCESS :
-				break;
-			case IL_IMPORT_WARNING :
-				$this->tpl->setVariable("IMPORT_LOG", $importParser->getProtocolAsHTML($lng->txt("verification_warning_log")));
-				break;
-			case IL_IMPORT_FAILURE :
-				ilUtil::delDir($import_dir);
-				$this->ilias->raiseError(
-					$lng->txt("verification_failed").$importParser->getProtocolAsHTML($lng->txt("verification_failure_log")),
-					$this->ilias->error_obj->MESSAGE
-				);
-				return;
-		}
-
-		// Create the role selection form
-		// ------------------------------
-		$this->tpl->setCurrentBlock("role_selection_form");
-		$this->tpl->setVariable("FORMACTION",$this->ctrl->getFormAction($this));
-		$this->tpl->setVariable("TXT_IMPORT_USERS", $this->lng->txt("import_users"));
-		$this->tpl->setVariable("TXT_IMPORT_FILE", $this->lng->txt("import_file"));
-		$this->tpl->setVariable("IMPORT_FILE", $file_name);
-		$this->tpl->setVariable("TXT_USER_ELEMENT_COUNT", $this->lng->txt("num_users"));
-		$this->tpl->setVariable("USER_ELEMENT_COUNT", $importParser->getUserCount());
-		$this->tpl->setVariable("TXT_ROLE_ASSIGNMENT", $this->lng->txt("role_assignment"));
-		$this->tpl->setVariable("BTN_IMPORT", $this->lng->txt("import"));
-		$this->tpl->setVariable("BTN_CANCEL", $this->lng->txt("cancel"));
-		$this->tpl->setVariable("XML_FILE_NAME", $xml_file);
-
-		// Extract the roles
-		$importParser = new ilUserImportParser($xml_file, IL_EXTRACT_ROLES);
-		$importParser->startParsing();
-		$roles = $importParser->getCollectedRoles();
-
-		// get global roles
-		$all_gl_roles = $rbacreview->getRoleListByObject(ROLE_FOLDER_ID);
-		$gl_roles = array();
-		$roles_of_user = $rbacreview->assignedRoles($ilUser->getId());
-		foreach ($all_gl_roles as $obj_data)
-		{
-			// check assignment permission if called from local admin
-			if($this->object->getRefId() != USER_FOLDER_ID)
-			{
-				if(!in_array(SYSTEM_ROLE_ID,$roles_of_user) && !ilObjRole::_getAssignUsersStatus($obj_data['obj_id']))
-				{
-					continue;
-				}
-			}
-			// exclude anonymous role from list
-			if ($obj_data["obj_id"] != ANONYMOUS_ROLE_ID)
-			{
-				// do not allow to assign users to administrator role if current user does not has SYSTEM_ROLE_ID
-				if ($obj_data["obj_id"] != SYSTEM_ROLE_ID or in_array(SYSTEM_ROLE_ID,$roles_of_user))
-				{
-					$gl_roles[$obj_data["obj_id"]] = $obj_data["title"];
-				}
-			}
-		}
-
-		// global roles
-		$got_globals = false;
-		foreach($roles as $role_id => $role)
-		{
-			if ($role["type"] == "Global")
-			{
-				if (! $got_globals)
-				{
-					$got_globals = true;
-
-					$this->tpl->setCurrentBlock("global_role_section");
-					$this->tpl->setVariable("TXT_GLOBAL_ROLES_IMPORT", $this->lng->txt("roles_of_import_global"));
-					$this->tpl->setVariable("TXT_GLOBAL_ROLES", $this->lng->txt("assign_global_role"));
-				}
-
-				// pre selection for role
-				$pre_select = array_search($role[name], $gl_roles);
-				if (! $pre_select)
-				{
-					switch($role["name"])
-					{
-						case "Administrator":	// ILIAS 2/3 Administrator
-							$pre_select = array_search("Administrator", $gl_roles);
-							break;
-
-						case "Autor":			// ILIAS 2 Author
-							$pre_select = array_search("User", $gl_roles);
-							break;
-
-						case "Lerner":			// ILIAS 2 Learner
-							$pre_select = array_search("User", $gl_roles);
-							break;
-
-						case "Gast":			// ILIAS 2 Guest
-							$pre_select = array_search("Guest", $gl_roles);
-							break;
-
-						default:
-							$pre_select = array_search("User", $gl_roles);
-							break;
-					}
-				}
-				$this->tpl->setCurrentBlock("global_role");
-				$role_select = ilUtil::formSelect($pre_select, "role_assign[".$role_id."]", $gl_roles, false, true);
-				$this->tpl->setVariable("TXT_IMPORT_GLOBAL_ROLE", $role["name"]." [".$role_id."]");
-				$this->tpl->setVariable("SELECT_GLOBAL_ROLE", $role_select);
-				$this->tpl->parseCurrentBlock();
-			}
-		}
-
-		// Check if local roles need to be assigned
-		$got_locals = false;
-		foreach($roles as $role_id => $role)
-		{
-			if ($role["type"] == "Local")
-			{
-				$got_locals = true;
-				break;
-			}
-		}
-
-		if ($got_locals) 
-		{
-			$this->tpl->setCurrentBlock("local_role_section");
-			$this->tpl->setVariable("TXT_LOCAL_ROLES_IMPORT", $this->lng->txt("roles_of_import_local"));
-			$this->tpl->setVariable("TXT_LOCAL_ROLES", $this->lng->txt("assign_local_role"));
-
-
-			// get local roles
-			if ($this->object->getRefId() == USER_FOLDER_ID)
-			{
-				// The import function has been invoked from the user folder
-				// object. In this case, we show only matching roles,
-				// because the user folder object is considered the parent of all
-				// local roles and may contains thousands of roles on large ILIAS
-				// installations.
-				$loc_roles = array();
-				foreach($roles as $role_id => $role)
-				{
-					if ($role["type"] == "Local")
-					{
-						$searchName = (substr($role['name'],0,1) == '#') ? $role['name'] : '#'.$role['name'];
-						$matching_role_ids = $rbacreview->searchRolesByMailboxAddressList($searchName);
-						foreach ($matching_role_ids as $mid) {
-							if (! in_array($mid, $loc_roles)) {
-								$loc_roles[] = array('obj_id'=>$mid);
-							}
-						}
-					}
-				}
-			} else {
-				// The import function has been invoked from a locally
-				// administrated category. In this case, we show all roles
-				// contained in the subtree of the category.
-				$loc_roles = $rbacreview->getAssignableRolesInSubtree($this->object->getRefId());
-			}
-			$l_roles = array();
+			include_once './Services/AccessControl/classes/class.ilObjRole.php';
+			include_once './Services/User/classes/class.ilUserImportParser.php';
 			
-			// create a search array with  .
-			$l_roles_mailbox_searcharray = array();
-			foreach ($loc_roles as $key => $loc_role)
+			global $rbacreview, $rbacsystem, $tree, $lng;
+			
+	
+			$this->tpl->addBlockfile("ADM_CONTENT", "adm_content", "tpl.usr_import_roles.html");
+	
+			$import_dir = $this->getImportDir();
+	
+			// recreate user import directory
+			if (@is_dir($import_dir))
 			{
-				// fetch context path of role
-				$rolf = $rbacreview->getFoldersAssignedToRole($loc_role["obj_id"],true);
-
-				// only process role folders that are not set to status "deleted" 
-				// and for which the user has write permissions.
-				// We also don't show the roles which are in the ROLE_FOLDER_ID folder.
-				// (The ROLE_FOLDER_ID folder contains the global roles).
-				if (!$rbacreview->isDeleted($rolf[0])
-				&& $rbacsystem->checkAccess('write',$tree->getParentId($rolf[0]))
-				&& $rolf[0] != ROLE_FOLDER_ID
-				)
+				ilUtil::delDir($import_dir);
+			}
+			ilUtil::makeDir($import_dir);
+	
+			// move uploaded file to user import directory
+			$file_name = $_FILES["importFile"]["name"];
+			$parts = pathinfo($file_name);
+			$full_path = $import_dir."/".$file_name;
+	
+			// check if import file exists
+			if (!is_file($_FILES["importFile"]["tmp_name"]))
+			{
+				ilUtil::delDir($import_dir);
+				$this->ilias->raiseError($this->lng->txt("no_import_file_found")
+					, $this->ilias->error_obj->MESSAGE);
+			}
+			ilUtil::moveUploadedFile($_FILES["importFile"]["tmp_name"],
+				$_FILES["importFile"]["name"], $full_path);
+	
+			// handle zip file		
+			if (strtolower($parts["extension"]) == "zip")
+			{
+				// unzip file
+				ilUtil::unzip($full_path);
+	
+				$xml_file = null;
+				$file_list = ilUtil::getDir($import_dir);
+				foreach ($file_list as $a_file)
 				{
-					// A local role is only displayed, if it is contained in the subtree of 
-					// the localy administrated category. If the import function has been 
-					// invoked from the user folder object, we show all local roles, because
-					// the user folder object is considered the parent of all local roles.
-					// Thus, if we start from the user folder object, we initialize the
-					// isInSubtree variable with true. In all other cases it is initialized 
-					// with false, and only set to true if we find the object id of the
-					// locally administrated category in the tree path to the local role.
-					$isInSubtree = $this->object->getRefId() == USER_FOLDER_ID;
-					
-					$path = "";
-					if ($this->tree->isInTree($rolf[0]))
+					if (substr($a_file['entry'],-4) == '.xml')
 					{
-						// Create path. Paths which have more than 4 segments
-						// are truncated in the middle.
-						$tmpPath = $this->tree->getPathFull($rolf[0]);
-						for ($i = 1, $n = count($tmpPath) - 1; $i < $n; $i++)
+						$xml_file = $import_dir."/".$a_file['entry'];
+						break;
+					}
+				}
+				if (is_null($xml_file))
+				{
+					$subdir = basename($parts["basename"],".".$parts["extension"]);
+					$xml_file = $import_dir."/".$subdir."/".$subdir.".xml";
+				}
+			}
+			// handle xml file
+			else
+			{
+				$xml_file = $full_path;
+			}
+	
+			// check xml file		
+			if (!is_file($xml_file))
+			{
+				ilUtil::delDir($import_dir);
+				$this->ilias->raiseError($this->lng->txt("no_xml_file_found_in_zip")
+					." ".$subdir."/".$subdir.".xml", $this->ilias->error_obj->MESSAGE);
+			}
+	
+			require_once("./Services/User/classes/class.ilUserImportParser.php");
+	
+			// Verify the data
+			// ---------------
+			$importParser = new ilUserImportParser($xml_file, IL_VERIFY);
+			$importParser->startParsing();
+			switch ($importParser->getErrorLevel())
+			{
+				case IL_IMPORT_SUCCESS :
+					break;
+				case IL_IMPORT_WARNING :
+					$this->tpl->setVariable("IMPORT_LOG", $importParser->getProtocolAsHTML($lng->txt("verification_warning_log")));
+					break;
+				case IL_IMPORT_FAILURE :
+					ilUtil::delDir($import_dir);
+					$this->ilias->raiseError(
+						$lng->txt("verification_failed").$importParser->getProtocolAsHTML($lng->txt("verification_failure_log")),
+						$this->ilias->error_obj->MESSAGE
+					);
+					return;
+			}
+	
+			// Create the role selection form
+			// ------------------------------
+			$this->tpl->setCurrentBlock("role_selection_form");
+			$this->tpl->setVariable("FORMACTION",$this->ctrl->getFormAction($this));
+			$this->tpl->setVariable("TXT_IMPORT_USERS", $this->lng->txt("import_users"));
+			$this->tpl->setVariable("TXT_IMPORT_FILE", $this->lng->txt("import_file"));
+			$this->tpl->setVariable("IMPORT_FILE", $file_name);
+			$this->tpl->setVariable("TXT_USER_ELEMENT_COUNT", $this->lng->txt("num_users"));
+			$this->tpl->setVariable("USER_ELEMENT_COUNT", $importParser->getUserCount());
+			$this->tpl->setVariable("TXT_ROLE_ASSIGNMENT", $this->lng->txt("role_assignment"));
+			$this->tpl->setVariable("BTN_IMPORT", $this->lng->txt("import"));
+			$this->tpl->setVariable("BTN_CANCEL", $this->lng->txt("cancel"));
+			$this->tpl->setVariable("XML_FILE_NAME", $xml_file);
+	
+			// Extract the roles
+			$importParser = new ilUserImportParser($xml_file, IL_EXTRACT_ROLES);
+			$importParser->startParsing();
+			$roles = $importParser->getCollectedRoles();
+	
+			// get global roles
+			$all_gl_roles = $rbacreview->getRoleListByObject(ROLE_FOLDER_ID);
+			$gl_roles = array();
+			$roles_of_user = $rbacreview->assignedRoles($ilUser->getId());
+			foreach ($all_gl_roles as $obj_data)
+			{
+				// check assignment permission if called from local admin
+				if($this->object->getRefId() != USER_FOLDER_ID)
+				{
+					if(!in_array(SYSTEM_ROLE_ID,$roles_of_user) && !ilObjRole::_getAssignUsersStatus($obj_data['obj_id']))
+					{
+						continue;
+					}
+				}
+				// exclude anonymous role from list
+				if ($obj_data["obj_id"] != ANONYMOUS_ROLE_ID)
+				{
+					// do not allow to assign users to administrator role if current user does not has SYSTEM_ROLE_ID
+					if ($obj_data["obj_id"] != SYSTEM_ROLE_ID or in_array(SYSTEM_ROLE_ID,$roles_of_user))
+					{
+						$gl_roles[$obj_data["obj_id"]] = $obj_data["title"];
+					}
+				}
+			}
+	
+			// global roles
+			$got_globals = false;
+			foreach($roles as $role_id => $role)
+			{
+				if ($role["type"] == "Global")
+				{
+					if (! $got_globals)
+					{
+						$got_globals = true;
+	
+						$this->tpl->setCurrentBlock("global_role_section");
+						$this->tpl->setVariable("TXT_GLOBAL_ROLES_IMPORT", $this->lng->txt("roles_of_import_global"));
+						$this->tpl->setVariable("TXT_GLOBAL_ROLES", $this->lng->txt("assign_global_role"));
+					}
+	
+					// pre selection for role
+					$pre_select = array_search($role[name], $gl_roles);
+					if (! $pre_select)
+					{
+						switch($role["name"])
 						{
-							if ($i > 1)
-							{
-								$path = $path.' > ';
-							}
-							if ($i < 3 || $i > $n - 3)
-							{
-								$path = $path.$tmpPath[$i]['title'];
-							} 
-							else if ($i == 3 || $i == $n - 3)
-							{
-								$path = $path.'...';
-							}
-							
-							$isInSubtree |= $tmpPath[$i]['obj_id'] == $this->object->getId();
+							case "Administrator":	// ILIAS 2/3 Administrator
+								$pre_select = array_search("Administrator", $gl_roles);
+								break;
+	
+							case "Autor":			// ILIAS 2 Author
+								$pre_select = array_search("User", $gl_roles);
+								break;
+	
+							case "Lerner":			// ILIAS 2 Learner
+								$pre_select = array_search("User", $gl_roles);
+								break;
+	
+							case "Gast":			// ILIAS 2 Guest
+								$pre_select = array_search("Guest", $gl_roles);
+								break;
+	
+							default:
+								$pre_select = array_search("User", $gl_roles);
+								break;
 						}
 					}
-					else
-					{
-						$path = "<b>Rolefolder ".$rolf[0]." not found in tree! (Role ".$loc_role["obj_id"].")</b>";
-					}
-					$roleMailboxAddress = $rbacreview->getRoleMailboxAddress($loc_role['obj_id']);
-					$l_roles[$loc_role['obj_id']] = $roleMailboxAddress.', '.$path;
+					$this->tpl->setCurrentBlock("global_role");
+					$role_select = ilUtil::formSelect($pre_select, "role_assign[".$role_id."]", $gl_roles, false, true);
+					$this->tpl->setVariable("TXT_IMPORT_GLOBAL_ROLE", $role["name"]." [".$role_id."]");
+					$this->tpl->setVariable("SELECT_GLOBAL_ROLE", $role_select);
+					$this->tpl->parseCurrentBlock();
 				}
-			} //foreach role
-
-			$l_roles[""] = ""; 
-			natcasesort($l_roles);
-			$l_roles[""] = $this->lng->txt("usrimport_ignore_role"); 
+			}
+	
+			// Check if local roles need to be assigned
+			$got_locals = false;
 			foreach($roles as $role_id => $role)
 			{
 				if ($role["type"] == "Local")
 				{
-					$this->tpl->setCurrentBlock("local_role");
-					$this->tpl->setVariable("TXT_IMPORT_LOCAL_ROLE", $role["name"]);
-					$searchName = (substr($role['name'],0,1) == '#') ? $role['name'] : '#'.$role['name'];
-					$matching_role_ids = $rbacreview->searchRolesByMailboxAddressList($searchName);
-					$pre_select = count($matching_role_ids) == 1 ? $matching_role_ids[0] : "";
-					if ($this->object->getRefId() == USER_FOLDER_ID) {
-						// There are too many roles in a large ILIAS installation
-						// that's why whe show only a choice with the the option "ignore",
-						// and the matching roles.
-						$selectable_roles = array();
-						$selectable_roles[""] =  $this->lng->txt("usrimport_ignore_role");
-						foreach ($matching_role_ids as $id)
-						{
-							$selectable_roles[$id] =  $l_roles[$id];
-						}
-						$role_select = ilUtil::formSelect($pre_select, "role_assign[".$role_id."]", $selectable_roles, false, true);
-					} else {
-						$role_select = ilUtil::formSelect($pre_select, "role_assign[".$role_id."]", $l_roles, false, true);
-					}
-					$this->tpl->setVariable("SELECT_LOCAL_ROLE", $role_select);
-					$this->tpl->parseCurrentBlock();
+					$got_locals = true;
+					break;
 				}
 			}
-		}
-		// 
- 
-		$this->tpl->setVariable("TXT_CONFLICT_HANDLING", $lng->txt("conflict_handling"));
-		$handlers = array(
-			IL_IGNORE_ON_CONFLICT => "ignore_on_conflict",
-			IL_UPDATE_ON_CONFLICT => "update_on_conflict"
-		);
-		$this->tpl->setVariable("TXT_CONFLICT_HANDLING_INFO", str_replace('\n','<br>',$this->lng->txt("usrimport_conflict_handling_info")));
-		$this->tpl->setVariable("TXT_CONFLICT_CHOICE", $lng->txt("conflict_handling"));
-		$this->tpl->setVariable("SELECT_CONFLICT", ilUtil::formSelect(IL_IGNORE_ON_CONFLICT, "conflict_handling_choice", $handlers, false, false));
-
-		// new account mail
-		$this->lng->loadLanguageModule("mail");
-		include_once './Services/User/classes/class.ilObjUserFolder.php';
-		$amail = ilObjUserFolder::_lookupNewAccountMail($this->lng->getDefaultLanguage());
-		if (trim($amail["body"]) != "" && trim($amail["subject"]) != "")
-		{
-			$this->tpl->setCurrentBlock("inform_user");
-			$this->tpl->setVariable("TXT_ACCOUNT_MAIL", $lng->txt("mail_account_mail"));
-			if (true)
+	
+			if ($got_locals) 
 			{
-				$this->tpl->setVariable("SEND_MAIL", " checked=\"checked\"");
+				$this->tpl->setCurrentBlock("local_role_section");
+				$this->tpl->setVariable("TXT_LOCAL_ROLES_IMPORT", $this->lng->txt("roles_of_import_local"));
+				$this->tpl->setVariable("TXT_LOCAL_ROLES", $this->lng->txt("assign_local_role"));
+	
+	
+				// get local roles
+				if ($this->object->getRefId() == USER_FOLDER_ID)
+				{
+					// The import function has been invoked from the user folder
+					// object. In this case, we show only matching roles,
+					// because the user folder object is considered the parent of all
+					// local roles and may contains thousands of roles on large ILIAS
+					// installations.
+					$loc_roles = array();
+					foreach($roles as $role_id => $role)
+					{
+						if ($role["type"] == "Local")
+						{
+							$searchName = (substr($role['name'],0,1) == '#') ? $role['name'] : '#'.$role['name'];
+							$matching_role_ids = $rbacreview->searchRolesByMailboxAddressList($searchName);
+							foreach ($matching_role_ids as $mid) {
+								if (! in_array($mid, $loc_roles)) {
+									$loc_roles[] = array('obj_id'=>$mid);
+								}
+							}
+						}
+					}
+				} else {
+					// The import function has been invoked from a locally
+					// administrated category. In this case, we show all roles
+					// contained in the subtree of the category.
+					$loc_roles = $rbacreview->getAssignableRolesInSubtree($this->object->getRefId());
+				}
+				$l_roles = array();
+				
+				// create a search array with  .
+				$l_roles_mailbox_searcharray = array();
+				foreach ($loc_roles as $key => $loc_role)
+				{
+					// fetch context path of role
+					$rolf = $rbacreview->getFoldersAssignedToRole($loc_role["obj_id"],true);
+	
+					// only process role folders that are not set to status "deleted" 
+					// and for which the user has write permissions.
+					// We also don't show the roles which are in the ROLE_FOLDER_ID folder.
+					// (The ROLE_FOLDER_ID folder contains the global roles).
+					if (!$rbacreview->isDeleted($rolf[0])
+					&& $rbacsystem->checkAccess('write',$tree->getParentId($rolf[0]))
+					&& $rolf[0] != ROLE_FOLDER_ID
+					)
+					{
+						// A local role is only displayed, if it is contained in the subtree of 
+						// the localy administrated category. If the import function has been 
+						// invoked from the user folder object, we show all local roles, because
+						// the user folder object is considered the parent of all local roles.
+						// Thus, if we start from the user folder object, we initialize the
+						// isInSubtree variable with true. In all other cases it is initialized 
+						// with false, and only set to true if we find the object id of the
+						// locally administrated category in the tree path to the local role.
+						$isInSubtree = $this->object->getRefId() == USER_FOLDER_ID;
+						
+						$path = "";
+						if ($this->tree->isInTree($rolf[0]))
+						{
+							// Create path. Paths which have more than 4 segments
+							// are truncated in the middle.
+							$tmpPath = $this->tree->getPathFull($rolf[0]);
+							for ($i = 1, $n = count($tmpPath) - 1; $i < $n; $i++)
+							{
+								if ($i > 1)
+								{
+									$path = $path.' > ';
+								}
+								if ($i < 3 || $i > $n - 3)
+								{
+									$path = $path.$tmpPath[$i]['title'];
+								} 
+								else if ($i == 3 || $i == $n - 3)
+								{
+									$path = $path.'...';
+								}
+								
+								$isInSubtree |= $tmpPath[$i]['obj_id'] == $this->object->getId();
+							}
+						}
+						else
+						{
+							$path = "<b>Rolefolder ".$rolf[0]." not found in tree! (Role ".$loc_role["obj_id"].")</b>";
+						}
+						$roleMailboxAddress = $rbacreview->getRoleMailboxAddress($loc_role['obj_id']);
+						$l_roles[$loc_role['obj_id']] = $roleMailboxAddress.', '.$path;
+					}
+				} //foreach role
+	
+				$l_roles[""] = ""; 
+				natcasesort($l_roles);
+				$l_roles[""] = $this->lng->txt("usrimport_ignore_role"); 
+				foreach($roles as $role_id => $role)
+				{
+					if ($role["type"] == "Local")
+					{
+						$this->tpl->setCurrentBlock("local_role");
+						$this->tpl->setVariable("TXT_IMPORT_LOCAL_ROLE", $role["name"]);
+						$searchName = (substr($role['name'],0,1) == '#') ? $role['name'] : '#'.$role['name'];
+						$matching_role_ids = $rbacreview->searchRolesByMailboxAddressList($searchName);
+						$pre_select = count($matching_role_ids) == 1 ? $matching_role_ids[0] : "";
+						if ($this->object->getRefId() == USER_FOLDER_ID) {
+							// There are too many roles in a large ILIAS installation
+							// that's why whe show only a choice with the the option "ignore",
+							// and the matching roles.
+							$selectable_roles = array();
+							$selectable_roles[""] =  $this->lng->txt("usrimport_ignore_role");
+							foreach ($matching_role_ids as $id)
+							{
+								$selectable_roles[$id] =  $l_roles[$id];
+							}
+							$role_select = ilUtil::formSelect($pre_select, "role_assign[".$role_id."]", $selectable_roles, false, true);
+						} else {
+							$role_select = ilUtil::formSelect($pre_select, "role_assign[".$role_id."]", $l_roles, false, true);
+						}
+						$this->tpl->setVariable("SELECT_LOCAL_ROLE", $role_select);
+						$this->tpl->parseCurrentBlock();
+					}
+				}
 			}
-			$this->tpl->setVariable("TXT_INFORM_USER_MAIL",
-				$this->lng->txt("user_send_new_account_mail"));
-			$this->tpl->parseCurrentBlock();
+			// 
+	 
+			$this->tpl->setVariable("TXT_CONFLICT_HANDLING", $lng->txt("conflict_handling"));
+			$handlers = array(
+				IL_IGNORE_ON_CONFLICT => "ignore_on_conflict",
+				IL_UPDATE_ON_CONFLICT => "update_on_conflict"
+			);
+			$this->tpl->setVariable("TXT_CONFLICT_HANDLING_INFO", str_replace('\n','<br>',$this->lng->txt("usrimport_conflict_handling_info")));
+			$this->tpl->setVariable("TXT_CONFLICT_CHOICE", $lng->txt("conflict_handling"));
+			$this->tpl->setVariable("SELECT_CONFLICT", ilUtil::formSelect(IL_IGNORE_ON_CONFLICT, "conflict_handling_choice", $handlers, false, false));
+	
+			// new account mail
+			$this->lng->loadLanguageModule("mail");
+			include_once './Services/User/classes/class.ilObjUserFolder.php';
+			$amail = ilObjUserFolder::_lookupNewAccountMail($this->lng->getDefaultLanguage());
+			if (trim($amail["body"]) != "" && trim($amail["subject"]) != "")
+			{
+				$this->tpl->setCurrentBlock("inform_user");
+				$this->tpl->setVariable("TXT_ACCOUNT_MAIL", $lng->txt("mail_account_mail"));
+				if (true)
+				{
+					$this->tpl->setVariable("SEND_MAIL", " checked=\"checked\"");
+				}
+				$this->tpl->setVariable("TXT_INFORM_USER_MAIL",
+					$this->lng->txt("user_send_new_account_mail"));
+				$this->tpl->parseCurrentBlock();
+			}
+		}
+		else
+		{
+			$this->form->setValuesByPost();
+			$tpl->setContent($this->form->getHtml());
 		}
 	}
 
