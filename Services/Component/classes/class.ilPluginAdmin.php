@@ -82,32 +82,67 @@ class ilPluginAdmin
 			if (ilComponent::isVersionGreaterString($ilias_min_version, ILIAS_VERSION_NUMERIC))
 			{
 				$active = false;
-				$inactive_reason = $lng->txt("cmps_needs_newer_ilias_version");
+				if (is_object($lng))
+				{
+					$inactive_reason = $lng->txt("cmps_needs_newer_ilias_version");
+				}
+				else
+				{
+					$inactive_reason = "Plugin needs a newer version of ILIAS.";
+				}
 				$activation_possible = false;
 			}
 			else if (ilComponent::isVersionGreaterString(ILIAS_VERSION_NUMERIC, $ilias_max_version))
 			{
 				$active = false;
-				$inactive_reason = $lng->txt("cmps_needs_newer_plugin_version");
+				if (is_object($lng))
+				{
+					$inactive_reason = $lng->txt("cmps_needs_newer_plugin_version");
+				}
+				else
+				{
+					$inactive_reason = "Plugin does not support current version of ILIAS. Newer version of plugin needed.";
+				}
 				$activation_possible = false;
 			}
 			else if ($rec["last_update_version"] == "")
 			{
 				$active = false;
-				$inactive_reason = $lng->txt("cmps_needs_update");
+				if (is_object($lng))
+				{
+					$inactive_reason = $lng->txt("cmps_needs_update");
+				}
+				else
+				{
+					$inactive_reason = "Update needed.";
+				}
 				$needs_update = true;
 				$activation_possible = false;
 			}
 			else if (ilComponent::isVersionGreaterString($rec["last_update_version"], $version))
 			{
 				$active = false;
-				$inactive_reason = $lng->txt("cmps_needs_upgrade");
+				if (is_object($lng))
+				{
+					$inactive_reason = $lng->txt("cmps_needs_upgrade");
+				}
+				else
+				{
+					$inactive_reason = "Upgrade needed.";
+				}
 				$activation_possible = false;
 			}
 			else if ($rec["last_update_version"] != $version)
 			{
 				$active = false;
-				$inactive_reason = $lng->txt("cmps_needs_update");
+				if (is_object($lng))
+				{
+					$inactive_reason = $lng->txt("cmps_needs_update");
+				}
+				else
+				{
+					$inactive_reason = "Update needed.";
+				}
 				$needs_update = true;
 				$activation_possible = false;
 			}
