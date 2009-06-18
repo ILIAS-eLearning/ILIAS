@@ -728,7 +728,7 @@ $exc_tab = new ilExerciseMemberTableGUI($this, "members", $this->object);
 $tpl->setContent($exc_tab->getHTML());
 return;		
 		
-		$this->getTemplateFile("members","exc");
+/*		$this->getTemplateFile("members","exc");
 	
 		if(!count($this->object->members_obj->getMembers()))
 		{
@@ -1027,7 +1027,7 @@ return;
 			}
 		}
 	}
-
+*/
 	/**
 	* set feedback status for member and redirect to mail screen
 	*/
