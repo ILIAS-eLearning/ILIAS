@@ -1772,6 +1772,23 @@ class ilObjUser extends ilObject
 	}
 
 	/**
+	 * Lookup matriculation
+	 * @return string matricualtion
+	 * @param int $a_usr_id
+	 * @access public
+	 */
+	public static function lookupMatriculation($a_usr_id)
+	{
+		global $ilDB;
+		
+		$query = "SELECT matriculation FROM usr_data ".
+			"WHERE usr_id = ".$ilDB->quote($a_usr_id);
+		$res = $ilDB->query($query);
+		$row = $res->fetchRow(DB_FETCHMODE_OBJECT);
+		return $row->matricultation ? $row->matriculation : '';
+	}
+
+	/**
 	* set email
 	* @access	public
 	* @param	string	email address

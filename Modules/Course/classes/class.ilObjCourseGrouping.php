@@ -34,6 +34,8 @@ require_once "./classes/class.ilObject.php";
 class ilObjCourseGrouping
 {
 	var $db;
+	
+	protected static $assignedObjects = array();
 
 	/**
 	* Constructor
@@ -484,12 +486,25 @@ class ilObjCourseGrouping
 		}
 		return $course_ids ? $course_ids : array();
 	}
+	
+	
+	/**
+	 * Alway call checkGroupingDependencies before
+	 * @return array Assigned objects
+	 */
+	public static function getAssignedObjects()
+	{
+		return self::$assignedObjects ? self::$assignedObjects : array();
+	}
 
-	function _checkGroupingDependencies(&$container_obj)
+	function _checkGroupingDependencies(&$container_obj, $a_user_id = null)
 	{
 		global $ilUser,$lng,$tree;
 
 		include_once './classes/class.ilConditionHandler.php';
+		
+		$user_id = is_null($a_user_id) ? $ilUser->getId() : $a_user_id;
+		
 
 		$trigger_ids = array();
 		foreach(ilConditionHandler::_getConditionsOfTarget($container_obj->getRefId(),
@@ -507,6 +522,7 @@ class ilObjCourseGrouping
 			return true;
 		}
 		$matriculation_message = $assigned_message = '';
+		self::$assignedObjects = array(); 
 		foreach($trigger_ids as $trigger_id)
 		{
 			foreach(ilConditionHandler::_getConditionsOfTrigger('crsg',$trigger_id) as $condition)
@@ -521,7 +537,7 @@ class ilObjCourseGrouping
 					switch($condition['value'])
 					{
 						case 'matriculation':
-							if(!strlen($ilUser->getMatriculation()))
+							if(!strlen(ilObjUser::lookupMatriculation($user_id)))
 							{
 								if(!$matriculation_message)
 								{
@@ -533,10 +549,11 @@ class ilObjCourseGrouping
 					{
 						include_once('Modules/Course/classes/class.ilCourseParticipants.php');
 						$members = ilCourseParticipants::_getInstanceByObjId($condition['target_obj_id']);
-						if($members->isGroupingMember($ilUser->getId(),$condition['value']))
+						if($members->isGroupingMember($user_id,$condition['value']))
 						{
 							if(!$assigned_message)
 							{
+								self::$assignedObjects[] = $condition['target_obj_id'];
 								$assigned_message = $lng->txt('crs_grp_already_assigned');
 							}
 						}
@@ -545,10 +562,11 @@ class ilObjCourseGrouping
 					{
 						include_once('Modules/Group/classes/class.ilGroupParticipants.php');
 						$members = ilGroupParticipants::_getInstanceByObjId($condition['target_obj_id']);
-						if($members->isGroupingMember($ilUser->getId(),$condition['value']))
+						if($members->isGroupingMember($user_id,$condition['value']))
 						{
 							if(!$assigned_message)
 							{
+								self::$assignedObjects[] = $condition['target_obj_id'];
 								$assigned_message = $lng->txt('crs_grp_already_assigned');
 							}
 						}
@@ -556,10 +574,11 @@ class ilObjCourseGrouping
 					}
 					else
 					{
-						if(ilObjGroup::_isMember($ilUser->getId(),$condition['target_ref_id'],$condition['value']))
+						if(ilObjGroup::_isMember($user_id,$condition['target_ref_id'],$condition['value']))
 						{
 							if(!$assigned_message)
 							{
+								self::$assignedObjects[] = $condition['target_obj_id'];
 								$assigned_message = $lng->txt('crs_grp_already_assigned');
 							}
 						}

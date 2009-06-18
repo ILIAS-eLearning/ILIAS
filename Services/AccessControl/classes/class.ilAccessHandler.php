@@ -293,7 +293,7 @@ class ilAccessHandler
 		//return $this->last_result;
 		//$this->last_info->setQueryData($this->current_result_element);
 		//var_dump("<pre>",$this->results,"</pre>");
-		return $this->last_info->getInfoItems();
+		return is_object($this->last_info) ? $this->last_info->getInfoItems() : array();
 	}
 	
 	/**

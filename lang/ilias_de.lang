@@ -9499,3 +9499,5 @@ registration#:#reg_confirmation_link_successful#:#Sie haben sich erfolgreich bei
 registration#:#reg_activation_your_confirmation_link#:#Ihr Bestätigungslink:
 registration#:#reg_confirmation_hash_not_passed#:#Der Bestätigungslink wurde nicht vollständig übergeben.
 mail#:#mail_nacc_confirmation_link#:#Bestätigungslink
+crs#:#crs_lim_assigned#:#Bereits Mitglied in Kurs "%s".
+grp#:#grp_lim_assigned#:#Bereits Mitglied in Gruppe "%s".

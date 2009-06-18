@@ -9519,3 +9519,5 @@ registration#:#reg_confirmation_link_successful#:#You successfully submitted an 
 registration#:#reg_activation_your_confirmation_link#:#Your confirmation link:
 registration#:#reg_confirmation_hash_not_passed#:#The confirmation link was not entirely passed.
 mail#:#mail_nacc_confirmation_link#:#Confirmation Link
+crs#:#crs_lim_assigned#:#Already assigned to associated course "%s".
+grp#:#grp_lim_assigned#:#Already assigned to associated group "%s".
