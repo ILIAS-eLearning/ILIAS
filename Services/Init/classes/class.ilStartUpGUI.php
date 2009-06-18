@@ -364,6 +364,11 @@ class ilStartUpGUI
 			$lng->loadLanguageModule('payment');
 			$tpl->setVariable(TXT_MSG_LOGIN_FAILED, $lng->txt('payment_login_to_buy_object'));
 		}
+		else if(isset($_GET['reg_confirmation_msg']) && strlen(trim($_GET['reg_confirmation_msg'])))
+		{
+			$lng->loadLanguageModule('registration');
+			$tpl->setVariable('TXT_MSG_LOGIN_FAILED', $lng->txt(trim($_GET['reg_confirmation_msg'])));
+		}
 
 		// TODO: Move this to header.inc since an expired session could not detected in login script
 		$status = $ilAuth->getStatus();

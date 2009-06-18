@@ -9489,3 +9489,13 @@ chat#:#chat_export_period_info#:#Exportiert die angegebene Anzahl von Tagen
 chat#:#chat_export_info#:#Zeigt eine Export Schaltfläche für den aktuellen Raum an. Nachrichten werden nach html exportiert.
 chat#:#chat_textformat#:#Textformat
 chat#:#chat_show_textformat#:#Textformat anzeigen
+registration#:#reg_type_confirmation#:#Neuanmeldung mit E-Mail-Bestätigungslink
+registration#:#reg_type_confirmation_info#:#Diese Methode erfordert das Bestätigen der Registrierung durch Klicken eines Aktivierungslinks bevor das Benutzerkonto freigeschaltet wird.
+registration#:#reg_confirmation_hash_life_time_info#:#Geben Sie hier die Dauer in Sekunden an, wie lange ein Bestätigungslink gültig ist.
+registration#:#reg_confirmation_hash_life_time_expired#:#Der Bestätigungslink ist nicht mehr gültig.
+registration#:#reg_confirmation_hash_not_found#:#Zu diesem Bestätigungslink konnte kein Benutzerkonto gefunden werden.
+common#:#reg_account_confirmation_successful#:#Ihr Benutzerkonto ist nun freigeschaltet. Sie können sich nun anmelden.
+registration#:#reg_confirmation_link_successful#:#Sie haben sich erfolgreich bei ILIAS registriert. Sie müssen Ihr Benutzerkonto durch Klicken des Bestätigungslink aktivieren um dieses zu aktivieren.
+registration#:#reg_activation_your_confirmation_link#:#Ihr Bestätigungslink:
+registration#:#reg_confirmation_hash_not_passed#:#Der Bestätigungslink wurde nicht vollständig übergeben.
+mail#:#mail_nacc_confirmation_link#:#Bestätigungslink

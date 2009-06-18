@@ -12996,3 +12996,12 @@ RENAME TABLE `sahs_sc13_seq_templates` TO `sahs_sc13_seq_templts`;
 	$setting->set('chat_export_status', 0);
 	$setting->set('chat_export_period', 1);
 ?>
+<#2495>
+<?php
+if(!$ilDB->tableColumnExists('usr_data', 'reg_hash'))
+{
+	$ilDB->alterTable('usr_data', array('add' => 
+		array('reg_hash' => array('type' => 'text', 'length' => 32, 'notnull' => true, 'fixed' => true))));
+}
+?>
+			

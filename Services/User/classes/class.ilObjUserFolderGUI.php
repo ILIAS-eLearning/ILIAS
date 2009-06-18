@@ -3885,6 +3885,7 @@ if (true)
 		$this->tpl->setVariable("TXT_TARGET_TITLE", $lng->txt("mail_nacc_target_title"));
 		$this->tpl->setVariable("TXT_TARGET_TYPE", $lng->txt("mail_nacc_target_type"));
 		$this->tpl->setVariable("TXT_TARGET_BLOCK", $lng->txt("mail_nacc_target_block"));
+		$this->tpl->setVariable("TXT_CONFIRMATION_LINK", $lng->txt("mail_nacc_confirmation_link"));	
 		
 		$langs = $lng->getInstalledLanguages();
 		foreach($langs as $lang_key)
