@@ -25,6 +25,7 @@
 define('IL_REG_DISABLED',1);
 define('IL_REG_DIRECT',2);
 define('IL_REG_APPROVE',3);
+define('IL_REG_ACTIVATION',4);
 
 define('IL_REG_ROLES_FIXED',1);
 define('IL_REG_ROLES_EMAIL',2);
@@ -42,6 +43,8 @@ define('IL_REG_ERROR_NO_PERM',2);
 */
 class ilRegistrationSettings
 {
+	private $reg_hash_life_time = 0;
+	
 	function ilRegistrationSettings()
 	{
 		$this->__read();
@@ -74,6 +77,10 @@ class ilRegistrationSettings
 	function approveEnabled()
 	{
 		return $this->registration_type == IL_REG_APPROVE;
+	}
+	public function activationEnabled()
+	{
+		return $this->registration_type == IL_REG_ACTIVATION;
 	}
 	
 	function passwordGenerationEnabled()
@@ -135,6 +142,17 @@ class ilRegistrationSettings
 		$this->role_type = $a_type;
 	}
 	
+	public function setRegistrationHashLifetime($a_lifetime)
+	{
+		$this->reg_hash_life_time = $a_lifetime;
+		
+		return $this;
+	}
+	
+	public function getRegistrationHashLifetime()
+	{
+		return $this->reg_hash_life_time;
+	}
 	
 	function validate()
 	{
@@ -170,6 +188,7 @@ class ilRegistrationSettings
 		$ilias->setSetting('passwd_reg_auto_generate',$this->password_generation_enabled);
 		$ilias->setSetting('approve_recipient',addslashes(serialize($this->approve_recipient_ids)));
 		$ilias->setSetting('reg_access_limitation',$this->access_limitation);
+		$ilias->setSetting('reg_hash_life_time',$this->reg_hash_life_time);
 
 		return true;
 	}
@@ -182,6 +201,7 @@ class ilRegistrationSettings
 		$this->role_type = $ilias->getSetting('reg_role_assignment',1);
 		$this->password_generation_enabled = $ilias->getSetting('passwd_reg_auto_generate');
 		$this->access_limitation = $ilias->getSetting('reg_access_limitation');
+		$this->reg_hash_life_time = $ilias->getSetting('reg_hash_life_time');
 		
 		$this->approve_recipient_ids = unserialize(stripslashes($ilias->getSetting('approve_recipient')));
 		$this->approve_recipient_ids = $this->approve_recipient_ids ? 

@@ -9498,3 +9498,13 @@ chat#:#chat_export_period_info#:#Export the given number of days
 chat#:#chat_export_info#:#Displays an export button for the current room. The messages will be exported to html.
 chat#:#chat_textformat#:#Format text
 chat#:#chat_show_textformat#:#Format text
+registration#:#reg_type_confirmation#:#Registration with Email Confirmation
+registration#:#reg_type_confirmation_info#:#This type allows self-registration of users but requires an email confirmation to activate the account. This avoids self-registration to ILIAS with wrong or non-existant email addresses.
+registration#:#reg_confirmation_hash_life_time_info#:#Enter the lifetime (seconds) of confirmation links.
+registration#:#reg_confirmation_hash_life_time_expired#:#The confirmation link is not valid anymore.
+registration#:#reg_confirmation_hash_not_found#:#No user account could be matched to this confirmation link.
+common#:#reg_account_confirmation_successful#:#Your user account has been activated.
+registration#:#reg_confirmation_link_successful#:#You successfully submitted an account request to ILIAS. You have to confirm your registration by clicking the confirmation link.
+registration#:#reg_activation_your_confirmation_link#:#Your confirmation link:
+registration#:#reg_confirmation_hash_not_passed#:#The confirmation link was not entirely passed.
+mail#:#mail_nacc_confirmation_link#:#Confirmation Link

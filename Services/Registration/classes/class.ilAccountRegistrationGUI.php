@@ -116,6 +116,10 @@ class ilAccountRegistrationGUI
 		{
 			$this->tpl->setVariable("TXT_REGISTERED", $lng->txt("txt_submitted"));
 		}
+		else if($this->registration_settings->getRegistrationType() == IL_REG_ACTIVATION)
+		{
+			$this->tpl->setVariable("TXT_REGISTERED", $lng->txt("reg_confirmation_link_successful"));
+		}
 		else
 		{
 			$this->tpl->setVariable("TXT_REGISTERED", $lng->txt("txt_registered_passw_gen"));
@@ -556,6 +560,10 @@ class ilAccountRegistrationGUI
 		{
 			$this->userObj->setActive(1);
 		}
+		else if($this->registration_settings->getRegistrationType() == IL_REG_ACTIVATION)
+		{
+			$this->userObj->setActive(0,0);						 
+		}
 		else
 		{
 			$this->userObj->setActive(0,0);
@@ -732,6 +740,16 @@ class ilAccountRegistrationGUI
 			{
 				$acc_mail->setUserPassword($_POST["user"]["passwd"]);
 			}
+			else if($this->registration_settings->getRegistrationType() == IL_REG_ACTIVATION)
+			{					
+				$hashcode = ilObjUser::_generateRegistrationHash($this->userObj->getId());
+				
+				$this->ctrl->setParameter($this, 'reg_hash', $hashcode);
+				$this->ctrl->setParameter($this, 'client_id', $ilias->client_id);
+				$this->ctrl->setParameter($this, 'lang', $this->userObj->getPref('language'));
+				$acc_mail->setRegConfirmationLink(ILIAS_HTTP_PATH.'/'.$this->ctrl->getLinkTarget($this, 'confirmRegistration'));				
+				$this->ctrl->clearParameters($this);
+			}
 			$acc_mail->send();
 		}
 		else	// do default mail
@@ -750,8 +768,21 @@ class ilAccountRegistrationGUI
 			$body = $this->lng->txt("reg_mail_body_salutation")." ".$this->userObj->getFullname().",\n\n".
 				$this->lng->txt("reg_mail_body_text1")."\n\n".
 				$this->lng->txt("reg_mail_body_text2")."\n".
-				ILIAS_HTTP_PATH."/login.php?client_id=".$ilias->client_id."\n".
-				$this->lng->txt("login").": ".$this->userObj->getLogin()."\n";
+				ILIAS_HTTP_PATH."/login.php?client_id=".$ilias->client_id."\n";
+				
+			if($this->registration_settings->getRegistrationType() == IL_REG_ACTIVATION)
+			{				
+				$hashcode = ilObjUser::_generateRegistrationHash($this->userObj->getId());
+				
+				$this->ctrl->setParameter($this, 'reg_hash', $hashcode);
+				$this->ctrl->setParameter($this, 'client_id', $ilias->client_id);
+				$this->ctrl->setParameter($this, 'lang', $this->userObj->getPref('language'));
+				$body .= "\n".$this->lng->txt('reg_activation_your_confirmation_link')."\n".
+						 ILIAS_HTTP_PATH.'/'.$this->ctrl->getLinkTarget($this, 'confirmRegistration')."\n\n";
+				$this->ctrl->clearParameters($this);
+			}
+				
+			$body .= $this->lng->txt("login").": ".$this->userObj->getLogin()."\n";
 
 			if ($this->registration_settings->passwordGenerationEnabled())
 			{
@@ -763,13 +794,40 @@ class ilAccountRegistrationGUI
 			if($this->registration_settings->getRegistrationType() == IL_REG_APPROVE)
 			{
 				$body .= ($this->lng->txt('reg_mail_body_pwd_generation')."\n\n");
-			}
+			}			
+			
 			$body .= ($this->lng->txt("reg_mail_body_text3")."\n\r");
 			$body .= $this->userObj->getProfileAsString($this->lng);
 			$mmail->Subject($subject);
 			$mmail->Body($body);
 			$mmail->Send();
 		}
+	}
+	
+	public function confirmRegistration()
+	{
+		if(!isset($_GET['reg_hash']) || !strlen(trim($_GET['reg_hash'])))
+		{
+			ilUtil::redirect('./login.php?reg_confirmation_msg=reg_confirmation_hash_not_passed');
+		}	
+		
+		try
+		{
+			$usr_id = ilObjUser::_verifyRegistrationHash(trim($_GET['reg_hash']));
+			$oUser = ilObjectFactory::getInstanceByObjId($usr_id);
+			$oUser->setActive(true);
+			$oUser->update();			
+			
+			ilUtil::redirect('./login.php?reg_confirmation_msg=reg_account_confirmation_successful');
+		}
+		catch(ilRegConfirmationLinkExpiredException $oException)
+		{
+			ilUtil::redirect('./login.php?reg_confirmation_msg='.$oException->getMessage());
+		}
+		catch(ilRegistrationHashNotFoundException $oException)
+		{
+			ilUtil::redirect('./login.php?reg_confirmation_msg='.$oException->getMessage());
+		}				
 	}
 }
 ?>

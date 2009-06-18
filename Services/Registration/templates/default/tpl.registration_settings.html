@@ -21,7 +21,7 @@ function toggleAccessLimitations(form)
 		  </th>
 		</tr>
 		<tr class="std">
-		  <td class="option" align="top" rowspan="3" width="20%">{TXT_REG_TYPE}</td>
+		  <td class="option" align="top" rowspan="4" width="20%">{TXT_REG_TYPE}</td>
 		  <td class="option_value">{RADIO_DEACTIVATE}&nbsp;{TXT_REG_DEACTIVATED}
 			<!-- <div class="il_Description_no_margin">{REG_DEACTIVATED_DESC}</div> -->
 		  </td>
@@ -30,13 +30,21 @@ function toggleAccessLimitations(form)
 		  <td class="option_value">{RADIO_DIRECT}&nbsp;{TXT_DIRECT}<div class="il_Description_no_margin">{REG_DIRECT_DESC}</div></td>
 		</tr>
 		<tr class="std">
-		  <td class="option_value">{RADIO_APPROVE}&nbsp;{TXT_APPROVE}<br />
+		  <td class="option_value">{RADIO_APPROVE}&nbsp;{TXT_APPROVE}
 			<div class="il_Description_no_margin">{REG_APPROVE_DESC}</div>
+		  </td>
+		</tr>
+		<tr class="std">
+		  <td class="option_value">{CHECK_ACTIVATION_REG}&nbsp;{TXT_REG_ACTIVATION_LINK}
+		  	<div class="il_Description_no_margin">{REG_INFO_ACTIVATION}</div>
+			<p><input type="text" size="5" name="reg_hash_life_time" value="{REG_HASH_LIFE_TIME}" />
+			<div class="il_Description_no_margin">{REG_HASH_LIFE_TIME_INFO}</div></p>
+		  </td>
 		</tr>
 		<tr class="std">
 		  <td class="option" align="top">{TXT_REG_PWD_FORWARD}</td>
 		  <td class="option_value">{CHECK_PWD}<div class="il_Description_no_margin">{REG_INFO_PWD}</div></td>
-		</tr>
+		</tr>	
 		<tr class="std">
 		  <td class="option" align="top">{TXT_REG_NOTIFICATION}</td>
 		  <td class="option_value">

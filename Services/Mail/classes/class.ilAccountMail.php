@@ -54,6 +54,8 @@ class ilAccountMail
 	var $target = "";
 	
 	private $lang_variables_as_fallback = false;
+	
+	private $reg_confirmation_link = null;
 
 	
 	/**
@@ -62,6 +64,16 @@ class ilAccountMail
 	*/
 	function ilAccountMail()
 	{		
+	}
+	
+	public function setRegConfirmationLink($a_hash)
+	{
+		$this->reg_confirmation_link = $a_hash;		
+		return $this;
+	}
+	public function getRegConfirmationLink()
+	{
+		return $this->reg_confirmation_link;
 	}
 	
 	public function useLangVariablesAsFallback($a_status)
@@ -213,7 +225,13 @@ class ilAccountMail
 			$mail_body = $tmp_lang->txt('reg_mail_body_salutation').' '.$user->getFullname().",\n\n".
 				$tmp_lang->txt('reg_mail_body_text1')."\n\n".
 				$tmp_lang->txt('reg_mail_body_text2')."\n".
-				ILIAS_HTTP_PATH.'/login.php?client_id='.CLIENT_ID."\n".
+				ILIAS_HTTP_PATH.'/login.php?client_id='.CLIENT_ID."\n";
+				
+			if($this->getRegConfirmationLink() !== null)
+			{
+				$mail_body .= "\n".$tmp_lang->txt('reg_activation_your_confirmation_link')."\n".
+						 	  $this->getRegConfirmationLink()."\n\n";
+			}				
 				$tmp_lang->txt('login').': '.$user->getLogin()."\n";			
 			$mail_body.= $tmp_lang->txt('passwd').': '.$this->u_password."\n";
 			$mail_body.= "\n";
@@ -274,6 +292,14 @@ return true;*/
 		$a_string  = str_replace("[CLIENT_NAME]", CLIENT_NAME, $a_string);
 		$a_string  = str_replace("[ADMIN_MAIL]", $ilSetting->get("admin_email"),
 			$a_string);
+		if($this->getRegConfirmationLink() !== null)
+		{
+			$a_string  = str_replace('[CONFIRMATION_LINK]', $this->getRegConfirmationLink(), $a_string);
+		}
+		else
+		{
+			$a_string  = str_replace('[CONFIRMATION_LINK]', '', $a_string);
+		}
 			
 		// (no) password sections
 		if ($this->getUserPassword() == "")

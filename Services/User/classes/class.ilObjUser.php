@@ -4549,7 +4549,95 @@ class ilObjUser extends ilObject
 
 		return $users ? $users : array();
 	}
-
-
+	
+	/**
+	* Generates a unique hashcode for activating a user profile after registration
+	* 
+	* @param integer $a_usr_id user id of the current user
+	* @return string generated hashcode
+	*/
+	public static function _generateRegistrationHash($a_usr_id)
+	{
+		global $ilDB;
+		
+		do
+		{
+			$continue = false;
+			
+			$hashcode = md5(uniqid(rand(), true));
+			
+			$res = $ilDB->queryf('
+				SELECT COUNT(usr_id) cnt FROM usr_data 
+				WHERE reg_hash = %s',
+		        array('text'),
+		        array($hashcode));		         
+			while($row = $res->fetchRow(DB_FETCHMODE_OBJECT))
+			{
+				if($row->cnt > 0) $continue = true;
+				break;
+			}
+			
+			if($continue) continue;
+			
+			$ilDB->manipulateF('
+				UPDATE usr_data	
+				SET reg_hash = %s	
+				WHERE 1
+				AND usr_id = %s',
+				array('text', 'integer'),
+				array($hashcode, (int)$a_usr_id)
+			);
+			
+			break;
+			
+		} while(true);		
+		
+		return $hashcode;
+	}
+	
+	/**
+	* Verifies a registration hash
+	* 
+	* @throws ilRegistrationHashExpiredException
+	* @throws ilRegistrationHashNotFoundException
+	* @param string $a_hash hashcode
+	* @return integer user id of the user
+	*/
+	public static function _verifyRegistrationHash($a_hash)
+	{
+		global $ilDB;
+		
+		$res = $ilDB->queryf('
+			SELECT usr_id, create_date FROM usr_data 
+			WHERE reg_hash = %s',
+	        array('text'),
+	        array($a_hash));		         
+		while($row = $res->fetchRow(DB_FETCHMODE_OBJECT))
+		{
+			require_once 'Services/Registration/classes/class.ilRegistrationSettings.php';
+			$oRegSettigs = new ilRegistrationSettings();
+			
+			if((int)$oRegSettigs->getRegistrationHashLifetime() != 0 &&
+			   time() - (int)$oRegSettigs->getRegistrationHashLifetime() > strtotime($row->create_date))
+			{
+				require_once 'Services/Registration/exceptions/class.ilRegConfirmationLinkExpiredException.php';
+				throw new ilRegConfirmationLinkExpiredException('reg_confirmation_hash_life_time_expired');	
+			}		
+			
+			$ilDB->manipulateF('
+				UPDATE usr_data	
+				SET reg_hash = %s	
+				WHERE 1
+				AND usr_id = %s',
+				array('text', 'integer'),
+				array('', (int)$row->usr_id)
+			);
+			
+			return $row->usr_id;
+		}		
+		
+		require_once 'Services/Registration/exceptions/class.ilRegistrationHashNotFoundException.php';
+		throw new ilRegistrationHashNotFoundException('reg_confirmation_hash_not_found');
+	}
 } // END class ilObjUser
 ?>

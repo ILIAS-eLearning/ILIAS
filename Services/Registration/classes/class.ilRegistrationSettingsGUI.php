@@ -99,6 +99,9 @@ class ilRegistrationSettingsGUI
 		$this->tpl->setVariable("TXT_REG_NOTIFICATION",$this->lng->txt('reg_notification'));
 		$this->tpl->setVariable("REG_NOTIFICATION_DESC",$this->lng->txt('reg_notification_info'));
 		$this->tpl->setVariable("TXT_REG_EMAIL",$this->lng->txt('reg_email'));
+		
+		$this->tpl->setVariable("TXT_REG_ACTIVATION_LINK",$this->lng->txt('reg_type_confirmation'));
+		$this->tpl->setVariable("REG_INFO_ACTIVATION",$this->lng->txt('reg_type_confirmation_info'));		
 
 		$this->tpl->setVariable("TXT_REG_ACCESS_LIMITATIONS",$this->lng->txt('reg_access_limitations'));
 		$this->tpl->setVariable("TXT_ENABLE_ACCESS_LIMITATIONS",$this->lng->txt('reg_enable_access_limitations'));
@@ -127,6 +130,10 @@ class ilRegistrationSettingsGUI
 		$this->tpl->setVariable("RADIO_APPROVE",ilUtil::formRadioButton($this->registration_settings->approveEnabled(),
 																	   'reg_type',
 																	   IL_REG_APPROVE));
+																	   
+		$this->tpl->setVariable("CHECK_ACTIVATION_REG",ilUtil::formRadioButton($this->registration_settings->activationEnabled(),
+																	   'reg_type',
+																	   IL_REG_ACTIVATION));
 
 		$this->tpl->setVariable("APPROVER",ilUtil::prepareFormOutput($this->registration_settings->getApproveRecipientLogins()));
 
@@ -152,6 +159,10 @@ class ilRegistrationSettingsGUI
         {
         	$this->tpl->setVariable("CSS_DISPLAY_ACCESS_LIMITATION","none");
         }
+        
+        $this->tpl->setVariable('REG_HASH_LIFE_TIME', (int)$this->registration_settings->getRegistrationHashLifetime());
+        $this->tpl->setVariable('REG_HASH_LIFE_TIME_INFO', $this->lng->txt('reg_confirmation_hash_life_time_info'));
+        
 
 		$this->tpl->setVariable("TXT_SAVE",$this->lng->txt('save'));
 	}
@@ -170,6 +181,11 @@ class ilRegistrationSettingsGUI
 		$this->registration_settings->setApproveRecipientLogins(ilUtil::stripSlashes($_POST['reg_approver']));
 		$this->registration_settings->setRoleType((int) $_POST['reg_role_type']);
 		$this->registration_settings->setAccessLimitation((int) $_POST['reg_access_limitation']);
+		
+		if(!preg_match('/^([0]|([1-9][0-9]*))([\.,][0-9][0-9]*)?$/', (int)$_POST['reg_hash_life_time']))
+			$this->registration_settings->setRegistrationHashLifetime(0);
+		else
+			$this->registration_settings->setRegistrationHashLifetime((int)$_POST['reg_hash_life_time']);
 
 		if($error_code = $this->registration_settings->validate())
 		{
