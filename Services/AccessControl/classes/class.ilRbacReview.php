@@ -670,7 +670,7 @@ class ilRbacReview
 
 		if (!$a_keep_protected)
 		{
-			return $this->__setProtectedStatus($parent_roles,$role_hierarchy,$path);
+			return $this->__setProtectedStatus($parent_roles,$role_hierarchy,end($a_path));
 		}
 		return $parent_roles;
 	}
