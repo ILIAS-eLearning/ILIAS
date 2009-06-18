@@ -31,7 +31,7 @@
 * you can give a filename if you want, else the defaultfilename is used.
 *
 * @author	Peter Gabriel <pgabriel@databay.de>
-* @version	$Id$
+* @version	$Id: class.ilLog.php 16024 2008-02-19 13:07:07Z akill $
 */
 
 class ilLog
@@ -246,12 +246,12 @@ class ilLog
 			
 			if ($this->fp == false)
 			{
-				die("Logfile: cannot open file. Please give Logfile Writepermissions.");
+				//die("Logfile: cannot open file. Please give Logfile Writepermissions.");
 			}
 
 			if (fwrite($this->fp,$this->getLogFormat().$a_msg."\n") == -1)
 			{
-				die("Logfile: cannot write to file. Please give Logfile Writepermissions.");
+				//die("Logfile: cannot write to file. Please give Logfile Writepermissions.");
 			}
 			
 			// note: logStack() calls write() again, so do not make this call
