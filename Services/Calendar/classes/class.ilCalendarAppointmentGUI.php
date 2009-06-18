@@ -108,7 +108,7 @@ class ilCalendarAppointmentGUI
 	 * @param string mode ('edit' | 'create')
 	 * @return
 	 */
-	protected function initForm($a_mode)
+	protected function initForm($a_mode, $a_as_milestone = false)
 	{
 		global $ilUser,$tpl;
 		
@@ -126,17 +126,37 @@ class ilCalendarAppointmentGUI
 		switch($a_mode)
 		{
 			case 'create':
-				$this->form->setTitle($this->lng->txt('cal_new_app'));
 				$this->ctrl->saveParameter($this,array('seed'));
 				$this->form->setFormAction($this->ctrl->getFormAction($this));
-				$this->form->addCommandButton('save',$this->lng->txt('cal_add_appointment'));
-				$this->form->addCommandButton('cancel',$this->lng->txt('cancel'));
+				if ($a_as_milestone)
+				{
+					$this->form->setTitle($this->lng->txt('cal_new_ms'));
+					$this->form->addCommandButton('saveMilestone',$this->lng->txt('cal_add_milestone'));
+					$this->form->addCommandButton('cancel',$this->lng->txt('cancel'));
+				}
+				else
+				{
+					$this->form->setTitle($this->lng->txt('cal_new_app'));
+					$this->form->addCommandButton('save',$this->lng->txt('cal_add_appointment'));
+					$this->form->addCommandButton('cancel',$this->lng->txt('cancel'));
+				}
 				break;
 
 			case 'edit':
-				$this->form->setTitle($this->lng->txt('cal_edit_appointment'));
+				if ($a_as_milestone)
+				{
+					$this->form->setTitle($this->lng->txt('cal_edit_milestone'));
+				}
+				else
+				{
+					$this->form->setTitle($this->lng->txt('cal_edit_appointment'));
+				}
 				$this->ctrl->saveParameter($this,array('seed','app_id'));
 				$this->form->setFormAction($this->ctrl->getFormAction($this));
+				if ($a_as_milestone)
+				{
+					$this->form->addCommandButton('editResponsibleUsers',$this->lng->txt('cal_change_responsible_users'));
+				}
 				$this->form->addCommandButton('update',$this->lng->txt('save'));
 				$this->form->addCommandButton('askDelete',$this->lng->txt('delete'));
 				$this->form->addCommandButton('cancel',$this->lng->txt('cancel'));
@@ -194,24 +214,64 @@ class ilCalendarAppointmentGUI
 		#$fullday->addSubItem($end);
 		$this->form->addItem($end);
 		
-		// Recurrence
-		include_once('./Services/Calendar/classes/Form/class.ilRecurrenceInputGUI.php');
-		$rec = new ilRecurrenceInputGUI($this->lng->txt('cal_recurrences'),'frequence');
-		$rec->setRecurrence($this->rec);
-		$this->form->addItem($rec);
-		
-	
-		$where = new ilTextInputGUI($this->lng->txt('cal_where'),'location');
-		$where->setValue($this->app->getLocation());
-		$where->setMaxLength(128);
-		$where->setSize(32);
-		$this->form->addItem($where);
+		if (!$a_as_milestone)
+		{
+			// recurrence
+			include_once('./Services/Calendar/classes/Form/class.ilRecurrenceInputGUI.php');
+			$rec = new ilRecurrenceInputGUI($this->lng->txt('cal_recurrences'),'frequence');
+			$rec->setRecurrence($this->rec);
+			$this->form->addItem($rec);
+
+			// location
+			$where = new ilTextInputGUI($this->lng->txt('cal_where'),'location');
+			$where->setValue($this->app->getLocation());
+			$where->setMaxLength(128);
+			$where->setSize(32);
+			$this->form->addItem($where);
+		}
+		else
+		{
+			// completion
+			$completion_vals = array();
+			for($i = 0; $i <= 100; $i+=5)
+			{
+				$completion_vals[$i] = $i." %";
+			}
+			$compl = new ilSelectInputGUI($this->lng->txt('cal_task_completion'),
+				'completion');
+			$compl->setOptions($completion_vals);
+			$compl->setValue($this->app->getCompletion());
+			$this->form->addItem($compl);
+		}
 		
 		$desc = new ilTextAreaInputGUI($this->lng->txt('description'),'description');
 		$desc->setValue($this->app->getDescription());
 		$desc->setCols(3);
 		$this->form->addItem($desc);
-		
+
+		if ($a_as_milestone && $a_mode == "edit")
+		{
+			// users responsible
+			$users = $this->app->readResponsibleUsers();
+			$resp = new ilNonEditableValueGUI($this->lng->txt('cal_responsible'),
+				$users);
+			$delim = "";
+			foreach($users as $r)
+			{
+				$value.= $delim.$r["lastname"].", ".$r["firstname"]." [".$r["login"]."]";
+				$delim = "<br />";
+			}
+			if (count($users) > 0)
+			{
+				$resp->setValue($value);
+			}
+			else
+			{
+				$resp->setValue("-");
+			}
+
+			$this->form->addItem($resp);
+		}
 	}
 	
 	
@@ -230,15 +290,39 @@ class ilCalendarAppointmentGUI
 	}
 	
 	/**
+	 * add milestone
+	 *
+	 * @access protected
+	 * @return
+	 */
+	protected function addMilestone()
+	{
+		global $tpl;
+		
+		$this->initForm('create', true);
+		$tpl->setContent($this->form->getHTML());
+	}
+
+	/**
+	 * save milestone
+	 *
+	 * @access protected
+	 */
+	protected function saveMilestone()
+	{
+		$this->save(true);
+	}
+
+	/**
 	 * save appointment
 	 *
 	 * @access protected
 	 */
-	protected function save()
+	protected function save($a_as_milestone = false)
 	{
 		global $ilErr;
 		
-		$this->load();
+		$this->load($a_as_milestone);
 		
 		if($this->app->validate())
 		{
@@ -260,13 +344,64 @@ class ilCalendarAppointmentGUI
 			$ass->addAssignment($cat_id);
 			
 			ilUtil::sendInfo($this->lng->txt('cal_created_appointment'));
-			$this->ctrl->returnToParent($this);
+			
+			include_once('./Services/Calendar/classes/class.ilCalendarCategory.php');
+			$cat_info = ilCalendarCategories::_getInstance()->getCategoryInfo($cat_id);
+			$type = ilObject::_lookupType($cat_info['obj_id']);
+			
+			if ($a_as_milestone && $cat_info['type'] == ilCalendarCategory::TYPE_OBJ
+				&& $type == "grp")
+			{
+				return $this->showResponsibleUsersList($cat_info['obj_id']);
+			}
+			else
+			{
+				$this->ctrl->returnToParent($this);
+			}
 		}
 		else
 		{
 			ilUtil::sendInfo($ilErr->getMessage());
 		}
 		$this->add();
+	}
+	
+	/**
+	* Edit responsible users
+	*/
+	function editResponsibleUsers()
+	{
+		include_once('./Services/Calendar/classes/class.ilCalendarCategoryAssignments.php');
+		$cat_id = ilCalendarCategoryAssignments::_lookupCategory($this->app->getEntryId());
+		include_once('./Services/Calendar/classes/class.ilCalendarCategory.php');
+		$cat_info = ilCalendarCategories::_getInstance()->getCategoryInfo($cat_id);
+
+		$this->showResponsibleUsersList($cat_info['obj_id']);
+	}
+	
+	/**
+	* Show responsible uses of a milestone (default set is participants
+	* of group)
+	*/
+	function showResponsibleUsersList($a_grp_id)
+	{
+		global $tpl;
+
+		include_once("./Services/Calendar/classes/class.ilMilestoneResponsiblesTableGUI.php");
+		$table_gui = new ilMilestoneResponsiblesTableGUI($this, "", $a_grp_id,
+			$this->app->getEntryId());
+		$tpl->setContent($table_gui->getHTML());
+	}
+	
+	/**
+	* Save milestone responsibilites
+	*/
+	function saveMilestoneResponsibleUsers()
+	{
+		global $ilCtrl;
+
+		$this->app->writeResponsibleUsers($_POST["user_id"]);
+		$ilCtrl->returnToParent($this);
 	}
 	
 	/**
@@ -298,7 +433,7 @@ class ilCalendarAppointmentGUI
 			return true;
 		}
 		
-		$this->initForm('edit');
+		$this->initForm('edit', $this->app->isMilestone());
 		$tpl->setContent($this->form->getHTML());
 	}
 	
@@ -316,7 +451,14 @@ class ilCalendarAppointmentGUI
 		$info = new ilInfoScreenGUI($this);
 		$info->setFormAction($this->ctrl->getFormAction($this));
 
-		$info->addSection($this->lng->txt('cal_details'));
+		if ($this->app->isMilestone())
+		{
+			$info->addSection($this->lng->txt('cal_ms_details'));
+		}
+		else
+		{
+			$info->addSection($this->lng->txt('cal_details'));
+		}
 
 		// Appointment
 		$info->addProperty($this->lng->txt('appointment'),
@@ -335,6 +477,13 @@ class ilCalendarAppointmentGUI
 		if(strlen($loc = $this->app->getLocation()))
 		{
 			$info->addProperty($this->lng->txt('cal_where'),$loc);
+		}
+
+		// completion
+		if ($this->app->isMilestone() && $this->app->getCompletion() > 0)
+		{
+			$info->addProperty($this->lng->txt('cal_task_completion'),
+				$this->app->getCompletion()." %");
 		}
 
 		include_once('./Services/Calendar/classes/class.ilCalendarCategoryAssignments.php');
@@ -366,7 +515,7 @@ class ilCalendarAppointmentGUI
 	{
 		global $ilErr;
 
-		$this->load();
+		$this->load($this->app->isMilestone());
 		
 		if($this->app->validate())
 		{
@@ -534,8 +683,14 @@ class ilCalendarAppointmentGUI
 	 * @param
 	 * @return
 	 */
-	protected function load()
+	protected function load($a_as_milestone = false)
 	{
+		if ($a_as_milestone)
+		{
+			$this->app->setMilestone(true);
+			$this->app->setCompletion(ilUtil::stripSlashes($_POST['completion']));
+		}
+		
 		$this->app->setTitle(ilUtil::stripSlashes($_POST['title']));
 		$this->app->setLocation(ilUtil::stripSlashes($_POST['location']));
 		$this->app->setDescription(ilUtil::stripSlashes($_POST['description']));
@@ -570,7 +725,7 @@ class ilCalendarAppointmentGUI
 			$end = new ilDateTime($end_dt,IL_CAL_FKT_GETDATE,$this->timezone);
 			$this->app->setEnd($end);
 		}
-		$this->loadRecurrenceSettings();
+		$this->loadRecurrenceSettings($a_as_milestone = false);
 	}
 	
 	/**
@@ -579,7 +734,7 @@ class ilCalendarAppointmentGUI
 	 * @access protected
 	 * @return
 	 */
-	protected function loadRecurrenceSettings()
+	protected function loadRecurrenceSettings($a_as_milestone = false)
 	{
 		$this->rec->reset();
 		

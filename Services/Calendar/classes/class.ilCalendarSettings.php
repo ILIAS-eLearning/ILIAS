@@ -182,7 +182,26 @@ class ilCalendarSettings
 		return $this->cal_settings_id;
 	}
 
-	
+	/**
+	* Set Enable milestone planning feature for groups.
+	*
+	* @param	boolean	$a_enablegroupmilestones	Enable milestone planning feature for groups
+	*/
+	function setEnableGroupMilestones($a_enablegroupmilestones)
+	{
+		$this->enablegroupmilestones = $a_enablegroupmilestones;
+	}
+
+	/**
+	* Get Enable milestone planning feature for groups.
+	*
+	* @return	boolean	Enable milestone planning feature for groups
+	*/
+	function getEnableGroupMilestones()
+	{
+		return $this->enablegroupmilestones;
+	}
+
 	/**
 	 * save 
 	 *
@@ -194,6 +213,7 @@ class ilCalendarSettings
 	 	$this->storage->set('default_timezone',$this->getDefaultTimeZone());
 	 	$this->storage->set('default_week_start',$this->getDefaultWeekStart());
 	 	$this->storage->set('default_time_format',$this->getDefaultTimeFormat());
+		$this->storage->set('enable_grp_milestones',(int) $this->getEnableGroupMilestones());
 	}
 
 	/**
@@ -209,6 +229,7 @@ class ilCalendarSettings
 		$this->setDefaultTimeZone($this->storage->get('default_timezone',ilTimeZone::_getDefaultTimeZone()));
 		$this->setDefaultWeekStart($this->storage->get('default_week_start',self::WEEK_START_MONDAY));
 		$this->setDefaultTimeFormat($this->storage->get('default_time_format',self::TIME_FORMAT_24));
+		$this->setEnableGroupMilestones($this->storage->get('enable_grp_milestones'));
 	}
 	
 	/**

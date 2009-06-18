@@ -71,7 +71,8 @@
 					<a class="callink" href="{DAY_VIEW_LINK}">
 						<font class="small">{HEADER_DATE}</font>
 					</a>
-					<a href="{NEW_APP_LINK}"><img style="vertical-align: bottom" src="{NEW_APP_SRC}" alt="{NEW_APP_ALT}" title="{NEW_APP_ALT}" /></a><br />
+					<a href="{NEW_APP_LINK}"><img style="vertical-align: middle" src="{NEW_APP_SRC}" alt="{NEW_APP_ALT}" title="{NEW_APP_ALT}" /></a><!-- BEGIN new_ms --><a href="{NEW_MS_LINK}"><img style="vertical-align: middle" src="{H_NEW_MS_SRC}" alt="{H_NEW_MS_ALT}" title="{H_NEW_MS_ALT}" /></a><!-- END new_ms -->
+					<br />
 					<a class="callink" href="{DAY_VIEW_LINK}">
 							{DAYNAME}
 					</a>
@@ -89,7 +90,7 @@
 				{PANEL_F_DAY_DATA}
 				<p id="show_{F_DAY_ID}" class="il_calevent" 
 					style="background-color:{F_APP_BGCOLOR}; color:{F_APP_FONTCOLOR}">
-					<a id="link_{F_DAY_ID}" class="callink" href="{F_APP_EDIT_LINK}"><font class="small">{F_APP_TITLE}</font></a>
+					<!-- BEGIN fullday_ms_icon --><img alt="{ALT_FD_MS}" title="{ALT_FD_MS}" src="{SRC_FD_MS}" /><!-- END fullday_ms_icon --><a id="link_{F_DAY_ID}" class="callink" href="{F_APP_EDIT_LINK}"><font class="small">{F_APP_TITLE}</font></a>
 				</p>
 				<!-- END fullday_app -->
 			</td>

@@ -8098,6 +8098,7 @@ dateplaner#:#cal_type_usr#:#Personal Calendar
 dateplaner#:#yui_cal_choose_month#:#Month:
 dateplaner#:#yui_cal_choose_year#:#Year:
 dateplaner#:#cal_edit_appointment#:#Edit Appointment
+dateplaner#:#cal_edit_milestone#:#Edit Milestone
 dateplaner#:#cal_what#:#Title
 dateplaner#:#cal_category_selection#:#Calendar Selection
 dateplaner#:#cal_start#:#Start
@@ -8266,7 +8267,17 @@ dateplaner#:#crs_cal_activation_end#:#Course End
 dateplaner#:#crs_cal_reg_start#:#Registration Start
 dateplaner#:#crs_cal_reg_end#:#Registration End
 dateplaner#:#cal_default_calendar#:#Personal Appointments
+dateplaner#:#cal_ms_users_responsible#:#Users Responsible
+dateplaner#:#cal_save_responsible_users#:#Save Responsible Users
+dateplaner#:#cal_change_responsible_users#:#Change Responsible Users
 dateplaner#:#cal_details#:#Appointment Details
+dateplaner#:#cal_ms_details#:#Milestone Details
+dateplaner#:#cal_enable_group_milestones#:#Enable Milestones
+dateplaner#:#cal_enable_group_milestones_desc#:#This option enables milestone planning in the calendar.
+dateplaner#:#cal_new_ms#:#New Milestone
+dateplaner#:#cal_add_milestone#:#Add Milestone
+dateplaner#:#cal_task_completion#:#Task Completion
+dateplaner#:#cal_responsible#:#Responsible
 grp#:#grp_reg_req_info_screen#:#You can request membership for this group. You will get a message from a group administrator when your request has been admitted or declined.
 grp#:#grp_reg_passwd_info_screen#:#If a group administrator has given you the group password, you can join this group.
 grp#:#grp_reg_deac_info_screen#:#Group admittance is closed.

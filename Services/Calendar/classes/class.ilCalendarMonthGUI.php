@@ -141,6 +141,9 @@ class ilCalendarMonthGUI
 		$this->scheduler = new ilCalendarSchedule($this->seed,ilCalendarSchedule::TYPE_MONTH);
 		$this->scheduler->addSubitemCalendars(true);
 		$this->scheduler->calculate();
+
+		include_once('Services/Calendar/classes/class.ilCalendarSettings.php');
+		$settings = ilCalendarSettings::_getInstance();
 		
 		$counter = 0;
 		foreach(ilCalendarUtil::_buildMonthDayList($this->seed->get(IL_CAL_FKT_DATE,'m'),
@@ -149,6 +152,17 @@ class ilCalendarMonthGUI
 		{
 			$counter++;
 			$this->showEvents($date);
+			
+			if ($settings->getEnableGroupMilestones())
+			{
+				$this->ctrl->clearParametersByClass('ilcalendarappointmentgui');
+				$this->ctrl->setParameterByClass('ilcalendarappointmentgui','seed',$date->get(IL_CAL_DATE));
+				$this->tpl->setCurrentBlock("new_ms");
+				$this->tpl->setVariable('H_NEW_MS_SRC',ilUtil::getImagePath('ms_add.gif'));
+				$this->tpl->setVariable('H_NEW_MS_ALT',$this->lng->txt('cal_new_ms'));
+				$this->tpl->setVariable('NEW_MS_LINK',$this->ctrl->getLinkTargetByClass('ilcalendarappointmentgui','addMilestone'));
+				$this->tpl->parseCurrentBlock();
+			}
 			
 			$this->tpl->setCurrentBlock('month_col');
 
@@ -227,6 +241,15 @@ class ilCalendarMonthGUI
 			$this->tpl->setVariable('NUM',$this->num_appointments);
 			$this->tpl->parseCurrentBlock();
 
+			// milestone icon
+			if ($item['event']->isMilestone())
+			{
+				$this->tpl->setCurrentBlock('fullday_ms_icon');
+				$this->tpl->setVariable('ALT_FD_MS', $this->lng->txt("cal_milestone"));
+				$this->tpl->setVariable('SRC_FD_MS', ilUtil::getImagePath("icon_ms_s.gif"));
+				$this->tpl->parseCurrentBlock();
+			}
+
 			$this->tpl->setCurrentBlock('il_event');
 
 			include_once('./Services/Calendar/classes/class.ilCalendarAppointmentPanelGUI.php');
@@ -239,9 +262,13 @@ class ilCalendarMonthGUI
 			$this->tpl->setVariable('EVENT_EDIT_LINK',$this->ctrl->getLinkTargetByClass('ilcalendarappointmentgui','edit'));
 			$this->tpl->setVariable('EVENT_NUM',$item['event']->getEntryId());
 			
+			$compl = ($item['event']->isMilestone() && $item['event']->getCompletion() > 0)
+				? " (".$item['event']->getCompletion()."%)"
+				: "";
+
 			if($item['event']->isFullDay())
 			{
-				$title = $item['event']->getPresentationTitle();
+				$title = $item['event']->getPresentationTitle().$compl;
 			}
 			else
 			{
