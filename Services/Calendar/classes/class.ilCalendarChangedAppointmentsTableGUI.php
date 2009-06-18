@@ -84,9 +84,15 @@ class ilCalendarChangedAppointmentsTableGUI extends ilTable2GUI
 	 */
 	protected function fillRow($a_set)
 	{
-		global $ilUser;
+		global $ilUser, $lng;
 		
-		
+		if ($a_set["milestone"])
+		{
+			$this->tpl->setCurrentBlock("img_ms");
+			$this->tpl->setVariable("IMG_MS", ilUtil::getImagePath("icon_ms_s.gif"));
+			$this->tpl->setVariable("ALT_MS", $lng->txt("cal_milestone"));
+			$this->tpl->parseCurrentBlock();
+		}
 		
 		$this->tpl->setVariable('VAL_DESCRIPTION',$a_set['description']);
 		
@@ -129,7 +135,14 @@ class ilCalendarChangedAppointmentsTableGUI extends ilTable2GUI
 		}
 		if($a_set['duration'])
 		{
-			$this->tpl->setVariable('VAL_DURATION',ilFormat::_secondsToString($a_set['duration']));	
+			if($a_set['milestone'])
+			{
+				$this->tpl->setVariable('VAL_DURATION','-');
+			}
+			else
+			{
+				$this->tpl->setVariable('VAL_DURATION',ilFormat::_secondsToString($a_set['duration']));
+			}
 		}
 		else
 		{
@@ -158,6 +171,7 @@ class ilCalendarChangedAppointmentsTableGUI extends ilTable2GUI
  			$rec = ilCalendarRecurrences::_getFirstRecurrence($entry->getEntryId());
 			
 			$tmp_arr['id'] = $entry->getEntryId();
+			$tmp_arr['milestone'] = $entry->isMilestone();
 			$tmp_arr['title'] = $entry->getPresentationTitle();
 			$tmp_arr['description'] = $entry->getDescription();
 			$tmp_arr['fullday'] = $entry->isFullday();

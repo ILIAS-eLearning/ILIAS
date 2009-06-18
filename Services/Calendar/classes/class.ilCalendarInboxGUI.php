@@ -115,7 +115,7 @@ class ilCalendarInboxGUI
 	protected function inbox()
 	{
 		$this->tpl = new ilTemplate('tpl.inbox.html',true,true,'Services/Calendar');
-		
+
 		include_once('./Services/Calendar/classes/class.ilCalendarInboxSharedTableGUI.php');
 		include_once('./Services/Calendar/classes/class.ilCalendarShared.php');
 		
