@@ -486,6 +486,23 @@ class ilCalendarAppointmentGUI
 				$this->app->getCompletion()." %");
 		}
 
+		if ($this->app->isMilestone())
+		{
+			// users responsible
+			$users = $this->app->readResponsibleUsers();
+			$delim = "";
+			foreach($users as $r)
+			{
+				$value.= $delim.$r["lastname"].", ".$r["firstname"]." [".$r["login"]."]";
+				$delim = "<br />";
+			}
+			if (count($users) > 0)
+			{
+				$info->addProperty($this->lng->txt('cal_responsible'),
+					$value);
+			}
+		}
+
 		include_once('./Services/Calendar/classes/class.ilCalendarCategoryAssignments.php');
 		$cat_id = ilCalendarCategoryAssignments::_lookupCategory($this->app->getEntryId());
 		$category = new ilCalendarCategory($cat_id);		
