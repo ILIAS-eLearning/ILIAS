@@ -272,7 +272,7 @@ class ilRbacSystem
 		// Is owner
 		foreach(explode(",",$a_operations) as $operation)
 		{
-			if($operation != 'edit_permission' and !preg_match('/^create/',$operation))
+			if($operation != 'cat_administrate_users' and $operation != 'edit_permission' and !preg_match('/^create/',$operation))
 			{
 				continue;
 			}
