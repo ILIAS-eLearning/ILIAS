@@ -581,9 +581,11 @@ class ilTemplate extends ilTemplateX
 		$tpl->setVariable("MAINMENU", $this->main_menu);
 		if($this->variableExists('MAINMENU'))
 		{
-			global $ilAuth, $lng, $tpl, $ilClientIniFile;
+			global $ilAuth, $lng, $tpl, $ilClientIniFile, $ilUser;
 			
-			if ($ilSetting->get('session_reminder_enabled')== '1')
+			if((int)$ilSetting->get('session_reminder_enabled') &&
+			   $ilUser->getId() != ANONYMOUS_USER_ID &&
+			   (int)$ilUser->getPref('session_reminder_enabled'))
 			{
 				$tplSR = new ilTemplate('tpl.SessionReminder.js', true, true);
 
@@ -599,7 +601,7 @@ class ilTemplate extends ilTemplateX
 				$tplSR->setVariable('REMEMBER_TIME', 30000);
 				$tplSR->setVariable('ALERT', $lng->txt('session_reminder_alert'));
 				
-				$expires = $ilClientIniFile->readVariable("session", "expire");
+				$expires = $ilClientIniFile->readVariable('session', 'expire');
 				$time = ilFormat::_secondsToString($expires, true);
 				$tplSR->setVariable('SESSION_REMINDER_EXTENDED', sprintf($lng->txt('session_reminder_extended'), $time));
 				$tpl->setVariable('SESSION_REMINDER', $tplSR->get());				
