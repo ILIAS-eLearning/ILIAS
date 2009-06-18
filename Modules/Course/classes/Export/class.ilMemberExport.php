@@ -154,6 +154,7 @@ class ilMemberExport
 		{
 			$udf_data = new ilUserDefinedData($usr_id);
 			
+			
 			foreach($all_fields as $field)
 			{
 				// Handle course defined fields
@@ -369,9 +370,9 @@ class ilMemberExport
 	 	{
 	 		return false;
 	 	}
-	 	if((!$this->privacy->confirmationRequired() and ilCourseDefinedFieldDefinition::_getFields($this->obj_id))
-	 		 or $this->agreement[$udf_data->getUserId()]['accepted'])
+	 	if(!$this->privacy->confirmationRequired() or $this->agreement[$udf_data->getUserId()]['accepted'])
 	 	{
+
 	 		$field_info = explode('_',$a_field);
 	 		$field_id = $field_info[1];
 	 		$value = $udf_data->get($field_id);
