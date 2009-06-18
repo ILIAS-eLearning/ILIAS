@@ -116,7 +116,18 @@ class ilWaitingListTableGUI extends ilTable2GUI
 		global $ilUser;
 		
 		include_once('./Services/Calendar/classes/class.ilDateTime.php');
+		include_once './Modules/Course/classes/class.ilObjCourseGrouping.php';
 		
+		if(!ilObjCourseGrouping::_checkGroupingDependencies($this->getParentObject()->object,$a_set['id']) and
+			($ids = ilObjCourseGrouping::getAssignedObjects()))
+		{
+			$prefix = $this->getParentObject()->object->getType();
+			$this->tpl->setVariable('ALERT_MSG',
+				sprintf($this->lng->txt($prefix.'_lim_assigned'),
+				ilObject::_lookupTitle(current($ids))
+				));
+				
+		}
 				
 		$this->tpl->setVariable('VAL_ID',$a_set['id']);
 		$this->tpl->setVariable('VAL_NAME',$a_set['name']);
