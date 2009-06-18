@@ -3002,6 +3002,16 @@ return;
 			$this->form->addItem($cb);
 		}
 		
+		// session reminder
+		if((int)$ilSetting->get('session_reminder_enabled'))
+		{
+			$cb = new ilCheckboxInputGUI($this->lng->txt('session_reminder'), 'session_reminder_enabled');
+			$cb->setInfo($this->lng->txt('session_reminder_info'));
+			$cb->setValue(1);
+			$cb->setChecked((int)$ilUser->getPref('session_reminder_enabled'));			
+			$this->form->addItem($cb);
+		}
+		
 		$this->form->addCommandButton("saveGeneralSettings", $lng->txt("save"));
 		$this->form->setTitle($lng->txt("general_settings"));
 		$this->form->setFormAction($this->ctrl->getFormAction($this));
@@ -3073,6 +3083,13 @@ return;
 			if ($this->workWithUserSetting("screen_reader_optimization"))
 			{
 				$ilUser->setPref("screen_reader_optimization", $_POST["screen_reader_optimization"]);
+			}
+			
+			// session reminder
+			global $ilSetting;
+			if((int)$ilSetting->get('session_reminder_enabled'))
+			{
+				$ilUser->setPref('session_reminder_enabled', (int)$_POST['session_reminder_enabled']);
 			}
 
 			$ilUser->update();

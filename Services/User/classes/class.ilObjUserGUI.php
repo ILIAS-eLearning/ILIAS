@@ -938,12 +938,16 @@ class ilObjUserGUI extends ilObjectGUI
 			$userObj->setPref("hits_per_page", $_POST["hits_per_page"]);
 			$userObj->setPref("show_users_online", $_POST["show_users_online"]);
 			$userObj->setPref("hide_own_online_status", $_POST["hide_own_online_status"] ? 'y' : 'n');
+			if((int)$ilSetting->get('session_reminder_enabled'))
+			{
+				$userObj->setPref('session_reminder_enabled', (int)$_POST['session_reminder_enabled']);
+			}
 			$userObj->writePrefs();
 
 			//set role entries
 			$rbacadmin->assignUser($_POST["default_role"],$userObj->getId(),true);
 
-			$msg = $this->lng->txt("user_added");
+			$msg = $this->lng->txt("user_added");			
 
 			$ilUser->setPref('send_info_mails', ($_POST['send_mail'] == 'y') ? 'y' : 'n');
 			$ilUser->writePrefs();                        
@@ -1139,6 +1143,12 @@ class ilObjUserGUI extends ilObjectGUI
 			// this ts is needed by the ACCOUNT_SECURITY_MODE_CUSTOMIZED
 			// in ilSecuritySettings
 			$this->object->setLastPasswordChangeTS( time() );
+			
+			global $ilSetting;
+			if((int)$ilSetting->get('session_reminder_enabled'))
+			{
+				$this->object->setPref('session_reminder_enabled', (int)$_POST['session_reminder_enabled']);
+			}
 
 
 			$this->update = $this->object->update();
@@ -1282,6 +1292,7 @@ class ilObjUserGUI extends ilObjectGUI
 		$data["hits_per_page"] = $this->object->prefs["hits_per_page"];
 		$data["show_users_online"] = $this->object->prefs["show_users_online"];
 		$data["hide_own_online_status"] = $this->object->prefs["hide_own_online_status"] == 'y';
+		$data["session_reminder_enabled"] = (int)$this->object->prefs["session_reminder_enabled"];
 
 		$this->form_gui->setValuesByArray($data);
 	}
@@ -1656,6 +1667,13 @@ class ilObjUserGUI extends ilObjectGUI
 		$se->setValue('y');
 		$se->setChecked(($ilUser->getPref('send_info_mails') == 'y'));
 		$this->form_gui->addItem($se);
+		
+		if((int)$ilSetting->get('session_reminder_enabled'))
+		{
+			$cb = new ilCheckboxInputGUI($this->lng->txt('session_reminder'), 'session_reminder_enabled');
+			$cb->setValue(1);
+			$this->form_gui->addItem($cb);
+		}
 
 		// @todo: handle all required fields
 

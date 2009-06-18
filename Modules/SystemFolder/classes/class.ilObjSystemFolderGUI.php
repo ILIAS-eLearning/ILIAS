@@ -454,7 +454,7 @@ return $this->showServerInfoObject();
 			//$settings["https"] = $_POST["https"];
 			
 			//session_reminder
-			$settings['session_reminder_enabled'] = $_POST['session_reminder_enabled'];
+			$settings['session_reminder_enabled'] = (int)$_POST['session_reminder_enabled'];
 
 			// contact
 			$settings["admin_firstname"] = $_POST["admin_firstname"];
@@ -539,7 +539,7 @@ return $this->showServerInfoObject();
 			$this->ilias->setSetting('enable_trash',$_POST['enable_trash']);
 
 			//session_reminder
-			$this->ilias->setSetting('session_reminder_enabled',$_POST['session_reminder_enabled']);
+			$this->ilias->setSetting('session_reminder_enabled', (int)$_POST['session_reminder_enabled']);
 			
 			// contact
 			$this->ilias->setSetting("admin_firstname",$_POST["admin_firstname"]);
@@ -2026,7 +2026,7 @@ return $this->showServerInfoObject();
 		$time = ilFormat::_secondsToString($expires, true);
 		$cb->setInfo($this->lng->txt("session_reminder_info")."<br />".
 			sprintf($this->lng->txt('session_reminder_session_duration'), $time));
-		if ($ilSetting->get("session_reminder_enabled"))
+		if((int)$ilSetting->get("session_reminder_enabled"))
 		{
 			$cb->setChecked(true);
 		}

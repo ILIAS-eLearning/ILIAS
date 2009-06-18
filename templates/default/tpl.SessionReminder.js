@@ -1,4 +1,5 @@
 <script type="text/javascript">
+/* <![CDATA[ */
 ilAddOnLoad(
 	function()
 	{
@@ -43,4 +44,5 @@ var ilSessionExtender = function(url)
 
 	var request = YAHOO.util.Connect.asyncRequest('GET', url, ilSessionExtenderCallback);
 };
+/* ]]> */
 </script>
