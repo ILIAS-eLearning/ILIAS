@@ -1255,19 +1255,11 @@ class ilObjQuestionPool extends ilObject
 					);
 					if ($result->numRows() == 1)
 					{
-						include_once "./Services/COPage/classes/class.ilPageObject.php";
-						$page = new ilPageObject("qpl", $question_object["question_id"]);
 						$row = $ilDB->fetchAssoc($result);
 						$source_questionpool = $row["obj_fi"];
 						// change the questionpool id in the qpl_questions table
 						$affectedRows = $ilDB->manipulateF("UPDATE qpl_questions SET obj_fi = %s WHERE question_id = %s",
 							array('integer','integer'),
-							array($this->getId(), $question_object["question_id"])
-						);
-						
-						// change page object of question and set the correct parent id
-						$affectedRows = $ilDB->manipulateF("UPDATE page_object SET parent_id = %s WHERE page_id = %s",
-							array('integer', 'integer'),
 							array($this->getId(), $question_object["question_id"])
 						);
 						
