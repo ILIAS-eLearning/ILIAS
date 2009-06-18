@@ -205,6 +205,7 @@ class ilObjCalendarSettingsGUI extends ilObjectGUI
 		$this->settings->setDefaultWeekStart((int) $_POST['default_week_start']);
 		$this->settings->setDefaultTimeZone(ilUtil::stripSlashes($_POST['default_timezone']));
 		$this->settings->setDefaultTimeFormat((int) $_POST['default_time_format']);
+		$this->settings->setEnableGroupMilestones((int) $_POST['enable_grp_milestones']);
 		$this->settings->save();
 		
 		ilUtil::sendInfo($this->lng->txt('settings_saved'));
@@ -274,6 +275,12 @@ class ilObjCalendarSettingsGUI extends ilObjectGUI
 		$option = new ilRadioOption($this->lng->txt('l_mo'),1);
 		$radio->addOption($option);
 		
+		// enable milestone planning in groups
+		$checkm = new ilCheckboxInputGUI($this->lng->txt('cal_enable_group_milestones'),'enable_grp_milestones');
+		$checkm->setValue(1);
+		$checkm->setChecked($this->settings->getEnableGroupMilestones() ? true : false);
+		$checkm->setInfo($this->lng->txt('cal_enable_group_milestones_desc'));
+		$this->form->addItem($checkm);
 		
 		$this->form->addItem($radio);
 	}

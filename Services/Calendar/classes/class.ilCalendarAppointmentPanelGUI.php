@@ -89,7 +89,14 @@ class ilCalendarAppointmentPanelGUI
 		// Panel variables
 		$this->tpl->setVariable('PANEL_NUM',self::$counter);
 		$this->tpl->setVariable('PANEL_TITLE',$a_app['event']->getPresentationTitle());
-		$this->tpl->setVariable('PANEL_DETAILS',$this->lng->txt('cal_details'));
+		if ($a_app["event"]->isMilestone())
+		{
+			$this->tpl->setVariable('PANEL_DETAILS',$this->lng->txt('cal_ms_details'));
+		}
+		else
+		{
+			$this->tpl->setVariable('PANEL_DETAILS',$this->lng->txt('cal_details'));
+		}
 		$this->tpl->setVariable('PANEL_TXT_DATE',$this->lng->txt('date'));
 		
 		if($a_app['fullday'])
@@ -113,6 +120,29 @@ class ilCalendarAppointmentPanelGUI
 		{
 			$this->tpl->setVariable('PANEL_TXT_DESC',$this->lng->txt('description'));
 			$this->tpl->setVariable('PANEL_DESC',nl2br($a_app['event']->getDescription()));
+		}
+
+		if($a_app['event']->isMilestone() && $a_app['event']->getCompletion() > 0)
+		{
+			$this->tpl->setVariable('PANEL_TXT_COMPL',$this->lng->txt('cal_task_completion'));
+			$this->tpl->setVariable('PANEL_COMPL',$a_app['event']->getCompletion()." %");
+		}
+
+		if ($a_app['event']->isMilestone())
+		{
+			// users responsible
+			$users = $a_app['event']->readResponsibleUsers();
+			$delim = "";
+			foreach($users as $r)
+			{
+				$value.= $delim.$r["lastname"].", ".$r["firstname"]." [".$r["login"]."]";
+				$delim = "<br />";
+			}
+			if (count($users) > 0)
+			{
+				$this->tpl->setVariable('PANEL_TXT_RESP', $this->lng->txt('cal_responsible'));
+				$this->tpl->setVariable('PANEL_RESP', $value);
+			}
 		}
 
 		include_once('./Services/Calendar/classes/class.ilCalendarCategoryAssignments.php');

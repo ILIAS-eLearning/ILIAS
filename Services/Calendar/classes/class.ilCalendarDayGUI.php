@@ -133,6 +133,21 @@ class ilCalendarDayGUI
 		$colspan = $this->calculateColspan($hours);
 		
 		$navigation = new ilCalendarHeaderNavigationGUI($this,$this->seed,ilDateTime::DAY);
+		$this->ctrl->setParameterByClass('ilcalendarappointmentgui','seed',$this->seed->get(IL_CAL_DATE));
+		
+		// add milestone link
+		include_once('Services/Calendar/classes/class.ilCalendarSettings.php');
+		$settings = ilCalendarSettings::_getInstance();
+
+		if ($settings->getEnableGroupMilestones())
+		{
+			$this->tpl->setCurrentBlock("new_ms");
+			$this->tpl->setVariable('H_NEW_MS_SRC',ilUtil::getImagePath('ms_add.gif'));
+			$this->tpl->setVariable('H_NEW_MS_ALT',$this->lng->txt('cal_new_ms'));
+			$this->tpl->setVariable('NEW_MS_LINK',$this->ctrl->getLinkTargetByClass('ilcalendarappointmentgui','addMilestone'));
+			$this->tpl->parseCurrentBlock();
+		}
+		
 		$this->tpl->setVariable('NAVIGATION',$navigation->getHTML());
 		
 		$this->tpl->setVariable('HEADER_DATE',$this->seed_info['mday'].' '.ilCalendarUtil::_numericMonthToString($this->seed_info['mon'],false));
@@ -142,8 +157,6 @@ class ilCalendarDayGUI
 		$this->tpl->setVariable('H_NEW_APP_SRC',ilUtil::getImagePath('date_add.gif'));
 		$this->tpl->setVariable('H_NEW_APP_ALT',$this->lng->txt('cal_new_app'));
 		
-		
-		$this->ctrl->setParameterByClass('ilcalendarappointmentgui','seed',$this->seed->get(IL_CAL_DATE));
 		$this->tpl->setVariable('NEW_APP_LINK',$this->ctrl->getLinkTargetByClass('ilcalendarappointmentgui','add'));
 		$this->ctrl->clearParametersByClass('ilcalendarappointmentgui');
 		
@@ -210,14 +223,24 @@ class ilCalendarDayGUI
 		$this->tpl->setVariable('NUM',$this->num_appointments);
 		$this->tpl->parseCurrentBlock();
 
+		// milestone icon
+		if ($a_app['event']->isMilestone())
+		{
+			$this->tpl->setCurrentBlock('fullday_ms_icon');
+			$this->tpl->setVariable('ALT_FD_MS', $this->lng->txt("cal_milestone"));
+			$this->tpl->setVariable('SRC_FD_MS', ilUtil::getImagePath("icon_ms_s.gif"));
+			$this->tpl->parseCurrentBlock();
+		}
 
 		$this->tpl->setCurrentBlock('fullday_app');
-		
 		include_once('./Services/Calendar/classes/class.ilCalendarAppointmentPanelGUI.php');
 		$this->tpl->setVariable('PANEL_F_DAY_DATA',ilCalendarAppointmentPanelGUI::_getInstance()->getHTML($a_app));
 		$this->tpl->setVariable('F_DAY_ID',$this->num_appointments);
 		
-		$this->tpl->setVariable('F_APP_TITLE',$a_app['event']->getPresentationTitle());
+		$compl = ($a_app['event']->isMilestone() && $a_app['event']->getCompletion() > 0)
+			? " (".$a_app['event']->getCompletion()."%)"
+			: "";
+		$this->tpl->setVariable('F_APP_TITLE',$a_app['event']->getPresentationTitle().$compl);
 		$color = $this->app_colors->getColorByAppointment($a_app['event']->getEntryId());
 		$this->tpl->setVariable('F_APP_BGCOLOR',$color);
 		$this->tpl->setVariable('F_APP_FONTCOLOR',ilCalendarUtil::calculateFontColor($color));

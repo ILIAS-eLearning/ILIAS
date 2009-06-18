@@ -52,7 +52,7 @@
 			</div>
 			<div style="float:right">
 				<p class="il_cal_navigation">
-					<a href="{ADD_LINK}"><img style="vertical-align: bottom" src="{NEW_SRC}" alt="{NEW_ALT}" title="{NEW_ALT}" /></a>
+					<a href="{ADD_LINK}"><img style="vertical-align: bottom" src="{NEW_SRC}" alt="{NEW_ALT}" title="{NEW_ALT}" /></a><!-- BEGIN new_ms --><a href="{NEW_MS_LINK}"><img style="vertical-align: bottom" src="{H_NEW_MS_SRC}" alt="{H_NEW_MS_ALT}" title="{H_NEW_MS_ALT}" /></a><!-- END new_ms -->
 				</p>
 			</div>
 			<div style="clear:both" />
@@ -64,6 +64,7 @@
 					class="il_calevent" 
 					style="background-color:{EVENT_BGCOLOR}; color:{EVENT_FONTCOLOR}">
 					<font class="small">
+						<!-- BEGIN fullday_ms_icon --><img alt="{ALT_FD_MS}" title="{ALT_FD_MS}" src="{SRC_FD_MS}" /><!-- END fullday_ms_icon -->
 						<a id="link_{PANEL_NUM}" class="callink" href="{EVENT_EDIT_LINK}">
 							{EVENT_TITLE}
 						</a>
