@@ -652,7 +652,7 @@ assessment#:#number_of_answers#:#Number of Answers
 assessment#:#numeric_gap#:#Numeric Gap
 assessment#:#select_max_one_item#:#Please select one item only
 assessment#:#select_one_submitted_test#:#Please select at least one user who finished the test
-assessment#:#select_one_user#:#Please select at least one user
+assessment#:#select_one_user#:#Please select at least one user.
 assessment#:#select_qpl_option#:#--- Please select a question pool ---
 assessment#:#select_target_position_for_move_question#:#Please select a target position to move the question(s) and press one of the insert buttons!
 assessment#:#select_tst_option#:#--- Please select a test ---
@@ -8466,7 +8466,7 @@ payment#:#sort#:#Sort
 payment#:#sort_by#:#Sort Objects by
 common#:#shop#:#Shop
 payment#:#price_from#:#from
-payment#:#select_one_topic#:#Please select at least one topic
+payment#:#select_one_topic#:#Please select at least one topic.
 payment#:#topics_deleted#:#The chosen topics were deleted successfully
 payment#:#no_topics_yet#:#No topics created yet
 payment#:#topic_saved#:#The topic was saved successfully
