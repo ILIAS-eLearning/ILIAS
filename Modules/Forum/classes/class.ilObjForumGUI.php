@@ -301,7 +301,7 @@ class ilObjForumGUI extends ilObjectGUI
 
 	function getContent()
 	{
-		global $ilUser, $ilDB, $ilAccess, $lng;		
+		global $ilUser, $ilDB, $ilAccess, $lng, $ilToolbar;		
 
 		if (!$ilAccess->checkAccess('read,visible', '', $this->object->getRefId()))
 		{
@@ -319,39 +319,28 @@ class ilObjForumGUI extends ilObjectGUI
 		if((int)strlen($this->confirmation_gui_html))
 		{
 			 $this->tpl->setVariable('CONFIRMATION_GUI', $this->confirmation_gui_html);
-		}
-		
-		$this->tpl->addBlockfile('BUTTONS', 'buttons', 'tpl.buttons.html');
+		}	
 			
 		if ($ilAccess->checkAccess('add_post', '', $this->object->getRefId()) &&
 			$ilAccess->checkAccess('add_thread', '', $this->object->getRefId()))
 		{	
 			// button: new topic
-			$this->tpl->setCurrentBlock('btn_cell');
-			$this->tpl->setVariable('BTN_LINK',	$this->ctrl->getLinkTarget($this, 'createThread'));
-			$this->tpl->setVariable('BTN_TXT', $this->lng->txt('forums_new_thread'));
-			$this->tpl->parseCurrentBlock();
+			$ilToolbar->addButton($this->lng->txt('forums_new_thread'), $this->ctrl->getLinkTarget($this, 'createThread'));
 		}		
 
 		// button: enable/disable forum notification
 		if($ilUser->getId() != ANONYMOUS_USER_ID &&
 		   $this->ilias->getSetting('forum_notification') != 0)
-		{
-			$this->tpl->setCurrentBlock('btn_cell');			
+		{		
 			if($frm->isForumNotificationEnabled($ilUser->getId()))
 			{
-				$this->tpl->setVariable('BTN_LINK', $this->ctrl->getLinkTarget($this, 'disableForumNotification'));
-				$this->tpl->setVariable('BTN_TXT', $this->lng->txt('forums_disable_forum_notification'));
+				$ilToolbar->addButton($this->lng->txt('forums_disable_forum_notification'), $this->ctrl->getLinkTarget($this, 'disableForumNotification'));
 			}
 			else
 			{
-				$this->tpl->setVariable('BTN_LINK', $this->ctrl->getLinkTarget($this,'enableForumNotification'));
-				$this->tpl->setVariable('BTN_TXT', $this->lng->txt('forums_enable_forum_notification'));
+				$ilToolbar->addButton($this->lng->txt('forums_enable_forum_notification'), $this->ctrl->getLinkTarget($this, 'enableForumNotification'));
 			}
-			$this->tpl->parseCurrentBlock();
 		}
-		
-		//$this->tpl->setVariable('TXT_HEADLINE', $this->lng->txt('forums_topics_overview'));
 
 		$topicData = $frm->getOneTopic();
 		if ($topicData)
@@ -416,7 +405,9 @@ class ilObjForumGUI extends ilObjectGUI
 					
 				foreach ($threads as $thread)
 				{	
-					$result[$counter]['check'] = ilUtil::formCheckbox(0, 'thread_ids[]',  $thread->getId());
+					$result[$counter]['check'] = ilUtil::formCheckbox(
+						(isset($_POST['thread_ids']) && in_array($thread->getId(), $_POST['thread_ids']) ? true : false), 'thread_ids[]',  $thread->getId()
+					);
 				
 					if ($thrNum > $pageHits && $z >= ($Start + $pageHits))
 					{
@@ -481,7 +472,7 @@ class ilObjForumGUI extends ilObjectGUI
 										$this->ctrl->getLinkTarget($this, 'showThreadFrameset').
 										"\">".$thread->getSubject()."</a></div>".$result[$counter]['th_title'];								
 						}
-					// get author data
+						// get author data
 						if ($this->objProperties->isAnonymized())
 						{
 							if ($usr_data['login'] != '')
@@ -574,66 +565,49 @@ class ilObjForumGUI extends ilObjectGUI
 										"\">".$usr_data['login']."</a></div>";
 												
 								
-								if ($this->objProperties->isAnonymized())
+								if($this->objProperties->isAnonymized())
 								{
-									if ($last_usr_data['login'] != '')
+									if($last_usr_data['login'] != '')
 									{
 										$result[$counter]['lp_title'] = $last_usr_data['login'];											
 									}
 									else
 									{
-										$result[$counter]['lp_title'] =$this->lng->txt('forums_anonymous');																					
+										$result[$counter]['lp_title'] = $this->lng->txt('forums_anonymous');																					
 									}
-								}
-								
+								}								
 							}
 						}										
 
 					} 
-					$counter++;		
-			
-				} 
-			$tbl->disable('sort');	
-			$tbl->setData($result);			
-
+					$counter++;
+				}
 				
-				$tbl->addMultiCommand('please_choose',$this->lng->txt('please_choose'));
-				$tbl->addMultiCommand('html',$this->lng->txt('export_html'));
+				$tbl->disable('sort');
+				$tbl->setData($result);
 				
-				if($this->ilias->getSetting("forum_notification") == 1)
+				$tbl->addMultiCommand('please_choose', $this->lng->txt('please_choose'));
+				$tbl->addMultiCommand('html', $this->lng->txt('export_html'));				
+				if($this->ilias->getSetting('forum_notification') == 1)
 				{
-					$tbl->addMultiCommand('disable_notifications',$this->lng->txt('forums_disable_notification'));
-					$tbl->addMultiCommand('enable_notifications',$this->lng->txt('forums_enable_notification'));
+					$tbl->addMultiCommand('disable_notifications', $this->lng->txt('forums_disable_notification'));
+					$tbl->addMultiCommand('enable_notifications', $this->lng->txt('forums_enable_notification'));
 				}
-				if ($ilAccess->checkAccess('moderate_frm', '', $this->object->getRefId()))
+				if($ilAccess->checkAccess('moderate_frm', '', $this->object->getRefId()))
 				{
-					$tbl->addMultiCommand('makesticky',$this->lng->txt('make_topics_sticky'));
-					$tbl->addMultiCommand('unmakesticky',$this->lng->txt('make_topics_non_sticky'));
-				}
-				if ($ilAccess->checkAccess('moderate_frm', '', $this->object->getRefId()))
-				{
-					
-					$tbl->addMultiCommand('close',$this->lng->txt('close_topics'));
-					$tbl->addMultiCommand('reopen',$this->lng->txt('reopen_topics'));
-				}
-				if ($ilAccess->checkAccess('moderate_frm', '', $this->object->getRefId()))
-				{
-					
-					$tbl->addMultiCommand('move',$this->lng->txt('move'));		
-				}
-				if ($ilAccess->checkAccess('moderate_frm', '', $this->object->getRefId()))
-				{
-					
-					$tbl->addMultiCommand('confirmDeleteThreads',$this->lng->txt('delete'));			 		
-				}		 				
-				
+					$tbl->addMultiCommand('makesticky', $this->lng->txt('make_topics_sticky'));
+					$tbl->addMultiCommand('unmakesticky', $this->lng->txt('make_topics_non_sticky'));
+					$tbl->addMultiCommand('close', $this->lng->txt('close_topics'));
+					$tbl->addMultiCommand('reopen', $this->lng->txt('reopen_topics'));
+					$tbl->addMultiCommand('move', $this->lng->txt('move'));
+					$tbl->addMultiCommand('confirmDeleteThreads', $this->lng->txt('delete'));
+				}				
 		
-			$this->tpl->setVariable('THREADS_TABLE', $tbl->getHTML());		
-
+				$this->tpl->setVariable('THREADS_TABLE', $tbl->getHTML());
 			}
 		} 	
 		
-	$this->tpl->setCurrentBlock('perma_link');
+		$this->tpl->setCurrentBlock('perma_link');
 		$this->tpl->setVariable('PERMA_LINK', ILIAS_HTTP_PATH.'/goto.php?target='.$this->object->getType().'_'.$this->object->getRefId().'&client_id='.CLIENT_ID);
 		$this->tpl->setVariable('TXT_PERMA_LINK', $this->lng->txt('perma_link'));
 		$this->tpl->setVariable('PERMA_TARGET', '_top');
@@ -1151,38 +1125,32 @@ class ilObjForumGUI extends ilObjectGUI
 	{
 		global $lng, $ilDB, $ilAccess, $ilCtrl;
 		
-		//if(!is_array($_POST['thread_ids']))
-		if(!is_array($_POST['thread_ids']))
-	 	{
-	 		ilUtil::sendInfo($this->lng->txt('please select at least one topic'));
-	 		return $this->showThreadsObject();
-	 	}
-	 	
 		if(!$ilAccess->checkAccess('moderate_frm', '', $_GET['ref_id']))
-		{
-		
+		{		
 			$this->ilias->raiseError($lng->txt('permission_denied'), $this->ilias->error_obj->MESSAGE);
 			return $this->showThreadsObject();
 		}
+		
+		if(!is_array($_POST['thread_ids']))
+	 	{
+	 		ilUtil::sendInfo($this->lng->txt('select_at_least_one_thread'));
+	 		return $this->showThreadsObject();
+	 	}	
 
 		require_once './Modules/Forum/classes/class.ilForum.php';
 		require_once './Modules/Forum/classes/class.ilObjForum.php';
-		
-		$lng->loadLanguageModule('forum');
+
 		$forumObj = new ilObjForum($_GET['ref_id']);
 		
 		$this->objProperties->setObjId($forumObj->getId());
 
-		//for ($i = 0; $i < count($_POST['forum_id']); $i++)
-		for ($i = 0; $i < count($_POST['thread_ids']); $i++)
+		foreach($_POST['thread_ids'] as $topic_id)
 		{
 			$frm = new ilForum();
 			$frm->setForumId($forumObj->getId());
 			$frm->setForumRefId($forumObj->getRefId());
 
-			//$first_node = $frm->getFirstPostNode($_POST['forum_id'][$i]);
-			$first_node = $frm->getFirstPostNode($_POST['thread_ids'][$i]);
-
+			$first_node = $frm->getFirstPostNode($topic_id);
 			if((int)$first_node['pos_pk'])
 			{
 				$frm->deletePost($first_node['pos_pk']);
@@ -1197,10 +1165,9 @@ class ilObjForumGUI extends ilObjectGUI
 	{
 		global $ilAccess;
 
-
 		if(!is_array($_POST['thread_ids']))
 	 	{
-	 		ilUtil::sendInfo($this->lng->txt('please select at least one topic'));
+	 		ilUtil::sendInfo($this->lng->txt('select_at_least_one_thread'));
 	 		return $this->showThreadsObject();
 	 	}
 	 	
@@ -1220,7 +1187,7 @@ class ilObjForumGUI extends ilObjectGUI
 
 		foreach((array)$_POST['thread_ids'] as $thread_id)
 		{
-			$c_gui->addHiddenItem('thread_ids[]', $thread_id);
+			$c_gui->addItem('thread_ids[]', $thread_id, ilForumTopic::_lookupTitle($thread_id));
 		}
 		
 		$this->confirmation_gui_html = $c_gui->getHTML();
@@ -1460,9 +1427,6 @@ class ilObjForumGUI extends ilObjectGUI
 		{
 			$activate = $this->objCurrentPost->activatePostAndChildPosts();
 			ilUtil::sendInfo($this->lng->txt('forums_post_and_children_were_activated'), true);
-			
-			
-// wenn posting aktiviert �berpr�fen ob user eine notification wollen und versenden
 		}
 		
 		$this->viewThreadObject();
@@ -1735,7 +1699,7 @@ class ilObjForumGUI extends ilObjectGUI
 	public function viewThreadObject()
 	{
 		global $tpl, $lng, $ilUser, $ilAccess, $ilTabs, $rbacsystem,
-			   $rbacreview, $ilDB, $ilNavigationHistory, $ilCtrl, $frm;
+			   $rbacreview, $ilDB, $ilNavigationHistory, $ilCtrl, $frm, $ilToolbar;
 			
 		if(!$ilAccess->checkAccess('read,visible', '', $this->object->getRefId()))
 		{
@@ -1851,74 +1815,56 @@ class ilObjForumGUI extends ilObjectGUI
 			$frm_loc->display();
 																		 
 			// set tabs					
-			// menu template (contains linkbar, new topic and print thread button)
+			// menu template (contains linkbar)
 			$menutpl = new ilTemplate('tpl.forums_threads_menu.html', true, true, 'Modules/Forum');
-			
-			// make/unmake sticky			
-			/*if ($ilAccess->checkAccess('moderate_frm', '', $this->object->getRefId()))
-			{
-				$menutpl->setCurrentBlock('btn_cell');
-				$this->ctrl->setParameter($this, 'thr_pk',  $this->objCurrentTopic->getId());
-				$menutpl->setVariable('BTN_LINK', $this->ctrl->getLinkTarget($this, 'toggleStickiness'));
-				$this->ctrl->clearParameters($this);
-				if ($this->objCurrentTopic->isSticky())
-				{
-					$menutpl->setVariable('BTN_TXT', $lng->txt('make_topic_non_sticky'));	
-				}
-				else
-				{
-					$menutpl->setVariable('BTN_TXT', $lng->txt('make_topic_sticky'));
-				}
-				
-				$menutpl->parseCurrentBlock();
-			}*/
-		
+
 			include_once("./Services/Accessibility/classes/class.ilAccessKeyGUI.php");
 			
 			// mark read
 			if($ilUser->getId() != ANONYMOUS_USER_ID &&
 			   $forumObj->getCountUnread($ilUser->getId(), (int) $this->objCurrentTopic->getId()))
 			{
-				$menutpl->setCurrentBlock('btn_cell');
 				$this->ctrl->setParameter($this, 'mark_read', '1');
 				$this->ctrl->setParameter($this, 'thr_pk',  $this->objCurrentTopic->getId());
-				$menutpl->setVariable('BTN_LINK', $this->ctrl->getLinkTarget($this, 'showThreadFrameset'));
+				$ilToolbar->addButton(
+					$this->lng->txt('forums_mark_read'),
+					$this->ctrl->getLinkTarget($this, 'showThreadFrameset'),
+					ilFrameTargetInfo::_getFrame('MainContent'),
+					ilAccessKeyGUI::getAttribute(ilAccessKey::MARK_ALL_READ)
+				);
 				$this->ctrl->clearParameters($this);
-				$t_frame = ilFrameTargetInfo::_getFrame('MainContent');
-				$menutpl->setVariable('BTN_TARGET', ' target="'.$t_frame.'"');
-				$menutpl->setVariable('BTN_TXT', $lng->txt('forums_mark_read'));
-				$menutpl->setVariable('BTN_ACC_KEY',
-					ilAccessKeyGUI::getAttribute(ilAccessKey::MARK_ALL_READ));
-				$menutpl->parseCurrentBlock();
 			}
 
 			// print thread
-			$menutpl->setCurrentBlock('btn_cell');
 			$this->ctrl->setParameterByClass('ilforumexportgui', 'print_thread', $this->objCurrentTopic->getId());
 			$this->ctrl->setParameterByClass('ilforumexportgui', 'thr_top_fk', $this->objCurrentTopic->getForumId());
-			$menutpl->setVariable('BTN_LINK', $this->ctrl->getLinkTargetByClass('ilforumexportgui', 'printThread'));
-			$menutpl->setVariable('BTN_TARGET', ' target="'.$t_frame.'"');
-			$menutpl->setVariable('BTN_TXT', $lng->txt('forums_print_thread'));
-			$menutpl->parseCurrentBlock();
-		
+			$ilToolbar->addButton(
+				$this->lng->txt('forums_print_thread'),
+				$this->ctrl->getLinkTargetByClass('ilforumexportgui', 'printThread'),
+				ilFrameTargetInfo::_getFrame('MainContent')
+			);
+			$this->ctrl->clearParametersByClass('ilforumexportgui');
+			
 			// enable/disable notification
 			if($ilUser->getId() != ANONYMOUS_USER_ID &&
 			   $this->ilias->getSetting('forum_notification') != 0)
 			{
-				$menutpl->setCurrentBlock('btn_cell');
-				if ($this->objCurrentTopic->isNotificationEnabled($ilUser->getId()))
+				$this->ctrl->setParameter($this, 'thr_pk', $this->objCurrentTopic->getId());
+				if($this->objCurrentTopic->isNotificationEnabled($ilUser->getId()))
 				{
-					$menutpl->setVariable('BTN_TXT', $lng->txt('forums_disable_notification'));
+					$ilToolbar->addButton(
+						$this->lng->txt('forums_disable_notification'),
+						$this->ctrl->getLinkTarget($this, 'toggleThreadNotification')
+					);
 				}
 				else
 				{
-					$menutpl->setVariable('BTN_TXT', $lng->txt('forums_enable_notification'));
+					$ilToolbar->addButton(
+						$this->lng->txt('forums_enable_notification'),
+						$this->ctrl->getLinkTarget($this, 'toggleThreadNotification')
+					);
 				}
-				$this->ctrl->setParameter($this, 'thr_pk', $this->objCurrentTopic->getId());
-				$menutpl->setVariable('BTN_LINK', $this->ctrl->getLinkTarget($this, 'toggleThreadNotification'));
 				$this->ctrl->clearParameters($this);
-				$menutpl->setVariable('BTN_TARGET', ' target="'.$t_frame.'"');
-				$menutpl->parseCurrentBlock();
 			}
 		
 			// ********************************************************************************
@@ -2194,7 +2140,7 @@ class ilObjForumGUI extends ilObjectGUI
 									$tpl->setVariable('SUBJECT_VALUE',
 										($_GET['show_post'] == 1 ?
 											$this->forwardInputToOutput($_POST['formData']['subject']) :
-											$this->prepareFormOutput($this->objCurrentTopic->getSubject())));
+											$this->prepareFormOutput($this->objCurrentPost->getSubject())));
 	
 									if (!empty($_POST['addQuote']))
 									{
@@ -2769,6 +2715,9 @@ class ilObjForumGUI extends ilObjectGUI
 		$tpl->setVariable('COUNT_POST', $lng->txt('forums_count_art').': '.$posNum);
 		$tpl->setVariable('TXT_AUTHOR', $lng->txt('author'));
 		$tpl->setVariable('TXT_POST', $lng->txt('forums_thread').': '.$this->objCurrentTopic->getSubject());
+
+		$oThreadToolbar = clone $ilToolbar;
+		$tpl->setVariable('THREAD_TOOLBAR', $oThreadToolbar->getHTML());
 		
 		$tpl->setVariable('TPLPATH', $tpl->vars['TPLPATH']);
 		
@@ -2848,8 +2797,7 @@ class ilObjForumGUI extends ilObjectGUI
 		global $lng, $ilUser, $ilAccess;
 
 		unset($_SESSION['threads2move']);
-		unset($_SESSION['forums_search_submitted']);
-		
+		unset($_SESSION['forums_search_submitted']);		
 
 		if (is_array($_POST['thread_ids']))
 		{
@@ -3470,7 +3418,8 @@ class ilObjForumGUI extends ilObjectGUI
 			
 			if(!$a_prevent_redirect)
 			{
-				ilUtil::redirect('repository.php?ref_id='.$forumObj->getRefId());
+				ilUtil::sendSuccess($this->lng->txt('forums_thread_new_entry'));
+				return $this->showThreadsObject();
 			}
 			else
 			{

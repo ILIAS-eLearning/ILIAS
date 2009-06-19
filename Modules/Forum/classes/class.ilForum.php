@@ -1720,17 +1720,11 @@ class ilForum
 		
 		if($this->orderField == 'frm_posts_tree.fpt_date')
 		{
-			$query .= " ORDER BY %s ASC";	
-			array_push($data_types, 'text');
-			array_push($data, $this->orderField);
-			
+			$query .= " ORDER BY ".$this->orderField." ASC";
 		}
 		else if($this->orderField != '')
 		{
-			$query .= " ORDER BY %s DESC";	
-			array_push($data_types, 'text');
-			array_push($data, $this->orderField);
-			
+			$query .= " ORDER BY ".$this->orderField." DESC";	
 		}
 		
 		$res = $ilDB->queryf($query, $data_types, $data);
