@@ -104,7 +104,7 @@ class ilRbacSystem
 	{
 		global $ilUser, $rbacreview,$ilObjDataCache,$ilDB;
 
-		// Create the cache key
+		// Create the user cache key
 		$cacheKey = $a_user_id.':'.$a_operations.':'.$a_ref_id.':'.$a_type;
 
 		// Create the cache if it does not yet exist
@@ -162,13 +162,14 @@ class ilRbacSystem
 		}
 
 		// Create the PA cache if it does not exist yet
+		$paCacheKey = $a_user_id.':'.$a_ref_id;
 		if (! is_array(self::$_paCache)) {
             self::$_paCache = array();
         }
 
-        if (array_key_exists($a_ref_id, self::$_paCache)) {
+        if (array_key_exists($paCacheKey, self::$_paCache)) {
 			// Return result from PA cache
-            $ops = self::$_paCache[$a_ref_id];
+            $ops = self::$_paCache[$paCacheKey];
         } else {
 			// Data is not in PA cache, perform database query
 			$q = "SELECT * FROM rbac_pa ".
@@ -187,7 +188,7 @@ class ilRbacSystem
 
 			// Cache up to 1000 entries in the PA cache
 			if (count(self::$_paCache) < 1000) {
-				self::$_paCache[$a_ref_id] = $ops;
+				self::$_paCache[$paCacheKey] = $ops;
 			}
         }
 

@@ -397,10 +397,9 @@ class ilObjectStatusGUI
 		
 		$cmds = $this->getCommands($this->object->getType());
 
-		$ilAccess->clear();		
 		foreach ($cmds as $cmd)
 		{
-
+			$ilAccess->clear();
 			$ilAccess->doStatusCheck($cmd['permission'],$cmd['cmd'],$this->object->getRefId(),$this->user->getId(),$this->object->getId(),$this->object->getType());
 			$infos = array_merge($infos,$ilAccess->getInfo());
 		}
