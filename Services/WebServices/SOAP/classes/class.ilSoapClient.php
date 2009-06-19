@@ -52,10 +52,18 @@ class ilSoapClient
 
 	function __setServer($a_server)
 	{
+		global $ilSetting; 
+		
 		if(strlen($a_server))
 		{
 			return $this->server = $a_server;
+		}		
+		
+		if(strlen(trim($ilSetting->get('soap_wsdl_path'))))
+		{
+			return trim($ilSetting->get('soap_wsdl_path'));
 		}
+		
 		$this->server = ILIAS_HTTP_PATH.'/webservice/soap/server.php?wsdl';
 	}
 

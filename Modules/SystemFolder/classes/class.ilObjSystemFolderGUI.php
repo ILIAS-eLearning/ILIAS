@@ -2562,6 +2562,13 @@ return $this->showServerInfoObject();
 		}
 		$this->form->addItem($cb);
 		
+		// wsdl path
+		$wsdl = new ilTextInputGUI($this->lng->txt('soap_wsdl_path'), 'soap_wsdl_path');
+		$wsdl->setInfo(sprintf($this->lng->txt('soap_wsdl_path_info'), "<br />'".ILIAS_HTTP_PATH."/webservice/soap/server.php?wsdl'"));
+		$wsdl->setValue((string)$ilSetting->get('soap_wsdl_path'));
+		$wsdl->setSize(60);
+		$wsdl->setMaxLength(255);
+		$this->form->addItem($wsdl);
 	
 		$this->form->addCommandButton("saveWebServices", $lng->txt("save"));
 	                
@@ -2581,9 +2588,11 @@ return $this->showServerInfoObject();
 		$this->initWebServicesForm();
 		if ($this->form->checkInput())
 		{
-			$ilSetting->set("soap_user_administration", $_POST["soap_user_administration"]);
-			ilUtil::sendSuccess($lng->txt("msg_obj_modified"), true);
-			$ilCtrl->redirect($this, "showWebServices");
+			$ilSetting->set('soap_user_administration', $this->form->getInput('soap_user_administration'));
+			$ilSetting->set('soap_wsdl_path', trim($this->form->getInput('soap_wsdl_path')));	
+			
+			ilUtil::sendSuccess($lng->txt('msg_obj_modified'), true);
+			$ilCtrl->redirect($this, 'showWebServices');
 		}
 		else
 		{
