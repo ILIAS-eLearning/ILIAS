@@ -9521,3 +9521,5 @@ registration#:#reg_confirmation_hash_not_passed#:#The confirmation link was not 
 mail#:#mail_nacc_confirmation_link#:#Confirmation Link
 crs#:#crs_lim_assigned#:#Already assigned to associated course "%s".
 grp#:#grp_lim_assigned#:#Already assigned to associated group "%s".
+common#:#soap_wsdl_path#:#WSDL Path
+common#:#soap_wsdl_path_info#:#Please enter the path to the ilias wsdl file which should be used for the webservice. If you leave this field blank, the following path will be used per default:%s
