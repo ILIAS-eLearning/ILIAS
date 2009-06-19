@@ -2777,11 +2777,8 @@ class ilObjForumGUI extends ilObjectGUI
 		
 		if ($_GET['backurl'])
 		{
-			$tpl->addBlockFile('BUTTONS', 'buttons', 'tpl.buttons.html');
-			$tpl->setCurrentBlock('btn_cell');
-			$tpl->setVariable('BTN_LINK', urldecode($_GET['backurl']));
-			$tpl->setVariable('BTN_TXT', $lng->txt('back'));
-			$tpl->parseCurrentBlock();
+			global $ilToolbar;
+			$ilToolbar->addButton($this->lng->txt('back'), urldecode($_GET['backurl']));
 		}
 				
 		$tpl->setVariable('TPLPATH', $tpl->vars['TPLPATH']);
@@ -3013,7 +3010,7 @@ class ilObjForumGUI extends ilObjectGUI
 	
 	public function moveThreadsObject($confirm = false)
 	{
-		global $ilAccess, $lng, $ilDB, $tree, $ilObjDataCache;
+		global $ilAccess, $lng, $ilDB, $tree, $ilObjDataCache, $ilToolbar;
 		
 		if (!$ilAccess->checkAccess('moderate_frm', '', $this->object->getRefId()))
 		{
@@ -3031,19 +3028,12 @@ class ilObjForumGUI extends ilObjectGUI
 		
 		require_once 'Services/Table/classes/class.ilTable2GUI.php';
 		
-		$this->tpl->addBlockfile('BUTTONS', 'buttons', 'tpl.buttons.html');			
-	
-		// button: back
-		$this->tpl->setCurrentBlock('btn_cell');
-		$this->tpl->setVariable('BTN_LINK',	$this->ctrl->getLinkTarget($this));
-		$this->tpl->setVariable('BTN_TXT', $this->lng->txt('back'));
-		$this->tpl->parseCurrentBlock();
+		$ilToolbar->addButton($this->lng->txt('back'), $this->ctrl->getLinkTarget($this));
 		
 		$this->tpl->addBlockFile('ADM_CONTENT', 'adm_content', 'tpl.forums_threads_move.html', 'Modules/Forum');
 
-		if ($confirm)
-		{
-			
+		if($confirm)
+		{			
 			include_once('Services/Utilities/classes/class.ilConfirmationGUI.php');
 			$c_gui = new ilConfirmationGUI();
 			
@@ -3054,7 +3044,7 @@ class ilObjForumGUI extends ilObjectGUI
 			
 			foreach($threads2move as $thr_pk)
 			{			
-				$c_gui->addHiddenItem('thread_ids[]', $thr_pk);
+				$c_gui->addItem('thread_ids[]', $thr_pk, ilForumTopic::_lookupTitle($thr_pk));
 			}			
 			
 			$c_gui->addHiddenItem('frm_ref_id', $_POST['frm_ref_id']);
