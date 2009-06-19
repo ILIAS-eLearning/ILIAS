@@ -1007,7 +1007,7 @@ class ilNewsItem extends ilNewsItemGen
 				"context_obj_id = ".$ilDB->quote($a_context_obj_id, "integer").
 				" AND context_obj_type = ".$ilDB->quote($a_context_obj_type, "text").
 				" AND context_sub_obj_id = ".$ilDB->quote($a_context_sub_obj_id, "integer").
-				" AND ".$ilDB->equals("context_sub_obj_type", $this->getContextSubObjType(), "text", true);
+				" AND ".$ilDB->equals("context_sub_obj_type", $a_context_sub_obj_type, "text", true);
 				
 		$set = $ilDB->query($query);
 		$rec = $ilDB->fetchAssoc($set);
