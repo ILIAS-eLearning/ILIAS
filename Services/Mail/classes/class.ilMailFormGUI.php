@@ -616,7 +616,7 @@ class ilMailFormGUI
 		}
 
 		include_once('./Services/Form/classes/class.ilPropertyFormGUI.php');
-		
+
 		$form_gui = new ilPropertyFormGUI();
 		$form_gui->setTitle($this->lng->txt('compose'));
 		$form_gui->setOpenTag(false);
@@ -638,7 +638,7 @@ class ilMailFormGUI
 		$inp = new ilTextInputGUI($this->lng->txt('mail_to'), 'rcp_to');
 		$inp->setRequired(true);
 		$inp->setSize(50);
-		$inp->setValue(ilUtil::htmlencodePlainString($mailData["rcp_to"], false));
+		$inp->setValue($mailData["rcp_to"]);
 		$inp->setDataSource($dsDataLink);
 		$inp->setDataSourceSchema($dsSchema);
 		$inp->setDataSourceResultFormat($dsFormatCallback);
@@ -648,7 +648,7 @@ class ilMailFormGUI
 		// CC
 		$inp = new ilTextInputGUI($this->lng->txt('cc'), 'rcp_cc');
 		$inp->setSize(50);
-		$inp->setValue(ilUtil::htmlencodePlainString($mailData["rcp_cc"], false));
+		$inp->setValue($mailData["rcp_cc"]);
 		$inp->setDataSource($dsDataLink);
 		$inp->setDataSourceSchema($dsSchema);
 		$inp->setDataSourceResultFormat($dsFormatCallback);
@@ -658,7 +658,7 @@ class ilMailFormGUI
 		// BCC
 		$inp = new ilTextInputGUI($this->lng->txt('bc'), 'rcp_bcc');
 		$inp->setSize(50);
-		$inp->setValue(ilUtil::htmlencodePlainString($mailData["rcp_bcc"], false));
+		$inp->setValue($mailData["rcp_bcc"]);
 		$inp->setDataSource($dsDataLink);
 		$inp->setDataSourceSchema($dsSchema);
 		$inp->setDataSourceResultFormat($dsFormatCallback);
