@@ -623,15 +623,11 @@ class ilForumTopic
 
 		if ($this->orderField == "frm_posts_tree.fpt_date")
 		{
-			$query .= " ORDER BY %s ASC";
-			array_push($data_types, 'text');
-			array_push($data, $this->orderField);		
+			$query .= " ORDER BY ".$this->orderField." ASC";
 		}
 		else if ($this->orderField != "")
 		{
-			$query .= " ORDER BY %s DESC";
-			array_push($data_types, 'text');
-			array_push($data, $this->orderField);		
+			$query .= " ORDER BY ".$this->orderField." DESC";
 		}
 		$res = $this->db->queryf($query, $data_types, $data);
 		
@@ -822,18 +818,17 @@ class ilForumTopic
 		if ($this->id && $a_user_id)
 		{					
 			$result = $this->db->queryf('
-				SELECT COUNT(*) cnt FROM frm_notification 
+				SELECT COUNT(notification_id) cnt FROM frm_notification 
 				WHERE user_id = %s AND thread_id = %s',
 				array('integer', 'integer'),
 				array($a_user_id, $this->id));
 
 			while($record = $this->db->fetchAssoc($result))
-			{
+			{				
 				return (bool)$record['cnt'];
 			}
 			
-			return false;
-			
+			return false;			
 		}
 		
 		return false;		
@@ -858,13 +853,12 @@ class ilForumTopic
 						user_id,
 						thread_id
 					)
-					VALUES(%s,%s, %s)',
+					VALUES(%s, %s, %s)',
 					array('integer', 'integer', 'integer'),
 					array($nextId, $a_user_id, $this->id));
-					
+
 				return true;
 			}
-			
 			return false;
 		}
 		
@@ -880,7 +874,7 @@ class ilForumTopic
 	public function disableNotification($a_user_id)
 	{
 		if ($this->id && $a_user_id)
-		{			
+		{
 			$statement = $this->db->manipulateF('
 				DELETE FROM frm_notification
 				WHERE 1 
@@ -888,9 +882,9 @@ class ilForumTopic
 				AND thread_id = %s',
 				array('integer', 'integer'),
 				array($a_user_id, $this->id));
-					
+				
 			return false;
-		}		
+		}
 		
 		return false;
 	}
@@ -1124,6 +1118,34 @@ class ilForumTopic
 	function getFrmObjId()
 	{
 		return $this->frm_obj_id;
+	}
+	
+	/**
+	* Looks up the title/subject of a topic/thread
+	*
+	* @param	integer id of the topic/thread
+	* @return  	string	title/subject of the topic/thread
+	* @access 	public
+	* @static
+	*/
+	public static function _lookupTitle($a_topic_id)
+	{
+		global $ilDB;
+		
+		$res = $ilDB->queryf('
+			SELECT thr_subject
+			FROM frm_threads
+			WHERE 1
+			AND thr_pk = %s',
+			array('integer'), array($a_topic_id));
+		$row = $ilDB->fetchObject($res);
+
+		if(is_object($row))
+		{
+			return $row->thr_subject;
+		}
+		
+		return '';
 	}
 }
 ?>
