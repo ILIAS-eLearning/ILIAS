@@ -9501,3 +9501,5 @@ registration#:#reg_confirmation_hash_not_passed#:#Der Bestätigungslink wurde ni
 mail#:#mail_nacc_confirmation_link#:#Bestätigungslink
 crs#:#crs_lim_assigned#:#Bereits Mitglied in Kurs "%s".
 grp#:#grp_lim_assigned#:#Bereits Mitglied in Gruppe "%s".
+common#:#soap_wsdl_path#:#WSDL-Pfad
+common#:#soap_wsdl_path_info#:#Hier können Sie den Pfad zur ILIAS WSDL-Datei angeben, die für den Webservice genutzt werden soll. Falls Sie dieses Feld leer lassen, wird folgender Pfad als Standard verwendet:%s
