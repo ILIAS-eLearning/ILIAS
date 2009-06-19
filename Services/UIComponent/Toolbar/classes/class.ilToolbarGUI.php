@@ -166,8 +166,10 @@ class ilToolbarGUI
 			$tpl->setVariable("TXT_FUNCTIONS", $lng->txt("functions"));
 			if ($this->lead_img["img"] != "")
 			{
+				$tpl->setCurrentBlock("lead_image");				
 				$tpl->setVariable("IMG_SRC", $this->lead_img["img"]);
 				$tpl->setVariable("IMG_ALT", $this->lead_img["alt"]);
+				$tpl->parseCurrentBlock();
 			}
 			
 			// form?
