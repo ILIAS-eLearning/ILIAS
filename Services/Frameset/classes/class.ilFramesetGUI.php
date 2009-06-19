@@ -146,7 +146,6 @@ class ilFramesetGUI
 		$tpl->setVariable("LOCATION_STYLESHEET", ilUtil::getStyleSheetLocation());
 
 		$tpl->setVariable("PAGETITLE", "- ".ilUtil::stripScriptHTML($this->frameset_title));
-		//$tpl->setVariable("PAGETITLE", "- ".$this->frameset_title);
 		$tpl->setVariable("SRC_".$main, $this->main_frame_source);
 		$tpl->setVariable("SRC_".$side, $this->side_frame_source);
 		$tpl->setVariable("TITLE_".$main, $this->main_frame_title);
