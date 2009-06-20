@@ -3204,16 +3204,7 @@ class ilUtil
 
 	function escapeShellArg($a_arg)
 	{
-		global $PHP_OS;
-
-		if (ini_get("safe_mode") == 1 || ilUtil::isWindows())
-		{
-			return $a_arg;
-		}
-		else
-		{
-			return escapeshellarg($a_arg);
-		}
+		return escapeshellarg($a_arg);
 	}
 
 	/**
