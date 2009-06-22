@@ -133,7 +133,7 @@ class ilTemplate extends ilTemplateX
 		}
 	}
 
-		/**
+	/**
 	* Set message. Please use ilUtil::sendInfo(), ilUtil::sendSuccess()
 	* and ilUtil::sendFailure()
 	*/
@@ -247,6 +247,19 @@ class ilTemplate extends ilTemplateX
 			}
 		}
 	}
+	
+	function get($part = "DEFAULT")
+	{
+		if ($part == "DEFAULT")
+		{
+			return parent::get();
+		}
+		else
+		{
+			return parent::get($part);
+		}
+	}
+
 
 }
 ?>
