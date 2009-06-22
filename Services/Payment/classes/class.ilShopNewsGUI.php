@@ -470,7 +470,7 @@ class ilShopNewsGUI extends ilShopBaseGUI
 
 	public function showNews($confirmation_gui = '')
 	{
-		global $ilUser, $lng, $tpl, $ilCtrl, $ilTabs, $ilShopNewsItem, $ilSetting, $rbacreview;
+		global $ilUser, $lng, $tpl, $ilCtrl, $ilTabs, $ilShopNewsItem, $ilSetting, $rbacreview, $ilToolbar;
 
 		$ilTabs->setSubTabActive('news');
 		
@@ -479,11 +479,7 @@ class ilShopNewsGUI extends ilShopBaseGUI
 			
 		if($rbacreview->isAssigned($ilUser->getId(), SYSTEM_ROLE_ID) == true)
 		{
-			$this->tpl->addBlockfile('BUTTONS', 'buttons', 'tpl.buttons.html');
-			$this->tpl->setCurrentBlock('btn_cell');
-			$this->tpl->setVariable('BTN_LINK', $this->ctrl->getLinkTarget($this, 'addNewsForm'));
-			$this->tpl->setVariable('BTN_TXT', $this->lng->txt('payment_news_add_news'));
-			$this->tpl->parseCurrentBlock();
+			$ilToolbar->addButton($this->lng->txt('payment_news_add_news'), $this->ctrl->getLinkTarget($this, 'addNewsForm'));
 		}		
 
 		$news_tpl = new ilTemplate('tpl.shop_news.html', true, true, 'Services/Payment');

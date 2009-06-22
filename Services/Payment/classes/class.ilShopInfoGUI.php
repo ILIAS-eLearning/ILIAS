@@ -151,15 +151,11 @@ class ilShopInfoGUI extends ilShopBaseGUI
 	
 	public function showInfo()
 	{
-		global $ilUser, $rbacreview;
+		global $ilUser, $rbacreview, $ilToolbar;
 		
 		if($rbacreview->isAssigned($ilUser->getId(), SYSTEM_ROLE_ID))
 		{
-			$this->tpl->addBlockfile('BUTTONS', 'buttons', 'tpl.buttons.html');
-			$this->tpl->setCurrentBlock('btn_cell');
-			$this->tpl->setVariable('BTN_LINK', $this->ctrl->getLinkTargetByClass(array('ilpageobjectgui'), 'edit'));
-			$this->tpl->setVariable('BTN_TXT', $this->lng->txt('edit_page'));
-			$this->tpl->parseCurrentBlock();
+			$ilToolbar->addButton($this->lng->txt('edit_page'), $this->ctrl->getLinkTargetByClass(array('ilpageobjectgui'), 'edit'));
 		}
 		
 		$this->tpl->setVariable('ADM_CONTENT', $this->getPageHTML());

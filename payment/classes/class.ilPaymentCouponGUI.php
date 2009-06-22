@@ -240,14 +240,11 @@ class ilPaymentCouponGUI extends ilShopBaseGUI
 		$this->coupon_obj->setDescription(ilUtil::stripSlashes($_POST['description']));			
 		$this->coupon_obj->setType(ilUtil::stripSlashes($_POST['type']));
 		$this->coupon_obj->setValue(ilUtil::stripSlashes($_POST['value']));			
-	//	$this->coupon_obj->setFromDate(ilUtil::stripSlashes($_POST['from']['y']."-".$_POST['from']['m']."-".$_POST['from']['d']));
-	//	$this->coupon_obj->setTillDate(ilUtil::stripSlashes($_POST['till']['y']."-".$_POST['till']['m']."-".$_POST['till']['d']));
 		$this->coupon_obj->setFromDate( date("Y-m-d",mktime(0,0,0,$_POST['from']['m'],$_POST['from']['d'],$_POST['from']['y'])));
-		$this->coupon_obj->setTillDate( date("Y-m-d",mktime(0,0,0,$_POST['till']['m'],$_POST['till']['d'],$_POST['till']['y'])));
-		
+		$this->coupon_obj->setTillDate( date("Y-m-d",mktime(0,0,0,$_POST['till']['m'],$_POST['till']['d'],$_POST['till']['y'])));		
 		$this->coupon_obj->setFromDateEnabled(ilUtil::stripSlashes($_POST['pc_from_enabled']));
 		$this->coupon_obj->setTillDateEnabled(ilUtil::stripSlashes($_POST['pc_till_enabled']));
-		$this->coupon_obj->setUses(ilUtil::stripSlashes($_POST['usage']));			
+		$this->coupon_obj->setUses((int)ilUtil::stripSlashes($_POST['usage']));			
 		$this->coupon_obj->setChangeDate(date('Y-m-d H:i:s'));				
 		
 		if ($this->error == '')
@@ -953,7 +950,7 @@ class ilPaymentCouponGUI extends ilShopBaseGUI
 	}
 	
 	function __showButtons()
-	{
+	{		
 		$this->showButton('addCoupon', $this->lng->txt('paya_coupons_edit'));
 		$this->showButton('showCodes', $this->lng->txt('paya_coupons_edit_codes'));
 		$this->showButton('showObjects', $this->lng->txt('paya_coupons_edit_objects'));

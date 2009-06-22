@@ -87,7 +87,7 @@ class ilPaymentTrusteeGUI extends ilShopBaseGUI
 
 
 	function showTrustees($a_show_delete = false)
-	{
+	{		
 		$_SESSION['paya_delete_trustee'] = $_SESSION['paya_delete_trustee'] ? $_SESSION['paya_delete_trustee'] : array();
 
 		$actions = array(0	=> $this->lng->txt("paya_disabled"),
