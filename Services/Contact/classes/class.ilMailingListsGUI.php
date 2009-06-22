@@ -44,6 +44,8 @@ class ilMailingListsGUI
 	
 	private $error = array();
 	
+	private $form_gui = null;
+	
 	public function __construct()
 	{
 		global $tpl, $ilCtrl, $lng, $ilUser;
@@ -181,9 +183,7 @@ class ilMailingListsGUI
 	}
 	
 	public function showMailingLists()
-	{
-		$this->ctrl->setParameter($this, 'cmd', 'post');
-		
+	{		
 		$this->tpl->setVariable('HEADER', $this->lng->txt('mail'));		
 		$this->tpl->addBlockFile('ADM_CONTENT', 'adm_content', 'tpl.mail_mailing_lists_list.html', 'Services/Contact');
 						
@@ -247,42 +247,83 @@ class ilMailingListsGUI
 	
 	public function saveForm()
 	{		
-		$this->mlists->getCurrentMailingList()->setTitle(ilUtil::stripSlashes($_POST['title']));
-		$this->mlists->getCurrentMailingList()->setDescription(ilUtil::stripSlashes($_POST['description']));
-		
-		if ($_POST['title'] == '') $this->setError($this->lng->txt('title'));
-		
-		if (!$this->isError())
+		if($this->mlists->getCurrentMailingList()->getId())
 		{
-			if ($this->mlists->getCurrentMailingList()->getId())
+			if($this->mlists->getCurrentMailingList()->getId())
 			{
-				$this->mlists->getCurrentMailingList()->setChangedate(date("Y-m-d H:i:s", time()));
-				$this->mlists->getCurrentMailingList()->update();
+				$this->ctrl->setParameter($this, 'ml_id', $this->mlists->getCurrentMailingList()->getId());
 			}
-			else
-			{
-				$this->mlists->getCurrentMailingList()->setCreatedate(date("Y-m-d H:i:s", time()));
-				$this->mlists->getCurrentMailingList()->insert();
-			}	
-			
-			ilUtil::sendInfo($this->lng->txt('saved_successfully'));
+			$this->initForm('edit');
 		}
 		else
 		{
-			$mandatory = '';
-			
-			while ($error = $this->getError())
+			$this->initForm();
+		}
+		
+		if($this->form_gui->checkInput())
+		{
+			$this->mlists->getCurrentMailingList()->setTitle($_POST['title']);
+			$this->mlists->getCurrentMailingList()->setDescription($_POST['description']);
+			if($this->mlists->getCurrentMailingList()->getId())
 			{
-				$mandatory .= $error;
-				if ($this->isError()) $mandatory .= ', ';
-			}			
+				$this->mlists->getCurrentMailingList()->setChangedate(date('Y-m-d H:i:s', time()));
+				$this->mlists->getCurrentMailingList()->update();				
+			}
+			else
+			{
+				$this->mlists->getCurrentMailingList()->setCreatedate(date('Y-m-d H:i:s', time()));
+				$this->mlists->getCurrentMailingList()->insert();
+				$this->ctrl->setParameter($this, 'ml_id', $this->mlists->getCurrentMailingList()->getId());
+				$this->form_gui->setFormAction($this->ctrl->getFormAction($this, 'saveForm'));
+			}
 			
-			ilUtil::sendInfo($this->lng->txt('fill_out_all_required_fields') . ': ' . $mandatory);
-		}	
+			ilUtil::sendSuccess($this->lng->txt('saved_successfully'));
+		}
 		
-		$this->showForm();
+		$this->tpl->setVariable('HEADER', $this->lng->txt('mail'));		
+		$this->tpl->addBlockFile('ADM_CONTENT', 'adm_content', 'tpl.mail_mailing_lists_form.html', 'Services/Contact');
 		
-		return true;
+		$this->form_gui->setValuesByPost();
+		
+		$this->tpl->setVariable('FORM', $this->form_gui->getHTML());
+		return $this->tpl->show();
+	}
+	
+	private function initForm($a_type = 'create')
+	{
+		include_once('./Services/Form/classes/class.ilPropertyFormGUI.php');		
+		$this->form_gui = new ilPropertyFormGUI();
+		
+		$this->form_gui->setFormAction($this->ctrl->getFormAction($this, 'saveForm'));
+		$this->form_gui->setTitle($this->lng->txt('mail_mailing_list'));
+		
+		$titleGui = new ilTextInputGUI($this->lng->txt('title'), 'title');
+		$titleGui->setRequired(true);
+		$this->form_gui->addItem($titleGui);
+		
+		$descriptionGui = new ilTextAreaInputGUI($this->lng->txt('description'), 'description');		
+		$descriptionGui->setCols(40);
+		$descriptionGui->setRows(8);
+		$this->form_gui->addItem($descriptionGui);
+		
+		$this->form_gui->addCommandButton('saveForm',$this->lng->txt('save'));
+		$this->form_gui->addCommandButton('showMailingLists',$this->lng->txt('cancel'));		
+	}
+	
+	private function setValuesByObject()
+	{
+		$this->form_gui->setValuesByArray(array(
+			'title' => $this->mlists->getCurrentMailingList()->getTitle(),
+			'description' => $this->mlists->getCurrentMailingList()->getDescription()
+		));
+	}
+	
+	private function setDefaultValues()
+	{
+		$this->form_gui->setValuesByArray(array(
+			'title' => '',
+			'description' => ''
+		));
 	}
 	
 	public function showForm()
@@ -290,31 +331,23 @@ class ilMailingListsGUI
 		$this->tpl->setVariable('HEADER', $this->lng->txt('mail'));		
 		$this->tpl->addBlockFile('ADM_CONTENT', 'adm_content', 'tpl.mail_mailing_lists_form.html', 'Services/Contact');
 		
-		include_once('./Services/Form/classes/class.ilPropertyFormGUI.php');
+		if($this->mlists->getCurrentMailingList()->getId())
+		{
+			if($this->mlists->getCurrentMailingList()->getId())
+			{
+				$this->ctrl->setParameter($this, 'ml_id', $this->mlists->getCurrentMailingList()->getId());
+			}
+			$this->initForm('edit');
+			$this->setValuesByObject();
+		}
+		else
+		{
+			$this->initForm();
+			$this->setDefaultValues();
+		}		
 		
-		$form = new ilPropertyFormGUI();
-		if ($this->mlists->getCurrentMailingList()->getId())
-			$this->ctrl->setParameter($this, 'ml_id', $this->mlists->getCurrentMailingList()->getId());
-		$form->setFormAction($this->ctrl->getFormAction($this, 'saveForm'));
-		$form->setTitle($this->lng->txt('mail_mailing_list'));
-		
-		$formItem = new ilTextInputGUI($this->lng->txt('title'), 'title');		
-		$formItem->setValue($this->mlists->getCurrentMailingList()->getTitle());
-		$form->addItem($formItem);
-		
-		$formItem = new ilTextAreaInputGUI($this->lng->txt('description'), 'description');
-		$formItem->setValue($this->mlists->getCurrentMailingList()->getDescription());
-		$formItem->setCols(40);
-		$formItem->setRows(8);
-		$form->addItem($formItem);
-		
-		$form->addCommandButton('saveForm',$this->lng->txt('save'));
-		$form->addCommandButton('showMailingLists',$this->lng->txt('cancel'));		
-		
-		$this->tpl->setVariable('FORM', $form->getHTML());
-		$this->tpl->show();
-		
-		return true;	
+		$this->tpl->setVariable('FORM', $this->form_gui->getHTML());
+		return $this->tpl->show();
 	}	
 	
 	public function showMembersList()
