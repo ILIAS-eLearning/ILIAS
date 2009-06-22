@@ -433,8 +433,7 @@ class ilPaymentCoupons
 	
 	public function add()
 	{
-		$next_id = $ilDB->nextId('payment_coupons');
-		
+		$next_id = $this->db->nextId('payment_coupons');		
 		
 		$statement = $this->db->manipulateF('
 			INSERT INTO payment_coupons
