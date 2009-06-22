@@ -56,6 +56,9 @@ class ilObjGroup extends ilContainer
 	const CAL_REG_START = 1;
 	const CAL_REG_END 	= 2;
 	
+	const GRP_MEMBER = 1;
+	const GRP_ADMIN = 2;
+	
 	
 	const ERR_MISSING_TITLE = 'grp_missing_title';
 	const ERR_MISSING_GROUP_TYPE = 'grp_missing_grp_type';
