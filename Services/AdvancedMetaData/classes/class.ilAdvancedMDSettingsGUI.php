@@ -163,7 +163,7 @@ class ilAdvancedMDSettingsGUI
 	 		$sub->update();
 	 	}
 	 	*/
-	 	ilUtil::sendInfo($this->lng->txt('settings_saved'));
+	 	ilUtil::sendSuccess($this->lng->txt('settings_saved'));
 	 	$this->showRecords();
 	 	return true;
 	}
@@ -177,7 +177,7 @@ class ilAdvancedMDSettingsGUI
 	{
 	 	if(!isset($_POST['record_id']))
 	 	{
-	 		ilUtil::sendInfo($this->lng->txt('select_one'));
+	 		ilUtil::sendFailure($this->lng->txt('select_one'));
 	 		$this->showRecords();
 	 		return false;
 	 	}
@@ -189,7 +189,7 @@ class ilAdvancedMDSettingsGUI
 	 	$export_files = new ilAdvancedMDRecordExportFiles();
 	 	$export_files->create($xml_writer->xmlDumpMem());
 	 	
-	 	ilUtil::sendInfo($this->lng->txt('md_adv_records_exported'));
+	 	ilUtil::sendSuccess($this->lng->txt('md_adv_records_exported'));
 	 	$this->showFiles();
 	}
 	
@@ -232,7 +232,7 @@ class ilAdvancedMDSettingsGUI
 	{
 	 	if(!isset($_POST['file_id']) or count($_POST['file_id']) != 1)
 	 	{
-	 		ilUtil::sendInfo($this->lng->txt('md_adv_select_one_file'));
+	 		ilUtil::sendFailure($this->lng->txt('md_adv_select_one_file'));
 	 		$this->showFiles();
 	 		return false;
 	 	}
@@ -254,7 +254,7 @@ class ilAdvancedMDSettingsGUI
 	{
 	 	if(!isset($_POST['file_id']))
 	 	{
-	 		ilUtil::sendInfo($this->lng->txt('select_one'));
+	 		ilUtil::sendFailure($this->lng->txt('select_one'));
 	 		$this->showFiles();
 	 		return false;
 	 	}
@@ -293,7 +293,7 @@ class ilAdvancedMDSettingsGUI
 	{
 	 	if(!isset($_POST['file_id']))
 	 	{
-	 		ilUtil::sendInfo($this->lng->txt('select_one'));
+	 		ilUtil::sendFailure($this->lng->txt('select_one'));
 	 		$this->editFiles();
 	 		return false;
 	 	}
@@ -305,7 +305,7 @@ class ilAdvancedMDSettingsGUI
 		{
 			$files->deleteByFileId((int) $file_id);
 		}
-		ilUtil::sendInfo($this->lng->txt('md_adv_deleted_files'));
+		ilUtil::sendSuccess($this->lng->txt('md_adv_deleted_files'));
 		$this->showFiles();
 	}
 	
@@ -319,7 +319,7 @@ class ilAdvancedMDSettingsGUI
 	{
 	 	if(!isset($_POST['record_id']))
 	 	{
-	 		ilUtil::sendInfo($this->lng->txt('select_one'));
+	 		ilUtil::sendFailure($this->lng->txt('select_one'));
 	 		$this->showRecords();
 	 		return false;
 	 	}
@@ -352,7 +352,7 @@ class ilAdvancedMDSettingsGUI
 	{
 	 	if(!isset($_POST['record_id']))
 	 	{
-	 		ilUtil::sendInfo($this->lng->txt('select_one'));
+	 		ilUtil::sendFailure($this->lng->txt('select_one'));
 	 		$this->showRecords();
 	 		return false;
 	 	}
@@ -361,7 +361,7 @@ class ilAdvancedMDSettingsGUI
 			$record = ilAdvancedMDRecord::_getInstanceByRecordId($record_id);
 			$record->delete();			
 		}
-		ilUtil::sendInfo($this->lng->txt('md_adv_deleted_records'));
+		ilUtil::sendSuccess($this->lng->txt('md_adv_deleted_records'));
 		$this->showRecords();
 		return true; 	
 	}
@@ -384,7 +384,7 @@ class ilAdvancedMDSettingsGUI
 			$record_obj->setActive(isset($_POST['active'][$record_obj->getRecordId()]));
 			$record_obj->update();
 		}
-		ilUtil::sendInfo($this->lng->txt('settings_saved'));
+		ilUtil::sendSuccess($this->lng->txt('settings_saved'));
 	 	$this->showRecords();
 	}
 	
@@ -398,7 +398,7 @@ class ilAdvancedMDSettingsGUI
 	{
 	 	if(!isset($_POST['field_id']))
 	 	{
-	 		ilUtil::sendInfo($this->lng->txt('select_one'));
+	 		ilUtil::sendFailure($this->lng->txt('select_one'));
 	 		$this->editRecord();
 	 		return false;
 	 	}
@@ -433,7 +433,7 @@ class ilAdvancedMDSettingsGUI
 	{
 	 	if(!isset($_POST['field_id']))
 	 	{
-	 		ilUtil::sendInfo($this->lng->txt('select_one'));
+	 		ilUtil::sendFailure($this->lng->txt('select_one'));
 	 		$this->editRecord();
 	 		return false;
 	 	}
@@ -442,7 +442,7 @@ class ilAdvancedMDSettingsGUI
 			$field = ilAdvancedMDFieldDefinition::_getInstanceByFieldId($field_id);
 			$field->delete();
 		}	 	
-	 	ilUtil::sendInfo($this->lng->txt('md_adv_deleted_fields'));
+	 	ilUtil::sendSuccess($this->lng->txt('md_adv_deleted_fields'));
 	 	$this->editRecord();
 	}
 	
@@ -491,7 +491,7 @@ class ilAdvancedMDSettingsGUI
 	{
 	 	if(!isset($_GET['record_id']) or !$_GET['record_id'])
 	 	{
-	 		ilUtil::sendInfo($this->lng->txt('select_one'));
+	 		ilUtil::sendFailure($this->lng->txt('select_one'));
 	 		$this->showRecords();
 	 		return false;
 	 	}
@@ -514,7 +514,7 @@ class ilAdvancedMDSettingsGUI
 			$definition->update();
 		}
 		
-	 	ilUtil::sendInfo($this->lng->txt('settings_saved'));
+	 	ilUtil::sendSuccess($this->lng->txt('settings_saved'));
 		$this->editRecord();
 		return true;	 	
 	}
@@ -532,7 +532,7 @@ class ilAdvancedMDSettingsGUI
 	 	
 	 	if(!isset($_GET['record_id']) or !$_GET['record_id'])
 	 	{
-	 		ilUtil::sendInfo($this->lng->txt('select_one'));
+	 		ilUtil::sendFailure($this->lng->txt('select_one'));
 	 		$this->showRecords();
 	 		return false;
 	 	}
@@ -541,12 +541,12 @@ class ilAdvancedMDSettingsGUI
 	 	
 	 	if(!$this->record->validate())
 	 	{
-	 		ilUtil::sendInfo($this->lng->txt($ilErr->getMessage()));
+	 		ilUtil::sendFailure($this->lng->txt($ilErr->getMessage()));
 	 		$this->editRecord();
 	 		return false;
 	 	}
 	 	$this->record->update();
-	 	ilUtil::sendInfo($this->lng->txt('settings_saved'));
+	 	ilUtil::sendSuccess($this->lng->txt('settings_saved'));
 	 	$this->showRecords();
 	 	return true;
 	}
@@ -638,12 +638,12 @@ class ilAdvancedMDSettingsGUI
 	 		// Insert
 	 		$parser->setMode(ilAdvancedMDRecordParser::MODE_INSERT);
 	 		$parser->startParsing();
-	 		ilUtil::sendInfo($this->lng->txt('md_adv_added_new_record'));
+	 		ilUtil::sendSuccess($this->lng->txt('md_adv_added_new_record'));
 	 		$this->showRecords();
 	 	}
 	 	catch(ilSAXParserException $exc)
 	 	{
-	 		ilUtil::sendInfo($exc->getMessage());
+	 		ilUtil::sendFailure($exc->getMessage());
 	 		$this->createRecord();
 	 	}
 
@@ -669,12 +669,12 @@ class ilAdvancedMDSettingsGUI
 	 	
 	 	if(!$this->record->validate())
 	 	{
-	 		ilUtil::sendInfo($this->lng->txt($ilErr->getMessage()));
+	 		ilUtil::sendFailure($this->lng->txt($ilErr->getMessage()));
 	 		$this->createRecord();
 	 		return false;
 	 	}
 	 	$this->record->save();
-	 	ilUtil::sendInfo($this->lng->txt('md_adv_added_new_record'));
+	 	ilUtil::sendSuccess($this->lng->txt('md_adv_added_new_record'));
 	 	$this->showRecords();
 	}
 	
@@ -711,12 +711,12 @@ class ilAdvancedMDSettingsGUI
 		
 		if(!$this->field_definition->validate())
 		{
-			ilUtil::sendInfo($this->lng->txt($ilErr->getMessage()));
+			ilUtil::sendFailure($this->lng->txt($ilErr->getMessage()));
 			$this->editField();
 			return false;
 		}
 		$this->field_definition->update();
-		ilUtil::sendInfo($this->lng->txt('settings_saved'));
+		ilUtil::sendSuccess($this->lng->txt('settings_saved'));
 		$this->editRecord();
 	}
 	
@@ -774,12 +774,12 @@ class ilAdvancedMDSettingsGUI
 		
 		if(!$this->field_definition->validate())
 		{
-			ilUtil::sendInfo($this->lng->txt($ilErr->getMessage()));
+			ilUtil::sendFailure($this->lng->txt($ilErr->getMessage()));
 			$this->createField();
 			return false;
 		}
 		$this->field_definition->add();
-		ilUtil::sendInfo($this->lng->txt('save_settings'));
+		ilUtil::sendSuccess($this->lng->txt('save_settings'));
 		$this->editRecord();
 	}
 	
