@@ -107,7 +107,12 @@ class ilObjGroupGUI extends ilContainerGUI
 			case 'ilrepositorysearchgui':
 				include_once('./Services/Search/classes/class.ilRepositorySearchGUI.php');
 				$rep_search =& new ilRepositorySearchGUI();
-				$rep_search->setCallback($this,'addUserObject');
+				$rep_search->setCallback($this,
+					'addUserObject',
+					array(
+						ilObjGroup::GRP_MEMBER => $this->lng->txt('il_grp_member'),
+						ilObjGroup::GRP_ADMIN => $this->lng->txt('il_grp_admin')
+					));
 
 				// Set tabs
 				$this->tabs_gui->setTabActive('members');
@@ -969,8 +974,8 @@ class ilObjGroupGUI extends ilContainerGUI
 		// member type
 		include_once("./Services/Form/classes/class.ilSelectInputGUI.php");
 		$options = array(
-			"member" => $lng->txt("member"),
-			"admin" => $lng->txt("administrator")
+			ilObjGroup::GRP_MEMBER => $lng->txt("member"),
+			ilObjGroup::GRP_ADMIN => $lng->txt("administrator")
 			);
 		$si = new ilSelectInputGUI("", "member_type");
 		$si->setOptions($options);
@@ -1122,16 +1127,6 @@ class ilObjGroupGUI extends ilContainerGUI
 	{
 		include_once("./Services/Form/classes/class.ilUserLoginAutoCompleteInputGUI.php");
 		ilUserLoginAutoCompleteInputGUI::echoAutoCompleteList();
-	}
-
-	/**
-	* Add user as member
-	*/
-	function addAsMemberObject()
-	{	
-		// @todo: finish this
-		echo "Add ".ilUtil::stripSlashes($_POST["user_login"])." as ".
-			ilUtil::stripSlashes($_POST["member_type"]).".";
 	}
 
 	/**
@@ -1777,6 +1772,23 @@ class ilObjGroupGUI extends ilContainerGUI
 	}
 
 	/**
+	* Add user as member
+	*/
+	function addAsMemberObject()
+	{	
+		$users = explode(',', $_POST['user_login']);
+		foreach($users as $user)
+		{
+			$_POST['user'][] = ilObjUser::_lookupId($user);
+		}
+		
+		if(!$this->addUserObject())
+		{
+			$this->membersObject();
+		}
+	}
+
+	/**
 	* displays confirmation formular with users that shall be assigned to group
 	* @access public
 	*/
@@ -1791,15 +1803,26 @@ class ilObjGroupGUI extends ilContainerGUI
 			// TODO: jumps back to grp content. go back to last search result
 			#$this->ilErr->raiseError($this->lng->txt("no_checkbox"),$this->ilErr->MESSAGE);
 			ilUtil::sendInfo($this->lng->txt("no_checkbox"));
-		
 			return false;
 		}
 
 		foreach ($user_ids as $new_member)
 		{
-			if (!$this->object->addMember($new_member,$this->object->getDefaultMemberRole()))
+			switch($_POST['member_type'])
 			{
-				$this->ilErr->raiseError("An Error occured while assigning user to group !",$this->ilErr->MESSAGE);
+				case ilObjGroup::GRP_MEMBER:
+					if (!$this->object->addMember($new_member,$this->object->getDefaultMemberRole()))
+					{
+						$this->ilErr->raiseError("An Error occured while assigning user to group !",$this->ilErr->MESSAGE);
+					}
+					break;
+					
+				case ilObjGroup::GRP_ADMIN:
+					if (!$this->object->addMember($new_member,$this->object->getDefaultAdminRole()))
+					{
+						$this->ilErr->raiseError("An Error occured while assigning user to group !",$this->ilErr->MESSAGE);
+					}
+					break;
 			}
 			
 			$user_obj = $this->ilias->obj_factory->getInstanceByObjId($new_member);

@@ -1,4 +1,5 @@
 <?php
+
 /* Copyright (c) 1998-2009 ILIAS open source, Extended GPL, see docs/LICENSE */
 
 require_once "classes/class.ilObjectGUI.php";
@@ -539,7 +540,7 @@ return;
 			$tpl->setContent($this->form_gui->getHTML());
 		}
 		
-return;
+		return;
 	
 		$this->object->setInstruction(ilUtil::stripSlashes($_POST["Fobject"]["instruction"]));
 		$this->object->setDate($_POST["d_hour"],$_POST["d_minutes"],$_POST["d_day"],
@@ -723,311 +724,13 @@ return;
 			$this->tpl->parseCurrentBlock();
 		}
 		
-include_once("./Modules/Exercise/classes/class.ilExerciseMemberTableGUI.php");
-$exc_tab = new ilExerciseMemberTableGUI($this, "members", $this->object);
-$tpl->setContent($exc_tab->getHTML());
-return;		
-		
-/*		$this->getTemplateFile("members","exc");
-	
-		if(!count($this->object->members_obj->getMembers()))
-		{
-			ilUtil::sendInfo($this->lng->txt("exc_no_members_assigned"));
-		}
-		else	
-		{
-			$counter = 0;
-			$members = $this->object->getMemberListData();
-
-			include_once("./Services/Table/classes/class.ilTableGUI.php");
-			$tbl = new ilTableGUI();
-			$this->tpl->addBlockfile("MEMBER_TABLE", "term_table", "tpl.table.html");
-			$this->tpl->addBlockfile("TBL_CONTENT", "member_row", "tpl.exc_members_row.html", "Modules/Exercise");
-			
-			$sent_col = $this->object->_lookupAnyExerciseSent($this->object->getId());
-			
-			// SET FORMAACTION
-			$this->tpl->setCurrentBlock("tbl_form_header");
-			
-			$this->tpl->setVariable("FORMACTION", $this->ctrl->getLinkTarget($this, "updateMembers"));
-			$this->tpl->parseCurrentBlock();
-	
-			// SET FOOTER BUTTONS
-			$this->tpl->setCurrentBlock("tbl_action_row");
-
-			$this->tpl->setVariable("COLUMN_COUNTS",6);
-			$this->tpl->setVariable("IMG_ARROW", ilUtil::getImagePath("arrow_downright.gif"));
-
-			$actions = array("save_status"		=> $this->lng->txt("exc_save_changes"),
-				"redirectFeedbackMail"	=> $this->lng->txt("exc_send_mail"),
-				"send_member"		=> $this->lng->txt("exc_send_exercise"),
-				"delete_member"	=> $this->lng->txt("exc_deassign_members"));
-
-			$this->tpl->setCurrentBlock("tbl_action_select");
-			$this->tpl->setVariable("SELECT_ACTION",ilUtil::formSelect(1,"action",$actions,false,true));
-			$this->tpl->setVariable("BTN_NAME","execute");
-			$this->tpl->setVariable("BTN_VALUE",$this->lng->txt("execute"));
-			$this->tpl->parseCurrentBlock();
-	
-			$this->tpl->setCurrentBlock("tbl_action_row");
-			$this->tpl->setVariable("COLUMN_COUNTS",10);
-			$this->tpl->setVariable("TPLPATH",$this->tpl->tplPath);
-			$this->tpl->parseCurrentBlock();
-
-			// title & header columns
-			if ($sent_col)
-			{
-				$sent_str = $this->lng->txt("exc_exercise_sent");
-			}
-			else
-			{
-				$sent_str = "&nbsp;";
-			}
-			$tbl->setTitle($this->lng->txt("members"),"icon_usr.gif",
-				$this->lng->txt("exc_header_members"));
-			$tbl->setHeaderNames(array("", "", $this->lng->txt("name"),
-				$this->lng->txt("login"),
-				$sent_str,
-				$this->lng->txt("exc_submission"),
-				$this->lng->txt("exc_grading"),
-				$this->lng->txt("mail")
-				));
-
-			$tbl->setColumnWidth(array("1%", "1%", "", "", "", "", "", ""));
-			$cols = array("", "", "name", "login", "sent_time", "submission",
-				"solved_time", "feedback_time");
-			
-			if (!$_GET["sort_by"])
-			{
-				$_GET["sort_by"] = "name";
-			}
-			if (!$_GET["sort_order"])
-			{
-				$_GET["sort_order"] = "asc";
-			}
-			
-			$header_params = $this->ctrl->getParameterArray($this);
-			unset($header_params["sort_by"]);
-			unset($header_params["sort_order"]);
-			unset($header_params["offset"]);
-			$header_params["cmd"] = "members";
-			$tbl->setHeaderVars($cols, $header_params);
-			$members = ilUtil::sortArray($members, $_GET["sort_by"], $_GET["sort_order"]);
-			$tbl->setOrderColumn($_GET["sort_by"]);
-			$tbl->setOrderDirection($_GET["sort_order"]);
-			$tbl->setOffset($_GET["offset"]);
-			$tbl->setLimit($_GET["limit"]);
-			$tbl->setMaxCount(count($members));
-			$tbl->setFooter("tblfooter",$this->lng->txt("previous"),$this->lng->txt("next"));
-			$members = array_slice($members, $_GET["offset"], $_GET["limit"]);
-			$tbl->render();
-
-			
-			// new table
-			foreach ($members as $member)
-			{
-				include_once "./classes/class.ilObjectFactory.php";
-		
-				$member_id = $member["usr_id"];
-				if(!($mem_obj = ilObjectFactory::getInstanceByObjId($member_id,false)))
-				{
-					continue;
-				}
-				
-				// checkbox
-				$this->tpl->setCurrentBlock("member_row");
-				$this->tpl->setVariable("ROW_CSS",
-					ilUtil::switchColor($counter++,"tblrow1","tblrow2"));
-				$this->tpl->setVariable("VAL_CHKBOX",
-					ilUtil::formCheckbox(0,"member[$member_id]",1));
-				$this->tpl->setVariable("VAL_ID",
-					$member_id);
-					
-				// name and login
-				$this->tpl->setVariable("TXT_NAME",
-					$member["name"]);
-				$this->tpl->setVariable("TXT_LOGIN",
-					"[".$member["login"]."]");
-					
-				// image
-				$this->tpl->setVariable("USR_IMAGE",
-					$mem_obj->getPersonalPicturePath("xxsmall"));
-				$this->tpl->setVariable("USR_ALT", $this->lng->txt("personal_picture"));
-
-				// mail sent
-				if ($this->object->members_obj->getStatusSentByMember($member_id))
-				{
-					if (($st = ilObjExercise::_lookupSentTime($this->object->getId(),
-						$member_id)) > 0)
-					{
-						$this->tpl->setVariable("TXT_MAIL_SENT",
-							sprintf($this->lng->txt("exc_sent_at"),
-							ilDatePresentation::formatDate(new ilDateTime($st,IL_CAL_DATE))));
-					}
-					else
-					{
-						$this->tpl->setVariable("TXT_MAIL_SENT",
-							$this->lng->txt("sent"));
-					}
-				}
-
-				// submission:
-				// see if files have been resubmmited after solved
-				$last_sub =
-					$this->object->getLastSubmission($member_id);
-					
-				if ($last_sub)
-				{
-					$last_sub = ilDatePresentation::formatDate(new ilDateTime($last_sub,IL_CAL_DATETIME));
-				}
-				else
-				{
-					$last_sub = "---";
-				}
-				if ($this->object->_lookupUpdatedSubmission($this->object->getId(), $member_id) == 1) 
-				{
-					$last_sub = "<b>".$last_sub."</b>";
-				}
-				$this->tpl->setVariable("VAL_LAST_SUBMISSION", $last_sub);
-				$this->tpl->setVariable("TXT_LAST_SUBMISSION",
-					$this->lng->txt("exc_last_submission"));
-
-				// nr of submitted files
-				$this->tpl->setVariable("TXT_SUBMITTED_FILES",
-					$this->lng->txt("exc_files_returned"));
-				$sub_cnt = count($this->object->getDeliveredFiles($member_id));
-				$new = $this->object->_lookupNewFiles($this->object->getId(), $member_id);
-				if (count($new) > 0)
-				{
-					$sub_cnt.= " ".sprintf($this->lng->txt("cnt_new"),count($new));
-				}
-				$this->tpl->setVariable("VAL_SUBMITTED_FILES",
-					$sub_cnt);
-				
-				// download command
-				$this->ctrl->setParameter($this, "member_id", $member_id);
-				if ($sub_cnt > 0)
-				{
-					$this->tpl->setCurrentBlock("download_link");
-					$this->tpl->setVariable("LINK_DOWNLOAD",
-						$this->ctrl->getLinkTarget($this, "downloadReturned"));
-					if (count($new) <= 0)
-					{
-						$this->tpl->setVariable("TXT_DOWNLOAD",
-							$this->lng->txt("exc_download_files"));
-					}
-					else
-					{
-						$this->tpl->setVariable("TXT_DOWNLOAD",
-							$this->lng->txt("exc_download_all"));
-					}
-					$this->tpl->parseCurrentBlock();
-					
-					// download new files only
-					if (count($new) > 0)
-					{
-						$this->tpl->setCurrentBlock("download_link");
-						$this->tpl->setVariable("LINK_NEW_DOWNLOAD",
-							$this->ctrl->getLinkTarget($this, "downloadNewReturned"));
-						$this->tpl->setVariable("TXT_NEW_DOWNLOAD",
-							$this->lng->txt("exc_download_new"));
-						$this->tpl->parseCurrentBlock();
-					}
-					
-					$this->tpl->setCurrentBlock("member_row");
-				}
-				
-				// note
-				$this->tpl->setVariable("TXT_NOTE", $this->lng->txt("note"));
-				$this->tpl->setVariable("NAME_NOTE",
-					"notice[$member_id]");
-				$this->tpl->setVariable("VAL_NOTE",
-					ilUtil::prepareFormOutput($this->object->members_obj->getNoticeByMember($member_id)));
-					
-				// comment for learner
-				$this->tpl->setVariable("TXT_LCOMMENT", $this->lng->txt("exc_comment_for_learner"));
-				$this->tpl->setVariable("NAME_LCOMMENT",
-					"lcomment[$member_id]");
-				$lpcomment = ilLPMarks::_lookupComment($member_id,$this->object->getId());
-				$this->tpl->setVariable("VAL_LCOMMENT",
-					ilUtil::prepareFormOutput($lpcomment));
-
-				// solved
-				//$this->tpl->setVariable("CHKBOX_SOLVED",
-				//	ilUtil::formCheckbox($this->object->members_obj->getStatusByMember($member_id),"solved[$member_id]",1));
-				$status = ilExerciseMembers::_lookupStatus($this->object->getId(), $member_id);
-				$this->tpl->setVariable("SEL_".strtoupper($status), ' selected="selected" ');
-				$this->tpl->setVariable("TXT_NOTGRADED", $this->lng->txt("exc_notgraded"));
-				$this->tpl->setVariable("TXT_PASSED", $this->lng->txt("exc_passed"));
-				$this->tpl->setVariable("TXT_FAILED", $this->lng->txt("exc_failed"));
-				if (($sd = ilObjExercise::_lookupStatusTime($this->object->getId(), $member_id)) > 0)
-				{
-					$this->tpl->setCurrentBlock("status_date");
-					$this->tpl->setVariable("TXT_LAST_CHANGE", $this->lng->txt("last_change"));
-					$this->tpl->setVariable('VAL_STATUS_DATE',
-						ilDatePresentation::formatDate(new ilDateTime($sd,IL_CAL_DATETIME)));
-					$this->tpl->parseCurrentBlock();
-					$this->tpl->setCurrentBlock("member_row");
-				}
-				switch($status)
-				{
-					case "passed": 	$pic = "scorm/passed.gif"; break;
-					case "failed":	$pic = "scorm/failed.gif"; break;
-					default: 		$pic = "scorm/not_attempted.gif"; break;
-				}
-				$this->tpl->setVariable("IMG_STATUS", ilUtil::getImagePath($pic));
-				$this->tpl->setVariable("ALT_STATUS", $this->lng->txt("exc_".$status));
-				
-				// mark
-				$this->tpl->setVariable("TXT_MARK", $this->lng->txt("exc_mark"));
-				$this->tpl->setVariable("NAME_MARK",
-					"mark[$member_id]");
-				$mark = ilLPMarks::_lookupMark($member_id,$this->object->getId());
-				$this->tpl->setVariable("VAL_MARK",
-					ilUtil::prepareFormOutput($mark));
-					
-				// feedback
-				$this->ctrl->setParameter($this, "member_id", $member_id);
-				$this->tpl->setVariable("CHKBOX_FEEDBACK",
-					ilUtil::formCheckbox($this->object->members_obj->getStatusFeedbackByMember($member_id),"feedback[$member_id]",1));
-				if (($ft = ilObjExercise::_lookupFeedbackTime($this->object->getId(), $member_id)) > 0)
-				{
-					$this->tpl->setCurrentBlock("feedback_date");
-					$this->tpl->setVariable("TXT_FEEDBACK_MAIL_SENT",
-						sprintf($this->lng->txt("exc_sent_at"),
-						ilDatePresentation::formatDate(new ilDateTime($ft,IL_CAL_DATETIME))));
-					$this->tpl->parseCurrentBlock();
-					$this->tpl->setCurrentBlock("member_row");
-				}
-				$this->ctrl->setParameter($this, "rcp_to", $mem_obj->getLogin());
-				$this->tpl->setVariable("LINK_FEEDBACK",
-					$this->ctrl->getLinkTarget($this, "redirectFeedbackMail"));
-					//"ilias.php?baseClass=ilMailGUI&type=new&rcp_to=".$mem_obj->getLogin());
-				$this->tpl->setVariable("TXT_FEEDBACK",
-					$this->lng->txt("exc_send_mail"));
-				$this->ctrl->setParameter($this, "rcp_to", "");
-
-				$this->tpl->parseCurrentBlock();
-			}
-			$this->tpl->setCurrentBlock("tbl_content");
-			$this->tpl->parseCurrentBlock();
-
-			
-			//$this->__showMembersTableContent($this->__showMembersTable($f_result,$member_ids));
-
-			if(count($this->object->members_obj->getAllDeliveredFiles()))
-			{
-				$this->tpl->addBlockFile("SPECIAL_BUTTONS", "special_buttons", "tpl.exc_download_all.html",
-					"Modules/Exercise");
-				$this->tpl->setCurrentBlock("download_all");
-				$this->tpl->setVariable("BUTTON_DOWNLOAD_ALL", $this->lng->txt("download_all_returned_files"));
-				$this->tpl->setVariable("FORMACTION", 
-					$this->ctrl->getLinkTarget($this, "downloadAll"));
-				$this->tpl->parseCurrentBlock();
-			}
-		}
+		include_once("./Modules/Exercise/classes/class.ilExerciseMemberTableGUI.php");
+		$exc_tab = new ilExerciseMemberTableGUI($this, "members", $this->object);
+		$tpl->setContent($exc_tab->getHTML());
+		return;		
 	}
-*/
+
+
 	/**
 	* set feedback status for member and redirect to mail screen
 	*/
@@ -1645,4 +1348,5 @@ return;
 	}
 	
 } // END class.ilObjExerciseGUI
+
 ?>

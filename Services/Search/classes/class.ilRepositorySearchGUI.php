@@ -37,6 +37,8 @@ include_once 'Services/Search/classes/class.ilSearchSettings.php';
 
 class ilRepositorySearchGUI
 {
+	protected $add_options = array();
+	
 	var $search_type = 'usr';
 
 	/**
@@ -135,9 +137,10 @@ class ilRepositorySearchGUI
 		$this->show();
 	}
 
-	function setCallback(&$class,$method)
+	function setCallback(&$class,$method,$a_add_options)
 	{
 		$this->callback = array('class' => $class,'method' => $method);
+		$this->add_options = $a_add_options ? $a_add_options : array();
 	}
 
 	function show()
@@ -584,11 +587,30 @@ class ilRepositorySearchGUI
 		$tpl->setCurrentBlock("tbl_form_header");
 		$tpl->setVariable("FORMACTION",$this->ctrl->getFormAction($this,'addUser'));
 		$tpl->parseCurrentBlock();
-
-		$tpl->setCurrentBlock("tbl_action_btn");
-		$tpl->setVariable("BTN_NAME","addUser");
-		$tpl->setVariable("BTN_VALUE",$this->lng->txt("btn_add"));
-		$tpl->parseCurrentBlock();
+		
+		if($this->add_options)
+		{
+			$tpl->setCurrentBlock('tbl_action_select');
+			$tpl->setVariable('SELECT_ACTION',
+				ilUtil::formSelect(
+					0,
+					'member_type',
+					$this->add_options,
+					false,
+					true
+				)
+			);
+			$tpl->setVariable("BTN_NAME","addUser");
+			$tpl->setVariable("BTN_VALUE",$this->lng->txt("btn_add"));
+			$tpl->parseCurrentBlock();
+		}
+		else
+		{
+			$tpl->setCurrentBlock("tbl_action_btn");
+			$tpl->setVariable("BTN_NAME","addUser");
+			$tpl->setVariable("BTN_VALUE",$this->lng->txt("btn_add"));
+			$tpl->parseCurrentBlock();
+		}
 		
 		$tbl->enable('select_all');
 		$tbl->setFormName("cmd");

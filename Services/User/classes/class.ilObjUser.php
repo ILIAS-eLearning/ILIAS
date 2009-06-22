@@ -665,7 +665,7 @@ class ilObjUser extends ilObject
 	/**
 	* lookup id by login
 	*/
-	function _lookupId($a_user_str)
+	public static function _lookupId($a_user_str)
 	{
 		global $ilDB;
 

@@ -1995,9 +1995,9 @@ class ilObjCourseGUI extends ilContainerGUI
 		// member type
 		include_once("./Services/Form/classes/class.ilSelectInputGUI.php");
 		$options = array(
-			"member" => $lng->txt("crs_member"),
-			"tutor" => $lng->txt("crs_tutor"),
-			"admin" => $lng->txt("crs_admin")
+			ilCourseContants::CRS_MEMBER => $lng->txt("crs_member"),
+			ilCourseContants::CRS_TUTOR => $lng->txt("crs_tutor"),
+			ilCourseContants::CRS_ADMIN => $lng->txt("crs_admin")
 			);
 		$si = new ilSelectInputGUI("", "member_type");
 		$si->setOptions($options);
@@ -2188,15 +2188,6 @@ class ilObjCourseGUI extends ilContainerGUI
 		ilUserLoginAutoCompleteInputGUI::echoAutoCompleteList();
 	}
 
-	/**
-	* Add user as member
-	*/
-	function addAsMemberObject()
-	{	
-		// @todo: finish this
-		echo "Add ".ilUtil::stripSlashes($_POST["user_login"])." as ".
-			ilUtil::stripSlashes($_POST["member_type"]).".";
-	}
 
 	/**
 	 * update admin status
@@ -2540,8 +2531,25 @@ class ilObjCourseGUI extends ilContainerGUI
 		return true;		
 
 	}
+
+	/**
+	* Add user as member
+	*/
+	public function addAsMemberObject()
+	{	
+		$users = explode(',', $_POST['user_login']);
+		foreach($users as $user)
+		{
+			$_POST['user'][] = ilObjUser::_lookupId($user);
+		}
+		
+		if(!$this->assignMembersObject())
+		{
+			$this->membersObject();
+		}
+	}
 	
-	function assignMembersObject()
+	public function assignMembersObject()
 	{
 		global $rbacsystem;
 
@@ -2552,7 +2560,7 @@ class ilObjCourseGUI extends ilContainerGUI
 		}
 		if(!is_array($_POST["user"]))
 		{
-			ilUtil::sendInfo($this->lng->txt("crs_no_users_selected"));
+			ilUtil::sendFailure($this->lng->txt("crs_no_users_selected"));
 			return false;
 		}
 		$this->object->initCourseMemberObject();
@@ -2568,7 +2576,20 @@ class ilObjCourseGUI extends ilContainerGUI
 			{
 				continue;
 			}
-			$this->object->members_obj->add($user_id,IL_CRS_MEMBER);
+			
+			switch($_POST['member_type'])
+			{
+				case ilCourseContants::CRS_MEMBER:
+					$this->object->members_obj->add($user_id,IL_CRS_MEMBER);
+					break;
+				case ilCourseContants::CRS_TUTOR:
+					$this->object->members_obj->add($user_id,IL_CRS_TUTOR);
+					break;
+				case ilCourseContants::CRS_ADMIN:
+					$this->object->members_obj->add($user_id,IL_CRS_ADMIN);
+					break;
+				
+			}
 			$this->object->members_obj->sendNotification($this->object->members_obj->NOTIFY_ACCEPT_USER,$user_id);
 			++$added_users;
 		}
@@ -2580,7 +2601,7 @@ class ilObjCourseGUI extends ilContainerGUI
 			unset($_SESSION['crs_usr_search_result']);
 			$this->ctrl->redirect($this,'members');
 		}
-		ilUtil::sendInfo($this->lng->txt("crs_users_already_assigned"));
+		ilUtil::sendFailure($this->lng->txt("crs_users_already_assigned"));
 		
 		return false;
 	}
@@ -4199,7 +4220,15 @@ class ilObjCourseGUI extends ilContainerGUI
 			case 'ilrepositorysearchgui':
 				include_once('./Services/Search/classes/class.ilRepositorySearchGUI.php');
 				$rep_search =& new ilRepositorySearchGUI();
-				$rep_search->setCallback($this,'assignMembersObject');
+				$rep_search->setCallback($this,
+					'assignMembersObject',
+					array(
+						ilCourseContants::CRS_MEMBER => $this->lng->txt('crs_member'),
+						ilCourseContants::CRS_TUTOR	=> $this->lng->txt('crs_tutor'),
+						ilCourseContants::CRS_ADMIN => $this->lng->txt('crs_admin')
+						)
+					);
+						
 
 				// Set tabs
 				$this->ctrl->setReturn($this,'members');
