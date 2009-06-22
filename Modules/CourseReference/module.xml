@@ -11,6 +11,7 @@
 			<parent id="recf">recf</parent>
 			<parent id="cat">cat</parent>
 			<parent id="root">root</parent>
+			<parent id="crs">crs</parent>
 		</object>
 	</objects>
 </module>
