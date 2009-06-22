@@ -193,29 +193,29 @@ class ilCalendarAppointmentGUI
 		$calendar->setOptions($cats->prepareCategoriesOfUserForSelection());
 		$this->form->addItem($calendar);
 		
-		$tpl->addJavaScript('./Services/Calendar/js/toggle_appointment_time.js');		
-		$fullday = new ilCheckboxInputGUI($this->lng->txt('cal_fullday'),'fullday');
-		$fullday->setChecked($this->app->isFullday() ? true : false);
-		$fullday->setOptionTitle($this->lng->txt('cal_fullday_title'));
-		$fullday->setAdditionalAttributes('onchange="ilToggleAppointmentTime(this);"');
-		$this->form->addItem($fullday);
-
-		$start = new ilDateTimeInputGUI($this->lng->txt('cal_start'),'start');
-		$start->setDate($this->app->getStart());
-		$start->setShowTime(true);
-		$start->setMinuteStepSize(5);
-		$this->form->addItem($start);
-		#$fullday->addSubItem($start);
-		
-		$end = new ilDateTimeInputGUI($this->lng->txt('cal_end'),'end');
-		$end->setDate($this->app->getEnd());
-		$end->setShowTime(true);
-		$end->setMinuteStepSize(5);
-		#$fullday->addSubItem($end);
-		$this->form->addItem($end);
-		
 		if (!$a_as_milestone)
 		{
+			$tpl->addJavaScript('./Services/Calendar/js/toggle_appointment_time.js');		
+			$fullday = new ilCheckboxInputGUI($this->lng->txt('cal_fullday'),'fullday');
+			$fullday->setChecked($this->app->isFullday() ? true : false);
+			$fullday->setOptionTitle($this->lng->txt('cal_fullday_title'));
+			$fullday->setAdditionalAttributes('onchange="ilToggleAppointmentTime(this);"');
+			$this->form->addItem($fullday);
+	
+			$start = new ilDateTimeInputGUI($this->lng->txt('cal_start'),'start');
+			$start->setDate($this->app->getStart());
+			$start->setShowTime(true);
+			$start->setMinuteStepSize(5);
+			$this->form->addItem($start);
+			#$fullday->addSubItem($start);
+			
+			$end = new ilDateTimeInputGUI($this->lng->txt('cal_end'),'end');
+			$end->setDate($this->app->getEnd());
+			$end->setShowTime(true);
+			$end->setMinuteStepSize(5);
+			#$fullday->addSubItem($end);
+			$this->form->addItem($end);
+		
 			// recurrence
 			include_once('./Services/Calendar/classes/Form/class.ilRecurrenceInputGUI.php');
 			$rec = new ilRecurrenceInputGUI($this->lng->txt('cal_recurrences'),'frequence');
@@ -231,6 +231,12 @@ class ilCalendarAppointmentGUI
 		}
 		else
 		{
+			$deadline = new ilDateTimeInputGUI($this->lng->txt('cal_deadline'),'start');
+			$deadline->setDate($this->app->getStart());
+			$deadline->setShowTime(false);
+			$deadline->setMinuteStepSize(5);
+			$this->form->addItem($deadline);
+			
 			// completion
 			$completion_vals = array();
 			for($i = 0; $i <= 100; $i+=5)
@@ -363,7 +369,15 @@ class ilCalendarAppointmentGUI
 		{
 			ilUtil::sendInfo($ilErr->getMessage());
 		}
-		$this->add();
+		if ($a_as_milestone)
+		{
+			$this->addMilestone();
+		}
+		else
+		{
+			$this->add();
+		}
+
 	}
 	
 	/**
@@ -712,8 +726,15 @@ class ilCalendarAppointmentGUI
 		$this->app->setLocation(ilUtil::stripSlashes($_POST['location']));
 		$this->app->setDescription(ilUtil::stripSlashes($_POST['description']));
 		$this->app->setTitle(ilUtil::stripSlashes($_POST['title']));
-		$this->app->setFullday(isset($_POST['fullday']) ? true : false);
-		
+		if ($a_as_milestone)	// milestones are always fullday events
+		{
+			$this->app->setFullday(true);
+		}
+		else
+		{
+			$this->app->setFullday(isset($_POST['fullday']) ? true : false);
+		}
+
 		if($this->app->isFullday())
 		{
 			$start = new ilDate($_POST['start']['date']['y'].'-'.$_POST['start']['date']['m'].'-'.$_POST['start']['date']['d'],
@@ -722,7 +743,16 @@ class ilCalendarAppointmentGUI
 				
 			$end = new ilDate($_POST['end']['date']['y'].'-'.$_POST['end']['date']['m'].'-'.$_POST['end']['date']['d'],
 				IL_CAL_DATE);
-			$this->app->setEnd($end);
+
+			if ($a_as_milestone)
+			{
+				// for milestones is end date = start date
+				$this->app->setEnd($start);
+			}
+			else
+			{
+				$this->app->setEnd($end);
+			}
 		}
 		else
 		{

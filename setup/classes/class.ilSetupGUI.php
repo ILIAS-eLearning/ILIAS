@@ -105,8 +105,6 @@ class ilSetupGUI
 
 		// output starts here
 
-		// display header
-		$this->displayHeader();
 
 		// main cmd handling
 		if (!$this->setup->isAuthenticated() or !$this->setup->isInstalled())
@@ -132,6 +130,9 @@ class ilSetupGUI
 				$this->cmdClient();
 			}
 		}
+
+		// display header
+		$this->displayHeader();
 
 		if (DEBUG)
 		{
@@ -186,16 +187,19 @@ class ilSetupGUI
 			case "clientlist":
 				$this->setDisplayMode("view");
 				$this->displayClientList();
+				$this->active_tab = "clientlist";
 				break;
 
 			case "changepassword":
 				$this->setDisplayMode("view");
 				$this->changeMasterPassword();
+				$this->active_tab = "password";
 				break;
 
 			case "mastersettings":
 				$this->setDisplayMode("view");
 				$this->changeMasterSettings();
+				$this->active_tab = "basicsettings";
 				break;
 				
 			case "determineToolsPath":
@@ -240,6 +244,7 @@ class ilSetupGUI
 			case "preliminaries":
 				$this->setup->checkPreliminaries();
 				$this->displayPreliminaries();
+				$this->active_tab = "preliminaries";
 				break;
 
 			default:
@@ -542,23 +547,39 @@ class ilSetupGUI
 				}
 
 				// client list link
+				$class = ($this->active_tab == "clientlist")
+					? "ilSMActive"
+					: "ilSMInactive";				
 				$this->tpl->setCurrentBlock("display_list");
 				$this->tpl->setVariable("TXT_LIST",ucfirst($this->lng->txt("list_clients")));
+				$this->tpl->setVariable("TAB_CLASS", $class);
 				$this->tpl->parseCurrentBlock();
 
 				// edit paths link
+				$class = ($this->active_tab == "basicsettings")
+					? "ilSMActive"
+					: "ilSMInactive";				
 				$this->tpl->setCurrentBlock("edit_pathes");
 				$this->tpl->setVariable("TXT_EDIT_PATHES",$this->lng->txt("basic_settings"));
+				$this->tpl->setVariable("TAB_CLASS", $class);
 				$this->tpl->parseCurrentBlock();
 
 				// preliminaries
+				$class = ($this->active_tab == "preliminaries")
+					? "ilSMActive"
+					: "ilSMInactive";
 				$this->tpl->setCurrentBlock("preliminaries");
 				$this->tpl->setVariable("TXT_PRELIMINARIES",$this->lng->txt("preliminaries"));
+				$this->tpl->setVariable("TAB_CLASS", $class);
 				$this->tpl->parseCurrentBlock();
 
 				// change password link
+				$class = ($this->active_tab == "password")
+					? "ilSMActive"
+					: "ilSMInactive";				
 				$this->tpl->setCurrentBlock("change_password");
 				$this->tpl->setVariable("TXT_CHANGE_PASSWORD",ucfirst($this->lng->txt("password")));
+				$this->tpl->setVariable("TAB_CLASS", $class);
 				$this->tpl->parseCurrentBlock();
 			}
 
@@ -577,7 +598,7 @@ class ilSetupGUI
 		$this->tpl->setVariable("PAGETITLE","Setup");
 		//$this->tpl->setVariable("LOCATION_STYLESHEET","./templates/blueshadow.css");
 		$this->tpl->setVariable("LOCATION_STYLESHEET","../templates/default/delos.css");
-		$this->tpl->setVariable("LOCATION_CONTENT_STYLESHEET","../templates/default/delos_cont.css");
+		$this->tpl->setVariable("LOCATION_CONTENT_STYLESHEET","./css/setup.css");
 		$this->tpl->setVariable("TXT_ILIAS_VERSION", "ILIAS ".ILIAS_VERSION);
 		$this->tpl->setVariable("TXT_SETUP",$this->lng->txt("setup"));
 		$this->tpl->setVariable("VERSION", $this->version);
@@ -1761,32 +1782,35 @@ class ilSetupGUI
 		$steps["nic"]["text"]       = $this->lng->txt("setup_process_step_nic");
 		$steps["finish"]["text"]    = $this->lng->txt("setup_process_step_finish");
 		
-		$this->tpl->addBlockFile("PROCESS_MENU","process_menu","tpl.process_panel.html");
-
-		$this->tpl->setVariable("TXT_SETUP_PROCESS_STATUS",$this->lng->txt("setup_process_status"));
+		$stpl = new ilTemplate("./setup/templates");
+		$stpl->loadTemplatefile("tpl.process_panel.html", true, true);
 
 		$num = 1;
 
 		foreach ($steps as $key => $val)
 		{
-			$this->tpl->setCurrentBlock("menu_row");
-			$this->tpl->setVariable("TXT_STEP",$this->lng->txt("step")." ".$num.": &nbsp;");
-			$this->tpl->setVariable("TXT_ACTION",$val["text"]);
-			$this->tpl->setVariable("IMG_ARROW", "spacer.gif");
+			$stpl->setCurrentBlock("menu_row");
+			$stpl->setVariable("TXT_STEP",$this->lng->txt("step")." ".$num.": &nbsp;");
+			$stpl->setVariable("TXT_ACTION",$val["text"]);
+			$stpl->setVariable("IMG_ARROW", "spacer.gif");
 			
 			$num++;
 
 			if ($this->cmd == $key and isset($this->cmd))
 			{
-				$this->tpl->setVariable("HIGHLIGHT", " style=\"font-weight:bold;\"");
-				$this->tpl->setVariable("IMG_ARROW", "arrow_right.png");
+				$stpl->setVariable("HIGHLIGHT", " style=\"font-weight:bold;\"");
+				$stpl->setVariable("IMG_ARROW", "arrow_right.png");
 			}
 			
 			$status = ($val["status"]) ? $OK : "";          
 			
-			$this->tpl->setVariable("TXT_STATUS",$status);
-			$this->tpl->parseCurrentBlock();
+			$stpl->setVariable("TXT_STATUS",$status);
+			$stpl->parseCurrentBlock();
 		}
+		
+		$stpl->setVariable("TXT_SETUP_PROCESS_STATUS",$this->lng->txt("setup_process_status"));
+
+		$this->tpl->setVariable("PROCESS_MENU", $stpl->get());
 	}
 
 	/**

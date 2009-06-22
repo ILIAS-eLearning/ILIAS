@@ -10,12 +10,11 @@
 	<link rel="shortcut icon" href="favicon.ico" type="image/x-icon" />
 	<script type="text/javascript" src="../Services/Javascript/js/Basic.js"></script>
 </head>
-<body>
-<style>
-body { margin:0px; }
-</style>
+<body class="ilSetup">
+<div class="ilSetupFrame"><div class="ilSetupFrameH" style="width:1000px; margin-top: 20px; margin-left:auto; margin-right:auto;"><div class="ilSetupFrameTL"><div class="ilSetupFrameTR">
+
 <div class="ilMainHeader">
-	<div class="ilLogin">
+	<div class="ilSetupLogin">
 		<form name="languageselection" method="get" style="margin:0;">
 		<input type="hidden" name="cmd" value="{VAL_CMD}" />
 		<select name="lang" onChange="this.form.submit()">
@@ -27,42 +26,41 @@ body { margin:0px; }
 		<input class="submit" type="submit" value="{TXT_OK}"/>
 		</form>
 	</div>
-	<div style="padding:2px 0px 2px 15px;">
-		<a href="http://www.ilias.de" target="_blank"><img style="vertical-align:middle; padding:0px 15px 0px 0px;" width="44" height="44" border="0" src="../templates/default/images/HeaderIcon.png" alt="ILIAS open source - Homepage" title="ILIAS open source - Homepage" /></a>
-		<span class="il_PDTitle">{TXT_SETUP} {TXT_ACCESS_MODE}</span>
+	<div class="ilSetupTitle">
+		<a href="http://www.ilias.de" target="_blank">
+		<img style="vertical-align:middle; padding:0px 15px 0px 0px;" width="44" height="44" border="0" src="../templates/default/images/HeaderIcon.png" alt="ILIAS open source - Homepage" title="ILIAS open source - Homepage" /></a>
+		<span class="ilSetupTitle">{TXT_SETUP}</span> <span class="ilSetupAccessMode">{TXT_ACCESS_MODE}</span>
 	</div>
-	<div class="il_MainMenu" style="clear:both;">
+</div>
+<table border="0" cellpadding="0" cellspacing="0" datatable="0" width="100%">
+<tr>
+<td style="width:150px; vertical-align:top; padding: 0px;">
+	<ul class="ilSetupMenu">
 <!-- BEGIN preliminaries -->
-		<a class="MMInactive" href="setup.php?cmd=preliminaries">{TXT_PRELIMINARIES}</a>
+		<li class="{TAB_CLASS}"><a class="{TAB_CLASS}" href="setup.php?cmd=preliminaries">{TXT_PRELIMINARIES}</a></li>
 <!-- END preliminaries -->
 <!-- BEGIN edit_pathes -->
-		<a class="MMInactive" href="setup.php?cmd=mastersettings">{TXT_EDIT_PATHES}</a>
+		<li class="{TAB_CLASS}"><a class="{TAB_CLASS}" href="setup.php?cmd=mastersettings">{TXT_EDIT_PATHES}</a></li>
 <!-- END edit_pathes -->
 <!-- BEGIN display_list -->
-		<a class="MMInactive" href="setup.php?cmd=clientlist">{TXT_LIST}</a>
+		<li class="{TAB_CLASS}"><a class="{TAB_CLASS}" href="setup.php?cmd=clientlist">{TXT_LIST}</a></li>
 <!-- END display_list -->
 <!-- BEGIN add_client -->
 		<!-- <a class="MMInactive" href="setup.php?cmd=newclient">{TXT_ADD_CLIENT}</a> -->
 <!-- END add_client -->
 <!-- BEGIN change_password -->
-		<a class="MMInactive" href="setup.php?cmd=changepassword">{TXT_CHANGE_PASSWORD}</a>
+		<li class="{TAB_CLASS}"><a class="{TAB_CLASS}" href="setup.php?cmd=changepassword">{TXT_CHANGE_PASSWORD}</a></li>
 <!-- END change_password -->
 <!-- BEGIN logout -->
-		<a class="MMInactive" href="setup.php?cmd=logout">{TXT_LOGOUT}</a>
+		<li class="ilSMInactive"><a class="ilSMInactive" href="setup.php?cmd=logout">{TXT_LOGOUT}</a></li>
 <!-- END logout -->
-		&nbsp;
 	</div>
-</div>
-
-<table class="fullwidth_invisible_padding" width="100%">
-  <tr>
-    <td width="10px"></td>
-    <td>
+</td><td>
+<div class="ilSetupContent">
 {CONTENT}
-    </td>
-    <td width="10px"></td>
-  </tr>
-</table>
+</div>
+</td></tr></table>
 <p style="text-align:center;"><small>{TXT_ILIAS_VERSION} ({TXT_SETUP} {TXT_VERSION} {VERSION})</small></p>
+</div></div></div></div>
 </body>
 </html>

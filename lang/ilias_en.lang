@@ -8267,6 +8267,7 @@ dateplaner#:#crs_cal_activation_end#:#Course End
 dateplaner#:#crs_cal_reg_start#:#Registration Start
 dateplaner#:#crs_cal_reg_end#:#Registration End
 dateplaner#:#cal_default_calendar#:#Personal Appointments
+dateplaner#:#cal_deadline#:#Deadline
 dateplaner#:#cal_ms_users_responsible#:#Users Responsible
 dateplaner#:#cal_save_responsible_users#:#Save Responsible Users
 dateplaner#:#cal_change_responsible_users#:#Change Responsible Users
