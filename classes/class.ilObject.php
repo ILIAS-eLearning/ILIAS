@@ -1822,7 +1822,6 @@ class ilObject
 			case "tiny": $suff = "_s"; break;
 			default: $suff = "_b"; break;
 		}
-		
 		if (!$a_offline)
 		{
 			if ($objDefinition->isRBACObject($a_type))
@@ -1837,6 +1836,7 @@ class ilObject
 					return ilRepositoryObjectPlugin::_getIcon($a_type, $a_size);
 				}
 			}
+			return ilUtil::getImagePath("icon_".$a_type.$suff.".gif");
 		}
 		else
 		{

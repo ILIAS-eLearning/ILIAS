@@ -13004,4 +13004,9 @@ if(!$ilDB->tableColumnExists('usr_data', 'reg_hash'))
 		array('reg_hash' => array('type' => 'text', 'length' => 32, 'notnull' => true, 'fixed' => true))));
 }
 ?>
+
+<#2496>
+<?php
+	$ilCtrlStructureReader->getStructure();
+?>
 			
