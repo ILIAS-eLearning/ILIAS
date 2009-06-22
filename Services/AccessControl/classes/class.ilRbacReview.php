@@ -612,7 +612,6 @@ class ilRbacReview
 	
 
 	/**
-	* DEPRECATED use getParentRoles instead.
     * Note: This function performs faster than the new getParentRoles function,
     *       because it uses database indexes whereas getParentRoles needs
     *       a full table space scan.
@@ -670,7 +669,7 @@ class ilRbacReview
 
 		if (!$a_keep_protected)
 		{
-			return $this->__setProtectedStatus($parent_roles,$role_hierarchy,end($a_path));
+			return $this->__setProtectedStatus($parent_roles,$role_hierarchy,path);
 		}
 		return $parent_roles;
 	}
