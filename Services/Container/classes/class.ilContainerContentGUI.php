@@ -406,7 +406,7 @@ abstract class ilContainerContentGUI
 		{
 			$item_list_gui->enableCheckbox(true);
 		}
-		if ($this->getContainerGUI()->edit_order)
+		if ($this->getContainerGUI()->isActiveOrdering())
 		{
 			$item_list_gui->setPositionInputField("[".$a_item_data["ref_id"]."]",
 				sprintf('%.1f', $a_position));
@@ -416,14 +416,14 @@ abstract class ilContainerContentGUI
 			switch($this->getDetailsLevel($a_item_data['obj_id']))
 			{
 				case self::DETAILS_TITLE:
-					$item_list_gui->enableExpand(true);
+					$item_list_gui->enableExpand(false);
 					$item_list_gui->setExpanded(false);
-					$item_list_gui->enableDescription(false);
-					$item_list_gui->enableProperties(false);
+					$item_list_gui->enableDescription(true);
+					$item_list_gui->enableProperties(true);
 					break;
 					
 				case self::DETAILS_ALL:
-					$item_list_gui->enableExpand(true);
+					$item_list_gui->enableExpand(false);
 					$item_list_gui->setExpanded(true);
 					$item_list_gui->enableDescription(true);
 					$item_list_gui->enableProperties(true);
@@ -438,7 +438,10 @@ abstract class ilContainerContentGUI
 		}
 		
 		// show subitems
-		if ($a_item_data['type'] == 'sess' and $this->getDetailsLevel($a_item_data['obj_id']) != self::DETAILS_TITLE)
+		#if ($a_item_data['type'] == 'sess' and $this->getDetailsLevel($a_item_data['obj_id']) != self::DETAILS_TITLE)
+		if($a_item_data['type'] == 'sess' and 
+			($this->getContainerGUI()->isActiveAdministrationPanel() or
+			$this->getContainerGUI()->isActiveOrdering()))
 		{
 			$pos = 1;
 			
@@ -458,9 +461,12 @@ abstract class ilContainerContentGUI
 				$item_list_gui2 = $this->getItemGUI($item);
 				$item_list_gui2->enableIcon(true);
 				$item_list_gui2->enableItemDetailLinks(false);
-				if ($this->getContainerGUI()->isActiveAdministrationPanel())
+				if ($this->getContainerGUI()->isActiveAdministrationPanel() && !$_SESSION["clipboard"])
 				{
 					$item_list_gui2->enableCheckbox(true);
+				}
+				if ($this->getContainerGUI()->isActiveOrdering())
+				{
 					if ($this->getContainerObject()->getOrderType() == ilContainer::SORT_MANUAL)
 					{
 						$item_list_gui2->setPositionInputField("[sess][".$a_item_data['obj_id']."][".$item["ref_id"]."]",

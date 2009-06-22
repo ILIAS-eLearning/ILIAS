@@ -86,24 +86,8 @@ class ilObjSessionListGUI extends ilObjectListGUI
 	public function getTitle()
 	{
 		$app_info = $this->getAppointmentInfo();
-
-		if($app_info['fullday'])
-		{
-			$date = new ilDate($app_info['start'],IL_CAL_UNIX);
-		}
-		else
-		{
-			$date = new ilDate($app_info['start'],IL_CAL_UNIX);
-			#$date = new ilDateTime($app_info['start'],IL_CAL_UNIX);
-		}
-		if(strlen($this->title))
-		{
-			return ilDatePresentation::formatDate($date).': '.$this->title;
-		}
-		else
-		{
-			return ilDatePresentation::formatDate($date);
-		}
+		$title = strlen($this->title) ? (': '.$this->title) : '';
+		return ilSessionAppointment::_appointmentToString($app_info['start'], $app_info['end'],$app_info['fullday']) . $title;
 	}
 	
 	
@@ -133,12 +117,14 @@ class ilObjSessionListGUI extends ilObjectListGUI
 		$app_info = $this->getAppointmentInfo(); 
 		
 		$props = parent::getProperties();
+		/*
 		$props[] = array(
 			'alert'		=> false,
 			'property'	=> $this->lng->txt('event_date'),
 			'value'		=> ilSessionAppointment::_appointmentToString($app_info['start'],$app_info['end'],$app_info['fullday']));
-		
+		*/
 		return $props;
+		
 	}
 
 	

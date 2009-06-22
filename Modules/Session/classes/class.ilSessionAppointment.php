@@ -276,7 +276,7 @@ class ilSessionAppointment implements ilDatePeriod
 		return $start.' - '. $end;
 	}
 
-	function _appointmentToString($start,$end,$fulltime)
+	public static function _appointmentToString($start,$end,$fulltime)
 	{
 		global $lng;
 
@@ -284,7 +284,8 @@ class ilSessionAppointment implements ilDatePeriod
 		{
 			return ilDatePresentation::formatPeriod(
 				new ilDate($start,IL_CAL_UNIX),
-				new ilDate($end,IL_CAL_UNIX)).' ('.$lng->txt('event_full_time_info').')';
+				#new ilDate($end,IL_CAL_UNIX)).' ('.$lng->txt('event_full_time_info').')';
+				new ilDate($end,IL_CAL_UNIX));
 		}
 		else
 		{

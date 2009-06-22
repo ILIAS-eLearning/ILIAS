@@ -1275,6 +1275,17 @@ class ilContainerGUI extends ilObjectGUI implements ilDesktopItemHandling
 		$ilTabs->activateSubTab("ordering");	
 	}
 	
+	/**
+	 * Check if ordering is enabled
+	 * @return  bool
+	 */
+	public function isActiveOrdering()
+	{
+		return $this->edit_order ? true : false;
+	}
+	
+	
+	
     /**
      * @see ilDesktopItemHandling::addToDesk()
      */

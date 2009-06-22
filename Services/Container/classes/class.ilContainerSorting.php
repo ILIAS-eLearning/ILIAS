@@ -251,6 +251,8 @@ class ilContainerSorting
 	 */
 	public function savePost($a_type_positions)
 	{
+		global $ilLog; 
+	 
 	 	if(!is_array($a_type_positions))
 	 	{
 	 		return false;

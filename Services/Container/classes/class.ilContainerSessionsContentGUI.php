@@ -52,8 +52,8 @@ class ilContainerSessionsContentGUI extends ilContainerContentGUI
 	 * get details level
 	 *
 	 * @access public
-	 * @param
-	 * @return
+	 * @param	int	$a_session_id
+	 * @return	int	DEATAILS_LEVEL
 	 */
 	public function getDetailsLevel($a_session_id)
 	{

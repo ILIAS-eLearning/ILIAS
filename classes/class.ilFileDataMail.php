@@ -201,7 +201,7 @@ class ilFileDataMail extends ilFileData
 		}
 		else
 		{
-			$this->ilias->raiseError("Mail directory is not readable/writable by webserver",$this->ilias->error_obj->FATAL);
+			$this->ilias->raiseError("Mail directory is not readable/writable by webserver: ".$this->mail_path,$this->ilias->error_obj->FATAL);
 		}
 	}
 	/**
