@@ -233,7 +233,7 @@ assessment#:#cloze_textgap_rating#:#Textlückenbewertung
 assessment#:#code#:#Code
 assessment#:#codebase#:#Codebase
 assessment#:#concatenation#:#Verknüpfung
-assessment#:#confirm_delete_all_user_data#:#Sind Sie sicher, dass Sie die Testdaten aller NutzerInnen des Tests löschen wollen?
+assessment#:#confirm_delete_all_user_data#:#G sicher, dass Sie die Testdaten aller NutzerInnen des Tests löschen wollen?
 assessment#:#confirm_delete_single_user_data#:#Sind Sie sicher, dass Sie alle Testdaten der ausgewählten NutzerInnen löschen wollen?
 assessment#:#confirm_sync_questions#:#Die Frage, die Sie geändert haben, wurde mit dem Einfügen in den Test als Kopie eines Originals angelegt. Wollen Sie Ihre Änderungen jetzt auch auf die Originalfrage anwenden?
 assessment#:#coordinates#:#Koordinaten
@@ -9505,3 +9505,6 @@ common#:#soap_wsdl_path#:#WSDL-Pfad
 common#:#soap_wsdl_path_info#:#Hier können Sie den Pfad zur ILIAS WSDL-Datei angeben, die für den Webservice genutzt werden soll. Falls Sie dieses Feld leer lassen, wird folgender Pfad als Standard verwendet:%s
 common#:#session_reminder_lead_time#:#Vorlaufzeit
 common#:#session_reminder_lead_time_info#:#Bitte geben Sie an, wieviele Sekunden Sie vor dem Ablauf der Sitzung erinnert werden möchten. Der aktuelle Wert für eine Sitzungsdauer beträgt %s.
+rbac#:#rbac_delete_role#:#Rolle löschen
+rbac#:#rbac_role_delete_qst#:#Sind Sie sicher, dass Sie diese Rolle löschen möchten. Alle Rechte, die durch sie gewährt werden, werden unwiederruflich gelöscht.
+rbac#:#rbac_role_delete_self#:#<strong>Achtung:</strong> Sie sind dieser Rolle zugeordnet. Wenn Sie den Löschvorgang fortführen, kann es sein, dass Sie Zugriffsrechte an diesem oder anderen ILIAS Materialien verlieren.   

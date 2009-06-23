@@ -172,6 +172,11 @@ class ilObjRoleGUI extends ilObjectGUI
 			"link" => $a_link);
 	}
 	
+	public function getBackTarget()
+	{
+		return $this->back_target ? $this->back_target : array();
+	}
+	
 	/**
 	* admin and normal tabs are equal for roles
 	*/
@@ -509,6 +514,7 @@ class ilObjRoleGUI extends ilObjectGUI
 
 		$this->ctrl->returnToParent($this);
 	}
+	
 
 	/**
 	* display permission settings template
@@ -517,25 +523,16 @@ class ilObjRoleGUI extends ilObjectGUI
 	*/
 	function permObject()
 	{
-		global $rbacadmin, $rbacreview, $rbacsystem, $objDefinition, $tree;
+		global $rbacadmin, $rbacreview, $rbacsystem, $objDefinition, $tree,$ilTabs;
 
-		// for role administration check visible,write of global role folder
-		/*
-		if ($this->rolf_ref_id == ROLE_FOLDER_ID)
-		{
-			$access = $rbacsystem->checkAccess('visible,write',$this->rolf_ref_id);
-		}
-		else	// for local roles check 'edit permission' of parent object of the local role folder
-		{
-			$access = $rbacsystem->checkAccess('edit_permission',$tree->getParentId($this->rolf_ref_id));
-		}
-		*/		
-		$access = $this->checkAccess('visible,write','edit_permission');
+		$ilTabs->setTabActive('default_perm_settings');
 			
+		$access = $this->checkAccess('visible,write','edit_permission');
 		if (!$access)
 		{
 			$this->ilias->raiseError($this->lng->txt("msg_no_perm_perm"),$this->ilias->error_obj->MESSAGE);
 		}
+		
 		
 		$perm_def = $this->object->__getPermissionDefinitions();
 
@@ -694,6 +691,14 @@ class ilObjRoleGUI extends ilObjectGUI
 
 		$this->tpl->addBlockfile('ADM_CONTENT','adm_content','tpl.adm_perm_role.html');
 
+	
+		if($access and $this->object->isDeletable($this->rolf_ref_id))
+		{
+			$this->tpl->setVariable('LINK_DELETE_ROLE',$this->ctrl->getLinkTarget($this,'confirmDeleteRole'));
+			$this->tpl->setVariable('TXT_DELETE_ROLE',$this->lng->txt('rbac_delete_role'));
+			$this->tpl->setVariable('TXT_FOOTER_DELETE_ROLE',$this->lng->txt('rbac_delete_role'));
+		}
+
 		foreach ($rbac_objects as $obj_data)
 		{
 			// BEGIN object_operations
@@ -814,7 +819,7 @@ class ilObjRoleGUI extends ilObjectGUI
 			$this->tpl->parseCurrentBlock();
 
 			$this->tpl->setCurrentBlock("tblfooter_standard");
-			$this->tpl->setVariable("COL_ANZ_PLUS",4);
+			$this->tpl->setVariable("COL_ANZ_PLUS",3);
 			$this->tpl->setVariable("TXT_SAVE",$this->data["txt_save"]);
 			$this->tpl->parseCurrentBlock();
 		}
@@ -893,6 +898,74 @@ class ilObjRoleGUI extends ilObjectGUI
 		$this->tpl->parseCurrentBlock();
 		
 		//var_dump($this->data["formaction"]);
+	}
+	
+	/**
+	 * Show delete confirmation screen
+	 * @return 
+	 */
+	protected function confirmDeleteRoleObject()
+	{
+		global $ilErr,$rbacreview,$ilUser;
+		
+		$access = $this->checkAccess('visible,write','edit_permission');
+		if (!$access)
+		{
+			$ilErr->raiseError($this->lng->txt('msg_no_perm_perm'),$ilErr->WARNING);
+		}
+
+		$question = $this->lng->txt('rbac_role_delete_qst');
+		if($rbacreview->isAssigned($ilUser->getId(), $this->object->getId()))
+		{
+			$question .= ('<br />'.$this->lng->txt('rbac_role_delete_self'));
+		}
+		ilUtil::sendQuestion($question);
+		
+		include_once './Services/Utilities/classes/class.ilConfirmationGUI.php';
+		
+		$confirm = new ilConfirmationGUI();
+		$confirm->setFormAction($this->ctrl->getFormAction($this));
+		$confirm->setHeaderText($question);
+		$confirm->setCancel($this->lng->txt('cancel'), 'perm');
+		$confirm->setConfirm($this->lng->txt('rbac_delete_role'), 'performDeleteRole');
+		
+		$confirm->addItem(
+			'role',
+			$this->object->getId(),
+			$this->object->getTitle(),
+			ilUtil::getImagePath('icon_role.gif')
+		);
+		
+		$this->tpl->setContent($confirm->getHTML());
+		return true;				
+	}
+	
+	/**
+	 * Delete role
+	 * @return 
+	 */
+	protected function performDeleteRoleObject()
+	{
+		global $ilErr;
+
+		$access = $this->checkAccess('visible,write','edit_permission');
+		if (!$access)
+		{
+			$ilErr->raiseError($this->lng->txt('msg_no_perm_perm'),$ilErr->WARNING);
+		}
+		
+		$this->object->setParent((int) $_GET['rolf_ref_id']);
+		$this->object->delete();
+		ilUtil::sendSuccess($this->lng->txt('msg_deleted_role'),true);
+		
+		if($back = $this->getBackTarget())
+		{
+			ilUtil::redirect($back['link']);
+		}
+		else
+		{
+			$this->ctrl->returnToParent($this);
+		}
 	}
 
 	/**
@@ -1077,18 +1150,6 @@ class ilObjRoleGUI extends ilObjectGUI
 			$this->permObject();
 			return false;
 		}
-		
-		// for role administration check write of global role folder
-		/*
-		if ($this->rolf_ref_id == ROLE_FOLDER_ID)
-		{
-			$access = $rbacsystem->checkAccess('write',$this->rolf_ref_id);
-		}
-		else	// for local roles check 'edit permission' of parent object of the local role folder
-		{
-			$access = $rbacsystem->checkAccess('edit_permission',$tree->getParentId($this->rolf_ref_id));
-		}
-		*/	
 	
 		$access = $this->checkAccess('visible,write','edit_permission');
 		if (!$access)
@@ -2381,14 +2442,12 @@ class ilObjRoleGUI extends ilObjectGUI
 				$this->back_target["text"],$this->back_target["link"]);
 		}
 
-		#if ($rbacsystem->checkAccess('write',$this->rolf_ref_id) && $activate_role_edit)
 		if($this->checkAccess('write','edit_permission') && $activate_role_edit)
 		{
 			$tabs_gui->addTarget("edit_properties",
 				$this->ctrl->getLinkTarget($this, "edit"), array("edit","update"), get_class($this));
 		}
 
-		#if ($rbacsystem->checkAccess('write',$this->rolf_ref_id))
 		if($this->checkAccess('write','edit_permission'))
 		{
 			$force_active = ($_GET["cmd"] == "perm" || $_GET["cmd"] == "")
@@ -2400,7 +2459,6 @@ class ilObjRoleGUI extends ilObjectGUI
 				"", $force_active);
 		}
 
-		#if ($rbacsystem->checkAccess('write',$this->rolf_ref_id) && $activate_role_edit)
 		if($this->checkAccess('write','edit_permission') && $activate_role_edit)
 		{
 			$tabs_gui->addTarget("user_assignment",
@@ -2409,7 +2467,6 @@ class ilObjRoleGUI extends ilObjectGUI
 				get_class($this));
 		}
 
-		#if ($rbacsystem->checkAccess('write',$this->rolf_ref_id) && $activate_role_edit)
 		if($this->checkAccess('write','edit_permission') && $activate_role_edit)
 		{
 			$tabs_gui->addTarget("desktop_items",

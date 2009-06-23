@@ -23,9 +23,24 @@ function setCheckboxes(a_form, a_varname, a_elements, a_check)
   <table class="fullwidth">
   <tr class="tbltitle">
     <td class="std" colspan="4">
-	    <img src="{TBL_TITLE_IMG}" style="vertical-align:middle;" alt="{TBL_TITLE_IMG_ALT}" title="{TBL_TITLE_IMG_ALT}" border="0" />
-		{TBL_TITLE}<br />
-		<span class="il_Helptext">{TXT_TITLE_INFO}</span>
+    	<table>
+    		<tr>
+				<td>
+					<img src="{TBL_TITLE_IMG}" style="vertical-align:middle;" alt="{TBL_TITLE_IMG_ALT}" title="{TBL_TITLE_IMG_ALT}" border="0" />
+					{TBL_TITLE}<br />
+				</td>
+				<td style="text-align:right">
+					<!-- BEGIN header_delete_role -->
+					<a class="submit" href="{LINK_DELETE_ROLE}">&nbsp;{TXT_DELETE_ROLE}&nbsp;</a>
+					<!-- END header_delete_role -->
+				</td>
+			</tr>
+			<tr>
+				<td colspan="2">
+					<span class="il_Helptext">{TXT_TITLE_INFO}</span>
+				</td>
+			</tr>
+		</table>
     </td>
   </tr>
 <!-- BEGIN object_type -->
@@ -85,11 +100,16 @@ function setCheckboxes(a_form, a_varname, a_elements, a_check)
 	<td><span class="small">{TXT_PROTECTED_DESC}</span></td>
   </tr>
 <!-- END tblfooter_protected -->
-<!-- BEGIN tblfooter_standard -->
   <tr class="std">
-	<td class="std" align="right" colspan="{COL_ANZ_PLUS}"><input class="submit" type="submit" name="cmd[permSave]" value="{TXT_SAVE}" /></td>
+	<td class="std" style="text-align:left" colspan="{COL_ANZ_PLUS}">
+		<input class="submit" type="submit" name="cmd[permSave]" value="{TXT_SAVE}" />
+	</td>
+	<td class="std" style="text-align:right" colspan="1">
+		<!-- BEGIN footer_delete_role -->
+		<input class="submit" type="submit" name="cmd[confirmDeleteRole]" value="{TXT_FOOTER_DELETE_ROLE}" />
+		<!-- END footer_delete_role -->
+	</td>
   </tr>
-<!-- END tblfooter_standard -->
 </table>
 </form>
 <!-- BEGIN ADOPT_PERM_FORM -->

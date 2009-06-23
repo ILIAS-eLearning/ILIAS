@@ -492,5 +492,27 @@ class ilObjRole extends ilObject
 		}
 		return array($rbac_objects,$rbac_operations);
 	}
+	
+	/**
+	 * Check whether a role is deletable (non autogenereated role and defined) at this position
+	 * Does not perform permission checks
+	 * @return bool
+	 */
+	public function isDeletable($a_role_folder_id)
+	{
+		global $rbacreview;
+		
+		if(!$rbacreview->isAssignable($this->getId(), $a_role_folder_id))
+		{
+			return false;
+		}
+
+		if(substr($this->getTitle(),0,3) == 'il_')
+		{
+			return false;
+		}
+		return true;
+		
+	}
 } // END class.ilObjRole
 ?>
