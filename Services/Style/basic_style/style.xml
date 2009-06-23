@@ -164,6 +164,19 @@
 
 <!-- Question -->
 <Style Tag="div" Type="question" Class="Standard">
+	<StyleParameter Name="margin-top" Value="20px"/>
+	<StyleParameter Name="margin-bottom" Value="0px"/>
+	<StyleParameter Name="padding-top" Value="10px"/>
+	<StyleParameter Name="padding-bottom" Value="60px"/>
+	<StyleParameter Name="padding-left" Value="10px"/>
+	<StyleParameter Name="padding-right" Value="30px"/>
+	<StyleParameter Name="background-color" Value="#F4F4FF"/>
+	<StyleParameter Name="border-width" Value="1px"/>
+	<StyleParameter Name="border-color" Value="#D0D0FF"/>
+	<StyleParameter Name="border-style" Value="solid"/>
+	<StyleParameter Name="background-image" Value="qmark.gif"/>
+	<StyleParameter Name="background-repeat" Value="no-repeat"/>
+	<StyleParameter Name="background-position" Value="top right"/>	
 </Style>
 <Style Tag="div" Type="question" Class="SingleChoice">
 </Style>
@@ -190,8 +203,18 @@
 <Style Tag="input" Type="qsubmit" Class="Submit">
 </Style>
 <Style Tag="div" Type="qfeedr" Class="FeedbackRight">
+	<StyleParameter Name="margin-top" Value="10px"/>
+	<StyleParameter Name="margin-left" Value="10px"/>
+	<StyleParameter Name="border-width" Value="1px"/>
+	<StyleParameter Name="border-style" Value="solid"/>
+	<StyleParameter Name="background-color" Value="#CCFFCC"/>
 </Style>
 <Style Tag="div" Type="qfeedw" Class="FeedbackWrong">
+	<StyleParameter Name="margin-top" Value="10px"/>
+	<StyleParameter Name="margin-left" Value="10px"/>
+	<StyleParameter Name="border-width" Value="1px"/>
+	<StyleParameter Name="border-style" Value="solid"/>
+	<StyleParameter Name="background-color" Value="#FFCCCC"/>
 </Style>
 
 

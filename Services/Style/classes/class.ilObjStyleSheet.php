@@ -324,7 +324,7 @@ class ilObjStyleSheet extends ilObject
 		
 	// pseudo classes
 	public static $pseudo_classes =
-		array ("a" => array("hover"), "div" => array("hover"));
+		array ("a" => array("hover"), "div" => array("hover"), "img" => array("hover"));
 		
 	// core styles these styles MUST exists -> see also basic_style/style.xml
 	public static $core_styles = array(
@@ -1387,7 +1387,7 @@ class ilObjStyleSheet extends ilObject
 			fwrite ($css_file, "\n");
 			
 			// use table border attributes for th td as well
-			if ($tag[0]["type"] == "table")
+/*			if ($tag[0]["type"] == "table")
 			{
 				if (count($t_border) > 0)
 				{
@@ -1401,7 +1401,7 @@ class ilObjStyleSheet extends ilObject
 					fwrite ($css_file, "}\n");
 					fwrite ($css_file, "\n");
 				}
-			}
+			}*/
 		}
 		
 		if ($page_background != "")
@@ -1479,6 +1479,16 @@ class ilObjStyleSheet extends ilObject
 	function getSyntaxStylePath()
 	{
 		return "./Services/COPage/css/syntaxhighlight.css";
+	}
+
+	/**
+	* get placeholder style path (for Page Layouts)
+	*
+	* static
+	*/
+	function getPlaceHolderStylePath()
+	{
+		return "./Services/COPage/css/placeholder.css";
 	}
 
 	function update()
