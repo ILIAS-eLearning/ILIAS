@@ -138,8 +138,17 @@ class ilTestEvaluationData
 				$this->getParticipant($row["active_fi"])->addPass($row["pass"], $pass);
 			}
 			$this->getParticipant($row["active_fi"])->getPass($row["pass"])->setReachedPoints($row["points"]);
-			$this->getParticipant($row["active_fi"])->getPass($row["pass"])->setMaxPoints($row["maxpoints"]);
-			$this->getParticipant($row["active_fi"])->getPass($row["pass"])->setQuestionCount($row["questioncount"]);
+			if ($row["questioncount"] == 0)
+			{
+				$data = ilObjTest::_getQuestionCountAndPointsForPassOfParticipant($row['active_fi'], $row['pass']);
+				$this->getParticipant($row["active_fi"])->getPass($row["pass"])->setMaxPoints($data['points']);
+				$this->getParticipant($row["active_fi"])->getPass($row["pass"])->setQuestionCount($data['count']);
+			}
+			else
+			{
+				$this->getParticipant($row["active_fi"])->getPass($row["pass"])->setMaxPoints($row["maxpoints"]);
+				$this->getParticipant($row["active_fi"])->getPass($row["pass"])->setQuestionCount($row["questioncount"]);
+			}
 			$this->getParticipant($row["active_fi"])->getPass($row["pass"])->setNrOfAnsweredQuestions($row["answeredquestions"]);
 			$this->getParticipant($row["active_fi"])->getPass($row["pass"])->setWorkingTime($row["workingtime"]);
 		}

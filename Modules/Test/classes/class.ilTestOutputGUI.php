@@ -529,8 +529,6 @@ class ilTestOutputGUI extends ilTestServiceGUI
 /**
 * Start a test for the first time after a redirect
 *
-* Start a test for the first time after a redirect
-*
 * @access public
 */
 	function startTest()
@@ -744,6 +742,7 @@ class ilTestOutputGUI extends ilTestServiceGUI
 				$this->ctrl->redirect($this, "outQuestionSummary");
 				break;
 			case "start":
+				$_SESSION['tst_pass_finish'] = 0;
 				$this->object->createTestSession();
 				$active_id = $this->object->getTestSession()->getActiveId();
 				$this->ctrl->setParameter($this, "active_id", $active_id);
@@ -771,6 +770,7 @@ class ilTestOutputGUI extends ilTestServiceGUI
 				}
 				break;
 			case "resume":
+				$_SESSION['tst_pass_finish'] = 0;
 				$active_id = $this->object->getTestSession()->getActiveId();
 				$this->ctrl->setParameter($this, "active_id", $active_id);
 
@@ -809,6 +809,7 @@ class ilTestOutputGUI extends ilTestServiceGUI
 			case "back":
 			case "gotoquestion":
 			default:
+				$_SESSION['tst_pass_finish'] = 0;
 				if (array_key_exists("tst_javascript", $_GET))
 				{
 					$ilUser->writePref("tst_javascript", $_GET["tst_javascript"]);
@@ -1124,9 +1125,13 @@ class ilTestOutputGUI extends ilTestServiceGUI
 			}
 		}
 
-		$this->object->getTestSession()->increasePass();
-		$this->object->getTestSession()->setLastSequence(0);
-		$this->object->getTestSession()->saveToDb();
+		if (!$_SESSION['tst_pass_finish'])
+		{
+			if (!$_SESSION['tst_pass_finish']) $_SESSION['tst_pass_finish'] = 1;
+			$this->object->getTestSession()->increasePass();
+			$this->object->getTestSession()->setLastSequence(0);
+			$this->object->getTestSession()->saveToDb();
+		}
 		$this->redirectBack();
 	}
 	
