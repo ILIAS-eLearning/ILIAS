@@ -5195,6 +5195,10 @@ function loadQuestions($active_id = "", $pass = NULL)
 			{
 				$where .= " AND qpl_qst_type.type_tag = " . $ilDB->quote($arrFilter['type'], 'text');
 			}
+			if (array_key_exists('qpl', $arrFilter) && strlen($arrFilter['qpl']))
+			{
+				$where .= " AND " . $ilDB->like('object_data.title', 'text', "%%" . $arrFilter['qpl'] . "%%");
+			}
 		}
 
 		$original_ids =& $this->getExistingQuestions();
@@ -5205,7 +5209,7 @@ function loadQuestions($active_id = "", $pass = NULL)
 		}
 
 		$query_result = $ilDB->query(
-			"SELECT qpl_questions.*, qpl_questions.tstamp, qpl_qst_type.type_tag, qpl_qst_type.plugin " .
+			"SELECT qpl_questions.*, qpl_questions.tstamp, qpl_qst_type.type_tag, qpl_qst_type.plugin, object_data.title qpl " .
 			"FROM qpl_questions, qpl_qst_type, object_data WHERE $original_clause $available AND " .
 			"object_data.obj_id = qpl_questions.obj_fi AND qpl_questions.tstamp > 0 AND " .
 			"qpl_questions.question_type_fi = qpl_qst_type.question_type_id$where");
@@ -5214,19 +5218,6 @@ function loadQuestions($active_id = "", $pass = NULL)
 		{
 			while ($row = $ilDB->fetchAssoc($query_result))
 			{
-				$title = ilObject::_lookupTitle($row["obj_fi"]);
-				$row['qpl'] = $title;
-				if (is_array($arrFilter))
-				{
-					if (array_key_exists('qpl', $arrFilter) && strlen($arrFilter['qpl']))
-					{
-						if (stripos($title, $arrFilter['qpl']) !== false)
-						{
-							array_push($rows, $row);
-						}
-						continue;
-					}
-				}
 				if ($row["plugin"])
 				{
 					if ($this->isPluginActive($row["type_tag"]))
