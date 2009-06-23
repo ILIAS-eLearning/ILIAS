@@ -4212,9 +4212,9 @@ class ilObjCourseGUI extends ilContainerGUI
 				
 			case 'ilpermissiongui':
 				include_once("Services/AccessControl/classes/class.ilPermissionGUI.php");
+				$this->tabs_gui->setTabActive('perm_settings');
 				$perm_gui =& new ilPermissionGUI($this);
 				$ret =& $this->ctrl->forwardCommand($perm_gui);
-				$this->tabs_gui->setTabActive('perm_settings');
 				break;
 
 			case 'ilrepositorysearchgui':

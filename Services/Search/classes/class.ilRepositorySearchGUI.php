@@ -137,7 +137,7 @@ class ilRepositorySearchGUI
 		$this->show();
 	}
 
-	function setCallback(&$class,$method,$a_add_options)
+	function setCallback(&$class,$method,$a_add_options = array())
 	{
 		$this->callback = array('class' => $class,'method' => $method);
 		$this->add_options = $a_add_options ? $a_add_options : array();

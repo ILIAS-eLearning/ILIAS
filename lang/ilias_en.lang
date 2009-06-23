@@ -739,7 +739,7 @@ assessment#:#tst_finish_confirmation_question#:#You are going to finish this tes
 assessment#:#tst_finished#:#Finished
 assessment#:#tst_fixed_participants_data_exists#:#There are already participants who ran the test. You are not allowed to change the fixed participants status!
 assessment#:#tst_fixed_participants_disable#:#Confirm Status Change
-assessment#:#tst_fixed_participants_disable_description#:#You are about to disable the support for fixed participants in this test. All fixed participants who did not start the test yet will be removed from the test. Are you sure you want to proceed?
+assessment#:#tst_fixed_participants_disable_description#:#You are about to disable the support for fixed participants in this test. All fixed participants who did not start the test yet will be removed from the test. G you want to proceed?
 assessment#:#tst_general_properties#:#General Properties
 assessment#:#tst_generate_xls#:#Generate Excel
 assessment#:#tst_heading_scoring#:#Scoring
@@ -1310,7 +1310,7 @@ common#:#admin_panel#:#Administration Panel
 common#:#all_commands#:#All Commands
 common#:#basic_commands#:#Basic Commands
 common#:#administrate#:#Administrate
-common#:#administrate_users#:#Local user administration
+common#:#administrate_users#:#Local User Administration
 common#:#administration#:#Administration
 common#:#administrator#:#Administrator
 common#:#adopt#:#Adopt
@@ -1955,7 +1955,7 @@ common#:#dbk_write#:#Edit Digilib Book
 common#:#def_repository_view#:#Default repository view
 common#:#default#:#Default
 common#:#default_language#:#Default Language
-common#:#default_perm_settings#:#Default permissions
+common#:#default_perm_settings#:#Default Permissions
 common#:#default_role#:#Default Role
 common#:#default_roles#:#Default Roles
 common#:#default_skin#:#Default Skin
@@ -1978,7 +1978,7 @@ common#:#desc#:#Description
 common#:#descending_order#:#Descending order
 common#:#description#:#Description
 common#:#desired_password#:#Desired Password
-common#:#desktop_items#:#Personal desktop items
+common#:#desktop_items#:#Personal Desktop Items
 common#:#details#:#Details
 common#:#disable#:#disable
 common#:#disable_check#:#Disable check
@@ -9594,3 +9594,6 @@ content#:#cont_pc_map#:#Map
 content#:#cont_pc_list#:#Advanced List
 common#:#session_reminder_lead_time#:#Leadtime
 common#:#session_reminder_lead_time_info#:#Please specify, how much seconds before the session expires you want the session reminder to display a warning. The current value for a user session is %s.
+rbac#:#rbac_delete_role#:#Delete Role
+rbac#:#rbac_role_delete_qst#:#Are you sure you want to delete the following role?<br />All permissions granted by this role will be deleted permanently.
+rbac#:#rbac_role_delete_self#:#<strong>Attention:</strong> You are assigned to this role. If you continue this delete operation, you may loose access to some ILIAS materials.   
