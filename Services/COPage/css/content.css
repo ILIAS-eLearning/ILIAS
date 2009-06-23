@@ -449,43 +449,35 @@ div.ilc_question_Standard
 	background-position: top right;
 }
 
-/* Placeholders (they should be put to another css file!) */
-div.ilc_QuestionPlaceHolder
+div.ilc_qtitle_Title
 {
-	padding: 10px 10px 10px 10px;
-	background-color: #F4F4FF;
-	border-width: 1px;
-	font-size: 10px;
-	border-color: #D0D0FF;
-	border-style: solid;
-	background-image: url(../../../templates/default/images/question_placeholder.png);
 	font-weight: bold;
+} 
+
+div.ilc_qanswer_Answer
+{
+	margin-top: 2px;
+	margin-bottom: 2px;
+	
 }
 
-div.ilc_MediaPlaceHolder
+div.ilc_qfeedw_FeedbackWrong
 {
-	padding: 10px 10px 10px 10px;
-	background-color: #F4F4FF;
+	margin: 10px 0px 10px 0px;
 	border-width: 1px;
-	font-size: 10px;
-	border-color: #D0D0FF;
 	border-style: solid;
-	min-height:100px;
-	font-weight: bold;
-	background-image: url(../../../templates/default/images/media_placeholder.png);	
+	background-color: #FFCCCC;
+
 }
 
-div.ilc_TextPlaceHolder
+div.ilc_qfeedr_FeedbackRight
 {
-	padding: 10px 10px 10px 10px;
-	background-color: #F4F4FF;
+	margin: 10px 0px 10px 0px;
 	border-width: 1px;
-	font-size: 10px;
-	border-color: #D0D0FF;
 	border-style: solid;
-	font-weight: bold;
-	background-image: url(../../../templates/default/images/text_placeholder.png);
+	background-color: #CCFFCC;
 }
+
 
 /* File Lists */
 div.ilc_flist_cont_FileListContainer
@@ -495,6 +487,7 @@ div.ilc_flist_cont_FileListContainer
 	border-color:#9EADBA;
 	margin: 10px 0px;
 }
+
 
 div.ilc_flist_head_FileListHeading
 {

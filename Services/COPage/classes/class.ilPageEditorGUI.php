@@ -16,7 +16,7 @@ include_once ("classes/class.ilTabsGUI.php");
 * @ilCtrl_Calls ilPageEditorGUI: ilPCFileListGUI, ilPCFileItemGUI, ilObjMediaObjectGUI
 * @ilCtrl_Calls ilPageEditorGUI: ilPCSourceCodeGUI, ilInternalLinkGUI, ilPCQuestionGUI
 * @ilCtrl_Calls ilPageEditorGUI: ilPCSectionGUI, ilPCDataTableGUI, ilPCResourcesGUI
-* @ilCtrl_Calls ilPageEditorGUI: ilPCMapGUI, ilPCPluggedGUI, ilPCTabsGUI
+* @ilCtrl_Calls ilPageEditorGUI: ilPCMapGUI, ilPCPluggedGUI, ilPCTabsGUI, IlPCPlaceHolderGUI
 *
 * @ingroup ServicesCOPage
 */
@@ -127,9 +127,6 @@ class ilPageEditorGUI
 	{
 		global $ilCtrl;
 		
-//var_dump($_POST);
-		
-//$this->ctrl->debug("ilPageEditorGUI->execute");
 		$cmd = $this->ctrl->getCmd("displayPage");
 		$cmdClass = strtolower($this->ctrl->getCmdClass());
 
@@ -180,8 +177,9 @@ class ilPageEditorGUI
 		$next_class = $this->ctrl->getNextClass($this);
 
 		// determine content type
-		if ($cmd == "insert" || $cmd == "create")
+		if ($com[0] == "insert" || $com[0] == "create")
 		{
+			$cmd = $com[0];
 			$ctype = $com[1];
 			$add_type = $com[2];
 			if ($ctype == "mob") $ctype = "media";
@@ -216,7 +214,9 @@ class ilPageEditorGUI
 				$cmd != "setMediaMode" && $cmd != "copyLinkedMediaToClipboard" &&
 				$cmd != "activatePage" && $cmd != "deactivatePage" &&
 				$cmd != "copyLinkedMediaToMediaPool" &&
-				$cmd != "deleteSelected" &&
+				$cmd != "deleteSelected" && $cmd != "paste" &&
+				$cmd != "copySelected" && $cmd != "cutSelected" &&
+				($cmd != "displayPage" || $_POST["editImagemapForward_x"] != "" || $_POST["imagemap_x"] != "") &&
 				($cmd != "displayPage" || $_POST["editImagemapForward_x"] != "") &&
 				$cmd != "activateSelected" && $cmd != "assignCharacteristicForm" &&
 				$cmd != "assignCharacteristic" &&
@@ -240,7 +240,6 @@ class ilPageEditorGUI
 //$this->ctrl->debug("+ctype:".$ctype."+");
 //		$this->tpl->addBlockFile("CONTENT", "content", "tpl.adm_content.html");
 //		$this->tpl->addBlockFile("STATUSLINE", "statusline", "tpl.statusline.html");
-
 
 		if ($ctype != "media" || !is_object ($cont_obj))
 		{
@@ -334,12 +333,16 @@ class ilPageEditorGUI
 					$this->ctrl->setCmdClass("ilPCPluggedGUI");
 					break;
 
+				case "plach":
+					$this->ctrl->setCmdClass("ilPCPlaceHolderGUI");
+					break;
+
 			}
 			$next_class = $this->ctrl->getNextClass($this);
 		}
 
 		// do not do this while imagemap editing is ongoing
-		if ($cmd == "displayPage" && $_POST["editImagemapForward_x"] == "")
+		if ($cmd == "displayPage" && $_POST["editImagemapForward_x"] == "" && $_POST["imagemap_x"] == "")
 		{
 			$next_class = "";
 		}
@@ -484,7 +487,6 @@ class ilPageEditorGUI
 				include_once ("./Services/COPage/classes/class.ilPCListGUI.php");
 				$list_gui =& new ilPCListGUI($this->page, $cont_obj, $hier_id, $pc_id);
 				$list_gui->setStyleId($this->page_gui->getStyleId());
-				//$ret =& $list_gui->executeCommand();
 				$ret =& $this->ctrl->forwardCommand($list_gui);
 				break;
 
@@ -518,19 +520,38 @@ class ilPageEditorGUI
 				$ret =& $this->ctrl->forwardCommand($file_item_gui);
 				break;
 
-			// File List Item
+			// Question
 			case "ilpcquestiongui":
-			
-				// clear tabs!?
-				//$this->tabs_gui->clearTargets();
-				
 				include_once("./Services/COPage/classes/class.ilPCQuestionGUI.php");
 				$pc_question_gui =& new ilPCQuestionGUI($this->page, $cont_obj, $hier_id, $pc_id);
-				$cmd = $this->ctrl->getCmd();
-				$pc_question_gui->$cmd();
-				$this->ctrl->redirectByClass(array("ilobjquestionpoolgui", get_class($cont_obj)), "editQuestion");
+				$pc_question_gui->setSelfAssessmentMode($this->page_gui->getEnabledSelfAssessment());
+				if ($this->page_gui->getEnabledSelfAssessment())
+				{
+					$this->tabs_gui->clearTargets();
+					$this->tabs_gui->setBackTarget($this->lng->txt("back"),
+						$ilCtrl->getParentReturn($this));
+					$ret = $this->ctrl->forwardCommand($pc_question_gui);
+				}
+				else
+				{
+					$cmd = $this->ctrl->getCmd();
+					$pc_question_gui->$cmd();
+					$this->ctrl->redirectByClass(array("ilobjquestionpoolgui", get_class($cont_obj)), "editQuestion");
+				}
 				break;
 
+
+			// PlaceHolder
+			case "ilpcplaceholdergui":
+				$this->tabs_gui->clearTargets();
+				include_once ("./Services/COPage/classes/class.ilPCPlaceHolderGUI.php");	
+				$plch_gui =& new ilPCPlaceHolderGUI($this->page, $cont_obj, $hier_id, $pc_id);
+				// scorm2004-start
+				$plch_gui->setStyleId($this->page_gui->getStyleId());
+				// scorm2004-end
+				$ret =& $this->ctrl->forwardCommand($plch_gui);
+				break;
+					
 			// Section
 			case "ilpcsectiongui":
 				$this->tabs_gui->clearTargets();
@@ -588,11 +609,15 @@ class ilPageEditorGUI
 			default:
 				if ($cmd == "pasteFromClipboard")
 				{
-					$ret =& $this->pasteFromClipboard($hier_id);
+					$ret = $this->pasteFromClipboard($hier_id);
+				}
+				else if ($cmd == "paste")
+				{
+					$ret = $this->paste($hier_id);
 				}
 				else
 				{
-					$ret =& $this->$cmd();
+					$ret = $this->$cmd();
 				}
 				break;
 
@@ -738,6 +763,58 @@ return true;
 				unset($_SESSION["il_pg_error"]);
 			}
 		}
+		$this->ctrl->returnToParent($this);
+	}
+
+	/**
+	* copy selected items
+	*/
+	function copySelected()
+	{
+		if (is_int(strpos($_POST["target"][0], ";")))
+		{
+			$_POST["target"] = explode(";", $_POST["target"][0]);
+		}
+		if (is_array($_POST["target"]))
+		{
+			$this->page->copyContents($_POST["target"]);
+		}
+		$this->ctrl->returnToParent($this);
+	}
+
+	/**
+	* cut selected items
+	*/
+	function cutSelected()
+	{
+		if (is_int(strpos($_POST["target"][0], ";")))
+		{
+			$_POST["target"] = explode(";", $_POST["target"][0]);
+		}
+		if (is_array($_POST["target"]))
+		{
+			$updated = $this->page->cutContents($_POST["target"]);
+			if($updated !== true)
+			{
+				$_SESSION["il_pg_error"] = $updated;
+			}
+			else
+			{
+				unset($_SESSION["il_pg_error"]);
+			}
+		}
+		$this->ctrl->returnToParent($this);
+	}
+
+	/**
+	* paste from clipboard (redirects to clipboard)
+	*/
+	function paste($a_hier_id)
+	{
+		global $ilCtrl;
+		$this->page->pasteContents($a_hier_id);
+		include_once("./Modules/LearningModule/classes/class.ilEditClipboard.php");
+		ilEditClipboard::setAction("");
 		$this->ctrl->returnToParent($this);
 	}
 

@@ -142,6 +142,12 @@ function doMouseOver (id, mclass)
 		}
 	}
 	
+	var typetext = document.getElementById("T" + id);
+	if (typetext)
+	{
+		typetext.style.display = '';
+	}
+	
 	current_mouse_over_id = id;
 }
 
@@ -162,6 +168,13 @@ function doMouseOut(id, mclass)
 		//obj.className = mclass;
 		obj.className = edit_area_original_class[id];
 	}
+	
+	var typetext = document.getElementById("T" + id);
+	if (typetext)
+	{
+		typetext.style.display = 'none';
+	}
+
 }
 
 function followmouse1(e) 

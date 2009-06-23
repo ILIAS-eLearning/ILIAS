@@ -122,6 +122,15 @@ abstract class ilPageContent
 	{
 		return $this->hier_id;
 	}
+	
+	
+	/**
+	* Get hierarchical id from dom
+	*/
+	function lookupHierId()
+	{
+		return $this->node->get_attribute("HierId");
+	}
 
 	/**
 	* Read PC Id.
@@ -228,6 +237,37 @@ abstract class ilPageContent
 		return false;
 	}
 
+	/**
+	* Sort an array of Hier IDS in ascending order
+	*/
+	static function sortHierIds($a_array)
+	{
+		uasort($a_array, array("ilPageContent", "isGreaterHierId"));
+		
+		return $a_array;
+	}
+	
+	/**
+	* Check whether Hier ID $a is greater than Hier ID $b
+	*/
+	function isGreaterHierId($a, $b)
+	{
+		$a_arr = explode("_", $a);
+		$b_arr = explode("_", $b);
+		for ($i = 0; $i < count($a_arr); $i++)
+		{
+			if ((int) $a_arr[$i] > (int) $b_arr[$i])
+			{
+				return true;
+			}
+			else if ((int) $a_arr[$i] < (int) $b_arr[$i])
+			{
+				return false;
+			}
+		}
+		return false;
+	}
+	
 	/**
 	* Set Enabled value for page content component.
 	*

@@ -7,6 +7,7 @@
 <xsl:output method="xml" omit-xml-declaration="yes" />
 <!-- <xsl:output method="html"/> -->
 
+
 <!-- changing the default template to output all unknown tags -->
 <xsl:template match="*">
   <xsl:copy-of select="."/>
@@ -71,7 +72,9 @@
 <xsl:param name="enable_map"/>
 <xsl:param name="enable_tabs"/>
 <xsl:param name="enable_file_list"/>
+<xsl:param name="enable_sa_qst"/>
 <xsl:param name="disable_auto_margins"/>
+
 
 <xsl:template match="PageObject">
 	<!-- <xsl:value-of select="@HierId"/> -->
@@ -431,6 +434,14 @@
 	</xsl:if>
 </xsl:template>
 
+<!-- Edit Label -->
+<xsl:template name="EditLabel">
+	<xsl:param name="text"/>
+	<div class="ilEditLabel" style="display:none;">
+		<xsl:attribute name="id">TCONTENT<xsl:value-of select="../@HierId"/>:<xsl:value-of select="../@PCID"/></xsl:attribute>
+	<xsl:value-of select="$text"/></div>
+</xsl:template>
+
 <!-- Edit Menu -->
 <xsl:template name="EditMenu">
 	<xsl:param name="hier_id"/>
@@ -587,6 +598,14 @@
 <!-- Insert Menu Items -->
 <xsl:template name="EditMenuInsertItems">
 
+	<!-- paste actual clipboard content -->
+	<xsl:if test = "$paste = 'y'">
+		<xsl:call-template name="EditMenuItem">
+			<xsl:with-param name="command">paste</xsl:with-param>
+			<xsl:with-param name="langvar">ed_paste</xsl:with-param>
+		</xsl:call-template>
+	</xsl:if>
+
 	<!-- insert paragraph -->
 	<xsl:call-template name="EditMenuItem">
 		<xsl:with-param name="command">insert_par</xsl:with-param>
@@ -607,6 +626,14 @@
 		<xsl:with-param name="langvar">ed_insert_media</xsl:with-param>
 	</xsl:call-template>
 
+	<!-- insert question -->
+	<xsl:if test = "$enable_sa_qst = 'y'">
+		<xsl:call-template name="EditMenuItem">
+			<xsl:with-param name="command">insert_pcqst</xsl:with-param>
+			<xsl:with-param name="langvar">ed_insert_pcqst</xsl:with-param>
+		</xsl:call-template>
+	</xsl:if>
+
 	<!-- insert file list -->
 	<xsl:if test = "$enable_file_list = 'y'">
 		<xsl:call-template name="EditMenuItem">
@@ -614,6 +641,12 @@
 			<xsl:with-param name="langvar">ed_insert_filelist</xsl:with-param>
 		</xsl:call-template>
 	</xsl:if>
+
+	<!-- insert section -->
+	<xsl:call-template name="EditMenuItem">
+		<xsl:with-param name="command">insert_sec</xsl:with-param>
+		<xsl:with-param name="langvar">ed_insert_section</xsl:with-param>
+	</xsl:call-template>
 
 	<!-- insert data table -->
 	<xsl:call-template name="EditMenuItem">
@@ -626,19 +659,13 @@
 		<xsl:with-param name="command">insert_tab</xsl:with-param>
 		<xsl:with-param name="langvar">ed_insert_atable</xsl:with-param>
 	</xsl:call-template>
-	
+
 	<!-- insert list -->
 	<xsl:call-template name="EditMenuItem">
 		<xsl:with-param name="command">insert_list</xsl:with-param>
 		<xsl:with-param name="langvar">ed_insert_list</xsl:with-param>
 	</xsl:call-template>
-	
-	<!-- insert section -->
-	<xsl:call-template name="EditMenuItem">
-		<xsl:with-param name="command">insert_sec</xsl:with-param>
-		<xsl:with-param name="langvar">ed_insert_section</xsl:with-param>
-	</xsl:call-template>
-	
+
 	<!-- insert map (geographical) -->
 	<xsl:if test = "$enable_map = 'y'">
 		<xsl:call-template name="EditMenuItem">
@@ -788,16 +815,19 @@
 
 <!-- Paragraph -->
 <xsl:template match="Paragraph">
-	<xsl:param name="par_counter" select="-1" />
-
+	<xsl:param name="par_counter" select="-1" />	
 	<xsl:choose>
 		<xsl:when test="not (@Characteristic) or @Characteristic != 'Code'">
+		<!-- Label -->
+		<xsl:call-template name="EditLabel"><xsl:with-param name="text"><xsl:value-of select="//LVs/LV[@name='pc_par']/@value"/></xsl:with-param></xsl:call-template>
 		<div>
 			<xsl:call-template name="ShowParagraph"/>
 			<xsl:comment>Break</xsl:comment>
 		</div>
 		</xsl:when>
 		<xsl:otherwise>
+			<!-- Label -->
+			<xsl:call-template name="EditLabel"><xsl:with-param name="text"><xsl:value-of select="//LVs/LV[@name='pc_code']/@value"/></xsl:with-param></xsl:call-template>
 			<xsl:call-template name="ShowParagraph">
 				<xsl:with-param name="p_id" select="$par_counter" />
 			</xsl:call-template>
@@ -1140,6 +1170,14 @@
 
 <!-- Tables -->
 <xsl:template match="Table">
+	<!-- Label -->
+	<xsl:if test="@DataTable != 'y' or not(@DataTable)">
+	<xsl:call-template name="EditLabel"><xsl:with-param name="text"><xsl:value-of select="//LVs/LV[@name='pc_tab']/@value"/></xsl:with-param></xsl:call-template>
+	</xsl:if>
+	<xsl:if test="@DataTable = 'y'">
+	<xsl:call-template name="EditLabel"><xsl:with-param name="text"><xsl:value-of select="//LVs/LV[@name='pc_dtab']/@value"/></xsl:with-param></xsl:call-template>
+	</xsl:if>	
+	
 	<!-- <xsl:value-of select="@HierId"/> -->
 	<xsl:if test="$mode = 'edit' and $javascript='disable'">
 		<br/>
@@ -1534,6 +1572,9 @@
 
 <!-- Lists -->
 <xsl:template match="List">
+	<!-- Label -->
+	<xsl:call-template name="EditLabel"><xsl:with-param name="text"><xsl:value-of select="//LVs/LV[@name='pc_list']/@value"/></xsl:with-param></xsl:call-template>
+
 	<!-- <xsl:value-of select="..@HierId"/> -->
 	<xsl:call-template name="EditReturnAnchors"/>
 	<xsl:if test="@Type = 'Ordered'">
@@ -1670,6 +1711,8 @@
 
 <!-- FileList -->
 <xsl:template match="FileList">
+	<!-- Label -->
+	<xsl:call-template name="EditLabel"><xsl:with-param name="text"><xsl:value-of select="//LVs/LV[@name='pc_flist']/@value"/></xsl:with-param></xsl:call-template>
 	<xsl:call-template name="EditReturnAnchors"/>
 	<div class="ilc_flist_cont_FileListContainer">
 		<div class="ilc_flist_head_FileListHeading"><xsl:value-of select="./Title"/></div>
@@ -2553,11 +2596,17 @@
 
 <!-- MediaObject -->
 <xsl:template match="MediaObject">
+	<!-- Label -->
+	<xsl:if test="./MediaAlias">
+	<xsl:call-template name="EditLabel"><xsl:with-param name="text"><xsl:value-of select="//LVs/LV[@name='pc_mob']/@value"/></xsl:with-param></xsl:call-template>
+	</xsl:if>
 	<xsl:apply-templates select="MediaAlias"/>
 </xsl:template>
 
 <!-- Section -->
 <xsl:template match="Section">
+	<!-- Label -->
+	<xsl:call-template name="EditLabel"><xsl:with-param name="text"><xsl:value-of select="//LVs/LV[@name='pc_sec']/@value"/></xsl:with-param></xsl:call-template>
 	<div>
 		<xsl:if test="@Characteristic">
 			<xsl:if test="substring(@Characteristic, 1, 4) = 'ilc_'">
@@ -2568,7 +2617,7 @@
 			</xsl:if>
 		</xsl:if>
 		<xsl:if test="$mode = 'edit'">
-			<xsl:attribute name="style">position:static;</xsl:attribute>
+			<xsl:attribute name="style">min-height: 60px; height: auto !important; height: 60px; position:static;</xsl:attribute>
 		</xsl:if>
 		<xsl:call-template name="EditReturnAnchors"/>
 		<!-- command selectbox -->
@@ -2685,6 +2734,13 @@
 
 <!-- Tabs -->
 <xsl:template match="Tabs">
+	<!-- Label -->
+	<xsl:if test="@Type = 'VerticalAccordion'">
+	<xsl:call-template name="EditLabel"><xsl:with-param name="text"><xsl:value-of select="//LVs/LV[@name='pc_vacc']/@value"/></xsl:with-param></xsl:call-template>
+	</xsl:if>
+	<xsl:if test="@Type = 'HorizontalAccordion'">
+	<xsl:call-template name="EditLabel"><xsl:with-param name="text"><xsl:value-of select="//LVs/LV[@name='pc_hacc']/@value"/></xsl:with-param></xsl:call-template>
+	</xsl:if>
 	<xsl:variable name="ttemp" select="@Template"/>
 	<xsl:call-template name="EditReturnAnchors"/>
 	<xsl:variable name="halign"><xsl:choose>
@@ -2714,7 +2770,10 @@
 		</xsl:variable>
 		<div>
 		<xsl:choose>
-		<xsl:when test="@Type = 'VerticalAccordion' or $mode = 'edit'">
+		<xsl:when test="$mode = 'edit'">
+			<xsl:attribute name="class">ilEditVAccordCntr</xsl:attribute>
+		</xsl:when>
+		<xsl:when test="@Type = 'VerticalAccordion'">
 			<xsl:attribute name="class">ilc_va_cntr_VAccordCntr</xsl:attribute>
 			<xsl:attribute name="id">ilc_accordion_<xsl:number count="Tabs" level="any" /></xsl:attribute>
 			<xsl:if test="@Template and //StyleTemplates/StyleTemplate[@Name=$ttemp]/StyleClass[@Type='va_cntr']/@Value">
@@ -2783,7 +2842,10 @@
 	<!-- TabContainer -->
 	<div>
 	<xsl:choose>
-	<xsl:when test="../@Type = 'VerticalAccordion' or $mode = 'edit'">
+	<xsl:when test="$mode = 'edit'">
+		<xsl:attribute name="class">ilEditVAccordICntr</xsl:attribute>
+	</xsl:when>
+	<xsl:when test="../@Type = 'VerticalAccordion'">
 		<xsl:attribute name="class">ilc_va_icntr_VAccordICntr</xsl:attribute>
 		<xsl:if test="../@Template and //StyleTemplates/StyleTemplate[@Name=$ttemp]/StyleClass[@Type='va_icntr']/@Value">
 			<xsl:attribute name = "class">ilc_va_icntr_<xsl:value-of select = "//StyleTemplates/StyleTemplate[@Name=$ttemp]/StyleClass[@Type='va_icntr']/@Value"/></xsl:attribute>
@@ -2811,7 +2873,10 @@
 
 		<div>
 		<xsl:choose>
-		<xsl:when test="../@Type = 'VerticalAccordion' or $mode = 'edit'">
+		<xsl:when test="$mode = 'edit'">
+			<xsl:attribute name="class">ilEditVAccordIHead</xsl:attribute>
+		</xsl:when>
+		<xsl:when test="../@Type = 'VerticalAccordion'">
 			<xsl:attribute name="class">ilc_va_ihead_VAccordIHead</xsl:attribute>
 			<xsl:if test="../@Template and //StyleTemplates/StyleTemplate[@Name=$ttemp]/StyleClass[@Type='va_ihead']/@Value">
 				<xsl:attribute name = "class">ilc_va_ihead_<xsl:value-of select = "//StyleTemplates/StyleTemplate[@Name=$ttemp]/StyleClass[@Type='va_ihead']/@Value"/></xsl:attribute>
@@ -2881,7 +2946,10 @@
 		</xsl:if>
 		<div>
 			<xsl:choose>
-			<xsl:when test="../@Type = 'VerticalAccordion' or $mode = 'edit'">
+			<xsl:when test="$mode = 'edit'">
+				<xsl:attribute name="class">ilEditVAccordICont</xsl:attribute>
+			</xsl:when>
+			<xsl:when test="../@Type = 'VerticalAccordion'">
 				<xsl:attribute name="class">ilc_va_icont_VAccordICont</xsl:attribute>
 				<xsl:if test="../@Template and //StyleTemplates/StyleTemplate[@Name=$ttemp]/StyleClass[@Type='va_icont']/@Value">
 					<xsl:attribute name = "class">ilc_va_icont_<xsl:value-of select = "//StyleTemplates/StyleTemplate[@Name=$ttemp]/StyleClass[@Type='va_icont']/@Value"/></xsl:attribute>
@@ -2946,9 +3014,18 @@
 
 <!-- Question -->
 <xsl:template match="Question">
+	<xsl:call-template name="EditLabel"><xsl:with-param name="text"><xsl:value-of select="//LVs/LV[@name='pc_qst']/@value"/></xsl:with-param></xsl:call-template>
 	<div class="ilc_question_Standard">
-	[[[[[Question;]]]]]
 	<xsl:call-template name="EditReturnAnchors"/>
+
+
+	<xsl:if test = "@QRef != ''">
+	{{{{{Question;<xsl:value-of select="@QRef"/>}}}}}
+	</xsl:if>
+	<xsl:if test = "@QRef = ''">
+	<i><xsl:value-of select="//LVs/LV[@name='empty_question']/@value"/></i>
+	</xsl:if>
+	<!-- <xsl:apply-templates/> -->
 
 	<!-- command selectbox -->
 	<xsl:if test="$mode = 'edit'">

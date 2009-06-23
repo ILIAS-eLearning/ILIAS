@@ -41,6 +41,7 @@ class ilPageObject
 	var $offline_handler;
 	var $dom_builded;
 	var $history_saved;
+	var $layout_mode;
 	
 	/**
 	* Constructor
@@ -65,10 +66,12 @@ class ilPageObject
 		$this->halt_on_error = $a_halt;
 		$this->page_not_found = false;
 		$this->old_nr = $a_old_nr;
-		$this->encoding = "UTF-8";
+		$this->layout_mode = false;
+		$this->encoding = "UTF-8";		
 		$this->id_elements =
 			array("PageContent", "TableRow", "TableData", "ListItem", "FileItem",
 				"Section", "Tab");
+		
 		$this->setActive(true);
 		
 		if($a_id != 0)
@@ -161,6 +164,27 @@ class ilPageObject
 	{
 		return $this->lastchange;
 	}
+	
+	/**
+	* Set Layout Mode
+	*
+	* @param boolean	$a_layout_mode	SetLayoutMode for editor
+	*/
+	function setLayoutMode($a_layout_mode)
+	{
+		$this->layout_mode = $a_layout_mode;
+	}
+
+	/**
+	* Get Layout Mode enabled/disabled
+	*
+	* @return boolean	Get Layout Mode Setting
+	*/
+	function getLayoutMode()
+	{
+		return $this->layout_mode;
+	}
+	
 
 	/**
 	* read page data
@@ -635,6 +659,14 @@ if ($_GET["pgEdMediaMode"] != "") {echo "ilPageObject::error media"; exit;}
 						$plugged->setPcId($a_pc_id);
 						return $plugged;
 
+					//Page-Layout-Support
+					case "PlaceHolder":
+						require_once("./Services/COPage/classes/class.ilPCPlaceHolder.php");
+						$placeholder = new ilPCPlaceHolder($this->dom);
+						$placeholder->setNode($cont_node);
+						$placeholder->setHierId($a_hier_id);
+						$placeholder->setPcId($a_pc_id);
+						return $placeholder;
 				}
 				break;
 
@@ -768,7 +800,67 @@ if ($_GET["pgEdMediaMode"] != "") {echo "ilPageObject::error media"; exit;}
 			return $this->xml;
 		}
 	}
+	
+	/**
+	* Copy content of page; replace page components with copies
+	* where necessary (e.g. questions)
+	*/
+	function copyXmlContent($a_new_question_copies = true)
+	{
+		$xml = $this->getXmlContent();
+		$temp_dom = domxml_open_mem('<?xml version="1.0" encoding="UTF-8"?>'.$xml,
+			DOMXML_LOAD_PARSING, $error);
 
+		if(empty($error))
+		{
+			if ($a_new_question_copies)
+			{
+				$this->newQuestionCopies($temp_dom);
+			}
+		}
+		$xml = $temp_dom->dump_mem(0, $this->encoding);
+		$xml = eregi_replace("<\?xml[^>]*>","",$xml);
+		$xml = eregi_replace("<!DOCTYPE[^>]*>","",$xml);
+
+		return $xml;
+	}
+
+	/**
+	* Replaces existing question content elements with
+	* new copies
+	*/
+	function newQuestionCopies(&$temp_dom)
+	{
+		// Get question IDs
+		$path = "//Question";
+		$xpc = xpath_new_context($temp_dom);
+		$res = & xpath_eval($xpc, $path);
+
+		$q_ids = array();
+		include_once("./Services/COPage/classes/class.ilInternalLink.php");
+		for ($i = 0; $i < count ($res->nodeset); $i++)
+		{
+			$qref = $res->nodeset[$i]->get_attribute("QRef");
+			
+			$inst_id = ilInternalLink::_extractInstOfTarget($qref);
+			$q_id = ilInternalLink::_extractObjIdOfTarget($qref);
+
+			if (!($inst_id > 0))
+			{
+				if ($q_id > 0)
+				{
+					include_once "./Modules/TestQuestionPool/classes/class.assQuestion.php";
+					$question = assQuestion::_instanciateQuestion($q_id);
+
+					// now copy this question and change reference to
+					// new question id
+					$duplicate_id = $question->duplicate(false);
+					$res->nodeset[$i]->set_attribute("QRef", "il__qst_".$duplicate_id);
+				}
+			}
+		}
+	}
+	
 	/**
 	* get xml content of page from dom
 	* (use this, if any changes are made to the document)
@@ -853,7 +945,11 @@ if ($_GET["pgEdMediaMode"] != "") {echo "ilPageObject::error media"; exit;}
 			"ed_new_item_after", "ed_copy_clip", "please_select", "ed_split_page",
 			"ed_item_up", "ed_item_down", "ed_row_up", "ed_row_down",
 			"ed_col_left", "ed_col_right", "ed_split_page_next","ed_enable",
-			"de_activate", "ed_insert_repobj", "ed_insert_map", "ed_insert_tabs");
+			"de_activate", "ed_insert_repobj", "ed_insert_map", "ed_insert_tabs",
+			"ed_insert_pcqst", "empty_question", "ed_paste","question_placeh","media_placeh","text_placeh",
+			"ed_insert_plach","question_placehl","media_placehl","text_placehl",
+			"pc_flist", "pc_par", "pc_mob", "pc_qst", "pc_sec", "pc_dtab", "pc_tab",
+			"pc_code", "pc_vacc", "pc_hacc", "pc_res", "pc_map", "pc_list");
 
 		foreach ($lang_vars as $lang_var)
 		{
@@ -1131,6 +1227,7 @@ if ($_GET["pgEdMediaMode"] != "") {echo "ilPageObject::error media"; exit;}
 				$mobs_xml .= $mob_obj->getXML(IL_MODE_OUTPUT);
 			}
 		}
+//var_dump($mobs_xml);
 		return $mobs_xml;
 	}
 
@@ -1772,9 +1869,9 @@ if ($_GET["pgEdMediaMode"] != "") {echo "ilPageObject::error media"; exit;}
 			$last_nr = $ilDB->fetchAssoc($last_nr_set);
 			if ($old_rec = $ilDB->fetchAssoc($old_set))
 			{
-				// only save, if something has changed
+				// only save, if something has changed and not in layout mode
 				if (($content != $old_rec["content"]) && !$a_no_history &&
-					!$this->history_saved)
+					!$this->history_saved && !$this->layout_mode)
 				{
 					if ($old_rec["content"] != "<PageObject></PageObject>")
 					{
@@ -2333,6 +2430,7 @@ if ($_GET["pgEdMediaMode"] != "") {echo "ilPageObject::error media"; exit;}
 		}
 	}
 	
+
 	/**
 	* delete multiple content objects
 	*
@@ -2742,9 +2840,103 @@ if ($_GET["pgEdMediaMode"] != "") {echo "ilPageObject::error media"; exit;}
 //echo "PP";
 				break;
 		}
-
+		
+		//check for PlaceHolder to remove in EditMode-keep in Layout Mode
+		if (!$this->getLayoutMode()) {
+			$sub_nodes = $curr_node->child_nodes() ;
+			foreach ( $sub_nodes as $sub_node ) {
+				if ($sub_node->node_name() == "PlaceHolder") {
+					$curr_node->unlink_node();
+					$this->update();
+				}
+			}
+		}	
 	}
 
+	/**
+	* insert a content node before/after a sibling or as first child of a parent
+	*/
+	function insertContentNode(&$a_cont_node, $a_pos, $a_mode = IL_INSERT_AFTER, $a_pcid = "")
+	{
+		// move mode into container elements is always INSERT_CHILD
+		$curr_node = $this->getContentNode($a_pos, $a_pcid);
+		$curr_name = $curr_node->node_name();
+		if (($curr_name == "TableData") || ($curr_name == "PageObject") ||
+			($curr_name == "ListItem") || ($curr_name == "Section")
+			|| ($curr_name == "Tab"))
+		{
+			$a_mode = IL_INSERT_CHILD;
+		}
+
+		$hid = $curr_node->get_attribute("HierId");
+		if ($hid != "")
+		{
+			$a_pos = $hid;
+		}
+		
+		if($a_mode != IL_INSERT_CHILD)			// determine parent hierarchical id
+		{										// of sibling at $a_pos
+			$pos = explode("_", $a_pos);
+			$target_pos = array_pop($pos);
+			$parent_pos = implode($pos, "_");
+		}
+		else		// if we should insert a child, $a_pos is alreade the hierarchical id
+		{			// of the parent node
+			$parent_pos = $a_pos;
+		}
+
+		// get the parent node
+		if($parent_pos != "")
+		{
+			$parent_node =& $this->getContentNode($parent_pos);
+		}
+		else
+		{
+			$parent_node =& $this->getNode();
+		}
+
+		// count the parent children
+		$parent_childs =& $parent_node->child_nodes();
+		$cnt_parent_childs = count($parent_childs);
+
+		switch ($a_mode)
+		{
+			// insert new node after sibling at $a_pos
+			case IL_INSERT_AFTER:
+				//$new_node =& $a_cont_obj->getNode();
+				if($succ_node = $curr_node->next_sibling())
+				{
+					$a_cont_node = $succ_node->insert_before($a_cont_node, $succ_node);
+				}
+				else
+				{
+					$a_cont_node = $parent_node->append_child($a_cont_node);
+				}
+				//$a_cont_obj->setNode($new_node);
+				break;
+
+			case IL_INSERT_BEFORE:
+				//$new_node =& $a_cont_obj->getNode();
+				$succ_node = $this->getContentNode($a_pos);
+				$a_cont_node = $succ_node->insert_before($a_cont_node, $succ_node);
+				//$a_cont_obj->setNode($new_node);
+				break;
+
+			// insert new node as first child of parent $a_pos (= $a_parent)
+			case IL_INSERT_CHILD:
+				//$new_node =& $a_cont_obj->getNode();
+				if($cnt_parent_childs == 0)
+				{
+					$a_cont_node = $parent_node->append_child($a_cont_node);
+				}
+				else
+				{
+					$a_cont_node = $parent_childs[0]->insert_before($a_cont_node, $parent_childs[0]);
+				}
+				//$a_cont_obj->setNode($new_node);
+				break;
+		}
+	}
 
 	/**
 	* move content object from position $a_source before position $a_target
@@ -3149,6 +3341,40 @@ if ($_GET["pgEdMediaMode"] != "") {echo "ilPageObject::error media"; exit;}
 		return $hashes;
 	}
 	
+	/**
+	* Get page contents hashes
+	*/
+	function getQuestionIds()
+	{
+		$this->builddom();
+		$mydom = $this->dom;
+		
+		// Get question IDs
+		$path = "//Question";
+		$xpc = xpath_new_context($mydom);
+		$res = & xpath_eval($xpc, $path);
+
+		$q_ids = array();
+		include_once("./Services/COPage/classes/class.ilInternalLink.php");
+		for ($i = 0; $i < count ($res->nodeset); $i++)
+		{
+			$qref = $res->nodeset[$i]->get_attribute("QRef");
+			
+			$inst_id = ilInternalLink::_extractInstOfTarget($qref);
+			$obj_id = ilInternalLink::_extractObjIdOfTarget($qref);
+
+			if (!($inst_id > 0))
+			{
+				if ($obj_id > 0)
+				{
+					$q_ids[] = $obj_id;
+				}
+			}
+		}
+
+		return $q_ids;
+	}
+
 	function send_paragraph ($par_id, $filename)
 	{
 		$this->builddom();
@@ -3205,7 +3431,7 @@ if ($_GET["pgEdMediaMode"] != "") {echo "ilPageObject::error media"; exit;}
 
 
 		$fo = xslt_process($xh,"arg:/_xml","arg:/_xsl",NULL,$args, $params);
-
+		var_dump($fo);
 		// do some replacements
 		$fo = str_replace("\n", "", $fo);
 		$fo = str_replace("<br/>", "<br>", $fo);

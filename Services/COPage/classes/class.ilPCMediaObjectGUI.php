@@ -85,13 +85,17 @@ class ilPCMediaObjectGUI extends ilPageContentGUI
 		{
 			$tpl->setTitleIcon(ilUtil::getImagePath("icon_mob_b.gif"));
 			$this->getTabs($this->tabs_gui);
-			$tpl->setVariable("HEADER", $lng->txt("mob").": ".
-				$this->content_obj->getMediaObject()->getTitle());
-//			$this->displayLocator("mob");	// ??? von pageeditorgui
-			$mob_gui =& new ilObjMediaObjectGUI("", $this->content_obj->getMediaObject()->getId(),false, false);
-			$mob_gui->setBackTitle($this->page_back_title);
-			$mob_gui->setEnabledMapAreas($this->getEnabledMapAreas());
-			$mob_gui->getTabs($this->tabs_gui);
+
+			$mob = $this->content_obj->getMediaObject();
+			if (is_object($mob))
+			{
+				$tpl->setVariable("HEADER", $lng->txt("mob").": ".
+					$this->content_obj->getMediaObject()->getTitle());
+				$mob_gui =& new ilObjMediaObjectGUI("", $this->content_obj->getMediaObject()->getId(),false, false);
+				$mob_gui->setBackTitle($this->page_back_title);
+				$mob_gui->setEnabledMapAreas($this->getEnabledMapAreas());
+				$mob_gui->getTabs($this->tabs_gui);
+			}
 		}
 		else
 		{
