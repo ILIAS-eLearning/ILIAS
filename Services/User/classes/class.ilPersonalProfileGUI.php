@@ -3008,7 +3008,17 @@ return;
 			$cb = new ilCheckboxInputGUI($this->lng->txt('session_reminder'), 'session_reminder_enabled');
 			$cb->setInfo($this->lng->txt('session_reminder_info'));
 			$cb->setValue(1);
-			$cb->setChecked((int)$ilUser->getPref('session_reminder_enabled'));			
+			$cb->setChecked((int)$ilUser->getPref('session_reminder_enabled'));
+			
+			global $ilClientIniFile;
+			
+			$lead_time_gui = new ilTextInputGUI($this->lng->txt('session_reminder_lead_time'), 'session_reminder_lead_time');
+			$lead_time_gui->setInfo(sprintf($this->lng->txt('session_reminder_lead_time_info'), ilFormat::_secondsToString($ilClientIniFile->readVariable('session', 'expire'))));
+			$lead_time_gui->setValue($ilUser->getPref('session_reminder_lead_time'));
+			$lead_time_gui->setMaxLength(10);
+			$lead_time_gui->setSize(10);
+			$cb->addSubItem($lead_time_gui);
+						
 			$this->form->addItem($cb);
 		}
 		
@@ -3090,6 +3100,10 @@ return;
 			if((int)$ilSetting->get('session_reminder_enabled'))
 			{
 				$ilUser->setPref('session_reminder_enabled', (int)$_POST['session_reminder_enabled']);
+				
+				if(!preg_match('/^([0]|([1-9][0-9]*))([\.,][0-9][0-9]*)?$/', (int)$_POST['session_reminder_lead_time']))
+					$_POST['session_reminder_lead_time'] = 0;
+				$ilUser->setPref('session_reminder_lead_time', (int)$_POST['session_reminder_lead_time']);
 			}
 
 			$ilUser->update();
