@@ -8,7 +8,7 @@
 *
 * @author Sascha Hofmann <saschahofmann@gmx.de>
 *
-* @version $Id$
+* @version $Id: class.ilPermissionGUI.php 20310 2009-06-23 12:57:19Z smeyer $
 *
 * @ilCtrl_Calls ilPermissionGUI: ilObjRoleGUI
 *
