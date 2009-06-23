@@ -26,14 +26,17 @@ include_once('./Services/Table/classes/class.ilTable2GUI.php');
 /**
 *
 * @author Helmut Schottmüller <ilias@aurealis.de>
-* @version $Id$
+* @version $Id: class.ilTestQuestionsTableGUI.php 20218 2009-06-15 22:14:10Z hschottm $
 *
 * @ingroup ModulesGroup
 */
 
-class ilTestQuestionBrowserTableGUI extends ilTable2GUI
+class ilTestQuestionsTableGUI extends ilTable2GUI
 {
 	protected $writeAccess = false;
+	protected $totalPoints = 0;
+	protected $checked_move = false;
+	protected $total = 0;
 	
 	/**
 	 * Constructor
@@ -42,7 +45,7 @@ class ilTestQuestionBrowserTableGUI extends ilTable2GUI
 	 * @param
 	 * @return
 	 */
-	public function __construct($a_parent_obj, $a_parent_cmd, $a_write_access = false)
+	public function __construct($a_parent_obj, $a_parent_cmd, $a_write_access = false, $a_checked_move = false)
 	{
 		parent::__construct($a_parent_obj, $a_parent_cmd);
 
@@ -52,99 +55,56 @@ class ilTestQuestionBrowserTableGUI extends ilTable2GUI
 		$this->ctrl = $ilCtrl;
 	
 		$this->setWriteAccess($a_write_access);
+		$this->setCheckedMove($a_checked_move);
 		$this->setLimit(9999);
 		
 		$this->setFormName('questionbrowser');
 		$this->setStyle('table', 'fullwidth');
 		$this->addColumn('','f','1%');
 		$this->addColumn($this->lng->txt("tst_question_title"),'title', '');
+		$this->addColumn($this->lng->txt("tst_sequence"),'sequence', '');
 		$this->addColumn($this->lng->txt("description"),'description', '');
 		$this->addColumn($this->lng->txt("tst_question_type"),'type', '');
+		$this->addColumn($this->lng->txt("points"),'', '');
 		$this->addColumn($this->lng->txt("author"),'author', '');
-		$this->addColumn($this->lng->txt("create_date"),'created', '');
-		$this->addColumn($this->lng->txt("last_update"),'updated', '');
 		$this->addColumn($this->lng->txt("qpl"),'qpl', '');
-	
-		if ($this->getWriteAccess())
-		{
-			$this->addMultiCommand('insertQuestions', $this->lng->txt('insert'));
-		}
-	
+	 	
 		$this->setPrefix('q_id');
 		$this->setSelectAllCheckbox('q_id');
 		
-		$this->setRowTemplate("tpl.il_as_tst_question_browser_row.html", "Modules/Test");
-
-		$this->setFormAction($this->ctrl->getFormAction($a_parent_obj, $a_parent_cmd));
-		$this->setDefaultOrderField("title");
-		$this->setDefaultOrderDirection("asc");
-		
-		$this->enable('sort');
-		$this->enable('header');
-		$this->enable('select_all');
-		$this->setFilterCommand('filterAvailableQuestions');
-		$this->initFilter();
-	}
-
-	/**
-	* Init filter
-	*/
-	function initFilter()
-	{
-		global $lng, $rbacreview, $ilUser;
-		
-		// title
-		include_once("./Services/Form/classes/class.ilTextInputGUI.php");
-		$ti = new ilTextInputGUI($lng->txt("title"), "title");
-		$ti->setMaxLength(64);
-		$ti->setSize(20);
-		$this->addFilterItem($ti);
-		$ti->readFromSession();
-		$this->filter["title"] = $ti->getValue();
-		
-		// description
-		$ti = new ilTextInputGUI($lng->txt("description"), "description");
-		$ti->setMaxLength(64);
-		$ti->setSize(20);
-		$this->addFilterItem($ti);
-		$ti->readFromSession();
-		$this->filter["comment"] = $ti->getValue();
-		
-		// questiontype
-		include_once("./Services/Form/classes/class.ilSelectInputGUI.php");
-		include_once("./Modules/TestQuestionPool/classes/class.ilObjQuestionPool.php");
-		$types = ilObjQuestionPool::_getQuestionTypes();
-		$options = array();
-		$options[""] = $lng->txt('filter_all_question_types');
-		foreach ($types as $translation => $row)
+		if ($this->getWriteAccess())
 		{
-			$options[$row['type_tag']] = $translation;
+			$this->addMultiCommand('removeQuestions', $this->lng->txt('remove_question'));
+			$this->addMultiCommand('moveQuestions', $this->lng->txt('move'));
+			if ($this->checked_move)
+			{
+				$this->addMultiCommand('insertQuestionsBefore', $this->lng->txt('insert_before'));
+				$this->addMultiCommand('insertQuestionsAfter', $this->lng->txt('insert_after'));
+			}
 		}
 
-		$si = new ilSelectInputGUI($this->lng->txt("question_type"), "type");
-		$si->setOptions($options);
-		$this->addFilterItem($si);
-		$si->readFromSession();
-		$this->filter["type"] = $si->getValue();
+
+		$this->setRowTemplate("tpl.il_as_tst_questions_row.html", "Modules/Test");
+
+		$this->setFormAction($this->ctrl->getFormAction($a_parent_obj, $a_parent_cmd));
 		
-		// author
-		$ti = new ilTextInputGUI($lng->txt("author"), "author");
-		$ti->setMaxLength(64);
-		$ti->setSize(20);
-		$this->addFilterItem($ti);
-		$ti->readFromSession();
-		$this->filter["author"] = $ti->getValue();
-		
-		// question pool
-		$ti = new ilTextInputGUI($lng->txt("qpl"), "qpl");
-		$ti->setMaxLength(64);
-		$ti->setSize(20);
-		$this->addFilterItem($ti);
-		$ti->readFromSession();
-		$this->filter["qpl"] = $ti->getValue();
-		
+		$this->disable('sort');
+		$this->enable('header');
+		$this->enable('select_all');
 	}
 
+	function fillHeader()
+	{
+		foreach ($this->column as $key => $column)
+		{
+			if (strcmp($column['text'], $this->lng->txt("points")) == 0)
+			{
+				$this->column[$key]['text'] = $this->lng->txt("points") . "&nbsp;(" . $this->totalPoints . ")";
+			}
+		}
+		parent::fillHeader();
+	}
+	
 	/**
 	 * fill row 
 	 *
@@ -157,15 +117,36 @@ class ilTestQuestionBrowserTableGUI extends ilTable2GUI
 		global $ilUser,$ilAccess;
 
 		$this->tpl->setVariable("QUESTION_ID", $data["question_id"]);
-		$this->tpl->setVariable("QUESTION_TITLE", $data["title"]);
+		if ($this->getWriteAccess() && !$this->getTotal()) 
+		{
+			$q_id = $data["question_id"];
+			$qpl_ref_id = current(ilObject::_getAllReferences($data["obj_fi"]));
+			$this->tpl->setVariable("QUESTION_TITLE", "<a href=\"" . $this->ctrl->getLinkTarget($this->getParentObject(), "questions") . "&eqid=$q_id&eqpl=$qpl_ref_id" . "\">" . $data["title"] . "</a>");
+		} 
+		else 
+		{
+			$this->tpl->setVariable("QUESTION_TITLE", $data["title"]);
+		}
+		$this->tpl->setVariable("QUESTION_SEQUENCE", $this->lng->txt("tst_sequence"));
+
+		if ($this->getWriteAccess() && !$this->getTotal()) 
+		{
+			if ($data["sequence"] != 1)
+			{
+				$this->tpl->setVariable("BUTTON_UP", "<a href=\"" . $this->ctrl->getLinkTarget($this->getParentObject(), "questions") . "&up=".$data["question_id"]."\"><img src=\"" . ilUtil::getImagePath("a_up.gif") . "\" alt=\"" . $this->lng->txt("up") . "\" border=\"0\" /></a>");
+			}
+			if ($data["sequence"] != count($this->getData()))
+			{
+				$this->tpl->setVariable("BUTTON_DOWN", "<a href=\"" . $this->ctrl->getLinkTarget($this->getParentObject(), "questions") . "&down=".$data["question_id"]."\"><img src=\"" . ilUtil::getImagePath("a_down.gif") . "\" alt=\"" . $this->lng->txt("down") . "\" border=\"0\" /></a>");
+			}
+		}
 		$this->tpl->setVariable("QUESTION_COMMENT", $data["description"]);
 		include_once "./Modules/TestQuestionPool/classes/class.assQuestion.php";
 		$this->tpl->setVariable("QUESTION_TYPE", assQuestion::_getQuestionTypeName($data["type_tag"]));
+		$this->tpl->setVariable("QUESTION_POINTS", $data["points"]);
+		$this->totalPoints += $data["points"];
 		$this->tpl->setVariable("QUESTION_AUTHOR", $data["author"]);
-		include_once "./classes/class.ilFormat.php";
-		$this->tpl->setVariable("QUESTION_CREATED", ilDatePresentation::formatDate(new ilDate($data['created'],IL_CAL_UNIX)));
-		$this->tpl->setVariable("QUESTION_UPDATED", ilDatePresentation::formatDate(new ilDate($data["tstamp"],IL_CAL_UNIX)));
-		$this->tpl->setVariable("QUESTION_POOL", $data['qpl']);
+		$this->tpl->setVariable("QUESTION_POOL", ilObject::_lookupTitle($data["obj_fi"]));
 	}
 	
 	public function setWriteAccess($value)
@@ -176,6 +157,26 @@ class ilTestQuestionBrowserTableGUI extends ilTable2GUI
 	public function getWriteAccess()
 	{
 		return $this->writeAccess;
+	}
+
+	public function setCheckedMove($value)
+	{
+		$this->checked_move = $value;
+	}
+	
+	public function getCheckedMove()
+	{
+		return $this->checked_move;
+	}
+
+	public function setTotal($value)
+	{
+		$this->total = $value;
+	}
+	
+	public function getTotal()
+	{
+		return $this->total;
 	}
 }
 ?>

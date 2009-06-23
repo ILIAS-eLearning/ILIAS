@@ -249,6 +249,7 @@ class assMatchingQuestion extends assQuestion
 				)
 			);
 		}
+		$this->rebuildThumbnails();
 		
 		if ($this->getMatchingType() == MT_TERMS_PICTURES)
 		{

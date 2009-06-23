@@ -511,7 +511,10 @@ class assMatchingQuestionGUI extends assQuestionGUI
 			{
 				$template->setCurrentBlock("standard_matching_pictures");
 				$template->setVariable("DEFINITION_ID", $answer->getPictureId());
-				$size = getimagesize($this->object->getImagePath() . $answer->getPicture()  . ".thumb.jpg");
+				if (file_exists($this->object->getImagePath() . $answer->getPicture()  . ".thumb.jpg"))
+				{
+					$size = getimagesize($this->object->getImagePath() . $answer->getPicture()  . ".thumb.jpg");
+				}
 				$template->setVariable("THUMBNAIL_WIDTH", $size[0]);
 				$template->setVariable("THUMBNAIL_HEIGHT", $size[1]);
 				$template->setVariable("THUMBNAIL_HREF", $this->object->getImagePathWeb() . $answer->getPicture() . ".thumb.jpg");
