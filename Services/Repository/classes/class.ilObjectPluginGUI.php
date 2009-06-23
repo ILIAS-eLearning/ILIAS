@@ -79,7 +79,7 @@ abstract class ilObjectPluginGUI extends ilObject2GUI
 				break;
 
 			case 'ilpermissiongui':
-				include_once("./classes/class.ilPermissionGUI.php");
+				include_once("Services/AccessControl/classes/class.ilPermissionGUI.php");
 				$perm_gui = new ilPermissionGUI($this);
 				$ilTabs->setTabActive("perm_settings");
 				$ret = $ilCtrl->forwardCommand($perm_gui);
