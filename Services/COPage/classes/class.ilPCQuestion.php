@@ -46,16 +46,53 @@ class ilPCQuestion extends ilPageContent
 		$this->setType("pcqst");
 	}
 
+	/**
+	* Set node
+	*/
 	function setNode(&$a_node)
 	{
 		parent::setNode($a_node);		// this is the PageContent node
-		$this->q_node =& $a_node->first_child();		//... and this the Paragraph node
+		$this->q_node =& $a_node->first_child();		//... and this the Question
 	}
 
+	/**
+	* Set Question Reference.
+	*
+	* @param	string	$a_questionreference	Question Reference
+	*/
+	function setQuestionReference($a_questionreference)
+	{
+		if (is_object($this->q_node))
+		{
+			$this->q_node->set_attribute("QRef", $a_questionreference);
+		}
+	}
 
+	/**
+	* Get Question Reference.
+	*
+	* @return	string	Question Reference
+	*/
+	function getQuestionReference()
+	{
+		if (is_object($this->q_node))
+		{
+			return $this->q_node->get_attribute("QRef", $a_questionreference);
+		}
+		return false;
+	}
+
+	/**
+	* Create Question Element
+	*/
 	function create(&$a_pg_obj, $a_hier_id)
 	{
-		echo "ERROR: PCQuestion create"; exit;
+		$this->createPageContentNode();
+		$a_pg_obj->insertContent($this, $a_hier_id, IL_INSERT_AFTER);
+		$this->q_node = $this->dom->create_element("Question");
+		$this->q_node = $this->node->append_child($this->q_node);
+		$this->q_node->set_attribute("QRef", "");
 	}
+	
 }
 ?>

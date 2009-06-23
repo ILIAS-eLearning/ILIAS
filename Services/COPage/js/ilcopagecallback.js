@@ -44,7 +44,9 @@ var ilCOPageSuccessHandler = function(o)
 	// perform page modification
 	if(o.responseText !== undefined)
 	{
-		var center_td = document.getElementById('il_CenterColumn');
+		// scorm2004-start
+		var center_td = document.getElementById('il_EditPage');
+		// scorm2004-end
 		center_td.innerHTML = o.responseText;
 		initDragElements();
 	}

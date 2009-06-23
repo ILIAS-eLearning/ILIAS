@@ -25,7 +25,7 @@ include_once("./Services/Utilities/classes/class.ilDOMUtil.php");
 * @version $Id$
 *
 * @ilCtrl_Calls ilPageObjectGUI: ilPageEditorGUI, ilEditClipboardGUI, ilMDEditorGUI
-* @ilCtrl_Calls ilPageObjectGUI: ilPublicUserProfileGUI
+* @ilCtrl_Calls ilPageObjectGUI: ilPublicUserProfileGUI, ilNoteGUI
 *
 * @ingroup ServicesCOPage
 */
@@ -60,6 +60,7 @@ class ilPageObjectGUI
 	var $link_xml_set = false;
 	var $enableediting = true;
 	var $rawpagecontent = false;
+	var $layoutmode = false;
 
 	/**
 	* Constructor
@@ -87,7 +88,10 @@ class ilPageObjectGUI
 		$this->setEnabledPCTabs(false);
 		$this->setEnabledFileLists(true);
 		$this->setEnabledRepositoryObjects(false);
+		$this->setEnabledSelfAssessment(false);
 		$this->setEnabledPageFocus(true);
+		$this->setLayoutMode(false);		
+		
 		
 		if ($a_id > 0)
 		{
@@ -355,6 +359,19 @@ class ilPageObjectGUI
 	{
 		return $this->change_comments;
 	}
+
+	// scorm2004-start
+	function enableNotes($a_enabled, $a_parent_id)
+	{
+		$this->notes_enabled = $a_enabled;
+		$this->notes_parent_id = $a_parent_id;
+	}
+
+	function isEnabledNotes()
+	{
+		return $this->notes_enabled;
+	}
+	// scorm2004-end
 
 	/**
 	 * set offline directory to offdir
@@ -730,7 +747,6 @@ class ilPageObjectGUI
 		return $this->layout_mode;
 	}
 
-	// scorm2004-start
 	/**
 	* Set Style Id.
 	*
@@ -750,7 +766,26 @@ class ilPageObjectGUI
 	{
 		return $this->styleid;
 	}
-	// scorm2004-end
+
+	/**
+	* Set Enable Self Assessment Questions.
+	*
+	* @param	boolean	$a_enabledselfassessment	Enable Self Assessment Questions
+	*/
+	function setEnabledSelfAssessment($a_enabledselfassessment)
+	{
+		$this->enabledselfassessment = $a_enabledselfassessment;
+	}
+
+	/**
+	* Get Enable Self Assessment Questions.
+	*
+	* @return	boolean	Enable Self Assessment Questions
+	*/
+	function getEnabledSelfAssessment()
+	{
+		return $this->enabledselfassessment;
+	}
 
 	/**
 	* Activate meda data editor
@@ -843,6 +878,17 @@ class ilPageObjectGUI
 				$clip_gui->setPageBackTitle($this->page_back_title);
 				//$ret =& $clip_gui->executeCommand();
 				$ret =& $this->ctrl->forwardCommand($clip_gui);
+				break;
+				
+			// notes
+			case "ilnotegui":
+				switch($_GET["notes_mode"])
+				{
+					default:
+						$html = $this->edit();
+						$ilTabs->setTabActive("edit");
+						return $html;
+				}
 				break;
 				
 			case 'ilpublicuserprofilegui':
@@ -1043,10 +1089,14 @@ class ilPageObjectGUI
 					$tpl->setVariable("ONCLICK_DE_ACTIVATE_SELECTED", 'onclick="return ilEditMultiAction(\'activateSelected\');"');
 					$tpl->setVariable("ONCLICK_DELETE_SELECTED", 'onclick="return ilEditMultiAction(\'deleteSelected\');"');
 					$tpl->setVariable("ONCLICK_ASSIGN_CHARACTERISTIC", 'onclick="return ilEditMultiAction(\'assignCharacteristicForm\');"');
+					$tpl->setVariable("ONCLICK_COPY_SELECTED", 'onclick="return ilEditMultiAction(\'copySelected\');"');
+					$tpl->setVariable("ONCLICK_CUT_SELECTED", 'onclick="return ilEditMultiAction(\'cutSelected\');"');
 				}
 				$tpl->setVariable("TXT_DE_ACTIVATE_SELECTED", $this->lng->txt("cont_ed_enable"));
 				$tpl->setVariable("TXT_ASSIGN_CHARACTERISTIC", $this->lng->txt("cont_assign_characteristic"));
 				$tpl->setVariable("TXT_DELETE_SELECTED", $this->lng->txt("cont_delete_selected"));
+				$tpl->setVariable("TXT_COPY_SELECTED", $this->lng->txt("copy"));
+				$tpl->setVariable("TXT_CUT_SELECTED", $this->lng->txt("cut"));
 				$tpl->setVariable("IMG_ARROW", ilUtil::getImagePath("arrow_downright.gif"));
 				$tpl->parseCurrentBlock();
 			}
@@ -1294,8 +1344,6 @@ class ilPageObjectGUI
 		}
 		$content = $this->obj->getXMLFromDom(false, true, true,
 			$link_xml.$this->getQuestionXML().$template_xml);
-//echo htmlentities($template_xml);
-//echo "<br>-".htmlentities($content)."-";
 
 		// get page component plugins
 
@@ -1407,6 +1455,10 @@ class ilPageObjectGUI
 			? $ilUser->getPref("ilPageEditor_MediaMode")
 			: "enable";
 
+		include_once("./Modules/LearningModule/classes/class.ilEditClipboard.php");
+		$paste = (ilEditClipboard::getAction() == "copy" &&
+			$this->getOutputMode() == "edit");
+
 		// added UTF-8 encoding otherwise umlaute are converted too
 		$params = array ('mode' => $this->getOutputMode(), 'pg_title' => htmlentities($pg_title,ENT_QUOTES,"UTF-8"),
 						 'pg_id' => $this->obj->getId(), 'pg_title_class' => $pg_title_class,
@@ -1436,7 +1488,9 @@ class ilPageObjectGUI
 						 'enable_rep_objects' => $this->getEnabledRepositoryObjects() ? "y" : "n",
 						 'enable_map' => $this->getEnabledMaps() ? "y" : "n",
 						 'enable_tabs' => $this->getEnabledPCTabs() ? "y" : "n",
+						 'enable_sa_qst' => $this->getEnabledSelfAssessment() ? "y" : "n",
 						 'enable_file_list' => $this->getEnabledFileLists() ? "y" : "n",
+						 'paste' => $paste ? "y" : "n",
 						 'media_mode' => $media_mode,
 						 'javascript' => $sel_js_mode,
 						 'paragraph_plugins' => $paragraph_plugin_string,
@@ -1472,7 +1526,11 @@ class ilPageObjectGUI
 		}
 		else
 		{
-			$xsl = file_get_contents("./Services/COPage/xsl/page.xsl");
+			if ($this->getLayoutMode() == true) {
+				$xsl = file_get_contents("./Services/COPage/xsl/page_layout.xsl");
+			} else {
+				$xsl = file_get_contents("./Services/COPage/xsl/page.xsl");	
+			}
 			$args = array( '/_xml' => $content, '/_xsl' => $xsl );
 			$xh = xslt_create();
 			//		echo "<b>XSLT</b>:".htmlentities($xsl).":<br>";
@@ -1517,7 +1575,6 @@ class ilPageObjectGUI
 		// in curly brackets (e.g. "{a}", see ilLMEditorGUI::executeCommand())
 		$output = str_replace("{", "&#123;", $output);
 		$output = str_replace("}", "&#125;", $output);
-		
 
 //echo "<b>HTML</b>:".htmlentities($output).":<br>";
 
@@ -1525,7 +1582,15 @@ class ilPageObjectGUI
 		$output = str_replace("\n", "", $output);
 
 		$qhtml = $this->getQuestionHTML();
-		if (strlen($qhtml))
+//var_dump($qhtml);
+		if (is_array($qhtml))
+		{
+			foreach ($qhtml as $k => $h)
+			{
+				$output = str_replace("&#123;&#123;&#123;&#123;&#123;Question;il__qst_$k&#125;&#125;&#125;&#125;&#125;", " ".$h, $output);
+			}
+		}
+		else if (strlen($qhtml))
 		{
 			// removed simple str_replace with preg_replace because if the question content
 			// is part of a table, the xmlns isn't added and the question content wasn't visible then
@@ -1830,7 +1895,15 @@ class ilPageObjectGUI
 		}
 		
 		$this->setOutputMode(IL_PAGE_EDIT);
-		return $this->showPage();
+		
+		// scorm2004-start
+		$html = $this->showPage();
+		if ($this->isEnabledNotes())
+		{
+			$html.= "<br /><br />".$this->getNotesHTML($a_mode = "");
+		}
+		// scorm2004-end
+		return $html;
 	}
 
 	/*
@@ -1951,7 +2024,6 @@ class ilPageObjectGUI
 			'sortkey' => 999999,
 			'user' => $this->getPageObject()->last_change_user);
 		$table_gui->setData($entries);
-
 		return $table_gui->getHTML();
 	}
 
@@ -2044,14 +2116,14 @@ class ilPageObjectGUI
 		//$tabs_gui->addTarget("properties", $this->ctrl->getLinkTarget($this, "properties")
 		//	, "properties", get_class($this));
 
-		if ($this->use_meta_data)
+		if ($this->use_meta_data && !$this->layout_mode)
 		{
 			$ilTabs->addTarget("meta_data",
 				 $this->ctrl->getLinkTargetByClass('ilmdeditorgui',''),
 				 "", "ilmdeditorgui");
 		}
 
-		if ($this->getEnableEditing())
+		if ($this->getEnableEditing() && !$this->layout_mode)
 		{
 			$ilTabs->addTarget("history", $this->ctrl->getLinkTarget($this, "history")
 				, "history", get_class($this));
@@ -2254,5 +2326,37 @@ class ilPageObjectGUI
 		$this->form->getValuesByPost();
 		$tpl->setContent($this->form->getHTML());
 	}
+
+	/**
+	* Get notes HTML
+	*/
+	function getNotesHTML($a_mode = "")
+	{
+		global $ilCtrl;
+		
+		// notes
+		$ilCtrl->setParameter($this, "nodes_mode", $a_mode);
+		include_once("Services/Notes/classes/class.ilNoteGUI.php");
+		$notes_gui = new ilNoteGUI($this->notes_parent_id,
+			(int) $this->obj->getId(), "pg");
+//		if ($ilAccess->checkAccess("write", "", $_GET["ref_id"]))
+//		{
+//			$notes_gui->enablePublicNotesDeletion(true);
+//		}
+		$notes_gui->enablePrivateNotes();
+		$notes_gui->enablePublicNotes();
+		
+		$next_class = $ilCtrl->getNextClass($this);
+		if ($next_class == "ilnotegui")
+		{
+			$html = $this->ctrl->forwardCommand($notes_gui);
+		}
+		else
+		{	
+			$html = $notes_gui->getNotesHTML();
+		}
+		return $html;
+	}
+
 }
 ?>
