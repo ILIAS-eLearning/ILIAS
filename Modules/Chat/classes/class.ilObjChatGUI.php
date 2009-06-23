@@ -1927,14 +1927,18 @@ class ilObjChatGUI extends ilObjectGUI
 				$new_user->id = $user->getId();
 				$new_user->login = $user->getLogin();
 				if ($user->getPref('public_profile') == 'y') {
-					$new_user->public_profile = '1';
-					$new_user->uimage = $user->getPersonalPicturePath();
-					$new_user->display_name = $user->getFirstname().' '.$user->getLastname().' ('.$user->getLogin().')';
+					// public_profile
+					$new_user->pp = '1';
+					$new_user->img = $user->getPersonalPicturePath();
+					// display_name
+					$new_user->dn = $user->getFirstname().' '.$user->getLastname().' ('.$user->getLogin().')';
 				}
 				else {
-					$new_user->public_profile = '0';
-					$new_user->uimage = ilUtil::getImagePath("no_photo_xsmall.jpg");
-					$new_user->display_name = $user->getLogin();
+					// public_profile
+					$new_user->pp = '0';
+					$new_user->img = ilUtil::getImagePath("no_photo_xsmall.jpg");
+					// display_name
+					$new_user->dn = $user->getLogin();
 				}
 				
 				if(!ilChatBlockedUsers::_isBlocked($this->object->getId(),$user->getId()))
@@ -1944,12 +1948,16 @@ class ilObjChatGUI extends ilObjectGUI
 					 */
 					$link = "";
 					if($this->object->chat_room->isInvited($user->getId())) {
-						$new_user->permission_disinvite = 1;
-						$new_user->permission_invite = 0;
+						// permission_disinvite
+						$new_user->pmdi = 1;
+						// permisssion_invite
+						$new_user->pmi = 0;
 					}
 					else {
-						$new_user->permission_disinvite = 0;
-						$new_user->permission_invite = 1;
+						// permission_disinvite
+						$new_user->pmdi = 0;
+						// permission_invite
+						$new_user->pmi = 1;
 					}
 				}
 			}
@@ -1957,9 +1965,12 @@ class ilObjChatGUI extends ilObjectGUI
 			{
 				$new_user->anonymous = true;
 				$new_user->id = 0;
-				$new_user->display_name = $user->getLogin();
-				$new_user->permission_disinvite = 0;
-				$new_user->permission_invite = 0;
+				// display_name
+				$new_user->dn = $user->getLogin();
+				// permission_disinvite
+				$new_user->pmdi = 0;
+				//permission_invite
+				$new_user->pmi = 0;
 			}
 			$out[] = $new_user;		
 		}
@@ -1993,14 +2004,18 @@ class ilObjChatGUI extends ilObjectGUI
 			$new_user->login = $user_obj->getLogin();
 			
 			if ($user_obj->getPref('public_profile') == 'y') {
-				$new_user->public_profile = '1';
-				$new_user->uimage = $user_obj->getPersonalPicturePath();
-				$new_user->display_name = $user_obj->getFirstname().' '.$user_obj->getLastname().' ('.$user_obj->getLogin().')';
+				//public_profile
+				$new_user->pp = '1';
+				$new_user->img = $user_obj->getPersonalPicturePath();
+				//display_name
+				$new_user->dn = $user_obj->getFirstname().' '.$user_obj->getLastname().' ('.$user_obj->getLogin().')';
 			}
 			else {
-				$new_user->public_profile = '0';
-				$new_user->uimage = ilUtil::getImagePath("no_photo_xsmall.jpg");
-				$new_user->display_name = $user_obj->getLogin();
+				//public_profile
+				$new_user->pp = '0';
+				$new_user->img = ilUtil::getImagePath("no_photo_xsmall.jpg");
+				//display_name
+				$new_user->dn = $user_obj->getLogin();
 			}
 			
 			if($ilUser->getId() != ANONYMOUS_USER_ID && $user != ANONYMOUS_USER_ID)	{
@@ -2018,18 +2033,23 @@ class ilObjChatGUI extends ilObjectGUI
 				$ilCtrl->setParameter($this, "kick_id", $user_obj->getId());
 
 				if($this->object->chat_room->isKicked($user_obj->getId())) {
-					$new_user->permission_kick = false;
-					$new_user->permission_unkick = true;
+					//permission_kick
+					$new_user->pmk = false;
+					//permission_unkick
+					$new_user->pmuk = true;
 				}
 				else {
-					$new_user->permission_kick = true;
-					$new_user->permission_unkick = false;
+					//permission_kick
+					$new_user->pmk = true;
+					//permission_unkick
+					$new_user->pmuk = false;
 				}
 				$ilCtrl->clearParameters($this);
 			}
 			else
 			{
-				$new_user->permission_kick = false;	
+				//permission_kick
+				$new_user->pmk = false;	
 			}
 			$out[] = $new_user;
 		}
@@ -2641,8 +2661,10 @@ class ilObjChatGUI extends ilObjectGUI
 		$new_room->room_id = 0;
 		$new_room->ref_id = $room["child"];		
 		
-		$new_room->permission_enter = true;
-		$new_room->permission_bookmark = true;
+		//permission_enter
+		$new_room->pme = true;
+		//permission_bookmark
+		$new_room->pmbo = true;
 		
 		$ilCtrl->setParameter($this, "ref_id", $room["child"]);
 		$link = $ilCtrl->getLinkTarget($this, "showFrames");
@@ -2658,11 +2680,13 @@ class ilObjChatGUI extends ilObjectGUI
 			$rbacsystem->checkAccess("moderate", $this->object->getRefId()))
 		{
 			$link = "il_chat_async_handler.emptyRoom();";
-			$new_room->permission_empty = true;
+			// permission_empty
+			$new_room->pmem = true;
 		}
 		else
 		{
-			$new_room->permission_empty = false;
+			// permission_empty
+			$new_room->pmem = false;
 		}
 
 		$this->object->chat_recording->setObjId($room["obj_id"]);
@@ -2691,8 +2715,10 @@ class ilObjChatGUI extends ilObjectGUI
 		$new_room->room_id = $room["room_id"];
 		$new_room->ref_id = $ref_id;
 
-		$new_room->permission_enter = true;
-		$new_room->permission_bookmark = true;
+		//permission_enter
+		$new_room->pme = true;
+		//permission_bookmark
+		$new_room->pmbo = true;
 		
 		$ilCtrl->setParameter($this, "ref_id", $ref_id);
 		$ilCtrl->setParameter($this, "room_id", $room["room_id"]);
@@ -2704,7 +2730,8 @@ class ilObjChatGUI extends ilObjectGUI
 			if($user_obj =& ilObjectFactory::getInstanceByObjId($priv_room['owner'],false))	{
 				$new_room->chat_initiated = $user_obj->getLogin();
 			}
-			$new_room->permission_delete = false;
+			//permission_delete
+			$new_room->pmde = false;
 		}
 		else {
 			/*
@@ -2714,8 +2741,8 @@ class ilObjChatGUI extends ilObjectGUI
 			$ilCtrl->setParameter($this, "room_id_delete", $room["room_id"]);
 			$link = $ilCtrl->getLinkTarget($this, "deleteRoom");
 			$ilCtrl->clearParameters($this);
-
-			$new_room->permission_delete = true;
+			//permission_delete
+			$new_room->pmde = true;
 			
 			$link = "il_chat_async_handler.deletePrivateRoom('".$room['room_id']."');";
 		}
@@ -2731,7 +2758,8 @@ class ilObjChatGUI extends ilObjectGUI
 		} 
 		
 		$new_room->own_room_id = $room["room_id"];
-		$new_room->moderate = $rbacsystem->checkAccess("moderate", $this->object->getRefId());
+		//permission_moderate
+		$new_room->mod = $rbacsystem->checkAccess("moderate", $this->object->getRefId());
 		
 		if (
 			$room["room_id"] == $this->object->chat_room->getRoomId() &&
@@ -2740,11 +2768,13 @@ class ilObjChatGUI extends ilObjectGUI
 		{
 			$link = "il_chat_async_handler.emptyRoom();";
 			$ilCtrl->clearParameters($this);
-			$new_room->permission_empty = true;
+			//permission_empty
+			$new_room->pmem = true;
 		}
 		else
 		{
-			$new_room->permission_empty = false;	
+			//permission_empty
+			$new_room->pmem = false;	
 		}
 		return $new_room;
 	}

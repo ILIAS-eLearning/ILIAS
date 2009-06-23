@@ -32,11 +32,11 @@ function ilChatOnlineUsers()
 	{
 		var menuconfig = [];
 		var user_id = this.id;
-		var user_display_name = this.display_name;
+		var user_display_name = this.dn;
 		var user_login = this.login;
 
 		//check for invite permission
-		if (this.permission_invite == true)
+		if (this.pmi == true)
 		{
 			menuconfig.push(
 				{ text : chatLanguage.getTxt('invite'), onclick : { fn : function() {il_chat_async_handler.invite(user_id);return false;}}}
@@ -44,7 +44,7 @@ function ilChatOnlineUsers()
 		}
 		
 		//check for disinvite permission
-		if (this.permission_disinvite == true)
+		if (this.pmdi == true)
 		{
 			menuconfig.push(
 				{ text : chatLanguage.getTxt('disinvite'), onclick : { fn : function() {il_chat_async_handler.disinvite(user_id); return false;}}}
@@ -52,7 +52,7 @@ function ilChatOnlineUsers()
 		}
 		
 		//check for public profile
-		if (this.public_profile == true)
+		if (this.pp == true)
 		{
 			menuconfig.push
 			(
@@ -70,17 +70,18 @@ function ilChatOnlineUsers()
 		
 		var menu_id = 'on' + user_id;
 		
-		var conf = { id : menu_id, items : menuconfig, titles : [this.display_name]};
+		var conf = { id : menu_id, items : menuconfig, titles : [this.dn]};
 		
-		if (this.uimage)
+		if (this.img)
 		{
 			conf.additional = document.createElement('div');
-			conf.additional.innerHTML = '<img src=\''+this.uimage+'\' />';
+			conf.additional.innerHTML = '<img src=\''+this.img+'\' />';
 		}
 		
 		chatmenu.addMenuConfiguration(conf);
-		if (this.permission_invite)
-			this.element.elementTitle.onclick = function() {il_chat_async_handler.invite(this.id);return false;};
+		// permission_invite
+		if (this.pmi)
+			this.element.elementTitle.onclick = function() {il_chat_async_handler.invite(user_id);return false;};
 		
 		return menu_id;
 	}
@@ -125,7 +126,8 @@ function ilChatOnlineUsers()
 					users[uId][i] = visible_users[uId][i];	
 				}
 				users[uId].lastUpdated = timestamp_update_run;
-				users[uId].element.elementTitle.innerHTML = users[uId].display_name;
+				// display_name
+				users[uId].element.elementTitle.innerHTML = users[uId].dn;
 				this.createContextMenu.call(users[uId]);
 			}
 			else
@@ -133,7 +135,8 @@ function ilChatOnlineUsers()
 				users[uId] = visible_users[uId];
 				users[uId].element = document.createElement("li");
 				users[uId].element.elementTitle = document.createElement("span");
-				users[uId].element.elementTitle.innerHTML = users[uId].display_name;
+				//display_name
+				users[uId].element.elementTitle.innerHTML = users[uId].dn;
 				users[uId].lastUpdated = timestamp_update_run;
 							
 				var icon = this.getIcon();
