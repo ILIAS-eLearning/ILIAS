@@ -1,20 +1,20 @@
 <!-- BEGIN element -->
 <!-- BEGIN drop_area -->
-<div class="il_droparea" id="droparea_{DNODE_ID}" onClick="doMouseClick(event, '{DNODE_ID}');" onMouseOver="doMouseOver(this.id, 'il_droparea_active');" onMouseOut="doMouseOut(this.id, 'il_droparea');" style="margin:3px 0px 6px 46px; width: 400px;"><img src="./templates/default/images/ed_plus.gif" border="0" width="30" height="12" /></div>
+<div class="il_droparea" id="droparea_{DNODE_ID}" onClick="doMouseClick(event, '{DNODE_ID}');" onMouseOver="doMouseOver(this.id, 'il_droparea_active');" onMouseOut="doMouseOut(this.id, 'il_droparea');" style="margin:3px 0px 6px 68px; height:12px; width: 402px;"><img src="./templates/default/images/ed_plus.gif" border="0" width="30" height="12" /></div>
 <!-- END drop_area -->
 <!-- BEGIN drop_area_menu -->
 <div style="position:absolute;left:0;top:0;visibility:hidden;" id="dropareamenu_{MNODE_ID}">
 <table class="il_editmenu" cellspacing="0" cellpadding="3">
 <!-- BEGIN menu_cmd -->
 <tr>
-<td class="small" style="white-space:nowrap;" onMouseOver="M_in(this);" onMouseOut="M_out(this);" onClick="doActionForm('{MENU_CMD}', '{CMD_NODE}', {FC}, 1);">
+<td class="il_editmenu" style="white-space:nowrap;" id="hftd_{CMD_NODE}t{MCNT}_0" onMouseOver="M_in(this);" onMouseOut="M_out(this);" onClick="doActionForm('{MENU_CMD}', '{CMD_NODE}', {FC}, 1);">
 {TXT_MENU_CMD}
 </td>
 <!-- BEGIN multi_add -->
-<td class="small" style="white-space:nowrap;" onMouseOver="M_in(this);" onMouseOut="M_out(this);" onClick="doActionForm('{MENU_CMD}', '{CMD_NODE}', {FC}, {MA_NUM});">&nbsp;{MA_NUM}&nbsp;</td>
+<td class="il_editmenu" style="white-space:nowrap;" id="hftd_{CMD_NODE}t{MCNT}_{MA_NUM}" onMouseOver="M_in(this);" onMouseOut="M_out(this);" onClick="doActionForm('{MENU_CMD}', '{CMD_NODE}', {FC}, {MA_NUM});">&nbsp;{MA_NUM}&nbsp;</td>
 <!-- END multi_add -->
 <!-- BEGIN multi_buffer -->
-<td class="small" colspan="{BUF_SPAN}">&nbsp;</td>
+<td class="il_editmenu" colspan="{BUF_SPAN}">&nbsp;</td>
 <!-- END multi_buffer -->
 </tr>
 <!-- END menu_cmd -->
@@ -34,7 +34,7 @@
 </div>
 <!-- END img -->
 <div style="margin: 0px 0px 0px 68px; padding: 0px;">
-<!-- BEGIN text --><input id="inp{TNODE_ID}" name="title[{TNODE_ID}]" {CLASS} style="width: 400px; border-width:1px; border-style:solid; border-color:#BBBBBB;" type="text" maxlength="200" value="{VAL_TITLE}" /><!-- END text -->
+<!-- BEGIN text --><input id="inp{TNODE_ID}" name="title[{TNODE_ID}]" {CLASS} style="padding: 1px; width: 400px; border-width:1px; border-style:solid; border-color:#BBBBBB;" type="text" maxlength="200" value="{VAL_TITLE}" /><!-- END text -->
 <!-- BEGIN focus -->
 <script type="text/javascript" language="javascript">
 function ilHFormFocus()

@@ -45,6 +45,8 @@ class ilFormGUI
 	*/
 	function ilFormGUI()
 	{
+$GLOBALS["cnt"] += 1;
+//if ($GLOBALS["cnt"] == 3) nj();
 	}
 
 	/**
@@ -255,3 +257,4 @@ class ilFormGUI
 	}
 
 }
+?>

@@ -3,7 +3,8 @@
 
 include_once("./Services/Form/classes/class.ilFormGUI.php");
 
-// we currently include all property types (autoload may prevent this in the future)
+// please do not add any more includes here if things are not really
+// highly re-used
 include_once("./Services/Form/classes/class.ilFormPropertyGUI.php");
 include_once("./Services/Form/classes/class.ilSubEnabledFormPropertyGUI.php");
 include_once("./Services/Form/classes/class.ilCheckboxInputGUI.php");

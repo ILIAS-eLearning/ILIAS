@@ -1,25 +1,5 @@
 <?php
-/*
-	+-----------------------------------------------------------------------------+
-	| ILIAS open source                                                           |
-	+-----------------------------------------------------------------------------+
-	| Copyright (c) 1998-2008 ILIAS open source, University of Cologne            |
-	|                                                                             |
-	| This program is free software; you can redistribute it and/or               |
-	| modify it under the terms of the GNU General Public License                 |
-	| as published by the Free Software Foundation; either version 2              |
-	| of the License, or (at your option) any later version.                      |
-	|                                                                             |
-	| This program is distributed in the hope that it will be useful,             |
-	| but WITHOUT ANY WARRANTY; without even the implied warranty of              |
-	| MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the               |
-	| GNU General Public License for more details.                                |
-	|                                                                             |
-	| You should have received a copy of the GNU General Public License           |
-	| along with this program; if not, write to the Free Software                 |
-	| Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA. |
-	+-----------------------------------------------------------------------------+
-*/
+/* Copyright (c) 1998-2009 ILIAS open source, Extended GPL, see docs/LICENSE */
 
 include_once("./Services/Form/classes/class.ilFormGUI.php");
 
@@ -511,7 +491,7 @@ class ilHierarchyFormGUI extends ilFormGUI
 		$top_node = array("node_id" => $top_node_data["child"],
 				"title" => $top_node_data["title"],
 				"type" => $top_node_data["type"]);
-		
+
 		$childs = null;
 		$nodes_html = $this->getLevelHTML($top_node, 0, $childs);
 
@@ -524,42 +504,56 @@ class ilHierarchyFormGUI extends ilFormGUI
 		}
 
 		// commands
-		if (count($this->multi_commands) > 0 || count($this->commands) > 0)
+		$secs = array("1", "2");
+		foreach ($secs as $sec)
 		{
-			$single = false;
-			foreach($this->commands as $cmd)
+			reset($this->commands);
+			reset($this->multi_commands);
+			if (count($this->multi_commands) > 0 || count($this->commands) > 0)
 			{
-				$ttpl->setCurrentBlock("cmd");
-				$ttpl->setVariable("CMD", $cmd["cmd"]);
-				$ttpl->setVariable("CMD_TXT", $cmd["text"]);
-				$ttpl->parseCurrentBlock();
+				if (count($childs) > 0)
+				{
+					$single = false;
+					foreach($this->commands as $cmd)
+					{
+						$ttpl->setCurrentBlock("cmd".$sec);
+						$ttpl->setVariable("CMD", $cmd["cmd"]);
+						$ttpl->setVariable("CMD_TXT", $cmd["text"]);
+						$ttpl->parseCurrentBlock();
+						$single = true;
+					}
+	
+					$multi = false;
+					foreach($this->multi_commands as $cmd)
+					{
+						$ttpl->setCurrentBlock("multi_cmd".$sec);
+						$ttpl->setVariable("MULTI_CMD", $cmd["cmd"]);
+						$ttpl->setVariable("MULTI_CMD_TXT", $cmd["text"]);
+						$ttpl->parseCurrentBlock();
+						$multi = true;
+					}
+					if ($multi)
+					{
+						$ttpl->setCurrentBlock("multi_cmds".$sec);
+						$ttpl->setVariable("MCMD_ALT", $lng->txt("commands"));
+						if ($sec == "1")
+						{
+							$ttpl->setVariable("MCMD_IMG", ilUtil::getImagePath("arrow_downright.gif"));
+						}
+						else
+						{
+							$ttpl->setVariable("MCMD_IMG", ilUtil::getImagePath("arrow_upright.gif"));
+						}
+						$ttpl->parseCurrentBlock();
+					}
+				}
+				
+				if ($single || $multi)
+				{
+					$ttpl->setCurrentBlock("commands".$sec);
+					$ttpl->parseCurrentBlock();
+				}
 				$single = true;
-			}
-
-			if (count($childs) > 0)
-			{
-				$multi = false;
-				foreach($this->multi_commands as $cmd)
-				{
-					$ttpl->setCurrentBlock("multi_cmd");
-					$ttpl->setVariable("MULTI_CMD", $cmd["cmd"]);
-					$ttpl->setVariable("MULTI_CMD_TXT", $cmd["text"]);
-					$ttpl->parseCurrentBlock();
-					$multi = true;
-				}
-				if ($multi)
-				{
-					$ttpl->setCurrentBlock("multi_cmds");
-					$ttpl->setVariable("MCMD_ALT", $lng->txt("commands"));
-					$ttpl->setVariable("MCMD_IMG", ilUtil::getImagePath("arrow_downright.gif"));
-					$ttpl->parseCurrentBlock();
-				}
-			}
-			
-			if ($single || $multi)
-			{
-				$ttpl->setCurrentBlock("commands");
-				$ttpl->parseCurrentBlock();
 			}
 		}
 
@@ -671,6 +665,88 @@ class ilHierarchyFormGUI extends ilFormGUI
 			$ttpl->parseCurrentBlock();
 		}
 
+		// disambiguation menues and "insert as first child" flags
+		if (is_array($this->diss_menues))
+		{
+			foreach($this->diss_menues as $node_id => $d_menu)
+			{
+				foreach($d_menu as $group => $menu)
+				{
+					if (count($menu) > 1)
+					{
+						foreach($menu as $menu_item)
+						{
+							$ttpl->setCurrentBlock("dmenu_cmd");
+							$ttpl->setVariable("SUBITEM", (int) $menu_item["subitem"]);
+							$ttpl->setVariable("TXT_MENU_CMD", $menu_item["text"]);
+							$ttpl->parseCurrentBlock();
+						}
+						
+						$ttpl->setCurrentBlock("disambiguation_menu");
+						$ttpl->setVariable("DNODE_ID", $node_id);
+						$ttpl->setVariable("GRP", $group);
+						$ttpl->parseCurrentBlock();
+					}
+					else if (count($menu) == 1)
+					{
+						// set first child flag
+						$ttpl->setCurrentBlock("as_subitem_flag");
+						$ttpl->setVariable("SI_NODE_ID", $node_id);
+						$ttpl->setVariable("SI_GRP", $group);
+						$ttpl->setVariable("SI_SI", (int) $menu[0]["subitem"]);
+						$ttpl->parseCurrentBlock();
+						
+					}
+				}
+			}
+		}
+		$this->diss_menues[$a_id][$a_group][] = array("type" => $a_type, "text" => $a_diss_text);
+		
+		// help
+		$ttpl->setCurrentBlock("help_img");
+		$ttpl->setVariable("IMG_HELP", ilUtil::getImagePath("streaked_area.gif"));
+		$ttpl->parseCurrentBlock();
+		$ttpl->setCurrentBlock("help_section");
+		$ttpl->setVariable("TXT_HELP",
+			$lng->txt("form_hierarchy_add_elements"));
+		$ttpl->parseCurrentBlock();
+
+		if ($this->getDragIcon() != "")
+		{
+			$ttpl->setCurrentBlock("help_img");
+			$ttpl->setVariable("IMG_HELP", $this->getDragIcon());
+			$ttpl->parseCurrentBlock();
+			$ttpl->setCurrentBlock("help_img");
+			$ttpl->setVariable("IMG_HELP",
+				ilUtil::getImagePath("drop_streaked_area.gif"));
+			$ttpl->parseCurrentBlock();
+			$ttpl->setCurrentBlock("help_section");
+			$ttpl->setVariable("TXT_HELP",
+				$lng->txt("form_hierarchy_drag_drop_help"));
+			$ttpl->parseCurrentBlock();
+		}
+		
+		// additional help items
+		foreach ($this->getHelpItems() as $help)
+		{
+			if ($help["image"] != "")
+			{
+				$ttpl->setCurrentBlock("help_img");
+				$ttpl->setVariable("IMG_HELP", $help["image"]);
+				$ttpl->parseCurrentBlock();
+			}
+			$ttpl->setCurrentBlock("help_section");
+			$ttpl->setVariable("TXT_HELP", $help["text"]);
+			$ttpl->parseCurrentBlock();
+		}
+
+		if ($this->triggered_update_command != "")
+		{
+			$ttpl->setCurrentBlock("tr_update");
+			$ttpl->setVariable("UPDATE_CMD", $this->triggered_update_command);
+			$ttpl->parseCurrentBlock();
+		}
+
 		// nodes
 		$ttpl->setVariable("NODES", $nodes_html);
 		
@@ -694,11 +770,10 @@ class ilHierarchyFormGUI extends ilFormGUI
 		
 		$childs = $this->getChilds($a_par_node["node_id"]);
 		$a_childs = $childs;
-//var_dump($a_par_node);
 		$html = "";
 		$last_child = null;
 		$ttpl = new ilTemplate("tpl.hierarchy_form_nodes.html", true, true, "Services/Form");
-		
+
 		// prepended drop area
 		if ($this->nodeAllowsChilds($a_par_node) && (count($childs) > 0 || $a_depth == 0))
 		{
@@ -724,17 +799,19 @@ class ilHierarchyFormGUI extends ilFormGUI
 				}
 				
 				reset($menu_items);
+				$mcnt = 1;
 				foreach($menu_items as $menu_item)
 				{
-					if ($menu_item["multi"] > 1 )
+					if ($menu_item["multi"] > 1)
 					{
-						for($i = 2; $i <= $menu_item["multi"]; $i++)
+						for($i = 1; $i <= $menu_item["multi"]; $i++)
 						{
 							$ttpl->setCurrentBlock("multi_add");
 							$ttpl->setVariable("MA_NUM", $i);
 							$ttpl->setVariable("MENU_CMD", $menu_item["cmd"]);
 							$ttpl->setVariable("FC", "1");
 							$ttpl->setVariable("CMD_NODE", $a_par_node["node_id"]);
+							$ttpl->setVariable("MCNT", $mcnt."fc");
 							$ttpl->parseCurrentBlock();
 						}
 					}
@@ -751,7 +828,9 @@ class ilHierarchyFormGUI extends ilFormGUI
 					$ttpl->setVariable("MENU_CMD", $menu_item["cmd"]);
 					$ttpl->setVariable("CMD_NODE", $a_par_node["node_id"]);
 					$ttpl->setVariable("FC", "1");
+					$ttpl->setVariable("MCNT", $mcnt."fc");
 					$ttpl->parseCurrentBlock();
+					$mcnt++;
 				}
 				$ttpl->setCurrentBlock("drop_area_menu");
 				$ttpl->setVariable("MNODE_ID", $a_par_node["node_id"]."fc");
@@ -901,11 +980,12 @@ class ilHierarchyFormGUI extends ilFormGUI
 			}
 			
 			reset($menu_items);
+			$mcnt = 1;
 			foreach($menu_items as $menu_item)
 			{
 				if ($menu_item["multi"] > 1 )
 				{
-					for($i = 2; $i <= $menu_item["multi"]; $i++)
+					for($i = 1; $i <= $menu_item["multi"]; $i++)
 					{
 						$a_tpl->setCurrentBlock("multi_add");
 						$a_tpl->setVariable("MA_NUM", $i);
@@ -913,10 +993,12 @@ class ilHierarchyFormGUI extends ilFormGUI
 						if ($menu_item["as_subitem"])
 						{
 							$a_tpl->setVariable("FC", "1");
+							$a_tpl->setVariable("MCNT", $mcnt."fc");
 						}
 						else
 						{
 							$a_tpl->setVariable("FC", "0");
+							$a_tpl->setVariable("MCNT", $mcnt);
 						}
 						$a_tpl->setVariable("CMD_NODE", $a_child["node_id"]);
 						$a_tpl->parseCurrentBlock();
@@ -937,13 +1019,16 @@ class ilHierarchyFormGUI extends ilFormGUI
 				if ($menu_item["as_subitem"])
 				{
 					$a_tpl->setVariable("FC", "1");
+					$a_tpl->setVariable("MCNT", $mcnt."fc");
 				}
 				else
 				{
 					$a_tpl->setVariable("FC", "0");
+					$a_tpl->setVariable("MCNT", $mcnt);
 				}
 				$a_tpl->setVariable("CMD_NODE", $a_child["node_id"]);
 				$a_tpl->parseCurrentBlock();
+				$mcnt++;
 			}
 			$a_tpl->setCurrentBlock("drop_area_menu");
 			$a_tpl->setVariable("MNODE_ID", $a_child["node_id"]);
