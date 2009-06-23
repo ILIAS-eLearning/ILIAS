@@ -7,12 +7,14 @@
 * @author Alex Killing <alex.killing@gmx.de>
 * @version $Id$
 * 
-* @ilCtrl_Calls ilObjStyleSettingsGUI: ilPermissionGUI
+* @ilCtrl_Calls ilObjStyleSettingsGUI: ilPermissionGUI, ilPageLayoutGUI
 * 
 * @extends ilObjectGUI
 */
 
 include_once "./classes/class.ilObjectGUI.php";
+include_once("./Services/Style/classes/class.ilPageLayout.php");
+
 
 class ilObjStyleSettingsGUI extends ilObjectGUI
 {
@@ -20,11 +22,25 @@ class ilObjStyleSettingsGUI extends ilObjectGUI
 	* Constructor
 	* @access public
 	*/
+	
+	
+	
+	//page_layout editing
+	var $peditor_active = false;
+	var $pg_id = null;
+	
 	function ilObjStyleSettingsGUI($a_data,$a_id,$a_call_by_reference,$a_prepare_output = true)
 	{
-		global $lng;
+		global $lng,$ilCtrl;
 		
 		$this->type = "stys";
+		
+		$cmd = $ilCtrl->getCmd();
+		
+		if ($cmd == "editPg") {
+			$this->peditor_active = true;
+		}
+					
 		$this->ilObjectGUI($a_data,$a_id,$a_call_by_reference,$a_prepare_output);
 		
 		$lng->loadLanguageModule("style");
@@ -34,9 +50,13 @@ class ilObjStyleSettingsGUI extends ilObjectGUI
 	{
 		$next_class = $this->ctrl->getNextClass($this);
 		$cmd = $this->ctrl->getCmd();
+		 
+		if ($next_class == "ilpagelayoutgui" || $cmd =="createPg") {
+			$this->peditor_active =true;
+		}
+		
 		$this->prepareOutput();
-
-//echo "-$next_class-$cmd-"; exit;
+		
 		
 		switch($next_class)
 		{
@@ -45,6 +65,22 @@ class ilObjStyleSettingsGUI extends ilObjectGUI
 				$perm_gui =& new ilPermissionGUI($this);
 				$ret =& $this->ctrl->forwardCommand($perm_gui);
 				break;
+				
+			case 'ilpagelayoutgui':
+				include_once("./Services/Style/classes/class.ilPageLayoutGUI.php");
+				$this->tpl->getStandardTemplate();
+				$this->ctrl->setReturn($this, "edit");
+				if ($this->pg_id!=null) {
+					$layout_gui =& new ilPageLayoutGUI($this->type,$this->pg_id);
+				} else {
+					$layout_gui =& new ilPageLayoutGUI($this->type,$_GET["obj_id"]);	
+				}				
+				$layout_gui->setTabs();
+				$layout_gui->setEditPreview(true);
+				$this->ctrl->saveParameter($this, "obj_id");
+				$ret =& $this->ctrl->forwardCommand($layout_gui);
+				$this->tpl->setContent($ret);
+				break;	
 
 			default:
 				if ($cmd == "" || $cmd == "view")
@@ -966,6 +1002,288 @@ class ilObjStyleSettingsGUI extends ilObjectGUI
 		ilUtil::redirect($this->ctrl->getLinkTarget($this, "editContentStyles"));
 	}
 
+
+	/**
+	* view list of page layouts
+	*/
+	function viewPageLayoutsObject()
+	{
+		
+		global $tpl, $lng, $ilCtrl, $ilTabs;
+		
+		$ilTabs->setTabActive('page_layouts');
+		
+		$tpl->addBlockfile("BUTTONS", "buttons", "tpl.buttons.html");
+		
+		$tpl->setCurrentBlock("btn_cell");
+		$tpl->setVariable("BTN_LINK",
+			$ilCtrl->getLinkTarget($this, "createPgGUI"));
+		$tpl->setVariable("BTN_TXT",$lng->txt("sty_add_pgl"));
+		$tpl->parseCurrentBlock();
+
+		$oa_tpl = new ilTemplate("tpl.stys_pglayout.html", true, true, "Services/Style");
+   		
+		include_once("./Services/Style/classes/class.ilPageLayoutTableGUI.php");
+		$pglayout_table = new ilPageLayoutTableGUI($this, "viewPageLayouts");
+		
+		$oa_tpl->setVariable("PGLAYOUT_TABLE", $pglayout_table->getHTML());
+		$tpl->setContent($oa_tpl->get());
+		
+	}
+	
+	
+	function activateObject($a_activate=true){
+		if (!isset($_POST["pglayout"]))
+		{
+			ilUtil::sendInfo($this->lng->txt("no_checkbox"),true);
+		}
+
+		 foreach ($_POST["pglayout"] as $item)
+		 {
+			$pg_layout = new ilPageLayout($item);
+			$pg_layout->activate($a_activate);
+		 }
+		 $this->ctrl->redirect($this, "viewPageLayouts");
+	}
+	
+	function deactivateObject(){
+		$this->activateObject(false);
+	}
+	
+	
+	
+	/**
+	* display deletion confirmation screen
+	*/
+	function deletePglObject()
+	{
+		global $ilTabs;
+		
+		if(!isset($_POST["pglayout"]))
+		{
+			$this->ilias->raiseError($this->lng->txt("no_checkbox"),$this->ilias->error_obj->MESSAGE);
+		}
+		
+		$ilTabs->setTabActive('page_layouts');
+		
+		// SAVE POST VALUES
+		$_SESSION["pglayout_user_delete"] = $_POST["pglayout"];
+
+		unset($this->data);
+		$this->data["cols"] = array("type","title");
+
+		foreach($_POST["pglayout"] as $id)
+		{
+			$pg_obj = new ilPageLayout($id);
+			$pg_obj->readObject();
+			$this->data["data"]["$id"] = array(
+				"type"		  => "stys",
+				"title"       => $pg_obj->getTitle()
+			);
+
+		}
+
+		$this->data["buttons"] = array( "cancelDeletePg"  => $this->lng->txt("cancel"),
+								  "confirmedDeletePg"  => $this->lng->txt("confirm"));
+
+		$this->getTemplateFile("confirm");
+
+		ilUtil::sendInfo($this->lng->txt("info_delete_sure"));
+
+		$this->tpl->setVariable("FORMACTION",$this->ctrl->getFormAction($this));
+
+		// BEGIN TABLE HEADER
+		foreach ($this->data["cols"] as $key)
+		{
+			$this->tpl->setCurrentBlock("table_header");
+			$this->tpl->setVariable("TEXT",$this->lng->txt($key));
+			$this->tpl->parseCurrentBlock();
+		}
+		// END TABLE HEADER
+
+		// BEGIN TABLE DATA
+		$counter = 0;
+
+		foreach($this->data["data"] as $key => $value)
+		{
+			// BEGIN TABLE CELL
+			foreach($value as $key => $cell_data)
+			{
+				$this->tpl->setCurrentBlock("table_cell");
+
+				// CREATE TEXT STRING
+				if($key == "type")
+				{
+					$this->tpl->setVariable("TEXT_CONTENT",ilUtil::getImageTagByType($cell_data,$this->tpl->tplPath));
+				}
+				else
+				{
+					$this->tpl->setVariable("TEXT_CONTENT",$cell_data);
+				}
+				$this->tpl->parseCurrentBlock();
+			}
+
+			$this->tpl->setCurrentBlock("table_row");
+			$this->tpl->setVariable("CSS_ROW",ilUtil::switchColor(++$counter,"tblrow1","tblrow2"));
+			$this->tpl->parseCurrentBlock();
+			// END TABLE CELL
+		}
+		// END TABLE DATA
+
+		// BEGIN OPERATION_BTN
+		foreach($this->data["buttons"] as $name => $value)
+		{
+			$this->tpl->setCurrentBlock("operation_btn");
+			$this->tpl->setVariable("BTN_NAME",$name);
+			$this->tpl->setVariable("BTN_VALUE",$value);
+			$this->tpl->parseCurrentBlock();
+		}
+	}
+	
+	
+	/**
+	* cancel deletion of Page Layout
+	*/
+	function cancelDeletePgObject()
+	{
+		session_unregister("pglayout_user_delete");
+		ilUtil::sendInfo($this->lng->txt("msg_cancel"),true);
+		$this->ctrl->redirect($this, "viewPageLayouts");
+	}	
+	
+	
+	/**
+	* conform deletion of Page Layout
+	*/
+	function confirmedDeletePgObject()
+	{
+	 	global $ilDB, $ilUser;
+    
+    
+
+	 	foreach ($_SESSION["pglayout_user_delete"] as $id)
+	 	{
+   	 		$pg_obj = new ilPageLayout($id);
+			$pg_obj->delete();
+	 		
+	 	}
+  
+	 	$this->ctrl->redirect($this, "viewPageLayouts");
+	}
+	
+	function createPgGUIObject()
+	{
+    	global $ilCtrl, $lng, $ilTabs;
+   
+		$ilTabs->setTabActive('page_layouts');
+		
+    	include_once("Services/Form/classes/class.ilPropertyFormGUI.php");
+    	$this->form_gui = new ilPropertyFormGUI();
+    	$this->form_gui->setFormAction($ilCtrl->getFormAction($this));
+    	$this->form_gui->setTitle($lng->txt("sty_create_pgl"));
+   
+    	include_once("Services/Form/classes/class.ilRadioMatrixInputGUI.php");
+   
+   
+    	$title_input = new ilTextInputGUI($lng->txt("title"),"pgl_title");
+    	$title_input->setSize(50);
+    	$title_input->setMaxLength(128);
+    	$title_input->setValue($this->layout_object->title);
+    	$title_input->setTitle($lng->txt("title"));
+    	$title_input->setRequired(true);
+   
+    	$desc_input = new ilTextAreaInputGUI($lng->txt("description"),"pgl_desc");
+    	$desc_input->setValue($this->layout_object->description);
+    	$desc_input->setRows(3);
+    	$desc_input->setCols(37);
+
+		$ttype_input = new ilSelectInputGUI($lng->txt("sty_based_on"), "pgl_template");
+		
+		$arr_templates = ilPageLayout::getLayouts();
+		
+		$options = array();
+		$options['-1'] = $lng->txt("none");
+		
+		foreach ($arr_templates as $templ) {
+			$templ->readObject();
+			$key = $templ->getId();
+			$value = $templ->getTitle();
+			$options[$key] = $value;
+		}
+		
+		$ttype_input->setOptions($options);
+		$ttype_input->setValue(-1);
+		$ttype_input->setRequired(true);
+   
+    	$desc_input->setTitle($lng->txt("description"));
+    	$desc_input->setRequired(false);
+   
+    	$this->form_gui->addItem($title_input);
+    	$this->form_gui->addItem($desc_input);
+    	$this->form_gui->addItem($ttype_input);
+
+   
+    	$this->form_gui->addCommandButton("createPg", $lng->txt("save"));
+		$this->form_gui->addCommandButton("cancelCreate", $lng->txt("cancel"));
+
+    	$this->tpl->setContent($this->form_gui->getHTML());
+	}
+	
+	
+	function createPgObject()
+	{
+		global $ilCtrl;
+		
+		if($_POST["pgl_title"] == "")
+		{
+				$this->ilias->raiseError($this->lng->txt("no_title"),$this->ilias->error_obj->MESSAGE);
+				$this->createPgGUIObject();
+				exit;
+		}
+		//create Page-Layout-Object first
+		$pg_object = new ilPageLayout();
+		$pg_object->setTitle($_POST['pgl_title']);
+		$pg_object->setDescription($_POST['pgl_desc']);
+		$pg_object->update();
+		
+		include_once("./Services/COPage/classes/class.ilPageObject.php");
+		
+		//create Page
+		if(!is_object($pg_content))
+		{
+			$this->pg_content =& new ilPageObject($this->type);
+		}
+		
+		$this->pg_content->setId($pg_object->getId());
+		
+		if ($_POST['pgl_template'] != "-1") {
+			$layout_obj = new ilPageLayout($_POST['pgl_template']);
+			$this->pg_content->setXMLContent($layout_obj->getXMLContent());
+			$this->pg_content->create(false);
+		} else {
+			$this->pg_content->create(false);
+		}
+		
+		$this->pg_id = $pg_object->getId();
+		
+		$ilCtrl->setCmdClass("ilpagelayoutgui");
+		$ilCtrl->setCmd("edit");
+		$this->executeCommand();
+	}
+	
+	function cancelCreateObject() {
+		$this->viewPageLayoutsObject();
+	}
+	
+	function editPgObject()
+	{
+		global $ilCtrl;
+		
+		$ilCtrl->setCmdClass("ilpagelayoutgui");
+		$ilCtrl->setCmd("edit");
+		$this->executeCommand();
+	}
+	
 	
 	function setTabs()
 	{
@@ -984,9 +1302,14 @@ class ilObjStyleSettingsGUI extends ilObjectGUI
 	*/
 	function getTabs(&$tabs_gui)
 	{
-		global $rbacsystem;
-
-		if ($rbacsystem->checkAccess("visible,read",$this->object->getRefId()))
+		global $rbacsystem, $lng, $ilTabs;
+		
+		if ($this->peditor_active) {
+			$tabs_gui->setBackTarget($this->lng->txt("page_layouts"),
+			$this->ctrl->getLinkTarget($this, "viewPageLayouts"));
+		}
+			
+		if ($rbacsystem->checkAccess("visible,read",$this->object->getRefId()) && !$this->peditor_active)
 		{
 			$tabs_gui->addTarget("basic_settings",
 				$this->ctrl->getLinkTarget($this, "editBasicSettings"), array("editBasicSettings","", "view"), "", "");
@@ -996,9 +1319,14 @@ class ilObjStyleSettingsGUI extends ilObjectGUI
 				
 			$tabs_gui->addTarget("content_styles",
 				$this->ctrl->getLinkTarget($this, "editContentStyles"), "editContentStyles", "", "");
+				
+			$tabs_gui->addTarget("page_layouts",
+				$this->ctrl->getLinkTarget($this, "viewPageLayouts"), "viewPageLayouts", "", "");
+				
 		}
-
-		if ($rbacsystem->checkAccess('edit_permission',$this->object->getRefId()))
+		
+		
+		if ($rbacsystem->checkAccess('edit_permission',$this->object->getRefId()) && !$this->peditor_active)
 		{
 			$tabs_gui->addTarget("perm_settings",
 				$this->ctrl->getLinkTargetByClass(array(get_class($this),'ilpermissiongui'), "perm"), array("perm","info","owner"), 'ilpermissiongui');
