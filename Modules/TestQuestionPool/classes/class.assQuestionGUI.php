@@ -300,8 +300,6 @@ class assQuestionGUI
 	/**
 	* Returns the ILIAS Page around a question
 	*
-	* Returns the ILIAS Page around a question
-	*
 	* @return string The ILIAS page content
 	* @access public
 	*/
@@ -313,7 +311,7 @@ class assQuestionGUI
 		$page_gui =& new ilPageObjectGUI("qpl", $this->object->getId());
 		$page_gui->setTemplateTargetVar($a_temp_var);
 		$page_gui->setEnabledInternalLinks(false);
-		$page_gui->setQuestionHTML($html);
+		$page_gui->setQuestionHTML(array($this->object->getId() => $html));
 		$page_gui->setFileDownloadLink("ilias.php?baseClass=ilObjTestGUI&cmd=downloadFile".
 			"&amp;ref_id=".$_GET["ref_id"]);
 		$page_gui->setFullscreenLink("ilias.php?baseClass=ilObjTestGUI&cmd=fullscreen".
@@ -352,7 +350,7 @@ class assQuestionGUI
 		$page_gui->setEnabledPageFocus(false);
 		if (strlen($html))
 		{
-			$page_gui->setQuestionHTML($html);
+			$page_gui->setQuestionHTML(array($this->object->getId() => $html));
 		}
 		$page_gui->setSourcecodeDownloadScript("ilias.php?baseClass=ilObjTestGUI&ref_id=".$_GET["ref_id"]);
 		$page_gui->setOutputMode("presentation");
