@@ -2696,7 +2696,7 @@ class ilObjTestGUI extends ilObjectGUI
 				$arrFilter[$item->getPostVar()] = $item->getValue();
 			}
 		}
-		$data = $this->object->getAvailableQuestions(1, $arrFilter);
+		$data = $this->object->getAvailableQuestions($arrFilter, 1);
 		$table_gui->setData($data);
 		$this->tpl->setVariable('ADM_CONTENT', $table_gui->getHTML());	
 	}

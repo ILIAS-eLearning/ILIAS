@@ -5155,7 +5155,7 @@ function loadQuestions($active_id = "", $pass = NULL)
 *
 * @access public
 */
-	function getAvailableQuestions($completeonly = 0, $arrFilter)
+	function getAvailableQuestions($arrFilter, $completeonly = 0)
 	{
 		global $ilUser;
 		global $ilDB;
