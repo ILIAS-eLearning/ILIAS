@@ -177,6 +177,10 @@ class ilRadioGroupInputGUI extends ilFormPropertyGUI
 					$this->getParentForm()->setMultipart(true);
 				}
 				$tpl->parseCurrentBlock();
+				if ($pf->getMultipart())
+				{
+					$this->getParentForm()->setMultipart(true);
+				}
 			}
 
 			$tpl->setCurrentBlock("prop_radio_option");

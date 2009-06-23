@@ -345,3 +345,4 @@ class ilPasswordInputGUI extends ilSubEnabledFormPropertyGUI
 		$a_tpl->parseCurrentBlock();
 	}
 }
+?>

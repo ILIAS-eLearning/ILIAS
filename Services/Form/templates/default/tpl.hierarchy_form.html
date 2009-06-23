@@ -10,28 +10,45 @@
 <tr class="tblheader">
 	<th class="std"><!-- BEGIN icon --><img src="{SRC_ICON}" alt="{ALT_ICON}" border="0" /><!-- END icon --> {TITLE}</th>
 </tr>
+<!-- BEGIN commands2 -->
+<tr>
+	<td class="submit" colspan="2">
+		<div style="float:right;">
+			<!-- BEGIN cmd2 -->
+			<input class="submit" type="SUBMIT" name="cmd[{CMD}]" value="{CMD_TXT}" />
+			<!-- END cmd2 -->
+		</div>
+		<!-- BEGIN multi_cmds2 -->
+		<img border="0" alt="{MCMD_ALT}" src="{MCMD_IMG}" />
+		<!-- BEGIN multi_cmd2 -->
+		<input class="submit" type="SUBMIT" name="cmd[{MULTI_CMD}]" value="{MULTI_CMD_TXT}" />
+		<!-- END multi_cmd2 -->
+		<!-- END multi_cmds2 -->
+	</td>
+</tr>
+<!-- END commands2 -->
 <tr class="std">
 	<td class="tblrow1">
 	{NODES}
 	</td>
 </tr>
-<!-- BEGIN commands -->
+<!-- BEGIN commands1 -->
 <tr>
 	<td class="submit" colspan="2">
 		<div style="float:right;">
-			<!-- BEGIN cmd -->
+			<!-- BEGIN cmd1 -->
 			<input class="submit" type="SUBMIT" name="cmd[{CMD}]" value="{CMD_TXT}" />
-			<!-- END cmd -->
+			<!-- END cmd1 -->
 		</div>
-		<!-- BEGIN multi_cmds -->
+		<!-- BEGIN multi_cmds1 -->
 		<img border="0" alt="{MCMD_ALT}" src="{MCMD_IMG}" />
-		<!-- BEGIN multi_cmd -->
+		<!-- BEGIN multi_cmd1 -->
 		<input class="submit" type="SUBMIT" name="cmd[{MULTI_CMD}]" value="{MULTI_CMD_TXT}" />
-		<!-- END multi_cmd -->
-		<!-- END multi_cmds -->
+		<!-- END multi_cmd1 -->
+		<!-- END multi_cmds1 -->
 	</td>
 </tr>
-<!-- END commands -->
+<!-- END commands1 -->
 </table>
 
 <div style="margin-top: 10px;">

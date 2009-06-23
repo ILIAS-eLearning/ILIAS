@@ -7,8 +7,9 @@ var dragDropShow = false;
 var openedMenu="";					// menu currently opened
 var doCloseContextMenuCounter = -1;
 var oldMposx = -1;
-var oldMposy = -1;    
-
+var oldMposy = -1;
+var oldclass = [];
+var dragdropongoing = false;
 
 /**
 * Get inner height of window
@@ -123,11 +124,14 @@ function nextMenuClick()
 */
 function doMouseOver (id, mclass)
 {
+	if (dragdropongoing) return;
+	
 	if(stopHigh) return;
 	stopHigh=true;
 	overId = id;
 	setTimeout("stopHigh=false",10);
 	obj = document.getElementById(id);
+//	oldclass[id] = obj.className;
 	obj.className = mclass;
 	current_mouse_over_id = id;
 }
@@ -137,10 +141,18 @@ function doMouseOver (id, mclass)
 */
 function doMouseOut(id, mclass)
 {
+	if (dragdropongoing) return;
 	if (id!=overId) return;
 	stopHigh = false;
 	obj = document.getElementById(id);
-	obj.className = mclass;
+//	if (oldclass[id])
+//	{
+//		obj.className = oldclass[id];
+//	}
+//	else
+//	{
+		obj.className = mclass;
+//	}
 }
 
 /**
@@ -251,12 +263,65 @@ function M_in(cell)
 {
     cell.style.cursor='pointer';
     cell.bgColor='#C0C0FF';
+	
+	if (cell.id.substr(0, 5) == "hftd_")
+	{
+//alert("real id:" + cell.id);
+
+		var t = cell.id.substr(5);
+		var tp = t.indexOf("_");
+		var cid = t.substr(0, tp);
+		var cnum = t.substr(tp+1);
+
+//alert("id:" + cid + ", num:" + cnum);
+
+		if (cnum == "0")
+		{
+			var sec = document.getElementById("hftd_" + cid + "_1");
+			if (sec)
+			{
+				sec.bgColor='#C0C0FF';
+			}
+		}
+		if (parseInt(cnum) > 0)
+		{
+			var sec = document.getElementById("hftd_" + cid + "_0");
+			if (sec)
+			{
+				sec.bgColor='#C0C0FF';
+			}
+		}
+	}
     doCloseContextMenuCounter=-1;
 }
 
 function M_out(cell) 
 {
     cell.bgColor='';
+	if (cell.id.substr(0, 5) == "hftd_")
+	{
+		var t = cell.id.substr(5);
+		var tp = t.indexOf("_");
+		var cid = t.substr(0, tp);
+		var cnum = t.substr(tp+1);
+
+		if (cnum == "0")
+		{
+			var sec = document.getElementById("hftd_" + cid + "_1");
+			if (sec)
+			{
+				sec.bgColor='';
+			}
+		}
+		if (parseInt(cnum) > 0)
+		{
+			var sec = document.getElementById("hftd_" + cid + "_0");
+			if (sec)
+			{
+				sec.bgColor='';
+			}
+		}
+	}
     doCloseContextMenuCounter=5;
 }
 
@@ -349,11 +414,61 @@ ilDragContent = function(id, sGroup, config)
 {
     this.swapInit(id, sGroup, config);
 	this.isTarget = false;
+	this.initDragContent(id, sGroup, config);
 };
 
 // We are extending DDProxy now
-YAHOO.extend(ilDragContent, YAHOO.util.DDProxy);
-//YAHOO.extend(ilDragContent, YAHOO.util.DD);
+YAHOO.extend(ilDragContent, YAHOO.util.DDProxy,
+{
+	initDragContent: function(id, sGroup, config)
+	{
+		this.originalStyles = [];
+	},
+	
+	startDrag: function(x, y)
+	{
+		var targets = YAHOO.util.DDM.getRelated(this, true);
+		for (var i=0; i<targets.length; i++)
+		{ 
+			var targetEl = this.getTargetDomRef(targets[i]);
+			if (!this.originalStyles[targetEl.id])
+			{
+				this.originalStyles[targetEl.id] = targetEl.className;
+			}
+			targetEl.className = "il_droparea_valid_target";
+		}
+	},
+	
+	getTargetDomRef: function(oDD)
+	{ 
+		return oDD.getEl();  
+	},
+	
+	endDrag: function(e)
+	{
+		this.resetTargets(); 
+	}, 
+	
+	resetTargets: function()
+	{
+		// reset the target styles 
+		var targets = YAHOO.util.DDM.getRelated(this, true);
+
+		for (var i=0; i<targets.length; i++)
+		{
+			var targetEl = this.getTargetDomRef(targets[i]); 
+			var oldStyle = this.originalStyles[targetEl.id]; 
+			if (oldStyle)
+			{
+				targetEl.className = oldStyle; 
+			}
+		}
+	}
+	
+}
+);
+
+
 
 // protype: all instances will get this functions
 ilDragContent.prototype.swapInit = function(id, sGroup, config)
@@ -430,10 +545,6 @@ ilDragContent.prototype.onDragDrop = function(e, id)
 };
 
 
-ilDragContent.prototype.endDrag = function(e)
-{
-};
-
 // overwriting onDragDrop function
 ilDragContent.prototype.onDragEnter = function(e, id)
 {
@@ -442,15 +553,18 @@ ilDragContent.prototype.onDragEnter = function(e, id)
 	if (source_id != target_id)
 	{
 		d_target = document.getElementById(id);
+		oldclass[id] = d_target.className;
 		d_target.className = "il_droparea_active";
 	}
+	dragdropongoing = true;
 };
 
 // overwriting onDragDrop function
 ilDragContent.prototype.onDragOut = function(e, id)
 {
 	d_target = document.getElementById(id);
-	d_target.className = "il_droparea";
+	d_target.className = "il_droparea_valid_target";
+	dragdropongoing = false;
 };
 
 ///
@@ -473,4 +587,3 @@ ilDragTarget.prototype.dInit = function(id, sGroup, config)
 	this.init(id, sGroup, config);	// important!
 	//this.initFrame();				// important!
 };
-

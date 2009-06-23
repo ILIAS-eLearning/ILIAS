@@ -17,6 +17,7 @@ class ilFormPropertyGUI
 	protected $alert;
 	protected $required = false;
 	protected $parentgui;
+	protected $parentform;
 	
 	/**
 	* Constructor
@@ -353,3 +354,4 @@ class ilFormPropertyGUI
 	}
 
 }
+?>
