@@ -53,15 +53,15 @@ function ilRoomTable()
 	{
 		var menuconfig = [];
 		//check for enter permission
-		if (this.permission_enter == true)
+		if (this.pme == true)
 		{
 			menuconfig.push(
 				{ text : chatLanguage.getTxt('open'), onclick : { fn : function() {il_chat_async_handler.enterRoom(ref_id, room_id);return false;}}}
 			);
 		}
 		
-		//check for empry permission
-		if (this.permission_empty == true)
+		//check for empty permission
+		if (this.pmem == true)
 		{
 			menuconfig.push(
 				{ text : chatLanguage.getTxt('empty'), onclick : { fn : function() {il_chat_async_handler.emptyRoom(); return false;}}}
@@ -69,7 +69,7 @@ function ilRoomTable()
 		}
 		
 		//check for delete permission
-		if (this.permission_delete == true)
+		if (this.pmde == true)
 		{
 			menuconfig.push(
 				{ text : chatLanguage.getTxt('delete'), onclick : { fn : function() {il_chat_async_handler.deletePrivateRoom(room_id); return false;}}}
@@ -77,7 +77,7 @@ function ilRoomTable()
 		}
 		
 		//check for bookmark permission
-		if (this.permission_bookmark == true)
+		if (this.pmbo == true)
 		{
 			menuconfig.push(
 				{ text : chatLanguage.getTxt('add_to_bookmark'), onclick : { fn : function() {il_chat_async_handler.addRoomToBookmark(ref_id, room_id); return false;}}}

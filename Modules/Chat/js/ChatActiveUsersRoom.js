@@ -28,7 +28,7 @@ function ilChatActiveUsersRoom()
 		{
 		var menuconfig = [];
 		var user_id = this.id;
-		var user_display_name = this.display_name;
+		var user_display_name = this.dn;
 		var user_login = this.login;
 		
 		// always grant without permission;
@@ -43,7 +43,7 @@ function ilChatActiveUsersRoom()
 		);
 		
 		//check for kick permission
-		if (this.permission_kick == true)
+		if (this.pmk == true)
 		{
 			menuconfig.push
 			(
@@ -52,7 +52,7 @@ function ilChatActiveUsersRoom()
 		}
 		
 		//check for kick permission
-		if (this.permission_unkick == true)
+		if (this.pmuk == true)
 		{
 			menuconfig.push
 			(
@@ -79,7 +79,7 @@ function ilChatActiveUsersRoom()
 		// used by mouse callback
 		var menu_id = 'act' + user_id;
 		
-		var conf = { id : menu_id, items : menuconfig, titles : [this.display_name]};
+		var conf = { id : menu_id, items : menuconfig, titles : [this.dn]};
 		
 		if (this.uimage)
 		{
@@ -139,7 +139,8 @@ function ilChatActiveUsersRoom()
 					users[uId][i] = visible_users[uId][i];	
 				}
 				users[uId].lastUpdated = timestamp_update_run;
-				users[uId].element.elementTitle.innerHTML = users[uId].display_name;
+				// display_name
+				users[uId].element.elementTitle.innerHTML = users[uId].dn;
 				this.createContextMenu.call(users[uId]);
 			}
 			else
@@ -147,7 +148,8 @@ function ilChatActiveUsersRoom()
 				users[uId] = visible_users[uId];
 				users[uId].element = document.createElement("li");
 				users[uId].element.elementTitle = document.createElement("span");
-				users[uId].element.elementTitle.innerHTML = users[uId].display_name;
+				// display_name
+				users[uId].element.elementTitle.innerHTML = users[uId].dn;
 				users[uId].lastUpdated = timestamp_update_run;
 							
 				var icon = this.getIcon();

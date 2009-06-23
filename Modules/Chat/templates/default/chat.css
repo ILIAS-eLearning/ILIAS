@@ -72,6 +72,10 @@ body {
 	font-weight: normal;
 }
 
+.tblrow span, .tblrow img, .tblrowmarked span, .tblrowmarked img {
+	cursor: pointer;
+}
+
 .tblrow {
 	background-color: #e1e1e1;
 	font-weight: normal;
