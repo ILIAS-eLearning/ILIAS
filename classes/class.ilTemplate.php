@@ -577,7 +577,7 @@ class ilTemplate extends ilTemplateX
 	
 	function fillMainMenu()
 	{
-		global $tpl, $ilMainMenu, $ilCtrl, $ilSetting; 
+		global $tpl, $ilMainMenu, $ilCtrl, $ilSetting, $ilUser; 
 		$tpl->setVariable("MAINMENU", $this->main_menu);
 		if($this->variableExists('MAINMENU'))
 		{
@@ -587,24 +587,28 @@ class ilTemplate extends ilTemplateX
 			   $ilUser->getId() != ANONYMOUS_USER_ID &&
 			   (int)$ilUser->getPref('session_reminder_enabled'))
 			{
+				$leadTime = $ilUser->getPref('session_reminder_lead_time');
+				$expiresTime = $ilAuth->sessionValidThru();
+				$currentTime = time();
+				$expiresInXSeconds = $expiresTime - $currentTime;				
+				
+				if($leadTime > $expiresInXSeconds) return;				
+    							
 				$tplSR = new ilTemplate('tpl.SessionReminder.js', true, true);
-
-				$session_expires = $ilAuth->sessionValidThru();
-				$current_time = time();
-				$time_left = $session_expires - $current_time;
-				$ende = date("Y-m-d, H:i:s", $session_expires);
-				$start = date("Y-m-d, H:i:s",$current_time);
-				$time_left = $time_left * 1000;
+						
+				$tplSR->setVariable('ILIAS_SESSION_COUNTDOWN', ($expiresInXSeconds - $leadTime) * 1000);
+				$tplSR->setVariable('ILIAS_SESSION_EXTENDER_URL', './ilias.php?baseClass=ilPersonalDesktopGUI');				
+				$tplSR->setVariable('ILIAS_SESSION_CHECKER_URL',
+					'./sessioncheck.php'.
+					'?lang='.$lng->getLangKey().
+					'&client_id='.CLIENT_ID.
+					'&session_id='.session_id().
+					'&lead_time='.$leadTime.
+					'&timezone='.$ilUser->getTimeZone().
+					'&countDownTime='.($expiresInXSeconds - $leadTime));
+				$tplSR->setVariable('CONFIRM_TXT', $lng->txt('session_reminder_alert'));
 				
-				$tplSR->setVariable('URL', 'index.php');
-				$tplSR->setVariable('TIME_LEFT', $time_left);
-				$tplSR->setVariable('REMEMBER_TIME', 30000);
-				$tplSR->setVariable('ALERT', $lng->txt('session_reminder_alert'));
-				
-				$expires = $ilClientIniFile->readVariable('session', 'expire');
-				$time = ilFormat::_secondsToString($expires, true);
-				$tplSR->setVariable('SESSION_REMINDER_EXTENDED', sprintf($lng->txt('session_reminder_extended'), $time));
-				$tpl->setVariable('SESSION_REMINDER', $tplSR->get());				
+				$tpl->setVariable('SESSION_REMINDER', $tplSR->get());		
 			}
 		}
 	}

@@ -18,6 +18,7 @@
 */
 class ilInitialisation
 {
+	private $return_before_auth = false;
 
 	/**
 	* Remove unsafe characters from GET
@@ -40,6 +41,17 @@ class ilInitialisation
 				$_GET[$k] = strip_tags($_GET[$k]);
 			}
 		}
+	}
+	
+	public function returnBeforeAuth($a_flag = null)
+	{
+		if(null === $a_flag)
+		{
+			return $this->return_before_auth;
+		}
+		
+		$this->return_before_auth = $a_flag;
+		return $this;
 	}
 
 	/**
@@ -359,6 +371,7 @@ class ilInitialisation
 		}
 
 		// set constants
+		define ("SESSION_REMINDER_LEADTIME", 30);
 		define ("DEBUG",$ilClientIniFile->readVariable("system","DEBUG"));
 		define ("DEVMODE",$ilClientIniFile->readVariable("system","DEVMODE"));
 		define ("ROOT_FOLDER_ID",$ilClientIniFile->readVariable('system','ROOT_FOLDER_ID'));
@@ -963,8 +976,10 @@ class ilInitialisation
 		$https =& new ilHTTPS();
 		$GLOBALS['https'] =& $https;
 		$https->enableSecureCookies();
-		$https->checkPort();
-
+		$https->checkPort();		
+		
+		if($this->returnBeforeAuth()) return;
+		
 		// $ilAuth initialisation
 		include_once("./Services/Authentication/classes/class.ilAuthUtils.php");
 		ilAuthUtils::_initAuth();
@@ -1029,7 +1044,7 @@ class ilInitialisation
 		////require_once('Log.php');
 		////$ilAuth->logger = Log::singleton('error_log',PEAR_LOG_TYPE_SYSTEM,'TEST');
                 ////$ilAuth->enableLogging = true;
-				
+			
 		if (!defined("IL_PHPUNIT_TEST"))
 		{
 			$ilAuth->start();

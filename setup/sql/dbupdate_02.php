@@ -13009,4 +13009,16 @@ if(!$ilDB->tableColumnExists('usr_data', 'reg_hash'))
 <?php
 	$ilCtrlStructureReader->getStructure();
 ?>
-			
+<#2497>
+<?php
+if(!$ilDB->tableColumnExists('usr_session', 'last_remind_ts'))
+{
+	$atts = array(
+		'type' => 'integer',
+		'length' => 4,
+		'notnull' => true,
+		'default' => 0
+	);
+	$ilDB->addTableColumn('usr_session', 'last_remind_ts', $atts);
+}
+?>
