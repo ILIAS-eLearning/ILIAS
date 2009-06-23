@@ -2500,12 +2500,14 @@ td.submit {
 /* Toolbar */
 div.ilToolbar
 {
-	border-width: 1px;
+	border-width: 0px;
 	border-style: solid;
 	border-color: #D6D6D6;
-	background-color: #F9F9F9;
+	/* background-color: #F9F9F9; */
+	background-color: #F4F4F4;
 	padding: 3px;
-	margin-bottom: 5px;
+	padding-bottom: 5px;
+	margin-bottom: 8px;
 	margin-top: 0px;
 	font-size: 90%;
 }

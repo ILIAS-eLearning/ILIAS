@@ -204,7 +204,8 @@ class ilObjSCORM2004LearningModuleGUI extends ilObjSCORMLearningModuleGUI
 	*/
 	function properties()
 	{
-		global $rbacsystem, $tree, $tpl;
+		global $rbacsystem, $tree, $tpl, $lng;
+		
 		$lng->loadLanguageModule("style");
 		// edit button
 		$this->tpl->addBlockfile("BUTTONS", "buttons", "tpl.buttons.html");

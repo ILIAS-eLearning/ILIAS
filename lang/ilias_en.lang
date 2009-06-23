@@ -9524,3 +9524,71 @@ crs#:#crs_lim_assigned#:#Already assigned to associated course "%s".
 grp#:#grp_lim_assigned#:#Already assigned to associated group "%s".
 common#:#soap_wsdl_path#:#WSDL Path
 common#:#soap_wsdl_path_info#:#Please enter the path to the ilias wsdl file which should be used for the webservice. If you leave this field blank, the following path will be used per default:%s
+common#:#scorm_new#:#New SCORM/IACC Learning Module
+common#:#scorm_add#:#Add SCORM/IACC Learning Module
+common#:#scorm_create_export_file_scrom12#:#Create Export File (SCORM 1.2)
+common#:#scorm_create_export_file_scrom2004#:#Create Export File (SCORM 2004)
+common#:#scorm_create_export_file_pdf#:#Create Export File (PDF)
+common#:#scorm_create_export_file_iso#:#Create Export File (ISO for CD-ROM)
+common#:#scorm_create_export_file_html#:#Create Export File (HTML)
+common#:#sahs_insert_page_from_clip#:#Paste Pages from Clipboard
+common#:#sahs_insert_chap_from_clip#:#Paste Chapters from Clipboard
+common#:#sahs_insert_sco_from_clip#:#Paste SCOs from Clipboard
+sahs#:#sahs_insert_chapter#:#Insert Chapter
+sahs#:#sahs_choose_pages_or_chapters_or_scos_only#:#Please select either pages, SCOs or chapters only.
+sahs#:#sahs_insert_scenario#:#Insert Sequenced Chapter
+sahs#:#sahs_insert_pagelayout#:#Insert Template Page
+sahs#:#sahs_properties#:#Properties
+sahs#:#sahs_insert_page#:#Insert Page
+sahs#:#sahs_insert_sco#:#Insert SCO
+sahs#:#sahs_chapter#:#Chapter
+sahs#:#sahs_unit#:#SCO
+sahs#:#sahs_page#:#Page
+sahs#:#sahs_objectives_alignment#:#Learning Objectives Alignment
+sahs#:#sahs_learning_objectives#:#Learning Objectives
+sahs#:#sahs_sco_objective#:#Objectives
+sahs#:#sahs_questions#:#Questions
+sahs#:#sahs_organization#:#Organization
+sahs#:#sahs_sequencing#:#Sequencing
+sahs#:#sahs_objective_alignment#:#Objectives Alignment
+content#:#cont_LocalFile#:#Local File
+content#:#cont_Ressources#:#Ressources
+content#:#cont_Reading#:#Reading
+content#:#cont_Hint#:#Hint
+content#:#cont_ed_paste#:#Paste
+content#:#cont_ed_insert_pcqst#:#Insert Question
+content#:#cont_ed_select_pctext#:#Select Text Item
+content#:#cont_question_pool#:#Question Pool
+content#:#cont_question_type#:#Question Type
+content#:#cont_text_type#:#Text Item Type
+content#:#cont_ed_par#:#Text
+content#:#cont_ed_dtable#:#Data Table
+content#:#cont_ed_atable#:#Advanced Table
+content#:#cont_ed_list#:# Advanced List
+content#:#cont_ed_textitem#:# Text Item
+content#:#cont_mob_files#:#Object Files
+content#:#cont_mob_prop#:#Object Properties
+meta#:#meta_pointofcontact#:#Point of Contact
+meta#:#sco_propagate#:#Propagate to all SCOs
+content#:#cont_empty_question#:#Question editing not finished. Please either click and edit or delete question.
+content#:#cont_media_placeh#:#Click and edit to insert media
+content#:#cont_question_placeh#:#Click and edit to insert question
+content#:#cont_text_placeh#:#Click and edit to insert text
+content#:#cont_no_glossary#:#No glossary
+common#:#obj_sco#:#SCO
+common#:#obj_chap#:#Chapter
+common#:#obj_page#:#Page
+style#:#sty_characteristic_already_exists#:#A style class with this title already exists within this style.
+content#:#cont_pc_flist#:#File List
+content#:#cont_pc_par#:#Text
+content#:#cont_pc_mob#:#Media
+content#:#cont_pc_qst#:#Question
+content#:#cont_pc_sec#:#Section
+content#:#cont_pc_dtab#:#Data Table
+content#:#cont_pc_tab#:#Advanced Table
+content#:#cont_pc_code#:#Code
+content#:#cont_pc_vacc#:#Accordion (Vertical)
+content#:#cont_pc_hacc#:#Accordion (Horizontal)
+content#:#cont_pc_res#:#Resource
+content#:#cont_pc_map#:#Map
+content#:#cont_pc_list#:#Advanced List
