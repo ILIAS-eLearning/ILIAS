@@ -104,7 +104,7 @@ class ilObjChatServerGUI extends ilObjectGUI
 		}
 		else if(!$this->object->server_conf->isAlive() && $this->ctrl->getCmd() != 'update')
 		{
-			ilUtil::sendInfo($this->lng->txt('chat_cannot_connect_to_server'));
+			ilUtil::sendFailure($this->lng->txt('chat_cannot_connect_to_server'));
 		}
 		
 		// chat server settings
@@ -599,12 +599,12 @@ class ilObjChatServerGUI extends ilObjectGUI
 			
 			if(!$this->object->server_conf->update())
 			{
-				ilUtil::sendInfo($this->object->server_conf->getErrorMessage());
+				ilUtil::sendFailure($this->object->server_conf->getErrorMessage());
 				return $this->editObject();
 			}
 		}
 		
-		ilUtil::sendInfo($this->lng->txt('chat_settings_saved'), true);
+		ilUtil::sendSuccess($this->lng->txt('chat_settings_saved'), true);
 		return $this->editObject();
 	}
 
