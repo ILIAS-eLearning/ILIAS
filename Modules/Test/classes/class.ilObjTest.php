@@ -5151,88 +5151,15 @@ function loadQuestions($active_id = "", $pass = NULL)
 	}
 
 /**
-* Calculates the data for the output of the questionpool
+* Calculates the available questions for a test
 *
 * @access public
 */
-	function getQuestionsTable($sort, $sortorder, $textfilter, $startrow = 0, $completeonly = 0, $filter_question_type = "", $filter_questionpool = "")
+	function getAvailableQuestions($completeonly = 0, $arrFilter)
 	{
 		global $ilUser;
 		global $ilDB;
 
-		$where = "";
-		foreach ($textfilter as $sel_filter_type => $filter_text)
-		{
-			if (strlen($filter_text) > 0) 
-			{
-				switch($sel_filter_type) 
-				{
-					case "title":
-						$where .= " AND " . $ilDB->like('qpl_questions.title', 'text', "%" . $filter_text . "%");
-						break;
-					case "comment":
-						$where .= " AND " . $ilDB->like('qpl_questions.description', 'text', "%" . $filter_text . "%");
-						break;
-					case "author":
-						$where .= " AND " . $ilDB->like('qpl_questions.author', 'text', "%" . $filter_text . "%");
-						break;
-					case "qpl":
-						$where .= " AND " . $ilDB->like('object_data.title', 'text', "%" . $filter_text . "%");
-						break;
-				}
-			}
-		}
-
-		if ($filter_question_type && (strcmp($filter_question_type, "all") != 0))
-		{
-			$where .= " AND qpl_qst_type.type_tag = " . $ilDB->quote($filter_question_type, 'text');
-		}
-
-		if ($filter_questionpool && (strcmp($filter_questionpool, "all") != 0))
-		{
-			$where .= " AND qpl_questions.obj_fi = " . $ilDB->quote($filter_questionpool, 'integer');
-		}
-
-		// build sort order for sql query
-		$order = "";
-		$images = array();
-		include_once "./Services/Utilities/classes/class.ilUtil.php";
-		switch($sort) 
-		{
-			case "title":
-				$order = " ORDER BY qpl_questions.title $sortorder";
-				$images["title"] = " <img src=\"" . ilUtil::getImagePath(strtolower($sortorder) . "_order.gif") . "\" alt=\"" . $this->lng->txt(strtolower($sortorder) . "ending_order")."\" />";
-				break;
-			case "comment":
-				$order = " ORDER BY description $sortorder";
-				$images["comment"] = " <img src=\"" . ilUtil::getImagePath(strtolower($sortorder) . "_order.gif") . "\" alt=\"" . $this->lng->txt(strtolower($sortorder) . "ending_order")."\" />";
-				break;
-			case "type":
-				$order = " ORDER BY question_type_id $sortorder";
-				$images["type"] = " <img src=\"" . ilUtil::getImagePath(strtolower($sortorder) . "_order.gif") . "\" alt=\"" . $this->lng->txt(strtolower($sortorder) . "ending_order")."\" />";
-				break;
-			case "author":
-				$order = " ORDER BY author $sortorder";
-				$images["author"] = " <img src=\"" . ilUtil::getImagePath(strtolower($sortorder) . "_order.gif") . "\" alt=\"" . $this->lng->txt(strtolower($sortorder) . "ending_order")."\" />";
-				break;
-			case "created":
-				$order = " ORDER BY created $sortorder";
-				$images["created"] = " <img src=\"" . ilUtil::getImagePath(strtolower($sortorder) . "_order.gif") . "\" alt=\"" . $this->lng->txt(strtolower($sortorder) . "ending_order")."\" />";
-				break;
-			case "updated":
-				$order = " ORDER BY tstamp $sortorder";
-				$images["updated"] = " <img src=\"" . ilUtil::getImagePath(strtolower($sortorder) . "_order.gif") . "\" alt=\"" . $this->lng->txt(strtolower($sortorder) . "ending_order")."\" />";
-				break;
-			case "qpl":
-				$order = " ORDER BY UPPER(object_data.title) $sortorder";
-				$images["qpl"] = " <img src=\"" . ilUtil::getImagePath(strtolower($sortorder) . "_order.gif") . "\" alt=\"" . $this->lng->txt(strtolower($sortorder) . "ending_order")."\" />";
-				break;
-		}
-		$maxentries = $ilUser->prefs["hits_per_page"];
-		if ($maxentries < 1)
-		{
-			$maxentries = 9999;
-		}
 		include_once "./Modules/TestQuestionPool/classes/class.ilObjQuestionPool.php";
 		$available_pools = array_keys(ilObjQuestionPool::_getAvailableQuestionpools($use_object_id = TRUE, $equal_points = FALSE, $could_be_offline = FALSE, $showPath = FALSE, $with_questioncount = FALSE));
 		$available = "";
@@ -5249,42 +5176,57 @@ function loadQuestions($active_id = "", $pass = NULL)
 			$available .= " AND qpl_questions.complete = " . $ilDB->quote("1", 'text');
 		}
 
-		// get all questions in the test
-		$result = $ilDB->queryF("SELECT qpl_questions.original_id, qpl_questions.tstamp FROM qpl_questions, tst_test_question WHERE qpl_questions.question_id = tst_test_question.question_fi AND tst_test_question.test_fi = %s",
-			array('integer'),
-			array($this->getTestId())
-		);
-		$original_ids = array();
-		while ($row = $ilDB->fetchAssoc($result))
+		$where = "";
+		if (is_array($arrFilter))
 		{
-			if (strcmp($row[0], "") != 0)
+			if (array_key_exists('title', $arrFilter) && strlen($arrFilter['title']))
 			{
-				array_push($original_ids, $row[0]);
+				$where .= " AND " . $ilDB->like('qpl_questions.title', 'text', "%%" . $arrFilter['title'] . "%%");
+			}
+			if (array_key_exists('comment', $arrFilter) && strlen($arrFilter['comment']))
+			{
+				$where .= " AND " . $ilDB->like('qpl_questions.description', 'text', "%%" . $arrFilter['description'] . "%%");
+			}
+			if (array_key_exists('author', $arrFilter) && strlen($arrFilter['author']))
+			{
+				$where .= " AND " . $ilDB->like('qpl_questions.author', 'text', "%%" . $arrFilter['author'] . "%%");
+			}
+			if (array_key_exists('type', $arrFilter) && strlen($arrFilter['type']))
+			{
+				$where .= " AND qpl_qst_type.type_tag = " . $ilDB->quote($arrFilter['type'], 'text');
 			}
 		}
+
+		$original_ids =& $this->getExistingQuestions();
 		$original_clause = " ISNULL(qpl_questions.original_id)";
 		if (count($original_ids))
 		{
 			$original_clause = " ISNULL(qpl_questions.original_id) AND " . $ilDB->in('qpl_questions.question_id',  $original_ids, true, 'integer');
 		}
 
-		$query_result = $ilDB->query("SELECT qpl_questions.question_id, qpl_questions.tstamp FROM qpl_questions, qpl_qst_type, object_data WHERE $original_clause$available AND object_data.obj_id = qpl_questions.obj_fi AND qpl_questions.tstamp > 0 AND qpl_questions.question_type_fi = qpl_qst_type.question_type_id $where$order$limit");
-		$max = $query_result->numRows();
-		if ($startrow > $max -1)
-		{
-			$startrow = $max - ($max % $maxentries);
-		}
-		else if ($startrow < 0)
-		{
-			$startrow = 0;
-		}
-		$ilDB->setLimit($maxentries, $startrow);
-		$query_result = $ilDB->query("SELECT qpl_questions.*, qpl_questions.tstamp, qpl_qst_type.type_tag, qpl_qst_type.plugin FROM qpl_questions, qpl_qst_type, object_data WHERE $original_clause $available AND object_data.obj_id = qpl_questions.obj_fi AND qpl_questions.tstamp > 0 AND qpl_questions.question_type_fi = qpl_qst_type.question_type_id $where$order");
+		$query_result = $ilDB->query(
+			"SELECT qpl_questions.*, qpl_questions.tstamp, qpl_qst_type.type_tag, qpl_qst_type.plugin " .
+			"FROM qpl_questions, qpl_qst_type, object_data WHERE $original_clause $available AND " .
+			"object_data.obj_id = qpl_questions.obj_fi AND qpl_questions.tstamp > 0 AND " .
+			"qpl_questions.question_type_fi = qpl_qst_type.question_type_id$where");
 		$rows = array();
 		if ($query_result->numRows())
 		{
 			while ($row = $ilDB->fetchAssoc($query_result))
 			{
+				$title = ilObject::_lookupTitle($row["obj_fi"]);
+				$row['qpl'] = $title;
+				if (is_array($arrFilter))
+				{
+					if (array_key_exists('qpl', $arrFilter) && strlen($arrFilter['qpl']))
+					{
+						if (stripos($title, $arrFilter['qpl']) !== false)
+						{
+							array_push($rows, $row);
+						}
+						continue;
+					}
+				}
 				if ($row["plugin"])
 				{
 					if ($this->isPluginActive($row["type_tag"]))
@@ -5298,25 +5240,7 @@ function loadQuestions($active_id = "", $pass = NULL)
 				}
 			}
 		}
-		$nextrow = $startrow + $maxentries;
-		if ($nextrow > $max - 1)
-		{
-			$nextrow = $startrow;
-		}
-		$prevrow = $startrow - $maxentries;
-		if ($prevrow < 0)
-		{
-			$prevrow = 0;
-		}
-		return array(
-			"rows" => $rows,
-			"images" => $images,
-			"startrow" => $startrow,
-			"nextrow" => $nextrow,
-			"prevrow" => $prevrow,
-			"step" => $maxentries,
-			"rowcount" => $max
-		);
+		return $rows;
 	}
 
 	/**

@@ -1923,529 +1923,6 @@ class ilObjTestGUI extends ilObjectGUI
 	}
 	
 	/**
-	* Insert questions from the questionbrowser into the test 
-	*
-	* Insert questions from the questionbrowser into the test 
-	*
-	* @access	public
-	*/
-	function insertQuestionsObject()
-	{
-		// insert selected questions into test
-		$selected_array = array();
-		foreach ($_POST as $key => $value)
-		{
-			if (preg_match("/cb_(\d+)/", $key, $matches))
-			{
-				array_push($selected_array, $matches[1]);
-			}
-		}
-		if (!count($selected_array))
-		{
-			ilUtil::sendInfo($this->lng->txt("tst_insert_missing_question"), true);
-			$this->ctrl->setParameterByClass(get_class($this), "sel_filter_type", $_POST["sel_filter_type"]);
-			$this->ctrl->setParameterByClass(get_class($this), "sel_question_type", $_POST["sel_question_type"]);
-			$this->ctrl->setParameterByClass(get_class($this), "sel_questionpool", $_POST["sel_questionpool"]);
-			$this->ctrl->setParameterByClass(get_class($this), "filter_text", $_POST["filter_text"]);
-			$this->ctrl->redirect($this, "browseForQuestions");
-		}
-		else
-		{
-			include_once "./Modules/TestQuestionPool/classes/class.assQuestion.php";
-			$manscoring = FALSE;
-			foreach ($selected_array as $key => $value) 
-			{
-				$this->object->insertQuestion($value);
-				if (!$manscoring)
-				{
-					$manscoring = $manscoring | assQuestion::_needsManualScoring($value);
-				}
-			}
-			$this->object->saveCompleteStatus();
-			if ($manscoring)
-			{
-				ilUtil::sendInfo($this->lng->txt("manscoring_hint"), TRUE);
-			}
-			else
-			{
-				ilUtil::sendSuccess($this->lng->txt("tst_questions_inserted"), TRUE);
-			}
-			$this->ctrl->redirect($this, "questions");
-			return;
-		}
-	}
-
-	/**
-	* Creates a form to select questions from questionpools to insert the questions into the test 
-	*
-	* @access	public
-	*/
-	function questionBrowser()
-	{
-		global $ilAccess;
-
-		$this->ctrl->setParameterByClass(get_class($this), "browse", "1");
-		$textfilters = array();
-		if (strcmp($this->ctrl->getCmd(), "resetFilter") == 0)
-		{
-			$filter_type = "";
-			$filter_question_type = "";
-			$filter_questionpool = "";
-			$filter_text = "";
-		}
-		else
-		{
-			$filter_question_type = (array_key_exists("sel_question_type", $_POST)) ? $_POST["sel_question_type"] : $_GET["sel_question_type"];
-			$filter_type = (array_key_exists("sel_filter_type", $_POST)) ? $_POST["sel_filter_type"] : $_GET["sel_filter_type"];
-			$filter_questionpool = (array_key_exists("sel_questionpool", $_POST)) ? $_POST["sel_questionpool"] : $_GET["sel_questionpool"];
-			$filter_text = (array_key_exists("filter_text", $_POST)) ? $_POST["filter_text"] : $_GET["filter_text"];
-		}
-		
-		$filter_title = (array_key_exists("filter_title", $_POST)) ? $_POST["filter_title"] : $_GET["filter_title"];
-		if (strlen($filter_title)) $textfilters["title"] = $filter_title;
-		$filter_qpl = (array_key_exists("filter_qpl", $_POST)) ? $_POST["filter_qpl"] : $_GET["filter_qpl"];
-		if (strlen($filter_qpl)) $textfilters["qpl"] = $filter_qpl;
-		$filter_comment = (array_key_exists("filter_comment", $_POST)) ? $_POST["filter_comment"] : $_GET["filter_comment"];
-		if (strlen($filter_comment)) $textfilters["comment"] = $filter_comment;
-		$filter_author = (array_key_exists("filter_author", $_POST)) ? $_POST["filter_author"] : $_GET["filter_author"];
-		if (strlen($filter_author)) $textfilters["author"] = $filter_author;
-
-		$this->ctrl->setParameterByClass(get_class($this), "sel_filter_type", $filter_type);
-		$this->ctrl->setParameterByClass(get_class($this), "sel_question_type", $filter_question_type);
-		$this->ctrl->setParameterByClass(get_class($this), "sel_questionpool", $filter_questionpool);
-		$this->ctrl->setParameterByClass(get_class($this), "filter_text", $filter_text);
-		$this->ctrl->setParameterByClass(get_class($this), "filter_title", $filter_title);
-		$this->ctrl->setParameterByClass(get_class($this), "filter_qpl", $filter_qpl);
-		$this->ctrl->setParameterByClass(get_class($this), "filter_comment", $filter_comment);
-		$this->ctrl->setParameterByClass(get_class($this), "filter_author", $filter_author);
-		
-		$this->tpl->addBlockFile("ADM_CONTENT", "adm_content", "tpl.il_as_tst_questionbrowser.html", "Modules/Test");
-		$this->tpl->addBlockFile("A_BUTTONS", "a_buttons", "tpl.il_as_qpl_action_buttons.html", "Modules/Test");
-		$this->tpl->addBlockFile("FILTER_QUESTION_MANAGER", "filter_questions", "tpl.il_as_tst_filter_questions.html", "Modules/Test");
-
-		$questionpools =& $this->object->getAvailableQuestionpools(true);
-		$filter_fields = array(
-			"title" => $this->lng->txt("title"),
-			"comment" => $this->lng->txt("description"),
-			"author" => $this->lng->txt("author"),
-		);
-		$this->tpl->setCurrentBlock("filterrow");
-		foreach ($filter_fields as $key => $value) {
-			$this->tpl->setVariable("VALUE_FILTER_TYPE", "$key");
-			$this->tpl->setVariable("NAME_FILTER_TYPE", "$value");
-			if (strcmp($this->ctrl->getCmd(), "resetFilter") != 0) 
-			{
-				if (strcmp($filter_type, $key) == 0) 
-				{
-					$this->tpl->setVariable("VALUE_FILTER_SELECTED", " selected=\"selected\"");
-				}
-			}
-			$this->tpl->parseCurrentBlock();
-		}
-
-		include_once "./Modules/TestQuestionPool/classes/class.ilObjQuestionPool.php";
-		$questiontypes =& ilObjQuestionPool::_getQuestionTypes();
-		foreach ($questiontypes as $key => $value)
-		{
-			$this->tpl->setCurrentBlock("questiontype_row");
-			$this->tpl->setVariable("VALUE_QUESTION_TYPE", $value["type_tag"]);
-			$this->tpl->setVariable("TEXT_QUESTION_TYPE", $key);
-			if (strcmp($filter_question_type, $value["type_tag"]) == 0)
-			{
-				$this->tpl->setVariable("SELECTED_QUESTION_TYPE", " selected=\"selected\"");
-			}
-			$this->tpl->parseCurrentBlock();
-		}
-		
-		foreach ($questionpools as $key => $value)
-		{
-			$this->tpl->setCurrentBlock("questionpool_row");
-			$this->tpl->setVariable("VALUE_QUESTIONPOOL", $key);
-			$this->tpl->setVariable("TEXT_QUESTIONPOOL", $value["title"]);
-			if (strcmp($filter_questionpool, $key) == 0)
-			{
-				$this->tpl->setVariable("SELECTED_QUESTIONPOOL", " selected=\"selected\"");
-			}
-			$this->tpl->parseCurrentBlock();
-		}
-
-		$this->tpl->setCurrentBlock("filter_questions");
-		$this->tpl->setVariable("SHOW_QUESTION_TYPES", $this->lng->txt("filter_show_question_types"));
-		$this->tpl->setVariable("TEXT_ALL_QUESTION_TYPES", $this->lng->txt("filter_all_question_types"));
-		$this->tpl->setVariable("SHOW_QUESTIONPOOLS", $this->lng->txt("filter_show_questionpools"));
-		$this->tpl->setVariable("TEXT_ALL_QUESTIONPOOLS", $this->lng->txt("filter_all_questionpools"));
-		$this->tpl->setVariable("FILTER_TEXT", $this->lng->txt("filter"));
-		$this->tpl->setVariable("TEXT_FILTER_BY", $this->lng->txt("by"));
-		if (strcmp($this->ctrl->getCmd(), "resetFilter") != 0) 
-		{
-			$this->tpl->setVariable("VALUE_FILTER_TEXT", $filter_text);
-		}
-		$this->tpl->setVariable("VALUE_SUBMIT_FILTER", $this->lng->txt("set_filter"));
-		$this->tpl->setVariable("VALUE_RESET_FILTER", $this->lng->txt("reset_filter"));
-		$this->tpl->parseCurrentBlock();
-
-		$startrow = 0;
-		if ($_GET["prevrow"])
-		{
-			$startrow = $_GET["prevrow"];
-		}
-		if ($_GET["nextrow"])
-		{
-			$startrow = $_GET["nextrow"];
-		}
-		if ($_GET["startrow"])
-		{
-			$startrow = $_GET["startrow"];
-		}
-		$sort = ($_GET["sort"]) ? $_GET["sort"] : "title";
-		$sortorder = ($_GET["sortorder"]) ? $_GET["sortorder"] : "ASC";
-		$this->ctrl->setParameter($this, "sort", $sort);
-		$this->ctrl->setParameter($this, "sortorder", $sortorder);
-		if (strlen($filter_text) && strlen($filter_type)) $textfilters[$filter_type] = $filter_text;
-		$table = $this->object->getQuestionsTable($sort, $sortorder, $textfilters, $startrow, 1, $filter_question_type, $filter_questionpool);
-		// display all questions in accessable question pools
-		$colors = array("tblrow1", "tblrow2");
-		$counter = 0;
-		$existing_questions =& $this->object->getExistingQuestions();
-		include_once "./Modules/TestQuestionPool/classes/class.assQuestion.php";
-		if ((is_array($table["rows"])) && (count($table["rows"])))
-		{
-			foreach ($table["rows"] as $data)
-			{
-				if (!in_array($data["question_id"], $existing_questions))
-				{
-					if ($data["complete"])
-					{
-						// make only complete questions selectable
-						$this->tpl->setCurrentBlock("checkable");
-						$this->tpl->setVariable("QUESTION_ID", $data["question_id"]);
-						$this->tpl->parseCurrentBlock();
-					}
-					$this->tpl->setCurrentBlock("QTab");
-					$this->tpl->setVariable("QUESTION_ID", $data["question_id"]);
-					$this->tpl->setVariable("QUESTION_TITLE", "<strong>" . $data["title"] . "</strong>");
-					$this->tpl->setVariable("PREVIEW", "[<a href=\"" . $this->ctrl->getLinkTarget($this, "questions") . "&preview=" . $data["question_id"] . "\">" . $this->lng->txt("preview") . "</a>]");
-					$this->tpl->setVariable("QUESTION_COMMENT", $data["description"]);
-					$this->tpl->setVariable("QUESTION_TYPE", assQuestion::_getQuestionTypeName($data["type_tag"]));
-					$this->tpl->setVariable("QUESTION_AUTHOR", $data["author"]);
-					$this->tpl->setVariable("QUESTION_CREATED", ilDatePresentation::formatDate(new ilDate($data['created'],IL_CAL_UNIX)));
-					$this->tpl->setVariable("QUESTION_UPDATED", ilDatePresentation::formatDate(new ilDate($data['tstamp'],IL_CAL_UNIX)));
-					$this->tpl->setVariable("COLOR_CLASS", $colors[$counter % 2]);
-					$this->tpl->setVariable("QUESTION_POOL", $questionpools[$data["obj_fi"]]["title"]);
-					$this->tpl->parseCurrentBlock();
-					$counter++;
-				}
-			}
-	
-			if ($table["rowcount"] > count($table["rows"]))
-			{
-				$nextstep = $table["nextrow"] + $table["step"];
-				if ($nextstep > $table["rowcount"])
-				{
-					$nextstep = $table["rowcount"];
-				}
-				$counter = 1;
-				for ($i = 0; $i < $table["rowcount"]; $i += $table["step"])
-				{
-					$this->tpl->setCurrentBlock("pages");
-					if ($table["startrow"] == $i)
-					{
-						$this->tpl->setVariable("PAGE_NUMBER", "<span class=\"inactivepage\">$counter</span>");
-					}
-					else
-					{
-						$this->tpl->setVariable("PAGE_NUMBER", "<a href=\"" . $this->ctrl->getLinkTarget($this, "browseForQuestions") . "&nextrow=$i" . "\">$counter</a>");
-					}
-					$this->tpl->parseCurrentBlock();
-					$counter++;
-				}
-				$this->tpl->setCurrentBlock("navigation_bottom");
-				$this->tpl->setVariable("TEXT_ITEM", $this->lng->txt("item"));
-				$this->tpl->setVariable("TEXT_ITEM_START", $table["startrow"] + 1);
-				$end = $table["startrow"] + $table["step"];
-				if ($end > $table["rowcount"])
-				{
-					$end = $table["rowcount"];
-				}
-				$this->tpl->setVariable("TEXT_ITEM_END", $end);
-				$this->tpl->setVariable("TEXT_OF", strtolower($this->lng->txt("of")));
-				$this->tpl->setVariable("TEXT_ITEM_COUNT", $table["rowcount"]);
-				$this->tpl->setVariable("TEXT_PREVIOUS", $this->lng->txt("previous"));
-				$this->tpl->setVariable("TEXT_NEXT", $this->lng->txt("next"));
-				$this->tpl->setVariable("HREF_PREV_ROWS", $this->ctrl->getLinkTarget($this, "browseForQuestions") . "&prevrow=" . $table["prevrow"]);
-				$this->tpl->setVariable("HREF_NEXT_ROWS", $this->ctrl->getLinkTarget($this, "browseForQuestions") . "&nextrow=" . $table["nextrow"]);
-				$this->tpl->parseCurrentBlock();
-			}
-		}
-
-		// if there are no questions, display a message
-		if (!((is_array($table["rows"])) && (count($table["rows"]))))
-		{
-			$this->tpl->setCurrentBlock("Emptytable");
-			$this->tpl->setVariable("TEXT_EMPTYTABLE", $this->lng->txt("no_questions_available"));
-			$this->tpl->parseCurrentBlock();
-		}
-		else
-		{
-			// create edit buttons & table footer
-			$this->tpl->setCurrentBlock("selection");
-			$this->tpl->setVariable("INSERT", $this->lng->txt("insert"));
-			$this->tpl->parseCurrentBlock();
-	
-			$this->tpl->setCurrentBlock("selectall");
-			$this->tpl->setVariable("SELECT_ALL", $this->lng->txt("select_all"));
-			$counter++;
-			$this->tpl->setVariable("COLOR_CLASS", $colors[$counter % 2]);
-			$this->tpl->parseCurrentBlock();
-	
-			$this->tpl->setCurrentBlock("Footer");
-			$this->tpl->setVariable("ARROW", "<img src=\"" . ilUtil::getImagePath("arrow_downright.gif") . "\" alt=\"".$this->lng->txt("arrow_downright")."\"/>");
-			$this->tpl->parseCurrentBlock();
-		}
-		// define the sort column parameters
-		$sortarray = array(
-			"title" => (strcmp($sort, "title") == 0) ? $sortorder : "",
-			"comment" => (strcmp($sort, "comment") == 0) ? $sortorder : "",
-			"type" => (strcmp($sort, "type") == 0) ? $sortorder : "",
-			"author" => (strcmp($sort, "author") == 0) ? $sortorder : "",
-			"created" => (strcmp($sort, "created") == 0) ? $sortorder : "",
-			"updated" => (strcmp($sort, "updated") == 0) ? $sortorder : "",
-			"qpl" => (strcmp($sort, "qpl") == 0) ? $sortorder : ""
-		);
-		foreach ($sortarray as $key => $value) 
-		{
-			if (strcmp($value, "ASC") == 0) 
-			{
-				$sortarray[$key] = "DESC";
-			} 
-			else 
-			{
-				$sortarray[$key] = "ASC";
-			}
-		}
-
-		// add imports for YUI menu
-		include_once "./Services/YUI/classes/class.ilYuiUtil.php";
-		ilYuiUtil::initMenu();
-		$this->tpl->addCss(ilUtil::getStyleSheetLocation("output", "tpl.text_filter.css", "Modules/TestQuestionPool"));
-
-		// add title text filter
-		$titlefilter = new ilTemplate("tpl.text_filter.js", TRUE, TRUE, "Modules/TestQuestionPool");
-		$titlefilter->setVariable("FILTERELEMENTID", "titlefilter");
-		$titlefilter->setVariable("OVERLAY_WIDTH", "500px");
-		$titlefilter->setVariable("OVERLAY_HEIGHT", "5em");
-		$titlefilter->setVariable("TEXTFIELD_NAME", "filter_title");
-		$titlefilter->setVariable("IMAGE_CLOSE", ilUtil::getImagePath("icon_close2_s.gif"));
-		$titlefilter->setVariable("ALT_CLOSE", $this->lng->txt("close"));
-		$titlefilter->setVariable("TITLE_CLOSE", $this->lng->txt("close"));
-		$titlefilter->setVariable("FORMACTION", $this->ctrl->getFormAction($this, "filter"));
-		$titlefilter->setVariable("VALUE_FILTER_TEXT", $filter_title);
-		$titlefilter->setVariable("VALUE_SUBMIT_FILTER", $this->lng->txt("set_filter"));
-		$titlefilter->setVariable("VALUE_RESET_FILTER", $this->lng->txt("reset_filter"));
-		$this->tpl->setCurrentBlock("HeadContent");
-		$this->tpl->setVariable("CONTENT_BLOCK", $titlefilter->get());
-		$this->tpl->parseCurrentBlock();
-
-		// add questiontype filter
-		$filtermenu = new ilTemplate("tpl.question_type_menu.js", TRUE, TRUE, "Modules/TestQuestionPool");
-		if (strcmp($filter_question_type, "") == 0)
-		{
-			$filtermenu->setCurrentBlock("selected");
-			$filtermenu->touchBlock("selected");
-			$filtermenu->parseCurrentBlock();
-		}
-		$filtermenu->setCurrentBlock("menuitem");
-		$filtermenu->setVariable("ITEM_TEXT", $this->lng->txt("filter_all_question_types"));
-		$this->ctrl->setParameter($this, "sel_question_type", "");
-		$this->ctrl->setParameter($this, "sort", $sort);
-		$this->ctrl->setParameter($this, "sortorder", $sortorder);
-		$filtermenu->setVariable("ITEM_URL", $this->ctrl->getLinkTarget($this, "browseForQuestions"));
-		$filtermenu->parseCurrentBlock();
-		foreach ($questiontypes as $key => $value)
-		{
-			if (strcmp($filter_question_type, $value["type_tag"]) == 0)
-			{
-				$filtermenu->setCurrentBlock("selected");
-				$filtermenu->touchBlock("selected");
-				$filtermenu->parseCurrentBlock();
-			}
-			$filtermenu->setCurrentBlock("menuitem");
-			$filtermenu->setVariable("VALUE_QUESTION_TYPE", $value["type_tag"]);
-			$filtermenu->setVariable("ITEM_TEXT", $key);
-			$this->ctrl->setParameter($this, "sel_question_type", $value["type_tag"]);
-			$filtermenu->setVariable("ITEM_URL", $this->ctrl->getLinkTarget($this, "browseForQuestions"));
-			$filtermenu->parseCurrentBlock();
-		}
-		$this->ctrl->setParameter($this, "sel_question_type", $filter_question_type);
-		$this->tpl->setCurrentBlock("HeadContent");
-		$this->tpl->setVariable("CONTENT_BLOCK", $filtermenu->get());
-		$this->tpl->parseCurrentBlock();
-
-		// add description text filter
-		$commenttextfilter = new ilTemplate("tpl.text_filter.js", TRUE, TRUE, "Modules/TestQuestionPool");
-		$commenttextfilter->setVariable("FILTERELEMENTID", "commenttextfilter");
-		$commenttextfilter->setVariable("OVERLAY_WIDTH", "500px");
-		$commenttextfilter->setVariable("OVERLAY_HEIGHT", "8em");
-		$commenttextfilter->setVariable("TEXTFIELD_NAME", "filter_comment");
-		$commenttextfilter->setVariable("IMAGE_CLOSE", ilUtil::getImagePath("icon_close2_s.gif"));
-		$commenttextfilter->setVariable("ALT_CLOSE", $this->lng->txt("close"));
-		$commenttextfilter->setVariable("TITLE_CLOSE", $this->lng->txt("close"));
-		$commenttextfilter->setVariable("FORMACTION", $this->ctrl->getFormAction($this, "filter"));
-		$commenttextfilter->setVariable("VALUE_FILTER_TEXT", $filter_comment);
-		$commenttextfilter->setVariable("VALUE_SUBMIT_FILTER", $this->lng->txt("set_filter"));
-		$commenttextfilter->setVariable("VALUE_RESET_FILTER", $this->lng->txt("reset_filter"));
-		$this->tpl->setCurrentBlock("HeadContent");
-		$this->tpl->setVariable("CONTENT_BLOCK", $commenttextfilter->get());
-		$this->tpl->parseCurrentBlock();
-
-		// add author text filter
-		$authortextfilter = new ilTemplate("tpl.text_filter.js", TRUE, TRUE, "Modules/TestQuestionPool");
-		$authortextfilter->setVariable("FILTERELEMENTID", "authortextfilter");
-		$authortextfilter->setVariable("OVERLAY_WIDTH", "500px");
-		$authortextfilter->setVariable("OVERLAY_HEIGHT", "5em");
-		$authortextfilter->setVariable("TEXTFIELD_NAME", "filter_author");
-		$authortextfilter->setVariable("IMAGE_CLOSE", ilUtil::getImagePath("icon_close2_s.gif"));
-		$authortextfilter->setVariable("ALT_CLOSE", $this->lng->txt("close"));
-		$authortextfilter->setVariable("TITLE_CLOSE", $this->lng->txt("close"));
-		$authortextfilter->setVariable("FORMACTION", $this->ctrl->getFormAction($this, "filter"));
-		$authortextfilter->setVariable("VALUE_FILTER_TEXT", $filter_author);
-		$authortextfilter->setVariable("VALUE_SUBMIT_FILTER", $this->lng->txt("set_filter"));
-		$authortextfilter->setVariable("VALUE_RESET_FILTER", $this->lng->txt("reset_filter"));
-		$this->tpl->setCurrentBlock("HeadContent");
-		$this->tpl->setVariable("CONTENT_BLOCK", $authortextfilter->get());
-		$this->tpl->parseCurrentBlock();
-
-		// add question pool text filter
-		$qpltextfilter = new ilTemplate("tpl.text_filter.js", TRUE, TRUE, "Modules/TestQuestionPool");
-		$qpltextfilter->setVariable("FILTERELEMENTID", "qpltextfilter");
-		$qpltextfilter->setVariable("OVERLAY_WIDTH", "500px");
-		$qpltextfilter->setVariable("OVERLAY_HEIGHT", "5em");
-		$qpltextfilter->setVariable("TEXTFIELD_NAME", "filter_qpl");
-		$qpltextfilter->setVariable("IMAGE_CLOSE", ilUtil::getImagePath("icon_close2_s.gif"));
-		$qpltextfilter->setVariable("ALT_CLOSE", $this->lng->txt("close"));
-		$qpltextfilter->setVariable("TITLE_CLOSE", $this->lng->txt("close"));
-		$qpltextfilter->setVariable("FORMACTION", $this->ctrl->getFormAction($this, "filter"));
-		$qpltextfilter->setVariable("VALUE_FILTER_TEXT", $filter_qpl);
-		$qpltextfilter->setVariable("VALUE_SUBMIT_FILTER", $this->lng->txt("set_filter"));
-		$qpltextfilter->setVariable("VALUE_RESET_FILTER", $this->lng->txt("reset_filter"));
-		$this->tpl->setCurrentBlock("HeadContent");
-		$this->tpl->setVariable("CONTENT_BLOCK", $qpltextfilter->get());
-		$this->tpl->parseCurrentBlock();
-
-		$this->tpl->setCurrentBlock("adm_content");
-		$this->ctrl->setCmd("questionBrowser");
-		$this->ctrl->setParameterByClass(get_class($this), "startrow", $table["startrow"]);
-		$template = new ilTemplate("tpl.image.html", true, true);
-		if (strlen($filter_title))
-		{
-			$template->setVariable("IMAGE_SOURCE", ilUtil::getImagePath("search-filter-locked.png"));
-		}
-		else
-		{
-			$template->setVariable("IMAGE_SOURCE", ilUtil::getImagePath("search-filter.png"));
-		}
-		$template->setVariable("IMAGE_TITLE", $this->lng->txt("filter"));
-		$template->setVariable("IMAGE_ALT", $this->lng->txt("filter"));
-		$template->setVariable("ID", "titlefilter");
-		$template->setVariable("STYLE", "visibility: hidden; cursor: pointer");
-		$this->ctrl->setParameter($this, "sort", "title");
-		$this->ctrl->setParameter($this, "sortorder", $sortarray["title"]);
-		$questiontitle = "<a href=\"" . $this->ctrl->getLinkTarget($this, "browseForQuestions") . "\">" . $this->lng->txt("title") . "</a>";
-		$questiontitle .= $template->get();
-		$questiontitle .= $table["images"]["title"];
-		$this->tpl->setVariable("QUESTION_TITLE", $questiontitle);
-		$this->ctrl->setParameter($this, "sort", "comment");
-		$this->ctrl->setParameter($this, "sortorder", $sortarray["comment"]);
-		$template = new ilTemplate("tpl.image.html", true, true);
-		if (strlen($filter_comment))
-		{
-			$template->setVariable("IMAGE_SOURCE", ilUtil::getImagePath("search-filter-locked.png"));
-		}
-		else
-		{
-			$template->setVariable("IMAGE_SOURCE", ilUtil::getImagePath("search-filter.png"));
-		}
-		$template->setVariable("IMAGE_TITLE", $this->lng->txt("filter"));
-		$template->setVariable("IMAGE_ALT", $this->lng->txt("filter"));
-		$template->setVariable("ID", "commenttextfilter");
-		$template->setVariable("STYLE", "visibility: hidden; cursor: pointer");
-		$this->ctrl->setParameter($this, "sort", "comment");
-		$this->ctrl->setParameter($this, "sortorder", $sortarray["comment"]);
-		$questiontype = "<a href=\"" . $this->ctrl->getLinkTarget($this, "browseForQuestions") . "\">" . $this->lng->txt("description") . "</a>";
-		$questiontype .= $template->get();
-		$questiontype .= $table["images"]["comment"];
-		$this->tpl->setVariable("QUESTION_COMMENT", $questiontype);
-		$template = new ilTemplate("tpl.image.html", true, true);
-		if (strlen($filter_question_type))
-		{
-			$template->setVariable("IMAGE_SOURCE", ilUtil::getImagePath("search-filter-locked.png"));
-		}
-		else
-		{
-			$template->setVariable("IMAGE_SOURCE", ilUtil::getImagePath("search-filter.png"));
-		}
-		$template->setVariable("IMAGE_TITLE", $this->lng->txt("filter"));
-		$template->setVariable("IMAGE_ALT", $this->lng->txt("filter"));
-		$template->setVariable("ID", "filter");
-		$template->setVariable("STYLE", "visibility: hidden; cursor: pointer");
-		$this->ctrl->setParameter($this, "sort", "type");
-		$this->ctrl->setParameter($this, "sortorder", $sortarray["type"]);
-		$questiontype = "<a href=\"" . $this->ctrl->getLinkTarget($this, "browseForQuestions") . "\">" . $this->lng->txt("question_type") . "</a>";
-		$questiontype .= $template->get();
-		$questiontype .= $table["images"]["type"];
-		$this->tpl->setVariable("QUESTION_TYPE", $questiontype);
-		$template = new ilTemplate("tpl.image.html", true, true);
-		if (strlen($filter_author))
-		{
-			$template->setVariable("IMAGE_SOURCE", ilUtil::getImagePath("search-filter-locked.png"));
-		}
-		else
-		{
-			$template->setVariable("IMAGE_SOURCE", ilUtil::getImagePath("search-filter.png"));
-		}
-		$template->setVariable("IMAGE_TITLE", $this->lng->txt("filter"));
-		$template->setVariable("IMAGE_ALT", $this->lng->txt("filter"));
-		$template->setVariable("ID", "authortextfilter");
-		$template->setVariable("STYLE", "visibility: hidden; cursor: pointer;");
-		$this->ctrl->setParameter($this, "sort", "author");
-		$this->ctrl->setParameter($this, "sortorder", $sortarray["author"]);
-		$questiontype = "<a href=\"" . $this->ctrl->getLinkTarget($this, "browseForQuestions") . "\">" . $this->lng->txt("author") . "</a>";
-		$questiontype .= $template->get();
-		$questiontype .= $table["images"]["author"];
-		$this->tpl->setVariable("QUESTION_AUTHOR", $questiontype);
-		$this->ctrl->setParameter($this, "sort", "created");
-		$this->ctrl->setParameter($this, "sortorder", $sortarray["created"]);
-		$this->tpl->setVariable("QUESTION_CREATED", "<a href=\"" . $this->ctrl->getLinkTarget($this, "browseForQuestions") . "\">" . $this->lng->txt("create_date") . "</a>" . $table["images"]["created"]);
-		$this->ctrl->setParameter($this, "sort", "updated");
-		$this->ctrl->setParameter($this, "sortorder", $sortarray["updated"]);
-		$this->tpl->setVariable("QUESTION_UPDATED", "<a href=\"" . $this->ctrl->getLinkTarget($this, "browseForQuestions") . "\">" . $this->lng->txt("last_update") . "</a>" . $table["images"]["updated"]);
-		$template = new ilTemplate("tpl.image.html", true, true);
-		if (strlen($filter_qpl))
-		{
-			$template->setVariable("IMAGE_SOURCE", ilUtil::getImagePath("search-filter-locked.png"));
-		}
-		else
-		{
-			$template->setVariable("IMAGE_SOURCE", ilUtil::getImagePath("search-filter.png"));
-		}
-		$template->setVariable("IMAGE_TITLE", $this->lng->txt("filter"));
-		$template->setVariable("IMAGE_ALT", $this->lng->txt("filter"));
-		$template->setVariable("ID", "qpltextfilter");
-		$template->setVariable("STYLE", "visibility: hidden; cursor: pointer");
-		$this->ctrl->setParameter($this, "sort", "qpl");
-		$this->ctrl->setParameter($this, "sortorder", $sortarray["qpl"]);
-		$qpfilter = "<a href=\"" . $this->ctrl->getLinkTarget($this, "browseForQuestions") . "\">" . $this->lng->txt("obj_qpl") . "</a>";
-		$qpfilter .= $template->get();
-		$qpfilter .= $table["images"]["qpl"];
-		$this->tpl->setVariable("QUESTION_POOL", $qpfilter);
-		$this->tpl->setVariable("BUTTON_BACK", $this->lng->txt("back"));
-		$this->ctrl->setParameter($this, "sort", $sort);
-		$this->ctrl->setParameter($this, "sortorder", $sortorder);
-		$this->tpl->setVariable("ACTION_QUESTION_FORM", $this->ctrl->getFormAction($this));
-		$this->tpl->parseCurrentBlock();
-	}
-
-	/**
 	* Creates a new questionpool and returns the reference id
 	*
 	* Creates a new questionpool and returns the reference id
@@ -3151,6 +2628,79 @@ class ilObjTestGUI extends ilObjectGUI
 		$this->ctrl->redirect($this, "questions");
 	}
 	
+	/**
+	* Insert questions from the questionbrowser into the test 
+	*
+	* @access	public
+	*/
+	function insertQuestionsObject()
+	{
+		$selected_array = (is_array($_POST['q_id'])) ? $_POST['q_id'] : array();
+		if (!count($selected_array))
+		{
+			ilUtil::sendInfo($this->lng->txt("tst_insert_missing_question"), true);
+			$this->ctrl->redirect($this, "browseForQuestions");
+		}
+		else
+		{
+			include_once "./Modules/TestQuestionPool/classes/class.assQuestion.php";
+			$manscoring = FALSE;
+			foreach ($selected_array as $key => $value) 
+			{
+				$this->object->insertQuestion($value);
+				if (!$manscoring)
+				{
+					$manscoring = $manscoring | assQuestion::_needsManualScoring($value);
+				}
+			}
+			$this->object->saveCompleteStatus();
+			if ($manscoring)
+			{
+				ilUtil::sendInfo($this->lng->txt("manscoring_hint"), TRUE);
+			}
+			else
+			{
+				ilUtil::sendSuccess($this->lng->txt("tst_questions_inserted"), TRUE);
+			}
+			$this->ctrl->redirect($this, "questions");
+			return;
+		}
+	}
+
+	function filterAvailableQuestionsObject()
+	{
+		include_once "./Modules/Test/classes/class.ilTestQuestionBrowserTableGUI.php";
+		$table_gui = new ilTestQuestionBrowserTableGUI($this, 'browseForQuestions');
+		$table_gui->writeFilterToSession();
+		$this->ctrl->redirect($this, "browseForQuestions");
+	}
+	
+	/**
+	* Creates a form to select questions from questionpools to insert the questions into the test 
+	*
+	* @access	public
+	*/
+	function questionBrowser()
+	{
+		global $ilAccess;
+
+		$this->ctrl->setParameterByClass(get_class($this), "browse", "1");
+
+		include_once "./Modules/Test/classes/class.ilTestQuestionBrowserTableGUI.php";
+		$table_gui = new ilTestQuestionBrowserTableGUI($this, 'browseForQuestions', (($ilAccess->checkAccess("write", "", $this->ref_id) ? true : false)));
+		$arrFilter = array();
+		foreach ($table_gui->getFilterItems() as $item)
+		{
+			if ($item->getValue() !== false)
+			{
+				$arrFilter[$item->getPostVar()] = $item->getValue();
+			}
+		}
+		$data = $this->object->getAvailableQuestions(1, $arrFilter);
+		$table_gui->setData($data);
+		$this->tpl->setVariable('ADM_CONTENT', $table_gui->getHTML());	
+	}
+
 	function questionsObject()
 	{
 		global $ilAccess;
@@ -3159,6 +2709,10 @@ class ilObjTestGUI extends ilObjectGUI
 			// allow only write access
 			ilUtil::sendInfo($this->lng->txt("cannot_edit_test"), true);
 			$this->ctrl->redirect($this, "infoScreen");
+		}
+		if ($_GET['browse'])
+		{
+			return $this->questionbrowser();
 		}
 
 		$this->getQuestionsSubTabs();
@@ -3253,8 +2807,8 @@ class ilObjTestGUI extends ilObjectGUI
 		}
 
 		$this->tpl->setCurrentBlock("adm_content");
-		include_once "./Modules/Test/classes/class.ilTestQuestionBrowserTableGUI.php";
-		$table_gui = new ilTestQuestionBrowserTableGUI($this, 'questions', (($ilAccess->checkAccess("write", "", $this->ref_id) ? true : false)), $checked_move);
+		include_once "./Modules/Test/classes/class.ilTestQuestionsTableGUI.php";
+		$table_gui = new ilTestQuestionsTableGUI($this, 'questions', (($ilAccess->checkAccess("write", "", $this->ref_id) ? true : false)), $checked_move);
 		$data = $this->object->getTestQuestions();
 		$table_gui->setData($data);
 		$table_gui->setTotal($total);
