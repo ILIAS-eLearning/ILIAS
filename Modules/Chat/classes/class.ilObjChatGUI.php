@@ -1507,6 +1507,10 @@ class ilObjChatGUI extends ilObjectGUI
 		$tpl = new ilTemplate("tpl.chat_message.html",true,true,'Modules/Chat');
 		$_POST['message'] = htmlentities(trim($_POST['message']));
 		$_POST['message'] = ilUtil::stripSlashes($_POST['message']);
+		
+		// make links clickable
+		$_POST['message'] = ilUtil::makeClickable($_POST['message']);
+		
 		$tpl->setVariable("MESSAGE",$_POST["message"]);
 		$tpl->setVariable("FONT_COLOR",$_POST["color"]);
 		$tpl->setVariable("FONT_FACE",$_POST["type"]);
