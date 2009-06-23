@@ -307,7 +307,11 @@ class ilSCORM2004ScoGUI extends ilSCORM2004NodeGUI
 		$ilCtrl->getLinkTarget($this, "showExportList"), "showExportList",
 		get_class($this));
 		
-
+		// import
+		$ilTabs->addTarget("import",
+		$ilCtrl->getLinkTarget($this, "import"), "import",
+		get_class($this));
+		
 		$tpl->setTitleIcon(ilUtil::getImagePath("icon_sco_b.gif"));
 		$tpl->setTitle(
 		$lng->txt("sahs_unit").": ".$this->node_object->getTitle());
@@ -857,6 +861,106 @@ class ilSCORM2004ScoGUI extends ilSCORM2004NodeGUI
 		$fileObj =& new ilObjFile($file[count($file) - 1], false);
 		$fileObj->sendFile();
 		exit;
+	}
+	
+	function import()
+	{
+		global $tpl, $lng;
+		
+		$this->setTabs();
+		$this->setLocator();
+		
+		$tpl->addBlockFile("ADM_CONTENT", "adm_content", "tpl.scormeditor_sco_import.html", "Modules/Scorm2004");
+		
+		$tpl->setVariable("TYPE_IMG",ilUtil::getImagePath('icon_slm.gif'));
+		$tpl->setVariable("ALT_IMG", $lng->txt("obj_sahs"));
+		
+		$tpl->setVariable("FORMACTION", $this->ctrl->getFormAction($this));
+
+		$tpl->setVariable("BTN_NAME", "importSave");
+		$tpl->setVariable("TARGET", ' target="'.ilFrameTargetInfo::_getFrame("MainContent").'" ');
+
+		$tpl->setVariable("TXT_UPLOAD", $lng->txt("upload"));
+		$tpl->setVariable("TXT_CANCEL", $lng->txt("cancel"));
+		$tpl->setVariable("TXT_IMPORT_SCO", $lng->txt("import_sco_object"));
+		$tpl->setVariable("TXT_SELECT_FILE", $lng->txt("select_file"));
+		$tpl->setVariable("TXT_VALIDATE_FILE", $lng->txt("cont_validate_file"));
+
+		// get the value for the maximal uploadable filesize from the php.ini (if available)
+		$umf=get_cfg_var("upload_max_filesize");
+		// get the value for the maximal post data from the php.ini (if available)
+		$pms=get_cfg_var("post_max_size");
+		
+		//convert from short-string representation to "real" bytes
+		$multiplier_a=array("K"=>1024, "M"=>1024*1024, "G"=>1024*1024*1024);
+		
+		$umf_parts=preg_split("/(\d+)([K|G|M])/", $umf, -1, PREG_SPLIT_DELIM_CAPTURE|PREG_SPLIT_NO_EMPTY);
+        $pms_parts=preg_split("/(\d+)([K|G|M])/", $pms, -1, PREG_SPLIT_DELIM_CAPTURE|PREG_SPLIT_NO_EMPTY);
+        
+        if (count($umf_parts) == 2) { $umf = $umf_parts[0]*$multiplier_a[$umf_parts[1]]; }
+        if (count($pms_parts) == 2) { $pms = $pms_parts[0]*$multiplier_a[$pms_parts[1]]; }
+        
+        // use the smaller one as limit
+		$max_filesize=min($umf, $pms);
+
+		if (!$max_filesize) $max_filesize=max($umf, $pms);
+	
+    	//format for display in mega-bytes
+		$max_filesize=sprintf("%.1f MB",$max_filesize/1024/1024);
+
+		// gives out the limit as a little notice
+		$tpl->setVariable("TXT_FILE_INFO", $lng->txt("file_notice")." $max_filesize");	
+	}
+	
+	function importSave()
+	{
+		global $_FILES, $rbacsystem;
+		global $ilias, $lng;
+
+		// check if file was uploaded
+		$source = $_FILES["scormfile"]["tmp_name"];
+		if (($source == 'none') || (!$source))
+		{
+			$ilias->raiseError("No file selected!",$ilias->error_obj->MESSAGE);
+		}
+		// check create permission
+		if (!$rbacsystem->checkAccess("create", $_GET["ref_id"], "sahs"))
+		{
+			$ilias->raiseError($lng->txt("no_create_permission"), $ilias->error_obj->WARNING);
+		}
+		// get_cfg_var("upload_max_filesize"); // get the may filesize form t he php.ini
+		switch ($__FILES["scormfile"]["error"])
+		{
+			case UPLOAD_ERR_INI_SIZE:
+				$ilias->raiseError($lng->txt("err_max_file_size_exceeds"),$ilias->error_obj->MESSAGE);
+				break;
+
+			case UPLOAD_ERR_FORM_SIZE:
+				$ilias->raiseError($lng->txt("err_max_file_size_exceeds"),$ilias->error_obj->MESSAGE);
+				break;
+
+			case UPLOAD_ERR_PARTIAL:
+				$ilias->raiseError($lng->txt("err_partial_file_upload"),$ilias->error_obj->MESSAGE);
+				break;
+
+			case UPLOAD_ERR_NO_FILE:
+				$ilias->raiseError($lng->txt("err_no_file_uploaded"),$ilias->error_obj->MESSAGE);
+				break;
+		}
+
+		$file = pathinfo($_FILES["scormfile"]["name"]);
+		$name = substr($file["basename"], 0, strlen($file["basename"]) - strlen($file["extension"]) - 1);
+		$file_path = $this->slm_object->getDataDirectory()."/".$this->node_object->getId()."/".$_FILES["scormfile"]["name"];
+		ilUtil::createDirectory($this->slm_object->getDataDirectory()."/".$this->node_object->getId());
+		ilUtil::moveUploadedFile($_FILES["scormfile"]["tmp_name"], $_FILES["scormfile"]["name"], $file_path);
+		ilUtil::unzip($file_path);
+		ilUtil::renameExecutables($this->slm_object->getDataDirectory()."/".$this->node_object->getId());
+		
+		include_once ("./Modules/Scorm2004/classes/ilSCORM13Package.php");
+		$newPack = new ilSCORM13Package();
+		$newPack->il_importSco($this->slm_object->getDataDirectory()."/".$this->node_object->getId(),$this->node_object->getId(),$ilias,false);
+			
+		$this->ctrl->redirect($this, "showOrganization");
 	}
 }
 ?>
