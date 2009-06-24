@@ -1550,6 +1550,7 @@ class ilPageObjectGUI
 //$b = microtime();
 //echo "$a - $b";
 //echo "<pre>".htmlentities($output)."</pre>";
+
 		// unmask user html
 		if (($this->getOutputMode() != "edit" ||
 			$ilUser->getPref("ilPageEditor_HTMLMode") != "disable")
@@ -1559,6 +1560,7 @@ class ilPageObjectGUI
 			$output = str_replace("&gt;",">",$output);
 		}
 		$output = str_replace("&amp;", "&", $output);
+		
 		// replace latex code: todo: finish
 		if ($this->getOutputMode() != "offline")
 		{
@@ -1570,19 +1572,17 @@ class ilPageObjectGUI
 				$this->getOfflineDirectory());
 		}
 
-		// (horrible) workaround for preventing template engine
+		// workaround for preventing template engine
 		// from hiding paragraph text that is enclosed
 		// in curly brackets (e.g. "{a}", see ilLMEditorGUI::executeCommand())
 		$output = str_replace("{", "&#123;", $output);
 		$output = str_replace("}", "&#125;", $output);
 
-//echo "<b>HTML</b>:".htmlentities($output).":<br>";
-
 		// remove all newlines (important for code / pre output)
 		$output = str_replace("\n", "", $output);
 
+		// add question HTML
 		$qhtml = $this->getQuestionHTML();
-//var_dump($qhtml);
 		if (is_array($qhtml))
 		{
 			foreach ($qhtml as $k => $h)
@@ -1590,17 +1590,7 @@ class ilPageObjectGUI
 				$output = str_replace("&#123;&#123;&#123;&#123;&#123;Question;il__qst_$k&#125;&#125;&#125;&#125;&#125;", " ".$h, $output);
 			}
 		}
-		else if (strlen($qhtml))
-		{
-			// removed simple str_replace with preg_replace because if the question content
-			// is part of a table, the xmlns isn't added and the question content wasn't visible then
-			// Helmut Schottmüller, 2006-11-15
-			//$output = preg_replace("/(\<div( xmlns:xhtml\=\"http:\/\/www.w3.org\/1999\/xhtml\"){0,1} class\=\"ilc_Question\">)/ims", "\\1" . $qhtml, $output);
-			$output = str_replace("[[[[[Question;]]]]]", $qhtml, $output);
-			// old source code prior to the preg_replace change
-			// $question_prefix = "<div xmlns:xhtml=\"http://www.w3.org/1999/xhtml\" class=\"ilc_Question\">";
-			// $output = str_replace($question_prefix, $question_prefix . $qhtml, $output);
-		}
+
 //echo htmlentities($output);
 		$output = $this->postOutputProcessing($output);
 //echo htmlentities($output);
