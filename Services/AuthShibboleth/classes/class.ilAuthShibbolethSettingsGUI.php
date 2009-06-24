@@ -423,9 +423,12 @@ class ilAuthShibbolethSettingsGUI
 			$local  = new ilRadioOption($this->lng->txt('shib_local_role'),1);
 			$role->addOption($local);
 			
-				$role_search = new ilTextInputGUI('','role_search');
+				include_once './Services/Form/classes/class.ilRoleAutoCompleteInputGUI.php';
+				$role_search = new ilRoleAutoCompleteInputGUI('','role_search',$this,'addRoleAutoCompleteObject');
 				$role_search->setSize(40);
 				$local->addSubItem($role_search);
+
+				include_once './Services/AccessControl/classes/class.ilRoleAutoComplete.php';
 			
 		$role->setInfo($this->lng->txt('shib_role_name_info'));
 		$this->form->addItem($role);
@@ -481,6 +484,16 @@ class ilAuthShibbolethSettingsGUI
 
 		$this->form->addItem($kind);
 	}
+	
+	/**
+	* Add Member for autoComplete
+	*/
+	function addRoleAutoCompleteObject()
+	{
+		include_once("./Services/Form/classes/class.ilRoleAutoCompleteInputGUI.php");
+		ilRoleAutoCompleteInputGUI::echoAutoCompleteList();
+	}
+	
 	
 	protected function addRoleAssignmentRule()
 	{

@@ -13173,3 +13173,8 @@ if($ilDB->tableExists('tmp_mail_migration'))
 	$ilDB->dropTable('tmp_mail_migration');
 }
 ?>
+
+<#2501>
+<?php
+	$ilMySQLAbstraction->performAbstraction("shib_role_assignment");
+?>
