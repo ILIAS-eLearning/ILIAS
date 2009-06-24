@@ -21,6 +21,7 @@ zip =
 unzip = 
 java = 
 htmldoc = 
+mkisofs = 
 
 [log]
 path = 
@@ -36,6 +37,7 @@ zip = /usr/bin/zip
 unzip = /usr/bin/unzip
 java = 
 htmldoc = /usr/bin/htmldoc
+mkisofs = /usr/bin/mkisofs
 
 [redhat]
 data_dir = 

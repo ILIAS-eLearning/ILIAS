@@ -1,25 +1,7 @@
 <?php
-/*
-	+-----------------------------------------------------------------------------+
-	| ILIAS open source                                                           |
-	+-----------------------------------------------------------------------------+
-	| Copyright (c) 1998-2009 ILIAS open source, University of Cologne            |
-	|                                                                             |
-	| This program is free software; you can redistribute it and/or               |
-	| modify it under the terms of the GNU General Public License                 |
-	| as published by the Free Software Foundation; either version 2              |
-	| of the License, or (at your option) any later version.                      |
-	|                                                                             |
-	| This program is distributed in the hope that it will be useful,             |
-	| but WITHOUT ANY WARRANTY; without even the implied warranty of              |
-	| MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the               |
-	| GNU General Public License for more details.                                |
-	|                                                                             |
-	| You should have received a copy of the GNU General Public License           |
-	| along with this program; if not, write to the Free Software                 |
-	| Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA. |
-	+-----------------------------------------------------------------------------+
-*/
+/* Copyright (c) 1998-2009 ILIAS open source, Extended GPL, see docs/LICENSE */
+
+require_once "./setup/classes/class.ilSetup.php";
 
 /**
  * Setup GUI class
@@ -29,9 +11,6 @@
  * @author   Sascha Hofmann <shofmann@databay.de>
  * @version  $Id$
  */
-
-require_once "./setup/classes/class.ilSetup.php";
-
 class ilSetupGUI
 {
 	var $tpl;       // template object
@@ -422,6 +401,7 @@ class ilSetupGUI
 		$this->tpl->setVariable("TXT_UNZIP_PATH", $this->lng->txt("path_to_unzip"));
 		$this->tpl->setVariable("TXT_JAVA_PATH", $this->lng->txt("path_to_java"));
 		$this->tpl->setVariable("TXT_HTMLDOC_PATH", $this->lng->txt("path_to_htmldoc"));
+		$this->tpl->setVariable("TXT_MKISOFS_PATH", $this->lng->txt("path_to_mkisofs"));
 		$this->tpl->setVariable("TXT_LATEX_URL", $this->lng->txt("url_to_latex"));
 		$this->tpl->setVariable("TXT_VIRUS_SCANNER", $this->lng->txt("virus_scanner"));
 		$this->tpl->setVariable("TXT_SCAN_COMMAND", $this->lng->txt("scan_command"));
@@ -458,6 +438,7 @@ class ilSetupGUI
 		$unzip = $this->setup->ini->readVariable("tools","unzip");
 		$java = $this->setup->ini->readVariable("tools","java");
 		$htmldoc = $this->setup->ini->readVariable("tools","htmldoc");
+		$mkisofs = $this->setup->ini->readVariable("tools","mkisofs");
 		$latex = $this->setup->ini->readVariable("tools", "latex");
 		$vscan = $this->setup->ini->readVariable("tools","vscantype");
 		$scancomm = $this->setup->ini->readVariable("tools","scancommand");
@@ -468,6 +449,7 @@ class ilSetupGUI
 		$this->tpl->setVariable("UNZIP_PATH",($unzip) ? $unzip : $not_set);
 		$this->tpl->setVariable("JAVA_PATH",($java) ? $java : $not_set);
 		$this->tpl->setVariable("HTMLDOC_PATH",($htmldoc) ? $htmldoc : $not_set);
+		$this->tpl->setVariable("MKISOFS_PATH",($mkisofs) ? $mkisofs : $not_set);
 		$this->tpl->setVariable("LATEX_URL",($latex) ? $latex : $not_set);
 		$this->tpl->setVariable("VAL_SCAN_COMMAND",($scancomm) ? $scancomm : $not_set);
 		$this->tpl->setVariable("VAL_CLEAN_COMMAND",($cleancomm) ? $cleancomm : $not_set);
@@ -905,6 +887,7 @@ class ilSetupGUI
 		$this->tpl->setVariable("TXT_UNZIP_PATH", $this->lng->txt("unzip_path"));
 		$this->tpl->setVariable("TXT_JAVA_PATH", $this->lng->txt("java_path"));
 		$this->tpl->setVariable("TXT_HTMLDOC_PATH", $this->lng->txt("htmldoc_path"));
+		$this->tpl->setVariable("TXT_MKISOFS_PATH", $this->lng->txt("mkisofs_path"));
 		$this->tpl->setVariable("TXT_LATEX_URL", $this->lng->txt("url_to_latex"));
 
 		$this->tpl->setVariable("TXT_CONVERT_COMMENT", $this->lng->txt("convert_path_comment"));
@@ -912,6 +895,7 @@ class ilSetupGUI
 		$this->tpl->setVariable("TXT_UNZIP_COMMENT", $this->lng->txt("unzip_path_comment"));
 		$this->tpl->setVariable("TXT_JAVA_COMMENT", $this->lng->txt("java_path_comment"));
 		$this->tpl->setVariable("TXT_HTMLDOC_COMMENT", $this->lng->txt("htmldoc_path_comment"));
+		$this->tpl->setVariable("TXT_MKISOFS_COMMENT", $this->lng->txt("mkisofs_path_comment"));
 		$this->tpl->setVariable("TXT_LATEX_URL_COMMENT", $this->lng->txt("latex_url_comment"));
 
 		// values
@@ -922,6 +906,7 @@ class ilSetupGUI
 			$this->tpl->setVariable("UNZIP_PATH", $_SESSION["error_post_vars"]["form"]["unzip_path"]);
 			$this->tpl->setVariable("JAVA_PATH", $_SESSION["error_post_vars"]["form"]["java_path"]);
 			$this->tpl->setVariable("HTMLDOC_PATH", $_SESSION["error_post_vars"]["form"]["htmldoc_path"]);
+			$this->tpl->setVariable("MKISOFS_PATH", $_SESSION["error_post_vars"]["form"]["mkisofs_path"]);
 			$this->tpl->setVariable("LATEX_URL", $_SESSION["error_post_vars"]["form"]["latex_url"]);
 		}
 		elseif ($this->setup->ini->readVariable("server","presetting") != "")
@@ -931,6 +916,7 @@ class ilSetupGUI
 			$this->tpl->setVariable("UNZIP_PATH", $this->setup->ini->readVariable($this->setup->ini->readVariable("server","presetting"),"unzip"));
 			$this->tpl->setVariable("JAVA_PATH", $this->setup->ini->readVariable($this->setup->ini->readVariable("server","presetting"),"java"));
 			$this->tpl->setVariable("HTMLDOC_PATH", $this->setup->ini->readVariable($this->setup->ini->readVariable("server","presetting"),"htmldoc"));
+			$this->tpl->setVariable("MKISOFS_PATH", $this->setup->ini->readVariable($this->ini->readVariable("server","presetting"),"mkisofs"));
 			$this->tpl->setVariable("LATEX_URL", $this->setup->ini->readVariable($this->setup->ini->readVariable("server","presetting"),"latex"));
 		}
 		else
@@ -956,6 +942,7 @@ class ilSetupGUI
 		$chk_unzip_path = ($_SESSION["error_post_vars"]["form"]["chk_unzip_path"]) ? $checked : "";
 		$chk_java_path = ($_SESSION["error_post_vars"]["form"]["chk_java_path"]) ? $checked : "";
 		$chk_htmldoc_path = ($_SESSION["error_post_vars"]["form"]["chk_htmldoc_path"]) ? $checked : "";
+		$chk_mkisofs_path = ($_SESSION["error_post_vars"]["form"]["chk_mkisofs_path"]) ? $checked : "";
 		$chk_latex_url = ($_SESSION["error_post_vars"]["form"]["chk_latex_url"]) ? $checked : "";
 
 		$this->tpl->setVariable("CHK_CONVERT_PATH", $chk_convert_path);
@@ -963,6 +950,7 @@ class ilSetupGUI
 		$this->tpl->setVariable("CHK_UNZIP_PATH", $chk_unzip_path);
 		$this->tpl->setVariable("CHK_JAVA_PATH", $chk_java_path);
 		$this->tpl->setVariable("CHK_HTMLDOC_PATH", $chk_htmldoc_path);
+		$this->tpl->setVariable("CHK_MKISOFS_PATH", $chk_mkisofs_path);
 		$this->tpl->setVariable("CHK_LATEX_URL", $chk_latex_url);
 		$this->tpl->parseCurrentBlock();
 		
@@ -1271,8 +1259,8 @@ class ilSetupGUI
 	*/
 	function determineTools($a_tools = "")
 	{
-		$tools = array("convert", "zip", "unzip", "java", "htmldoc");
-		$dirs = array("/usr/local", "/usr/local/bin", "/usr/bin", "/bin", "/sw/bin");
+		$tools = array("convert", "zip", "unzip", "java", "htmldoc","mkisofs");
+		$dirs = array("/usr/local", "/usr/local/bin", "/usr/bin", "/bin", "/sw/bin", "/usr/bin");
 		foreach($tools as $tool)
 		{
 			// try which command
@@ -1407,6 +1395,7 @@ class ilSetupGUI
 		$this->tpl->setVariable("TXT_UNZIP_PATH", $this->lng->txt("unzip_path"));
 		$this->tpl->setVariable("TXT_JAVA_PATH", $this->lng->txt("java_path"));
 		$this->tpl->setVariable("TXT_HTMLDOC_PATH", $this->lng->txt("htmldoc_path"));
+		$this->tpl->setVariable("TXT_MKISOFS_PATH", $this->lng->txt("mkisofs_path"));
 		$this->tpl->setVariable("TXT_LATEX_URL", $this->lng->txt("url_to_latex"));
 		$this->tpl->setVariable("TXT_FOP_PATH", $this->lng->txt("fop_path"));
 		
@@ -1423,6 +1412,7 @@ class ilSetupGUI
 		$this->tpl->setVariable("TXT_UNZIP_COMMENT", $this->lng->txt("unzip_path_comment"));
 		$this->tpl->setVariable("TXT_JAVA_COMMENT", $this->lng->txt("java_path_comment"));
 		$this->tpl->setVariable("TXT_HTMLDOC_COMMENT", $this->lng->txt("htmldoc_path_comment"));
+		$this->tpl->setVariable("TXT_MKISOFS_COMMENT", $this->lng->txt("mkisofs_path_comment"));
 		$this->tpl->setVariable("TXT_LATEX_URL_COMMENT", $this->lng->txt("latex_url_comment"));
 		$this->tpl->setVariable("TXT_FOP_COMMENT", $this->lng->txt("fop_path_comment"));
 		// values
@@ -1437,6 +1427,7 @@ class ilSetupGUI
 			$vals["unzip_path"] = $this->setup->ini->readVariable("tools","unzip");
 			$vals["java_path"] = $this->setup->ini->readVariable("tools","java");
 			$vals["htmldoc_path"] = $this->setup->ini->readVariable("tools","htmldoc");
+			$vals["mkisofs_path"] = $this->setup->ini->readVariable("tools","mkisofs");
 			$vals["latex_url"] = $this->setup->ini->readVariable("tools","latex");
 			$vals["fop_path"] = $this->setup->ini->readVariable("tools","fop");
 			$vals["vscanner_type"] = $this->setup->ini->readVariable("tools", "vscantype");
@@ -1465,6 +1456,7 @@ class ilSetupGUI
 		$this->tpl->setVariable("UNZIP_PATH", $vals["unzip_path"]);
 		$this->tpl->setVariable("JAVA_PATH", $vals["java_path"]);
 		$this->tpl->setVariable("HTMLDOC_PATH", $vals["htmldoc_path"]);
+		$this->tpl->setVariable("MKISOFS_PATH", $vals["mkisofs_path"]);
 		$this->tpl->setVariable("LATEX_URL", $vals["latex_url"]);
 		$this->tpl->setVariable("FOP_PATH", $vals["fop_path"]);
 		$this->tpl->setVariable("STYPE_".
@@ -1477,6 +1469,7 @@ class ilSetupGUI
 		$chk_unzip_path = ($_SESSION["error_post_vars"]["form"]["chk_unzip_path"]) ? $checked : "";
 		$chk_java_path = ($_SESSION["error_post_vars"]["form"]["chk_java_path"]) ? $checked : "";
 		$chk_htmldoc_path = ($_SESSION["error_post_vars"]["form"]["chk_htmldoc_path"]) ? $checked : "";
+		$chk_mkisofs_path = ($_SESSION["error_post_vars"]["form"]["chk_mkisofs_path"]) ? $checked : "";
 		$chk_latex_url = ($_SESSION["error_post_vars"]["form"]["chk_latex_url"]) ? $checked : "";
 		$chk_fop_path = ($_SESSION["error_post_vars"]["form"]["chk_fop_path"]) ? $checked : "";
 
@@ -1486,6 +1479,7 @@ class ilSetupGUI
 		$this->tpl->setVariable("CHK_UNZIP_PATH", $chk_unzip_path);
 		$this->tpl->setVariable("CHK_JAVA_PATH", $chk_java_path);
 		$this->tpl->setVariable("CHK_HTMLDOC_PATH", $chk_htmldoc_path);
+		$this->tpl->setVariable("CHK_MKISOFS_PATH", $chk_mkisofs_path);
 		$this->tpl->setVariable("CHK_LATEX_URL", $chk_latex_url);
 		$this->tpl->setVariable("CHK_FOP_PATH", $chk_fop_path);
 		$this->tpl->parseCurrentBlock();
