@@ -24,18 +24,33 @@ class ilPasteMultipleItemsExplorer extends ilRepositoryExplorer
 	* @access	public
 	* @param	string	scriptname
 	*/
-	public function __construct($a_target)
+	public function __construct($a_target, $a_session_variable)
 	{
 		global $tree, $ilCtrl;
 
 		$this->ctrl = $ilCtrl;
 
-		parent::ilRepositoryExplorer($a_target);
+		parent::__construct($a_target);
 		$this->tree = $tree;
 		$this->root_id = $this->tree->readRootId();
 		$this->order_column = 'title';
-		$this->setSessionExpandVariable('repexpand');
-
+		$this->setSessionExpandVariable($a_session_variable);	
+		
+		// reset filter
+		$this->filter = array();
+		
+		$this->addFilter('root');
+		$this->addFilter('crs');				
+		$this->addFilter('grp');
+		$this->addFilter('cat');		
+		$this->addFilter('fold');
+		
+		$this->addCheckboxForType('root');
+		$this->addCheckboxForType('crs');
+		$this->addCheckboxForType('grp');
+		$this->addCheckboxForType('cat');
+		$this->addCheckboxForType('fold');
+		
 		$this->setFiltered(true);
 		$this->setFilterMode(IL_FM_POSITIVE);
 	}
@@ -49,7 +64,7 @@ class ilPasteMultipleItemsExplorer extends ilRepositoryExplorer
 	{
 		$this->checkbox_types[$type] = true;
 	}
-	public function rempveCheckboxForType($type)
+	public function removeCheckboxForType($type)
 	{
 		$this->checkbox_types[$type] = false;
 	}
@@ -234,7 +249,14 @@ class ilPasteMultipleItemsExplorer extends ilRepositoryExplorer
 
 		$tpl->setVariable("ICON_IMAGE", $path);
 		$tpl->setVariable("TXT_ALT_IMG", $title);
-		$tpl->parseCurrentBlock();
+		$tpl->parseCurrentBlock();		
+
+		if(strlen($check = $this->buildCheckbox($a_obj_id, $a_option['type'])))
+		{
+			$tpl->setCurrentBlock('check');
+			$tpl->setVariable('OBJ_CHECK', $check);
+			$tpl->parseCurrentBlock();
+		}
 		
 		$tpl->setVariable('OBJ_TITLE', $title);
 	}
