@@ -3,7 +3,7 @@
 	+-----------------------------------------------------------------------------+
 	| ILIAS open source                                                           |
 	+-----------------------------------------------------------------------------+
-	| Copyright (c) 1998-2006 ILIAS open source, University of Cologne            |
+	| Copyright (c) 1998-2009 ILIAS open source, University of Cologne            |
 	|                                                                             |
 	| This program is free software; you can redistribute it and/or               |
 	| modify it under the terms of the GNU General Public License                 |
@@ -22,16 +22,15 @@
 */
 
 /** 
-* @defgroup ServicesFileSystemStorage Services/FileSystemStorage
+* @defgroup ServicesMigration
 * 
-* @author Stefan Meyer <smeyer@databay.de>
+* @author Michael Jansen <mjansen@databay.de>
 * @version $Id$
 * 
 * 
-* @ingroup ServicesFileSystemStorage 
+* @ingroup ServicesMigration 
 */
-
-abstract class ilFileSystemStorage
+abstract class ilFileSystemStorageMailMigration
 {
 	const STORAGE_WEB = 1;
 	const STORAGE_DATA = 2;
@@ -135,7 +134,7 @@ abstract class ilFileSystemStorage
 	{
 		if(!file_exists($this->path))
 		{
-			ilUtil::makeDirParents($this->path);
+			ilUpdateUtilsMailMigration::makeDirParents($this->path);
 		}
 		return true;
 	}
@@ -162,14 +161,14 @@ abstract class ilFileSystemStorage
 		switch($this->storage_type)
 		{
 			case self::STORAGE_DATA:
-				$this->path = ilUtil::getDataDir();
+				$this->path = ilUpdateUtilsMailMigration::getDataDir();
 				break;
 				
 			case self::STORAGE_WEB:
-				$this->path = ilUtil::getWebspaceDir();
+				$this->path = ilUpdateUtilsMailMigration::getWebspaceDir();
 				break;
 		}
-		$this->path = ilUtil::removeTrailingPathSeparators($this->path);
+		$this->path = ilUpdateUtilsMailMigration::removeTrailingPathSeparators($this->path);
 		$this->path .= '/';
 		
 		// Append path prefix
@@ -236,7 +235,7 @@ abstract class ilFileSystemStorage
 	{
 		if(@file_exists($a_abs_name))
 		{
-			ilUtil::delDir($a_abs_name);
+			ilUpdateUtilsMailMigration::delDir($a_abs_name);
 			return true;
 		}
 		return false;
@@ -252,7 +251,7 @@ abstract class ilFileSystemStorage
 	 */
 	public function delete()
 	{
-		return ilUtil::delDir($this->getAbsolutePath());
+		return ilUpdateUtilsMailMigration::delDir($this->getAbsolutePath());
 	}
 	
 	
@@ -285,7 +284,7 @@ abstract class ilFileSystemStorage
 	 */
 	public function _copyDirectory($a_source,$a_target)
 	{
-		return ilUtil::rCopy($a_source,$a_target);
+		return ilUpdateUtilsMailMigration::rCopy($a_source,$a_target);
 	}
 	
 	public function appendToPath($a_appendix)
