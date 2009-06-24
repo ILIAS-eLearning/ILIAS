@@ -15,6 +15,7 @@ include_once("./Services/Form/classes/class.ilImageFileInputGUI.php");
 include_once('./Services/Form/classes/class.ilFlashFileInputGUI.php');
 include_once("./Services/Form/classes/class.ilLocationInputGUI.php");
 include_once("./Services/Form/classes/class.ilRadioGroupInputGUI.php");
+include_once("./Services/Form/classes/class.ilCheckboxGroupInputGUI.php");
 include_once("./Services/Form/classes/class.ilFormSectionHeaderGUI.php");
 include_once("./Services/Form/classes/class.ilSelectInputGUI.php");
 include_once("./Services/Form/classes/class.ilTextAreaInputGUI.php");

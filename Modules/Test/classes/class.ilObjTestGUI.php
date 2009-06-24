@@ -839,87 +839,63 @@ class ilObjTestGUI extends ilObjectGUI
 	/**
 	* Save the form input of the scoring form
 	*
-	* Save the form input of the scoring form
-	*
 	* @access	public
 	*/
 	function saveScoringObject()
 	{
-		$total = $this->object->evalTotalPersons();
-		// Check the values the user entered in the form
-		if (!$total)
+		$hasErrors = $this->scoringObject(true);
+		if (!$hasErrors)
 		{
-			$data["count_system"] = $_POST["count_system"];
-			$data["mc_scoring"] = $_POST["mc_scoring"];
-			$data["score_cutting"] = $_POST["score_cutting"];
-			$data["pass_scoring"] = $_POST["pass_scoring"];
-		}
-		else
-		{
-			$data["count_system"] = $this->object->getCountSystem();
-			$data["mc_scoring"] = $this->object->getMCScoring();
-			$data["score_cutting"] = $this->object->getScoreCutting();
-			$data["pass_scoring"] = $this->object->getPassScoring();
-		}
+			$total = $this->object->evalTotalPersons();
+			// Check the values the user entered in the form
+			if (!$total)
+			{
+				$this->object->setCountSystem($_POST["count_system"]);
+				$this->object->setMCScoring($_POST["mc_scoring"]);
+				$this->object->setScoreCutting($_POST["score_cutting"]);
+				$this->object->setPassScoring($_POST["pass_scoring"]);
+			}
 
-		$data["instant_feedback_solution"] = $_POST["chb_instant_feedback_solution"];
-		$data["answer_feedback"] = ($_POST["chb_instant_feedback_answer"]) ? 1 : 0;
-		$data["answer_feedback_points"] = ($_POST["chb_instant_feedback_results"]) ? 1 : 0;
+			$this->object->setAnswerFeedback(in_array('instant_feedback_answer', $_POST['instant_feedback']) ? 1 : 0);
+			$this->object->setAnswerFeedbackPoints(in_array('instant_feedback_points', $_POST['instant_feedback']) ? 1 : 0);
+			$this->object->setInstantFeedbackSolution(in_array('instant_feedback_solution', $_POST['instant_feedback']) ? 1 : 0);
 
-		$data["show_solution_printview"] = ($_POST["chb_show_solution_printview"] == 1) ? 1 : 0;
-		$data["show_solution_feedback"] = ($_POST["chb_show_solution_feedback"] == 1) ? 1 : 0;
-		$data["show_solution_suggested"] = ($_POST["chb_show_solution_suggested"] == 1) ? 1 : 0;
-		$data["show_solution_details"] = $_POST["chb_show_solution_details"];
-		$data["show_solution_answers_only"] = $_POST["chb_show_solution_answers_only"];
-		$data["show_solution_signature"] = $_POST["chb_show_solution_signature"];
-		$data["show_pass_details"] = $_POST["chb_show_pass_details"];
-		$data["results_access"] = $_POST["results_access"];
-		
-		$this->object->setCountSystem($data["count_system"]);
-		$this->object->setMCScoring($data["mc_scoring"]);
-		$this->object->setScoreCutting($data["score_cutting"]);
-		$this->object->setPassScoring($data["pass_scoring"]);
-		$this->object->setInstantFeedbackSolution($data["instant_feedback_solution"]);
-		$this->object->setAnswerFeedback($data["answer_feedback"]);
-		$this->object->setAnswerFeedbackPoints($data["answer_feedback_points"]);
-		$this->object->setShowSolutionDetails($data["show_solution_details"]);
-		$this->object->setShowSolutionAnswersOnly($data["show_solution_answers_only"]);
-		$this->object->setShowSolutionSignature($data["show_solution_signature"]);
-		$this->object->setShowPassDetails($data["show_pass_details"]);
-		$this->object->setScoreReporting($data["results_access"]);
-		$this->object->setShowSolutionPrintview($data["show_solution_printview"]);
-		$this->object->setShowSolutionFeedback($data["show_solution_feedback"]);
-		$this->object->setShowSolutionSuggested($data["show_solution_suggested"]);
-		if ($data["results_access"] == REPORT_AFTER_DATE)
-		{
-			$data["reporting_date"] = sprintf("%04d%02d%02d%02d%02d%02d",
-				$_POST["reporting_date"]["y"],
-				$_POST["reporting_date"]["m"],
-				$_POST["reporting_date"]["d"],
-				$_POST["reporting_time"]["h"],
-				$_POST["reporting_time"]["m"],
-				0
-			);
-			$this->object->setReportingDate($data["reporting_date"]);
-		}
-		else
-		{
-			$this->object->setReportingDate("");
-		}
-		$this->object->saveToDb(true);
-		ilUtil::sendSuccess($this->lng->txt("msg_obj_modified"), TRUE);
+			$this->object->setScoreReporting($_POST["results_access"]);
+			if ($this->object->getScoreReporting() == REPORT_AFTER_DATE)
+			{
+				$this->object->setReportingDate(sprintf("%04d%02d%02d%02d%02d%02d",
+					$_POST["reporting_date"]["YY"],
+					$_POST["reporting_date"]["MM"],
+					$_POST["reporting_date"]["DD"],
+					$_POST["reporting_date"]["hh"],
+					$_POST["reporting_date"]["mm"],
+					$_POST["reporting_date"]["ss"]
+				));
+			}
+			else
+			{
+				$this->object->setReportingDate('');
+			}
 
-		$this->ctrl->redirect($this, "scoring");
+			$this->object->setShowPassDetails(in_array('pass_details', $_POST['results_presentation']) ? 1 : 0);
+			$this->object->setShowSolutionDetails(in_array('solution_details', $_POST['results_presentation']) ? 1 : 0);
+			$this->object->setShowSolutionPrintview(in_array('solution_printview', $_POST['results_presentation']) ? 1 : 0);
+			$this->object->setShowSolutionFeedback(in_array('solution_feedback', $_POST['results_presentation']) ? 1 : 0);
+			$this->object->setShowSolutionAnswersOnly(in_array('solution_answers_only', $_POST['results_presentation']) ? 1 : 0);
+			$this->object->setShowSolutionSignature(in_array('solution_signature', $_POST['results_presentation']) ? 1 : 0);
+			$this->object->setShowSolutionSuggested(in_array('solution_suggested', $_POST['results_presentation']) ? 1 : 0);
+			$this->object->saveToDb(true);
+			ilUtil::sendSuccess($this->lng->txt("msg_obj_modified"), TRUE);
+			$this->ctrl->redirect($this, "scoring");
+		}
 	}
 	
 	/**
 	* Display and fill the scoring settings form of the test
 	*
-	* Display and fill the scoring settings form of the test
-	*
 	* @access	public
 	*/
-	function scoringObject()
+	function scoringObject($checkonly = FALSE)
 	{
 		global $ilAccess;
 		if (!$ilAccess->checkAccess("write", "", $this->ref_id)) 
@@ -929,281 +905,142 @@ class ilObjTestGUI extends ilObjectGUI
 			$this->ctrl->redirect($this, "infoScreen");
 		}
 
-		$data["count_system"] = $this->object->getCountSystem();
-		$data["mc_scoring"] = $this->object->getMCScoring();
-		$data["score_cutting"] = $this->object->getScoreCutting();
-		$data["pass_scoring"] = $this->object->getPassScoring();
-		$data["instant_feedback_solution"] = $this->object->getInstantFeedbackSolution();
-		$data["answer_feedback"] = $this->object->getAnswerFeedback();
-		$data["answer_feedback_points"] = $this->object->getAnswerFeedbackPoints();
-		$data["show_solution_printview"] = $this->object->getShowSolutionPrintview();
-		$data["show_solution_feedback"] = $this->object->getShowSolutionFeedback();
-		$data["show_solution_suggested"] = $this->object->getShowSolutionSuggested();
-		$data["show_solution_details"] = $this->object->getShowSolutionDetails();
-		$data["show_solution_answers_only"] = $this->object->getShowSolutionAnswersOnly();
-		$data["show_solution_signature"] = $this->object->getShowSolutionSignature();
-		$data["show_pass_details"] = $this->object->getShowPassDetails();
-		$data["results_access"] = $this->object->getScoreReporting();
-
+		$save = (strcmp($this->ctrl->getCmd(), "saveScoring") == 0) ? TRUE : FALSE;
 		$total = $this->object->evalTotalPersons();
+		$this->tpl->addJavascript("./Services/JavaScript/js/Basic.js");
+
+		include_once("./Services/Form/classes/class.ilPropertyFormGUI.php");
+		$form = new ilPropertyFormGUI();
+		$form->setFormAction($this->ctrl->getFormAction($this));
+		$form->setTableWidth("100%");
+		$form->setId("test_properties_scoring");
+
+		// scoring properties
+		$header = new ilFormSectionHeaderGUI();
+		$header->setTitle($this->lng->txt("scoring"));
+		$form->addItem($header);
 		
-		$this->tpl->addBlockFile("ADM_CONTENT", "adm_content", "tpl.il_as_tst_scoring.html", "Modules/Test");
-
-		$this->lng->loadLanguageModule("jscalendar");
-		$this->tpl->addBlockFile("CALENDAR_LANG_JAVASCRIPT", "calendar_javascript", "tpl.calendar.html");
-		$this->tpl->setCurrentBlock("calendar_javascript");
-		$this->tpl->setVariable("FULL_SUNDAY", $this->lng->txt("l_su"));
-		$this->tpl->setVariable("FULL_MONDAY", $this->lng->txt("l_mo"));
-		$this->tpl->setVariable("FULL_TUESDAY", $this->lng->txt("l_tu"));
-		$this->tpl->setVariable("FULL_WEDNESDAY", $this->lng->txt("l_we"));
-		$this->tpl->setVariable("FULL_THURSDAY", $this->lng->txt("l_th"));
-		$this->tpl->setVariable("FULL_FRIDAY", $this->lng->txt("l_fr"));
-		$this->tpl->setVariable("FULL_SATURDAY", $this->lng->txt("l_sa"));
-		$this->tpl->setVariable("SHORT_SUNDAY", $this->lng->txt("s_su"));
-		$this->tpl->setVariable("SHORT_MONDAY", $this->lng->txt("s_mo"));
-		$this->tpl->setVariable("SHORT_TUESDAY", $this->lng->txt("s_tu"));
-		$this->tpl->setVariable("SHORT_WEDNESDAY", $this->lng->txt("s_we"));
-		$this->tpl->setVariable("SHORT_THURSDAY", $this->lng->txt("s_th"));
-		$this->tpl->setVariable("SHORT_FRIDAY", $this->lng->txt("s_fr"));
-		$this->tpl->setVariable("SHORT_SATURDAY", $this->lng->txt("s_sa"));
-		$this->tpl->setVariable("FULL_JANUARY", $this->lng->txt("l_01"));
-		$this->tpl->setVariable("FULL_FEBRUARY", $this->lng->txt("l_02"));
-		$this->tpl->setVariable("FULL_MARCH", $this->lng->txt("l_03"));
-		$this->tpl->setVariable("FULL_APRIL", $this->lng->txt("l_04"));
-		$this->tpl->setVariable("FULL_MAY", $this->lng->txt("l_05"));
-		$this->tpl->setVariable("FULL_JUNE", $this->lng->txt("l_06"));
-		$this->tpl->setVariable("FULL_JULY", $this->lng->txt("l_07"));
-		$this->tpl->setVariable("FULL_AUGUST", $this->lng->txt("l_08"));
-		$this->tpl->setVariable("FULL_SEPTEMBER", $this->lng->txt("l_09"));
-		$this->tpl->setVariable("FULL_OCTOBER", $this->lng->txt("l_10"));
-		$this->tpl->setVariable("FULL_NOVEMBER", $this->lng->txt("l_11"));
-		$this->tpl->setVariable("FULL_DECEMBER", $this->lng->txt("l_12"));
-		$this->tpl->setVariable("SHORT_JANUARY", $this->lng->txt("s_01"));
-		$this->tpl->setVariable("SHORT_FEBRUARY", $this->lng->txt("s_02"));
-		$this->tpl->setVariable("SHORT_MARCH", $this->lng->txt("s_03"));
-		$this->tpl->setVariable("SHORT_APRIL", $this->lng->txt("s_04"));
-		$this->tpl->setVariable("SHORT_MAY", $this->lng->txt("s_05"));
-		$this->tpl->setVariable("SHORT_JUNE", $this->lng->txt("s_06"));
-		$this->tpl->setVariable("SHORT_JULY", $this->lng->txt("s_07"));
-		$this->tpl->setVariable("SHORT_AUGUST", $this->lng->txt("s_08"));
-		$this->tpl->setVariable("SHORT_SEPTEMBER", $this->lng->txt("s_09"));
-		$this->tpl->setVariable("SHORT_OCTOBER", $this->lng->txt("s_10"));
-		$this->tpl->setVariable("SHORT_NOVEMBER", $this->lng->txt("s_11"));
-		$this->tpl->setVariable("SHORT_DECEMBER", $this->lng->txt("s_12"));
-		$this->tpl->setVariable("ABOUT_CALENDAR", $this->lng->txt("about_calendar"));
-		$this->tpl->setVariable("ABOUT_CALENDAR_LONG", $this->lng->txt("about_calendar_long"));
-		$this->tpl->setVariable("ABOUT_TIME_LONG", $this->lng->txt("about_time"));
-		$this->tpl->setVariable("PREV_YEAR", $this->lng->txt("prev_year"));
-		$this->tpl->setVariable("PREV_MONTH", $this->lng->txt("prev_month"));
-		$this->tpl->setVariable("GO_TODAY", $this->lng->txt("go_today"));
-		$this->tpl->setVariable("NEXT_MONTH", $this->lng->txt("next_month"));
-		$this->tpl->setVariable("NEXT_YEAR", $this->lng->txt("next_year"));
-		$this->tpl->setVariable("SEL_DATE", $this->lng->txt("select_date"));
-		$this->tpl->setVariable("DRAG_TO_MOVE", $this->lng->txt("drag_to_move"));
-		$this->tpl->setVariable("PART_TODAY", $this->lng->txt("part_today"));
-		$this->tpl->setVariable("DAY_FIRST", $this->lng->txt("day_first"));
-		$this->tpl->setVariable("CLOSE", $this->lng->txt("close"));
-		$this->tpl->setVariable("TODAY", $this->lng->txt("today"));
-		$this->tpl->setVariable("TIME_PART", $this->lng->txt("time_part"));
-		$this->tpl->setVariable("DEF_DATE_FORMAT", $this->lng->txt("def_date_format"));
-		$this->tpl->setVariable("TT_DATE_FORMAT", $this->lng->txt("tt_date_format"));
-		$this->tpl->setVariable("WK", $this->lng->txt("wk"));
-		$this->tpl->setVariable("TIME", $this->lng->txt("time"));
-		$this->tpl->parseCurrentBlock();
-		$this->tpl->setCurrentBlock("CalendarJS");
-		$this->tpl->setVariable("LOCATION_JAVASCRIPT_CALENDAR", "./Modules/Test/js/calendar/calendar.js");
-		$this->tpl->setVariable("LOCATION_JAVASCRIPT_CALENDAR_SETUP", "./Modules/Test/js/calendar/calendar-setup.js");
-		$this->tpl->setVariable("LOCATION_JAVASCRIPT_CALENDAR_STYLESHEET", "./Modules/Test/js/calendar/calendar.css");
-		$this->tpl->parseCurrentBlock();
-		$this->tpl->setCurrentBlock("javascript_call_calendar");
-		$this->tpl->setVariable("INPUT_FIELDS_REPORTING_DATE", "reporting_date");
-		$this->tpl->parseCurrentBlock();
-
-		$this->tpl->setVariable("HEADING_SCORING_AND_RESULTS", $this->lng->txt("scoring"));
-		$this->tpl->setVariable("DEFAULT", "(" . $this->lng->txt("default") . ")");
-		$this->tpl->setVariable("TEXT_COUNT_SYSTEM", $this->lng->txt("tst_text_count_system"));
-		$this->tpl->setVariable("COUNT_PARTIAL_SOLUTIONS", $this->lng->txt("tst_count_partial_solutions"));
-		$this->tpl->setVariable("COUNT_CORRECT_SOLUTIONS", $this->lng->txt("tst_count_correct_solutions"));
-		$this->tpl->setVariable("COUNT_SYSTEM_DESCRIPTION", $this->lng->txt("tst_count_system_description"));
-		switch ($data["count_system"])
-		{
-			case COUNT_CORRECT_SOLUTIONS:
-				$this->tpl->setVariable("CHECKED_COUNT_CORRECT_SOLUTIONS", " checked=\"checked\"");
-				break;
-			case COUNT_PARTIAL_SOLUTIONS:
-			default:
-				$this->tpl->setVariable("CHECKED_COUNT_PARTIAL_SOLUTIONS", " checked=\"checked\"");
-				break;
-		}
+		// scoring system
+		$count_system = new ilRadioGroupInputGUI($this->lng->txt("tst_text_count_system"), "count_system");
+		$count_system->addOption(new ilRadioOption($this->lng->txt("tst_count_partial_solutions"), 0, ''));
+		$count_system->addOption(new ilRadioOption($this->lng->txt("tst_count_correct_solutions"), 1, ''));
+		$count_system->setValue($this->object->getCountSystem());
+		$count_system->setInfo($this->lng->txt("tst_count_system_description"));
 		if ($total)
 		{
-			$this->tpl->setVariable("DISABLED_COUNT_CORRECT_SOLUTIONS", " disabled=\"disabled\"");
-			$this->tpl->setVariable("DISABLED_COUNT_PARTIAL_SOLUTIONS", " disabled=\"disabled\"");
+			$count_system->setDisabled(true);
 		}
+		$form->addItem($count_system);
 
-		$this->tpl->setVariable("TEXT_SCORE_MCMR", $this->lng->txt("tst_score_mcmr_questions"));
-		$this->tpl->setVariable("ZERO_POINTS_WHEN_UNANSWERED", $this->lng->txt("tst_score_mcmr_zero_points_when_unanswered"));
-		$this->tpl->setVariable("USE_SCORING_SYSTEM", $this->lng->txt("tst_score_mcmr_use_scoring_system"));
-		$this->tpl->setVariable("TEXT_SCORE_MCMR_DESCRIPTION", $this->lng->txt("tst_score_mcmr_questions_description"));
-		switch ($data["mc_scoring"])
-		{
-			case SCORE_ZERO_POINTS_WHEN_UNANSWERED:
-				$this->tpl->setVariable("CHECKED_ZERO_POINTS_WHEN_UNANSWERED", " checked=\"checked\"");
-				break;
-			case SCORE_STANDARD_SCORE_SYSTEM:
-			default:
-				$this->tpl->setVariable("CHECKED_USE_SCORING_SYSTEM", " checked=\"checked\"");
-				break;
-		}
+		// mc questions
+		$mc_scoring = new ilRadioGroupInputGUI($this->lng->txt("tst_score_mcmr_questions"), "mc_scoring");
+		$mc_scoring->addOption(new ilRadioOption($this->lng->txt("tst_score_mcmr_zero_points_when_unanswered"), 0, ''));
+		$mc_scoring->addOption(new ilRadioOption($this->lng->txt("tst_score_mcmr_use_scoring_system"), 1, ''));
+		$mc_scoring->setValue($this->object->getMCScoring());
+		$mc_scoring->setInfo($this->lng->txt("tst_score_mcmr_questions_description"));
 		if ($total)
 		{
-			$this->tpl->setVariable("DISABLED_ZERO_POINTS_WHEN_UNANSWERED", " disabled=\"disabled\"");
-			$this->tpl->setVariable("DISABLED_USE_SCORING_SYSTEM", " disabled=\"disabled\"");
+			$mc_scoring->setDisabled(true);
 		}
-
-		$this->tpl->setVariable("TEXT_SCORE_CUTTING", $this->lng->txt("tst_score_cutting"));
-		$this->tpl->setVariable("TEXT_CUT_QUESTION", $this->lng->txt("tst_score_cut_question"));
-		$this->tpl->setVariable("TEXT_CUT_TEST", $this->lng->txt("tst_score_cut_test"));
-		$this->tpl->setVariable("TEXT_SCORE_CUTTING_DESCRIPTION", $this->lng->txt("tst_score_cutting_description"));
-		switch ($data["score_cutting"])
-		{
-			case SCORE_CUT_QUESTION:
-				$this->tpl->setVariable("CHECKED_CUT_QUESTION", " checked=\"checked\"");
-				break;
-			case SCORE_CUT_TEST:
-			default:
-				$this->tpl->setVariable("CHECKED_CUT_TEST", " checked=\"checked\"");
-				break;
-		}
-		if ($total)
-		{
-			$this->tpl->setVariable("DISABLED_CUT_QUESTION", " disabled=\"disabled\"");
-			$this->tpl->setVariable("DISABLED_CUT_TEST", " disabled=\"disabled\"");
-		}
+		$form->addItem($mc_scoring);
 		
-		$this->tpl->setVariable("TEXT_PASS_SCORING", $this->lng->txt("tst_pass_scoring"));
-		$this->tpl->setVariable("TEXT_LASTPASS", $this->lng->txt("tst_pass_last_pass"));
-		$this->tpl->setVariable("TEXT_BESTPASS", $this->lng->txt("tst_pass_best_pass"));
-		$this->tpl->setVariable("TEXT_PASS_SCORING_DESCRIPTION", $this->lng->txt("tst_pass_scoring_description"));
-		switch ($data["pass_scoring"])
-		{
-			case SCORE_BEST_PASS:
-				$this->tpl->setVariable("CHECKED_BESTPASS", " checked=\"checked\"");
-				break;
-			case SCORE_LAST_PASS:
-			default:
-				$this->tpl->setVariable("CHECKED_LASTPASS", " checked=\"checked\"");
-				break;
-		}
+		// score cutting
+		$score_cutting = new ilRadioGroupInputGUI($this->lng->txt("tst_score_cutting"), "score_cutting");
+		$score_cutting->addOption(new ilRadioOption($this->lng->txt("tst_score_cut_question"), 0, ''));
+		$score_cutting->addOption(new ilRadioOption($this->lng->txt("tst_score_cut_test"), 1, ''));
+		$score_cutting->setValue($this->object->getScoreCutting());
+		$score_cutting->setInfo($this->lng->txt("tst_score_cutting_description"));
 		if ($total)
 		{
-			$this->tpl->setVariable("DISABLED_BESTPASS", " disabled=\"disabled\"");
-			$this->tpl->setVariable("DISABLED_LASTPASS", " disabled=\"disabled\"");
+			$score_cutting->setDisabled(true);
 		}
+		$form->addItem($score_cutting);
+		
+		// pass scoring
+		$pass_scoring = new ilRadioGroupInputGUI($this->lng->txt("tst_pass_scoring"), "pass_scoring");
+		$pass_scoring->addOption(new ilRadioOption($this->lng->txt("tst_pass_last_pass"), 0, ''));
+		$pass_scoring->addOption(new ilRadioOption($this->lng->txt("tst_pass_best_pass"), 1, ''));
+		$pass_scoring->setValue($this->object->getPassScoring());
+		$pass_scoring->setInfo($this->lng->txt("tst_pass_scoring_description"));
+		if ($total)
+		{
+			$pass_scoring->setDisabled(true);
+		}
+		$form->addItem($pass_scoring);
 
-		$this->tpl->setVariable("TEXT_INSTANT_FEEDBACK", $this->lng->txt("tst_instant_feedback"));
-		$this->tpl->setVariable("TEXT_ANSWER_SPECIFIC_FEEDBACK", $this->lng->txt("tst_instant_feedback_answer_specific"));
-		$this->tpl->setVariable("TEXT_SHOW_RESULTS", $this->lng->txt("tst_instant_feedback_results"));
-		if ($data["answer_feedback_points"])
+		// instant feedback
+		$instant_feedback = new ilCheckboxGroupInputGUI($this->lng->txt("tst_instant_feedback"), "instant_feedback");
+		$instant_feedback->addOption(new ilCheckboxOption($this->lng->txt("tst_instant_feedback_answer_specific"), 'instant_feedback_answer', ''));
+		$instant_feedback->addOption(new ilCheckboxOption($this->lng->txt("tst_instant_feedback_results"), 'instant_feedback_points', ''));
+		$instant_feedback->addOption(new ilCheckboxOption($this->lng->txt("tst_instant_feedback_solution"), 'instant_feedback_solution', ''));
+		$values = array();
+		if ($this->object->getAnswerFeedback()) array_push($values, 'instant_feedback_answer');
+		if ($this->object->getAnswerFeedbackPoints()) array_push($values, 'instant_feedback_points');
+		if ($this->object->getInstantFeedbackSolution()) array_push($values, 'instant_feedback_solution');
+		$instant_feedback->setValue($values);
+		$instant_feedback->setInfo($this->lng->txt("tst_instant_feedback_description"));
+		$form->addItem($instant_feedback);
+
+		// access to test results
+		$results_access = new ilRadioGroupInputGUI($this->lng->txt("tst_results_access"), "results_access");
+		$results_access->addOption(new ilRadioOption($this->lng->txt("tst_results_access_finished"), 1, ''));
+		$results_access->addOption(new ilRadioOption($this->lng->txt("tst_results_access_always"), 2, ''));
+		$results_access->addOption(new ilRadioOption($this->lng->txt("tst_results_access_date"), 3, ''));
+		$results_access->setValue($this->object->getScoreReporting());
+		$results_access->setInfo($this->lng->txt("tst_results_access_description"));
+
+		// access date
+		$reporting_date = new ilDateTimeInputGUI('', 'reporting_date');
+		$reporting_date->setShowDate(true);
+		$reporting_date->setShowTime(true);
+		if (strlen($this->object->getReportingDate()))
 		{
-			$this->tpl->setVariable("CHECKED_SHOW_RESULTS", " checked=\"checked\"");
-		}
-		$this->tpl->setVariable("TEXT_SHOW_SOLUTION", $this->lng->txt("tst_instant_feedback_solution"));
-		$this->tpl->setVariable("TEXT_INSTANT_FEEDBACK_DESCRIPTION", $this->lng->txt("tst_instant_feedback_description"));
-		if ($data["instant_feedback_solution"])
-		{
-			$this->tpl->setVariable("CHECKED_SHOW_SOLUTION", " checked=\"checked\"");
-		}
-		if ($data["answer_feedback"])
-		{
-			$this->tpl->setVariable("CHECKED_ANSWER_SPECIFIC_FEEDBACK", " checked=\"checked\"");
-		}
-		$this->tpl->setVariable("TEXT_RESULTS_PRESENTATION", $this->lng->txt("tst_results_presentation"));
-		$this->tpl->setVariable("TEXT_SHOW_PASS_DETAILS", $this->lng->txt("tst_show_pass_details"));
-		if ($data["show_pass_details"])
-		{
-			$this->tpl->setVariable("CHECKED_SHOW_PASS_DETAILS", " checked=\"checked\"");
-		}
-		$this->tpl->setVariable("TEXT_SHOW_SOLUTION_DETAILS", $this->lng->txt("tst_show_solution_details"));
-		if ($data["show_solution_details"])
-		{
-			$this->tpl->setVariable("CHECKED_SHOW_SOLUTION_DETAILS", " checked=\"checked\"");
-		}
-		$this->tpl->setVariable("TEXT_SHOW_SOLUTION_ANSWERS_ONLY", $this->lng->txt("tst_show_solution_answers_only"));
-		if ($data["show_solution_answers_only"])
-		{
-			$this->tpl->setVariable("CHECKED_SHOW_SOLUTION_ANSWERS_ONLY", " checked=\"checked\"");
-		}
-		$this->tpl->setVariable("TEXT_SHOW_SOLUTION_SIGNATURE", $this->lng->txt("tst_show_solution_signature"));
-		if ($this->object->getAnonymity())
-		{
-			$this->tpl->setVariable("DISABLED_SHOW_SOLUTION_SIGNATURE", " disabled=\"disabled\"");
+			$reporting_date->setDate(new ilDateTime($this->object->getReportingDate(), IL_CAL_TIMESTAMP));
 		}
 		else
 		{
-			if ($data["show_solution_signature"])
-			{
-				$this->tpl->setVariable("CHECKED_SHOW_SOLUTION_SIGNATURE", " checked=\"checked\"");
-			}
+			$reporting_date->setDate(new ilDateTime(time(), IL_CAL_UNIX));
 		}
-		$this->tpl->setVariable("TEXT_SHOW_SOLUTION_SUGGESTED", $this->lng->txt("tst_show_solution_suggested"));
-		if ($data["show_solution_suggested"])
-		{
-			$this->tpl->setVariable("CHECKED_SHOW_SOLUTION_SUGGESTED", " checked=\"checked\"");
-		}
+		$results_access->addSubItem($reporting_date);
+		$form->addItem($results_access);
 
-		$this->tpl->setVariable("TEXT_SHOW_SOLUTION_FEEDBACK", $this->lng->txt("tst_show_solution_feedback"));
-		if ($data["show_solution_feedback"])
+		// results presentation
+		$results_presentation = new ilCheckboxGroupInputGUI($this->lng->txt("tst_results_access"), "results_presentation");
+		$results_presentation->addOption(new ilCheckboxOption($this->lng->txt("tst_show_pass_details"), 'pass_details', ''));
+		$results_presentation->addOption(new ilCheckboxOption($this->lng->txt("tst_show_solution_details"), 'solution_details', ''));
+		$results_presentation->addOption(new ilCheckboxOption($this->lng->txt("tst_show_solution_printview"), 'solution_printview', ''));
+		$results_presentation->addOption(new ilCheckboxOption($this->lng->txt("tst_show_solution_feedback"), 'solution_feedback', ''));
+		$results_presentation->addOption(new ilCheckboxOption($this->lng->txt("tst_show_solution_answers_only"), 'solution_answers_only', ''));
+		$signatureOption = new ilCheckboxOption($this->lng->txt("tst_show_solution_signature"), 'solution_signature', '');
+		$results_presentation->addOption($signatureOption);
+		$results_presentation->addOption(new ilCheckboxOption($this->lng->txt("tst_show_solution_suggested"), 'solution_suggested', ''));
+		$values = array();
+		if ($this->object->getShowPassDetails()) array_push($values, 'pass_details');
+		if ($this->object->getShowSolutionDetails()) array_push($values, 'solution_details');
+		if ($this->object->getShowSolutionPrintview()) array_push($values, 'solution_printview');
+		if ($this->object->getShowSolutionFeedback()) array_push($values, 'solution_feedback');
+		if ($this->object->getShowSolutionAnswersOnly()) array_push($values, 'solution_answers_only');
+		if ($this->object->getShowSolutionSignature()) array_push($values, 'solution_signature');
+		if ($this->object->getShowSolutionSuggested()) array_push($values, 'solution_suggested');
+		$results_presentation->setValue($values);
+		$results_presentation->setInfo($this->lng->txt("tst_results_access_description"));
+		if ($this->object->getAnonymity())
 		{
-			$this->tpl->setVariable("CHECKED_SHOW_SOLUTION_FEEDBACK", " checked=\"checked\"");
+			$signatureOption->setDisabled(true);
 		}
-
-		$this->tpl->setVariable("TEXT_SHOW_SOLUTION_PRINTVIEW", $this->lng->txt("tst_show_solution_printview"));
-		$this->tpl->setVariable("TEXT_RESULTS_PRESENTATION_DESCRIPTION", $this->lng->txt("tst_results_presentation_description"));
-		if ($data["show_solution_printview"])
-		{
-			$this->tpl->setVariable("CHECKED_SHOW_SOLUTION_PRINTVIEW", " checked=\"checked\"");
-		}
-
-		$this->tpl->setVariable("TEXT_RESULTS_ACCESS", $this->lng->txt("tst_results_access"));
-		$this->tpl->setVariable("TEXT_RESULTS_FINISHED", $this->lng->txt("tst_results_access_finished"));
-		$this->tpl->setVariable("TEXT_RESULTS_DATE", $this->lng->txt("tst_results_access_date"));
-		if ($data["results_access"] != REPORT_AFTER_DATE)
-		{
-			$report = getdate(time()+60*60*24*7);
-			$date_input = ilUtil::makeDateSelect("reporting_date", $report["year"], $report["mon"], $report["mday"]);
-			$time_input = ilUtil::makeTimeSelect("reporting_time", true, "12", "0", "0");
-		} else {
-			preg_match("/(\d{4})(\d{2})(\d{2})(\d{2})(\d{2})(\d{2})/", $this->object->getReportingDate(), $matches);
-			$date_input = ilUtil::makeDateSelect("reporting_date", $matches[1], sprintf("%d", $matches[2]), sprintf("%d", $matches[3]));
-			$time_input = ilUtil::makeTimeSelect("reporting_time", true, sprintf("%d", $matches[4]), sprintf("%d", $matches[5]), sprintf("%d", $matches[6]));
-		}
-		switch ($data["results_access"])
-		{
-			case REPORT_ALWAYS:
-				$this->tpl->setVariable("CHECKED_RESULTS_ALWAYS", " checked=\"checked\"");
-				break;
-			case REPORT_AFTER_DATE:
-				$this->tpl->setVariable("CHECKED_RESULTS_DATE", " checked=\"checked\"");
-				break;
-			case REPORT_AFTER_TEST:
-			default:
-				$this->tpl->setVariable("CHECKED_RESULTS_FINISHED", " checked=\"checked\"");
-				break;
-		}
-		$this->tpl->setVariable("INPUT_REPORTING_DATE", $this->lng->txt("date") . ": " . $date_input . $this->lng->txt("time") . ": " . $time_input);
-		$this->tpl->setVariable("IMG_REPORTING_DATE_CALENDAR", ilUtil::getImagePath("calendar.png"));
-		$this->tpl->setVariable("TXT_REPORTING_DATE_CALENDAR", $this->lng->txt("open_calendar"));
-		$this->tpl->setVariable("TEXT_RESULTS_ALWAYS", $this->lng->txt("tst_results_access_always"));
-		$this->tpl->setVariable("TEXT_RESULTS_ACCESS_DESCRIPTION", $this->lng->txt("tst_results_access_description"));
-
-		$this->tpl->setVariable("FORMACTION", $this->ctrl->getFormAction($this));
-		if ($ilAccess->checkAccess("write", "", $this->ref_id)) 
-		{
-			$this->tpl->setVariable("SAVE", $this->lng->txt("save"));
-		}
+		$form->addItem($results_presentation);
 		
-		$this->tpl->parseCurrentBlock();
+		$form->addCommandButton("saveScoring", $this->lng->txt("save"));
+		$errors = false;
+
+		if ($save)
+		{
+			$errors = !$form->checkInput();
+			$form->setValuesByPost();
+			if ($errors) $checkonly = false;
+		}
+		if (!$checkonly) $this->tpl->setVariable("ADM_CONTENT", $form->getHTML());
+		return $errors;
 	}
 	
 	/**
@@ -1253,6 +1090,7 @@ class ilObjTestGUI extends ilObjectGUI
 		$intro->addPlugin("latex");
 		$intro->addButton("latex");
 		$intro->setRTESupport($this->object->getId(), "tst", "assessment");
+		$intro->setRteTagSet('full');
 		// showinfo
 		$showinfo = new ilCheckboxInputGUI('', "showinfo");
 		$showinfo->setValue(1);
@@ -1271,6 +1109,7 @@ class ilObjTestGUI extends ilObjectGUI
 		$finalstatement->addPlugin("latex");
 		$finalstatement->addButton("latex");
 		$finalstatement->setRTESupport($this->object->getId(), "tst", "assessment");
+		$finalstatement->setRteTagSet('full');
 		// show final statement
 		$showfinal = new ilCheckboxInputGUI('', "showfinalstatement");
 		$showfinal->setValue(1);
