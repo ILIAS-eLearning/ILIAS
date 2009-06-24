@@ -184,23 +184,31 @@ class ilShibbolethRoleAssignmentRule
 	
 	public function delete()
 	{
+		global $ilDB;;
+		
 		$query = "DELETE FROM shib_role_assignment ".
-			"WHERE rule_id = ".$this->db->quote($this->getRuleId());
-		$this->db->query($query);
+			"WHERE rule_id = ".$this->db->quote($this->getRuleId() , 'integer');
+		$ilDB->manipulate($query);
 		return true;
 	}
 	
 	public function add()
 	{
-		$query = "INSERT INTO shib_role_assignment ".
-			"SET role_id = ".$this->db->quote($this->getRoleId()).', '.
-			"name = ".$this->db->quote($this->getName()).', '.
-			"value = ".$this->db->quote($this->getValue()).', '.
-			"plugin = ".$this->db->quote((int) $this->isPluginActive()).', '.
-			"plugin_id = ".$this->db->quote((int) $this->getPluginId()).', '.
-			"add_on_update = ".$this->db->quote((int) $this->isAddOnUpdateEnabled()).', '.
-			"remove_on_update = ".$this->db->quote((int) $this->isRemoveOnUpdateEnabled()).' ';
-		$this->db->query($query);
+		global $ilDB;
+		
+		$next_id = $ilDB->nextId('shib_role_assignment');
+		$query = "INSERT INTO shib_role_assignment (rule_id,role_id,name,value,plugin,plugin_id,add_on_update,remove_on_update ) ".
+			"VALUES( ". 
+			$ilDB->quote($next_id,'integer').', '.
+			$this->db->quote($this->getRoleId(),'integer').', '.
+			$this->db->quote($this->getName(),'text').', '.
+			$this->db->quote($this->getValue(),'text').', '.
+			$this->db->quote((int) $this->isPluginActive(),'integer').', '.
+			$this->db->quote((int) $this->getPluginId(),'integer').', '.
+			$this->db->quote((int) $this->isAddOnUpdateEnabled(),'integer').', '.
+			$this->db->quote((int) $this->isRemoveOnUpdateEnabled(),'integer').
+			') ';
+		$ilDB->manipulate($query);
 		
 		$this->setRuleId($this->db->getLastInsertId());
 		return true;
@@ -208,16 +216,18 @@ class ilShibbolethRoleAssignmentRule
 	
 	public function update()
 	{
+		global $ilDB;
+		
 		$query = "UPDATE shib_role_assignment ".
-			"SET role_id = ".$this->db->quote($this->getRoleId()).', '.
-			"name = ".$this->db->quote($this->getName()).', '.
-			"value = ".$this->db->quote($this->getValue()).', '.
-			"plugin = ".$this->db->quote((int) $this->isPluginActive()).', '.
-			"plugin_id = ".$this->db->quote((int) $this->getPluginId()).', '.
-			"add_on_update = ".$this->db->quote((int) $this->isAddOnUpdateEnabled()).', '.
-			"remove_on_update = ".$this->db->quote((int) $this->isRemoveOnUpdateEnabled()).' '.
-			"WHERE rule_id = ".$this->db->quote($this->getRuleId());
-		$this->db->query($query);
+			"SET role_id = ".$this->db->quote($this->getRoleId(),'integer').', '.
+			"name = ".$this->db->quote($this->getName(),'text').', '.
+			"value = ".$this->db->quote($this->getValue(),'text').', '.
+			"plugin = ".$this->db->quote((int) $this->isPluginActive(),'integer').', '.
+			"plugin_id = ".$this->db->quote((int) $this->getPluginId(),'integer').', '.
+			"add_on_update = ".$this->db->quote((int) $this->isAddOnUpdateEnabled(),'integer').', '.
+			"remove_on_update = ".$this->db->quote((int) $this->isRemoveOnUpdateEnabled(),'integer').' '.
+			"WHERE rule_id = ".$this->db->quote($this->getRuleId(),'integer');
+		$ilDB->manipulate($query);
 		
 		return true;
 	}
@@ -257,7 +267,7 @@ class ilShibbolethRoleAssignmentRule
 		}
 
 		$query = "SELECT * FROM shib_role_assignment ".
-			"WHERE rule_id = ".$this->db->quote($this->getRuleId());
+			"WHERE rule_id = ".$this->db->quote($this->getRuleId(),'integer');
 		$res = $this->db->query($query);
 		while($row = $res->fetchRow(DB_FETCHMODE_OBJECT))
 		{
