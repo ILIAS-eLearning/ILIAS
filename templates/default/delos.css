@@ -1571,6 +1571,47 @@ a.il_PageDeactivatedElements
 	border-right: 2px dotted red;
 }
 
+div.ilEditLabel
+{
+	position:absolute;
+	background-color:#F5F5F5;
+	font-size:70%;
+	padding:1px 3px;	
+	border-style: solid;
+	border-width: 0px 1px 1px 0px;
+	border-color: #909090;
+}
+
+div.ilEditVAccordCntr
+{
+	margin-top: 15px;
+	padding: 5px;
+}
+
+div.ilEditVAccordICntr
+{
+	background-color: #FFFFFF;
+	margin-bottom: 15px;
+	border-width:1px;
+	border-color:#9EADBA;
+	border-style:solid;
+}
+
+div.ilEditVAccordIHead
+{
+	padding: 3px;
+	background-color: #E2EAF4;
+	text-align:left;
+	background-repeat: no-repeat;
+	background-position: 3px 4px;
+}
+
+div.ilEditVAccordICont
+{
+	padding: 10px;
+	background-color: #FFFFFF;
+}
+
 /* ------------------ blind image - spacer gif --------------
    please use this style class always when using this blind image */
 img.spacer {
