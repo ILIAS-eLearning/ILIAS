@@ -1498,6 +1498,7 @@ class ilObjTestGUI extends ilObjectGUI
 		{
 			$errors = !$form->checkInput();
 			$form->setValuesByPost();
+			if ($errors) $checkonly = false;
 		}
 		if (!$checkonly) $this->tpl->setVariable("ADM_CONTENT", $form->getHTML());
 		return $errors;
@@ -1510,7 +1511,15 @@ class ilObjTestGUI extends ilObjectGUI
 	*/
 	function savePropertiesObject()
 	{
-		if (!$this->propertiesObject(true))
+		if (!array_key_exists("tst_properties_confirmation", $_POST))
+		{
+			$hasErrors = $this->propertiesObject(true);
+		}
+		else
+		{
+			$hasErrors = false;
+		}
+		if (!$hasErrors)
 		{
 			$total = $this->object->evalTotalPersons();
 			$randomtest_switch = false;
@@ -1521,7 +1530,7 @@ class ilObjTestGUI extends ilObjectGUI
 				{
 					if (($this->object->isRandomTest()) && (count($this->object->getRandomQuestionpools()) > 0))
 					{
-						if (!$_POST["chb_random"])
+						if (!$_POST["random_test"])
 						{
 							// user tries to change from a random test with existing random question pools to a non random test
 							$this->confirmChangeProperties(0);
@@ -1530,7 +1539,7 @@ class ilObjTestGUI extends ilObjectGUI
 					}
 					if ((!$this->object->isRandomTest()) && (count($this->object->questions) > 0))
 					{
-						if ($_POST["chb_random"])
+						if ($_POST["random_test"])
 						{
 							// user tries to change from a non random test with existing questions to a random test
 							$this->confirmChangeProperties(1);
@@ -1539,27 +1548,28 @@ class ilObjTestGUI extends ilObjectGUI
 					}
 				}
 
-				if (!strlen($_POST["chb_random"]))
+				if (!strlen($_POST["random_test"]))
 				{
-					$data["random_test"] = 0;
+					$random_test = 0;
 				}
 				else
 				{
-					$data["random_test"] = ilUtil::stripSlashes($_POST["chb_random"]);
+					$random_test = ilUtil::stripSlashes($_POST["random_test"]);
 				}
 			}
 			else
 			{
-				$data["random_test"] = $this->object->random_test;
+				$random_test = $this->object->isRandomTest();
 			}
-			if ($data["random_test"] != $this->object->random_test)
+			if ($random_test != $this->object->isRandomTest())
 			{
 				$randomtest_switch = true;
 			}
+			
 			if (!$total)
 			{
 				$this->object->setAnonymity($_POST["anonymity"]);
-				$this->object->setRandomTest($data["random_test"]);
+				$this->object->setRandomTest($random_test);
 			}
 			include_once "./Services/AdvancedEditing/classes/class.ilObjAdvancedEditing.php";
 			$this->object->setIntroduction(ilUtil::stripSlashes($_POST["introduction"], false, ilObjAdvancedEditing::_getUsedHTMLTagsAsString("assessment")));
@@ -1636,407 +1646,8 @@ class ilObjTestGUI extends ilObjectGUI
 			}
 			$this->ctrl->redirect($this, 'properties');
 		}
-		$this->propertiesObject();
 	}
 	
-	/**
-	* Display and fill the properties form of the test
-	*
-	* @access	public
-	*/
-	function propertiesObject2()
-	{
-		global $ilAccess;
-		if (!$ilAccess->checkAccess("write", "", $this->ref_id)) 
-		{
-			// allow only write access
-			ilUtil::sendInfo($this->lng->txt("cannot_edit_test"), true);
-			$this->ctrl->redirect($this, "infoScreen");
-		}
-		// to set the command class for the default command after object creation to make the RTE editor switch work
-		if (strlen($this->ctrl->getCmdClass()) == 0) $this->ctrl->setCmdClass("ilobjtestgui");
-		include_once "./Services/RTE/classes/class.ilRTE.php";
-		$rtestring = ilRTE::_getRTEClassname();
-		include_once "./Services/RTE/classes/class.$rtestring.php";
-		$rte = new $rtestring();
-		include_once "./classes/class.ilObject.php";
-		$obj_id = ilObject::_lookupObjectId($_GET["ref_id"]);
-		$obj_type = ilObject::_lookupType($_GET["ref_id"], TRUE);
-		$rte->addRTESupport($obj_id, $obj_type, "assessment");
-
-		$this->tpl->addBlockFile("ADM_CONTENT", "adm_content", "tpl.il_as_tst_properties.html", "Modules/Test");
-		$this->lng->loadLanguageModule("jscalendar");
-		$this->tpl->addBlockFile("CALENDAR_LANG_JAVASCRIPT", "calendar_javascript", "tpl.calendar.html");
-		$this->tpl->setCurrentBlock("calendar_javascript");
-		$this->tpl->setVariable("FULL_SUNDAY", $this->lng->txt("l_su"));
-		$this->tpl->setVariable("FULL_MONDAY", $this->lng->txt("l_mo"));
-		$this->tpl->setVariable("FULL_TUESDAY", $this->lng->txt("l_tu"));
-		$this->tpl->setVariable("FULL_WEDNESDAY", $this->lng->txt("l_we"));
-		$this->tpl->setVariable("FULL_THURSDAY", $this->lng->txt("l_th"));
-		$this->tpl->setVariable("FULL_FRIDAY", $this->lng->txt("l_fr"));
-		$this->tpl->setVariable("FULL_SATURDAY", $this->lng->txt("l_sa"));
-		$this->tpl->setVariable("SHORT_SUNDAY", $this->lng->txt("s_su"));
-		$this->tpl->setVariable("SHORT_MONDAY", $this->lng->txt("s_mo"));
-		$this->tpl->setVariable("SHORT_TUESDAY", $this->lng->txt("s_tu"));
-		$this->tpl->setVariable("SHORT_WEDNESDAY", $this->lng->txt("s_we"));
-		$this->tpl->setVariable("SHORT_THURSDAY", $this->lng->txt("s_th"));
-		$this->tpl->setVariable("SHORT_FRIDAY", $this->lng->txt("s_fr"));
-		$this->tpl->setVariable("SHORT_SATURDAY", $this->lng->txt("s_sa"));
-		$this->tpl->setVariable("FULL_JANUARY", $this->lng->txt("l_01"));
-		$this->tpl->setVariable("FULL_FEBRUARY", $this->lng->txt("l_02"));
-		$this->tpl->setVariable("FULL_MARCH", $this->lng->txt("l_03"));
-		$this->tpl->setVariable("FULL_APRIL", $this->lng->txt("l_04"));
-		$this->tpl->setVariable("FULL_MAY", $this->lng->txt("l_05"));
-		$this->tpl->setVariable("FULL_JUNE", $this->lng->txt("l_06"));
-		$this->tpl->setVariable("FULL_JULY", $this->lng->txt("l_07"));
-		$this->tpl->setVariable("FULL_AUGUST", $this->lng->txt("l_08"));
-		$this->tpl->setVariable("FULL_SEPTEMBER", $this->lng->txt("l_09"));
-		$this->tpl->setVariable("FULL_OCTOBER", $this->lng->txt("l_10"));
-		$this->tpl->setVariable("FULL_NOVEMBER", $this->lng->txt("l_11"));
-		$this->tpl->setVariable("FULL_DECEMBER", $this->lng->txt("l_12"));
-		$this->tpl->setVariable("SHORT_JANUARY", $this->lng->txt("s_01"));
-		$this->tpl->setVariable("SHORT_FEBRUARY", $this->lng->txt("s_02"));
-		$this->tpl->setVariable("SHORT_MARCH", $this->lng->txt("s_03"));
-		$this->tpl->setVariable("SHORT_APRIL", $this->lng->txt("s_04"));
-		$this->tpl->setVariable("SHORT_MAY", $this->lng->txt("s_05"));
-		$this->tpl->setVariable("SHORT_JUNE", $this->lng->txt("s_06"));
-		$this->tpl->setVariable("SHORT_JULY", $this->lng->txt("s_07"));
-		$this->tpl->setVariable("SHORT_AUGUST", $this->lng->txt("s_08"));
-		$this->tpl->setVariable("SHORT_SEPTEMBER", $this->lng->txt("s_09"));
-		$this->tpl->setVariable("SHORT_OCTOBER", $this->lng->txt("s_10"));
-		$this->tpl->setVariable("SHORT_NOVEMBER", $this->lng->txt("s_11"));
-		$this->tpl->setVariable("SHORT_DECEMBER", $this->lng->txt("s_12"));
-		$this->tpl->setVariable("ABOUT_CALENDAR", $this->lng->txt("about_calendar"));
-		$this->tpl->setVariable("ABOUT_CALENDAR_LONG", $this->lng->txt("about_calendar_long"));
-		$this->tpl->setVariable("ABOUT_TIME_LONG", $this->lng->txt("about_time"));
-		$this->tpl->setVariable("PREV_YEAR", $this->lng->txt("prev_year"));
-		$this->tpl->setVariable("PREV_MONTH", $this->lng->txt("prev_month"));
-		$this->tpl->setVariable("GO_TODAY", $this->lng->txt("go_today"));
-		$this->tpl->setVariable("NEXT_MONTH", $this->lng->txt("next_month"));
-		$this->tpl->setVariable("NEXT_YEAR", $this->lng->txt("next_year"));
-		$this->tpl->setVariable("SEL_DATE", $this->lng->txt("select_date"));
-		$this->tpl->setVariable("DRAG_TO_MOVE", $this->lng->txt("drag_to_move"));
-		$this->tpl->setVariable("PART_TODAY", $this->lng->txt("part_today"));
-		$this->tpl->setVariable("DAY_FIRST", $this->lng->txt("day_first"));
-		$this->tpl->setVariable("CLOSE", $this->lng->txt("close"));
-		$this->tpl->setVariable("TODAY", $this->lng->txt("today"));
-		$this->tpl->setVariable("TIME_PART", $this->lng->txt("time_part"));
-		$this->tpl->setVariable("DEF_DATE_FORMAT", $this->lng->txt("def_date_format"));
-		$this->tpl->setVariable("TT_DATE_FORMAT", $this->lng->txt("tt_date_format"));
-		$this->tpl->setVariable("WK", $this->lng->txt("wk"));
-		$this->tpl->setVariable("TIME", $this->lng->txt("time"));
-		$this->tpl->parseCurrentBlock();
-		$this->tpl->setCurrentBlock("CalendarJS");
-		$this->tpl->setVariable("LOCATION_JAVASCRIPT_CALENDAR", "./Modules/Test/js/calendar/calendar.js");
-		$this->tpl->setVariable("LOCATION_JAVASCRIPT_CALENDAR_SETUP", "./Modules/Test/js/calendar/calendar-setup.js");
-		$this->tpl->setVariable("LOCATION_JAVASCRIPT_CALENDAR_STYLESHEET", "./Modules/Test/js/calendar/calendar.css");
-		$this->tpl->parseCurrentBlock();
-		$this->tpl->setCurrentBlock("javascript_call_calendar");
-		$this->tpl->setVariable("INPUT_FIELDS_STARTING_DATE", "starting_date");
-		$this->tpl->setVariable("INPUT_FIELDS_ENDING_DATE", "ending_date");
-		$this->tpl->parseCurrentBlock();
-
-		$customstyles = $this->object->getCustomStyles();
-		if (is_array($customstyles) && count($customstyles) > 0)
-		{
-			foreach ($customstyles as $customstyle)
-			{
-				$this->tpl->setCurrentBlock("customstyle_option");
-				$this->tpl->setVariable("VALUE_OPTION_CUSTOMSTYLE", $customstyle);
-				$this->tpl->setVariable("TEXT_OPTION_CUSTOMSTYLE", $customstyle);
-				if (strcmp($this->object->getCustomStyle(), $customstyle) == 0)
-				{
-					$this->tpl->setVariable("SELECTION_OPTION_CUSTOMSTYLE", " selected=\"selected\"");
-				}
-				$this->tpl->parseCurrentBlock();
-			}
-			$this->tpl->setCurrentBlock("customtyle");
-			$this->tpl->setVariable("TEXT_CUSTOMSTYLE", $this->lng->txt("customstyle"));
-			$this->tpl->setVariable("TEXT_NO_CUSTOMSTYLE", $this->lng->txt("no_selection"));
-			$this->tpl->setVariable("TEXT_DESCRIPTION_CUSTOMSTYLE", $this->lng->txt("customstyle_description"));
-			$this->tpl->parseCurrentBlock();
-		}
-
-		$total = $this->object->evalTotalPersons();
-		$data["anonymity"] = $this->object->getAnonymity();
-		$data["show_cancel"] = $this->object->getShowCancel();
-		$data["show_marker"] = $this->object->getShowMarker();
-		$data["introduction"] = $this->object->getIntroduction();
-		$data["sequence_settings"] = $this->object->getSequenceSettings();
-		$data["nr_of_tries"] = $this->object->getNrOfTries();
-		$data["kiosk"] = $this->object->getKioskMode();
-		$data["kiosk_title"] = $this->object->getShowKioskModeTitle();
-		$data["kiosk_participant"] = $this->object->getShowKioskModeParticipant();
-		$data["use_previous_answers"] = $this->object->getUsePreviousAnswers();
-		$data["title_output"] = $this->object->getTitleOutput();
-		$data["enable_processing_time"] = $this->object->getEnableProcessingTime();
-		$data["reset_processing_time"] = $this->object->getResetProcessingTime();
-		$data["processing_time"] = $this->object->getProcessingTime();
-		$data["random_test"] = $this->object->isRandomTest();
-		$data["password"] = $this->object->getPassword();
-		$data["allowedUsers"] = $this->object->getAllowedUsers();
-		$data["allowedUsersTimeGap"] = $this->object->getAllowedUsersTimeGap();
-		if (!$this->object->getEnableProcessingTime())
-		{
-			$proc_time = $this->object->getEstimatedWorkingTime();
-			$data["processing_time"] = sprintf("%02d:%02d:%02d",
-				$proc_time["h"],
-				$proc_time["m"],
-				$proc_time["s"]
-			);
-		}
-		$data["starting_time"] = $this->object->getStartingTime();
-		$data["ending_time"] = $this->object->getEndingTime();
-		
-		$this->tpl->setCurrentBlock("starting_time");
-		$this->tpl->setVariable("TEXT_STARTING_TIME", $this->lng->txt("tst_starting_time"));
-		if (!$data["starting_time"])
-		{
-			$date_input = ilUtil::makeDateSelect("starting_date");
-			$time_input = ilUtil::makeTimeSelect("starting_time");
-		}
-		else
-		{
-			preg_match("/(\d{4})(\d{2})(\d{2})(\d{2})(\d{2})(\d{2})/", $data["starting_time"], $matches);
-			$date_input = ilUtil::makeDateSelect("starting_date", $matches[1], sprintf("%d", $matches[2]), sprintf("%d", $matches[3]));
-			$time_input = ilUtil::makeTimeSelect("starting_time", true, sprintf("%d", $matches[4]), sprintf("%d", $matches[5]), sprintf("%d", $matches[6]));
-		}
-		$this->tpl->setVariable("IMG_STARTING_TIME_CALENDAR", ilUtil::getImagePath("calendar.png"));
-		$this->tpl->setVariable("TXT_STARTING_TIME_CALENDAR", $this->lng->txt("open_calendar"));
-		$this->tpl->setVariable("TXT_ENABLED", $this->lng->txt("enabled"));
-		if ($data["starting_time"])
-		{
-			$this->tpl->setVariable("CHECKED_STARTING_TIME", " checked=\"checked\"");
-		}
-		$this->tpl->setVariable("INPUT_STARTING_TIME", $this->lng->txt("date") . ": " . $date_input . $this->lng->txt("time") . ": " . $time_input);
-		$this->tpl->parseCurrentBlock();
-
-		$this->tpl->setCurrentBlock("ending_time");
-		$this->tpl->setVariable("TEXT_ENDING_TIME", $this->lng->txt("tst_ending_time"));
-		if (!$data["ending_time"])
-		{
-			$date_input = ilUtil::makeDateSelect("ending_date");
-			$time_input = ilUtil::makeTimeSelect("ending_time");
-		}
-		else
-		{
-			preg_match("/(\d{4})(\d{2})(\d{2})(\d{2})(\d{2})(\d{2})/", $data["ending_time"], $matches);
-			$date_input = ilUtil::makeDateSelect("ending_date", $matches[1], sprintf("%d", $matches[2]), sprintf("%d", $matches[3]));
-			$time_input = ilUtil::makeTimeSelect("ending_time", true, sprintf("%d", $matches[4]), sprintf("%d", $matches[5]), sprintf("%d", $matches[6]));
-		}
-		$this->tpl->setVariable("IMG_ENDING_TIME_CALENDAR", ilUtil::getImagePath("calendar.png"));
-		$this->tpl->setVariable("TXT_ENDING_TIME_CALENDAR", $this->lng->txt("open_calendar"));
-		$this->tpl->setVariable("TXT_ENABLED", $this->lng->txt("enabled"));
-		if ($data["ending_time"])
-		{
-			$this->tpl->setVariable("CHECKED_ENDING_TIME", " checked=\"checked\"");
-		}
-		$this->tpl->setVariable("INPUT_ENDING_TIME", $this->lng->txt("date") . ": " . $date_input . $this->lng->txt("time") . ": " . $time_input);
-		$this->tpl->parseCurrentBlock();
-
-		$this->tpl->setCurrentBlock("adm_content");
-		$this->tpl->setVariable("ACTION_PROPERTIES", $this->ctrl->getFormAction($this));
-		if ($ilAccess->checkAccess("write", "", $this->ref_id)) 
-		{
-			$this->tpl->setVariable("SUBMIT_TYPE", $this->lng->txt("change"));
-		}
-		$this->tpl->setVariable("HEADING_GENERAL", $this->lng->txt("tst_general_properties"));
-		$this->tpl->setVariable("TEXT_ANONYMITY", $this->lng->txt("tst_anonymity"));
-		$this->tpl->setVariable("DESCRIPTION_ANONYMITY", $this->lng->txt("tst_anonymity_description"));
-		if ($data["anonymity"])
-		{
-			$this->tpl->setVariable("CHECKED_ANONYMITY", " checked=\"checked\"");
-		}
-		if ($total)
-		{
-			$this->tpl->setVariable("DISABLED_ANONYMITY", " disabled=\"disabled\"");
-		}
-
-		$this->tpl->setVariable("TEXT_SHOW_MARKER", $this->lng->txt("question_marking"));
-		$this->tpl->setVariable("TEXT_SHOW_MARKER_DESCRIPTION", $this->lng->txt("question_marking_description"));
-		if ($data["show_marker"])
-		{
-			$this->tpl->setVariable("CHECKED_SHOW_MARKER", " checked=\"checked\"");
-		}
-
-		$this->tpl->setVariable("TEXT_SHOW_CANCEL", $this->lng->txt("tst_show_cancel"));
-		$this->tpl->setVariable("TEXT_SHOW_CANCEL_DESCRIPTION", $this->lng->txt("tst_show_cancel_description"));
-		if ($data["show_cancel"])
-		{
-			$this->tpl->setVariable("CHECKED_SHOW_CANCEL", " checked=\"checked\"");
-		}
-		$this->tpl->setVariable("TEXT_INTRODUCTION", $this->lng->txt("tst_introduction"));
-		$this->tpl->setVariable("VALUE_INTRODUCTION", ilUtil::prepareFormOutput($this->object->prepareTextareaOutput($data["introduction"])));
-		$this->tpl->setVariable("SHOWINFO", $this->lng->txt("showinfo"));
-		$this->tpl->setVariable("SHOWINFO_DESC", $this->lng->txt("showinfo_desc"));
-		if ($this->object->getShowInfo())
-		{
-			$this->tpl->setVariable("CHECKED_SHOWINFO", " checked=\"checked\"");
-		}
-		$this->tpl->setVariable("FINAL_STATEMENT", $this->lng->txt("final_statement"));
-		$this->tpl->setVariable("VALUE_FINAL_STATEMENT", ilUtil::prepareFormOutput($this->object->prepareTextareaOutput($this->object->getFinalStatement())));
-		$this->tpl->setVariable("FINAL_STATEMENT_SHOW", $this->lng->txt("final_statement_show"));
-		$this->tpl->setVariable("FINAL_STATEMENT_SHOW_DESC", $this->lng->txt("final_statement_show_desc"));
-		if ($this->object->getShowFinalStatement())
-		{
-			$this->tpl->setVariable("CHECKED_FINAL_STATEMENT_SHOW", " checked=\"checked\"");
-		}
-		$this->tpl->setVariable("HEADING_SEQUENCE", $this->lng->txt("tst_sequence_properties"));
-		$this->tpl->setVariable("TEXT_POSTPONE", $this->lng->txt("tst_postpone"));
-		$this->tpl->setVariable("TEXT_POSTPONE_DESCRIPTION", $this->lng->txt("tst_postpone_description"));
-		if ($data["sequence_settings"] == 1) 
-		{
-			$this->tpl->setVariable("CHECKED_POSTPONE", " checked=\"checked\"");
-		}
-		$this->tpl->setVariable("TEXT_SHUFFLE_QUESTIONS", $this->lng->txt("tst_shuffle_questions"));
-		$this->tpl->setVariable("TEXT_SHUFFLE_QUESTIONS_DESCRIPTION", $this->lng->txt("tst_shuffle_questions_description"));
-		if ($this->object->getShuffleQuestions())
-		{
-			$this->tpl->setVariable("CHECKED_SHUFFLE_QUESTIONS", " checked=\"checked\"");
-		}
-
-		$this->tpl->setVariable("TEXT_SHOW_SUMMARY", $this->lng->txt("tst_show_summary"));
-		$this->tpl->setVariable("TEXT_SHOW_SUMMARY_DESCRIPTION", $this->lng->txt("tst_show_summary_description"));
-		$this->tpl->setVariable("TEXT_NO", $this->lng->txt("no"));
-		$this->tpl->setVariable("TEXT_YES", $this->lng->txt("tst_list_of_questions_yes"));
-		$this->tpl->setVariable("TEXT_LIST_OF_QUESTIONS_START", $this->lng->txt("tst_list_of_questions_start"));
-		$this->tpl->setVariable("TEXT_LIST_OF_QUESTIONS_END", $this->lng->txt("tst_list_of_questions_end"));
-		$this->tpl->setVariable("TEXT_LIST_OF_QUESTIONS_WITH_DESCRIPTION", $this->lng->txt("tst_list_of_questions_with_description"));
-		if ($this->object->getListOfQuestions())
-		{
-			$this->tpl->setVariable("CHECKED_LIST_OF_QUESTIONS_YES", " checked=\"checked\"");
-			if ($this->object->getListOfQuestionsStart())
-			{
-				$this->tpl->setVariable("CHECKED_LIST_OF_QUESTIONS_START", " checked=\"checked\"");
-			}
-			if ($this->object->getListOfQuestionsEnd())
-			{
-				$this->tpl->setVariable("CHECKED_LIST_OF_QUESTIONS_END", " checked=\"checked\"");
-			}
-			if ($this->object->getListOfQuestionsDescription())
-			{
-				$this->tpl->setVariable("CHECKED_LIST_OF_QUESTIONS_WITH_DESCRIPTION", " checked=\"checked\"");
-			}
-		}
-		else
-		{
-			$this->tpl->setVariable("CHECKED_LIST_OF_QUESTIONS_NO", " checked=\"checked\"");
-		}
-		
-		$this->tpl->setVariable("TEXT_USE_PREVIOUS_ANSWERS", $this->lng->txt("tst_use_previous_answers"));
-		$this->tpl->setVariable("TEXT_USE_PREVIOUS_ANSWERS_DESCRIPTION", $this->lng->txt("tst_use_previous_answers_description"));
-
-		$this->tpl->setVariable("FORCEJS", $this->lng->txt("forcejs"));
-		$this->tpl->setVariable("FORCEJS_SHORT", $this->lng->txt("forcejs_short"));
-		$this->tpl->setVariable("FORCEJS_DESC", $this->lng->txt("forcejs_desc"));
-		if ($this->object->getForceJS())
-		{
-			$this->tpl->setVariable("CHECKED_FORCEJS", " checked=\"checked\"");
-		}
-		$this->tpl->setVariable("TEXT_TITLE_OUTPUT", $this->lng->txt("tst_title_output"));
-		$this->tpl->setVariable("TEXT_TITLE_OUTPUT_FULL", $this->lng->txt("tst_title_output_full"));
-		$this->tpl->setVariable("TEXT_TITLE_OUTPUT_HIDE_POINTS", $this->lng->txt("tst_title_output_hide_points"));
-		$this->tpl->setVariable("TEXT_TITLE_OUTPUT_NO_TITLE", $this->lng->txt("tst_title_output_no_title"));
-		$this->tpl->setVariable("TEXT_TITLE_OUTPUT_DESCRIPTION", $this->lng->txt("tst_title_output_description"));
-		switch ($data["title_output"])
-		{
-			case 1:
-				$this->tpl->setVariable("CHECKED_TITLE_OUTPUT_HIDE_POINTS", " checked=\"checked\"");
-				break;
-			case 2:
-				$this->tpl->setVariable("CHECKED_TITLE_OUTPUT_NO_TITLE", " checked=\"checked\"");
-				break;
-			case 0:
-			default:
-				$this->tpl->setVariable("CHECKED_TITLE_OUTPUT_FULL", " checked=\"checked\"");
-				break;
-		}
-		if ($data["random_test"])
-		{
-			$data["use_previous_answers"] = 0;
-		}
-		if ($data["use_previous_answers"])
-		{
-			$this->tpl->setVariable("CHECKED_USE_PREVIOUS_ANSWERS",  " checked=\"checked\"");
-		}
-		if ($data["random_test"])
-		{
-			$this->tpl->setVariable("DISABLE_USE_PREVIOUS_ANSWERS",  " disabled=\"disabled\"");
-		}
-		$this->tpl->setVariable("HEADING_KIOSK", $this->lng->txt("kiosk"));
-		$this->tpl->setVariable("TEXT_KIOSK", $this->lng->txt("kiosk"));
-		if ($data["kiosk"]) 
-		{
-			$this->tpl->setVariable("CHECKED_KIOSK", " checked=\"checked\"");
-		}
-		$this->tpl->setVariable("TEXT_KIOSK_DESCRIPTION", $this->lng->txt("kiosk_description"));
-		$this->tpl->setVariable("TEXT_KIOSK_OPTIONS", $this->lng->txt("kiosk_options"));
-		$this->tpl->setVariable("TEXT_KIOSK_OPTIONS_DESCRIPTION", $this->lng->txt("kiosk_options_desc"));
-		$this->tpl->setVariable("TEXT_KIOSK_TITLE", $this->lng->txt("kiosk_show_title"));
-		if ($data["kiosk_title"]) 
-		{
-			$this->tpl->setVariable("CHECKED_KIOSK_TITLE", " checked=\"checked\"");
-		}
-		$this->tpl->setVariable("TEXT_KIOSK_PARTICIPANT", $this->lng->txt("kiosk_show_participant"));
-		if ($data["kiosk_participant"]) 
-		{
-			$this->tpl->setVariable("CHECKED_KIOSK_PARTICIPANT", " checked=\"checked\"");
-		}
-		$this->tpl->setVariable("HEADING_SESSION", $this->lng->txt("tst_session_settings"));
-		$this->tpl->setVariable("TEXT_NR_OF_TRIES", $this->lng->txt("tst_nr_of_tries"));
-		$this->tpl->setVariable("VALUE_NR_OF_TRIES", $data["nr_of_tries"]);
-		$this->tpl->setVariable("COMMENT_NR_OF_TRIES", $this->lng->txt("0_unlimited"));
-		$this->tpl->setVariable("TXT_ENABLED", $this->lng->txt("enabled"));
-		$this->tpl->setVariable("TXT_RESET_PROCESSING_TIME", $this->lng->txt("tst_reset_processing_time"));
-		$this->tpl->setVariable("TEXT_RESET_PROCESSING_TIME_DESC", $this->lng->txt("tst_reset_processing_time_desc"));
-		$this->tpl->setVariable("TEXT_PROCESSING_TIME", $this->lng->txt("tst_processing_time"));
-		$this->tpl->setVariable("TEXT_PROCESSING_TIME_DESC", $this->lng->txt("tst_processing_time_desc"));
-		$time_input = ilUtil::makeTimeSelect("processing_time", false, substr($data["processing_time"], 0, 2), substr($data["processing_time"], 3, 2), substr($data["processing_time"], 6, 2));
-		$this->tpl->setVariable("MAX_PROCESSING_TIME", $time_input . " (hh:mm:ss)");
-		if ($data["enable_processing_time"]) {
-			$this->tpl->setVariable("CHECKED_PROCESSING_TIME", " checked=\"checked\"");
-		}
-		if ($data["reset_processing_time"]) 
-		{
-			$this->tpl->setVariable("CHECKED_RESET_PROCESSING_TIME", " checked=\"checked\"");
-		}
-		$this->tpl->setVariable("TEXT_RANDOM_TEST", $this->lng->txt("tst_random_selection"));
-		$this->tpl->setVariable("TEXT_RANDOM_TEST_DESCRIPTION", $this->lng->txt("tst_random_test_description"));
-		if ($data["random_test"]) 
-		{
-			$this->tpl->setVariable("CHECKED_RANDOM_TEST", " checked=\"checked\"");
-		}
-
-		$this->tpl->setVariable("TEXT_MAX_ALLOWED_USERS", $this->lng->txt("tst_max_allowed_users"));
-		$this->tpl->setVariable("TEXT_ALLOWED_USERS", $this->lng->txt("tst_allowed_users"));
-		$this->tpl->setVariable("TEXT_ALLOWED_USERS_TIME_GAP", $this->lng->txt("tst_allowed_users_time_gap"));
-		if ($data["allowedUsers"] > 0)
-		{
-			$this->tpl->setVariable("VALUE_ALLOWED_USERS", " value=\"" . $data["allowedUsers"] . "\"");
-		}
-		$this->tpl->setVariable("TEXT_ALLOWED_USERS_TIME_GAP", $this->lng->txt("tst_allowed_users_time_gap"));
-		if ($data["allowedUsersTimeGap"] > 0)
-		{
-			$this->tpl->setVariable("VALUE_ALLOWED_USERS_TIME_GAP", " value=\"" . $data["allowedUsersTimeGap"] . "\"");
-		}
-		$this->tpl->setVariable("SECONDS", $this->lng->txt("seconds"));
-		$this->tpl->setVariable("TEXT_PASSWORD", $this->lng->txt("tst_password"));
-		$this->tpl->setVariable("TEXT_PASSWORD_DETAILS", $this->lng->txt("tst_password_details"));
-		if (strlen($data["password"]))
-		{
-			$this->tpl->setVariable("VALUE_PASSWORD", " value=\"". ilUtil::prepareFormOutput($data["password"])."\"");
-		}
-		if ($ilAccess->checkAccess("write", "", $this->ref_id)) 
-		{
-			$this->tpl->setVariable("SAVE", $this->lng->txt("save"));
-		}
-		if ($total > 0)
-		{
-			$this->tpl->setVariable("ENABLED_RANDOM_TEST", " disabled=\"disabled\"");
-		}
-		$this->tpl->parseCurrentBlock();
-	}
-
 	/**
 	* download file
 	*/
