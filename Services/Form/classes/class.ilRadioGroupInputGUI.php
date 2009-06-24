@@ -30,7 +30,7 @@ include_once("./Services/Form/classes/class.ilRadioOption.php");
 * @version $Id$
 * @ingroup	ServicesForm
 */
-class ilRadioGroupInputGUI extends ilFormPropertyGUI
+class ilRadioGroupInputGUI extends ilSubEnabledFormPropertyGUI
 {
 	protected $options = array();
 	protected $value;

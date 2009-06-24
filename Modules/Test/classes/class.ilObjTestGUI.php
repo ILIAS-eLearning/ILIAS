@@ -837,251 +837,6 @@ class ilObjTestGUI extends ilObjectGUI
 	}
 	
 	/**
-	* Save the form input of the properties form
-	*
-	* Save the form input of the properties form
-	*
-	* @access	public
-	*/
-	function savePropertiesObject()
-	{
-		$total = $this->object->evalTotalPersons();
-		$randomtest_switch = false;
-		// Check the values the user entered in the form
-		if (!$total)
-		{
-			if (!array_key_exists("tst_properties_confirmation", $_POST))
-			{
-				if (($this->object->isRandomTest()) && (count($this->object->getRandomQuestionpools()) > 0))
-				{
-					if (!$_POST["chb_random"])
-					{
-						// user tries to change from a random test with existing random question pools to a non random test
-						$this->confirmChangeProperties(0);
-						return;
-					}
-				}
-				if ((!$this->object->isRandomTest()) && (count($this->object->questions) > 0))
-				{
-					if ($_POST["chb_random"])
-					{
-						// user tries to change from a non random test with existing questions to a random test
-						$this->confirmChangeProperties(1);
-						return;
-					}
-				}
-			}
-
-			if (!strlen($_POST["chb_random"]))
-			{
-				$data["random_test"] = 0;
-			}
-			else
-			{
-				$data["random_test"] = ilUtil::stripSlashes($_POST["chb_random"]);
-			}
-		}
-		else
-		{
-			$data["random_test"] = $this->object->random_test;
-		}
-		if ($data["random_test"] != $this->object->random_test)
-		{
-			$randomtest_switch = true;
-		}
-		$data["anonymity"] = $_POST["anonymity"];
-		if ($total)
-		{
-			$data["anonymity"] = $this->object->getAnonymity();
-		}
-		$data["show_cancel"] = $_POST["show_cancel"];
-		$data["password"] = $_POST["password"];
-		$data["allowedUsers"] = $_POST["allowedUsers"];
-		$data["show_cancel"] = $_POST["chb_show_cancel"];
-		$data["show_marker"] = ($_POST["chb_show_marker"] ? 1 : 0);
-		$data["allowedUsersTimeGap"] = $_POST["allowedUsersTimeGap"];
-		include_once "./Services/AdvancedEditing/classes/class.ilObjAdvancedEditing.php";
-		$introduction = ilUtil::stripSlashes($_POST["introduction"], false, ilObjAdvancedEditing::_getUsedHTMLTagsAsString("assessment"));
-		$data["introduction"] = $introduction;
-		$finalstatement = ilUtil::stripSlashes($_POST["finalstatement"], false, ilObjAdvancedEditing::_getUsedHTMLTagsAsString("assessment"));
-		$data["finalstatement"] = $finalstatement;
-		$data["showfinalstatement"] = ($_POST["showfinalstatement"]) ? 1 : 0;
-		$data["showinfo"] = ($_POST["showinfo"]) ? 1 : 0;
-		$data["forcejs"] = ($_POST["forcejs"]) ? 1 : 0;
-		$data["customstyle"] = (strcmp($_POST["customstyle"], "0") == 0) ? "" : $_POST["customstyle"];
-		$data["sequence_settings"] = ilUtil::stripSlashes($_POST["chb_postpone"]);
-		$data["shuffle_questions"] = 0;
-		if ($_POST["chb_shuffle_questions"])
-		{
-			$data["shuffle_questions"] = $_POST["chb_shuffle_questions"];
-		}
-		$data["list_of_questions"] = 0;
-		if ($_POST["list_of_questions"] == 1)
-		{
-			$data["list_of_questions"] = 1;
-		}
-		$data["list_of_questions_start"] = 0;
-		if ($_POST["chb_list_of_questions_start"] == 1)
-		{
-			$data["list_of_questions_start"] = 1;
-		}
-		$data["list_of_questions_end"] = 0;
-		if ($_POST["chb_list_of_questions_end"] == 1)
-		{
-			$data["list_of_questions_end"] = 1;
-		}
-		$data["list_of_questions_with_description"] = 0;
-		if ($_POST["chb_list_of_questions_with_description"] == 1)
-		{
-			$data["list_of_questions_with_description"] = 1;
-		}
-		$data["nr_of_tries"] = ilUtil::stripSlashes($_POST["nr_of_tries"]);
-		$data["kiosk"] = ilUtil::stripSlashes($_POST["kiosk"]);
-		$data["kiosk_title"] = ilUtil::stripSlashes($_POST["kiosk_title"]);
-		$data["kiosk_participant"] = ilUtil::stripSlashes($_POST["kiosk_participant"]);
-		$data["processing_time"] = ilUtil::stripSlashes($_POST["processing_time"]);
-		if (!$_POST["chb_starting_time"])
-		{
-			$data["starting_time"] = "";
-		}
-		else
-		{
-			$data["starting_time"] = sprintf("%04d%02d%02d%02d%02d%02d",
-				$_POST["starting_date"]["y"],
-				$_POST["starting_date"]["m"],
-				$_POST["starting_date"]["d"],
-				$_POST["starting_time"]["h"],
-				$_POST["starting_time"]["m"],
-				0
-			);
-		}
-		if (!$_POST["chb_ending_time"])
-		{
-			$data["ending_time"] = "";
-		}
-		else
-		{
-			$data["ending_time"] = sprintf("%04d%02d%02d%02d%02d%02d",
-				$_POST["ending_date"]["y"],
-				$_POST["ending_date"]["m"],
-				$_POST["ending_date"]["d"],
-				$_POST["ending_time"]["h"],
-				$_POST["ending_time"]["m"],
-				0
-			);
-		}
-
-		if ($_POST["chb_processing_time"])
-		{
-			$data["enable_processing_time"] = "1";
-		}
-		else
-		{
-			$data["enable_processing_time"] = "0";
-		}
-		$data["reset_processing_time"] = "0";
-		if ($_POST["chb_processing_time"])
-		{
-			if ($_POST["chb_reset_processing_time"])
-			{
-				$data["reset_processing_time"] = "1";
-			}
-		}
-		if ($_POST["chb_use_previous_answers"])
-		{
-			$data["use_previous_answers"] = "1";
-		}
-		else
-		{
-			$data["use_previous_answers"] = "0";
-		}
-
-		$data["title_output"] = $_POST["title_output"];
-
-		if ($data["enable_processing_time"])
-		{
-			$data["processing_time"] = sprintf("%02d:%02d:%02d",
-				$_POST["processing_time"]["h"],
-				$_POST["processing_time"]["m"],
-				$_POST["processing_time"]["s"]
-			);
-		}
-		else
-		{
-			$proc_time = $this->object->getEstimatedWorkingTime();
-			$data["processing_time"] = sprintf("%02d:%02d:%02d",
-				$proc_time["h"],
-				$proc_time["m"],
-				$proc_time["s"]
-			);
-		}
-
-		if ($data["nr_of_tries"] == 1)
-		{
-			$data["pass_scoring"] = SCORE_LAST_PASS;
-		}
-		$this->object->setIntroduction($data["introduction"]);
-		$this->object->setFinalStatement($data["finalstatement"]);
-		$this->object->setShowFinalStatement($data["showfinalstatement"]);
-		$this->object->setShowInfo($data["showinfo"]);
-		$this->object->setForceJS($data["forcejs"]);
-		$this->object->setCustomStyle($data["customstyle"]);
-		$this->object->setSequenceSettings($data["sequence_settings"]);
-		$this->object->setAnonymity($data["anonymity"]);
-		$this->object->setShowCancel($data["show_cancel"]);
-		$this->object->setShowMarker($data["show_marker"]);
-		$this->object->setPassword($data["password"]);
-		$this->object->setAllowedUsers($data["allowedUsers"]);
-		$this->object->setAllowedUsersTimeGap($data["allowedUsersTimeGap"]);
-		$this->object->setKioskMode($data["kiosk"]);
-		$this->object->setShowKioskModeTitle($data["kiosk_title"]);
-		$this->object->setShowKioskModeParticipant($data["kiosk_participant"]);
-		$this->object->setNrOfTries($data["nr_of_tries"]);
-		$this->object->setStartingTime($data["starting_time"]);
-		$this->object->setEndingTime($data["ending_time"]);
-		$this->object->setProcessingTime($data["processing_time"]);
-		$this->object->setRandomTest($data["random_test"]);
-		$this->object->setEnableProcessingTime($data["enable_processing_time"]);
-		$this->object->setResetProcessingTime($data["reset_processing_time"]);
-		$this->object->setUsePreviousAnswers($data["use_previous_answers"]);
-		$this->object->setTitleOutput($data["title_output"]);
-		
-		if ($this->object->isRandomTest())
-		{
-			$this->object->setUsePreviousAnswers(0);
-			$this->object->setRandomTest(1);
-		}
-		if ($data["shuffle_questions"])
-		{
-			$this->object->setShuffleQuestions(TRUE);
-		}
-		else
-		{
-			$this->object->setShuffleQuestions(FALSE);
-		}
-		$this->object->setListOfQuestions($data["list_of_questions"]);
-		$this->object->setListOfQuestionsStart($data["list_of_questions_start"]);
-		$this->object->setListOfQuestionsEnd($data["list_of_questions_end"]);
-		$this->object->setListOfQuestionsDescription($data["list_of_questions_with_description"]);
-
-		$this->object->saveToDb(true);
-
-		ilUtil::sendSuccess($this->lng->txt("msg_obj_modified"));
-		if ($randomtest_switch)
-		{
-			if ($this->object->isRandomTest())
-			{
-				$this->object->removeNonRandomTestData();
-			}
-			else
-			{
-				$this->object->removeRandomTestData();
-			}
-		}
-		$this->ctrl->redirect($this, "properties");
-	}
-	
-	/**
 	* Save the form input of the scoring form
 	*
 	* Save the form input of the scoring form
@@ -1454,11 +1209,442 @@ class ilObjTestGUI extends ilObjectGUI
 	/**
 	* Display and fill the properties form of the test
 	*
+	* @access	public
+	*/
+	function propertiesObject($checkonly = FALSE)
+	{
+		$save = (strcmp($this->ctrl->getCmd(), "saveProperties") == 0) ? TRUE : FALSE;
+		$total = $this->object->evalTotalPersons();
+		$this->tpl->addJavascript("./Services/JavaScript/js/Basic.js");
+
+		include_once("./Services/Form/classes/class.ilPropertyFormGUI.php");
+		$form = new ilPropertyFormGUI();
+		$form->setFormAction($this->ctrl->getFormAction($this));
+		$form->setTableWidth("100%");
+		$form->setId("test_properties");
+
+		// general properties
+		$header = new ilFormSectionHeaderGUI();
+		$header->setTitle($this->lng->txt("tst_general_properties"));
+		$form->addItem($header);
+		
+		// anonymity
+		$anonymity = new ilCheckboxInputGUI($this->lng->txt("tst_anonymity"), "anonymity");
+		$anonymity->setValue(1);
+		if ($total) $anonymity->setDisabled(true);
+		$anonymity->setChecked($this->object->getAnonymity());
+		$anonymity->setInfo($this->lng->txt("tst_anonymity_description"));
+		$form->addItem($anonymity);
+
+		// random selection of questions
+		$random = new ilCheckboxInputGUI($this->lng->txt("tst_random_selection"), "random_test");
+		$random->setValue(1);
+		if ($total) $random->setDisabled(true);
+		$random->setChecked($this->object->isRandomTest());
+		$random->setInfo($this->lng->txt("tst_random_test_description"));
+		$form->addItem($random);
+
+		// introduction
+		$intro = new ilTextAreaInputGUI($this->lng->txt("tst_introduction"), "introduction");
+		$intro->setValue(ilUtil::prepareFormOutput($this->object->prepareTextareaOutput($this->object->getIntroduction())));
+		$intro->setRows(10);
+		$intro->setCols(80);
+		$intro->setUseRte(TRUE);
+		$intro->addPlugin("latex");
+		$intro->addButton("latex");
+		$intro->setRTESupport($this->object->getId(), "tst", "assessment");
+		// showinfo
+		$showinfo = new ilCheckboxInputGUI('', "showinfo");
+		$showinfo->setValue(1);
+		$showinfo->setChecked($this->object->getShowInfo());
+		$showinfo->setOptionTitle($this->lng->txt("showinfo"));
+		$showinfo->setInfo($this->lng->txt("showinfo_desc"));
+		$intro->addSubItem($showinfo);
+		$form->addItem($intro);
+
+		// final statement
+		$finalstatement = new ilTextAreaInputGUI($this->lng->txt("final_statement"), "finalstatement");
+		$finalstatement->setValue(ilUtil::prepareFormOutput($this->object->prepareTextareaOutput($this->object->getFinalStatement())));
+		$finalstatement->setRows(10);
+		$finalstatement->setCols(80);
+		$finalstatement->setUseRte(TRUE);
+		$finalstatement->addPlugin("latex");
+		$finalstatement->addButton("latex");
+		$finalstatement->setRTESupport($this->object->getId(), "tst", "assessment");
+		// show final statement
+		$showfinal = new ilCheckboxInputGUI('', "showfinalstatement");
+		$showfinal->setValue(1);
+		$showfinal->setChecked($this->object->getShowFinalStatement());
+		$showfinal->setChecked($this->object->getShowInfo());
+		$showfinal->setOptionTitle($this->lng->txt("final_statement_show"));
+		$showfinal->setInfo($this->lng->txt("final_statement_show_desc"));
+		$finalstatement->addSubItem($showfinal);
+		$form->addItem($finalstatement);
+
+		// sequence properties
+		$seqheader = new ilFormSectionHeaderGUI();
+		$seqheader->setTitle($this->lng->txt("tst_sequence_properties"));
+		$form->addItem($seqheader);
+
+		// postpone questions
+		$postpone = new ilCheckboxInputGUI($this->lng->txt("tst_postpone"), "chb_postpone");
+		$postpone->setValue(1);
+		$postpone->setChecked($this->object->getSequenceSettings());
+		$postpone->setInfo($this->lng->txt("tst_postpone_description"));
+		$form->addItem($postpone);
+		
+		// shuffle questions
+		$shuffle = new ilCheckboxInputGUI($this->lng->txt("tst_shuffle_questions"), "chb_shuffle_questions");
+		$shuffle->setValue(1);
+		$shuffle->setChecked($this->object->getShuffleQuestions());
+		$shuffle->setInfo($this->lng->txt("tst_shuffle_questions_description"));
+		$form->addItem($shuffle);
+
+		// show list of questions
+		$list_of_questions = new ilRadioGroupInputGUI($this->lng->txt("tst_show_summary"), "list_of_questions");
+		$list_of_questions->addOption(new ilRadioOption($this->lng->txt("no"), 0, ''));
+		$list_of_questions->addOption(new ilRadioOption($this->lng->txt("tst_list_of_questions_yes"), 1, ''));
+		$list_of_questions->setValue($this->object->getListOfQuestions());
+		$list_of_questions->setInfo($this->lng->txt("tst_show_summary_description"));
+
+		// show list of questions at the beginning
+		$list_start = new ilCheckboxInputGUI('', "chb_list_of_questions_start");
+		$list_start->setValue(1);
+		if ($this->object->getListOfQuestions()) $list_start->setChecked($this->object->getListOfQuestionsStart());
+		$list_start->setOptionTitle($this->lng->txt("tst_list_of_questions_start"));
+		$list_of_questions->addSubItem($list_start);
+		// show list of questions at the end
+		$list_end = new ilCheckboxInputGUI('', "chb_list_of_questions_end");
+		$list_end->setValue(1);
+		if ($this->object->getListOfQuestions()) $list_end->setChecked($this->object->getListOfQuestionsEnd());
+		$list_end->setOptionTitle($this->lng->txt("tst_list_of_questions_end"));
+		$list_of_questions->addSubItem($list_end);
+		// show question descriptions
+		$descriptions = new ilCheckboxInputGUI('', "chb_list_of_questions_with_description");
+		$descriptions->setValue(1);
+		if ($this->object->getListOfQuestions()) $descriptions->setChecked($this->object->getListOfQuestionsDescription());
+		$descriptions->setOptionTitle($this->lng->txt("tst_list_of_questions_with_description"));
+		$list_of_questions->addSubItem($descriptions);
+		$form->addItem($list_of_questions);
+
+		// show question marking
+		$marking = new ilCheckboxInputGUI($this->lng->txt("question_marking"), "chb_show_marker");
+		$marking->setValue(1);
+		$marking->setChecked($this->object->getShowMarker());
+		$marking->setInfo($this->lng->txt("question_marking_description"));
+		$form->addItem($marking);
+
+		// show suspend test
+		$cancel = new ilCheckboxInputGUI($this->lng->txt("tst_show_cancel"), "chb_show_cancel");
+		$cancel->setValue(1);
+		$cancel->setChecked($this->object->getShowCancel());
+		$cancel->setInfo($this->lng->txt("tst_show_cancel_description"));
+		$form->addItem($cancel);
+
+		// kiosk mode properties
+		$kioskheader = new ilFormSectionHeaderGUI();
+		$kioskheader->setTitle($this->lng->txt("kiosk"));
+		$form->addItem($kioskheader);
+
+		// kiosk mode
+		$kiosk = new ilCheckboxInputGUI($this->lng->txt("kiosk"), "kiosk");
+		$kiosk->setValue(1);
+		$kiosk->setChecked($this->object->getKioskMode());
+		$kiosk->setInfo($this->lng->txt("kiosk_description"));
+		$form->addItem($kiosk);
+
+		// kiosk mode options
+		$kiosktitle = new ilCheckboxInputGUI($this->lng->txt("kiosk_options"), "kiosk_title");
+		$kiosktitle->setValue(1);
+		$kiosktitle->setOptionTitle($this->lng->txt('kiosk_show_title'));
+		$kiosktitle->setChecked($this->object->getShowKioskModeTitle());
+		$form->addItem($kiosktitle);
+		$kioskparticipant = new ilCheckboxInputGUI('', "kiosk_participant");
+		$kioskparticipant->setValue(1);
+		$kioskparticipant->setOptionTitle($this->lng->txt('kiosk_show_participant'));
+		$kioskparticipant->setChecked($this->object->getShowKioskModeParticipant());
+		$kioskparticipant->setInfo($this->lng->txt("kiosk_options_desc"));
+		$form->addItem($kioskparticipant);
+
+		// session properties
+		$sessionheader = new ilFormSectionHeaderGUI();
+		$sessionheader->setTitle($this->lng->txt("tst_session_settings"));
+		$form->addItem($sessionheader);
+
+		// max. number of passes
+		$nr_of_tries = new ilTextInputGUI($this->lng->txt("tst_nr_of_tries"), "nr_of_tries");
+		$nr_of_tries->setSize(3);
+		$nr_of_tries->setValue($this->object->getNrOfTries());
+		$nr_of_tries->setRequired(true);
+		$nr_of_tries->setSuffix($this->lng->txt("0_unlimited"));
+		$form->addItem($nr_of_tries);
+
+		// enable max. processing time
+		$processing = new ilCheckboxInputGUI($this->lng->txt("tst_processing_time"), "chb_processing_time");
+		$processing->setValue(1);
+		$processing->setOptionTitle($this->lng->txt("enabled"));
+		$processing->setChecked($this->object->getEnableProcessingTime());
+		// max. processing time
+		$processingtime = new ilDurationInputGUI('', 'processing_time');
+		$processingtime->setShowMonths(false);
+		$processingtime->setShowDays(false);
+		$processingtime->setShowHours(true);
+		$processingtime->setShowMinutes(true);
+		$processingtime->setShowSeconds(true);
+		$processingtime->setInfo($this->lng->txt("tst_processing_time_desc"));
+		$processing->addSubItem($processingtime);
+		// reset max. processing time
+		$resetprocessing = new ilCheckboxInputGUI('', "chb_reset_processing_time");
+		$resetprocessing->setValue(1);
+		$resetprocessing->setOptionTitle($this->lng->txt("tst_reset_processing_time"));
+		$resetprocessing->setChecked($this->object->getResetProcessingTime());
+		$resetprocessing->setInfo($this->lng->txt("tst_reset_processing_time_desc"));
+		$processing->addSubItem($resetprocessing);
+		$form->addItem($processing);
+
+		// enable starting time
+		$enablestartingtime = new ilCheckboxInputGUI($this->lng->txt("tst_starting_time"), "chb_starting_time");
+		$enablestartingtime->setValue(1);
+		$enablestartingtime->setOptionTitle($this->lng->txt("enabled"));
+		$enablestartingtime->setChecked(strlen($this->object->getStartingTime()));
+		// starting time
+		$startingtime = new ilDateTimeInputGUI('', 'starting_time');
+		$startingtime->setShowDate(true);
+		$startingtime->setShowTime(true);
+		if (strlen($this->object->getStartingTime()))
+		{
+			$startingtime->setDate(new ilDateTime($this->object->getStartingTime(), IL_CAL_TIMESTAMP));
+		}
+		else
+		{
+			$startingtime->setDate(new ilDateTime(time(), IL_CAL_UNIX));
+		}
+		$enablestartingtime->addSubItem($startingtime);
+		$form->addItem($enablestartingtime);
+
+		// enable ending time
+		$enableendingtime = new ilCheckboxInputGUI($this->lng->txt("tst_ending_time"), "chb_ending_time");
+		$enableendingtime->setValue(1);
+		$enableendingtime->setOptionTitle($this->lng->txt("enabled"));
+		$enableendingtime->setChecked(strlen($this->object->getEndingTime()));
+		// ending time
+		$endingtime = new ilDateTimeInputGUI('', 'ending_time');
+		$endingtime->setShowDate(true);
+		$endingtime->setShowTime(true);
+		if (strlen($this->object->getEndingTime()))
+		{
+			$endingtime->setDate(new ilDateTime($this->object->getEndingTime(), IL_CAL_TIMESTAMP));
+		}
+		else
+		{
+			$endingtime->setDate(new ilDateTime(time(), IL_CAL_UNIX));
+		}
+		$enableendingtime->addSubItem($endingtime);
+		$form->addItem($enableendingtime);
+
+		// use previous answers
+		$prevanswers = new ilCheckboxInputGUI($this->lng->txt("tst_use_previous_answers"), "chb_use_previous_answers");
+		$prevanswers->setValue(1);
+		$prevanswers->setChecked($this->object->getUsePreviousAnswers());
+		$prevanswers->setInfo($this->lng->txt("tst_use_previous_answers_description"));
+		$form->addItem($prevanswers);
+
+		// force js
+		$forcejs = new ilCheckboxInputGUI($this->lng->txt("forcejs_short"), "forcejs");
+		$forcejs->setValue(1);
+		$forcejs->setChecked($this->object->getUsePreviousAnswers());
+		$forcejs->setOptionTitle($this->lng->txt("forcejs"));
+		$forcejs->setInfo($this->lng->txt("forcejs_desc"));
+		$form->addItem($forcejs);
+
+		// question title output
+		$title_output = new ilRadioGroupInputGUI($this->lng->txt("tst_title_output"), "title_output");
+		$title_output->addOption(new ilRadioOption($this->lng->txt("tst_title_output_full"), 0, ''));
+		$title_output->addOption(new ilRadioOption($this->lng->txt("tst_title_output_hide_points"), 1, ''));
+		$title_output->addOption(new ilRadioOption($this->lng->txt("tst_title_output_no_title"), 2, ''));
+		$title_output->setValue($this->object->getTitleOutput());
+		$title_output->setInfo($this->lng->txt("tst_title_output_description"));
+		$form->addItem($title_output);
+
+		// test password
+		$password = new ilTextInputGUI($this->lng->txt("tst_password"), "password");
+		$password->setSize(20);
+		$password->setValue($this->object->getPassword());
+		$password->setInfo($this->lng->txt("tst_password_details"));
+		$form->addItem($password);
+
+		// participants properties
+		$restrictions = new ilFormSectionHeaderGUI();
+		$restrictions->setTitle($this->lng->txt("tst_max_allowed_users"));
+		$form->addItem($restrictions);
+
+		// simultaneous users
+		$simul = new ilTextInputGUI($this->lng->txt("tst_allowed_users"), "allowedUsers");
+		$simul->setSize(3);
+		$simul->setValue(($this->object->getAllowedUsers()) ? $this->object->getAllowedUsers() : '');
+		$form->addItem($simul);
+
+		// idle time
+		$idle = new ilTextInputGUI($this->lng->txt("tst_allowed_users_time_gap"), "allowedUsersTimeGap");
+		$idle->setSize(4);
+		$idle->setSuffix($this->lng->txt("seconds"));
+		$idle->setValue(($this->object->getAllowedUsersTimeGap()) ? $this->object->getAllowedUsersTimeGap() : '');
+		$form->addItem($idle);
+
+		$form->addCommandButton("saveProperties", $this->lng->txt("save"));
+		$errors = false;
+		
+		if ($save)
+		{
+			$errors = !$form->checkInput();
+			$form->setValuesByPost();
+		}
+		if (!$checkonly) $this->tpl->setVariable("ADM_CONTENT", $form->getHTML());
+		return $errors;
+	}
+	
+	/**
+	* Save the form input of the properties form
+	*
+	* @access	public
+	*/
+	function savePropertiesObject()
+	{
+		if (!$this->propertiesObject(true))
+		{
+			$total = $this->object->evalTotalPersons();
+			$randomtest_switch = false;
+			// Check the values the user entered in the form
+			if (!$total)
+			{
+				if (!array_key_exists("tst_properties_confirmation", $_POST))
+				{
+					if (($this->object->isRandomTest()) && (count($this->object->getRandomQuestionpools()) > 0))
+					{
+						if (!$_POST["chb_random"])
+						{
+							// user tries to change from a random test with existing random question pools to a non random test
+							$this->confirmChangeProperties(0);
+							return;
+						}
+					}
+					if ((!$this->object->isRandomTest()) && (count($this->object->questions) > 0))
+					{
+						if ($_POST["chb_random"])
+						{
+							// user tries to change from a non random test with existing questions to a random test
+							$this->confirmChangeProperties(1);
+							return;
+						}
+					}
+				}
+
+				if (!strlen($_POST["chb_random"]))
+				{
+					$data["random_test"] = 0;
+				}
+				else
+				{
+					$data["random_test"] = ilUtil::stripSlashes($_POST["chb_random"]);
+				}
+			}
+			else
+			{
+				$data["random_test"] = $this->object->random_test;
+			}
+			if ($data["random_test"] != $this->object->random_test)
+			{
+				$randomtest_switch = true;
+			}
+			if (!$total)
+			{
+				$this->object->setAnonymity($_POST["anonymity"]);
+				$this->object->setRandomTest($data["random_test"]);
+			}
+			include_once "./Services/AdvancedEditing/classes/class.ilObjAdvancedEditing.php";
+			$this->object->setIntroduction(ilUtil::stripSlashes($_POST["introduction"], false, ilObjAdvancedEditing::_getUsedHTMLTagsAsString("assessment")));
+			$this->object->setShowInfo(($_POST["showinfo"]) ? 1 : 0);
+			$this->object->setFinalStatement(ilUtil::stripSlashes($_POST["finalstatement"], false, ilObjAdvancedEditing::_getUsedHTMLTagsAsString("assessment")));
+			$this->object->setShowFinalStatement(($_POST["showfinalstatement"]) ? 1 : 0);
+			$this->object->setSequenceSettings(($_POST["chb_postpone"]) ? 1 : 0);
+			$this->object->setShuffleQuestions(($_POST["chb_shuffle_questions"]) ? 1 : 0);
+			$this->object->setListOfQuestions($_POST["list_of_questions"]);
+			$this->object->setListOfQuestionsStart(($_POST["chb_list_of_questions_start"]) ? 1 : 0);
+			$this->object->setListOfQuestionsEnd(($_POST["chb_list_of_questions_end"]) ? 1 : 0);
+			$this->object->setListOfQuestionsDescription(($_POST["chb_list_of_questions_with_description"]) ? 1 : 0);
+			$this->object->setShowMarker(($_POST["chb_show_marker"]) ? 1 : 0);
+			$this->object->setShowCancel(($_POST["chb_show_cancel"]) ? 1 : 0);
+			$this->object->setKioskMode(($_POST["kiosk"]) ? 1 : 0);
+			$this->object->setShowKioskModeTitle(($_POST["kiosk_title"]) ? 1 : 0);
+			$this->object->setShowKioskModeParticipant(($_POST["kiosk_participant"]) ? 1 : 0);
+			$this->object->setNrOfTries($_POST["nr_of_tries"]);
+			$this->object->setEnableProcessingTime(($_POST["chb_processing_time"]) ? 1 : 0);
+			if ($this->object->getEnableProcessingTime())
+			{
+				$this->object->setProcessingTime(sprintf("%02d:%02d:%02d",
+					$_POST["processing_time"]["hh"],
+					$_POST["processing_time"]["mm"],
+					$_POST["processing_time"]["ss"]
+				));
+			}
+			else
+			{
+				$this->object->setProcessingTime('');
+			}
+			$this->object->setResetProcessingTime(($_POST["chb_reset_processing_time"]) ? 1 : 0);
+			if ($_POST['chb_starting_time'])
+			{
+				$this->object->setStartingTime(ilFormat::dateDB2timestamp($_POST['starting_time']['date'] . ' ' . $_POST['starting_time']['time']));
+			}
+			else
+			{
+				$this->object->setStartingTime('');
+			}
+			if ($_POST['chb_ending_time'])
+			{
+				$this->object->setEndingTime(ilFormat::dateDB2timestamp($_POST['ending_time']['date'] . ' ' . $_POST['ending_time']['time']));
+			}
+			else
+			{
+				$this->object->setEndingTime('');
+			}
+			$this->object->setUsePreviousAnswers(($_POST["chb_use_previous_answers"]) ? 1 : 0);
+			$this->object->setForceJS(($_POST["forcejs"]) ? 1 : 0);
+			$this->object->setTitleOutput($_POST["title_output"]);
+			$this->object->setPassword(ilUtil::stripSlashes($_POST["password"]));
+			$this->object->setAllowedUsers(ilUtil::stripSlashes($_POST["allowedUsers"]));
+			$this->object->setAllowedUsersTimeGap(ilUtil::stripSlashes($_POST["allowedUsersTimeGap"]));
+
+			if ($this->object->isRandomTest())
+			{
+				$this->object->setUsePreviousAnswers(0);
+			}
+
+			$this->object->saveToDb(true);
+
+			ilUtil::sendSuccess($this->lng->txt("msg_obj_modified"), true);
+			if ($randomtest_switch)
+			{
+				if ($this->object->isRandomTest())
+				{
+					$this->object->removeNonRandomTestData();
+				}
+				else
+				{
+					$this->object->removeRandomTestData();
+				}
+			}
+			$this->ctrl->redirect($this, 'properties');
+		}
+		$this->propertiesObject();
+	}
+	
+	/**
 	* Display and fill the properties form of the test
 	*
 	* @access	public
 	*/
-	function propertiesObject()
+	function propertiesObject2()
 	{
 		global $ilAccess;
 		if (!$ilAccess->checkAccess("write", "", $this->ref_id)) 

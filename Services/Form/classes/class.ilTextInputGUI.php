@@ -17,6 +17,7 @@ class ilTextInputGUI extends ilSubEnabledFormPropertyGUI implements ilTableFilte
 	protected $maxlength = 200;
 	protected $size = 40;
 	protected $validationRegexp;
+	protected $suffix;
 
 	// added for YUI autocomplete feature
 	protected $yui_dataSource;
@@ -127,6 +128,26 @@ class ilTextInputGUI extends ilSubEnabledFormPropertyGUI implements ilTableFilte
 		return $this->size;
 	}
 	
+	/**
+	* Set suffix.
+	*
+	* @param	string	$a_value	suffix
+	*/
+	function setSuffix($a_value)
+	{
+		$this->suffix = $a_value;
+	}
+
+	/**
+	* Get suffix.
+	*
+	* @return	string	suffix
+	*/
+	function getSuffix()
+	{
+		return $this->suffix;
+	}
+
 	/**
 	 * set input type
 	 *
@@ -293,6 +314,7 @@ class ilTextInputGUI extends ilSubEnabledFormPropertyGUI implements ilTableFilte
 		$tpl->setVariable("ID", $this->getFieldId());
 		$tpl->setVariable("SIZE", $this->getSize());
 		$tpl->setVariable("MAXLENGTH", $this->getMaxLength());
+		if (strlen($this->getSuffix())) $tpl->setVariable("INPUT_SUFFIX", $this->getSuffix());
 		if ($this->getDisabled())
 		{
 			$tpl->setVariable("DISABLED",
