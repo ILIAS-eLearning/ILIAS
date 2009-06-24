@@ -200,6 +200,7 @@ class ilInitialisation
 		// read path + command for third party tools from ilias.ini
 		define ("PATH_TO_CONVERT",$ilIliasIniFile->readVariable("tools","convert"));
 		define ("PATH_TO_ZIP",$ilIliasIniFile->readVariable("tools","zip"));
+		define ("PATH_TO_MKISOFS",$ilIliasIniFile->readVariable("tools","mkisofs"));
 		define ("PATH_TO_UNZIP",$ilIliasIniFile->readVariable("tools","unzip"));
 		define ("PATH_TO_JAVA",$ilIliasIniFile->readVariable("tools","java"));
 		define ("PATH_TO_HTMLDOC",$ilIliasIniFile->readVariable("tools","htmldoc"));

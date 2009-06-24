@@ -161,6 +161,8 @@ hide_clientlist#:#Client Selection is hidden for users.
 host#:#Host
 htmldoc_path#:#Path to HTMLdoc
 htmldoc_path_comment#:#Optional to generate PDF documents, e.g. '/your_path/htmldoc'.
+mkisofs_path#:#Path to mkisofs
+mkisofs_path_comment#:#Optional to create iso images.
 http_path#:#HTTP Path
 id#:#ID
 ilias_db_mode#:#ILIAS Database Mode
@@ -306,6 +308,7 @@ no_path_datadir#:#No data directory given.
 no_path_fop#:#No FOP path given.
 no_path_given#:#No path given.
 no_path_htmldoc#:#No HTMLdoc path given.
+no_path_mkisofs#:#No mkisofs path given.
 no_path_java#:#No Java path given.
 no_path_log#:#No log path given.
 no_path_unzip#:#No unzip path given.
@@ -336,6 +339,7 @@ path_not_set#:#Path not set.
 path_to_convert#:#Path to Convert
 path_to_fop#:#Path to FOP
 path_to_htmldoc#:#Path to HTMLdoc
+path_to_mkisofs#:#Path to mkisofs
 path_to_java#:#Path to Java
 path_to_unzip#:#Path to Unzip
 path_to_zip#:#Path to Zip

@@ -1,26 +1,7 @@
 <?php
-/*
-	+-----------------------------------------------------------------------------+
-	| ILIAS open source                                                           |
-	+-----------------------------------------------------------------------------+
-	| Copyright (c) 1998-2009 ILIAS open source, University of Cologne            |
-	|                                                                             |
-	| This program is free software; you can redistribute it and/or               |
-	| modify it under the terms of the GNU General Public License                 |
-	| as published by the Free Software Foundation; either version 2              |
-	| of the License, or (at your option) any later version.                      |
-	|                                                                             |
-	| This program is distributed in the hope that it will be useful,             |
-	| but WITHOUT ANY WARRANTY; without even the implied warranty of              |
-	| MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the               |
-	| GNU General Public License for more details.                                |
-	|                                                                             |
-	| You should have received a copy of the GNU General Public License           |
-	| along with this program; if not, write to the Free Software                 |
-	| Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA. |
-	+-----------------------------------------------------------------------------+
-*/
+/* Copyright (c) 1998-2009 ILIAS open source, Extended GPL, see docs/LICENSE */
 
+require_once "./classes/class.ilObjectGUI.php";
 
 /**
 * Class ilObjSystemFolderGUI
@@ -32,9 +13,6 @@
 *
 * @extends ilObjectGUI
 */
-
-require_once "./classes/class.ilObjectGUI.php";
-
 class ilObjSystemFolderGUI extends ilObjectGUI
 {
 	/**
@@ -757,6 +735,7 @@ return $this->showServerInfoObject();
 		$this->tpl->setVariable("TXT_UNZIP_PATH", $this->lng->txt("path_to_unzip"));
 		$this->tpl->setVariable("TXT_JAVA_PATH", $this->lng->txt("path_to_java"));
 		$this->tpl->setVariable("TXT_HTMLDOC_PATH", $this->lng->txt("path_to_htmldoc"));
+		$this->tpl->setVariable("TXT_MKISOFS_PATH", $this->lng->txt("path_to_mkisofs"));
 		$this->tpl->setVariable("TXT_LATEX_URL", $this->lng->txt("url_to_latex"));
 
 		// Cron
@@ -1081,6 +1060,7 @@ return $this->showServerInfoObject();
 		$this->tpl->setVariable("UNZIP_PATH",(PATH_TO_UNZIP) ? PATH_TO_UNZIP : $not_set);
 		$this->tpl->setVariable("JAVA_PATH",(PATH_TO_JAVA) ? PATH_TO_JAVA : $not_set);
 		$this->tpl->setVariable("HTMLDOC_PATH",(PATH_TO_HTMLDOC) ? PATH_TO_HTMLDOC : $not_set);
+		$this->tpl->setVariable("MKISOFS_PATH",(PATH_TO_MKISOFS) ? PATH_TO_MKISOFS : $not_set);
 		$this->tpl->setVariable("LATEX_URL",(URL_TO_LATEX) ? URL_TO_LATEX : $not_set);
 
 		// contact
@@ -1875,6 +1855,11 @@ return $this->showServerInfoObject();
 		// htmldoc
 		$ne = new ilNonEditableValueGUI($lng->txt("path_to_htmldoc"), "");
 		$ne->setValue((PATH_TO_HTMLDOC) ? PATH_TO_HTMLDOC : $not_set);
+		$this->form->addItem($ne);
+
+		// mkisofs
+		$ne = new ilNonEditableValueGUI($lng->txt("path_to_mkisofs"), "");
+		$ne->setValue((PATH_TO_MKISOFS) ? PATH_TO_MKISOFS : $not_set);
 		$this->form->addItem($ne);
 
 		// latex
