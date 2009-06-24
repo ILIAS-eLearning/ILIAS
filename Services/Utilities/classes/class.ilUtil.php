@@ -1783,16 +1783,24 @@ class ilUtil
 	*/
 	function html2pdf($html, $pdf_file)
 	{
-		//global $ilias;
-
 		$html_file = str_replace(".pdf",".html",$pdf_file);
 
 		$fp = fopen( $html_file ,"wb");
 		fwrite($fp, $html);
 		fclose($fp);
 
+		ilUtil::htmlfile2pdf($html_file,$pdf_file);
+	}
+
+	/**
+	*	produce pdf out of html with htmldoc
+	*   @param  html    String  HTML-Data given to create pdf-file
+	*   @param  pdf_file    String  Filename to save pdf in
+	*/
+	function htmlfile2pdf($html_file, $pdf_file)
+	{
+
 		$htmldoc_path = PATH_TO_HTMLDOC;
-		//$htmldoc_path = $ilias->getSetting("htmldoc_path");
 
 		$htmldoc = $htmldoc_path." ";
 		$htmldoc .= "--no-toc ";
