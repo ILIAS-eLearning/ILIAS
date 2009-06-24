@@ -1798,7 +1798,7 @@ class ilObjiLincCourseGUI extends ilContainerGUI
 	public function __setSubTabs($a_tab)
 	{
 		global $rbacsystem, $ilUser;
-	
+
 		switch($a_tab)
 		{
 			case 'members':
@@ -1958,6 +1958,11 @@ class ilObjiLincCourseGUI extends ilContainerGUI
 	    
 	    $this->tpl->show();
 	    exit();
+	}
+	
+	public function addStandardContainerSubTabs()
+	{
+		
 	}
 	
 	public function showAdministrationPanel($tpl)	
