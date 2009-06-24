@@ -144,7 +144,7 @@ class ilMDUtilSelect
 
 		$items = array('Author','Publisher','Unknown','Initiator','Terminator','Editor','GraphicalDesigner','TechnicalImplementer',
 					   'ContentProvider','TechnicalValidator','EducationalValidator','ScriptWriter','InstructionalDesigner',
-					   'SubjectMatterExpert','Creator','Validator');
+					   'SubjectMatterExpert','Creator','Validator','PointOfContact');
 		
 		foreach($prepend as $value => $translation)
 		{

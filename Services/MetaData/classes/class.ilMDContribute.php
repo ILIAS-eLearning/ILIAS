@@ -93,6 +93,7 @@ class ilMDContribute extends ilMDBase
 			case 'SubjectMatterExpert':
 			case 'Creator':
 			case 'Validator':
+			case 'PointOfContact':
 				$this->role = $a_role;
 				return true;
 
