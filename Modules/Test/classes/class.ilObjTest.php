@@ -6856,6 +6856,8 @@ function loadQuestions($active_id = "", $pass = NULL)
 */
 	function &getUserData($ids)
 	{
+		global $ilDB;
+		
 		if (!is_array($ids) || count($ids) ==0) return array();
 
 		if ($this->getAnonymity())

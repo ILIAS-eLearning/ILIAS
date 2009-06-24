@@ -56,7 +56,6 @@ class ilTestQuestionsTableGUI extends ilTable2GUI
 	
 		$this->setWriteAccess($a_write_access);
 		$this->setCheckedMove($a_checked_move);
-		$this->setLimit(9999);
 		
 		$this->setFormName('questionbrowser');
 		$this->setStyle('table', 'fullwidth');
