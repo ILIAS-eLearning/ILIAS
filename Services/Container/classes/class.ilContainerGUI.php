@@ -462,7 +462,7 @@ class ilContainerGUI extends ilObjectGUI implements ilDesktopItemHandling
 					
 				if($_SESSION["clipboard"]["cmd"] == "link")
 				{					
-					$GLOBALS["tpl"]->addAdminPanelCommand("pasteIntoMultipleObjects",
+					$GLOBALS["tpl"]->addAdminPanelCommand("initAndDisplayLinkIntoMultipleObjects",
 						$this->lng->txt("paste_clipboard_items_into_multiple_objects"));
 				}
 				
@@ -1517,7 +1517,7 @@ class ilContainerGUI extends ilObjectGUI implements ilDesktopItemHandling
 		if(!is_array($_POST['nodes']) || empty($_POST['nodes']))
 		{
 			ilUtil::sendFailure($this->lng->txt('select_at_least_one_object'));
-			$this->pasteIntoMultipleObjectsObject();
+			$this->displayPasteTreeObject();
 			return;
 		}	
 		
@@ -1589,7 +1589,7 @@ class ilContainerGUI extends ilObjectGUI implements ilDesktopItemHandling
 		if($error != '')
 		{
 			ilUtil::sendFailure($error);
-			$this->pasteIntoMultipleObjectsObject();
+			$this->displayPasteTreeObject();
 			return;
 		}
 
@@ -1736,55 +1736,61 @@ class ilContainerGUI extends ilObjectGUI implements ilDesktopItemHandling
 		$this->ctrl->returnToParent($this);
 	}
 	
-	public function pasteIntoMultipleObjectsObject()
-	{		
-		global $ilTabs;
+	public function initAndDisplayLinkIntoMultipleObjectsObject()
+	{
+		global $tree;
+		
+		// empty session on init
+		$_SESSION['paste_repexpand'] = array();
+		
+		// copy opend nodes from repository explorer		
+		$_SESSION['paste_repexpand'] = is_array($_SESSION['repexpand']) ? $_SESSION['repexpand'] : array();
+		
+		// open current position
+		$path = $tree->getPathId((int)$_GET['ref_id']);
+		foreach((array)$path as $node_id)
+		{
+			if(!in_array($node_id, $_SESSION['paste_repexpand']))
+				$_SESSION['paste_repexpand'][] = $node_id;
+		}
+		
+		return $this->displayPasteTreeObject();
+	}
+	
+	public function displayPasteTreeObject()
+	{
+		global $ilTabs, $ilToolbar;
 	
 		$ilTabs->setTabActive('view_content');
 		
 		if(!in_array($_SESSION['clipboard']['cmd'], array('link')))
 		{
-			$message = get_class($this)."::pasteIntoMultipleObjectsObject(): cmd was not 'link'; may be a hack attempt!";
+			$message = get_class($this)."::displayPasteTree(): cmd was not 'link'; may be a hack attempt!";
 			$this->ilias->raiseError($message, $this->ilias->error_obj->WARNING);
 		}
 
 		$this->tpl->addBlockfile('ADM_CONTENT', 'adm_content', 'tpl.paste_into_multiple_objects.html');	
 		
 		include_once 'classes/class.ilPasteMultipleItemsExplorer.php';
-		$exp = new ilPasteMultipleItemsExplorer('repository.php?cmd=goto');	
-		$exp->setExpandTarget($this->ctrl->getLinkTarget($this, 'pasteIntoMultipleObjects'));
-		$exp->setTargetGet('ref_id');		
-		$exp->addFilter('root');
-		$exp->addFilter('icrs');
-		$exp->addFilter('crs');				
-		$exp->addFilter('grp');
-		$exp->addFilter('cat');		
-		$exp->addFilter('fold');
-		
-		$exp->addCheckboxForType('icrs');
-		$exp->addCheckboxForType('crs');
-		$exp->addCheckboxForType('grp');
-		$exp->addCheckboxForType('cat');
-		$exp->addCheckboxForType('fold');		
+		$exp = new ilPasteMultipleItemsExplorer('repository.php?cmd=goto', 'paste_repexpand');	
+		$exp->setExpandTarget($this->ctrl->getLinkTarget($this, 'displayPasteTree'));
+		$exp->setTargetGet('ref_id');				
 		$exp->setCheckboxPostVar('nodes[]');
 		is_array($_POST['nodes']) ? $exp->setCheckedItems((array)$_POST['nodes']) : $exp->setCheckedItems(array());
 
-		if($_GET['repexpand'] == '')
+		if($_GET['paste_repexpand'] == '')
 		{
 			$expanded = $this->tree->readRootId();
 		}
 		else
 		{
-			$expanded = $_GET['repexpand'];
+			$expanded = $_GET['paste_repexpand'];
 		}
 		
 		$this->tpl->setVariable('FORM_TARGET', '_self');
 		$this->tpl->setVariable('FORM_ACTION', $this->ctrl->getFormAction($this, 'performPasteIntoMultipleObjects'));
 
 		$exp->setExpand($expanded);
-
-		$exp->forceExpandAll(true, false);
-		
 		// build html-output
 		$exp->setOutput(0);
 		$output = $exp->getOutput();
@@ -1793,9 +1799,8 @@ class ilContainerGUI extends ilObjectGUI implements ilDesktopItemHandling
 		
 		$this->tpl->setVariable('CMD_SUBMIT', 'performPasteIntoMultipleObjects');
 		$this->tpl->setVariable('TXT_SUBMIT', $this->lng->txt('paste'));
-				
-		$this->tpl->setVariable('BACK_LINK', $this->ctrl->getParentReturnByClass(get_class($this)));
-		$this->tpl->setVariable('TXT_BACK_LINK', $this->lng->txt('back'));
+		
+		$ilToolbar->addButton($this->lng->txt('back'), $this->ctrl->getParentReturnByClass(get_class($this)));
 	}
 	
 
