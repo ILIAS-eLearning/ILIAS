@@ -1140,30 +1140,23 @@ class ilObjTestGUI extends ilObjectGUI
 		$form->addItem($shuffle);
 
 		// show list of questions
-		$list_of_questions = new ilRadioGroupInputGUI($this->lng->txt("tst_show_summary"), "list_of_questions");
-		$list_of_questions->addOption(new ilRadioOption($this->lng->txt("no"), 0, ''));
-		$list_of_questions->addOption(new ilRadioOption($this->lng->txt("tst_list_of_questions_yes"), 1, ''));
-		$list_of_questions->setValue($this->object->getListOfQuestions());
+		$list_of_questions = new ilCheckboxInputGUI($this->lng->txt("tst_show_summary"), "list_of_questions");
+		$list_of_questions->setOptionTitle($this->lng->txt("tst_show_summary"));
+		$list_of_questions->setValue(1);
+		$list_of_questions->setChecked($this->object->getListOfQuestions());
 		$list_of_questions->setInfo($this->lng->txt("tst_show_summary_description"));
 
-		// show list of questions at the beginning
-		$list_start = new ilCheckboxInputGUI('', "chb_list_of_questions_start");
-		$list_start->setValue(1);
-		if ($this->object->getListOfQuestions()) $list_start->setChecked($this->object->getListOfQuestionsStart());
-		$list_start->setOptionTitle($this->lng->txt("tst_list_of_questions_start"));
-		$list_of_questions->addSubItem($list_start);
-		// show list of questions at the end
-		$list_end = new ilCheckboxInputGUI('', "chb_list_of_questions_end");
-		$list_end->setValue(1);
-		if ($this->object->getListOfQuestions()) $list_end->setChecked($this->object->getListOfQuestionsEnd());
-		$list_end->setOptionTitle($this->lng->txt("tst_list_of_questions_end"));
-		$list_of_questions->addSubItem($list_end);
-		// show question descriptions
-		$descriptions = new ilCheckboxInputGUI('', "chb_list_of_questions_with_description");
-		$descriptions->setValue(1);
-		if ($this->object->getListOfQuestions()) $descriptions->setChecked($this->object->getListOfQuestionsDescription());
-		$descriptions->setOptionTitle($this->lng->txt("tst_list_of_questions_with_description"));
-		$list_of_questions->addSubItem($descriptions);
+		$list_of_questions_options = new ilCheckboxGroupInputGUI('', "list_of_questions_options");
+		$list_of_questions_options->addOption(new ilCheckboxOption($this->lng->txt("tst_list_of_questions_start"), 'chb_list_of_questions_start', ''));
+		$list_of_questions_options->addOption(new ilCheckboxOption($this->lng->txt("tst_list_of_questions_end"), 'chb_list_of_questions_end', ''));
+		$list_of_questions_options->addOption(new ilCheckboxOption($this->lng->txt("tst_list_of_questions_with_description"), 'chb_list_of_questions_with_description', ''));
+		$values = array();
+		if ($this->object->getListOfQuestionsStart()) array_push($values, 'chb_list_of_questions_start');
+		if ($this->object->getListOfQuestionsEnd()) array_push($values, 'chb_list_of_questions_end');
+		if ($this->object->getListOfQuestionsDescription()) array_push($values, 'chb_list_of_questions_with_description');
+		$list_of_questions_options->setValue($values);
+
+		$list_of_questions->addSubItem($list_of_questions_options);
 		$form->addItem($list_of_questions);
 
 		// show question marking
@@ -1190,20 +1183,19 @@ class ilObjTestGUI extends ilObjectGUI
 		$kiosk->setValue(1);
 		$kiosk->setChecked($this->object->getKioskMode());
 		$kiosk->setInfo($this->lng->txt("kiosk_description"));
-		$form->addItem($kiosk);
 
 		// kiosk mode options
-		$kiosktitle = new ilCheckboxInputGUI($this->lng->txt("kiosk_options"), "kiosk_title");
-		$kiosktitle->setValue(1);
-		$kiosktitle->setOptionTitle($this->lng->txt('kiosk_show_title'));
-		$kiosktitle->setChecked($this->object->getShowKioskModeTitle());
-		$form->addItem($kiosktitle);
-		$kioskparticipant = new ilCheckboxInputGUI('', "kiosk_participant");
-		$kioskparticipant->setValue(1);
-		$kioskparticipant->setOptionTitle($this->lng->txt('kiosk_show_participant'));
-		$kioskparticipant->setChecked($this->object->getShowKioskModeParticipant());
-		$kioskparticipant->setInfo($this->lng->txt("kiosk_options_desc"));
-		$form->addItem($kioskparticipant);
+		$kiosktitle = new ilCheckboxGroupInputGUI($this->lng->txt("kiosk_options"), "kiosk_options");
+		$kiosktitle->addOption(new ilCheckboxOption($this->lng->txt("kiosk_show_title"), 'kiosk_title', ''));
+		$kiosktitle->addOption(new ilCheckboxOption($this->lng->txt("kiosk_show_participant"), 'kiosk_participant', ''));
+		$values = array();
+		if ($this->object->getShowKioskModeTitle()) array_push($values, 'kiosk_title');
+		if ($this->object->getShowKioskModeParticipant()) array_push($values, 'kiosk_participant');
+		$kiosktitle->setValue($values);
+		$kiosktitle->setInfo($this->lng->txt("kiosk_options_desc"));
+		$kiosk->addSubItem($kiosktitle);
+
+		$form->addItem($kiosk);
 
 		// session properties
 		$sessionheader = new ilFormSectionHeaderGUI();
@@ -1418,14 +1410,14 @@ class ilObjTestGUI extends ilObjectGUI
 			$this->object->setSequenceSettings(($_POST["chb_postpone"]) ? 1 : 0);
 			$this->object->setShuffleQuestions(($_POST["chb_shuffle_questions"]) ? 1 : 0);
 			$this->object->setListOfQuestions($_POST["list_of_questions"]);
-			$this->object->setListOfQuestionsStart(($_POST["chb_list_of_questions_start"]) ? 1 : 0);
-			$this->object->setListOfQuestionsEnd(($_POST["chb_list_of_questions_end"]) ? 1 : 0);
-			$this->object->setListOfQuestionsDescription(($_POST["chb_list_of_questions_with_description"]) ? 1 : 0);
+			$this->object->setListOfQuestionsStart((in_array('chb_list_of_questions_start', $_POST["list_of_questions_options"])) ? 1 : 0);
+			$this->object->setListOfQuestionsEnd((in_array('chb_list_of_questions_end', $_POST["list_of_questions_options"])) ? 1 : 0);
+			$this->object->setListOfQuestionsDescription((in_array('chb_list_of_questions_with_description', $_POST["list_of_questions_options"])) ? 1 : 0);
 			$this->object->setShowMarker(($_POST["chb_show_marker"]) ? 1 : 0);
 			$this->object->setShowCancel(($_POST["chb_show_cancel"]) ? 1 : 0);
 			$this->object->setKioskMode(($_POST["kiosk"]) ? 1 : 0);
-			$this->object->setShowKioskModeTitle(($_POST["kiosk_title"]) ? 1 : 0);
-			$this->object->setShowKioskModeParticipant(($_POST["kiosk_participant"]) ? 1 : 0);
+			$this->object->setShowKioskModeTitle((in_array('kiosk_title', $_POST["kiosk_options"])) ? 1 : 0);
+			$this->object->setShowKioskModeParticipant((in_array('kiosk_participant', $_POST["kiosk_options"])) ? 1 : 0);
 			$this->object->setNrOfTries($_POST["nr_of_tries"]);
 			$this->object->setEnableProcessingTime(($_POST["chb_processing_time"]) ? 1 : 0);
 			if ($this->object->getEnableProcessingTime())
