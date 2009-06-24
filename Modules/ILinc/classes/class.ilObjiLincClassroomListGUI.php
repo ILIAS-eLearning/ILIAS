@@ -43,7 +43,6 @@ class ilObjiLincClassroomListGUI extends ilObjectListGUI
 	*/
 	function ilObjiLincClassroomListGUI()
 	{
-		$this->ilinc_crs_id = $_GET['ref_id'];
 		$this->ilObjectListGUI();
 	}
 
@@ -82,11 +81,20 @@ class ilObjiLincClassroomListGUI extends ilObjectListGUI
 		$this->adm_commands_included = false;
 
 		// initialization
-		$this->tpl =& new ilTemplate ("tpl.container_list_item.html", true, true);
+		$this->tpl = new ilTemplate ("tpl.container_list_item.html", true, true);
+		$this->ctpl = new ilTemplate ("tpl.container_list_item_commands.html", true, true);
 		$this->initItem($a_icrs_ref_id, $a_icla_id, $a_title, $a_description);
 
 		// commands
 		$this->insertCommands();
+		
+		if($this->getCommandsStatus())
+		{
+			if(!$this->getSeparateCommands())
+			{
+				$this->tpl->setVariable("COMMANDS", $this->ctpl->get());
+			}
+		}
 
 		// insert title and describtion
 		$this->insertTitle();
@@ -203,72 +211,7 @@ class ilObjiLincClassroomListGUI extends ilObjectListGUI
 		}
 
 		return $ref_commands;
-	}
-	
-	/**
-	* insert delete command
-	*
-	* @access	private
-	* @param	object		$a_tpl		template object
-	* @param	int			$a_ref_id	item reference id
-	*/
-	/*
-	function insertDeleteCommand()
-	{
-		if (true)  // query here docent flag
-		{
-			$this->ctrl->setParameter($this->container_obj, "ref_id",
-				$this->container_obj->object->getRefId());
-			$this->ctrl->setParameter($this->container_obj, "class_id", $this->ref_id);
-			$cmd_link = $this->ctrl->getLinkTarget($this->container_obj, "removeRoom");
-			$this->insertCommand($cmd_link, $this->lng->txt("delete"));
-			$this->adm_commands_included = false;
-		}
-	}*/
-	
-	/**
-	* insert all commands into html code
-	*
-	* @access	private
-	* @param	object		$a_tpl		template object
-	* @param	int			$a_ref_id	item reference id
-	*/
-	function insertCommands()
-	{
-		$this->ctrl->setParameterByClass($this->gui_class_name, "ref_id", $this->ref_id);
-
-		$commands = $this->getCommands($this->ref_id, $this->obj_id);
-
-		$this->default_command = false;
-		
-		foreach($commands as $command)
-		{
-			if ($command["granted"] == true )
-			{
-				if (!$command["default"] === true)
-				{
-					$cmd_link = $command["link"];
-					$this->insertCommand($cmd_link, $this->lng->txt($command["lang_var"]),
-						$command["frame"]);
-				}
-				else
-				{
-					// this is view/show most times and will be linked
-					// with the item title in insertTitle
-					$this->default_command = $command;
-				}
-			}
-		}
-
-		if (!$this->isMode(IL_LIST_AS_TRIGGER))
-		{
-			// delete
-			if ($this->delete_enabled)
-			{
-				$this->insertDeleteCommand();
-			}
-		}
-	}
+	}	
 	
 	/**
 	* Get command link url.
@@ -283,12 +226,9 @@ class ilObjiLincClassroomListGUI extends ilObjectListGUI
 	* @return	string		command link url
 	*/
 	function getCommandLink($a_cmd)
-	{
-		// don't use ctrl here in the moment
-		//return 'repository.php?ref_id='.$this->ilinc_crs_id.'&class_id='.$this->ref_id.'&cmd='.$a_cmd;
-		
+	{		
 		// pass current class_id as ref_id
-		$this->ctrl->setParameterByClass($this->gui_class_name,"ref_id",$this->ilinc_crs_id);
+		$this->ctrl->setParameterByClass($this->gui_class_name,"ref_id",$_GET['ref_id']);
 		$this->ctrl->setParameterByClass($this->gui_class_name,"class_id",$this->ref_id);
 		
 		// separate method for this line
