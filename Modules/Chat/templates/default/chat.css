@@ -72,7 +72,7 @@ body {
 	font-weight: normal;
 }
 
-.tblrow span, .tblrow img, .tblrowmarked span, .tblrowmarked img {
+.il_chat_list span, .il_chat_list img, .tblrow span, .tblrow img, .tblrowmarked span, .tblrowmarked img {
 	cursor: pointer;
 }
 
