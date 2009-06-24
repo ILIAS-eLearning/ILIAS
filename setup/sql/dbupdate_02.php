@@ -13022,3 +13022,154 @@ if(!$ilDB->tableColumnExists('usr_session', 'last_remind_ts'))
 	$ilDB->addTableColumn('usr_session', 'last_remind_ts', $atts);
 }
 ?>
+<#2498>
+<?php
+if($ilDB->tableExists('tmp_mail_migration'))
+{
+	$ilDB->dropTable('tmp_mail_migration');
+}
+
+if(!$ilDB->tableExists('tmp_mail_migration'))
+{
+	$fields = array(
+		'mail_id' => array(
+			'type' => 'integer',
+			'length' => 4,
+			'notnull' => true
+		),
+		'mail_path' => array(
+			'type' => 'text',
+			'length' => 50,
+			'notnull' => true
+		),
+		'mail_passed' => array(
+			'type' => 'integer',
+			'length' => 1,
+			'notnull' => true
+		)
+	);
+	$ilDB->createTable('tmp_mail_migration', $fields);
+	$ilDB->addPrimaryKey('tmp_mail_migration', array('mail_id'));
+	$ilDB->addIndex('tmp_mail_migration', array('mail_path', 'mail_passed'), 'tmm');
+}
+?>
+<#2499>
+<?php
+$update_step = 2498;
+
+include_once('Services/Migration/DBUpdate_'.$update_step.'/classes/class.ilUpdateUtilsMailMigration.php');
+include_once('Services/Migration/DBUpdate_'.$update_step.'/classes/class.ilFileSystemStorageMailMigration.php');
+include_once('Services/Migration/DBUpdate_'.$update_step.'/classes/class.ilFSStorageMailMailMigration.php');
+
+global $ilLog;
+
+// Fetch all messages with attachment(s)
+$res = $ilDB->queryf(
+	"SELECT * FROM mail_attachment",
+	array(),
+	array()
+);
+
+// iterate over result
+while($record = $ilDB->fetchObject($res))
+{	
+	// Check whether migration is already done
+	$continue = false;		
+	$done_res = $ilDB->queryf(
+		"SELECT * FROM tmp_mail_migration WHERE mail_id = %s",
+		array('integer'),
+		array($record->mail_id)
+	);
+	while($done_record = $ilDB->fetchAssoc($done_res))
+	{
+		$continue = true;
+		break;		
+	}
+	if($continue)
+	{
+		continue;
+	}	
+	
+	// Checking stored path
+	$path_parts = explode('_', $record->path);
+	$path_parts[0] = trim($path_parts[0]);
+	$path_parts[1] = trim($path_parts[1]);
+	if(count($path_parts) != 2 || !strlen($path_parts[0]) || !strlen($path_parts[1]))
+	{
+		$ilLog->write('DB Migration '.$update_step.': Failed: No attachments found for mail '.$record->mail_id);
+		continue;
+	}
+	
+	// Create new storage folder (if it does not exist yet)
+	$oFSStorageMail = new ilFSStorageMailMailMigration($path_parts[1], $path_parts[0]);
+	
+	// Check if folder has to be created
+	$path_record = null;
+	$done_path_res = $ilDB->queryf(
+		"SELECT mail_id FROM tmp_mail_migration WHERE mail_path = %s",
+		array('text'),
+		array($record->path)
+	);
+	while($done_path_record = $ilDB->fetchAssoc($done_path_res))
+	{
+		$path_record = $done_path_record;
+		break;		
+	}	
+	if(!is_array($path_record))
+	{		
+		// check old path
+		$path = CLIENT_DATA_DIR.DIRECTORY_SEPARATOR.'mail'.DIRECTORY_SEPARATOR.$record->path;	
+		if(!@file_exists($path) || !@is_dir($path))
+		{		
+			$ilLog->write('DB Migration '.$update_step.': Failed: No attachments found for mail '.$record->mail_id.' (path "'.$path.'")');
+			continue;
+		}
+		else if(!@is_readable($path))
+		{
+			$ilLog->write('DB Migration '.$update_step.': Failed: Path "'.$path.'" is not readable for mail '.$record->mail_id);
+			continue;
+		}	
+		
+		$tmp_path = ilUpdateUtilsMailMigration::ilTempnam();		
+		ilUpdateUtilsMailMigration::makeDir($tmp_path);
+
+		ilUpdateUtilsMailMigration::rename($path, $tmp_path);
+				
+		$oFSStorageMail->create();	
+		$new_path = $oFSStorageMail->getAbsolutePath();
+		if(!@file_exists($new_path) || !@is_dir($new_path))
+		{		
+			$ilLog->write('DB Migration '.$update_step.': Failed: Target folder "'.$new_path.'" does not exist for mail '.$record->mail_id);
+			continue;
+		}
+		else if(!@is_writeable($new_path))
+		{
+			$ilLog->write('DB Migration '.$update_step.': Failed: Target folder "'.$new_path.'" is not writeable for mail '.$record->mail_id);
+			continue;
+		}
+		
+		ilUpdateUtilsMailMigration::rename($tmp_path, $new_path);
+	}
+	
+	// Modifie existing attachment assigment
+	$ilDB->manipulateF(
+		"UPDATE mail_attachment SET path = %s WHERE mail_id = %s",
+    	array('text', 'integer'),
+    	array($oFSStorageMail->getRelativePathExMailDirectory(), $record->mail_id)
+    );	
+	
+	// Save success
+	$ilDB->manipulateF(
+		"INSERT INTO tmp_mail_migration (mail_id, mail_passed, mail_path) VALUES (%s, %s, %s)",
+    	array('integer', 'integer', 'text'),
+    	array($record->mail_id, 1, $record->path)
+    );
+}
+?>
+<#2500>
+<?php
+if($ilDB->tableExists('tmp_mail_migration'))
+{
+	$ilDB->dropTable('tmp_mail_migration');
+}
+?>

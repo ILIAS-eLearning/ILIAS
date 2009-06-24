@@ -104,19 +104,21 @@ class ilFileDataMail extends ilFileData
 		$query = $ilDB->query("SELECT path FROM mail_attachment 
 				  WHERE mail_id = ".$ilDB->quote($a_mail_id,'integer')."");
 		
+		$rel_path = "";
 		while($row = $ilDB->fetchObject($query))
 		{
-			$path = $this->getMailPath().'/'.$row->path;	
+			$rel_path = $row->path;
+			$path = $this->getMailPath().'/'.$row->path;
+
 		}
-		
-		
+
 		$files = ilUtil::getDir($path);
 		foreach((array)$files as $file)
 		{
 			if($file['type'] == 'file' && md5($file['entry']) == $a_filename)
 			{
 				return array(
-					'path' => $this->getMailPath().'/'.$row->path.'/'.$file['entry'],
+					'path' => $this->getMailPath().'/'.$rel_path.'/'.$file['entry'],
 					'filename' => $file['entry']
 				);
 			}
@@ -352,7 +354,7 @@ class ilFileDataMail extends ilFileData
 	}
 
 	/**
-	* save all attachment files in a specific mail directory .../mail/<user_id>_<mail_id>/...
+	* save all attachment files in a specific mail directory .../mail/<calculated_path>/mail_<mail_id>_<user_id>/...
 	* @param integer mail id of mail in sent box
 	* @param array filenames to save
 	* @access	public
@@ -380,8 +382,22 @@ class ilFileDataMail extends ilFileData
 		}
 		return '';
 	}
+	
+	public static function getStorage($a_mail_id, $a_usr_id)
+	{
+		static $fsstorage_cache = array();
+		
+		if(!is_object($fsstorage_cache[$a_mail_id][$a_usr_id]))
+		{
+			include_once 'Services/Mail/classes/class.ilFSStorageMail.php';
+			$fsstorage_cache[$a_mail_id][$a_usr_id] = new ilFSStorageMail($a_mail_id, $a_usr_id);
+		} 
+		
+		return $fsstorage_cache[$a_mail_id][$a_usr_id];
+	}
+	
 	/**
-	* save attachment file in a specific mail directory .../mail/<user_id>_<mail_id>/...
+	* save attachment file in a specific mail directory .../mail/<calculated_path>/mail_<mail_id>_<user_id>/...
 	* @param integer mail id of mail in sent box
 	* @param array filenames to save
 	* @access	public
@@ -389,19 +405,17 @@ class ilFileDataMail extends ilFileData
 	*/
 	function saveFile($a_mail_id,$a_attachment)
 	{
-		if(!is_dir($this->mail_path.'/'.$this->user_id.'_'.$a_mail_id))
+		$oStorage = self::getStorage($a_mail_id, $this->user_id);
+		$oStorage->create();
+		$storage_directory = $oStorage->getAbsolutePath();
+				
+		if(@!is_dir($storage_directory))
 		{
-			if(mkdir($this->mail_path.'/'.$this->user_id.'_'.$a_mail_id))
-			{
-				chmod($this->mail_path.'/'.$this->user_id.'_'.$a_mail_id,0755);
-			}
-			else
-			{
-				return false;
-			}
+			return false;
 		}
+		
 		return copy($this->mail_path.'/'.$this->user_id.'_'.$a_attachment,
-					$this->mail_path.'/'.$this->user_id.'_'.$a_mail_id.'/'.$a_attachment);
+					$storage_directory.'/'.$a_attachment);
 	}
 	/**
 	* check if files exist
@@ -440,11 +454,13 @@ class ilFileDataMail extends ilFileData
 			"path = ".$ilDB->quote($this->user_id."_".$a_sent_mail_id)." ";
 		$res = $this->ilias->db->query($query);
 */
+
+		$oStorage = self::getStorage($a_sent_mail_id, $this->user_id);
 		$res = $ilDB->manipulateF('
 			INSERT INTO mail_attachment 
 			( mail_id, path) VALUES (%s, %s)',
 			array('integer', 'text'),
-			array($a_mail_id, $this->user_id."_".$a_sent_mail_id)
+			array($a_mail_id, $oStorage->getRelativePathExMailDirectory())
 		); 
 				
 	}
@@ -489,26 +505,8 @@ class ilFileDataMail extends ilFileData
 
 	function __deleteAttachmentDirectory($a_rel_path)
 	{
-		if(!@$dp = opendir($this->mail_path."/".$a_rel_path))
-		{
-			return false;
-		}
-
-		while($file = @readdir($dp))
-		{
-			if($file == '.' or $file == '..')
-			{
-				continue;
-			}
-			if(is_dir($file))
-			{
-				$this->__deleteAttachmentDirectory($file);
-			}
-			unlink($this->mail_path."/".$a_rel_path."/".$file);
-		}
-		@rmdir($this->mail_path."/".$a_rel_path);
-		closedir($dp);
-
+		ilUtil::delDir($this->mail_path."/".$a_rel_path);		
+		
 		return true;
 	}
 	function __initAttachmentMaxSize()

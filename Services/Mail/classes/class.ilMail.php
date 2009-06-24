@@ -333,10 +333,13 @@ class ilMail
 	}
 	function isSOAPEnabled()
 	{
-		if(!extension_loaded('curl'))
+		global $ilSetting;
+		
+		if(!extension_loaded('curl') || !$ilSetting->get('soap_user_administration'))
 		{
 			return false;
 		}
+		
 		return (bool) $this->soap_enabled;
 	}
 
@@ -670,12 +673,17 @@ class ilMail
 		{		
 			global $ilDB;
 
-			$statement = $ilDB->manipulateF("
+			/*$statement = $ilDB->manipulateF("
 				DELETE FROM ". $this->table_mail ." 
 				WHERE user_id = %s
 				AND folder_id = %s",
 				array('integer', 'integer'),
-				array($this->user_id, $a_folder_id));
+				array($this->user_id, $a_folder_id));*/
+			$mails = $this->getMailsOfFolder($a_folder_id);
+			foreach((array)$mails as $mail_data)
+			{
+				$this->deleteMails(array($mail_data['mail_id']));
+			}
 			
 			return true;
 		}
@@ -2064,11 +2072,14 @@ class ilMail
 		}
 		else
 		{
-			if(trim($this->ilias->getSetting('mail_external_sender_noreply')) != '')
+			$no_reply_adress = trim($this->ilias->getSetting('mail_external_sender_noreply'));			
+			if(strlen($no_reply_adress))
 			{
+				if(strpos($no_reply_adress, '@') === false)
+					$no_reply_adress = 'noreply@'.$no_reply_adress;
 				include_once "Services/Mail/classes/class.ilMimeMail.php";
 				$sender = ilMimeMail::_mimeEncode(self::_getAnonymousName()).
-						  '<noreply@'.trim($this->ilias->getSetting('mail_external_sender_noreply')).'>';
+						  '<'.$no_reply_adress.'>';
 			}
 			else
 			{

@@ -215,7 +215,7 @@ class ilMailFolderGUI
 	*/
 	public function showFolder()
 	{
-		global $ilUser;
+		global $ilUser;	
 
 		$this->tpl->addBlockFile("ADM_CONTENT", "adm_content", "tpl.mail.html", "Services/Mail");
 		$this->tpl->setVariable("HEADER", $this->lng->txt("mail"));
@@ -224,22 +224,24 @@ class ilMailFolderGUI
 
 		include_once 'Services/Mail/classes/class.ilMailFolderTableGUI.php';
 		$mailtable = new ilMailFolderTableGUI($this->mbox, $this, $_GET["mobj_id"]);
-		
+
 		// BEGIN CONFIRM_DELETE
 		if($_POST["selected_cmd"] == "deleteMails" &&
 			!$this->errorDelete &&
 			$_POST["selected_cmd"] != "confirm" &&
 			$isTrashFolder)
 		{
-			$this->tpl->setCurrentBlock("CONFIRM_DELETE");
-			$this->tpl->setVariable("BUTTON_CONFIRM",$this->lng->txt("confirm"));
-			$this->tpl->setVariable("BUTTON_CANCEL",$this->lng->txt("cancel"));
-			foreach($_REQUEST["mail_id"] as $id)
+			if(isset($_REQUEST["mail_id"]) && !is_array($_REQUEST["mail_id"])) $_REQUEST["mail_id"] = array($_REQUEST["mail_id"]);
+			foreach((array)$_REQUEST["mail_id"] as $id)
 			{
 				$this->tpl->setCurrentBlock("mail_ids");
 				$this->tpl->setVariable("MAIL_ID_VALUE", $id);
 				$this->tpl->parseCurrentBlock();
 			}
+			
+			$this->tpl->setCurrentBlock("confirm_delete");
+			$this->tpl->setVariable("BUTTON_CONFIRM",$this->lng->txt("confirm"));
+			$this->tpl->setVariable("BUTTON_CANCEL",$this->lng->txt("cancel"));			
 			$this->tpl->parseCurrentBlock();
 		}	
 		
@@ -847,7 +849,7 @@ class ilMailFolderGUI
 			$_GET["mail_id"] = $_SESSION["mail_id"];
 			$_SESSION["mail_id"] = "";
 		}
-
+			
 		$this->umail->markRead(array($_GET["mail_id"]));
 
 		$mailData = $this->umail->getMail($_GET["mail_id"]);
