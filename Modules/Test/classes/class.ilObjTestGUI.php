@@ -1410,9 +1410,18 @@ class ilObjTestGUI extends ilObjectGUI
 			$this->object->setSequenceSettings(($_POST["chb_postpone"]) ? 1 : 0);
 			$this->object->setShuffleQuestions(($_POST["chb_shuffle_questions"]) ? 1 : 0);
 			$this->object->setListOfQuestions($_POST["list_of_questions"]);
-			$this->object->setListOfQuestionsStart((in_array('chb_list_of_questions_start', $_POST["list_of_questions_options"])) ? 1 : 0);
-			$this->object->setListOfQuestionsEnd((in_array('chb_list_of_questions_end', $_POST["list_of_questions_options"])) ? 1 : 0);
-			$this->object->setListOfQuestionsDescription((in_array('chb_list_of_questions_with_description', $_POST["list_of_questions_options"])) ? 1 : 0);
+			if (is_array($_POST["list_of_questions_options"]))
+			{
+				$this->object->setListOfQuestionsStart((in_array('chb_list_of_questions_start', $_POST["list_of_questions_options"])) ? 1 : 0);
+				$this->object->setListOfQuestionsEnd((in_array('chb_list_of_questions_end', $_POST["list_of_questions_options"])) ? 1 : 0);
+				$this->object->setListOfQuestionsDescription((in_array('chb_list_of_questions_with_description', $_POST["list_of_questions_options"])) ? 1 : 0);
+			}
+			else
+			{
+				$this->object->setListOfQuestionsStart(0);
+				$this->object->setListOfQuestionsEnd(0);
+				$this->object->setListOfQuestionsDescription(0);
+			}
 			$this->object->setShowMarker(($_POST["chb_show_marker"]) ? 1 : 0);
 			$this->object->setShowCancel(($_POST["chb_show_cancel"]) ? 1 : 0);
 			$this->object->setKioskMode(($_POST["kiosk"]) ? 1 : 0);
@@ -2901,53 +2910,13 @@ class ilObjTestGUI extends ilObjectGUI
 	*/
 	function historyObject()
 	{
-		global $ilAccess;
-		if (!$ilAccess->checkAccess("write", "", $this->ref_id)) 
-		{
-			// allow only write access
-			ilUtil::sendInfo($this->lng->txt("cannot_edit_test"), true);
-			$this->ctrl->redirect($this, "infoScreen");
-		}
-
-		$this->tpl->addBlockFile("ADM_CONTENT", "adm_content", "tpl.il_as_tst_status.html", "Modules/Test");
-		if ($ilAccess->checkAccess("write", "", $this->ref_id))
-		{
-			include_once "./Modules/Test/classes/class.ilObjAssessmentFolder.php";
-			$log =& ilObjAssessmentFolder::_getLog(0, time(), $this->object->getId(), TRUE);
-			if (count($log))
-			{
-				$tblrow = array("tblrow1", "tblrow2");
-				$counter = 0;
-				include_once './Services/User/classes/class.ilObjUser.php';
-				foreach ($log as $entry)
-				{
-					$this->tpl->setCurrentBlock("changelog_row");
-					$this->tpl->setVariable("ROW_CLASS", $tblrow[$counter % 2]);
-					$username = $this->object->userLookupFullName($entry["user_fi"], TRUE);
-					$this->tpl->setVariable("TXT_USER", $username);
-					$this->tpl->setVariable("TXT_DATETIME", ilDatePresentation::formatDate(new ilDateTime($entry["tstamp"],IL_CAL_UNIX)));
-					if (strlen($entry["ref_id"]) && strlen($entry["href"]))
-					{
-						$this->tpl->setVariable("TXT_TEST_REFERENCE", $this->lng->txt("perma_link"));
-						$this->tpl->setVariable("HREF_REFERENCE", $entry["href"]);
-					}
-					$this->tpl->setVariable("TXT_LOGTEXT", trim(ilUtil::prepareFormOutput($entry["logtext"])));
-					$this->tpl->parseCurrentBlock();
-					$counter++;
-				}
-				$this->tpl->setCurrentBlock("changelog");
-				$this->tpl->setVariable("HEADER_DATETIME", $this->lng->txt("assessment_log_datetime"));
-				$this->tpl->setVariable("HEADER_USER", $this->lng->txt("user"));
-				$this->tpl->setVariable("HEADER_LOGTEXT", $this->lng->txt("assessment_log_text"));
-				$this->tpl->setVariable("HEADER_TEST_REFERENCE", $this->lng->txt("location"));
-				$this->tpl->setVariable("HEADING_CHANGELOG", $this->lng->txt("changelog_heading"));
-				$this->tpl->setVariable("DESCRIPTION_CHANGELOG", $this->lng->txt("changelog_description"));
-				$this->tpl->parseCurrentBlock();
-			}
-		}
-		
-		$this->tpl->setCurrentBlock("adm_content");
-		$this->tpl->parseCurrentBlock();
+		include_once "./Modules/Test/classes/class.ilTestHistoryTableGUI.php";
+		$table_gui = new ilTestHistoryTableGUI($this, 'history');
+		$table_gui->setTestObject($this->object);
+		include_once "./Modules/Test/classes/class.ilObjAssessmentFolder.php";
+		$log =& ilObjAssessmentFolder::_getLog(0, time(), $this->object->getId(), TRUE);
+		$table_gui->setData($log);
+		$this->tpl->setVariable('ADM_CONTENT', $table_gui->getHTML());	
 	}	
 
 	/**

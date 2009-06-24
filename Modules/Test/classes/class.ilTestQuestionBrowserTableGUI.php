@@ -52,7 +52,6 @@ class ilTestQuestionBrowserTableGUI extends ilTable2GUI
 		$this->ctrl = $ilCtrl;
 	
 		$this->setWriteAccess($a_write_access);
-		$this->setLimit(9999);
 		
 		$this->setFormName('questionbrowser');
 		$this->setStyle('table', 'fullwidth');
