@@ -23,7 +23,7 @@
 <!-- PageObjects are comparable to LOM LearningObjects of aggregation level 2 -->
 <!ELEMENT PageObject (PageContent*, Layout?)>
 
-<!ELEMENT PageContent ((Paragraph | MediaObject | Table | List | FileList | Question | Section | Resources | Map | Plugged | Tabs), BibItemIdentifier*)>
+<!ELEMENT PageContent ((Paragraph | MediaObject | Table | List | FileList | Question | Placeholder | Section | Resources | Map | Plugged | Tabs), BibItemIdentifier*)>
 
 <!-- enable/disable paragraph elements -->
 <!ATTLIST PageContent
@@ -253,6 +253,14 @@ col or row span. -->
 <!ELEMENT Question EMPTY>
 <!ATTLIST Question
 	QRef CDATA #REQUIRED
+>
+
+<!-- PlaceHolder -->
+<!ELEMENT PlaceHolder EMPTY>
+<!ATTLIST PlaceHolder
+	ContentClass (Media | Text | Question) #REQUIRED
+	Width CDATA #IMPLIED
+	Height CDATA #IMPLIED
 >
 
 <!-- Section -->
