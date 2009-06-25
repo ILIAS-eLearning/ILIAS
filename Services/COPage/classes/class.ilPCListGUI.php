@@ -279,9 +279,10 @@ class ilPCListGUI extends ilPageContentGUI
 	*/
 	public function getValues()
 	{
+		global $tpl;
+		
 		$values = array();
 	
-		//$values["list_order"] = $this->content_obj->getOrderType();
 		$values["start_value"] = $this->content_obj->getStartValue();
 		$values["list_type"] = $this->content_obj->getListType();
 		$values["numbering_type"] = $this->content_obj->getNumberingType();
@@ -290,8 +291,7 @@ class ilPCListGUI extends ilPageContentGUI
 			$values["number_style"] = $this->content_obj->getStyleClass();
 			$values["bullet_style"] = "";
 		}
-		$this->form->setValuesByPost();
-		$tpl->setContent($this->form->getHtml());
+		$this->form->setValuesByArray($values);
 	}
 	
 }
