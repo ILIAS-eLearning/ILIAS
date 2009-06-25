@@ -2860,3 +2860,56 @@ td.ilNoteList {
 	vertical-align: top;
 }
 
+/* PageLayout Previews */
+
+div.ilc_QuestionPlaceHolderThumb
+{
+	margin:1px;
+	padding: 5px 2px 5px 0px;
+	border-width: 1px;
+	font-size: 10px;
+	border-color: grey;
+	border-style: solid;
+	background: url(images/question_placeholder_thumb.png) no-repeat center center;
+	font-weight: bold;
+}
+
+div.ilc_MediaPlaceHolderThumb
+{
+	margin:1px;
+	padding: 5px 2px 5px 0px;
+	border-width: 1px;
+	font-size: 10px;
+	border-color: grey;
+	border-style: solid;
+	font-weight: bold;
+	background: url(images/media_placeholder_thumb.png) no-repeat center center;	
+}
+
+div.ilc_TextPlaceHolderThumb
+{
+	margin:1px;
+	padding: 5px 2px 5px 0px;
+	border-width: 1px;
+	font-size: 10px;
+	border-color: grey;
+	border-style: solid;
+	font-weight: bold;
+	background: url(images/text_placeholder_thumb.png) no-repeat center center;
+}
+
+div.ilc_HeadlineThumb
+{
+	font-size: 11px;
+	font-weight: bold;
+	width:100%;
+	border-style:solid;
+	font-family: "Helvetica,Arial";
+	color:grey;
+	border-bottom-style: solid;
+	border-width:0px;
+	border-color: grey;
+	border-bottom-width: 1px;
+	margin-bottom:4px;
+	margin-top:2px;
+}
