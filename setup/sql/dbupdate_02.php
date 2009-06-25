@@ -13178,3 +13178,7 @@ if($ilDB->tableExists('tmp_mail_migration'))
 <?php
 	$ilMySQLAbstraction->performAbstraction("shib_role_assignment");
 ?>
+<#2502>
+<?php
+$ilCtrlStructureReader->getStructure();
+?>
