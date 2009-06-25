@@ -32,7 +32,7 @@
 */
 class ilAdvSelectInputGUI extends ilFormPropertyGUI
 {
-	protected $options;
+	protected $options = array();
 	protected $value;
 	
 	/**

@@ -136,7 +136,7 @@ class ilCtrlStructureReader
 				// files
 				if (@is_file($a_cdir."/".$file))
 				{
-					if (eregi("^class.*php$", $file))
+					if (eregi("^class.*php$", $file) || eregi("^ilSCORM13Player.php$", $file))
 					{
 						$handle = fopen($a_cdir."/".$file, "r");
 //echo "<br>".$a_cdir."/".$file;
