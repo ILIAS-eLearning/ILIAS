@@ -843,7 +843,7 @@
 	<xsl:if test="@Characteristic and not (@Characteristic = 'Code')">
 		<xsl:attribute name="class">ilc_text_block_<xsl:value-of select="@Characteristic"/></xsl:attribute>
 	</xsl:if>
-	<xsl:if test="$mode = 'edit'">
+	<xsl:if test="$mode = 'edit' and not (@Characteristic = 'Code')">
 		<xsl:attribute name="style">position:static;</xsl:attribute>
 	</xsl:if>
 	<xsl:call-template name="EditReturnAnchors"/>
@@ -852,7 +852,7 @@
 		<xsl:when test="@Characteristic = 'Code'">
 			<xsl:call-template name='Sourcecode'>
 				<!-- <xsl:with-param name="p_id" select="$p_id" /> -->
-				<xsl:with-param name="p_id"><xsl:number count="Paragraph" level="any"/></xsl:with-param>
+			<xsl:with-param name="p_id"><xsl:number count="Paragraph" level="any"/></xsl:with-param>
 			</xsl:call-template>
 		</xsl:when>
 		<xsl:otherwise>
@@ -863,7 +863,6 @@
 	<!-- command selectbox -->
 	<xsl:if test="$mode = 'edit'">
 		<br />
-		<!-- <xsl:value-of select="../@HierId"/> -->
 		<xsl:if test="((../../../../@DataTable != 'y' or not(../../../../@DataTable)))">
 			<xsl:if test="$javascript='disable'">
 			<br />
