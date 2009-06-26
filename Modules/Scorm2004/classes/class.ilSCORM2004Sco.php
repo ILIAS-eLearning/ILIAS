@@ -201,7 +201,10 @@ class ilSCORM2004Sco extends ilSCORM2004Node
 		chdir(dirname($active_css[0]));
 		foreach (array_unique($files[1]) as $fileref)
 		{
-			copy($fileref,$a_target_dir."/images/".basename($fileref));
+			if (is_file($fileref))
+			{
+				copy($fileref,$a_target_dir."/images/".basename($fileref));
+			}
 			$css = str_replace($fileref,"../images/".basename($fileref),$css);
 		}	
 		chdir($currdir);
@@ -438,6 +441,7 @@ class ilSCORM2004Sco extends ilSCORM2004Node
 			$page_obj = new ilSCORM2004Page($page["obj_id"]);
 			$ilBench->stop("ContentObjectExport", "exportPageObject_getLMPageObject");
 			$ilBench->start("ContentObjectExport", "exportPageObject_XML");
+			$page_obj->exportXMLMetaData($a_xml_writer);
 			$page_obj->exportXML($a_xml_writer, "normal", $a_inst);
 			$ilBench->stop("ContentObjectExport", "exportPageObject_XML");
 

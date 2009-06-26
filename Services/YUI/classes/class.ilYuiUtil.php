@@ -432,6 +432,14 @@ class ilYuiUtil
 			$tpl->addJavaScript("./Services/YUI/js/".self::$ver."/layout/layout-min.js");
 		}
 	}
-	 
+	
+	/**
+	* Get local path of a YUI js file
+	*/
+	function getLocalPath($a_name = "")
+	{
+		return "./Services/YUI/js/".self::$ver."/".$a_name;
+	}
+
 } // END class.ilUtil
 ?>

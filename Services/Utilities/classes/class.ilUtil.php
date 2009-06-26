@@ -1655,13 +1655,19 @@ class ilUtil
 		else
 		{
 			$name = basename($a_dir);
-			$source = ilUtil::escapeShellArg($name);
+			if (trim($name) != "*")
+			{
+				$source = ilUtil::escapeShellArg($name);
+			}
+			else
+			{
+				$source = $name;
+			}
 		}
 
 		$zipcmd = $zip." -r ".ilUtil::escapeShellArg($a_file)." ".$source;
-
+//echo htmlentities($zipcmd); exit;
 		exec($zipcmd);
-//echo htmlentities($zipcmd);
 		chdir($cdir);
 		return true;
 	}
