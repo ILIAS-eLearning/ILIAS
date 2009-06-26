@@ -1299,20 +1299,37 @@ input.submit, a.submit, a.submit:hover
 {
 	font-size: 80%;
 	font-weight:normal;
-	line-height: 100%;
+	line-height:17px; /* Safari */
 	background-color: #FFFFFF;
 	background-image: url(images/ButtonsBack.gif);
 	background-position: bottom;
 	background-repeat:repeat-x;
-	color:#2255a0;
+	color:#335599;
 	border-width:1px;
 	border-color: #BABABA;
 	border-style:solid;
-	padding: 1px 5px;
+	padding: 0px 5px;
 	margin: 0px;
 	text-decoration:none;
 	cursor:pointer;
-	display: inline;
+	display: inline-block;
+}
+
+/*input.submit {
+    padding:0px 5px 0px 5px;
+}
+input[type].submit{
+    padding:0px 5px 0px 5px;
+}
+*:first-child+html input[type]{
+    padding:0px 5px 0px 5px;
+}*/
+
+input.submit:hover, a.submit:hover
+{
+	background-color: #E3EBFF;
+	background-image: none;
+	color:#444444;
 }
 
 input.submit_disabled, a.submit_disabled, a.submit_disabled:hover {
