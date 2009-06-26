@@ -2974,7 +2974,6 @@ common#:#members#:#Μέλη
 common#:#membership_annulled#:#Η ιδιότητα μέλους σας έχει ακυρωθεί
 common#:#member_status#:#Κατάσταση μέλους:
 common#:#mem_alert_no_places#:#There are no free places available.
-common#:#mem_already_on_list#:#You are already subscribed to the waiting list.
 common#:#mem_end#:#Registration End:
 common#:#mem_free_places#:#Free Places:
 common#:#mem_max_users#:#Maximum of Users:
@@ -5309,7 +5308,6 @@ crs#:#crs_unblocked#:#Ελεύθερη πρόσβαση
 crs#:#crs_unblocked_member#:#Κατάσταση στο μάθημα "%s"
 crs#:#crs_unblocked_member_body#:#Η ιδιότητα μέλους σας στο μάθημα "%s" έχει αποκατασταθεί
 crs#:#crs_unlimited#:#Χωρίς όρια
-crs#:#crs_unsubscribe#:#Ακύρωση συνδρομής
 crs#:#crs_unsubscribed_from_crs#:#Διαγραφήκατε από αυτό το μάθημα
 crs#:#crs_unsubscribe_sure#:#Θέλετε να διαγραφείτε από αυτό το μάθημα
 crs#:#crs_update_objective#:#Επεξεργασία εκπαιδευτικού αντικειμενικού σκοπού
@@ -6009,7 +6007,6 @@ grp#:#grp_accept_subscriber#:#Admission to group "%s"
 grp#:#grp_accept_subscriber_body#:#You have been admitted to group "%1$s".\n\n%2$s 
 grp#:#grp_added_to_list#:#You have been assigned to the waiting list. You are assigned to position %s on the waiting list.
 grp#:#grp_admins#:#Administrators
-grp#:#grp_btn_unsubscribe#:#Unsubscribe From Group
 grp#:#grp_change_type#:#Change Group Type
 grp#:#grp_closed#:#Closed Group
 grp#:#grp_closed_info#:#Group is not visible for non-members.
@@ -9457,3 +9454,150 @@ payment#:#paya_updated_price#:#The price was saved.###22 05 2009 new variable
 payment#:#payment_already_bought_but_no_access#:#You already bought the object %s, but you do not have access yet or your license is expired.###22 05 2009 new variable
 cmps#:#cmps_plugin_activated#:#The plugin has been activated.###22 05 2009 new variable
 cmps#:#cmps_plugin_deactivated#:#The plugin has been deactivated.###22 05 2009 new variable
+common#:#back_to_sess_content#:#Back to Session Content###26 06 2009 new variable
+common#:#crs_unsubscribe#:#Unsubscribe###26 06 2009 new variable
+dateplaner#:#cal_edit_milestone#:#Edit Milestone###26 06 2009 new variable
+common#:#grp_btn_unsubscribe#:#Unsubscribe From Group###26 06 2009 new variable
+dateplaner#:#cal_deadline#:#Deadline###26 06 2009 new variable
+dateplaner#:#cal_ms_users_responsible#:#Users Responsible###26 06 2009 new variable
+dateplaner#:#cal_save_responsible_users#:#Save Responsible Users###26 06 2009 new variable
+dateplaner#:#cal_change_responsible_users#:#Change Responsible Users###26 06 2009 new variable
+dateplaner#:#cal_ms_details#:#Milestone Details###26 06 2009 new variable
+dateplaner#:#cal_enable_group_milestones#:#Enable Milestones###26 06 2009 new variable
+dateplaner#:#cal_enable_group_milestones_desc#:#This option enables milestone planning in the calendar.###26 06 2009 new variable
+dateplaner#:#cal_new_ms#:#New Milestone###26 06 2009 new variable
+dateplaner#:#cal_add_milestone#:#Add Milestone###26 06 2009 new variable
+dateplaner#:#cal_task_completion#:#Task Completion###26 06 2009 new variable
+dateplaner#:#cal_responsible#:#Responsible###26 06 2009 new variable
+common#:#preferences#:#User-defined Preferences###26 06 2009 new variable
+common#:#on_waiting_list#:#You are on the waiting list###26 06 2009 new variable
+common#:#leave_waiting_list#:#Leave Waiting List###26 06 2009 new variable
+cntr#:#cntr_manage#:#Manage###26 06 2009 new variable
+cntr#:#cntr_ordering#:#Sorting###26 06 2009 new variable
+cntr#:#cntr_text_media_editor#:#Text/Media Editor###26 06 2009 new variable
+cntr#:#cntr_saved_sorting#:#Saved Sorting.###26 06 2009 new variable
+chat#:#chat_show_smilies#:#Show smilies###26 06 2009 new variable
+chat#:#chat_hide_smilies#:#Hide smilies###26 06 2009 new variable
+chat#:#chat_no_room_selected#:#No room has been selected.###26 06 2009 new variable
+common#:#grp_removed_from_waiting_list#:#You have been detached from the waiting list of group "%s".###26 06 2009 new variable
+common#:#crs_removed_from_waiting_list#:#You have been detached from the waiting list of course "%s".###26 06 2009 new variable
+common#:#membership_leave#:#Leave###26 06 2009 new variable
+crs#:#event_section_information#:#Session Information###26 06 2009 new variable
+crs#:#event_btn_add_edit#:#Add Session and Assign Materials###26 06 2009 new variable
+crs#:#crs_search_users#:#Search Users###26 06 2009 new variable
+crs#:#crs_user_login#:#User Login###26 06 2009 new variable
+grp#:#grp_search_users#:#Search User###26 06 2009 new variable
+dateplaner#:#cal_type_sess#:#Session Calendar###26 06 2009 new variable
+crs#:#event_tbl_admins#:#Administrators###26 06 2009 new variable
+crs#:#event_tbl_tutors#:#Tutors###26 06 2009 new variable
+crs#:#event_tbl_members#:#Members###26 06 2009 new variable
+crs#:#event_participant_selection#:#Participant Selection###26 06 2009 new variable
+crs#:#event_inc_admins#:#Show Administrators###26 06 2009 new variable
+crs#:#event_inc_tutors#:#Show Tutors###26 06 2009 new variable
+crs#:#event_inc_members#:#Show Members###26 06 2009 new variable
+crs#:#event_materials#:#Session Materials###26 06 2009 new variable
+common#:#crs_cancel_waiting_list#:#Do you really want to remove yourself from the waiting list of course "%s"?###26 06 2009 new variable
+common#:#grp_cancel_waiting_list#:#Do you really want to remove yourself from the waiting list of group "%s"? ###26 06 2009 new variable
+crs#:#crs_warn_no_max_set_on_waiting_list#:#The maximum number of course members is exceeded. You can add your join request to the waiting list. You will receive a message from a course administrator when your request has been approved or rejected.###26 06 2009 new variable
+crs#:#crs_warn_wl_set_on_waiting_list#:#Some users are already assigned to the waiting list. You can add your join request to the waiting list. You will receive a message from a course administrator when your request has been approved or rejected.###26 06 2009 new variable
+grp#:#grp_warn_no_max_set_on_waiting_list#:#The maximum number of group members is exceeded. You can add your join request to the waiting list. You will receive a message from a group administrator when your request has been approved or rejected.###26 06 2009 new variable
+grp#:#grp_warn_wl_set_on_waiting_list#:#Some users are already assigned to the waiting list. You can add your join request to the waiting list. You will receive a message from a group administrator when your request has been approved or rejected.###26 06 2009 new variable
+common#:#mem_add_to_wl#:#Add to Waiting List###26 06 2009 new variable
+common#:#event_assign_files#:#File Assignment###26 06 2009 new variable
+assessment#:#qpl_browsercolumns#:#Customized question list###26 06 2009 new variable
+assessment#:#qpl_browsercolumns_description#:#Select the question data columns that are shown in the question list of a question pool. This setting will be applied for each available question pool.###26 06 2009 new variable
+chat#:#chat_export_status#:#Required export permissions###26 06 2009 new variable
+chat#:#chat_export_all#:#No restrictions (all users with access may export)###26 06 2009 new variable
+chat#:#chat_export_moderator#:#Moderators only###26 06 2009 new variable
+chat#:#chat_export_period#:#Export period###26 06 2009 new variable
+chat#:#chat_export_period_info#:#Export the given number of days###26 06 2009 new variable
+chat#:#chat_export_info#:#Displays an export button for the current room. The messages will be exported to html.###26 06 2009 new variable
+chat#:#chat_textformat#:#Format text###26 06 2009 new variable
+chat#:#chat_show_textformat#:#Format text###26 06 2009 new variable
+registration#:#reg_type_confirmation#:#Registration with Email Confirmation###26 06 2009 new variable
+registration#:#reg_type_confirmation_info#:#This type allows self-registration of users but requires an email confirmation to activate the account. This avoids self-registration to ILIAS with wrong or non-existant email addresses.###26 06 2009 new variable
+registration#:#reg_confirmation_hash_life_time_info#:#Enter the lifetime (seconds) of confirmation links.###26 06 2009 new variable
+registration#:#reg_confirmation_hash_life_time_expired#:#The confirmation link is not valid anymore.###26 06 2009 new variable
+registration#:#reg_confirmation_hash_not_found#:#No user account could be matched to this confirmation link.###26 06 2009 new variable
+common#:#reg_account_confirmation_successful#:#Your user account has been activated.###26 06 2009 new variable
+registration#:#reg_confirmation_link_successful#:#You successfully submitted an account request to ILIAS. You have to confirm your registration by clicking the confirmation link.###26 06 2009 new variable
+registration#:#reg_activation_your_confirmation_link#:#Your confirmation link:###26 06 2009 new variable
+registration#:#reg_confirmation_hash_not_passed#:#The confirmation link was not entirely passed.###26 06 2009 new variable
+mail#:#mail_nacc_confirmation_link#:#Confirmation Link###26 06 2009 new variable
+crs#:#crs_lim_assigned#:#Already assigned to associated course "%s".###26 06 2009 new variable
+grp#:#grp_lim_assigned#:#Already assigned to associated group "%s".###26 06 2009 new variable
+common#:#soap_wsdl_path#:#WSDL Path###26 06 2009 new variable
+common#:#soap_wsdl_path_info#:#Please enter the path to the ilias wsdl file which should be used for the webservice. If you leave this field blank, the following path will be used per default:%s###26 06 2009 new variable
+common#:#scorm_new#:#New SCORM/IACC Learning Module###26 06 2009 new variable
+common#:#scorm_add#:#Add SCORM/IACC Learning Module###26 06 2009 new variable
+common#:#scorm_create_export_file_scrom12#:#Create Export File (SCORM 1.2)###26 06 2009 new variable
+common#:#scorm_create_export_file_scrom2004#:#Create Export File (SCORM 2004)###26 06 2009 new variable
+common#:#scorm_create_export_file_pdf#:#Create Export File (PDF)###26 06 2009 new variable
+common#:#scorm_create_export_file_iso#:#Create Export File (ISO for CD-ROM)###26 06 2009 new variable
+common#:#scorm_create_export_file_html#:#Create Export File (HTML)###26 06 2009 new variable
+common#:#sahs_insert_page_from_clip#:#Paste Pages from Clipboard###26 06 2009 new variable
+common#:#sahs_insert_chap_from_clip#:#Paste Chapters from Clipboard###26 06 2009 new variable
+common#:#sahs_insert_sco_from_clip#:#Paste SCOs from Clipboard###26 06 2009 new variable
+sahs#:#sahs_insert_chapter#:#Insert Chapter###26 06 2009 new variable
+sahs#:#sahs_choose_pages_or_chapters_or_scos_only#:#Please select either pages, SCOs or chapters only.###26 06 2009 new variable
+sahs#:#sahs_insert_scenario#:#Insert Sequenced Chapter###26 06 2009 new variable
+sahs#:#sahs_insert_pagelayout#:#Insert Template Page###26 06 2009 new variable
+sahs#:#sahs_properties#:#Properties###26 06 2009 new variable
+sahs#:#sahs_insert_page#:#Insert Page###26 06 2009 new variable
+sahs#:#sahs_insert_sco#:#Insert SCO###26 06 2009 new variable
+sahs#:#sahs_chapter#:#Chapter###26 06 2009 new variable
+sahs#:#sahs_unit#:#SCO###26 06 2009 new variable
+sahs#:#sahs_page#:#Page###26 06 2009 new variable
+sahs#:#sahs_objectives_alignment#:#Learning Objectives Alignment###26 06 2009 new variable
+sahs#:#sahs_learning_objectives#:#Learning Objectives###26 06 2009 new variable
+sahs#:#sahs_sco_objective#:#Objectives###26 06 2009 new variable
+sahs#:#sahs_questions#:#Questions###26 06 2009 new variable
+sahs#:#sahs_organization#:#Organization###26 06 2009 new variable
+sahs#:#sahs_sequencing#:#Sequencing###26 06 2009 new variable
+sahs#:#sahs_objective_alignment#:#Objectives Alignment###26 06 2009 new variable
+content#:#cont_LocalFile#:#Local File###26 06 2009 new variable
+content#:#cont_Ressources#:#Ressources###26 06 2009 new variable
+content#:#cont_Reading#:#Reading###26 06 2009 new variable
+content#:#cont_Hint#:#Hint###26 06 2009 new variable
+content#:#cont_ed_paste#:#Paste###26 06 2009 new variable
+content#:#cont_ed_insert_pcqst#:#Insert Question###26 06 2009 new variable
+content#:#cont_ed_select_pctext#:#Select Text Item###26 06 2009 new variable
+content#:#cont_question_pool#:#Question Pool###26 06 2009 new variable
+content#:#cont_question_type#:#Question Type###26 06 2009 new variable
+content#:#cont_text_type#:#Text Item Type###26 06 2009 new variable
+content#:#cont_ed_par#:#Text###26 06 2009 new variable
+content#:#cont_ed_dtable#:#Data Table###26 06 2009 new variable
+content#:#cont_ed_atable#:#Advanced Table###26 06 2009 new variable
+content#:#cont_ed_list#:# Advanced List###26 06 2009 new variable
+content#:#cont_ed_textitem#:# Text Item###26 06 2009 new variable
+content#:#cont_mob_files#:#Object Files###26 06 2009 new variable
+content#:#cont_mob_prop#:#Object Properties###26 06 2009 new variable
+meta#:#meta_pointofcontact#:#Point of Contact###26 06 2009 new variable
+meta#:#sco_propagate#:#Propagate to all SCOs###26 06 2009 new variable
+content#:#cont_empty_question#:#Question editing not finished. Please either click and edit or delete question.###26 06 2009 new variable
+content#:#cont_media_placeh#:#Click and edit to insert media###26 06 2009 new variable
+content#:#cont_question_placeh#:#Click and edit to insert question###26 06 2009 new variable
+content#:#cont_text_placeh#:#Click and edit to insert text###26 06 2009 new variable
+content#:#cont_no_glossary#:#No glossary###26 06 2009 new variable
+common#:#obj_sco#:#SCO###26 06 2009 new variable
+common#:#obj_chap#:#Chapter###26 06 2009 new variable
+common#:#obj_page#:#Page###26 06 2009 new variable
+style#:#sty_characteristic_already_exists#:#A style class with this title already exists within this style.###26 06 2009 new variable
+content#:#cont_pc_flist#:#File List###26 06 2009 new variable
+content#:#cont_pc_par#:#Text###26 06 2009 new variable
+content#:#cont_pc_mob#:#Media###26 06 2009 new variable
+content#:#cont_pc_qst#:#Question###26 06 2009 new variable
+content#:#cont_pc_sec#:#Section###26 06 2009 new variable
+content#:#cont_pc_dtab#:#Data Table###26 06 2009 new variable
+content#:#cont_pc_tab#:#Advanced Table###26 06 2009 new variable
+content#:#cont_pc_code#:#Code###26 06 2009 new variable
+content#:#cont_pc_vacc#:#Accordion (Vertical)###26 06 2009 new variable
+content#:#cont_pc_hacc#:#Accordion (Horizontal)###26 06 2009 new variable
+content#:#cont_pc_res#:#Resource###26 06 2009 new variable
+content#:#cont_pc_map#:#Map###26 06 2009 new variable
+content#:#cont_pc_list#:#Advanced List###26 06 2009 new variable
+common#:#session_reminder_lead_time#:#Leadtime###26 06 2009 new variable
+common#:#session_reminder_lead_time_info#:#Please specify, how much seconds before the session expires you want the session reminder to display a warning. The current value for a user session is %s.###26 06 2009 new variable
+rbac#:#rbac_delete_role#:#Delete Role###26 06 2009 new variable
+rbac#:#rbac_role_delete_qst#:#Are you sure you want to delete the following role?<br />All permissions granted by this role will be deleted permanently.###26 06 2009 new variable
+rbac#:#rbac_role_delete_self#:#<strong>Attention:</strong> You are assigned to this role. If you continue this delete operation, you may loose access to some ILIAS materials.  ###26 06 2009 new variable

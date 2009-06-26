@@ -473,3 +473,11 @@ step_access#:#Hozzáférés
 determine_tools_paths#:#Próba az eszközök útvonalának meghatározására
 client_deleted#:#A kliens törölve.
 create_directory#:#Könyvtár létrehozása
+mkisofs_path#:#Path to mkisofs###26 06 2009 new variable
+mkisofs_path_comment#:#Optional to create iso images.###26 06 2009 new variable
+no_path_mkisofs#:#No mkisofs path given.###26 06 2009 new variable
+path_to_mkisofs#:#Path to mkisofs###26 06 2009 new variable
+db_selection#:#Database Selection###26 06 2009 new variable
+db_service_name#:#Service Name###26 06 2009 new variable
+db_mysql#:#MySQL###26 06 2009 new variable
+db_oracle#:#Oracle###26 06 2009 new variable
