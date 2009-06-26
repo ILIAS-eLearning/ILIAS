@@ -56,13 +56,119 @@ class ilTemplate extends ilTemplateX
 	* @param	array	$vars 		variables to replace
 	* @access	public
 	*/
-	function ilTemplate($root)
+	/*function ilTemplate($root)
 	{
+		
 		$this->callConstructor();
 		
 		$this->setRoot($root);
 
 		return true;
+	}*/
+	function ilTemplate($file,$flag1,$flag2,$in_module = false, $vars = "DEFAULT")
+	{
+		$this->activeBlock = "__global__";
+		$this->vars = array();
+
+		$fname = $this->getTemplatePath($file, $in_module);
+
+		$this->tplName = basename($fname);
+		$this->tplPath = dirname($fname);
+		// set default content-type to text/html
+		$this->contenttype = "text/html";
+		if (!file_exists($fname))
+		{
+			die("template ".$fname." was not found.");
+			return false;
+		}
+
+		//$this->IntegratedTemplateExtension(dirname($fname));
+		$this->callConstructor();
+		//$this->loadTemplatefile(basename($fname), $flag1, $flag2);
+		$this->loadTemplatefile($fname, $flag1, $flag2);
+		//add tplPath to replacevars
+		$this->vars["TPLPATH"] = $this->tplPath;
+		
+		// set Options
+		if (method_exists($this, "setOption"))
+		{
+			$this->setOption('use_preg', false);
+		}
+
+		return true;
+	}
+
+	/**
+	* builds a full template path with template and module name
+	*
+	* @param	string		$a_tplname		template name
+	* @param	boolean		$in_module		should be set to true, if template file is in module subdirectory
+	*
+	* @return	string		full template path
+	*/
+	function getTemplatePath($a_tplname, $a_in_module = false, $a_plugin = false)
+	{
+		global $ilias, $ilCtrl;
+		
+		// if baseClass functionality is used (ilias.php):
+		// get template directory from ilCtrl
+		if (!empty($_GET["baseClass"]) && $a_in_module === true)
+		{
+			$a_in_module = $ilCtrl->getModuleDir();
+		}
+
+		if (strpos($a_tplname,"/") === false)
+		{
+			$module_path = "";
+			
+			//$fname = $ilias->tplPath;
+			if ($a_in_module)
+			{
+				if ($a_in_module === true)
+				{
+					$module_path = ILIAS_MODULE."/";
+				}
+				else
+				{
+					$module_path = $a_in_module."/";
+				}
+			}
+
+			if($fname == "" || !file_exists($fname))
+			{
+				if ($a_in_module == "setup")
+				{
+					$fname = "./".$module_path."templates/".basename($a_tplname);
+				}
+				else
+				{
+					$fname = "./".$module_path."templates/default/".basename($a_tplname);
+				}
+			}
+		}
+		else
+		{
+			$fname = $a_tplname;
+		}
+		
+		return $fname;
+	}
+
+	function addBlockFile($var, $block, $tplname, $in_module = false)
+	{
+		if (DEBUG)
+		{
+			echo "<br/>Template '".$this->tplPath."/".$tplname."'";
+		}
+
+		$tplfile = $this->getTemplatePath($tplname, $in_module);
+		if (file_exists($tplfile) == false)
+		{
+			echo "<br/>Template '".$tplfile."' doesn't exist! aborting...";
+			return false;
+		}
+
+		return parent::addBlockFile($var, $block, $tplfile);
 	}
 
 	/**

@@ -109,8 +109,9 @@ $ilLog =& $log;
 
 // init template - in the main program please use ILIAS Template class
 // instantiate main template
-$tpl = new ilTemplate("./setup/templates");
-$tpl->loadTemplatefile("tpl.main.html", true, true);
+//$tpl = new ilTemplate("./setup/templates");
+//$tpl->loadTemplatefile("tpl.main.html", true, true);
+$tpl = new ilTemplate("tpl.main.html", true, true, "setup");
 
 // make instance of structure reader
 $ilCtrlStructureReader = new ilCtrlStructureReader();

@@ -361,7 +361,7 @@ class ilSetupGUI
 	{       
 		$this->checkDisplayMode();
 	
-		$this->tpl->addBlockFile("SETUP_CONTENT","setup_content","tpl.client_overview.html");
+		$this->tpl->addBlockFile("SETUP_CONTENT","setup_content","tpl.client_overview.html", "setup");
 
 		if ($this->setup->getClient()->db_installed)
 		{
@@ -623,7 +623,7 @@ class ilSetupGUI
 			return false;
 		}
 		
-		$this->tpl->addBlockFile("NAVBUTTONS","navbuttons","tpl.navbuttons.html");
+		$this->tpl->addBlockFile("NAVBUTTONS","navbuttons","tpl.navbuttons.html", "setup");
 
 		$this->tpl->setVariable("FORMACTION_BUTTONS","setup.php?cmd=gateway");
 
@@ -680,7 +680,7 @@ class ilSetupGUI
 		$OK = "<font color=\"green\"><strong>OK</strong></font>";
 		$FAILED = "<strong><font color=\"red\">FAILED</font></strong>";
 		
-		$this->tpl->addBlockFile("CONTENT","content","tpl.preliminaries.html");
+		$this->tpl->addBlockFile("CONTENT","content","tpl.preliminaries.html", "setup");
 		
 		$this->tpl->setVariable("TXT_SETUP_TITLE",$this->lng->txt("ilias_setup"));
 		$this->tpl->setVariable("TXT_SETUP_WELCOME", $this->lng->txt("setup_welcome"));
@@ -794,9 +794,9 @@ class ilSetupGUI
 			ilUtil::redirect("setup.php?cmd=mastersettings");
 		}
 
-		$this->tpl->addBlockFile("CONTENT","content","tpl.std_layout.html");
+		$this->tpl->addBlockFile("CONTENT","content","tpl.std_layout.html", "setup");
 
-		$this->tpl->addBlockFile("SETUP_CONTENT","setup_content","tpl.form_mastersetup.html");
+		$this->tpl->addBlockFile("SETUP_CONTENT","setup_content","tpl.form_mastersetup.html", "setup");
 
 		$this->tpl->setVariable("FORMACTION", "setup.php?cmd=gateway");
 		
@@ -988,7 +988,7 @@ class ilSetupGUI
 	 */
 	function displayLogin()
 	{
-		$this->tpl->addBlockFile("CONTENT","content","tpl.std_layout.html");
+		$this->tpl->addBlockFile("CONTENT","content","tpl.std_layout.html", "setup");
 
 		if ($_POST["form"])
 		{
@@ -1015,7 +1015,7 @@ class ilSetupGUI
 		}
 
 		// output
-		$this->tpl->addBlockFile("SETUP_CONTENT","setup_content","tpl.form_login.html");
+		$this->tpl->addBlockFile("SETUP_CONTENT","setup_content","tpl.form_login.html", "setup");
 		$this->tpl->setVariable("FORMACTION", "setup.php?cmd=gateway");
 		$this->tpl->setVariable("TXT_HEADER",$this->lng->txt("setup_login"));
 
@@ -1082,7 +1082,7 @@ class ilSetupGUI
 				$access = "disabled";
 			}
 			
-			if ($key == $this->default_client)
+			if ($key == $this->setup->default_client)
 			{
 				$default = " checked=\"checked\"";
 			}
@@ -1122,16 +1122,16 @@ class ilSetupGUI
 		// sorting array
 		$data["data"] = ilUtil::sortArray($data["data"],$_GET["sort_by"],$_GET["sort_order"]);
 
-		$this->tpl->addBlockFile("CONTENT","content","tpl.clientlist.html");
+		$this->tpl->addBlockFile("CONTENT","content","tpl.clientlist.html", "setup");
 		
 		$this->tpl->setVariable("TXT_INFO", $this->lng->txt("info_text_list"));
 		
 		ilUtil::sendInfo();
 
 		// load template for table
-		$this->tpl->addBlockfile("CLIENT_LIST", "client_list", "tpl.table.html");
+		$this->tpl->addBlockfile("CLIENT_LIST", "client_list", "tpl.table.html", "setup");
 		// load template for table content data
-		$this->tpl->addBlockfile("TBL_CONTENT", "tbl_content", "tpl.obj_tbl_rows.html");
+		$this->tpl->addBlockfile("TBL_CONTENT", "tbl_content", "tpl.obj_tbl_rows.html", "setup");
 
 		// common
 		$this->tpl->setVariable("TXT_HEADER",$this->lng->txt("available_clients"));
@@ -1316,9 +1316,9 @@ class ilSetupGUI
 			ilUtil::redirect("setup.php?cmd=mastersettings");
 		}
 
-		$this->tpl->addBlockFile("CONTENT","content","tpl.std_layout.html");
+		$this->tpl->addBlockFile("CONTENT","content","tpl.std_layout.html", "setup");
 
-		$this->tpl->addBlockFile("SETUP_CONTENT","setup_content","tpl.form_mastersetup.html");
+		$this->tpl->addBlockFile("SETUP_CONTENT","setup_content","tpl.form_mastersetup.html", "setup");
 
 		$this->tpl->setCurrentBlock("det_tools");
 		$this->tpl->setVariable("TXT_DET_TOOLS_PATH", $this->lng->txt("determine_tools_paths"));
@@ -1500,7 +1500,7 @@ class ilSetupGUI
 		
 
 		// output
-		$this->tpl->addBlockFile("SETUP_CONTENT","setup_content","tpl.clientsetup_select_db.html");
+		$this->tpl->addBlockFile("SETUP_CONTENT","setup_content","tpl.clientsetup_select_db.html", "setup");
 		
 		$this->tpl->setVariable("FORMACTION", "setup.php?cmd=gateway");
 		$this->tpl->setVariable("TXT_SAVE", $this->lng->txt("save"));
@@ -1664,7 +1664,7 @@ class ilSetupGUI
 		}
 
 		// output
-		$this->tpl->addBlockFile("SETUP_CONTENT","setup_content","tpl.clientsetup_ini.html");
+		$this->tpl->addBlockFile("SETUP_CONTENT","setup_content","tpl.clientsetup_ini.html", "setup");
 		
 		$this->tpl->setVariable("FORMACTION", "setup.php?cmd=gateway");
 		$this->tpl->setVariable("TXT_SAVE", $this->lng->txt("save"));
@@ -1727,7 +1727,7 @@ class ilSetupGUI
 	 */
 	function displayError($a_message)
 	{
-		$this->tpl->addBlockFile("CONTENT", "content", "tpl.error.html");
+		$this->tpl->addBlockFile("CONTENT", "content", "tpl.error.html", "setup");
 		
 		$this->tpl->setCurrentBlock("content");
 		$this->tpl->setVariable("FORMACTION", $_SESSION["referer"]);
@@ -1744,7 +1744,7 @@ class ilSetupGUI
 	 */
 	function displayLogout()
 	{
-		$this->tpl->addBlockFile("CONTENT","content","tpl.logout.html");
+		$this->tpl->addBlockFile("CONTENT","content","tpl.logout.html", "setup");
 
 		session_destroy();
 
@@ -1814,7 +1814,7 @@ class ilSetupGUI
 	{
 		$OK = "<font color=\"green\"><strong>OK</strong></font>";
 
-		$this->tpl->addBlockFile("STATUS_PANEL","status_panel","tpl.status_panel.html");
+		$this->tpl->addBlockFile("STATUS_PANEL","status_panel","tpl.status_panel.html", "setup");
 
 		$this->tpl->setVariable("TXT_OVERALL_STATUS", $this->lng->txt("overall_status"));
 		// display status
@@ -1842,7 +1842,7 @@ class ilSetupGUI
 		switch ($this->display_mode)
 		{
 			case "view":
-				$this->tpl->addBlockFile("CONTENT","content","tpl.clientview.html");
+				$this->tpl->addBlockFile("CONTENT","content","tpl.clientview.html", "setup");
 				// display tabs
 				include "./setup/include/inc.client_tabs.php";
 				$client_name = ($this->setup->getClient()->getName()) ? $this->setup->getClient()->getName() : $this->lng->txt("no_client_name");
@@ -1850,7 +1850,7 @@ class ilSetupGUI
 				break;
 			
 			case "setup":
-				$this->tpl->addBlockFile("CONTENT","content","tpl.clientsetup.html");
+				$this->tpl->addBlockFile("CONTENT","content","tpl.clientsetup.html", "setup");
 				$this->tpl->setVariable("TXT_HEADER",$this->lng->txt($a_title));        
 				break;
 
@@ -1883,7 +1883,7 @@ class ilSetupGUI
 	 */
 	function displayStartup()
 	{
-		$this->tpl->addBlockFile("CONTENT","content","tpl.clientsetup.html");
+		$this->tpl->addBlockFile("CONTENT","content","tpl.clientsetup.html", "setup");
 		
 		$this->tpl->setVariable("TXT_INFO",$this->lng->txt("info_text_first_client"));
 		$this->tpl->setVariable("TXT_HEADER",$this->lng->txt("setup_first_client"));
@@ -1968,8 +1968,12 @@ class ilSetupGUI
 		}
 
 		ilUtil::sendInfo($message);
-
-		$this->tpl->addBlockFile("SETUP_CONTENT","setup_content","tpl.clientsetup_db.html");
+		
+		$this->tpl->addBlockFile("SETUP_CONTENT","setup_content","tpl.clientsetup_db.html", "setup");
+		
+/*$this->initClientDbForm();
+$this->getClientDbFormValues();
+$this->tpl->setVariable("FORM", $this->form->getHTML());*/
 		
 		$this->tpl->setVariable("FORMACTION", "setup.php?cmd=gateway");
 		$this->tpl->setVariable("DB_HOST", $this->setup->getClient()->getDbHost());
@@ -1990,9 +1994,9 @@ class ilSetupGUI
 
 			if (!$db_status = $dbupdate->getDBVersionStatus())
 			{
-				$remark = "<font color=\"red\">".$this->lng->txt("database_needs_update").
+				$remark = '<div class="ilSetupFailureMessage">'.$this->lng->txt("database_needs_update").
 								  " (".$this->lng->txt("database_version").": ".$dbupdate->currentVersion.
-								  " ; ".$this->lng->txt("file_version").": ".$dbupdate->fileVersion.")</font>";
+								  " ; ".$this->lng->txt("file_version").": ".$dbupdate->fileVersion.")</div>";
 				$this->tpl->setVariable("TXT_INFO", $remark);
 				
 				$this->tpl->setCurrentBlock("btn_submit");
@@ -2127,6 +2131,57 @@ class ilSetupGUI
 	}
 	
 	/**
+	* Init client db form.
+	*/
+	public function initClientDbForm()
+	{
+		global $lng, $ilCtrl;
+	
+		include_once("Services/Form/classes/class.ilPropertyFormGUI.php");
+		$this->form = new ilPropertyFormGUI();
+	
+		// type
+		$ne = new ilNonEditableValueGUI($lng->txt("type"), "db_type");
+		$this->form->addItem($ne);
+
+		// version
+		$ne = new ilNonEditableValueGUI($lng->txt("version"), "db_version");
+		$this->form->addItem($ne);
+
+		// host
+		$ne = new ilNonEditableValueGUI($lng->txt("host"), "db_host");
+		$this->form->addItem($ne);
+
+		// name
+		$ne = new ilNonEditableValueGUI($lng->txt("name"), "db_name");
+		$this->form->addItem($ne);
+	
+		// user
+		$ne = new ilNonEditableValueGUI($lng->txt("user"), "db_user");
+		$this->form->addItem($ne);
+	
+		$this->form->addCommandButton("cancelSave", $lng->txt("update_database"));
+	                
+		$this->form->setTitle($lng->txt("database"));
+		$this->form->setFormAction("setup.php?cmd=gateway");
+	}
+	
+	/**
+	* Get current values for client db from 
+	*
+	*/
+	public function getClientDbFormValues()
+	{
+		$values = array();
+	
+		$values["db_host"] = $this->setup->getClient()->getDbHost();
+		$values["db_name"] = $this->setup->getClient()->getDbName();
+		$values["db_user"] = $this->setup->getClient()->getDbUser();
+
+		$this->form->setValuesByArray($values);
+	}
+		
+	/**
 	 * display language form and process form input
 	 */
 	function displayLanguages()
@@ -2186,7 +2241,7 @@ class ilSetupGUI
 		}
 
 		// output
-		$this->tpl->addBlockFile("SETUP_CONTENT","setup_content","tpl.clientsetup_lang.html");
+		$this->tpl->addBlockFile("SETUP_CONTENT","setup_content","tpl.clientsetup_lang.html", "setup");
 
 		$languages = $this->lng->getInstallableLanguages();
 		$installed_langs = $this->lng->getInstalledLanguages();
@@ -2348,7 +2403,7 @@ class ilSetupGUI
 		}
 
 		// output
-		$this->tpl->addBlockFile("SETUP_CONTENT","setup_content","tpl.clientsetup_contact.html");
+		$this->tpl->addBlockFile("SETUP_CONTENT","setup_content","tpl.clientsetup_contact.html", "setup");
 
 		// client values
 		$this->tpl->setVariable("INST_NAME",ilUtil::prepareFormOutput(($this->setup->getClient()->getName()) ? $this->setup->getClient()->getName() : $this->setup->getClient()->getId()));
@@ -2487,7 +2542,7 @@ class ilSetupGUI
 			$this->tpl->setVariable("TXT_INFO", $this->lng->txt("info_text_nic1")." ".$email_link." ".$this->lng->txt("info_text_nic2"));
 
 			// output
-			$this->tpl->addBlockFile("SETUP_CONTENT","setup_content","tpl.clientsetup_nic.html");
+			$this->tpl->addBlockFile("SETUP_CONTENT","setup_content","tpl.clientsetup_nic.html", "setup");
 	
 			$this->tpl->setVariable("TXT_SAVE", $this->lng->txt("save"));
 	
@@ -2539,7 +2594,7 @@ class ilSetupGUI
 		
 		// output
 		ilUtil::sendInfo();
-		$this->tpl->addBlockFile("SETUP_CONTENT","setup_content","tpl.clientsetup_tools.html");
+		$this->tpl->addBlockFile("SETUP_CONTENT","setup_content","tpl.clientsetup_tools.html", "setup");
 		$this->tpl->setVariable("FORMACTION", "setup.php?cmd=gateway");
 		$this->tpl->setVariable("TXT_TOOLS", $this->lng->txt("tools"));
 		$this->tpl->setVariable("TXT_CTRL_STRUCTURE", $this->lng->txt("ctrl_structure"));
@@ -2623,7 +2678,7 @@ class ilSetupGUI
 	 */
 	function changeMasterPassword()
 	{
-		$this->tpl->addBlockFile("CONTENT","content","tpl.std_layout.html");
+		$this->tpl->addBlockFile("CONTENT","content","tpl.std_layout.html", "setup");
 		
 		$this->tpl->setVariable("TXT_INFO", $this->lng->txt("info_text_password"));
 
@@ -2673,7 +2728,7 @@ class ilSetupGUI
 		}
 		
 		// output
-		$this->tpl->addBlockFile("SETUP_CONTENT","setup_content","tpl.form_change_admin_password.html");
+		$this->tpl->addBlockFile("SETUP_CONTENT","setup_content","tpl.form_change_admin_password.html", "setup");
 
 		$this->tpl->setVariable("TXT_HEADER",$this->lng->txt("password_new_master"));
 
@@ -2718,7 +2773,7 @@ class ilSetupGUI
 		
 //echo "<b>5</b>";
 		// output
-		$this->tpl->addBlockFile("SETUP_CONTENT","setup_content","tpl.clientsetup_finish.html");
+		$this->tpl->addBlockFile("SETUP_CONTENT","setup_content","tpl.clientsetup_finish.html", "setup");
 		$this->tpl->setVariable("TXT_INFO",$txt_info);
 		
 		$this->setButtonPrev("nic");
@@ -2770,7 +2825,7 @@ class ilSetupGUI
 		$this->tpl->setVariable("TXT_INFO", $this->lng->txt("info_text_delete"));
 		
 		// output
-		$this->tpl->addBlockFile("SETUP_CONTENT","setup_content","tpl.form_delete_client.html");
+		$this->tpl->addBlockFile("SETUP_CONTENT","setup_content","tpl.form_delete_client.html", "setup");
 
 		// delete panel
 		$this->tpl->setVariable("FORMACTION", "setup.php?cmd=gateway");
