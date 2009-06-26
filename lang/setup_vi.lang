@@ -482,3 +482,11 @@ pre_php_version_4#:#Your PHP version is not supported. Please update to PHP 5.2.
 pre_mysql#:#MySQL Support###30 05 2008 new variable
 pre_mysql_missing#:#Please enable MySQL support (version 4.1 or higher) in your PHP installation.###30 05 2008 new variable
 pre_mysql_4_1_or_higher#:#You need MySQL 4.1 or higher to run ILIAS.###30 05 2008 new variable
+mkisofs_path#:#Path to mkisofs###26 06 2009 new variable
+mkisofs_path_comment#:#Optional to create iso images.###26 06 2009 new variable
+no_path_mkisofs#:#No mkisofs path given.###26 06 2009 new variable
+path_to_mkisofs#:#Path to mkisofs###26 06 2009 new variable
+db_selection#:#Database Selection###26 06 2009 new variable
+db_service_name#:#Service Name###26 06 2009 new variable
+db_mysql#:#MySQL###26 06 2009 new variable
+db_oracle#:#Oracle###26 06 2009 new variable
