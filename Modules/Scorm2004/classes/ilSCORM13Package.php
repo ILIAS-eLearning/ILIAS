@@ -283,6 +283,55 @@ class ilSCORM13Package
 	/**
 	 */
 	
+	  /**
+	* Imports an extracted SCORM 2004 module from ilias-data dir into database
+	*
+	* @access       public
+	* @return       string title of package
+	*/
+	public function il_importSco($packageId, $sco_id, $packageFolder){
+		global $ilDB, $ilLog;
+		
+		
+	  	$this->packageFolder=$packageFolder;
+	  	$this->packageId=$packageId;
+	  	$this->imsmanifestFile = $this->packageFolder . '/' . 'index.xml';
+	  	//step 1 - parse Manifest-File and validate
+	  	$this->imsmanifest = new DOMDocument;
+	  	$this->imsmanifest->async = false;
+	  	
+	  	if (!@$this->imsmanifest->load($this->imsmanifestFile))
+	  	{
+	  		$this->diagnostic[] = 'XML not wellformed';
+	  		return false;
+	  	}
+	  	
+//		$ilLog->write("SCORM: parse");
+
+	  	//step 2 tranform
+//	  	$this->manifest = $this->transform($this->imsmanifest, self::DB_ENCODE_XSL);
+//    
+//	  	if (!$this->manifest)
+//	  	{
+//	  		$this->diagnostic[] = 'Cannot transform into normalized manifest';
+//	  		return false;
+//	  	}
+		
+	  	$slm = new ilObjSCORM2004LearningModule($packageId,false);
+	  	$sco = new ilSCORM2004Sco($slm,$sco_id);
+	  	
+//		$ilLog->write("SCORM: validate");
+	
+//	  	ilSCORM13DB::begin();
+	  	$this->dbImportSco($slm,$sco);
+	  	
+//		$ilLog->write("SCORM: import new");
+	
+//	  	ilSCORM13DB::commit();
+
+	  	return $j['item']['title'];
+	  }
+
 	private function setProgress($progress, $msg = '')
 	{
 		$this->progress = $progress;
@@ -314,6 +363,81 @@ class ilSCORM13Package
 		}
 	}
 
+	public function dbImportSco($slm,$sco)
+	{
+		include_once 'class.ilSCORM2004Page.php';
+		$doc = new SimpleXMLElement($this->imsmanifest->saveXml());
+		$l = $doc->xpath("/ContentObject/PageObject");
+		foreach($l as $page_xml)
+	  	{
+	  		$tnode = $page_xml->xpath('MetaData/General/Title');
+	  		$page = new ilSCORM2004PageNode($slm);
+			$page->setTitle($tnode[0]);
+			$page->setSLMId($slm->getId());
+			$page->create();
+			ilSCORM2004Node::putInTree($page, $sco->getId(), $target);
+			$tnode = $page_xml->xpath("//MediaObject/MediaAlias");
+			foreach($tnode as $ttnode)
+			{
+				include_once './Services/MediaObjects/classes/class.ilObjMediaObject.php';
+				$media_object = new ilObjMediaObject();
+				$media_object->setTitle("");
+				$media_object->setDescription("");
+				$media_object->create();
+		
+				// determine and create mob directory, move uploaded file to directory
+				$media_object->createDirectory();
+				$mob_dir = ilObjMediaObject::_getDirectory($media_object->getId());
+				if(!file_exists($this->packageFolder."/objects/".$ttnode[OriginId])) continue;
+				$d = ilUtil::getDir($this->packageFolder."/objects/".$ttnode[OriginId]);
+				foreach($d as $f)
+				{
+					if($f[type]=='file') 
+					{
+						$media_item =& new ilMediaItem();
+						$media_object->addMediaItem($media_item);
+						$media_item->setPurpose("Standard");
+				
+						$tmp_name = $this->packageFolder."/objects/".$ttnode[OriginId]."/".$f[entry];
+						$name = $f[entry];
+						$file = $mob_dir."/".$name;
+						copy($tmp_name, $file);
+						
+						// get mime type
+						$format = ilObjMediaObject::getMimeType($file);
+						$location = $name;
+						// set real meta and object data
+						$media_item->setFormat($format);
+						$media_item->setLocation($location);
+						$media_item->setLocationType("LocalFile");
+						$media_object->setTitle($name);
+						$media_object->setDescription($format);
+				
+						if (ilUtil::deducibleSize($format))
+						{
+							$size = getimagesize($file);
+							$media_item->setWidth($size[0]);
+							$media_item->setHeight($size[1]);
+						}
+						//$media_item->setHAlign("Left");
+					}
+				} 
+				
+				ilUtil::renameExecutables($mob_dir);
+				$media_object->update();
+				$ttnode[OriginId]="il__mob_".$media_object->getId();
+			}
+			$pagex = new ilSCORM2004Page($page->getId());
+			$tnode = $page_xml->xpath('PageContent');
+			$t = "<PageObject>";
+			foreach($tnode as $ttnode)
+				$t .= $ttnode->asXML();
+			$t .="</PageObject>";
+			$pagex->setXMLContent($t);
+			$pagex->updateFromXML();
+	  	}
+	}
+	
 	public function dbImport($node, &$lft=1, $depth=1, $parent=0)
 	{
 		global $ilDB;

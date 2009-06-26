@@ -281,7 +281,7 @@ class ilSCORM2004Page extends ilPageObject
 	function exportXMLMetaData(&$a_xml_writer)
 	{
 		include_once("Services/MetaData/classes/class.ilMD2XML.php");
-		$md2xml = new ilMD2XML($this->slm_id, $this->getId(), gettype($this));
+		$md2xml = new ilMD2XML($this->getParentId(), $this->getId(), gettype($this));
 		$md2xml->setExportMode(true);
 		$md2xml->startExport();
 		$a_xml_writer->appendXML($md2xml->getXML());

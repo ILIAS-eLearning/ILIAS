@@ -958,7 +958,7 @@ class ilSCORM2004ScoGUI extends ilSCORM2004NodeGUI
 		
 		include_once ("./Modules/Scorm2004/classes/ilSCORM13Package.php");
 		$newPack = new ilSCORM13Package();
-		$newPack->il_importSco($this->slm_object->getDataDirectory()."/".$this->node_object->getId(),$this->node_object->getId(),$ilias,false);
+		$newPack->il_importSco($this->slm_object->getId(),$this->node_object->getId(),$this->slm_object->getDataDirectory()."/".$this->node_object->getId());
 			
 		$this->ctrl->redirect($this, "showOrganization");
 	}
