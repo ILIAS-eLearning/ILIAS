@@ -656,7 +656,7 @@ class ilSetupGUI
 	{
 		$this->btn_prev_on = true;
 		$this->btn_prev_cmd = ($a_cmd) ? $a_cmd : "gateway";
-		$this->btn_prev_lng = ($a_lng) ? $this->lng->txt($a_lng) : "<<&nbsp;&nbsp;&nbsp;".$this->lng->txt("prev");
+		$this->btn_prev_lng = ($a_lng) ? $this->lng->txt($a_lng) : $this->lng->txt("prev");
 	}
 
 	/**
@@ -669,7 +669,7 @@ class ilSetupGUI
 	{
 		$this->btn_next_on = true;
 		$this->btn_next_cmd = ($a_cmd) ? $a_cmd : "gateway";
-		$this->btn_next_lng = ($a_lng) ? $this->lng->txt($a_lng) : $this->lng->txt("next")."&nbsp;&nbsp;&nbsp;>>";
+		$this->btn_next_lng = ($a_lng) ? $this->lng->txt($a_lng) : $this->lng->txt("next");
 	}
 
 	/**
@@ -1232,7 +1232,7 @@ class ilSetupGUI
 		
 		//???
 		$this->btn_next_on = true;
-		$this->btn_next_lng = $this->lng->txt("create_new_client")." >>";
+		$this->btn_next_lng = $this->lng->txt("create_new_client")."...";
 		$this->btn_next_cmd = "newclient";
 		//$this->displayNavButtons();
 
@@ -1485,7 +1485,7 @@ class ilSetupGUI
 		$this->tpl->parseCurrentBlock();
 		
 		$this->btn_next_on = true;
-		$this->btn_next_lng = $this->lng->txt("create_new_client")." >>";
+		$this->btn_next_lng = $this->lng->txt("create_new_client")."...";
 		$this->btn_next_cmd = "newclient";
 
 	}
