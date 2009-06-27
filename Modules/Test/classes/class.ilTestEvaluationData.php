@@ -62,19 +62,12 @@ class ilTestEvaluationData
 	var $statistics;
 
 	/**
-	* Filter type
+	* Filter array
 	*
-	* @var string
+	* @var array
 	*/
-	var $filterby;
+	var $arrFilter;
 
-	/**
-	* Filter text
-	*
-	* @var string
-	*/
-	var $filtertext;
-	
 	/**
 	*
 	* @var integer
@@ -83,7 +76,7 @@ class ilTestEvaluationData
 
 	public function __sleep()
 	{
-		return array('questionTitles', 'participants', 'statistics', 'filterby', 'filtertext', 'datasets', 'test');
+		return array('questionTitles', 'participants', 'statistics', 'arrFilter', 'datasets', 'test');
 	}
 
 	/**
@@ -204,45 +197,50 @@ class ilTestEvaluationData
 
 	function getParticipants()
 	{
-		if (strlen($this->filterby) && strlen($this->filtertext))
+		if (count($this->arrFilter))
 		{
 			$filteredParticipants = array();
 			$courseids = array();
 			$groupids = array();
 			global $ilDB;
-			switch ($this->filterby)
+			if (array_key_exists('group', $this->arrFilter))
 			{
-				case "group":
-					$ids = ilObject::_getIdsForTitle($this->filtertext, 'grp', true);
-					$groupids = array_merge($groupids, $ids);
-					break;
-				case "course":
-					$ids = ilObject::_getIdsForTitle($this->filtertext, 'crs', true);
-					$courseids = array_merge($courseids, $ids);
-					break;
+				$ids = ilObject::_getIdsForTitle($this->arrFilter['group'], 'grp', true);
+				$groupids = array_merge($groupids, $ids);
+			}
+			if (array_key_exists('course', $this->arrFilter))
+			{
+				$ids = ilObject::_getIdsForTitle($this->arrFilter['course'], 'crs', true);
+				$courseids = array_merge($courseids, $ids);
 			}
 			foreach ($this->participants as $active_id => $participant)
 			{
 				$remove = FALSE;
-				switch ($this->filterby)
+				if (array_key_exists('name', $this->arrFilter))
 				{
-					case "name":
-						if (!(strpos(strtolower($participant->getName()), strtolower($this->filtertext)) !== FALSE)) $remove = TRUE;
-						break;
-					case "group":
+					if (!(strpos(strtolower($participant->getName()), strtolower($this->arrFilter['name'])) !== FALSE)) $remove = TRUE;
+				}
+				if (!$remove)
+				{
+					if (array_key_exists('group', $this->arrFilter))
+					{
 						include_once "./Services/Membership/classes/class.ilParticipants.php";
 						$groups = ilParticipants::_getMembershipByType($participant->getUserID(), "grp");
 						$foundfilter = FALSE;
 						if (count(array_intersect($groupids, $groups))) $foundfilter = TRUE;
 						if (!$foundfilter) $remove = TRUE;
-						break;
-					case "course":
+					}
+				}
+				if (!$remove)
+				{
+					if (array_key_exists('course', $this->arrFilter))
+					{
 						include_once "./Services/Membership/classes/class.ilParticipants.php";
 						$courses = ilParticipants::_getMembershipByType($participant->getUserID(), "crs");
 						$foundfilter = FALSE;
 						if (count(array_intersect($courseids, $courses))) $foundfilter = TRUE;
 						if (!$foundfilter) $remove = TRUE;
-						break;
+					}
 				}
 				if (!$remove) $filteredParticipants[$active_id] = $participant;
 			}
@@ -256,8 +254,7 @@ class ilTestEvaluationData
 	
 	function resetFilter()
 	{
-		$this->filterby = "";
-		$this->filtertext = "";
+		$this->arrFilter = array();
 	}
 	
 	/*
@@ -268,8 +265,17 @@ class ilTestEvaluationData
 	*/
 	function setFilter($by, $text)
 	{
-		$this->filterby = $by;
-		$this->filtertext = $text;
+		$this->arrFilter = array($by => $text);
+	}
+	
+	/*
+	* Set an output filter for getParticipants
+	*
+	* @param array $arrFilter filter values
+	*/
+	function setFilterArray($arrFilter)
+	{
+		$this->arrFilter = $arrFilter;
 	}
 	
 	function addParticipant($active_id, $participant)

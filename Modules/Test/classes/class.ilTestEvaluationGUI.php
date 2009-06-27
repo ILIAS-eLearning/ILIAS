@@ -130,10 +130,16 @@ class ilTestEvaluationGUI extends ilTestServiceGUI
 		return $headervars;
 	}
 
+	public function filterEvaluation()
+	{
+		include_once "./Modules/Test/classes/class.ilEvaluationAllTableGUI.php";
+		$table_gui = new ilEvaluationAllTableGUI($this, 'outEvaluation', array());
+		$table_gui->writeFilterToSession();
+		$this->ctrl->redirect($this, "outEvaluation");
+	}
+
 	/**
 	* Creates the evaluation output for the test
-	*
-	* Creates HTML output with the list of the results of all test participants.
 	*
 	* @access public
 	*/
@@ -148,245 +154,111 @@ class ilTestEvaluationGUI extends ilTestServiceGUI
 			$this->ctrl->redirectByClass("ilobjtestgui", "infoScreen");
 		}
 
-		global $ilUser;
-		
-		$this->tpl->addBlockFile("ADM_CONTENT", "adm_content", "tpl.il_as_tst_evaluation.html", "Modules/Test");
-
-		$filter = 0;
-		$filtertext = "";
-		$filterby = "";
-		$passedonly = FALSE;
-		$setting = new ilSetting("assessment");
-		// set filter was pressed
-		if (strcmp($_POST["cmd"][$this->ctrl->getCmd()], $this->lng->txt("set_filter")) == 0)
-		{
-			$filter = 1;
-			$filtertext = trim($_POST["userfilter"]);
-			$filterby = $_POST["filterby"];
-			if ($_POST["passedonly"] == 1)
-			{
-				$passedonly = TRUE;
-			}
-			if ((strlen($filtertext) == 0) && ($passedonly == FALSE)) $filter = 0;
-			// save the filter for later usage
-			$setting->set("tst_stat_filter_passed_" . $this->object->getTestId(), ($passedonly) ? 1 : 0);
-			$setting->set("tst_stat_filter_text_" . $this->object->getTestId(), $filtertext);
-			$setting->set("tst_stat_filter_by_" . $this->object->getTestId(), $filterby);
-		}
-		else
-		{
-			if (array_key_exists("g_userfilter", $_GET))
-			{
-				$filtertext = $_GET["g_userfilter"];
-				$filterby = $_GET["g_filterby"];
-			}
-			else
-			{
-				// try to read the filter from the users preferences
-				$pref = $setting->get("tst_stat_filter_text_" . $this->object->getTestId());
-				if ($pref !== FALSE)
-				{
-					$filtertext = $pref;
-				}
-				$pref = $setting->get("tst_stat_filter_by_" . $this->object->getTestId());
-				if ($pref !== FALSE)
-				{
-					$filterby = $pref;
-				}
-			}
-			if (array_key_exists("g_passedonly", $_GET))
-			{
-				if ($_GET["g_passedonly"] == 1)
-				{
-					$passedonly = TRUE;
-				}
-			}
-			else
-			{
-				// try to read the filter from the users preferences
-				$pref = $setting->get("tst_stat_filter_passed_" . $this->object->getTestId());
-				if ($pref !== FALSE)
-				{
-					$passedonly = ($pref) ? TRUE : FALSE;
-				}
-			}
-		}
-		// reset filter was pressed
-		if (strcmp($_POST["cmd"][$this->ctrl->getCmd()], $this->lng->txt("reset_filter")) == 0)
-		{
-			$filter = 0;
-			$filtertext = "";
-			$filterby = "name";
-			$passedonly = FALSE;
-			$setting->delete("tst_stat_filter_passed_" . $this->object->getTestId());
-			$setting->delete("tst_stat_filter_text_" . $this->object->getTestId());
-			$setting->delete("tst_stat_filter_by_" . $this->object->getTestId());
-		}
-		if (strlen($filtertext))
-		{
-			$this->ctrl->setParameter($this, "g_userfilter", $filtertext);
-			$this->ctrl->setParameter($this, "g_filterby", $filterby);
-		}
-		if ($passedonly)
-		{
-			$this->ctrl->setParameter($this, "g_passedonly", "1");
-		}
-
-		$offset = ($_GET["offset"]) ? $_GET["offset"] : 0;
-		$orderdirection = ($_GET["sort_order"]) ? $_GET["sort_order"] : "asc";
-		$defaultOrderColumn = "name";
-		if ($this->object->getAnonymity()) $defaultOrderColumn = "counter";
-		$ordercolumn = ($_GET["sort_by"]) ? $_GET["sort_by"] : $defaultOrderColumn;
-		
-		$maxentries = $ilUser->getPref("hits_per_page");
-		if ($maxentries < 1)
-		{
-			$maxentries = 9999;
-		}
-		
-		include_once("./Services/Table/classes/class.ilTableGUI.php");
-		$table = new ilTableGUI(0, FALSE);
-		$table->setTitle($this->lng->txt("participants_evaluation"));
-		$table->setHeaderNames($this->getHeaderNames());
-
-		$table->enable("auto_sort");
-		$table->enable("sort");
-		$table->setLimit($maxentries);
-
-		$header_params = $this->ctrl->getParameterArray($this, "outEvaluation");
-		$header_vars = $this->getHeaderVars();
-		$table->setHeaderVars($header_vars, $header_params);
-		$table->setFooter("tblfooter", $this->lng->txt("previous"), $this->lng->txt("next"));
-
-		$table->setOffset($offset);
-		$table->setMaxCount(count($total_users));
-		$table->setOrderColumn($ordercolumn);
-		$table->setOrderDirection($orderdirection);
-
-		$evaluation_rows = array();
-		$counter = 1;
-		include_once "./Modules/Test/classes/class.ilTestEvaluationData.php";
-		$data = new ilTestEvaluationData($this->object);
-//		$data =& $this->object->getCompleteEvaluationData(FALSE, $filterby, $filtertext);
-		$data->setFilter($filterby, $filtertext);
-		$foundParticipants =& $data->getParticipants();
-		if (count($foundParticipants) == 0)
-		{
-			$this->tpl->setVariable("EVALUATION_DATA", $this->lng->txt("tst_no_evaluation_data"));
-		}
 		$additionalFields = $this->object->getEvaluationAdditionalFields();
-
-		foreach ($data->getParticipants() as $active_id => $userdata)
+		if ($this->object->ects_output)
 		{
-			$remove = FALSE;
-			if ($passedonly)
+			array_push($additionalFields, 'ects_grade');
+		}
+		include_once "./Modules/Test/classes/class.ilEvaluationAllTableGUI.php";
+		$table_gui = new ilEvaluationAllTableGUI($this, 'outEvaluation', $additionalFields);
+		$data = array();
+		$arrFilter = array();
+		foreach ($table_gui->getFilterItems() as $item)
+		{
+			if ($item->getValue() !== false)
 			{
-				if ($userdata->getPassed() == FALSE)
+				switch ($item->getPostVar())
 				{
-					$remove = TRUE;
+					case 'group':
+					case 'name':
+					case 'course':
+						$arrFilter[$item->getPostVar()] = $item->getValue();
+						break;
+					case 'passed_only':
+						$passedonly = $item->getChecked();
+						break;
 				}
 			}
-			if (!$remove)
+		}
+		include_once "./Modules/Test/classes/class.ilTestEvaluationData.php";
+		$eval = new ilTestEvaluationData($this->object);
+		$eval->setFilterArray($arrFilter);
+		$foundParticipants =& $eval->getParticipants();
+		$counter = 1;
+		if (count($foundParticipants) > 0)
+		{
+			foreach ($foundParticipants as $active_id => $userdata)
 			{
-				// build the evaluation row
-				$evaluationrow = array();
-				$fullname = "";
-				if ($this->object->getAnonymity())
+				$remove = FALSE;
+				if ($passedonly)
 				{
-					$fullname = $counter;
-					array_push($evaluationrow, $fullname);
-				}
-				else
-				{
-					array_push($evaluationrow, $userdata->getName());
-					if (strlen($userdata->getLogin()))
+					if ($userdata->getPassed() == FALSE)
 					{
-						array_push($evaluationrow, "[" . $userdata->getLogin() . "]");
+						$remove = TRUE;
+					}
+				}
+				if (!$remove)
+				{
+					// build the evaluation row
+					$evaluationrow = array();
+					$fullname = "";
+					if ($this->object->getAnonymity())
+					{
+						$fullname = $counter;
+						$evaluationrow['name'] = $fullname;
+						$evaluationrow['login'] = '';
 					}
 					else
 					{
-						array_push($evaluationrow, "");
-					}
-				}
-				if (count($additionalFields))
-				{
-					$userfields = ilObjUser::_lookupFields($userdata->getUserID());
-					foreach ($additionalFields as $fieldname)
-					{
-						if (strcmp($fieldname, "gender") == 0)
+						$evaluationrow['name'] = $userdata->getName();
+						if (strlen($userdata->getLogin()))
 						{
-							array_push($evaluationrow, $this->lng->txt("gender_" . $userfields[$fieldname]));
+							$evaluationrow['login'] = "[" . $userdata->getLogin() . "]";
 						}
 						else
 						{
-							array_push($evaluationrow, $userfields[$fieldname]);
+							$evaluationrow['login'] = '';
 						}
 					}
-				}
-				array_push($evaluationrow, $userdata->getReached() . " " . strtolower($this->lng->txt("of")) . " " . $userdata->getMaxpoints());
-				$percentage = $userdata->getReachedPointsInPercent();
-				$mark = $this->object->getMarkSchema()->getMatchingMark($percentage);
-				if (is_object($mark))
-				{
-					array_push($evaluationrow, $mark->getShortName());
-				}
-				if ($this->object->ects_output)
-				{
-					$ects_mark = $this->object->getECTSGrade($userdata->getReached(), $userdata->getMaxPoints());
-					array_push($evaluationrow, $ects_mark);
-				}
-				array_push($evaluationrow, $userdata->getQuestionsWorkedThrough() . " " . strtolower($this->lng->txt("of")) . " " . $userdata->getNumberOfQuestions() . " (" . sprintf("%2.2f", $userdata->getQuestionsWorkedThroughInPercent()) . " %" . ")");
 
-				$time_seconds = $userdata->getTimeOfWork();
-				$time_hours    = floor($time_seconds/3600);
-				$time_seconds -= $time_hours   * 3600;
-				$time_minutes  = floor($time_seconds/60);
-				$time_seconds -= $time_minutes * 60;
-				array_push($evaluationrow, sprintf("%02d:%02d:%02d", $time_hours, $time_minutes, $time_seconds));
-				$this->ctrl->setParameter($this, "active_id", $active_id);
-				$href = $this->ctrl->getLinkTarget($this, "detailedEvaluation");
-				$detailed_evaluation = $this->lng->txt("detailed_evaluation_show");
-				array_push($evaluationrow, "<a class=\"il_ContainerItemCommand\" href=\"$href\">$detailed_evaluation</a>");
-				array_push($evaluation_rows, $evaluationrow);
-				$counter++;
+					$userfields = ilObjUser::_lookupFields($userdata->getUserID());
+					foreach ($userfields as $key => $value)
+					{
+						$evaluationrow[$key] = strlen($value) ? $value : ' ';
+					}
+					$evaluationrow['reached'] = $userdata->getReached() . " " . strtolower($this->lng->txt("of")) . " " . $userdata->getMaxpoints();
+					$percentage = $userdata->getReachedPointsInPercent();
+					$mark = $this->object->getMarkSchema()->getMatchingMark($percentage);
+					if (is_object($mark))
+					{
+						$evaluationrow['mark'] = $mark->getShortName();
+					}
+					if ($this->object->ects_output)
+					{
+						$ects_mark = $this->object->getECTSGrade($userdata->getReached(), $userdata->getMaxPoints());
+						$evaluationrow['ects_grade'] = $ects_mark;
+					}
+					$evaluationrow['answered'] = $userdata->getQuestionsWorkedThrough() . " " . strtolower($this->lng->txt("of")) . " " . $userdata->getNumberOfQuestions() . " (" . sprintf("%2.2f", $userdata->getQuestionsWorkedThroughInPercent()) . " %" . ")";
+					$time_seconds = $userdata->getTimeOfWork();
+					$time_hours    = floor($time_seconds/3600);
+					$time_seconds -= $time_hours   * 3600;
+					$time_minutes  = floor($time_seconds/60);
+					$time_seconds -= $time_minutes * 60;
+					$evaluationrow['working_time'] = sprintf("%02d:%02d:%02d", $time_hours, $time_minutes, $time_seconds);
+					$this->ctrl->setParameter($this, "active_id", $active_id);
+					$href = $this->ctrl->getLinkTarget($this, "detailedEvaluation");
+					$detailed_evaluation = $this->lng->txt("detailed_evaluation_show");
+					$evaluationrow['details'] = "<a class=\"il_ContainerItemCommand\" href=\"$href\">$detailed_evaluation</a>";
+					$counter++;
+					array_push($data, $evaluationrow);
+				}
 			}
 		}
-		if (count($foundParticipants) > 0)
-		{
-			$table->setData($evaluation_rows);
-			$tableoutput = $table->render();
-			$this->tpl->setVariable("EVALUATION_DATA", $tableoutput);
-		}
 
-		$template = new ilTemplate("tpl.il_as_tst_evaluation_filter.html", TRUE, TRUE, "Modules/Test");
-		$filters = array("name" => $this->lng->txt("name"), "group" => $this->lng->txt("grp"), "course" => $this->lng->txt("crs"));
-		foreach ($filters as $value => $name)
-		{
-			$template->setCurrentBlock("filterby");
-			$template->setVariable("FILTER_BY_NAME", $name);
-			$template->setVariable("FILTER_BY_VALUE", $value);
-			if (strcmp($filterby, $value) == 0)
-			{
-				$template->setVariable("FILTER_BY_SELECTED", " selected=\"selected\"");
-			}
-			$template->parseCurrentBlock();
-		}
-		$template->setVariable("FORM_ACTION", $this->ctrl->getFormAction($this, "outEvaluation"));
-		$template->setVariable("TEXT_FILTER_USERS", $this->lng->txt("filter"));
-		$template->setVariable("TEXT_FILTER", $this->lng->txt("set_filter"));
-		$template->setVariable("TEXT_BY", $this->lng->txt("by"));
-		$template->setVariable("TEXT_RESET_FILTER", $this->lng->txt("reset_filter"));
-		$template->setVariable("TEXT_PASSEDONLY", $this->lng->txt("passed_only"));
-		if ($passedonly)
-		{
-			$template->setVariable("CHECKED_PASSEDONLY", " checked=\"checked\"");
-		}
-		if (strlen($filtertext) > 0)
-		{
-			$template->setVariable("VALUE_FILTER_USERS", " value=\"" . $filtertext . "\"");
-		}
-		$filteroutput = $template->get();
-		
+		$table_gui->setData($data);
+
+		$this->tpl->addBlockFile("ADM_CONTENT", "adm_content", "tpl.il_as_tst_evaluation.html", "Modules/Test");
+		$this->tpl->setVariable('EVALUATION_DATA', $table_gui->getHTML());	
 		if (count($foundParticipants) > 0)
 		{
 			$template = new ilTemplate("tpl.il_as_tst_evaluation_export.html", TRUE, TRUE, "Modules/Test");
@@ -411,8 +283,6 @@ class ilTestEvaluationGUI extends ilTestServiceGUI
 			$this->tpl->setVariable("EVALUATION_EXPORT", $exportoutput);
 		}
 
-		$this->tpl->setVariable("EVALUATION_FILTER", $filteroutput);
-		
 		$this->tpl->addCss(ilUtil::getStyleSheetLocation("output", "test_print.css", "Modules/Test"), "print");
 		if ($this->object->getShowSolutionAnswersOnly())
 		{
