@@ -31,10 +31,8 @@ include_once('./Services/Table/classes/class.ilTable2GUI.php');
 * @ingroup ModulesTest
 */
 
-class ilTestHistoryTableGUI extends ilTable2GUI
+class ilTestAverageReachedPointsTableGUI extends ilTable2GUI
 {
-	protected $tstObject;
-	
 	/**
 	 * Constructor
 	 *
@@ -51,25 +49,24 @@ class ilTestHistoryTableGUI extends ilTable2GUI
 		$this->lng = $lng;
 		$this->ctrl = $ilCtrl;
 	
-		$this->setFormName('questionbrowser');
+		$this->setFormName('average_reached_points');
+		$this->setTitle($this->lng->txt('average_reached_points'));
 		$this->setStyle('table', 'fullwidth');
-
-		$this->addColumn($this->lng->txt("assessment_log_datetime"),'datetime', '');
-		$this->addColumn($this->lng->txt("user"),'user', '');
-		$this->addColumn($this->lng->txt("assessment_log_text"),'log', '');
-		$this->addColumn($this->lng->txt("location"),'location', '');
+		$this->addColumn($this->lng->txt("question_title"),'title', '');
+		$this->addColumn($this->lng->txt("points"),'points', '');
+		$this->addColumn($this->lng->txt("percentage"),'percentage', '');
+		$this->addColumn($this->lng->txt("number_of_answers"),'answers', '');
 	
-		$this->setRowTemplate("tpl.il_as_tst_history_row.html", "Modules/Test");
+		$this->setRowTemplate("tpl.il_as_tst_average_reached_points_row.html", "Modules/Test");
 
-		$this->setDefaultOrderField("datetime");
+		$this->setFormAction($this->ctrl->getFormAction($a_parent_obj, $a_parent_cmd));
+
+		$this->setDefaultOrderField("title");
 		$this->setDefaultOrderDirection("asc");
 		
+		$this->enable('sort');
 		$this->enable('header');
-	}
-
-	public function setTestObject($obj)
-	{
-		$this->tstObject = $obj;
+		$this->disable('select_all');
 	}
 
 	/**
@@ -83,16 +80,10 @@ class ilTestHistoryTableGUI extends ilTable2GUI
 	{
 		global $ilUser,$ilAccess;
 
-		$username = $this->tstObject->userLookupFullName($data["user_fi"], TRUE);
-		$this->tpl->setVariable("DATETIME", ilDatePresentation::formatDate(new ilDateTime($data["tstamp"],IL_CAL_UNIX)));
-		$this->tpl->setVariable("USER", $username);
-		$this->tpl->setVariable("LOG", trim(ilUtil::prepareFormOutput($data["logtext"])));
-		$location = '';
-		if (strlen($data["ref_id"]) && strlen($data["href"]))
-		{
-			$location = '<a href="' . $data['href'] . '">' . $this->lng->txt("perma_link") . '</a>';
-		}
-		$this->tpl->setVariable("LOCATION", $location);
+		$this->tpl->setVariable("TITLE", $data["title"]);
+		$this->tpl->setVariable("POINTS", $data["points"]);
+		$this->tpl->setVariable("PERCENTAGE", $data["percentage"]);
+		$this->tpl->setVariable("ANSWERS", $data["answers"]);
 	}
 }
 ?>
