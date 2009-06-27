@@ -492,11 +492,10 @@ class ilTestEvaluationGUI extends ilTestServiceGUI
 			$this->ctrl->redirectByClass("ilobjtestgui", "infoScreen");
 		}
 
-		$data =& $this->object->getCompleteEvaluationData();
-		$color_class = array("tblrow1", "tblrow2");
-		$counter = 0;
 		$this->tpl->addBlockFile("ADM_CONTENT", "adm_content", "tpl.il_as_tst_eval_anonymous_aggregation.html", "Modules/Test");
-		$foundParticipants =& $data->getParticipants();
+		$eval =& $this->object->getCompleteEvaluationData();
+		$data = array();
+		$foundParticipants =& $eval->getParticipants();
 		if (count($foundParticipants)) 
 		{
 			$template = new ilTemplate("tpl.il_as_tst_evaluation_export.html", TRUE, TRUE, "Modules/Test");
@@ -511,30 +510,25 @@ class ilTestEvaluationGUI extends ilTestServiceGUI
 			$exportoutput = $template->get();
 			$this->tpl->setVariable("EVALUATION_EXPORT", $exportoutput);
 
-			$this->tpl->setCurrentBlock("row");
-			$this->tpl->setVariable("TXT_RESULT", $this->lng->txt("tst_eval_total_persons"));
-			$this->tpl->setVariable("TXT_VALUE", count($foundParticipants));
-			$this->tpl->setVariable("COLOR_CLASS", $color_class[$counter % 2]);
-			$counter++;
-			$this->tpl->parseCurrentBlock();
-			$this->tpl->setCurrentBlock("row");
-			$this->tpl->setVariable("TXT_RESULT", $this->lng->txt("tst_eval_total_finished"));
+			array_push($data, array(
+				'result' => $this->lng->txt("tst_eval_total_persons"),
+				'value'  => count($foundParticipants)
+			));
 			$total_finished = $this->object->evalTotalFinished();
-			$this->tpl->setVariable("TXT_VALUE", $total_finished);
-			$this->tpl->setVariable("COLOR_CLASS", $color_class[$counter % 2]);
-			$counter++;
-			$this->tpl->parseCurrentBlock();
-			$this->tpl->setCurrentBlock("row");
+			array_push($data, array(
+				'result' => $this->lng->txt("tst_eval_total_finished"),
+				'value'  => $total_finished
+			));
 			$average_time = $this->object->evalTotalStartedAverageTime();
 			$diff_seconds = $average_time;
 			$diff_hours    = floor($diff_seconds/3600);
 			$diff_seconds -= $diff_hours   * 3600;
 			$diff_minutes  = floor($diff_seconds/60);
 			$diff_seconds -= $diff_minutes * 60;
-			$this->tpl->setVariable("TXT_RESULT", $this->lng->txt("tst_eval_total_finished_average_time"));
-			$this->tpl->setVariable("TXT_VALUE", sprintf("%02d:%02d:%02d", $diff_hours, $diff_minutes, $diff_seconds));
-			$this->tpl->setVariable("COLOR_CLASS", $color_class[$counter % 2]);
-			$counter++;
+			array_push($data, array(
+				'result' => $this->lng->txt("tst_eval_total_finished_average_time"),
+				'value'  => sprintf("%02d:%02d:%02d", $diff_hours, $diff_minutes, $diff_seconds)
+			));
 			$total_passed = 0;
 			$total_passed_reached = 0;
 			$total_passed_max = 0;
@@ -552,74 +546,33 @@ class ilTestEvaluationGUI extends ilTestServiceGUI
 			$average_passed_reached = $total_passed ? $total_passed_reached / $total_passed : 0;
 			$average_passed_max = $total_passed ? $total_passed_max / $total_passed : 0;
 			$average_passed_time = $total_passed ? $total_passed_time / $total_passed : 0;
-			$this->tpl->parseCurrentBlock();
-			$this->tpl->setCurrentBlock("row");
-			$this->tpl->setVariable("TXT_RESULT", $this->lng->txt("tst_eval_total_passed"));
-			$this->tpl->setVariable("TXT_VALUE", $total_passed);
-			$this->tpl->setVariable("COLOR_CLASS", $color_class[$counter % 2]);
-			$counter++;
-			$this->tpl->parseCurrentBlock();
-			$this->tpl->setCurrentBlock("row");
-			$this->tpl->setVariable("TXT_RESULT", $this->lng->txt("tst_eval_total_passed_average_points"));
-			$this->tpl->setVariable("TXT_VALUE", sprintf("%2.2f", $average_passed_reached) . " " . strtolower($this->lng->txt("of")) . " " . sprintf("%2.2f", $average_passed_max));
-			$this->tpl->setVariable("COLOR_CLASS", $color_class[$counter % 2]);
-			$counter++;
-			$this->tpl->parseCurrentBlock();
-			$this->tpl->setCurrentBlock("row");
-			$this->tpl->setVariable("TXT_RESULT", $this->lng->txt("tst_eval_total_passed_average_time"));
+			array_push($data, array(
+				'result' => $this->lng->txt("tst_eval_total_passed"),
+				'value'  => $total_passed
+			));
+			array_push($data, array(
+				'result' => $this->lng->txt("tst_eval_total_passed_average_points"),
+				'value'  => sprintf("%2.2f", $average_passed_reached) . " " . strtolower($this->lng->txt("of")) . " " . sprintf("%2.2f", $average_passed_max)
+			));
 			$average_time = $average_passed_time;
 			$diff_seconds = $average_time;
 			$diff_hours    = floor($diff_seconds/3600);
 			$diff_seconds -= $diff_hours   * 3600;
 			$diff_minutes  = floor($diff_seconds/60);
 			$diff_seconds -= $diff_minutes * 60;
-			$this->tpl->setVariable("TXT_VALUE", sprintf("%02d:%02d:%02d", $diff_hours, $diff_minutes, $diff_seconds));
-			$this->tpl->setVariable("COLOR_CLASS", $color_class[$counter % 2]);
-			$counter++;
-			$this->tpl->parseCurrentBlock();
+			array_push($data, array(
+				'result' => $this->lng->txt("tst_eval_total_passed_average_time"),
+				'value'  => sprintf("%02d:%02d:%02d", $diff_hours, $diff_minutes, $diff_seconds)
+			));
 		} 
-		else 
-		{
-			$this->tpl->setCurrentBlock("emptyrow");
-			$this->tpl->setVariable("TXT_NO_ANONYMOUS_AGGREGATION", $this->lng->txt("tst_eval_no_anonymous_aggregation"));
-			$this->tpl->setVariable("COLOR_CLASS", $color_class[$counter % 2]);
-			$this->tpl->parseCurrentBlock();
-		}
+
+		include_once "./Modules/Test/classes/class.ilTestAggregatedResultsTableGUI.php";
+		$table_gui = new ilTestAggregatedResultsTableGUI($this, 'eval_a');
+		$table_gui->setData($data);
+		$this->tpl->setVariable('AGGREGATED_RESULTS', $table_gui->getHTML());	
 		
-		global $ilUser;
-		$maxentries = $ilUser->getPref("hits_per_page");
-		if ($maxentries < 1)
-		{
-			$maxentries = 9999;
-		}
-
-		$offset = ($_GET["offset"]) ? $_GET["offset"] : 0;
-		$orderdirection = ($_GET["sort_order"]) ? $_GET["sort_order"] : "asc";
-		$defaultOrderColumn = "name";
-		if ($this->object->getAnonymity()) $defaultOrderColumn = "counter";
-		$ordercolumn = ($_GET["sort_by"]) ? $_GET["sort_by"] : $defaultOrderColumn;
-
-		$counter = 0;
-		include_once("./Services/Table/classes/class.ilTableGUI.php");
-		$table = new ilTableGUI(0, FALSE);
-		$table->setTitle($this->lng->txt("average_reached_points"));
-		$table->setHeaderNames(array($this->lng->txt("question_title"), $this->lng->txt("points"), $this->lng->txt("percentage"), $this->lng->txt("number_of_answers")));
-
-		$table->enable("auto_sort");
-		$table->enable("sort");
-		$table->setLimit($maxentries);
-
-		$header_params = $this->ctrl->getParameterArray($this, "eval_a");
-		$header_vars = array("question_title", "points", "percentage", "number_of_answers");
-		$table->setHeaderVars($header_vars, $header_params);
-		$table->setFooter("tblfooter", $this->lng->txt("previous"), $this->lng->txt("next"));
-
-		$table->setOffset($offset);
-		$table->setMaxCount(count($data->getQuestionTitles()));
-		$table->setOrderColumn($ordercolumn);
-		$table->setOrderDirection($orderdirection);
 		$rows = array();
-		foreach ($data->getQuestionTitles() as $question_id => $question_title)
+		foreach ($eval->getQuestionTitles() as $question_id => $question_title)
 		{
 			$answered = 0;
 			$reached = 0;
@@ -645,32 +598,20 @@ class ilTestEvaluationGUI extends ilTestServiceGUI
 			$this->ctrl->setParameter($this, "qid", $question_id);
 			array_push($rows, 
 				array(
-						$question_title, 
-						sprintf("%.2f", $answered ? $reached / $answered : 0) . " " . strtolower($this->lng->txt("of")) . " " . sprintf("%.2f", $answered ? $max / $answered : 0),
-						sprintf("%.2f", $percent) . "%",
-						$answered
+						'title' => $question_title, 
+						'points' => sprintf("%.2f", $answered ? $reached / $answered : 0) . " " . strtolower($this->lng->txt("of")) . " " . sprintf("%.2f", $answered ? $max / $answered : 0),
+						'percentage' => sprintf("%.2f", $percent) . "%",
+						'answers' => $answered
 				)
 			);
 		}
-		$table->setData($rows);
-		$tableoutput = $table->render();
-		$this->tpl->setVariable("TBL_AVG_REACHED", $tableoutput);
-
-		$this->tpl->setCurrentBlock("adm_content");
-		$this->tpl->setVariable("TXT_ANON_EVAL", $this->lng->txt("tst_anon_eval"));
-		$this->tpl->setVariable("TXT_RESULT", $this->lng->txt("result"));
-		$this->tpl->setVariable("TXT_VALUE", $this->lng->txt("value"));
-		$this->tpl->setVariable("TXT_AVG_REACHED", $this->lng->txt("average_reached_points"));
-		$this->tpl->setVariable("TXT_QUESTIONTITLE", $this->lng->txt("question_title"));
-		$this->tpl->setVariable("TXT_POINTS", $this->lng->txt("points"));
-		$this->tpl->setVariable("TXT_ANSWERS", $this->lng->txt("number_of_answers"));
-		$this->tpl->setVariable("TXT_PERCENT", $this->lng->txt("percentage"));
-		$this->tpl->parseCurrentBlock();
+		include_once "./Modules/Test/classes/class.ilTestAverageReachedPointsTableGUI.php";
+		$table_gui = new ilTestAverageReachedPointsTableGUI($this, 'eval_a');
+		$table_gui->setData($rows);
+		$this->tpl->setVariable('TBL_AVG_REACHED', $table_gui->getHTML());	
 	}
 
 /**
-* Exports the evaluation data to a selected file format
-*
 * Exports the evaluation data to a selected file format
 *
 * @access public

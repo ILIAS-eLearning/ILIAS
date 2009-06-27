@@ -31,10 +31,8 @@ include_once('./Services/Table/classes/class.ilTable2GUI.php');
 * @ingroup ModulesTest
 */
 
-class ilTestHistoryTableGUI extends ilTable2GUI
+class ilTestAggregatedResultsTableGUI extends ilTable2GUI
 {
-	protected $tstObject;
-	
 	/**
 	 * Constructor
 	 *
@@ -51,25 +49,19 @@ class ilTestHistoryTableGUI extends ilTable2GUI
 		$this->lng = $lng;
 		$this->ctrl = $ilCtrl;
 	
-		$this->setFormName('questionbrowser');
+		$this->setFormName('aggregated');
+		$this->setTitle($this->lng->txt('tst_results_aggregated'));
 		$this->setStyle('table', 'fullwidth');
-
-		$this->addColumn($this->lng->txt("assessment_log_datetime"),'datetime', '');
-		$this->addColumn($this->lng->txt("user"),'user', '');
-		$this->addColumn($this->lng->txt("assessment_log_text"),'log', '');
-		$this->addColumn($this->lng->txt("location"),'location', '');
+		$this->addColumn($this->lng->txt("result"),'result', '');
+		$this->addColumn($this->lng->txt("value"),'value', '');
 	
-		$this->setRowTemplate("tpl.il_as_tst_history_row.html", "Modules/Test");
+		$this->setRowTemplate("tpl.il_as_tst_aggregated_results_row.html", "Modules/Test");
 
-		$this->setDefaultOrderField("datetime");
-		$this->setDefaultOrderDirection("asc");
+		$this->setFormAction($this->ctrl->getFormAction($a_parent_obj, $a_parent_cmd));
 		
+		$this->disable('sort');
 		$this->enable('header');
-	}
-
-	public function setTestObject($obj)
-	{
-		$this->tstObject = $obj;
+		$this->disable('select_all');
 	}
 
 	/**
@@ -83,16 +75,8 @@ class ilTestHistoryTableGUI extends ilTable2GUI
 	{
 		global $ilUser,$ilAccess;
 
-		$username = $this->tstObject->userLookupFullName($data["user_fi"], TRUE);
-		$this->tpl->setVariable("DATETIME", ilDatePresentation::formatDate(new ilDateTime($data["tstamp"],IL_CAL_UNIX)));
-		$this->tpl->setVariable("USER", $username);
-		$this->tpl->setVariable("LOG", trim(ilUtil::prepareFormOutput($data["logtext"])));
-		$location = '';
-		if (strlen($data["ref_id"]) && strlen($data["href"]))
-		{
-			$location = '<a href="' . $data['href'] . '">' . $this->lng->txt("perma_link") . '</a>';
-		}
-		$this->tpl->setVariable("LOCATION", $location);
+		$this->tpl->setVariable("RESULT", $data["result"]);
+		$this->tpl->setVariable("VALUE", $data["value"]);
 	}
 }
 ?>
