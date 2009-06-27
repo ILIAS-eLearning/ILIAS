@@ -6898,7 +6898,7 @@ function loadQuestions($active_id = "", $pass = NULL)
 		$result = array();
 		foreach ($ids as $obj_id)
 		{
-			$result[$obj_id] = array("obj_id" => $ref_id, "title" => ilObject::_lookupTitle($obj_id), "description" => ilObject::_lookupDescription($obj_id));
+			$result[$obj_id] = array("obj_id" => $obj_id, "title" => ilObject::_lookupTitle($obj_id), "description" => ilObject::_lookupDescription($obj_id));
 		}
 		return $result;
 	}

@@ -3041,8 +3041,6 @@ class ilObjTestGUI extends ilObjectGUI
  /**
 	* Creates the output for user/group invitation to a test
 	*
-	* Creates the output for user/group invitation to a test
-	*
 	* @access	public
 	*/
 	function inviteParticipantsObject()
@@ -3109,7 +3107,12 @@ class ilObjTestGUI extends ilObjectGUI
 						$users = $this->object->getUserData($users);
 						
 						if (count ($users))
-							$this->outUserGroupTable("usr", $users, "user_result", "user_row", $this->lng->txt("search_user"),"TEXT_USER_TITLE", $buttons);
+						{
+							include_once "./Modules/Test/classes/class.ilTestInviteUsersTableGUI.php";
+							$table_gui = new ilTestInviteUsersTableGUI($this, 'inviteParticipants');
+							$table_gui->setData($users);
+							$this->tpl->setVariable('TBL_USER_RESULT', $table_gui->getHTML());	
+						}
 					}
 	
 					$searchresult = array();
@@ -3125,7 +3128,12 @@ class ilObjTestGUI extends ilObjectGUI
 						$groups = $this->object->getGroupData ($groups);
 						
 						if (count ($groups))
-							$this->outUserGroupTable("grp", $groups, "group_result", "group_row", $this->lng->txt("search_group"), "TEXT_GROUP_TITLE", $buttons);
+						{
+							include_once "./Modules/Test/classes/class.ilTestInviteGroupsTableGUI.php";
+							$table_gui = new ilTestInviteGroupsTableGUI($this, 'inviteParticipants');
+							$table_gui->setData($groups);
+							$this->tpl->setVariable('TBL_GROUP_RESULT', $table_gui->getHTML());	
+						}
 					}
 					
 					$searchresult = array();
@@ -3139,10 +3147,15 @@ class ilObjTestGUI extends ilObjectGUI
 							array_push($roles, $result_array["id"]);
 						}
 						
-						$roles = $this->object->getRoleData ($roles);			
+						$roles = $this->object->getRoleData($roles);
 								
 						if (count ($roles))
-							$this->outUserGroupTable("role", $roles, "role_result", "role_row", $this->lng->txt("role"), "TEXT_ROLE_TITLE", $buttons);
+						{
+							include_once "./Modules/Test/classes/class.ilTestInviteRolesTableGUI.php";
+							$table_gui = new ilTestInviteRolesTableGUI($this, 'inviteParticipants');
+							$table_gui->setData($roles);
+							$this->tpl->setVariable('TBL_ROLE_RESULT', $table_gui->getHTML());	
+						}
 					}
 					
 				}
@@ -3167,6 +3180,7 @@ class ilObjTestGUI extends ilObjectGUI
 			if ($ilAccess->checkAccess("write", "", $this->ref_id))
 			{
 				$this->tpl->setCurrentBlock("invitation");
+				$this->tpl->setVariable("FORM_ACTION_INVITATION", $this->ctrl->getFormAction($this));
 				$this->tpl->setVariable("SEARCH_INVITATION", $this->lng->txt("search"));
 				$this->tpl->setVariable("SEARCH_TERM", $this->lng->txt("search_term"));
 				$this->tpl->setVariable("SEARCH_FOR", $this->lng->txt("search_for"));
@@ -3551,98 +3565,6 @@ class ilObjTestGUI extends ilObjectGUI
 		}
 	}
 	
-	/**
-	* Output of the table structures for selected users and selected groups
-	*
-	* Output of the table structures for selected users and selected groups
-	* for the invite participants tab
-	*
-	* @access	private
-	*/
-	function outUserGroupTable($a_type, $data_array, $block_result, $block_row, $title_text, $title_label, $buttons)
-	{
-		global $ilAccess;
-		$rowclass = array("tblrow1", "tblrow2");
-		switch($a_type)
-		{
-			case "usr":
-				$counter = 0;
-				foreach ($data_array as $data)
-				{
-					$this->tpl->setCurrentBlock($block_row);
-					$this->tpl->setVariable("COLOR_CLASS", $rowclass[$counter % 2]);
-					$this->tpl->setVariable("COUNTER", $data["usr_id"]);
-					$this->tpl->setVariable("VALUE_LOGIN", $data["login"]);
-					$this->tpl->setVariable("VALUE_FIRSTNAME", $data["firstname"]);
-					$this->tpl->setVariable("VALUE_LASTNAME", $data["lastname"]);
-					$this->tpl->setVariable("VALUE_CLIENT_IP", $data["clientip"]);
-					$counter++;
-					$this->tpl->parseCurrentBlock();
-				}
-				if (count($data_array))
-				{
-					$this->tpl->setCurrentBlock("selectall_user_row");
-					$this->tpl->setVariable("SELECT_ALL", $this->lng->txt("select_all"));
-					$counter++;
-					$this->tpl->setVariable("COLOR_CLASS", $rowclass[$counter % 2]);
-					$this->tpl->parseCurrentBlock();
-				}
-				$this->tpl->setCurrentBlock($block_result);
-				$this->tpl->setVariable("$title_label", "<img src=\"" . ilUtil::getImagePath("icon_usr_b.gif") . "\" alt=\"".$this->lng->txt("objs_usr")."\" align=\"middle\" /> " . $title_text);
-				$this->tpl->setVariable("TEXT_LOGIN", $this->lng->txt("login"));
-				$this->tpl->setVariable("TEXT_FIRSTNAME", $this->lng->txt("firstname"));
-				$this->tpl->setVariable("TEXT_LASTNAME", $this->lng->txt("lastname"));
-				$this->tpl->setVariable("TEXT_CLIENT_IP", $this->lng->txt("clientip"));
-					
-				if ($ilAccess->checkAccess("write", "", $this->object->getRefId()))
-				{
-					foreach ($buttons as $cat)
-					{
-						$this->tpl->setVariable("VALUE_" . strtoupper($cat), $this->lng->txt($cat));
-					}
-					$this->tpl->setVariable("ARROW", "<img src=\"" . ilUtil::getImagePath("arrow_downright.gif") . "\" alt=\"".$this->lng->txt("arrow_downright")."\"/>");
-				}
-				$this->tpl->parseCurrentBlock();
-				break;
-				
-			case "role":
-			case "grp":
-				$counter = 0;
-				foreach ($data_array as $key => $data)
-				{
-					$this->tpl->setCurrentBlock($block_row);
-					$this->tpl->setVariable("COLOR_CLASS", $rowclass[$counter % 2]);
-					$this->tpl->setVariable("COUNTER", $key);
-					$this->tpl->setVariable("VALUE_TITLE", $data["title"]);
-					$this->tpl->setVariable("VALUE_DESCRIPTION", $data["description"]);
-					$counter++;
-					$this->tpl->parseCurrentBlock();
-				}
-				if (count($data_array))
-				{
-					$this->tpl->setCurrentBlock("selectall_" . $a_type . "_row");
-					$this->tpl->setVariable("SELECT_ALL", $this->lng->txt("select_all"));
-					$counter++;
-					$this->tpl->setVariable("COLOR_CLASS", $rowclass[$counter % 2]);
-					$this->tpl->parseCurrentBlock();
-				}
-				$this->tpl->setCurrentBlock($block_result);
-				$this->tpl->setVariable("$title_label", "<img src=\"" . ilUtil::getImagePath("icon_".$a_type."_b.gif") . "\" align=\"middle\" alt=\"".$this->lng->txt("objs_".$a_type)."\" /> " . $title_text);
-				$this->tpl->setVariable("TEXT_TITLE", $this->lng->txt("title"));
-				$this->tpl->setVariable("TEXT_DESCRIPTION", $this->lng->txt("description"));
-				if ($ilAccess->checkAccess("write", "", $this->object->getRefId()))
-				{
-					foreach ($buttons as $cat)
-					{
-						$this->tpl->setVariable("VALUE_" . strtoupper($cat), $this->lng->txt($cat));
-					}
-					$this->tpl->setVariable("ARROW", "<img src=\"" . ilUtil::getImagePath("arrow_downright.gif") . "\" alt=\"".$this->lng->txt("arrow_downright")."\"/>");
-				}
-				$this->tpl->parseCurrentBlock();
-				break;
-		}
-	}
-
 	function addParticipantsObject()
 	{
 		$countusers = 0;
@@ -3673,7 +3595,7 @@ class ilObjTestGUI extends ilObjectGUI
 		if (is_array($_POST["role_select"]))
 		{
 			foreach ($_POST["role_select"] as $role_id)
-			{					
+			{
 				$this->object->inviteRole($role_id);
 				$countroles++;
 			}

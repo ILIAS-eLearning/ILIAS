@@ -7,8 +7,8 @@
 </p>
 </form>
 <p>{TEXT_FIXED_PARTICIPANTS_DESCRIPTION}</p>
-<form name="frm_invitation" action="{FORM_ACTION}" method="post">
 <!-- BEGIN invitation -->
+<form name="frm_invitation" action="{FORM_ACTION_INVITATION}" method="post">
 <p>{SEARCH_INTRODUCTION}</p>
 <table class="std">
 <thead>
@@ -44,105 +44,11 @@
 </div>
 </td></tr>
 </table>
+</form>
 <!-- END invitation -->
 <!-- BEGIN search_results_title -->
 <h2>{TEXT_SEARCH_RESULTS}</h2>
 <!-- END search_results_title -->
-<!-- BEGIN user_result -->
-<br />
-<table class="fullwidth">
-<thead>
-	<tr class="tblheader">
-		<th colspan="5">{TEXT_USER_TITLE}</th>
-	</tr>
-	<tr class="tblheader">
-		<th class="std"></th>
-		<th class="std">{TEXT_LOGIN}</th>
-		<th class="std">{TEXT_FIRSTNAME}</th>
-		<th class="std">{TEXT_LASTNAME}</th>
-		<th class="std">{TEXT_CLIENT_IP}</th>
-	</tr>
-</thead>
-<!-- BEGIN user_row -->
-<td class="{COLOR_CLASS}" width="1%"><input type="checkbox" name="user_select[]" id="user_select_{COUNTER}" value="{COUNTER}" /></td>
-<td class="{COLOR_CLASS}" width="15%"><label for="user_select_{COUNTER}">{VALUE_LOGIN}</label></td>
-<td class="{COLOR_CLASS}" width="15%"><label for="user_select_{COUNTER}">{VALUE_FIRSTNAME}</label></td>
-<td class="{COLOR_CLASS}" width="15%"><label for="user_select_{COUNTER}">{VALUE_LASTNAME}</label></td>
-<td class="{COLOR_CLASS}" width="15%"><label for="user_select_{COUNTER}">{VALUE_CLIENT_IP}</label><input type="hidden" name="client_ip[]" value="{VALUE_CLIENT_IP}"></td>
-</tr>
-<!-- END user_row -->
-<!-- BEGIN selectall_user_row -->
-<tr>
-	<td class="{COLOR_CLASS}">
-		<input type="checkbox" name="chb_user_select_check_all" id="chb_user_select_check_all" value="1" onclick="setChecked('frm_invitation', 'user_select', document.frm_invitation.chb_user_select_check_all.checked);" />
-	</td>
-	<td colspan="4" class="{COLOR_CLASS}"><label for="chb_user_select_check_all"><strong>{SELECT_ALL}</strong></label></td>
-</tr>
-<!-- END selectall_user_row -->
-<tr><td class="submit">{ARROW}</td><td class="submit" colspan="4"><input type="submit" class="submit" name="cmd[addParticipants]" value="{VALUE_ADD}" /></td></tr>
-</table>
-<!-- END user_result -->
-<!-- BEGIN group_result -->
-<br />
-<table class="fullwidth">
-<thead>
-	<tr class="tblheader">
-		<th colspan="3">{TEXT_GROUP_TITLE}</th>
-	</tr>
-	<tr class="tblheader">
-		<th class="std"></th>
-		<th class="std">{TEXT_TITLE}</th>
-		<th class="std">{TEXT_DESCRIPTION}</th>
-	</tr>
-</thead>
-<!-- BEGIN group_row -->
-<td class="{COLOR_CLASS}" width="1%"><input type="checkbox" name="group_select[]" id="group_select_{COUNTER}" value="{COUNTER}" /></td>
-<td class="{COLOR_CLASS}" width="30%"><label for="group_select_{COUNTER}">{VALUE_TITLE}</label></td>
-<td class="{COLOR_CLASS}" width="69%"><label for="group_select_{COUNTER}">{VALUE_DESCRIPTION}</label></td>
-</tr>
-<!-- END group_row -->
-<!-- BEGIN selectall_grp_row -->
-<tr>
-	<td class="{COLOR_CLASS}">
-		<input type="checkbox" name="chb_group_select_check_all" id="chb_group_select_check_all" value="1" onclick="setChecked('frm_invitation', 'group_select', document.frm_invitation.chb_group_select_check_all.checked);" />
-	</td>
-	<td colspan="2" class="{COLOR_CLASS}"><label for="chb_group_select_check_all"><strong>{SELECT_ALL}</strong></label></td>
-</tr>
-<!-- END selectall_grp_row -->
-<tr><td class="submit">{ARROW}</td><td class="submit" colspan="2"><input type="submit" class="submit" name="cmd[addParticipants]" value="{VALUE_ADD}" /></td></tr>
-</table>
-<!-- END group_result -->
-<!-- BEGIN role_result -->
-<br />
-<table class="fullwidth">
-<thead>
-	<tr class="tblheader">
-		<th colspan="3">{TEXT_ROLE_TITLE}</th>
-	</tr>
-	<tr class="tblheader">
-		<th class="std"></th>
-		<th class="std">{TEXT_TITLE}</th>
-		<th class="std">{TEXT_DESCRIPTION}</th>
-	</tr>
-</thead>
-<!-- BEGIN role_row -->
-<td class="{COLOR_CLASS}" width="1%"><input type="checkbox" name="role_select[]" id="role_select_{COUNTER}" value="{COUNTER}" /></td>
-<td class="{COLOR_CLASS}" width="30%"><label for="role_select_{COUNTER}">{VALUE_TITLE}</label></td>
-<td class="{COLOR_CLASS}" width="69%"><label for="role_select_{COUNTER}">{VALUE_DESCRIPTION}</label></td>
-</tr>
-<!-- END role_row -->
-<!-- BEGIN selectall_role_row -->
-<tr>
-	<td class="{COLOR_CLASS}">
-		<input type="checkbox" name="chb_role_select_check_all" id="chb_role_select_check_all" value="1" onclick="setChecked('frm_invitation', 'role_select', document.frm_invitation.chb_role_select_check_all.checked);" />
-	</td>
-	<td colspan="2" class="{COLOR_CLASS}"><label for="chb_role_select_check_all"><strong>{SELECT_ALL}</strong></label></td>
-</tr>
-<!-- END selectall_role_row -->
-<tr><td class="submit">{ARROW}</td><td class="submit" colspan="2"><input type="submit" class="submit" name="cmd[addParticipants]" value="{VALUE_ADD}" /></td></tr>
-</table>
-<!-- END role_result -->
-<!-- BEGIN hidden -->
-<input type="hidden" name="{NAME_HIDDEN}" value="{VALUE_HIDDEN}" />
-<!-- END hidden -->
-</form>
+{TBL_USER_RESULT}
+{TBL_GROUP_RESULT}
+{TBL_ROLE_RESULT}
