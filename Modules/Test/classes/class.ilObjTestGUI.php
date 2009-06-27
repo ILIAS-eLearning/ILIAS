@@ -277,132 +277,58 @@ class ilObjTestGUI extends ilObjectGUI
 			$this->ctrl->redirect($this, "infoScreen");
 		}
 
-		//add template for view button
-		$this->tpl->addBlockfile("BUTTONS", "buttons", "tpl.buttons.html");
-
-		if ($this->object->isRandomTest())
-		{
-			ilUtil::sendInfo($this->lng->txt("tst_no_export_randomtest"));
-		}
-		else
-		{
-			// create export file button
-			$this->tpl->setCurrentBlock("btn_cell");
-			$this->tpl->setVariable("BTN_LINK", $this->ctrl->getLinkTarget($this, "createExportFile")."&mode=xml");
-			$this->tpl->setVariable("BTN_TXT", $this->lng->txt("ass_create_export_file"));
-			$this->tpl->parseCurrentBlock();
-		}
-		
-		// create export test results button
-		$this->tpl->setCurrentBlock("btn_cell");
-		$this->tpl->setVariable("BTN_LINK", $this->ctrl->getLinkTarget($this, "createExportfile")."&mode=results");
-		$this->tpl->setVariable("BTN_TXT", $this->lng->txt("ass_create_export_test_results"));
-		$this->tpl->parseCurrentBlock();
-		
 		$export_dir = $this->object->getExportDirectory();
-
 		$export_files = $this->object->getExportFiles($export_dir);
-
-		// create table
-		include_once("./Services/Table/classes/class.ilTableGUI.php");
-		$tbl = new ilTableGUI();
-
-		// load files templates
-		$this->tpl->addBlockfile("ADM_CONTENT", "adm_content", "tpl.table.html");
-
-		// load template for table content data
-		$this->tpl->addBlockfile("TBL_CONTENT", "tbl_content", "tpl.export_file_row.html", "Modules/Test");
-
-		$num = 0;
-
-		$this->tpl->setVariable("FORMACTION", $this->ctrl->getFormAction($this));
-
-		$tbl->setTitle($this->lng->txt("ass_export_files"));
-
-		$tbl->setHeaderNames(array("", $this->lng->txt("ass_file"),
-			$this->lng->txt("ass_size"), $this->lng->txt("date") ));
-
-		$tbl->enabled["sort"] = false;
-		$tbl->setColumnWidth(array("1%", "49%", "25%", "25%"));
-
-		// control
-		$tbl->setOrderColumn($_GET["sort_by"]);
-		$tbl->setOrderDirection($_GET["sort_order"]);
-		$tbl->setLimit($_GET["limit"]);
-		$tbl->setOffset($_GET["offset"]);
-		$tbl->setMaxCount($this->maxcount);		// ???
-		$header_params = $this->ctrl->getParameterArray($this, "export");
-		$tbl->setHeaderVars(array("", "file", "size", "date"), $header_params);
-
-
-		// footer
-		$tbl->setFooter("tblfooter",$this->lng->txt("previous"),$this->lng->txt("next"));
-		//$tbl->disable("footer");
-
-		$tbl->setMaxCount(count($export_files));
-		$export_files = array_slice($export_files, $_GET["offset"], $_GET["limit"]);
-
-		$tbl->render();
+		$data = array();
 		if(count($export_files) > 0)
 		{
-			$this->tpl->setVariable("COLUMN_COUNTS", 4);
-
-			$i=0;
 			foreach($export_files as $exp_file)
 			{
-				$this->tpl->setCurrentBlock("tbl_content");
-				$this->tpl->setVariable("TXT_FILENAME", $exp_file);
-
-				$css_row = ilUtil::switchColor($i++, "tblrow1", "tblrow2");
-				$this->tpl->setVariable("CSS_ROW", $css_row);
-
-				$this->tpl->setVariable("TXT_SIZE", filesize($export_dir."/".$exp_file));
-				$this->tpl->setVariable("CHECKBOX_ID", $exp_file);
-
-				$file_arr = explode("__", $exp_file);
-				$this->tpl->setVariable("TXT_DATE", date("Y-m-d H:i:s",$file_arr[0]));
-
-				$this->tpl->parseCurrentBlock();
+				array_push($data, array(
+					'file' => $exp_file,
+					'size' => filesize($export_dir."/".$exp_file),
+					'date' => $file_arr[0]
+				));
 			}
-			$this->tpl->setCurrentBlock("selectall");
-			$this->tpl->setVariable("SELECT_ALL", $this->lng->txt("select_all"));
-			$this->tpl->setVariable("CSS_ROW", $css_row);
-			$this->tpl->parseCurrentBlock();
-			// delete button
-			$this->tpl->setVariable("IMG_ARROW", ilUtil::getImagePath("arrow_downright.gif"));
-			$this->tpl->setCurrentBlock("tbl_action_btn");
-			$this->tpl->setVariable("BTN_NAME", "confirmDeleteExportFile");
-			$this->tpl->setVariable("BTN_VALUE", $this->lng->txt("delete"));
-			$this->tpl->parseCurrentBlock();
-	
-			$this->tpl->setCurrentBlock("tbl_action_btn");
-			$this->tpl->setVariable("BTN_NAME", "downloadExportFile");
-			$this->tpl->setVariable("BTN_VALUE", $this->lng->txt("download"));
-			$this->tpl->parseCurrentBlock();	
-		} //if is_array
-		else
-		{
-			$this->tpl->setCurrentBlock("notfound");
-			$this->tpl->setVariable("TXT_OBJECT_NOT_FOUND", $this->lng->txt("obj_not_found"));
-			$this->tpl->setVariable("NUM_COLS", 3);
-			$this->tpl->parseCurrentBlock();
 		}
 
-		$this->tpl->parseCurrentBlock();
+		include_once "./Modules/Test/classes/class.ilTestExportTableGUI.php";
+		$table_gui = new ilTestExportTableGUI($this, 'export');
+		$table_gui->setData($data);
+		$this->tpl->setVariable('ADM_CONTENT', $table_gui->getHTML());	
 	}
-
 	
 	/**
-	* create export file
+	* create test export file
 	*/
-	function createExportFileObject()
+	function createTestExportObject()
 	{
 		global $ilAccess;
 		
 		if ($ilAccess->checkAccess("write", "", $this->ref_id))
 		{
 			include_once("./Modules/Test/classes/class.ilTestExport.php");
-			$test_exp = new ilTestExport($this->object, $_GET["mode"]);
+			$test_exp = new ilTestExport($this->object, 'xml');
+			$test_exp->buildExportFile();
+		}
+		else
+		{
+			ilUtil::sendInfo("cannot_export_test", TRUE);
+		}
+		$this->ctrl->redirect($this, "export");
+	}
+	
+	/**
+	* create results export file
+	*/
+	function createTestResultsExportObject()
+	{
+		global $ilAccess;
+		
+		if ($ilAccess->checkAccess("write", "", $this->ref_id))
+		{
+			include_once("./Modules/Test/classes/class.ilTestExport.php");
+			$test_exp = new ilTestExport($this->object, 'results');
 			$test_exp->buildExportFile();
 		}
 		else
