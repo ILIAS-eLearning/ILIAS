@@ -203,8 +203,8 @@ assessment#:#assQuestions#:#Questions
 assessment#:#assSingleChoice#:#Multiple Choice Question (Single Response)
 assessment#:#assTextQuestion#:#Essay Question
 assessment#:#assTextSubset#:#Text Subset Question
-assessment#:#ass_create_export_file#:#Create Export File
-assessment#:#ass_create_export_test_results#:#Export Test Results
+assessment#:#ass_create_export_file#:#Create Test Export File
+assessment#:#ass_create_export_test_results#:#Create Test Results Export File
 assessment#:#ass_export_files#:#Export Files
 assessment#:#ass_file#:#File
 assessment#:#ass_question#:#Question
