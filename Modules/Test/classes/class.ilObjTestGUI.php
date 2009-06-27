@@ -284,10 +284,12 @@ class ilObjTestGUI extends ilObjectGUI
 		{
 			foreach($export_files as $exp_file)
 			{
+				$file_arr = explode("__", $exp_file);
+				$date = new ilDateTime($file_arr[0], IL_CAL_UNIX);
 				array_push($data, array(
 					'file' => $exp_file,
 					'size' => filesize($export_dir."/".$exp_file),
-					'date' => $file_arr[0]
+					'date' => $date->get(IL_CAL_DATETIME)
 				));
 			}
 		}
@@ -3261,8 +3263,6 @@ class ilObjTestGUI extends ilObjectGUI
  /**
 	* Creates the output of the test participants
 	*
-	* Creates the output of the test participants
-	*
 	* @access	public
 	*/
 	function participantsObject()
@@ -3277,156 +3277,75 @@ class ilObjTestGUI extends ilObjectGUI
 
 		if ($this->object->getFixedParticipants())
 		{
-			$this->tpl->addBlockFile("ADM_CONTENT", "adm_content", "tpl.il_as_tst_invite.html", "Modules/Test");
+			$participants =& $this->object->getInvitedUsers();
+			$rows = array();
+			foreach ($participants as $data)
+			{
+				$maxpass = $this->object->_getMaxPass($data["active_id"]);
+				if (!is_null($maxpass))
+				{
+					$maxpass += 1;
+				}
+				$access = "";
+				if (strlen($data["active_id"]))
+				{
+					$last_access = $this->object->_getLastAccess($data["active_id"]);
+					$access = ilDatePresentation::formatDate(new ilDateTime($last_access,IL_CAL_DATETIME));					
+				}
+				array_push($rows, array(
+					'usr_id' => $data["usr_id"],
+					'active_id' => $data['active_id'],
+					'login' => $data["login"],
+					'clientip' => $data["clientip"],
+					'firstname' => $data["firstname"],
+					'lastname' => $data["lastname"],
+					'started' => ($data["active_id"] > 0) ? 1 : 0,
+					'finished' => ($data["test_finished"] == 1) ? 1 : 0,
+					'access' => $access,
+					'maxpass' => $maxpass
+				));
+			}
+			include_once "./Modules/Test/classes/class.ilTestFixedParticipantsTableGUI.php";
+			$table_gui = new ilTestFixedParticipantsTableGUI($this, 'participants', $this->object->getAnonymity(), count($rows));
+			$table_gui->setData($rows);
+			$this->tpl->setVariable('ADM_CONTENT', $table_gui->getHTML());	
 		}
 		else
 		{
-			$this->tpl->addBlockFile("ADM_CONTENT", "adm_content", "tpl.il_as_tst_participants.html", "Modules/Test");
-		}
-		include_once "./Services/YUI/classes/class.ilYuiUtil.php";
-		ilYuiUtil::addYesNoDialog(
-			"deleteAllUserResults", 
-			$this->lng->txt("delete_all_user_data"), 
-			$this->lng->txt("confirm_delete_all_user_data"), 
-			"location.href='" . $this->ctrl->getLinkTarget($this, "confirmDeleteAllUserResults") . "';", 
-			"", 
-			TRUE, 
-			$icon = "warn"
-		);
-		if ($_POST["cmd"]["cancel"])
-		{
-			$this->backToRepositoryObject();
-		}
-		
-		if ($_POST["cmd"]["save"])
-		{
-			$this->object->saveToDb();
-		}
-		
-		if ($ilAccess->checkAccess("write", "", $this->ref_id))
-		{
-			if ($this->tpl->blockExists("invitation"))
+			$participants =& $this->object->getTestParticipants();
+			$rows = array();
+			foreach ($participants as $data)
 			{
-				$this->tpl->setCurrentBlock("invitation");
-				$this->tpl->setVariable("SEARCH_INVITATION", $this->lng->txt("search"));
-				$this->tpl->setVariable("SEARCH_TERM", $this->lng->txt("search_term"));
-				$this->tpl->setVariable("SEARCH_FOR", $this->lng->txt("search_for"));
-				$this->tpl->setVariable("SEARCH_USERS", $this->lng->txt("search_users"));
-				$this->tpl->setVariable("SEARCH_GROUPS", $this->lng->txt("search_groups"));
-				$this->tpl->setVariable("SEARCH_ROLES", $this->lng->txt("search_roles"));
-				$this->tpl->setVariable("TEXT_CONCATENATION", $this->lng->txt("concatenation"));
-				$this->tpl->setVariable("TEXT_AND", $this->lng->txt("and"));
-				$this->tpl->setVariable("TEXT_OR", $this->lng->txt("or"));
-				$this->tpl->setVariable("VALUE_SEARCH_TERM", $_POST["search_term"]);
-				if (is_array($_POST["search_for"]))
+				$maxpass = $this->object->_getMaxPass($data["active_id"]);
+				if (!is_null($maxpass))
 				{
-					if (in_array("usr", $_POST["search_for"]))
-					{
-						$this->tpl->setVariable("CHECKED_USERS", " checked=\"checked\"");
-					}
-					if (in_array("grp", $_POST["search_for"]))
-					{
-						$this->tpl->setVariable("CHECKED_GROUPS", " checked=\"checked\"");
-					}
-					if (in_array("role", $_POST["search_for"]))
-					{
-						$this->tpl->setVariable("CHECKED_ROLES", " checked=\"checked\"");
-					}
-
+					$maxpass += 1;
 				}
-				if (strcmp($_POST["concatenation"], "and") == 0)
+				$access = "";
+				if (strlen($data["active_id"]))
 				{
-					$this->tpl->setVariable("CHECKED_AND", " checked=\"checked\"");
+					$last_access = $this->object->_getLastAccess($data["active_id"]);
+					$access = ilDatePresentation::formatDate(new ilDateTime($last_access,IL_CAL_DATETIME));
 				}
-				else if (strcmp($_POST["concatenation"], "or") == 0)
-				{
-					$this->tpl->setVariable("CHECKED_OR", " checked=\"checked\"");
-				}
-				$this->tpl->setVariable("SEARCH", $this->lng->txt("search"));
-				$this->tpl->parseCurrentBlock();
+				array_push($rows, array(
+					'usr_id' => $data["active_id"],
+					'login' => $data["login"],
+					'firstname' => $data["firstname"],
+					'lastname' => $data["lastname"],
+					'started' => ($data["active_id"] > 0) ? 1 : 0,
+					'finished' => ($data["test_finished"] == 1) ? 1 : 0,
+					'access' => $access,
+					'maxpass' => $maxpass
+				));
 			}
+			include_once "./Modules/Test/classes/class.ilTestParticipantsTableGUI.php";
+			$table_gui = new ilTestParticipantsTableGUI($this, 'participants', $this->object->getAnonymity(), count($rows));
+			$table_gui->setData($rows);
+			$this->tpl->setVariable('ADM_CONTENT', $table_gui->getHTML());	
 		}
-
-		if ($this->object->getFixedParticipants())
-		{
-			$invited_users =& $this->object->getInvitedUsers();
-			if (count($invited_users) == 0)
-			{
-				ilUtil::sendInfo($this->lng->txt("tst_participants_no_fixed"));
-			}
-			else
-			{
-				$this->tpl->setCurrentBlock("delete_all");
-				$this->tpl->setVariable("VALUE_DELETE_ALL_USER_DATA", $this->lng->txt("delete_all_user_data"));
-				$this->tpl->setVariable("FORMACTION_DELETEALL", $this->ctrl->getFormAction($this, "deleteAllUserResults"));
-				$this->tpl->parseCurrentBlock();
-			}
-			$buttons = array(array("saveClientIP" => "save"),array("removeParticipant" => "remove_as_participant"));
-			if (!$this->object->getAnonymity())
-			{
-				array_push($buttons, array("showPassOverview" => "show_pass_overview"));
-				array_push($buttons, array("showUserAnswers" => "show_user_answers"));
-				array_push($buttons, array("showDetailedResults" => "show_detailed_results"));
-			}
-			array_push($buttons, array("deleteSingleUserResults" => "delete_user_data"));
-			if (count($invited_users))
-			{
-				$this->outUserGroupTable("iv_usr", $invited_users, "invited_user_result", "invited_user_row", $this->lng->txt("tst_fixed_participating_users"), "TEXT_INVITED_USER_TITLE",$buttons);
-			}
-		}
-		else
-		{
-			$invited_users =& $this->object->getTestParticipants();
-			if (count($invited_users) == 0)	
-			{
-				ilUtil::sendInfo($this->lng->txt("tst_participants_no"));
-			}
-			else
-			{
-				$this->tpl->setCurrentBlock("delete_all");
-				$this->tpl->setVariable("VALUE_DELETE_ALL_USER_DATA", $this->lng->txt("delete_all_user_data"));
-				$this->tpl->setVariable("FORMACTION_DELETEALL", $this->ctrl->getFormAction($this, "deleteAllUserResults"));
-				$this->tpl->parseCurrentBlock();
-			}
-			$buttons = array();
-			if (!$this->object->getAnonymity())
-			{
-				array_push($buttons, array("showPassOverview" => "show_pass_overview"));
-				array_push($buttons, array("showUserAnswers" => "show_user_answers"));
-				array_push($buttons, array("showDetailedResults" => "show_detailed_results"));
-			}
-			array_push($buttons, array("deleteSingleUserResults" => "delete_user_data"));
-			if (count($invited_users))
-			{
-				$this->outUserGroupTable("iv_participants", $invited_users, "invited_user_result", "invited_user_row", $this->lng->txt("tst_participating_users"), "TEXT_INVITED_USER_TITLE",$buttons);
-			}
-		}
-
-		if ($this->object->getFixedParticipants())
-		{
-			$this->tpl->setCurrentBlock("fixed_participants_hint");
-			$this->tpl->setVariable("FIXED_PARTICIPANTS_HINT", sprintf($this->lng->txt("fixed_participants_hint"), $this->lng->txt("participants_invitation")));
-			$this->tpl->parseCurrentBlock();
-		}
-		
-		$this->tpl->setCurrentBlock("adm_content");
-		$this->tpl->setVariable("FORM_ACTION", $this->ctrl->getFormAction($this));
-		$this->tpl->setVariable("TEXT_INVITATION", $this->lng->txt("invitation"));
-		$this->tpl->setVariable("VALUE_ON", $this->lng->txt("on"));
-		$this->tpl->setVariable("VALUE_OFF", $this->lng->txt("off"));
-		$this->tpl->setVariable("TXT_REQUIRED_FLD", $this->lng->txt("required_field"));
-
-		if ($ilAccess->checkAccess("write", "", $this->ref_id)) 
-		{
-			$this->tpl->setVariable("SAVE", $this->lng->txt("save"));
-			$this->tpl->setVariable("CANCEL", $this->lng->txt("cancel"));
-		}
-		$this->tpl->parseCurrentBlock();
 	}
 
  /**
-	* Shows the pass overview and the answers of one ore more users for the scored pass
-	*
 	* Shows the pass overview and the answers of one ore more users for the scored pass
 	*
 	* @access	public
@@ -3443,8 +3362,6 @@ class ilObjTestGUI extends ilObjectGUI
  /**
 	* Shows the answers of one ore more users for the scored pass
 	*
-	* Shows the answers of one ore more users for the scored pass
-	*
 	* @access	public
 	*/
 	function showUserAnswersObject()
@@ -3459,8 +3376,6 @@ class ilObjTestGUI extends ilObjectGUI
  /**
 	* Shows the pass overview of the scored pass for one ore more users
 	*
-	* Shows the pass overview of the scored pass for one ore more users
-	*
 	* @access	public
 	*/
 	function showPassOverviewObject()
@@ -3473,8 +3388,6 @@ class ilObjTestGUI extends ilObjectGUI
 	}
 	
  /**
-	* Shows the pass overview of the scored pass for one ore more users
-	*
 	* Shows the pass overview of the scored pass for one ore more users
 	*
 	* @access	public
@@ -3652,169 +3565,6 @@ class ilObjTestGUI extends ilObjectGUI
 		$rowclass = array("tblrow1", "tblrow2");
 		switch($a_type)
 		{
-			case "iv_usr":
-				if ($ilAccess->checkAccess("write", "", $this->object->getRefId()))
-				{
-					foreach ($buttons as $arr)
-					{
-						foreach ($arr as $val => $cat)
-						{
-							$this->tpl->setCurrentBlock("commandoption");
-							$this->tpl->setVariable("OPTION_NAME", $this->lng->txt($cat));
-							$this->tpl->setVariable("OPTION_VALUE", $val);
-							$this->tpl->parseCurrentBlock();
-						}
-					}
-					$this->tpl->setCurrentBlock("user_action_buttons");
-					$this->tpl->setVariable("ARROW", "<img src=\"" . ilUtil::getImagePath("arrow_downright.gif") . "\" alt=\"".$this->lng->txt("arrow_downright")."\"/>");
-					$this->tpl->setVariable("VALUE_SUBMIT", $this->lng->txt("submit"));
-					$this->tpl->parseCurrentBlock();
-				}
-
-				$finished = "<img border=\"0\" align=\"middle\" src=\"".ilUtil::getImagePath("icon_ok.gif") . "\" alt=\"".$this->lng->txt("checkbox_checked")."\" />";
-				$started  = "<img border=\"0\" align=\"middle\" src=\"".ilUtil::getImagePath("icon_ok.gif") . "\" alt=\"".$this->lng->txt("checkbox_checked")."\" />" ;
-				$counter = 0;
-				foreach ($data_array as $data)
-				{
-					$maxpass = $this->object->_getMaxPass($data["active_id"]);
-					if (!is_null($maxpass))
-					{
-						$maxpass += 1;
-					}
-					$passes = ($maxpass) ? (($maxpass == 1) ? sprintf($this->lng->txt("pass_finished"), $maxpass) : sprintf($this->lng->txt("passes_finished"), $maxpass)) : "&nbsp;";
-					$this->tpl->setCurrentBlock($block_row);
-					$this->tpl->setVariable("COLOR_CLASS", $rowclass[$counter % 2]);
-					$this->tpl->setVariable("COUNTER", $data["usr_id"]);
-					$this->tpl->setVariable("VALUE_IV_USR_ID", $data["usr_id"]);
-					$this->tpl->setVariable("VALUE_IV_LOGIN", $data["login"]);
-					$this->tpl->setVariable("VALUE_IV_FIRSTNAME", $data["firstname"]);
-					$this->tpl->setVariable("VALUE_IV_LASTNAME", $data["lastname"]);
-					$this->tpl->setVariable("VALUE_IV_CLIENT_IP", $data["clientip"]);
-					$this->tpl->setVariable("VALUE_IV_TEST_FINISHED", ($data["test_finished"]==1)?$finished.$passes:$passes);
-					$this->tpl->setVariable("VALUE_IV_TEST_STARTED", ($data["active_id"] > 0)?$started:"&nbsp;");
-					if (strlen($data["usr_id"]))
-					{
-						$last_access = $this->object->_getLastAccess($data["active_id"]);
-						if (!strlen($last_access))
-						{
-							$this->tpl->setVariable("VALUE_IV_LAST_ACCESS", $this->lng->txt("not_yet_accessed"));
-						}
-						else
-						{
-							$this->tpl->setVariable("VALUE_IV_LAST_ACCESS", ilDatePresentation::formatDate(new ilDateTime($last_access,IL_CAL_DATETIME)));
-						}
-					}
-					else
-					{
-						$last_access = $this->lng->txt("not_yet_accessed");
-						$this->tpl->setVariable("VALUE_IV_LAST_ACCESS", $last_access);
-					}
-					$this->ctrl->setParameter($this, "active_id", $data["active_id"]);
-					if ($data["active_id"] > 0)
-					{
-						$this->tpl->setVariable("VALUE_TST_SHOW_RESULTS", $this->lng->txt("tst_show_results"));
-						$this->ctrl->setParameterByClass("iltestevaluationgui", "active_id", $data["active_id"]);
-						$this->tpl->setVariable("URL_TST_SHOW_RESULTS", $this->ctrl->getLinkTargetByClass("iltestevaluationgui", "outParticipantsResultsOverview"));
-					}
-					$counter++;
-					$this->tpl->parseCurrentBlock();
-				}
-				if (count($data_array))
-				{
-					$this->tpl->setCurrentBlock("selectall");
-					$this->tpl->setVariable("SELECT_ALL", $this->lng->txt("select_all"));
-					$counter++;
-					$this->tpl->setVariable("COLOR_CLASS", $rowclass[$counter % 2]);
-					$this->tpl->parseCurrentBlock();
-				}
-				$this->tpl->setCurrentBlock($block_result);
-				$this->tpl->setVariable("$title_label", "<img src=\"" . ilUtil::getImagePath("icon_usr_b.gif") . "\" alt=\"".$this->lng->txt("objs_usr")."\" align=\"middle\" /> " . $title_text);
-				$this->tpl->setVariable("TEXT_IV_LOGIN", $this->lng->txt("login"));
-				$this->tpl->setVariable("TEXT_IV_FIRSTNAME", $this->lng->txt("firstname"));
-				$this->tpl->setVariable("TEXT_IV_LASTNAME", $this->lng->txt("lastname"));
-				$this->tpl->setVariable("TEXT_IV_CLIENT_IP", $this->lng->txt("clientip"));
-				$this->tpl->setVariable("TEXT_IV_TEST_FINISHED", $this->lng->txt("tst_finished"));
-				$this->tpl->setVariable("TEXT_IV_TEST_STARTED", $this->lng->txt("tst_started"));
-				$this->tpl->setVariable("TEXT_IV_LAST_ACCESS", $this->lng->txt("last_access"));
-				$this->tpl->parseCurrentBlock();
-				break;
-			case "iv_participants":
-				if ($ilAccess->checkAccess("write", "", $this->object->getRefId()))
-				{
-					foreach ($buttons as $arr)
-					{
-						foreach ($arr as $val => $cat)
-						{
-							$this->tpl->setCurrentBlock("commandoption");
-							$this->tpl->setVariable("OPTION_NAME", $this->lng->txt($cat));
-							$this->tpl->setVariable("OPTION_VALUE", $val);
-							$this->tpl->parseCurrentBlock();
-						}
-					}
-					$this->tpl->setCurrentBlock("user_action_buttons");
-					$this->tpl->setVariable("ARROW", "<img src=\"" . ilUtil::getImagePath("arrow_downright.gif") . "\" alt=\"".$this->lng->txt("arrow_downright")."\"/>");
-					$this->tpl->setVariable("VALUE_SUBMIT", $this->lng->txt("submit"));
-					$this->tpl->parseCurrentBlock();
-				}
-				$finished = "<img border=\"0\" align=\"middle\" src=\"".ilUtil::getImagePath("icon_ok.gif") . "\" alt=\"".$this->lng->txt("checkbox_checked")."\" />";
-				$started  = "<img border=\"0\" align=\"middle\" src=\"".ilUtil::getImagePath("icon_ok.gif") . "\" alt=\"".$this->lng->txt("checkbox_checked")."\" />" ;
-				$counter = 0;
-				foreach ($data_array as $data)
-				{
-					$maxpass = $this->object->_getMaxPass($data["active_id"]);
-					if (!is_null($maxpass))
-					{
-						$maxpass += 1;
-					}
-					$passes = ($maxpass) ? (($maxpass == 1) ? sprintf($this->lng->txt("pass_finished"), $maxpass) : sprintf($this->lng->txt("passes_finished"), $maxpass)) : "&nbsp;";
-					$this->tpl->setCurrentBlock($block_row);
-					$this->tpl->setVariable("COLOR_CLASS", $rowclass[$counter % 2]);
-					$this->tpl->setVariable("COUNTER", $data["active_id"]);
-					$this->tpl->setVariable("VALUE_IV_USR_ID", $data["active_id"]);
-					$this->tpl->setVariable("VALUE_IV_LOGIN", $data["login"]);
-					$this->tpl->setVariable("VALUE_IV_FIRSTNAME", $data["firstname"]);
-					$this->tpl->setVariable("VALUE_IV_LASTNAME", $data["lastname"]);
-					$this->tpl->setVariable("VALUE_IV_TEST_FINISHED", ($data["test_finished"]==1)?$finished.$passes:$passes);
-					$this->tpl->setVariable("VALUE_IV_TEST_STARTED", ($data["active_id"] > 0)?$started:"&nbsp;");
-					if (strlen($data["active_id"]))
-					{
-						$last_access = $this->object->_getLastAccess($data["active_id"]);
-						$this->tpl->setVariable("VALUE_IV_LAST_ACCESS", ilDatePresentation::formatDate(new ilDateTime($last_access,IL_CAL_DATETIME)));
-						
-					}
-					else
-					{
-						$last_access = $this->lng->txt("not_yet_accessed");
-						$this->tpl->setVariable("VALUE_IV_LAST_ACCESS", $last_access);
-					}
-					$this->ctrl->setParameter($this, "active_id", $data["active_id"]);
-					if ($data["active_id"] > 0)
-					{
-						$this->tpl->setVariable("VALUE_TST_SHOW_RESULTS", $this->lng->txt("tst_show_results"));
-						$this->ctrl->setParameterByClass("iltestevaluationgui", "active_id", $data["active_id"]);
-						$this->tpl->setVariable("URL_TST_SHOW_RESULTS", $this->ctrl->getLinkTargetByClass("iltestevaluationgui", "outParticipantsResultsOverview"));
-					}
-					$counter++;
-					$this->tpl->parseCurrentBlock();
-				}
-				if (count($data_array))
-				{
-					$this->tpl->setCurrentBlock("selectall");
-					$this->tpl->setVariable("SELECT_ALL", $this->lng->txt("select_all"));
-					$counter++;
-					$this->tpl->setVariable("COLOR_CLASS", $rowclass[$counter % 2]);
-					$this->tpl->parseCurrentBlock();
-				}
-				$this->tpl->setCurrentBlock($block_result);
-				$this->tpl->setVariable("$title_label", "<img src=\"" . ilUtil::getImagePath("icon_usr_b.gif") . "\" alt=\"".$this->lng->txt("objs_usr")."\" align=\"middle\" /> " . $title_text);
-				$this->tpl->setVariable("TEXT_IV_LOGIN", $this->lng->txt("login"));
-				$this->tpl->setVariable("TEXT_IV_FIRSTNAME", $this->lng->txt("firstname"));
-				$this->tpl->setVariable("TEXT_IV_LASTNAME", $this->lng->txt("lastname"));
-				$this->tpl->setVariable("TEXT_IV_TEST_FINISHED", $this->lng->txt("tst_finished"));
-				$this->tpl->setVariable("TEXT_IV_TEST_STARTED", $this->lng->txt("tst_started"));
-				$this->tpl->setVariable("TEXT_IV_LAST_ACCESS", $this->lng->txt("last_access"));
-				$this->tpl->parseCurrentBlock();
-				break;
 			case "usr":
 				$counter = 0;
 				foreach ($data_array as $data)

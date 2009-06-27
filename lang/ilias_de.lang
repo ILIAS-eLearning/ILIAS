@@ -352,7 +352,7 @@ assessment#:#filter_show_question_types#:#Zeige folgende Fragentypen
 assessment#:#filter_show_questionpools#:#Zeige folgende Fragenpools
 assessment#:#filter_users#:#Teilnehmer filtern
 assessment#:#filter#:#Filter
-assessment#:#fixed_participants_hint#:#Dieser Test ist nur für diese feste Gruppe von Teilnehmern verfügbar. Wenn Sie den Test für beliebige Teilnehmer verfügbar machen wollen, müssen Sie die Auswahl im Kontrollkästchen für feste Teilnehmer des %s Karteireiters entfernen.
+assessment#:#fixed_participants_hint#:#Dieser Test ist nur für diese feste Gruppe von Teilnehmern verfügbar. Wenn Sie den Test für beliebige Teilnehmer verfügbar machen wollen, müssen Sie die Auswahl im Kontrollkästchen für feste Teilnehmer in den Testeinstellungen ändern.
 assessment#:#flashfile#:#Flash-Datei
 assessment#:#gap_definition#:#Lückendefinition
 assessment#:#gap_selection#:#Lückenauswahl
