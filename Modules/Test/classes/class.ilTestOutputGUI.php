@@ -448,23 +448,19 @@ class ilTestOutputGUI extends ilTestServiceGUI
 /**
 * Displays a password protection page when a test password is set
 *
-* Displays a password protection page when a test password is set
-*
 * @access public
 */
 	function showPasswordProtectionPage()
 	{
-		$this->tpl->addBlockFile($this->getContentBlockName(), "adm_content", "tpl.il_as_tst_password_protection.html", "Modules/Test");	
-		$this->tpl->setVariable("FORMACTION", $this->ctrl->getFormAction($this, "checkPassword"));
-		$this->tpl->setVariable("PASSWORD_INTRODUCTION", $this->lng->txt("tst_password_introduction"));
-		$this->tpl->setVariable("TEXT_PASSWORD", $this->lng->txt("tst_password"));
-		$this->tpl->setVariable("SUBMIT", $this->lng->txt("submit"));
-		$this->tpl->parseCurrentBlock();
+		$template = new ilTemplate("tpl.il_as_tst_password_protection.html", TRUE, TRUE, "Modules/Test");
+		$template->setVariable("FORMACTION", $this->ctrl->getFormAction($this, "checkPassword"));
+		$template->setVariable("PASSWORD_INTRODUCTION", $this->lng->txt("tst_password_introduction"));
+		$template->setVariable("TEXT_PASSWORD", $this->lng->txt("tst_password"));
+		$template->setVariable("SUBMIT", $this->lng->txt("submit"));
+		$this->tpl->setVariable($this->getContentBlockName(), $template->get());
 	}
 	
 /**
-* Check the password, a user entered for test access
-*
 * Check the password, a user entered for test access
 *
 * @access public
