@@ -95,7 +95,15 @@ class ilSetupGUI
 			}
 			else
 			{
-				$this->displayLogin();
+				if ($this->cmd == "performLogin" || $this->cmd == "performMLogin")
+				{
+					$cmd = $this->cmd;
+					$this->$cmd();
+				}
+				else
+				{
+					$this->displayLogin();
+				}
 			}
 		}
 		else
@@ -133,6 +141,7 @@ class ilSetupGUI
 	 */
 	function cmdInstall()
 	{
+		$cmd = $this->cmd;
 		switch ($this->cmd)
 		{
 			case NULL:
@@ -149,6 +158,10 @@ class ilSetupGUI
 				$this->determineToolsPathInstall();
 				break;
 
+			case "saveBasicSettings":
+				$this->$cmd();
+				break;
+
 			default:
 				$this->displayError($this->lng->txt("unknown_command"));
 				break;
@@ -160,6 +173,7 @@ class ilSetupGUI
 	 */
 	function cmdAdmin()
 	{
+		$cmd = $this->cmd;
 		switch ($this->cmd)
 		{
 			case NULL:
@@ -224,6 +238,10 @@ class ilSetupGUI
 				$this->setup->checkPreliminaries();
 				$this->displayPreliminaries();
 				$this->active_tab = "preliminaries";
+				break;
+				
+			case "updateBasicSettings":
+				$this->$cmd();
 				break;
 
 			default:
@@ -710,7 +728,7 @@ class ilSetupGUI
 		$this->tpl->setVariable("TXT_PRE_TITLE", $this->lng->txt("preliminaries"));
 		$this->tpl->setVariable("TXT_PRE_INTRO", $this->lng->txt("pre_intro"));
 
-		$preliminaries = array("php", "mysql", "root", "folder_create",
+		$preliminaries = array("php", "root", "folder_create",
 			"cookies_enabled", "dom", "xsl", "gd", "memory");
 		foreach ($preliminaries as $preliminary)
 		{
@@ -752,12 +770,38 @@ class ilSetupGUI
 		}
 	}
 	
+	////
+	//// BASIC SETTINGS
+	////
+
 	/**
 	 * display master setup form & process form input
 	 */
-	function displayMasterSetup($a_det = false)
+	function displayMasterSetup($a_omit_init = false)
 	{
-		if ($_POST["form"])
+if (true)
+{
+		$this->tpl->addBlockFile("CONTENT","content","tpl.std_layout.html", "setup");
+		$this->tpl->setVariable("TXT_HEADER", $this->lng->txt("basic_settings"));
+		$this->tpl->setVariable("TXT_INFO",
+			$this->lng->txt("info_text_first_install")."<br/>".$this->lng->txt("info_text_pathes"));
+
+		$this->setButtonPrev("preliminaries");
+
+		if ($this->setup->isInstalled())
+		{
+			$this->setButtonNext("list");
+		}
+
+		if (!$a_omit_init)
+		{
+			$this->initBasicSettingsForm(true);
+		}
+		$this->tpl->setVariable("SETUP_CONTENT", "<br>".$this->form->getHTML()."<br>");		
+		return;
+}
+
+/*		if ($_POST["form"])
 		{
 			if (!$this->setup->checkDataDirSetup($_POST["form"]))
 			{
@@ -773,12 +817,7 @@ class ilSetupGUI
 			{
 				$_POST["form"] = $this->determineTools($_POST["form"]);
 			}
-			
-			/*if (!$this->setup->checkToolsSetup($_POST["form"]))
-			{
-				$this->setup->raiseError($this->lng->txt($this->setup->getError()),$this->setup->error_obj->MESSAGE);
-			}*/
-			
+						
 			if (!$this->setup->checkPasswordSetup($_POST["form"]))
 			{
 				$this->setup->raiseError($this->lng->txt($this->setup->getError()),$this->setup->error_obj->MESSAGE);
@@ -971,7 +1010,454 @@ class ilSetupGUI
 		{
 			$this->setButtonNext("list");
 		}
+*/
 	}
+		
+	/**
+	 * display master settings and process form input
+	 */
+	function changeMasterSettings($a_omit_init = false)
+	{			
+		$this->tpl->addBlockFile("CONTENT","content","tpl.std_layout.html", "setup");
+		$this->tpl->setVariable("TXT_HEADER", $this->lng->txt("basic_settings"));
+		$this->tpl->setVariable("TXT_INFO", $this->lng->txt("info_text_pathes"));
+
+		$this->btn_next_on = true;
+		$this->btn_next_lng = $this->lng->txt("create_new_client")."...";
+		$this->btn_next_cmd = "newclient";
+
+		if (!$a_omit_init)
+		{
+			$this->initBasicSettingsForm();
+			$this->getBasicSettingsValues();
+		}
+		$this->tpl->setVariable("SETUP_CONTENT", "<br>".$this->form->getHTML()."<br>");		
+		return;
+
+/*		$this->tpl->setCurrentBlock("det_tools");
+		$this->tpl->setVariable("TXT_DET_TOOLS_PATH", $this->lng->txt("determine_tools_paths"));
+		$this->tpl->setVariable("CMD_DET_TOOLS_PATH", "determineToolsPath");
+		$this->tpl->parseCurrentBlock();
+
+		$this->tpl->setVariable("FORMACTION", "setup.php?cmd=gateway");
+
+		// for checkboxes & radio buttons
+		$checked = "checked=\"checked\"";
+
+		// general
+		$this->tpl->setVariable("TXT_HEADER", $this->lng->txt("basic_settings"));
+		$this->tpl->setVariable("SUBMIT_CMD", "mastersettings");
+		$this->tpl->setVariable("TXT_SAVE", $this->lng->txt("save"));
+		$this->tpl->setVariable("TXT_ENTER_DIR_AND_FILENAME", $this->lng->txt("enter_dir_and_filename"));
+		$this->tpl->setVariable("TXT_INFO", $this->lng->txt("info_text_pathes"));
+		
+		if ($this->setup->safe_mode)
+		{
+			$this->tpl->setVariable("SAFE_MODE_STYLE", " class=\"message\" ");
+			$this->tpl->setVariable("TXT_SAFE_MODE_INFO", $this->lng->txt("safe_mode_enabled"));
+		}
+		else
+		{
+			$this->tpl->setVariable("TXT_SAFE_MODE_INFO", "");
+		}
+		
+		// determine ws data directory
+		$cwd = getcwd();
+//		chdir("..");
+		$data_dir_ws = getcwd()."/data";
+		chdir($cwd);
+		
+		// datadir
+		$this->tpl->setCurrentBlock("display_datadir");
+		$this->tpl->setVariable("TXT_DATADIR_TITLE", $this->lng->txt("data_directories"));
+		$this->tpl->setVariable("TXT_DATADIR_PATH_IN_WS", $this->lng->txt("data_directory_in_ws"));
+		$this->tpl->setVariable("DATADIR_IN_WS", $data_dir_ws);
+		$this->tpl->setVariable("TXT_DATADIR_PATH", $this->lng->txt("data_directory_outside_ws"));
+		$this->tpl->setVariable("DATADIR_PATH", $this->setup->ini->readVariable("clients","datadir"));
+		$this->tpl->setVariable("TXT_DATADIR_COMMENT2", $this->lng->txt("datadir_path_comment2"));
+		$this->tpl->parseCurrentBlock();
+
+		// logging
+		$this->tpl->setCurrentBlock("setup_log");
+		$this->tpl->setVariable("TXT_LOG_TITLE", $this->lng->txt("logging"));
+		$this->tpl->setVariable("TXT_LOG_PATH", $this->lng->txt("log_path"));
+		$this->tpl->setVariable("TXT_LOG_COMMENT", $this->lng->txt("log_path_comment"));
+		$this->tpl->setVariable("TXT_DISABLE_LOGGING", $this->lng->txt("disable_logging"));
+		// values
+		if ($_SESSION["error_post_vars"])
+		{
+			$this->tpl->setVariable("LOG_PATH", $_SESSION["error_post_vars"]["form"]["log_path"]);
+			$chk_log_status = ($_SESSION["error_post_vars"]["form"]["chk_log_status"]) ? $checked : "";
+		}
+		else
+		{
+			$this->tpl->setVariable("LOG_PATH",$this->setup->ini->readVariable("log","path")."/".$this->setup->ini->readVariable("log","file"));
+			$chk_log_status = ($this->setup->ini->readVariable("log","enabled")) ? "" : $checked;
+
+		}
+
+		$this->tpl->setVariable("CHK_LOG_STATUS",$chk_log_status);
+		$this->tpl->parseCurrentBlock();
+
+		// tools
+		$this->tpl->setCurrentBlock("setup_tools");
+		$this->tpl->setVariable("TXT_DISABLE_CHECK", $this->lng->txt("disable_check"));
+		$this->tpl->setVariable("TXT_REQ_TOOLS_TITLE", $this->lng->txt("3rd_party_software_req"));
+		$this->tpl->setVariable("TXT_OPT_TOOLS_TITLE", $this->lng->txt("3rd_party_software_opt"));
+		$this->tpl->setVariable("TXT_CONVERT_PATH", $this->lng->txt("convert_path"));
+		$this->tpl->setVariable("TXT_ZIP_PATH", $this->lng->txt("zip_path"));
+		$this->tpl->setVariable("TXT_UNZIP_PATH", $this->lng->txt("unzip_path"));
+		$this->tpl->setVariable("TXT_JAVA_PATH", $this->lng->txt("java_path"));
+		$this->tpl->setVariable("TXT_HTMLDOC_PATH", $this->lng->txt("htmldoc_path"));
+		$this->tpl->setVariable("TXT_MKISOFS_PATH", $this->lng->txt("mkisofs_path"));
+		$this->tpl->setVariable("TXT_LATEX_URL", $this->lng->txt("url_to_latex"));
+		$this->tpl->setVariable("TXT_FOP_PATH", $this->lng->txt("fop_path"));
+		
+		$this->tpl->setVariable("TXT_VIRUS_SCANNER", $this->lng->txt("virus_scanner"));
+		$this->tpl->setVariable("TXT_NONE", $this->lng->txt("none"));
+		$this->tpl->setVariable("TXT_SOPHOS", $this->lng->txt("sophos"));
+		$this->tpl->setVariable("TXT_ANTIVIR", $this->lng->txt("antivir"));
+		$this->tpl->setVariable("TXT_CLAMAV", $this->lng->txt("clamav"));
+		$this->tpl->setVariable("TXT_SCAN_COMMAND", $this->lng->txt("scan_command"));
+		$this->tpl->setVariable("TXT_CLEAN_COMMAND", $this->lng->txt("clean_command"));
+
+		$this->tpl->setVariable("TXT_CONVERT_COMMENT", $this->lng->txt("convert_path_comment"));
+		$this->tpl->setVariable("TXT_ZIP_COMMENT", $this->lng->txt("zip_path_comment"));
+		$this->tpl->setVariable("TXT_UNZIP_COMMENT", $this->lng->txt("unzip_path_comment"));
+		$this->tpl->setVariable("TXT_JAVA_COMMENT", $this->lng->txt("java_path_comment"));
+		$this->tpl->setVariable("TXT_HTMLDOC_COMMENT", $this->lng->txt("htmldoc_path_comment"));
+		$this->tpl->setVariable("TXT_MKISOFS_COMMENT", $this->lng->txt("mkisofs_path_comment"));
+		$this->tpl->setVariable("TXT_LATEX_URL_COMMENT", $this->lng->txt("latex_url_comment"));
+		$this->tpl->setVariable("TXT_FOP_COMMENT", $this->lng->txt("fop_path_comment"));
+		// values
+		if ($_SESSION["error_post_vars"])
+		{
+			$vals = $_SESSION["error_post_vars"]["form"];
+		}
+		else
+		{
+			$vals["convert_path"] = $this->setup->ini->readVariable("tools","convert");
+			$vals["zip_path"] = $this->setup->ini->readVariable("tools","zip");
+			$vals["unzip_path"] = $this->setup->ini->readVariable("tools","unzip");
+			$vals["java_path"] = $this->setup->ini->readVariable("tools","java");
+			$vals["htmldoc_path"] = $this->setup->ini->readVariable("tools","htmldoc");
+			$vals["mkisofs_path"] = $this->setup->ini->readVariable("tools","mkisofs");
+			$vals["latex_url"] = $this->setup->ini->readVariable("tools","latex");
+			$vals["fop_path"] = $this->setup->ini->readVariable("tools","fop");
+			$vals["vscanner_type"] = $this->setup->ini->readVariable("tools", "vscantype");
+			$vals["scan_command"] = $this->setup->ini->readVariable("tools", "scancommand");
+			$vals["clean_command"] = $this->setup->ini->readVariable("tools", "cleancommand");
+		}
+		
+		$tools = array("convert" => "testConvert", "zip" => "testZip",
+			"unzip" => "testUnzip", "java" => "testJava", "htmldoc" => "testHtmldoc",
+			"latex" => "testLatex");
+		foreach ($tools as $tool => $func)
+		{
+			$end = ($tool == "latex")
+				? "url"
+				: "path";
+			if (($err = $this->setup->$func($vals[$tool."_".$end])) != "")
+			{
+				$this->tpl->setCurrentBlock("warning_".$tool);
+				$this->tpl->setVariable("TXT_WARNING_".strtoupper($tool), $this->lng->txt($err));
+				$this->tpl->parseCurrentBlock();
+			}
+		}
+
+		$this->tpl->setVariable("CONVERT_PATH", $vals["convert_path"]);
+		$this->tpl->setVariable("ZIP_PATH", $vals["zip_path"]);
+		$this->tpl->setVariable("UNZIP_PATH", $vals["unzip_path"]);
+		$this->tpl->setVariable("JAVA_PATH", $vals["java_path"]);
+		$this->tpl->setVariable("HTMLDOC_PATH", $vals["htmldoc_path"]);
+		$this->tpl->setVariable("MKISOFS_PATH", $vals["mkisofs_path"]);
+		$this->tpl->setVariable("LATEX_URL", $vals["latex_url"]);
+		$this->tpl->setVariable("FOP_PATH", $vals["fop_path"]);
+		$this->tpl->setVariable("STYPE_".
+			strtoupper($vals["vscanner_type"]), " selected=\"1\" ");
+		$this->tpl->setVariable("SCAN_COMMAND", $vals["scan_command"]);
+		$this->tpl->setVariable("CLEAN_COMMAND", $vals["clean_command"]);
+		
+		$chk_convert_path = ($_SESSION["error_post_vars"]["form"]["chk_convert_path"]) ? $checked : "";
+		$chk_zip_path = ($_SESSION["error_post_vars"]["form"]["chk_zip_path"]) ? $checked : "";
+		$chk_unzip_path = ($_SESSION["error_post_vars"]["form"]["chk_unzip_path"]) ? $checked : "";
+		$chk_java_path = ($_SESSION["error_post_vars"]["form"]["chk_java_path"]) ? $checked : "";
+		$chk_htmldoc_path = ($_SESSION["error_post_vars"]["form"]["chk_htmldoc_path"]) ? $checked : "";
+		$chk_mkisofs_path = ($_SESSION["error_post_vars"]["form"]["chk_mkisofs_path"]) ? $checked : "";
+		$chk_latex_url = ($_SESSION["error_post_vars"]["form"]["chk_latex_url"]) ? $checked : "";
+		$chk_fop_path = ($_SESSION["error_post_vars"]["form"]["chk_fop_path"]) ? $checked : "";
+
+		$this->tpl->setVariable("CHK_LOG_STATUS", $chk_log_stauts);
+		$this->tpl->setVariable("CHK_CONVERT_PATH", $chk_convert_path);
+		$this->tpl->setVariable("CHK_ZIP_PATH", $chk_zip_path);
+		$this->tpl->setVariable("CHK_UNZIP_PATH", $chk_unzip_path);
+		$this->tpl->setVariable("CHK_JAVA_PATH", $chk_java_path);
+		$this->tpl->setVariable("CHK_HTMLDOC_PATH", $chk_htmldoc_path);
+		$this->tpl->setVariable("CHK_MKISOFS_PATH", $chk_mkisofs_path);
+		$this->tpl->setVariable("CHK_LATEX_URL", $chk_latex_url);
+		$this->tpl->setVariable("CHK_FOP_PATH", $chk_fop_path);
+		$this->tpl->parseCurrentBlock();
+		
+		$this->btn_next_on = true;
+		$this->btn_next_lng = $this->lng->txt("create_new_client")."...";
+		$this->btn_next_cmd = "newclient";
+*/
+	}
+
+	/**
+	 * Init basic settings form.
+	 */
+	public function initBasicSettingsForm($a_install = false)
+	{
+		global $lng, $ilCtrl;
+	
+		include_once("Services/Form/classes/class.ilPropertyFormGUI.php");
+		$this->form = new ilPropertyFormGUI();
+	
+		// webspace dir	
+		$ne = new ilNonEditableValueGUI($lng->txt("data_directory_in_ws"), "webspace_dir");
+		if ($a_install)
+		{
+			$ne->setInfo($this->lng->txt("data_directory_in_ws_info"));
+		}
+		$ne->setValue(getcwd()."/data");
+		$this->form->addItem($ne);
+		
+		// data dir
+		if ($a_install)
+		{
+			$ti = new ilTextInputGUI($lng->txt("data_directory_outside_ws"), "datadir_path");
+			$ti->setInfo($lng->txt("data_directory_info"));
+			$ti->setRequired(true);
+			$this->form->addItem($ti);
+		}
+		else
+		{
+			$ne = new ilNonEditableValueGUI($lng->txt("data_directory_outside_ws"), "data_dir");
+			$this->form->addItem($ne);
+		}
+			
+	
+		// logging
+		$sh = new ilFormSectionHeaderGUI();
+		$sh->setTitle($lng->txt("logging"));
+		$this->form->addItem($sh);
+		
+		// path to log file
+		$ti = new ilTextInputGUI($lng->txt("log_path"), "log_path");
+		$ti->setInfo($lng->txt("log_path_comment"));
+		$this->form->addItem($ti);
+		
+		// disable logging 
+		$cb = new ilCheckboxInputGUI($lng->txt("disable_logging"), "chk_log_status");
+		$this->form->addItem($cb);
+		
+		// required 3rd party tools
+		$sh = new ilFormSectionHeaderGUI();
+		$sh->setTitle($lng->txt("3rd_party_software_req"));
+		$this->form->addItem($sh);
+		
+		// convert path
+		$ti = new ilTextInputGUI($lng->txt("convert_path"), "convert_path");
+		$ti->setInfo($lng->txt("convert_path_comment"));
+		$ti->setRequired(true);
+		$this->form->addItem($ti);
+
+		// zip path
+		$ti = new ilTextInputGUI($lng->txt("zip_path"), "zip_path");
+		$ti->setInfo($lng->txt("zip_path_comment"));
+		$ti->setRequired(true);
+		$this->form->addItem($ti);
+
+		// unzip path
+		$ti = new ilTextInputGUI($lng->txt("unzip_path"), "unzip_path");
+		$ti->setInfo($lng->txt("unzip_path_comment"));
+		$ti->setRequired(true);
+		$this->form->addItem($ti);
+
+		// optional 3rd party tools
+		$sh = new ilFormSectionHeaderGUI();
+		$sh->setTitle($lng->txt("3rd_party_software_opt"));
+		$this->form->addItem($sh);
+
+		// java path
+		$ti = new ilTextInputGUI($lng->txt("java_path"), "java_path");
+		$ti->setInfo($lng->txt("java_path_comment"));
+		$this->form->addItem($ti);
+
+		// htmldoc path
+		$ti = new ilTextInputGUI($lng->txt("htmldoc_path"), "htmldoc_path");
+		$ti->setInfo($lng->txt("htmldoc_path_comment"));
+		$this->form->addItem($ti);
+
+		// mkisofs path
+		$ti = new ilTextInputGUI($lng->txt("mkisofs_path"), "mkisofs_path");
+		$ti->setInfo($lng->txt("mkisofs_path_comment"));
+		$this->form->addItem($ti);
+
+		// latex
+		$ti = new ilTextInputGUI($lng->txt("url_to_latex"), "latex_url");
+		$ti->setInfo($lng->txt("latex_url_comment"));
+		$this->form->addItem($ti);
+		
+		// virus scanner
+		$options = array(
+			"none" => $lng->txt("none"),
+			"sophos" => $lng->txt("sophos"),
+			"antivir" => $lng->txt("antivir"),
+			"clamav" => $lng->txt("clamav")
+			);
+		$si = new ilSelectInputGUI($lng->txt("virus_scanner"), "vscanner_type");
+		$si->setOptions($options);
+		$this->form->addItem($si);
+
+		// scan command
+		$ti = new ilTextInputGUI($lng->txt("scan_command"), "scan_command");
+		$this->form->addItem($ti);
+
+		// clean command
+		$ti = new ilTextInputGUI($lng->txt("clean_command"), "clean_command");
+		$this->form->addItem($ti);
+
+		if ($a_install)
+		{
+			$sh = new ilFormSectionHeaderGUI();
+			$sh->setTitle($lng->txt("master_password"));
+			$this->form->addItem($sh);
+			
+			// password
+			$pi = new ilPasswordInputGUI($lng->txt("password"), "password");
+			$pi->setRequired(true);
+			$pi->setSkipSyntaxCheck(true);
+			$pi->setInfo($lng->txt("password_info"));
+			$this->form->addItem($pi);
+		}
+	
+		if ($a_install)
+		{
+			$this->form->addCommandButton("saveBasicSettings", $lng->txt("save"));
+		}
+		else
+		{
+			$this->form->addCommandButton("updateBasicSettings", $lng->txt("save"));
+			$this->form->addCommandButton("determineToolsPath", $lng->txt("determine_tools_paths"));
+		}
+	                
+		$this->form->setTitle($lng->txt("data_directories"));
+		$this->form->setFormAction("setup.php?cmd=gateway");
+		
+		if ($a_install)
+		{
+			$det = $this->determineTools();
+			$this->form->setValuesByArray($det);
+		}
+	 
+	}
+	
+	/**
+	 * Get current values for basic settings from 
+	 */
+	public function getBasicSettingsValues()
+	{
+		$values = array();
+	
+		$values["webspace_dir"] = getcwd()."/data";
+		$values["data_dir"] = $this->setup->ini->readVariable("clients","datadir");
+		$values["convert_path"] = $this->setup->ini->readVariable("tools","convert");
+		$values["zip_path"] = $this->setup->ini->readVariable("tools","zip");
+		$values["unzip_path"] = $this->setup->ini->readVariable("tools","unzip");
+		$values["java_path"] = $this->setup->ini->readVariable("tools","java");
+		$values["htmldoc_path"] = $this->setup->ini->readVariable("tools","htmldoc");
+		$values["mkisofs_path"] = $this->setup->ini->readVariable("tools","mkisofs");
+		$values["latex_url"] = $this->setup->ini->readVariable("tools","latex");
+		$values["fop_path"] = $this->setup->ini->readVariable("tools","fop");
+		$values["vscanner_type"] = $this->setup->ini->readVariable("tools", "vscantype");
+		$values["scan_command"] = $this->setup->ini->readVariable("tools", "scancommand");
+		$values["clean_command"] = $this->setup->ini->readVariable("tools", "cleancommand");
+		$values["log_path"] = $this->setup->ini->readVariable("log","path")."/".
+			$this->setup->ini->readVariable("log","file");
+		$values["chk_log_status"] = !$this->setup->ini->readVariable("log","enabled");
+
+		$this->form->setValuesByArray($values);
+	}
+
+	/**
+	 * Save basic settings form
+	 */
+	public function saveBasicSettings()
+	{
+		global $tpl, $lng, $ilCtrl;
+	
+		$this->initBasicSettingsForm(true);
+		if ($this->form->checkInput())
+		{
+			$_POST["setup_pass"] = $_POST["password"];
+			$_POST["setup_pass2"] = $_POST["password_retype"];
+			if (!$this->setup->checkDataDirSetup($_POST))
+			{
+				$i = $this->form->getItemByPostVar("datadir_path");
+				$i->setAlert($this->lng->txt($this->setup->getError()));				
+				ilUtil::sendFailure($this->lng->txt("form_input_not_valid"),true);
+			}
+			else if (!$this->setup->checkLogSetup($_POST))
+			{
+				$i = $this->form->getItemByPostVar("log_path");
+				$i->setAlert($this->lng->txt($this->setup->getError()));				
+				ilUtil::sendFailure($this->lng->txt("form_input_not_valid"),true);
+			}
+			else if (!$this->setup->checkPasswordSetup($_POST))
+			{
+				ilUtil::sendFailure($this->lng->txt($this->setup->getError()),true);
+			}
+			else if (!$this->setup->saveMasterSetup($_POST))
+			{
+				ilUtil::sendFailure($this->lng->txt($this->setup->getError()),true);
+			}
+			else
+			{
+				ilUtil::sendSuccess($this->lng->txt("settings_saved"),true);
+				ilUtil::redirect("setup.php?cmd=mastersettings");
+			}
+		}
+		
+		$this->form->setValuesByPost();
+		$this->displayMasterSetup(true);
+	}
+	
+	/**
+	 * Update basic settings form
+	 */
+	public function updateBasicSettings()
+	{
+		global $tpl, $lng, $ilCtrl;
+	
+		$this->initBasicSettingsForm();
+		if ($this->form->checkInput())
+		{
+			if (!$this->setup->checkLogSetup($_POST))
+			{
+				$i = $this->form->getItemByPostVar("log_path");
+				$i->setAlert($this->lng->txt($this->setup->getError()));
+				ilUtil::sendFailure($this->lng->txt("form_input_not_valid"),true);
+			}
+			else if (!$this->setup->updateMasterSettings($_POST))
+			{
+				ilUtil::sendFailure($this->lng->txt($this->setup->getError()),true);
+			}
+			else
+			{
+				ilUtil::sendSuccess($this->lng->txt("settings_saved"),true);
+				ilUtil::redirect("setup.php?cmd=mastersettings");
+			}
+		}
+		
+		$this->form->setValuesByPost();
+		$this->changeMasterSettings(true);
+	}
+	
+	////
+	//// LOGIN
+	////
 	
 	/**
 	 * login to a client
@@ -986,50 +1472,138 @@ class ilSetupGUI
 	/**
 	 * display login form and process form
 	 */
-	function displayLogin()
+	function displayLogin($a_omit_minit = false, $a_omit_cinit = false)
 	{
+		global $lng;
+		
 		$this->tpl->addBlockFile("CONTENT","content","tpl.std_layout.html", "setup");
 
-		if ($_POST["form"])
+		if ($a_omit_minit)
 		{
-			// first check client login
-			if (empty($_POST["form"]["admin_password"]))
+			$m_form = $this->form->getHTML();
+		}
+		if (!$a_omit_cinit)
+		{
+			$this->initClientLoginForm();
+		}
+		$cl_form = $this->form->getHTML();
+		if (!$a_omit_minit)
+		{
+			$this->initMasterLoginForm();
+			$m_form = $this->form->getHTML();
+		}
+		$this->tpl->setVariable("SETUP_CONTENT", $cl_form."<br>".$m_form);
+		$this->tpl->setVariable("TXT_HEADER", $lng->txt("login"));
+	}
+	
+	/**
+	* Master Login
+	*/
+	public function performMLogin()
+	{
+		$this->initMasterLoginForm();
+		if ($this->form->checkInput())
+		{
+			$i = $this->form->getItemByPostVar("mpassword");
+			if (!$this->setup->loginAsAdmin($_POST["mpassword"]))
 			{
-				if (!$this->setup->loginAsClient($_POST["form"]))
-				{
-					if ($error_msg = $this->setup->getError())
-					{
-						$this->setup->raiseError($this->lng->txt($error_msg),$this->setup->error_obj->MESSAGE);
-					}
-				}
+				$i->setAlert($this->lng->txt("login_invalid"));
 			}
 			else
 			{
-				if (!$this->setup->loginAsAdmin($_POST["form"]["admin_password"]))
-				{
-					$this->setup->raiseError($this->lng->txt("login_invalid"),$this->setup->error_obj->MESSAGE);
-				}
+				// everything ok -> we are authenticated
+				ilUtil::redirect("setup.php");
 			}
-
-			ilUtil::redirect("setup.php");
 		}
 
-		// output
-		$this->tpl->addBlockFile("SETUP_CONTENT","setup_content","tpl.form_login.html", "setup");
-		$this->tpl->setVariable("FORMACTION", "setup.php?cmd=gateway");
-		$this->tpl->setVariable("TXT_HEADER",$this->lng->txt("setup_login"));
+		// something wrong -> display login again		
+		$this->form->setValuesByPost();
+		$this->displayLogin(true);
+	}
+	
+	/**
+	 * Login 
+	 */	
+	function performLogin()
+	{
+		$this->initClientLoginForm();
+		if ($this->form->checkInput())
+		{
+			$i = $this->form->getItemByPostVar("password");
+			if (!$this->setup->loginAsClient(
+				array("client_id" => $_POST["client_id"],
+				"username" => $_POST["username"], "password" => $_POST["password"])))
+			{
+				$i->setAlert($this->setup->getError());
+			}
+			else
+			{
+				// everything ok -> we are authenticated
+				ilUtil::redirect("setup.php");
+			}
+		}
 
-		$this->tpl->setVariable("TXT_INFO", $this->lng->txt("info_text_login"));
+		// something wrong -> display login again		
+		$this->form->setValuesByPost();
+		$this->displayLogin(false, true);
+	}
+	
+	/**
+	* Init client login form.
+	*/
+	public function initClientLoginForm()
+	{
+		global $lng, $ilCtrl;
+	
+		include_once("Services/Form/classes/class.ilPropertyFormGUI.php");
+		$this->form = new ilPropertyFormGUI();
+		
+		// client id
+		$ti = new ilTextInputGUI($lng->txt("client_id"), "client_id");
+		$ti->setMaxLength(32);
+		$ti->setSize(20);
+		$this->form->addItem($ti);
+		
+		// username
+		$ti = new ilTextInputGUI($lng->txt("username"), "username");
+		$ti->setSize(20);
+		$this->form->addItem($ti);
 
-		$this->tpl->setVariable("TXT_REQUIRED_FIELDS", $this->lng->txt("required_field"));
-		$this->tpl->setVariable("TXT_CLIENT_LOGIN",$this->lng->txt("client_login"));
-		$this->tpl->setVariable("TXT_CLIENT_ID",$this->lng->txt("client_id"));
-		$this->tpl->setVariable("TXT_USERNAME",ucfirst($this->lng->txt("username")));
-		$this->tpl->setVariable("TXT_PASSWORD",ucfirst($this->lng->txt("password")));
-		$this->tpl->setVariable("TXT_OR",strtoupper($this->lng->txt("or")));
-		$this->tpl->setVariable("TXT_ADMIN_LOGIN",$this->lng->txt("admin_login"));
-		$this->tpl->setVariable("TXT_ADMIN_PASSWORD",ucfirst($this->lng->txt("password")));
-		$this->tpl->setVariable("TXT_SUBMIT", $this->lng->txt("submit"));
+		// password
+		$pi = new ilPasswordInputGUI($lng->txt("password"), "password");
+		$pi->setSize(20);
+		$pi->setRetype(false);
+		$pi->setSkipSyntaxCheck(true);
+		$this->form->addItem($pi);		
+	
+		$this->form->addCommandButton("performLogin", $lng->txt("login"));
+	                
+		$this->form->setTitle($lng->txt("client_login"));
+		$this->form->setFormAction("setup.php?cmd=gateway");
+	}
+
+	/**
+	* Init master login form.
+	*/
+	public function initMasterLoginForm()
+	{
+		global $lng, $ilCtrl;
+	
+		include_once("Services/Form/classes/class.ilPropertyFormGUI.php");
+		$this->form = new ilPropertyFormGUI();
+	
+		// password
+		$pi = new ilPasswordInputGUI($lng->txt("password"), "mpassword");
+		$pi->setSize(20);
+		$pi->setRetype(false);
+		$pi->setSkipSyntaxCheck(true);
+		$this->form->addItem($pi);		
+	
+		$this->form->addCommandButton("performMLogin", $lng->txt("login"));
+	                
+		$this->form->setTitle($lng->txt("admin_login"));
+		$this->form->setFormAction("setup.php?cmd=gateway");
+	 
 	}
 
 	/**
@@ -1243,7 +1817,8 @@ class ilSetupGUI
 	*/
 	function determineToolsPath()
 	{
-		$this->changeMasterSettings(true);
+		$_POST = $this->determineTools($_POST);
+		$this->updateBasicSettings();
 	}
 	
 	/**
@@ -1285,210 +1860,6 @@ class ilSetupGUI
 		return $a_tools;
 	}
 	
-	/**
-	 * display master settings and process form input
-	 */
-	function changeMasterSettings($a_det = false)
-	{
-		if ($_POST["form"])
-		{
-			if (!$this->setup->checkLogSetup($_POST["form"]))
-			{
-				$this->setup->raiseError($this->lng->txt($this->setup->getError()),$this->setup->error_obj->MESSAGE);
-			}
-
-			/*if (!$this->setup->checkToolsSetup($_POST["form"]))
-			{
-				$this->setup->raiseError($this->lng->txt($this->setup->getError()),$this->setup->error_obj->MESSAGE);
-			}*/
-
-			if ($a_det)
-			{
-				$_POST["form"] = $this->determineTools($_POST["form"]);
-			}
-			
-			if (!$this->setup->updateMasterSettings($_POST["form"]))
-			{
-				$this->setup->raiseError($this->lng->txt($this->setup->getError()),$this->setup->error_obj->MESSAGE);
-			}
-
-			ilUtil::sendInfo($this->lng->txt("settings_saved"),true);
-			ilUtil::redirect("setup.php?cmd=mastersettings");
-		}
-
-		$this->tpl->addBlockFile("CONTENT","content","tpl.std_layout.html", "setup");
-
-		$this->tpl->addBlockFile("SETUP_CONTENT","setup_content","tpl.form_mastersetup.html", "setup");
-
-		$this->tpl->setCurrentBlock("det_tools");
-		$this->tpl->setVariable("TXT_DET_TOOLS_PATH", $this->lng->txt("determine_tools_paths"));
-		$this->tpl->setVariable("CMD_DET_TOOLS_PATH", "determineToolsPath");
-		$this->tpl->parseCurrentBlock();
-
-		$this->tpl->setVariable("FORMACTION", "setup.php?cmd=gateway");
-
-		// for checkboxes & radio buttons
-		$checked = "checked=\"checked\"";
-
-		// general
-		$this->tpl->setVariable("TXT_HEADER", $this->lng->txt("basic_settings"));
-		$this->tpl->setVariable("SUBMIT_CMD", "mastersettings");
-		$this->tpl->setVariable("TXT_SAVE", $this->lng->txt("save"));
-		$this->tpl->setVariable("TXT_ENTER_DIR_AND_FILENAME", $this->lng->txt("enter_dir_and_filename"));
-		$this->tpl->setVariable("TXT_INFO", $this->lng->txt("info_text_pathes"));
-		
-		if ($this->setup->safe_mode)
-		{
-			$this->tpl->setVariable("SAFE_MODE_STYLE", " class=\"message\" ");
-			$this->tpl->setVariable("TXT_SAFE_MODE_INFO", $this->lng->txt("safe_mode_enabled"));
-		}
-		else
-		{
-			$this->tpl->setVariable("TXT_SAFE_MODE_INFO", "");
-		}
-		
-		// determine ws data directory
-		$cwd = getcwd();
-//		chdir("..");
-		$data_dir_ws = getcwd()."/data";
-		chdir($cwd);
-		
-		// datadir
-		$this->tpl->setCurrentBlock("display_datadir");
-		$this->tpl->setVariable("TXT_DATADIR_TITLE", $this->lng->txt("data_directories"));
-		$this->tpl->setVariable("TXT_DATADIR_PATH_IN_WS", $this->lng->txt("data_directory_in_ws"));
-		$this->tpl->setVariable("DATADIR_IN_WS", $data_dir_ws);
-		$this->tpl->setVariable("TXT_DATADIR_PATH", $this->lng->txt("data_directory_outside_ws"));
-		$this->tpl->setVariable("DATADIR_PATH", $this->setup->ini->readVariable("clients","datadir"));
-		$this->tpl->setVariable("TXT_DATADIR_COMMENT2", $this->lng->txt("datadir_path_comment2"));
-		$this->tpl->parseCurrentBlock();
-
-		// logging
-		$this->tpl->setCurrentBlock("setup_log");
-		$this->tpl->setVariable("TXT_LOG_TITLE", $this->lng->txt("logging"));
-		$this->tpl->setVariable("TXT_LOG_PATH", $this->lng->txt("log_path"));
-		$this->tpl->setVariable("TXT_LOG_COMMENT", $this->lng->txt("log_path_comment"));
-		$this->tpl->setVariable("TXT_DISABLE_LOGGING", $this->lng->txt("disable_logging"));
-		// values
-		if ($_SESSION["error_post_vars"])
-		{
-			$this->tpl->setVariable("LOG_PATH", $_SESSION["error_post_vars"]["form"]["log_path"]);
-			$chk_log_status = ($_SESSION["error_post_vars"]["form"]["chk_log_status"]) ? $checked : "";
-		}
-		else
-		{
-			$this->tpl->setVariable("LOG_PATH",$this->setup->ini->readVariable("log","path")."/".$this->setup->ini->readVariable("log","file"));
-			$chk_log_status = ($this->setup->ini->readVariable("log","enabled")) ? "" : $checked;
-
-		}
-
-		$this->tpl->setVariable("CHK_LOG_STATUS",$chk_log_status);
-		$this->tpl->parseCurrentBlock();
-
-		// tools
-		$this->tpl->setCurrentBlock("setup_tools");
-		$this->tpl->setVariable("TXT_DISABLE_CHECK", $this->lng->txt("disable_check"));
-		$this->tpl->setVariable("TXT_REQ_TOOLS_TITLE", $this->lng->txt("3rd_party_software_req"));
-		$this->tpl->setVariable("TXT_OPT_TOOLS_TITLE", $this->lng->txt("3rd_party_software_opt"));
-		$this->tpl->setVariable("TXT_CONVERT_PATH", $this->lng->txt("convert_path"));
-		$this->tpl->setVariable("TXT_ZIP_PATH", $this->lng->txt("zip_path"));
-		$this->tpl->setVariable("TXT_UNZIP_PATH", $this->lng->txt("unzip_path"));
-		$this->tpl->setVariable("TXT_JAVA_PATH", $this->lng->txt("java_path"));
-		$this->tpl->setVariable("TXT_HTMLDOC_PATH", $this->lng->txt("htmldoc_path"));
-		$this->tpl->setVariable("TXT_MKISOFS_PATH", $this->lng->txt("mkisofs_path"));
-		$this->tpl->setVariable("TXT_LATEX_URL", $this->lng->txt("url_to_latex"));
-		$this->tpl->setVariable("TXT_FOP_PATH", $this->lng->txt("fop_path"));
-		
-		$this->tpl->setVariable("TXT_VIRUS_SCANNER", $this->lng->txt("virus_scanner"));
-		$this->tpl->setVariable("TXT_NONE", $this->lng->txt("none"));
-		$this->tpl->setVariable("TXT_SOPHOS", $this->lng->txt("sophos"));
-		$this->tpl->setVariable("TXT_ANTIVIR", $this->lng->txt("antivir"));
-		$this->tpl->setVariable("TXT_CLAMAV", $this->lng->txt("clamav"));
-		$this->tpl->setVariable("TXT_SCAN_COMMAND", $this->lng->txt("scan_command"));
-		$this->tpl->setVariable("TXT_CLEAN_COMMAND", $this->lng->txt("clean_command"));
-
-		$this->tpl->setVariable("TXT_CONVERT_COMMENT", $this->lng->txt("convert_path_comment"));
-		$this->tpl->setVariable("TXT_ZIP_COMMENT", $this->lng->txt("zip_path_comment"));
-		$this->tpl->setVariable("TXT_UNZIP_COMMENT", $this->lng->txt("unzip_path_comment"));
-		$this->tpl->setVariable("TXT_JAVA_COMMENT", $this->lng->txt("java_path_comment"));
-		$this->tpl->setVariable("TXT_HTMLDOC_COMMENT", $this->lng->txt("htmldoc_path_comment"));
-		$this->tpl->setVariable("TXT_MKISOFS_COMMENT", $this->lng->txt("mkisofs_path_comment"));
-		$this->tpl->setVariable("TXT_LATEX_URL_COMMENT", $this->lng->txt("latex_url_comment"));
-		$this->tpl->setVariable("TXT_FOP_COMMENT", $this->lng->txt("fop_path_comment"));
-		// values
-		if ($_SESSION["error_post_vars"])
-		{
-			$vals = $_SESSION["error_post_vars"]["form"];
-		}
-		else
-		{
-			$vals["convert_path"] = $this->setup->ini->readVariable("tools","convert");
-			$vals["zip_path"] = $this->setup->ini->readVariable("tools","zip");
-			$vals["unzip_path"] = $this->setup->ini->readVariable("tools","unzip");
-			$vals["java_path"] = $this->setup->ini->readVariable("tools","java");
-			$vals["htmldoc_path"] = $this->setup->ini->readVariable("tools","htmldoc");
-			$vals["mkisofs_path"] = $this->setup->ini->readVariable("tools","mkisofs");
-			$vals["latex_url"] = $this->setup->ini->readVariable("tools","latex");
-			$vals["fop_path"] = $this->setup->ini->readVariable("tools","fop");
-			$vals["vscanner_type"] = $this->setup->ini->readVariable("tools", "vscantype");
-			$vals["scan_command"] = $this->setup->ini->readVariable("tools", "scancommand");
-			$vals["clean_command"] = $this->setup->ini->readVariable("tools", "cleancommand");
-		}
-		
-		$tools = array("convert" => "testConvert", "zip" => "testZip",
-			"unzip" => "testUnzip", "java" => "testJava", "htmldoc" => "testHtmldoc",
-			"latex" => "testLatex");
-		foreach ($tools as $tool => $func)
-		{
-			$end = ($tool == "latex")
-				? "url"
-				: "path";
-			if (($err = $this->setup->$func($vals[$tool."_".$end])) != "")
-			{
-				$this->tpl->setCurrentBlock("warning_".$tool);
-				$this->tpl->setVariable("TXT_WARNING_".strtoupper($tool), $this->lng->txt($err));
-				$this->tpl->parseCurrentBlock();
-			}
-		}
-
-		$this->tpl->setVariable("CONVERT_PATH", $vals["convert_path"]);
-		$this->tpl->setVariable("ZIP_PATH", $vals["zip_path"]);
-		$this->tpl->setVariable("UNZIP_PATH", $vals["unzip_path"]);
-		$this->tpl->setVariable("JAVA_PATH", $vals["java_path"]);
-		$this->tpl->setVariable("HTMLDOC_PATH", $vals["htmldoc_path"]);
-		$this->tpl->setVariable("MKISOFS_PATH", $vals["mkisofs_path"]);
-		$this->tpl->setVariable("LATEX_URL", $vals["latex_url"]);
-		$this->tpl->setVariable("FOP_PATH", $vals["fop_path"]);
-		$this->tpl->setVariable("STYPE_".
-			strtoupper($vals["vscanner_type"]), " selected=\"1\" ");
-		$this->tpl->setVariable("SCAN_COMMAND", $vals["scan_command"]);
-		$this->tpl->setVariable("CLEAN_COMMAND", $vals["clean_command"]);
-		
-		$chk_convert_path = ($_SESSION["error_post_vars"]["form"]["chk_convert_path"]) ? $checked : "";
-		$chk_zip_path = ($_SESSION["error_post_vars"]["form"]["chk_zip_path"]) ? $checked : "";
-		$chk_unzip_path = ($_SESSION["error_post_vars"]["form"]["chk_unzip_path"]) ? $checked : "";
-		$chk_java_path = ($_SESSION["error_post_vars"]["form"]["chk_java_path"]) ? $checked : "";
-		$chk_htmldoc_path = ($_SESSION["error_post_vars"]["form"]["chk_htmldoc_path"]) ? $checked : "";
-		$chk_mkisofs_path = ($_SESSION["error_post_vars"]["form"]["chk_mkisofs_path"]) ? $checked : "";
-		$chk_latex_url = ($_SESSION["error_post_vars"]["form"]["chk_latex_url"]) ? $checked : "";
-		$chk_fop_path = ($_SESSION["error_post_vars"]["form"]["chk_fop_path"]) ? $checked : "";
-
-		$this->tpl->setVariable("CHK_LOG_STATUS", $chk_log_stauts);
-		$this->tpl->setVariable("CHK_CONVERT_PATH", $chk_convert_path);
-		$this->tpl->setVariable("CHK_ZIP_PATH", $chk_zip_path);
-		$this->tpl->setVariable("CHK_UNZIP_PATH", $chk_unzip_path);
-		$this->tpl->setVariable("CHK_JAVA_PATH", $chk_java_path);
-		$this->tpl->setVariable("CHK_HTMLDOC_PATH", $chk_htmldoc_path);
-		$this->tpl->setVariable("CHK_MKISOFS_PATH", $chk_mkisofs_path);
-		$this->tpl->setVariable("CHK_LATEX_URL", $chk_latex_url);
-		$this->tpl->setVariable("CHK_FOP_PATH", $chk_fop_path);
-		$this->tpl->parseCurrentBlock();
-		
-		$this->btn_next_on = true;
-		$this->btn_next_lng = $this->lng->txt("create_new_client")."...";
-		$this->btn_next_cmd = "newclient";
-
-	}
 
 	/**
 	 * Select database type
@@ -1776,8 +2147,7 @@ class ilSetupGUI
 		$steps["nic"]["text"]       = $this->lng->txt("setup_process_step_nic");
 		$steps["finish"]["text"]    = $this->lng->txt("setup_process_step_finish");
 		
-		$stpl = new ilTemplate("./setup/templates");
-		$stpl->loadTemplatefile("tpl.process_panel.html", true, true);
+		$stpl = new ilTemplate("tpl.process_panel.html", true, true, "setup");
 
 		$num = 1;
 
@@ -2988,55 +3358,6 @@ $this->tpl->setVariable("FORM", $this->form->getHTML());*/
 		
 		ilUtil::redirect("setup.php");
 	}
-	
-	/**
-	* FORM: Init form.
-	*
-	* @param        int        $a_mode        Form Edit Mode ("edit")
-	*/
-	/*
-	public function initBasicSettingsForm($a_mode = "edit")
-	{
-		global $lng;
 		
-		chdir ("..");
-		include_once("./Services/Form/classes/class.ilPropertyFormGUI.php");
-		chdir ("./setup");
-		
-		$this->form_gui = new ilPropertyFormGUI();
-		
-		$this->form_gui->setTitle($this->lng->txt("change_basic_settings"));
-		
-		// Property Title
-		$text_input = new ilTextInputGUI($lng->txt("block_feed_block_title"), "block_title");
-		$text_input->setInfo("");
-		$text_input->setRequired(true);
-		$text_input->setMaxLength(200);
-		$this->form_gui->addItem($text_input);
-		
-		// Property FeedUrl
-		$text_input = new ilTextInputGUI($lng->txt("block_feed_block_feed_url"), "block_feed_url");
-		$text_input->setInfo($lng->txt("block_feed_block_feed_url_info"));
-		$text_input->setRequired(true);
-		$text_input->setMaxLength(250);
-		$this->form_gui->addItem($text_input);
-		
-		
-		// save and cancel commands
-		if ($a_mode == "create")
-		{
-			$this->form_gui->addCommandButton("save", $lng->txt("save"));
-			$this->form_gui->addCommandButton("cancelSave", $lng->txt("cancel"));
-		}
-		else
-		{
-			$this->form_gui->addCommandButton("update", $lng->txt("save"));
-			$this->form_gui->addCommandButton("cancelUpdate", $lng->txt("cancel"));
-		}
-		
-		$this->form_gui->setTitle($lng->txt("block_feed_block_head"));
-		$this->form_gui->setFormAction("setup.php?cmd=gateway");
-	}*/
-	
 } // END class.ilSetupGUI
 ?>

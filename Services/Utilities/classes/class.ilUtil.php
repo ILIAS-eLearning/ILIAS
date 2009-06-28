@@ -94,6 +94,10 @@ class ilUtil
 	{
 		global $ilias, $styleDefinition, $ilCtrl;
 
+		if (is_int(strpos($_SERVER["SCRIPT_URL"], "setup.php")))
+		{
+			$module_path = "..";
+		}
 		if ($module_path != "")
 		{
 			$module_path = "/".$module_path;

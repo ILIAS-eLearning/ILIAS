@@ -1,26 +1,5 @@
 <?php
-/*
-	+-----------------------------------------------------------------------------+
-	| ILIAS open source                                                           |
-	+-----------------------------------------------------------------------------+
-	| Copyright (c) 1998-2009 ILIAS open source, University of Cologne            |
-	|                                                                             |
-	| This program is free software; you can redistribute it and/or               |
-	| modify it under the terms of the GNU General Public License                 |
-	| as published by the Free Software Foundation; either version 2              |
-	| of the License, or (at your option) any later version.                      |
-	|                                                                             |
-	| This program is distributed in the hope that it will be useful,             |
-	| but WITHOUT ANY WARRANTY; without even the implied warranty of              |
-	| MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the               |
-	| GNU General Public License for more details.                                |
-	|                                                                             |
-	| You should have received a copy of the GNU General Public License           |
-	| along with this program; if not, write to the Free Software                 |
-	| Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA. |
-	+-----------------------------------------------------------------------------+
-*/
-
+/* Copyright (c) 1998-2009 ILIAS open source, Extended GPL, see docs/LICENSE */
 
 /**
 * special template class to simplify handling of ITX/PEAR
@@ -28,8 +7,6 @@
 * @author	Sascha Hofmann <shofmann@databay.de>
 * @version	$Id$
 */
-
-
 class ilTemplate extends ilTemplateX
 {
 	/**
@@ -164,6 +141,7 @@ class ilTemplate extends ilTemplateX
 		$tplfile = $this->getTemplatePath($tplname, $in_module);
 		if (file_exists($tplfile) == false)
 		{
+			mk();
 			echo "<br/>Template '".$tplfile."' doesn't exist! aborting...";
 			return false;
 		}
@@ -182,22 +160,46 @@ class ilTemplate extends ilTemplateX
 		$this->fillJavaScriptFiles();
 		
 		// ERROR HANDLER SETS $_GET["message"] IN CASE OF $error_obj->MESSAGE
-		if ($_SESSION["message"] || $_SESSION["info"])
+		$ms = array("info", "success", "failure", "question");
+		$out = "";
+		
+		foreach ($ms as $m)
 		{
-			if ($this->blockExists("MESSAGE"))
+			if ($m == "question")
 			{
-				$this->addBlockFile("MESSAGE", "message", "tpl.message.html");
-#			$this->setCurrentBlock("message");
+				$m = "mess_question";
+			}
 
-				$this->setVariable("MSG", $_SESSION["message"]);
-				$this->setVariable("INFO", $_SESSION["info"]);
+			$txt = ($_SESSION[$m] != "")
+				? $_SESSION[$m]
+				: $this->message[$m];
+				
+			if ($m == "mess_question")
+			{
+				$m = "question";
+			}
 
-				session_unregister("message");
-				session_unregister("info");
+			if ($txt != "")
+			{
+				$out.= $this->getMessageHTML($txt, $m);
+			}
+		
+			if ($m == "question")
+			{
+				$m = "mess_question";
+			}
 
-#			$this->parseCurrentBlock();
+			if ($_SESSION[$m])
+			{
+				session_unregister($m);
 			}
 		}
+		
+		if ($this->blockExists("MESSAGE") && $out != "")
+		{
+			$this->setVariable("MESSAGE", $out);
+		}
+
 		if ($part == "DEFAULT")
 		{
 			parent::show();
@@ -239,6 +241,95 @@ class ilTemplate extends ilTemplateX
 		}
 	}
 
+	/**
+	* Get HTML for a system message
+	*/
+	public function getMessageHTML($a_txt, $a_type = "info")
+	{
+		global $lng;
+		
+		$mtpl = new ilTemplate("tpl.message.html", true, true, "Services/Utilities");
+		$mtpl->setCurrentBlock($a_type."_message");
+		$mtpl->setVariable("TEXT", $a_txt);
+		$mtpl->setVariable("MESSAGE_HEADING", $lng->txt($a_type."_message"));
+		$mtpl->setVariable("ALT_IMAGE", $lng->txt("icon")." ".$lng->txt($a_type."_message"));
+		$mtpl->setVariable("SRC_IMAGE", ilUtil::getImagePath("mess_".$a_type.".gif"));
+		$mtpl->parseCurrentBlock();
+		
+		return $mtpl->get();
+	}
+
+	/**
+	* Überladene Funktion, die sich hier lokal noch den aktuellen Block merkt.
+	* @access	public
+	* @param	string
+	* @return	???
+	*/
+	function setCurrentBlock ($part = "DEFAULT")
+	{
+		$this->activeBlock = $part;
+
+		if ($part == "DEFAULT")
+		{
+			return parent::setCurrentBlock();
+		}
+		else
+		{
+			return parent::setCurrentBlock($part);
+		}
+	}
+
+	/**
+	* overwrites ITX::touchBlock.
+	* @access	public
+	* @param	string
+	* @return	???
+	*/
+	function touchBlock($block)
+	{
+		$this->setCurrentBlock($block);
+		//$count = $this->fillVars();
+		$this->parseCurrentBlock();
+
+		if ($count == 0)
+		{
+			parent::touchBlock($block);
+		}
+	}
+
+	/**
+	* Überladene Funktion, die auf den aktuelle Block vorher noch ein replace ausführt
+	* @access	public
+	* @param	string
+	* @return	string
+	*/
+	function parseCurrentBlock($part = "DEFAULT")
+	{
+		// Hier erst noch ein replace aufrufen
+		if ($part != "DEFAULT")
+		{
+			$tmp = $this->activeBlock;
+			$this->activeBlock = $part;
+		}
+
+		if ($part != "DEFAULT")
+		{
+			$this->activeBlock = $tmp;
+		}
+
+		//$this->fillVars();
+
+		$this->activeBlock = "__global__";
+
+		if ($part == "DEFAULT")
+		{
+			return parent::parseCurrentBlock();
+		}
+		else
+		{
+			return parent::parseCurrentBlock($part);
+		}
+	}
 	/**
 	* Set message. Please use ilUtil::sendInfo(), ilUtil::sendSuccess()
 	* and ilUtil::sendFailure()
