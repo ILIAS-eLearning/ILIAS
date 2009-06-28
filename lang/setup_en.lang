@@ -41,7 +41,7 @@
 absolute_path#:#Absolute Path
 access#:#Access
 access_status#:#Access Status
-admin_login#:#Login as Administrator
+admin_login#:#Login using Master Password
 antivir#:#AntiVir
 available_clients#:#Available Clients
 available_languages#:#Available Languages
@@ -71,7 +71,7 @@ client_data#:#Client Information
 client_id#:#Client ID
 client_info#:#Description
 client_institution#:#Institution
-client_login#:#Login with your Client ID
+client_login#:#Login as Client Administrator
 client_name#:#Name
 client_setup_not_finished#:#Client setup is not finished yet.
 collation#:#Collation
@@ -329,7 +329,7 @@ password_changed#:#Password changed.
 password_empty#:#No password given!
 password_enter_old#:#You must enter your old password first!
 password_info#:#To protect your configuration data from unauthorized access please enter a password to change these settings again later.
-password_new_master#:#Set new master password
+password_new_master#:#Set New Master Password
 password_not_match#:#New Password entered does not match!
 password_old_wrong#:#Old password entered is wrong!
 password_retype#:#Retype new password
@@ -372,10 +372,7 @@ pre_intro#:#Let us first see if your environment meets all requirements to insta
 pre_javascript_comment#:#You may run ILIAS without JavaScript, but some interface features will be missing.
 pre_javascript_enabled#:#JavaScript Enabled
 pre_php#:#PHP Version
-pre_php_version_3#:#Your PHP version is not supported. Please update to PHP 5.2.1 or higher.
-pre_php_version_4#:#Your PHP version is not supported. Please update to PHP 5.2.1 or higher.
-pre_php_version_5#:#Your PHP version should work. We recommend to use PHP 5.2.1 or higher.
-pre_php_version_unknown#:#ILIAS Setup don't know this version. Use with own risk!
+pre_php_version_too_low#:#Your PHP version is not supported. We recommend to use PHP 5.2.1 or higher. PHP 6 has not been tested yet.
 pre_mysql#:#MySQL Support
 pre_mysql_missing#:#Please enable MySQL support (version 4.1 or higher) in your PHP installation.
 pre_mysql_4_1_or_higher#:#You need MySQL 4.1 or higher to run ILIAS.
@@ -481,3 +478,8 @@ db_selection#:#Database Selection
 db_service_name#:#Service Name
 db_mysql#:#MySQL
 db_oracle#:#Oracle
+msg_input_is_required#:#This input is required. Please enter a value.
+form_input_not_valid#:#Some data is incomplete or not valid. Please correct the form input.
+form_retype_password#:#Retype Password
+master_password#:#Master Password
+passwd_not_match#:#Your entries for the new password don't match! Please re-enter your new password.

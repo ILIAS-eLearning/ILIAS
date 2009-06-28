@@ -147,6 +147,7 @@ class ilPasswordInputGUI extends ilSubEnabledFormPropertyGUI
 	function setValueByArray($a_values)
 	{
 		$this->setValue($a_values[$this->getPostVar()]);
+		$this->setRetypeValue($a_values[$this->getPostVar()."_retype"]);
 	}
 
 	/**
@@ -265,8 +266,9 @@ class ilPasswordInputGUI extends ilSubEnabledFormPropertyGUI
 
 			return false;
 		}
-		if (!ilUtil::isPassword($_POST[$this->getPostVar()],$custom_error) && $_POST[$this->getPostVar()] != ""
-			&& !$this->getSkipSyntaxCheck())
+		if (!$this->getSkipSyntaxCheck() &&
+			!ilUtil::isPassword($_POST[$this->getPostVar()],$custom_error) &&
+			$_POST[$this->getPostVar()] != "")
 		{
 			if($custom_error != '') $this->setAlert($custom_error);
 			else $this->setAlert($lng->txt("passwd_invalid"));
@@ -295,9 +297,12 @@ class ilPasswordInputGUI extends ilSubEnabledFormPropertyGUI
 				$ptpl->setVariable("RID", $this->getFieldId());
 				$ptpl->setVariable("RMAXLENGTH", $this->getMaxLength());
 				$ptpl->setVariable("RPOST_VAR", $this->getPostVar());
-				$retype_value = ($this->getRetypeValue() != "")
+				
+				// this is creating an "auto entry" in the setup, if the retype is missing
+				/*$retype_value = ($this->getRetypeValue() != "")
 					? $this->getRetypeValue()
-					: $this->getValue();
+					: $this->getValue();*/
+				$retype_value = $this->getRetypeValue();
 				$ptpl->setVariable("PROPERTY_RETYPE_VALUE", ilUtil::prepareFormOutput($retype_value));
 				if ($this->getDisabled())
 				{
@@ -344,5 +349,7 @@ class ilPasswordInputGUI extends ilSubEnabledFormPropertyGUI
 		$a_tpl->setVariable("PROP_GENERIC" ,$ptpl->get());
 		$a_tpl->parseCurrentBlock();
 	}
+	
+	
 }
 ?>

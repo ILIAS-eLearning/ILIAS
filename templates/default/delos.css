@@ -693,10 +693,10 @@ td.ilFormHeader, td.ilFormFooter
 
 h3.ilFormHeader
 {
-	font-weight: normal;
+	font-weight: bold;
 	margin:0px;
 	padding:0px;
-	font-size: 100%;
+	font-size: 95%;
 	display: inline;
 }
 
@@ -710,7 +710,8 @@ td.ilFormOption
 	border-right-color: #EAEAEA;
 	font-size:90%;
 	width: 200px;
-	font-weight: bold;
+	font-weight: normal;
+	color: #404040;
 }
 
 td.ilFormSubOption

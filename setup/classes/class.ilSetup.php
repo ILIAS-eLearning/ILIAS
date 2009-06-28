@@ -454,42 +454,14 @@ class ilSetup extends PEAR
 	*/
 	function checkPHPVersion()
 	{
-		$version =  phpversion();
+		$version =  PHP_VERSION;
 
-		$arr["version"] = $version;
-		$version_comp = explode(".", $version);
-		$first = (integer) substr($version,0,1);
-
-		switch ($first)
+		$arr["status"] = true;
+		$arr["comment"] = "PHP ".$version;
+		if (version_compare($version, '5.1.3', '<'))
 		{
-			case 2:
-			case 3:
-				$arr["status"] = false;
-				$arr["comment"] = $this->lng->txt("pre_php_version_3");
-				break;
-
-			case 4:
-				$arr["status"] = false;
-				$arr["comment"] = "PHP ".$version.". ".$this->lng->txt("pre_php_version_4");
-				break;
-
-			case 5:
-				$arr["status"] = true;
-				$arr["comment"] = "PHP ".$version;
-				if ((int)$version_comp[1] < 2 || ($version_comp[1] == 2 && $version_comp[2] == 0))
-				{
-					$arr["comment"].= ". ".$this->lng->txt("pre_php_version_5");
-				}
-				break;
-				
-			case 6:
-				$arr["status"] = true;
-				$arr["comment"] = "PHP ".$version;
-
-			default:
-				$arr["status"] = true;
-				$arr["comment"] = $this->lng->txt("pre_php_version_unknown");
-				break;
+			$arr["status"] = false;
+			$arr["comment"] = "PHP ".$version.". ".$this->lng->txt("pre_php_version_too_low");
 		}
 
 		return $arr;
@@ -642,7 +614,7 @@ class ilSetup extends PEAR
 	{
 		$a = array();
 		$a["php"] = $this->checkPHPVersion();
-		$a["mysql"] = $this->checkMySQL();
+//		$a["mysql"] = $this->checkMySQL();
 		$a["root"] = $this->checkWritable();
 		$a["folder_create"] = $this->checkCreatable();
 		$a["cookies_enabled"] = $this->checkCookiesEnabled();
@@ -1191,7 +1163,7 @@ class ilSetup extends PEAR
 
 		$this->ini->setVariable("log", "path", $log_path);
 		$this->ini->setVariable("log", "file", $log_file);
-		$this->ini->setVariable("log", "enabled", (isset($a_formdata["chk_log_status"])) ? "0" : 1);
+		$this->ini->setVariable("log", "enabled", ($a_formdata["chk_log_status"]) ? "0" : 1);
 
 		if (!$this->ini->write())
 		{
@@ -1420,7 +1392,7 @@ class ilSetup extends PEAR
 	function checkLogSetup($a_formdata)
 	{
 		// log path
-		if (!isset($a_formdata["chk_log_status"]))
+		if (!$a_formdata["chk_log_status"])
 		{
 			// remove trailing slash & convert backslashes to forwardslashes
 			$log_path = preg_replace("/\\\\/","/",ilFile::deleteTrailingSlash(ilUtil::stripSlashes($a_formdata["log_path"])));
