@@ -180,10 +180,6 @@ class ilCheckboxInputGUI extends ilSubEnabledFormPropertyGUI
 		{
 			$tpl->setVariable('PROP_CHECK_ATTRS',$this->getAdditionalAttributes());
 		}
-		if(strlen($this->getAdditionalAttributes()))
-		{
-			$a_tpl->setVariable('PROP_CHECK_ATTRS',$this->getAdditionalAttributes());
-		}
 		if ($this->getChecked())
 		{
 			$tpl->setVariable("PROPERTY_CHECKED",

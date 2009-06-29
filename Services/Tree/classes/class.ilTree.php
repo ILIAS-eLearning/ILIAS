@@ -189,7 +189,8 @@ class ilTree
 		$this->ref_pk = 'ref_id';
 		$this->obj_pk = 'obj_id';
 		$this->tree_pk = 'tree';
-		$this->use_cache = false;
+
+		$this->use_cache = true;
 
 		// If cache is activated, cache object translations to improve performance
 		$this->translation_cache = array();
@@ -200,11 +201,20 @@ class ilTree
 	}
 	
 	/**
-	* Use Cache (usually not activated)
+	* Use Cache (usually activated)
 	*/
-	function useCache($a_use = true)
+	public function useCache($a_use = true)
 	{
 		$this->use_cache = $a_use;
+	}
+	
+	/**
+	 * Check if cache is active
+	 * @return bool
+	 */
+	public function isCacheUsed()
+	{
+		return $this->__isMainTree() and $this->use_cache;
 	}
 	
 	/**
@@ -383,6 +393,13 @@ class ilTree
 		while($row = $ilDB->fetchAssoc($res))
 		{
 			$childs[] = $this->fetchNodeData($row);
+
+			// Update cache of main tree
+			if ($this->__isMainTree())
+			{
+				#$GLOBALS['ilLog']->write(__METHOD__.': Storing in tree cache '.$row['child'].' = true');
+				$this->in_tree_cache[$row['child']] = $row['tree'] == 1;
+			}
 		}
 		$childs[$count - 1]["last"] = true;
 		return $childs;
@@ -781,10 +798,12 @@ class ilTree
 			$ilDB->quote($depth,'integer'));
 		$res = $ilDB->manipulate($query);
 
-		// Finally unlock tables
+		// Finally unlock tables and update cache
 		if($this->__isMainTree())
 		{
-			ilDB::_unlockTables();
+			#$GLOBALS['ilLog']->write(__METHOD__.': Storing in tree cache '.$a_node_id.' = true');
+			$this->in_tree_cache[$a_node_id] = true;
+			ilDBx::_unlockTables();
 		}
 		
 		// reset deletion date
@@ -890,7 +909,11 @@ class ilTree
 			{
 				$subtree[] = $row['child'];
 			}
-			$this->in_tree_cache[$row['child']] = true;
+			if($this->__isMainTree())
+			{
+				#$GLOBALS['ilLog']->write(__METHOD__.': Storing in tree cache '.$a_node_id.' = true');
+				$this->in_tree_cache[$row['child']] = true;
+			}
 		}
 		
 		return $subtree ? $subtree : array();
@@ -1016,7 +1039,9 @@ class ilTree
 
 		if($this->__isMainTree())
 		{
-			ilDB::_unlockTables();
+			#$GLOBALS['ilLog']->write(__METHOD__.': Resetting in tree cache ');
+			ilDBx::_unlockTables();
+			$this->in_tree_cache = array();
 		}
 		// LOCKED ###########################################################
 	}
@@ -1066,8 +1091,9 @@ class ilTree
 			$pathFull[] = $this->fetchNodeData($row);
 
 			// Update cache
-			if ($this->use_cache && $this->__isMainTree())
+			if ($this->__isMainTree())
 			{
+				#$GLOBALS['ilLog']->write(__METHOD__.': Storing in tree cache '.$row['child']);
 				$this->in_tree_cache[$row['child']] = $row['tree'] == 1;
 			}
 		}
@@ -1255,7 +1281,7 @@ class ilTree
 	function getPathId($a_endnode_id, $a_startnode_id = 0)
 	{
 		// path id cache
-		if ($this->use_cache && isset($this->path_id_cache[$a_endnode_id][$a_startnode_id]))
+		if ($this->isCacheUsed() && isset($this->path_id_cache[$a_endnode_id][$a_startnode_id]))
 		{
 //echo "<br>getPathIdhit";
 			return $this->path_id_cache[$a_endnode_id][$a_startnode_id];
@@ -1264,7 +1290,10 @@ class ilTree
 
 		$pathIds =& $this->getPathIdsUsingAdjacencyMap($a_endnode_id, $a_startnode_id);
 		
-		$this->path_id_cache[$a_endnode_id][$a_startnode_id] = $pathIds;
+		if($this->__isMainTree())
+		{
+			$this->path_id_cache[$a_endnode_id][$a_startnode_id] = $pathIds;
+		}
 		return $pathIds;
 	}
 
@@ -1694,7 +1723,7 @@ class ilTree
 		{
 
 			// Try to retrieve object translation from cache
-			if ($this->use_cache &&
+			if ($this->isCacheUsed() &&
 				array_key_exists($data["obj_id"].'.'.$lang_code, $this->translation_cache)) {
 
 				$key = $data["obj_id"].'.'.$lang_code;
@@ -1725,7 +1754,7 @@ class ilTree
 				//$ilBench->stop("Tree", "fetchNodeData_getTranslation");
 
 				// Store up to 1000 object translations in cache
-				if ($this->use_cache && count($this->translation_cache) < 1000)
+				if ($this->isCacheUsed() && count($this->translation_cache) < 1000)
 				{
 					$key = $data["obj_id"].'.'.$lang_code;
 					$this->translation_cache[$key] = array();
@@ -1765,8 +1794,9 @@ class ilTree
 		}
 		
 		// is in tree cache
-		if ($this->use_cache && isset($this->in_tree_cache[$a_node_id]))
+		if ($this->isCacheUsed() && isset($this->in_tree_cache[$a_node_id]))
 		{
+			#$GLOBALS['ilLog']->write(__METHOD__.': Using in tree cache '.$a_node_id);
 //echo "<br>in_tree_hit";
 			return $this->in_tree_cache[$a_node_id];
 		}
@@ -1781,12 +1811,20 @@ class ilTree
 
 		if ($res->numRows() > 0)
 		{
-			$this->in_tree_cache[$a_node_id] = true;
+			if($this->__isMainTree())
+			{
+				#$GLOBALS['ilLog']->write(__METHOD__.': Storing in tree cache '.$a_node_id.' = true');
+				$this->in_tree_cache[$a_node_id] = true;
+			}
 			return true;
 		}
 		else
 		{
-			$this->in_tree_cache[$a_node_id] = false;
+			if($this->__isMainTree())
+			{
+				#$GLOBALS['ilLog']->write(__METHOD__.': Storing in tree cache '.$a_node_id.' = false');
+				$this->in_tree_cache[$a_node_id] = false;
+			}
 			return false;
 		}
 	}
@@ -2122,7 +2160,7 @@ class ilTree
 		global $ilDB;
 		
 		// is saved cache
-		if ($this->use_cache && isset($this->is_saved_cache[$a_node_id]))
+		if ($this->isCacheUsed() && isset($this->is_saved_cache[$a_node_id]))
 		{
 //echo "<br>issavedhit";
 			return $this->is_saved_cache[$a_node_id];
@@ -2135,12 +2173,18 @@ class ilTree
 
 		if ($row[$this->tree_pk] < 0)
 		{
-			$this->is_saved_cache[$a_node_id] = true;
+			if($this->__isMainTree())
+			{
+				$this->is_saved_cache[$a_node_id] = true;
+			}
 			return true;
 		}
 		else
 		{
-			$this->is_saved_cache[$a_node_id] = false;
+			if($this->__isMainTree())
+			{
+				$this->is_saved_cache[$a_node_id] = false;
+			}
 			return false;
 		}
 	}
@@ -2544,7 +2588,7 @@ class ilTree
 	function checkForParentType($a_ref_id,$a_type)
 	{
 		// Try to return a cached result
-		if ($this->use_cache &&
+		if ($this->isCacheUsed() &&
 				array_key_exists($a_ref_id.'.'.$a_type, $this->parent_type_cache)) {
 			return $this->parent_type_cache[$a_ref_id.'.'.$a_type];
 		}
@@ -2552,7 +2596,7 @@ class ilTree
 		if(!$this->isInTree($a_ref_id))
 		{
             // Store up to 1000 results in cache
-            if ($this->use_cache && count($this->parent_type_cache) < 1000) {
+            if ($this->__isMainTree() && count($this->parent_type_cache) < 1000) {
                 $this->parent_type_cache[$a_ref_id.'.'.$a_type] = false;
             }
 			return false;
@@ -2564,14 +2608,14 @@ class ilTree
 			if($node["type"] == $a_type)
 			{
             // Store up to 1000 results in cache
-            if ($this->use_cache && count($this->parent_type_cache) < 1000) {
+            if ($this->__isMainTree() && count($this->parent_type_cache) < 1000) {
                 $this->parent_type_cache[$a_ref_id.'.'.$a_type] = $node["child"];
             }
 				return $node["child"];
 			}
 		}
 		// Store up to 1000 results in cache
-		if ($this->use_cache && count($this->parent_type_cache) < 1000) {
+		if ($this->__isMainTree() && count($this->parent_type_cache) < 1000) {
 			$this->parent_type_cache[$a_ref_id.'.'.$a_type] = false;
 		}
 		return 0;

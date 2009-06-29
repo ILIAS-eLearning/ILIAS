@@ -434,14 +434,12 @@ class ilContainer extends ilObject
 		$soap_client->enableWSDL(true);
 
 		$ilLog->write(__METHOD__.': Trying to call Soap client...');
-		/*
 		if($soap_client->init())
 		{
 			$ilLog->write(__METHOD__.': Calling soap clone method...');
 			$res = $soap_client->call('ilClone',array($new_session_id.'::'.$client_id, $copy_id));
 		}
 		else
-		*/
 		{
 			$ilLog->write(__METHOD__.': SOAP call failed. Calling clone method manually. ');
 			$wizard_options->disableSOAP();
