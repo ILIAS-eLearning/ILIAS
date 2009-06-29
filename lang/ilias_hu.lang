@@ -9227,7 +9227,8 @@ dateplaner#:#cal_month_overview#:#Havi áttekintés
 common#:#stat_selected#:#Kiválasztott
 search#:#lucene_last_index_time#:#Utolsó indexgenerálás
 search#:#lucene_last_index_time_info#:#Csak akkor módosítsa a beállításokat, ha installált indexvisszaállítást!
-search#:#lucene_all_occurrences#:#... %s további előforduláscommon#:#wiki_add#:#Add Wiki###22 05 2009 new variable
+search#:#lucene_all_occurrences#:#... %s további előfordulás
+common#:#wiki_add#:#Add Wiki###22 05 2009 new variable
 rep#:#rep_intro6#:#After that procedure you may add any learning or working resource to your category.###22 05 2009 new variable
 common#:#obj_mep#:#Media Pool###22 05 2009 new variable
 notes#:#notes_deactivate_comments#:#Deactivate Public Comments###22 05 2009 new variable
