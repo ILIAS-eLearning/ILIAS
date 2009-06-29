@@ -4825,7 +4825,7 @@ crs#:#crs_add_remove_from_desktop_info#:#Allow the members to add course items t
 crs#:#crs_add_starter#:#Add Start Object
 crs#:#crs_add_subscribers#:#Add subscriber
 crs#:#crs_added#:#Added new course
-crs#:#crs_added_member#:#Addmission to course "%s"
+crs#:#crs_added_member#:#Admission to course "%s"
 crs#:#crs_added_member_body#:#You have been admitted to course "%s".
 crs#:#crs_added_new_archive#:#A new archive has been added
 crs#:#crs_added_objective#:#A new learning objective has been created.
