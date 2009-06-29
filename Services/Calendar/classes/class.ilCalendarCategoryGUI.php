@@ -1066,7 +1066,7 @@ class ilCalendarCategoryGUI
 	 */
 	private function readPermissions()
 	{
-		global $ilUser,$rbacsystem;
+		global $ilUser,$rbacsystem,$ilAccess;
 		
 		$this->editable = false;
 		$this->visible = false;
@@ -1096,7 +1096,16 @@ class ilCalendarCategoryGUI
 				
 			case ilCalendarCategory::TYPE_OBJ:
 				$this->editable = false;
-				$this->visible = true;
+				
+				$refs = ilObject::_getAllReferences($cat->getObjId());
+				foreach($refs as $ref)
+				{
+					if($ilAccess->checkAccess('read','',$ref))
+					{
+						$this->visible = true;
+						break;
+					}
+				}
 				break;
 		}
 		
