@@ -103,7 +103,7 @@ class EvalMath {
     function EvalMath() {
         // make the variables a little more accurate
         $this->v['pi'] = pi();
-        $this->v['e'] = exp(1);
+        $this->v['exp'] = exp(1);
     }
     
     function e($expr) {
@@ -111,6 +111,9 @@ class EvalMath {
     }
     
     function evaluate($expr) {
+			// convert exponential notation
+			$expr = preg_replace("/(\\d{0,1})e(-{0,1}\\d+)/eis", "'\\1'.((strlen('\\1')) ? '*' : '').'10^(\\2)'", $expr);
+			// standard functionality
         $this->last_error = null;
         $expr = trim($expr);
         if (substr($expr, -1, 1) == ';') $expr = substr($expr, 0, strlen($expr)-1); // strip semicolons at the end
