@@ -35,7 +35,7 @@ class ilContainerGUI extends ilObjectGUI implements ilDesktopItemHandling
 		//$this->ilObjectGUI($a_data, $a_id, $a_call_by_reference, $a_prepare_output);
 		
         // Activate tree cache when rendering the container to improve performance
-        $tree->useCache(true);
+        //$tree->useCache(false);
 
 		// prepare output things should generally be made in executeCommand
 		// method (maybe dependent on current class/command

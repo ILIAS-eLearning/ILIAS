@@ -254,7 +254,7 @@ class ilDAVServer extends HTTP_WebDAV_Server
 	{
 		// Activate tree cache
 		global $tree;
-		$tree->useCache(true);
+		//$tree->useCache(true);
 
 		$this->writelog('PROPFIND(options:'.var_export($options, true).' files:'.var_export($files, true).'.)');
 		$this->writelog('PROPFIND '.$options['path']);
@@ -677,7 +677,7 @@ class ilDAVServer extends HTTP_WebDAV_Server
 
 		// Activate tree cache
 		global $tree;
-		$tree->useCache(true);
+		//$tree->useCache(true);
 
 		$path = $this->davDeslashify($options['path']);
 

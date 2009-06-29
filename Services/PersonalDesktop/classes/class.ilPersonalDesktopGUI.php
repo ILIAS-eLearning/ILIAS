@@ -72,7 +72,7 @@ class ilPersonalDesktopGUI
 		}
 		$this->cmdClass = $_GET['cmdClass'];
 		
-		$tree->useCache(true);
+		//$tree->useCache(false);
 	}
 	
 	/**

@@ -7563,7 +7563,7 @@ ldap#:#ldap_role_bind_pass#:#Password
 ldap#:#ldap_role_bind_user_info#:#Please enter a distinguished name of a LDAP user account. This user needs write access for the LDAP groups.
 ldap#:#ldap_role_bind_pass_info#:#Password
 ldap#:#ldap_new_role_assignment#:#Add New Role -> Group Assignment
-ldap#:#ldap_ilias_role#:#ILIAS Role
+ldap#:#ldap_ilias_role#:#ILIAS Role Name
 ldap#:#ldap_role_info#:#Enter the name of an ILIAS Role that will control the membership to the LDAP group.
 ldap#:#ldap_dn_info#:#Enter the distinguished name of the LDAP group.
 ldap#:#ldap_member_info#:#The attribute of the group object where the user dn may be found.
@@ -9596,4 +9596,14 @@ common#:#session_reminder_lead_time#:#Leadtime
 common#:#session_reminder_lead_time_info#:#Please specify, how much seconds before the session expires you want the session reminder to display a warning. The current value for a user session is %s.
 rbac#:#rbac_delete_role#:#Delete Role
 rbac#:#rbac_role_delete_qst#:#Are you sure you want to delete the following role?<br />All permissions granted by this role will be deleted permanently.
-rbac#:#rbac_role_delete_self#:#<strong>Attention:</strong> You are assigned to this role. If you continue this delete operation, you may loose access to some ILIAS materials.   
+rbac#:#rbac_role_delete_self#:#<strong>Attention:</strong> You are assigned to this role. If you continue this delete operation, you may loose access to some ILIAS materials.
+ldap#:#ldap_global_role#:#Global Role
+ldap#:#ldap_local_role#:#Local Role
+ldap#:#ldap_role_name_info#:#Please choose either a global role or enter the name of a local role.
+ldap#:#ldap_update_roles#:#Role Assignments
+ldap#:#ldap_check_role_assignment#:#Assignment of Roles After Later Logins
+ldap#:#ldap_add_missing#:#Assign Missing Roles
+ldap#:#ldap_remove_deprecated#:#Deassign Deprecated Roles
+ldap#:#ldap_plugin#:#Assignment by Plugin
+ldap#:#ldap_plugin_info#:#Validate the role assignment with a plugin. Please enter a valid plugin id.
+ldap#:#ldap_plugin_id#:#Plugin Id
