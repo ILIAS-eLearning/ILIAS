@@ -803,7 +803,7 @@ class ilTree
 		{
 			#$GLOBALS['ilLog']->write(__METHOD__.': Storing in tree cache '.$a_node_id.' = true');
 			$this->in_tree_cache[$a_node_id] = true;
-			ilDBx::_unlockTables();
+			ilDB::_unlockTables();
 		}
 		
 		// reset deletion date
@@ -1040,7 +1040,7 @@ class ilTree
 		if($this->__isMainTree())
 		{
 			#$GLOBALS['ilLog']->write(__METHOD__.': Resetting in tree cache ');
-			ilDBx::_unlockTables();
+			ilDB::_unlockTables();
 			$this->in_tree_cache = array();
 		}
 		// LOCKED ###########################################################
