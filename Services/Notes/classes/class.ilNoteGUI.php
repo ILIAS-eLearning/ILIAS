@@ -854,11 +854,17 @@ class ilNoteGUI
 	*/
 	function getPDNoteHTML($note_id)
 	{
-		global $lng, $ilCtrl;
+		global $lng, $ilCtrl, $ilUser;
 
 		$tpl = new ilTemplate("tpl.pd_note.html", true, true, "Services/Notes");
 		$note = new ilNote($note_id);
 		$target = $note->getObject();
+		
+		if ($note->getAuthor() != $ilUser->getId())
+		{
+			return;
+		}
+		
 		$img = ilUtil::getImagePath("note_".$note->getLabel().".gif");
 		$alt = $lng->txt("note");
 		
