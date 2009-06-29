@@ -402,6 +402,8 @@ class ilObjGroupGUI extends ilContainerGUI
 	 */
 	public function editObject($a_group_type_warning = false)
 	{
+		$this->checkPermission("write");
+		
 		$this->setSubTabs('settings');
 		$this->tabs_gui->setTabActive('settings');
 		$this->tabs_gui->setSubTabActive('grp_settings');
