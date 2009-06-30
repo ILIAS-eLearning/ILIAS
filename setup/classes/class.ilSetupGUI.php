@@ -1879,11 +1879,16 @@ if (true)
 	{
 		$this->checkDisplayMode("create_new_client");
 		
+
+if (false)
+{
 		$this->initDBSelectionForm();
 		$this->tpl->setVariable("SETUP_CONTENT", $this->form->getHTML());
-		
+}
+else
+{
 		// output
-/*
+
 		$this->tpl->addBlockFile("SETUP_CONTENT","setup_content","tpl.clientsetup_select_db.html", "setup");
 		
 		$this->tpl->setVariable("FORMACTION", "setup.php?cmd=gateway");
@@ -1891,7 +1896,7 @@ if (true)
 		
 		$this->tpl->setVariable("TXT_DB_TYPE", $this->lng->txt("db_type"));
 		$this->tpl->setVariable("TXT_DB_SELECTION", $this->lng->txt("db_selection"));
-*/
+}
 		if ($this->setup->getClient()->status["ini"]["status"])
 		{
 			$this->setButtonNext("db");
@@ -2077,7 +2082,7 @@ if (true)
 			}
 		}
 
-if (true)
+if (false)
 {
 		$this->tpl->setVariable("TXT_INFO", $this->lng->txt("info_text_ini"));
 		if (!$a_omit_form_init)
