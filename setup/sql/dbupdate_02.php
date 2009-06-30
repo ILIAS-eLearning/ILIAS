@@ -13001,7 +13001,7 @@ RENAME TABLE `sahs_sc13_seq_templates` TO `sahs_sc13_seq_templts`;
 if(!$ilDB->tableColumnExists('usr_data', 'reg_hash'))
 {
 	$ilDB->alterTable('usr_data', array('add' => 
-		array('reg_hash' => array('type' => 'text', 'length' => 32, 'notnull' => true, 'fixed' => true))));
+		array('reg_hash' => array('type' => 'text', 'length' => 32, 'notnull' => false, 'fixed' => true))));
 }
 ?>
 
