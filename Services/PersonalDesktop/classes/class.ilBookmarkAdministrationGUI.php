@@ -202,7 +202,12 @@ class ilBookmarkAdministrationGUI
 		global $tree, $ilCtrl;
 
 		include_once("classes/class.ilFrameTargetInfo.php");
-
+		
+		if ($this->id > 0 && !$this->tree->isInTree($this->id))
+		{
+			return;
+		}
+		
 		$mtree = new ilTree($_SESSION["AccountId"]);
 		$mtree->setTableNames('bookmark_tree','bookmark_data');
 
@@ -275,6 +280,11 @@ class ilBookmarkAdministrationGUI
 		{
 			return;
 		}
+		
+		if (!$this->tree->isInTree($this->id))
+		{
+			return;
+		}
 
 		$this->tpl->addBlockFile("LOCATOR", "locator", "tpl.locator.html", "Services/Locator");
 
@@ -340,6 +350,11 @@ return;
 	*/
 	function newFormBookmarkFolder()
 	{
+		if (!$this->tree->isInTree($this->id))
+		{
+			return;
+		}
+
 		$form = $this->initFormBookmarkFolder();
 		$this->tpl->setVariable("ADM_CONTENT", $form->getHTML());
 	}
@@ -351,6 +366,11 @@ return;
 	private function initFormBookmarkFolder($action = 'createBookmarkFolder')
 	{
 		global $lng, $ilCtrl, $ilUser;
+		
+		if (!$this->tree->isInTree($_GET["obj_id"]))
+		{
+			return;
+		}
 
 		include_once 'Services/Form/classes/class.ilPropertyFormGUI.php';
 		$form = new ilPropertyFormGUI();
@@ -409,6 +429,11 @@ return;
 	private function initFormBookmark($action = 'createBookmark')
 	{
 		global $lng, $ilCtrl, $ilUser;
+		
+		if (!$this->tree->isInTree($this->id))
+		{
+			return;
+		}
 
 		include_once 'Services/Form/classes/class.ilPropertyFormGUI.php';
 		$form = new ilPropertyFormGUI();
@@ -485,6 +510,10 @@ return;
 	function editFormBookmark()
 	{
 		global $lng, $ilCtrl;
+		if (!$this->tree->isInTree($_GET["obj_id"]))
+		{
+			return;
+		}
 		$form = $this->initFormBookmark('updateBookmark');
 		$bookmark = new ilBookmark($_GET["obj_id"]);
 		$form->setValuesByArray
@@ -506,6 +535,11 @@ return;
 	*/
 	function createBookmarkFolder()
 	{
+		if (!$this->tree->isInTree($this->id))
+		{
+			return;
+		}
+
 		// check title
 		if (empty($_POST["title"]))
 		{
@@ -530,6 +564,11 @@ return;
 	*/
 	function updateBookmarkFolder()
 	{
+		if (!$this->tree->isInTree($_GET["obj_id"]))
+		{
+			return;
+		}
+
 		// check title
 		if (empty($_POST["title"]))
 		{
@@ -553,6 +592,11 @@ return;
 	*/
 	function createBookmark()
 	{
+		if (!$this->tree->isInTree($this->id))
+		{
+			return;
+		}
+
 		// check title and target
 		if (empty($_POST["title"]))
 		{
@@ -583,6 +627,11 @@ return;
 	*/
 	function updateBookmark()
 	{
+		if (!$this->tree->isInTree($_GET["obj_id"]))
+		{
+			return;
+		}
+
 		// check title and target
 		if (empty($_POST["title"]))
 		{
@@ -619,8 +668,11 @@ return;
 		$export_ids=array();
 		foreach($_POST["bm_id"] as $id)
 		{
-			list($type, $obj_id) = explode(":", $id);
-			$export_ids[]=$obj_id;
+			if ($this->tree->isInTree($id))
+			{
+				list($type, $obj_id) = explode(":", $id);
+				$export_ids[]=$obj_id;
+			}
 		}
 		require_once ("./Services/PersonalDesktop/classes/class.ilBookmarkImportExport.php");
 		$html_content=ilBookmarkImportExport::_exportBookmark ($export_ids,true,
@@ -690,6 +742,11 @@ return;
 		foreach($_POST["bm_id"] as $obj_id)
 		{
 			$type = ilBookmark::_getTypeOfId($obj_id);
+
+			if (!$this->tree->isInTree($obj_id))
+			{
+				continue;
+			}
 			switch($type)
 			{
 				case "bmf":
@@ -875,6 +932,11 @@ return;
 	*/
 	function importFile()
 	{
+		if (!$this->tree->isInTree($this->id))
+		{
+			return;
+		}
+
 		if ($_FILES["bkmfile"]["error"] > UPLOAD_ERR_OK)
 		{
 			ilUtil::sendFailure($this->lng->txt("import_file_not_valid"));
