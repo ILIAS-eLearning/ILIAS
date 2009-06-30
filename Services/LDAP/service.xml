@@ -1,0 +1,8 @@
+<service xmlns="http://www.w3.org" version="$Id$"
+    id="ldap">
+    <baseclasses>
+    </baseclasses>
+    <pluginslots>
+    	<pluginslot id="ldaphk" name="LDAPAuthenticationHook" />
+    </pluginslots>
+</service>

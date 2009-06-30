@@ -13182,3 +13182,26 @@ if($ilDB->tableExists('tmp_mail_migration'))
 <?php
 $ilCtrlStructureReader->getStructure();
 ?>
+
+<#2503>
+<?php
+
+$atts = array(
+	'type' => 'integer',
+	'length' => 1,
+);
+$ilDB->addTableColumn("ldap_role_assignments", "add_on_update", $atts);
+$ilDB->addTableColumn("ldap_role_assignments", "remove_on_update", $atts);
+
+$atts = array(
+	'type' => 'integer',
+	'length' => 4,
+);
+$ilDB->addTableColumn("ldap_role_assignments", "plugin_id", $atts);
+?>
+
+<#2504>
+<?php
+$ilCtrlStructureReader->getStructure();
+?>
+

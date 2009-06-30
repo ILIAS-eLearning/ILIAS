@@ -538,6 +538,10 @@ class ilAuthShibbolethSettingsGUI
 	}
 	
 	
+	/**
+	 * Edit Role Assignment
+	 * @return 
+	 */
 	protected function editRoleAssignment()
 	{
 		$this->ctrl->setParameter($this,'rule_id',(int) $_GET['rule_id']);
@@ -752,6 +756,10 @@ class ilAuthShibbolethSettingsGUI
 		
 	}
 	
+	/**
+	 * Check if plugin is active
+	 * @return 
+	 */
 	private function hasActiveRoleAssignmentPlugins()
 	{
 		global $ilPluginAdmin;

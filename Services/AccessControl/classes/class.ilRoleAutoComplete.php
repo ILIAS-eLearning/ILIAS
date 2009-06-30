@@ -44,8 +44,57 @@ class ilRoleAutoComplete
 			$result->response->results[$counter]->container = $row->container;
 			++$counter;
 		}
+
+		if($counter == 0)
+		{
+			return self::getListByObject($a_str);
+		}
 		return ilJsonUtil::encode($result);
 	}
 	
+	/**
+	 * Get list of roles assigned to an object
+	 * @return 
+	 * @param object $result
+	 */
+	public static function getListByObject($a_str)
+	{
+		global $rbacreview,$ilDB;
+		
+		include_once './Services/JSON/classes/class.ilJsonUtil.php';
+		$result = new stdClass();
+		$result->response = new stdClass();
+		$result->response->results = array();
+
+		if(strpos($a_str,'@') !== 0)
+		{
+			return ilJsonUtil::encode($result);
+		}
+		
+		$a_str = substr($a_str,1);
+		
+		$ilDB->setLimit(100);
+		$query = "SELECT ref_id, title FROM object_data ode ".
+			"JOIN object_reference ore ON ode.obj_id = ore.obj_id ".
+			"WHERE ".$ilDB->like('title', 'text',$a_str.'%').' '.
+			'ORDER BY title';
+		$res = $ilDB->query($query);
+		$counter = 0;
+		while($row = $res->fetchRow(DB_FETCHMODE_OBJECT))
+		{
+			$rolf = $rbacreview->getRoleFolderIdOfObject($row->ref_id);
+			if($rolf)
+			{
+				foreach($rbacreview->getRolesOfRoleFolder($rolf,false) as $rol_id)
+				{
+					$result->response->results[$counter] = new stdClass();
+					$result->response->results[$counter]->role = ilObject::_lookupTitle($rol_id);
+					$result->response->results[$counter]->container = $row->title;
+					++$counter;
+				}
+			}
+		}
+		return ilJsonUtil::encode($result);
+	}
 }
 ?>
