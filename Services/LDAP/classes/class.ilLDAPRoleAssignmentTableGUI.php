@@ -53,9 +53,10 @@ class ilLDAPRoleAssignmentTableGUI extends ilTable2GUI
 	 	
 	 	parent::__construct($a_parent_obj,$a_parent_cmd);
 	 	$this->addColumn('','f',1);
-	 	$this->addColumn($this->lng->txt('ldap_rule_type'),'type',"30%");
-	 	$this->addColumn($this->lng->txt('ldap_ilias_role'),'role',"20%");
-	 	$this->addColumn($this->lng->txt('ldap_rule_condition'),'condition',"50%");
+	 	$this->addColumn($this->lng->txt('ldap_rule_type'),'type',"20%");
+	 	$this->addColumn($this->lng->txt('ldap_ilias_role'),'role',"30%");
+	 	$this->addColumn($this->lng->txt('ldap_rule_condition'),'condition',"20%");
+		$this->addColumn($this->lng->txt('ldap_add_remove'),'add_remove','30%');
 	 	
 		$this->setFormAction($this->ctrl->getFormAction($a_parent_obj));
 		$this->setRowTemplate("tpl.show_role_assignment_row.html","Services/LDAP");
@@ -78,6 +79,28 @@ class ilLDAPRoleAssignmentTableGUI extends ilTable2GUI
 		$this->tpl->setVariable('VAL_ROLE',$a_set['role']);
 		$this->tpl->setVariable('TXT_EDIT',$this->lng->txt('edit'));
 		
+		if($a_set['add'])
+		{
+			$this->tpl->setVariable('STATA_SRC',ilUtil::getImagePath('icon_ok.gif'));
+			$this->tpl->setVariable('STATA_ALT',$this->lng->txt('yes'));
+		}
+		else
+		{
+			$this->tpl->setVariable('STATA_SRC',ilUtil::getImagePath('icon_not_ok.gif'));
+			$this->tpl->setVariable('STATA_ALT',$this->lng->txt('no'));
+		}
+		if($a_set['remove'])
+		{
+			$this->tpl->setVariable('STATB_SRC',ilUtil::getImagePath('icon_ok.gif'));
+			$this->tpl->setVariable('STATB_ALT',$this->lng->txt('yes'));
+		}
+		else
+		{
+			$this->tpl->setVariable('STATB_SRC',ilUtil::getImagePath('icon_not_ok.gif'));
+			$this->tpl->setVariable('STATB_ALT',$this->lng->txt('no'));
+		}
+		
+		
 		$this->ctrl->setParameter($this->getParentObject(),'rule_id',$a_set['id']);
 		$this->tpl->setVariable('EDIT_LINK',$this->ctrl->getLinkTarget($this->getParentObject(),'editRoleAssignment'));
 	}
@@ -98,6 +121,9 @@ class ilLDAPRoleAssignmentTableGUI extends ilTable2GUI
 				$this->lng->txt('ldap_role_by_group') :
 				$this->lng->txt('ldap_role_by_attribute'); 
 			$tmp_arr['condition'] = $rule->conditionToString();
+			$tmp_arr['add'] = $rule->isAddOnUpdateEnabled();
+			$tmp_arr['remove'] = $rule->isRemoveOnUpdateEnabled();
+			
 			$tmp_arr['role'] = ilObject::_lookupTitle($rule->getRoleId());
 			
 			$records_arr[] = $tmp_arr;

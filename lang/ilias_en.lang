@@ -7931,8 +7931,8 @@ ldap#:#ldap_role_by_attribute#:#LDAP Attribute
 ldap#:#ldap_role_at_info#:#The assignment is based on a specific attribute in the LDAP user profile.
 ldap#:#ldap_role_at_name#:#Attribute Name
 ldap#:#ldap_role_at_value#:#Attribute Value
-ldap#:#ldap_tbl_role_ass#:#Avtive Rules
-ldap#:#ldap_rule_condition#:#condition
+ldap#:#ldap_tbl_role_ass#:#Active Rules
+ldap#:#ldap_rule_condition#:#Condition
 ldap#:#ldap_btn_add_role_ass#:#Add New Rule
 ldap#:#ldap_edit_role_ass_rule#:#Edit Role Assignment Rule
 ldap#:#ldap_rule_type#:#Type of Assignment
@@ -9607,3 +9607,5 @@ ldap#:#ldap_remove_deprecated#:#Deassign Deprecated Roles
 ldap#:#ldap_plugin#:#Assignment by Plugin
 ldap#:#ldap_plugin_info#:#Validate the role assignment with a plugin. Please enter a valid plugin id.
 ldap#:#ldap_plugin_id#:#Plugin Id
+ldap#:#ldap_err_missing_plugin_id#:#Please enter a valid plugin id.
+ldap#:#ldap_add_remove#:#Add/Remove Roles

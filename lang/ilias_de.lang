@@ -9597,3 +9597,5 @@ content#:#cont_pc_hacc#:#Accordion (Horizontal)###26 06 2009 new variable
 content#:#cont_pc_res#:#Resource###26 06 2009 new variable
 content#:#cont_pc_map#:#Map###26 06 2009 new variable
 content#:#cont_pc_list#:#Advanced List###26 06 2009 new variable
+ldap#:#ldap_err_missing_plugin_id#:#Bitte geben Sie eine Plugin-Id ein.
+ldap#:#ldap_add_remove#:#Rollen hinzufügen/entfernen

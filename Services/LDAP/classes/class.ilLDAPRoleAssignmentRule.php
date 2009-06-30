@@ -35,6 +35,14 @@ class ilLDAPRoleAssignmentRule
 	
 	const TYPE_GROUP = 1;
 	const TYPE_ATTRIBUTE = 2;
+	const TYPE_PLUGIN = 3;
+	
+	private $server_id = 0;
+	private $plugin_active = false;
+	private $add_on_update = false;
+	private $remove_on_update = false;
+	private $plugin_id = 0;
+	
 	
 	/**
 	 * Constructor
@@ -286,6 +294,42 @@ class ilLDAPRoleAssignmentRule
 	 	return $this->attribute_value;
 	}
 	
+	public function enableAddOnUpdate($a_status)
+	{
+		$this->add_on_update = $a_status;
+	}
+	
+	public function isAddOnUpdateEnabled()
+	{
+		return (bool) $this->add_on_update;
+	}
+	
+	public function enableRemoveOnUpdate($a_status)
+	{
+		$this->remove_on_update = $a_status;
+	}
+	
+	public function isRemoveOnUpdateEnabled()
+	{
+		return (bool) $this->remove_on_update;
+	}
+	
+	public function setPluginId($a_id)
+	{
+		$this->plugin_id = $a_id;
+	}
+	
+	public function getPluginId()
+	{
+		return $this->plugin_id;
+	}
+	
+	public function isPluginActive()
+	{
+		return (bool) $this->getType() == self::TYPE_PLUGIN;
+	}
+	
+	
 	/**
 	 * condition to string
 	 *
@@ -294,9 +338,14 @@ class ilLDAPRoleAssignmentRule
 	 */
 	public function conditionToString()
 	{
-	 	switch($this->getType())
+	 	global $lng;
+		
+		switch($this->getType())
 	 	{
-	 		case self::TYPE_GROUP:
+	 		case self::TYPE_PLUGIN:
+				return $lng->txt('ldap_plugin_id').': '.$this->getPluginId();
+			
+			case self::TYPE_GROUP:
 	 			$dn_arr = explode(',',$this->getDN());
 	 			return $dn_arr[0];
 	 			
@@ -320,7 +369,8 @@ class ilLDAPRoleAssignmentRule
 		
 		$next_id = $ilDB->nextId('ldap_role_assignments');
 
-	 	$query = "INSERT INTO ldap_role_assignments (server_id,rule_id,type,dn,attribute,isdn,att_name,att_value,role_id) ".
+	 	$query = "INSERT INTO ldap_role_assignments (server_id,rule_id,type,dn,attribute,isdn,att_name,att_value,role_id, ".
+			"add_on_update, remove_on_update, plugin_id ) ".
 	 		"VALUES( ".
 			$this->db->quote($this->getServerId(),'integer').", ".
 			$this->db->quote($next_id,'integer').", ".
@@ -330,7 +380,10 @@ class ilLDAPRoleAssignmentRule
 	 		$this->db->quote($this->isMemberAttributeDN(),'integer').", ".
 	 		$this->db->quote($this->getAttributeName(),'text').", ".
 	 		$this->db->quote($this->getAttributeValue(),'text').", ".
-	 		$this->db->quote($this->getRoleId(),'integer')." ".
+	 		$this->db->quote($this->getRoleId(),'integer').", ".
+			$this->db->quote($this->isAddOnUpdateEnabled(), 'integer').', '.
+			$this->db->quote($this->isRemoveOnUpdateEnabled(), 'integer').', '.
+			$this->db->quote($this->getPluginId(),'integer').' '.
 	 		")";
 		$res = $ilDB->manipulate($query);
 		$this->rule_id = $next_id;
@@ -356,7 +409,10 @@ class ilLDAPRoleAssignmentRule
 	 		"isdn = ".$this->db->quote($this->isMemberAttributeDN(),'integer').", ".
 	 		"att_name = ".$this->db->quote($this->getAttributeName(),'text').", ".
 	 		"att_value = ".$this->db->quote($this->getAttributeValue(),'text').", ".
-	 		"role_id = ".$this->db->quote($this->getRoleId(),'integer')." ".
+	 		"role_id = ".$this->db->quote($this->getRoleId(),'integer').", ".
+			"add_on_update = ".$this->db->quote($this->isAddOnUpdateEnabled(),'integer').', '.
+			'remove_on_update = '.$this->db->quote($this->isRemoveOnUpdateEnabled(),'integer').', '.
+			'plugin_id = '.$this->db->quote($this->getPluginId(),'integer').' '.
 	 		"WHERE rule_id = ".$this->db->quote($this->getRuleId(),'integer')." ";
 		$res = $ilDB->manipulate($query);			
 	 	return true;
@@ -392,6 +448,14 @@ class ilLDAPRoleAssignmentRule
 				if(!strlen($this->getAttributeName()) or !strlen($this->getAttributeValue()))
 				{
 					$ilErr->setMessage('fill_out_all_required_fields');
+					return false;
+				}
+				break;
+				
+			case self::TYPE_PLUGIN:
+				if(!$this->getPluginId())
+				{
+					$ilErr->setMessage('ldap_err_missing_plugin_id');
 					return false;
 				}
 				break;
@@ -443,6 +507,9 @@ class ilLDAPRoleAssignmentRule
 			$this->setAttributeName($row->att_name);
 			$this->setAttributeValue($row->att_value);
 			$this->setRoleId($row->role_id);
+			$this->enableAddOnUpdate($row->add-on_update);
+			$this->enableRemoveOnUpdate(remove_on_update);
+			$this->setPluginId($row->plugin_id);
 	 	}
 	}
 }
