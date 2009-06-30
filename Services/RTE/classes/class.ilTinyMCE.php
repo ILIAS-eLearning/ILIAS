@@ -51,7 +51,6 @@ class ilTinyMCE extends ilRTE
 			"iespell",
 			"insertdatetime",
 			"preview",
-			"flash",
 			"searchreplace",
 			"print",
 			"contextmenu",
