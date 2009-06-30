@@ -174,6 +174,7 @@ class ilSetupGUI
 	function cmdAdmin()
 	{
 		$cmd = $this->cmd;
+//echo "-$cmd-";
 		switch ($this->cmd)
 		{
 			case NULL:
@@ -255,6 +256,7 @@ class ilSetupGUI
 	 */
 	function cmdClient()
 	{
+		$cmd = $this->cmd;
 		switch ($this->cmd)
 		{
 			case NULL:
@@ -362,6 +364,10 @@ class ilSetupGUI
 				
 			case "reloadStructure":
 				$this->reloadControlStructure();
+				break;
+
+			case "saveClientIni":
+				$this->$cmd();
 				break;
 
 			default:
@@ -1861,6 +1867,10 @@ if (true)
 	}
 	
 
+	////
+	//// NEW CLIENT STEP 1: SELECT DB TYPE
+	////
+	
 	/**
 	 * Select database type
 	 *
@@ -1869,8 +1879,11 @@ if (true)
 	{
 		$this->checkDisplayMode("create_new_client");
 		
-
+		$this->initDBSelectionForm();
+		$this->tpl->setVariable("SETUP_CONTENT", $this->form->getHTML());
+		
 		// output
+/*
 		$this->tpl->addBlockFile("SETUP_CONTENT","setup_content","tpl.clientsetup_select_db.html", "setup");
 		
 		$this->tpl->setVariable("FORMACTION", "setup.php?cmd=gateway");
@@ -1878,7 +1891,7 @@ if (true)
 		
 		$this->tpl->setVariable("TXT_DB_TYPE", $this->lng->txt("db_type"));
 		$this->tpl->setVariable("TXT_DB_SELECTION", $this->lng->txt("db_selection"));
-
+*/
 		if ($this->setup->getClient()->status["ini"]["status"])
 		{
 			$this->setButtonNext("db");
@@ -1886,21 +1899,51 @@ if (true)
 		
 		$this->checkPanelMode();
 	}
+	
+	/**
+	 * Init db selection form.
+	 */
+	public function initDBSelectionForm()
+	{
+		global $lng, $ilCtrl;
+	
+		include_once("Services/Form/classes/class.ilPropertyFormGUI.php");
+		$this->form = new ilPropertyFormGUI();
+		
+		// db type
+		$options = array(
+			"mysql" => "MySQL 5.0.x or higher",
+			"oracle" => "Oracle 10g or higher",
+			);
+		$si = new ilSelectInputGUI($lng->txt("db_type"), "db_type");
+		$si->setOptions($options);
+		$si->setInfo($lng->txt(""));
+		$this->form->addItem($si);
+	
+		$this->form->addCommandButton("selectdbtype", $lng->txt("save"));
+	                
+		$this->form->setTitle($lng->txt("db_selection"));
+		$this->form->setFormAction("setup.php?cmd=gateway");
+	}
+	
+	////
+	//// NEW CLIENT STEP 2: SELECT DB TYPE
+	////
 
 	/**
 	 * display setup in step
 	 */
-	function displayIni()
+	function displayIni($a_omit_form_init = false)
 	{
 		$this->checkDisplayMode("create_new_client");
 		
-		if ($_POST["form"]["db_type"] != "")
+		if ($_POST["db_type"] != "")
 		{
-			$_SESSION["db_type"] = $_POST["form"]["db_type"];
+			$_SESSION["db_type"] = $_POST["db_type"];
 		}
 		else
 		{
-			$_POST["form"]["db_type"] = $_SESSION["db_type"];
+			$_POST["db_type"] = $_SESSION["db_type"];
 		}
 		
 		// checkings
@@ -2034,6 +2077,19 @@ if (true)
 			}
 		}
 
+if (true)
+{
+		$this->tpl->setVariable("TXT_INFO", $this->lng->txt("info_text_ini"));
+		if (!$a_omit_form_init)
+		{
+			$this->initClientIniForm();
+			$this->getClientIniValues();
+		}
+		$this->tpl->setVariable("SETUP_CONTENT",
+			$this->form->getHTML());
+}
+else
+{
 		// output
 		$this->tpl->addBlockFile("SETUP_CONTENT","setup_content","tpl.clientsetup_ini.html", "setup");
 		
@@ -2082,6 +2138,7 @@ if (true)
 		}
 		$this->tpl->setVariable("TXT_DB_USER", $this->lng->txt("db_user"));
 		$this->tpl->setVariable("TXT_DB_PASS", $this->lng->txt("db_pass"));
+}
 
 		if ($this->setup->getClient()->status["ini"]["status"])
 		{
@@ -2090,7 +2147,106 @@ if (true)
 		
 		$this->checkPanelMode();
 	}
+
+	/**
+	 * Init client ini form.
+	 */
+	public function initClientIniForm()
+	{
+		global $lng, $ilCtrl;
 	
+		include_once("Services/Form/classes/class.ilPropertyFormGUI.php");
+		$this->form = new ilPropertyFormGUI();
+		
+		// client id
+		$ti = new ilTextInputGUI($lng->txt("client_id"), "client_id");
+		$ti->setMaxLength(120);
+		$ti->setRequired(true);
+		$this->form->addItem($ti);
+		
+		// database connection	
+		$sh = new ilFormSectionHeaderGUI();
+		$sh->setTitle($lng->txt("db_conn"));
+		$this->form->addItem($sh);
+		
+		// db type
+		$ne = new ilNonEditableValueGUI($lng->txt("db_type"), "dbt");
+		$ne->setValue($lng->txt("db_".$_SESSION["db_type"]));
+		$this->form->addItem($ne);
+	
+		// db host
+		$ti = new ilTextInputGUI($lng->txt("db_host"), "db_host");
+		$ti->setMaxLength(120);
+		$ti->setRequired(true);
+		$this->form->addItem($ti);
+		
+		// db name
+		if ($_SESSION["db_type"] == "mysql")
+		{
+			$ti = new ilTextInputGUI($lng->txt("db_name"), "db_name");
+		}
+		else
+		{
+			$ti = new ilTextInputGUI($lng->txt("db_service_name"), "db_name");
+		}
+		$ti->setMaxLength(40);
+		$ti->setRequired(true);
+		$this->form->addItem($ti);
+		
+		// db user
+		$ti = new ilTextInputGUI($lng->txt("db_user"), "db_user");
+		$ti->setMaxLength(40);
+		$ti->setRequired(true);
+		$this->form->addItem($ti);
+		
+		// db password
+		$ti = new ilTextInputGUI($lng->txt("db_pass"), "db_pass");
+		$ti->setMaxLength(40);
+		$this->form->addItem($ti);
+		
+		$this->form->addCommandButton("saveClientIni", $lng->txt("save"));
+	                
+		$this->form->setTitle($lng->txt("inst_identification"));
+		$this->form->setFormAction("setup.php?cmd=gateway");
+	}
+	
+	/**
+	 * Get current values for client ini from 
+	 */
+	public function getClientIniValues()
+	{
+		$values = array();
+	
+		$values["db_host"] = $this->setup->getClient()->getDbHost();
+		$values["db_user"] = $this->setup->getClient()->getDbUser();
+		$values["db_pass"] = $this->setup->getClient()->getDbPass();
+		$values["db_name"] = $this->setup->getClient()->getDbName();
+		$values["client_id"] = $this->setup->getClient()->getId();
+	
+		$this->form->setValuesByArray($values);
+	}
+	
+	/**
+	 * Save client ini form
+	 */
+	public function saveClientIni()
+	{
+		global $tpl, $lng, $ilCtrl;
+	
+		$this->initClientIniForm();
+		if ($this->form->checkInput())
+		{
+			$this->set($this->form->getInput(""));
+	
+			// perform save
+			
+			ilUtil::sendSuccess($lng->txt("msg_obj_modified"), true);
+			$ilCtrl->redirect($this, "");
+		}
+		
+		$this->form->setValuesByPost();
+		$this->displayIni(true);
+	}
 	/**
 	 * display error page
 	 * 
