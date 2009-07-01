@@ -507,8 +507,8 @@ class ilLDAPRoleAssignmentRule
 			$this->setAttributeName($row->att_name);
 			$this->setAttributeValue($row->att_value);
 			$this->setRoleId($row->role_id);
-			$this->enableAddOnUpdate($row->add-on_update);
-			$this->enableRemoveOnUpdate(remove_on_update);
+			$this->enableAddOnUpdate($row->add_on_update);
+			$this->enableRemoveOnUpdate($row->remove_on_update);
 			$this->setPluginId($row->plugin_id);
 	 	}
 	}

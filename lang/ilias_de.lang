@@ -9599,3 +9599,6 @@ content#:#cont_pc_map#:#Map###26 06 2009 new variable
 content#:#cont_pc_list#:#Advanced List###26 06 2009 new variable
 ldap#:#ldap_err_missing_plugin_id#:#Bitte geben Sie eine Plugin-Id ein.
 ldap#:#ldap_add_remove#:#Rollen hinzufügen/entfernen
+ldap#:#ldap_deleted_rule#:#Die ausgewählten Regeln zur Rollenzuordnung wurden entfernt.
+ldap#:#ldap_role_selection#:#Rollenauswahl
+ldap#:#ldap_role_selection_info#:#Ihre Eingabe ist nicht eindeutig. Bitte wählen Sie die gewünschte Rolle aus folgender Tabelle aus.

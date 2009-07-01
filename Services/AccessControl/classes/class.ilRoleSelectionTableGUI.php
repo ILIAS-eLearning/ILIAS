@@ -32,8 +32,15 @@ include_once('Services/Table/classes/class.ilTable2GUI.php');
 *
 * @ingroup ServicesAccessControl
 */
-class ilShibbolethRoleSelectionTableGUI extends ilTable2GUI
+class ilRoleSelectionTableGUI extends ilTable2GUI
 {
+	
+	/**
+	 * 
+	 * @return 
+	 * @param object $a_parent_obj
+	 * @param object $a_parent_cmd
+	 */
 	public function __construct($a_parent_obj,$a_parent_cmd)
 	{
 	 	global $lng,$ilCtrl;
@@ -47,7 +54,7 @@ class ilShibbolethRoleSelectionTableGUI extends ilTable2GUI
 	 	$this->addColumn($this->lng->txt('context'),'context',"30%");
 	 	
 		$this->setFormAction($this->ctrl->getFormAction($a_parent_obj));
-		$this->setRowTemplate("tpl.show_role_selection_row.html","Services/AuthShibboleth");
+		$this->setRowTemplate("tpl.show_role_selection_row.html","Services/AccessControl");
 		$this->setDefaultOrderField('type');
 		$this->setDefaultOrderDirection("desc");
 	}	

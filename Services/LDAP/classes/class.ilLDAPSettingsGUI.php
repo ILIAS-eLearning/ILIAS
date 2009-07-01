@@ -147,12 +147,12 @@ class ilLDAPSettingsGUI
 		$role_id = $this->role_mapping_rule->getRoleId();
 		if($rbacreview->isGlobalRole($role_id))
 		{
-			$val['ldap_global_role'] = 1;
+			$val['role_name'] = 0;
 			$val['role_id'] = $role_id;
 		}
 		else
 		{
-			$val['local_role'] = 1;
+			$val['role_name'] = 1;
 			$val['role_search'] = ilObject::_lookupTitle($role_id);	
 		}
 		$val['add_missing'] = (int) $this->role_mapping_rule->isAddOnUpdateEnabled();
@@ -206,6 +206,10 @@ class ilLDAPSettingsGUI
 			return true;
 			
 		}
+		
+		// Might redirect
+		$this->roleSelection();
+		
 		$this->rule->update();
 		ilUtil::sendSuccess($this->lng->txt('settings_saved'));
 		$this->roleAssignments();
@@ -313,11 +317,118 @@ class ilLDAPSettingsGUI
 			
 		}
 		
+		// Might redirect
+		$this->roleSelection();
+
 		$this->rule->create();
-		ilUtil::sendInfo($this->lng->txt('settings_saved'));
+		ilUtil::sendSuccess($this->lng->txt('settings_saved'));
 		unset($_POST);
 		$this->roleAssignments();
+		return true;
 	}
+	
+	/**
+	 * 
+	 * @return 
+	 */
+	protected function roleSelection()
+	{
+		if($this->rule->getRoleId() > 0)
+		{
+			return false;
+		}
+
+		$_SESSION['ldap_role_ass']['rule_id'] = $_REQUEST['rule_id'] ? $_REQUEST['rule_id'] : 0;
+		$_SESSION['ldap_role_ass']['role_search'] = $this->form->getInput('role_search');
+		$_SESSION['ldap_role_ass']['add_on_update'] = $this->form->getInput('add_on_update');
+		$_SESSION['ldap_role_ass']['remove_on_update'] = $this->form->getInput('remove_deprecated');
+		$_SESSION['ldap_role_ass']['type'] = $this->form->getInput('type');
+		$_SESSION['ldap_role_ass']['dn'] = $this->form->getInput('dn');
+		$_SESSION['ldap_role_ass']['at'] = $this->form->getInput('at');
+		$_SESSION['ldap_role_ass']['isdn'] = $this->form->getInput('isdn');
+		$_SESSION['ldap_role_ass']['name'] = $this->form->getInput('name');
+		$_SESSION['ldap_role_ass']['value'] = $this->form->getInput('value');
+		$_SESSION['ldap_role_ass']['plugin'] = $this->form->getInput('plugin_id');
+		
+		$this->ctrl->saveParameter($this,'rule_id');
+		$this->ctrl->redirect($this,'showRoleSelection');
+	}
+	
+	
+	
+	/**
+	 * show role selection
+	 * @return 
+	 */
+	protected function showRoleSelection()
+	{
+		$this->setSubTabs();
+		$this->tabs_gui->setSubTabActive('ldap_role_assignment');
+		$this->ctrl->saveParameter($this,'rule_id');
+		
+		include_once './Services/Search/classes/class.ilQueryParser.php';
+		$parser = new ilQueryParser($_SESSION['ldap_role_ass']['role_search']);
+		$parser->setMinWordLength(1);
+		$parser->setCombination(QP_COMBINATION_AND);
+		$parser->parse();
+		
+		include_once 'Services/Search/classes/Like/class.ilLikeObjectSearch.php';
+		$object_search = new ilLikeObjectSearch($parser);
+		$object_search->setFilter(array('role'));
+		$res = $object_search->performSearch();
+		
+		$entries = $res->getEntries();
+
+		include_once './Services/AccessControl/classes/class.ilRoleSelectionTableGUI.php';
+		$table = new ilRoleSelectionTableGUI($this,'showRoleSelection');
+		$table->setTitle($this->lng->txt('ldap_role_selection'));
+		$table->addMultiCommand('saveRoleSelection',$this->lng->txt('ldap_choose_role'));
+		$table->addCommandButton('roleAssignment',$this->lng->txt('cancel'));
+		$table->parse($entries);
+		
+		$this->tpl->setContent($table->getHTML());
+		return true;
+	}
+
+	/**
+	 * Save role selection
+	 * @return 
+	 */
+	protected function saveRoleSelection()
+	{
+		global $ilErr,$ilAccess;
+		
+		if(!$ilAccess->checkAccess('write','',$this->ref_id))
+		{
+			ilUtil::sendFailure($this->lng->txt('permission_denied'), true);
+			$this->roleAssignment();
+			return false;
+		}
+
+		if(!(int) $_REQUEST['role_id'])
+		{
+			ilUtil::sendFailure($this->lng->txt('select_one'));
+			$this->showRoleSelection();
+			return false;
+		}
+
+		$this->loadRoleAssignmentRule((int) $_REQUEST['rule_id'],false);
+		$this->rule->setRoleId((int) $_REQUEST['role_id']);
+		
+		if((int) $_REQUEST['rule_id'])
+		{
+			$this->rule->update();
+		}
+		else
+		{
+			$this->rule->create();
+		}
+		
+		ilUtil::sendSuccess($this->lng->txt('settings_saved'));
+		$this->roleAssignments();
+		return true;
+	}
+	
 	
 	/**
 	 * Check role assignment input
@@ -359,54 +470,76 @@ class ilLDAPSettingsGUI
 	 * @return 
 	 * @param object $a_rule_id
 	 */
-	protected function loadRoleAssignmentRule($a_rule_id)
+	protected function loadRoleAssignmentRule($a_rule_id,$a_from_form = true)
 	{
-		include_once './Services/LDAP/classes/class.ilLDAPRoleAssignmentRule.php';
+		if(is_object($this->rule))
+		{
+			return true;
+		}
 		
+		include_once './Services/LDAP/classes/class.ilLDAPRoleAssignmentRule.php';
 		$this->rule = ilLDAPRoleAssignmentRule::_getInstanceByRuleId($a_rule_id);
 
-		if($this->form->getInput('role_name') == 0)
+
+		if($a_from_form)
 		{
-			$this->rule->setRoleId($this->form->getInput('role_id'));
-		}
-		elseif($this->form->getInput('role_search'))
-		{
-			// Search role
-			include_once './Services/Search/classes/class.ilQueryParser.php';
-			
-			$parser = new ilQueryParser($this->form->getInput('role_search'));
-			
-			// TODO: Handle minWordLength
-			$parser->setMinWordLength(1);
-			$parser->setCombination(QP_COMBINATION_AND);
-			$parser->parse();
-			
-			include_once 'Services/Search/classes/Like/class.ilLikeObjectSearch.php';
-			$object_search = new ilLikeObjectSearch($parser);
-			$object_search->setFilter(array('role'));
-			$res = $object_search->performSearch();
-			
-			$entries = $res->getEntries();
-			if(count($entries) == 1)
+			if($this->form->getInput('role_name') == 0)
 			{
-				$role = current($entries);
-				$this->rule->setRoleId($role['obj_id']);
+				$this->rule->setRoleId($this->form->getInput('role_id'));
 			}
-			elseif(count($entries) > 1)
+			elseif($this->form->getInput('role_search'))
 			{
-				$this->rule->setRoleId(-1);
+				// Search role
+				include_once './Services/Search/classes/class.ilQueryParser.php';
+				
+				$parser = new ilQueryParser($this->form->getInput('role_search'));
+				
+				// TODO: Handle minWordLength
+				$parser->setMinWordLength(1);
+				$parser->setCombination(QP_COMBINATION_AND);
+				$parser->parse();
+				
+				include_once 'Services/Search/classes/Like/class.ilLikeObjectSearch.php';
+				$object_search = new ilLikeObjectSearch($parser);
+				$object_search->setFilter(array('role'));
+				$res = $object_search->performSearch();
+				
+				$entries = $res->getEntries();
+				if(count($entries) == 1)
+				{
+					$role = current($entries);
+					$this->rule->setRoleId($role['obj_id']);
+				}
+				elseif(count($entries) > 1)
+				{
+					$this->rule->setRoleId(-1);
+				}
 			}
+			
+			$this->rule->setAttributeName($this->form->getInput('name'));
+			$this->rule->setAttributeValue($this->form->getInput('value'));
+			$this->rule->setDN($this->form->getInput('dn'));
+			$this->rule->setMemberAttribute($this->form->getInput('at'));
+			$this->rule->setMemberIsDN($this->form->getInput('isdn'));
+			$this->rule->enableAddOnUpdate($this->form->getInput('add_missing'));
+			$this->rule->enableRemoveOnUpdate($this->form->getInput('remove_deprecated'));
+			$this->rule->setPluginId($this->form->getInput('plugin_id'));
+			$this->rule->setType($this->form->getInput('type'));
+			return true;
 		}
 		
-		$this->rule->setAttributeName($this->form->getInput('name'));
-		$this->rule->setAttributeValue($this->form->getInput('value'));
-		$this->rule->setDN($this->form->getInput('dn'));
-		$this->rule->setMemberAttribute($this->form->getInput('at'));
-		$this->rule->setMemberIsDN($this->form->getInput('isdn'));
-		$this->rule->enableAddOnUpdate($this->form->getInput('update_roles'));
-		$this->rule->enableRemoveOnUpdate($this->form->getInput('remove_deprecated'));
-		$this->rule->setPluginId($this->form->getInput('plugin_id'));
-		$this->rule->setType($this->form->getInput('type'));
+		// LOAD from session
+		$this->rule = ilLDAPRoleAssignmentRule::_getInstanceByRuleId($a_rule_id);
+		$this->rule->setServerId(0);
+		$this->rule->enableAddOnUpdate((int) $_SESSION['ldap_role_ass']['add_missing']);
+		$this->rule->enableRemoveOnUpdate((int) $_SESSION['ldap_role_ass']['remove_deprecated']);
+		$this->rule->setType(ilUtil::stripSlashes($_SESSION['ldap_role_ass']['type']));
+		$this->rule->setDN(ilUtil::stripSlashes($_SESSION['ldap_role_ass']['dn']));
+		$this->rule->setMemberAttribute( ilUtil::stripSlashes($_SESSION['ldap_role_ass']['at']));
+		$this->rule->setMemberIsDN( ilUtil::stripSlashes($_SESSION['ldap_role_ass']['isdn']));
+		$this->rule->setAttributeName( ilUtil::stripSlashes($_SESSION['ldap_role_ass']['name']));
+		$this->rule->setAttributeValue(ilUtil::stripSlashes($_SESSION['ldap_role_ass']['value']));
+		$this->rule->setPluginId(ilUtil::stripSlashes($_SESSION['ldap_role_ass']['plugin_id']));
 		return true;
 	}
 	
@@ -1178,12 +1311,10 @@ class ilLDAPSettingsGUI
 		
 			$add = new ilCheckboxInputGUI('','add_missing');
 			$add->setOptionTitle($this->lng->txt('ldap_add_missing'));
-			$add->setValue(1);
 			$update->addSubItem($add);
 			
 			$remove = new ilCheckboxInputGUI('','remove_deprecated');
 			$remove->setOptionTitle($this->lng->txt('ldap_remove_deprecated'));
-			$remove->setValue(1);
 			$update->addSubItem($remove);
 		
 		$this->form->addItem($update);
