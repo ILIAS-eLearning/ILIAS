@@ -689,7 +689,6 @@ class ilAuthShibbolethSettingsGUI
 			return false;
 		}
 
-
 		$_SESSION['shib_role_ass']['rule_id'] = $_REQUEST['rule_id'] ? $_REQUEST['rule_id'] : 0; 
 		$_SESSION['shib_role_ass']['search'] = $this->form->getInput('role_search');
 		$_SESSION['shib_role_ass']['add_on_update'] = $this->rule->isAddOnUpdateEnabled();
@@ -719,8 +718,8 @@ class ilAuthShibbolethSettingsGUI
 		
 		$entries = $res->getEntries();
 		
-		include_once './Services/AuthShibboleth/classes/class.ilShibbolethRoleSelectionTableGUI.php';
-		$table = new ilShibbolethRoleSelectionTableGUI($this,'chooseRole');
+		include_once './Services/AccessControl/classes/class.ilRoleSelectionTableGUI.php';
+		$table = new ilRoleSelectionTableGUI($this,'chooseRole');
 		$table->setTitle($this->lng->txt('shib_role_selection'));
 		$table->addMultiCommand('saveRoleSelection',$this->lng->txt('shib_choose_role'));
 		$table->addCommandButton('roleAssignment',$this->lng->txt('cancel'));

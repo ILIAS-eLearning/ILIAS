@@ -9609,3 +9609,6 @@ ldap#:#ldap_plugin_info#:#Validate the role assignment with a plugin. Please ent
 ldap#:#ldap_plugin_id#:#Plugin Id
 ldap#:#ldap_err_missing_plugin_id#:#Please enter a valid plugin id.
 ldap#:#ldap_add_remove#:#Add/Remove Roles
+ldap#:#ldap_deleted_rule#:#Deleted selected role assignments.
+ldap#:#ldap_role_selection#:#Role Selection
+ldap#:#ldap_role_selection_info#:#Your selection is ambiguous. Please choose one of the following roles.

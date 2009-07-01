@@ -132,10 +132,15 @@ class ilConfirmationGUI
 	}
 	
 	/**
+	* Hidden items are currently not supported in a table gui.
+	* Problem: after clicking prev/next links the information
+	* of the hidden items is lost.
 	* Add hidden item.
 	*
 	* @param	string	name of post variable used for id (e.g. "id[]")
 	* @param	mixed	value
+	* 
+	* @deprecated 
 	*/
 	public function addHiddenItem($a_post_var, $a_value)
 	{
