@@ -96,11 +96,10 @@ class ilForumProperties
 		{
 			$res = $this->db->queryf('
 				SELECT * FROM frm_settings
-				WHERE 1
-				AND obj_id = %s',
+				WHERE obj_id = %s',
 				array('integer'), array($this->obj_id));
 			
-			$row = $res->fetchRow(DB_FETCHMODE_OBJECT);
+			$row = $this->db->fetchObject($res);
 			
 			if (is_object($row))
 			{
