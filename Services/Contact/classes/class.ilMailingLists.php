@@ -70,8 +70,7 @@ class ilMailingLists
 	{
 		$res = $this->db->queryf('
 			SELECT * FROM addressbook_mlist
-			WHERE 1
-			AND user_id = %s',
+			WHERE user_id = %s',
 			array('integer'), array($this->user->getId()));
 		
 		$entries = array();

@@ -10900,7 +10900,7 @@ $ilCtrlStructureReader->getStructure();
 ?>
 <#2268>
 <?php
-	$res = $ilDB->query("SELECT * FROM payment_prices WHERE 1");
+	$res = $ilDB->query("SELECT * FROM payment_prices");
 	
 	while($row = $res->fetchRow(DB_FETCHMODE_ASSOC))
 	{

@@ -890,8 +890,7 @@ class ilForum
 				$res = $ilDB->queryf('
 					SELECT pos_thr_fk, pos_pk 
 					FROM frm_posts						  
-					WHERE 1 
-					AND pos_top_fk = %s
+					WHERE pos_top_fk = %s
 					ORDER BY pos_date DESC',
 					array('integer'), array($oldFrmData['top_pk']));
 				
@@ -904,8 +903,7 @@ class ilForum
 						top_num_threads = top_num_threads - %s,
 						visits = visits - %s,
 						top_last_post = %s
-					WHERE 1
-					AND top_pk = %s',
+					WHERE top_pk = %s',
 					array('integer', 'integer', 'integer', 'text', 'integer'), 
 					array(	$moved_posts, 
 							$moved_threads, 
@@ -919,8 +917,7 @@ class ilForum
 				$res = $ilDB->queryf('
 					SELECT pos_thr_fk, pos_pk 
 				 	FROM frm_posts						  
-					WHERE 1 
-					AND pos_top_fk = %s
+					WHERE pos_top_fk = %s
 					ORDER BY pos_date DESC',
 					array('integer'), array($newFrmData['top_kp']));
 				
@@ -933,8 +930,7 @@ class ilForum
 						top_num_threads = top_num_threads + %s,
 						visits = visits + %s,
 						top_last_post = %s
-						WHERE 1
-						AND top_pk = %s',
+						WHERE top_pk = %s',
 					array('integer', 'integer', 'integer', 'text', 'integer'),
 					array($moved_posts, $moved_threads, $visits, $last_post_dest, $newFrmData['top_pk']));
 				
@@ -1232,8 +1228,7 @@ class ilForum
 			array_push($data, '1', '0', $ilUser->getId());
 			
 		}
-		$query .= ' WHERE 1
-				  AND thr_top_fk = %s
+		$query .= ' WHERE thr_top_fk = %s
 				  GROUP BY thr_pk
 				  ORDER BY is_sticky DESC, post_date DESC, thr_date DESC';
 		
@@ -1483,8 +1478,7 @@ class ilForum
 		$res = $ilDB->queryf('
 			SELECT * FROM frm_data
 			INNER JOIN frm_posts ON pos_top_fk = top_pk 
-			WHERE 1
-			AND top_frm_fk = %s
+			WHERE top_frm_fk = %s
 			AND pos_usr_id = %s',
 			array('integer', 'integer'),
 			array($this->getForumId(), $a_user_id));
@@ -1499,8 +1493,7 @@ class ilForum
 		$res = $ilDB->queryf('
 			SELECT * FROM frm_data
 			INNER JOIN frm_posts ON pos_top_fk = top_pk
-			WHERE 1
-			AND top_frm_fk = %s
+			WHERE top_frm_fk = %s
 			AND (pos_status = %s
 				OR (pos_status = %s 
 					AND pos_usr_id = %s

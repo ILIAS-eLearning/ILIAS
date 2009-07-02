@@ -326,8 +326,7 @@ class ilForumPost
 			$res = $this->db->queryf('
 				SELECT * FROM frm_posts_tree
 				INNER JOIN frm_posts ON pos_pk = pos_fk
-				WHERE 1
-				AND pos_status = %s
+				WHERE pos_status = %s
 				AND lft < %s AND rgt > %s
 				AND thr_fk = %s',
 				array('integer', 'integer', 'integer', 'integer'), 
@@ -413,8 +412,7 @@ class ilForumPost
 					AND treeb.lft BETWEEN treea.lft AND treea.rgt
 				INNER JOIN frm_posts ON pos_pk = treeb.pos_fk
 				SET pos_status = %s
-				WHERE 1 
-				AND treea.pos_fk = %s',
+				WHERE treea.pos_fk = %s',
 				array('integer', 'integer'),
 				array('1', $this->id));
 
@@ -434,8 +432,7 @@ class ilForumPost
 				UPDATE frm_posts
 				INNER JOIN frm_posts_tree ON pos_fk = pos_pk
 				SET pos_status = %s
-				WHERE 1
-				AND lft < %s AND rgt > %s
+				WHERE lft < %s AND rgt > %s
 				AND thr_fk = %s',
 				array('integer', 'integer', 'integer', 'integer'),
 				array('1', $this->lft, $this->rgt, $this->thread_id));
@@ -457,8 +454,7 @@ class ilForumPost
 					AND treeb.lft BETWEEN treea.lft AND treea.rgt
 				INNER JOIN frm_posts ON pos_pk = treeb.pos_fk
 				SET pos_status = %s
-				WHERE 1 
-				AND treea.pos_fk = %s',
+				WHERE treea.pos_fk = %s',
 				array('integer', 'integer'),
 				array('0', $this->id));
 			
@@ -475,8 +471,7 @@ class ilForumPost
 
 			$res = $this->db->queryf('
 				SELECT * FROM frm_user_read 
-			  	WHERE 1
-			 	AND usr_id = %s
+			  	WHERE usr_id = %s
 			 	AND post_id = %s',
 				array('integer', 'integer'),
 				array($a_user_id, $this->id));
@@ -494,8 +489,7 @@ class ilForumPost
 
 			$res = $this->db->queryf('
 				SELECT * FROM frm_posts_tree			  		 
-		  	 	WHERE 1 
-		  	 	AND lft > %s AND rgt < %s
+		  	 	WHERE lft > %s AND rgt < %s
 		  	  	AND thr_fk = %s',
 				array('integer', 'integer', 'integer'),
 				array($this->lft, $this->rgt, $this->id));

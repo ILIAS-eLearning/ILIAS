@@ -44,7 +44,7 @@ class ilPaymentCoupons
 		$data = array();
 		$data_types = array();
 
-		$query = 'SELECT * FROM payment_coupons WHERE 1 ';
+		$query = 'SELECT * FROM payment_coupons WHERE 1 = 1 ';
 		
 		
 		if ($this->getSearchFromDay() != "" &&
@@ -611,7 +611,7 @@ class ilPaymentCoupons
 			SELECT payment_coupons_codes.*, COUNT(pct_pcc_fk) pcc_used, pcc_pk 
 		 	FROM payment_coupons_codes
 		 	LEFT JOIN payment_coupons_track ON  pct_pcc_fk = pcc_pk 
-		  	WHERE 1 AND pcc_pc_fk = %s
+		  	WHERE pcc_pc_fk = %s
 		  	GROUP BY pcc_pk, payment_coupons_codes.pcc_pc_fk ,pcc_code', 
 			array('integer'), 
 			array($a_coupon_id));
@@ -633,8 +633,7 @@ class ilPaymentCoupons
 		$res = $this->db->queryf('
 			SELECT * FROM payment_coupons_track
 			INNER JOIN payment_coupons_codes ON pcc_pk = pct_pcc_fk
-			WHERE 1
-			AND pcc_pc_fk = %s', 
+			WHERE pcc_pc_fk = %s', 
 			array('integer'),
 			array($a_coupon_id));
 			
@@ -655,8 +654,7 @@ class ilPaymentCoupons
 		$res = $this->db->queryf('
 			SELECT * FROM payment_coupons_codes
 			INNER JOIN payment_coupons ON pc_pk = pcc_pc_fk
-			WHERE 1
-			AND pcc_code = %s', 	
+			WHERE pcc_code = %s', 	
 			array('text'),
 			array($a_coupon_code));
 
@@ -761,8 +759,7 @@ class ilPaymentCoupons
 	{
 		$res = $this->db->queryf('
 			SELECT * FROM payment_coupons_codes 
-			WHERE 1 
-			AND pcc_pk = %s',
+			WHERE pcc_pk = %s',
 			array('integer'),
 			array($a_code_id));
 		
@@ -850,8 +847,7 @@ class ilPaymentCoupons
 		{
 			$res = $this->db->queryf('
 				SELECT * FROM payment_coupons_obj
-				WHERE 1
-				AND ref_id = %s 
+				WHERE ref_id = %s 
 				AND pco_pc_fk = %s',
 				array('integer', 'integer'),
 				array($a_ref_id, $this->getId()));
@@ -898,8 +894,7 @@ class ilPaymentCoupons
 		{
 			$statement = $this->db->manipulateF('
 				DELETE FROM payment_coupons_obj
-				WHERE 1
-				AND ref_id = %s
+				WHERE ref_id = %s
 				AND pco_pc_fk = %s',
 				array('integer', 'integer'),
 				array($a_ref_id, $this->getId()));

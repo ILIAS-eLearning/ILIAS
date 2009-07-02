@@ -58,8 +58,7 @@ class ilCronMailNotification
 				 ."FROM mail_options "
 				 ."INNER JOIN mail ON mail.user_id = mail_options.user_id "
 				 ."INNER JOIN mail_obj_data ON mail_obj_data.obj_id = mail.folder_id "
-				 ."WHERE 1 "
-				 ."AND cronjob_notification = '1' "
+				 ."WHERE cronjob_notification = '1' "
 				 ."AND send_time >= '" . date("Y-m-d H:i:s", time() - 60 * 60 * 24). "' "
 				 ."AND mail_obj_data.type = 'inbox' "
 				 ."AND m_status = 'unread' "
@@ -70,8 +69,7 @@ class ilCronMailNotification
 		$res = queryF('SELECT mail.* FROM mail_options
 						INNER JOIN mail ON mail.user_id = mail_options.user_id 
 						INNER JOIN mail_obj_data ON mail_obj_data.obj_id = mail.folder_id
-						WHERE 1 
-						AND cronjob_notification = %s 
+						WHERE cronjob_notification = %s 
 						AND send_time >= %s
 						AND mail_obj_data.type = %s
 						AND m_status = %s',

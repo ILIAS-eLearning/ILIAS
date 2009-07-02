@@ -97,7 +97,7 @@ class ilShopNewsItemList implements Iterator
 		$types = array();
 		$data = array();
 
-		$query = 'SELECT * FROM payment_news WHERE 1 ';		
+		$query = 'SELECT * FROM payment_news WHERE 1 = 1 ';		
 		if($this->isPublicSection())
 		{
 			$query .= "AND visibility = %s ";

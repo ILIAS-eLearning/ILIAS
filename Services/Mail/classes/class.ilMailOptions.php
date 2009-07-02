@@ -170,7 +170,7 @@ class ilMailOptions
 			array_push($data, $a_cronjob_notification);			
 		}
 
-		$query .='incoming_type = %s WHERE 1 AND user_id =  %s';			
+		$query .='incoming_type = %s WHERE user_id =  %s';			
 		array_push($data, $a_incoming_type, $this->user_id);
 		array_push($data_types, 'integer', 'integer');
 		
