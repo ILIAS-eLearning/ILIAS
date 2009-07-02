@@ -449,7 +449,7 @@ class ilAdvancedSearch extends ilAbstractSearch
 		}
 		else
 		{
-			$where = "WHERE 1 ";
+			$where = "WHERE 1 = 1 ";
 		}
 		$and = ("AND obj_type ".$this->__getInStatement($this->getFilter()));
 		

@@ -198,8 +198,7 @@ class ilForumTopic
 				SELECT frm_threads.*, top_frm_fk frm_obj_id
 				FROM frm_threads
 				INNER JOIN frm_data ON top_pk = thr_top_fk
-				WHERE 1
-				AND thr_pk = %s',
+				WHERE thr_pk = %s',
 				array('integer'), array($this->id));
 
 			$row = $res->fetchRow(DB_FETCHMODE_OBJECT);
@@ -251,8 +250,7 @@ class ilForumTopic
 	{ 
 		$res = $this->db->queryf('
 			SELECT * FROM frm_posts_tree 
-			WHERE 1
-			AND thr_fk = %s
+			WHERE thr_fk = %s
 			AND parent_pos = %s',
 			array('integer', 'integer'), array($this->id, '1'));
 		
@@ -295,8 +293,7 @@ class ilForumTopic
 	{	
 		$res = $this->db->queryf('
 			SELECT * FROM frm_thread_access 
-			WHERE 1
-			AND thread_id = %s
+			WHERE thread_id = %s
 			AND usr_id = %s',
 			array('integer', 'integer'),
 			array($this->id, $a_user_id));
@@ -325,8 +322,7 @@ class ilForumTopic
 		$res = $this->db->queryf('
 			SELECT COUNT(*) cnt
 			FROM frm_posts
-			WHERE 1				  
-			AND pos_thr_fk = %s',
+			WHERE pos_thr_fk = %s',
 			array('integer'), array($this->id));
 		
 		$rec = $res->fetchRow(DB_FETCHMODE_ASSOC);
@@ -348,8 +344,7 @@ class ilForumTopic
 		$res = $this->db->queryf('
 			SELECT COUNT(*) cnt
 			FROM frm_posts
-			WHERE 1				 
-			AND (pos_status = %s
+			WHERE (pos_status = %s
 				 OR (pos_status = %s AND pos_usr_id = %s))
 			AND pos_thr_fk = %s',
 			array('integer', 'integer', 'integer', 'integer'), array('1', '0', $ilUser->getId(), $this->id));
@@ -372,8 +367,7 @@ class ilForumTopic
 		$res = $this->db->queryf('
 			SELECT COUNT(*) cnt FROM frm_user_read
 			INNER JOIN frm_posts ON pos_pk = post_id
-			WHERE 1	
-			AND usr_id = %s
+			WHERE usr_id = %s
 			AND thread_id = %s',
 			array('integer', 'integer'),
 			array($a_user_id, $this->id));
@@ -398,8 +392,7 @@ class ilForumTopic
 			SELECT COUNT(*) cnt				  
 			FROM frm_user_read
 			INNER JOIN frm_posts ON pos_pk = post_id
-			WHERE 1			  
-			AND usr_id = %s
+			WHERE usr_id = %s
 			AND thread_id = %s
 			AND (pos_status = %s 
 				OR (pos_status = %s AND pos_usr_id = %s))',
@@ -426,8 +419,7 @@ class ilForumTopic
 			SELECT COUNT(pos_pk) cnt
 			FROM frm_posts
 			LEFT JOIN frm_user_read ON post_id = pos_pk AND usr_id = %s 
-			WHERE 1
-			AND pos_thr_fk = %s
+			WHERE pos_thr_fk = %s
 			AND (pos_date > %s OR pos_update > %s) 
 			AND pos_usr_id != %s 
 			AND usr_id IS NULL',
@@ -461,8 +453,7 @@ class ilForumTopic
 			SELECT COUNT(pos_pk) cnt
 			FROM frm_posts
 			LEFT JOIN frm_user_read ON post_id = pos_pk AND usr_id = %s
-			WHERE 1
-			AND pos_thr_fk = %s
+			WHERE pos_thr_fk = %s
 			AND (pos_date > %s OR pos_update > %s) 
 			AND pos_usr_id != %s
 			AND (pos_status = %s OR (pos_status = %s AND pos_usr_id = %s))
@@ -502,8 +493,7 @@ class ilForumTopic
 			SELECT pos_pk
 			FROM frm_posts 
 			INNER JOIN frm_posts_tree ON pos_fk = pos_pk
-			WHERE 1				 
-			AND parent_pos = %s
+			WHERE parent_pos = %s
 			AND thr_fk = %s',
 			array('integer', 'integer'),
 			array('0', $this->id));
@@ -527,8 +517,7 @@ class ilForumTopic
 			$res = $this->db->queryf('
 				SELECT pos_pk
 				FROM frm_posts 
-				WHERE 1
-				AND pos_thr_fk = %s				 
+				WHERE pos_thr_fk = %s				 
 				ORDER BY pos_date DESC',
 				array('integer'), array($this->id));
 			
@@ -556,8 +545,7 @@ class ilForumTopic
 			$res = $this->db->queryf('
 				SELECT pos_pk
 				FROM frm_posts 
-				WHERE 1
-				AND pos_thr_fk = %s		
+				WHERE pos_thr_fk = %s		
 				AND (pos_status = %s OR 
 					(pos_status = %s AND pos_usr_id = %s))							 
 				ORDER BY pos_date DESC',
@@ -581,8 +569,7 @@ class ilForumTopic
 			$res = $this->db->queryf('
 				SELECT pos_pk
 				FROM frm_posts 
-				WHERE 1
-				AND pos_thr_fk = %s',
+				WHERE pos_thr_fk = %s',
 				array('integer'),
 				array($this->id));
 			
@@ -614,8 +601,7 @@ class ilForumTopic
 
 		$query = 'SELECT pos_pk FROM frm_posts_tree 
 				  INNER JOIN frm_posts ON pos_fk = pos_pk 
-				  WHERE 1 
-				  AND lft BETWEEN %s AND %s 
+				  WHERE lft BETWEEN %s AND %s 
 				  AND thr_fk = %s';
 		
 		array_push($data_types, 'integer', 'integer', 'integer');
@@ -699,24 +685,21 @@ class ilForumTopic
 			$res = $this->db->manipulateF('
 				UPDATE frm_user_read
 				SET obj_id = %s
-				WHERE 1
-				AND thread_id = %s',
+				WHERE thread_id = %s',
 				array('integer', 'integer'),
 				array($new_obj_id, $this->id));
 			
 			$res = $this->db->manipulateF('
 				UPDATE frm_thread_access
 				SET obj_id = %s
-				WHERE 1
-				AND thread_id =%s',
+				WHERE thread_id =%s',
 				array('integer', 'integer'),  
 				array($new_obj_id, $this->id));
 			
 			$res = $this->db->manipulateF('
 				UPDATE frm_posts
 				SET pos_top_fk = %s
-				WHERE 1
-				AND pos_thr_fk = %s',
+				WHERE pos_thr_fk = %s',
 				array('integer', 'integer'), 
 				array($new_pk, $this->id));
 			
@@ -768,8 +751,7 @@ class ilForumTopic
 			SELECT pos_pk 
 			FROM frm_posts_tree 
 			INNER JOIN frm_posts ON frm_posts.pos_pk = frm_posts_tree.pos_fk 
-			WHERE 1
-			AND frm_posts_tree.parent_pos = %s
+			WHERE frm_posts_tree.parent_pos = %s
 			AND frm_posts_tree.thr_fk = %s
 			ORDER BY frm_posts_tree.lft DESC',
 			array('integer', 'integer'),
@@ -877,8 +859,7 @@ class ilForumTopic
 		{
 			$statement = $this->db->manipulateF('
 				DELETE FROM frm_notification
-				WHERE 1 
-				AND user_id = %s
+				WHERE user_id = %s
 				AND thread_id = %s',
 				array('integer', 'integer'),
 				array($a_user_id, $this->id));
@@ -902,8 +883,7 @@ class ilForumTopic
 			$statement = $this->db->manipulateF('
 				UPDATE frm_threads 
 				SET is_sticky = %s
-				WHERE 1
-				AND thr_pk = %s',
+				WHERE thr_pk = %s',
 				array('integer', 'integer'),
 				array('1', $this->id));
 			
@@ -928,8 +908,7 @@ class ilForumTopic
 			$statement = $this->db->manipulateF('
 				UPDATE frm_threads 
 				SET is_sticky = %s
-				WHERE 1 
-				AND thr_pk = %s',
+				WHERE thr_pk = %s',
 				array('integer', 'integer'),
 				array('0', $this->id));
 			
@@ -954,8 +933,7 @@ class ilForumTopic
 			$statement = $this->db->manipulateF('
 				UPDATE frm_threads 
 				SET is_closed = %s
-				WHERE 1 
-				AND thr_pk = %s',
+				WHERE thr_pk = %s',
 				array('integer', 'integer'),
 				array('1', $this->id));
 				
@@ -980,8 +958,7 @@ class ilForumTopic
 			$statement = $this->db->manipulateF('
 				UPDATE frm_threads 
 				SET is_closed = %s
-				WHERE 1 
-				AND thr_pk = %s',
+				WHERE thr_pk = %s',
 				array('integer', 'integer'),
 				array('0', $this->id));
 								
@@ -1135,8 +1112,7 @@ class ilForumTopic
 		$res = $ilDB->queryf('
 			SELECT thr_subject
 			FROM frm_threads
-			WHERE 1
-			AND thr_pk = %s',
+			WHERE thr_pk = %s',
 			array('integer'), array($a_topic_id));
 		$row = $ilDB->fetchObject($res);
 

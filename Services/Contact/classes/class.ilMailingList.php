@@ -94,8 +94,7 @@ class ilMailingList
 				SET title = %s,
 					description = %s,
 					changedate =  %s
-				WHERE 1
-				AND ml_id =  %s
+				WHERE ml_id =  %s
 				AND user_id =  %s',
 				array(	'text',
 						'text',
@@ -126,8 +125,7 @@ class ilMailingList
 
 			$statement = $this->db->manipulateF('
 				DELETE FROM addressbook_mlist
-				WHERE 1 
-				AND ml_id = %s
+				WHERE ml_id = %s
 				AND user_id = %s',
 				array('integer', 'integer'),
 				array($this->getId(), $this->getUserId()));
@@ -147,8 +145,7 @@ class ilMailingList
 		{
 			$res = $this->db->queryf('
 				SELECT * FROM addressbook_mlist 
-				WHERE 1 
-				AND ml_id = %s
+				WHERE ml_id = %s
 				AND user_id =%s',
 				array('integer', 'integer'),
 				array($this->getId(), $this->getUserId())); 
@@ -175,8 +172,7 @@ class ilMailingList
 		$res = $this->db->queryf('
 			SELECT * FROM addressbook_mlist_ass 
 			INNER JOIN addressbook ON addressbook.addr_id = addressbook_mlist_ass.addr_id 
-			WHERE 1
-			AND ml_id = %s',
+			WHERE ml_id = %s',
 			array('integer'),
 			array($this->getId()));
 		
@@ -220,8 +216,7 @@ class ilMailingList
 	
 		$statement = $this->db->manipulateF('	
 		DELETE FROM addressbook_mlist_ass 
-			WHERE 1 
-			AND a_id = %s',
+			WHERE a_id = %s',
 			array('integer'),
 			array($a_id));
 		
@@ -232,8 +227,7 @@ class ilMailingList
 	{
 		$statement = $this->db->manipulateF('	
 		DELETE FROM addressbook_mlist_ass 
-				WHERE 1 
-				AND ml_id = %s',
+				WHERE ml_id = %s',
 				array('integer'),
 				array($this->getId()));
 			

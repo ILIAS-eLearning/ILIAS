@@ -367,7 +367,7 @@ class ilPaymentObject
 			$query .= ', usr_data ud ';
 		}
 		
-		$query .= ' WHERE 1 ';		
+		$query .= ' WHERE 1 = 1 ';		
 		
 		if ($_SESSION["pay_objects"]["title_value"])
 		{			

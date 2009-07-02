@@ -1194,7 +1194,7 @@ class ilSoapUserAdministration extends ilSoapAdministration
 		          ON usr_pref.usr_id = usr_data.usr_id AND usr_pref.keyword = ".
 				  $ilDB->quote("language", "text").
 				  "'language'
-		          WHERE 1 ".$query;
+		          WHERE 1 = 1 ".$query;
 
   	     if (is_numeric($active) && $active > -1)
   			$query .= " AND active = ". $ilDB->quote($active);

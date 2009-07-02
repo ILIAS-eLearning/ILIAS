@@ -83,7 +83,7 @@ class ilShopVatsList implements Iterator
 		$this->vat_list = array();
 		
 		$query = "SELECT * FROM payment_vats ";
-		$query.= "WHERE 1 ";		
+		$query.= "WHERE 1 = 1 ";		
 		if(!in_array($this->getOrderColumn(), array('vat_title', 'vat_rate')))
 		{
 			$this->setOrderColumn('vat_rate');

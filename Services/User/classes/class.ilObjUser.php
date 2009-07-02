@@ -4177,7 +4177,7 @@ class ilObjUser extends ilObject
 	public static function _getUsersForFolder ($ref_id, $active) {
 		global $ilDB;
 		$data = array();
-		$query = "SELECT usr_data.*, usr_pref.value AS language FROM usr_data LEFT JOIN usr_pref ON usr_pref.usr_id = usr_data.usr_id and usr_pref.keyword = %s WHERE 1 ";
+		$query = "SELECT usr_data.*, usr_pref.value AS language FROM usr_data LEFT JOIN usr_pref ON usr_pref.usr_id = usr_data.usr_id and usr_pref.keyword = %s WHERE 1 = 1 ";
 		$types[] = "text";
 		$values[] = "language";
 
@@ -4599,8 +4599,7 @@ class ilObjUser extends ilObject
 			$ilDB->manipulateF('
 				UPDATE usr_data	
 				SET reg_hash = %s	
-				WHERE 1
-				AND usr_id = %s',
+				WHERE usr_id = %s',
 				array('text', 'integer'),
 				array($hashcode, (int)$a_usr_id)
 			);
@@ -4644,8 +4643,7 @@ class ilObjUser extends ilObject
 			$ilDB->manipulateF('
 				UPDATE usr_data	
 				SET reg_hash = %s	
-				WHERE 1
-				AND usr_id = %s',
+				WHERE usr_id = %s',
 				array('text', 'integer'),
 				array('', (int)$row->usr_id)
 			);

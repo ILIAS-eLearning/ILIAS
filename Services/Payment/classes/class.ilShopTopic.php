@@ -96,8 +96,7 @@ class ilShopTopic
 				SET pt_topic_title = %s,
 					pt_topic_sort = %s,
 					pt_topic_changed = %s
-				WHERE 1
-				AND pt_topic_pk = %s',
+				WHERE pt_topic_pk = %s',
 				array('text', 'integer', 'integer', 'integer'),
 				array(	
 					$this->getTitle(),
@@ -139,16 +138,14 @@ class ilShopTopic
 			
 			$result = $this->db->manipulateF('
 				DELETE FROM payment_topics		
- 				WHERE 1
-				AND pt_topic_pk = %s',
+ 				WHERE pt_topic_pk = %s',
 				array('integer'),
 				array($this->getId())
 			);
 			
 			$result = $this->db->manipulateF('
 				DELETE FROM payment_topic_usr_sort		
-				WHERE 1
-				AND ptus_pt_topic_fk = %s',
+				WHERE ptus_pt_topic_fk = %s',
 				array('integer'),
 				array($this->getId())
 			);
@@ -156,8 +153,7 @@ class ilShopTopic
 			$result = $this->db->manipulateF('
 				UPDATE payment_objects
 				SET pt_topic_fk = %s
-			  	WHERE 1
-				AND pt_topic_fk = %s',
+			  	WHERE pt_topic_fk = %s',
 				array('integer', 'integer'),
 				array(0, $this->getId())
 			);

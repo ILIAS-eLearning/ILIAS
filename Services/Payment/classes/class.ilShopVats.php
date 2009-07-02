@@ -74,8 +74,7 @@ class ilShopVats
 		{
 	
 			$res = $this->db->queryf('SELECT * FROM payment_vats 
-			   			WHERE 1 
-			  			AND vat_id = %s',
+			   			WHERE vat_id = %s',
 			array('integer'), array($this->id) );	
 			
 			while($row = $res->fetchRow(DB_FETCHMODE_OBJECT))

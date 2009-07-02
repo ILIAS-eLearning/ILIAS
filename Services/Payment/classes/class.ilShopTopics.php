@@ -91,7 +91,7 @@ class ilShopTopics
 			$data_types = array();
 			$data_values = array();
 			
-			$query = 'SELECT * FROM payment_topics WHERE 1';
+			$query = 'SELECT * FROM payment_topics WHERE 1 = 1 ';
 			if((int)$this->getIdFilter() > 0)
 			{
 				$query .= ' AND pt_topic_pk = %s';
@@ -138,7 +138,7 @@ class ilShopTopics
 					
 					break;
 			}
-			$query .= ' WHERE 1 ';
+			$query .= ' WHERE 1 = 1 ';
 			
 			if((int)$this->id_filter > 0)
 			{
