@@ -9519,7 +9519,6 @@ common#:#reg_account_confirmation_successful#:#Your user account has been activa
 registration#:#reg_confirmation_link_successful#:#You successfully submitted an account request to ILIAS. You will receive a confirmation e-mail in the next minutes. Please confirm your registration by clicking the confirmation link in this mail.
 registration#:#reg_activation_your_confirmation_link#:#Your confirmation link:
 registration#:#reg_confirmation_hash_not_passed#:#The confirmation link was not entirely passed.
-mail#:#mail_nacc_confirmation_link#:#Confirmation Link
 crs#:#crs_lim_assigned#:#Already assigned to associated course "%s".
 grp#:#grp_lim_assigned#:#Already assigned to associated group "%s".
 common#:#soap_wsdl_path#:#WSDL Path
@@ -9613,3 +9612,5 @@ ldap#:#ldap_deleted_rule#:#Deleted selected role assignments.
 ldap#:#ldap_role_selection#:#Role Selection
 ldap#:#ldap_role_selection_info#:#Your selection is ambiguous. Please choose one of the following roles.
 ldap#:#ldap_role_by_plugin#:#By Plugin
+common#:#reg_mail_subject_confirmation#:#ILIAS eLearning - Your Confirmationlink
+common#:#reg_mail_body_confirmation#:#to activate your account and confirm ownership of this email address, click the link below:
