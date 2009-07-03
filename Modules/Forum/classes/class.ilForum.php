@@ -1214,7 +1214,7 @@ class ilForum
 		$data = array();
 		$data_types = array();
 
-		$query = 'SELECT thr_pk, MAX(pos_date) post_date 
+		$query = 'SELECT thr_pk, MAX(pos_date) post_date, is_sticky, thr_date
 				  FROM frm_threads
 				  LEFT JOIN frm_posts ON pos_thr_fk = thr_pk';
 		
@@ -1229,7 +1229,7 @@ class ilForum
 			
 		}
 		$query .= ' WHERE thr_top_fk = %s
-				  GROUP BY thr_pk
+				  GROUP BY thr_pk, is_sticky, thr_date
 				  ORDER BY is_sticky DESC, post_date DESC, thr_date DESC';
 		
 	
@@ -1239,7 +1239,7 @@ class ilForum
 
 		$res = $ilDB->queryf($query, $data_types, $data);
 
-		while ($row = $res->fetchRow(DB_FETCHMODE_OBJECT))
+		while ($row = $ilDB->fetchObject($res))
 		{
 			
 			$this->threads[] = new ilForumTopic($row->thr_pk);
@@ -1273,9 +1273,7 @@ class ilForum
 		
 		if($this->orderField != '')
 		{
-			$query .= ' ORDER BY %s';
-			array_push($data_types, 'text');
-			array_push($data, $this->orderField);
+			$query .= ' ORDER BY '.$this->orderField .' ';
 		}
 		
 		$result = $ilDB->queryf($query, $data_types, $data);
