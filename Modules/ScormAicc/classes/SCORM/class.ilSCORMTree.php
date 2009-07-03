@@ -85,20 +85,20 @@ class ilSCORMTree extends ilTree
 		}
 
 	//666
-		$q = "SELECT * FROM ".$this->table_tree." ".
-			 $this->buildJoin().
-			 "WHERE parent = ".$ilDB->quote($a_node_id)." ".
-			 "AND ".$this->table_tree.".".$this->tree_pk." = ".$ilDB->quote($this->tree_id).			 
-			 $order_clause;
 	
-		$r = $this->ilDB->query($q);
-
-		$count = $r->numRows();
-		
+		$r = $ilDB->queryF("
+			SELECT * FROM ".$this->table_tree." ".
+			$this->buildJoin().
+			"WHERE parent = %s ".
+			"AND ".$this->table_tree.".".$this->tree_pk." = %s ".			 
+			$order_clause,
+			array('integer','integer'),array($a_node_id,$this->tree_id));
+	
+		$count = $ilDB->numRows($r);
 
 		if ($count > 0)
 		{
-			while ($row = $r->fetchRow(DB_FETCHMODE_ASSOC))
+			while ($row = $ilDB->fetchAssoc($r))
 			{
 				$childs[] = $this->fetchNodeData($row);
 			}

@@ -119,10 +119,10 @@ class ilObjSAHSLearningModuleAccess extends ilObjectAccess
     {
         global $ilDB;
 
-        $q = "SELECT * FROM sahs_lm WHERE id = ".$ilDB->quote($a_id);
-        $set = $ilDB->query($q);
-        $rec = $set->fetchRow(DB_FETCHMODE_ASSOC);
-
+        $set = $ilDB->queryF('SELECT * FROM sahs_lm WHERE id = %s', 
+        array('integer'), array($a_id));
+        $rec = $ilDB->fetchAssoc($set);
+        
         return ilUtil::yn2tf($rec["online"]);
     }
 

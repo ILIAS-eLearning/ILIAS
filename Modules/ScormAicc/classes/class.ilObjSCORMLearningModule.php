@@ -254,14 +254,13 @@ class ilObjSCORMLearningModule extends ilObjSAHSLearningModule
 	function getTrackedItems()
 	{
 		global $ilDB, $ilUser;
-
-		$query = "SELECT DISTINCT sco_id FROM scorm_tracking WHERE".
-			" obj_id = ".$ilDB->quote($this->getId());
-
-		$sco_set = $ilDB->query($query);
+		
+		$sco_set = $ilDB->queryF('
+		SELECT DISTINCT sco_id FROM scorm_tracking WHERE obj_id = %s', 
+		array('integer'),array($this->getId()));
 
 		$items = array();
-		while($sco_rec = $sco_set->fetchRow(DB_FETCHMODE_ASSOC))
+		while($sco_rec = $ilDB->fetchAssoc($sco_set))
 		{
 			include_once("./Modules/ScormAicc/classes/SCORM/class.ilSCORMItem.php");
 			$sc_item =& new ilSCORMItem($sco_rec["sco_id"]);
@@ -284,28 +283,34 @@ class ilObjSCORMLearningModule extends ilObjSAHSLearningModule
 	public static function _lookupLastAccess($a_obj_id, $a_usr_id)
 	{
 		global $ilDB;
-		$query = "SELECT user_id,UNIX_TIMESTAMP(TIMESTAMP) AS last_access FROM scorm_tracking WHERE".
-			" obj_id = ".$ilDB->quote($a_obj_id)." AND user_id = " . $ilDB->quote($a_usr_id) . " ORDER BY TIMESTAMP DESC";
-		$result = $ilDB->query($query);
-		if ($result->numRows())
+
+		$result = $ilDB->queryF('
+		SELECT user_id,c_timestamp last_access FROM scorm_tracking 
+		WHERE  obj_id = %s
+		AND user_id = %s
+		ORDER BY c_timestamp DESC',
+		array('integer','integer'), array($a_obj_id,$a_usr_id));
+		
+		if ($ilDB->numRows($result))
 		{
-			$row = $result->fetchRow(DB_FETCHMODE_ASSOC);
+			$row = $ilDB->fetchAssoc($result);
 			return $row["last_access"];
 		}
-		return "";
+		return "";		
 	}
 
 	function getTrackedUsers($a_search)
 	{
 		global $ilUser, $ilDB, $ilUser;
 
-		$query = "SELECT user_id,UNIX_TIMESTAMP(TIMESTAMP) AS last_access FROM scorm_tracking WHERE".
-			" obj_id = ".$ilDB->quote($this->getId())."GROUP BY user_id";
-
-		$sco_set = $ilDB->query($query);
-
+		$sco_set =  $ilDB->queryF('
+		SELECT user_id,c_timestamp last_access FROM scorm_tracking 
+		WHERE  obj_id = %s
+		GROUP BY user_id,c_timestamp',
+		array('integer'), array($this->getId()));
+		
 		$items = array();
-		while($sco_rec = $sco_set->fetchRow(DB_FETCHMODE_ASSOC))
+		while($sco_rec = $ilDB->fetchAssoc($sco_set))
 		{	
 			if ($sco_rec['last_access'] != 0) {
 				$sco_rec['last_access'] = ilDatePresentation::formatDate(new ilDateTime($sco_rec['last_access'],IL_CAL_UNIX));
@@ -336,15 +341,18 @@ class ilObjSCORMLearningModule extends ilObjSAHSLearningModule
 	*/
 	function getAttemptsForUser($a_user_id){
 		global $ilDB;
-		
-		$query = "SELECT * FROM scorm_tracking WHERE".
-			" user_id = ".$ilDB->quote($a_user_id).
-			" AND sco_id = 0".
-			" AND lvalue='package_attempts'".
-			" AND obj_id = ".$ilDB->quote($this->getId());
 
-		$val_set = $ilDB->query($query);
-		$val_rec = $val_set->fetchRow(DB_FETCHMODE_ASSOC);
+		$val_set = $ilDB->queryF('
+		SELECT * FROM scorm_tracking 
+		WHERE user_id = %s
+		AND sco_id = %s
+		AND lvalue = %s
+		AND obj_id = %s',
+		array('integer','integer','text','integer'),
+		array($a_user_id,0,'package_attempts',$this->getId()));
+		
+		$val_rec = $ilDB->fetchAssoc($val_set);
+		
 		$val_rec["rvalue"] = str_replace("\r\n", "\n", $val_rec["rvalue"]);
 		if ($val_rec["rvalue"] == null) {
 			$val_rec["rvalue"]="";
@@ -359,14 +367,18 @@ class ilObjSCORMLearningModule extends ilObjSAHSLearningModule
 	function getModuleVersionForUser($a_user_id){
 		global $ilDB;
 		
-		$query = "SELECT * FROM scorm_tracking WHERE".
-			" user_id = ".$ilDB->quote($a_user_id).
-			" AND sco_id = 0".
-			" AND lvalue='module_version'".
-			" AND obj_id = ".$ilDB->quote($this->getId());
-
-		$val_set = $ilDB->query($query);
-		$val_rec = $val_set->fetchRow(DB_FETCHMODE_ASSOC);
+		$val_set = $ilDB->queryF('
+		SELECT * FROM scorm_tracking 
+		WHERE user_id = %s
+		AND sco_id = %s
+		AND lvalue = %s
+		AND obj_id = %s',
+		array('integer','integer','text','integer'),
+		array($a_user_id,0,'module_version',$this->getId()));
+		
+		$val_rec = $ilDB->fetchAssoc($val_set);		
+		
+		
 		$val_rec["rvalue"] = str_replace("\r\n", "\n", $val_rec["rvalue"]);
 		if ($val_rec["rvalue"] == null) {
 			$val_rec["rvalue"]="";
@@ -378,15 +390,18 @@ class ilObjSCORMLearningModule extends ilObjSAHSLearningModule
 	{
 		global $ilDB;
 
-		$query = "SELECT * FROM scorm_tracking WHERE".
-			" obj_id = ".$ilDB->quote($this->getId()).
-			" AND sco_id = ".$ilDB->quote($a_sco_id).
-			" AND user_id = ".$ilDB->quote($a_user_id).
-			" ORDER BY lvalue";
-		$data_set = $ilDB->query($query);
-
+		$data_set = $ilDB->queryF('
+		SELECT * FROM scorm_tracking 
+		WHERE user_id = %s
+		AND sco_id = %s
+		AND obj_id = %s
+		ORDER BY lvalue',
+		array('integer','integer','text','integer'),
+		array($a_user_id,0,$this->getId()));
+			
 		$data = array();
-		while($data_rec = $data_set->fetchRow(DB_FETCHMODE_ASSOC))
+		while($data_rec = $ilDB->fetchAssoc($data_set))	
+		
 		{
 			$data[] = $data_rec;
 		}
@@ -399,27 +414,39 @@ class ilObjSCORMLearningModule extends ilObjSAHSLearningModule
 		global $ilDB;
 
 		// get all users with any tracking data
-		$query = "SELECT DISTINCT sco_id FROM scorm_tracking WHERE".
-			" obj_id = ".$ilDB->quote($this->getId()).
-			" AND user_id = ".$ilDB->quote($a_user_id).
-			" AND sco_id <> ".$ilDB->quote('0');
-			//" ORDER BY user_id, lvalue";
-		$sco_set = $ilDB->query($query);
+		$sco_set = $ilDB->queryF('
+		SELECT DISTINCT sco_id FROM scorm_tracking 
+		WHERE obj_id = %s
+		AND user_id = %s
+		AND sco_id <> %s',
+		array('integer','integer','integer'),
+		array($this->getId(),$a_user_id,0));
 
 		$data = array();
-		while($sco_rec = $sco_set->fetchRow(DB_FETCHMODE_ASSOC))
+		while($sco_rec = $ilDB->fetchAssoc($sco_set))		
 		{
-			$query = "SELECT * FROM scorm_tracking WHERE".
-				" obj_id = ".$ilDB->quote($this->getId()).
-				" AND sco_id = ".$ilDB->quote($sco_rec["sco_id"]).
-				" AND user_id =".$ilDB->quote($a_user_id).
-				" AND lvalue <>".$ilDB->quote("package_attempts").
-				" AND (lvalue =".$ilDB->quote("cmi.core.lesson_status").
-				" OR lvalue =".$ilDB->quote("cmi.core.total_time").
-				" OR lvalue =".$ilDB->quote("cmi.core.score.raw").")";
-			$data_set = $ilDB->query($query);
+			$data_set = $ilDB->queryF('
+			SELECT * FROM scorm_tracking 
+			WHERE  obj_id = %s
+			AND sco_id = %s
+			AND user_id = %s 
+			AND lvalue <> %s
+			AND (lvalue = %s
+				OR lvalue = %s
+				OR lvalue = %s)',
+			array('integer','integer','integer','text','text','text','text'),
+			array($this->getId(),
+				$sco_rec["sco_id"],
+				$a_user_id,
+				"package_attempts",
+				"cmi.core.lesson_status",
+				"cmi.core.total_time",
+				"cmi.core.score.raw")
+			);
+			
 			$score = $time = $status = "";
-			while($data_rec = $data_set->fetchRow(DB_FETCHMODE_ASSOC))
+			
+			while($data_rec = $ilDB->fetchAssoc($data_set))
 			{
 				switch($data_rec["lvalue"])
 				{
@@ -451,25 +478,37 @@ class ilObjSCORMLearningModule extends ilObjSAHSLearningModule
 	        global $ilDB;
 
 	        // get all users with any tracking data
-	        $query = "SELECT DISTINCT user_id FROM scorm_tracking WHERE".
-	            " obj_id = ".$ilDB->quote($this->getId()).
-	            " AND sco_id = ".$ilDB->quote($a_sco_id);
-	            //" ORDER BY user_id, lvalue";
-	        $user_set = $ilDB->query($query);
+	        $user_set = $ilDB->queryF('
+	        SELECT DISTINCT user_id FROM scorm_tracking 
+	        WHERE obj_id = %s
+	        AND sco_id = %s',
+	        array('integer','integer'),
+	        array($this->getId(),$a_sco_id));
 
 	        $data = array();
-	        while($user_rec = $user_set->fetchRow(DB_FETCHMODE_ASSOC))
+	        while($user_rec = $ilDB->fetchAssoc($user_set))
 	        {
-	            $query = "SELECT * FROM scorm_tracking WHERE".
-	                " obj_id = ".$ilDB->quote($this->getId()).
-	                " AND sco_id = ".$ilDB->quote($a_sco_id).
-	                " AND user_id =".$ilDB->quote($user_rec["user_id"]).
-	                " AND (lvalue =".$ilDB->quote("cmi.core.lesson_status").
-	                " OR lvalue =".$ilDB->quote("cmi.core.total_time").
-	                " OR lvalue =".$ilDB->quote("cmi.core.score.raw").")";
-	            $data_set = $ilDB->query($query);
-	            $score = $time = $status = "";
-	            while($data_rec = $data_set->fetchRow(DB_FETCHMODE_ASSOC))
+
+	            $data_set = $ilDB->queryF('
+	            SELECT * FROM scorm_tracking 
+	            WHERE obj_id = %s
+	            AND sco_id = %s
+	            AND user_id = %s
+	            AND (lvalue = %s
+	            OR lvalue = %s
+	            OR lvalue = %s)',
+				array('integer','integer','integer','text','text','text'),
+				array($this->getId(),
+					$a_sco_id,
+					$user_rec["user_id"],
+					"cmi.core.lesson_status",
+					"cmi.core.total_time",
+					"cmi.core.score.raw")
+				);
+				
+	      	  	$score = $time = $status = "";
+	      	  	
+	            while($data_rec = $ilDB->fetchAssoc($data_set))
 	            {
 	                switch($data_rec["lvalue"])
 	                {
@@ -506,9 +545,13 @@ class ilObjSCORMLearningModule extends ilObjSAHSLearningModule
 			$this->ilias->raiseError($this->lng->txt("no_checkbox"),$this->ilias->error_obj->MESSAGE);
 		}
 		if ($a_exportall == 1) {
-			$query3 = "SELECT * FROM scorm_tracking WHERE (obj_id=".$ilDB->quote($this->getID()).") GROUP BY user_id";
-			$val_set3 = $ilDB->query($query3);
-			while ($val_rec3 = $val_set3->fetchRow(DB_FETCHMODE_ASSOC)) {
+
+			$val_set3 = $ilDB->queryF('
+			SELECT * FROM scorm_tracking WHERE (obj_id = %s)GROUP BY user_id',
+			array('integer'),
+			array($this->getId()));
+			while ($val_rec3 = $ilDB->fetchAssoc($val_set3))
+			{
 			 	array_push($user_array,$val_rec3['user_id']);
 			}
 			
@@ -525,26 +568,37 @@ class ilObjSCORMLearningModule extends ilObjSAHSLearningModule
 				$e_user = new ilObjUser($user);
 				$email = $e_user->getEmail();
 				//get sco related information
-				$query = "SELECT rvalue,lvalue,identifierref,timestamp FROM scorm_tracking INNER JOIN sc_item ON sc_item.obj_id=scorm_tracking.sco_id ".
-					 	"WHERE (scorm_tracking.sco_id<>0 AND user_id=".$ilDB->quote($user)." AND scorm_tracking.obj_id=".$ilDB->quote($this->getID()).")";
-				$val_set = $ilDB->query($query);
-				while ($val_rec = $val_set->fetchRow(DB_FETCHMODE_ASSOC)) {
+				$val_set = $ilDB->queryF('
+				SELECT rvalue,lvalue,identifierref,c_timestamp FROM scorm_tracking 
+				INNER JOIN sc_item ON sc_item.obj_id=scorm_tracking.sco_id 
+				WHERE (scorm_tracking.sco_id <> 0 AND user_id = %s
+				AND scorm_tracking.obj_id= %s)',
+				array('integer','integer'),
+				array($user, $this->getId())
+				);
+				while ($val_rec = $ilDB->fetchAssoc($val_set))
+				{
 					//get mail address for user-id
 					$sco_id = $val_rec["identifierref"];
 					$key = $val_rec["lvalue"];
 					$value = $val_rec["rvalue"];
-					$timestamp = $val_rec["timestamp"];
+					$timestamp = $val_rec["c_timestamp"];
 					$csv = $csv. "$sco_id;$key;$value;$email;$timestamp;$user\n";	
 				
 				}
 				//get sco unrelated information
-				$query = "SELECT rvalue,lvalue,timestamp FROM scorm_tracking ".
-					 "WHERE (sco_id=0 AND user_id=".$ilDB->quote($user)." AND obj_id=".$ilDB->quote($this->getID()).")";
-				$val_set = $ilDB->query($query);
-				while ($val_rec = $val_set->fetchRow(DB_FETCHMODE_ASSOC)) {
+				$val_set = $ilDB->queryF('
+					SELECT rvalue,lvalue,c_timestamp FROM scorm_tracking 
+					WHERE (sco_id=0 AND user_id= %s
+					AND obj_id= %s)',
+					array('integer','integer'),
+					array($user, $this->getId())
+				);
+				while ($val_rec = $ilDB->fetchAssoc($val_set))
+				{				
 					$key = $val_rec["lvalue"];
 					$value = $val_rec["rvalue"];
-					$timestamp = $val_rec["timestamp"];
+					$timestamp = $val_rec["c_timestamp"];
 					$csv = $csv. "0;$key;$value;$email;$timestamp;$user\n";	
 				}
 		 	}
@@ -560,14 +614,27 @@ class ilObjSCORMLearningModule extends ilObjSAHSLearningModule
 			
 		$scos = array();
 		//get all SCO's of this object
-		$query = "SELECT scorm_object.obj_id,scorm_object.title,scorm_object.type,scorm_object.slm_id,scorm_object.obj_id scoid FROM scorm_object,sc_item,sc_resource ".
-				  "WHERE(scorm_object.slm_id=".$ilDB->quote($this->getID())." AND scorm_object.obj_id=sc_item.obj_id ".
-			      "AND sc_item.identifierref=sc_resource.import_id AND sc_resource.scormtype='sco') ".
-				  "GROUP BY scorm_object.obj_id,scorm_object.title,scorm_object.type,scorm_object.slm_id";
-								
-		$val_set = $ilDB->query($query);
+		$val_set = $ilDB->queryF('
+		SELECT scorm_object.obj_id, 
+		scorm_object.title, 
+		scorm_object.type, 
+		scorm_object.slm_id, 
+		scorm_object.obj_id scoid 
+		FROM scorm_object, sc_item, sc_resource
+		WHERE(scorm_object.slm_id = %s 
+		AND scorm_object.obj_id = sc_item.obj_id 
+		AND sc_item.identifierref=sc_resource.import_id 
+		AND sc_resource.scormtype = %s
+		GROUP BY scorm_object.obj_id, 
+		scorm_object.title, 
+		scorm_object.type, 
+		scorm_object.slm_id,
+		scorm_object.obj_id ',
+		array('integer','text'),
+		array($this->getID(),'sco'));
 				
-		while ($val_rec = $val_set->fetchRow(DB_FETCHMODE_ASSOC)) {
+		while ($val_rec = $ilDB->fetchAssoc($val_set))
+		{
 			array_push($scos,$val_rec['scoid']);
 		}
 		$csv = null;
@@ -575,9 +642,13 @@ class ilObjSCORMLearningModule extends ilObjSAHSLearningModule
 		$user_array = array();
 		
 		if ($a_exportall == 1) {
-			$query3 = "SELECT * FROM scorm_tracking WHERE (obj_id=".$ilDB->quote($this->getID()).") GROUP BY user_id";
-			$val_set3 = $ilDB->query($query3);
-			while ($val_rec3 = $val_set3->fetchRow(DB_FETCHMODE_ASSOC)) {
+
+			$val_set3 = $ilDB->queryF('
+			SELECT * FROM scorm_tracking WHERE (obj_id = %s ) GROUP BY user_id',
+			array('integer'),
+			array($this->getID()));
+			while ($val_rec3 = $ilDB->fetchAssoc($val_set3))
+			{
 			 	array_push($user_array,$val_rec3['user_id']);
 			}
 			
@@ -591,12 +662,21 @@ class ilObjSCORMLearningModule extends ilObjSAHSLearningModule
 			$scos_c = $scos;
 			//copy SCO_array
 			//check if all SCO's are completed
-			for ($i=0;$i<count($scos);$i++){
-				$query = "SELECT * FROM scorm_tracking WHERE (user_id=".$ilDB->quote($user)." AND obj_id=".$ilDB->quote($this->getID()).
-						 " AND sco_id=".$ilDB->quote($scos[$i]).
-						 " AND ((lvalue='cmi.core.lesson_status' AND rvalue='completed') OR (lvalue='cmi.core.lesson_status' AND rvalue='passed') ) )";
-				$val_set = $ilDB->query($query);
-				if ($val_set->numRows()>0) {
+			for ($i=0;$i<count($scos);$i++)
+			{
+
+				$val_set = $ilDB->queryF('
+				SELECT * FROM scorm_tracking WHERE (user_id = %s
+				AND obj_id = %s 
+				AND sco_id = %s
+				AND (	(lvalue = %s AND rvalue= %s) 
+				OR (lvalue = %s AND rvalue = %s) ) ',
+				array('integer','integer','integer','text','text','text'),
+				array($user,$this->getID(),$scos[$i], 'cmi.core.lesson_status','completed','cmi.core.lesson_status','passed')
+				);
+				
+				if ($ilDB->numRows($val_se) > 0)
+				{
 					//delete from array
 					$key = array_search($scos[$i], $scos_c); 
 					unset ($scos_c[$key]);
@@ -617,11 +697,17 @@ class ilObjSCORMLearningModule extends ilObjSAHSLearningModule
 				$email = $e_user->getEmail();
 				$department = $e_user->getDepartment();
 				//get the date for csv export
-				$query2 = "SELECT MAX(DATE_FORMAT(timestamp,\"%d.%m.%y\")) AS date FROM scorm_tracking WHERE (user_id=".$ilDB->quote($user).
-					   " AND obj_id=".$ilDB->quote($this->getID()).")"; 
-				$val_set2 = $ilDB->query($query2);
-				$val_rec2 = $val_set2->fetchRow(DB_FETCHMODE_ASSOC);
-				if ($val_set2->numRows()>0) {
+				$val_set2 = $ilDB->queryF('
+				SELECT CONCAT(SUBSTR(c_timestamp, 9,2), '.', SUBSTR(c_timestamp, 6, 2), '.', SUBSTR(c_timestamp, 1, 4)) date 
+				FROM scorm_tracking 
+				WHERE (user_id= %s
+				AND obj_id= %s )',
+				array('integer','integer'),
+				array($user,$this->getID()));
+				$val_rec2 = $ilDB->fetchAssoc($val_set2);
+				if ($ilDB->numRows($val_set2) > 0)
+				
+				{
 					$date = $val_rec2['date'];
 				} else {
 					$date = "";
@@ -671,15 +757,33 @@ class ilObjSCORMLearningModule extends ilObjSAHSLearningModule
 		
 		$scos = array();
 		//get all SCO's of this object
-		$query = "SELECT scorm_object.obj_id,scorm_object.title,scorm_object.type,scorm_object.slm_id,scorm_object.obj_id scoid FROM scorm_object,sc_item,sc_resource ". 
-							       "WHERE(scorm_object.slm_id=".$ilDB->quote($this->getID())."AND scorm_object.obj_id=sc_item.obj_id ".
-								   "AND sc_item.identifierref=sc_resource.import_id AND sc_resource.scormtype='sco') ".
-								  "GROUP BY scorm_object.obj_id,scorm_object.title,scorm_object.type,scorm_object.slm_id";
-	    $val_set = $ilDB->query($query);
- 		if (count($val_set)<1) {
+
+	    $val_set = $ilDB->queryF('
+		    SELECT 	scorm_object.obj_id, 
+		    		scorm_object.title, 
+		    		scorm_object.type,
+		    		scorm_object.slm_id, 
+		    		scorm_object.obj_id scoid 
+		    FROM scorm_object,sc_item,sc_resource
+		    WHERE(scorm_object.slm_id = %s
+		    AND scorm_object.obj_id=sc_item.obj_id 
+		    AND sc_item.identifierref = sc_resource.import_id 
+		    AND sc_resource.scormtype = %s
+		    GROUP BY scorm_object.obj_id,
+		    		scorm_object.title,
+		    		scorm_object.type,
+		    		scorm_object.slm_id,
+		    		scorm_object.obj_id ',
+		    array('integer','text'),
+		    array($this->getId(),'sco')
+	    );
+	    
+ 		if (count($val_set)<1)
+		{
 			return -1;
 		}			
-		while($rows_sco = $val_set->fetchRow(DB_FETCHMODE_ASSOC)){
+		while($rows_sco = $ilDB->fetchAssoc($val_set))
+		{
 			array_push($scos,$rows_sco['scoid']);
 		}
 		
@@ -702,16 +806,80 @@ class ilObjSCORMLearningModule extends ilObjSAHSLearningModule
 				if ($import == "") {$import = 1;}
 					//iterate over all SCO's
 					if ($import == 1) {
-						foreach ($scos as $sco) {
+						foreach ($scos as $sco) 
+						{
 							$sco_id = $ilDB->quote($sco);
-							$date = $data['Date'];
-							$query = "REPLACE INTO scorm_tracking (obj_id,user_id,sco_id,lvalue,rvalue,timestamp)".
-									  "values ($obj_id,$user_id,$sco,'cmi.core.lesson_status','completed',str_to_date(\"$date\", \"%d.%m.%Y\"))";
-						    $val_set = $ilDB->query($query);
-													
-					    	$query = "REPLACE INTO scorm_tracking (obj_id,user_id,sco_id,lvalue,rvalue,timestamp)".
-					    			  "values ($obj_id,$user_id,$sco,'cmi.core.entry','',str_to_date(\"$date\",\"%d.%m.%Y\"))";
-							$val_set = $ilDB->query($query);
+
+							$date_ex = explode('.', $data['Date']);
+							$date = implode('-',$date_ex[2],$date_ex[1],$date_ex[0]);
+							
+							$statement = $ilDB->queryF('
+								SELECT * FROM scorm_tracking 
+								WHERE user_id = %s
+								AND sco_id = %s 
+								AND lvalue = %s
+								AND obj_id = %s',
+								array('integer','integer','text','integer'),
+								array($user_id, $sco_id, 'cmi.core.lesson_status',$obj_id)
+							);
+							if($ilDB->numRows($statement) > 0)
+							{
+								$val_set = $ilDB->manipulateF('
+								UPDATE scorm_tracking
+								SET rvalue = %s,
+									c_timestamp = %s
+								WHERE user_id = %s
+								AND sco_id = %s 
+								AND lvalue = %s
+								AND obj_id = %s',
+								array('text','timestamp','integer','integer','text','integer'),
+								array('completed',$date ,$user_id, $sco_id, 'cmi.core.lesson_status',$obj_id)
+								);
+							}
+							else
+							{
+								$val_set = $ilDB->manipulateF('
+								INSERT INTO scorm_tracking
+								(obj_id,user_id,sco_id,lvalue,rvalue,c_timestamp)
+								VALUES (%s,%s,%s,%s,%s,%s)',
+								array('integer','integer','integer','text','text','timestamp'),
+								array($obj_id,$user_id,$sco,'cmi.core.lesson_status','completed',$date));
+							}
+							
+						
+							$statement = $ilDB->queryF('
+								SELECT * FROM scorm_tracking 
+								WHERE user_id = %s
+								AND sco_id = %s 
+								AND lvalue = %s
+								AND obj_id = %s',
+								array('integer','integer','text','integer'),
+								array($user_id, $sco_id, 'cmi.core.entry',$obj_id)
+							);
+							if($ilDB->numRows($statement) > 0)
+							{
+								$val_set = $ilDB->manipulateF('
+								UPDATE scorm_tracking
+								SET rvalue = %s,
+									c_timestamp = %s
+								WHERE user_id = %s
+								AND sco_id = %s 
+								AND lvalue = %s
+								AND obj_id = %s',
+								array('text','timestamp','integer','integer','text','integer'),
+								array('completed',$date ,$user_id, $sco_id, 'cmi.core.entry',$obj_id)
+								);
+							}
+							else
+							{
+								$val_set = $ilDB->manipulateF('
+								INSERT INTO scorm_tracking
+								(obj_id,user_id,sco_id,lvalue,rvalue,c_timestamp)
+								VALUES (%s,%s,%s,%s,%s,%s)',
+								array('integer','integer','integer','text','text','timestamp'),
+								array($obj_id,$user_id,$sco,'cmi.core.entry','completed',$date));
+							}
+							
 						}
 					}
 			  	} else {
@@ -729,7 +897,8 @@ class ilObjSCORMLearningModule extends ilObjSAHSLearningModule
 		
 		$fields = fgetcsv($fhandle, 4096, ';');
 		
-		while(($csv_rows = fgetcsv($fhandle, 4096, ";")) !== FALSE) {
+		while(($csv_rows = fgetcsv($fhandle, 4096, ";")) !== FALSE) 
+		{
 			$data = array_combine($fields, $csv_rows);
 	   		$il_sco_id = $this->lookupSCOId($data['Scoid']);
 	   		//look for required data for an import
@@ -739,16 +908,41 @@ class ilObjSCORMLearningModule extends ilObjSAHSLearningModule
 	   			$user_id = $this->getUserIdEmail($data['Email']);
 	   		}
 	   		//do the actual import
-	   		if ($user_id != "" && $il_sco_id>=0){
+	   		if ($user_id != "" && $il_sco_id>=0)
+	   		{
       
-	   		  $query = "REPLACE INTO scorm_tracking (rvalue,user_id,sco_id,obj_id,timestamp,lvalue) values(".
-	   		  	$ilDB->quote($data['Value']).",".
-	   		  	$user_id.",".
-	   		  	$il_sco_id.",".
-	   		  	$ilDB->quote($this->getID()).",".
-	   		  	$ilDB->quote($data['Timestamp']).",".
-	   		  	$ilDB->quote($data['Key']).")";
-	   		  $val_set = $ilDB->query($query);
+	   			$statement = $ilDB->queryF('
+					SELECT * FROM scorm_tracking 
+					WHERE user_id = %s
+					AND sco_id = %s 
+					AND lvalue = %s
+					AND obj_id = %s',
+					array('integer','integer','text','integer'),
+					array($user_id, $il_sco_id, $data['Key'],$this->getID())
+				);
+				if($ilDB->numRows($statement) > 0)
+				{
+   					$val_set = $ilDB->manipulateF('
+					UPDATE scorm_tracking
+					SET rvalue = %s,
+						c_timestamp = %s
+					WHERE user_id = %s
+					AND sco_id = %s 
+					AND lvalue = %s
+					AND obj_id = %s',
+					array('text','timestamp','integer','integer','text','integer'),
+					array($data['Value'],$data['Timestamp'] ,$user_id, $il_sco_id, $data['Key'],$this->getID())
+					);
+				}
+				else
+				{
+					$val_set = $ilDB->manipulateF('
+					INSERT INTO scorm_tracking
+					(obj_id,user_id,sco_id,lvalue,rvalue,c_timestamp)
+					VALUES (%s,%s,%s,%s,%s,%s)',
+					array('integer','integer','integer','text','text','timestamp'),
+					array($this->getID(),$user_id,$il_sco_id,$data['Key'],$data['Value'],$data['Timestamp']));
+				}				
 	   		}
 	   }
 	   fclose($fhandle);
@@ -759,10 +953,10 @@ class ilObjSCORMLearningModule extends ilObjSAHSLearningModule
 	function get_user_id($a_login) {
 		global $ilDB, $ilUser;
 		
-		$a_login = $ilDB->quote($a_login);
-		$query = "SELECT * FROM usr_data WHERE(login=$a_login)";
-		$val_set = $ilDB->query($query);
-		$val_rec = $val_set->fetchRow(DB_FETCHMODE_ASSOC);
+		$val_set = $ilDB->queryF('SELECT * FROM usr_data WHERE(login=%s)',
+		array('text'),array($a_login));
+		$val_rec = $ilDB->fetchAssoc($val_set);
+		
 		if (count($val_rec)>0) {
 			return $val_rec['usr_id'];
 		} else {
@@ -781,10 +975,15 @@ class ilObjSCORMLearningModule extends ilObjSAHSLearningModule
 		if ($a_referrer=="0") {
 			return 0;
 		}
-		$query = "SELECT obj_id FROM sc_item,scorm_tree WHERE (obj_id=child AND identifierref=".$ilDB->quote($a_referrer).
-				   " AND slm_id=".$ilDB->quote($this->getID()).")"; 
-		$val_set = $ilDB->query($query);
-		$val_rec = $val_set->fetchRow(DB_FETCHMODE_ASSOC);
+
+		$val_set = $ilDB->queryF('
+		SELECT obj_id FROM sc_item,scorm_tree 
+		WHERE (obj_id = child 
+		AND identifierref = %s 
+		AND slm_id = %s)',
+		array('text','integer'), array($a_referrer,$this->getID()));
+		$val_rec = $ilDB->fetchAssoc($val_set);
+		
 		return $val_rec["obj_id"];
 	}
 	
@@ -795,9 +994,11 @@ class ilObjSCORMLearningModule extends ilObjSAHSLearningModule
 	{
 		global $ilDB, $ilUser;
 		
-		$query = "SELECT usr_id FROM usr_data WHERE (email=".$ilDB->quote($a_mail).")";
-		$val_set = $ilDB->query($query);
-		$val_rec = $val_set->fetchRow(DB_FETCHMODE_ASSOC);
+		$val_set = $ilDB->queryF('SELECT usr_id FROM usr_data WHERE(email=%s)',
+		array('text'),array($a_mail));
+		$val_rec = $ilDB->fetchAssoc($val_set);
+				
+		
 		return $val_rec["usr_id"];
 	}
 	
@@ -832,13 +1033,26 @@ class ilObjSCORMLearningModule extends ilObjSAHSLearningModule
 		
 		$scos = array();
 
-		$query = "SELECT scorm_object.obj_id,scorm_object.title,scorm_object.type,scorm_object.slm_id,scorm_object.obj_id scoid FROM scorm_object,sc_item,sc_resource ".
-			"WHERE(scorm_object.slm_id=".$ilDB->quote($a_id)." AND scorm_object.obj_id=sc_item.obj_id ".
-			"AND sc_item.identifierref=sc_resource.import_id AND sc_resource.scormtype='sco') ".
-		  "GROUP BY scorm_object.obj_id,scorm_object.title,scorm_object.type,scorm_object.slm_id";
-		$val_set = $ilDB->query($query);
+		$val_set = $ilDB->queryF('
+		SELECT scorm_object.obj_id,
+				scorm_object.title,
+				scorm_object.type,
+				scorm_object.slm_id,
+				scorm_object.obj_id scoid 
+		FROM scorm_object,sc_item,sc_resource 
+		WHERE(scorm_object.slm_id = %s
+		AND scorm_object.obj_id = sc_item.obj_id 
+		AND sc_item.identifierref = sc_resource.import_id 
+		AND sc_resource.scormtype = %s
+		GROUP BY scorm_object.obj_id,
+				scorm_object.title,
+				scorm_object.type,
+				scorm_object.slm_id,
+				scorm_object.obj_id ',
+		array('integer', 'text'),
+		array($a_id,'sco'));
 
-		while ($val_rec = $val_set->fetchRow(DB_FETCHMODE_ASSOC)) 
+		while ($val_rec = $ilDB->fetchAssoc($val_set)) 
 		{
 			array_push($scos,$val_rec['scoid']);
 		}
@@ -859,12 +1073,18 @@ class ilObjSCORMLearningModule extends ilObjSAHSLearningModule
 		
 		$scos = $a_allScoIds;
 		//check if all SCO's are completed
-		$scos_c = implode(',',$scos); 
-		$query = "SELECT * FROM scorm_tracking WHERE (user_id=".$ilDB->quote($a_user)." AND obj_id=".$ilDB->quote($a_id) .
-			" AND sco_id in (".$scos_c.")".
-			" AND ((lvalue='cmi.core.lesson_status' AND rvalue='completed') OR (lvalue='cmi.core.lesson_status' AND rvalue='passed') ) )";
-		$val_set = $ilDB->query($query);	
-		while ($val_rec = $val_set->fetchRow(DB_FETCHMODE_ASSOC)) 
+		$scos_c = implode(',',$scos);
+
+		$val_set = $ilDB->queryF('
+		SELECT * FROM scorm_tracking 
+		WHERE (user_id = %s
+		AND obj_id = %s
+		AND sco_id IN ('.$scos_c.')
+		AND ((lvalue = %s AND rvalue = %s) 
+			OR (lvalue = %s AND rvalue = %s)))',
+		array('integer','integer','text','text','text','text'),
+		array($a_user,$a_id,'cmi.core.lesson_status', 'completed', 'cmi.core.lesson_status', 'passed'));	
+		while ($val_rec = $ilDB->fetchAssoc($val_set))
 		{
 			$key = array_search($val_rec['sco_id'], $scos); 
 			unset ($scos[$key]);
@@ -895,14 +1115,27 @@ class ilObjSCORMLearningModule extends ilObjSAHSLearningModule
 		
 		$scos = array();
 		//get all SCO's of this object
-		$query = "SELECT scorm_object.obj_id,scorm_object.title,scorm_object.type,scorm_object.slm_id,scorm_object.obj_id scoid FROM scorm_object,sc_item,sc_resource ".
-		  		 "WHERE(scorm_object.slm_id=".$ilDB->quote($this->getID())." AND scorm_object.obj_id=sc_item.obj_id ".
-				 "AND sc_item.identifierref=sc_resource.import_id AND sc_resource.scormtype='sco') ".
-				  "GROUP BY scorm_object.obj_id,scorm_object.title,scorm_object.type,scorm_object.slm_id";
+		$val_set = $ilDB->queryF('
+		SELECT scorm_object.obj_id,
+				scorm_object.title,
+				scorm_object.type,
+				scorm_object.slm_id,
+				scorm_object.obj_id scoid 
+		FROM scorm_object, sc_item,sc_resource 
+		WHERE(scorm_object.slm_id = %s 
+			AND scorm_object.obj_id = sc_item.obj_id 
+			AND sc_item.identifierref = sc_resource.import_id 
+			AND sc_resource.scormtype = %s )
+		GROUP BY scorm_object.obj_id,
+		scorm_object.title,
+		scorm_object.type,
+		scorm_object.slm_id,
+		scorm_object.obj_id',
+		array('integer','text'), 
+		array($this->getID(),'sco'));
 
-		$val_set = $ilDB->query($query);
-
-		while ($val_rec = $val_set->fetchRow(DB_FETCHMODE_ASSOC)) {
+		while ($val_rec = $ilDB->fetchAssoc($val_set))
+		{
 			array_push($scos,$val_rec['scoid']);
 		}
 		return $scos;
@@ -914,11 +1147,17 @@ class ilObjSCORMLearningModule extends ilObjSAHSLearningModule
 		//loook up status
 		//check if all SCO's are completed
 		$scos_c = implode(',',$scos); 
-		$query = "SELECT * FROM scorm_tracking WHERE (user_id=".$ilDB->quote($a_user)." AND obj_id=".$ilDB->quote($this->getID()).
-				 " AND sco_id in (".$scos_c.")".
-			     " AND ((lvalue='cmi.core.lesson_status' AND rvalue='completed') OR (lvalue='cmi.core.lesson_status' AND rvalue='passed') ) )";
-		$val_set = $ilDB->query($query);	
-		while ($val_rec = $val_set->fetchRow(DB_FETCHMODE_ASSOC)) {
+
+		$val_set = $ilDB->queryF('
+		SELECT * FROM scorm_tracking 
+		WHERE (user_id = %s
+			AND obj_id = %s
+			AND sco_id IN ('.$scos_c.')
+		 AND ((lvalue = %s AND rvalue =  %s) OR (lvalue =  %s AND rvalue =  %s) ) )',
+		array('integer','integer','text','text','text','text'), 
+		array($a_user,$this->getID(),'cmi.core.lesson_status','completed','cmi.core.lesson_status','passed'));	
+		while ($val_rec = $ilDB->fetchAssoc($val_set))	
+		{
 			$key = array_search($val_rec['sco_id'], $scos); 
 			unset ($scos[$key]);
 		}		

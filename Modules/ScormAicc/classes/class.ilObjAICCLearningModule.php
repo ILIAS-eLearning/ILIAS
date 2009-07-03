@@ -111,26 +111,37 @@ class ilObjAICCLearningModule extends ilObjSCORMLearningModule
 		ilUtil::delDir($this->getDataDirectory());
 
 		// delete scorm learning module record
-		$q = "DELETE FROM sahs_lm WHERE id = ".$ilDB->quote($this->getId());
-		$this->ilias->db->query($q);
+		$ilDB->manipulateF('DELETE FROM sahs_lm WHERE id = %s',
+		array('integer'), array($this->getId()));
 
 		// delete aicc data
 		// this is highly dependent on the database
-		$q = "DELETE FROM aicc_units USING aicc_object, aicc_units WHERE aicc_object.obj_id=aicc_units.obj_id and aicc_object.slm_id=".$ilDB->quote($this->getId());
-		$this->ilias->db->query($q);
+		$ilDB->manipulateF('
+				DELETE FROM aicc_units 
+				USING aicc_object, aicc_units 
+				WHERE aicc_object.obj_id = aicc_units.obj_id 
+				AND aicc_object.slm_id = %s',
+			array('integer'), array($this->getId()));
 
-		$q = "DELETE FROM aicc_course USING aicc_object, aicc_course WHERE aicc_object.obj_id=aicc_course.obj_id and aicc_object.slm_id=".$ilDB->quote($this->getId());
-		$this->ilias->db->query($q);
 
-		$q = "DELETE FROM scorm_tree WHERE slm_id = ".$ilDB->quote($this->getId());
-		$this->ilias->db->query($q);
+		$ilDB->manipulateF('
+			DELETE FROM aicc_course 
+			USING aicc_object, aicc_course 
+			WHERE aicc_object.obj_id = aicc_course.obj_id 
+			AND aicc_object.slm_id = %s',
+			array('integer'), array($this->getId()));
 
-		$q = "DELETE FROM aicc_object WHERE slm_id = ".$ilDB->quote($this->getId());
-		$this->ilias->db->query($q);
 
-		$q = "DELETE FROM scorm_tracking WHERE obj_id = ".$ilDB->quote($this->getId());
-		$ilLog->write("SAHS Delete (AICC LM): ".$q);
-		$this->ilias->db->query($q);
+		$ilDB->manipulateF('DELETE FROM scorm_tree WHERE slm_id = %s',
+		array('integer'), array($this->getId()));
+
+		$ilDB->manipulateF('DELETE FROM aicc_object WHERE slm_id = %s',
+		array('integer'), array($this->getId()));
+
+		$q_log = "DELETE FROM scorm_tracking WHERE obj_id = ".$ilDB->quote($this->getId());
+		$ilLog->write("SAHS Delete (AICC LM): ".$q_log);
+		$ilDB->manipulateF('DELETE FROM scorm_tracking WHERE obj_id = %s',
+		array('integer'), array($this->getId()));
 
 		// always call parent delete function at the end!!
 		return true;
@@ -155,17 +166,21 @@ class ilObjAICCLearningModule extends ilObjSCORMLearningModule
 
 		include_once("./Modules/ScormAicc/classes/AICC/class.ilAICCUnit.php");
 
-		$query = "SELECT obj_id,title FROM aicc_object ".
-			"WHERE slm_id = ".$ilDB->quote($a_obj_id)." ".
-			"AND type = 'sau'";
-
-		$res = $ilDB->query($query);
-		while($row = $res->fetchRow(DB_FETCHMODE_OBJECT))
+		$statement = $ilDB->queryF('
+			SELECT obj_id,title FROM aicc_object 
+			WHERE slm_id = %s
+			AND c_type = %s ',
+			array('integer', 'text'),
+			array($a_obj_id,'sau')
+		);
+		
+		while($row = $ilDB->fetchObject($statement))
 		{
 			$items[$row->obj_id]['obj_id'] = $row->obj_id;
 			$items[$row->obj_id]['title'] = $row->title;
 
-		}
+		}		
+		
 		return $items ? $items : array();
 
 		/*
@@ -195,21 +210,20 @@ class ilObjAICCLearningModule extends ilObjSCORMLearningModule
 	function getTrackedItems()
 	{
 		global $ilUser, $ilDB, $ilUser;
-
-		$query = "SELECT DISTINCT sco_id FROM scorm_tracking WHERE".
-			" obj_id = ".$ilDB->quote($this->getId());
-
-		$sco_set = $ilDB->query($query);
-
-		$items = array();
-		while($sco_rec = $sco_set->fetchRow(DB_FETCHMODE_ASSOC))
+	
+		$sco_set = $ilDB->queryF('
+			SELECT DISTINCT sco_id FROM scorm_tracking WHERE obj_id = %s',
+			array('integer'), array($this->getId()));	
+			
+		$items = array();	
+			while($sco_rec = $ilDB->fetchAssoc($sco_set))
 		{
 			include_once("./Modules/ScormAicc/classes/AICC/class.ilAICCUnit.php");	
 			$ac_item =& new ilAICCUnit($sco_rec["sco_id"]);
 			$items[count($items)] =& $ac_item;
 
-		}
-
+		}		
+		
 		return $items;
 	}
 
@@ -217,18 +231,19 @@ class ilObjAICCLearningModule extends ilObjSCORMLearningModule
 	{
 		global $ilDB;
 
-		$query = "SELECT * FROM scorm_tracking WHERE".
-			" obj_id = ".$ilDB->quote($this->getId()).
-			" AND sco_id = ".$ilDB->quote($a_sco_id).
-			" ORDER BY user_id, lvalue";
-		$data_set = $ilDB->query($query);
-
+		$data_set = $ilDB->queryF('
+		SELECT * FROM scorm_tracking 
+		WHERE obj_id = %s 
+		AND sco_id = %s
+		ORDER BY user_id, lvalue',
+		array('integer', 'interger'),
+		array($this->getId(), $a_sco_id));
+		
 		$data = array();
-		while($data_rec = $data_set->fetchRow(DB_FETCHMODE_ASSOC))
+		while($data_rec = $ilDB->fetchAssoc($data_set))
 		{
 			$data[] = $data_rec;
-		}
-
+		}	
 		return $data;
 	}
 

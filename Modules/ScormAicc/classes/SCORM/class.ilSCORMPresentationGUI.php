@@ -84,6 +84,7 @@ class ilSCORMPresentationGUI
 	function attrib2arr(&$a_attributes)
 	{
 		$attr = array();
+
 		if(!is_array($a_attributes))
 		{
 			return $attr;
@@ -92,6 +93,7 @@ class ilSCORMPresentationGUI
 		{
 			$attr[$attribute->name()] = $attribute->value();
 		}
+	
 		return $attr;
 	}
 
@@ -163,11 +165,10 @@ class ilSCORMPresentationGUI
 		
 		global $ilDB;
 		
-		$query = "SELECT * FROM sahs_lm WHERE".
-				" id = ".$ilDB->quote($this->slm->getId());
-
-		$val_set = $ilDB->query($query);
-		$val_rec = $val_set->fetchRow(DB_FETCHMODE_ASSOC);
+		$val_set = $ilDB->queryF('SELECT * FROM sahs_lm WHERE id = %s',
+		array('integer'), array($this->slm->getId()));
+		$val_rec = $ilDB->fetchAssoc($val_set);
+		
 		return $val_rec["max_attempt"]; 
 	}
 	
@@ -176,19 +177,23 @@ class ilSCORMPresentationGUI
 	*/
 	function get_actual_attempts() {
 		global $ilDB, $ilUser;
-		
-		$query = "SELECT * FROM scorm_tracking WHERE".
-			" user_id = ".$ilDB->quote($ilUser->getId()).
-			" AND sco_id = 0".
-			" AND lvalue='package_attempts'".
-			" AND obj_id = ".$ilDB->quote($this->slm->getId());
 
-		$val_set = $ilDB->query($query);
-		$val_rec = $val_set->fetchRow(DB_FETCHMODE_ASSOC);
+		$val_set = $ilDB->queryF('
+			SELECT * FROM scorm_tracking 
+			WHERE user_id =  %s
+			AND sco_id = %s
+			AND lvalue= %s
+			AND obj_id = %s',
+			array('integer','integer','text','integer'),
+			array($ilUser->getId(),0,'package_attempts',$this->slm->getId())
+		);
+		$val_rec = $ilDB->fetchAssoc($val_set);	
+		
 		$val_rec["rvalue"] = str_replace("\r\n", "\n", $val_rec["rvalue"]);
 		if ($val_rec["rvalue"] == null) {
 			$val_rec["rvalue"]=0;
 		}
+
 		return $val_rec["rvalue"];
 	}
 	
@@ -199,28 +204,47 @@ class ilSCORMPresentationGUI
 		global $ilDB, $ilUser;
 		
 		//get existing account - sco id is always 0
-		$query = "SELECT * FROM scorm_tracking WHERE".
-			" user_id = ".$ilDB->quote($ilUser->getId()).
-			" AND sco_id = 0".
-			" AND lvalue='package_attempts'".
-			" AND obj_id = ".$ilDB->quote($this->slm->getId());
+		$val_set = $ilDB->queryF('
+			SELECT * FROM scorm_tracking 
+			WHERE user_id =  %s
+			AND sco_id = %s
+			AND lvalue= %s
+			AND obj_id = %s',
+			array('integer','integer','text','integer'),
+			array($ilUser->getId(),0,'package_attempts',$this->slm->getId())
+			);
 
-		$val_set = $ilDB->query($query);
-		$val_rec = $val_set->fetchRow(DB_FETCHMODE_ASSOC);
+		$val_rec = $ilDB->fetchAssoc($val_set);		
+		
 		$val_rec["rvalue"] = str_replace("\r\n", "\n", $val_rec["rvalue"]);
 		if ($val_rec["rvalue"] == null) {
 			$val_rec["rvalue"]=0;
 		}
 		$new_rec =  $val_rec["rvalue"]+1;
 		//increase attempt by 1
-		$query = "REPLACE INTO scorm_tracking (rvalue,user_id,sco_id,obj_id,lvalue) values(".
-		 		$ilDB->quote($new_rec).",".
-				$ilDB->quote($ilUser->getId()).",".
-				" 0,".
-				$ilDB->quote($this->slm->getId()).",".
-				$ilDB->quote("package_attempts").")";
-				
-		$val_set = $ilDB->query($query);
+		if($ilDB->numRows($val_set) > 0)
+		{
+			$result = $ilDB->manipulateF('
+				UPDATE scorm_tracking
+				SET rvalue = %s
+				WHERE user_id =  %s
+				AND sco_id = %s
+				AND obj_id = %s
+				AND lvalue= %s',
+				array('text', 'integer', 'integer', 'integer', 'text'),
+				array($new_rec,$ilUser->getId(),0,$this->slm->getId(),'package_attempts')
+			);
+		}
+		else
+		{
+			$result = $ilDB->manipulateF('
+				INSERT INTO scorm_tracking (rvalue, user_id, sco_id, obj_id, lvalue) 
+				VALUES(%s,%s,%s,%s,%s)',
+				array('text', 'integer', 'integer', 'integer', 'text'),
+				array($new_rec,$ilUser->getId(),0,$this->slm->getId(),'package_attempts')
+			);
+		}
+		
 	}
 	
 	
@@ -229,14 +253,40 @@ class ilSCORMPresentationGUI
 	*/
 	function save_module_version() {
 		global $ilDB, $ilUser;
-		$query = "REPLACE INTO scorm_tracking (rvalue,user_id,sco_id,obj_id,lvalue) values(".
-		 		$ilDB->quote($this->slm->getModuleVersion()).",".
-				$ilDB->quote($ilUser->getId()).",".
-				" 0,".
-				$ilDB->quote($this->slm->getID()).",".
-				$ilDB->quote("module_version").")";
-				
-		$val_set = $ilDB->query($query);
+		
+		$val_set = $ilDB->queryF('
+			SELECT * FROM scorm_tracking 
+			WHERE user_id =  %s
+			AND sco_id = %s
+			AND lvalue= %s
+			AND obj_id = %s',
+			array('integer','integer','text','integer'),
+			array($ilUser->getId(),0,'module_version',$this->slm->getId())
+
+			);
+		
+		if($ilDB->numRows($val_set) > 0)
+		{
+			$result = $ilDB->manipulateF('
+				UPDATE scorm_tracking
+				SET rvalue = %s
+				WHERE user_id =  %s
+				AND sco_id = %s
+				AND obj_id = %s
+				AND lvalue= %s',
+				array('text', 'integer', 'integer', 'integer', 'text'),
+				array($new_rec,$ilUser->getId(),0,$this->slm->getId(),'module_version')
+			);
+		}
+		else
+		{
+			$result = $ilDB->manipulateF('
+				INSERT INTO scorm_tracking (rvalue, user_id, sco_id, obj_id, lvalue) 
+				VALUES(%s,%s,%s,%s,%s)',
+				array('text', 'integer', 'integer', 'integer', 'text'),
+				array($new_rec,$ilUser->getId(),0,$this->slm->getId(),'module_version')
+			);
+		}
 	}
 	
 	/**
@@ -398,14 +448,16 @@ class ilSCORMPresentationGUI
 			$this->tpl->parseCurrentBlock();
 		}
 
-		$query = "SELECT * FROM scorm_tracking WHERE".
-			" user_id = ".$ilDB->quote($ilUser->getId()).
-			" AND sco_id = ".$ilDB->quote($sco_id).
-			" AND obj_id = ".$ilDB->quote($this->slm->getId());
-
-		$val_set = $ilDB->query($query);
+		$val_set = $ilDB->queryF('
+			SELECT * FROM scorm_tracking 
+			WHERE user_id = %s
+			AND sco_id = %s
+			AND obj_id = %s',
+			array('integer','integer','integer'),
+			array($ilUser->getId(),$sco_id,$this->slm->getId())	
+		);
 		$re_value = array();
-		while($val_rec = $val_set->fetchRow(DB_FETCHMODE_ASSOC))
+		while($val_rec = $ilDB->fetchAssoc($val_set))		
 		{
 			$val_rec["rvalue"] = str_replace("\r\n", "\n", $val_rec["rvalue"]);
 			$val_rec["rvalue"] = str_replace("\r", "\n", $val_rec["rvalue"]);

@@ -100,10 +100,9 @@ class ilSCORMObject
 	{
 		global $ilDB;
 		
-		$q = "SELECT * FROM scorm_object WHERE obj_id = ".$ilDB->quote($this->getId());
-
-		$obj_set = $this->ilias->db->query($q);
-		$obj_rec = $obj_set->fetchRow(DB_FETCHMODE_ASSOC);
+		$obj_set = $ilDB->queryF('SELECT * FROM scorm_object WHERE obj_id = %s', 
+			array('integer'),array($this->getId()));
+		$obj_rec = $ilDB->fetchAssoc($obj_set);
 		$this->setTitle($obj_rec["title"]);
 		$this->setType($obj_rec["type"]);
 		$this->setSLMId($obj_rec["slm_id"]);
@@ -116,14 +115,16 @@ class ilSCORMObject
 	{
 		global $ilDB;
 		
-		$q = "SELECT sit.obj_id as id FROM scorm_object as sob, sc_item as sit".
-			" WHERE sob.slm_id = ".$ilDB->quote($a_slm_id).
-			" AND sob.obj_id = sit.obj_id ".
-			" AND sit.identifierref <> ''";
-		
-		$set = $ilDB->query($q);
+		$set = $ilDB->queryF('
+			SELECT sit.obj_id id 
+			FROM scorm_object sob, sc_item sit
+			WHERE sob.slm_id = %s
+			AND sob.obj_id = sit.obj_id',
+			array('integer'),
+			array($a_slm_id)
+		);
 		$items = array();
-		while ($rec = $set->fetchRow(DB_FETCHMODE_ASSOC))
+		while ($rec = $ilDB->fetchAssoc($set))
 		{
 			$items[] = $rec["id"];
 		}
@@ -138,12 +139,17 @@ class ilSCORMObject
     function create()
     {
         global $ilDB;
-
-        $q = "INSERT INTO scorm_object (title, type, slm_id) VALUES "
-            . "(" . $ilDB->quote($this->getTitle()) . ", " . $ilDB->quote($this->getType()) . ","
-            .$ilDB->quote($this->getSLMId()).")";
-        $this->ilias->db->query($q);
-        $this->setId($this->ilias->db->getLastInsertId());
+      
+       $nextId = $ilDB->nextId('scorm_object');
+       $this->setId($nextId);
+         
+        $ilDB->manipulateF('
+        INSERT INTO scorm_object (obj_id,title, type, slm_id) 
+        VALUES (%s,%s,%s,%s) ',
+        array('integer','text','text','integer'),
+        array($nextId, $this->getTitle(),$this->getType(), $this->getSLMId()));       
+        
+        
     }
 
     /**
@@ -153,21 +159,25 @@ class ilSCORMObject
     function update()
     {
         global $ilDB;
-
-        $q = "UPDATE scorm_object SET " . 
-            "title = " . $ilDB->quote($this->getTitle()) . ", "
-            . "type = " . $ilDB->quote($this->getType()) . ", "
-            . "slm_id = ".$ilDB->quote($this->getSLMId())." "
-            . "WHERE obj_id = ".$ilDB->quote($this->getId());
-        $this->ilias->db->query($q);
+        
+        $ilDB->manipulateF('
+        UPDATE scorm_object 
+        SET title = %s,
+        	type = %s,
+        	slm_id = %s
+        WHERE obj_id = %s',
+        array('text','text','integer','integer'),
+        array($this->getTitle(),$this->getType(), $this->getSLMId(),$this->getId())
+        );      
+        
     } 
 
 	function delete()
 	{
 		global $ilDB;
-
-		$q = "DELETE FROM scorm_object WHERE obj_id =" . $ilDB->quote($this->getId());
-		$ilDB->query($q);
+		$ilDB->manipulateF('DELETE FROM scorm_object WHERE obj_id = %s',
+		array('integer'),array($this->getId()) );
+ 
 	}
 
 	/**
@@ -179,10 +189,15 @@ class ilSCORMObject
 	{
 		global $ilDB;
 
-		$sc_set = $ilDB->query("SELECT type FROM scorm_object WHERE obj_id =" . $ilDB->quote($a_id).
-			" AND slm_id = ".$ilDB->quote($a_slm_id));
-		$sc_rec = $sc_set->fetchRow(DB_FETCHMODE_ASSOC);
-
+		$sc_set = $ilDB->queryF('
+			SELECT type FROM scorm_object 
+			WHERE obj_id = %s
+			AND slm_id = %s',
+			array('integer','integer'),
+			array($a_id, $a_slm_id)
+		);
+		$sc_rec = $ilDB->fetchAssoc($sc_set);
+			
 		switch($sc_rec["type"])
 		{
 			case "sit":					// item

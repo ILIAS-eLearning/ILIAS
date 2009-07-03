@@ -309,15 +309,22 @@ class ilObjSCORM2004LearningModule extends ilObjSCORMLearningModule
 	public static function _lookupLastAccess($a_obj_id, $a_usr_id)
 	{
 		global $ilDB;
-		$query = "SELECT UNIX_TIMESTAMP(MAX(TIMESTAMP)) AS last_access FROM cmi_node, cp_node WHERE".
-			" cmi_node.cp_node_id = cp_node.cp_node_id ".
-			" AND cp_node.slm_id = ".$ilDB->quote($a_obj_id)." AND user_id = " . $ilDB->quote($a_usr_id) . " ORDER BY TIMESTAMP DESC";
-		$result = $ilDB->query($query);
-		if ($result->numRows())
+	
+		$result = $ilDB->queryF('
+			SELECT MAX(c_timestamp) last_access 
+			FROM cmi_node, cp_node 
+			WHERE cmi_node.cp_node_id = cp_node.cp_node_id 
+			AND cp_node.slm_id = %s
+			AND user_id = %s
+			ORDER BY c_timestamp DESC',
+		array('integer', 'integer'),
+		array($a_obj_id, $a_usr_id));
+		if ($ilDB->numRows($result))
 		{
-			$row = $result->fetchRow(DB_FETCHMODE_ASSOC);
+			$row = $ilDB->fetchAssoc($result);
 			return $row["last_access"];
-		}
+		}		
+		
 		return "";
 	}
 
@@ -328,16 +335,19 @@ class ilObjSCORM2004LearningModule extends ilObjSCORMLearningModule
 	{
 		global $ilUser, $ilDB, $ilUser;
 
-		$query = "SELECT DISTINCT user_id,UNIX_TIMESTAMP(MAX(TIMESTAMP)) AS last_access FROM cmi_node, cp_node WHERE".
-			" cmi_node.cp_node_id = cp_node.cp_node_id ".
-			" AND cp_node.slm_id = ".$ilDB->quote($this->getId())."GROUP BY user_id";
-
-		$sco_set = $ilDB->query($query);
-
+		$sco_set = $ilDB->queryF('
+			SELECT DISTINCT user_id,MAX(c_timestamp) last_access 
+			FROM cmi_node, cp_node 
+			WHERE cmi_node.cp_node_id = cp_node.cp_node_id 
+			AND cp_node.slm_id = %s
+			GROUP BY user_id',
+			array('integer'),
+			array($this->getId()));
+		
 		$items = array();
 		$temp = array();
 		
-		while($sco_rec = $sco_set->fetchRow(DB_FETCHMODE_ASSOC))
+		while($sco_rec = $ilDB->fetchAssoc($sco_set))
 		{
 			$name = ilObjUser::_lookupName($sco_rec["user_id"]);
 			if ($sco_rec['last_access'] != 0) {
@@ -376,10 +386,11 @@ class ilObjSCORM2004LearningModule extends ilObjSCORMLearningModule
 		
 		foreach($a_users as $user)
 		{
-			$q = "DELETE FROM cmi_node WHERE user_id = ".$ilDB->quote($user).
-				" AND cp_node_id IN (SELECT cp_node_id FROM cp_node WHERE slm_id = ".
-				$ilDB->quote($this->getId()).")";
-			$ilDB->query($q);
+			$res = $ilDB->manipulateF(
+				'DELETE FROM cmi_node WHERE user_id = %s'.
+				'AND cp_node_id IN (SELECT cp_node_id FROM cp_node WHERE slm_id = %s)', 
+				array('integer', 'integer'),
+				array($user, $this->getId()));
 		}
 	}
 	
@@ -388,16 +399,18 @@ class ilObjSCORM2004LearningModule extends ilObjSCORMLearningModule
 	{
 		global $ilUser, $ilDB, $ilUser;
 
-		$query = "SELECT DISTINCT cmi_node.cp_node_id AS id".
-			" FROM cp_node, cmi_node WHERE slm_id = ".
-			$ilDB->quote($this->getId()).
-			" AND cp_node.cp_node_id = cmi_node.cp_node_id ".
-			" ORDER BY cp_node.cp_node_id ";
-			
-		$sco_set = $ilDB->query($query);
-
+		$sco_set = $ilDB->queryF('
+		SELECT DISTINCT cmi_node.cp_node_id id
+		FROM cp_node, cmi_node 
+		WHERE slm_id = %s
+		AND cp_node.cp_node_id = cmi_node.cp_node_id 
+		ORDER BY cp_node.cp_node_id ',
+		array('integer'),
+		array($this->getId()));
+		
 		$items = array();
-		while($sco_rec = $sco_set->fetchRow(DB_FETCHMODE_ASSOC))
+
+		while($sco_rec = $ilDB->fetchAssoc($sco_set))
 		{
 			$item['id']=$sco_rec["id"];
 			$item['title']=self::_lookupItemTitle($sco_rec["id"]);
@@ -415,19 +428,31 @@ class ilObjSCORM2004LearningModule extends ilObjSCORMLearningModule
 		$scos = array();
 		$data = array();
 		//get all SCO's of this object		
-		$query = "SELECT cp_node_id FROM cp_node WHERE".
-				" nodeName='item' AND cp_node.slm_id = ".$ilDB->quote($this->getId());		
-								
-		$val_set = $ilDB->query($query);
-		while ($val_rec = $val_set->fetchRow(DB_FETCHMODE_ASSOC)) {
+	
+		$val_set = $ilDB->queryF(
+			'SELECT cp_node_id FROM cp_node 
+			WHERE nodename = %s
+			AND cp_node.slm_id = %s',
+			array('text', 'integer'),
+			array('item',$this->getId())
+		);
+		while($val_rec = $ilDB->fetchAssoc($val_set))
+		{
 			array_push($scos,$val_rec['cp_node_id']);
 		}
-		foreach ($scos as $sco) {
-			$query = "SELECT *,UNIX_TIMESTAMP(TIMESTAMP) AS last_access FROM cmi_node WHERE".
-		   	" cp_node_id = ".$ilDB->quote($sco).
-		   	" AND user_id =".$ilDB->quote($_GET["user_id"]);
-		   	$data_set = $ilDB->query($query);
-	   		while($data_rec = $data_set->fetchRow(DB_FETCHMODE_ASSOC))
+		
+		foreach ($scos as $sco) 
+		{
+			$data_set = $ilDB->queryF('
+				SELECT *,c_timestamp last_access 
+				FROM cmi_node 
+				WHERE cp_node_id = %s
+				AND user_id = %s',
+				array('integer','integer'),
+				array($sco,$_GET["user_id"])
+			);	
+			
+			while($data_rec = $ilDB->fetchAssoc($data_set))
 	   		{
 	   			if ($data_rec["success_status"]!="") {
 	   				$status = $data_rec["success_status"];
@@ -456,15 +481,18 @@ class ilObjSCORM2004LearningModule extends ilObjSCORMLearningModule
 	*/
 	function getAttemptsForUser($a_user_id){
 		global $ilDB;
-		
-		$query = "SELECT * FROM cmi_custom WHERE".
-			" user_id = ".$ilDB->quote($a_user_id).
-			" AND sco_id = 0".
-			" AND lvalue='package_attempts'".
-			" AND obj_id = ".$ilDB->quote($this->getId());
 
-		$val_set = $ilDB->query($query);
-		$val_rec = $val_set->fetchRow(DB_FETCHMODE_ASSOC);
+		$val_set = $ilDB->queryF('
+		SELECT * FROM cmi_custom 
+		WHERE user_id = %s
+				AND sco_id = %s
+				AND lvalue = %s
+				AND obj_id = %s',
+		array('integer','integer', 'text','integer'),
+		array($a_user_id, 0,'package_attempts',$this->getId()));
+		
+		$val_rec = $ilDB->fetchAssoc($val_set);
+		
 		$val_rec["rvalue"] = str_replace("\r\n", "\n", $val_rec["rvalue"]);
 		if ($val_rec["rvalue"] == null) {
 			$val_rec["rvalue"]="";
@@ -478,15 +506,18 @@ class ilObjSCORM2004LearningModule extends ilObjSCORMLearningModule
 	*/
 	function getModuleVersionForUser($a_user_id){
 		global $ilDB;
-		
-		$query = "SELECT * FROM cmi_custom WHERE".
-			" user_id = ".$ilDB->quote($a_user_id).
-			" AND sco_id = 0".
-			" AND lvalue='module_version'".
-			" AND obj_id = ".$ilDB->quote($this->getId());
 
-		$val_set = $ilDB->query($query);
-		$val_rec = $val_set->fetchRow(DB_FETCHMODE_ASSOC);
+		$val_set = $ilDB->queryF('
+		SELECT * FROM cmi_custom 
+		WHERE user_id = %s
+				AND sco_id = %s
+				AND lvalue = %s
+				AND obj_id = %s',
+		array('integer','integer', 'text','integer'),
+		array($a_user_id, 0,'module_version',$this->getId()));
+		
+		$val_rec = $ilDB->fetchAssoc($val_set);				
+		
 		$val_rec["rvalue"] = str_replace("\r\n", "\n", $val_rec["rvalue"]);
 		if ($val_rec["rvalue"] == null) {
 			$val_rec["rvalue"]="";
@@ -501,23 +532,40 @@ class ilObjSCORM2004LearningModule extends ilObjSCORMLearningModule
 		global $ilDB, $ilUser;
 	 	$scos = array();
 		 //get all SCO's of this object		
-		$query = "SELECT cp_node.cp_node_id FROM cp_node,cp_resource,cp_item WHERE".
-		 		" cp_item.cp_node_id=cp_node.cp_node_id AND cp_item.resourceId = cp_resource.id AND scormType='sco' AND nodeName='item' AND cp_node.slm_id = ".$ilDB->quote($this->getId());
-        
-		$val_set = $ilDB->query($query);
-		while ($val_rec = $val_set->fetchRow(DB_FETCHMODE_ASSOC)) {
+
+	 	$val_set = $ilDB->queryF('
+		 	SELECT cp_node.cp_node_id FROM cp_node,cp_resource,cp_item 
+		 	WHERE cp_item.cp_node_id = cp_node.cp_node_id 
+		 	AND cp_item.resourceid = cp_resource.id 
+		 	AND scormtype = %s
+		 	AND nodename = %s
+		 	AND cp_node.slm_id = %s ',
+		 	array('text','text','integer'),
+		 	array('sco','item',$this->getId())
+		 );
+		 
+		while($val_rec = $ilDB->fetchAssoc($val_set))				
+		{
 			array_push($scos,$val_rec['cp_node_id']);
 		}	
 		$csv = null;
 		//a module is completed when all SCO's are completed
 		$user_array = array();
 		
-		if ($a_exportall == 1) {
-			$query3 = "SELECT DISTINCT user_id,UNIX_TIMESTAMP(MAX(TIMESTAMP)) AS last_access FROM cmi_node, cp_node WHERE".
-				"	 cmi_node.cp_node_id = cp_node.cp_node_id ".
-					" AND cp_node.slm_id = ".$ilDB->quote($this->getId())."GROUP BY user_id";
-			$val_set3 = $ilDB->query($query3);
-			while ($val_rec3 = $val_set3->fetchRow(DB_FETCHMODE_ASSOC)) {
+		if ($a_exportall == 1) 
+		{
+			$val_set3 = $ilDB->queryF('
+				SELECT DISTINCT user_id,MAX(c_timestamp) last_access 
+				FROM cmi_node, cp_node 
+				WHERE  cmi_node.cp_node_id = cp_node.cp_node_id 
+				AND cp_node.slm_id = %s
+				GROUP BY user_id',
+				array('integer'),
+				array($this->getId())
+			);
+			
+			while($val_rec3 = $ilDB->fetchAssoc($val_set3))				
+			{
 			 	array_push($user_array,$val_rec3['user_id']);
 			}
 			
@@ -531,16 +579,26 @@ class ilObjSCORM2004LearningModule extends ilObjSCORMLearningModule
 			$scos_c = $scos;
 			//copy SCO_array
 			//check if all SCO's are completed
-			for ($i=0;$i<count($scos);$i++){
-				$query = "SELECT * FROM cmi_node WHERE (user_id=".$ilDB->quote($user).
-						 " AND cp_node_id=".$ilDB->quote($scos[$i]).
-						 " AND completion_status='completed' AND success_status='passed')";
-				$val_set = $ilDB->query($query);
-				if ($val_set->numRows()>0) {
+			for ($i=0;$i<count($scos);$i++)
+			{
+
+				$val_set = $ilDB->queryF('
+					SELECT * FROM cmi_node 
+					WHERE (user_id = %s
+					AND cp_node_id = %s
+					AND completion_status = %s
+					AND success_status = %s)',
+					array('integer','integer','text','text'),
+					array($user,$scos[$i],'completed','passed')
+				);
+				
+				if ($ilDb->numRows($val_set)>0) 
+				{
 					//delete from array
 					$key = array_search($scos[$i], $scos_c); 
 					unset ($scos_c[$key]);
 				}
+				
 			}
 			//check for completion
 			if (count($scos_c) == 0) {
@@ -557,14 +615,22 @@ class ilObjSCORM2004LearningModule extends ilObjSCORMLearningModule
 				$email = $e_user->getEmail();
 				$department = $e_user->getDepartment();
 			
-				$query2 = "SELECT DISTINCT user_id,MAX(DATE_FORMAT(TIMESTAMP,\"%d.%m.%y\")) AS date FROM cmi_node, cp_node WHERE".
-					" cmi_node.cp_node_id = cp_node.cp_node_id ".
-					" AND cp_node.slm_id = ".$ilDB->quote($this->getId())." GROUP BY user_id";
-				$val_set2 = $ilDB->query($query2);
-				$val_rec2 = $val_set2->fetchRow(DB_FETCHMODE_ASSOC);
-				if ($val_set2->numRows()>0) {
-					$date = $val_rec2['date'];
-				} else {
+				$val_set2 = $ilDB->queryF('
+					SELECT DISTINCT user_id,MAX(
+					CONCAT(SUBSTR(c_timestamp, 9,2), '.', SUBSTR(c_timestamp, 6, 2), '.', SUBSTR(c_timestamp, 1, 4))) date 
+					FROM cmi_node, cp_node 
+					WHERE cmi_node.cp_node_id = cp_node.cp_node_id 
+					AND cp_node.slm_id = %s
+					GROUP BY user_id',
+					array('integer'),
+					array($this->getId())
+				);
+				$val_rec2 = $ilDB->fetchAssoc($val_set2);
+				if($ilDB->numRows($val_set2) > 0)
+				{
+					$date = $val_rec2['date'];	
+				}
+				 else {
 					$date = "";
 				}	
 				$csv = $csv. "$department;$login;$lastname;$firstname;$email;$date;$completion\n";	
@@ -579,17 +645,24 @@ class ilObjSCORM2004LearningModule extends ilObjSCORMLearningModule
 		global $ilDB, $ilUser;
 		$scos = array();
 		//get all SCO's of this object		
-		$query = "SELECT cp_node.cp_node_id FROM cp_node,cp_resource,cp_item WHERE".
-				" cp_item.cp_node_id=cp_node.cp_node_id AND cp_item.resourceId = cp_resource.id AND scormType='sco' AND nodeName='item' AND cp_node.slm_id = ".$ilDB->quote($this->getId());
-		
-		$val_set = $ilDB->query($query);
-		while ($val_rec = $val_set->fetchRow(DB_FETCHMODE_ASSOC)) {
+		$val_set = $ilDB->queryF('
+			SELECT cp_node.cp_node_id FROM cp_node,cp_resource,cp_item 
+			WHERE cp_item.cp_node_id = cp_node.cp_node_id 
+			AND cp_item.resourceid = cp_resource.id 
+			AND scormtype = %s 
+			AND nodename = %s 
+			AND cp_node.slm_id = %s',
+			array('text','text', 'integer'),
+			array('sco','item', $this->getId())
+		); 
+		while ($val_rec = $ilDB->fetchAssoc($val_set))
+		{
 			array_push($scos,$val_rec['cp_node_id']);
 		}
 		
 		$fhandle = fopen($a_file, "r");
 
-		$obj_id = $ilDB->quote($this->getID());
+		$obj_id = $this->getID();
 
 		$fields = fgetcsv($fhandle, 4096, ';');
 
@@ -601,18 +674,38 @@ class ilObjSCORM2004LearningModule extends ilObjSCORMLearningModule
 			
 			  if ($this->get_user_id($data["Login"])>0) {
 					
-				$user_id = $ilDB->quote($this->get_user_id($data["Login"]));
+				$user_id = $this->get_user_id($data["Login"]);
 				$import = $data["Status"];
 				if ($import == "") {$import = 1;}
 					//iterate over all SCO's
 					if ($import == 1) {
-						foreach ($scos as $sco) {
-							$sco_id = $ilDB->quote($sco);
+						foreach ($scos as $sco) 
+						{
+							$sco_id = $sco;
 							$date = $data['Date'];
-							$query = "REPLACE INTO cmi_node (cp_node_id,user_id,completion_status,success_status,TIMESTAMP)".
-									  "values ($sco_id,$user_id,'completed','passed',str_to_date(\"$date\", \"%d.%m.%Y\"))";
-						    $val_set = $ilDB->query($query);
+
+							$res = $ilDB->queryF('
+							SELECT * FROM cmi_node
+							WHERE 	cp_node_id = %s
+							AND 	user_id  = %s
+							AND 	completion_status = %s
+							AND		success_status = %s
+							AND		c_timestamp = %s',
+							array('integer','integer','text','text','timestamp'),
+							array($sco_id,$user_id,'completed','passed',$data['Date']));
+						
+							if(!$ilDB->numRows($res))
+							{
+								$nextId = $ilDB->nextId('cmi_node');
+								$val_set = $ilDB->manipulateF('
+								INSERT INTO cmi_node
+								(cp_node_id,user_id,completion_status,success_status,c_timestamp)
+								VALUES(%s,%s,%s,%s,%s)',
+								array('integer','integer','text','text','timestamp'),
+								array($nextId,$user_id,'completed','passed',$data['Date']));
+							}
 						}
+						
 					}
 			  	} else {
 					//echo "Warning! User $csv_rows[0] does not exist in ILIAS. Data for this user was skipped.\n";
@@ -683,30 +776,47 @@ class ilObjSCORM2004LearningModule extends ilObjSCORMLearningModule
 	function getCourseCompletionForUser($a_user) 
 	{
 		global $ilDB, $ilUser;
+		
 	 	$scos = array();
 		 //get all SCO's of this object		
-		$query = "SELECT cp_node.cp_node_id FROM cp_node,cp_resource,cp_item WHERE".
-		 		" cp_item.cp_node_id=cp_node.cp_node_id AND cp_item.resourceId = cp_resource.id 
-				  AND scormType='sco' AND nodeName='item' AND cp_node.slm_id = ".$ilDB->quote($this->getId());
-        
-		$val_set = $ilDB->query($query);
-		while ($val_rec = $val_set->fetchRow(DB_FETCHMODE_ASSOC)) {
+
+		$val_set = $ilDB->queryF('
+		SELECT 	cp_node.cp_node_id FROM cp_node,cp_resource,cp_item 
+		WHERE  	cp_item.cp_node_id = cp_node.cp_node_id 
+		AND 	cp_item.resourceid = cp_resource.id 
+		AND scormtype = %s
+		AND nodename = %s
+		AND cp_node.slm_id = %s ',
+		array('text','text','integer'),
+		array('sco','item',$this->getId()));
+		
+		while ($val_rec = $ilDB->fetchAssoc($val_set))
+		{
 			array_push($scos,$val_rec['cp_node_id']);
 		}
+		
 		
 		$scos_c = $scos;
 		//copy SCO_array
 		//check if all SCO's are completed
-		for ($i=0;$i<count($scos);$i++){
-			$query = "SELECT * FROM cmi_node WHERE (user_id=".$ilDB->quote($a_user).
-				 	" AND cp_node_id=".$ilDB->quote($scos[$i]).
-				 " 	AND (completion_status='completed' OR success_status='passed'))";
-			$val_set = $ilDB->query($query);
-			if ($val_set->numRows()>0) {
+		for ($i=0;$i<count($scos);$i++)
+		{
+
+			$val_set = $ilDB->queryF('
+				SELECT * FROM cmi_node 
+				WHERE (user_id= %s
+				AND cp_node_id= %s
+				AND (completion_status=%s OR success_status=%s))',
+				array('integer','integer','text', 'text'), 
+				array($a_user,$scos[$i],'completed','passed')
+			);
+			
+			if ($ilDB->numRows($val_set) > 0) {
 				//delete from array
 				$key = array_search($scos[$i], $scos_c); 
 				unset ($scos_c[$key]);
-			}
+			}		
+			
 		}
 		//check for completion
 		if (count($scos_c) == 0) {
@@ -728,30 +838,41 @@ class ilObjSCORM2004LearningModule extends ilObjSCORMLearningModule
 		global $ilDB, $ilUser;
 	 	$scos = array();
 		 //get all SCO's of the object
-		$query = "SELECT cp_node.cp_node_id FROM cp_node,cp_resource,cp_item WHERE".
-			" cp_item.cp_node_id=cp_node.cp_node_id AND cp_item.resourceId = cp_resource.id AND scormType='sco' AND nodeName='item' AND cp_node.slm_id = ".$ilDB->quote($a_id);
-        
-		$val_set = $ilDB->query($query);
-		while ($val_rec = $val_set->fetchRow(DB_FETCHMODE_ASSOC)) 
+
+	 	$val_set = $ilDB->queryF('
+	 	SELECT cp_node.cp_node_id FROM cp_node,cp_resource,cp_item 
+	 	WHERE cp_item.cp_node_id = cp_node.cp_node_id 
+	 	AND cp_item.resourceid = cp_resource.id 
+	 	AND scormtype = %s
+	 	AND nodename =  %s 
+	 	AND cp_node.slm_id =  %s',
+	 	array('text','text','integer'), array('sco' ,'item',$a_id));
+		while ($val_rec = $ilDB->fetchAssoc($val_set)) 
 		{
 			array_push($scos,$val_rec['cp_node_id']);
-		}
-		
+		} 	
+	 	
 		$scos_c = $scos;
 		//copy SCO_array
 		//check if all SCO's are completed
 		for ($i=0;$i<count($scos);$i++)
 		{
-			$query = "SELECT * FROM cmi_node WHERE (user_id=".$ilDB->quote($a_user).
-				" AND cp_node_id=".$ilDB->quote($scos[$i]).
-				" 	AND (completion_status='completed' OR success_status='passed'))";
-			$val_set = $ilDB->query($query);
-			if ($val_set->numRows()>0) 
+
+			$val_set = $ilDB->queryF('
+				SELECT * FROM cmi_node 
+				WHERE (user_id= %s
+				AND cp_node_id= %s
+				AND (completion_status = %s OR success_status = %s))',
+			array('integer','integer','text','text'),
+			array($a_user,$scos[$i],'completed','passed'));
+			
+			if ($ilDB->numRows($val_set) > 0) 
 			{
 				//delete from array
 				$key = array_search($scos[$i], $scos_c); 
 				unset ($scos_c[$key]);
 			}
+			
 		}
 		//check for completion
 		if (count($scos_c) == 0) {
@@ -774,25 +895,33 @@ class ilObjSCORM2004LearningModule extends ilObjSCORMLearningModule
 	{
 		global $ilDB;
 		
-		$q = "SELECT cp_item.* ".
-			" FROM cp_node, cp_item WHERE slm_id = ".
-			$ilDB->quote($a_obj_id).
-			" AND cp_node.cp_node_id = cp_item.cp_node_id ".
-			" ORDER BY cp_node.cp_node_id ";
 
-		$item_set = $ilDB->query($q);
+		$item_set = $ilDB->queryF('
+			SELECT cp_item.*  FROM cp_node, cp_item WHERE slm_id = %s
+			AND cp_node.cp_node_id = cp_item.cp_node_id 
+			ORDER BY cp_node.cp_node_id ',
+			array('integer'),
+			array($a_obj_id)
+		);
 			
 		$items = array();
-		while ($item_rec = $item_set->fetchRow(DB_FETCHMODE_ASSOC))
-		{
-			$s2 = $ilDB->query("SELECT cp_resource.* ".
-				" FROM cp_node, cp_resource WHERE slm_id = ".
-				$ilDB->quote($a_obj_id).
-				" AND cp_node.cp_node_id = cp_resource.cp_node_id ".
-				" AND cp_resource.id = ".$ilDB->quote($item_rec["resourceId"]));
-			if ($res = $s2->fetchRow(DB_FETCHMODE_ASSOC))
+		while ($item_rec = $ilDB->fetchAssoc($item_set))
+		{	
+
+			$s2 = $ilDB->queryF('
+				SELECT cp_resource.* FROM cp_node, cp_resource 
+				WHERE slm_id = %s
+				AND cp_node.cp_node_id = cp_resource.cp_node_id 
+				AND cp_resource.id = %s ',
+				array('integer','integer'),
+				array($a_obj_id,$item_rec["resourceid"])
+			);
+				
+				
+			if ($res = $ilDB->fetchAssoc($s2))	
+	
 			{
-				if ($res["scormType"] == "sco")
+				if ($res["scormtype"] == "sco")
 				{
 					$items[] = array("id" => $item_rec["cp_node_id"],
 						"title" => $item_rec["title"]);
@@ -807,14 +936,16 @@ class ilObjSCORM2004LearningModule extends ilObjSCORMLearningModule
 	{
 		global $ilDB;
 		
-		$q = "SELECT * FROM cmi_gobjective ".
-			" WHERE scope_id = ".$ilDB->quote($a_obj_id).
-			" AND objective_id = ".$ilDB->quote("-course_overall_status-").
-			" AND user_id = ".$ilDB->quote($a_user_id);
+		$status_set = $ilDB->queryF('
+			SELECT * FROM cmi_gobjective 
+			WHERE scope_id = %s
+			AND objective_id = %s
+			AND user_id = %s',
+			array('integer','text','integer'),
+			array($a_obj_id,'course_overall_status',$a_user_id)
+		);
 
-		$status_set = $ilDB->query($q);
-
-		if ($status_rec = $status_set->fetchRow(DB_FETCHMODE_ASSOC))
+		if ($status_rec = $ilDB->fetchAssoc($status_set))
 		{
 			return $status_rec["status"];
 		}
@@ -826,14 +957,17 @@ class ilObjSCORM2004LearningModule extends ilObjSCORMLearningModule
 	{
 		global $ilDB;
 		
-		$q = "SELECT * FROM cmi_gobjective ".
-			" WHERE scope_id = ".$ilDB->quote($a_obj_id).
-			" AND objective_id = ".$ilDB->quote("-course_overall_status-").
-			" AND user_id = ".$ilDB->quote($a_user_id);
 
-		$status_set = $ilDB->query($q);
+		$status_set = $ilDB->queryF('
+			SELECT * FROM cmi_gobjective 
+			WHERE scope_id = %s
+			AND objective_id = %s
+			AND user_id = %s',
+			array('integer','text','integer'),
+			array($a_obj_id,'course_overall_status',$a_user_id)
+		);
 
-		if ($status_rec = $status_set->fetchRow(DB_FETCHMODE_ASSOC))
+		if ($status_rec = $ilDB->fetchAssoc($status_set))		
 		{
 			return $status_rec["satisfied"];
 		}
@@ -845,14 +979,16 @@ class ilObjSCORM2004LearningModule extends ilObjSCORMLearningModule
 	{
 		global $ilDB;
 		
-		$q = "SELECT * FROM cmi_gobjective ".
-			" WHERE scope_id = ".$ilDB->quote($a_obj_id).
-			" AND objective_id = ".$ilDB->quote("-course_overall_status-").
-			" AND user_id = ".$ilDB->quote($a_user_id);
+		$status_set = $ilDB->queryF('
+			SELECT * FROM cmi_gobjective 
+			WHERE scope_id = %s
+			AND objective_id = %s
+			AND user_id = %s',
+			array('integer','text','integer'),
+			array($a_obj_id,'course_overall_status',$a_user_id)
+		);
 
-		$status_set = $ilDB->query($q);
-
-		if ($status_rec = $status_set->fetchRow(DB_FETCHMODE_ASSOC))
+		if ($status_rec = $ilDB->fetchAssoc($status_set))		
 		{
 			return $status_rec["measure"];
 		}
@@ -864,9 +1000,14 @@ class ilObjSCORM2004LearningModule extends ilObjSCORMLearningModule
 	{
 		global $ilDB;
 		
-		$r = $ilDB->query("SELECT * FROM cp_item ".
-			" WHERE cp_node_id = ".$ilDB->quote($a_node_id));
-		if ($i = $r->fetchRow(DB_FETCHMODE_ASSOC))
+		$r = $ilDB->queryF('
+			SELECT * FROM cp_item
+			WHERE cp_node_id = %s',
+			array('integer'),
+			array(a_node_id)
+		);
+		
+		if ($i = $ilDB->fetchAssoc($r))
 		{
 			return $i["title"];
 		}

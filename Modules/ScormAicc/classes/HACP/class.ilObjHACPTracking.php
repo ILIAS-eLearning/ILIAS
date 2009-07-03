@@ -91,12 +91,18 @@ class ilObjHACPTracking extends ilObjAICCTracking {
 		$this->insert=array();
 		if (is_object($ilUser)) {
 			$user_id = $ilUser->getId();
-			foreach ($data as $key=>$value) {
-				$stmt = "SELECT * FROM scorm_tracking WHERE user_id = ".$ilDB->quote($user_id).
-					" AND sco_id = ".$ilDB->quote($obj_id)." AND lvalue = ".$ilDB->quote($key).
-					" AND obj_id = ".$ilDB->quote($hacp_id);
-				$set = $ilDB->query($stmt);
-				if ($rec = $set->fetchRow(DB_FETCHMODE_ASSOC))
+			foreach ($data as $key=>$value) 
+			{
+
+				$set = $ilDB->queryF('
+				SELECT * FROM scorm_tracking WHERE user_id = %s
+				AND sco_id = %s
+				AND lvalue = %s
+				AND obj_id = %s',
+				array('integer','integer','text','integer'),
+				array($user_id,$obj_id,$key,$hacp_id));
+				
+				if ($rec = $ilDB->fetchAssoc($set))
 					$this->update[] = array("left" => $key, "right" => $value);
 				else
 					$this->insert[] = array("left" => $key, "right" => $value);

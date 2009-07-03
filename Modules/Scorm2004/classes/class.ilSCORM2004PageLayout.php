@@ -61,9 +61,11 @@ class ilSCORM2004PageLayout
 	
 	public function getTitle() {
 		global $ilias, $ilDB;
-	    $r = $ilias->db->query("SELECT title FROM page_layout WHERE layout_id=".
-							 	$ilDB->quote($this->layout_id));
-		 $row = $r->fetchRow(DB_FETCHMODE_ASSOC);
+
+		$r = $ilDB->queryF('SELECT title FROM page_layout WHERE layout_id = %s',
+		array('integer'),array($this->layout_id));
+		$row->$ilDB->fetchAssoc($r);
+		
 		return $row['title'];
 	}
 	
@@ -85,7 +87,7 @@ class ilSCORM2004PageLayout
 		$arr_layouts = array();
 		$query = "SELECT * FROM page_layout WHERE (active=1) ORDER BY title ";
 		$result = $ilDB->query($query);
-		while($row = $result->fetchRow(DB_FETCHMODE_ASSOC)) 
+		while($row = $ilDB->fetchAssoc($result)) 
 		{
 			array_push($arr_layouts,new ilSCORM2004PageLayout($row['layout_id']));
 		}

@@ -162,10 +162,10 @@ class ilSCORMItem extends ilSCORMObject
 		
 		parent::read();
 
-		$q = "SELECT * FROM sc_item WHERE obj_id = ".$ilDB->quote($this->getId());
-
-		$obj_set = $this->ilias->db->query($q);
-		$obj_rec = $obj_set->fetchRow(DB_FETCHMODE_ASSOC);
+		$obj_set = $ilDB->queryF('SELECT * FROM sc_item WHERE obj_id = %s',
+		array('integer'),array($this->getId()));
+		$obj_rec = $ilDB->fetchAssoc($obj_set);
+		
 		$this->setImportId($obj_rec["import_id"]);
 		$this->setIdentifierRef($obj_rec["identifierref"]);
 		if (strtolower($obj_rec["isvisible"]) == "false")
@@ -195,18 +195,35 @@ class ilSCORMItem extends ilSCORMObject
 			? "true"
 			: "false";
 
-		$q = "INSERT INTO sc_item (obj_id, import_id, identifierref,".
-			"isvisible, parameters, prereq_type, prerequisites, maxtimeallowed,".
-			"timelimitaction, datafromlms, masteryscore) VALUES ".
-			"(".$ilDB->quote($this->getId()).", ".$ilDB->quote($this->getImportId()).",".
-			$ilDB->quote($this->getIdentifierRef()).
-			",".$ilDB->quote($str_visible).",".$ilDB->quote($this->getParameters()).",".
-			$ilDB->quote($this->getPrereqType()).
-			",".$ilDB->quote($this->getPrerequisites()).",".$ilDB->quote($this->getMaxTimeAllowed()).
-			",".
-			$ilDB->quote($this->getTimeLimitAction()).",".$ilDB->quote($this->getDataFromLms()).",".
-			$ilDB->quote($this->getMasteryScore()).")";
-		$this->ilias->db->query($q);
+			$ilDB->manipulateF('
+			INSERT INTO sc_item 
+			(	obj_id, 
+				import_id, 
+				identifierref,
+				isvisible, 
+				parameters, 
+				prereq_type, 
+				prerequisites, 
+				maxtimeallowed,
+				timelimitaction, 
+				datafromlms, 
+				masteryscore
+			) 
+			VALUES (%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s)',
+			array('integer', 'text','text','text','text','text','text','text','text','text','text'),
+			array(	$this->getId(),
+					$this->getImportId(),
+					$this->getIdentifierRef(),
+					$str_visible,
+					$this->getParameters(),
+					$this->getPrereqType(),
+					$this->getPrerequisites(),
+					$this->getMaxTimeAllowed(),
+					$this->getTimeLimitAction(),
+					$this->getDataFromLms(),
+					$this->getMasteryScore()
+					));
+			
 	}
 
 	function update()
@@ -218,19 +235,38 @@ class ilSCORMItem extends ilSCORMObject
 			: "false";
 
 		parent::update();
-		$q = "UPDATE sc_item SET ".
-			"import_id = ".$ilDB->quote($this->getImportId()).", ".
-			"identifierref = ".$ilDB->quote($this->getIdentifierRef()).", ".
-			"isvisible = ".$ilDB->quote($str_visible).", ".
-			"parameters = ".$ilDB->quote($this->getParameters()).", ".
-			"prereq_type = ".$ilDB->quote($this->getPrereqType()).", ".
-			"prerequisites = ".$ilDB->quote($this->getPrerequisites()).", ".
-			"maxtimeallowed = ".$ilDB->quote($this->getMaxTimeAllowed()).", ".
-			"timelimitaction = ".$ilDB->quote($this->getTimeLimitAction()).", ".
-			"datafromlms = ".$ilDB->quote($this->getDataFromLms()).", ".
-			"masteryscore = ".$ilDB->quote($this->getMasteryScore())." ".
-			"WHERE obj_id = ".$ilDB->quote($this->getId());
-		$this->ilias->db->query($q);
+
+			$ilDB->manipulateF('
+			UPDATE sc_item 
+			SET
+				import_id = %s,
+				identifierref = %s,
+				isvisible = %s,
+				parameters = %s,
+				prereq_type = %s,
+				prerequisites = %s,
+				maxtimeallowed = %s,
+				timelimitaction = %s,
+				datafromlms =  %s,
+				masteryscore = %s
+			WHERE obj_id = %s',
+			array('text','text','text','text','text','text','text','text','text','text','integer'),
+			array(	
+					$this->getImportId(),
+					$this->getIdentifierRef(),
+					$str_visible,
+					$this->getParameters(),
+					$this->getPrereqType(),
+					$this->getPrerequisites(),
+					$this->getMaxTimeAllowed(),
+					$this->getTimeLimitAction(),
+					$this->getDataFromLms(),
+					$this->getMasteryScore(),
+					$this->getId()
+					)
+						
+			);
+
 	}
 
 	/**
@@ -247,14 +283,17 @@ class ilSCORMItem extends ilSCORMObject
 			$a_user_id = $ilUser->getId();
 		}
 
-		$q = "SELECT * FROM scorm_tracking WHERE ".
-			"sco_id = ".$ilDB->quote($this->getId())." AND ".
-			"user_id = ".$ilDB->quote($a_user_id).
-			" AND obj_id = ".$ilDB->quote($this->getSLMId());
 
-		$track_set = $ilDB->query($q);
+		$track_set = $ilDB->queryF('
+		SELECT * FROM scorm_tracking 
+		WHERE sco_id = %s 
+		AND user_id =  %s
+		AND obj_id = %s',
+		array('integer','integer','integer'),
+		array($this->getId(),$a_user_id,$this->getSLMId()));
+		
 		$trdata = array();
-		while ($track_rec = $track_set->fetchRow(DB_FETCHMODE_ASSOC))
+		while ($track_rec = $ilDB->fetchAssoc($track_set))
 		{
 			$trdata[$track_rec["lvalue"]] = $track_rec["rvalue"];
 		}
@@ -271,14 +310,16 @@ class ilSCORMItem extends ilSCORMObject
 			$a_user_id = $ilUser->getId();
 		}
 
-		$q = "SELECT * FROM scorm_tracking WHERE ".
-			"sco_id = ".$ilDB->quote($a_item_id)." AND ".
-			"user_id = ".$ilDB->quote($a_user_id).
-			" AND obj_id = ".$ilDB->quote($a_obj_id);
-
-		$track_set = $ilDB->query($q);
+		$track_set = $ilDB->queryF('
+		SELECT * FROM scorm_tracking 
+		WHERE sco_id = %s 
+		AND user_id =  %s
+		AND obj_id = %s',
+		array('integer','integer','integer'),
+		array($a_item_id,$a_user_id,$a_obj_id));
+		
 		$trdata = array();
-		while ($track_rec = $track_set->fetchRow(DB_FETCHMODE_ASSOC))
+		while ($track_rec = $ilDB->fetchAssoc($track_set))
 		{
 			$trdata[$track_rec["lvalue"]] = $track_rec["rvalue"];
 		}
@@ -292,14 +333,17 @@ class ilSCORMItem extends ilSCORMObject
 
 		parent::delete();
 
-		$q = "DELETE FROM sc_item WHERE obj_id =".$ilDB->quote($this->getId());
-		$ilDB->query($q);
 
-		$q = "DELETE FROM scorm_tracking WHERE ".
+		$ilDB->manipulateF('DELETE FROM sc_item WHERE obj_id = %s',
+		array('integer'),array($this->getId()));
+
+		$q_log = "DELETE FROM scorm_tracking WHERE ".
 			"sco_id = ".$ilDB->quote($this->getId()).
 			" AND obj_id = ".$ilDB->quote($this->getSLMId());
-		$ilLog->write("SAHS Delete(ScormItem): ".$q);
-		$ilDB->query($q);
+		$ilLog->write("SAHS Delete(ScormItem): ".$q_log);
+		
+		$ilDB->manipulateF('DELETE FROM sc_item WHERE sco_id = %s AND obj_id = %s',
+		array('integer','integer'), array($this->getId(),$this->getSLMId()));
 
 	}
 
@@ -316,12 +360,15 @@ class ilSCORMItem extends ilSCORMObject
 	{
 		global $ilDB;
 
-		$query = "SELECT * FROM scorm_object ".
-			"WHERE slm_id = ".$ilDB->quote($a_obj_id)." ".
-			"AND type = 'sit'";
-
-		$res = $ilDB->query($query);
-		while($row = $res->fetchRow(DB_FETCHMODE_OBJECT))
+		$res = $ilDB->queryF('
+			SELECT * FROM scorm_object 
+			WHERE slm_id = %s
+			AND type = %s',
+			array('integer','text'),
+			array($a_obj_id,'sit')
+		);
+		while($row = $ilDB->fetchObject($res))
+		
 		{
 			$item_ids[] = $row->obj_id;
 		}
@@ -332,11 +379,10 @@ class ilSCORMItem extends ilSCORMObject
 	{
 		global $ilDB;
 
-		$query = "SELECT * FROM scorm_object ".
-			"WHERE obj_id = ".$ilDB->quote($a_obj_id);
-
-		$res = $ilDB->query($query);
-		while($row = $res->fetchRow(DB_FETCHMODE_OBJECT))
+		$res = $ilDB->queryF('SELECT * FROM scorm_object WHERE obj_id = %s',
+		array('integer', array($a_obj_id)));
+		
+		while($row = $ilDB->fetchObject($res))
 		{
 			return $row->title;
 		}

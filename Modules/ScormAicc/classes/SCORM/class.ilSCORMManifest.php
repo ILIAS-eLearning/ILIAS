@@ -87,10 +87,10 @@ class ilSCORMManifest extends ilSCORMObject
 		
 		parent::read();
 
-		$q = "SELECT * FROM sc_manifest WHERE obj_id = ".$ilDB->quote($this->getId());
-
-		$obj_set = $this->ilias->db->query($q);
-		$obj_rec = $obj_set->fetchRow(DB_FETCHMODE_ASSOC);
+		$obj_set = $ilDB->queryF('SELECT * FROM sc_manifest WHERE obj_id = %s',
+		array('integer'),array($this->getId()));
+		$obj_rec = $ilDB->fetchAssoc($obj_set);
+		
 		$this->setImportId($obj_rec["import_id"]);
 		$this->setVersion($obj_rec["version"]);
 		$this->setXmlBase($obj_rec["xml_base"]);
@@ -102,10 +102,12 @@ class ilSCORMManifest extends ilSCORMObject
 		
 		parent::create();
 
-		$q = "INSERT INTO sc_manifest (obj_id, import_id, version, xml_base) VALUES ".
-			"(".$ilDB->quote($this->getId()).", ".$ilDB->quote($this->getImportId()).
-			", ".$ilDB->quote($this->getVersion()).", ".$ilDB->quote($this->getXmlBase()).")";
-		$this->ilias->db->query($q);
+		$ilDB->manipulateF('
+		INSERT INTO sc_manifest (obj_id, import_id, version, xml_base) 
+		VALUES (%s,%s,%s,%s)',
+		array('integer','text','text','text'),
+		array($this->getId(),$this->getImportId(),$this->getVersion(),$this->getXmlBase()));
+		
 	}
 
 	function update()
@@ -114,12 +116,15 @@ class ilSCORMManifest extends ilSCORMObject
 		
 		parent::update();
 
-		$q = "UPDATE sc_manifest SET ".
-			"import_id = ".$ilDB->quote($this->getImportId()).", ".
-			"version = ".$ilDB->quote($this->getVersion()).", ".
-			"xml_base = ".$ilDB->quote($this->getXmlBase())." ".
-			"WHERE obj_id = ".$ilDB->quote($this->getId());
-		$this->ilias->db->query($q);
+		$ilDB->manipulateF('
+		UPDATE sc_manifest 
+		SET import_id = %s,  
+			version = %s,  
+			xml_base = %s 
+		WHERE obj_id = %s',
+		array('text','text','text','integer'),
+		array($this->getImportId(),$this->getVersion(),$this->getXmlBase(),$this->getId()));		
+		
 	}
 
 	function delete()
@@ -128,8 +133,7 @@ class ilSCORMManifest extends ilSCORMObject
 
 		parent::delete();
 
-		$q = "DELETE FROM sc_manifest WHERE obj_id =".$ilDB->quote($this->getId());
-		$ilDB->query($q);
+		$ilDB->manipulateF('DELETE FROM sc_manifest WHERE obj_id = %s', array('integer'),array($this->getId()));
 	}
 
 }
