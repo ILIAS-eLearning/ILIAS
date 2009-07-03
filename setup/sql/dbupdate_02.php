@@ -13874,3 +13874,8 @@ $ilMySQLAbstraction->performAbstraction('cp_package');
 <?php
 	$ilMySQLAbstraction->performAbstraction('aicc_object');
 ?>
+<#2674>
+<?php
+	$ilCtrlStructureReader->getStructure();
+?>
+

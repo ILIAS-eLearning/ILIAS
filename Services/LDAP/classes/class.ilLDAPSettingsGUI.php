@@ -1372,10 +1372,10 @@ class ilLDAPSettingsGUI
 			$pl_active =  (bool) $this->hasActiveRoleAssignmentPlugins();
 			$pl = new ilRadioOption($this->lng->txt('ldap_plugin'),3);
 			$pl->setInfo($this->lng->txt('ldap_plugin_info'));
-			$pl->setDisabled($pl_active);
+			$pl->setDisabled(!$pl_active);
 			
 			$id = new ilNumberInputGUI($this->lng->txt('ldap_plugin_id'),'plugin_id');
-			$id->setDisabled($pl_active);
+			$id->setDisabled(!$pl_active);
 			$id->setSize(3);
 			$id->setMaxLength(3);
 			$id->setMaxValue(999);

@@ -9612,3 +9612,4 @@ ldap#:#ldap_add_remove#:#Add/Remove Roles
 ldap#:#ldap_deleted_rule#:#Deleted selected role assignments.
 ldap#:#ldap_role_selection#:#Role Selection
 ldap#:#ldap_role_selection_info#:#Your selection is ambiguous. Please choose one of the following roles.
+ldap#:#ldap_role_by_plugin#:#By Plugin
