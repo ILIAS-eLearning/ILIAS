@@ -548,13 +548,14 @@ class ilLDAPQuery
 	 */
 	private function fetchUserProfileFields()
 	{
-		include_once('Services/LDAP/classes/class.ilLDAPRoleAssignments.php');
+		include_once('Services/LDAP/classes/class.ilLDAPRoleAssignmentRules.php');
 		
 		$this->user_fields = array_merge(
 			array($this->settings->getUserAttribute()),
 			array('dn'),
 			$this->mapping->getFields(),
-			ilLDAPRoleAssignments::_getDistinctAttributeNamesByServerId($this->settings->getServerId()));
+			ilLDAPRoleAssignmentRules::getAttributeNames()
+		);
 	}
 	
 	

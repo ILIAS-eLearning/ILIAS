@@ -122,13 +122,15 @@ class ilAuthLDAP extends Auth
 				$_SESSION['tmp_external_account'] = $a_username;
 				$_SESSION['tmp_pass'] = $_POST['password'];
 				
-				include_once('./Services/LDAP/classes/class.ilLDAPRoleAssignments.php');
-				$role_ass = ilLDAPRoleAssignments::_getInstanceByServer($this->ldap_server);
-				$role_inf = $role_ass->assignedRoles($a_username,$user_data);
+				include_once('./Services/LDAP/classes/class.ilLDAPRoleAssignmentRules.php');
+				$roles = ilLDAPRoleAssignmentRules::getAssignmentsForCreation($a_username, $user_data);
 				$_SESSION['tmp_roles'] = array();
-				foreach($role_inf as $info)
+				foreach($roles as $info)
 				{
-					$_SESSION['tmp_roles'][] = $info['id'];
+					if($info['action'] == ilLDAPRoleAssignmentRules::ROLE_ACTION_ASSIGN)
+					{
+						$_SESSION['tmp_roles'][] = $info['id'];	
+					}
 				}
 				$ilBench->stop('Auth','LDAPLoginObserver');
 				ilUtil::redirect('ilias.php?baseClass=ilStartUpGUI&cmdClass=ilstartupgui&cmd=showAccountMigration');

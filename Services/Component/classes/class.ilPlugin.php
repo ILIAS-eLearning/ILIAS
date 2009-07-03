@@ -589,7 +589,12 @@ abstract class ilPlugin
 			$this->getComponentName(), $this->getSlotId()));
 		
 		// load language module
-		$lng->loadLanguageModule($this->getPrefix());
+		
+		// Fix for authentication plugins
+		if(is_object($lng))
+		{
+			$lng->loadLanguageModule($this->getPrefix());
+		}
 			
 		// call slot and plugin init methods
 		$this->slotInit();

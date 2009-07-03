@@ -78,6 +78,102 @@ class ilLDAPRoleAssignmentRule
 		return self::$instances[$a_rule_id] = new ilLDAPRoleAssignmentRule($a_rule_id);
 	}
 	
+	/**
+	 * Check if a rule matches
+	 * @return 
+	 * @param object $a_user_data
+	 */
+	public function matches($a_user_data)
+	{
+		global $ilLog;
+		
+		switch($this->getType())
+		{
+			case self::TYPE_PLUGIN:
+				include_once './Services/LDAP/classes/class.ilLDAPRoleAssignmentRules.php';
+				return ilLDAPRoleAssignmentRules::callPlugin($this->getPluginId(), $a_user_data);
+				
+			case self::TYPE_ATTRIBUTE:
+				
+				$attn = strtolower($this->getAttributeName());
+				
+				if(!isset($a_user_data[$attn]))
+				{
+					return false;
+				}
+
+				if(!is_array($a_user_data[$attn]))
+				{
+					$attribute_val = array(0 => $a_user_data[$attn]);
+				}
+				else
+				{
+					$attribute_val = $a_user_data[$attn];
+				}
+				
+				foreach($attribute_val as $value)
+				{
+					if(trim($value) == trim($this->getAttributeValue()))
+					{
+				 		$ilLog->write(__METHOD__.': Found role mapping: '.ilObject::_lookupTitle($this->getRoleId()));
+						return true;
+					}
+				}
+				return false;
+
+			case self::TYPE_GROUP:
+				return $this->isGroupMember($a_user_data);
+				
+		}
+	}
+	
+	/**
+	 * Check if user is member of specific group
+	 *
+	 * @access private
+	 * @param array user data
+	 * @param array user_data
+	 * 
+	 */
+	private function isGroupMember($a_user_data)
+	{
+		global $ilLog;
+		
+		
+		if($this->isMemberAttributeDN())
+		{
+			$user_cmp = $a_user_data['dn'];
+		}
+		else
+		{
+			$user_cmp = $a_user_data['ilExternalAccount'];
+		}
+		
+ 		include_once('Services/LDAP/classes/class.ilLDAPQuery.php');
+ 		include_once('Services/LDAP/classes/class.ilLDAPServer.php');
+				
+		$server = ilLDAPServer::getInstanceByServerId(ilLDAPServer::_getFirstActiveServer());
+ 		
+ 		try
+ 		{
+	 		$query = new ilLDAPQuery($server);
+	 		$query->bind();
+	 		$res = $query->query($this->getDN(),
+								sprintf('(%s=%s)',
+								$this->getMemberAttribute(),
+								$user_cmp),
+							IL_LDAP_SCOPE_BASE,
+							array('dn'));
+			return $res->numRows() ? true : false;
+ 		}
+		catch(ilLDAPQueryException $e)
+		{
+			$ilLog->write(__METHOD__.': Caught Exception: '.$e->getMessage());
+			return false;
+		}
+	}
+	
+	
 	
 	/**
 	 * Get all rules

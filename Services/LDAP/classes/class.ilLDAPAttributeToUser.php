@@ -64,7 +64,6 @@ class ilLDAPAttributeToUser
 		$this->setting = $ilSetting;
 		
 		$this->initLDAPAttributeMapping();
-		$this->initLDAPRoleAssignments();
 	}
 	
 	/**
@@ -93,13 +92,14 @@ class ilLDAPAttributeToUser
 		$this->usersToXML();
 		
 		include_once './Services/User/classes/class.ilUserImportParser.php';
+		include_once './Services/LDAP/classes/class.ilLDAPRoleAssignmentRules.php';
+		
 		$importParser = new ilUserImportParser();
 		$importParser->setXMLContent($this->writer->xmlDumpMem(false));
-		$importParser->setRoleAssignment($this->role_assignment->getPossibleRoles());
+		$importParser->setRoleAssignment(ilLDAPRoleAssignmentRules::getAllPossibleRoles());
 		$importParser->setFolderId(7);
 		$importParser->startParsing();
 		$debug = $importParser->getProtocol();
-		
 		#var_dump("<pre>",$this->writer->xmlDumpMem(),"</pre>");
 		
 		return true;
@@ -123,6 +123,8 @@ class ilLDAPAttributeToUser
 		// Single users
 		foreach($this->user_data as $external_account => $user)
 		{
+			$user['ilExternalAccount'] = $external_account;
+			
 			// Required fields
 			if($user['ilInternalAccount'])
 			{
@@ -136,6 +138,15 @@ class ilLDAPAttributeToUser
 				$this->writer->xmlElement('AuthMode',array(type =>'ldap'),null);
 				
 				$rules = $this->mapping->getRulesForUpdate();
+				
+				include_once './Services/LDAP/classes/class.ilLDAPRoleAssignmentRules.php';
+				foreach(ilLDAPRoleAssignmentRules::getAssignmentsForUpdate($usr_id,$external_account, $user) as $role_data)
+				{
+					$this->writer->xmlElement('Role',
+						array('Id' => $role_data['id'],
+								'Type' => $role_data['type'],
+								'Action' => $role_data['action']),'');
+				}
 			}
 			else
 			{
@@ -144,17 +155,17 @@ class ilLDAPAttributeToUser
 				$this->writer->xmlStartTag('User',array('Action' => 'Insert'));
 				$this->writer->xmlElement('Login',array(),ilAuthUtils::_generateLogin($external_account));
 				
-				$rules = $this->mapping->getRules();
-
-				// Assign to role only for new users
-				$roles = $this->role_assignment->assignedRoles($external_account,$user);
-				foreach($roles as $role_data)
+				include_once './Services/LDAP/classes/class.ilLDAPRoleAssignmentRules.php';
+				foreach(ilLDAPRoleAssignmentRules::getAssignmentsForCreation($external_account, $user) as $role_data)
 				{
 					$this->writer->xmlElement('Role',
 						array('Id' => $role_data['id'],
 								'Type' => $role_data['type'],
 								'Action' => $role_data['action']),'');
 				}
+
+				$rules = $this->mapping->getRules();
+
 			}
 
 			$this->writer->xmlElement('Active',array(),"true");
@@ -351,17 +362,6 @@ class ilLDAPAttributeToUser
 	 	return $value ? $value : '';
 	}
 	
-	/**
-	 * Init LDAP role assignment object
-	 *
-	 * @access private
-	 * 
-	 */
-	private function initLDAPRoleAssignments()
-	{
-		include_once('Services/LDAP/classes/class.ilLDAPRoleAssignments.php');
-		$this->role_assignment = ilLDAPRoleAssignments::_getInstanceByServer($this->server_settings);
-	}
 	
 	
 	private function initLDAPAttributeMapping()

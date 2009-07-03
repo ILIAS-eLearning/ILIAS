@@ -1039,6 +1039,28 @@ class ilRbacReview
 		}
 		return $role_arr ? $role_arr : array();
 	}
+	
+	/**
+	 * Get assigned global roles for an user
+	 * @param int	$a_usr_id	Id of user account
+	 */
+	public function assignedGlobalRoles($a_usr_id)
+	{
+		global $ilDB;
+		
+		$query = "SELECT ua.rol_id FROM rbac_ua ua ".
+			"JOIN rbac_fa fa ON ua.rol_id = fa.rol_id ".
+			"WHERE usr_id = ".$ilDB->quote($a_usr_id,'integer').' '.
+			"AND parent = ".$ilDB->quote(ROLE_FOLDER_ID)." ".
+			"AND assign = 'y' ";
+		
+		$res = $ilDB->query($query);
+		while($row = $ilDB->fetchObject($res))
+		{
+			$role_arr[] = $row->rol_id;
+		}
+		return $role_arr ? $role_arr : array();
+	}
 
 	/**
 	* Check if its possible to assign users

@@ -3,6 +3,6 @@
     <baseclasses>
     </baseclasses>
     <pluginslots>
-    	<pluginslot id="ldaphk" name="LDAPAuthenticationHook" />
+    	<pluginslot id="ldaphk" name="LDAPHook" />
     </pluginslots>
 </service>

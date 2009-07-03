@@ -43,6 +43,8 @@ define('IL_LDAP_SCOPE_BASE',2);
 */
 class ilLDAPServer
 {
+	private static $instances = array();
+	
 	const DEBUG = false;
 	const DEFAULT_VERSION = 3;
 	
@@ -62,6 +64,15 @@ class ilLDAPServer
 		$this->server_id = $a_server_id;
 		
 		$this->read();
+	}
+	
+	public static function getInstanceByServerId($a_server_id)
+	{
+		if(isset(self::$instances[$a_server_id]))
+		{
+			return self::$instances[$a_server_id];
+		}
+		return self::$instances[$a_server_id] = new ilLDAPServer($a_server_id);
 	}
 	
 	/** 
@@ -769,17 +780,19 @@ class ilLDAPServer
 		if($this->enabledSyncOnLogin())
 		{
 			include_once('Services/LDAP/classes/class.ilLDAPAttributeMapping.php');
-			include_once('Services/LDAP/classes/class.ilLDAPRoleAssignments.php');
+			include_once('Services/LDAP/classes/class.ilLDAPRoleAssignmentRules.php');
 			$mapping = ilLDAPAttributeMapping::_getInstanceByServerId($this->getServerId());
-	 		return array_merge(array($this->getUserAttribute()),
+	 		return array_merge(
+				array($this->getUserAttribute()),
 	 			$mapping->getFields(),
 	 			array('dn'),
-	 			ilLDAPRoleAssignments::_getDistinctAttributeNamesByServerId($this->getServerId()));
+				ilLDAPRoleAssignmentRules::getAttributeNames()
+			);
 		}
 		else
 		{
 			return array($this->getUserAttribute());
-		}	
+		}
 	}
 	
 	

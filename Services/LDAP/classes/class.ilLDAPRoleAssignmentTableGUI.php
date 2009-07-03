@@ -117,9 +117,21 @@ class ilLDAPRoleAssignmentTableGUI extends ilTable2GUI
 	 	foreach($rule_objs as $rule)
 	 	{
 			$tmp_arr['id'] = $rule->getRuleId();
-			$tmp_arr['type'] = $rule->getType() == ilLDAPRoleAssignmentRule::TYPE_GROUP ?
-				$this->lng->txt('ldap_role_by_group') :
-				$this->lng->txt('ldap_role_by_attribute'); 
+			
+			switch($rule->getType())
+			{
+				case ilLDAPRoleAssignmentRule::TYPE_ATTRIBUTE:
+					$tmp_arr['type'] = $this->lng->txt('ldap_role_by_attribute'); 
+					break;
+				case ilLDAPRoleAssignmentRule::TYPE_GROUP:
+					$tmp_arr['type'] = $this->lng->txt('ldap_role_by_group');
+					break;
+				case ilLDAPRoleAssignmentRule::TYPE_PLUGIN:
+					$tmp_arr['type'] = $this->lng->txt('ldap_role_by_plugin');
+					break;
+				
+			}
+			
 			$tmp_arr['condition'] = $rule->conditionToString();
 			$tmp_arr['add'] = $rule->isAddOnUpdateEnabled();
 			$tmp_arr['remove'] = $rule->isRemoveOnUpdateEnabled();
