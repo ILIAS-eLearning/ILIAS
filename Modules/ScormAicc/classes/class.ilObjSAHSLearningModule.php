@@ -65,14 +65,12 @@ class ilObjSAHSLearningModule extends ilObject
 		$this->createMetaData();
 
 		$this->createDataDirectory();
-		
-		$q = "INSERT INTO sahs_lm (id, online, api_adapter, type, editable) VALUES ".
-			" (".$ilDB->quote($this->getID()).",".$ilDB->quote("n").",".
-			$ilDB->quote("API").",".$ilDB->quote($this->getSubType()).
-			",".$ilDB->quote($this->getEditable()).
-			")";
-	
-		$ilDB->query($q);
+
+		$statement = $ilDB->manipulateF('
+			INSERT INTO sahs_lm (id, online, api_adapter, c_type, editable) 
+			VALUES (%s,%s,%s,%s,%s)', 
+			array('integer', 'text', 'text', 'text', 'integer'), 
+			array($this->getID(),'n','API', $this->getSubType(),(int)$this->getEditable()));
 	}
 
 	/**
@@ -83,22 +81,26 @@ class ilObjSAHSLearningModule extends ilObject
 		global $ilDB;
 		
 		parent::read();
-		$q = "SELECT * FROM sahs_lm WHERE id = ".$ilDB->quote($this->getId());
-		$lm_set = $this->ilias->db->query($q);
-		$lm_rec = $lm_set->fetchRow(DB_FETCHMODE_ASSOC);
-		$this->setOnline(ilUtil::yn2tf($lm_rec["online"]));
-		$this->setAutoReview(ilUtil::yn2tf($lm_rec["auto_review"]));
-		$this->setAPIAdapterName($lm_rec["api_adapter"]);
-		$this->setDefaultLessonMode($lm_rec["default_lesson_mode"]);
-		$this->setAPIFunctionsPrefix($lm_rec["api_func_prefix"]);
-		$this->setCreditMode($lm_rec["credit"]);
-		$this->setSubType($lm_rec["type"]);
-		$this->setEditable($lm_rec["editable"]);
-		$this->setStyleSheetId($lm_rec["stylesheet"]);
-		$this->setMaxAttempt($lm_rec["max_attempt"]);
-		$this->setModuleVersion($lm_rec["module_version"]);
-		$this->setAssignedGlossary($lm_rec["glossary"]);
-		$this->setTries($lm_rec["question_tries"]);
+
+		$lm_set = $ilDB->queryF('SELECT * FROM sahs_lm WHERE id = %s', 
+			array('integer'),array($this->getId()));	
+		
+		while($lm_rec = $ilDB->fetchAssoc($lm_set))
+		{
+			$this->setOnline(ilUtil::yn2tf($lm_rec["online"]));
+			$this->setAutoReview(ilUtil::yn2tf($lm_rec["auto_review"]));
+			$this->setAPIAdapterName($lm_rec["api_adapter"]);
+			$this->setDefaultLessonMode($lm_rec["default_lesson_mode"]);
+			$this->setAPIFunctionsPrefix($lm_rec["api_func_prefix"]);
+			$this->setCreditMode($lm_rec["credit"]);
+			$this->setSubType($lm_rec["c_type"]);
+			$this->setEditable($lm_rec["editable"]);
+			$this->setStyleSheetId($lm_rec["stylesheet"]);
+			$this->setMaxAttempt($lm_rec["max_attempt"]);
+			$this->setModuleVersion($lm_rec["module_version"]);
+			$this->setAssignedGlossary($lm_rec["glossary"]);
+			$this->setTries($lm_rec["question_tries"]);
+		}
 	}
 
 	/**
@@ -108,10 +110,10 @@ class ilObjSAHSLearningModule extends ilObject
 	{
 		global $ilDB;
 		
-		$q = "SELECT * FROM sahs_lm WHERE id = ".$ilDB->quote($a_id);
-		$lm_set = $this->ilias->db->query($q);
-		$lm_rec = $lm_set->fetchRow(DB_FETCHMODE_ASSOC);
-
+		$lm_set = $ilDB->queryF('SELECT * FROM sahs_lm WHERE id = %s', 
+		array('integer'), array($a_id));
+		$lm_rec = $ilDB->fetchAssoc($lm_set);
+		
 		return ilUtil::yn2tf($lm_rec["online"]);
 	}
 
@@ -124,11 +126,11 @@ class ilObjSAHSLearningModule extends ilObject
 	{
 		global $ilDB;
 
-		$q = "SELECT * FROM sahs_lm WHERE id = ".$ilDB->quote($a_obj_id);
-		$obj_set = $ilDB->query($q);
-		$obj_rec = $obj_set->fetchRow(DB_FETCHMODE_ASSOC);
-
-		return $obj_rec["type"];
+		$obj_set = $ilDB->queryF('SELECT * FROM sahs_lm WHERE id = %s', 
+		array('integer'), array($a_obj_id));
+		$obj_rec = $ilDB->fetchAssoc($obj_set);
+		
+		return $obj_rec["c_type"];
 	}
 
 	/**
@@ -175,9 +177,11 @@ class ilObjSAHSLearningModule extends ilObject
 	static function _getTries($a_id)
 	{
 		global $ilDB;
-		$q = "SELECT question_tries FROM sahs_lm WHERE id = ".$ilDB->quote($a_id);
-		$lm_set = $ilDB->query($q);
-		$lm_rec = $lm_set->fetchRow(DB_FETCHMODE_ASSOC);
+
+		$lm_set = $ilDB->queryF('SELECT question_tries FROM sahs_lm WHERE id = %s', 
+		array('integer'), array($a_id));
+		$lm_rec = $ilDB->fetchAssoc($lm_set);
+			
 		return $lm_rec['question_tries'];
 	}
 
@@ -385,23 +389,52 @@ class ilObjSAHSLearningModule extends ilObject
 		$this->updateMetaData();
 		parent::update();
 
-		$q = "UPDATE sahs_lm SET ".
-			" online = ".$ilDB->quote(ilUtil::tf2yn($this->getOnline())).",".
-			" api_adapter = ".$ilDB->quote($this->getAPIAdapterName()).",".
-			" api_func_prefix = ".$ilDB->quote($this->getAPIFunctionsPrefix()).",".
-			" auto_review = ".$ilDB->quote(ilUtil::tf2yn($this->getAutoReview())).",".
-			" default_lesson_mode = ".$ilDB->quote($this->getDefaultLessonMode()).",".
-			" type = ".$ilDB->quote($this->getSubType()).",".
-			" stylesheet = ".$ilDB->quote($this->getStyleSheetId()).",".
-			" editable = ".$ilDB->quote($this->getEditable()).",".
-			" max_attempt = ".$ilDB->quote($this->getMaxAttempt()).",".
-			" module_version = ".$ilDB->quote($this->getModuleVersion()).",".
-			" credit = ".$ilDB->quote($this->getCreditMode()).",".
-			" glossary = ".$ilDB->quote($this->getAssignedGlossary()).",".
-			" question_tries = ".$ilDB->quote($this->getTries())."".
-			" WHERE id = ".$ilDB->quote($this->getId());
-		$this->ilias->db->query($q);
-
+		$statement = $ilDB->manipulateF('
+			UPDATE sahs_lm  
+			SET online = %s, 
+				api_adapter = %s, 
+				api_func_prefix = %s,
+				auto_review = %s,
+				default_lesson_mode = %s,
+				c_type = %s,
+				stylesheet = %s, 
+				editable = %s, 
+				max_attempt = %s, 
+				module_version = %s, 
+				credit = %s, 
+				glossary = %s, 
+				question_tries = %s
+			WHERE id = %s', 
+		array(	'text',
+				'text',
+				'text',
+				'text',
+				'text',
+				'text',
+				'integer',
+				'integer',
+				'integer',
+				'integer',
+				'text',
+				'integer',
+				'integer',
+				'integer'), 
+		array(	ilUtil::tf2yn($this->getOnline()),
+				$this->getAPIAdapterName(),
+				$this->getAPIFunctionsPrefix(),
+				ilUtil::tf2yn($this->getAutoReview()),
+				$this->getDefaultLessonMode(),
+				$this->getSubType(),
+				$this->getStyleSheetId(),
+				$this->getEditable(),
+				$this->getMaxAttempt(),
+				$this->getModuleVersion(),
+				$this->getCreditMode(),
+				$this->getAssignedGlossary(),
+				$this->getTries(),
+				$this->getId())
+		);
+		
 		return true;
 	}
 
@@ -470,8 +503,9 @@ class ilObjSAHSLearningModule extends ilObject
 		ilUtil::delDir($this->getDataDirectory());
 
 		// delete scorm learning module record
-		$q = "DELETE FROM sahs_lm WHERE id = ".$ilDB->quote($this->getId());
-		$this->ilias->db->query($q);
+		$statement = $ilDB->manipulateF('DELETE FROM sahs_lm WHERE id = %s', 
+		array('integer'), array($this->getId()));
+		
 		$ilLog->write("SAHS Delete(SAHSLM), Subtype: ".$this->getSubType());
 		
 		if ($this->getSubType() == "scorm")
@@ -500,19 +534,30 @@ class ilObjSAHSLearningModule extends ilObject
 		{
 			// delete aicc data
 			// this is highly dependent on the database
-			$q = "DELETE FROM aicc_units USING aicc_object, aicc_units WHERE aicc_object.obj_id=aicc_units.obj_id and aicc_object.slm_id=".$ilDB->quote($this->getId());
-			$this->ilias->db->query($q);
-	
-			$q = "DELETE FROM aicc_course USING aicc_object, aicc_course WHERE aicc_object.obj_id=aicc_course.obj_id and aicc_object.slm_id=".$ilDB->quote($this->getId());
-			$this->ilias->db->query($q);
-	
-			$q = "DELETE FROM aicc_object WHERE slm_id = ".$ilDB->quote($this->getId());
-			$this->ilias->db->query($q);
+			$statement = $ilDB->manipulateF('
+				DELETE FROM aicc_units 
+				USING aicc_object, aicc_units 
+				WHERE aicc_object.obj_id = aicc_units.obj_id 
+				AND aicc_object.slm_id = %s', 
+				array('integer'), array($this->getId()));
+				
+			$statement = $ilDB->manipulateF('
+				DELETE FROM aicc_course 
+				USING aicc_object, aicc_course 
+				WHERE aicc_object.obj_id = aicc_course.obj_id 
+				AND aicc_object.slm_id = %s',
+				array('integer'), array($this->getId()));
+
+			$statement = $ilDB->manipulateF('
+				DELETE FROM aicc_object WHERE slm_id = %s',
+				array('integer'), array($this->getId()));	
 		}
 
-		$q = "DELETE FROM scorm_tracking WHERE obj_id = ".$ilDB->quote($this->getId());
-$ilLog->write("SAHS Delete(SAHSLM): ".$q);
-		$this->ilias->db->query($q);
+		$q_log = "DELETE FROM scorm_tracking WHERE obj_id = ".$ilDB->quote($this->getId());
+		$ilLog->write("SAHS Delete(SAHSLM): ".$q_log);
+
+		$statement->$ilDB->manipulateF('DELETE FROM scorm_tracking WHERE obj_id = %s',
+		array('integer'), array($this->getId()));
 
 		// always call parent delete function at the end!!
 		return true;

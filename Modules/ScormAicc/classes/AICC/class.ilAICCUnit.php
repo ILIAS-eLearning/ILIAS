@@ -173,21 +173,22 @@ class ilAICCUnit extends ilAICCObject
 		
 		parent::read();
 
-		$q = "SELECT * FROM aicc_units WHERE obj_id = ".$ilDB->quote($this->getId());
-
-		$obj_set = $this->ilias->db->query($q);
-		$obj_rec = $obj_set->fetchRow(DB_FETCHMODE_ASSOC);
-		$this->setAUType($obj_rec["type"]);
-		$this->setCommand_line($obj_rec["command_line"]);
-		$this->setMaxTimeAllowed($obj_rec["max_time_allowed"]);
-		$this->setTimeLimitAction($obj_rec["time_limit_action"]);
-		$this->setMaxScore($obj_rec["max_score"]);
-		$this->setCoreVendor($obj_rec["core_vendor"]);
-		$this->setSystemVendor($obj_rec["system_vendor"]);
-		$this->setFilename($obj_rec["file_name"]);
-		$this->setMasteryScore($obj_rec["mastery_score"]);
-		$this->setWebLaunch($obj_rec["web_launch"]);
-		$this->setAUPassword($obj_rec["au_password"]);
+		$obj_set = $ilDB->queryF('SELECT * FROM aicc_units WHERE obj_id = %s',
+		array('integer'), array($this->getId()));
+		while($obj_rec = $ilDB->fetchAssoc($obj_set))
+		{
+			$this->setAUType($obj_rec["c_type"]);
+			$this->setCommand_line($obj_rec["command_line"]);
+			$this->setMaxTimeAllowed($obj_rec["max_time_allowed"]);
+			$this->setTimeLimitAction($obj_rec["time_limit_action"]);
+			$this->setMaxScore($obj_rec["max_score"]);
+			$this->setCoreVendor($obj_rec["core_vendor"]);
+			$this->setSystemVendor($obj_rec["system_vendor"]);
+			$this->setFilename($obj_rec["file_name"]);
+			$this->setMasteryScore($obj_rec["mastery_score"]);
+			$this->setWebLaunch($obj_rec["web_launch"]);
+			$this->setAUPassword($obj_rec["au_password"]);			
+		}
 	}
 
 	function create()
@@ -196,23 +197,36 @@ class ilAICCUnit extends ilAICCObject
 		
 		parent::create();
 
-		$q = "INSERT INTO aicc_units (obj_id, type, command_line, max_time_allowed, time_limit_action,
-									max_score, core_vendor, system_vendor, file_name, mastery_score,
-									web_launch, au_password) VALUES (";
-		$q.=$ilDB->quote($this->getId()).", ";
-		$q.=$ilDB->quote($this->getAUType()).", ";
-		$q.=$ilDB->quote($this->getCommand_line()).", ";
-		$q.=$ilDB->quote($this->getMaxTimeAllowed()).", ";
-		$q.=$ilDB->quote($this->getTimeLimitAction()).", ";
-		$q.=$ilDB->quote($this->getMaxScore()).", ";
-		$q.=$ilDB->quote($this->getCoreVendor()).", ";
-		$q.=$ilDB->quote($this->getSystemVendor()).", ";
-		$q.=$ilDB->quote($this->getFilename()).", ";
-		$q.=$ilDB->quote($this->getMasteryScore()).", ";
-		$q.=$ilDB->quote($this->getWebLaunch()).", ";
-		$q.=$ilDB->quote($this->getAUPassword()).")";
-
-		$this->ilias->db->query($q);
+		$statement = $ilDB->manipulateF('
+		INSERT INTO aicc_units 
+		(	obj_id, 
+			c_type, 
+			command_line, 
+			max_time_allowed, 
+			time_limit_action,
+			max_score, 
+			core_vendor, 
+			system_vendor, 
+			file_name, 
+			mastery_score,
+			web_launch, 
+			au_password
+		) 
+		VALUES (%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s)',
+		array('integer','text','text','time','text','float','text','text','text','integer','text','text'), 
+		array(	$this->getId(),
+				$this->getAUType(),
+				$this->getCommand_line(),
+				$this->getMaxTimeAllowed(),
+				$this->getTimeLimitAction(),
+				$this->getMaxScore(),
+				$this->getCoreVendor(),
+				$this->getSystemVendor(),
+				$this->getFilename(),
+				$this->getMasteryScore(),
+				$this->getWebLaunch(),
+				$this->getAUPassword())
+		);
 	}
 
 	function update()
@@ -221,20 +235,34 @@ class ilAICCUnit extends ilAICCObject
 		
 		parent::update();
 		
-		$q = "UPDATE aicc_units SET ";
-		$q.="type=".$ilDB->quote($this->getAUType()).", ";
-		$q.="command_line=".$ilDB->quote($this->getCommand_line()).", ";
-		$q.="max_time_allowed=".$ilDB->quote($this->getMaxTimeAllowed()).", ";
-		$q.="time_limit_action=".$ilDB->quote($this->getTimeLimitAction()).", ";
-		$q.="max_score=".$ilDB->quote($this->getMaxScore()).", ";
-		$q.="core_vendor=".$ilDB->quote($this->getCoreVendor()).", ";
-		$q.="system_vendor=".$ilDB->quote($this->getSystemVendor()).", ";
-		$q.="file_name=".$ilDB->quote($this->getFilename()).", ";
-		$q.="mastery_score=".$ilDB->quote($this->getMasteryScore()).", ";
-		$q.="web_launch=".$ilDB->quote($this->getWebLaunch()).", ";
-		$q.="au_password=".$ilDB->quote($this->getAUPassword())." ";		
-		$q.="WHERE obj_id = ".$ilDB->quote($this->getId());
-		$this->ilias->db->query($q);
+		$statement = $ilDB->manipulateF('
+			UPDATE aicc_units 
+			SET c_type = %s,
+				command_line = %s,
+				max_time_allowed = %s,
+				time_limit_action = %s,
+				max_score = %s,
+				core_vendor = %s,
+				system_vendor = %s,
+				file_name = %s,
+				mastery_score = %s,
+				web_launch = %s,
+				au_password = %s		
+			WHERE obj_id = %s',
+		array('text','text','time','text','float','text','text','text','integer','text','text','integer'),
+		array(	$this->getAUType(),
+				$this->getCommand_line(),
+				$this->getMaxTimeAllowed(),
+				$this->getTimeLimitAction(),
+				$this->getMaxScore(),
+				$this->getCoreVendor(),
+				$this->getSystemVendor(),
+				$this->getFilename(),
+				$this->getMasteryScore(),
+				$this->getWebLaunch(),
+				$this->getAUPassword(),
+				$this->getId()) 
+		);
 	}
 
 	function delete()
@@ -243,14 +271,16 @@ class ilAICCUnit extends ilAICCObject
 
 		parent::delete();
 
-		$q = "DELETE FROM aicc_units WHERE obj_id =".$ilDB->quote($this->getId());
-		$ilLog->write("SAHS Delete(Unit): ".$q);
-		$ilDB->query($q);
+		$q_log = "DELETE FROM aicc_units WHERE obj_id =".$ilDB->quote($this->getId());
+		$ilLog->write("SAHS Delete(Unit): ".$q_log);
+		$statement = $ilDB->manipulateF('DELETE FROM aicc_units WHERE obj_id = %s',
+		array('integer'),array($this->getId()));
 
-		$q = "DELETE FROM scorm_tracking WHERE ".
-			"sco_id = ".$ilDB->quote($this->getId()).
-			" AND obj_id = ".$ilDB->quote($this->getALMId());
-		$ilDB->query($q);
+		$statement = $ilDB->manipulateF('
+			DELETE FROM scorm_tracking 
+			WHERE sco_id = %s
+			AND obj_id =%s',
+			array('integer','integer'),array($this->getId(),$this->getALMId()));		
 
 	}
 
@@ -268,18 +298,21 @@ class ilAICCUnit extends ilAICCObject
 			$a_user_id = $ilUser->getId();
 		}
 
-		$q = "SELECT * FROM scorm_tracking WHERE ".
-			"sco_id = ".$ilDB->quote($this->getId())." AND ".
-			"user_id = ".$ilDB->quote($a_user_id).
-			" AND obj_id = ".$ilDB->quote($this->getALMId());;
-
-		$track_set = $ilDB->query($q);
+		$track_set = $ilDB->queryF('
+		SELECT * FROM scorm_tracking 
+		WHERE sco_id = %s
+		AND user_id = %s
+		AND obj_id = %s',
+		array('integer','integer','integer'),
+		array($this->getId(), $a_user_id, $this->getALMId()));
+		
 		$trdata = array();
-		while ($track_rec = $track_set->fetchRow(DB_FETCHMODE_ASSOC))
+		while ($track_rec = $ilDB->fetchAssoc($track_set))
 		{
 			$trdata[$track_rec["lvalue"]] = $track_rec["rvalue"];
 		}
-
+		
+		
 		return $trdata;
 	}
 	

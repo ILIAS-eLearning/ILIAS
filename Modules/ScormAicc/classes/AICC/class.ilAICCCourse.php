@@ -118,6 +118,7 @@ class ilAICCCourse extends ilAICCObject
 	
 	function setMaxFieldsCst($a_max_fields_cst)
 	{
+				if($a_max_fields_cst == NULL) $a_max_fields_cst=0;
 		$this->max_fields_cst = $a_max_fields_cst;
 	}
 	
@@ -128,6 +129,7 @@ class ilAICCCourse extends ilAICCObject
 	
 	function setMaxFieldsOrt($a_max_fields_ort)
 	{
+		if($a_max_fields_ort == NULL) $a_max_fields_ort=0;
 		$this->max_fields_ort = $a_max_fields_ort;
 	}
 	
@@ -148,6 +150,7 @@ class ilAICCCourse extends ilAICCObject
 	
 	function setTotalBlocks($a_total_blocks)
 	{
+
 		$this->total_blocks = $a_total_blocks;
 	}
 	
@@ -158,6 +161,7 @@ class ilAICCCourse extends ilAICCObject
 	
 	function setTotalComplexObj($a_total_complex_obj)
 	{
+		if($a_total_complex_obj == NULL) $a_total_complex_obj=0;	
 		$this->total_complex_obj = $a_total_complex_obj;
 	}
 	
@@ -207,24 +211,26 @@ class ilAICCCourse extends ilAICCObject
 		
 		parent::read();
 
-		$q = "SELECT * FROM aicc_course WHERE obj_id = ".$ilDB->quote($this->getId());
-
-		$obj_set = $this->ilias->db->query($q);
-		$obj_rec = $obj_set->fetchRow(DB_FETCHMODE_ASSOC);
-		$this->setCourseCreator($obj_rec["course_creator"]);
-		$this->setCourseId($obj_rec["course_id"]);
-		$this->setCourseSystem($obj_rec["course_system"]);
-		$this->setCourseTitle($obj_rec["course_title"]);
-		$this->setLevel($obj_rec["level"]);
-		$this->setMaxFieldsCst($obj_rec["max_fields_cst"]);
-		$this->setMaxFieldsOrt($obj_rec["max_fields_ort"]);
-		$this->setTotalAUs($obj_rec["total_aus"]);
-		$this->setTotalBlocks($obj_rec["total_blocks"]);
-		$this->setTotalComplexObj($obj_rec["total_complex_obj"]);
-		$this->setTotalObjectives($obj_rec["total_objectives"]);
-		$this->setVersion($obj_rec["_version"]);
-		$this->setMaxNormal($obj_rec["max_normal"]);
-		$this->setDescription($obj_rec["description"]);
+		$obj_set = $ilDB->queryF('SELECT * FROM aicc_course WHERE obj_id = %s',
+					array('integer'), array($this->id));
+					
+		while($obj_rec = $ilDB->fetchAssoc($obj_set))
+		{
+			$this->setCourseCreator($obj_rec["course_creator"]);
+			$this->setCourseId($obj_rec["course_id"]);
+			$this->setCourseSystem($obj_rec["course_system"]);
+			$this->setCourseTitle($obj_rec["course_title"]);
+			$this->setLevel($obj_rec["level"]);
+			$this->setMaxFieldsCst($obj_rec["max_fields_cst"]);
+			$this->setMaxFieldsOrt($obj_rec["max_fields_ort"]);
+			$this->setTotalAUs($obj_rec["total_aus"]);
+			$this->setTotalBlocks($obj_rec["total_blocks"]);
+			$this->setTotalComplexObj($obj_rec["total_complex_obj"]);
+			$this->setTotalObjectives($obj_rec["total_objectives"]);
+			$this->setVersion($obj_rec["version"]);
+			$this->setMaxNormal($obj_rec["max_normal"]);
+			$this->setDescription($obj_rec["description"]);
+		}
 	}
 
 	function create()
@@ -233,26 +239,58 @@ class ilAICCCourse extends ilAICCObject
 		
 		parent::create();
 
-		$q = "INSERT INTO aicc_course (obj_id, course_creator, course_id, course_system, course_title,
-																	level, max_fields_cst, max_fields_ort, total_aus, total_blocks,
-																	total_complex_obj, total_objectives, version, max_normal,
-																	description) VALUES (";
-		$q.= $ilDB->quote($this->getId()).", ";
-		$q.= $ilDB->quote($this->getCourseCreator()).", ";
-		$q.= $ilDB->quote($this->getCourseId()).", ";
-		$q.= $ilDB->quote($this->getCourseSystem()).", ";
-		$q.= $ilDB->quote($this->getCourseTitle()).", ";
-		$q.= $ilDB->quote($this->getLevel()).", ";
-		$q.= $ilDB->quote($this->getMaxFieldsCst()).", ";
-		$q.= $ilDB->quote($this->getMaxFieldsOrt()).", ";
-		$q.= $ilDB->quote($this->getTotalAUs()).", ";
-		$q.= $ilDB->quote($this->getTotalBlocks()).", ";
-		$q.= $ilDB->quote($this->getTotalComplexObj()).", ";
-		$q.= $ilDB->quote($this->getTotalObjectives()).", ";
-		$q.= $ilDB->quote($this->getVersion()).", ";
-		$q.= $ilDB->quote($this->getMaxNormal()).", ";
-		$q.= $ilDB->quote($this->getDescription()).")";
-		$this->ilias->db->query($q);
+		$statement = $ilDB->manipulateF("
+				INSERT INTO aicc_course 
+				(	obj_id, 
+					course_creator, 
+					course_id, 
+					course_system, 
+					course_title,
+					level, 
+					max_fields_cst, 
+					max_fields_ort, 
+					total_aus, 
+					total_blocks,
+					total_complex_obj, 
+					total_objectives, 
+					version, 
+					max_normal,
+					description
+				) VALUES ( %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s )",
+				array(	'integer', 
+						'text', 
+						'text',
+						'text',
+						'text',
+						'text',
+						'integer',
+						'integer',
+						'integer',
+						'integer',
+						'integer',
+						'integer',
+						'text',
+						'integer',
+						'text'
+				),
+				array(	$this->getId(),
+						$this->getCourseCreator(),
+						$this->getCourseId(),
+						$this->getCourseSystem(),
+						$this->getCourseTitle(),
+						$this->getLevel(),
+						$this->getMaxFieldsCst(),
+						$this->getMaxFieldsOrt(),
+						$this->getTotalAUs(),
+						$this->getTotalBlocks(),
+						$this->getTotalComplexObj(),
+						$this->getTotalObjectives(),
+						$this->getVersion(),
+						$this->getMaxNormal(),
+						$this->getDescription()
+				)
+	 	);
+		
 	}
 
 	function update()
@@ -260,24 +298,56 @@ class ilAICCCourse extends ilAICCObject
 		global $ilDB;
 		
 		parent::update();
-		
-		$q = "UPDATE aicc_course SET ";
-		$q.="course_creator=".$ilDB->quote($this->getCourseCreator()).", ";
-		$q.="course_id=".$ilDB->quote($this->getCourseId()).", ";
-		$q.="course_system=".$ilDB->quote($this->getCourseSystem()).", ";
-		$q.="course_title=".$ilDB->quote($this->getCourseTitle()).", ";
-		$q.="level=".$ilDB->quote($this->getLevel()).", ";
-		$q.="max_fields_cst=".$ilDB->quote($this->getMaxFieldsCst()).", ";
-		$q.="max_fields_ort=".$ilDB->quote($this->getMaxFieldsOrt()).", ";
-		$q.="total_aus=".$ilDB->quote($this->getTotalAUs()).", ";
-		$q.="total_blocks=".$ilDB->quote($this->getTotalBlocks()).", ";
-		$q.="total_complex_obj=".$ilDB->quote($this->getTotalComplexObj()).", ";
-		$q.="total_objectives=".$ilDB->quote($this->getTotalObjectives()).", ";
-		$q.="version=".$ilDB->quote($this->getVersion()).", ";
-		$q.="max_normal=".$ilDB->quote($this->getMaxNormal()).", ";
-		$q.="description=".$ilDB->quote($this->getDescription())." ";		
-		$q.="WHERE obj_id = ".$ilDB->quote($this->getId());
-		$this->ilias->db->query($q);
+
+		$statement = $ilDB->manipulateF('
+			UPDATE aicc_course SET 
+				course_creator = %s, 
+				course_id = %s, 
+				course_system = %s, 
+				course_title = %s, 
+				level = %s, 
+				max_fields_cst = %s, 
+				max_fields_ort = %s, 
+				total_aus = %s, 
+				total_blocks = %s, 
+				total_complex_obj = %s, 
+				total_objectives = %s, 
+				version = %s, 
+				max_normal = %s, 
+				description = %s
+			WHERE obj_id = %s',
+			array(	'text', 
+					'text', 
+					'text', 
+					'text', 
+					'text', 
+					'integer', 
+					'integer', 
+					'integer', 
+					'integer', 
+					'integer', 
+					'integer', 
+					'text', 
+					'integer', 
+					'text', 
+					'integer' ),
+			array(	$this->getCourseCreator(),
+					$this->getCourseId(),
+					$this->getCourseSystem(),
+					$this->getCourseTitle(),
+					$this->getLevel(),
+					$this->getMaxFieldsCst(),
+					$this->getMaxFieldsOrt(),
+					$this->getTotalAUs(),
+					$this->getTotalBlocks(),
+					$this->getTotalComplexObj(),
+					$this->getTotalObjectives(),
+					$this->getVersion(),
+					$this->getMaxNormal(),
+					$this->getDescription(),
+					$this->getId()					
+			)
+		);
 	}
 
 	function delete()
@@ -286,15 +356,18 @@ class ilAICCCourse extends ilAICCObject
 
 		parent::delete();
 
-		$q = "DELETE FROM aicc_course WHERE obj_id =".$ilDB->quote($this->getId());
-		$ilDB->query($q);
 
-		$q = "DELETE FROM scorm_tracking WHERE ".
-			"sco_id = ".$ilDB->quote($this->getId()).
-			" AND obj_id = ".$ilDB->quote($this->getALMId());
-		$ilLog->write("SAHS Delete: ".$q);
-		$ilDB->query($q);
-
+		$statement = $ilDB->manipulateF('DELETE FROM aicc_course WHERE obj_id = %s',
+					array('integer'), array($this->getId())
+		);
+		
+		$statement = $ilDB->manipulateF('
+			DELETE FROM scorm_tracking 
+			WHERE sco_id = %s
+			AND obj_id = %s',
+			array('integer', 'integer'),
+ 			array($this->getId(),$this->getALMId())
+ 		);
 	}
 
 	/**
@@ -311,18 +384,20 @@ class ilAICCCourse extends ilAICCObject
 			$a_user_id = $ilUser->getId();
 		}
 
-		$q = "SELECT * FROM scorm_tracking WHERE ".
-			"sco_id = ".$ilDB->quote($this->getId())." AND ".
-			"user_id = ".$ilDB->quote($a_user_id).
-			" AND obj_id = ".$ilDB->quote($this->getALMId());
-
-		$track_set = $ilDB->query($q);
+		$track_set = $ilDB->queryF('
+			SELECT * FROM scorm_tracking 
+			WHERE sco_id = %s
+			AND user_id = %s
+			AND obj_id = %s',
+			array('integer', 'integer', 'integer'),
+			array($this->getId(), $a_user_id, $this->getALMId())
+		);	
 		$trdata = array();
-		while ($track_rec = $track_set->fetchRow(DB_FETCHMODE_ASSOC))
+		while ($track_rec = $ilDB->fetchAssoc($track_set))
 		{
 			$trdata[$track_rec["lvalue"]] = $track_rec["rvalue"];
 		}
-
+		
 		return $trdata;
 	}
 	

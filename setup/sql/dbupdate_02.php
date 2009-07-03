@@ -13188,7 +13188,7 @@ $ilCtrlStructureReader->getStructure();
 
 $atts = array(
 	'type' => 'integer',
-	'length' => 1,
+	'length' => 1
 );
 $ilDB->addTableColumn("ldap_role_assignments", "add_on_update", $atts);
 $ilDB->addTableColumn("ldap_role_assignments", "remove_on_update", $atts);
@@ -13204,4 +13204,673 @@ $ilDB->addTableColumn("ldap_role_assignments", "plugin_id", $atts);
 <?php
 $ilCtrlStructureReader->getStructure();
 ?>
+<#2505>
+<?php
+	$ilDB->modifyTableColumn("aicc_course", "description", array("type" => "clob", "notnull" => false));
+?>
+<#2506>
+<?php
+	$ilDB->manipulate("ALTER TABLE `aicc_course` CHANGE `max_fields_cst` `max_fields_cst` INT( 11 ) NULL DEFAULT '0'");
+?>
+<#2507>
+<?php
+	$ilDB->manipulate("ALTER TABLE `aicc_course` CHANGE `max_fields_ort` `max_fields_ort` INT( 11 ) NULL DEFAULT '0'");
+?>
+<#2508>
+<?php
+	$ilDB->manipulate("ALTER TABLE `aicc_course` CHANGE `total_aus` `total_aus` INT( 11 ) NOT NULL DEFAULT '0'");
+?>
+<#2509>
+<?php
+	$ilDB->manipulate("ALTER TABLE `aicc_course` CHANGE `total_blocks` `total_blocks` INT( 11 ) NOT NULL DEFAULT '0'");
+?>
+<#2510>
+<?php
+	$ilDB->manipulate("ALTER TABLE `aicc_course` CHANGE `total_complex_obj` `total_complex_obj` INT( 11 ) NULL DEFAULT '0'");
+?>
+<#2511>
+<?php
+	$ilDB->manipulate("ALTER TABLE `aicc_course` CHANGE `total_objectives` `total_objectives` INT( 11 ) NULL DEFAULT '0'");
+?>
+<#2512>
+<?php
+	$ilDB->manipulate("ALTER TABLE `aicc_object` CHANGE `type` `c_type` VARCHAR(50) NULL DEFAULT NULL");	
+?>
+<#2513>
+<?php
+	$ilDB->modifyTableColumn("aicc_object", "description", array("type" => "clob", "notnull" => false));	
+?>
+<#2514>
+<?php
+	$ilDB->manipulate("ALTER TABLE `aicc_object` CHANGE `title` `title` VARCHAR(4000) NULL DEFAULT NULL");	
+?>
+<#2515>
+<?php
+	$ilDB->manipulate("ALTER TABLE `aicc_units` CHANGE `type` `c_type` VARCHAR(50) NULL DEFAULT NULL");	
+?>
+<#2516>
+<?php
+	$ilDB->manipulate("ALTER TABLE `aicc_units` CHANGE `core_vendor` `core_vendor` VARCHAR(4000) NULL DEFAULT NULL");	
+?>
+<#2517>
+<?php
+	$ilDB->manipulate("ALTER TABLE `aicc_units` CHANGE `system_vendor` `system_vendor` VARCHAR(4000) NULL DEFAULT NULL");	
+?>
+<#2518>
+<?php
+	$ilDB->manipulate("ALTER TABLE `aicc_units` CHANGE `mastery_score` `mastery_score`INT( 11 ) NOT NULL DEFAULT '0'");
+?>
+<#2519>
+<?php
+	$ilDB->manipulate("ALTER TABLE `aicc_units` CHANGE `max_score` `max_score` FLOAT NOT NULL DEFAULT '0'");
+?>
+<#2520>
+<?php
+	$ilDB->renameTableColumn('cmi_comment','timestamp','c_timestamp');	
+?>
+<#2521>
+<?php
+	$ilDB->renameTableColumn('cmi_comment','comment','c_comment');	
+?>
+<#2522>
+<?php
+	$ilDB->modifyTableColumn("cmi_comment", "c_comment", array("type" => "clob", "notnull" => false));	
+?>
+<#2523>
+<?php
+	$ilDB->manipulate("ALTER TABLE `cmi_comment` CHANGE `c_timestamp` `c_timestamp` DATETIME NULL");	
+?>
+<#2524>
+<?php
+	$ilDB->manipulate("ALTER TABLE `cmi_correct_response` DROP INDEX `cmi_correct_response_id`");
+?>
+<#2525>
+<?php
+	$ilDB->manipulate("ALTER TABLE `cmi_correct_response` CHANGE `cmi_correct_response_id` `cmi_correct_resp_id` INT( 11 ) NOT NULL AUTO_INCREMENT ");
+?>
+<#2526>
+<?php
+	$ilDB->manipulate("ALTER TABLE `cmi_custom` CHANGE `rvalue` `rvalue` VARCHAR(255) NULL DEFAULT NULL");	
+?>
+<#2527>
+<?php
+	$ilDB->manipulate("ALTER TABLE `cmi_custom` CHANGE `timestamp` `c_timestamp` DATETIME NULL");
+?>
+<#2528>
+<?php	
+	$ilMySQLAbstraction->performAbstraction('cmi_gobjective');
+?>
+<#2529>
+<?php
+	$ilDB->modifyTableColumn("cmi_interaction", "description", array("type" => "clob", "notnull" => false));	
+?>
+<#2530>
+<?php	
+	$ilDB->manipulate("ALTER TABLE `cmi_interaction` CHANGE `learner_response` `learner_response` VARCHAR(4000) NULL DEFAULT NULL");
+?>
+<#2531>
+<?php
+	$ilDB->manipulate("ALTER TABLE `cmi_interaction` CHANGE `result` `result` VARCHAR(4000) NULL DEFAULT NULL");
+?>
+<#2532>
+<?php
+	$ilDB->manipulate("ALTER TABLE `cmi_interaction` CHANGE `weighting` `weighting` FLOAT NOT NULL DEFAULT '0'");
+?>
+<#2533>
+<?php	
+	$ilDB->renameTableColumn('cmi_interaction','timestamp','c_timestamp');	
+?>
+<#2534>
+<?php	
+	$ilDB->renameTableColumn('cmi_interaction','type','c_type');	
+?>
+<#2535>
+<?php	
+	$ilMySQLAbstraction->performAbstraction('cmi_interaction');
+?>
+<#2536>
+<?php		
+	$ilDB->manipulate("ALTER TABLE `cmi_node` CHANGE `attemptCompletionAmount` `attemptcomplamount` FLOAT NOT NULL DEFAULT '0'");
+?>
+<#2537>
+<?php	
+	$ilDB->manipulate("ALTER TABLE `cmi_node` CHANGE `audio_level` `audio_level` FLOAT NOT NULL DEFAULT '0'");
+?>
+<#2538>
+<?php	
+	$ilDB->manipulate("ALTER TABLE `cmi_node` CHANGE `completion` `completion` FLOAT NOT NULL DEFAULT '0'");
+?>
+<#2539>
+<?php
+	$ilDB->manipulate("ALTER TABLE `cmi_node` CHANGE `delivery_speed` `delivery_speed` FLOAT NOT NULL DEFAULT '0'");
+?>
+<#2540>
+<?php
+	$ilDB->manipulate("ALTER TABLE `cmi_node` CHANGE `max` `c_max` FLOAT NOT NULL DEFAULT '0'");
+?>
+<#2541>
+<?php	
+	$ilDB->manipulate("ALTER TABLE `cmi_node` CHANGE `min` `c_min` FLOAT NOT NULL DEFAULT '0'");
+?>
+<#2542>
+<?php	
+	$ilDB->manipulate("ALTER TABLE `cmi_node` CHANGE `progress_measure` `progress_measure` FLOAT NOT NULL DEFAULT '0'");
+?>
+<#2543>
+<?php	
+	$ilDB->manipulate("ALTER TABLE `cmi_node` CHANGE `raw` `c_raw` FLOAT NOT NULL DEFAULT '0'");
+?>
+<#2544>
+<?php	
+	$ilDB->manipulate("ALTER TABLE `cmi_node` CHANGE `scaled` `scaled` FLOAT NOT NULL DEFAULT '0'");
+?>
+<#2545>
+<?php	
+	$ilDB->manipulate("ALTER TABLE `cmi_node` CHANGE `scaled_passing_score` `scaled_passing_score` FLOAT NOT NULL DEFAULT '0'");
+?>
+<#2546>
+<?php	
+	$ilDB->manipulate("ALTER TABLE `cmi_node` CHANGE `launch_data` `launch_data` VARCHAR(4000) NULL DEFAULT NULL");
+?>
+<#2547>
+<?php
+	$ilDB->manipulate("ALTER TABLE `cmi_node` CHANGE `suspend_data` `suspend_data` VARCHAR(4000) NULL DEFAULT NULL");
+?>
+<#2548>
+<?php	
+	$ilDB->manipulate("ALTER TABLE `cmi_node` CHANGE `TIMESTAMP` `c_timestamp` DATETIME NULL");
+?>
+<#2549>
+<?php	
+	$ilDB->renameTableColumn('cmi_node','activityexperiencedduration','activityexpduration');		
+?>
+<#2550>
+<?php	
+	$ilDB->renameTableColumn('cmi_node','attemptexperiencedduration','attemptexpduration');
+?>
+<#2551>
+<?php	
+	$ilDB->renameTableColumn('cmi_node','attemptabsoluteduration','attemptabsduration');
+?>
+<#2552>
+<?php	
+	$ilDB->renameTableColumn('cmi_node','activityabsoluteduration','activityabsduration');
+?>
+<#2553>
+<?php	
+	$ilDB->renameTableColumn('cmi_node','activityprogressstatus','activityprogstatus');
+?>
+<#2554>
+<?php		
+	$ilDB->renameTableColumn('cmi_node','attemptcompletionstatus','attemptcomplstatus');
+?>
+<#2555>
+<?php		
+	$ilDB->renameTableColumn('cmi_node','attemptprogressstatus','attemptprogstatus');
+?>
+<#2556>
+<?php		
+	$ilDB->renameTableColumn('cmi_node','entry','c_entry');
+?>
+<#2557>
+<?php	
+	$ilDB->manipulate("ALTER TABLE `cmi_node` CHANGE `exit` `c_exit` VARCHAR(255) NULL DEFAULT NULL");	
+?>
+<#2558>
+<?php		
+	$ilMySQLAbstraction->performAbstraction('cmi_node');
+?>
+<#2559>
+<?php	
+	$ilMySQLAbstraction->performAbstraction('cmi_correct_response');
+?>
+<#2560>
+<?php			
+	$ilMySQLAbstraction->performAbstraction('cmi_custom');
+?>
+<#2561>
+	ALTER TABLE `cp_condition` CHANGE `measureThreshold` `measurethreshold` VARCHAR( 50 ) NULL DEFAULT NULL; 
 
+<#2562>
+	ALTER TABLE `cp_condition` CHANGE `referencedObjective` `referencedobjective` VARCHAR( 50 ) NULL DEFAULT NULL; 
+
+<#2563>
+<?php
+	$ilDB->modifyTableColumn("cmi_objective", "description", array("type" => "clob", "notnull" => false)); 
+?>
+
+<#2564>
+<?php		
+	$ilDB->renameTableColumn('cmi_objective','min','c_min');;
+?>
+<#2565>
+<?php		
+	$ilDB->renameTableColumn('cmi_objective','max','c_max');;
+?>
+<#2566>
+<?php		
+	$ilDB->renameTableColumn('cmi_objective','raw','c_raw');;
+?>
+<#2567>
+<?php		
+	$ilMySQLAbstraction->performAbstraction('cmi_objective');
+?>
+<#2568>
+<?php		
+	$ilMySQLAbstraction->performAbstraction('cp_auxilaryResource');
+?>	
+<#2569>
+<?php		
+	$ilDB->renameTableColumn('cp_condition','operator','c_operator');
+?>
+<#2570>
+	ALTER TABLE `cp_condition` CHANGE `condition` `c_condition` VARCHAR( 50 ) NULL DEFAULT NULL; 
+<#2571>
+<?php		
+	$ilMySQLAbstraction->performAbstraction('cp_condition');
+?>	
+<#2572>
+<?php		
+	$ilMySQLAbstraction->performAbstraction('cp_file');
+?>
+<#2573>
+<?php		
+	$ilMySQLAbstraction->performAbstraction('cp_hidelmsui');
+?>
+<#2574>
+<?php		
+	$ilDB->manipulate("ALTER TABLE `cp_item` CHANGE `completionThreshold` `completionthreshold` VARCHAR( 50 ) NULL DEFAULT NULL"); 
+?>
+<#2575>
+<?php	
+	$ilDB->manipulate("ALTER TABLE `cp_item` CHANGE `dataFromLMS` `datafromlms` VARCHAR( 255 ) NULL DEFAULT NULL"); 
+?>
+<#2576>
+<?php		
+	$ilDB->manipulate("ALTER TABLE `cp_item` CHANGE `resourceId` `resourceid` VARCHAR( 200 ) NULL DEFAULT NULL"); 
+?>
+<#2577>
+<?php		
+	$ilDB->manipulate("ALTER TABLE `cp_item` CHANGE `sequencingId` `sequencingid` VARCHAR( 50 ) NULL DEFAULT NULL"); 
+?>
+<#2578>
+<?php		
+	$ilDB->manipulate("ALTER TABLE `cp_item` CHANGE `timeLimitAction` `timelimitaction` VARCHAR( 30 ) NULL DEFAULT NULL"); ?>
+<#2579>
+<?php	
+	$ilMySQLAbstraction->performAbstraction('cp_item');
+?>
+<#2580>
+<?php		
+	$ilDB->manipulate("ALTER TABLE `cp_manifest` CHANGE `defaultOrganization` `defaultorganization` VARCHAR( 30 ) NULL DEFAULT NULL"); 
+?>
+<#2581>
+<?php	
+	$ilMySQLAbstraction->performAbstraction('cp_manifest');
+?>
+<#2582>
+<?php		
+	$ilDB->renameTableColumn('cp_mapinfo','readnormalizedmeasure','readnormalmeasure');
+?>
+<#2583>
+<?php		
+	$ilDB->renameTableColumn('cp_mapinfo','writenormalizedmeasure','writenormalmeasure');
+?>
+<#2584>
+<?php		
+	$ilDB->manipulate("ALTER TABLE `cp_mapinfo` CHANGE `readSatisfiedStatus` `readsatisfiedstatus` TINYINT( 4 ) NULL DEFAULT NULL ");
+?>
+<#2585>
+<?php		
+	$ilDB->manipulate("ALTER TABLE `cp_mapinfo` CHANGE `targetObjectiveID` `targetobjectiveid` TINYINT( 4 ) NULL DEFAULT NULL ");
+?>
+<#2586>
+<?php		
+	$ilDB->manipulate("ALTER TABLE `cp_mapinfo` CHANGE `writeSatisfiedStatus` `writesatisfiedstatus` TINYINT( 4 ) NULL DEFAULT NULL ");
+?>
+<#2587>
+<?php		
+	$ilMySQLAbstraction->performAbstraction('cp_mapinfo');
+?>
+<#2588>
+<?php		
+	$ilDB->manipulate("ALTER TABLE `cp_node` CHANGE `nodeName` `nodename` VARCHAR( 50 ) NULL DEFAULT NULL"); 
+?>
+<#2589>
+<?php	
+	$ilMySQLAbstraction->performAbstraction('cp_node');
+?>	
+<#2590>
+<?php		
+	$ilDB->renameTableColumn('cp_objective','minnormalizedmeasure','minnormalmeasure');
+?>
+<#2591>
+<?php		
+	$ilDB->manipulate("ALTER TABLE `cp_objective` CHANGE `satisfiedByMeasure` `satisfiedbymeasure` TINYINT( 4 ) NULL DEFAULT NULL ");
+?>
+<#2592>
+<?php		
+	$ilDB->manipulate("ALTER TABLE `cp_objective` CHANGE `objectiveID` `objectiveid` VARCHAR( 200 ) NULL DEFAULT NULL"); 
+?>
+<#2593>
+	ALTER TABLE `cp_objective` CHANGE `primary` `c_primary` TINYINT( 4 ) NULL DEFAULT NULL ;
+<#2594>
+<?php		
+	$ilDB->manipulate("ALTER TABLE `cp_organization` CHANGE `sequencingId` `sequencingid` VARCHAR( 50 ) NULL DEFAULT NULL"); 
+?>
+<#2595>
+<?php		
+	$ilDB->renameTableColumn('cp_organization','objectivesglobaltosystem','objectivesglobtosys');
+?>
+<#2596>
+<?php		
+	$ilMySQLAbstraction->performAbstraction('cp_organization');	
+?>
+<#2597>
+<?php		
+	$ilDB->renameTableColumn('cp_package','persistpreviousattempts','persistprevattempts');	
+?>
+<#2598>
+<?php		
+	$ilDB->modifyTableColumn("cp_package", "xmldata", array("type" => "clob", "notnull" => false)); 
+?>
+<#2599>
+<?php		
+	$ilDB->modifyTableColumn("cp_package", "activitytree", array("type" => "clob", "notnull" => false));	
+?>
+<#2600>
+<?php		
+	$ilDB->manipulate("ALTER TABLE `cp_package` CHANGE `identifier` `c_identifier` VARCHAR(255) NULL DEFAULT NULL");
+?>
+<#2601>
+<?php	
+	$ilDB->manipulate("ALTER TABLE `cp_package` CHANGE `settings` `c_settings` VARCHAR(255) NULL DEFAULT NULL");
+?>
+<#2602>
+<?php		
+$ilMySQLAbstraction->performAbstraction('cp_package');
+?>
+<#2603>
+<?php
+	$ilDB->manipulate("ALTER TABLE `cp_rule` CHANGE `childActivitySet` `childactivityset` VARCHAR( 50 ) NULL DEFAULT NULL"); 	
+?>
+<#2604>
+<?php			
+	$ilDB->manipulate("ALTER TABLE `cp_rule` CHANGE `conditionCombination` `conditioncombination` VARCHAR( 50 ) NULL DEFAULT NULL");
+?>
+<#2605>
+<?php	
+	$ilDB->manipulate("ALTER TABLE `cp_rule` CHANGE `minimumCount` `minimumcount` VARCHAR( 50 ) NULL DEFAULT NULL"); 	
+?>
+<#2606>
+<?php	
+	$ilDB->manipulate("ALTER TABLE `cp_rule` CHANGE `minimumPercent` `minimumpercent` VARCHAR( 50 ) NULL DEFAULT NULL"); 	
+?>
+<#2607>
+<?php	
+	$ilMySQLAbstraction->performAbstraction('cp_rule');
+?>
+<#2608>
+<?php		
+	$ilDB->renameTableColumn('cp_sequencing','activityabsolutedurationlimit','activityabsdurlimit');	
+?>
+<#2609>
+<?php		
+	$ilDB->renameTableColumn('cp_sequencing','activityexperienceddurationlimit','activityexpdurlimit');
+?>
+<#2610>
+<?php		
+	$ilDB->renameTableColumn('cp_sequencing','attemptabsolutedurationlimit','attemptabsdurlimit');
+?>
+<#2611>
+<?php		
+	$ilDB->renameTableColumn('cp_sequencing','completionsetbycontent','completionbycontent');
+?>	
+<#2612>
+<?php		
+	$ilDB->renameTableColumn('cp_sequencing','measuresatisfactionifactive','measuresatisfactive');
+?>
+<#2613>
+<?php		
+	$ilDB->renameTableColumn('cp_sequencing','objectivemeasureweight','objectivemeasweight');
+?>
+<#2614>
+<?php		
+	$ilDB->renameTableColumn('cp_sequencing','objectivesetbycontent','objectivebycontent');
+?> 	
+<#2615>
+<?php		
+	$ilDB->renameTableColumn('cp_sequencing','requiredforcompleted','requiredcompleted');
+?>
+<#2616>
+<?php			
+	$ilDB->renameTableColumn('cp_sequencing','requiredforincomplete','requiredincomplete');
+?>
+<#2617>
+<?php			
+	$ilDB->renameTableColumn('cp_sequencing','requiredfornotsatisfied','requirednotsatisfied');
+?>
+<#2618>
+<?php		
+	$ilDB->renameTableColumn('cp_sequencing','requiredforsatisfied','requiredforsatisfied');
+?> 	
+<#2619>
+<?php		
+	$ilDB->renameTableColumn('cp_sequencing','rollupobjectivesatisfied','rollupobjectivesatis');
+?>
+<#2620>
+<?php		
+	$ilDB->renameTableColumn('cp_sequencing','rollupprogresscompletion','rollupprogcompletion');
+?>
+<#2621>
+<?php		
+	$ilDB->renameTableColumn('cp_sequencing','usecurrentattemptobjectiveinfo','usecurattemptobjinfo');
+?>
+<#2622>
+<?php		
+	$ilDB->renameTableColumn('cp_sequencing','usecurrentattemptprogressinfo','usecurattemptproginfo');
+?>
+<#2623>
+<?php		
+	$ilDB->manipulate("ALTER TABLE `cp_sequencing` CHANGE `attemptLimit` `attemptlimit` INT( 11 ) NULL DEFAULT NULL ");
+?>
+<#2624>
+<?php	
+	$ilDB->manipulate("ALTER TABLE `cp_sequencing` CHANGE `beginTimeLimit` `begintimelimit` VARCHAR( 20 ) NULL DEFAULT NULL"); 
+?>
+<#2625>
+<?php	
+	$ilDB->manipulate("ALTER TABLE `cp_sequencing` CHANGE `choiceExit` `choiceexit` TINYINT( 4 ) NULL DEFAULT NULL ");
+?>
+<#2626>
+<?php	
+	$ilDB->manipulate("ALTER TABLE `cp_sequencing` CHANGE `constrainChoice` `constrainchoice` TINYINT( 4 ) NULL DEFAULT NULL ");
+?>
+<#2627>
+<?php	
+	$ilDB->manipulate("ALTER TABLE `cp_sequencing` CHANGE `endTimeLimit` `endtimelimit` VARCHAR( 20 ) NULL DEFAULT NULL"); 		
+?>
+<#2628>
+<?php	
+	$ilDB->manipulate("ALTER TABLE `cp_sequencing` CHANGE `forwardOnly` `forwardonly` TINYINT( 4 ) NULL DEFAULT NULL ");	
+?>
+<#2629>
+<?php	
+	$ilDB->manipulate("ALTER TABLE `cp_sequencing` CHANGE `preventActivation` `preventactivation` TINYINT( 4 ) NULL DEFAULT NULL ");		
+?>
+<#2630>
+<?php	
+	$ilDB->manipulate("ALTER TABLE `cp_sequencing` CHANGE `randomizationTiming` `randomizationtiming` VARCHAR( 50 ) NULL DEFAULT NULL"); 			
+?>
+<#2631>
+<?php	
+	$ilDB->manipulate("ALTER TABLE `cp_sequencing` CHANGE `reorderChildren` `reorderchildren` TINYINT( 4 ) NULL DEFAULT NULL ");
+?>
+<#2632>
+<?php	
+	$ilDB->manipulate("ALTER TABLE `cp_sequencing` CHANGE `selectCount` `selectcount` INT( 11 ) NULL DEFAULT NULL ");
+?>
+<#2633>
+<?php	
+	$ilDB->manipulate("ALTER TABLE `cp_sequencing` CHANGE `selectionTiming` `selectiontiming` VARCHAR( 50 ) NULL DEFAULT NULL"); 		
+?>
+<#2634>
+<?php	
+	$ilDB->manipulate("ALTER TABLE `cp_sequencing` CHANGE `sequencingId` `sequencingid` VARCHAR( 50 ) NULL DEFAULT NULL"); 		
+?>
+<#2635>
+<?php	
+	$ilMySQLAbstraction->performAbstraction('cp_sequencing');
+?>
+<#2636>
+<?php		
+	$ilDB->manipulate("ALTER TABLE `cp_suspend` CHANGE `data` `data` VARCHAR(4000) NULL DEFAULT NULL");
+?>
+<#2637>
+<?php		
+	$ilMySQLAbstraction->performAbstraction('cp_suspend');
+?>	
+<#2638>
+<?php		
+	$ilMySQLAbstraction->performAbstraction('cp_tree');
+?>
+<#2639>
+<?php		
+	$ilDB->manipulate("ALTER TABLE `sahs_lm` CHANGE `online` `online` VARCHAR(3) NULL DEFAULT 'n'");
+?>
+<#2640>
+<?php		
+	$ilDB->manipulate("ALTER TABLE `sahs_lm` CHANGE `credit` `credit` VARCHAR(10) NOT NULL DEFAULT 'credit'");
+?>
+<#2641>
+<?php		
+	$ilDB->manipulate("ALTER TABLE `sahs_lm` CHANGE `default_lesson_mode` `default_lesson_mode` VARCHAR(8) NOT NULL DEFAULT 'normal'");
+?>
+<#2642>
+<?php		
+	$ilDB->manipulate("ALTER TABLE `sahs_lm` CHANGE `auto_review` `auto_review` VARCHAR(3) NOT NULL DEFAULT 'n'");
+?>
+<#2643>
+<?php		
+	$ilDB->manipulate("ALTER TABLE `sahs_lm` CHANGE `type` `c_type` VARCHAR(10) NULL DEFAULT NULL");
+?>
+<#2644>
+<?php		
+	$ilMySQLAbstraction->performAbstraction('sahs_lm');
+?>
+<#2645>
+<?php		
+	$ilMySQLAbstraction->performAbstraction('scorm_object');
+?>
+<#2646>
+<?php		
+	$ilDB->manipulate("ALTER TABLE `scorm_tracking` CHANGE `rvalue` `rvalue` VARCHAR(4000) NULL DEFAULT NULL");
+?>
+<#2647>
+<?php		
+	$ilDB->manipulate("ALTER TABLE `scorm_tracking` CHANGE `timestamp` `c_timestamp`  DATETIME NULL");
+?>
+<#2648>
+<?php		
+	$ilMySQLAbstraction->performAbstraction('scorm_tracking');
+?>
+<#2649>
+<?php		
+	$ilMySQLAbstraction->performAbstraction('scorm_tree');
+?>
+<#2650>
+<?php		
+	$ilDB->manipulate("ALTER TABLE `sc_item` CHANGE `isvisible` `isvisible` VARCHAR(6) NULL DEFAULT NULL");
+?>
+<#2651>
+<?php		
+	$ilDB->manipulate("ALTER TABLE `sc_item` CHANGE `parameters` `parameters` VARCHAR(4000) NULL DEFAULT NULL");
+?>
+<#2652>
+<?php		
+	$ilDB->manipulate("ALTER TABLE `sc_item` CHANGE `prerequisites` `prerequisites` VARCHAR(4000) NULL DEFAULT NULL");
+?>
+<#2653>
+<?php		
+	$ilDB->manipulate("ALTER TABLE `sc_item` CHANGE `datafromlms` `datafromlms` VARCHAR(4000) NULL DEFAULT NULL");
+?>
+<#2654>
+<?php		
+	$ilMySQLAbstraction->performAbstraction('sc_item');
+?>
+<#2655>
+<?php		
+	$ilMySQLAbstraction->performAbstraction('sc_manifest');	
+?>
+<#2656>
+<?php		
+	$ilMySQLAbstraction->performAbstraction('sc_organization');	
+?>
+<#2657>
+<?php		
+	$ilMySQLAbstraction->performAbstraction('sc_organizations');	
+?>
+<#2658>
+<?php		
+	$ilDB->manipulate("ALTER TABLE `sc_resource` CHANGE `scormtype` `scormtype` VARCHAR(6) NULL DEFAULT NULL");	
+?>
+<#2659>
+<?php		
+	$ilMySQLAbstraction->performAbstraction('sc_resource');
+?>
+<#2660>
+<?php		
+	$ilMySQLAbstraction->performAbstraction('sc_resources');
+?>
+<#2661>
+<?php		
+	$ilDB->renameTable('sc_resource_dependency','sc_resource_dependen');
+?>
+<#2662>
+<?php		
+	$ilMySQLAbstraction->performAbstraction('sc_resource_dependen');
+?>
+<#2663>
+<?php		
+	$ilDB->manipulate("ALTER TABLE `sc_resource_file` CHANGE `href` `href` VARCHAR(4000) NULL DEFAULT NULL");
+?>
+<#2664>
+<?php		
+	$ilMySQLAbstraction->performAbstraction('sc_resource_file');
+?>
+<#2665>
+<?php	
+	$ilDB->manipulate("ALTER TABLE `cp_dependency` CHANGE `resourceId` `resourceId` VARCHAR( 50 ) NULL DEFAULT NULL"); 	
+?>
+<#2666>
+<?php		
+	$ilMySQLAbstraction->performAbstraction('cp_dependency');
+?>
+<#2667>
+<?php	
+	$ilMySQLAbstraction->performAbstraction('cp_objective');
+?>
+<#2668>
+<?php	
+	$ilDB->manipulate("ALTER TABLE `cp_resource` CHANGE `scormType` `scormtype` VARCHAR( 32 ) NULL DEFAULT NULL"); 	
+?>
+<#2669>
+<?php		
+	$ilMySQLAbstraction->performAbstraction('cp_resource');
+?>
+<#2670>
+<?php
+	$ilMySQLAbstraction->performAbstraction('cmi_comment');
+?>
+<#2671>
+<?php
+	$ilMySQLAbstraction->performAbstraction('aicc_units');
+?>
+<#2672>
+<?php
+	$ilMySQLAbstraction->performAbstraction('aicc_course');	
+?>
+<#2673>
+<?php
+	$ilMySQLAbstraction->performAbstraction('aicc_object');
+?>

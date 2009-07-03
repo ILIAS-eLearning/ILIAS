@@ -34,7 +34,7 @@ class ilSCORM13Player
 
 	const ENABLE_GZIP = 0;
 	
-	const ENABLE_JS_DEBUG = 0;
+	const ENABLE_JS_DEBUG = 1;
 	
 	const NONE = 0;
 	const READONLY = 1;
@@ -44,95 +44,95 @@ class ilSCORM13Player
 	static private $schema = array // order of entries matters!
 	(
 		'package' => array(
-			'user_id' =>  array('pattern'=>null, 'permission' => self::NONE, 'default'=>null),
-			'learner_name' =>  array('pattern'=>null, 'permission' => self::NONE, 'default'=>null),
-			'slm_id' =>  array('pattern'=>null, 'permission' => self::NONE, 'default'=>null),
-			'mode' =>  array('pattern'=>null, 'permission' => self::NONE, 'default'=>null),
-			'credit' =>  array('pattern'=>null, 'permission' => self::NONE, 'default'=>null),
+			'user_id' =>  array('pattern'=>null, 'permission' => self::NONE, 'default'=>null, 'dbfield'=>user_id),
+			'learner_name' =>  array('pattern'=>null, 'permission' => self::NONE, 'default'=>null, 'dbfield'=>learner_name),
+			'slm_id' =>  array('pattern'=>null, 'permission' => self::NONE, 'default'=>null, 'dbfield'=>slm_id),
+			'mode' =>  array('pattern'=>null, 'permission' => self::NONE, 'default'=>null, 'dbfield'=>mode),
+			'credit' =>  array('pattern'=>null, 'permission' => self::NONE, 'default'=>null, 'dbfield'=>credit),
 		),
 		'node' => array(
-			'accesscount' =>  array('pattern'=>null, 'permission' => self::READWRITE, 'default'=>null),
-			'accessduration' =>  array('pattern'=>null, 'permission' => self::READWRITE, 'default'=>null),
-			'accessed' =>  array('pattern'=>null, 'permission' => self::READWRITE, 'default'=>null),
-			'activityAbsoluteDuration' =>  array('pattern'=>null, 'permission' => self::READWRITE, 'default'=>null),
-			'activityAttemptCount' =>  array('pattern'=>null, 'permission' => self::READWRITE, 'default'=>null),	
-			'activityExperiencedDuration' =>  array('pattern'=>null, 'permission' => self::READWRITE, 'default'=>null),
-			'activityProgressStatus' =>  array('pattern'=>null, 'permission' => self::READWRITE, 'default'=>null),
-			'attemptAbsoluteDuration' =>  array('pattern'=>null, 'permission' => self::READWRITE, 'default'=>null),
-			'attemptCompletionAmount' =>  array('pattern'=>null, 'permission' => self::READWRITE, 'default'=>null),
-			'attemptCompletionStatus' =>  array('pattern'=>null, 'permission' => self::READWRITE, 'default'=>null),
-			'attemptExperiencedDuration' =>  array('pattern'=>null, 'permission' => self::READWRITE, 'default'=>null),
-			'attemptProgressStatus' =>  array('pattern'=>null, 'permission' => self::READWRITE, 'default'=>null),
-			'audio_captioning' =>  array('pattern'=>null, 'permission' => self::READWRITE, 'default'=>null),
-			'audio_level' =>  array('pattern'=>null, 'permission' => self::READWRITE, 'default'=>null),
-			'availableChildren' =>  array('pattern'=>null, 'permission' => self::READWRITE, 'default'=>null),
-			'cmi_node_id' =>  array('pattern'=>null, 'permission' => self::NONE, 'default'=>null),
-			'completion' =>  array('pattern'=>null, 'permission' => self::READWRITE, 'default'=>null),
-			'completion_status' =>  array('pattern'=>null, 'permission' => self::READWRITE, 'default'=>null),
-			'completion_threshold' =>  array('pattern'=>null, 'permission' => self::READWRITE, 'default'=>null),
-			'cp_node_id' =>  array('pattern'=>null, 'permission' => self::NONE, 'default'=>null),
-			'created' =>  array('pattern'=>null, 'permission' => self::READWRITE, 'default'=>null),
-			'credit' =>  array('pattern'=>null, 'permission' => self::READWRITE, 'default'=>null),
-			'delivery_speed' =>  array('pattern'=>null, 'permission' => self::READWRITE, 'default'=>null),
-			'entry' =>  array('pattern'=>null, 'permission' => self::READWRITE, 'default'=>null),
-			'exit' =>  array('pattern'=>null, 'permission' => self::READWRITE, 'default'=>null),
-			'language' =>  array('pattern'=>null, 'permission' => self::READWRITE, 'default'=>null),
-			'launch_data' =>  array('pattern'=>null, 'permission' => self::READWRITE, 'default'=>null),
-			'learner_name' =>  array('pattern'=>null, 'permission' => self::READWRITE, 'default'=>null),
-			'location' =>  array('pattern'=>null, 'permission' => self::READWRITE, 'default'=>null),
-			'max' =>  array('pattern'=>null, 'permission' => self::READWRITE, 'default'=>null),
-			'min' =>  array('pattern'=>null, 'permission' => self::READWRITE, 'default'=>null),
-			'mode' =>  array('pattern'=>null, 'permission' => self::READWRITE, 'default'=>null),
-			'modified' =>  array('pattern'=>null, 'permission' => self::READWRITE, 'default'=>null),
-			'progress_measure' =>  array('pattern'=>null, 'permission' => self::READWRITE, 'default'=>null),
-			'raw' =>  array('pattern'=>null, 'permission' => self::READWRITE, 'default'=>null),
-			'scaled' =>  array('pattern'=>null, 'permission' => self::READWRITE, 'default'=>null),
-			'scaled_passing_score' =>  array('pattern'=>null, 'permission' => self::READWRITE, 'default'=>null),	
-			'session_time' =>  array('pattern'=>null, 'permission' => self::READWRITE, 'default'=>null),
-			'success_status' =>  array('pattern'=>null, 'permission' => self::READWRITE, 'default'=>null),
-			'suspend_data' =>  array('pattern'=>null, 'permission' => self::READWRITE, 'default'=>null),
-			'total_time' =>  array('pattern'=>null, 'permission' => self::READWRITE, 'default'=>null),
-			'user_id' =>  array('pattern'=>null, 'permission' => self::NONE, 'default'=>null),
+			'accesscount' =>  array('pattern'=>null, 'permission' => self::READWRITE, 'default'=>null, 'dbfield'=>accesscount),
+			'accessduration' =>  array('pattern'=>null, 'permission' => self::READWRITE, 'default'=>null, 'dbfield'=>accessduration),
+			'accessed' =>  array('pattern'=>null, 'permission' => self::READWRITE, 'default'=>null, 'dbfield'=>accessed),
+			'activityAbsoluteDuration' =>  array('pattern'=>null, 'permission' => self::READWRITE, 'default'=>null, 'dbfield'=>activityabsduration),
+			'activityAttemptCount' =>  array('pattern'=>null, 'permission' => self::READWRITE, 'default'=>null, 'dbfield'=>activityattemptcount),	
+			'activityExperiencedDuration' =>  array('pattern'=>null, 'permission' => self::READWRITE, 'default'=>null, 'dbfield'=>activityexpduration),
+			'activityProgressStatus' =>  array('pattern'=>null, 'permission' => self::READWRITE, 'default'=>null, 'dbfield'=>activityprogstatus),
+			'attemptAbsoluteDuration' =>  array('pattern'=>null, 'permission' => self::READWRITE, 'default'=>null, 'dbfield'=>attemptabsduration),
+			'attemptCompletionAmount' =>  array('pattern'=>null, 'permission' => self::READWRITE, 'default'=>null, 'dbfield'=>attemptcomplamount),
+			'attemptCompletionStatus' =>  array('pattern'=>null, 'permission' => self::READWRITE, 'default'=>null, 'dbfield'=>attemptcomplstatus),
+			'attemptExperiencedDuration' =>  array('pattern'=>null, 'permission' => self::READWRITE, 'default'=>null, 'dbfield'=>attemptexpduration),
+			'attemptProgressStatus' =>  array('pattern'=>null, 'permission' => self::READWRITE, 'default'=>null, 'dbfield'=>attemptprogstatus),
+			'audio_captioning' =>  array('pattern'=>null, 'permission' => self::READWRITE, 'default'=>null, 'dbfield'=>audio_captioning),
+			'audio_level' =>  array('pattern'=>null, 'permission' => self::READWRITE, 'default'=>null, 'dbfield'=>audio_level),
+			'availableChildren' =>  array('pattern'=>null, 'permission' => self::READWRITE, 'default'=>null, 'dbfield'=>availablechildren),
+			'cmi_node_id' =>  array('pattern'=>null, 'permission' => self::NONE, 'default'=>null, 'dbfield'=>cmi_node_id),
+			'completion' =>  array('pattern'=>null, 'permission' => self::READWRITE, 'default'=>null, 'dbfield'=>completion),
+			'completion_status' =>  array('pattern'=>null, 'permission' => self::READWRITE, 'default'=>null, 'dbfield'=>completion_status),
+			'completion_threshold' =>  array('pattern'=>null, 'permission' => self::READWRITE, 'default'=>null, 'dbfield'=>completion_threshold),
+			'cp_node_id' =>  array('pattern'=>null, 'permission' => self::NONE, 'default'=>null, 'dbfield'=>cp_node_id),
+			'created' =>  array('pattern'=>null, 'permission' => self::READWRITE, 'default'=>null, 'dbfield'=>created),
+			'credit' =>  array('pattern'=>null, 'permission' => self::READWRITE, 'default'=>null, 'dbfield'=>credit),
+			'delivery_speed' =>  array('pattern'=>null, 'permission' => self::READWRITE, 'default'=>null, 'dbfield'=>delivery_speed),
+			'entry' =>  array('pattern'=>null, 'permission' => self::READWRITE, 'default'=>null, 'dbfield'=>c_entry),
+			'exit' =>  array('pattern'=>null, 'permission' => self::READWRITE, 'default'=>null, 'dbfield'=>c_exit),
+			'language' =>  array('pattern'=>null, 'permission' => self::READWRITE, 'default'=>null, 'dbfield'=>language),
+			'launch_data' =>  array('pattern'=>null, 'permission' => self::READWRITE, 'default'=>null, 'dbfield'=>launch_data),
+			'learner_name' =>  array('pattern'=>null, 'permission' => self::READWRITE, 'default'=>null, 'dbfield'=>learner_name),
+			'location' =>  array('pattern'=>null, 'permission' => self::READWRITE, 'default'=>null, 'dbfield'=>location),
+			'max' =>  array('pattern'=>null, 'permission' => self::READWRITE, 'default'=>null, 'dbfield'=>c_max),
+			'min' =>  array('pattern'=>null, 'permission' => self::READWRITE, 'default'=>null, 'dbfield'=>c_min),
+			'mode' =>  array('pattern'=>null, 'permission' => self::READWRITE, 'default'=>null, 'dbfield'=>c_mode),
+			'modified' =>  array('pattern'=>null, 'permission' => self::READWRITE, 'default'=>null, 'dbfield'=>modified),
+			'progress_measure' =>  array('pattern'=>null, 'permission' => self::READWRITE, 'default'=>null, 'dbfield'=>progress_measure),
+			'raw' =>  array('pattern'=>null, 'permission' => self::READWRITE, 'default'=>null, 'dbfield'=>c_raw),
+			'scaled' =>  array('pattern'=>null, 'permission' => self::READWRITE, 'default'=>null, 'dbfield'=>scaled),
+			'scaled_passing_score' =>  array('pattern'=>null, 'permission' => self::READWRITE, 'default'=>null, 'dbfield'=>scaled_passing_score),	
+			'session_time' =>  array('pattern'=>null, 'permission' => self::READWRITE, 'default'=>null, 'dbfield'=>session_time),
+			'success_status' =>  array('pattern'=>null, 'permission' => self::READWRITE, 'default'=>null, 'dbfield'=>success_status),
+			'suspend_data' =>  array('pattern'=>null, 'permission' => self::READWRITE, 'default'=>null, 'dbfield'=>suspend_data),
+			'total_time' =>  array('pattern'=>null, 'permission' => self::READWRITE, 'default'=>null, 'dbfield'=>total_time),
+			'user_id' =>  array('pattern'=>null, 'permission' => self::NONE, 'default'=>null, 'dbfield'=>user_id),
 		),
 		'comment' => array (
-			'cmi_comment_id' =>  array('pattern'=>null, 'permission' => self::NONE, 'default'=>null),	
-			'cmi_node_id' =>  array('pattern'=>null, 'permission' => self::NONE, 'default'=>null),
-			'comment' =>  array('pattern'=>null, 'permission' => self::READWRITE, 'default'=>null),	
-			'timestamp' =>  array('pattern'=>null, 'permission' => self::READWRITE, 'default'=>null),	
-			'location' =>  array('pattern'=>null, 'permission' => self::READWRITE, 'default'=>null),	
-			'sourceIsLMS' =>  array('pattern'=>null, 'permission' => self::READWRITE, 'default'=>null),
+			'cmi_comment_id' =>  array('pattern'=>null, 'permission' => self::NONE, 'default'=>null, 'dbfield'=>cmi_comment_id),	
+			'cmi_node_id' =>  array('pattern'=>null, 'permission' => self::NONE, 'default'=>null, 'dbfield'=>cmi_node_id),
+			'comment' =>  array('pattern'=>null, 'permission' => self::READWRITE, 'default'=>null, 'dbfield'=>c_comment),	
+			'timestamp' =>  array('pattern'=>null, 'permission' => self::READWRITE, 'default'=>null, 'dbfield'=>c_timestamp),	
+			'location' =>  array('pattern'=>null, 'permission' => self::READWRITE, 'default'=>null, 'dbfield'=>location),	
+			'sourceIsLMS' =>  array('pattern'=>null, 'permission' => self::READWRITE, 'default'=>null, 'dbfield'=>sourceislms),
 		),
 		'correct_response' => array(
-			'cmi_correct_response_id' =>  array('pattern'=>null, 'permission' => self::NONE, 'default'=>null),	
-			'cmi_interaction_id' =>  array('pattern'=>null, 'permission' => self::NONE, 'default'=>null),
-			'pattern' =>  array('pattern'=>null, 'permission' => self::READWRITE, 'default'=>null),
+			'cmi_correct_response_id' =>  array('pattern'=>null, 'permission' => self::NONE, 'default'=>null, 'dbfield'=>cmi_correct_resp_id),	
+			'cmi_interaction_id' =>  array('pattern'=>null, 'permission' => self::NONE, 'default'=>null, 'dbfield'=>cmi_interaction_id),
+			'pattern' =>  array('pattern'=>null, 'permission' => self::READWRITE, 'default'=>null, 'dbfield'=>pattern),
 		),
 		'interaction' => array(
-			'cmi_interaction_id' =>  array('pattern'=>null, 'permission' => self::NONE, 'default'=>null),	
-			'cmi_node_id' =>  array('pattern'=>null, 'permission' => self::NONE, 'default'=>null),
-			'description' =>  array('pattern'=>null, 'permission' => self::READWRITE, 'default'=>null),
-			'id' =>  array('pattern'=>null, 'permission' => self::READWRITE, 'default'=>null),
-			'latency' =>  array('pattern'=>null, 'permission' => self::READWRITE, 'default'=>null),
-			'learner_response' =>  array('pattern'=>null, 'permission' => self::READWRITE, 'default'=>null),
-			'result' =>  array('pattern'=>null, 'permission' => self::READWRITE, 'default'=>null),
-			'timestamp' =>  array('pattern'=>null, 'permission' => self::READWRITE, 'default'=>null),
-			'type' =>  array('pattern'=>null, 'permission' => self::READWRITE, 'default'=>null),
-			'weighting' =>  array('pattern'=>null, 'permission' => self::READWRITE, 'default'=>null),
+			'cmi_interaction_id' =>  array('pattern'=>null, 'permission' => self::NONE, 'default'=>null, 'dbfield'=>cmi_interaction_id),	
+			'cmi_node_id' =>  array('pattern'=>null, 'permission' => self::NONE, 'default'=>null, 'dbfield'=>cmi_node_id),
+			'description' =>  array('pattern'=>null, 'permission' => self::READWRITE, 'default'=>null, 'dbfield'=>description),
+			'id' =>  array('pattern'=>null, 'permission' => self::READWRITE, 'default'=>null, 'dbfield'=>id),
+			'latency' =>  array('pattern'=>null, 'permission' => self::READWRITE, 'default'=>null, 'dbfield'=>latency),
+			'learner_response' =>  array('pattern'=>null, 'permission' => self::READWRITE, 'default'=>null, 'dbfield'=>learner_response),
+			'result' =>  array('pattern'=>null, 'permission' => self::READWRITE, 'default'=>null, 'dbfield'=>result),
+			'timestamp' =>  array('pattern'=>null, 'permission' => self::READWRITE, 'default'=>null, 'dbfield'=>c_timestamp),
+			'type' =>  array('pattern'=>null, 'permission' => self::READWRITE, 'default'=>null, 'dbfield'=>c_type),
+			'weighting' =>  array('pattern'=>null, 'permission' => self::READWRITE, 'default'=>null, 'dbfield'=>weighting),
 		),
 		'objective' => array(
-			'cmi_interaction_id' =>  array('pattern'=>null, 'permission' => self::NONE, 'default'=>null),	
-			'cmi_node_id' =>  array('pattern'=>null, 'permission' => self::NONE, 'default'=>null),
-			'cmi_objective_id' =>  array('pattern'=>null, 'permission' => self::NONE, 'default'=>null),
-			'completion_status' =>  array('pattern'=>null, 'permission' => self::READWRITE, 'default'=>null),
-			'description' =>  array('pattern'=>null, 'permission' => self::READWRITE, 'default'=>null),
-			'id' =>  array('pattern'=>null, 'permission' => self::READWRITE, 'default'=>null),
-			'max' =>  array('pattern'=>null, 'permission' => self::READWRITE, 'default'=>null),
-			'min' =>  array('pattern'=>null, 'permission' => self::READWRITE, 'default'=>null),
-			'raw' =>  array('pattern'=>null, 'permission' => self::READWRITE, 'default'=>null),
-			'scaled' =>  array('pattern'=>null, 'permission' => self::READWRITE, 'default'=>null),
-			'progress_measure' =>  array('pattern'=>null, 'permission' => self::READWRITE, 'default'=>null),
-			'success_status' =>  array('pattern'=>null, 'permission' => self::READWRITE, 'default'=>null),
-			'scope' =>  array('pattern'=>null, 'permission' => self::READWRITE, 'default'=>null),			
+			'cmi_interaction_id' =>  array('pattern'=>null, 'permission' => self::NONE, 'default'=>null, 'dbfield'=>cmi_interaction_id),	
+			'cmi_node_id' =>  array('pattern'=>null, 'permission' => self::NONE, 'default'=>null, 'dbfield'=>cmi_node_id),
+			'cmi_objective_id' =>  array('pattern'=>null, 'permission' => self::NONE, 'default'=>null, 'dbfield'=>cmi_objective_id),
+			'completion_status' =>  array('pattern'=>null, 'permission' => self::READWRITE, 'default'=>null, 'dbfield'=>completion_status),
+			'description' =>  array('pattern'=>null, 'permission' => self::READWRITE, 'default'=>null, 'dbfield'=>description),
+			'id' =>  array('pattern'=>null, 'permission' => self::READWRITE, 'default'=>null, 'dbfield'=>id),
+			'max' =>  array('pattern'=>null, 'permission' => self::READWRITE, 'default'=>null, 'dbfield'=>c_max),
+			'min' =>  array('pattern'=>null, 'permission' => self::READWRITE, 'default'=>null, 'dbfield'=>c_min),
+			'raw' =>  array('pattern'=>null, 'permission' => self::READWRITE, 'default'=>null, 'dbfield'=>c_raw),
+			'scaled' =>  array('pattern'=>null, 'permission' => self::READWRITE, 'default'=>null, 'dbfield'=>scaled),
+			'progress_measure' =>  array('pattern'=>null, 'permission' => self::READWRITE, 'default'=>null, 'dbfield'=>progress_measure),
+			'success_status' =>  array('pattern'=>null, 'permission' => self::READWRITE, 'default'=>null, 'dbfield'=>success_status),
+			'scope' =>  array('pattern'=>null, 'permission' => self::READWRITE, 'default'=>null, 'dbfield'=>scope),			
 		),
 	);
 	
@@ -148,7 +148,7 @@ class ilSCORM13Player
 	{
 		
 		global $ilias, $tpl, $ilCtrl, $ilUser, $lng;
-		
+
 		if ($_REQUEST['learnerId']) {
 				$this->userId = $_REQUEST['learnerId'];
 			} else {
@@ -161,7 +161,7 @@ class ilSCORM13Player
 		
 		$this->slm =& new ilObjSCORM2004LearningModule($_GET["ref_id"], true);
 		
-				
+			
 		$this->ilias =& $ilias;
 		$this->tpl =& $tpl;
 		$this->ctrl =& $ilCtrl;
@@ -187,7 +187,7 @@ class ilSCORM13Player
 		}
 		
 //$ilLog->write("SCORM: Player cmd: ".$cmd);
-		
+
 		switch($cmd){
 			
 			case 'getRTEjs':
@@ -219,6 +219,7 @@ class ilSCORM13Player
 				break;
 				
 			case 'cmi':
+
 				if ($_SERVER['REQUEST_METHOD']=='POST') {
 					$this->persistCMIData();
 					//error_log("Saved CMI Data");
@@ -252,6 +253,8 @@ class ilSCORM13Player
 		} else {
 			header('Content-Type: text/javascript; charset=UTF-8');
 		}
+		
+
 		echo $js_data;
 	}
 	
@@ -352,9 +355,10 @@ class ilSCORM13Player
 	public function getCPData()
 	{
 		global $ilDB;
-		$set = $ilDB->query("SELECT * FROM cp_package WHERE obj_id = ".$ilDB->quote($this->packageId));
-		$packageData = $set->fetchRow(DB_FETCHMODE_ASSOC);
 
+		$set = $ilDB->queryF('SELECT * FROM cp_package WHERE obj_id = %s', array('integer'), array($this->packageId));
+		$packageData = $ilDB->fetchAssoc($set);
+		
 		
 		$jsdata = $packageData['jsdata'];
 		if (!$jsdata) $jsdata = 'null';
@@ -368,19 +372,26 @@ class ilSCORM13Player
 			header('Content-Type: text/plain; charset=UTF-8');
 			$jsdata = json_decode($jsdata);
 			print_r($jsdata);	
+
 		}
+	
 	}
 	
 	
 	public function getADLActData()
 	{
 		global $ilDB;
-		$set = $ilDB->query("SELECT * FROM cp_package WHERE obj_id = ".$ilDB->quote($this->packageId));
-		$data = $set->fetchRow(DB_FETCHMODE_ASSOC);
-		
+
+		$set = $ilDB->queryF('SELECT * FROM cp_package WHERE obj_id = %s',array('integer'),array($this->packageId));
+		$data = $ilDB->fetchAssoc($set);
+				
 		$activitytree=$data['activitytree'];
 				
-		if (!$activitytree) $activitytree = 'null';
+		if (!$activitytree) 
+		{
+			$activitytree = 'null';
+			
+		}
 		if ($this->jsMode) 
 		{
 			header('Content-Type: text/javascript; charset=UTF-8');
@@ -391,13 +402,17 @@ class ilSCORM13Player
 			header('Content-Type: text/plain; charset=UTF-8');
 			$activitytree = json_decode($activitytree);
 			print_r($activitytree);	
+
 		}
+		
 	}
 	
 	public function getScope(){
 		global $ilDB,$ilUser;
-		$set = $ilDB->query("SELECT global_to_system FROM cp_package WHERE (obj_id = ".$ilDB->quote($this->packageId).")");
-		$data = $set->fetchRow(DB_FETCHMODE_ASSOC);
+
+		$set = $ilDB->queryF('SELECT global_to_system FROM cp_package WHERE obj_id = %s', array('integer'), array($this->packageId));
+		$data = $ilDB->fetchAssoc($set);
+		
 		$gystem=$data['global_to_system'];
 		if ($gystem==1) {$gsystem="null";} else {$gsystem=$this->packageId;}
 		return $gsystem;
@@ -406,8 +421,11 @@ class ilSCORM13Player
 	
 	public function getSuspendData(){
 		global $ilDB,$ilUser;
-		$set = $ilDB->query("SELECT * FROM cp_suspend WHERE (obj_id = ".$ilDB->quote($this->packageId)." AND user_id=".$ilUser->getID().")");
-		$data = $set->fetchRow(DB_FETCHMODE_ASSOC);
+		
+		$set = $ilDB->queryF('SELECT * FROM cp_suspend WHERE (obj_id = %s AND user_id=%s)',
+		array('integer','integer'), array($this->packageId, $ilUser->getID()));
+		$data = $ilDB->fetchAssoc($set);
+		
 		$suspend_data=$data['data'];
 		if ($this->jsMode) 
 		{
@@ -421,28 +439,69 @@ class ilSCORM13Player
 			print_r($suspend_data);	
 		}
 		//delete delivered suspend data
-		$del = $ilDB->query("DELETE FROM cp_suspend WHERE (obj_id = ".$ilDB->quote($this->packageId)." AND user_id=".$ilUser->getID().")");
+		$del = $ilDB->manipulateF('DELETE FROM cp_suspend WHERE (obj_id = %s AND user_id= %s)',
+		array('integer','integer'), array($this->packageId, $ilUser->getID()));
 	}
 	
 	public function suspendADLActData()
 	{
 		global $ilDB, $ilUser;
-		$set = $ilDB->query("REPLACE INTO cp_suspend (data,obj_id,user_id) values (".$ilDB->quote(file_get_contents('php://input')).",".$ilDB->quote($this->packageId).",".$ilUser->getID().")");		
+		//$set = $ilDB->query("REPLACE INTO cp_suspend (data,obj_id,user_id) 
+		//values (".$ilDB->quote(file_get_contents('php://input')).",".$ilDB->quote($this->packageId).",".$ilUser->getID().")");
+
+		$statement = $ilDB->queryF('
+		SELECT * FROM cp_suspend 
+		WHERE obj_id = %s
+		AND user_id = %s',
+		array('integer', 'integer'), 
+		array($this->packageId,$ilUser->getID())
+		);
+		$res = $ilDB->numRows($statement);
+		if(!$res)
+		{
+			//INSERT
+			$ilDB->manipulateF('
+			INSERT INTO cp_suspend
+			data,obj_id,user_id) 
+			VALUES(%s,%s,%s)',
+			array('text', 'integer', 'integer'), 
+			array(file_get_contents('php://input'),$this->packageId,$ilUser->getID())
+		 	);	
+		}
+		else
+		{
+			//Update
+			$ilDB->manipulateF('
+			UPDATE  cp_suspend
+			SET 	data = %s
+		 	WHERE 	obj_id = %s,
+		 			user_id = %s',
+			array('text', 'integer', 'integer'), 
+			array(file_get_contents('php://input'),$this->packageId,$ilUser->getID())
+			);
+		}
 	}
 	
 	
 	public function readGObjective(){
 		global $ilDB,$ilUser;
-		$package=$ilDB->quote($this->packageId);
-		$user=$ilDB->quote($ilUser->getID());
-		$q="SELECT * FROM cmi_gobjective, cp_node,cp_mapinfo WHERE(cmi_gobjective.objective_id<>'-course_overall_status-' AND
-			cmi_gobjective.status IS NULL AND cp_node.slm_id=$package AND cp_node.nodeName='mapinfo'  AND 
-			cp_node.cp_node_id=cp_mapinfo.cp_node_id  AND cmi_gobjective.objective_id=cp_mapinfo.targetObjectiveID)
-			GROUP BY objective_id,scope_id";
-			
-		$set = $ilDB->query($q);
+
+		$set = $ilDB->queryF('
+			SELECT * FROM cmi_gobjective, cp_node, cp_mapinfo 
+			WHERE(cmi_gobjective.objective_id <> %s 
+			AND cmi_gobjective.status IS NULL 
+			AND cp_node.slm_id = %s
+			AND cp_node.nodename = %s  
+			AND cp_node.cp_node_id = cp_mapinfo.cp_node_id  
+			AND cmi_gobjective.objective_id = cp_mapinfo.targetobjectiveid)
+			GROUP BY objective_id, scope_id',
+			array('text', 'integer', 'text'),
+			array('-course_overall_status-', $this->packageId, 'mapinfo')
+		);
 		
-		while ($row = $set->fetchRow(DB_FETCHMODE_ASSOC)) {
+		
+		//while ($row = $set->fetchRow(DB_FETCHMODE_ASSOC)) {
+		while ($row = $ilDB->fetchAssoc($set)) {
 			$learner=$row['user_id'];
 			$objective_id=$row['objective_id'];
 			if ($row['scope_id']==0) {
@@ -504,35 +563,116 @@ class ilSCORM13Player
 		    		$scope=0;
 		    	}
 		    	//insert into database
-		    	$objective_id=$ilDB->quote($skey);
-		    	$toset=$ilDB->quote($o_value);
-		    	$dbuser=$ilDB->quote($ilUser->getID());
+
+		    	$objective_id = $skey;
+		    	$toset = $o_value;
+		    	$dbuser = $ilUser->getID();
 		    	//check for existence (if not, create)
-		    	if ($key=="satisfied") {
-		    		$q ="INSERT INTO cmi_gobjective 
-		    			(objective_id,user_id,satisfied,scope_id) 
-		    			values ($objective_id,$dbuser,$toset,$scope)
-		    			ON DUPLICATE KEY UPDATE satisfied=$toset";
+		    	
+		    	if ($key=="satisfied") 
+		    	{
+		    		$res = $ilDB->queryF('
+		    		SELECT * FROM cmi_gobjective
+		    		WHERE objective_id = %s 
+		    		AND user_id = %s
+		    		AND scope_id = %s', 
+		    		array('text', 'integer', 'integer'), 
+		    		array($objective_id,$dbuser,$scope));
+		    		 
+		    		if(!$ilDB->numRows($res))	
+		    		{
+		    			$statement = $ilDB->manipulateF('
+			    		INSERT INTO cmi_gobjective
+			    		(objective_id, user_id, satisfied, scope_id) 
+			    		VALUES (%s,%s,%s,%s)',
+			    		array('text', 'integer', 'text', 'integer'), 
+			    		array($objective_id,$dbuser,$toset,$scope));
+		    		}
+		    		else
+		    		{
+		    			$statement = $ilDB->manipulateF('
+			    		UPDATE cmi_gobjective
+			    		SET satisfied = %s
+	    				WHERE objective_id = %s 
+		    			AND user_id = %s
+		    			AND scope_id = %s', 
+			    		array('text', 'text', 'integer', 'integer'), 
+			    		array($toset,$objective_id,$dbuser,$scope));		    			
+		    		}
+
 		    	}
-		    	if ($key=="measure") {
-		    		$q ="INSERT INTO cmi_gobjective 
-		    			(objective_id,user_id,measure,scope_id) 
-		    			values ($objective_id,$dbuser,$toset,$scope)
-		    			ON DUPLICATE KEY UPDATE measure=$toset";
+		    	if ($key=="measure") 
+		    	{
+		    		$res = $ilDB->queryF('
+		    		SELECT * FROM cmi_gobjective
+		    		WHERE objective_id = %s 
+		    		AND user_id = %s
+		    		AND scope_id = %s', 
+		    		array('text', 'integer', 'integer'), 
+		    		array($objective_id,$dbuser,$scope));
+		    		 
+		    		if(!$ilDB->numRows($res))	
+		    		{
+		    			$statement = $ilDB->manipulateF('
+			    		INSERT INTO cmi_gobjective
+			    		(objective_id, user_id, measure, scope_id) 
+			    		VALUES (%s,%s,%s,%s)',
+			    		array('text', 'integer', 'text', 'integer'), 
+			    		array($objective_id,$dbuser,$toset,$scope));
+		    		}
+		    		else
+		    		{
+		    			$statement = $ilDB->manipulateF('
+			    		UPDATE cmi_gobjective
+			    		SET measure = %s
+	    				WHERE objective_id =%s 
+		    			AND user_id = %s
+		    			AND scope_id = %s', 
+			    		array('text', 'text', 'integer', 'integer'), 
+			    		array($toset,$objective_id,$dbuser,$scope));		    			
+		    		}		    		
+		    		
 		    	}
 		    	if ($key=="status") {
 					//special handling for status
-					$completed=$ilDB->quote($g_data->$key->$skey->$user->{completed});
-					$measure=$ilDB->quote($g_data->$key->$skey->$user->{measure});
-					$satisfied=$ilDB->quote($g_data->$key->$skey->$user->{satisfied});
-					$obj=$ilDB->quote("-course_overall_status-");	
-					$pkg_id=$ilDB->quote($this->packageId);
-		    		$q ="INSERT INTO cmi_gobjective 
-		    			(user_id,status,scope_id,measure,satisfied,objective_id) 
-		    			values ($dbuser,$completed,$pkg_id,$measure,$satisfied,$obj)
-		    			ON DUPLICATE KEY UPDATE status=$completed,measure=$measure,satisfied=$satisfied";
+					$completed=$g_data->$key->$skey->$user->{completed};
+					$measure=$g_data->$key->$skey->$user->{measure};
+					$satisfied=$g_data->$key->$skey->$user->{satisfied};
+					$obj='-course_overall_status-';	
+					$pkg_id=$this->packageId;
+					
+		    		$res = $ilDB->queryF('
+		    		SELECT * FROM cmi_gobjective
+		    		WHERE objective_id =%s 
+		    		AND user_id = %s
+		    		AND scope_id = %s', 
+		    		array('text', 'integer', 'integer'), 
+		    		array($objective_id,$dbuser,$scope));
+		    		 
+		    		if(!$ilDB->numRows($res))	
+		    		{
+		    			$statement = $ilDB->manipulateF('
+			    		INSERT INTO cmi_gobjective
+			    		(user_id, status, scope_id, measure ,satisfied, objective_id) 
+			    		VALUES (%s,%s,%s,%s,%s,%s)',
+			    		array('integer','text', 'integer', 'text','text', 'text'), 
+			    		array($dbuser,$completed,$pkg_id,$measure,$satisfied,$obj));
+		    		}
+		    		else
+		    		{
+		    			$statement = $ilDB->manipulateF('
+			    		UPDATE cmi_gobjective
+			    		SET status = %s, 
+			    			measure = %s,
+			    			satisfied = %s 
+	    				WHERE objective_id = %s 
+		    			AND user_id = %s
+		    			AND scope_id = %s', 
+			    		array('text', 'text','text','text', 'integer', 'integer'), 
+			    		array($completed,$measure,$satisfied,$objective_id,$dbuser,$scope));		    			
+		    		}		    		
+
 		    	}	
-		    	$set = $ilDB->query($q);
 		    }
 		}
 	}
@@ -570,6 +710,7 @@ class ilSCORM13Player
 	
 	public function fetchCMIData()
 	{
+	
 		$data = $this->getCMIData($this->userId, $this->packageId);
 		if ($this->jsMode) 
 		{
@@ -578,6 +719,7 @@ class ilSCORM13Player
 		}
 		else
 		{
+
 			header('Content-Type: text/plain; charset=UTF-8');
 			print(var_export($data, true));
 		}
@@ -630,18 +772,21 @@ class ilSCORM13Player
 			'schema' => array(), 
 			'data' => array()
 		);
+	
+
 		foreach (self::$schema as $k=>&$v)
-		{
+		{	
 			$result['schema'][$k] = array_keys($v);
-			
+
 			switch ($k)
 			{
 				case "node":
 					$q = 'SELECT cmi_node.* 
 						FROM cmi_node 
 						INNER JOIN cp_node ON cmi_node.cp_node_id = cp_node.cp_node_id
-						WHERE cmi_node.user_id = '.$ilDB->quote($userId).
-						' AND cp_node.slm_id = '.$ilDB->quote($packageId);
+						WHERE cmi_node.user_id = %s
+						AND cp_node.slm_id = %s';
+
 					break;
 
 				case "comment":
@@ -649,8 +794,9 @@ class ilSCORM13Player
 						FROM cmi_comment 
 						INNER JOIN cmi_node ON cmi_node.cmi_node_id = cmi_comment.cmi_node_id 
 						INNER JOIN cp_node ON cp_node.cp_node_id = cmi_node.cp_node_id
-						WHERE cmi_node.user_id = '.$ilDB->quote($userId).
-						' AND cp_node.slm_id = '.$ilDB->quote($packageId);
+						WHERE cmi_node.user_id = %s
+						AND cp_node.slm_id = %s';
+	
 					break;
 
 				case "correct_response":
@@ -660,8 +806,9 @@ class ilSCORM13Player
 						ON cmi_interaction.cmi_interaction_id = cmi_correct_response.cmi_interaction_id 
 						INNER JOIN cmi_node ON cmi_node.cmi_node_id = cmi_interaction.cmi_node_id 
 						INNER JOIN cp_node ON cp_node.cp_node_id = cmi_node.cp_node_id
-						WHERE cmi_node.user_id = '.$ilDB->quote($userId).
-						' AND cp_node.slm_id = '.$ilDB->quote($packageId);
+						WHERE cmi_node.user_id =%s
+						AND cp_node.slm_id = %s';
+
 					break;
 
 				case "interaction":
@@ -669,8 +816,9 @@ class ilSCORM13Player
 						FROM cmi_interaction 
 						INNER JOIN cmi_node ON cmi_node.cmi_node_id = cmi_interaction.cmi_node_id 
 						INNER JOIN cp_node ON cp_node.cp_node_id = cmi_node.cp_node_id
-						WHERE cmi_node.user_id = '.$ilDB->quote($userId).
-						' AND cp_node.slm_id = '.$ilDB->quote($packageId);
+						WHERE cmi_node.user_id = %s
+						AND cp_node.slm_id = %s';
+		
 					break;
 
 				case "objective":
@@ -678,31 +826,45 @@ class ilSCORM13Player
 						FROM cmi_objective 
 						INNER JOIN cmi_node ON cmi_node.cmi_node_id = cmi_objective.cmi_node_id 
 						INNER JOIN cp_node ON cp_node.cp_node_id = cmi_node.cp_node_id
-						WHERE cmi_node.user_id = '.$ilDB->quote($userId).
-						' AND cp_node.slm_id = '.$ilDB->quote($packageId);
+						WHERE cmi_node.user_id = %s
+						AND cp_node.slm_id = %s';
+			
 					break;
 
 				case "package":
-					$q = 'SELECT usr_data.usr_id AS user_id, 
-						CONCAT(usr_data.firstname, " ", usr_data.lastname) AS learner_name, 
-						sahs_lm.id AS slm_id , sahs_lm.default_lesson_mode AS mode, sahs_lm.credit
+					$q = 'SELECT usr_data.usr_id user_id, 
+						CONCAT(usr_data.firstname, " ", usr_data.lastname)  learner_name, 
+						sahs_lm.id  slm_id , sahs_lm.default_lesson_mode  mode, sahs_lm.credit
 						FROM usr_data , cp_package
 						INNER JOIN sahs_lm ON cp_package.obj_id = sahs_lm.id 
-						WHERE usr_data.usr_id = '.$ilDB->quote($userId).
-						' AND sahs_lm.id = '.$ilDB->quote($packageId);
+						WHERE usr_data.usr_id = %s
+						AND sahs_lm.id =%s';
+
 					break;
 
 			}
 			
-			$set = $ilDB->query($q);
+			$types = array('integer','integer');
+			$values = array($userId, $packageId);
+			
+			$set = $ilDB->queryF($q, $types, $values);
+			
 			$result['data'][$k] = array();
-			while ($row = $set->fetchRow(DB_FETCHMODE_ORDERED))
-			{
-				$result['data'][$k][] = $row;
-			}
+	 		$tmp_result = array();
 
+			while($row = $ilDB->fetchAssoc($set))
+			{
+						
+				//$tmp_result[] = $row;
+			
+				foreach($row as $key=>$value)
+				{
+					$tmp_result[] = $value;
+				}
+				$result['data'][$k][] = $tmp_result;
+			}
 		}
-		return $result;
+		return $result;	
 	}
 
 	private function removeCMIData($userId, $packageId, $cp_node_id=null) 
@@ -723,8 +885,8 @@ class ilSCORM13Player
 							SELECT cmi_interaction.cmi_interaction_id FROM cmi_interaction 
 							INNER JOIN cmi_node ON cmi_node.cmi_node_id=cmi_interaction.cmi_node_id 
 							INNER JOIN cp_node ON cmi_node.cp_node_id=cp_node.cp_node_id 
-							WHERE cmi_node.user_id='.$ilDB->quote($userId).
-							' AND cp_node.slm_id='.$ilDB->quote($packageId).')';
+							WHERE cmi_node.user_id= %s
+							AND cp_node.slm_id = %s)';
 						break;
 						
 					case "interaction":
@@ -732,17 +894,17 @@ class ilSCORM13Player
 							WHERE cmi_node_id IN (
 							SELECT cmi_node.cmi_node_id FROM cmi_node 
 							INNER JOIN cp_node ON cmi_node.cp_node_id=cp_node.cp_node_id 
-							WHERE cmi_node.user_id='.$ilDB->quote($userId).
-							' AND cp_node.slm_id='.$ilDB->quote($packageId).')';
+							WHERE cmi_node.user_id=%s
+							AND cp_node.slm_id = %s)';
 						break;
 						
 					case "comment":
 						$q = 'DELETE FROM cmi_comment 
 							WHERE cmi_node_id IN (
 							SELECT cmi_node.cmi_node_id FROM cmi_node 
-							INNER JOIN cp_node ON cmi_node.cp_node_id=cp_node.cp_node_id 
-							WHERE cmi_node.user_id='.$ilDB->quote($userId).
-							' AND cp_node.slm_id='.$ilDB->quote($packageId).')';
+							INNER JOIN cp_node ON cmi_node.cp_node_id = cp_node.cp_node_id 
+							WHERE cmi_node.user_id = %s
+							AND cp_node.slm_id = %s)';
 						break;
 						
 					case "objective":
@@ -750,19 +912,23 @@ class ilSCORM13Player
 							WHERE cmi_node_id IN (
 							SELECT cmi_node.cmi_node_id FROM cmi_node 
 							INNER JOIN cp_node ON cmi_node.cp_node_id=cp_node.cp_node_id 
-							WHERE cmi_node.user_id='.$ilDB->quote($userId).
-							' AND cp_node.slm_id='.$ilDB->quote($packageId).')';
+							WHERE cmi_node.user_id = %s
+							AND cp_node.slm_id = %s)';
 						break;
 						
 					case "node":
 						$q = 'DELETE FROM cmi_node 
-							WHERE user_id='.$ilDB->quote($userId).' AND cp_node_id IN (
+							WHERE user_id = %s AND cp_node_id IN (
 							SELECT cp_node_id FROM cp_node 
-							WHERE slm_id='.$ilDB->quote($packageId).')';
+							WHERE slm_id = %s)';
 						break;
 				}
 				
-				$ilDB->query($q);
+				$types = array('integer','integer');
+				$values = array($userId, $packageId);
+			
+				$ilDB->manipulateF($q, $types, $values);	
+
 
 			}
 			else
@@ -773,54 +939,118 @@ class ilSCORM13Player
 						$q = 'DELETE FROM cmi_correct_response 
 							WHERE cmi_interaction_id IN (
 							SELECT cmi_interaction.cmi_interaction_id FROM cmi_interaction 
-							INNER JOIN cmi_node ON cmi_node.cmi_node_id=cmi_interaction.cmi_node_id 
-							WHERE cmi_node.cp_node_id='.$ilDB->quote($cp_node_id).
-							' AND cmi_node.user_id='.$ilDB->quote($userId).
-							')';
+							INNER JOIN cmi_node ON cmi_node.cmi_node_id = cmi_interaction.cmi_node_id 
+							WHERE cmi_node.cp_node_id = %s
+							AND cmi_node.user_id = %s)';
 						break;
 						
 					case "interaction":
 						$q = 'DELETE FROM cmi_interaction 
 							WHERE cmi_node_id IN (
 							SELECT cmi_node.cmi_node_id FROM cmi_node 
-							WHERE cmi_node.cp_node_id='.$ilDB->quote($cp_node_id).
-							' AND cmi_node.user_id='.$ilDB->quote($userId).
-							')';
+							WHERE cmi_node.cp_node_id = %s
+							AND cmi_node.user_id = %s)';
 						break;
 						
 					case "comment":
 					 	$q = 'DELETE FROM cmi_comment 
 							WHERE cmi_node_id IN (
 							SELECT cmi_node.cmi_node_id FROM cmi_node 
-							WHERE cmi_node.cp_node_id='.$ilDB->quote($cp_node_id).
-							' AND cmi_node.user_id='.$ilDB->quote($userId).
-							')';
+							WHERE cmi_node.cp_node_id = %s
+							AND cmi_node.user_id = %s)';
 						break;
 
 					case "objective":
 					 	$q = 'DELETE FROM cmi_objective 
 							WHERE cmi_node_id IN (
 							SELECT cmi_node.cmi_node_id FROM cmi_node 
-							WHERE cmi_node.cp_node_id='.$ilDB->quote($cp_node_id).
-							' AND cmi_node.user_id='.$ilDB->quote($userId).
-							')';
+							WHERE cmi_node.cp_node_id = %s
+							AND cmi_node.user_id = %s)';
 						break;
 						
 					case "node":
-						$q = 'DELETE FROM cmi_node WHERE cp_node_id='.$ilDB->quote($cp_node_id).''.
-							' AND cmi_node.user_id='.$ilDB->quote($userId);
+						$q = 'DELETE FROM cmi_node WHERE cp_node_id=%s
+							AND cmi_node.user_id = %s';
 						break;
 				}
 				
-				$ilDB->query($q);
+				$types = array('integer','integer');
+				$values = array($cp_node_id, $userId);
+			
+				$ilDB->manipulateF($q, $types, $values);	
 
 			}
 		} 
 	}
 	
+	function getUniqueValue($keys, $data, $table)
+	{
+		$uniqueIdPosition = null;
+		$counter = 0;
+		foreach($keys as $value)
+		{
+			if($value == $table.'_id')
+			{
+				$uniqueIdPosition = $counter;
+				break;	
+			}
+			++$counter;
+		}
+		
+		if($uniqueIdPosition !== null)
+		{
+			$counter = 0;						
+			$uniqueIdValue = null;
+
+			foreach($data as $value)
+			{
+				if($counter == $uniqueIdPosition)
+				{
+					$uniqueIdValue = $value;
+					break;	
+				}
+				++$counter;
+			}						
+		}
+		return $uniqueIdValue;
+	}
+	
 	private function setCMIData($userId, $packageId, $data) 
 	{
 		global $ilDB, $ilLog;
+
+		// arrays for field_types in mdb2-queries 		
+		$comment_types = array('integer','integer','text','text','text','integer');
+		$comment_str_values  = '%s,%s,%s,%s,%s,%s';	
+
+		$correct_response_types = array('integer','integer','text');
+		$correct_response_str_values  = '%s,%s,%s';	
+		
+		$interaction_types = array('integer','integer','text','text','text','text','text','text','text','float');
+		$interaction_str_values  = '%s,%s,%s,%s,%s,%s,%s,%s,%s,%s';	
+				
+		$node_types = array(
+		'integer','text','text','text','integer','text','integer','text','float','integer',
+		'text','integer','integer','float','text','integer','float','text','text','integer',
+		'text','text','float','text','text','text','text','text','text','float',
+		'float','text','text','float','float','float','float','text','text','text',
+		'text','integer','timestamp');
+		$node_str_values  = '
+		%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,
+		%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,
+		%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,
+		%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,
+		%s,%s,%s
+		';			
+		
+		$objective_types = array(
+		'integer','integer','integer','float','text','text','float','float','float','float',
+		'float','text','text');
+		$objective_str_values  = '
+		%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,
+		%s,%s,%s
+		';			
+//
 		
 		$result = array();
 		$map = array();
@@ -871,21 +1101,28 @@ class ilSCORM13Player
 						break;
 					
 				}
-//$ilLog->write("SCORM: setCMIData, row b");
+		
+	//$ilLog->write("SCORM: setCMIData, row b");
 				$cp_no = $schem['cp_' . $table . '_id']['no'];						 
 				$cmi_no = $schem['cmi_' . $table . '_id']['no'];
 				
 				// get current id for later use
 				// this is either a real db id or document unique string generated by client 
 				$cmi_id = $row[$cmi_no]; 
+				
 				// set if field to null, so it will be filled up by autoincrement
 				$row[$cmi_no] = null;
+				
+				
+				
 				// TODO validate values
 				// create sql statement, RDBS should support "REPLACE" command
 				//for Mysql
 				$keys=array();
-				foreach(array_keys($schem) as $key) {
+				foreach(array_keys($schem) as $key) 
+				{
 					array_push($keys,"`".$key."`");
+					
 				}
 //$ilLog->write("SCORM: setCMIData, row c");
 
@@ -897,12 +1134,354 @@ class ilSCORM13Player
 
 				$ret = false;
 
-				$sql = 'REPLACE INTO cmi_' . $table . ' (' . implode(', ', array_values($keys)). 
-					') VALUES ('.implode(",", self::quoteJSONArray($row)).')';
-				$ilDB->query($sql);
+				$data = self::quoteJSONArray($row);
+				switch ($table)
+				{
+					case 'correct_response':
+						
+						$uniqueIdValue = $this->getUniqueValue($keys,$data, 'correct_response');
+						
+						if($uniqueIdValue !== null)
+						{
+							$query = $ilDB->queryF('
+								SELECT * FROM cmi_correct_response
+								WHERE cmi_correct_resp_id = %s',
+								array('integer'), array($uniqueIdValue));
+
+							$res = $ilDB->numRows($query);
+							if($res > 0)
+							{
+								//update
+								$sql = $ilDB->manipulateF('
+								UPDATE cmi_correct_response
+								SET cmi_correct_resp_id = %s,
+									cmi_interaction_id = %s,
+									pattern = %s
+								WHERE cmi_correct_resp_id = %s',
+								array('integer','integer','text','integer'),
+								array(implode(",", self::quoteJSONArray($row)),$uniqueIdValue)
+								);
+							}
+							else
+							{
+								//insert
+								$row[$cmi_no] = $ilDB->nextId('cmi_correct_response');
+								
+								$sql = $ilDB->manipulateF('
+								INSERT INTO cmi_correct_response
+								(cmi_correct_resp_id,cmi_interaction_id,pattern)
+								VALUES (%s,%s,%s)',
+								array('integer','integer','text'),
+								array(implode(",", self::quoteJSONArray($row)))
+								);
+							}
+						}
+						break;
+						
+					case 'comment':
+						$uniqueIdValue = $this->getUniqueValue($keys,$data, 'comment');
+						
+						if($uniqueIdValue !== null)
+						{
+							$query = $ilDB->queryF('
+								SELECT * FROM comment
+								WHERE cmi_comment_id = %s',
+								array('integer'), array($uniqueIdValue));
+
+							$res = $ilDB->numRows($query);
+							if($res > 0)
+							{
+								$sql_types = $comment_types;
+								array_push($sql_types, 'integer');
+								
+								//update
+								$sql = $ilDB->manipulateF('
+								UPDATE cmi_comment
+								SET cmi_comment_id = %s,
+									cmi_node_id = %s,
+									c_comment = %s,
+									c_timestamp = %s,
+									location = %s,
+									sourceislms = %s
+								WHERE cmi_comment_id = %s',
+								
+								$sql_types,
+								array(implode(",", self::quoteJSONArray($row)),$uniqueIdValue)
+								);
+							}
+							else
+							{
+								//insert
+								$row[$cmi_no] = $ilDB->nextId('cmi_comment');
+								
+								$sql = $ilDB->manipulateF('
+								INSERT INTO cmi_comment
+								(cmi_comment_id,
+								cmi_node_id,
+								c_comment,
+								c_timestamp,
+								location,
+								sourceislms
+								)
+								VALUES ('.$comment_str_values.')',
+								$comment_types,
+								array(implode(",", self::quoteJSONArray($row)))
+								);
+							}
+						}
+						break;
+						
+					case 'interaction':
+						$uniqueIdValue = $this->getUniqueValue($keys,$data, 'cmi_interaction');
+						
+						if($uniqueIdValue !== null)
+						{
+							$query = $ilDB->queryF('
+								SELECT * FROM cmi_interaction
+								WHERE cmi_interaction_id = %s',
+								array('integer'), array($uniqueIdValue));
+
+							$res = $ilDB->numRows($query);
+							if($res > 0)
+							{
+								$sql_types = $interaction_types;
+								array_push($sql_types, 'integer');
+								//update
+								$sql = $ilDB->manipulateF('
+									UPDATE cmi_interaction
+									SET cmi_interaction_id = %s,
+										cmi_node_id = %s,
+										description = %s,
+										id = %s,
+										latency = %s,
+										learner_response = %s,
+										result = %s,
+										c_timestamp = %s,
+										c_type = %s,
+										weighting = %s
+		
+									WHERE cmi_interaction_id = %s',
+									$sql_types,
+									array(implode(",", self::quoteJSONArray($row)),$uniqueIdValue)
+								);
+							}
+							else
+							{
+								//insert
+								$row[$cmi_no] = $ilDB->nextId('cmi_interaction');
+								
+								$sql = $ilDB->manipulateF('
+								INSERT INTO cmi_interaction
+								(	cmi_interaction_id,
+									cmi_node_id,
+									description,
+									id,
+									latency,
+									learner_response,
+									result,
+									c_timestamp,
+									c_type,
+									weighting
+								)
+								VALUES ('.$interaction_str_values.')',
+								$interaction_types,
+								array(implode(",", self::quoteJSONArray($row)))
+								);
+							}
+						}						
+						break;
+						
+					case 'objective':
+						$uniqueIdValue = $this->getUniqueValue($keys,$data, 'cmi_objective');
+						
+						if($uniqueIdValue !== null)
+						{
+							$query = $ilDB->queryF('
+								SELECT * FROM cmi_objective
+								WHERE cmi_objective_id = %s',
+								array('integer'), array($uniqueIdValue));
+
+							$res = $ilDB->numRows($query);
+							if($res > 0)
+							{
+								$sql_types = $objective_types;
+								array_push($sql_types, 'integer');
+								//update
+								$sql = $ilDB->manipulateF('
+									UPDATE cmi_objective
+									SET cmi_interaction_id = %s, 
+										cmi_node_id = %s,
+										cmi_objective_id = %s,
+										completion_status = %s,
+										description = %s,
+										id = %s,
+										c_max = %s,
+										c_min = %s,
+										scaled = %s,
+										progress_measure = %s,
+										success_status = %s,
+										scope = %s
+		
+									WHERE cmi_interaction_id = %s',
+									$sql_types,
+									array(implode(",", self::quoteJSONArray($row)),$uniqueIdValue)
+								);
+							}
+							else
+							{
+								//insert
+								$row[$cmi_no] = $ilDB->nextId('cmi_objective');
+								
+								$sql = $ilDB->manipulateF('
+								INSERT INTO cmi_objective
+								(	cmi_interaction_id,
+									cmi_node_id,
+									cmi_objective_id,
+									completion_status,
+									description,
+									id,
+									c_max,
+									c_min,
+									scaled,
+									progress_measure,
+									success_status,
+									scope
+								)
+								VALUES ('.$objective_str_values.')',
+								$objective_types,
+								array(implode(",", self::quoteJSONArray($row)))
+								);
+							}
+						}						
+						break;
+						
+					case 'node':
+					$uniqueIdValue = $this->getUniqueValue($keys,$data, 'cmi_node');
+						
+						if($uniqueIdValue !== null)
+						{
+							$query = $ilDB->queryF('
+								SELECT * FROM cmi_node
+								WHERE cmi_node_id = %s',
+								array('integer'), array($uniqueIdValue));
+
+							$res = $ilDB->numRows($query);
+							if($res > 0)
+							{
+								$sql_types = $node_types;
+								array_push($sql_types, 'integer');
+								//update
+								$sql = $ilDB->manipulateF('
+									UPDATE cmi_node
+									SET accesscount = %s,
+										accessduration = %s,
+										accessed = %s,
+										activityabsduration = %s,
+										activityattemptcount = %s,
+										activityexpduration = %s,
+										activityprogstatus = %s,
+										attemptabsduration = %s,
+										attemptcomplamount = %s,
+										attemptcomplstatus = %s,
+										attemptexpduration = %s,
+										attemptprogstatus = %s,
+										audio_captioning = %s,
+										audio_level = %s,
+										availablechildren = %s,
+										cmi_node_id = %s,
+										completion = %s,
+										completion_status = %s,
+										completion_threshold = %s,
+										cp_node_id = %s,
+										created = %s,
+										credit = %s,
+										delivery_speed = %s,
+										c_entry = %s,
+										c_exit = %s,
+										language = %s,
+										launch_data = %s,
+										learner_name = %s,
+										location = %s,
+										c_max = %s,
+										c_min = %s,
+										c_mode = %s,
+										modified = %s,
+										progress_measure = %s,
+										c_raw = %s,
+										scaled = %s,
+										scaled_passing_score = %s,
+										session_time = %s,
+										success_status = %s,
+										suspend_data = %s,
+										total_time = %s,
+										user_id = %s
+		
+									WHERE cmi_node_id = %s',
+									$sql_types,
+									array(implode(",", self::quoteJSONArray($row)),$uniqueIdValue)
+								);
+							}
+							else
+							{
+								//insert
+								$row[$cmi_no] = $ilDB->nextId('cmi_node');
+								
+								$sql = $ilDB->manipulateF('
+								INSERT INTO cmi_node
+								(	
+									accesscount,
+									accessduration,
+									accessed,
+									activityabsduration,
+									activityattemptcount,
+									activityexpduration,
+									activityprogstatus,
+									attemptabsduration,
+									attemptcomplamount,
+									attemptcomplstatus,
+									attemptexpduration,
+									attemptprogstatus,
+									audio_captioning,
+									audio_level,
+									availablechildren,
+									cmi_node_id,
+									completion,
+									completion_status,
+									completion_threshold,
+									cp_node_id,
+									created,
+									credit,
+									delivery_speed,
+									c_entry,
+									c_exit,
+									language,
+									launch_data,
+									learner_name,
+									location,
+									c_max,
+									c_min,
+									c_mode,
+									modified,
+									progress_measure,
+									c_raw,
+									scaled,
+									scaled_passing_score,
+									session_time,
+									success_status,
+									suspend_data,
+									total_time,
+									user_id							
+								)
+								VALUES ('.$node_str_values.')',
+								$node_types,
+								array(implode(",", self::quoteJSONArray($row)))
+								);
+							}
+						}						
+						break;
+				}				
+				
 				$ret = true;
-				
-				
 
 				if (!$ret)
 				{
@@ -1040,41 +1619,43 @@ class ilSCORM13Player
 	function get_max_attempts() {
 		
 		global $ilDB;
-		
-		$query = "SELECT * FROM sahs_lm WHERE".
-				" id = ".$ilDB->quote($this->packageId);
 
-		$val_set = $ilDB->query($query);
-		$val_rec = $val_set->fetchRow(DB_FETCHMODE_ASSOC);
+		$val_set = $ilDB->queryF('SELECT * FROM sahs_lm WHERE id = %s', 
+			array('integer'), array($this->packageId));
+		$val_rec = $ilDB->fetchAssoc($val_set);
+		
 		return $val_rec["max_attempt"]; 
 	}
 	
 	function get_module_version() {
 		
 		global $ilDB;
-		
-		$query = "SELECT * FROM sahs_lm WHERE".
-				" id = ".$ilDB->quote($this->packageId);
 
-		$val_set = $ilDB->query($query);
-		$val_rec = $val_set->fetchRow(DB_FETCHMODE_ASSOC);
+		$val_set = $ilDB->queryF('SELECT * FROM sahs_lm WHERE id = %s', 
+		array('integer'), array($this->packageId));
+		$val_rec = $ilDB->fetchAssoc($val_set);
+		
 		return $val_rec["module_version"]; 
 	}
 	
 	/**
 	* Get number of actual attempts for the user
 	*/
-	function get_actual_attempts() {
+	function get_actual_attempts() 
+	{
 		global $ilDB, $ilUser;
-		
-		$query = "SELECT * FROM cmi_custom WHERE".
-			" user_id = ".$ilDB->quote($this->userId).
-			" AND sco_id = 0".
-			" AND lvalue='package_attempts'".
-			" AND obj_id = ".$ilDB->quote($this->packageId);
 
-		$val_set = $ilDB->query($query);
-		$val_rec = $val_set->fetchRow(DB_FETCHMODE_ASSOC);
+		$val_set = $ilDB->queryF('
+			SELECT * FROM cmi_custom 
+			WHERE  user_id = %s
+			AND sco_id = %s
+			AND lvalue = %s
+			AND obj_id = %s',
+		array('integer','integer','text','integer'),
+		array($this->userId,0,'package_attempts',$this->packageId));
+		$val_rec = $ilDB->fetchAssoc($val_set);
+		
+		
 		$val_rec["rvalue"] = str_replace("\r\n", "\n", $val_rec["rvalue"]);
 		if ($val_rec["rvalue"] == null) {
 			$val_rec["rvalue"]=0;
@@ -1089,28 +1670,43 @@ class ilSCORM13Player
 		global $ilDB, $ilUser;
 		
 		//get existing account - sco id is always 0
-		$query = "SELECT * FROM cmi_custom WHERE".
-			" user_id = ".$ilDB->quote($this->userId).
-			" AND sco_id = 0".
-			" AND lvalue='package_attempts'".
-			" AND obj_id = ".$ilDB->quote($this->packageId);
-
-		$val_set = $ilDB->query($query);
-		$val_rec = $val_set->fetchRow(DB_FETCHMODE_ASSOC);
+		$val_set = $ilDB->queryF('
+			SELECT * FROM cmi_custom 
+			WHERE  user_id = %s
+			AND sco_id = %s
+			AND lvalue = %s
+			AND obj_id = %s',
+		array('integer','integer','text','integer'),
+		array($this->userId,0,'package_attempts',$this->packageId));
+		$val_rec = $ilDB->fetchAssoc($val_set);
+		
 		$val_rec["rvalue"] = str_replace("\r\n", "\n", $val_rec["rvalue"]);
 		if ($val_rec["rvalue"] == null) {
 			$val_rec["rvalue"]=0;
 		}
 		$new_rec =  $val_rec["rvalue"]+1;
 		//increase attempt by 1
-		$query = "REPLACE INTO cmi_custom (rvalue,user_id,sco_id,obj_id,lvalue) values(".
-		 		$ilDB->quote($new_rec).",".
-				$ilDB->quote($this->userId).",".
-				" 0,".
-				$ilDB->quote($this->packageId).",".
-				$ilDB->quote("package_attempts").")";
-				
-		$val_set = $ilDB->query($query);
+		if(!$ilDB->numRows($val_set))
+		{
+			$statement = $ilDB->manipulateF('
+			INSERT INTO cmi_custom (rvalue, user_id, sco_id, obj_id, lvalue,c_timestamp) 
+			VALUES(%s,%s,%s,%s,%s,%s)', 
+			array('text','integer', 'integer', 'integer','text','timestamp'), 
+			array($new_rec, $this->userId, 0, $this->packageId, 'package_attempts', date("Y-m-d H:i:s")));
+		}
+		else
+		{
+			$statement = $ilDB->manipulateF('
+			UPDATE cmi_custom 
+			SET rvalue = %s,
+				c_timestamp = %s
+			WHERE 	user_id = %s 
+			AND		sco_id = %s 
+			AND		obj_id = %s 
+			AND		lvalue = %s',
+			array('text','timestamp','integer', 'integer', 'integer','text'), 
+			array($new_rec, date("Y-m-d H:i:s"), $this->userId, 0, $this->packageId, 'package_attempts'));
+		}
 	}
 	
 	
@@ -1119,16 +1715,51 @@ class ilSCORM13Player
 	*/
 	function save_module_version() {
 		global $ilDB, $ilUser;
-		$query = "REPLACE INTO cmi_custom (rvalue,user_id,sco_id,obj_id,lvalue) values(".
-		 		$ilDB->quote($this->get_Module_Version()).",".
-				$ilDB->quote($this->userId).",".
-				" 0,".
-				$ilDB->quote($this->packageId).",".
-				$ilDB->quote("module_version").")";
-				
-		$val_set = $ilDB->query($query);
+
+		$res = $ilDB->queryF('
+			SELECT * FROM cmi_custom 
+			WHERE  user_id = %s
+			AND sco_id = %s
+			AND lvalue = %s
+			AND obj_id = %s',
+		array('integer','integer','text','integer'),
+		array($this->userId, 0, 'module_version', $this->packageId));
+		
+		if(!$ilDB->numRows($res))
+		{ 
+			
+			$statement = $ilDB->manipulateF('
+			INSERT INTO cmi_custom (rvalue, user_id, sco_id, obj_id, lvalue,c_timestamp)
+			VALUES(%s,%s,%s,%s,%s,%s)',  
+			array('text','integer','integer','integer','text','timestamp'),
+			array(	$this->get_Module_Version(),
+					$this->userId, 
+					0, 
+					$this->packageId, 
+					'module_version',
+					 date("Y-m-d H:i:s"))
+			);
+		}
+		else
+		{
+			$statement = $ilDB->manipulateF('
+			UPDATE cmi_custom 
+			SET rvalue = %s, 
+				c_timestamp = %s
+			WHERE 	user_id = %s 
+			AND		sco_id = %s 
+			AND		obj_id = %s 
+			AND		lvalue = %s',  
+			array('text','timestamp', 'integer','integer','integer','text'),
+			array(	$this->get_Module_Version(),
+			 		date("Y-m-d H:i:s"),
+					$this->userId, 
+					0, 
+					$this->packageId, 
+					'module_version')
+			);	
+		}
 	}
-	
 }	
 
 ?>

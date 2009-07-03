@@ -137,15 +137,27 @@ die("Not Implemented: ilSCORM2004Tracking_getFailed");
 	{
 		global $ilDB;
 
-		$query = "SELECT cmi_node.user_id as user_id, COUNT(user_id) as completed FROM cp_node, cmi_node ".
-			"WHERE cp_node.cp_node_id IN(".implode(",",ilUtil::quoteArray($a_scorm_item_ids)).
-			") AND cp_node.cp_node_id = cmi_node.cp_node_id".
-			" AND cp_node.slm_id = ".$ilDB->quote($a_obj_id).
-			" AND completion_status = 'completed' ".
-			" GROUP BY cmi_node.user_id";
+		$sql_values = array();
+		$sql_types = array();
+		$sql_str = array();
+		foreach($a_scorm_item_ids as $sc_id)
+		{
+			$in_values[] = $sc_id;
+			$in_types[] = 'integer';
+			$in_str[] = '%s';
+		}
 
-		$res = $ilDB->query($query);
-		while($row = $res->fetchRow(DB_FETCHMODE_OBJECT))
+		$res = $ilDB->queryF('
+		SELECT cmi_node.user_id user_id, COUNT(user_id) completed FROM cp_node, cmi_node 
+		WHERE cp_node.cp_node_id IN('.$a_scorm_item_ids.')
+		) AND cp_node.cp_node_id = cmi_node.cp_node_id
+		 AND cp_node.slm_id = %s
+		 AND completion_status = %s 
+		 GROUP BY cmi_node.user_id',
+		array('integer','text'),
+		array($a_obj_id, 'completed'));
+		
+		while($row = $ilDB->fetchObject($res))		
 		{
 			$users[$row->user_id] = $row->completed;
 		}
@@ -158,17 +170,20 @@ die("Not Implemented: ilSCORM2004Tracking_getFailed");
 	{
 		global $ilDB;
 
-		$query = "SELECT * FROM cmi_gobjective ".
-			" WHERE objective_id = ".$ilDB->quote("-course_overall_status-").
-			" AND scope_id = ".$ilDB->quote($a_obj_id);
 
-		$res = $ilDB->query($query);
-
+		$res = $ilDB->queryF('
+			SELECT * FROM cmi_gobjective
+			WHERE objective_id = %s
+			AND scope_id = %s', 
+			array('text','integer'), 
+			array('-course_overall_status-',$a_obj_id)
+		);
+		
 		$info['completed'] = array();
 		$info['failed'] = array();
 		$info['in_progress'] = array();
 
-		while($row = $res->fetchRow(DB_FETCHMODE_ASSOC))
+		while($row = $ilDB->fetchAssoc($res))
 		{
 			if (self::_isCompleted($row["status"], $row["status"]))
 			{
@@ -191,20 +206,23 @@ die("Not Implemented: ilSCORM2004Tracking_getFailed");
 	{
 		global $ilDB;
 
-		$query = "SELECT cp_node.cp_node_id as id, cmi_node.user_id as user_id, ".
-			" cmi_node.completion_status as completion, cmi_node.success_status as success ".
-			" FROM cp_node, cmi_node ".
-			"WHERE cp_node.cp_node_id IN(".implode(",",ilUtil::quoteArray($a_scorm_item_ids)).
-			") AND cp_node.cp_node_id = cmi_node.cp_node_id".
-			" AND cp_node.slm_id = ".$ilDB->quote($a_obj_id);
-
-		$res = $ilDB->query($query);
-
+		$res = $ilDB->queryF(
+		'SELECT cp_node.cp_node_id id, 
+				cmi_node.user_id user_id,
+				cmi_node.completion_status completion, 
+				cmi_node.success_status success
+		 FROM cp_node, cmi_node 
+		 WHERE cp_node.cp_node_id IN('.implode(",",ilUtil::quoteArray($a_scorm_item_ids)).'
+		 ) AND cp_node.cp_node_id = cmi_node.cp_node_id
+		  AND cp_node.slm_id = %s',
+		array('integer'),
+		array($a_obj_id));
+		
 		$info['completed'] = array();
 		$info['failed'] = array();
 		$info['in_progress'] = array();
 
-		while($row = $res->fetchRow(DB_FETCHMODE_ASSOC))
+		while($row = $ilDB->fetchAssoc($res))
 		{
 			// if any data available, set in progress.
 			$info['in_progress'][$row["id"]][] = $row["user_id"];

@@ -103,6 +103,7 @@ class ilSAHSPresentationGUI
 		$obj_id = ilObject::_lookupObjectId($_GET['ref_id']);
 		$type = ilObjSAHSLearningModule::_lookupSubType($obj_id);
 
+
 		switch($type)
 		{
 			
@@ -162,6 +163,7 @@ class ilSAHSPresentationGUI
 
 			case "ilscorm13player":
 				require_once "./Modules/Scorm2004/classes/ilSCORM13Player.php";
+		
 				$scorm_gui = new ilSCORM13Player();
 				$ret =& $this->ctrl->forwardCommand($scorm_gui);
 				break;	
@@ -193,6 +195,7 @@ class ilSAHSPresentationGUI
 	function attrib2arr(&$a_attributes)
 	{
 		$attr = array();
+		
 		if(!is_array($a_attributes))
 		{
 			return $attr;
@@ -201,6 +204,8 @@ class ilSAHSPresentationGUI
 		{
 			$attr[$attribute->name()] = $attribute->value();
 		}
+
+		
 		return $attr;
 	}
 
@@ -308,8 +313,9 @@ class ilSAHSPresentationGUI
 
 	function launchSahs()
 	{
+	
 		global $ilUser, $ilDB;
-
+		
 		$sco_id = ($_GET["sahs_id"] == "")
 			? $_POST["sahs_id"]
 			: $_GET["sahs_id"];
@@ -345,15 +351,18 @@ class ilSAHSPresentationGUI
 			$this->tpl->parseCurrentBlock();
 		}
 
-		$query = "SELECT * FROM scorm_tracking WHERE".
-			" user_id = ".$ilDB->quote($ilUser->getId()).
-			" AND sco_id = ".$ilDB->quote($sco_id).
-			" AND obj_id = ".$ilDB->quote($this->slm->getId());
 
-
-		$val_set = $ilDB->query($query);
+		$val_set = $ilDB->queryF('
+		SELECT * FROM scorm_tracking 
+		WHERE user_id = %s
+		AND sco_id = %s
+		AND obj_id = %s',
+		array('integer','integer','integer'),
+		array($ilUser->getId(),$sco_id,$this->slm->getId()));
+		
 		$re_value = array();
-		while($val_rec = $val_set->fetchRow(DB_FETCHMODE_ASSOC))
+		
+		while($val_rec = $ilDB->fetchAssoc($val_set))
 		{
 			$val_rec["rvalue"] = str_replace("\r\n", "\n", $val_rec["rvalue"]);
 			$val_rec["rvalue"] = str_replace("\r", "\n", $val_rec["rvalue"]);

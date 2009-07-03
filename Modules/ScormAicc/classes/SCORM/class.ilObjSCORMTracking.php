@@ -106,51 +106,61 @@ class ilObjSCORMTracking
 		{
 			foreach($this->insert as $insert)
 			{
-				$q = "SELECT * FROM scorm_tracking WHERE ".
-					" user_id = ".$ilDB->quote($user_id).
-					" AND sco_id = ".$ilDB->quote($sahs_id).
-					" AND lvalue = ".$ilDB->quote($insert["left"]).
-					" AND obj_id = ".$ilDB->quote($obj_id);
-				$set = $ilDB->query($q);
-				if ($rec = $set->fetchRow(DB_FETCHMODE_ASSOC))
+		
+				$set = $ilDB->queryF('
+				SELECT * FROM scorm_tracking 
+				WHERE user_id = %s
+				AND sco_id =  %s
+				AND lvalue =  %s
+				AND obj_id = %s',
+				array('integer','integer','text','integer'), 
+				array($user_id,$sahs_id,$insert["left"],$obj_id));
+				if ($rec = $ilDB->fetchAssoc($set))
 				{
 					fwrite($f, "Error Insert, left value already exists. L:".$insert["left"].",R:".
 						$insert["right"].",sahs_id:".$sahs_id.",user_id:".$user_id."\n");
 				}
 				else
 				{
-					$q = "INSERT INTO scorm_tracking (user_id, sco_id, obj_id, lvalue, rvalue) VALUES ".
-						"(".$ilDB->quote($user_id).",".$ilDB->quote($sahs_id).",".
-						$ilDB->quote($obj_id).",".
-						$ilDB->quote($insert["left"]).",".$ilDB->quote($insert["right"]).")";
-					$ilDB->query($q);
+					$ilDB->manipulateF('
+					INSERT INTO scorm_tracking (user_id, sco_id, obj_id, lvalue, rvalue) VALUES (%s,%s,%s,%s,%s)',
+					array('integer','integer','integer','text','text'), 
+					array($user_id,$sahs_id,$obj_id,$insert["left"],$insert["right"]));
+										
 					fwrite($f, "Insert - L:".$insert["left"].",R:".
 						$insert["right"].",sahs_id:".$sahs_id.",user_id:".$user_id."\n");
 				}
 			}
 			foreach($this->update as $update)
 			{
-				$q = "SELECT * FROM scorm_tracking WHERE ".
-					" user_id = ".$ilDB->quote($user_id).
-					" AND sco_id = ".$ilDB->quote($sahs_id).
-					" AND lvalue = ".$ilDB->quote($update["left"]).
-					" AND obj_id = ".$ilDB->quote($obj_id);
-				$set = $ilDB->query($q);
-				if ($rec = $set->fetchRow(DB_FETCHMODE_ASSOC))
+	
+				$set = $ilDB->queryF('
+				SELECT * FROM scorm_tracking 
+				WHERE user_id = %s
+				AND sco_id =  %s
+				AND lvalue =  %s
+				AND obj_id = %s',
+				array('integer','integer','text','integer'), 
+				array($user_id,$sahs_id,$update["left"],$obj_id));
+				
+				if ($rec = $ilDB->fetchAssoc($set))
 				{
-					$q = "REPLACE INTO scorm_tracking (user_id, sco_id, obj_id, lvalue, rvalue) VALUES ".
-						"(".$ilDB->quote($user_id).",".$ilDB->quote($sahs_id).",".
-						$ilDB->quote($obj_id).",".
-						$ilDB->quote($update["left"]).",".$ilDB->quote($update["right"]).")";
-					$ilDB->query($q);
-					fwrite($f, "Update - L:".$update["left"].",R:".
-						$update["right"].",sahs_id:".$sahs_id.",user_id:".$user_id."\n");
+					$ilDB->manipulateF('
+					UPDATE scorm_tracking
+					SET rvalue = %s
+					WHERE user_id = %s
+					AND sco_id =  %s
+					AND lvalue =  %s
+					AND obj_id = %s',
+					array('text','integer','integer','integer','text'),
+					array($update["right"],$user_id,$sahs_id,$obj_id,$update["left"]));
 				}
 				else
 				{
 					fwrite($f, "ERROR Update, left value does not exist. L:".$update["left"].",R:".
 						$update["right"].",sahs_id:".$sahs_id.",user_id:".$user_id."\n");
 				}
+				
 			}
 		}
 		fclose($f);
@@ -160,12 +170,13 @@ class ilObjSCORMTracking
 	{
 		global $ilDB, $ilUser;
 
-		$q = "INSERT INTO scorm_tracking (user_id, sco_id, lvalue, rvalue, obj_id) ".
-			" VALUES (".$ilDB->quote($ilUser->getId()).",".$ilDB->quote($a_sahs_id).
-			",".$ilDB->quote($a_lval).",".$ilDB->quote($a_rval).
-			",".$ilDB->quote($a_obj_id).")";
-		$ilDB->query($q);
-
+		$ilDB->manipulateF('
+		INSERT INTO scorm_tracking (user_id, sco_id, lvalue, rvalue, obj_id)
+		VALUES (%s,%s,%s,%s,%s)',
+		array('integer','integer','text','text','integer'),
+		array($ilUser->getId(),$a_sahs_id,$a_lval,$a_rval,$a_obj_id
+		));
+		
 	}
 
 
@@ -175,26 +186,23 @@ class ilObjSCORMTracking
 
 		if(is_array($scorm_item_id))
 		{
-			$where = "WHERE sco_id IN(";
-			$where .= implode(",",ilUtil::quoteArray($scorm_item_id));
-			$where .= ") ";
-			$where .= ("AND obj_id = ".$ilDB->quote($a_obj_id)." ");
+			$res = $ilDB->queryF('SELECT user_id,sco_id FROM scorm_tracking
+			WHERE sco_id IN('.implode(",", $scorm_item_id).') 
+			AND obj_id = %s 
+			GROUP BY user_id, sco_id',
+			array('integer'),array($a_obj_id));
 			   
 		}
 		else
 		{
-			$where = "WHERE sco_id = ".$ilDB->quote($scorm_item_id)." ";
-			$where .= ("AND obj_id = ".$ilDB->quote($a_obj_id)." ");
+			$res = $ilDB->queryF('SELECT user_id,sco_id FROM scorm_tracking			
+			WHERE sco_id = %s 
+			AND obj_id =%s',
+			array('integer','integer'),array($scorm_item_id,$a_obj_id)
+			);
 		}
-				
-
-		$query = "SELECT user_id,sco_id FROM scorm_tracking ".
-			$where.
-			"GROUP BY user_id, sco_id";
 		
-
-		$res = $ilDB->query($query);
-		while($row = $res->fetchRow(DB_FETCHMODE_OBJECT))
+		while($row = $ilDB->fetchObject($res))
 		{
 			$in_progress[$row->sco_id][] = $row->user_id;
 		}
@@ -207,21 +215,28 @@ class ilObjSCORMTracking
 
 		if(is_array($scorm_item_id))
 		{
-			$where = "WHERE sco_id IN(".implode(",",ilUtil::quoteArray($scorm_item_id)).") ";
+			$res = $ilDB->queryF('SELECT DISTINCT(user_id) FROM scorm_tracking 
+			WHERE sco_id IN('.implode(",",$scorm_item_id).')
+			AND obj_id = %s
+			AND lvalue = %s 
+			AND ( rvalue = %s 
+			OR rvalue = %s)',
+			array('integer','text','text','text'), 
+			array($a_obj_id,'cmi.core.lesson_status','completed','passed'));
 		}
 		else
-		{
-			$where = "sco_id = ".$ilDB->quote($scorm_item_id)." ";
+		{	
+			$res = $ilDB->queryF('SELECT DISTINCT(user_id) FROM scorm_tracking 
+			WHERE sco_id = %s
+			AND obj_id = %s
+			AND lvalue = %s 
+			AND ( rvalue = %s 
+			OR rvalue = %s)',
+			array('integer','integer','text','text','text'), 
+			array($scorm_item_id,$a_obj_id,'cmi.core.lesson_status','completed','passed'));
 		}
-
-		$query = "SELECT DISTINCT(user_id) FROM scorm_tracking ".
-			$where.
-			"AND obj_id = ".$ilDB->quote($a_obj_id)." ".
-			"AND lvalue = 'cmi.core.lesson_status' ".
-			"AND ( rvalue = 'completed' ".
-			"OR rvalue = 'passed')";
-		$res = $ilDB->query($query);
-		while($row = $res->fetchRow(DB_FETCHMODE_OBJECT))
+		
+		while($row = $ilDB->fetchObject($res))
 		{
 			$user_ids[] = $row->user_id;
 		}
@@ -234,20 +249,30 @@ class ilObjSCORMTracking
 
 		if(is_array($scorm_item_id))
 		{
-			$where = "WHERE sco_id IN('".implode("','",$scorm_item_id)."') ";
+			$res = $ilDB->queryF('
+				SELECT DISTINCT(user_id) FROM scorm_tracking 
+				WHERE sco_id IN('.implode(',',$scorm_item_id).')
+				AND obj_id = %s
+				AND lvalue =  %s
+				AND rvalue =%s',
+			array('integer','text','text'),
+			array($a_obj_id,'cmi.core.lesson_status','failed'))	;				
 		}
 		else
 		{
-			$where = "sco_id = '".$scorm_item_id."' ";
+			
+			$res = $ilDB->queryF('
+				SELECT DISTINCT(user_id) FROM scorm_tracking 
+				WHERE sco_id = %s
+				AND obj_id = %s
+				AND lvalue =  %s
+				AND rvalue =%s',
+			array('integer','integer','text','text'),
+			array($scorm_item_id,$a_obj_id,'cmi.core.lesson_status','failed'))	;					
+
 		}
 
-		$query = "SELECT DISTINCT(user_id) FROM scorm_tracking ".
-			$where.
-			"AND obj_id = '".$a_obj_id."' ".
-			"AND lvalue = 'cmi.core.lesson_status' ".
-			"AND rvalue = 'failed'";
-		$res = $ilDB->query($query);
-		while($row = $res->fetchRow(DB_FETCHMODE_OBJECT))
+		while($row = $ilDB->fetchObject($res))
 		{
 			$user_ids[] = $row->user_id;
 		}
@@ -258,21 +283,18 @@ class ilObjSCORMTracking
 	{
 		global $ilDB;
 
-		$where = "WHERE sco_id IN(";
-		$where .= implode(",",ilUtil::quoteArray($a_scorm_item_ids));
-		$where .= ") ";
-		$where .= ("AND obj_id = ".$ilDB->quote($a_obj_id));
+		$res = $ilDB->queryF('
+			SELECT user_id, COUNT(user_id) as completed FROM scorm_tracking
+			WHERE sco_id IN('.implode(",",$a_scorm_item_ids).') 
+			AND lvalue = %s 
+			AND (rvalue = %s
+			OR rvalue = %s
+			GROUP BY user_id',
+			array('text','text','text'),
+			array('cmi.core.lesson_status' ,'completed' ,'passed')
+		);
 		
-
-		$query = "SELECT user_id, COUNT(user_id) as completed FROM scorm_tracking ".
-			$where.
-			" AND lvalue = 'cmi.core.lesson_status' ".
-			"AND (rvalue = 'completed' OR ".
-			"rvalue = 'passed') ".
-			"GROUP BY user_id";
-
-		$res = $ilDB->query($query);
-		while($row = $res->fetchRow(DB_FETCHMODE_OBJECT))
+		while($row = $ilDB->fetchObject($res))
 		{
 			$users[$row->user_id] = $row->completed;
 		}
@@ -284,16 +306,18 @@ class ilObjSCORMTracking
 	{
 		global $ilDB;
 
-		$query = "SELECT * FROM scorm_tracking ".
-			"WHERE sco_id IN(".implode(",",ilUtil::quoteArray($sco_item_ids)).") ".
-			"AND obj_id = ".$ilDB->quote($a_obj_id)." ".
-			"AND lvalue = 'cmi.core.lesson_status'";
-
-		$res = $ilDB->query($query);
+		$res = $ilDB->queryF('
+		SELECT * FROM scorm_tracking 
+		WHERE sco_id IN('.implode(",",$sco_item_ids).') 
+		AND obj_id = %s 
+		AND lvalue = %s ',
+		array('integer','text'), 
+		array($a_obj_id,'cmi.core.lesson_status'));
 
 		$info['completed'] = array();
 		$info['failed'] = array();
-		while($row = $res->fetchRow(DB_FETCHMODE_OBJECT))
+		
+		while($row = $ilDB->fetchObject($res))
 		{
 			switch($row->rvalue)
 			{

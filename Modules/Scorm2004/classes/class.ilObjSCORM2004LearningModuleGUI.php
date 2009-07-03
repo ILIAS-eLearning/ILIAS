@@ -47,7 +47,7 @@ class ilObjSCORM2004LearningModuleGUI extends ilObjSCORMLearningModuleGUI
 
 		$next_class = $ilCtrl->getNextClass($this);
 		$cmd = $ilCtrl->getCmd();
-		
+
 		// update expander
 		include_once("./Modules/Scorm2004/classes/class.ilSCORM2004OrganizationHFormGUI.php");
 		$form_gui = new ilSCORM2004OrganizationHFormGUI();
@@ -797,11 +797,16 @@ function showTrackingItem()
     	$scos = array();
 
 		//get all SCO's of this object		
-		$query = "SELECT cp_node_id FROM cp_node WHERE".
-				" nodeName='item' AND cp_node.slm_id = ".$ilDB->quote($this->object->getId());		
-								
-		$val_set = $ilDB->query($query);
-		while ($val_rec = $val_set->fetchRow(DB_FETCHMODE_ASSOC)) {
+	
+    	$val_set = $ilDB->queryF('
+			SELECT cp_node_id FROM cp_node 
+			WHERE nodename = %s 
+			AND cp_node.slm_id = %s',
+			array('text', 'integer'),
+			array('item',$this->object->getId()));
+			
+		while ($val_rec = $ilDB->fetchAssoc($val_set)) 
+		{
 			array_push($scos,$val_rec['cp_node_id']);
 		}
 		
@@ -810,10 +815,13 @@ function showTrackingItem()
 		
 			foreach ($scos as $sco)
 			{
-   	 			$query = "DELETE FROM cmi_node WHERE".
-	 			" user_id = ".$ilDB->quote($user).
-	 			" AND cp_node_id = ".$ilDB->quote($sco);
-	 			$ret = $ilDB->query($query);
+
+				$ret = $ilDB->manipulateF('
+				DELETE FROM cmi_node 
+				WHERE user_id = %s
+				AND cp_node_id = %s',
+				array('integer','integer'),
+				array($user,$sco));
  			}
 	 	}
     
@@ -834,27 +842,56 @@ function showTrackingItem()
 			//first check if there is a package_attempts entry
 
 			//get existing account - sco id is always 0
-			$query = "SELECT * FROM cmi_custom WHERE".
-				" user_id = ".$ilDB->quote($user).
-				" AND sco_id = 0".
-				" AND lvalue='package_attempts'".
-				" AND obj_id = ".$ilDB->quote($this->object->getID());
 
-			$val_set = $ilDB->query($query);
-			$val_rec = $val_set->fetchRow(DB_FETCHMODE_ASSOC);
+			$val_set = $ilDB->queryF('
+			SELECT * FROM cmi_custom 
+			WHERE user_id = %s
+			AND sco_id = %s
+			AND lvalue = %s
+			 AND obj_id = %s',
+			array('integer','integer','text','integer'),
+			array($user,0,'package_attempts',$this->object->getID()));
+			
+			$val_rec = $ilDB->fetchAssoc($val_set);
+			
 			$val_rec["rvalue"] = str_replace("\r\n", "\n", $val_rec["rvalue"]);
-			if ($val_rec["rvalue"] != null && $val_rec["rvalue"] != 0) {
+			if ($val_rec["rvalue"] != null && $val_rec["rvalue"] != 0) 
+			{
 				$new_rec =  $val_rec["rvalue"]-1;
 				//decrease attempt by 1
-				$query = "REPLACE INTO cmi_custom (rvalue,user_id,sco_id,obj_id,lvalue) values(".
-			 		$ilDB->quote($new_rec).",".
-					$ilDB->quote($user).",".
-					" 0,".
-					$ilDB->quote($this->object->getID()).",".
-					$ilDB->quote("package_attempts").")";
+				$res = $ilDB->queryF('
+				SELECT * FROM cmi_custom 
+				WHERE user_id = %s
+				AND lvalue = %s
+				AND obj_id = %s
+				sco_id = %s',
+				array('integer','text','integer','integer'),
+				array($user, 'package_attempts',$this->object->getID(),0));
 
-				$val_set = $ilDB->query($query);
-			}
+				
+				if($ilDB->numRows($res) > 0)
+				{
+					$val_set = $ilDB->manipulateF('
+					UPDATE cmi_custom
+					SET rvalue = %s,
+						c_timestamp = %s
+					WHERE user_id = %s
+					AND sco_id = %s
+					AND	obj_id = %s
+					AND	lvalue = %s',
+					array('text','timestamp','integer','integer','integer','text'),
+					array($new_rec, date("Y-m-d H:i:s") ,$user,0,$this->object->getID(),'package_attempts'));
+				}
+				else
+				{
+					$val_set = $ilDB->manipulateF('
+					INSERT INTO cmi_custom
+					(rvalue,user_id,sco_id,obj_id,lvalue,c_timestamp) 
+					VALUES(%s,%s,%s,%s,%s,%s)',
+					array('text','integer','integer','integer','text','timestamp'),
+					array($new_rec,$user,0,$this->object->getID(),'package_attempts',date("Y-m-d H:i:s")));
+				}				
+			}			
 		}
 
 		//$this->ctrl->saveParameter($this, "cdir");

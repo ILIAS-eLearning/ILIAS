@@ -82,7 +82,7 @@ class ilObjSCORMLearningModuleGUI extends ilObjSAHSLearningModuleGUI
 	* scorm module properties
 	*/
 	function properties()
-	{
+	{	
 		global $rbacsystem, $tree, $tpl;
 
 		// edit button
@@ -169,7 +169,7 @@ class ilObjSCORMLearningModuleGUI extends ilObjSAHSLearningModuleGUI
 	*/
 	function newModuleVersion()
 	{
-		
+	
 	   $obj_id = ilObject::_lookupObjectId($_GET['ref_id']);
 	   $type = ilObjSAHSLearningModule::_lookupSubType($obj_id);
 	  
@@ -205,7 +205,7 @@ class ilObjSCORMLearningModuleGUI extends ilObjSAHSLearningModuleGUI
 	
 	function getMaxFileSize()
 	{
-		
+
 	   // get the value for the maximal uploadable filesize from the php.ini (if available)
 	   $umf=get_cfg_var("upload_max_filesize");
 	   // get the value for the maximal post data from the php.ini (if available)
@@ -326,7 +326,7 @@ class ilObjSCORMLearningModuleGUI extends ilObjSAHSLearningModuleGUI
 	
 	function showTrackingItemsBySco()
 	{
-
+			
 		global $ilTabs;
 		
 		include_once "./Services/Table/classes/class.ilTableGUI.php";
@@ -411,6 +411,7 @@ class ilObjSCORMLearningModuleGUI extends ilObjSAHSLearningModuleGUI
 	*/
 	function showTrackingItems()
 	{
+
 		global $ilTabs;
 
 		include_once "./Services/Table/classes/class.ilTableGUI.php";
@@ -579,6 +580,7 @@ class ilObjSCORMLearningModuleGUI extends ilObjSAHSLearningModuleGUI
 		*/
 		function deleteTrackingForUser()
 		{
+
 			if(!isset($_POST["user"]))
 			{
 				$this->ilias->raiseError($this->lng->txt("no_checkbox"),$this->ilias->error_obj->MESSAGE);
@@ -674,11 +676,13 @@ class ilObjSCORMLearningModuleGUI extends ilObjSAHSLearningModuleGUI
 
 		 	foreach ($_SESSION["scorm_user_delete"] as $user)
 		 	{
-	   	 		$query = "DELETE FROM scorm_tracking WHERE".
-		 			" user_id = ".$ilDB->quote($user).
-		 			" AND obj_id = ".$ilDB->quote($this->object->getID());
-		 		$ret = $ilDB->query($query);
-
+		 		$ret = $ilDB->manipulateF('
+		 		DELETE FROM scorm_tracking 
+		 		WHERE user_id = %s
+		 		AND obj_id = %s',
+		 		array('integer','integer'),
+		 		array($user,$this->object->getID()));
+		 		
 		 	}
 
 		 	$this->ctrl->redirect($this, "showTrackingItems");
@@ -729,6 +733,7 @@ class ilObjSCORMLearningModuleGUI extends ilObjSAHSLearningModuleGUI
 	
 	
 	function importForm(){
+
 	 	$obj_id = ilObject::_lookupObjectId($_GET['ref_id']);
 	    $type = ilObjSAHSLearningModule::_lookupSubType($obj_id);
        
@@ -842,26 +847,44 @@ class ilObjSCORMLearningModuleGUI extends ilObjSAHSLearningModuleGUI
 			//first check if there is a package_attempts entry
 
 			//get existing account - sco id is always 0
-			$query = "SELECT * FROM scorm_tracking WHERE".
-				" user_id = ".$ilDB->quote($user).
-				" AND sco_id = 0".
-				" AND lvalue='package_attempts'".
-				" AND obj_id = ".$ilDB->quote($this->object->getID());
-
-			$val_set = $ilDB->query($query);
-			$val_rec = $val_set->fetchRow(DB_FETCHMODE_ASSOC);
+			$val_set = $ilDB->queryF('
+			SELECT * FROM scorm_tracking 
+			WHERE user_id = %s
+			AND sco_id = %s 
+			AND lvalue = %s
+			AND obj_id = %s',
+			array('integer','integer','text','integer'),
+			array($user,0,'package_attempts',$this->object->getID()));
+			
+			$val_rec = $ilDB->fetchAssoc($val_set);
+			
 			$val_rec["rvalue"] = str_replace("\r\n", "\n", $val_rec["rvalue"]);
-			if ($val_rec["rvalue"] != null && $val_rec["rvalue"] != 0) {
+			if ($val_rec["rvalue"] != null && $val_rec["rvalue"] != 0) 
+			{
 				$new_rec =  $val_rec["rvalue"]-1;
 				//decrease attempt by 1
-				$query = "REPLACE INTO scorm_tracking (rvalue,user_id,sco_id,obj_id,lvalue) values(".
-			 		$ilDB->quote($new_rec).",".
-					$ilDB->quote($user).",".
-					" 0,".
-					$ilDB->quote($this->object->getID()).",".
-					$ilDB->quote("package_attempts").")";
-
-				$val_set = $ilDB->query($query);
+				if($res = $ilDB->numRows($val_set) > 0)
+				{		
+					$statement = $ilDB->manipulateF('
+					UPDATE scorm_tracking
+					SET rvalue = %s
+					WHERE 	user_id = %s,
+							sco_id = %s,
+							obj_id = %s,
+							lvalue = %s',
+					array('text','integer','integer','integer','text'), 
+					array($new_rec,$user,0,$this->object->getID(),'package_attempts'));
+				}
+				else
+				{		
+					$statement = $ilDB->manipulateF('
+					INSERT INTO scorm_tracking		
+					(rvalue,user_id,sco_id,obj_id,lvalue)
+					VALUES(%s,%s,%s,%s,%s)',	
+					array('text','integer','integer','integer','text'), 
+					array($new_rec,$user,0,$this->object->getID(),'package_attempts'));
+					
+				}
 			}
 		}
 

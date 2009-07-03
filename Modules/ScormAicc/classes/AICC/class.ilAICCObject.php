@@ -138,56 +138,73 @@ class ilAICCObject
 	function read()
 	{
 		global $ilDB;
-		
-		$q = "SELECT * FROM aicc_object WHERE obj_id = ".$ilDB->quote($this->getId());
 
-		$obj_set = $this->ilias->db->query($q);
-		$obj_rec = $obj_set->fetchRow(DB_FETCHMODE_ASSOC);
-		$this->setTitle($obj_rec["title"]);
-		$this->setType($obj_rec["type"]);
-		$this->setALMId($obj_rec["alm_id"]);
-		$this->setDescription($obj_rec["description"]);
-		$this->setDeveloperId($obj_rec["developer_id"]);
-		$this->setSystemId($obj_rec["system_id"]);
+		$obj_set = $ilDB->queryF('SELECT * FROM aicc_object WHERE obj_id = %s',
+					array('integer'),array($this->getId()));
+		while($obj_rec = $ilDB->fetchAssoc($obj_set))
+		{
+			$this->setTitle($obj_rec["title"]);
+			$this->setType($obj_rec["type"]);
+			$this->setALMId($obj_rec["alm_id"]);
+			$this->setDescription($obj_rec["description"]);
+			$this->setDeveloperId($obj_rec["developer_id"]);
+			$this->setSystemId($obj_rec["system_id"]);		
+		}
 	}
 
 	function create()
 	{
 		global $ilDB;
 		
-		$q = "INSERT INTO aicc_object (title, type, slm_id, description, developer_id, system_id) VALUES (";
-		$q.=$ilDB->quote($this->getTitle()).", ";
-		$q.=$ilDB->quote($this->getType()).", ";
-		$q.=$ilDB->quote($this->getALMId()).", ";
-		$q.=$ilDB->quote($this->getDescription()).", ";
-		$q.=$ilDB->quote($this->getDeveloperId()).", ";
-		$q.=$ilDB->quote($this->getSystemId()).") ";
-		$this->ilias->db->query($q);
-		$this->setId($this->ilias->db->getLastInsertId());
+
+		$nextId = $ilDB->nextId('aicc_object');
+		
+		$statement = $ilDB->manipulateF('
+			INSERT INTO aicc_object (obj_id, title, type, slm_id, description, developer_id, system_id)
+			VALUES (%s,%s,%s,%s,%s,%s,%s )',
+			array('integer','text','text','integer','text','text','integer'), 
+			array(	$nextId,	
+					$this->getTitle(),
+					$this->getType(),
+					$this->getALMId(),
+					$this->getDescription(),
+					$this->getDeveloperId(),
+					$this->getSystemId()
+			));
+	
+			$this->setId($nextId);
 	}
 
 	function update()
 	{
 		global $ilDB;
 		
-		$q = "UPDATE aicc_object SET ";
-		$q.="title = ".$ilDB->quote($this->getTitle()).", ";
-		$q.="type = ".$ilDB->quote($this->getType()).", ";
-		$q.="slm_id = ".$ilDB->quote($this->getALMId()).", ";
-		$q.="description = ".$ilDB->quote($this->getDescription()).", ";
-		$q.="developer_id = ".$ilDB->quote($this->getDeveloperId()).", ";
-		$q.="system_id = ".$ilDB->quote($this->getSystemId())." ";
-		$q.="WHERE obj_id = ".$ilDB->quote($this->getId());
-		
-		$this->ilias->db->query($q);
+		$statement = $ilDB->manipulateF('
+			UPDATE aicc_object 
+			SET title = %s,
+				type = %s,
+				slm_id =  %s,
+				description = %s,
+				developer_id =  %s,
+				system_id = %s,
+			WHERE obj_id = %s',
+			array('text','text','integer','text','text','integer','integer'), 
+			array(	$this->getTitle(),
+					$this->getType(),
+					$this->getALMId(),
+					$this->getDescription(),
+					$this->getDeveloperId(),
+					$this->getSystemId(),
+					$this->getId()
+			));
 	}
 
 	function delete()
 	{
 		global $ilDB;
 
-		$q = "DELETE FROM aicc_object WHERE obj_id =".$ilDB->quote($this->getId());
-		$ilDB->query($q);
+		$statement = $ilDB->manipulateF('DELETE FROM aicc_object WHERE obj_id = %s',
+						array('integer'),array($this->getId()));
 	}
 
 	/**
@@ -199,11 +216,20 @@ class ilAICCObject
 	{
 		global $ilDB;
 
-		$sc_set = $ilDB->query("SELECT type FROM aicc_object WHERE obj_id =".$ilDB->quote($a_id).
-			" AND slm_id = ".$ilDB->quote($a_slm_id));
-		$sc_rec = $sc_set->fetchRow(DB_FETCHMODE_ASSOC);
-
-		switch($sc_rec["type"])
+		$sc_set = $ilDB->queryF('
+			SELECT type FROM aicc_object 
+			WHERE obj_id =  %s 
+			AND slm_id = %s',
+			array('integer', 'integer'),
+			array($a_id,$a_slm_id)
+		);
+		
+		while($sc_rec = $ilDB->fetchAssoc($sc_set))
+		{
+			break;
+		}
+		
+		switch($sc_rec["ao_type"])
 		{
 			case "sbl":					// Block
 				include_once("./Modules/ScormAicc/classes/AICC/class.ilAICCBlock.php");

@@ -473,6 +473,7 @@ class ilObjSAHSLearningModuleGUI extends ilObjectGUI
 		$newObj->createScorm2004Tree();
 		ilUtil::sendInfo( $this->lng->txt($newObj->getType()."_added"), true);
 		ilUtil::redirect("ilias.php?baseClass=ilSAHSEditGUI&ref_id=".$newObj->getRefId());
+	
 	}
 
 

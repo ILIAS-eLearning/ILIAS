@@ -179,15 +179,18 @@ class ilAICCPresentationGUI extends ilSCORMPresentationGUI
 			$this->tpl->setVariable("CREDIT_MODE", "normal");
 			$this->tpl->parseCurrentBlock();
 		}
-		$query = "SELECT * FROM scorm_tracking WHERE".
-			" user_id = ".$ilDB->quote($ilUser->getId()).
-			" AND sco_id = ".$ilDB->quote($sahs_id).
-			" AND obj_id = ".$ilDB->quote($this->slm->getId());
 
-
-		$val_set = $ilDB->query($query);
+		$val_set = $ilDB->queryF('
+		SELECT * FROM scorm_tracking 
+		WHERE user_id = %s
+		AND sco_id = %s
+		AND obj_id = %s',
+		array('integer','integer','integer'), 
+		array($ilUser->getId(),$sahs_id,$this->slm->getId()));
+		
 		$re_value = array();
-		while($val_rec = $val_set->fetchRow(DB_FETCHMODE_ASSOC))
+		
+		while($val_rec = $ilDB->fetchAssoc($val_set))
 		{
 			$val_rec["rvalue"] = str_replace("\r\n", "\n", $val_rec["rvalue"]);
 			$val_rec["rvalue"] = str_replace("\r", "\n", $val_rec["rvalue"]);

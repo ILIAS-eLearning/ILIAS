@@ -77,6 +77,7 @@ class ilSAHSEditGUI
 		$next_class = $this->ctrl->getNextClass($this);
 		$cmd = $this->ctrl->getCmd();
 
+		
 		$obj_id = ilObject::_lookupObjectId($_GET['ref_id']);
 		$type = ilObjSAHSLearningModule::_lookupSubType($obj_id);
 
@@ -129,7 +130,7 @@ class ilSAHSEditGUI
 		}
 
 		switch($next_class)
-		{
+		{ 
 			case "ilobjscormlearningmodulegui":
 			case "ilobjscorm2004learningmodulegui":
 				$ret =& $this->ctrl->forwardCommand($this->slm_gui);

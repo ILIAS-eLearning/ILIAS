@@ -75,10 +75,11 @@ class ilSCORMOrganization extends ilSCORMObject
 		
 		parent::read();
 
-		$q = "SELECT * FROM sc_organization WHERE obj_id = ".$ilDB->quote($this->getId());
 
-		$obj_set = $this->ilias->db->query($q);
-		$obj_rec = $obj_set->fetchRow(DB_FETCHMODE_ASSOC);
+		$obj_set = $ilDB->queryF('SELECT * FROM sc_organization WHERE obj_id = %s',
+		array('integer'),array($this->getId()));
+		$obj_rec = $ilDB->fetcAssoc($obj_set);
+
 		$this->setImportId($obj_rec["import_id"]);
 		$this->setStructure($obj_rec["structure"]);
 	}
@@ -89,10 +90,10 @@ class ilSCORMOrganization extends ilSCORMObject
 		
 		parent::create();
 
-		$q = "INSERT INTO sc_organization (obj_id, import_id, structure) VALUES ".
-			"(".$ilDB->quote($this->getId()).", ".$ilDB->quote($this->getImportId()).
-			",".$ilDB->quote($this->getStructure()).")";
-		$this->ilias->db->query($q);
+		$ilDB->manipulateF('
+		INSERT INTO sc_organization (obj_id, import_id, structure) VALUES(%s,%s,%s)',
+		array('integer','text','text'),
+		array($this->getId(),$this->getImportId(), $this->getStructure()));
 	}
 
 	function update()
@@ -101,11 +102,13 @@ class ilSCORMOrganization extends ilSCORMObject
 		
 		parent::update();
 
-		$q = "UPDATE sc_organization SET ".
-			"import_id = ".$ilDB->quote($this->getImportId()).", ".
-			"structure = ".$ilDB->quote($this->getStructure())." ".
-			"WHERE obj_id = ".$ilDB->quote($this->getId());
-		$this->ilias->db->query($q);
+		$ilDB->manipulateF('
+		UPDATE sc_organization 
+		SET import_id = %s, 
+			structure = %s
+		WHERE obj_id = %s',
+		array('text','text','integer'),
+		array($this->getImportId(), $this->getStructure(),$this->getId()));
 	}
 
 	function delete()
@@ -114,8 +117,8 @@ class ilSCORMOrganization extends ilSCORMObject
 
 		parent::delete();
 
-		$q = "DELETE FROM sc_organization WHERE obj_id =".$ilDB->quote($this->getId());
-		$ilDB->query($q);
+		$ilDB->manipulateF('DELETE FROM sc_organization WHERE obj_id = %s',
+		array('integer',array($this->getId())));
 	}
 
 }

@@ -93,15 +93,20 @@ class ilHACPResponse {
 
 		$slm_id = ilObject::_lookupObjId($this->ref_id);
 		//Read Trackingdata
-		if (is_object($ilUser)) {
+		if (is_object($ilUser)) 
+		{
 			$user_id = $ilUser->getId();
-			$stmt = "SELECT * FROM scorm_tracking WHERE user_id = ".$ilDB->quote($user_id).
-					" AND sco_id = ".$ilDB->quote($this->obj_id).
-					" AND obj_id = ".$ilDB->quote($slm_id);
-//$ilLog->write("Read Trackingdata: ".$stmt);
-			$set = $ilDB->query($stmt);
-			$rec = $set->fetchRow(DB_FETCHMODE_ASSOC);
-			while ($rec = $set->fetchRow(DB_FETCHMODE_ASSOC))	{
+
+			$set = $ilDB->queryF('
+			SELECT * FROM scorm_tracking 
+			WHERE user_id = %s
+			AND sco_id = %s
+			AND obj_id = %s',
+			array('integer','integer','integer'),
+			array($user_id, $this->obj_id,$slm_id));
+	
+			while ($rec = $ilDB->fetchAssoc($set))
+			{
 				$key=$rec["lvalue"];
 				$value=$rec["rvalue"];
 				$arr=explode(".", $key);
