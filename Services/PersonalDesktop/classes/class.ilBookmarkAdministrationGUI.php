@@ -367,7 +367,7 @@ return;
 	{
 		global $lng, $ilCtrl, $ilUser;
 		
-		if (!$this->tree->isInTree($_GET["obj_id"]))
+		if (!$this->tree->isInTree($this->id))
 		{
 			return;
 		}
