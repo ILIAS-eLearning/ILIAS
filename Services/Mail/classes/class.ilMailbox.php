@@ -600,7 +600,7 @@ class ilMailbox
 		} 
 
 		$res = $ilDB->queryf('
-			SELECT * FROM '. $this->table_tree. ', .'. $this->table_mail_obj_data .'
+			SELECT * FROM '. $this->table_tree. ', '. $this->table_mail_obj_data .'
 			WHERE '. $this->table_mail_obj_data.'.obj_id = '. $this->table_tree.'.child 
 			AND '. $this->table_tree.'.depth  > %s
 			AND '. $this->table_tree.'.tree  = %s
