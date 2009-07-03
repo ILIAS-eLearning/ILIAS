@@ -4581,7 +4581,7 @@ class ilObjUser extends ilObject
 		{
 			$continue = false;
 			
-			$hashcode = md5(uniqid(rand(), true));
+			$hashcode = substr(md5(uniqid(rand(), true)), 0, 16);
 			
 			$res = $ilDB->queryf('
 				SELECT COUNT(usr_id) cnt FROM usr_data 

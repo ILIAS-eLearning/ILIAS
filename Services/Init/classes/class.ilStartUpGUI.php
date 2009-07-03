@@ -1121,5 +1121,79 @@ class ilStartUpGUI
 			$a_target);
 	}
 
+	public function confirmRegistration()
+	{		
+		ilUtil::setCookie('iltest', 'cookie', false);
+	
+		if(!isset($_GET['rh']) || !strlen(trim($_GET['rh'])))
+		{
+			ilUtil::redirect('./login.php?cmd=force_login&reg_confirmation_msg=reg_confirmation_hash_not_passed');
+		}	
+		
+		try
+		{
+			global $lng, $ilias;			
+			
+			$usr_id = ilObjUser::_verifyRegistrationHash(trim($_GET['rh']));
+			$oUser = ilObjectFactory::getInstanceByObjId($usr_id);
+			$oUser->setActive(true);
+			$oUser->update();
+			
+			if($lng->getLangKey() != $oUser->getPref('language'))
+			{
+				$lng = new ilLanguage($oUser->getPref('language'));
+			}
+			
+			// send email
+			// try individual account mail in user administration
+			include_once("Services/Mail/classes/class.ilAccountMail.php");
+			include_once './Services/User/classes/class.ilObjUserFolder.php';
+			$amail = ilObjUserFolder::_lookupNewAccountMail($oUser->getPref('language'));
+			if (trim($amail["body"]) != "" && trim($amail["subject"]) != "")
+			{				
+	            $acc_mail = new ilAccountMail();
+	            $acc_mail->setUser($oUser);
+	            $acc_mail->send();
+			}
+			else	// do default mail
+			{
+				$settings = $ilias->getAllSettings();
+				
+				include_once "Services/Mail/classes/class.ilMimeMail.php";
+	
+				$mmail = new ilMimeMail();
+				$mmail->autoCheck(false);
+				$mmail->From($settings["admin_email"]);
+				$mmail->To($oUser->getEmail());
+	
+				// mail subject
+				$subject = $lng->txt("reg_mail_subject");
+	
+				// mail body
+				$body = $lng->txt("reg_mail_body_salutation")." ".$oUser->getFullname().",\n\n".
+					$lng->txt("reg_mail_body_text1")."\n\n".
+					$lng->txt("reg_mail_body_text2")."\n".
+					ILIAS_HTTP_PATH."/login.php?client_id=".CLIENT_ID."\n";			
+				$body .= $lng->txt("login").": ".$oUser->getLogin()."\n";
+				$body.= "\n";
+	
+				$body .= ($lng->txt("reg_mail_body_text3")."\n\r");
+				$body .= $oUser->getProfileAsString($lng);
+				$mmail->Subject($subject);
+				$mmail->Body($body);
+				$mmail->Send();
+			}	
+			
+			ilUtil::redirect('./login.php?cmd=force_login&reg_confirmation_msg=reg_account_confirmation_successful');
+		}
+		catch(ilRegConfirmationLinkExpiredException $oException)
+		{
+			ilUtil::redirect('./login.php?cmd=force_login&reg_confirmation_msg='.$oException->getMessage());
+		}
+		catch(ilRegistrationHashNotFoundException $oException)
+		{
+			ilUtil::redirect('./login.php?cmd=force_login&reg_confirmation_msg='.$oException->getMessage());
+		}				
+	}
 }
 ?>

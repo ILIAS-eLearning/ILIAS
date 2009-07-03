@@ -727,107 +727,83 @@ class ilAccountRegistrationGUI
 			}
 		}
 		// Send mail to new user
-
-		// try individual account mail in user administration
-		include_once("Services/Mail/classes/class.ilAccountMail.php");
-		include_once './Services/User/classes/class.ilObjUserFolder.php';
-		$amail = ilObjUserFolder::_lookupNewAccountMail($GLOBALS["lng"]->getDefaultLanguage());
-		if (trim($amail["body"]) != "" && trim($amail["subject"]) != "")
-		{
-			$acc_mail = new ilAccountMail();
-			$acc_mail->setUser($this->userObj);
-			if ($this->registration_settings->passwordGenerationEnabled())
-			{
-				$acc_mail->setUserPassword($_POST["user"]["passwd"]);
-			}
-			else if($this->registration_settings->getRegistrationType() == IL_REG_ACTIVATION)
-			{					
-				$hashcode = ilObjUser::_generateRegistrationHash($this->userObj->getId());
-				
-				$this->ctrl->setParameter($this, 'reg_hash', $hashcode);
-				$this->ctrl->setParameter($this, 'client_id', $ilias->client_id);
-				$this->ctrl->setParameter($this, 'lang', $this->userObj->getPref('language'));
-				$acc_mail->setRegConfirmationLink(ILIAS_HTTP_PATH.'/'.$this->ctrl->getLinkTarget($this, 'confirmRegistration'));				
-				$this->ctrl->clearParameters($this);
-			}
-			$acc_mail->send();
-		}
-		else	// do default mail
-		{
+		
+		// Registration with confirmation link ist enabled		
+		if($this->registration_settings->getRegistrationType() == IL_REG_ACTIVATION)
+		{			
 			include_once "Services/Mail/classes/class.ilMimeMail.php";
-
 			$mmail = new ilMimeMail();
 			$mmail->autoCheck(false);
 			$mmail->From($settings["admin_email"]);
 			$mmail->To($this->userObj->getEmail());
 
 			// mail subject
-			$subject = $this->lng->txt("reg_mail_subject");
+			$subject = $this->lng->txt("reg_mail_subject_confirmation");
 
-			// mail body
+			// mail body			
+			$hashcode = ilObjUser::_generateRegistrationHash($this->userObj->getId());
 			$body = $this->lng->txt("reg_mail_body_salutation")." ".$this->userObj->getFullname().",\n\n".
-				$this->lng->txt("reg_mail_body_text1")."\n\n".
-				$this->lng->txt("reg_mail_body_text2")."\n".
-				ILIAS_HTTP_PATH."/login.php?client_id=".$ilias->client_id."\n";
-				
-			if($this->registration_settings->getRegistrationType() == IL_REG_ACTIVATION)
-			{				
-				$hashcode = ilObjUser::_generateRegistrationHash($this->userObj->getId());
-				
-				$this->ctrl->setParameter($this, 'reg_hash', $hashcode);
-				$this->ctrl->setParameter($this, 'client_id', $ilias->client_id);
-				$this->ctrl->setParameter($this, 'lang', $this->userObj->getPref('language'));
-				$body .= "\n".$this->lng->txt('reg_activation_your_confirmation_link')."\n".
-						 ILIAS_HTTP_PATH.'/'.$this->ctrl->getLinkTarget($this, 'confirmRegistration')."\n\n";
-				$this->ctrl->clearParameters($this);
-			}
-				
-			$body .= $this->lng->txt("login").": ".$this->userObj->getLogin()."\n";
-
-			if ($this->registration_settings->passwordGenerationEnabled())
-			{
-				$body.= $this->lng->txt("passwd").": ".$_POST["user"]["passwd"]."\n";
-			}
-			$body.= "\n";
-
-			// Info about necessary approvement
-			if($this->registration_settings->getRegistrationType() == IL_REG_APPROVE)
-			{
-				$body .= ($this->lng->txt('reg_mail_body_pwd_generation')."\n\n");
-			}			
-			
-			$body .= ($this->lng->txt("reg_mail_body_text3")."\n\r");
-			$body .= $this->userObj->getProfileAsString($this->lng);
+			$body .= $this->lng->txt('reg_mail_body_confirmation')."\n".
+            	ILIAS_HTTP_PATH.'/confirmReg.php?client_id='.CLIENT_ID."&rh=".$hashcode."\n\n";
+						 
 			$mmail->Subject($subject);
 			$mmail->Body($body);
 			$mmail->Send();
 		}
-	}
+		else
+		{
+			// try individual account mail in user administration
+			include_once("Services/Mail/classes/class.ilAccountMail.php");
+			include_once './Services/User/classes/class.ilObjUserFolder.php';
+			$amail = ilObjUserFolder::_lookupNewAccountMail($GLOBALS["lng"]->getDefaultLanguage());
+			if (trim($amail["body"]) != "" && trim($amail["subject"]) != "")
+			{				
+	            $acc_mail = new ilAccountMail();
+	            $acc_mail->setUser($this->userObj);
+	            if ($this->registration_settings->passwordGenerationEnabled())
+	            {
+	                $acc_mail->setUserPassword($_POST["user"]["passwd"]);
+	            }
+	            $acc_mail->send();
+			}
+			else	// do default mail
+			{
+				include_once "Services/Mail/classes/class.ilMimeMail.php";
 	
-	public function confirmRegistration()
-	{
-		if(!isset($_GET['reg_hash']) || !strlen(trim($_GET['reg_hash'])))
-		{
-			ilUtil::redirect('./login.php?reg_confirmation_msg=reg_confirmation_hash_not_passed');
-		}	
-		
-		try
-		{
-			$usr_id = ilObjUser::_verifyRegistrationHash(trim($_GET['reg_hash']));
-			$oUser = ilObjectFactory::getInstanceByObjId($usr_id);
-			$oUser->setActive(true);
-			$oUser->update();			
-			
-			ilUtil::redirect('./login.php?reg_confirmation_msg=reg_account_confirmation_successful');
+				$mmail = new ilMimeMail();
+				$mmail->autoCheck(false);
+				$mmail->From($settings["admin_email"]);
+				$mmail->To($this->userObj->getEmail());
+	
+				// mail subject
+				$subject = $this->lng->txt("reg_mail_subject");
+	
+				// mail body
+				$body = $this->lng->txt("reg_mail_body_salutation")." ".$this->userObj->getFullname().",\n\n".
+					$this->lng->txt("reg_mail_body_text1")."\n\n".
+					$this->lng->txt("reg_mail_body_text2")."\n".
+					ILIAS_HTTP_PATH."/login.php?client_id=".$ilias->client_id."\n";			
+				$body .= $this->lng->txt("login").": ".$this->userObj->getLogin()."\n";
+	
+				if ($this->registration_settings->passwordGenerationEnabled())
+				{
+					$body.= $this->lng->txt("passwd").": ".$_POST["user"]["passwd"]."\n";
+				}
+				$body.= "\n";
+	
+				// Info about necessary approvement
+				if($this->registration_settings->getRegistrationType() == IL_REG_APPROVE)
+				{
+					$body .= ($this->lng->txt('reg_mail_body_pwd_generation')."\n\n");
+				}			
+				
+				$body .= ($this->lng->txt("reg_mail_body_text3")."\n\r");
+				$body .= $this->userObj->getProfileAsString($this->lng);
+				$mmail->Subject($subject);
+				$mmail->Body($body);
+				$mmail->Send();
+			}
 		}
-		catch(ilRegConfirmationLinkExpiredException $oException)
-		{
-			ilUtil::redirect('./login.php?reg_confirmation_msg='.$oException->getMessage());
-		}
-		catch(ilRegistrationHashNotFoundException $oException)
-		{
-			ilUtil::redirect('./login.php?reg_confirmation_msg='.$oException->getMessage());
-		}				
-	}
+	}	
 }
 ?>

@@ -9498,7 +9498,6 @@ common#:#reg_account_confirmation_successful#:#Ihr Benutzerkonto ist nun freiges
 registration#:#reg_confirmation_link_successful#:#Sie haben sich erfolgreich bei ILIAS registriert. Sie müssen Ihr Benutzerkonto durch Klicken des Bestätigungslink aktivieren um dieses zu aktivieren.
 registration#:#reg_activation_your_confirmation_link#:#Ihr Bestätigungslink:
 registration#:#reg_confirmation_hash_not_passed#:#Der Bestätigungslink wurde nicht vollständig übergeben.
-mail#:#mail_nacc_confirmation_link#:#Bestätigungslink
 crs#:#crs_lim_assigned#:#Bereits Mitglied in Kurs "%s".
 grp#:#grp_lim_assigned#:#Bereits Mitglied in Gruppe "%s".
 common#:#soap_wsdl_path#:#WSDL-Pfad
@@ -9601,4 +9600,7 @@ ldap#:#ldap_err_missing_plugin_id#:#Bitte geben Sie eine Plugin-Id ein.
 ldap#:#ldap_add_remove#:#Rollen hinzufügen/entfernen
 ldap#:#ldap_deleted_rule#:#Die ausgewählten Regeln zur Rollenzuordnung wurden entfernt.
 ldap#:#ldap_role_selection#:#Rollenauswahl
+ldap#:#ldap_role_selection_info#:#Ihre Eingabe ist nicht eindeutig. Bitte wählen Sie die gewünschte Rolle aus folgender Tabelle aus.
 ldap#:#ldap_role_by_plugin#:#Durch Plugin
+common#:#reg_mail_subject_confirmation#:#ILIAS eLearning - Ihr Bestätigungslink
+common#:#reg_mail_body_confirmation#:#um Ihr Benutzerprofil freizuschalten und gleichzeitig diese E-Mail-Adresse zu bestägigen, klicken Sie bitte den folgenden Link an:

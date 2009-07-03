@@ -1195,6 +1195,7 @@ class ilInitialisation
 					and $this->script != "register.php"
 					and $this->script != "chat.php"
 					and $this->script != "pwassist.php"
+					and $this->script != "confirmReg.php"
 				)
 		{
 			//
