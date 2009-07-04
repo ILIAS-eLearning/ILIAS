@@ -143,7 +143,7 @@ class ilSetup extends PEAR
 	{
 		// load data from setup.ini file
 		$this->ini = new ilIniFile($this->ini_file_path);
-		
+
 		if (!$this->ini->read())
 		{
 			$this->ini->GROUPS = parse_ini_file($this->setup_defaults,true);
@@ -770,6 +770,7 @@ class ilSetup extends PEAR
 
 		if (!$this->client->init())
 		{
+//echo "<br>noclientinit";
 			$this->error = get_class($this).": ".$this->client->getError();
 			$_SESSION["ClientId"] = "";
 			return false;
@@ -835,7 +836,7 @@ class ilSetup extends PEAR
 		if ($client->getSetting("setup_ok"))
 		{
 			$arr["status"] = true;
-			$arr["comment"] = $this->lng->txt("setup_finished");
+			//$arr["comment"] = $this->lng->txt("setup_finished");
 		}
 		else
 		{
@@ -880,7 +881,7 @@ class ilSetup extends PEAR
 		}
 		else
 		{
-			$arr["comment"] = "dir: /".ILIAS_WEB_DIR."/".$client->getId();			
+			//$arr["comment"] = "dir: /".ILIAS_WEB_DIR."/".$client->getId();			
 		}
 		
 		return $arr; 
@@ -933,7 +934,7 @@ class ilSetup extends PEAR
 			return $arr;
 		}
 
-		$arr["comment"] = "version ".$dbupdate->getCurrentVersion();
+		//$arr["comment"] = "version ".$dbupdate->getCurrentVersion();
 		return $arr;
 	}
 
@@ -956,7 +957,7 @@ class ilSetup extends PEAR
 		else
 		{
 			$arr["status"] = true;
-			$arr["comment"] = $count." ".$this->lng->txt("languages_installed");
+			//$arr["comment"] = $count." ".$this->lng->txt("languages_installed");
 		}
 		
 		return $arr;
@@ -970,17 +971,14 @@ class ilSetup extends PEAR
 	function checkClientContact(&$client)
 	{
 		$arr["status"] = true;
-		$arr["comment"] = $this->lng->txt("filled_out");
+		//$arr["comment"] = $this->lng->txt("filled_out");
 
 		$settings = $client->getAllSettings();
 		$client_name = $client->getName();
 
 		// check required fields
-		if (empty($settings["admin_firstname"]) or empty($settings["admin_lastname"])
-			or empty($settings["admin_street"]) or empty($settings["admin_zipcode"])
-			or empty($settings["admin_country"]) or empty($settings["admin_city"])
-			or empty($settings["admin_phone"]) or empty($settings["admin_email"])
-			or empty($client_name) or empty($settings["inst_institution"]))
+		if (empty($settings["admin_firstname"]) or empty($settings["admin_lastname"]) or
+			empty($settings["admin_email"]) or empty($client_name))
 		{
 			$arr["status"] = false;
 			$arr["comment"] = $this->lng->txt("missing_data");

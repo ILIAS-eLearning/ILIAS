@@ -765,6 +765,7 @@ class ilStartUpGUI
 
 		foreach ($list as $key => $client)
 		{
+			$client->setDSN();
 			if ($client->checkDatabaseExists() and $client->ini->readVariable("client","access") and $client->getSetting("setup_ok"))
 			{
 				$this->ctrl->setParameter($this, "client_id", $key);
@@ -811,7 +812,7 @@ class ilStartUpGUI
 
 		// render table
 		$tbl->render();
-		$tpl->show();
+		$tpl->show("DEFAULT", true, true);
 	}
 
 	/**
