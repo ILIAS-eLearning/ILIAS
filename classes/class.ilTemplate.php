@@ -314,7 +314,7 @@ class ilTemplate extends ilTemplateX
 	* @param	string
 	* @param bool fill template variable {TABS} with content of ilTabs
 	*/
-	function show($part = "DEFAULT", $a_fill_tabs = true)
+	function show($part = "DEFAULT", $a_fill_tabs = true, $a_skip_main_menu = false)
 	{
 		global $ilias;
 		
@@ -340,7 +340,10 @@ class ilTemplate extends ilTemplateX
 		if ($a_fill_tabs)
 		{
 			// to get also the js files for the main menu
-			$this->getMainMenu();
+			if (!$a_skip_main_menu)
+			{
+				$this->getMainMenu();
+			}
 
 			// these fill blocks in tpl.main.html
 			$this->fillCssFiles();

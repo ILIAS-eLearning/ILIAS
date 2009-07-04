@@ -41,6 +41,12 @@ class ilCtrlStructureReader
 		$this->class_script = array();
 		$this->class_childs = array();
 		$this->executed = false;
+		$this->ini = $a_ini_file;
+	}
+
+	function setIniFile($a_ini_file)
+	{
+		$this->ini = $a_ini_file;
 	}
 
 	function setErrorObject(&$err)
@@ -53,7 +59,15 @@ class ilCtrlStructureReader
 	*/
 	function getStructure()
 	{
-		$this->get_structure = true;
+		global $ilDB;
+		
+		$this->ini->setVariable("db","structure_reload", "1");
+		$this->ini->write();
+		if ($this->ini->readVariable("db","structure_reload") != "1")
+		{
+			echo "Error Cannot write client.ini.file.";
+		}
+		//$this->get_structure = true;
 	}
 		
 	/**
@@ -62,12 +76,13 @@ class ilCtrlStructureReader
 	function readStructure($a_force = false, $a_dir = "", $a_comp_prefix = "",
 		$a_plugin_path = "")
 	{
-
-		if (!$this->get_structure && !$a_force)
+		global $ilDB;
+		
+		if (!$a_force && $this->ini->readVariable("db","structure_reload") != "1")
 		{
 			return;
 		}
-		
+	
 		// prefix for component
 		$this->comp_prefix = $a_comp_prefix;
 
@@ -90,6 +105,8 @@ class ilCtrlStructureReader
 			$this->store();
 			$this->determineClassFileIds();
 			$this->executed = true;
+			$this->ini->setVariable("db","structure_reload", "0");
+			$this->ini->write();
 		}
 		
 		// read module information
@@ -320,3 +337,4 @@ class ilCtrlStructureReader
 		}
 	}
 }
+?>

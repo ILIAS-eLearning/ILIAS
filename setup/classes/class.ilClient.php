@@ -52,6 +52,7 @@ class ilClient
 		// load defaults only if no client.ini was found
 		if (!@file_exists($this->ini_file_path))
 		{
+//echo "<br>A-".$this->ini_file_path."-";
 			$this->ini->GROUPS = parse_ini_file($this->client_defaults,true);
 			return false;
 		}
@@ -382,7 +383,6 @@ class ilClient
 	{
 		//try to connect to database
 		$db = $this->db_connections->connectDB($this->dsn);
-
 		if (MDB2::isError($db))
 		{
 			return false;
@@ -497,7 +497,7 @@ class ilClient
 	{
 		$url = $this->getURLStringForNIC($a_nic_url);
 
-		$conn =fopen($url,"r");
+		$conn = @fopen($url,"r");
 		
 		$input = "";
 	

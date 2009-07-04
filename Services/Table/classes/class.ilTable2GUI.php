@@ -6,6 +6,7 @@ require_once("Services/Table/classes/class.ilTableGUI.php");
 /**
 * Class ilTable2GUI
 *
+* @author	Alex Killing <alex.killing@gmx.de>
 * @author	Sascha Hofmann <shofmann@databay.de>
 * @version	$Id: class.ilTableGUI.php 12818 2006-12-10 13:14:43Z akill $
 *
@@ -43,7 +44,10 @@ class ilTable2GUI extends ilTableGUI
 		$this->formname = "table_" . $this->unique_id;
 		$this->tpl = new ilTemplate("tpl.table2.html", true, true, "Services/Table");
 		
-		$this->setLimit($ilUser->getPref("hits_per_page"));
+		if (is_object($ilUser))
+		{
+			$this->setLimit($ilUser->getPref("hits_per_page"));
+		}
 		$this->setIsDataTable(true);
 		$this->setEnableNumInfo(true);
 	}
@@ -836,7 +840,10 @@ class ilTable2GUI extends ilTableGUI
 		
 		$this->prepareOutput();
 		
-		$ilCtrl->saveParameter($this->getParentObject(), $this->getNavParameter());
+		if (is_object($ilCtrl))
+		{
+			$ilCtrl->saveParameter($this->getParentObject(), $this->getNavParameter());
+		}
 		
 		if(!$this->enabled['content'])
 		{

@@ -34,10 +34,10 @@
 // NOTICE: Character coding of all ILIAS 3 lang files is UTF-8! Please set your editor
 // to the corresponding mode!
 <!-- language file start -->
-3rd_party_software_req#:#Required 3rd Party Tools
-3rd_party_software_opt#:#Optional 3rd Party Tools
-3rd_party_software#:#3rd Party Tools
-3rdparty#:#3rd Party add-ons
+3rd_party_software_req#:#Required Third-Party Tools
+3rd_party_software_opt#:#Optional Third-Party Tools
+3rd_party_software#:#Third-Party Tools
+3rdparty#:#Third-Party Tools
 absolute_path#:#Absolute Path
 access#:#Access
 access_status#:#Access Status
@@ -167,7 +167,7 @@ http_path#:#HTTP Path
 id#:#ID
 ilias_db_mode#:#ILIAS Database Mode
 ilias_homepage#:#ILIAS Homepage
-ilias_nic#:#NIC Registration
+ilias_nic#:#Registration
 ilias_nic_id#:#NIC ID
 ilias_setup#:#ILIAS 3 Setup
 ilias_version#:#ILIAS version
@@ -175,8 +175,8 @@ include_local#:#Include Local
 user#:#User
 db_error_please_check#:#Please check database hostname, username and password.
 need_mysql_4_1_or_higher#:#Your MySQL version is not supported. Please install MysQL 4.1.x or higher to run ILIAS.
-info_text_3rdparty#:#Here you setup the third party add-ons which are needed by ILIAS. Follow the setup information for every add-on to complete this step.
-info_text_contact#:#Here you indicate additional client information and the contact data of the system administrator of this client. The fields marked with an asterisk must be filled out. All information is stored in your database. On the next screen you may register your installation at the ILIAS-NIC server; registration transmits this data to the ILIAS-NIC server.
+info_text_3rdparty#:#Here you setup the third-party tools which are needed by ILIAS. Follow the setup information for every add-on to complete this step.
+info_text_contact#:#Here you indicate additional client information and the contact data of the system administrator of this client. All information is stored in your database. On the next screen you may optionally register your installation at the ILIAS open source project server.
 info_text_db#:#The database does not exist or is empty. If the database does not yet exist, please check the option 'Create Database' below. ILIAS will try to create your database automatically. If creation fails or your desired collation is not available, please create the database manually using the following command:
 info_text_db2#:#Please ensure that your database is created with the "CHARACTER SET utf8" option.
 info_text_db_collation1#:#If your desired collation is not supported in the list of UTF-8 collations, you have to create your database manually too. In any case, please make sure that the character set for the database is set to utf8.
@@ -190,11 +190,10 @@ info_text_ini#:#Please choose a client ID. Any letter (except umlauts) or number
 info_text_lang#:#Please choose additional languages and/or remove selected languages. The default language specified the language for new user accounts or users which haven't selected a preferred language yet.
 info_text_list#:#In this overview you see all available clients and their setup and access status. On the top right you may toggle the client selection screen on/off. If client selection is on, all available clients that are online will be displayed in a list on the start page of ILIAS. If client selection is turned off and a user views the start page, the login screen of the <i>default</i> client is displayed. You may determine the default client with the button below.
 info_text_login#:#Please enter the Client ID of your Installation and your account data. Your account has to be assigned to the 'administrator'-role.
-info_text_nic1#:#Obtain an installation id (nic-id) from our ILIAS server. A unique nic-id is required if you want to share content with other ILIAS installations. Registration is voluntary. If you do not want to register, select 'skip registration' (you may register later at any time).<br /> We recommend to use the online registration. If you have problems connecting (i.e. you are behind a firewall), you may obtain a nic-id via email. Please send an
-info_text_nic2#:#with your installation information to ilias-info@uni-koeln.de. Enter the nic-id you will receive in a response email into the appropriate field, and select 'register via Email'.
+info_text_nic#:#Optionally register and obtain an installation ID (NIC-ID) from the ILIAS open source community server. Getting a NIC-ID is advisable if you want to share content with other ILIAS installations.
 info_text_nic3#:#You registered your installation. Your nic-id is
 info_text_password#:#Here you may change the master password for the setup program.
-info_text_pathes#:#ILIAS 3 supports multiple clients with different databases. Below you enter the base data directory, log file location and the paths to 3rd party programs. These settings are valid for all clients you create later on.
+info_text_pathes#:#ILIAS 3 supports multiple clients with different databases. Below you enter the base data directory, log file location and the paths to third-party tools. These settings are valid for all clients you create later on.
 ini_client_id_exists#:#A client with that ID already exists! Please choose another client ID.
 ini_client_id_invalid#:#The client ID you entered contains invalid characters
 ini_client_id_no_change#:#Client ID cannot be changed in this version after client directories has been created successfully.
@@ -279,21 +278,22 @@ mysql_4_1_x_or_higher_mode#:#MySQL 4.1.x or higher
 name#:#Name
 new#:#New
 new_client#:#New Client
-list_clients#:#List Clients
+list_clients#:#List of Clients
 basic_settings#:#Basic Settings
 next#:#Next
 nic_not_disabled#:#No NIC-ID & not disabled
-nic_reg_disable#:#Skip NIC Registration
+nic_reg_disable#:#Skip Registration
+nic_reg_disable_info#:#You may register later anytime.
 nic_reg_disable_comment#:#(Register Later)
-nic_reg_disabled#:#NIC Registration Disabled
+nic_reg_disabled#:#Disabled
 nic_reg_email#:#Register via e-Mail
-nic_reg_enabled#:#NIC registration enabled.
+nic_reg_enabled#:#Enabled
 nic_reg_enter_checksum#:#Enter sent Checksum
 nic_reg_enter_correct_id#:#Please enter correct nic_id.
 nic_reg_enter_id#:#Enter sent NIC ID
-nic_reg_failed#:#NIC registration failed.
+nic_reg_failed#:#Registration failed.
 nic_reg_online#:#Register Online
-nic_registration#:#NIC Registration
+nic_registration#:#Registration
 no_changes#:#No Changes.
 no_client_id#:#No Client ID given
 no_client_name#:#No Client Name
@@ -336,6 +336,7 @@ password_retype#:#Retype new password
 password_same#:#Old and new password are the same!
 password_set#:#Password saved.
 path_not_set#:#Path not set.
+not_configured#:#Not Configured
 path_to_convert#:#Path to Convert
 path_to_fop#:#Path to FOP
 path_to_htmldoc#:#Path to HTMLdoc
@@ -345,7 +346,7 @@ path_to_unzip#:#Path to Unzip
 path_to_zip#:#Path to Zip
 pathes#:#Paths
 phone#:#Phone
-port#:#Oort
+port#:#Port
 position#:#Position
 data_directories#:#Data Directories
 data_directory_outside_ws#:#Data Directory outside Webspace
@@ -396,10 +397,10 @@ set_oldpasswd#:#Please enter old password.
 settings_changed#:#Settings changed.
 settings_saved#:#Settings saved.
 setup#:#Setup
-setup_3rdparty_data#:#Setup third party add-ons
-setup_basic_settings#:#Setup Basic Settings
-setup_contact_data#:#Setup Contact Information
-setup_database#:#Setup Database
+setup_3rdparty_data#:#Third-Party Tools
+setup_basic_settings#:#Basic Settings
+setup_contact_data#:#Contact Information
+setup_database#:#Database
 setup_database_desc#:#Setup the Database
 setup_db_first#:#Please setup your database first!
 setup_finished#:#Setup Finished
@@ -407,7 +408,7 @@ setup_first_client#:#Set up your first Client
 setup_ini_first#:#Please create your ini-File first!
 setup_inifile#:#Create ini-File
 setup_inifile_desc#:#Create the ini-File for your installation.
-setup_languages#:#Install Languages
+setup_languages#:#Languages
 setup_languages_desc#:#Install Additional Languages
 setup_login#:#Login to Setup
 setup_mainmenu#:#Setup Main Menu
@@ -419,22 +420,22 @@ setup_pass2#:#Retype password
 setup_pass_title#:#Set Master Password
 setup_password#:#Create Password
 setup_password_desc#:#Create a password to access the setup-routine later on (i.e. to update your database)
-setup_process_status#:#Setup Process Status
-setup_process_step_3rdparty#:#Third Party Add-Ons
-setup_process_step_contact#:#Enter Contact Information
-setup_process_step_db#:#Install/Update Database
-setup_process_step_finish#:#Finish Installation
-setup_process_step_ini#:#Setup Basic Data
-setup_process_step_lang#:#Install System Languages
-setup_process_step_nic#:#Register at ILIAS-NIC
+setup_process_status#:#Setup Status
+setup_process_step_3rdparty#:#Third-Party Tools
+setup_process_step_contact#:#Contact Information
+setup_process_step_db#:#Database
+setup_process_step_finish#:#Finish Setup
+setup_process_step_ini#:#Basic Data
+setup_process_step_lang#:#Languages
+setup_process_step_nic#:#Registration
 setup_ready#:#Setup is ready. you may now proceed with the login and check further system settings.
 setup_welcome#:#Welcome to ILIAS 3 Setup. This setup-routine helps you to
 sophos#:#Sophos
 sort_by_this_column#:#Sort by this column
 status#:#Status
-status_3rdparty_false#:#3rd Party Add-Ons Missing
-status_3rdparty_ok#:#3rd Party Add-Ons Installed
-status_3rdparty_problems#:#3rd Party Add-Ons Problems
+status_3rdparty_false#:#Third-Party Tool Missing
+status_3rdparty_ok#:#Third-Party Tool Installed
+status_3rdparty_problems#:#Third-Party Tool Problems
 step#:#Step
 street#:#Street
 submit#:#Submit
@@ -467,9 +468,10 @@ zipcode#:#Zip Code
 step_ini#:#ini-File
 step_db#:#Database
 step_lang#:#Languages
+language#:#Language
 step_contact#:#Contact
-step_nic#:#NIC
-step_finish#:#Finish
+step_nic#:#Registration
+step_finish#:#Setup
 step_access#:#Access
 determine_tools_paths#:#Try to Determine Tools Paths
 client_deleted#:#Client deleted.
@@ -483,3 +485,7 @@ form_input_not_valid#:#Some data is incomplete or not valid. Please correct the 
 form_retype_password#:#Retype Password
 master_password#:#Master Password
 passwd_not_match#:#Your entries for the new password don't match! Please re-enter your new password.
+next_update_break#:#Next Update Break
+next_update_break_info#:#Depending on the size of your insallation, it is usually advisable not to perform large updates in one run.
+clients#:#Clients
+no_items#:#No Entries
