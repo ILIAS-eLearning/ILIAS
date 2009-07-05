@@ -21,8 +21,8 @@
 	+-----------------------------------------------------------------------------+
 */
 
-include_once ('./Services/Authentication/classes/class.ilAuthDecorator.php');
 
+include_once 'Auth.php';
 
 /** 
 * @classDescription Frontend class for SOAP based authentication
@@ -34,11 +34,19 @@ include_once ('./Services/Authentication/classes/class.ilAuthDecorator.php');
 * @ingroup ServicesAuthentication
 */
 
-class ilAuthSOAP extends ilAuthDecorator
+class ilAuthSOAP extends Auth
 {
    
-	public function __construct(ilAuthContainerDecorator $deco, $a_further_options = array())
+	public function __construct($container, $a_options = array())
 	{
+		$a_options['sessionName'] = "_authhttp".md5(CLIENT_ID);
+		$a_options['sessionSharing'] = false;
+
+		parent::__construct($container,$a_options,'',false);
+		
+		$this->initAuth();
+		
+		/*
     	parent::__construct($container);
 
 		if(isset($a_further_options['username']))
@@ -54,22 +62,8 @@ class ilAuthSOAP extends ilAuthDecorator
 		$this->appendOption('sessionSharing',false);
 		$this->initAuth();
 		$this->initCallbacks();
+		*/
 	}
-   
-    /**
-     * @see ilAuthDecorator::initAuth()
-     */
-    public function initAuth()
-    {
-		global $ilLog;
-		
-		$ilLog->write(__METHOD__.': Using SOAP Auth');
-
-		$this->setAuthObject(new Auth(
-			$this->getContainer(),
-			$this->getOptions()
-		));
-    }
 }
 
 ?>

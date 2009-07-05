@@ -22,7 +22,6 @@
 */
 
 
-include_once './Services/Authentication/classes/class.ilAuthDecorator.php';
 include_once 'Auth/HTTP.php';
 
 /** 
@@ -34,7 +33,7 @@ include_once 'Auth/HTTP.php';
 *
 * @ingroup ServicesAuthentication
 */
-class ilAuthHTTP extends ilAuthDecorator
+class ilAuthHTTP extends Auth_HTTP
 {
    
     /**
@@ -43,32 +42,15 @@ class ilAuthHTTP extends ilAuthDecorator
 	 * @param object ilAuthContainerDecorator
 	 * @param array	further options Not used in the moment
      */
-    function __construct(ilAuthContainerDecorator $container, $a_further_options = array())
+    function __construct($container, $a_options = array())
     {
-    	parent::__construct($container);
-		
-		$this->appendOption('sessionName',"_authhttp".md5(CLIENT_ID));
-		$this->appendOption('sessionSharing',false);
-		$this->initAuth();
-		$this->initCallbacks();
-		
-    }
-   
-   
-    /**
-     * @see ilAuthDecorator::initAuth()
-     */
-    public function initAuth()
-    {
-		global $ilLog;
-		
-		$ilLog->write(__METHOD__.': Using Auth_HTTP');
-		$this->setAuthObject(
-			new Auth_HTTP(
-				$this->getContainer(),
-				$this->getOptions()
-			));
+		$a_options['sessionName'] = "_authhttp".md5(CLIENT_ID);
+		$a_options['sessionSharing'] = false;
+
+    	parent::__construct($container,$a_options);
 		$this->setRealm(CLIENT_ID);
+
+		$this->initAuth();
     }
 }
 

@@ -392,7 +392,7 @@ class ilAuthUtils
 		include_once('./Services/Authentication/classes/class.ilAuthModeDetermination.php');
 		$det = ilAuthModeDetermination::_getInstance();
 		
-		if(!$det->isManualSelection())
+		if(!$det->isManualSelection() and $det->getCountActiveAuthModes() > 1)
 		{
 			return AUTH_MULTIPLE;
 		}
