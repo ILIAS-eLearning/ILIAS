@@ -80,7 +80,7 @@ class ilAuthContainerMultiple extends Auth_Container
 		if($this->current_container instanceof Auth_Container)
 		{
 			$this->log('Container Multiple: Forwarding to '.get_class($this->current_container),AUTH_LOG_DEBUG);
-			return $this->current_container->loginObserver($a_username, $a_auth);
+			return $this->current_container->checkAuthObserver($a_username, $a_auth);
 		}
 		return false;
     }
