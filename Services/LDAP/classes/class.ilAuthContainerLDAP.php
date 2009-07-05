@@ -27,20 +27,7 @@ include_once 'Auth/Container/LDAP.php';
 * Overwritten Pear class AuthContainerLDAP
 * This class is overwritten to support nested groups.
 *
-* Usage note:
-* If you use an ilAuthContainerLDAP object as the container for an Auth object
-* OTHER THAN ilAuthLDAP, you MUST call setEnableObservers(true) on the
-* ilAuthContainerLDAP object. 
-* The observers are used to perform actions depending on the success or failure
-* of a login attempt.
-*
-* FIXME - Class ilAuthLDAP contains duplicates of the code of this class in the 
-*       functions loginObserver, and failedLoginObserver. If you do changes in
-*       these functions, you MUST do corresponding changes in ilAuthLDAP as well. 
-*       In a future revision of ILIAS, the class ilAuthLDAP should be removed.
-*       
-*
-* @author Stefan Meyer <smeyer@leifos.com.de>
+* @author Stefan Meyer <smeyer.ilias@gmx.de>
 * @version $Id$
 * 
 * 
@@ -74,6 +61,11 @@ class ilAuthContainerLDAP extends Auth_Container_LDAP
 	 	$this->log = $ilLog;
 		
 		parent::__construct($this->server->toPearAuthArray());
+	}
+	
+	public function forceCreation($a_status)
+	{
+		self::$force_creation = $a_status;
 	}
 
 	/**
