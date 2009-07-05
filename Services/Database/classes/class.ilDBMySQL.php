@@ -223,13 +223,13 @@ class ilDBMySQL extends ilDB
 		// Switched back to "SET GLOBAL ..."
 		// @see http://bugs.mysql.com/bug.php?id=22891
 		// smeyer 2009 07 30
-//		if (substr($version,0,1) == "4")
-//		{
+		if (substr($version,0,1) == "4")
+		{
 			ini_get("post_max_size");
 			$query = "SET GLOBAL max_allowed_packet = ".(int) ini_get("post_max_size") * 1024 * 1024;
 //echo "-".$query."-";
 			$this->query($query);
-//		}
+		}
 		// STORE NEW max_size in member variable
 		$query = "SHOW VARIABLES LIKE 'max_allowed_packet'";
 		$res = $this->db->query($query);
