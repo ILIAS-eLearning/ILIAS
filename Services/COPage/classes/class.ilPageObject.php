@@ -1771,9 +1771,10 @@ if ($_GET["pgEdMediaMode"] != "") {echo "ilPageObject::error media"; exit;}
 		}
 		
 		$iel = $this->containsDeactivatedElements($this->getXMLContent());
+		$inl = $this->containsIntLinks($this->getXMLContent());
 		
 		// create object
-		$query = "INSERT INTO page_object (page_id, parent_id, content, parent_type, create_user, last_change_user, inactive_elements, created, last_change) VALUES ".
+		$query = "INSERT INTO page_object (page_id, parent_id, content, parent_type, create_user, last_change_user, inactive_elements, int_links, created, last_change) VALUES ".
 			"(".$ilDB->quote($this->getId()).",".
 			$ilDB->quote($this->getParentId()).",".
 			$ilDB->quote($this->getXMLContent()).
@@ -1781,6 +1782,7 @@ if ($_GET["pgEdMediaMode"] != "") {echo "ilPageObject::error media"; exit;}
 			", ".$ilDB->quote($ilUser->getId()).
 			", ".$ilDB->quote($ilUser->getId()).
 			", ".$ilDB->quote($iel, "integer")." ".
+			", ".$ilDB->quote($inl, "integer")." ".
 			", now(), now())";
 
 		if(!$this->ilias->db->checkQuerySize($query))
@@ -1814,6 +1816,7 @@ if ($_GET["pgEdMediaMode"] != "") {echo "ilPageObject::error media"; exit;}
 //echo "update:".htmlentities($this->getXMLContent()).":<br>";
 
 		$iel = $this->containsDeactivatedElements($this->getXMLContent());
+		$inl = $this->containsIntLinks($this->getXMLContent());
 
 		$query = "UPDATE page_object ".
 			"SET content = ".$ilDB->quote($this->getXMLContent())." ".
@@ -1824,6 +1827,7 @@ if ($_GET["pgEdMediaMode"] != "") {echo "ilPageObject::error media"; exit;}
 			", activation_start = ".$ilDB->quote($this->getActivationStart())." ".
 			", activation_end = ".$ilDB->quote($this->getActivationEnd())." ".
 			", inactive_elements = ".$ilDB->quote($iel, "integer")." ".
+			", int_links = ".$ilDB->quote($inl, "integer")." ".
 			"WHERE page_id = ".$ilDB->quote($this->getId())." AND parent_type=".
 			$ilDB->quote($this->getParentType());
 
@@ -1925,6 +1929,7 @@ if ($_GET["pgEdMediaMode"] != "") {echo "ilPageObject::error media"; exit;}
 				: 0;
 				
 			$iel = $this->containsDeactivatedElements($content);
+			$inl = $this->containsIntLinks($content);
 			$query = "UPDATE page_object ".
 				"SET content = ".$ilDB->quote($content)." ".
 				", parent_id= ".$ilDB->quote($this->getParentId())." ".
@@ -1935,6 +1940,7 @@ if ($_GET["pgEdMediaMode"] != "") {echo "ilPageObject::error media"; exit;}
 				", activation_start = ".$ilDB->quote($this->getActivationStart())." ".
 				", activation_end = ".$ilDB->quote($this->getActivationEnd())." ".
 				", inactive_elements = ".$ilDB->quote($iel, "integer")." ".
+				", int_links = ".$ilDB->quote($inl, "integer")." ".
 				" WHERE page_id = ".$ilDB->quote($this->getId()).
 				" AND parent_type= ".$ilDB->quote($this->getParentType());
 			if(!$this->ilias->db->checkQuerySize($query))
@@ -3923,9 +3929,9 @@ if ($_GET["pgEdMediaMode"] != "") {echo "ilPageObject::error media"; exit;}
 		$page_changes = array();
 		
 		$q = "SELECT * FROM page_object ".
-			" WHERE parent_id = ".$ilDB->quote($a_parent_id).
-			" AND parent_type = ".$ilDB->quote($a_parent_type).
-			" AND content LIKE '%IntLink%'";
+			" WHERE parent_id = ".$ilDB->quote($a_parent_id, "integer").
+			" AND parent_type = ".$ilDB->quote($a_parent_type, "text").
+			" AND int_links = ".$ilDB->quote(1, "integer");
 		$set = $ilDB->query($q);
 		$pages = array();
 		while ($page = $set->fetchRow(DB_FETCHMODE_ASSOC))
@@ -3935,6 +3941,21 @@ if ($_GET["pgEdMediaMode"] != "") {echo "ilPageObject::error media"; exit;}
 		}
 
 		return $pages;
+	}
+
+	/**
+	 * Check whether content contains internal links
+	 *
+	 * @param
+	 * @return
+	 */
+	function containsIntLinks($a_content)
+	{
+		if (strpos($a_content,  "IntLink"))
+		{
+			return true;
+		}
+		return false;
 	}
 
 }
