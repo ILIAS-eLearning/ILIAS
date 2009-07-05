@@ -219,7 +219,7 @@ class ilAuthECS extends Auth
 	private function initLogObserver()
 	{
 	 	global $ilLog;
-	 	
+		/*	 	
 	 	if(!method_exists($this,'attachLogObserver'))
 	 	{
 			$ilLog->write(__METHOD__.': PEAR Auth < 1.5 => disabling logging.');
@@ -237,6 +237,7 @@ class ilAuthECS extends Auth
 		 	}
 	 	}
 		$ilLog->write(__METHOD__.': PEAR Log not installed. Logging disabled');
+		*/
 	}
 
 	/**

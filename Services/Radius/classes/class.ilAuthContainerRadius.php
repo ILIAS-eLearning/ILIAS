@@ -28,16 +28,7 @@ include_once('Auth/Container/RADIUS.php');
 * This class is overwritten to support to perform Radius authentication with
 * specific ILIAS options.
 *
-* Usage note:
-*
-* FIXME - Class ilAuthRadius contains duplicates of the code of this class in the
-*       functions loginObserver, and failedLoginObserver. If you do changes in
-*       these functions, you MUST do corresponding changes in ilAuthRadius as well.
-*       In a future revision of ILIAS, the class ilAuthRadius should be removed.
-* DONE: smeyer
-*       
-*
-* @author Stefan Meyer <smeyer@databay.de>
+* @author Stefan Meyer <smeyer@ilias@gmx.de>
 * @version $Id$
 * 
 * 

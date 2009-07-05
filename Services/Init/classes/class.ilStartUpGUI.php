@@ -534,20 +534,18 @@ class ilStartUpGUI
 			}
 			$_POST['username'] = $_POST['mig_username'];
 			$_POST['password'] = $_POST['mig_password'];
-			$auth_params = array(
-				'dsn'		  => IL_DSN,
-				'table'       => $ilClientIniFile->readVariable("auth", "table"),
-				'usernamecol' => $ilClientIniFile->readVariable("auth", "usercol"),
-				'passwordcol' => $ilClientIniFile->readVariable("auth", "passcol")
-				);
-			$ilAuth = new Auth("DB", $auth_params,"",false);
+
+			include_once './Services/Authentication/classes/class.ilAuthFactory.php';
+			include_once './Services/Database/classes/class.ilAuthContainerMDB2.php';
+			
+			$ilAuth = ilAuthFactory::factory(new ilAuthContainerMDB2());
 			$ilAuth->start();
-			if(!$ilAuth->getAuth())
+			if(!$ilAuth->checkAuth())
 			{
-		 		$ilAuth->logout();
-		 		$this->showAccountMigration($lng->txt('err_wrong_login'));
- 				return false;
-			}
+				$ilAuth->logout();
+				$this->showAccountMigration($lng->txt('err_wrong_login'));
+				return false;
+			} 
 
 			$user = new ilObjUser($user_id);
 			$user->setAuthMode($_SESSION['tmp_auth_mode']);
@@ -574,11 +572,10 @@ class ilStartUpGUI
 					$_POST['username'] = $_SESSION['tmp_external_account'];
 					$_POST['password'] = $_SESSION['tmp_pass'];
 					
-					include_once('Services/LDAP/classes/class.ilAuthLDAP.php');
-					$ilAuth = new ilAuthLDAP();
-					$ilAuth->forceCreation(true);
-					$ilAuth->setIdle($ilClientIniFile->readVariable("session","expire"), false);
-					$ilAuth->setExpire(0);
+					include_once('Services/LDAP/classes/class.ilAuthContainerLDAP.php');
+					$container = new ilAuthContainerLDAP();
+					$container->forceCreation(true);
+					$ilAuth = ilAuthFactory::factory($container);
 					$ilAuth->start();
 					break;
 				
@@ -586,11 +583,12 @@ class ilStartUpGUI
 					$_POST['username'] = $_SESSION['tmp_external_account'];
 					$_POST['password'] = $_SESSION['tmp_pass'];
 					
-					include_once('Services/Radius/classes/class.ilAuthRadius.php');
-					$ilAuth = new ilAuthRadius();
-					$ilAuth->forceCreation(true);
-					$ilAuth->setIdle($ilClientIniFile->readVariable("session","expire"), false);
-					$ilAuth->setExpire(0);
+					include_once './Services/Authentication/classes/class.ilAuthFactory.php';
+					include_once './Services/Radius/classes/class.ilAuthContainerRadius.php';
+					
+					$container = new ilAuthContainerRadius();
+					$container->forceCreation(true);
+					$ilAuth = ilAuthFactory::factory($container);
 					$ilAuth->start();
 					break;
 			}
