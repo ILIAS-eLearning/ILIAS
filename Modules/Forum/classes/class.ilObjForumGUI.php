@@ -1221,33 +1221,38 @@ class ilObjForumGUI extends ilObjectGUI
 
 		if ($_GET['action'] == 'ready_delete' && $_POST['confirm'] != '')
 		{
-			$frm = new ilForum();
-		
-			$frm->setForumId($forumObj->getId());
-			$frm->setForumRefId($forumObj->getRefId());
-		
-			$dead_thr = $frm->deletePost($this->objCurrentPost->getId());
-				
-			// if complete thread was deleted ...
-			if ($dead_thr == $this->objCurrentTopic->getId())
+			if(!$this->objCurrentTopic->isClosed() &&
+			   ($ilAccess->checkAccess('moderate_frm', '', (int) $_GET['ref_id']) ||
+			    ($this->objCurrentPost->isOwner($ilUser->getId()) && !$this->objCurrentPost->hasReplies())))
 			{
-
-				$frm->setMDB2WhereCondition('top_frm_fk = %s ', array('integer'), array($forumObj->getId()));
-				
-				$topicData = $frm->getOneTopic();
-		
-				ilUtil::sendInfo($lng->txt('forums_post_deleted'), true);
-				
-				if ($topicData['top_num_threads'] > 0)
+				$frm = new ilForum();
+			
+				$frm->setForumId($forumObj->getId());
+				$frm->setForumRefId($forumObj->getRefId());
+			
+				$dead_thr = $frm->deletePost($this->objCurrentPost->getId());
+					
+				// if complete thread was deleted ...
+				if ($dead_thr == $this->objCurrentTopic->getId())
 				{
-					$this->ctrl->redirect($this, 'showThreads');
+	
+					$frm->setMDB2WhereCondition('top_frm_fk = %s ', array('integer'), array($forumObj->getId()));
+					
+					$topicData = $frm->getOneTopic();
+			
+					ilUtil::sendInfo($lng->txt('forums_post_deleted'), true);
+					
+					if ($topicData['top_num_threads'] > 0)
+					{
+						$this->ctrl->redirect($this, 'showThreads');
+					}
+					else
+					{
+						$this->ctrl->redirect($this, 'createThread');
+					}
 				}
-				else
-				{
-					$this->ctrl->redirect($this, 'createThread');
-				}
+				ilUtil::sendInfo($lng->txt('forums_post_deleted'));
 			}
-			ilUtil::sendInfo($lng->txt('forums_post_deleted'));
 		}
 		
 		
@@ -1946,6 +1951,12 @@ class ilObjForumGUI extends ilObjectGUI
 					}
 					else
 					{
+						if((!$ilAccess->checkAccess('moderate_frm', '', (int) $_GET['ref_id']) &&
+						   !$this->objCurrentPost->isOwner($ilUser->getId())) || $this->objCurrentPost->isCensored())
+						{
+						   	$this->ilias->raiseError($lng->txt('permission_denied'), $this->ilias->error_obj->MESSAGE);
+						}	
+						
 						$this->objCurrentPost->setSubject($formData['subject'] ? $this->handleFormInput($formData['subject']) :  $this->objCurrentPost->getSubject());
 						$this->objCurrentPost->setMessage($this->handleFormInput($formData['message']));
 						$this->objCurrentPost->setNotification($_POST['notify'] ? 1 : 0);
@@ -2087,6 +2098,13 @@ class ilObjForumGUI extends ilObjectGUI
 							// reply/edit
 							if(!$this->objCurrentTopic->isClosed() && ($_GET['action'] == 'showreply' || $_GET['action'] == 'showedit'))
 							{
+								if($_GET['action'] == 'showedit' &&
+								  ((!$ilAccess->checkAccess('moderate_frm', '', (int) $_GET['ref_id']) &&
+								   !$node->isOwner($ilUser->getId())) || $node->isCensored()))
+								{
+								   	$this->ilias->raiseError($lng->txt('permission_denied'), $this->ilias->error_obj->MESSAGE);
+								}							   
+								
 								// edit attachments
 								if(count($file_obj->getFilesOfPost()) && $_GET['action'] == 'showedit')
 								{
