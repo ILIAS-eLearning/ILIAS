@@ -13878,4 +13878,18 @@ $ilMySQLAbstraction->performAbstraction('cp_package');
 <?php
 	$ilCtrlStructureReader->getStructure();
 ?>
-
+<#2675>
+ALTER TABLE page_object ADD COLUMN inactive_elements TINYINT DEFAULT 0;
+<#2676>
+<?php
+	$query = "SELECT * FROM page_object WHERE".
+		" content LIKE '% Enabled=\"False\"%'";
+	$obj_set = $ilDB->query($query);
+	
+	while ($obj_rec = $ilDB->fetchAssoc($obj_set))
+	{
+		$ilDB->manipulate("UPDATE page_object SET inactive_elements = 1 WHERE".
+			" page_id = ".$ilDB->quote($obj_rec["page_id"], "integer").
+			" AND parent_type = ".$ilDB->quote($obj_rec["parent_type"], "text"));
+	}
+?>
