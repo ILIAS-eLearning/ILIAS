@@ -178,6 +178,8 @@ class ilAuthModeDetermination
 	 */
 	private function read()
 	{
+		global $ilSetting;
+		
 		$this->kind = $this->settings->get('kind',self::TYPE_MANUAL);
 		
 		include_once('Services/LDAP/classes/class.ilLDAPServer.php');
@@ -187,9 +189,11 @@ class ilAuthModeDetermination
 		$rad_settings = ilRadiusSettings::_getInstance();
 		$rad_active = $rad_settings->isActive();
 		
+		$soap_active = $ilSetting->get('soap_auth_active',false);
+		
 		
 		// Check if active
-		for($i = 0; $i < 3; $i++)
+		for($i = 0; $i < 4; $i++)
 		{
 			if($auth_mode = $this->settings->get((string) $i,0))
 			{
@@ -198,6 +202,7 @@ class ilAuthModeDetermination
 					case AUTH_LOCAL:
 						$this->position[] = $auth_mode;
 						break;
+						
 					case AUTH_LDAP:
 						if($ldap_active)
 						{
@@ -210,6 +215,13 @@ class ilAuthModeDetermination
 						{
 							$this->position[] = $auth_mode;  
 						}
+						break;
+					
+					case AUTH_SOAP:
+						if($soap_active)
+						{
+							$this->position[] = $auth_mode;
+						} 
 						break;
 				}
 			}
@@ -234,6 +246,13 @@ class ilAuthModeDetermination
 				$this->position[] = AUTH_RADIUS;
 			}
 			
+		}
+		if($soap_active)
+		{
+			if(!in_array(AUTH_SOAP,$this->position))
+			{
+				$this->position[] = AUTH_SOAP;
+			}
 		}
 	}
 }

@@ -22,7 +22,6 @@
 */
 
 include_once 'Auth/Container/LDAP.php';
-include_once './Services/Authentication/classes/class.ilAuthContainerDecorator.php';
 
 /** 
 * Overwritten Pear class AuthContainerLDAP
@@ -47,7 +46,7 @@ include_once './Services/Authentication/classes/class.ilAuthContainerDecorator.p
 * 
 * @ingroup ServicesLDAP
 */
-class ilAuthContainerLDAP extends ilAuthContainerDecorator
+class ilAuthContainerLDAP extends Auth_Container_LDAP
 {
 	private static $force_creation = false;
 	
@@ -69,24 +68,12 @@ class ilAuthContainerLDAP extends ilAuthContainerDecorator
 	{
 		global $ilLog;
 		
-		parent::__construct();
-
 		include_once 'Services/LDAP/classes/class.ilLDAPServer.php';
 		$this->server = new ilLDAPServer(ilLDAPServer::_getFirstActiveServer());
 		$this->server->doConnectionCheck();
-		
-		$this->appendParameters($this->server->toPearAuthArray());
-		$this->initContainer();
-		
 	 	$this->log = $ilLog;
-	}
-	
-	protected function initContainer()
-	{
-		$this->setContainer(
-			new Auth_Container_LDAP($this->getParameters())
-		);
-		return true;
+		
+		parent::__construct($this->server->toPearAuthArray());
 	}
 
 	/**
@@ -221,14 +208,14 @@ class ilAuthContainerLDAP extends ilAuthContainerDecorator
 			$a_auth->status = AUTH_LDAP_NO_ILIAS_USER;
 			$a_auth->logout();
 			$ilBench->stop('Auth','LDAPLoginObserver');
-			return;
+			return false;
 		}
 		
 		
 		// Finally setAuth
 		$a_auth->setAuth($user_data['ilInternalAccount']);
 		$ilBench->stop('Auth','LDAPLoginObserver');
-		return;
+		return true;
 		
 	}
 	/**
@@ -255,7 +242,9 @@ class ilAuthContainerLDAP extends ilAuthContainerDecorator
 			$a_auth->logout();
 			$this->enableOptionalGroupCheck();
 			$a_auth->start();
+			return false;
 		}
+		return true;
 	}
 	
 	/**

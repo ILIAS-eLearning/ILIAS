@@ -998,6 +998,9 @@ class ilObjAuthSettingsGUI extends ilObjectGUI
 				case AUTH_LOCAL:
 					$text = $this->lng->txt('auth_local');
 					break;
+				case AUTH_SOAP:
+					$text = $this->lng->txt('auth_soap');
+					break;
 			}
 			
 			

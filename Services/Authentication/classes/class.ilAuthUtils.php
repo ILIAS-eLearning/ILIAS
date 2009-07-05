@@ -162,6 +162,10 @@ class ilAuthUtils
 		if (($ilSetting->get("soap_auth_active") && !empty($_GET["ext_uid"])
 			&& !empty($_GET["soap_pw"])) || $user_auth_mode == AUTH_SOAP)
 		{
+			
+			define('AUTH_CURRENT',AUTH_SOAP);
+			
+			/*
 			include_once("Services/SOAPAuth/classes/class.ilSOAPAuth.php");
 			
 			if (!is_object($GLOBALS['ilSOAPAuth']))
@@ -188,6 +192,7 @@ class ilAuthUtils
 			}
 
 			define ("AUTH_CURRENT", AUTH_SOAP);
+			*/
 		}
 		// if Shibboleth is active and the user is authenticated
 		// we set auth_mode to Shibboleth
@@ -256,7 +261,9 @@ class ilAuthUtils
                         // not logged in yet, we use the "multiple authentication"
                         // method using a predefined sequence of authentication methods.
 			$authmode = AUTH_CURRENT ? AUTH_CURRENT : AUTH_MULTIPLE;
-		} else {
+		} 
+		else 
+		{
 			$authmode = AUTH_CURRENT;
 		}
 		switch ($authmode)
@@ -267,62 +274,11 @@ class ilAuthUtils
 				$ilAuth = ilAuthFactory::factory(new ilAuthContainerLDAP());
 				break;
 				
-				/*
-				if (WebDAV_Authentication == 'HTTP')
-				{
-					// Use HTTP authentication as the frontend for WebDAV clients:
-                                        require_once("Auth/HTTP.php");
-					$auth_params = array();
-					$auth_params['sessionName'] = "_authhttp".md5($realm);
-					$auth_params['sessionSharing'] = false;
-					require_once 'Services/LDAP/classes/class.ilAuthContainerLDAP.php';
-					require_once 'Services/LDAP/classes/class.ilLDAPServer.php';
-					$ldap_server = new ilLDAPServer(ilLDAPServer::_getFirstActiveServer());
-					$authContainer = new ilAuthContainerLDAP($ldap_server, $ldap_server->toPearAuthArray());
-                                        $authContainer->setObserversEnabled(true);
-					$ilAuth = new Auth_HTTP($authContainer, $auth_params,"",false);
-					$ilAuth->setRealm($realm);
-				}
-				else
-				{
-					// Use a login form as the frontend for web browsers:
-        				require_once 'Services/LDAP/classes/class.ilAuthLDAP.php';
-						$auth_params['sessionName'] = "_authhttp".md5($realm);
-        				$ilAuth = new ilAuthLDAP($auth_params);
-				}
-				break;
-				*/
 			case AUTH_RADIUS:
 
 				include_once './Services/Radius/classes/class.ilAuthContainerRadius.php';
 				$ilAuth = ilAuthFactory::factory(new ilAuthContainerRadius());
 
-				/*
-				if (WebDAV_Authentication == 'HTTP')
-				{
-                                        // FIXME - WebDAV Authentication with RADIUS is broken!!!
-                                        // We need to implement a class ilAuthContainerRadius and move
-                                        // all the code which is currently in ilAuthRadius into this class.
-                                        //
-					// Use HTTP authentication as the frontend for WebDAV clients:
-                                        require_once("Auth/HTTP.php");
-					$auth_params = array();
-					$auth_params['sessionName'] = "_authhttp".md5($realm);
-					$auth_params['sessionSharing'] = false;
-					$ilAuth = new Auth_HTTP("RADIUS", $auth_params,"",false);
-					$ilAuth->setRealm($realm);
-				}
-				else
-				{
-					// Use a login form as the frontend for web browsers:
-					$auth_params = array();
-					$auth_params['sessionName'] = "_authhttp".md5($realm);
-					include_once('./Services/Radius/classes/class.ilAuthRadius.php');
-					$ilAuth = new ilAuthRadius($auth_params);
-				}
-				break;
-				*/
-				
 			case AUTH_SHIBBOLETH:
 				// build option string for SHIB::Auth
 				$auth_params = array();
@@ -335,95 +291,19 @@ class ilAuthUtils
 				include_once './Services/CAS/classes/class.ilAuthContainerCAS.php';
 				$ilAuth = ilAuthFactory::factory(new ilAuthContainerCAS());
 				break;
-				
-				/*
-				$ilAuth =& $ilCASAuth;
-				$ilAuth->forceCASAuth();
-				break;
-				*/
+
 			case AUTH_SOAP:
-				$ilAuth =& $ilSOAPAuth;
+
+				include_once './Services/SOAPAuth/classes/class.ilAuthContainerSOAP.php';
+				$ilAuth = ilAuthFactory::factory(new ilAuthContainerSOAP());
 				break;
 				
 			case AUTH_MULTIPLE:
-				/*
-				if (WebDAV_Authentication == 'HTTP')
-				{
-					// Determine sequence of authentication methods
-					require_once('./Services/Authentication/classes/class.ilAuthModeDetermination.php');
-					$modeDetermination = ilAuthModeDetermination::_getInstance();
-					$authModeSequence = array_flip($modeDetermination->getAuthModeSequence());
-					
 
-					// Create the container of each authentication method
-					// FIXME - We only support LDAP and local authentication here!!
-					//         We need to support Radius as well!!
-					require_once 'Auth/Container/Multiple.php';
-					$multiple_params = array();
-
-					if (array_key_exists(AUTH_LDAP, $authModeSequence))
-					{
-						require_once 'Services/LDAP/classes/class.ilAuthContainerLDAP.php';
-						require_once 'Services/LDAP/classes/class.ilLDAPServer.php';
-						$container_params = array();
-						$ldap_server = new ilLDAPServer(ilLDAPServer::_getFirstActiveServer());
-						$authContainer = new ilAuthContainerLDAP($ldap_server, $ldap_server->toPearAuthArray());
-						$authContainer->setObserversEnabled(true);
-						$multiple_params[$authModeSequence[AUTH_LDAP]] = array(
-						'type' => 'LDAP',
-						'container' => $authContainer,
-						'options' => $container_params
-					);
-					}
-                                        
-					if (array_key_exists(AUTH_LOCAL, $authModeSequence))
-					{
-						require_once 'class.ilAuthContainerMDB2.php';
-						$container_params = array();
-						$container_params['dsn'] = IL_DSN;
-						$container_params['table'] = $ilClientIniFile->readVariable("auth", "table");
-						$container_params['usernamecol'] = $ilClientIniFile->readVariable("auth", "usercol");
-						$container_params['passwordcol'] = $ilClientIniFile->readVariable("auth", "passcol");
-						$authContainer = new ilAuthContainerMDB2($container_params);
-						$authContainer->setObserversEnabled(true);
-						$multiple_params[$authModeSequence[AUTH_LOCAL]] = array(
-							'type' => 'MDB2',
-							'container' => $authContainer,
-							'options' => $container_params
-						);
-					}
-                                        
-					$multipleContainer = new Auth_Container_Multiple($multiple_params);
-                                        
-					// Use HTTP authentication as the frontend:
-					require_once("Auth/HTTP.php");
-					$auth_params = array();
-					$auth_params['sessionName'] = "_authhttp".md5($realm);
-					$auth_params['sessionSharing'] = false;
-					$ilAuth = new Auth_HTTP($multipleContainer, $auth_params,"",false);
-					$ilAuth->setRealm($realm);
-					
-					// This foreach loop is a very dirty trick to work around
-					// the container factory in Auth_Container_Multiple.
-					foreach ($multiple_params as $key => $options)
-					{
-							$multipleContainer->containers[$key] = $options['container'];
-							$options['container']->_auth_obj = $ilAuth;
-							$options['container']->setObserversEnabled(true);
-					}
-				}
-				*/
-				/*
-				else
-				{
-					require_once('./Services/Authentication/classes/class.ilAuthMultiple.php');
-					$ilAuth = new ilAuthMultiple();
-				}
-				*/
 				include_once './Services/Authentication/classes/class.ilAuthContainerMultiple.php';
 				$ilAuth = ilAuthFactory::factory(new ilAuthContainerMultiple());
 				break;
-				
+
 			case AUTH_ECS:
 				$auth_params = array();
 				$auth_params['sessionName'] = "_authhttp".md5($realm);
@@ -444,8 +324,6 @@ class ilAuthUtils
 				include_once './Services/Database/classes/class.ilAuthContainerMDB2.php';
 				$ilAuth = ilAuthFactory::factory(new ilAuthContainerMDB2());
 				break;
-				
-			
 			
 				/*			
 				// build option string for PEAR::Auth
@@ -491,25 +369,6 @@ class ilAuthUtils
 		}
 		$ilAuth->setExpire(0);
                 
-		// In developer mode, enable logging on the Pear Auth object
-		/*
-	 	if (DEVMODE == 1)
-	 	{
-			global $ilLog;
-			if(method_exists($ilAuth,'attachLogObserver'))
-			{
-				if(@include_once('Log.php'))
-			 	{
-					if(@include_once('Log/observer.php'))
-				 	{
-						include_once('Services/LDAP/classes/class.ilAuthLDAPLogObserver.php');
-						$ilAuth->attachLogObserver(new ilAuthLDAPLogObserver(AUTH_LOG_DEBUG));
-	                                        $ilAuth->enableLogging = true;
-					}
-			 	}
-	 		}
-	 	}
-		*/
 		ini_set("session.cookie_lifetime", "0");
 //echo "-".get_class($ilAuth)."-";
 		$GLOBALS['ilAuth'] =& $ilAuth;
