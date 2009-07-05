@@ -3,7 +3,7 @@
 	+-----------------------------------------------------------------------------+
 	| ILIAS open source                                                           |
 	+-----------------------------------------------------------------------------+
-	| Copyright (c) 1998-2006 ILIAS open source, University of Cologne            |
+	| Copyright (c) 1998-2001 ILIAS open source, University of Cologne            |
 	|                                                                             |
 	| This program is free software; you can redistribute it and/or               |
 	| modify it under the terms of the GNU General Public License                 |
@@ -21,57 +21,62 @@
 	+-----------------------------------------------------------------------------+
 */
 
-include_once 'Auth/Container/MDB2.php';
-include_once './Services/Authentication/classes/class.ilAuthContainerDecorator.php';
-
-
-/** 
-* Authentication against ILIAS database
-* 
-* @author Stefan Meyer <meyer@leifos.com>
-* @version $Id$
-* 
-*
-* @ingroup ServicesDatabase
-*/
-class ilAuthContainerMDB2 extends Auth_Container_MDB2
+/**
+ * @classDescription Base class for all ILIAS PEAR container classes
+ * 
+ * @author Stefan Meyer <smeyer.ilias@gmx.de
+ * @version $id$
+ *  
+ * @ingroup ServicesAuthentication
+ */
+abstract class ilAuthContainerBase
 {
-
+	
 	/**
-	 * Constructor
+	 * Called after successful login
+	 * @return bool
+	 * @param object $a_username
+	 * @param object $a_auth
 	 */
-	public function __construct()
+	public function loginObserver($a_username,$a_auth)
 	{
-		global $ilClientIniFile;
 		
-		$options['dsn']			= IL_DSN;
-		$options['table']		= $ilClientIniFile->readVariable('auth', 'table');
-		$options['usernamecol']	= $ilClientIniFile->readVariable('auth', 'usercol');
-		$options['passwordcol']	= $ilClientIniFile->readVariable('auth', 'passcol');
-		
-		parent::__construct($options);
 	}
 	
-	
-	/**
-	 * Static function removes Microsoft domain name from username
+	/** 
+	 * Called after failed login
+	 *
+	 * @return bool
+	 * @param string username
+	 * @param object PEAR auth object
 	 */
-	public static function toUsernameWithoutDomain($username)
+	public function failedLoginObserver($a_username,$a_auth)
 	{
-		// Remove all characters including the last slash or the last backslash
-		// in the username
-		$pos = strrpos($username, '/');
-		$pos2 = strrpos($username, '\\');
-		if ($pos === false || $pos < $pos2) 
-		{
-			$pos = $pos2;
-		}
-		if ($pos !== false)
-		{
-			$username = substr($username, $pos + 1);
-		}
-		return $username;
+		
+	}
+	
+	/** 
+	 * Called after check auth requests
+	 * 
+	 * @return bool
+	 * @param string username
+	 * @param object PEAR auth object
+	 */
+	public function checkAuthObserver($a_username,$a_auth)
+	{
+		return true;
+	}
+
+	/** 
+	 * Called after logout
+	 * 
+	 * @return bool
+	 * @param string username
+	 * @param object PEAR auth object
+	 */
+	public function logoutObserver($a_username,$a_auth)
+	{
+		
 	}
 	
 }
-?>

@@ -125,15 +125,15 @@ class ilAuthFactory
 	 * @param array		$options		
 	 * @return object ilAuthDecorator 
 	 */
-	public static function factory(ilAuthContainerDecorator $deco)
+	public static function factory(ilAuthContainerBase $deco)
 	{
 		$options = self::getContextOptions(self::getContext());
 		
 		switch(self::$context)
 		{
 			case self::CONTEXT_WEB:
-				include_once './Services/Authentication/classes/class.ilAuth.php';
-				return new ilAuth($deco,$options);
+				include_once './Services/Authentication/classes/class.ilAuthWeb.php';
+				return new ilAuthWeb($deco,$options);
 				
 			case self::CONTEXT_HTTP:
 				include_once './Services/Authentication/classes/class.ilAuthHTTP.php';

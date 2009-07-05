@@ -13,39 +13,32 @@ include_once 'Auth.php';
  * 
  * @ingroup ServicesCAS
  */
-class ilAuthCAS extends ilAuthDecorator
+class ilAuthCAS extends Auth
 {
 	/**
 	 * Constructor
 	 * 
-	 * @param object ilAuthContainerDecorator
+	 * @param object $container
 	 * @param array	further options Not used in the moment
 	 */
-	public function __construct(ilAuthContainerDecorator $container,$a_further_options = array())
-	{
-		parent::__construct($container);
-
-
-		$this->appendOption('sessionName',"_authhttp".md5(CLIENT_ID));
-		$this->initAuth();
-		$this->initCallbacks();
-	}
-	
-	public function initAuth()
+	public function __construct($a_container,$a_further_options = array())
 	{
 		global $PHPCAS_CLIENT;
 
-		$this->setAuthObject(
-			new Auth(
-				$this->getContainer(),
-				$this->getOptions(),
-				array($this->getContainer(),'forceAuthentication'),
-				true
-			));
-		if($PHPCAS_CLIENT->isAuthenticated())
+		parent::__construct(
+			$a_container,
+			$a_further_options,
+			array($a_container,'forceAuthentication'),
+			true
+		);
+		$this->setSessionName("_authhttp".md5(CLIENT_ID));
+		$this->initAuth();
+		
+		if(is_object($PHPCAS_CLIENT) and $PHPCAS_CLIENT->isAuthenticated())
 		{
-			$this->getAuthObject()->username = $PHPCAS_CLIENT->getUser();
+			$this->username = $PHPCAS_CLIENT->getUser();
 		}
+		
 	}
 }
 ?>

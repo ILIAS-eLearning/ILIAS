@@ -22,7 +22,6 @@
 */
 
 include_once('Auth/Container/RADIUS.php');
-include_once './Services/Authentication/classes/class.ilAuthContainerDecorator.php';
 
 /** 
 * @classDescription Overwritten Pear class AuthContainerRadius
@@ -44,7 +43,7 @@ include_once './Services/Authentication/classes/class.ilAuthContainerDecorator.p
 * 
 * @ingroup ServicesRadius
 */
-class ilAuthContainerRadius extends ilAuthContainerDecorator
+class ilAuthContainerRadius extends Auth_Container_Radius
 {
 	private $radius_settings = null;
 	private $rad_to_user = null;
@@ -60,19 +59,17 @@ class ilAuthContainerRadius extends ilAuthContainerDecorator
 	 */
 	public function __construct()
 	{
-	 	parent::__construct();
-
 		$this->initSettings();
 		
 		// Convert password to latin1
 		if($this->radius_settings->getCharset() == ilRadiusSettings::RADIUS_CHARSET_LATIN1)
 		{
 			#$_POST['username'] = utf8_decode($_POST['username']);
-			$_POST['password'] = utf8_decode($_POST['password']);
+			#$_POST['password'] = utf8_decode($_POST['password']);
 			$this->log->write(__METHOD__.': Decoded username and password to latin1.');
 		}
 
-		$options = $this->radius_settings->toPearAuthArray();
+		parent::__construct($this->radius_settings->toPearAuthArray());
 
 	}
 	
@@ -93,7 +90,7 @@ class ilAuthContainerRadius extends ilAuthContainerDecorator
 	 *
 	 * @param string username
 	 */
-	protected function loginObserver($a_username,$a_auth)
+	public function loginObserver($a_username,$a_auth)
 	{
 		$user_data = array_change_key_case($a_auth->getAuthData(),CASE_LOWER);
 		$user_data['ilInternalAccount'] = ilObjUser::_checkExternalAuthAccount("radius",$a_username);
@@ -112,7 +109,7 @@ class ilAuthContainerRadius extends ilAuthContainerDecorator
 				
 					ilUtil::redirect('ilias.php?baseClass=ilStartUpGUI&cmd=showAccountMigration&cmdClass=ilstartupgui');
 				}
-				$this->initAttributeToUser();
+				$this->initRADIUSAttributeToUser();
 				$new_name = $this->radius_user->create($a_username);
 				$a_auth->setAuth($new_name);
 				return true;
@@ -128,7 +125,7 @@ class ilAuthContainerRadius extends ilAuthContainerDecorator
 		}
 		else
 		{
-			$a_auth>setAuth($user_data['ilInternalAccount']);
+			$a_auth->setAuth($user_data['ilInternalAccount']);
 			return true;
 		}
 	}
