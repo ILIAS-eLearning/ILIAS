@@ -74,9 +74,9 @@ class ilObjiLincCourse extends ilContainer
 			WHERE obj_id = %s',
 			array('integer'), array($this->id));
 		
-		if($r->numRows() > 0)
+		if($ilDB->numRows($r) > 0)
 		{
-			$data = $r->fetchRow(DB_FETCHMODE_OBJECT);
+			$data = $ilDB->fetchObject($r);
 
 			$this->ilinc_id = $data->course_id;
 			$this->activated = ilUtil::yn2tf($data->activation_offline);
@@ -292,7 +292,7 @@ class ilObjiLincCourse extends ilContainer
 			SELECT obj_id FROM object_data WHERE type= %s AND title= %s',
 			array('text', 'text'), array('rolt', 'il_icrs_admin'));
 		
-		$r = $res->fetchRow(DB_FETCHMODE_OBJECT);
+		$r = $ilDB->fetchObject($res);
 		
 		$rbacadmin->copyRoleTemplatePermissions($r->obj_id,ROLE_FOLDER_ID,$rfoldObj->getRefId(),$roleObj->getId());
 
@@ -314,7 +314,7 @@ class ilObjiLincCourse extends ilContainer
 			SELECT obj_id FROM object_data WHERE type= %s AND title= %s',
 			array('text', 'text'), array('rolt', 'il_icrs_member'));
 
-		$r = $res->fetchRow(DB_FETCHMODE_OBJECT);
+		$r = $ilDB->fetchObject($res);
 						
 		$rbacadmin->copyRoleTemplatePermissions($r->obj_id,ROLE_FOLDER_ID,$rfoldObj->getRefId(),$roleObj->getId());
 		
@@ -538,8 +538,7 @@ class ilObjiLincCourse extends ilContainer
   		
 		$r = $ilDB->queryf($query, $data_types, $data_values);
 		
-		
-		while($row = $r->fetchRow(DB_FETCHMODE_OBJECT))
+		while($row = $ilDB->fetchObject($r))
 		{
 			$mem_arr[] = array("id" => $row->usr_id,
 								"login" => $row->login,

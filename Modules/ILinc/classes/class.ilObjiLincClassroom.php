@@ -79,7 +79,7 @@ class ilObjiLincClassroom extends ilObject
 			WHERE object_reference.ref_id = %s',
 			array('integer'), array($a_ref_id));
 		
-		$obj_rec = $res->fetchRow(DB_FETCHMODE_ASSOC);
+		$obj_rec = $ilDB->fetchAssoc($res);
 		
 		return $obj_rec["course_id"];
 	}

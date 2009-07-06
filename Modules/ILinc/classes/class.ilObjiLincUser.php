@@ -60,9 +60,9 @@ class ilObjiLincUser
 			array('integer'),
 			array($this->user->getId()));
 		
-		if ($r->numRows() > 0)
+		if ($ilDB->numRows($r) > 0)
 		{
-			$data = $r->fetchRow(DB_FETCHMODE_ASSOC);
+			$data = $ilDB->fetchAssoc($r);
 			
 			$this->id = $data['ilinc_id'];
 			$this->login = $data['ilinc_login'];
@@ -84,15 +84,6 @@ class ilObjiLincUser
 	{
 		global $ilDB;
 
-/*		$q = "UPDATE usr_data SET ".
-            "last_update=now(), ".
-            "ilinc_id = ".$ilDB->quote(ilUtil::prepareDBString($this->id)).", ".
-            "ilinc_login = ".$ilDB->quote(ilUtil::prepareDBString($this->login)).", ".
-            "ilinc_passwd =  ".$ilDB->quote(ilUtil::prepareDBString($this->passwd))." ".
-            "WHERE usr_id = ".$ilDB->quote($this->user->getId());
-
-		$this->ilias->db->query($q);
-*/
 		$statement = $ilDB->manipulateF('
 			UPDATE usr_data 
 			SET last_update = %s,

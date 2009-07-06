@@ -13932,3 +13932,27 @@ $ilDB->query($query);
 <?php
 	$ilDB->manipulate("ALTER TABLE `cp_sequencing` CHANGE `attemptexperienceddurationlimit` `attemptexpdurlimit` VARCHAR(20) NULL DEFAULT NULL");	
 ?>
+<#2682>
+<?php
+	$ilMySQLAbstraction->performAbstraction('ilinc_registration');
+?>
+<#2683>
+<?php
+	$ilDB->renameTableColumn('ilinc_data','contact_responsibility','contact_responsibili');
+?>
+<#2684>
+<?php
+	$ilDB->renameTableColumn('ilinc_data','subscription_unlimited','subscription_unlimit');
+?>
+<#2685>
+<?php	
+	$ilDB->renameTableColumn('ilinc_data','subscription_password','subscription_passwd');
+?>
+<#2686>
+<?php
+	$ilDB->manipulate("ALTER TABLE `ilinc_data` CHANGE `activation_offline` `activation_offline` VARCHAR(3) NULL DEFAULT NULL");	
+?>
+<#2687>
+<?php
+	$ilMySQLAbstraction->performAbstraction('ilinc_data');
+?>
