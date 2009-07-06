@@ -21,12 +21,12 @@
 	+-----------------------------------------------------------------------------+
 */
 
-require_once "./classes/class.ilObjectGUI.php";
+include_once "./classes/class.ilObjectGUI.php";
 
 /**
 * Class ilObjRoleGUI
 *
-* @author Stefan Meyer <smeyer@databay.de>
+* @author Stefan Meyer <smeyer@ilias@gmx.de>
 * @author Sascha Hofmann <saschahofmann@gmx.de>
 *
 * @version $Id$
@@ -37,6 +37,11 @@ require_once "./classes/class.ilObjectGUI.php";
 */
 class ilObjRoleGUI extends ilObjectGUI
 {
+	const MODE_GLOBAL_UPDATE = 1;
+	const MODE_GLOBAL_CREATE = 2;
+	const MODE_LOCAL_UPDATE = 3;
+	const MODE_LOCAL_CREATE = 4;
+
 	/**
 	* ILIAS3 object type abbreviation
 	* @var		string
@@ -58,7 +63,7 @@ class ilObjRoleGUI extends ilObjectGUI
 	* Constructor
 	* @access public
 	*/
-	function ilObjRoleGUI($a_data,$a_id,$a_call_by_reference = false,$a_prepare_output = true)
+	function __construct($a_data,$a_id,$a_call_by_reference = false,$a_prepare_output = true)
 	{
 		global $tree,$lng;
 		
@@ -66,9 +71,8 @@ class ilObjRoleGUI extends ilObjectGUI
 
 		//TODO: move this to class.ilias.php
 		define("USER_FOLDER_ID",7);
-
-		// copy ref_id for later use.
-		if ($_GET['rolf_ref_id'] != "")
+		
+		if($_GET['rolf_ref_id'] != '')
 		{
 			$this->rolf_ref_id = $_GET['rolf_ref_id'];
 		}
@@ -76,18 +80,21 @@ class ilObjRoleGUI extends ilObjectGUI
 		{
 			$this->rolf_ref_id = $_GET['ref_id'];
 		}
-		
 		// Add ref_id of object that contains this role folder
 		$this->obj_ref_id = $tree->getParentId($this->rolf_ref_id);
 
 		$this->type = "role";
 		$this->ilObjectGUI($a_data,$a_id,$a_call_by_reference,false);
 		$this->ctrl->saveParameter($this, array("obj_id", "rolf_ref_id"));
+
+		
+
 	}
 
 
 	function &executeCommand()
 	{
+		
 		global $rbacsystem;
 
 		// todo: clean this mess up, but note that there are several
@@ -419,39 +426,255 @@ class ilObjRoleGUI extends ilObjectGUI
 		$this->ctrl->redirect($this,'listDesktopItems');
 		return true;
 	}
+	
+	/**
+	 * Create role prperty form
+	 * @return 
+	 * @param int $a_mode
+	 */
+	protected function initFormRoleProperties($a_mode)
+	{
+		include_once './Services/Form/classes/class.ilPropertyFormGUI.php';
+		$this->form = new ilPropertyFormGUI();
+		$this->ctrl->setParameter($this, "new_type", 'role');
+		$this->form->setFormAction($this->ctrl->getFormAction($this));
+		
+		switch($a_mode)
+		{
+			case self::MODE_GLOBAL_CREATE:
+				$this->form->setTitle($this->lng->txt('role_new'));
+				$this->form->addCommandButton('save',$this->lng->txt('role_new'));
+				break;
+				
+			case self::MODE_GLOBAL_UPDATE:
+				$this->form->setTitle($this->lng->txt('role_edit'));
+				$this->form->addCommandButton('update', $this->lng->txt('save'));
+				break;
+				
+			case self::MODE_LOCAL_CREATE:
+			case self::MODE_LOCAL_UPDATE:
+		}
+		// Fix cancel
+		$this->form->addCommandButton('cancel', $this->lng->txt('cancel'));
+		
+		$title = new ilTextInputGUI($this->lng->txt('title'),'title');
+		$title->setValidationRegexp('/^(?!il_).*$/');
+		$title->setValidationFailureMessage($this->lng->txt('msg_role_reserved_prefix'));
+		$title->setSize(40);
+		$title->setMaxLength(70);
+		$title->setRequired(true);
+		$this->form->addItem($title);
+		
+		$desc = new ilTextAreaInputGUI($this->lng->txt('description'),'desc');
+		$desc->setCols(40);
+		$desc->setRows(3);
+		$this->form->addItem($desc);
+		
+		$reg = new ilCheckboxInputGUI($this->lng->txt('rbac_new_acc_reg'),'reg');
+		$reg->setValue(1);
+		$reg->setInfo($this->lng->txt('rbac_new_acc_reg_info'));
+		$this->form->addItem($reg);
+		
+		$la = new ilCheckboxInputGUI($this->lng->txt('rbac_local_admin'),'la');
+		$la->setValue(1);
+		$la->setInfo($this->lng->txt('rbac_local_admin_info'));
+		$this->form->addItem($la);
+		
+		$pro = new ilCheckboxInputGUI($this->lng->txt('role_protect_permission'),'pro');
+		$pro->setValue(1);
+		$pro->setInfo($this->lng->txt('role_protext_permission_info'));
+		$this->form->addItem($pro);
+		
+		include_once 'Services/WebDAV/classes/class.ilDiskQuotaActivationChecker.php';
+		if(ilDiskQuotaActivationChecker::_isActive())
+		{
+			$quo = new ilNumberInputGUI($this->lng->txt('disk_quota'),'disk_quota');
+			$quo->setMinValue(1);
+			$quo->setSize(4);
+			$quo->setInfo($this->lng->txt('enter_in_mb_desc').'<br />'.$this->lng->txt('disk_quota_on_role_desc'));
+			$this->form->addItem($quo);
+		}
+			
+		return true;
+	}
+	
+	/**
+	 * Store form input in role object
+	 * @return 
+	 * @param object $role
+	 */
+	protected function loadRoleProperties(ilObjRole $role)
+	{
+		$role->setTitle($this->form->getInput('title'));
+		$role->setDescription($this->form->getInput('desc'));
+		$role->setAllowRegister($this->form->getInput('reg'));
+		$role->toggleAssignUsersStatus($this->form->getInput('la'));
+		$role->setDiskQuota($this->form->getInput('disk_quota') * pow(ilFormat::_getSizeMagnitude(),2));
+		return true;
+	}
+	
+	/**
+	 * Read role properties and write them to form
+	 * @return 
+	 * @param object $role
+	 */
+	protected function readRoleProperties(ilObjRole $role)
+	{
+		global $rbacreview;
+		
+		include_once 'Services/WebDAV/classes/class.ilDiskQuotaActivationChecker.php';
+
+		$data['title'] = $role->getTitle();
+		$data['desc'] = $role->getDescription();
+		$data['reg'] = $role->getAllowRegister();
+		$data['la'] = $role->getAssignUsersStatus();
+		if(ilDiskQuotaActivationChecker::_isActive())
+		{
+			$data['disk_quota'] = $role->getDiskQuota() / (pow(ilFormat::_getSizeMagnitude(),2));
+		}
+		$data['pro'] = $rbacreview->isProtected($this->rolf_ref_id, $role->getId());
+		
+		$this->form->setValuesByArray($data);
+	}
+	
+
 
 
 	/**
-	* display role create form
-	*/
-	function createObject()
+	 * Only called from administration -> role folder ?
+	 * Otherwise this check access is wrong
+	 * @return 
+	 */
+	public function createObject()
 	{
-		global $rbacsystem, $ilSetting;
+		global $rbacsystem;
 		
-		if (!$rbacsystem->checkAccess('create_role', $this->rolf_ref_id))
+		if(!$rbacsystem->checkAccess('create_role',$this->rolf_ref_id))
 		{
-			$this->ilias->raiseError($this->lng->txt("permission_denied"),$this->ilias->error_obj->MESSAGE);
+			$ilErr->raiseError($this->lng->txt('permission_denied'),$ilErr->MESSAGE);
+		}
+		
+		$this->initFormRoleProperties(self::MODE_GLOBAL_CREATE);
+		$this->tpl->setContent($this->form->getHTML());
+	}
+	
+	/**
+	 * Edit role properties
+	 * @return 
+	 */
+	public function editObject()
+	{
+		global $rbacsystem, $rbacreview, $ilSetting,$ilErr;
+
+		if(!$this->checkAccess('write','edit_permission'))
+		{
+			$ilErr->raiseError($this->lng->txt("msg_no_perm_write"),$ilErr->MESSAGE);
+		}
+		$this->initFormRoleProperties(self::MODE_GLOBAL_UPDATE);
+		$this->readRoleProperties($this->object);
+		$this->tpl->setContent($this->form->getHTML());
+	}
+	
+	/**
+	* edit object
+	*
+	* @access	public
+	*/
+	function editObject2()
+	{
+		global $rbacsystem, $rbacreview, $ilSetting;
+		require_once 'Services/WebDAV/classes/class.ilDiskQuotaActivationChecker.php';
+		require_once 'classes/class.ilFormat.php';
+
+		#if (!$rbacsystem->checkAccess("write", $this->rolf_ref_id))
+		if(!$this->checkAccess('write','edit_permission'))
+		{
+			$this->ilias->raiseError($this->lng->txt("msg_no_perm_write"),$this->ilias->error_obj->MESSAGE);
 		}
 
-		$this->getTemplateFile("edit","role");
+		$this->getTemplateFile("edit");
 
-		if ($this->rolf_ref_id == ROLE_FOLDER_ID)
+		if ($_SESSION["error_post_vars"])
+		{
+			// fill in saved values in case of error
+			if (substr($this->object->getTitle(false),0,3) != "il_")
+			{
+				$this->tpl->setVariable("TITLE",ilUtil::prepareFormOutput($_SESSION["error_post_vars"]["Fobject"]["title"]),true);
+				$this->tpl->setVariable("DESC",ilUtil::stripSlashes($_SESSION["error_post_vars"]["Fobject"]["desc"]));
+			}
+		
+			$allow_register = ($_SESSION["error_post_vars"]["Fobject"]["allow_register"]) ? "checked=\"checked\"" : "";
+			$assign_users = ($_SESSION["error_post_vars"]["Fobject"]["assign_users"]) ? "checked=\"checked\"" : "";
+			$protect_permissions = ($_SESSION["error_post_vars"]["Fobject"]["protect_permissions"]) ? "checked=\"checked\"" : "";
+			if (ilDiskQuotaActivationChecker::_isActive())
+			{
+				$disk_quota = $_SESSION["error_post_vars"]["Fobject"]["disk_quota"];
+			}
+		}
+		else
+		{
+			if (substr($this->object->getTitle(),0,3) != "il_")
+			{
+				$this->tpl->setVariable("TITLE",ilUtil::prepareFormOutput($this->object->getTitle()));
+				$this->tpl->setVariable("DESC",ilUtil::stripSlashes($this->object->getDescription()));
+			}
+
+			$allow_register = ($this->object->getAllowRegister()) ? "checked=\"checked\"" : "";
+			$assign_users = $this->object->getAssignUsersStatus() ? "checked=\"checked\"" : "";
+			if (ilDiskQuotaActivationChecker::_isActive())
+			{
+				$disk_quota = $this->object->getDiskQuota() / ilFormat::_getSizeMagnitude() / ilFormat::_getSizeMagnitude();
+			}
+			$protect_permissions = $rbacreview->isProtected($this->rolf_ref_id,$this->object->getId()) ? "checked=\"checked\"" : "";
+
+		}
+
+		$obj_str = "&obj_id=".$this->obj_id;
+
+		$this->tpl->setVariable("TXT_TITLE",$this->lng->txt("title"));
+		$this->tpl->setVariable("TXT_DESC",$this->lng->txt("desc"));
+		
+		// exclude allow register option for anonymous role, system role and all local roles
+		$global_roles = $rbacreview->getGlobalRoles();
+
+		$this->tpl->setVariable("FORMACTION",$this->ctrl->getFormAction($this));
+		$this->tpl->setVariable("TXT_HEADER", $this->lng->txt($this->object->getType()."_edit"));
+		$this->tpl->setVariable("TARGET", $this->getTargetFrame("update"));
+		$this->tpl->setVariable("TXT_CANCEL", $this->lng->txt("cancel"));
+		$this->tpl->setVariable("TXT_SUBMIT", $this->lng->txt("save"));
+		$this->tpl->setVariable("CMD_SUBMIT", "update");
+		$this->tpl->setVariable("TXT_REQUIRED_FLD", $this->lng->txt("required_field"));
+		
+		if (substr($this->object->getTitle(),0,3) == "il_")
+		{
+			$this->tpl->setVariable("SHOW_TITLE",ilObjRole::_getTranslation($this->object->getTitle())." (".$this->object->getTitle().")");
+			
+			$rolf = $rbacreview->getFoldersAssignedToRole($this->object->getId(),true);
+			$parent_node = $this->tree->getParentNodeData($rolf[0]);
+
+			$this->tpl->setVariable("SHOW_DESC",$this->lng->txt("obj_".$parent_node['type'])." (".$parent_node['obj_id'].") <br/>".$parent_node['title']);
+
+			$this->tpl->setVariable("TXT_CANCEL", $this->lng->txt("cancel"));
+			$this->tpl->setVariable("TXT_SUBMIT", $this->lng->txt("back"));
+			$this->tpl->setVariable("CMD_SUBMIT", "cancel");
+		}
+
+		if ($this->object->getId() != ANONYMOUS_ROLE_ID and 
+			$this->object->getId() != SYSTEM_ROLE_ID and 
+			in_array($this->object->getId(),$global_roles))
 		{
 			$this->tpl->setCurrentBlock("allow_register");
-			$allow_register = ($_SESSION["error_post_vars"]["Fobject"]["allow_register"]) ? "checked=\"checked\"" : "";
 			$this->tpl->setVariable("TXT_ALLOW_REGISTER",$this->lng->txt("allow_register"));
 			$this->tpl->setVariable("ALLOW_REGISTER",$allow_register);
 			$this->tpl->parseCurrentBlock();
 
 			$this->tpl->setCurrentBlock("assign_users");
-			$assign_users = $_SESSION["error_post_vars"]["Fobject"]["assign_users"] ? "checked=\"checked\"" : "";
-			$this->tpl->setVariable("TXT_ASSIGN_USERS",$this->lng->txt("allow_assign_users"));
+			$this->tpl->setVariable("TXT_ASSIGN_USERS",$this->lng->txt('allow_assign_users'));
 			$this->tpl->setVariable("ASSIGN_USERS",$assign_users);
 			$this->tpl->parseCurrentBlock();
-			
+
 			$this->tpl->setCurrentBlock("protect_permissions");
-			$protect_permissions = $_SESSION["error_post_vars"]["Fobject"]["protect_permissions"] ? "checked=\"checked\"" : "";
-			$this->tpl->setVariable("TXT_PROTECT_PERMISSIONS",$this->lng->txt("role_protect_permissions"));
+			$this->tpl->setVariable("TXT_PROTECT_PERMISSIONS",$this->lng->txt('role_protect_permissions'));
 			$this->tpl->setVariable("PROTECT_PERMISSIONS",$protect_permissions);
 			$this->tpl->parseCurrentBlock();
 
@@ -465,84 +688,69 @@ class ilObjRoleGUI extends ilObjectGUI
 				$this->tpl->parseCurrentBlock();
 			}
 		}
-
-		// fill in saved values in case of error
-		$this->tpl->setVariable("TITLE",ilUtil::prepareFormOutput($_SESSION["error_post_vars"]["Fobject"]["title"]),true);
-		$this->tpl->setVariable("DESC",ilUtil::stripSlashes($_SESSION["error_post_vars"]["Fobject"]["desc"]));
-
-		$this->tpl->setVariable("TXT_TITLE",$this->lng->txt("title"));
-		$this->tpl->setVariable("TXT_DESC",$this->lng->txt("desc"));
-		$this->ctrl->setParameter($this, "new_type", $this->type);
-		$this->tpl->setVariable("FORMACTION",
-			$this->ctrl->getFormAction($this));
-		$this->tpl->setVariable("TXT_HEADER", $this->lng->txt($this->type."_new"));
-		$this->tpl->setVariable("TXT_CANCEL", $this->lng->txt("cancel"));
-		$this->tpl->setVariable("TXT_SUBMIT", $this->lng->txt($this->type."_add"));
-		$this->tpl->setVariable("CMD_SUBMIT", "save");
-		$this->tpl->setVariable("TARGET", $this->getTargetFrame("save"));
-		$this->tpl->setVariable("TXT_REQUIRED_FLD", $this->lng->txt("required_field"));
 	}
-
+	
+	
 	/**
-	* save a new role object
-	*
-	* @access	public
-	*/
-	function saveObject()
+	 * Save new role
+	 * @return 
+	 */
+	public function saveObject()
 	{
-		global $rbacsystem, $rbacadmin, $rbacreview, $ilSetting;
-		require_once 'Services/WebDAV/classes/class.ilDiskQuotaActivationChecker.php';
-		require_once 'classes/class.ilFormat.php';
-
-		// check for create role permission
-		if (!$rbacsystem->checkAccess("create_role",$this->rolf_ref_id))
+		global $rbacadmin;
+		
+		$this->initFormRoleProperties(self::MODE_GLOBAL_CREATE);
+		if($this->form->checkInput())
 		{
-			$this->ilias->raiseError($this->lng->txt("msg_no_perm_create_role"),$this->ilias->error_obj->MESSAGE);
+			include_once './Services/AccessControl/classes/class.ilObjRole.php';
+			$this->loadRoleProperties($this->role = new ilObjRole());
+			$this->role->create();
+			$rbacadmin->assignRoleToFolder($this->role->getId(), $this->rolf_ref_id,'y');
+			$rbacadmin->setProtected(
+				$this->rolf_ref_id,
+				$this->role->getId(),
+				$this->form->getInput('pro') ? 'y' : 'n'
+			);
+			ilUtil::sendSuccess($this->lng->txt("role_added"),true);
+			$this->ctrl->returnToParent($this);
 		}
-
-		// check required fields
-		if (empty($_POST["Fobject"]["title"]))
-		{
-			$this->ilias->raiseError($this->lng->txt("fill_out_all_required_fields"),$this->ilias->error_obj->MESSAGE);
-		}
-
-		// check if role title has il_ prefix
-		if (substr($_POST["Fobject"]["title"],0,3) == "il_")
-		{
-			$this->ilias->raiseError($this->lng->txt("msg_role_reserved_prefix"),$this->ilias->error_obj->MESSAGE);
-		}
-
-		$dq_setting = new ilSetting('disk_quota');
-		if (ilDiskQuotaActivationChecker::_isActive())
-		{
-			// check if disk quota is numeric and positive
-			if (! is_numeric(trim($_POST["Fobject"]["disk_quota"])) ||
-					trim($_POST["Fobject"]["disk_quota"]) < 0
-			)
-			{
-				$this->ilias->raiseError($this->lng->txt("msg_disk_quota_illegal_value"),$this->ilias->error_obj->MESSAGE);
-			}
-		}
-
-
-		// save
-		require_once("./Services/AccessControl/classes/class.ilObjRole.php");
-		$roleObj = new ilObjRole();
-		$roleObj->setTitle(ilUtil::stripSlashes($_POST["Fobject"]["title"]));
-		$roleObj->setDescription(ilUtil::stripSlashes($_POST["Fobject"]["desc"]));
-		$roleObj->setAllowRegister($_POST["Fobject"]["allow_register"]);
-		$roleObj->toggleAssignUsersStatus($_POST["Fobject"]["assign_users"]);
-		if (ilDiskQuotaActivationChecker::_isActive())
-		{
-			$roleObj->setDiskQuota(trim($_POST["Fobject"]["disk_quota"]) * ilFormat::_getSizeMagnitude() * ilFormat::_getSizeMagnitude());
-		}
-		$roleObj->create();
-		$rbacadmin->assignRoleToFolder($roleObj->getId(), $this->rolf_ref_id,'y');
-		$rbacadmin->setProtected($this->rolf_ref_id,$roleObj->getId(),ilUtil::tf2yn($_POST["Fobject"]["protect_permissions"]));	
-		ilUtil::sendSuccess($this->lng->txt("role_added"),true);
-
-		$this->ctrl->returnToParent($this);
+		
+		ilUtil::sendFailure($this->lng->txt('err_check_input'));
+		$this->form->setValuesByPost();
+		$this->tpl->setContent($this->form->getHTML());
+		return false;
 	}
+	
+	/**
+	 * Save role settings
+	 * @return 
+	 */
+	public function updateObject()
+	{
+		global $rbacadmin;
+		
+		$this->initFormRoleProperties(self::MODE_GLOBAL_UPDATE);
+		if($this->form->checkInput())
+		{
+			include_once './Services/AccessControl/classes/class.ilObjRole.php';
+			$this->loadRoleProperties($this->object);
+			$this->object->update();
+			$rbacadmin->setProtected(
+				$this->rolf_ref_id,
+				$this->object->getId(),
+				$this->form->getInput('pro') ? 'y' : 'n'
+			);
+			ilUtil::sendSuccess($this->lng->txt("saved_successfully"),true);
+			$this->ctrl->redirect($this,'edit');
+		}
+		
+		ilUtil::sendFailure($this->lng->txt('err_check_input'));
+		$this->form->setValuesByPost();
+		$this->tpl->setContent($this->form->getHTML());
+		return false;
+	}
+
+
 	
 
 	/**
@@ -1412,7 +1620,7 @@ class ilObjRoleGUI extends ilObjectGUI
 	* 
 	* @access	public
 	*/
-	function updateObject()
+	function updateObject2()
 	{
 		global $rbacsystem, $rbacreview, $rbacadmin, $tree;
 		require_once 'Services/WebDAV/classes/class.ilDiskQuotaActivationChecker.php';
@@ -1493,120 +1701,6 @@ class ilObjRoleGUI extends ilObjectGUI
 		$this->ctrl->redirect($this,'edit');
 	}
 	
-	/**
-	* edit object
-	*
-	* @access	public
-	*/
-	function editObject()
-	{
-		global $rbacsystem, $rbacreview, $ilSetting;
-		require_once 'Services/WebDAV/classes/class.ilDiskQuotaActivationChecker.php';
-		require_once 'classes/class.ilFormat.php';
-
-		#if (!$rbacsystem->checkAccess("write", $this->rolf_ref_id))
-		if(!$this->checkAccess('write','edit_permission'))
-		{
-			$this->ilias->raiseError($this->lng->txt("msg_no_perm_write"),$this->ilias->error_obj->MESSAGE);
-		}
-
-		$this->getTemplateFile("edit");
-
-		if ($_SESSION["error_post_vars"])
-		{
-			// fill in saved values in case of error
-			if (substr($this->object->getTitle(false),0,3) != "il_")
-			{
-				$this->tpl->setVariable("TITLE",ilUtil::prepareFormOutput($_SESSION["error_post_vars"]["Fobject"]["title"]),true);
-				$this->tpl->setVariable("DESC",ilUtil::stripSlashes($_SESSION["error_post_vars"]["Fobject"]["desc"]));
-			}
-		
-			$allow_register = ($_SESSION["error_post_vars"]["Fobject"]["allow_register"]) ? "checked=\"checked\"" : "";
-			$assign_users = ($_SESSION["error_post_vars"]["Fobject"]["assign_users"]) ? "checked=\"checked\"" : "";
-			$protect_permissions = ($_SESSION["error_post_vars"]["Fobject"]["protect_permissions"]) ? "checked=\"checked\"" : "";
-			if (ilDiskQuotaActivationChecker::_isActive())
-			{
-				$disk_quota = $_SESSION["error_post_vars"]["Fobject"]["disk_quota"];
-			}
-		}
-		else
-		{
-			if (substr($this->object->getTitle(),0,3) != "il_")
-			{
-				$this->tpl->setVariable("TITLE",ilUtil::prepareFormOutput($this->object->getTitle()));
-				$this->tpl->setVariable("DESC",ilUtil::stripSlashes($this->object->getDescription()));
-			}
-
-			$allow_register = ($this->object->getAllowRegister()) ? "checked=\"checked\"" : "";
-			$assign_users = $this->object->getAssignUsersStatus() ? "checked=\"checked\"" : "";
-			if (ilDiskQuotaActivationChecker::_isActive())
-			{
-				$disk_quota = $this->object->getDiskQuota() / ilFormat::_getSizeMagnitude() / ilFormat::_getSizeMagnitude();
-			}
-			$protect_permissions = $rbacreview->isProtected($this->rolf_ref_id,$this->object->getId()) ? "checked=\"checked\"" : "";
-
-		}
-
-		$obj_str = "&obj_id=".$this->obj_id;
-
-		$this->tpl->setVariable("TXT_TITLE",$this->lng->txt("title"));
-		$this->tpl->setVariable("TXT_DESC",$this->lng->txt("desc"));
-		
-		// exclude allow register option for anonymous role, system role and all local roles
-		$global_roles = $rbacreview->getGlobalRoles();
-
-		$this->tpl->setVariable("FORMACTION",$this->ctrl->getFormAction($this));
-		$this->tpl->setVariable("TXT_HEADER", $this->lng->txt($this->object->getType()."_edit"));
-		$this->tpl->setVariable("TARGET", $this->getTargetFrame("update"));
-		$this->tpl->setVariable("TXT_CANCEL", $this->lng->txt("cancel"));
-		$this->tpl->setVariable("TXT_SUBMIT", $this->lng->txt("save"));
-		$this->tpl->setVariable("CMD_SUBMIT", "update");
-		$this->tpl->setVariable("TXT_REQUIRED_FLD", $this->lng->txt("required_field"));
-		
-		if (substr($this->object->getTitle(),0,3) == "il_")
-		{
-			$this->tpl->setVariable("SHOW_TITLE",ilObjRole::_getTranslation($this->object->getTitle())." (".$this->object->getTitle().")");
-			
-			$rolf = $rbacreview->getFoldersAssignedToRole($this->object->getId(),true);
-			$parent_node = $this->tree->getParentNodeData($rolf[0]);
-
-			$this->tpl->setVariable("SHOW_DESC",$this->lng->txt("obj_".$parent_node['type'])." (".$parent_node['obj_id'].") <br/>".$parent_node['title']);
-
-			$this->tpl->setVariable("TXT_CANCEL", $this->lng->txt("cancel"));
-			$this->tpl->setVariable("TXT_SUBMIT", $this->lng->txt("back"));
-			$this->tpl->setVariable("CMD_SUBMIT", "cancel");
-		}
-
-		if ($this->object->getId() != ANONYMOUS_ROLE_ID and 
-			$this->object->getId() != SYSTEM_ROLE_ID and 
-			in_array($this->object->getId(),$global_roles))
-		{
-			$this->tpl->setCurrentBlock("allow_register");
-			$this->tpl->setVariable("TXT_ALLOW_REGISTER",$this->lng->txt("allow_register"));
-			$this->tpl->setVariable("ALLOW_REGISTER",$allow_register);
-			$this->tpl->parseCurrentBlock();
-
-			$this->tpl->setCurrentBlock("assign_users");
-			$this->tpl->setVariable("TXT_ASSIGN_USERS",$this->lng->txt('allow_assign_users'));
-			$this->tpl->setVariable("ASSIGN_USERS",$assign_users);
-			$this->tpl->parseCurrentBlock();
-
-			$this->tpl->setCurrentBlock("protect_permissions");
-			$this->tpl->setVariable("TXT_PROTECT_PERMISSIONS",$this->lng->txt('role_protect_permissions'));
-			$this->tpl->setVariable("PROTECT_PERMISSIONS",$protect_permissions);
-			$this->tpl->parseCurrentBlock();
-
-			require_once 'Services/WebDAV/classes/class.ilDiskQuotaActivationChecker.php';
-			if (ilDiskQuotaActivationChecker::_isActive())
-			{
-				$this->tpl->setCurrentBlock("disk_quota");
-				$this->tpl->setVariable("TXT_DISK_QUOTA",$this->lng->txt("disk_quota"));
-				$this->tpl->setVariable("TXT_DISK_QUOTA_DESC",$this->lng->txt("enter_in_mb_desc").'<br>'.$this->lng->txt("disk_quota_on_role_desc"));
-				$this->tpl->setVariable("DISK_QUOTA",$disk_quota);
-				$this->tpl->parseCurrentBlock();
-			}
-		}
-	}
 	
 	/**
 	* display user assignment panel

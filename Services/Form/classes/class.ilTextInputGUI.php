@@ -17,6 +17,7 @@ class ilTextInputGUI extends ilSubEnabledFormPropertyGUI implements ilTableFilte
 	protected $maxlength = 200;
 	protected $size = 40;
 	protected $validationRegexp;
+	protected $validationFailureMessage = '';
 	protected $suffix;
 
 	// added for YUI autocomplete feature
@@ -56,6 +57,21 @@ class ilTextInputGUI extends ilSubEnabledFormPropertyGUI implements ilTableFilte
 	function getValue()
 	{
 		return $this->value;
+	}
+
+	/**
+	 * Set message string for validation failure
+	 * @return 
+	 * @param string $a_msg
+	 */
+	public function setValidationFailureMessage($a_msg)
+	{
+		$this->validationFailureMessage = $a_msg;
+	}
+	
+	public function getValidationFailureMessage()
+	{
+		return $this->validationFailureMessage;
 	}
 
 	/**
@@ -191,7 +207,11 @@ class ilTextInputGUI extends ilSubEnabledFormPropertyGUI implements ilTableFilte
 		{
 			if (!preg_match($this->getValidationRegexp(), $_POST[$this->getPostVar()]))
 			{
-				$this->setAlert($lng->txt("msg_wrong_format"));
+				$this->setAlert(
+					$this->getValidationFailureMessage() ?
+					$this->getValidationFailureMessage() :
+					$lng->txt('msg_wrong_format')
+				);
 				return FALSE;
 			}
 		}
