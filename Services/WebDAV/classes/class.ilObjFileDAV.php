@@ -135,7 +135,7 @@ class ilObjFileDAV extends ilObjectDAV
 	 */
 	function getContentLength()
 	{
-		return ilObjFile::_lookupFileSize($this->obj->getId(),false);
+		return ilObjFile::_lookupFileSize($this->obj->getId());
 	}
 	/**
 	 * Returns the content of the object as a stream.

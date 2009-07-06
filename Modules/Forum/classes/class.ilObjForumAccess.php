@@ -96,18 +96,40 @@ class ilObjForumAccess extends ilObjectAccess
 		
 		return $rec["pos_thr_fk"];
 	}
-	//BEGIN DiskQuota: Get used disk space
 	/**
-	 * Returns the number of bytes used on the harddisk for forum attachments,
-	 * by the user with the specified user id.
-	 * @param int user id.
+	 * Returns the number of bytes used on the harddisk by the specified forum.
+	 *
+	 * @param $forum_id id.
 	 */
-	public static function _getDiskSpaceUsedBy($user_id, $as_string = false)
+	public static function _lookupDiskUsage($a_obj_id)
 	{
-		require_once "Modules/Forum/classes/class.ilFileDataForum.php";
-		return ilFileDataForum::_getDiskSpaceUsedBy($user_id, $as_string);	
+		global $ilDB, $lng;
+		require_once 'Modules/Forum/classes/class.ilFileDataForum.php';
+
+		$mail_data_dir = ilUtil::getDataDir('filesystem').DIRECTORY_SEPARATOR."forum";
+
+		$result_set = $ilDB->queryf('
+			SELECT top_frm_fk, pos_pk FROM frm_posts p
+			JOIN frm_data d ON d.top_pk = p.pos_top_fk
+			WHERE top_frm_fk = %s',
+			array('integer'), array($a_obj_id));
+
+		$size = 0;
+		//$count = 0; counts the number of attachments
+		while($row = $result_set->fetchRow(DB_FETCHMODE_ASSOC))
+		{
+			$fileDataForum = new ilFileDataForum($row['top_frm_fk'],$row['pos_pk']);
+			$filesOfPost = $fileDataForum->getFilesOfPost();
+			foreach ($filesOfPost as $attachment)
+			{
+				$size += $attachment['size'];
+				//$count++;
+			}
+			unset($fileDataForum);
+			unset($filesOfPost);
+		}
+		return $size;
 	}
-	//END DiskQuota: Get used disk space
 	
 	/**
 	* Get number of postings

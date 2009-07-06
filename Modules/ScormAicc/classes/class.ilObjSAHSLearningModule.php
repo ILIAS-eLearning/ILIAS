@@ -184,6 +184,18 @@ class ilObjSAHSLearningModule extends ilObject
 			
 		return $lm_rec['question_tries'];
 	}
+	/**
+	* Gets the disk usage of the object in bytes.
+    *
+	* @access	public
+	* @return	integer		the disk usage in bytes
+	*/
+	function getDiskUsage()
+	{
+	    require_once("./Modules/MediaCast/classes/class.ilObjSAHSLearningModuleAccess.php");
+		return ilObjSAHSLearningModuleAccess::_lookupDiskUsage($this->id);
+	}
+
 
 	/**
 	* creates data directory for package files

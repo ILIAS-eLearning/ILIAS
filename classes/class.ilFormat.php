@@ -622,5 +622,69 @@ class ilFormat
 		
 		return money_format('%!2n', $float_number);
 	}
+
+	/**
+	 * Returns the magnitude used for size units.
+	 *
+	 * This function always returns the value 1024. Thus the value returned
+	 * by this function is the same value that Windows and Mac OS X return for a
+	 * file. The value is a GibiBit, MebiBit, KibiBit or byte unit.
+	 *
+	 * For more information about these units see:
+	 * http://en.wikipedia.org/wiki/Megabyte
+	 *
+	 * @return <type>
+	 */
+	public static function _getSizeMagnitude()
+	{
+		return 1024;
+	}
+	/**
+	 * Returns the specified file size value in a human friendly form.
+	 * <p>
+	 * By default, the oder of magnitude 1024 is used. Thus the value returned
+	 * by this function is the same value that Windows and Mac OS X return for a
+	 * file. The value is a GibiBig, MebiBit, KibiBit or byte unit.
+	 * <p>
+	 * For more information about these units see:
+	 * http://en.wikipedia.org/wiki/Megabyte
+	 *
+	 * @param	integer	size in bytes
+	 * @param	string	mode: "short" is useful for display in the repository
+	 *                  "long" is useful for display on the info page of an object
+	 */
+	public static function _sizeToString($size, $a_mode = "short")
+	{
+		global $lng;
+		require_once 'classes/class.ilFormat.php';
+
+		$result;
+		$mag = self::_getSizeMagnitude();
+
+		$formattedBytes = ilFormat::fmtFloat($size,0,$lng->txt('lang_sep_thousand'));
+
+		if ($size > $mag * $mag * $mag)
+		{
+			$result = round($size/1073741824,1).' '.$lng->txt('lang_size_gb');
+		}
+		else if ($size > $mag * $mag)
+		{
+			$result = round($size/1048576,1).' '.$lng->txt('lang_size_mb');
+		}
+		else if ($size > $mag)
+		{
+			$result = round($size/1024,1).' '.$lng->txt('lang_size_kb');
+		}
+		else
+		{
+			$result = $formattedBytes.' '.$lng->txt('lang_size_bytes');
+		}
+
+		if ($a_mode == 'long' && $size > $mag) {
+			$result .= ' ('.$formattedBytes.' '.$lng->txt('lang_size_bytes').')';
+		}
+		return $result;
+	}
 }
+
 ?>

@@ -44,6 +44,9 @@ class ilObjRole extends ilObject
 	
 	var $allow_register;
 	var $assign_users;
+	
+	/** The disk quota in bytes */
+	var $disk_quota;
 
 	/**
 	* Constructor
@@ -54,6 +57,7 @@ class ilObjRole extends ilObject
 	function ilObjRole($a_id = 0,$a_call_by_reference = false)
 	{
 		$this->type = "role";
+		$this->disk_quota = 0;
 		$this->ilObject($a_id,$a_call_by_reference);
 	}
 
@@ -116,6 +120,7 @@ class ilObjRole extends ilObject
 		$this->setDescription(ilUtil::stripslashes($a_data["desc"]));
 		$this->setAllowRegister($a_data["allow_register"]);
 		$this->toggleAssignUsersStatus($a_data['assign_users']);
+		$this->setDiskQuota($a_data['disk_quota']);
 	}
 
 	/**
@@ -128,7 +133,8 @@ class ilObjRole extends ilObject
 		
 		$query = "UPDATE role_data SET ".
 			"allow_register= ".$ilDB->quote($this->allow_register,'integer').", ".
-			"assign_users = ".$ilDB->quote($this->getAssignUsersStatus(),'integer')." ".
+			"assign_users = ".$ilDB->quote($this->getAssignUsersStatus(),'integer').", ".
+			"disk_quota = ".$ilDB->quote($this->getDiskQuota(),'integer')." ".
 			"WHERE role_id= ".$ilDB->quote($this->id,'integer')." ";
 		$res = $ilDB->manipulate($query);
 
@@ -153,11 +159,13 @@ class ilObjRole extends ilObject
 		$this->id = parent::create();
 
 		$query = "INSERT INTO role_data ".
-			"(role_id,allow_register,assign_users) ".
+			"(role_id,allow_register,assign_users,disk_quota) ".
 			"VALUES ".
 			"(".$ilDB->quote($this->id,'integer').",".
 			$ilDB->quote($this->getAllowRegister(),'integer').",".
-			$ilDB->quote($this->getAssignUsersStatus(),'integer').")";
+			$ilDB->quote($this->getAssignUsersStatus(),'integer').",".
+			$ilDB->quote($this->getDiskQuota(),'integer').")"
+			;
 		$res = $ilDB->query($query);
 
 		return $this->id;
@@ -190,6 +198,32 @@ class ilObjRole extends ilObject
 		return $this->allow_register ? $this->allow_register : false;
 	}
 
+	/**
+	* Sets the minimal disk quota imposed by this role.
+    *
+    * The minimal disk quota is specified in bytes.
+	*
+	* @access	public
+	* @param	integer 
+	*/
+	function setDiskQuota($a_disk_quota)
+	{
+		$this->disk_quota = $a_disk_quota;
+	}
+
+	/**
+	* Gets the minimal disk quota imposed by this role.
+    *
+    * Returns the minimal disk quota in bytes.
+	* The default value is 0.
+	*
+	* @access	public
+	* @return	integer
+	*/
+	function getDiskQuota()
+	{
+		return $this->disk_quota;
+	}
 	/**
 	* get all roles that are activated in user registration
 	*

@@ -1743,10 +1743,17 @@ class ilDAVServer extends HTTP_WebDAV_Server
 	 * @param nodeId of a childnode of the repository object.
 	 * @param ressourceName ressource name (if known), to reduce SQL queries
 	 * @param parentRefId refId of parent object (if known), to reduce SQL queries
+	 * @param genericURI boolean Returns a generic mount URI, which works on
+	 * all platforms which support WebDAV as in the IETF specification.
 	 */
-	function getMountURI($refId, $nodeId = 0, $ressourceName = null, $parentRefId = null)
+	function getMountURI($refId, $nodeId = 0, $ressourceName = null, $parentRefId = null, $genericURI = false)
 	{
-		if ($this->clientOS == 'windows') {
+		if ($genericURI)
+		{
+			$baseUri = ($this->isWebDAVoverHTTPS() ? "https:" : "http:");
+			$query = null;
+			
+		} else if ($this->clientOS == 'windows') {
 			$baseUri = ($this->isWebDAVoverHTTPS() ? "https:" : "http:");
 			$query = null;
 		} else if ($this->clientBrowser == 'konqueror') {

@@ -118,9 +118,10 @@ class ilObjFileAccess extends ilObjectAccess
 	}
 
 	/**
-	* Quickly looks up the file size from the database.
+	* Quickly looks up the file size from the database and returns the
+	 * number of bytes.
 	*/
-	public static function _lookupFileSize($a_id, $a_as_string = false, $long_info = false)
+	public static function _lookupFileSize($a_id)
 	{
 		global $ilDB;
 
@@ -128,17 +129,7 @@ class ilObjFileAccess extends ilObjectAccess
 		$r = $ilDB->query($q);
 		$row = $r->fetchRow(DB_FETCHMODE_OBJECT);
 		
-		// BEGIN WebDAV: getFileSize from Database
 		$size = $row->file_size;
-		// END PATCH WebDAV getFileSize from Database
-		
-		if ($a_as_string)
-		{
-			// BEGIN WebDAV: Use sizeToString function.
-			return self::_sizeToString($size, $long_info);
-			// END WebDAV: Use sizeToString function.
-			
-		}
 		
 		return $size;
 	}
@@ -149,7 +140,7 @@ class ilObjFileAccess extends ilObjectAccess
 	* function only, to update the data in the database. For example, if
 	* the file size in the database has become inconsistent for some reason.
 	*/
-	public static function _lookupFileSizeFromFilesystem($a_id, $a_as_string = false, $long_info = false)
+	public static function _lookupFileSizeFromFilesystem($a_id)
 	{
 		global $ilDB;
 
@@ -176,62 +167,9 @@ class ilObjFileAccess extends ilObjectAccess
 			$size = 0;
 		}
         
-		if ($a_as_string)
-		{
-			// BEGIN WebDAV: Use sizeToString function.
-			return self::_sizeToString($size, $long_info);
-			// END WebDAV: Use sizeToString function.
-			
-		}
-		
 		return $size;
 	}
 
-
-	// BEGIN WebDAV: sizeToString function.
-	/**
-	 * Returns the specified file size value in a human friendly form.
-	 * The value returned by this function is the same value that Windows
-	 * and Mac OS X returns for a file. The value is a GigiBig, MegiBit,
-	 * KiliBit or byte value based on 1024.
-	 */
-	function _sizeToString($size, $long_info = false)
-	{
-		global $lng;
-		require_once 'classes/class.ilFormat.php';
-
-		$result;
-
-		$formattedBytes = ilFormat::fmtFloat($size,0,$lng->txt('lang_sep_thousand'));
-
-		if ($size > 1073741824)
-		{
-			$result = round($size/1073741824,1)." GB";
-			if ($long_info) {
-				$result .= " (".$formattedBytes." bytes)";
-			}
-		}
-		else if ($size > 1048576)
-		{
-			$result = round($size/1048576,1)." MB";
-			if ($long_info) {
-				$result .= " (".$formattedBytes." bytes)";
-			}
-		}
-		else if ($size > 1024)
-		{
-			$result = round($size/1024,1)." KB";
-			if ($long_info) {
-				$result .= " (".$formattedBytes." bytes)";
-			}
-		}
-		else
-		{
-			$result = $formattedBytes." bytes";		
-		}
-		return $result;
-	}
-	// END WebDAV: sizeToString function.
 
 	/**
 	* lookup suffix
@@ -251,13 +189,12 @@ class ilObjFileAccess extends ilObjectAccess
 		// END WebDAV: Filename suffix is determined by file title
 	}
 
-	//BEGIN WebDAV: Get used disk space..
 	/**
 	 * Returns the number of bytes used on the harddisk by the file object
 	 * with the specified object id.
 	 * @param int object id of a file object.
 	 */
-	function _getDiskSpaceUsed($a_id)
+	function _lookupDiskUsage($a_id)
 	{
 		include_once('Modules/File/classes/class.ilFSStorageFile.php');
 		$fileStorage = new ilFSStorageFile($a_id);
@@ -265,30 +202,6 @@ class ilObjFileAccess extends ilObjectAccess
 		return ilUtil::dirsize($dir);
 	}
 	
-	/**
-	 * Returns the number of bytes used on the harddisk by the user with
-	 * the specified user id.
-	 * @param int user id.
-	 */
-	function _getDiskSpaceUsedBy($user_id, $as_string = false)
-	{
-		// 
-		global $ilDB, $lng;
-		
-		$q = "SELECT obj_id FROM object_data WHERE type = 'file' AND owner = ".$ilDB->quote($user_id ,'integer');
-		$us_set = $ilDB->query($q);
-		$size = 0;
-		$count = 0;
-		while($us_rec = $us_set->fetchRow(DB_FETCHMODE_ASSOC))
-		{
-			$size += ilObjFileAccess::_getDiskSpaceUsed($us_rec["obj_id"]);
-			$count++;
-		}
-		
-		return ($as_string) ? $count.' '.$lng->txt('files').', '.self::_sizeToString($size) : $size;
-	}
-	//END WebDAV: Get used disk space.
-
 	// BEGIN WebDAV: Get file extension, determine if file is inline, guess file type.
 	/**
 	 * Returns true, if the specified file shall be displayed inline in the browser.

@@ -154,7 +154,17 @@ class ilObjMediaCast extends ilObject
 	    $this->defaultAccess = (int) $value == 0 ? 0 : 1;
 	}
 	
-	
+	/**
+	* Gets the disk usage of the object in bytes.
+    *
+	* @access	public
+	* @return	integer		the disk usage in bytes
+	*/
+	function getDiskUsage()
+	{
+	    require_once("./Modules/MediaCast/classes/class.ilObjMediaCastAccess.php");
+		return ilObjMediaCastAccess::_lookupDiskUsage($this->id);
+	}
 	
 	/**
 	* Create mew media cast
