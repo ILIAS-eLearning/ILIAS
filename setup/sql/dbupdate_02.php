@@ -13956,3 +13956,7 @@ $ilDB->query($query);
 <?php
 	$ilMySQLAbstraction->performAbstraction('ilinc_data');
 ?>
+<#2688>
+<?php
+	$ilMySQLAbstraction->performAbstraction("page_object");
+?>
