@@ -60,6 +60,22 @@ class ilObjRole extends ilObject
 		$this->disk_quota = 0;
 		$this->ilObject($a_id,$a_call_by_reference);
 	}
+	
+	/**
+	 * Validate role data
+	 * @return bool
+	 */
+	public function validate()
+	{
+		global $ilErr;
+		
+		if(substr($this->getTitle(),0,3) == 'il_')
+		{
+			$ilErr->setMessage('msg_role_reserved_prefix');
+			return false;
+		}
+		return true;
+	}
 
 	function toggleAssignUsersStatus($a_assign_users)
 	{
