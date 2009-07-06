@@ -49,7 +49,7 @@ class ilAuthHTTP extends Auth_HTTP
     /**
      * Constructor
      * 
-	 * @param object ilAuthContainerDecorator
+	 * @param object Auth_ContainerBase
 	 * @param array	further options Not used in the moment
      */
     function __construct($container, $a_options = array())

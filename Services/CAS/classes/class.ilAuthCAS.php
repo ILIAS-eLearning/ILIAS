@@ -1,8 +1,6 @@
 <?php
 /* Copyright (c) 1998-2009 ILIAS open source, Extended GPL, see docs/LICENSE */
 
-include_once './Services/Authentication/classes/class.ilAuthDecorator.php';
-include_once './Services/Authentication/classes/class.ilAuth.php';
 include_once 'Auth.php';
 
 

@@ -40,7 +40,7 @@ abstract class ilAuthContainerBase
 	 */
 	public function loginObserver($a_username,$a_auth)
 	{
-		
+		return true;
 	}
 	
 	/** 

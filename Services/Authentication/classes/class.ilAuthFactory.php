@@ -121,9 +121,9 @@ class ilAuthFactory
 	
 	/**
 	 * The factory
-	 * @param object	$container ilAuthContainerDecorator
+	 * @param object	$container ilAuthContainerBase
 	 * @param array		$options		
-	 * @return object ilAuthDecorator 
+	 * @return object ilAuthContainerBase
 	 */
 	public static function factory(ilAuthContainerBase $deco)
 	{

@@ -22,8 +22,6 @@
 */
 
 include_once 'Auth/Container/MDB2.php';
-include_once './Services/Authentication/classes/class.ilAuthContainerDecorator.php';
-
 
 /** 
 * Authentication against ILIAS database
