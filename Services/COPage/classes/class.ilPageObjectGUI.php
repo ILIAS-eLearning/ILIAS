@@ -925,8 +925,8 @@ class ilPageObjectGUI
 
 	function deactivatePage()
 	{
-		$this->getPageObject()->setActivationStart("0000-00-00 00:00:00");
-		$this->getPageObject()->setActivationEnd("0000-00-00 00:00:00");
+		$this->getPageObject()->setActivationStart(null);
+		$this->getPageObject()->setActivationEnd(null);
 		$this->getPageObject()->setActive(false);
 		$this->getPageObject()->update();
 		$this->ctrl->redirectByClass("ilpageobjectgui", "edit");
@@ -934,8 +934,8 @@ class ilPageObjectGUI
 
 	function activatePage()
 	{
-		$this->getPageObject()->setActivationStart("0000-00-00 00:00:00");
-		$this->getPageObject()->setActivationEnd("0000-00-00 00:00:00");
+		$this->getPageObject()->setActivationStart(null);
+		$this->getPageObject()->setActivationEnd(null);
 		$this->getPageObject()->setActive(true);
 		$this->getPageObject()->update();
 		$this->ctrl->redirectByClass("ilpageobjectgui", "edit");
@@ -1212,7 +1212,7 @@ class ilPageObjectGUI
 				
 				// scheduled activation?
 				if (!$this->getPageObject()->getActive() &&
-					$this->getPageObject()->getActivationStart() != "0000-00-00 00:00:00" &&
+					$this->getPageObject()->getActivationStart() != "" &&
 					$this->getEnabledScheduledActivation())
 				{
 					$tpl->setCurrentBlock("activation_txt");
@@ -1518,7 +1518,7 @@ class ilPageObjectGUI
 		if (($this->getOutputMode() == "preview" || $this->getOutputMode() == "presentation") &&
 			$md5 == $this->obj->getRenderMd5() &&
 			($this->obj->getLastChange() < $this->obj->getRenderedTime()) &&
-			$this->obj->getRenderedTime() != "0000-00-00 00:00:00" &&
+			$this->obj->getRenderedTime() != "" &&
 			$this->obj->old_nr == 0)
 		{
 			// cache hit
@@ -2266,14 +2266,14 @@ class ilPageObjectGUI
 		}
 		
 		$dt_prop = $this->form->getItemByPostVar("start");
-		if ($this->getPageObject()->getActivationStart() != "0000-00-00 00:00:00")
+		if ($this->getPageObject()->getActivationStart() != "")
 		{
 			$values["activation"] = "scheduled";
 			$dt_prop->setDate(new ilDateTime($this->getPageObject()->getActivationStart(),
 				IL_CAL_DATETIME));
 		}
 		$dt_prop = $this->form->getItemByPostVar("end");
-		if ($this->getPageObject()->getActivationEnd() != "0000-00-00 00:00:00")
+		if ($this->getPageObject()->getActivationEnd() != "")
 		{
 			$values["activation"] = "scheduled";
 			$dt_prop->setDate(new ilDateTime($this->getPageObject()->getActivationEnd(),
@@ -2295,8 +2295,8 @@ class ilPageObjectGUI
 		if ($this->form->checkInput())
 		{
 			$this->getPageObject()->setActive(true);
-			$this->getPageObject()->setActivationStart("0000-00-00 00:00:00");
-			$this->getPageObject()->setActivationEnd("0000-00-00 00:00:00");
+			$this->getPageObject()->setActivationStart(null);
+			$this->getPageObject()->setActivationEnd(null);
 			if ($_POST["activation"] == "deactivated")
 			{
 				$this->getPageObject()->setActive(false);
