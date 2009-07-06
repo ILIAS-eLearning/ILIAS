@@ -78,7 +78,8 @@ class ilMailSearchGroupsGUI
 
 		if ($_GET["view"] == "mygroups")
 		{
-			if (is_array($_POST["search_grp"]))
+			$ids = ((int) $_GET['search_grp']) ? array((int)$_GET['search_grp']) : $_POST['search_grp'];  
+			if ($ids)
 			{
 				$this->mailGroups();
 			}
@@ -90,7 +91,8 @@ class ilMailSearchGroupsGUI
 		}
 		else if ($_GET["view"] == "grp_members")
 		{
-			if (is_array($_POST["search_members"]))
+			$ids = ((int) $_GET['search_members']) ? array((int)$_GET['search_members']) : $_POST['search_members'];
+			if ($ids)
 			{
 				$this->mailMembers();
 			}
@@ -129,7 +131,8 @@ class ilMailSearchGroupsGUI
 		}
 		
 		require_once 'classes/class.ilObject.php';
-		foreach ($_POST["search_grp"] as $grp_id)
+		$ids = ((int) $_GET['search_grp']) ? array((int)$_GET['search_grp']) : $_POST['search_grp'];  
+		foreach ($ids as $grp_id)
 		{
 			$ref_ids = ilObject::_getAllReferences($grp_id);
 			foreach ($ref_ids as $ref_id)
@@ -199,8 +202,10 @@ class ilMailSearchGroupsGUI
 				""
 			);
 		}
-	
-		foreach ($_POST["search_members"] as $member)
+		
+		$ids = ((int) $_GET['search_members']) ? array((int)$_GET['search_members']) : $_POST['search_members'];
+		
+		foreach ($ids as $member)
 		{
 			$login = ilObjUser::_lookupLogin($member);
 			array_push($members, $login);
@@ -230,11 +235,13 @@ class ilMailSearchGroupsGUI
 	{
 		global $lng;
 
-		if (is_array($_POST["search_members"]))
+		$ids = ((int)$_GET['search_members']) ? array((int)$_GET['search_members']) : $_POST['search_members']; 
+		
+		if ($ids )
 		{
 			$members = array();
 		
-			foreach ($_POST["search_members"] as $member)
+			foreach ($ids as $member)
 			{
 				$login = ilObjUser::_lookupLogin($member);
 	
@@ -310,7 +317,7 @@ class ilMailSearchGroupsGUI
 			count($grp_ids) > 0)
 		{				
 	
-
+			include_once("./Services/AdvancedSelectionList/classes/class.ilAdvancedSelectionListGUI.php");
 			foreach($grp_ids as $grp_id) 
 			{
 				if(ilObject::_hasUntrashedReference($grp_id))
@@ -344,22 +351,29 @@ class ilMailSearchGroupsGUI
 					}
 					$path = $this->lng->txt('path').': '.$path;
 					
+					$current_selection_list = new ilAdvancedSelectionListGUI();
+					$current_selection_list->setListTitle($this->lng->txt("actions"));
+					$current_selection_list->setId("act_".$counter);
+
+					$this->ctrl->setParameter($this, 'search_grp', $grp_id);
+					$this->ctrl->setParameter($this, 'view', 'mygroups');
+					
+					$current_selection_list->addItem($this->lng->txt("mail_members"), '', $this->ctrl->getLinkTarget($this, "mail"));
+					$current_selection_list->addItem($this->lng->txt("mail_list_members"), '', $this->ctrl->getLinkTarget($this, "showMembers"));
+					
+					$this->ctrl->clearParameters($this);
+					
 					$rowData = array
 					(
 						'CRS_ID' => $grp_id,
 						'CRS_NAME' => $ilObjDataCache->lookupTitle($grp_id),
 						'CRS_NO_MEMBERS' => count($grp_members),
 						'CRS_PATH' => $path,
+						'COMMAND_SELECTION_LIST' => $current_selection_list->getHTML()
 					);
 					$counter++;
 					$tableData[] = $rowData;
 				}
-			}
-	
-			if((int)$counter)
-			{
-				$table->addCommandButton('mail',$lng->txt('mail_members'));
-				$table->addCommandButton('showMembers',$lng->txt('mail_list_members'));
 			}
 		}
 		$table->setData($tableData);
@@ -432,6 +446,7 @@ class ilMailSearchGroupsGUI
 							'MEMBERS_NAME' => $fullname,
 							'MEMBERS_CRS_GRP' => $group_obj->getTitle(),
 							'MEMBERS_IN_ADDRESSBOOK' => $this->abook->checkEntryByLogin($member["login"]) ? $lng->txt("yes") : $lng->txt("no"),
+							'search_grp' => $grp_id
 						);
 						$tableData[] = $rowData;
 					}
@@ -440,8 +455,8 @@ class ilMailSearchGroupsGUI
 			$table->setData($tableData);
 			if (count($tableData))
 			{
-				$table->addCommandButton('mail', $lng->txt("grp_mem_send_mail"));
-				$table->addCommandButton('adoptMembers', $lng->txt("mail_into_addressbook"));
+				//$table->addCommandButton('mail', $lng->txt("grp_mem_send_mail"));
+				//$table->addCommandButton('adoptMembers', $lng->txt("mail_into_addressbook"));
 				$searchTpl->setVariable("TXT_MARKED_ENTRIES",$lng->txt("marked_entries"));
 			}
 			$searchTpl->setVariable('TABLE', $table->getHtml());

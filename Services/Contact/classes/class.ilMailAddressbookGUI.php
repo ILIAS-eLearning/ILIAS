@@ -196,7 +196,9 @@ class ilMailAddressbookGUI
 	{
 		global $lng;
 		
-		if (!isset($_POST['addr_id']))
+		$addr_ids = ((int)$_GET['addr_id']) ? array((int)$_GET['addr_id']) : $_POST['addr_id'];
+		
+		if (!$addr_ids)
 	 	{
 	 		ilUtil::sendInfo($this->lng->txt('mail_select_one_entry'));
 	 		$this->showAddressbook();	 		
@@ -213,7 +215,7 @@ class ilMailAddressbookGUI
 		$c_gui->setConfirm($this->lng->txt("confirm"), "performDelete");
 
 		// add items to delete
-		foreach($_POST["addr_id"] as $addr_id)
+		foreach($addr_ids as $addr_id)
 		{
 			$entry = $this->abook->getEntry($addr_id);
 			$c_gui->addItem("addr_id[]", $addr_id, $entry["login"] ? $entry["login"] : $entry["email"]);
@@ -313,7 +315,9 @@ class ilMailAddressbookGUI
 	{
 		global $ilUser;
 		
-		if (!isset($_REQUEST['addr_id']))
+		$addr_ids = ((int)$_GET['addr_id']) ? array((int)$_GET['addr_id']) : $_POST['addr_id'];
+		
+		if (!$addr_ids)
 	 	{
 	 		ilUtil::sendInfo($this->lng->txt('mail_select_one_entry'));
 	 		$this->showAddressbook();	 		
@@ -327,7 +331,7 @@ class ilMailAddressbookGUI
 		}	
 		
 		$members = array();	
-		foreach ($_REQUEST['addr_id'] as $addr_id)
+		foreach ($addr_ids as $addr_id)
 		{
 			$entry = $this->abook->getEntry($addr_id);
 			
@@ -403,14 +407,12 @@ class ilMailAddressbookGUI
 		$this->tpl->setVariable('ACTION', $this->ctrl->getFormAction($this, "saveEntry"));
 		$this->tpl->setVariable("TXT_SEARCH_FOR",$this->lng->txt("search_for"));
 		$this->tpl->setVariable("BUTTON_SEARCH",$this->lng->txt("send"));
-		//$this->tpl->setVariable("BUTTON_CANCEL",$this->lng->txt("reset"));
 		
 		if (strlen(trim($_SESSION["addr_search"])) > 0)
 		{
 			$this->tpl->setVariable("VALUE_SEARCH_FOR", ilUtil::prepareFormOutput(trim($_SESSION["addr_search"]), true));
 		}
 		
-		//$this->ctrl->setParameter($this, "cmd", "post");		
 		$tbl = new ilAddressbookTableGUI($this);
 		$tbl->setTitle($lng->txt("mail_addr_entries"));
 		$tbl->setRowTemplate("tpl.mail_addressbook_row.html", "Services/Contact");				
@@ -426,12 +428,17 @@ class ilMailAddressbookGUI
 	 	$tbl->addColumn($this->lng->txt('firstname'), 'firstname', '20%');
 		$tbl->addColumn($this->lng->txt('lastname'), 'lastname', '20%');
 		$tbl->addColumn($this->lng->txt('email'), 'email', '20%');
-		$tbl->addColumn('', 'edit', '10%');
+		$tbl->addColumn($this->lng->txt('actions'), '', '10%');
+		
+		include_once("./Services/AdvancedSelectionList/classes/class.ilAdvancedSelectionListGUI.php");
 		
 		if (count($entries))
 		{		
 			$tbl->enable('select_all');				
 			$tbl->setSelectAllCheckbox('addr_id');
+			
+			// cache setting for iteration
+			$chat_active = $ilias->getSetting("chat_active");
 			
 			$counter = 0;
 			foreach ($entries as $entry)
@@ -464,16 +471,28 @@ class ilMailAddressbookGUI
 				}
 				
 				$this->ctrl->setParameter($this, 'addr_id',  $entry['addr_id']);
-				$result[$counter]['edit_text'] = $this->lng->txt("edit");
-				$result[$counter]['edit_url'] = $this->ctrl->getLinkTarget($this, "showAddressForm");
+		
+				$current_selection_list = new ilAdvancedSelectionListGUI();
+				$current_selection_list->setListTitle($this->lng->txt("actions"));
+				$current_selection_list->setId("act_".$counter);
+
+				$current_selection_list->addItem($this->lng->txt("edit"), '', $this->ctrl->getLinkTarget($this, "showAddressForm"));
+				$current_selection_list->addItem($this->lng->txt("send_mail_to"), '', $this->ctrl->getLinkTarget($this, "mailToUsers"));
+				$current_selection_list->addItem($this->lng->txt("delete"), '', $this->ctrl->getLinkTarget($this, "confirmDelete"));
 				
+				if ($chat_active)
+					$current_selection_list->addItem($this->lng->txt("invite_to_chat"), '', $this->ctrl->getLinkTarget($this, "inviteToChat"));
+				
+				$this->ctrl->clearParameters($this);
+				
+				$result[$counter]['COMMAND_SELECTION_LIST'] = $current_selection_list->getHTML();
 				++$counter;
 			}			
 			
 			$tbl->addMultiCommand('mailToUsers', $this->lng->txt('send_mail_to'));
 			$tbl->addMultiCommand('confirmDelete', $this->lng->txt('delete'));
 			
-			if ($ilias->getSetting("chat_active"))
+			if ($chat_active)
 				$tbl->addMultiCommand('inviteToChat', $this->lng->txt('invite_to_chat'));			
 		}
 		else
@@ -505,8 +524,10 @@ class ilMailAddressbookGUI
 	{
 		global $ilUser, $ilObjDataCache, $lng, $ilCtrl, $tpl;
 
+		$addr_ids = ((int)$_GET['addr_id']) ? array((int)$_GET['addr_id']) : $_POST['addr_id'];
+		
 		// check if users has been selected
-		if (!$_POST["addr_id"] || empty($_POST["addr_id"]))
+		if (!$addr_ids)
 		{
 			ilUtil::sendInfo($lng->txt('chat_no_users_selected'), true);
 			ilUtil::redirect($ilCtrl->getLinkTarget($this, 'showAddressbook'));
@@ -518,7 +539,7 @@ class ilMailAddressbookGUI
 		// store userdata for users without ilias login
 		$no_login = array();
 		
-		foreach($_POST["addr_id"] as $id)
+		foreach($addr_ids as $id)
 		{
 			$entry = $this->abook->getEntry($id);
 			
@@ -591,7 +612,7 @@ class ilMailAddressbookGUI
 		$psel->setOptions($options);
 		$form->addItem($psel);
 		$phidden = new ilHiddenInputGUI('addr_ids');
-		$phidden->setValue(join(',', $_POST['addr_id']));
+		$phidden->setValue(join(',', $addr_ids));
 		$form->addItem($phidden);
 		$form->addCommandButton('submitInvitation',$this->lng->txt('submit'));
 		$form->addCommandButton('cancel',$this->lng->txt('cancel'));

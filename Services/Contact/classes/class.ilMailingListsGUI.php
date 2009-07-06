@@ -82,7 +82,8 @@ class ilMailingListsGUI
 	
 	public function confirmDelete()
 	{
-		if (!isset($_POST['ml_id']))
+		$ml_ids = ((int)$_GET['ml_id']) ? array($_GET['ml_id']) : $_POST['ml_id']; 
+		if (!$ml_ids)
 	 	{
 	 		ilUtil::sendInfo($this->lng->txt('mail_select_one_entry'));
 	 		$this->showMailingLists();
@@ -97,7 +98,7 @@ class ilMailingListsGUI
 		$c_gui->setCancel($this->lng->txt('cancel'), 'showMailingLists');
 		$c_gui->setConfirm($this->lng->txt('confirm'), 'performDelete');
 
-		$entries = $this->mlists->getSelected($_POST['ml_id']);		
+		$entries = $this->mlists->getSelected($ml_ids);		
 		foreach($entries as $entry)
 		{			
 			$c_gui->addItem('ml_id[]', $entry->getId(), $entry->getTitle());
@@ -143,8 +144,8 @@ class ilMailingListsGUI
 	public function mailToList()
 	{
 		global $ilUser;		
-		
-		if (!isset($_POST['ml_id']))
+		$ml_ids = ((int)$_GET['ml_id']) ? array($_GET['ml_id']) : $_POST['ml_id']; 
+		if (!$ml_ids)
 	 	{
 	 		ilUtil::sendInfo($this->lng->txt('mail_select_one_entry'));
 	 		$this->showMailingLists();	 		
@@ -158,7 +159,7 @@ class ilMailingListsGUI
 		}	
 	
 		$lists = array();
-		foreach($_POST['ml_id'] as $id)
+		foreach($ml_ids as $id)
 		{			
 			if(ilMailingList::_isOwner($id, $ilUser->getId()) &&
 			   !$this->umail->doesRecipientStillExists('#il_ml_'.$id, $mail_data['rcp_to']))
@@ -203,11 +204,11 @@ class ilMailingListsGUI
 		
 		$result = array();		
 		
-		$tbl->addColumn('', 'check', '10%');
+		$tbl->addColumn('', 'check', '10%', true);
 	 	$tbl->addColumn($this->lng->txt('title'), 'title', '30%');
 	 	$tbl->addColumn($this->lng->txt('description'), 'description', '30%');
-	 	$tbl->addColumn($this->lng->txt('members'), 'members', '10%');		
-		$tbl->addColumn('', 'edit', '20%');
+	 	$tbl->addColumn($this->lng->txt('members'), 'members', '20%');		
+		$tbl->addColumn($this->lng->txt('actions'), '', '10%');
 		
 		$entries = $this->mlists->getAll();
 		if (count($entries))
@@ -216,18 +217,33 @@ class ilMailingListsGUI
 			$tbl->setSelectAllCheckbox('ml_id');
 			
 			$counter = 0;
+			
+			include_once("./Services/AdvancedSelectionList/classes/class.ilAdvancedSelectionListGUI.php");
+			
 			foreach ($entries as $entry)
 			{
 				$result[$counter]['check'] = ilUtil::formCheckbox(0, 'ml_id[]', $entry->getId());
 				$result[$counter]['title'] = $entry->getTitle() . " [#il_ml_" . $entry->getId() . "]";
 				$result[$counter]['description'] = $entry->getDescription();
 				$result[$counter]['members'] = count($entry->getAssignedEntries());				
+				
 				$this->ctrl->setParameter($this, 'ml_id',  $entry->getId());
-				$result[$counter]['edit_text'] = $this->lng->txt("edit");
-				$result[$counter]['edit_url'] = $this->ctrl->getLinkTarget($this, "showForm");
-				$result[$counter]['members_text'] = $this->lng->txt("members");
-				$result[$counter]['members_url'] = $this->ctrl->getLinkTarget($this, "showMembersList");
+				//$result[$counter]['edit_text'] = $this->lng->txt("edit");
+				//$result[$counter]['edit_url'] = $this->ctrl->getLinkTarget($this, "showForm");
+				//$result[$counter]['members_text'] = $this->lng->txt("members");
+				//$result[$counter]['members_url'] = $this->ctrl->getLinkTarget($this, "showMembersList");
 
+				$current_selection_list = new ilAdvancedSelectionListGUI();
+				$current_selection_list->setListTitle($this->lng->txt("actions"));
+				$current_selection_list->setId("act_".$counter);
+
+				$current_selection_list->addItem($this->lng->txt("edit"), '', $this->ctrl->getLinkTarget($this, "showForm"));
+				$current_selection_list->addItem($this->lng->txt("members"), '', $this->ctrl->getLinkTarget($this, "showMembersList"));
+				$current_selection_list->addItem($this->lng->txt("send_mail_to"), '', $this->ctrl->getLinkTarget($this, "mailToList"));
+				$current_selection_list->addItem($this->lng->txt("delete"), '', $this->ctrl->getLinkTarget($this, "confirmDelete"));
+				
+				$result[$counter]['COMMAND_SELECTION_LIST'] = $current_selection_list->getHTML();
+				
 				++$counter;
 			}
 			

@@ -17,7 +17,7 @@ class ilMailSearchCoursesMembersTableGUI extends ilTable2GUI
 	protected $lng = null;
 	protected $ctrl;
 	protected $parentObject;
-	
+	protected $mode;
 	/**
 	 * Constructor
 	 *
@@ -51,7 +51,8 @@ class ilMailSearchCoursesMembersTableGUI extends ilTable2GUI
 			$mode["lng_type"] = $lng->txt('group');
 			$mode["view"] = "grp_members";
 			$mode["tableprefix"] = "grptable_members";
-		}		
+		}
+		$this->mode = $mode;
 		$ilCtrl->setParameter($a_parent_obj, 'view', $mode['view']);
 		if ($_GET['ref'] != '')
 			$ilCtrl->setParameter($a_parent_obj, 'ref', $_GET['ref']);
@@ -66,11 +67,15 @@ class ilMailSearchCoursesMembersTableGUI extends ilTable2GUI
 		$this->setRowTemplate('tpl.mail_search_courses_members_row.html', 'Services/Contact');
 
 		// setup columns
-		$this->addColumn('', 'select', '1%', true);
-		$this->addColumn($lng->txt('login'), 'USR_LOGIN', '24%');
-		$this->addColumn($lng->txt('name'), 'USR_NAME', '24%');
-		$this->addColumn($lng->txt($mode['long']), 'CRS_GRP', '24%');
-		$this->addColumn($lng->txt('mail_in_addressbook'), 'USR_IN_ADDRESSBOOK', '24%');
+		$this->addColumn('', '', '1%', true);
+		$this->addColumn($lng->txt('login'), 'USR_LOGIN', '22%');
+		$this->addColumn($lng->txt('name'), 'USR_NAME', '22%');
+		$this->addColumn($lng->txt($mode['long']), 'CRS_GRP', '22%');
+		$this->addColumn($lng->txt('mail_in_addressbook'), 'USR_IN_ADDRESSBOOK', '23%');
+		$this->addColumn($lng->txt('actions'), '', '10%');
+		
+		$this->addMultiCommand('mail', $lng->txt('mail_members'));
+		$this->addMultiCommand('adoptMembers', $lng->txt("mail_into_addressbook"));
 		
 		$this->addCommandButton('cancel', $lng->txt('cancel'));
 	}
@@ -84,6 +89,20 @@ class ilMailSearchCoursesMembersTableGUI extends ilTable2GUI
 	 */
 	public function fillRow($a_set)
 	{
+		global $ilCtrl;
+		include_once("./Services/AdvancedSelectionList/classes/class.ilAdvancedSelectionListGUI.php");
+		$current_selection_list = new ilAdvancedSelectionListGUI();
+		$current_selection_list->setListTitle($this->lng->txt("actions"));
+		$current_selection_list->setId("act_".$a_set['MEMBERS_ID']);
+
+		$ilCtrl->setParameter($this->parentObject, 'search_members', $a_set['MEMBERS_ID']);
+		$ilCtrl->setParameter($this->parentObject, 'view', $this->mode['view']);
+		
+		$current_selection_list->addItem($this->lng->txt("mail_members"), '', $ilCtrl->getLinkTarget($this->parentObject, "mail"));
+		$current_selection_list->addItem($this->lng->txt("mail_into_addressbook"), '', $ilCtrl->getLinkTarget($this->parentObject, "adoptMembers"));
+		
+		$this->tpl->setVariable(strtoupper('CURRENT_ACTION_LIST'), $current_selection_list->getHTML());
+		
 		foreach ($a_set as $key => $value)
 		{
 			$this->tpl->setVariable(strtoupper($key), $value);

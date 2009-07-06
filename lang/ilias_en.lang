@@ -9614,3 +9614,5 @@ ldap#:#ldap_role_selection_info#:#Your selection is ambiguous. Please choose one
 ldap#:#ldap_role_by_plugin#:#By Plugin
 common#:#reg_mail_subject_confirmation#:#ILIAS eLearning - Your Confirmationlink
 common#:#reg_mail_body_confirmation#:#to activate your account and confirm ownership of this email address, click the link below:
+chat#:#chat_add_blocking#:#Block user
+chat#:#chat_confirm_delete#:#Are you sure that you want to delete this rooms?
