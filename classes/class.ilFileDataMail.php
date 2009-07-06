@@ -337,9 +337,9 @@ class ilFileDataMail extends ilFileData
 	*/
 	function unlinkFile($a_filename)
 	{
-		if(file_exists($this->mail_path.'/'.$this->user_id.'_'.$a_filename))
+		if(file_exists($this->mail_path.'/'.basename($this->user_id.'_'.$a_filename)))
 		{
-			return unlink($this->mail_path.'/'.$this->user_id.'_'.$a_filename);
+			return unlink($this->mail_path.'/'.basename($this->user_id.'_'.$a_filename));
 		}
 	}
 	/**
