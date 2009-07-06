@@ -48,17 +48,20 @@ class ilSoapSCORMAdministration extends ilSoapAdministration
 	 * @return xml following scorm.dtd
 	 */
 
-	function getIMSManifestXML ($sid, $ref_id) {
+	function getIMSManifestXML ($sid, $ref_id) 
+	{
+		$this->initAuth($sid);
+		$this->initIlias();
+		
 		if(!$this->__checkSession($sid))
 		{
-			return $this->__raiseError($this->sauth->getMessage(),$this->sauth->getMessageCode());
+			return $this->__raiseError($this->__getMessage(),$this->__getMessageCode());
 		}
 		if(!strlen($ref_id))
 		{
 			return $this->__raiseError('No ref id given. Aborting!',
 									   'Client');
 		}
-		include_once './include/inc.header.php';
 		global $rbacsystem, $tree, $ilLog;
 
 		// get obj_id
@@ -112,16 +115,18 @@ class ilSoapSCORMAdministration extends ilSoapAdministration
 	
 	public function hasSCORMCertificate($sid, $ref_id, $usr_id)
 	{
+		$this->initAuth($sid);
+		$this->initIlias();
+
 		if(!$this->__checkSession($sid))
 		{
-			return $this->__raiseError($this->sauth->getMessage(),$this->sauth->getMessageCode());
+			return $this->__raiseError($this->__getMessage(),$this->__getMessageCode());
 		}
 		if(!strlen($ref_id))
 		{
 			return $this->__raiseError('No ref id given. Aborting!',
 									   'Client');
 		}
-		include_once './include/inc.header.php';
 		global $rbacsystem, $tree, $ilLog;
 
 		// get obj_id

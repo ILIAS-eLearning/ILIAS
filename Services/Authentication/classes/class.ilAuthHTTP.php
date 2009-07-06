@@ -36,6 +36,16 @@ include_once 'Auth/HTTP.php';
 class ilAuthHTTP extends Auth_HTTP
 {
    
+	/**
+	 * Returns true, if the current auth mode allows redirection to e.g 
+	 * to loginScreen, public section... 
+	 * @return 
+	 */
+	public function allowsRedirection()
+	{
+		return false;
+	} 
+
     /**
      * Constructor
      * 

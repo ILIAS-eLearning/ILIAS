@@ -64,6 +64,16 @@ class ilAuthSOAP extends Auth
 		$this->initCallbacks();
 		*/
 	}
+
+	/**
+	 * Returns true, if the current auth mode allows redirection to e.g 
+	 * to loginScreen, public section... 
+	 * @return 
+	 */
+	public function allowsRedirection()
+	{
+		return false;
+	} 
 }
 
 ?>

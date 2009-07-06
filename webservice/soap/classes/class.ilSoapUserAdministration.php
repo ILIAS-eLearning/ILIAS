@@ -43,6 +43,14 @@ class ilSoapUserAdministration extends ilSoapAdministration
 	// Service methods
 	function login($client,$username,$password)
 	{
+		$_COOKIE['ilClientId'] = $client;
+		$_POST['username'] = $username;
+		$_POST['password'] = $password;
+		
+		include_once './include/inc.header.php';
+		return (session_id().'::'.$client);
+
+		/*		
 		$this->__initAuthenticationObject();
 		$this->sauth->setClient($client);
 		$this->sauth->setUsername($username);
@@ -74,6 +82,7 @@ class ilSoapUserAdministration extends ilSoapAdministration
 			return $this->__raiseError($this->sauth->getMessage(),$this->sauth->getMessageCode());
 		}
 		return $this->sauth->getSid().'::'.$client;
+		*/
 	}
 
 	// Service methods
@@ -100,6 +109,9 @@ class ilSoapUserAdministration extends ilSoapAdministration
 		// Service methods
 	function loginLDAP($client, $username, $password)
 	{
+		return $this->login($client, $username, $password);
+		
+		/*
 		$this->__initAuthenticationObject(AUTH_LDAP);
 		$this->sauth->setClient($client);
 		$this->sauth->setUsername($username);
@@ -114,28 +126,41 @@ class ilSoapUserAdministration extends ilSoapAdministration
 			return $this->__raiseError($this->sauth->getMessage(),$this->sauth->getMessageCode());
 		}
 		return $this->sauth->getSid().'::'.$client;
+		*/
 	}
 
 	function logout($sid)
 	{
+		$this->initAuth($sid);
+		$this->initIlias();
+
 		if(!$this->__checkSession($sid))
 		{
-			return $this->__raiseError($this->sauth->getMessage(),$this->sauth->getMessageCode());
+			return $this->__raiseError($this->__getMessage(),$this->__getMessageCode());
 		}
+		
+		global $ilAuth;
+		$ilAuth->logout();
+		return true;
 
+		/*
 		if(!$this->sauth->logout())
 		{
 			return $this->__raiseError($this->sauth->getMessage(),$this->sauth->getMessageCode());
 		}
-
+		
 		return true;
+		*/
 	}
 
 	function lookupUser($sid,$user_name)
 	{
+		$this->initAuth($sid);
+		$this->initIlias();
+
 		if(!$this->__checkSession($sid))
 		{
-			return $this->__raiseError($this->sauth->getMessage(),$this->sauth->getMessageCode());
+			return $this->__raiseError($this->__getMessage(),$this->__getMessageCode());
 		}
 
 		if(!strlen($user_name))
@@ -143,8 +168,6 @@ class ilSoapUserAdministration extends ilSoapAdministration
 			return $this->__raiseError('No username given. Aborting','Client');
 		}
 
-		// Include main header
-		include_once './include/inc.header.php';
 		global $rbacsystem, $ilUser ;
 
 
@@ -162,13 +185,14 @@ class ilSoapUserAdministration extends ilSoapAdministration
 
 	function getUser($sid,$user_id)
 	{
+		$this->initAuth($sid);
+		$this->initIlias();
+
 		if(!$this->__checkSession($sid))
 		{
-			return $this->__raiseError($this->sauth->getMessage(),$this->sauth->getMessageCode());
+			return $this->__raiseError($this->__getMessage(),$this->__getMessageCode());
 		}
 
-		// Include main header
-		include_once './include/inc.header.php';
 		global $rbacsystem, $ilUser;
 
 		if(!$rbacsystem->checkAccess('read',USER_FOLDER_ID))
@@ -188,13 +212,14 @@ class ilSoapUserAdministration extends ilSoapAdministration
 
 	function updateUser($sid,$user_data)
 	{
+		$this->initAuth($sid);
+		$this->initIlias();
+
 		if(!$this->__checkSession($sid))
 		{
-			return $this->__raiseError($this->sauth->getMessage(),$this->sauth->getMessageCode());
+			return $this->__raiseError($this->__getMessage(),$this->__getMessageCode());
 		}
 
-		// Include main header
-		include_once './include/inc.header.php';
 		global $rbacsystem, $ilUser, $log;
 
 		if(!$rbacsystem->checkAccess('write',USER_FOLDER_ID))
@@ -238,13 +263,14 @@ class ilSoapUserAdministration extends ilSoapAdministration
 
 	function updatePassword($sid,$user_id,$new_password)
 	{
+		$this->initAuth($sid);
+		$this->initIlias();
+
 		if(!$this->__checkSession($sid))
 		{
-			return $this->__raiseError($this->sauth->getMessage(),$this->sauth->getMessageCode());
+			return $this->__raiseError($this->__getMessage(),$this->__getMessageCode());
 		}
 
-		// Include main header
-		include_once './include/inc.header.php';
 		global $rbacsystem;
 
 		if(!$rbacsystem->checkAccess('write',USER_FOLDER_ID))
@@ -264,13 +290,14 @@ class ilSoapUserAdministration extends ilSoapAdministration
 
 	function addUser($sid,$user_data,$global_role_id)
 	{
+		$this->initAuth($sid);
+		$this->initIlias();
+
 		if(!$this->__checkSession($sid))
 		{
-			return $this->__raiseError($this->sauth->getMessage(),$this->sauth->getMessageCode());
+			return $this->__raiseError($this->__getMessage(),$this->__getMessageCode());
 		}
 
-		// Include main header
-		include_once './include/inc.header.php';
 		global $rbacsystem, $rbacreview, $ilLog, $rbacadmin,$ilSetting;
 
 		if(!$rbacsystem->checkAccess('create_user',USER_FOLDER_ID))
@@ -348,9 +375,12 @@ class ilSoapUserAdministration extends ilSoapAdministration
 
 	function deleteUser($sid,$user_id)
 	{
+		$this->initAuth($sid);
+		$this->initIlias();
+
 		if(!$this->__checkSession($sid))
 		{
-			return $this->__raiseError($this->sauth->getMessage(),$this->sauth->getMessageCode());
+			return $this->__raiseError($this->__getMessage(),$this->__getMessageCode());
 		}
 
 		if(!isset($user_id))
@@ -358,8 +388,6 @@ class ilSoapUserAdministration extends ilSoapAdministration
 			return $this->__raiseError('No user_id given. Aborting','Client');
 		}
 
-		// Include main header
-		include_once './include/inc.header.php';
 		global $rbacsystem, $ilUser, $log;
 
 		if(!$rbacsystem->checkAccess('delete',USER_FOLDER_ID))
@@ -637,14 +665,15 @@ class ilSoapUserAdministration extends ilSoapAdministration
 	*/
 	function importUsers ($sid, $folder_id, $usr_xml, $conflict_rule, $send_account_mail)
 	{
+		$this->initAuth($sid);
+		$this->initIlias();
+
 		if(!$this->__checkSession($sid))
 		{
-			return $this->__raiseError($this->sauth->getMessage(),$this->sauth->getMessageCode());
+			return $this->__raiseError($this->__getMessage(),$this->__getMessageCode());
 		}
 
 
-		// Include main header
-		include_once './include/inc.header.php';
 		include_once './Services/User/classes/class.ilUserImportParser.php';
 		include_once './Services/AccessControl/classes/class.ilObjRole.php';
 		include_once './classes/class.ilObjectFactory.php';
@@ -937,14 +966,14 @@ class ilSoapUserAdministration extends ilSoapAdministration
 	*/
 	function getUsersForContainer($sid, $ref_id, $attachRoles, $active)
 	{
+		$this->initAuth($sid);
+		$this->initIlias();
 
 	    if(!$this->__checkSession($sid))
 		{
-			return $this->__raiseError($this->sauth->getMessage(),$this->sauth->getMessageCode());
+			return $this->__raiseError($this->__getMessage(),$this->__getMessageCode());
 		}
 
-		// Include main header
-		include_once './include/inc.header.php';
     	global $ilDB, $tree, $rbacreview, $rbacsystem;
 
 		if ($ref_id == -1)
@@ -1017,14 +1046,14 @@ class ilSoapUserAdministration extends ilSoapAdministration
 	*/
 	function getUserForRole($sid, $role_id, $attachRoles, $active)
 	{
+		$this->initAuth($sid);
+		$this->initIlias();
 
 		if(!$this->__checkSession($sid))
 		{
-			return $this->__raiseError($this->sauth->getMessage(),$this->sauth->getMessageCode());
+			return $this->__raiseError($this->__getMessage(),$this->__getMessageCode());
 		}
 
-		// Include main header
-		include_once './include/inc.header.php';
 		include_once './Services/AccessControl/classes/class.ilObjRole.php';
 		global $ilDB, $rbacreview, $rbacsystem, $tree,$ilUser;
 
@@ -1079,7 +1108,8 @@ class ilSoapUserAdministration extends ilSoapAdministration
 	*	Create XML ResultSet
 	*
 	**/
-	function __getImportProtocolAsXML ($a_array){
+	function __getImportProtocolAsXML ($a_array)
+	{
 		include_once './webservice/soap/classes/class.ilXMLResultSet.php';
 		include_once './webservice/soap/classes/class.ilXMLResultSetWriter.php';
 
@@ -1118,7 +1148,8 @@ class ilSoapUserAdministration extends ilSoapAdministration
      * @param array (user_id => login) $a_array
      * @return XML String, following resultset.dtd
      */
-    function __getUserMappingAsXML ($a_array) {
+    function __getUserMappingAsXML ($a_array) 
+	{
 		include_once './webservice/soap/classes/class.ilXMLResultSet.php';
 		include_once './webservice/soap/classes/class.ilXMLResultSetWriter.php';
 
@@ -1159,15 +1190,15 @@ class ilSoapUserAdministration extends ilSoapAdministration
 	 */
 	function searchUser ($sid, $a_keyfields, $query_operator, $a_keyvalues, $attach_roles, $active) {
 
-	    if(!$this->__checkSession($sid))
+		$this->initAuth($sid);
+		$this->initIlias();
+
+		if(!$this->__checkSession($sid))
 		{
-			return $this->__raiseError($this->sauth->getMessage(),$this->sauth->getMessageCode());
+			return $this->__raiseError($this->__getMessage(),$this->__getMessageCode());
 		}
 
-
-		// Include main header
-		include_once './include/inc.header.php';
-
+		
 		global $ilDB, $rbacsystem;
 
 		if(!$rbacsystem->checkAccess('read', USER_FOLDER_ID))
@@ -1223,7 +1254,6 @@ class ilSoapUserAdministration extends ilSoapAdministration
 		 {
 			return $xmlWriter->getXML();
 		 }
-
 		 return $this->__raiseError('Error in searchUser','Server');
 	   }
 
@@ -1274,13 +1304,14 @@ class ilSoapUserAdministration extends ilSoapAdministration
 	*/
 	function getUserXML($sid, $a_user_ids, $attach_roles)
 	{
+		$this->initAuth($sid);
+		$this->initIlias();
+
 		if(!$this->__checkSession($sid))
 		{
-			return $this->__raiseError($this->sauth->getMessage(),$this->sauth->getMessageCode());
+			return $this->__raiseError($this->__getMessage(),$this->__getMessageCode());
 		}
 
-		// Include main header
-		include_once './include/inc.header.php';
 		global $rbacsystem, $ilUser, $ilDB;
 
 		if(!$rbacsystem->checkAccess('read',USER_FOLDER_ID))
@@ -1307,13 +1338,14 @@ class ilSoapUserAdministration extends ilSoapAdministration
 	// has new mail
 	function hasNewMail($sid)
 	{
+		$this->initAuth($sid);
+		$this->initIlias();
+
 		if(!$this->__checkSession($sid))
 		{
-			return $this->__raiseError($this->sauth->getMessage(),$this->sauth->getMessageCode());
+			return $this->__raiseError($this->__getMessage(),$this->__getMessageCode());
 		}
 
-		// Include main header
-		include_once './include/inc.header.php';
 		include_once ("Services/Mail/classes/class.ilMailbox.php");
 		global $ilUser;
 

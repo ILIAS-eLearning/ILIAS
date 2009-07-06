@@ -40,6 +40,7 @@ define ('SOAP_SERVER_ERROR', 2);
 
 class ilSoapAdministration
 {
+
 	/*
 	 * object which handles php's authentication
 	 * @var object
@@ -69,21 +70,53 @@ class ilSoapAdministration
 		}
 		#echo ("SOAP: using soap mode ".IL_SOAPMODE == IL_SOAPMODE_NUSOAP ? "NUSOAP": "PHP5");
 		$this->__initAuthenticationObject();
-
 	}
 
 	// PROTECTED
 	function __checkSession($sid)
 	{
-		//return true;
+		global $ilAuth;
+		
 		list($sid,$client) = $this->__explodeSid($sid);
-		$this->sauth->setClient($client);
-		$this->sauth->setSid($sid);
-
-		if(!$this->sauth->validateSession())
+		
+		if(!strlen($sid))
 		{
-			return false;
+			$this->__setMessage('No session id given');
+			$this->__setMessageCode('Client');
+			return false;	
 		}
+		if(!$client)
+		{
+			$this->__setMessage('No client given');
+			$this->__setMessageCode('Client');
+			return false;	
+		}
+		if(!$ilAuth->getAuth())
+		{
+			switch($ilAuth->getStatus())
+			{
+				case AUTH_EXPIRED:
+					$this->__setMessage('Session expired');
+					$this->__setMessageCode('Server');
+					return false;
+	
+				case AUTH_IDLED:
+					$this->__setMessage('Session idled');
+					$this->__setMessageCode('Server');
+					return false;
+					
+				case AUTH_WRONG_LOGIN:
+					$this->__setMessage('Wrong Login or Password');
+					$this->__setMessageCode('Client');
+					return false;
+					
+				default:
+					$this->__setMessage('Session not valid');
+					$this->__setMessageCode('Client');
+					return false;
+			}
+		}
+		// Check Soap enabled
 		return true;
 	}
 
@@ -123,10 +156,41 @@ class ilSoapAdministration
 		$this->message .= isset($this->message) ? ' ' : '';
 		$this->message .= $a_str;
 	}
+	
+	public function __setMessageCode($a_code)
+	{
+		$this->message_code = $a_code;
+	}
+	
+	public function __getMessageCode()
+	{
+		return $this->message_code;
+	}
+	
+	public function initAuth($sid)
+	{
+		list($sid,$client) = $this->__explodeSid($sid);
+		define('CLIENT_ID',$client);
+		$_COOKIE['ilClientId'] = $client;
+		$_COOKIE['PHPSESSID'] = $sid;
+		$_SESSION['PHPSESSID'] = $sid;
+	}
+
+	public function initIlias()
+	{
+		include_once("./Services/Init/classes/class.ilInitialisation.php");
+		$init = new ilInitialisation();
+		return $init->initILIAS("soap");
+	}
 
 
 	function __initAuthenticationObject($a_auth_mode = AUTH_LOCAL)
 	{
+		include_once './Services/Authentication/classes/class.ilAuthFactory.php';
+		ilAuthFactory::setContext(ilAuthFactory::CONTEXT_SOAP);
+
+
+		/*
 		switch($a_auth_mode)
 		{
 			case AUTH_CAS:
@@ -140,6 +204,7 @@ class ilSoapAdministration
 				include_once './webservice/soap/classes/class.ilSoapAuthentication.php';
 				return $this->sauth = new ilSoapAuthentication();
 		}
+		*/
 	}
 
 
@@ -162,14 +227,16 @@ class ilSoapAdministration
 	 *
 	 * @return XMLResultSet containing columns installation_id, installation_version, installation_url, installation_description, installation_default_language
 	 */
-	function getNIC($sid) {
+	function getNIC($sid) 
+	{
+		$this->initAuth($sid);
+		$this->initIlias();
+
 	    if(!$this->__checkSession($sid))
 		{
-			return $this->__raiseError($this->sauth->getMessage(),$this->sauth->getMessageCode());
+			return $this->__raiseError($this->__getMessage(),$this->__getMessageCode());
 		}
-		// Include main header
 
-		include_once './include/inc.header.php';
 		global $rbacsystem, $rbacreview, $ilLog, $rbacadmin,$ilSetting, $ilClientIniFile;
 
 		if (!is_object($ilClientIniFile)) {

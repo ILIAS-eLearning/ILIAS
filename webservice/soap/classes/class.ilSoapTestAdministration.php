@@ -62,7 +62,6 @@ class ilSoapTestAdministration extends ilSoapAdministration
 				$now = time();
 				$diff = $now - $time;
 				$client = explode("::", $sid);
-				include_once './include/inc.header.php';
 				global $ilClientIniFile;
 				$expires = $ilClientIniFile->readVariable('session','expire');
 				if ($diff <= $expires)
@@ -87,9 +86,12 @@ class ilSoapTestAdministration extends ilSoapAdministration
 
 	function saveQuestion($sid,$active_id,$question_id,$pass,$solution)
 	{
+		$this->initAuth($sid);
+		$this->initIlias();
+
 		if(!$this->__checkSession($sid))
 		{
-			return $this->__raiseError($this->sauth->getMessage(),$this->sauth->getMessageCode());
+			return $this->__raiseError($this->__getMessage(),$this->__getMessageCode());
 		}
 		if (!$this->isAllowedCall($sid, $active_id))
 		{
@@ -98,8 +100,6 @@ class ilSoapTestAdministration extends ilSoapAdministration
 		
 		if (is_array($solution) && (array_key_exists("item", $solution))) $solution = $solution["item"];
 
-		// Include main header
-		include_once './include/inc.header.php';
 		$ilDB = $GLOBALS['ilDB'];
 		if (($active_id > 0) && ($question_id > 0) && (strlen($pass) > 0))
 		{
@@ -156,9 +156,12 @@ class ilSoapTestAdministration extends ilSoapAdministration
 	 */
 	function saveQuestionSolution($sid,$active_id,$question_id,$pass,$solution)
 	{
+		$this->initAuth($sid);
+		$this->initIlias();
+
 		if(!$this->__checkSession($sid))
 		{
-			return $this->__raiseError($this->sauth->getMessage(),$this->sauth->getMessageCode());
+			return $this->__raiseError($this->__getMessage(),$this->__getMessageCode());
 		}
 		if (!$this->isAllowedCall($sid, $active_id))
 		{
@@ -189,7 +192,6 @@ class ilSoapTestAdministration extends ilSoapAdministration
 		}
 		
 		// Include main header
-		include_once './include/inc.header.php';
 		$ilDB = $GLOBALS['ilDB'];
 		if (($active_id > 0) && ($question_id > 0) && (strlen($pass) > 0))
 		{
@@ -245,9 +247,12 @@ class ilSoapTestAdministration extends ilSoapAdministration
 	 */
 	function getQuestionSolution($sid,$active_id,$question_id,$pass)
 	{
+		$this->initAuth($sid);
+		$this->initIlias();
+
 		if(!$this->__checkSession($sid))
 		{
-			return $this->__raiseError($this->sauth->getMessage(),$this->sauth->getMessageCode());
+			return $this->__raiseError($this->__getMessage(),$this->__getMessageCode());
 		}
 		if (!$this->isAllowedCall($sid, $active_id))
 		{
@@ -339,9 +344,12 @@ class ilSoapTestAdministration extends ilSoapAdministration
 	 */
 	function getTestUserData($sid, $active_id)
 	{
+		$this->initAuth($sid);
+		$this->initIlias();
+
 		if(!$this->__checkSession($sid))
 		{
-			return $this->__raiseError($this->sauth->getMessage(),$this->sauth->getMessageCode());
+			return $this->__raiseError($this->__getMessage(),$this->__getMessageCode());
 		}
 		if (!$this->isAllowedCall($sid, $active_id))
 		{
@@ -432,9 +440,12 @@ class ilSoapTestAdministration extends ilSoapAdministration
 	 */
 	function getPositionOfQuestion($sid, $active_id, $question_id, $pass)
 	{
+		$this->initAuth($sid);
+		$this->initIlias();
+
 		if(!$this->__checkSession($sid))
 		{
-			return $this->__raiseError($this->sauth->getMessage(),$this->sauth->getMessageCode());
+			return $this->__raiseError($this->__getMessage(),$this->__getMessageCode());
 		}
 		if (!$this->isAllowedCall($sid, $active_id))
 		{
@@ -474,9 +485,12 @@ class ilSoapTestAdministration extends ilSoapAdministration
 	 */
 	function getPreviousReachedPoints($sid, $active_id, $question_id, $pass)
 	{
+		$this->initAuth($sid);
+		$this->initIlias();
+
 		if(!$this->__checkSession($sid))
 		{
-			return $this->__raiseError($this->sauth->getMessage(),$this->sauth->getMessageCode());
+			return $this->__raiseError($this->__getMessage(),$this->__getMessageCode());
 		}
 		if (!$this->isAllowedCall($sid, $active_id))
 		{
@@ -549,9 +563,12 @@ class ilSoapTestAdministration extends ilSoapAdministration
 	 */
 	function getNrOfQuestionsInPass($sid, $active_id, $pass)
 	{
+		$this->initAuth($sid);
+		$this->initIlias();
+
 		if(!$this->__checkSession($sid))
 		{
-			return $this->__raiseError($this->sauth->getMessage(),$this->sauth->getMessageCode());
+			return $this->__raiseError($this->__getMessage(),$this->__getMessageCode());
 		}
 		if (!$this->isAllowedCall($sid, $active_id))
 		{
@@ -593,16 +610,18 @@ class ilSoapTestAdministration extends ilSoapAdministration
 
 	function getTestResults ($sid, $test_ref_id, $sum_only) 
 	{
+		$this->initAuth($sid);
+		$this->initIlias();
+
 		if(!$this->__checkSession($sid))
 		{
-			return $this->__raiseError($this->sauth->getMessage(),$this->sauth->getMessageCode());
+			return $this->__raiseError($this->__getMessage(),$this->__getMessageCode());
 		}
 		if(!strlen($test_ref_id))
 		{
 			return $this->__raiseError('No test id given. Aborting!',
 									   'Client');
 		}
-	    include_once './include/inc.header.php';
 		global $rbacsystem, $tree, $ilLog;
 
 		if(ilObject::_isInTrash($test_ref_id))

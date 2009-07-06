@@ -35,7 +35,9 @@ include_once './Services/Authentication/classes/class.ilAuthDecorator.php';
 */
 class ilAuth extends ilAuthDecorator
 {
-
+	
+	
+	
 	/**
 	 * Constructor
 	 * 

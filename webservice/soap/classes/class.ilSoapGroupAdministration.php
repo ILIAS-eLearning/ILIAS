@@ -48,10 +48,12 @@ class ilSoapGroupAdministration extends ilSoapAdministration
 	// Service methods
 	function addGroup($sid,$target_id,$grp_xml)
 	{
+		$this->initAuth($sid);
+		$this->initIlias();
 
 		if(!$this->__checkSession($sid))
 		{
-			return $this->__raiseError($this->sauth->getMessage(),$this->sauth->getMessageCode());
+			return $this->__raiseError($this->__getMessage(),$this->__getMessageCode());
 		}
 
 		if(!is_numeric($target_id))
@@ -60,8 +62,6 @@ class ilSoapGroupAdministration extends ilSoapAdministration
 									   'Client');
 		}
 
-		// Include main header
-		include_once './include/inc.header.php';
 		global $rbacsystem;
 
 		if(!$rbacsystem->checkAccess('create',$target_id,'grp'))
@@ -87,10 +87,13 @@ class ilSoapGroupAdministration extends ilSoapAdministration
 	// Service methods
 	function updateGroup($sid,$ref_id,$grp_xml)
 	{
+		$this->initAuth($sid);
+		$this->initIlias();
+
 
 		if(!$this->__checkSession($sid))
 		{
-			return $this->__raiseError($this->sauth->getMessage(),$this->sauth->getMessageCode());
+			return $this->__raiseError($this->__getMessage(),$this->__getMessageCode());
 		}
 
 
@@ -101,8 +104,6 @@ class ilSoapGroupAdministration extends ilSoapAdministration
 									   'Client');
 		}
 
-		// Include main header
-		include_once './include/inc.header.php';
 		global $rbacsystem;
 
 		if(!$rbacsystem->checkAccess('write',$ref_id,'grp'))
@@ -142,9 +143,12 @@ class ilSoapGroupAdministration extends ilSoapAdministration
 
 	function groupExists($sid,$title)
 	{
+		$this->initAuth($sid);
+		$this->initIlias();
+
 		if(!$this->__checkSession($sid))
 		{
-			return $this->__raiseError($this->sauth->getMessage(),$this->sauth->getMessageCode());
+			return $this->__raiseError($this->__getMessage(),$this->__getMessageCode());
 		}
 
 		if(!$title)
@@ -153,21 +157,18 @@ class ilSoapGroupAdministration extends ilSoapAdministration
 									   'Client');
 		}
 
-		// Include main header
-		include_once './include/inc.header.php';
-
 		return ilUtil::groupNameExists($title);
 	}
 
 	function getGroup($sid,$ref_id)
 	{
+		$this->initAuth($sid);
+		$this->initIlias();
+
 		if(!$this->__checkSession($sid))
 		{
-			return $this->__raiseError($this->sauth->getMessage(),$this->sauth->getMessageCode());
+			return $this->__raiseError($this->__getMessage(),$this->__getMessageCode());
 		}
-
-		// Include main header
-		include_once './include/inc.header.php';
 
 		if(ilObject::_isInTrash($ref_id))
 		{
@@ -195,9 +196,12 @@ class ilSoapGroupAdministration extends ilSoapAdministration
 
 	function assignGroupMember($sid,$group_id,$user_id,$type)
 	{
+		$this->initAuth($sid);
+		$this->initIlias();
+
 		if(!$this->__checkSession($sid))
 		{
-			return $this->__raiseError($this->sauth->getMessage(),$this->sauth->getMessageCode());
+			return $this->__raiseError($this->__getMessage(),$this->__getMessageCode());
 		}
 
 		if(!is_numeric($group_id))
@@ -206,8 +210,6 @@ class ilSoapGroupAdministration extends ilSoapAdministration
 									   'Client');
 		}
 
-		// Include main header
-		include_once './include/inc.header.php';
 		global $rbacsystem;
 
 		if(($obj_type = ilObject::_lookupType(ilObject::_lookupObjId($group_id))) != 'grp')
@@ -261,9 +263,12 @@ class ilSoapGroupAdministration extends ilSoapAdministration
 
 	function excludeGroupMember($sid,$group_id,$user_id)
 	{
+		$this->initAuth($sid);
+		$this->initIlias();
+
 		if(!$this->__checkSession($sid))
 		{
-			return $this->__raiseError($this->sauth->getMessage(),$this->sauth->getMessageCode());
+			return $this->__raiseError($this->__getMessage(),$this->__getMessageCode());
 		}
 		if(!is_numeric($group_id))
 		{
@@ -271,8 +276,6 @@ class ilSoapGroupAdministration extends ilSoapAdministration
 									   'Client');
 		}
 
-		// Include main header
-		include_once './include/inc.header.php';
 		global $rbacsystem;
 
 		if(($type = ilObject::_lookupType(ilObject::_lookupObjId($group_id))) != 'grp')
@@ -306,17 +309,18 @@ class ilSoapGroupAdministration extends ilSoapAdministration
 
 	function isAssignedToGroup($sid,$group_id,$user_id)
 	{
+		$this->initAuth($sid);
+		$this->initIlias();
+
 		if(!$this->__checkSession($sid))
 		{
-			return $this->__raiseError($this->sauth->getMessage(),$this->sauth->getMessageCode());
+			return $this->__raiseError($this->__getMessage(),$this->__getMessageCode());
 		}
 		if(!is_numeric($group_id))
 		{
 			return $this->__raiseError('No valid group id given. Please choose an existing id of an ILIAS group',
 									   'Client');
 		}
-		// Include main header
-		include_once './include/inc.header.php';
 		global $rbacsystem;
 
 		if(($type = ilObject::_lookupType(ilObject::_lookupObjId($group_id))) != 'grp')
@@ -368,12 +372,13 @@ class ilSoapGroupAdministration extends ilSoapAdministration
 	 */
 	function getGroupsForUser($sid, $parameters) {
 		
+		$this->initAuth($sid);
+		$this->initIlias();
+
 		if(!$this->__checkSession($sid))
 		{
-			return $this->__raiseError($this->sauth->getMessage(),$this->sauth->getMessageCode());
+			return $this->__raiseError($this->__getMessage(),$this->__getMessageCode());
 		}			
-		// Include main header
-		include_once './include/inc.header.php';
 		global $rbacreview, $ilObjDataCache, $tree;
 		
 		include_once 'webservice/soap/classes/class.ilXMLResultSetParser.php';
