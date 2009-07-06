@@ -543,6 +543,23 @@ class ilObject
 		return $this->last_update;
 	}
 
+
+	/**
+	* Gets the disk usage of the object in bytes.
+    * Returns null, if the object does not use disk space at all.
+	*
+	* The implementation of class ilObject always returns null.
+	* Subclasses which use disk space can override this method to return a
+	* non-null value.
+    *
+	* @access	public
+	* @return	integer		the disk usage in bytes or null
+	*/
+	function getDiskUsage()
+	{
+		return null;
+	}
+
 	/**
 	* set object_data record (note: this method should
 	* only be called from the ilObjectFactory class)

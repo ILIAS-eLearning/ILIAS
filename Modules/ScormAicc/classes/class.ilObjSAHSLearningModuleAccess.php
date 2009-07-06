@@ -147,13 +147,12 @@ class ilObjSAHSLearningModuleAccess extends ilObjectAccess
         return false;
     }
 
-    //BEGIN DiskQuota: Get used disk space
     /**
      * Returns the number of bytes used on the harddisk by the learning module
      * with the specified object id.
      * @param int object id of a file object.
      */
-    function _getDiskSpaceUsed($a_id)
+    function _lookupDiskUsage($a_id)
     {
         $lm_data_dir = ilUtil::getWebspaceDir('filesystem')."/lm_data";
         $lm_dir = $lm_data_dir.DIRECTORY_SEPARATOR."lm_".$a_id;
@@ -161,35 +160,8 @@ class ilObjSAHSLearningModuleAccess extends ilObjectAccess
         return file_exists($lm_dir) ? ilUtil::dirsize($lm_dir) : 0;
         
     }
-    /**
-     * Returns the number of bytes used on the harddisk by the user with
-     * the specified user id.
-     * @param int user id.
-     */
-    function _getDiskSpaceUsedBy($user_id, $as_string = false)
-    {
-        // XXX - This method is extremely slow. We should
-        // use a cache to speed it up, for example, we should
-        // store the disk space used in a table of the sahs object.
-        global $ilDB, $lng;
-        
-        
-        $size = 0;
-        $count = 0;
-		$obs = ilObject::_getObjectsByType("sahs", $user_id);
-		foreach($obs as $ob)
-		{
-            $size += ilObjSAHSLearningModuleAccess::_getDiskSpaceUsed($ob["obj_id"]);
-            $count++;
-        }
-        include_once("Modules/File/classes/class.ilObjFileAccess.php");
-        return ($as_string) ? 
-            $count.' '.$lng->txt('sahs').', '.ilObjFileAccess::_sizeToString($size) : 
-            $size;
-    }
-    //END DiskQuota: Get used disk space
 
-/**
+	/**
 	* Checks whether the SCORM module has a certificate or not
 	* @param int user id.
 	* @return true/false

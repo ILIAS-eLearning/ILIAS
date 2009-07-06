@@ -39,16 +39,24 @@ include_once "classes/class.ilObjectGUI.php";
 
 class ilObjFileAccessSettingsGUI extends ilObjectGUI
 {
+	private $disk_quota_obj;
+
 	/**
 	* Constructor
 	* @access public
 	*/
 	function ilObjFileAccessSettingsGUI($a_data,$a_id,$a_call_by_reference)
 	{
+		global $tree;
+
 		$this->type = "facs";
 		$this->ilObjectGUI($a_data,$a_id,$a_call_by_reference, false);
 		$this->folderSettings = new ilSetting('fold');
-		
+
+		// Load the disk quota settings object
+		require_once 'Services/WebDAV/classes/class.ilObjDiskQuotaSettings.php';
+		$this->disk_quota_obj = new ilObjDiskQuotaSettings($a_id, $a_call_by_reference);
+		$this->disk_quota_obj->read();
 	}
 	/**
 	 * Execute command
@@ -80,10 +88,9 @@ class ilObjFileAccessSettingsGUI extends ilObjectGUI
 				break;
 
 			default:
-				$this->tabs_gui->setTabActive('settings');
 				if(!$cmd || $cmd == 'view')
 				{
-					$cmd = "editSettings";
+					$cmd = "editDownloadingSettings";
 				}
 
 				$this->$cmd();
@@ -104,9 +111,17 @@ class ilObjFileAccessSettingsGUI extends ilObjectGUI
 
 		if ($rbacsystem->checkAccess("visible,read",$this->object->getRefId()))
 		{
-			$this->tabs_gui->addTarget("settings",
-				$this->ctrl->getLinkTarget($this, "editSettings"),
-				array("editSettings", "view"));
+			$this->tabs_gui->addTarget('downloading_settings',
+				$this->ctrl->getLinkTarget($this, "editDownloadingSettings"),
+				array("editDownloadingSettings", "view"));
+
+			$this->tabs_gui->addTarget('webdav',
+				$this->ctrl->getLinkTarget($this, "editWebDAVSettings"),
+				array("editWebDAVSettings", "view"));
+
+			$this->tabs_gui->addTarget("disk_quota",
+				$this->ctrl->getLinkTarget($this, "editDiskQuotaSettings"),
+				array("editDiskQuota", "view"));
 		}
 		if ($rbacsystem->checkAccess('edit_permission',$this->object->getRefId()))
 		{
@@ -119,9 +134,11 @@ class ilObjFileAccessSettingsGUI extends ilObjectGUI
 	/**
 	* Edit settings.
 	*/
-	public function editSettings()
+	public function editDownloadingSettings()
 	{
-		global $rbacsystem, $ilErr;
+		global $rbacsystem, $ilErr, $ilTabs;
+
+		$this->tabs_gui->setTabActive('downloading_settings');
 
 		if (! $rbacsystem->checkAccess("visible,read",$this->object->getRefId()))
 		{
@@ -135,7 +152,6 @@ class ilObjFileAccessSettingsGUI extends ilObjectGUI
 		require_once("./Services/Form/classes/class.ilRadioGroupInputGUI.php");
 		require_once("./Services/Form/classes/class.ilRadioOption.php");
 		require_once("./Services/Form/classes/class.ilTextAreaInputGUI.php");
-		require_once("./Services/WebDAV/classes/class.ilDAVServer.php");
 
 		$form = new ilPropertyFormGUI();
 		$form->setFormAction($ilCtrl->getFormAction($this));
@@ -144,7 +160,6 @@ class ilObjFileAccessSettingsGUI extends ilObjectGUI
 
 		// show download action for folder
 
-		$ilDAVServer = new ilDAVServer();
 		$dl_prop = new ilCheckboxInputGUI($lng->txt("enable_download_folder"), "enable_download_folder");
 		$dl_prop->setValue('1');
 		// default value should reflect previous behaviour (-> 0)
@@ -153,27 +168,82 @@ class ilObjFileAccessSettingsGUI extends ilObjectGUI
 		$form->addItem($dl_prop);
 
 		
+		// Inline file extensions
+		$tai_prop = new ilTextAreaInputGUI($lng->txt('inline_file_extensions'), 'inline_file_extensions');
+		$tai_prop->setValue($this->object->getInlineFileExtensions());
+		$tai_prop->setInfo($lng->txt('inline_file_extensions_info'));
+		$tai_prop->setCols(80);
+		$tai_prop->setRows(5);
+		$form->addItem($tai_prop);
+
+
+		// command buttons
+		$form->addCommandButton('saveDownloadingSettings', $lng->txt('save'));
+		$form->addCommandButton('view', $lng->txt('cancel'));
+
+		$tpl->setContent($form->getHTML());
+	}
+
+	/**
+	* Save settings
+	*/
+	public function saveDownloadingSettings()
+	{
+		global $rbacsystem, $ilErr, $ilCtrl;
+
+		if (! $rbacsystem->checkAccess("write",$this->object->getRefId()))
+		{
+			$ilErr->raiseError($this->lng->txt("no_permission"),$ilErr->WARNING);
+		}
+
+		$this->object->setInlineFileExtensions(ilUtil::stripSlashes($_POST['inline_file_extensions']));
+		$this->object->update();
+
+		$this->folderSettings->set("enable_download_folder", $_POST["enable_download_folder"] == 1);
+
+		ilUtil::sendInfo($this->lng->txt('settings_saved'),true);
+		$ilCtrl->redirect($this, "editDownloadingSettings");
+	}
+
+	/**
+	* Edit settings.
+	*/
+	public function editWebDAVSettings()
+	{
+		global $rbacsystem, $ilErr, $ilTabs;
+		global $tpl, $ilCtrl, $lng, $tree, $settings;
+
+
+		$this->tabs_gui->setTabActive('webdav');
+
+		if (! $rbacsystem->checkAccess("visible,read",$this->object->getRefId()))
+		{
+			$ilErr->raiseError($this->lng->txt("no_permission"),$ilErr->WARNING);
+		}
+
+		require_once("./Services/Form/classes/class.ilPropertyFormGUI.php");
+		require_once("./Services/Form/classes/class.ilCheckboxInputGUI.php");
+		require_once("./Services/Form/classes/class.ilRadioGroupInputGUI.php");
+		require_once("./Services/Form/classes/class.ilRadioOption.php");
+		require_once("./Services/Form/classes/class.ilTextAreaInputGUI.php");
+		require_once("./Services/WebDAV/classes/class.ilDAVServer.php");
+
+		$form = new ilPropertyFormGUI();
+		$form->setFormAction($ilCtrl->getFormAction($this));
+		$form->setTitle($lng->txt("settings"));
+
 		// Enable webdav
+		$ilDAVServer = new ilDAVServer();
 		$isPearAuthHTTPInstalled = @include_once("Auth/HTTP.php");
 		$cb_prop = new ilCheckboxInputGUI($lng->txt("enable_webdav"), "enable_webdav");
 		$cb_prop->setValue('1');
 		$cb_prop->setChecked($this->object->isWebdavEnabled() && $isPearAuthHTTPInstalled);
 		$cb_prop->setDisabled(! $isPearAuthHTTPInstalled);
 		$cb_prop->setInfo($isPearAuthHTTPInstalled ?
-			sprintf($lng->txt('enable_webdav_info'),$ilDAVServer->getFolderURI($tree->getRootId())) :
+			sprintf($lng->txt('enable_webdav_info'),$ilDAVServer->getMountURI($tree->getRootId(),0,null,null,true)) :
 			$lng->txt('webdav_pear_auth_http_needed')
 		);
 		$form->addItem($cb_prop);
-
-		// Show webdav actions next to each item
-/* always visible with 3.11
-		$cb_prop = new ilCheckboxInputGUI($lng->txt("display_webdav_actions"), "webdav_actions_visible");
-		$cb_prop->setValue('1');
-		$cb_prop->setChecked($this->object->isWebdavActionsVisible() && $isPearAuthHTTPInstalled);
-		$cb_prop->setDisabled(! $isPearAuthHTTPInstalled);
-		$cb_prop->setInfo(sprintf($lng->txt('display_webdav_actions_info')));
-		$form->addItem($cb_prop);
-*/
 
 		// Webdav help text
 		if ($isPearAuthHTTPInstalled)
@@ -193,17 +263,8 @@ class ilObjFileAccessSettingsGUI extends ilObjectGUI
 			$form->addItem($tai_prop);
 		}
 
-		// Inline file extensions
-		$tai_prop = new ilTextAreaInputGUI($lng->txt('inline_file_extensions'), 'inline_file_extensions');
-		$tai_prop->setValue($this->object->getInlineFileExtensions());
-		$tai_prop->setInfo($lng->txt('inline_file_extensions_info'));
-		$tai_prop->setCols(80);
-		$tai_prop->setRows(5);
-		$form->addItem($tai_prop);
-
-
 		// command buttons
-		$form->addCommandButton('saveSettings', $lng->txt('save'));
+		$form->addCommandButton('saveWebDAVSettings', $lng->txt('save'));
 		$form->addCommandButton('view', $lng->txt('cancel'));
 
 		$tpl->setContent($form->getHTML());
@@ -212,9 +273,9 @@ class ilObjFileAccessSettingsGUI extends ilObjectGUI
 	/**
 	* Save settings
 	*/
-	public function saveSettings()
+	public function saveWebDAVSettings()
 	{
-		global $rbacsystem, $ilErr;
+		global $rbacsystem, $ilErr, $ilCtrl;
 
 		if (! $rbacsystem->checkAccess("write",$this->object->getRefId()))
 		{
@@ -225,15 +286,12 @@ class ilObjFileAccessSettingsGUI extends ilObjectGUI
 //		$this->object->setWebdavActionsVisible($_POST['webdav_actions_visible'] == '1');
 		$this->object->setCustomWebfolderInstructionsEnabled($_POST['custom_webfolder_instructions_choice']=='custom');
 		$this->object->setCustomWebfolderInstructions(ilUtil::stripSlashes($_POST['custom_webfolder_instructions']));
-		$this->object->setInlineFileExtensions(ilUtil::stripSlashes($_POST['inline_file_extensions']));
 		$this->object->update();
 		
-		$this->folderSettings->set("enable_download_folder", $_POST["enable_download_folder"] == 1);
-
 		ilUtil::sendInfo($this->lng->txt('settings_saved'),true);
-		$this->ctrl->returnToParent($this);
+		$ilCtrl->redirect($this, "editWebDAVSettings");
 	}
-
+	
 	/**
 	* called by prepare output
 	*/
@@ -242,7 +300,93 @@ class ilObjFileAccessSettingsGUI extends ilObjectGUI
 		parent::setTitleAndDescription();
 		$this->tpl->setDescription($this->object->getDescription());
 	}
-	
+
+
+	// DISK QUOTA --------------------------------------------------------------
+	/**
+	* Add disk quota subtabs
+	*/
+	function addDiskQuotaSubtabs($a_active_subtab)
+	{
+		global $ilCtrl, $ilTabs;
+
+		include_once("./Services/COPage/classes/class.ilPageEditorSettings.php");
+
+		$ilTabs->addSubTabTarget("settings",
+			 $ilCtrl->getLinkTarget($this, "editDiskQuotaSettings"),
+			 array("editDiskQuotaSettings"));
+/* to do
+		$ilTabs->addSubTabTarget("export",
+			 $ilCtrl->getLinkTarget($this, "showDiskQuotaExport"),
+			 array("showDiskQuotaExport"));*/
+		$ilTabs->setSubTabActive($a_active_subtab);
+	}
+
+
+	/**
+	* Edit settings.
+	*/
+	public function editDiskQuotaSettings()
+	{
+		global $rbacsystem, $ilErr, $ilSetting;
+
+		$this->tabs_gui->setTabActive('disk_quota');
+
+		if (! $rbacsystem->checkAccess("visible,read",$this->object->getRefId()))
+		{
+			$ilErr->raiseError($this->lng->txt("no_permission"),$ilErr->WARNING);
+		}
+
+		$this->addDiskQuotaSubtabs('editDiskQuotaSettings');
+
+		global $tpl, $ilCtrl, $lng, $tree, $settings;
+
+		require_once("./Services/Form/classes/class.ilPropertyFormGUI.php");
+		require_once("./Services/Form/classes/class.ilCheckboxInputGUI.php");
+		require_once("./Services/Form/classes/class.ilRadioGroupInputGUI.php");
+		require_once("./Services/Form/classes/class.ilRadioOption.php");
+		require_once("./Services/Form/classes/class.ilTextAreaInputGUI.php");
+		require_once("./Services/WebDAV/classes/class.ilDAVServer.php");
+
+		$form = new ilPropertyFormGUI();
+		$form->setFormAction($ilCtrl->getFormAction($this));
+		$form->setTitle($lng->txt("settings"));
+
+
+		// Enable disk quota
+		$cb_prop = new ilCheckboxInputGUI($lng->txt("enable_disk_quota"), "enable_disk_quota");
+		$cb_prop->setValue('1');
+		$cb_prop->setChecked($this->disk_quota_obj->isDiskQuotaEnabled());
+		$cb_prop->setInfo($lng->txt('enable_disk_quota_info'));
+		$form->addItem($cb_prop);
+
+
+
+		// command buttons
+		$form->addCommandButton('saveDiskQuotaSettings', $lng->txt('save'));
+		$form->addCommandButton('editDiskQuotaSettings', $lng->txt('cancel'));
+
+		$tpl->setContent($form->getHTML());
+	}
+
+	/**
+	* Save settings
+	*/
+	public function saveDiskQuotaSettings()
+	{
+		global $rbacsystem, $ilErr;
+
+		if (! $rbacsystem->checkAccess("write",$this->object->getRefId()))
+		{
+			$ilErr->raiseError($this->lng->txt("no_permission"),$ilErr->WARNING);
+		}
+
+		$this->disk_quota_obj->setDiskQuotaEnabled($_POST['enable_disk_quota'] == '1');
+		$this->disk_quota_obj->update();
+
+		ilUtil::sendInfo($this->lng->txt('settings_saved'),true);
+		$ilCtrl->redirect($this, "showDiskQuotaSettings");
+	}
 } 
 // END WebDAV
 ?>

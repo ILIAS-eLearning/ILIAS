@@ -2165,6 +2165,10 @@ common#:#keywords#:#Mots-clés
 common#:#lang_cs#:#Tchèque
 common#:#lang_da#:#Danois
 common#:#lang_dateformat#:#d-m-Y
+common#:#lang_size_gb#:#GO
+common#:#lang_size_mb#:#MO
+common#:#lang_size_kb#:#KO
+common#:#lang_size_bytes#:#octets
 common#:#lang_de#:#Allemand
 common#:#lang_el#:#Grec
 common#:#lang_en#:#Anglais

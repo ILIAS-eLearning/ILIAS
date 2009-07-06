@@ -113,6 +113,15 @@ class ilCronCheck
 			$validator->check();
 		}
 
+		// Start Disk Quota
+		require_once 'Service/WebDAV/classes/ilDiskQuotaActivationChecker.php';
+		if (ilDiskQuotaActivationChecker::_isActive())
+		{
+			include_once './cron/classes/class.ilCronDiskQuota.php';
+
+			$disk_quota =& new ilCronDiskQuota();
+			$disk_quota->check();
+		}
 	}
 }
 

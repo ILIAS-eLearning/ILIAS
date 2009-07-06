@@ -426,7 +426,7 @@ class ilObjRoleGUI extends ilObjectGUI
 	*/
 	function createObject()
 	{
-		global $rbacsystem;
+		global $rbacsystem, $ilSetting;
 		
 		if (!$rbacsystem->checkAccess('create_role', $this->rolf_ref_id))
 		{
@@ -454,6 +454,16 @@ class ilObjRoleGUI extends ilObjectGUI
 			$this->tpl->setVariable("TXT_PROTECT_PERMISSIONS",$this->lng->txt("role_protect_permissions"));
 			$this->tpl->setVariable("PROTECT_PERMISSIONS",$protect_permissions);
 			$this->tpl->parseCurrentBlock();
+
+			require_once 'Services/WebDAV/classes/class.ilDiskQuotaActivationChecker.php';
+			if (ilDiskQuotaActivationChecker::_isActive())
+			{
+				$this->tpl->setCurrentBlock("disk_quota");
+				$this->tpl->setVariable("TXT_DISK_QUOTA",$this->lng->txt("disk_quota"));
+				$this->tpl->setVariable("TXT_DISK_QUOTA_DESC",$this->lng->txt("enter_in_mb_desc").'<br>'.$this->lng->txt("disk_quota_on_role_desc"));
+				$this->tpl->setVariable("DISK_QUOTA",$disk_quota);
+				$this->tpl->parseCurrentBlock();
+			}
 		}
 
 		// fill in saved values in case of error
@@ -480,7 +490,9 @@ class ilObjRoleGUI extends ilObjectGUI
 	*/
 	function saveObject()
 	{
-		global $rbacsystem, $rbacadmin, $rbacreview;
+		global $rbacsystem, $rbacadmin, $rbacreview, $ilSetting;
+		require_once 'Services/WebDAV/classes/class.ilDiskQuotaActivationChecker.php';
+		require_once 'classes/class.ilFormat.php';
 
 		// check for create role permission
 		if (!$rbacsystem->checkAccess("create_role",$this->rolf_ref_id))
@@ -500,13 +512,30 @@ class ilObjRoleGUI extends ilObjectGUI
 			$this->ilias->raiseError($this->lng->txt("msg_role_reserved_prefix"),$this->ilias->error_obj->MESSAGE);
 		}
 
+		$dq_setting = new ilSetting('disk_quota');
+		if (ilDiskQuotaActivationChecker::_isActive())
+		{
+			// check if disk quota is numeric and positive
+			if (! is_numeric(trim($_POST["Fobject"]["disk_quota"])) ||
+					trim($_POST["Fobject"]["disk_quota"]) < 0
+			)
+			{
+				$this->ilias->raiseError($this->lng->txt("msg_disk_quota_illegal_value"),$this->ilias->error_obj->MESSAGE);
+			}
+		}
+
+
 		// save
-		include_once("./Services/AccessControl/classes/class.ilObjRole.php");
+		require_once("./Services/AccessControl/classes/class.ilObjRole.php");
 		$roleObj = new ilObjRole();
 		$roleObj->setTitle(ilUtil::stripSlashes($_POST["Fobject"]["title"]));
 		$roleObj->setDescription(ilUtil::stripSlashes($_POST["Fobject"]["desc"]));
 		$roleObj->setAllowRegister($_POST["Fobject"]["allow_register"]);
 		$roleObj->toggleAssignUsersStatus($_POST["Fobject"]["assign_users"]);
+		if (ilDiskQuotaActivationChecker::_isActive())
+		{
+			$roleObj->setDiskQuota(trim($_POST["Fobject"]["disk_quota"]) * ilFormat::_getSizeMagnitude() * ilFormat::_getSizeMagnitude());
+		}
 		$roleObj->create();
 		$rbacadmin->assignRoleToFolder($roleObj->getId(), $this->rolf_ref_id,'y');
 		$rbacadmin->setProtected($this->rolf_ref_id,$roleObj->getId(),ilUtil::tf2yn($_POST["Fobject"]["protect_permissions"]));	
@@ -1386,6 +1415,8 @@ class ilObjRoleGUI extends ilObjectGUI
 	function updateObject()
 	{
 		global $rbacsystem, $rbacreview, $rbacadmin, $tree;
+		require_once 'Services/WebDAV/classes/class.ilDiskQuotaActivationChecker.php';
+		require_once 'classes/class.ilFormat.php';
 
 		// for role administration check write of global role folder
 		/*
@@ -1417,10 +1448,26 @@ class ilObjRoleGUI extends ilObjectGUI
 			{
 				$this->ilias->raiseError($this->lng->txt("msg_role_reserved_prefix"),$this->ilias->error_obj->MESSAGE);
 			}
+			if (ilDiskQuotaActivationChecker::_isActive())
+			{
+				// check if disk quota is empty or is numeric and positive
+				if (! is_numeric(trim($_POST["Fobject"]["disk_quota"])) ||
+						trim($_POST["Fobject"]["disk_quota"]) < 0
+				)
+				{
+					$this->ilias->raiseError($this->lng->txt("msg_disk_quota_illegal_value"),$this->ilias->error_obj->MESSAGE);
+				}
+			}
+
+
 	
 			// update
 			$this->object->setTitle(ilUtil::stripSlashes($_POST["Fobject"]["title"]));
 			$this->object->setDescription(ilUtil::stripSlashes($_POST["Fobject"]["desc"]));
+			if (ilDiskQuotaActivationChecker::_isActive())
+			{
+				$this->object->setDiskQuota($_POST["Fobject"]["disk_quota"] * ilFormat::_getSizeMagnitude() * ilFormat::_getSizeMagnitude());
+			}
 		}
 
 
@@ -1453,7 +1500,9 @@ class ilObjRoleGUI extends ilObjectGUI
 	*/
 	function editObject()
 	{
-		global $rbacsystem, $rbacreview;
+		global $rbacsystem, $rbacreview, $ilSetting;
+		require_once 'Services/WebDAV/classes/class.ilDiskQuotaActivationChecker.php';
+		require_once 'classes/class.ilFormat.php';
 
 		#if (!$rbacsystem->checkAccess("write", $this->rolf_ref_id))
 		if(!$this->checkAccess('write','edit_permission'))
@@ -1475,6 +1524,10 @@ class ilObjRoleGUI extends ilObjectGUI
 			$allow_register = ($_SESSION["error_post_vars"]["Fobject"]["allow_register"]) ? "checked=\"checked\"" : "";
 			$assign_users = ($_SESSION["error_post_vars"]["Fobject"]["assign_users"]) ? "checked=\"checked\"" : "";
 			$protect_permissions = ($_SESSION["error_post_vars"]["Fobject"]["protect_permissions"]) ? "checked=\"checked\"" : "";
+			if (ilDiskQuotaActivationChecker::_isActive())
+			{
+				$disk_quota = $_SESSION["error_post_vars"]["Fobject"]["disk_quota"];
+			}
 		}
 		else
 		{
@@ -1486,6 +1539,10 @@ class ilObjRoleGUI extends ilObjectGUI
 
 			$allow_register = ($this->object->getAllowRegister()) ? "checked=\"checked\"" : "";
 			$assign_users = $this->object->getAssignUsersStatus() ? "checked=\"checked\"" : "";
+			if (ilDiskQuotaActivationChecker::_isActive())
+			{
+				$disk_quota = $this->object->getDiskQuota() / ilFormat::_getSizeMagnitude() / ilFormat::_getSizeMagnitude();
+			}
 			$protect_permissions = $rbacreview->isProtected($this->rolf_ref_id,$this->object->getId()) ? "checked=\"checked\"" : "";
 
 		}
@@ -1538,6 +1595,16 @@ class ilObjRoleGUI extends ilObjectGUI
 			$this->tpl->setVariable("TXT_PROTECT_PERMISSIONS",$this->lng->txt('role_protect_permissions'));
 			$this->tpl->setVariable("PROTECT_PERMISSIONS",$protect_permissions);
 			$this->tpl->parseCurrentBlock();
+
+			require_once 'Services/WebDAV/classes/class.ilDiskQuotaActivationChecker.php';
+			if (ilDiskQuotaActivationChecker::_isActive())
+			{
+				$this->tpl->setCurrentBlock("disk_quota");
+				$this->tpl->setVariable("TXT_DISK_QUOTA",$this->lng->txt("disk_quota"));
+				$this->tpl->setVariable("TXT_DISK_QUOTA_DESC",$this->lng->txt("enter_in_mb_desc").'<br>'.$this->lng->txt("disk_quota_on_role_desc"));
+				$this->tpl->setVariable("DISK_QUOTA",$disk_quota);
+				$this->tpl->parseCurrentBlock();
+			}
 		}
 	}
 	

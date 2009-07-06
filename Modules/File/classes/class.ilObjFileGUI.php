@@ -752,7 +752,7 @@ class ilObjFileGUI extends ilObjectGUI
 				$this->object->guessFileType());
 		// END WebDAV Guess file type.
 		$info->addProperty($this->lng->txt("size"),
-			ilObjFile::_lookupFileSize($this->object->getId(), true));
+			ilFormat::_sizeToString(ilObjFile::_lookupFileSize($this->object->getId()),'long'));
 		$info->addProperty($this->lng->txt("version"),
 			$this->object->getVersion());
 

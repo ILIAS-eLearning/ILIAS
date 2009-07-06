@@ -1847,6 +1847,33 @@ class ilObjUser extends ilObject
 		 return $this->prefs["language"];
 	}
 
+	/**
+	* Sets the minimal disk quota imposed by this user account.
+    *
+    * The minimal disk quota is specified in bytes.
+	 *
+	* @access	public
+	* @param	integer
+	*/
+	function setDiskQuota($a_disk_quota)
+	{
+		$this->setPref("disk_quota",$a_disk_quota);
+	}
+
+	/**
+	* Returns the minimal disk quota imposed by this user account.
+    *
+    * The minimal disk quota is specified in bytes.
+	* The default value is 0.
+    *
+	* @access	public
+	* @return	integer
+	*/
+	function getDiskQuota()
+	{
+		 return $this->prefs["disk_quota"] ? $this->prefs["disk_quota"] : 0;
+	}
+
 	public function setLastPasswordChangeTS($a_last_password_change_ts)
 	{
 		$this->last_password_change_ts = $a_last_password_change_ts;
@@ -4642,7 +4669,7 @@ class ilObjUser extends ilObject
 			
 			$ilDB->manipulateF('
 				UPDATE usr_data	
-				SET reg_hash = %s	
+				SET reg_hash = %s
 				WHERE usr_id = %s',
 				array('text', 'integer'),
 				array('', (int)$row->usr_id)
@@ -4654,5 +4681,7 @@ class ilObjUser extends ilObject
 		require_once 'Services/Registration/exceptions/class.ilRegistrationHashNotFoundException.php';
 		throw new ilRegistrationHashNotFoundException('reg_confirmation_hash_not_found');
 	}
+
+
 } // END class ilObjUser
 ?>

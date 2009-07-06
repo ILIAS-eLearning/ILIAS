@@ -406,6 +406,18 @@ class ilObjFile extends ilObject
 	{
 		return $this->filesize;
 	}
+	/**
+	* Gets the disk usage of the object in bytes.
+    *
+	* @access	public
+	* @return	integer		the disk usage in bytes
+	*/
+	function getDiskUsage()
+	{
+	    require_once("./Modules/File/classes/class.ilObjFileAccess.php");
+		return ilObjFileAccess::_lookupDiskUsage($this->id);
+	}
+
 
 	// END PATCH WebDAV Encapsulate file access in ilObjFile class.
 	function getFile($a_hist_entry_id = null)
@@ -492,12 +504,11 @@ class ilObjFile extends ilObject
 	}
 
 
-	function _lookupFileSize($a_id, $a_as_string = false)
+	/** Lookups the file size of the file in bytes. */
+	function _lookupFileSize($a_id)
 	{
-		// BEGIN WebDAV: Use lookupFileSize function of class ilObjFileAccess
-	    include_once("./Modules/File/classes/class.ilObjFileAccess.php");
-		return ilObjFileAccess::_lookupFileSize($a_id, $a_as_string, true);
-		// END WebDAV: Use lookupFileSize function of class ilObjFileAccess
+	    require_once("./Modules/File/classes/class.ilObjFileAccess.php");
+		return ilObjFileAccess::_lookupFileSize($a_id);
 	}
 	
 	/**
@@ -505,7 +516,7 @@ class ilObjFile extends ilObject
 	*/
 	function _lookupVersion($a_id)
 	{
-		include_once("./Modules/File/classes/class.ilObjFileAccess.php");
+		require_once("./Modules/File/classes/class.ilObjFileAccess.php");
 		return ilObjFileAccess::_lookupVersion($a_id);
 	}
 

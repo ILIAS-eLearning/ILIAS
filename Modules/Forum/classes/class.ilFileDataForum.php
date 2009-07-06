@@ -419,45 +419,4 @@ class ilFileDataForum extends ilFileData
 		return true;
 	}
 
-	//BEGIN DiskQuota: Get used disk space
-	/**
-	 * Returns the number of bytes used on the harddisk for forum attachments,
-	 * by the user with the specified user id.
-	 * @param int user id.
-	 */
-	public static function _getDiskSpaceUsedBy($user_id, $as_string = false)
-	{
-		// XXX - This method is extremely slow. We should
-		// use a cache to speed it up, for example, we should
-		// store the disk space used in table forum_attachment.
-		global $ilDB, $lng;
-		
-		$mail_data_dir = ilUtil::getDataDir('filesystem').DIRECTORY_SEPARATOR."forum";
-	
-		$result_set = $ilDB->queryf('
-			SELECT top_frm_fk, pos_pk FROM frm_posts p
-			JOIN frm_data d ON d.top_pk = p.pos_top_fk
-			WHERE p.pos_usr_id = %s',
-			array('integer'), array($user_id));
-				
-		$size = 0;
-		$count = 0;
-		while($row = $result_set->fetchRow(DB_FETCHMODE_ASSOC))
-		{
-			$fileDataForum = new ilFileDataForum($row['top_frm_fk'],$row['pos_pk']);
-			$filesOfPost = $fileDataForum->getFilesOfPost();
-			foreach ($filesOfPost as $attachment)
-			{
-				$size += $attachment['size'];
-				$count++;
-			}
-			unset($fileDataForum);
-			unset($filesOfPost);
-		}
-		include_once("Modules/File/classes/class.ilObjFileAccess.php");
-		return ($as_string) ? 
-			$count.' '.$lng->txt('forum_attachments').', '.ilObjFileAccess::_sizeToString($size) : 
-			$size;
-	}
-	//END DiskQuota: Get used disk space
 }

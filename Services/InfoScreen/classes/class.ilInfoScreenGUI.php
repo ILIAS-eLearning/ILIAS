@@ -405,7 +405,7 @@ class ilInfoScreenGUI
 	*/
 	function addObjectSections()
 	{
-		global $lng, $ilCtrl, $ilUser, $ilAccess, $tree;
+		global $lng, $ilCtrl, $ilUser, $ilAccess, $tree, $ilSetting;
 		
 		$this->addSection($lng->txt("additional_info"));
 		$a_obj = $this->gui_object->object;
@@ -503,6 +503,16 @@ class ilInfoScreenGUI
 			}
 		}
 
+		// disk usage
+		require_once 'Services/WebDAV/classes/class.ilDiskQuotaActivationChecker.php';
+		if ($ilUser->getId() != ANONYMOUS_USER_ID &&
+			ilDiskQuotaActivationChecker::_isActive())
+		{
+				$size = $a_obj->getDiskUsage();
+				if ($size !== null) {
+					$this->addProperty($lng->txt("disk_usage"),ilFormat::_sizeToString($size,'long'));
+				}
+		}
 		// change event
 		require_once 'Services/Tracking/classes/class.ilChangeEvent.php';
 		if (ilChangeEvent::_isActive())

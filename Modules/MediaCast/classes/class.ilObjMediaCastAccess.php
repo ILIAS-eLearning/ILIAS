@@ -174,13 +174,12 @@ class ilObjMediaCastAccess extends ilObjectAccess
 		return $mc_rec["public_files"];
 	}
 
-	//BEGIN DiskQuota: Get used disk space..
 	/**
 	 * Returns the number of bytes used on the harddisk by the file object
 	 * with the specified object id.
 	 * @param int object id of a file object.
 	 */
-	function _getDiskSpaceUsed($a_id)
+	function _lookupDiskUsage($a_id)
 	{
 		require_once('Modules/MediaCast/classes/class.ilObjMediaCast.php');
 		require_once("./Services/News/classes/class.ilNewsItem.php");
@@ -198,28 +197,6 @@ class ilObjMediaCastAccess extends ilObjectAccess
 		}
 		return $size;
 	}
-	/**
-	 * Returns the number of bytes used on the harddisk by the user with
-	 * the specified user id.
-	 * @param int user id.
-	 */
-	function _getDiskSpaceUsedBy($user_id, $as_string = false)
-	{
-		global $ilDB, $lng;
-		
-		$size = 0;
-		$count = 0;
-		$obs = ilObject::_getObjectsByType("mcst", $user_id);
-		foreach($obs as $ob)
-		{
-			$size += ilObjMediaCastAccess::_getDiskSpaceUsed($ob["obj_id"]);
-			$count++;
-		}
-		
-		require_once("./Modules/File/classes/class.ilObjFileAccess.php");
-		return ($as_string) ? $count.' '.$lng->txt('obj_mcst').', '.ilObjFileAccess::_sizeToString($size) : $size;
-	}
-	//END DiskQuota: Get used disk space..
 }
 
 ?>

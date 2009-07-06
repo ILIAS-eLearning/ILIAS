@@ -551,9 +551,8 @@ class ilFileDataMail extends ilFileData
 			}
 			$count++;
 		}
-		include_once("Modules/File/classes/class.ilObjFileAccess.php");
 		return ($as_string) ? 
-			$count.' '.$lng->txt('mail_attachments').', '.ilObjFileAccess::_sizeToString($size) : 
+			$count.' '.$lng->txt('mail_attachments').', '.ilFormat::_sizeToString($size,'short') :
 			$size;
 	}
 	//END DiskQuota: Get used disk space

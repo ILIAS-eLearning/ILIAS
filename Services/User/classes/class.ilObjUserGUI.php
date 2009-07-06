@@ -925,6 +925,14 @@ class ilObjUserGUI extends ilObjectGUI
 			// setup user preferences
 			$userObj->setLanguage($_POST["language"]);
 
+			// Set disk quota
+			require_once 'Services/WebDAV/classes/class.ilDiskQuotaActivationChecker.php';
+			if (ilDiskQuotaActivationChecker::_isActive())
+			{
+				// The disk quota is entered in megabytes but stored in bytes
+				$userObj->setPref("disk_quota", trim($_POST["disk_quota"]) * ilFormat::_getSizeMagnitude() * ilFormat::_getSizeMagnitude());
+			}
+
 			//set user skin and style
 			$sknst = explode(":", $_POST["skin_style"]);
 
@@ -1044,7 +1052,7 @@ class ilObjUserGUI extends ilObjectGUI
 	*/
 	public function updateObject()
 	{
-		global $tpl, $rbacsystem, $ilias, $ilUser;
+		global $tpl, $rbacsystem, $ilias, $ilUser, $ilSetting;
 		
 		// User folder
 		if($this->usrf_ref_id == USER_FOLDER_ID and !$rbacsystem->checkAccess('visible,read,write',$this->usrf_ref_id))
@@ -1125,6 +1133,13 @@ class ilObjUserGUI extends ilObjectGUI
 			$this->object->setDescription($this->object->getEmail());
 			$this->object->setLanguage($_POST["language"]);
 
+			require_once 'Services/WebDAV/classes/class.ilDiskQuotaActivationChecker.php';
+			if (ilDiskQuotaActivationChecker::_isActive())
+			{
+				// set disk quota
+				$this->object->setPref("disk_quota", $_POST["disk_quota"] * ilFormat::_getSizeMagnitude() * ilFormat::_getSizeMagnitude());
+			}
+
 			//set user skin and style
 			$sknst = explode(":", $_POST["skin_style"]);
 
@@ -1195,7 +1210,7 @@ class ilObjUserGUI extends ilObjectGUI
 	*/
 	function getValues()
 	{
-		global $ilUser;
+		global $ilUser, $ilSetting;
 
 		$data = array();
 
@@ -1226,6 +1241,11 @@ class ilObjUserGUI extends ilObjectGUI
 
 		
 		// BEGIN DiskQuota, Show disk space used
+		require_once 'Services/WebDAV/classes/class.ilDiskQuotaActivationChecker.php';
+		if (ilDiskQuotaActivationChecker::_isActive())
+		{
+			$data["disk_quota"] = $this->object->getDiskQuota() / ilFormat::_getSizeMagnitude() / ilFormat::_getSizeMagnitude();
+		}
 		// W. Randelshofer 2008-09-09: Deactivated display of disk space usage,
 		// because determining the disk space usage may take several minutes.
                 /*
@@ -1419,16 +1439,66 @@ class ilObjUserGUI extends ilObjectGUI
 
 		$this->form_gui->addItem($ac);
 
-		// disk space used
-		// W. Randelshofer 2008-07-07: Deactivated display of disk space usage,
-        // because determining the disk space usage may take several minutes.
-		/*
-		if ($a_mode == "edit")
+		require_once 'Services/WebDAV/classes/class.ilDiskQuotaActivationChecker.php';
+		if (ilDiskQuotaActivationChecker::_isActive())
 		{
-			$ds = new ilNonEditableValueGUI($lng->txt("disk_space_used"), "disk_space_used");
-			$this->form_gui->addItem($ds);
+			// disk quota
+			$disk_quota = new ilTextInputGUI($lng->txt("disk_quota"), "disk_quota");
+			$disk_quota->setSize(10);
+			$disk_quota->setMaxLength(11);
+			$this->form_gui->addItem($disk_quota);
+
+			if ($a_mode == "edit")
+			{
+				// show which disk quota is in effect, and explain why
+				require_once 'Services/WebDAV/classes/class.ilDiskQuotaChecker.php';
+				$dq_info = ilDiskQuotaChecker::_lookupDiskQuota($this->object->getId());
+				if ($dq_info['user_disk_quota'] > $dq_info['role_disk_quota'])
+				{
+					$info_text = sprintf($lng->txt('disk_quota_is_1_instead_of_2_by_3'),$dq_info['user_disk_quota']/ilFormat::_getSizeMagnitude()/ilFormat::_getSizeMagnitude(),$dq_info['role_disk_quota']/ilFormat::_getSizeMagnitude()/ilFormat::_getSizeMagnitude(),$dq_info['role_title']);
+				}
+				else if (is_infinite($dq_info['role_disk_quota']))
+				{
+					$info_text = sprintf($lng->txt('disk_quota_is_unlimited_by_1'), $dq_info['role_title']);
+				}
+				else
+				{
+					$info_text = sprintf($lng->txt('disk_quota_is_1_by_2'),$dq_info['role_disk_quota']/ilFormat::_getSizeMagnitude()/ilFormat::_getSizeMagnitude(),$dq_info['role_title']);
+				}
+				$disk_quota->setInfo($this->lng->txt("enter_in_mb_desc").'<br>'.$info_text);
+
+
+				// disk usage
+				$du_info = ilDiskQuotaChecker::_lookupDiskUsage($this->object->getId());
+				$disk_usage = new ilNonEditableValueGUI($lng->txt("disk_usage"), "disk_usage");
+				if ($du_info['last_update'] === null)
+				{
+					$disk_usage->setValue($lng->txt('unknown'));
+				}
+				else
+				{
+			        require_once 'classes/class.ilFormat.php';
+					$disk_usage->setValue(ilFormat::_sizeToString($du_info['disk_usage'],'short'));
+					$info = '<table>';
+					// write the count and size of each object type
+					foreach ($du_info['details'] as $detail_data)
+					{
+						$info .= '<tr>'.
+							'<td>'.$detail_data['count'].'</td>'.
+							'<td>'.$lng->txt($detail_data['type']).'</td>'.
+							'<td>'.ilFormat::_sizeToString($detail_data['size'], 'short').'</td>'.
+							'</tr>'
+							;
+					}
+					$info .= '</table>';
+					$info .= '<br>'.$this->lng->txt('last_update').': '.ilFormat::formatDate($du_info['last_update'], 'datetime', true);
+					$disk_usage->setInfo($info);
+
+				}
+				$this->form_gui->addItem($disk_usage );
+			}
 		}
-         */
+
          
 		// personal data
 		$sec_pd = new ilFormSectionHeaderGUI();

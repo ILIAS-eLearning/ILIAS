@@ -2708,6 +2708,14 @@ common#:#lang_sr#:#Serbian
 common#:#lang_sv#:#Swedish
 common#:#lang_timeformat#:#H:i:s
 common#:#lang_timeformat_no_sec#:#H:i
+common#:#lang_size_gb#:#GB
+common#:#lang_size_mb#:#MB
+common#:#lang_size_kb#:#KB
+common#:#lang_size_bytes#:#bytes
+common#:#webdav#:#WebDAV
+common#:#downloading_settings#:#Downloading Settings
+common#:#enable_disk_quota#:#Activate Disk Quota
+common#:#enable_disk_quota_info#:#Allows to specify a disk quota for each user account and each global role. The disk usage of a user account is determined once every day and listed in the user edit form, but not in the personal profile.
 common#:#lang_uk#:#Ukrainian
 common#:#lang_version#:#1
 common#:#lang_vi#:#Vietnamese
@@ -9577,6 +9585,13 @@ content#:#cont_no_glossary#:#No glossary
 common#:#obj_sco#:#SCO
 common#:#obj_chap#:#Chapter
 common#:#obj_page#:#Page
+common#:#disk_quota#:#Disk Quota
+common#:#disk_usage#:#Disk Usage
+common#:#enter_in_mb_desc#:#Enter a value in MB.
+common#:#disk_quota_on_role_desc#:#The disk quota specified on a role affects all user accounts which are assigned to this role.
+common#:#disk_quota_is_1_by_2#:#The effective disk quota is %1$s MB due to membership in role "%2$s".
+common#:#disk_quota_is_unlimited_by_1#:#The effective disk quota is unlimited due to membership in role "%1$s".
+common#:#disk_quota_is_1_instead_of_2_by_3#:#The effective disk quota is %1$s MB as defined in this user account. The disk quota by role membership would have been %2$s MB by role "%3$s".
 style#:#sty_characteristic_already_exists#:#A style class with this title already exists within this style.
 content#:#cont_pc_flist#:#File List
 content#:#cont_pc_par#:#Text

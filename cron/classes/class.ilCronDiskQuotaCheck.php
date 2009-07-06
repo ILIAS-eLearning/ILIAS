@@ -3,7 +3,7 @@
 	+-----------------------------------------------------------------------------+
 	| ILIAS open source                                                           |
 	+-----------------------------------------------------------------------------+
-	| Copyright (c) 1998-2006 ILIAS open source, University of Cologne            |
+	| Copyright (c) 1998-2001 ILIAS open source, University of Cologne            |
 	|                                                                             |
 	| This program is free software; you can redistribute it and/or               |
 	| modify it under the terms of the GNU General Public License                 |
@@ -20,57 +20,31 @@
 	| Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA. |
 	+-----------------------------------------------------------------------------+
 */
-include_once('Services/Migration/DBUpdate_904/classes/class.ilUpdateUtils.php');
-class ilObjFileAccess
+
+
+/**
+* 
+*
+* @author Werner Randelshofer, Hochschule Luzern, werner.randelshofer@hslu.ch
+* @version $Id$
+*
+* @package ilias
+*/
+class ilCronDiskQuotaCheck
 {
-
-	/**
-	* lookup version
-	*/
-	function _lookupVersion($a_id)
+	function ilCronDiskQuotaCheck()
 	{
-		global $ilDB;
+		global $ilLog,$ilDB;
 
-		$q = "SELECT * FROM file_data WHERE file_id = ".$ilDB->quote($a_id);
-		$r = $ilDB->query($q);
-		$row = $r->fetchRow(DB_FETCHMODE_OBJECT);
-
-		return $row->version;
+		$this->log =& $ilLog;
+		$this->db =& $ilDB;
 	}
 
-	/**
-	* lookup size
-	*/
-	function _lookupFileSize($a_id)
+	function check()
 	{
-		global $ilDB;
+		require_once'./Services/FileAccess/classes/class.ilDiskQuotaChecker.php';
 
-		$q = "SELECT * FROM file_data WHERE file_id = ".$ilDB->quote($a_id);
-		$r = $ilDB->query($q);
-		$row = $r->fetchRow(DB_FETCHMODE_OBJECT);
-		
-		include_once('Services/Migration/DBUpdate_904/classes/class.ilFSStorageFile.php');
-		$fss = new ilFSStorageFile($a_id);
-		$file = $fss->getAbsolutePath().'/'.$row->file_name;
-
-		if (@!is_file($file))
-		{
-			$version_subdir = "/".sprintf("%03d", ilObjFileAccess::_lookupVersion($a_id));
-			$file = $fss->getAbsolutePath().'/'.$version_subdir.'/'.$row->file_name;
-			
-		}
-
-		if (is_file($file))
-		{
-			$size = filesize($file);
-		}
-		else
-		{
-			$size = 0;
-		}
-		
-		return $size;
+		return true;
 	}
 }
-
 ?>

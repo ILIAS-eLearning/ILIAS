@@ -81,6 +81,18 @@ class ilObjForum extends ilObject
 		parent::read($a_force_db);
 	}
 
+	/**
+	* Gets the disk usage of the object in bytes.
+    *
+	* @access	public
+	* @return	integer		the disk usage in bytes
+	*/
+	function getDiskUsage()
+	{
+	    require_once("./Modules/File/classes/class.ilObjFileAccess.php");
+		return ilObjForumAccess::_lookupDiskUsage($this->id);
+	}
+
 	function _lookupThreadSubject($a_thread_id)
 	{
 		global $ilDB;

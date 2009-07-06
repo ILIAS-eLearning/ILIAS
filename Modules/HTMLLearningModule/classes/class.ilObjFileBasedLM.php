@@ -268,6 +268,18 @@ class ilObjFileBasedLM extends ilObject
 		return ilUtil::yn2tf($lm_rec["is_online"]);
 	}
 
+	/**
+	* Gets the disk usage of the object in bytes.
+    *
+	* @access	public
+	* @return	integer		the disk usage in bytes
+	*/
+	function getDiskUsage()
+	{
+	    require_once("./Modules/HTMLLearningModule/classes/class.ilObjFileBasedLMAccess.php");
+		return ilObjFileBasedLMAccess::_lookupDiskUsage($this->id);
+	}
+
 
 
 	/**
