@@ -1234,7 +1234,7 @@ class ilInitialisation
 				$this->initLanguage();
 				
 				// Do not redirect for Auth_SOAP Auth_CRON Auth_HTTP
-				if(!$ilAuth->allowsRedirection())
+				if(!$ilAuth->supportsRedirects())
 				{
 					return false;
 				}

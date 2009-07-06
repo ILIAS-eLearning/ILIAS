@@ -41,7 +41,7 @@ class ilAuthHTTP extends Auth_HTTP
 	 * to loginScreen, public section... 
 	 * @return 
 	 */
-	public function allowsRedirection()
+	public function supportsRedirects()
 	{
 		return false;
 	} 

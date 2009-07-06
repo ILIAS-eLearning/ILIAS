@@ -35,7 +35,7 @@ class ilAuthWeb extends Auth
 	 * to loginScreen, public section... 
 	 * @return 
 	 */
-	public function allowsRedirection()
+	public function supportsRedirects()
 	{
 		return true;
 	} 
