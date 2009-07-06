@@ -48,12 +48,15 @@ class ilSoapExerciseAdministration extends ilSoapAdministration
      *
      * @return int reference id in the tree, 0 if not successful
      */
-	function addExercise ($sid, $target_id, $exercise_xml) {
+	function addExercise ($sid, $target_id, $exercise_xml) 
+	{
+		$this->initAuth($sid);
+		$this->initIlias();
+
 		if(!$this->__checkSession($sid))
 		{
-			return $this->__raiseError($this->sauth->getMessage(),$this->sauth->getMessageCode());
+			return $this->__raiseError($this->__getMessage(),$this->__getMessageCode());
 		}
-		include_once './include/inc.header.php';
 		global $rbacsystem, $tree, $ilLog;
 
 		if(!$target_obj =& ilObjectFactory::getInstanceByRefId($target_id,false))
@@ -114,12 +117,15 @@ class ilSoapExerciseAdministration extends ilSoapAdministration
      *
      * @return boolean true, if update successful, false otherwise
      */
-	function updateExercise ($sid, $ref_id, $exercise_xml) {
+	function updateExercise ($sid, $ref_id, $exercise_xml) 
+	{
+		$this->initAuth($sid);
+		$this->initIlias();
+
 		if(!$this->__checkSession($sid))
 		{
-			return $this->__raiseError($this->sauth->getMessage(),$this->sauth->getMessageCode());
+			return $this->__raiseError($this->__getMessage(),$this->__getMessageCode());
 		}
-		include_once './include/inc.header.php';
 		global $rbacsystem, $tree, $ilLog;
 
 		if(ilObject::_isInTrash($ref_id))
@@ -184,16 +190,19 @@ class ilSoapExerciseAdministration extends ilSoapAdministration
 	 */
 
 	function getExerciseXML ($sid, $ref_id, $attachFileContentsMode) {
+
+		$this->initAuth($sid);
+		$this->initIlias();
+
 		if(!$this->__checkSession($sid))
 		{
-			return $this->__raiseError($this->sauth->getMessage(),$this->sauth->getMessageCode());
+			return $this->__raiseError($this->__getMessage(),$this->__getMessageCode());
 		}
 		if(!strlen($ref_id))
 		{
 			return $this->__raiseError('No ref id given. Aborting!',
 									   'Client');
 		}
-		include_once './include/inc.header.php';
 		global $rbacsystem, $tree, $ilLog;
 
 		// get obj_id

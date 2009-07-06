@@ -950,7 +950,6 @@ class ilInitialisation
 													// this is also source of a bug (see mantis)
 		}
 
-
 		// maintenance mode
 		$this->handleMaintenanceMode();
 
@@ -981,6 +980,8 @@ class ilInitialisation
 		
 		if($this->returnBeforeAuth()) return;
 		
+		
+		
 		// $ilAuth initialisation
 		include_once("./Services/Authentication/classes/class.ilAuthUtils.php");
 		ilAuthUtils::_initAuth();
@@ -989,7 +990,7 @@ class ilInitialisation
 		// Do not accept external session ids
 		if ($_GET["PHPSESSID"] != "")
 		{
-			$_GET["PHPSESSID"] == "";
+			$_GET["PHPSESSID"] = "";
 			session_regenerate_id();
 		}
 
@@ -1078,7 +1079,6 @@ class ilInitialisation
 		$GLOBALS['ilUser'] =& $ilUser;
 		$ilBench->stop("Core", "HeaderInclude_getCurrentUser");
 
-
 		// $ilCtrl initialisation
 		//$ilCtrl = new ilCtrl();
 		$ilCtrl = new ilCtrl2();
@@ -1128,11 +1128,14 @@ class ilInitialisation
 		if (($ilAuth->getAuth() && $ilias->account->isCurrentUserActive()) ||
 			(defined("IL_PHPUNIT_TEST") && DEVMODE))
 		{
+
+			
 //echo "C"; exit;
 			$ilBench->start("Core", "HeaderInclude_getCurrentUserAccountData");
 //var_dump($_SESSION);
 			// get user data
 			$this->initUserAccount();
+			
 //var_dump($_SESSION);
 			// check client IP of user
 			$this->checkUserClientIP();
@@ -1202,8 +1205,8 @@ class ilInitialisation
 			// AUTHENTICATION FAILED
 			//
 				
-                        // If ILIAS is accessed by a WebDAV client,
-                        // request login again.
+			// If ILIAS is accessed by a WebDAV client,
+			// request login again.
 			if ($context == "webdav") 
 			{
 				$ilLog->write(__METHOD__.': Current Auth Class: '. get_class($ilAuth));
@@ -1215,7 +1218,6 @@ class ilInitialisation
 				
 				return;
 			}
-
 			// authentication failed due to inactive user?
 			if ($ilAuth->getAuth() && !$ilUser->isCurrentUserActive())
 			{
@@ -1230,9 +1232,16 @@ class ilInitialisation
 			{
 				// $lng initialisation
 				$this->initLanguage();
+				
+				// Do not redirect for Auth_SOAP Auth_CRON Auth_HTTP
+				if(!$ilAuth->allowsRedirection())
+				{
+					return false;
+				}
 
 				if ($ilSetting->get("pub_section") &&
-					($ilAuth->getStatus() == "" || $ilAuth->getStatus() == AUTH_EXPIRED ||
+					($ilAuth->getStatus() == "" || 
+						$ilAuth->getStatus() == AUTH_EXPIRED ||
 						$ilAuth->getStatus() == AUTH_IDLED) &&
 					$_GET["reloadpublic"] != "1")
 				{
@@ -1245,7 +1254,9 @@ class ilInitialisation
 						// normal access by webinterface
 						$this->goToLogin($ilAuth->getStatus());
 						exit;
-					} else {
+					} 
+					else 
+					{
 						// called by soapAuthenticationLdap
 						return;
 					}
@@ -1285,7 +1296,6 @@ class ilInitialisation
 				}
 			}
 		}
-
 		//
 		// SUCCESSFUL AUTHENTICATED or NON-AUTH-AREA (Login, Registration, ...)
 		//

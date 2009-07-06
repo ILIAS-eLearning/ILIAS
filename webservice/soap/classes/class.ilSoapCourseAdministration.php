@@ -48,9 +48,12 @@ class ilSoapCourseAdministration extends ilSoapAdministration
 	// Service methods
 	function addCourse($sid,$target_id,$crs_xml)
 	{
+		$this->initAuth($sid);
+		$this->initIlias();
+
 		if(!$this->__checkSession($sid))
 		{
-			return $this->__raiseError($this->sauth->getMessage(),$this->sauth->getMessageCode());
+			return $this->__raiseError($this->__getMessage(),$this->__getMessageCode());
 		}			
 
 		if(!is_numeric($target_id))
@@ -59,8 +62,6 @@ class ilSoapCourseAdministration extends ilSoapAdministration
 									   'Client');
 		}
 
-		// Include main header
-		include_once './include/inc.header.php';
 		global $rbacsystem;
 
 		if(!$target_obj =& ilObjectFactory::getInstanceByRefId($target_id, false))
@@ -106,9 +107,12 @@ class ilSoapCourseAdministration extends ilSoapAdministration
 
 	function deleteCourse($sid,$course_id)
 	{
+		$this->initAuth($sid);
+		$this->initIlias();
+
 		if(!$this->__checkSession($sid))
 		{
-			return $this->__raiseError($this->sauth->getMessage(),$this->sauth->getMessageCode());
+			return $this->__raiseError($this->__getMessage(),$this->__getMessageCode());
 		}			
 
 		if(!is_numeric($course_id))
@@ -117,8 +121,6 @@ class ilSoapCourseAdministration extends ilSoapAdministration
 									   'Client');
 		}
 
-		// Include main header
-		include_once './include/inc.header.php';
 		include_once "./Services/Utilities/classes/class.ilUtil.php";
 		global $rbacsystem;
 
@@ -169,9 +171,12 @@ class ilSoapCourseAdministration extends ilSoapAdministration
 
 	function assignCourseMember($sid,$course_id,$user_id,$type)
 	{
+		$this->initAuth($sid);
+		$this->initIlias();
+
 		if(!$this->__checkSession($sid))
 		{
-			return $this->__raiseError($this->sauth->getMessage(),$this->sauth->getMessageCode());
+			return $this->__raiseError($this->__getMessage(),$this->__getMessageCode());
 		}
 
 		if(!is_numeric($course_id))
@@ -179,9 +184,6 @@ class ilSoapCourseAdministration extends ilSoapAdministration
 			return $this->__raiseError('No valid course id given. Please choose an existing reference id of an ILIAS course',
 									   'Client');
 		}
-
-		// Include main header
-		include_once './include/inc.header.php';
 
 		global $rbacsystem;
 
@@ -246,9 +248,12 @@ class ilSoapCourseAdministration extends ilSoapAdministration
 
 	function excludeCourseMember($sid,$course_id,$user_id)
 	{
+		$this->initAuth($sid);
+		$this->initIlias();
+
 		if(!$this->__checkSession($sid))
 		{
-			return $this->__raiseError($this->sauth->getMessage(),$this->sauth->getMessageCode());
+			return $this->__raiseError($this->__getMessage(),$this->__getMessageCode());
 		}			
 		if(!is_numeric($course_id))
 		{
@@ -256,8 +261,6 @@ class ilSoapCourseAdministration extends ilSoapAdministration
 									   'Client');
 		}
 
-		// Include main header
-		include_once './include/inc.header.php';
 		global $rbacsystem;
 
 		if(($obj_type = ilObject::_lookupType(ilObject::_lookupObjId($course_id))) != 'crs')
@@ -300,17 +303,18 @@ class ilSoapCourseAdministration extends ilSoapAdministration
 	
 	function isAssignedToCourse($sid,$course_id,$user_id)
 	{
+		$this->initAuth($sid);
+		$this->initIlias();
+
 		if(!$this->__checkSession($sid))
 		{
-			return $this->__raiseError($this->sauth->getMessage(),$this->sauth->getMessageCode());
+			return $this->__raiseError($this->__getMessage(),$this->__getMessageCode());
 		}			
 		if(!is_numeric($course_id))
 		{
 			return $this->__raiseError('No valid course id given. Please choose an existing reference id of an ILIAS course',
 									   'Client');
 		}
-		// Include main header
-		include_once './include/inc.header.php';
 		global $rbacsystem;
 
 		if(($obj_type = ilObject::_lookupType(ilObject::_lookupObjId($course_id))) != 'crs')
@@ -359,18 +363,18 @@ class ilSoapCourseAdministration extends ilSoapAdministration
 
 	function getCourseXML($sid,$course_id)
 	{
+		$this->initAuth($sid);
+		$this->initIlias();
+
 		if(!$this->__checkSession($sid))
 		{
-			return $this->__raiseError($this->sauth->getMessage(),$this->sauth->getMessageCode());
+			return $this->__raiseError($this->__getMessage(),$this->__getMessageCode());
 		}			
 		if(!is_numeric($course_id))
 		{
 			return $this->__raiseError('No valid course id given. Please choose an existing reference id of an ILIAS course',
 									   'Client');
 		}
-
-		// Include main header
-		include_once './include/inc.header.php';
 
 		global $rbacsystem;
 
@@ -408,9 +412,12 @@ class ilSoapCourseAdministration extends ilSoapAdministration
 
 	function updateCourse($sid,$course_id,$xml)
 	{
+		$this->initAuth($sid);
+		$this->initIlias();
+
 		if(!$this->__checkSession($sid))
 		{
-			return $this->__raiseError($this->sauth->getMessage(),$this->sauth->getMessageCode());
+			return $this->__raiseError($this->__getMessage(),$this->__getMessageCode());
 		}			
 		
 		if(!is_numeric($course_id))
@@ -418,9 +425,6 @@ class ilSoapCourseAdministration extends ilSoapAdministration
 			return $this->__raiseError('No valid course id given. Please choose an existing reference id of an ILIAS course',
 									   'Client');
 		}
-
-		// Include main header
-		include_once './include/inc.header.php';
 
 		global $rbacsystem;
 
@@ -480,12 +484,14 @@ class ilSoapCourseAdministration extends ilSoapAdministration
 	 */
 	function getCoursesForUser($sid, $parameters) {
 		
+		$this->initAuth($sid);
+		$this->initIlias();
+
 		if(!$this->__checkSession($sid))
 		{
-			return $this->__raiseError($this->sauth->getMessage(),$this->sauth->getMessageCode());
+			return $this->__raiseError($this->__getMessage(),$this->__getMessageCode());
 		}			
-		// Include main header
-		include_once './include/inc.header.php';
+
 		global $rbacreview, $ilObjDataCache, $tree;
 		
 		include_once 'webservice/soap/classes/class.ilXMLResultSetParser.php';

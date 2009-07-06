@@ -41,9 +41,12 @@ class ilSoapObjectAdministration extends ilSoapAdministration
 
 	function getObjIdByImportId($sid,$import_id)
 	{
+		$this->initAuth($sid);
+		$this->initIlias();
+
 		if(!$this->__checkSession($sid))
 		{
-			return $this->__raiseError($this->sauth->getMessage(),$this->sauth->getMessageCode());
+			return $this->__raiseError($this->__getMessage(),$this->__getMessageCode());
 		}
 		if(!$import_id)
 		{
@@ -51,8 +54,6 @@ class ilSoapObjectAdministration extends ilSoapAdministration
 									   'Client');
 		}
 
-		// Include main header
-		include_once './include/inc.header.php';
 		global $ilLog;
 
 		$obj_id = ilObject::_lookupObjIdByImportId($import_id);
@@ -63,11 +64,12 @@ class ilSoapObjectAdministration extends ilSoapAdministration
 
 	function getRefIdsByImportId($sid,$import_id)
 	{
-		global $tree;
+		$this->initAuth($sid);
+		$this->initIlias();
 
 		if(!$this->__checkSession($sid))
 		{
-			return $this->__raiseError($this->sauth->getMessage(),$this->sauth->getMessageCode());
+			return $this->__raiseError($this->__getMessage(),$this->__getMessageCode());
 		}
 		if(!$import_id)
 		{
@@ -75,8 +77,6 @@ class ilSoapObjectAdministration extends ilSoapAdministration
 									   'Client');
 		}
 
-		// Include main header
-		include_once './include/inc.header.php';
 		global $tree;
 
 		$obj_id = ilObject::_lookupObjIdByImportId($import_id);
@@ -97,18 +97,18 @@ class ilSoapObjectAdministration extends ilSoapAdministration
 
 	function getRefIdsByObjId($sid,$obj_id)
 	{
+		$this->initAuth($sid);
+		$this->initIlias();
+
 		if(!$this->__checkSession($sid))
 		{
-			return $this->__raiseError($this->sauth->getMessage(),$this->sauth->getMessageCode());
+			return $this->__raiseError($this->__getMessage(),$this->__getMessageCode());
 		}
 		if(!$obj_id)
 		{
 			return $this->__raiseError('No object id given.',
 									   'Client');
 		}
-
-		// Include main header
-		include_once './include/inc.header.php';
 
 		$ref_ids = ilObject::_getAllReferences($obj_id);
 		foreach($ref_ids as $ref_id)
@@ -128,14 +128,14 @@ class ilSoapObjectAdministration extends ilSoapAdministration
 	*/
 	function getObjIdsByRefIds($sid, $ref_ids)
 	{
+		$this->initAuth($sid);
+		$this->initIlias();
+
 		if(!$this->__checkSession($sid))
 		{
-			return $this->__raiseError($this->sauth->getMessage(),$this->sauth->getMessageCode());
+			return $this->__raiseError($this->__getMessage(),$this->__getMessageCode());
 		}
 
-
-		// Include main header
-		include_once './include/inc.header.php';
 
 		if(!count($ref_ids) || !is_array ($ref_ids))
 		{
@@ -168,18 +168,18 @@ class ilSoapObjectAdministration extends ilSoapAdministration
 
 	function getObjectByReference($sid,$a_ref_id,$user_id)
 	{
+		$this->initAuth($sid);
+		$this->initIlias();
+
 		if(!$this->__checkSession($sid))
 		{
-			return $this->__raiseError($this->sauth->getMessage(),$this->sauth->getMessageCode());
+			return $this->__raiseError($this->__getMessage(),$this->__getMessageCode());
 		}
 		if(!is_numeric($a_ref_id))
 		{
 			return $this->__raiseError('No valid reference id given. Please choose an existing reference id of an ILIAS object',
 									   'Client');
 		}
-
-		// Include main header
-		include_once './include/inc.header.php';
 
 		if(!$tmp_obj = ilObjectFactory::getInstanceByRefId($a_ref_id,false))
 		{
@@ -211,18 +211,18 @@ class ilSoapObjectAdministration extends ilSoapAdministration
 
 	function getObjectsByTitle($sid,$a_title,$user_id)
 	{
+		$this->initAuth($sid);
+		$this->initIlias();
+
 		if(!$this->__checkSession($sid))
 		{
-			return $this->__raiseError($this->sauth->getMessage(),$this->sauth->getMessageCode());
+			return $this->__raiseError($this->__getMessage(),$this->__getMessageCode());
 		}
 		if(!strlen($a_title))
 		{
 			return $this->__raiseError('No valid query string given.',
 									   'Client');
 		}
-
-		// Include main header
-		include_once './include/inc.header.php';
 
 		include_once './Services/Search/classes/class.ilQueryParser.php';
 
@@ -279,9 +279,12 @@ class ilSoapObjectAdministration extends ilSoapAdministration
 
 	function searchObjects($sid,$types,$key,$combination,$user_id)
 	{
+		$this->initAuth($sid);
+		$this->initIlias();
+
 		if(!$this->__checkSession($sid))
 		{
-			return $this->__raiseError($this->sauth->getMessage(),$this->sauth->getMessageCode());
+			return $this->__raiseError($this->__getMessage(),$this->__getMessageCode());
 		}
 		if(!is_array($types))
 		{
@@ -294,9 +297,6 @@ class ilSoapObjectAdministration extends ilSoapAdministration
 									   'Client');
 		}
 
-
-		// Include main header
-		include_once './include/inc.header.php';
 
 		include_once './Services/Search/classes/class.ilQueryParser.php';
 
@@ -361,15 +361,16 @@ class ilSoapObjectAdministration extends ilSoapAdministration
 
 	function getTreeChilds($sid,$ref_id,$types,$user_id)
 	{
-		$all = false;
+		$this->initAuth($sid);
+		$this->initIlias();
 
 		if(!$this->__checkSession($sid))
 		{
-			return $this->__raiseError($this->sauth->getMessage(),$this->sauth->getMessageCode());
+			return $this->__raiseError($this->__getMessage(),$this->__getMessageCode());
 		}
 
-		// Include main header
-		include_once './include/inc.header.php';
+		$all = false;
+
 		global $tree;
 
 		if(!$target_obj =& ilObjectFactory::getInstanceByRefId($ref_id,false))
@@ -415,68 +416,75 @@ class ilSoapObjectAdministration extends ilSoapAdministration
 			$xml_writer->setUserId($user_id);
 		}
 
-		if($xml_writer->start())
-		{
-			return $xml_writer->getXML();
-		}
+        if ($xml_writer->start())
+        {
+            return $xml_writer->getXML();
+        }
 
 		return $this->__raiseError('Cannot create object xml !','Server');
 	}
 
-	function getXMLTree($sid,$ref_id,$types,$user_id) {
-
-	  if(!$this->__checkSession($sid))
+    function getXMLTree($sid, $ref_id, $types, $user_id)
+    {
+        $this->initAuth($sid);
+        $this->initIlias();
+       
+        if (!$this->__checkSession($sid))
+        {
+            return $this->__raiseError($this->__getMessage(), $this->__getMessageCode());
+        }
+       
+        global $tree;
+       
+        $nodedata = $tree->getNodeData($ref_id);
+       
+        $nodearray = $tree->getSubTree($nodedata);
+       
+        $filter = is_array($types)?$types: array ("0"=>"root", "adm", "lngf", "mail",
+        "usrf", "rolf", "taxf", "trac", "pays",
+        "auth", "chac", "objf", "recf", "assf",
+        "stys", "seas", "extt");
+       
+        foreach ($nodearray as $node)
+        {
+            if (!in_array($node['type'], $filter))
             {
-              return $this->__raiseError($this->sauth->getMessage(),$this->sauth->getMessageCode());
+                if ($tmp = ilObjectFactory::getInstanceByRefId($node['ref_id'], false))
+                {
+                    $nodes[] = $tmp;
+                }
             }
-
-          include_once './include/inc.header.php';
-
-          global $tree;
-
-          $nodedata  = $tree->getNodeData($ref_id);
-
-          $nodearray = $tree->getSubTree($nodedata);
-
-	  $filter = is_array($types) ? $types :  array("0" => "root","adm","lngf","mail",
-			    "usrf","rolf","taxf","trac","pays",
-			    "auth","chac","objf","recf","assf",
-			    "stys","seas","extt");
-
-	  foreach($nodearray as $node) {
-            if (!in_array($node['type'], $filter)) {
-              if ($tmp = ilObjectFactory::getInstanceByRefId($node['ref_id'],false)) {
-                $nodes[] = $tmp;
-              }
-            }
-          }
-
-
-	  include_once './webservice/soap/classes/class.ilObjectXMLWriter.php';
-
-	  $xml_writer = new ilObjectXMLWriter();
-	  $xml_writer->setObjects($nodes);
-	  $xml_writer->enableOperations(false);
-
-	  if($user_id)
-	    {
-	      $xml_writer->setUserId($user_id);
-	    }
-
-	  if($xml_writer->start())
-	    {
-	      return $xml_writer->getXML();
-	    }
-
-	  return $this->__raiseError('Cannot create object xml !','Server');
-	}
+        }
+       
+        
+        include_once './webservice/soap/classes/class.ilObjectXMLWriter.php';
+       
+        $xml_writer = new ilObjectXMLWriter();
+        $xml_writer->setObjects($nodes);
+        $xml_writer->enableOperations(false);
+       
+        if ($user_id)
+        {
+            $xml_writer->setUserId($user_id);
+        }
+       
+        if ($xml_writer->start())
+        {
+            return $xml_writer->getXML();
+        }
+       
+        return $this->__raiseError('Cannot create object xml !', 'Server');
+    }
 
 
 	function addObject($sid,$a_target_id,$a_xml)
 	{
+		$this->initAuth($sid);
+		$this->initIlias();
+
 		if(!$this->__checkSession($sid))
 		{
-			return $this->__raiseError($this->sauth->getMessage(),$this->sauth->getMessageCode());
+			return $this->__raiseError($this->__getMessage(),$this->__getMessageCode());
 		}
 		if(!strlen($a_xml))
 		{
@@ -484,8 +492,6 @@ class ilSoapObjectAdministration extends ilSoapAdministration
 									   'Client');
 		}
 
-		// Include main header
-		include_once './include/inc.header.php';
 		global $rbacsystem, $objDefinition,$ilUser, $lng, $ilObjDataCache;
 
 		if(!$target_obj =& ilObjectFactory::getInstanceByRefId($a_target_id,false))
@@ -630,9 +636,12 @@ class ilSoapObjectAdministration extends ilSoapAdministration
 
 	function addReference($sid,$a_source_id,$a_target_id)
 	{
+		$this->initAuth($sid);
+		$this->initIlias();
+
 		if(!$this->__checkSession($sid))
 		{
-			return $this->__raiseError($this->sauth->getMessage(),$this->sauth->getMessageCode());
+			return $this->__raiseError($this->__getMessage(),$this->__getMessageCode());
 		}
 		if(!is_numeric($a_source_id))
 		{
@@ -645,7 +654,6 @@ class ilSoapObjectAdministration extends ilSoapAdministration
 									   'Client');
 		}
 
-		include_once './include/inc.header.php';
 		global $objDefinition, $rbacsystem, $tree;
 
 		if(!$source_obj =& ilObjectFactory::getInstanceByRefId($a_source_id,false))
@@ -744,18 +752,18 @@ class ilSoapObjectAdministration extends ilSoapAdministration
 
 	function deleteObject($sid,$reference_id)
 	{
-		global $tree;
+		$this->initAuth($sid);
+		$this->initIlias();
 
 		if(!$this->__checkSession($sid))
 		{
-			return $this->__raiseError($this->sauth->getMessage(),$this->sauth->getMessageCode());
+			return $this->__raiseError($this->__getMessage(),$this->__getMessageCode());
 		}
 		if(!is_numeric($reference_id))
 		{
 			return $this->__raiseError('No reference id given.',
 									   'Client');
 		}
-		include_once './include/inc.header.php';
 		global $tree, $rbacsystem, $rbacadmin;
 
 		if(!$del_obj =& ilObjectFactory::getInstanceByRefId($reference_id,false))
@@ -797,16 +805,18 @@ class ilSoapObjectAdministration extends ilSoapAdministration
 
 	function removeFromSystemByImportId($sid,$import_id)
 	{
+		$this->initAuth($sid);
+		$this->initIlias();
+
 		if(!$this->__checkSession($sid))
 		{
-			return $this->__raiseError($this->sauth->getMessage(),$this->sauth->getMessageCode());
+			return $this->__raiseError($this->__getMessage(),$this->__getMessageCode());
 		}
 		if(!strlen($import_id))
 		{
 			return $this->__raiseError('No import id given. Aborting!',
 									   'Client');
 		}
-		include_once './include/inc.header.php';
 		global $rbacsystem, $tree, $ilLog;
 
 		// get obj_id
@@ -861,9 +871,12 @@ class ilSoapObjectAdministration extends ilSoapAdministration
 
 	function updateObjects($sid,$a_xml)
 	{
+		$this->initAuth($sid);
+		$this->initIlias();
+
 		if(!$this->__checkSession($sid))
 		{
-			return $this->__raiseError($this->sauth->getMessage(),$this->sauth->getMessageCode());
+			return $this->__raiseError($this->__getMessage(),$this->__getMessageCode());
 		}
 		if(!strlen($a_xml))
 		{
@@ -871,8 +884,6 @@ class ilSoapObjectAdministration extends ilSoapAdministration
 									   'Client');
 		}
 
-		// Include main header
-		include_once './include/inc.header.php';
 		global $rbacreview, $rbacsystem, $lng,$ilAccess;
 
 		include_once './webservice/soap/classes/class.ilObjectXMLParser.php';
@@ -996,13 +1007,14 @@ class ilSoapObjectAdministration extends ilSoapAdministration
 	
 	function moveObject ($sid, $ref_id, $target_id) 
 	{
+		$this->initAuth($sid);
+		$this->initIlias();
+
 		if(!$this->__checkSession($sid))
 		{
-			return $this->__raiseError($this->sauth->getMessage(),$this->sauth->getMessageCode());
+			return $this->__raiseError($this->__getMessage(),$this->__getMessageCode());
 		}
 
-		// Include main header
-		include_once './include/inc.header.php';
 		include_once './webservice/soap/classes/class.ilSoapUtils.php';
 		global $rbacreview, $rbacadmin, $objDefinition, $rbacsystem, $lng, $ilUser, $tree;
 		
@@ -1090,15 +1102,17 @@ class ilSoapObjectAdministration extends ilSoapAdministration
 	 * $sid	session id
 	 * $settings_xml contains copy wizard settings following ilias_copy_wizard_settings.dtd
 	 */
-	function copyObject($sid, $copy_settings_xml) {
+	function copyObject($sid, $copy_settings_xml) 
+	{
+		$this->initAuth($sid);
+		$this->initIlias();
+
 		if(!$this->__checkSession($sid))
 		{
-			return $this->__raiseError($this->sauth->getMessage(),$this->sauth->getMessageCode());
+			return $this->__raiseError($this->__getMessage(),$this->__getMessageCode());
 		}
 
 
-		// Include main header
-		include_once './include/inc.header.php';
 		include_once './webservice/soap/classes/class.ilSoapUtils.php';
 		global $rbacreview, $objDefinition, $rbacsystem, $lng, $ilUser;
 
@@ -1174,15 +1188,16 @@ class ilSoapObjectAdministration extends ilSoapAdministration
 		}
 	}
 
-	function getPathForRefId($sid, $ref_id) {
+	function getPathForRefId($sid, $ref_id) 
+	{
+		$this->initAuth($sid);
+		$this->initIlias();
+
 		if(!$this->__checkSession($sid))
 		{
-			return $this->__raiseError($this->sauth->getMessage(),$this->sauth->getMessageCode());
+			return $this->__raiseError($this->__getMessage(),$this->__getMessageCode());
 		}
 
-
-		// Include main header
-		include_once './include/inc.header.php';
 		global $ilAccess, $objDefinition, $rbacsystem, $lng, $ilUser;
 		
 		if(!$rbacsystem->checkAccess('read', $ref_id))
@@ -1226,7 +1241,8 @@ class ilSoapObjectAdministration extends ilSoapAdministration
 	}
 	
 	
-	private function canAddType ($type, $target_type, $target_id) {
+	private function canAddType ($type, $target_type, $target_id) 
+	{
 		// checking for target subtypes. Can we add source to target
 		global $objDefinition, $rbacsystem;
 		

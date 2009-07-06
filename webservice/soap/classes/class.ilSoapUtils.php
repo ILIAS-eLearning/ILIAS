@@ -51,13 +51,14 @@ class ilSoapUtils extends ilSoapAdministration
 	
 	function sendMail($sid,$to,$cc,$bcc,$sender,$subject,$message,$attach)
 	{
+		$this->initAuth($sid);
+		$this->initIlias();
+
 		if(!$this->__checkSession($sid))
 		{
-			return $this->__raiseError($this->sauth->getMessage(),$this->sauth->getMessageCode());
+			return $this->__raiseError($this->__getMessage(),$this->__getMessageCode());
 		}			
 
-		// Include main header
-		include_once './include/inc.header.php';
 
 		global $ilLog;
 
@@ -96,26 +97,28 @@ class ilSoapUtils extends ilSoapAdministration
 	
 	function saveTempFileAsMediaObject($sid, $name, $tmp_name)
 	{
+		$this->initAuth($sid);
+		$this->initIlias();
+
 		if(!$this->__checkSession($sid))
 		{
-			return $this->__raiseError($this->sauth->getMessage(),$this->sauth->getMessageCode());
+			return $this->__raiseError($this->__getMessage(),$this->__getMessageCode());
 		}			
 
-		// Include main header
-		include_once './include/inc.header.php';
 		include_once "./Services/MediaObjects/classes/class.ilObjMediaObject.php";
 		return ilObjMediaObject::_saveTempFileAsMediaObject($name, $tmp_name);
 	}
 	
 	function getMobsOfObject($sid, $a_type, $a_id)
 	{
+		$this->initAuth($sid);
+		$this->initIlias();
+
 		if(!$this->__checkSession($sid))
 		{
-			return $this->__raiseError($this->sauth->getMessage(),$this->sauth->getMessageCode());
+			return $this->__raiseError($this->__getMessage(),$this->__getMessageCode());
 		}			
 
-		// Include main header
-		include_once './include/inc.header.php';
 		include_once "./Services/MediaObjects/classes/class.ilObjMediaObject.php";
 		return ilObjMediaObject::_getMobsOfObject($a_type, $a_id);
 	}
@@ -129,14 +132,14 @@ class ilSoapUtils extends ilSoapAdministration
 	 */
 	public function ilCloneDependencies($sid,$copy_identifier)
 	{
+		$this->initAuth($sid);
+		$this->initIlias();
+
 		if(!$this->__checkSession($sid))
 		{
-			return $this->__raiseError($this->sauth->getMessage(),$this->sauth->getMessageCode());
+			return $this->__raiseError($this->__getMessage(),$this->__getMessageCode());
 		}			
 
-		// Include main header
-		include_once './include/inc.header.php';
-		
 		global $ilLog,$ilUser;
 
 		include_once('Services/CopyWizard/classes/class.ilCopyWizardOptions.php');
@@ -197,14 +200,14 @@ class ilSoapUtils extends ilSoapAdministration
 	 */
 	public function ilClone($sid,$copy_identifier)
 	{
+		$this->initAuth($sid);
+		$this->initIlias();
+
 		if(!$this->__checkSession($sid))
 		{
-			return $this->__raiseError($this->sauth->getMessage(),$this->sauth->getMessageCode());
+			return $this->__raiseError($this->__getMessage(),$this->__getMessageCode());
 		}			
 
-		// Include main header
-		include_once './include/inc.header.php';
-		
 		global $ilLog,$ilUser;
 		
 		include_once('Services/CopyWizard/classes/class.ilCopyWizardOptions.php');
@@ -474,13 +477,14 @@ class ilSoapUtils extends ilSoapAdministration
 	
 	public function handleECSTasks($sid)
 	{
+		$this->initAuth($sid);
+		$this->initIlias();
+
 		if(!$this->__checkSession($sid))
 		{
-			return $this->__raiseError($this->sauth->getMessage(),$this->sauth->getMessageCode());
+			return $this->__raiseError($this->__getMessage(),$this->__getMessageCode());
 		}			
 
-		// Include main header
-		include_once './include/inc.header.php';
 		include_once('./Services/WebServices/ECS/classes/class.ilECSTaskScheduler.php');
 
 		global $ilLog;

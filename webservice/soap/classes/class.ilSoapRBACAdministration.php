@@ -42,13 +42,14 @@ class ilSoapRBACAdministration extends ilSoapAdministration
 
 	function deleteRole($sid,$role_id)
 	{
+		$this->initAuth($sid);
+		$this->initIlias();
+
 		if(!$this->__checkSession($sid))
 		{
-			return $this->__raiseError($this->sauth->getMessage(),$this->sauth->getMessageCode());
+			return $this->__raiseError($this->__getMessage(),$this->__getMessageCode());
 		}
 
-		// Include main header
-		include_once './include/inc.header.php';
 		global $rbacreview, $rbacsystem;
 
 		if(!$tmp_role =& ilObjectFactory::getInstanceByObjId($role_id,false) or $tmp_role->getType() != 'role')
@@ -82,14 +83,13 @@ class ilSoapRBACAdministration extends ilSoapAdministration
 
 	function addUserRoleEntry($sid,$user_id,$role_id)
 	{
+		$this->initAuth($sid);
+		$this->initIlias();
 
 		if(!$this->__checkSession($sid))
 		{
-			return $this->__raiseError($this->sauth->getMessage(),$this->sauth->getMessageCode());
+			return $this->__raiseError($this->__getMessage(),$this->__getMessageCode());
 		}
-
-		// Include main header
-		include_once './include/inc.header.php';
 
 		global $rbacadmin;
 
@@ -113,13 +113,14 @@ class ilSoapRBACAdministration extends ilSoapAdministration
 	}
 	function deleteUserRoleEntry($sid,$user_id,$role_id)
 	{
+		$this->initAuth($sid);
+		$this->initIlias();
+
 		if(!$this->__checkSession($sid))
 		{
-			return $this->__raiseError($this->sauth->getMessage(),$this->sauth->getMessageCode());
+			return $this->__raiseError($this->__getMessage(),$this->__getMessageCode());
 		}
 
-		// Include main header
-		include_once './include/inc.header.php';
 		global $rbacadmin;
 
 		if($tmp_user =& ilObjectFactory::getInstanceByObjId($user_id,false) and $tmp_user->getType() != 'usr')
@@ -143,13 +144,14 @@ class ilSoapRBACAdministration extends ilSoapAdministration
 
 	function getOperations($sid)
 	{
+		$this->initAuth($sid);
+		$this->initIlias();
+
 		if(!$this->__checkSession($sid))
 		{
-			return $this->__raiseError($this->sauth->getMessage(),$this->sauth->getMessageCode());
+			return $this->__raiseError($this->__getMessage(),$this->__getMessageCode());
 		}
 
-		// Include main header
-		include_once './include/inc.header.php';
 		global $rbacreview;
 
 		if(is_array($ops = $rbacreview->getOperations()))
@@ -164,13 +166,14 @@ class ilSoapRBACAdministration extends ilSoapAdministration
 
 	function revokePermissions($sid,$ref_id,$role_id)
 	{
+		$this->initAuth($sid);
+		$this->initIlias();
+
 		if(!$this->__checkSession($sid))
 		{
-			return $this->__raiseError($this->sauth->getMessage(),$this->sauth->getMessageCode());
+			return $this->__raiseError($this->__getMessage(),$this->__getMessageCode());
 		}
 
-		// Include main header
-		include_once './include/inc.header.php';
 		global $rbacadmin;
 
 		if(!$tmp_obj =& ilObjectFactory::getInstanceByRefId($ref_id,false))
@@ -195,13 +198,14 @@ class ilSoapRBACAdministration extends ilSoapAdministration
 	}
 	function grantPermissions($sid,$ref_id,$role_id,$permissions)
 	{
+		$this->initAuth($sid);
+		$this->initIlias();
+
 		if(!$this->__checkSession($sid))
 		{
-			return $this->__raiseError($this->sauth->getMessage(),$this->sauth->getMessageCode());
+			return $this->__raiseError($this->__getMessage(),$this->__getMessageCode());
 		}
 
-		// Include main header
-		include_once './include/inc.header.php';
 		global $rbacadmin;
 
 		if(!$tmp_obj =& ilObjectFactory::getInstanceByRefId($ref_id,false))
@@ -235,13 +239,14 @@ class ilSoapRBACAdministration extends ilSoapAdministration
 
 	function getLocalRoles($sid,$ref_id)
 	{
+		$this->initAuth($sid);
+		$this->initIlias();
+
 		if(!$this->__checkSession($sid))
 		{
-			return $this->__raiseError($this->sauth->getMessage(),$this->sauth->getMessageCode());
+			return $this->__raiseError($this->__getMessage(),$this->__getMessageCode());
 		}
 
-		// Include main header
-		include_once './include/inc.header.php';
 		global $rbacreview;
 
 		if(!$tmp_obj =& ilObjectFactory::getInstanceByRefId($ref_id,false))
@@ -278,13 +283,14 @@ class ilSoapRBACAdministration extends ilSoapAdministration
 
 	function getUserRoles($sid,$user_id)
 	{
+		$this->initAuth($sid);
+		$this->initIlias();
+
 		if(!$this->__checkSession($sid))
 		{
-			return $this->__raiseError($this->sauth->getMessage(),$this->sauth->getMessageCode());
+			return $this->__raiseError($this->__getMessage(),$this->__getMessageCode());
 		}
 
-		// Include main header
-		include_once './include/inc.header.php';
 		global $rbacreview;
 
 		if(!$tmp_user =& ilObjectFactory::getInstanceByObjId($user_id,false))
@@ -316,13 +322,14 @@ class ilSoapRBACAdministration extends ilSoapAdministration
 
 	function addRole($sid,$target_id,$role_xml)
 	{
+		$this->initAuth($sid);
+		$this->initIlias();
+
 		if(!$this->__checkSession($sid))
 		{
-			return $this->__raiseError($this->sauth->getMessage(),$this->sauth->getMessageCode());
+			return $this->__raiseError($this->__getMessage(),$this->__getMessageCode());
 		}
 
-		// Include main header
-		include_once './include/inc.header.php';
 		global $rbacreview, $objDefinition, $rbacsystem;
 
 		if(!$tmp_obj =& ilObjectFactory::getInstanceByRefId($target_id,false))
@@ -385,13 +392,14 @@ class ilSoapRBACAdministration extends ilSoapAdministration
 
 	function addRoleFromTemplate($sid,$target_id,$role_xml,$template_id)
 	{
+		$this->initAuth($sid);
+		$this->initIlias();
+
 		if(!$this->__checkSession($sid))
 		{
-			return $this->__raiseError($this->sauth->getMessage(),$this->sauth->getMessageCode());
+			return $this->__raiseError($this->__getMessage(),$this->__getMessageCode());
 		}
 
-		// Include main header
-		include_once './include/inc.header.php';
 		global $rbacreview, $objDefinition, $rbacsystem, $rbacadmin;
 
 		if(!$tmp_obj =& ilObjectFactory::getInstanceByRefId($target_id,false))
@@ -477,13 +485,14 @@ class ilSoapRBACAdministration extends ilSoapAdministration
 
 	function getObjectTreeOperations($sid,$ref_id,$user_id)
 	{
+		$this->initAuth($sid);
+		$this->initIlias();
+
 		if(!$this->__checkSession($sid))
 		{
-			return $this->__raiseError($this->sauth->getMessage(),$this->sauth->getMessageCode());
+			return $this->__raiseError($this->__getMessage(),$this->__getMessageCode());
 		}
 
-		// Include main header
-		include_once './include/inc.header.php';
 		global $rbacsystem,$rbacreview,$ilAccess;
 
 
@@ -550,13 +559,13 @@ class ilSoapRBACAdministration extends ilSoapAdministration
 	 */
 	function getRoles($sid, $role_type, $id)
 	{
+		$this->initAuth($sid);
+		$this->initIlias();
+
 		if(!$this->__checkSession($sid))
 		{
-			return $this->__raiseError($this->sauth->getMessage(),$this->sauth->getMessageCode());
+			return $this->__raiseError($this->__getMessage(),$this->__getMessageCode());
 		}
-
-		// Include main header
-		include_once './include/inc.header.php';
 
 		global $rbacsystem, $rbacreview, $ilUser, $ilDB;
 
@@ -686,13 +695,13 @@ class ilSoapRBACAdministration extends ilSoapAdministration
 
 	function searchRoles ($sid, $key, $combination, $role_type)
 	{
+		$this->initAuth($sid);
+		$this->initIlias();
+
 		if(!$this->__checkSession($sid))
 		{
-			return $this->__raiseError($this->sauth->getMessage(),$this->sauth->getMessageCode());
+			return $this->__raiseError($this->__getMessage(),$this->__getMessageCode());
 		}
-
-		// Include main header
-		include_once './include/inc.header.php';
 
 		global $rbacsystem, $rbacreview, $ilUser, $ilDB;
 

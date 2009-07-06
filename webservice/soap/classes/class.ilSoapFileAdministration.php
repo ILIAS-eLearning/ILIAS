@@ -50,11 +50,13 @@ class ilSoapFileAdministration extends ilSoapAdministration
      */
 	function addFile ($sid, $target_id, $file_xml) {
 
+		$this->initAuth($sid);
+		$this->initIlias();
+
    	    if(!$this->__checkSession($sid))
 		{
-			return $this->__raiseError($this->sauth->getMessage(),$this->sauth->getMessageCode());
+			return $this->__raiseError($this->__getMessage(),$this->__getMessageCode());
 		}
-        include_once './include/inc.header.php';
         global $rbacsystem, $tree, $ilLog;
 
         if(!$target_obj =& ilObjectFactory::getInstanceByRefId($target_id,false))
@@ -128,12 +130,15 @@ class ilSoapFileAdministration extends ilSoapAdministration
      *
      * @return boolean true, if update successful, false otherwise
      */
-	function updateFile ($sid, $ref_id, $file_xml) {
+	function updateFile ($sid, $ref_id, $file_xml) 
+	{
+		$this->initAuth($sid);
+		$this->initIlias();
+
 	    if(!$this->__checkSession($sid))
 		{
-			return $this->__raiseError($this->sauth->getMessage(),$this->sauth->getMessageCode());
+			return $this->__raiseError($this->__getMessage(),$this->__getMessageCode());
 		}
-        include_once './include/inc.header.php';
         global $rbacsystem, $tree, $ilLog;
 
 		if(ilObject::_isInTrash($ref_id))
@@ -205,17 +210,20 @@ class ilSoapFileAdministration extends ilSoapAdministration
 	 * @return xml following ilias_file_x.dtd
 	 */
 
-	function getFileXML ($sid, $ref_id, $attachFileContentsMode) {
+	function getFileXML ($sid, $ref_id, $attachFileContentsMode) 
+	{
+		$this->initAuth($sid);
+		$this->initIlias();
+
 	    if(!$this->__checkSession($sid))
 		{
-			return $this->__raiseError($this->sauth->getMessage(),$this->sauth->getMessageCode());
+			return $this->__raiseError($this->__getMessage(),$this->__getMessageCode());
 		}
 		if(!strlen($ref_id))
 		{
 			return $this->__raiseError('No ref id given. Aborting!',
 									   'Client');
 		}
-	    include_once './include/inc.header.php';
 		global $rbacsystem, $tree, $ilLog;
 
 

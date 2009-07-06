@@ -43,13 +43,13 @@ class ilSOAPStructureObjectAdministration extends ilSoapAdministration
 
 	function getStructureObjects ($sid, $ref_id)
 	{
+		$this->initAuth($sid);
+		$this->initIlias();
 
 		if(!$this->__checkSession($sid))
 		{
-			return $this->__raiseError($this->sauth->getMessage(),$this->sauth->getMessageCode());
+			return $this->__raiseError($this->__getMessage(),$this->__getMessageCode());
 		}
-
-		include_once './include/inc.header.php';
 
 		if(!$target_obj =& ilObjectFactory::getInstanceByRefId($ref_id, false))
 		{

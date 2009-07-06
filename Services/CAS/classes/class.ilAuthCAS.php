@@ -16,6 +16,16 @@ include_once 'Auth.php';
 class ilAuthCAS extends Auth
 {
 	/**
+	 * Returns true, if the current auth mode allows redirection to e.g 
+	 * to loginScreen, public section... 
+	 * @return 
+	 */
+	public function allowsRedirection()
+	{
+		return true;
+	} 
+
+	/**
 	 * Constructor
 	 * 
 	 * @param object $container
