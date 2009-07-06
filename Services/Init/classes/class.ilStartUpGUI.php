@@ -1131,11 +1131,21 @@ class ilStartUpGUI
 		
 		try
 		{
-			global $lng, $ilias;			
+			global $lng, $ilias;		
+			
+			require_once 'Services/Registration/classes/class.ilRegistrationSettings.php';
+			$oRegSettings = new ilRegistrationSettings();	
 			
 			$usr_id = ilObjUser::_verifyRegistrationHash(trim($_GET['rh']));
 			$oUser = ilObjectFactory::getInstanceByObjId($usr_id);
 			$oUser->setActive(true);
+			if($oRegSettings->passwordGenerationEnabled())
+            {
+            	$passwd = ilUtil::generatePasswords(1);
+				$password =  $passwd[0];				
+				$oUser->setPasswd($password, IL_PASSWD_PLAIN);
+				$oUser->setLastPasswordChangeTS( time() );				
+            }
 			$oUser->update();
 			
 			if($lng->getLangKey() != $oUser->getPref('language'))
@@ -1152,6 +1162,10 @@ class ilStartUpGUI
 			{				
 	            $acc_mail = new ilAccountMail();
 	            $acc_mail->setUser($oUser);
+	            if($oRegSettings->passwordGenerationEnabled())
+	            {
+	                $acc_mail->setUserPassword($password);
+	            }
 	            $acc_mail->send();
 			}
 			else	// do default mail
@@ -1174,6 +1188,12 @@ class ilStartUpGUI
 					$lng->txt("reg_mail_body_text2")."\n".
 					ILIAS_HTTP_PATH."/login.php?client_id=".CLIENT_ID."\n";			
 				$body .= $lng->txt("login").": ".$oUser->getLogin()."\n";
+				
+				if($oRegSettings->passwordGenerationEnabled())
+				{
+					$body.= $lng->txt("passwd").": ".$password."\n";
+				}
+				
 				$body.= "\n";
 	
 				$body .= ($lng->txt("reg_mail_body_text3")."\n\r");
