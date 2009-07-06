@@ -13924,3 +13924,11 @@ $query = "UPDATE role_data SET disk_quota = 9223372036854775807 ".
 $ilDB->query($query);
 
 ?>
+<#2680>
+<?php
+	$ilDB->manipulate("ALTER TABLE `aicc_object` CHANGE `c_type` `type` VARCHAR(50) NULL DEFAULT NULL");	
+?>
+<#2681>
+<?php
+	$ilDB->manipulate("ALTER TABLE `cp_sequencing` CHANGE `attemptexperienceddurationlimit` `attemptexpdurlimit` VARCHAR(20) NULL DEFAULT NULL");	
+?>
