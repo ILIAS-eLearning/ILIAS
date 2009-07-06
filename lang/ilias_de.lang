@@ -9604,3 +9604,5 @@ ldap#:#ldap_role_selection_info#:#Ihre Eingabe ist nicht eindeutig. Bitte wähle
 ldap#:#ldap_role_by_plugin#:#Durch Plugin
 common#:#reg_mail_subject_confirmation#:#ILIAS eLearning - Ihr Bestätigungslink
 common#:#reg_mail_body_confirmation#:#um Ihr Benutzerprofil freizuschalten und gleichzeitig diese E-Mail-Adresse zu bestägigen, klicken Sie bitte den folgenden Link an:
+chat#:#chat_add_blocking#:#Benutzer sperren
+chat#:#chat_confirm_delete#:#Sind Sie sicher, dass sie diese Chaträume löschen möchten?

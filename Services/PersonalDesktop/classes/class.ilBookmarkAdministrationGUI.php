@@ -661,22 +661,26 @@ return;
 	*/
 	function export($deliver=true)
 	{
-		if (!isset($_POST["bm_id"]))
+		$bm_ids = $_GET['bm_id'] ? array($_GET['bm_id']) : $_POST['bm_id'];
+		if (!$bm_ids)
 		{
 			$this->ilias->raiseError($this->lng->txt("no_checkbox"),$this->ilias->error_obj->MESSAGE);
 		}
 		$export_ids=array();
-		foreach($_POST["bm_id"] as $id)
+		foreach($bm_ids as $id)
 		{
 			if ($this->tree->isInTree($id))
 			{
-				list($type, $obj_id) = explode(":", $id);
-				$export_ids[]=$obj_id;
+				//list($type, $obj_id) = explode(":", $id);
+				//$export_ids[]=$obj_id;
+				$export_ids[]=$id;
 			}
 		}
+		
 		require_once ("./Services/PersonalDesktop/classes/class.ilBookmarkImportExport.php");
 		$html_content=ilBookmarkImportExport::_exportBookmark ($export_ids,true,
 			$this->lng->txt("bookmarks_of")." ".$this->ilias->account->getFullname());
+			
 		if ($deliver)
 		{
 			ilUtil::deliverData($html_content, 'bookmarks.html', "application/save", $charset = "");
@@ -697,7 +701,6 @@ return;
 		$mfile = new ilFileDataMail($ilUser->getId());
 		$umail = new ilFormatMail($ilUser->getId());
 
-
 		$html_content=$this->export(false);
 		$tempfile=ilUtil::ilTempnam();
 		$fp=fopen($tempfile,'w');
@@ -716,17 +719,17 @@ return;
 	*/
 	function delete()
 	{
-		if (!isset($_POST["bm_id"]))
+		$bm_ids = $_GET['bm_id'] ? array($_GET['bm_id']) : $_POST['bm_id'];
+		if (!$bm_ids)
 		{
 			$this->ilias->raiseError($this->lng->txt("no_checkbox"),$this->ilias->error_obj->MESSAGE);
 		}
-
+	
 		$this->tpl->addBlockFile("ADM_CONTENT", "objects", "tpl.obj_confirm.html");
 
 		ilUtil::sendQuestion($this->lng->txt("info_delete_sure"));
 		$this->ctrl->setParameter($this, "bmf_id", $this->id);
-		$this->tpl->setVariable("FORMACTION",
-			$this->ctrl->getFormAction($this));
+		$this->tpl->setVariable("FORMACTION", $this->ctrl->getFormAction($this));
 
 		// output table header
 		$cols = array("type", "title");
@@ -737,9 +740,9 @@ return;
 			$this->tpl->parseCurrentBlock();
 		}
 
-		$_SESSION["saved_post"] = $_POST["bm_id"];
+		$_SESSION["saved_post"] = $bm_ids;
 
-		foreach($_POST["bm_id"] as $obj_id)
+		foreach($bm_ids as $obj_id)
 		{
 			$type = ilBookmark::_getTypeOfId($obj_id);
 

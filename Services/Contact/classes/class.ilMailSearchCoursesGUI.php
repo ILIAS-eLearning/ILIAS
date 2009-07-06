@@ -75,10 +75,11 @@ class ilMailSearchCoursesGUI
 	function mail()
 	{
 		global $ilUser, $lng;
-
 		if ($_GET["view"] == "mycourses")
 		{
-			if (is_array($_POST["search_crs"]))
+			$ids = ((int)$_GET['search_crs']) ? array((int)$_GET['search_crs']) : $_POST['search_crs'];
+			
+			if ($ids)
 			{
 				$this->mailCourses();
 			}
@@ -90,7 +91,8 @@ class ilMailSearchCoursesGUI
 		}
 		else if ($_GET["view"] == "crs_members")
 		{
-			if (is_array($_POST["search_members"]))
+			$ids = ((int)$_GET['search_members']) ? array((int)$_GET['search_members']) : $_POST['search_members'];
+			if ($ids)
 			{
 				$this->mailMembers();
 			}
@@ -129,7 +131,10 @@ class ilMailSearchCoursesGUI
 		}
 
 		require_once 'classes/class.ilObject.php';
-		foreach ($_POST["search_crs"] as $crs_id)
+		
+		$ids = ((int)$_GET['search_crs']) ? array((int)$_GET['search_crs']) : $_POST['search_crs']; 
+		
+		foreach ($ids as $crs_id)
 		{
 			$ref_ids = ilObject::_getAllReferences($crs_id);
 
@@ -203,7 +208,9 @@ class ilMailSearchCoursesGUI
 			);
 		}
 	
-		foreach ($_POST["search_members"] as $member)
+		$ids = ((int)$_GET['search_members']) ? array((int)$_GET['search_members']) : $_POST['search_members'];
+		
+		foreach ($ids as $member)
 		{
 			$login = ilObjUser::_lookupLogin($member);
 			array_push($members, $login);
@@ -233,12 +240,12 @@ class ilMailSearchCoursesGUI
 	public function adoptMembers()
 	{
 		global $lng;
-
-		if (is_array($_POST["search_members"]))
+		$ids = ((int)$_GET['search_members']) ? array((int)$_GET['search_members']) : $_POST['search_members']; 
+		if ($ids )
 		{
 			$members = array();
 		
-			foreach ($_POST["search_members"] as $member)
+			foreach ($ids as $member)
 			{
 				$login = ilObjUser::_lookupLogin($member);
 	
@@ -311,7 +318,7 @@ class ilMailSearchCoursesGUI
 		if (is_array($crs_ids) && count($crs_ids) > 0)
 		{
 			$num_courses_hidden_members = 0;
-		
+			include_once("./Services/AdvancedSelectionList/classes/class.ilAdvancedSelectionListGUI.php");
 			foreach($crs_ids as $crs_id) 
 			{		
 				if(ilObject::_hasUntrashedReference($crs_id))
@@ -353,12 +360,25 @@ class ilMailSearchCoursesGUI
 					}
 					$path = $this->lng->txt('path').': '.$path;
 
+					$current_selection_list = new ilAdvancedSelectionListGUI();
+					$current_selection_list->setListTitle($this->lng->txt("actions"));
+					$current_selection_list->setId("act_".$counter);
+
+					$this->ctrl->setParameter($this, 'search_crs', $crs_id);
+					$this->ctrl->setParameter($this, 'view', 'mycourses');
+					
+					$current_selection_list->addItem($this->lng->txt("mail_members"), '', $this->ctrl->getLinkTarget($this, "mail"));
+					$current_selection_list->addItem($this->lng->txt("mail_list_members"), '', $this->ctrl->getLinkTarget($this, "showMembers"));
+					
+					$this->ctrl->clearParameters($this);
+					
 					$rowData = array
 					(
 						"CRS_ID" => $crs_id,
 						"CRS_NAME" => $ilObjDataCache->lookupTitle($crs_id),
 						"CRS_NO_MEMBERS" => count($crs_members),
 						"CRS_PATH" => $path,
+						'COMMAND_SELECTION_LIST' => $current_selection_list->getHTML(),
 						"hidden_members" => $hiddenMembers,
 					);
 					$counter++;
@@ -366,11 +386,11 @@ class ilMailSearchCoursesGUI
 				}
 			}
 			
-			if((int)$counter)
-			{	
-				$table->addCommandButton('mail',$lng->txt('mail_members'));
-				$table->addCommandButton('showMembers',$lng->txt('mail_list_members'));
-			}
+			//if((int)$counter)
+			//{	
+			//	$table->addCommandButton('mail',$lng->txt('mail_members'));
+			//	$table->addCommandButton('showMembers',$lng->txt('mail_list_members'));
+			//}
 			
 			if($num_courses_hidden_members > 0)
 			{
@@ -473,6 +493,7 @@ class ilMailSearchCoursesGUI
 						'MEMBERS_NAME' => $fullname,
 						'MEMBERS_CRS_GRP' => $ilObjDataCache->lookupTitle($crs_id),
 						'MEMBERS_IN_ADDRESSBOOK' => $this->abook->checkEntryByLogin($login) ? $lng->txt("yes") : $lng->txt("no"),
+						'search_crs' => $crs_id
 					);
 					$tableData[] = $rowData;
 				}
@@ -480,8 +501,8 @@ class ilMailSearchCoursesGUI
 			$table->setData($tableData);
 			if (count($tableData))
 			{
-				$table->addCommandButton('mail', $lng->txt("grp_mem_send_mail"));
-				$table->addCommandButton('adoptMembers', $lng->txt("mail_into_addressbook"));
+				//$table->addCommandButton('mail', $lng->txt("grp_mem_send_mail"));
+				//$table->addCommandButton('adoptMembers', $lng->txt("mail_into_addressbook"));
 				
 				$searchTpl->setVariable("TXT_MARKED_ENTRIES",$lng->txt("marked_entries"));
 			}

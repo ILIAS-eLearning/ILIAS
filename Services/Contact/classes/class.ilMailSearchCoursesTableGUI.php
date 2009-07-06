@@ -73,11 +73,16 @@ class ilMailSearchCoursesTableGUI extends ilTable2GUI
 
 		// setup columns
 		$this->addColumn('', 'select', '1%', true);
-		$this->addColumn($mode["lng_mail"], 'CRS_COURSES', '30%');
-		$this->addColumn($lng->txt('path'), 'CRS_COURSES_PATHS', '30%');
-		$this->addColumn($lng->txt('crs_count_members'), 'CRS_NO_MEMBERS', '30%');
+		$this->addColumn($mode["lng_mail"], 'CRS_NAME', '30%');
+		$this->addColumn($lng->txt('path'), 'CRS_PATH', '30%');
+		$this->addColumn($lng->txt('crs_count_members'), 'CRS_NO_MEMBERS', '20%');
+		$this->addColumn($lng->txt('actions'), '', '19%');
 		
-		$this->addCommandButton('cancel', $lng->txt('cancel'));
+		$this->addMultiCommand('mail',$lng->txt('mail_members'));
+		$this->addMultiCommand('showMembers',$lng->txt('mail_list_members'));
+		
+		if ($_GET['ref'] == 'mail')
+			$this->addCommandButton('cancel', $lng->txt('cancel'));
 	}
 	
 	/**

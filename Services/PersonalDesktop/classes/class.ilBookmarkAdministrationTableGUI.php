@@ -24,12 +24,12 @@ class ilBookmarkAdministrationTableGUI extends ilTable2GUI
 		global $lng, $ilCtrl;
 		parent::__construct($a_ref);
 		
-		$this->setTitle($lng->txt('bookmarks'), "icon_bm.gif");
+		$this->setTitle($lng->txt('bookmarks'));
 		
 		$this->setRowTemplate('tpl.bookmark_administration_row.html', 'Services/PersonalDesktop');
 		$this->addColumn('', 'id', '3%', true);
 		$this->addColumn($lng->txt('type'), '', '3%');
-		$this->addColumn($lng->txt('title'), '', '84%');
+		$this->addColumn($lng->txt('title'), 'title', '84%');
 		$this->addColumn($lng->txt('actions'), '', '10%');
 		
 		$hash = ($ilUser->prefs["screen_reader_optimization"])
@@ -55,9 +55,20 @@ class ilBookmarkAdministrationTableGUI extends ilTable2GUI
 	{
 		global $lng, $ilCtrl, $ilUser;
 		
+		include_once("./Services/AdvancedSelectionList/classes/class.ilAdvancedSelectionListGUI.php");
+		$current_selection_list = new ilAdvancedSelectionListGUI();
+		$current_selection_list->setListTitle($this->lng->txt("actions"));
+		$current_selection_list->setId("act_".$a_data['obj_id']);
+	
+		
 		$this->tpl->setVariable("VAL_ID", $a_data["obj_id"]);
 		
 		// edit link
+		$edit_link = '';
+		$delete_link = '';
+		$sendmail_link = '';
+		$export_link = '';
+		
 		if ($a_data["type"] != "parent")
 		{
 			$hash = ($ilUser->prefs["screen_reader_optimization"])
@@ -66,13 +77,31 @@ class ilBookmarkAdministrationTableGUI extends ilTable2GUI
 
 			$ilCtrl->setParameter($this->parent_obj, "bmf_id", $this->parent_obj->id);
 			$ilCtrl->setParameter($this->parent_obj, "obj_id", $a_data["obj_id"]);
-			$link = ($a_data["type"] == "bmf")
+			$edit_link = ($a_data["type"] == "bmf")
 				? $ilCtrl->getLinkTarget($this->parent_obj, "editFormBookmarkFolder", $hash)
 				: $ilCtrl->getLinkTarget($this->parent_obj, "editFormBookmark", $hash);
-			$this->tpl->setVariable("EDIT_TXT", $this->lng->txt("edit"));
-			$this->tpl->setVariable("EDIT_HREF", $link);
+			
+			$ilCtrl->clearParameters($this->parent_obj);
+			$ilCtrl->setParameter($this->parent_obj, "bm_id", $a_data['obj_id']);
+			$delete_link = $ilCtrl->getLinkTarget($this->parent_obj, 'delete', $hash);
+			$sendmail_link = $ilCtrl->getLinkTarget($this->parent_obj, 'sendmail', $hash);
+			$export_link = $ilCtrl->getLinkTarget($this->parent_obj, 'export', $hash);
 		}
+
+		if ($edit_link)
+			$current_selection_list->addItem($this->lng->txt('edit'), '', $edit_link);
 		
+		if ($delete_link)
+			$current_selection_list->addItem($this->lng->txt('delete'), '', $delete_link);
+
+		if ($export_link)
+			$current_selection_list->addItem($this->lng->txt('export'), '', $export_link);
+
+		if ($sendmail_link)
+			$current_selection_list->addItem($this->lng->txt('bkm_sendmail'), '', $sendmail_link);	
+			
+		$this->tpl->setVariable("COMMAND_SELECTION_LIST", $current_selection_list->getHTML());
+			
 		// icon
 		$img_type = ($a_data["type"] == "bmf"  || $a_data["type"] == "parent") ? "cat" : $a_data["type"];
 		$val = ilUtil::getImagePath("icon_".$img_type.".gif");

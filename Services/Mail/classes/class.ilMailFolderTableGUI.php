@@ -42,11 +42,11 @@ class ilMailFolderTableGUI extends ilTable2GUI
 		
 		$this->setPrefix('mtable');
 		
-		$this->addColumn('', 'sort', '5%');
-		$this->addColumn('', '5%');
-		$this->addColumn($this->lng->txt('sender'), 'MAIL_FROM', '30%');
-		$this->addColumn($this->lng->txt('subject'), 'MAIL_SUBJECT', '30%');
-		$this->addColumn($this->lng->txt('date'), 'MAIL_DATE', '30%');
+		$this->addColumn('', 'sort', '5%', true);
+		$this->addColumn($this->lng->txt('personal_picture'), '', '10%');
+		$this->addColumn($this->lng->txt('sender'), 'MAIL_FROM', '25%');
+		$this->addColumn($this->lng->txt('subject'), 'MAIL_SUBJECT', '40%');
+		$this->addColumn($this->lng->txt('date'), 'MAIL_DATE', '20%');
 		
 		$this->setSelectAllCheckbox('mail_id[]');
 
