@@ -188,23 +188,6 @@ class ilSoapAdministration
 	{
 		include_once './Services/Authentication/classes/class.ilAuthFactory.php';
 		ilAuthFactory::setContext(ilAuthFactory::CONTEXT_SOAP);
-
-
-		/*
-		switch($a_auth_mode)
-		{
-			case AUTH_CAS:
-				include_once './webservice/soap/classes/class.ilSoapAuthenticationCAS.php';
-				return $this->sauth = new ilSoapAuthenticationCAS();
-			case AUTH_LDAP:
-				include_once './webservice/soap/classes/class.ilSoapAuthenticationLDAP.php';
-				return $this->sauth = new ilSoapAuthenticationLDAP();
-
-			default:
-				include_once './webservice/soap/classes/class.ilSoapAuthentication.php';
-				return $this->sauth = new ilSoapAuthentication();
-		}
-		*/
 	}
 
 

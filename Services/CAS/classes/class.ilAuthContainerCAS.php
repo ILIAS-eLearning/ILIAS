@@ -1,7 +1,6 @@
 <?php
 /* Copyright (c) 1998-2009 ILIAS open source, Extended GPL, see docs/LICENSE */
 
-include_once './Services/Authentication/classes/class.ilAuthContainerDecorator.php';
 include_once 'Auth/Container.php';
 
 
@@ -23,7 +22,6 @@ class ilAuthContainerCAS extends Auth_Container
 
 
     /**
-     * @see ilAuthContainerDecorator::__construct()
      */
     public function __construct()
 	{

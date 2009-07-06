@@ -59,7 +59,6 @@ abstract class ilAuthBase
 		$this->setCheckAuthCallback(array($this,'checkAuthObserver'));
 		$this->setLogoutCallback(array($this,'logoutObserver'));
 		
-		// TODO: add log observer
 		include_once('Services/Authentication/classes/class.ilAuthLogObserver.php');
 		$this->attachLogObserver(new ilAuthLogObserver(AUTH_LOG_DEBUG));
 		$this->enableLogging = true;
@@ -74,8 +73,15 @@ abstract class ilAuthBase
 	 */
 	protected function loginObserver($a_username,$a_auth)
 	{
-		$GLOBALS['ilLog']->write(__METHOD__.': Login observer called');
-		$this->getContainer()->loginObserver($a_username,$a_auth);
+		global $ilLog;
+
+		if($this->getContainer()->loginObserver($a_username,$a_auth))
+		{
+			$ilLog->write(__METHOD__.': logged in as '.$a_username.
+				', remote:'.$_SERVER['REMOTE_ADDR'].':'.$_SERVER['REMOTE_PORT'].
+				', server:'.$_SERVER['SERVER_ADDR'].':'.$_SERVER['SERVER_PORT']
+				);
+		}
 	}
 	
 	
@@ -87,8 +93,13 @@ abstract class ilAuthBase
 	 */
 	protected function failedLoginObserver($a_username,$a_auth)
 	{
-		$GLOBALS['ilLog']->write(__METHOD__.': Failed login observer called');
+		global $ilLog;
+
 		$this->getContainer()->failedLoginObserver($a_username,$a_auth);
+		$ilLog->write(__METHOD__.': login failed for user '.$a_username.
+			', remote:'.$_SERVER['REMOTE_ADDR'].':'.$_SERVER['REMOTE_PORT'].
+			', server:'.$_SERVER['SERVER_ADDR'].':'.$_SERVER['SERVER_PORT']
+		);
 	}
 
 	/**
@@ -99,7 +110,7 @@ abstract class ilAuthBase
 	 */
 	protected function checkAuthObserver($a_username,$a_auth)
 	{
-		$GLOBALS['ilLog']->write(__METHOD__.': Check auth observer called');
+		#$GLOBALS['ilLog']->write(__METHOD__.': Check auth observer called');
 		return $this->getContainer()->checkAuthObserver($a_username,$a_auth);
 	}
 	
