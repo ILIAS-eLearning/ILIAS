@@ -36,6 +36,15 @@ abstract class ilAuthBase
 	// TODO: Find another solution
 	protected $sub_status = null;
 	
+	/**
+	 * Returns true, if the current auth mode allows redirects to e.g 
+	 * the login screen, public section ... 
+	 * @return 
+	 */
+	public function supportRedirects()
+	{
+		return true;
+	}
 	
 	/**
 	 * Get container object
