@@ -139,9 +139,8 @@ class ilMailingList
 	}
 	
 	private function read()
-	{		
-	
-	if ($this->getId() && $this->getUserId())
+	{
+		if ($this->getId() && $this->getUserId())
 		{
 			$res = $this->db->queryf('
 				SELECT * FROM addressbook_mlist 
@@ -281,6 +280,22 @@ class ilMailingList
 	public function getChangedate()
 	{
 		return $this->changedate;
+	}
+	
+	public static function _isOwner($a_ml_id, $a_usr_id)
+	{
+		global $ilDB;
+		
+		$res = $ilDB->queryf('
+			SELECT * FROM addressbook_mlist 
+			WHERE ml_id = %s
+			AND user_id =%s',
+			array('integer', 'integer'),
+			array($a_ml_id, $a_usr_id));
+			
+		$row = $ilDB->fetchObject($res);
+		
+		return is_object($row) ? true : false;
 	}
 }
 ?>

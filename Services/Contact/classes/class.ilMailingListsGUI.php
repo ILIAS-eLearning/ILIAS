@@ -114,14 +114,21 @@ class ilMailingListsGUI
 	
 	public function performDelete()
 	{
+		global $ilUser;
+		
 		if (is_array($_POST['ml_id']))
 		{			
+			$counter = 0;
 			foreach ($_POST['ml_id'] as $id)
 			{
-				$this->mlists->get(ilUtil::stripSlashes($id))->delete();
+				if(ilMailingList::_isOwner($id, $ilUser->getId()))
+				{
+					$this->mlists->get(ilUtil::stripSlashes($id))->delete();
+					++$counter;
+				}			
 			}
-			
-			ilUtil::sendInfo($this->lng->txt('mail_deleted_entry'));			
+			if($counter)
+				ilUtil::sendInfo($this->lng->txt('mail_deleted_entry'));			
 		}
 		else
 		{
@@ -142,8 +149,7 @@ class ilMailingListsGUI
 	 		ilUtil::sendInfo($this->lng->txt('mail_select_one_entry'));
 	 		$this->showMailingLists();	 		
 	 		return true;
-	 	}
-	 	
+	 	}	 	
 	 	
 	 	$mail_data = $this->umail->getSavedData();		
 		if(!is_array($mail_data))
@@ -153,8 +159,9 @@ class ilMailingListsGUI
 	
 		$lists = array();
 		foreach($_POST['ml_id'] as $id)
-		{
-			if(!$this->umail->doesRecipientStillExists('#il_ml_'.$id, $mail_data['rcp_to']))
+		{			
+			if(ilMailingList::_isOwner($id, $ilUser->getId()) &&
+			   !$this->umail->doesRecipientStillExists('#il_ml_'.$id, $mail_data['rcp_to']))
 			{
 				$lists[] = '#il_ml_'.$id;			
 			}
@@ -249,10 +256,14 @@ class ilMailingListsGUI
 	{		
 		if($this->mlists->getCurrentMailingList()->getId())
 		{
-			if($this->mlists->getCurrentMailingList()->getId())
+			global $ilUser, $ilErr;
+			
+			if(!ilMailingList::_isOwner($this->mlists->getCurrentMailingList()->getId(), $ilUser->getId()))
 			{
-				$this->ctrl->setParameter($this, 'ml_id', $this->mlists->getCurrentMailingList()->getId());
+				$ilErr->raiseError($this->lng->txt('permission_denied'), $ilErr->MESSAGE);
 			}
+			
+			$this->ctrl->setParameter($this, 'ml_id', $this->mlists->getCurrentMailingList()->getId());
 			$this->initForm('edit');
 		}
 		else
@@ -328,15 +339,19 @@ class ilMailingListsGUI
 	
 	public function showForm()
 	{
+		global $ilUser, $ilErr;
+		
 		$this->tpl->setVariable('HEADER', $this->lng->txt('mail'));		
 		$this->tpl->addBlockFile('ADM_CONTENT', 'adm_content', 'tpl.mail_mailing_lists_form.html', 'Services/Contact');
 		
 		if($this->mlists->getCurrentMailingList()->getId())
 		{
-			if($this->mlists->getCurrentMailingList()->getId())
+			if(!ilMailingList::_isOwner($this->mlists->getCurrentMailingList()->getId(), $ilUser->getId()))
 			{
-				$this->ctrl->setParameter($this, 'ml_id', $this->mlists->getCurrentMailingList()->getId());
+				$ilErr->raiseError($this->lng->txt('permission_denied'), $ilErr->MESSAGE);
 			}
+			
+			$this->ctrl->setParameter($this, 'ml_id', $this->mlists->getCurrentMailingList()->getId());
 			$this->initForm('edit');
 			$this->setValuesByObject();
 		}
@@ -455,6 +470,13 @@ class ilMailingListsGUI
 	
 	public function performDeleteMembers()
 	{
+		global $ilUser, $ilErr;
+		
+		if(!ilMailingList::_isOwner($this->mlists->getCurrentMailingList()->getId(), $ilUser->getId()))
+		{
+			$ilErr->raiseError($this->lng->txt('permission_denied'), $ilErr->MESSAGE);
+		}
+		
 		if (is_array($_POST['a_id']))
 		{			
 			foreach ($_POST['a_id'] as $id)
@@ -476,13 +498,38 @@ class ilMailingListsGUI
 	
 	public function saveAssignmentForm()
 	{
-		if ($_POST['addr_id'] == '') $this->setError($this->lng->txt('mail_entry_of_addressbook'));
+		global $ilUser, $ilErr;
 		
+		if(!ilMailingList::_isOwner($this->mlists->getCurrentMailingList()->getId(), $ilUser->getId()))
+		{
+			$ilErr->raiseError($this->lng->txt('permission_denied'), $ilErr->MESSAGE);
+		}
+		
+		if ($_POST['addr_id'] == '') $this->setError($this->lng->txt('mail_entry_of_addressbook'));
+
 		if (!$this->isError())
 		{
-			$this->mlists->getCurrentMailingList()->assignAddressbookEntry(ilUtil::stripSlashes($_POST['addr_id']));
+			$found = false;
 			
-			ilUtil::sendInfo($this->lng->txt('saved_successfully'));
+			$all_entries = $this->abook->getEntries();
+			if ((int)count($all_entries))
+			{
+				foreach ($all_entries as $entry)
+				{
+					if($entry['addr_id'] == $_POST['addr_id'])
+					{
+						$found = true;
+						break;
+					}
+				}
+			}
+			
+			if($found)
+			{
+				$this->mlists->getCurrentMailingList()->assignAddressbookEntry(ilUtil::stripSlashes($_POST['addr_id']));
+				
+				ilUtil::sendInfo($this->lng->txt('saved_successfully'));
+			}
 			
 			$this->showMembersList();
 		}		
@@ -505,12 +552,19 @@ class ilMailingListsGUI
 	}
 	
 	public function showAssignmentForm()
-	{	
+	{
+		global $ilUser, $ilErr;	
+		
 		if (!$this->mlists->getCurrentMailingList()->getId())
 		{
 			$this->showMembersList();
 			
 			return true;
+		}
+		
+		if(!ilMailingList::_isOwner($this->mlists->getCurrentMailingList()->getId(), $ilUser->getId()))
+		{
+			$ilErr->raiseError($this->lng->txt('permission_denied'), $ilErr->MESSAGE);
 		}
 			
 		$this->tpl->setVariable('HEADER', $this->lng->txt('mail'));		
