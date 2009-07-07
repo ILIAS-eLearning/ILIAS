@@ -13202,7 +13202,7 @@ $ilDB->addTableColumn("ldap_role_assignments", "plugin_id", $atts);
 
 <#2504>
 <?php
-$ilCtrlStructureReader->getStructure();
+	$ilCtrlStructureReader->getStructure();
 ?>
 <#2505>
 <?php
@@ -13963,4 +13963,8 @@ $ilDB->query($query);
 <#2689>
 <?php
 	$ilMySQLAbstraction->performAbstraction('dav_property');
+?>
+<#2690>
+<?php
+	$ilDB->renameTableColumn('aicc_course','level','c_level');
 ?>

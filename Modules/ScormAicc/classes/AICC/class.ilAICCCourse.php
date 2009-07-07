@@ -220,7 +220,7 @@ class ilAICCCourse extends ilAICCObject
 			$this->setCourseId($obj_rec["course_id"]);
 			$this->setCourseSystem($obj_rec["course_system"]);
 			$this->setCourseTitle($obj_rec["course_title"]);
-			$this->setLevel($obj_rec["level"]);
+			$this->setLevel($obj_rec["c_level"]);
 			$this->setMaxFieldsCst($obj_rec["max_fields_cst"]);
 			$this->setMaxFieldsOrt($obj_rec["max_fields_ort"]);
 			$this->setTotalAUs($obj_rec["total_aus"]);
@@ -246,7 +246,7 @@ class ilAICCCourse extends ilAICCObject
 					course_id, 
 					course_system, 
 					course_title,
-					level, 
+					c_level, 
 					max_fields_cst, 
 					max_fields_ort, 
 					total_aus, 
@@ -305,7 +305,7 @@ class ilAICCCourse extends ilAICCObject
 				course_id = %s, 
 				course_system = %s, 
 				course_title = %s, 
-				level = %s, 
+				c_level = %s, 
 				max_fields_cst = %s, 
 				max_fields_ort = %s, 
 				total_aus = %s, 
