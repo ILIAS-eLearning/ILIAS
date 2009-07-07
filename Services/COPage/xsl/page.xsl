@@ -79,7 +79,7 @@
 <xsl:template match="PageObject">
 	<!-- <xsl:value-of select="@HierId"/> -->
 	<xsl:if test="$pg_title != ''">
-		<div class="ilc_page_title_PageTitle">
+		<h1 class="ilc_page_title_PageTitle">
 		<xsl:if test="$pg_title_class = ''">
 			<xsl:attribute name="class">ilc_page_title_PageTitle</xsl:attribute>
 		</xsl:if>
@@ -87,7 +87,7 @@
 			<xsl:attribute name="class"><xsl:value-of select="$pg_title_class" /></xsl:attribute>
 		</xsl:if>
 		<xsl:value-of select="$pg_title"/>
-		</div>
+		</h1>
 	</xsl:if>
 	<xsl:if test="$mode = 'edit'">
 		<xsl:if test="$javascript = 'enable'">
@@ -817,6 +817,30 @@
 <xsl:template match="Paragraph">
 	<xsl:param name="par_counter" select="-1" />	
 	<xsl:choose>
+		<xsl:when test="@Characteristic = 'Headline1'">
+		<!-- Label -->
+		<xsl:call-template name="EditLabel"><xsl:with-param name="text"><xsl:value-of select="//LVs/LV[@name='pc_par']/@value"/></xsl:with-param></xsl:call-template>
+		<h1>
+			<xsl:call-template name="ShowParagraph"/>
+			<xsl:comment>Break</xsl:comment>
+		</h1>
+		</xsl:when>
+		<xsl:when test="@Characteristic = 'Headline2'">
+		<!-- Label -->
+		<xsl:call-template name="EditLabel"><xsl:with-param name="text"><xsl:value-of select="//LVs/LV[@name='pc_par']/@value"/></xsl:with-param></xsl:call-template>
+		<h2>
+			<xsl:call-template name="ShowParagraph"/>
+			<xsl:comment>Break</xsl:comment>
+		</h2>
+		</xsl:when>
+		<xsl:when test="@Characteristic = 'Headline3'">
+		<!-- Label -->
+		<xsl:call-template name="EditLabel"><xsl:with-param name="text"><xsl:value-of select="//LVs/LV[@name='pc_par']/@value"/></xsl:with-param></xsl:call-template>
+		<h3>
+			<xsl:call-template name="ShowParagraph"/>
+			<xsl:comment>Break</xsl:comment>
+		</h3>
+		</xsl:when>
 		<xsl:when test="not (@Characteristic) or @Characteristic != 'Code'">
 		<!-- Label -->
 		<xsl:call-template name="EditLabel"><xsl:with-param name="text"><xsl:value-of select="//LVs/LV[@name='pc_par']/@value"/></xsl:with-param></xsl:call-template>
@@ -837,12 +861,23 @@
 
 <xsl:template name="ShowParagraph">
 	<xsl:param name="p_id" select = "-1"/>
-	<xsl:if test="not(@Characteristic)">
-		<xsl:attribute name="class">ilc_text_block_Standard</xsl:attribute>
-	</xsl:if>
-	<xsl:if test="@Characteristic and not (@Characteristic = 'Code')">
-		<xsl:attribute name="class">ilc_text_block_<xsl:value-of select="@Characteristic"/></xsl:attribute>
-	</xsl:if>
+	<xsl:choose>
+		<xsl:when test="not(@Characteristic)">
+			<xsl:attribute name="class">ilc_text_block_Standard</xsl:attribute>
+		</xsl:when>
+		<xsl:when test="@Characteristic = 'Headline1'">
+			<xsl:attribute name="class">ilc_heading1_Headline1</xsl:attribute>
+		</xsl:when>
+		<xsl:when test="@Characteristic = 'Headline2'">
+			<xsl:attribute name="class">ilc_heading2_Headline2</xsl:attribute>
+		</xsl:when>
+		<xsl:when test="@Characteristic = 'Headline3'">
+			<xsl:attribute name="class">ilc_heading3_Headline3</xsl:attribute>
+		</xsl:when>
+		<xsl:when test="not (@Characteristic = 'Code')">
+			<xsl:attribute name="class">ilc_text_block_<xsl:value-of select="@Characteristic"/></xsl:attribute>
+		</xsl:when>
+	</xsl:choose>
 	<xsl:if test="$mode = 'edit' and not (@Characteristic = 'Code')">
 		<xsl:attribute name="style">position:static;</xsl:attribute>
 	</xsl:if>

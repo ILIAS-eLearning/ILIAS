@@ -1,25 +1,5 @@
 <?php
-/*
-	+-----------------------------------------------------------------------------+
-	| ILIAS open source                                                           |
-	+-----------------------------------------------------------------------------+
-	| Copyright (c) 1998-2009 ILIAS open source, University of Cologne            |
-	|                                                                             |
-	| This program is free software; you can redistribute it and/or               |
-	| modify it under the terms of the GNU General Public License                 |
-	| as published by the Free Software Foundation; either version 2              |
-	| of the License, or (at your option) any later version.                      |
-	|                                                                             |
-	| This program is distributed in the hope that it will be useful,             |
-	| but WITHOUT ANY WARRANTY; without even the implied warranty of              |
-	| MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the               |
-	| GNU General Public License for more details.                                |
-	|                                                                             |
-	| You should have received a copy of the GNU General Public License           |
-	| along with this program; if not, write to the Free Software                 |
-	| Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA. |
-	+-----------------------------------------------------------------------------+
-*/
+/* Copyright (c) 1998-2009 ILIAS open source, Extended GPL, see docs/LICENSE */
 
 include_once "classes/class.ilObjectGUI.php";
 include_once "./Modules/LearningModule/classes/class.ilObjContentObject.php";
@@ -2628,9 +2608,20 @@ class ilObjContentObjectGUI extends ilObjectGUI
 	* get lm menu html
 	*/
 	function setilLMMenu($a_offline = false, $a_export_format = "",
-		$a_active = "content", $a_use_global_tabs = false)
+		$a_active = "content", $a_use_global_tabs = false, $a_as_subtabs = false)
 	{
 		global $ilCtrl,$ilUser, $ilAccess, $ilTabs;
+		
+		if ($a_as_subtabs)
+		{
+			$addcmd = "addSubTabTarget";
+			$getcmd = "getSubTabHTML";
+		}
+		else
+		{
+			$addcmd = "addTarget";
+			$getcmd = "getHTML";
+		}
 		
 		$active[$a_active] = true;
 
@@ -2683,7 +2674,7 @@ class ilObjContentObjectGUI extends ilObjectGUI
 				$link = "./info.html";
 			}
 			
-			$tabs_gui->addTarget(($requires_purchase_to_access ? 'buy' : 'info_short'), $link,
+			$tabs_gui->$addcmd(($requires_purchase_to_access ? 'buy' : 'info_short'), $link,
 					"", "", $buttonTarget, $active["info"]);
 		}
 
@@ -2691,7 +2682,7 @@ class ilObjContentObjectGUI extends ilObjectGUI
 		if (!$a_offline && $ilAccess->checkAccess("read", "", $_GET["ref_id"]))
 		{
 			$ilCtrl->setParameterByClass("illmpresentationgui", "obj_id", $_GET["obj_id"]);
-			$tabs_gui->addTarget("content",
+			$tabs_gui->$addcmd("content",
 				$ilCtrl->getLinkTargetByClass("illmpresentationgui", "layout"),
 				"", "", $buttonTarget,  $active["content"]);
 		}
@@ -2709,7 +2700,7 @@ class ilObjContentObjectGUI extends ilObjectGUI
 				$link = "./table_of_contents.html";
 			}
 			
-			$tabs_gui->addTarget("cont_toc", $link,
+			$tabs_gui->$addcmd("cont_toc", $link,
 					"", "", $buttonTarget, $active["toc"]);
 		}
 
@@ -2720,7 +2711,7 @@ class ilObjContentObjectGUI extends ilObjectGUI
 			{
 				$ilCtrl->setParameterByClass("illmpresentationgui", "obj_id", $_GET["obj_id"]);
 				$link = $ilCtrl->getLinkTargetByClass("illmpresentationgui", "showPrintViewSelection");
-				$tabs_gui->addTarget("cont_print_view", $link,
+				$tabs_gui->$addcmd("cont_print_view", $link,
 					"", "", $buttonTarget, $active["print"]);
 			}
 		}
@@ -2740,7 +2731,7 @@ class ilObjContentObjectGUI extends ilObjectGUI
 		{
 			$ilCtrl->setParameterByClass("illmpresentationgui", "obj_id", $_GET["obj_id"]);
 			$link = $ilCtrl->getLinkTargetByClass("illmpresentationgui", "showDownloadList");
-			$tabs_gui->addTarget("download", $link,
+			$tabs_gui->$addcmd("download", $link,
 				"", "", $buttonTarget, $active["download"]);
 		}
 		
@@ -2770,14 +2761,14 @@ class ilObjContentObjectGUI extends ilObjectGUI
 					{
 						$entry["link"] = ilUtil::appendUrlParameterString($entry["link"], "ref_id=".$this->ref_id."&structure_id=".$this->obj_id);
 					}
-					$tabs_gui->addTarget($entry["title"],
+					$tabs_gui->$addcmd($entry["title"],
 						$entry["link"],
 						"", "", "_blank", "", true);
 				}
 			}
 		}
 
-		return $tabs_gui->getHTML();
+		return $tabs_gui->$getcmd();
 	}
 
 	/**

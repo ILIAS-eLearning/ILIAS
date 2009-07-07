@@ -97,7 +97,7 @@
 	<StyleParameter Name="width" Value="100%"/>
 	<StyleParameter Name="padding" Value="20px"/>
 </Style>
-<Style Tag="div" Type="page_title" Class="PageTitle">
+<Style Tag="h1" Type="page_title" Class="PageTitle">
 	<StyleParameter Name="border-color" Value="#000000"/>
 	<StyleParameter Name="border-bottom-style" Value="solid"/>
 	<StyleParameter Name="border-bottom-width" Value="1px"/>
@@ -105,6 +105,7 @@
 	<StyleParameter Name="font-size" Value="140%"/>
 	<StyleParameter Name="margin-bottom" Value="20px"/>
 	<StyleParameter Name="margin-top" Value="5px"/>
+	<StyleParameter Name="font-weight" Value="normal"/>
 </Style>
 <Style Tag="div" Type="page_tnav" Class="TopNavigation">
 	<StyleParameter Name="padding" Value="3px"/>
@@ -355,20 +356,23 @@
 	<StyleParameter Name="border-left-width" Value="3px"/>
 	<StyleParameter Name="padding-left" Value="20px"/>
 </Style>
-<Style Tag="div" Type="text_block" Class="Headline1">
+<Style Tag="h1" Type="heading1" Class="Headline1">
 	<StyleParameter Name="font-size" Value="140%"/>
 	<StyleParameter Name="margin-bottom" Value="10px"/>
 	<StyleParameter Name="margin-top" Value="20px"/>
+	<StyleParameter Name="font-weight" Value="normal"/>
 </Style>
-<Style Tag="div" Type="text_block" Class="Headline2">
+<Style Tag="h2" Type="heading2" Class="Headline2">
 	<StyleParameter Name="font-size" Value="130%"/>
 	<StyleParameter Name="margin-bottom" Value="10px"/>
 	<StyleParameter Name="margin-top" Value="20px"/>
+	<StyleParameter Name="font-weight" Value="normal"/>
 </Style>
-<Style Tag="div" Type="text_block" Class="Headline3">
+<Style Tag="h3" Type="heading3" Class="Headline3">
 	<StyleParameter Name="font-size" Value="120%"/>
 	<StyleParameter Name="margin-bottom" Value="10px"/>
 	<StyleParameter Name="margin-top" Value="20px"/>
+	<StyleParameter Name="font-weight" Value="normal"/>
 </Style>
 <Style Tag="div" Type="text_block" Class="List">
 	<StyleParameter Name="margin-bottom" Value="3px"/>
