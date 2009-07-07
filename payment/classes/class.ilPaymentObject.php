@@ -460,21 +460,11 @@ class ilPaymentObject
 		return false;
 	}
 
-	function _isPurchasable($a_ref_id, $a_vendor_id = 0)
+	function _isPurchasable($a_ref_id, $a_vendor_id = 0, $a_check_trustee = false)
 	{
 		global $ilDB;
 
 		// In the moment it's not possible to sell one object twice
-/*		$query = "SELECT * FROM payment_objects ".
-			"WHERE ref_id = '".$a_ref_id."' ";
-		if ($a_vendor_id > 0)
-		{
-			$query .= "AND vendor_id = '".$a_vendor_id."' ";
-		}
-		#"AND status = '1' OR status = '3' ";
-		
-		$res = $ilDB->query($query);
-*/
 		
 		$data = array();
 		$data_types = array();
@@ -488,6 +478,23 @@ class ilPaymentObject
 			$query .= 'AND vendor_id = %s'; 
 			array_push($data_types, 'integer');
 			array_push($data, $a_vendor_id);
+			
+			if($a_check_trustee)
+			{
+				include_once './payment/classes/class.ilPaymentTrustees.php';
+				include_once './payment/classes/class.ilPaymentVendors.php';
+ 
+				$vendors = ilPaymentTrustees::_getVendorsForObjects($a_vendor_id);
+				if(ilPaymentVendors::_isVendor($a_user_id))
+				{
+					$vendors[] = $a_user_id;
+				}
+ 
+				if(is_array($vendors) && count($vendors))
+				{ 
+					$query  .= ' OR '.$ilDB->in('vendor_id', $vendors, false, 'integer');
+				}                
+			}
 		}
 		
 		$res = $ilDB->queryf($query, $data_types, $data);

@@ -124,7 +124,7 @@ class ilPaymentObjectSelector extends ilExplorer
 
 		if ($this->classname == 'ilpaymentstatisticgui')
 		{
-			if (!ilPaymentObject::_isPurchasable($a_ref_id, $ilUser->getId()))
+			if (!ilPaymentObject::_isPurchasable($a_ref_id, $ilUser->getId(), true))
 			{
 				return true;
 			}
@@ -165,7 +165,7 @@ class ilPaymentObjectSelector extends ilExplorer
 
 		if ($this->classname == 'ilpaymentstatisticgui')
 		{
-			if (!ilPaymentObject::_isPurchasable($a_ref_id, $ilUser->getId()))
+			if (!ilPaymentObject::_isPurchasable($a_ref_id, $ilUser->getId(), true))
 			{
 				return false;
 			}
