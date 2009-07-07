@@ -114,14 +114,14 @@ class ilBookmarkAdministrationTableGUI extends ilTable2GUI
 			$this->tpl->setVariable("VAL_BMF_TITLE", $a_data["title"]);
 			$ilCtrl->setParameter($this->parent_obj, "bmf_id", $a_data["obj_id"]);
 			$this->tpl->setVariable("VAL_BMF_TARGET", $ilCtrl->getLinkTarget($this->parent_obj));
-			$this->tpl->setVariable("FRAME_TARGET", ilFrameTargetInfo::_getFrame("MainContent"));
+			//$this->tpl->setVariable("FRAME_TARGET_BMF", ilFrameTargetInfo::_getFrame("MainContent"));
 		}
 		else
 		{
 			$this->tpl->setVariable("VAL_BM_TITLE", $a_data["title"]);
 			$this->tpl->setVariable("VAL_BM_TARGET", $a_data["target"]);
 			$this->tpl->setVariable("VAL_BM_DESCRIPTION", $a_data["description"]);
-			$this->tpl->setVariable("FRAME_TARGET", ilFrameTargetInfo::_getFrame("ExternalContent"));
+			$this->tpl->setVariable("FRAME_TARGET_BM", ilFrameTargetInfo::_getFrame("ExternalContent"));
 		}
 		$ilCtrl->clearParameters($this->parent_obj);
 	}
