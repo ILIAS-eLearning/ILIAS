@@ -55,7 +55,19 @@ class ilDAVProperties
 		$objId = $objDAV->getObjectId();
 		$nodeId = $objDAV->getNodeId();
 		
-		if(isset($value)) {
+		if(isset($value)) 
+		{
+			$ilDB->replace($this->table,
+				array(
+					'obj_id'	=> array('integer',$objId),
+					'node_id'	=> array('integer',$nodeId),
+					'ns'		=> array('text',$namespace),
+					'name'		=> array('text',$name)
+					),
+				array('value'	=> array('clob',$value))
+			);
+			
+			/*			
 			$q = 'REPLACE INTO '.$this->table
 					.' SET obj_id = '.$ilDB->quote($objId)
 					.', node_id = '.$ilDB->quote($nodeId)
@@ -63,16 +75,20 @@ class ilDAVProperties
 					.', name = '.$ilDB->quote($name)
 					.', value = '.$ilDB->quote($value)
 					;
-		} else {
+			*/
+		} 
+		else 
+		{
 			$q = 'DELETE FROM '.$this->table
-					.' WHERE obj_id = '.$ilDB->quote($objId)
-					.' AND node_id = '.$ilDB->quote($nodeId)
-					.' AND ns = '.$ilDB->quote($namespace)
-					.' AND name = '.$ilDB->quote($name)
+					.' WHERE obj_id = '.$ilDB->quote($objId,'integer')
+					.' AND node_id = '.$ilDB->quote($nodeId,'integer')
+					.' AND ns = '.$ilDB->quote($namespace,'text')
+					.' AND name = '.$ilDB->quote($name,'text')
 					;
+			$ilDB->manipulate($q);
 		}       
 		//$this->writelog('put query='.$q);
-		$r = $ilDB->query($q);
+		#$r = $ilDB->query($q);
 	}
 	
 	/**
@@ -91,10 +107,10 @@ class ilDAVProperties
 		$nodeId = $objDAV->getNodeId();
 		
 		$q = 'SELECT value FROM '.$this->table
-				.' WHERE obj_id = '.$ilDB->quote($objId)
-				.' AND node_id ='.$ilDB->quote($nodeId)
-				.' AND ns = '.$ilDB->quote($namespace)
-				.' AND name = '.$ilDB->quote($name)
+				.' WHERE obj_id = '.$ilDB->quote($objId,'integer')
+				.' AND node_id ='.$ilDB->quote($nodeId,'integer')
+				.' AND ns = '.$ilDB->quote($namespace,'text')
+				.' AND name = '.$ilDB->quote($name,'text')
 				;       
 		$r = $ilDB->query($q);
 		if ($row = $r->fetchRow(DB_FETCHMODE_ASSOC))
@@ -121,8 +137,8 @@ class ilDAVProperties
 		
 		$q = 'SELECT ns, name, value'
 				.' FROM '.$this->table
-				.' WHERE obj_id = '.$ilDB->quote($objId)
-				.' AND node_id ='.$ilDB->quote($nodeId)
+				.' WHERE obj_id = '.$ilDB->quote($objId,'integer')
+				.' AND node_id ='.$ilDB->quote($nodeId,'integer')
 				;       
 		$r = $ilDB->query($q);
 		$result = array();
@@ -170,10 +186,9 @@ class ilDAVProperties
 		$toNodeId = $toObjDAV->getNodeId();
 		
 		$q = 'SELECT ns, name, value FROM '.$this->table
-				.' WHERE obj_id = '.$ilDB->quote($objId)
-				.' AND node_id ='.$ilDB->quote($nodeId)
-				.' FOR UPDATE'
-				;       
+				.' WHERE obj_id = '.$ilDB->quote($objId,'integer')
+				.' AND node_id ='.$ilDB->quote($nodeId,'integer');
+/*				.' FOR UPDATE' */
 		$r = $ilDB->query($q);
 		$result = array();
 		while ($row = $r->fetchRow(DB_FETCHMODE_ASSOC))
@@ -188,7 +203,7 @@ class ilDAVProperties
 				.', '.$ilDB->quote($row['value'])
 				.')'
 			;
-			$r2 = $ilDB->query($q2);
+			$r2 = $ilDB->manipulate($q2);
 		}
 	}
 	
