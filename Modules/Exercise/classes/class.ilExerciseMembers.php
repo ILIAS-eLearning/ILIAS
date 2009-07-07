@@ -588,15 +588,18 @@ class ilExerciseMembers
 			array($this->getObjId(), $a_member_id, $ilUser->getId(), ilUtil::now()));
 	}
 
-	function downloadSelectedFiles($array_file_id)
+	function downloadSelectedFiles($array_file_id,$a_user_id)
 	{
+		global $ilDB;
+		
 		if (count($array_file_id))
 		{
 			//$query = "SELECT * FROM exc_returned WHERE returned_id IN (".
 			//	implode(ilUtil::quoteArray($array_file_id) ,",").")";
 			//$result = $this->ilias->db->query($query);
 			$result = $ilDB->query("SELECT * FROM exc_returned WHERE ".
-				$ilDB->in("returned_id", $array_file_id, false, "integer"));
+				$ilDB->in("returned_id", $array_file_id, false, "integer").
+				" AND user_id = ".$ilDB_>quote($a_user_id));
 			if ($ilDB->numRows($result))
 			{
 				$array_found = array();
