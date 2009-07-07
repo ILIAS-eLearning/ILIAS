@@ -13960,3 +13960,7 @@ $ilDB->query($query);
 <?php
 	$ilMySQLAbstraction->performAbstraction("page_object");
 ?>
+<#2689>
+<?php
+	$ilMySQLAbstraction->performAbstraction('dav_property');
+?>
