@@ -214,18 +214,18 @@ class ilDAVLocks
 		}
 		
 		$q = 'INSERT INTO '.$this->table
-				.' SET obj_id   = '.$ilDB->quote($objId)
-				.', node_id     = '.$ilDB->quote($nodeId)
-				.', ilias_owner = '.$ilDB->quote($iliasUserId)
-				.', dav_owner   = '.$ilDB->quote($davUser)
-				.', token       = '.$ilDB->quote($token)
-				.', expires     = '.$ilDB->quote($expires)
-				.', depth       = '.$ilDB->quote($depth)
+				.' SET obj_id   = '.$ilDB->quote($objId,'integer')
+				.', node_id     = '.$ilDB->quote($nodeId,'integer')
+				.', ilias_owner = '.$ilDB->quote($iliasUserId,'text')
+				.', dav_owner   = '.$ilDB->quote($davUser,'text')
+				.', token       = '.$ilDB->quote($token,'text')
+				.', expires     = '.$ilDB->quote($expires,'integer')
+				.', depth       = '.$ilDB->quote($depth,'integer')
 				.', type        = \'w\''
-				.', scope       = '.$ilDB->quote($scope)
+				.', scope       = '.$ilDB->quote($scope,'text')
 				;
 		$this->writelog('lock query='.$q);
-		$result = $ilDB->query($q);
+		$result = $ilDB->manipulate($q);
 		return ! PEAR::isError($result);
 	}
 	/**
@@ -263,13 +263,13 @@ class ilDAVLocks
 		global $ilDB;
 		
 		$q = 'UPDATE '.$this->table
-				.' SET expires = '.$ilDB->quote($expires)
-				.' WHERE token = '.$ilDB->quote($token)
-				.' AND obj_id = '.$ilDB->quote($objId)
-				.' AND node_id = '.$ilDB->quote($nodeId)
+				.' SET expires = '.$ilDB->quote($expires,'integer')
+				.' WHERE token = '.$ilDB->quote($token,'text')
+				.' AND obj_id = '.$ilDB->quote($objId,'integer')
+				.' AND node_id = '.$ilDB->quote($nodeId,'integer')
 				;
-		$ilDB->query($q);
-		return mysql_affected_rows() > 0;
+		$aff = $ilDB->manipulate($q);
+		return $aff > 0;
 	}
 	/**
 	 * Discards a write lock.
@@ -294,13 +294,13 @@ class ilDAVLocks
 		// FIXME - Maybe we should delete all rows with the same token, not
 		// just the ones with the same token, obj_id and node_id.
 		$q = 'DELETE FROM '.$this->table
-				.' WHERE token = '.$ilDB->quote($token)
-				.' AND obj_id = '.$ilDB->quote($objId)
-				.' AND node_id = '.$ilDB->quote($nodeId)
+				.' WHERE token = '.$ilDB->quote($token,'text')
+				.' AND obj_id = '.$ilDB->quote($objId,'integer')
+				.' AND node_id = '.$ilDB->quote($nodeId,'integer')
 				;
 		$this->writelog('unlock query='.$q);
-		$ilDB->query($q);
-		$success = mysql_affected_rows() > 0;
+		$aff = $ilDB->manipulate($q);
+		$success = $aff > 0;
 		
 		// clean up expired locks in 1 out of 100 unlock requests
 		if (rand(1,100) == 1)
@@ -334,9 +334,9 @@ class ilDAVLocks
 		
 		$q = 'SELECT ilias_owner, dav_owner, expires, depth, scope'
 				.' FROM '.$this->table
-				.' WHERE obj_id = '.$ilDB->quote($objId)
-				.' AND node_id = '.$ilDB->quote($nodeId)
-				.' AND token = '.$ilDB->quote($token)
+				.' WHERE obj_id = '.$ilDB->quote($objId,'integer')
+				.' AND node_id = '.$ilDB->quote($nodeId,'integer')
+				.' AND token = '.$ilDB->quote($token,'text')
 				;
 		$this->writelog('getLocks('.$objDAV.') query='.$q);
 		$r = $ilDB->query($q);
@@ -396,9 +396,9 @@ class ilDAVLocks
 		
 		$q = 'SELECT ilias_owner, dav_owner, token, expires, depth, scope'
 				.' FROM '.$this->table
-				.' WHERE obj_id = '.$ilDB->quote($objId)
-				.' AND node_id = '.$ilDB->quote($nodeId)
-				.' AND expires > '.$ilDB->quote(time())
+				.' WHERE obj_id = '.$ilDB->quote($objId,'integer')
+				.' AND node_id = '.$ilDB->quote($nodeId,'integer')
+				.' AND expires > '.$ilDB->quote(time(),'integer')
 				;
 		$this->writelog('getLocks('.$objDAV.') query='.$q);
 		$r = $ilDB->query($q);
@@ -434,7 +434,7 @@ class ilDAVLocks
 		
 		$q = 'SELECT obj_id, node_id, ilias_owner, dav_owner, token, expires, depth, scope'
 					.' FROM '.$this->table
-					.' WHERE expires > '.$ilDB->quote(time())
+					.' WHERE expires > '.$ilDB->quote(time(),'integer')
 					.' AND ('
 					;
 		$isFirst = true;
@@ -448,7 +448,7 @@ class ilDAVLocks
 			} else {
 				$q .= ' OR ';
 			}
-			$q .= '(obj_id = '.$objId.' AND node_id = '.$nodeId.')';
+			$q .= '(obj_id = '.$ilDB->quote($objId,'integer').' AND node_id = '.$ilDB->quote($nodeId,'integer').')';
 		}
 		$q .= ')';
 				
@@ -489,7 +489,7 @@ class ilDAVLocks
 		
 		$q = 'SELECT obj_id, node_id, ilias_owner, dav_owner, token, expires, depth, scope'
 					.' FROM '.$this->table
-					.' WHERE expires > '.$ilDB->quote(time())
+					.' WHERE expires > '.$ilDB->quote(time(),'integer')
 					.' AND ('
 					;
 		$isFirst = true;
@@ -503,7 +503,7 @@ class ilDAVLocks
 			} else {
 				$q .= ' OR ';
 			}
-			$q .= '(obj_id = '.$objId.' AND node_id = '.$nodeId.')';
+			$q .= '(obj_id = '.$ilDB->quote($objId,'integer').' AND node_id = '.$ilDB->quote($nodeId,'integer').')';
 		}
 		$q .= ')';
 				
@@ -532,21 +532,21 @@ class ilDAVLocks
 		$old = time() - 3600;
 		$q = 'DELETE'
 			.' FROM '.$this->table
-			.' WHERE expires < '.$ilDB->quote($old)
+			.' WHERE expires < '.$ilDB->quote($old,'integer')
 		;
-		$ilDB->query($q);
+		$ilDB->manipulate($q);
 		
 		// 2. Get rid of null resources which are not associated to
 		//    a lock due to step 1, or due to a database inconsistency
 		//    because we are working with non-transactional tables
 		$q = 'SELECT dat.obj_id '
 				.' FROM object_data AS dat'
-				.' LEFT JOIN '.$this->table.' AS lck'
+				.' LEFT JOIN '.$this->table.' lck'
 				.' ON dat.obj_id = lck.obj_id'
-				.' WHERE dat.type = \'null\''
+				.' WHERE dat.type = '.$ilDB->quote('null','text')
 				.' AND lck.obj_id IS NULL'
-				.' FOR UPDATE'
 				;
+/*	TODO: smeyer.' FOR UPDATE' */
 		
             	$r = $ilDB->query($q);
 		while ($row = $r->fetchRow(DB_FETCHMODE_ASSOC))

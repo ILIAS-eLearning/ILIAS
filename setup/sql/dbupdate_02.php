@@ -13968,3 +13968,11 @@ $ilDB->query($query);
 <?php
 	$ilDB->renameTableColumn('aicc_course','level','c_level');
 ?>
+<#2691>
+<?php
+	$ilDB->modifyTableColumn('dav_property','value', array("type" => "text", "length" => 4000));
+?>
+<#2692>
+<?php
+	$ilMySQLAbstraction->performAbstraction('dav_lock');
+?>
