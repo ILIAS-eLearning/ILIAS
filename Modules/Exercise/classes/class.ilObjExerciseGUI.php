@@ -192,7 +192,7 @@ return;
 		{
 			if (count($_POST["delivered"]))
 			{
-				$this->object->members_obj->downloadSelectedFiles($_POST["delivered"]);
+				$this->object->members_obj->downloadSelectedFiles($_POST["delivered"],$ilUser->getId());
 			}
 			else
 			{
