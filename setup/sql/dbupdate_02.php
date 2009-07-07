@@ -13976,3 +13976,84 @@ $ilDB->query($query);
 <?php
 	$ilMySQLAbstraction->performAbstraction('dav_lock');
 ?>
+<#2693>
+<?php
+	$ilDB->manipulateF("UPDATE style_char SET type = %s WHERE type = %s AND characteristic = %s",
+		array("text", "text", "text"), array("heading1", "text_block", "Headline1")); 
+	$ilDB->manipulateF("UPDATE style_char SET type = %s WHERE type = %s AND characteristic = %s",
+		array("text", "text", "text"), array("heading2", "text_block", "Headline2")); 
+	$ilDB->manipulateF("UPDATE style_char SET type = %s WHERE type = %s AND characteristic = %s",
+		array("text", "text", "text"), array("heading3", "text_block", "Headline3")); 
+?>
+<#2694>
+<?php
+	$ilDB->manipulateF("UPDATE style_parameter SET tag = %s, type = %s WHERE tag = %s AND class = %s",
+		array("text", "text", "text", "text"), array("h1", "heading1", "div", "Headline1")); 
+	$ilDB->manipulateF("UPDATE style_parameter SET tag = %s, type = %s WHERE tag = %s AND class = %s",
+		array("text", "text", "text", "text"), array("h2", "heading2", "div", "Headline2")); 
+	$ilDB->manipulateF("UPDATE style_parameter SET tag = %s, type = %s WHERE tag = %s AND class = %s",
+		array("text", "text", "text", "text"), array("h3", "heading3", "div", "Headline3")); 
+	$ilDB->manipulateF("UPDATE style_parameter SET tag = %s, type = %s WHERE tag = %s AND class = %s",
+		array("text", "text", "text", "text"), array("h1", "page_title", "div", "PageTitle")); 
+?>
+<#2695>
+<?php
+	// add standard values due to move from div to h1, h2, h3
+	$sets = $ilDB->query("SELECT * FROM object_data WHERE type = 'sty'");
+	
+	$classes = array(
+		array("tag" => "h1", "class" => "Headline1", "type" => "heading1"),
+		array("tag" => "h2", "class" => "Headline2", "type" => "heading2"),
+		array("tag" => "h3", "class" => "Headline3", "type" => "heading3"),
+		array("tag" => "h1", "class" => "PageTitle", "type" => "page_title")
+		);
+		
+	$pars = array(
+		array("par" => "font-size", "value" => "100%"),
+		array("par" => "margin-top", "value" => "0px"),
+		array("par" => "margin-bottom", "value" => "0px"),
+		array("par" => "font-weight", "value" => "normal")
+		);
+	
+	while ($recs = $ilDB->fetchAssoc($sets))
+	{
+		$id = $recs["obj_id"];
+		foreach ($classes as $c)
+		{
+			foreach ($pars as $p)
+			{
+				$add = ($p["par"] == "margin-bottom" || $p["par"] == "margin-top")
+					? " OR parameter = ".$ilDB->quote("margin", "text")
+					: "";
+				$set2 = $ilDB->queryF("SELECT * FROM style_parameter WHERE style_id = %s".
+					" AND tag = %s AND class = %s AND (parameter = %s ".$add.")",
+					array("integer", "text", "text", "text"),
+					array($id, $c["tag"], $c["class"], $p["par"])
+					);
+				if ($rec2 = $ilDB->fetchAssoc($set2))
+				{
+					// do nothin
+				}
+				else
+				{
+					// insert standard value
+					$pid = $ilDB->nextId("style_parameter");
+					$q = "INSERT INTO style_parameter (id, style_id, tag, class, parameter, value, type) VALUES (".
+						$ilDB->quote($pid, "integer").", ".
+						$ilDB->quote($id, "integer").", ".
+						$ilDB->quote($c["tag"], "text").", ".
+						$ilDB->quote($c["class"], "text").", ".
+						$ilDB->quote($p["par"], "text").", ".
+						$ilDB->quote($p["value"], "text").", ".
+						$ilDB->quote($c["type"], "text").")";
+//echo "<br>$q";
+					$ilDB->manipulate($q);
+				}
+			}
+		}
+	}
+?>
+<#2696>
+<?php
+	$sets = $ilDB->query("UPDATE style_data SET uptodate = ".$ilDB->quote(0, "integer"));
+?>

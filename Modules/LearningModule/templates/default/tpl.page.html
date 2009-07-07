@@ -20,9 +20,10 @@
 <style>
 body { margin:0px; }
 </style>
+<div class="ilFrame"><div class="ilFrameH"><div class="ilFrameTL"><div class="ilFrameTR">
 {MAINMENU}<!-- BEGIN sr_focus -->
 <script type="text/javascript">ilAddOnLoad(ilScreenReaderFocus);</script>
-<!-- END sr_focus -->
+<!-- END sr_focus --><div class="ilBelowMainMenu">
 {NAVIGATION_HISTORY}
 <!-- BEGIN ilLocator -->
 {STATUSLINE}
@@ -31,7 +32,7 @@ body { margin:0px; }
 <!-- BEGIN lm_head --><h1 class="il_LMHead"><!-- BEGIN header_image --><img style="vertical-align:middle" <!-- BEGIN header_image_desc -->alt="{IMAGE_DESC}"<!-- END header_image_desc --> border="0" src="{IMG_HEADER}" id="headerimage" />&nbsp;<!-- END header_image -->
 	{HEADER}</h1>
 <!-- END lm_head -->
-{MENU}
+<div class="ilLMMenu">{MENU}<div style="clear:both;"></div></div>
 <table class="ilc_page_frame_PageFrame" cellpadding="0" cellspacing="0"><tr><td>
 {MESSAGE}
 {INLINE_JS}
@@ -82,5 +83,7 @@ body { margin:0px; }
 <br />
 {NOTES}
 </td></tr></table>
+</div>
+</div></div></div></div>
 </body>
 </html>

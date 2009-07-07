@@ -17,7 +17,7 @@ table.ilc_page_cont_PageContainer
 	padding: 20px;
 }
 
-div.ilc_page_title_PageTitle
+h1.ilc_page_title_PageTitle
 {
 	margin-top: 5px;
 	margin-bottom: 20px;
@@ -26,6 +26,7 @@ div.ilc_page_title_PageTitle
 	border-bottom-width: 1px;
 	border-bottom-style: solid;
 	border-color: #000000;
+	font-weight: normal;
 }
 
 div.ilc_page_tnav_TopNavigation
@@ -236,25 +237,28 @@ div.ilc_text_block_List
 	margin-bottom: 3px;
 }
 
-div.ilc_text_block_Headline1
+h1.ilc_heading1_Headline1
 {
 	margin-top: 20px;
 	margin-bottom: 10px;
 	font-size: 140%;
+	font-weight: normal;
 }
 
-div.ilc_text_block_Headline2
+h2.ilc_heading2_Headline2
 {
 	margin-top: 20px;
 	margin-bottom: 10px;
 	font-size: 130%;
+	font-weight: normal;
 }
 
-div.ilc_text_block_Headline3
+h3.ilc_heading3_Headline3
 {
 	margin-top: 20px;
 	margin-bottom: 10px;
 	font-size: 120%;
+	font-weight: normal;
 }
 
 div.ilc_text_block_Example

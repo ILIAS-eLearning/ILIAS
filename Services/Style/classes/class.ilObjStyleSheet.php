@@ -233,11 +233,11 @@ class ilObjStyleSheet extends ilObject
 	// displayed with matching tag (group -> tags)
 	public static $filtered_groups =
 			array("ol" => array("ol"), "ul" => array("ul"),
-				"table" => array("table"), "positioning" => array("div", "img", "table"));
+				"table" => array("table"), "positioning" => array("h1", "h2", "h3", "div", "img", "table"));
 
 	// style types and their super type
 	public static $style_super_types = array(
-		"text_block" => array("text_block"),
+		"text_block" => array("text_block", "heading1", "heading2", "heading3"),
 		"text_inline" => array("text_inline"),
 		"section" => array("section"),
 		"link" => array("link"),
@@ -270,6 +270,9 @@ class ilObjStyleSheet extends ilObject
 	// tag that are used by style types
 	public static $assigned_tags = array (
 		"text_block" => "div",
+		"heading1" => "h1",
+		"heading2" => "h2",
+		"heading3" => "h3",
 		"text_inline" => "span",
 		"section" => "div",
 		"link" => "a",
@@ -311,7 +314,7 @@ class ilObjStyleSheet extends ilObject
 		"page_rnavlink" => "a",
 		"page_lnavimage" => "img",
 		"page_rnavimage" => "img",
-		"page_title" => "div",
+		"page_title" => "h1",
 		"va_cntr" => "div",
 		"va_icntr" => "div",
 		"va_icont" => "div",
@@ -331,9 +334,9 @@ class ilObjStyleSheet extends ilObject
 			array("type" => "text_block", "class" => "Standard"),
 			array("type" => "text_block", "class" => "List"),
 			array("type" => "text_block", "class" => "TableContent"),
-			array("type" => "text_block", "class" => "Headline1"),
-			array("type" => "text_block", "class" => "Headline2"),
-			array("type" => "text_block", "class" => "Headline3"),
+			array("type" => "heading1", "class" => "Headline1"),
+			array("type" => "heading2", "class" => "Headline2"),
+			array("type" => "heading3", "class" => "Headline3"),
 			array("type" => "text_inline", "class" => "Comment"),
 			array("type" => "text_inline", "class" => "Emph"),
 			array("type" => "text_inline", "class" => "Quotation"),
