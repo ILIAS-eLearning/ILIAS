@@ -218,6 +218,8 @@ class ilFileDataForum extends ilFileData
 
 		if(isset($a_http_post_file) && $a_http_post_file['size'])
 		{
+			$a_http_post_file['name'] = ilUtil::_sanitizeFilemame($a_http_post_file['name']);
+			
 			// CHECK IF FILE WITH SAME NAME EXISTS
 			$this->__rotateFiles($this->getForumPath().'/'.$this->obj_id.'_'.$this->pos_id."_".$a_http_post_file['name']);
 			ilUtil::moveUploadedFile($a_http_post_file['tmp_name'], $a_http_post_file['name'],

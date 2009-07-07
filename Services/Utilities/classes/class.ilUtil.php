@@ -4297,7 +4297,11 @@ class ilUtil
 					
 		if((bool)$a_also_set_super_global) $_COOKIE[$a_cookie_name] = $a_cookie_value;
 	}
-
+	
+	public static function _sanitizeFilemame($a_filename)
+	{
+		return strip_tags($a_filename);
+	}
 } // END class.ilUtil
 
 

@@ -264,6 +264,8 @@ class ilFileDataMail extends ilFileData
 
 		if(isset($a_http_post_file) && $a_http_post_file['size'])
 		{
+			$a_http_post_file['name'] = ilUtil::_sanitizeFilemame($a_http_post_file['name']);
+			
 			// CHECK IF FILE WITH SAME NAME EXISTS
 			$this->rotateFiles($this->getMailPath().'/'.$this->user_id.'_'.$a_http_post_file['name']);
 			
