@@ -14100,3 +14100,7 @@ $ilDB->manipulateF("INSERT INTO bookmark_social_bm (sbm_id, sbm_title, sbm_link,
 		array($id, 'Digg', 'http://digg.com/submit?phase=2&url={LINK}', 'digg_10x10.gif',0)
 );
 ?>
+<#2698>
+<?php
+	$ilDB->addTableColumn("media_item", "text_representation", array("type" => "text", "length" => 4000, "notnull" => false));
+?>

@@ -77,7 +77,7 @@ class ilPCMediaObjectGUI extends ilPageContentGUI
 		
 		// get next class that processes or forwards current command
 		$next_class = $this->ctrl->getNextClass($this);
-//echo "-".$next_class."-";
+
 		// get current command
 		$cmd = $this->ctrl->getCmd();
 
@@ -290,7 +290,7 @@ class ilPCMediaObjectGUI extends ilPageContentGUI
 	*/
 	function &create($a_create_alias = true)
 	{
-		global $ilCtrl;
+		global $ilCtrl, $lng;
 		
 		if ($_GET["subCmd"] == "insertFromPool")
 		{
@@ -334,6 +334,7 @@ class ilPCMediaObjectGUI extends ilPageContentGUI
 				$this->content_obj->setHierId($this->content_obj->readHierId());
 				$this->setHierId($this->content_obj->readHierId());
 				$this->content_obj->setPCId($this->content_obj->readPCId());
+				ilUtil::sendSuccess($lng->txt("saved_media_object"), true);
 				$this->ctrl->redirectByClass("ilobjmediaobjectgui", "edit");
 
 				//$this->ctrl->returnToParent($this, "jump".$this->hier_id);
@@ -579,6 +580,24 @@ class ilPCMediaObjectGUI extends ilPageContentGUI
 		$rad_caption->addOption($op2);
 		$this->form_gui->addItem($rad_caption);
 
+		// standard text representation
+		if (substr($std_item->getFormat(), 0, 5) == "image")
+		{
+			$rad_tr = new ilRadioGroupInputGUI($lng->txt("text_repr"), "st_derive_text_representation");
+			$op1 = new ilRadioOption($lng->txt("cont_default"), "y");
+				$def_tr = new ilNonEditableValueGUI("", "def_text_representation");
+				$op1->addSubItem($def_tr);
+			$op2 = new ilRadioOption($lng->txt("cont_custom"), "n");
+				$tr = new ilTextAreaInputGUI("", "st_text_representation");
+				$tr->setCols(30);
+				$tr->setRows(2);
+			$rad_tr->addOption($op1);
+				$op2->addSubItem($tr);
+			$rad_tr->addOption($op2);
+			$this->form_gui->addItem($rad_tr);
+			$rad_tr->setInfo($lng->txt("text_repr_info"));
+		}
+
 		// standard parameters
 		if (!in_array($std_item->getFormat(), ilObjMediaObject::_getSimpleMimeTypes()))
 		{
@@ -672,6 +691,24 @@ class ilPCMediaObjectGUI extends ilPageContentGUI
 				$op2->addSubItem($caption);
 			$rad_caption->addOption($op2);
 			$this->form_gui->addItem($rad_caption);
+			
+			// fullscreen text representation
+			if (substr($full_item->getFormat(), 0, 5) == "image")
+			{
+				$rad_tr = new ilRadioGroupInputGUI($lng->txt("text_repr"), "full_derive_text_representation");
+				$op1 = new ilRadioOption($lng->txt("cont_default"), "y");
+					$def_tr = new ilNonEditableValueGUI("", "full_def_text_representation");
+					$op1->addSubItem($def_tr);
+				$op2 = new ilRadioOption($lng->txt("cont_custom"), "n");
+					$tr = new ilTextAreaInputGUI("", "full_text_representation");
+					$tr->setCols(30);
+					$tr->setRows(2);
+				$rad_tr->addOption($op1);
+					$op2->addSubItem($tr);
+				$rad_tr->addOption($op2);
+				$this->form_gui->addItem($rad_tr);
+				$rad_tr->setInfo($lng->txt("text_repr_info"));
+			}
 	
 			// fullscreen parameters
 			if (!in_array($full_item->getFormat(), ilObjMediaObject::_getSimpleMimeTypes()))
@@ -748,6 +785,17 @@ class ilPCMediaObjectGUI extends ilPageContentGUI
 		{
 			$values["def_caption"] = $std_item->getCaption();
 		}
+
+		// text representation
+		$values["st_text_representation"] = $std_alias_item->getTextRepresentation();
+		if (trim($std_item->getTextRepresentation()) == "")
+		{
+			$values["def_text_representation"] = "<i>".$lng->txt("cont_no_text")."</i>";
+		}
+		else
+		{
+			$values["def_text_representation"] = $std_item->getTextRepresentation();
+		}
 		
 		// parameters / autostart
 		if (ilObjMediaObject::_useAutoStartParameterOnly($std_item->getLocation(),
@@ -774,6 +822,9 @@ class ilPCMediaObjectGUI extends ilPageContentGUI
 			$values["st_width_height"]["height"] = $std_item->getHeight();
 		}
 		$values["st_derive_caption"] = $std_alias_item->definesCaption()
+			? "n"
+			: "y";
+		$values["st_derive_text_representation"] = $std_alias_item->definesTextRepresentation()
 			? "n"
 			: "y";
 		$values["st_derive_parameters"] = $std_alias_item->definesParameters()
@@ -815,6 +866,15 @@ class ilPCMediaObjectGUI extends ilPageContentGUI
 			{
 				$values["full_def_caption"] = $full_item->getCaption();
 			}
+			$values["full_text_representation"] = $full_alias_item->getTextRepresentation();
+			if (trim($full_item->getTextRepresentation()) == "")
+			{
+				$values["full_def_text_representation"] = "<i>".$lng->txt("cont_no_text")."</i>";
+			}
+			else
+			{
+				$values["full_def_text_representation"] = $full_item->getTextRepresentation();
+			}
 			$values["full_parameters"] = $full_alias_item->getParameterString();
 			$values["full_derive_size"] = $full_alias_item->definesSize()
 				? "n"
@@ -825,6 +885,9 @@ class ilPCMediaObjectGUI extends ilPageContentGUI
 				$values["full_width_height"]["height"] = $full_item->getHeight();
 			}
 			$values["full_derive_caption"] = $full_alias_item->definesCaption()
+				? "n"
+				: "y";
+			$values["full_derive_text_representation"] = $full_alias_item->definesTextRepresentation()
 				? "n"
 				: "y";
 				
@@ -893,6 +956,16 @@ class ilPCMediaObjectGUI extends ilPageContentGUI
 			$std_alias_item->setCaption($_POST["st_caption"]);
 		}
 
+		// text representation
+		if($_POST["st_derive_text_representation"] == "y")
+		{
+			$std_alias_item->deriveTextRepresentation();
+		}
+		else
+		{
+			$std_alias_item->setTextRepresentation($_POST["st_text_representation"]);
+		}
+
 		// standard parameters
 		if($_POST["st_derive_parameters"] == "y")
 		{
@@ -946,6 +1019,16 @@ class ilPCMediaObjectGUI extends ilPageContentGUI
 				else
 				{
 					$full_alias_item->setCaption($_POST["full_caption"]);
+				}
+
+				// fullscreen text representation
+				if($_POST["full_derive_text_representation"] == "y")
+				{
+					$full_alias_item->deriveTextRepresentation();
+				}
+				else
+				{
+					$full_alias_item->setTextRepresentation($_POST["full_text_representation"]);
 				}
 
 				// fullscreen parameters

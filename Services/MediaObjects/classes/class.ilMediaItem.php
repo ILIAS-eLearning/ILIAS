@@ -100,6 +100,26 @@ class ilMediaItem
 	}
 
 	/**
+	 * Set text representation
+	 *
+	 * @param	string	text representation
+	 */
+	function setTextRepresentation($a_val)
+	{
+		$this->text_representation = $a_val;
+	}
+	
+	/**
+	 * Get text representation
+	 *
+	 * @return	string	text representation
+	 */
+	function getTextRepresentation()
+	{
+		return $this->text_representation;
+	}
+
+	/**
 	* create persistent media item
 	*/
 	function create()
@@ -109,7 +129,7 @@ class ilMediaItem
 		$item_id = $ilDB->nextId("media_item");
 		$query = "INSERT INTO media_item (id,mob_id, purpose, location, ".
 			"location_type, format, width, ".
-			"height, halign, caption, nr) VALUES ".
+			"height, halign, caption, nr, text_representation) VALUES ".
 			"(".
 			$ilDB->quote($item_id, "integer").",".
 			$ilDB->quote($this->getMobId(), "integer").",".
@@ -121,7 +141,8 @@ class ilMediaItem
 			$ilDB->quote($this->getHeight(), "text").",".
 			$ilDB->quote($this->getHAlign(), "text").",".
 			$ilDB->quote($this->getCaption(), "text").",".
-			$ilDB->quote($this->getNr(), "integer").")";
+			$ilDB->quote($this->getNr(), "integer").",".
+			$ilDB->quote($this->getTextRepresentation(), "text").")";
 		$ilDB->manipulate($query);
 		
 		$this->setId($item_id);
@@ -164,6 +185,7 @@ class ilMediaItem
 			" halign = ".$ilDB->quote($this->getHAlign(), "text").",".
 			" caption = ".$ilDB->quote($this->getCaption(), "text").",".
 			" nr = ".$ilDB->quote($this->getNr(), "integer").
+			" text_representation = ".$ilDB->quote($this->getTextRepresentation(), "text").
 			" WHERE id = ".$ilDB->quote($this->getId(), "integer");
 		$ilDB->manipulate($query);
 
@@ -222,6 +244,7 @@ class ilMediaItem
 			$this->setMobId($item_rec["mob_id"]);
 			$this->setId($item_rec["id"]);
 			$this->setThumbTried($item_rec["tried_thumb"]);
+			$this->setTextRpresentation($item_rec["text_representation"]);
 
 			// get item parameter
 			$query = "SELECT * FROM mob_parameter WHERE med_item_id = ".
@@ -353,6 +376,7 @@ class ilMediaItem
 			$media_item->setPurpose($item_rec["purpose"]);
 			$media_item->setMobId($item_rec["mob_id"]);
 			$media_item->setThumbTried($item_rec["tried_thumb"]);
+			$media_item->setTextRepresentation($item_rec["text_representation"]);
 
 			// get item parameter
 			$query = "SELECT * FROM mob_parameter WHERE med_item_id = ".
