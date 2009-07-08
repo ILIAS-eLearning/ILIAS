@@ -1,35 +1,11 @@
 <div>
-  <span class="small">{TXT_PERMA}</span><a class="small" {TARGET} href="{LINK}">{LINK}</a>
-  <!-- BEGIN permanent_link_bookmark --><span class="small" id="pm_bm_lable_save" style="display: none">(<a href="#">{TXT_SAVE}</a>)</span>
-  <form method="post" name="pm_bookmark_form">
-  	<label for="bm_title">{TXT_TITLE}:</label>
-  	<input type="text" id="bm_title" name="pm_bm_title" value="{TXT_BOOKMARK_DEFAULT}" />
-  	<input class="submit" name="pm_bm_submit" type="submit" value="{TXT_SAVE}"/>
-	<input type="hidden" name="addToBookmark" value="true" />
-  </form>
-  <script type="text/javascript">
-  //<!--
-    ilAddOnLoad(
-	    function()
-	    {
-		    var form = document.forms['pm_bookmark_form'];
-		    document.getElementById('pm_bm_lable_save').style.display = "inline";
-		    document.getElementById('pm_bm_lable_save').onclick = function()
-		    {
-			    document.getElementById('pm_bm_lable_save').style.display = "none";
-			    form.style.display = 'block';
-			    return false;			    
-		    }
-		    form.style.display = "none";
-	    }
-     );
-  //-->
-  </script>
-  <!-- END permanent_link_bookmark -->
+  <label for="current_perma_link"><span class="small">{TXT_PERMA}</span></label><input id="current_perma_link" type="text" value="{LINK}" readonly="readonly"/>
+  
+<!-- BEGIN social_bookmarks -->
+	&nbsp;
+	<img src="templates/default/images/icon_bm.gif" width="10"  height="10" alt=""/>&nbsp;<a href="{URL_ADD_TO_BM}">{TXT_ADD_TO_ILIAS_BM}</a>&nbsp;&nbsp;
+	{SELECTION_LIST}
+
+<!-- END social_bookmarks -->
 </div>
-<!-- BEGIN delicious -->
-<div>
-<a class="small" target="_blank" href="http://del.icio.us/post?desc=nn&url={DEL_LINK}"><img border="0" src="{IMG_DEL}" /> {TXT_DEL}</a>
-</div>
-<!-- END delicious -->
 

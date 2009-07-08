@@ -314,57 +314,88 @@ class ilObjExternalToolsSettingsGUI extends ilObjectGUI
 	}
 	
 	/**
-	* Configure delicious settings
+	* Configure social bookmark settings
 	* 
 	* @access	public
 	*/
-	function editDeliciousObject()
+	function editSocialBookmarksObject()
 	{
-		global $ilAccess, $rbacreview, $lng, $ilCtrl;
-		
-		$d_set = new ilSetting("delicious");
-		
-		$this->getTemplateFile("delicious");
+		global $ilAccess, $rbacreview, $lng, $ilCtrl, $ilDB;
 		
 		if (!$ilAccess->checkAccess("write", "", $this->object->getRefId()))
 		{
 			$this->ilias->raiseError($this->lng->txt("permission_denied"),$this->ilias->error_obj->MESSAGE);
 		}
 		
-		$this->__initSubTabs("editDelicious");
-
-		if ($d_set->get("add_info_links") == "1")
+		$this->__initSubTabs("editSocialBookmarks");
+		
+		$q = 'SELECT sbm_id, sbm_title, sbm_link, sbm_icon, sbm_active FROM bookmark_social_bm';
+		$rset = $ilDB->query($q);
+		$dset = array();
+		while($row = $ilDB->fetchObject($rset))
 		{
-			$this->tpl->setVariable("CHK_ADD_LINKS_ACTIVE", "checked=\"checked\"");
+			$dset[] = array
+			(
+				'ID' => $row->sbm_id,
+				'TITLE' => $row->sbm_title,
+				'LINK' => str_replace('{', '<span>{</span>', $row->sbm_link),
+				'ICON' => ilUtil::getImagePath('socialbookmarks/' . $row->sbm_icon),
+				'ACTIVE' => ilUtil::formCheckbox($row->sbm_active, 'sbm_active['.$row->sbm_id.']', 1, false)
+			);
 		}
 		
-		if ($d_set->get("user_profile") == "1")
-		{
-			$this->tpl->setVariable("CHK_ADD_PROFILE_ACTIVE", "checked=\"checked\"");
-		}
+		require_once 'Services/Table/classes/class.ilTable2GUI.php';
+		$table = new ilTable2GUI($this, 'editDelicious');
+		$table->setFormAction($ilCtrl->getLinkTarget($this, 'saveSocialBookmarks'));
+		$table->addColumn($lng->txt('icon'), '');
+		$table->addColumn($lng->txt('title'), 'TITLE');
+		$table->addColumn($lng->txt('link'), 'LINK');
+		$table->addColumn($lng->txt('active'), 'ACTIVE');
+		$table->setTitle($lng->txt('bm_manage_social_bm'));
+		$table->setData($dset);
+		$table->setRowTemplate('tpl.social_bookmarking_row.html', 'Services/Administration');
 		
-		$this->tpl->setVariable("FORMACTION", $ilCtrl->getFormAction($this));
-		$this->tpl->setVariable("TXT_DELICIOUS_SETTINGS", $lng->txt("delic_settings"));
-		$this->tpl->setVariable("TXT_ADD_DELICIOUS_LINK", $lng->txt("delic_add_info_links"));
-		$this->tpl->setVariable("TXT_ALLOW_PROFILE", $lng->txt("delic_user_profile"));
-		$this->tpl->setVariable("TXT_CANCEL", $lng->txt("cancel"));
-		$this->tpl->setVariable("TXT_SUBMIT", $lng->txt("save"));
-		$this->tpl->setVariable("CMD_SUBMIT", "saveDelicious");
+		$table->addCommandButton('saveSocialBookmarks', $lng->txt('save'));
+		
+		$this->tpl->setVariable('ADM_CONTENT', $table->getHTML());
 	}
 
 
 	/**
-	* Save Delicious Setttings
+	* Save social bookmark settings
 	*/
-	function saveDeliciousObject()
+	function saveSocialBookmarksObject()
 	{
-		global $ilCtrl;
+		global $ilCtrl, $ilDB, $ilAccess;
 
-		$d_set = new ilSetting("delicious");
+		if (!$ilAccess->checkAccess("write", "", $this->object->getRefId()))
+		{
+			$this->ilias->raiseError($this->lng->txt("permission_denied"),$this->ilias->error_obj->MESSAGE);
+		}
+ 
+		$selected = array_keys(is_array($_POST['sbm_active']) ? $_POST['sbm_active'] : array());
+
+		$q_activate = 'UPDATE bookmark_social_bm SET sbm_active = 1 ';
+		$q_deactivate = 'UPDATE bookmark_social_bm SET sbm_active = 0 ';
 		
-		$d_set->set("add_info_links", $_POST["add_info_links"]);
-		$d_set->set("user_profile", $_POST["user_profile"]);
-		$ilCtrl->redirect($this, "editDelicious");
+		$ar_activate = array();
+		$ar_deactivate = array();
+		foreach($selected as $sel)
+		{
+			$ar_activate[] = 'sbm_id='.$sel;
+			$ar_deactivate[] = 'sbm_id<>'.$sel;
+		}
+
+		if (count($ar_activate))
+		{
+			$q_activate .= ' WHERE ' . join(' OR ', $ar_activate);
+			$q_deactivate .= ' WHERE ' . join(' AND ', $ar_deactivate);
+			$ilDB->manipulate($q_activate);
+		}
+		
+		$ilDB->manipulate($q_deactivate);
+		
+		$ilCtrl->redirect($this, "editSocialBookmarks");
 	}
 	
 
@@ -541,14 +572,17 @@ class ilObjExternalToolsSettingsGUI extends ilObjectGUI
 	{
 		$ilinc = ($a_cmd == 'editiLinc') ? true : false;
 		$overview = ($a_cmd == 'view' or $a_cmd == '') ? true : false;
-		$delicious = ($a_cmd == 'editDelicious') ? true : false;
+		//$delicious = ($a_cmd == 'editDelicious') ? true : false;
+		$socialbookmarks = ($a_cmd == 'editSocialBookmarks') ? true : false;
 		$gmaps = ($a_cmd == 'editGoogleMaps') ? true : false;
 		$jsmath = ($a_cmd == 'editjsMath') ? true : false;
 
 		$this->tabs_gui->addSubTabTarget("overview", $this->ctrl->getLinkTarget($this, "view"),
 										 "", "", "", $overview);
-		$this->tabs_gui->addSubTabTarget("delic_extt_delicious", $this->ctrl->getLinkTarget($this, "editDelicious"),
-											"", "", "", $delicious);
+		/*$this->tabs_gui->addSubTabTarget("delic_extt_delicious", $this->ctrl->getLinkTarget($this, "editDelicious"),
+											"", "", "", $delicious);*/
+		$this->tabs_gui->addSubTabTarget("socialbm_extt_social_bookmarks", $this->ctrl->getLinkTarget($this, "editSocialBookmarks"),
+											"", "", "", $socialbookmarks);
 		$this->tabs_gui->addSubTabTarget("jsmath_extt_jsmath", $this->ctrl->getLinkTarget($this, "editjsMath"),
 											"", "", "", $jsmath);
 		$this->tabs_gui->addSubTabTarget("gmaps_extt_gmaps", $this->ctrl->getLinkTarget($this, "editGoogleMaps"),
