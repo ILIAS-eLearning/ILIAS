@@ -71,8 +71,11 @@ if (
 
 elseif (!empty($HTTP_RAW_POST_DATA)) {
 	
-	// Load ILIAS libraries
-	require_once "include/inc.header.php";
+	// Load ILIAS libraries and initialise ILIAS in non-web context
+	require_once("Services/Init/classes/class.ilInitialisation.php");
+	$ilInit = new ilInitialisation();
+	$GLOBALS['ilInit'] =& $ilInit;
+	$ilInit->initILIAS('soap');
 	
 	// Set SOAP header
 	$server = new SoapServer('https://'.$_SERVER['HTTP_HOST'].$_SERVER['PHP_SELF'].'/LogoutNotification.wsdl');
@@ -169,7 +172,9 @@ function LogoutNotification($SessionID){
 	while($session_entry = $r->fetchRow(DB_FETCHMODE_ASSOC)){
 		
 		$user_session = unserializesession($session_entry['data']);
-
+		
+		// Look for session with matching Shibboleth session id 
+		// and then delete this ilias session
 		foreach($user_session as $user_session_entry){
 			if ( 
 				   is_array($user_session_entry) 
