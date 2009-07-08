@@ -604,6 +604,13 @@ class ilObjMediaObject extends ilObject
 							str_replace("&", "&amp;", $item->getCaption())."</Caption>";
 					}
 
+					// Text Representation
+					if ($item->getTextRepresentation() != "")
+					{
+						$xml .= "<TextRepresentation>".
+							str_replace("&", "&amp;", $item->getTextRepresentation())."</TextRepresentation>";
+					}
+
 					// Parameter
 					$parameters = $item->getParameters();
 					foreach ($parameters as $name => $value)
@@ -651,6 +658,13 @@ class ilObjMediaObject extends ilObject
 					{
 						$xml .= "<Caption Align=\"bottom\">".
 							str_replace("&", "&amp;", $item->getCaption())."</Caption>";
+					}
+					
+					// Text Representation
+					if ($item->getTextRepresentation() != "")
+					{
+						$xml .= "<TextRepresentation>".
+							str_replace("&", "&amp;", $item->getTextRepresentation())."</TextRepresentation>";
 					}
 
 					// Parameter
@@ -707,6 +721,13 @@ class ilObjMediaObject extends ilObject
 					{
 						$xml .= "<Caption Align=\"bottom\">".
 							str_replace("&", "&amp;", $item->getCaption())."</Caption>";
+					}
+					
+					// Text Representation
+					if ($item->getTextRepresentation() != "")
+					{
+						$xml .= "<TextRepresentation>".
+							str_replace("&", "&amp;", $item->getTextRepresentation())."</TextRepresentation>";
 					}
 
 					// Parameter

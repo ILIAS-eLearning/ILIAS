@@ -1,25 +1,5 @@
 <?php
-/*
-	+-----------------------------------------------------------------------------+
-	| ILIAS open source                                                           |
-	+-----------------------------------------------------------------------------+
-	| Copyright (c) 1998-2008 ILIAS open source, University of Cologne            |
-	|                                                                             |
-	| This program is free software; you can redistribute it and/or               |
-	| modify it under the terms of the GNU General Public License                 |
-	| as published by the Free Software Foundation; either version 2              |
-	| of the License, or (at your option) any later version.                      |
-	|                                                                             |
-	| This program is distributed in the hope that it will be useful,             |
-	| but WITHOUT ANY WARRANTY; without even the implied warranty of              |
-	| MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the               |
-	| GNU General Public License for more details.                                |
-	|                                                                             |
-	| You should have received a copy of the GNU General Public License           |
-	| along with this program; if not, write to the Free Software                 |
-	| Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA. |
-	+-----------------------------------------------------------------------------+
-*/
+/* Copyright (c) 1998-2009 ILIAS open source, Extended GPL, see docs/LICENSE */
 
 require_once("./Services/COPage/classes/class.ilPageContent.php");
 
@@ -158,6 +138,14 @@ class ilPCMediaObject extends ilPageContent
 			$cap_node->set_content($media_item->getCaption());
 		}
 
+		// text representation
+		if ($media_item->getTextRepresentation() != "")
+		{
+			$tr_node =& $this->dom->create_element("TextRepresentation");
+			$tr_node =& $item_node->append_child($tr_node);
+			$tr_node->set_content($media_item->getTextRepresentation());
+		}
+
 		$pars = $media_item->getParameters();
 		foreach($pars as $par => $val)
 		{
@@ -194,6 +182,14 @@ class ilPCMediaObject extends ilPageContent
 				$cap_node =& $item_node->append_child($cap_node);
 				$cap_node->set_attribute("Align", "bottom");
 				$cap_node->set_content($fullscreen_item->getCaption());
+			}
+
+			// text representation
+			if ($fullscreen_item->getTextRepresentation() != "")
+			{
+				$tr_node =& $this->dom->create_element("TextRepresentation");
+				$tr_node =& $item_node->append_child($tr_node);
+				$tr_node->set_content($fullscreen_item->getTextRepresentation());
 			}
 
 			$pars = $fullscreen_item->getParameters();

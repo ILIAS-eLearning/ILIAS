@@ -287,6 +287,16 @@ class ilObjMediaObjectGUI extends ilObjectGUI
 		$caption->setSize(40);
 		$caption->setMaxLength(200);
 		$this->form_gui->addItem($caption);
+		
+		// text representation (alt text)
+		if ($a_mode == "edit" && is_int(strpos($std_item->getFormat(), "image")))
+		{
+			$ta = new ilTextAreaInputGUI($lng->txt("text_repr"), "text_representation");
+			$ta->setCols(30);
+			$ta->setRows(2);
+			$ta->setInfo($lng->txt("text_repr_info"));
+			$this->form_gui->addItem($ta);
+		}
 
 		// standard parameters
 		if ($a_mode == "edit" &&
@@ -395,6 +405,17 @@ class ilObjMediaObjectGUI extends ilObjectGUI
 		$caption->setMaxLength(200);
 		$this->form_gui->addItem($caption);
 		
+		// text representation (alt text)
+		if ($a_mode == "edit" && $this->object->hasFullscreenItem() && is_int(strpos($std_item->getFormat(), "image")))
+		{
+			$ta = new ilTextAreaInputGUI($lng->txt("text_repr"), "full_text_representation");
+			$ta->setCols(30);
+			$ta->setRows(2);
+			$ta->setInfo($lng->txt("text_repr_info"));
+			$this->form_gui->addItem($ta);
+		}
+
+		
 		// fullscreen parameters
 		if ($a_mode == "edit" && $this->object->hasFullscreenItem() &&
 			!in_array($full_item->getFormat(), ilObjMediaObject::_getSimpleMimeTypes()))
@@ -465,6 +486,7 @@ class ilObjMediaObjectGUI extends ilObjectGUI
 			}
 		}
 		$values["standard_caption"] = $std_item->getCaption();
+		$values["text_representation"] = $std_item->getTextRepresentation();
 		if (ilObjMediaObject::_useAutoStartParameterOnly($std_item->getLocation(),
 			$std_item->getFormat()))
 		{
@@ -523,23 +545,25 @@ class ilObjMediaObjectGUI extends ilObjectGUI
 			{
 				$values["full_parameters"] = $full_item->getParameterString();
 			}
+			$values["full_text_representation"] = $full_item->getTextRepresentation();
 		}
 		
 		$this->form_gui->setValuesByArray($values);
 	}
-	
+
 	/**
 	* create new media object in dom and update page in db
 	*/
 	function saveObject()
 	{
-		global $tpl;
-		
+		global $tpl, $lng;
+
 		$this->initForm();
 		if ($this->form_gui->checkInput())
 		{
 			$this->object = new ilObjMediaObject();
 			ilObjMediaObjectGUI::setObjectPerCreationForm($this->object);
+			ilUtil::sendSuccess($lng->txt("saved_media_object"), true);
 			return $this->object;
 		}
 		else
@@ -630,6 +654,7 @@ class ilObjMediaObjectGUI extends ilObjectGUI
 			$media_item->setCaption(ilUtil::stripSlashes($_POST["standard_caption"]));
 		}
 
+
 		$media_item->setHAlign("Left");
 
 		// fullscreen view
@@ -706,7 +731,7 @@ class ilObjMediaObjectGUI extends ilObjectGUI
 			if ($_POST["full_caption"] != "")
 			{
 				$media_item->setCaption(ilUtil::stripSlashes($_POST["full_caption"]));
-			}
+			}			
 		}
 		
 		ilUtil::renameExecutables($mob_dir);
@@ -889,6 +914,9 @@ class ilObjMediaObjectGUI extends ilObjectGUI
 			// set caption
 			$std_item->setCaption(ilUtil::stripSlashes($_POST["standard_caption"]));
 			
+			// text representation
+			$std_item->setTextRepresentation(ilUtil::stripSlashes($_POST["text_representation"]));
+			
 			// set parameters
 			if (!in_array($std_item->getFormat(), ilObjMediaObject::_getSimpleMimeTypes()))
 			{
@@ -1011,6 +1039,10 @@ class ilObjMediaObjectGUI extends ilObjectGUI
 				$full_item->setLocation($location);
 				
 				$full_item->setCaption(ilUtil::stripSlashes($_POST["full_caption"]));
+				
+				// text representation
+				$full_item->setTextRepresentation(ilUtil::stripSlashes($_POST["full_text_representation"]));
+
 				
 				// set parameters
 				if (!in_array($std_item->getFormat(), ilObjMediaObject::_getSimpleMimeTypes()))
@@ -1416,6 +1448,7 @@ class ilObjMediaObjectGUI extends ilObjectGUI
 			$full_item->setWidth($std_item->getWidth());
 			$full_item->setHeight($std_item->getHeight());
 			$full_item->setCaption($std_item->getCaption());
+			$full_item->setTextRepresentation($std_item->getTextRepresentation());
 			$full_item->setPurpose("Fullscreen");
 			$this->object->addMediaItem($full_item);
 

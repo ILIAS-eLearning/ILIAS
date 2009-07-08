@@ -1,26 +1,5 @@
 <?php
-/*
-	+-----------------------------------------------------------------------------+
-	| ILIAS open source                                                           |
-	+-----------------------------------------------------------------------------+
-	| Copyright (c) 1998-2008 ILIAS open source, University of Cologne            |
-	|                                                                             |
-	| This program is free software; you can redistribute it and/or               |
-	| modify it under the terms of the GNU General Public License                 |
-	| as published by the Free Software Foundation; either version 2              |
-	| of the License, or (at your option) any later version.                      |
-	|                                                                             |
-	| This program is distributed in the hope that it will be useful,             |
-	| but WITHOUT ANY WARRANTY; without even the implied warranty of              |
-	| MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the               |
-	| GNU General Public License for more details.                                |
-	|                                                                             |
-	| You should have received a copy of the GNU General Public License           |
-	| along with this program; if not, write to the Free Software                 |
-	| Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA. |
-	+-----------------------------------------------------------------------------+
-*/
-
+/* Copyright (c) 1998-2009 ILIAS open source, Extended GPL, see docs/LICENSE */
 
 /**
 * Class ilMediaAliasItem
@@ -180,7 +159,7 @@ class ilMediaAliasItem
 	function setWidth($a_width)
 	{
 		ilDOMUtil::setFirstOptionalElement($this->dom, $this->item_node, "Layout",
-			array("Caption", "Parameter", "MapArea"),
+			array("Caption", "TextRepresentation", "Parameter", "MapArea"),
 			"", array("Width" => $a_width), false);
 	}
 
@@ -240,7 +219,7 @@ class ilMediaAliasItem
 	function setHeight($a_height)
 	{
 		ilDOMUtil::setFirstOptionalElement($this->dom, $this->item_node, "Layout",
-			array("Caption", "Parameter", "MapArea"),
+			array("Caption", "TextRepresentation", "Parameter", "MapArea"),
 			"", array("Height" => $a_height), false);
 	}
 
@@ -265,7 +244,7 @@ class ilMediaAliasItem
 	function setCaption($a_caption)
 	{
 		ilDOMUtil::setFirstOptionalElement($this->dom, $this->item_node, "Caption",
-			array("Parameter", "MapArea"),
+			array("TextRepresentation", "Parameter", "MapArea"),
 			$a_caption, array("Align" => "bottom"));
 	}
 
@@ -312,10 +291,62 @@ class ilMediaAliasItem
 		}
 	}
 
+	/**
+	* Set TextRepresentation
+	*/
+	function setTextRepresentation($a_text_representation)
+	{
+		ilDOMUtil::setFirstOptionalElement($this->dom, $this->item_node, "TextRepresentation",
+			array("Parameter", "MapArea"),
+			$a_text_representation, array());
+	}
+
+	/**
+	* Get TextRepresentation
+	*/
+	function getTextRepresentation()
+	{
+		$text_representation_node = $this->getMAItemNode($this->hier_id, $this->purpose,
+			$this->getPcId(), "/TextRepresentation");
+		if (is_object($text_representation_node))
+		{
+			return $text_representation_node->get_content();
+		}
+	}
+
+	/**
+	* check if alias item defines own TextRepresentation or derives TextRepresentation from object
+	*
+	* @return	boolean		returns true if TextRepresentation is not derived from object
+	*/
+	function definesTextRepresentation()
+	{
+		$text_representation_node = $this->getMAItemNode($this->hier_id, $this->purpose,
+			$this->getPcId(), "/TextRepresentation");
+		if (is_object($text_representation_node))
+		{
+			return true;
+		}
+		return false;
+	}
+
+	/**
+	* derive TextRepresentation from object (-> TextRepresentation element is removed from media alias item)
+	*/
+	function deriveTextRepresentation()
+	{
+		$text_representation_node = $this->getMAItemNode($this->hier_id, $this->purpose,
+			$this->getPcId(), "/TextRepresentation");
+		if (is_object($text_representation_node))
+		{
+			$text_representation_node->unlink_node($text_representation_node);
+		}
+	}
+
 	function setHorizontalAlign($a_halign)
 	{
 		ilDOMUtil::setFirstOptionalElement($this->dom, $this->item_node, "Layout",
-			array("Caption", "Parameter", "MapArea"),
+			array("Caption", "TextRepresentation", "Parameter", "MapArea"),
 			"", array("HorizontalAlign" => $a_halign), false);
 	}
 

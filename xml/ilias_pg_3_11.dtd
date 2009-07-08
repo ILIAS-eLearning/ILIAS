@@ -71,14 +71,14 @@
 	Class CDATA #IMPLIED
 >
 <!-- MediaAliasItem -->
-<!ELEMENT MediaAliasItem (Layout?, Caption?, Parameter*, MapArea*)>
+<!ELEMENT MediaAliasItem (Layout?, Caption?, TextRepresentation?, Parameter*, MapArea*)>
 <!ATTLIST MediaAliasItem
 	Purpose (Standard | Fullscreen | Additional) #REQUIRED
 >
-<!-- MediaObject is not an alias -->
+<!--  is not an alias -->
 <!-- Every MediaItem belongs to a corresponding format/location pair in the technical
 	 Section of Meta Data -->
-<!ELEMENT MediaItem (Location, Format?, Layout?, Caption?, Parameter*, MapArea*)>
+<!ELEMENT MediaItem (Location, Format?, Layout?, Caption?, TextRepresentation?, Parameter*, MapArea*)>
 <!ATTLIST MediaItem
 	Purpose (Standard | Fullscreen | Additional) #REQUIRED
 >
@@ -89,6 +89,8 @@
 	Coords CDATA #IMPLIED
 >
 
+<!-- Text Representation -->
+<!ELEMENT TextRepresentation (#PCDATA)>
 
 <!ELEMENT Format (#PCDATA)>
 <!ELEMENT Location (#PCDATA)>

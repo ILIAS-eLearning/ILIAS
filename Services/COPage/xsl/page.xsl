@@ -2234,6 +2234,19 @@
 					<xsl:if test = "$inline = 'y'">
 						<xsl:attribute name="align">middle</xsl:attribute>
 					</xsl:if>
+					
+					<!-- text representation (alt attribute) -->
+					<xsl:choose>			<!-- derive -->
+						<xsl:when test="count(../MediaAliasItem[@Purpose=$curPurpose]/TextRepresentation[1]) != 0">
+							<xsl:attribute name="alt"><xsl:value-of select="../MediaAliasItem[@Purpose=$curPurpose]/TextRepresentation[1]"/></xsl:attribute>
+						</xsl:when>
+						<xsl:when test="count(//MediaObject[@Id=$cmobid]/MediaItem[@Purpose=$curPurpose]/TextRepresentation[1]) != 0">
+							<xsl:attribute name="alt"><xsl:value-of select="//MediaObject[@Id=$cmobid]/MediaItem[@Purpose=$curPurpose]/TextRepresentation[1]"/></xsl:attribute>
+						</xsl:when>
+						<xsl:otherwise>
+						</xsl:otherwise>
+					</xsl:choose>
+					
 				</img>
 			</xsl:if>
 			<xsl:if test = "$map_edit_mode = 'get_coords'">
