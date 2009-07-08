@@ -14057,3 +14057,46 @@ $ilDB->query($query);
 <?php
 	$sets = $ilDB->query("UPDATE style_data SET uptodate = ".$ilDB->quote(0, "integer"));
 ?>
+<#2697>
+<?php 
+$fields = array(
+	'sbm_id' => array(
+		'type' => 'integer',
+		'length' => 4,
+	),
+	'sbm_title' => array(
+		'type' => 'text',
+		'length' => 50,
+	),
+	'sbm_link' => array(
+		'type' => 'text',
+		'length' => 200,
+	),
+	'sbm_icon' => array(
+		'type' => 'text',
+		'length' => 200,
+	),
+	'sbm_active' => array(
+		'type' => 'integer',
+		'length' => 1,
+	),
+);
+
+$ilDB->createTable('bookmark_social_bm', $fields);
+$ilDB->addPrimaryKey('bookmark_social_bm', array('sbm_id'));
+$ilDB->createSequence('bookmark_social_bm');
+
+$id = $ilDB->nextId("bookmark_social_bm");
+$ilDB->manipulateF("INSERT INTO bookmark_social_bm (sbm_id, sbm_title, sbm_link, sbm_icon, sbm_active) ".
+		"VALUES (%s, %s, %s, %s, %s)",
+		array("integer", "text", "text", "text", "integer"),
+		array($id, 'Del.icio.us', 'http://del.icio.us/post?url={LINK}&title={TITLE}', 'delicious_10x10.gif',0)
+);
+
+$id = $ilDB->nextId("bookmark_social_bm");
+$ilDB->manipulateF("INSERT INTO bookmark_social_bm (sbm_id, sbm_title, sbm_link, sbm_icon, sbm_active) ".
+		"VALUES (%s, %s, %s, %s, %s)",
+		array("integer", "text", "text", "text", "integer"),
+		array($id, 'Digg', 'http://digg.com/submit?phase=2&url={LINK}', 'digg_10x10.gif',0)
+);
+?>

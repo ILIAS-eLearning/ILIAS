@@ -194,7 +194,7 @@ class ilPermanentLinkGUI
 	*/
 	function getHTML()
 	{
-		global $lng, $ilCtrl, $ilObjDataCache;
+		global $lng, $ilCtrl, $ilObjDataCache, $ilDB;
 		
 		$tpl = new ilTemplate("tpl.permanent_link.html", true, true,
 			"Services/PermanentLink");
@@ -208,32 +208,17 @@ class ilPermanentLinkGUI
 		{
 			$this->addToBookmarks();
 		}
-		
-		// delicous link
-		$d_set = new ilSetting("delicious");
-		if ($d_set->get("add_info_links") == "1")
-		{
-			$tpl->setCurrentBlock("delicious");
-			$lng->loadLanguageModule("delic");
-			$tpl->setVariable("DEL_LINK", urlencode($href));
-			$tpl->setVariable("IMG_DEL", ilUtil::getImagePath("icon_delicious_s.gif"));
-			$tpl->setVariable("TXT_DEL", $lng->txt("delic_add_to_delicious"));
-			$tpl->parseCurrentBlock();
-		}
-		
+
+
 		if ($this->getIncludePermanentLinkText())
 		{
 			$tpl->setVariable("TXT_PERMA", $lng->txt("perma_link").": ");
 		}
-		$tpl->setVariable("LINK", $href);
 
+		$title = '';
+		
 		if ($_SESSION["AccountId"] != ANONYMOUS_USER_ID)
 		{
-			// bookmark field
-			$tpl->setVariable("TXT_SAVE", $lng->txt('bookmark_save_to'));
-			$tpl->setVariable("TXT_ADD_BOOKMARK", $lng->txt('save'));
-			$tpl->setVariable("TXT_TITLE", $lng->txt('title'));
-			
 			// fetch default title for bookmark
 
 			$obj_id = $ilObjDataCache->lookupObjId($this->getId());
@@ -244,9 +229,42 @@ class ilPermanentLinkGUI
 			$tpl->setVariable("TXT_BOOKMARK_DEFAULT", $title);
 		}
 
+		$tpl->setVariable("LINK", $href);
+		$tpl->setVariable("TXT_ADD_TO_ILIAS_BM", $lng->txt("bm_add_to_ilias"));
+		$tpl->setVariable("URL_ADD_TO_BM", $href . '&addToBookmark=true&bm_title='. urlencode($title));
+		
 		if ($this->getTarget() != "")
 		{
 			$tpl->setVariable("TARGET", 'target="'.$this->getTarget().'"');
+		}
+		
+		
+		// social bookmarkings
+		
+		$q = 'SELECT sbm_title, sbm_link, sbm_icon, sbm_active FROM bookmark_social_bm WHERE sbm_active = 1';
+		$rset = $ilDB->query($q);
+		
+		include_once("./Services/AdvancedSelectionList/classes/class.ilAdvancedSelectionListGUI.php");
+		
+		$current_selection_list = new ilAdvancedSelectionListGUI();
+		$current_selection_list->setListTitle($lng->txt("bm_add_to_social_bookmarks"));
+		$current_selection_list->setId("socialbm_actions");
+		$current_selection_list->setUseImages(true);
+		
+		$cnt = 0;
+		while ($row = $ilDB->fetchObject($rset))
+		{
+			$linktpl = $row->sbm_link;
+			$linktpl = str_replace('{LINK}', urlencode($href), $linktpl);
+			$linktpl = str_replace('{TITLE}', urlencode($title), $linktpl);
+			//$current_selection_list->addItem($row->sbm_title, '', $linktpl, 'templates/default/images/socialbookmarks/' . $row->sbm_icon , $row->title, '_blank');
+			$current_selection_list->addItem($row->sbm_title, '', $linktpl, ilUtil::getImagePath('socialbookmarks/' . $row->sbm_icon) , $row->title, '_blank');
+			$cnt++;
+		}
+		
+		if ($cnt)
+		{
+			$tpl->setVariable('SELECTION_LIST', $current_selection_list->getHTML());
 		}
 		
 		return $tpl->get();
