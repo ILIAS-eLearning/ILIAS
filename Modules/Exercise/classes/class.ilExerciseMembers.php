@@ -599,7 +599,7 @@ class ilExerciseMembers
 			//$result = $this->ilias->db->query($query);
 			$result = $ilDB->query("SELECT * FROM exc_returned WHERE ".
 				$ilDB->in("returned_id", $array_file_id, false, "integer").
-				" AND user_id = ".$ilDB_>quote($a_user_id));
+				" AND user_id = ".$ilDB->quote($a_user_id));
 			if ($ilDB->numRows($result))
 			{
 				$array_found = array();

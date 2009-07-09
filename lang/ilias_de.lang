@@ -1901,7 +1901,7 @@ common#:#exc_write#:#Übung bearbeiten
 common#:#exc#:#Übung
 common#:#excs#:#Übungen
 common#:#execute#:#Ausführen
-common#:#exercise_time_over#:#Sie haben das Enddatum für die Verfügbarkeit der Übung erreicht. Sie können keine Bearbeitungen mehr abgeben!
+common#:#exercise_time_over#:#Die Frist zur Einreichung von Bearbeitungen ist abgelaufen.
 common#:#exp_html#:#HTML exportieren
 common#:#expand#:#Ausklappen
 common#:#explorer_frame#:#Explorer-Baum

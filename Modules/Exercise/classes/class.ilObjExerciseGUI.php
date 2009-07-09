@@ -155,6 +155,58 @@ return;
 	
 		return true;
 	}
+
+	/**
+	 * desc
+	 *
+	 * @param
+	 * @return
+	 */
+	function downloadObject()
+	{
+		global $ilUser, $ilCtrl;
+		
+		$this->checkPermission("read");
+		if (count($_POST["delivered"]))
+		{
+			$this->object->members_obj->downloadSelectedFiles($_POST["delivered"],$ilUser->getId());
+			exit;
+		}
+		else
+		{
+			ilUtil::sendFailure($this->lng->txt("please_select_a_delivered_file_to_download"), true);
+			$ilCtrl->redirect($this, "deliver");
+		}
+	}
+
+	/**
+	 * Delete delivered file
+	 *
+	 * @param
+	 * @return
+	 */
+	function deleteDeliveredObject()
+	{
+		global $ilUser, $ilCtrl;
+		
+		$this->checkPermission("read");
+		
+		if (mktime() > $this->object->getTimestamp())
+		{
+			ilUtil::sendFailure($this->lng->txt("exercise_time_over"), true);
+			$ilCtrl->redirect($this, "deliver");
+		}
+		
+		if (count($_POST["delivered"]) && mktime() < $this->object->getTimestamp())
+		{
+			$this->object->deleteDeliveredFiles($_POST["delivered"], $ilUser->id);
+		}
+		else
+		{
+			ilUtil::sendFailure($this->lng->txt("please_select_a_delivered_file_to_delete"), true);
+		}
+		$ilCtrl->redirect($this, "deliver");
+	}
   
 	/**
 	* Displays a form which allows members to deliver their solutions
@@ -172,125 +224,116 @@ return;
 		
 		if (mktime() > $this->object->getTimestamp())
 		{
-			ilUtil::sendFailure($this->lng->txt("exercise_time_over"));
+			ilUtil::sendInfo($this->lng->txt("exercise_time_over"));
 		}
 
+		$this->getTemplateFile("deliver_file", "exc");
 
-		if ($_POST["cmd"]["delete"] && mktime() < $this->object->getTimestamp())
-		{
-			if (count($_POST["delivered"]))
-			{
-				$this->object->deleteDeliveredFiles($_POST["delivered"], $ilUser->id);
-			}
-			else
-			{
-				ilUtil::sendFailure($this->lng->txt("please_select_a_delivered_file_to_delete"));
-			}
-		}
+		include_once("./Modules/Exercise/classes/class.ilExcDeliveredFilesTableGUI.php");
+		$tab = new ilExcDeliveredFilesTableGUI($this, "deliver", $this->object);
+		$this->tpl->setVariable("DELIVERED_FILES_TABLE", $tab->getHTML());
 
-		if ($_POST["cmd"]["download"])
+		if (mktime() < $this->object->getTimestamp())
 		{
-			if (count($_POST["delivered"]))
-			{
-				$this->object->members_obj->downloadSelectedFiles($_POST["delivered"],$ilUser->getId());
-			}
-			else
-			{
-				ilUtil::sendFailure($this->lng->txt("please_select_a_delivered_file_to_download"));
-			}
+			$this->initUploadForm();
+			$this->tpl->setVariable("UPLOAD_SINGLE_FORM", $this->form->getHTML());
+			
+			$this->initZipUploadForm();
+			$this->tpl->setVariable("UPLOAD_MULTI_FORM", $this->form->getHTML());
 		}
-
-
-		if (mktime() > $this->object->getTimestamp())
-		{
-			$this->getTemplateFile("delivered_files", "exc");
-		}
-		else
-		{
-			$this->getTemplateFile("deliver_file", "exc");
-		}
-
-		$delivered_files = $this->object->getDeliveredFiles($ilUser->id);
-		$color_class = array("tblrow1", "tblrow2");
-		$counter = 0;
-		foreach ($delivered_files as $index => $file)
-		{
-			$this->tpl->setCurrentBlock("delivered_row");
-			$this->tpl->setVariable("COLOR_CLASS", $color_class[$counter % 2]);
-			$this->tpl->setVariable("FILE_ID", $file["returned_id"]);
-			$this->tpl->setVariable("DELIVERED_FILE", $file["filetitle"]);
-			/*
-			preg_match("/(\d{4})(\d{2})(\d{2})(\d{2})(\d{2})(\d{2})/", $file["timestamp14"], $matches);
-			$stamp = strtotime(sprintf("%04d-%02d-%02d %02d:%02d:%02d", 
-				$matches[1], $matches[2], $matches[3], 
-				$matches[4], $matches[5], $matches[6]));
-			$date = date($this->lng->text["lang_dateformat"] . " " . $this->lng->text["lang_timeformat"], $stamp);
-			*/
-			$date = new ilDateTime($file['timestamp14'],IL_CAL_TIMESTAMP);
-			$this->tpl->setVariable("DELIVERED_DATE", ilDatePresentation::formatDate($date));
-			$this->tpl->parseCurrentBlock();
-			$counter++;
-		}
-		if (count($delivered_files))
-		{
-			$this->tpl->setCurrentBlock("footer_content");
-			$this->tpl->setVariable("ARROW_SIGN", ilUtil::getImagePath("arrow_downright.gif"));
-			$this->tpl->setVariable("BUTTON_DELETE", $this->lng->txt("delete"));
-			$this->tpl->setVariable("BUTTON_DOWNLOAD", $this->lng->txt("download"));
-			$this->tpl->parseCurrentBlock();
-		}
-		else
-		{
-			$this->tpl->setCurrentBlock("footer_empty");
-			$this->tpl->setVariable("TEXT_NO_DELIVERED_FILES", 
-				$this->lng->txt("message_no_delivered_files"));
-			$this->tpl->parseCurrentBlock();
-		}
-		
-		$this->tpl->setCurrentBlock("delivered_files");
-		$this->tpl->setVariable("DELIVER_FORMACTION", 
-			$this->ctrl->getLinkTarget($this, "deliver"));
-		$this->tpl->setVariable("TEXT_DATE", $this->lng->txt("date"));
-		$this->tpl->setVariable("TEXT_DELIVERED_FILENAME", $this->lng->txt("filename"));
-		$this->tpl->setVariable("TEXT_HEADING_DELIVERED_FILES", $this->lng->txt("already_delivered_files"));
-		$this->tpl->parseCurrentBlock();
-		$this->tpl->setCurrentBlock("adm_content");
-		$this->tpl->setVariable("FORMACTION", 
-			$this->ctrl->getLinkTarget($this, "deliverFile"));
-		$this->tpl->setVariable("BUTTON_DELIVER", $this->lng->txt("upload"));
-		$this->tpl->setVariable("TEXT_FILENAME", $this->lng->txt("enter_filename_deliver"));
-		$this->tpl->setVariable("TXT_UPLOAD_FILE", $this->lng->txt("file_add"));
-		$this->tpl->setVariable("TXT_UPLOAD_ZIPFILE", $this->lng->txt("header_zip"));
-		$this->tpl->parseCurrentBlock();
-		
 	}
-  
+ 
+	/**
+	 * Init upload form form.
+	 */
+	public function initUploadForm()
+	{
+		global $lng, $ilCtrl;
+	
+		include_once("Services/Form/classes/class.ilPropertyFormGUI.php");
+		$this->form = new ilPropertyFormGUI();
+	
+		// file input
+		include_once("./Services/Form/classes/class.ilFileWizardInputGUI.php");
+		$fi = new ilFileWizardInputGUI($lng->txt("file"), "deliver");
+		$fi->setFilenames(array(0 => ''));
+		//$fi->setInfo($lng->txt(""));
+		$this->form->addItem($fi);
+	
+		$this->form->addCommandButton("deliverFile", $lng->txt("upload"));
+	                
+		$this->form->setTitle($lng->txt("file_add"));
+		$this->form->setFormAction($ilCtrl->getFormAction($this));
+	}
+
+	/**
+	 * Init upload form form.
+	 */
+	public function initZipUploadForm()
+	{
+		global $lng, $ilCtrl;
+	
+		include_once("Services/Form/classes/class.ilPropertyFormGUI.php");
+		$this->form = new ilPropertyFormGUI();
+	
+		// desc
+		include_once("./Services/Form/classes/class.ilFileInputGUI.php");
+		$fi = new ilFileInputGUI($lng->txt("file"), "deliver");
+		$fi->setSuffixes(array("zip"));
+		$this->form->addItem($fi);
+	
+		$this->form->addCommandButton("deliverUnzip", $lng->txt("upload"));
+	                
+		$this->form->setTitle($lng->txt("header_zip"));
+		$this->form->setFormAction($ilCtrl->getFormAction($this));
+	}
+ 
+ 	/**
+ 	 * Upload files
+ 	 */
 	function deliverFileObject()
 	{
-		global $ilUser, $lng;
+		global $ilUser, $lng, $ilCtrl;
 		
-		$this->checkPermission("read");
-
-		$this->tabs_gui->setTabActive("view");
-		$this->tabs_gui->setTabActive("exc_your_submission");
-
-		if (!empty($_POST["cmd"][deliverUnzip]) && preg_match("/zip/",$_FILES["deliver"]["type"]) == 1)
+		foreach ($_FILES["deliver"]["name"] as $k => $v)
 		{
-			$this->object->processUploadedFile($_FILES["deliver"]["tmp_name"], "deliverFile", false);
-			
-		}
-		else
-		{
-			if(!$this->object->deliverFile($_FILES["deliver"], $ilUser->id))
+			$file = array(
+				"name" => $_FILES["deliver"]["name"][$k], 
+				"type" => $_FILES["deliver"]["type"][$k],
+				"tmp_name" => $_FILES["deliver"]["tmp_name"][$k],
+				"error" => $_FILES["deliver"]["error"][$k],
+				"size" => $_FILES["deliver"]["size"][$k],
+				);
+			if(!$this->object->deliverFile($file, $ilUser->id))
 			{
-				ilUtil::sendFailure($this->lng->txt("exc_upload_error"),true);
+				ilUtil::sendFailure($this->lng->txt("exc_upload_error"), true);
 			}
 		}
 		
+		$ilCtrl->redirect($this, "deliver");
+	}
+
+	/**
+	 * Upload zip file
+	 */
+	function deliverUnzipObject()
+	{
+		global $ilCtrl;
+	
+		$this->checkPermission("read");
+
+		if (preg_match("/zip/",$_FILES["deliver"]["type"]) == 1)
+		{
+			$this->object->processUploadedFile($_FILES["deliver"]["tmp_name"], "deliverFile", false);
+		}
 		
-		$this->deliverObject();
+		$ilCtrl->redirect($this, "deliver");
+
 	}
   
+ 	/**
+ 	 * Download files
+ 	 */
 	function downloadFileObject()
 	{
 		global $rbacsystem;
