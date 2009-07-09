@@ -57,7 +57,7 @@
 			<fileset dir="${tmp}" />
     		<manifest>
     			<attribute name="Main-Class" value="de.ilias.ilServer"/>
-    			<attribute name="MODULE-VERSION" value="3.11.0" />
+    			<attribute name="MODULE-VERSION" value="4.0.0" />
     		</manifest>
     	</jar>
     </target>

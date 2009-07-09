@@ -29,7 +29,6 @@ import java.util.Vector;
 
 import org.apache.log4j.Logger;
 import org.apache.lucene.analysis.standard.StandardAnalyzer;
-import org.apache.lucene.document.Document;
 import org.apache.lucene.index.CorruptIndexException;
 import org.apache.lucene.queryParser.MultiFieldQueryParser;
 import org.apache.lucene.queryParser.ParseException;
@@ -44,9 +43,10 @@ import org.apache.lucene.search.BooleanClause.Occur;
 
 import de.ilias.services.lucene.index.FieldInfo;
 import de.ilias.services.lucene.search.highlight.HitHighlighter;
-import de.ilias.services.lucene.settings.LuceneSettings;
 import de.ilias.services.settings.ConfigurationException;
 import de.ilias.services.settings.LocalSettings;
+
+import de.ilias.services.lucene.settings.*;
 
 /**
  * 
@@ -76,11 +76,12 @@ public class RPCSearchHandler {
 	 */
 	public String search(String clientKey, String queryString,int pageNumber) {
 
+		LuceneSettings luceneSettings;
 		LocalSettings.setClientKey(clientKey);
 		IndexSearcher searcher;
 		FieldInfo fieldInfo;
-		LuceneSettings luceneSettings;
 		String rewrittenQuery;
+		
 		
 		
 		try {

@@ -22,17 +22,23 @@
 
 package de.ilias;
 
+import java.io.BufferedOutputStream;
+import java.io.FileOutputStream;
 import java.io.IOException;
-import java.net.BindException;
+import java.io.PrintStream;
 import java.net.MalformedURLException;
+import java.net.URL;
 import java.util.Vector;
 
 import org.apache.log4j.BasicConfigurator;
 import org.apache.log4j.Level;
 import org.apache.log4j.Logger;
-import org.apache.xmlrpc.XmlRpcClient;
 import org.apache.xmlrpc.XmlRpcException;
+import org.apache.xmlrpc.client.XmlRpcClient;
+import org.apache.xmlrpc.client.XmlRpcClientConfigImpl;
+import org.apache.xmlrpc.client.XmlRpcCommonsTransportFactory;
 
+import de.ilias.services.io.ilNullPrintStream;
 import de.ilias.services.rpc.RPCServer;
 import de.ilias.services.settings.ClientSettings;
 import de.ilias.services.settings.ConfigurationException;
@@ -121,6 +127,13 @@ public class ilServer {
 			return startSearch();
 			
 		}
+		else if(command.compareTo("status") == 0) {
+			if(arguments.length != 2) {
+				logger.error("Usage java -jar ilServer.jar PATH_TO_SERVER_INI status");
+				return false;
+			}
+			return getStatus();
+		}
 		else {
 			logger.error(getUsage());
 			return false;
@@ -133,9 +146,9 @@ public class ilServer {
 	@SuppressWarnings("unchecked")
 	private boolean createIndexer() {
 
-		ServerSettings settings;
 		XmlRpcClient client;
 		IniFileParser parser;
+		
 		
 		try {
 			parser = new IniFileParser();
@@ -145,13 +158,11 @@ public class ilServer {
 				throw new ConfigurationException("Unknown client given: " + arguments[2]);
 			}
 
-			settings = ServerSettings.getInstance();
-			
-			client = new XmlRpcClient(settings.getHost().getHostAddress(),settings.getPort());
+			client = initRpcClient();
 			Vector params = new Vector();
 			params.add(arguments[2]);
 			params.add(false);
-			client.execute("index.index",params);
+			client.execute("RPCIndexHandler.index",params);
 			return true;
 		} 
 		catch (Exception e) {
@@ -168,7 +179,6 @@ public class ilServer {
 	@SuppressWarnings("unchecked")
 	private boolean updateIndexer() {
 
-		ServerSettings settings;
 		XmlRpcClient client;
 		IniFileParser parser;
 		
@@ -181,13 +191,11 @@ public class ilServer {
 				throw new ConfigurationException("Unknown client given: " + arguments[2]);
 			}
 
-			settings = ServerSettings.getInstance();
-			
-			client = new XmlRpcClient(settings.getHost().getHostAddress(),settings.getPort());
+			client = initRpcClient();
 			Vector params = new Vector();
 			params.add(arguments[2]);
 			params.add(true);
-			client.execute("index.index",params);
+			client.execute("RPCIndexHandler.index",params);
 			return true;
 		} 
 		catch (Exception e) {
@@ -204,7 +212,6 @@ public class ilServer {
 	@SuppressWarnings("unchecked")
 	private boolean startSearch() {
 
-		ServerSettings settings;
 		XmlRpcClient client;
 		IniFileParser parser;
 		
@@ -216,14 +223,13 @@ public class ilServer {
 			if(!ClientSettings.exists(arguments[2])) {
 				throw new ConfigurationException("Unknown client given: " + arguments[2]);
 			}
-
-			settings = ServerSettings.getInstance();
 			
-			client = new XmlRpcClient(settings.getHost().getHostAddress(),settings.getPort());
+			client = initRpcClient();
 			Vector params = new Vector();
 			params.add(arguments[2]);
 			params.add(arguments[3]);
-			client.execute("search.search",params);
+			params.add(1);
+			client.execute("RPCSearchHandler.search",params);
 			return true;
 		} 
 		catch (Exception e) {
@@ -240,20 +246,38 @@ public class ilServer {
 	 */
 	private boolean startServer() {
 		
-		RPCServer rpc;
 		ServerSettings settings;
+		RPCServer rpc;
+		XmlRpcClient client;
 		IniFileParser parser;
+		String status;
 		
 		try {
 
 			parser = new IniFileParser();
 			parser.parseServerSettings(arguments[0],true);
 			
-			settings = ServerSettings.getInstance();
+			client = initRpcClient();
 			
+			// Check if server is already running
+			try {
+				status = (String) client.execute("RPCAdministration.status",new Vector());
+				System.err.println("Server already started. Aborting");
+				System.exit(1);
+			}
+			catch(XmlRpcException e) {
+				logger.info("No server running. Starting new instance...");
+			}
+			
+			settings = ServerSettings.getInstance();
+			logger.info("New rpc server");
 			rpc = RPCServer.getInstance(settings.getHost(),settings.getPort());
+			logger.info("Server start");
 			rpc.start();
 			
+			client = initRpcClient();
+			client.execute("RPCAdministration.start",new Vector());
+
 			// Check if webserver is alive
 			// otherwise stop execution
 			while(true) {
@@ -269,11 +293,28 @@ public class ilServer {
 			
 		} 
 		catch (ConfigurationException e) {
-			logger.error(e.getMessage());
+			//logger.error(e);
+			System.exit(1);
 			return false;
 		} 
 		catch (InterruptedException e) {
 			logger.error("VM did not allow to sleep. Aborting!");
+		} 
+		catch (MalformedURLException e) {
+			logger.error("Malformed URL " + e.getMessage());
+		} 
+		catch (XmlRpcException e) {
+			System.out.println("Error starting server: " + e);
+			System.exit(1);
+		} 
+		catch (IOException e) {
+			logger.error("IOException " + e.getMessage());
+		}
+		catch (Exception e) {
+			logger.error("IOException " + e.getMessage());			
+		}
+		catch(Throwable e) {
+			logger.error("IOException " + e.getMessage());			
 		}
 		return false;
 	}
@@ -288,16 +329,13 @@ public class ilServer {
 		
 		XmlRpcClient client;
 		IniFileParser parser;
-		ServerSettings settings;
 
 		try {
 			parser = new IniFileParser();
 			parser.parseServerSettings(arguments[0],false);
 			
-			settings = ServerSettings.getInstance();
-
-			client = new XmlRpcClient(settings.getHost().getHostAddress(),settings.getPort());
-			client.execute("administration.stop",new Vector());
+			client = initRpcClient();
+			client.execute("RPCAdministration.stop",new Vector());
 			return true;
 		} 
 		catch (MalformedURLException e) {
@@ -315,6 +353,42 @@ public class ilServer {
 		return false;
 	}
 	
+	@SuppressWarnings("unchecked")
+	private boolean getStatus() {
+		
+		XmlRpcClient client;
+		IniFileParser parser;
+		ServerSettings settings;
+		
+		String status;
+
+		try {
+			parser = new IniFileParser();
+			parser.parseServerSettings(arguments[0],false);
+			
+			settings = ServerSettings.getInstance();
+			client = initRpcClient();
+			status = (String) client.execute("RPCAdministration.status",new Vector());
+			System.out.println(status);
+			return true;
+		} 
+		catch (MalformedURLException e) {
+			logger.error("Malformed URL " + e.getMessage());
+		} 
+		catch (ConfigurationException e) {
+			logger.error("Configuration " + e.getMessage());
+		} 
+		catch (XmlRpcException e) {
+			System.out.println(ilServerStatus.STOPPED);
+			System.exit(1);
+		} 
+		catch (IOException e) {
+			System.out.println(ilServerStatus.STOPPED);
+			System.exit(1);
+		}
+		return false;
+	}
+	
 	/**
 	 * 
 	 * @return String usage
@@ -323,5 +397,38 @@ public class ilServer {
 		
 		return "Usage: java -jar ilServer.jar PATH_TO_SERVER_INI start|stop|createIndex|updateIndex|search PARAMS";
 	}
-
+	
+	/**
+	 * 
+	 * @return	XmlRpcClient
+	 * @throws ConfigurationException 
+	 * @throws MalformedURLException 
+	 */
+	private XmlRpcClient initRpcClient() throws ConfigurationException, MalformedURLException
+	{
+		XmlRpcClient client;
+		XmlRpcClientConfigImpl config;
+		ServerSettings settings;
+		
+		
+		settings = ServerSettings.getInstance();
+		config = new XmlRpcClientConfigImpl();
+		/*
+		config.setServerURL(new URL(
+					"http",
+					settings.getHost().toString(),
+					settings.getPort(),
+					"/xmlrpc"));
+		*/
+		config.setServerURL(new URL("http://127.0.0.1:11111/xmlrpc"));
+		config.setConnectionTimeout(3 * 1000);
+		config.setReplyTimeout(24 * 60 * 60 * 1000);
+		
+		client = new XmlRpcClient();
+		client.setTransportFactory(new XmlRpcCommonsTransportFactory(client));
+		client.setConfig(config);
+		
+		return client;
+	}
 }
+

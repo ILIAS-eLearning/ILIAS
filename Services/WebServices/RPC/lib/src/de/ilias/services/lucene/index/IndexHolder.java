@@ -22,6 +22,7 @@
 
 package de.ilias.services.lucene.index;
 
+import java.io.File;
 import java.io.IOException;
 import java.util.HashMap;
 
@@ -34,6 +35,7 @@ import org.apache.lucene.store.FSDirectory;
 import de.ilias.services.settings.ClientSettings;
 import de.ilias.services.settings.ConfigurationException;
 import de.ilias.services.settings.LocalSettings;
+import de.ilias.services.settings.ServerSettings;
 
 /**
  * Capsulates the interaction between IndexReader and IndexWriter
@@ -97,15 +99,49 @@ public class IndexHolder {
 		return getInstance(LocalSettings.getClientKey());
 	}
 	
+	public static void deleteIndex() throws ConfigurationException
+	{
+		File indexPath = ClientSettings.getInstance(LocalSettings.getClientKey()).getIndexPath();
+
+		deleteTree(indexPath);
+		logger.info("Deleted index directory: " + indexPath.getAbsoluteFile());
+	}
+	
+	/**
+	 * Delete directory recursive
+	 * @param path
+	 * @return
+	 */
+	private static boolean deleteTree(File path) {
+		
+		for(File del : path.listFiles()) {
+			
+			if(del.isDirectory()) {
+				deleteTree(del);
+			}
+			else {
+				del.delete();
+			}
+		}
+		path.delete();
+		return true;
+	}
+
+	/**
+	 * Close all writers
+	 */
 	public static synchronized void closeAllWriters() {
 		
-		logger.info("Closing document writers");
+		logger.info("Closing document writers...");
+		
 		for(Object key : instances.keySet()) {
 			
-			logger.debug("Closing writer: " + ((IndexHolder) key).toString());
+			logger.info("Closing writer: " + (String) key);
 			IndexHolder holder = instances.get((String) key);
 			holder.close();
 		}
+		
+		logger.info("Index writers closed.");
 	}
 	
 	/**
@@ -126,6 +162,13 @@ public class IndexHolder {
 					FSDirectory.getDirectory(settings.getIndexPath()),
 					new StandardAnalyzer(),
 					IndexWriter.MaxFieldLength.UNLIMITED);
+			try {
+				writer.setRAMBufferSizeMB(ServerSettings.getInstance().getRAMSize());
+			} 
+			catch (ConfigurationException e) {
+				logger.error("Cannot set RAMBufferSize");
+				
+			}
 		}
 		catch(IOException e) {
 			throw e;
