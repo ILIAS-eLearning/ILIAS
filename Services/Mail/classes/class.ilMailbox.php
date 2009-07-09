@@ -148,7 +148,7 @@ class ilMailbox
 		$res = $ilDB->queryf('
 			SELECT * FROM '.$this->table_mail_obj_data.'
 			WHERE user_id = %s
-			AND type = %s',
+			AND m_type = %s',
 			array('integer', 'text'),
 			array($this->user_id, 'inbox'));
 
@@ -168,7 +168,7 @@ class ilMailbox
 		$res = $ilDB->queryf('
 			SELECT * FROM '.$this->table_mail_obj_data.'
 			WHERE user_id = %s
-			AND type = %s',
+			AND m_type = %s',
 			array('integer', 'text'),
 			array($this->user_id, 'drafts'));
 		
@@ -189,7 +189,7 @@ class ilMailbox
 		$res = $ilDB->queryf('
 			SELECT * FROM '.$this->table_mail_obj_data.'
 			WHERE user_id = %s
-			AND type = %s',
+			AND m_type = %s',
 			array('integer', 'text'),
 			array($this->user_id, 'trash'));
 		
@@ -209,7 +209,7 @@ class ilMailbox
 		$res = $ilDB->queryf('
 			SELECT * FROM '.$this->table_mail_obj_data.'
 			WHERE user_id = %s
-			AND type = %s',
+			AND m_type = %s',
 			array('integer', 'text'),
 			array($this->user_id, 'sent'));
 		
@@ -288,7 +288,7 @@ class ilMailbox
 			SELECT m.mail_id FROM mail m,mail_obj_data mo 
 			WHERE m.user_id = mo.user_id 
 			AND m.folder_id = mo.obj_id 
-			AND mo.type = %s
+			AND mo.m_type = %s
 			AND m.user_id = %s
 			AND m.m_status = %s',
 			array('text', 'integer', 'text'),
@@ -331,7 +331,7 @@ class ilMailbox
 			SELECT count(mail_id) cnt FROM mail m,mail_obj_data mo 
 		 	WHERE m.user_id = mo.user_id 
 		 	AND m.folder_id = mo.obj_id 
-		 	AND mo.type = %s
+		 	AND mo.m_type = %s
 			AND m.user_id = %s
 	 		AND m.m_status = %s',
 			array('text', 'integer', 'text'),
@@ -361,7 +361,7 @@ class ilMailbox
 			(	obj_id,
 				user_id,
 				title,
-				type
+				m_type
 			)
 			VALUES( %s, %s, %s, %s)',
 			array('integer','integer', 'text', 'text'),
@@ -380,7 +380,7 @@ class ilMailbox
 				(	obj_id,
 					user_id,
 					title,
-					type
+					m_type
 				)
 				VALUES( %s, %s, %s, %s)',
 				array('integer','integer', 'text', 'text'),
@@ -411,7 +411,7 @@ class ilMailbox
 			(	obj_id,
 			 	user_id,
 				title,
-			 	type 
+			 	m_type 
 			 )
 			 VALUES(%s,%s,%s,%s)',
 			array('integer','integer', 'text', 'text'),
@@ -543,7 +543,7 @@ class ilMailbox
 		
 		return array(
 					"title"    => stripslashes($row->title),
-					"type"     => $row->type
+					"type"     => $row->m_type
 					);
 	}
 	/**
@@ -585,7 +585,7 @@ class ilMailbox
 		foreach ($this->default_folder as $key => $value)
 		{
 			$res = $ilDB->queryf('
-				SELECT obj_id,type FROM '. $this->table_mail_obj_data .' 
+				SELECT obj_id,m_type FROM '. $this->table_mail_obj_data .' 
 				WHERE user_id = %s
 				AND title = %s',
 				array('integer', 'text'),
@@ -595,7 +595,7 @@ class ilMailbox
 			
 			$user_folder[] = array(
 				"title"    => $key,
-				"type"     => $row->type,
+				"type"     => $row->m_type,
 				"obj_id"   => $row->obj_id);
 		} 
 
@@ -612,7 +612,7 @@ class ilMailbox
 		{
 			$user_folder[] = array(
 				"title"      => stripslashes($row->title),
-				"type"    => $row->type,
+				"type"    => $row->m_type,
 				"obj_id"  => $row->child);
 		}
 

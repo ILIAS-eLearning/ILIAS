@@ -14104,3 +14104,39 @@ $ilDB->manipulateF("INSERT INTO bookmark_social_bm (sbm_id, sbm_title, sbm_link,
 <?php
 	$ilDB->addTableColumn("media_item", "text_representation", array("type" => "text", "length" => 4000, "notnull" => false));
 ?>
+<#2699>
+<?php
+	$ilDB->renameTableColumn('aicc_object','type','c_type');
+?>
+<#2700>
+<?php
+	$ilDB->renameTableColumn('cmi_node','language','c_language');
+?>
+<#2701>
+<?php
+	$ilDB->renameTableColumn('cmi_node','mode','c_mode');
+?>
+<#2702>
+<?php
+	$ilDB->renameTableColumn('cp_resource','type','c_type');
+?>
+<#2703>
+<?php
+	$ilDB->renameTableColumn('cp_rule','type','c_type');
+?>
+<#2704>
+<?php
+	$ilDB->renameTableColumn('ilinc_data ','type','i_type');
+?>
+<#2705>
+<?php
+	$ilDB->renameTableColumn('mail_obj_data  ','type','m_type');
+?>
+<#2706>
+<?php
+	$ilDB->renameTableColumn('sahs_lm ','online','c_online');
+?>
+<#2707>
+<?php
+	$ilDB->renameTableColumn('scorm_object ','type','c_type');
+?>

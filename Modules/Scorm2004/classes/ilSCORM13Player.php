@@ -47,7 +47,7 @@ class ilSCORM13Player
 			'user_id' =>  array('pattern'=>null, 'permission' => self::NONE, 'default'=>null, 'dbfield'=>user_id),
 			'learner_name' =>  array('pattern'=>null, 'permission' => self::NONE, 'default'=>null, 'dbfield'=>learner_name),
 			'slm_id' =>  array('pattern'=>null, 'permission' => self::NONE, 'default'=>null, 'dbfield'=>slm_id),
-			'mode' =>  array('pattern'=>null, 'permission' => self::NONE, 'default'=>null, 'dbfield'=>mode),
+			'mode' =>  array('pattern'=>null, 'permission' => self::NONE, 'default'=>null, 'dbfield'=>c_mode),
 			'credit' =>  array('pattern'=>null, 'permission' => self::NONE, 'default'=>null, 'dbfield'=>credit),
 		),
 		'node' => array(
@@ -76,7 +76,7 @@ class ilSCORM13Player
 			'delivery_speed' =>  array('pattern'=>null, 'permission' => self::READWRITE, 'default'=>null, 'dbfield'=>delivery_speed),
 			'entry' =>  array('pattern'=>null, 'permission' => self::READWRITE, 'default'=>null, 'dbfield'=>c_entry),
 			'exit' =>  array('pattern'=>null, 'permission' => self::READWRITE, 'default'=>null, 'dbfield'=>c_exit),
-			'language' =>  array('pattern'=>null, 'permission' => self::READWRITE, 'default'=>null, 'dbfield'=>language),
+			'language' =>  array('pattern'=>null, 'permission' => self::READWRITE, 'default'=>null, 'dbfield'=>c_language),
 			'launch_data' =>  array('pattern'=>null, 'permission' => self::READWRITE, 'default'=>null, 'dbfield'=>launch_data),
 			'learner_name' =>  array('pattern'=>null, 'permission' => self::READWRITE, 'default'=>null, 'dbfield'=>learner_name),
 			'location' =>  array('pattern'=>null, 'permission' => self::READWRITE, 'default'=>null, 'dbfield'=>location),
@@ -462,7 +462,7 @@ class ilSCORM13Player
 			//INSERT
 			$ilDB->manipulateF('
 			INSERT INTO cp_suspend
-			data,obj_id,user_id) 
+			(data, obj_id, user_id) 
 			VALUES(%s,%s,%s)',
 			array('text', 'integer', 'integer'), 
 			array(file_get_contents('php://input'),$this->packageId,$ilUser->getID())
@@ -1184,7 +1184,7 @@ class ilSCORM13Player
 						if($uniqueIdValue !== null)
 						{
 							$query = $ilDB->queryF('
-								SELECT * FROM comment
+								SELECT * FROM cmi_comment
 								WHERE cmi_comment_id = %s',
 								array('integer'), array($uniqueIdValue));
 
@@ -1398,7 +1398,7 @@ class ilSCORM13Player
 										delivery_speed = %s,
 										c_entry = %s,
 										c_exit = %s,
-										language = %s,
+										c_language = %s,
 										launch_data = %s,
 										learner_name = %s,
 										location = %s,
@@ -1454,7 +1454,7 @@ class ilSCORM13Player
 									delivery_speed,
 									c_entry,
 									c_exit,
-									language,
+									c_language,
 									launch_data,
 									learner_name,
 									location,

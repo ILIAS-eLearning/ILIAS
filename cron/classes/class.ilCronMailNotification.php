@@ -71,7 +71,7 @@ class ilCronMailNotification
 						INNER JOIN mail_obj_data ON mail_obj_data.obj_id = mail.folder_id
 						WHERE cronjob_notification = %s 
 						AND send_time >= %s
-						AND mail_obj_data.type = %s
+						AND mail_obj_data.m_type = %s
 						AND m_status = %s',
 				array('integer', 'timestamp', 'text', 'text'),
 				array('1', date("Y-m-d H:i:s", time() - 60 * 60 * 24), 'inbox', 'unread')

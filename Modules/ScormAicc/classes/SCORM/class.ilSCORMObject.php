@@ -104,7 +104,7 @@ class ilSCORMObject
 			array('integer'),array($this->getId()));
 		$obj_rec = $ilDB->fetchAssoc($obj_set);
 		$this->setTitle($obj_rec["title"]);
-		$this->setType($obj_rec["type"]);
+		$this->setType($obj_rec["c_type"]);
 		$this->setSLMId($obj_rec["slm_id"]);
 	}
 	
@@ -144,7 +144,7 @@ class ilSCORMObject
        $this->setId($nextId);
          
         $ilDB->manipulateF('
-        INSERT INTO scorm_object (obj_id,title, type, slm_id) 
+        INSERT INTO scorm_object (obj_id,title, c_type, slm_id) 
         VALUES (%s,%s,%s,%s) ',
         array('integer','text','text','integer'),
         array($nextId, $this->getTitle(),$this->getType(), $this->getSLMId()));       
@@ -163,7 +163,7 @@ class ilSCORMObject
         $ilDB->manipulateF('
         UPDATE scorm_object 
         SET title = %s,
-        	type = %s,
+        	c_type = %s,
         	slm_id = %s
         WHERE obj_id = %s',
         array('text','text','integer','integer'),
@@ -190,7 +190,7 @@ class ilSCORMObject
 		global $ilDB;
 
 		$sc_set = $ilDB->queryF('
-			SELECT type FROM scorm_object 
+			SELECT c_type FROM scorm_object 
 			WHERE obj_id = %s
 			AND slm_id = %s',
 			array('integer','integer'),
@@ -198,7 +198,7 @@ class ilSCORMObject
 		);
 		$sc_rec = $ilDB->fetchAssoc($sc_set);
 			
-		switch($sc_rec["type"])
+		switch($sc_rec["c_type"])
 		{
 			case "sit":					// item
 				include_once("./Modules/ScormAicc/classes/SCORM/class.ilSCORMItem.php");

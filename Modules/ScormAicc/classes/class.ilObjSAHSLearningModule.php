@@ -67,7 +67,7 @@ class ilObjSAHSLearningModule extends ilObject
 		$this->createDataDirectory();
 
 		$statement = $ilDB->manipulateF('
-			INSERT INTO sahs_lm (id, online, api_adapter, c_type, editable) 
+			INSERT INTO sahs_lm (id, c_online, api_adapter, c_type, editable) 
 			VALUES (%s,%s,%s,%s,%s)', 
 			array('integer', 'text', 'text', 'text', 'integer'), 
 			array($this->getID(),'n','API', $this->getSubType(),(int)$this->getEditable()));
@@ -87,7 +87,7 @@ class ilObjSAHSLearningModule extends ilObject
 		
 		while($lm_rec = $ilDB->fetchAssoc($lm_set))
 		{
-			$this->setOnline(ilUtil::yn2tf($lm_rec["online"]));
+			$this->setOnline(ilUtil::yn2tf($lm_rec["c_online"]));
 			$this->setAutoReview(ilUtil::yn2tf($lm_rec["auto_review"]));
 			$this->setAPIAdapterName($lm_rec["api_adapter"]);
 			$this->setDefaultLessonMode($lm_rec["default_lesson_mode"]);
@@ -114,7 +114,7 @@ class ilObjSAHSLearningModule extends ilObject
 		array('integer'), array($a_id));
 		$lm_rec = $ilDB->fetchAssoc($lm_set);
 		
-		return ilUtil::yn2tf($lm_rec["online"]);
+		return ilUtil::yn2tf($lm_rec["c_online"]);
 	}
 
 	/**
@@ -403,7 +403,7 @@ class ilObjSAHSLearningModule extends ilObject
 
 		$statement = $ilDB->manipulateF('
 			UPDATE sahs_lm  
-			SET online = %s, 
+			SET c_online = %s, 
 				api_adapter = %s, 
 				api_func_prefix = %s,
 				auto_review = %s,

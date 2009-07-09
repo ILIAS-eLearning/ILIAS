@@ -123,7 +123,7 @@ class ilObjSAHSLearningModuleAccess extends ilObjectAccess
         array('integer'), array($a_id));
         $rec = $ilDB->fetchAssoc($set);
         
-        return ilUtil::yn2tf($rec["online"]);
+        return ilUtil::yn2tf($rec["c_online"]);
     }
 
     /**
