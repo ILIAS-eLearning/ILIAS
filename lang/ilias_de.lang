@@ -4278,7 +4278,7 @@ content#:#cont_set_width#:#Breite festlegen
 content#:#cont_shape#:#Form
 content#:#cont_show_citation#:#Anzeigen mit Zitatfunktion
 content#:#cont_show_line_numbers#:#Zeilennummern anzeigen
-content#:#cont_show_print_view#:#Druckansicht
+content#:#cont_show_print_view#:#Druckansicht entsprechend Auswahl erzeugen
 content#:#cont_show#:#Anzeigen
 content#:#cont_size#:#Größe
 content#:#cont_skip_chapter#:#Überspringe dieses Kapitel
@@ -9624,5 +9624,6 @@ chat#:#chat_confirm_delete#:#Sind Sie sicher, dass sie diese Chaträume löschen
 common#:#socialbm_extt_social_bookmarks#:#Social Bookmarks
 common#:#bm_manage_social_bm#:#Social Bookmarks verwalten
 common#:#bm_add_to_ilias#:#Speichere als ILIAS Bookmark
+content#:#cont_print_selection#:#Auswahl Druckansicht
 common#:#bm_add_to_social_bookmarks#:#Speichere als Social Bookmark
 common#:#event_ass_materials_prop#:#Materialien zur Sitzung
