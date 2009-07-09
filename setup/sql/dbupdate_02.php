@@ -14188,3 +14188,30 @@ $ilDB->manipulateF("INSERT INTO bookmark_social_bm (sbm_id, sbm_title, sbm_link,
 <?php 
 	$ilMySQLAbstraction->performAbstraction('bookmark_social_bm');
 ?>
+<#2720>
+<?php
+	$ilDB->addTableColumn("qpl_qst_sc", "allow_images", array("type" => "text", "length" => 1, "notnull" => false, "default" => "0"));
+?>
+<#2721>
+<?php
+
+$result = $ilDB->query(
+	"SELECT DISTINCT question_fi FROM qpl_a_sc WHERE NOT ISNULL(imagefile)"
+);
+while($data = $ilDB->fetchAssoc($result))
+{
+	$ilDB->manipulateF("UPDATE qpl_qst_sc SET allow_images = %s WHERE question_fi = %s",
+		array('text', 'integer'),
+		array('1', $data['question_fi'])
+	);
+}
+
+?>
+<#2722>
+<?php
+	$ilDB->addTableColumn("qpl_qst_sc", "resize_images", array("type" => "text", "length" => 1, "notnull" => false, "default" => "0"));
+?>
+<#2723>
+<?php
+	$ilDB->addTableColumn("qpl_qst_sc", "thumb_size", array("type" => "integer", "length" => 2, "notnull" => false));
+?>

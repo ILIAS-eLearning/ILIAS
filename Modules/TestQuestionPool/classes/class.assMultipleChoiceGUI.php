@@ -73,12 +73,104 @@ class assMultipleChoiceGUI extends assQuestionGUI
 	/**
 	* Creates an output of the edit form for the question
 	*
-	* Creates an output of the edit form for the question
-	*
 	* @access public
 	*/
-	function editQuestion()
+	public function editQuestion($checkonly = FALSE)
 	{
+		$save = ((strcmp($this->ctrl->getCmd(), "save") == 0) || (strcmp($this->ctrl->getCmd(), "saveEdit") == 0)) ? TRUE : FALSE;
+		$this->tpl->addJavascript("./Services/JavaScript/js/Basic.js");
+		$this->getQuestionTemplate();
+
+		include_once("./Services/Form/classes/class.ilPropertyFormGUI.php");
+		$form = new ilPropertyFormGUI();
+		$form->setFormAction($this->ctrl->getFormAction($this));
+		$form->setTitle($this->lng->txt("assMultipleChoice"));
+		$form->setMultipart(FALSE);
+		$form->setTableWidth("100%");
+		$form->setId("assmultiplechoice");
+
+		// title
+		$title = new ilTextInputGUI($this->lng->txt("title"), "title");
+		$title->setValue($this->object->getTitle());
+		$title->setRequired(TRUE);
+		$form->addItem($title);
+		// author
+		$author = new ilTextInputGUI($this->lng->txt("author"), "author");
+		$author->setValue($this->object->getAuthor());
+		$author->setRequired(TRUE);
+		$form->addItem($author);
+		// description
+		$description = new ilTextInputGUI($this->lng->txt("description"), "comment");
+		$description->setValue($this->object->getComment());
+		$description->setRequired(FALSE);
+		$form->addItem($description);
+		// questiontext
+		$question = new ilTextAreaInputGUI($this->lng->txt("question"), "question");
+		$question->setValue($this->object->prepareTextareaOutput($this->object->getQuestion()));
+		$question->setRequired(TRUE);
+		$question->setRows(10);
+		$question->setCols(80);
+		$question->setUseRte(TRUE);
+		$question->addPlugin("latex");
+		$question->addButton("latex");
+		$question->setRTESupport($this->object->getId(), "qpl", "assessment");
+		$form->addItem($question);
+		// shuffle
+		$shuffle = new ilCheckboxInputGUI($this->lng->txt("shuffle_answers"), "shuffle");
+		$shuffle->setValue(1);
+		$shuffle->setChecked($this->object->getShuffle());
+		$shuffle->setRequired(FALSE);
+		$form->addItem($shuffle);
+		// duration
+		$duration = new ilDurationInputGUI($this->lng->txt("working_time"), "Estimated");
+		$duration->setShowHours(TRUE);
+		$duration->setShowMinutes(TRUE);
+		$duration->setShowSeconds(TRUE);
+		$ewt = $this->object->getEstimatedWorkingTime();
+		$duration->setHours($ewt["h"]);
+		$duration->setMinutes($ewt["m"]);
+		$duration->setSeconds($ewt["s"]);
+		$duration->setRequired(FALSE);
+		$form->addItem($duration);
+		
+		if ($this->object->getId())
+		{
+			$hidden = new ilHiddenInputGUI("", "ID");
+			$hidden->setValue($this->object->getId());
+			$form->addItem($hidden);
+		}
+
+		// Answer types
+		$types = new ilSelectInputGUI($this->lng->txt("answer_types"), "types");
+		$types->setRequired(false);
+		$types->setValue(0); // -> $this->object->getAnswerType()
+		$types->setOptions(array(
+			0 => $this->lng->txt('answers_singleline'),
+			1 => $this->lng->txt('answers_multiline'),
+			2 => $this->lng->txt('answers_image'),
+		));
+		$form->addItem($types);
+
+		// Choices
+		include_once "./Modules/TestQuestionPool/classes/class.ilSingleChoiceWizardInputGUI.php";
+		$choices = new ilSingleChoiceWizardInputGUI($this->lng->txt("choice"), "choice");
+		$choices->setRequired(TRUE);
+		$choices->setValues($this->object->getAnswers());
+		$form->addItem($choices);
+
+		$form->addCommandButton("save", $this->lng->txt("save"));
+		$form->addCommandButton("saveEdit", $this->lng->txt("save_edit"));
+		
+		$errors = false;
+		
+		if ($save)
+		{
+			$errors = !$form->checkInput();
+		}
+		
+		if (!$checkonly) $this->tpl->setVariable("QUESTION_DATA", $form->getHTML());
+		return $errors;
+
 		//$this->tpl->setVariable("HEADER", $this->object->getTitle());
 		$this->tpl->addJavascript("./Services/JavaScript/js/Basic.js");
 		$javascript = "<script type=\"text/javascript\">ilAddOnLoad(initialSelect);\n".
