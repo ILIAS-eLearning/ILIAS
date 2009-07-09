@@ -207,6 +207,10 @@ class assSingleChoice extends assQuestion
 					$oldthumbsize = $data['thumb_size'];
 				}
 			}
+			if (!$this->getGraphicalAnswerSetting())
+			{
+				ilUtil::delDir($this->getImagePath());
+			}
 
 			// save additional data
 			$affectedRows = $ilDB->manipulateF("DELETE FROM " . $this->getAdditionalTableName() . " WHERE question_fi = %s", 
