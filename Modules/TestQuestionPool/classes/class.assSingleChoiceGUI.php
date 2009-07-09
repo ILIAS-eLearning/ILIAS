@@ -155,7 +155,9 @@ class assSingleChoiceGUI extends assQuestionGUI
 		$form = new ilPropertyFormGUI();
 		$form->setFormAction($this->ctrl->getFormAction($this));
 		$form->setTitle($this->lng->txt("assSingleChoice"));
-		if ($this->object->getGraphicalAnswerSetting())
+		$usegraphics = ($save) ? $_POST['allow_images'] : $this->object->getGraphicalAnswerSetting();
+		$useresize = ($save) ? $_POST['resize_images'] : $this->object->getResizeImages();
+		if ($usegraphics)
 		{
 			$form->setMultipart(TRUE);
 		}
@@ -234,16 +236,16 @@ class assSingleChoiceGUI extends assQuestionGUI
 		$allowImages->setRequired(FALSE);
 		$form->addItem($allowImages);
 
-		if ($this->object->getGraphicalAnswerSetting())
+		if ($usegraphics)
 		{
 			// Resize images
 			$resize_images = new ilCheckboxInputGUI($this->lng->txt("resize_images"), "resize_images");
 			$resize_images->setValue(1);
-			$resize_images->setChecked($this->object->getResizeImages());
+			$resize_images->setChecked($useresize);
 			$resize_images->setRequired(false);
 			$form->addItem($resize_images);
 			
-			if ($this->object->getResizeImages())
+			if ($useresize)
 			{
 				// thumb size
 				$thumb_size = new ilNumberInputGUI($this->lng->txt("thumb_size"), "thumb_size");
@@ -263,7 +265,7 @@ class assSingleChoiceGUI extends assQuestionGUI
 		$choices->setTestObject($this->object);
 		$choices->setSingleline(($this->object->getMultilineAnswerSetting()) ? false : true);
 		$choices->setAllowMove(false);
-		$choices->setAllowImages($this->object->getGraphicalAnswerSetting());
+		$choices->setAllowImages($usegraphics);
 		if ($this->object->getAnswerCount() == 0) $this->object->addAnswer("", 0, 0);
 		$choices->setValues($this->object->getAnswers());
 		$form->addItem($choices);
