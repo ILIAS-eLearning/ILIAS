@@ -14184,3 +14184,7 @@ $ilDB->manipulateF("INSERT INTO bookmark_social_bm (sbm_id, sbm_title, sbm_link,
 <?php
 	$ilDB->manipulate("ALTER TABLE `mail_obj_data` DROP INDEX `i1_idx`");
 ?>
+<#2719>
+<?php 
+	$ilMySQLAbstraction->performAbstraction('bookmark_social_bm');
+?>
