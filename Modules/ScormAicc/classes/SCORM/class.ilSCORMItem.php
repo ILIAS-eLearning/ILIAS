@@ -363,7 +363,7 @@ class ilSCORMItem extends ilSCORMObject
 		$res = $ilDB->queryF('
 			SELECT * FROM scorm_object 
 			WHERE slm_id = %s
-			AND type = %s',
+			AND c_type = %s',
 			array('integer','text'),
 			array($a_obj_id,'sit')
 		);

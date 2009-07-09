@@ -288,7 +288,7 @@ class ilObjAICCCourseInterchangeFiles
 			$sysid=strtolower($row["system_id"]);
 			$unit=new ilAICCUnit();
 			
-			$unit->setAUType($row["type"]);
+			$unit->setAUType($row["c_type"]);
 			$unit->setCommand_line($row["command_line"]);
 			$unit->setMaxTimeAllowed($row["max_time_allowed"]);
 			$unit->setTimeLimitAction($row["time_limit_action"]);

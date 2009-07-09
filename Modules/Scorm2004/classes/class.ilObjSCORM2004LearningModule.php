@@ -464,7 +464,7 @@ class ilObjSCORM2004LearningModule extends ilObjSCORMLearningModule
 	   				}	
 	   			}	
 	   			$time = ilFormat::_secondsToString(self::_ISODurationToCentisec($data_rec["session_time"])/100);
-	   			$score = $data_rec["raw"];
+	   			$score = $data_rec["c_raw"];
 	   			$title = self::_lookupItemTitle($data_rec["cp_node_id"]);
 	   			$last_access=ilDatePresentation::formatDate(new ilDateTime($data_rec['last_access'],IL_CAL_UNIX));
 				 $data[] = array("user_id" => $user_rec["user_id"],

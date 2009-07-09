@@ -617,7 +617,7 @@ class ilObjSCORMLearningModule extends ilObjSAHSLearningModule
 		$val_set = $ilDB->queryF('
 		SELECT scorm_object.obj_id, 
 		scorm_object.title, 
-		scorm_object.type, 
+		scorm_object.c_type, 
 		scorm_object.slm_id, 
 		scorm_object.obj_id scoid 
 		FROM scorm_object, sc_item, sc_resource
@@ -627,7 +627,7 @@ class ilObjSCORMLearningModule extends ilObjSAHSLearningModule
 		AND sc_resource.scormtype = %s
 		GROUP BY scorm_object.obj_id, 
 		scorm_object.title, 
-		scorm_object.type, 
+		scorm_object.c_type, 
 		scorm_object.slm_id,
 		scorm_object.obj_id ',
 		array('integer','text'),
@@ -761,7 +761,7 @@ class ilObjSCORMLearningModule extends ilObjSAHSLearningModule
 	    $val_set = $ilDB->queryF('
 		    SELECT 	scorm_object.obj_id, 
 		    		scorm_object.title, 
-		    		scorm_object.type,
+		    		scorm_object.c_type,
 		    		scorm_object.slm_id, 
 		    		scorm_object.obj_id scoid 
 		    FROM scorm_object,sc_item,sc_resource
@@ -771,7 +771,7 @@ class ilObjSCORMLearningModule extends ilObjSAHSLearningModule
 		    AND sc_resource.scormtype = %s
 		    GROUP BY scorm_object.obj_id,
 		    		scorm_object.title,
-		    		scorm_object.type,
+		    		scorm_object.c_type,
 		    		scorm_object.slm_id,
 		    		scorm_object.obj_id ',
 		    array('integer','text'),
@@ -1036,7 +1036,7 @@ class ilObjSCORMLearningModule extends ilObjSAHSLearningModule
 		$val_set = $ilDB->queryF('
 		SELECT scorm_object.obj_id,
 				scorm_object.title,
-				scorm_object.type,
+				scorm_object.c_type,
 				scorm_object.slm_id,
 				scorm_object.obj_id scoid 
 		FROM scorm_object,sc_item,sc_resource 
@@ -1046,7 +1046,7 @@ class ilObjSCORMLearningModule extends ilObjSAHSLearningModule
 		AND sc_resource.scormtype = %s
 		GROUP BY scorm_object.obj_id,
 				scorm_object.title,
-				scorm_object.type,
+				scorm_object.c_type,
 				scorm_object.slm_id,
 				scorm_object.obj_id ',
 		array('integer', 'text'),
@@ -1118,7 +1118,7 @@ class ilObjSCORMLearningModule extends ilObjSAHSLearningModule
 		$val_set = $ilDB->queryF('
 		SELECT scorm_object.obj_id,
 				scorm_object.title,
-				scorm_object.type,
+				scorm_object.c_type,
 				scorm_object.slm_id,
 				scorm_object.obj_id scoid 
 		FROM scorm_object, sc_item,sc_resource 
@@ -1128,7 +1128,7 @@ class ilObjSCORMLearningModule extends ilObjSAHSLearningModule
 			AND sc_resource.scormtype = %s )
 		GROUP BY scorm_object.obj_id,
 		scorm_object.title,
-		scorm_object.type,
+		scorm_object.c_type,
 		scorm_object.slm_id,
 		scorm_object.obj_id',
 		array('integer','text'), 

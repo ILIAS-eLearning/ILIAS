@@ -216,9 +216,11 @@ class ilSCORM13Package
 	  	// add database values from package and sahs_lm records as defaults
 /*nk	  	
  		$x['persistPreviousAttempts'] = $this->packageData['persistPreviousAttempts'];
+	  	$x['online'] = $this->packageData['online'];
 */		
 	  	$x['persistPreviousAttempts'] = $this->packageData['persistprevattempts'];  	
-	  	$x['online'] = $this->packageData['online'];
+	  	$x['online'] = $this->packageData['c_online'];
+	  	
 	  	$x['defaultLessonMode'] = $this->packageData['default_lesson_mode'];
 	  	$x['credit'] = $this->packageData['credit'];
 	  	$x['autoReview'] = $this->packageData['auto_review'];
@@ -562,19 +564,44 @@ class ilSCORM13Package
 		
 				foreach ($node->attributes as $attr)
 				{
-				switch(strtolower($attr->name))
-				{
-					case 'completionsetbycontent': $names[] = 'completionbycontent';
-					break;
-					case 'objectivesetbycontent': $names[] = 'objectivebycontent';
-	/*				case 'completionsetbycontent': $names[] = 'completionbycontent';
-					case 'completionsetbycontent': $names[] = 'completionbycontent';
-					case 'completionsetbycontent': $names[] = 'completionbycontent';
-*/	
-					break;
-					default:$names[] = strtolower($attr->name);
-					break;
-				}	
+					switch(strtolower($attr->name))
+					{
+						case 'completionsetbycontent': $names[] = 'completionbycontent';break;
+						case 'objectivesetbycontent': $names[] = 'objectivebycontent';break;
+						case 'type': $names[] = 'c_type';break;
+						case 'mode': $names[] = 'c_mode';break;
+						case 'language': $names[] = 'c_language';break;
+						case 'condition': $names[] = 'c_condition';break;
+						case 'operator': $names[] = 'c_operator';break;
+						case 'condition': $names[] = 'c_condition';break;
+						case 'readnormalizedmeasure': $names[] = 'readnormalmeasure';break;
+						case 'writenormalizedmeasure': $names[] = 'writenormalmeasure';break;
+						case 'minnormalizedmeasure': $names[] = 'minnormalmeasure';break;
+						case 'primary': $names[] = 'c_primary';break;
+						case 'minnormalizedmeasure': $names[] = 'minnormalmeasure';break;
+						case 'primary': $names[] = 'c_primary';break;						
+						case 'persistpreviousattempts': $names[] = 'persistprevattempts';break;						
+						case 'identifier': $names[] = 'c_identifier';break;
+						case 'settings': $names[] = 'c_settings';break;
+						case 'activityabsolutedurationlimit': $names[] = 'activityabsdurlimit';break;
+						case 'activityexperienceddurationlimit': $names[] = 'activityexpdurlimit';break;
+						case 'attemptabsolutedurationlimit': $names[] = 'c_primary';break;
+						case 'measuresatisfactionifactive': $names[] = 'measuresatisfactive';break;
+						case 'objectivemeasureweight': $names[] = 'objectivemeasweight';break;
+						case 'requiredforcompleted': $names[] = 'requiredcompleted';break;
+						case 'requiredforincomplete': $names[] = 'requiredforincomplete';break;
+						case 'requiredfornotsatisfied': $names[] = 'requirednotsatisfied';break;
+						case 'rollupobjectivesatisfied': $names[] = 'rollupobjectivesatis';break;
+						case 'rollupprogresscompletion': $names[] = 'rollupprogcompletion';break;
+						case 'usecurrentattemptobjectiveinfo': $names[] = 'usecurattemptobjinfo';break;
+						case 'usecurrentattemptprogressinfo': $names[] = 'usecurattemptproginfo';break;
+		
+		/*				case 'requiredforincomplete': $names[] = 'requiredforincomplete';break;
+						case 'requiredforincomplete': $names[] = 'requiredforincomplete';break;
+		*/			
+						default:$names[] = strtolower($attr->name);
+						break;
+					}	
 					
 				//	$names[] = strtolower($attr->name);
 					$values[] = $attr->value;

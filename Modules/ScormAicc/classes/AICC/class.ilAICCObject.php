@@ -144,7 +144,7 @@ class ilAICCObject
 		while($obj_rec = $ilDB->fetchAssoc($obj_set))
 		{
 			$this->setTitle($obj_rec["title"]);
-			$this->setType($obj_rec["type"]);
+			$this->setType($obj_rec["c_type"]);
 			$this->setALMId($obj_rec["alm_id"]);
 			$this->setDescription($obj_rec["description"]);
 			$this->setDeveloperId($obj_rec["developer_id"]);
@@ -160,7 +160,7 @@ class ilAICCObject
 		$nextId = $ilDB->nextId('aicc_object');
 		
 		$statement = $ilDB->manipulateF('
-			INSERT INTO aicc_object (obj_id, title, type, slm_id, description, developer_id, system_id)
+			INSERT INTO aicc_object (obj_id, title, c_type, slm_id, description, developer_id, system_id)
 			VALUES (%s,%s,%s,%s,%s,%s,%s )',
 			array('integer','text','text','integer','text','text','integer'), 
 			array(	$nextId,	
@@ -182,7 +182,7 @@ class ilAICCObject
 		$statement = $ilDB->manipulateF('
 			UPDATE aicc_object 
 			SET title = %s,
-				type = %s,
+				c_type = %s,
 				slm_id =  %s,
 				description = %s,
 				developer_id =  %s,
@@ -217,7 +217,7 @@ class ilAICCObject
 		global $ilDB;
 
 		$sc_set = $ilDB->queryF('
-			SELECT type FROM aicc_object 
+			SELECT c_type FROM aicc_object 
 			WHERE obj_id =  %s 
 			AND slm_id = %s',
 			array('integer', 'integer'),
@@ -229,7 +229,7 @@ class ilAICCObject
 			break;
 		}
 		
-		switch($sc_rec["ao_type"])
+		switch($sc_rec["c_type"])
 		{
 			case "sbl":					// Block
 				include_once("./Modules/ScormAicc/classes/AICC/class.ilAICCBlock.php");

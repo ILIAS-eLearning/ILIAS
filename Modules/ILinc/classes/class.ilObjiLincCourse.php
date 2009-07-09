@@ -231,7 +231,7 @@ class ilObjiLincCourse extends ilContainer
 
 		$statement = $ilDB->manipulateF('
 			INSERT INTO ilinc_data (
-				obj_id, type, course_id, activation_offline) 
+				obj_id, i_type, course_id, activation_offline) 
 			VALUES (%s, %s, %s, %s)',
 			array('integer', 'text', 'integer', 'text'),
 			array($this->id,'icrs',$a_icrs_id,$this->activated));
