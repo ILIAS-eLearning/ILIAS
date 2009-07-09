@@ -139,7 +139,7 @@ class ilObjSessionGUI extends ilObjectGUI implements ilDesktopItemHandling
     {
         parent::prepareOutput();
 		
-		if(!$this->creation_mode)
+		if(!$this->getCreationMode())
 		{
 			$title = strlen($this->object->getTitle()) ? (': '.$this->object->getTitle()) : ''; 
 			
@@ -385,7 +385,7 @@ class ilObjSessionGUI extends ilObjectGUI implements ilDesktopItemHandling
 		{
 			$this->object = new ilObjSession();
 		}
-		
+		$this->ctrl->setParameter($this,'new_type','sess');
 		$this->initForm('create');
 		$this->tpl->addBlockFile('ADM_CONTENT','adm_content','tpl.sess_create.html','Modules/Session');
 		$this->tpl->setVariable('EVENT_ADD_TABLE',$this->form->getHTML());
@@ -489,12 +489,18 @@ class ilObjSessionGUI extends ilObjectGUI implements ilDesktopItemHandling
 		$items = $ev->getItems();
 
 		$counter = 0;
-		do 
+		while(true)
 		{
 			if(!isset($_FILES['files']['name'][$counter]))
 			{
 				break;
 			}
+			if(!strlen($_FILES['files']['name'][$counter]))
+			{
+				$counter++;
+				continue;
+			}
+			
 			include_once './Modules/File/classes/class.ilObjFile.php';
 			$file = new ilObjFile();
 			$file->setTitle(ilUtil::stripSlashes($_FILES['files']['name'][$counter]));
@@ -513,8 +519,9 @@ class ilObjSessionGUI extends ilObjectGUI implements ilDesktopItemHandling
 			);
 			
 			$items[] = $new_ref_id;
+			$counter++;
 			
-		} while($counter++);
+		}
 		
 		$ev->setItems($items);
 		$ev->update();			
