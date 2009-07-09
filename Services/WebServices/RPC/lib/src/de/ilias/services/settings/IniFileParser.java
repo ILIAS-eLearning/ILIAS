@@ -82,6 +82,8 @@ public class IniFileParser {
 					serverSettings.initLogger();
 					if(section.containsKey("NumThreads"))
 						serverSettings.setThreadNumber(purgeString(section.get("NumThreads")));
+					if(section.containsKey("RAMBufferSize"))
+						serverSettings.setRAMSize(purgeString(section.get("RAMBufferSize")));
 				}
 				if(section.getName().startsWith("Client") && parseClientSettings) {
 					if(section.containsKey("ClientId")) {

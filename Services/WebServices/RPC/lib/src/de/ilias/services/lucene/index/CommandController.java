@@ -66,7 +66,7 @@ public class CommandController {
 		}
 	};
 	
-	private static final int MAX_ELEMENTS = 1000;
+	private static final int MAX_ELEMENTS = 10000;
 	
 	protected static Logger logger = Logger.getLogger(CommandController.class);
 	
@@ -108,7 +108,7 @@ public class CommandController {
 	 * @throws CorruptIndexException 
 	 * 
 	 */
-	private CommandController() 
+	public CommandController() 
 	throws CorruptIndexException, LockObtainFailedException, SQLException, IOException, ConfigurationException {
 
 		this(ObjectDefinitions.getInstance(
@@ -184,6 +184,7 @@ public class CommandController {
 		try {
 			while((currentElement = queue.nextElement()) != null) {
 			
+				logger.info("Current element id: " + currentElement.getObjId() + " " + currentElement.getObjType());
 				String command = currentElement.getCommand();
 				
 				if(command.equals("reset")) {
@@ -211,13 +212,15 @@ public class CommandController {
 				}
 				getFinished().add(currentElement.getObjId());
 				
-				// Write to index if MAX_ELEMTS is reached
+				// Write to index if MAX_ELEMENTS is reached
 				if(++elementCounter == MAX_ELEMENTS) {
 					
+					/*
 					if(!writeToIndex()) {
 						break;
 					}
 					elementCounter = 0;
+					*/
 				}
 			}
 		}
@@ -243,6 +246,7 @@ public class CommandController {
 			holder.getWriter().commit();
 			logger.info("Optimizing writer...");
 			holder.getWriter().optimize();
+			logger.info("Writer optimized");
 			
 			// Finally update status in search_command_queue
 			queue.setFinished(getFinished());

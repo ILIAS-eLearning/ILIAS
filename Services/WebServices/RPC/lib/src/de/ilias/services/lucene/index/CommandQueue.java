@@ -343,8 +343,10 @@ public class CommandQueue {
 	 */
 	public synchronized void deleteAll() throws SQLException {
 		
+		logger.info("Deleting search_command_queue");
 		Statement delete = db.createStatement();
 		delete.execute("DELETE FROM search_command_queue");
+		logger.info("search-command queue deleted");
 	}
 
 	/**

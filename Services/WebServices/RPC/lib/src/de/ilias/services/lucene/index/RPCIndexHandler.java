@@ -32,6 +32,7 @@ import org.apache.log4j.Logger;
 import org.apache.lucene.index.CorruptIndexException;
 import org.apache.lucene.store.LockObtainFailedException;
 
+import de.ilias.ilServerStatus;
 import de.ilias.services.db.DBFactory;
 import de.ilias.services.object.ObjectDefinitionException;
 import de.ilias.services.object.ObjectDefinitionParser;
@@ -72,21 +73,37 @@ public class RPCIndexHandler {
 		
 		try {
 			long s_start = new java.util.Date().getTime();
+			
+			logger.info("Checking if indexer is running for client: " + clientKey);
+			// Return if indexer is already running for this clientKey
+			if(ilServerStatus.isIndexerActive(clientKey)) {
+				logger.error("An Indexer is already running for this client. Aborting!");
+				System.err.println("An Indexer is already running for this client. Aborting!");
+				return false;
+			}
+			
+			// Set status
+			ilServerStatus.addIndexer(clientKey);
 
 			client = ClientSettings.getInstance(LocalSettings.getClientKey());
 			server = ServerSettings.getInstance();
+			
+			if(!incremental) {
+				IndexHolder.deleteIndex();
+			}
+			
 			properties = ObjectDefinitionReader.getInstance(client.getAbsolutePath());
 			parser = new ObjectDefinitionParser(properties.getObjectPropertyFiles());
 			parser.parse();
 			
-			controller = CommandController.getInstance();
+			//controller = CommandController.getInstance();
+			controller = new CommandController();
 			if(incremental) {
 				controller.initRefresh();
 			}
 			else {
 				controller.initCreate();
 			}
-
 			// Start threads
 			Vector<CommandControllerThread> threads = new Vector<CommandControllerThread>();
 			for(int i = 0; i < server.getNumThreads(); i++) {
@@ -111,6 +128,9 @@ public class RPCIndexHandler {
 		catch (Exception e) {
 			
 			logger.error(e);
+		}
+		finally {
+			ilServerStatus.removeIndexer(clientKey);
 		}
 		return true;
 	}

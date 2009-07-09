@@ -41,9 +41,6 @@ import de.ilias.services.lucene.index.file.path.PathCreatorException;
  */
 public class DirectoryDataSource extends FileDataSource {
 
-	
-	protected Vector<File> files = new Vector<File>();
-	
 	/**
 	 * @param type
 	 */
@@ -52,13 +49,6 @@ public class DirectoryDataSource extends FileDataSource {
 		
 	}
 
-	/**
-	 * 
-	 * @return files
-	 */
-	public Vector<File> getCandidates() {
-		return files;
-	}
 	
 	/**
 	 * write Document
@@ -70,6 +60,7 @@ public class DirectoryDataSource extends FileDataSource {
 		ExtensionFileHandler handler = new ExtensionFileHandler();
 		StringBuilder content = new StringBuilder();
 		
+		Vector<File> files;
 
 		logger.info("Start scanning directory...");
 		
@@ -79,16 +70,21 @@ public class DirectoryDataSource extends FileDataSource {
 				return;
 			}
 			start = getPathCreator().buildFile(el,res);
-			traverse(start);
+
+			FileReader reader = new FileReader();
+			reader.traverse(start);
+			files = reader.getFiles();
 			
-			for(int i = 0; i < getCandidates().size(); i++) {
+			logger.info("Found " + files.size() + " new files.");
+			
+			for(int i = 0; i < files.size(); i++) {
 				// Analyze encoding (transfer encoding), parse file extension
 				// and finally read content
 				try {
-					content.append(" " + handler.getContent(getCandidates().get(i)));
+					content.append(" " + handler.getContent(files.get(i)));
 				} 
 				catch (FileHandlerException e) {
-					logger.warn("Cannot parse file " + getCandidates().get(i).getAbsolutePath());
+					logger.warn("Cannot parse file " + files.get(i).getAbsolutePath());
 				}
 			}
 			// Write content
@@ -101,34 +97,44 @@ public class DirectoryDataSource extends FileDataSource {
 			throw new DocumentHandlerException(e);
 		}
 	}
-
+	
 	/**
-	 * @param dir
+	 * Read all files in a directory 
 	 */
-	private void traverse(File dir) {
-
-		File[] entries = dir.listFiles(
-				new FileFilter()
-				{
-					public boolean accept(File path) {
-						
-						if(path.isDirectory()) {
-							if(!path.getName().equals(".svn")) {
-								return true;
-							}
-							return false;
-						}
-						else
-						{
-							getCandidates().add(path);
-							return false;
-						}
-					}
-				});
+	class FileReader
+	{
+		Vector<File> files = new Vector<File>();
 		
-		for(int i = 0; i < entries.length; i++) {
-			// there are only directories
-			traverse(entries[i]);
+		public Vector<File> getFiles() {
+			return files;
+		}
+		
+		public void traverse(File dir) {
+			
+			File[] entries = dir.listFiles(
+					new FileFilter()
+					{
+						public boolean accept(File path) {
+							
+							if(path.isDirectory()) {
+								if(!path.getName().equals(".svn")) {
+									return true;
+								}
+								return false;
+							}
+							else
+							{
+								//getCandidates().add(path);
+								files.add(path);
+								return false;
+							}
+						}
+					});
+			
+			for(int i = 0; i < entries.length; i++) {
+				// there are only directories
+				traverse(entries[i]);
+			}
 		}
 	}
 }

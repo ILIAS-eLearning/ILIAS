@@ -52,6 +52,8 @@ public class ServerSettings {
 	private File logFile;
 	private Level logLevel;
 	private int numThreads = 1;
+	private double RAMSize = 500;
+
 
 
 
@@ -142,10 +144,10 @@ public class ServerSettings {
 			throw new ConfigurationException("Absolute path to logfile required: " + logFile);
 		}
 		if(this.logFile.createNewFile()) {
-			System.out.println("Created new log file: " + this.logFile.getAbsolutePath());
+			//System.out.println("Created new log file: " + this.logFile.getAbsolutePath());
 		}
 		else {
-			System.out.println("Using existing log file: " + this.logFile.getAbsolutePath());
+			//System.out.println("Using existing log file: " + this.logFile.getAbsolutePath());
 		}
 		if(!this.logFile.canWrite()) {
 			throw new ConfigurationException("Cannot write to log file: " + logFile);
@@ -228,5 +230,19 @@ public class ServerSettings {
 	
 	public int getNumThreads() {
 		return numThreads;
+	}
+
+	public double getRAMSize() {
+		return RAMSize;
+	}
+
+	public void setRAMSize(String purgedString) {
+
+		RAMSize = Double.valueOf(purgedString);
+	}
+
+	public String getServerUrl() {
+		
+		return "http://" + getHost() + ":" + getPort() + "/xmlrpc";
 	}
 }

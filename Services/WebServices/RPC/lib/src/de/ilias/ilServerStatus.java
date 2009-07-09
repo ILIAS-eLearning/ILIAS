@@ -20,93 +20,90 @@
         +-----------------------------------------------------------------------------+
 */
 
-package de.ilias.services.rpc;
+package de.ilias;
 
-import java.sql.SQLException;
+import java.util.HashMap;
 
 import org.apache.log4j.Logger;
 
-import de.ilias.ilServerStatus;
-import de.ilias.services.lucene.index.IndexHolder;
-import de.ilias.services.lucene.settings.LuceneSettings;
-import de.ilias.services.settings.ConfigurationException;
-import de.ilias.services.settings.LocalSettings;
-
-
-/**
- * 
- *
- * @author Stefan Meyer <smeyer.ilias@gmx.de>
- * @version $Id$
- */
-public class RPCAdministration {
-
-	private Logger logger = Logger.getLogger(this.getClass().getName());
+public class ilServerStatus {
+	
+	public static final String RUNNING = "Runnning";
+	public static final String STOPPED = "Stopped";
+	public static final String INDEXING = "Indexing";
+	
+	private static Logger logger = Logger.getLogger(ilServerStatus.class);
+	
+	private static HashMap<String, Boolean> indexer = new HashMap<String, Boolean>();
+	private static boolean active = false;
 
 	
 	/**
-	 * 
-	 */
-	public RPCAdministration() {
-
-	}
-	
-	/**
-	 * Stop RPC server and application 
-	 * @throws ConfigurationException 
-	 */
-	public boolean stop() throws ConfigurationException {
-		
-		RPCServer server;
-		
-		logger.info("Received stop request");
-
-		// Closing all index writers
-		IndexHolder.closeAllWriters();
-
-		// TODO: add more security. 
-		// It shouldn't be possible for every client to stop the rpc server.
-		server = RPCServer.getInstance();
-		server.setAlive(false);
-
-		// Set server status inactive
-		ilServerStatus.setActive(false);
-		
-		return true;
-	}
-	
-	/**
-	 * Refresh settings
-	 * @param clientKey
+	 * Check if server is active
 	 * @return
 	 */
-	public boolean refreshSettings(String clientKey) {
+	public static boolean isActive() {
+		return active;
+	}
+	
+	/**
+	 * Set server active
+	 * @param active
+	 */
+	public static void setActive(boolean active) {
+		ilServerStatus.active = active;
+	}
+	
+	/**
+	 * Enable an indexer for a specific client
+	 * @param clientKey
+	 */
+	public static void addIndexer(String clientKey) {
 		
-		LuceneSettings settings = null;
-		LocalSettings.setClientKey(clientKey);
+		indexer.put(clientKey, true);
+		setActive(true);
+	}
+	
+	public static boolean isIndexerActive(String clientKey) {
 		
-		try {
-			logger.info("Reading lucene client settings from database.");
-			logger.info("Client key: " + clientKey);
-			settings = LuceneSettings.getInstance(clientKey);
-			settings.refresh();
-			return true;
-		} 
-		catch (SQLException e) {
-			logger.error(e.getMessage());
-			return false;
+		return indexer.containsKey(clientKey);
+	}
+	
+	/**
+	 * Remove indexer for a specific client
+	 * @param clientKey
+	 */
+	public static void removeIndexer(String clientKey) {
+		
+		if(indexer.containsKey(clientKey)) {
+			
+			indexer.remove(clientKey);
 		}
 	}
 	
-	public String status() {
+	/**
+	 * Get current number of running indexers
+	 * @return
+	 */
+	public static int getCountActiveIndexer() {
 		
-		return ilServerStatus.getStatus();
+		return indexer.size();
 	}
 	
-	public boolean start() {
+	public static String getStatus() {
 		
-		ilServerStatus.setActive(true);
-		return true;
+		if(getCountActiveIndexer() != 0) {
+			
+			return INDEXING + " (" + getCountActiveIndexer() + ")"; 
+		}
+		if(isActive()) {
+			
+			return RUNNING;
+		}
+		return STOPPED;
 	}
+	
+	
+	
 
 }
