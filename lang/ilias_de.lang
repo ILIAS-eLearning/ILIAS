@@ -9594,9 +9594,15 @@ common#:#disk_quota#:#Disk Quota
 common#:#disk_usage#:#Speicherverwendung
 common#:#enter_in_mb_desc#:#Geben Sie einen Wert in MB ein.
 common#:#disk_quota_on_role_desc#:#Die Disk Quota einer Rolle wirkt sich auf alle Benutzerkonten aus, welche dieser Rolle zugeordnet sind.
-common#:#disk_quota_is_1_by_2#:#Die effektive Disk Quota ist %1$s MB aufgrund Mitgliedschaft in Rolle "%2$s".
+common#:#disk_quota_is_1_by_2#:#Die effektive Disk Quota ist %1$s aufgrund Mitgliedschaft in Rolle "%2$s".
 common#:#disk_quota_is_unlimited_by_1#:#Die effektive Disk Quota ist unbegrenzt aufgrund Mitgliedschaft in Rolle "%1$s".
-common#:#disk_quota_is_1_instead_of_2_by_3#:#Die effektive Disk Quota ist %1$s MB wie definiert in diesem Benutzerkonto. Die Disk Quota durch Rollenzugehörigkeit wäre %2$s MB über Role "%3$s" gewesen.
+common#:#disk_quota_is_1_instead_of_2_by_3#:#Die effektive Disk Quota ist %1$s wie definiert in diesem Benutzerkonto. Die Disk Quota durch Rollenzugehörigkeit wäre %2$s über Rolle "%3$s" gewesen.
+common#:#filter_users_without_disk_usage#:#Nur Benutzer die keinen Speicherplatz belegen
+common#:#filter_users_with_disk_usage#:#Nur Benutzer die Speicherplatz belegen
+common#:#filter_users_with_exceeded_disk_quota#:#Nur Benutzer die ihre Disk Quota überschreiten
+common#:#filter_users_with_access#:#Nur Benutzer mit Zugriff
+common#:#filter_users_without_access#:#Nur Benutzer ohne Zugriff
+common#:#statistics#:#Statistik
 style#:#sty_characteristic_already_exists#:#A style class with this title already exists within this style.###26 06 2009 new variable
 content#:#cont_pc_flist#:#File List###26 06 2009 new variable
 content#:#cont_pc_par#:#Text###26 06 2009 new variable

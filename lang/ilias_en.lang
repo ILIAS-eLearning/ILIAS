@@ -9571,9 +9571,15 @@ common#:#disk_quota#:#Disk Quota
 common#:#disk_usage#:#Disk Usage
 common#:#enter_in_mb_desc#:#Enter a value in MB.
 common#:#disk_quota_on_role_desc#:#The disk quota specified on a role affects all user accounts which are assigned to this role.
-common#:#disk_quota_is_1_by_2#:#The effective disk quota is %1$s MB due to membership in role "%2$s".
+common#:#disk_quota_is_1_by_2#:#The effective disk quota is %1$s due to membership in role "%2$s".
 common#:#disk_quota_is_unlimited_by_1#:#The effective disk quota is unlimited due to membership in role "%1$s".
-common#:#disk_quota_is_1_instead_of_2_by_3#:#The effective disk quota is %1$s MB as defined in this user account. The disk quota by role membership would have been %2$s MB by role "%3$s".
+common#:#disk_quota_is_1_instead_of_2_by_3#:#The effective disk quota is %1$s as defined in this user account. The disk quota by role membership would have been %2$s by role "%3$s".
+common#:#filter_users_without_disk_usage#:#Only users with no disk space used
+common#:#filter_users_with_disk_usage#:#Only users with disk space used
+common#:#filter_users_with_exceeded_disk_quota#:#Only users with disk quota exceeded
+common#:#filter_users_with_access#:#Only users with access
+common#:#filter_users_without_access#:#Only users without access
+common#:#statistics#:#Statistics
 style#:#sty_characteristic_already_exists#:#A style class with this title already exists within this style.
 content#:#cont_pc_flist#:#File List
 content#:#cont_pc_par#:#Text

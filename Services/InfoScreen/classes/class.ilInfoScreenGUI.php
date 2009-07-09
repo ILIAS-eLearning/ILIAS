@@ -510,7 +510,7 @@ class ilInfoScreenGUI
 		{
 				$size = $a_obj->getDiskUsage();
 				if ($size !== null) {
-					$this->addProperty($lng->txt("disk_usage"),ilFormat::_sizeToString($size,'long'));
+					$this->addProperty($lng->txt("disk_usage"),ilFormat::formatSize($size,'long'));
 				}
 		}
 		// change event

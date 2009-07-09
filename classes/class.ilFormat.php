@@ -285,7 +285,7 @@ class ilFormat
 	* @return	string	formatted date
 	* @deprecated since 3.10 - 05.03.2009
 	*/
-	function fmtDateTime($a_str,$a_dateformat,$a_timeformat,$a_mode = "datetime", $a_relative = TRUE)
+	public static function fmtDateTime($a_str,$a_dateformat,$a_timeformat,$a_mode = "datetime", $a_relative = TRUE)
 	{
 		//no format defined. set to default format
 		if ($a_dateformat == "")
@@ -367,28 +367,48 @@ class ilFormat
 	* @param	float		the float to format
 	* @param	integer		count of decimals
 	* @param	integer		display thousands separator
+	* @param	boolean		whether .0 should be suppressed
 	* @return	string		formatted number
 	*/
-	function fmtFloat($a_float, $a_decimals = "", $a_th = "")
+	function fmtFloat($a_float, $a_decimals=0, $a_dec_point = null, $a_thousands_sep = null, $a_suppress_dot_zero=false)
 	{
-		//thousandskomma?
-		if (!empty($a_th))
+		global $lng;
+
+
+		if ($a_dec_point == null)
 		{
-			if ($a_th == "-lang_sep_thousand-")
+			$a_dec_point = $lng->txt('lang_sep_decimal');
+			{
+				$a_dec_point = ".";
+			}
+		}
+		if ($a_dec_point == '-lang_sep_decimal-')
+		{
+			$a_dec_point = ".";
+		}
+
+		if ($a_thousands_sep == null)
+		{
+			$a_thousands_sep = $lng->txt('lang_sep_thousand');
 			{
 				$a_th = ",";
 			}
 		}
-		
-		//decimalpoint?
-		$dec = $a_decimals;
-		
-		if ($dec == "-lang_sep_decimal-")
+		if ($a_thousands_sep == '-lang_sep_thousand-')
 		{
-			$dec = ".";
+			$a_thousands_sep = ",";
+		}
+		
+		$txt = number_format($a_float, $a_decimals, $a_dec_point, $a_thousands_sep);
+		
+		// remove trailing ".0" 
+		if (($a_suppress_dot_zero == 0 || $a_decimal == 0) &&
+			substr($txt,-2) == $a_dec_point.'0')
+		{
+			$txt = substr($txt, 0, strlen($txt) - 2);
 		}
 
-		return number_format($a_float, $a_decimals, $dec, $a_th);
+		return $txt;
 	}
 
 	function unixtimestamp2datetime($a_unix_timestamp = "")
@@ -650,10 +670,11 @@ class ilFormat
 	 * http://en.wikipedia.org/wiki/Megabyte
 	 *
 	 * @param	integer	size in bytes
-	 * @param	string	mode: "short" is useful for display in the repository
+	 * @param	string	mode:
+	 *                  "short" is useful for display in the repository
 	 *                  "long" is useful for display on the info page of an object
 	 */
-	public static function _sizeToString($size, $a_mode = "short")
+	public static function formatSize($size, $a_mode = 'short')
 	{
 		global $lng;
 		require_once 'classes/class.ilFormat.php';
@@ -661,27 +682,34 @@ class ilFormat
 		$result;
 		$mag = self::_getSizeMagnitude();
 
-		$formattedBytes = ilFormat::fmtFloat($size,0,$lng->txt('lang_sep_thousand'));
+		$scaled_size;
+		$scaled_unit;
 
-		if ($size > $mag * $mag * $mag)
+		if ($size >= $mag * $mag * $mag)
 		{
-			$result = round($size/1073741824,1).' '.$lng->txt('lang_size_gb');
+			$scaled_size = $size/$mag/$mag/$mag;
+			$scaled_unit = 'lang_size_gb';
 		}
-		else if ($size > $mag * $mag)
+		else if ($size >= $mag * $mag)
 		{
-			$result = round($size/1048576,1).' '.$lng->txt('lang_size_mb');
+			$scaled_size = $size/$mag/$mag;
+			$scaled_unit = 'lang_size_mb';
 		}
-		else if ($size > $mag)
+		else if ($size >= $mag)
 		{
-			$result = round($size/1024,1).' '.$lng->txt('lang_size_kb');
+			$scaled_size = $size/$mag;
+			$scaled_unit = 'lang_size_kb';
 		}
 		else
 		{
-			$result = $formattedBytes.' '.$lng->txt('lang_size_bytes');
+			$scaled_size = $size;
+			$scaled_unit = 'lang_size_bytes';
 		}
 
-		if ($a_mode == 'long' && $size > $mag) {
-			$result .= ' ('.$formattedBytes.' '.$lng->txt('lang_size_bytes').')';
+		$result = ilFormat::fmtFloat($scaled_size,($scaled_unit == 'lang_size_bytes') ? 0:1, $lng->txt('lang_sep_decimal'), $lng->txt('lang_sep_thousand'), true).' '.$lng->txt($scaled_unit);
+		if ($a_mode == 'long' && $size > $mag)
+		{
+			$result .= ' ('.ilFormat::fmtFloat($size,0).' '.$lng->txt('lang_size_bytes').')';
 		}
 		return $result;
 	}

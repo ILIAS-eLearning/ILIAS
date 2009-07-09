@@ -75,7 +75,7 @@ class ilObjFileAccessSettingsGUI extends ilObjectGUI
 
 		if(!$ilAccess->checkAccess('read','',$this->object->getRefId()))
 		{
-			$ilErr->raiseError($this->lng->txt('no_permission'),$ilErr->WARNING);
+			$ilErr->raiseError($lng->txt('no_permission'),$ilErr->WARNING);
 		}
 
 		switch($next_class)
@@ -142,7 +142,7 @@ class ilObjFileAccessSettingsGUI extends ilObjectGUI
 
 		if (! $rbacsystem->checkAccess("visible,read",$this->object->getRefId()))
 		{
-			$ilErr->raiseError($this->lng->txt("no_permission"),$ilErr->WARNING);
+			$ilErr->raiseError($lng->txt("no_permission"),$ilErr->WARNING);
 		}
 
 		global $tpl, $ilCtrl, $lng, $tree, $settings;
@@ -193,7 +193,7 @@ class ilObjFileAccessSettingsGUI extends ilObjectGUI
 
 		if (! $rbacsystem->checkAccess("write",$this->object->getRefId()))
 		{
-			$ilErr->raiseError($this->lng->txt("no_permission"),$ilErr->WARNING);
+			$ilErr->raiseError($lng->txt("no_permission"),$ilErr->WARNING);
 		}
 
 		$this->object->setInlineFileExtensions(ilUtil::stripSlashes($_POST['inline_file_extensions']));
@@ -201,7 +201,7 @@ class ilObjFileAccessSettingsGUI extends ilObjectGUI
 
 		$this->folderSettings->set("enable_download_folder", $_POST["enable_download_folder"] == 1);
 
-		ilUtil::sendInfo($this->lng->txt('settings_saved'),true);
+		ilUtil::sendInfo($lng->txt('settings_saved'),true);
 		$ilCtrl->redirect($this, "editDownloadingSettings");
 	}
 
@@ -218,7 +218,7 @@ class ilObjFileAccessSettingsGUI extends ilObjectGUI
 
 		if (! $rbacsystem->checkAccess("visible,read",$this->object->getRefId()))
 		{
-			$ilErr->raiseError($this->lng->txt("no_permission"),$ilErr->WARNING);
+			$ilErr->raiseError($lng->txt("no_permission"),$ilErr->WARNING);
 		}
 
 		require_once("./Services/Form/classes/class.ilPropertyFormGUI.php");
@@ -279,7 +279,7 @@ class ilObjFileAccessSettingsGUI extends ilObjectGUI
 
 		if (! $rbacsystem->checkAccess("write",$this->object->getRefId()))
 		{
-			$ilErr->raiseError($this->lng->txt("no_permission"),$ilErr->WARNING);
+			$ilErr->raiseError($lng->txt("no_permission"),$ilErr->WARNING);
 		}
 
 		$this->object->setWebdavEnabled($_POST['enable_webdav'] == '1');
@@ -288,7 +288,7 @@ class ilObjFileAccessSettingsGUI extends ilObjectGUI
 		$this->object->setCustomWebfolderInstructions(ilUtil::stripSlashes($_POST['custom_webfolder_instructions']));
 		$this->object->update();
 		
-		ilUtil::sendInfo($this->lng->txt('settings_saved'),true);
+		ilUtil::sendInfo($lng->txt('settings_saved'),true);
 		$ilCtrl->redirect($this, "editWebDAVSettings");
 	}
 	
@@ -315,31 +315,30 @@ class ilObjFileAccessSettingsGUI extends ilObjectGUI
 		$ilTabs->addSubTabTarget("settings",
 			 $ilCtrl->getLinkTarget($this, "editDiskQuotaSettings"),
 			 array("editDiskQuotaSettings"));
-/* to do
-		$ilTabs->addSubTabTarget("export",
-			 $ilCtrl->getLinkTarget($this, "showDiskQuotaExport"),
-			 array("showDiskQuotaExport"));*/
+
+		$ilTabs->addSubTabTarget("statistics",
+			 $ilCtrl->getLinkTarget($this, "viewDiskUsageStatistics"),
+			 array("viewDiskUsageStatistics"));
+		 
 		$ilTabs->setSubTabActive($a_active_subtab);
 	}
 
 
 	/**
-	* Edit settings.
+	* Edit disk quota settings.
 	*/
 	public function editDiskQuotaSettings()
 	{
-		global $rbacsystem, $ilErr, $ilSetting;
+		global $rbacsystem, $ilErr, $ilSetting, $tpl, $lng, $ilCtrl;
 
-		$this->tabs_gui->setTabActive('disk_quota');
 
 		if (! $rbacsystem->checkAccess("visible,read",$this->object->getRefId()))
 		{
-			$ilErr->raiseError($this->lng->txt("no_permission"),$ilErr->WARNING);
+			$ilErr->raiseError($lng->txt("no_permission"),$ilErr->WARNING);
 		}
 
-		$this->addDiskQuotaSubtabs('editDiskQuotaSettings');
-
-		global $tpl, $ilCtrl, $lng, $tree, $settings;
+		$this->tabs_gui->setTabActive('disk_quota');
+		$this->addDiskQuotaSubtabs('settings');
 
 		require_once("./Services/Form/classes/class.ilPropertyFormGUI.php");
 		require_once("./Services/Form/classes/class.ilCheckboxInputGUI.php");
@@ -361,7 +360,6 @@ class ilObjFileAccessSettingsGUI extends ilObjectGUI
 		$form->addItem($cb_prop);
 
 
-
 		// command buttons
 		$form->addCommandButton('saveDiskQuotaSettings', $lng->txt('save'));
 		$form->addCommandButton('editDiskQuotaSettings', $lng->txt('cancel'));
@@ -370,23 +368,226 @@ class ilObjFileAccessSettingsGUI extends ilObjectGUI
 	}
 
 	/**
-	* Save settings
+	* Save disk quota settings.
 	*/
 	public function saveDiskQuotaSettings()
 	{
-		global $rbacsystem, $ilErr;
+		global $rbacsystem, $ilErr, $ilCtrl, $lng;
 
 		if (! $rbacsystem->checkAccess("write",$this->object->getRefId()))
 		{
-			$ilErr->raiseError($this->lng->txt("no_permission"),$ilErr->WARNING);
+			$ilErr->raiseError($lng->txt("no_permission"),$ilErr->WARNING);
 		}
 
 		$this->disk_quota_obj->setDiskQuotaEnabled($_POST['enable_disk_quota'] == '1');
 		$this->disk_quota_obj->update();
 
-		ilUtil::sendInfo($this->lng->txt('settings_saved'),true);
-		$ilCtrl->redirect($this, "showDiskQuotaSettings");
+		ilUtil::sendInfo($lng->txt('settings_saved'),true);
+		$ilCtrl->redirect($this, "editDiskQuotaSettings");
 	}
+
+	/**
+	* The disk quota statistics list shows user accounts, their disk quota and their
+    * disk usage, as well as the last time a reminder was sent.
+	*/
+	public function viewDiskUsageStatistics()
+	{
+		global $rbacsystem, $ilErr, $ilSetting, $lng;
+
+		if (! $rbacsystem->checkAccess("visible,read",$this->object->getRefId()))
+		{
+			$ilErr->raiseError($lng->txt("no_permission"),$ilErr->WARNING);
+		}
+
+		$this->tabs_gui->setTabActive('disk_quota');
+		$this->addDiskQuotaSubtabs('statistics');
+
+		// Filter
+		$this->tpl->addBlockfile('ADM_CONTENT','adm_content','tpl.diskquota_user_list.html');
+		$_SESSION['quota_usage_filter'] = isset($_POST['usage_filter']) ? $_POST['usage_filter'] : $_SESSION['quota_usage_filter'];
+		if ($_SESSION['quota_usage_filter'] == 0)
+		{
+			$_SESSION['quota_usage_filter'] = 4;
+		}
+		$_SESSION['quota_access_filter'] = isset($_POST['access_filter']) ? $_POST['access_filter'] : $_SESSION['quota_access_filter'];
+		if ($_SESSION['quota_access_filter'] == 0)
+		{
+			$_SESSION['quota_access_filter'] = 1;
+		}
+		$usage_action[1] = $lng->txt('all_users');
+		$usage_action[2] = $lng->txt('filter_users_without_disk_usage');
+		$usage_action[3] = $lng->txt('filter_users_with_disk_usage');
+		$usage_action[4] = $lng->txt('filter_users_with_exceeded_disk_quota');
+		$access_action[1] = $lng->txt('all_users');
+		$access_action[2] = $lng->txt('filter_users_with_access');
+		$access_action[3] = $lng->txt('filter_users_without_access');
+
+		$select_usage_filter = ilUtil::formSelect($_SESSION['quota_usage_filter'],"usage_filter",$usage_action,false,true);
+		$select_access_filter = ilUtil::formSelect($_SESSION['quota_access_filter'],"access_filter",$access_action,false,true);
+
+		$this->tpl->setCurrentBlock("filter");
+		$this->tpl->setVariable("FILTER_TXT_FILTER",$lng->txt('filter'));
+		$this->tpl->setVariable("SELECT_USAGE_FILTER",$select_usage_filter);
+		$this->tpl->setVariable("SELECT_ACCESS_FILTER",$select_access_filter);
+		$this->tpl->setVariable("FILTER_ACTION",$this->ctrl->getLinkTarget($this, 'viewDiskUsageStatistics'));
+		$this->tpl->setVariable("FILTER_NAME",'view');
+		$this->tpl->setVariable("FILTER_VALUE",$lng->txt('apply_filter'));
+		$this->tpl->parseCurrentBlock();
+
+		// load templates for table
+	 	$a_tpl = new ilTemplate('tpl.table.html',true,true);
+		$a_tpl->addBlockfile("TBL_CONTENT", "tbl_content", "tpl.obj_tbl_rows.html");
+
+		// create table
+		require_once './Services/Table/classes/class.ilTableGUI.php';
+		$tbl = new ilTableGUI(0, false);
+
+		// title & header columns
+		$header_vars = array('login','firstname','lastname','email','access_until','last_login','disk_quota','disk_usage');
+		$tbl->setHeaderNames(
+			array(
+				$lng->txt('login'),
+				$lng->txt('firstname'),
+				$lng->txt('lastname'),
+				$lng->txt('email'),
+				$lng->txt('access_until'),
+				$lng->txt('last_login'),
+				$lng->txt('disk_quota'),
+				$lng->txt('disk_usage'),
+			)
+		);
+		$tbl->setHeaderVars(
+			$header_vars,
+			$this->ctrl->getParameterArray($this,'viewDiskUsageStatistics',false)
+		);
+
+		$tbl->enable("numinfo_header");
+		$tbl->setFormName("cmd");
+		$tbl->setSelectAllCheckbox("id");
+
+		// sorting 
+		$tbl->setOrderColumn($_GET["sort_by"]);
+		$tbl->setOrderDirection($_GET["sort_order"]);
+
+		// fetch the data
+		require_once("./Services/WebDAV/classes/class.ilDiskQuotaChecker.php");
+		$data = ilDiskQuotaChecker::_fetchDiskUsageStatistics(
+			$_SESSION['quota_usage_filter'],
+			$_SESSION['quota_access_filter'],
+			$header_vars[$tbl->getOrderColumn()], $tbl->getOrderDirection());
+
+		// paging
+		$tbl->setLimit($_GET["limit"]);
+		$tbl->setOffset($_GET["offset"]);
+		$tbl->setMaxCount(count($data));
+
+		// footer
+		$tbl->setFooter("tblfooter",$lng->txt("previous"),$lng->txt("next"));
+		
+		// render table
+		$tbl->setTemplate($a_tpl);
+
+		// render rows
+		$count = 0;
+		for ($i = $tbl->getOffset(); $i < count($data) && $i < $tbl->getOffset() + $tbl->getLimit(); $i++)
+		{
+			$row = $data[$i];
+
+			// build columns
+			foreach ($header_vars as $key)
+			{
+				switch ($key)
+				{
+					case 'login' :
+						//build link
+						$this->ctrl->setParameterByClass("ilobjusergui", "ref_id", "7");
+						$this->ctrl->setParameterByClass("ilobjusergui", "obj_id", $row["usr_id"]);
+						$link = $this->ctrl->getLinkTargetByClass("ilobjusergui", "view");
+						$tbl_content_cell = '<a href="'.$link.'">'.htmlspecialchars($row[$key]).'</a>';
+						break;
+					case 'disk_quota' :
+						if ($row['role_id'] == SYSTEM_ROLE_ID)
+						{
+							$tbl_content_cell = "<span class=\"smallgreen\">".$lng->txt('access_unlimited').'</span>';
+						}
+						else
+						{
+							$tbl_content_cell = ilFormat::formatSize($row[$key],'short');
+						}
+						break;
+					case 'disk_usage' :
+						if ($row['last_update'] == null)
+						{
+							$tbl_content_cell = $lng->txt('unknown');
+						}
+						else if ($row['disk_usage'] > $row['disk_quota'])
+						{
+						 $tbl_content_cell = "<span class=\"smallred\">".ilFormat::formatSize($row[$key],'short').'</span>';
+						}
+						else
+						{
+						 $tbl_content_cell = ilFormat::formatSize($row[$key],'short');
+						}
+						break;
+					case 'access_until' :
+						if (! $row['active'])
+						{
+							 $tbl_content_cell = "<span class=\"smallred\">".$lng->txt('inactive').'</span>';
+						}
+						else if ($row['time_limit_unlimited'])
+						{
+							$tbl_content_cell = "<span class=\"smallgreen\">".$lng->txt('access_unlimited').'</span>';
+						}
+						else if ($row['expired'])
+						{
+							 $tbl_content_cell = "<span class=\"smallred\">".$lng->txt('access_expired').'</span>';
+						}
+						else
+						{
+							$tbl_content_cell = ilFormat::formatDate($row[$key]);
+						}
+						break;
+					case 'last_login' :
+						if ($row[$key] == null)
+						{
+							$tbl_content_cell = $lng->txt('no_date');
+						}
+						else
+						{
+							$tbl_content_cell = ilFormat::formatDate($row[$key]);
+						}
+						break;
+					default :
+						 $tbl_content_cell = htmlspecialchars($row[$key]);
+				}
+				/*
+				if (is_array($tbl_content_cell))
+				{
+					$tbl->tpl->setCurrentBlock("tbl_cell_subtitle");
+					$tbl->tpl->setVariable("TBL_CELL_SUBTITLE",$tbl_content_cell[1]);
+					$tbl->tpl->parseCurrentBlock();
+					$tbl_content_cell = "<b>".$tbl_content_cell[0]."</b>";
+				}*/
+
+				$tbl->tpl->setCurrentBlock("tbl_content_cell");
+				$tbl->tpl->setVariable("TBL_CONTENT_CELL",$tbl_content_cell);
+
+				$tbl->tpl->parseCurrentBlock();
+			}
+
+			$tbl->tpl->setCurrentBlock("tbl_content_row");
+			$rowcolor = ilUtil::switchColor($count,"tblrow1","tblrow2");
+			$tbl->tpl->setVariable("ROWCOLOR", $rowcolor);
+			$tbl->tpl->parseCurrentBlock();
+
+			$count++;
+		}
+		$tbl->render();
+
+		// Add table to page
+		$this->tpl->setVariable("USER_TABLE",$a_tpl->get());
+	}
+
 } 
 // END WebDAV
 ?>

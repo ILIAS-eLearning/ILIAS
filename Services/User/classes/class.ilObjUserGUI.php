@@ -1455,7 +1455,10 @@ class ilObjUserGUI extends ilObjectGUI
 				$dq_info = ilDiskQuotaChecker::_lookupDiskQuota($this->object->getId());
 				if ($dq_info['user_disk_quota'] > $dq_info['role_disk_quota'])
 				{
-					$info_text = sprintf($lng->txt('disk_quota_is_1_instead_of_2_by_3'),$dq_info['user_disk_quota']/ilFormat::_getSizeMagnitude()/ilFormat::_getSizeMagnitude(),$dq_info['role_disk_quota']/ilFormat::_getSizeMagnitude()/ilFormat::_getSizeMagnitude(),$dq_info['role_title']);
+					$info_text = sprintf($lng->txt('disk_quota_is_1_instead_of_2_by_3'),
+						ilFormat::formatSize($dq_info['user_disk_quota'],'short'),
+						ilFormat::formatSize($dq_info['role_disk_quota'],'short'),
+						$dq_info['role_title']);
 				}
 				else if (is_infinite($dq_info['role_disk_quota']))
 				{
@@ -1463,7 +1466,9 @@ class ilObjUserGUI extends ilObjectGUI
 				}
 				else
 				{
-					$info_text = sprintf($lng->txt('disk_quota_is_1_by_2'),$dq_info['role_disk_quota']/ilFormat::_getSizeMagnitude()/ilFormat::_getSizeMagnitude(),$dq_info['role_title']);
+					$info_text = sprintf($lng->txt('disk_quota_is_1_by_2'),
+						ilFormat::formatSize($dq_info['role_disk_quota'],'short'),
+						$dq_info['role_title']);
 				}
 				$disk_quota->setInfo($this->lng->txt("enter_in_mb_desc").'<br>'.$info_text);
 
@@ -1478,7 +1483,7 @@ class ilObjUserGUI extends ilObjectGUI
 				else
 				{
 			        require_once 'classes/class.ilFormat.php';
-					$disk_usage->setValue(ilFormat::_sizeToString($du_info['disk_usage'],'short'));
+					$disk_usage->setValue(ilFormat::formatSize($du_info['disk_usage'],'short'));
 					$info = '<table>';
 					// write the count and size of each object type
 					foreach ($du_info['details'] as $detail_data)
@@ -1486,7 +1491,7 @@ class ilObjUserGUI extends ilObjectGUI
 						$info .= '<tr>'.
 							'<td>'.$detail_data['count'].'</td>'.
 							'<td>'.$lng->txt($detail_data['type']).'</td>'.
-							'<td>'.ilFormat::_sizeToString($detail_data['size'], 'short').'</td>'.
+							'<td>'.ilFormat::formatSize($detail_data['size'], 'short').'</td>'.
 							'</tr>'
 							;
 					}

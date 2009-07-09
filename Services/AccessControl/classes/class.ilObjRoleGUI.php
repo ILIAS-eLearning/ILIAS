@@ -489,7 +489,7 @@ class ilObjRoleGUI extends ilObjectGUI
 		if(ilDiskQuotaActivationChecker::_isActive())
 		{
 			$quo = new ilNumberInputGUI($this->lng->txt('disk_quota'),'disk_quota');
-			$quo->setMinValue(1);
+			$quo->setMinValue(0);
 			$quo->setSize(4);
 			$quo->setInfo($this->lng->txt('enter_in_mb_desc').'<br />'.$this->lng->txt('disk_quota_on_role_desc'));
 			$this->form->addItem($quo);
