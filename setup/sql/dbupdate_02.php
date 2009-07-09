@@ -14140,3 +14140,47 @@ $ilDB->manipulateF("INSERT INTO bookmark_social_bm (sbm_id, sbm_title, sbm_link,
 <?php
 	$ilDB->renameTableColumn('scorm_object ','type','c_type');
 ?>
+<#2708>
+<?php
+	$ilDB->manipulate("ALTER TABLE `cmi_comment` DROP INDEX `i1_idx`");
+?>
+<#2709>
+<?php
+	$ilDB->manipulate("ALTER TABLE `cmi_interaction` DROP INDEX `i1_idx`");
+?>
+<#2710>
+<?php
+	$ilDB->manipulate("ALTER TABLE `cmi_node` DROP INDEX `i4_idx`");
+?>
+<#2711>
+<?php
+	$ilDB->manipulate("ALTER TABLE `cmi_objective` DROP INDEX `i1_idx`");
+?>
+<#2712>
+<?php
+	$ilDB->manipulate("ALTER TABLE `cp_dependency` DROP INDEX `i1_idx`");
+?>
+<#2713>
+<?php
+	$ilDB->manipulate("ALTER TABLE `cp_file` DROP INDEX `i1_idx`");
+?>
+<#2714>
+<?php
+	$ilDB->manipulate("ALTER TABLE `cp_node` DROP INDEX `i1_idx`");
+?>
+<#2715>
+<?php
+	$ilDB->manipulate("ALTER TABLE `frm_thread_access` DROP INDEX `i1_idx`");
+?>
+<#2716>
+<?php
+	$ilDB->manipulate("ALTER TABLE `frm_user_read` DROP INDEX `i1_idx`");
+?>
+<#2717>
+<?php
+	$ilDB->manipulate("ALTER TABLE `frm_user_read` DROP INDEX `i2_idx`");
+?>
+<#2718>
+<?php
+	$ilDB->manipulate("ALTER TABLE `mail_obj_data` DROP INDEX `i1_idx`");
+?>
