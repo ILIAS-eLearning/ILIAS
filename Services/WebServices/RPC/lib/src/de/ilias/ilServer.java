@@ -22,10 +22,7 @@
 
 package de.ilias;
 
-import java.io.BufferedOutputStream;
-import java.io.FileOutputStream;
 import java.io.IOException;
-import java.io.PrintStream;
 import java.net.MalformedURLException;
 import java.net.URL;
 import java.util.Vector;
@@ -38,7 +35,6 @@ import org.apache.xmlrpc.client.XmlRpcClient;
 import org.apache.xmlrpc.client.XmlRpcClientConfigImpl;
 import org.apache.xmlrpc.client.XmlRpcCommonsTransportFactory;
 
-import de.ilias.services.io.ilNullPrintStream;
 import de.ilias.services.rpc.RPCServer;
 import de.ilias.services.settings.ClientSettings;
 import de.ilias.services.settings.ConfigurationException;
@@ -413,14 +409,7 @@ public class ilServer {
 		
 		settings = ServerSettings.getInstance();
 		config = new XmlRpcClientConfigImpl();
-		/*
-		config.setServerURL(new URL(
-					"http",
-					settings.getHost().toString(),
-					settings.getPort(),
-					"/xmlrpc"));
-		*/
-		config.setServerURL(new URL("http://127.0.0.1:11111/xmlrpc"));
+		config.setServerURL(new URL(settings.getServerUrl()));
 		config.setConnectionTimeout(3 * 1000);
 		config.setReplyTimeout(24 * 60 * 60 * 1000);
 		

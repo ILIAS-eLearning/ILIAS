@@ -46,6 +46,7 @@ public class ServerSettings {
 
 
 	private InetAddress host;
+	private String hostString;
 	private int port;
 
 	private File indexPath;
@@ -76,12 +77,29 @@ public class ServerSettings {
 		}
 		return instance;
 	}
+	
+	public String getServerUrl() {
+		
+		StringBuilder builder = new StringBuilder();
+		
+		builder.append("http://");
+		builder.append(getHostString());
+		builder.append(":" + getPort());
+		builder.append("/xmlrpc");
+		
+		logger.info("Using RPC Url: " + builder);
+		return builder.toString();
+	}
 
 	/**
 	 * @return the host
 	 */
 	public InetAddress getHost() {
 		return host;
+	}
+	
+	public String getHostString() {
+		return hostString;
 	}
 
 	/**
@@ -93,6 +111,7 @@ public class ServerSettings {
 
 		try {
 			this.host = InetAddress.getByName(host);
+			this.hostString = host;
 		} 
 		catch (UnknownHostException e) {
 			logger.fatal("Unknown host given: " + host);
@@ -239,10 +258,5 @@ public class ServerSettings {
 	public void setRAMSize(String purgedString) {
 
 		RAMSize = Double.valueOf(purgedString);
-	}
-
-	public String getServerUrl() {
-		
-		return "http://" + getHost() + ":" + getPort() + "/xmlrpc";
 	}
 }

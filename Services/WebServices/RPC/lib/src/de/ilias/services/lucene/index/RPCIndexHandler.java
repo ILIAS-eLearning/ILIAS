@@ -123,13 +123,12 @@ public class RPCIndexHandler {
 			long s_end = new java.util.Date().getTime();
 			logger.info("Index time: " + ((s_end - s_start)/(1000))+ " seconds");
 			logger.debug(client.getIndexPath());
+			ilServerStatus.removeIndexer(clientKey);
 			
 		} 
 		catch (Exception e) {
 			
 			logger.error(e);
-		}
-		finally {
 			ilServerStatus.removeIndexer(clientKey);
 		}
 		return true;
