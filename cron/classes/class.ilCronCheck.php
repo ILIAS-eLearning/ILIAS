@@ -43,7 +43,7 @@ class ilCronCheck
 	function start()
 	{
 		global $ilias;
-		
+
 		include_once('Services/LDAP/classes/class.ilLDAPCronSynchronization.php');
 		$ldap_sync = new ilLDAPCronSynchronization();
 		$ldap_sync->start();
@@ -114,12 +114,12 @@ class ilCronCheck
 		}
 
 		// Start Disk Quota
-		require_once 'Service/WebDAV/classes/ilDiskQuotaActivationChecker.php';
+		require_once 'Services/WebDAV/classes/class.ilDiskQuotaActivationChecker.php';
 		if (ilDiskQuotaActivationChecker::_isActive())
 		{
-			include_once './cron/classes/class.ilCronDiskQuota.php';
+			include_once './cron/classes/class.ilCronDiskQuotaCheck.php';
 
-			$disk_quota =& new ilCronDiskQuota();
+			$disk_quota =& new ilCronDiskQuotaCheck();
 			$disk_quota->check();
 		}
 	}

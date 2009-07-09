@@ -86,13 +86,14 @@ class ilDiskQuotaChecker
 		//       will always returned first.
 		$ilDB->setLimit(1);
 		$res = $ilDB->queryf("SELECT rd.role_id, rd.disk_quota, od.title ".
-			"FROM role_data AS rd ".
-			"JOIN rbac_ua AS ua ON ua.rol_id=rd.role_id ".
+			"FROM rbac_ua AS ua ".
+			"JOIN rbac_fa AS fa ON fa.rol_id=ua.rol_id AND fa.parent = %s ".
+			"JOIN role_data AS rd ON ua.rol_id=rd.role_id ".
 			"JOIN object_data AS od ON od.obj_id=rd.role_id ".
-			"WHERE usr_id = %s ".
+			"WHERE ua.usr_id = %s ".
 			"ORDER BY disk_quota DESC, role_id ASC",
-	        array('integer'),
-	        array($a_user_id));
+	        array('integer','integer'),
+	        array(ROLE_FOLDER_ID, $a_user_id));
 
 		$row = $res->fetchRow(DB_FETCHMODE_OBJECT);
 		$info['role_id'] = $row->role_id;
@@ -114,12 +115,12 @@ class ilDiskQuotaChecker
 	*
 	* @param integer user id
 	* @return array {
-	*		"last_update"=>datetime,	// SQL datetime of the last update
+	*		'last_update'=>datetime,	// SQL datetime of the last update
 	*								// if this is null, the disk usage is unkown
 	*
-	*		"disk_usage"=>integer,	// the disk usage in bytes
+	*		'disk_usage'=>integer,	// the disk usage in bytes
 	*
-	*		"details" array(array('type'=>string,'count'=>integer,'size'=>integer),...)
+	*		'details' array(array('type'=>string,'count'=>integer,'size'=>integer),...)
 	*                            // an associative array with the disk
 	*                            // usage in bytes for each object type
 	* }
@@ -179,6 +180,122 @@ class ilDiskQuotaChecker
 	}
 
 	/**
+	* Reads disk quota/disk usage statistics of the user accounts.
+    *
+	* Returns an array or associative arrays with information about the disk
+	*  usage of each user account.
+	*
+	* @param string usage filter   values:
+	*	1   = all users
+	*	2   = only users who don't use disk space
+	*	3   = only users who use disk space
+	*	4   = only users who have exceeded their quota
+	* @param string access filter   values:
+	*	1   = all users
+	*	2   = only users who have access
+	*	4   = only users who have no access
+
+	* @return array { array {
+	*	'usr_id'=>integer,	 // the user id
+	*	'login'=>string,     // the login
+	*	'...'=>...,          // all other fields of table usr_data
+	*
+	*	'disk_usage'=>integer,	// the disk usage in bytes
+	*	'disk_quota'=>integer,	// the disk quota in bytes
+	* } }
+	*/
+	public static function _fetchDiskUsageStatistics($a_usage_filter = 3, $a_access_filter = 1,  $a_order_column='disk_usage',$a_order_by='desc')
+	{
+		$data = array();
+		global $ilDB;
+
+		if (! $a_order_column) {
+			$a_order_column = 'disk_usage';
+		}
+
+		switch ($a_usage_filter) {
+			case 1:
+				$where_clause = '';
+				break;
+			case 2:
+				$where_clause = 'WHERE (p2.value IS NULL) ';
+				break;
+			case 3:
+			default:
+				$where_clause = 'WHERE (p2.value > 0) ';
+				break;
+			case 4:
+				$where_clause = 'WHERE (p2.value > p1.value AND p2.value > rq.role_disk_quota) ';
+				break;
+		}
+		switch ($a_access_filter) {
+			case 1:
+				$where_clause .= '';
+				break;
+			case 2:
+			default:
+				$where_clause .= ($where_clause == '' ? 'WHERE ' : ' AND ' ).
+					'(u.active=1 AND (u.time_limit_unlimited = 1 OR UNIX_TIMESTAMP() BETWEEN u.time_limit_from AND u.time_limit_until)) ';
+				break;
+			case 3:
+				$where_clause .= ($where_clause == '' ? 'WHERE ' : ' AND ' ).
+					'(u.active=0 OR (u.time_limit_unlimited IS NULL AND UNIX_TIMESTAMP() NOT BETWEEN u.time_limit_from AND u.time_limit_until)) ';
+				break;
+		}
+
+		$res = $ilDB->queryf(
+			// Note: We add 0 to some of the values to convert them into a number
+			//       This is needed for correct sorting.
+			"SELECT u.usr_id,u.firstname,u.lastname,u.login,u.email,u.last_login,u.active,".
+				"u.time_limit_unlimited, FROM_UNIXTIME(u.time_limit_from), FROM_UNIXTIME(u.time_limit_until),".
+				"IF(u.active = 0,'0000-00-00',IF (u.time_limit_unlimited=1,'9999-12-31',FROM_UNIXTIME(u.time_limit_until))) AS access_until,".
+				"IF(UNIX_TIMESTAMP() BETWEEN u.time_limit_from AND u.time_limit_until,0,1) AS expired,".
+				"rq.role_disk_quota, system_role.rol_id AS role_id, ".
+				"p1.value+0 AS user_disk_quota,".
+				"p2.value+0 AS disk_usage, ".
+				"p3.value AS last_update, ".
+				"IF(rq.role_disk_quota+0>p1.value+0 OR p1.value IS NULL,rq.role_disk_quota+0,p1.value+0) AS disk_quota	".
+			"FROM usr_data AS u  ".
+
+			// Fetch the role with the highest disk quota value.
+			"JOIN (SELECT u.usr_id AS usr_id,MAX(rd.disk_quota) AS role_disk_quota ".
+				"FROM usr_data AS u ".
+				"JOIN rbac_ua AS ua ON ua.usr_id=u.usr_id ".
+				"JOIN rbac_fa AS fa ON fa.rol_id=ua.rol_id AND fa.parent=%s  ".
+				"JOIN role_data AS rd ON rd.role_id=ua.rol_id WHERE u.usr_id=ua.usr_id GROUP BY usr_id) AS rq ON rq.usr_id=u.usr_id ".
+
+			// Fetch the system role in order to determine whether the user has unlimited disk quota
+			"LEFT JOIN rbac_ua AS system_role ON system_role.usr_id=u.usr_id AND system_role.rol_id = %s ".
+
+			// Fetch the user disk quota from table usr_pref
+			"LEFT JOIN usr_pref AS p1 ON p1.usr_id=u.usr_id AND p1.keyword = 'disk_quota'  ".
+
+			// Fetch the disk usage from table usr_pref
+			"LEFT JOIN usr_pref AS p2 ON p2.usr_id=u.usr_id AND p2.keyword = 'disk_usage'  ".
+
+			// Fetch the last update from table usr_pref
+			"LEFT JOIN usr_pref AS p3 ON p3.usr_id=u.usr_id AND p3.keyword = 'disk_usage.last_update'  ".
+
+			$where_clause.
+			"ORDER BY ".
+				$ilDB->quoteIdentifier($a_order_column).($a_order_by=='asc'?' ASC':' DESC').", ".
+				"lastname, firstname, login"
+			,
+	        array('integer','integer'),
+	        array(ROLE_FOLDER_ID, SYSTEM_ROLE_ID)
+		);
+		$previous_usr_id = null;
+		while ($row = $res->fetchRow(DB_FETCHMODE_ASSOC)) {
+			if ($previous_usr_id != $row['usr_id'])
+			{
+				$data[] = $row;
+				$previous_usr_id = $row['usr_id'];
+			}
+		}
+		return $data;
+	}
+
+	/**
 	 * Updates the disk usage info of all user accounts.
 	 *
 	 * The result is stored in usr_pref of each user.
@@ -198,19 +315,19 @@ class ilDiskQuotaChecker
 
 
 		require_once 'Modules/File/classes/class.ilObjFileAccess.php';
-		self::_updateDiskUsageStatisticsOfType(new ilObjFileAccess(), 'file');
+		self::__updateDiskUsageStatisticsOfType(new ilObjFileAccess(), 'file');
 
 		require_once 'Modules/Forum/classes/class.ilObjForumAccess.php';
-		self::_updateDiskUsageStatisticsOfType(new ilObjForumAccess(), 'frm');
+		self::__updateDiskUsageStatisticsOfType(new ilObjForumAccess(), 'frm');
 
 		require_once 'Modules/HTMLLearningModule/classes/class.ilObjFileBasedLMAccess.php';
-		self::_updateDiskUsageStatisticsOfType(new ilObjFileBasedLMAccess(), 'htlm');
+		self::__updateDiskUsageStatisticsOfType(new ilObjFileBasedLMAccess(), 'htlm');
 
 		require_once 'Modules/MediaCast/classes/class.ilObjMediaCastAccess.php';
-		self::_updateDiskUsageStatisticsOfType(new ilObjMediaCastAccess(), 'mcst');
+		self::__updateDiskUsageStatisticsOfType(new ilObjMediaCastAccess(), 'mcst');
 
 		require_once 'Modules/ScormAicc/classes/class.ilObjSAHSLearningModuleAccess.php';
-		self::_updateDiskUsageStatisticsOfType(new ilObjSAHSLearningModuleAccess(), 'sahs');
+		self::__updateDiskUsageStatisticsOfType(new ilObjSAHSLearningModuleAccess(), 'sahs');
 
 		// insert the sum of the disk usage of each user
 		$ilDB->manipulate("INSERT INTO usr_pref ".
@@ -241,7 +358,7 @@ class ilDiskQuotaChecker
 	 * 'disk_usage.file.count'	integer	The number of files owned by the user
 	 * 'disk_usage.file.usage'	integer	The disk usage of the files
 	 */
-	public static function _updateDiskUsageStatisticsOfType($a_access_obj, $a_type)
+	private static function __updateDiskUsageStatisticsOfType($a_access_obj, $a_type)
 	{
 		global $ilDB;
 

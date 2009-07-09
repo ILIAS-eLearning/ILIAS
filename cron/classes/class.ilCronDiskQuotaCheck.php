@@ -42,8 +42,8 @@ class ilCronDiskQuotaCheck
 
 	function check()
 	{
-		require_once'./Services/FileAccess/classes/class.ilDiskQuotaChecker.php';
-
+		require_once'./Services/WebDAV/classes/class.ilDiskQuotaChecker.php';
+		ilDiskQuotaChecker::_updateDiskUsageStatistics();
 		return true;
 	}
 }

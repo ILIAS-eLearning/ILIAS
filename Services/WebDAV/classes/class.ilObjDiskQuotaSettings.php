@@ -121,17 +121,5 @@ class ilObjDiskQuotaSettings extends ilObject
 		$settings = new ilSetting('disk_quota');
 		$this->diskQuotaEnabled = $settings->get('enabled') == true;
 	}
-
-	/** Returns true, if disk quota is active. */
-	public static function _isActive()
-	{
-		if (self::$dqSettings == null)
-		{
-			self::$dqSettings = new ilSetting('disk_quota');
-		}
-
-		return self::$dqSettings->get('enabled') == true;
-	}
-
 } // END class.ilObjDiskQuotaSettings
 ?>

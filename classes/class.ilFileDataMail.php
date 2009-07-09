@@ -554,7 +554,7 @@ class ilFileDataMail extends ilFileData
 			$count++;
 		}
 		return ($as_string) ? 
-			$count.' '.$lng->txt('mail_attachments').', '.ilFormat::_sizeToString($size,'short') :
+			$count.' '.$lng->txt('mail_attachments').', '.ilFormat::formatSize($size,'short') :
 			$size;
 	}
 	//END DiskQuota: Get used disk space
