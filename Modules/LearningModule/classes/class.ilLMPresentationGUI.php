@@ -2561,7 +2561,7 @@ class ilLMPresentationGUI
 		$this->tpl->setVariable("TABS", $this->lm_gui->setilLMMenu($this->offlineMode()
 			,$this->getExportFormat(), "toc", true));
 
-		$this->tpl->addBlockFile("ADM_CONTENT", "adm_content", "tpl.lm_toc.html", true);
+		$this->tpl->addBlockFile("ADM_CONTENT", "adm_content", "tpl.lm_toc.html", "Modules/LearningModule");
 
 		// set title header
 		$this->tpl->setVariable("TXT_TOC", $this->lng->txt("cont_toc"));
@@ -2756,7 +2756,8 @@ class ilLMPresentationGUI
 	*/
 	function showPrintViewSelection()
 	{
-		global $ilBench,$ilUser;
+		global $ilBench,$ilUser, $lng;
+		
 		include_once("./Services/COPage/classes/class.ilPageObject.php");
 		if (!$this->lm->isActivePrintView())
 		{
@@ -2789,12 +2790,13 @@ class ilLMPresentationGUI
 			
 		$this->ilLocator();
 		$this->tpl->addBlockFile("ADM_CONTENT", "adm_content",
-			"tpl.lm_print_selection.html", true);
+			"tpl.lm_print_selection.html", "Modules/LearningModule");
 
 		// set title header
 		$this->tpl->setTitle($this->lm->getTitle());
 		$this->tpl->setTitleIcon(ilUtil::getImagePath("icon_lm_b.gif"));
 		$this->tpl->setVariable("TXT_SHOW_PRINT", $this->lng->txt("cont_show_print_view"));
+		$this->tpl->setVariable("TXT_PRINT_VIEW_SELECTION", $this->lng->txt("cont_print_selection"));
 		
 		$this->tpl->setVariable("TXT_CURRENT_PAGE", $this->lng->txt("cont_current_page"));
 		$this->tpl->setVariable("TXT_CURRENT_CHAPTER", $this->lng->txt("cont_current_chapter"));
@@ -2865,12 +2867,14 @@ class ilLMPresentationGUI
 						}
 					}
 					$this->tpl->setVariable("IMG_TYPE", ilUtil::getImagePath("icon_pg_s.gif"));
+					$this->tpl->setVariable("IMG_ALT", $lng->txt("icon")." ".$lng->txt("pg"));
 					break;
 
 				// learning module
 				case "du":
 					$this->tpl->setVariable("TXT_TITLE", $this->lm->getTitle());
 					$this->tpl->setVariable("IMG_TYPE", ilUtil::getImagePath("icon_lm_s.gif"));
+					$this->tpl->setVariable("IMG_ALT", $lng->txt("icon")." ".$lng->txt("obj_lm"));
 					break;
 
 				// chapter
@@ -2893,7 +2897,7 @@ class ilLMPresentationGUI
 						}
 					}
 					$this->tpl->setVariable("IMG_TYPE", ilUtil::getImagePath("icon_st_s.gif"));
-
+					$this->tpl->setVariable("IMG_ALT", $lng->txt("icon")." ".$lng->txt("st"));
 					break;
 			}
 			
