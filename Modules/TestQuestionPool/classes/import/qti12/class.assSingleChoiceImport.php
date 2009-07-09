@@ -265,6 +265,9 @@ class assSingleChoiceImport extends assQuestionImport
 		$this->object->setObjId($questionpool_id);
 		$this->object->setEstimatedWorkingTime($duration["h"], $duration["m"], $duration["s"]);
 		$this->object->setShuffle($shuffle);
+		$this->object->setGraphicalAnswerSetting($item->getMetadataEntry("allow_images"));
+		$this->object->setResizeImages($item->getMetadataEntry("resize_images"));
+		$this->object->setThumbSize($item->getMetadataEntry("thumb_size"));
 		foreach ($answers as $answer)
 		{
 			$this->object->addAnswer($answer["answertext"], $answer["points"], $answer["points_unchecked"], $answer["answerorder"], $answer["imagefile"]["label"]);

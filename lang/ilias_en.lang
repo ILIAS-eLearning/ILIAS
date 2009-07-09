@@ -9629,6 +9629,12 @@ common#:#socialbm_extt_social_bookmarks#:#Social Bookmarks
 common#:#bm_manage_social_bm#:#Manage Social Bookmarks
 common#:#bm_add_to_ilias#:#Add to ILIAS Bookmarks
 common#:#bm_add_to_social_bookmarks#:#Add to Social Bookmarks
+assessment#:#answer_types#:#Answer Types
+assessment#:#answers_singleline#:#Single Line Answers
+assessment#:#answers_multiline#:#Multi Line Answers
+assessment#:#allow_images#:#Image Support for Answers
 content#:#cont_no_text#:#No Text
 content#:#cont_print_selection#:#Print View Selection
 common#:#event_ass_materials_prop#:#Session Materials
+assessment#:#resize_images#:#Resize Images
+assessment#:#thumb_size#:#Thumbnail Size

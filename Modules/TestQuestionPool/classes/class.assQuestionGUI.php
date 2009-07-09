@@ -532,11 +532,6 @@ class assQuestionGUI
 				$this->ctrl->redirectByClass("ilpageobjectgui", "edit");
 			}
 		}
-		else
-		{
-			ilUtil::sendInfo($this->lng->txt("fill_out_all_required_fields"));
-			$this->editQuestion();
-		}
 	}
 
 	/**
@@ -584,19 +579,14 @@ class assQuestionGUI
 				}
 				if (strcmp($_SESSION["info"], "") != 0)
 				{
-					ilUtil::sendSuccess($_SESSION["info"] . "<br />" . $this->lng->txt("msg_obj_modified"), false);
+					ilUtil::sendSuccess($_SESSION["info"] . "<br />" . $this->lng->txt("msg_obj_modified"), true);
 				}
 				else
 				{
-					ilUtil::sendSuccess($this->lng->txt("msg_obj_modified"), false);
+					ilUtil::sendSuccess($this->lng->txt("msg_obj_modified"), true);
 				}
-				$this->editQuestion();
+				$this->ctrl->redirect($this, 'editQuestion');
 			}
-		}
-		else
-		{
-			ilUtil::sendInfo($this->getErrorMessage());
-			$this->editQuestion();
 		}
 	}
 

@@ -1,0 +1,33 @@
+<div id="{ELEMENT_ID}">
+	<table>
+		<thead>
+			<th>{ANSWER_TEXT}</th>
+			<th>{POINTS_CHECKED_TEXT}</th>
+			<th>{POINTS_UNCHECKED_TEXT}</th>
+			<th>{COMMANDS_TEXT}</th>
+		</thead>
+		<tbody>
+<!-- BEGIN row -->
+			<tr>
+				<td class="{ROW_CLASS}">
+					<input type="text" size="{SIZE}" id="{ID}" maxlength="{MAXLENGTH}" name="{POST_VAR}[answer][{ROW_NUMBER}]" <!-- BEGIN prop_text_propval -->value="{PROPERTY_VALUE}" <!-- END prop_text_propval -->{DISABLED}/>
+				</td>
+				<td class="{ROW_CLASS}">
+					<input type="text" size="5" id="{POINTS_CHECKED_ID}" name="{POST_VAR}[points_checked][{ROW_NUMBER}]" <!-- BEGIN prop_points_checked_propval -->value="{PROPERTY_VALUE}" <!-- END prop_points_checked_propval -->{DISABLED_POINTS_CHECKED}/>
+				</td>
+				<td class="{ROW_CLASS}">
+					<input type="text" size="5" id="{POINTS_UNCHECKED_ID}" name="{POST_VAR}[points_unchecked][{ROW_NUMBER}]" <!-- BEGIN prop_points_unchecked_propval -->value="{PROPERTY_VALUE}" <!-- END prop_points_unchecked_propval -->{DISABLED_POINTS_UNCHECKED}/>
+				</td>
+				<td class="{ROW_CLASS}">
+					<input type="image" name="{CMD_ADD}" class="textwizard_add" id="add_{ID}" src="{ADD_BUTTON}" onclick="javascript: void(0); return false;" />
+					<input type="image" name="{CMD_REMOVE}" class="textwizard_remove" id="remove_{ID}" src="{REMOVE_BUTTON}" onclick="javascript: void(0); return false;" />
+				<!-- BEGIN move -->
+					<input type="image" name="{CMD_UP}" class="textwizard_up" id="up_{ID}" src="{UP_BUTTON}" onclick="javascript: void(0); return false;" />
+					<input type="image" name="{CMD_DOWN}" class="textwizard_down" id="down_{ID}" src="{DOWN_BUTTON}" onclick="javascript: void(0); return false;" />
+				<!-- END move -->
+				</td>
+			</tr>
+<!-- END row -->
+		</tbody>
+	</table>
+</div>

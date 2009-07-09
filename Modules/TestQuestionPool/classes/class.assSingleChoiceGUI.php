@@ -71,471 +71,239 @@ class assSingleChoiceGUI extends assQuestionGUI
 	}
 
 	/**
-	* Creates an output of the edit form for the question
-	*
-	* @access public
-	*/
-	function editQuestion()
-	{
-		$this->tpl->addJavascript("./Services/JavaScript/js/Basic.js");
-		$javascript = "<script type=\"text/javascript\">ilAddOnLoad(initialSelect);\n".
-			"function initialSelect() {\n%s\n}</script>";
-		$graphical_answer_setting = $this->object->getGraphicalAnswerSetting();
-		$multiline_answers = $this->object->getMultilineAnswerSetting();
-		if ($graphical_answer_setting == 0)
-		{
-			for ($i = 0; $i < $this->object->getAnswerCount(); $i++)
-			{
-				$answer = $this->object->getAnswer($i);
-				if (strlen($answer->getImage())) $graphical_answer_setting = 1;
-			}
-		}
-		$this->object->setGraphicalAnswerSetting($graphical_answer_setting);
-		$this->getQuestionTemplate();
-		$this->tpl->addBlockFile("QUESTION_DATA", "question_data", "tpl.il_as_qpl_mc_sr.html", "Modules/TestQuestionPool");
-		// output of existing single response answers
-		if ($this->object->getAnswerCount() > 0)
-		{
-			$this->tpl->setCurrentBlock("answersheading");
-			$this->tpl->setVariable("TEXT_POINTS", $this->lng->txt("points"));
-			$this->tpl->setVariable("TEXT_ANSWER_TEXT", $this->lng->txt("answer_text"));
-			$this->tpl->parseCurrentBlock();
-			$this->tpl->setCurrentBlock("selectall");
-			$this->tpl->setVariable("SELECT_ALL", $this->lng->txt("select_all"));
-			$this->tpl->parseCurrentBlock();
-			$this->tpl->setCurrentBlock("existinganswers");
-			$this->tpl->setVariable("DELETE", $this->lng->txt("delete"));
-			$this->tpl->setVariable("MOVE", $this->lng->txt("move"));
-			$this->tpl->setVariable("ARROW", "<img src=\"" . ilUtil::getImagePath("arrow_downright.gif") . "\" alt=\"".$this->lng->txt("arrow_downright")."\">");
-			$this->tpl->parseCurrentBlock();
-		}
-		for ($i = 0; $i < $this->object->getAnswerCount(); $i++)
-		{
-			$answer = $this->object->getAnswer($i);
-			if ($graphical_answer_setting == 1)
-			{
-				$imagefilename = $this->object->getImagePath() . $answer->getImage();
-				if (!@file_exists($imagefilename))
-				{
-					$answer->setImage("");
-				}
-				if (strlen($answer->getImage()))
-				{
-					$imagepath = $this->object->getImagePathWeb() . $answer->getImage();
-					$this->tpl->setCurrentBlock("graphical_answer_image");
-					$this->tpl->setVariable("IMAGE_FILE", $imagepath);
-					if (strlen($answer->getAnswertext()))
-					{
-						$this->tpl->setVariable("IMAGE_ALT", ilUtil::prepareFormOutput($answer->getAnswertext()));
-					}
-					else
-					{
-						$this->tpl->setVariable("IMAGE_ALT", $this->lng->txt("image"));
-					}
-					$this->tpl->setVariable("ANSWER_ORDER", $answer->getOrder());
-					$this->tpl->setVariable("DELETE_IMAGE", $this->lng->txt("delete_image"));
-					$this->tpl->parseCurrentBlock();
-				}
-				$this->tpl->setCurrentBlock("graphical_answer");
-				$this->tpl->setVariable("ANSWER_ORDER", $answer->getOrder());
-				$this->tpl->setVariable("UPLOAD_IMAGE", $this->lng->txt("upload_image"));
-				$this->tpl->setVariable("VALUE_IMAGE", $answer->getImage());
-				$this->tpl->parseCurrentBlock();
-			}
-			if ($multiline_answers)
-			{
-				$this->tpl->setCurrentBlock("show_textarea");
-				$this->tpl->setVariable("ANSWER_ANSWER_ORDER", $answer->getOrder());
-				$this->tpl->setVariable("VALUE_ANSWER", ilUtil::prepareFormOutput($answer->getAnswertext()));
-				$this->tpl->parseCurrentBlock();
-			}
-			else
-			{
-				$this->tpl->setCurrentBlock("show_textinput");
-				$this->tpl->setVariable("ANSWER_ANSWER_ORDER", $answer->getOrder());
-				$this->tpl->setVariable("VALUE_ANSWER", ilUtil::prepareFormOutput($answer->getAnswertext()));
-				$this->tpl->parseCurrentBlock();
-			}
-			$this->tpl->setCurrentBlock("answers");
-			$this->tpl->setVariable("ANSWER_ORDER", $answer->getOrder());
-			$this->tpl->setVariable("VALUE_MULTIPLE_CHOICE_POINTS", $answer->getPoints());
-			$this->tpl->setVariable("VALUE_TRUE", $this->lng->txt("true"));
-			$this->tpl->parseCurrentBlock();
-		}
-		// call to other question data i.e. estimated working time block
-		$this->outOtherQuestionData();
-
-		$this->tpl->setCurrentBlock("HeadContent");
-		if ($this->object->getAnswerCount() == 0)
-		{
-			$this->tpl->setVariable("CONTENT_BLOCK", sprintf($javascript, "document.frm_multiple_choice.title.focus();"));
-		}
-		else
-		{
-			switch ($this->ctrl->getCmd())
-			{
-				case "add":
-					$nrOfAnswers = $_POST["nrOfAnswers"];
-					if ((strcmp($nrOfAnswers, "yn") == 0) || (strcmp($nrOfAnswers, "tf") == 0)) $nrOfAnswers = 2;
-					$this->tpl->setVariable("CONTENT_BLOCK", sprintf($javascript, "document.frm_multiple_choice.answer_".($this->object->getAnswerCount() - $nrOfAnswers).".focus(); document.getElementById('answer_".($this->object->getAnswerCount() - $nrOfAnswers)."').scrollIntoView(\"true\");"));
-					break;
-				case "deleteAnswer":
-					if ($this->object->getAnswerCount() == 0)
-					{
-						$this->tpl->setVariable("CONTENT_BLOCK", sprintf($javascript, "document.frm_multiple_choice.title.focus();"));
-					}
-					else
-					{
-						$this->tpl->setVariable("CONTENT_BLOCK", sprintf($javascript, "document.frm_multiple_choice.answer_".($this->object->getAnswerCount() - 1).".focus(); document.getElementById('answer_".($this->object->getAnswerCount() - 1)."').scrollIntoView(\"true\");"));
-					}
-					break;
-				default:
-					$this->tpl->setVariable("CONTENT_BLOCK", sprintf($javascript, "document.frm_multiple_choice.title.focus();"));
-					break;
-			}
-		}
-		$this->tpl->parseCurrentBlock();
-
-		for ($i = 1; $i < 10; $i++)
-		{
-			$this->tpl->setCurrentBlock("numbers");
-			$this->tpl->setVariable("VALUE_NUMBER", $i);
-			if ($i == 1)
-			{
-				$this->tpl->setVariable("TEXT_NUMBER", $i . " " . $this->lng->txt("answer"));
-			}
-			else
-			{
-				$this->tpl->setVariable("TEXT_NUMBER", $i . " " . $this->lng->txt("answers"));
-			}
-			$this->tpl->parseCurrentBlock();
-		}
-		// add yes/no answers
-		$this->tpl->setCurrentBlock("numbers");
-		$this->tpl->setVariable("VALUE_NUMBER", "yn");
-		$this->tpl->setVariable("TEXT_NUMBER", $this->lng->txt("add_answer_yn"));
-		$this->tpl->parseCurrentBlock();
-		// add true/false answers
-		$this->tpl->setCurrentBlock("numbers");
-		$this->tpl->setVariable("VALUE_NUMBER", "tf");
-		$this->tpl->setVariable("TEXT_NUMBER", $this->lng->txt("add_answer_tf"));
-		$this->tpl->parseCurrentBlock();
-
-		$this->tpl->setCurrentBlock("question_data");
-		$this->tpl->setVariable("MULTIPLE_CHOICE_ID", $this->object->getId());
-		$this->tpl->setVariable("VALUE_MULTIPLE_CHOICE_TITLE", ilUtil::prepareFormOutput($this->object->getTitle()));
-		$this->tpl->setVariable("VALUE_MULTIPLE_CHOICE_COMMENT", ilUtil::prepareFormOutput($this->object->getComment()));
-		$this->tpl->setVariable("VALUE_MULTIPLE_CHOICE_AUTHOR", ilUtil::prepareFormOutput($this->object->getAuthor()));
-		$questiontext = $this->object->getQuestion();
-		$this->tpl->setVariable("VALUE_QUESTION", ilUtil::prepareFormOutput($this->object->prepareTextareaOutput($questiontext)));
-		$this->tpl->setVariable("VALUE_ADD_ANSWER", $this->lng->txt("add"));
-		$this->tpl->setVariable("TEXT_GRAPHICAL_ANSWERS", $this->lng->txt("graphical_answers"));
-		$this->tpl->setVariable("TEXT_HIDE_GRAPHICAL_ANSWER_SUPPORT", $this->lng->txt("graphical_answers_hide"));
-		$this->tpl->setVariable("TEXT_SHOW_GRAPHICAL_ANSWER_SUPPORT", $this->lng->txt("graphical_answers_show"));
-		if ($this->object->getGraphicalAnswerSetting() == 1)
-		{
-			$this->tpl->setVariable("SELECTED_SHOW_GRAPHICAL_ANSWER_SUPPORT", " selected=\"selected\"");
-		}
-		if ($multiline_answers)
-		{
-			$this->tpl->setVariable("SELECTED_SHOW_MULTILINE_ANSWERS", " selected=\"selected\"");
-		}
-		$this->tpl->setVariable("TEXT_HIDE_MULTILINE_ANSWERS", $this->lng->txt("multiline_answers_hide"));
-		$this->tpl->setVariable("TEXT_SHOW_MULTILINE_ANSWERS", $this->lng->txt("multiline_answers_show"));
-		$this->tpl->setVariable("SET_EDIT_MODE", $this->lng->txt("set_edit_mode"));
-		$this->tpl->setVariable("TEXT_TITLE", $this->lng->txt("title"));
-		$this->tpl->setVariable("TEXT_AUTHOR", $this->lng->txt("author"));
-		$this->tpl->setVariable("TEXT_COMMENT", $this->lng->txt("description"));
-		$this->tpl->setVariable("TEXT_QUESTION", $this->lng->txt("question"));
-		$this->tpl->setVariable("TEXT_SHUFFLE_ANSWERS", $this->lng->txt("shuffle_answers"));
-		$this->tpl->setVariable("TXT_YES", $this->lng->txt("yes"));
-		$this->tpl->setVariable("TXT_NO", $this->lng->txt("no"));
-		if ($this->object->getShuffle())
-		{
-			$this->tpl->setVariable("SELECTED_YES", " selected=\"selected\"");
-		}
-		else
-		{
-			$this->tpl->setVariable("SELECTED_NO", " selected=\"selected\"");
-		}
-		$this->tpl->setVariable("SAVE",$this->lng->txt("save"));
-		$this->tpl->setVariable("SAVE_EDIT", $this->lng->txt("save_edit"));
-		$this->tpl->setVariable("CANCEL",$this->lng->txt("cancel"));
-		$this->tpl->setVariable("TXT_REQUIRED_FLD", $this->lng->txt("required_field"));
-		$this->ctrl->setParameter($this, "sel_question_types", "assSingleChoice");
-		$this->tpl->setVariable("ACTION_MULTIPLE_CHOICE_TEST", $this->ctrl->getFormAction($this));
-		$this->tpl->setVariable("TEXT_QUESTION_TYPE", $this->outQuestionType());
-
-		$this->tpl->parseCurrentBlock();
-		include_once "./Services/RTE/classes/class.ilRTE.php";
-		$rtestring = ilRTE::_getRTEClassname();
-		include_once "./Services/RTE/classes/class.$rtestring.php";
-		$rte = new $rtestring();
-		$rte->addPlugin("latex");
-		$rte->addButton("latex");
-		$rte->addButton("pastelatex");
-		include_once "./classes/class.ilObject.php";
-		$obj_id = $_GET["q_id"];
-		$obj_type = ilObject::_lookupType($_GET["ref_id"], TRUE);
-		$rte->addRTESupport($obj_id, $obj_type, "assessment");
-
-		$this->tpl->setCurrentBlock("adm_content");
-		//$this->tpl->setVariable("BODY_ATTRIBUTES", " onload=\"initialSelect();\""); 
-		$this->tpl->parseCurrentBlock();
-	}
-
-	/**
-	* add an answer
-	*/
-	function add()
-	{
-		//$this->setObjectData();
-		$this->writePostData();
-
-		if (!$this->checkInput())
-		{
-			ilUtil::sendInfo($this->lng->txt("fill_out_all_required_fields_add_answer"));
-		}
-		else
-		{
-			// add an answer template
-			$nrOfAnswers = $_POST["nrOfAnswers"];
-			switch ($nrOfAnswers)
-			{
-				case "tf":
-					// add a true/false answer template
-					$this->object->addAnswer(
-						$this->lng->txt("true"),
-						0,
-						0,
-						count($this->object->answers),
-						""
-					);
-					$this->object->addAnswer(
-						$this->lng->txt("false"),
-						0,
-						0,
-						count($this->object->answers),
-						""
-					);
-					break;
-				case "yn":
-					// add a yes/no answer template
-					$this->object->addAnswer(
-						$this->lng->txt("yes"),
-						0,
-						0,
-						count($this->object->answers),
-						""
-					);
-					$this->object->addAnswer(
-						$this->lng->txt("no"),
-						0,
-						0,
-						count($this->object->answers),
-						""
-					);
-					break;
-				default:
-					for ($i = 0; $i < $nrOfAnswers; $i++)
-					{
-						$this->object->addAnswer(
-							$this->lng->txt(""),
-							0,
-							0,
-							count($this->object->answers),
-							""
-						);
-					}
-					break;
-			}
-		}
-
-		$this->editQuestion();
-	}
-
-	/**
-	* delete checked answers
-	*/
-	function deleteAnswer()
-	{
-		$this->writePostData();
-		$answers = $_POST["chb_answers"];
-		if (is_array($answers))
-		{
-			arsort($answers);
-			foreach ($answers as $answer)
-			{
-				$this->object->deleteAnswer($answer);
-			}
-		}
-		$this->editQuestion();
-	}
-
-	/**
-	* check input fields
-	*/
-	function checkInput()
-	{
-		$cmd = $this->ctrl->getCmd();
-
-		if ((!$_POST["title"]) or (!$_POST["author"]) or (!$_POST["question"]))
-		{
-//echo "<br>checkInput1:FALSE";
-			return false;
-		}
-		foreach ($_POST as $key => $value)
-		{
-			if (preg_match("/answer_(\d+)/", $key, $matches))
-			{
-				if (strlen($value) == 0)
-				{
-					if (strlen($_POST["uploaded_image_".$matches[1]]) == 0)
-					{
-						return false;
-					}
-				}
-			}
-		}
-
-		return true;
-	}
-
-	/**
-	* Evaluates a posted edit form and writes the form data in the question object
-	*
 	* Evaluates a posted edit form and writes the form data in the question object
 	*
 	* @return integer A positive value, if one of the required fields wasn't set, else 0
 	* @access private
 	*/
-	function writePostData()
+	function writePostData($always = false)
 	{
-		$result = 0;
-		if ((!$_POST["title"]) or (!$_POST["author"]) or (!$_POST["question"]))
+		$hasErrors = (!$always) ? $this->editQuestion(true) : false;
+		if (!$hasErrors)
 		{
-			$result = 1;
-		}
+			$this->object->setTitle(ilUtil::stripSlashes($_POST["title"]));
+			$this->object->setAuthor(ilUtil::stripSlashes($_POST["author"]));
+			$this->object->setComment(ilUtil::stripSlashes($_POST["comment"]));
+			include_once "./Services/AdvancedEditing/classes/class.ilObjAdvancedEditing.php";
+			$questiontext = ilUtil::stripSlashes($_POST["question"], false, ilObjAdvancedEditing::_getUsedHTMLTagsAsString("assessment"));
+			$this->object->setQuestion($questiontext);
+			$this->object->setShuffle($_POST["shuffle"]);
+			$this->object->setEstimatedWorkingTime(
+				ilUtil::stripSlashes($_POST["Estimated"]["hh"]),
+				ilUtil::stripSlashes($_POST["Estimated"]["mm"]),
+				ilUtil::stripSlashes($_POST["Estimated"]["ss"])
+			);
+			$this->object->setMultilineAnswerSetting($_POST["types"]);
+			$this->object->setGraphicalAnswerSetting(($_POST["allow_images"]) ? 1 : 0);
+			$this->object->setResizeImages(($_POST["resize_images"]) ? 1 : 0);
+			$this->object->setThumbSize((strlen($_POST["thumb_size"])) ? $_POST["thumb_size"] : "");
 
-		if (($result) and (($_POST["cmd"]["add"]) or ($_POST["cmd"]["add_tf"]) or ($_POST["cmd"]["add_yn"])))
-		{
-			// You cannot add answers before you enter the required data
-			ilUtil::sendInfo($this->lng->txt("fill_out_all_required_fields_add_answer"));
-			$_POST["cmd"]["add"] = "";
-			$_POST["cmd"]["add_yn"] = "";
-			$_POST["cmd"]["add_tf"] = "";
-		}
-
-		// Check the creation of new answer text fields
-		if ($_POST["cmd"]["add"] or $_POST["cmd"]["add_yn"] or $_POST["cmd"]["add_tf"])
-		{
-			foreach ($_POST as $key => $value)
+			// Delete all existing answers and create new answers from the form data
+			$this->object->flushAnswers();
+			if ($this->object->getGraphicalAnswerSetting())
 			{
-				if (preg_match("/answer_(\d+)/", $key, $matches))
+				foreach ($_POST['choice']['answer'] as $index => $answer)
 				{
-					if (!$value)
+					$filename = $_POST['choice']['imagename'][$index];
+					if ($_POST['choice']['deleteimage'][$index] == 1)
 					{
-						$_POST["cmd"]["add"] = "";
-						$_POST["cmd"]["add_yn"] = "";
-						$_POST["cmd"]["add_tf"] = "";
-						ilUtil::sendInfo($this->lng->txt("fill_out_all_answer_fields"));
+						$this->object->deleteImage($_POST['choice']['imagename'][$index]);
+						$filename = "";
 					}
-			 	}
-			}
-		}
-
-		$this->object->setTitle(ilUtil::stripSlashes($_POST["title"]));
-		$this->object->setAuthor(ilUtil::stripSlashes($_POST["author"]));
-		$this->object->setComment(ilUtil::stripSlashes($_POST["comment"]));
-		include_once "./Services/AdvancedEditing/classes/class.ilObjAdvancedEditing.php";
-		$questiontext = ilUtil::stripSlashes($_POST["question"], false, ilObjAdvancedEditing::_getUsedHTMLTagsAsString("assessment"));
-		$this->object->setQuestion($questiontext);
-		$this->object->setShuffle($_POST["shuffle"]);
-		$this->object->setMultilineAnswerSetting($_POST["multilineAnswers"]);
-		$this->object->setGraphicalAnswerSetting($_POST["graphicalAnswerSupport"]);
-
-		$saved = $this->writeOtherPostData($result);
-
-		// Delete all existing answers and create new answers from the form data
-		$this->object->flushAnswers();
-		$graphical_answer_setting = $this->object->getGraphicalAnswerSetting();
-		// Add all answers from the form into the object
-		foreach ($_POST as $key => $value)
-		{
-			if (preg_match("/answer_(\d+)/", $key, $matches))
-			{
-				$answer_image = $_POST["uploaded_image_".$matches[1]];
-				if ($graphical_answer_setting == 1)
-				{
-					foreach ($_FILES as $key2 => $value2)
+					if (strlen($_FILES['choice']['name']['image'][$index]))
 					{
-						if (preg_match("/image_(\d+)/", $key2, $matches2))
+						// upload image
+						$filename = $this->object->createNewImageFileName($_FILES['choice']['name']['image'][$index]);
+						$upload_result = $this->object->setImageFile($filename, $_FILES['choice']['tmp_name']['image'][$index]);
+						if ($upload_result != 0)
 						{
-							if ($matches[1] == $matches2[1])
-							{
-								if ($value2["tmp_name"])
-								{
-									// upload the image
-									if ($this->object->getId() <= 0)
-									{
-										$this->object->saveToDb();
-										$saved = true;
-										ilUtil::sendSuccess($this->lng->txt("question_saved_for_upload"));
-									}
-									$value2['name'] = $this->object->createNewImageFileName($value2['name']);
-									$upload_result = $this->object->setImageFile($value2['name'], $value2['tmp_name']);
-									switch ($upload_result)
-									{
-										case 0:
-											$_POST["image_".$matches2[1]] = $value2['name'];
-											$answer_image = $value2['name'];
-											break;
-										case 1:
-											$this->setErrorMessage($this->getErrorMessage() . $this->lng->txt("error_image_upload_wrong_format") . "<br />");
-											break;
-										case 2:
-											$this->setErrorMessage($this->getErrorMessage() . $this->lng->txt("error_image_upload_copy_file") . "<br />");
-											break;
-									}
-								}
-							}
+							$filename = "";
 						}
 					}
+					$answertext = ilUtil::stripSlashes($answer, false, ilObjAdvancedEditing::_getUsedHTMLTagsAsString("assessment"));
+					$this->object->addAnswer($answertext, $_POST['choice']['points'][$index], $index, $filename);
 				}
-				$points = $_POST["points_$matches[1]"];
-				$answertext = ilUtil::stripSlashes($_POST["$key"], false, ilObjAdvancedEditing::_getUsedHTMLTagsAsString("assessment"));
-				$this->object->addAnswer(
-					$answertext,
-					ilUtil::stripSlashes($points),
-					0,
-					ilUtil::stripSlashes($matches[1]),
-					$answer_image
-					);
+			}
+			else
+			{
+				foreach ($_POST['choice']['answer'] as $index => $answer)
+				{
+					$answertext = ilUtil::stripSlashes($answer, false, ilObjAdvancedEditing::_getUsedHTMLTagsAsString("assessment"));
+					$this->object->addAnswer($answertext, $_POST['choice']['points'][$index], $index);
+				}
+			}
+			return 0;
+		}
+		else
+		{
+			return 1;
+		}
+	}
+
+	/**
+	* Creates an output of the edit form for the question
+	*
+	* @access public
+	*/
+	public function editQuestion($checkonly = FALSE)
+	{
+		$save = ((strcmp($this->ctrl->getCmd(), "save") == 0) || (strcmp($this->ctrl->getCmd(), "saveEdit") == 0)) ? TRUE : FALSE;
+		$this->tpl->addJavascript("./Services/JavaScript/js/Basic.js");
+		$this->getQuestionTemplate();
+
+		include_once("./Services/Form/classes/class.ilPropertyFormGUI.php");
+		$form = new ilPropertyFormGUI();
+		$form->setFormAction($this->ctrl->getFormAction($this));
+		$form->setTitle($this->lng->txt("assSingleChoice"));
+		if ($this->object->getGraphicalAnswerSetting())
+		{
+			$form->setMultipart(TRUE);
+		}
+		else
+		{
+			$form->setMultipart(FALSE);
+		}
+		$form->setTableWidth("100%");
+		$form->setId("asssinglechoice");
+
+		// title
+		$title = new ilTextInputGUI($this->lng->txt("title"), "title");
+		$title->setValue($this->object->getTitle());
+		$title->setRequired(TRUE);
+		$form->addItem($title);
+		// author
+		$author = new ilTextInputGUI($this->lng->txt("author"), "author");
+		$author->setValue($this->object->getAuthor());
+		$author->setRequired(TRUE);
+		$form->addItem($author);
+		// description
+		$description = new ilTextInputGUI($this->lng->txt("description"), "comment");
+		$description->setValue($this->object->getComment());
+		$description->setRequired(FALSE);
+		$form->addItem($description);
+		// questiontext
+		$question = new ilTextAreaInputGUI($this->lng->txt("question"), "question");
+		$question->setValue($this->object->prepareTextareaOutput($this->object->getQuestion()));
+		$question->setRequired(TRUE);
+		$question->setRows(10);
+		$question->setCols(80);
+		$question->setUseRte(TRUE);
+		$question->addPlugin("latex");
+		$question->addButton("latex");
+		$question->setRTESupport($this->object->getId(), "qpl", "assessment");
+		$form->addItem($question);
+		// shuffle
+		$shuffle = new ilCheckboxInputGUI($this->lng->txt("shuffle_answers"), "shuffle");
+		$shuffle->setValue(1);
+		$shuffle->setChecked($this->object->getShuffle());
+		$shuffle->setRequired(FALSE);
+		$form->addItem($shuffle);
+		// duration
+		$duration = new ilDurationInputGUI($this->lng->txt("working_time"), "Estimated");
+		$duration->setShowHours(TRUE);
+		$duration->setShowMinutes(TRUE);
+		$duration->setShowSeconds(TRUE);
+		$ewt = $this->object->getEstimatedWorkingTime();
+		$duration->setHours($ewt["h"]);
+		$duration->setMinutes($ewt["m"]);
+		$duration->setSeconds($ewt["s"]);
+		$duration->setRequired(FALSE);
+		$form->addItem($duration);
+	
+		if ($this->object->getId())
+		{
+			$hidden = new ilHiddenInputGUI("", "ID");
+			$hidden->setValue($this->object->getId());
+			$form->addItem($hidden);
+		}
+
+		// Answer types
+		$types = new ilSelectInputGUI($this->lng->txt("answer_types"), "types");
+		$types->setRequired(false);
+		$types->setValue(($this->object->getMultilineAnswerSetting()) ? 1 : 0);
+		$types->setOptions(array(
+			0 => $this->lng->txt('answers_singleline'),
+			1 => $this->lng->txt('answers_multiline'),
+		));
+		$form->addItem($types);
+
+		// Allow images
+		$allowImages = new ilCheckboxInputGUI($this->lng->txt("allow_images"), "allow_images");
+		$allowImages->setValue(1);
+		$allowImages->setChecked($this->object->getGraphicalAnswerSetting());
+		$allowImages->setRequired(FALSE);
+		$form->addItem($allowImages);
+
+		if ($this->object->getGraphicalAnswerSetting())
+		{
+			// Resize images
+			$resize_images = new ilCheckboxInputGUI($this->lng->txt("resize_images"), "resize_images");
+			$resize_images->setValue(1);
+			$resize_images->setChecked($this->object->getResizeImages());
+			$resize_images->setRequired(false);
+			$form->addItem($resize_images);
+			
+			if ($this->object->getResizeImages())
+			{
+				// thumb size
+				$thumb_size = new ilNumberInputGUI($this->lng->txt("thumb_size"), "thumb_size");
+				$thumb_size->setMinValue(20);
+				$thumb_size->setDecimals(0);
+				$thumb_size->setSize(6);
+				$thumb_size->setValue($this->object->getThumbSize());
+				$thumb_size->setRequired(true);
+				$form->addItem($thumb_size);
 			}
 		}
-		if ($this->object->getMaximumPoints() < 0)
+
+		// Choices
+		include_once "./Modules/TestQuestionPool/classes/class.ilSingleChoiceWizardInputGUI.php";
+		$choices = new ilSingleChoiceWizardInputGUI($this->lng->txt("answers"), "choice");
+		$choices->setRequired(true);
+		$choices->setTestObject($this->object);
+		$choices->setSingleline(($this->object->getMultilineAnswerSetting()) ? false : true);
+		$choices->setAllowMove(false);
+		$choices->setAllowImages($this->object->getGraphicalAnswerSetting());
+		if ($this->object->getAnswerCount() == 0) $this->object->addAnswer("", 0, 0);
+		$choices->setValues($this->object->getAnswers());
+		$form->addItem($choices);
+
+		$form->addCommandButton("save", $this->lng->txt("save"));
+		$form->addCommandButton("saveEdit", $this->lng->txt("save_edit"));
+	
+		$errors = false;
+	
+		if ($save)
 		{
-			$result = 1;
-			$this->setErrorMessage($this->lng->txt("enter_enough_positive_points"));
+			$form->setValuesByPost();
+			$errors = !$form->checkInput();
+			if ($errors) $checkonly = false;
 		}
 
-		// Set the question id from a hidden form parameter
-		if ($_POST["multiple_choice_id"] > 0)
-		{
-			$this->object->setId($_POST["multiple_choice_id"]);
-		}
+		if (!$checkonly) $this->tpl->setVariable("QUESTION_DATA", $form->getHTML());
+		return $errors;
+	}
 
-		if ($saved)
-		{
-			// If the question was saved automatically before an upload, we have to make
-			// sure, that the state after the upload is saved. Otherwise the user could be
-			// irritated, if he presses cancel, because he only has the question state before
-			// the upload process.
-			$this->object->saveToDb();
-			$this->ctrl->setParameter($this, "q_id", $this->object->getId());
-		}
+	/**
+	* Add a new answer
+	*/
+	public function addchoice()
+	{
+		$this->writePostData(true);
+		$position = key($_POST['cmd']['addchoice']);
+		$this->object->addAnswer("", 0, $position+1);
+		$this->editQuestion();
+	}
 
-		return $result;
+	/**
+	* Remove an answer
+	*/
+	public function removechoice()
+	{
+		$this->writePostData(true);
+		$position = key($_POST['cmd']['removechoice']);
+		$this->object->deleteAnswer($position);
+		$this->editQuestion();
 	}
 
 	function outQuestionForTest($formaction, $active_id, $pass = NULL, $is_postponed = FALSE, $use_post_solutions = FALSE, $show_feedback = FALSE)
@@ -654,7 +422,14 @@ class assSingleChoiceGUI extends assQuestionGUI
 			if (strlen($answer->getImage()))
 			{
 				$template->setCurrentBlock("answer_image");
-				$template->setVariable("ANSWER_IMAGE_URL", $this->object->getImagePathWeb() . $answer->getImage());
+				if (($this->object->getGraphicalAnswerSetting()) && ($this->object->getResizeImages()))
+				{
+					$template->setVariable("ANSWER_IMAGE_URL", $this->object->getImagePathWeb() . $this->object->getThumbPrefix() . $answer->getImage());
+				}
+				else
+				{
+					$template->setVariable("ANSWER_IMAGE_URL", $this->object->getImagePathWeb() . $answer->getImage());
+				}
 				list($width, $height, $type, $attr) = getimagesize($this->object->getImagePath() . $answer->getImage());
 				$alt = $answer->getImage();
 				if (strlen($answer->getAnswertext()))
@@ -729,7 +504,14 @@ class assSingleChoiceGUI extends assQuestionGUI
 			if (strlen($answer->getImage()))
 			{
 				$template->setCurrentBlock("answer_image");
-				$template->setVariable("ANSWER_IMAGE_URL", $this->object->getImagePathWeb() . $answer->getImage());
+				if (($this->object->getGraphicalAnswerSetting()) && ($this->object->getResizeImages()))
+				{
+					$template->setVariable("ANSWER_IMAGE_URL", $this->object->getImagePathWeb() . $this->object->getThumbPrefix() . $answer->getImage());
+				}
+				else
+				{
+					$template->setVariable("ANSWER_IMAGE_URL", $this->object->getImagePathWeb() . $answer->getImage());
+				}
 				$alt = $answer->getImage();
 				if (strlen($answer->getAnswertext()))
 				{
@@ -786,7 +568,14 @@ class assSingleChoiceGUI extends assQuestionGUI
 			if (strlen($answer->getImage()))
 			{
 				$template->setCurrentBlock("answer_image");
-				$template->setVariable("ANSWER_IMAGE_URL", $this->object->getImagePathWeb() . $answer->getImage());
+				if (($this->object->getGraphicalAnswerSetting()) && ($this->object->getResizeImages()))
+				{
+					$template->setVariable("ANSWER_IMAGE_URL", $this->object->getImagePathWeb() . $this->object->getThumbPrefix() . $answer->getImage());
+				}
+				else
+				{
+					$template->setVariable("ANSWER_IMAGE_URL", $this->object->getImagePathWeb() . $answer->getImage());
+				}
 				$alt = $answer->getImage();
 				if (strlen($answer->getAnswertext()))
 				{
@@ -994,9 +783,7 @@ class assSingleChoiceGUI extends assQuestionGUI
 			// edit question properties
 			$ilTabs->addTarget("edit_properties",
 				$url,
-				array("editQuestion", "save", "cancel",
-					"toggleGraphicalAnswers", "setMediaMode", "uploadingImage", "add", "editMode", "deleteAnswer", "addYesNo", "addTrueFalse", 
-					"saveEdit"),
+				array("editQuestion", "save", "saveEdit", "addchoice", "removechoice"),
 				$classname, "", $force_active);
 		}
 
