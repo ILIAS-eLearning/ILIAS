@@ -123,8 +123,17 @@ class ilObjSessionListGUI extends ilObjectListGUI
 			'property'	=> $this->lng->txt('event_date'),
 			'value'		=> ilSessionAppointment::_appointmentToString($app_info['start'],$app_info['end'],$app_info['fullday']));
 		*/
-		return $props;
 		
+		if($items = self::lookupAssignedMaterials($this->obj_id))
+		{
+			$props[] = array(
+				'alert'		=> false,
+				'property'	=> $this->lng->txt('event_ass_materials_prop'),
+				'value'		=> count($items)
+			);
+				
+		}
+		return $props;
 	}
 
 	
@@ -143,6 +152,25 @@ class ilObjSessionListGUI extends ilObjectListGUI
 		}
 		include_once('./Modules/Session/classes/class.ilSessionAppointment.php');
 		return $this->app_info[$this->obj_id] = ilSessionAppointment::_lookupAppointment($this->obj_id); 
+	}
+	
+	/**
+	 * Get assigned items of event.
+	 * @return 
+	 * @param object $a_sess_id
+	 */
+	protected static function lookupAssignedMaterials($a_sess_id)
+	{
+		global $ilDB;
+		
+		$query = 'SELECT * FROM event_items '.
+			'WHERE event_id = '.$ilDB->quote($a_sess_id).' ';
+		$res = $ilDB->query($query);
+		while($row = $res->fetchRow(FETCHMODE_OBJECT))
+		{
+			$items[] = $row['item_id'];
+		}
+		return $items ? $items : array();	
 	}
 	
 }
