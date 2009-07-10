@@ -1,30 +1,51 @@
 <div id="{ELEMENT_ID}">
 	<table>
 		<thead>
-			<th>{ANSWER_TEXT}</th>
-			<th>{POINTS_CHECKED_TEXT}</th>
-			<th>{POINTS_UNCHECKED_TEXT}</th>
-			<th>{COMMANDS_TEXT}</th>
+			<tr>
+				<th>{ANSWER_TEXT}</th>
+				<th>{POINTS_TEXT}</th>
+				<th>{POINTS_UNCHECKED_TEXT}</th>
+				<th>{COMMANDS_TEXT}</th>
+			</tr>
 		</thead>
 		<tbody>
 <!-- BEGIN row -->
-			<tr>
-				<td class="{ROW_CLASS}">
-					<input type="text" size="{SIZE}" id="{ID}" maxlength="{MAXLENGTH}" name="{POST_VAR}[answer][{ROW_NUMBER}]" <!-- BEGIN prop_text_propval -->value="{PROPERTY_VALUE}" <!-- END prop_text_propval -->{DISABLED}/>
+			<tr class="{ROW_CLASS}">
+				<td>
+<!-- BEGIN singleline -->
+					<input type="text" size="{SIZE}" id="{SINGLELINE_ID}" maxlength="{MAXLENGTH}" name="{SINGLELINE_POST_VAR}[answer][{SINGLELINE_ROW_NUMBER}]" <!-- BEGIN prop_text_propval -->value="{PROPERTY_VALUE}" <!-- END prop_text_propval -->{DISABLED_SINGLELINE}/>
+<!-- END singleline -->
+<!-- BEGIN multiline -->
+					<textarea cols="60" rows="4" name="{MULTILINE_POST_VAR}[answer][{MULTILINE_ROW_NUMBER}]" id="{MULTILINE_ID}"{DISABLED_MULTILINE}>{PROPERTY_VALUE}</textarea>
+<!-- END multiline -->
+<!-- BEGIN addimage -->
+					<div><input type="file" id="{IMAGE_ID}" name="{IMAGE_POST_VAR}[image][{IMAGE_ROW_NUMBER}]" size="30" /></div>
+					<div class="ilFormInfo">{TXT_MAX_SIZE}</div>
+<!-- BEGIN allowed_image_suffixes -->
+					<div class="ilFormInfo">{TXT_ALLOWED_SUFFIXES}</div>
+<!-- END allowed_image_suffixes -->
+<!-- BEGIN image -->
+					<div class="imagepresentation">
+						<input type="hidden" name="{IMAGE_POST_VAR}[imagename][{IMAGE_ROW_NUMBER}]" value="{IMAGE_NAME}" />
+						<img style="margin: 5px 0px 5px 0px;" src="{SRC_IMAGE}" alt="{ALT_IMAGE}" {WIDTH} {HEIGHT} border="0" /><br />
+						<input type="checkbox" name="{IMAGE_POST_VAR}[deleteimage][{IMAGE_ROW_NUMBER}]" id="{IMAGE_POST_VAR}[deleteimage][{IMAGE_ROW_NUMBER}]" value="1" /><label for="{IMAGE_POST_VAR}[deleteimage][{IMAGE_ROW_NUMBER}]">{TXT_DELETE_EXISTING}</label><br />
+					</div>
+<!-- END image -->
+<!-- END addimage -->
 				</td>
-				<td class="{ROW_CLASS}">
-					<input type="text" size="5" id="{POINTS_CHECKED_ID}" name="{POST_VAR}[points_checked][{ROW_NUMBER}]" <!-- BEGIN prop_points_checked_propval -->value="{PROPERTY_VALUE}" <!-- END prop_points_checked_propval -->{DISABLED_POINTS_CHECKED}/>
+				<td style="vertical-align: top;">
+					<input type="text" style="text-align: right;" size="5" id="{POINTS_ID}" name="{POST_VAR}[points][{ROW_NUMBER}]" <!-- BEGIN prop_points_propval -->value="{PROPERTY_VALUE}" <!-- END prop_points_propval -->{DISABLED_POINTS}/>
 				</td>
-				<td class="{ROW_CLASS}">
-					<input type="text" size="5" id="{POINTS_UNCHECKED_ID}" name="{POST_VAR}[points_unchecked][{ROW_NUMBER}]" <!-- BEGIN prop_points_unchecked_propval -->value="{PROPERTY_VALUE}" <!-- END prop_points_unchecked_propval -->{DISABLED_POINTS_UNCHECKED}/>
+				<td style="vertical-align: top;">
+					<input type="text" style="text-align: right;" size="5" id="{POINTS_UNCHECKED_ID}" name="{POST_VAR}[points_unchecked][{ROW_NUMBER}]" <!-- BEGIN prop_points_unchecked_propval -->value="{PROPERTY_VALUE}" <!-- END prop_points_unchecked_propval -->{DISABLED_POINTS_UNCHECKED}/>
 				</td>
-				<td class="{ROW_CLASS}">
-					<input type="image" name="{CMD_ADD}" class="textwizard_add" id="add_{ID}" src="{ADD_BUTTON}" onclick="javascript: void(0); return false;" />
-					<input type="image" name="{CMD_REMOVE}" class="textwizard_remove" id="remove_{ID}" src="{REMOVE_BUTTON}" onclick="javascript: void(0); return false;" />
-				<!-- BEGIN move -->
-					<input type="image" name="{CMD_UP}" class="textwizard_up" id="up_{ID}" src="{UP_BUTTON}" onclick="javascript: void(0); return false;" />
-					<input type="image" name="{CMD_DOWN}" class="textwizard_down" id="down_{ID}" src="{DOWN_BUTTON}" onclick="javascript: void(0); return false;" />
-				<!-- END move -->
+				<td style="vertical-align: top;">
+					<input type="image" name="{CMD_ADD}" class="singlechoicewizard_add" id="add_{ID}" src="{ADD_BUTTON}" onclick="javascript: void(0); return false;" />
+					<input type="image" name="{CMD_REMOVE}" class="singlechoicewizard_remove" id="remove_{ID}" src="{REMOVE_BUTTON}" onclick="javascript: void(0); return false;" />
+<!-- BEGIN move -->
+					<input type="image" name="{CMD_UP}" class="singlechoicewizard_up" id="up_{ID}" src="{UP_BUTTON}" onclick="javascript: void(0); return false;" />
+					<input type="image" name="{CMD_DOWN}" class="singlechoicewizard_down" id="down_{ID}" src="{DOWN_BUTTON}" onclick="javascript: void(0); return false;" />
+<!-- END move -->
 				</td>
 			</tr>
 <!-- END row -->

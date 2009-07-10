@@ -14215,3 +14215,30 @@ while($data = $ilDB->fetchAssoc($result))
 <?php
 	$ilDB->addTableColumn("qpl_qst_sc", "thumb_size", array("type" => "integer", "length" => 2, "notnull" => false));
 ?>
+<#2724>
+<?php
+	$ilDB->addTableColumn("qpl_qst_mc", "allow_images", array("type" => "text", "length" => 1, "notnull" => false, "default" => "0"));
+?>
+<#2725>
+<?php
+
+$result = $ilDB->query(
+	"SELECT DISTINCT question_fi FROM qpl_a_mc WHERE NOT ISNULL(imagefile)"
+);
+while($data = $ilDB->fetchAssoc($result))
+{
+	$ilDB->manipulateF("UPDATE qpl_qst_mc SET allow_images = %s WHERE question_fi = %s",
+		array('text', 'integer'),
+		array('1', $data['question_fi'])
+	);
+}
+
+?>
+<#2726>
+<?php
+	$ilDB->addTableColumn("qpl_qst_mc", "resize_images", array("type" => "text", "length" => 1, "notnull" => false, "default" => "0"));
+?>
+<#2727>
+<?php
+	$ilDB->addTableColumn("qpl_qst_mc", "thumb_size", array("type" => "integer", "length" => 2, "notnull" => false));
+?>

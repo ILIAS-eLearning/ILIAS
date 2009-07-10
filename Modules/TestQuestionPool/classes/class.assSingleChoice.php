@@ -98,13 +98,14 @@ class assSingleChoice extends assQuestion
 	)
 	{
 		parent::__construct($title, $comment, $author, $owner, $question);
+		$this->allow_images = false;
+		$this->resize_images = false;
+		$this->thumb_size = 150;
 		$this->output_type = $output_type;
 		$this->answers = array();
 	}
 
 	/**
-	* Returns true, if a single choice question is complete for use
-	*
 	* Returns true, if a single choice question is complete for use
 	*
 	* @return boolean True, if the single choice question is complete for use, otherwise false
@@ -197,7 +198,7 @@ class assSingleChoice extends assQuestion
 			if (($this->getGraphicalAnswerSetting()) && ($this->getResizeImages()))
 			{
 				// get old thumbnail size
-				$result = $ilDB->queryF("SELECT qpl_qst_sc.thumb_size FROM " . $this->getAdditionalTableName() . " WHERE question_fi = %s",
+				$result = $ilDB->queryF("SELECT thumb_size FROM " . $this->getAdditionalTableName() . " WHERE question_fi = %s",
 					array("integer"),
 					array($this->getId())
 				);
@@ -238,15 +239,16 @@ class assSingleChoice extends assQuestion
 		{
 			$answer_obj = $this->answers[$key];
 			$next_id = $ilDB->nextId('qpl_a_sc');
-			$affectedRows = $ilDB->manipulateF("INSERT INTO qpl_a_sc (answer_id, question_fi, answertext, points, aorder, imagefile) VALUES (%s, %s, %s, %s, %s, %s)",
-				array('integer','integer','text','float','integer','text'),
+			$affectedRows = $ilDB->manipulateF("INSERT INTO qpl_a_sc (answer_id, question_fi, answertext, points, aorder, imagefile, tstamp) VALUES (%s, %s, %s, %s, %s, %s, %s)",
+				array('integer','integer','text','float','integer','text','integer'),
 				array(
 					$next_id,
 					$this->getId(),
 					ilRTE::_replaceMediaObjectImageSrc($answer_obj->getAnswertext(), 0),
 					$answer_obj->getPoints(),
 					$answer_obj->getOrder(),
-					$answer_obj->getImage()
+					$answer_obj->getImage(),
+					time()
 				)
 			);
 		}
@@ -352,7 +354,6 @@ class assSingleChoice extends assQuestion
 				}
 				include_once("./Services/RTE/classes/class.ilRTE.php");
 				$data["answertext"] = ilRTE::_replaceMediaObjectImageSrc($data["answertext"], 1);
-				if (strlen($data["imagefile"])) $hasimages = 1;
 				array_push($this->answers, new ASS_AnswerBinaryStateImage($data["answertext"], $data["points"], $data["aorder"], 1, $data["imagefile"]));
 			}
 		}

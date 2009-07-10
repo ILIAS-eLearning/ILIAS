@@ -54,6 +54,27 @@ class assMultipleChoice extends assQuestion
 	var $output_type;
 
 	/**
+	* Allow images in choices
+	*
+	* @var integer
+	*/
+	protected $allow_images;
+
+	/**
+	* Resize images (create thumbs)
+	*
+	* @var integer
+	*/
+	protected $resize_images;
+
+	/**
+	* Thumbnail size
+	*
+	* @var integer
+	*/
+	protected $thumb_size;
+
+	/**
 	* assMultipleChoice constructor
 	*
 	* The constructor takes possible arguments an creates an instance of the assMultipleChoice object.
@@ -78,6 +99,9 @@ class assMultipleChoice extends assQuestion
 	{
 		parent::__construct($title, $comment, $author, $owner, $question);
 		$this->output_type = $output_type;
+		$this->allow_images = false;
+		$this->resize_images = false;
+		$this->thumb_size = 150;
 		$this->answers = array();
 	}
 
@@ -167,45 +191,112 @@ class assMultipleChoice extends assQuestion
 			);
 		}
 
+		$oldthumbsize = 0;
+		if (($this->getGraphicalAnswerSetting()) && ($this->getResizeImages()))
+		{
+			// get old thumbnail size
+			$result = $ilDB->queryF("SELECT thumb_size FROM " . $this->getAdditionalTableName() . " WHERE question_fi = %s",
+				array("integer"),
+				array($this->getId())
+			);
+			if ($result->numRows() == 1)
+			{
+				$data = $ilDB->fetchAssoc($result);
+				$oldthumbsize = $data['thumb_size'];
+			}
+		}
+		if (!$this->getGraphicalAnswerSetting())
+		{
+			ilUtil::delDir($this->getImagePath());
+		}
+
 		// save additional data
 		$affectedRows = $ilDB->manipulateF("DELETE FROM " . $this->getAdditionalTableName() . " WHERE question_fi = %s", 
 			array("integer"),
 			array($this->getId())
 		);
 
-		$affectedRows = $ilDB->manipulateF("INSERT INTO " . $this->getAdditionalTableName() . " (question_fi, shuffle) VALUES (%s, %s)", 
-			array("integer", "text"),
+		$affectedRows = $ilDB->manipulateF("INSERT INTO " . $this->getAdditionalTableName() . " (question_fi, shuffle, allow_images, resize_images, thumb_size) VALUES (%s, %s, %s, %s, %s)", 
+			array("integer", "text", "text", "text", "integer"),
 			array(
 				$this->getId(),
-				$this->shuffle
+				$this->getShuffle(),
+				$this->getGraphicalAnswerSetting(),
+				$this->getResizeImages(),
+				($this->getThumbSize() < 20) ? null : $this->getThumbSize()
 			)
 		);
 
-	$affectedRows = $ilDB->manipulateF("DELETE FROM qpl_a_mc WHERE question_fi = %s",
-		array('integer'),
-		array($this->getId())
-	);
-
-	foreach ($this->answers as $key => $value)
-	{
-		$answer_obj = $this->answers[$key];
-		$next_id = $ilDB->nextId('qpl_a_mc');
-		$affectedRows = $ilDB->manipulateF("INSERT INTO qpl_a_mc (answer_id, question_fi, answertext, points, points_unchecked, aorder, imagefile, tstamp) VALUES (%s, %s, %s, %s, %s, %s, %s, %s)",
-			array('integer','integer','text','float','float','integer','text', 'integer'),
-			array(
-				$next_id,
-				$this->getId(),
-				ilRTE::_replaceMediaObjectImageSrc($answer_obj->getAnswertext(), 0),
-				$answer_obj->getPoints(),
-				$answer_obj->getPointsUnchecked(),
-				$answer_obj->getOrder(),
-				$answer_obj->getImage(),
-				time()
-			)
+		$affectedRows = $ilDB->manipulateF("DELETE FROM qpl_a_mc WHERE question_fi = %s",
+			array('integer'),
+			array($this->getId())
 		);
-	}
+
+		foreach ($this->answers as $key => $value)
+		{
+			$answer_obj = $this->answers[$key];
+			$next_id = $ilDB->nextId('qpl_a_mc');
+			$affectedRows = $ilDB->manipulateF("INSERT INTO qpl_a_mc (answer_id, question_fi, answertext, points, points_unchecked, aorder, imagefile, tstamp) VALUES (%s, %s, %s, %s, %s, %s, %s, %s)",
+				array('integer','integer','text','float','float','integer','text', 'integer'),
+				array(
+					$next_id,
+					$this->getId(),
+					ilRTE::_replaceMediaObjectImageSrc($answer_obj->getAnswertext(), 0),
+					$answer_obj->getPoints(),
+					$answer_obj->getPointsUnchecked(),
+					$answer_obj->getOrder(),
+					$answer_obj->getImage(),
+					time()
+				)
+			);
+		}
+
+		$this->rebuildThumbnails();
 
 		parent::saveToDb($original_id);
+	}
+
+	/*
+	* Rebuild the thumbnail images with a new thumbnail size
+	*/
+	protected function rebuildThumbnails()
+	{
+		if (($this->getGraphicalAnswerSetting()) && ($this->getResizeImages()))
+		{
+			foreach ($this->getAnswers() as $answer)
+			{
+				$this->generateThumbForFile($this->getImagePath(), $answer->getImage());
+			}
+		}
+	}
+	
+	public function getThumbPrefix()
+	{
+		return "thumb.";
+	}
+	
+	protected function generateThumbForFile($path, $file)
+	{
+		$filename = $path . $file;
+		if (@file_exists($filename))
+		{
+			$thumbpath = $path . $this->getThumbPrefix() . $file;
+			$path_info = @pathinfo($filename);
+			$ext = "";
+			switch (strtoupper($path_info['extension']))
+			{
+				case 'PNG':
+					$ext = 'PNG';
+					break;
+				case 'GIF':
+					$ext = 'GIF';
+					break;
+				default:
+					$ext = 'JPEG';
+					break;
+			}
+			ilUtil::convertImage($filename, $thumbpath, $ext, $this->getThumbSize());
+		}
 	}
 
 	/**
@@ -239,6 +330,9 @@ class assMultipleChoice extends assQuestion
 			$this->setQuestion(ilRTE::_replaceMediaObjectImageSrc($data["question_text"], 1));
 			$this->setShuffle($data["shuffle"]);
 			$this->setEstimatedWorkingTime(substr($data["working_time"], 0, 2), substr($data["working_time"], 3, 2), substr($data["working_time"], 6, 2));
+			$this->setGraphicalAnswerSetting($data['allow_images']);
+			$this->setResizeImages($data['resize_images']);
+			$this->setThumbSize($data['thumb_size']);
 		}
 
 		$result = $ilDB->queryF("SELECT * FROM qpl_a_mc WHERE question_fi = %s ORDER BY aorder ASC",
@@ -257,11 +351,9 @@ class assMultipleChoice extends assQuestion
 				}
 				include_once("./Services/RTE/classes/class.ilRTE.php");
 				$data["answertext"] = ilRTE::_replaceMediaObjectImageSrc($data["answertext"], 1);
-				if (strlen($data["imagefile"])) $hasimages = 1;
 				array_push($this->answers, new ASS_AnswerMultipleResponseImage($data["answertext"], $data["points"], $data["aorder"], $data["points_unchecked"], $data["imagefile"]));
 			}
 		}
-		$this->setGraphicalAnswerSetting($hasimages);
 
 		parent::loadFromDb($question_id);
 	}
@@ -410,29 +502,28 @@ class assMultipleChoice extends assQuestion
 		$answerimage = ""
 	)
 	{
-		$found = -1;
-		foreach ($this->answers as $key => $value)
-		{
-			if ($value->getOrder() == $order)
-			{
-				$found = $order;
-			}
-		}
 		include_once "./Modules/TestQuestionPool/classes/class.assAnswerMultipleResponseImage.php";
-		if ($found >= 0)
+		if (array_key_exists($order, $this->answers))
 		{
-			// Antwort einfügen
-			$answer = new ASS_AnswerMultipleResponseImage($answertext, $points, $found, $points_unchecked, $answerimage);
-			array_push($this->answers, $answer);
-			for ($i = $found + 1; $i < count($this->answers); $i++)
+			// insert answer
+			$answer = new ASS_AnswerMultipleResponseImage($answertext, $points, $order, $points_unchecked, $answerimage);
+			$newchoices = array();
+			for ($i = 0; $i < $order; $i++)
 			{
-				$this->answers[$i] = $this->answers[$i-1];
+				array_push($newchoices, $this->answers[$i]);
 			}
-			$this->answers[$found] = $answer;
+			array_push($newchoices, $answer);
+			for ($i = $order; $i < count($this->answers); $i++)
+			{
+				$changed = $this->answers[$i];
+				$changed->setOrder($i+1);
+				array_push($newchoices, $changed);
+			}
+			$this->answers = $newchoices;
 		}
 		else
 		{
-			// Anwort anhängen
+			// add answer
 			$answer = new ASS_AnswerMultipleResponseImage($answertext, $points, count($this->answers), $points_unchecked, $answerimage);
 			array_push($this->answers, $answer);
 		}
@@ -733,20 +824,12 @@ class assMultipleChoice extends assQuestion
 	
 	function getGraphicalAnswerSetting()
 	{
-		global $ilUser;
-
-		$graphicalAnswerSetting = $ilUser->getPref("graphicalAnswerSetting");
-		if ($graphicalAnswerSetting != 1)
-		{
-			$graphicalAnswerSetting = 0;
-		}
-		return $graphicalAnswerSetting;
+		return ($this->allow_images) ? 1 : 0;
 	}
 	
 	function setGraphicalAnswerSetting($a_setting = 0)
 	{
-		global $ilUser;
-		$ilUser->writePref("graphicalAnswerSetting", $a_setting);
+		$this->allow_images = ($a_setting) ? 1 : 0;
 	}
 
 	/**
@@ -785,8 +868,10 @@ class assMultipleChoice extends assQuestion
 				else
 				{
 					// create thumbnail file
-					$thumbpath = $imagepath . $image_filename . "." . "thumb.jpg";
-					ilUtil::convertImage($imagepath.$image_filename, $thumbpath, "JPEG", 100);
+					if (($this->getGraphicalAnswerSetting()) && ($this->getResizeImages()))
+					{
+						$this->generateThumbForFile($imagepath, $image_filename);
+					}
 				}
 			}
 		}
@@ -802,9 +887,9 @@ class assMultipleChoice extends assQuestion
 	function deleteImage($image_filename)
 	{
 		$imagepath = $this->getImagePath();
-		unlink($imagepath . $image_filename);
-		$thumbpath = $imagepath . $image_filename . "." . "thumb.jpg";
-		unlink($thumbpath);
+		@unlink($imagepath . $image_filename);
+		$thumbpath = $imagepath . $this->getThumbPrefix() . $image_filename;
+		@unlink($thumbpath);
 	}
 
 	function duplicateImages($question_id)
@@ -826,7 +911,7 @@ class assMultipleChoice extends assQuestion
 					$ilLog->write("image could not be duplicated!!!!", $ilLog->ERROR);
 					$ilLog->write("object: " . print_r($this, TRUE), $ilLog->ERROR);
 				}
-				if (!copy($imagepath_original . $filename . ".thumb.jpg", $imagepath . $filename . ".thumb.jpg"))
+				if (!copy($imagepath_original . $this->getThumbPrefix() . $filename, $imagepath . $this->getThumbPrefix() . $filename))
 				{
 					$ilLog->write("image thumbnail could not be duplicated!!!!", $ilLog->ERROR);
 					$ilLog->write("object: " . print_r($this, TRUE), $ilLog->ERROR);
@@ -855,7 +940,7 @@ class assMultipleChoice extends assQuestion
 					$ilLog->write("image could not be duplicated!!!!", $ilLog->ERROR);
 					$ilLog->write("object: " . print_r($this, TRUE), $ilLog->ERROR);
 				}
-				if (!copy($imagepath_original . $filename . ".thumb.jpg", $imagepath . $filename . ".thumb.jpg"))
+				if (!copy($imagepath_original . $this->getThumbPrefix() . $filename, $imagepath . $this->getThumbPrefix() . $filename))
 				{
 					$ilLog->write("image thumbnail could not be duplicated!!!!", $ilLog->ERROR);
 					$ilLog->write("object: " . print_r($this, TRUE), $ilLog->ERROR);
@@ -892,9 +977,9 @@ class assMultipleChoice extends assQuestion
 						$ilLog->write("object: " . print_r($this, TRUE), $ilLog->ERROR);
 					}
 				}
-				if (@file_exists($imagepath . $filename . ".thumb.jpg"))
+				if (@file_exists($imagepath . $this->getThumbPrefix() . $filename))
 				{
-					if (!@copy($imagepath . $filename . ".thumb.jpg", $imagepath_original . $filename . ".thumb.jpg"))
+					if (!@copy($imagepath . $this->getThumbPrefix() . $filename, $imagepath_original . $this->getThumbPrefix() . $filename))
 					{
 						$ilLog->write("image thumbnail could not be duplicated!!!!", $ilLog->ERROR);
 						$ilLog->write("object: " . print_r($this, TRUE), $ilLog->ERROR);
@@ -1060,6 +1145,26 @@ class assMultipleChoice extends assQuestion
 			$i++;
 		}
 		return $startrow + $i + 1;
+	}
+
+	public function getResizeImages()
+	{
+		return ($this->resize_images) ? 1 : 0;
+	}
+	
+	public function setResizeImages($a_setting = 0)
+	{
+		$this->resize_images = ($a_setting) ? 1 : 0;
+	}
+
+	public function getThumbSize()
+	{
+		return $this->thumb_size;
+	}
+	
+	public function setThumbSize($a_size)
+	{
+		$this->thumb_size = $a_size;
 	}
 }
 
