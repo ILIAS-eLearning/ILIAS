@@ -1241,6 +1241,7 @@ form#:#form_msg_file_no_upload#:#This input is required. Please select a file fo
 form#:#form_msg_file_missing_tmp_dir#:#Temporary directory for file upload missing.
 form#:#form_msg_file_cannot_write_to_disk#:#Cannot write to disk.
 form#:#form_msg_file_upload_stopped_ext#:#File upload stopped by extension.
+form#:#form_msg_formula_is_required#:#Please enter a correct formula.
 form#:#form_msg_file_wrong_file_type#:#Wrong file type.
 form#:#form_msg_file_virus_found#:#Virus found in uploaded file.
 form#:#form_days#:#Days

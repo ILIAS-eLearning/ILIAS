@@ -36,18 +36,10 @@ include_once "./Modules/Test/classes/inc.AssessmentConstants.php";
 */
 class assNumeric extends assQuestion
 {
-	/**
-	* The defined ranges with the associated points for entering a value in the correct range
-	*
-	* $ranges is an array of the defined ranges of the numeric question
-	*
-	* @var array
-	*/
-	var $ranges;
+	protected $lower_limit;
+	protected $upper_limit;
 	
 	/**
-	* The maximum number of characters for the numeric input field
-	*
 	* The maximum number of characters for the numeric input field
 	*
 	* @var integer
@@ -76,7 +68,6 @@ class assNumeric extends assQuestion
 	)
 	{
 		parent::__construct($title, $comment, $author, $owner, $question);
-		$this->ranges = array();
 		$this->maxchars = 6;
 	}
 
@@ -88,7 +79,7 @@ class assNumeric extends assQuestion
 	*/
 	function isComplete()
 	{
-		if (($this->title) and ($this->author) and ($this->question) and (count($this->ranges)) and ($this->getMaximumPoints() > 0))
+		if (($this->title) and ($this->author) and ($this->question) and ($this->getMaximumPoints() > 0))
 		{
 			return true;
 		}
@@ -171,7 +162,7 @@ class assNumeric extends assQuestion
 			array($this->getId())
 		);
 
-		$affectedRows = $ilDB->manipulateF("INSERT INTO " . $this->getAdditionalTableName() . " (question_fi, maxNumOfChars) VALUES (%s, %s)", 
+		$affectedRows = $ilDB->manipulateF("INSERT INTO " . $this->getAdditionalTableName() . " (question_fi, maxnumofchars) VALUES (%s, %s)", 
 			array("integer", "integer"),
 			array(
 				$this->getId(),
@@ -179,23 +170,20 @@ class assNumeric extends assQuestion
 			)
 		);
 
-		// Write Ranges to the database
+		// Write range to the database
 		
-		// 1. delete old ranges
+		// 1. delete old range
 		$result = $ilDB->manipulateF("DELETE FROM qpl_num_range WHERE question_fi = %s",
 			array('integer'),
 			array($this->getId())
 		);
 
-		// 2. write ranges
-		foreach ($this->ranges as $key => $range)
-		{
-			$next_id = $ilDB->nextId('qpl_num_range');
-			$answer_result = $ilDB->manipulateF("INSERT INTO qpl_num_range (range_id, question_fi, lowerlimit, upperlimit, points, aorder, tstamp) VALUES (%s, %s, %s, %s, %s, %s, %s)",
-				array('integer','integer', 'text', 'text', 'float', 'integer', 'integer'),
-				array($next_id, $this->id, $range->getLowerLimit(), $range->getUpperLimit(), $range->getPoints(), $range->getOrder(), time())
-			);
-		}
+		// 2. write range
+		$next_id = $ilDB->nextId('qpl_num_range');
+		$answer_result = $ilDB->manipulateF("INSERT INTO qpl_num_range (range_id, question_fi, lowerlimit, upperlimit, points, aorder, tstamp) VALUES (%s, %s, %s, %s, %s, %s, %s)",
+			array('integer','integer', 'text', 'text', 'float', 'integer', 'integer'),
+			array($next_id, $this->id, $this->getLowerLimit(), $this->getUpperLimit(), $this->getPoints(), 0, time())
+		);
 
 		parent::saveToDb($original_id);
 	}
@@ -228,7 +216,7 @@ class assNumeric extends assQuestion
 			$this->setOwner($data["owner"]);
 			include_once("./Services/RTE/classes/class.ilRTE.php");
 			$this->setQuestion(ilRTE::_replaceMediaObjectImageSrc($data["question_text"], 1));
-			$this->setMaxChars($data["maxNumOfChars"]);
+			$this->setMaxChars($data["maxnumofchars"]);
 			$this->setEstimatedWorkingTime(substr($data["working_time"], 0, 2), substr($data["working_time"], 3, 2), substr($data["working_time"], 6, 2));
 		}
 
@@ -243,58 +231,13 @@ class assNumeric extends assQuestion
 		{
 			while ($data = $ilDB->fetchAssoc($result))
 			{
-				array_push($this->ranges, new assNumericRange($data["lowerlimit"], $data["upperlimit"], $data["points"], $data["aorder"]));
+				$this->setPoints($data['points']);
+				$this->setLowerLimit($data['lowerlimit']);
+				$this->setUpperLimit($data['upperlimit']);
 			}
 		}
 
 		parent::loadFromDb($question_id);
-	}
-
-	/**
-	* Adds a range to the numeric question. An assNumericRange object will be
-	* created and assigned to the array $this->ranges
-	*
-	* @param double $lowerlimit The lower limit of the range
-	* @param double $upperlimit The upper limit of the range
-	* @param double $points The points for entering a number in the correct range
-	* @param integer $order The display order of the range
-	* @access public
-	* @see $ranges
-	* @see assNumericalRange
-	*/
-	function addRange(
-		$lowerlimit = 0.0,
-		$upperlimit = 0.0,
-		$points = 0.0,
-		$order = 0
-	)
-	{
-		$found = -1;
-		foreach ($this->ranges as $key => $range)
-		{
-			if ($range->getOrder() == $order)
-			{
-				$found = $order;
-			}
-		}
-		include_once "./Modules/TestQuestionPool/classes/class.assNumericRange.php";
-		if ($found >= 0)
-		{
-			// insert range
-			$range = new assNumericRange($lowerlimit, $upperlimit, $points, $found);
-			array_push($this->ranges, $range);
-			for ($i = $found + 1; $i < count($this->ranges); $i++)
-			{
-				$this->ranges[$i] = $this->ranges[$i-1];
-			}
-			$this->ranges[$found] = $range;
-		}
-		else
-		{
-			// append range
-			$range = new assNumericRange($lowerlimit, $upperlimit, $points, count($this->ranges));
-			array_push($this->ranges, $range);
-		}
 	}
 
 	/**
@@ -384,72 +327,27 @@ class assNumeric extends assQuestion
 		$clone->onCopy($this->getObjId(), $this->getId());
 		return $clone->id;
 	}
+
+	function getLowerLimit()
+	{
+		return $this->lower_limit;
+	}
 	
-	/**
-	* Returns the number of ranges
-	*
-	* @return integer The number of ranges of the numeric question
-	* @access public
-	* @see $ranges
-	*/
-	function getRangeCount()
+	function getUpperLimit()
 	{
-		return count($this->ranges);
+		return $this->upper_limit;
 	}
-
-	/**
-	* Returns a range with a given index. The index of the first
-	* range is 0, the index of the second range is 1 and so on.
-	*
-	* @param integer $index A nonnegative index of the n-th range
-	* @return object assNumericelRange-Object containing the range
-	* @access public
-	* @see $ranges
-	*/
-	function getRange($index = 0)
+	
+	function setLowerLimit($a_limit)
 	{
-		if ($index < 0) return NULL;
-		if (count($this->ranges) < 1) return NULL;
-		if ($index >= count($this->ranges)) return NULL;
-
-		return $this->ranges[$index];
+		$this->lower_limit = $a_limit;
 	}
-
-	/**
-	* Deletes a range with a given index. The index of the first
-	* range is 0, the index of the second range is 1 and so on.
-	*
-	* @param integer $index A nonnegative index of the n-th range
-	* @access public
-	* @see $ranges
-	*/
-	function deleteRange($index = 0)
+	
+	function setUpperLimit($a_limit)
 	{
-		if ($index < 0) return;
-		if (count($this->ranges) < 1) return;
-		if ($index >= count($this->ranges)) return;
-		unset($this->ranges[$index]);
-		$this->ranges = array_values($this->ranges);
-		for ($i = 0; $i < count($this->ranges); $i++)
-		{
-			if ($this->ranges[$i]->getOrder() > $index)
-			{
-				$this->ranges[$i]->setOrder($i);
-			}
-		}
+		$this->upper_limit = $a_limit;
 	}
-
-	/**
-	* Deletes all ranges
-	*
-	* @access public
-	* @see $ranges
-	*/
-	function flushRanges()
-	{
-		$this->ranges = array();
-	}
-
+	
 	/**
 	* Returns the maximum points, a learner can reach answering the question
 	*
@@ -458,36 +356,7 @@ class assNumeric extends assQuestion
 	*/
 	function getMaximumPoints()
 	{
-		$max = 0;
-		foreach ($this->ranges as $key => $range) 
-		{
-			if ($range->getPoints() > $max)
-			{
-				$max = $range->getPoints();
-			}
-		}
-		return $max;
-	}
-
-	/**
-	* Returns the range with the maximum points, a learner can reach answering the question
-	*
-	* @access public
-	* @see $points
-	*/
-	function getBestRange()
-	{
-		$max = 0;
-		$bestrange = NULL;
-		foreach ($this->ranges as $key => $range) 
-		{
-			if ($range->getPoints() > $max)
-			{
-				$max = $range->getPoints();
-				$bestrange = $range;
-			}
-		}
-		return $bestrange;
+		return $this->getPoints();
 	}
 
 	/**
@@ -517,28 +386,46 @@ class assNumeric extends assQuestion
 		$enteredvalue = $data["value1"];
 
 		$points = 0;
-		foreach ($this->ranges as $key => $range)
+		if ($this->contains($enteredvalue))
 		{
-			if ($points == 0)
-			{
-				if ($range->contains($enteredvalue))
-				{
-					$points = $range->getPoints();
-				}
-			}
+			$points = $this->getPoints();
 		}
 
 		$points = parent::calculateReachedPoints($active_id, $pass = NULL, $points);
 		return $points;
 	}
+
+ /**
+	* Checks for a given value within the range
+	*
+	* @param double $value The value to check
+	* @return boolean TRUE if the value is in the range, FALSE otherwise
+	* @access public
+	* @see $upperlimit
+	* @see $lowerlimit
+	*/
+  function contains($value) 
+	{
+		include_once "./Services/Math/classes/class.EvalMath.php";
+		$eval = new EvalMath();
+		$eval->suppress_errors = TRUE;
+		$result = $eval->e($value);
+		if (($result === FALSE) || ($result === TRUE)) return FALSE;
+		if (($result >= $eval->e($this->getLowerLimit())) && ($result <= $eval->e($this->getUpperLimit())))
+		{
+			return TRUE;
+		}
+		else
+		{
+			return FALSE;
+		}
+  }
 	
 	/**
 	* Saves the learners input of the question to the database
 	*
 	* @param integer $test_id The database id of the test containing this question
   * @return boolean Indicates the save status (true if saved successful, false otherwise)
-	* @access public
-	* @see $ranges
 	*/
 	function saveWorkingData($active_id, $pass = NULL)
 	{
@@ -680,14 +567,6 @@ class assNumeric extends assQuestion
 		return parent::getRTETextWithMediaObjects();
 	}
 	
-	/**
-	* Returns the ranges array
-	*/
-	function &getRanges()
-	{
-		return $this->ranges;
-	}
-
 	/**
 	* Creates an Excel worksheet for the detailed cumulated results of this question
 	*

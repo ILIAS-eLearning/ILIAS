@@ -66,108 +66,148 @@ class assNumericGUI extends assQuestionGUI
 		return $cmd;
 	}
 
+	/**
+	* Evaluates a posted edit form and writes the form data in the question object
+	*
+	* @return integer A positive value, if one of the required fields wasn't set, else 0
+	* @access private
+	*/
+	function writePostData($always = false)
+	{
+		$hasErrors = (!$always) ? $this->editQuestion(true) : false;
+		if (!$hasErrors)
+		{
+			$this->object->setTitle(ilUtil::stripSlashes($_POST["title"]));
+			$this->object->setAuthor(ilUtil::stripSlashes($_POST["author"]));
+			$this->object->setComment(ilUtil::stripSlashes($_POST["comment"]));
+			include_once "./Services/AdvancedEditing/classes/class.ilObjAdvancedEditing.php";
+			$questiontext = ilUtil::stripSlashes($_POST["question"], false, ilObjAdvancedEditing::_getUsedHTMLTagsAsString("assessment"));
+			$this->object->setQuestion($questiontext);
+			$this->object->setMaxChars($_POST["maxchars"]);
+			$this->object->setEstimatedWorkingTime(
+				ilUtil::stripSlashes($_POST["Estimated"]["hh"]),
+				ilUtil::stripSlashes($_POST["Estimated"]["mm"]),
+				ilUtil::stripSlashes($_POST["Estimated"]["ss"])
+			);
+			$this->object->setLowerLimit($_POST['lowerlimit']);
+			$this->object->setUpperLimit($_POST['upperlimit']);
+			$this->object->setPoints($_POST['points']);
+			return 0;
+		}
+		else
+		{
+			return 1;
+		}
+	}
 
 	/**
-	* Creates an output of the edit form for the question
-	*
 	* Creates an output of the edit form for the question
 	*
 	* @access public
 	*/
-	function editQuestion()
+	public function editQuestion($checkonly = FALSE)
 	{
-		$this->tpl->addJavascript("./Services/JavaScript/js/Basic.js");
-		$javascript = "<script type=\"text/javascript\">ilAddOnLoad(initialSelect);\n".
-			"function initialSelect() {\n%s\n}</script>";
+		$save = ((strcmp($this->ctrl->getCmd(), "save") == 0) || (strcmp($this->ctrl->getCmd(), "saveEdit") == 0)) ? TRUE : FALSE;
 		$this->getQuestionTemplate();
-		$this->tpl->addBlockFile("QUESTION_DATA", "question_data", "tpl.il_as_qpl_numeric.html", "Modules/TestQuestionPool");
-		// call to other question data i.e. estimated working time block
-		$this->outOtherQuestionData();
 
-		if ($this->object->getRangeCount() == 0)
-		{
-			$this->object->addRange(0.0, 0.0, 0);
-		}
+		include_once("./Services/Form/classes/class.ilPropertyFormGUI.php");
+		$form = new ilPropertyFormGUI();
+		$form->setFormAction($this->ctrl->getFormAction($this));
+		$form->setTitle($this->outQuestionType());
+		$form->setMultipart(TRUE);
+		$form->setTableWidth("100%");
+		$form->setId("assnumeric");
+
+		// title
+		$title = new ilTextInputGUI($this->lng->txt("title"), "title");
+		$title->setValue($this->object->getTitle());
+		$title->setRequired(TRUE);
+		$form->addItem($title);
+		// author
+		$author = new ilTextInputGUI($this->lng->txt("author"), "author");
+		$author->setValue($this->object->getAuthor());
+		$author->setRequired(TRUE);
+		$form->addItem($author);
+		// description
+		$description = new ilTextInputGUI($this->lng->txt("description"), "comment");
+		$description->setValue($this->object->getComment());
+		$description->setRequired(FALSE);
+		$form->addItem($description);
+		// questiontext
+		$question = new ilTextAreaInputGUI($this->lng->txt("question"), "question");
+		$question->setValue($this->object->prepareTextareaOutput($this->object->getQuestion()));
+		$question->setRequired(TRUE);
+		$question->setRows(10);
+		$question->setCols(80);
+		$question->setUseRte(TRUE);
+		$question->addPlugin("latex");
+		$question->addButton("latex");
+		$question->setRTESupport($this->object->getId(), "qpl", "assessment");
+		$form->addItem($question);
+
+		// maxchars
+		$maxchars = new ilNumberInputGUI($this->lng->txt("maxchars"), "maxchars");
+		$maxchars->setSize(10);
+		$maxchars->setDecimals(0);
+		$maxchars->setMinValue(1);
+		$maxchars->setRequired(true);
+		if ($this->object->getMaxChars() > 0) $maxchars->setValue($this->object->getMaxChars());
+		$form->addItem($maxchars);
+
+		// duration
+		$duration = new ilDurationInputGUI($this->lng->txt("working_time"), "Estimated");
+		$duration->setShowHours(TRUE);
+		$duration->setShowMinutes(TRUE);
+		$duration->setShowSeconds(TRUE);
+		$ewt = $this->object->getEstimatedWorkingTime();
+		$duration->setHours($ewt["h"]);
+		$duration->setMinutes($ewt["m"]);
+		$duration->setSeconds($ewt["s"]);
+		$duration->setRequired(FALSE);
+		$form->addItem($duration);
+
+		// points
+		$points = new ilNumberInputGUI($this->lng->txt("points"), "points");
+		$points->setValue($this->object->getPoints());
+		$points->setRequired(TRUE);
+		$points->setSize(3);
+		$points->setMinValue(0.0);
+		$form->addItem($points);
+
+		$header = new ilFormSectionHeaderGUI();
+		$header->setTitle($this->lng->txt("range"));
+		$form->addItem($header);
 		
-		$counter = 0;
-		foreach ($this->object->ranges as $range)
-		{
-			$this->tpl->setCurrentBlock("ranges");
-			$this->tpl->setVariable("COUNTER", $counter);
-			$this->tpl->setVariable("TEXT_RANGE", $this->lng->txt("range"));
-			if (strlen($range->getPoints())) $this->tpl->setVariable("VALUE_POINTS", " value=\"" . $range->getPoints() . "\"");
-			if (strlen($range->getLowerLimit())) $this->tpl->setVariable("VALUE_LOWER_LIMIT", " value=\"" . $range->getLowerLimit() . "\"");
-			if (strlen($range->getUpperLimit())) $this->tpl->setVariable("VALUE_UPPER_LIMIT", " value=\"" . $range->getUpperLimit() . "\"");
-			$this->tpl->setVariable("TEXT_RANGE_LOWER_LIMIT", $this->lng->txt("range_lower_limit"));
-			$this->tpl->setVariable("TEXT_RANGE_UPPER_LIMIT", $this->lng->txt("range_upper_limit"));
-			$this->tpl->setVariable("TEXT_POINTS", $this->lng->txt("points"));
-			$this->tpl->parseCurrentBlock();
-			$counter++;
-		}
-		
-		$this->tpl->setCurrentBlock("question_data");
-		$this->tpl->setVariable("NUMERIC_ID", $this->object->getId());
-		$this->tpl->setVariable("VALUE_NUMERIC_TITLE", ilUtil::prepareFormOutput($this->object->getTitle()));
-		$this->tpl->setVariable("VALUE_NUMERIC_COMMENT", ilUtil::prepareFormOutput($this->object->getComment()));
-		$this->tpl->setVariable("VALUE_NUMERIC_AUTHOR", ilUtil::prepareFormOutput($this->object->getAuthor()));
-		$questiontext = $this->object->getQuestion();
-		$this->tpl->setVariable("VALUE_QUESTION", ilUtil::prepareFormOutput($this->object->prepareTextareaOutput($questiontext)));
-		$this->tpl->setVariable("TEXT_TITLE", $this->lng->txt("title"));
-		$this->tpl->setVariable("TEXT_AUTHOR", $this->lng->txt("author"));
-		$this->tpl->setVariable("TEXT_COMMENT", $this->lng->txt("description"));
-		$this->tpl->setVariable("TEXT_QUESTION", $this->lng->txt("question"));
-		$this->tpl->setVariable("TEXT_SOLUTION_HINT", $this->lng->txt("solution_hint"));
-		$this->tpl->setVariable("TEXT_MAXCHARS", $this->lng->txt("maxchars"));
-		$this->tpl->setVariable("VALUE_MAXCHARS", $this->object->getMaxChars());
-		$this->tpl->setVariable("SAVE",$this->lng->txt("save"));
-		$this->tpl->setVariable("SAVE_EDIT", $this->lng->txt("save_edit"));
-		$this->tpl->setVariable("CANCEL",$this->lng->txt("cancel"));
-		$this->tpl->setVariable("TXT_REQUIRED_FLD", $this->lng->txt("required_field"));
-		$this->ctrl->setParameter($this, "sel_question_types", "assNumeric");
-		$this->tpl->setVariable("FORMACTION", $this->ctrl->getFormAction($this));
-		$this->tpl->setVariable("TEXT_QUESTION_TYPE", $this->outQuestionType());
-		include_once "./Services/RTE/classes/class.ilRTE.php";
-		$rtestring = ilRTE::_getRTEClassname();
-		include_once "./Services/RTE/classes/class.$rtestring.php";
-		$rte = new $rtestring();
-		$rte->addPlugin("latex");
-		$rte->addButton("latex"); $rte->addButton("pastelatex");
-		include_once "./classes/class.ilObject.php";
-		$obj_id = $_GET["q_id"];
-		$obj_type = ilObject::_lookupType($_GET["ref_id"], TRUE);
-		$rte->addRTESupport($obj_id, $obj_type, "assessment");
-		
-		$this->tpl->parseCurrentBlock();
-		$this->tpl->setCurrentBlock("adm_content");
-		// $this->tpl->setVariable("BODY_ATTRIBUTES", " onload=\"initialSelect();\""); 
-		$this->tpl->parseCurrentBlock();
-	}
+		// lower bound
+		$lower_limit = new ilFormulaInputGUI($this->lng->txt("range_lower_limit"), "lowerlimit");
+		$lower_limit->setSize(25);
+		$lower_limit->setMaxLength(20);
+		$lower_limit->setRequired(true);
+		$lower_limit->setValue($this->object->getLowerLimit());
+		$form->addItem($lower_limit);
 
-	/**
-	* check input fields
-	*/
-	function checkInput()
-	{
-		$cmd = $this->ctrl->getCmd();
+		// upper bound
+		$upper_limit = new ilFormulaInputGUI($this->lng->txt("range_upper_limit"), "upperlimit");
+		$upper_limit->setSize(25);
+		$upper_limit->setMaxLength(20);
+		$upper_limit->setRequired(true);
+		$upper_limit->setValue($this->object->getUpperLimit());
+		$form->addItem($upper_limit);
 
-		if ((!$_POST["title"]) or (!$_POST["author"]) or (!$_POST["question"]))
+		$form->addCommandButton("save", $this->lng->txt("save"));
+		$form->addCommandButton("saveEdit", $this->lng->txt("save_edit"));
+
+		$errors = false;
+	
+		if ($save)
 		{
-//echo "<br>checkInput1:FALSE";
-			return false;
-		}
-		foreach ($_POST as $key => $value)
-		{
-			if (preg_match("/range_(\d+)/", $key, $matches))
-			{
-				if (!$value)
-				{
-//echo "<br>checkInput2:FALSE";
-					return false;
-				}
-			}
+			$form->setValuesByPost();
+			$errors = !$form->checkInput();
+			if ($errors) $checkonly = false;
 		}
 
-		return true;
+		if (!$checkonly) $this->tpl->setVariable("QUESTION_DATA", $form->getHTML());
+		return $errors;
 	}
 
 	/**
@@ -199,91 +239,6 @@ class assNumericGUI extends assQuestionGUI
 		{
 			return FALSE;
 		}
-	}
-
-	/**
-	* Evaluates a posted edit form and writes the form data in the question object
-	*
-	* Evaluates a posted edit form and writes the form data in the question object
-	*
-	* @return integer A positive value, if one of the required fields wasn't set, else 0
-	* @access private
-	*/
-	function writePostData()
-	{
-		include_once "./Services/Math/classes/class.EvalMath.php";
-		$eval = new EvalMath();
-		$eval->suppress_errors = TRUE;
-
-		$saved = false;
-		$result = 0;
-		if ((!$_POST["title"]) or (!$_POST["author"]) or (!$_POST["question"]) or (!$_POST["maxchars"]))
-		{
-			$result = 1;
-		}
-
-		$this->object->setTitle(ilUtil::stripSlashes($_POST["title"]));
-		$this->object->setAuthor(ilUtil::stripSlashes($_POST["author"]));
-		$this->object->setComment(ilUtil::stripSlashes($_POST["comment"]));
-		include_once "./Services/AdvancedEditing/classes/class.ilObjAdvancedEditing.php";
-		$questiontext = ilUtil::stripSlashes($_POST["question"], false, ilObjAdvancedEditing::_getUsedHTMLTagsAsString("assessment"));
-		$this->object->setQuestion($questiontext);
-		$this->object->setShuffle($_POST["shuffle"]);
-		$this->object->setMaxChars($_POST["maxchars"]);
-		
-		// adding estimated working time
-		$saved = $saved | $this->writeOtherPostData($result);
-
-		// Delete all existing ranges and create new answers from the form data
-		$this->object->flushRanges();
-
-		// Add all answers from the form into the object
-
-		// ...for Numeric with single response
-		foreach ($_POST as $key => $value)
-		{
-			if (preg_match("/lowerlimit_(\d+)/", $key, $matches))
-			{
-				$points = $_POST["points_$matches[1]"];
-				if ($points < 0)
-				{
-					$result = 1;
-					$this->setErrorMessage($this->lng->txt("negative_points_not_allowed"));
-				}
-				$lowerlimit = str_replace(",", ".", $_POST["lowerlimit_".$matches[1]]);
-				if (strlen($lowerlimit) == 0) $lowerlimit = 0.0;
-				if ($eval->e($lowerlimit) === FALSE)
-				{
-					$this->setErrorMessage($this->lng->txt("value_is_not_a_numeric_value"));
-					$result = 1;
-				}
-				$upperlimit = str_replace(",", ".", $_POST["upperlimit_".$matches[1]]);
-				if (strlen($upperlimit) == 0) $upperlimit = 0.0;
-				if ($eval->e($upperlimit) === FALSE)
-				{
-					$this->setErrorMessage($this->lng->txt("value_is_not_a_numeric_value"));
-					$result = 1;
-				}
-				$this->object->addRange(
-					$lowerlimit,
-					$upperlimit,
-					$points,
-					$matches[1]
-				);
-			}
-		}
-
-		if ($saved)
-		{
-			// If the question was saved automatically before an upload, we have to make
-			// sure, that the state after the upload is saved. Otherwise the user could be
-			// irritated, if he presses cancel, because he only has the question state before
-			// the upload process.
-			$this->object->saveToDb();
-			$this->ctrl->setParameter($this, "q_id", $this->object->getId());
-		}
-
-		return $result;
 	}
 
 	function outQuestionForTest($formaction, $active_id, $pass = NULL, $is_postponed = FALSE, $use_post_solutions = FALSE)
@@ -325,10 +280,7 @@ class assNumericGUI extends assQuestionGUI
 		}
 		else
 		{
-			foreach ($this->object->ranges as $key => $range)
-			{
-				array_push($solutions, array("value1" => sprintf($this->lng->txt("value_between_x_and_y"), $range->getLowerLimit(), $range->getUpperLimit())));
-			}
+			array_push($solutions, array("value1" => sprintf($this->lng->txt("value_between_x_and_y"), $this->object->getLowerLimit(), $this->object->getUpperLimit())));
 		}
 		
 		// generate the question output
