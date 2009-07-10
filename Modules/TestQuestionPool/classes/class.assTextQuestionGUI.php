@@ -56,15 +56,47 @@ class assTextQuestionGUI extends assQuestionGUI
 	}
 
 	/**
+	* Evaluates a posted edit form and writes the form data in the question object
+	*
+	* @return integer A positive value, if one of the required fields wasn't set, else 0
+	* @access private
+	*/
+	function writePostData($always = false)
+	{
+		$hasErrors = (!$always) ? $this->editQuestion(true) : false;
+		if (!$hasErrors)
+		{
+			$this->object->setTitle(ilUtil::stripSlashes($_POST["title"]));
+			$this->object->setAuthor(ilUtil::stripSlashes($_POST["author"]));
+			$this->object->setComment(ilUtil::stripSlashes($_POST["comment"]));
+			include_once "./Services/AdvancedEditing/classes/class.ilObjAdvancedEditing.php";
+			$questiontext = ilUtil::stripSlashes($_POST["question"], false, ilObjAdvancedEditing::_getUsedHTMLTagsAsString("assessment"));
+			$this->object->setQuestion($questiontext);
+			$this->object->setPoints($_POST["points"]);
+			$this->object->setMaxNumOfChars($_POST["maxchars"]);
+			$this->object->setKeywords(ilUtil::stripSlashes($_POST["keywords"], false, ilObjAdvancedEditing::_getUsedHTMLTagsAsString("assessment")));
+			$this->object->setTextRating($_POST["text_rating"]);
+			$this->object->setEstimatedWorkingTime(
+				ilUtil::stripSlashes($_POST["Estimated"]["hh"]),
+				ilUtil::stripSlashes($_POST["Estimated"]["mm"]),
+				ilUtil::stripSlashes($_POST["Estimated"]["ss"])
+			);
+			return 0;
+		}
+		else
+		{
+			return 1;
+		}
+	}
+
+	/**
 	* Creates an output of the edit form for the question
 	*
 	* @access public
 	*/
-	function editQuestion()
+	public function editQuestion($checkonly = FALSE)
 	{
-		$save = ((strcmp($this->ctrl->getCmd(), "save") == 0) || (strcmp($this->ctrl->getCmd(), "saveEdit") == 0) || (strcmp($this->ctrl->getCmd(), "addSuggestedSolution") == 0)) ? TRUE : FALSE;
-		
-		$this->tpl->addJavascript("./Services/JavaScript/js/Basic.js");
+		$save = ((strcmp($this->ctrl->getCmd(), "save") == 0) || (strcmp($this->ctrl->getCmd(), "saveEdit") == 0)) ? TRUE : FALSE;
 		$this->getQuestionTemplate();
 
 		include_once("./Services/Form/classes/class.ilPropertyFormGUI.php");
@@ -156,72 +188,17 @@ class assTextQuestionGUI extends assQuestionGUI
 		$form->addCommandButton("save", $this->lng->txt("save"));
 		$form->addCommandButton("saveEdit", $this->lng->txt("save_edit"));
 		$form->addCommandButton("cancel", $this->lng->txt("cancel"));
+		$errors = false;
+	
 		if ($save)
 		{
-			$form->checkInput();
-		}
-		$this->tpl->setVariable("QUESTION_DATA", $form->getHTML());
-	}
-
-	/**
-	* check input fields
-	*/
-	function checkInput()
-	{
-		$cmd = $this->ctrl->getCmd();
-
-		if ((!$_POST["title"]) or (!$_POST["author"]) or (!$_POST["question"]) or (strlen($_POST["points"]) == 0))
-		{
-			return false;
-		}
-		return true;
-	}
-
-	/**
-	* Evaluates a posted edit form and writes the form data in the question object
-	*
-	* Evaluates a posted edit form and writes the form data in the question object
-	*
-	* @return integer A positive value, if one of the required fields wasn't set, else 0
-	* @access private
-	*/
-	function writePostData()
-	{
-		$result = 0;
-		if ((!$_POST["title"]) or (!$_POST["author"]) or (!$_POST["question"]) or (strlen($_POST["points"]) == 0))
-		{
-			$result = 1;
+			$form->setValuesByPost();
+			$errors = !$form->checkInput();
+			if ($errors) $checkonly = false;
 		}
 
-		$this->object->setTitle(ilUtil::stripSlashes($_POST["title"]));
-		$this->object->setAuthor(ilUtil::stripSlashes($_POST["author"]));
-		$this->object->setComment(ilUtil::stripSlashes($_POST["comment"]));
-		include_once "./Services/AdvancedEditing/classes/class.ilObjAdvancedEditing.php";
-		$questiontext = ilUtil::stripSlashes($_POST["question"], false, ilObjAdvancedEditing::_getUsedHTMLTagsAsString("assessment"));
-		$this->object->setQuestion($questiontext);
-		$this->object->setPoints($_POST["points"]);
-		if ($_POST["points"] < 0)
-		{
-			$result = 1;
-			$this->setErrorMessage($this->lng->txt("negative_points_not_allowed"));
-		}
-		$this->object->setSuggestedSolution($_POST["solution_hint"], 0);
-		$this->object->setMaxNumOfChars($_POST["maxchars"]);
-		$this->object->setKeywords(ilUtil::stripSlashes($_POST["keywords"], false, ilObjAdvancedEditing::_getUsedHTMLTagsAsString("assessment")));
-		$this->object->setTextRating($_POST["text_rating"]);
-		$this->object->setEstimatedWorkingTime(
-			ilUtil::stripSlashes($_POST["Estimated"]["hh"]),
-			ilUtil::stripSlashes($_POST["Estimated"]["mm"]),
-			ilUtil::stripSlashes($_POST["Estimated"]["ss"])
-		);
-
-		// Set the question id from a hidden form parameter
-		if ($_POST["text_question_id"] > 0)
-		{
-			$this->object->setId($_POST["text_question_id"]);
-		}
-		
-		return $result;
+		if (!$checkonly) $this->tpl->setVariable("QUESTION_DATA", $form->getHTML());
+		return $errors;
 	}
 
 	function outAdditionalOutput()
@@ -506,9 +483,7 @@ class assTextQuestionGUI extends assQuestionGUI
 			// edit question properties
 			$ilTabs->addTarget("edit_properties",
 				$url,
-				array("editQuestion", "save", "cancel", "addSuggestedSolution",
-					"cancelExplorer", "linkChilds", "removeSuggestedSolution",
-					"saveEdit"),
+				array("editQuestion", "save", "saveEdit"),
 				$classname, "", $force_active);
 		}
 
