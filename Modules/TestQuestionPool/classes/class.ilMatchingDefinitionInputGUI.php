@@ -78,6 +78,54 @@ class ilMatchingDefinitionInputGUI extends ilSubEnabledFormPropertyGUI
 	}
 
 	/**
+	* Set value by array
+	*
+	* @param	array	$a_values	value array
+	*/
+	function setValueByArray($a_values)
+	{
+		$this->setValue($a_values);
+	}
+
+	/**
+	* Set Value.
+	*
+	* @param	string	$a_value	Value
+	*/
+	function setValue($a_value)
+	{
+		$this->values = array();
+		include_once "./Modules/TestQuestionPool/classes/class.assAnswerMatching.php";
+		$matchingterms = $_POST['matchingterms'];
+		$definitions = $_POST['definition'];
+		$imagefiles = $_POST['image_filename'];
+
+		if (is_array($matchingterms))
+		{
+			foreach ($matchingterms as $idx => $matchingterm)
+			{
+				$points = $_POST['points'][$idx];
+				$term_id = $matchingterms[$idx];
+				if (is_array($definitions))
+				{
+					$picture_or_definition = $definitions[$idx];
+				}
+				else
+				{
+					$picture_or_definition = $imagefiles[$idx];
+				}
+				$pair = new ASS_AnswerMatching(
+					$points,
+					$term_id,
+					$picture_or_definition,
+					$picture_or_definition_id
+				);
+				array_push($this->values, $pair);
+			}
+		}	
+	}
+
+	/**
 	* Set subtype
 	*
 	* @param	int	$a_subtype	subtype

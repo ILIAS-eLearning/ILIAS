@@ -203,7 +203,7 @@ class assOrderingQuestionGUI extends assQuestionGUI
 		$form = new ilPropertyFormGUI();
 		$form->setFormAction($this->ctrl->getFormAction($this));
 		$form->setTitle($this->outQuestionType());
-		$form->setMultipart(($oderingtype == OQ_PICTURES) ? TRUE : FALSE);
+		$form->setMultipart(($orderingtype == OQ_PICTURES) ? TRUE : FALSE);
 		$form->setTableWidth("100%");
 		$form->setId("ordering");
 
