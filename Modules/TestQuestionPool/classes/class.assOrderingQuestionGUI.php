@@ -334,73 +334,6 @@ class assOrderingQuestionGUI extends assQuestionGUI
 		return $errors;
 	}
 
-
-	function addItem()
-	{
-		$ok = true;
-		if (!$this->checkInput())
-		{
-			// You cannot add answers before you enter the required data
-			$this->error .= $this->lng->txt("fill_out_all_required_fields_add_answer") . "<br />";
-			$ok = false;
-		}
-		else
-		{
-			foreach ($_POST as $key => $value)
-			{
-				if (preg_match("/answer_(\d+)/", $key, $matches))
-				{
-					if ((!$value) && ($this->object->getOrderingType() == OQ_TERMS))
-					{
-						$ok = false;
-					}
-					if ($this->object->getOrderingType() == OQ_PICTURES)
-					{
-						if ((!$_FILES[$key]["tmp_name"]) && (!$value))
-						{
-							$ok = false;
-						}
-					}
-			 	}
-			}
-		}
-		if (!$ok)
-		{
-			$this->error .= $this->lng->txt("fill_out_all_answer_fields") . "<br />";
-		}
-
-		$this->writePostData();
-		$this->editQuestion($ok);
-	}
-
-	/**
-	* delete matching pair
-	*/
-	function delete()
-	{
-		$this->writePostData();
-
-		// Delete an answer if the delete button was pressed
-		foreach ($_POST[cmd] as $key => $value)
-		{
-			if (preg_match("/delete_(\d+)/", $key, $matches))
-			{
-				$this->object->deleteAnswer($matches[1]);
-			}
-		}
-		//$this->ctrl->redirect($this, "editQuestion"); works only on save
-		$this->editQuestion();
-	}
-
-	/**
-	* upload matching picture
-	*/
-	function upload()
-	{
-		$this->writePostData();
-		$this->editQuestion();
-	}
-
 	function outQuestionForTest($formaction, $active_id, $pass = NULL, $is_postponed = FALSE, $user_post_solution = FALSE)
 	{
 		$test_output = $this->getTestOutput($active_id, $pass, $is_postponed, $user_post_solution);
@@ -879,31 +812,6 @@ class assOrderingQuestionGUI extends assQuestionGUI
 		$questionoutput = $template->get();
 		$pageoutput = $this->outQuestionPage("", $is_postponed, $active_id, $questionoutput);
 		return $pageoutput;
-	}
-
-	/**
-	* check input fields
-	*/
-	function checkInput()
-	{
-		if ((!$_POST["title"]) or (!$_POST["author"]) or (!$_POST["question"]))
-		{
-			return false;
-		}
-		return true;
-	}
-
-	function editMode()
-	{
-		global $ilUser;
-		
-		if ($this->object->getOrderingType() == OQ_TERMS)
-		{
-			$this->object->setMultilineAnswerSetting($_POST["multilineAnswers"]);
-		}
-		$this->object->setOrderingType($_POST["ordering_type"]);
-		$this->writePostData();
-		$this->editQuestion();
 	}
 
 	/**
