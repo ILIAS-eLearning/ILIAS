@@ -171,7 +171,9 @@ class assNumericImport extends assQuestionImport
 		$this->object->setObjId($questionpool_id);
 		$this->object->setEstimatedWorkingTime($duration["h"], $duration["m"], $duration["s"]);
 		$this->object->setMaxChars($maxchars);
-		$this->object->addRange($lowerlimit, $upperlimit, $points);
+		$this->object->setPoints($points);
+		$this->object->setLowerLimit($lowerlimit);
+		$this->object->setUpperLimit($upperlimit);
 		$this->object->saveToDb();
 		if (count($item->suggested_solutions))
 		{
