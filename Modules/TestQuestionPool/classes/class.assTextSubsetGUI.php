@@ -61,349 +61,187 @@ class assTextSubsetGUI extends assQuestionGUI
 	}
 
 	/**
-	* Creates an output of the edit form for the question
-	*
-	* Creates an output of the edit form for the question
-	*
-	* @access public
-	*/
-	function editQuestion()
-	{
-		$this->tpl->addJavascript("./Services/JavaScript/js/Basic.js");
-		$javascript = "<script type=\"text/javascript\">ilAddOnLoad(initialSelect);\n".
-			"function initialSelect() {\n%s\n}</script>";
-		// single response
-		$this->getQuestionTemplate();
-		$this->tpl->addBlockFile("QUESTION_DATA", "question_data", "tpl.il_as_qpl_textsubset.html", "Modules/TestQuestionPool");
-		// output of existing single response answers
-		for ($i = 0; $i < $this->object->getAnswerCount(); $i++)
-		{
-			$this->tpl->setCurrentBlock("answers");
-			$answer = $this->object->getAnswer($i);
-			$this->tpl->setVariable("VALUE_ANSWER_COUNTER", $answer->getOrder() + 1);
-			$this->tpl->setVariable("ANSWER_ORDER", $answer->getOrder());
-			$this->tpl->setVariable("VALUE_ANSWER", ilUtil::prepareFormOutput($answer->getAnswertext()));
-			$this->tpl->setVariable("VALUE_POINTS", ilUtil::prepareFormOutput($answer->getPoints()));
-			$this->tpl->parseCurrentBlock();
-		}
-		if ($this->object->getAnswerCount() > 0)
-		{
-			$this->tpl->setCurrentBlock("answersheading");
-			$this->tpl->setVariable("TEXT_ANSWER_TEXT", $this->lng->txt("answer_text"));
-			$this->tpl->setVariable("TEXT_POINTS", $this->lng->txt("points"));
-			$this->tpl->parseCurrentBlock();
-		}
-
-		$this->tpl->setCurrentBlock("HeadContent");
-		if ($this->object->getAnswerCount() == 0)
-		{
-			$this->tpl->setVariable("CONTENT_BLOCK", sprintf($javascript, "document.frm_textsubset.title.focus();"));
-		}
-		else
-		{
-			switch ($this->ctrl->getCmd())
-			{
-				case "add":
-					$this->tpl->setVariable("CONTENT_BLOCK", sprintf($javascript, "document.frm_textsubset.answer_".($this->object->getAnswerCount() - $_POST["nrOfAnswers"]).".focus(); document.getElementById('answer_".($this->object->getAnswerCount() - $_POST["nrOfAnswers"])."').scrollIntoView(\"true\");"));
-					break;
-				case "":
-					if ($this->object->getAnswerCount() == 0)
-					{
-						$this->tpl->setVariable("CONTENT_BLOCK", sprintf($javascript, "document.frm_textsubset.title.focus();"));
-					}
-					else
-					{
-						$this->tpl->setVariable("CONTENT_BLOCK", sprintf($javascript, "document.frm_textsubset.answer_".($this->object->getAnswerCount() - 1).".focus(); document.getElementById('answer_".($this->object->getAnswerCount() - 1)."').scrollIntoView(\"true\");"));
-					}
-					break;
-				default:
-					$this->tpl->setVariable("CONTENT_BLOCK", sprintf($javascript, "document.frm_textsubset.title.focus();"));
-					break;
-			}
-		}
-		$this->tpl->parseCurrentBlock();
-
-		// Add text rating options
-		$text_options = array(
-			array("ci", $this->lng->txt("cloze_textgap_case_insensitive")),
-			array("cs", $this->lng->txt("cloze_textgap_case_sensitive")),
-			array("l1", sprintf($this->lng->txt("cloze_textgap_levenshtein_of"), "1")),
-			array("l2", sprintf($this->lng->txt("cloze_textgap_levenshtein_of"), "2")),
-			array("l3", sprintf($this->lng->txt("cloze_textgap_levenshtein_of"), "3")),
-			array("l4", sprintf($this->lng->txt("cloze_textgap_levenshtein_of"), "4")),
-			array("l5", sprintf($this->lng->txt("cloze_textgap_levenshtein_of"), "5"))
-		);
-		$text_rating = $this->object->getTextRating();
-		foreach ($text_options as $text_option)
-		{
-			$this->tpl->setCurrentBlock("text_rating");
-			$this->tpl->setVariable("RATING_VALUE", $text_option[0]);
-			$this->tpl->setVariable("RATING_TEXT", $text_option[1]);
-			if (strcmp($text_rating, $text_option[0]) == 0)
-			{
-				$this->tpl->setVariable("SELECTED_RATING_VALUE", " selected=\"selected\"");
-			}
-			$this->tpl->parseCurrentBlock();
-		}
-
-		if ($this->object->getAnswerCount() > 0)
-		{
-			$this->tpl->setCurrentBlock("selectall");
-			$this->tpl->setVariable("SELECT_ALL", $this->lng->txt("select_all"));
-			$this->tpl->parseCurrentBlock();
-			$this->tpl->setCurrentBlock("existinganswers");
-			$this->tpl->setVariable("DELETE", $this->lng->txt("delete"));
-			$this->tpl->setVariable("MOVE", $this->lng->txt("move"));
-			$this->tpl->setVariable("ARROW", "<img src=\"" . ilUtil::getImagePath("arrow_downright.gif") . "\" alt=\"".$this->lng->txt("arrow_downright")."\">");
-			$this->tpl->parseCurrentBlock();
-		}
-		
-		for ($i = 1; $i < 10; $i++)
-		{
-			$this->tpl->setCurrentBlock("numbers");
-			$this->tpl->setVariable("VALUE_NUMBER", $i);
-			if ($i == 1)
-			{
-				$this->tpl->setVariable("TEXT_NUMBER", $i . " " . $this->lng->txt("answer"));
-			}
-			else
-			{
-				$this->tpl->setVariable("TEXT_NUMBER", $i . " " . $this->lng->txt("answers"));
-			}
-			$this->tpl->parseCurrentBlock();
-		}
-
-		$this->tpl->setCurrentBlock("question_data");
-		$this->tpl->setVariable("TEXTSUBSET_ID", $this->object->getId());
-		$this->tpl->setVariable("VALUE_TEXTSUBSET_TITLE", ilUtil::prepareFormOutput($this->object->getTitle()));
-		$this->tpl->setVariable("VALUE_TEXTSUBSET_COMMENT", ilUtil::prepareFormOutput($this->object->getComment()));
-		$this->tpl->setVariable("VALUE_TEXTSUBSET_AUTHOR", ilUtil::prepareFormOutput($this->object->getAuthor()));
-		$this->tpl->setVariable("VALUE_CORRECTANSWERS", $this->object->getCorrectAnswers());
-		$this->tpl->setVariable("VALUE_POINTS", $this->object->getMaximumPoints());
-		$questiontext = $this->object->getQuestion();
-		$this->tpl->setVariable("VALUE_QUESTION", ilUtil::prepareFormOutput($this->object->prepareTextareaOutput($questiontext)));
-		$this->tpl->setVariable("VALUE_ADD_ANSWER", $this->lng->txt("add"));
-		$this->tpl->setVariable("TEXT_TITLE", $this->lng->txt("title"));
-		$this->tpl->setVariable("TEXT_AUTHOR", $this->lng->txt("author"));
-		$this->tpl->setVariable("TEXT_COMMENT", $this->lng->txt("description"));
-		$this->tpl->setVariable("TEXT_QUESTION", $this->lng->txt("question"));
-		$this->tpl->setVariable("TEXT_SOLUTION_HINT", $this->lng->txt("solution_hint"));
-		$this->tpl->setVariable("TEXT_RATING", $this->lng->txt("text_rating"));
-		$this->tpl->setVariable("TEXT_POINTS", $this->lng->txt("maximum_points"));
-		$this->tpl->setVariable("TEXT_CORRECTANSWERS", $this->lng->txt("nr_of_correct_answers"));
-		
-		// estimated working time
-		$est_working_time = $this->object->getEstimatedWorkingTime();
-		$this->tpl->setVariable("TEXT_WORKING_TIME", $this->lng->txt("working_time"));
-		$this->tpl->setVariable("TIME_FORMAT", $this->lng->txt("time_format"));
-		$this->tpl->setVariable("VALUE_WORKING_TIME", ilUtil::makeTimeSelect("Estimated", false, $est_working_time[h], $est_working_time[m], $est_working_time[s]));
-
-		$this->tpl->setVariable("SAVE",$this->lng->txt("save"));
-		$this->tpl->setVariable("SAVE_EDIT", $this->lng->txt("save_edit"));
-		$this->tpl->setVariable("CANCEL",$this->lng->txt("cancel"));
-		$this->tpl->setVariable("TXT_REQUIRED_FLD", $this->lng->txt("required_field"));
-		$this->ctrl->setParameter($this, "sel_question_types", "assTextSubset");
-		$this->tpl->setVariable("ACTION_TEXTSUBSET_TEST", $this->ctrl->getFormAction($this));
-		$this->tpl->setVariable("TEXT_QUESTION_TYPE", $this->outQuestionType());
-		$this->outOtherQuestionData();
-
-		$this->tpl->parseCurrentBlock();
-		include_once "./Services/RTE/classes/class.ilRTE.php";
-		$rtestring = ilRTE::_getRTEClassname();
-		include_once "./Services/RTE/classes/class.$rtestring.php";
-		$rte = new $rtestring();
-		$rte->addPlugin("latex");
-		$rte->addButton("latex"); $rte->addButton("pastelatex");
-		include_once "./classes/class.ilObject.php";
-		$obj_id = $_GET["q_id"];
-		$obj_type = ilObject::_lookupType($_GET["ref_id"], TRUE);
-		$rte->addRTESupport($obj_id, $obj_type, "assessment");
-
-		$this->tpl->setCurrentBlock("adm_content");
-		//$this->tpl->setVariable("BODY_ATTRIBUTES", " onload=\"initialSelect();\""); 
-		$this->tpl->parseCurrentBlock();
-	}
-	
-	/**
-	* add an answer(s)
-	*/
-	function deleteAnswer()
-	{
-		$this->writePostData();
-		$answers = $_POST["chb_answers"];
-		if (is_array($answers))
-		{
-			arsort($answers);
-			foreach ($answers as $answer)
-			{
-				$this->object->deleteAnswer($answer);
-			}
-		}
-		$this->editQuestion();
-	}
-
-	/**
-	* add an answer
-	*/
-	function add()
-	{
-		//$this->setObjectData();
-		$this->writePostData();
-
-		for ($i = 0; $i < $_POST["nrOfAnswers"]; $i++)
-		{
-			$this->object->addAnswer(
-				"",
-				1,
-				count($this->object->answers)
-			);
-		}
-
-		$this->editQuestion();
-	}
-	
-	function save()
-	{
-		$unfilled_answer = false;
-		foreach ($_POST as $key => $value)
-		{
-			if (preg_match("/answer_(\d+)/", $key, $matches))
-			{
-				if (!$value)
-				{
-					$unfilled_answer = true;
-				}
-			}
-		}
-		if ($unfilled_answer)
-		{
-			ilUtil::sendInfo($this->lng->txt("qpl_answertext_fields_not_filled"));
-			$this->writePostData();
-			$this->editQuestion();
-		}
-		else
-		{
-			parent::save();
-		}
-	}
-	
-	function saveEdit()
-	{
-		$unfilled_answer = false;
-		foreach ($_POST as $key => $value)
-		{
-			if (preg_match("/answer_(\d+)/", $key, $matches))
-			{
-				if (!$value)
-				{
-					$unfilled_answer = true;
-				}
-			}
-		}
-		if ($unfilled_answer)
-		{
-			ilUtil::sendInfo($this->lng->txt("qpl_answertext_fields_not_filled"));
-			$this->writePostData();
-			$this->editQuestion();
-		}
-		else
-		{
-			parent::saveEdit();
-		}
-	}
-
-	/**
-	* check input fields
-	*/
-	function checkInput()
-	{
-		$cmd = $this->ctrl->getCmd();
-
-		if ((!$_POST["title"]) or (!$_POST["author"]) or (!$_POST["question"]) or (!$_POST["correctanswers"]))
-		{
-			return false;
-		}
-		return true;
-	}
-
-	/**
-	* Evaluates a posted edit form and writes the form data in the question object
-	*
 	* Evaluates a posted edit form and writes the form data in the question object
 	*
 	* @return integer A positive value, if one of the required fields wasn't set, else 0
 	* @access private
 	*/
-	function writePostData()
+	function writePostData($always = false)
 	{
-//echo "here!"; exit;
-//echo "<br>assTextSubsetGUI->writePostData()";
-		$result = 0;
-		if (!$this->checkInput())
+		$hasErrors = (!$always) ? $this->editQuestion(true) : false;
+		if (!$hasErrors)
 		{
-			$result = 1;
-		}
-
-		if (($result) and (strcmp($this->ctrl->getCmd(), "add") == 0))
-		{
-			// You cannot add answers before you enter the required data
-			ilUtil::sendInfo($this->lng->txt("fill_out_all_required_fields_add_answer"));
-		}
-
-		$this->object->setTitle(ilUtil::stripSlashes($_POST["title"]));
-		$this->object->setAuthor(ilUtil::stripSlashes($_POST["author"]));
-		$this->object->setComment(ilUtil::stripSlashes($_POST["comment"]));
-		include_once "./Services/AdvancedEditing/classes/class.ilObjAdvancedEditing.php";
-		$questiontext = ilUtil::stripSlashes($_POST["question"], false, ilObjAdvancedEditing::_getUsedHTMLTagsAsString("assessment"));
-		$this->object->setQuestion($questiontext);
-		$this->object->setCorrectAnswers($_POST["correctanswers"]);
-		$this->object->setTextRating($_POST["text_rating"]);
-
-		$saved = $this->writeOtherPostData($result);
-
-		// Delete all existing answers and create new answers from the form data
-		$this->object->flushAnswers();
-
-		// Add all answers from the form into the object
-		foreach ($_POST as $key => $value)
-		{
-			if (preg_match("/answer_(\d+)/", $key, $matches))
+			$this->object->setTitle(ilUtil::stripSlashes($_POST["title"]));
+			$this->object->setAuthor(ilUtil::stripSlashes($_POST["author"]));
+			$this->object->setComment(ilUtil::stripSlashes($_POST["comment"]));
+			include_once "./Services/AdvancedEditing/classes/class.ilObjAdvancedEditing.php";
+			$questiontext = ilUtil::stripSlashes($_POST["question"], false, ilObjAdvancedEditing::_getUsedHTMLTagsAsString("assessment"));
+			$this->object->setQuestion($questiontext);
+			$this->object->setCorrectAnswers($_POST["correctanswers"]);
+			$this->object->setTextRating($_POST["text_rating"]);
+			// Delete all existing answers and create new answers from the form data
+			$this->object->flushAnswers();
+			foreach ($_POST['answers']['answer'] as $index => $answer)
 			{
-				$this->object->addAnswer(
-					ilUtil::stripSlashes($_POST["$key"]),
-					ilUtil::stripSlashes($_POST["points_".$matches[1]]),
-					ilUtil::stripSlashes($matches[1])
-					);
+				$answertext = ilUtil::stripSlashes($answer, false, ilObjAdvancedEditing::_getUsedHTMLTagsAsString("assessment"));
+				$this->object->addAnswer($answertext, $_POST['answers']['points'][$index], $index);
 			}
+			return 0;
 		}
-
-		// Set the question id from a hidden form parameter
-		if ($_POST["textsubset_id"] > 0)
+		else
 		{
-			$this->object->setId($_POST["textsubset_id"]);
+			return 1;
 		}
-
-		$maximum_points = $this->object->getMaximumPoints();
-		if (($maximum_points <= 0) && (count($this->object->answers) > 0))
-		{
-			$result = 1;
-			$this->setErrorMessage($this->lng->txt("enter_enough_positive_points"));
-		}
-		$this->object->setPoints($maximum_points);
-		
-		if ($saved)
-		{
-			// If the question was saved automatically before an upload, we have to make
-			// sure, that the state after the upload is saved. Otherwise the user could be
-			// irritated, if he presses cancel, because he only has the question state before
-			// the upload process.
-			$this->object->saveToDb();
-			$this->ctrl->setParameter($this, "q_id", $this->object->getId());
-		}
-
-		return $result;
 	}
+
+	/**
+	* Creates an output of the edit form for the question
+	*
+	* @access public
+	*/
+	public function editQuestion($checkonly = FALSE)
+	{
+		$save = ((strcmp($this->ctrl->getCmd(), "save") == 0) || (strcmp($this->ctrl->getCmd(), "saveEdit") == 0)) ? TRUE : FALSE;
+		$this->getQuestionTemplate();
+
+		include_once("./Services/Form/classes/class.ilPropertyFormGUI.php");
+		$form = new ilPropertyFormGUI();
+		$form->setFormAction($this->ctrl->getFormAction($this));
+		$form->setTitle($this->outQuestionType());
+		$form->setMultipart(FALSE);
+		$form->setTableWidth("100%");
+		$form->setId("asstextsubset");
+
+		// title
+		$title = new ilTextInputGUI($this->lng->txt("title"), "title");
+		$title->setValue($this->object->getTitle());
+		$title->setRequired(TRUE);
+		$form->addItem($title);
+		// author
+		$author = new ilTextInputGUI($this->lng->txt("author"), "author");
+		$author->setValue($this->object->getAuthor());
+		$author->setRequired(TRUE);
+		$form->addItem($author);
+		// description
+		$description = new ilTextInputGUI($this->lng->txt("description"), "comment");
+		$description->setValue($this->object->getComment());
+		$description->setRequired(FALSE);
+		$form->addItem($description);
+		// questiontext
+		$question = new ilTextAreaInputGUI($this->lng->txt("question"), "question");
+		$question->setValue($this->object->prepareTextareaOutput($this->object->getQuestion()));
+		$question->setRequired(TRUE);
+		$question->setRows(10);
+		$question->setCols(80);
+		$question->setUseRte(TRUE);
+		$question->addPlugin("latex");
+		$question->addButton("latex");
+		$question->setRTESupport($this->object->getId(), "qpl", "assessment");
+		$form->addItem($question);
+
+		// number of requested answers
+		$correctanswers = new ilNumberInputGUI($this->lng->txt("nr_of_correct_answers"), "correctanswers");
+		$correctanswers->setMinValue(1);
+		$correctanswers->setDecimals(0);
+		$correctanswers->setSize(3);
+		$correctanswers->setValue($this->object->getCorrectAnswers());
+		$correctanswers->setRequired(true);
+		$form->addItem($correctanswers);
+
+		// maximum available points
+		$points = new ilNumberInputGUI($this->lng->txt("maximum_points"), "points");
+		$points->setMinValue(0.25);
+		$points->setSize(6);
+		$points->setDisabled(true);
+		$points->setValue($this->object->getMaximumPoints());
+		$points->setRequired(false);
+		$form->addItem($points);
+
+		// text rating
+		$textrating = new ilSelectInputGUI($this->lng->txt("text_rating"), "text_rating");
+		$text_options = array(
+			"ci" => $this->lng->txt("cloze_textgap_case_insensitive"),
+			"cs" => $this->lng->txt("cloze_textgap_case_sensitive"),
+			"l1" => sprintf($this->lng->txt("cloze_textgap_levenshtein_of"), "1"),
+			"l2" => sprintf($this->lng->txt("cloze_textgap_levenshtein_of"), "2"),
+			"l3" => sprintf($this->lng->txt("cloze_textgap_levenshtein_of"), "3"),
+			"l4" => sprintf($this->lng->txt("cloze_textgap_levenshtein_of"), "4"),
+			"l5" => sprintf($this->lng->txt("cloze_textgap_levenshtein_of"), "5")
+		);
+		$textrating->setOptions($text_options);
+		$textrating->setValue($this->object->getTextRating());
+		$form->addItem($textrating);
+
+		// duration
+		$duration = new ilDurationInputGUI($this->lng->txt("working_time"), "Estimated");
+		$duration->setShowHours(TRUE);
+		$duration->setShowMinutes(TRUE);
+		$duration->setShowSeconds(TRUE);
+		$ewt = $this->object->getEstimatedWorkingTime();
+		$duration->setHours($ewt["h"]);
+		$duration->setMinutes($ewt["m"]);
+		$duration->setSeconds($ewt["s"]);
+		$duration->setRequired(FALSE);
+		$form->addItem($duration);
 	
+		if ($this->object->getId())
+		{
+			$hidden = new ilHiddenInputGUI("", "ID");
+			$hidden->setValue($this->object->getId());
+			$form->addItem($hidden);
+		}
+
+		// Choices
+		include_once "./Modules/TestQuestionPool/classes/class.ilSingleChoiceWizardInputGUI.php";
+		$choices = new ilSingleChoiceWizardInputGUI($this->lng->txt("answers"), "answers");
+		$choices->setRequired(true);
+		$choices->setQuestionObject($this->object);
+		$choices->setSingleline(true);
+		$choices->setAllowMove(false);
+		$choices->setAllowImages(false);
+		if ($this->object->getAnswerCount() == 0) $this->object->addAnswer("", 0, 0);
+		$choices->setValues($this->object->getAnswers());
+		$form->addItem($choices);
+
+		$form->addCommandButton("save", $this->lng->txt("save"));
+		$form->addCommandButton("saveEdit", $this->lng->txt("save_edit"));
+	
+		$errors = false;
+	
+		if ($save)
+		{
+			$form->setValuesByPost();
+			$points->setValue($this->object->getMaximumPoints());
+			$errors = !$form->checkInput();
+			if ($errors) $checkonly = false;
+		}
+
+		if (!$checkonly) $this->tpl->setVariable("QUESTION_DATA", $form->getHTML());
+		return $errors;
+	}
+
+	/**
+	* Add a new answer
+	*/
+	public function addanswers()
+	{
+		$this->writePostData(true);
+		$position = key($_POST['cmd']['addanswers']);
+		$this->object->addAnswer("", 0, $position+1);
+		$this->editQuestion();
+	}
+
+	/**
+	* Remove an answer
+	*/
+	public function removeanswers()
+	{
+		$this->writePostData(true);
+		$position = key($_POST['cmd']['removeanswers']);
+		$this->object->deleteAnswer($position);
+		$this->editQuestion();
+	}
+
 	function outQuestionForTest($formaction, $active_id, $pass = NULL, $is_postponed = FALSE, $use_post_solutions = FALSE)
 	{
 		$test_output = $this->getTestOutput($active_id, $pass, $is_postponed, $use_post_solutions); 
@@ -656,8 +494,7 @@ class assTextSubsetGUI extends assQuestionGUI
 			// edit question properties
 			$ilTabs->addTarget("edit_properties",
 				$url,
-				array("editQuestion", "save", "cancel", "add", "deleteAnswer", 
-					"saveEdit"),
+				array("editQuestion", "save", "saveEdit", "addanswers", "removeanswers"),
 				$classname, "", $force_active);
 		}
 

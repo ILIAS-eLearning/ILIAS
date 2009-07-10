@@ -253,12 +253,12 @@ class ilMultipleChoiceWizardInputGUI extends ilSingleChoiceWizardInputGUI
 				}
 				if (strlen($value->getImage()))
 				{
-					$imagename = $this->tstObject->getImagePathWeb() . $value->getImage();
-					if (($this->tstObject->getGraphicalAnswerSetting()) && ($this->tstObject->getResizeImages()))
+					$imagename = $this->qstObject->getImagePathWeb() . $value->getImage();
+					if (($this->qstObject->getGraphicalAnswerSetting()) && ($this->qstObject->getResizeImages()))
 					{
-						if (@file_exists($this->tstObject->getImagePath() . $this->tstObject->getThumbPrefix() . $value->getImage()))
+						if (@file_exists($this->qstObject->getImagePath() . $this->qstObject->getThumbPrefix() . $value->getImage()))
 						{
-							$imagename = $this->tstObject->getImagePathWeb() . $this->tstObject->getThumbPrefix() . $value->getImage();
+							$imagename = $this->qstObject->getImagePathWeb() . $this->qstObject->getThumbPrefix() . $value->getImage();
 						}
 					}
 					$tpl->setCurrentBlock('image');
@@ -315,7 +315,7 @@ class ilMultipleChoiceWizardInputGUI extends ilSingleChoiceWizardInputGUI
 					$tpl->parseCurrentBlock();
 				}
 				$tpl->setCurrentBlock('multiline');
-				$tpl->setVariable("PROPERTY_VALUE", $this->tstObject->prepareTextareaOutput($value->getAnswertext()));
+				$tpl->setVariable("PROPERTY_VALUE", $this->qstObject->prepareTextareaOutput($value->getAnswertext()));
 				$tpl->setVariable("MULTILINE_ID", $this->getPostVar() . "[answer][$i]");
 				$tpl->setVariable("MULTILINE_ROW_NUMBER", $i);
 				$tpl->setVariable("MULTILINE_POST_VAR", $this->getPostVar());

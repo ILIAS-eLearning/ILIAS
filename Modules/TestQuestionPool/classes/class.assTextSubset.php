@@ -252,12 +252,12 @@ class assTextSubset extends assQuestion
 			array('integer'),
 			array($question_id)
 		);
-		include_once "./Modules/TestQuestionPool/classes/class.assAnswerSimple.php";
+		include_once "./Modules/TestQuestionPool/classes/class.assAnswerBinaryStateImage.php";
 		if ($result->numRows() > 0)
 		{
 			while ($data = $ilDB->fetchAssoc($result))
 			{
-				array_push($this->answers, new ASS_AnswerSimple($data["answertext"], $data["points"], $data["aorder"]));
+				array_push($this->answers, new ASS_AnswerBinaryStateImage($data["answertext"], $data["points"], $data["aorder"]));
 			}
 		}
 
@@ -269,10 +269,32 @@ class assTextSubset extends assQuestion
 	*
 	* @access public
 	*/
-	function addAnswer($answertext, $points, $answerorder)
+	function addAnswer($answertext, $points, $order)
 	{
-		include_once "./Modules/TestQuestionPool/classes/class.assAnswerSimple.php";
-		array_push($this->answers, new ASS_AnswerSimple($answertext, $points, $answerorder));
+		include_once "./Modules/TestQuestionPool/classes/class.assAnswerBinaryStateImage.php";
+		if (array_key_exists($order, $this->answers))
+		{
+			// insert answer
+			$answer = new ASS_AnswerBinaryStateImage($answertext, $points, $order);
+			$newchoices = array();
+			for ($i = 0; $i < $order; $i++)
+			{
+				array_push($newchoices, $this->answers[$i]);
+			}
+			array_push($newchoices, $answer);
+			for ($i = $order; $i < count($this->answers); $i++)
+			{
+				$changed = $this->answers[$i];
+				$changed->setOrder($i+1);
+				array_push($newchoices, $changed);
+			}
+			$this->answers = $newchoices;
+		}
+		else
+		{
+			// add answer
+			array_push($this->answers, new ASS_AnswerBinaryStateImage($answertext, $points, count($this->answers)));
+		}
 	}
 	
 	/**
@@ -380,7 +402,7 @@ class assTextSubset extends assQuestion
 	* answer is 0, the index of the second answer is 1 and so on.
 	*
 	* @param integer $index A nonnegative index of the n-th answer
-	* @return object ASS_AnswerSimple-Object containing the answer
+	* @return object ASS_assAnswerBinaryStateImage-Object containing the answer
 	* @access public
 	* @see $answers
 	*/
@@ -783,6 +805,11 @@ class assTextSubset extends assQuestion
 			$i++;
 		}
 		return $startrow + $i + 1;
+	}
+	
+	public function getAnswers()
+	{
+		return $this->answers;
 	}
 }
 

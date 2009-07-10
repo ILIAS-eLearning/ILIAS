@@ -140,13 +140,12 @@ class assSingleChoiceGUI extends assQuestionGUI
 	public function editQuestion($checkonly = FALSE)
 	{
 		$save = ((strcmp($this->ctrl->getCmd(), "save") == 0) || (strcmp($this->ctrl->getCmd(), "saveEdit") == 0)) ? TRUE : FALSE;
-		$this->tpl->addJavascript("./Services/JavaScript/js/Basic.js");
 		$this->getQuestionTemplate();
 
 		include_once("./Services/Form/classes/class.ilPropertyFormGUI.php");
 		$form = new ilPropertyFormGUI();
 		$form->setFormAction($this->ctrl->getFormAction($this));
-		$form->setTitle($this->lng->txt("assSingleChoice"));
+		$form->setTitle($this->outQuestionType());
 		$usegraphics = ($save) ? $_POST['allow_images'] : $this->object->getGraphicalAnswerSetting();
 		$useresize = ($save) ? $_POST['resize_images'] : $this->object->getResizeImages();
 		if ($usegraphics)
@@ -254,7 +253,7 @@ class assSingleChoiceGUI extends assQuestionGUI
 		include_once "./Modules/TestQuestionPool/classes/class.ilSingleChoiceWizardInputGUI.php";
 		$choices = new ilSingleChoiceWizardInputGUI($this->lng->txt("answers"), "choice");
 		$choices->setRequired(true);
-		$choices->setTestObject($this->object);
+		$choices->setQuestionObject($this->object);
 		$choices->setSingleline(($this->object->getMultilineAnswerSetting()) ? false : true);
 		$choices->setAllowMove(false);
 		$choices->setAllowImages($usegraphics);
