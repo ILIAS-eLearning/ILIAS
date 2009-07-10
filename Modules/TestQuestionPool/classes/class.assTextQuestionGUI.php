@@ -102,7 +102,7 @@ class assTextQuestionGUI extends assQuestionGUI
 		include_once("./Services/Form/classes/class.ilPropertyFormGUI.php");
 		$form = new ilPropertyFormGUI();
 		$form->setFormAction($this->ctrl->getFormAction($this));
-		$form->setTitle($this->lng->txt("assTextQuestion"));
+		$form->setTitle($this->outQuestionType());
 		$form->setMultipart(TRUE);
 		$form->setTableWidth("100%");
 		$form->setId("flash");
