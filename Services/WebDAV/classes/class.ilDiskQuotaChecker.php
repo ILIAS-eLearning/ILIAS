@@ -123,7 +123,6 @@ class ilDiskQuotaChecker
 	*		'details' array(array('type'=>string,'count'=>integer,'size'=>integer),...)
 	*                            // an associative array with the disk
 	*                            // usage in bytes for each object type
-	* }
 	*/
 	public static function _lookupDiskUsage($a_user_id)
 	{
@@ -329,6 +328,9 @@ class ilDiskQuotaChecker
 		require_once 'Modules/ScormAicc/classes/class.ilObjSAHSLearningModuleAccess.php';
 		self::__updateDiskUsageStatisticsOfType(new ilObjSAHSLearningModuleAccess(), 'sahs');
 
+		require_once 'Services/Mail/classes/class.ilObjMailAccess.php';
+		self::__updateDiskUsageStatisticsOfUsers(new ilObjMailAccess(), 'mail');
+
 		// insert the sum of the disk usage of each user
 		$ilDB->manipulate("INSERT INTO usr_pref ".
 			"(usr_id, keyword, value) ".
@@ -419,5 +421,45 @@ class ilDiskQuotaChecker
 
 	}
 
+	/**
+	 * Updates the disk usage statistics of the specified object type for
+	 * all user accounts.
+	 * The results are stored in table usr_pref.
+	 * For each user which owns files the following rows are inserted:
+	 *
+	 * @param $a_access_obj Object		A access object, such as ilObjFileAccess.
+	 * @param $a_type		string	The type of the access object, such as 'file'.
+	 *
+	 * Keyword					Value	Description
+	 * 'disk_usage.file.count'	integer	The number of files owned by the user
+	 * 'disk_usage.file.usage'	integer	The disk usage of the files
+	 */
+	private static function __updateDiskUsageStatisticsOfUsers($a_access_obj, $a_type)
+	{
+		global $ilDB;
+
+		// get all users
+		$res = $ilDB->query("SELECT usr_id FROM usr_data");
+
+		// for each user count the number of objects and sum up the size
+		while ($row = $res->fetchRow(DB_FETCHMODE_OBJECT)) {
+			$data = $a_access_obj->_lookupDiskUsageOfUser($row->usr_id);
+
+			if ($data['size'] != null && $data['count'] != null)
+			{
+			$ilDB->manipulate("INSERT INTO usr_pref ".
+				"(usr_id, keyword, value) ".
+				"VALUES ".
+					"(".$ilDB->quote($row->usr_id,'integer').", ".
+					$ilDB->quote('disk_usage.'.$a_type.'.size').", ".
+					$ilDB->quote($data['size'], 'integer')."),".
+
+					"(".$ilDB->quote($row->usr_id,'integer').", ".
+					$ilDB->quote('disk_usage.'.$a_type.'.count').", ".
+					$ilDB->quote($data['count'], 'integer').")"
+					);
+			}
+		}
+	}
 }
 ?>
