@@ -133,30 +133,27 @@ class assNumericExport extends assQuestionExport
 		$a_xml_writer->xmlEndTag("decvar");
 		$a_xml_writer->xmlEndTag("outcomes");
 		// add response conditions
-		foreach ($this->object->getRanges() as $index => $range)
-		{
-			$a_xml_writer->xmlStartTag("respcondition");
-			// qti conditionvar
-			$a_xml_writer->xmlStartTag("conditionvar");
-			$attrs = array(
-				"respident" => "NUM"
-			);
-			$a_xml_writer->xmlElement("vargte", $attrs, $range->getLowerLimit());
-			$a_xml_writer->xmlElement("varlte", $attrs, $range->getUpperLimit());
-			$a_xml_writer->xmlEndTag("conditionvar");
-			// qti setvar
-			$attrs = array(
-				"action" => "Add"
-			);
-			$a_xml_writer->xmlElement("setvar", $attrs, $range->getPoints());
-			// qti displayfeedback
-			$attrs = array(
-				"feedbacktype" => "Response",
-				"linkrefid" => "Correct"
-			);
-			$a_xml_writer->xmlElement("displayfeedback", $attrs);
-			$a_xml_writer->xmlEndTag("respcondition");
-		}
+		$a_xml_writer->xmlStartTag("respcondition");
+		// qti conditionvar
+		$a_xml_writer->xmlStartTag("conditionvar");
+		$attrs = array(
+			"respident" => "NUM"
+		);
+		$a_xml_writer->xmlElement("vargte", $attrs, $this->object->getLowerLimit());
+		$a_xml_writer->xmlElement("varlte", $attrs, $this->object->getUpperLimit());
+		$a_xml_writer->xmlEndTag("conditionvar");
+		// qti setvar
+		$attrs = array(
+			"action" => "Add"
+		);
+		$a_xml_writer->xmlElement("setvar", $attrs, $this->object->getPoints());
+		// qti displayfeedback
+		$attrs = array(
+			"feedbacktype" => "Response",
+			"linkrefid" => "Correct"
+		);
+		$a_xml_writer->xmlElement("displayfeedback", $attrs);
+		$a_xml_writer->xmlEndTag("respcondition");
 
 		$feedback_allcorrect = $this->object->getFeedbackGeneric(1);
 		if (strlen($feedback_allcorrect))
@@ -170,8 +167,8 @@ class assNumericExport extends assQuestionExport
 			$attrs = array(
 				"respident" => "NUM"
 			);
-			$a_xml_writer->xmlElement("vargte", $attrs, $range->getLowerLimit());
-			$a_xml_writer->xmlElement("varlte", $attrs, $range->getUpperLimit());
+			$a_xml_writer->xmlElement("vargte", $attrs, $this->object->getLowerLimit());
+			$a_xml_writer->xmlElement("varlte", $attrs, $this->object->getUpperLimit());
 			$a_xml_writer->xmlEndTag("conditionvar");
 			// qti displayfeedback
 			$attrs = array(
@@ -195,8 +192,8 @@ class assNumericExport extends assQuestionExport
 			$attrs = array(
 				"respident" => "NUM"
 			);
-			$a_xml_writer->xmlElement("vargte", $attrs, $range->getLowerLimit());
-			$a_xml_writer->xmlElement("varlte", $attrs, $range->getUpperLimit());
+			$a_xml_writer->xmlElement("vargte", $attrs, $this->object->getLowerLimit());
+			$a_xml_writer->xmlElement("varlte", $attrs, $this->object->getUpperLimit());
 			$a_xml_writer->xmlEndTag("not");
 			$a_xml_writer->xmlEndTag("conditionvar");
 			// qti displayfeedback
@@ -211,21 +208,18 @@ class assNumericExport extends assQuestionExport
 		$a_xml_writer->xmlEndTag("resprocessing");
 
 		// PART III: qti itemfeedback
-		foreach ($this->object->getRanges() as $index => $range)
-		{
-			$attrs = array(
-				"ident" => "Correct",
-				"view" => "All"
-			);
-			$a_xml_writer->xmlStartTag("itemfeedback", $attrs);
-			// qti flow_mat
-			$a_xml_writer->xmlStartTag("flow_mat");
-			$a_xml_writer->xmlStartTag("material");
-			$a_xml_writer->xmlElement("mattext");
-			$a_xml_writer->xmlEndTag("material");
-			$a_xml_writer->xmlEndTag("flow_mat");
-			$a_xml_writer->xmlEndTag("itemfeedback");
-		}
+		$attrs = array(
+			"ident" => "Correct",
+			"view" => "All"
+		);
+		$a_xml_writer->xmlStartTag("itemfeedback", $attrs);
+		// qti flow_mat
+		$a_xml_writer->xmlStartTag("flow_mat");
+		$a_xml_writer->xmlStartTag("material");
+		$a_xml_writer->xmlElement("mattext");
+		$a_xml_writer->xmlEndTag("material");
+		$a_xml_writer->xmlEndTag("flow_mat");
+		$a_xml_writer->xmlEndTag("itemfeedback");
 		if (strlen($feedback_allcorrect))
 		{
 			$attrs = array(
