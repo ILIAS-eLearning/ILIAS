@@ -66,20 +66,28 @@ class assOrderingHorizontalGUI extends assQuestionGUI
 	* @return integer A positive value, if one of the required fields wasn't set, else 0
 	* @access private
 	*/
-	function writePostData()
+	function writePostData($always = false)
 	{
-		$this->object->setTitle(ilUtil::stripSlashes($_POST["title"]));
-		$this->object->setAuthor(ilUtil::stripSlashes($_POST["author"]));
-		$this->object->setComment(ilUtil::stripSlashes($_POST["comment"]));
-		include_once "./Services/AdvancedEditing/classes/class.ilObjAdvancedEditing.php";
-		$questiontext = ilUtil::stripSlashes($_POST["question"], false, ilObjAdvancedEditing::_getUsedHTMLTagsAsString("assessment"));
-		$this->object->setQuestion($questiontext);
-		$this->object->setPoints(ilUtil::stripSlashes($_POST["points"]));
-		// adding estimated working time
-		$this->writeOtherPostData();
-		$this->object->setTextSize(ilUtil::stripSlashes($_POST["textsize"]));
-		$this->object->setOrderText(ilUtil::stripSlashes($_POST["ordertext"]));
-		return $this->editQuestion(TRUE);
+		$hasErrors = (!$always) ? $this->editQuestion(true) : false;
+		if (!$hasErrors)
+		{
+			$this->object->setTitle(ilUtil::stripSlashes($_POST["title"]));
+			$this->object->setAuthor(ilUtil::stripSlashes($_POST["author"]));
+			$this->object->setComment(ilUtil::stripSlashes($_POST["comment"]));
+			include_once "./Services/AdvancedEditing/classes/class.ilObjAdvancedEditing.php";
+			$questiontext = ilUtil::stripSlashes($_POST["question"], false, ilObjAdvancedEditing::_getUsedHTMLTagsAsString("assessment"));
+			$this->object->setQuestion($questiontext);
+			$this->object->setPoints(ilUtil::stripSlashes($_POST["points"]));
+			// adding estimated working time
+			$this->writeOtherPostData();
+			$this->object->setTextSize(ilUtil::stripSlashes($_POST["textsize"]));
+			$this->object->setOrderText(ilUtil::stripSlashes($_POST["ordertext"]));
+			return 0;
+		}
+		else
+		{
+			return 1;
+		}
 	}
 
 	/**
@@ -90,13 +98,12 @@ class assOrderingHorizontalGUI extends assQuestionGUI
 	public function editQuestion($checkonly = FALSE)
 	{
 		$save = ((strcmp($this->ctrl->getCmd(), "save") == 0) || (strcmp($this->ctrl->getCmd(), "saveEdit") == 0)) ? TRUE : FALSE;
-		$this->tpl->addJavascript("./Services/JavaScript/js/Basic.js");
 		$this->getQuestionTemplate();
 
 		include_once("./Services/Form/classes/class.ilPropertyFormGUI.php");
 		$form = new ilPropertyFormGUI();
 		$form->setFormAction($this->ctrl->getFormAction($this));
-		$form->setTitle($this->lng->txt("assOrderingHorizontal"));
+		$form->setTitle($this->outQuestionType());
 		$form->setMultipart(FALSE);
 		$form->setTableWidth("100%");
 		$form->setId("orderinghorizontal");
@@ -173,12 +180,14 @@ class assOrderingHorizontalGUI extends assQuestionGUI
 		$form->addCommandButton("saveEdit", $this->lng->txt("save_edit"));
 		
 		$errors = false;
-		
+	
 		if ($save)
 		{
+			$form->setValuesByPost();
 			$errors = !$form->checkInput();
+			if ($errors) $checkonly = false;
 		}
-		
+
 		if (!$checkonly) $this->tpl->setVariable("QUESTION_DATA", $form->getHTML());
 		return $errors;
 	}
@@ -429,8 +438,7 @@ class assOrderingHorizontalGUI extends assQuestionGUI
 			// edit question properties
 			$ilTabs->addTarget("edit_properties",
 				$url,
-				array("editQuestion", "save", "cancel", 
-					"flashAddParam", "saveEdit"),
+				array("editQuestion", "save", "saveEdit"),
 				$classname, "", $force_active);
 		}
 
