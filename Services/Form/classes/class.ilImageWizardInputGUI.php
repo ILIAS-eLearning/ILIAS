@@ -32,7 +32,9 @@ class ilImageWizardInputGUI extends ilImageFileInputGUI
 {
 	protected $filenames = array();
 	protected $allowMove = false;
+	protected $imagepath = "";
 	protected $imagepath_web = "";
+	protected $thumb_prefix = "";
 	
 	/**
 	* Constructor
@@ -63,6 +65,46 @@ class ilImageWizardInputGUI extends ilImageFileInputGUI
 	public function getImagePathWeb()
 	{
 		return $this->imagepath_web;
+	}
+
+	/**
+	* Set the image file path
+	*
+	* @param string $a_path Path
+	*/
+	public function setImagePath($a_path)
+	{
+		$this->imagepath = $a_path;
+	}
+	
+	/**
+	* Get the image file path
+	*
+	* @return string Path
+	*/
+	public function getImagePath()
+	{
+		return $this->imagepath;
+	}
+
+	/**
+	* Set a prefix for thumbnail images
+	*
+	* @param string $a_prefix Prefix
+	*/
+	public function setThumbPrefix($a_prefix)
+	{
+		$this->thumb_prefix = $a_prefix;
+	}
+	
+	/**
+	* Get a prefix for thumbnail images
+	*
+	* @return string Prefix
+	*/
+	public function getThumbPrefix()
+	{
+		return $this->thumb_prefix;
 	}
 
 	/**
@@ -231,7 +273,12 @@ class ilImageWizardInputGUI extends ilImageFileInputGUI
 			if (strlen($value))
 			{
 				$tpl->setCurrentBlock("image");
-				$tpl->setVariable("SRC_IMAGE", $this->getImagePathWeb() . ilUtil::prepareFormOutput($value));
+				$image = $this->getImagePathWeb() . ilUtil::prepareFormOutput($value);
+				if (@file_exists($this->getImagePath() . $this->getThumbPrefix() . ilUtil::prepareFormOutput($value)))
+				{
+					$image = $this->getImagePathWeb() . $this->getThumbPrefix() . ilUtil::prepareFormOutput($value);
+				}
+				$tpl->setVariable("SRC_IMAGE", $image);
 				$tpl->setVariable("PICTURE_FILE", ilUtil::prepareFormOutput($value));
 				$tpl->setVariable("ID", $this->getFieldId() . "[$i]");
 				$tpl->setVariable("ALT_IMAGE", ilUtil::prepareFormOutput($value));
