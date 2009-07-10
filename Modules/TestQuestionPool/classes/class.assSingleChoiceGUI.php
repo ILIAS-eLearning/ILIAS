@@ -59,14 +59,6 @@ class assSingleChoiceGUI extends assQuestionGUI
 
 	function getCommand($cmd)
 	{
-		if (substr($cmd, 0, 6) == "upload")
-		{
-			$cmd = "upload";
-		}
-		if (substr($cmd, 0, 11) == "deleteImage")
-		{
-			$cmd = "deleteImage";
-		}
 		return $cmd;
 	}
 
@@ -618,55 +610,6 @@ class assSingleChoiceGUI extends assQuestionGUI
 	}
 
 	/**
-	* upload an image
-	*/
-	function upload()
-	{
-		$this->writePostData();
-		$this->editQuestion();
-	}
-	
-	function deleteImage()
-	{
-		if ($this->writePostData())
-		{
-			ilUtil::sendInfo($this->getErrorMessage());
-			$this->editQuestion();
-			return;
-		}
-		$imageorder = "";
-		foreach ($_POST["cmd"] as $key => $value)
-		{
-			if (preg_match("/deleteImage_(\d+)/", $key, $matches))
-			{
-				$imageorder = $matches[1];
-			}
-		}
-		for ($i = 0; $i < $this->object->getAnswerCount(); $i++)
-		{
-			$answer = $this->object->getAnswer($i);
-			if ($answer->getOrder() == $imageorder)
-			{
-				$this->object->deleteImage($answer->getImage());
-				$this->object->answers[$i]->setImage("");
-			}
-		}
-		$this->editQuestion();
-	}
-
-	function editMode()
-	{
-		global $ilUser;
-		
-		$this->object->setMultilineAnswerSetting($_POST["multilineAnswers"]);
-		$this->object->setGraphicalAnswerSetting($_POST["graphicalAnswerSupport"]);
-		$this->writePostData();
-		$this->editQuestion();
-	}
-
-	/**
-	* Saves the feedback for a single choice question
-	*
 	* Saves the feedback for a single choice question
 	*
 	* @access public
@@ -685,8 +628,6 @@ class assSingleChoiceGUI extends assQuestionGUI
 	}
 
 	/**
-	* Creates the output of the feedback page for a single choice question
-	*
 	* Creates the output of the feedback page for a single choice question
 	*
 	* @access public
@@ -725,8 +666,6 @@ class assSingleChoiceGUI extends assQuestionGUI
 	}
 
 	/**
-	* Sets the ILIAS tabs for this question type
-	*
 	* Sets the ILIAS tabs for this question type
 	*
 	* @access public
