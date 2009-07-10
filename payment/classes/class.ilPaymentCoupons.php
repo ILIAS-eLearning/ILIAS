@@ -22,6 +22,32 @@ class ilPaymentCoupons
 	private $used_codes = array();
 	private $objects = array();	
 
+	private $id = null;
+	private $coupon_user = null;
+	private $title = null;
+	private $description = null;
+	private $type = null;
+	private $value = null;
+	private $from = null;
+	private $till = null;
+	private $from_date_enabled = null;
+	private $till_date_enabled = null;
+	private $change_date = null;
+	private $uses = null;
+	private $search_title_type = null;
+	private $search_title_value = null;
+	private $search_type = null;
+	private $search_from_day = null;
+	private $search_from_month = null;
+	private $search_from_year = null;
+	private $search_till_day = null;
+	private $search_till_month = null;
+	private $search_till_year = null;
+	private $search_from_enabled = null;
+	private $search_till_enabled = null;
+
+	
+	
 	public function ilPaymentCoupons(&$user_obj, $a_vendor_view = false)
 	{
 		global $ilDB;
@@ -316,7 +342,10 @@ class ilPaymentCoupons
 	}
 	public function setChangeDate($a_date)
 	{
-		$this->change_date = $a_date;
+		if($a_date == '0000-00-00 00:00:00')
+			$this->change_date = NULLL;
+		else
+			$this->change_date = $a_date;
 	}	
 	public function getChangeDate()
 	{

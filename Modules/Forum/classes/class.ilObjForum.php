@@ -392,7 +392,7 @@ class ilObjForum extends ilObject
 				 	obj_id,
 				 	thread_id)
 				VALUES (%s,%s,%s,%s,%s)',
-				array('timestamp', 'integer', 'integer', 'integer', 'integer'),
+				array('integer', 'integer', 'integer', 'integer', 'integer'),
 				array(time(), '0', $a_usr_id, $this->getId(), $a_thread_id));
 				
 		}			
@@ -433,7 +433,7 @@ class ilObjForum extends ilObject
 
 			$res = $ilDB->manipulateF('
 			DELETE FROM frm_thread_access WHERE access_last < %s',
-			array('timestamp'), array($new_deadline));
+			array('integer'), array($new_deadline));
 		
 		return true;
 	}

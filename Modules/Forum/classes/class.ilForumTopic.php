@@ -136,7 +136,7 @@ class ilForumTopic
 						$this->num_posts,
 						$this->last_post_string,
 						$this->createdate,
-						$this->changedate,
+						NULL,
 						$this->import_name,
 						$this->is_sticky,
 						$this->is_closed
@@ -170,7 +170,8 @@ class ilForumTopic
 				array('integer', 'text','timestamp', 'integer', 'text', 'integer'),
 				array(	$this->forum_id, 
 						$this->subject, 
-						$this->changedate, 
+			/*			$this->changedate, */
+						date('Y-m-d H:i:s'),
 						$this->num_posts, 
 						$this->last_post_string, 
 						$this->id
@@ -1020,7 +1021,10 @@ class ilForumTopic
 	}
 	public function setChangeDate($a_changedate)
 	{
-		$this->changedate = $a_changedate;
+		if($a_changedate == '0000-00-00 00:00:00')
+			$this->changedate = NULL;
+		else
+			$this->changedate = $a_changedate;
 	}
 	public function getChangeDate()
 	{
