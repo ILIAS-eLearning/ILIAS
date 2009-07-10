@@ -222,18 +222,7 @@ class assOrderingQuestion extends assQuestion
 
 		if ($this->getOrderingType() == OQ_PICTURES)
 		{
-			if (count($this->getAnswers()))
-			{
-				if (@file_exists($this->getImagePath() . $this->getAnswer(0)->getAnswertext()  . ".thumb.jpg"))
-				{
-					$size = getimagesize($this->getImagePath() . $this->getAnswer(0)->getAnswertext()  . ".thumb.jpg");
-					$max = ($size[0] > $size[1]) ? $size[0] : $size[1];
-					if ($this->getThumbGeometry() != $max)
-					{
-						$this->rebuildThumbnails();
-					}
-				}
-			}
+			$this->rebuildThumbnails();
 		}
 
 		$this->cleanImagefiles();
@@ -385,6 +374,7 @@ class assOrderingQuestion extends assQuestion
 	
 	function duplicateImages($question_id)
 	{
+		global $ilLog;
 		if ($this->getOrderingType() == OQ_PICTURES)
 		{
 			$imagepath = $this->getImagePath();
@@ -395,11 +385,11 @@ class assOrderingQuestion extends assQuestion
 			foreach ($this->answers as $answer)
 			{
 				$filename = $answer->getAnswertext();
-				if (!copy($imagepath_original . $filename, $imagepath . $filename)) {
-					print "image could not be duplicated!!!! ";
+				if (!@copy($imagepath_original . $filename, $imagepath . $filename)) {
+					$ilLog->write("image could not be duplicated!!!!");
 				}
-				if (!copy($imagepath_original . $filename . ".thumb.jpg", $imagepath . $filename . ".thumb.jpg")) {
-					print "image thumbnail could not be duplicated!!!! ";
+				if (!@copy($imagepath_original . $this->getThumbPrefix() . $filename, $imagepath . $this->getThumbPrefix() . $filename)) {
+					$ilLog->write("image thumbnail could not be duplicated!!!!");
 				}
 			}
 		}
@@ -407,6 +397,7 @@ class assOrderingQuestion extends assQuestion
 
 	function copyImages($question_id, $source_questionpool)
 	{
+		global $ilLog;
 		if ($this->getOrderingType() == OQ_PICTURES)
 		{
 			$imagepath = $this->getImagePath();
@@ -419,10 +410,10 @@ class assOrderingQuestion extends assQuestion
 			{
 				$filename = $answer->getAnswertext();
 				if (!copy($imagepath_original . $filename, $imagepath . $filename)) {
-					print "image could not be copied!!!! ";
+					$ilLog->write("Ordering Question image could not be copied: $imagepath_original$filename");
 				}
-				if (!copy($imagepath_original . $filename . ".thumb.jpg", $imagepath . $filename . ".thumb.jpg")) {
-					print "image thumbnail could not be copied!!!! ";
+				if (!copy($imagepath_original . $this->getThumbPrefix() . $filename, $imagepath . $this->getThumbPrefix() . $filename)) {
+					$ilLog->write("Ordering Question image thumbnail could not be copied: $imagepath_original" . $this->getThumbPrefix() . $filename);
 				}
 			}
 		}
@@ -481,6 +472,26 @@ class assOrderingQuestion extends assQuestion
 		else
 		{
 			array_push($this->answers, $answer);
+		}
+	}
+	
+	public function moveAnswerUp($position)
+	{
+		if ($position > 0)
+		{
+			$temp = $this->answers[$position-1];
+			$this->answers[$position-1] = $this->answers[$position];
+			$this->answers[$position] = $temp;
+		}
+	}
+	
+	public function moveAnswerDown($position)
+	{
+		if ($position < count($this->answers)-1)
+		{
+			$temp = $this->answers[$position+1];
+			$this->answers[$position+1] = $this->answers[$position];
+			$this->answers[$position] = $temp;
 		}
 	}
 
@@ -697,7 +708,7 @@ class assOrderingQuestion extends assQuestion
 						foreach ($this->getAnswers() as $answer)
 						{
 							if (strcmp($f['entry'], $answer->getAnswertext()) == 0) $found = true;
-							if (strcmp($f['entry'], $answer->getAnswertext() . ".thumb.jpg") == 0) $found = true;
+							if (strcmp($f['entry'], $this->getThumbPrefix() . $answer->getAnswertext()) == 0) $found = true;
 						}
 						if (!$found)
 						{
@@ -726,7 +737,7 @@ class assOrderingQuestion extends assQuestion
 	{
 		$deletename = $$filename;
 		$result = @unlink($this->getImagePath().$deletename);
-		$result = $result & @unlink($this->getImagePath().$deletename.".thumb.jpg");
+		$result = $result & @unlink($this->getImagePath().$this->getThumbPrefix() . $deletename);
 		return $result;
 	}
 
@@ -1077,21 +1088,43 @@ class assOrderingQuestion extends assQuestion
 	/*
 	* Rebuild the thumbnail images with a new thumbnail size
 	*/
-	protected function rebuildThumbnails()
+	public function rebuildThumbnails()
 	{
 		if ($this->getOrderingType() == OQ_PICTURES)
 		{
-			if (count($this->getAnswers()))
+			foreach ($this->getAnswers() as $answer)
 			{
-				foreach ($this->getAnswers() as $answer)
-				{
-					if (@file_exists($this->getImagePath() . $answer->getAnswertext()))
-					{
-						$thumbpath = $this->getImagePath() . $answer->getAnswertext() . "." . "thumb.jpg";
-						ilUtil::convertImage($this->getImagePath() . $answer->getAnswertext(), $thumbpath, "JPEG", $this->getThumbGeometry());
-					}
-				}
+				$this->generateThumbForFile($this->getImagePath(), $answer->getAnswertext());
 			}
+		}
+	}
+	
+	public function getThumbPrefix()
+	{
+		return "thumb.";
+	}
+	
+	protected function generateThumbForFile($path, $file)
+	{
+		$filename = $path . $file;
+		if (@file_exists($filename))
+		{
+			$thumbpath = $path . $this->getThumbPrefix() . $file;
+			$path_info = @pathinfo($filename);
+			$ext = "";
+			switch (strtoupper($path_info['extension']))
+			{
+				case 'PNG':
+					$ext = 'PNG';
+					break;
+				case 'GIF':
+					$ext = 'GIF';
+					break;
+				default:
+					$ext = 'JPEG';
+					break;
+			}
+			ilUtil::convertImage($filename, $thumbpath, $ext, $this->getThumbGeometry());
 		}
 	}
 }

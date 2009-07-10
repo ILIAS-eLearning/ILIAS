@@ -233,12 +233,10 @@ div.textbox {
 }
 
 div.odd {
-	border-bottom: 1px #999 solid;
 	padding: 0.5em 0;
 }
 
 div.even {
-	border-bottom: 1px #999 solid;
 	padding: 0.5em 0;
 }
 
