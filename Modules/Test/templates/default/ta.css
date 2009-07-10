@@ -265,3 +265,9 @@ table.multiplechoicewizard th {
 	font-weight: bold;
 	text-align: center;
 }
+
+table.singlechoicewizard th {
+	font-size: 90%;
+	font-weight: bold;
+	text-align: center;
+}
