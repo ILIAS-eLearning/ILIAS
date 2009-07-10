@@ -259,3 +259,9 @@ ul#horizontal li {
 	font-weight: bold;
 	border: 1px black solid;
 }
+
+table.multiplechoicewizard th {
+	font-size: 90%;
+	font-weight: bold;
+	text-align: center;
+}

@@ -358,8 +358,9 @@ class ilMultipleChoiceWizardInputGUI extends ilSingleChoiceWizardInputGUI
 		}
 		$tpl->setVariable("ELEMENT_ID", $this->getPostVar());
 		$tpl->setVariable("ANSWER_TEXT", $lng->txt('answer_text'));
-		$tpl->setVariable("POINTS_TEXT", $lng->txt('points_checked'));
-		$tpl->setVariable("POINTS_UNCHECKED_TEXT", $lng->txt('points_unchecked'));
+		$tpl->setVariable("POINTS_TEXT", $lng->txt('points'));
+		$tpl->setVariable("POINTS_CHECKED_TEXT", $lng->txt('checkbox_checked'));
+		$tpl->setVariable("POINTS_UNCHECKED_TEXT", $lng->txt('checkbox_unchecked'));
 		$tpl->setVariable("COMMANDS_TEXT", $lng->txt('actions'));
 
 		$a_tpl->setCurrentBlock("prop_generic");
