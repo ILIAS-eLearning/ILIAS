@@ -77,7 +77,7 @@ class ilMailingList
 					$this->getTitle(), 
 					$this->getDescription(), 
 					$this->getCreatedate(), 
-					''
+					NULL
 		));
 		
 		$this->mail_id = $nextId;
@@ -275,6 +275,9 @@ class ilMailingList
 	}
 	public function setChangedate($a_changedate = '0000-00-00 00:00:00')
 	{
+		if($a_changedate == '0000-00-00 00:00:00')
+		$this->changedate = NULL;
+		else
 		$this->changedate = $a_changedate;
 	}
 	public function getChangedate()

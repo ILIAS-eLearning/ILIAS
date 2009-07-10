@@ -145,7 +145,7 @@ class ilForumPost
 							$this->subject,
 							$this->message,
 							$this->createdate,
-							$this->changedate,
+							NULL,
 							$this->user_id_update,
 							$this->censored,
 				//			$this->censorship_comment,

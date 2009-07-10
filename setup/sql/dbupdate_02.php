@@ -14242,3 +14242,70 @@ while($data = $ilDB->fetchAssoc($result))
 <?php
 	$ilDB->addTableColumn("qpl_qst_mc", "thumb_size", array("type" => "integer", "length" => 2, "notnull" => false));
 ?>
+<#2728>
+<?php
+	$ilDB->manipulateF('UPDATE frm_data SET top_date = NULL WHERE  top_date = %s', array('timestamp'), array('0000-00-00 00:00:00'));
+	$ilDB->manipulateF('UPDATE frm_data SET top_date = NULL WHERE  top_update = %s', array('timestamp'), array('0000-00-00 00:00:00'));
+?>
+<#2729>
+<?php
+	$ilDB->manipulateF('UPDATE frm_posts SET pos_date = NULL WHERE  pos_date = %s', array('timestamp'), array('0000-00-00 00:00:00'));
+	$ilDB->manipulateF('UPDATE frm_posts SET pos_update = NULL WHERE  pos_update = %s', array('timestamp'), array('0000-00-00 00:00:00'));
+?>
+<#2730>
+<?php
+	$ilDB->manipulateF('UPDATE frm_posts_tree SET fpt_date= NULL WHERE  fpt_date= %s', array('timestamp'), array('0000-00-00 00:00:00'));
+?>
+<#2731>
+<?php	
+	$ilDB->manipulateF('UPDATE frm_threads SET thr_date = NULL WHERE  thr_date = %s', array('timestamp'), array('0000-00-00 00:00:00'));
+?>
+<#2732>
+<?php	
+	$ilDB->manipulateF('UPDATE frm_thread_access SET access_old_ts = NULL WHERE  access_old_ts = %s', array('timestamp'), array('0000-00-00 00:00:00'));
+?>
+<#2733>
+<?php
+	$ilDB->manipulateF('UPDATE addressbook_mlist SET createdate = NULL WHERE  createdate = %s', array('timestamp'), array('0000-00-00 00:00:00'));
+	$ilDB->manipulateF('UPDATE addressbook_mlist SET changedate = NULL WHERE  changedate = %s', array('timestamp'), array('0000-00-00 00:00:00'));
+?>
+<#2734>
+<?php	
+	$ilDB->manipulateF('UPDATE cmi_comment SET c_timestamp = NULL WHERE  c_timestamp = %s', array('timestamp'), array('0000-00-00 00:00:00'));
+?>
+<#2735>
+<?php	
+	$ilDB->manipulateF('UPDATE cmi_custom SET c_timestamp = NULL WHERE  c_timestamp = %s', array('timestamp'), array('0000-00-00 00:00:00'));
+?>
+<#2736>
+<?php	
+	$ilDB->manipulateF('UPDATE cmi_node SET c_timestamp = NULL WHERE  c_timestamp = %s', array('timestamp'), array('0000-00-00 00:00:00'));
+?>
+<#2737>
+<?php	
+	$ilDB->manipulateF('UPDATE ilinc_registration SET application_date = NULL WHERE  application_date = %s', array('timestamp'), array('0000-00-00 00:00:00'));
+?>
+<#2738>
+<?php	
+	$ilDB->manipulateF('UPDATE mail SET send_time = NULL WHERE  send_time = %s', array('timestamp'), array('0000-00-00 00:00:00'));
+?>
+<#2739>
+<?php	
+	$ilDB->manipulateF('UPDATE payment_coupons SET pc_from = NULL WHERE  pc_from = %s', array('date'), array('0000-00-00'));
+	$ilDB->manipulateF('UPDATE payment_coupons SET pc_till = NULL WHERE  pc_till = %s', array('date'), array('0000-00-00'));
+	$ilDB->manipulateF('UPDATE payment_coupons SET pc_last_changed = NULL WHERE  pc_last_changed =%s', array('timestamp'), array('0000-00-00 00:00:00'));
+?>
+<#2740>
+<?php	
+	$ilDB->manipulateF('UPDATE payment_coupons_track SET pct_date = NULL WHERE  pct_date = %s', array('timestamp'), array('0000-00-00 00:00:00'));
+?>
+<#2741>
+<?php	
+
+	$ilDB->manipulateF('UPDATE payment_news SET creation_date = NULL WHERE  creation_date = %s', array('timestamp'), array('0000-00-00 00:00:00'));
+	$ilDB->manipulateF('UPDATE payment_news SET update_date = NULL WHERE  update_date = %s', array('timestamp'), array('0000-00-00 00:00:00'));
+?>
+<#2742>
+<?php	
+	$ilDB->manipulateF('UPDATE scorm_tracking SET c_timestamp = NULL WHERE  c_timestamp = %s', array('timestamp'), array('0000-00-00 00:00:00'));
+?>
