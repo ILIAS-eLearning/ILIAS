@@ -349,7 +349,7 @@ class ilCalendarAppointmentGUI
 			$ass = new ilCalendarCategoryAssignments($this->app->getEntryId());
 			$ass->addAssignment($cat_id);
 			
-			ilUtil::sendInfo($this->lng->txt('cal_created_appointment'));
+			ilUtil::sendSuccess($this->lng->txt('cal_created_appointment'));
 			
 			include_once('./Services/Calendar/classes/class.ilCalendarCategory.php');
 			$cat_info = ilCalendarCategories::_getInstance()->getCategoryInfo($cat_id);
@@ -367,7 +367,7 @@ class ilCalendarAppointmentGUI
 		}
 		else
 		{
-			ilUtil::sendInfo($ilErr->getMessage());
+			ilUtil::sendFailure($ilErr->getMessage());
 		}
 		if ($a_as_milestone)
 		{
@@ -567,12 +567,12 @@ class ilCalendarAppointmentGUI
 			$ass->deleteAssignments();
 			$ass->addAssignment($cat_id);
 			
-			ilUtil::sendInfo($this->lng->txt('settings_saved'));
+			ilUtil::sendSuccess($this->lng->txt('settings_saved'));
 			$this->ctrl->returnToParent($this);
 		}
 		else
 		{
-			ilUtil::sendInfo($ilErr->getMessage());
+			ilUtil::sendFailure($ilErr->getMessage());
 		}
 		
 		$this->edit();
@@ -620,7 +620,7 @@ class ilCalendarAppointmentGUI
 			include_once('./Services/Calendar/classes/class.ilCalendarCategoryAssignments.php');
 			ilCalendarCategoryAssignments::_deleteByAppointmentId($app_id);
 		}
-		ilUtil::sendInfo($this->lng->txt('cal_deleted_app'),true);
+		ilUtil::sendSuccess($this->lng->txt('cal_deleted_app'),true);
 		$this->ctrl->returnToParent($this);
 	}
 	

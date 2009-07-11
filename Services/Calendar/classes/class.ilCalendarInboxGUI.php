@@ -152,7 +152,7 @@ class ilCalendarInboxGUI
 		
 		if(!$_POST['cal_ids'] or !is_array($_POST['cal_ids']))
 		{
-			ilUtil::sendInfo($this->lng->txt('select_one'));
+			ilUtil::sendFailure($this->lng->txt('select_one'));
 			$this->inbox();
 			return false;
 		}
@@ -165,14 +165,14 @@ class ilCalendarInboxGUI
 		{
 			if(!ilCalendarShared::isSharedWithUser($ilUser->getId(),$calendar_id))
 			{
-				ilUtil::sendInfo($this->lng->txt('permission_denied'));
+				ilUtil::sendFailure($this->lng->txt('permission_denied'));
 				$this->inbox();
 				return false;
 			}
 			$status->accept($calendar_id);
 		}
 		
-		ilUtil::sendInfo($this->lng->txt('settings_saved'),true);
+		ilUtil::sendSuccess($this->lng->txt('settings_saved'),true);
 		// redfirect for loading new calendar+
 		$this->ctrl->redirect($this,'inbox');
 		return true;
@@ -190,7 +190,7 @@ class ilCalendarInboxGUI
 
 		if(!$_POST['cal_ids'] or !is_array($_POST['cal_ids']))
 		{
-			ilUtil::sendInfo($this->lng->txt('select_one'));
+			ilUtil::sendFailure($this->lng->txt('select_one'));
 			$this->inbox();
 			return false;
 		}
@@ -203,14 +203,14 @@ class ilCalendarInboxGUI
 		{
 			if(!ilCalendarShared::isSharedWithUser($ilUser->getId(),$calendar_id))
 			{
-				ilUtil::sendInfo($this->lng->txt('permission_denied'));
+				ilUtil::sendFailure($this->lng->txt('permission_denied'));
 				$this->inbox();
 				return false;
 			}
 			$status->decline($calendar_id);
 		}
 		
-		ilUtil::sendInfo($this->lng->txt('settings_saved'));
+		ilUtil::sendSuccess($this->lng->txt('settings_saved'));
 		$this->inbox();
 		return true;
 	}
