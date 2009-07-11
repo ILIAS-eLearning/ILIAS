@@ -447,13 +447,16 @@ class assMatchingQuestionGUI extends assQuestionGUI
 			{
 				$template->setCurrentBlock("standard_matching_pictures");
 				$template->setVariable("DEFINITION_ID", $answer->getPictureId());
-				if (file_exists($this->object->getImagePath() . $answer->getPicture()  . ".thumb.jpg"))
+				$thumbweb = $this->object->getImagePathWeb() . $this->object->getThumbPrefix() . $answer->getPicture();
+				$thumb = $this->object->getImagePath() . $this->object->getThumbPrefix() . $answer->getPicture();
+				if (!@file_exists($thumb)) $this->object->rebuildThumbnails();
+				if (file_exists($thumb))
 				{
-					$size = getimagesize($this->object->getImagePath() . $answer->getPicture()  . ".thumb.jpg");
+					$size = getimagesize($thumb);
 				}
 				$template->setVariable("THUMBNAIL_WIDTH", $size[0]);
 				$template->setVariable("THUMBNAIL_HEIGHT", $size[1]);
-				$template->setVariable("THUMBNAIL_HREF", $this->object->getImagePathWeb() . $answer->getPicture() . ".thumb.jpg");
+				$template->setVariable("THUMBNAIL_HREF", $thumbweb);
 				$template->setVariable("THUMB_ALT", $this->lng->txt("image"));
 				$template->setVariable("THUMB_TITLE", $this->lng->txt("image"));
 				$template->parseCurrentBlock();
@@ -549,7 +552,10 @@ class assMatchingQuestionGUI extends assQuestionGUI
 				$template->setCurrentBlock("standard_matching_pictures");
 				$template->setVariable("DEFINITION_ID", $answer->getPictureId());
 				$template->setVariable("IMAGE_HREF", $this->object->getImagePathWeb() . $answer->getPicture());
-				$template->setVariable("THUMBNAIL_HREF", $this->object->getImagePathWeb() . $answer->getPicture() . ".thumb.jpg");
+				$thumbweb = $this->object->getImagePathWeb() . $this->object->getThumbPrefix() . $answer->getPicture();
+				$thumb = $this->object->getImagePath() . $this->object->getThumbPrefix() . $answer->getPicture();
+				if (!@file_exists($thumb)) $this->object->rebuildThumbnails();
+				$template->setVariable("THUMBNAIL_HREF", $thumbweb);
 				$template->setVariable("THUMB_ALT", $this->lng->txt("image"));
 				$template->setVariable("THUMB_TITLE", $this->lng->txt("image"));
 				$template->parseCurrentBlock();
@@ -663,7 +669,10 @@ class assMatchingQuestionGUI extends assQuestionGUI
 					$template->setCurrentBlock("js_match_picture");
 					$template->setVariable("DEFINITION_ID", $answer->getPictureId());
 					$template->setVariable("IMAGE_HREF", $this->object->getImagePathWeb() . $answer->getPicture());
-					$template->setVariable("THUMBNAIL_HREF", $this->object->getImagePathWeb() . $answer->getPicture() . ".thumb.jpg");
+					$thumbweb = $this->object->getImagePathWeb() . $this->object->getThumbPrefix() . $answer->getPicture();
+					$thumb = $this->object->getImagePath() . $this->object->getThumbPrefix() . $answer->getPicture();
+					if (!@file_exists($thumb)) $this->object->rebuildThumbnails();
+					$template->setVariable("THUMBNAIL_HREF", $thumbweb);
 					$template->setVariable("THUMB_ALT", $this->lng->txt("image"));
 					$template->setVariable("THUMB_TITLE", $this->lng->txt("image"));
 					$template->parseCurrentBlock();
@@ -734,7 +743,10 @@ class assMatchingQuestionGUI extends assQuestionGUI
 					$template->setCurrentBlock("standard_matching_pictures");
 					$template->setVariable("DEFINITION_ID", $answer->getPictureId());
 					$template->setVariable("IMAGE_HREF", $this->object->getImagePathWeb() . $answer->getPicture());
-					$template->setVariable("THUMBNAIL_HREF", $this->object->getImagePathWeb() . $answer->getPicture() . ".thumb.jpg");
+					$thumbweb = $this->object->getImagePathWeb() . $this->object->getThumbPrefix() . $answer->getPicture();
+					$thumb = $this->object->getImagePath() . $this->object->getThumbPrefix() . $answer->getPicture();
+					if (!@file_exists($thumb)) $this->object->rebuildThumbnails();
+					$template->setVariable("THUMBNAIL_HREF", $thumbweb);
 					$template->setVariable("THUMB_ALT", $this->lng->txt("image"));
 					$template->setVariable("THUMB_TITLE", $this->lng->txt("image"));
 					$template->parseCurrentBlock();

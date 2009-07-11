@@ -768,7 +768,7 @@ class assOrderingQuestion extends assQuestion
 			else
 			{
 				// create thumbnail file
-				$thumbpath = $imagepath . $savename . "." . "thumb.jpg";
+				$thumbpath = $imagepath . $this->getThumbPrefix() . $savename;
 				ilUtil::convertImage($imagepath.$savename, $thumbpath, "JPEG", $this->getThumbGeometry());
 			}
 			if ($result && (strcmp($image_filename, $previous_filename) != 0) && (strlen($previous_filename)))
