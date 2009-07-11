@@ -71,7 +71,7 @@ class ilContainerReferenceAccess extends ilObjectAccess
 	 	
 	 	$obj_id = ilObject::_lookupObjId($a_ref_id);
 	 	$query = "SELECT target_obj_id FROM container_reference ".
-	 		"WHERE obj_id = ".$ilDB->quote($obj_id)." ";
+	 		"WHERE obj_id = ".$ilDB->quote($obj_id,'integer')." ";
 	 	$res = $ilDB->query($query);
 	 	while($row = $res->fetchRow(DB_FETCHMODE_OBJECT))
 	 	{
