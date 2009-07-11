@@ -65,283 +65,255 @@ class assJavaAppletGUI extends assQuestionGUI
 	}
 
 	/**
-	* Creates an output of the edit form for the question
-	*
-	* Creates an output of the edit form for the question
-	*
-	* @access public
-	*/
-	function editQuestion()
-	{
-		$this->getQuestionTemplate();
-		$this->tpl->addBlockFile("QUESTION_DATA", "question_data", "tpl.il_as_qpl_javaapplet_question.html", "Modules/TestQuestionPool");
-		if ($this->error)
-		{
-			ilUtil::sendInfo($this->error);
-		}
-		// call to other question data i.e. estimated working time block
-		$this->outOtherQuestionData();
-		// image block
-		$this->tpl->setCurrentBlock("post_save");
-
-		// java applet block
-		$javaapplet = $this->object->getJavaAppletFilename();
-		$this->tpl->setVariable("TEXT_JAVAAPPLET", $this->lng->txt("javaapplet"));
-		if (!empty($javaapplet))
-		{
-			$this->tpl->setVariable("JAVAAPPLET_FILENAME", $javaapplet);
-			$this->tpl->setVariable("VALUE_JAVAAPPLET_UPLOAD", $this->lng->txt("change"));
-			$this->tpl->setCurrentBlock("javaappletupload");
-			$this->tpl->setVariable("UPLOADED_JAVAAPPLET", $javaapplet);
-			$this->tpl->parse("javaappletupload");
-			$this->tpl->setCurrentBlock("delete_applet");
-			$this->tpl->setVariable("VALUE_JAVAAPPLET_DELETE", $this->lng->txt("delete"));
-			$this->tpl->parseCurrentBlock();
-		}
-		else
-		{
-			$this->tpl->setVariable("VALUE_JAVAAPPLET_UPLOAD", $this->lng->txt("upload"));
-		}
-		$this->tpl->setVariable("TEXT_POINTS", $this->lng->txt("available_points"));
-		$this->tpl->setVariable("VALUE_APPLET_POINTS", $this->object->getPoints());
-		$this->tpl->parseCurrentBlock();
-
-		
-		if ((strlen($this->object->getTitle()) > 0) && (strlen($this->object->getAuthor()) > 0) && (strlen($this->object->getQuestion()) > 0) && strlen($this->object->getPoints()))
-		{
-			$emptyname = 0;
-			for ($i = 0; $i < $this->object->getParameterCount(); $i++)
-			{
-				// create template for existing applet parameters
-				$this->tpl->setCurrentBlock("delete_parameter");
-				$this->tpl->setVariable("VALUE_DELETE_PARAMETER", $this->lng->txt("delete"));
-				$this->tpl->setVariable("DELETE_PARAMETER_COUNT", $i);
-				$this->tpl->parseCurrentBlock();
-				$this->tpl->setCurrentBlock("applet_parameter");
-				$this->tpl->setVariable("PARAM_PARAM", $this->lng->txt("applet_parameter") . " " . ($i+1));
-				$this->tpl->setVariable("PARAM_NAME", $this->lng->txt("name"));
-				$this->tpl->setVariable("PARAM_VALUE", $this->lng->txt("value"));
-				$param = $this->object->getParameter($i);
-				$this->tpl->setVariable("PARAM_NAME_VALUE", $param["name"]);
-				$this->tpl->setVariable("PARAM_VALUE_VALUE", $param["value"]);
-				$this->tpl->setVariable("PARAM_COUNTER", $i);
-				$this->tpl->parseCurrentBlock();
-				if (!$param["name"])
-				{
-					$emptyname = 1;
-				}
-			}
-			if ($this->ctrl->getCmd() == "addParameter")
-			{
-				if ($emptyname == 0)
-				{
-					// create template for new applet parameter
-					$this->tpl->setCurrentBlock("applet_parameter");
-					$this->tpl->setVariable("PARAM_PARAM", $this->lng->txt("applet_new_parameter"));
-					$this->tpl->setVariable("PARAM_NAME", $this->lng->txt("name"));
-					$this->tpl->setVariable("PARAM_VALUE", $this->lng->txt("value"));
-					$this->tpl->setVariable("PARAM_COUNTER", $this->object->getParameterCount());
-					$this->tpl->parseCurrentBlock();
-				}
-				else
-				{
-					ilUtil::sendInfo($this->lng->txt("too_many_empty_parameters"));
-				}
-			}
-			if (!strlen($javaapplet))
-			{
-				$this->tpl->setVariable("TEXT_ARCHIVE", $this->lng->txt("archive"));
-				$this->tpl->setVariable("VALUE_ARCHIVE", $this->object->getJavaArchive());
-				$this->tpl->setVariable("TEXT_CODEBASE", $this->lng->txt("codebase"));
-				$this->tpl->setVariable("VALUE_CODEBASE", $this->object->getJavaCodebase());
-			}
-
-			$this->tpl->setCurrentBlock("appletcode");
-			$this->tpl->setVariable("APPLET_ATTRIBUTES", $this->lng->txt("applet_attributes"));
-			$this->tpl->setVariable("TEXT_CODE", $this->lng->txt("code"));
-			$this->tpl->setVariable("TEXT_WIDTH", $this->lng->txt("width"));
-			$this->tpl->setVariable("TEXT_HEIGHT", $this->lng->txt("height"));
-			$this->tpl->setVariable("VALUE_CODE", $this->object->getJavaCode());
-			$this->tpl->setVariable("VALUE_WIDTH", $this->object->getJavaWidth());
-			$this->tpl->setVariable("VALUE_HEIGHT", $this->object->getJavaHeight());
-			$this->tpl->setVariable("APPLET_PARAMETERS", $this->lng->txt("applet_parameters"));
-			$this->tpl->setVariable("VALUE_ADD_PARAMETER", $this->lng->txt("add_applet_parameter"));
-			$this->tpl->parseCurrentBlock();
-		}
-
-		$this->tpl->setCurrentBlock("HeadContent");
-		$this->tpl->addJavascript("./Services/JavaScript/js/Basic.js");
-		$javascript = "<script type=\"text/javascript\">ilAddOnLoad(initialSelect);\n".
-			"function initialSelect() {\n%s\n}</script>";
-		$this->tpl->setVariable("CONTENT_BLOCK", sprintf($javascript, "document.frm_javaapplet.title.focus();"));
-		$this->tpl->parseCurrentBlock();
-		$this->tpl->setCurrentBlock("question_data");
-		$this->tpl->setVariable("JAVAAPPLET_ID", $this->object->getId());
-		$this->tpl->setVariable("VALUE_JAVAAPPLET_TITLE", ilUtil::prepareFormOutput($this->object->getTitle()));
-		$this->tpl->setVariable("VALUE_JAVAAPPLET_COMMENT", ilUtil::prepareFormOutput($this->object->getComment()));
-		$this->tpl->setVariable("VALUE_JAVAAPPLET_AUTHOR", ilUtil::prepareFormOutput($this->object->getAuthor()));
-		$questiontext = $this->object->getQuestion();
-		$this->tpl->setVariable("VALUE_QUESTION", ilUtil::prepareFormOutput($this->object->prepareTextareaOutput($questiontext)));
-		$this->tpl->setVariable("TEXT_TITLE", $this->lng->txt("title"));
-		$this->tpl->setVariable("TEXT_AUTHOR", $this->lng->txt("author"));
-		$this->tpl->setVariable("TEXT_COMMENT", $this->lng->txt("description"));
-		$this->tpl->setVariable("TEXT_QUESTION", $this->lng->txt("question"));
-		$this->tpl->setVariable("TXT_REQUIRED_FLD", $this->lng->txt("required_field"));
-
-		$this->tpl->setVariable("SAVE",$this->lng->txt("save"));
-		$this->tpl->setVariable("SAVE_EDIT", $this->lng->txt("save_edit"));
-		$this->tpl->setVariable("CANCEL",$this->lng->txt("cancel"));
-		$this->ctrl->setParameter($this, "sel_question_types", "assJavaApplet");
-		$this->tpl->setVariable("TEXT_QUESTION_TYPE", $this->outQuestionType());
-		$formaction = $this->ctrl->getFormaction($this);
-		if ($this->object->getId() > 0)
-		{
-			if (!preg_match("/q_id\=\d+/", $formaction))
-			{
-				$formaction = str_replace("q_id=", "q_id=" . $this->object->getId(), $formaction);
-			}
-		}
-		$this->tpl->setVariable("ACTION_JAVAAPPLET_QUESTION", $formaction);
-		$this->tpl->parseCurrentBlock();
-		include_once "./Services/RTE/classes/class.ilRTE.php";
-		$rtestring = ilRTE::_getRTEClassname();
-		include_once "./Services/RTE/classes/class.$rtestring.php";
-		$rte = new $rtestring();
-		$rte->addPlugin("latex");
-		$rte->addButton("latex"); $rte->addButton("pastelatex");
-		include_once "./classes/class.ilObject.php";
-		$obj_id = $_GET["q_id"];
-		$obj_type = ilObject::_lookupType($_GET["ref_id"], TRUE);
-		$rte->addRTESupport($obj_id, $obj_type, "assessment");
-
-		$this->tpl->setCurrentBlock("adm_content");
-		//$this->tpl->setVariable("BODY_ATTRIBUTES", " onload=\"initialSelect();\""); 
-		$this->tpl->parseCurrentBlock();
-
-	}
-
-
-	/**
-	* save question to db and return to question pool
-	*/
-	function uploadingJavaApplet()
-	{
-		$result = $this->writePostData();
-		if ($result == 0)
-		{
-			$this->object->saveToDb();
-			$this->ctrl->setParameter($this, "q_id", $this->object->getId());
-		}
-		$this->editQuestion();
-	}
-
-
-	/**
-	* save question to db and return to question pool
-	*/
-	function removeJavaapplet()
-	{
-		$this->object->deleteJavaAppletFilename();
-		$this->object->saveToDb();
-		$this->editQuestion();
-	}
-
-	/**
-	* save question to db and return to question pool
-	*/
-	function addParameter()
-	{
-		$this->writePostData();
-		$this->editQuestion();
-	}
-
-	/**
-	* delete a parameter
-	*/
-	function delete()
-	{
-		$this->writePostData();
-		$this->editQuestion();
-	}
-
-	/**
-	* Evaluates a posted edit form and writes the form data in the question object
-	*
 	* Evaluates a posted edit form and writes the form data in the question object
 	*
 	* @return integer A positive value, if one of the required fields wasn't set, else 0
 	* @access private
 	*/
-	function writePostData()
+	function writePostData($always = false)
 	{
-		$result = 0;
-		$saved = false;
-		if (!$this->checkInput())
+		$hasErrors = (!$always) ? $this->editQuestion(true) : false;
+		if (!$hasErrors)
 		{
-			$result = 1;
-		}
-
-		$this->object->setTitle(ilUtil::stripSlashes($_POST["title"]));
-		$this->object->setAuthor(ilUtil::stripSlashes($_POST["author"]));
-		$this->object->setComment(ilUtil::stripSlashes($_POST["comment"]));
-		include_once "./Services/AdvancedEditing/classes/class.ilObjAdvancedEditing.php";
-		$questiontext = ilUtil::stripSlashes($_POST["question"], false, ilObjAdvancedEditing::_getUsedHTMLTagsAsString("assessment"));
-		$this->object->setQuestion($questiontext);
-		$this->object->setShuffle($_POST["shuffle"]);
-		$this->object->setPoints($_POST["applet_points"]);
-		if ($_POST["applet_points"] < 0)
-		{
-			$result = 1;
-			$this->setErrorMessage($this->lng->txt("negative_points_not_allowed"));
-		}
-		// adding estimated working time
-		$saved = $saved | $this->writeOtherPostData($result);
-
-		if ($result == 0)
-		{
-			//setting java applet
-			if (empty($_FILES['javaappletName']['tmp_name']))
+			$this->object->setTitle(ilUtil::stripSlashes($_POST["title"]));
+			$this->object->setAuthor(ilUtil::stripSlashes($_POST["author"]));
+			$this->object->setComment(ilUtil::stripSlashes($_POST["comment"]));
+			include_once "./Services/AdvancedEditing/classes/class.ilObjAdvancedEditing.php";
+			$questiontext = ilUtil::stripSlashes($_POST["question"], false, ilObjAdvancedEditing::_getUsedHTMLTagsAsString("assessment"));
+			$this->object->setQuestion($questiontext);
+			$this->object->setEstimatedWorkingTime(
+				ilUtil::stripSlashes($_POST["Estimated"]["hh"]),
+				ilUtil::stripSlashes($_POST["Estimated"]["mm"]),
+				ilUtil::stripSlashes($_POST["Estimated"]["ss"])
+			);
+			$this->object->setPoints($_POST["points"]);
+			
+			if ($_POST['delete_applet'])
 			{
-				$this->object->setJavaAppletFilename(ilUtil::stripSlashes($_POST['uploaded_javaapplet']));
+				// delete the applet file
+				$this->object->deleteJavaAppletFilename();
 			}
 			else
 			{
-				if ($this->object->getId() < 1)
-				{
-					$saved = 1;
-					$this->object->saveToDb();
-				}
+				$this->object->setJavaAppletFilename(ilUtil::stripSlashes($_POST['uploaded_javaapplet']));
+			}
+			
+			//setting java applet
+			if (!empty($_FILES['javaappletName']['tmp_name']))
+			{
 				$this->object->setJavaAppletFilename($_FILES['javaappletName']['name'], $_FILES['javaappletName']['tmp_name']);
 			}
-			if ((strlen($this->object->getTitle()) > 0) && (strlen($this->object->getAuthor()) > 0) && (strlen($this->object->getQuestion()) > 0) && ($this->object->getPoints() > 0) && array_key_exists("java_height", $_POST))
+			$this->object->setJavaCode($_POST["java_code"]);
+			$this->object->setJavaCodebase($_POST["java_codebase"]);
+			$this->object->setJavaArchive($_POST["java_archive"]);
+			$this->object->setJavaWidth($_POST["java_width"]);
+			$this->object->setJavaHeight($_POST["java_height"]);
+
+			$this->object->flushParams();
+			if (is_array($_POST['kvp']['key']))
 			{
-				$this->object->setJavaCode($_POST["java_code"]);
-				$this->object->setJavaCodebase($_POST["java_codebase"]);
-				$this->object->setJavaArchive($_POST["java_archive"]);
-				$this->object->setJavaWidth($_POST["java_width"]);
-				$this->object->setJavaHeight($_POST["java_height"]);
-				if ((!$_POST["java_width"]) or (!$_POST["java_height"])) $result = 1;
-				$this->object->flushParams();
-				foreach ($_POST as $key => $value)
+				foreach ($_POST['kvp']['key'] as $idx => $val)
 				{
-					if (preg_match("/param_name_(\d+)/", $key, $matches))
+					if (strlen($val) && strlen($_POST['kvp']['value'][$idx]))
 					{
-						$this->object->addParameterAtIndex($matches[1], $value, $_POST["param_value_$matches[1]"]);
+						$this->object->addParameter(ilUtil::stripSlashes($val), ilUtil::stripSlashes($_POST['kvp']['value'][$idx]));
 					}
 				}
-				if (preg_match("/delete_(\d+)/", $this->ctrl->getCmd(), $matches))
-				{
-					$this->object->removeParameter($_POST["param_name_$matches[1]"]);
-				}
 			}
+			return 0;
 		}
-		if ($saved)
+		else
 		{
-			$this->object->saveToDb();
-			$this->ctrl->setParameter($this, "q_id", $this->object->getId());
-			$this->error .= $this->lng->txt("question_saved_for_upload");
+			return 1;
 		}
-		return $result;
+	}
+
+	/**
+	* Creates an output of the edit form for the question
+	*
+	* @access public
+	*/
+	public function editQuestion($checkonly = FALSE)
+	{
+		$save = ((strcmp($this->ctrl->getCmd(), "save") == 0) || (strcmp($this->ctrl->getCmd(), "saveEdit") == 0)) ? TRUE : FALSE;
+		$this->getQuestionTemplate();
+
+		include_once("./Services/Form/classes/class.ilPropertyFormGUI.php");
+		$form = new ilPropertyFormGUI();
+		$form->setFormAction($this->ctrl->getFormAction($this));
+		$form->setTitle($this->outQuestionType());
+		$form->setMultipart(true);
+		$form->setTableWidth("100%");
+		$form->setId("assjavaapplet");
+
+		// title
+		$title = new ilTextInputGUI($this->lng->txt("title"), "title");
+		$title->setValue($this->object->getTitle());
+		$title->setRequired(TRUE);
+		$form->addItem($title);
+		// author
+		$author = new ilTextInputGUI($this->lng->txt("author"), "author");
+		$author->setValue($this->object->getAuthor());
+		$author->setRequired(TRUE);
+		$form->addItem($author);
+		// description
+		$description = new ilTextInputGUI($this->lng->txt("description"), "comment");
+		$description->setValue($this->object->getComment());
+		$description->setRequired(FALSE);
+		$form->addItem($description);
+		// questiontext
+		$question = new ilTextAreaInputGUI($this->lng->txt("question"), "question");
+		$question->setValue($this->object->prepareTextareaOutput($this->object->getQuestion()));
+		$question->setRequired(TRUE);
+		$question->setRows(10);
+		$question->setCols(80);
+		$question->setUseRte(TRUE);
+		$question->addPlugin("latex");
+		$question->addButton("latex");
+		$question->setRTESupport($this->object->getId(), "qpl", "assessment");
+		$form->addItem($question);
+
+		// duration
+		$duration = new ilDurationInputGUI($this->lng->txt("working_time"), "Estimated");
+		$duration->setShowHours(TRUE);
+		$duration->setShowMinutes(TRUE);
+		$duration->setShowSeconds(TRUE);
+		$ewt = $this->object->getEstimatedWorkingTime();
+		$duration->setHours($ewt["h"]);
+		$duration->setMinutes($ewt["m"]);
+		$duration->setSeconds($ewt["s"]);
+		$duration->setRequired(FALSE);
+		$form->addItem($duration);
+
+		// points
+		$points = new ilNumberInputGUI($this->lng->txt("points"), "points");
+		$points->setValue($this->object->getPoints());
+		$points->setRequired(TRUE);
+		$points->setSize(3);
+		$points->setMinValue(0.0);
+		$form->addItem($points);
+
+		$header = new ilFormSectionHeaderGUI();
+		$header->setTitle($this->lng->txt("applet_attributes"));
+		$form->addItem($header);
+		
+		// java applet
+		$javaapplet = $this->object->getJavaAppletFilename();
+		$applet = new ilFileInputGUI($this->lng->txt('javaapplet'), 'javaappletName');
+		$applet->setSuffixes(array('jar','class'));
+		$applet->setRequired(false);
+
+		if (strlen($javaapplet))
+		{
+			$filename = new ilNonEditableValueGUI($this->lng->txt('filename'), 'uploaded_javaapplet');
+			$filename->setValue($javaapplet);
+			$applet->addSubItem($filename);
+			
+			$delete = new ilCheckboxInputGUI('', 'delete_applet');
+			$delete->setOptionTitle($this->lng->txt('delete'));
+			$delete->setValue(1);
+			$applet->addSubItem($delete);
+		}
+		$form->addItem($applet);
+
+		// Code
+		$code = new ilTextInputGUI($this->lng->txt("code"), "java_code");
+		$code->setValue($this->object->getJavaCode());
+		$code->setRequired(TRUE);
+		$form->addItem($code);
+
+		if (!strlen($javaapplet))
+		{
+			// Archive
+			$archive = new ilTextInputGUI($this->lng->txt("archive"), "java_archive");
+			$archive->setValue($this->object->getJavaArchive());
+			$archive->setRequired(false);
+			$form->addItem($archive);
+
+			// Codebase
+			$codebase = new ilTextInputGUI($this->lng->txt("codebase"), "java_codebase");
+			$codebase->setValue($this->object->getJavaCodebase());
+			$codebase->setRequired(false);
+			$form->addItem($codebase);
+		}
+
+		// Width
+		$width = new ilNumberInputGUI($this->lng->txt("width"), "java_width");
+		$width->setDecimals(0);
+		$width->setSize(6);
+		$width->setMinValue(50);
+		$width->setMaxLength(6);
+		$width->setValue($this->object->getJavaWidth());
+		$width->setRequired(TRUE);
+		$form->addItem($width);
+
+		// Height
+		$height = new ilNumberInputGUI($this->lng->txt("height"), "java_height");
+		$height->setDecimals(0);
+		$height->setSize(6);
+		$height->setMinValue(50);
+		$height->setMaxLength(6);
+		$height->setValue($this->object->getJavaHeight());
+		$height->setRequired(TRUE);
+		$form->addItem($height);
+
+		$header = new ilFormSectionHeaderGUI();
+		$header->setTitle($this->lng->txt("applet_parameters"));
+		$form->addItem($header);
+
+		include_once "./Modules/TestQuestionPool/classes/class.ilKVPWizardInputGUI.php";
+		$kvp = new ilKVPWizardInputGUI($this->lng->txt("applet_parameters"), "kvp");
+		$values = array();
+		for ($i = 0; $i < $this->object->getParameterCount(); $i++)
+		{
+			$param = $this->object->getParameter($i);
+			array_push($values, array($param['name'], $param['value']));
+		}
+		if (count($values) == 0)
+		{
+			array_push($values, array("", ""));
+		}
+		$kvp->setKeyName($this->lng->txt('name'));
+		$kvp->setValueName($this->lng->txt('value'));
+		$kvp->setValues($values);
+		$form->addItem($kvp);
+		
+		$form->addCommandButton("save", $this->lng->txt("save"));
+		$form->addCommandButton("saveEdit", $this->lng->txt("save_edit"));
+
+		$errors = false;
+	
+		if ($save)
+		{
+			$form->setValuesByPost();
+			$errors = !$form->checkInput();
+			if ($errors) $checkonly = false;
+		}
+
+		if (!$checkonly) $this->tpl->setVariable("QUESTION_DATA", $form->getHTML());
+		return $errors;
+	}
+	
+	/**
+	* Add a new answer
+	*/
+	public function addkvp()
+	{
+		$this->writePostData(true);
+		$position = key($_POST['cmd']['addkvp']);
+		$this->object->addParameterAtIndex($position+1, "", "");
+		$this->editQuestion();
+	}
+
+	/**
+	* Remove an answer
+	*/
+	public function removekvp()
+	{
+		$this->writePostData(true);
+		$position = key($_POST['cmd']['removekvp']);
+		$this->object->removeParameter($position);
+		$this->editQuestion();
 	}
 
 	function outQuestionForTest($formaction, $active_id, $pass = NULL, $is_postponed = FALSE, $use_post_solutions = FALSE)
@@ -496,7 +468,7 @@ class assJavaAppletGUI extends assQuestionGUI
 			{
 				// output of ok/not ok icons for user entered solutions
 				$reached_points = $this->object->getReachedPoints($active_id, $pass);
-				if ($reached_points == $this->object->getMaximumPoints())
+				if ($reached_points == $this->object->getPoints())
 				{
 					$template->setCurrentBlock("icon_ok");
 					$template->setVariable("ICON_OK", ilUtil::getImagePath("icon_ok.gif"));
@@ -729,19 +701,6 @@ class assJavaAppletGUI extends assQuestionGUI
 	}
 	
 	/**
-	* check input fields
-	*/
-	function checkInput()
-	{
-		if ((strlen($_POST["title"]) == 0) or (strlen($_POST["author"]) == 0) or (strlen($_POST["question"]) == 0) or (strlen($_POST["applet_points"]) == 0))
-		{
-			$this->error .= $this->lng->txt("fill_out_all_required_fields");
-			return false;
-		}
-		return true;
-	}
-
-	/**
 	* Saves the feedback for a java applet question
 	*
 	* @access public
@@ -814,9 +773,7 @@ class assJavaAppletGUI extends assQuestionGUI
 			// edit question properties
 			$ilTabs->addTarget("edit_properties",
 				$url,
-				array("editQuestion", "save", "cancel",
-					"uploadingJavaapplet", "addParameter",
-					"saveEdit"),
+				array("editQuestion", "save", "saveEdit", "addkvp", "removekvp"),
 				$classname, "", $force_active);
 		}
 

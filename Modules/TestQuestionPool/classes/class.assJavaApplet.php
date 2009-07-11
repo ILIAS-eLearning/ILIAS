@@ -245,11 +245,11 @@ class assJavaApplet extends assQuestion
 	*/
 	function isComplete()
 	{
-		if (($this->title) and ($this->author) and ($this->question) and ($this->javaapplet_filename) and ($this->java_width) and ($this->java_height) and ($this->getMaximumPoints() > 0))
+		if (($this->title) and ($this->author) and ($this->question) and ($this->javaapplet_filename) and ($this->java_width) and ($this->java_height) and ($this->getPoints() > 0))
 		{
 			return true;
 		}
-		else if (($this->title) and ($this->author) and ($this->question) and ($this->getJavaArchive()) and ($this->getJavaCodebase()) and ($this->java_width) and ($this->java_height) and ($this->getMaximumPoints() > 0))
+		else if (($this->title) and ($this->author) and ($this->question) and ($this->getJavaArchive()) and ($this->getJavaCodebase()) and ($this->java_width) and ($this->java_height) and ($this->getPoints() > 0))
 		{
 			return true;
 		}
@@ -284,7 +284,7 @@ class assJavaApplet extends assQuestion
 
 		// cleanup RTE images which are not inserted into the question text
 		include_once("./Services/RTE/classes/class.ilRTE.php");
-		if ($this->id == -1)
+		if ($this->getId() == -1)
 		{
 			// Neuen Datensatz schreiben
 			$next_id = $ilDB->nextId('qpl_questions');
@@ -299,7 +299,7 @@ class assJavaApplet extends assQuestion
 					$this->getAuthor(), 
 					$this->getOwner(), 
 					ilRTE::_replaceMediaObjectImageSrc($this->getQuestion(), 0), 
-					$this->getMaximumPoints(),
+					$this->getPoints(),
 					$estw_time,
 					$complete,
 					time(),
@@ -322,7 +322,7 @@ class assJavaApplet extends assQuestion
 					$this->getComment(), 
 					$this->getAuthor(), 
 					ilRTE::_replaceMediaObjectImageSrc($this->getQuestion(), 0), 
-					$this->getMaximumPoints(),
+					$this->getPoints(),
 					$estw_time,
 					$complete,
 					time(),
@@ -361,7 +361,7 @@ class assJavaApplet extends assQuestion
 	{
 		global $ilDB;
 
-		$result = $ilDB->queryF("SELECT qpl_questions.*, " . $this->getAdditionalTableName() . ".* FROM qpl_questions, " . $this->getAdditionalTableName() . " WHERE question_id = %s AND qpl_questions.question_id = " . $this->getAdditionalTableName() . ".question_fi",
+		$result = $ilDB->queryF("SELECT qpl_questions.*, " . $this->getAdditionalTableName() . ".* FROM qpl_questions LEFT JOIN " . $this->getAdditionalTableName() . " ON " . $this->getAdditionalTableName() . ".question_fi = qpl_questions.question_id WHERE qpl_questions.question_id = %s",
 			array("integer"),
 			array($question_id)
 		);
@@ -386,8 +386,6 @@ class assJavaApplet extends assQuestion
 	}
 
 	/**
-	* Duplicates an assJavaApplet
-	*
 	* Duplicates an assJavaApplet
 	*
 	* @access public
@@ -506,19 +504,6 @@ class assJavaApplet extends assQuestion
 		if (!copy($javapath_original . $filename, $javapath . $filename)) {
 			print "java applet could not be copied!!!! ";
 		}
-	}
-
-	/**
-	* Returns the maximum points, a learner can reach answering the question
-	*
-	* Returns the maximum points, a learner can reach answering the question
-	*
-	* @access public
-	* @see $points
-	*/
-	function getMaximumPoints()
-	{
-		return $this->points;
 	}
 
 	/**
@@ -750,37 +735,43 @@ class assJavaApplet extends assQuestion
 		}
 	}
 
-	/**
-	* Adds a new parameter value to the parameter list at a given index
-	*
-	* @param integer $index The index at which the parameter should be inserted
-	* @param string $name The name of the parameter value
-	* @param string $value The value of the parameter value
-	* @access public
-	* @see $parameters
-	*/
-	function addParameterAtIndex($index = 0, $name = "", $value = "")
+	public function addParameterAtIndex($index = 0, $name = "", $value = "")
 	{
-		$this->parameters[$index] = array("name" => $name, "value" => $value);
+		if (array_key_exists($index, $this->parameters))
+		{
+			// insert parameter
+			$newparams = array();
+			for ($i = 0; $i < $index; $i++)
+			{
+				array_push($newparams, $this->parameters[$i]);
+			}
+			array_push($newparams, array($name, $value));
+			for ($i = $index; $i < count($this->parameters); $i++)
+			{
+				array_push($newparams, $this->parameters[$i]);
+			}
+			$this->parameters = $newparams;
+		}
+		else
+		{
+			array_push($this->parameters, array($name, $value));
+		}
 	}
 
 	/**
 	* Removes a parameter value from the parameter list
 	*
-	* @param string $name The name of the parameter value
+	* @param integer $index The parameter index
 	* @access public
 	* @see $parameters
 	*/
-	function removeParameter($name)
+	public function removeParameter($index)
 	{
-		foreach ($this->parameters as $key => $value)
-		{
-			if (strcmp($name, $value["name"]) == 0)
-			{
-				array_splice($this->parameters, $key, 1);
-				return;
-			}
-		}
+		if ($index < 0) return;
+		if (count($this->parameters) < 1) return;
+		if ($index >= count($this->parameters)) return;
+		unset($this->parameters[$index]);
+		$this->parameters = array_values($this->parameters);
 	}
 
 	/**
@@ -890,10 +881,9 @@ class assJavaApplet extends assQuestion
 				ilUtil::makeDirParents($javapath);
 			}
 			
-			//if (!move_uploaded_file($javaapplet_tempfilename, $javapath . $javaapplet_filename))
 			if (!ilUtil::moveUploadedFile($javaapplet_tempfilename, $javaapplet_filename, $javapath.$javaapplet_filename))
 			{
-				print "java applet not uploaded!!!! ";
+				$ilLog->write("ERROR: java applet question: java applet not uploaded: $javaapplet_filename");
 			}
 			else
 			{
@@ -905,7 +895,7 @@ class assJavaApplet extends assQuestion
 	
 	function deleteJavaAppletFilename()
 	{
-		unlink($this->getJavaPath() . $this->getJavaAppletFilename());
+		@unlink($this->getJavaPath() . $this->getJavaAppletFilename());
 		$this->javaapplet_filename = "";
 	}
 

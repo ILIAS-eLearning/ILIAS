@@ -105,7 +105,7 @@ class assTextQuestionGUI extends assQuestionGUI
 		$form->setTitle($this->outQuestionType());
 		$form->setMultipart(TRUE);
 		$form->setTableWidth("100%");
-		$form->setId("flash");
+		$form->setId("asstextquestion");
 
 		// title
 		$title = new ilTextInputGUI($this->lng->txt("title"), "title");
@@ -187,7 +187,6 @@ class assTextQuestionGUI extends assQuestionGUI
 		$form->addItem($textrating);
 		$form->addCommandButton("save", $this->lng->txt("save"));
 		$form->addCommandButton("saveEdit", $this->lng->txt("save_edit"));
-		$form->addCommandButton("cancel", $this->lng->txt("cancel"));
 		$errors = false;
 	
 		if ($save)
