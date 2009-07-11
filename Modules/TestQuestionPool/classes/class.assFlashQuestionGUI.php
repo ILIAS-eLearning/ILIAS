@@ -81,6 +81,71 @@ class assFlashQuestionGUI extends assQuestionGUI
 	}
 
 	/**
+	* Evaluates a posted edit form and writes the form data in the question object
+	*
+	* @return integer A positive value, if one of the required fields wasn't set, else 0
+	* @access private
+	*/
+	function writePostData($always = false)
+	{
+		$hasErrors = (!$always) ? $this->editQuestion(true) : false;
+		if (!$hasErrors)
+		{
+			global $ilLog;
+			$this->setErrorMessage("");
+			if ($_POST['flash']['delete'] == 1)
+			{
+				$this->object->deleteApplet();
+			}
+			else
+			{
+				$this->object->setApplet($_POST['flash']['filename']);
+			}
+			if ($_FILES["flash"]["tmp_name"])
+			{
+				$this->object->deleteApplet();
+				$filename = $this->object->moveUploadedFile($_FILES["flash"]["tmp_name"], $_FILES["flash"]["name"]);
+				$this->object->setApplet($filename);
+			}
+			$this->object->clearParameters();
+			if (is_array($_POST["flash"]["flash_param_name"]))
+			{
+				foreach ($_POST['flash']['flash_param_name'] as $idx => $val)
+				{
+					$this->object->addParameter($val, $_POST['flash']['flash_param_value'][$idx]);
+				}
+			}
+			if (is_array($_POST['flash']['flash_param_delete']))
+			{
+				foreach ($_POST['flash']['flash_param_delete'] as $key => $value)
+				{
+					$this->object->removeParameter($_POST['flash']['flash_param_name'][$key]);
+				}
+			}
+			$this->object->setTitle(ilUtil::stripSlashes($_POST["title"]));
+			$this->object->setAuthor(ilUtil::stripSlashes($_POST["author"]));
+			$this->object->setComment(ilUtil::stripSlashes($_POST["comment"]));
+			include_once "./Services/AdvancedEditing/classes/class.ilObjAdvancedEditing.php";
+			$formtags = ",input,select,option,button";
+			$questiontext = ilUtil::stripSlashes($_POST["question"], false, ilObjAdvancedEditing::_getUsedHTMLTagsAsString("assessment") . $formtags);
+			$this->object->setQuestion($questiontext);
+			$this->object->setEstimatedWorkingTime(
+				ilUtil::stripSlashes($_POST["Estimated"]["hh"]),
+				ilUtil::stripSlashes($_POST["Estimated"]["mm"]),
+				ilUtil::stripSlashes($_POST["Estimated"]["ss"])
+			);
+			$this->object->setWidth($_POST["flash"]["width"]);
+			$this->object->setHeight($_POST["flash"]["height"]);
+			$this->object->setPoints($_POST["points"]);
+			return 0;
+		}
+		else
+		{
+			return 1;
+		}
+	}
+
+	/**
 	* Creates an output of the edit form for the question
 	*
 	* @access public
@@ -88,13 +153,12 @@ class assFlashQuestionGUI extends assQuestionGUI
 	public function editQuestion($checkonly = FALSE)
 	{
 		$save = ((strcmp($this->ctrl->getCmd(), "save") == 0) || (strcmp($this->ctrl->getCmd(), "saveEdit") == 0)) ? TRUE : FALSE;
-		$this->tpl->addJavascript("./Services/JavaScript/js/Basic.js");
 		$this->getQuestionTemplate();
 
 		include_once("./Services/Form/classes/class.ilPropertyFormGUI.php");
 		$form = new ilPropertyFormGUI();
 		$form->setFormAction($this->ctrl->getFormAction($this));
-		$form->setTitle($this->lng->txt("assFlashQuestion"));
+		$form->setTitle($this->outQuestionType());
 		$form->setMultipart(TRUE);
 		$form->setTableWidth("100%");
 		$form->setId("flash");
@@ -140,16 +204,10 @@ class assFlashQuestionGUI extends assQuestionGUI
 		// flash file
 		$flash = new ilFlashFileInputGUI($this->lng->txt("flashfile"), "flash");
 		$flash->setRequired(TRUE);
-		if ($_SESSION["flash_upload_filename"])
+		if (strlen($this->object->getApplet()))
 		{
-			$flash->setApplet($_SESSION["flash_upload_filename"]);
-		}
-		else
-		{
-			if (strlen($this->object->getApplet()))
-			{
-				$flash->setApplet($this->object->getFlashPathWeb() . $this->object->getApplet());
-			}
+			$flash->setApplet($this->object->getApplet());
+			$flash->setAppletPathWeb($this->object->getFlashPathWeb());
 		}
 		$flash->setWidth($this->object->getWidth());
 		$flash->setHeight($this->object->getHeight());
@@ -171,13 +229,16 @@ class assFlashQuestionGUI extends assQuestionGUI
 
 		$form->addCommandButton("save", $this->lng->txt("save"));
 		$form->addCommandButton("saveEdit", $this->lng->txt("save_edit"));
-		$form->addCommandButton("cancel", $this->lng->txt("cancel"));
 		
+		$errors = false;
+	
 		if ($save)
 		{
+			$form->setValuesByPost();
 			$errors = !$form->checkInput();
+			if ($errors) $checkonly = false;
 		}
-		
+
 		if (!$checkonly) $this->tpl->setVariable("QUESTION_DATA", $form->getHTML());
 		return $errors;
 	}
@@ -187,91 +248,6 @@ class assFlashQuestionGUI extends assQuestionGUI
 		$this->writePostData();
 		$this->object->addParameter("", "");
 		$this->editQuestion();
-	}
-
-	/**
-	* Evaluates a posted edit form and writes the form data in the question object
-	*
-	* @return integer A positive value, if one of the required fields wasn't set, else 0
-	* @access private
-	*/
-	function writePostData()
-	{
-		global $ilLog;
-		$this->setErrorMessage("");
-		if ($_POST["flash_delete"] == 1)
-		{
-			$this->object->deleteApplet();
-		}
-		if ($_FILES["flash"]["tmp_name"])
-		{
-			if ($_SESSION["flash_upload_filename"]) @unlink($_SESSION["flash_upload_filename"]);
-			$filename = $this->object->moveUploadedMediaFile($_FILES["flash"]["tmp_name"], $_FILES["flash"]["name"]);
-			if ($filename) $_SESSION["flash_upload_filename"] = $filename;
-			$this->object->setApplet($_FILES["flash"]["name"]);
-		}
-		else if ($_SESSION["flash_upload_filename"])
-		{
-			if (@file_exists($_SESSION["flash_upload_filename"]))
-			{
-				$filename = basename($_SESSION["flash_upload_filename"]);
-				if (preg_match("/(.*?)____.*/", $filename, $matches))
-				{
-					$this->object->setApplet($matches[1]);
-				}
-				else
-				{
-					unset($_SESSION["flash_upload_filename"]);
-				}
-			}
-			else
-			{
-				unset($_SESSION["flash_upload_filename"]);
-			}
-		}
-		$this->object->clearParameters();
-		if (is_array($_POST["flash_flash_param_name"]))
-		{
-			foreach ($_POST["flash_flash_param_name"] as $key => $value)
-			{
-				if ($_POST["flash_flash_param_delete"][$key] != 1)
-				{
-					$this->object->addParameter($value, $_POST["flash_flash_param_value"][$key]);
-				}
-			}
-		}
-		$this->object->setTitle(ilUtil::stripSlashes($_POST["title"]));
-		$this->object->setAuthor(ilUtil::stripSlashes($_POST["author"]));
-		$this->object->setComment(ilUtil::stripSlashes($_POST["comment"]));
-		include_once "./Services/AdvancedEditing/classes/class.ilObjAdvancedEditing.php";
-		$formtags = ",input,select,option,button";
-		$questiontext = ilUtil::stripSlashes($_POST["question"], false, ilObjAdvancedEditing::_getUsedHTMLTagsAsString("assessment") . $formtags);
-		$this->object->setQuestion($questiontext);
-		$this->object->setEstimatedWorkingTime(
-			ilUtil::stripSlashes($_POST["Estimated"]["hh"]),
-			ilUtil::stripSlashes($_POST["Estimated"]["mm"]),
-			ilUtil::stripSlashes($_POST["Estimated"]["ss"])
-		);
-		$this->object->setWidth($_POST["flash_width"]);
-		$this->object->setHeight($_POST["flash_height"]);
-		$this->object->setPoints($_POST["points"]);
-
-		// Set the question id from a hidden form parameter
-		if ($_POST["id"] > 0)
-		{
-			$this->object->setId($_POST["id"]);
-		}
-
-		if ($saved)
-		{
-			// If the question was saved automatically before an upload, we have to make
-			// sure, that the state after the upload is saved. Otherwise the user could be
-			// irritated, if he presses cancel, because he only has the question state before
-			// the upload process.
-			$this->object->saveToDb();
-			$this->ctrl->setParameter($this, "q_id", $this->object->getId());
-		}
-		return $this->editQuestion(TRUE);
 	}
 
 	function outQuestionForTest($formaction, $active_id, $pass = NULL, $is_postponed = FALSE, $use_post_solutions = FALSE, $show_feedback = FALSE)
@@ -559,8 +535,7 @@ class assFlashQuestionGUI extends assQuestionGUI
 			// edit question properties
 			$ilTabs->addTarget("edit_properties",
 				$url,
-				array("editQuestion", "save", "cancel", 
-					"flashAddParam", "saveEdit"),
+				array("editQuestion", "save", "flashAddParam", "saveEdit"),
 				$classname, "", $force_active);
 		}
 
