@@ -79,7 +79,7 @@ class ilCalendarPresentationGUI
 		include_once('./Services/Calendar/classes/class.ilCalendarSettings.php');
 		if(!ilCalendarSettings::_getInstance()->isEnabled())
 		{
-			ilUtil::sendInfo($this->lng->txt('permission_denied'),true);
+			ilUtil::sendFailure($this->lng->txt('permission_denied'),true);
 			ilUtil::redirect('ilias.php?baseClass=ilPersonalDesktopGUI');
 		}
 

@@ -218,7 +218,7 @@ class ilObjCalendarSettingsGUI extends ilObjectGUI
 		
 		$this->settings->save();
 		
-		ilUtil::sendInfo($this->lng->txt('settings_saved'));
+		ilUtil::sendSuccess($this->lng->txt('settings_saved'));
 		$this->settings();
 	}
 

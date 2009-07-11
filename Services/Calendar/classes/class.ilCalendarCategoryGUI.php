@@ -148,13 +148,13 @@ class ilCalendarCategoryGUI
 		
 		if(!$category->validate())
 		{
-			ilUtil::sendInfo($this->lng->txt('fill_out_all_required_fields'));
+			ilUtil::sendFailure($this->lng->txt('fill_out_all_required_fields'));
 			$this->add();
 			return false;
 		}
 		$category->add();
 		
-		ilUtil::sendInfo($this->lng->txt('settings_saved'),true);
+		ilUtil::sendSuccess($this->lng->txt('settings_saved'),true);
 		$this->ctrl->returnToParent($this);
 		
 	}
@@ -171,7 +171,7 @@ class ilCalendarCategoryGUI
 		
 		if(!$_GET['category_id'])
 		{
-			ilUtil::sendInfo($this->lng->txt('select_one'),true);
+			ilUtil::sendFailure($this->lng->txt('select_one'),true);
 			$this->ctrl->returnToParent($this);
 		}
 
@@ -253,13 +253,13 @@ class ilCalendarCategoryGUI
 	{
 		if(!$_GET['category_id'])
 		{
-			ilUtil::sendInfo($this->lng->txt('select_one'),true);
+			ilUtil::sendFailure($this->lng->txt('select_one'),true);
 			$this->ctrl->returnToParent($this);
 		}
 		$this->readPermissions();
 		if(!$this->isEditable())
 		{
-			ilUtil::sendInfo($this->lng->txt('permission_denied'));
+			ilUtil::sendFailure($this->lng->txt('permission_denied'));
 			$this->edit();
 			return false;
 		}
@@ -270,7 +270,7 @@ class ilCalendarCategoryGUI
 		$category->setColor('#'.ilUtil::stripSlashes($_POST['color']));
 		$category->update();
 		
-		ilUtil::sendInfo($this->lng->txt('settings_saved'),true);
+		ilUtil::sendSuccess($this->lng->txt('settings_saved'),true);
 		$this->ctrl->returnToParent($this);
 	
 	}
@@ -287,13 +287,13 @@ class ilCalendarCategoryGUI
 		
 		if(!$_GET['category_id'])
 		{
-			ilUtil::sendInfo($this->lng->txt('select_one'),true);
+			ilUtil::sendFailure($this->lng->txt('select_one'),true);
 			$this->ctrl->returnToParent($this);
 		}
 		$this->readPermissions();
 		if(!$this->isEditable())
 		{
-			ilUtil::sendInfo($this->lng->txt('permission_denied'));
+			ilUtil::sendFailure($this->lng->txt('permission_denied'));
 			$this->edit();
 			return false;
 		}
@@ -325,14 +325,14 @@ class ilCalendarCategoryGUI
 	{
 		if(!$_GET['category_id'])
 		{
-			ilUtil::sendInfo($this->lng->txt('select_one'),true);
+			ilUtil::sendFailure($this->lng->txt('select_one'),true);
 			$this->ctrl->returnToParent($this);
 		}
 		
 		$this->readPermissions();
 		if(!$this->isEditable())
 		{
-			ilUtil::sendInfo($this->lng->txt('permission_denied'));
+			ilUtil::sendFailure($this->lng->txt('permission_denied'));
 			$this->edit();
 			return false;
 		}
@@ -341,7 +341,7 @@ class ilCalendarCategoryGUI
 		$category = new ilCalendarCategory((int) $_GET['category_id']);
 		$category->delete();
 		
-		ilUtil::sendInfo($this->lng->txt('cal_cal_deleted'));
+		ilUtil::sendSuccess($this->lng->txt('cal_cal_deleted'));
 		$this->ctrl->returnToParent($this);
 	}
 	
@@ -393,7 +393,7 @@ class ilCalendarCategoryGUI
 		$hidden_categories->hideSelected($hidden);
 		$hidden_categories->save();
 		
-		ilUtil::sendInfo($this->lng->txt('settings_saved'),true);
+		ilUtil::sendSuccess($this->lng->txt('settings_saved'),true);
 		$this->ctrl->returnToParent($this);	
 	}
 	
@@ -445,7 +445,7 @@ class ilCalendarCategoryGUI
 		$this->readPermissions();
 		if(!$this->isEditable())
 		{
-			ilUtil::sendInfo($this->lng->txt('permission_denied'));
+			ilUtil::sendFailure($this->lng->txt('permission_denied'));
 			$this->edit();
 			return false;
 		}
@@ -454,7 +454,7 @@ class ilCalendarCategoryGUI
 		
 		if(!$_GET['category_id'])
 		{
-			ilUtil::sendInfo($this->lng->txt('select_one'),true);
+			ilUtil::sendFailure($this->lng->txt('select_one'),true);
 			$this->ctrl->returnToParent($this);
 		}
 		
@@ -476,7 +476,7 @@ class ilCalendarCategoryGUI
 		
 		if(!$_GET['category_id'])
 		{
-			ilUtil::sendInfo($this->lng->txt('select_one'),true);
+			ilUtil::sendFailure($this->lng->txt('select_one'),true);
 			$this->ctrl->returnToParent($this);
 		}
 		$this->ctrl->saveParameter($this,'category_id');
@@ -495,7 +495,7 @@ class ilCalendarCategoryGUI
 		
 		if(!$query)
 		{
-			ilUtil::sendInfo($this->lng->txt('msg_no_search_string'));
+			ilUtil::sendFailure($this->lng->txt('msg_no_search_string'));
 			$this->shareSearch();
 			return false;
 		}
@@ -549,7 +549,7 @@ class ilCalendarCategoryGUI
 		
 		if(!count($res_sum->getResults()))
 		{
-			ilUtil::sendInfo($this->lng->txt('search_no_match'));
+			ilUtil::sendFailure($this->lng->txt('search_no_match'));
 			$this->shareSearch();
 			return true;
 		}
@@ -578,12 +578,12 @@ class ilCalendarCategoryGUI
 		
 		if(!$_GET['category_id'])
 		{
-			ilUtil::sendInfo($this->lng->txt('select_one'),true);
+			ilUtil::sendFailure($this->lng->txt('select_one'),true);
 			$this->ctrl->returnToParent($this);
 		}
 		if(!count($_POST['user_ids']))
 		{
-			ilUtil::sendInfo($this->lng->txt('select_one'));
+			ilUtil::sendFailure($this->lng->txt('select_one'));
 			$this->sharePerformSearch();
 			return false;
 		}
@@ -591,7 +591,7 @@ class ilCalendarCategoryGUI
 		$this->readPermissions();
 		if(!$this->isEditable())
 		{
-			ilUtil::sendInfo($this->lng->txt('permission_denied'));
+			ilUtil::sendFailure($this->lng->txt('permission_denied'));
 			$this->edit();
 			return false;
 		}
@@ -607,7 +607,7 @@ class ilCalendarCategoryGUI
 				$shared->share($user_id,ilCalendarShared::TYPE_USR);	
 			}
 		}
-		ilUtil::sendInfo($this->lng->txt('cal_shared_selected_usr'));
+		ilUtil::sendSuccess($this->lng->txt('cal_shared_selected_usr'));
 		$this->edit();
 	}
 	
@@ -624,12 +624,12 @@ class ilCalendarCategoryGUI
 		
 		if(!$_GET['category_id'])
 		{
-			ilUtil::sendInfo($this->lng->txt('select_one'),true);
+			ilUtil::sendFailure($this->lng->txt('select_one'),true);
 			$this->ctrl->returnToParent($this);
 		}
 		if(!count($_POST['role_ids']))
 		{
-			ilUtil::sendInfo($this->lng->txt('select_one'));
+			ilUtil::sendFailure($this->lng->txt('select_one'));
 			$this->sharePerformSearch();
 			return false;
 		}
@@ -637,7 +637,7 @@ class ilCalendarCategoryGUI
 		$this->readPermissions();
 		if(!$this->isEditable())
 		{
-			ilUtil::sendInfo($this->lng->txt('permission_denied'));
+			ilUtil::sendFailure($this->lng->txt('permission_denied'));
 			$this->edit();
 			return false;
 		}
@@ -649,7 +649,7 @@ class ilCalendarCategoryGUI
 		{
 			$shared->share($role_id,ilCalendarShared::TYPE_ROLE);	
 		}
-		ilUtil::sendInfo($this->lng->txt('cal_shared_selected_usr'));
+		ilUtil::sendSuccess($this->lng->txt('cal_shared_selected_usr'));
 		$this->edit();
 	}
 	
@@ -664,12 +664,12 @@ class ilCalendarCategoryGUI
 	{
 		if(!$_GET['category_id'])
 		{
-			ilUtil::sendInfo($this->lng->txt('select_one'),true);
+			ilUtil::sendFailure($this->lng->txt('select_one'),true);
 			$this->ctrl->returnToParent($this);
 		}
 		if(!count($_POST['obj_ids']))
 		{
-			ilUtil::sendInfo($this->lng->txt('select_one'));
+			ilUtil::sendFailure($this->lng->txt('select_one'));
 			$this->edit();
 			return false;
 		}
@@ -677,7 +677,7 @@ class ilCalendarCategoryGUI
 		$this->readPermissions();
 		if(!$this->isEditable())
 		{
-			ilUtil::sendInfo($this->lng->txt('permission_denied'));
+			ilUtil::sendFailure($this->lng->txt('permission_denied'));
 			$this->edit();
 			return false;
 		}
@@ -690,7 +690,7 @@ class ilCalendarCategoryGUI
 		{
 			$shared->stopSharing($obj_id);
 		}
-		ilUtil::sendInfo($this->lng->txt('cal_unshared_selected_usr'));
+		ilUtil::sendSuccess($this->lng->txt('cal_unshared_selected_usr'));
 		$this->edit();
 		return true;
 	}
@@ -918,7 +918,7 @@ class ilCalendarCategoryGUI
 		
 		if(!count($_POST['appointments']))
 		{
-			ilUtil::sendInfo($this->lng->txt('select_one'));
+			ilUtil::sendFailure($this->lng->txt('select_one'));
 			$this->edit();
 			return true;
 		}
@@ -952,7 +952,7 @@ class ilCalendarCategoryGUI
 	{
 		if(!count($_POST['appointments']))
 		{
-			ilUtil::sendInfo($this->lng->txt('select_one'));
+			ilUtil::sendFailure($this->lng->txt('select_one'));
 			$this->edit();
 			return true;
 		}
@@ -966,7 +966,7 @@ class ilCalendarCategoryGUI
 			ilCalendarCategoryAssignments::_deleteByAppointmentId($app_id);
 		}
 		
-		ilUtil::sendInfo($this->lng->txt('settings_saved'));
+		ilUtil::sendSuccess($this->lng->txt('settings_saved'));
 		$this->edit();
 		return true;
 		
