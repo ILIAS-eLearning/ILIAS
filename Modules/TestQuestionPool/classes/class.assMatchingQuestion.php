@@ -249,22 +249,10 @@ class assMatchingQuestion extends assQuestion
 				)
 			);
 		}
-		$this->rebuildThumbnails();
 		
 		if ($this->getMatchingType() == MT_TERMS_PICTURES)
 		{
-			if ($this->getMatchingPairCount())
-			{
-				if (@file_exists($this->getImagePath() . $this->getMatchingPair(0)->getPicture()  . ".thumb.jpg"))
-				{
-					$size = getimagesize($this->getImagePath() . $this->getMatchingPair(0)->getPicture()  . ".thumb.jpg");
-					$max = ($size[0] > $size[1]) ? $size[0] : $size[1];
-					if ($this->getThumbGeometry() != $max)
-					{
-						$this->rebuildThumbnails();
-					}
-				}
-			}
+			$this->rebuildThumbnails();
 		}
 		
 		
@@ -440,14 +428,11 @@ class assMatchingQuestion extends assQuestion
 			foreach ($this->matchingpairs as $answer)
 			{
 				$filename = $answer->getPicture();
-				$sourcefilename = $imagepath_original . $filename;
-				if (!copy($sourcefilename, $imagepath . $filename))
-				{
-					print "image could not be duplicated!!!! ";
+				if (!@copy($imagepath_original . $filename, $imagepath . $filename)) {
+					$ilLog->write("matching question image could not be duplicated: $imagepath_original$filename");
 				}
-				if (!copy($sourcefilename . ".thumb.jpg", $imagepath . $filename . ".thumb.jpg"))
-				{
-					print "image thumbnail could not be duplicated!!!! ";
+				if (!@copy($imagepath_original . $this->getThumbPrefix() . $filename, $imagepath . $this->getThumbPrefix() . $filename)) {
+					$ilLog->write("matching question image thumbnail could not be duplicated: $imagepath_original" . $this->getThumbPrefix() . $filename);
 				}
 			}
 		}
@@ -467,14 +452,11 @@ class assMatchingQuestion extends assQuestion
 			foreach ($this->matchingpairs as $answer)
 			{
 				$filename = $answer->getPicture();
-				$sourcefilename = $imagepath_original . $filename;
-				if (!@copy($sourcefilename, $imagepath . $filename))
-				{
-					print "image could not be duplicated!!!! ";
+				if (!copy($imagepath_original . $filename, $imagepath . $filename)) {
+					$ilLog->write("matching question image could not be copied: $imagepath_original$filename");
 				}
-				if (!@copy($sourcefilename . ".thumb.jpg", $imagepath . $filename . ".thumb.jpg"))
-				{
-					print "image thumbnail could not be duplicated!!!! ";
+				if (!copy($imagepath_original . $this->getThumbPrefix() . $filename, $imagepath . $this->getThumbPrefix() . $filename)) {
+					$ilLog->write("matching question image thumbnail could not be copied: $imagepath_original" . $this->getThumbPrefix() . $filename);
 				}
 			}
 		}
@@ -873,7 +855,7 @@ class assMatchingQuestion extends assQuestion
 	{
 		$deletename = $$filename;
 		$result = @unlink($this->getImagePath().$deletename);
-		$result = $result & @unlink($this->getImagePath().$deletename.".thumb.jpg");
+		$result = $result & @unlink($this->getImagePath().$this->getThumbPrefix() . $deletename);
 		return $result;
 	}
 
@@ -904,7 +886,7 @@ class assMatchingQuestion extends assQuestion
 			else
 			{
 				// create thumbnail file
-				$thumbpath = $imagepath . $savename . "." . "thumb.jpg";
+				$thumbpath = $imagepath . $this->getThumbPrefix() . $savename;
 				ilUtil::convertImage($imagepath.$savename, $thumbpath, "JPEG", $this->getThumbGeometry());
 			}
 			if ($result && (strcmp($image_filename, $previous_filename) != 0) && (strlen($previous_filename)))
@@ -1224,24 +1206,45 @@ class assMatchingQuestion extends assQuestion
 	/*
 	* Rebuild the thumbnail images with a new thumbnail size
 	*/
-	protected function rebuildThumbnails()
+	public function rebuildThumbnails()
 	{
 		if ($this->getMatchingType() == MT_TERMS_PICTURES)
 		{
-			if ($this->getMatchingPairCount())
+			foreach ($this->getMatchingPairs() as $pair)
 			{
-				foreach ($this->getMatchingPairs() as $pair)
-				{
-					if (@file_exists($this->getImagePath() . $pair->getPicture()))
-					{
-						$thumbpath = $this->getImagePath() . $pair->getPicture() . "." . "thumb.jpg";
-						ilUtil::convertImage($this->getImagePath() . $pair->getPicture(), $thumbpath, "JPEG", $this->getThumbGeometry());
-					}
-				}
+				$this->generateThumbForFile($this->getImagePath(), $pair->getPicture());
 			}
 		}
 	}
-
+	
+	public function getThumbPrefix()
+	{
+		return "thumb.";
+	}
+	
+	protected function generateThumbForFile($path, $file)
+	{
+		$filename = $path . $file;
+		if (@file_exists($filename))
+		{
+			$thumbpath = $path . $this->getThumbPrefix() . $file;
+			$path_info = @pathinfo($filename);
+			$ext = "";
+			switch (strtoupper($path_info['extension']))
+			{
+				case 'PNG':
+					$ext = 'PNG';
+					break;
+				case 'GIF':
+					$ext = 'GIF';
+					break;
+				default:
+					$ext = 'JPEG';
+					break;
+			}
+			ilUtil::convertImage($filename, $thumbpath, $ext, $this->getThumbGeometry());
+		}
+	}
 }
 
 ?>
