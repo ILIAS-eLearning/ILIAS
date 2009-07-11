@@ -71,7 +71,7 @@ class ilQuestionBrowserTableGUI extends ilTable2GUI
 		$this->browsercolumns['author'] = $qplSetting->get("author", 1) ? true : false;
 		$this->browsercolumns['created'] = $qplSetting->get("created", 1) ? true : false;
 		$this->browsercolumns['updated'] = $qplSetting->get("updated", 1) ? true : false;
-		if ($this->browsercolumns['description']) $this->addColumn($this->lng->txt("description"),'comment', '');
+		if ($this->browsercolumns['description']) $this->addColumn($this->lng->txt("description"),'description', '');
 		if ($this->browsercolumns['type']) $this->addColumn($this->lng->txt("question_type"),'type', '');
 		if ($this->browsercolumns['points']) $this->addColumn($this->lng->txt("points"),'', '', false, 'right');
 		if ($this->browsercolumns['statistics']) $this->addColumn('','statistics', '');
@@ -136,12 +136,12 @@ class ilQuestionBrowserTableGUI extends ilTable2GUI
 		$this->filter["title"] = $ti->getValue();
 		
 		// description
-		$ti = new ilTextInputGUI($lng->txt("description"), "comment");
+		$ti = new ilTextInputGUI($lng->txt("description"), "description");
 		$ti->setMaxLength(64);
 		$ti->setSize(20);
 		$this->addFilterItem($ti);
 		$ti->readFromSession();
-		$this->filter["comment"] = $ti->getValue();
+		$this->filter["description"] = $ti->getValue();
 		
 		// author
 		$ti = new ilTextInputGUI($lng->txt("author"), "author");
@@ -192,7 +192,6 @@ class ilQuestionBrowserTableGUI extends ilTable2GUI
 	public function fillRow($data)
 	{
 		global $ilUser,$ilAccess;
-		
 		include_once "./Modules/TestQuestionPool/classes/class.assQuestion.php";
 		include_once "./Modules/TestQuestionPool/classes/class.assQuestionGUI.php";
 		$class = strtolower(assQuestionGUI::_getGUIClassNameForId($data["question_id"]));
@@ -216,20 +215,14 @@ class ilQuestionBrowserTableGUI extends ilTable2GUI
 		}
 		else
 		{
-			$points = assQuestion::_getMaximumPoints($data["question_id"]);
+			$points = $data["points"];
 		}
 		$this->totalPoints += $points;
 
 		if ($this->browsercolumns['description'])
 		{
 			$this->tpl->setCurrentBlock('description');
-			$this->tpl->setVariable("QUESTION_COMMENT", $data["comment"]);
-			$this->tpl->parseCurrentBlock();
-		}
-		if ($this->browsercolumns['description'])
-		{
-			$this->tpl->setCurrentBlock('description');
-			$this->tpl->setVariable("QUESTION_COMMENT", $data["comment"]);
+			$this->tpl->setVariable("QUESTION_COMMENT", (strlen($data["description"])) ? $data["description"] : "&nbsp;");
 			$this->tpl->parseCurrentBlock();
 		}
 		if ($this->browsercolumns['type'])
