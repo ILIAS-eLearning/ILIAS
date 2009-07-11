@@ -104,13 +104,13 @@ class ilContainerReferenceGUI extends ilObjectGUI
 		
 		if(!(int) $_POST['target_id'])
 		{
-			ilUtil::sendInfo($this->lng->txt('select_one'));
+			ilUtil::sendFailure($this->lng->txt('select_one'));
 			$this->createObject();
 			return false;	
 		}
 		if(!$ilAccess->checkAccess('read','',(int) $_POST['target_id']))
 		{
-			ilUtil::sendInfo($this->lng->txt('permission_denied'));
+			ilUtil::sendFailure($this->lng->txt('permission_denied'));
 			$this->createObject();
 			return false;	
 		}
@@ -165,13 +165,13 @@ class ilContainerReferenceGUI extends ilObjectGUI
 		
 		if(!(int) $_POST['target_id'])
 		{
-			ilUtil::sendInfo($this->lng->txt('select_one'));
+			ilUtil::sendFailure($this->lng->txt('select_one'));
 			$this->editObject();
 			return false;	
 		}
 		if(!$ilAccess->checkAccess('edit','',(int) $_POST['target_id']))
 		{
-			ilUtil::sendInfo($this->lng->txt('permission_denied'));
+			ilUtil::sendFailure($this->lng->txt('permission_denied'));
 			$this->editObject();
 			return false;	
 		}
@@ -180,7 +180,7 @@ class ilContainerReferenceGUI extends ilObjectGUI
 		$this->object->setTargetId($target_obj_id);
 		$this->object->update();
 		
-		ilUtil::sendInfo($this->lng->txt('settings_saved'));
+		ilUtil::sendSuccess($this->lng->txt('settings_saved'));
 		$this->editObject();
 	}
 	

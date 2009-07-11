@@ -14309,3 +14309,7 @@ while($data = $ilDB->fetchAssoc($result))
 <?php	
 	$ilDB->manipulateF('UPDATE scorm_tracking SET c_timestamp = NULL WHERE  c_timestamp = %s', array('timestamp'), array('0000-00-00 00:00:00'));
 ?>
+<#2743>
+<?php 
+	$ilMySQLAbstraction->performAbstraction('container_reference');
+?>

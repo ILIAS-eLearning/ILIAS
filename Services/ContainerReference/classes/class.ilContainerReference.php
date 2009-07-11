@@ -62,7 +62,7 @@ class ilContainerReference extends ilObject
 		global $ilDB;
 		
 		$query = "SELECT * FROM container_reference ".
-			"WHERE obj_id = ".$ilDB->quote($a_obj_id)." ";
+			"WHERE obj_id = ".$ilDB->quote($a_obj_id,'integer')." ";
 		$res = $ilDB->query($query);
 		while($row = $res->fetchRow(DB_FETCHMODE_OBJECT))
 		{
@@ -125,7 +125,7 @@ class ilContainerReference extends ilObject
 	 	global $ilDB;
 	 	
 	 	$query = "SELECT * FROM container_reference ".
-	 		"WHERE target_obj_id = ".$ilDB->quote($a_target_id)." ";
+	 		"WHERE target_obj_id = ".$ilDB->quote($a_target_id,'integer')." ";
 	 	$res = $ilDB->query($query);
 	 	while($row = $res->fetchRow(DB_FETCHMODE_OBJECT))
 	 	{
@@ -195,7 +195,7 @@ class ilContainerReference extends ilObject
 		parent::read();
 		
 		$query = "SELECT * FROM container_reference ".
-			"WHERE obj_id = ".$ilDB->quote($this->getId())." ";
+			"WHERE obj_id = ".$ilDB->quote($this->getId(),'integer')." ";
 		$res = $ilDB->query($query);
 		while($row = $res->fetchRow(DB_FETCHMODE_OBJECT))
 		{
@@ -222,13 +222,15 @@ class ilContainerReference extends ilObject
 		parent::update();
 		
 		$query = "DELETE FROM container_reference ".
-			"WHERE obj_id = ".$ilDB->quote($this->getId())." ";
-		$ilDB->query($query);
+			"WHERE obj_id = ".$ilDB->quote($this->getId(),'integer')." ";
+		$ilDB->manipulate($query);
 		
-		$query = "INSERT INTO container_reference ".
-			"SET obj_id = ".$ilDB->quote($this->getId()).", ".
-			"target_obj_id = ".$ilDB->quote($this->getTargetId())." ";
-		$ilDB->query($query);
+		$query = "INSERT INTO container_reference (obj_id, target_obj_id) ".
+			"VALUES( ".
+			$ilDB->quote($this->getId(),'integer').", ".
+			$ilDB->quote($this->getTargetId(),'integer')." ".
+			")";
+		$ilDB->manipulate($query);
 	}
 	
 	/**
@@ -248,8 +250,8 @@ class ilContainerReference extends ilObject
 		}
 
 		$query = "DELETE FROM container_reference ".
-			"WHERE obj_id = ".$ilDB->quote($this->getId())." ";
-		$ilDB->query($query);
+			"WHERE obj_id = ".$ilDB->quote($this->getId(),'integer')." ";
+		$ilDB->manipulate($query);
 		
 		return true;
 	}
@@ -268,10 +270,12 @@ class ilContainerReference extends ilObject
 		
 	 	$new_obj = parent::cloneObject($a_target_id,$a_copy_id);
 	 	
-		$query = "INSERT INTO container_reference ".
-			"SET obj_id = ".$ilDB->quote($new_obj->getId()).", ".
-			"target_obj_id = ".$ilDB->quote($this->getTargetId())." ";
-		$ilDB->query($query);
+		$query = "INSERT INTO container_reference (obj_id, target_obj_id) ".
+			"VALUES( ".
+			$ilDB->quote($new_obj->getId(),'integer').", ".
+			$ilDB->quote($this->getTargetId(),'integer')." ".
+			")";
+		$ilDB->manipulate($query);
 	}
 	
 }
