@@ -129,7 +129,10 @@ class ilCalendarDayGUI
 		$this->scheduler->addSubitemCalendars(true);
 		$this->scheduler->calculate();
 		$daily_apps = $this->scheduler->getByDay($this->seed,$this->timezone);
-		$hours = $this->parseHourInfo($daily_apps);
+		$hours = $this->parseHourInfo($daily_apps,
+			$this->user_settings->getDayStart(),
+			$this->user_settings->getDayEnd()
+		);
 		$colspan = $this->calculateColspan($hours);
 		
 		$navigation = new ilCalendarHeaderNavigationGUI($this,$this->seed,ilDateTime::DAY);

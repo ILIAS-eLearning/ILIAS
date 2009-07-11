@@ -21,6 +21,7 @@
 	+-----------------------------------------------------------------------------+
 */
 
+include_once './Services/Calendar/classes/class.ilCalendarSettings.php';
 
 /**
 * Class ilCalendarUtil
@@ -420,6 +421,33 @@ class ilCalendarUtil
 		$hex = str_replace('#','0x',$a_html_color_code);
 		
 		return hexdec($hex) > 8000000 ? '#000000' : '#FFFFFF';
+	}
+	
+	/**
+	 * Get hour selectio depending on user specific hour format.
+	 * @return 
+	 * @param int $a_format
+	 */
+	public static function getHourSelection($a_format)
+	{
+		switch($a_format)
+		{
+			case ilCalendarSettings::TIME_FORMAT_24:
+				for($i = 0; $i < 24; $i++)
+				{
+					$options[$i] = sprintf('%02d:00',$i);
+				}
+				break;
+				
+			case ilCalendarSettings::TIME_FORMAT_12:
+				for($i = 0; $i < 24; $i++)
+				{
+					$options[$i] = date('h a',mktime($i,0,0,1,1,2000));
+				}
+				break;
+		}
+		return $options ? $options : array();			
+		
 	}
 }
 ?>

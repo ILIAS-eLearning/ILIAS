@@ -9633,3 +9633,8 @@ common#:#bm_add_to_ilias#:#Speichere als ILIAS Bookmark
 content#:#cont_print_selection#:#Auswahl Druckansicht
 common#:#bm_add_to_social_bookmarks#:#Speichere als Social Bookmark
 common#:#event_ass_materials_prop#:#Materialien zur Sitzung
+dateplaner#:#cal_dstart_dend_warn#:#Der Tagesbeginn sollte vor dem Tagesende liegen. Bitte überprüfen Sie Ihre Eingaben.
+dateplaner#:#cal_day_start#:#Tagesbeginn
+dateplaner#:#cal_day_end#:#Tagesende
+dateplaner#:#cal_day_week_view#:#Einstellungen Tages/Wochenansicht
+dateplaner#:#cal_week_month_view#:#Einstellungen Wochen/Monatsansicht

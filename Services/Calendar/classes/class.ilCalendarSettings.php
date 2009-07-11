@@ -37,6 +37,9 @@ class ilCalendarSettings
 	const WEEK_START_MONDAY = 1;
 	const WEEK_START_SUNDAY = 0;
 	
+	const DEFAULT_DAY_START = 8;
+	const DEFAULT_DAY_END = 19;
+	
 	const TIME_FORMAT_24 = 1;
 	const TIME_FORMAT_12 = 2;
 	
@@ -47,6 +50,8 @@ class ilCalendarSettings
 	private $timezone = null;
 	private $time_format = null;
 	private $week_start = 0;
+	private $day_start = null;
+	private $day_end = null;
 	private $enabled = false;
 	private $cal_settings_id = 0;
 
@@ -169,6 +174,45 @@ class ilCalendarSettings
 	{
 		return $this->time_format;
 	}
+	
+	/**
+	 * Get default end of day
+	 * @return 
+	 */
+	public function getDefaultDayStart()
+	{
+		return $this->day_start;
+	}
+	
+	/**
+	 * Set default start of day
+	 * @return 
+	 * @param object $a_start
+	 */
+	public function setDefaultDayStart($a_start)
+	{
+		$this->day_start = $a_start;
+	}
+	
+	/**
+	 * Get default end of day
+	 * @return 
+	 */
+	public function getDefaultDayEnd()
+	{
+		return $this->day_end;
+	}
+	
+	/**
+	 * set default end of day
+	 * @return 
+	 * @param object $a_end
+	 */
+	public function setDefaultDayEnd($a_end)
+	{
+		$this->day_end = $a_end;
+	}
+	
 
 	/**
 	 * Get calendar settings id
@@ -214,6 +258,8 @@ class ilCalendarSettings
 	 	$this->storage->set('default_week_start',$this->getDefaultWeekStart());
 	 	$this->storage->set('default_time_format',$this->getDefaultTimeFormat());
 		$this->storage->set('enable_grp_milestones',(int) $this->getEnableGroupMilestones());
+		$this->storage->set('default_day_start',(int) $this->getDefaultDayStart());
+		$this->storage->set('default_day_end',(int) $this->getDefaultDayEnd());
 	}
 
 	/**
@@ -230,6 +276,8 @@ class ilCalendarSettings
 		$this->setDefaultWeekStart($this->storage->get('default_week_start',self::WEEK_START_MONDAY));
 		$this->setDefaultTimeFormat($this->storage->get('default_time_format',self::TIME_FORMAT_24));
 		$this->setEnableGroupMilestones($this->storage->get('enable_grp_milestones'));
+		$this->setDefaultDayStart($this->storage->get('default_day_start',self::DEFAULT_DAY_START));
+		$this->setDefaultDayEnd($this->storage->get('default_day_end',self::DEFAULT_DAY_END));
 	}
 	
 	/**
