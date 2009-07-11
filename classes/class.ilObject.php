@@ -713,7 +713,6 @@ class ilObject
 				$ilDB->insert('object_description',$values);
 			}
 		}
-		
 		$GLOBALS['ilAppEventHandler']->raise(
 			'Services/Object',
 			'update',
@@ -738,6 +737,13 @@ class ilObject
 	function MDUpdateListener($a_element)
 	{
 		include_once 'Services/MetaData/classes/class.ilMD.php';
+
+		$GLOBALS['ilAppEventHandler']->raise(
+			'Services/Object',
+			'update',
+			array('obj_id' => $this->getId(),
+				'obj_type' => $this->getType(),
+				'ref_id' => $this->getRefId()));
 
 		switch($a_element)
 		{

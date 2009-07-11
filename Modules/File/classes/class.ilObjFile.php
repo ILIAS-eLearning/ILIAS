@@ -165,13 +165,6 @@ class ilObjFile extends ilObject
 		// handling for general section
 		parent::MDUpdateListener($a_element);
 		
-		$GLOBALS['ilAppEventHandler']->raise(
-			'Services/Object',
-			'update',
-			array('obj_id' => $this->getId(),
-				'obj_type' => $this->getType(),
-				'ref_id' => $this->getRefId()));
-		
 		// handling for technical section 
 		include_once 'Services/MetaData/classes/class.ilMD.php';
 //echo "-".$a_element."-";
