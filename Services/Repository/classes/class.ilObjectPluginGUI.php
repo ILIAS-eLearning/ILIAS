@@ -53,7 +53,7 @@ abstract class ilObjectPluginGUI extends ilObject2GUI
 			if ($ilAccess->checkAccess("read", "", $_GET["ref_id"]))
 			{
 				$ilNavigationHistory->addItem($_GET["ref_id"],
-					$ilCtrl->getLinkTarget($this, self::getStandardCmd()), $this->getType());
+					$ilCtrl->getLinkTarget($this, $this->getStandardCmd()), $this->getType());
 			}
 
 		}
@@ -130,13 +130,6 @@ abstract class ilObjectPluginGUI extends ilObject2GUI
 		}
 	}
 
-	/**
-	* Get standard command
-	*/
-	function getStandardCmd()
-	{
-		return "";
-	}
 
 	final public function cloneAll() { return parent::cloneAllObject(); }
 	
@@ -232,7 +225,7 @@ abstract class ilObjectPluginGUI extends ilObject2GUI
 	
 	abstract function getStandardCmd();
 	
-	abstract function performCommand();
+//	abstract function performCommand();
 	
 	/**
 	* Add info screen tab

@@ -32,6 +32,7 @@ class ilObjPluginDispatchGUI
 			$class_path = $ilCtrl->lookupClassPath($next_class);
 			include_once($class_path);
 			$class_name = $ilCtrl->getClassForClasspath($class_path);
+//echo "-".$class_name."-".$class_path."-";
 			$this->gui_obj = new $class_name($_GET["ref_id"]);
 			$ilCtrl->forwardCommand($this->gui_obj);
 		}
