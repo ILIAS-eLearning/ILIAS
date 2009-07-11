@@ -47,8 +47,8 @@ function newParamClicked()
 	{
 		maxinput++;
 	}
-	nameinput = createTextInput('{POST_VAR}_flash_param_name[' + maxinput + ']', 25);
-	valueinput = createTextInput('{POST_VAR}_flash_param_value[' + maxinput + ']', 25);
+	nameinput = createTextInput('{POST_VAR}[flash_param_name][' + maxinput + ']', 25);
+	valueinput = createTextInput('{POST_VAR}[flash_param_value][' + maxinput + ']', 25);
 	div = document.createElement('div');
 	div.setAttribute("id", "singleFlashAppletParam");
 	div.setAttribute("style", "padding: 0.5em 0;");
@@ -67,7 +67,8 @@ function newParamClicked()
 	div.appendChild(document.createTextNode(" "));
 	checkbox = document.createElement('input');
 	checkbox.setAttribute("type", "checkbox");
-	checkbox.setAttribute("name", '{POST_VAR}_flash_param_delete[' + maxinput + ']');
+	checkbox.setAttribute("name", '{POST_VAR}[flash_param_delete][' + maxinput + ']');
+	checkbox.className = '{POST_VAR}_deleteFlashParam';
 	checkbox.setAttribute("id", '{POST_VAR}_flash_param_delete[' + maxinput + ']');
 	checkbox.setAttribute("value", "1");
 	div.appendChild(checkbox);
@@ -81,5 +82,17 @@ function newParamClicked()
 	YAHOO.util.Event.addListener('{POST_VAR}_flash_param_delete[' + maxinput + ']', "click", deleteParameter);
 	return false;
 }
+
+function flashWizardEvents_{POST_VAR}(e)
+{
+	deletebuttons = YAHOO.util.Dom.getElementsByClassName('{POST_VAR}_deleteFlashParam');
+	for (i = 0; i < deletebuttons.length; i++)
+	{
+		button = deletebuttons[i];
+		YAHOO.util.Event.addListener(button, 'click', deleteParameter);
+	}
+}
+
+YAHOO.util.Event.onDOMReady(flashWizardEvents_{POST_VAR});
 
 </script>

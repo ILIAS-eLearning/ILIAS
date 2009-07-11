@@ -429,6 +429,33 @@ class assFlashQuestion extends assQuestion
 		return $response;
 	}
 	
+	/**
+	* Uploads a flash file
+	*
+	* @param string $flashfile Name of the original flash file
+	* @param string $tmpfile Name of the temporary uploaded flash file
+	* @return string Name of the file
+	* @access public
+	*/
+	function moveUploadedFile($tmpfile, $flashfile)
+	{
+		$result = "";
+		if (!empty($tmpfile))
+		{
+			$flashfile = str_replace(" ", "_", $flashfile);
+			$flashpath = $this->getFlashPath();
+			if (!file_exists($flashpath))
+			{
+				ilUtil::makeDirParents($flashpath);
+			}
+			if (ilUtil::moveUploadedFile($tmpfile, $flashfile, $flashpath.$flashfile))
+			{
+				$result = $flashfile;
+			}
+		}
+		return $result;
+	}
+
 	function deleteApplet()
 	{
 		@unlink($this->getFlashPath() . $this->getApplet());
