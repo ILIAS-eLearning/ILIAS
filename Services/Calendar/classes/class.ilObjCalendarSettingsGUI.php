@@ -206,6 +206,16 @@ class ilObjCalendarSettingsGUI extends ilObjectGUI
 		$this->settings->setDefaultTimeZone(ilUtil::stripSlashes($_POST['default_timezone']));
 		$this->settings->setDefaultTimeFormat((int) $_POST['default_time_format']);
 		$this->settings->setEnableGroupMilestones((int) $_POST['enable_grp_milestones']);
+		$this->settings->setDefaultDayStart((int) $_POST['dst']);
+		$this->settings->setDefaultDayEnd((int) $_POST['den']);
+		
+		if(((int) $_POST['den']) < (int) $_POST['dst'])
+		{
+			ilUtil::sendFailure($this->lng->txt('cal_dstart_dend_warn'));
+			$this->settings();
+			return false;
+		}
+		
 		$this->settings->save();
 		
 		ilUtil::sendInfo($this->lng->txt('settings_saved'));
@@ -283,6 +293,23 @@ class ilObjCalendarSettingsGUI extends ilObjectGUI
 		$this->form->addItem($checkm);
 		
 		$this->form->addItem($radio);
+		
+		// Day start
+		$day_start = new ilSelectInputGUI($this->lng->txt('cal_day_start'),'dst');
+		$day_start->setOptions(
+			ilCalendarUtil::getHourSelection($this->settings->getDefaultTimeFormat())
+		);
+		$day_start->setValue($this->settings->getDefaultDayStart());
+		$this->form->addItem($day_start);
+		
+		$day_end = new ilSelectInputGUI($this->lng->txt('cal_day_end'),'den');
+		$day_end->setOptions(
+			ilCalendarUtil::getHourSelection($this->settings->getDefaultTimeFormat())
+		);
+		$day_end->setValue($this->settings->getDefaultDayEnd());
+		$this->form->addItem($day_end);
+		
+		
 	}
 }
 ?>

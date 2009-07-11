@@ -142,7 +142,10 @@ class ilCalendarWeekGUI
 		foreach(ilCalendarUtil::_buildWeekDayList($this->seed,$this->user_settings->getWeekStart())->get() as $date)
 		{
 			$daily_apps = $this->scheduler->getByDay($date,$this->timezone);
-			$hours = $this->parseHourInfo($daily_apps,$date,$counter,$hours);
+			$hours = $this->parseHourInfo($daily_apps,$date,$counter,$hours,
+				$this->user_settings->getDayStart(),
+				$this->user_settings->getDayEnd()
+			);
 			$this->weekdays[] = $date;
 			
 			$all_fullday[] = $daily_apps;

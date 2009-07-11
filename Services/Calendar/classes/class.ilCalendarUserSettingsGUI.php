@@ -26,14 +26,13 @@ include_once('Services/Calendar/classes/class.ilCalendarSettings.php');
 
 /** 
 * 
-* @author Stefan Meyer <smeyer@databay.de>
+* @author Stefan Meyer <smeyer.ilias@gmx.de>
 * @version $Id$
 * 
 * 
 * @ilCtrl_Calls ilCalendarUserSettingsGUI:
 * @ingroup ServicesCalendar 
 */
-
 class ilCalendarUserSettingsGUI
 {
 	protected $tpl;
@@ -123,12 +122,23 @@ class ilCalendarUserSettingsGUI
 	 */
 	public function save()
 	{
+		
 		$this->user_settings->setTimeZone($_POST['timezone']);
 		$this->user_settings->setWeekStart((int) $_POST['weekstart']);
 		$this->user_settings->setTimeFormat((int) $_POST['time_format']);
-		$this->user_settings->save();	
+		$this->user_settings->setDayStart((int) $_POST['dst']);
+		$this->user_settings->setDayEnd((int) $_POST['den']);
+
+		if(((int) $_POST['den']) < (int) $_POST['dst'])
+		{
+			ilUtil::sendFailure($this->lng->txt('cal_dstart_dend_warn'));
+			$this->show();
+			return false;
+		}
+
+		$this->user_settings->save();
 		
-		ilUtil::sendInfo($this->lng->txt('settings_saved'),true);
+		ilUtil::sendSuccess($this->lng->txt('settings_saved'),true);
 		$this->ctrl->returnToParent($this);
 	}
 	
@@ -167,6 +177,11 @@ class ilCalendarUserSettingsGUI
 		$select->setValue($this->user_settings->getTimeFormat());
 		$this->form->addItem($select);
 		
+		// Week/Month View
+		$week_month = new ilFormSectionHeaderGUI();
+		$week_month->setTitle($this->lng->txt('cal_week_month_view'));
+		$this->form->addItem($week_month);
+		
 		$radio = new ilRadioGroupInputGUI($this->lng->txt('cal_week_start'),'weekstart');
 		$radio->setValue($this->user_settings->getWeekStart());
 	
@@ -176,6 +191,24 @@ class ilCalendarUserSettingsGUI
 		$radio->addOption($option);
 		$this->form->addItem($radio);
 		
+		// Day/Week View
+		$week_month = new ilFormSectionHeaderGUI();
+		$week_month->setTitle($this->lng->txt('cal_day_week_view'));
+		$this->form->addItem($week_month);
+		
+		$day_start = new ilSelectInputGUI($this->lng->txt('cal_day_start'),'dst');
+		$day_start->setOptions(
+			ilCalendarUtil::getHourSelection($this->user_settings->getTimeFormat())
+		);
+		$day_start->setValue($this->user_settings->getDayStart());
+		$this->form->addItem($day_start);
+		
+		$day_end = new ilSelectInputGUI($this->lng->txt('cal_day_end'),'den');
+		$day_end->setOptions(
+			ilCalendarUtil::getHourSelection($this->user_settings->getTimeFormat())
+		);
+		$day_end->setValue($this->user_settings->getDayEnd());
+		$this->form->addItem($day_end);
 	}
 }
 
