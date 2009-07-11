@@ -55,8 +55,9 @@ class ilSearchAppEventListener implements ilAppEventListener
 		{
 			$type = $a_params['obj_type'];
 		}
-		
-		if($type != 'file')
+
+		if($type != 'file' and
+			$type != 'htlm')
 		{
 			return;
 		}
@@ -115,7 +116,7 @@ class ilSearchAppEventListener implements ilAppEventListener
 			$a_params['obj_type'] = ilObject::_lookupType($a_params['obj_id']);
 		}
 		
-		$ilLog->write(__METHOD__.': Handling new command: '.$a_command);
+		$ilLog->write(__METHOD__.': Handling new command: '.$a_command.' for type '.$a_params['obj_type']);
 		
 		$element = new ilSearchCommandQueueElement();
 		$element->setObjId($a_params['obj_id']);

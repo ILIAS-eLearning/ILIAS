@@ -225,7 +225,7 @@ class ilLuceneRPCAdapter extends ilRPCServerAdapter
 	protected function __prepareSearchParams()
 	{
 		$this->setResponseTimeout(5);
-		$this->__initMessage('search.search',array(
+		$this->__initMessage('RPCSearchHandler.search',array(
 			new XML_RPC_Value($this->getClientKey(),'string'),
 			new XML_RPC_Value($this->getQueryString(),'string'),
 			new XML_RPC_Value($this->getPageNumber(),'int')));
@@ -246,7 +246,7 @@ class ilLuceneRPCAdapter extends ilRPCServerAdapter
 			$objIds[] = new XML_RPC_Value($obj_id,'int');
 		}
 		
-		$this->__initMessage('search.highlight',array(
+		$this->__initMessage('RPCSearchHandler.highlight',array(
 			new XML_RPC_Value($this->getClientKey(),'string'),
 			new XML_RPC_VAlue($objIds,'array'),
 			new XML_RPC_Value($this->getQueryString(),'string')));
@@ -258,7 +258,7 @@ class ilLuceneRPCAdapter extends ilRPCServerAdapter
 	{
 		$this->setResponseTimeout(5);
 		
-		$this->__initMessage('administration.refreshSettings',array(
+		$this->__initMessage('RPCAdministration.refreshSettings',array(
 			new XML_RPC_Value($this->getClientKey(),'string')));
 		return true;
 	}
