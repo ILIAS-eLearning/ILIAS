@@ -65,6 +65,13 @@ class ilAuthFactory
 	 * Maybe not required. Cron based authentication 
 	 */
 	const CONTEXT_CAS	= 5;
+	
+	/**
+	 * @var int
+	 * Maybe not required. HTTP based authentication for calendar access 
+	 */
+	const CONTEXT_CALENDAR	= 6;
+	
 
 	/**
 	 * @var int
@@ -146,7 +153,10 @@ class ilAuthFactory
 			case self::CONTEXT_CAS:
 				include_once './Services/CAS/classes/class.ilAuthCAS.php';
 				return new ilAuthCAS($deco,$options);
-			
+				
+			case self::CONTEXT_CALENDAR:
+				include_once './Services/Calendar/classes/class.ilAuthCalendar.php';
+				return new ilAuthCalendar($deco,$options);
 		}
 	}
 }

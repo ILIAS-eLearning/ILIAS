@@ -37,6 +37,7 @@ class ilCalendarCategories
 {
 	const MODE_PERSONAL_DESKTOP = 1;
 	const MODE_REPOSITORY = 2;
+	const MODE_REMOTE_ACCESS = 3;
 	
 	protected static $instance = null;
 	
@@ -145,6 +146,7 @@ class ilCalendarCategories
 	{
 		switch($a_mode)
 		{
+			case self::MODE_REMOTE_ACCESS:
 			case self::MODE_PERSONAL_DESKTOP:
 				include_once('./Services/Calendar/classes/class.ilCalendarUserSettings.php');
 				if(ilCalendarUserSettings::_getInstance()->getCalendarSelectionType() == ilCalendarUserSettings::CAL_SELECTION_MEMBERSHIP)

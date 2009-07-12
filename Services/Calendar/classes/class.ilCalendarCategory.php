@@ -84,6 +84,25 @@ class ilCalendarCategory
 	 	}
 	 	return null;
 	 }
+	 
+	 /**
+	  * get all assigned appointment ids
+	  * @return 
+	  * @param object $a_category_id
+	  */
+	 public static function lookupAppointments($a_category_id)
+	 {
+	 	global $ilDB;
+		
+		$query = "SELECT * FROM cal_cat_assignments ".
+			'WHERE cat_id = '.$ilDB->quote($a_category_id,'integer');
+		$res = $ilDB->query($query);
+		while($row = $res->fetchRow(DB_FETCHMODE_OBJECT))
+		{
+			$apps[] = $row->cal_id;
+		}
+		return $apps ? $apps : array();
+	 }
 	
 	
 	/**
