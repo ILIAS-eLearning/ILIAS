@@ -87,23 +87,30 @@ class ilCalendarExport
 	
 	protected function createVEVENT($app)
 	{
+		global $ilUser;
+		
 		$this->writer->addLine('BEGIN:VEVENT');
 		// TODO only domain
 		$this->writer->addLine('UID:'.ilICalWriter::escapeText(
 			$app->getEntryId().'_'.CLIENT_ID.'@'.ILIAS_HTTP_PATH));
 			
-		$last_mod = $app->getLastUpdate()->get(IL_CAL_FKT_DATE,'Ymd\THis\Z',ilTimeZone::UTC);
+		#$last_mod = $app->getLastUpdate()->get(IL_CAL_FKT_DATE,'Ymd\THis\Z',ilTimeZone::UTC);
+		$last_mod = $app->getLastUpdate()->get(IL_CAL_FKT_DATE,'Ymd\THis\Z',$ilUser->getTimeZone());
 		$this->writer->addLine('LAST-MODIFIED:'.$last_mod);	
 		
 		if($app->isFullday())
 		{
-			$start = $app->getStart()->get(IL_CAL_FKT_DATE,'Ymd\Z',ilTimeZone::UTC);
-			$end = $app->getEnd()->get(IL_CAL_FKT_DATE,'Ymd\Z',ilTimeZone::UTC);
+			#$start = $app->getStart()->get(IL_CAL_FKT_DATE,'Ymd\Z',ilTimeZone::UTC);
+			$start = $app->getStart()->get(IL_CAL_FKT_DATE,'Ymd\Z',$ilUser->getTimeZone());
+			#$end = $app->getEnd()->get(IL_CAL_FKT_DATE,'Ymd\Z',ilTimeZone::UTC);
+			$end = $app->getEnd()->get(IL_CAL_FKT_DATE,'Ymd\Z',$ilUser->getTimeZone());
 		}
 		else
 		{
-			$start = $app->getStart()->get(IL_CAL_FKT_DATE,'Ymd\THis\Z',ilTimeZone::UTC);
-			$end = $app->getEnd()->get(IL_CAL_FKT_DATE,'Ymd\THis\Z',ilTimeZone::UTC);
+			#$start = $app->getStart()->get(IL_CAL_FKT_DATE,'Ymd\THis\Z',ilTimeZone::UTC);
+			$start = $app->getStart()->get(IL_CAL_FKT_DATE,'Ymd\THis\Z',$ilUser->getTimeZone());
+			#$end = $app->getEnd()->get(IL_CAL_FKT_DATE,'Ymd\THis\Z',ilTimeZone::UTC);
+			$end = $app->getEnd()->get(IL_CAL_FKT_DATE,'Ymd\THis\Z',$ilUser->getTimeZone());
 		}
 		
 		$this->writer->addLine('DTSTART:'.$start);
