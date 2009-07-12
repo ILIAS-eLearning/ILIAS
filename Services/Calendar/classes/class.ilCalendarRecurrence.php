@@ -107,6 +107,47 @@ class ilCalendarRecurrence
 		$res = $ilDB->manipulate($query);
 	}
 	
+	public function toICal()
+	{
+		$ical = 'RRULE:';
+		$ical .= ('FREQ='.$this->getFrequenceType());
+		
+		if($this->getInterval())
+		{
+			$ical .= (';INTERVAL='.$this->getInterval());
+		}
+		if($this->getFrequenceUntilCount())
+		{
+			$ical .= (';COUNT='.$this->getFrequenceUntilCount());
+		}
+		if($this->getBYMONTH())
+		{
+			$ical .= (';BYMONTH='.$this->getBYMONTH());
+		}
+		if($this->getBYWEEKNO())
+		{
+			$ical .= (';BYWEEKNO='.$this->getBYWEEKNO());
+		}
+		if($this->getBYYEARDAY())
+		{
+			$ical .= (';BYYEARDAY='.$this->getBYYEARDAY());
+		}
+		if($this->getBYMONTHDAY())
+		{
+			$ical .= (';BYMONTHDAY='.$this->getBYMONTHDAY());
+		}
+		if($this->getBYDAY())
+		{
+			$ical .= (';BYDAY='.$this->getBYDAY());
+		}
+		if($this->getBYSETPOS())
+		{
+			$ical .= (';BYSETPOS='.$this->getBYSETPOS());
+		}
+		return $ical;
+	}
+	
+	
 	/**
 	 * reset all settings
 	 *
