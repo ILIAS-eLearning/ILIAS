@@ -46,15 +46,6 @@ class assImagemapQuestion extends assQuestion
 	var $answers;
 
 /**
-* The imagemap file containing the name of imagemap file
-*
-* The imagemap file containing the name of imagemap file
-*
-* @var string
-*/
-	var $imagemap_filename;
-
-/**
 * The image file containing the name of image file
 *
 * The image file containing the name of image file
@@ -82,7 +73,6 @@ class assImagemapQuestion extends assQuestion
 * @param string $comment A comment string to describe the question
 * @param string $author A string containing the name of the questions author
 * @param integer $owner A numerical ID to identify the owner/creator
-* @param string $imagemap_file The imagemap file name of the imagemap question
 * @param string $image_file The image file name of the imagemap question
 * @param string $question The question string of the imagemap question
 * @access public
@@ -93,12 +83,10 @@ class assImagemapQuestion extends assQuestion
 		$author = "",
 		$owner = -1,
 		$question = "",
-		$imagemap_filename = "",
 		$image_filename = ""
 	)
 	{
 		parent::__construct($title, $comment, $author, $owner, $question);
-		$this->imagemap_filename = $imagemap_filename;
 		$this->image_filename = $image_filename;
 		$this->answers = array();
 		$this->coords = array();
@@ -329,7 +317,7 @@ class assImagemapQuestion extends assQuestion
 		if (!file_exists($imagepath)) {
 			ilUtil::makeDirParents($imagepath);
 		}
-		$filename = $this->get_image_filename();
+		$filename = $this->getImageFilename();
 		if (!copy($imagepath_original . $filename, $imagepath . $filename)) {
 			print "image could not be duplicated!!!! ";
 		}
@@ -344,7 +332,7 @@ class assImagemapQuestion extends assQuestion
 		{
 			ilUtil::makeDirParents($imagepath);
 		}
-		$filename = $this->get_image_filename();
+		$filename = $this->getImageFilename();
 		if (!copy($imagepath_original . $filename, $imagepath . $filename)) 
 		{
 			print "image could not be copied!!!! ";
@@ -400,58 +388,33 @@ class assImagemapQuestion extends assQuestion
 		parent::loadFromDb($question_id);
 	}
 
-/**
-* Gets the imagemap file name
-*
-* Gets the imagemap file name
-*
-* @return string The imagemap file of the assImagemapQuestion object
-* @access public
-* @see $imagemap_filename
-*/
-	function get_imagemap_filename() {
-		return $this->imagemap_filename;
-	}
-
-/**
-* Sets the imagemap file name
-*
-* Sets the imagemap file name
-*
-* @param string $imagemap_file.
-* @access public
-* @see $imagemap_filename
-*/
-	function setImagemapFilename($imagemap_filename, $imagemap_tempfilename = "") {
-		if (!empty($imagemap_filename)) {
-			$this->imagemap_filename = $imagemap_filename;
-		}
-		if (!empty($imagemap_tempfilename)) {
+	/**
+	* Uploads an image map and takes over the areas
+	*
+	* @param string $imagemap_filename Imagemap filename
+	* @return integer number of areas added
+	*/
+	function uploadImagemap($imagemap_filename = "") 
+	{
+		$added = 0;
+		if (!empty($imagemap_filename)) 
+		{
 			$fp = fopen($imagemap_tempfilename, "r");
 			$contents = fread($fp, filesize($imagemap_tempfilename));
 			fclose($fp);
-			if (preg_match_all("/<area(.+)>/siU", $contents, $matches)) {
-				for ($i=0; $i< count($matches[1]); $i++) {
+			if (preg_match_all("/<area(.+)>/siU", $contents, $matches)) 
+			{
+				for ($i=0; $i< count($matches[1]); $i++) 
+				{
 					preg_match("/alt\s*=\s*\"(.+)\"\s*/siU", $matches[1][$i], $alt);
 					preg_match("/coords\s*=\s*\"(.+)\"\s*/siU", $matches[1][$i], $coords);
 					preg_match("/shape\s*=\s*\"(.+)\"\s*/siU", $matches[1][$i], $shape);
 					$this->addAnswer($alt[1], 0.0, count($this->answers), $coords[1], $shape[1]);
+					$added++;
 				}
 			}
 		}
-	}
-
-/**
-* Gets the image file name
-*
-* Gets the image file name
-*
-* @return string The image file name of the assImagemapQuestion object
-* @access public
-* @see $image_filename
-*/
-	function get_image_filename() {
-		return $this->image_filename;
+		return $added;
 	}
 
 	function getImageFilename()
@@ -460,8 +423,6 @@ class assImagemapQuestion extends assQuestion
 	}
 
 /**
-* Sets the image file name
-*
 * Sets the image file name
 *
 * @param string $image_file name.
@@ -608,7 +569,8 @@ class assImagemapQuestion extends assQuestion
 * @access public
 * @see $answers
 */
-	function deleteArea($index = 0) {
+	function deleteArea($index = 0) 
+	{
 		if ($index < 0) return;
 		if (count($this->answers) < 1) return;
 		if ($index >= count($this->answers)) return;
@@ -971,6 +933,18 @@ class assImagemapQuestion extends assQuestion
 		}
 		return $startrow + $i + 1;
 	}
+
+	/**
+	* Deletes the image file
+	*/
+	public function deleteImage()
+	{
+		$file = $this->getImagePath() . $this->getImageFilename();
+		@unlink($file);
+		$this->flushAnswers();
+		$this->image_filename = "";
+	}
+
 }
 
 ?>

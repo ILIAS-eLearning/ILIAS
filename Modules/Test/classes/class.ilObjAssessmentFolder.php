@@ -472,6 +472,7 @@ class ilObjAssessmentFolder extends ilObject
 	*/
 	function getNrOfLogEntries($test_obj_id)
 	{
+		global $ilDB;
 		$result = $ilDB->queryF("SELECT COUNT(obj_fi) logcount FROM ass_log WHERE obj_fi = %s",
 			array('integer'),
 			array($test_obj_id)

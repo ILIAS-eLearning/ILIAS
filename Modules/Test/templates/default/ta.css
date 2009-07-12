@@ -258,13 +258,15 @@ ul#horizontal li {
 	border: 1px black solid;
 }
 
-table.multiplechoicewizard th {
-	font-size: 90%;
-	font-weight: bold;
-	text-align: center;
+table.imagemapareas tr,
+table.singlechoicewizard tr,
+table.multiplechoicewizard tr {
+	vertical-align: top;
 }
 
-table.singlechoicewizard th {
+table.imagemapareas th,
+table.singlechoicewizard th,
+table.multiplechoicewizard th {
 	font-size: 90%;
 	font-weight: bold;
 	text-align: center;

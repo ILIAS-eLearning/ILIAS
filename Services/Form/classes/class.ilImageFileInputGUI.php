@@ -80,6 +80,12 @@ class ilImageFileInputGUI extends ilFileInputGUI
 		
 		if ($this->getImage() != "")
 		{
+			if (strlen($this->getValue()))
+			{
+				$i_tpl->setCurrentBlock("has_value");
+				$i_tpl->setVariable("TEXT_IMAGE_NAME", $this->getValue());
+				$i_tpl->parseCurrentBlock();
+			}
 			$i_tpl->setCurrentBlock("image");
 			$i_tpl->setVariable("SRC_IMAGE", $this->getImage());
 			$i_tpl->setVariable("ALT_IMAGE", $this->getAlt());

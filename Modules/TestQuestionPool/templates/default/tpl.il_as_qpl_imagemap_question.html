@@ -1,114 +1,5 @@
-<form name="frm_imagemap" action="{ACTION_IMAGEMAP_QUESTION}" method="post" enctype="multipart/form-data">
-<input type="hidden" name="id" value="{IMAGEMAP_ID}">
-<!-- BEGIN questioneditor -->
-<table class="fullwidth">
-<thead>
-	<tr class="tblheader">
-		<th colspan="5">{TEXT_QUESTION_TYPE}</th>
-	</tr>
-</thead>
-<tr>
-  <td class="option">{TEXT_TITLE}<span class="asterisk">*</span>:</td>
-  <td class="option_value" colspan="4"><input name="title" type="text" value="{VALUE_IMAGEMAP_TITLE}" size="50" /></td>
-</tr>
-<tr>
-  <td class="option">{TEXT_AUTHOR}<span class="asterisk">*</span>:</td>
-  <td class="option_value" colspan="4"><input name="author" type="text" value="{VALUE_IMAGEMAP_AUTHOR}" size="50" /></td>
-</tr>
-<tr>
-	<td class="option">{TEXT_COMMENT}:</td>
-	<td class="option_value" colspan="4"><input name="comment" type="text" value="{VALUE_IMAGEMAP_COMMENT}" id="comment" size="50" /></td>
-</tr>
-<tr>
-	<td class="option">{TEXT_QUESTION}<span class="asterisk">*</span>:</td>
-	<td class="option_value" colspan="4"><textarea name="question" id="question" rows="10" cols="80" wrap="virtual" style="width:95%;">{VALUE_QUESTION}</textarea></td>
-</tr>
-<tr>
-  <td class="option">{TEXT_WORKING_TIME}:<br />({TIME_FORMAT})</td>
-  <td class="option_value" colspan="4">{VALUE_WORKING_TIME} </td>
-</tr>
-<tr>
-	<td class="option">{TEXT_IMAGE}:</td>
-	<td class="option_value" colspan="4">
-		<input name="imageName" type="file" id="image" size="30" />
-		<input name="cmd[uploadingImage]" type="submit" class="submit" id="upload_image" value="{VALUE_IMAGE_UPLOAD}"{DISABLED_UPLOAD_IMAGE} />
-		<!-- BEGIN imageupload -->
-		<p>{UPLOADED_IMAGE}</p>
-		<!-- END imageupload -->
-		<input type="hidden" name="uploaded_image" value="{IMAGE_FILENAME}">
-		<input type="hidden" name="MAX_FILE_SIZE" value="2097152">
-	</td>
-</tr>
-<tr>
-	<td class="option">{TEXT_IMAGEMAP}:</td>
-	<td class="option_value" colspan="4">
-		<input type="file" name="imagemapName" id="imagemap" size="30" />
-		<input name="cmd[uploadingImagemap]" type="submit" class="submit" id="upload_imagemap" value="{VALUE_IMAGEMAP_UPLOAD}"{DISABLED_UPLOAD_IMAGEMAP} />
-	</td>
-</tr>
-</table>
-<table class="fullwidth">
-<!-- BEGIN addarea -->
-<tr>
-<td class="option" colspan="6">
-	<input type="submit" class="submit" name="cmd[addArea]" value="{ADD_AREA}" />
-	<select name="newarea">
-		<option value="rect"{SELECTED_RECT}>{TEXT_RECT}</option>
-		<option value="circle"{SELECTED_CIRCLE}>{TEXT_CIRCLE}</option>
-		<option value="poly"{SELECTED_POLY}>{TEXT_POLY}</option>
-	</select>
-</td>
-</tr>
-<!-- END addarea -->
-<!-- BEGIN answerheader -->
-<tr class="tblheader">
-	<th class="std"></th>
-	<th class="std">{TEXT_NAME}</th>
-	<th class="std">{TEXT_POINTS}</th>
-	<th class="std">{TEXT_SHAPE}</th>
-	<th class="std">{TEXT_COORDINATES}</th>
-</tr>
-<!-- END answerheader -->
-<!-- BEGIN answers -->
-<tr>
-	<td class="{COLOR_CLASS}"><input type="checkbox" name="cb_{ANSWER_ORDER}" value="1" /></td>
-	<td class="{COLOR_CLASS}"><input class="{CLASS_FULLWIDTH}" name="answer_{ANSWER_ORDER}" type="text" id="answer_{ANSWER_ORDER}" size="30" value="{VALUE_ANSWER}" /></td>
-  <td class="{COLOR_CLASS}">{TEXT_POINTS}: <input name="points_{ANSWER_ORDER}" type="text" id="points_{ANSWER_ORDER}" size="3" value="{VALUE_IMAGEMAP_POINTS}" /></td>
-	<td class="{COLOR_CLASS}">{TEXT_SHAPE}</td>
-	<td class="{COLOR_CLASS}">{COORDINATES}
-	<input type="hidden" name="coords_{ANSWER_ORDER}" id="coords_{ANSWER_ORDER}" value="{COORDINATES}">
-	<input type="hidden" name="area_{ANSWER_ORDER}" id="area_{ANSWER_ORDER}" value="{AREA}"></td>
-</tr>
-<!-- END answers -->
-<!-- BEGIN selectall -->
-<tr>
-	<td class="{COLOR_CLASS}">
-		<input type="checkbox" name="chb_check_all" id="chb_check_all" value="1" onclick="setChecked('frm_imagemap', 'cb_', document.frm_imagemap.chb_check_all.checked);" />
-	</td>
-	<td colspan="5" class="{COLOR_CLASS}"><label for="chb_check_all"><strong>{SELECT_ALL}</strong></label></td>
-</tr>
-<!-- END selectall -->
-<!-- BEGIN QFooter -->
-<tr><td class="option_value">{ARROW}</td><td class="option_value" colspan="5"><input type="submit" class="submit" name="cmd[deletearea]" value="{DELETE_AREA}" /></td></tr>
-<!-- END QFooter -->
-</table>
-<table class="fullwidth">
-<tr>
-	<td class="submit">
-	<span class="asterisk">*</span><span class="small"> {TXT_REQUIRED_FLD}</span>
-	<div align="right">
-	<input name="cmd[save]" type="submit" class="submit" id="save_imagemap" value="{SAVE}" />
-	<input name="cmd[saveEdit]" type="submit" class="submit" value="{SAVE_EDIT}" />
-	&nbsp;&nbsp;
-	<input name="cmd[cancel]" type="submit" class="submit" id="cancel" value="{CANCEL}" />
-	</div>
-	</td>
-</tr>
-</table>
-<!-- END questioneditor -->
-<!-- BEGIN imagemapeditor -->
-<p>
-{TEXT_SHAPETITLE}: <input type="text" name="shapetitle" size="30" value="{VALUE_SHAPETITLE}" />
+<form name="frm_imagemap" action="{FORMACTION}" method="post">
+<p>{TEXT_SHAPETITLE}: <input type="text" name="shapetitle" size="30" <!-- BEGIN shapetitle -->value="{VALUE_SHAPETITLE}"<!-- END shapetitle --> />
 <input type="submit" class="submit" name="cmd[saveShape]" value="{SAVE}"{DISABLED_SAVE} />
 <input type="submit" class="submit" name="cmd[back]" value="{CANCEL}" />
 </p>
@@ -122,12 +13,10 @@
 	</tr>
 </thead>
 <!-- BEGIN maparea -->
-<tr><td class="tblrow1"><input type="image" name="imagemap" src="{IMAGE_SOURCE}" /></td></tr>
+<tr><td class="tblrow1"><input type="image" name="cmd[areaEditor][{IMAGEMAP_NAME}][]" src="{IMAGE_SOURCE}" /></td></tr>
 <!-- END maparea -->
 <!-- BEGIN imagearea -->
 <tr><td class="tblrow1"><img src="{IMAGE_SOURCE}" alt="{ALT_IMAGE}" /></td></tr>
 <!-- END imagearea -->
 </table>
-<!-- END imagemapeditor -->
 </form>
-<a name="bottom"></a>
