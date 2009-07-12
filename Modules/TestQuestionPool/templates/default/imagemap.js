@@ -38,11 +38,7 @@ function getRects()
 			coords = children[j].nodeValue;
 			coords = coords.replace(/ /, "");
 			carr = coords.split(",");
-			for (k = 0; k < carr.length; k += 2)
-			{
-				p.push({x: parseInt(carr[k]), y: parseInt(carr[k+1])});
-			}
-			allrects.push(p);
+			allrects.push({x1: parseInt(carr[0]), y1: parseInt(carr[1]), x2: parseInt(carr[2]), y2: parseInt(carr[3])});
 		}
 	}
 	return allrects;
@@ -61,9 +57,7 @@ function getCircles()
 			coords = children[j].nodeValue;
 			coords = coords.replace(/ /, "");
 			carr = coords.split(",");
-			p.push({x: parseInt(carr[0]), y: parseInt(carr[1])});
-			p.push({r: parseInt(carr[2])});
-			allcircles.push(p);
+			allcircles.push({x: parseInt(carr[0]), y: parseInt(carr[1]), r: parseInt(carr[2])});
 		}
 	}
 	return allcircles;
@@ -97,6 +91,52 @@ function mouseOverMap(e, obj)
 			polygons[i].parentNode.bgColor = '';
 		}
 	}
+	for (i = 0; i < a_rects.length; i++)
+	{
+		if (isPointInRect(a_rects[i], { x: px, y: py }))
+		{
+			circles = YAHOO.util.Dom.getElementsBy(function (el) { return (el.className == 'rect') ? true : false; }, 'td', document);
+			for (j = 0; j < rects.length; j++)
+			{
+				if (i == j)
+				{
+					rects[j].parentNode.bgColor = '#fdfabb';
+				}
+				else
+				{
+					rects[j].parentNode.bgColor = '';
+				}
+			}
+		}
+		else
+		{
+			rects = YAHOO.util.Dom.getElementsBy(function (el) { return (el.className == 'rect') ? true : false; }, 'td', document);
+			rects[i].parentNode.bgColor = '';
+		}
+	}
+	for (i = 0; i < a_circles.length; i++)
+	{
+		if (isPointInCircle(a_circles[i], { x: px, y: py }))
+		{
+			circles = YAHOO.util.Dom.getElementsBy(function (el) { return (el.className == 'circle') ? true : false; }, 'td', document);
+			for (j = 0; j < circles.length; j++)
+			{
+				if (i == j)
+				{
+					circles[j].parentNode.bgColor = '#fdfabb';
+				}
+				else
+				{
+					circles[j].parentNode.bgColor = '';
+				}
+			}
+		}
+		else
+		{
+			circles = YAHOO.util.Dom.getElementsBy(function (el) { return (el.className == 'circle') ? true : false; }, 'td', document);
+			circles[i].parentNode.bgColor = '';
+		}
+	}	
 }
 
 function reindexRows(rootel)
@@ -161,6 +201,17 @@ function isPointInPoly(poly, pt){
 		&& (pt.x < (poly[j].x - poly[i].x) * (pt.y - poly[i].y) / (poly[j].y - poly[i].y) + poly[i].x)
 		&& (c = !c);
 	return c;
+}
+
+function isPointInCircle(circle, pt)
+{
+	square_dist = Math.pow((circle.x - pt.x),2) + Math.pow((circle.y - pt.y),2);
+	return square_dist <= Math.pow(circle.r,2);
+}
+
+function isPointInRect(rect, pt)
+{
+	return pt.x >= rect.x1 && pt.x <= rect.x2 && pt.y >= rect.y1 && pt.y <= rect.y2; 
 }
 
 YAHOO.util.Event.onDOMReady(imagemapEvents);
