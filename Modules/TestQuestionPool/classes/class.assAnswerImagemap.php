@@ -127,6 +127,7 @@ class ASS_AnswerImagemap extends ASS_AnswerBinaryState {
 	function setArea($area="") {
 		$this->area=$area;
 	}
+
 }
 
 ?>

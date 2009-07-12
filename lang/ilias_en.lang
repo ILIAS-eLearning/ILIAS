@@ -9644,3 +9644,11 @@ dateplaner#:#cal_week_month_view#:#Week/Month View Settings
 common#:#event_ass_materials_prop#:#Session Materials
 assessment#:#resize_images#:#Resize Images
 assessment#:#thumb_size#:#Thumbnail Size
+common#:#hint#:#Hint
+assessment#:#add_rect#:#Add rectangle area
+assessment#:#add_circle#:#Add circle area
+assessment#:#add_poly#:#Add polygon area
+assessment#:#msg_rect_added#:#Rectangle added
+assessment#:#msg_circle_added#:#Circle added
+assessment#:#msg_poly_added#:#Polygon added
+assessment#:#form_msg_area_missing_points#:#Please enter points for all areas.

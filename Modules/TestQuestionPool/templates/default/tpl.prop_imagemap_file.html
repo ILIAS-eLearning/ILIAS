@@ -1,0 +1,43 @@
+<input type="file" id="{ID}" name="{POST_VAR}" size="30" />
+<div class="ilFormInfo">{TXT_MAX_SIZE}</div>
+<!-- BEGIN allowed_image_suffixes -->
+<div class="ilFormInfo">{TXT_ALLOWED_SUFFIXES}</div>
+<!-- END allowed_image_suffixes -->
+<!-- BEGIN image -->
+<img class="imagemap" style="margin: 5px 0px 5px 0px;" src="{SRC_IMAGE}" alt="{ALT_IMAGE}" {WIDTH} {HEIGHT} border="0" /><br />
+<input type="checkbox" name="{POST_VAR_D}_delete" id="{POST_VAR_D}_delete" value="1" /><label for="{POST_VAR_D}_delete">{TXT_DELETE_EXISTING}</label><br />
+<!-- BEGIN has_value -->
+<input type="hidden" name="{POST_VAR_D}_name" value="{TEXT_IMAGE_NAME}" />
+<!-- END has_value -->
+<div style="text-align: right;">
+	<input class="submit" type="SUBMIT" name="cmd[addRect][{POST_VAR_D}]" value="{TEXT_ADD_RECT}" />
+	<input class="submit" type="SUBMIT" name="cmd[addCircle][{POST_VAR_D}]" value="{TEXT_ADD_CIRCLE}" />
+	<input class="submit" type="SUBMIT" name="cmd[addPoly][{POST_VAR_D}]" value="{TEXT_ADD_POLY}" />
+</div>
+<!-- END image -->
+<!-- BEGIN areas -->
+<table class="imagemapareas">
+	<thead>
+		<tr>
+			<th>{TEXT_NAME}</th>
+			<th>{TEXT_POINTS}</th>
+			<th>{TEXT_SHAPE}</th>
+			<th>{TEXT_COORDINATES}</th>
+			<th>{TEXT_COMMANDS}</th>
+		</tr>
+	</thead>
+	<tbody>
+<!-- BEGIN row -->
+		<tr class="{ROW_CLASS}">
+			<td><input type="text" name="{POST_VAR_R}[coords][name][]" size="15" <!-- BEGIN area_name_value -->value="{VALUE_NAME}"<!-- END area_name_value --> /></td>
+			<td><input type="text" style="text-align: right;" name="{POST_VAR_R}[coords][points][]" size="3" <!-- BEGIN area_points_value -->value="{VALUE_POINTS}"<!-- END area_points_value --> /></td>
+			<td>{TEXT_SHAPE}<input type="hidden" name="{POST_VAR_R}[coords][shape][]" value="{VALUE_SHAPE}" /><input type="hidden" name="{POST_VAR_R}[coords][coords][]" value="{VALUE_COORDINATES}" /></td>
+			<td class="{VALUE_SHAPE}">{TEXT_COORDINATES}</td>
+			<td>
+				<input type="image" name="cmd[removeArea][{POST_VAR_R}][{COUNTER}]" class="area_remove" src="{REMOVE_BUTTON}" onclick="javascript: void(0); return false;" />
+			</td>
+		</tr>
+<!-- END row -->
+	</tbody>
+</table>
+<!-- END areas -->
