@@ -257,12 +257,12 @@ class ilCourseArchivesGUI
 
 		if(!$_POST['archives'])
 		{
-			ilUtil::sendInfo($this->lng->txt("crs_no_archives_selected"));
+			ilUtil::sendFailure($this->lng->txt("crs_no_archives_selected"));
 			$this->view();
 			return false;
 		}
 		$_SESSION["crs_archives"] = $_POST["archives"];
-		ilUtil::sendInfo($this->lng->txt("crs_sure_delete_selected_archives"));
+		ilUtil::sendQuestion($this->lng->txt("crs_sure_delete_selected_archives"));
 		
 		$this->tpl->addBlockfile('ADM_CONTENT','adm_content','tpl.crs_confirm_delete_archives.html','Modules/Course');
 		$this->tpl->setVariable("FORMACTION",$this->ctrl->getFormAction($this));
@@ -299,7 +299,7 @@ class ilCourseArchivesGUI
 
 		if(!$_SESSION['crs_archives'])
 		{
-			ilUtil::sendInfo($this->lng->txt("crs_no_archives_selected"));
+			ilUtil::sendFailure($this->lng->txt("crs_no_archives_selected"));
 			$this->view();
 		}
 		
@@ -309,7 +309,7 @@ class ilCourseArchivesGUI
 			$this->course_obj->archives_obj->delete($archive_id);
 		}
 		
-		ilUtil::sendInfo($this->lng->txt('crs_archives_deleted'));
+		ilUtil::sendSuccess($this->lng->txt('crs_archives_deleted'));
 		unset($_SESSION["crs_archives"]);
 
 		$this->view();
@@ -343,7 +343,7 @@ class ilCourseArchivesGUI
 		$this->course_obj->initCourseArchiveObject();
 		$this->course_obj->archives_obj->addXML($_POST["sel"]);
 		
-		ilUtil::sendInfo($this->lng->txt("crs_added_new_archive"));
+		ilUtil::sendSuccess($this->lng->txt("crs_added_new_archive"));
 		$this->view();
 
 		return true;
@@ -396,7 +396,7 @@ class ilCourseArchivesGUI
 		$this->course_obj->archives_obj->setLanguage($_POST['lang']);
 		$this->course_obj->archives_obj->addHTML();
 
-		ilUtil::sendInfo($this->lng->txt("crs_added_new_archive"));
+		ilUtil::sendSuccess($this->lng->txt("crs_added_new_archive"));
 		$this->view();
 
 		return true;
@@ -416,14 +416,14 @@ class ilCourseArchivesGUI
 
 		if(!count($_POST['archives']))
 		{
-			ilUtil::sendInfo($this->lng->txt('crs_no_archive_selected'));
+			ilUtil::sendFailure($this->lng->txt('crs_no_archive_selected'));
 			$this->view();
 
 			return false;
 		}
 		if(count($_POST['archives']) > 1)
 		{
-			ilUtil::sendInfo($this->lng->txt('crs_select_one_archive'));
+			ilUtil::sendFailure($this->lng->txt('crs_select_one_archive'));
 			$this->view();
 
 			return false;
@@ -448,7 +448,7 @@ class ilCourseArchivesGUI
 
 		if(!PATH_TO_ZIP)
 		{
-			ilUtil::sendInfo($this->lng->txt('zip_test_failed'));
+			ilUtil::sendFailure($this->lng->txt('zip_test_failed'));
 			return true;
 		}
 

@@ -992,7 +992,7 @@ class ilCourseContentGUI
 		$accept_obj->accept($_POST['accepted']);
 		$accept_obj->setVisible($_POST['tutor']);
 		$accept_obj->update();
-		ilUtil::sendInfo($this->lng->txt('settings_saved'));
+		ilUtil::sendSuccess($this->lng->txt('settings_saved'));
 		$this->editUserTimings();
 	}
 
@@ -1038,7 +1038,7 @@ class ilCourseContentGUI
 
 		if(!$_GET['member_id'])
 		{
-			ilUtil::sendInfo($this->lng->txt('no_checkbox'),true);
+			ilUtil::sendFailure($this->lng->txt('no_checkbox'),true);
 			$this->ctrl->returnToParent($this);
 		}
 
@@ -1601,7 +1601,7 @@ class ilCourseContentGUI
 			$message = $this->lng->txt('crs_timings_update_error');
 			$message .= ("<br />".$this->lng->txt('crs_materials').': ');
 			$message .= (implode(',',$this->invalid));
-			ilUtil::sendInfo($message);
+			ilUtil::sendFailure($message);
 			$this->editUserTimings();
 			return false;
 		}
@@ -1609,7 +1609,7 @@ class ilCourseContentGUI
 		{
 			$new_item_obj->update();
 		}
-		ilUtil::sendInfo($this->lng->txt('settings_saved'));
+		ilUtil::sendSuccess($this->lng->txt('settings_saved'));
 		$this->editUserTimings();
 		return true;
 
@@ -1685,7 +1685,7 @@ class ilCourseContentGUI
 			$message = $this->lng->txt('crs_timings_update_error');
 			$message .= ("<br />".$this->lng->txt('crs_materials').': ');
 			$message .= (implode(',',$this->failed));
-			ilUtil::sendInfo($message);
+			ilUtil::sendFailure($message);
 			$this->editTimings();
 			return false;
 		}
@@ -1695,7 +1695,7 @@ class ilCourseContentGUI
 		{
 			$item_obj_new->update($ref_id);
 		}
-		ilUtil::sendInfo($this->lng->txt('settings_saved'));
+		ilUtil::sendSuccess($this->lng->txt('settings_saved'));
 		$this->editTimings();
 		return false;
 	}

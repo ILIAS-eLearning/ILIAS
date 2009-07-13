@@ -133,7 +133,7 @@ class ilObjCourseGUI extends ilContainerGUI
 
 		if (!count($_POST["member"]))
 		{
-			ilUtil::sendInfo($this->lng->txt("no_checkbox"));
+			ilUtil::sendFailure($this->lng->txt("no_checkbox"));
 			$this->membersObject();
 			return false;
 		}
@@ -154,7 +154,7 @@ class ilObjCourseGUI extends ilContainerGUI
 
 		$return_location = "members";
 
-		ilUtil::sendInfo($this->lng->txt("action_aborted"),true);
+		#ilUtil::sendSuccess($this->lng->txt("action_aborted"),true);
 		ilUtil::redirect($this->ctrl->getLinkTarget($this,$return_location));
 	}
 
@@ -258,7 +258,7 @@ class ilObjCourseGUI extends ilContainerGUI
 		// delete import file
 		#$course_files->deleteImportFile();
 
-		ilUtil::sendInfo($this->lng->txt('crs_added'),true);
+		ilUtil::sendSuccess($this->lng->txt('crs_added'),true);
 	   	
 		$this->ctrl->setParameter($this, "ref_id", $newObj->getRefId());
 		ilUtil::redirect($this->getReturnLocation("save",
@@ -694,7 +694,7 @@ class ilObjCourseGUI extends ilContainerGUI
 		$crs_start =& new ilCourseStart($this->object->getRefId(),$this->object->getId());
 		$crs_start->delete((int) $_GET['del_starter']);
 	
-		ilUtil::sendInfo($this->lng->txt('crs_starter_deleted'));
+		ilUtil::sendSuccess($this->lng->txt('crs_starter_deleted'));
 		$this->listStructureObject();
 		
 		return true;
@@ -762,7 +762,7 @@ class ilObjCourseGUI extends ilContainerGUI
 		}
 		if(!count($_POST['starter']))
 		{
-			ilUtil::sendInfo($this->lng->txt('crs_select_one_object'));
+			ilUtil::sendFailure($this->lng->txt('crs_select_one_object'));
 			$this->selectStarterObject();
 
 			return false;
@@ -780,14 +780,14 @@ class ilObjCourseGUI extends ilContainerGUI
 		}
 		if($added)
 		{
-			ilUtil::sendInfo($this->lng->txt('crs_added_starters'));
+			ilUtil::sendFailure($this->lng->txt('crs_added_starters'));
 			$this->listStructureObject();
 
 			return true;
 		}
 		else
 		{
-			ilUtil::sendInfo($this->lng->txt('crs_starters_already_assigned'));
+			ilUtil::sendFailure($this->lng->txt('crs_starters_already_assigned'));
 			$this->selectStarterObject();
 
 			return false;
@@ -857,7 +857,7 @@ class ilObjCourseGUI extends ilContainerGUI
 	{
 		if(!count($_POST['file_id']))
 		{
-			ilUtil::sendInfo($this->lng->txt('select_one'));
+			ilUtil::sendFailure($this->lng->txt('select_one'));
 			$this->editInfoObject();
 			return false;
 		}
@@ -896,7 +896,7 @@ class ilObjCourseGUI extends ilContainerGUI
 	{
 		if(!count($_POST['file_id']))
 		{
-			ilUtil::sendInfo($this->lng->txt('select_one'));
+			ilUtil::sendFailure($this->lng->txt('select_one'));
 			$this->editInfoObject();
 			return false;
 		}
@@ -910,7 +910,7 @@ class ilObjCourseGUI extends ilContainerGUI
 				$file->delete();
 			}
 		}
-		ilUtil::sendInfo($this->lng->txt('settings_saved'));
+		ilUtil::sendSuccess($this->lng->txt('settings_saved'));
 		$this->editInfoObject();
 		return true;	
 	}
@@ -1040,7 +1040,7 @@ class ilObjCourseGUI extends ilContainerGUI
 
 		if(strlen($ilErr->getMessage()))
 		{
-			ilUtil::sendInfo($ilErr->getMessage());
+			ilUtil::sendFailure($ilErr->getMessage());
 			$this->editInfoObject();
 			return false;
 		}
@@ -1050,7 +1050,7 @@ class ilObjCourseGUI extends ilContainerGUI
 
 		$this->object->updateECSContent();
 
-		ilUtil::sendInfo($this->lng->txt("crs_settings_saved"));
+		ilUtil::sendSuccess($this->lng->txt("crs_settings_saved"));
 		$this->editInfoObject();
 		return true;
 	}
@@ -1116,11 +1116,11 @@ class ilObjCourseGUI extends ilContainerGUI
 				return false;
 			}
 
-			ilUtil::sendInfo($this->lng->txt('settings_saved'));
+			ilUtil::sendSuccess($this->lng->txt('settings_saved'));
 		}
 		else
 		{
-			ilUtil::sendInfo($this->object->getMessage());
+			ilUtil::sendFailure($this->object->getMessage());
 		}
 		$this->editObject();
 	}
@@ -1144,7 +1144,7 @@ class ilObjCourseGUI extends ilContainerGUI
 		}
 		if($_POST['ecs_export'] and !$_POST['ecs_owner'])
 		{
-			ilUtil::sendInfo($this->lng->txt('ecs_no_owner'));
+			ilUtil::sendFailure($this->lng->txt('ecs_no_owner'));
 			return false;
 		}
 		try
@@ -1170,12 +1170,12 @@ class ilObjCourseGUI extends ilContainerGUI
 		}
 		catch(ilECSConnectorException $exc)
 		{
-			ilUtil::sendInfo('Error connecting to ECS server: '.$exc->getMessage());
+			ilUtil::sendFailure('Error connecting to ECS server: '.$exc->getMessage());
 			return false;
 		}
 		catch(ilECSContentWriterException $exc)
 		{
-			ilUtil::sendInfo('Course export failed with message: '.$exc->getMessage());
+			ilUtil::sendFailure('Course export failed with message: '.$exc->getMessage());
 			return false;
 		}
 		return true;
@@ -1614,7 +1614,7 @@ class ilObjCourseGUI extends ilContainerGUI
 				$_FILES["cont_small_icon"]['tmp_name'], $_FILES["cont_tiny_icon"]['tmp_name']);
 		}
 
-		ilUtil::sendInfo($this->lng->txt("msg_obj_modified"),true);
+		ilUtil::sendSuccess($this->lng->txt("msg_obj_modified"),true);
 		$this->ctrl->redirect($this,"editCourseIcons");
 
 	}
@@ -1802,7 +1802,7 @@ class ilObjCourseGUI extends ilContainerGUI
 		// END ChangeEvent: Record write event.
 
 		// always send a message
-		ilUtil::sendInfo($this->lng->txt("crs_added"),true);
+		ilUtil::sendSuccess($this->lng->txt("crs_added"),true);
 		
 		$this->ctrl->setParameter($this, "ref_id", $newObj->getRefId());
 		ilUtil::redirect($this->getReturnLocation("save",
@@ -1825,14 +1825,14 @@ class ilObjCourseGUI extends ilContainerGUI
 		}
 		if(!count($_POST['archives']))
 		{
-			ilUtil::sendInfo($this->lng->txt('crs_no_archive_selected'));
+			ilUtil::sendFailure($this->lng->txt('crs_no_archive_selected'));
 			$this->archiveObject();
 
 			return false;
 		}
 		if(count($_POST['archives']) > 1)
 		{
-			ilUtil::sendInfo($this->lng->txt('crs_select_one_archive'));
+			ilUtil::sendFailure($this->lng->txt('crs_select_one_archive'));
 			$this->archiveObject();
 
 			return false;
@@ -2265,7 +2265,7 @@ class ilObjCourseGUI extends ilContainerGUI
 			}
 		}
 		
-		ilUtil::sendInfo($this->lng->txt('settings_saved'));
+		ilUtil::sendSuccess($this->lng->txt('settings_saved'));
 		$this->membersObject();
 	}
 
@@ -2371,7 +2371,7 @@ class ilObjCourseGUI extends ilContainerGUI
 		
 		if(!count($participants))
 		{
-			ilUtil::sendInfo($this->lng->txt('no_checkbox'));
+			ilUtil::sendFailure($this->lng->txt('no_checkbox'));
 			$this->membersObject();
 			return false;
 		}
@@ -2404,7 +2404,7 @@ class ilObjCourseGUI extends ilContainerGUI
 		
 		if(!count($_POST['participants']))
 		{
-			ilUtil::sendInfo($this->lng->txt('no_checkbox'));
+			ilUtil::sendFailure($this->lng->txt('no_checkbox'));
 			$this->membersObject();
 			return false;
 		}
@@ -2449,7 +2449,7 @@ class ilObjCourseGUI extends ilContainerGUI
 			{
 				if (! array_key_exists($role_id, $assignableLocalCourseRoles))
 				{
-					ilUtil::sendInfo($this->lng->txt('msg_no_perm_perm'));
+					ilUtil::sendFailure($this->lng->txt('msg_no_perm_perm'));
 					$this->membersObject();
 					return false;
 		        }
@@ -2457,7 +2457,7 @@ class ilObjCourseGUI extends ilContainerGUI
 					$role_id == $courseAdminRoleId &&
 					! $memberIsCourseAdmin)
 				{
-					ilUtil::sendInfo($this->lng->txt('msg_no_perm_perm'));
+					ilUtil::sendFailure($this->lng->txt('msg_no_perm_perm'));
 					$this->membersObject();
 					return false;
 				}
@@ -2485,7 +2485,7 @@ class ilObjCourseGUI extends ilContainerGUI
 				$this->object->members_obj->NOTIFY_STATUS_CHANGED,
 				$usr_id);
 		}
-		ilUtil::sendInfo($this->lng->txt("msg_obj_modified"));
+		ilUtil::sendSuccess($this->lng->txt("msg_obj_modified"));
 		$this->membersObject();
 		return true;		
 	
@@ -2526,7 +2526,7 @@ class ilObjCourseGUI extends ilContainerGUI
 			$this->object->members_obj->sendNotification($this->object->members_obj->NOTIFY_STATUS_CHANGED,(int) $_GET['member_id']);
 		}
 
-		ilUtil::sendInfo($this->lng->txt("crs_member_updated"));
+		ilUtil::sendSuccess($this->lng->txt("crs_member_updated"));
 		$this->membersObject();
 		return true;		
 
@@ -2595,7 +2595,7 @@ class ilObjCourseGUI extends ilContainerGUI
 		}
 		if($added_users)
 		{
-			ilUtil::sendInfo($this->lng->txt("crs_users_added"),true);
+			ilUtil::sendSuccess($this->lng->txt("crs_users_added"),true);
 			unset($_SESSION["crs_search_str"]);
 			unset($_SESSION["crs_search_for"]);
 			unset($_SESSION['crs_usr_search_result']);
@@ -2614,7 +2614,7 @@ class ilObjCourseGUI extends ilContainerGUI
 
 		if(!count($_POST["waiting"]))
 		{
-			ilUtil::sendInfo($this->lng->txt("crs_no_users_selected"));
+			ilUtil::sendFailure($this->lng->txt("crs_no_users_selected"));
 			$this->membersObject();
 
 			return false;
@@ -2644,13 +2644,13 @@ class ilObjCourseGUI extends ilContainerGUI
 
 		if($added_users)
 		{
-			ilUtil::sendInfo($this->lng->txt("crs_users_added"));
+			ilUtil::sendSuccess($this->lng->txt("crs_users_added"));
 			$this->membersObject();
 			return true;
 		}
 		else
 		{
-			ilUtil::sendInfo($this->lng->txt("crs_users_already_assigned"));
+			ilUtil::sendFailure($this->lng->txt("crs_users_already_assigned"));
 			$this->membersObject();
 			return false;
 		}
@@ -2670,7 +2670,7 @@ class ilObjCourseGUI extends ilContainerGUI
 		
 		if(!count($_POST['waiting']))
 		{
-			ilUtil::sendInfo($this->lng->txt('no_checkbox'));
+			ilUtil::sendFailure($this->lng->txt('no_checkbox'));
 			$this->membersObject();
 			return false;
 		}
@@ -2684,7 +2684,7 @@ class ilObjCourseGUI extends ilContainerGUI
 			$this->object->members_obj->sendNotification($this->object->members_obj->NOTIFY_DISMISS_SUBSCRIBER,$user_id);
 		}
 		
-		ilUtil::sendInfo($this->lng->txt('crs_users_removed_from_list'));
+		ilUtil::sendSuccess($this->lng->txt('crs_users_removed_from_list'));
 		$this->membersObject();
 		return true;
 	}
@@ -2702,7 +2702,7 @@ class ilObjCourseGUI extends ilContainerGUI
 
 		if(!is_array($_SESSION["crs_delete_waiting_list_ids"]))
 		{
-			ilUtil::sendInfo($this->lng->txt("crs_no_users_selected"));
+			ilUtil::sendFailure($this->lng->txt("crs_no_users_selected"));
 			$this->membersObject();
 
 			return false;
@@ -2713,7 +2713,7 @@ class ilObjCourseGUI extends ilContainerGUI
 		{
 			$this->object->waiting_list_obj->removeFromList($usr_id);
 		}
-		ilUtil::sendInfo($this->lng->txt('crs_users_removed_from_list'));
+		ilUtil::sendSuccess($this->lng->txt('crs_users_removed_from_list'));
 		$this->membersObject();
 
 		return true;
@@ -2729,7 +2729,7 @@ class ilObjCourseGUI extends ilContainerGUI
 
 		if(!is_array($_POST["subscribers"]))
 		{
-			ilUtil::sendInfo($this->lng->txt("crs_no_subscribers_selected"));
+			ilUtil::sendFailure($this->lng->txt("crs_no_subscribers_selected"));
 			$this->membersObject();
 
 			return false;
@@ -2738,7 +2738,7 @@ class ilObjCourseGUI extends ilContainerGUI
 		
 		if(!$this->object->members_obj->assignSubscribers($_POST["subscribers"]))
 		{
-			ilUtil::sendInfo($ilErr->getMessage());
+			ilUtil::sendFailure($ilErr->getMessage());
 			$this->membersObject();
 			return false;
 		}
@@ -2749,7 +2749,7 @@ class ilObjCourseGUI extends ilContainerGUI
 				$this->object->members_obj->sendNotification($this->object->members_obj->NOTIFY_ACCEPT_SUBSCRIBER,$usr_id);
 			}
 		}
-		ilUtil::sendInfo($this->lng->txt("crs_subscribers_assigned"));
+		ilUtil::sendSuccess($this->lng->txt("crs_subscribers_assigned"));
 		$this->membersObject();
 		
 		return true;
@@ -2765,18 +2765,18 @@ class ilObjCourseGUI extends ilContainerGUI
 		if($this->object->isSubscriptionMembershipLimited() and $this->object->getSubscriptionMaxMembers() and 
 		   $this->object->getSubscriptionMaxMembers() <= $this->object->members_obj->getCountMembers())
 		{
-			ilUtil::sendInfo($this->lng->txt("crs_max_members_reached"));
+			ilUtil::sendFailure($this->lng->txt("crs_max_members_reached"));
 			$this->membersObject();
 
 			return false;
 		}
 		if($number = $this->object->members_obj->autoFillSubscribers())
 		{
-			ilUtil::sendInfo($this->lng->txt("crs_number_users_added")." ".$number);
+			ilUtil::sendSuccess($this->lng->txt("crs_number_users_added")." ".$number);
 		}
 		else
 		{
-			ilUtil::sendInfo($this->lng->txt("crs_no_users_added"));
+			ilUtil::sendFailure($this->lng->txt("crs_no_users_added"));
 		}
 		$this->membersObject();
 
@@ -2797,12 +2797,12 @@ class ilObjCourseGUI extends ilContainerGUI
 		}
 		if(!is_array($_POST["subscriber"]) or !count($_POST["subscriber"]))
 		{
-			ilUtil::sendInfo($this->lng->txt("crs_no_subscribers_selected"));
+			ilUtil::sendFailure($this->lng->txt("crs_no_subscribers_selected"));
 			$this->membersObject();
 
 			return false;
 		}
-		ilUtil::sendInfo($this->lng->txt("crs_delete_subscribers_sure"));
+		ilUtil::sendQuestion($this->lng->txt("crs_delete_subscribers_sure"));
 
 		// SHOW DELETE SCREEN
 		$this->tpl->addBlockFile("ADM_CONTENT", "adm_content", "tpl.crs_editMembers.html",'Modules/Course');
@@ -2846,12 +2846,12 @@ class ilObjCourseGUI extends ilContainerGUI
 		}
 		if(!is_array($_POST["waiting_list"]) or !count($_POST["waiting_list"]))
 		{
-			ilUtil::sendInfo($this->lng->txt("crs_no_users_selected"));
+			ilUtil::sendFailure($this->lng->txt("crs_no_users_selected"));
 			$this->membersObject();
 
 			return false;
 		}
-		ilUtil::sendInfo($this->lng->txt("crs_delete_from_list_sure"));
+		ilUtil::sendSuccess($this->lng->txt("crs_delete_from_list_sure"));
 
 		// SHOW DELETE SCREEN
 		$this->tpl->addBlockFile("ADM_CONTENT", "adm_content", "tpl.crs_editMembers.html",'Modules/Course');
@@ -2939,7 +2939,7 @@ class ilObjCourseGUI extends ilContainerGUI
 		$this->object->members_obj->delete($this->ilias->account->getId());
 		$this->object->members_obj->sendUnsubscribeNotificationToAdmins($this->ilias->account->getId());
 		
-		ilUtil::sendInfo($this->lng->txt('crs_unsubscribed_from_crs'),true);
+		ilUtil::sendSuccess($this->lng->txt('crs_unsubscribed_from_crs'),true);
 
 		ilUtil::redirect("repository.php?ref_id=".$this->tree->getParentId($this->ref_id));
 	}
@@ -2956,7 +2956,7 @@ class ilObjCourseGUI extends ilContainerGUI
 		
 		if(!$participants)
 		{
-			ilUtil::sendInfo($this->lng->txt('no_checkbox'));
+			ilUtil::sendFailure($this->lng->txt('no_checkbox'));
 			$this->membersObject();
 			return true;
 		}
@@ -2965,7 +2965,7 @@ class ilObjCourseGUI extends ilContainerGUI
 		$this->object->initCourseMemberObject();
 		if(!$this->object->members_obj->checkLastAdmin($participants))
 		{
-			ilUtil::sendInfo($this->lng->txt('crs_at_least_one_admin'));
+			ilUtil::sendFailure($this->lng->txt('crs_at_least_one_admin'));
 			$this->membersObject();
 
 			return false;
@@ -2998,7 +2998,7 @@ class ilObjCourseGUI extends ilContainerGUI
 		
 		if(!is_array($_POST["participants"]) or !count($_POST["participants"]))
 		{
-			ilUtil::sendInfo($this->lng->txt("crs_no_member_selected"));
+			ilUtil::sendFailure($this->lng->txt("crs_no_member_selected"));
 			$this->membersObject();
 
 			return false;
@@ -3023,7 +3023,7 @@ class ilObjCourseGUI extends ilContainerGUI
 			{
 				if ($rbacreview->isAssigned($usr_id, $courseAdminRoleId))
 				{
-					ilUtil::sendInfo($this->lng->txt("msg_no_perm_perm"));
+					ilUtil::sendFailure($this->lng->txt("msg_no_perm_perm"));
 					$this->membersObject();
 					return false;
 				}
@@ -3032,7 +3032,7 @@ class ilObjCourseGUI extends ilContainerGUI
         
 		if(!$this->object->members_obj->deleteParticipants($_POST["participants"]))
 		{
-			ilUtil::sendInfo($this->object->getMessage());
+			ilUtil::sendFailure($this->object->getMessage());
 			$this->membersObject();
 
 			return false;
@@ -3045,7 +3045,7 @@ class ilObjCourseGUI extends ilContainerGUI
 				$this->object->members_obj->sendNotification($this->object->members_obj->NOTIFY_DISMISS_MEMBER,$usr_id);
 			}
 		}
-		ilUtil::sendInfo($this->lng->txt("crs_members_deleted"));
+		ilUtil::sendSuccess($this->lng->txt("crs_members_deleted"));
 		$this->membersObject();
 
 		return true;
@@ -3059,7 +3059,7 @@ class ilObjCourseGUI extends ilContainerGUI
 		
 		if(!$_POST['subscribers'])
 		{
-			ilUtil::sendInfo($this->lng->txt("crs_no_subscribers_selected"));
+			ilUtil::sendFailure($this->lng->txt("crs_no_subscribers_selected"));
 			$this->membersObject();
 			return false;
 		}
@@ -3068,7 +3068,7 @@ class ilObjCourseGUI extends ilContainerGUI
 
 		if(!$this->object->members_obj->deleteSubscribers($_POST["subscribers"]))
 		{
-			ilUtil::sendInfo($this->object->getMessage());
+			ilUtil::sendFailure($this->object->getMessage());
 			$this->membersObject();
 			return false;
 		}
@@ -3080,7 +3080,7 @@ class ilObjCourseGUI extends ilContainerGUI
 			}
 		}
 
-		ilUtil::sendInfo($this->lng->txt("crs_subscribers_deleted"));
+		ilUtil::sendSuccess($this->lng->txt("crs_subscribers_deleted"));
 		$this->membersObject();
 		return true;
 	}
@@ -4467,7 +4467,7 @@ class ilObjCourseGUI extends ilContainerGUI
 		$tmp_obj_res =& new ilCourseObjectiveResult($ilUser->getId());
 		$tmp_obj_res->reset($this->object->getId());
 
-		ilUtil::sendInfo($this->lng->txt('crs_objectives_reseted'));
+		ilUtil::sendSuccess($this->lng->txt('crs_objectives_reseted'));
 
 		$this->initCourseContentInterface();
 		$this->cci_obj->cci_setContainer($this);
@@ -4538,7 +4538,7 @@ class ilObjCourseGUI extends ilContainerGUI
 					$_GET["cmd"] = "frameset";
 					$_GET["target"] = "";
 					$_GET["ref_id"] = ROOT_FOLDER_ID;
-					ilUtil::sendInfo(sprintf($lng->txt("msg_no_perm_read_item"),
+					ilUtil::sendFailure(sprintf($lng->txt("msg_no_perm_read_item"),
 						ilObject::_lookupTitle(ilObject::_lookupObjId($a_target))), true);
 					include("repository.php");
 					exit;
@@ -4881,7 +4881,7 @@ class ilObjCourseGUI extends ilContainerGUI
 		
 		$ilUser->deletePref('crs_objectives_force_details_'.$this->object->getId());
 		
-		ilUtil::sendInfo($this->lng->txt('crs_objectives_reseted'));
+		ilUtil::sendSuccess($this->lng->txt('crs_objectives_reseted'));
 		$this->viewObject();
 	}
 	

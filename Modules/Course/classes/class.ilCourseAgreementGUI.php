@@ -147,13 +147,13 @@ class ilCourseAgreementGUI
 	{
 	 	if(!$this->checkCourseDefinedFields())
 	 	{
-	 		ilUtil::sendInfo($this->lng->txt('fill_out_all_required_fields'));
+	 		ilUtil::sendFailure($this->lng->txt('fill_out_all_required_fields'));
 	 		$this->showAgreement(false);
 	 		return false;
 	 	}
 	 	if(!$this->checkAgreement())
 	 	{
-	 		ilUtil::sendInfo($this->lng->txt('crs_agreement_required'));
+	 		ilUtil::sendFailure($this->lng->txt('crs_agreement_required'));
 	 		$this->showAgreement(false);
 	 		return false;
 	 	}
@@ -311,7 +311,7 @@ class ilCourseAgreementGUI
 		
 		if(strlen($message))
 		{
-			ilUtil::sendInfo($message);
+			ilUtil::sendFailure($message);
 		}
 	}
 }
