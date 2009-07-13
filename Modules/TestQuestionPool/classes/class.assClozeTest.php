@@ -268,8 +268,8 @@ class assClozeTest extends assQuestion
 		if ($this->id == -1)
 		{
 			$next_id = $ilDB->nextId('qpl_questions');
-			$affectedRows = $ilDB->manipulateF("INSERT INTO qpl_questions (question_id, question_type_fi, obj_fi, title, description, author, owner, question_text, points, working_time, complete, created, original_id, tstamp) VALUES (%s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s)", 
-				array("integer","integer", "integer", "text", "text", "text", "integer", "text", "float", "time", "text", "integer","integer","integer"),
+			$affectedRows = $ilDB->manipulateF("INSERT INTO qpl_questions (question_id, question_type_fi, obj_fi, title, description, author, owner, question_text, points, working_time, created, original_id, tstamp) VALUES (%s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s)", 
+				array("integer","integer", "integer", "text", "text", "text", "integer", "text", "float", "time", "integer","integer","integer"),
 				array(
 					$next_id,
 					$this->getQuestionTypeID(), 
@@ -281,7 +281,6 @@ class assClozeTest extends assQuestion
 					ilRTE::_replaceMediaObjectImageSrc($this->getClozeText(), 0),
 					$this->getMaximumPoints(),
 					$estw_time,
-					$complete,
 					time(),
 					($original_id) ? $original_id : NULL,
 					time()
@@ -308,7 +307,7 @@ class assClozeTest extends assQuestion
 		else
 		{
 			$affectedRows = $ilDB->manipulateF("UPDATE qpl_questions SET obj_fi = %s, title = %s, description = %s, points = %s, author = %s,  " .
-				"question_text = %s, working_time = %s, complete = %s, tstamp = %s WHERE question_id = %s",
+				"question_text = %s, working_time = %s, tstamp = %s WHERE question_id = %s",
 				array(
 					"integer",
 					"text",
@@ -317,7 +316,6 @@ class assClozeTest extends assQuestion
 					"text",
 					"text",
 					"time",
-					"text",
 					"integer",
 					"integer"
 				),
@@ -329,7 +327,6 @@ class assClozeTest extends assQuestion
 					$this->getAuthor(),
 					ilRTE::_replaceMediaObjectImageSrc($this->getClozeText(), 0),
 					$estw_time,
-					($this->isComplete()) ? "1" : "0",
 					time(),
 					$this->getId(),
 				)

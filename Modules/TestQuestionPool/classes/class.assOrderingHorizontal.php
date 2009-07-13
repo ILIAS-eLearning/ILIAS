@@ -85,11 +85,6 @@ class assOrderingHorizontal extends assQuestion
 	{
 		global $ilDB;
 
-		$complete = "0";
-		if ($this->isComplete())
-		{
-			$complete = "1";
-		}
 		$estw_time = $this->getEstimatedWorkingTime();
 		$estw_time = sprintf("%02d:%02d:%02d", $estw_time['h'], $estw_time['m'], $estw_time['s']);
 
@@ -98,8 +93,8 @@ class assOrderingHorizontal extends assQuestion
 		{
 			// Neuen Datensatz schreiben
 			$next_id = $ilDB->nextId('qpl_questions');
-			$affectedRows = $ilDB->manipulateF("INSERT INTO qpl_questions (question_id, question_type_fi, obj_fi, title, description, author, owner, question_text, points, working_time, complete, created, original_id, tstamp) VALUES (%s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s)", 
-				array("integer","integer", "integer", "text", "text", "text", "integer", "text", "float", "time", "text", "integer","integer","integer"),
+			$affectedRows = $ilDB->manipulateF("INSERT INTO qpl_questions (question_id, question_type_fi, obj_fi, title, description, author, owner, question_text, points, working_time, created, original_id, tstamp) VALUES (%s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s)", 
+				array("integer","integer", "integer", "text", "text", "text", "integer", "text", "float", "time", "integer","integer","integer"),
 				array(
 					$next_id,
 					$this->getQuestionTypeID(), 
@@ -111,7 +106,6 @@ class assOrderingHorizontal extends assQuestion
 					ilRTE::_replaceMediaObjectImageSrc($this->getQuestion(), 0), 
 					$this->getMaximumPoints(),
 					$estw_time,
-					$complete,
 					time(),
 					($original_id) ? $original_id : NULL,
 					time()
@@ -124,8 +118,8 @@ class assOrderingHorizontal extends assQuestion
 		else
 		{
 			// Vorhandenen Datensatz aktualisieren
-			$affectedRows = $ilDB->manipulateF("UPDATE qpl_questions SET obj_fi = %s, title = %s, description = %s, author = %s, question_text = %s, points = %s, working_time=%s, complete = %s, tstamp = %s WHERE question_id = %s", 
-				array("integer", "text", "text", "text", "text", "float", "time", "text", "integer", "integer"),
+			$affectedRows = $ilDB->manipulateF("UPDATE qpl_questions SET obj_fi = %s, title = %s, description = %s, author = %s, question_text = %s, points = %s, working_time=%s, tstamp = %s WHERE question_id = %s", 
+				array("integer", "text", "text", "text", "text", "float", "time", "integer", "integer"),
 				array(
 					$this->getObjId(), 
 					$this->getTitle(), 
@@ -134,7 +128,6 @@ class assOrderingHorizontal extends assQuestion
 					ilRTE::_replaceMediaObjectImageSrc($this->getQuestion(), 0), 
 					$this->getMaximumPoints(),
 					$estw_time,
-					$complete,
 					time(),
 					$this->getId()
 				)

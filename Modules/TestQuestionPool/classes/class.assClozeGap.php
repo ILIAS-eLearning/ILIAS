@@ -167,7 +167,31 @@ class assClozeGap
 */
 	function addItem($a_item) 
 	{
-		array_push($this->items, $a_item);
+		$order = $a_item->getOrder();
+		if (array_key_exists($order, $this->items))
+		{
+			$newitems = array();
+			for ($i = 0; $i < $order; $i++)
+			{
+				array_push($newitems, $this->items[$i]);
+			}
+			array_push($newitems, $a_item);
+			for ($i = $order; $i < count($this->items); $i++)
+			{
+				array_push($newitems, $this->items[$i]);
+			}
+			$i = 0;
+			foreach ($newitems as $idx => $item)
+			{
+				$newitems[$idx]->setOrder($i);
+				$i++;
+			}
+			$this->items = $newitems;
+		}
+		else
+		{
+			array_push($this->items, $a_item);
+		}
 	}
 
 /**
@@ -360,9 +384,9 @@ class assClozeGap
 		$maxwidth = 0;
 		foreach ($this->items as $item)
 		{
-			if (strlen($item->getAnswerText()) > $maxwidth)
+			if (strlen($item->getAnswertext()) > $maxwidth)
 			{
-				$maxwidth = strlen($item->getAnswerText());
+				$maxwidth = strlen($item->getAnswertext());
 			}
 		}
 		return $maxwidth;

@@ -183,6 +183,7 @@ class assSingleChoiceGUI extends assQuestionGUI
 		$question->setUseRte(TRUE);
 		$question->addPlugin("latex");
 		$question->addButton("latex");
+		$question->addButton("pastelatex");
 		$question->setRTESupport($this->object->getId(), "qpl", "assessment");
 		$form->addItem($question);
 		// shuffle
@@ -657,7 +658,8 @@ class assSingleChoiceGUI extends assQuestionGUI
 		include_once "./Services/RTE/classes/class.$rtestring.php";
 		$rte = new $rtestring();
 		$rte->addPlugin("latex");
-		$rte->addButton("latex"); $rte->addButton("pastelatex");
+		$rte->addButton("latex");
+		$rte->addButton("pastelatex");
 		include_once "./classes/class.ilObject.php";
 		$obj_id = $_GET["q_id"];
 		$obj_type = ilObject::_lookupType($_GET["ref_id"], TRUE);
