@@ -2542,6 +2542,7 @@ common#:#webdav#:#WebDAV
 common#:#downloading_settings#:#Download Einstellungen
 common#:#enable_disk_quota#:#Aktiviere Disk Quota
 common#:#enable_disk_quota_info#:#Erlaubt jedem Benutzerkonto und jeder globalen Rolle eine Disk Quota zu vergeben. Die Speicherplatznutzung wird bei jedem Benutzerkonto im Benutzerformular aufgeführt, aber nicht im Persönlichen Profil.
+common#:#enable_disk_quota_reminder_mail#:#Sende Disk Quota Erinnerungsnachrichten
 common#:#lang_uk#:#Ukrainisch
 common#:#lang_version#:#1
 common#:#lang_vi#:#Vietnamesisch
@@ -9592,11 +9593,14 @@ common#:#obj_chap#:#Chapter###26 06 2009 new variable
 common#:#obj_page#:#Page###26 06 2009 new variable
 common#:#disk_quota#:#Disk Quota
 common#:#disk_usage#:#Speicherverwendung
+common#:#disk_usage_details#:#Speicherverwendung Einzelheiten
 common#:#enter_in_mb_desc#:#Geben Sie einen Wert in MB ein.
 common#:#disk_quota_on_role_desc#:#Die Disk Quota einer Rolle wirkt sich auf alle Benutzerkonten aus, welche dieser Rolle zugeordnet sind.
 common#:#disk_quota_is_1_by_2#:#Die effektive Disk Quota ist %1$s aufgrund Mitgliedschaft in Rolle "%2$s".
 common#:#disk_quota_is_unlimited_by_1#:#Die effektive Disk Quota ist unbegrenzt aufgrund Mitgliedschaft in Rolle "%1$s".
 common#:#disk_quota_is_1_instead_of_2_by_3#:#Die effektive Disk Quota ist %1$s wie definiert in diesem Benutzerkonto. Die Disk Quota durch Rollenzugehörigkeit wäre %2$s über Rolle "%3$s" gewesen.
+common#:#disk_quota_reminder_mail#:#Disk Quota Erinnerungsnachricht
+common#:#disk_quota_reminder_mail_desc#:#Die Disk Quota Erinnerungsnachricht wird an alle aktiven Benutzer versandt, die Ihre Disk Quota überschritten haben. Der Versand erfolgt einmal täglich, wenn das der ILIA Cron Job ausgeführt wird. Benutzer die bereits eine Erinnerungsnachricht erhalten haben, erhalten es alle 7 Tage solange sie ihre Disk Quota überschreiten.
 common#:#filter_users_without_disk_usage#:#Nur Benutzer die keinen Speicherplatz belegen
 common#:#filter_users_with_disk_usage#:#Nur Benutzer die Speicherplatz belegen
 common#:#filter_users_with_exceeded_disk_quota#:#Nur Benutzer die ihre Disk Quota überschreiten

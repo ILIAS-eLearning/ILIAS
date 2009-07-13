@@ -43,6 +43,10 @@ class ilObjDiskQuotaSettings extends ilObject
 	 * Boolean property. Set this to true, to enable Disk Quota support.
 	 */
 	private $diskQuotaEnabled;
+	/**
+	 * Boolean property. Set this to true, to enable Disk Quota reminder mail.
+	 */
+	private $diskQuotaReminderMailEnabled;
 
 	/** DiskQuota Settings variable */
 	private static $dqSettings;
@@ -80,6 +84,25 @@ class ilObjDiskQuotaSettings extends ilObject
 		return $this->diskQuotaEnabled;
 	}
 	/**
+	* Sets the diskQuotaReminderMailEnabled property.
+	*
+	* @param	boolean	new value
+	* @return	void
+	*/
+	public function setDiskQuotaReminderMailEnabled($newValue)
+	{
+		$this->diskQuotaReminderMailEnabled = $newValue;
+	}
+	/**
+	* Gets the diskQuotaReminderMailEnabled property.
+	*
+	* @return	boolean	value
+	*/
+	public function isDiskQuotaReminderMailEnabled()
+	{
+		return $this->diskQuotaReminderMailEnabled;
+	}
+	/**
 	* create
 	*
 	* note: title, description and type should be set when this function is called
@@ -109,6 +132,7 @@ class ilObjDiskQuotaSettings extends ilObject
 	{
 		$settings = new ilSetting('disk_quota');
 		$settings->set('enabled', $this->diskQuotaEnabled);
+		$settings->set('reminder_mail_enabled', $this->diskQuotaReminderMailEnabled);
 	}
 	/**
 	* read object data from db into object
@@ -120,6 +144,64 @@ class ilObjDiskQuotaSettings extends ilObject
 
 		$settings = new ilSetting('disk_quota');
 		$this->diskQuotaEnabled = $settings->get('enabled') == true;
+		$this->diskQuotaReminderMailEnabled = $settings->get('reminder_mail_enabled') == true;
+	}
+
+
+	/**
+	 * Looks up the mail template for the specified language.
+	 * 
+	 * This mail template is used for the reminder mails sent to users
+	 * who have exceeded their disk quota.
+	 *
+	 * @param string $a_lang language code
+	 * @return array{} Associative array with mail templates.
+	 */
+	function _lookupReminderMailTemplate($a_lang)
+	{
+		global $ilDB;
+
+		$set = $ilDB->query("SELECT * FROM mail_template ".
+			" WHERE type='dqta' AND lang = ".$ilDB->quote($a_lang,'text'));
+
+		if ($rec = $set->fetchRow(DB_FETCHMODE_ASSOC))
+		{
+			return $rec;
+		}
+		return array();
+	}
+
+	function _writeReminderMailTemplate($a_lang, $a_subject, $a_sal_g, $a_sal_f, $a_sal_m, $a_body)
+	{
+		global $ilDB;
+
+		if(self::_lookupReminderMailTemplate($a_lang))
+		{
+			$values = array(
+				'subject'		=> array('text',$a_subject),
+				'body'			=> array('clob',$a_body),
+				'sal_g'			=> array('text',$a_sal_g),
+				'sal_f'			=> array('text',$a_sal_f),
+				'sal_m'			=> array('text',$a_sal_m)
+				);
+			$ilDB->update('mail_template',
+				$values,
+				array('lang' => array('text',$a_lang), 'type' => array('text','dqta'))
+			);
+		}
+		else
+		{
+			$values = array(
+				'subject'		=> array('text',$a_subject),
+				'body'			=> array('clob',$a_body),
+				'sal_g'			=> array('text',$a_sal_g),
+				'sal_f'			=> array('text',$a_sal_f),
+				'sal_m'			=> array('text',$a_sal_m),
+				'lang'			=> array('text',$a_lang),
+				'type'			=> array('text','dqta')
+				);
+			$ilDB->insert('mail_template',$values);
+		}
 	}
 } // END class.ilObjDiskQuotaSettings
 ?>

@@ -14310,6 +14310,14 @@ while($data = $ilDB->fetchAssoc($result))
 	$ilDB->manipulateF('UPDATE scorm_tracking SET c_timestamp = NULL WHERE  c_timestamp = %s', array('timestamp'), array('0000-00-00 00:00:00'));
 ?>
 <#2743>
-<?php 
+<?php
 	$ilMySQLAbstraction->performAbstraction('container_reference');
+?>
+<#2744>
+<?php
+	$ilDB->renameTable('usr_new_account_mail', 'mail_template');
+	$ilDB->manipulate('ALTER TABLE mail_template DROP PRIMARY KEY');
+	$ilDB->addTableColumn("mail_template", "type", array("type" => "text", "length" => 4, "notnull" => true, 'default'=>''));
+	$ilDB->addPrimaryKey("mail_template", array("type", "lang"));
+	$ilDB->manipulate("UPDATE mail_template SET type = 'nacc'");
 ?>
