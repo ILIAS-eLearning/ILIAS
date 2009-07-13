@@ -3398,7 +3398,7 @@ class ilObjSurvey extends ilObject
 	{
 		$result_array = array();
 		$result = $ilDB->query("SELECT svy_question.*, svy_qtype.type_tag FROM svy_question, svy_qtype WHERE ".
-			"svy_question.questiontype_fi = svy_qtype.questiontype_id AND ".
+			"svy_question.questiontype_fi = svy_qtype.questiontype_id AND svy_question.tstamp > 0 AND ".
 			$ilDB->in('svy_question.question_id', $question_ids, false, 'integer'));
 		while ($row = $ilDB->fetchAssoc($result))
 		{
@@ -3500,13 +3500,13 @@ class ilObjSurvey extends ilObject
 		}
 		$query_result = $ilDB->query("SELECT svy_question.*, svy_qtype.type_tag, svy_qtype.plugin, object_reference.ref_id FROM ".
 			"svy_question, svy_qtype, object_reference WHERE svy_question.questiontype_fi = svy_qtype.questiontype_id".
-			"$forbidden$existing AND svy_question.obj_fi = object_reference.obj_id AND ISNULL(svy_question.original_id) " . 
+			"$forbidden$existing AND svy_question.tstamp > 0 AND svy_question.obj_fi = object_reference.obj_id AND ISNULL(svy_question.original_id) " . 
 			" $where$order");
 		$max = $query_result->numRows();
 		$ilDB->setLimit($maxentries, $startrow);
 		$query_result = $ilDB->query("SELECT svy_question.*, svy_qtype.type_tag, svy_qtype.plugin, object_reference.ref_id FROM " .
 			"svy_question, svy_qtype, object_reference WHERE svy_question.questiontype_fi = svy_qtype.questiontype_id".
-			"$forbidden$existing AND svy_question.obj_fi = object_reference.obj_id AND ISNULL(svy_question.original_id) " . 
+			"$forbidden$existing AND svy_question.tstamp > 0 AND svy_question.obj_fi = object_reference.obj_id AND ISNULL(svy_question.original_id) " . 
 			" $where$order");
 		if ($startrow > $max -1)
 		{

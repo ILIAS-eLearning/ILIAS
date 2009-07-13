@@ -523,7 +523,6 @@ class SurveyQuestionGUI
 
 		switch ($guiclass)
 		{
-			case "surveynominalquestiongui":
 			case "surveyordinalquestiongui":
 				if ($this->object->getId() > 0) 
 				{

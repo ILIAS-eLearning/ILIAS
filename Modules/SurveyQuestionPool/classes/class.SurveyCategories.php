@@ -90,6 +90,26 @@ class SurveyCategories
 			array_push($this->categories, $categoryname);
 		}
 	}
+	
+	function moveCategoryUp($index)
+	{
+		if ($index > 0)
+		{
+			$temp = $this->categories[$index-1];
+			$this->categories[$index - 1] = $this->categories[$index];
+			$this->categories[$index] = $temp;
+		}
+	}
+	
+	function moveCategoryDown($index)
+	{
+		if ($index < (count($this->categories)-1))
+		{
+			$temp = $this->categories[$index+1];
+			$this->categories[$index + 1] = $this->categories[$index];
+			$this->categories[$index] = $temp;
+		}
+	}
 
 /**
 * Adds a category
@@ -203,6 +223,10 @@ class SurveyCategories
 		return array_search($name, $this->categories);
 	}
 	
+	function getScale($index)
+	{
+		return $index + 1;
+	}
 	
 /**
 * Empties the categories list
