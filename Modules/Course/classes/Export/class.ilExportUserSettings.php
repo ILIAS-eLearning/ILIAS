@@ -175,7 +175,7 @@ class ilExportUserSettings
 	 */
 	private function read()
 	{
-	 	$query = "SELECT * FROM member_export_user_settings WHERE user_id = ".$this->db->quote($this->user_id ,'integer');
+	 	$query = "SELECT * FROM member_usr_settings WHERE user_id = ".$this->db->quote($this->user_id ,'integer');
 	 	$res = $this->db->query($query);
 		
 	 	if($row = $res->fetchRow(DB_FETCHMODE_OBJECT))
