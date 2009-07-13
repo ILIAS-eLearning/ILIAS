@@ -9672,3 +9672,7 @@ assessment#:#msg_poly_added#:#Polygon added
 assessment#:#form_msg_area_missing_points#:#Please enter points for all areas.
 assessment#:#values#:#Values
 survey#:#scale#:#Scale
+survey#:#add_material#:#Add Material
+survey#:#internal_link#:#Internal Link
+survey#:#materials#:#Materials
+survey#:#materials_deleted#:#Material(s) deleted

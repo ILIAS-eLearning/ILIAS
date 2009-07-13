@@ -243,38 +243,6 @@ class SurveyNominalQuestionGUI extends SurveyQuestionGUI
 		$this->editQuestion();
 	}
 
-	/**
-	* Inserts categories which are selected for moving before the selected category
-	*
-	* @access private
-	*/
-		function insertAfterCategory()
-		{
-			$result = $this->writeCategoryData();
-			if (array_key_exists("chb_category", $_POST))
-			{
-				if (count($_POST["chb_category"]) == 1)
-				{
-					// one entry is selected, moving is allowed
-					$this->object->categories->removeCategories($_SESSION["spl_move"]);
-					$newinsertindex = $this->object->categories->getCategoryIndex($_POST["category_".$_POST["chb_category"][0]]);
-					if ($newinsertindex === false) $newinsertindex = 0;
-					$move_categories = $_SESSION["spl_move"];
-					natsort($move_categories);
-					foreach (array_reverse($move_categories) as $index)
-					{
-						$this->object->categories->addCategoryAtPosition($_POST["category_$index"], $newinsertindex+1);
-					}
-					$_SESSION["spl_modified"] = true;
-					unset($_SESSION["spl_move"]);
-				}
-				else
-				{
-					ilUtil::sendInfo("wrong_categories_selected_for_insert");
-				}
-			}
-			$this->categories();
-		}
 /**
 * Creates the question output form for the learner
 *
@@ -283,14 +251,9 @@ class SurveyNominalQuestionGUI extends SurveyQuestionGUI
 	function getWorkingForm($working_data = "", $question_title = 1, $show_questiontext = 1, $error_message = "", $survey_id = null)
 	{
 		$template = new ilTemplate("tpl.il_svy_out_nominal.html", TRUE, TRUE, "Modules/SurveyQuestionPool");
-		if (count($this->object->material))
-		{
-			$template->setCurrentBlock("material_nominal");
-			include_once "./Modules/SurveyQuestionPool/classes/class.SurveyQuestion.php";
-			$href = SurveyQuestion::_getInternalLinkHref($this->object->material["internal_link"]);
-			$template->setVariable("TEXT_MATERIAL", $this->lng->txt("material") . ": <a href=\"$href\" target=\"content\">" . $this->object->material["title"]. "</a> ");
-			$template->parseCurrentBlock();
-		}
+		$template->setCurrentBlock("material_nominal");
+		$template->setVariable("TEXT_MATERIAL", $this->getMaterialOutput());
+		$template->parseCurrentBlock();
 		switch ($this->object->getOrientation())
 		{
 			case 0:

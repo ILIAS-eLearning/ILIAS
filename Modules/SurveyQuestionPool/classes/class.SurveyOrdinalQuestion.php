@@ -181,8 +181,6 @@ class SurveyOrdinalQuestion extends SurveyQuestion
 			$this->setComplete($data["complete"]);
 			$this->setOriginalId($data["original_id"]);
 			$this->setOrientation($data["orientation"]);
-			// loads materials uris from database
-			$this->loadMaterialFromDb($id);
 
 			$this->categories->flushCategories();
 			$result = $ilDB->queryF("SELECT svy_variable.*, svy_category.title FROM svy_variable, svy_category WHERE svy_variable.question_fi = %s AND svy_variable.category_fi = svy_category.category_id ORDER BY sequence ASC",
@@ -823,6 +821,11 @@ class SurveyOrdinalQuestion extends SurveyQuestion
 		}
 		include_once "./Modules/SurveyQuestionPool/classes/class.SurveyChart.php";
 		$b1 = new SurveyChart("bars",400,250,utf8_decode($this->getTitle()),utf8_decode($this->lng->txt("answers")),utf8_decode($this->lng->txt("users_answered")),$this->cumulated["variables"]);
+	}
+
+	public function getCategories()
+	{
+		return $this->categories;
 	}
 }
 ?>

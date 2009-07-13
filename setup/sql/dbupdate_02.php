@@ -14448,3 +14448,26 @@ $ilDB->createSequence("mep_item");
 <?php
 $ilDB->renameTableColumn("mep_item", "id", "obj_id");
 ?>
+<#2751>
+<?php
+$ilDB->addTableColumn("svy_material", "text_material", array("type" => "text", "length" => 4000, "notnull" => false, 'default'=>null));
+?>
+<#2752>
+<?php
+$ilDB->addTableColumn("svy_material", "external_link", array("type" => "text", "length" => 500, "notnull" => false, 'default'=>null));
+?>
+<#2753>
+<?php
+$ilDB->addTableColumn("svy_material", "file_material", array("type" => "text", "length" => 200, "notnull" => false, 'default'=>null));
+?>
+<#2754>
+<?php
+$ilDB->addTableColumn("svy_material", "material_type", array("type" => "integer", "length" => 4, "notnull" => false, 'default'=>0));
+?>
+<#2755>
+<?php
+if ($ilDB->tableExists('svy_qst_mat'))
+{
+	$ilDB->dropTable('svy_qst_mat');
+}
+?>

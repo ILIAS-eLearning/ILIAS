@@ -266,14 +266,9 @@ class SurveyMetricQuestionGUI extends SurveyQuestionGUI
 	function getWorkingForm($working_data = "", $question_title = 1, $show_questiontext = 1, $error_message = "", $survey_id = null)
 	{
 		$template = new ilTemplate("tpl.il_svy_out_metric.html", TRUE, TRUE, "Modules/SurveyQuestionPool");
-		if (count($this->object->material))
-		{
-			$template->setCurrentBlock("material_metric");
-			include_once "./Modules/SurveyQuestionPool/classes/class.SurveyQuestion.php";
-			$href = SurveyQuestion::_getInternalLinkHref($this->object->material["internal_link"]);
-			$template->setVariable("TEXT_MATERIAL", $this->lng->txt("material") . ": <a href=\"$href\" target=\"content\">" . $this->object->material["title"]. "</a> ");
-			$template->parseCurrentBlock();
-		}
+		$template->setCurrentBlock("material_metric");
+		$template->setVariable("TEXT_MATERIAL", $this->getMaterialOutput());
+		$template->parseCurrentBlock();
 		$template->setVariable("MIN_MAX", $this->object->getMinMaxText());
 		/*if (strlen($this->object->getMinimum()))
 		{

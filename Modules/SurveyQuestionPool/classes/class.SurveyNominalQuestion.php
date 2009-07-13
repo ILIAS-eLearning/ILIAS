@@ -159,8 +159,6 @@ class SurveyNominalQuestion extends SurveyQuestion
 			$this->setOriginalId($data["original_id"]);
 			$this->setSubtype($data["subtype"]);
 			$this->setOrientation($data["orientation"]);
-			// loads materials uris from database
-			$this->loadMaterialFromDb($id);
 
 			$this->categories->flushCategories();
 			$result = $ilDB->queryF("SELECT svy_variable.*, svy_category.title FROM svy_variable, svy_category WHERE svy_variable.question_fi = %s AND svy_variable.category_fi = svy_category.category_id ORDER BY sequence ASC",

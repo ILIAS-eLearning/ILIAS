@@ -260,77 +260,164 @@ class SurveyQuestionGUI
 /**
 * Cancels the form adding a phrase
 *
-* Cancels the form adding a phrase
-*
 * @access public
 */
 	function cancelDeleteCategory() 
 	{
 		$this->ctrl->redirect($this, "editQuestion");
 	}
+	
+	/**
+	* Creates the HTML output of the question material(s)
+	*/
+	protected function getMaterialOutput()
+	{
+		if (count($this->object->getMaterial()))
+		{
+			$template = new ilTemplate("tpl.il_svy_qpl_material.html", TRUE, TRUE, "Modules/SurveyQuestionPool");
+			foreach ($this->object->getMaterial() as $material)
+			{
+				$template->setCurrentBlock('material');
+				switch ($material->type)
+				{
+					case 0:
+						$href = SurveyQuestion::_getInternalLinkHref($material->internal_link);
+						$template->setVariable('MATERIAL_TYPE', 'internallink');
+						$template->setVariable('MATERIAL_HREF', $href);
+						break;
+				}
+				$template->setVariable('MATERIAL_TITLE', (strlen($material->title)) ? ilUtil::prepareFormOutput($material->title) : $this->lng->txt('material'));
+				$template->setVariable('TEXT_AVAILABLE_MATERIALS', $this->lng->txt('material'));
+				$template->parseCurrentBlock();
+			}
+			return $template->get();
+		}
+		return "";
+	}
+	
 
-	function addMaterial()
+	/**
+	* Material tab of the survey questions
+	*/
+	public function material($checkonly = FALSE)
+	{
+		include_once("./Services/Form/classes/class.ilPropertyFormGUI.php");
+		$form = new ilPropertyFormGUI();
+		$form->setFormAction($this->ctrl->getFormAction($this));
+		$form->setTitle($this->lng->txt('add_material'));
+		$form->setMultipart(FALSE);
+		$form->setTableWidth("100%");
+		$form->setId("material");
+
+		// material
+		$material = new ilRadioGroupInputGUI($this->lng->txt("material"), "internalLinkType");
+		$material->setRequired(true);
+		$material->addOption(new ilRadioOption($this->lng->txt('obj_lm'), "lm"));
+		$material->addOption(new ilRadioOption($this->lng->txt('obj_st'), "st"));
+		$material->addOption(new ilRadioOption($this->lng->txt('obj_pg'), "pg"));
+		$material->addOption(new ilRadioOption($this->lng->txt('glossary_term'), "glo"));
+		$form->addItem($material);
+
+		$form->addCommandButton("addMaterial", $this->lng->txt("add"));
+
+		$errors = false;
+	
+		if ($checkonly)
+		{
+			$form->setValuesByPost();
+			$errors = !$form->checkInput();
+			if ($errors) $checkonly = false;
+		}
+
+		$mat_html = "";
+		if (count($this->object->getMaterial()))
+		{
+			include_once "./Modules/SurveyQuestionPool/classes/class.ilSurveyMaterialsTableGUI.php";
+			$table_gui = new ilSurveyMaterialsTableGUI($this, 'material');
+			$data = array();
+			foreach ($this->object->getMaterial() as $material)
+			{
+				switch ($material->type)
+				{
+					case 0:
+						$href = SurveyQuestion::_getInternalLinkHref($material->internal_link);
+						$type = $this->lng->txt('internal_link');
+						break;
+				}
+				$title = (strlen($material->title)) ? ilUtil::prepareFormOutput($material->title) : $this->lng->txt('material');
+				array_push($data, array('href' => $href, 'title' => $title, 'type' => $type));
+			}
+			$table_gui->setData($data);
+			$mat_html = $table_gui->getHTML();
+		}
+
+		if (!$checkonly) $this->tpl->setVariable("ADM_CONTENT", $form->getHTML() . $mat_html);
+		return $errors;
+	}
+	
+	public function deleteMaterial()
+	{
+		if (is_array($_POST['idx']))
+		{
+			$this->object->deleteMaterials($_POST['idx']);
+			ilUtil::sendSuccess($this->lng->txt('materials_deleted'), true);
+		}
+		else
+		{
+			ilUtil::sendFailure($this->lng->txt('no_checkbox'), true);
+		}
+		$this->ctrl->redirect($this, 'material');
+	}
+
+	/**
+	* Add materials to a question
+	*/
+	public function addMaterial()
 	{
 		global $tree;
-
-		if ($_POST["cmd"]["addMaterial"])
-		{
-			if ($this->writePostData() == 1)
-			{
-				return $this->editQuestion();
-			}
-			else
-			{
-				$this->object->saveToDb();
-				$this->ctrl->setParameter($this, "q_id", $this->object->getId());
-			}
-		}
-		include_once("./Modules/SurveyQuestionPool/classes/class.ilMaterialExplorer.php");
-		switch ($_POST["internalLinkType"])
-		{
-			case "lm":
-				$_SESSION["link_new_type"] = "lm";
-				$_SESSION["search_link_type"] = "lm";
-				break;
-			case "glo":
-				$_SESSION["link_new_type"] = "glo";
-				$_SESSION["search_link_type"] = "glo";
-				break;
-			case "st":
-				$_SESSION["link_new_type"] = "lm";
-				$_SESSION["search_link_type"] = "st";
-				break;
-			case "pg":
-				$_SESSION["link_new_type"] = "lm";
-				$_SESSION["search_link_type"] = "pg";
-				break;
-			default:
-				if (!$_SESSION["link_new_type"])
-				{
-					$_SESSION["link_new_type"] = "lm";
-				}
-				break;
-		}
-
-		ilUtil::sendInfo($this->lng->txt("select_object_to_link"));
 		
-		$exp = new ilMaterialExplorer($this->ctrl->getLinkTarget($this,'addMaterial'), get_class($this));
+		if (strlen($_SESSION["link_new_type"]) || !$this->material(true))
+		{
+			include_once("./Modules/SurveyQuestionPool/classes/class.ilMaterialExplorer.php");
+			switch ($_POST["internalLinkType"])
+			{
+				case "lm":
+					$_SESSION["link_new_type"] = "lm";
+					$_SESSION["search_link_type"] = "lm";
+					break;
+				case "glo":
+					$_SESSION["link_new_type"] = "glo";
+					$_SESSION["search_link_type"] = "glo";
+					break;
+				case "st":
+					$_SESSION["link_new_type"] = "lm";
+					$_SESSION["search_link_type"] = "st";
+					break;
+				case "pg":
+					$_SESSION["link_new_type"] = "lm";
+					$_SESSION["search_link_type"] = "pg";
+					break;
+			}
 
-		$exp->setExpand($_GET["expand"] ? $_GET["expand"] : $tree->readRootId());
-		$exp->setExpandTarget($this->ctrl->getLinkTarget($this,'addMaterial'));
-		$exp->setTargetGet("ref_id");
-		$exp->setRefId($this->cur_ref_id);
-		$exp->addFilter($_SESSION["link_new_type"]);
-		$exp->setSelectableType($_SESSION["link_new_type"]);
+			ilUtil::sendInfo($this->lng->txt("select_object_to_link"));
 
-		// build html-output
-		$exp->setOutput(0);
+			$exp = new ilMaterialExplorer($this->ctrl->getLinkTarget($this, 'addMaterial'), get_class($this));
 
-		$this->tpl->addBlockFile("ADM_CONTENT", "explorer", "tpl.il_svy_qpl_explorer.html", "Modules/SurveyQuestionPool");
-		$this->tpl->setVariable("EXPLORER_TREE",$exp->getOutput());
-		$this->tpl->setVariable("BUTTON_CANCEL",$this->lng->txt("cancel"));
-		$this->tpl->setVariable("FORMACTION",$this->ctrl->getFormAction($this));
-		$this->tpl->parseCurrentBlock();
+			$exp->setExpand($_GET["expand"] ? $_GET["expand"] : $tree->readRootId());
+			$exp->setExpandTarget($this->ctrl->getLinkTarget($this,'addMaterial'));
+			$exp->setTargetGet("ref_id");
+			$exp->setRefId($this->cur_ref_id);
+			$exp->addFilter($_SESSION["link_new_type"]);
+			$exp->setSelectableType($_SESSION["link_new_type"]);
+
+			// build html-output
+			$exp->setOutput(0);
+
+			$this->tpl->addBlockFile("ADM_CONTENT", "explorer", "tpl.il_svy_qpl_explorer.html", "Modules/SurveyQuestionPool");
+			$this->tpl->setVariable("EXPLORER_TREE",$exp->getOutput());
+			$this->tpl->setVariable("BUTTON_CANCEL",$this->lng->txt("cancel"));
+			$this->tpl->setVariable("FORMACTION",$this->ctrl->getFormAction($this));
+		}
 	}
 	
 	function removeMaterial()
@@ -343,34 +430,35 @@ class SurveyQuestionGUI
 	function cancelExplorer()
 	{
 		unset($_SESSION["link_new_type"]);
-		$this->editQuestion();
+		ilUtil::sendInfo($this->lng->txt("msg_cancel"), true);
+		$this->ctrl->redirect($this, 'material');
 	}
 		
 	function addPG()
 	{
-		$this->object->setMaterial("il__pg_" . $_GET["pg"]);
+		$this->object->addInternalLink("il__pg_" . $_GET["pg"]);
 		unset($_SESSION["link_new_type"]);
 		unset($_SESSION["search_link_type"]);
-		ilUtil::sendSuccess($this->lng->txt("material_added_successfully"));
-		$this->editQuestion();
+		ilUtil::sendSuccess($this->lng->txt("material_added_successfully"), true);
+		$this->ctrl->redirect($this, "material");
 	}
 	
 	function addST()
 	{
-		$this->object->setMaterial("il__st_" . $_GET["st"]);
+		$this->object->addInternalLink("il__st_" . $_GET["st"]);
 		unset($_SESSION["link_new_type"]);
 		unset($_SESSION["search_link_type"]);
-		ilUtil::sendSuccess($this->lng->txt("material_added_successfully"));
-		$this->editQuestion();
+		ilUtil::sendSuccess($this->lng->txt("material_added_successfully"), true);
+		$this->ctrl->redirect($this, "material");
 	}
 
 	function addGIT()
 	{
-		$this->object->setMaterial("il__git_" . $_GET["git"]);
+		$this->object->addInternalLink("il__git_" . $_GET["git"]);
 		unset($_SESSION["link_new_type"]);
 		unset($_SESSION["search_link_type"]);
-		ilUtil::sendSuccess($this->lng->txt("material_added_successfully"));
-		$this->editQuestion();
+		ilUtil::sendSuccess($this->lng->txt("material_added_successfully"), true);
+		$this->ctrl->redirect($this, "material");
 	}
 	
 	function linkChilds()
@@ -462,19 +550,16 @@ class SurveyQuestionGUI
 				$this->tpl->parseCurrentBlock();
 				break;
 			case "lm":
-				$this->object->setMaterial("il__lm_" . $_GET["source_id"]);
+				$this->object->addInternalLink("il__lm_" . $_GET["source_id"]);
 				unset($_SESSION["link_new_type"]);
 				unset($_SESSION["search_link_type"]);
-				ilUtil::sendSuccess($this->lng->txt("material_added_successfully"));
-				$this->editQuestion();
+				ilUtil::sendSuccess($this->lng->txt("material_added_successfully"), true);
+				$this->ctrl->redirect($this, "material");
 				break;
 		}
 	}
 
-
 	/**
-	* Creates a HTML representation of the question
-	*
 	* Creates a HTML representation of the question
 	*
 	* @access private
@@ -483,7 +568,7 @@ class SurveyQuestionGUI
 	{
 		return "";
 	}
-
+	
 	function setQuestionTabsForClass($guiclass)
 	{
 		global $rbacsystem,$ilTabs;
@@ -514,33 +599,18 @@ class SurveyQuestionGUI
 		if ($rbacsystem->checkAccess('edit', $_GET["ref_id"])) {
 			$ilTabs->addTarget("edit_properties",
 									 $this->ctrl->getLinkTargetByClass("$guiclass", "editQuestion"), 
-									 array("editQuestion", "cancelExplorer", "linkChilds", "addGIT", "addST",
-											 "addPG",
-											 "editQuestion", "addMaterial", "removeMaterial", "save", "cancel"
-										 ),
+									 array("editQuestion", "save", "cancel"),
+									 "$guiclass");
+		}
+		if ($_GET["q_id"])
+		{
+			$ilTabs->addTarget("material",
+									 $this->ctrl->getLinkTargetByClass("$guiclass", "material"), 
+									array("material", "cancelExplorer", "linkChilds", "addGIT", "addST",
+											 "addPG", "addMaterial", "removeMaterial"),
 									 "$guiclass");
 		}
 
-		switch ($guiclass)
-		{
-			case "surveyordinalquestiongui":
-				if ($this->object->getId() > 0) 
-				{
-					$ilTabs->addTarget("categories",
-											 $this->ctrl->getLinkTargetByClass("$guiclass", "categories"), 
-											 array("categories", "addCategory", "insertBeforeCategory",
-													 "insertAfterCategory", "moveCategory", "deleteCategory",
-													 "saveCategories", "savePhrase", "addPhrase",
-													 "savePhrase", "addSelectedPhrase", "cancelViewPhrase", "confirmSavePhrase",
-													 "cancelSavePhrase",
-													 "confirmDeleteCategory", "cancelDeleteCategory"
-												 ),
-											 $guiclass
-					);
-				}
-				break;
-		}
-		
 		if ($this->object->getId() > 0) 
 		{
 			$title = $this->lng->txt("edit") . " &quot;" . $this->object->getTitle() . "&quot";
@@ -556,8 +626,6 @@ class SurveyQuestionGUI
 /**
 * Returns the question type string
 *
-* Returns the question type string
-*
 * @result string The question type string
 * @access public
 */
@@ -567,8 +635,6 @@ class SurveyQuestionGUI
 	}
 
 /**
-* Creates a the cumulated results row for the question
-*
 * Creates a the cumulated results row for the question
 *
 * @return string HTML text with the cumulated results

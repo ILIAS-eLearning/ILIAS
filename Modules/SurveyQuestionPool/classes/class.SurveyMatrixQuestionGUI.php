@@ -219,14 +219,9 @@ class SurveyMatrixQuestionGUI extends SurveyQuestionGUI
 		$neutralstyle = "3px solid #808080";
 		$bordercolor = "#808080";
 		$template = new ilTemplate("tpl.il_svy_out_matrix.html", TRUE, TRUE, "Modules/SurveyQuestionPool");
-		if (count($this->object->material))
-		{
-			$template->setCurrentBlock("material_matrix");
-			include_once "./Modules/SurveyQuestionPool/classes/class.SurveyQuestion.php";
-			$href = SurveyQuestion::_getInternalLinkHref($this->object->material["internal_link"]);
-			$template->setVariable("TEXT_MATERIAL", $this->lng->txt("material") . ": <a href=\"$href\" target=\"content\">" . $this->object->material["title"]. "</a> ");
-			$template->parseCurrentBlock();
-		}
+		$template->setCurrentBlock("material_matrix");
+		$template->setVariable("TEXT_MATERIAL", $this->getMaterialOutput());
+		$template->parseCurrentBlock();
 		
 		if ($this->show_layout_row)
 		{
@@ -1194,6 +1189,14 @@ class SurveyMatrixQuestionGUI extends SurveyQuestionGUI
 				"",
 				""
 			);
+		}
+		if ($this->object->getId() > 0) 
+		{
+			$ilTabs->addTarget("material",
+									 $this->ctrl->getLinkTarget($this, "material"), 
+									array("material", "cancelExplorer", "linkChilds", "addGIT", "addST",
+											 "addPG", "addMaterial", "removeMaterial"),
+									 "$guiclass");
 		}
 		
 		if ($this->object->getId() > 0) 
