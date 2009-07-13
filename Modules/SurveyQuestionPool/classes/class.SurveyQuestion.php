@@ -818,6 +818,46 @@ class SurveyQuestion
 		}
 	}
 	
+	/**
+	* Creates a new question with a 0 timestamp when a new question is created
+	* This assures that an ID is given to the question if a file upload or something else occurs
+	*
+	* @return integer ID of the new question
+	*/
+	public function createNewQuestion()
+	{
+		global $ilDB, $ilUser;
+		
+		$obj_id = ($this->getObjId() <= 0) ? (ilObject::_lookupObjId((strlen($_GET["ref_id"])) ? $_GET["ref_id"] : $_POST["sel_qpl"])) : $this->getObjId();
+		if ($obj_id > 0)
+		{
+			$next_id = $ilDB->nextId('svy_question');
+			$affectedRows = $ilDB->manipulateF("INSERT INTO svy_question (question_id, questiontype_fi, " .
+				"obj_fi, owner_fi, title, description, author, questiontext, obligatory, complete, " .
+				"created, original_id, tstamp) VALUES " .
+				"(%s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s)",
+				array('integer', 'integer', 'integer', 'integer', 'text', 'text', 'text', 'text', 
+					'text', 'text', 'integer', 'integer', 'integer'),
+				array(
+					$next_id,
+					$this->getQuestionTypeID(),
+					$obj_id,
+					$this->getOwner(),
+					NULL,
+					NULL,
+					$this->getAuthor(),
+					NULL,
+					"1",
+					"0",
+					time(),
+					NULL,
+					0
+				)
+			);
+			$this->setId($next_id);
+		}
+		return $this->getId();
+	}
 
 /**
 * Saves the learners input of the question to the database
@@ -1028,7 +1068,7 @@ class SurveyQuestion
 			array($question_id)
 		);
 
-		$result = $ilDB->queryF("SELECT constraint_id FROM svy_qst_constraint WHERE question_fi = %s",
+		$result = $ilDB->queryF("SELECT constraint_fi FROM svy_qst_constraint WHERE question_fi = %s",
 			array('integer'),
 			array($question_id)
 		);
@@ -1036,7 +1076,7 @@ class SurveyQuestion
 		{
 			$affectedRows = $ilDB->manipulateF("DELETE FROM svy_constraint WHERE constraint_fi = %s",
 				array('integer'),
-				array($row->constraint_id)
+				array($row->constraint_fi)
 			);
 		}
 	

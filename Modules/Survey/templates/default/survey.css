@@ -83,4 +83,14 @@ td.bipolar {
 	margin-bottom:1em;
 }
 
+table.categorywizard tr {
+	vertical-align: top;
+}
+
+table.categorywizard th {
+	font-size: 90%;
+	font-weight: bold;
+	text-align: center;
+}
+
 }

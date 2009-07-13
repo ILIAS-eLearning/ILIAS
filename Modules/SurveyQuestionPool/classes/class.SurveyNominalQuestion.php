@@ -901,5 +901,10 @@ class SurveyNominalQuestion extends SurveyQuestion
 		include_once "./Modules/SurveyQuestionPool/classes/class.SurveyChart.php";
 		$b1 = new SurveyChart("bars",400,250,utf8_decode($this->getTitle()),utf8_decode($this->lng->txt("answers")),utf8_decode($this->lng->txt("users_answered")),$this->cumulated["variables"]);
 	}
+	
+	public function getCategories()
+	{
+		return $this->categories;
+	}
 }
 ?>

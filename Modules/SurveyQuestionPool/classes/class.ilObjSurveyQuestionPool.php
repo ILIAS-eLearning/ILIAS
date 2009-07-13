@@ -456,7 +456,7 @@ class ilObjSurveyQuestionPool extends ilObject
 	{
 		global $ilDB;
 		$result_array = array();
-		$result = $ilDB->query("SELECT svy_question.*, svy_qtype.type_tag, svy_qtype.plugin FROM svy_question, svy_qtype WHERE svy_question.questiontype_fi = svy_qtype.questiontype_id AND " . $ilDB->in('svy_question.question_id', $question_array, false, 'integer'));
+		$result = $ilDB->query("SELECT svy_question.*, svy_qtype.type_tag, svy_qtype.plugin FROM svy_question, svy_qtype WHERE svy_question.questiontype_fi = svy_qtype.questiontype_id AND svy_question.tstamp > 0 AND " . $ilDB->in('svy_question.question_id', $question_array, false, 'integer'));
 		while ($row = $ilDB->fetchAssoc($result))
 		{
 			if ($row["plugin"])
@@ -562,7 +562,7 @@ class ilObjSurveyQuestionPool extends ilObject
 		{
 			$maxentries = 9999;
 		}
-		$query_result = $ilDB->queryF("SELECT svy_question.question_id FROM svy_question, svy_qtype WHERE svy_question.questiontype_fi = svy_qtype.questiontype_id AND svy_question.obj_fi = %s AND ISNULL(svy_question.original_id) $where$order",
+		$query_result = $ilDB->queryF("SELECT svy_question.question_id FROM svy_question, svy_qtype WHERE svy_question.questiontype_fi = svy_qtype.questiontype_id AND svy_question.tstamp > 0 AND svy_question.obj_fi = %s AND ISNULL(svy_question.original_id) $where$order",
 			array('integer'),
 			array($this->getId())
 		);
@@ -576,7 +576,7 @@ class ilObjSurveyQuestionPool extends ilObject
 			$startrow = 0;
 		}
 		$ilDB->setLimit($maxentries, $startrow);
-		$query_result = $ilDB->queryF("SELECT svy_question.*, svy_qtype.type_tag, svy_qtype.plugin FROM svy_question, svy_qtype WHERE svy_question.questiontype_fi = svy_qtype.questiontype_id AND svy_question.obj_fi = %s AND ISNULL(svy_question.original_id) $where$order",
+		$query_result = $ilDB->queryF("SELECT svy_question.*, svy_qtype.type_tag, svy_qtype.plugin FROM svy_question, svy_qtype WHERE svy_question.questiontype_fi = svy_qtype.questiontype_id AND svy_question.tstamp > 0 AND svy_question.obj_fi = %s AND ISNULL(svy_question.original_id) $where$order",
 			array('integer'),
 			array($this->getId())
 		);
@@ -819,7 +819,7 @@ class ilObjSurveyQuestionPool extends ilObject
 	{
 		global $ilDB;
 		$questions = array();
-		$result = $ilDB->queryF("SELECT question_id FROM svy_question WHERE obj_fi = %s AND ISNULL(original_id)",
+		$result = $ilDB->queryF("SELECT question_id FROM svy_question WHERE obj_fi = %s AND svy_question.tstamp > 0 AND ISNULL(original_id)",
 			array('integer'),
 			array($this->getId())
 		);
@@ -1041,7 +1041,7 @@ class ilObjSurveyQuestionPool extends ilObject
 		$found = array();
 		$query_result = $ilDB->query("SELECT svy_question.*, svy_qtype.type_tag FROM svy_question, svy_qtype " .
 			"WHERE svy_question.questiontype_fi = svy_qtype.questiontype_id " .
-			"AND " . $ilDB->in('svy_question.question_id', $question_ids, false, 'integer') . " " .
+			"AND svy_question.tstamp > 0 AND " . $ilDB->in('svy_question.question_id', $question_ids, false, 'integer') . " " .
 			"ORDER BY svy_question.title");
 		if ($query_result->numRows() > 0)
 		{
@@ -1054,6 +1054,23 @@ class ilObjSurveyQuestionPool extends ilObject
 			}
 		}
 		return $found;
+	}
+
+	/*
+	* Remove all questions with tstamp = 0
+	*/
+	public function purgeQuestions()
+	{
+		global $ilDB, $ilUser;
+		
+		$result = $ilDB->queryF("SELECT question_id FROM svy_question WHERE owner_fi = %s AND tstamp = %s", 
+			array("integer", "integer"),
+			array($ilUser->getId(), 0)
+		);
+		while ($data = $ilDB->fetchAssoc($result))
+		{
+			$this->removeQuestion($data["question_id"]);
+		}
 	}
 } // END class.ilSurveyObjQuestionPool
 ?>

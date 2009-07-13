@@ -3255,8 +3255,6 @@ class ilObjTestGUI extends ilObjectGUI
  /**
 	* Evaluates the actions on the participants page
 	*
-	* Evaluates the actions on the participants page
-	*
 	* @access	public
 	*/
 	function participantsActionObject()
