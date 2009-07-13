@@ -37,23 +37,13 @@ class assClozeTestGUI extends assQuestionGUI
 {
 	/**
 	* A temporary variable to store gap indexes of ilCtrl commands in the getCommand method
-	*
 	*/
-	var $gapIndex;
-
-	/**
-	* A temporary variable to store answer indexes of ilCtrl commands in the getCommand method
-	*
-	*/
-	var $answerIndex;
+	private $gapIndex;
 	
 	/**
 	* assClozeTestGUI constructor
 	*
-	* The constructor takes possible arguments an creates an instance of the assClozeTestGUI object.
-	*
 	* @param integer $id The database id of a image map question object
-	* @access public
 	*/
 	function __construct($id = -1)
 	{
@@ -68,565 +58,316 @@ class assClozeTestGUI extends assQuestionGUI
 
 	function getCommand($cmd)
 	{
-		if (preg_match("/^(addGapText|addSelectGapText)_(\d+)$/", $cmd, $matches))
+		if (preg_match("/^(removegap|addgap)_(\d+)$/", $cmd, $matches))
 		{
 			$cmd = $matches[1];
 			$this->gapIndex = $matches[2];
-		}
-		else if (preg_match("/^(delete)_(\d+)_(\d+)$/", $cmd, $matches))
-		{
-			$cmd = $matches[1];
-			$this->gapIndex = $matches[2];
-			$this->answerIndex = $matches[3];
 		}
 		return $cmd;
 	}
 
 	/**
-	* Create editable gaps from the question text
-	*/
-	function createGaps()
-	{
-		$this->writePostData();
-		$this->editQuestion();
-	}
-
-	/**
-	* Change the type of a gap
-	*/
-	function changeGapType()
-	{
-		$this->writePostData();
-		$this->editQuestion();
-	}
-
-	/**
-	* Checks the obligatory fields from a POST in the edit form
-	*/
-	function checkInput()
-	{
-		if ((!$_POST["title"]) or (!$_POST["author"]) or (!$_POST["clozetext"]))
-		{
-			return FALSE;
-		}
-		return TRUE;
-	}
-	
-	/**
-	* Sets the gap types from the editing form
-	*
-	* Sets the gap types from the editing form
-	*
-	* @access private
-	*/
-	function setGapTypes()
-	{
-		foreach ($_POST as $key => $value)
-		{
-			// Set the cloze type of the gap
-			if (preg_match("/clozetype_(\d+)/", $key, $matches))
-			{
-				$this->object->setGapType($matches[1], $value);
-			}
-		}
-	}
-
-	/**
-	* Sets the shuffle state of gaps from the editing form
-	*
-	* Sets the shuffle state of gaps from the editing form
-	*
-	* @access private
-	*/
-	function setShuffleState()
-	{
-		foreach ($_POST as $key => $value)
-		{
-			// Set select gap shuffle state
-			if (preg_match("/^shuffle_(\d+)$/", $key, $matches))
-			{
-				$this->object->setGapShuffle($matches[1], $value);
-			}
-		}
-	}
-
-	/**
-	* Sets the answers for the gaps from the editing form
-	*
-	* Sets the answers for the gaps from the editing form
-	*
-	* @access private
-	*/
-	function setGapAnswers()
-	{
-		$error = FALSE;
-		$this->object->clearGapAnswers();
-		foreach ($_POST as $key => $value)
-		{
-			if (preg_match("/^(textgap|selectgap|numericgap)_(\d+)_(\d+)$/", $key, $matches))
-			{
-				// text gap answer
-				$gap = $matches[2];
-				$order = $matches[3];
-				$this->object->addGapAnswer($gap, $order, ilUtil::stripSlashes($value, FALSE));
-				$gapObj = $this->object->getGap($gap);
-				if (is_object($gapObj))
-				{
-					if ($gapObj->getType() == CLOZE_NUMERIC)
-					{
-						include_once "./Services/Math/classes/class.EvalMath.php";
-						$eval = new EvalMath();
-						$eval->suppress_errors = TRUE;
-						if ($eval->e(str_replace(",", ".", ilUtil::stripSlashes($value, FALSE))) === FALSE)
-						{
-							$error = TRUE;
-							$this->addErrorMessage($this->lng->txt("error_cloze_not_numeric"));
-						}
-					}
-				}
-			}
-		}
-		return $error;
-	}
-
-	/**
-	* Sets the points for the gaps from the editing form
-	*
-	* Sets the points for the gaps from the editing form
-	*
-	* @access private
-	*/
-	function setGapPoints()
-	{
-		foreach ($_POST as $key => $value)
-		{
-			if (preg_match("/points_(\d+)_(\d+)/", $key, $matches))
-			{
-				$gap = $matches[1];
-				$order = $matches[2];
-				$this->object->setGapAnswerPoints($gap, $order, ilUtil::stripSlashes($value));
-			}
-		}
-	}
-
-	/**
-	* Sets the bounds for the gaps from the editing form
-	*
-	* Sets the bounds for the gaps from the editing form
-	*
-	* @access private
-	*/
-	function setGapBounds()
-	{
-		$error = FALSE;
-		foreach ($_POST as $key => $value)
-		{
-			if (preg_match("/numericgap_(\d+)_(\d+)_lower/", $key, $matches))
-			{
-				$gap = $matches[1];
-				$order = $matches[2];
-				$gapObj = $this->object->getGap($gap);
-				if (is_object($gapObj))
-				{
-					if ($gapObj->getType() == CLOZE_NUMERIC)
-					{
-						include_once "./Services/Math/classes/class.EvalMath.php";
-						$eval = new EvalMath();
-						$eval->suppress_errors = TRUE;
-						if ($eval->e(str_replace(",", ".", ilUtil::stripSlashes($value, FALSE))) === FALSE)
-						{
-							if (is_object($gapObj->getItem($order)))
-							{
-								if ($eval->e($gapObj->getItem($order)->getAnswertext()) !== FALSE)
-								{
-									$value = $gapObj->getItem($order)->getAnswertext();
-								}
-								else
-								{
-									$error = TRUE;
-								}
-							}
-							else
-							{
-								$error = TRUE;
-							}
-							if ($error) $this->addErrorMessage($this->lng->txt("error_no_lower_limit"));
-						}
-					}
-				}
-				$this->object->setGapAnswerLowerBound($gap, $order, $value);
-			}
-			if (preg_match("/numericgap_(\d+)_(\d+)_upper/", $key, $matches))
-			{
-				$gap = $matches[1];
-				$order = $matches[2];
-				$gapObj = $this->object->getGap($gap);
-				if (is_object($gapObj))
-				{
-					if ($gapObj->getType() == CLOZE_NUMERIC)
-					{
-						include_once "./Services/Math/classes/class.EvalMath.php";
-						$eval = new EvalMath();
-						$eval->suppress_errors = TRUE;
-						if ($eval->e(str_replace(",", ".", ilUtil::stripSlashes($value, FALSE))) === FALSE)
-						{
-							if (is_object($gapObj->getItem($order)))
-							{
-								if ($eval->e($gapObj->getItem($order)->getAnswertext()) !== FALSE)
-								{
-									$value = $gapObj->getItem($order)->getAnswertext();
-								}
-								else
-								{
-									$error = TRUE;
-								}
-							}
-							else
-							{
-								$error = TRUE;
-							}
-							if ($error) $this->addErrorMessage($this->lng->txt("error_no_upper_limit"));
-						}
-					}
-				}
-				$this->object->setGapAnswerUpperBound($gap, $order, $value);
-			}
-		}
-		return $error;
-	}
-
-	/**
-	* Adds a new answer text value to a text gap
-	*
-	* Adds a new answer text value to a text gap
-	*
-	* @access public
-	*/
-	function addGapText()
-	{
-		$this->writePostData();
-		$this->object->addGapText($this->gapIndex);
-		$this->editQuestion();
-	}
-
-	/**
-	* Adds a new answer text value to a select gap
-	*
-	* Adds a new answer text value to a select gap
-	*
-	* @access public
-	*/
-	function addSelectGapText()
-	{
-		$this->writePostData();
-		$this->object->addGapText($this->gapIndex);
-		$this->editQuestion();
-	}
-
-	/**
-	* Deletes answer text from a gap
-	*
-	* Deletes answer text from a gap
-	*
-	* @access public
-	*/
-	function delete()
-	{
-		$this->writePostData();
-		$this->object->deleteAnswerText($this->gapIndex, $this->answerIndex);
-		$this->editQuestion();
-	}
-
-	/**
-	* Evaluates a posted edit form and writes the form data in the question object
-	*
 	* Evaluates a posted edit form and writes the form data in the question object
 	*
 	* @return integer A positive value, if one of the required fields wasn't set, else 0
 	* @access private
 	*/
-	function writePostData()
+	function writePostData($always = false)
 	{
-		$result = 0;
-		$saved = false;
-		// Delete all existing gaps and create new gaps from the form data
-		$this->object->flushGaps();
-		$this->setErrorMessage("");
-
-		if (!$this->checkInput())
+		$hasErrors = (!$always) ? $this->editQuestion(true) : false;
+		if (!$hasErrors)
 		{
-			$this->setErrorMessage($this->lng->txt("fill_out_all_required_fields"));
-			$result = 1;
-		}
+			$this->object->flushGaps();
+			$this->object->setTitle(ilUtil::stripSlashes($_POST["title"]));
+			$this->object->setAuthor(ilUtil::stripSlashes($_POST["author"]));
+			$this->object->setComment(ilUtil::stripSlashes($_POST["comment"]));
+			$this->object->setTextgapRating($_POST["textgap_rating"]);
+			$this->object->setIdenticalScoring($_POST["identical_scoring"]);
+			$this->object->setFixedTextLength($_POST["fixedTextLength"]);
+			include_once "./Services/AdvancedEditing/classes/class.ilObjAdvancedEditing.php";
+			$cloze_text = ilUtil::stripSlashes($_POST["clozetext"], false, ilObjAdvancedEditing::_getUsedHTMLTagsAsString("assessment"));
+			$this->object->setClozeText($cloze_text);
+			$this->object->setEstimatedWorkingTime(
+				ilUtil::stripSlashes($_POST["Estimated"]["hh"]),
+				ilUtil::stripSlashes($_POST["Estimated"]["mm"]),
+				ilUtil::stripSlashes($_POST["Estimated"]["ss"])
+			);
 
-/*		if (($result) and ($_POST["cmd"]["add"]))
-		{
-			// You cannot create gaps before you enter the required data
-			ilUtil::sendInfo($this->lng->txt("fill_out_all_required_fields_create_gaps"));
-			$_POST["cmd"]["add"] = "";
-		}
-*/
-		$this->object->setTitle(ilUtil::stripSlashes($_POST["title"]));
-		$this->object->setAuthor(ilUtil::stripSlashes($_POST["author"]));
-		$this->object->setComment(ilUtil::stripSlashes($_POST["comment"]));
-		$this->object->setTextgapRating($_POST["textgap_rating"]);
-		$this->object->setIdenticalScoring($_POST["identical_scoring"]);
-		$this->object->setFixedTextLength($_POST["fixedTextLength"]);
-		include_once "./Services/AdvancedEditing/classes/class.ilObjAdvancedEditing.php";
-		$cloze_text = ilUtil::stripSlashes($_POST["clozetext"], false, ilObjAdvancedEditing::_getUsedHTMLTagsAsString("assessment"));
-		$this->object->setClozeText($cloze_text);
-		// adding estimated working time
-		$saved = $saved | $this->writeOtherPostData($result);
+			if (is_array($_POST['gap']))
+			{
+				if (strcmp($this->ctrl->getCmd(), 'createGaps') != 0) $this->object->clearGapAnswers();
+				foreach ($_POST['gap'] as $idx => $hidden)
+				{
+					$clozetype = $_POST['clozetype_' . $idx];
+					$this->object->setGapType($idx, $clozetype);
+					if (array_key_exists('shuffle_' . $idx, $_POST))
+					{
+						$this->object->setGapShuffle($idx, $_POST['shuffle_' . $idx]);
+					}
 
-		if (strcmp($this->ctrl->getCmd(), "createGaps") == 0)
-		{
-			// on createGaps the gaps are created from the entered cloze text
-			// but synchronized with existing gap form values if an answer
-			// already exists for a gap
-			$this->setGapTypes();
-			$this->setShuffleState();
-			$this->setGapPoints();
-			$this->setGapBounds();
+					if (strcmp($this->ctrl->getCmd(), 'createGaps') != 0) 
+					{
+						if (is_array($_POST['gap_' . $idx]['answer']))
+						{
+							foreach ($_POST['gap_' . $idx]['answer'] as $order => $value)
+							{
+								$this->object->addGapAnswer($idx, $order, ilUtil::stripSlashes($value, FALSE));
+							}
+						}
+					}
+					if (array_key_exists('gap_' . $idx . '_numeric', $_POST))
+					{
+						if (strcmp($this->ctrl->getCmd(), 'createGaps') != 0) $this->object->addGapAnswer($idx, 0, ilUtil::stripSlashes(str_replace(",", ".", $_POST['gap_' . $idx . '_numeric']), FALSE));
+						$this->object->setGapAnswerLowerBound($idx, 0, ilUtil::stripSlashes(str_replace(",", ".", $_POST['gap_' . $idx . '_numeric_lower']), FALSE));
+						$this->object->setGapAnswerUpperBound($idx, 0, ilUtil::stripSlashes(str_replace(",", ".", $_POST['gap_' . $idx . '_numeric_upper']), FALSE));
+						$this->object->setGapAnswerPoints($idx, 0, ilUtil::stripSlashes($_POST['gap_' . $idx . '_numeric_points']));
+					}
+					if (is_array($_POST['gap_' . $idx]['points']))
+					{
+						foreach ($_POST['gap_' . $idx]['points'] as $order => $value)
+						{
+							$this->object->setGapAnswerPoints($idx, $order, ilUtil::stripSlashes($value));
+						}
+					}
+				}
+				if (strcmp($this->ctrl->getCmd(), 'createGaps') != 0) $this->object->updateClozeTextFromGaps();
+			}
+			return 0;
 		}
 		else
 		{
-			$this->setGapTypes();
-			$this->setShuffleState();
-			$error = $this->setGapAnswers();
-			if ($error) $result = 1;
-			$this->setGapPoints();
-			$error = $this->setGapBounds();
-			if ($error) $result = 1;
-			$this->object->updateClozeTextFromGaps();
+			return 1;
 		}
-		if ($saved)
-		{
-			// If the question was saved automatically before an upload, we have to make
-			// sure, that the state after the upload is saved. Otherwise the user could be
-			// irritated, if he presses cancel, because he only has the question state before
-			// the upload process.
-			$this->object->saveToDb();
-			$this->ctrl->setParameter($this, "q_id", $this->object->getId());
-		}
-		return $result;
 	}
 
 	/**
 	* Creates an output of the edit form for the question
 	*
-	* Creates an output of the edit form for the question
-	*
 	* @access public
 	*/
-	function editQuestion()
+	public function editQuestion($checkonly = FALSE)
 	{
-		include_once "./Modules/TestQuestionPool/classes/class.assQuestion.php";
+		$save = ((strcmp($this->ctrl->getCmd(), "save") == 0) || (strcmp($this->ctrl->getCmd(), "saveEdit") == 0)) ? TRUE : FALSE;
 		$this->getQuestionTemplate();
-		$this->tpl->addBlockFile("QUESTION_DATA", "question_data", "tpl.il_as_qpl_cloze_question.html", "Modules/TestQuestionPool");
+
+		include_once("./Services/Form/classes/class.ilPropertyFormGUI.php");
+		$form = new ilPropertyFormGUI();
+		$form->setFormAction($this->ctrl->getFormAction($this));
+		$form->setTitle($this->outQuestionType());
+		$form->setMultipart(FALSE);
+		$form->setTableWidth("100%");
+		$form->setId("assclozetest");
+
+		// title
+		$title = new ilTextInputGUI($this->lng->txt("title"), "title");
+		$title->setValue($this->object->getTitle());
+		$title->setRequired(TRUE);
+		$form->addItem($title);
+		// author
+		$author = new ilTextInputGUI($this->lng->txt("author"), "author");
+		$author->setValue($this->object->getAuthor());
+		$author->setRequired(TRUE);
+		$form->addItem($author);
+		// description
+		$description = new ilTextInputGUI($this->lng->txt("description"), "comment");
+		$description->setValue($this->object->getComment());
+		$description->setRequired(FALSE);
+		$form->addItem($description);
+		// questiontext
+		$question = new ilTextAreaInputGUI($this->lng->txt("question"), "clozetext");
+		$question->setValue($this->object->prepareTextareaOutput($this->object->getQuestion()));
+		$question->setRequired(TRUE);
+		$question->setRows(10);
+		$question->setCols(80);
+		$question->setUseRte(TRUE);
+		$question->addPlugin("latex");
+		$question->addButton("latex");
+		$question->addButton("pastelatex");
+		$question->setRTESupport($this->object->getId(), "qpl", "assessment");
+		
+		$form->addItem($question);
+
+		// duration
+		$duration = new ilDurationInputGUI($this->lng->txt("working_time"), "Estimated");
+		$duration->setShowHours(TRUE);
+		$duration->setShowMinutes(TRUE);
+		$duration->setShowSeconds(TRUE);
+		$ewt = $this->object->getEstimatedWorkingTime();
+		$duration->setHours($ewt["h"]);
+		$duration->setMinutes($ewt["m"]);
+		$duration->setSeconds($ewt["s"]);
+		$duration->setRequired(FALSE);
+		$form->addItem($duration);
+	
+		// text rating
+		$textrating = new ilSelectInputGUI($this->lng->txt("text_rating"), "textgap_rating");
+		$text_options = array(
+			"ci" => $this->lng->txt("cloze_textgap_case_insensitive"),
+			"cs" => $this->lng->txt("cloze_textgap_case_sensitive"),
+			"l1" => sprintf($this->lng->txt("cloze_textgap_levenshtein_of"), "1"),
+			"l2" => sprintf($this->lng->txt("cloze_textgap_levenshtein_of"), "2"),
+			"l3" => sprintf($this->lng->txt("cloze_textgap_levenshtein_of"), "3"),
+			"l4" => sprintf($this->lng->txt("cloze_textgap_levenshtein_of"), "4"),
+			"l5" => sprintf($this->lng->txt("cloze_textgap_levenshtein_of"), "5")
+		);
+		$textrating->setOptions($text_options);
+		$textrating->setValue($this->object->getTextgapRating());
+		$form->addItem($textrating);
+
+		// text field length
+		$fixedTextLength = new ilNumberInputGUI($this->lng->txt("cloze_fixed_textlength"), "fixedTextLength");
+		$fixedTextLength->setValue(ilUtil::prepareFormOutput($this->object->getFixedTextLength()));
+		$fixedTextLength->setMinValue(0);
+		$fixedTextLength->setSize(3);
+		$fixedTextLength->setMaxLength(6);
+		$fixedTextLength->setInfo($this->lng->txt('cloze_fixed_textlength_description'));
+		$fixedTextLength->setRequired(false);
+		$form->addItem($fixedTextLength);
+
+		// identical scoring
+		$identical_scoring = new ilCheckboxInputGUI($this->lng->txt("identical_scoring"), "identical_scoring");
+		$identical_scoring->setValue(1);
+		$identical_scoring->setChecked($this->object->getIdenticalScoring());
+		$identical_scoring->setInfo($this->lng->txt('identical_scoring_desc'));
+		$identical_scoring->setRequired(FALSE);
+		$form->addItem($identical_scoring);
+
 		for ($i = 0; $i < $this->object->getGapCount(); $i++)
 		{
 			$gap = $this->object->getGap($i);
+			$header = new ilFormSectionHeaderGUI();
+			$header->setTitle($this->lng->txt("gap") . " " . ($i+1));
+			$form->addItem($header);
+
+			$gapcounter = new ilHiddenInputGUI("gap[$i]");
+			$gapcounter->setValue($i);
+			$form->addItem($gapcounter);
+			
+			$gaptype = new ilSelectInputGUI($this->lng->txt('type'), "clozetype_$i");
+			$options = array(
+				0 => $this->lng->txt("text_gap"),
+				1 => $this->lng->txt("select_gap"),
+				2 => $this->lng->txt("numeric_gap")
+			);
+			$gaptype->setOptions($options);
+			$gaptype->setValue($gap->getType());
+			$form->addItem($gaptype);
+			
 			if ($gap->getType() == CLOZE_TEXT)
 			{
-				$this->tpl->setCurrentBlock("textgap_value");
-				foreach ($gap->getItemsRaw() as $item)
-				{
-					$this->tpl->setVariable("TEXT_VALUE", $this->lng->txt("value"));
-					$this->tpl->setVariable("VALUE_TEXT_GAP", $item->getAnswertext());
-					$this->tpl->setVariable("VALUE_GAP_COUNTER", "$i" . "_" . $item->getOrder());
-					$this->tpl->setVariable("VALUE_GAP", $i);
-					$this->tpl->setVariable("VALUE_INDEX", $item->getOrder());
-					$this->tpl->setVariable("VALUE_STATUS_COUNTER", $item->getOrder());
-					$this->tpl->setVariable("VALUE_GAP", $i);
-					$this->tpl->setVariable("TEXT_POINTS", $this->lng->txt("points"));
-					$this->tpl->setVariable("VALUE_TEXT_GAP_POINTS", $item->getPoints());
-					$this->tpl->setVariable("DELETE", $this->lng->txt("delete"));
-					$this->tpl->parseCurrentBlock();
-				}
-
-				$this->tpl->setCurrentBlock("textgap");
-				$this->tpl->setVariable("ADD_TEXT_GAP", $this->lng->txt("add_gap"));
-				$this->tpl->setVariable("VALUE_GAP_COUNTER", "$i");
-				$this->tpl->parseCurrentBlock();
+				// Choices
+				include_once "./Modules/TestQuestionPool/classes/class.ilSingleChoiceWizardInputGUI.php";
+				include_once "./Modules/TestQuestionPool/classes/class.assAnswerCloze.php";
+				$values = new ilSingleChoiceWizardInputGUI($this->lng->txt("values"), "gap_" . $i . "");
+				$values->setRequired(true);
+				$values->setQuestionObject($this->object);
+				$values->setSingleline(true);
+				$values->setAllowMove(false);
+				$values->setAllowImages(false);
+				if (count($gap->getItemsRaw()) == 0) $gap->addItem(new assAnswerCloze("", 0, 0));
+				$values->setValues($gap->getItemsRaw());
+				$form->addItem($values);
 			}
-			
-			else if ($gap->getType() == CLOZE_NUMERIC)
-			{
-				$this->tpl->setCurrentBlock("numericgap_value");
-				foreach ($gap->getItemsRaw() as $item)
-				{
-					$this->tpl->setVariable("TEXT_VALUE", $this->lng->txt("value"));
-					$this->tpl->setVariable("TEXT_LOWER_LIMIT", $this->lng->txt("range_lower_limit"));
-					$this->tpl->setVariable("TEXT_UPPER_LIMIT", $this->lng->txt("range_upper_limit"));
-					$this->tpl->setVariable("VALUE_NUMERIC_GAP", $item->getAnswertext());
-					$this->tpl->setVariable("VALUE_GAP_COUNTER", "$i" . "_" . $item->getOrder());
-					$this->tpl->setVariable("VALUE_GAP", $i);
-					$this->tpl->setVariable("VALUE_INDEX", $item->getOrder());
-					$this->tpl->setVariable("VALUE_STATUS_COUNTER", $item->getOrder());
-					$this->tpl->setVariable("VALUE_GAP", $i);
-					$this->tpl->setVariable("TEXT_POINTS", $this->lng->txt("points"));
-					$this->tpl->setVariable("VALUE_NUMERIC_GAP_POINTS", $item->getPoints());
-					$this->tpl->setVariable("VALUE_LOWER_LIMIT", $item->getLowerBound());
-					$this->tpl->setVariable("VALUE_UPPER_LIMIT", $item->getUpperBound());
-					$this->tpl->setVariable("DELETE", $this->lng->txt("delete"));
-					$this->tpl->parseCurrentBlock();
-				}
-
-				$this->tpl->setCurrentBlock("numericgap");
-				$this->tpl->parseCurrentBlock();
-			}
-			
 			else if ($gap->getType() == CLOZE_SELECT)
 			{
-				$this->tpl->setCurrentBlock("selectgap_value");
+				include_once "./Modules/TestQuestionPool/classes/class.ilSingleChoiceWizardInputGUI.php";
+				include_once "./Modules/TestQuestionPool/classes/class.assAnswerCloze.php";
+				$values = new ilSingleChoiceWizardInputGUI($this->lng->txt("values"), "gap_" . $i . "");
+				$values->setRequired(true);
+				$values->setQuestionObject($this->object);
+				$values->setSingleline(true);
+				$values->setAllowMove(false);
+				$values->setAllowImages(false);
+				if (count($gap->getItemsRaw()) == 0) $gap->addItem(new assAnswerCloze("", 0, 0));
+				$values->setValues($gap->getItemsRaw());
+				$form->addItem($values);
+
+				// shuffle
+				$shuffle = new ilCheckboxInputGUI($this->lng->txt("shuffle_answers"), "shuffle_" . $i . "");
+				$shuffle->setValue(1);
+				$shuffle->setChecked($gap->getShuffle());
+				$shuffle->setRequired(FALSE);
+				$form->addItem($shuffle);
+			}
+			else if ($gap->getType() == CLOZE_NUMERIC)
+			{
+				if (count($gap->getItemsRaw()) == 0) $gap->addItem(new assAnswerCloze("", 0, 0));
 				foreach ($gap->getItemsRaw() as $item)
 				{
-					$this->tpl->setVariable("TEXT_VALUE", $this->lng->txt("value"));
-					$this->tpl->setVariable("VALUE_SELECT_GAP", $item->getAnswertext());
-					$this->tpl->setVariable("VALUE_GAP_COUNTER", "$i" . "_" . $item->getOrder());
-					$this->tpl->setVariable("VALUE_GAP", $i);
-					$this->tpl->setVariable("VALUE_INDEX", $item->getOrder());
-					$this->tpl->setVariable("VALUE_STATUS_COUNTER", $item->getOrder());
-					$this->tpl->setVariable("VALUE_GAP", $i);
-					$this->tpl->setVariable("TEXT_POINTS", $this->lng->txt("points"));
-					$this->tpl->setVariable("VALUE_SELECT_GAP_POINTS", $item->getPoints());
-					$this->tpl->setVariable("DELETE", $this->lng->txt("delete"));
-					$this->tpl->parseCurrentBlock();
-				}
+					$value = new ilFormulaInputGUI($this->lng->txt('value'), "gap_" . $i . "_numeric");
+					$value->setSize(10);
+					$value->setValue(ilUtil::prepareFormOutput($item->getAnswertext()));
+					$value->setRequired(true);
+					$value->setInlineStyle('text-align: right;');
+					$form->addItem($value);
 
-				$this->tpl->setCurrentBlock("selectgap");
-				$this->tpl->setVariable("ADD_SELECT_GAP", $this->lng->txt("add_gap"));
-				$this->tpl->setVariable("TEXT_SHUFFLE_ANSWERS", $this->lng->txt("shuffle_answers"));
-				$this->tpl->setVariable("VALUE_GAP_COUNTER", "$i");
-				if ($gap->getShuffle())
-				{
-					$this->tpl->setVariable("SELECTED_YES", " selected=\"selected\"");
-				}
-				else
-				{
-					$this->tpl->setVariable("SELECTED_NO", " selected=\"selected\"");
-				}
-				$this->tpl->setVariable("TXT_YES", $this->lng->txt("yes"));
-				$this->tpl->setVariable("TXT_NO", $this->lng->txt("no"));
-				$this->tpl->parseCurrentBlock();
-			}
-			
-			$this->tpl->setCurrentBlock("answer_row");
-			$name = $this->lng->txt("gap") . " " . ($i+1);
-			$this->tpl->setVariable("TEXT_GAP_NAME", $name);
-			$this->tpl->setVariable("TEXT_TYPE", $this->lng->txt("type"));
-			$this->tpl->setVariable("TEXT_CHANGE", $this->lng->txt("change"));
-			switch ($gap->getType())
-			{
-				case CLOZE_TEXT:
-					$this->tpl->setVariable("SELECTED_TEXT_GAP", " selected=\"selected\"");
-					break;
-				case CLOZE_SELECT:
-					$this->tpl->setVariable("SELECTED_SELECT_GAP", " selected=\"selected\"");
-					break;
-				case CLOZE_NUMERIC:
-					$this->tpl->setVariable("SELECTED_NUMERIC_GAP", " selected=\"selected\"");
-					break;
-			}
-			$this->tpl->setVariable("TEXT_TEXT_GAP", $this->lng->txt("text_gap"));
-			$this->tpl->setVariable("TEXT_SELECT_GAP", $this->lng->txt("select_gap"));
-			$this->tpl->setVariable("TEXT_NUMERIC_GAP", $this->lng->txt("numeric_gap"));
-			$this->tpl->setVariable("VALUE_GAP_COUNTER", $i);
-			$this->tpl->parseCurrentBlock();
-		}
+					$lowerbound = new ilFormulaInputGUI($this->lng->txt('range_lower_limit'), "gap_" . $i . "_numeric_lower");
+					$lowerbound->setSize(10);
+					$lowerbound->setRequired(true);
+					$lowerbound->setValue(ilUtil::prepareFormOutput($item->getLowerBound()));
+					$lowerbound->setInlineStyle('text-align: right;');
+					$form->addItem($lowerbound);
 
-		// call to other question data i.e. estimated working time block
-		$this->outOtherQuestionData();
+					$upperbound = new ilFormulaInputGUI($this->lng->txt('range_upper_limit'), "gap_" . $i . "_numeric_upper");
+					$upperbound->setSize(10);
+					$upperbound->setRequired(true);
+					$upperbound->setValue(ilUtil::prepareFormOutput($item->getUpperBound()));
+					$upperbound->setInlineStyle('text-align: right;');
+					$form->addItem($upperbound);
 
-		// out automatical selection of the best text input field (javascript)
-		$this->tpl->setCurrentBlock("HeadContent");
-		$this->tpl->addJavascript("./Services/JavaScript/js/Basic.js");
-		$javascript = "<script type=\"text/javascript\">ilAddOnLoad(initialSelect);\n".
-			"function initialSelect() {\n%s\n}</script>";
-		if (preg_match("/addGapText_(\d+)/", $this->ctrl->getCmd(), $matches))
-		{
-			$this->tpl->setVariable("CONTENT_BLOCK", sprintf($javascript, "document.frm_cloze_test.textgap_" . $matches[1] . "_" .(is_object($this->object->getGap($matches[1])) ? $this->object->getGap($matches[1])->getItemCount() - 1 : 0) .".focus(); document.frm_cloze_test.textgap_" . $matches[1] . "_" . (is_object($this->object->getGap($matches[1])) ? $this->object->getGap($matches[1])->getItemCount() - 1 : 0) .".scrollIntoView(\"true\");"));
-		}
-		else if (preg_match("/addSelectGapText_(\d+)/", $this->ctrl->getCmd(), $matches))
-		{
-			$this->tpl->setVariable("CONTENT_BLOCK", sprintf($javascript, "document.frm_cloze_test.selectgap_" . $matches[1] . "_" .(is_object($this->object->getGap($matches[1])) ? $this->object->getGap($matches[1])->getItemCount() - 1 : 0) .".focus(); document.frm_cloze_test.selectgap_" . $matches[1] . "_" . (is_object($this->object->getGap($matches[1])) ? $this->object->getGap($matches[1])->getItemCount() - 1 : 0) .".scrollIntoView(\"true\");"));
-		}
-		else
-		{
-			$this->tpl->setVariable("CONTENT_BLOCK", sprintf($javascript, "document.frm_cloze_test.title.focus();"));
-		}
-		$this->tpl->parseCurrentBlock();
-		
-		// Add textgap rating options
-		$textgap_options = array(
-			array("ci", $this->lng->txt("cloze_textgap_case_insensitive")),
-			array("cs", $this->lng->txt("cloze_textgap_case_sensitive")),
-			array("l1", sprintf($this->lng->txt("cloze_textgap_levenshtein_of"), "1")),
-			array("l2", sprintf($this->lng->txt("cloze_textgap_levenshtein_of"), "2")),
-			array("l3", sprintf($this->lng->txt("cloze_textgap_levenshtein_of"), "3")),
-			array("l4", sprintf($this->lng->txt("cloze_textgap_levenshtein_of"), "4")),
-			array("l5", sprintf($this->lng->txt("cloze_textgap_levenshtein_of"), "5"))
-		);
-		$textgap_rating = $this->object->getTextgapRating();
-		foreach ($textgap_options as $textgap_option)
-		{
-			$this->tpl->setCurrentBlock("textgap_rating");
-			$this->tpl->setVariable("TEXTGAP_VALUE", $textgap_option[0]);
-			$this->tpl->setVariable("TEXTGAP_TEXT", $textgap_option[1]);
-			if (strcmp($textgap_rating, $textgap_option[0]) == 0)
-			{
-				$this->tpl->setVariable("SELECTED_TEXTGAP_VALUE", " selected=\"selected\"");
+					$points = new ilNumberInputGUI($this->lng->txt('points'), "gap_" . $i . "_numeric_points");
+					$points->setSize(3);
+					$points->setRequired(true);
+					$points->setValue(ilUtil::prepareFormOutput($item->getPoints()));
+					$form->addItem($points);
+				}
 			}
-			$this->tpl->parseCurrentBlock();
 		}
 		
-		$this->tpl->setCurrentBlock("question_data");
-		$this->tpl->setVariable("FIXED_TEXTLENGTH", $this->lng->txt("cloze_fixed_textlength"));
-		$this->tpl->setVariable("FIXED_TEXTLENGTH_DESCRIPTION", $this->lng->txt("cloze_fixed_textlength_description"));
-		if ($this->object->getFixedTextLength())
+		$form->addCommandButton("save", $this->lng->txt("save"));
+		$form->addCommandButton("saveEdit", $this->lng->txt("save_edit"));
+		$form->addCommandButton('createGaps', $this->lng->txt('create_gaps'));
+	
+		$errors = false;
+	
+		if ($save)
 		{
-			$this->tpl->setVariable("VALUE_FIXED_TEXTLENGTH", " value=\"" . ilUtil::prepareFormOutput($this->object->getFixedTextLength()) . "\"");
+			$form->setValuesByPost();
+			$errors = !$form->checkInput();
+			if ($errors) $checkonly = false;
 		}
-		$this->tpl->setVariable("VALUE_CLOZE_TITLE", ilUtil::prepareFormOutput($this->object->getTitle()));
-		$this->tpl->setVariable("VALUE_CLOZE_COMMENT", ilUtil::prepareFormOutput($this->object->getComment()));
-		$this->tpl->setVariable("VALUE_CLOZE_AUTHOR", ilUtil::prepareFormOutput($this->object->getAuthor()));
-		$cloze_text = $this->object->getClozeText();
-		$this->tpl->setVariable("VALUE_CLOZE_TEXT", ilUtil::prepareFormOutput($this->object->prepareTextareaOutput($cloze_text)));
-		$this->tpl->setVariable("TEXT_CREATE_GAPS", $this->lng->txt("create_gaps"));
-		$identical_scoring = $this->object->getIdenticalScoring();
-		if ($identical_scoring) $this->tpl->setVariable("CHECKED_IDENTICAL_SCORING", " checked=\"checked\"");
-		$this->tpl->setVariable("TEXT_IDENTICAL_SCORING", $this->lng->txt("identical_scoring"));
-		$this->tpl->setVariable("TEXT_IDENTICAL_SCORING_DESCRIPTION", $this->lng->txt("identical_scoring_desc"));
-		$this->tpl->setVariable("TEXT_TITLE", $this->lng->txt("title"));
-		$this->tpl->setVariable("TEXT_AUTHOR", $this->lng->txt("author"));
-		$this->tpl->setVariable("TEXT_COMMENT", $this->lng->txt("description"));
-		$this->tpl->setVariable("TEXT_CLOZE_TEXT", $this->lng->txt("cloze_text"));
-		$this->tpl->setVariable("TEXT_CLOSE_HINT", ilUtil::prepareFormOutput($this->lng->txt("close_text_hint")));
-		$this->tpl->setVariable("TEXTGAP_RATING", $this->lng->txt("cloze_textgap_rating"));
-		$this->tpl->setVariable("TEXT_GAP_DEFINITION", $this->lng->txt("gap_definition"));
-		$this->tpl->setVariable("SAVE",$this->lng->txt("save"));
-		$this->tpl->setVariable("SAVE_EDIT", $this->lng->txt("save_edit"));
-		$this->tpl->setVariable("CANCEL",$this->lng->txt("cancel"));
-		$this->ctrl->setParameter($this, "sel_question_types", $this->object->getQuestionType());
-		$this->tpl->setVariable("TEXT_QUESTION_TYPE", $this->outQuestionType());
-		$this->tpl->setVariable("FORMACTION", $this->ctrl->getFormAction($this));
-		$this->tpl->setVariable("TXT_REQUIRED_FLD", $this->lng->txt("required_field"));
-		$this->tpl->parseCurrentBlock();
 
-		include_once "./Services/RTE/classes/class.ilRTE.php";
-		$rtestring = ilRTE::_getRTEClassname();
-		include_once "./Services/RTE/classes/class.$rtestring.php";
-		$rte = new $rtestring();
-		$rte->addPlugin("latex");
-		$rte->addButton("latex"); $rte->addButton("pastelatex");
-		include_once "./classes/class.ilObject.php";
-		$obj_id = $_GET["q_id"];
-		$obj_type = ilObject::_lookupType($_GET["ref_id"], TRUE);
-		$rte->addRTESupport($obj_id, $obj_type, "assessment");
+		if (!$checkonly) $this->tpl->setVariable("QUESTION_DATA", $form->getHTML());
+		return $errors;
+	}
 
-		$this->tpl->setCurrentBlock("adm_content");
-		//$this->tpl->setVariable("BODY_ATTRIBUTES", " onload=\"initialSelect();\""); 
-		$this->tpl->parseCurrentBlock();
+	/**
+	* Create gaps from cloze text
+	*/
+	public function createGaps()
+	{
+		$this->writePostData(true);
+		$this->editQuestion();
+	}
+
+	/**
+	* Remove a gap answer
+	*/
+	function removegap()
+	{
+		$this->writePostData(true);
+		$this->object->deleteAnswerText($this->gapIndex, key($_POST['cmd']['removegap_' . $this->gapIndex]));
+		$this->editQuestion();
+	}
+
+	/**
+	* Add a gap answer
+	*/
+	function addgap()
+	{
+		$this->writePostData(true);
+		$this->object->addGapAnswer($this->gapIndex, key($_POST['cmd']['addgap_' . $this->gapIndex])+1, "");
+		$this->editQuestion();
 	}
 
 	/**
@@ -1033,11 +774,9 @@ class assClozeTestGUI extends assQuestionGUI
 		{
 			foreach ($commands as $key => $value)
 			{
-				if (preg_match("/^delete_.*/", $key, $matches) || 
-					preg_match("/^addSelectGapText_.*/", $key, $matches) ||
-					preg_match("/^addGapText_.*/", $key, $matches) ||
-					preg_match("/^upload_.*/", $key, $matches)
-					)
+				if (preg_match("/^removegap_.*/", $key, $matches) || 
+					preg_match("/^addgap_.*/", $key, $matches)
+				)
 				{
 					$force_active = true;
 				}
@@ -1050,8 +789,7 @@ class assClozeTestGUI extends assQuestionGUI
 			// edit question properties
 			$ilTabs->addTarget("edit_properties",
 				$url,
-				array("editQuestion", "save", "cancel", 
-					 "createGaps", "saveEdit", "changeGapType"),
+				array("editQuestion", "save", "createGaps", "saveEdit"),
 				$classname, "", $force_active);
 		}
 

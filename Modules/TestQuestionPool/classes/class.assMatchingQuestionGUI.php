@@ -271,6 +271,7 @@ class assMatchingQuestionGUI extends assQuestionGUI
 		$question->setUseRte(TRUE);
 		$question->addPlugin("latex");
 		$question->addButton("latex");
+		$question->addButton("pastelatex");
 		$question->setRTESupport($this->object->getId(), "qpl", "assessment");
 		$form->addItem($question);
 		// shuffle

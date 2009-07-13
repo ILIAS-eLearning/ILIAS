@@ -1706,10 +1706,16 @@ class assQuestion
 		include_once "./Modules/TestQuestionPool/classes/class.ilObjQuestionPool.php";
 		ilObjQuestionPool::_updateQuestionCount($this->obj_id);
 
-			// update the question time stamp
-		$affectedRows = $ilDB->manipulateF("UPDATE qpl_questions SET tstamp = %s, owner = %s WHERE question_id = %s",
-			array('integer','integer', 'integer'),
-			array(time(), ($this->getOwner() <= 0) ? $this->ilias->account->id : $this->getOwner(), $this->getId())
+		$complete = "0";
+		if ($this->isComplete())
+		{
+			$complete = "1";
+		}
+
+			// update the question time stamp and completion status
+		$affectedRows = $ilDB->manipulateF("UPDATE qpl_questions SET tstamp = %s, owner = %s, complete = %s WHERE question_id = %s",
+			array('integer','integer', 'integer','text'),
+			array(time(), ($this->getOwner() <= 0) ? $this->ilias->account->id : $this->getOwner(), $this->getId(), $complete)
 		);
 	}
 	

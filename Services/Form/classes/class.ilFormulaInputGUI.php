@@ -33,7 +33,7 @@ class ilFormulaInputGUI extends ilTextInputGUI
 		{
 			$eval = new EvalMath();
 			$eval->suppress_errors = true;
-			$result = $eval->e($_POST[$this->getPostVar()]);
+			$result = $eval->e(str_replace(",", ".", ilUtil::stripSlashes($_POST[$this->getPostVar()], FALSE)));
 			if ($result === false)
 			{
 				$this->setAlert($lng->txt("form_msg_formula_is_required"));
