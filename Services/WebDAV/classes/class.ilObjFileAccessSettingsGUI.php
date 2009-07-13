@@ -188,7 +188,7 @@ class ilObjFileAccessSettingsGUI extends ilObjectGUI
 	*/
 	public function saveDownloadingSettings()
 	{
-		global $rbacsystem, $ilErr, $ilCtrl;
+		global $rbacsystem, $ilErr, $ilCtrl, $lng;
 
 		if (! $rbacsystem->checkAccess("write",$this->object->getRefId()))
 		{
