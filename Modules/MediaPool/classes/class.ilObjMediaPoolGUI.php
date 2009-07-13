@@ -1,26 +1,5 @@
 <?php
-/*
-	+-----------------------------------------------------------------------------+
-	| ILIAS open source                                                           |
-	+-----------------------------------------------------------------------------+
-	| Copyright (c) 1998-2009 ILIAS open source, University of Cologne            |
-	|                                                                             |
-	| This program is free software; you can redistribute it and/or               |
-	| modify it under the terms of the GNU General Public License                 |
-	| as published by the Free Software Foundation; either version 2              |
-	| of the License, or (at your option) any later version.                      |
-	|                                                                             |
-	| This program is distributed in the hope that it will be useful,             |
-	| but WITHOUT ANY WARRANTY; without even the implied warranty of              |
-	| MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the               |
-	| GNU General Public License for more details.                                |
-	|                                                                             |
-	| You should have received a copy of the GNU General Public License           |
-	| along with this program; if not, write to the Free Software                 |
-	| Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA. |
-	+-----------------------------------------------------------------------------+
-*/
-
+/* Copyright (c) 1998-2009 ILIAS open source, Extended GPL, see docs/LICENSE */
 
 include_once("./Services/Object/classes/class.ilObject2GUI.php");
 include_once("./Modules/MediaPool/classes/class.ilObjMediaPool.php");
@@ -72,7 +51,7 @@ class ilObjMediaPoolGUI extends ilObject2GUI
 		}
 		else
 		{
-			$this->ctrl->saveParameter($this, array("ref_id", "obj_id"));
+			$this->ctrl->saveParameter($this, array("ref_id", "item_id"));
 		}
 		$this->ctrl->saveParameter($this, array("mep_mode"));
 		
@@ -116,9 +95,9 @@ class ilObjMediaPoolGUI extends ilObject2GUI
 		if (!$this->getCreationMode())
 		{
 			$tree =& $this->object->getTree();
-			if ($_GET["obj_id"] == "")
+			if ($_GET["item_id"] == "")
 			{
-				$_GET["obj_id"] = $tree->getRootId();
+				$_GET["item_id"] = $tree->getRootId();
 			}
 		}
 
@@ -131,6 +110,7 @@ class ilObjMediaPoolGUI extends ilObject2GUI
 					break;
 					
 				case "fold":
+// todo
 					$this->ctrl->redirectByClass("ilobjfoldergui", "create");
 					break;
 			}
@@ -143,16 +123,16 @@ class ilObjMediaPoolGUI extends ilObject2GUI
 				//$cmd.="Object";
 				if ($cmd == "create" || $cmd == "save" || $cmd == "cancel")
 				{
-					$ret_obj = $_GET["obj_id"];
+					$ret_obj = $_GET["item_id"];
 					$ilObjMediaObjectGUI =& new ilObjMediaObjectGUI("", 0, false, false);
 					$ilObjMediaObjectGUI->setWidthPreset($this->object->getDefaultWidth());
 					$ilObjMediaObjectGUI->setHeightPreset($this->object->getDefaultHeight());
 				}
 				else
 				{
-					$ret_obj = $tree->getParentId($_GET["obj_id"]);
-					$ilObjMediaObjectGUI =& new ilObjMediaObjectGUI("", $_GET["obj_id"], false, false);
-					$this->ctrl->setParameter($this, "obj_id", $this->getParentFolderId());
+					$ret_obj = $tree->getParentId($_GET["item_id"]);
+					$ilObjMediaObjectGUI =& new ilObjMediaObjectGUI("", ilMediaPoolItem::lookupForeignId($_GET["item_id"]), false, false);
+					$this->ctrl->setParameter($this, "item_id", $this->getParentFolderId());
 					$ilTabs->setBackTarget($lng->txt("back"),
 						$this->ctrl->getLinkTarget($this,
 							$_GET["mep_mode"] ? $_GET["mep_mode"] : "listMedia"));
@@ -163,10 +143,10 @@ class ilObjMediaPoolGUI extends ilObject2GUI
 				}
 				else
 				{
-					$this->ctrl->setParameter($this, "obj_id", $ret_obj);
+					$this->ctrl->setParameter($this, "item_id", $ret_obj);
 					$this->ctrl->setReturn($this,
 						$_GET["mep_mode"] ? $_GET["mep_mode"] : "listMedia");
-					$this->ctrl->setParameter($this, "obj_id", $_GET["obj_id"]);
+					$this->ctrl->setParameter($this, "item_id", $_GET["item_id"]);
 				}
 				$this->getTemplate();
 				$ilObjMediaObjectGUI->setTabs();
@@ -178,12 +158,18 @@ class ilObjMediaPoolGUI extends ilObject2GUI
 				switch($cmd)
 				{
 					case "save":
-						$parent = ($_GET["obj_id"] == "")
+						$mep_item = new ilMediaPoolItem();
+						$mep_item->setTitle($ret->getTitle());
+						$mep_item->setType("mob");
+						$mep_item->setForeignId($ret->getId());
+						$mep_item->create();
+
+						$parent = ($_GET["item_id"] == "")
 							? $tree->getRootId()
-							: $_GET["obj_id"];
-						$tree->insertNode($ret->getId(), $parent);
+							: $_GET["item_id"];
+						$tree->insertNode($mep_item->getId(), $parent);
 						ilUtil::redirect("ilias.php?baseClass=ilMediaPoolPresentationGUI&cmd=listMedia&ref_id=".
-							$_GET["ref_id"]."&obj_id=".$_GET["obj_id"]);
+							$_GET["ref_id"]."&item_id=".$_GET["item_id"]);
 						break;
 
 					default:
@@ -193,10 +179,10 @@ class ilObjMediaPoolGUI extends ilObject2GUI
 				break;
 
 			case "ilobjfoldergui":
+// todo
 				$folder_gui = new ilObjFolderGUI("", 0, false, false);
 				$this->ctrl->setReturn($this, "listMedia");
 				$cmd.="Object";
-//echo "-$cmd-";
 				switch($cmd)
 				{
 					case "createObject":
@@ -210,9 +196,9 @@ class ilObjMediaPoolGUI extends ilObject2GUI
 
 					case "saveObject":
 						//$folder_gui->setReturnLocation("save", $this->ctrl->getLinkTarget($this, "listMedia"));
-						$parent = ($_GET["obj_id"] == "")
+						$parent = ($_GET["item_id"] == "")
 							? $tree->getRootId()
-							: $_GET["obj_id"];
+							: $_GET["item_id"];
 						$folder_gui->setFolderTree($tree);
 						$folder_gui->saveObject($parent);
 						//$this->ctrl->redirect($this, "listMedia");
@@ -220,7 +206,7 @@ class ilObjMediaPoolGUI extends ilObject2GUI
 
 					case "editObject":
 						$this->prepareOutput();
-						$folder_gui =& new ilObjFolderGUI("", $_GET["obj_id"], false, false);
+						$folder_gui =& new ilObjFolderGUI("", ilMediaPoolItem::lookupForeignId($_GET["item_id"]), false, false);
 						$this->ctrl->setParameter($this, "foldereditmode", "1");
 						$folder_gui->setFormAction("update", $this->ctrl->getFormActionByClass("ilobjfoldergui"));
 						$folder_gui->editObject();
@@ -228,8 +214,8 @@ class ilObjMediaPoolGUI extends ilObject2GUI
 						break;
 
 					case "updateObject":
-						$folder_gui =& new ilObjFolderGUI("", $_GET["obj_id"], false, false);
-						$this->ctrl->setParameter($this, "obj_id", $this->getParentFolderId());
+						$folder_gui =& new ilObjFolderGUI("", ilMediaPoolItem::lookupForeignId($_GET["item_id"]), false, false);
+						$this->ctrl->setParameter($this, "item_id", $this->getParentFolderId());
 						$this->ctrl->setReturn($this, "listMedia");
 						$folder_gui->updateObject(true);		// this returns to parent
 						break;
@@ -237,7 +223,7 @@ class ilObjMediaPoolGUI extends ilObject2GUI
 					case "cancelObject":
 						if ($_GET["foldereditmode"])
 						{
-							$this->ctrl->setParameter($this, "obj_id", $this->getParentFolderId());
+							$this->ctrl->setParameter($this, "item_id", $this->getParentFolderId());
 						}
 						$this->ctrl->redirect($this, "listMedia");
 						break;
@@ -487,7 +473,7 @@ class ilObjMediaPoolGUI extends ilObject2GUI
 		}
 		$ilTabs->setTabActive("objs_fold");
 		include_once("./Modules/MediaPool/classes/class.ilMediaPoolTableGUI.php");
-		$mep_table_gui = new ilMediaPoolTableGUI($this, "listMedia", $this->object);
+		$mep_table_gui = new ilMediaPoolTableGUI($this, "listMedia", $this->object, "item_id");
 		$tpl->setContent($mep_table_gui->getHTML());
 //		$this->tpl->show();
 	}
@@ -508,7 +494,7 @@ class ilObjMediaPoolGUI extends ilObject2GUI
 		$ilTabs->setTabActive("mep_all_mobs");
 		include_once("./Modules/MediaPool/classes/class.ilMediaPoolTableGUI.php");
 		$mep_table_gui = new ilMediaPoolTableGUI($this, "allMedia", $this->object,
-			"obj_id", ilMediaPoolTableGUI::IL_MEP_EDIT, true);
+			"item_id", ilMediaPoolTableGUI::IL_MEP_EDIT, true);
 		$tpl->setContent($mep_table_gui->getHTML());
 //		$this->tpl->show();
 	}
@@ -520,7 +506,7 @@ class ilObjMediaPoolGUI extends ilObject2GUI
 	{
 		include_once("./Modules/MediaPool/classes/class.ilMediaPoolTableGUI.php");
 		$mtab = new ilMediaPoolTableGUI($this, "allMedia", $this->object,
-			"obj_id", ilMediaPoolTableGUI::IL_MEP_EDIT, true);
+			"item_id", ilMediaPoolTableGUI::IL_MEP_EDIT, true);
 		$mtab->writeFilterToSession();
 		$this->allMedia();
 	}
@@ -539,11 +525,11 @@ class ilObjMediaPoolGUI extends ilObject2GUI
 	*/
 	function getParentFolderId()
 	{
-		if ($_GET["obj_id"] == "")
+		if ($_GET["item_id"] == "")
 		{
 			return "";
 		}
-		$par_id = $this->object->tree->getParentId($_GET["obj_id"]);
+		$par_id = $this->object->tree->getParentId($_GET["item_id"]);
 		if ($par_id != $this->object->tree->getRootId())
 		{
 			return $par_id;
@@ -628,9 +614,10 @@ class ilObjMediaPoolGUI extends ilObject2GUI
 	*/
 	function explorer()
 	{
-		global $ilAccess;
+		global $ilAccess, $ilCtrl;
 		
-		$_GET["obj_id"] = "";
+		$ilCtrl->setParameter($this, "obj_id", "");
+		$ilCtrl->setParameter($this, "item_id", "");
 		
 		if (!$ilAccess->checkAccess("read", "", $this->object->getRefId()) ||
 			!$ilAccess->checkAccess("write", "", $this->object->getRefId()))
@@ -641,11 +628,11 @@ class ilObjMediaPoolGUI extends ilObject2GUI
 		require_once ("./Modules/MediaPool/classes/class.ilMediaPoolExplorer.php");
 		$exp = new ilMediaPoolExplorer($this->ctrl->getLinkTarget($this, "listMedia"), $this->object);
 		$exp->setUseStandardFrame(true);
-		$exp->setTargetGet("obj_id");
+		$exp->setTargetGet("item_id");
 		$exp->setExpandTarget($this->ctrl->getLinkTarget($this, "explorer"));
 		$exp->setTitle($this->lng->txt("cont_mep_structure"));
 
-		$exp->addFilter("root");
+		$exp->addFilter("dummy");
 		$exp->addFilter("fold");
 		$exp->setFiltered(true);
 		$exp->setFilterMode(IL_FM_POSITIVE);
@@ -788,8 +775,8 @@ class ilObjMediaPoolGUI extends ilObject2GUI
 		$counter = 0;
 		foreach($_POST["id"] as $obj_id)
 		{
-			$type = ilObject::_lookupType($obj_id);
-			$title = ilObject::_lookupTitle($obj_id);
+			$type = ilMediaPoolItem::lookupType($obj_id);
+			$title = ilMediaPoolItem::lookupTitle($obj_id);
 			$this->tpl->setCurrentBlock("table_row");
 			$this->tpl->setVariable("CSS_ROW",ilUtil::switchColor(++$counter,"tblrow1","tblrow2"));
 			$this->tpl->setVariable("TEXT_CONTENT", $title);
@@ -849,10 +836,22 @@ class ilObjMediaPoolGUI extends ilObject2GUI
 		{
 			foreach ($ids as $id)
 			{
-				if (!$this->object->insertInTree($id, $_GET["obj_id"]))
+				if (ilObjMEdiaPool::isForeignIdInTree($this->object->getId(), $id))
 				{
 					$not_inserted[] = ilObject::_lookupTitle($id)." [".
 						$id."]";
+				}
+				else
+				{
+					$item = new ilMediaPoolItem();
+					$item->setType("mob");
+					$item->setForeignId($id);
+					$item->setTitle(ilObject::_lookupTitle($id));
+					$item->create();
+					if ($item->getId() > 0)
+					{
+						$this->object->insertInTree($item->getId(), $_GET["item_id"]);
+					}
 				}
 			}
 		}
@@ -916,7 +915,8 @@ class ilObjMediaPoolGUI extends ilObject2GUI
 
 		foreach ($_POST["id"] as $obj_id)
 		{
-			$type = ilObject::_lookupType($obj_id);
+			$fid = ilMediaPoolItem::lookupForeignId($obj_id);
+			$type = ilObject::_lookupType($fid);
 			if ($type == "fold")
 			{
 				$this->ilias->raiseError($this->lng->txt("cont_cant_copy_folders"), $this->ilias->error_obj->MESSAGE);
@@ -925,7 +925,12 @@ class ilObjMediaPoolGUI extends ilObject2GUI
 
 		foreach ($_POST["id"] as $obj_id)
 		{
-			$ilUser->addObjectToClipboard($obj_id, "mob", "");
+			$fid = ilMediaPoolItem::lookupForeignId($obj_id);
+			$type = ilObject::_lookupType($fid);
+			if ($type == "mob")
+			{
+				$ilUser->addObjectToClipboard($fid, "mob", "");
+			}
 		}
 
 		ilUtil::sendInfo($this->lng->txt("copied_to_clipboard"),true);
@@ -942,26 +947,26 @@ class ilObjMediaPoolGUI extends ilObject2GUI
 		if (!$this->getCreationMode() && $this->ctrl->getCmd() != "explorer")
 		{
 			$tree =& $this->object->getTree();
-			$obj_id = ($_GET["obj_id"] == "")
+			$obj_id = ($_GET["item_id"] == "")
 				? $tree->getRootId()
-				: $_GET["obj_id"];
+				: $_GET["item_id"];
 			$path = $tree->getPathFull($obj_id);
 			foreach($path as $node)
 			{
 				if ($node["child"] == $tree->getRootId())
 				{
-					$this->ctrl->setParameter($this, "obj_id", "");
+					$this->ctrl->setParameter($this, "item_id", "");
 					$link = $this->ctrl->getLinkTarget($this, "listMedia");
 					$title = $this->object->getTitle();
-					$this->ctrl->setParameter($this, "obj_id", $_GET["obj_id"]);
+					$this->ctrl->setParameter($this, "item_id", $_GET["item_id"]);
 					$ilLocator->addItem($title, $link, "", $_GET["ref_id"]);
 				}
 				else
 				{
-					$this->ctrl->setParameter($this, "obj_id", $node["child"]);
+					$this->ctrl->setParameter($this, "item_id", $node["child"]);
 					$link = $this->ctrl->getLinkTarget($this, "listMedia");
 					$title = $node["title"];
-					$this->ctrl->setParameter($this, "obj_id", $_GET["obj_id"]);
+					$this->ctrl->setParameter($this, "item_id", $_GET["item_id"]);
 					$ilLocator->addItem($title, $link);
 				}
 			}
@@ -973,19 +978,148 @@ class ilObjMediaPoolGUI extends ilObject2GUI
 	*/
 	function createFolderForm()
 	{
-		global $ilAccess;
+		global $ilAccess, $tpl;
 		
 		if (!$ilAccess->checkAccess("write", "", $this->object->getRefId()))
 		{
 			$this->ilias->raiseError($this->lng->txt("permission_denied"),$this->ilias->error_obj->MESSAGE);
 		}
 
-		$folder_gui =& new ilObjFolderGUI("", 0, false, false);
+		$this->initFolderForm("create");
+		$tpl->setContent($this->form->getHTML());
+
+/*		$folder_gui =& new ilObjFolderGUI("", 0, false, false);
 		$this->ctrl->setParameterByClass("ilobjfoldergui", "obj_id", $_GET["obj_id"]);
 		$folder_gui->setFormAction("save",
 			$this->ctrl->getFormActionByClass("ilobjfoldergui"));
-		$folder_gui->createObject();
+		$folder_gui->createObject();*/
 //		$this->tpl->show();
+	}
+
+	/**
+	 * Edit folder
+	 *
+	 * @param
+	 * @return
+	 */
+	function editFolder()
+	{
+		global $tpl;
+	
+		$this->initFolderForm();
+		$this->getFolderValues();
+		$tpl->setContent($this->form->getHTML());
+	}
+	
+	/**
+	 * Get current values for folder from 
+	 */
+	public function getFolderValues()
+	{
+		$values = array();
+	
+		$values["title"] = ilMediaPoolItem::lookupTitle($_GET["item_id"]);
+	
+		$this->form->setValuesByArray($values);
+	}
+
+	/**
+	 * Save folder form
+	 */
+	public function saveFolder()
+	{
+		global $tpl, $lng, $ilCtrl;
+	
+		$this->initFolderForm("create");
+		if ($this->form->checkInput())
+		{
+			// perform save
+			$mep_item = new ilMediaPoolItem();
+			$mep_item->setTitle($_POST["title"]);
+			$mep_item->setType("fold");
+			$mep_item->create();
+			if ($mep_item->getId() > 0)
+			{
+				$tree = $this->object->getTree();
+				$parent = $_GET["item_id"] > 0
+					? $_GET["item_id"]
+					: $tree->getRootId();
+				$this->object->insertInTree($mep_item->getId(), $parent);
+				ilUtil::sendSuccess($lng->txt("msg_obj_modified"), true);
+			}
+			
+			$ilCtrl->redirect($this, "listMedia");
+		}
+		
+		$this->form->setValuesByPost();
+		$tpl->setContent($this->form->getHtml());
+	}
+	
+	/**
+	 * Update folder
+	 */
+	function updateFolder()
+	{
+		global $lng, $ilCtrl, $tpl;
+		
+		$this->initFolderForm("edit");
+		if ($this->form->checkInput())
+		{
+			$item = new ilMediaPoolItem($_GET["item_id"]);
+			$item->setTitle($_POST["title"]);
+			$item->update();
+			ilUtil::sendSuccess($lng->txt("msg_obj_modified"), true);
+			$ilCtrl->setParameter($this, "item_id",
+				$this->object->getTree()->getParentId($_GET["item_id"]));
+			$ilCtrl->redirect($this, "listMedia");
+		}
+		
+		$this->form->setValuesByPost();
+		$tpl->setContent($this->form->getHtml());
+	}
+
+	/**
+	 * Init folder form.
+	 *
+	 * @param        int        $a_mode        Edit Mode
+	 */
+	public function initFolderForm($a_mode = "edit")
+	{
+		global $lng, $ilCtrl;
+	
+		include_once("Services/Form/classes/class.ilPropertyFormGUI.php");
+		$this->form = new ilPropertyFormGUI();
+		
+		// desc
+		$ti = new ilTextInputGUI($lng->txt("title"), "title");
+		$ti->setMaxLength(128);
+		$ti->setRequired(true);
+		$this->form->addItem($ti);
+
+		// save and cancel commands
+		if ($a_mode == "create")
+		{
+			$this->form->addCommandButton("saveFolder", $lng->txt("save"));
+			$this->form->addCommandButton("cancelSave", $lng->txt("cancel"));
+			$this->form->setTitle($lng->txt("mep_new_folder"));
+		}
+		else
+		{
+			$this->form->addCommandButton("updateFolder", $lng->txt("save"));
+			$this->form->addCommandButton("cancelUpdate", $lng->txt("cancel"));
+			$this->form->setTitle($lng->txt("mep_edit_folder"));
+		}
+	                
+		$this->form->setFormAction($ilCtrl->getFormAction($this));
+	}
+
+	/**
+	 * Cancel save
+	 */
+	function cancelSave()
+	{
+		global $ilCtrl;
+		$ilCtrl->redirect($this, "listMedia");
 	}
 
 	/**
@@ -1001,10 +1135,10 @@ class ilObjMediaPoolGUI extends ilObject2GUI
 			$ilTabs->addTarget("objs_fold", $this->ctrl->getLinkTarget($this, ""),
 				"listMedia", "", "_top");
 
-			$ilCtrl->setParameter($this, "obj_id", "");
+			$ilCtrl->setParameter($this, "item_id", "");
 			$ilTabs->addTarget("mep_all_mobs", $this->ctrl->getLinkTarget($this, "allMedia"),
 				"allMedia", "", "_top");
-			$ilCtrl->setParameter($this, "obj_id", $_GET["obj_id"]);
+			$ilCtrl->setParameter($this, "item_id", $_GET["item_id"]);
 		}
 
 		// info tab

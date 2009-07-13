@@ -1,25 +1,5 @@
 <?php
-/*
-	+-----------------------------------------------------------------------------+
-	| ILIAS open source                                                           |
-	+-----------------------------------------------------------------------------+
-	| Copyright (c) 1998-2006 ILIAS open source, University of Cologne            |
-	|                                                                             |
-	| This program is free software; you can redistribute it and/or               |
-	| modify it under the terms of the GNU General Public License                 |
-	| as published by the Free Software Foundation; either version 2              |
-	| of the License, or (at your option) any later version.                      |
-	|                                                                             |
-	| This program is distributed in the hope that it will be useful,             |
-	| but WITHOUT ANY WARRANTY; without even the implied warranty of              |
-	| MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the               |
-	| GNU General Public License for more details.                                |
-	|                                                                             |
-	| You should have received a copy of the GNU General Public License           |
-	| along with this program; if not, write to the Free Software                 |
-	| Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA. |
-	+-----------------------------------------------------------------------------+
-*/
+/* Copyright (c) 1998-2009 ILIAS open source, Extended GPL, see docs/LICENSE */
 
 require_once("./Modules/LearningModule/classes/class.ilLMPageObject.php");
 require_once("./Services/MediaObjects/classes/class.ilObjMediaObjectGUI.php");
@@ -567,6 +547,7 @@ class ilInternalLinkGUI
 
 			// media object
 			case "Media":
+				include_once("./Modules/MediaPool/classes/class.ilMediaPoolItem.php");
 				//$tpl->setVariable("TARGET2", " target=\"content\" ");
 				// content object id = 0 --> get clipboard objects
 				if ($_SESSION["il_link_mep"] == 0)
@@ -641,28 +622,26 @@ class ilInternalLinkGUI
 				{
 					require_once("./Modules/MediaPool/classes/class.ilObjMediaPool.php");
 					$med_pool =& new ilObjMediaPool($_SESSION["il_link_mep"], true);
-
 					// get current folders
 					$fobjs = $med_pool->getChilds($_SESSION["il_link_mep_obj"], "fold");
 					$f2objs = array();
 					foreach ($fobjs as $obj)
 					{
-						$f2objs[$obj["title"].":".$obj["id"]] = $obj;
+						$f2objs[$obj["title"].":".$obj["child"]] = $obj;
 					}
 					ksort($f2objs);
-
 					// get current media objects
 					$mobjs = $med_pool->getChilds($_SESSION["il_link_mep_obj"], "mob");
 					$m2objs = array();
 					foreach ($mobjs as $obj)
 					{
-						$m2objs[$obj["title"].":".$obj["id"]] = $obj;
+						$m2objs[$obj["title"].":".$obj["child"]] = $obj;
 					}
 					ksort($m2objs);
 					
 					// merge everything together
 					$objs = array_merge($f2objs, $m2objs);
-					
+				
 					$tpl->setCurrentBlock("chapter_list");
 					$tpl->setVariable("TXT_CONTENT_OBJECT", $this->lng->txt("mep"));
 					$tpl->setVariable("TXT_CONT_TITLE", $med_pool->getTitle());
@@ -671,7 +650,6 @@ class ilInternalLinkGUI
 					$tpl->setVariable("BTN_CHANGE_CONT_OBJ", $this->lng->txt("change"));
 					$tpl->setVariable("COLSPAN", "2");
 					$tpl->parseCurrentBlock();
-
 					if ($parent_id = $med_pool->getParentId($_SESSION["il_link_mep_obj"]))
 					{
 						$css_row = "tblrow1";
@@ -688,7 +666,6 @@ class ilInternalLinkGUI
 						$tpl->setCurrentBlock("row");
 						$tpl->parseCurrentBlock();
 					}
-
 					foreach($objs as $obj)
 					{
 						if($obj["type"] == "fold")
@@ -702,54 +679,58 @@ class ilInternalLinkGUI
 							$tpl->setCurrentBlock("link_row");
 							$tpl->setVariable("ROWCLASS", $css_row);
 							$tpl->setVariable("TXT_CHAPTER", $obj["title"]);
-							$this->ctrl->setParameter($this, "mep_fold", $obj["obj_id"]);
+							$this->ctrl->setParameter($this, "mep_fold", $obj["child"]);
 							$tpl->setVariable("LINK",
 								$this->ctrl->getLinkTarget($this, "setMedPoolFolder"));
 							$tpl->parseCurrentBlock();
 						}
 						else
 						{
-							$css_row = ($css_row == "tblrow2")
-								? "tblrow1"
-								: "tblrow2";
-							switch ($this->mode)
+							$fid = ilMediaPoolItem::lookupForeignId($obj["child"]);
+							if (ilObject::_lookupType($fid) == "mob")
 							{
-								case "link":
-									require_once("./Services/MediaObjects/classes/class.ilObjMediaObjectGUI.php");
-									require_once("./Services/MediaObjects/classes/class.ilImageMapEditorGUI.php");
-									ilImageMapEditorGUI::_recoverParameters();
-									$tpl->setCurrentBlock("link_row");
-									$this->outputThumbnail($tpl, $obj["obj_id"], "link");
-									$tpl->setCurrentBlock("link_row");
-									$tpl->setVariable("ROWCLASS", $css_row);
-									$tpl->setVariable("TXT_CHAPTER", $obj["title"]);
-									$tpl->setVariable("LINK_TARGET", "content");
-									$tpl->setVariable("LINK",
-										ilUtil::appendUrlParameterString($this->getSetLinkTargetScript(),
-										"linktype=MediaObject".
-										"&linktarget=il__mob_".$obj["obj_id"].
-										"&linktargetframe=".$this->link_target));
-									$tpl->parseCurrentBlock();
-									break;
-
-								default:
-									$tpl->setCurrentBlock($chapterRowBlock);
-									$this->outputThumbnail($tpl, $obj["obj_id"]);
-									$tpl->setCurrentBlock($chapterRowBlock);
-									$tpl->setVariable("ROWCLASS", $css_row);
-									$tpl->setVariable("TXT_CHAPTER", $obj["title"]);
-									if ($target_str != "")
-									{
-										$tpl->setVariable("LINK_CHAPTER",
-											$this->prepareJavascriptOutput("[iln media=\"".$obj["obj_id"]."\"".$target_str."] [/iln]"));
-									}
-									else
-									{
-										$tpl->setVariable("LINK_CHAPTER",
-											$this->prepareJavascriptOutput("[iln media=\"".$obj["obj_id"]."\"/]"));
-									}
-									$tpl->parseCurrentBlock();
-									break;
+								$css_row = ($css_row == "tblrow2")
+									? "tblrow1"
+									: "tblrow2";
+								switch ($this->mode)
+								{
+									case "link":
+										require_once("./Services/MediaObjects/classes/class.ilObjMediaObjectGUI.php");
+										require_once("./Services/MediaObjects/classes/class.ilImageMapEditorGUI.php");
+										ilImageMapEditorGUI::_recoverParameters();
+										$tpl->setCurrentBlock("link_row");
+										$this->outputThumbnail($tpl, $fid, "link");
+										$tpl->setCurrentBlock("link_row");
+										$tpl->setVariable("ROWCLASS", $css_row);
+										$tpl->setVariable("TXT_CHAPTER", $obj["title"]);
+										$tpl->setVariable("LINK_TARGET", "content");
+										$tpl->setVariable("LINK",
+											ilUtil::appendUrlParameterString($this->getSetLinkTargetScript(),
+											"linktype=MediaObject".
+											"&linktarget=il__mob_".$fid.
+											"&linktargetframe=".$this->link_target));
+										$tpl->parseCurrentBlock();
+										break;
+	
+									default:
+										$tpl->setCurrentBlock($chapterRowBlock);
+										$this->outputThumbnail($tpl, $fid);
+										$tpl->setCurrentBlock($chapterRowBlock);
+										$tpl->setVariable("ROWCLASS", $css_row);
+										$tpl->setVariable("TXT_CHAPTER", $obj["title"]);
+										if ($target_str != "")
+										{
+											$tpl->setVariable("LINK_CHAPTER",
+												$this->prepareJavascriptOutput("[iln media=\"".$fid."\"".$target_str."] [/iln]"));
+										}
+										else
+										{
+											$tpl->setVariable("LINK_CHAPTER",
+												$this->prepareJavascriptOutput("[iln media=\"".$fid."\"/]"));
+										}
+										$tpl->parseCurrentBlock();
+										break;
+								}
 							}
 						}
 						$tpl->setCurrentBlock("row");

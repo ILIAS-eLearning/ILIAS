@@ -298,9 +298,11 @@ class ilPCMediaObjectGUI extends ilPageContentGUI
 			{
 				for($i = count($_POST["id"]) - 1; $i>=0; $i--)
 				{
+					include_once("./Modules/MediaPool/classes/class.ilMediaPoolItem.php");
+					$fid = ilMediaPoolItem::lookupForeignId($_POST["id"][$i]);
 					include_once("./Services/COPage/classes/class.ilPCMediaObject.php");
 					$this->content_obj = new ilPCMediaObject($this->dom);
-					$this->content_obj->readMediaObject($_POST["id"][$i]);
+					$this->content_obj->readMediaObject($fid);
 					$this->content_obj->createAlias($this->pg_obj, $_GET["hier_id"], $this->pc_id);
 				}
 				$this->updated = $this->pg_obj->update();

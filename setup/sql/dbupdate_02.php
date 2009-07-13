@@ -14321,3 +14321,130 @@ while($data = $ilDB->fetchAssoc($result))
 	$ilDB->addPrimaryKey("mail_template", array("type", "lang"));
 	$ilDB->manipulate("UPDATE mail_template SET type = 'nacc'");
 ?>
+<#2745>
+<?php
+// media object and media pool settings
+
+// register new object type 'mobs' for media pool and media object settings
+$id = $ilDB->nextId("object_data");
+$ilDB->manipulateF("INSERT INTO object_data (obj_id, type, title, description, owner, create_date, last_update) ".
+		"VALUES (%s, %s, %s, %s, %s, %s, %s)",
+		array("integer", "text", "text", "text", "integer", "timestamp", "timestamp"),
+		array($id, "typ", "mobs", "Media Object/Pool settings", -1, ilUtil::now(), ilUtil::now()));
+$typ_id = $id;
+
+// create object data entry
+$id = $ilDB->nextId("object_data");
+$ilDB->manipulateF("INSERT INTO object_data (obj_id, type, title, description, owner, create_date, last_update) ".
+		"VALUES (%s, %s, %s, %s, %s, %s, %s)",
+		array("integer", "text", "text", "text", "integer", "timestamp", "timestamp"),
+		array($id, "mobs", "__MediaObjectSettings", "Media Object/Pool Settings", -1, ilUtil::now(), ilUtil::now()));
+
+// create object reference entry
+$ref_id = $ilDB->nextId('object_reference');
+$res = $ilDB->manipulateF("INSERT INTO object_reference (ref_id, obj_id) VALUES (%s, %s)",
+	array("integer", "integer"),
+	array($ref_id, $id));
+
+// put in tree
+$tree = new ilTree(ROOT_FOLDER_ID);
+$tree->insertNode($ref_id, SYSTEM_FOLDER_ID);
+
+// add rbac operations
+// 1: edit_permissions, 2: visible, 3: read, 4:write
+$ilDB->manipulateF("INSERT INTO rbac_ta (typ_id, ops_id) VALUES (%s, %s)",
+	array("integer", "integer"),
+	array($typ_id, 1));
+$ilDB->manipulateF("INSERT INTO rbac_ta (typ_id, ops_id) VALUES (%s, %s)",
+	array("integer", "integer"),
+	array($typ_id, 2));
+$ilDB->manipulateF("INSERT INTO rbac_ta (typ_id, ops_id) VALUES (%s, %s)",
+	array("integer", "integer"),
+	array($typ_id, 3));
+$ilDB->manipulateF("INSERT INTO rbac_ta (typ_id, ops_id) VALUES (%s, %s)",
+	array("integer", "integer"),
+	array($typ_id, 4));
+
+?>
+<#2746>
+<?php
+  $ilCtrlStructureReader->getStructure();
+?>
+<#2747>
+<?php
+$ilDB->createTable("mep_item", array(
+	'id' => array(
+		'type'     => 'integer',
+		'length'   => 4,
+		'notnull' => true 
+	),
+	'type' => array(
+		'type'     => 'text',
+		'length'   => 10,
+		'notnull' => false 
+	),
+	'title' => array(
+		'type'     => 'text',
+		'length'   => 128,
+		'notnull' => false 
+	),
+	'foreign_id' => array(
+		'type'     => 'integer',
+		'length'   => 4,
+		'notnull' => false 
+	)
+));
+	
+?>
+<#2748>
+<?php
+$ilDB->createSequence("mep_item");
+?>
+<#2749>
+<?php
+	$ilDB->addPrimaryKey("mep_item", array("id"));
+
+	$nid = $ilDB->nextId("mep_item");
+	$q = "INSERT INTO mep_item ".
+		"(id, type, title, foreign_id) VALUES (".
+		$ilDB->quote($nid, "integer").",".
+		$ilDB->quote("dummy", "text").",".
+		$ilDB->quote("Dummy", "text").",".
+		$ilDB->quote(1, "integer").
+		")";
+	$ilDB->manipulate($q);
+	$set = $ilDB->query("SELECT * FROM mep_tree LEFT JOIN object_data ON child = obj_id");
+	while ($rec = $ilDB->fetchAssoc($set))
+	{
+		if ($rec["child"] > 0)
+		{
+			if ($rec["child"] > 1)
+			{
+				$nid = $ilDB->nextId("mep_item");
+				$q = "INSERT INTO mep_item ".
+					"(id, type, title, foreign_id) VALUES (".
+					$ilDB->quote($nid, "integer").",".
+					$ilDB->quote($rec["type"], "text").",".
+					$ilDB->quote($rec["title"], "text").",".
+					$ilDB->quote($rec["child"], "integer").
+					")";
+				$ilDB->manipulate($q);
+
+				$q = "UPDATE mep_tree SET ".
+					" child = ".$ilDB->quote($nid, "integer").
+					" WHERE mep_id = ".$ilDB->quote($rec["mep_id"], "integer").
+					" AND child = ".$ilDB->quote($rec["child"], "integer");
+				$ilDB->manipulate($q);
+				$q = "UPDATE mep_tree SET ".
+					" parent = ".$ilDB->quote($nid, "integer").
+					" WHERE mep_id = ".$ilDB->quote($rec["mep_id"], "integer").
+					" AND parent = ".$ilDB->quote($rec["child"], "integer");
+				$ilDB->manipulate($q);
+			}
+		}
+	}
+?>
+<#2750>
+<?php
+$ilDB->renameTableColumn("mep_item", "id", "obj_id");
+?>

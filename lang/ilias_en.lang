@@ -9650,6 +9650,17 @@ dateplaner#:#cal_day_week_view#:#Day/Week View Settings
 dateplaner#:#cal_week_month_view#:#Week/Month View Settings
 common#:#event_ass_materials_prop#:#Session Materials
 assessment#:#resize_images#:#Resize Images
+common#:#mobs_edit_permission#:#Change permission settings
+common#:#mobs_visible#:#Media Objects/Pools Settings are visible
+common#:#mobs_read#:#Read access to Media Objects/Pools Settings
+common#:#mobs_write#:#Edit Media Objects/Pools Settings
+common#:#obj_mobs#:#Media Objects/Pools
+common#:#obj_mobs_desc#:#Settings for media objects and media pools.
+mep#:#mobs_activate_pages#:#Activate Content Pages Management
+mep#:#mobs_activate_pages_info#:#Allow to add content pages to media pools. These pages can be re-used (not edited) in learning modules etc.
+mep#:#mep_create_content_page#:#Create Content Page
+mep#:#mep_new_folder#:#New Folder
+mep#:#mep_edit_folder#:#Edit Folder
 assessment#:#thumb_size#:#Thumbnail Size
 common#:#hint#:#Hint
 assessment#:#add_rect#:#Add rectangle area

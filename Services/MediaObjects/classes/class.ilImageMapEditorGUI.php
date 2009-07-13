@@ -464,6 +464,7 @@ class ilImageMapEditorGUI
 		$xh = xslt_create();
 		$wb_path = ilUtil::getWebspaceDir("output");
 		$mode = "media";
+//echo htmlentities($ilCtrl->getLinkTarget($this, "showImageMap"));
 		$params = array ('map_edit_mode' => $a_map_edit_mode,
 			'map_item' => $st_item->getId(),
 			'mode' => $mode,
