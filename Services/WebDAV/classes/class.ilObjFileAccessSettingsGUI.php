@@ -26,7 +26,7 @@
 *
 * @author Werner Randelshofer, Hochschule Luzern, werner.randelshofer@hslu.ch
 *
-* @version $Id: class.ilObjFileAccessSettingsGUI.php 13125 2007-01-29 15:37:36Z smeyer $
+* @version $Id$
 *
 * @ilCtrl_Calls ilObjFileAccessSettingsGUI: ilPermissionGUI
 *
@@ -315,10 +315,14 @@ class ilObjFileAccessSettingsGUI extends ilObjectGUI
 			 $ilCtrl->getLinkTarget($this, "editDiskQuotaSettings"),
 			 array("editDiskQuotaSettings"));
 
-		$ilTabs->addSubTabTarget("statistics",
-			 $ilCtrl->getLinkTarget($this, "viewDiskUsageStatistics"),
-			 array("viewDiskUsageStatistics"));
-		 
+		require_once 'Services/WebDAV/classes/class.ilDiskQuotaActivationChecker.php';
+		if (ilDiskQuotaActivationChecker::_isActive())
+		{
+			$ilTabs->addSubTabTarget("statistics",
+				 $ilCtrl->getLinkTarget($this, "viewDiskUsageStatistics"),
+				 array("viewDiskUsageStatistics"));
+		}
+
 		$ilTabs->addSubTabTarget("disk_quota_reminder_mail",
 			 $ilCtrl->getLinkTarget($this, "editDiskQuotaMailTemplate"),
 			 array("editDiskQuotaMailTemplate"));
@@ -415,6 +419,13 @@ class ilObjFileAccessSettingsGUI extends ilObjectGUI
 		$this->tabs_gui->setTabActive('disk_quota');
 		$this->addDiskQuotaSubtabs('statistics');
 
+		// nothing to do if disk quota is not active
+		require_once 'Services/WebDAV/classes/class.ilDiskQuotaActivationChecker.php';
+		if (! ilDiskQuotaActivationChecker::_isActive())
+		{
+			return;
+		}
+
 		// Filter
 		$this->tpl->addBlockfile('ADM_CONTENT','adm_content','tpl.diskquota_user_list.html');
 		$_SESSION['quota_usage_filter'] = isset($_POST['usage_filter']) ? $_POST['usage_filter'] : $_SESSION['quota_usage_filter'];
@@ -456,7 +467,7 @@ class ilObjFileAccessSettingsGUI extends ilObjectGUI
 		$tbl = new ilTableGUI(0, false);
 
 		// title & header columns
-		$header_vars = array('login','firstname','lastname','email','access_until','last_login','disk_quota','disk_usage');
+		$header_vars = array('login','firstname','lastname','email','access_until','last_login','disk_quota','disk_usage', 'last_reminder');
 		$tbl->setHeaderNames(
 			array(
 				$lng->txt('login'),
@@ -467,6 +478,7 @@ class ilObjFileAccessSettingsGUI extends ilObjectGUI
 				$lng->txt('last_login'),
 				$lng->txt('disk_quota'),
 				$lng->txt('disk_usage'),
+				$lng->txt('last_reminder')
 			)
 		);
 		$tbl->setHeaderVars(
@@ -561,6 +573,7 @@ class ilObjFileAccessSettingsGUI extends ilObjectGUI
 						}
 						break;
 					case 'last_login' :
+					case 'last_reminder' :
 						if ($row[$key] == null)
 						{
 							$tbl_content_cell = $lng->txt('no_date');

@@ -31,7 +31,7 @@ require_once "Modules/Course/classes/class.ilObjCourse.php";
 * Handles DAV requests on a course object.
 *
 * @author Werner Randelshofer, Hochschule Luzern, werner.randelshofer@hslu.ch
-* @version $Id: class.ilDAVServer.php,v 1.0 2005/07/08 12:00:00 wrandelshofer Exp $
+* @version $Id$
 *
 * @package webdav
 */

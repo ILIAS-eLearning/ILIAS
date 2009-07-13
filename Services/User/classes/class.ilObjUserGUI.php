@@ -1500,7 +1500,16 @@ class ilObjUserGUI extends ilObjectGUI
 					$disk_usage->setInfo($info);
 
 				}
-				$this->form_gui->addItem($disk_usage );
+				$this->form_gui->addItem($disk_usage);
+
+				// date when the last disk quota reminder was sent to the user
+				if (true || $dq_info['last_reminder'])
+				{
+					$reminder = new ilNonEditableValueGUI($lng->txt("disk_quota_last_reminder_sent"), "last_reminder");
+					$reminder->setValue(ilFormat::formatDate($dq_info['last_reminder'], 'datetime', true));
+					$reminder->setInfo($this->lng->txt("disk_quota_last_reminder_sent_desc"));
+					$this->form_gui->addItem($reminder);
+				}
 			}
 		}
 

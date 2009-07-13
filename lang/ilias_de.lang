@@ -9599,8 +9599,11 @@ common#:#disk_quota_on_role_desc#:#Die Disk Quota einer Rolle wirkt sich auf all
 common#:#disk_quota_is_1_by_2#:#Die effektive Disk Quota ist %1$s aufgrund Mitgliedschaft in Rolle "%2$s".
 common#:#disk_quota_is_unlimited_by_1#:#Die effektive Disk Quota ist unbegrenzt aufgrund Mitgliedschaft in Rolle "%1$s".
 common#:#disk_quota_is_1_instead_of_2_by_3#:#Die effektive Disk Quota ist %1$s wie definiert in diesem Benutzerkonto. Die Disk Quota durch Rollenzugehörigkeit wäre %2$s über Rolle "%3$s" gewesen.
-common#:#disk_quota_reminder_mail#:#Disk Quota Erinnerungsnachricht
+common#:#disk_quota_reminder_mail#:#Erinnerungsnachricht
 common#:#disk_quota_reminder_mail_desc#:#Die Disk Quota Erinnerungsnachricht wird an alle aktiven Benutzer versandt, die Ihre Disk Quota überschritten haben. Der Versand erfolgt einmal täglich, wenn das der ILIA Cron Job ausgeführt wird. Benutzer die bereits eine Erinnerungsnachricht erhalten haben, erhalten es alle 7 Tage solange sie ihre Disk Quota überschreiten.
+common#:#last_reminder#:#Letzte Erinnerung
+common#:#disk_quota_last_reminder_sent#:#Letzte Quota Erinnerung zugestellt
+common#:#disk_quota_last_reminder_sent_desc#:#Datum an dem der Benutzer zum letzten Mal wegen Überschreitung der Disk Quota eine Erinnerungsnachricht erhalten hat.
 common#:#filter_users_without_disk_usage#:#Nur Benutzer die keinen Speicherplatz belegen
 common#:#filter_users_with_disk_usage#:#Nur Benutzer die Speicherplatz belegen
 common#:#filter_users_with_exceeded_disk_quota#:#Nur Benutzer die ihre Disk Quota überschreiten
