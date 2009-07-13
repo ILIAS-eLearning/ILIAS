@@ -686,31 +686,6 @@ class SurveyQuestion
 	}
 	
 /**
-* Duplicates the materials of a question
-*
-* @param integer $question_id The database id of the original survey question
-* @access public
-*/
-	function duplicateMaterials($question_id)
-	{
-		foreach ($this->materials as $filename)
-		{
-			$materialspath = $this->getMaterialsPath();
-			$materialspath_original = preg_replace("/([^\d])$this->id([^\d])/", "\${1}$question_id\${2}", $materialspath);
-			if (!file_exists($materialspath)) 
-			{
-				include_once "./Services/Utilities/classes/class.ilUtil.php";
-				ilUtil::makeDirParents($materialspath);
-			}
-			if (!copy($materialspath_original . $filename, $materialspath . $filename)) 
-			{
-				print "material could not be duplicated!!!! ";
-			}
-		}
-	}
-
-
-/**
 * Loads a SurveyQuestion object from the database
 *
 * @param integer $question_id A unique key which defines the question in the database
@@ -727,13 +702,18 @@ class SurveyQuestion
 		$this->material = array();
 		if ($result->numRows())
 		{
+			include_once "./Modules/SurveyQuestionPool/classes/class.ilSurveyMaterial.php";
 			while ($row = $ilDB->fetchAssoc($result))
 			{
-				$this->material = array(
-					"internal_link" => $row["internal_link"],
-					"import_id" => $row["import_id"],
-					"title" => $row["material_title"]
-				);
+				$mat = new ilSurveyMaterial();
+				$mat->type = $row['material_type'];
+				$mat->internal_link = $row['internal_link'];
+				$mat->title = $row['material_title'];
+				$mat->import_id = $row['import_id'];
+				$mat->text_material = $row['text_material'];
+				$mat->external_link = $row['external_link'];
+				$mat->file_material = $row['file_material'];
+				array_push($this->material, $mat);
 			}
 		}
 	}
@@ -796,6 +776,13 @@ class SurveyQuestion
 	*/
 	function saveToDb($original_id = "")
 	{
+	}
+	
+	/**
+	* save material to db
+	*/
+	public function saveMaterial()
+	{
 		global $ilDB;
 		
 		include_once "./Services/COPage/classes/class.ilInternalLink.php";
@@ -804,14 +791,21 @@ class SurveyQuestion
 			array($this->getId())
 		);
 		ilInternalLink::_deleteAllLinksOfSource("sqst", $this->getId());
-		if (count($this->material))
+
+		foreach ($this->material as $material)
 		{
 			$next_id = $ilDB->nextId('svy_material');
-			$affectedRows = $ilDB->manipulateF("INSERT INTO svy_material (material_id, question_fi, internal_link, import_id, material_title, tstamp) VALUES (%s, %s, %s, %s, %s, %s)",
-				array('integer','integer','text','text','text','integer'),
-				array($next_id, $this->getId(), $this->material["internal_link"], $this->material["import_id"], $this->material["title"], time())
+			$affectedRows = $ilDB->manipulateF("INSERT INTO svy_material " .
+				"(material_id, question_fi, internal_link, import_id, material_title, tstamp," .
+				"text_material, external_link, file_material, material_type) ".
+				"VALUES (%s, %s, %s, %s, %s, %s, %s, %s, %s, %s)",
+				array('integer','integer','text','text','text','integer','text','text','text','integer'),
+				array(
+					$next_id, $this->getId(), $material->internal_link, $material->import_id, 
+					$material->title, time(), $material->text_material, $material->external_link,
+					$material->file_material, $material->type)
 			);
-			if (preg_match("/il_(\d*?)_(\w+)_(\d+)/", $solution["internal_link"], $matches))
+			if (preg_match("/il_(\d*?)_(\w+)_(\d+)/", $material->internal_link, $matches))
 			{
 				ilInternalLink::_saveLink("sqst", $this->getId(), $matches[2], $matches[3], $matches[1]);
 			}
@@ -915,60 +909,6 @@ class SurveyQuestion
 		include_once "./Services/Utilities/classes/class.ilUtil.php";
 		$webdir = ilUtil::removeTrailingPathSeparators(CLIENT_WEB_DIR) . "/survey/$this->obj_id/$this->id/materials/";
 		return str_replace(ilUtil::removeTrailingPathSeparators(ILIAS_ABSOLUTE_PATH), ilUtil::removeTrailingPathSeparators(ILIAS_HTTP_PATH), $webdir);
-	}
-
-/**
-* Saves a materials to a database
-*
-* @param object $db A pear DB object
-* @access public
-*/
-	function saveMaterialsToDb()
-	{
-		global $ilDB;
-		
-		if ($this->getId() > 0) 
-		{
-			$affectedRows = $ilDB->manipulateF("DELETE FROM svy_qst_mat WHERE question_fi = %s",
-				array('integer'),
-				array($this->getId())
-			);
-			if (!empty($this->materials)) 
-			{
-				foreach ($this->materials as $key => $value) 
-				{
-					$next_id = $ilDB->nextId('svy_qst_mat');
-					$affectedRows = $ilDB->manipulateF("INSERT INTO svy_qst_mat (material_id, question_fi, materials, materials_file, tstamp) VALUES (%s, %s, %s, %s, %s)",
-						array('integer','integer','text','text','integer'),
-						array($next_id, $this->getId(), $key, $value, time())
-					);
-				}
-			}
-		}
-	}
-
-/**
-* Loads materials uris from a database
-*
-* @param integer $question_id A unique key which defines the survey question in the database
-* @access public
-*/
-	function loadMaterialFromDb($question_id)
-	{
-		global $ilDB;
-		
-		$result = $ilDB->queryF("SELECT * FROM svy_qst_mat WHERE question_fi = %s",
-			array('integer'),
-			array($question_id)
-		);
-		if ($result->numRows() > 0) 
-		{
-			$this->materials = array();
-			while ($data = $ilDB->fetchAssoc($result)) 
-			{
-				$this->addMaterials($data["materials_file"], $data["materials"]);
-			}
-		}
 	}
 
 /**
@@ -1085,10 +1025,6 @@ class SurveyQuestion
 			array($question_id)
 		);
 
-		$affectedRows = $ilDB->manipulateF("DELETE FROM svy_qst_mat WHERE question_fi = %s",
-			array('integer'),
-			array($question_id)
-		);
 		$affectedRows = $ilDB->manipulateF("DELETE FROM svy_qblk_qst WHERE question_fi = %s",
 			array('integer'),
 			array($question_id)
@@ -1327,6 +1263,108 @@ class SurveyQuestion
 		return ($result->numRows() == 1) ? true : false;
 	}
 
+	function addInternalLink($material_id, $title = "")
+	{
+		if (strlen($material_id))
+		{
+			if (strcmp($material_title, "") == 0)
+			{
+				if (preg_match("/il__(\w+)_(\d+)/", $material_id, $matches))
+				{
+					$type = $matches[1];
+					$target_id = $matches[2];
+					$material_title = $this->lng->txt("obj_$type") . ": ";
+					switch ($type)
+					{
+						case "lm":
+							include_once("./Modules/LearningModule/classes/class.ilObjContentObjectGUI.php");
+							$cont_obj_gui =& new ilObjContentObjectGUI("", $target_id, true);
+							$cont_obj = $cont_obj_gui->object;
+							$material_title .= $cont_obj->getTitle();
+							break;
+						case "pg":
+							include_once("./Modules/LearningModule/classes/class.ilLMPageObject.php");
+							include_once("./Modules/LearningModule/classes/class.ilLMObject.php");
+							$lm_id = ilLMObject::_lookupContObjID($target_id);
+							include_once("./Modules/LearningModule/classes/class.ilObjContentObjectGUI.php");
+							$cont_obj_gui =& new ilObjContentObjectGUI("", $lm_id, FALSE);
+							$cont_obj = $cont_obj_gui->object;
+							$pg_obj =& new ilLMPageObject($cont_obj, $target_id);
+							$material_title .= $pg_obj->getTitle();
+							break;
+						case "st":
+							include_once("./Modules/LearningModule/classes/class.ilStructureObject.php");
+							include_once("./Modules/LearningModule/classes/class.ilLMObject.php");
+							$lm_id = ilLMObject::_lookupContObjID($target_id);
+							include_once("./Modules/LearningModule/classes/class.ilObjContentObjectGUI.php");
+							$cont_obj_gui =& new ilObjContentObjectGUI("", $lm_id, FALSE);
+							$cont_obj = $cont_obj_gui->object;
+							$st_obj =& new ilStructureObject($cont_obj, $target_id);
+							$material_title .= $st_obj->getTitle();
+							break;
+						case "git":
+							include_once "./Modules/Glossary/classes/class.ilGlossaryTerm.php";
+							$material_title = $this->lng->txt("glossary_term") . ": " . ilGlossaryTerm::_lookGlossaryTerm($target_id);
+							break;
+						case "mob":
+							break;
+					}
+				}
+			}
+			include_once "./Modules/SurveyQuestionPool/classes/class.ilSurveyMaterial.php";
+			$mat = new ilSurveyMaterial();
+			$mat->type = 0;
+			$mat->internal_link = $material_id;
+			$mat->title = $material_title;
+			$this->addMaterial($mat);
+			$this->saveMaterial();
+		}
+	}
+	
+	/**
+	* Deletes materials
+	*
+	* @param array $a_array Array with indexes of the materials to delete
+	*/
+	public function deleteMaterials($a_array) 
+	{
+		foreach ($a_array as $idx)
+		{
+			unset($this->material[$idx]);
+		}
+		$this->material = array_values($this->material);
+		$this->saveMaterial();
+	}
+
+	/**
+	* Duplicates the materials of a question
+	*
+	* @param integer $question_id The database id of the original survey question
+	* @access public
+	*/
+	function duplicateMaterials($question_id)
+	{
+		foreach ($this->materials as $filename)
+		{
+			$materialspath = $this->getMaterialsPath();
+			$materialspath_original = preg_replace("/([^\d])$this->id([^\d])/", "\${1}$question_id\${2}", $materialspath);
+			if (!file_exists($materialspath)) 
+			{
+				include_once "./Services/Utilities/classes/class.ilUtil.php";
+				ilUtil::makeDirParents($materialspath);
+			}
+			if (!copy($materialspath_original . $filename, $materialspath . $filename)) 
+			{
+				print "material could not be duplicated!!!! ";
+			}
+		}
+	}
+	
+	public function addMaterial($obj_material)
+	{
+		array_push($this->material, $obj_material);
+	}
+	
 /**
 * Sets a material link for the question
 *
@@ -1394,6 +1432,7 @@ class SurveyQuestion
 				"title" => $material_title
 			);
 		}
+		$this->saveMaterial();
 	}
 	
 	function _resolveInternalLink($internal_link)
@@ -2042,6 +2081,11 @@ class SurveyQuestion
 	public function saveRandomData($active_id)
 	{
 		// do nothing, overwrite in parent classes
+	}
+	
+	public function getMaterial()
+	{
+		return $this->material;
 	}
 }
 ?>

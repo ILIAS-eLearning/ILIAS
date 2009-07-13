@@ -591,8 +591,6 @@ class SurveyMatrixQuestion extends SurveyQuestion
 			$this->setBipolarAdjective(0, $data["bipolar_adjective1"]);
 			$this->setBipolarAdjective(1, $data["bipolar_adjective2"]);
 			$this->setLayout($data["layout"]);
-			// loads materials uris from database
-			$this->loadMaterialFromDb($id);
 			$this->flushColumns();
 
 			$result = $ilDB->queryF("SELECT svy_variable.*, svy_category.title, svy_category.neutral FROM svy_variable, svy_category WHERE svy_variable.question_fi = %s AND svy_variable.category_fi = svy_category.category_id ORDER BY sequence ASC",

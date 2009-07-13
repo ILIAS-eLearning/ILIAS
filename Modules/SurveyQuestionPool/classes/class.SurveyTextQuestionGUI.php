@@ -166,14 +166,9 @@ class SurveyTextQuestionGUI extends SurveyQuestionGUI
 	function getWorkingForm($working_data = "", $question_title = 1, $show_questiontext = 1, $error_message = "", $survey_id = null)
 	{
 		$template = new ilTemplate("tpl.il_svy_out_text.html", TRUE, TRUE, "Modules/SurveyQuestionPool");
-		if (count($this->object->material))
-		{
-			$template->setCurrentBlock("material_text");
-			include_once "./Modules/SurveyQuestionPool/classes/class.SurveyQuestion.php";
-			$href = SurveyQuestion::_getInternalLinkHref($this->object->material["internal_link"]);
-			$template->setVariable("TEXT_MATERIAL", $this->lng->txt("material") . ": <a href=\"$href\" target=\"content\">" . $this->object->material["title"]. "</a> ");
-			$template->parseCurrentBlock();
-		}
+		$template->setCurrentBlock("material_text");
+		$template->setVariable("TEXT_MATERIAL", $this->getMaterialOutput());
+		$template->parseCurrentBlock();
 
 		if ($this->object->getTextHeight() == 1)
 		{

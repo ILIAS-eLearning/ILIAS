@@ -122,8 +122,6 @@ class SurveyTextQuestion extends SurveyQuestion
 			$this->setTextWidth($data["width"]);
 			$this->setTextHeight($data["height"]);
 
-			// loads materials uris from database
-			$this->loadMaterialFromDb($id);
 		}
 		parent::loadFromDb($id);
 	}

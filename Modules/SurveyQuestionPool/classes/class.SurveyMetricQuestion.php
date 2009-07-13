@@ -220,8 +220,6 @@ class SurveyMetricQuestion extends SurveyQuestion
 			$this->setComplete($data["complete"]);
 			$this->setOriginalId($data["original_id"]);
 			$this->setSubtype($data["subtype"]);
-			// loads materials uris from database
-			$this->loadMaterialFromDb($id);
 
 			$result = $ilDB->queryF("SELECT svy_variable.* FROM svy_variable WHERE svy_variable.question_fi = %s",
 				array('integer'),

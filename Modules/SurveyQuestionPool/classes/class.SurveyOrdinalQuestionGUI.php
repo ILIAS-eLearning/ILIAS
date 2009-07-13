@@ -60,103 +60,177 @@ class SurveyOrdinalQuestionGUI extends SurveyQuestionGUI
 		}
 	}
 
-/**
-* Creates an output of the edit form for the question
-*
-* Creates an output of the edit form for the question
-*
-* @access public
-*/
-  function editQuestion() 
+	/**
+	* Evaluates a posted edit form and writes the form data in the question object
+	*
+	* @return integer A positive value, if one of the required fields wasn't set, else 0
+	* @access private
+	*/
+	function writePostData($always = false)
 	{
-		$this->tpl->addBlockFile("ADM_CONTENT", "adm_content", "tpl.il_svy_qpl_ordinal.html", "Modules/SurveyQuestionPool");
-	  $this->tpl->addBlockFile("OTHER_QUESTION_DATA", "other_question_data", "tpl.il_svy_qpl_other_question_data.html", "Modules/SurveyQuestionPool");
-		$internallinks = array(
-			"lm" => $this->lng->txt("obj_lm"),
-			"st" => $this->lng->txt("obj_st"),
-			"pg" => $this->lng->txt("obj_pg"),
-			"glo" => $this->lng->txt("glossary_term")
-		);
-		foreach ($internallinks as $key => $value)
+		$hasErrors = (!$always) ? $this->editQuestion(true) : false;
+		if (!$hasErrors)
 		{
-			$this->tpl->setCurrentBlock("internallink");
-			$this->tpl->setVariable("TYPE_INTERNAL_LINK", $key);
-			$this->tpl->setVariable("TEXT_INTERNAL_LINK", $value);
-			$this->tpl->parseCurrentBlock();
-		}
-		
-		$this->tpl->setCurrentBlock("adm_content");
-		$this->tpl->setVariable("TEXT_MATERIAL", $this->lng->txt("material"));
-		if (count($this->object->material))
-		{
-			include_once "./Modules/SurveyQuestionPool/classes/class.SurveyQuestion.php";
-			$href = SurveyQuestion::_getInternalLinkHref($this->object->material["internal_link"]);
-			$this->tpl->setVariable("TEXT_VALUE_MATERIAL", " <a href=\"$href\" target=\"content\">" . $this->lng->txt("material"). "</a> ");
-			$this->tpl->setVariable("BUTTON_REMOVE_MATERIAL", $this->lng->txt("remove"));
-			$this->tpl->setVariable("BUTTON_ADD_MATERIAL", $this->lng->txt("change"));
-			$this->tpl->setVariable("VALUE_MATERIAL", $this->object->material["internal_link"]);
-			$this->tpl->setVariable("VALUE_MATERIAL_TITLE", $this->object->material["title"]);
-			$this->tpl->setVariable("TEXT_TITLE", $this->lng->txt("title"));
+			$this->object->setTitle(ilUtil::stripSlashes($_POST["title"]));
+			$this->object->setAuthor(ilUtil::stripSlashes($_POST["author"]));
+			$this->object->setDescription(ilUtil::stripSlashes($_POST["description"]));
+			include_once "./Services/AdvancedEditing/classes/class.ilObjAdvancedEditing.php";
+			$questiontext = ilUtil::stripSlashes($_POST["question"], false, ilObjAdvancedEditing::_getUsedHTMLTagsAsString("survey"));
+			$this->object->setQuestiontext($questiontext);
+			$this->object->setObligatory(($_POST["obligatory"]) ? 1 : 0);
+			$this->object->setOrientation($_POST["orientation"]);
+
+	    $this->object->categories->flushCategories();
+
+			foreach ($_POST['answers']['answer'] as $key => $value) 
+			{
+				$this->object->getCategories()->addCategory(ilUtil::stripSlashes($value));
+			}
+			return 0;
 		}
 		else
 		{
-			$this->tpl->setVariable("BUTTON_ADD_MATERIAL", $this->lng->txt("add"));
+			return 1;
 		}
-		$this->tpl->setVariable("TEXT_ORIENTATION", $this->lng->txt("orientation"));
-		switch ($this->object->getOrientation())
-		{
-			case 0:
-				$this->tpl->setVariable("CHECKED_VERTICAL", " checked=\"checked\"");
-				break;
-			case 1:
-				$this->tpl->setVariable("CHECKED_HORIZONTAL", " checked=\"checked\"");
-				break;
-			case 2:
-				$this->tpl->setVariable("CHECKED_COMBOBOX", " checked=\"checked\"");
-				break;
-		}
-		$this->tpl->setVariable("TXT_VERTICAL", $this->lng->txt("vertical"));
-		$this->tpl->setVariable("TXT_HORIZONTAL", $this->lng->txt("horizontal"));
-		$this->tpl->setVariable("TXT_COMBOBOX", $this->lng->txt("combobox"));
-		$this->tpl->setVariable("QUESTION_ID", $this->object->getId());
-		$this->tpl->setVariable("VALUE_TITLE", $this->object->getTitle());
-		$this->tpl->setVariable("VALUE_DESCRIPTION", $this->object->getDescription());
-		$this->tpl->setVariable("VALUE_AUTHOR", $this->object->getAuthor());
-		$questiontext = $this->object->getQuestiontext();
-		$this->tpl->setVariable("VALUE_QUESTION", ilUtil::prepareFormOutput($this->object->prepareTextareaOutput($questiontext)));
-		$this->tpl->setVariable("TEXT_TITLE", $this->lng->txt("title"));
-		$this->tpl->setVariable("TEXT_AUTHOR", $this->lng->txt("author"));
-		$this->tpl->setVariable("TEXT_DESCRIPTION", $this->lng->txt("description"));
-		$this->tpl->setVariable("TEXT_QUESTION", $this->lng->txt("question"));
-		$this->tpl->setVariable("TEXT_QUESTION_TYPE", $this->lng->txt("questiontype"));
-		$this->tpl->setVariable("TEXT_OBLIGATORY", $this->lng->txt("obligatory"));
-		if ($this->object->getObligatory())
-		{
-			$this->tpl->setVariable("CHECKED_OBLIGATORY", " checked=\"checked\"");
-		}
-		$this->tpl->setVariable("SAVE",$this->lng->txt("save"));
-		$this->tpl->setVariable("TXT_REQUIRED_FLD", $this->lng->txt("required_field"));
-		$this->tpl->setVariable("FORM_ACTION", $this->ctrl->getFormAction($this));
-		$this->tpl->setVariable("TEXT_QUESTION_TYPE", $this->lng->txt($this->getQuestionType()));
-		$this->tpl->parseCurrentBlock();
-		include_once "./Services/RTE/classes/class.ilRTE.php";
-		$rtestring = ilRTE::_getRTEClassname();
-		include_once "./Services/RTE/classes/class.$rtestring.php";
-		$rte = new $rtestring();
-		$rte->addPlugin("latex");		
-		$rte->addButton("latex"); $rte->addButton("pastelatex");
-		$rte->removePlugin("ibrowser");
-		include_once "./classes/class.ilObject.php";
-		$obj_id = $_GET["q_id"];
-		$obj_type = ilObject::_lookupType($_GET["ref_id"], TRUE);
-		$rte->addRTESupport($obj_id, $obj_type, "survey");
+	}
 
-		parent::editQuestion();
+	/**
+	* Creates an output of the edit form for the question
+	*
+	* @access public
+	*/
+	public function editQuestion($checkonly = FALSE)
+	{
+		$save = ((strcmp($this->ctrl->getCmd(), "save") == 0) || (strcmp($this->ctrl->getCmd(), "saveEdit") == 0)) ? TRUE : FALSE;
+
+		include_once("./Services/Form/classes/class.ilPropertyFormGUI.php");
+		$form = new ilPropertyFormGUI();
+		$form->setFormAction($this->ctrl->getFormAction($this));
+		$form->setTitle($this->lng->txt($this->getQuestionType()));
+		$form->setMultipart(FALSE);
+		$form->setTableWidth("100%");
+		$form->setId("ordinal");
+
+		// title
+		$title = new ilTextInputGUI($this->lng->txt("title"), "title");
+		$title->setValue($this->object->getTitle());
+		$title->setRequired(TRUE);
+		$form->addItem($title);
+		
+		// author
+		$author = new ilTextInputGUI($this->lng->txt("author"), "author");
+		$author->setValue($this->object->getAuthor());
+		$author->setRequired(TRUE);
+		$form->addItem($author);
+		
+		// description
+		$description = new ilTextInputGUI($this->lng->txt("description"), "description");
+		$description->setValue($this->object->getDescription());
+		$description->setRequired(FALSE);
+		$form->addItem($description);
+		
+		// questiontext
+		$question = new ilTextAreaInputGUI($this->lng->txt("question"), "question");
+		$question->setValue($this->object->prepareTextareaOutput($this->object->getQuestiontext()));
+		$question->setRequired(TRUE);
+		$question->setRows(10);
+		$question->setCols(80);
+		$question->setUseRte(TRUE);
+		$question->addPlugin("latex");
+		$question->removePlugin("ibrowser");
+		$question->addButton("latex");
+		$question->addButton("pastelatex");
+		$question->setRTESupport($this->object->getId(), "spl", "survey");
+		$form->addItem($question);
+		
+		// obligatory
+		$shuffle = new ilCheckboxInputGUI($this->lng->txt("obligatory"), "obligatory");
+		$shuffle->setValue(1);
+		$shuffle->setChecked($this->object->getObligatory());
+		$shuffle->setRequired(FALSE);
+		$form->addItem($shuffle);
+
+		// orientation
+		$orientation = new ilRadioGroupInputGUI($this->lng->txt("orientation"), "orientation");
+		$orientation->setRequired(false);
+		$orientation->setValue($this->object->getOrientation());
+		$orientation->addOption(new ilRadioOption($this->lng->txt('vertical'), 0));
+		$orientation->addOption(new ilRadioOption($this->lng->txt('horizontal'), 1));
+		$orientation->addOption(new ilRadioOption($this->lng->txt('combobox'), 2));
+		$form->addItem($orientation);
+
+		// Answers
+		include_once "./Modules/SurveyQuestionPool/classes/class.ilCategoryWizardInputGUI.php";
+		$answers = new ilCategoryWizardInputGUI($this->lng->txt("answers"), "answers");
+		$answers->setRequired(true);
+		$answers->setAllowMove(true);
+		if (!$this->object->getCategories()->getCategoryCount())
+		{
+			$this->object->getCategories()->addCategory("");
+		}
+		$answers->setValues($this->object->getCategories());
+		$form->addItem($answers);
+
+		$form->addCommandButton("save", $this->lng->txt("save"));
+	
+		$errors = false;
+	
+		if ($save)
+		{
+			$form->setValuesByPost();
+			$errors = !$form->checkInput();
+			if ($errors) $checkonly = false;
+		}
+
+		if (!$checkonly) $this->tpl->setVariable("ADM_CONTENT", $form->getHTML());
+		return $errors;
+	}
+
+	/**
+	* Add a new answer
+	*/
+	public function addanswers()
+	{
+		$this->writePostData(true);
+		$position = key($_POST['cmd']['addanswers']);
+		$this->object->getCategories()->addCategoryAtPosition("", $position+1);
+		$this->editQuestion();
+	}
+
+	/**
+	* Remove an answer
+	*/
+	public function removeanswers()
+	{
+		$this->writePostData(true);
+		$position = key($_POST['cmd']['removeanswers']);
+		$this->object->getCategories()->removeCategory($position);
+		$this->editQuestion();
+	}
+
+	/**
+	* Move an answer up
+	*/
+	public function upanswers()
+	{
+		$this->writePostData(true);
+		$position = key($_POST['cmd']['upanswers']);
+		$this->object->getCategories()->moveCategoryUp($position);
+		$this->editQuestion();
+	}
+
+	/**
+	* Move an answer down
+	*/
+	public function downanswers()
+	{
+		$this->writePostData(true);
+		$position = key($_POST['cmd']['downanswers']);
+		$this->object->getCategories()->moveCategoryDown($position);
+		$this->editQuestion();
 	}
 
 /**
-* Creates the question output form for the learner
-* 
 * Creates the question output form for the learner
 *
 * @access public
@@ -164,14 +238,9 @@ class SurveyOrdinalQuestionGUI extends SurveyQuestionGUI
 	function getWorkingForm($working_data = "", $question_title = 1, $show_questiontext = 1, $error_message = "", $survey_id = null)
 	{
 		$template = new ilTemplate("tpl.il_svy_out_ordinal.html", TRUE, TRUE, "Modules/SurveyQuestionPool");
-		if (count($this->object->material))
-		{
-			$template->setCurrentBlock("material_ordinal");
-			include_once "./Modules/SurveyQuestionPool/classes/class.SurveyQuestion.php";
-			$href = SurveyQuestion::_getInternalLinkHref($this->object->material["internal_link"]);
-			$template->setVariable("TEXT_MATERIAL", $this->lng->txt("material") . ": <a href=\"$href\" target=\"content\">" . $this->object->material["title"]. "</a> ");
-			$template->parseCurrentBlock();
-		}
+		$template->setCurrentBlock("material_ordinal");
+		$template->setVariable("TEXT_MATERIAL", $this->getMaterialOutput());
+		$template->parseCurrentBlock();
 		switch ($this->object->orientation)
 		{
 			case 0:
@@ -278,8 +347,6 @@ class SurveyOrdinalQuestionGUI extends SurveyQuestionGUI
 	/**
 	* Creates a HTML representation of the question
 	*
-	* Creates a HTML representation of the question
-	*
 	* @access private
 	*/
 	function getPrintView($question_title = 1, $show_questiontext = 1, $survey_id = null)
@@ -366,8 +433,6 @@ class SurveyOrdinalQuestionGUI extends SurveyQuestionGUI
 /**
 * Creates a preview of the question
 *
-* Creates a preview of the question
-*
 * @access private
 */
 	function preview()
@@ -377,168 +442,12 @@ class SurveyOrdinalQuestionGUI extends SurveyQuestionGUI
 		$this->tpl->setVariable("QUESTION_OUTPUT", $question_output);
 	}
 	
-/**
-* Evaluates a posted edit form and writes the form data in the question object
-*
-* Evaluates a posted edit form and writes the form data in the question object
-*
-* @return integer A positive value, if one of the required fields wasn't set, else 0
-* @access private
-*/
-	function writePostData() 
-	{
-		$result = 0;
-		if ((!$_POST["title"]) or (!$_POST["author"]) or (!$_POST["question"])) $result = 1;
-		if ($result == 1) $this->addErrorMessage($this->lng->txt("fill_out_all_required_fields"));
-		// Set the question id from a hidden form parameter
-		if ($_POST["id"] > 0) $this->object->setId($_POST["id"]);
-		include_once "./Services/Utilities/classes/class.ilUtil.php";
-		$this->object->setTitle(ilUtil::stripSlashes($_POST["title"]));
-		$this->object->setAuthor(ilUtil::stripSlashes($_POST["author"]));
-		$this->object->setDescription(ilUtil::stripSlashes($_POST["description"]));
-		$this->object->setOrientation($_POST["orientation"]);
-		if (strlen($_POST["material"]))
-		{
-			$this->object->setMaterial($_POST["material"], 0, ilUtil::stripSlashes($_POST["material_title"]));
-		}
-		include_once "./Services/AdvancedEditing/classes/class.ilObjAdvancedEditing.php";
-		$questiontext = ilUtil::stripSlashes($_POST["question"], true, ilObjAdvancedEditing::_getUsedHTMLTagsAsString("survey"));
-		$this->object->setQuestiontext($questiontext);
-		if ($_POST["obligatory"])
-		{
-			$this->object->setObligatory(1);
-		}
-		else
-		{
-			$this->object->setObligatory(0);
-		}
-
-		if ($saved) {
-			// If the question was saved automatically before an upload, we have to make
-			// sure, that the state after the upload is saved. Otherwise the user could be
-			// irritated, if he presses cancel, because he only has the question state before
-			// the upload process.
-			$this->object->saveToDb();
-		}
-    return $result;
-  }
-
-/**
-* Creates the form to edit the question categories
-*
-* Creates the form to edit the question categories
-*
-* @access private
-*/
-	function categories($add = false)
-	{
-		if ($this->object->getId() < 1) 
-		{
-			ilUtil::sendInfo($this->lng->txt("fill_out_all_required_fields_add_category"), true);
-			$this->ctrl->redirect($this, "editQuestion");
-		}
-		if (strcmp($this->ctrl->getCmd(), "categories") == 0) $_SESSION["spl_modified"] = false;
-		$this->tpl->addBlockFile("ADM_CONTENT", "adm_content", "tpl.il_svy_qpl_ordinal_answers.html", "Modules/SurveyQuestionPool");
-    // output of existing single response answers
-		for ($i = 0; $i < $this->object->categories->getCategoryCount(); $i++) 
-		{
-			$this->tpl->setCurrentBlock("cat_selector");
-			$this->tpl->setVariable("CATEGORY_ORDER", $i);
-			$this->tpl->parseCurrentBlock();
-			$this->tpl->setCurrentBlock("categories");
-			$category = $this->object->categories->getCategory($i);
-			$this->tpl->setVariable("CATEGORY_ORDER", $i);
-			$this->tpl->setVariable("CATEGORY_NUMBER", $i+1);
-			$this->tpl->setVariable("VALUE_CATEGORY", ilUtil::prepareFormOutput($category));
-			$this->tpl->setVariable("TEXT_CATEGORY", $this->lng->txt("category"));
-			$this->tpl->parseCurrentBlock();
-		}
-		
-		if ($add)
-		{
-			$nrOfCategories = $_POST["nrOfCategories"];
-			if ($nrOfCategories < 1) $nrOfCategories = 1;
-			// Create template for a new category
-			for ($i = 1; $i <= $nrOfCategories; $i++)
-			{
-				$this->tpl->setCurrentBlock("categories");
-				$this->tpl->setVariable("CATEGORY_ORDER", $this->object->categories->getCategoryCount() + $i - 1);
-				$this->tpl->setVariable("TEXT_CATEGORY", $this->lng->txt("category"));
-				$this->tpl->parseCurrentBlock();
-			}
-		}
-
-		if (is_array($_SESSION["spl_move"]))
-		{
-			if (count($_SESSION["spl_move"]))
-			{
-				$this->tpl->setCurrentBlock("move_buttons");
-				$this->tpl->setVariable("INSERT_BEFORE", $this->lng->txt("insert_before"));
-				$this->tpl->setVariable("INSERT_AFTER", $this->lng->txt("insert_after"));
-				$this->tpl->parseCurrentBlock();
-			}
-		}
-		
-		include_once "./Services/Utilities/classes/class.ilUtil.php";
-		if ($this->object->categories->getCategoryCount() == 0)
-		{
-			if (!$add)
-			{
-				$this->tpl->setCurrentBlock("nocategories");
-				$this->tpl->setVariable("NO_CATEGORIES", $this->lng->txt("question_contains_no_categories"));
-				$this->tpl->parseCurrentBlock();
-			}
-		}
-		else
-		{
-			$this->tpl->setCurrentBlock("selectall");
-			$this->tpl->setVariable("SELECT_ALL", $this->lng->txt("select_all"));
-			$this->tpl->parseCurrentBlock();
-			$this->tpl->setCurrentBlock("existingcategories");
-			$this->tpl->setVariable("DELETE", $this->lng->txt("delete"));
-			$this->tpl->setVariable("MOVE", $this->lng->txt("move"));
-			$this->tpl->setVariable("VALUE_SAVE_PHRASE", $this->lng->txt("save_phrase"));
-			$this->tpl->setVariable("ARROW", "<img src=\"" . ilUtil::getImagePath("arrow_downright.gif") . "\" alt=\"".$this->lng->txt("arrow_downright")."\">");
-			$this->tpl->parseCurrentBlock();
-		}
-		
-		for ($i = 1; $i < 10; $i++)
-		{
-			$this->tpl->setCurrentBlock("numbers");
-			$this->tpl->setVariable("VALUE_NUMBER", $i);
-			if ($i == 1)
-			{
-				$this->tpl->setVariable("TEXT_NUMBER", $i . " " . $this->lng->txt("category"));
-			}
-			else
-			{
-				$this->tpl->setVariable("TEXT_NUMBER", $i . " " . $this->lng->txt("categories"));
-			}
-			$this->tpl->parseCurrentBlock();
-		}
-		
-		$this->tpl->setCurrentBlock("adm_content");
-		$this->tpl->setVariable("FORM_ACTION", $this->ctrl->getFormAction($this));
-		$this->tpl->setVariable("VALUE_ADD_CATEGORY", $this->lng->txt("add"));
-		$this->tpl->setVariable("VALUE_ADD_PHRASE", $this->lng->txt("add_phrase"));
-		$this->tpl->setVariable("SAVE", $this->lng->txt("save"));
-		if ($_SESSION["spl_modified"])
-		{
-			$this->tpl->setVariable("FORM_DATA_MODIFIED_PRESS_SAVE", $this->lng->txt("form_data_modified_press_save"));
-		}
-		$questiontext = $this->object->getQuestiontext();
-		$this->tpl->setVariable("QUESTION_TEXT", $this->object->prepareTextareaOutput($questiontext, TRUE));
-		$this->tpl->parseCurrentBlock();
-	}
-	
 	function setQuestionTabs()
 	{
 		$this->setQuestionTabsForClass("surveyordinalquestiongui");
 	}
 
 /**
-* Creates an output for the addition of phrases
-*
 * Creates an output for the addition of phrases
 *
 * @access public
@@ -585,8 +494,6 @@ class SurveyOrdinalQuestionGUI extends SurveyQuestionGUI
 /**
 * Cancels the form adding a phrase
 *
-* Cancels the form adding a phrase
-*
 * @access public
 */
 	function cancelViewPhrase() 
@@ -595,8 +502,6 @@ class SurveyOrdinalQuestionGUI extends SurveyQuestionGUI
 	}
 
 /**
-* Adds a selected phrase
-*
 * Adds a selected phrase
 *
 * @access public
@@ -627,8 +532,6 @@ class SurveyOrdinalQuestionGUI extends SurveyQuestionGUI
 /**
 * Creates an output for the addition of standard numbers
 *
-* Creates an output for the addition of standard numbers
-*
 * @access public
 */
   function addStandardNumbers() 
@@ -657,8 +560,6 @@ class SurveyOrdinalQuestionGUI extends SurveyQuestionGUI
 /**
 * Cancels the form adding standard numbers
 *
-* Cancels the form adding standard numbers
-*
 * @access public
 */
 	function cancelStandardNumbers() 
@@ -667,8 +568,6 @@ class SurveyOrdinalQuestionGUI extends SurveyQuestionGUI
 	}
 
 /**
-* Insert standard numbers to the question
-*
 * Insert standard numbers to the question
 *
 * @access public
@@ -694,8 +593,6 @@ class SurveyOrdinalQuestionGUI extends SurveyQuestionGUI
 	}
 
 /**
-* Creates an output to save a phrase
-*
 * Creates an output to save a phrase
 *
 * @access public
@@ -745,8 +642,6 @@ class SurveyOrdinalQuestionGUI extends SurveyQuestionGUI
 /**
 * Cancels the form saving a phrase
 *
-* Cancels the form saving a phrase
-*
 * @access public
 */
 	function cancelSavePhrase() 
@@ -755,8 +650,6 @@ class SurveyOrdinalQuestionGUI extends SurveyQuestionGUI
 	}
 
 /**
-* Save a new phrase to the database
-*
 * Save a new phrase to the database
 *
 * @access public
@@ -783,205 +676,6 @@ class SurveyOrdinalQuestionGUI extends SurveyQuestionGUI
 	}
 
 /**
-* Saves the categories
-*
-* Saves the categories
-*
-* @access private
-*/
-	function saveCategories()
-	{
-		global $ilUser;
-		
-		$this->writeCategoryData(true);
-		$_SESSION["spl_modified"] = false;
-		ilUtil::sendSuccess($this->lng->txt("saved_successfully"), true);
-		$originalexists = $this->object->_questionExists($this->object->original_id);
-		$this->ctrl->setParameter($this, "q_id", $this->object->getId());
-		include_once "./Modules/SurveyQuestionPool/classes/class.SurveyQuestion.php";
-		if ($_GET["calling_survey"] && $originalexists && SurveyQuestion::_isWriteable($this->object->original_id, $ilUser->getId()))
-		{
-			$this->originalSyncForm();
-			return;
-		}
-		else
-		{
-			$this->ctrl->redirect($this, "categories");
-		}
-	}
-
-/**
-* Adds a category to the question
-*
-* Adds a category to the question
-*
-* @access private
-*/
-	function addCategory()
-	{
-		$result = $this->writeCategoryData();
-		if ($result == false)
-		{
-			ilUtil::sendInfo($this->lng->txt("fill_out_all_category_fields"));
-		}
-		$_SESSION["spl_modified"] = true;
-		$this->categories($result);
-	}
-	
-/**
-* Recreates the categories from the POST data
-*
-* Recreates the categories from the POST data and
-* saves it (optionally) to the database.
-*
-* @param boolean $save If set to true the POST data will be saved to the database
-* @access private
-*/
-	function writeCategoryData($save = false)
-	{
-    // Delete all existing categories and create new categories from the form data
-    $this->object->categories->flushCategories();
-		$complete = true;
-		$array1 = array();
-    // Add all categories from the form into the object
-		include_once "./Services/Utilities/classes/class.ilUtil.php";
-		foreach ($_POST as $key => $value) 
-		{
-			if (preg_match("/^category_(\d+)/", $key, $matches)) 
-			{
-				$array1[$matches[1]] = ilUtil::stripSlashes($value);
-				if (strlen($array1[$matches[1]]) == 0) $complete = false;
-			}
-		}
-		$this->object->categories->addCategoryArray($array1);
-		if ($save)
-		{	
-			$this->object->saveCategoriesToDb();
-		}
-		return $complete;
-	}
-	
-/**
-* Removes one or more categories
-*
-* Removes one or more categories
-*
-* @access private
-*/
-	function deleteCategory()
-	{
-		$this->writeCategoryData();
-		$nothing_selected = true;
-		if (array_key_exists("chb_category", $_POST))
-		{
-			if (count($_POST["chb_category"]))
-			{
-				$nothing_selected = false;
-				$this->object->categories->removeCategories($_POST["chb_category"]);
-			}
-		}
-		if ($nothing_selected) ilUtil::sendInfo($this->lng->txt("category_delete_select_none"));
-		$_SESSION["spl_modified"] = true;
-		$this->categories();
-	}
-	
-/**
-* Selects one or more categories for moving
-*
-* Selects one or more categories for moving
-*
-* @access private
-*/
-	function moveCategory()
-	{
-		$this->writeCategoryData();
-		$nothing_selected = true;
-		if (array_key_exists("chb_category", $_POST))
-		{
-			if (count($_POST["chb_category"]))
-			{
-				$nothing_selected = false;
-				ilUtil::sendInfo($this->lng->txt("select_target_position_for_move"));
-				$_SESSION["spl_move"] = $_POST["chb_category"];
-			}
-		}
-		if ($nothing_selected) ilUtil::sendInfo($this->lng->txt("no_category_selected_for_move"));
-		$this->categories();
-	}
-	
-/**
-* Inserts categories which are selected for moving before the selected category
-*
-* Inserts categories which are selected for moving before the selected category
-*
-* @access private
-*/
-	function insertBeforeCategory()
-	{
-		$result = $this->writeCategoryData();
-		if (array_key_exists("chb_category", $_POST))
-		{
-			if (count($_POST["chb_category"]) == 1)
-			{
-				// one entry is selected, moving is allowed
-				$this->object->categories->removeCategories($_SESSION["spl_move"]);
-				$newinsertindex = $this->object->categories->getCategoryIndex($_POST["category_".$_POST["chb_category"][0]]);
-				if ($newinsertindex === false) $newinsertindex = 0;
-				$move_categories = $_SESSION["spl_move"];
-				natsort($move_categories);
-				foreach (array_reverse($move_categories) as $index)
-				{
-					$this->object->categories->addCategoryAtPosition($_POST["category_$index"], $newinsertindex);
-				}
-				$_SESSION["spl_modified"] = true;
-				unset($_SESSION["spl_move"]);
-			}
-			else
-			{
-				ilUtil::sendInfo("wrong_categories_selected_for_insert");
-			}
-		}
-		$this->categories();
-	}
-	
-/**
-* Inserts categories which are selected for moving before the selected category
-*
-* Inserts categories which are selected for moving before the selected category
-*
-* @access private
-*/
-	function insertAfterCategory()
-	{
-		$result = $this->writeCategoryData();
-		if (array_key_exists("chb_category", $_POST))
-		{
-			if (count($_POST["chb_category"]) == 1)
-			{
-				// one entry is selected, moving is allowed
-				$this->object->categories->removeCategories($_SESSION["spl_move"]);
-				$newinsertindex = $this->object->categories->getCategoryIndex($_POST["category_".$_POST["chb_category"][0]]);
-				if ($newinsertindex === false) $newinsertindex = 0;
-				$move_categories = $_SESSION["spl_move"];
-				natsort($move_categories);
-				foreach (array_reverse($move_categories) as $index)
-				{
-					$this->object->categories->addCategoryAtPosition($_POST["category_$index"], $newinsertindex+1);
-				}
-				$_SESSION["spl_modified"] = true;
-				unset($_SESSION["spl_move"]);
-			}
-			else
-			{
-				ilUtil::sendInfo("wrong_categories_selected_for_insert");
-			}
-		}
-		$this->categories();
-	}
-
-/**
-* Creates a the cumulated results row for the question
-*
 * Creates a the cumulated results row for the question
 *
 * @return string HTML text with the cumulated results
@@ -1017,8 +711,6 @@ class SurveyOrdinalQuestionGUI extends SurveyQuestionGUI
 	}
 
 /**
-* Creates the detailed output of the cumulated results for the question
-*
 * Creates the detailed output of the cumulated results for the question
 *
 * @param integer $survey_id The database ID of the survey
