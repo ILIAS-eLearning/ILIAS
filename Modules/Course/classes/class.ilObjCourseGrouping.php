@@ -187,7 +187,9 @@ class ilObjCourseGrouping
 			$this->db->quote($this->getTitle(), "text").",".
 			$ilDB->quote($this->getDescription(), "text").",".
 			$ilDB->quote($ilUser->getId(), "integer").",".
-			$ilDB->now().",$ilDB->now())";
+			$ilDB->now().",".
+			$ilDB->now().
+			')';
 			
 		$ilDB->manipulate($query);
 
