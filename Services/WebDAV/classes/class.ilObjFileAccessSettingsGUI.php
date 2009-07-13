@@ -1,5 +1,4 @@
 <?php
-// BEGIN WebDAV
 /*
 	+-----------------------------------------------------------------------------+
 	| ILIAS open source                                                           |
@@ -320,6 +319,10 @@ class ilObjFileAccessSettingsGUI extends ilObjectGUI
 			 $ilCtrl->getLinkTarget($this, "viewDiskUsageStatistics"),
 			 array("viewDiskUsageStatistics"));
 		 
+		$ilTabs->addSubTabTarget("disk_quota_reminder_mail",
+			 $ilCtrl->getLinkTarget($this, "editDiskQuotaMailTemplate"),
+			 array("editDiskQuotaMailTemplate"));
+
 		$ilTabs->setSubTabActive($a_active_subtab);
 	}
 
@@ -359,6 +362,14 @@ class ilObjFileAccessSettingsGUI extends ilObjectGUI
 		$cb_prop->setInfo($lng->txt('enable_disk_quota_info'));
 		$form->addItem($cb_prop);
 
+		// Enable disk quota reminder mail
+		$cb_prop = new ilCheckboxInputGUI($lng->txt("enable_disk_quota_reminder_mail"), "enable_disk_quota_reminder_mail");
+		$cb_prop->setValue('1');
+		$cb_prop->setChecked($this->disk_quota_obj->isDiskQuotaReminderMailEnabled());
+		$cb_prop->setInfo($lng->txt('disk_quota_reminder_mail_desc'));
+		$form->addItem($cb_prop);
+
+
 
 		// command buttons
 		$form->addCommandButton('saveDiskQuotaSettings', $lng->txt('save'));
@@ -380,7 +391,9 @@ class ilObjFileAccessSettingsGUI extends ilObjectGUI
 		}
 
 		$this->disk_quota_obj->setDiskQuotaEnabled($_POST['enable_disk_quota'] == '1');
+		$this->disk_quota_obj->setDiskQuotaReminderMailEnabled($_POST['enable_disk_quota_reminder_mail'] == '1');
 		$this->disk_quota_obj->update();
+
 
 		ilUtil::sendInfo($lng->txt('settings_saved'),true);
 		$ilCtrl->redirect($this, "editDiskQuotaSettings");
@@ -588,6 +601,103 @@ class ilObjFileAccessSettingsGUI extends ilObjectGUI
 		$this->tpl->setVariable("USER_TABLE",$a_tpl->get());
 	}
 
+	/**
+	* Edit disk quota settings.
+	*/
+	public function editDiskQuotaMailTemplate()
+	{
+		global $rbacsystem, $ilErr, $ilSetting, $tpl, $lng, $ilCtrl;
+
+		if (! $rbacsystem->checkAccess("visible,read",$this->object->getRefId()))
+		{
+			$ilErr->raiseError($lng->txt("no_permission"),$ilErr->WARNING);
+		}
+
+		$this->tabs_gui->setTabActive('disk_quota');
+		$this->addDiskQuotaSubtabs('disk_quota_reminder_mail');
+
+		$this->tpl->addBlockFile('ADM_CONTENT','adm_content','tpl.diskquota_new_account_mail.html');
+		$this->tpl->setVariable("FORMACTION", $this->ctrl->getFormAction($this));
+		$this->tpl->setVariable("IMG_MAIL", ilUtil::getImagePath("icon_mail.gif"));
+
+		$lng->loadLanguageModule("meta");
+		$lng->loadLanguageModule("mail");
+		$this->tpl->setVariable("TXT_NEW_USER_ACCOUNT_MAIL", $lng->txt("disk_quota_reminder_mail"));
+		$this->tpl->setVariable("TXT_NEW_USER_ACCOUNT_MAIL_DESC", $lng->txt("disk_quota_reminder_mail_desc"));
+
+		// placeholder help text
+		$this->tpl->setVariable("TXT_USE_PLACEHOLDERS", $lng->txt("mail_nacc_use_placeholder"));
+		$this->tpl->setVariable("TXT_MAIL_SALUTATION", $lng->txt("mail_nacc_salutation"));
+		$this->tpl->setVariable("TXT_FIRST_NAME", $lng->txt("firstname"));
+		$this->tpl->setVariable("TXT_LAST_NAME", $lng->txt("lastname"));
+		$this->tpl->setVariable("TXT_EMAIL", $lng->txt("email"));
+		$this->tpl->setVariable("TXT_LOGIN", $lng->txt("mail_nacc_login"));
+		$this->tpl->setVariable("TXT_DISK_QUOTA", $lng->txt("disk_quota"));
+		$this->tpl->setVariable("TXT_DISK_USAGE", $lng->txt("disk_usage"));
+		$this->tpl->setVariable("TXT_DISK_USAGE_DETAILS", $lng->txt("disk_usage_details"));
+		$this->tpl->setVariable("TXT_ADMIN_MAIL", $lng->txt("mail_nacc_admin_mail"));
+		$this->tpl->setVariable("TXT_ILIAS_URL", $lng->txt("mail_nacc_ilias_url"));
+		$this->tpl->setVariable("TXT_CLIENT_NAME", $lng->txt("mail_nacc_client_name"));
+
+		$langs = $lng->getInstalledLanguages();
+		foreach($langs as $lang_key)
+		{
+			$amail = $this->disk_quota_obj->_lookupReminderMailTemplate($lang_key);
+			$this->tpl->setCurrentBlock("mail_block");
+			$add = "";
+			if ($lang_key == $lng->getDefaultLanguage())
+			{
+				$add = " (".$lng->txt("default").")";
+			}
+			$this->tpl->setVariable("TXT_LANGUAGE",
+				$lng->txt("meta_l_".$lang_key).$add);
+			$this->tpl->setVariable("TXT_BODY", $lng->txt("message_content"));
+			$this->tpl->setVariable("TA_BODY", "body_".$lang_key);
+			$this->tpl->setVariable("VAL_BODY",
+				ilUtil::prepareFormOutput($amail["body"]));
+			$this->tpl->setVariable("TXT_SUBJECT", $lng->txt("subject"));
+			$this->tpl->setVariable("INPUT_SUBJECT", "subject_".$lang_key);
+			$this->tpl->setVariable("VAL_SUBJECT",
+				ilUtil::prepareFormOutput($amail["subject"]));
+			$this->tpl->setVariable("TXT_SAL_G", $lng->txt("mail_salutation_general"));
+			$this->tpl->setVariable("INPUT_SAL_G", "sal_g_".$lang_key);
+			$this->tpl->setVariable("VAL_SAL_G",
+				ilUtil::prepareFormOutput($amail["sal_g"]));
+			$this->tpl->setVariable("TXT_SAL_M", $lng->txt("mail_salutation_male"));
+			$this->tpl->setVariable("INPUT_SAL_M", "sal_m_".$lang_key);
+			$this->tpl->setVariable("VAL_SAL_M",
+				ilUtil::prepareFormOutput($amail["sal_m"]));
+			$this->tpl->setVariable("TXT_SAL_F", $lng->txt("mail_salutation_female"));
+			$this->tpl->setVariable("INPUT_SAL_F", "sal_f_".$lang_key);
+			$this->tpl->setVariable("VAL_SAL_F",
+				ilUtil::prepareFormOutput($amail["sal_f"]));
+			$this->tpl->parseCurrentBlock();
+		}
+		$this->tpl->setVariable("TXT_CANCEL", $lng->txt("cancel"));
+		$this->tpl->setVariable("TXT_SAVE", $lng->txt("save"));
+	}
+	function cancelDiskQuotaMailTemplate()
+	{
+		$this->ctrl->redirect($this, "editDiskQuotaSettings");
+	}
+
+	function saveDiskQuotaMailTemplate()
+	{
+		global $lng;
+
+		ilUtil::sendSuccess($this->lng->txt("msg_obj_modified"), true);
+		$langs = $lng->getInstalledLanguages();
+		foreach($langs as $lang_key)
+		{
+			$this->disk_quota_obj->_writeReminderMailTemplate($lang_key,
+				ilUtil::stripSlashes($_POST["subject_".$lang_key]),
+				ilUtil::stripSlashes($_POST["sal_g_".$lang_key]),
+				ilUtil::stripSlashes($_POST["sal_f_".$lang_key]),
+				ilUtil::stripSlashes($_POST["sal_m_".$lang_key]),
+				ilUtil::stripSlashes($_POST["body_".$lang_key]));
+		}
+		$this->ctrl->redirect($this, "editDiskQuotaMailTemplate");
+	}
+
 } 
-// END WebDAV
 ?>

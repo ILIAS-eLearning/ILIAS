@@ -2313,6 +2313,23 @@ return $this->showServerInfoObject();
 		$si->setValue($ilSetting->get("mail_notification"));
 		$this->form->addItem($si);
 		
+		// disk quota and disk quota reminder mail
+		$dq_settings = new ilSetting('disk_quota');
+		$cb = new ilCheckboxInputGUI($this->lng->txt("enable_disk_quota"), "enable_disk_quota");
+		$cb->setInfo($this->lng->txt("enable_disk_quota_info"));
+		if ($dq_settings->get('enabled'))
+		{
+			$cb->setChecked(true);
+		}
+		$this->form->addItem($cb);
+		$cb = new ilCheckboxInputGUI($this->lng->txt("enable_disk_quota_reminder_mail"), "enable_disk_quota_reminder_mail");
+		$cb->setInfo($this->lng->txt("disk_quota_reminder_mail_desc"));
+		if ($dq_settings->get('reminder_mail_enabled'))
+		{
+			$cb->setChecked(true);
+		}
+		$this->form->addItem($cb);
+
 		$this->form->addCommandButton("saveCronJobs", $lng->txt("save"));
 	                
 		$this->form->setTitle($lng->txt("cron_jobs"));
@@ -2339,6 +2356,11 @@ return $this->showServerInfoObject();
 			$ilSetting->set("forum_notification", $_POST["forum_notification"]);
 			$ilSetting->set("mail_notification", $_POST["mail_notification"]);
 			
+			// disk quota and disk quota reminder mail
+			$dq_settings = new ilSetting('disk_quota');
+			$dq_settings->set('enabled', $_POST['enable_disk_quota'] ? 1 : 0);
+			$dq_settings->set('reminder_mail_enabled', $_POST['enable_disk_quota_reminder_mail'] ? 1 : 0);
+
 			ilUtil::sendSuccess($lng->txt("msg_obj_modified"), true);
 			$ilCtrl->redirect($this, "showCronJobs");
 		}

@@ -738,7 +738,10 @@ class ilObjUserFolder extends ilObject
 				'sal_f'			=> array('text',$a_sal_f),
 				'sal_m'			=> array('text',$a_sal_m)
 				);
-			$ilDB->update('usr_new_account_mail',$values,array('lang' => array('text',$a_lang)));
+			$ilDB->update('mail_template',
+				$values,
+				array('lang' => array('text',$a_lang), 'type' => array('text','nacc'))
+			);
 		}
 		else
 		{
@@ -748,9 +751,10 @@ class ilObjUserFolder extends ilObject
 				'sal_g'			=> array('text',$a_sal_g),
 				'sal_f'			=> array('text',$a_sal_f),
 				'sal_m'			=> array('text',$a_sal_m),
-				'lang'			=> array('text',$a_lang)
+				'lang'			=> array('text',$a_lang),
+				'type'			=> array('text','nacc')
 				);
-			$ilDB->insert('usr_new_account_mail',$values);
+			$ilDB->insert('mail_template',$values);
 		}
 	}
 
@@ -758,8 +762,8 @@ class ilObjUserFolder extends ilObject
 	{
 		global $ilDB;
 
-		$set = $ilDB->query("SELECT * FROM usr_new_account_mail ".
-			" WHERE lang = ".$ilDB->quote($a_lang,'text'));
+		$set = $ilDB->query("SELECT * FROM mail_template ".
+			" WHERE type='nacc' AND lang = ".$ilDB->quote($a_lang,'text'));
 
 		if ($rec = $set->fetchRow(DB_FETCHMODE_ASSOC))
 		{

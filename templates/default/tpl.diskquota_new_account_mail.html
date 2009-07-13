@@ -1,0 +1,85 @@
+<form action="{FORMACTION}" method="post">
+<table class="fullwidth">
+	<tr class="tbltitle">
+		<th class="std" colspan="2">
+		<img alt="" src="{IMG_MAIL}" border="0" style="vertical-align: middle;"/>
+		{TXT_NEW_USER_ACCOUNT_MAIL}<br />
+		<span class="subtitle">{TXT_NEW_USER_ACCOUNT_MAIL_DESC}</span>
+		</th>
+	</tr>
+	<!-- BEGIN mail_block -->
+	<tr class="tblheader">
+		<th class="std" colspan="2">{TXT_LANGUAGE}
+		</th>
+	</tr>
+	<tr>
+		<td class="option" style="text-align:left;">
+		{TXT_SUBJECT}
+		</td>
+		<td class="option_value">
+		<input type="text" maxlength="80" size="50" name="{INPUT_SUBJECT}" value="{VAL_SUBJECT}" />
+		</td>
+	</tr>
+	<tr>
+		<td class="option" style="text-align:left;">
+		{TXT_SAL_G}
+		</td>
+		<td class="option_value">
+		<input type="text" maxlength="80" size="50" name="{INPUT_SAL_G}" value="{VAL_SAL_G}" />
+		</td>
+	</tr>
+	<tr>
+		<td class="option" style="text-align:left;">
+		{TXT_SAL_F}
+		</td>
+		<td class="option_value">
+		<input type="text" maxlength="80" size="50" name="{INPUT_SAL_F}" value="{VAL_SAL_F}" />
+		</td>
+	</tr>
+	<tr>
+		<td class="option" style="text-align:left;">
+		{TXT_SAL_M}
+		</td>
+		<td class="option_value">
+		<input type="text" maxlength="80" size="50" name="{INPUT_SAL_M}" value="{VAL_SAL_M}" />
+		</td>
+	</tr>
+	<tr>
+		<td class="option" style="text-align:left;" colspan="2">
+		{TXT_BODY}
+		</td>
+	</tr>
+	<tr>
+		<td class="option_value" colspan="2">
+		<textarea style="width: 95%;" rows="10" name="{TA_BODY}">{VAL_BODY}</textarea>
+		</td>
+	</tr>
+	<!-- END mail_block -->
+	<tr>
+		<td class="submit" colspan="2">
+		<div style="text-align:right;">
+		<input type="submit" class="submit" name="cmd[saveDiskQuotaMailTemplate]" value="{TXT_SAVE}" />
+		<input type="submit" class="submit" name="cmd[cancelDiskQuotaMailTemplate]" value="{TXT_CANCEL}" />
+		</div>
+		</td>
+	</tr>
+	<tr>
+		<td class="option_value" colspan="2">
+		<div class="il_Description">
+		<b>{TXT_USE_PLACEHOLDERS}</b>:<br /><br />
+		<b>[MAIL_SALUTATION]</b>: {TXT_MAIL_SALUTATION}<br />
+		<b>[FIRST_NAME]</b>: {TXT_FIRST_NAME}<br />
+		<b>[LAST_NAME]</b>: {TXT_LAST_NAME}<br />
+		<b>[EMAIL]</b>: {TXT_EMAIL}<br />
+		<b>[LOGIN]</b>: {TXT_LOGIN}<br />
+		<b>[ADMIN_MAIL]</b>: {TXT_ADMIN_MAIL}<br />
+		<b>[ILIAS_URL]</b>: {TXT_ILIAS_URL}<br />
+		<b>[CLIENT_NAME]</b>: {TXT_CLIENT_NAME}<br />
+		<b>[DISK_QUOTA]</b>: {TXT_DISK_QUOTA}<br />
+		<b>[DISK_USAGE]</b>: {TXT_DISK_USAGE}<br />
+		<b>[DISK_USAGE_DETAILS]</b>: {TXT_DISK_USAGE_DETAILS}<br />
+		</div>
+		</td>
+	</tr>
+</table>
+</form>
