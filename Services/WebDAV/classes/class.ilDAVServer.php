@@ -729,7 +729,17 @@ class ilDAVServer extends HTTP_WebDAV_Server
 				$hrefPath .= '/';
 			}
 			$uriPath = implode('/', array_slice($uriComponents,0,$i + 1));
-			$hrefPath .= '<a href="'.$this->base_uri.$uriPath.'/">'.$displayName.'</a>';
+			if ($i < 2)
+			{
+				// The first two path elements consist of the webdav.php script
+				// and the client id. These elements are not part of the
+				// directory structure and thus are not represented as links.
+				$hrefPath .= $displayName;
+			}
+			else
+			{
+				$hrefPath .= '<a href="'.$this->base_uri.$uriPath.'/">'.$displayName.'</a>';
+			}
 		}
 		echo "<h3>".sprintf($lng->txt('webfolder_index_of'), $hrefPath)."</h3>\n";
 
