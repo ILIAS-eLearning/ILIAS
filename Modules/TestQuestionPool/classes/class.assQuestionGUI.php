@@ -795,8 +795,7 @@ class assQuestionGUI
 		
 		if ($_POST["deleteSuggestedSolution"] == 1)
 		{
-			$this->object->suggested_solutions = array();
-			$this->object->updateSuggestedSolutions();
+			$this->object->deleteSuggestedSolutions();
 			ilUtil::sendSuccess($this->lng->txt("msg_obj_modified"), true);
 			$this->ctrl->redirect($this, "suggestedsolution");
 		}
