@@ -46,7 +46,8 @@ class ilSoapUtils extends ilSoapAdministration
 
 	function disableSOAPCheck()
 	{
-		$this->sauth->disableSOAPCheck();
+		// TODO: handle SOAP enabled in check session
+		//$this->sauth->disableSOAPCheck();
 	}
 	
 	function sendMail($sid,$to,$cc,$bcc,$sender,$subject,$message,$attach)
