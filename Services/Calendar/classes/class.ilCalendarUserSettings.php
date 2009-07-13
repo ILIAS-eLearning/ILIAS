@@ -4,8 +4,6 @@
 * @author Stefan Meyer <smeyer.ilias@gmx.de>
 * @version $Id$
 * 
-* 
-* @ilCtrl_Calls ilCalendarUserSettingsGUI:
 * @ingroup ServicesCalendar 
 */
 include_once('./Services/Calendar/classes/class.ilCalendarSettings.php');
