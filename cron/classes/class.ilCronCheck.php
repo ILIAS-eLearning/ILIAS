@@ -120,7 +120,14 @@ class ilCronCheck
 			include_once './cron/classes/class.ilCronDiskQuotaCheck.php';
 
 			$disk_quota =& new ilCronDiskQuotaCheck();
-			$disk_quota->check();
+			$disk_quota->updateDiskUsageStatistics();
+		}
+		if (ilDiskQuotaActivationChecker::_isReminderMailActive())
+		{
+			include_once './cron/classes/class.ilCronDiskQuotaCheck.php';
+
+			$disk_quota =& new ilCronDiskQuotaCheck();
+			$disk_quota->sendReminderMails();
 		}
 	}
 }

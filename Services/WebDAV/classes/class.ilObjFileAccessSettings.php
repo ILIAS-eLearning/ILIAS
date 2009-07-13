@@ -30,7 +30,7 @@
 *
 * @author Werner Randelshofer, Hochschule Luzern, werner.randelshofer@hslu.ch
 *
-* @version $Id: class.ilObjFileAccessSettings.php 15697 2008-01-08 20:04:33Z hschottm $
+* @version $Id$
 *
 * @extends ilObject
 * @package WebDAV

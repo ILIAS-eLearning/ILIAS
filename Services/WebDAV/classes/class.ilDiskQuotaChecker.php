@@ -22,7 +22,8 @@
 */
 
 /**
-* Class ilObjFileAccessSettingsAccess
+* Class ilDiskQuotaChecker.
+ * 
 *
 * @author Werner Randelshofer, Hochschule Luzern, werner.randelshofer@hslu.ch
 * @version $Id$
@@ -56,10 +57,14 @@ class ilDiskQuotaChecker
 	*							// the disk quota specified on the user account
 	*                           // form.
 	*
-	*		"disk_quota"=>integer or postive infinity
+	*		"disk_quota"=>integer or positive infinity
 	*							// the disk quota which is in effect. This is
 	*                           // either role_quota or user_quota whichever
 	*                           // is higher.
+	*
+	*		"last_reminder"=>string or null
+	*							// the SQL datetime the last time a disk quota
+	*							// reminder was sent to the user
 	* }
 	*/
 	public static function _lookupDiskQuota($a_user_id)
@@ -68,16 +73,24 @@ class ilDiskQuotaChecker
 
 		global $ilDB;
 
-		$ilDB->setLimit(1);
-		$res = $ilDB->queryf("SELECT value ".
+		$res = $ilDB->queryf("SELECT keyword, value ".
 			"FROM usr_pref ".
 			"WHERE usr_id = %s ".
-			"AND keyword = 'disk_quota'",
+			"AND keyword IN ('disk_quota', 'disk_quota_last_reminder')",
 	        array('integer'),
 	        array($a_user_id));
 
-		$row = $res->fetchRow(DB_FETCHMODE_OBJECT);
-		$info['user_disk_quota'] = $row->value;
+		while ($row = $res->fetchRow(DB_FETCHMODE_OBJECT)) {
+			switch ($row->keyword)
+			{
+				case 'disk_quota' :
+					$info['user_disk_quota'] = $row->value;
+					break;
+				case 'disk_quota_last_reminder' :
+					$info['last_reminder'] = $row->value;
+					break;
+			}
+		}
 
 
 		// Note: we order by role_id ASC here, in the assumption that
@@ -213,30 +226,30 @@ class ilDiskQuotaChecker
 		}
 
 		switch ($a_usage_filter) {
-			case 1:
+			case 1: // all users
 				$where_clause = '';
 				break;
-			case 2:
+			case 2: // only users who don't use disk space
 				$where_clause = 'WHERE (p2.value IS NULL) ';
 				break;
-			case 3:
+			case 3: // only users who use disk space
 			default:
 				$where_clause = 'WHERE (p2.value > 0) ';
 				break;
-			case 4:
+			case 4: // only users who have exceeded their disk quota
 				$where_clause = 'WHERE (p2.value > p1.value AND p2.value > rq.role_disk_quota) ';
 				break;
 		}
 		switch ($a_access_filter) {
-			case 1:
+			case 1: // all users
 				$where_clause .= '';
 				break;
-			case 2:
+			case 2: // only users who have access
 			default:
 				$where_clause .= ($where_clause == '' ? 'WHERE ' : ' AND ' ).
 					'(u.active=1 AND (u.time_limit_unlimited = 1 OR UNIX_TIMESTAMP() BETWEEN u.time_limit_from AND u.time_limit_until)) ';
 				break;
-			case 3:
+			case 3: // only users who don't have access
 				$where_clause .= ($where_clause == '' ? 'WHERE ' : ' AND ' ).
 					'(u.active=0 OR (u.time_limit_unlimited IS NULL AND UNIX_TIMESTAMP() NOT BETWEEN u.time_limit_from AND u.time_limit_until)) ';
 				break;
@@ -253,6 +266,7 @@ class ilDiskQuotaChecker
 				"p1.value+0 AS user_disk_quota,".
 				"p2.value+0 AS disk_usage, ".
 				"p3.value AS last_update, ".
+				"p4.value AS last_reminder, ".
 				"IF(rq.role_disk_quota+0>p1.value+0 OR p1.value IS NULL,rq.role_disk_quota+0,p1.value+0) AS disk_quota	".
 			"FROM usr_data AS u  ".
 
@@ -274,6 +288,9 @@ class ilDiskQuotaChecker
 
 			// Fetch the last update from table usr_pref
 			"LEFT JOIN usr_pref AS p3 ON p3.usr_id=u.usr_id AND p3.keyword = 'disk_usage.last_update'  ".
+
+			// Fetch the date when the last disk quota reminder was sent from table usr_pref
+			"LEFT JOIN usr_pref AS p4 ON p4.usr_id=u.usr_id AND p4.keyword = 'disk_quota_last_reminder'  ".
 
 			$where_clause.
 			"ORDER BY ".
@@ -457,6 +474,99 @@ class ilDiskQuotaChecker
 					"(".$ilDB->quote($row->usr_id,'integer').", ".
 					$ilDB->quote('disk_usage.'.$a_type.'.count').", ".
 					$ilDB->quote($data['count'], 'integer').")"
+					);
+			}
+		}
+	}
+	/**
+	 * Sends reminder e-mails to all users who have access and who have exceeded
+	 * their disk quota and who haven't received a reminder mail in the past 7
+	 * days.
+	 */
+	public static function _sendReminderMails()
+	{
+		global $ilDB;
+
+		require_once 'Services/Mail/classes/class.ilDiskQuotaReminderMail.php';
+		$mail = new ilDiskQuotaReminderMail();
+
+		$res = $ilDB->queryf(
+			// Note: We add 0 to some of the values to convert them into a number
+			//       This is needed for correct sorting.
+			"SELECT u.usr_id,u.gender,u.firstname,u.lastname,u.login,u.email,u.last_login,u.active,".
+				"u.time_limit_unlimited, FROM_UNIXTIME(u.time_limit_from), FROM_UNIXTIME(u.time_limit_until),".
+				"IF(u.active = 0,'0000-00-00',IF (u.time_limit_unlimited=1,'9999-12-31',FROM_UNIXTIME(u.time_limit_until))) AS access_until,".
+				"IF(UNIX_TIMESTAMP() BETWEEN u.time_limit_from AND u.time_limit_until,0,1) AS expired,".
+				"rq.role_disk_quota, system_role.rol_id AS role_id, ".
+				"p1.value+0 AS user_disk_quota,".
+				"p2.value+0 AS disk_usage, ".
+				"p3.value AS last_update, ".
+				"p4.value AS last_reminder, ".
+				"p5.value AS language, ".
+				"IF(rq.role_disk_quota+0>p1.value+0 OR p1.value IS NULL,rq.role_disk_quota+0,p1.value+0) AS disk_quota	".
+			"FROM usr_data AS u  ".
+
+			// Fetch the role with the highest disk quota value.
+			"JOIN (SELECT u.usr_id AS usr_id,MAX(rd.disk_quota) AS role_disk_quota ".
+				"FROM usr_data AS u ".
+				"JOIN rbac_ua AS ua ON ua.usr_id=u.usr_id ".
+				"JOIN rbac_fa AS fa ON fa.rol_id=ua.rol_id AND fa.parent=%s  ".
+				"JOIN role_data AS rd ON rd.role_id=ua.rol_id WHERE u.usr_id=ua.usr_id GROUP BY usr_id) AS rq ON rq.usr_id=u.usr_id ".
+
+			// Fetch the system role in order to determine whether the user has unlimited disk quota
+			"LEFT JOIN rbac_ua AS system_role ON system_role.usr_id=u.usr_id AND system_role.rol_id = %s ".
+
+			// Fetch the user disk quota from table usr_pref
+			"LEFT JOIN usr_pref AS p1 ON p1.usr_id=u.usr_id AND p1.keyword = 'disk_quota'  ".
+
+			// Fetch the disk usage from table usr_pref
+			"LEFT JOIN usr_pref AS p2 ON p2.usr_id=u.usr_id AND p2.keyword = 'disk_usage'  ".
+
+			// Fetch the last update from table usr_pref
+			"LEFT JOIN usr_pref AS p3 ON p3.usr_id=u.usr_id AND p3.keyword = 'disk_usage.last_update'  ".
+
+			// Fetch the date when the last disk quota reminder was sent from table usr_pref
+			"LEFT JOIN usr_pref AS p4 ON p4.usr_id=u.usr_id AND p4.keyword = 'disk_quota_last_reminder'  ".
+
+			// Fetch the language of the user
+			"LEFT JOIN usr_pref AS p5 ON p5.usr_id=u.usr_id AND p5.keyword = 'language'  ".
+
+			// Fetch only users who have exceeded their quota, and who have
+			// access, and who have not received a reminder in the past seven days
+			'WHERE (p2.value > p1.value AND p2.value > rq.role_disk_quota) '.
+			'AND (u.active=1 AND (u.time_limit_unlimited = 1 OR UNIX_TIMESTAMP() BETWEEN u.time_limit_from AND u.time_limit_until)) '.
+			'AND (p4.value IS NULL OR p4.value < DATE_SUB(NOW(), INTERVAL 7 DAY)) '
+
+			,
+	        array('integer','integer'),
+	        array(ROLE_FOLDER_ID, SYSTEM_ROLE_ID)
+		);
+
+		while ($row = $res->fetchRow(DB_FETCHMODE_ASSOC)) {
+			$details = self::_lookupDiskUsage($row['usr_id']);
+			$row['disk_usage_details'] = $details['details'];
+
+			// Send reminder e-mail
+			$mail->setData($row);
+			$mail->send();
+
+			// Store the date the last reminder was sent in the table usr_pref.
+			if ($row['last_reminder'] != null)
+			{
+				$ilDB->manipulatef("UPDATE usr_pref SET value=NOW() ".
+					"WHERE usr_id=%s AND keyword = 'disk_quota_last_reminder'"
+					,
+					array('integer'),
+					array($row['usr_id'])
+					);
+			}
+			else
+			{
+				$ilDB->manipulatef("INSERT INTO usr_pref (usr_id, keyword, value) ".
+					"VALUES (%s, 'disk_quota_last_reminder', NOW())"
+					,
+					array('integer'),
+					array($row['usr_id'])
 					);
 			}
 		}

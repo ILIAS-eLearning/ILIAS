@@ -660,6 +660,21 @@ class ilFormat
 		return 1024;
 	}
 	/**
+	 * Returns the specified float in human friendly form.
+	 * <p>
+	 *
+	 * @param	float	a float
+	 * @param	ilLanguage  The language object, or null if you want to use the system language.
+	 */
+	public static function formatFloat($size, $a_decimals, $a_suppress_dot_zero=false, $a_mode = 'short', $a_lng = null)
+	{
+		global $lng;
+		if ($a_lng == null) {
+			$a_lng = $lng;
+		}
+		return self::fmtFloat($size, $a_decimals, $a_lng->txt('lang_sep_decimal'), $a_lng->txt('lang_sep_thousand', $a_suppress_dot_zero), true).' '.$a_lng->txt($scaled_unit);
+	}
+	/**
 	 * Returns the specified file size value in a human friendly form.
 	 * <p>
 	 * By default, the oder of magnitude 1024 is used. Thus the value returned
@@ -673,10 +688,15 @@ class ilFormat
 	 * @param	string	mode:
 	 *                  "short" is useful for display in the repository
 	 *                  "long" is useful for display on the info page of an object
+	 * @param	ilLanguage  The language object, or null if you want to use the system language.
 	 */
-	public static function formatSize($size, $a_mode = 'short')
+	public static function formatSize($size, $a_mode = 'short', $a_lng = null)
 	{
 		global $lng;
+		if ($a_lng == null) {
+			$a_lng = $lng;
+		}
+
 		require_once 'classes/class.ilFormat.php';
 
 		$result;
@@ -706,10 +726,12 @@ class ilFormat
 			$scaled_unit = 'lang_size_bytes';
 		}
 
-		$result = ilFormat::fmtFloat($scaled_size,($scaled_unit == 'lang_size_bytes') ? 0:1, $lng->txt('lang_sep_decimal'), $lng->txt('lang_sep_thousand'), true).' '.$lng->txt($scaled_unit);
+		$result = self::fmtFloat($scaled_size,($scaled_unit == 'lang_size_bytes') ? 0:1, $a_lng->txt('lang_sep_decimal'), $a_lng->txt('lang_sep_thousand'), true).' '.$a_lng->txt($scaled_unit);
 		if ($a_mode == 'long' && $size > $mag)
 		{
-			$result .= ' ('.ilFormat::fmtFloat($size,0).' '.$lng->txt('lang_size_bytes').')';
+			$result .= ' ('.
+				self::fmtFloat($size,0,$a_lng->txt('lang_sep_decimal'),$a_lng->txt('lang_sep_thousand')).
+				' '.$a_lng->txt('lang_size_bytes').')';
 		}
 		return $result;
 	}
