@@ -685,57 +685,49 @@ class ilObjSurvey extends ilObject
 	{
 		global $ilDB;
 		
+		include_once("./Services/RTE/classes/class.ilRTE.php");
 		if ($this->getSurveyId() < 1)
 		{
 			$next_id = $ilDB->nextId('svy_svy');
-			$affectedRows = $ilDB->manipulateF("INSERT INTO svy_svy (survey_id, obj_fi, author, introduction, outro, status, startdate, enddate, evaluation_access, invitation, invitation_mode, complete, created, anonymize, show_question_titles, tstamp) VALUES (%s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s)",
-				array('integer','integer','text','clob','clob','text','date','date','text','text','text',
-					'text','integer','text','text','integer'),
-				array(
-					$next_id,
-					$this->getId(),
-					$this->getAuthor(),
-					ilRTE::_replaceMediaObjectImageSrc($this->introduction, 0),
-					ilRTE::_replaceMediaObjectImageSrc($this->getOutro(), 0),
-					$this->getStatus(),
-					$this->getStartDate(),
-					$this->getEndDate(),
-					$this->getEvaluationAccess(),
-					$this->getInvitation(),
-					$this->getInvitationMode(),
-					$this->isComplete(),
-					time(),
-					$this->getAnonymize(),
-					$this->getShowQuestionTitles(),
-					time()
-				)
-			);
+			$ilDB->insert("svy_svy", array(
+				"survey_id" => array("integer", $next_id),
+				"obj_fi" => array("integer", $this->getId()),
+				"author" => array("text", $this->getAuthor()),
+				"introduction" => array("clob", ilRTE::_replaceMediaObjectImageSrc($this->getIntroduction(), 0)),
+				"outro" => array("clob", ilRTE::_replaceMediaObjectImageSrc($this->getOutro(), 0)),
+				"status" => array("text", $this->getStatus()),
+				"startdate" => array("date", $this->getStartDate()),
+				"enddate" => array("date", $this->getEndDate()),
+				"evaluation_access" => array("text", $this->getEvaluationAccess()),
+				"invitation" => array("text", $this->getInvitation()),
+				"invitation_mode" => array("text", $this->getInvitationMode()),
+				"complete" => array("text", $this->isComplete()),
+				"created" => array("integer", time()),
+				"anonymize" => array("text", $this->getAnonymize()),
+				"show_question_titles" => array("text", $this->getShowQuestionTitles()),
+				"tstamp" => array("integer", time())
+			));
 			$this->setSurveyId($next_id);
 		}
 		else
 		{
-			$affectedRows = $ilDB->manipulateF("UPDATE svy_svy SET author = %s, introduction = %s, outro = %s, status = %s, " .
-				"startdate = %s, enddate = %s, evaluation_access = %s, invitation = %s, invitation_mode = %s, complete = %s, " .
-				"anonymize = %s, show_question_titles = %s, tstamp = %s WHERE survey_id = %s",
-				array('text','clob','clob','text','date','date','text','text','text',
-					'text','text','text','integer','integer'),
-				array(
-					$this->getAuthor(),
-					ilRTE::_replaceMediaObjectImageSrc($this->introduction, 0),
-					ilRTE::_replaceMediaObjectImageSrc($this->getOutro(), 0),
-					$this->getStatus(),
-					$this->getStartDate(),
-					$this->getEndDate(),
-					$this->getEvaluationAccess(),
-					$this->getInvitation(),
-					$this->getInvitationMode(),
-					$this->isComplete(),
-					$this->getAnonymize(),
-					$this->getShowQuestionTitles(),
-					time(),
-					$this->getSurveyId()
-				)
-			);
+			$ilDB->update("svy_svy", array(
+				"author" => array("text", $this->getAuthor()),
+				"introduction" => array("clob", ilRTE::_replaceMediaObjectImageSrc($this->getIntroduction(), 0)),
+				"outro" => array("clob", ilRTE::_replaceMediaObjectImageSrc($this->getOutro(), 0)),
+				"status" => array("text", $this->getStatus()),
+				"startdate" => array("date", $this->getStartDate()),
+				"enddate" => array("date", $this->getEndDate()),
+				"evaluation_access" => array("text", $this->getEvaluationAccess()),
+				"invitation" => array("text", $this->getInvitation()),
+				"invitation_mode" => array("text", $this->getInvitationMode()),
+				"complete" => array("text", $this->isComplete()),
+				"anonymize" => array("text", $this->getAnonymize()),
+				"show_question_titles" => array("text", $this->getShowQuestionTitles()),
+				"tstamp" => array("integer", time())
+			), array(
+			"survey_id" => array("integer", $this->getSurveyId())
+			));
 		}
 		if ($affectedRows)
 		{
@@ -925,7 +917,7 @@ class ilObjSurvey extends ilObject
 			}
 			$this->setAuthor($data["author"]);
 			include_once("./Services/RTE/classes/class.ilRTE.php");
-			$this->setIntroduction(ilRTE::_replaceMediaObjectImageSrc($data->introduction, 1));
+			$this->setIntroduction(ilRTE::_replaceMediaObjectImageSrc($data["introduction"], 1));
 			if (strcmp($data["outro"], "survey_finished") == 0)
 			{
 				$this->setOutro($this->lng->txt("survey_finished"));
@@ -934,7 +926,6 @@ class ilObjSurvey extends ilObject
 			{
 				$this->setOutro(ilRTE::_replaceMediaObjectImageSrc($data["outro"], 1));
 			}
-			$this->setStatus($data["status"]);
 			$this->setInvitation($data["invitation"]);
 			$this->setInvitationMode($data["invitation_mode"]);
 			$this->setShowQuestionTitles($data["show_question_titles"]);
@@ -945,6 +936,7 @@ class ilObjSurvey extends ilObject
 			$this->setAnonymize($data["anonymize"]);
 			$this->setEvaluationAccess($data["evaluation_access"]);
 			$this->loadQuestionsFromDb();
+			$this->setStatus($data["status"]);
 		}
 	}
 
@@ -3075,7 +3067,7 @@ class ilObjSurvey extends ilObject
 		}
 		else
 		{
-			$result = $ilDB->query("SELECT * FROM svy_finished WHERE survey_fi = %s AND user_fi = %s",
+			$result = $ilDB->queryF("SELECT * FROM svy_finished WHERE survey_fi = %s AND user_fi = %s",
 				array('integer','integer'),
 				array($this->getSurveyId(), $user_id)
 			);

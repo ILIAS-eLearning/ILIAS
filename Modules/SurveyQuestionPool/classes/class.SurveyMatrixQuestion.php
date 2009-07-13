@@ -1248,7 +1248,7 @@ class SurveyMatrixQuestion extends SurveyQuestion
 					if (rand(0,1)) 
 					{
 						$next_id = $ilDB->nextId('svy_answer');
-						$affectedRows = $ilDB->manipulalteF("INSERT INTO svy_answer (answer_id, question_fi, active_fi, value, textanswer, rowvalue, tstamp) VALUES (%s, %s, %s, %s, %s, %s, %s)",
+						$affectedRows = $ilDB->manipulateF("INSERT INTO svy_answer (answer_id, question_fi, active_fi, value, textanswer, rowvalue, tstamp) VALUES (%s, %s, %s, %s, %s, %s, %s)",
 							array('integer','integer','integer','float','text','integer','integer'),
 							array($next_id, $this->getId(), $active_id, $i, NULL, $row, time())
 						);
@@ -1260,7 +1260,7 @@ class SurveyMatrixQuestion extends SurveyQuestion
 				// single responses
 				$category = rand(0, $columncount-1);
 				$next_id = $ilDB->nextId('svy_answer');
-				$affectedRows = $ilDB->manipulalteF("INSERT INTO svy_answer (answer_id, question_fi, active_fi, value, textanswer, rowvalue, tstamp) VALUES (%s, %s, %s, %s, %s, %s, %s)",
+				$affectedRows = $ilDB->manipulateF("INSERT INTO svy_answer (answer_id, question_fi, active_fi, value, textanswer, rowvalue, tstamp) VALUES (%s, %s, %s, %s, %s, %s, %s)",
 					array('integer','integer','integer','float','text','integer','integer'),
 					array($next_id, $this->getId(), $active_id, $category, NULL, $row, time())
 				);
@@ -1280,7 +1280,7 @@ class SurveyMatrixQuestion extends SurveyQuestion
 					if (preg_match("/matrix_" . $this->getId() . "_(\d+)/", $key, $matches))
 					{
 						$next_id = $ilDB->nextId('svy_answer');
-						$affectedRows = $ilDB->manipulalteF("INSERT INTO svy_answer (answer_id, question_fi, active_fi, value, textanswer, rowvalue, tstamp) VALUES (%s, %s, %s, %s, %s, %s, %s)",
+						$affectedRows = $ilDB->manipulateF("INSERT INTO svy_answer (answer_id, question_fi, active_fi, value, textanswer, rowvalue, tstamp) VALUES (%s, %s, %s, %s, %s, %s, %s)",
 							array('integer','integer','integer','float','text','integer','integer'),
 							array($next_id, $this->getId(), $active_id, $value, NULL, $matches[1], time())
 						);
@@ -1297,7 +1297,7 @@ class SurveyMatrixQuestion extends SurveyQuestion
 							if (strlen($checked))
 							{
 								$next_id = $ilDB->nextId('svy_answer');
-								$affectedRows = $ilDB->manipulalteF("INSERT INTO svy_answer (answer_id, question_fi, active_fi, value, textanswer, rowvalue, tstamp) VALUES (%s, %s, %s, %s, %s, %s, %s)",
+								$affectedRows = $ilDB->manipulateF("INSERT INTO svy_answer (answer_id, question_fi, active_fi, value, textanswer, rowvalue, tstamp) VALUES (%s, %s, %s, %s, %s, %s, %s)",
 									array('integer','integer','integer','float','text','integer','integer'),
 									array($next_id, $this->getId(), $active_id, $checked, NULL, $matches[1], time())
 								);

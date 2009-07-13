@@ -111,7 +111,7 @@ class SurveyOrdinalQuestion extends SurveyQuestion
 		global $ilDB;
 		
 		$result = $ilDB->queryF("SELECT svy_category.* FROM svy_category, svy_phrase_cat WHERE svy_phrase_cat.category_fi = svy_category.category_id AND svy_phrase_cat.phrase_fi = %s AND (svy_category.owner_fi = 0 OR svy_category.owner_fi = %s) ORDER BY svy_phrase_cat.sequence",
-			array('integr', 'integer'),
+			array('integer', 'integer'),
 			array($phrase_id, $ilUser->getId())
 		);
 		while ($row = $ilDB->fetchAssoc($result))
@@ -527,7 +527,7 @@ class SurveyOrdinalQuestion extends SurveyQuestion
 		$next_id = $ilDB->nextId('svy_answer');
 		$affectedRows = $ilDB->manipulateF("INSERT INTO svy_answer (answer_id, question_fi, active_fi, value, textanswer, tstamp) VALUES (%s, %s, %s, %s, %s, %s)",
 			array('integer','integer','integer','float','text','integer'),
-			array($next_id, $this->getId(), $active_id, $category, NULL, time());
+			array($next_id, $this->getId(), $active_id, $category, NULL, time())
 		);
 	}
 
@@ -540,7 +540,7 @@ class SurveyOrdinalQuestion extends SurveyQuestion
 		$next_id = $ilDB->nextId('svy_answer');
 		$affectedRows = $ilDB->manipulateF("INSERT INTO svy_answer (answer_id, question_fi, active_fi, value, textanswer, tstamp) VALUES (%s, %s, %s, %s, %s, %s)",
 			array('integer','integer','integer','float','text','integer'),
-			array($next_id, $this->getId(), $active_id, (strlen($entered_value)) ? $entered_value : NULL, NULL, time());
+			array($next_id, $this->getId(), $active_id, (strlen($entered_value)) ? $entered_value : NULL, NULL, time())
 		);
 	}
 	

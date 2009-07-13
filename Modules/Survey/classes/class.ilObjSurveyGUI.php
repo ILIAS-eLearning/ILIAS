@@ -188,10 +188,24 @@ class ilObjSurveyGUI extends ilObjectGUI
 			ilUtil::sendInfo($result, true);
 		}
 		$this->object->setEvaluationAccess($_POST["evaluation_access"]);
-		$this->object->setStartDate(sprintf("%04d-%02d-%02d", $_POST["start_date"]["y"], $_POST["start_date"]["m"], $_POST["start_date"]["d"]));
 		$this->object->setStartDateEnabled($_POST["checked_start_date"]);
-		$this->object->setEndDate(sprintf("%04d-%02d-%02d", $_POST["end_date"]["y"], $_POST["end_date"]["m"], $_POST["end_date"]["d"]));
+		if ($this->object->getStartDateEnabled())
+		{
+			$this->object->setStartDate(sprintf("%04d-%02d-%02d", $_POST["start_date"]["y"], $_POST["start_date"]["m"], $_POST["start_date"]["d"]));
+		}
+		else
+		{
+			$this->object->setStartDate(null);
+		}
 		$this->object->setEndDateEnabled($_POST["checked_end_date"]);
+		if ($this->object->getEndDateEnabled())
+		{
+			$this->object->setEndDate(sprintf("%04d-%02d-%02d", $_POST["end_date"]["y"], $_POST["end_date"]["m"], $_POST["end_date"]["d"]));
+		}
+		else
+		{
+			$this->object->setEndDate(null);
+		}
 
 		include_once "./Services/AdvancedEditing/classes/class.ilObjAdvancedEditing.php";
 		$introduction = ilUtil::stripSlashes($_POST["introduction"], true, ilObjAdvancedEditing::_getUsedHTMLTagsAsString("survey"));
