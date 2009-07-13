@@ -507,6 +507,8 @@ class ilObjSurveyQuestionPool extends ilObject
 	function getQuestionsTable($sort, $sortorder, $filter_text, $sel_filter_type, $startrow = 0)
 	{
 		global $ilUser;
+		global $ilDB;
+		
 		$where = "";
 		if (strlen($filter_text) > 0) 
 		{
