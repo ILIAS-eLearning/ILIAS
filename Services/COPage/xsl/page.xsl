@@ -439,7 +439,7 @@
 	<xsl:param name="text"/>
 	<div class="ilEditLabel" style="display:none;">
 		<xsl:attribute name="id">TCONTENT<xsl:value-of select="../@HierId"/>:<xsl:value-of select="../@PCID"/></xsl:attribute>
-	<xsl:value-of select="$text"/></div>
+	<xsl:value-of select="$text"/><xsl:comment>Dummy</xsl:comment></div>
 </xsl:template>
 
 <!-- Edit Menu -->

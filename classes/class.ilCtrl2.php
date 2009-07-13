@@ -352,7 +352,7 @@ class ilCtrl2 extends ilCtrl
 				$this->call_hist[] = array("class" => get_class($a_gui_object),
 					"mode" => "execComm", "cmd" => $this->getCmd());
 			}
-			
+//echo "<br>class:".get_class($a_gui_object).":";
 			$html = $a_gui_object->executeCommand();
 			
 			// reset current node

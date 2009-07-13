@@ -1,30 +1,10 @@
 <?php
-/*
-	+-----------------------------------------------------------------------------+
-	| ILIAS open source                                                           |
-	+-----------------------------------------------------------------------------+
-	| Copyright (c) 1998-2009 ILIAS open source, University of Cologne            |
-	|                                                                             |
-	| This program is free software; you can redistribute it and/or               |
-	| modify it under the terms of the GNU General Public License                 |
-	| as published by the Free Software Foundation; either version 2              |
-	| of the License, or (at your option) any later version.                      |
-	|                                                                             |
-	| This program is distributed in the hope that it will be useful,             |
-	| but WITHOUT ANY WARRANTY; without even the implied warranty of              |
-	| MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the               |
-	| GNU General Public License for more details.                                |
-	|                                                                             |
-	| You should have received a copy of the GNU General Public License           |
-	| along with this program; if not, write to the Free Software                 |
-	| Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA. |
-	+-----------------------------------------------------------------------------+
-*/
-
+/* Copyright (c) 1998-2009 ILIAS open source, Extended GPL, see docs/LICENSE */
 
 require_once "classes/class.ilObject.php";
 require_once "./Services/MetaData/classes/class.ilMDLanguageItem.php";
 require_once("./Modules/Folder/classes/class.ilObjFolder.php");
+require_once("./Modules/MediaPool/classes/class.ilMediaPoolItem.php");
 
 /** @defgroup ModulesMediaPool Modules/MediaPool
  */
@@ -115,6 +95,7 @@ class ilObjMediaPool extends ilObject
 		$this->tree = ilObjMediaPool::getPoolTree($this->getId());
 	}
 
+
 	/**
 	* Get Pool Tree
 	*
@@ -126,7 +107,7 @@ class ilObjMediaPool extends ilObject
 	{
 		$tree = new ilTree($a_obj_id);
 		$tree->setTreeTablePK("mep_id");
-		$tree->setTableNames("mep_tree", "object_data");
+		$tree->setTableNames("mep_tree", "mep_item");
 		
 		return $tree;
 	}
@@ -148,7 +129,7 @@ class ilObjMediaPool extends ilObject
 		// create media pool tree
 		$this->tree =& new ilTree($this->getId());
 		$this->tree->setTreeTablePK("mep_id");
-		$this->tree->setTableNames('mep_tree','object_data');
+		$this->tree->setTableNames('mep_tree','mep_item');
 		$this->tree->addTree($this->getId(), 1);
 
 	}
@@ -214,24 +195,29 @@ class ilObjMediaPool extends ilObject
 		// delete childs
 		foreach ($childs as $child)
 		{
+			$fid = ilMediaPoolItem::lookupForeignKey($child["obj_id"]);
 			switch ($child["type"])
 			{
 				case "mob":
-					include_once("./Services/MediaObjects/classes/class.ilObjMediaObject.php");
-					$mob = new ilObjMediaObject($child["obj_id"]);
-					$mob->delete();
+					if  (ilObject::_lookupType($fid) == "mob")
+					{
+						include_once("./Services/MediaObjects/classes/class.ilObjMediaObject.php");
+						$mob = new ilObjMediaObject($fid);
+						$mob->delete();
+					}
 					break;
 
 				case "fold":
-					include_once("./Modules/Folder/classes/class.ilObjFolder.php");
-					$fold = new ilObjFolder($child["obj_id"], false);
-					$fold->delete();
+					if  (ilObject::_lookupType($fid) == "fold")
+					{
+						include_once("./Modules/Folder/classes/class.ilObjFolder.php");
+						$fold = new ilObjFolder($fid, false);
+						$fold->delete();
+					}
 					break;
 			}
 		}
-
-
-
+		
 		return true;
 	}
 
@@ -363,8 +349,9 @@ class ilObjMediaPool extends ilObject
 	{
 		global $ilDB;
 
-		$query = "SELECT DISTINCT mep_tree.*, object_data.* FROM mep_tree JOIN object_data ".
-			"ON (mep_tree.child = object_data.obj_id) ";
+		$query = "SELECT DISTINCT mep_tree.*, object_data.* ".
+			"FROM mep_tree JOIN mep_item ON (mep_tree.child = mep_item.obj_id) ".
+			" JOIN object_data ON (mep_item.foreign_id = object_data.obj_id) ";
 			
 		if ($a_format_filter != "")
 		{
@@ -395,6 +382,8 @@ class ilObjMediaPool extends ilObject
 		$set = $ilDB->query($query);
 		while ($rec = $ilDB->fetchAssoc($set))
 		{
+			$rec["foreign_id"] = $rec["obj_id"];
+			$rec["obj_id"] = "";
 			$objs[] = $rec;
 		}
 		return $objs;
@@ -408,7 +397,8 @@ class ilObjMediaPool extends ilObject
 		global $ilDB, $lng;
 
 		$query = "SELECT DISTINCT media_item.format f FROM mep_tree ".
-			" JOIN object_data ON (mep_tree.child = object_data.obj_id) ".
+			" JOIN mep_item ON (mep_item.obj_id = mep_tree.child) ".
+			" JOIN object_data ON (mep_item.foreign_id = object_data.obj_id) ".
 			" JOIN media_item ON (media_item.mob_id = object_data.obj_id) ".
 			" WHERE mep_tree.mep_id = ".$ilDB->quote($this->getId(), "integer").
 			" AND object_data.type = ".$ilDB->quote("mob", "text").
@@ -444,6 +434,11 @@ class ilObjMediaPool extends ilObject
 		return $this->tree->getParentId($obj_id);
 	}
 	
+	/**
+	 * Insert into tree 
+	 * @param int 	$a_obj_id (mep_item obj_id)
+	 * @param int $a_parent
+	 */
 	function insertInTree($a_obj_id, $a_parent = "")
 	{
 		if (!$this->tree->isInTree($a_obj_id))
@@ -461,12 +456,16 @@ class ilObjMediaPool extends ilObject
 	}
 
 
+	/**
+	 * Delete a child of media tree 
+	 * @param	int		mep_item id
+	 */
 	function deleteChild($obj_id)
 	{
-		$type = ilObject::_lookupType($obj_id);
-		$title = ilObject::_lookupTitle($obj_id);
-
-
+		$fid = ilMediaPoolItem::lookupForeignId($obj_id);
+		$type = ilMediaPoolItem::lookupType($obj_id);
+		$title = ilMediaPoolItem::lookupTitle($obj_id);
+		
 		$node_data = $this->tree->getNodeData($obj_id);
 		$subtree = $this->tree->getSubtree($node_data);
 
@@ -479,18 +478,47 @@ class ilObjMediaPool extends ilObject
 		// delete objects
 		foreach ($subtree as $node)
 		{
+			$fid = ilMediaPoolItem::lookupForeignId($node["child"]);
 			if ($node["type"] == "mob")
 			{
-				$obj =& new ilObjMediaObject($node["child"]);
-				$obj->delete();
+				if (ilObject::_lookupType($fid) == "mob")
+				{
+					$obj =& new ilObjMediaObject($fid);
+					$obj->delete();
+				}
 			}
 
 			if ($node["type"] == "fold")
 			{
-				$obj =& new ilObjFolder($node["child"], false);
-				$obj->delete();
+				if ($fid > 0 && ilObject::_lookupType($fid) == "fold")
+				{
+					$obj = new ilObjFolder($fid, false);
+					$obj->delete();
+				}
 			}
 		}
 	}
+	
+	/**
+	 * Check whether foreign id is in tree
+	 *
+	 * @param
+	 * @return
+	 */
+	static function isForeignIdInTree($a_pool_id, $a_foreign_id)
+	{
+		global $ilDB;
+		
+		$set = $ilDB->query("SELECT * FROM mep_tree JOIN mep_item ON (child = obj_id) WHERE ".
+			" foreign_id = ".$ilDB->quote($a_foreign_id, "integer").
+			" AND mep_id = ".$ilDB->quote($a_pool_id, "integer")
+			);
+		if ($rec  = $ilDB->fetchAssoc($set))
+		{
+			return true;
+		}
+		return false;
+	}
+
 }
 ?>

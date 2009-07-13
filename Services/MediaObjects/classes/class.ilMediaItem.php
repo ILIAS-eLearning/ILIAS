@@ -244,7 +244,7 @@ class ilMediaItem
 			$this->setMobId($item_rec["mob_id"]);
 			$this->setId($item_rec["id"]);
 			$this->setThumbTried($item_rec["tried_thumb"]);
-			$this->setTextRpresentation($item_rec["text_representation"]);
+			$this->setTextRepresentation($item_rec["text_representation"]);
 
 			// get item parameter
 			$query = "SELECT * FROM mob_parameter WHERE med_item_id = ".

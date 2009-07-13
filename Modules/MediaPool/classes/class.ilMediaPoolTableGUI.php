@@ -1,25 +1,5 @@
 <?php
-/*
-	+-----------------------------------------------------------------------------+
-	| ILIAS open source                                                           |
-	+-----------------------------------------------------------------------------+
-	| Copyright (c) 1998-2008 ILIAS open source, University of Cologne            |
-	|                                                                             |
-	| This program is free software; you can redistribute it and/or               |
-	| modify it under the terms of the GNU General Public License                 |
-	| as published by the Free Software Foundation; either version 2              |
-	| of the License, or (at your option) any later version.                      |
-	|                                                                             |
-	| This program is distributed in the hope that it will be useful,             |
-	| but WITHOUT ANY WARRANTY; without even the implied warranty of              |
-	| MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the               |
-	| GNU General Public License for more details.                                |
-	|                                                                             |
-	| You should have received a copy of the GNU General Public License           |
-	| along with this program; if not, write to the Free Software                 |
-	| Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA. |
-	+-----------------------------------------------------------------------------+
-*/
+/* Copyright (c) 1998-2009 ILIAS open source, Extended GPL, see docs/LICENSE */
 
 include_once("Services/Table/classes/class.ilTable2GUI.php");
 
@@ -108,6 +88,12 @@ class ilMediaPoolTableGUI extends ilTable2GUI
 			{
 				$this->addCommandButton("createFolderForm", $lng->txt("mep_create_folder"));
 				$this->addCommandButton("createMediaObject", $lng->txt("mep_create_mob"));
+				
+				$mset = new ilSetting("mobs");
+				if ($mset->get("mep_activate_pages"))
+				{
+					$this->addCommandButton("createContentPage", $lng->txt("mep_create_content_page"));
+				}
 			}
 		}
 		
@@ -197,7 +183,7 @@ class ilMediaPoolTableGUI extends ilTable2GUI
 			$f2objs = array();
 			foreach ($fobjs as $obj)
 			{
-				$f2objs[$obj["title"].":".$obj["id"]] = $obj;
+				$f2objs[$obj["title"].":".$obj["child"]] = $obj;
 			}
 			ksort($f2objs);
 			
@@ -206,7 +192,7 @@ class ilMediaPoolTableGUI extends ilTable2GUI
 			$m2objs = array();
 			foreach ($mobjs as $obj)
 			{
-				$m2objs[$obj["title"].":".$obj["id"]] = $obj;
+				$m2objs[$obj["title"].":".$obj["child"]] = $obj;
 			}
 			ksort($m2objs);
 			
@@ -218,7 +204,7 @@ class ilMediaPoolTableGUI extends ilTable2GUI
 			$objs = $this->media_pool->getMediaObjects($this->filter["title"],
 				$this->filter["format"]);
 		}
-
+//var_dump($objs);
 		$this->setData($objs);
 	}
 	
@@ -246,9 +232,10 @@ class ilMediaPoolTableGUI extends ilTable2GUI
 				{
 					$this->tpl->setCurrentBlock("edit");
 					$this->tpl->setVariable("TXT_EDIT", $lng->txt("edit"));
-					$ilCtrl->setParameterByClass("ilobjfoldergui", $this->folder_par, $a_set["obj_id"]);
+					$ilCtrl->setParameter($this->parent_obj, $this->folder_par, $a_set["obj_id"]);
 					$this->tpl->setVariable("EDIT_LINK",
-						$ilCtrl->getLinkTargetByClass("ilobjfoldergui", "edit"));
+						$ilCtrl->getLinkTarget($this->parent_obj, "editFolder"));
+					$ilCtrl->setParameter($this->parent_obj, $this->folder_par, $_GET[$this->folder_par]);
 					$this->tpl->parseCurrentBlock();
 				}
 				
@@ -266,8 +253,8 @@ class ilMediaPoolTableGUI extends ilTable2GUI
 				{
 					$this->tpl->setVariable("TXT_TITLE", $a_set["title"]);
 					$this->tpl->touchBlock("nf");
-					$ilCtrl->setParameterByClass("ilobjmediaobjectgui", "obj_id", $a_set["obj_id"]);
-					$ilCtrl->setParameter($this->parent_obj, "mob_id", $a_set["obj_id"]);
+					$ilCtrl->setParameterByClass("ilobjmediaobjectgui", "item_id", $a_set["obj_id"]);
+					$ilCtrl->setParameter($this->parent_obj, "mob_id", $a_set["foreign_id"]);
 					$this->tpl->setVariable("LINK_VIEW",
 						$ilCtrl->getLinkTarget($this->parent_obj, "showMedia"));
 				}
@@ -287,39 +274,42 @@ class ilMediaPoolTableGUI extends ilTable2GUI
 				$this->tpl->setCurrentBlock("tbl_content");
 				
 				// output thumbnail (or mob icon)
-				$mob = new ilObjMediaObject($a_set["obj_id"]);
-				$med = $mob->getMediaItem("Standard");
-				$target = $med->getThumbnailTarget();
-				if ($target != "")
+				if (ilObject::_lookupType($a_set["foreign_id"]) == "mob")
 				{
-					$this->tpl->setVariable("IMG", ilUtil::img($target));
-				}
-				else
-				{
-					$this->tpl->setVariable("IMG",
-						ilUtil::img(ilUtil::getImagePath("icon_".$a_set["type"].".gif")));
-				}
-				if (ilUtil::deducibleSize($med->getFormat()) && 
-					$med->getLocationType() == "Reference")
-				{
-					$size = @getimagesize($med->getLocation());
-					if ($size[0] > 0 && $size[1] > 0)
+					$mob = new ilObjMediaObject($a_set["foreign_id"]);
+					$med = $mob->getMediaItem("Standard");
+					$target = $med->getThumbnailTarget();
+					if ($target != "")
 					{
-						$wr = $size[0] / 80;
-						$hr = $size[1] / 80;
-						$r = max($wr, hr);
-						$w = (int) ($size[0]/$r);
-						$h = (int) ($size[1]/$r);
-						$this->tpl->setVariable("IMG",
-							ilUtil::img($med->getLocation(), "", $w, $h));
+						$this->tpl->setVariable("IMG", ilUtil::img($target));
 					}
+					else
+					{
+						$this->tpl->setVariable("IMG",
+							ilUtil::img(ilUtil::getImagePath("icon_".$a_set["type"].".gif")));
+					}
+					if (ilUtil::deducibleSize($med->getFormat()) && 
+						$med->getLocationType() == "Reference")
+					{
+						$size = @getimagesize($med->getLocation());
+						if ($size[0] > 0 && $size[1] > 0)
+						{
+							$wr = $size[0] / 80;
+							$hr = $size[1] / 80;
+							$r = max($wr, hr);
+							$w = (int) ($size[0]/$r);
+							$h = (int) ($size[1]/$r);
+							$this->tpl->setVariable("IMG",
+								ilUtil::img($med->getLocation(), "", $w, $h));
+						}
+					}
+					
+					// output media info
+					include_once("./Services/MediaObjects/classes/class.ilObjMediaObjectGUI.php");
+					$this->tpl->setVariable("MEDIA_INFO",
+						ilObjMediaObjectGUI::_getMediaInfoHTML($mob));
+					$ilCtrl->setParameter($this->parent_obj, $this->folder_par, $this->current_folder);
 				}
-				
-				// output media info
-				include_once("./Services/MediaObjects/classes/class.ilObjMediaObjectGUI.php");
-				$this->tpl->setVariable("MEDIA_INFO",
-					ilObjMediaObjectGUI::_getMediaInfoHTML($mob));
-				$ilCtrl->setParameter($this->parent_obj, $this->folder_par, $this->current_folder);
 				break;
 		}
 
@@ -333,5 +323,7 @@ class ilMediaPoolTableGUI extends ilTable2GUI
 		}
 	}
 
+// cmd=listMedia&cmdClass=ilobjmediapoolgui&cmdNode=5i:5k&baseClass=ilMediaPoolPresentationGUI&item_id=28
+// item_id=28&obj_id=28&cmd=listMedia&cmdClass=ilobjmediapoolgui&cmdNode=5i:5k&baseClass=ilMediaPoolPresentationGUI
 }
 ?>

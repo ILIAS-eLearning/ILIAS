@@ -1124,9 +1124,6 @@ class ilObjMediaObjectGUI extends ilObjectGUI
 		// load files templates
 		$this->tpl->addBlockfile("ADM_CONTENT", "adm_content", "tpl.mob_files.html", "Services/MediaObjects");
 
-		//$this->tpl->setVariable("FORMACTION1", "lm_edit.php?ref_id=".$_GET["ref_id"]."&obj_id=".$_GET["obj_id"].
-		//	"&hier_id=".$_GET["hier_id"]."&cdir=".$cur_subdir."&cmd=post");
-
 		$this->ctrl->setParameter($this, "cdir", urlencode($cur_subdir));
 		$this->tpl->setVariable("FORMACTION1", $this->ctrl->getFormAction($this));
 //echo "--".$this->getTargetScript().
@@ -1157,7 +1154,7 @@ class ilObjMediaObjectGUI extends ilObjectGUI
 
 		$cols = array("", "", "dir_file", "size", "purpose");
 		$header_params = array("ref_id" => $_GET["ref_id"], "obj_id" => $_GET["obj_id"],
-			"cmd" => "editFiles", "hier_id" => $_GET["hier_id"]);
+			"cmd" => "editFiles", "hier_id" => $_GET["hier_id"], "item_id" => $_GET["item_id"]);
 		$tbl->setHeaderVars($cols, $header_params);
 		$tbl->setColumnWidth(array("1%", "1%", "33%", "33%", "32%"));
 
