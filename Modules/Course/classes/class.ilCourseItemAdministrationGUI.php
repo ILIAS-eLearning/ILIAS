@@ -74,7 +74,7 @@ class ilCourseItemAdministrationGUI
 		// Check if item id is given and valid
 		if(!$this->__checkItemId())
 		{
-			ilUtil::sendInfo($this->lng->txt("crs_no_item_id_given"),true);
+			ilUtil::sendFailure($this->lng->txt("crs_no_item_id_given"),true);
 			$this->ctrl->returnToParent($this);
 		}
 
@@ -295,7 +295,7 @@ class ilCourseItemAdministrationGUI
 			
 			if(!$this->items_obj->validateActivation())
 			{
-				ilUtil::sendInfo($ilErr->getMessage());
+				ilUtil::sendFailure($ilErr->getMessage());
 		        $this->form->setValuesByPost();
 				$tpl->setContent($this->form->getHTML());
 				return false;
@@ -303,7 +303,7 @@ class ilCourseItemAdministrationGUI
 			else
 			{
 				$this->items_obj->update($this->getItemId());
-				ilUtil::sendInfo($this->lng->txt('settings_saved'));
+				ilUtil::sendSuccess($this->lng->txt('settings_saved'));
 				$this->edit();
 			}
 		}
@@ -327,7 +327,7 @@ class ilCourseItemAdministrationGUI
 		}
 
 		$this->items_obj->moveUp((int) $this->getItemId());
-		ilUtil::sendInfo($this->lng->txt("crs_moved_item"),true);
+		ilUtil::sendSuccess($this->lng->txt("crs_moved_item"),true);
 
 		$this->ctrl->returnToParent($this);
 		return true;
@@ -343,7 +343,7 @@ class ilCourseItemAdministrationGUI
 		}
 
 		$this->items_obj->moveDown((int) $this->getItemId());
-		ilUtil::sendInfo($this->lng->txt("crs_moved_item"),true);
+		ilUtil::sendSuccess($this->lng->txt("crs_moved_item"),true);
 
 		$this->ctrl->returnToParent($this);
 		return true;

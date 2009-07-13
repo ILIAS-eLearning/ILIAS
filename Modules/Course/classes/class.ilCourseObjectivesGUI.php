@@ -138,7 +138,7 @@ class ilCourseObjectivesGUI
 			$objective = new ilCourseObjective($this->course_obj,$objective_id);
 			$objective->writePosition($counter++);
 		}
-		ilUtil::sendInfo($this->lng->txt('crs_objective_saved_sorting'));
+		ilUtil::sendSuccess($this->lng->txt('crs_objective_saved_sorting'));
 		$this->listObjectives();
 	}
 
@@ -153,7 +153,7 @@ class ilCourseObjectivesGUI
 		}
 		if(!count($_POST['objective']))
 		{
-			ilUtil::sendInfo($this->lng->txt('crs_no_objective_selected'));
+			ilUtil::sendFailure($this->lng->txt('crs_no_objective_selected'));
 			$this->listObjectives();
 			
 			return true;
@@ -161,7 +161,7 @@ class ilCourseObjectivesGUI
 
 		$this->tpl->addBlockFile("ADM_CONTENT", "adm_content", "tpl.crs_objectives.html",'Modules/Course');
 
-		ilUtil::sendInfo($this->lng->txt('crs_delete_objectve_sure'));
+		ilUtil::sendQuestion($this->lng->txt('crs_delete_objectve_sure'));
 
 		$tpl =& new ilTemplate("tpl.table.html", true, true);
 		$tpl->addBlockfile("TBL_CONTENT", "tbl_content", "tpl.crs_objectives_delete_row.html",'Modules/Course');
@@ -243,7 +243,7 @@ class ilCourseObjectivesGUI
 		}
 		if(!count($_SESSION['crs_delete_objectives']))
 		{
-			ilUtil::sendInfo($this->lng->txt('crs_no_objective_selected'));
+			ilUtil::sendFailure($this->lng->txt('crs_no_objective_selected'));
 			$this->listObjectives();
 			
 			return true;
@@ -255,7 +255,7 @@ class ilCourseObjectivesGUI
 			$objective_obj->delete();
 		}
 
-		ilUtil::sendInfo($this->lng->txt('crs_objectives_deleted'));
+		ilUtil::sendSuccess($this->lng->txt('crs_objectives_deleted'));
 		$this->listObjectives();
 
 		return true;
@@ -314,7 +314,7 @@ class ilCourseObjectivesGUI
 			
 			if($limit < 0 or $limit > $max_points)
 			{
-				ilUtil::sendInfo($this->lng->txt('crs_objective_limit_err'));
+				ilUtil::sendFailure($this->lng->txt('crs_objective_limit_err'));
 				$this->questionOverview();
 				return false;
 			}
@@ -326,7 +326,7 @@ class ilCourseObjectivesGUI
 			
 			if($limit < 0 or $limit > $max_points)
 			{
-				ilUtil::sendInfo($this->lng->txt('crs_objective_limit_err'));
+				ilUtil::sendFailure($this->lng->txt('crs_objective_limit_err'));
 				$this->questionOverview();
 				return false;
 			}
@@ -342,7 +342,7 @@ class ilCourseObjectivesGUI
 			ilCourseObjectiveQuestion::_updateTestLimits($objective_id,ilCourseObjectiveQuestion::TYPE_FINAL_TEST,$limit);
 		}
 		
-		ilUtil::sendInfo($this->lng->txt('settings_saved'));
+		ilUtil::sendSuccess($this->lng->txt('settings_saved'));
 		$this->questionOverview();
 		return true;
 	}
@@ -452,7 +452,7 @@ class ilCourseObjectivesGUI
 		
 		if(!$_GET['objective_id'])
 		{
-			ilUtil::sendInfo($this->lng->txt('crs_no_objective_selected'),true);
+			ilUtil::sendFailure($this->lng->txt('crs_no_objective_selected'),true);
 			$this->ctrl->redirect($this,'listObjectives');
 		}
 		
@@ -489,7 +489,7 @@ class ilCourseObjectivesGUI
 		
 		if(!$this->objective->validate())
 		{
-			ilUtil::sendInfo($this->lng->txt('crs_no_title_given'));
+			ilUtil::sendFailure($this->lng->txt('crs_no_title_given'));
 			$this->create();
 			return false;
 		}
@@ -497,12 +497,12 @@ class ilCourseObjectivesGUI
 		if(!$_GET['objective_id'])
 		{
 			$objective_id = $this->objective->add();
-			ilUtil::sendInfo($this->lng->txt('crs_added_objective'),true);
+			ilUtil::sendSuccess($this->lng->txt('crs_added_objective'),true);
 		}
 		else
 		{
 			$this->objective->update();
-			ilUtil::sendInfo($this->lng->txt('crs_objective_modified'),true);
+			ilUtil::sendSuccess($this->lng->txt('crs_objective_modified'),true);
 			$objective_id = $_GET['objective_id'];
 		}
 		
@@ -528,7 +528,7 @@ class ilCourseObjectivesGUI
 		}
 		if(!$_GET['objective_id'])
 		{
-			ilUtil::sendInfo($this->lng->txt('crs_no_objective_selected'),true);
+			ilUtil::sendFailure($this->lng->txt('crs_no_objective_selected'),true);
 			$this->ctrl->redirect($this,'listObjectives');
 		}
 
@@ -567,7 +567,7 @@ class ilCourseObjectivesGUI
 		}
 		if(!$_GET['objective_id'])
 		{
-			ilUtil::sendInfo($this->lng->txt('crs_no_objective_selected'),true);
+			ilUtil::sendFailure($this->lng->txt('crs_no_objective_selected'),true);
 			$this->ctrl->redirect($this,'listObjectives');
 		}
 
@@ -601,7 +601,7 @@ class ilCourseObjectivesGUI
 				$this->objectives_lm_obj->add();
 			}
 		}
-		ilUtil::sendInfo($this->lng->txt('crs_objectives_assigned_lm'));
+		ilUtil::sendSuccess($this->lng->txt('crs_objectives_assigned_lm'));
 		$this->selfAssessmentAssignment();
 		
 	}
@@ -622,7 +622,7 @@ class ilCourseObjectivesGUI
 		}
 		if(!$_GET['objective_id'])
 		{
-			ilUtil::sendInfo($this->lng->txt('crs_no_objective_selected'),true);
+			ilUtil::sendFailure($this->lng->txt('crs_no_objective_selected'),true);
 			$this->ctrl->redirect($this,'listObjectives');
 		}
 
@@ -665,7 +665,7 @@ class ilCourseObjectivesGUI
 		}
 		if(!$_GET['objective_id'])
 		{
-			ilUtil::sendInfo($this->lng->txt('crs_no_objective_selected'),true);
+			ilUtil::sendFailure($this->lng->txt('crs_no_objective_selected'),true);
 			$this->ctrl->redirect($this,'listObjectives');
 		}
 
@@ -704,7 +704,7 @@ class ilCourseObjectivesGUI
 		
 		if($checked_questions)
 		{
-			ilUtil::sendInfo($this->lng->txt('crs_objectives_assigned_lm'));
+			ilUtil::sendSuccess($this->lng->txt('crs_objectives_assigned_lm'));
 			$this->selfAssessmentLimits();
 			return true;
 		}
@@ -718,7 +718,7 @@ class ilCourseObjectivesGUI
 
 				case self::MODE_UPDATE:
 					$this->selfAssessmentAssignment();
-					ilUtil::sendInfo($this->lng->txt('crs_objectives_assigned_lm'));
+					ilUtil::sendSuccess($this->lng->txt('crs_objectives_assigned_lm'));
 					return true;
 			}
 		}
@@ -741,7 +741,7 @@ class ilCourseObjectivesGUI
 		}
 		if(!$_GET['objective_id'])
 		{
-			ilUtil::sendInfo($this->lng->txt('crs_no_objective_selected'),true);
+			ilUtil::sendFailure($this->lng->txt('crs_no_objective_selected'),true);
 			$this->ctrl->redirect($this,'listObjectives');
 		}
 
@@ -773,7 +773,7 @@ class ilCourseObjectivesGUI
 		}
 		if(!$_GET['objective_id'])
 		{
-			ilUtil::sendInfo($this->lng->txt('crs_no_objective_selected'),true);
+			ilUtil::sendFailure($this->lng->txt('crs_no_objective_selected'),true);
 			$this->ctrl->redirect($this,'listObjectives');
 		}
 
@@ -781,7 +781,7 @@ class ilCourseObjectivesGUI
 
 		if((int) $_POST['limit'] < 0 or (int) $_POST['limit'] > $this->objectives_qst_obj->getSelfAssessmentPoints())
 		{
-			ilUtil::sendInfo(sprintf($this->lng->txt('crs_objective_err_limit'),0,$this->objectives_qst_obj->getSelfAssessmentPoints()));
+			ilUtil::sendFailure(sprintf($this->lng->txt('crs_objective_err_limit'),0,$this->objectives_qst_obj->getSelfAssessmentPoints()));
 			$this->selfAssessmentLimits();
 			return false;
 		}
@@ -793,7 +793,7 @@ class ilCourseObjectivesGUI
 			$this->objectives_qst_obj->updateTest($test['test_objective_id']);
 		}
 
-		ilUtil::sendInfo($this->lng->txt('settings_saved'));
+		ilUtil::sendSuccess($this->lng->txt('settings_saved'));
 		$this->finalTestAssignment();
 		
 	}
@@ -816,7 +816,7 @@ class ilCourseObjectivesGUI
 		}
 		if(!$_GET['objective_id'])
 		{
-			ilUtil::sendInfo($this->lng->txt('crs_no_objective_selected'),true);
+			ilUtil::sendFailure($this->lng->txt('crs_no_objective_selected'),true);
 			$this->ctrl->redirect($this,'listObjectives');
 		}
 
@@ -861,7 +861,7 @@ class ilCourseObjectivesGUI
 		}
 		if(!$_GET['objective_id'])
 		{
-			ilUtil::sendInfo($this->lng->txt('crs_no_objective_selected'),true);
+			ilUtil::sendFailure($this->lng->txt('crs_no_objective_selected'),true);
 			$this->ctrl->redirect($this,'listObjectives');
 		}
 
@@ -899,7 +899,7 @@ class ilCourseObjectivesGUI
 		$this->questions = new ilCourseObjectiveQuestion((int) $_GET['objective_id']);
 		$this->questions->updateLimits();
 
-		ilUtil::sendInfo($this->lng->txt('crs_objectives_assigned_lm'));
+		ilUtil::sendSuccess($this->lng->txt('crs_objectives_assigned_lm'));
 		$this->finalTestLimits();
 	}
 	
@@ -920,7 +920,7 @@ class ilCourseObjectivesGUI
 		}
 		if(!$_GET['objective_id'])
 		{
-			ilUtil::sendInfo($this->lng->txt('crs_no_objective_selected'),true);
+			ilUtil::sendFailure($this->lng->txt('crs_no_objective_selected'),true);
 			$this->ctrl->redirect($this,'listObjectives');
 		}
 
@@ -952,7 +952,7 @@ class ilCourseObjectivesGUI
 		}
 		if(!$_GET['objective_id'])
 		{
-			ilUtil::sendInfo($this->lng->txt('crs_no_objective_selected'),true);
+			ilUtil::sendFailure($this->lng->txt('crs_no_objective_selected'),true);
 			$this->ctrl->redirect($this,'listObjectives');
 		}
 
@@ -960,7 +960,7 @@ class ilCourseObjectivesGUI
 
 		if((int) $_POST['limit'] < 0 or (int) $_POST['limit'] > $this->objectives_qst_obj->getFinalTestPoints())
 		{
-			ilUtil::sendInfo(sprintf($this->lng->txt('crs_objective_err_limit'),0,$this->objectives_qst_obj->getFinalTestPoints()));
+			ilUtil::sendFailure(sprintf($this->lng->txt('crs_objective_err_limit'),0,$this->objectives_qst_obj->getFinalTestPoints()));
 			$this->finalTestLimits();
 			return false;
 		}
@@ -972,7 +972,7 @@ class ilCourseObjectivesGUI
 			$this->objectives_qst_obj->updateTest($test['test_objective_id']);
 		}
 
-		ilUtil::sendInfo($this->lng->txt('crs_added_objective'));
+		ilUtil::sendSuccess($this->lng->txt('crs_added_objective'));
 		$this->listObjectives();
 	}
 	
