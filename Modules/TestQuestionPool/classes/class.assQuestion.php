@@ -1735,10 +1735,8 @@ class assQuestion
 	
 /**
 * Deletes all suggestes solutions in the database
-*
-* @access public
 */
-	function deleteSuggestedSolutions()
+	public function deleteSuggestedSolutions()
 	{
 		global $ilDB;
 		// delete the links in the qpl_sol_sug table
