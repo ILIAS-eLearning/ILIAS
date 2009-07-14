@@ -81,69 +81,6 @@ class SurveyMatrixQuestionGUI extends SurveyQuestionGUI
 	}
 
 	/**
-	* Saves the columns and rows of the question
-	*
-	* Saves the columns and rows of the question
-	*
-	* @param boolean $save If set to true the POST data will be saved to the database
-	* @access private
-	*/
-		function writeRowColData($save = FALSE)
-		{
-	    // Delete all existing columns and create new columns from the form data
-	    $this->object->flushColumns();
-	    $this->object->flushRows();
-			$columnscomplete = TRUE;
-			$rowscomplete = TRUE;
-	    // Add standard columns and rows
-			include_once "./Services/Utilities/classes/class.ilUtil.php";
-			$cats = "";
-			$rows = "";
-			foreach ($_POST as $key => $value) 
-			{
-				if (preg_match("/^category_(\d+)/", $key, $matches)) 
-				{
-					$this->object->addColumn(ilUtil::stripSlashes($value));
-					$cats .= $value;
-				}
-				if (preg_match("/^row_(\d+)/", $key, $matches)) 
-				{
-					$this->object->addRow(ilUtil::stripSlashes($value));
-					$rows .= $value;
-				}
-			}
-
-			if (strlen($cats) == 0) 
-			{
-				$columnscomplete = FALSE;
-				$this->addErrorMessage($this->lng->txt("matrix_error_no_columns"));
-			}
-			if (strlen($rows) == 0) 
-			{
-				$rowscomplete = FALSE;
-				$this->addErrorMessage($this->lng->txt("matrix_error_no_rows"));
-			}
-
-	    // Set neutral column
-			$this->object->setNeutralColumn(ilUtil::stripSlashes($_POST["neutral"]));
-
-			// Set bipolar adjectives
-			$this->object->setBipolarAdjective(0, ilUtil::stripSlashes($_POST["bipolar1"]));
-			$this->object->setBipolarAdjective(1, ilUtil::stripSlashes($_POST["bipolar2"]));
-
-			if ($save)
-			{	
-				$this->object->saveColumnsToDb();
-				$this->object->saveRowsToDb();
-				if (array_key_exists("bipolar1", $_POST))
-				{
-					$this->object->saveBipolarAdjectives(ilUtil::stripSlashes($_POST["bipolar1"]), ilUtil::stripSlashes($_POST["bipolar2"]));
-				}
-			}
-
-			return $columnscomplete && $rowscomplete;
-		}
-	/**
 	* Evaluates a posted edit form and writes the form data in the question object
 	*
 	* @return integer A positive value, if one of the required fields wasn't set, else 0
@@ -197,7 +134,10 @@ class SurveyMatrixQuestionGUI extends SurveyQuestionGUI
 	*/
 	public function editQuestion($checkonly = FALSE)
 	{
-		$save = ((strcmp($this->ctrl->getCmd(), "save") == 0) || (strcmp($this->ctrl->getCmd(), "saveEdit") == 0)) ? TRUE : FALSE;
+		$save = ((strcmp($this->ctrl->getCmd(), "save") == 0) || 
+			(strcmp($this->ctrl->getCmd(), "wizardcolumns") == 0) ||
+			(strcmp($this->ctrl->getCmd(), "savePhrasecolumns") == 0)
+		) ? TRUE : FALSE;
 
 		include_once("./Services/Form/classes/class.ilPropertyFormGUI.php");
 		$form = new ilPropertyFormGUI();
@@ -312,10 +252,7 @@ class SurveyMatrixQuestionGUI extends SurveyQuestionGUI
 		{
 			$this->object->addColumn("");
 		}
-		else
-		{
-			$columns->setValues($this->object->getColumns());
-		}
+		$columns->setValues($this->object->getColumns());
 		$form->addItem($columns);
 		
 		$header = new ilFormSectionHeaderGUI();
@@ -551,7 +488,7 @@ class SurveyMatrixQuestionGUI extends SurveyQuestionGUI
   function wizardcolumns($save_post_data = true) 
 	{
 		if ($save_post_data) $result = $this->writePostData();
-		if ($result == 0 || !$save_post_data)
+		if ($result == 0)
 		{
 			if ($save_post_data) $this->object->saveToDb();
 			$this->tpl->addBlockFile("ADM_CONTENT", "adm_content", "tpl.il_svy_qpl_addphrase.html", "Modules/SurveyQuestionPool");

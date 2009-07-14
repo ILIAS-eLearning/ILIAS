@@ -268,51 +268,54 @@ class ilCategoryWizardInputGUI extends ilTextInputGUI
 		
 		$tpl = new ilTemplate("tpl.prop_categorywizardinput.html", true, true, "Modules/SurveyQuestionPool");
 		$i = 0;
-		for ($i = 0; $i < $this->values->getCategoryCount(); $i++)
+		if (is_object($this->values))
 		{
-			$tpl->setCurrentBlock("prop_text_propval");
-			$tpl->setVariable("PROPERTY_VALUE", ilUtil::prepareFormOutput($this->values->getCategory($i)));
-			$tpl->parseCurrentBlock();
-			$tpl->setCurrentBlock("prop_scale_propval");
-			$tpl->setVariable("PROPERTY_VALUE", ilUtil::prepareFormOutput($this->values->getScale($i)));
-			$tpl->parseCurrentBlock();
-
-			if ($this->getAllowMove())
+			for ($i = 0; $i < $this->values->getCategoryCount(); $i++)
 			{
-				$tpl->setCurrentBlock("move");
-				$tpl->setVariable("CMD_UP", "cmd[up" . $this->getFieldId() . "][$i]");
-				$tpl->setVariable("CMD_DOWN", "cmd[down" . $this->getFieldId() . "][$i]");
-				$tpl->setVariable("ID", $this->getPostVar() . "[$i]");
-				$tpl->setVariable("UP_BUTTON", ilUtil::getImagePath('a_up.gif'));
-				$tpl->setVariable("DOWN_BUTTON", ilUtil::getImagePath('a_down.gif'));
+				$tpl->setCurrentBlock("prop_text_propval");
+				$tpl->setVariable("PROPERTY_VALUE", ilUtil::prepareFormOutput($this->values->getCategory($i)));
+				$tpl->parseCurrentBlock();
+				$tpl->setCurrentBlock("prop_scale_propval");
+				$tpl->setVariable("PROPERTY_VALUE", ilUtil::prepareFormOutput($this->values->getScale($i)));
+				$tpl->parseCurrentBlock();
+
+				if ($this->getAllowMove())
+				{
+					$tpl->setCurrentBlock("move");
+					$tpl->setVariable("CMD_UP", "cmd[up" . $this->getFieldId() . "][$i]");
+					$tpl->setVariable("CMD_DOWN", "cmd[down" . $this->getFieldId() . "][$i]");
+					$tpl->setVariable("ID", $this->getPostVar() . "[$i]");
+					$tpl->setVariable("UP_BUTTON", ilUtil::getImagePath('a_up.gif'));
+					$tpl->setVariable("DOWN_BUTTON", ilUtil::getImagePath('a_down.gif'));
+					$tpl->parseCurrentBlock();
+				}
+				$tpl->setCurrentBlock("row");
+				$class = ($i % 2 == 0) ? "even" : "odd";
+				if ($i == 0) $class .= " first";
+				if ($i == $this->values->getCategoryCount()-1) $class .= " last";
+				$tpl->setVariable("ROW_CLASS", $class);
+				$tpl->setVariable("POST_VAR", $this->getPostVar());
+				$tpl->setVariable("ROW_NUMBER", $i);
+				$tpl->setVariable("ID", $this->getPostVar() . "[answer][$i]");
+				$tpl->setVariable("SIZE", $this->getSize());
+				$tpl->setVariable("MAXLENGTH", $this->getMaxLength());
+				if ($this->getDisabled())
+				{
+					$tpl->setVariable("DISABLED", " disabled=\"disabled\"");
+				}
+
+				$tpl->setVariable("SCALE_ID", $this->getPostVar() . "[scale][$i]");
+				if ($this->getDisabledScale())
+				{
+					$tpl->setVariable("DISABLED_SCALE", " disabled=\"disabled\"");
+				}
+
+				$tpl->setVariable("CMD_ADD", "cmd[add" . $this->getFieldId() . "][$i]");
+				$tpl->setVariable("CMD_REMOVE", "cmd[remove" . $this->getFieldId() . "][$i]");
+				$tpl->setVariable("ADD_BUTTON", ilUtil::getImagePath('edit_add.png'));
+				$tpl->setVariable("REMOVE_BUTTON", ilUtil::getImagePath('edit_remove.png'));
 				$tpl->parseCurrentBlock();
 			}
-			$tpl->setCurrentBlock("row");
-			$class = ($i % 2 == 0) ? "even" : "odd";
-			if ($i == 0) $class .= " first";
-			if ($i == $this->values->getCategoryCount()-1) $class .= " last";
-			$tpl->setVariable("ROW_CLASS", $class);
-			$tpl->setVariable("POST_VAR", $this->getPostVar());
-			$tpl->setVariable("ROW_NUMBER", $i);
-			$tpl->setVariable("ID", $this->getPostVar() . "[answer][$i]");
-			$tpl->setVariable("SIZE", $this->getSize());
-			$tpl->setVariable("MAXLENGTH", $this->getMaxLength());
-			if ($this->getDisabled())
-			{
-				$tpl->setVariable("DISABLED", " disabled=\"disabled\"");
-			}
-
-			$tpl->setVariable("SCALE_ID", $this->getPostVar() . "[scale][$i]");
-			if ($this->getDisabledScale())
-			{
-				$tpl->setVariable("DISABLED_SCALE", " disabled=\"disabled\"");
-			}
-
-			$tpl->setVariable("CMD_ADD", "cmd[add" . $this->getFieldId() . "][$i]");
-			$tpl->setVariable("CMD_REMOVE", "cmd[remove" . $this->getFieldId() . "][$i]");
-			$tpl->setVariable("ADD_BUTTON", ilUtil::getImagePath('edit_add.png'));
-			$tpl->setVariable("REMOVE_BUTTON", ilUtil::getImagePath('edit_remove.png'));
-			$tpl->parseCurrentBlock();
 		}
 
 		if ($this->getShowWizard())
