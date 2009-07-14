@@ -9688,3 +9688,11 @@ survey#:#matrix_right_pole#:#Right Pole
 survey#:#row_text#:#Row Text
 common#:#header_visible_registration#:#Visible in Registration
 common#:#visible_registration#:#Visible in Registration
+survey#:#spl_browsercolumns#:#Customized question list
+survey#:#spl_browsercolumns_description#:#Select the question data columns that are shown in the question list of a question pool. This setting will be applied for each available question pool.
+survey#:#spl_move_insert_clipboard#:#The selected question(s) are marked for moving
+survey#:#spl_move_select_none#:#Please check at least one question to select it for moving
+survey#:#spl_copy_insert_clipboard#:#The selected question(s) are copied to the clipboard
+survey#:#spl_copy_select_none#:#Please check at least one question to copy it to the clipboard
+survey#:#spl_paste_no_objects#:#There are no questions in the clipboard. Please copy or move a question into the clipboard.
+survey#:#spl_paste_success#:#The question(s) have been pasted into the question pool

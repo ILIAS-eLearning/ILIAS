@@ -81,14 +81,14 @@ class ilSurveyQuestionsTableGUI extends ilTable2GUI
 		{
 			$this->addMultiCommand('copy', $this->lng->txt('copy'));
 			$this->addMultiCommand('move', $this->lng->txt('move'));
-			if (array_key_exists("qpl_clipboard", $_SESSION))
-			{
-				$this->addMultiCommand('paste', $this->lng->txt('paste'));
-			}
 			$this->addMultiCommand('exportQuestion', $this->lng->txt('export'));
 			$this->addMultiCommand('deleteQuestions', $this->lng->txt('delete'));
 
 			$this->addCommandButton('importQuestions', $this->lng->txt('import'));
+			if (array_key_exists("spl_clipboard", $_SESSION))
+			{
+				$this->addCommandButton('paste', $this->lng->txt('paste'));
+			}
 			$types = ilObjSurveyQuestionPool::_getQuestionTypes();
 			$questiontype = array();
 			foreach ($types as $txt => $row)

@@ -1126,5 +1126,83 @@ class ilObjSurveyQuestionPool extends ilObject
 			$this->removeQuestion($data["question_id"]);
 		}
 	}
+
+	/**
+	* Copies a question to the clipboard
+	*
+	* @param integer $question_id Object id of the question
+	*/
+	public function copyToClipboard($question_id)
+	{
+		if (!array_key_exists("spl_clipboard", $_SESSION))
+		{
+			$_SESSION["spl_clipboard"] = array();
+		}
+		$_SESSION["spl_clipboard"][$question_id] = array("question_id" => $question_id, "action" => "copy");
+	}
+	
+	/**
+	* Moves a question to the clipboard
+	*
+	* @param integer $question_id Object id of the question
+	*/
+	public function moveToClipboard($question_id)
+	{
+		if (!array_key_exists("spl_clipboard", $_SESSION))
+		{
+			$_SESSION["spl_clipboard"] = array();
+		}
+		$_SESSION["spl_clipboard"][$question_id] = array("question_id" => $question_id, "action" => "move");
+	}
+
+	/**
+	* Copies/Moves a question from the clipboard
+	*/
+	public function pasteFromClipboard()
+	{
+		global $ilDB;
+
+		if (array_key_exists("spl_clipboard", $_SESSION))
+		{
+			foreach ($_SESSION["spl_clipboard"] as $question_object)
+			{
+				if (strcmp($question_object["action"], "move") == 0)
+				{
+					$result = $ilDB->queryF("SELECT obj_fi FROM svy_question WHERE question_id = %s",
+						array('integer'),
+						array($question_object["question_id"])
+					);
+					if ($result->numRows() == 1)
+					{
+						$row = $ilDB->fetchAssoc($result);
+						$source_questionpool = $row["obj_fi"];
+						// change the questionpool id in the qpl_questions table
+						$affectedRows = $ilDB->manipulateF("UPDATE svy_question SET obj_fi = %s WHERE question_id = %s",
+							array('integer','integer'),
+							array($this->getId(), $question_object["question_id"])
+						);
+						
+						// move question data to the new target directory
+						$source_path = CLIENT_WEB_DIR . "/survey/" . $source_questionpool . "/" . $question_object["question_id"] . "/";
+						if (@is_dir($source_path))
+						{
+							$target_path = CLIENT_WEB_DIR . "/survey/" . $this->getId() . "/";
+							if (!@is_dir($target_path))
+							{
+								include_once "./Services/Utilities/classes/class.ilUtil.php";
+								ilUtil::makeDirParents($target_path);
+							}
+							@rename($source_path, $target_path . $question_object["question_id"]);
+						}
+					}
+				}
+				else
+				{
+					$this->copyQuestion($question_object["question_id"], $this->getId());
+				}
+			}
+		}
+		unset($_SESSION["spl_clipboard"]);
+	}
 } // END class.ilSurveyObjQuestionPool
 ?>
