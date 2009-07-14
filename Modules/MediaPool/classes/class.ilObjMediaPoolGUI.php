@@ -18,7 +18,7 @@ include_once("./Services/Clipboard/classes/class.ilEditClipboardGUI.php");
 * $Id$
 *
 * @ilCtrl_Calls ilObjMediaPoolGUI: ilObjMediaObjectGUI, ilObjFolderGUI, ilEditClipboardGUI, ilPermissionGUI
-* @ilCtrl_Calls ilObjMediaPoolGUI: ilInfoScreenGUI
+* @ilCtrl_Calls ilObjMediaPoolGUI: ilInfoScreenGUI, ilMediaPoolPageGUI
 *
 * @ingroup ModulesMediaPool
 */
@@ -71,7 +71,7 @@ class ilObjMediaPoolGUI extends ilObject2GUI
 	*/
 	function &executeCommand()
 	{
-		global $ilTabs, $lng;
+		global $ilTabs, $lng, $ilAccess, $tpl, $ilCtrl;
 		
 		if ($this->ctrl->getRedirectSource() == "ilinternallinkgui")
 		{
@@ -118,6 +118,24 @@ class ilObjMediaPoolGUI extends ilObject2GUI
 
 		switch($next_class)
 		{
+			case 'ilmediapoolpagegui':
+				$this->prepareOutput();
+				$this->setMediaPoolPageTabs();
+				include_once("./Modules/MediaPool/classes/class.ilMediaPoolPageGUI.php");
+				$mep_page_gui = new ilMediaPoolPageGUI($_GET["item_id"], $_GET["old_nr"]);
+
+				if (!$ilAccess->checkAccess("write", "", $this->object->getRefId()))
+				{
+					$mep_page_gui->setEnableEditing(false);
+				}
+				$ret = $this->ctrl->forwardCommand($mep_page_gui);
+				if ($ret != "")
+				{
+					$tpl->setContent($ret);
+				}
+				$this->tpl->show();
+				break;
+
 			case "ilobjmediaobjectgui":
 
 				//$cmd.="Object";
@@ -973,6 +991,10 @@ class ilObjMediaPoolGUI extends ilObject2GUI
 		}
 	}
 	
+	////
+	//// FOLDER Handling
+	////
+	
 	/**
 	* create folder form
 	*/
@@ -1045,7 +1067,7 @@ class ilObjMediaPoolGUI extends ilObject2GUI
 					? $_GET["item_id"]
 					: $tree->getRootId();
 				$this->object->insertInTree($mep_item->getId(), $parent);
-				ilUtil::sendSuccess($lng->txt("msg_obj_modified"), true);
+				ilUtil::sendSuccess($lng->txt("mep_folder_created"), true);
 			}
 			
 			$ilCtrl->redirect($this, "listMedia");
@@ -1121,6 +1143,172 @@ class ilObjMediaPoolGUI extends ilObject2GUI
 		global $ilCtrl;
 		$ilCtrl->redirect($this, "listMedia");
 	}
+
+	////
+	//// CONTENT SNIPPETS Handling
+	////
+
+	/**
+	 * Create new content snippet
+	 */
+	function createMediaPoolPage()
+	{
+		global $tpl;
+		$this->initMediaPoolPageForm("create");
+		$tpl->setContent($this->form->getHTML());
+	}
+
+	/**
+	 * Edit media pool page
+	 *
+	 * @param
+	 * @return
+	 */
+	function editMediaPoolPage()
+	{
+		global $tpl;
+		
+		$this->setMediaPoolPageTabs();
+		
+		include_once("./Modules/MediaPool/classes/class.ilMediaPoolPageGUI.php");
+		$mep_page_gui = new ilMediaPoolPageGUI($_GET["item_id"], $_GET["old_nr"]);
+		$mep_page_gui->getTabs();
+
+		$this->initMediaPoolPageForm("edit");
+		$this->getMediaPoolPageValues();
+		$tpl->setContent($this->form->getHTML());
+	}
+
+	/**
+	 * Save media pool page
+	 */
+	public function saveMediaPoolPage()
+	{
+		global $tpl, $lng, $ilCtrl;
+	
+		$this->initMediaPoolPageForm("create");
+		if ($this->form->checkInput())
+		{
+			// create media pool item
+			include_once("./Modules/MediaPool/classes/class.ilMediaPoolItem.php");
+			$item = new ilMediaPoolItem();
+			$item->setTitle($_POST["title"]);
+			$item->setType("pg");
+			$item->create();
+			
+			if ($item->getId() > 0)
+			{
+				// put in tree
+				$tree = $this->object->getTree();
+				$parent = $_GET["item_id"] > 0
+					? $_GET["item_id"]
+					: $tree->getRootId();
+				$this->object->insertInTree($item->getId(), $parent);
+				
+				// create page
+				include_once("./Modules/MediaPool/classes/class.ilMediaPoolPage.php");
+				$page = new ilMediaPoolPage();
+				$page->setId($item->getId());
+				$page->create();
+				
+				ilUtil::sendSuccess($lng->txt("mep_page_created"), true);
+			}
+			$ilCtrl->redirect($this, "listMedia");
+		}
+		
+		$this->form->setValuesByPost();
+		$tpl->setContent($this->form->getHtml());
+	}
+
+	/**
+	 * Update media pool page
+	 */
+	function updateMediaPoolPage()
+	{
+		global $lng, $ilCtrl, $tpl;
+		
+		$this->initMediaPoolPageForm("edit");
+		if ($this->form->checkInput())
+		{
+			$item = new ilMediaPoolItem($_GET["item_id"]);
+			$item->setTitle($_POST["title"]);			
+			$item->update();
+			ilUtil::sendSuccess($lng->txt("msg_obj_modified"), true);
+			$ilCtrl->redirect($this, "editMediaPoolPage");
+		}
+		
+		$this->form->setValuesByPost();
+		$tpl->setContent($this->form->getHtml());
+	}
+	/**
+	 * Init page form.
+	 *
+	 * @param        int        $a_mode        Edit Mode
+	 */
+	public function initMediaPoolPageForm($a_mode = "edit")
+	{
+		global $lng, $ilCtrl;
+	
+		include_once("Services/Form/classes/class.ilPropertyFormGUI.php");
+		$this->form = new ilPropertyFormGUI();
+	
+		// title
+		$ti = new ilTextInputGUI($lng->txt("title"), "title");
+		$ti->setMaxLength(128);
+		$this->form->addItem($ti);
+	
+		// save and cancel commands
+		if ($a_mode == "create")
+		{
+			$this->form->addCommandButton("saveMediaPoolPage", $lng->txt("save"));
+			$this->form->addCommandButton("cancelSave", $lng->txt("cancel"));
+			$this->form->setTitle($lng->txt("mep_new_content_snippet"));
+		}
+		else
+		{
+			$this->form->addCommandButton("updateMediaPoolPage", $lng->txt("save"));
+			$this->form->setTitle($lng->txt("mep_edit_content_snippet"));
+		}
+	                
+		$this->form->setFormAction($ilCtrl->getFormAction($this));
+	}
+
+	/**
+	 * Get current values for media pool page from 
+	 */
+	public function getMediaPoolPageValues()
+	{
+		$values = array();
+	
+		include_once("./Modules/MediaPool/classes/class.ilMediaPoolItem.php");
+		$values["title"] = ilMediaPoolItem::lookupTitle($_GET["item_id"]);
+	
+		$this->form->setValuesByArray($values);
+	}
+
+	/**
+	 * Set media pool page tabs
+	 *
+	 * @param
+	 * @return
+	 */
+	function setMediaPoolPageTabs()
+	{
+		global $ilTabs, $ilCtrl, $lng;
+	
+		$ilTabs->clearTargets();
+		//$ilTabs->addTab("mep_pg_prop", $lng->txt("mep_page_properties"),
+		//	$ilCtrl->getLinkTarget($this, "editMediaPoolPage"));
+		$ilTabs->addTarget("mep_page_properties", $ilCtrl->getLinkTarget($this, "editMediaPoolPage"),
+			"editMediaPoolPage", get_class($this));
+		$ilCtrl->setParameter($this, "item_id", $this->object->tree->getParentId($_GET["item_id"]));
+		$ilTabs->setBackTarget($lng->txt("mep_folder"), $ilCtrl->getLinkTarget($this, "listMedia"));
+		$ilCtrl->setParameter($this, "item_id", $_GET["item_id"]);
+	}
+
+	////
+	//// OTHER Functions...
+	////
 
 	/**
 	* Set tabs

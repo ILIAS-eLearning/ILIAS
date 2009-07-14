@@ -3,6 +3,7 @@
 
 include_once("./Services/COPage/classes/class.ilPageObjectGUI.php");
 include_once("./Modules/MediaPool/classes/class.ilMediaPoolPage.php");
+include_once("./Modules/MediaPool/classes/class.ilMediaPoolItem.php");
 
 /**
 * Class ilMediaPoolPage GUI class
@@ -11,7 +12,7 @@ include_once("./Modules/MediaPool/classes/class.ilMediaPoolPage.php");
 * @version $Id$
 *
 * @ilCtrl_Calls ilMediaPoolPageGUI: ilPageEditorGUI, ilEditClipboardGUI, ilMediaPoolTargetSelector
-* @ilCtrl_Calls ilMediaPoolPageGUI: ilPageObjectGUI
+* @ilCtrl_Calls ilMediaPoolPageGUI: ilPageObjectGUI, ilPublicUserProfileGUI
 *
 * @ingroup ModulesMediaPool
 */
@@ -117,31 +118,18 @@ class ilMediaPoolPageGUI extends ilPageObjectGUI
 		return parent::preview();
 	}
 	
+	/**
+	 * Show page 
+	 */
 	function showPage()
 	{
 		global $tpl, $ilCtrl;
 		
 		$this->setTemplateOutput(false);
-		$this->setPresentationTitle($this->getMediaPoolPage()->getTitle());
+		$this->setPresentationTitle(ilMediaPoolItem::lookupTitle($this->getMediaPoolPage()->getId()));
 		$output = parent::showPage();
 		
 		return $output;
-	}
-
-	/**
-	* All links to a specific page
-	*/
-	function whatLinksHere()
-	{
-		global $tpl;
-		
-		include_once("./Modules/Wiki/classes/class.ilWikiPagesTableGUI.php");
-		
-		$this->setSideBlock($_GET["wpg_id"]);
-		$table_gui = new ilWikiPagesTableGUI($this, "whatLinksHere",
-			$this->getWikiPage()->getWikiId(), IL_WIKI_WHAT_LINKS_HERE, $_GET["wpg_id"]);
-			
-		$tpl->setContent($table_gui->getHTML());
 	}
 
 	function getTabs($a_activate = "")

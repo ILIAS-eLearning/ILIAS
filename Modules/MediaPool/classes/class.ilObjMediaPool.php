@@ -343,6 +343,22 @@ class ilObjMediaPool extends ilObject
 	}
 
 	/**
+	* get childs of node
+	*/
+	function getChildsExceptFolders($obj_id = "")
+	{
+		$objs = array();
+		$mobs = array();
+		if ($obj_id == "")
+		{
+			$obj_id = $this->tree->getRootId();
+		}
+
+		$objs = $this->tree->getFilteredChilds(array("fold", "dummy"), $obj_id);
+		return $objs;
+	}
+
+	/**
 	* Get media objects
 	*/
 	function getMediaObjects($a_title_filter = "", $a_format_filter = "")
@@ -496,6 +512,20 @@ class ilObjMediaPool extends ilObject
 					$obj->delete();
 				}
 			}
+
+			if ($node["type"] == "pg")
+			{
+				include_once("./Modules/MediaPool/classes/class.ilMediaPoolPage.php");
+				if (ilMediaPoolPage::_exists($node["child"]))
+				{
+					$pg = new ilMediaPoolPage($node["child"]);
+					$pg->delete();
+				}
+			}
+			
+			include_once("./Modules/MediaPool/classes/class.ilMediaPoolItem.php");
+			$item = new ilMediaPoolItem($node["child"]);
+			$item->delete();
 		}
 	}
 	

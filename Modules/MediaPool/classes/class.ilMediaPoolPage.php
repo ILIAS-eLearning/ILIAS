@@ -24,64 +24,11 @@ class ilMediaPoolPage extends ilPageObject
 	}
 
 	/**
-	* Set Title.
-	*
-	* @param	string	$a_title	Title
-	*/
-	function setTitle($a_title)
-	{
-		$this->title = $a_title;
-	}
-
-	/**
-	* Get Title.
-	*
-	* @return	string	Title
-	*/
-	function getTitle()
-	{
-		return $this->title;
-	}
-
-	/**
-	 * Set media pool id
-	 *
-	 * @param	int	media pool id
-	 */
-	function setMediaPoolId($a_val)
-	{
-		$this->media_pool_id = $a_val;
-	}
-	
-	/**
-	 * Get media pool id
-	 *
-	 * @return	int	media pool id
-	 */
-	function getMediaPoolId()
-	{
-		return $this->media_pool_id;
-	}
-
-	/**
 	* Create new media pool page
 	*/
 	function create()
 	{
 		global $ilDB;
-
-		$id = $ilDB->nextId("il_media_pool_page");
-		$this->setId($id);
-		$query = "INSERT INTO il_media_pool_page (".
-			"id".
-			", title".
-			", media_pool_id".
-			" ) VALUES (".
-			$ilDB->quote($this->getId(), "integer")
-			.",".$ilDB->quote($this->getTitle(), "text")
-			.",".$ilDB->quote($this->getMediaPoolId(), "integer")
-			.")";
-		$ilDB->manipulate($query);
 		
 		// create page object
 		parent::create();
@@ -98,14 +45,7 @@ class ilMediaPoolPage extends ilPageObject
 	function update($a_validate = true, $a_no_history = false)
 	{
 		global $ilDB;
-		
-		// update media_pool page data
-		$query = "UPDATE il_media_pool_page SET ".
-			" title = ".$ilDB->quote($this->getTitle(), "text").
-			",media_pool_id = ".$ilDB->quote($this->getMediaPoolId(), "integer").
-			" WHERE id = ".$ilDB->quote($this->getId(), "integer");
-		$ilDB->manipulate($query);
-		parent::update($a_validate, $a_no_history);
+				parent::update($a_validate, $a_no_history);
 
 		return true;
 	}
@@ -116,14 +56,6 @@ class ilMediaPoolPage extends ilPageObject
 	function read()
 	{
 		global $ilDB;
-		
-		$query = "SELECT * FROM il_media_pool_page WHERE id = ".
-			$ilDB->quote($this->getId(), "integer");
-		$set = $ilDB->query($query);
-		$rec = $ilDB->fetchAssoc($set);
-
-		$this->setTitle($rec["title"]);
-		$this->setMediaPoolId($rec["media_pool_id"]);
 		
 		// get co page
 		parent::read();
@@ -144,11 +76,6 @@ class ilMediaPoolPage extends ilPageObject
 //		include_once("./Services/COPage/classes/class.ilInternalLink.php");
 //		ilInternalLink::_deleteAllLinksToTarget("mep", $this->getId());
 				
-		// delete record of table il_media_pool_data
-		$query = "DELETE FROM il_media_pool_page".
-			" WHERE id = ".$ilDB->quote($this->getId(), "integer");
-
-		$ilDB->manipulate($query);
 		
 		// delete co page
 		parent::delete();
@@ -165,6 +92,8 @@ class ilMediaPoolPage extends ilPageObject
 	{
 		global $ilDB;
 		
+// todo
+/*
 		$query = "SELECT * FROM il_media_pool_page".
 			" WHERE media_pool_id = ".$ilDB->quote($a_media_pool_id, "integer");
 		$set = $ilDB->query($query);
@@ -174,6 +103,7 @@ class ilMediaPoolPage extends ilPageObject
 			$mp_page = new ilMediaPoolPage($rec["id"]);
 			$mp_page->delete();
 		}
+*/
 	}
 	
 	/**
@@ -182,6 +112,9 @@ class ilMediaPoolPage extends ilPageObject
 	static function exists($a_media_pool_id, $a_title)
 	{
 		global $ilDB;
+
+// todo
+/*
 		
 		$query = "SELECT * FROM il_media_pool_page".
 			" WHERE media_pool_id = ".$ilDB->quote($a_media_pool_id, "integer").
@@ -191,7 +124,7 @@ class ilMediaPoolPage extends ilPageObject
 		{
 			return true;
 		}
-		
+*/		
 		return false;
 	}
 	
@@ -201,7 +134,10 @@ class ilMediaPoolPage extends ilPageObject
 	static function lookupTitle($a_page_id)
 	{
 		global $ilDB;
-		
+	
+// todo
+/*
+	
 		$query = "SELECT * FROM il_media_pool_page".
 			" WHERE id = ".$ilDB->quote($a_page_id, "integer");
 		$set = $ilDB->query($query);
@@ -209,7 +145,7 @@ class ilMediaPoolPage extends ilPageObject
 		{
 			return $rec["title"];
 		}
-		
+*/		
 		return false;
 	}
 
@@ -221,7 +157,8 @@ class ilMediaPoolPage extends ilPageObject
 	static function getAllPages($a_media_pool_id)
 	{
 		global $ilDB;
-		
+// todo
+/*
 		$pages = parent::getAllPages("mep", $a_media_pool_id);
 		
 		$query = "SELECT * FROM il_media_pool_page".
@@ -236,7 +173,7 @@ class ilMediaPoolPage extends ilPageObject
 				$pages[$rec["id"]]["title"] = $rec["title"];
 			}
 		}
-		
+*/		
 		return $pages;
 	}
 
@@ -250,7 +187,8 @@ class ilMediaPoolPage extends ilPageObject
 	static function _mediaPoolPageExists($a_media_pool_id, $a_title)
 	{
 		global $ilDB;
-		
+// todo
+/*		
 		$query = "SELECT id FROM il_media_pool_page".
 			" WHERE media_pool_id = ".$ilDB->quote($a_media_pool_id, "integer").
 			" AND title = ".$ilDB->quote($a_title, "text");
@@ -261,8 +199,19 @@ class ilMediaPoolPage extends ilPageObject
 		{
 			return true;
 		}
-		
+*/		
 		return false;
+	}
+	
+	/**
+	 * Check whether meida pool page exists
+	 * 
+	 * @param	int			page id
+	 * @return	boolean		true/false
+	 */
+	static function _exists($a_id)
+	{
+		return ilPageObject::_exists("mep", $a_id);
 	}
 	
 }

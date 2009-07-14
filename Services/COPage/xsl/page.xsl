@@ -74,6 +74,7 @@
 <xsl:param name="enable_file_list"/>
 <xsl:param name="enable_sa_qst"/>
 <xsl:param name="disable_auto_margins"/>
+<xsl:param name="enable_content_includes"/>
 
 
 <xsl:template match="PageObject">
@@ -685,6 +686,14 @@
 		<xsl:call-template name="EditMenuItem">
 			<xsl:with-param name="command">insert_tabs</xsl:with-param>
 			<xsl:with-param name="langvar">ed_insert_tabs</xsl:with-param>
+		</xsl:call-template>
+	</xsl:if>
+	
+	<!-- insert content snippets -->
+	<xsl:if test = "$enable_content_includes = 'y'">
+		<xsl:call-template name="EditMenuItem">
+			<xsl:with-param name="command">insert_incl</xsl:with-param>
+			<xsl:with-param name="langvar">ed_insert_incl</xsl:with-param>
 		</xsl:call-template>
 	</xsl:if>
 	

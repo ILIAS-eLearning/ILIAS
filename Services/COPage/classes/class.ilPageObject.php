@@ -246,7 +246,7 @@ class ilPageObject
 	* @param	string		$a_parent_type	parent type
 	* @param	int			$a_id			page id
 	*/
-	function _exists($a_parent_type, $a_id)
+	static function _exists($a_parent_type, $a_id)
 	{
 		global $ilDB;
 		
@@ -949,7 +949,7 @@ if ($_GET["pgEdMediaMode"] != "") {echo "ilPageObject::error media"; exit;}
 			"ed_insert_pcqst", "empty_question", "ed_paste","question_placeh","media_placeh","text_placeh",
 			"ed_insert_plach","question_placehl","media_placehl","text_placehl",
 			"pc_flist", "pc_par", "pc_mob", "pc_qst", "pc_sec", "pc_dtab", "pc_tab",
-			"pc_code", "pc_vacc", "pc_hacc", "pc_res", "pc_map", "pc_list");
+			"pc_code", "pc_vacc", "pc_hacc", "pc_res", "pc_map", "pc_list", "ed_insert_incl", "pc_incl");
 
 		foreach ($lang_vars as $lang_var)
 		{
