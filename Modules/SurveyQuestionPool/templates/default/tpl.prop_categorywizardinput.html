@@ -27,6 +27,24 @@
 			</tr>
 <!-- END row -->
 		</tbody>
+		<tfoot>
+<!-- BEGIN neutral_row -->
+<!-- BEGIN neutral_category_title -->
+			<tr class="neutral">
+				<td colspan="3"><span class="neutral_category_title">{CATEGORY_TITLE}</span></td>
+			</tr>
+<!-- END neutral_category_title -->
+			<tr class="neutral">
+				<td>
+					<input type="text" size="{SIZE}" id="{ID}" maxlength="{MAXLENGTH}" name="{POST_VAR}_neutral" <!-- BEGIN prop_text_neutral_propval -->value="{PROPERTY_VALUE}" <!-- END prop_text_neutral_propval -->{DISABLED} />
+				</td>
+				<td style="vertical-align: top;">
+					<input type="text" style="text-align: right;" size="3" id="{SCALE_ID}" name="{POST_VAR}_neutral_scale]" <!-- BEGIN prop_scale_neutral_propval -->value="{PROPERTY_VALUE}" <!-- END prop_scale_neutral_propval -->{DISABLED_SCALE} />
+				</td>
+				<td style="vertical-align: top;"></td>
+			</tr>
+<!-- END neutral_row -->
+		</tfoot>
 	</table>
 <!-- BEGIN savephrase -->	<div><input type="submit" class="submit" name="cmd[savePhrase{POST_VAR}]" value="{VALUE_SAVE_PHRASE}" /></div><!-- END savephrase -->
 </div>

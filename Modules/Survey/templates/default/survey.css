@@ -93,4 +93,7 @@ table.categorywizard th {
 	text-align: center;
 }
 
+.neutral_category_title {
+	font-style: italic;
+}
 }
