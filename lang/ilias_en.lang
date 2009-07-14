@@ -6843,7 +6843,7 @@ survey#:#category_delete_confirm#:#Are you sure you want to delete the following
 survey#:#category_delete_select_none#:#Please check at least one answer to delete it!
 survey#:#category_nr_selected#:#Number of users that selected this answer
 survey#:#chart#:#Chart
-survey#:#check_category_to_save_phrase#:#You must select a least one answer to save a phrase!
+survey#:#check_category_to_save_phrase#:#You must have a least one answer to save a phrase!
 survey#:#codes#:#Access Codes
 survey#:#combobox#:#Combobox
 survey#:#concatenation#:#Concatenation
@@ -9676,3 +9676,4 @@ survey#:#add_material#:#Add Material
 survey#:#internal_link#:#Internal Link
 survey#:#materials#:#Materials
 survey#:#materials_deleted#:#Material(s) deleted
+survey#:#phrase_added#:#Phrase added

@@ -84,7 +84,7 @@ class SurveySingleChoiceQuestionGUI extends SurveyQuestionGUI
 
 			foreach ($_POST['answers']['answer'] as $key => $value) 
 			{
-				$this->object->getCategories()->addCategory(ilUtil::stripSlashes($value));
+				if (strlen($value)) $this->object->getCategories()->addCategory(ilUtil::stripSlashes($value));
 			}
 			return 0;
 		}
@@ -101,7 +101,7 @@ class SurveySingleChoiceQuestionGUI extends SurveyQuestionGUI
 	*/
 	public function editQuestion($checkonly = FALSE)
 	{
-		$save = ((strcmp($this->ctrl->getCmd(), "save") == 0) || (strcmp($this->ctrl->getCmd(), "saveEdit") == 0)) ? TRUE : FALSE;
+		$save = ((strcmp($this->ctrl->getCmd(), "save") == 0) || (strcmp($this->ctrl->getCmd(), "wizardanswers") == 0)) ? TRUE : FALSE;
 
 		include_once("./Services/Form/classes/class.ilPropertyFormGUI.php");
 		$form = new ilPropertyFormGUI();
@@ -162,8 +162,10 @@ class SurveySingleChoiceQuestionGUI extends SurveyQuestionGUI
 		// Answers
 		include_once "./Modules/SurveyQuestionPool/classes/class.ilCategoryWizardInputGUI.php";
 		$answers = new ilCategoryWizardInputGUI($this->lng->txt("answers"), "answers");
-		$answers->setRequired(true);
+		$answers->setRequired(false);
 		$answers->setAllowMove(true);
+		$answers->setShowWizard(true);
+		$answers->setShowSavePhrase(true);
 		if (!$this->object->getCategories()->getCategoryCount())
 		{
 			$this->object->getCategories()->addCategory("");
@@ -172,7 +174,7 @@ class SurveySingleChoiceQuestionGUI extends SurveyQuestionGUI
 		$form->addItem($answers);
 
 		$form->addCommandButton("save", $this->lng->txt("save"));
-	
+
 		$errors = false;
 	
 		if ($save)
@@ -229,6 +231,242 @@ class SurveySingleChoiceQuestionGUI extends SurveyQuestionGUI
 		$this->object->getCategories()->moveCategoryDown($position);
 		$this->editQuestion();
 	}
+
+	/**
+	* Creates an output for the addition of phrases
+	*
+	* @access public
+	*/
+  function wizardanswers($save_post_data = true) 
+	{
+		if ($save_post_data) $result = $this->writePostData();
+		if ($result == 0 || !$save_post_data)
+		{
+			if ($save_post_data) $this->object->saveToDb();
+			$this->tpl->addBlockFile("ADM_CONTENT", "adm_content", "tpl.il_svy_qpl_addphrase.html", "Modules/SurveyQuestionPool");
+
+			// set the id to return to the selected question
+			$this->tpl->setCurrentBlock("hidden");
+			$this->tpl->setVariable("HIDDEN_NAME", "id");
+			$this->tpl->setVariable("HIDDEN_VALUE", $this->object->getId());
+			$this->tpl->parseCurrentBlock();
+
+			include_once "./Modules/SurveyQuestionPool/classes/class.ilSurveyPhrases.php";
+			$phrases =& ilSurveyPhrases::_getAvailablePhrases();
+			$colors = array("tblrow1", "tblrow2");
+			$counter = 0;
+			foreach ($phrases as $phrase_id => $phrase_array)
+			{
+				$this->tpl->setCurrentBlock("phraserow");
+				$this->tpl->setVariable("COLOR_CLASS", $colors[$counter++ % 2]);
+				$this->tpl->setVariable("PHRASE_VALUE", $phrase_id);
+				$this->tpl->setVariable("PHRASE_NAME", $phrase_array["title"]);
+				$categories =& ilSurveyPhrases::_getCategoriesForPhrase($phrase_id);
+				$this->tpl->setVariable("PHRASE_CONTENT", join($categories, ","));
+				$this->tpl->parseCurrentBlock();
+			}
+
+			$this->tpl->setCurrentBlock("adm_content");
+			$this->tpl->setVariable("TEXT_CANCEL", $this->lng->txt("cancel"));
+			$this->tpl->setVariable("TEXT_PHRASE", $this->lng->txt("phrase"));
+			$this->tpl->setVariable("TEXT_CONTENT", $this->lng->txt("categories"));
+			$this->tpl->setVariable("TEXT_ADD_PHRASE", $this->lng->txt("add_phrase"));
+			$this->tpl->setVariable("TEXT_INTRODUCTION",$this->lng->txt("add_phrase_introduction"));
+			$this->tpl->setVariable("FORM_ACTION", $this->ctrl->getFormAction($this));
+			$this->tpl->parseCurrentBlock();
+		}
+	}
+
+	/**
+	* Cancels the form adding a phrase
+	*
+	* @access public
+	*/
+	function cancelViewPhrase() 
+	{
+		ilUtil::sendInfo($this->lng->txt('msg_cancel'), true);
+		$this->ctrl->redirect($this, 'editQuestion');
+	}
+
+	/**
+	* Adds a selected phrase
+	*
+	* @access public
+	*/
+	function addSelectedPhrase() 
+	{
+		if (strcmp($_POST["phrases"], "") == 0)
+		{
+			ilUtil::sendInfo($this->lng->txt("select_phrase_to_add"));
+			$this->wizardanswers(false);
+		}
+		else
+		{
+			if (strcmp($this->object->getPhrase($_POST["phrases"]), "dp_standard_numbers") != 0)
+			{
+				$this->object->addPhrase($_POST["phrases"]);
+				$this->object->saveToDb();
+			}
+			else
+			{
+				$this->addStandardNumbers();
+				return;
+			}
+			ilUtil::sendSuccess($this->lng->txt('phrase_added'), true);
+			$this->ctrl->redirect($this, 'editQuestion');
+		}
+	}
+
+	/**
+	* Creates an output for the addition of standard numbers
+	*
+	* @access public
+	*/
+	  function addStandardNumbers() 
+		{
+			$this->tpl->addBlockFile("ADM_CONTENT", "adm_content", "tpl.il_svy_qpl_addphrase_standard_numbers.html", "Modules/SurveyQuestionPool");
+
+			// set the id to return to the selected question
+			$this->tpl->setCurrentBlock("hidden");
+			$this->tpl->setVariable("HIDDEN_NAME", "id");
+			$this->tpl->setVariable("HIDDEN_VALUE", $this->object->getId());
+			$this->tpl->parseCurrentBlock();
+
+			$this->tpl->setCurrentBlock("adm_content");
+			$this->tpl->setVariable("ADD_STANDARD_NUMBERS", $this->lng->txt("add_standard_numbers"));
+			$this->tpl->setVariable("TEXT_ADD_LIMITS", $this->lng->txt("add_limits_for_standard_numbers"));
+			$this->tpl->setVariable("TEXT_LOWER_LIMIT",$this->lng->txt("lower_limit"));
+			$this->tpl->setVariable("TEXT_UPPER_LIMIT",$this->lng->txt("upper_limit"));
+			$this->tpl->setVariable("VALUE_LOWER_LIMIT", $_POST["lower_limit"]);
+			$this->tpl->setVariable("VALUE_UPPER_LIMIT", $_POST["upper_limit"]);
+			$this->tpl->setVariable("BTN_ADD",$this->lng->txt("add_phrase"));
+			$this->tpl->setVariable("BTN_CANCEL",$this->lng->txt("cancel"));
+			$this->tpl->setVariable("FORM_ACTION", $this->ctrl->getFormAction($this));
+			$this->tpl->parseCurrentBlock();
+		}
+
+	/**
+	* Cancels the form adding standard numbers
+	*
+	* @access public
+	*/
+	function cancelStandardNumbers() 
+	{
+		ilUtil::sendInfo($this->lng->txt("msg_cancel"), true);
+		$this->ctrl->redirect($this, "editQuestion");
+	}
+
+	/**
+	* Insert standard numbers to the question
+	*
+	* @access public
+	*/
+	function insertStandardNumbers() 
+	{
+		if ((strcmp($_POST["lower_limit"], "") == 0) or (strcmp($_POST["upper_limit"], "") == 0))
+		{
+			ilUtil::sendInfo($this->lng->txt("missing_upper_or_lower_limit"));
+			$this->addStandardNumbers();
+		}
+		else if ((int)$_POST["upper_limit"] <= (int)$_POST["lower_limit"])
+		{
+			ilUtil::sendInfo($this->lng->txt("upper_limit_must_be_greater"));
+			$this->addStandardNumbers();
+		}
+		else
+		{
+			$this->object->addStandardNumbers($_POST["lower_limit"], $_POST["upper_limit"]);
+			$this->object->saveToDb();
+			ilUtil::sendSuccess($this->lng->txt('phrase_added'), true);
+			$this->ctrl->redirect($this, "editQuestion");
+		}
+	}
+
+	/**
+	* Creates an output to save the current answers as a phrase
+	*
+	* @access public
+	*/
+	function savePhraseanswers($haserror = false) 
+	{
+		if (!$haserror) $result = $this->writePostData();
+		if ($result == 0 || $haserror)
+		{
+			if (!$haserror) $this->object->saveToDb();
+			$nothing_selected = true;
+			$nothing_selected = false;
+			$this->tpl->addBlockFile("ADM_CONTENT", "adm_content", "tpl.il_svy_qpl_savephrase.html", "Modules/SurveyQuestionPool");
+			$rowclass = array("tblrow1", "tblrow2");
+			$counter = 0;
+			foreach ($_POST['answers']['answer'] as $key => $value) 
+			{
+				if (strlen($value))
+				{
+					$this->tpl->setCurrentBlock("row");
+					$this->tpl->setVariable("TXT_TITLE", ilUtil::stripSlashes($value));
+					$this->tpl->setVariable("COLOR_CLASS", $rowclass[$counter % 2]);
+					$this->tpl->parseCurrentBlock();
+					$this->tpl->setCurrentBlock("hidden");
+					$this->tpl->setVariable("HIDDEN_NAME", "answers[answer][]");
+					$this->tpl->setVariable("HIDDEN_VALUE", ilUtil::stripSlashes($value));
+					$this->tpl->parseCurrentBlock();
+					$counter++;
+				}
+			}
+			if ($counter == 0)
+			{
+				ilUtil::sendFailure($this->lng->txt("check_category_to_save_phrase"), true);
+				$this->ctrl->redirect($this, "editQuestion");
+			}
+			$this->tpl->setCurrentBlock("adm_content");
+			$this->tpl->setVariable("SAVE_PHRASE_INTRODUCTION", $this->lng->txt("save_phrase_introduction"));
+			$this->tpl->setVariable("TEXT_PHRASE_TITLE", $this->lng->txt("enter_phrase_title"));
+			$this->tpl->setVariable("TXT_TITLE", $this->lng->txt("category"));
+			$this->tpl->setVariable("VALUE_PHRASE_TITLE", $_POST["phrase_title"]);
+			$this->tpl->setVariable("BTN_CANCEL",$this->lng->txt("cancel"));
+			$this->tpl->setVariable("BTN_CONFIRM",$this->lng->txt("confirm"));
+			$this->tpl->setVariable("FORM_ACTION", $this->ctrl->getFormAction($this));
+			$this->tpl->parseCurrentBlock();
+		}
+	}
+
+	/**
+	* Cancels the form saving a phrase
+	*
+	* @access public
+	*/
+	function cancelSavePhrase() 
+	{
+		ilUtil::sendInfo($this->lng->txt("msg_cancel"), true);
+		$this->ctrl->redirect($this, "editQuestion");
+	}
+
+	/**
+	* Save a new phrase to the database
+	*
+	* @access public
+	*/
+	function confirmSavePhrase() 
+	{
+		if (!$_POST["phrase_title"])
+		{
+			ilUtil::sendInfo($this->lng->txt("qpl_savephrase_empty"));
+			$this->savePhraseanswers(true);
+			return;
+		}
+
+		if ($this->object->phraseExists($_POST["phrase_title"]))
+		{
+			ilUtil::sendInfo($this->lng->txt("qpl_savephrase_exists"));
+			$this->savePhraseanswers(true);
+			return;
+		}
+
+		$this->object->savePhrase($_POST['answers']['answer'], $_POST["phrase_title"]);
+		ilUtil::sendSuccess($this->lng->txt("phrase_saved"), true);
+		$this->ctrl->redirect($this, "editQuestion");
+	}
+
 
 /**
 * Creates the question output form for the learner
@@ -444,235 +682,64 @@ class SurveySingleChoiceQuestionGUI extends SurveyQuestionGUI
 	
 	function setQuestionTabs()
 	{
-		$this->setQuestionTabsForClass("surveysinglechoicequestiongui");
-	}
+		global $rbacsystem,$ilTabs;
+		$this->ctrl->setParameter($this, "sel_question_types", $this->getQuestionType());
+		$this->ctrl->setParameter($this, "q_id", $_GET["q_id"]);
 
-/**
-* Creates an output for the addition of phrases
-*
-* @access public
-*/
-  function addPhrase() 
-	{
-		$this->writeCategoryData(true);
-		$this->ctrl->setParameterByClass(get_class($this), "q_id", $this->object->getId());
-		$this->ctrl->setParameterByClass("ilobjsurveyquestionpoolgui", "q_id", $this->object->getId());
-
-		$this->tpl->addBlockFile("ADM_CONTENT", "adm_content", "tpl.il_svy_qpl_addphrase.html", "Modules/SurveyQuestionPool");
-
-		// set the id to return to the selected question
-		$this->tpl->setCurrentBlock("hidden");
-		$this->tpl->setVariable("HIDDEN_NAME", "id");
-		$this->tpl->setVariable("HIDDEN_VALUE", $this->object->getId());
-		$this->tpl->parseCurrentBlock();
-
-		include_once "./Modules/SurveyQuestionPool/classes/class.ilSurveyPhrases.php";
-		$phrases =& ilSurveyPhrases::_getAvailablePhrases();
-		$colors = array("tblrow1", "tblrow2");
-		$counter = 0;
-		foreach ($phrases as $phrase_id => $phrase_array)
+		if (($_GET["calling_survey"] > 0) || ($_GET["new_for_survey"] > 0))
 		{
-			$this->tpl->setCurrentBlock("phraserow");
-			$this->tpl->setVariable("COLOR_CLASS", $colors[$counter++ % 2]);
-			$this->tpl->setVariable("PHRASE_VALUE", $phrase_id);
-			$this->tpl->setVariable("PHRASE_NAME", $phrase_array["title"]);
-			$categories =& ilSurveyPhrases::_getCategoriesForPhrase($phrase_id);
-			$this->tpl->setVariable("PHRASE_CONTENT", join($categories, ","));
-			$this->tpl->parseCurrentBlock();
-		}
-		
-		$this->tpl->setCurrentBlock("adm_content");
-		$this->tpl->setVariable("TEXT_CANCEL", $this->lng->txt("cancel"));
-		$this->tpl->setVariable("TEXT_PHRASE", $this->lng->txt("phrase"));
-		$this->tpl->setVariable("TEXT_CONTENT", $this->lng->txt("categories"));
-		$this->tpl->setVariable("TEXT_ADD_PHRASE", $this->lng->txt("add_phrase"));
-		$this->tpl->setVariable("TEXT_INTRODUCTION",$this->lng->txt("add_phrase_introduction"));
-		$this->tpl->setVariable("FORM_ACTION", $this->ctrl->getFormAction($this));
-		$this->tpl->parseCurrentBlock();
-	}
-
-/**
-* Cancels the form adding a phrase
-*
-* @access public
-*/
-	function cancelViewPhrase() 
-	{
-		$this->ctrl->redirect($this, "categories");
-	}
-
-/**
-* Adds a selected phrase
-*
-* @access public
-*/
-	function addSelectedPhrase() 
-	{
-		if (strcmp($_POST["phrases"], "") == 0)
-		{
-			ilUtil::sendInfo($this->lng->txt("select_phrase_to_add"));
-			$this->addPhrase();
+			$ref_id = $_GET["calling_survey"];
+			if (!strlen($ref_id)) $ref_id = $_GET["new_for_survey"];
+			$addurl = "";
+			if (strlen($_GET["new_for_survey"]))
+			{
+				$addurl = "&new_id=" . $_GET["q_id"];
+			}
+			$ilTabs->setBackTarget($this->lng->txt("menubacktosurvey"), "ilias.php?baseClass=ilObjSurveyGUI&ref_id=$ref_id&cmd=questions" . $addurl);
 		}
 		else
 		{
-			if (strcmp($this->object->getPhrase($_POST["phrases"]), "dp_standard_numbers") != 0)
-			{
-				$this->object->addPhrase($_POST["phrases"]);
-				$this->object->saveCategoriesToDb();
-			}
-			else
-			{
-				$this->addStandardNumbers();
-				return;
-			}
-			$this->ctrl->redirect($this, "categories");
+			$ilTabs->setBackTarget($this->lng->txt("spl"), $this->ctrl->getLinkTargetByClass("ilObjSurveyQuestionPoolGUI", "questions"));
 		}
-	}
-	
-/**
-* Creates an output for the addition of standard numbers
-*
-* @access public
-*/
-  function addStandardNumbers() 
-	{
-		$this->tpl->addBlockFile("ADM_CONTENT", "adm_content", "tpl.il_svy_qpl_addphrase_standard_numbers.html", "Modules/SurveyQuestionPool");
-
-		// set the id to return to the selected question
-		$this->tpl->setCurrentBlock("hidden");
-		$this->tpl->setVariable("HIDDEN_NAME", "id");
-		$this->tpl->setVariable("HIDDEN_VALUE", $this->object->getId());
-		$this->tpl->parseCurrentBlock();
-
-		$this->tpl->setCurrentBlock("adm_content");
-		$this->tpl->setVariable("ADD_STANDARD_NUMBERS", $this->lng->txt("add_standard_numbers"));
-		$this->tpl->setVariable("TEXT_ADD_LIMITS", $this->lng->txt("add_limits_for_standard_numbers"));
-		$this->tpl->setVariable("TEXT_LOWER_LIMIT",$this->lng->txt("lower_limit"));
-		$this->tpl->setVariable("TEXT_UPPER_LIMIT",$this->lng->txt("upper_limit"));
-		$this->tpl->setVariable("VALUE_LOWER_LIMIT", $_POST["lower_limit"]);
-		$this->tpl->setVariable("VALUE_UPPER_LIMIT", $_POST["upper_limit"]);
-		$this->tpl->setVariable("BTN_ADD",$this->lng->txt("add_phrase"));
-		$this->tpl->setVariable("BTN_CANCEL",$this->lng->txt("cancel"));
-		$this->tpl->setVariable("FORM_ACTION", $this->ctrl->getFormAction($this));
-		$this->tpl->parseCurrentBlock();
-	}
-	
-/**
-* Cancels the form adding standard numbers
-*
-* @access public
-*/
-	function cancelStandardNumbers() 
-	{
-		$this->ctrl->redirect($this, "categories");
-	}
-
-/**
-* Insert standard numbers to the question
-*
-* @access public
-*/
-	function insertStandardNumbers() 
-	{
-		if ((strcmp($_POST["lower_limit"], "") == 0) or (strcmp($_POST["upper_limit"], "") == 0))
+		if ($_GET["q_id"])
 		{
-			ilUtil::sendInfo($this->lng->txt("missing_upper_or_lower_limit"));
-			$this->addStandardNumbers();
+			$ilTabs->addTarget("preview",
+				$this->ctrl->getLinkTarget($this, "preview"), 
+					"preview",
+					"",
+					""
+			);
 		}
-		else if ((int)$_POST["upper_limit"] <= (int)$_POST["lower_limit"])
-		{
-			ilUtil::sendInfo($this->lng->txt("upper_limit_must_be_greater"));
-			$this->addStandardNumbers();
+		if ($rbacsystem->checkAccess('edit', $_GET["ref_id"])) {
+			$ilTabs->addTarget("edit_properties",
+				$this->ctrl->getLinkTarget($this, "editQuestion"), 
+					array("editQuestion", "save", "cancel", "wizardanswers", "addSelectedPhrase",
+						"insertStandardNumbers", "savePhraseanswers", "confirmSavePhrase"),
+					"",
+					""
+			);
 		}
-		else
+		if ($_GET["q_id"])
 		{
-			$this->object->addStandardNumbers($_POST["lower_limit"], $_POST["upper_limit"]);
-			$this->object->saveCategoriesToDb();
-			$this->ctrl->redirect($this, "categories");
-		}
-	}
-
-/**
-* Creates an output to save a phrase
-*
-* @access public
-*/
-  function savePhrase() 
-	{
-		$this->writeCategoryData(true);
-		$nothing_selected = true;
-		if (array_key_exists("chb_category", $_POST))
-		{
-			if (count($_POST["chb_category"]))
-			{
-				$nothing_selected = false;
-				$this->tpl->addBlockFile("ADM_CONTENT", "adm_content", "tpl.il_svy_qpl_savephrase.html", "Modules/SurveyQuestionPool");
-				$rowclass = array("tblrow1", "tblrow2");
-				$counter = 0;
-				foreach ($_POST["chb_category"] as $category)
-				{
-					$this->tpl->setCurrentBlock("row");
-					$this->tpl->setVariable("TXT_TITLE", $this->object->categories->getCategory($category));
-					$this->tpl->setVariable("COLOR_CLASS", $rowclass[$counter % 2]);
-					$this->tpl->parseCurrentBlock();
-					$this->tpl->setCurrentBlock("hidden");
-					$this->tpl->setVariable("HIDDEN_NAME", "chb_category[]");
-					$this->tpl->setVariable("HIDDEN_VALUE", $category);
-					$this->tpl->parseCurrentBlock();
-				}
-			
-				$this->tpl->setCurrentBlock("adm_content");
-				$this->tpl->setVariable("SAVE_PHRASE_INTRODUCTION", $this->lng->txt("save_phrase_introduction"));
-				$this->tpl->setVariable("TEXT_PHRASE_TITLE", $this->lng->txt("enter_phrase_title"));
-				$this->tpl->setVariable("TXT_TITLE", $this->lng->txt("category"));
-				$this->tpl->setVariable("VALUE_PHRASE_TITLE", $_POST["phrase_title"]);
-				$this->tpl->setVariable("BTN_CANCEL",$this->lng->txt("cancel"));
-				$this->tpl->setVariable("BTN_CONFIRM",$this->lng->txt("confirm"));
-				$this->tpl->setVariable("FORM_ACTION", $this->ctrl->getFormAction($this));
-				$this->tpl->parseCurrentBlock();
-			}
-		}
-		if ($nothing_selected)
-		{
-			ilUtil::sendInfo($this->lng->txt("check_category_to_save_phrase"), true);
-			$this->ctrl->redirect($this, "categories");
-		}
-	}
-
-/**
-* Cancels the form saving a phrase
-*
-* @access public
-*/
-	function cancelSavePhrase() 
-	{
-		$this->ctrl->redirect($this, "categories");
-	}
-
-/**
-* Save a new phrase to the database
-*
-* @access public
-*/
-	function confirmSavePhrase() 
-	{
-		if (!$_POST["phrase_title"])
-		{
-			ilUtil::sendInfo($this->lng->txt("qpl_savephrase_empty"));
-			$this->savePhrase();
-			return;
-		}
-		
-		if ($this->object->phraseExists($_POST["phrase_title"]))
-		{
-			ilUtil::sendInfo($this->lng->txt("qpl_savephrase_exists"));
-			$this->savePhrase();
-			return;
+			$ilTabs->addTarget("material",
+				$this->ctrl->getLinkTarget($this, "material"), 
+					array("material", "cancelExplorer", "linkChilds", "addGIT", "addST",
+						"addPG", "addMaterial", "removeMaterial"),
+				"",
+				""
+			);
 		}
 
-		$this->object->savePhrase($_POST["chb_category"], $_POST["phrase_title"]);
-		ilUtil::sendSuccess($this->lng->txt("phrase_saved"), true);
-		$this->ctrl->redirect($this, "categories");
+		if ($this->object->getId() > 0) 
+		{
+			$title = $this->lng->txt("edit") . " &quot;" . $this->object->getTitle() . "&quot";
+		} 
+		else 
+		{
+			$title = $this->lng->txt("create_new") . " " . $this->lng->txt($this->getQuestionType());
+		}
+
+		$this->tpl->setVariable("HEADER", $title);
 	}
 
 /**

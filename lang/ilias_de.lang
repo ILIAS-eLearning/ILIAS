@@ -6772,7 +6772,7 @@ survey#:#category_delete_select_none#:#Bitte wählen Sie mindestens eine Antwort
 survey#:#category_nr_selected#:#Anzahl der Teilnehmerinnen, die diese Antwort ausgewählt haben
 survey#:#category#:#Antwort
 survey#:#chart#:#Diagramm
-survey#:#check_category_to_save_phrase#:#Sie müssen mindestens eine Antwort auswählen, um eine Phrase speichern zu können!
+survey#:#check_category_to_save_phrase#:#Sie müssen mindestens eine Antwort haben, um eine Phrase speichern zu können!
 survey#:#codes#:#Zugangsschlüssel
 survey#:#combobox#:#Kombinationsfeld
 survey#:#concatenation#:#Verknüpfung

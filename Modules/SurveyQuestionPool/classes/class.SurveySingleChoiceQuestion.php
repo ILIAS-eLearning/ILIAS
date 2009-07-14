@@ -423,7 +423,7 @@ class SurveySingleChoiceQuestion extends SurveyQuestion
 	{
 		global $ilUser;
 		global $ilDB;
-		
+
 		$next_id = $ilDB->nextId('svy_phrase');
 		$affectedRows = $ilDB->manipulateF("INSERT INTO svy_phrase (phrase_id, title, defaultvalue, owner_fi, tstamp) VALUES (%s, %s, %s, %s, %s)",
 			array('integer','text','text','integer','integer'),
@@ -437,7 +437,7 @@ class SurveySingleChoiceQuestion extends SurveyQuestion
 			$next_id = $ilDB->nextId('svy_category');
 			$affectedRows = $ilDB->manipulateF("INSERT INTO svy_category (category_id, title, defaultvalue, owner_fi, tstamp) VALUES (%s, %s, %s, %s, %s)",
 				array('integer','text','text','integer','integer'),
-				array($next_id, $this->categories->getCategory($category), 1, $ilUser->getId(), time())
+				array($next_id, $category, 1, $ilUser->getId(), time())
 			);
 			$category_id = $next_id;
 			$next_id = $ilDB->nextId('svy_phrase_cat');
