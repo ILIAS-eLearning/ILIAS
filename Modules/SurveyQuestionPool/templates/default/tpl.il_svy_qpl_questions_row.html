@@ -1,0 +1,32 @@
+<tr class="{CSS_ROW}">
+	<td class="std" style="vertical-align: top">
+		<input type="checkbox" name="q_id[]" value="{QUESTION_ID}" id="cb_{QUESTION_ID}" {VAL_CHECKED} />
+	</td>
+	<td class="std" style="vertical-align: top">
+<!-- BEGIN qpl_warning -->	
+	<img src="{IMAGE_WARNING}" border="0" alt="{ALT_WARNING}" title="{TITLE_WARNING}" />
+<!-- END qpl_warning -->
+	<label for="cb_{QUESTION_ID}"><strong>{QUESTION_TITLE}</strong></label>
+	</td>
+	<td class="std" style="vertical-align: top">
+<!-- BEGIN edit_link -->
+	<a class="il_ContainerItemCommand" href="{LINK_EDIT}">{TXT_EDIT}</a>
+<!-- END edit_link -->
+	</td>
+	<td class="std" style="vertical-align: top"><a class="il_ContainerItemCommand" href="{LINK_PREVIEW}">{TXT_PREVIEW}</a></td>
+<!-- BEGIN description -->
+	<td class="std" style="vertical-align: top">{QUESTION_COMMENT}</td>
+<!-- END description -->
+<!-- BEGIN type -->
+	<td class="std" style="vertical-align: top">{QUESTION_TYPE}</td>
+<!-- END type -->
+<!-- BEGIN author -->
+	<td class="std" style="vertical-align: top">{QUESTION_AUTHOR}</td>
+<!-- END author -->
+<!-- BEGIN created -->
+	<td class="std" style="vertical-align: top">{QUESTION_CREATED}</td>
+<!-- END created -->
+<!-- BEGIN updated -->
+	<td class="std" style="vertical-align: top">{QUESTION_UPDATED}</td>
+<!-- END updated -->
+</tr>

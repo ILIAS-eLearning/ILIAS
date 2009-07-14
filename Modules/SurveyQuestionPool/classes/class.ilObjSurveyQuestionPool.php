@@ -504,6 +504,60 @@ class ilObjSurveyQuestionPool extends ilObject
 	*
 	* @access public
 	*/
+	function getQuestionsData($arrFilter)
+	{
+		global $ilUser;
+		global $ilDB;
+		$where = "";
+		if (is_array($arrFilter))
+		{
+			if (array_key_exists('title', $arrFilter) && strlen($arrFilter['title']))
+			{
+				$where .= " AND " . $ilDB->like('svy_question.title', 'text', "%%" . $arrFilter['title'] . "%%");
+			}
+			if (array_key_exists('description', $arrFilter) && strlen($arrFilter['description']))
+			{
+				$where .= " AND " . $ilDB->like('svy_question.description', 'text', "%%" . $arrFilter['description'] . "%%");
+			}
+			if (array_key_exists('author', $arrFilter) && strlen($arrFilter['author']))
+			{
+				$where .= " AND " . $ilDB->like('svy_question.author', 'text', "%%" . $arrFilter['author'] . "%%");
+			}
+			if (array_key_exists('type', $arrFilter) && strlen($arrFilter['type']))
+			{
+				$where .= " AND svy_qtype.type_tag = " . $ilDB->quote($arrFilter['type'], 'text');
+			}
+		}
+		$query_result = $ilDB->queryF("SELECT svy_question.*, svy_qtype.type_tag, svy_qtype.plugin FROM svy_question, svy_qtype WHERE ISNULL(svy_question.original_id) AND svy_question.tstamp > 0 AND svy_question.questiontype_fi = svy_qtype.questiontype_id AND svy_question.obj_fi = %s" . $where,
+			array('integer'),
+			array($this->getId())
+		);
+		$rows = array();
+		if ($query_result->numRows())
+		{
+			while ($row = $ilDB->fetchAssoc($query_result))
+			{
+				if ($row["plugin"])
+				{
+					if ($this->isPluginActive($row["type_tag"]))
+					{
+						array_push($rows, $row);
+					}
+				}
+				else
+				{
+					array_push($rows, $row);
+				}
+			}
+		}
+		return $rows;
+	}
+
+	/**
+	* Calculates the data for the output of the questionpool
+	*
+	* @access public
+	*/
 	function getQuestionsTable($sort, $sortorder, $filter_text, $sel_filter_type, $startrow = 0)
 	{
 		global $ilUser;
