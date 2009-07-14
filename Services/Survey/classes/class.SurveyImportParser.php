@@ -267,6 +267,32 @@ class SurveyImportParser extends ilSaxParser
 			case "question":
 				// start with a new survey question
 				$type = $a_attribs["type"];
+				// patch due to changes in question types
+				switch ($type)
+				{
+					case 'SurveyNominalQuestion':
+						$type = 'SurveyMultipleChoiceQuestion';
+						foreach ($a_attribs as $key => $value)
+						{
+							switch ($key)
+							{
+								case "subtype":
+									if ($value == 1)
+									{
+										$type = 'SurveySingleChoiceQuestion';
+									}
+									else
+									{
+										$type = 'SurveyMultipleChoiceQuestion';
+									}
+									break;
+							}
+						}
+						break;
+					case 'SurveyOrdinalQuestion':
+						$type = 'SurveySingleChoiceQuestion';
+						break;
+				}
 				if (strlen($type))
 				{
 					include_once "./Modules/SurveyQuestionPool/classes/class.SurveyQuestion.php";
