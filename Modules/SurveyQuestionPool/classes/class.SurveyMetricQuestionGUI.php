@@ -59,164 +59,142 @@ class SurveyMetricQuestionGUI extends SurveyQuestionGUI
 		}
 	}
 
-/**
-* Creates an output of the edit form for the question
-*
-* Creates an output of the edit form for the question
-*
-* @access public
-*/
-  function editQuestion() 
+	/**
+	* Evaluates a posted edit form and writes the form data in the question object
+	*
+	* @return integer A positive value, if one of the required fields wasn't set, else 0
+	* @access private
+	*/
+	function writePostData($always = false)
 	{
-		$this->tpl->addBlockFile("ADM_CONTENT", "adm_content", "tpl.il_svy_qpl_metric.html", "Modules/SurveyQuestionPool");
-	  $this->tpl->addBlockFile("OTHER_QUESTION_DATA", "other_question_data", "tpl.il_svy_qpl_other_question_data.html", "Modules/SurveyQuestionPool");
-		$internallinks = array(
-			"lm" => $this->lng->txt("obj_lm"),
-			"st" => $this->lng->txt("obj_st"),
-			"pg" => $this->lng->txt("obj_pg"),
-			"glo" => $this->lng->txt("glossary_term")
-		);
-		foreach ($internallinks as $key => $value)
+		$hasErrors = (!$always) ? $this->editQuestion(true) : false;
+		if (!$hasErrors)
 		{
-			$this->tpl->setCurrentBlock("internallink");
-			$this->tpl->setVariable("TYPE_INTERNAL_LINK", $key);
-			$this->tpl->setVariable("TEXT_INTERNAL_LINK", $value);
-			$this->tpl->parseCurrentBlock();
-		}
-		
-		$this->tpl->setCurrentBlock("adm_content");
-		$this->tpl->setVariable("TEXT_MATERIAL", $this->lng->txt("material"));
-		if (count($this->object->material))
-		{
-			include_once "./Modules/SurveyQuestionPool/classes/class.SurveyQuestion.php";
-			$href = SurveyQuestion::_getInternalLinkHref($this->object->material["internal_link"]);
-			$this->tpl->setVariable("TEXT_VALUE_MATERIAL", " <a href=\"$href\" target=\"content\">" . $this->lng->txt("material"). "</a> ");
-			$this->tpl->setVariable("BUTTON_REMOVE_MATERIAL", $this->lng->txt("remove"));
-			$this->tpl->setVariable("BUTTON_ADD_MATERIAL", $this->lng->txt("change"));
-			$this->tpl->setVariable("VALUE_MATERIAL", $this->object->material["internal_link"]);
-			$this->tpl->setVariable("VALUE_MATERIAL_TITLE", $this->object->material["title"]);
-			$this->tpl->setVariable("TEXT_TITLE", $this->lng->txt("title"));
+			$this->object->setTitle(ilUtil::stripSlashes($_POST["title"]));
+			$this->object->setAuthor(ilUtil::stripSlashes($_POST["author"]));
+			$this->object->setDescription(ilUtil::stripSlashes($_POST["description"]));
+			include_once "./Services/AdvancedEditing/classes/class.ilObjAdvancedEditing.php";
+			$questiontext = ilUtil::stripSlashes($_POST["question"], false, ilObjAdvancedEditing::_getUsedHTMLTagsAsString("survey"));
+			$this->object->setQuestiontext($questiontext);
+			$this->object->setObligatory(($_POST["obligatory"]) ? 1 : 0);
+			$this->object->setOrientation($_POST["orientation"]);
+
+			$this->object->setSubtype($_POST["type"]);
+			$this->object->setMinimum($_POST["minimum"]);
+			$this->object->setMaximum($_POST["maximum"]);
+			return 0;
 		}
 		else
 		{
-			$this->tpl->setVariable("BUTTON_ADD_MATERIAL", $this->lng->txt("add"));
+			return 1;
 		}
-		$this->tpl->setVariable("QUESTION_ID", $this->object->getId());
-		$this->tpl->setVariable("VALUE_TITLE", $this->object->getTitle());
-		$this->tpl->setVariable("VALUE_DESCRIPTION", $this->object->getDescription());
-		$this->tpl->setVariable("VALUE_AUTHOR", $this->object->getAuthor());
-		$questiontext = $this->object->getQuestiontext();
-		$this->tpl->setVariable("VALUE_QUESTION", ilUtil::prepareFormOutput($this->object->prepareTextareaOutput($questiontext)));
-		$this->tpl->setVariable("VALUE_MINIMUM", $this->object->getMinimum());
-		$this->tpl->setVariable("VALUE_MAXIMUM", $this->object->getMaximum());
-		$this->tpl->setVariable("TEXT_MINIMUM", $this->lng->txt("minimum"));
-		$this->tpl->setVariable("TEXT_MAXIMUM", $this->lng->txt("maximum"));
-		$this->tpl->setVariable("TEXT_SUBTYPE", $this->lng->txt("subtype"));
-		$this->tpl->setVariable("DESCRIPTION_NONRATIO", $this->lng->txt("metric_subtype_description_interval"));
-		$this->tpl->setVariable("TEXT_NONRATIO", $this->lng->txt("non_ratio"));
-		$this->tpl->setVariable("DESCRIPTION_RATIONONABSOLUTE", $this->lng->txt("metric_subtype_description_rationonabsolute"));
-		$this->tpl->setVariable("TEXT_RATIONONABSOLUTE", $this->lng->txt("ratio_non_absolute"));
-		$this->tpl->setVariable("DESCRIPTION_RATIOABSOLUTE", $this->lng->txt("metric_subtype_description_ratioabsolute"));
-		$this->tpl->setVariable("TEXT_RATIOABSOLUTE", $this->lng->txt("ratio_absolute"));
-		if ($this->object->getSubtype() == SUBTYPE_NON_RATIO)
-		{
-			$this->tpl->setVariable("CHECKED_NONRATIO", " checked=\"checked\"");
-		}
-		else if ($this->object->getSubtype() == SUBTYPE_RATIO_NON_ABSOLUTE)
-		{
-			$this->tpl->setVariable("CHECKED_RATIONONABSOLUTE", " checked=\"checked\"");
-		}
-		else if ($this->object->getSubtype() == SUBTYPE_RATIO_ABSOLUTE)
-		{
-			$this->tpl->setVariable("CHECKED_RATIOABSOLUTE", " checked=\"checked\"");
-		}
-		$this->tpl->setVariable("TEXT_TITLE", $this->lng->txt("title"));
-		$this->tpl->setVariable("TEXT_AUTHOR", $this->lng->txt("author"));
-		$this->tpl->setVariable("TEXT_DESCRIPTION", $this->lng->txt("description"));
-		$this->tpl->setVariable("TEXT_QUESTION", $this->lng->txt("question"));
-		$this->tpl->setVariable("TEXT_OBLIGATORY", $this->lng->txt("obligatory"));
-		if ($this->object->getObligatory())
-		{
-			$this->tpl->setVariable("CHECKED_OBLIGATORY", " checked=\"checked\"");
-		}
-		$this->tpl->setVariable("TEXT_QUESTION_TYPE", $this->lng->txt("questiontype"));
-		$this->tpl->setVariable("SAVE",$this->lng->txt("save"));
-		$this->tpl->setVariable("TXT_REQUIRED_FLD", $this->lng->txt("required_field"));
-		$this->tpl->setVariable("FORM_ACTION", $this->ctrl->getFormAction($this));
-		$this->tpl->setVariable("TEXT_QUESTION_TYPE", $this->lng->txt($this->getQuestionType()));
-		$this->tpl->parseCurrentBlock();
-		include_once "./Services/RTE/classes/class.ilRTE.php";
-		$rtestring = ilRTE::_getRTEClassname();
-		include_once "./Services/RTE/classes/class.$rtestring.php";
-		$rte = new $rtestring();
-		$rte->addPlugin("latex");
-		$rte->addButton("latex"); $rte->addButton("pastelatex");
-		$rte->removePlugin("ibrowser");
-		include_once "./classes/class.ilObject.php";
-		$obj_id = $_GET["q_id"];
-		$obj_type = ilObject::_lookupType($_GET["ref_id"], TRUE);
-		$rte->addRTESupport($obj_id, $obj_type, "survey");
-		
-		parent::editQuestion();
-  }
-
-/**
-* Evaluates a posted edit form and writes the form data in the question object
-*
-* Evaluates a posted edit form and writes the form data in the question object
-*
-* @return integer A positive value, if one of the required fields wasn't set, else 0
-* @access private
-*/
-	function writePostData() 
+	}
+	
+	/**
+	* Creates an output of the edit form for the question
+	*
+	* @access public
+	*/
+	public function editQuestion($checkonly = FALSE)
 	{
-		$result = 0;
-		if ((!$_POST["title"]) or (!$_POST["author"]) or (!$_POST["question"])) $result = 1;
-		if ($result == 1) $this->addErrorMessage($this->lng->txt("fill_out_all_required_fields"));
-		// Set the question id from a hidden form parameter
-		if ($_POST["id"] > 0) $this->object->setId($_POST["id"]);
+		$save = ((strcmp($this->ctrl->getCmd(), "save") == 0) || (strcmp($this->ctrl->getCmd(), "saveEdit") == 0)) ? TRUE : FALSE;
 
-		include_once "./Services/Utilities/classes/class.ilUtil.php";	
-		$this->object->setTitle(ilUtil::stripSlashes($_POST["title"]));
-		$this->object->setAuthor(ilUtil::stripSlashes($_POST["author"]));
-		$this->object->setDescription(ilUtil::stripSlashes($_POST["description"]));
-		if (strlen($_POST["material"]))
-		{
-			$this->object->setMaterial($_POST["material"], 0, ilUtil::stripSlashes($_POST["material_title"]));
-		}
-		include_once "./Services/AdvancedEditing/classes/class.ilObjAdvancedEditing.php";
-		$questiontext = ilUtil::stripSlashes($_POST["question"], true, ilObjAdvancedEditing::_getUsedHTMLTagsAsString("survey"));
-		$this->object->setQuestiontext($questiontext);
-		if ($_POST["obligatory"])
-		{
-			$this->object->setObligatory(1);
-		}
-		else
-		{
-			$this->object->setObligatory(0);
-		}
-		$this->object->setSubtype($_POST["type"]);
-		$minimum = $_POST["minimum"];
+		include_once("./Services/Form/classes/class.ilPropertyFormGUI.php");
+		$form = new ilPropertyFormGUI();
+		$form->setFormAction($this->ctrl->getFormAction($this));
+		$form->setTitle($this->lng->txt($this->getQuestionType()));
+		$form->setMultipart(FALSE);
+		$form->setTableWidth("100%");
+		$form->setId("multiplechoice");
+
+		// title
+		$title = new ilTextInputGUI($this->lng->txt("title"), "title");
+		$title->setValue($this->object->getTitle());
+		$title->setRequired(TRUE);
+		$form->addItem($title);
+		
+		// author
+		$author = new ilTextInputGUI($this->lng->txt("author"), "author");
+		$author->setValue($this->object->getAuthor());
+		$author->setRequired(TRUE);
+		$form->addItem($author);
+		
+		// description
+		$description = new ilTextInputGUI($this->lng->txt("description"), "description");
+		$description->setValue($this->object->getDescription());
+		$description->setRequired(FALSE);
+		$form->addItem($description);
+		
+		// questiontext
+		$question = new ilTextAreaInputGUI($this->lng->txt("question"), "question");
+		$question->setValue($this->object->prepareTextareaOutput($this->object->getQuestiontext()));
+		$question->setRequired(TRUE);
+		$question->setRows(10);
+		$question->setCols(80);
+		$question->setUseRte(TRUE);
+		$question->addPlugin("latex");
+		$question->removePlugin("ibrowser");
+		$question->addButton("latex");
+		$question->addButton("pastelatex");
+		$question->setRTESupport($this->object->getId(), "spl", "survey");
+		$form->addItem($question);
+		
+		// subtype
+		$subtype = new ilRadioGroupInputGUI($this->lng->txt("subtype"), "type");
+		$subtype->setRequired(true);
+		$subtype->setValue($this->object->getSubtype());
+		$subtype->addOption(new ilRadioOption($this->lng->txt('non_ratio'), 3, $this->lng->txt("metric_subtype_description_interval")));
+		$subtype->addOption(new ilRadioOption($this->lng->txt('ratio_non_absolute'), 4, $this->lng->txt("metric_subtype_description_rationonabsolute")));
+		$subtype->addOption(new ilRadioOption($this->lng->txt('ratio_absolute'), 5, $this->lng->txt("metric_subtype_description_ratioabsolute")));
+		$form->addItem($subtype);
+
+		// minimum value
+		$minimum = new ilNumberInputGUI($this->lng->txt("minimum"), "minimum");
+		$minimum->setValue($this->object->getMinimum());
+		$minimum->setRequired(false);
+		$minimum->setSize(6);
 		if ($this->object->getSubtype() > 3)
 		{
-			if ($minimum < 0)
-			{
-				$this->addErrorMessage($this->lng->txt("ratio_scale_ge_zero"));
-				$result = 1;
-			}
+			$minimum->setMinValue(0);
 		}
-		$this->object->setMinimum($minimum);
-		$this->object->setMaximum($_POST["maximum"]);
+		if ($this->object->getSubtype() == 5)
+		{
+			$minimum->setDecimals(0);
+		}
+		$form->addItem($minimum);
+		
+		// maximum value
+		$maximum = new ilNumberInputGUI($this->lng->txt("maximum"), "maximum");
+		if ($this->object->getSubtype() == 5)
+		{
+			$maximum->setDecimals(0);
+		}
+		$maximum->setValue($this->object->getMaximum());
+		$maximum->setRequired(false);
+		$maximum->setSize(6);
+		$form->addItem($maximum);
+		
+		// obligatory
+		$shuffle = new ilCheckboxInputGUI($this->lng->txt("obligatory"), "obligatory");
+		$shuffle->setValue(1);
+		$shuffle->setChecked($this->object->getObligatory());
+		$shuffle->setRequired(FALSE);
+		$form->addItem($shuffle);
 
-		if ($saved) {
-			// If the question was saved automatically before an upload, we have to make
-			// sure, that the state after the upload is saved. Otherwise the user could be
-			// irritated, if he presses cancel, because he only has the question state before
-			// the upload process.
-			$this->object->saveToDb();
+		$form->addCommandButton("save", $this->lng->txt("save"));
+	
+		$errors = false;
+	
+		if ($save)
+		{
+			$form->setValuesByPost();
+			$errors = !$form->checkInput();
+			if ($errors) $checkonly = false;
 		}
-    return $result;
-  }
+
+		if (!$checkonly) $this->tpl->setVariable("ADM_CONTENT", $form->getHTML());
+		return $errors;
+	}
 
 	/**
 	* Creates a HTML representation of the question
