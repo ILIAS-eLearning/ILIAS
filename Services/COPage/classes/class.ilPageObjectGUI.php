@@ -550,7 +550,7 @@ class ilPageObjectGUI
 		return $this->enabledtabs;
 	}
 
-		/**
+	/**
 	* Set Enable Repository Objects Content Component.
 	*
 	* @param	boolean	$a_enabledrepositoryobjects	Enable Repository Objects Content Component
@@ -1587,6 +1587,8 @@ class ilPageObjectGUI
 			$output = ilUtil::buildLatexImages($output,
 				$this->getOfflineDirectory());
 		}
+		
+		$output = $this->insertContentIncludes($output);
 
 		// workaround for preventing template engine
 		// from hiding paragraph text that is enclosed
@@ -1833,6 +1835,61 @@ class ilPageObjectGUI
 		return $a_html;
 	}
 
+	/**
+	* Insert Maps
+	*/
+	function insertContentIncludes($a_html)
+	{
+		global $ilCtrl;
+		
+		$c_pos = 0;
+		$start = strpos($a_html, "{{{{{ContentInclude;");
+		if (is_int($start))
+		{
+			$end = strpos($a_html, "}}}}}", $start);
+		}
+		$i = 1;
+		while ($end > 0)
+		{
+			$param = substr($a_html, $start + 20, $end - $start - 20);
+			$param = explode(";", $param);
+
+			if ($param[0] == "mep" && is_numeric($param[1]) && $param[2] <= 0)
+			{
+				include_once("./Modules/MediaPool/classes/class.ilMediaPoolPageGUI.php");
+				if (ilMediaPoolPage::_exists($param[1]))
+				{
+					$page_gui = new ilMediaPoolPageGUI($param[1]);
+					
+					if ($this->getOutputMode() != "offline")
+					{
+						$page_gui->setFileDownloadLink($ilCtrl->getLinkTarget($this, "downloadFile"));
+						$page_gui->setFullscreenLink($ilCtrl->getLinkTarget($this, "displayMediaFullscreen"));
+						$page_gui->setSourceCodeDownloadScript($ilCtrl->getLinkTarget($this, ""));
+					}
+		
+					$html = $page_gui->getRawContent();
+				}
+				else
+				{
+					$html = "";
+				}
+				$h2 = substr($a_html, 0, $start).
+					$html.
+					substr($a_html, $end + 5);
+				$a_html = $h2;
+				$i++;
+			}
+			$start = strpos($a_html, "{{{{{ContentInclude;", $start + 5);
+			$end = 0;
+			if (is_int($start))
+			{
+				$end = strpos($a_html, "}}}}}", $start);
+			}
+		}
+		return $a_html;
+	}
+	
 	/**
 	* Finalizing output processing. Maybe overwritten in derived
 	* classes, e.g. in wiki module.

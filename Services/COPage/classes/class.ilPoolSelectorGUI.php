@@ -13,6 +13,8 @@
 include_once("./classes/class.ilExplorer.php");
 class ilPoolSelectorGUI extends ilExplorer
 {
+	var $content_gui = "ilpcmediaobjectgui";
+	
 	/**
 	* Constructor
 	* @access	public
@@ -26,6 +28,26 @@ class ilPoolSelectorGUI extends ilExplorer
 		$this->ctrl =& $ilCtrl;
 		parent::ilExplorer($a_target);
 		$this->setFrameTarget("");
+	}
+
+	/**
+	 * Set content GUI class
+	 *
+	 * @param	string	content GUI class
+	 */
+	function setContentGUIClass($a_val)
+	{
+		$this->content_gui = $a_val;
+	}
+	
+	/**
+	 * Get content GUI class
+	 *
+	 * @return	string	content GUI class
+	 */
+	function getContentGUIClass()
+	{
+		return $this->content_gui;
 	}
 
 	function setSelectableTypes($a_types)
@@ -42,9 +64,9 @@ class ilPoolSelectorGUI extends ilExplorer
 	{
 		global $ilCtrl;
 		
-		$ilCtrl->setParameterByClass("ilpcmediaobjectgui", "subCmd", "selectPool");
-		$ilCtrl->setParameterByClass("ilpcmediaobjectgui", "pool_ref_id", $a_node_id);
-		$link = $ilCtrl->getLinkTargetByClass("ilpcmediaobjectgui", "insert");
+		$ilCtrl->setParameterByClass($this->getContentGUIClass(), "subCmd", "selectPool");
+		$ilCtrl->setParameterByClass($this->getContentGUIClass(), "pool_ref_id", $a_node_id);
+		$link = $ilCtrl->getLinkTargetByClass($this->getContentGUIClass(), "insert");
 
 		return $link;
 	}

@@ -121,12 +121,15 @@ class ilMediaPoolPageGUI extends ilPageObjectGUI
 	/**
 	 * Show page 
 	 */
-	function showPage()
+	function showPage($a_no_title = false)
 	{
 		global $tpl, $ilCtrl;
 		
 		$this->setTemplateOutput(false);
-		$this->setPresentationTitle(ilMediaPoolItem::lookupTitle($this->getMediaPoolPage()->getId()));
+		if (!$a_no_title)
+		{
+			$this->setPresentationTitle(ilMediaPoolItem::lookupTitle($this->getMediaPoolPage()->getId()));
+		}
 		$output = parent::showPage();
 		
 		return $output;
@@ -137,6 +140,18 @@ class ilMediaPoolPageGUI extends ilPageObjectGUI
 		global $ilTabs, $ilCtrl;
 
 		parent::getTabs($a_activate);		
+	}
+	
+	/**
+	 * Get raw content
+	 *
+	 * @param
+	 * @return
+	 */
+	function getRawContent()
+	{
+		$this->setRawPageContent(true);
+		return $this->showPage(true);	
 	}
 
 }
