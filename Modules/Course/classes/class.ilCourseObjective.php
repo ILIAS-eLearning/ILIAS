@@ -107,7 +107,7 @@ class ilCourseObjective
 		$ilLog->write(__METHOD__.': Start cloning learning objectives...');
 		
 	 	$query = "SELECT * FROM crs_objectives ".
-	 		"WHERE crs_id  = ".$this->db->quote($this->course_obj->getId() ,'integer').
+	 		"WHERE crs_id  = ".$this->db->quote($this->course_obj->getId() ,'integer').' '.
 	 		"ORDER BY position ";
 	 	$res = $this->db->query($query);
 	 	if(!$res->numRows())
