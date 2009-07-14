@@ -237,8 +237,8 @@ class SurveySingleChoiceQuestionGUI extends SurveyQuestionGUI
 */
 	function getWorkingForm($working_data = "", $question_title = 1, $show_questiontext = 1, $error_message = "", $survey_id = null)
 	{
-		$template = new ilTemplate("tpl.il_svy_out_ordinal.html", TRUE, TRUE, "Modules/SurveyQuestionPool");
-		$template->setCurrentBlock("material_ordinal");
+		$template = new ilTemplate("tpl.il_svy_out_sc.html", TRUE, TRUE, "Modules/SurveyQuestionPool");
+		$template->setCurrentBlock("material");
 		$template->setVariable("TEXT_MATERIAL", $this->getMaterialOutput());
 		$template->parseCurrentBlock();
 		switch ($this->object->orientation)
@@ -248,9 +248,9 @@ class SurveySingleChoiceQuestionGUI extends SurveyQuestionGUI
 				for ($i = 0; $i < $this->object->categories->getCategoryCount(); $i++) 
 				{
 					$category = $this->object->categories->getCategory($i);
-					$template->setCurrentBlock("ordinal_row");
-					$template->setVariable("TEXT_ORDINAL", ilUtil::prepareFormOutput($category));
-					$template->setVariable("VALUE_ORDINAL", $i);
+					$template->setCurrentBlock("row");
+					$template->setVariable("TEXT_SC", ilUtil::prepareFormOutput($category));
+					$template->setVariable("VALUE_SC", $i);
 					$template->setVariable("QUESTION_ID", $this->object->getId());
 					if (is_array($working_data))
 					{
@@ -258,7 +258,7 @@ class SurveySingleChoiceQuestionGUI extends SurveyQuestionGUI
 						{
 							if ($working_data[0]["value"] == $i)
 							{
-								$template->setVariable("CHECKED_ORDINAL", " checked=\"checked\"");
+								$template->setVariable("CHECKED_SC", " checked=\"checked\"");
 							}
 						}
 					}
@@ -270,8 +270,8 @@ class SurveySingleChoiceQuestionGUI extends SurveyQuestionGUI
 				for ($i = 0; $i < $this->object->categories->getCategoryCount(); $i++) 
 				{
 					$category = $this->object->categories->getCategory($i);
-					$template->setCurrentBlock("radio_col_ordinal");
-					$template->setVariable("VALUE_ORDINAL", $i);
+					$template->setCurrentBlock("radio_col");
+					$template->setVariable("VALUE_SC", $i);
 					$template->setVariable("QUESTION_ID", $this->object->getId());
 					if (is_array($working_data))
 					{
@@ -279,7 +279,7 @@ class SurveySingleChoiceQuestionGUI extends SurveyQuestionGUI
 						{
 							if ($working_data[0]["value"] == $i)
 							{
-								$template->setVariable("CHECKED_ORDINAL", " checked=\"checked\"");
+								$template->setVariable("CHECKED_SC", " checked=\"checked\"");
 							}
 						}
 					}
@@ -288,9 +288,9 @@ class SurveySingleChoiceQuestionGUI extends SurveyQuestionGUI
 				for ($i = 0; $i < $this->object->categories->getCategoryCount(); $i++) 
 				{
 					$category = $this->object->categories->getCategory($i);
-					$template->setCurrentBlock("text_col_ordinal");
-					$template->setVariable("VALUE_ORDINAL", $i);
-					$template->setVariable("TEXT_ORDINAL", ilUtil::prepareFormOutput($category));
+					$template->setCurrentBlock("text_col");
+					$template->setVariable("VALUE_SC", $i);
+					$template->setVariable("TEXT_SC", ilUtil::prepareFormOutput($category));
 					$template->setVariable("QUESTION_ID", $this->object->getId());
 					$template->parseCurrentBlock();
 				}
@@ -301,15 +301,15 @@ class SurveySingleChoiceQuestionGUI extends SurveyQuestionGUI
 				{
 					$category = $this->object->categories->getCategory($i);
 					$template->setCurrentBlock("comborow");
-					$template->setVariable("TEXT_ORDINAL", $category);
-					$template->setVariable("VALUE_ORDINAL", $i);
+					$template->setVariable("TEXT_SC", $category);
+					$template->setVariable("VALUE_SC", $i);
 					if (is_array($working_data))
 					{
 						if (strcmp($working_data[0]["value"], "") != 0)
 						{
 							if ($working_data[0]["value"] == $i)
 							{
-								$template->setVariable("SELECTED_ORDINAL", " selected=\"selected\"");
+								$template->setVariable("SELECTED_SC", " selected=\"selected\"");
 							}
 						}
 					}
@@ -326,7 +326,7 @@ class SurveySingleChoiceQuestionGUI extends SurveyQuestionGUI
 		{
 			$template->setVariable("QUESTION_TITLE", $this->object->getTitle());
 		}
-		$template->setCurrentBlock("question_data_ordinal");
+		$template->setCurrentBlock("question_data");
 		if (strcmp($error_message, "") != 0)
 		{
 			$template->setVariable("ERROR_MESSAGE", "<p class=\"warning\">$error_message</p>");
@@ -351,7 +351,7 @@ class SurveySingleChoiceQuestionGUI extends SurveyQuestionGUI
 	*/
 	function getPrintView($question_title = 1, $show_questiontext = 1, $survey_id = null)
 	{
-		$template = new ilTemplate("tpl.il_svy_qpl_ordinal_printview.html", TRUE, TRUE, "Modules/SurveyQuestionPool");
+		$template = new ilTemplate("tpl.il_svy_qpl_sc_printview.html", TRUE, TRUE, "Modules/SurveyQuestionPool");
 		switch ($this->object->orientation)
 		{
 			case 0:
@@ -359,11 +359,11 @@ class SurveySingleChoiceQuestionGUI extends SurveyQuestionGUI
 				for ($i = 0; $i < $this->object->categories->getCategoryCount(); $i++) 
 				{
 					$category = $this->object->categories->getCategory($i);
-					$template->setCurrentBlock("ordinal_row");
+					$template->setCurrentBlock("row");
 					$template->setVariable("IMAGE_RADIO", ilUtil::getHtmlPath(ilUtil::getImagePath("radiobutton_unchecked.gif")));
 					$template->setVariable("ALT_RADIO", $this->lng->txt("unchecked"));
 					$template->setVariable("TITLE_RADIO", $this->lng->txt("unchecked"));
-					$template->setVariable("TEXT_ORDINAL", ilUtil::prepareFormOutput($category));
+					$template->setVariable("TEXT_SC", ilUtil::prepareFormOutput($category));
 					$template->parseCurrentBlock();
 				}
 				break;
@@ -372,7 +372,7 @@ class SurveySingleChoiceQuestionGUI extends SurveyQuestionGUI
 				for ($i = 0; $i < $this->object->categories->getCategoryCount(); $i++) 
 				{
 					$category = $this->object->categories->getCategory($i);
-					$template->setCurrentBlock("radio_col_ordinal");
+					$template->setCurrentBlock("radio_col");
 					$template->setVariable("IMAGE_RADIO", ilUtil::getHtmlPath(ilUtil::getImagePath("radiobutton_unchecked.gif")));
 					$template->setVariable("ALT_RADIO", $this->lng->txt("unchecked"));
 					$template->setVariable("TITLE_RADIO", $this->lng->txt("unchecked"));
@@ -381,8 +381,8 @@ class SurveySingleChoiceQuestionGUI extends SurveyQuestionGUI
 				for ($i = 0; $i < $this->object->categories->getCategoryCount(); $i++) 
 				{
 					$category = $this->object->categories->getCategory($i);
-					$template->setCurrentBlock("text_col_ordinal");
-					$template->setVariable("TEXT_ORDINAL", $category);
+					$template->setCurrentBlock("text_col");
+					$template->setVariable("TEXT_SC", $category);
 					$template->parseCurrentBlock();
 				}
 				break;
@@ -392,15 +392,15 @@ class SurveySingleChoiceQuestionGUI extends SurveyQuestionGUI
 				{
 					$category = $this->object->categories->getCategory($i);
 					$template->setCurrentBlock("comborow");
-					$template->setVariable("TEXT_ORDINAL", ilUtil::prepareFormOutput($category));
-					$template->setVariable("VALUE_ORDINAL", $i);
+					$template->setVariable("TEXT_SC", ilUtil::prepareFormOutput($category));
+					$template->setVariable("VALUE_SC", $i);
 					if (is_array($working_data))
 					{
 						if (strcmp($working_data[0]["value"], "") != 0)
 						{
 							if ($working_data[0]["value"] == $i)
 							{
-								$template->setVariable("SELECTED_ORDINAL", " selected=\"selected\"");
+								$template->setVariable("SELECTED_SC", " selected=\"selected\"");
 							}
 						}
 					}
@@ -775,7 +775,7 @@ class SurveySingleChoiceQuestionGUI extends SurveyQuestionGUI
 		$template->setVariable("TEXT_OPTION_VALUE", $categories);
 		$template->parseCurrentBlock();
 		
-		// display chart for ordinal question for array $eval["variables"]
+		// display chart for single choice question for array $eval["variables"]
 		$template->setCurrentBlock("chart");
 		$template->setVariable("TEXT_CHART", $this->lng->txt("chart"));
 		$template->setVariable("ALT_CHART", $data["title"] . "( " . $this->lng->txt("chart") . ")");

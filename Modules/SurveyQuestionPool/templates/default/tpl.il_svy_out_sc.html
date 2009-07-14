@@ -1,0 +1,45 @@
+<!-- BEGIN question_data -->
+<!-- BEGIN questiontitle -->
+<div class="questionTitle">{QUESTION_TITLE}</div>
+<!-- END questiontitle -->
+
+{ERROR_MESSAGE}
+<p>{QUESTIONTEXT}<span class="obligatory">{OBLIGATORY_TEXT}</span></p>
+<!-- BEGIN tableoutput -->
+<table class="nobackground">
+<!-- BEGIN row -->
+<tr>
+<td class="nobackground" width="1%"><input type="radio" name="{QUESTION_ID}_value" value="{VALUE_SC}" id="{QUESTION_ID}_{VALUE_SC}"{CHECKED_SC} /></td>
+<td class="nobackground"><label for="{QUESTION_ID}_{VALUE_SC}">{TEXT_SC}</label></td>
+</tr>
+<!-- END row -->
+<!-- BEGIN sc_col -->
+<tr>
+<!-- BEGIN radio_col -->
+<td class="nobackground" align="center"><input type="radio" name="{QUESTION_ID}_value" value="{VALUE_SC}" id="{QUESTION_ID}_{VALUE_SC}"{CHECKED_SC} /></td>
+<td width="20">&nbsp;</td>
+<!-- END radio_col -->
+</tr>
+<tr>
+<!-- BEGIN text_col -->
+<td class="nobackground" align="center"><label for="{QUESTION_ID}_{VALUE_SC}">{TEXT_SC}</label></td>
+<td width="20">&nbsp;</td>
+<!-- END text_col -->
+</tr>
+<!-- END sc_col -->
+</table>
+<!-- END tableoutput -->
+<!-- BEGIN combooutput -->
+{TEXT_SELECTION}: <select name="{QUESTION_ID}_value">
+	<option value="">{SELECT_OPTION}</option>
+<!-- BEGIN comborow -->
+	<option value="{VALUE_SC}"{SELECTED_SC}>{TEXT_SC}</option>
+<!-- END comborow -->
+</select>
+<!-- END combooutput -->
+<!-- BEGIN material -->
+<p>
+{TEXT_MATERIAL}
+</p>
+<!-- END material -->
+<!-- END question_data -->

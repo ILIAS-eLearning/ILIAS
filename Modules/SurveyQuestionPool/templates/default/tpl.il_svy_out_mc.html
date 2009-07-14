@@ -1,0 +1,36 @@
+<!-- BEGIN question_data -->
+<!-- BEGIN questiontitle -->
+<div class="questionTitle">{QUESTION_TITLE}</div>
+<!-- END questiontitle -->
+{ERROR_MESSAGE}
+<p>{QUESTIONTEXT}<span class="obligatory">{OBLIGATORY_TEXT}</span></p>
+<!-- BEGIN tableoutput_mc -->
+<table class="nobackground">
+<!-- BEGIN mc_row -->
+<tr>
+<td class="nobackground" width="1%"><input type="checkbox" name="{QUESTION_ID}_value[]" value="{VALUE_MC}" id="{QUESTION_ID}_{VALUE_MC}"{CHECKED_MC} /></td>
+<td class="nobackground"><label for="{QUESTION_ID}_{VALUE_MC}">{TEXT_MC}</label></td>
+</tr>
+<!-- END mc_row -->
+<!-- BEGIN mc_col -->
+<tr>
+<!-- BEGIN checkbox_col -->
+<td class="nobackground" align="center"><input type="checkbox" name="{QUESTION_ID}_value[]" value="{VALUE_MC}" id="{QUESTION_ID}_{VALUE_MC}"{CHECKED_MC} /></td>
+<td width="20">&nbsp;</td>
+<!-- END checkbox_col -->
+</tr>
+<tr>
+<!-- BEGIN text_col -->
+<td class="nobackground" align="center"><label for="{QUESTION_ID}_{VALUE_MC}">{TEXT_MC}</label></td>
+<td width="20">&nbsp;</td>
+<!-- END text_col -->
+</tr>
+<!-- END mc_col -->
+</table>
+<!-- END tableoutput_mc -->
+<!-- BEGIN material -->
+<p>
+{TEXT_MATERIAL}
+</p>
+<!-- END material -->
+<!-- END question_data -->

@@ -236,8 +236,8 @@ class SurveyMultipleChoiceQuestionGUI extends SurveyQuestionGUI
 */
 	function getWorkingForm($working_data = "", $question_title = 1, $show_questiontext = 1, $error_message = "", $survey_id = null)
 	{
-		$template = new ilTemplate("tpl.il_svy_out_nominal.html", TRUE, TRUE, "Modules/SurveyQuestionPool");
-		$template->setCurrentBlock("material_nominal");
+		$template = new ilTemplate("tpl.il_svy_out_mc.html", TRUE, TRUE, "Modules/SurveyQuestionPool");
+		$template->setCurrentBlock("material");
 		$template->setVariable("TEXT_MATERIAL", $this->getMaterialOutput());
 		$template->parseCurrentBlock();
 		switch ($this->object->getOrientation())
@@ -246,9 +246,9 @@ class SurveyMultipleChoiceQuestionGUI extends SurveyQuestionGUI
 				// vertical orientation
 				for ($i = 0; $i < $this->object->categories->getCategoryCount(); $i++) {
 					$category = $this->object->categories->getCategory($i);
-					$template->setCurrentBlock("nominal_row_mr");
-					$template->setVariable("TEXT_NOMINAL", ilUtil::prepareFormOutput($category));
-					$template->setVariable("VALUE_NOMINAL", $i);
+					$template->setCurrentBlock("mc_row");
+					$template->setVariable("TEXT_MC", ilUtil::prepareFormOutput($category));
+					$template->setVariable("VALUE_MC", $i);
 					$template->setVariable("QUESTION_ID", $this->object->getId());
 					if (is_array($working_data))
 					{
@@ -258,7 +258,7 @@ class SurveyMultipleChoiceQuestionGUI extends SurveyQuestionGUI
 							{
 								if ($value["value"] == $i)
 								{
-									$template->setVariable("CHECKED_NOMINAL", " checked=\"checked\"");
+									$template->setVariable("CHECKED_MC", " checked=\"checked\"");
 								}
 							}
 						}
@@ -271,8 +271,8 @@ class SurveyMultipleChoiceQuestionGUI extends SurveyQuestionGUI
 				for ($i = 0; $i < $this->object->categories->getCategoryCount(); $i++) 
 				{
 					$category = $this->object->categories->getCategory($i);
-					$template->setCurrentBlock("checkbox_col_nominal");
-					$template->setVariable("VALUE_NOMINAL", $i);
+					$template->setCurrentBlock("checkbox_col");
+					$template->setVariable("VALUE_MC", $i);
 					$template->setVariable("QUESTION_ID", $this->object->getId());
 					if (is_array($working_data))
 					{
@@ -282,7 +282,7 @@ class SurveyMultipleChoiceQuestionGUI extends SurveyQuestionGUI
 							{
 								if ($value["value"] == $i)
 								{
-									$template->setVariable("CHECKED_NOMINAL", " checked=\"checked\"");
+									$template->setVariable("CHECKED_MC", " checked=\"checked\"");
 								}
 							}
 						}
@@ -292,16 +292,16 @@ class SurveyMultipleChoiceQuestionGUI extends SurveyQuestionGUI
 				for ($i = 0; $i < $this->object->categories->getCategoryCount(); $i++) 
 				{
 					$category = $this->object->categories->getCategory($i);
-					$template->setCurrentBlock("text_col_nominal_mr");
-					$template->setVariable("VALUE_NOMINAL", $i);
-					$template->setVariable("TEXT_NOMINAL", ilUtil::prepareFormOutput($category));
+					$template->setCurrentBlock("text_col");
+					$template->setVariable("VALUE_MC", $i);
+					$template->setVariable("TEXT_MC", ilUtil::prepareFormOutput($category));
 					$template->setVariable("QUESTION_ID", $this->object->getId());
 					$template->parseCurrentBlock();
 				}
 				break;
 		}
 		
-		$template->setCurrentBlock("question_data_nominal");
+		$template->setCurrentBlock("question_data");
 		if (strcmp($error_message, "") != 0)
 		{
 			$template->setVariable("ERROR_MESSAGE", "<p class=\"warning\">$error_message</p>");
@@ -330,18 +330,18 @@ class SurveyMultipleChoiceQuestionGUI extends SurveyQuestionGUI
 	*/
 	function getPrintView($question_title = 1, $show_questiontext = 1, $survey_id = null)
 	{
-		$template = new ilTemplate("tpl.il_svy_qpl_nominal_printview.html", TRUE, TRUE, "Modules/SurveyQuestionPool");
+		$template = new ilTemplate("tpl.il_svy_qpl_mc_printview.html", TRUE, TRUE, "Modules/SurveyQuestionPool");
 		switch ($this->object->getOrientation())
 		{
 			case 0:
 				// vertical orientation
 				for ($i = 0; $i < $this->object->categories->getCategoryCount(); $i++) {
 					$category = $this->object->categories->getCategory($i);
-					$template->setCurrentBlock("nominal_row_mr");
+					$template->setCurrentBlock("mc_row");
 					$template->setVariable("IMAGE_CHECKBOX", ilUtil::getHtmlPath(ilUtil::getImagePath("checkbox_unchecked.gif")));
 					$template->setVariable("ALT_CHECKBOX", $this->lng->txt("unchecked"));
 					$template->setVariable("TITLE_CHECKBOX", $this->lng->txt("unchecked"));
-					$template->setVariable("TEXT_NOMINAL", ilUtil::prepareFormOutput($category));
+					$template->setVariable("TEXT_MC", ilUtil::prepareFormOutput($category));
 					$template->parseCurrentBlock();
 				}
 				break;
@@ -350,7 +350,7 @@ class SurveyMultipleChoiceQuestionGUI extends SurveyQuestionGUI
 				for ($i = 0; $i < $this->object->categories->getCategoryCount(); $i++) 
 				{
 					$category = $this->object->categories->getCategory($i);
-					$template->setCurrentBlock("checkbox_col_nominal");
+					$template->setCurrentBlock("checkbox_col");
 					$template->setVariable("IMAGE_CHECKBOX", ilUtil::getHtmlPath(ilUtil::getImagePath("checkbox_unchecked.gif")));
 					$template->setVariable("ALT_CHECKBOX", $this->lng->txt("unchecked"));
 					$template->setVariable("TITLE_CHECKBOX", $this->lng->txt("unchecked"));
@@ -359,8 +359,8 @@ class SurveyMultipleChoiceQuestionGUI extends SurveyQuestionGUI
 				for ($i = 0; $i < $this->object->categories->getCategoryCount(); $i++) 
 				{
 					$category = $this->object->categories->getCategory($i);
-					$template->setCurrentBlock("text_col_nominal_mr");
-					$template->setVariable("TEXT_NOMINAL", ilUtil::prepareFormOutput($category));
+					$template->setCurrentBlock("text_col");
+					$template->setVariable("TEXT_MC", ilUtil::prepareFormOutput($category));
 					$template->parseCurrentBlock();
 				}
 				break;
@@ -502,7 +502,7 @@ class SurveyMultipleChoiceQuestionGUI extends SurveyQuestionGUI
 		$template->setVariable("TEXT_OPTION_VALUE", $categories);
 		$template->parseCurrentBlock();
 		
-		// display chart for nominal question for array $eval["variables"]
+		// display chart for multiple choice question for array $eval["variables"]
 		$template->setCurrentBlock("chart");
 		$template->setVariable("TEXT_CHART", $this->lng->txt("chart"));
 		$template->setVariable("ALT_CHART", $data["title"] . "( " . $this->lng->txt("chart") . ")");
