@@ -168,19 +168,18 @@ class ilAccountRegistrationGUI
 		$data["fields"]["referral_comment"] = "";
 		$data["fields"]["matriculation"] = "";
 
-		// fill presets
-		foreach ($data["fields"] as $key => $val)
-		{
-			$str = $lng->txt($key);
-			if ($key == "title")
-			{
-				$str = $lng->txt("person_title");
-			}
 
-			if (!in_array($key, array("login", "passwd", "passwd2",
-									  "firstname", "lastname", "gender")))
+		// fill presets
+		$blocks_filled = array();
+		foreach((array)$data["fields"] as $key => $val)
+		{		
+			if(!in_array($key, array('login')))
 			{
-				if ($settings["usr_settings_hide_".$key] != 1)
+				// dont show fields, which are not enabled for registration
+				if((isset($settings['usr_settings_visible_registration_' . $key])
+				    && (int)$settings['usr_settings_visible_registration_'.$key]) ||
+				   in_array($key, array('passwd', 'passwd2')) ||
+				   ($key == 'email' && $this->registration_settings->passwordGenerationEnabled()))
 				{
 					$this->tpl->setCurrentBlock($key."_section");
 				}
@@ -190,51 +189,97 @@ class ilAccountRegistrationGUI
 				}
 			}
 
-			// check to see if dynamically required
-			if (isset($settings["require_" . $key]) && $settings["require_" . $key] ||
-				($key == "email" && $this->registration_settings->passwordGenerationEnabled()))
+			$str = $lng->txt($key);
+			if ($key == 'title')
 			{
-				$str = $str . '<span class="asterisk">*</span>';
+				$str = $lng->txt('person_title');
 			}
 
-			$this->tpl->setVariable("TXT_".strtoupper($key), $str);
+
+			if($key == 'passwd2')
+			{
+				// text label for passwd2 is nonstandard
+				$str = $lng->txt('retype_password');				
+				$str = $str . '<span class="asterisk">*</span>';
+			}
+ 
+ 			$this->tpl->setVariable("TXT_".strtoupper($key), $str);
 			$this->tpl->setVariable(strtoupper($key), ilUtil::prepareFormOutput($_POST['user'][$key],true));
 
-			if (!in_array($key, array("login", "passwd", "passwd2",
-									  "firstname", "lastname", "gender")))
+			if($key == 'gender')
+			{
+				$this->tpl->setVariable('TXT_GENDER_F', $lng->txt('gender_f'));
+				$this->tpl->setVariable('TXT_GENDER_M', $lng->txt('gender_m'));
+				
+				// FILL SAVED VALUES IN CASE OF ERROR
+				if(isset($_POST['user']))
+				{
+					// gender selection
+					$gender = strtoupper($_POST['user']['gender']);		
+					if(!empty($gender))
+					{
+						$this->tpl->setVariable('BTN_GENDER_'.$gender, 'checked="checked"');
+					}
+				}
+			}			
+
+			if (!in_array($key, array("login")))
 			{
 				$this->tpl->parseCurrentBlock();
 			}
-		}
 
-		if (!$this->registration_settings->passwordGenerationEnabled())
-		{
-			// text label for passwd2 is nonstandard
-			$str = $lng->txt("retype_password");
-			if (isset($settings["require_passwd2"]) && $settings["require_passwd2"])
+			if($key == 'matriculation')
 			{
-				$str = $str . '<span class="asterisk">*</span>';
+				$blocks_filled['otherdata'] = true;
 			}
-
-			$this->tpl->setVariable("TXT_PASSWD2", $str);
+			else if(in_array($key, array('title', 'gender', 'firstname', 'lastname')))
+			{
+				$blocks_filled['personalinfo'] = true;
+			}
+			else if(in_array($key, array('institution', 'department', 'street', 'city',
+										 'zipcode', 'country', 'phone_office', 'phone_home',
+										 'phone_mobile', 'fax', 'email', 'hobby', 'referral_comment')))
+			{
+				$blocks_filled['contactinfo'] = true;
+			}
 		}
-		else
+		
+		// show personal data if at least one field appears
+		if(isset($blocks_filled['personalinfo']))
 		{
+			$this->tpl->setCurrentBlock('block_headline_personalinfo');
+			$this->tpl->setVariable("TXT_PERSONAL_DATA", $lng->txt("personal_data"));
+			$this->tpl->parseCurrentBlock();
+		}
+		// show contact data if at least one field appears
+		if(isset($blocks_filled['contactinfo']))
+		{		
+			$this->tpl->setCurrentBlock('block_headline_contactinfo');
+			$this->tpl->setVariable("TXT_CONTACT_DATA", $lng->txt("contact_data"));
+			$this->tpl->parseCurrentBlock();
+		}
+		// show other data if at least one field appears
+		if(isset($blocks_filled['otherdata']))
+		{		
+			$this->tpl->setCurrentBlock('block_headline_otherdata');
+			$this->tpl->setVariable("TXT_OTHER", $lng->txt("user_profile_other"));
+			$this->tpl->parseCurrentBlock();
+		}
+
+		if($this->registration_settings->passwordGenerationEnabled())
+		{
+			$this->tpl->setCurrentBlock('select_password');
 			$this->tpl->setVariable("TXT_PASSWD_SELECT", $lng->txt("passwd"));
 			$this->tpl->setVariable("TXT_PASSWD_VIA_MAIL", $lng->txt("reg_passwd_via_mail"));
+			$this->tpl->parseCurrentBlock();
 		}
 
 		$this->tpl->setVariable("FORMACTION",$this->ctrl->getFormAction($this));
 		$this->tpl->setVariable("TXT_SAVE", $lng->txt("register"));
 		$this->tpl->setVariable("TXT_REQUIRED_FIELDS", $lng->txt("required_field"));
-		$this->tpl->setVariable("TXT_LOGIN_DATA", $lng->txt("login_data"));
-		$this->tpl->setVariable("TXT_PERSONAL_DATA", $lng->txt("personal_data"));
-		$this->tpl->setVariable("TXT_CONTACT_DATA", $lng->txt("contact_data"));
 		$this->tpl->setVariable("TXT_SETTINGS", $lng->txt("settings"));
-		$this->tpl->setVariable("TXT_OTHER", $lng->txt("user_profile_other"));
+		$this->tpl->setVariable("TXT_LOGIN_DATA", $lng->txt("login_data"));
 		$this->tpl->setVariable("TXT_LANGUAGE",$lng->txt("language"));
-		$this->tpl->setVariable("TXT_GENDER_F",$lng->txt("gender_f"));
-		$this->tpl->setVariable("TXT_GENDER_M",$lng->txt("gender_m"));
 		$this->tpl->setVariable("TXT_OK",$lng->txt("ok"));
 		$this->tpl->setVariable("TXT_CHOOSE_LANGUAGE", $lng->txt("choose_language"));
 		$this->tpl->setVariable("REG_LANG_FORMACTION",
@@ -285,17 +330,6 @@ class ilAccountRegistrationGUI
 			$this->tpl->parseCurrentBlock();
 		} // END language selection
 
-		// FILL SAVED VALUES IN CASE OF ERROR
-		if (isset($_POST["user"]))
-		{
-			// gender selection
-			$gender = strtoupper($_POST["user"]["gender"]);
-
-			if (!empty($gender))
-			{
-				$this->tpl->setVariable("BTN_GENDER_".$gender,"checked=\"checked\"");
-			}
-		}
 
 		$this->tpl->setVariable("IMG_USER",
 			ilUtil::getImagePath("icon_usr_b.gif"));
@@ -315,7 +349,7 @@ class ilAccountRegistrationGUI
 		$user_defined_fields =& ilUserDefinedFields::_getInstance();
 
 		#$user_defined_data = $ilUser->getUserDefinedData();
-		foreach($user_defined_fields->getVisibleDefinitions() as $field_id => $definition)
+		foreach($user_defined_fields->getRegistrationDefinitions() as $field_id => $definition)
 		{
 			if($definition['field_type'] == UDF_TYPE_TEXT)
 			{
@@ -345,7 +379,7 @@ class ilAccountRegistrationGUI
 			}
 			$this->tpl->setCurrentBlock("user_defined");
 
-			if($definition['required'])
+			if($definition['required_registration'])
 			{
 				$name = $definition['field_name']."<span class=\"asterisk\">*</span>";
 			}
@@ -365,9 +399,9 @@ class ilAccountRegistrationGUI
 		include_once './Services/User/classes/class.ilUserDefinedFields.php';
 		$user_defined_fields =& ilUserDefinedFields::_getInstance();
 
-		foreach($user_defined_fields->getVisibleDefinitions() as $field_id => $definition)
+		foreach($user_defined_fields->getRegistrationDefinitions() as $field_id => $definition)
 		{
-			if($definition['required'] and !strlen($_POST['udf'][$field_id]))
+			if($definition['required_registration'] and !strlen($_POST['udf'][$field_id]))
 			{
 				return false;
 			}
@@ -392,34 +426,47 @@ class ilAccountRegistrationGUI
 		}
 
 		// check dynamically required fields
-		foreach ($settings as $key => $val)
+		$require_keys = array();
+		foreach($settings as $key => $val)
 		{
-			if (substr($key,0,8) == "require_")
+			if(substr($key, 0, 35) == 'usr_settings_required_registration_' &&
+			   (int)$settings[$key])
 			{
-				if ($this->registration_settings->passwordGenerationEnabled() and
-					($key == "require_passwd" or $key == "require_passwd2"))
-				{
-					continue;
-				}
-				if($key == 'require_default_role')
+				if($this->registration_settings->passwordGenerationEnabled() && 
+				   (substr($key, 35) == 'passwd' ||  substr($key, 35) == 'passwd2'))
 				{
 					continue;
 				}
 
-				$require_keys[] = substr($key,8);
+				$require_keys[] = substr($key, 35);
 			}
 		}
 
-		foreach ($require_keys as $key => $val)
+		// email address is required if password generation is enabled
+		if($this->registration_settings->passwordGenerationEnabled() &&
+		   !in_array('email', $require_keys))
 		{
-			if (isset($settings["require_" . $val]) && $settings["require_" . $val])
+			$require_keys[] = 'email';
+		}	
+
+		foreach($require_keys as $key => $val)
+		{
+			if(empty($_POST['user'][$val]))
+ 			{
+				ilUtil::sendInfo($lng->txt('fill_out_all_required_fields') . ': ' . $lng->txt($val), true);
+				$this->displayForm();
+				return false;
+			}
+
+			if($val == 'email')
 			{
-				if (empty($_POST["user"][$val]))
-				{
-					ilUtil::sendInfo($lng->txt("fill_out_all_required_fields") . ": " . $lng->txt($val),true);
+				// validate email
+				if(!ilUtil::is_email($_POST['user']['email']))
+ 				{
+					ilUtil::sendInfo($lng->txt('email_not_valid'), true);
 					$this->displayForm();
 					return false;
-				}
+ 				}
 			}
 		}
 
@@ -475,16 +522,6 @@ class ilAccountRegistrationGUI
 		// append it here manually.
 		require_once './Services/User/classes/class.ilObjUser.php';
 		$_POST["user"]["passwd_type"] = IL_PASSWD_PLAIN;
-
-		// validate email
-		if (!ilUtil::is_email($_POST["user"]["email"]) &&
-			($settings["require_email"] || $this->registration_settings->passwordGenerationEnabled()))
-		{
-			ilUtil::sendInfo($lng->txt("email_not_valid"),true);
-			$this->displayForm();
-			return false;
-		}
-
 
 		// Do some Radius checks
 		$this->__validateRole();

@@ -2,9 +2,10 @@
 body { margin: 15px; }
 </style>
 {STATUSLINE}
+
+<form action="{FORMACTION}" {TARGET} method="post">
 <div class="il_Header">
 <div style="float:right;">
-	<form action="{REG_LANG_FORMACTION}" name="languageselection" method="post">
 	<input type="hidden" name="cmd" value="">
 	<select name="change_lang_to" onChange="this.form.submit()">
 		<option value="">{TXT_CHOOSE_LANGUAGE}</option>
@@ -13,14 +14,12 @@ body { margin: 15px; }
 		<!-- END languages -->
 	</select>
 	<input class="submit" type="submit" value="{TXT_OK}"/>
-	</form>
 </div>
 <h1><img border="0" src="{IMG_USER}" style="vertical-align:middle" />&nbsp;{TXT_PAGEHEADLINE}</h1>
 </div>
 <p>{TXT_WELCOME}</p>
 {MESSAGE}
 <table class="std">
-<form action="{FORMACTION}" {TARGET} method="post">
   <tr class="tblheader">
     <td class="std" colspan="2" >{TXT_LOGIN_DATA}</td>
   </tr>
@@ -28,17 +27,18 @@ body { margin: 15px; }
     <td class="option">{TXT_LOGIN}</td>
     <td class="option_value"><input type="text" name="user[login]"  value="{LOGIN}" size="40" maxlength="80" /></td>
   </tr>
-<!-- BEGIN choose_password -->
+<!-- BEGIN password_section -->
   <tr>
     <td class="option" >{TXT_PASSWD}</td>
     <td class="option_value"><input type="password" name="user[passwd]"  value="{PASSWD}" size="40" maxlength="32" /></td>
   </tr>
+<!-- END password_section -->
+<!-- BEGIN password2_section -->
   <tr>
     <td class="option">{TXT_PASSWD2}</td>
     <td class="option_value"><input type="password" name="user[passwd2]"  value="{PASSWD2}" size="40" maxlength="32" /></td>
   </tr>
-<!-- END choose_password -->
-
+<!-- END password2_section -->
 <!-- BEGIN select_password -->
   <tr>
     <td class="option" >{TXT_PASSWD_SELECT}</td>
@@ -46,9 +46,12 @@ body { margin: 15px; }
   </tr>
 <!-- END select_password -->
 
+<!-- BEGIN block_headline_personalinfo -->
   <tr class="tblheader">
     <td class="std" colspan="2">{TXT_PERSONAL_DATA}</td>
   </tr>
+<!-- END block_headline_personalinfo -->
+<!-- BEGIN gender_section -->
   <tr>
     <td class="option">{TXT_GENDER}</td>
     <td class="option_value">
@@ -56,23 +59,30 @@ body { margin: 15px; }
     &nbsp;&nbsp;&nbsp;<input type="radio" name="user[gender]" value="m" id="gender_m" {BTN_GENDER_M} /> <label for="gender_m">{TXT_GENDER_M}</label>
     </td>
   </tr>
+<!-- END gender_section -->
+<!-- BEGIN firstname_section -->
   <tr>
     <td class="option">{TXT_FIRSTNAME}</td>
     <td class="option_value"><input type="text" name="user[firstname]" value="{FIRSTNAME}" size="40" maxlength="32" /></td>
   </tr>
+<!-- END firstname_section -->
+<!-- BEGIN lastname_section -->
   <tr>
     <td class="option">{TXT_LASTNAME}</td>
     <td class="option_value"><input type="text" name="user[lastname]" value="{LASTNAME}" size="40" maxlength="32" /></td>
   </tr>
+<!-- END lastname_section -->
   <!-- BEGIN title_section -->
   <tr>
     <td class="option">{TXT_TITLE}</td>
     <td class="option_value"><input type="text" name="user[title]" value="{TITLE}" size="40" maxlength="32" /></td>
   </tr>
   <!-- END title_section -->
+<!-- BEGIN block_headline_contactinfo -->
   <tr class="tblheader">
     <td class="std" colspan="2">{TXT_CONTACT_DATA}</td>
   </tr>
+<!-- END block_headline_contactinfo -->
   <!-- BEGIN institution_section -->
   <tr>
     <td class="option">{TXT_INSTITUTION}</td>
@@ -155,9 +165,11 @@ body { margin: 15px; }
         </td>
     </tr>
 	<!-- END referral_comment_section -->
+<!-- BEGIN block_headline_otherdata -->
 	<tr class="tblheader">
 		<td class="std" colspan="2">{TXT_OTHER}</td>
 	</tr>
+<!-- END block_headline_otherdata -->
 	<!-- BEGIN matriculation_section -->
 	<tr>
 		<td class="option">{TXT_MATRICULATION}</td>
@@ -177,9 +189,11 @@ body { margin: 15px; }
 		  </td>
 		</tr>
 		<!-- END user_defined -->
+<!-- BEGIN block_headline_settings -->
   <tr class="tblheader">
     <td class="std" colspan="2">{TXT_SETTINGS}</td>
   </tr>
+<!-- END block_headline_settings -->
 <!-- BEGIN role -->
   <tr>
     <td class="option">{TXT_DEFAULT_ROLE}</td>
@@ -214,6 +228,6 @@ body { margin: 15px; }
     <span class="asterisk">*</span><span class="small"> {TXT_REQUIRED_FIELDS}</span>
     <div align="right"><input class="submit" type="submit" name="cmd[saveForm]" value="{TXT_SAVE}" /></div></td>
   </tr>
-</form>
 </table>
+</form>
 
