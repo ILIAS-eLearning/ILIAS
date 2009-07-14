@@ -111,7 +111,7 @@ class ilSoapAdministration
 					return false;
 					
 				default:
-					$this->__setMessage('Session not valid');
+					$this->__setMessage('Session invalid');
 					$this->__setMessageCode('Client');
 					return false;
 			}
@@ -173,7 +173,8 @@ class ilSoapAdministration
 		define('CLIENT_ID',$client);
 		$_COOKIE['ilClientId'] = $client;
 		$_COOKIE['PHPSESSID'] = $sid;
-		$_SESSION['PHPSESSID'] = $sid;
+		#$_SESSION['_authhttp'.md5(CLIENT_ID)] = true;
+		#$_SESSION['PHPSESSID'] = $sid;
 	}
 
 	public function initIlias()
