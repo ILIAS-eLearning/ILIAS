@@ -74,7 +74,22 @@ class ilMailAttachmentGUI
 
 	public function saveAttachments()
 	{
-		$this->umail->saveAttachments($_POST["filename"]);
+		global $ilUser;
+		
+		$files = array();
+
+		if(is_array($_POST['filename']) && count($_POST['filename']))
+		{			
+			foreach($_POST['filename'] as $file)
+			{
+				if(file_exists($this->mfile->getMailPath().'/'.basename($ilUser->getId().'_'.$file)))
+				{
+					$files[] = $file;
+				}
+			}
+		}
+
+		$this->umail->saveAttachments($files);
 		
 		$this->ctrl->returnToParent($this);
 	}
