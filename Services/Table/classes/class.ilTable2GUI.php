@@ -1164,7 +1164,7 @@ class ilTable2GUI extends ilTableGUI
 		$footer = false;
 		
 		// select all checkbox
-		if ((strlen($this->getFormName())) && (strlen($this->getSelectAllCheckbox())) && $this->dataExists())
+		if ((strlen($this->getFormName())) && (strlen($this->getSelectAllCheckbox())) && $this->dataExists() && $this->enabled["select_all"])
 		{
 			$this->tpl->setCurrentBlock("select_all_checkbox");
 			$this->tpl->setVariable("SELECT_ALL_TXT_SELECT_ALL", $lng->txt("select_all"));

@@ -47,9 +47,9 @@ class ilObjSurveyQuestionPoolGUI extends ilObjectGUI
 	* Constructor
 	* @access public
 	*/
-	function ilObjSurveyQuestionPoolGUI()
+	public function ilObjSurveyQuestionPoolGUI()
 	{
-    global $lng, $ilCtrl;
+		global $lng, $ilCtrl;
 
 		$this->type = "spl";
 		$lng->loadLanguageModule("survey");
@@ -62,7 +62,7 @@ class ilObjSurveyQuestionPoolGUI extends ilObjectGUI
 	/**
 	* execute command
 	*/
-	function &executeCommand()
+	public function &executeCommand()
 	{
 		global $ilAccess, $ilNavigationHistory;
 		
@@ -129,10 +129,8 @@ class ilObjSurveyQuestionPoolGUI extends ilObjectGUI
 
 	/**
 	* cancel action and go back to previous page
-	* @access	public
-	*
 	*/
-	function cancelObject()
+	public function cancelObject()
 	{
 		ilUtil::redirect("repository.php?cmd=frameset&ref_id=".$_GET["ref_id"]);
 	}
@@ -140,9 +138,8 @@ class ilObjSurveyQuestionPoolGUI extends ilObjectGUI
 
 	/**
 	* save object
-	* @access	public
 	*/
-	function saveObject()
+	public function saveObject()
 	{
 		global $rbacadmin;
 
@@ -156,23 +153,10 @@ class ilObjSurveyQuestionPoolGUI extends ilObjectGUI
 			"&baseClass=ilObjSurveyQuestionPoolGUI");
 	}
 	
-/**
-* Cancels any action and displays the question browser
-*
-* Cancels any action and displays the question browser
-*
-* @param string $question_id Sets the id of a newly created question for a calling survey
-* @access public
-*/
-	function cancelAction($question_id = "") 
-	{
-		$this->ctrl->redirect($this, "questions");
-	}
-
 	/**
 	* Questionpool properties
 	*/
-	function propertiesObject()
+	public function propertiesObject()
 	{
 		$save = ((strcmp($this->ctrl->getCmd(), "save") == 0)) ? true : false;
 
@@ -360,7 +344,7 @@ class ilObjSurveyQuestionPoolGUI extends ilObjectGUI
 	/**
 	* delete questions
 	*/
-	function confirmDeleteQuestionsObject()
+	public function confirmDeleteQuestionsObject()
 	{
 		// delete questions after confirmation
 		ilUtil::sendSuccess($this->lng->txt("qpl_questions_deleted"), true);
@@ -374,7 +358,7 @@ class ilObjSurveyQuestionPoolGUI extends ilObjectGUI
 	/**
 	* cancel delete questions
 	*/
-	function cancelDeleteQuestionsObject()
+	public function cancelDeleteQuestionsObject()
 	{
 		// delete questions after confirmation
 		$this->ctrl->redirect($this, "questions");
@@ -383,7 +367,7 @@ class ilObjSurveyQuestionPoolGUI extends ilObjectGUI
 	/**
 	* paste questios from the clipboard into the question pool
 	*/
-	function pasteObject()
+	public function pasteObject()
 	{
 		if (array_key_exists("spl_clipboard", $_SESSION))
 		{
@@ -400,7 +384,7 @@ class ilObjSurveyQuestionPoolGUI extends ilObjectGUI
 	/**
 	* display the import form to import questions into the questionpool
 	*/
-	function importQuestionsObject()
+	public function importQuestionsObject()
 	{
 		$this->tpl->addBlockFile("ADM_CONTENT", "adm_content", "tpl.il_svy_import_question.html", "Modules/SurveyQuestionPool");
 		$this->tpl->setCurrentBlock("adm_content");
@@ -414,20 +398,18 @@ class ilObjSurveyQuestionPoolGUI extends ilObjectGUI
 	/**
 	* imports question(s) into the questionpool
 	*/
-	function uploadQuestionsObject()
+	public function uploadQuestionsObject()
 	{
 		// check if file was uploaded
 		$source = $_FILES["qtidoc"]["tmp_name"];
 		$error = 0;
 		if (($source == 'none') || (!$source) || $_FILES["qtidoc"]["error"] > UPLOAD_ERR_OK)
 		{
-//			$this->ilias->raiseError("No file selected!",$this->ilias->error_obj->MESSAGE);
 			$error = 1;
 		}
 		// check correct file type
 		if (strpos("xml", $_FILES["qtidoc"]["type"]) !== FALSE)
 		{
-//			$this->ilias->raiseError("Wrong file type!",$this->ilias->error_obj->MESSAGE);
 			$error = 1;
 		}
 		if (!$error)
@@ -442,7 +424,6 @@ class ilObjSurveyQuestionPoolGUI extends ilObjectGUI
 			include_once "./Services/Utilities/classes/class.ilUtil.php";
 			ilUtil::moveUploadedFile($_FILES["qtidoc"]["tmp_name"], 
 				$_FILES["qtidoc"]["name"], $full_path);
-			//move_uploaded_file($_FILES["qtidoc"]["tmp_name"], $full_path);
 			$source = $full_path;
 			$this->object->importObject($source, TRUE);
 			unlink($source);
@@ -450,17 +431,7 @@ class ilObjSurveyQuestionPoolGUI extends ilObjectGUI
 		$this->ctrl->redirect($this, "questions");
 	}
 	
-	function filterObject()
-	{
-		$this->questionsObject();
-	}
-	
-	function resetObject()
-	{
-		$this->questionsObject();
-	}
-	
-	function filterQuestionBrowserObject()
+	public function filterQuestionBrowserObject()
 	{
 		include_once "./Modules/SurveyQuestionPool/classes/class.ilSurveyQuestionsTableGUI.php";
 		$table_gui = new ilSurveyQuestionsTableGUI($this, 'questions');
@@ -471,7 +442,7 @@ class ilObjSurveyQuestionPoolGUI extends ilObjectGUI
 	/**
 	* list questions of question pool
 	*/
-	function questionsObject($arrFilter = null)
+	public function questionsObject($arrFilter = null)
 	{
 		global $rbacsystem;
 		global $ilUser;
@@ -496,7 +467,7 @@ class ilObjSurveyQuestionPoolGUI extends ilObjectGUI
 		$this->tpl->setVariable('ADM_CONTENT', $table_gui->getHTML());	
 	}
 
-	function updateObject() 
+	public function updateObject() 
 	{
 		$this->update = $this->object->update();
 		ilUtil::sendSuccess($this->lng->txt("msg_obj_modified"), true);
@@ -507,115 +478,24 @@ class ilObjSurveyQuestionPoolGUI extends ilObjectGUI
 	*/
 	public function exportObject()
 	{
-		global $tree;
-
-		//$this->setTabs();
-
-		//add template for view button
-		$this->tpl->addBlockfile("BUTTONS", "buttons", "tpl.buttons.html");
-
-		// create export file button
-		$this->tpl->setCurrentBlock("btn_cell");
-		$this->tpl->setVariable("BTN_LINK", $this->ctrl->getLinkTarget($this, "createExportFile"));
-		$this->tpl->setVariable("BTN_TXT", $this->lng->txt("svy_create_export_file"));
-		$this->tpl->parseCurrentBlock();
-
+		include_once "./Modules/SurveyQuestionPool/classes/class.ilSurveyExportTableGUI.php";
+		$table_gui = new ilSurveyExportTableGUI($this, 'export');
 		$export_dir = $this->object->getExportDirectory();
 		$export_files = $this->object->getExportFiles($export_dir);
-
-		// create table
-		include_once("./Services/Table/classes/class.ilTableGUI.php");
-		$tbl = new ilTableGUI();
-
-		// load files templates
-		$this->tpl->addBlockfile("ADM_CONTENT", "adm_content", "tpl.table.html");
-
-		// load template for table content data
-		$this->tpl->addBlockfile("TBL_CONTENT", "tbl_content", "tpl.export_file_row.html", "Modules/SurveyQuestionPool");
-
-		$num = 0;
-
-		$this->tpl->setVariable("FORMACTION", $this->ctrl->getFormAction($this));
-
-		$tbl->setTitle($this->lng->txt("svy_export_files"));
-
-		$tbl->setHeaderNames(array("", $this->lng->txt("svy_file"),
-			$this->lng->txt("svy_size"), $this->lng->txt("date") ));
-
-		$tbl->enabled["sort"] = false;
-		$tbl->setColumnWidth(array("1%", "49%", "25%", "25%"));
-
-		// control
-		$tbl->setOrderColumn($_GET["sort_by"]);
-		$tbl->setOrderDirection($_GET["sort_order"]);
-		$tbl->setLimit($_GET["limit"]);
-		$tbl->setOffset($_GET["offset"]);
-		$tbl->setMaxCount($this->maxcount);		// ???
-		$header_params = $this->ctrl->getParameterArray($this, "export");
-		$tbl->setHeaderVars(array("", "file", "size", "date"), $header_params);
-
-		// delete button
-		include_once "./Services/Utilities/classes/class.ilUtil.php";
-
-		// footer
-		$tbl->setFooter("tblfooter",$this->lng->txt("previous"),$this->lng->txt("next"));
-		//$tbl->disable("footer");
-
-		$tbl->setMaxCount(count($export_files));
-		$export_files = array_slice($export_files, $_GET["offset"], $_GET["limit"]);
-
-		$tbl->render();
-		if(count($export_files) > 0)
+		$data = array();
+		foreach ($export_files as $exp_file)
 		{
-			$this->tpl->setVariable("COLUMN_COUNTS", 4);
-
-			$i=0;
-			foreach($export_files as $exp_file)
-			{
-				$this->tpl->setCurrentBlock("tbl_content");
-				$this->tpl->setVariable("TXT_FILENAME", $exp_file);
-
-				$css_row = ilUtil::switchColor($i++, "tblrow1", "tblrow2");
-				$this->tpl->setVariable("CSS_ROW", $css_row);
-
-				$this->tpl->setVariable("TXT_SIZE", filesize($export_dir."/".$exp_file));
-				$this->tpl->setVariable("CHECKBOX_ID", $exp_file);
-
-				$file_arr = explode("__", $exp_file);
-				$this->tpl->setVariable("TXT_DATE", date("Y-m-d H:i:s",$file_arr[0]));
-
-				$this->tpl->parseCurrentBlock();
-			}
-			$this->tpl->setCurrentBlock("selectall");
-			$this->tpl->setVariable("SELECT_ALL", $this->lng->txt("select_all"));
-			$this->tpl->setVariable("CSS_ROW", $css_row);
-			$this->tpl->parseCurrentBlock();
-			$this->tpl->setVariable("IMG_ARROW", ilUtil::getImagePath("arrow_downright.gif"));
-			$this->tpl->setCurrentBlock("tbl_action_btn");
-			$this->tpl->setVariable("BTN_NAME", "confirmDeleteExportFile");
-			$this->tpl->setVariable("BTN_VALUE", $this->lng->txt("delete"));
-			$this->tpl->parseCurrentBlock();
-	
-			$this->tpl->setCurrentBlock("tbl_action_btn");
-			$this->tpl->setVariable("BTN_NAME", "downloadExportFile");
-			$this->tpl->setVariable("BTN_VALUE", $this->lng->txt("download"));
-			$this->tpl->parseCurrentBlock();
-		} //if is_array
-		else
-		{
-			$this->tpl->setCurrentBlock("notfound");
-			$this->tpl->setVariable("TXT_OBJECT_NOT_FOUND", $this->lng->txt("obj_not_found"));
-			$this->tpl->setVariable("NUM_COLS", 3);
-			$this->tpl->parseCurrentBlock();
+			$file_arr = explode("__", $exp_file);
+			array_push($data, array('file' => $exp_file, 'date' => ilDatePresentation::formatDate(new ilDateTime($file_arr[0], IL_CAL_UNIX)), 'size' => filesize($export_dir."/".$exp_file)));
 		}
-
-		$this->tpl->parseCurrentBlock();
+		$table_gui->setData($data);
+		$this->tpl->setVariable('ADM_CONTENT', $table_gui->getHTML());	
 	}
 
 	/**
 	* create export file
 	*/
-	function createExportFileObject($questions = null)
+	public function createExportFileObject($questions = null)
 	{
 		global $rbacsystem;
 		
@@ -635,7 +515,7 @@ class ilObjSurveyQuestionPoolGUI extends ilObjectGUI
 	/**
 	* download export file
 	*/
-	function downloadExportFileObject()
+	public function downloadExportFileObject()
 	{
 		if(!isset($_POST["file"]))
 		{
@@ -659,7 +539,7 @@ class ilObjSurveyQuestionPoolGUI extends ilObjectGUI
 	/**
 	* confirmation screen for export file deletion
 	*/
-	function confirmDeleteExportFileObject()
+	public function confirmDeleteExportFileObject()
 	{
 		if(!isset($_POST["file"]))
 		{
@@ -667,68 +547,37 @@ class ilObjSurveyQuestionPoolGUI extends ilObjectGUI
 			$this->ctrl->redirect($this, "export");
 		}
 
-		//$this->setTabs();
-
-		// SAVE POST VALUES
-		$_SESSION["ilExportFiles"] = $_POST["file"];
-
-		$this->tpl->addBlockFile("ADM_CONTENT", "adm_content", "tpl.confirm_deletion.html", "Modules/SurveyQuestionPool");
-
 		ilUtil::sendQuestion($this->lng->txt("info_delete_sure"));
-
-		$this->tpl->setVariable("FORMACTION", $this->ctrl->getFormAction($this));
-
-		// BEGIN TABLE HEADER
-		$this->tpl->setCurrentBlock("table_header");
-		$this->tpl->setVariable("TEXT",$this->lng->txt("objects"));
-		$this->tpl->parseCurrentBlock();
-
-		// BEGIN TABLE DATA
-		$counter = 0;
-		include_once "./Services/Utilities/classes/class.ilUtil.php";
-		foreach($_POST["file"] as $file)
+		include_once "./Modules/SurveyQuestionPool/classes/class.ilSurveyExportTableGUI.php";
+		$table_gui = new ilSurveyExportTableGUI($this, 'export', true);
+		$export_dir = $this->object->getExportDirectory();
+		$data = array();
+		foreach ($_POST['file'] as $exp_file)
 		{
-				$this->tpl->setCurrentBlock("table_row");
-				$this->tpl->setVariable("IMG_OBJ", ilUtil::getImagePath("icon_file.gif"));
-				$this->tpl->setVariable("TEXT_IMG_OBJ", $this->lng->txt("file_icon"));
-				$this->tpl->setVariable("CSS_ROW",ilUtil::switchColor(++$counter,"tblrow1","tblrow2"));
-				$this->tpl->setVariable("TEXT_CONTENT", $file);
-				$this->tpl->parseCurrentBlock();
+			$file_arr = explode("__", $exp_file);
+			array_push($data, array('file' => $exp_file, 'date' => ilDatePresentation::formatDate(new ilDateTime($file_arr[0], IL_CAL_UNIX)), 'size' => filesize($export_dir."/".$exp_file)));
 		}
-
-		// cancel/confirm button
-		$this->tpl->setVariable("IMG_ARROW",ilUtil::getImagePath("arrow_downright.gif"));
-		$buttons = array( 
-			"deleteExportFile"  => $this->lng->txt("confirm"),
-			"cancelDeleteExportFile"  => $this->lng->txt("cancel")
-			);
-		foreach ($buttons as $name => $value)
-		{
-			$this->tpl->setCurrentBlock("operation_btn");
-			$this->tpl->setVariable("BTN_NAME",$name);
-			$this->tpl->setVariable("BTN_VALUE",$value);
-			$this->tpl->parseCurrentBlock();
-		}
+		$table_gui->setData($data);
+		$this->tpl->setVariable('ADM_CONTENT', $table_gui->getHTML());	
 	}
 
 
 	/**
 	* cancel deletion of export files
 	*/
-	function cancelDeleteExportFileObject()
+	public function cancelDeleteExportFileObject()
 	{
 		session_unregister("ilExportFiles");
 		$this->ctrl->redirect($this, "export");
 	}
 
-
 	/**
 	* delete export files
 	*/
-	function deleteExportFileObject()
+	public function deleteExportFileObject()
 	{
 		$export_dir = $this->object->getExportDirectory();
-		foreach($_SESSION["ilExportFiles"] as $file)
+		foreach($_POST['file'] as $file)
 		{
 			$exp_file = $export_dir."/".$file;
 			$exp_dir = $export_dir."/".substr($file, 0, strlen($file) - 4);
@@ -750,7 +599,7 @@ class ilObjSurveyQuestionPoolGUI extends ilObjectGUI
 	*
 	* @access	public
 	*/
-	function importObject()
+	public function importObject()
 	{
 		global $rbacsystem;
 		if (!$rbacsystem->checkAccess("create", $_GET["ref_id"]))
@@ -769,7 +618,7 @@ class ilObjSurveyQuestionPoolGUI extends ilObjectGUI
 	/**
 	* imports question(s) into the questionpool
 	*/
-	function uploadSplObject($redirect = true)
+	public function uploadSplObject($redirect = true)
 	{
 		if ($_FILES["xmldoc"]["error"] > UPLOAD_ERR_OK)
 		{
@@ -784,8 +633,6 @@ class ilObjSurveyQuestionPoolGUI extends ilObjectGUI
 		$newObj->setType($_GET["new_type"]);
 		// set title of questionpool object to "dummy"
 		$newObj->setTitle("dummy");
-		// set description of questionpool object to "dummy"
-		//$newObj->setDescription("dummy");
 		// create the questionpool class in the ILIAS database (object_data table)
 		$newObj->create(true);
 		// create a reference for the questionpool object in the ILIAS database (object_reference table)
@@ -806,7 +653,6 @@ class ilObjSurveyQuestionPoolGUI extends ilObjectGUI
 		include_once "./Services/Utilities/classes/class.ilUtil.php";
 		ilUtil::moveUploadedFile($_FILES["xmldoc"]["tmp_name"], 
 			$_FILES["xmldoc"]["name"], $full_path);
-		//move_uploaded_file($_FILES["xmldoc"]["tmp_name"], $full_path);
 
 		// import qti data
 		$qtiresult = $newObj->importObject($full_path);
@@ -814,7 +660,6 @@ class ilObjSurveyQuestionPoolGUI extends ilObjectGUI
 		if ($redirect)
 		{
 			$this->ctrl->redirect($this, "cancel");
-//			ilUtil::redirect("adm_object.php?".$this->link_params);
 		}
 		return $newObj->getRefId();
 	}
@@ -822,7 +667,7 @@ class ilObjSurveyQuestionPoolGUI extends ilObjectGUI
 	/**
 	* form for new content object creation
 	*/
-	function createObject()
+	public function createObject()
 	{
 		global $rbacsystem;
 		$new_type = $_POST["new_type"] ? $_POST["new_type"] : $_GET["new_type"];
@@ -883,7 +728,7 @@ class ilObjSurveyQuestionPoolGUI extends ilObjectGUI
 	/**
 	* form for new survey object import
 	*/
-	function importFileObject()
+	public function importFileObject()
 	{
 		if (strcmp($_FILES["xmldoc"]["tmp_name"], "") == 0)
 		{
@@ -903,7 +748,7 @@ class ilObjSurveyQuestionPoolGUI extends ilObjectGUI
 	/**
 	* create new question
 	*/
-	function &createQuestionObject()
+	public function &createQuestionObject()
 	{
 		global $ilUser;
 		$ilUser->writePref("svy_lastquestiontype", $_POST["sel_question_types"]);
@@ -919,7 +764,7 @@ class ilObjSurveyQuestionPoolGUI extends ilObjectGUI
 	/**
 	* edit question
 	*/
-	function &editQuestionForSurveyObject()
+	public function &editQuestionForSurveyObject()
 	{
 		include_once "./Modules/SurveyQuestionPool/classes/class.SurveyQuestionGUI.php";
 		$q_gui =& SurveyQuestionGUI::_getQuestionGUI("", $_GET["q_id"]);
@@ -932,7 +777,7 @@ class ilObjSurveyQuestionPoolGUI extends ilObjectGUI
 	/**
 	* create question from survey
 	*/
-	function &createQuestionForSurveyObject()
+	public function &createQuestionForSurveyObject()
 	{
 		include_once "./Modules/SurveyQuestionPool/classes/class.SurveyQuestionGUI.php";
 		$q_gui =& SurveyQuestionGUI::_getQuestionGUI($_GET["sel_question_types"]);
@@ -943,7 +788,7 @@ class ilObjSurveyQuestionPoolGUI extends ilObjectGUI
 	/**
 	* create preview of object
 	*/
-	function &previewObject()
+	public function &previewObject()
 	{
 		include_once "./Modules/SurveyQuestionPool/classes/class.SurveyQuestionGUI.php";
 		$q_gui =& SurveyQuestionGUI::_getQuestionGUI("", $_GET["preview"]);
@@ -952,7 +797,7 @@ class ilObjSurveyQuestionPoolGUI extends ilObjectGUI
 		$this->ctrl->redirectByClass(get_class($q_gui), "preview");
 	}
 
-	function addLocatorItems()
+	public function addLocatorItems()
 	{
 		global $ilLocator;
 		switch ($this->ctrl->getCmd())
@@ -979,7 +824,7 @@ class ilObjSurveyQuestionPoolGUI extends ilObjectGUI
 	*
 	* @param	object		$tabs_gui		ilTabsGUI object
 	*/
-	function getTabs(&$tabs_gui)
+	public function getTabs(&$tabs_gui)
 	{
 		$next_class = $this->ctrl->getNextClass($this);
 		switch ($next_class)
@@ -994,11 +839,6 @@ class ilObjSurveyQuestionPoolGUI extends ilObjectGUI
 				break;
 		}
 		if (($_GET["calling_survey"] > 0) || ($_GET["new_for_survey"] > 0)) return;
-		// properties
-		$tabs_gui->addTarget("properties",
-			 $this->ctrl->getLinkTarget($this,'properties'),
-			 "properties", 
-			 "", "");
 		// questions
 		$force_active = ($this->ctrl->getCmdClass() == "" ||
 			$this->ctrl->getCmd() == "")
@@ -1029,6 +869,11 @@ class ilObjSurveyQuestionPoolGUI extends ilObjectGUI
 
 		global $rbacsystem;
 		global $ilAccess;
+		// properties
+		$tabs_gui->addTarget("properties",
+			 $this->ctrl->getLinkTarget($this,'properties'),
+			 "properties", 
+			 "", "");
 		if ($rbacsystem->checkAccess('write', $this->ref_id))
 		{
 			// meta data
@@ -1059,13 +904,11 @@ class ilObjSurveyQuestionPoolGUI extends ilObjectGUI
 
 	/**
 	* Redirect script to call a survey question pool reference id
-	* 
-	* Redirect script to call a survey question pool reference id
 	*
 	* @param integer $a_target The reference id of the question pool
 	* @access	public
 	*/
-	function _goto($a_target)
+	public static function _goto($a_target)
 	{
 		global $ilAccess, $ilErr, $lng;
 		if ($ilAccess->checkAccess("write", "", $a_target))
@@ -1088,7 +931,5 @@ class ilObjSurveyQuestionPoolGUI extends ilObjectGUI
 		}
 		$ilErr->raiseError($lng->txt("msg_no_perm_read_lm"), $ilErr->FATAL);
 	}
-	
-
 } // END class.ilObjSurveyQuestionPoolGUI
 ?>

@@ -33,25 +33,20 @@
 */
 class ilSurveyPhrases 
 {
-/**
-* ilSurveyPhrases constructor
-*
-* The constructor takes possible arguments an creates an instance of the ilSurveyPhrases object.
-*
-* @access public
-*/
-  function ilSurveyPhrases()
-  {
+	/**
+	* ilSurveyPhrases constructor
+	*/
+	function __construct()
+	{
 	}
 	
-/**
-* Gets the available phrases from the database
-*
-* @param boolean $useronly Returns only the user defined phrases if set to true. The default is false.
-* @result array All available phrases as key/value pairs
-* @access public
-*/
-	function &_getAvailablePhrases($useronly = 0)
+	/**
+	* Gets the available phrases from the database
+	*
+	* @param boolean $useronly Returns only the user defined phrases if set to true. The default is false.
+	* @return array All available phrases as key/value pairs
+	*/
+	public static function &_getAvailablePhrases($useronly = 0)
 	{
 		global $ilUser;
 		global $ilDB;
@@ -88,14 +83,13 @@ class ilSurveyPhrases
 		return $phrases;
 	}
 	
-/**
-* Gets the available categories for a given phrase
-*
-* @param integer $phrase_id The database id of the given phrase
-* @result array All available categories
-* @access public
-*/
-	function &_getCategoriesForPhrase($phrase_id)
+	/**
+	* Gets the available categories for a given phrase
+	*
+	* @param integer $phrase_id The database id of the given phrase
+	* @return array All available categories
+	*/
+	public static function &_getCategoriesForPhrase($phrase_id)
 	{
 		global $ilDB;
 		global $lng;
@@ -119,12 +113,11 @@ class ilSurveyPhrases
 		return $categories;
 	}
 	
-/**
-* Delete phrases from the database
-*
-* @param array $phrase_array An array containing phrase id's to delete
-* @access public
-*/
+	/**
+	* Delete phrases from the database
+	*
+	* @param array $phrase_array An array containing phrase id's to delete
+	*/
 	function deletePhrases($phrase_array)
 	{
 		global $ilDB;
@@ -135,6 +128,5 @@ class ilSurveyPhrases
 			$affectedRows = $ilDB->manipulate("DELETE FROM svy_phrase_cat WHERE " . $ilDB->in('phrase_fi', $phrase_array, false, 'integer'));
 		}
 	}
-
 }
 ?>

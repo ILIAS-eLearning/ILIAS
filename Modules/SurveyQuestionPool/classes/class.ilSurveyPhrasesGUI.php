@@ -28,9 +28,9 @@
 * survey phrases (collections of survey categories)
 * of ordinal survey question types.
 *
-* @author		Helmut Schottmüller <helmut.schottmueller@mac.com>
+* @author		Helmut Schottmüller <ilias@aurealis.de>
 * @version	$Id$
-* @ingroup ModulesSurvey
+* @ingroup ModulesSurveyQuestionPool
 */
 class ilSurveyPhrasesGUI
 {
@@ -43,20 +43,17 @@ class ilSurveyPhrasesGUI
 	var $tree;
 	var $ref_id;
 	
-/**
-* ilSurveyPhrases constructor
-*
-* The constructor takes possible arguments an creates an instance of the ilSurveyPhrases object.
-*
-* @access public
-*/
-  function ilSurveyPhrasesGUI($a_object)
-  {
+	/**
+	* ilSurveyPhrasesGUI constructor
+	*
+	*/
+	function __construct($a_object)
+	{
 		global $lng, $tpl, $ilCtrl, $ilias, $tree;
 
 		include_once "./Modules/SurveyQuestionPool/classes/class.ilSurveyPhrases.php";
-    $this->lng =& $lng;
-    $this->tpl =& $tpl;
+		$this->lng =& $lng;
+		$this->tpl =& $tpl;
 		$this->ctrl =& $ilCtrl;
 		$this->ilias =& $ilias;
 		$this->gui_object =& $a_object;
@@ -68,7 +65,7 @@ class ilSurveyPhrasesGUI
 	/**
 	* execute command
 	*/
-	function &executeCommand()
+	public function &executeCommand()
 	{
 		$cmd = $this->ctrl->getCmd();
 		$next_class = $this->ctrl->getNextClass($this);
@@ -83,40 +80,25 @@ class ilSurveyPhrasesGUI
 		return $ret;
 	}
 
-/**
-* Retrieves the ilCtrl command
-*
-* Retrieves the ilCtrl command
-*
-* @access public
-*/
-	function getCommand($cmd)
+	/**
+	* Retrieves the ilCtrl command
+	*/
+	public function getCommand($cmd)
 	{
 		return $cmd;
 	}
 	
-/**
-* Creates a confirmation form to delete personal phases from the database
-*
-* Creates a confirmation form to delete personal phases from the database
-*
-* @access public
-*/
-	function deletePhrase()
+	/**
+	* Creates a confirmation form to delete personal phases from the database
+	*/
+	public function deletePhrase()
 	{
 		ilUtil::sendInfo();
 
-		$checked_phrases = array();
-		foreach ($_POST as $key => $value)
-		{
-			if (preg_match("/phrase_(\d+)/", $key, $matches))
-			{
-				array_push($checked_phrases, $matches[1]);
-			}
-		}
+		$checked_phrases = $_POST['phrase'];
 		if (count($checked_phrases))
 		{
-			ilUtil::sendInfo($this->lng->txt("qpl_confirm_delete_phrases"));
+			ilUtil::sendQuestion($this->lng->txt("qpl_confirm_delete_phrases"));
 			$this->deletePhrasesForm($checked_phrases);
 			return;
 		}
@@ -126,19 +108,6 @@ class ilSurveyPhrasesGUI
 			$this->phrases();
 			return;
 		}
-		
-		$this->tpl->setCurrentBlock("obligatory");
-		$this->tpl->setVariable("TEXT_OBLIGATORY", $this->lng->txt("obligatory"));
-		$this->tpl->setVariable("CHECKED_OBLIGATORY", " checked=\"checked\"");
-		$this->tpl->parseCurrentBlock();
-		$this->tpl->setCurrentBlock("adm_content");
-		$this->tpl->setVariable("DEFINE_QUESTIONBLOCK_HEADING", $this->lng->txt("define_questionblock"));
-		$this->tpl->setVariable("TEXT_TITLE", $this->lng->txt("title"));
-		$this->tpl->setVariable("TXT_REQUIRED_FLD", $this->lng->txt("required_field"));
-		$this->tpl->setVariable("SAVE", $this->lng->txt("save"));
-		$this->tpl->setVariable("CANCEL", $this->lng->txt("cancel"));
-		$this->tpl->setVariable("FORM_ACTION", $this->ctrl->getFormAction($this));
-		$this->tpl->parseCurrentBlock();
 	}
 
 	/**
@@ -146,51 +115,23 @@ class ilSurveyPhrasesGUI
 	*
 	* @access	public
 	*/
-  function phrases()
+	public function phrases()
 	{
 		global $rbacsystem;
 		
 		if ($rbacsystem->checkAccess("write", $this->ref_id))
 		{
-			$this->tpl->addBlockFile("ADM_CONTENT", "adm_content", "tpl.il_svy_qpl_phrases.html", "Modules/SurveyQuestionPool");
-			$phrases =& $this->object->_getAvailablePhrases(1);
-			if (count($phrases))
+			include_once "./Modules/SurveyQuestionPool/classes/class.ilSurveyPhrasesTableGUI.php";
+			$table_gui = new ilSurveyPhrasesTableGUI($this, 'phrases');
+			$phrases =& ilSurveyPhrases::_getAvailablePhrases(1);
+			$data = array();
+			foreach ($phrases as $phrase_id => $phrase_array)
 			{
-				include_once "./Services/Utilities/classes/class.ilUtil.php";
-				$colors = array("tblrow1", "tblrow2");
-				$counter = 0;
-				foreach ($phrases as $phrase_id => $phrase_array)
-				{
-					$this->tpl->setCurrentBlock("phraserow");
-					$this->tpl->setVariable("PHRASE_ID", $phrase_id);
-					$this->tpl->setVariable("COLOR_CLASS", $colors[$counter++ % 2]);
-					$this->tpl->setVariable("PHRASE_TITLE", $phrase_array["title"]);
-					$categories =& $this->object->_getCategoriesForPhrase($phrase_id);
-					$this->tpl->setVariable("PHRASE_CONTENT", join($categories, ", "));
-					$this->tpl->parseCurrentBlock();
-				}
-				$counter++;
-				$this->tpl->setCurrentBlock("selectall");
-				$this->tpl->setVariable("SELECT_ALL", $this->lng->txt("select_all"));
-				$this->tpl->setVariable("COLOR_CLASS", $colors[$counter++ % 2]);
-				$this->tpl->parseCurrentBlock();
-				$this->tpl->setCurrentBlock("Footer");
-				$this->tpl->setVariable("ARROW", "<img src=\"" . ilUtil::getImagePath("arrow_downright.gif") . "\" alt=\"".$this->lng->txt("arrow_downright")."\">");
-				$this->tpl->setVariable("TEXT_DELETE", $this->lng->txt("delete"));
-				$this->tpl->parseCurrentBlock();
+				$categories =& ilSurveyPhrases::_getCategoriesForPhrase($phrase_id);
+				array_push($data, array('phrase_id' => $phrase_id, 'phrase' => $phrase_array["title"], 'answers' => join($categories, ", ")));
 			}
-			else
-			{
-				$this->tpl->setCurrentBlock("Emptytable");
-				$this->tpl->setVariable("TEXT_EMPTYTABLE", $this->lng->txt("no_user_phrases_defined"));
-				$this->tpl->parseCurrentBlock();
-			}
-			$this->tpl->setCurrentBlock("adm_content");
-			$this->tpl->setVariable("INTRODUCTION_MANAGE_PHRASES", $this->lng->txt("introduction_manage_phrases"));
-			$this->tpl->setVariable("TEXT_PHRASE_TITLE", $this->lng->txt("phrase"));
-			$this->tpl->setVariable("TEXT_PHRASE_CONTENT", $this->lng->txt("categories"));
-			$this->tpl->setVariable("FORM_ACTION", $this->ctrl->getFormAction($this));
-			$this->tpl->parseCurrentBlock();
+			$table_gui->setData($data);
+			$this->tpl->setVariable('ADM_CONTENT', $table_gui->getHTML());	
 		}
 		else
 		{
@@ -201,7 +142,7 @@ class ilSurveyPhrasesGUI
 	/**
 	* cancel delete phrases
 	*/
-	function cancelDeletePhrase()
+	public function cancelDeletePhrase()
 	{
 		$this->ctrl->redirect($this, "phrases");
 	}
@@ -209,57 +150,33 @@ class ilSurveyPhrasesGUI
 	/**
 	* confirm delete phrases
 	*/
-	function confirmDeletePhrase()
+	public function confirmDeletePhrase()
 	{
-		$phrases = array();
-		foreach ($_POST as $key => $value)
-		{
-			if (preg_match("/phrase_(\d+)/", $key, $matches))
-			{
-				array_push($phrases, $matches[1]);
-			}
-		}
+		$phrases = $_POST['phrase'];
 		$this->object->deletePhrases($phrases);
 		ilUtil::sendSuccess($this->lng->txt("qpl_phrases_deleted"), true);
 		$this->ctrl->redirect($this, "phrases");
 	}
 	
-/**
-* Creates a confirmation form to delete personal phases from the database
-*
-* Creates a confirmation form to delete personal phases from the database
-*
-* @param array $checked_phrases An array with the id's of the phrases checked for deletion
-* @access public
-*/
-	function deletePhrasesForm($checked_phrases)
+	/**
+	* Creates a confirmation form to delete personal phases from the database
+	*
+	* @param array $checked_phrases An array with the id's of the phrases checked for deletion
+	*/
+	public function deletePhrasesForm($checked_phrases)
 	{
-		ilUtil::sendInfo();
-		$phrases =& $this->object->_getAvailablePhrases(1);
-		$this->tpl->addBlockFile("ADM_CONTENT", "adm_content", "tpl.il_svy_qpl_confirm_delete_phrases.html", "Modules/SurveyQuestionPool");
-		$colors = array("tblrow1", "tblrow2");
-		$counter = 0;
-		foreach ($checked_phrases as $id)
+		include_once "./Modules/SurveyQuestionPool/classes/class.ilSurveyPhrasesTableGUI.php";
+		$table_gui = new ilSurveyPhrasesTableGUI($this, 'phrases', true);
+		$phrases =& ilSurveyPhrases::_getAvailablePhrases(1);
+		$data = array();
+		foreach ($checked_phrases as $phrase_id)
 		{
-			$this->tpl->setCurrentBlock("row");
-			$this->tpl->setVariable("COLOR_CLASS", $colors[$counter++ % 2]);
-			$this->tpl->setVariable("PHRASE_TITLE", $phrases[$id]["title"]);
-			$categories =& $this->object->_getCategoriesForPhrase($id);
-			$this->tpl->setVariable("PHRASE_CONTENT", join($categories, ", "));
-			$this->tpl->parseCurrentBlock();
-			$this->tpl->setCurrentBlock("hidden");
-			$this->tpl->setVariable("HIDDEN_NAME", "phrase_$id");
-			$this->tpl->setVariable("HIDDEN_VALUE", "1");
-			$this->tpl->parseCurrentBlock();
+			$phrase_array = $phrases[$phrase_id];
+			$categories =& ilSurveyPhrases::_getCategoriesForPhrase($phrase_id);
+			array_push($data, array('phrase_id' => $phrase_id, 'phrase' => $phrase_array["title"], 'answers' => join($categories, ", ")));
 		}
-
-		$this->tpl->setCurrentBlock("adm_content");
-		$this->tpl->setVariable("TEXT_PHRASE_TITLE", $this->lng->txt("phrase"));
-		$this->tpl->setVariable("TEXT_PHRASE_CONTENT", $this->lng->txt("categories"));
-		$this->tpl->setVariable("BTN_CONFIRM", $this->lng->txt("confirm"));
-		$this->tpl->setVariable("BTN_CANCEL", $this->lng->txt("cancel"));
-		$this->tpl->setVariable("FORM_ACTION", $this->ctrl->getFormAction($this));
-		$this->tpl->parseCurrentBlock();
+		$table_gui->setData($data);
+		$this->tpl->setVariable('ADM_CONTENT', $table_gui->getHTML());	
 	}
 }
 ?>
