@@ -4802,7 +4802,7 @@ survey#:#off#:#выкл
 survey#:#offline#:#оффлайн
 survey#:#on#:#вкл 
 survey#:#or#:#или
-survey#:#ordinal_question_not_checked#:#Пожалуйста, выберите один из предлагаемых ответов!
+survey#:#question_not_checked#:#Пожалуйста, выберите один из предлагаемых ответов!
 survey#:#orientation#:#Ориентация 
 survey#:#percentage_of_entered_values#:#Процент пользователей по этому значению
 survey#:#percentage_of_offered_answers#:#Percentage of offered answers###28 Feb 2006 new variable
@@ -5580,7 +5580,7 @@ survey#:#constraint_add#:#Add precondition###06 09 2006 new variable
 survey#:#constraints_first_question_description#:#The first entity could not have any preconditions because there are no previous questions.###06 09 2006 new variable
 survey#:#constraints_introduction#:#For every entity (a single question or a question block with multiple questions) one or more preconditions could be defined. These preconditions will be derived from the answers of the survey participants of questions which occur earlier in the survey. Since the first entity has no previous questions or questionblocks there is no possibility to define preconditions for it.###06 09 2006 new variable
 survey#:#form_data_modified_press_save#:#The form data has been modified. Press the save button to keep the changes.###06 09 2006 new variable
-survey#:#nominal_question_mr_not_checked#:#Please check at least one of the offered answers!###06 09 2006 new variable
+survey#:#question_mr_not_checked#:#Please check at least one of the offered answers!###06 09 2006 new variable
 survey#:#question_contains_no_categories#:#There are no answers defined for this question###06 09 2006 new variable
 survey#:#save_back_to_survey#:#Save and go back to the survey###06 09 2006 new variable
 survey#:#spl_general_properties#:#General properties###06 09 2006 new variable

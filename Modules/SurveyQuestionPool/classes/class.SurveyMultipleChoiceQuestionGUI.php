@@ -25,35 +25,35 @@ include_once "./Modules/SurveyQuestionPool/classes/class.SurveyQuestionGUI.php";
 include_once "./Modules/Survey/classes/inc.SurveyConstants.php";
 
 /**
-* Nominal survey question GUI representation
+* MultipleChoice survey question GUI representation
 *
-* The SurveyNominalQuestionGUI class encapsulates the GUI representation
-* for nominal survey question types.
+* The SurveyMultipleChoiceQuestionGUI class encapsulates the GUI representation
+* for multiple choice survey question types.
 *
 * @author		Helmut Schottmüller <helmut.schottmueller@mac.com>
 * @version	$Id$
 * @extends SurveyQuestionGUI
 * @ingroup ModulesSurveyQuestionPool
 */
-class SurveyNominalQuestionGUI extends SurveyQuestionGUI 
+class SurveyMultipleChoiceQuestionGUI extends SurveyQuestionGUI 
 {
 
 /**
-* SurveyNominalQuestionGUI constructor
+* SurveyMultipleChoiceQuestionGUI constructor
 *
-* The constructor takes possible arguments an creates an instance of the SurveyNominalQuestionGUI object.
+* The constructor takes possible arguments an creates an instance of the SurveyMultipleChoiceQuestionGUI object.
 *
-* @param integer $id The database id of a nominal question object
+* @param integer $id The database id of a multiple choice question object
 * @access public
 */
-  function SurveyNominalQuestionGUI(
+  function SurveyMultipleChoiceQuestionGUI(
 		$id = -1
   )
 
   {
 		$this->SurveyQuestionGUI();
-		include_once "./Modules/SurveyQuestionPool/classes/class.SurveyNominalQuestion.php";
-		$this->object = new SurveyNominalQuestion();
+		include_once "./Modules/SurveyQuestionPool/classes/class.SurveyMultipleChoiceQuestion.php";
+		$this->object = new SurveyMultipleChoiceQuestion();
 		if ($id >= 0)
 		{
 			$this->object->loadFromDb($id);
@@ -77,7 +77,6 @@ class SurveyNominalQuestionGUI extends SurveyQuestionGUI
 			include_once "./Services/AdvancedEditing/classes/class.ilObjAdvancedEditing.php";
 			$questiontext = ilUtil::stripSlashes($_POST["question"], false, ilObjAdvancedEditing::_getUsedHTMLTagsAsString("survey"));
 			$this->object->setQuestiontext($questiontext);
-			$this->object->setSubtype($_POST["subtype"]);
 			$this->object->setObligatory(($_POST["obligatory"]) ? 1 : 0);
 			$this->object->setOrientation($_POST["orientation"]);
 
@@ -110,7 +109,7 @@ class SurveyNominalQuestionGUI extends SurveyQuestionGUI
 		$form->setTitle($this->lng->txt($this->getQuestionType()));
 		$form->setMultipart(FALSE);
 		$form->setTableWidth("100%");
-		$form->setId("nominal");
+		$form->setId("multiplechoice");
 
 		// title
 		$title = new ilTextInputGUI($this->lng->txt("title"), "title");
@@ -144,15 +143,6 @@ class SurveyNominalQuestionGUI extends SurveyQuestionGUI
 		$question->setRTESupport($this->object->getId(), "spl", "survey");
 		$form->addItem($question);
 		
-		// subtype
-		$subtype = new ilRadioGroupInputGUI($this->lng->txt("subtype"), "subtype");
-		$subtype->setRequired(false);
-		$subtype->setValue($this->object->getSubtype());
-		$subtype->setInfo($this->lng->txt('multiple_choice_subtype_description'));
-		$subtype->addOption(new ilRadioOption($this->lng->txt('multiple_choice_single_response'), 1));
-		$subtype->addOption(new ilRadioOption($this->lng->txt('multiple_choice_multiple_response'), 2));
-		$form->addItem($subtype);
-
 		// obligatory
 		$shuffle = new ilCheckboxInputGUI($this->lng->txt("obligatory"), "obligatory");
 		$shuffle->setValue(1);
@@ -166,10 +156,6 @@ class SurveyNominalQuestionGUI extends SurveyQuestionGUI
 		$orientation->setValue($this->object->getOrientation());
 		$orientation->addOption(new ilRadioOption($this->lng->txt('vertical'), 0));
 		$orientation->addOption(new ilRadioOption($this->lng->txt('horizontal'), 1));
-		if ($this->object->getSubtype() == SUBTYPE_MCSR)
-		{
-			$orientation->addOption(new ilRadioOption($this->lng->txt('combobox'), 2));
-		}
 		$form->addItem($orientation);
 
 		// Answers
@@ -260,127 +246,10 @@ class SurveyNominalQuestionGUI extends SurveyQuestionGUI
 				// vertical orientation
 				for ($i = 0; $i < $this->object->categories->getCategoryCount(); $i++) {
 					$category = $this->object->categories->getCategory($i);
-					if ($this->object->getSubtype() == SUBTYPE_MCSR)
-					{
-						$template->setCurrentBlock("nominal_row_sr");
-						$template->setVariable("TEXT_NOMINAL", ilUtil::prepareFormOutput($category));
-						$template->setVariable("VALUE_NOMINAL", $i);
-						$template->setVariable("QUESTION_ID", $this->object->getId());
-						if (is_array($working_data))
-						{
-							foreach ($working_data as $value)
-							{
-								if (strlen($value["value"]))
-								{
-									if ($value["value"] == $i)
-									{
-										$template->setVariable("CHECKED_NOMINAL", " checked=\"checked\"");
-									}
-								}
-							}
-						}
-						$template->parseCurrentBlock();
-					}
-					else
-					{
-						$template->setCurrentBlock("nominal_row_mr");
-						$template->setVariable("TEXT_NOMINAL", ilUtil::prepareFormOutput($category));
-						$template->setVariable("VALUE_NOMINAL", $i);
-						$template->setVariable("QUESTION_ID", $this->object->getId());
-						if (is_array($working_data))
-						{
-							foreach ($working_data as $value)
-							{
-								if (strlen($value["value"]))
-								{
-									if ($value["value"] == $i)
-									{
-										$template->setVariable("CHECKED_NOMINAL", " checked=\"checked\"");
-									}
-								}
-							}
-						}
-						$template->parseCurrentBlock();
-					}
-				}
-				break;
-			case 1:
-				// horizontal orientation
-				if ($this->object->getSubtype() == SUBTYPE_MCSR)
-				{
-					for ($i = 0; $i < $this->object->categories->getCategoryCount(); $i++) 
-					{
-						$category = $this->object->categories->getCategory($i);
-						$template->setCurrentBlock("radio_col_nominal");
-						$template->setVariable("VALUE_NOMINAL", $i);
-						$template->setVariable("QUESTION_ID", $this->object->getId());
-						if (is_array($working_data))
-						{
-							foreach ($working_data as $value)
-							{
-								if (strlen($value["value"]))
-								{
-									if ($value["value"] == $i)
-									{
-										$template->setVariable("CHECKED_NOMINAL", " checked=\"checked\"");
-									}
-								}
-							}
-						}
-						$template->parseCurrentBlock();
-					}
-					for ($i = 0; $i < $this->object->categories->getCategoryCount(); $i++) 
-					{
-						$category = $this->object->categories->getCategory($i);
-						$template->setCurrentBlock("text_col_nominal");
-						$template->setVariable("VALUE_NOMINAL", $i);
-						$template->setVariable("TEXT_NOMINAL", ilUtil::prepareFormOutput($category));
-						$template->setVariable("QUESTION_ID", $this->object->getId());
-						$template->parseCurrentBlock();
-					}
-				}
-				else
-				{
-					for ($i = 0; $i < $this->object->categories->getCategoryCount(); $i++) 
-					{
-						$category = $this->object->categories->getCategory($i);
-						$template->setCurrentBlock("checkbox_col_nominal");
-						$template->setVariable("VALUE_NOMINAL", $i);
-						$template->setVariable("QUESTION_ID", $this->object->getId());
-						if (is_array($working_data))
-						{
-							foreach ($working_data as $value)
-							{
-								if (strlen($value["value"]))
-								{
-									if ($value["value"] == $i)
-									{
-										$template->setVariable("CHECKED_NOMINAL", " checked=\"checked\"");
-									}
-								}
-							}
-						}
-						$template->parseCurrentBlock();
-					}
-					for ($i = 0; $i < $this->object->categories->getCategoryCount(); $i++) 
-					{
-						$category = $this->object->categories->getCategory($i);
-						$template->setCurrentBlock("text_col_nominal_mr");
-						$template->setVariable("VALUE_NOMINAL", $i);
-						$template->setVariable("TEXT_NOMINAL", ilUtil::prepareFormOutput($category));
-						$template->setVariable("QUESTION_ID", $this->object->getId());
-						$template->parseCurrentBlock();
-					}
-				}
-				break;
-			case 2:
-				// combobox output
-				for ($i = 0; $i < $this->object->categories->getCategoryCount(); $i++) 
-				{
-					$category = $this->object->categories->getCategory($i);
-					$template->setCurrentBlock("comborow_nominal");
+					$template->setCurrentBlock("nominal_row_mr");
 					$template->setVariable("TEXT_NOMINAL", ilUtil::prepareFormOutput($category));
 					$template->setVariable("VALUE_NOMINAL", $i);
+					$template->setVariable("QUESTION_ID", $this->object->getId());
 					if (is_array($working_data))
 					{
 						foreach ($working_data as $value)
@@ -389,18 +258,46 @@ class SurveyNominalQuestionGUI extends SurveyQuestionGUI
 							{
 								if ($value["value"] == $i)
 								{
-									$template->setVariable("SELECTED_NOMINAL", " selected=\"selected\"");
+									$template->setVariable("CHECKED_NOMINAL", " checked=\"checked\"");
 								}
 							}
 						}
 					}
 					$template->parseCurrentBlock();
 				}
-				$template->setCurrentBlock("combooutput_nominal");
-				$template->setVariable("QUESTION_ID", $this->object->getId());
-				$template->setVariable("SELECT_OPTION", $this->lng->txt("select_option"));
-				$template->setVariable("TEXT_SELECTION", $this->lng->txt("selection"));
-				$template->parseCurrentBlock();
+				break;
+			case 1:
+				// horizontal orientation
+				for ($i = 0; $i < $this->object->categories->getCategoryCount(); $i++) 
+				{
+					$category = $this->object->categories->getCategory($i);
+					$template->setCurrentBlock("checkbox_col_nominal");
+					$template->setVariable("VALUE_NOMINAL", $i);
+					$template->setVariable("QUESTION_ID", $this->object->getId());
+					if (is_array($working_data))
+					{
+						foreach ($working_data as $value)
+						{
+							if (strlen($value["value"]))
+							{
+								if ($value["value"] == $i)
+								{
+									$template->setVariable("CHECKED_NOMINAL", " checked=\"checked\"");
+								}
+							}
+						}
+					}
+					$template->parseCurrentBlock();
+				}
+				for ($i = 0; $i < $this->object->categories->getCategoryCount(); $i++) 
+				{
+					$category = $this->object->categories->getCategory($i);
+					$template->setCurrentBlock("text_col_nominal_mr");
+					$template->setVariable("VALUE_NOMINAL", $i);
+					$template->setVariable("TEXT_NOMINAL", ilUtil::prepareFormOutput($category));
+					$template->setVariable("QUESTION_ID", $this->object->getId());
+					$template->parseCurrentBlock();
+				}
 				break;
 		}
 		
@@ -440,82 +337,32 @@ class SurveyNominalQuestionGUI extends SurveyQuestionGUI
 				// vertical orientation
 				for ($i = 0; $i < $this->object->categories->getCategoryCount(); $i++) {
 					$category = $this->object->categories->getCategory($i);
-					if ($this->object->getSubtype() == SUBTYPE_MCSR)
-					{
-						$template->setCurrentBlock("nominal_row_sr");
-						$template->setVariable("IMAGE_RADIO", ilUtil::getHtmlPath(ilUtil::getImagePath("radiobutton_unchecked.gif")));
-						$template->setVariable("ALT_RADIO", $this->lng->txt("unchecked"));
-						$template->setVariable("TITLE_RADIO", $this->lng->txt("unchecked"));
-						$template->setVariable("TEXT_NOMINAL", ilUtil::prepareFormOutput($category));
-						$template->parseCurrentBlock();
-					}
-					else
-					{
-						$template->setCurrentBlock("nominal_row_mr");
-						$template->setVariable("IMAGE_CHECKBOX", ilUtil::getHtmlPath(ilUtil::getImagePath("checkbox_unchecked.gif")));
-						$template->setVariable("ALT_CHECKBOX", $this->lng->txt("unchecked"));
-						$template->setVariable("TITLE_CHECKBOX", $this->lng->txt("unchecked"));
-						$template->setVariable("TEXT_NOMINAL", ilUtil::prepareFormOutput($category));
-						$template->parseCurrentBlock();
-					}
+					$template->setCurrentBlock("nominal_row_mr");
+					$template->setVariable("IMAGE_CHECKBOX", ilUtil::getHtmlPath(ilUtil::getImagePath("checkbox_unchecked.gif")));
+					$template->setVariable("ALT_CHECKBOX", $this->lng->txt("unchecked"));
+					$template->setVariable("TITLE_CHECKBOX", $this->lng->txt("unchecked"));
+					$template->setVariable("TEXT_NOMINAL", ilUtil::prepareFormOutput($category));
+					$template->parseCurrentBlock();
 				}
 				break;
 			case 1:
 				// horizontal orientation
-				if ($this->object->getSubtype() == SUBTYPE_MCSR)
-				{
-					for ($i = 0; $i < $this->object->categories->getCategoryCount(); $i++) 
-					{
-						$category = $this->object->categories->getCategory($i);
-						$template->setCurrentBlock("radio_col_nominal");
-						$template->setVariable("IMAGE_RADIO", ilUtil::getHtmlPath(ilUtil::getImagePath("radiobutton_unchecked.gif")));
-						$template->setVariable("ALT_RADIO", $this->lng->txt("unchecked"));
-						$template->setVariable("TITLE_RADIO", $this->lng->txt("unchecked"));
-						$template->parseCurrentBlock();
-					}
-					for ($i = 0; $i < $this->object->categories->getCategoryCount(); $i++) 
-					{
-						$category = $this->object->categories->getCategory($i);
-						$template->setCurrentBlock("text_col_nominal");
-						$template->setVariable("TEXT_NOMINAL", ilUtil::prepareFormOutput($category));
-						$template->parseCurrentBlock();
-					}
-				}
-				else
-				{
-					for ($i = 0; $i < $this->object->categories->getCategoryCount(); $i++) 
-					{
-						$category = $this->object->categories->getCategory($i);
-						$template->setCurrentBlock("checkbox_col_nominal");
-						$template->setVariable("IMAGE_CHECKBOX", ilUtil::getHtmlPath(ilUtil::getImagePath("checkbox_unchecked.gif")));
-						$template->setVariable("ALT_CHECKBOX", $this->lng->txt("unchecked"));
-						$template->setVariable("TITLE_CHECKBOX", $this->lng->txt("unchecked"));
-						$template->parseCurrentBlock();
-					}
-					for ($i = 0; $i < $this->object->categories->getCategoryCount(); $i++) 
-					{
-						$category = $this->object->categories->getCategory($i);
-						$template->setCurrentBlock("text_col_nominal_mr");
-						$template->setVariable("TEXT_NOMINAL", ilUtil::prepareFormOutput($category));
-						$template->parseCurrentBlock();
-					}
-				}
-				break;
-			case 2:
-				// combobox output
 				for ($i = 0; $i < $this->object->categories->getCategoryCount(); $i++) 
 				{
 					$category = $this->object->categories->getCategory($i);
-					$template->setCurrentBlock("comborow_nominal");
-					$template->setVariable("TEXT_NOMINAL", ilUtil::prepareFormOutput($category));
-					$template->setVariable("VALUE_NOMINAL", $i);
+					$template->setCurrentBlock("checkbox_col_nominal");
+					$template->setVariable("IMAGE_CHECKBOX", ilUtil::getHtmlPath(ilUtil::getImagePath("checkbox_unchecked.gif")));
+					$template->setVariable("ALT_CHECKBOX", $this->lng->txt("unchecked"));
+					$template->setVariable("TITLE_CHECKBOX", $this->lng->txt("unchecked"));
 					$template->parseCurrentBlock();
 				}
-				$template->setCurrentBlock("combooutput_nominal");
-				$template->setVariable("QUESTION_ID", $this->object->getId());
-				$template->setVariable("SELECT_OPTION", $this->lng->txt("select_option"));
-				$template->setVariable("TEXT_SELECTION", $this->lng->txt("selection"));
-				$template->parseCurrentBlock();
+				for ($i = 0; $i < $this->object->categories->getCategoryCount(); $i++) 
+				{
+					$category = $this->object->categories->getCategory($i);
+					$template->setCurrentBlock("text_col_nominal_mr");
+					$template->setVariable("TEXT_NOMINAL", ilUtil::prepareFormOutput($category));
+					$template->parseCurrentBlock();
+				}
 				break;
 		}
 		
@@ -550,7 +397,7 @@ class SurveyNominalQuestionGUI extends SurveyQuestionGUI
 
 	function setQuestionTabs()
 	{
-		$this->setQuestionTabsForClass("surveynominalquestiongui");
+		$this->setQuestionTabsForClass("surveymultiplechoicequestiongui");
 	}
 
 /**
@@ -630,20 +477,6 @@ class SurveyNominalQuestionGUI extends SurveyQuestionGUI
 		$template->setVariable("TEXT_OPTION", $this->lng->txt("users_skipped"));
 		$template->setVariable("TEXT_OPTION_VALUE", $this->cumulated["USERS_SKIPPED"]);
 		$template->parseCurrentBlock();
-		
-		$template->setCurrentBlock("detail_row");
-		$template->setVariable("TEXT_OPTION", $this->lng->txt("subtype"));
-		switch ($this->object->getSubType())
-		{
-			case SUBTYPE_MCSR:
-				$template->setVariable("TEXT_OPTION_VALUE", $this->lng->txt("multiple_choice_single_response"));
-				break;
-			case SUBTYPE_MCMR:
-				$template->setVariable("TEXT_OPTION_VALUE", $this->lng->txt("multiple_choice_multiple_response"));
-				break;
-		}
-		$template->parseCurrentBlock();
-
 		$template->setCurrentBlock("detail_row");
 		$template->setVariable("TEXT_OPTION", $this->lng->txt("mode"));
 		$template->setVariable("TEXT_OPTION_VALUE", $this->cumulated["MODE"]);

@@ -5347,7 +5347,7 @@ survey#:#off#:#tắt
 survey#:#offline#:#offline
 survey#:#on#:#bật
 survey#:#or#:#hoặc
-survey#:#ordinal_question_not_checked#:#Hãy đánh dấu một trong các câu trả lời cho trước!
+survey#:#question_not_checked#:#Hãy đánh dấu một trong các câu trả lời cho trước!
 survey#:#orientation#:#Hướng
 survey#:#percentage_of_entered_values#:#Phần trăm của những người sử dụng đã nhập giá trị này
 survey#:#percentage_of_offered_answers#:#Percentage of offered answers###28 Feb 2006 new variable
@@ -5595,7 +5595,7 @@ assessment#:#change_properties_from_standard_to_random#:#You are about to change
 assessment#:#false#:#False###06 09 2006 new variable
 assessment#:#true#:#True###06 09 2006 new variable
 meta#:#meta_instructional_designer#:#Instructional designer###06 09 2006 new variable
-survey#:#nominal_question_mr_not_checked#:#Please check at least one of the offered answers!###06 09 2006 new variable
+survey#:#question_mr_not_checked#:#Please check at least one of the offered answers!###06 09 2006 new variable
 assessment#:#filter_users#:#Filter users###12 10 2006 new variable
 assessment#:#passed_only#:#Only passed tests###12 10 2006 new variable
 survey#:#survey_codes_lang#:#Language of the survey###27 11 2006 new variable

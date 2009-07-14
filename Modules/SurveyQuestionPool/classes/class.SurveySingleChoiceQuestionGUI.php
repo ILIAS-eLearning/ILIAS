@@ -25,35 +25,35 @@ include_once "./Modules/SurveyQuestionPool/classes/class.SurveyQuestionGUI.php";
 include_once "./Modules/Survey/classes/inc.SurveyConstants.php";
 
 /**
-* Ordinal survey question GUI representation
+* SingleChoice survey question GUI representation
 *
-* The SurveyOrdinalQuestionGUI class encapsulates the GUI representation
-* for ordinal survey question types.
+* The SurveySingleChoiceQuestionGUI class encapsulates the GUI representation
+* for single choice survey question types.
 *
 * @author		Helmut Schottmüller <helmut.schottmueller@mac.com>
 * @version	$Id$
 * @extends SurveyQuestionGUI
 * @ingroup ModulesSurveyQuestionPool
 */
-class SurveyOrdinalQuestionGUI extends SurveyQuestionGUI 
+class SurveySingleChoiceQuestionGUI extends SurveyQuestionGUI 
 {
 
 /**
-* SurveyOrdinalQuestionGUI constructor
+* SurveySingleChoiceQuestionGUI constructor
 *
-* The constructor takes possible arguments an creates an instance of the SurveyOrdinalQuestionGUI object.
+* The constructor takes possible arguments an creates an instance of the SurveySingleChoiceQuestionGUI object.
 *
-* @param integer $id The database id of a ordinal question object
+* @param integer $id The database id of a single choice question object
 * @access public
 */
-  function SurveyOrdinalQuestionGUI(
+  function SurveySingleChoiceQuestionGUI(
 		$id = -1
   )
 
   {
 		$this->SurveyQuestionGUI();
-		include_once "./Modules/SurveyQuestionPool/classes/class.SurveyOrdinalQuestion.php";
-		$this->object = new SurveyOrdinalQuestion();
+		include_once "./Modules/SurveyQuestionPool/classes/class.SurveySingleChoiceQuestion.php";
+		$this->object = new SurveySingleChoiceQuestion();
 		if ($id >= 0)
 		{
 			$this->object->loadFromDb($id);
@@ -109,7 +109,7 @@ class SurveyOrdinalQuestionGUI extends SurveyQuestionGUI
 		$form->setTitle($this->lng->txt($this->getQuestionType()));
 		$form->setMultipart(FALSE);
 		$form->setTableWidth("100%");
-		$form->setId("ordinal");
+		$form->setId("singlechoice");
 
 		// title
 		$title = new ilTextInputGUI($this->lng->txt("title"), "title");
@@ -444,7 +444,7 @@ class SurveyOrdinalQuestionGUI extends SurveyQuestionGUI
 	
 	function setQuestionTabs()
 	{
-		$this->setQuestionTabsForClass("surveyordinalquestiongui");
+		$this->setQuestionTabsForClass("surveysinglechoicequestiongui");
 	}
 
 /**

@@ -4708,7 +4708,7 @@ survey#:#off#:#изключено
 survey#:#offline#:#офлайн
 survey#:#on#:#включено
 survey#:#or#:#или
-survey#:#ordinal_question_not_checked#:#Моля, маркирайте един от предложените отговори!
+survey#:#question_not_checked#:#Моля, маркирайте един от предложените отговори!
 survey#:#orientation#:#Ориентация
 survey#:#percentage_of_entered_values#:#Процент на потребителите, въвели тази стойност
 survey#:#percentage_of_offered_answers#:#Percentage of offered answers###28 Feb 2006 new variable
@@ -5586,7 +5586,7 @@ survey#:#import_error_survey_no_proper_values#:#The survey properties do not con
 survey#:#import_error_survey_no_properties#:#No survey properties found. Cannot import the survey!###06 09 2006 new variable
 survey#:#import_no_file_selected#:#No file selected!###06 09 2006 new variable
 survey#:#import_wrong_file_type#:#Wrong file type!###06 09 2006 new variable
-survey#:#nominal_question_mr_not_checked#:#Please check at least one of the offered answers!###06 09 2006 new variable
+survey#:#question_mr_not_checked#:#Please check at least one of the offered answers!###06 09 2006 new variable
 survey#:#survey_code_url#:#URL for direct access###06 09 2006 new variable
 survey#:#survey_code_url_name#:#URL (use right mouse button to copy URL)###06 09 2006 new variable
 assessment#:#filter_users#:#Filter users###12 10 2006 new variable
@@ -6574,8 +6574,8 @@ style#:#sty_white_space#:#White Space###25 02 2007 new variable
 style#:#sty_word_spacing#:#Word Spacing###25 02 2007 new variable
 survey#:#SurveyMatrixQuestion#:#Matrix Question###25 02 2007 new variable
 survey#:#SurveyMetricQuestion#:#Metric Question###25 02 2007 new variable
-survey#:#SurveyNominalQuestion#:#Nominal Question###25 02 2007 new variable
-survey#:#SurveyOrdinalQuestion#:#Ordinal Question###25 02 2007 new variable
+survey#:#SurveyMultipleChoiceQuestion#:#Multiple Choice Question (Multiple Response)###25 02 2007 new variable
+survey#:#SurveySingleChoiceQuestion#:#Multiple Choice Question (Single Response)###25 02 2007 new variable
 survey#:#SurveyTextQuestion#:#Essay###25 02 2007 new variable
 survey#:#anonymization#:#Anonymization###25 02 2007 new variable
 survey#:#anonymize_personalized#:#Personalized Survey###25 02 2007 new variable

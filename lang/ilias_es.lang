@@ -6373,7 +6373,7 @@ survey#:#no_search_results#:#No hay resultados de búsqueda!
 survey#:#no_target_selected_for_move#:#Debe seleccionar una posición de destino!
 survey#:#no_user_or_group_selected#:#Por favor seleccione una opción de lo que está buscando (usuarios y/o grupos)
 survey#:#no_user_phrases_defined#:#No hay conjuntos de respuestas definidos por el usuario disponibles!
-survey#:#nominal_question_mr_not_checked#:#Por favor marque al menos una de las respuestas ofrecidas
+survey#:#question_mr_not_checked#:#Por favor marque al menos una de las respuestas ofrecidas
 survey#:#nominal_question_not_checked#:#Por favor seleccione una de las respuestas ofrecidas
 survey#:#non_ratio#:#Intervalo
 survey#:#not_used#:#no usada
@@ -6382,7 +6382,7 @@ survey#:#off#:#off
 survey#:#offline#:#offline
 survey#:#on#:#on
 survey#:#or#:#o
-survey#:#ordinal_question_not_checked#:#¡Por favor elija una de las respuestas ofrecidas!
+survey#:#question_not_checked#:#¡Por favor elija una de las respuestas ofrecidas!
 survey#:#orientation#:#Orientación
 survey#:#outro#:#Último comentario
 survey#:#percentage_of_entered_values#:#Porcentaje de usuarios que introdujeron este valor

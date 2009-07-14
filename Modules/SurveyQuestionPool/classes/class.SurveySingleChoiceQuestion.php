@@ -25,17 +25,17 @@ include_once "./Modules/SurveyQuestionPool/classes/class.SurveyQuestion.php";
 include_once "./Modules/Survey/classes/inc.SurveyConstants.php";
 
 /**
-* Ordinal survey question
+* SingleChoice survey question
 *
-* The SurveyOrdinalQuestion class defines and encapsulates basic methods and attributes
-* for ordinal survey question types.
+* The SurveySingleChoiceQuestion class defines and encapsulates basic methods and attributes
+* for single choice survey question types.
 *
 * @author		Helmut Schottmüller <helmut.schottmueller@mac.com>
 * @version	$Id$
 * @extends SurveyQuestion
 * @ingroup ModulesSurveyQuestionPool
 */
-class SurveyOrdinalQuestion extends SurveyQuestion 
+class SurveySingleChoiceQuestion extends SurveyQuestion 
 {
 /**
 * Categories contained in this question
@@ -45,9 +45,9 @@ class SurveyOrdinalQuestion extends SurveyQuestion
   var $categories;
 
 /**
-* SurveyOrdinalQuestion constructor
+* SurveySingleChoiceQuestion constructor
 *
-* The constructor takes possible arguments an creates an instance of the SurveyOrdinalQuestion object.
+* The constructor takes possible arguments an creates an instance of the SurveySingleChoiceQuestion object.
 *
 * @param string $title A title string to describe the question
 * @param string $description A description string to describe the question
@@ -55,7 +55,7 @@ class SurveyOrdinalQuestion extends SurveyQuestion
 * @param integer $owner A numerical ID to identify the owner/creator
 * @access public
 */
-	function SurveyOrdinalQuestion(
+	function SurveySingleChoiceQuestion(
 		$title = "",
 		$description = "",
 		$author = "",
@@ -153,9 +153,9 @@ class SurveyOrdinalQuestion extends SurveyQuestion
 	}
 	
 /**
-* Loads a SurveyOrdinalQuestion object from the database
+* Loads a SurveySingleChoiceQuestion object from the database
 *
-* @param integer $id The database id of the ordinal survey question
+* @param integer $id The database id of the single choice survey question
 * @access public
 */
 	function loadFromDb($id) 
@@ -217,11 +217,11 @@ class SurveyOrdinalQuestion extends SurveyQuestion
 	}
 	
 /**
-* Saves a SurveyOrdinalQuestion object to a database
+* Saves a SurveySingleChoiceQuestion object to a database
 *
 * @access public
 */
-	function saveToDb($original_id = "", $withanswers = true)
+	function saveToDb($original_id = "")
 	{
 		global $ilDB;
 
@@ -283,12 +283,8 @@ class SurveyOrdinalQuestion extends SurveyQuestion
 				array($this->getId(), $this->getOrientation())
 			);
 
-			// saving material uris in the database
-			$this->saveMaterialsToDb();
-			if ($withanswers)
-			{
-				$this->saveCategoriesToDb();
-			}
+			$this->saveMaterial();
+			$this->saveCategoriesToDb();
 		}
 		parent::saveToDb($original_id);
 	}
@@ -461,7 +457,7 @@ class SurveyOrdinalQuestion extends SurveyQuestion
 	*/
 	function getQuestionType()
 	{
-		return "SurveyOrdinalQuestion";
+		return "SurveySingleChoiceQuestion";
 	}
 
 	/**
@@ -472,7 +468,7 @@ class SurveyOrdinalQuestion extends SurveyQuestion
 	*/
 	function getAdditionalTableName()
 	{
-		return "svy_qst_ordinal";
+		return "svy_qst_sc";
 	}
 	
 	/**
@@ -507,7 +503,7 @@ class SurveyOrdinalQuestion extends SurveyQuestion
 		
 		if ((!$this->getObligatory($survey_id)) && (strlen($entered_value) == 0)) return "";
 		
-		if (strlen($entered_value) == 0) return $this->lng->txt("ordinal_question_not_checked");
+		if (strlen($entered_value) == 0) return $this->lng->txt("question_not_checked");
 
 		return "";
 	}
@@ -615,7 +611,7 @@ class SurveyOrdinalQuestion extends SurveyQuestion
 		}
 		$result_array["ARITHMETIC_MEAN"] = "";
 		$result_array["MEDIAN"] = $median_value;
-		$result_array["QUESTION_TYPE"] = "SurveyOrdinalQuestion";
+		$result_array["QUESTION_TYPE"] = "SurveySingleChoiceQuestion";
 		return $result_array;
 	}
 	

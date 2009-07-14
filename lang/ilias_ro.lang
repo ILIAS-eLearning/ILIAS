@@ -6032,7 +6032,7 @@ survey#:#no_search_results#:#Nu exista rezultate ale cautarii!
 survey#:#no_target_selected_for_move#:#Trebuie sa selectati o pozitie tinta!
 survey#:#no_user_or_group_selected#:#Va rugam selectati optiunea cautata (utilizatori si/sau grupuri)!
 survey#:#no_user_phrases_defined#:#Nu exista fraze definite de utilizator disponibile!
-survey#:#nominal_question_mr_not_checked#:#Please check at least one of the offered answers!###29 Jul 2006 new variable
+survey#:#question_mr_not_checked#:#Please check at least one of the offered answers!###29 Jul 2006 new variable
 survey#:#nominal_question_not_checked#:#Va rugam selectati unul din raspunsurile posibile oferite!
 survey#:#non_ratio#:#Non-Ratie###10 Jul 2006 content changed
 survey#:#not_used#:#nefolosit
@@ -6041,7 +6041,7 @@ survey#:#off#:#oprit
 survey#:#offline#:#offline
 survey#:#on#:#pornit
 survey#:#or#:#sau
-survey#:#ordinal_question_not_checked#:#Va rugam selectati unul din raspunsurile posibile oferite!
+survey#:#question_not_checked#:#Va rugam selectati unul din raspunsurile posibile oferite!
 survey#:#orientation#:#Orientare
 survey#:#outro#:#Final statement###19 Jul 2006 new variable
 survey#:#percentage_of_entered_values#:#Procentajul utilizatorilor care au introdus aceasat valoare

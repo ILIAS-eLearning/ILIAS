@@ -8202,7 +8202,7 @@ survey#:#no_user_of_group_invited#:#Žádný uživatel vybrané skupiny nevlastn
 survey#:#no_user_of_role_invited#:#Všichni uživatelé vybrané role(í) nedostali odpovídající oprávnění ke spuštění ankety. Žádný uživatel nebyl pozván.
 survey#:#no_user_or_group_selected#:#Vyberte prosím volbu, co hledáte (uživatelé a/nebo skupiny)!
 survey#:#no_user_phrases_defined#:#Žádné uživatelsky definované fráze nejsou dostupné!
-survey#:#nominal_question_mr_not_checked#:#Zvolte prosím alespoň jednu z nabízených odpovědí!
+survey#:#question_mr_not_checked#:#Zvolte prosím alespoň jednu z nabízených odpovědí!
 survey#:#nominal_question_not_checked#:#Zvolte prosím jednu z nabízených odpovědí!
 survey#:#non_ratio#:#Interval
 survey#:#not_used#:#nepoužit
@@ -8212,7 +8212,7 @@ survey#:#offline#:#offline (neaktivován)
 survey#:#on#:#Zapnuto
 survey#:#on_additional#:#Zapnuto, a dodatečně
 survey#:#or#:#nebo
-survey#:#ordinal_question_not_checked#:#Vyberte prosím jednu z nabízených odpovědí!
+survey#:#question_not_checked#:#Vyberte prosím jednu z nabízených odpovědí!
 survey#:#orientation#:#Orientace
 survey#:#outro#:#Závěrečná značka
 survey#:#percentage_of_entered_values#:#Procento uživatelů, kteří vložili tuto hodnotu

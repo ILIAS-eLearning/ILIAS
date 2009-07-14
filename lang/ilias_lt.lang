@@ -6044,7 +6044,7 @@ survey#:#no_search_results#:#Paieškos rezultatų nėra!
 survey#:#no_target_selected_for_move#:#Turite pasirinkti tikslą!
 survey#:#no_user_or_group_selected#:#Pasirinkite ko ieškosite (vartotojai ir/ar grupės)!
 survey#:#no_user_phrases_defined#:#Vartotojo nurodytų frazių nėra!
-survey#:#nominal_question_mr_not_checked#:#Pasirinkite bent vieną iš siūlomų atsakymų!
+survey#:#question_mr_not_checked#:#Pasirinkite bent vieną iš siūlomų atsakymų!
 survey#:#nominal_question_not_checked#:#Pasirinkite vieną iš siųlomų atsakymų!
 survey#:#non_ratio#:#Intervalas
 survey#:#not_used#:#nenaudojama
@@ -6053,7 +6053,7 @@ survey#:#off#:#išjungta
 survey#:#offline#:#offline
 survey#:#on#:#įjungta
 survey#:#or#:#ar
-survey#:#ordinal_question_not_checked#:#Pasirinkite vieną iš pasiūlytų atsakymų!
+survey#:#question_not_checked#:#Pasirinkite vieną iš pasiūlytų atsakymų!
 survey#:#orientation#:#Orientacija
 survey#:#outro#:#Finalinis pareiškimas
 survey#:#percentage_of_entered_values#:#Vartotojų, įrašiusių šią reikšmę, procentas

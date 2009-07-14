@@ -7062,7 +7062,7 @@ survey#:#no_search_results#:#Nincs keresési eredmény.
 survey#:#no_target_selected_for_move#:#Ki kell választania egy célpozíciót!
 survey#:#no_user_or_group_selected#:#Jelöljön ki egy beállítást, amelyet keres (felhasználók/csoportok)!
 survey#:#no_user_phrases_defined#:#Nincs elérhető felhasználó által definiált mondat.
-survey#:#nominal_question_mr_not_checked#:#Ellenőrizzen legalább egyet a felajánlott válaszok közül!
+survey#:#question_mr_not_checked#:#Ellenőrizzen legalább egyet a felajánlott válaszok közül!
 survey#:#nominal_question_not_checked#:#Jelöljön ki egyet a felajánlott válaszok közül!
 survey#:#non_ratio#:#Intervallum
 survey#:#not_used#:#nem használt
@@ -7072,7 +7072,7 @@ survey#:#offline#:#off-line
 survey#:#on#:#bekapcsolás
 survey#:#on_additional#:#Bekapcsolás és további
 survey#:#or#:#vagy
-survey#:#ordinal_question_not_checked#:#Jelöljön ki egy felajánlott választ!
+survey#:#question_not_checked#:#Jelöljön ki egy felajánlott választ!
 survey#:#orientation#:#Tájolás
 survey#:#outro#:#Befejező lap
 survey#:#percentage_of_entered_values#:#Felhasználók azon százaléka, akik ezt az értéket adták meg.

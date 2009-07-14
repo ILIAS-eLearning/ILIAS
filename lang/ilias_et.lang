@@ -6047,7 +6047,7 @@ survey#:#no_search_results#:#Otsingul ei ole ühtegi tulemust!
 survey#:#no_target_selected_for_move#:#You must select a target position!
 survey#:#no_user_or_group_selected#:#Please check an option what are you searching for (users and/or groups)!
 survey#:#no_user_phrases_defined#:#There are no user defined phrases available!
-survey#:#nominal_question_mr_not_checked#:#Please check at least one of the offered answers!
+survey#:#question_mr_not_checked#:#Please check at least one of the offered answers!
 survey#:#nominal_question_not_checked#:#Please check one of the offered answers!
 survey#:#non_ratio#:#Non-Ratio
 survey#:#not_used#:#not used
@@ -6056,7 +6056,7 @@ survey#:#off#:#off
 survey#:#offline#:#offline
 survey#:#on#:#on
 survey#:#or#:#või
-survey#:#ordinal_question_not_checked#:#Please check one of the offered answers!
+survey#:#question_not_checked#:#Please check one of the offered answers!
 survey#:#orientation#:#Orientation
 survey#:#outro#:#Final statement
 survey#:#percentage_of_entered_values#:#Selle väärtuse valinud kasutajate arv protsentuaalselt

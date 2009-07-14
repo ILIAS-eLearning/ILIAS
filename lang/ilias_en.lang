@@ -6794,8 +6794,8 @@ style#:#sty_white_space#:#White Space
 style#:#sty_word_spacing#:#Word Spacing
 survey#:#SurveyMatrixQuestion#:#Matrix Question
 survey#:#SurveyMetricQuestion#:#Metric Question
-survey#:#SurveyNominalQuestion#:#Nominal Question
-survey#:#SurveyOrdinalQuestion#:#Ordinal Question
+survey#:#SurveyMultipleChoiceQuestion#:#Multiple Choice Question (Multiple Response)
+survey#:#SurveySingleChoiceQuestion#:#Multiple Choice Question (Single Response)
 survey#:#SurveyTextQuestion#:#Essay
 survey#:#add_category#:#Add Answer
 survey#:#add_heading#:#Add Text Block
@@ -7063,7 +7063,7 @@ survey#:#no_search_results#:#There are no search results!
 survey#:#no_target_selected_for_move#:#You must select a target position!
 survey#:#no_user_or_group_selected#:#Please check an option what are you searching for (users and/or groups)!
 survey#:#no_user_phrases_defined#:#There are no user defined phrases available!
-survey#:#nominal_question_mr_not_checked#:#Please check at least one of the offered answers!
+survey#:#question_mr_not_checked#:#Please check at least one of the offered answers!
 survey#:#nominal_question_not_checked#:#Please check one of the offered answers!
 survey#:#non_ratio#:#Interval
 survey#:#not_used#:#not used
@@ -7073,7 +7073,7 @@ survey#:#offline#:#offline
 survey#:#on#:#On
 survey#:#on_additional#:#On, and additional
 survey#:#or#:#or
-survey#:#ordinal_question_not_checked#:#Please check one of the offered answers!
+survey#:#question_not_checked#:#Please check one of the offered answers!
 survey#:#orientation#:#Orientation
 survey#:#outro#:#Final Statement
 survey#:#percentage_of_entered_values#:#Percentage of users that entered this value

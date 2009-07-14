@@ -6041,7 +6041,7 @@ survey#:#no_search_results#:#Nuk ka rezultate të kërkimit!
 survey#:#no_target_selected_for_move#:#Duhet të zgjedhni pozitën e destionacionit!
 survey#:#no_user_or_group_selected#:#Ju lutem zgjedhni një opsion për atë se çfarë po kërkoni (shfrytëzues dhe/ose grupe)!
 survey#:#no_user_phrases_defined#:#Nuk ka fraza të definuara nga shfrytëzues!
-survey#:#nominal_question_mr_not_checked#:#Please check at least one of the offered answers!###29 Jul 2006 new variable
+survey#:#question_mr_not_checked#:#Please check at least one of the offered answers!###29 Jul 2006 new variable
 survey#:#nominal_question_not_checked#:#Ju lutem zgjedh njërën nga pyetjet e ofruara!
 survey#:#non_ratio#:#Pa-Përpjesëtim###10 Jul 2006 content changed
 survey#:#not_used#:#të pa përdorura
@@ -6050,7 +6050,7 @@ survey#:#off#:#joaktive
 survey#:#offline#:#offline
 survey#:#on#:#aktive
 survey#:#or#:#ose
-survey#:#ordinal_question_not_checked#:#Ju lutem zgjedh njërën nga pyetjet e ofruara!
+survey#:#question_not_checked#:#Ju lutem zgjedh njërën nga pyetjet e ofruara!
 survey#:#orientation#:#Radhitja
 survey#:#outro#:#Final statement###19 Jul 2006 new variable
 survey#:#percentage_of_entered_values#:#Përqindja e shfrytëzuesve që kanë dhënë këtë vlerë
