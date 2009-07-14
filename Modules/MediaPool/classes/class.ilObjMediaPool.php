@@ -321,22 +321,31 @@ class ilObjMediaPool extends ilObject
 	{
 		$objs = array();
 		$mobs = array();
+		$pgs = array();
 		if ($obj_id == "")
 		{
 			$obj_id = $this->tree->getRootId();
 		}
 
-		if ($a_type != "mob")
+		if ($a_type == "fold" || $a_type == "")
 		{
 			$objs = $this->tree->getChildsByType($obj_id, "fold");
 		}
-		if ($a_type != "fold")
+		if ($a_type == "mob" || $a_type == "")
 		{		
 			$mobs = $this->tree->getChildsByType($obj_id, "mob");
 		}
 		foreach($mobs as $key => $mob)
 		{
 			$objs[] = $mob;
+		}
+		if ($a_type == "pg" || $a_type == "")
+		{		
+			$pgs = $this->tree->getChildsByType($obj_id, "pg");
+		}
+		foreach($pgs as $key => $pg)
+		{
+			$objs[] = $pg;
 		}
 
 		return $objs;

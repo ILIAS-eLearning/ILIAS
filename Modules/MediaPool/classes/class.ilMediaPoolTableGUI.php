@@ -15,6 +15,8 @@ class ilMediaPoolTableGUI extends ilTable2GUI
 {
 	const IL_MEP_SELECT = "select";
 	const IL_MEP_EDIT = "edit";
+	const IL_MEP_SELECT_CONTENT = "selectc";
+	var $insert_command = "create_mob";
 	
 	/**
 	* Constructor
@@ -96,14 +98,7 @@ class ilMediaPoolTableGUI extends ilTable2GUI
 				}
 			}
 		}
-		
-		if ($this->getMode() == ilMediaPoolTableGUI::IL_MEP_SELECT)
-		{
-			// maybe this is a little bit to strong coupled with ilpcmediaobjectgui
-			$this->addMultiCommand("create_mob", $lng->txt("insert"));
-			$this->addCommandButton("cancelCreate", $lng->txt("cancel"));
-		}
-		
+				
 		if ($this->getMode() == ilMediaPoolTableGUI::IL_MEP_EDIT)
 		{
 			$this->setSelectAllCheckbox("id");
@@ -119,6 +114,26 @@ class ilMediaPoolTableGUI extends ilTable2GUI
 				$this->current_folder);
 		}
 
+	}
+
+	/**
+	 * Set inser command
+	 *
+	 * @param	string	inser command
+	 */
+	function setInsertCommand($a_val)
+	{
+		$this->insert_command = $a_val;
+	}
+	
+	/**
+	 * Get inser command
+	 *
+	 * @return	string	inser command
+	 */
+	function getInsertCommand()
+	{
+		return $this->insert_command;
 	}
 
 	/**
@@ -188,7 +203,18 @@ class ilMediaPoolTableGUI extends ilTable2GUI
 			ksort($f2objs);
 			
 			// get current media objects / pages
-			$mobjs = $this->media_pool->getChildsExceptFolders($this->current_folder);
+			if ($this->getMode() == ilMediaPoolTableGUI::IL_MEP_SELECT)
+			{
+				$mobjs = $this->media_pool->getChilds($this->current_folder, "mob");
+			}
+			else if ($this->getMode() == ilMediaPoolTableGUI::IL_MEP_SELECT_CONTENT)
+			{
+				$mobjs = $this->media_pool->getChilds($this->current_folder, "pg");
+			}
+			else
+			{
+				$mobjs = $this->media_pool->getChildsExceptFolders($this->current_folder);
+			}
 
 			$m2objs = array();
 			foreach ($mobjs as $obj)
@@ -208,7 +234,25 @@ class ilMediaPoolTableGUI extends ilTable2GUI
 //var_dump($objs);
 		$this->setData($objs);
 	}
-	
+
+	/**
+	 * Prepare output
+	 *
+	 * @param
+	 * @return
+	 */
+	function prepareOutput()
+	{
+		global $lng;
+		
+		if ($this->getMode() == ilMediaPoolTableGUI::IL_MEP_SELECT ||
+			$this->getMode() == ilMediaPoolTableGUI::IL_MEP_SELECT_CONTENT)
+		{
+			$this->addMultiCommand($this->getInsertCommand(), $lng->txt("insert"));
+			$this->addCommandButton("cancelCreate", $lng->txt("cancel"));
+		}
+	}	
+
 	/**
 	* Standard Version of Fill Row. Most likely to
 	* be overwritten by derived class.
@@ -334,7 +378,10 @@ class ilMediaPoolTableGUI extends ilTable2GUI
 		}
 
 		if ($ilAccess->checkAccess("write", "", $this->media_pool->getRefId()) &&
-			($this->getMode() == ilMediaPoolTableGUI::IL_MEP_EDIT || $a_set["type"] == "mob"))
+			($this->getMode() == ilMediaPoolTableGUI::IL_MEP_EDIT ||
+				($this->getMode() == ilMediaPoolTableGUI::IL_MEP_SELECT && $a_set["type"] == "mob") ||
+				($this->getMode() == ilMediaPoolTableGUI::IL_MEP_SELECT_CONTENT && $a_set["type"] == "pg")
+				))
 		{
 			$this->tpl->setCurrentBlock("chbox");
 			$this->tpl->setVariable("CHECKBOX_ID", $a_set["obj_id"]);

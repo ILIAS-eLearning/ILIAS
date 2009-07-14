@@ -3068,6 +3068,30 @@
 	</div>
 </xsl:template>
 
+<!-- Content Includes -->
+<xsl:template match="ContentInclude">
+	<xsl:call-template name="EditLabel"><xsl:with-param name="text"><xsl:value-of select="//LVs/LV[@name='pc_incl']/@value"/></xsl:with-param></xsl:call-template>
+	<div>
+		{{{{{ContentInclude;<xsl:value-of select="@ContentType"/>;<xsl:value-of select="@ContentId"/>;<xsl:value-of select="@InstId"/>}}}}}
+		<xsl:call-template name="EditReturnAnchors"/>
+		<xsl:if test="$mode = 'edit'">
+			<!-- <xsl:value-of select="../@HierId"/> -->
+			<xsl:if test="$javascript='disable'">
+				<br />
+				<input type="checkbox" name="target[]">
+					<xsl:attribute name="value"><xsl:value-of select="../@HierId"/>:<xsl:value-of select="../@PCID"/>
+					</xsl:attribute>
+				</input>
+			</xsl:if>
+			<xsl:call-template name="EditMenu">
+				<xsl:with-param name="hier_id" select="../@HierId" />
+				<xsl:with-param name="pc_id" select="../@PCID" />
+				<xsl:with-param name="edit">y</xsl:with-param>
+			</xsl:call-template>
+		</xsl:if>
+	</div>
+</xsl:template>
+
 <!-- Question -->
 <xsl:template match="Question">
 	<xsl:call-template name="EditLabel"><xsl:with-param name="text"><xsl:value-of select="//LVs/LV[@name='pc_qst']/@value"/></xsl:with-param></xsl:call-template>
