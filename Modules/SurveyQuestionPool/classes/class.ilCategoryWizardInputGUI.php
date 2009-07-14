@@ -33,6 +33,8 @@ class ilCategoryWizardInputGUI extends ilTextInputGUI
 	protected $values = array();
 	protected $allowMove = false;
 	protected $disabled_scale = true;
+	protected $show_wizard = false;
+	protected $show_save_phrase = false;
 	
 	/**
 	* Constructor
@@ -43,6 +45,8 @@ class ilCategoryWizardInputGUI extends ilTextInputGUI
 	function __construct($a_title = "", $a_postvar = "")
 	{
 		parent::__construct($a_title, $a_postvar);
+		$this->show_wizard = false;
+		$this->show_save_phrase = false;
 	}
 
 	/**
@@ -106,6 +110,26 @@ class ilCategoryWizardInputGUI extends ilTextInputGUI
 		return $this->allowMove;
 	}
 	
+	function setShowWizard($a_value)
+	{
+		$this->show_wizard = $a_value;
+	}
+	
+	function getShowWizard()
+	{
+		return $this->show_wizard;
+	}
+	
+	function setShowSavePhrase($a_value)
+	{
+		$this->show_save_phrase = $a_value;
+	}
+	
+	function getShowSavePhrase()
+	{
+		return $this->show_save_phrase;
+	}
+	
 	function getDisabledScale()
 	{
 		return $this->disabled_scale;
@@ -133,7 +157,7 @@ class ilCategoryWizardInputGUI extends ilTextInputGUI
 			{
 				foreach ($foundvalues['answer'] as $answervalue)
 				{
-					if ((strlen($answervalue)) == 0) 
+					if (((strlen($answervalue)) == 0) && ($this->getRequired()))
 					{
 						$this->setAlert($lng->txt("msg_input_is_required"));
 						return FALSE;
@@ -221,6 +245,24 @@ class ilCategoryWizardInputGUI extends ilTextInputGUI
 			$tpl->setVariable("REMOVE_BUTTON", ilUtil::getImagePath('edit_remove.png'));
 			$tpl->parseCurrentBlock();
 		}
+
+		if ($this->getShowWizard())
+		{
+			$tpl->setCurrentBlock("wizard");
+			$tpl->setVariable("CMD_WIZARD", 'cmd[wizard' . $this->getFieldId() . ']');
+			$tpl->setVariable("WIZARD_BUTTON", ilUtil::getImagePath('wizard.png'));
+			$tpl->setVariable("WIZARD_TEXT", $lng->txt('add_phrase'));
+			$tpl->parseCurrentBlock();
+		}
+		
+		if ($this->getShowSavePhrase())
+		{
+			$tpl->setCurrentBlock('savephrase');
+			$tpl->setVariable("POST_VAR", $this->getPostVar());
+			$tpl->setVariable("VALUE_SAVE_PHRASE", $lng->txt('save_phrase'));
+			$tpl->parseCurrentBlock();
+		}
+
 		$tpl->setVariable("ELEMENT_ID", $this->getPostVar());
 		$tpl->setVariable("ANSWER_TEXT", $lng->txt('answer'));
 		$tpl->setVariable("SCALE_TEXT", $lng->txt('scale'));
