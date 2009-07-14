@@ -167,84 +167,6 @@ class ilObjSurveyGUI extends ilObjectGUI
 		$this->ctrl->redirect($this, "properties");
 	}
 	
-	/**
-	* Save the survey properties
-	*
-	* Save the survey properties
-	*
-	* @access private
-	*/
-	function savePropertiesObject()
-	{
-		include_once "./Services/Utilities/classes/class.ilUtil.php";
-		$status = STATUS_OFFLINE;
-		if ($_POST["status"] == 1)
-		{
-			$status = STATUS_ONLINE;
-		}
-		$result = $this->object->setStatus($status);
-		if ($result)
-		{
-			ilUtil::sendInfo($result, true);
-		}
-		$this->object->setEvaluationAccess($_POST["evaluation_access"]);
-		$this->object->setStartDateEnabled($_POST["checked_start_date"]);
-		if ($this->object->getStartDateEnabled())
-		{
-			$this->object->setStartDate(sprintf("%04d-%02d-%02d", $_POST["start_date"]["y"], $_POST["start_date"]["m"], $_POST["start_date"]["d"]));
-		}
-		else
-		{
-			$this->object->setStartDate(null);
-		}
-		$this->object->setEndDateEnabled($_POST["checked_end_date"]);
-		if ($this->object->getEndDateEnabled())
-		{
-			$this->object->setEndDate(sprintf("%04d-%02d-%02d", $_POST["end_date"]["y"], $_POST["end_date"]["m"], $_POST["end_date"]["d"]));
-		}
-		else
-		{
-			$this->object->setEndDate(null);
-		}
-
-		include_once "./Services/AdvancedEditing/classes/class.ilObjAdvancedEditing.php";
-		$introduction = ilUtil::stripSlashes($_POST["introduction"], true, ilObjAdvancedEditing::_getUsedHTMLTagsAsString("survey"));
-		$this->object->setIntroduction($introduction);
-		$outro = ilUtil::stripSlashes($_POST["outro"], true, ilObjAdvancedEditing::_getUsedHTMLTagsAsString("survey"));
-		$this->object->setOutro($outro);
-
-		$hasDatasets = $this->object->_hasDatasets($this->object->getSurveyId());
-		if (!$hasDatasets)
-		{
-			$anonymize = $_POST["anonymize"];
-			if ($anonymize)
-			{
-				$codes = $_POST["codes"];
-				$anonymize += $codes;
-			}
-			$this->object->setAnonymize($anonymize);
-		}
-		if ($_POST["showQuestionTitles"])
-		{
-			$this->object->showQuestionTitles();
-		}
-		else
-		{
-			$this->object->hideQuestionTitles();
-		}
-		$this->update = $this->object->update();
-		$this->object->saveToDb();
-		if (strcmp($_SESSION["info"], "") != 0)
-		{
-			ilUtil::sendSuccess($_SESSION["info"] . "<br />" . $this->lng->txt("settings_saved"), true);
-		}
-		else
-		{
-			ilUtil::sendSuccess($this->lng->txt("settings_saved"), true);
-		}
-		$this->ctrl->redirect($this, "properties");
-	}
-
 /**
 * Checks for write access and returns to the parent object
 *
@@ -263,181 +185,218 @@ class ilObjSurveyGUI extends ilObjectGUI
 		}
 	}
 	
-/**
-* Creates the properties form for the survey object
-*
-* Creates the properties form for the survey object
-*
-* @access public
-*/
-  function propertiesObject()
-  {
-		$this->handleWriteAccess();
-		// to set the command class for the default command after object creation to make the RTE editor switch work
-		if (strlen($this->ctrl->getCmdClass()) == 0) $this->ctrl->setCmdClass("ilobjsurveygui");
-		include_once "./Services/Utilities/classes/class.ilUtil.php";
-		$this->lng->loadLanguageModule("jscalendar");
-		$this->tpl->addBlockFile("CALENDAR_LANG_JAVASCRIPT", "calendar_javascript", "tpl.calendar.html");
-		$this->tpl->setCurrentBlock("calendar_javascript");
-		$this->tpl->setVariable("FULL_SUNDAY", $this->lng->txt("l_su"));
-		$this->tpl->setVariable("FULL_MONDAY", $this->lng->txt("l_mo"));
-		$this->tpl->setVariable("FULL_TUESDAY", $this->lng->txt("l_tu"));
-		$this->tpl->setVariable("FULL_WEDNESDAY", $this->lng->txt("l_we"));
-		$this->tpl->setVariable("FULL_THURSDAY", $this->lng->txt("l_th"));
-		$this->tpl->setVariable("FULL_FRIDAY", $this->lng->txt("l_fr"));
-		$this->tpl->setVariable("FULL_SATURDAY", $this->lng->txt("l_sa"));
-		$this->tpl->setVariable("SHORT_SUNDAY", $this->lng->txt("s_su"));
-		$this->tpl->setVariable("SHORT_MONDAY", $this->lng->txt("s_mo"));
-		$this->tpl->setVariable("SHORT_TUESDAY", $this->lng->txt("s_tu"));
-		$this->tpl->setVariable("SHORT_WEDNESDAY", $this->lng->txt("s_we"));
-		$this->tpl->setVariable("SHORT_THURSDAY", $this->lng->txt("s_th"));
-		$this->tpl->setVariable("SHORT_FRIDAY", $this->lng->txt("s_fr"));
-		$this->tpl->setVariable("SHORT_SATURDAY", $this->lng->txt("s_sa"));
-		$this->tpl->setVariable("FULL_JANUARY", $this->lng->txt("l_01"));
-		$this->tpl->setVariable("FULL_FEBRUARY", $this->lng->txt("l_02"));
-		$this->tpl->setVariable("FULL_MARCH", $this->lng->txt("l_03"));
-		$this->tpl->setVariable("FULL_APRIL", $this->lng->txt("l_04"));
-		$this->tpl->setVariable("FULL_MAY", $this->lng->txt("l_05"));
-		$this->tpl->setVariable("FULL_JUNE", $this->lng->txt("l_06"));
-		$this->tpl->setVariable("FULL_JULY", $this->lng->txt("l_07"));
-		$this->tpl->setVariable("FULL_AUGUST", $this->lng->txt("l_08"));
-		$this->tpl->setVariable("FULL_SEPTEMBER", $this->lng->txt("l_09"));
-		$this->tpl->setVariable("FULL_OCTOBER", $this->lng->txt("l_10"));
-		$this->tpl->setVariable("FULL_NOVEMBER", $this->lng->txt("l_11"));
-		$this->tpl->setVariable("FULL_DECEMBER", $this->lng->txt("l_12"));
-		$this->tpl->setVariable("SHORT_JANUARY", $this->lng->txt("s_01"));
-		$this->tpl->setVariable("SHORT_FEBRUARY", $this->lng->txt("s_02"));
-		$this->tpl->setVariable("SHORT_MARCH", $this->lng->txt("s_03"));
-		$this->tpl->setVariable("SHORT_APRIL", $this->lng->txt("s_04"));
-		$this->tpl->setVariable("SHORT_MAY", $this->lng->txt("s_05"));
-		$this->tpl->setVariable("SHORT_JUNE", $this->lng->txt("s_06"));
-		$this->tpl->setVariable("SHORT_JULY", $this->lng->txt("s_07"));
-		$this->tpl->setVariable("SHORT_AUGUST", $this->lng->txt("s_08"));
-		$this->tpl->setVariable("SHORT_SEPTEMBER", $this->lng->txt("s_09"));
-		$this->tpl->setVariable("SHORT_OCTOBER", $this->lng->txt("s_10"));
-		$this->tpl->setVariable("SHORT_NOVEMBER", $this->lng->txt("s_11"));
-		$this->tpl->setVariable("SHORT_DECEMBER", $this->lng->txt("s_12"));
-		$this->tpl->setVariable("ABOUT_CALENDAR", $this->lng->txt("about_calendar"));
-		$this->tpl->setVariable("ABOUT_CALENDAR_LONG", $this->lng->txt("about_calendar_long"));
-		$this->tpl->setVariable("ABOUT_TIME_LONG", $this->lng->txt("about_time"));
-		$this->tpl->setVariable("PREV_YEAR", $this->lng->txt("prev_year"));
-		$this->tpl->setVariable("PREV_MONTH", $this->lng->txt("prev_month"));
-		$this->tpl->setVariable("GO_TODAY", $this->lng->txt("go_today"));
-		$this->tpl->setVariable("NEXT_MONTH", $this->lng->txt("next_month"));
-		$this->tpl->setVariable("NEXT_YEAR", $this->lng->txt("next_year"));
-		$this->tpl->setVariable("SEL_DATE", $this->lng->txt("select_date"));
-		$this->tpl->setVariable("DRAG_TO_MOVE", $this->lng->txt("drag_to_move"));
-		$this->tpl->setVariable("PART_TODAY", $this->lng->txt("part_today"));
-		$this->tpl->setVariable("DAY_FIRST", $this->lng->txt("day_first"));
-		$this->tpl->setVariable("CLOSE", $this->lng->txt("close"));
-		$this->tpl->setVariable("TODAY", $this->lng->txt("today"));
-		$this->tpl->setVariable("TIME_PART", $this->lng->txt("time_part"));
-		$this->tpl->setVariable("DEF_DATE_FORMAT", $this->lng->txt("def_date_format"));
-		$this->tpl->setVariable("TT_DATE_FORMAT", $this->lng->txt("tt_date_format"));
-		$this->tpl->setVariable("WK", $this->lng->txt("wk"));
-		$this->tpl->setVariable("TIME", $this->lng->txt("time"));
-		$this->tpl->parseCurrentBlock();
-		$this->tpl->setCurrentBlock("CalendarJS");
-		$this->tpl->setVariable("LOCATION_JAVASCRIPT_CALENDAR", "./Modules/Survey/js/calendar/calendar.js");
-		$this->tpl->setVariable("LOCATION_JAVASCRIPT_CALENDAR_SETUP", "./Modules/Survey/js/calendar/calendar-setup.js");
-		$this->tpl->setVariable("LOCATION_JAVASCRIPT_CALENDAR_STYLESHEET", "./Modules/Survey/js/calendar/calendar.css");
-		$this->tpl->parseCurrentBlock();
+	/**
+	* Save the survey properties
+	*
+	* Save the survey properties
+	*
+	* @access private
+	*/
+	function savePropertiesObject()
+	{
+		$hasErrors = $this->propertiesObject(true);
+		if (!$hasErrors)
+		{
+			$result = $this->object->setStatus($_POST['online']);
+			if ($result)
+			{
+				ilUtil::sendInfo($result, true);
+			}
+			$this->object->setEvaluationAccess($_POST["evaluation_access"]);
+			$this->object->setStartDateEnabled($_POST["enabled_start_date"]);
+			if ($this->object->getStartDateEnabled())
+			{
+				$this->object->setStartDate($_POST['start_date']['date']);
+			}
+			else
+			{
+				$this->object->setStartDate(null);
+			}
+			$this->object->setEndDateEnabled($_POST["enabled_end_date"]);
+			if ($this->object->getEndDateEnabled())
+			{
+				$this->object->setEndDate($_POST['end_date']['date']);
+			}
+			else
+			{
+				$this->object->setEndDate(null);
+			}
 
-		$this->tpl->addBlockFile("ADM_CONTENT", "adm_content", "tpl.il_svy_svy_properties.html", "Modules/Survey");
-		$this->tpl->setCurrentBlock("adm_content");
-		$this->tpl->setVariable("FORM_ACTION", $this->ctrl->getFormAction($this, "properties"));
-		$this->tpl->setVariable("TEXT_INTRODUCTION", $this->lng->txt("introduction"));
-		$this->tpl->setVariable("VALUE_INTRODUCTION", ilUtil::prepareFormOutput($this->object->prepareTextareaOutput($this->object->getIntroduction())));
-		$this->tpl->setVariable("TEXT_OUTRO", $this->lng->txt("outro"));
-		$this->tpl->setVariable("VALUE_OUTRO", ilUtil::prepareFormOutput($this->object->prepareTextareaOutput($this->object->getOutro())));
-		$this->tpl->setVariable("TEXT_STATUS", $this->lng->txt("online"));
-		$this->tpl->setVariable("TEXT_START_DATE", $this->lng->txt("start_date"));
-		$this->tpl->setVariable("VALUE_START_DATE", ilUtil::makeDateSelect("start_date", $this->object->getStartYear(), $this->object->getStartMonth(), $this->object->getStartDay()));
-		$this->tpl->setVariable("IMG_START_DATE_CALENDAR", ilUtil::getImagePath("calendar.png"));
-		$this->tpl->setVariable("TXT_START_DATE_CALENDAR", $this->lng->txt("open_calendar"));
-		$this->tpl->setVariable("TEXT_END_DATE", $this->lng->txt("end_date"));
-		$this->tpl->setVariable("VALUE_END_DATE", ilUtil::makeDateSelect("end_date", $this->object->getEndYear(), $this->object->getEndMonth(), $this->object->getEndDay()));
-		$this->tpl->setVariable("IMG_END_DATE_CALENDAR", ilUtil::getImagePath("calendar.png"));
-		$this->tpl->setVariable("TXT_END_DATE_CALENDAR", $this->lng->txt("open_calendar"));
-		$this->tpl->setVariable("TEXT_EVALUATION_ACCESS", $this->lng->txt("evaluation_access"));
-		$this->tpl->setVariable("DESCRIPTION_EVALUATION_ACCESS", $this->lng->txt("evaluation_access_description"));
-		$this->tpl->setVariable("TEXT_ENABLED", $this->lng->txt("enabled"));
-		$this->tpl->setVariable("VALUE_OFF", $this->lng->txt("evaluation_access_off"));
-		$this->tpl->setVariable("VALUE_ALL", $this->lng->txt("evaluation_access_all"));
-		$this->tpl->setVariable("VALUE_PARTICIPANTS", $this->lng->txt("evaluation_access_participants"));
+			include_once "./Services/AdvancedEditing/classes/class.ilObjAdvancedEditing.php";
+			$introduction = ilUtil::stripSlashes($_POST["introduction"], true, ilObjAdvancedEditing::_getUsedHTMLTagsAsString("survey"));
+			$this->object->setIntroduction($introduction);
+			$outro = ilUtil::stripSlashes($_POST["outro"], true, ilObjAdvancedEditing::_getUsedHTMLTagsAsString("survey"));
+			$this->object->setOutro($outro);
 
-		$this->tpl->setVariable("TEXT_ANONYMIZATION", $this->lng->txt("anonymization"));
+			$hasDatasets = $this->object->_hasDatasets($this->object->getSurveyId());
+			if (!$hasDatasets)
+			{
+				$anonymize = $_POST["anonymization"];
+				if ($anonymize)
+				{
+					if (strcmp($_POST['anonymization_options'], 'anonymize_without_code') == 0) $anonymize = ANONYMIZE_FREEACCESS;
+				}
+				$this->object->setAnonymize($anonymize);
+			}
+			$this->object->setShowQuestionTitles($_POST["show_question_titles"]);
+			$this->object->saveToDb();
+			if (strcmp($_SESSION["info"], "") != 0)
+			{
+				ilUtil::sendSuccess($_SESSION["info"] . "<br />" . $this->lng->txt("settings_saved"), true);
+			}
+			else
+			{
+				ilUtil::sendSuccess($this->lng->txt("settings_saved"), true);
+			}
+			$this->ctrl->redirect($this, "properties");
+		}
+	}
 
+	/**
+	* Display and fill the properties form of the test
+	*
+	* @access	public
+	*/
+	function propertiesObject($checkonly = FALSE)
+	{
+		$save = (strcmp($this->ctrl->getCmd(), "saveProperties") == 0) ? TRUE : FALSE;
+
+		include_once("./Services/Form/classes/class.ilPropertyFormGUI.php");
+		$form = new ilPropertyFormGUI();
+		$form->setFormAction($this->ctrl->getFormAction($this));
+		$form->setTableWidth("100%");
+		$form->setId("survey_properties");
+
+		// general properties
+		$header = new ilFormSectionHeaderGUI();
+		$header->setTitle($this->lng->txt("properties"));
+		$form->addItem($header);
+		
+		// online
+		$online = new ilCheckboxInputGUI($this->lng->txt("online"), "online");
+		$online->setValue(1);
+		$online->setChecked($this->object->isOnline());
+		$form->addItem($online);
+
+		// introduction
+		$intro = new ilTextAreaInputGUI($this->lng->txt("introduction"), "introduction");
+		$intro->setValue(ilUtil::prepareFormOutput($this->object->prepareTextareaOutput($this->object->getIntroduction())));
+		$intro->setRows(10);
+		$intro->setCols(80);
+		$intro->setUseRte(TRUE);
+		$intro->addPlugin("latex");
+		$intro->addPlugin("pastelatex");
+		$intro->addButton("latex");
+		$intro->setRTESupport($this->object->getId(), "svy", "survey");
+		$intro->setRteTagSet('full');
+		$form->addItem($intro);
+
+		// enable start date
+		$enablestartingtime = new ilCheckboxInputGUI($this->lng->txt("start_date"), "enabled_start_date");
+		$enablestartingtime->setValue(1);
+		$enablestartingtime->setOptionTitle($this->lng->txt("enabled"));
+		$enablestartingtime->setChecked($this->object->getStartDateEnabled());
+		// start date
+		$startingtime = new ilDateTimeInputGUI('', 'start_date');
+		$startingtime->setShowDate(true);
+		$startingtime->setShowTime(false);
+		if ($this->object->getStartDateEnabled())
+		{
+			$startingtime->setDate(new ilDate($this->object->getStartDate(), IL_CAL_DATE));
+		}
+		else
+		{
+			$startingtime->setDate(new ilDate(time(), IL_CAL_UNIX));
+		}
+		$enablestartingtime->addSubItem($startingtime);
+		$form->addItem($enablestartingtime);
+
+		// enable end date
+		$enableendingtime = new ilCheckboxInputGUI($this->lng->txt("end_date"), "enabled_end_date");
+		$enableendingtime->setValue(1);
+		$enableendingtime->setOptionTitle($this->lng->txt("enabled"));
+		$enableendingtime->setChecked($this->object->getEndDateEnabled());
+		// end date
+		$endingtime = new ilDateTimeInputGUI('', 'end_date');
+		$endingtime->setShowDate(true);
+		$endingtime->setShowTime(false);
+		if ($this->object->getEndDateEnabled())
+		{
+			$endingtime->setDate(new ilDate($this->object->getEndDate(), IL_CAL_DATE));
+		}
+		else
+		{
+			$endingtime->setDate(new ilDate(time(), IL_CAL_UNIX));
+		}
+		$enableendingtime->addSubItem($endingtime);
+		$form->addItem($enableendingtime);
+
+		// anonymization
+		$anonymization = new ilCheckboxInputGUI($this->lng->txt("anonymization"), "anonymization");
 		$hasDatasets = $this->object->_hasDatasets($this->object->getSurveyId());
 		if ($hasDatasets)
 		{
-			$this->tpl->setVariable("DISABLED_ANONYMIZATION", " disabled=\"disabled\"");
+			$anonymization->setDisabled(true);
 		}
-		
-		$this->tpl->setVariable("DESCRIPTION_ANONYMIZATION", $this->lng->txt("anonymize_survey_description"));
-		$this->tpl->setVariable("ANON_VALUE_OFF", $this->lng->txt("off"));
-		$this->tpl->setVariable("ANON_VALUE_ON", $this->lng->txt("on_additional"));
-		$this->tpl->setVariable("VALUE_NOCODES", $this->lng->txt("anonymize_without_code"));
-		$this->tpl->setVariable("VALUE_CODES", $this->lng->txt("anonymize_with_code"));
-		switch ($this->object->getAnonymize())
-		{
-			case ANONYMIZE_OFF:
-				$this->tpl->setVariable("ANON_CHECKED_OFF", " checked=\"checked\"");
-				$this->tpl->setVariable("CHECKED_CODES", " checked=\"checked\"");
-				break;
-			case ANONYMIZE_ON:
-				$this->tpl->setVariable("ANON_CHECKED_ON", " checked=\"checked\"");
-				$this->tpl->setVariable("CHECKED_CODES", " checked=\"checked\"");
-				break;
-			case ANONYMIZE_FREEACCESS:
-				$this->tpl->setVariable("ANON_CHECKED_ON", " checked=\"checked\"");
-				$this->tpl->setVariable("CHECKED_NOCODES", " checked=\"checked\"");
-				break;
-		}
-		
-		if ($this->object->getEndDateEnabled())
-		{
-			$this->tpl->setVariable("CHECKED_END_DATE", " checked=\"checked\"");
-		}
-		if ($this->object->getStartDateEnabled())
-		{
-			$this->tpl->setVariable("CHECKED_START_DATE", " checked=\"checked\"");
-		}
-		switch ($this->object->getEvaluationAccess())
-		{
-			case EVALUATION_ACCESS_OFF:
-				$this->tpl->setVariable("CHECKED_OFF", " checked=\"checked\"");
-				break;
-			case EVALUATION_ACCESS_ALL:
-				$this->tpl->setVariable("CHECKED_ALL", " checked=\"checked\"");
-				break;
-			case EVALUATION_ACCESS_PARTICIPANTS:
-				$this->tpl->setVariable("CHECKED_PARTICIPANTS", " checked=\"checked\"");
-				break;
-		}
-		if ($this->object->getStatus() == STATUS_ONLINE)
-		{
-			$this->tpl->setVariable("CHECKED_STATUS", " checked=\"checked\"");
-		}
-		$this->tpl->setVariable("SAVE", $this->lng->txt("save"));
-		$this->tpl->setVariable("CANCEL", $this->lng->txt("cancel"));
-		$this->tpl->setVariable("TEXT_SHOW_QUESTIONTITLES", $this->lng->txt("svy_show_questiontitles"));
-		if ($this->object->getShowQuestionTitles())
-		{
-			$this->tpl->setVariable("QUESTIONTITLES_CHECKED", " checked=\"checked\"");
-		}
-    $this->tpl->parseCurrentBlock();
+		$anonymization->setOptionTitle($this->lng->txt("on"));
+		$anonymization->setValue(1);
+		$anonymization->setChecked($this->object->getAnonymize());
+		$anonymization->setInfo($this->lng->txt("anonymize_survey_description"));
 
-		include_once "./Services/RTE/classes/class.ilRTE.php";
-		$rtestring = ilRTE::_getRTEClassname();
-		include_once "./Services/RTE/classes/class.$rtestring.php";
-		$rte = new $rtestring();
-		include_once "./classes/class.ilObject.php";
-		$obj_id = ilObject::_lookupObjectId($_GET["ref_id"]);
-		$obj_type = ilObject::_lookupType($_GET["ref_id"], TRUE);
-		$rte->addRTESupport($obj_id, $obj_type, "survey");
-  }
+		$anonymization_options = new ilRadioGroupInputGUI('', "anonymization_options");
+		if ($hasDatasets)
+		{
+			$anonymization_options->setDisabled(true);
+		}
+		$anonymization_options->addOption(new ilCheckboxOption($this->lng->txt("anonymize_without_code"), 'anonymize_without_code', ''));
+		$anonymization_options->addOption(new ilCheckboxOption($this->lng->txt("anonymize_with_code"), 'anonymize_with_code', ''));
+		$anonymization_options->setValue(($this->object->isAccessibleWithoutCode()) ? 'anonymize_without_code' : 'anonymize_with_code');
 
+		$anonymization->addSubItem($anonymization_options);
+		$form->addItem($anonymization);
+
+		// evaluation access
+		$evaluation_access = new ilRadioGroupInputGUI($this->lng->txt('evaluation_access'), "evaluation_access");
+		$evaluation_access->setInfo($this->lng->txt('evaluation_access_description'));
+		$evaluation_access->addOption(new ilCheckboxOption($this->lng->txt("evaluation_access_off"), EVALUATION_ACCESS_OFF, ''));
+		$evaluation_access->addOption(new ilCheckboxOption($this->lng->txt("evaluation_access_all"), EVALUATION_ACCESS_ALL, ''));
+		$evaluation_access->addOption(new ilCheckboxOption($this->lng->txt("evaluation_access_participants"), EVALUATION_ACCESS_PARTICIPANTS, ''));
+		$evaluation_access->setValue($this->object->getEvaluationAccess());
+		$form->addItem($evaluation_access);
+
+		// show question titles
+		$show_question_titles = new ilCheckboxInputGUI('', "show_question_titles");
+		$show_question_titles->setOptionTitle($this->lng->txt("svy_show_questiontitles"));
+		$show_question_titles->setValue(1);
+		$show_question_titles->setChecked($this->object->getShowQuestionTitles());
+		$form->addItem($show_question_titles);
+
+		// final statement
+		$finalstatement = new ilTextAreaInputGUI($this->lng->txt("outro"), "outro");
+		$finalstatement->setValue(ilUtil::prepareFormOutput($this->object->prepareTextareaOutput($this->object->getOutro())));
+		$finalstatement->setRows(10);
+		$finalstatement->setCols(80);
+		$finalstatement->setUseRte(TRUE);
+		$finalstatement->addPlugin("latex");
+		$finalstatement->addPlugin("pastelatex");
+		$finalstatement->addButton("latex");
+		$finalstatement->setRTESupport($this->object->getId(), "svy", "survey");
+		$finalstatement->setRteTagSet('full');
+		$form->addItem($finalstatement);
+
+		$form->addCommandButton("saveProperties", $this->lng->txt("save"));
+		$errors = false;
+		
+		if ($save)
+		{
+			$errors = !$form->checkInput();
+			$form->setValuesByPost();
+			if ($errors) $checkonly = false;
+		}
+		if (!$checkonly) $this->tpl->setVariable("ADM_CONTENT", $form->getHTML());
+		return $errors;
+	}
+	
 	/**
 	* Called when the filter in the question browser is activated
 	*
