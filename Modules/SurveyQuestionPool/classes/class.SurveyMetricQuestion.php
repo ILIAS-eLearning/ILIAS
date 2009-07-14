@@ -329,7 +329,7 @@ class SurveyMetricQuestion extends SurveyQuestion
 			);
 
 			// saving material uris in the database
-			$this->saveMaterialsToDb();
+			$this->saveMaterial();
 			
 			// save categories
 			$affectedRows = $ilDB->manipulateF("DELETE FROM svy_variable WHERE question_fi = %s",

@@ -370,10 +370,10 @@ class SurveyImportParserPre38 extends ilSaxParser
 								$questiontype = "SurveyMetricQuestion";
 								break;
 							case NOMINAL_QUESTION_IDENTIFIER:
-								$questiontype = "SurveyNominalQuestion";
+								$questiontype = "SurveyMultipleChoiceQuestion";
 								break;
 							case ORDINAL_QUESTION_IDENTIFIER:
-								$questiontype = "SurveyOrdinalQuestion";
+								$questiontype = "SurveySingleChoiceQuestion";
 								break;
 							case TEXT_QUESTION_IDENTIFIER:
 								$questiontype = "SurveyTextQuestion";
@@ -462,7 +462,7 @@ class SurveyImportParserPre38 extends ilSaxParser
 					{
 						switch ($this->activequestion->getQuestionType())
 						{
-							case "SurveyNominalQuestion":
+							case "SurveyMultipleQuestion":
 								switch ($meta["label"])
 								{
 									case "obligatory":
@@ -473,7 +473,7 @@ class SurveyImportParserPre38 extends ilSaxParser
 										break;
 								}
 								break;
-							case "SurveyOrdinalQuestion":
+							case "SurveySingleChoiceQuestion":
 								switch ($meta["label"])
 								{
 									case "obligatory":
@@ -659,8 +659,8 @@ class SurveyImportParserPre38 extends ilSaxParser
 						{
 							switch ($this->activequestion->getQuestiontype())
 							{
-								case "SurveyNominalQuestion":
-								case "SurveyOrdinalQuestion":
+								case "SurveyMultipleChoiceQuestion":
+								case "SurveySingleChoiceQuestion":
 									$this->activequestion->categories->addCategory($this->material[0]["text"]);
 									break;
 							}

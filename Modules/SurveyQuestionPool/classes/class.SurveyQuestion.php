@@ -2087,5 +2087,16 @@ class SurveyQuestion
 	{
 		return $this->material;
 	}
+	
+	public function setSubtype($a_subtype) 
+	{
+		// do nothing
+	}
+
+	public function getSubtype() 
+	{
+		// do nothing
+		return null;
+	}
 }
 ?>

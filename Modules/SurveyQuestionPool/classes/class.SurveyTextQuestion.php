@@ -231,7 +231,7 @@ class SurveyTextQuestion extends SurveyQuestion
 				array($this->getId(), $this->getMaxChars(), $this->getTextWidth(), $this->getTextHeight())
 			);
 
-			$this->saveMaterialsToDb();
+			$this->saveMaterial();
 		}
 		parent::saveToDb($original_id);
 	}

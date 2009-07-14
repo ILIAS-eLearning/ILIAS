@@ -743,7 +743,7 @@ class SurveyMatrixQuestion extends SurveyQuestion
 			);
 
 			// saving material uris in the database
-			$this->saveMaterialsToDb();
+			$this->saveMaterial();
 			if ($withanswers)
 			{
 				$this->saveColumnsToDb();
