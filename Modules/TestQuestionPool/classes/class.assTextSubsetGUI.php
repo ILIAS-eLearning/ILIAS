@@ -184,13 +184,6 @@ class assTextSubsetGUI extends assQuestionGUI
 		$duration->setRequired(FALSE);
 		$form->addItem($duration);
 	
-		if ($this->object->getId())
-		{
-			$hidden = new ilHiddenInputGUI("", "ID");
-			$hidden->setValue($this->object->getId());
-			$form->addItem($hidden);
-		}
-
 		// Choices
 		include_once "./Modules/TestQuestionPool/classes/class.ilSingleChoiceWizardInputGUI.php";
 		$choices = new ilSingleChoiceWizardInputGUI($this->lng->txt("answers"), "answers");

@@ -171,7 +171,8 @@ class SurveyMatrixQuestion extends SurveyQuestion
 	{
 		$this->SurveyQuestion($title, $description, $author, $questiontext, $owner);
 		$this->subtype = 0;
-		$this->columns = array();
+		include_once "./Modules/SurveyQuestionPool/classes/class.SurveyCategories.php";
+		$this->columns = new SurveyCategories();
 		$this->rows = array();
 		$this->neutralColumn = "";
 		$this->bipolar_adjective1 = "";
@@ -233,7 +234,7 @@ class SurveyMatrixQuestion extends SurveyQuestion
 */
 	function getColumnCount() 
 	{
-		return count($this->columns);
+		return $this->columns->getCategoryCount();
 	}
 
 /**
@@ -246,16 +247,7 @@ class SurveyMatrixQuestion extends SurveyQuestion
 */
 	function addColumnAtPosition($columnname, $position) 
 	{
-		if (array_key_exists($position, $this->columns))
-		{
-			$head = array_slice($this->columns, 0, $position);
-			$tail = array_slice($this->columns, $position);
-			$this->columns = array_merge($head, array($columnname), $tail);
-		}
-		else
-		{
-			array_push($this->columns, $columnname);
-		}
+		$this->columns->addCategoryAtPosition($columnname, $position);
 	}
 
 /**
@@ -268,7 +260,7 @@ class SurveyMatrixQuestion extends SurveyQuestion
 */
 	function addColumn($columnname) 
 	{
-		array_push($this->columns, $columnname);
+		$this->columns->addCategory($columnname);
 	}
 	
 /**
@@ -280,7 +272,7 @@ class SurveyMatrixQuestion extends SurveyQuestion
 */
 	function addColumnArray($columns) 
 	{
-		$this->columns = array_merge($this->columns, $columns);
+		$this->columns->addCategoryArray($columns);
 	}
 	
 /**
@@ -292,8 +284,7 @@ class SurveyMatrixQuestion extends SurveyQuestion
 */
 	function removeColumn($index)
 	{
-		unset($this->columns[$index]);
-		$this->columns = array_values($this->columns);
+		$this->columns->removeCategory($index);
 	}
 
 /**
@@ -305,11 +296,7 @@ class SurveyMatrixQuestion extends SurveyQuestion
 */
 	function removeColumns($array)
 	{
-		foreach ($array as $index)
-		{
-			unset($this->columns[$index]);
-		}
-		$this->columns = array_values($this->columns);
+		$this->columns->removeCategories($array);
 	}
 
 /**
@@ -321,13 +308,15 @@ class SurveyMatrixQuestion extends SurveyQuestion
 */
 	function removeColumnWithName($name)
 	{
-		foreach ($this->columns as $index => $column)
-		{
-			if (strcmp($column, $name) == 0)
-			{
-				return $this->removeColumn($index);
-			}
-		}
+		$this->columns->removeCategoryWithName($name);
+	}
+	
+	/**
+	* Return the columns
+	*/
+	public function getColumns()
+	{
+		return $this->columns;
 	}
 	
 /**
@@ -340,21 +329,7 @@ class SurveyMatrixQuestion extends SurveyQuestion
 */
 	function getColumn($index)
 	{
-		if (array_key_exists($index, $this->columns))
-		{
-			return $this->columns[$index];
-		}
-		else
-		{
-			if (($index = $this->getColumnCount()) && (strlen($this->getNeutralColumn())))
-			{
-				return $this->getNeutralColumn();
-			}
-			else
-			{
-				return "";
-			}
-		}
+		return $this->columns->getCategory($index);
 	}
 
 /**
@@ -366,14 +341,7 @@ class SurveyMatrixQuestion extends SurveyQuestion
 */
 	function getColumnIndex($name)
 	{
-		foreach ($this->columns as $index => $column)
-		{
-			if (strcmp($column, $name) == 0)
-			{
-				return $index;
-			}
-		}
-		return -1;
+		return $this->columns->getCategoryIndex($name);
 	}
 	
 	
@@ -385,7 +353,7 @@ class SurveyMatrixQuestion extends SurveyQuestion
 */
 	function flushColumns() 
 	{
-		$this->columns = array();
+		$this->columns->flushCategories();
 	}
 	
 /**
@@ -403,13 +371,32 @@ class SurveyMatrixQuestion extends SurveyQuestion
 * Adds a row to the question
 *
 * @param string $a_text The text of the row
-* @access public
 */
 	function addRow($a_text)
 	{
 		array_push($this->rows, $a_text);
 	}
 	
+	/**
+	* Adds a row at a given position
+	*
+	* @param string $a_text The text of the row
+	* @param integer $a_position The row position
+	*/
+	function addRowAtPosition($a_text, $a_position)
+	{
+		if (array_key_exists($a_position, $this->rows))
+		{
+			$head = array_slice($this->rows, 0, $a_position);
+			$tail = array_slice($this->rows, $a_position);
+			$this->rows = array_merge($head, array($a_text), $tail);
+		}
+		else
+		{
+			array_push($this->rows, $a_text);
+		}
+	}
+
 /**
 * Empties the row list
 *
@@ -435,6 +422,26 @@ class SurveyMatrixQuestion extends SurveyQuestion
 		}
 		return "";
 	}
+
+	function moveRowUp($index)
+	{
+		if ($index > 0)
+		{
+			$temp = $this->rows[$index-1];
+			$this->rows[$index - 1] = $this->rows[$index];
+			$this->rows[$index] = $temp;
+		}
+	}
+	
+	function moveRowDown($index)
+	{
+		if ($index < (count($this->rows)-1))
+		{
+			$temp = $this->rows[$index+1];
+			$this->rows[$index + 1] = $this->rows[$index];
+			$this->rows[$index] = $temp;
+		}
+	}
 	
 /**
 * Removes rows from the question
@@ -449,6 +456,17 @@ class SurveyMatrixQuestion extends SurveyQuestion
 		{
 			unset($this->rows[$index]);
 		}
+		$this->rows = array_values($this->rows);
+	}
+
+	/**
+	* Removes a row
+	*
+	* @param integer $index The index of the row to be removed
+	*/
+	public function removeRow($index)
+	{
+		unset($this->rows[$index]);
 		$this->rows = array_values($this->rows);
 	}
 
@@ -744,11 +762,9 @@ class SurveyMatrixQuestion extends SurveyQuestion
 
 			// saving material uris in the database
 			$this->saveMaterial();
-			if ($withanswers)
-			{
-				$this->saveColumnsToDb();
-				$this->saveRowsToDb();
-			}
+
+			$this->saveColumnsToDb();
+			$this->saveRowsToDb();
 		}
 		parent::saveToDb($original_id);
 	}
@@ -839,6 +855,7 @@ class SurveyMatrixQuestion extends SurveyQuestion
 		if (strlen($this->getNeutralColumn()))
 		{
 			$column_id = $this->saveColumnToDb($this->getNeutralColumn(), 1);
+			$next_id = $ilDB->nextId('svy_variable');
 			$affectedRows = $ilDB->manipulateF("INSERT INTO svy_variable (variable_id, category_fi, question_fi, value1, value2, sequence, tstamp) VALUES (%s, %s, %s, %s, %s, %s, %s)",
 				array('integer','integer','integer','float','float','integer','integer'),
 				array($next_id, $column_id, $question_id, ($i + 1), NULL, $i, time())
@@ -1058,6 +1075,7 @@ class SurveyMatrixQuestion extends SurveyQuestion
 		}
 	}
 
+
 /**
 * Adds standard numbers as columns
 *
@@ -1093,13 +1111,12 @@ class SurveyMatrixQuestion extends SurveyQuestion
 		$phrase_id = $next_id;
 				
 		$counter = 1;
-	  foreach ($phrases as $column_index) 
+	  foreach ($phrases as $category) 
 		{
-			$column = $this->getColumn($column_index);
 			$next_id = $ilDB->nextId('svy_category');
 			$affectedRows = $ilDB->manipulateF("INSERT INTO svy_category (category_id, title, defaultvalue, owner_fi, neutral, tstamp) VALUES (%s, %s, %s, %s, %s, %s)",
 				array('integer','text','text','integer','text','integer'),
-				array($next_id, $column, 1, $ilUser->getId(), 0, time())
+				array($next_id, $category, 1, $ilUser->getId(), 0, time())
 			);
 			$column_id = $next_id;
 			$next_id = $ilDB->nextId('svy_phrase_cat');
@@ -2449,6 +2466,10 @@ class SurveyMatrixQuestion extends SurveyQuestion
 	{
 		return ($this->rowImages) ? 1 : 0;
 	}
-	
+
+	public function getRows()
+	{
+		return $this->rows;
+	}
 }
 ?>

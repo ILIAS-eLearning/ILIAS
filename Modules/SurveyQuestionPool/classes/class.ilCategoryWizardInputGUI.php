@@ -35,6 +35,11 @@ class ilCategoryWizardInputGUI extends ilTextInputGUI
 	protected $disabled_scale = true;
 	protected $show_wizard = false;
 	protected $show_save_phrase = false;
+	protected $categorytext;
+	protected $show_neutral_category = false;
+	protected $neutral_category;
+	protected $neutral_category_title;
+	protected $neutral_category_scale;
 	
 	/**
 	* Constructor
@@ -45,8 +50,62 @@ class ilCategoryWizardInputGUI extends ilTextInputGUI
 	function __construct($a_title = "", $a_postvar = "")
 	{
 		parent::__construct($a_title, $a_postvar);
+		global $lng;
 		$this->show_wizard = false;
 		$this->show_save_phrase = false;
+		$this->categorytext = $lng->txt('answer');
+	}
+	
+	protected function calcNeutralCategoryScale()
+	{
+		if (is_object($this->values))
+		{
+			return $this->values->getCategoryCount()+1;
+		}
+		else
+		{
+			return 99;
+		}
+	}
+	
+	public function setShowNeutralCategory($a_value)
+	{
+		$this->show_neutral_category = $a_value;
+	}
+	
+	public function getShowNeutralCategory()
+	{
+		return $this->show_neutral_category;
+	}
+	
+	public function setNeutralCategory($a_text)
+	{
+		$this->neutral_category = $a_text;
+	}
+	
+	public function getNeutralCategory()
+	{
+		return $this->neutral_category;
+	}
+	
+	public function setNeutralCategoryScale($a_scale)
+	{
+		$this->neutral_category_scale = $a_scale;
+	}
+	
+	public function getNeutralCategoryScale()
+	{
+		return $this->neutral_category_scale;
+	}
+	
+	public function setNeutralCategoryTitle($a_title)
+	{
+		$this->neutral_category_title = $a_title;
+	}
+	
+	public function getNeutralCategoryTitle()
+	{
+		return $this->neutral_category_title;
 	}
 
 	/**
@@ -118,6 +177,16 @@ class ilCategoryWizardInputGUI extends ilTextInputGUI
 	function getShowWizard()
 	{
 		return $this->show_wizard;
+	}
+	
+	public function setCategoryText($a_text)
+	{
+		$this->categorytext = $a_text;
+	}
+	
+	public function getCategoryText()
+	{
+		return $this->categorytext;
 	}
 	
 	function setShowSavePhrase($a_value)
@@ -221,7 +290,7 @@ class ilCategoryWizardInputGUI extends ilTextInputGUI
 			$tpl->setCurrentBlock("row");
 			$class = ($i % 2 == 0) ? "even" : "odd";
 			if ($i == 0) $class .= " first";
-			if ($i == count($this->values)-1) $class .= " last";
+			if ($i == $this->values->getCategoryCount()-1) $class .= " last";
 			$tpl->setVariable("ROW_CLASS", $class);
 			$tpl->setVariable("POST_VAR", $this->getPostVar());
 			$tpl->setVariable("ROW_NUMBER", $i);
@@ -262,9 +331,45 @@ class ilCategoryWizardInputGUI extends ilTextInputGUI
 			$tpl->setVariable("VALUE_SAVE_PHRASE", $lng->txt('save_phrase'));
 			$tpl->parseCurrentBlock();
 		}
+		
+		if ($this->getShowNeutralCategory())
+		{
+			if (strlen($this->getNeutralCategory()))
+			{
+				$tpl->setCurrentBlock("prop_text_neutral_propval");
+				$tpl->setVariable("PROPERTY_VALUE", ilUtil::prepareFormOutput($this->getNeutralCategory()));
+				$tpl->parseCurrentBlock();
+			}
+			if (strlen($this->getNeutralCategoryTitle()))
+			{
+				$tpl->setCurrentBlock("neutral_category_title");
+				$tpl->setVariable("CATEGORY_TITLE", ilUtil::prepareFormOutput($this->getNeutralCategoryTitle()));
+				$tpl->parseCurrentBlock();
+			}
+			$tpl->setCurrentBlock("prop_scale_neutral_propval");
+			$scale = (strlen($this->getNeutralCategoryScale())) ? $this->getNeutralCategoryScale() : $this->calcNeutralCategoryScale();
+			$tpl->setVariable("PROPERTY_VALUE", ilUtil::prepareFormOutput($scale));
+			$tpl->parseCurrentBlock();
+
+			$tpl->setCurrentBlock('neutral_row');
+			$tpl->setVariable("POST_VAR", $this->getPostVar());
+			$tpl->setVariable("ID", $this->getPostVar() . "_neutral");
+			$tpl->setVariable("SIZE", $this->getSize());
+			$tpl->setVariable("MAXLENGTH", $this->getMaxLength());
+			if ($this->getDisabled())
+			{
+				$tpl->setVariable("DISABLED", " disabled=\"disabled\"");
+			}
+			$tpl->setVariable("SCALE_ID", $this->getPostVar() . "_neutral_scale");
+			if ($this->getDisabledScale())
+			{
+				$tpl->setVariable("DISABLED_SCALE", " disabled=\"disabled\"");
+			}
+			$tpl->parseCurrentBlock();
+		}
 
 		$tpl->setVariable("ELEMENT_ID", $this->getPostVar());
-		$tpl->setVariable("ANSWER_TEXT", $lng->txt('answer'));
+		$tpl->setVariable("ANSWER_TEXT", $this->getCategoryText());
 		$tpl->setVariable("SCALE_TEXT", $lng->txt('scale'));
 		$tpl->setVariable("ACTIONS_TEXT", $lng->txt('actions'));
 
