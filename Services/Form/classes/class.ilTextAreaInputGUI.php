@@ -38,6 +38,7 @@ class ilTextAreaInputGUI extends ilSubEnabledFormPropertyGUI
 	protected $usert;
 	protected $rtetags;
 	protected $plugins;
+	protected $removeplugins;
 	protected $buttons;
 	protected $rtesupport;
 	
@@ -83,6 +84,7 @@ class ilTextAreaInputGUI extends ilSubEnabledFormPropertyGUI
 		$this->setType("textarea");
 		$this->setRteTagSet("standard");
 		$this->plugins = array();
+		$this->removeplugins = array();
 		$this->buttons = array();
 		$this->rteSupport = array();
 	}
@@ -184,7 +186,7 @@ class ilTextAreaInputGUI extends ilSubEnabledFormPropertyGUI
 	*/
 	function removePlugin($a_plugin)
 	{
-		unset($this->plugins[$a_plugin]);
+		$this->removeplugins[$a_plugin] = $a_plugin;
 	}
 
 	/**
@@ -338,6 +340,13 @@ class ilTextAreaInputGUI extends ilSubEnabledFormPropertyGUI
 				if (strlen($plugin))
 				{
 					$rte->addPlugin($plugin);
+				}
+			}
+			foreach ($this->removeplugins as $plugin)
+			{
+				if (strlen($plugin))
+				{
+					$rte->removePlugin($plugin);
 				}
 			}
 

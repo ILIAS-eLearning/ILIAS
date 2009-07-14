@@ -1089,12 +1089,11 @@ class ilObjSurvey extends ilObject
 * Gets the status of the display_question_titles attribute
 *
 * @return integer The status of the display_question_titles attribute
-* @access public
 * @see $display_question_titles
 */
-	function getShowQuestionTitles() 
+	public function getShowQuestionTitles() 
 	{
-		return ($this->display_question_titles) ? $this->display_question_titles : QUESTIONTITLES_HIDDEN;
+		return ($this->display_question_titles) ? 1 : 0;
 	}
 
 	/**
@@ -1105,7 +1104,7 @@ class ilObjSurvey extends ilObject
 	*/
 	public function setShowQuestionTitles($a_show) 
 	{
-		$this->display_question_title = ($a_show) ? $a_show : QUESTIONTITLES_HIDDEN;
+		$this->display_question_titles = ($a_show) ? 1 : 0;
 	}
 
 /**
@@ -1116,7 +1115,7 @@ class ilObjSurvey extends ilObject
 */
 	function showQuestionTitles() 
 	{
-		$this->display_question_titles = QUESTIONTITLES_VISIBLE;
+		$this->display_question_titles = 1;
 	}
 
 /**
@@ -1127,7 +1126,7 @@ class ilObjSurvey extends ilObject
 */
 	function hideQuestionTitles() 
 	{
-		$this->display_question_titles = QUESTIONTITLES_HIDDEN;
+		$this->display_question_titles = 0;
 	}
 	
 /**
