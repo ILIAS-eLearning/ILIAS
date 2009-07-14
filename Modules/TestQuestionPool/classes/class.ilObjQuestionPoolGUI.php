@@ -237,27 +237,6 @@ class ilObjQuestionPoolGUI extends ilObjectGUI
 			$form->checkInput();
 		}
 		$this->tpl->setVariable("ADM_CONTENT", $form->getHTML());
-		return;
-
-		$this->tpl->setCurrentBlock("adm_content");
-		$this->tpl->setVariable("FORM_ACTION", $this->ctrl->getFormAction($this));
-		$this->tpl->setVariable("HEADING_GENERAL", $this->lng->txt("qpl_general_properties"));
-		$this->tpl->setVariable("PROPERTY_ONLINE", $this->lng->txt("qpl_online_property"));
-		$this->tpl->setVariable("PROPERTY_ONLINE_DESCRIPTION", $this->lng->txt("qpl_online_property_description"));
-		if ($this->object->getOnline() == 1)
-		{
-			$this->tpl->setVariable("PROPERTY_ONLINE_CHECKED", " checked=\"checked\"");
-		}
-		global $rbacsystem;
-		if ($rbacsystem->checkAccess("write", $this->ref_id))
-		{
-			$this->tpl->setVariable("SAVE", $this->lng->txt("save"));
-		}
-		else
-		{
-			$this->tpl->setVariable("PROPERTY_ONLINE_DISABLED", " disabled=\"disabled\"");
-		}
-		$this->tpl->parseCurrentBlock();
 	}
 	
 	/**
@@ -1068,7 +1047,7 @@ class ilObjQuestionPoolGUI extends ilObjectGUI
 	/**
 	* copy one or more question objects to the clipboard
 	*/
-	function copyObject()
+	public function copyObject()
 	{
 		if (count($_POST["q_id"]) > 0)
 		{

@@ -174,91 +174,119 @@ class ilObjSurveyQuestionPoolGUI extends ilObjectGUI
 	*/
 	function propertiesObject()
 	{
-		global $rbacsystem;
-		
-		$this->tpl->addBlockFile("ADM_CONTENT", "adm_content", "tpl.il_svy_qpl_properties.html", "Modules/SurveyQuestionPool");
-		$this->tpl->setCurrentBlock("adm_content");
-		$this->tpl->setVariable("FORM_ACTION", $this->ctrl->getFormAction($this));
-		$this->tpl->setVariable("HEADING_GENERAL", $this->lng->txt("spl_general_properties"));
-		$this->tpl->setVariable("PROPERTY_ONLINE", $this->lng->txt("spl_online_property"));
-		$this->tpl->setVariable("PROPERTY_ONLINE_DESCRIPTION", $this->lng->txt("spl_online_property_description"));
-		if ($this->object->getOnline() == 1)
+		$save = ((strcmp($this->ctrl->getCmd(), "save") == 0)) ? true : false;
+
+		include_once("./Services/Form/classes/class.ilPropertyFormGUI.php");
+		$form = new ilPropertyFormGUI();
+		$form->setFormAction($this->ctrl->getFormAction($this, 'properties'));
+		$form->setTitle($this->lng->txt("properties"));
+		$form->setMultipart(false);
+		$form->setId("properties");
+
+		// online
+		$online = new ilCheckboxInputGUI($this->lng->txt("spl_online_property"), "online");
+		$online->setInfo($this->lng->txt("spl_online_property_description"));
+		$online->setChecked($this->object->getOnline());
+		$form->addItem($online);
+
+		$qplSetting = new ilSetting("spl");
+		$tablecols = new ilCustomInputGUI($this->lng->txt('spl_browsercolumns'), 'browsercolumn');
+		$tablecols->setInfo($this->lng->txt("spl_browsercolumns_description"));
+		$description = new ilCheckboxInputGUI($this->lng->txt("description"), "description");
+		$description->setChecked($qplSetting->get("description", 1) ? true : false);
+		$type = new ilCheckboxInputGUI($this->lng->txt("question_type"), "type");
+		$type->setChecked($qplSetting->get("type", 1) ? true : false);
+		$author = new ilCheckboxInputGUI($this->lng->txt("author"), "author");
+		$author->setChecked($qplSetting->get("author", 1) ? true : false);
+		$created = new ilCheckboxInputGUI($this->lng->txt("create_date"), "created");
+		$created->setChecked($qplSetting->get("created", 1) ? true : false);
+		$updated = new ilCheckboxInputGUI($this->lng->txt("last_update"), "updated");
+		$updated->setChecked($qplSetting->get("updated", 1) ? true : false);
+		$tablecols->addSubitem($description);
+		$tablecols->addSubitem($type);
+		$tablecols->addSubitem($author);
+		$tablecols->addSubitem($created);
+		$tablecols->addSubitem($updated);
+		$form->addItem($tablecols);
+
+		$form->addCommandButton("saveProperties", $this->lng->txt("save"));
+
+		if ($save)
 		{
-			$this->tpl->setVariable("PROPERTY_ONLINE_CHECKED", " checked=\"checked\"");
+			$form->checkInput();
 		}
-		if ($rbacsystem->checkAccess('write', $this->ref_id)) 
-		{
-			$this->tpl->setVariable("SAVE", $this->lng->txt("save"));
-		}
-		else
-		{
-			$this->tpl->setVariable("PROPERTY_ONLINE_DISABLED", " disabled=\"disabled\"");
-		}
-		$this->tpl->parseCurrentBlock();
+		$this->tpl->setVariable("ADM_CONTENT", $form->getHTML());
 	}
 	
 	/**
 	* Save questionpool properties
 	*/
-	function savePropertiesObject()
+	public function savePropertiesObject()
 	{
 		$qpl_online = $_POST["online"];
 		if (strlen($qpl_online) == 0) $qpl_online = "0";
 		$this->object->setOnline($qpl_online);
 		$this->object->saveToDb();
+		
+		$qplSetting = new ilSetting("spl");
+		$qplSetting->set('description', ($_POST["description"]) ? 1 : 0);
+		$qplSetting->set('type', ($_POST["type"]) ? 1 : 0);
+		$qplSetting->set('author', ($_POST["author"]) ? 1 : 0);
+		$qplSetting->set('created', ($_POST["created"]) ? 1 : 0);
+		$qplSetting->set('updated', ($_POST["updated"]) ? 1 : 0);
 		ilUtil::sendSuccess($this->lng->txt("saved_successfully"), true);
 		$this->ctrl->redirect($this, "properties");
 	}
 	
 
-/**
-* Copies checked questions in the questionpool to a clipboard
-*
-* Copies checked questions in the questionpool to a clipboard
-*
-* @access public
-*/
-	function copyObject()
+	/**
+	* Copies checked questions in the questionpool to a clipboard
+	*/
+	public function copyObject()
 	{
-		// create an array of all checked checkboxes
-		$checked_questions = array();
-		foreach ($_POST as $key => $value) 
+		if (count($_POST["q_id"]) > 0)
 		{
-			if (preg_match("/cb_(\d+)/", $key, $matches)) 
+			foreach ($_POST["q_id"] as $key => $value)
 			{
-				array_push($checked_questions, $matches[1]);
+				$this->object->copyToClipboard($value);
 			}
+			ilUtil::sendInfo($this->lng->txt("spl_copy_insert_clipboard"), true);
 		}
-		// copy button was pressed
-		if (count($checked_questions) > 0) 
+		else
 		{
-			$_SESSION["spl_copied_questions"] = $checked_questions;
-		} 
-		else if (count($checked_questions) == 0) 
-		{
-			ilUtil::sendInfo($this->lng->txt("qpl_copy_select_none"));
-			$_SESSION["spl_copied_questions"] = array();
+			ilUtil::sendInfo($this->lng->txt("spl_copy_select_none"), true);
 		}
-		$this->questionsObject();
+		$this->ctrl->redirect($this, "questions");
 	}	
+	
+	/**
+	* mark one or more question objects for moving
+	*/
+	public function moveObject()
+	{
+		if (count($_POST["q_id"]) > 0)
+		{
+			foreach ($_POST["q_id"] as $key => $value)
+			{
+				$this->object->moveToClipboard($value);
+			}
+			ilUtil::sendInfo($this->lng->txt("spl_move_insert_clipboard"), true);
+		}
+		else
+		{
+			ilUtil::sendInfo($this->lng->txt("spl_move_select_none"), true);
+		}
+		$this->ctrl->redirect($this, "questions");
+	}
 	
 	/**
 	* export a question
 	*/
-	function exportQuestionsObject()
+	public function exportQuestionObject()
 	{
-		// create an array of all checked checkboxes
-		$checked_questions = array();
-		foreach ($_POST as $key => $value) {
-			if (preg_match("/cb_(\d+)/", $key, $matches)) {
-				array_push($checked_questions, $matches[1]);
-			}
-		}
-		
-		// export button was pressed
-		if (count($checked_questions) > 0)
+		if (is_array($_POST['q_id']) && count($_POST['q_id']) > 0)
 		{
-			$this->createExportFileObject($checked_questions);
+			$this->createExportFileObject($_POST['q_id']);
 		}
 		else
 		{
@@ -267,14 +295,10 @@ class ilObjSurveyQuestionPoolGUI extends ilObjectGUI
 		}
 	}
 	
-/**
-* Creates a confirmation form to delete questions from the question pool
-*
-* Creates a confirmation form to delete questions from the question pool
-*
-* @access public
-*/
-	function deleteQuestionsObject()
+	/**
+	* Creates a confirmation form to delete questions from the question pool
+	*/
+	public function deleteQuestionsObject()
 	{
 		global $rbacsystem;
 		
@@ -356,84 +380,23 @@ class ilObjSurveyQuestionPoolGUI extends ilObjectGUI
 		$this->ctrl->redirect($this, "questions");
 	}
 	
-/**
-* Creates a confirmation form to paste copied questions in the question pool
-*
-* Creates a confirmation form to paste copied questions in the question pool
-*
-* @access public
-*/
+	/**
+	* paste questios from the clipboard into the question pool
+	*/
 	function pasteObject()
 	{
-		ilUtil::sendInfo();
-
-		// paste button was pressed
-		if (count($_SESSION["spl_copied_questions"]) == 0)
+		if (array_key_exists("spl_clipboard", $_SESSION))
 		{
-			ilUtil::sendQuestion($this->lng->txt("qpl_past_questions_confirmation"));
+			$this->object->pasteFromClipboard();
+			ilUtil::sendSuccess($this->lng->txt("spl_paste_success"), true);
 		}
-		$this->tpl->addBlockFile("ADM_CONTENT", "adm_content", "tpl.il_svy_qpl_confirm_paste_questions.html", "Modules/SurveyQuestionPool");
-		$questions_info =& $this->object->getQuestionsInfo($_SESSION["spl_copied_questions"]);
-		$colors = array("tblrow1", "tblrow2");
-		$counter = 0;
-		include_once "./Modules/SurveyQuestionPool/classes/class.SurveyQuestion.php";
-		foreach ($questions_info as $data)
+		else
 		{
-			$this->tpl->setCurrentBlock("row");
-			$this->tpl->setVariable("COLOR_CLASS", $colors[$counter % 2]);
-			$this->tpl->setVariable("TXT_TITLE", $data["title"]);
-			$this->tpl->setVariable("TXT_DESCRIPTION", $data["description"]);
-			$this->tpl->setVariable("TXT_TYPE", SurveyQuestion::_getQuestionTypeName($data["type_tag"]));
-			$this->tpl->parseCurrentBlock();
-			$counter++;
+			ilUtil::sendInfo($this->lng->txt("spl_paste_no_objects"), true);
 		}
-		foreach ($questions_info as $data)
-		{
-			$this->tpl->setCurrentBlock("hidden");
-			$this->tpl->setVariable("HIDDEN_NAME", "id_" . $data["question_id"]);
-			$this->tpl->setVariable("HIDDEN_VALUE", $data["question_id"]);
-			$this->tpl->parseCurrentBlock();
-		}
-
-		$this->tpl->setCurrentBlock("adm_content");
-		$this->tpl->setVariable("TXT_TITLE", $this->lng->txt("title"));
-		$this->tpl->setVariable("TXT_DESCRIPTION", $this->lng->txt("description"));
-		$this->tpl->setVariable("TXT_TYPE", $this->lng->txt("question_type"));
-		$this->tpl->setVariable("BTN_CONFIRM", $this->lng->txt("confirm"));
-		$this->tpl->setVariable("BTN_CANCEL", $this->lng->txt("cancel"));
-		$this->tpl->setVariable("FORM_ACTION", $this->ctrl->getFormAction($this));
-		$this->tpl->parseCurrentBlock();
-	}
-
-	/**
-	* paste questions
-	*/
-	function confirmPasteQuestionsObject()
-	{
-		// paste questions after confirmation
-		ilUtil::sendSuccess($this->lng->txt("qpl_questions_pasted"), true);
-		$checked_questions = array();
-		foreach ($_POST as $key => $value) {
-			if (preg_match("/id_(\d+)/", $key, $matches)) {
-				array_push($checked_questions, $matches[1]);
-			}
-		}
-		foreach ($checked_questions as $key => $value) {
-			$this->object->paste($value);
-		}
-		
 		$this->ctrl->redirect($this, "questions");
 	}
-	
-	/**
-	* cancel paste questions
-	*/
-	function cancelPasteQuestionsObject()
-	{
-		// delete questions after confirmation
-		$this->ctrl->redirect($this, "questions");
-	}
-	
+
 	/**
 	* display the import form to import questions into the questionpool
 	*/
@@ -542,7 +505,7 @@ class ilObjSurveyQuestionPoolGUI extends ilObjectGUI
 	/*
 	* list all export files
 	*/
-	function exportObject()
+	public function exportObject()
 	{
 		global $tree;
 
