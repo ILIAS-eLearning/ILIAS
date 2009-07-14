@@ -9645,3 +9645,4 @@ dateplaner#:#cal_day_start#:#Tagesbeginn
 dateplaner#:#cal_day_end#:#Tagesende
 dateplaner#:#cal_day_week_view#:#Einstellungen Tages/Wochenansicht
 dateplaner#:#cal_week_month_view#:#Einstellungen Wochen/Monatsansicht
+common#:#header_visible_registration#:#Im Registrierungsformular

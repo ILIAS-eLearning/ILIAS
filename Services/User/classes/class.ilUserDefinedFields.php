@@ -40,6 +40,7 @@ class ilUserDefinedFields
 	var $db = null;
 	var $definitions = array();
 
+	private $field_visible_registration = 0;
 
 	/**
 	 * Constructor is private -> use getInstance
@@ -127,6 +128,19 @@ class ilUserDefinedFields
 		foreach($this->definitions as $id => $definition)
 		{
 			if($definition['visible'])
+			{
+				$visible_definition[$id] = $definition;
+			}
+		}
+		return $visible_definition ? $visible_definition : array();
+	}
+
+	
+	public function getRegistrationDefinitions()
+	{
+		foreach($this->definitions as $id => $definition)
+		{
+			if($definition['visible_registration'])
 			{
 				$visible_definition[$id] = $definition;
 			}
@@ -247,6 +261,14 @@ class ilUserDefinedFields
 		return $this->field_course_export;
 	}
 
+	public function enableRegistration($a_visible_registration)
+	{
+		$this->field_visible_registration = $a_visible_registration;
+	}
+	public function enabledRegistration()
+	{
+		return $this->field_visible_registration;
+	}
 
 	function fieldValuesToSelectArray($a_values)
 	{
@@ -301,16 +323,17 @@ class ilUserDefinedFields
 		$next_id = $ilDB->nextId('udf_definition');
 		
 		$values = array(
-			'field_id'		=> array('integer',$next_id),
-			'field_name'	=> array('text',$this->getFieldName()),
-			'field_type'	=> array('integer',$this->getFieldType()),
-			'field_values'	=> array('clob',$this->getFieldValues()),
-			'visible'		=> array('integer',$this->enabledVisible()),
-			'changeable'	=> array('integer',$this->enabledChangeable()),
-			'required'		=> array('integer',$this->enabledRequired()),
-			'searchable'	=> array('integer',$this->enabledSearchable()),
-			'export'		=> array('integer',$this->enabledExport()),
-			'course_export'	=> array('integer',$this->enabledCourseExport()));
+			'field_id'					=> array('integer',$next_id),
+			'field_name'				=> array('text',$this->getFieldName()),
+			'field_type'				=> array('integer',$this->getFieldType()),
+			'field_values'				=> array('clob',$this->getFieldValues()),
+			'visible'					=> array('integer',$this->enabledVisible()),
+			'changeable'				=> array('integer',$this->enabledChangeable()),
+			'required'					=> array('integer',$this->enabledRequired()),
+			'searchable'				=> array('integer',$this->enabledSearchable()),
+			'export'					=> array('integer',$this->enabledExport()),
+			'course_export'			=> array('integer',$this->enabledCourseExport()),
+			'registration_visible'	=> array('integer',$this->enabledRegistration()));
 			
 		$ilDB->insert('udf_definition',$values);
 
@@ -344,15 +367,16 @@ class ilUserDefinedFields
 		global $ilDB;
 		
 		$values = array(
-			'field_name'	=> array('text',$this->getFieldName()),
-			'field_type'	=> array('integer',$this->getFieldType()),
-			'field_values'	=> array('clob',$this->getFieldValues()),
-			'visible'		=> array('integer',$this->enabledVisible()),
-			'changeable'	=> array('integer',$this->enabledChangeable()),
-			'required'		=> array('integer',$this->enabledRequired()),
-			'searchable'	=> array('integer',$this->enabledSearchable()),
-			'export'		=> array('integer',$this->enabledExport()),
-			'course_export'	=> array('integer',$this->enabledCourseExport()));
+			'field_name'				=> array('text',$this->getFieldName()),
+			'field_type'				=> array('integer',$this->getFieldType()),
+			'field_values'				=> array('clob',$this->getFieldValues()),
+			'visible'					=> array('integer',$this->enabledVisible()),
+			'changeable'				=> array('integer',$this->enabledChangeable()),
+			'required'					=> array('integer',$this->enabledRequired()),
+			'searchable'				=> array('integer',$this->enabledSearchable()),
+			'export'					=> array('integer',$this->enabledExport()),
+			'course_export'			=> array('integer',$this->enabledCourseExport()),
+			'registration_visible'	=> array('integer',$this->enabledRegistration()));
 
 		$ilDB->update('udf_definition',$values,array('field_id' => array('integer',$a_id)));
 		$this->__read();
@@ -388,6 +412,7 @@ class ilUserDefinedFields
 			$this->definitions[$row->field_id]['searchable'] = $row->searchable;
 			$this->definitions[$row->field_id]['export'] = $row->export;
 			$this->definitions[$row->field_id]['course_export'] = $row->course_export;
+			$this->definitions[$row->field_id]['visible_registration'] = $row->registration_visible;
 
 		}
 
@@ -457,6 +482,7 @@ class ilUserDefinedFields
                 "Searchable" => $definition["searchable"]? "TRUE" : "FALSE",
                 "CourseExport" => $definition["course_export"]? "TRUE" : "FALSE",
                 "Export" => $definition["export"]? "TRUE" : "FALSE",
+                "RegistrationVisible" => $definition["visible_registration"]? "TRUE" : "FALSE"
     	    );
 		    $xml_writer->xmlStartTag ("UDFDefinition", $attributes);
 		    $xml_writer->xmlElement('UDFName', null, $definition['field_name']);

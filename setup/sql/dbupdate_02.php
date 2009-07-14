@@ -14526,3 +14526,7 @@ $ilDB->dropTableColumn('svy_qst_nominal', 'subtype');
 <?php
   $ilCtrlStructureReader->getStructure();
 ?>
+<#2763>
+<?php
+$ilDB->addTableColumn("udf_definition", "registration_visible", array("type" => "integer", "length" => 1, "notnull" => false, 'default'=>0));
+?>

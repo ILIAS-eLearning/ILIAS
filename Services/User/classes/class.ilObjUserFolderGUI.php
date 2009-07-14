@@ -2690,6 +2690,8 @@ if (true)
 			$this->tpl->setVariable("TXT_EXPORT", $this->lng->txt("export"));
 			$this->tpl->setVariable("TXT_COURSE_EXPORT", $lng->txt("course_export"));
 			
+			$this->tpl->setVariable('TXT_VISIBLE_REGISTRATION', $this->lng->txt('visible_registration'));
+
 			$this->tpl->setVariable("NAME",$definition['field_name']);
 			
 			if ($_POST["cmd"]["updateFields"] != "")
@@ -2708,6 +2710,9 @@ if (true)
 			$this->tpl->setVariable("SEARCHABLE",ilUtil::formCheckbox($definition['searchable'],"def[$field_id][searchable]",1));
 			$this->tpl->setVariable("EXPORT",ilUtil::formCheckbox($definition['export'],"def[$field_id][export]",1));
 			$this->tpl->setVariable("COURSE_EXPORT",ilUtil::formCheckbox($definition['course_export'],"def[$field_id][course_export]",1));
+
+			$this->tpl->setVariable('VISIBLE_REGISTRATION', 
+				ilUtil::formCheckbox($definition['visible_registration'], 'def['.$field_id.'][visible_registration]', 1));
 
 			$this->ctrl->setParameter($this,'field_id',$field_id);
 
@@ -2773,6 +2778,8 @@ if (true)
 		$udf->enableSearchable($definition['searchable']);
 		$udf->enableExport($definition['export']);
 		$udf->enableCourseExport($definition['course_export']);
+
+		$udf->enableRegistration($definition['visible_registration']);
 
 		$udf->update($definition['field_id']);
 
@@ -2857,6 +2864,8 @@ if (true)
 		$udf->enableSearchable($definition['searchable']);
 		$udf->enableExport($definition['export']);
 		$udf->enableCourseExport($definition['course_export']);
+
+		$udf->enableRegistration($definition['visible_registration']);
 
 		if($error = $udf->validateValues())
 		{
@@ -2991,6 +3000,9 @@ if (true)
 			$user_field_definitions->enableSearchable((int) $_POST['def'][$field_id]['searchable']);
 			$user_field_definitions->enableExport((int) $_POST['def'][$field_id]['export']);
 			$user_field_definitions->enableCourseExport((int) $_POST['def'][$field_id]['course_export']);
+
+			$user_field_definitions->enableRegistration((int)$_POST['def'][$field_id]['visible_registration']);
+
 			$user_field_definitions->update($field_id);
 		}
 
@@ -3079,12 +3091,17 @@ if (true)
 		$this->tpl->setVariable("TXT_EXPORT", $this->lng->txt("export"));
 		$this->tpl->setVariable("TXT_COURSE_EXPORT", $lng->txt("course_export"));
 
+		$this->tpl->setVariable('TXT_VISIBLE_REGISTRATION', $this->lng->txt('visible_registration'));
+
 		$this->tpl->setVariable("VISIBLE",ilUtil::formCheckbox($_POST['def']['visible'],"def[visible]",1));
 		$this->tpl->setVariable("CHANGE",ilUtil::formCheckbox($_POST['def']['changeable'],"def[changeable]",1));
 		$this->tpl->setVariable("REQUIRED",ilUtil::formCheckbox($_POST['def']['required'],"def[required]",1));
 		$this->tpl->setVariable("SEARCHABLE",ilUtil::formCheckbox($_POST['def']['searchable'],"def[searchable]",1));
 		$this->tpl->setVariable("EXPORT",ilUtil::formCheckbox($_POST['def']['export'],"def[export]",1));
 		$this->tpl->setVariable("COURSE_EXPORT",ilUtil::formCheckbox($_POST['def']['course_export'],"def[course_export]",1));
+
+		$this->tpl->setVariable('VISIBLE_REGISTRATION', 
+				ilUtil::formCheckbox($_POST['def']['visible_registration'], 'def[visible_registration]', 1));
 
 		return true;
 	}
@@ -3122,12 +3139,17 @@ if (true)
 		$this->tpl->setVariable("TXT_REQUIRED", $this->lng->txt("required_field"));
 		$this->tpl->setVariable("TXT_SEARCHABLE", $this->lng->txt("header_searchable"));
 
+		$this->tpl->setVariable('TXT_VISIBLE_REGISTRATION', $this->lng->txt('visible_registration'));
+
 		$this->tpl->setVariable("VISIBLE",ilUtil::formCheckbox($_POST['def']['visible'],"def[visible]",1));
 		$this->tpl->setVariable("CHANGE",ilUtil::formCheckbox($_POST['def']['changeable'],"def[changeable]",1));
 		$this->tpl->setVariable("REQUIRED",ilUtil::formCheckbox($_POST['def']['required'],"def[required]",1));
 		$this->tpl->setVariable("SEARCHABLE",ilUtil::formCheckbox($_POST['def']['searchable'],"def[searchable]",1));
 		$this->tpl->setVariable("EXPORT",ilUtil::formCheckbox($_POST['def']['export'],"def[export]",1));
 		$this->tpl->setVariable("COURSE_EXPORT",ilUtil::formCheckbox($_POST['def']['course_export'],"def[course_export]",1));
+
+		$this->tpl->setVariable('VISIBLE_REGISTRATION', 
+				ilUtil::formCheckbox($_POST['def']['visible_registration'], 'def[visible_registration]', 1));
 
 		$this->tpl->setVariable("BTN_NEW_VALUE",$this->lng->txt('btn_new_value'));
 
@@ -3202,6 +3224,9 @@ if (true)
 		$user_field_definitions->enableSearchable($_POST['def']['searchable']);		
 		$user_field_definitions->enableExport($_POST['def']['export']);
 		$user_field_definitions->enableCourseExport($_POST['def']['course_export']);
+
+		$user_field_definitions->enableRegistration((int)$_POST['def']['visible_registration']);
+
 		$user_field_definitions->add();
 		
 		if ((int) $_POST['def']['course_export'] == 1)
@@ -3329,7 +3354,21 @@ if (true)
 																			"cbh[$field][searchable]",
 																			1));
 			}
-
+			
+			if(!in_array($field, 
+			   array('password', 'upload', 'language', 'skin_style', 'hits_per_page', 'show_users_online', 'hide_own_online_status', 'instant_messengers')))
+			{
+				// Registration fields
+				$this->tpl->setVariable('HEADER_REGISTRATION', $this->lng->txt('header_visible_registration'));
+				$this->tpl->setVariable('PROFILE_OPTION_REGISTRATION', 'visible_registration_'.$field);			
+				if((int)$ilias->getSetting('usr_settings_visible_registration_'.$field) || 
+				   ($this->confirm_change == 1 && (int)$_POST['chb']['visible_registration_'.$field]))
+				{			
+					$this->tpl->setVariable('CHECKED_REGISTRATION', ' checked="checked"');
+				}
+				
+			}
+ 
 			// BEGIN Enable field in Personal Profile
 			if (!in_array($field, $no_changeable_fields) &&
 				($ilias->getSetting("usr_settings_disable_".$field) != "1" || 
@@ -3544,6 +3583,16 @@ if (true)
 			else
 			{
 				$ilias->deleteSetting("usr_settings_disable_".$field);
+			}
+
+			// registration visible			
+			if ((int)$_POST['chb']['visible_registration_' . $field])
+			{
+				$ilias->setSetting('usr_settings_visible_registration_'.$field, 1);
+			}
+			else
+			{
+				$ilias->deleteSetting('usr_settings_visible_registration_'.$field);
 			}
 
 			if ($_POST["chb"]["export_" . $field])
