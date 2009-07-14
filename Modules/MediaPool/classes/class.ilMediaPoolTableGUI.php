@@ -92,7 +92,7 @@ class ilMediaPoolTableGUI extends ilTable2GUI
 				$mset = new ilSetting("mobs");
 				if ($mset->get("mep_activate_pages"))
 				{
-					$this->addCommandButton("createContentPage", $lng->txt("mep_create_content_page"));
+					$this->addCommandButton("createMediaPoolPage", $lng->txt("mep_create_content_snippet"));
 				}
 			}
 		}
@@ -187,8 +187,9 @@ class ilMediaPoolTableGUI extends ilTable2GUI
 			}
 			ksort($f2objs);
 			
-			// get current media objects
-			$mobjs = $this->media_pool->getChilds($this->current_folder, "mob");
+			// get current media objects / pages
+			$mobjs = $this->media_pool->getChildsExceptFolders($this->current_folder);
+
 			$m2objs = array();
 			foreach ($mobjs as $obj)
 			{
@@ -241,6 +242,25 @@ class ilMediaPoolTableGUI extends ilTable2GUI
 				
 				$this->tpl->setCurrentBlock("tbl_content");
 				$this->tpl->setVariable("IMG", ilUtil::img(ilUtil::getImagePath("icon_".$a_set["type"].".gif")));
+				$ilCtrl->setParameter($this->parent_obj, $this->folder_par, $this->current_folder);
+				break;
+
+			case "pg":
+				$this->tpl->setVariable("TXT_TITLE", $a_set["title"]);
+				
+				if ($ilAccess->checkAccess("write", "", $this->media_pool->getRefId()) &&
+					$this->getMode() == ilMediaPoolTableGUI::IL_MEP_EDIT)
+				{
+					$this->tpl->setCurrentBlock("edit");
+					$this->tpl->setVariable("TXT_EDIT", $lng->txt("edit"));
+					$ilCtrl->setParameterByClass("ilmediapoolpagegui", "item_id", $a_set["obj_id"]);
+					$this->tpl->setVariable("EDIT_LINK",
+						$ilCtrl->getLinkTargetByClass("ilmediapoolpagegui", "edit"));
+					$this->tpl->parseCurrentBlock();
+				}
+				
+				$this->tpl->setCurrentBlock("tbl_content");
+				$this->tpl->setVariable("IMG", ilUtil::img(ilUtil::getImagePath("icon_pg.gif")));
 				$ilCtrl->setParameter($this->parent_obj, $this->folder_par, $this->current_folder);
 				break;
 

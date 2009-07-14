@@ -61,6 +61,7 @@ class ilPageObjectGUI
 	var $enableediting = true;
 	var $rawpagecontent = false;
 	var $layoutmode = false;
+	var $enabledcontentincludes = false;
 
 	/**
 	* Constructor
@@ -360,7 +361,6 @@ class ilPageObjectGUI
 		return $this->change_comments;
 	}
 
-	// scorm2004-start
 	function enableNotes($a_enabled, $a_parent_id)
 	{
 		$this->notes_enabled = $a_enabled;
@@ -371,7 +371,22 @@ class ilPageObjectGUI
 	{
 		return $this->notes_enabled;
 	}
-	// scorm2004-end
+
+	/**
+	 * Enable content includes
+	 */
+	function enableContentIncludes($a_enable)
+	{
+		$this->enablecontentincludes = $a_enable;
+	}
+	
+	/**
+	 * Are content includes enabled?
+	 */
+	function isEnabledContentIncludes()
+	{
+		return $this->enablecontentincludes;
+	}
 
 	/**
 	 * set offline directory to offdir
@@ -1490,6 +1505,7 @@ class ilPageObjectGUI
 						 'enable_tabs' => $this->getEnabledPCTabs() ? "y" : "n",
 						 'enable_sa_qst' => $this->getEnabledSelfAssessment() ? "y" : "n",
 						 'enable_file_list' => $this->getEnabledFileLists() ? "y" : "n",
+						 'enable_content_includes' => $this->isEnabledContentIncludes() ? "y" : "n",
 						 'paste' => $paste ? "y" : "n",
 						 'media_mode' => $media_mode,
 						 'javascript' => $sel_js_mode,

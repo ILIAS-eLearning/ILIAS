@@ -17,6 +17,7 @@ include_once ("classes/class.ilTabsGUI.php");
 * @ilCtrl_Calls ilPageEditorGUI: ilPCSourceCodeGUI, ilInternalLinkGUI, ilPCQuestionGUI
 * @ilCtrl_Calls ilPageEditorGUI: ilPCSectionGUI, ilPCDataTableGUI, ilPCResourcesGUI
 * @ilCtrl_Calls ilPageEditorGUI: ilPCMapGUI, ilPCPluggedGUI, ilPCTabsGUI, IlPCPlaceHolderGUI
+* @ilCtrl_Calls ilPageEditorGUI: ilPCContentIncludeGUI
 *
 * @ingroup ServicesCOPage
 */
@@ -337,6 +338,10 @@ class ilPageEditorGUI
 					$this->ctrl->setCmdClass("ilPCPlaceHolderGUI");
 					break;
 
+				case "incl":
+					$this->ctrl->setCmdClass("ilPCContentIncludeGUI");
+					break;
+
 			}
 			$next_class = $this->ctrl->getNextClass($this);
 		}
@@ -412,60 +417,11 @@ class ilPageEditorGUI
 
 				$this->tabs_gui->clearTargets();
 				$this->tabs_gui->setBackTarget($this->page_gui->page_back_title,
-					$ilCtrl->getLinkTarget($this->page_gui, "edit"));
-
-//var_dump($cont_obj);
-//				if ($_GET["pgEdMediaMode"] != "editLinkedMedia")
-//				{
-//echo "%".$cont_obj->getPcId()."%";
-					$pcmob_gui =& new ilPCMediaObjectGUI($this->page, $cont_obj, $hier_id, $pc_id);
-					// scorm2004-start
-					$pcmob_gui->setStyleId($this->page_gui->getStyleId());
-					// scorm2004-end
-					$pcmob_gui->setEnabledMapAreas($this->page_gui->getEnabledInternalLinks());
-					/*
-					if (is_object ($cont_obj))
-					{
-						//$this->tpl->setCurrentBlock("header_image");
-						//$this->tpl->setVariable("IMG_HEADER", ilUtil::getImagePath("icon_mob_b.gif"));
-						//$this->tpl->parseCurrentBlock();
-						$this->tpl->setTitleIcon(ilUtil::getImagePath("icon_mob_b.gif"));
-						$pcmob_gui->getTabs($this->tabs_gui);
-						$this->tpl->setVariable("HEADER", $this->lng->txt("mob").": ".
-							$cont_obj->getTitle());
-						$this->displayLocator("mob");
-						$mob_gui =& new ilObjMediaObjectGUI("", $cont_obj->getId(),false, false);
-						$mob_gui->setEnabledMapAreas($this->page_gui->getEnabledInternalLinks());
-						$mob_gui->setBackTitle($this->page_back_title);
-						$mob_gui->getTabs($this->tabs_gui);
-					}
-					else
-					{
-						$pcmob_gui->getTabs($this->tabs_gui, true);
-					}
-					*/
-/*				}
-				else
-				{
-					$mob_gui =& new ilObjMediaObjectGUI("", $_GET["mob_id"],false, false);
-					$mob_gui->setEnabledMapAreas($this->page_gui->getEnabledInternalLinks());
-					$mob_gui->getTabs($this->tabs_gui);
-					$this->tpl->setVariable("HEADER", $this->lng->txt("mob").": ".
-						ilObject::_lookupTitle($_GET["mob_id"]));
-				}
-*/
-
-				#$this->tpl->setVariable("TABS", $tabs_gui->getHTML());
-
-//				if ($next_class == "ilpcmediaobjectgui")
-//				{
-					$ret =& $this->ctrl->forwardCommand($pcmob_gui);
-/*				}
-				else
-				{
-					$ret =& $this->ctrl->forwardCommand($mob_gui);
-				}
-*/
+				$ilCtrl->getLinkTarget($this->page_gui, "edit"));
+				$pcmob_gui =& new ilPCMediaObjectGUI($this->page, $cont_obj, $hier_id, $pc_id);
+				$pcmob_gui->setStyleId($this->page_gui->getStyleId());
+				$pcmob_gui->setEnabledMapAreas($this->page_gui->getEnabledInternalLinks());
+				$ret =& $this->ctrl->forwardCommand($pcmob_gui);
 				break;
 
 			// only for "linked" media
@@ -604,6 +560,14 @@ class ilPageEditorGUI
 				$plugged_gui =& new ilPCPluggedGUI($this->page, $cont_obj, $hier_id,
 					$add_type, $pc_id);
 				$ret =& $this->ctrl->forwardCommand($plugged_gui);
+				break;
+
+			// Content Include
+			case "ilpccontentincludegui":
+				$this->tabs_gui->clearTargets();
+				include_once ("./Services/COPage/classes/class.ilPCContentIncludeGUI.php");
+				$incl_gui = new ilPCContentIncludeGUI($this->page, $cont_obj, $hier_id, $pc_id);
+				$ret =& $this->ctrl->forwardCommand($incl_gui);
 				break;
 
 			default:

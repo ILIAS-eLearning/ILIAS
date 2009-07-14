@@ -1,27 +1,27 @@
 <?php
 /* Copyright (c) 1998-2009 ILIAS open source, Extended GPL, see docs/LICENSE */
 
-require_once("./Services/COPage/classes/class.ilPCResources.php");
+require_once("./Services/COPage/classes/class.ilPCContentInclude.php");
 require_once("./Services/COPage/classes/class.ilPageContentGUI.php");
 
 /**
-* Class ilPCResourcesGUI
+* Class ilPCContentIncludeGUI
 *
-* User Interface for Resources Component Editing
+* User Interface for Content Includes (Snippets) Editing
 *
 * @author Alex Killing <alex.killing@gmx.de>
 * @version $Id$
 *
 * @ingroup ServicesCOPage
 */
-class ilPCResourcesGUI extends ilPageContentGUI
+class ilPCContentIncludeGUI extends ilPageContentGUI
 {
 
 	/**
 	* Constructor
 	* @access	public
 	*/
-	function ilPCResourcesGUI(&$a_pg_obj, &$a_content_obj, $a_hier_id, $a_pc_id = "")
+	function ilPCContentIncludeGUI(&$a_pg_obj, &$a_content_obj, $a_hier_id, $a_pc_id = "")
 	{
 		parent::ilPageContentGUI($a_pg_obj, $a_content_obj, $a_hier_id, $a_pc_id);
 	}
@@ -77,39 +77,6 @@ class ilPCResourcesGUI extends ilPageContentGUI
 			$form->setTitle($this->lng->txt("cont_update_resources"));
 		}
 		
-		// type selection
-		$type_prop = new ilRadioGroupInputGUI($this->lng->txt("cont_type"),
-			"type");
-		$obj_id = ilObject::_lookupObjId($_GET["ref_id"]);
-		$obj_type = ilObject::_lookupType($obj_id);
-		$sub_objs = $objDefinition->getGroupedRepositoryObjectTypes($obj_type);
-		$types = array();
-		foreach($sub_objs as $k => $so)
-		{
-			$types[$k] = $this->lng->txt("objs_".$k);
-		}
-		foreach($types as $k => $type)
-		{
-			$option = new ilRadioOption($type, $k, "");
-			$type_prop->addOption($option);
-		}
-		$selected = ($a_insert)
-			? ""
-			: $this->content_obj->getResourceListType();
-		$type_prop->setValue($selected);
-		$form->addItem($type_prop);
-		
-		// save/cancel buttons
-		if ($a_insert)
-		{
-			$form->addCommandButton("create_resources", $lng->txt("save"));
-			$form->addCommandButton("cancelCreate", $lng->txt("cancel"));
-		}
-		else
-		{
-			$form->addCommandButton("update_resources", $lng->txt("save"));
-			$form->addCommandButton("cancelUpdate", $lng->txt("cancel"));
-		}
 		$html = $form->getHTML();
 		$tpl->setContent($html);
 		return $ret;
@@ -118,13 +85,14 @@ class ilPCResourcesGUI extends ilPageContentGUI
 
 
 	/**
-	* Create new Resources Component.
+	* Create new Content Include
 	*/
 	function create()
 	{
-		$this->content_obj = new ilPCResources($this->dom);
+		$this->content_obj = new ilPCContentInclude($this->dom);
 		$this->content_obj->create($this->pg_obj, $this->hier_id, $this->pc_id);
-		$this->content_obj->setResourceListType($_POST["type"]);
+		$this->content_obj->setContentId("");
+		$this->content_obj->setContentType("");
 		$this->updated = $this->pg_obj->update();
 		if ($this->updated === true)
 		{
@@ -137,11 +105,12 @@ class ilPCResourcesGUI extends ilPageContentGUI
 	}
 
 	/**
-	* Update Resources Component.
+	* Update Content Include
 	*/
 	function update()
 	{
-		$this->content_obj->setResourceListType($_POST["type"]);
+		$this->content_obj->setContentId("");
+		$this->content_obj->setContentType("");
 		$this->updated = $this->pg_obj->update();
 		if ($this->updated === true)
 		{
