@@ -5324,7 +5324,7 @@ survey#:#off#:#вимкнений
 survey#:#offline#:#оффлайн
 survey#:#on#:#вімкнутий
 survey#:#or#:#або
-survey#:#ordinal_question_not_checked#:#Будь ласка перевірте одну с запропонованих відповідей!
+survey#:#question_not_checked#:#Будь ласка перевірте одну с запропонованих відповідей!
 survey#:#orientation#:#Орієнтація
 survey#:#percentage_of_entered_values#:#Відсоток користувачів що ввели це значення
 survey#:#percentage_of_offered_answers#:#Percentage of offered answers###28 Feb 2006 new variable
@@ -5588,7 +5588,7 @@ crs#:#crs_visibility_limitless#:#Unlimited###06 09 2006 new variable
 crs#:#crs_visibility_until#:#Temporarily available###06 09 2006 new variable
 crs#:#crs_visibility_unvisible#:#Not available###06 09 2006 new variable
 pwassist#:#password_assistance#:#Password Assistance###06 09 2006 new variable
-survey#:#nominal_question_mr_not_checked#:#Please check at least one of the offered answers!###06 09 2006 new variable
+survey#:#question_mr_not_checked#:#Please check at least one of the offered answers!###06 09 2006 new variable
 assessment#:#filter_users#:#Filter users###12 10 2006 new variable
 assessment#:#passed_only#:#Only passed tests###12 10 2006 new variable
 survey#:#survey_codes_lang#:#Language of the survey###27 11 2006 new variable

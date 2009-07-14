@@ -14471,3 +14471,58 @@ if ($ilDB->tableExists('svy_qst_mat'))
 	$ilDB->dropTable('svy_qst_mat');
 }
 ?>
+<#2756>
+<?php
+$affectedrows = $ilDB->manipulateF('UPDATE svy_question SET questiontype_fi = %s WHERE question_id IN (SELECT question_fi FROM svy_qst_nominal WHERE subtype = %s)',
+	array('integer', 'text'),
+	array(2, "1")
+);
+if (count($affectedrows))
+{
+	$result = $ilDB->queryF('SELECT * FROM svy_qst_nominal WHERE subtype = %s',
+		array('text'),
+		array("1")
+	);
+	while ($row = $ilDB->fetchAssoc($result))
+	{
+		$affectedrows = $ilDB->manipulateF('INSERT INTO svy_qst_ordinal (question_fi, orientation) VALUES (%s, %s)',
+			array('integer', 'text'),
+			array($row['question_fi'], $row['orientation'])
+		);
+	}
+	$affectedrows = $ilDB->manipulateF('DELETE FROM svy_qst_nominal WHERE subtype = %s',
+		array('text'),
+		array("1")
+	);
+}
+?>
+<#2757>
+<?php
+$ilDB->dropTableColumn('svy_qst_nominal', 'subtype');
+?>
+<#2758>
+<?php
+	$ilDB->renameTable('svy_qst_nominal','svy_qst_mc');
+?>
+<#2759>
+<?php
+	$ilDB->renameTable('svy_qst_ordinal','svy_qst_sc');
+?>
+<#2760>
+<?php
+	$ilDB->manipulateF('UPDATE svy_qtype SET type_tag = %s WHERE type_tag = %s',
+		array('text', 'text'),
+		array('SurveyMultipleChoiceQuestion', 'SurveyNominalQuestion')
+	);
+?>
+<#2761>
+<?php
+	$ilDB->manipulateF('UPDATE svy_qtype SET type_tag = %s WHERE type_tag = %s',
+		array('text', 'text'),
+		array('SurveySingleChoiceQuestion', 'SurveyOrdinalQuestion')
+	);
+?>
+<#2762>
+<?php
+  $ilCtrlStructureReader->getStructure();
+?>

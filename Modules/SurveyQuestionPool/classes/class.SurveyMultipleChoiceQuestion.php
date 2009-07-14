@@ -24,29 +24,19 @@
 include_once "./Modules/SurveyQuestionPool/classes/class.SurveyQuestion.php";
 include_once "./Modules/Survey/classes/inc.SurveyConstants.php";
 
-define("SUBTYPE_MCSR", 1);
-define("SUBTYPE_MCMR", 2);
-
 /**
-* Nominal survey question
+* MultipleChoice survey question
 *
-* The SurveyNominalQuestion class defines and encapsulates basic methods and attributes
-* for nominal survey question types.
+* The SurveyMultipleChoiceQuestion class defines and encapsulates basic methods and attributes
+* for multiple choice survey question types.
 *
 * @author		Helmut Schottmüller <helmut.schottmueller@mac.com>
 * @version	$Id$
 * @extends SurveyQuestion
 * @ingroup ModulesSurveyQuestionPool
 */
-class SurveyNominalQuestion extends SurveyQuestion 
+class SurveyMultipleChoiceQuestion extends SurveyQuestion 
 {
-/**
-* A question subtype (Multiple choice single response or multiple choice multiple response)
-*
-* @var integer
-*/
-	var $subtype;
-
 /**
 * Categories contained in this question
 *
@@ -55,7 +45,7 @@ class SurveyNominalQuestion extends SurveyQuestion
 	var $categories;
 
 /**
-* The constructor takes possible arguments an creates an instance of the SurveyNominalQuestion object.
+* The constructor takes possible arguments an creates an instance of the SurveyMultipleChoiceQuestion object.
 *
 * @param string $title A title string to describe the question
 * @param string $description A description string to describe the question
@@ -63,45 +53,19 @@ class SurveyNominalQuestion extends SurveyQuestion
 * @param integer $owner A numerical ID to identify the owner/creator
 * @access public
 */
-	function SurveyNominalQuestion(
+	function SurveyMultipleChoiceQuestion(
 		$title = "",
 		$description = "",
 		$author = "",
 		$questiontext = "",
 		$owner = -1,
-		$subtype = SUBTYPE_MCSR,
 		$orientation = 0 
 	)
 	{
 		$this->SurveyQuestion($title, $description, $author, $questiontext, $owner);
-		$this->subtype = $subtype;
 		$this->orientation = $orientation;
 		include_once "./Modules/SurveyQuestionPool/classes/class.SurveyCategories.php";
 		$this->categories = new SurveyCategories();
-	}
-	
-/**
-* Sets the question subtype
-*
-* @param integer $subtype The question subtype
-* @access public
-* @see $subtype
-*/
-	function setSubtype($subtype = SUBTYPE_MCSR) 
-	{
-		$this->subtype = $subtype;
-	}
-
-/**
-* Gets the question subtype
-*
-* @return integer The question subtype
-* @access public
-* @see $subtype
-*/
-	function getSubtype() 
-	{
-		return $this->subtype;
 	}
 	
 	/**
@@ -130,9 +94,9 @@ class SurveyNominalQuestion extends SurveyQuestion
 	}
 	
 /**
-* Loads a SurveyNominalQuestion object from the database
+* Loads a SurveyMultipleChoiceQuestion object from the database
 *
-* @param integer $id The database id of the nominal survey question
+* @param integer $id The database id of the multiple choice survey question
 * @access public
 */
 	function loadFromDb($id) 
@@ -157,7 +121,6 @@ class SurveyNominalQuestion extends SurveyQuestion
 			$this->setObligatory($data["obligatory"]);
 			$this->setComplete($data["complete"]);
 			$this->setOriginalId($data["original_id"]);
-			$this->setSubtype($data["subtype"]);
 			$this->setOrientation($data["orientation"]);
 
 			$this->categories->flushCategories();
@@ -195,11 +158,11 @@ class SurveyNominalQuestion extends SurveyQuestion
 	}
 
 /**
-* Saves a SurveyNominalQuestion object to a database
+* Saves a SurveyMultipleChoiceQuestion object to a database
 *
 * @access public
 */
-  function saveToDb($original_id = "", $withanswers = true)
+  function saveToDb($original_id = "")
   {
 		global $ilDB;
 
@@ -256,17 +219,14 @@ class SurveyNominalQuestion extends SurveyQuestion
 				array('integer'),
 				array($this->getId())
 			);
-			$affectedRows = $ilDB->manipulateF("INSERT INTO " . $this->getAdditionalTableName() . " (question_fi, subtype, orientation) VALUES (%s, %s, %s)",
-				array('integer', 'text', 'text'),
-				array($this->getId(), $this->getSubType(), $this->getOrientation())
+			$affectedRows = $ilDB->manipulateF("INSERT INTO " . $this->getAdditionalTableName() . " (question_fi, orientation) VALUES (%s, %s)",
+				array('integer', 'text'),
+				array($this->getId(), $this->getOrientation())
 			);
 
 			// saving material uris in the database
-			$this->saveMaterialsToDb();
-			if ($withanswers)
-			{
-				$this->saveCategoriesToDb();
-			}
+			$this->saveMaterial();
+			$this->saveCategoriesToDb();
 		}
 		parent::saveToDb($original_id);
 	}
@@ -327,7 +287,6 @@ class SurveyNominalQuestion extends SurveyQuestion
 			"id" => $this->getId(),
 			"title" => $this->getTitle(),
 			"type" => $this->getQuestiontype(),
-			"subtype" => $this->getSubtype(),
 			"obligatory" => $this->getObligatory()
 		);
 		$a_xml_writer->xmlStartTag("question", $attrs);
@@ -345,25 +304,9 @@ class SurveyNominalQuestion extends SurveyQuestion
 			$attrs = array(
 				"id" => $i
 			);
-			switch ($this->getSubtype())
-			{
-				case 1:
-					$a_xml_writer->xmlStartTag("response_single", $attrs);
-					break;
-				case 2:
-					$a_xml_writer->xmlStartTag("response_multiple", $attrs);
-					break;
-			}
+			$a_xml_writer->xmlStartTag("response_multiple", $attrs);
 			$this->addMaterialTag($a_xml_writer, $this->categories->getCategory($i));
-			switch ($this->getSubtype())
-			{
-				case 1:
-					$a_xml_writer->xmlEndTag("response_single");
-					break;
-				case 2:
-					$a_xml_writer->xmlEndTag("response_multiple");
-					break;
-			}
+			$a_xml_writer->xmlEndTag("response_multiple");
 		}
 
 		$a_xml_writer->xmlEndTag("responses");
@@ -404,7 +347,7 @@ class SurveyNominalQuestion extends SurveyQuestion
 	*/
 	function getQuestionType()
 	{
-		return "SurveyNominalQuestion";
+		return "SurveyMultipleChoiceQuestion";
 	}
 
 	/**
@@ -415,7 +358,7 @@ class SurveyNominalQuestion extends SurveyQuestion
 	*/
 	function getAdditionalTableName()
 	{
-		return "svy_qst_nominal";
+		return "svy_qst_mc";
 	}
 
 	/**
@@ -428,19 +371,12 @@ class SurveyNominalQuestion extends SurveyQuestion
 	{
 		$entered_value = $post_data[$this->getId() . "_value"];
 		$data = array();
-		if ($this->getSubType() == SUBTYPE_MCMR)
+		if (is_array($entered_value))
 		{
-			if (is_array($entered_value))
+			foreach ($entered_value as $value)
 			{
-				foreach ($entered_value as $value)
-				{
-					array_push($data, array("value" => $value));
-				}
+				array_push($data, array("value" => $value));
 			}
-		}
-		else
-		{
-			array_push($data, array("value" => $entered_value));
 		}
 		return $data;
 	}
@@ -457,22 +393,12 @@ class SurveyNominalQuestion extends SurveyQuestion
 	function checkUserInput($post_data, $survey_id)
 	{
 		// multiple response questions are always non-obligatory
-		// if ($this->getSubType() == SUBTYPE_MCMR) return "";
 		$entered_value = $post_data[$this->getId() . "_value"];
-		if ($this->getSubType() == SUBTYPE_MCMR)
+		if (!$this->getObligatory($survey_id)) return "";
+
+		if (!is_array($entered_value))
 		{
-			if (!$this->getObligatory($survey_id)) return "";
-	
-			if (!is_array($entered_value))
-			{
-				return $this->lng->txt("nominal_question_mr_not_checked");
-			}
-		}
-		else
-		{
-			if ((!$this->getObligatory($survey_id)) && (strlen($entered_value) == 0)) return "";
-	
-			if (strlen($entered_value) == 0) return $this->lng->txt("nominal_question_not_checked");
+			return $this->lng->txt("question_mr_not_checked");
 		}
 		return "";
 	}
@@ -485,30 +411,17 @@ class SurveyNominalQuestion extends SurveyQuestion
 	public function saveRandomData($active_id)
 	{
 		global $ilDB;
-		if ($this->getSubType() == SUBTYPE_MCMR)
+		// multiple responses
+		for ($i = 0; $i < $this->categories->getCategoryCount(); $i++)
 		{
-			// multiple responses
-			for ($i = 0; $i < $this->categories->getCategoryCount(); $i++)
+			if (rand(0,1)) 
 			{
-				if (rand(0,1)) 
-				{
-					$next_id = $ilDB->nextId('svy_answer');
-					$affectedRows = $ilDB->manipulateF("INSERT INTO svy_answer (answer_id, question_fi, active_fi, value, textanswer, tstamp) VALUES (%s, %s, %s, %s, %s, %s)",
-						array('integer','integer','integer','float','text','integer'),
-						array($next_id, $this->getId(), $active_id, $i, NULL, time())
-					);
-				}
+				$next_id = $ilDB->nextId('svy_answer');
+				$affectedRows = $ilDB->manipulateF("INSERT INTO svy_answer (answer_id, question_fi, active_fi, value, textanswer, tstamp) VALUES (%s, %s, %s, %s, %s, %s)",
+					array('integer','integer','integer','float','text','integer'),
+					array($next_id, $this->getId(), $active_id, $i, NULL, time())
+				);
 			}
-		}
-		else
-		{
-			// single responses
-			$category = rand(0, $this->categories->getCategoryCount()-1);
-			$next_id = $ilDB->nextId('svy_answer');
-			$affectedRows = $ilDB->manipulateF("INSERT INTO svy_answer (answer_id, question_fi, active_fi, value, textanswer, tstamp) VALUES (%s, %s, %s, %s, %s, %s)",
-				array('integer','integer','integer','float','text','integer'),
-				array($next_id, $this->getId(), $active_id, $category, NULL, time())
-			);
 		}
 	}
 	
@@ -566,26 +479,19 @@ class SurveyNominalQuestion extends SurveyQuestion
 		asort($cumulated, SORT_NUMERIC);
 		end($cumulated);
 		
-		if ($this->getSubType() == SUBTYPE_MCMR)
+		$mcmr_result = $ilDB->queryF("SELECT svy_answer.answer_id, svy_answer.question_fi, svy_answer.active_fi FROM svy_answer, svy_finished WHERE svy_answer.question_fi = %s AND svy_finished.survey_fi = %s AND svy_finished.finished_id = svy_answer.active_fi",
+			array('integer', 'integer'),
+			array($question_id, $survey_id)
+		);
+		$found = array();
+		while ($row = $ilDB->fetchAssoc($mcmr_result))
 		{
-			$mcmr_result = $ilDB->queryF("SELECT svy_answer.answer_id, svy_answer.question_fi, svy_answer.active_fi FROM svy_answer, svy_finished WHERE svy_answer.question_fi = %s AND svy_finished.survey_fi = %s AND svy_finished.finished_id = svy_answer.active_fi",
-				array('integer', 'integer'),
-				array($question_id, $survey_id)
-			);
-			$found = array();
-			while ($row = $ilDB->fetchAssoc($mcmr_result))
-			{
-				$found[$row["question_fi"] . "_" . $row["active_fi"]] = 1;
-			}
-			$result_array["USERS_ANSWERED"] = count($found);
-			$result_array["USERS_SKIPPED"] = $nr_of_users - count($found);
-			$numrows = count($found);
+			$found[$row["question_fi"] . "_" . $row["active_fi"]] = 1;
 		}
-		else
-		{
-			$result_array["USERS_ANSWERED"] = $result->numRows();
-			$result_array["USERS_SKIPPED"] = $nr_of_users - $result->numRows();
-		}
+		$result_array["USERS_ANSWERED"] = count($found);
+		$result_array["USERS_SKIPPED"] = $nr_of_users - count($found);
+		$numrows = count($found);
+
 		$result_array["MEDIAN"] = "";
 		$result_array["ARITHMETIC_MEAN"] = "";
 		$prefix = "";
@@ -596,7 +502,7 @@ class SurveyNominalQuestion extends SurveyQuestion
 		$result_array["MODE"] =  $prefix . $this->categories->getCategory(key($cumulated));
 		$result_array["MODE_VALUE"] =  key($cumulated)+1;
 		$result_array["MODE_NR_OF_SELECTIONS"] = $cumulated[key($cumulated)];
-		$result_array["QUESTION_TYPE"] = "SurveyNominalQuestion";
+		$result_array["QUESTION_TYPE"] = "SurveyMultipleChoiceQuestion";
 		$maxvalues = 0;
 		for ($key = 0; $key < $this->categories->getCategoryCount(); $key++)
 		{
@@ -607,16 +513,9 @@ class SurveyNominalQuestion extends SurveyQuestion
 			$percentage = 0;
 			if ($numrows > 0)
 			{
-				if ($this->getSubType() == SUBTYPE_MCMR)
+				if ($maxvalues > 0)
 				{
-					if ($maxvalues > 0)
-					{
-						$percentage = ($result_array["USERS_ANSWERED"] > 0) ? (float)((int)$cumulated[$key]/$result_array["USERS_ANSWERED"]) : 0;
-					}
-				}
-				else
-				{
-					$percentage = ($numrows > 0) ? (float)((int)$cumulated[$key]/$numrows) : 0;
+					$percentage = ($result_array["USERS_ANSWERED"] > 0) ? (float)((int)$cumulated[$key]/$result_array["USERS_ANSWERED"]) : 0;
 				}
 			}
 			$result_array["variables"][$key] = array("title" => $this->categories->getCategory($key), "selected" => (int)$cumulated[$key], "percentage" => $percentage);
@@ -678,13 +577,10 @@ class SurveyNominalQuestion extends SurveyQuestion
 	function addUserSpecificResultsExportTitles(&$a_array)
 	{
 		parent::addUserSpecificResultsExportTitles($a_array);
-		if ($this->getSubtype() == SUBTYPE_MCMR)
+		for ($index = 0; $index < $this->categories->getCategoryCount(); $index++)
 		{
-			for ($index = 0; $index < $this->categories->getCategoryCount(); $index++)
-			{
-				$category = $this->categories->getCategory($index);
-				array_push($a_array, ($index+1) . " - $category");
-			}
+			$category = $this->categories->getCategory($index);
+			array_push($a_array, ($index+1) . " - $category");
 		}
 	}
 	
@@ -699,44 +595,34 @@ class SurveyNominalQuestion extends SurveyQuestion
 	{
 		if (count($resultset["answers"][$this->getId()]))
 		{
-			if ($this->getSubtype() == SUBTYPE_MCMR)
+			array_push($a_array, "");
+			for ($index = 0; $index < $this->categories->getCategoryCount(); $index++)
 			{
-				array_push($a_array, "");
-				for ($index = 0; $index < $this->categories->getCategoryCount(); $index++)
+				$category = $this->categories->getCategory($index);
+				$found = 0;
+				foreach ($resultset["answers"][$this->getId()] as $answerdata)
 				{
-					$category = $this->categories->getCategory($index);
-					$found = 0;
-					foreach ($resultset["answers"][$this->getId()] as $answerdata)
+					if (strcmp($index, $answerdata["value"]) == 0)
 					{
-						if (strcmp($index, $answerdata["value"]) == 0)
-						{
-							$found = 1;
-						}
-					}
-					if ($found)
-					{
-						array_push($a_array, "1");
-					}
-					else
-					{
-						array_push($a_array, "0");
+						$found = 1;
 					}
 				}
-			}
-			else
-			{
-				array_push($a_array, $resultset["answers"][$this->getId()][0]["value"]+1);
+				if ($found)
+				{
+					array_push($a_array, "1");
+				}
+				else
+				{
+					array_push($a_array, "0");
+				}
 			}
 		}
 		else
 		{
 			array_push($a_array, $this->lng->txt("skipped"));
-			if ($this->getSubtype() == SUBTYPE_MCMR)
+			for ($index = 0; $index < $this->categories->getCategoryCount(); $index++)
 			{
-				for ($index = 0; $index < $this->categories->getCategoryCount(); $index++)
-				{
-					array_push($a_array, "");
-				}
+				array_push($a_array, "");
 			}
 		}
 	}

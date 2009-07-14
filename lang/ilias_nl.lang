@@ -6031,7 +6031,7 @@ survey#:#no_search_results#:#Er zijn geen zoekresultaten!
 survey#:#no_target_selected_for_move#:#U moet een doel-positie selecteren!
 survey#:#no_user_or_group_selected#:#Kies een optie welke uw doelgroep doorzoekt (gebruikers en/of groepen)!
 survey#:#no_user_phrases_defined#:#Er zijn geen door de gebruiker gedefiniëerde zinnen beschikbaar!
-survey#:#nominal_question_mr_not_checked#:#Controleer op zijn minst een van de gegeven antwoorden!
+survey#:#question_mr_not_checked#:#Controleer op zijn minst een van de gegeven antwoorden!
 survey#:#nominal_question_not_checked#:#Controleer een van de gegeven antwoorden!
 survey#:#non_ratio#:#Interval
 survey#:#not_used#:#Niet gebruikr
@@ -6040,7 +6040,7 @@ survey#:#off#:#Uit
 survey#:#offline#:#Offline
 survey#:#on#:#Aan
 survey#:#or#:#of
-survey#:#ordinal_question_not_checked#:#Controleer een van de gegeven antwoorden!
+survey#:#question_not_checked#:#Controleer een van de gegeven antwoorden!
 survey#:#orientation#:#Orientatie
 survey#:#outro#:#Final statement
 survey#:#percentage_of_entered_values#:#Percentage van de gebruikers die deze waarde hebben ingegeven

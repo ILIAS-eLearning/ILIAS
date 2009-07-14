@@ -8130,7 +8130,7 @@ survey#:#multiple_choice_single_response#:#Πολλαπλών επιλογών (
 survey#:#multiple_choice_subtype_description#:#Choose Multiple Choice (Single Response) if you want the participants to select only one answer and Multiple Choice (Multiple Response) if you want the participants to select one ore more answers.
 survey#:#new_survey_codes#:#νέοι κωδικοί πρόσβασης στην έρευνα
 survey#:#next_question_rows#:#Ερωτήσεις %d - %d από %d >>
-survey#:#nominal_question_mr_not_checked#:#Παρακαλώ επιλέξτε τουλάχιστο μια από τις προσφερόμενες απαντήσεις!
+survey#:#question_mr_not_checked#:#Παρακαλώ επιλέξτε τουλάχιστο μια από τις προσφερόμενες απαντήσεις!
 survey#:#nominal_question_not_checked#:#Παρακαλώ επιλέξτε μία από τις προσφερόμενες απαντήσεις!
 survey#:#non_ratio#:#Διάστημα
 survey#:#not_used#:#δεν χρησιμοποιείται
@@ -8154,7 +8154,7 @@ survey#:#offline#:#χωρίς σύνδεση
 survey#:#on#:#ανοικτό
 survey#:#on_additional#:#On, and additional
 survey#:#or#:#ή
-survey#:#ordinal_question_not_checked#:#παρακαλώ επιλέξτε μία από τις προσφερόμενες απαντήσεις!
+survey#:#question_not_checked#:#παρακαλώ επιλέξτε μία από τις προσφερόμενες απαντήσεις!
 survey#:#orientation#:#Προσανατολισμός
 survey#:#outro#:#Τελική δήλωση
 survey#:#percentage_of_entered_values#:#Ποσοστό  χρηστών που εισηγαγαν αυτή την τιμή

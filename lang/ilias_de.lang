@@ -191,10 +191,10 @@ assessment#:#assClozeTest#:#Lückentext-Frage
 assessment#:#assImagemapQuestion#:#ImageMap-Frage
 assessment#:#assJavaApplet#:#Java-Applet-Frage
 assessment#:#assMatchingQuestion#:#Zuordnungsfrage
-assessment#:#assMultipleChoice#:#Multiple Choice Frage (Mehrfachauswahl)
 assessment#:#assNumeric#:#Numerische Frage
 assessment#:#assOrderingQuestion#:#Anordnungsfrage
 assessment#:#assQuestions#:#Fragen
+assessment#:#assMultipleChoice#:#Multiple Choice Frage (Mehrfachauswahl)
 assessment#:#assSingleChoice#:#Multiple Choice Frage (Einfachauswahl)
 assessment#:#assTextQuestion#:#Freitext-Frage
 assessment#:#assTextSubset#:#Text-Teilmenge
@@ -6992,7 +6992,7 @@ survey#:#no_search_results#:#Die Suche hat zu keinem Ergebnis geführt!
 survey#:#no_target_selected_for_move#:#Sie müssen eine Zielposition auswählen!
 survey#:#no_user_or_group_selected#:#Bitte wählen Sie eine Zielgruppe aus, in der die Suche durchgeführt werden soll (NutzerInnen und/oder Gruppen)!
 survey#:#no_user_phrases_defined#:#Sie haben keine selbst definierten Phrasen!
-survey#:#nominal_question_mr_not_checked#:#Bitte wählen Sie mindestens eine der angebotenen Antworten aus!
+survey#:#question_mr_not_checked#:#Bitte wählen Sie mindestens eine der angebotenen Antworten aus!
 survey#:#nominal_question_not_checked#:#Sie müssen eine der angebotenen Antworten auswählen!
 survey#:#non_ratio#:#Intervallskala
 survey#:#not_used#:#nicht verwendet
@@ -7002,7 +7002,7 @@ survey#:#offline#:#offline (nicht aktiviert)
 survey#:#on#:#An
 survey#:#on_additional#:#An, und zusätzlich
 survey#:#or#:#oder
-survey#:#ordinal_question_not_checked#:#Sie müssen eine der angebotenen Anworten auswählen!
+survey#:#question_not_checked#:#Sie müssen eine der angebotenen Anworten auswählen!
 survey#:#orientation#:#Ausrichtung
 survey#:#outro#:#Abschließende Bemerkung
 survey#:#percentage_of_entered_values#:#Prozentsatz der NutzerInnen, die diesen Wert ausgewählt haben
@@ -7120,8 +7120,8 @@ survey#:#survey_text_textwidth_desc#:#Geben Sie die Breite des Eingabefeldes in 
 survey#:#survey_use_start_button#:#Sie dürfen eine Umfrage nur über die Schaltfläche "Umfrage beginnen" starten!
 survey#:#SurveyMatrixQuestion#:#Matrixfrage
 survey#:#SurveyMetricQuestion#:#Metrische Frage
-survey#:#SurveyNominalQuestion#:#Nominale Frage
-survey#:#SurveyOrdinalQuestion#:#Ordinale Frage
+survey#:#SurveyMultipleChoiceQuestion#:#Multiple Choice Frage (Mehrfachauswahl)
+survey#:#SurveySingleChoiceQuestion#:#Multiple Choice Frage (Einfachauswahl)
 survey#:#SurveyTextQuestion#:#Textfrage
 survey#:#svy_all_user_data_deleted#:#Alle Nutzerdaten der Umfrage wurden gelöscht!
 survey#:#svy_check_evaluation_access_introduction#:#Da diese Auswertung nur für Teilnehmer der Umfrage verfügbar ist, müssen Sie Ihren Zugangsschlüssel für die Umfrage angeben, um die Auswertung zu öffnen.

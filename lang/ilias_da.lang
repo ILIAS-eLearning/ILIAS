@@ -6984,14 +6984,14 @@ survey#:#no_question_selected_for_removal#:#Marker venligst et spørgsmål eller
 survey#:#no_questionblocks_available#:#Der er ingen spørgsmålsblokke tilgængelige
 survey#:#no_search_results#:#Intet resultat af søgningen!
 survey#:#no_user_phrases_defined#:#Der er ingen brugere tilgængelige!
-survey#:#nominal_question_mr_not_checked#:#Afkryds venligst et af de mulige svar!
+survey#:#question_mr_not_checked#:#Afkryds venligst et af de mulige svar!
 survey#:#nominal_question_not_checked#:#Marker venligst et af de tilbudte svar!
 survey#:#non_ratio#:#Non-Ratio###21 Apr 2005 new variable
 survey#:#not_used#:#ikke brugt
 survey#:#obligatory#:#obligatorisk
 survey#:#off#:#Deaktiveret
 survey#:#on#:#Aktiveret
-survey#:#ordinal_question_not_checked#:#Marker venligst et af de tilbudte svar!
+survey#:#question_not_checked#:#Marker venligst et af de tilbudte svar!
 survey#:#orientation#:#Orientering
 survey#:#outro#:#Final statement
 survey#:#percentage_of_entered_values#:#Procent af brugere der har indtastet denne værdi

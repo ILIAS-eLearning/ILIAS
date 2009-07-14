@@ -5343,7 +5343,7 @@ survey#:#off#:#off###23 May 2004 new variable
 survey#:#offline#:#offline###23 May 2004 new variable
 survey#:#on#:#on###23 May 2004 new variable
 survey#:#or#:#or###24 May 2004 new variable
-survey#:#ordinal_question_not_checked#:#Please check one of the offered answers!###01 Jun 2004 new variable
+survey#:#question_not_checked#:#Please check one of the offered answers!###01 Jun 2004 new variable
 survey#:#orientation#:#Orientation###18 Nov 2004 new variable
 survey#:#percentage_of_entered_values#:#Percentage of users that entered this value###04 Jun 2004 new variable
 survey#:#percentage_of_offered_answers#:#Percentage of offered answers###28 Feb 2006 new variable
@@ -5588,7 +5588,7 @@ trac#:#trac_visits_info#:#Every page visit counts as one visit.###23 Dec 2005 ne
 trac#:#tracking_time_span_not_valid#:#Please enter a valid number of seconds.###23 Dec 2005 new variable
 assessment#:#change_properties_from_random_to_standard#:#You are about to change your test properties from a random test to a non random test. The information on the question pools you already added to the random test will be removed from test. Do you really want to change the test properties?###06 09 2006 new variable
 assessment#:#change_properties_from_standard_to_random#:#You are about to change your test properties from a non random test to a random test. The questions you already added to the test will be removed, because you have to select question pools for a random test. Do you really want to change the test properties?###06 09 2006 new variable
-survey#:#nominal_question_mr_not_checked#:#Please check at least one of the offered answers!###06 09 2006 new variable
+survey#:#question_mr_not_checked#:#Please check at least one of the offered answers!###06 09 2006 new variable
 assessment#:#filter_users#:#Filter users###12 10 2006 new variable
 assessment#:#passed_only#:#Only passed tests###12 10 2006 new variable
 survey#:#survey_codes_lang#:#Language of the survey###27 11 2006 new variable

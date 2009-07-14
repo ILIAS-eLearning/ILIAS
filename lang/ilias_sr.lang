@@ -6041,7 +6041,7 @@ survey#:#no_search_results#:#Nema rezultata pretrage!
 survey#:#no_target_selected_for_move#:#Morate izabrati ciljnu poziciju!
 survey#:#no_user_or_group_selected#:#Molimo odaberite opciju za cim tragate (korisnik i/ili grupe)!
 survey#:#no_user_phrases_defined#:#Nema raspoloživih definisanih korisnickih fraza!
-survey#:#nominal_question_mr_not_checked#:#Please check at least one of the offered answers!###29 Jul 2006 new variable
+survey#:#question_mr_not_checked#:#Please check at least one of the offered answers!###29 Jul 2006 new variable
 survey#:#nominal_question_not_checked#:#Molimo proverite jedan od ponudenih odgovora!
 survey#:#non_ratio#:#Nesrazmerno###10 Jul 2006 content changed
 survey#:#not_used#:#nije korišteno
@@ -6050,7 +6050,7 @@ survey#:#off#:#otkazan
 survey#:#offline#:#nezavistan
 survey#:#on#:#ukljucen
 survey#:#or#:#ili
-survey#:#ordinal_question_not_checked#:#Molimo proverite jedan od ponudenih odgovora!
+survey#:#question_not_checked#:#Molimo proverite jedan od ponudenih odgovora!
 survey#:#orientation#:#Orijentacija
 survey#:#outro#:#Final statement###19 Jul 2006 new variable
 survey#:#percentage_of_entered_values#:#Procenat korisnika koji su uneli ovu vrednost
