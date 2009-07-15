@@ -571,5 +571,22 @@ class ilDiskQuotaChecker
 			}
 		}
 	}
+
+	/**
+	* Returns the SQL datetime of the last update of the disk usage statistics.
+	* Returns null, if the disk usage statistics has never been made.
+	*/
+	public static function _lookupDiskUsageStatisticsLastUpdate()
+	{
+		global $ilDB;
+
+		require_once 'Services/Mail/classes/class.ilDiskQuotaReminderMail.php';
+		$mail = new ilDiskQuotaReminderMail();
+
+		$res = $ilDB->query("SELECT MAX(value) AS last_update ".
+			"FROM usr_pref WHERE keyword='disk_usage.last_update'");
+		$row = $res->fetchRow(DB_FETCHMODE_ASSOC);
+		return ($row != null) ? $row['last_update'] : null;
+	}
 }
 ?>

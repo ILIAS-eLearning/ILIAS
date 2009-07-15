@@ -426,8 +426,24 @@ class ilObjFileAccessSettingsGUI extends ilObjectGUI
 			return;
 		}
 
-		// Filter
+		// get the form
 		$this->tpl->addBlockfile('ADM_CONTENT','adm_content','tpl.diskquota_user_list.html');
+
+		// get the date of the last update
+		require_once("./Services/WebDAV/classes/class.ilDiskQuotaChecker.php");
+		$last_update = ilDiskQuotaChecker::_lookupDiskUsageStatisticsLastUpdate();
+		if ($last_update == null)
+		{
+			// nothing to do if disk usage statistics has not been run
+			$this->tpl->setVariable('LAST_UPDATE_TEXT',$lng->txt('disk_usage_statistics_not_run_yet'));
+			return;
+		}
+		else
+		{
+			$this->tpl->setVariable('LAST_UPDATE_TEXT',$lng->txt('last_update').': '.ilFormat::formatDate($last_update));
+		}
+
+		// Filter
 		$_SESSION['quota_usage_filter'] = isset($_POST['usage_filter']) ? $_POST['usage_filter'] : $_SESSION['quota_usage_filter'];
 		if ($_SESSION['quota_usage_filter'] == 0)
 		{
@@ -495,7 +511,6 @@ class ilObjFileAccessSettingsGUI extends ilObjectGUI
 		$tbl->setOrderDirection($_GET["sort_order"]);
 
 		// fetch the data
-		require_once("./Services/WebDAV/classes/class.ilDiskQuotaChecker.php");
 		$data = ilDiskQuotaChecker::_fetchDiskUsageStatistics(
 			$_SESSION['quota_usage_filter'],
 			$_SESSION['quota_access_filter'],
