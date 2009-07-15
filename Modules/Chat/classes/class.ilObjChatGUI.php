@@ -404,154 +404,15 @@ class ilObjChatGUI extends ilObjectGUI
 		$tbl = new ilChatRoomsTableGUI($this, $rbacsystem->checkAccess('write',$this->object->getRefId()), $isActive);
 		$tbl->setData($rooms);
 		
+		// permanent link
+		include_once 'Services/PermanentLink/classes/class.ilPermanentLinkGUI.php';
+		$permalink = new ilPermanentLinkGUI('chat', $this->object->getRefId());
+		$this->tpl->setVariable('PRMLINK', $permalink->getHTML());
+		
 		$this->tpl->setVariable("ADM_CONTENT", $tbl->getHTML());
+		
 	}
 	
-	// TODO: delete me
-	public function viewOldObject()
-	{
-		global $rbacsystem,$ilUser;
-		if (strtolower($_GET["baseClass"]) == "iladministrationgui")
-		{
-			parent::viewObject();
-			return true;
-		}
-
-		// Check blocked
-		include_once 'Modules/Chat/classes/class.ilChatBlockedUsers.php';
-
-		if (!$rbacsystem->checkAccess("read", $this->ref_id))
-		{
-			$this->ilias->raiseError($this->lng->txt("msg_no_perm_read"),$this->ilias->error_obj->MESSAGE);
- 		}
-
-		$this->tpl->addBlockFile("ADM_CONTENT", "adm_content", "tpl.chat_view.html","Modules/Chat");
-
-		// CHAT SERVER NOT ACTIVE
-		if(!$this->object->server_comm->isAlive() or !$this->ilias->getSetting("chat_active"))
-		{
-			ilUtil::sendFailure($this->lng->txt("chat_server_not_active"));
-		}
-		
-		if(ilChatBlockedUsers::_isBlocked($this->object->getId(),$ilUser->getId()))
-		{
-			ilUtil::sendInfo($this->lng->txt('chat_access_blocked'));
-			return true;
-		}
-
-		// DELETE ROOMS CONFIRM
-		$checked = array();
-		if($_SESSION["room_id_delete"])
-		{
-			$checked = $_SESSION["room_id_delete"];
-			ilUtil::sendQuestion($this->lng->txt("chat_delete_sure"));
-			$this->tpl->setCurrentBlock("confirm_delete");
-			$this->tpl->setVariable("TXT_DELETE_CANCEL",$this->lng->txt("cancel"));
-			$this->tpl->setVariable("TXT_DELETE_CONFIRM",$this->lng->txt("delete"));
-			$this->tpl->parseCurrentBlock();
-		}
-
-		// SHOW ROOMS TABLE
-		$this->tpl->setVariable("TYPE_IMG",ilUtil::getImagePath('icon_chat.gif'));
-		$this->tpl->setVariable("ALT_IMG",$this->lng->txt('obj_chat'));
-		$this->tpl->setVariable("TITLE",$this->lng->txt('chat_rooms'));
-
-		$this->tpl->setVariable("FORMACTION",$this->ctrl->getFormAction($this));
-		$this->tpl->setVariable("TXT_CHATROOMS",$this->lng->txt("chat_chatrooms"));
-		$this->tpl->setVariable("ACTIONS",$this->lng->txt('actions'));
-
-		$counter = 0;
-
-		if($rbacsystem->checkAccess('write',$this->ref_id))
-		{
-			$rooms = $this->object->chat_room->getAllRoomsOfObject();
-		}
-		else
-		{
-			$this->object->chat_room->setOwnerId($_SESSION["AccountId"]);
-			$rooms = $this->object->chat_room->getRoomsOfObject();
-		}
-		$script = './ilias.php?baseClass=ilChatPresentationGUI';
-		// ADD PUBLIC ROOM
-		// CHAT SERVER  ACTIVE
-
-		if(ilChatBlockedUsers::_isBlocked($this->object->getId(),$ilUser->getId()))
-		{
-			$this->tpl->setCurrentBlock("blocked");
-			$this->tpl->setVariable("MESSAGE_BLOCKED",$this->lng->txt('chat_blocked'));
-			$this->tpl->parseCurrentBlock();
-		}
-		elseif($this->object->server_comm->isAlive() and $this->ilias->getSetting("chat_active"))
-		{
-			$this->tpl->setCurrentBlock("active");
-			$this->tpl->setVariable("ROOM_LINK",$script."&ref_id=".$this->ref_id."&room_id=0");
-			$this->tpl->setVariable("ROOM_TARGET","chat");
-			$this->tpl->setVariable("ROOM_TXT_LINK",$this->lng->txt("show"));
-			$this->tpl->parseCurrentBlock();
-		}
-		else
-		{
-			$this->tpl->touchBlock("not_active");
-		}
-		$this->tpl->setCurrentBlock("tbl_rooms_row");
-		$this->tpl->setVariable("ROWCOL",++$counter % 2 ? "tblrow1" : "tblrow2");
-		$this->tpl->setVariable("ROOM_CHECK",
-								ilUtil::formCheckbox(in_array(0,$checked) ? 1 : 0,
-													 "del_id[]",
-													 0));
-		$this->tpl->setVariable("ROOM_NAME",$this->object->getTitle()." ".$this->lng->txt("chat_public_room"));
-		$this->tpl->setVariable("USERS_ONLINE",
-								$this->lng->txt('chat_users_active').': '.
-								ilChatRoom::_getCountActiveUsers($this->object->getId()));
-		$this->tpl->parseCurrentBlock();
-
-		foreach($rooms as $room)
-		{
-			// CHAT SERVER  ACTIVE
-			if($this->object->server_comm->isAlive() and $this->ilias->getSetting("chat_active"))
-			{
-				$this->tpl->setCurrentBlock("active");
-				$this->tpl->setVariable("ROOM_LINK",$script."&ref_id=".$this->ref_id."&room_id=".$room["room_id"]);
-				$this->tpl->setVariable("ROOM_TARGET","chat");
-				$this->tpl->setVariable("ROOM_TXT_LINK",$this->lng->txt("show"));
-				$this->tpl->parseCurrentBlock();
-			}
-			else
-			{
-				$this->tpl->touchBlock("not_active");
-			}
-			$this->tpl->setCurrentBlock("tbl_rooms_row");
-			$this->tpl->setVariable("ROWCOL",++$counter % 2 ? "tblrow1" : "tblrow2");
-			$this->tpl->setVariable("ROOM_CHECK",
-									ilUtil::formCheckbox(in_array($room["room_id"],$checked) ? 1 : 0,
-									"del_id[]",
-									$room["room_id"]));
-
-			$this->tpl->setVariable("ROOM_NAME",$room["title"]);
-			$this->tpl->setVariable("USERS_ONLINE",
-									$this->lng->txt('chat_users_active').': '.
-									ilChatRoom::_getCountActiveUsers($this->object->getId(),$room['room_id']));
-			$this->tpl->parseCurrentBlock();
-		}
-		$this->tpl->setCurrentBlock("has_rooms");
-		$this->tpl->setVariable("TBL_FOOTER_IMG_SRC", ilUtil::getImagePath("arrow_downright.gif"));
-		$this->tpl->setVariable("TBL_FOOTER_SELECT",$this->__showAdminRoomSelect(count($rooms)));
-		$this->tpl->setVariable("FOOTER_HAS_ROOMS_OK",$this->lng->txt("ok"));
-		$this->tpl->parseCurrentBlock();
-		$this->tpl->setVariable("TBL_FOOTER_ADD_SELECT",$this->__showAdminAddRoomSelect());
-		$this->tpl->setVariable("FOOTER_OK",$this->lng->txt("add"));
-		
-		// permanent link
-		$this->tpl->setCurrentBlock("perma_link");
-		$this->tpl->setVariable("PERMA_LINK", ILIAS_HTTP_PATH.
-			"/goto.php?target=".
-			$this->object->getType().
-			"_".$this->object->getRefId()."&client_id=".CLIENT_ID);
-		$this->tpl->setVariable("TXT_PERMA_LINK", $this->lng->txt("perma_link"));
-		$this->tpl->setVariable("PERMA_TARGET", "_top");
-		$this->tpl->parseCurrentBlock();
-
-	}
 // TODO: delete me
 	public function adminRoomsObject()
 	{
@@ -1486,12 +1347,16 @@ class ilObjChatGUI extends ilObjectGUI
 			}
 		}
 		// permanent link
+		include_once 'Services/PermanentLink/classes/class.ilPermanentLinkGUI.php';
+		$permalink = new ilPermanentLinkGUI('chat', $this->object->getRefId());
+		$this->tpl->setVariable('PERMANENT_LINK', $permalink->getHTML(), '&room_id='.$this->object->chat_room->getRoomId());
+		/*
 		$this->tpl->setCurrentBlock('perma_link');
 		$this->tpl->setVariable('PERMA_LINK', ILIAS_HTTP_PATH.'/goto.php?target='.$this->object->getType().'_'.$this->object->getRefId().'&client_id='.CLIENT_ID);
 		$this->tpl->setVariable('TXT_PERMA_LINK', $this->lng->txt('chat_link_to_this_chat'));
 		$this->tpl->setVariable('PERMA_TARGET', '_top');
 		$this->tpl->parseCurrentBlock();
-		
+		*/
 		//$this->tpl->show(false);
 		//exit;
 	}
