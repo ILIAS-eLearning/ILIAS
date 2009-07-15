@@ -1,25 +1,5 @@
 <?php
-/*
-	+-----------------------------------------------------------------------------+
-	| ILIAS open source                                                           |
-	+-----------------------------------------------------------------------------+
-	| Copyright (c) 1998-2001 ILIAS open source, University of Cologne            |
-	|                                                                             |
-	| This program is free software; you can redistribute it and/or               |
-	| modify it under the terms of the GNU General Public License                 |
-	| as published by the Free Software Foundation; either version 2              |
-	| of the License, or (at your option) any later version.                      |
-	|                                                                             |
-	| This program is distributed in the hope that it will be useful,             |
-	| but WITHOUT ANY WARRANTY; without even the implied warranty of              |
-	| MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the               |
-	| GNU General Public License for more details.                                |
-	|                                                                             |
-	| You should have received a copy of the GNU General Public License           |
-	| along with this program; if not, write to the Free Software                 |
-	| Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA. |
-	+-----------------------------------------------------------------------------+
-*/
+/* Copyright (c) 1998-2009 ILIAS open source, Extended GPL, see docs/LICENSE */
 
 /**
 * Class ilUserDefinedData
@@ -27,10 +7,8 @@
 * @author Stefan Meyer <smeyer@databay.de>
 *
 * @version $Id$
-*
-*
+* @ingroup ServicesUser
 */
-
 class ilUserDefinedData
 {
 	var $db = null;
@@ -61,6 +39,17 @@ class ilUserDefinedData
 		return isset($this->user_data[$a_field]) ? $this->user_data[$a_field] : '';
 	}
 
+	/**
+	 * Get all fields
+	 */
+	function getAll()
+	{
+		return $this->user_data;
+	}
+	
+	/**
+	 * Update data 
+	 */
 	function update()
 	{
 		global $ilDB;
@@ -72,11 +61,30 @@ class ilUserDefinedData
 		$field_def = array();
 		foreach($udf_obj->getDefinitions() as $definition)
 		{
-			$field_def['f_'.$definition['field_id']] = array('text',$this->get($definition['field_id']));
+//			$field_def['f_'.$definition['field_id']] = array('text',$this->get($definition['field_id']));
 			
-			$sql .= ("`".(int) $definition['field_id']."` = ".$this->db->quote($this->get($definition['field_id'])).", ");
+//			$sql .= ("`".(int) $definition['field_id']."` = ".$this->db->quote($this->get($definition['field_id'])).", ");
+
+			if ($definition["field_type"] == UDF_TYPE_WYSIWYG)
+			{
+				$ilDB->replace("udf_clob", array(
+						"usr_id" => array("integer", $this->getUserId()),
+						"field_id" => array("integer", $definition['field_id'])),
+						array(
+						"value" => array("text", $this->get("f_".$definition['field_id']))
+						));
+			}
+			else
+			{
+				$ilDB->replace("udf_text", array(
+						"usr_id" => array("integer", $this->getUserId()),
+						"field_id" => array("integer", $definition['field_id'])),
+						array(
+						"value" => array("text", $this->get("f_".$definition['field_id']))
+						));
+			}
 		}
-		if(!$field_def)
+/*		if(!$field_def)
 		{
 			return true;
 		}
@@ -92,8 +100,58 @@ class ilUserDefinedData
 		{
 			$field_def['usr_id'] = array('integer',$this->getUserId());
 			$ilDB->insert('udf_data',$field_def);
-		}
+		}*/
 		return true;
+	}
+	
+	/**
+	 * Delete data of user
+	 *
+	 * @param	int		user id
+	 */
+	static function deleteEntriesOfUser($a_user_id)
+	{
+		global $ilDB;
+
+		$ilDB->manipulate("DELETE FROM udf_text WHERE "
+			." usr_id = ".$ilDB->quote($a_user_id, "integer")
+			);
+		$ilDB->manipulate("DELETE FROM udf_clob WHERE "
+			." usr_id = ".$ilDB->quote($a_user_id, "integer")
+			);
+	}
+
+	/**
+	 * Delete data of particular field
+	 *
+	 * @param	int		field id
+	 */
+	static function deleteEntriesOfField($a_field_id)
+	{
+		global $ilDB;
+
+		$ilDB->manipulate("DELETE FROM udf_text WHERE "
+			." field_id = ".$ilDB->quote($a_field_id, "integer")
+			);
+		$ilDB->manipulate("DELETE FROM udf_clob WHERE "
+			." field_id = ".$ilDB->quote($a_field_id, "integer")
+			);
+	}
+
+	/**
+	 * Delete data of particular value of a (selection) field
+	 *
+	 * @param	int			field id
+	 * * @param	string		value
+	 */
+	static function deleteFieldValue($a_field_id, $a_value)
+	{
+		global $ilDB;
+
+		$ilDB->manipulate("UPDATE udf_text SET value = ".$ilDB->quote("", "text")." WHERE "
+			." field_id = ".$ilDB->quote($a_field_id, "integer")
+			." AND value = ".$ilDB->quote($a_value, "text")
+			);
 	}
 
 	function toXML()
@@ -129,18 +187,19 @@ class ilUserDefinedData
 	function __read()
 	{
 		$this->user_data = array();
-		$query = "SELECT * FROM udf_data ".
+		$query = "SELECT * FROM udf_text ".
 			"WHERE usr_id = ".$this->db->quote($this->usr_id,'integer')."";
 		$res = $this->db->query($query);
 		while($row = $res->fetchRow(DB_FETCHMODE_ASSOC))
 		{
-			foreach($row as $field => $data)
-			{
-				if($field != 'usr_id')
-				{
-					$this->user_data[$field] = $data;
-				}
-			}
+			$this->user_data["f_".$row["field_id"]] = $row["value"];
+		}
+		$query = "SELECT * FROM udf_clob ".
+			"WHERE usr_id = ".$this->db->quote($this->usr_id,'integer')."";
+		$res = $this->db->query($query);
+		while($row = $res->fetchRow(DB_FETCHMODE_ASSOC))
+		{
+			$this->user_data["f_".$row["field_id"]] = $row["value"];
 		}
 	}
 

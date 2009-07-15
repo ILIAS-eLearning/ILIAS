@@ -8,7 +8,7 @@
 * @author Alex Killing <alex.killing@gmx.de>
 * @version $Id$
 *
-* @ilCtrl_Calls ilPersonalProfileGUI:
+* @ilCtrl_Calls ilPersonalProfileGUI: ilPublicUserProfileGUI
 *
 */
 class ilPersonalProfileGUI
@@ -47,10 +47,18 @@ class ilPersonalProfileGUI
 	*/
 	function &executeCommand()
 	{
+		global $ilUser, $ilCtrl;
+		
 		$next_class = $this->ctrl->getNextClass();
 
 		switch($next_class)
 		{
+			case "ilpublicuserprofilegui":
+				include_once("./Services/User/classes/class.ilPublicUserProfileGUI.php");
+				$pub_profile_gui = new ilPublicUserProfileGUI($ilUser->getId());
+				$ilCtrl->forwardCommand($pub_profile_gui);
+				break;
+			
 			default:
 				//$this->setTabs();
 				$cmd = $this->ctrl->getCmd("showPersonalData");
@@ -59,7 +67,6 @@ class ilPersonalProfileGUI
 		}
 		return true;
 	}
-
 
 
 	/**
@@ -2253,6 +2260,13 @@ return;
 				$this->input["udf_".$definition['field_id']]->setMaxLength(255);
 				$this->input["udf_".$definition['field_id']]->setSize(40);
 			}
+			else if($definition['field_type'] == UDF_TYPE_WYSIWYG)
+			{
+				$this->input["udf_".$definition['field_id']] =
+					new ilTextAreaInputGUI($definition['field_name'], "udf_".$definition['field_id']);
+				$this->input["udf_".$definition['field_id']]->setValue($user_defined_data["f_".$field_id]);
+				$this->input["udf_".$definition['field_id']]->setUseRte(true);
+			}
 			else
 			{
 				$this->input["udf_".$definition['field_id']] =
@@ -2478,7 +2492,13 @@ return;
 		{
 			$this->initPublicProfileForm();
 		}
-		$this->tpl->setContent($this->form->getHTML());
+		
+		$ptpl = new ilTemplate("tpl.edit_personal_profile.html", true, true, "Services/User");
+		$ptpl->setVariable("FORM", $this->form->getHTML());
+		include_once("./Services/User/classes/class.ilPublicUserProfileGUI.php");
+		$pub_profile = new ilPublicUserProfileGUI($ilUser->getId());
+		$ptpl->setVariable("PREVIEW", $pub_profile->getHTML());
+		$this->tpl->setContent($ptpl->get());
 		$this->tpl->show();
 	}
 
@@ -2575,6 +2595,21 @@ return;
 			$this->form->addItem($cb);
 		}
 		
+		// additional defined user data fields 
+		$user_defined_data = $ilUser->getUserDefinedData();
+		foreach($this->user_defined_fields->getVisibleDefinitions() as $field_id => $definition)
+		{
+			// public setting
+			$cb = new ilCheckboxInputGUI($definition["field_name"], "chk_udf_".$definition["field_id"]);
+			$cb->setOptionTitle($user_defined_data["f_".$definition["field_id"]]);
+			if ($ilUser->prefs["public_udf_".$definition["field_id"]] == "y")
+			{
+				$cb->setChecked(true);
+			}
+			$this->form->addItem($cb);
+		}
+
+		
 		// save and cancel commands
 		$this->form->addCommandButton("savePublicProfile", $lng->txt("save"));
 	                
@@ -2649,6 +2684,20 @@ return;
 					$ilUser->setPref("public_delicious","n");
 				}
 			}
+			
+			// additional defined user data fields
+			foreach($this->user_defined_fields->getVisibleDefinitions() as $field_id => $definition)
+			{
+				if (($_POST["chk_udf_".$definition["field_id"]]))
+				{
+					$ilUser->setPref("public_udf_".$definition["field_id"], "y");
+				}
+				else
+				{
+					$ilUser->setPref("public_udf_".$definition["field_id"], "n");
+				}
+			}
+
 			$ilUser->update();
 			ilUtil::sendSuccess($lng->txt("msg_obj_modified"), true);
 			$ilCtrl->redirect($this, "showPublicProfile");

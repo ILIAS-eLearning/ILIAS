@@ -3526,5 +3526,20 @@ class ilObjUserGUI extends ilObjectGUI
 
 		return "<br/>".$this->lng->txt("mail_sent");
 	}
+	
+	/**
+	 * Goto user profile screen
+	 */
+	function _goto($a_target)
+	{
+		global $ilAccess, $ilErr, $lng, $ilNavigationHistory;
+		$_GET["cmd"] = "view";
+		$_GET["user_id"] = (int) $a_target;
+		$_GET["baseClass"] = "ilPublicUserProfileGUI";
+		$_GET["cmdClass"] = "ilpublicuserprofilegui";
+		include("ilias.php");
+		exit;
+	}
+
 } // END class.ilObjUserGUI
 ?>

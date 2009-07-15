@@ -1,6 +1,7 @@
 <?php
 /* Copyright (c) 1998-2009 ILIAS open source, Extended GPL, see docs/LICENSE */
 
+require_once "./classes/class.ilObjectGUI.php";
 
 /**
 * Class ilObjUserFolderGUI
@@ -12,11 +13,8 @@
 * 
 * @ilCtrl_Calls ilObjUserFolderGUI: ilPermissionGUI, ilAdminUserSearchGUI, ilUserTableGUI
 *
-* @extends ilObjectGUI
+* @ingroup ServicesUser
 */
-
-require_once "./classes/class.ilObjectGUI.php";
-
 class ilObjUserFolderGUI extends ilObjectGUI
 {
 	var $ctrl;
@@ -2686,7 +2684,10 @@ if (true)
 			$this->tpl->setVariable("TXT_VISIBLE", $this->lng->txt("visible"));
 			$this->tpl->setVariable("TXT_CHANGE", $this->lng->txt("changeable"));
 			$this->tpl->setVariable("TXT_REQUIRED", $this->lng->txt("required_field"));
-			$this->tpl->setVariable("TXT_SEARCHABLE", $this->lng->txt("header_searchable"));			
+			if ($definition["field_type"] != UDF_TYPE_WYSIWYG)
+			{
+				$this->tpl->setVariable("TXT_SEARCHABLE", $this->lng->txt("header_searchable"));
+			}
 			$this->tpl->setVariable("TXT_EXPORT", $this->lng->txt("export"));
 			$this->tpl->setVariable("TXT_COURSE_EXPORT", $lng->txt("course_export"));
 			
@@ -2707,7 +2708,10 @@ if (true)
 			$this->tpl->setVariable("VISIBLE",ilUtil::formCheckbox($definition['visible'],"def[$field_id][visible]",1));
 			$this->tpl->setVariable("CHANGE",ilUtil::formCheckbox($definition['changeable'],"def[$field_id][changeable]",1));
 			$this->tpl->setVariable("REQUIRED",ilUtil::formCheckbox($definition['required'],"def[$field_id][required]",1));
-			$this->tpl->setVariable("SEARCHABLE",ilUtil::formCheckbox($definition['searchable'],"def[$field_id][searchable]",1));
+			if ($definition["field_type"] != UDF_TYPE_WYSIWYG)
+			{
+				$this->tpl->setVariable("SEARCHABLE",ilUtil::formCheckbox($definition['searchable'],"def[$field_id][searchable]",1));
+			}
 			$this->tpl->setVariable("EXPORT",ilUtil::formCheckbox($definition['export'],"def[$field_id][export]",1));
 			$this->tpl->setVariable("COURSE_EXPORT",ilUtil::formCheckbox($definition['course_export'],"def[$field_id][course_export]",1));
 
@@ -2721,6 +2725,10 @@ if (true)
 			{
 				case UDF_TYPE_TEXT:
 					$this->tpl->setVariable("EDIT_LINK",$this->ctrl->getLinkTarget($this,'editTextField'));
+					break;
+
+				case UDF_TYPE_WYSIWYG:
+					$this->tpl->setVariable("EDIT_LINK",$this->ctrl->getLinkTarget($this,'editWysiwygField'));
 					break;
 
 				case UDF_TYPE_SELECT:
@@ -2763,6 +2771,59 @@ if (true)
 	}
 
 	function updateTextFieldObject()
+	{
+		include_once './Services/User/classes/class.ilUserDefinedFields.php';
+		
+		$udf =& ilUserDefinedFields::_getInstance();
+		$definition = $udf->getDefinition((int) $_GET['field_id']);
+
+		$udf->setFieldName(ilUtil::stripslashes($_POST['field_name']));
+		$udf->setFieldType($definition['field_type']);
+		$udf->setFieldValues($definition['field_values']);
+		$udf->enableVisible($definition['visible']);
+		$udf->enableChangeable($definition['changeable']);
+		$udf->enableRequired($definition['required']);
+		$udf->enableSearchable($definition['searchable']);
+		$udf->enableExport($definition['export']);
+		$udf->enableCourseExport($definition['course_export']);
+
+		$udf->enableRegistration($definition['visible_registration']);
+
+		$udf->update($definition['field_id']);
+
+		ilUtil::sendSuccess($this->lng->txt('udf_update_success'));
+		
+		$this->listUserDefinedFieldsObject();
+	}
+
+	function editWysiwygFieldObject()
+	{
+		include_once './Services/User/classes/class.ilUserDefinedFields.php';
+		$udf =& ilUserDefinedFields::_getInstance();
+		$definition = $udf->getDefinition((int) $_GET['field_id']);
+
+		// Save paremeter
+		$this->ctrl->setParameter($this,'field_id',(int) $_GET['field_id']);
+
+		$this->setSubTabs('settings');
+		$this->tabs_gui->setTabActive('global_settings');
+		$this->tabs_gui->setSubTabActive('user_defined_fields');
+		
+		$this->tpl->addBlockFile('ADM_CONTENT','adm_content','tpl.usrf_update_text_field.html');
+		
+		$this->tpl->setVariable("FORMACTION",$this->ctrl->getFormAction($this));
+		$this->tpl->setVariable("TXT_SELECT_TYPE",$this->lng->txt('udf_update_wysiwyg_field'));
+		$this->tpl->setVariable("TXT_FIELD_NAME",$this->lng->txt('field_name'));
+		
+		$this->tpl->setVariable("FIELD_NAME",$definition['field_name']);
+		
+		$this->tpl->setVariable("BTN_PREVIOUS",$this->lng->txt('cancel'));
+		$this->tpl->setVariable("BTN_ADD",$this->lng->txt('update'));
+
+		return true;
+	}
+
+	function updateWysiwygFieldObject()
 	{
 		include_once './Services/User/classes/class.ilUserDefinedFields.php';
 		
@@ -3014,6 +3075,8 @@ if (true)
 
 	function chooseFieldTypeObject()
 	{
+		global $lng, $tpl;
+		
 		include_once './Services/User/classes/class.ilUserDefinedFields.php';
 
 		// number of values defaults to 3
@@ -3022,21 +3085,30 @@ if (true)
 		$this->setSubTabs('settings');
 		$this->tabs_gui->setTabActive('global_settings');
 		$this->tabs_gui->setSubTabActive('user_defined_fields');
-
-		$this->tpl->addBlockFile('ADM_CONTENT','adm_content','tpl.usrf_select_field_type.html');
-		$this->tpl->setVariable('FORMACTION',$this->ctrl->getFormAction($this,'chooseDefinitions'));
-		$this->tpl->setVariable("TXT_SELECT_TYPE",$this->lng->txt('add_new_user_defined_field'));
-		$this->tpl->setVariable("FIELD_TYPE",$this->lng->txt('field_type'));
-		$this->tpl->setVariable("TYPE_TEXT",ilUtil::formRadioButton(1,'field_type',UDF_TYPE_TEXT));
-		$this->tpl->setVariable("TYPE_SELECT",ilUtil::formRadioButton(0,'field_type',UDF_TYPE_SELECT));
-		$this->tpl->setVariable("TXT_TEXT",$this->lng->txt('udf_type_text'));
-		$this->tpl->setVariable("TXT_SELECT",$this->lng->txt('udf_type_select'));
-		$this->tpl->setVariable("BTN_MORE",$this->lng->txt('btn_next'));
-		$this->tpl->setVariable("BTN_CANCEL",$this->lng->txt('cancel'));
-
+		
+		include_once("./Services/Form/classes/class.ilPropertyFormGUI.php");
+		$this->form = new ilPropertyFormGUI();
+		$this->form->setFormAction($this->ctrl->getFormAction($this,'chooseDefinitions'));
+		$this->form->setTitle($this->lng->txt('add_new_user_defined_field'));
+		
+		$radg = new ilRadioGroupInputGUI($this->lng->txt('field_type'), "field_type");
+		$radg->setValue(UDF_TYPE_TEXT);
+			$op1 = new ilRadioOption($lng->txt("udf_type_text"), UDF_TYPE_TEXT);
+			$radg->addOption($op1);
+			$op2 = new ilRadioOption($lng->txt("udf_type_select"), UDF_TYPE_SELECT);
+			$radg->addOption($op2);
+			$op3 = new ilRadioOption($lng->txt("udf_type_wysiwyg"), UDF_TYPE_WYSIWYG);
+			$radg->addOption($op3);
+		$this->form->addItem($radg);
+		$this->form->addCommandButton("chooseDefinitions", $lng->txt("btn_next"));
+		$this->form->addCommandButton("listUserDefinedFields", $lng->txt("cancel"));
+		$this->tpl->setContent($this->form->getHTML());
 		return true;
 	}
 
+	/**
+	 * Choose definition 
+	 */
 	function chooseDefinitionsObject()
 	{
 		include_once './Services/User/classes/class.ilUserDefinedFields.php';
@@ -3054,9 +3126,17 @@ if (true)
 			case UDF_TYPE_SELECT:
 				$this->__showSelectTable();
 				break;
+				
+			case UDF_TYPE_WYSIWYG:
+				$this->__showWysiwygTable();
+				break;
 		}
 	}
 
+	/**
+	 * Text field
+	 *  
+	 */
 	function __showTextTable()
 	{		
 		global $lng;
@@ -3161,9 +3241,59 @@ if (true)
 			$this->tpl->setVariable("FIELD_NAME",$_POST['field_values'][$i]);
 			$this->tpl->parseCurrentBlock();
 		}
-			
-
 	}
+	
+	/**
+	 * Wysiwyg field
+	 *  
+	 */
+	function __showWysiwygTable()
+	{		
+		global $lng;
+		
+		$lng->loadLanguageModule("administration");
+		$lng->loadLanguageModule("ps");
+				
+		$this->tpl->addBlockFile('ADM_CONTENT','adm_content','tpl.usrf_edit_wysiwyg_field.html');
+				
+		include_once("Modules/Course/classes/class.ilCourseAgreement.php");
+	 	if (ilCourseAgreement::_hasAgreements())
+	 	{
+			$this->tpl->setCurrentBlock('warning_modify');
+			$this->tpl->setVariable('TXT_WARNING', $lng->txt('ps_warning_modify'));
+			$this->tpl->parseCurrentBlock();
+	 	}
+
+		// Save field_type
+		$this->ctrl->setParameter($this,'field_type',(int) $_REQUEST['field_type']);
+		$this->tpl->setVariable("FORMACTION",$this->ctrl->getFormAction($this));
+		
+		$this->tpl->setVariable("BTN_ADD",$this->lng->txt('udf_add_field'));
+		$this->tpl->setVariable("BTN_PREVIOUS",$this->lng->txt('btn_previous'));
+		$this->tpl->setVariable("TXT_SELECT_TYPE",$this->lng->txt('add_new_user_defined_wysiwyg_field'));
+		$this->tpl->setVariable("TXT_FIELD_NAME",$this->lng->txt('field_name'));
+		$this->tpl->setVariable("FIELD_NAME",$_POST['field_name']);
+
+		$this->tpl->setVariable("TXT_VISIBLE", $this->lng->txt("visible"));
+		$this->tpl->setVariable("TXT_CHANGE", $this->lng->txt("changeable"));
+		$this->tpl->setVariable("TXT_REQUIRED", $this->lng->txt("required_field"));
+		$this->tpl->setVariable("TXT_EXPORT", $this->lng->txt("export"));
+		$this->tpl->setVariable("TXT_COURSE_EXPORT", $lng->txt("course_export"));
+
+		$this->tpl->setVariable('TXT_VISIBLE_REGISTRATION', $this->lng->txt('visible_registration'));
+
+		$this->tpl->setVariable("VISIBLE",ilUtil::formCheckbox($_POST['def']['visible'],"def[visible]",1));
+		$this->tpl->setVariable("CHANGE",ilUtil::formCheckbox($_POST['def']['changeable'],"def[changeable]",1));
+		$this->tpl->setVariable("REQUIRED",ilUtil::formCheckbox($_POST['def']['required'],"def[required]",1));
+		$this->tpl->setVariable("EXPORT",ilUtil::formCheckbox($_POST['def']['export'],"def[export]",1));
+		$this->tpl->setVariable("COURSE_EXPORT",ilUtil::formCheckbox($_POST['def']['course_export'],"def[course_export]",1));
+
+		$this->tpl->setVariable('VISIBLE_REGISTRATION', 
+				ilUtil::formCheckbox($_POST['def']['visible_registration'], 'def[visible_registration]', 1));
+
+		return true;
+	}
+
 
 	function addValueObject()
 	{
@@ -3192,13 +3322,9 @@ if (true)
 		}
 
 		// Text fields
-		if($_REQUEST['field_type'] == UDF_TYPE_TEXT)
-		{
-			$user_field_definitions->setFieldType(UDF_TYPE_TEXT);
-		}
+		$user_field_definitions->setFieldType($_REQUEST['field_type']);
 		if($_REQUEST['field_type'] == UDF_TYPE_SELECT)
 		{
-			$user_field_definitions->setFieldType(UDF_TYPE_SELECT);
 			$user_field_definitions->setFieldValues($_POST['field_values']);
 			if($error = $user_field_definitions->validateValues())
 			{

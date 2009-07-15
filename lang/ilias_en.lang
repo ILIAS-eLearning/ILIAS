@@ -4022,8 +4022,8 @@ common#:#udf_field_deleted#:#Deleted field.
 common#:#udf_name_already_exists#:#This field name already exists. Please choose a different name.
 common#:#udf_no_entries#:#Please enter minimum one value.
 common#:#udf_no_name_given#:#Please enter a field name.
-common#:#udf_type_select#:#Select Box (fixed values)
-common#:#udf_type_text#:#Text (optional values)
+common#:#udf_type_select#:#Selection List (Drop-Down)
+common#:#udf_type_text#:#Text Field (One Line)
 common#:#udf_update_select_field#:#Edit Select Box
 common#:#udf_update_success#:#Saved modifications.
 common#:#udf_update_text_field#:#Edit Text Field
@@ -9697,5 +9697,8 @@ survey#:#spl_copy_insert_clipboard#:#The selected question(s) are copied to the 
 survey#:#spl_copy_select_none#:#Please check at least one question to copy it to the clipboard
 survey#:#spl_paste_no_objects#:#There are no questions in the clipboard. Please copy or move a question into the clipboard.
 survey#:#spl_paste_success#:#The question(s) have been pasted into the question pool
+common#:#udf_type_wysiwyg#:#Text Area (WYSIWYG)
+common#:#add_new_user_defined_wysiwyg_field#:#Add New Text Area (WYSIWYG) Field
+common#:#udf_update_wysiwyg_field#:#Edit Text Area (WYSIWYG) Field
 search#:#search_crs_title#:#Course Name
 search#:#search_for_crs_members#:#Search for Course Members
