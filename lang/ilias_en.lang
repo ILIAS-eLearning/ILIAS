@@ -2293,7 +2293,7 @@ common#:#group_members#:#Group Members
 common#:#group_memstat#:#Member Status
 common#:#group_memstat_admin#:#Administrator
 common#:#group_memstat_member#:#Member
-common#:#group_name#:#Group name
+common#:#group_name#:#Group Name
 common#:#group_new_registrations#:#Join Requests
 common#:#group_no_registration#:#Join group
 common#:#group_no_registration_msg#:#You can join this group directly.
@@ -6655,7 +6655,7 @@ registration#:#reg_access_limitation_mode#:#Access Limitation Mode
 registration#:#reg_access_limitation_mode_unlimited#:#No access limitation
 registration#:#reg_access_limitation_mode_absolute#:#Access is limited by a fixed date
 registration#:#reg_access_limitation_mode_relative#:#Limited access for a fixed time period after registration
-search#:#add_members_header#:#Add members
+search#:#add_members_header#:#Add Members
 search#:#append_results#:#Append results
 search#:#search_active#:#Include active users
 search#:#search_added_new_folder#:#Added new folder.
@@ -6678,12 +6678,12 @@ search#:#search_delete_sure#:#The object and its contents will be deleted perman
 search#:#search_details_info#:#Detailed search. Please select one or more resource types.
 search#:#search_direct#:#Direct search
 search#:#search_fast_info#:#Search for titles, descriptions and keywords in all object types
-search#:#search_for_grp_members#:#Search for group members
-search#:#search_for_role_members#:#Search for role members
+search#:#search_for_grp_members#:#Search for Group Members
+search#:#search_for_role_members#:#Search for Role Members
 search#:#search_for_users#:#Search for users
 search#:#search_full_info#:#Choose this option to search in a large amount of data.
 search#:#search_group#:#Groups
-search#:#search_grp_title#:#Group name
+search#:#search_grp_title#:#Group Name
 search#:#search_hits#:#Found in:
 search#:#search_in_magazin#:#In the repository
 search#:#search_in_result#:#Search within results
@@ -6718,7 +6718,7 @@ search#:#search_or#:#or
 search#:#search_rename_title#:#Rename title
 search#:#search_results#:#Search Results
 search#:#search_results_saved#:#Search results saved
-search#:#search_role_title#:#Role name
+search#:#search_role_title#:#Role Name
 search#:#search_save_as_select#:#Save as:
 search#:#search_search_for#:#Search for
 search#:#search_search_no_results_saved#:#There are no search results saved
@@ -9696,3 +9696,5 @@ survey#:#spl_copy_insert_clipboard#:#The selected question(s) are copied to the 
 survey#:#spl_copy_select_none#:#Please check at least one question to copy it to the clipboard
 survey#:#spl_paste_no_objects#:#There are no questions in the clipboard. Please copy or move a question into the clipboard.
 survey#:#spl_paste_success#:#The question(s) have been pasted into the question pool
+search#:#search_crs_title#:#Course Name
+search#:#search_for_crs_members#:#Search for Course Members

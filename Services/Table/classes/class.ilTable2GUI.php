@@ -25,6 +25,8 @@ class ilTable2GUI extends ilTableGUI
 	protected $ext_sort = false;
 	protected $ext_seg = false;
 	
+	protected $mi_sel_buttons = null;
+	
 	/**
 	* Constructor
 	*
@@ -620,6 +622,21 @@ class ilTable2GUI extends ilTableGUI
 	{
 		$this->sel_buttons[] = array("sel_var" => $a_sel_var, "options" => $a_options, "selected" => $a_default_selection, "cmd" => $a_cmd, "text" => $a_text);
 	}
+	
+	/**
+	* Add Selection List + Command button
+	* for selected items
+	*
+	* @param	string	selection input variable name
+	* @param	array	selection options ("value" => text")
+	* @param	string	command
+	* @param	string	button text
+	*/
+	public function addMultiItemSelectionButton($a_sel_var, $a_options, $a_cmd, $a_text, $a_default_selection = '')
+	{
+		$this->mi_sel_buttons[] = array("sel_var" => $a_sel_var, "options" => $a_options, "selected" => $a_default_selection, "cmd" => $a_cmd, "text" => $a_text);
+	}
+	
 	
 	
 	/**
@@ -1454,7 +1471,24 @@ class ilTable2GUI extends ilTableGUI
 			$this->tpl->parseCurrentBlock();
 		}
 		
-		// multi selection 
+		// multi selection
+		if(count($this->mi_sel_buttons))
+		{
+			foreach ($this->mi_sel_buttons as $button)
+			{
+				$this->tpl->setCurrentBlock("mi_sel_button");
+				$this->tpl->setVariable("MI_BUTTON_SELECT", 
+					ilUtil::formSelect($button["selected"], $button["sel_var"],
+						$button["options"], false, true));
+				$this->tpl->setVariable("MI_BTN_NAME", $button["cmd"]);
+				$this->tpl->setVariable("MI_BTN_VALUE", $button["text"]);
+				$this->tpl->parseCurrentBlock();
+			}
+			$arrow = true;
+			$action_row = true;
+		}
+		
+		
 		if (count($this->multi) > 1 && $this->dataExists())
 		{
 			$this->tpl->setCurrentBlock("tbl_cmd_select");

@@ -9647,3 +9647,5 @@ dateplaner#:#cal_day_week_view#:#Einstellungen Tages/Wochenansicht
 dateplaner#:#cal_week_month_view#:#Einstellungen Wochen/Monatsansicht
 common#:#header_visible_registration#:#Im Registrierungsformular
 common#:#visible_registration#:#Im Registrierungsformular
+search#:#search_crs_title#:#Kursname
+search#:#search_for_crs_members#:#Nach Kursmitgliedern suchen
