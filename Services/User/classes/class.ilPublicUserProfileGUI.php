@@ -164,7 +164,7 @@ class ilPublicUserProfileGUI
 
 		// Check from Database if value
 		// of public_profile = "y" show user infomation
-		if ($user->getPref("public_profile") != "y")
+		if ($user->getPref("public_profile") != "y" && $user->getPref("public_profile") != "g")
 		{
 			return;
 		}
@@ -437,11 +437,18 @@ class ilPublicUserProfileGUI
 	function view()
 	{
 		global $tpl, $ilUser;
-		if ($ilUser->getId() == ANONYMOUS_USER_ID)
+		
+		$user_id = (int) $_GET["user_id"];
+		$this->setUserId($user_id);
+		if (ilObject::_lookupType($user_id) != "usr")
 		{
 			return;
 		}
-		$this->setUserId($_GET["user_id"]);
+		$user = new ilObjUser($user_id);
+		if ($ilUser->getId() == ANONYMOUS_USER_ID && $user->getPref("public_profile") != "g")
+		{
+			return;
+		}
 		$tpl->getStandardTemplate();
 		$tpl->setContent($this->getHTML());
 		$tpl->show();
