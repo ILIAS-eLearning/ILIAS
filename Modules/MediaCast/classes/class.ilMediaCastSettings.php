@@ -35,6 +35,7 @@ class ilMediaCastSettings
 	private static $instance = null;
 	private $defaultAccess = "users";
 	private $purposeSuffixes = array();
+	private $mimeTypes = array();
 
 	/**
 	 * singleton contructor
@@ -95,6 +96,21 @@ class ilMediaCastSettings
 	}
 	
 	/**
+	 * @return array of mimetypes
+	 */
+	public function getMimeTypes() {
+		return $this->mimeTypes;
+	}
+	
+	/**
+	 * @param unknown_type $mimeTypes
+	 */
+	public function setMimeTypes(array $mimeTypes) {
+		$this->mimeTypes = $mimeTypes;
+	}
+
+	
+	/**
 	 * save 
 	 *
 	 * @access public
@@ -105,6 +121,7 @@ class ilMediaCastSettings
 			$this->storage->set($purpose . "_types", implode(",",$filetypes));
 		}
 		$this->storage->set("defaultaccess",$this->defaultAccess);
+		$this->storage->set("mimetypes", implode(",", $this->getMimeTypes()));
 	}
 
 	/**
@@ -121,7 +138,9 @@ class ilMediaCastSettings
 				$this->purposeSuffixes[$purpose] = explode(",",$this->storage->get($purpose."_types"));
 			}
 		}	
-		$this->setDefaultAccess($this->storage->get("defaultaccess"));	
+		$this->setDefaultAccess($this->storage->get("defaultaccess"));
+		if ($this->storage->get("mimetypes"))
+			$this->setMimeTypes(explode(",", $this->storage->get("mimetypes")));	
 	}
 	
 	/**
@@ -140,6 +159,10 @@ class ilMediaCastSettings
         $this->purposeSuffixes["AudioPortable"] = array("mp3");
         $this->purposeSuffixes["VideoPortable"] = array("mp4","m4v","mov");
         $this->setDefaultAccess("users");
+		require_once 'Services/MediaObjects/classes/class.ilObjMediaObject.php';		        
+        $mimeTypes = array_unique(array_values(ilObjMediaObject::getExt2MimeMap()));
+        sort($mimeTypes);
+        $this->setMimeTypes($mimeTypes);
 	}
 }
 ?>

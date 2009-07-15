@@ -139,6 +139,7 @@ class ilObjMediaCastSettingsGUI extends ilObjectGUI
 
 		$this->settings->setPurposeSuffixes($purposeSuffixes);
 		$this->settings->setDefaultAccess ($_POST["defaultaccess"]);
+		$this->settings->setMimeTypes (explode(",", $_POST["mimetypes"]));
 
 		$this->settings->save();
 		
@@ -200,6 +201,15 @@ class ilObjMediaCastSettingsGUI extends ilObjectGUI
 		$radio_group->setValue($this->settings->getDefaultAccess());			
 		#$ch->addSubItem($radio_group);
 		$form->addItem($radio_group);
+		
+		$text = new ilTextAreaInputGUI($lng->txt("mcst_mimetypes"), "mimetypes");
+		$text->setInfo($lng->txt("mcst_mimetypes_info"));
+		$text->setCols(120);
+		$text->setRows(10);
+		if (is_array($this->settings->getMimeTypes()))
+			$text->setValue(implode(",",$this->settings->getMimeTypes()));		
+		$form->addItem($text);
+		
 		$this->tpl->setContent($form->getHTML());
 	}
 }

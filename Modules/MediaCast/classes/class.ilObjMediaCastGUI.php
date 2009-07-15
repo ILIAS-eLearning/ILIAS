@@ -37,6 +37,7 @@ class ilObjMediaCastGUI extends ilObjectGUI
     
     private $additionalPurposes = array ("VideoPortable", "AudioPortable");
     private $purposeSuffixes = array ();
+    private $mimeTypes = array();
         
 	/**
 	* Constructor
@@ -55,7 +56,8 @@ class ilObjMediaCastGUI extends ilObjectGUI
 		
 		include_once ("./Modules/MediaCast/classes/class.ilMediaCastSettings.php");
 		$settings = ilMediaCastSettings::_getInstance();
-		$this->purposeSuffixes = $settings->getPurposeSuffixes();             
+		$this->purposeSuffixes = $settings->getPurposeSuffixes();       
+		$this->mimeTypes = $settings->getMimeTypes();      
 	}
 	
 	function &executeCommand()
@@ -322,6 +324,15 @@ class ilObjMediaCastGUI extends ilObjectGUI
         		$clearCheckBox->setPostVar("delete_".$purpose);
         		$clearCheckBox->setTitle($lng->txt("mcst_clear_purpose_title"));
         		$this->form_gui->addItem($clearCheckBox);
+    		} else {
+    			$mimeTypeSelection = new ilSelectInputGUI();
+    			$mimeTypeSelection->setPostVar("mimetype_".$purpose);
+    			$mimeTypeSelection->setTitle($lng->txt("mcst_mimetype"));
+    			$mimeTypeSelection->setInfo($lng->txt("mcst_mimetype_info")); 
+    			$options = array($lng->txt("automatic_detection"));
+    			$options = array_merge($options, $this->mimeTypes);
+    			$mimeTypeSelection->setOptions($options);    			
+    			$this->form_gui->addItem($mimeTypeSelection);
     		}
     		
 		}
@@ -361,11 +372,14 @@ class ilObjMediaCastGUI extends ilObjectGUI
 		            $values["description"] = $this->mcst_item->getContent();
 		            $values["visibility"] = $this->mcst_item->getVisibility();
 		            $length = explode(":", $this->mcst_item->getPlaytime());
-		            $values["duration"] = array("hh" => $length[0], "mm" => $length[1], "ss" => $length[2]);		            
+		            $values["duration"] = array("hh" => $length[0], "mm" => $length[1], "ss" => $length[2]);		            		           
 		        }
 		        
 		        $values["value_".$med->getPurpose()] = (strlen($med->getLocation())> 100) ? "...".substr($med->getLocation(), strlen($med->getLocation()) - 100) : $med->getLocation(); 		        
 		        $values["label_value_".$med->getPurpose()] = (strlen($med->getLocation())> 100) ? "...".substr($med->getLocation(), strlen($med->getLocation()) - 100) : $med->getLocation();
+		        $mimeTypesValuesAsKey = array_flip($this->mimeTypes);
+		        if (array_key_exists($med->getFormat(), $mimeTypesValuesAsKey))		        
+		        	$values["mimetype_".$med->getPurpose()] = $mimeTypesValuesAsKey[$med->getFormat()]+1;
 		    }
 		}
 		foreach (ilObjMediaCast::$purposes as $purpose) {
@@ -540,11 +554,28 @@ class ilObjMediaCastGUI extends ilObjectGUI
 	        ilUtil::moveUploadedFile($_FILES['file_'.$purpose]['tmp_name'], $file_name, $file);
 	        ilUtil::renameExecutables($mob_dir);
 	    }
-	     
+	    
+	    // check if not automatic mimetype detection
+	    if ((int) $_POST["mimetype_".$purpose] != 0) {
+	    	// check if deleted or changed to prevent array index out of bounds!
+	    	// keep in mind, that first entry was automatic selection!
+	    	if ((int) $_POST["mimetype_".$purpose]-1 < count ($this->mimeTypes))
+	    	{
+	    		$format = $this->mimeTypes[(int) $_POST["mimetype_".$purpose] - 1];	    	
+	        	$mediaItem->setFormat($format);
+	    	}
+	    } elseif ($mediaItem->getLocation () != "") {
+	    	$format = ilObjMediaObject::getMimeType($mediaItem->getLocation());
+	    	$mediaItem->setFormat($format);
+	    }	    
+	    
 	    if (isset($file))
 	    {
-	        // get mime type
-	        $format = ilObjMediaObject::getMimeType($file);
+	        // get mime type, if not already set!
+	        if (!isset($format))
+	        {
+	        	$format = ilObjMediaObject::getMimeType($file);
+	        }
 
 	        // set real meta and object data
 	        $mediaItem->setFormat($format);
@@ -552,9 +583,8 @@ class ilObjMediaCastGUI extends ilObjectGUI
 	        $mediaItem->setLocationType($locationType);
 	        $mediaItem->setHAlign("Left");
 	        $mediaItem->setHeight(self::isAudio($format)?0:180);	        
-	    }
-	        
-	    
+	    } 
+	        	    
 	    if ($purpose == "Standard")
 	    {
 	        if (isset($title))

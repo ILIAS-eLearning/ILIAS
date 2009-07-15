@@ -9702,3 +9702,7 @@ common#:#add_new_user_defined_wysiwyg_field#:#Add New Text Area (WYSIWYG) Field
 common#:#udf_update_wysiwyg_field#:#Edit Text Area (WYSIWYG) Field
 search#:#search_crs_title#:#Course Name
 search#:#search_for_crs_members#:#Search for Course Members
+mcst#:#mcst_mimetype#:#Mime Type
+mcst#:#mcst_mimetypes#:#Mime Types
+mcst#:#mcst_mimetype_info#:#Select mime type to control plugin used for playback.<br>Please note: Be aware that not every browser contains the plugin you intend to use.
+mcst#:#mcst_mimetypes_info#:#Comma separated list of mime types
