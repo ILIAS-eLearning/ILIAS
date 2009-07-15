@@ -179,11 +179,12 @@ class ilPermanentLinkGUI
 				$bookmark->setTitle("untitled");
 
 			$tpl->setVariable("TXT_BOOKMARK_DEFAULT", $title);
+
+			$tpl->setVariable("TXT_ADD_TO_ILIAS_BM", $lng->txt("bm_add_to_ilias"));
+			$tpl->setVariable("URL_ADD_TO_BM", 'ilias.php?cmd=redirect&baseClass=ilPersonalDesktopGUI&redirectClass=ilbookmarkadministrationgui&redirectCmd=newFormBookmark&param_bmf_id=1&param_return_to=true&param_bm_title='. urlencode($title) . '&param_bm_link=' . urlencode(urlencode($href)));
 		}
 
 		$tpl->setVariable("LINK", $href);
-		$tpl->setVariable("TXT_ADD_TO_ILIAS_BM", $lng->txt("bm_add_to_ilias"));
-		$tpl->setVariable("URL_ADD_TO_BM", 'ilias.php?cmd=redirect&baseClass=ilPersonalDesktopGUI&redirectClass=ilbookmarkadministrationgui&redirectCmd=newFormBookmark&param_bmf_id=1&param_return_to=true&param_bm_title='. urlencode($title) . '&param_bm_link=' . urlencode(urlencode($href)));
 		
 		if ($this->getTarget() != "")
 		{
@@ -209,7 +210,6 @@ class ilPermanentLinkGUI
 			$linktpl = $row->sbm_link;
 			$linktpl = str_replace('{LINK}', urlencode($href), $linktpl);
 			$linktpl = str_replace('{TITLE}', urlencode($title), $linktpl);
-			//$current_selection_list->addItem($row->sbm_title, '', $linktpl, 'templates/default/images/socialbookmarks/' . $row->sbm_icon , $row->title, '_blank');
 			$current_selection_list->addItem($row->sbm_title, '', $linktpl, ilUtil::getImagePath('socialbookmarks/' . $row->sbm_icon) , $row->title, '_blank');
 			$cnt++;
 		}
