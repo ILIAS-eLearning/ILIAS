@@ -455,6 +455,7 @@ return;
 		$ilCtrl->clearParameters($this);
 		// title
 		$prop = new ilTextInputGUI($lng->txt("title"), "title");
+		$prop->setValue($_GET['bm_title']);
 		$prop->setRequired(true);
 		$form->addItem($prop);
 		
@@ -464,8 +465,17 @@ return;
 		
 		// target link
 		$prop = new ilTextInputGUI($lng->txt('bookmark_target'), 'target');
+		$prop->setValue($_GET['bm_link']);
 		$prop->setRequired(true);
 		$form->addItem($prop);
+		
+		// hidden redirect field
+		if ($_GET['return_to'])
+		{
+			$prop = new ilHiddenInputGUI('return_to');
+			$prop->setValue($_GET['return_to']);
+			$form->addItem($prop);
+		}
 		
 		// buttons
 		$form->addCommandButton($action, $lng->txt('save'));
@@ -592,6 +602,7 @@ return;
 	*/
 	function createBookmark()
 	{
+		global $lng;
 		if (!$this->tree->isInTree($this->id))
 		{
 			return;
@@ -618,7 +629,12 @@ return;
 			$bm->setParent($this->id);
 			$bm->create();
 
-			$this->view();
+			ilUtil::sendInfo($lng->txt('bookmark_added'), true);
+			
+			if ($_POST['return_to'])
+				ilUtil::redirect($_POST['target']);
+			else
+				$this->view();
 		}
 	}
 
