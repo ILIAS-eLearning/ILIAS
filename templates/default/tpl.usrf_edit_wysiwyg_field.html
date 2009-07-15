@@ -1,0 +1,79 @@
+	<form action="{FORMACTION}" method="post">
+	  <table class="std" width="75%" border="0">
+		  <tr class="tblheader">
+			<th class="std" colspan="2">
+			  {TXT_SELECT_TYPE}
+			  <!-- BEGIN warning_modify -->
+			  <br />
+			  <div class="il_Description">
+				<font>{TXT_WARNING}</font>
+			  </div>
+			  <!-- END warning_modify -->
+			</th>
+		  </tr>
+		  <tr>
+			<td class="option" width="20%">
+			  {TXT_FIELD_NAME}
+			</td>
+			<td class="option_value">
+			  <input type="text" name="field_name" value="{FIELD_NAME}" size="32" maxlength="64" /> 
+			</td>
+		  </tr>
+		  <tr>
+			<td class="option" width="20%">
+			  {TXT_VISIBLE}
+			</td>
+			<td class="option_value">
+			  {VISIBLE}
+			</td>
+		  </tr>
+		  <tr>
+			<td class="option" width="20%">
+			  {TXT_CHANGE}
+			</td>
+			<td class="option_value">
+			  {CHANGE}
+			</td>
+		  </tr>
+		  <tr>
+			<td class="option" width="20%">
+			  {TXT_REQUIRED}
+			</td>
+			<td class="option_value">
+			  {REQUIRED}
+			</td>
+		  </tr>
+		  <tr>
+			<td class="option" width="20%">
+			  {TXT_EXPORT}
+			</td>
+			<td class="option_value">
+			  {EXPORT}
+			</td>
+		  </tr>
+		  <tr>
+			<td class="option" width="20%">
+			  {TXT_COURSE_EXPORT}
+			</td>
+			<td class="option_value">
+			  {COURSE_EXPORT}
+			</td>
+		  </tr>
+		   <tr>
+			<td class="option" width="20%">
+			  {TXT_VISIBLE_REGISTRATION}
+			</td>
+			<td class="option_value">
+			  {VISIBLE_REGISTRATION}
+			</td>
+		  </tr>
+		  <tr class="tblfooter">
+			<td class="std" colspan="2">
+			  <div align="right">
+				<input type="submit" class="submit" name="cmd[saveField]" value="{BTN_ADD}" />
+				<input type="submit" class="submit" name="cmd[chooseFieldType]" value="{BTN_PREVIOUS}" />
+			  </div>
+			</td>
+		  </tr>
+	  </table>
+	</form>

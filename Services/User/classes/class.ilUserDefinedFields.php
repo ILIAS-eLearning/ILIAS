@@ -1,40 +1,21 @@
 <?php
-/*
-	+-----------------------------------------------------------------------------+
-	| ILIAS open source                                                           |
-	+-----------------------------------------------------------------------------+
-	| Copyright (c) 1998-2001 ILIAS open source, University of Cologne            |
-	|                                                                             |
-	| This program is free software; you can redistribute it and/or               |
-	| modify it under the terms of the GNU General Public License                 |
-	| as published by the Free Software Foundation; either version 2              |
-	| of the License, or (at your option) any later version.                      |
-	|                                                                             |
-	| This program is distributed in the hope that it will be useful,             |
-	| but WITHOUT ANY WARRANTY; without even the implied warranty of              |
-	| MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the               |
-	| GNU General Public License for more details.                                |
-	|                                                                             |
-	| You should have received a copy of the GNU General Public License           |
-	| along with this program; if not, write to the Free Software                 |
-	| Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA. |
-	+-----------------------------------------------------------------------------+
-*/
+/* Copyright (c) 1998-2009 ILIAS open source, Extended GPL, see docs/LICENSE */
+
+define('UDF_TYPE_TEXT',1);
+define('UDF_TYPE_SELECT',2);
+define('UDF_TYPE_WYSIWYG',3);
+define('UDF_NO_VALUES',1);
+define('UDF_DUPLICATE_VALUES',2);
+
 
 /**
-* Class ilLPObjSettings
+* Additional user data fields definition
 *
 * @author Stefan Meyer <smeyer@databay.de>
 *
 * @version $Id$
-*
-*
+* @ingroup ServicesUser
 */
-define('UDF_TYPE_TEXT',1);
-define('UDF_TYPE_SELECT',2);
-define('UDF_NO_VALUES',1);
-define('UDF_DUPLICATE_VALUES',2);
-
 class ilUserDefinedFields
 {
 	var $db = null;
@@ -321,26 +302,26 @@ class ilUserDefinedFields
 		
 		// Add definition entry
 		$next_id = $ilDB->nextId('udf_definition');
-		
+
 		$values = array(
 			'field_id'					=> array('integer',$next_id),
 			'field_name'				=> array('text',$this->getFieldName()),
-			'field_type'				=> array('integer',$this->getFieldType()),
+			'field_type'				=> array('integer', (int) $this->getFieldType()),
 			'field_values'				=> array('clob',$this->getFieldValues()),
-			'visible'					=> array('integer',$this->enabledVisible()),
-			'changeable'				=> array('integer',$this->enabledChangeable()),
-			'required'					=> array('integer',$this->enabledRequired()),
-			'searchable'				=> array('integer',$this->enabledSearchable()),
-			'export'					=> array('integer',$this->enabledExport()),
-			'course_export'			=> array('integer',$this->enabledCourseExport()),
-			'registration_visible'	=> array('integer',$this->enabledRegistration()));
+			'visible'					=> array('integer', (int) $this->enabledVisible()),
+			'changeable'				=> array('integer', (int) $this->enabledChangeable()),
+			'required'					=> array('integer', (int) $this->enabledRequired()),
+			'searchable'				=> array('integer', (int) $this->enabledSearchable()),
+			'export'					=> array('integer', (int) $this->enabledExport()),
+			'course_export'			=> array('integer', (int) $this->enabledCourseExport()),
+			'registration_visible'	=> array('integer', (int) $this->enabledRegistration()));
 			
 		$ilDB->insert('udf_definition',$values);
 
 		// add table field in usr_defined_data
 		$field_id = $next_id;
 		
-		$ilDB->addTableColumn('udf_data','f_'.$field_id, array("type" => "text", "length" => 4000, "notnull" => false));
+//		$ilDB->addTableColumn('udf_data','f_'.$field_id, array("type" => "text", "length" => 4000, "notnull" => false));
 
 		$this->__read();
 
@@ -356,7 +337,10 @@ class ilUserDefinedFields
 		$res = $ilDB->manipulate($query);
 
 		// Delete usr_data entries
-		$ilDB->dropTableColumn('udf_data','f_'.$a_id);
+//		$ilDB->dropTableColumn('udf_data','f_'.$a_id);
+		include_once("./Services/User/classes/class.ilUserDefinedData.php");
+		ilUserDefinedData::deleteEntriesOfField($a_id);
+
 		$this->__read();
 
 		return true;
@@ -368,15 +352,15 @@ class ilUserDefinedFields
 		
 		$values = array(
 			'field_name'				=> array('text',$this->getFieldName()),
-			'field_type'				=> array('integer',$this->getFieldType()),
+			'field_type'				=> array('integer', (int) $this->getFieldType()),
 			'field_values'				=> array('clob',$this->getFieldValues()),
-			'visible'					=> array('integer',$this->enabledVisible()),
-			'changeable'				=> array('integer',$this->enabledChangeable()),
-			'required'					=> array('integer',$this->enabledRequired()),
-			'searchable'				=> array('integer',$this->enabledSearchable()),
-			'export'					=> array('integer',$this->enabledExport()),
-			'course_export'			=> array('integer',$this->enabledCourseExport()),
-			'registration_visible'	=> array('integer',$this->enabledRegistration()));
+			'visible'					=> array('integer', (int) $this->enabledVisible()),
+			'changeable'				=> array('integer', (int) $this->enabledChangeable()),
+			'required'					=> array('integer', (int) $this->enabledRequired()),
+			'searchable'				=> array('integer', (int) $this->enabledSearchable()),
+			'export'					=> array('integer', (int) $this->enabledExport()),
+			'course_export'			=> array('integer', (int) $this->enabledCourseExport()),
+			'registration_visible'	=> array('integer', (int) $this->enabledRegistration()));
 
 		$ilDB->update('udf_definition',$values,array('field_id' => array('integer',$a_id)));
 		$this->__read();
@@ -421,6 +405,8 @@ class ilUserDefinedFields
 
 	function deleteValue($a_field_id,$a_value_id)
 	{
+		global $ilDB;
+		
 		$definition = $this->getDefinition($a_field_id);
 
 		$counter = 0;
@@ -442,11 +428,14 @@ class ilUserDefinedFields
 		$ilDB->update('udf_definition',$values,array('field_id' => array('integer',$a_field_id)));
 		
 
-		// Update usr_data
+		// sets value to '' where old value is $old_value
+		include_once("./Services/User/classes/class.ilUserDefinedData.php");
+		ilUserDefinedData::deleteFieldValue($a_field_id, $old_value);
+		/*	wrong place...
 		$query = "UPDATE udf_data ".
 			"SET `f_".$a_field_id."` = '' ".
 			"WHERE `f_".$this->db->quote($a_field_id)."` = ".$this->db->quote($old_value,'text')."";
-		$this->db->query($query);
+		$this->db->query($query);*/
 
 		// fianally read data
 		$this->__read();

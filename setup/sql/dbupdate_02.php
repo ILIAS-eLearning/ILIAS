@@ -14534,3 +14534,68 @@ $ilDB->addTableColumn("udf_definition", "registration_visible", array("type" => 
 <?php
 $ilCtrlStructureReader->getStructure();
 ?>
+<#2765>
+<?php
+$ilCtrlStructureReader->getStructure();
+?>
+<#2766>
+<?php
+	$ilDB->createTable("udf_text", array(
+		'usr_id' => array(
+			'type'     => 'integer',
+			'length'   => 4,
+			'notnull' => true 
+		),
+		'field_id' => array(
+			'type'     => 'integer',
+			'length'   => 4,
+			'notnull' => true 
+		),
+		'value' => array(
+			'type'     => 'text',
+			'length'   => 4000,
+			'fixed' => false,
+			'notnull' => false 
+		)
+	));
+	$ilDB->addPrimaryKey("udf_text", array("usr_id", "field_id"));
+?>
+<#2767>
+<?php
+	$ilDB->createTable("udf_clob", array(
+		'usr_id' => array(
+			'type'     => 'integer',
+			'length'   => 4,
+			'notnull' => true 
+		),
+		'field_id' => array(
+			'type'     => 'integer',
+			'length'   => 4,
+			'notnull' => true 
+		),
+		'value' => array(
+			'type'     => 'clob'
+		)
+	));
+	$ilDB->addPrimaryKey("udf_clob", array("usr_id", "field_id"));
+?>
+<#2768>
+<?php
+	$set = $ilDB->query("SELECT * FROM udf_data");
+	while ($rec  = $ilDB->fetchAssoc($set))
+	{
+		$user_id = $rec["usr_id"];
+		foreach ($rec as $f => $v)
+		{
+			if ($f != "usr_id")
+			{
+				$fid = (int) substr($f, 2);
+				$q = "INSERT INTO udf_text (usr_id, field_id, value) VALUES (".
+					$ilDB->quote($user_id, "integer").",".
+					$ilDB->quote($fid, "integer").",".
+					$ilDB->quote($v, "text").")";
+				$ilDB->query($q);
+			}
+		}
+	}
+?>

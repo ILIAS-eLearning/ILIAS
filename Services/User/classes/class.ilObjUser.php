@@ -3803,16 +3803,21 @@ class ilObjUser extends ilObject
 		$fields = '';
 
 		$field_def = array();
+		
+		include_once("./Services/User/classes/class.ilUserDefinedData.php");
+		$udata = new ilUserDefinedData($this->getId());
 
 		foreach($this->user_defined_data as $field => $value)
 		{
 			if($field != 'usr_id')
 			{
-				$field_def[$field] = array('text',$value);
+//				$field_def[$field] = array('text',$value);
+				$udata->set($field, $value);
 			}
 		}
+		$udata->update();
 
-		if(!$field_def)
+/*		if(!$field_def)
 		{
 			return true;
 		}
@@ -3831,6 +3836,7 @@ class ilObjUser extends ilObject
 			$field_def['usr_id'] = array('integer',$this->getId());
 			$ilDB->insert('udf_data',$field_def);
 		}
+*/
 		return true;
 	}
 
@@ -3838,14 +3844,20 @@ class ilObjUser extends ilObject
 	{
 		global $ilDB;
 
-		$query = "SELECT * FROM udf_data ".
+		include_once("./Services/User/classes/class.ilUserDefinedData.php");
+		$udata = new ilUserDefinedData($this->getId());
+
+/*		$query = "SELECT * FROM udf_data ".
 			"WHERE usr_id = ".$ilDB->quote($this->getId(),'integer');
 
 		$res = $this->db->query($query);
 		while($row = $res->fetchRow(DB_FETCHMODE_ASSOC))
 		{
 			$this->user_defined_data = $row;
-		}
+		}*/
+		
+		$this->user_defined_data = $udata->getAll();
+		
 		return true;
 	}
 
@@ -3853,12 +3865,14 @@ class ilObjUser extends ilObject
 	{
 		global $ilDB;
 
-		$query = "INSERT INTO udf_data (usr_id ) ".
+// not needed. no entry in udf_text/udf_clob means no value
+
+/*		$query = "INSERT INTO udf_data (usr_id ) ".
 			"VALUES( ".
 			$ilDB->quote($this->getId(),'integer').
 			")";
 		$res = $ilDB->manipulate($query);
-
+*/
 		return true;
 	}
 
@@ -3866,9 +3880,13 @@ class ilObjUser extends ilObject
 	{
 		global $ilDB;
 
-		$query = "DELETE FROM udf_data  ".
+		include_once("./Services/User/classes/class.ilUserDefinedData.php");
+		ilUserDefinedData::deleteEntriesOfUser($this->getId());
+		
+		// wrong place...
+/*		$query = "DELETE FROM udf_data  ".
 			"WHERE usr_id = ".$ilDB->quote($this->getId(),'integer');
-		$res = $ilDB->manipulate($query);
+		$res = $ilDB->manipulate($query);*/
 
 		return true;
 	}

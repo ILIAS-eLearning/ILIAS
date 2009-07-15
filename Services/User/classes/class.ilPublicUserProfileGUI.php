@@ -1,25 +1,5 @@
 <?php
-/*
-	+-----------------------------------------------------------------------------+
-	| ILIAS open source                                                           |
-	+-----------------------------------------------------------------------------+
-	| Copyright (c) 1998-2008 ILIAS open source, University of Cologne            |
-	|                                                                             |
-	| This program is free software; you can redistribute it and/or               |
-	| modify it under the terms of the GNU General Public License                 |
-	| as published by the Free Software Foundation; either version 2              |
-	| of the License, or (at your option) any later version.                      |
-	|                                                                             |
-	| This program is distributed in the hope that it will be useful,             |
-	| but WITHOUT ANY WARRANTY; without even the implied warranty of              |
-	| MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the               |
-	| GNU General Public License for more details.                                |
-	|                                                                             |
-	| You should have received a copy of the GNU General Public License           |
-	| along with this program; if not, write to the Free Software                 |
-	| Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA. |
-	+-----------------------------------------------------------------------------+
-*/
+/* Copyright (c) 1998-2009 ILIAS open source, Extended GPL, see docs/LICENSE */
 
 /**
 * GUI class for public user profile presentation.
@@ -36,7 +16,7 @@ class ilPublicUserProfileGUI
 	*
 	* @param	int		User ID.
 	*/
-	function __construct($a_user_id)
+	function __construct($a_user_id = 0)
 	{
 		global $ilCtrl;
 		
@@ -306,6 +286,25 @@ class ilPublicUserProfileGUI
 			}
 		}
 		
+		// additional defined user data fields
+		include_once './Services/User/classes/class.ilUserDefinedFields.php';
+		$this->user_defined_fields =& ilUserDefinedFields::_getInstance();
+		$user_defined_data = $user->getUserDefinedData();
+		foreach($this->user_defined_fields->getVisibleDefinitions() as $field_id => $definition)
+		{
+			// public setting
+			if ($user->prefs["public_udf_".$definition["field_id"]] == "y")
+			{
+				if ($user_defined_data["f_".$definition["field_id"]] != "")
+				{
+					$tpl->setCurrentBlock("udf_data");
+					$tpl->setVariable("TXT_UDF_DATA", $definition["field_name"]);
+					$tpl->setVariable("UDF_DATA", $user_defined_data["f_".$definition["field_id"]]);
+					$tpl->parseCurrentBlock();
+				}
+			}
+		}
+		
 		// additional information
 		$additional = $this->getAdditional();
 		if (is_array($additional))
@@ -430,6 +429,22 @@ class ilPublicUserProfileGUI
 		}
 		
 		ilUtil::deliverData(utf8_decode($vcard->buildVCard()), $vcard->getFilename(), $vcard->getMimetype());
+	}
+	
+	/**
+	 * View. This one is called e.g. through the goto script
+	 */
+	function view()
+	{
+		global $tpl, $ilUser;
+		if ($ilUser->getId() == ANONYMOUS_USER_ID)
+		{
+			return;
+		}
+		$this->setUserId($_GET["user_id"]);
+		$tpl->getStandardTemplate();
+		$tpl->setContent($this->getHTML());
+		$tpl->show();
 	}
 }
 

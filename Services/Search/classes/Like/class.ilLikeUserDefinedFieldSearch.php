@@ -1,25 +1,7 @@
 <?php
-/*
-	+-----------------------------------------------------------------------------+
-	| ILIAS open source                                                           |
-	+-----------------------------------------------------------------------------+
-	| Copyright (c) 1998-2001 ILIAS open source, University of Cologne            |
-	|                                                                             |
-	| This program is free software; you can redistribute it and/or               |
-	| modify it under the terms of the GNU General Public License                 |
-	| as published by the Free Software Foundation; either version 2              |
-	| of the License, or (at your option) any later version.                      |
-	|                                                                             |
-	| This program is distributed in the hope that it will be useful,             |
-	| but WITHOUT ANY WARRANTY; without even the implied warranty of              |
-	| MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the               |
-	| GNU General Public License for more details.                                |
-	|                                                                             |
-	| You should have received a copy of the GNU General Public License           |
-	| along with this program; if not, write to the Free Software                 |
-	| Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA. |
-	+-----------------------------------------------------------------------------+
-*/
+/* Copyright (c) 1998-2009 ILIAS open source, Extended GPL, see docs/LICENSE */
+
+include_once 'Services/Search/classes/class.ilUserDefinedFieldSearch.php';
 
 /**
 * Class ilLikeUserDefinedFieldSearch
@@ -32,8 +14,6 @@
 * @package ilias-search
 *
 */
-include_once 'Services/Search/classes/class.ilUserDefinedFieldSearch.php';
-
 class ilLikeUserDefinedFieldSearch extends ilUserDefinedFieldSearch
 {
 
@@ -63,10 +43,12 @@ class ilLikeUserDefinedFieldSearch extends ilUserDefinedFieldSearch
 
 	function __createWhereCondition()
 	{
+		global $ilDB;
+		
 		$fields = $this->getFields();
 		$field = $fields[0];
 
-		$and = "  WHERE ( ";
+		$and = "  WHERE field_id = ".$ilDB->quote((int) substr($field, 2), "integer")." AND ( ";
 		$counter = 0;
 		foreach($this->query_parser->getQuotedWords() as $word)
 		{
@@ -74,15 +56,14 @@ class ilLikeUserDefinedFieldSearch extends ilUserDefinedFieldSearch
 			{
 				$and .= " OR ";
 			}
-			$and .= ('`'.$field.'` ');
 
 			if(strpos($word,'^') === 0)
 			{
-				$and .= ("LIKE ('".substr($word,1)."%')");
+				$and .= $ilDB->like("value", "text", substr($word,1)."%");
 			}
 			else
 			{
-				$and .= ("LIKE ('%".$word."%')");
+				$and .= $ilDB->like("value", "text", "%".$word."%");
 			}
 		}
 		return $and.") ";
