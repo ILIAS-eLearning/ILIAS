@@ -9,7 +9,6 @@ include_once("./Services/Table/classes/class.ilTable2GUI.php");
 * @author Alex Killing <alex.killing@gmx.de>
 * @version $Id$
 *
-* @ilCtrl_Calls ilUserTableGUI:
 * @ingroup ServicesSearch
 */
 class ilRepositoryUserResultTableGUI extends ilTable2GUI
