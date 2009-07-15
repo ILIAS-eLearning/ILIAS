@@ -2698,7 +2698,7 @@ common#:#lang_size_bytes#:#bytes
 common#:#webdav#:#WebDAV
 common#:#downloading_settings#:#Downloading Settings
 common#:#enable_disk_quota#:#Activate Disk Quota
-common#:#enable_disk_quota_info#:#Allows to specify a disk quota for each user account and each global role. The disk usage of a user account is determined once every day and listed in the user edit form, but not in the personal profile.
+common#:#enable_disk_quota_info#:#Allows to specify a disk quota for each user account and each global role. The disk usage of a user account is determined once every day using a cron job and listed in the user edit form, but not in the personal profile.
 common#:#enable_disk_quota_reminder_mail#:#Send disk quota reminder mails
 common#:#lang_uk#:#Ukrainian
 common#:#lang_version#:#1
@@ -9572,6 +9572,7 @@ common#:#obj_page#:#Page
 common#:#disk_quota#:#Disk Quota
 common#:#disk_usage#:#Disk Usage
 common#:#disk_usage_details#:#Disk Usage Details
+common#:#disk_usage_statistics_not_run_yet#:#No statistics data available. The daily cron job which determines the disk usage needs to be executed first.
 common#:#enter_in_mb_desc#:#Enter a value in MB.
 common#:#disk_quota_on_role_desc#:#The disk quota specified on a role affects all user accounts which are assigned to this role.
 common#:#disk_quota_is_1_by_2#:#The effective disk quota is %1$s due to membership in role "%2$s".

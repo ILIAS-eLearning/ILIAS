@@ -2541,7 +2541,7 @@ common#:#lang_size_bytes#:#Bytes
 common#:#webdav#:#WebDAV
 common#:#downloading_settings#:#Download Einstellungen
 common#:#enable_disk_quota#:#Aktiviere Disk Quota
-common#:#enable_disk_quota_info#:#Erlaubt jedem Benutzerkonto und jeder globalen Rolle eine Disk Quota zu vergeben. Die Speicherplatznutzung wird bei jedem Benutzerkonto im Benutzerformular aufgeführt, aber nicht im Persönlichen Profil.
+common#:#enable_disk_quota_info#:#Erlaubt jedem Benutzerkonto und jeder globalen Rolle eine Disk Quota zu vergeben. Die Speicherplatznutzung wird einmal täglich per Cron Job ermittelt. Die Speicherplatznutzung wird bei jedem Benutzerkonto im Benutzerformular aufgeführt, aber nicht im Persönlichen Profil.
 common#:#enable_disk_quota_reminder_mail#:#Sende Disk Quota Erinnerungsnachrichten
 common#:#lang_uk#:#Ukrainisch
 common#:#lang_version#:#1
@@ -9594,6 +9594,7 @@ common#:#obj_page#:#Page###26 06 2009 new variable
 common#:#disk_quota#:#Disk Quota
 common#:#disk_usage#:#Speicherverwendung
 common#:#disk_usage_details#:#Speicherverwendung Einzelheiten
+common#:#disk_usage_statistics_not_run_yet#:#Keine Statistikdaten verfügbar. Der tägliche Cron Job zur Ermittlung der Speichernutzung muss zuerst ausgeführt werden.
 common#:#enter_in_mb_desc#:#Geben Sie einen Wert in MB ein.
 common#:#disk_quota_on_role_desc#:#Die Disk Quota einer Rolle wirkt sich auf alle Benutzerkonten aus, welche dieser Rolle zugeordnet sind.
 common#:#disk_quota_is_1_by_2#:#Die effektive Disk Quota ist %1$s aufgrund Mitgliedschaft in Rolle "%2$s".
