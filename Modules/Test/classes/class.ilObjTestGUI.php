@@ -369,47 +369,35 @@ class ilObjTestGUI extends ilObjectGUI
 	*/
 	function confirmDeleteExportFileObject()
 	{
-		if(!isset($_POST["file"]))
+		if (!isset($_POST["file"]))
 		{
-			ilUtil::sendInfo($this->lng->txt("no_checkbox"), true);
+			ilUtil::sendFailure($this->lng->txt("no_checkbox"), true);
 			$this->ctrl->redirect($this, "export");
 		}
 
-		// SAVE POST VALUES
-		$_SESSION["ilExportFiles"] = $_POST["file"];
-
-		$this->tpl->addBlockFile("ADM_CONTENT", "adm_content", "tpl.confirm_deletion.html", "Modules/Test");
-
 		ilUtil::sendQuestion($this->lng->txt("info_delete_sure"));
 
-		$this->tpl->setVariable("FORMACTION", $this->ctrl->getFormAction($this));
-
-		// BEGIN TABLE HEADER
-		$this->tpl->setCurrentBlock("table_header");
-		$this->tpl->setVariable("TEXT",$this->lng->txt("objects"));
-		$this->tpl->parseCurrentBlock();
-
-		// BEGIN TABLE DATA
-		$counter = 0;
-		foreach($_POST["file"] as $file)
+		$export_dir = $this->object->getExportDirectory();
+		$export_files = $this->object->getExportFiles($export_dir);
+		$data = array();
+		if (count($_POST["file"]) > 0)
 		{
-				$this->tpl->setCurrentBlock("table_row");
-				$this->tpl->setVariable("CSS_ROW",ilUtil::switchColor(++$counter,"tblrow1","tblrow2"));
-				$this->tpl->setVariable("TEXT_CONTENT", $file);
-				$this->tpl->parseCurrentBlock();
+			foreach ($_POST["file"] as $exp_file)
+			{
+				$file_arr = explode("__", $exp_file);
+				$date = new ilDateTime($file_arr[0], IL_CAL_UNIX);
+				array_push($data, array(
+					'file' => $exp_file,
+					'size' => filesize($export_dir."/".$exp_file),
+					'date' => $date->get(IL_CAL_DATETIME)
+				));
+			}
 		}
 
-		// cancel/confirm button
-		$this->tpl->setVariable("IMG_ARROW",ilUtil::getImagePath("arrow_downright.gif"));
-		$buttons = array( "cancelDeleteExportFile"  => $this->lng->txt("cancel"),
-			"deleteExportFile"  => $this->lng->txt("confirm"));
-		foreach ($buttons as $name => $value)
-		{
-			$this->tpl->setCurrentBlock("operation_btn");
-			$this->tpl->setVariable("BTN_NAME",$name);
-			$this->tpl->setVariable("BTN_VALUE",$value);
-			$this->tpl->parseCurrentBlock();
-		}
+		include_once "./Modules/Test/classes/class.ilTestExportTableGUI.php";
+		$table_gui = new ilTestExportTableGUI($this, 'export', true);
+		$table_gui->setData($data);
+		$this->tpl->setVariable('ADM_CONTENT', $table_gui->getHTML());	
 	}
 
 	/**
@@ -427,7 +415,7 @@ class ilObjTestGUI extends ilObjectGUI
 	*/
 	function cancelDeleteExportFileObject()
 	{
-		session_unregister("ilExportFiles");
+		ilUtil::sendInfo($this->lng->txt("msg_cancel"), true);
 		$this->ctrl->redirect($this, "export");
 	}
 
@@ -438,7 +426,7 @@ class ilObjTestGUI extends ilObjectGUI
 	function deleteExportFileObject()
 	{
 		$export_dir = $this->object->getExportDirectory();
-		foreach($_SESSION["ilExportFiles"] as $file)
+		foreach ($_POST["file"] as $file)
 		{
 			$exp_file = $export_dir."/".$file;
 			$exp_dir = $export_dir."/".substr($file, 0, strlen($file) - 4);
@@ -451,6 +439,7 @@ class ilObjTestGUI extends ilObjectGUI
 				ilUtil::delDir($exp_dir);
 			}
 		}
+		ilUtil::sendSuccess($this->lng->txt('msg_deleted_export_files'), true);
 		$this->ctrl->redirect($this, "export");
 	}
 

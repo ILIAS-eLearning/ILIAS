@@ -34,6 +34,7 @@ include_once('./Services/Table/classes/class.ilTable2GUI.php');
 class ilTestExportTableGUI extends ilTable2GUI
 {
 	protected $counter;
+	protected $confirmdelete;
 	
 	/**
 	 * Constructor
@@ -42,7 +43,7 @@ class ilTestExportTableGUI extends ilTable2GUI
 	 * @param
 	 * @return
 	 */
-	public function __construct($a_parent_obj, $a_parent_cmd)
+	public function __construct($a_parent_obj, $a_parent_cmd, $confirmdelete = false)
 	{
 		parent::__construct($a_parent_obj, $a_parent_cmd);
 
@@ -51,22 +52,34 @@ class ilTestExportTableGUI extends ilTable2GUI
 		$this->lng = $lng;
 		$this->ctrl = $ilCtrl;
 		$this->counter = 1;
+		$this->confirmdelete = $confirmdelete;
 		
-		$this->setFormName('export');
+		$this->setFormName('exporttest');
 		$this->setStyle('table', 'fullwidth');
 
-		$this->addColumn('','f','1%');
+		if (!$confirmdelete)
+		{
+			$this->addColumn('','f','1%');
+		}
 		$this->addColumn($this->lng->txt("ass_file"),'file', '');
 		$this->addColumn($this->lng->txt("ass_size"),'size', '');
 		$this->addColumn($this->lng->txt("date"),'date', '');
 	
 		$this->setRowTemplate("tpl.il_as_tst_export_row.html", "Modules/Test");
 
-		$this->addMultiCommand('downloadExportFile', $this->lng->txt('download'));
-		$this->addMultiCommand('confirmDeleteExportFile', $this->lng->txt('delete'));
+		if ($confirmdelete)
+		{
+			$this->addCommandButton('deleteExportFile', $this->lng->txt('confirm'));
+			$this->addCommandButton('cancelDeleteExportFile', $this->lng->txt('cancel'));
+		}
+		else
+		{
+			$this->addMultiCommand('downloadExportFile', $this->lng->txt('download'));
+			$this->addMultiCommand('confirmDeleteExportFile', $this->lng->txt('delete'));
 
-		$this->addCommandButton('createTestExport', $this->lng->txt('ass_create_export_file'));
-		$this->addCommandButton('createTestResultsExport', $this->lng->txt('ass_create_export_test_results'));
+			$this->addCommandButton('createTestExport', $this->lng->txt('ass_create_export_file'));
+			$this->addCommandButton('createTestResultsExport', $this->lng->txt('ass_create_export_test_results'));
+		}
 
 		$this->setFormAction($this->ctrl->getFormAction($a_parent_obj, $a_parent_cmd));
 
@@ -75,9 +88,17 @@ class ilTestExportTableGUI extends ilTable2GUI
 		$this->setPrefix('file');
 		$this->setSelectAllCheckbox('file');
 		
+		if ($confirmdelete)
+		{
+			$this->disable('sort');
+			$this->disable('select_all');
+		}
+		else
+		{
+			$this->enable('sort');
+			$this->enable('select_all');
+		}
 		$this->enable('header');
-		$this->enable('sort');
-		$this->enable('select_all');
 	}
 
 	/**
@@ -89,6 +110,19 @@ class ilTestExportTableGUI extends ilTable2GUI
 	 */
 	public function fillRow($data)
 	{
+		if (!$this->confirmdelete)
+		{
+			$this->tpl->setCurrentBlock('checkbox');
+			$this->tpl->setVariable('CB_ID', $this->counter++);
+			$this->tpl->setVariable("CB_FILE", $data['file']);
+			$this->tpl->parseCurrentBlock();
+		}
+		else
+		{
+			$this->tpl->setCurrentBlock('hidden');
+			$this->tpl->setVariable('HIDDEN_FILE', $data["file"]);
+			$this->tpl->parseCurrentBlock();
+		}
 		$this->tpl->setVariable("ID", $this->counter++);
 		$this->tpl->setVariable("FILE", $data['file']);
 		$this->tpl->setVariable("SIZE", $data['size']);

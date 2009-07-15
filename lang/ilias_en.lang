@@ -6986,7 +6986,7 @@ survey#:#insert_missing_questionblock#:#Please select at least one question bloc
 survey#:#introduction#:#Introduction
 survey#:#introduction_manage_phrases#:#Manage your own phrases which are available for all the ordinal questions you edit/create.
 survey#:#invitation#:#Invitation
-survey#:#invitation_mode#:#Invitation Mode
+survey#:#invitation_mode#:#Invite Users
 survey#:#invited_groups#:#Invited Groups
 survey#:#invited_users#:#Invited Users
 survey#:#label_resume_survey#:#Enter your 5 digit survey code
@@ -7081,7 +7081,8 @@ survey#:#percentage_of_offered_answers#:#Percentage of offered answers
 survey#:#percentage_of_selections#:#Percentage of users that selected this answer
 survey#:#phrase_saved#:#The phrase was saved successfully!
 survey#:#please_select#:#-- please select --
-survey#:#predefined_users#:#Predefined User Set
+survey#:#predefined_users#:#Invite a predefined user set
+survey#:#invitation_off#:#No invitations
 survey#:#preview#:#Preview
 survey#:#previous_question_rows#:#<< Questions %d - %d of %d
 survey#:#qpl_confirm_delete_phrases#:#Are you sure you want to delete the following phrase(s)?
@@ -7222,7 +7223,7 @@ survey#:#text_question_not_filled_out#:#Please fill out the answer field!
 survey#:#text_resume_survey#:#You are trying to resume an anonymized survey. To continue the survey with your previously entered values please enter the 5 digit survey code which you received after starting the survey (it was sent with a message to your ILIAS mail folder). Instead of typing your survey code you also can copy it from your inbox and paste it into the text field below.
 survey#:#title_resume_survey#:#Resume the Survey - Enter Survey Code
 survey#:#unfold#:#Unfold
-survey#:#unlimited_users#:#Unlimited
+survey#:#unlimited_users#:#Invite all users
 survey#:#uploaded_material#:#Uploaded Material
 survey#:#upper_limit#:#Upper Limit
 survey#:#upper_limit_must_be_greater#:#The upper limit must be greater than the lower limit!
@@ -9697,6 +9698,9 @@ survey#:#spl_copy_insert_clipboard#:#The selected question(s) are copied to the 
 survey#:#spl_copy_select_none#:#Please check at least one question to copy it to the clipboard
 survey#:#spl_paste_no_objects#:#There are no questions in the clipboard. Please copy or move a question into the clipboard.
 survey#:#spl_paste_success#:#The question(s) have been pasted into the question pool
+survey#:#invitation_mode_desc#:#To invite a user to this survey a link reference to the survey is created on the users personal desktop.
+survey#:#msg_deleted_export_files#:#Export file(s) deleted
+assessment#:#msg_deleted_export_files#:#Export file(s) deleted
 common#:#udf_type_wysiwyg#:#Text Area (WYSIWYG)
 common#:#add_new_user_defined_wysiwyg_field#:#Add New Text Area (WYSIWYG) Field
 common#:#udf_update_wysiwyg_field#:#Edit Text Area (WYSIWYG) Field

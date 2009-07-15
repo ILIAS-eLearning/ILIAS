@@ -6914,7 +6914,7 @@ survey#:#insert_missing_question#:#Bitte wählen Sie mindestens eine Frage aus, 
 survey#:#insert_missing_questionblock#:#Bitte wählen Sie mindestens einen Fragenblock aus, den Sie der Umfrage hinzufügen wollen!
 survey#:#introduction_manage_phrases#:#Verwalten Sie Ihre eigenen Phrasen. Diese stehen Ihnen in allen ordinalen Fragen zur Verfügung, die Sie erstellen/bearbeiten.
 survey#:#introduction#:#Einleitung
-survey#:#invitation_mode#:#Einladungsmodus
+survey#:#invitation_mode#:#Benutzer einladen
 survey#:#invitation#:#Einladung
 survey#:#invited_groups#:#Eingeladene Gruppen
 survey#:#invited_users#:#Eingeladene NutzerInnen
@@ -7010,7 +7010,8 @@ survey#:#percentage_of_offered_answers#:#Prozentsatz der angebotenen Antworten
 survey#:#percentage_of_selections#:#Prozentsatz der NutzerInnen, die diese Antwort ausgewählt haben
 survey#:#phrase_saved#:#Die Phrase wurde erfolgreich gespeichert
 survey#:#please_select#:#-- bitte auswählen --
-survey#:#predefined_users#:#Vordefinierte NutzerInnengruppe
+survey#:#predefined_users#:#Ausgewählte Benutzer einladen
+survey#:#invitation_off#:#Niemanden einladen
 survey#:#preview#:#Vorschau
 survey#:#previous_question_rows#:#<< Fragen %d - %d von %d
 survey#:#qpl_confirm_delete_phrases#:#Sind Sie sicher, dass Sie die folgende(n) Phrase(n) löschen wollen?
@@ -7156,7 +7157,7 @@ survey#:#text_question_not_filled_out#:#Sie müssen alle Antwortfelder ausfülle
 survey#:#text_resume_survey#:#Sie versuchen, eine anonymisierte Umfrage fortzusetzen. Bitte geben Sie hierfür den aus 5 Zeichen bestehenden Zugangsschlüssel ein, der Ihnen beim ersten Beantworten der Umfrage in Ihren Posteingang zugeschickt wurde. Sie können den Zugangsschlüssel auch in die Zwischenablage kopieren und in das zugehörige Feld einfügen.
 survey#:#title_resume_survey#:#Forsetzen der Umfrage - Bitte den Zugangsschlüssel eingeben
 survey#:#unfold#:#Fragenblock auflösen
-survey#:#unlimited_users#:#Unbegrenzt
+survey#:#unlimited_users#:#Alle Benutzer einladen
 survey#:#uploaded_material#:#Hochgeladene Materialien
 survey#:#upper_limit_must_be_greater#:#Die obere Schranke muss größer als die untere Schranke sein!
 survey#:#upper_limit#:#Obere Schranke
@@ -9648,6 +9649,7 @@ dateplaner#:#cal_day_week_view#:#Einstellungen Tages/Wochenansicht
 dateplaner#:#cal_week_month_view#:#Einstellungen Wochen/Monatsansicht
 common#:#header_visible_registration#:#Im Registrierungsformular
 common#:#visible_registration#:#Im Registrierungsformular
+survey#:#invitation_mode_desc#:#Wenn ein Benutzer zu einer Umfrage eingeladen ist, wir eine Verknüpfung zu dieser Umfrage auf den persönlichen Schreibtisch des Benutzers gelegt.
 search#:#search_crs_title#:#Kursname
 search#:#search_for_crs_members#:#Nach Kursmitgliedern suchen
 mcst#:#mcst_mimetype#:#Mime Type

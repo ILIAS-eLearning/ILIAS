@@ -4887,5 +4887,49 @@ class ilObjSurvey extends ilObject
 	{
 		$this->survey_id = $survey_id;
 	}
+
+	/**
+	* Returns a data of all users specified by id list
+	*
+	* @param $ids array of user id's
+	* @return array The user data "usr_id, login, lastname, firstname, clientip" of the users with id as key
+	*/
+	public function &getUserData($ids)
+	{
+		global $ilDB;
+
+		if (!is_array($ids) || count($ids) ==0) return array();
+
+		$result = $ilDB->query("SELECT usr_id, login, lastname, firstname FROM usr_data WHERE " . $ilDB->in('usr_id', $ids, false, 'integer') . " ORDER BY login");
+		$result_array = array();
+		while ($row = $ilDB->fetchAssoc($result))
+		{
+			$result_array[$row["usr_id"]]= $row;
+		}
+		return $result_array;
+	}
+
+	function &getGroupData($ids)
+	{
+		if (!is_array($ids) || count($ids) ==0) return array();
+		$result = array();
+		foreach ($ids as $ref_id)
+		{
+			$obj_id = ilObject::_lookupObjId($ref_id);
+			$result[$ref_id] = array("ref_id" => $ref_id, "title" => ilObject::_lookupTitle($obj_id), "description" => ilObject::_lookupDescription($obj_id));
+		}
+		return $result;
+	}
+
+	function &getRoleData($ids)
+	{
+		if (!is_array($ids) || count($ids) ==0) return array();
+		$result = array();
+		foreach ($ids as $obj_id)
+		{
+			$result[$obj_id] = array("obj_id" => $obj_id, "title" => ilObject::_lookupTitle($obj_id), "description" => ilObject::_lookupDescription($obj_id));
+		}
+		return $result;
+	}
 } // END class.ilObjSurvey
 ?>
