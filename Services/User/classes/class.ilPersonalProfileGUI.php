@@ -2515,13 +2515,26 @@ return;
 		$this->form = new ilPropertyFormGUI();
 	
 		// Activate public profile
-		$cb = new ilCheckboxInputGUI($this->lng->txt("user_activate_public_profile"), "public_profile");
-		$cb->setInfo($this->lng->txt("user_activate_public_profile_info"));
+		$radg = new ilRadioGroupInputGUI($lng->txt("user_activate_public_profile"), "public_profile");
+		$radg->setInfo($this->lng->txt("user_activate_public_profile_info"));
+		$pub_prof = in_array($ilUser->prefs["public_profile"], array("y", "n", "g"))
+			? $ilUser->prefs["public_profile"]
+			: "n";
+		$radg->setValue($pub_prof);
+			$op1 = new ilRadioOption($lng->txt("usr_public_profile_disabled"), "n",$lng->txt("usr_public_profile_disabled_info"));
+			$radg->addOption($op1);
+			$op2 = new ilRadioOption($lng->txt("usr_public_profile_logged_in"), "y",$lng->txt("usr_public_profile_logged_in_info"));
+			$radg->addOption($op2);
+			$op3 = new ilRadioOption($lng->txt("usr_public_profile_global"), "g",$lng->txt("usr_public_profile_global_info"));
+			$radg->addOption($op3);
+		$this->form->addItem($radg);
+		/*$cb = new ilCheckboxInputGUI($this->lng->txt("user_activate_public_profile"), "public_profile");
+
 		if ($ilUser->prefs["public_profile"] == "y")
 		{
 			$cb->setChecked(true);
 		}
-		$this->form->addItem($cb);
+		$this->form->addItem($cb);*/
 		
 		// personal data
 		$val_array = array(
@@ -2629,14 +2642,15 @@ return;
 		$this->initPublicProfileForm();
 		if ($this->form->checkInput())
 		{
-			if (($_POST["public_profile"]))
+			/*if (($_POST["public_profile"]))
 			{
 				$ilUser->setPref("public_profile","y");
 			}
 			else
 			{
 				$ilUser->setPref("public_profile","n");
-			}
+			}*/
+			$ilUser->setPref("public_profile", $_POST["public_profile"]);
 
 			// if check on Institute
 			$val_array = array("institution", "department", "upload", "street",

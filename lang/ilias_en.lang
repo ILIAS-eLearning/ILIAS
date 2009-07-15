@@ -9190,8 +9190,8 @@ common#:#success_message#:#Success Message
 common#:#question_message#:#Question
 common#:#form_input_not_valid#:#Some data is incomplete or not valid. Please correct the form input.
 user#:#user_public_profile_info#:#Please select which personal data should be visible to other users.
-user#:#user_activate_public_profile#:#Activate Public Profile
-user#:#user_activate_public_profile_info#:#Global activation of your public profile. If activated your first and last name will be visible to other users.
+user#:#user_activate_public_profile#:#Public Profile Activation
+user#:#user_activate_public_profile_info#:#If activated your first and last name will always be visible.
 search#:#lucene_general_settings#:#General Settings
 search#:#lucene_advanced_settings#:#Advanced Search
 search#:#lucene_advances_settings_table#:#Advances Search Settings
@@ -9706,3 +9706,9 @@ mcst#:#mcst_mimetype#:#Mime Type
 mcst#:#mcst_mimetypes#:#Mime Types
 mcst#:#mcst_mimetype_info#:#Select mime type to control plugin used for playback.<br>Please note: Be aware that not every browser contains the plugin you intend to use.
 mcst#:#mcst_mimetypes_info#:#Comma separated list of mime types
+user#:#usr_public_profile_disabled#:#Public Profile Disabled
+user#:#usr_public_profile_disabled_info#:#Your information is only visible to administrative staff.
+user#:#usr_public_profile_logged_in#:#Logged in Users
+user#:#usr_public_profile_logged_in_info#:#Your information is only visible to users logged into the system.
+user#:#usr_public_profile_global#:#Globale Visible
+user#:#usr_public_profile_global_info#:#Your profile is visible to the internet.
