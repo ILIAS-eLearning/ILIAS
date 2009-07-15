@@ -54,10 +54,10 @@ class ilAuthHTTP extends Auth_HTTP
      */
     function __construct($container, $a_options = array())
     {
-		$a_options['sessionName'] = "_authhttp".md5(CLIENT_ID);
 		$a_options['sessionSharing'] = false;
 
     	parent::__construct($container,$a_options);
+		$this->setSessionName("_authhttp".md5(CLIENT_ID));
 		$this->setRealm(CLIENT_ID);
 
 		$this->initAuth();
