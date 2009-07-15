@@ -475,6 +475,10 @@ return;
 			$prop = new ilHiddenInputGUI('return_to');
 			$prop->setValue($_GET['return_to']);
 			$form->addItem($prop);
+			
+			$prop = new ilHiddenInputGUI('return_to_url');
+			$prop->setValue($_GET['bm_link']);
+			$form->addItem($prop);
 		}
 		
 		// buttons
@@ -632,7 +636,7 @@ return;
 			ilUtil::sendInfo($lng->txt('bookmark_added'), true);
 			
 			if ($_POST['return_to'])
-				ilUtil::redirect($_POST['target']);
+				ilUtil::redirect($_POST['return_to_url']);
 			else
 				$this->view();
 		}
@@ -826,7 +830,10 @@ return;
 	function cancel()
 	{
 		session_unregister("saved_post");
-		$this->view();
+		if ($_POST['return_to'])
+			ilUtil::redirect($_POST['return_to_url']);
+		else
+			$this->view();
 	}
 
 	/**
