@@ -10,9 +10,17 @@ class ilUserAutoComplete
 	/**
 	* Get completion list
 	*/
-	static function getList($a_str)
+	public static function getList($a_str)
 	{
 		global $ilDB;
+		
+		/*
+		$search = explode(',', $a_str);
+		if(count($search) > 1)
+		{
+			$a_str = end($search);
+		}
+		*/
 
 		include_once './Services/JSON/classes/class.ilJsonUtil.php';
 		$result = new stdClass();

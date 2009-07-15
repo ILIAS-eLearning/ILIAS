@@ -2602,7 +2602,6 @@ class ilObjCourseGUI extends ilContainerGUI
 			$this->ctrl->redirect($this,'members');
 		}
 		ilUtil::sendFailure($this->lng->txt("crs_users_already_assigned"));
-		
 		return false;
 	}
 

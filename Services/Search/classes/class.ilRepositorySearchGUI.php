@@ -94,7 +94,7 @@ class ilRepositorySearchGUI
 			default:
 				if(!$cmd)
 				{
-					$cmd = "show";
+					$cmd = "showSearch";
 				}
 				$this->$cmd();
 				break;
@@ -120,13 +120,13 @@ class ilRepositorySearchGUI
 	{
 		// delete all session info
 		$this->__clearSession();
-		$this->show();
+		$this->showSearch();
 
 		return true;
 	}
 
 
-	function addUser()
+	public function addUser()
 	{
 		// call callback if that function does give a return value => show error message
 		$class =& $this->callback['class'];
@@ -134,7 +134,7 @@ class ilRepositorySearchGUI
 
 		// listener redirects if everything is ok.
 		$class->$method($_POST['user']);
-		$this->show();
+		$this->showSearchResults();
 	}
 
 	function setCallback(&$class,$method,$a_add_options = array())
@@ -142,49 +142,88 @@ class ilRepositorySearchGUI
 		$this->callback = array('class' => $class,'method' => $method);
 		$this->add_options = $a_add_options ? $a_add_options : array();
 	}
+	
+	public function showSearch()
+	{
+		$this->initFormSearch();
+		$this->tpl->setContent($this->form->getHTML());
+	}
+	
+	public function initFormSearch()
+	{
+		include_once './Services/Form/classes/class.ilPropertyFormGUI.php';
+		
+		$this->form =  new ilPropertyFormGUI();
+		$this->form->setFormAction($this->ctrl->getFormAction($this,'search'));
+		$this->form->setTitle($this->lng->txt('add_members_header'));
+		$this->form->addCommandButton('performSearch', $this->lng->txt('search'));
+		$this->form->addCommandButton('cancel', $this->lng->txt('cancel'));
+		
+		
+		$kind = new ilRadioGroupInputGUI($this->lng->txt('search_type'),'search_for');
+		$kind->setValue($this->search_type);
+		$this->form->addItem($kind);
+		
+			// Users
+			$users = new ilRadioOption($this->lng->txt('search_for_users'),'usr');
+			
+			// UDF
+			include_once 'Services/Search/classes/class.ilUserSearchOptions.php';
+			foreach(ilUserSearchOptions::_getSearchableFieldsInfo() as $info)
+			{
+				switch($info['type'])
+				{
+					case FIELD_TYPE_UDF_SELECT:
+					case FIELD_TYPE_SELECT:
+						
+						$sel = new ilSelectInputGUI($info['lang'],"rep_query[usr][".$info['db']."]");
+						$sel->setOptions($info['values']);
+						$users->addSubItem($sel);
+						break;
+	
+					case FIELD_TYPE_UDF_TEXT:
+					case FIELD_TYPE_TEXT:
+
+						$txt = new ilTextInputGUI($info['lang'],"rep_query[usr][".$info['db']."]");
+						$txt->setSize(30);
+						$txt->setMaxLength(120);
+						$users->addSubItem($txt);
+						break;
+				}
+			}
+		$kind->addOption($users);
+
+			// Role
+			$roles = new ilRadioOption($this->lng->txt('search_for_role_members'),'role');
+				$role = new ilTextInputGUI($this->lng->txt('search_role_title'),'rep_query[role][title]');
+				$role->setSize(30);
+				$role->setMaxLength(120);
+			$roles->addSubItem($role);
+		$kind->addOption($roles);
+			
+			// Course
+			$groups = new ilRadioOption($this->lng->txt('search_for_crs_members'),'crs');
+				$group = new ilTextInputGUI($this->lng->txt('search_crs_title'),'rep_query[crs][title]');
+				$group->setSize(30);
+				$group->setMaxLength(120);
+			$groups->addSubItem($group);
+		$kind->addOption($groups);
+
+			// Group
+			$groups = new ilRadioOption($this->lng->txt('search_for_grp_members'),'grp');
+				$group = new ilTextInputGUI($this->lng->txt('search_grp_title'),'rep_query[grp][title]');
+				$group->setSize(30);
+				$group->setMaxLength(120);
+			$groups->addSubItem($group);
+		$kind->addOption($groups);
+		
+		
+	}
+	
 
 	function show()
 	{
-		$this->__showSearch();
-		$this->__showSearchResults();
-	}
-
-
-	function __showSearch()
-	{
-		$this->tpl->addBlockFile('ADM_CONTENT','adm_content','tpl.rep_search.html','Services/Search');
-		$this->tpl->setVariable("FORMACTION",$this->ctrl->getFormAction($this,'performSearch'));
-		$this->tpl->setVariable("TYPE_IMG",ilUtil::getImagePath('icon_usr.gif'));
-		$this->tpl->setVariable("ALT_IMG",$this->lng->txt('obj_usr'));
-		$this->tpl->setVariable("SEARCH_MEMBERS_HEADER",$this->lng->txt("add_members_header"));
-
-
-		// user search
-		$this->tpl->setVariable("SEARCH_ASSIGN_USR",$this->lng->txt("search_for_users"));
-		$this->tpl->setVariable("SEARCH_ROW_CHECK_USER",ilUtil::formRadioButton($this->search_type == 'usr',"search_for","usr"));
-		$this->__fillUserSearch();
-
-
-		// groups
-		$this->tpl->setVariable("SEARCH_ROW_TXT_GROUP",$this->lng->txt("search_for_grp_members"));
-		$this->tpl->setVariable("GROUP_TERM",$this->lng->txt('search_grp_title'));
-        $this->tpl->setVariable("SEARCH_ROW_CHECK_GROUP",ilUtil::formRadioButton($this->search_type == 'grp',"search_for","grp"));
-		$this->tpl->setVariable("GRP_VALUE",$_SESSION['rep_query']['grp']['title']);
-
-
-		// roles
-		$this->tpl->setVariable("SEARCH_ROW_TXT_ROLE",$this->lng->txt("search_for_role_members"));
-		$this->tpl->setVariable("ROLE_TERM",$this->lng->txt('search_role_title'));
-		$this->tpl->setVariable("SEARCH_ROW_CHECK_ROLE",ilUtil::formRadioButton($this->search_type == 'role',"search_for","role"));
-		$this->tpl->setVariable("ROLE_VALUE",$_SESSION['rep_query']['role']['title']);
-
-
-		$this->tpl->setVariable("BTN2_VALUE",$this->lng->txt("cancel"));
-		if(count($_SESSION['rep_search']['usr']))
-		{
-			$this->tpl->setVariable("BTN3_VALUE",$this->lng->txt('append_results'));
-		}
-		$this->tpl->setVariable("BTN1_VALUE",$this->lng->txt("search"));
+		$this->showSearchResults();
 	}
 
 	function appendSearch()
@@ -212,6 +251,10 @@ class ilRepositorySearchGUI
 				$this->__performGroupSearch();
 				break;
 
+			case 'crs':
+				$this->__performCourseSearch();
+				break;
+
 			case 'role':
 				$this->__performRoleSearch();
 				break;
@@ -223,16 +266,20 @@ class ilRepositorySearchGUI
 
 		if(!count($this->result_obj->getResults()))
 		{
-			ilUtil::sendInfo($this->lng->txt('search_no_match'));
+			ilUtil::sendFailure($this->lng->txt('search_no_match'));
+			$this->showSearch();
+			return true;
 		}
 		$this->__updateResults();
 		if($this->result_obj->isLimitReached())
 		{
 			$message = sprintf($this->lng->txt('search_limit_reached'),$this->settings->getMaxHits());
 			ilUtil::sendInfo($message);
+			return true;
 		}
 		// show results
 		$this->show();
+		return true;
 	}
 
 	function __performUserSearch()
@@ -281,6 +328,10 @@ class ilRepositorySearchGUI
 		}
 	}
 
+	/**
+	 * Search groups
+	 * @return 
+	 */
 	function __performGroupSearch()
 	{
 		include_once 'Services/Search/classes/class.ilObjectSearchFactory.php';
@@ -300,6 +351,33 @@ class ilRepositorySearchGUI
 		return true;
 	}
 
+	/**
+	 * Search courses
+	 * @return 
+	 */
+	protected function __performCourseSearch()
+	{
+		include_once 'Services/Search/classes/class.ilObjectSearchFactory.php';
+
+		$query_string = $_SESSION['rep_query']['crs']['title'];
+		if(!is_object($query_parser = $this->__parseQueryString($query_string)))
+		{
+			ilUtil::sendInfo($query_parser,true);
+			return false;
+		}
+
+		include_once 'Services/Search/classes/Like/class.ilLikeObjectSearch.php';
+		$object_search = new ilLikeObjectSearch($query_parser);
+		$object_search->setFilter(array('crs'));
+		$this->__storeEntries($object_search->performSearch());
+
+		return true;
+	}
+
+	/**
+	 * Search roles
+	 * @return 
+	 */
 	function __performRoleSearch()
 	{
 		include_once 'Services/Search/classes/class.ilObjectSearchFactory.php';
@@ -371,44 +449,6 @@ class ilRepositorySearchGUI
 		return true;
 	}
 
-	function __fillUserSearch()
-	{
-		include_once 'Services/Search/classes/class.ilUserSearchOptions.php';
-
-		foreach(ilUserSearchOptions::_getSearchableFieldsInfo() as $info)
-		{
-			switch($info['type'])
-			{
-				case FIELD_TYPE_UDF_SELECT:
-				case FIELD_TYPE_SELECT:
-					$this->tpl->setCurrentBlock("select_field");
-					$this->tpl->setVariable("SELECT_NAME",$info['lang']);
-
-					$name = $info['db'];
-					$this->tpl->setVariable("SELECT_BOX",ilUtil::formSelect($_SESSION['rep_query']['usr'][$name],
-																			"rep_query[usr][$name]",
-																			$info['values'],
-																			false,
-																			true));
-					$this->tpl->parseCurrentBlock();
-					break;
-
-				case FIELD_TYPE_UDF_TEXT:
-				case FIELD_TYPE_TEXT:
-					$this->tpl->setCurrentBlock("text_field");
-					$this->tpl->setVariable("TEXT_NAME",$info['lang']);
-
-					$name = $info['db'];
-					$this->tpl->setVariable("USR_NAME","rep_query[usr][$name]");
-					$this->tpl->setVariable("USR_VALUE",$_SESSION['rep_query']['usr'][$name]);
-					$this->tpl->parseCurrentBlock();
-					break;
-			}
-			$this->tpl->setCurrentBlock("usr_rows");
-			$this->tpl->parseCurrentBlock();
-		}
-
-	}
 
 	function __updateResults()
 	{
@@ -460,107 +500,45 @@ class ilRepositorySearchGUI
 		}
 	}
 
-	function __fillUserTable($user_ids)
+	/**
+	 * Add new search button
+	 * @return 
+	 */
+	protected function addNewSearchButton()
 	{
-		$user_ids = $user_ids ? $user_ids : array();
-
-		$counter = 0;
-		foreach($user_ids as $usr_id)
-		{
-			if(!is_object($tmp_obj = ilObjectFactory::getInstanceByObjId($usr_id,false)) or $tmp_obj->getType() != 'usr')
-			{
-				continue;
-			}
-			$user_ids[$counter] = $usr_id;
-					
-			$f_result[$counter][] = ilUtil::formCheckbox(0,"user[]",$usr_id);
-			$f_result[$counter][] = $tmp_obj->getLogin();
-			$f_result[$counter][] = $tmp_obj->getFirstname();
-			$f_result[$counter][] = $tmp_obj->getLastname();
-
-			unset($tmp_obj);
-			++$counter;
-		}
-		return $f_result ? $f_result : array();
+		include_once './Services/UIComponent/Toolbar/classes/class.ilToolbarGUI.php';
+		$toolbar = new ilToolbarGUI();
+		$toolbar->addButton(
+			$this->lng->txt('search_new'), 
+			$this->ctrl->getLinkTarget($this,'showSearch')
+		);
+		$this->tpl->setVariable('ACTION_BUTTONS',$toolbar->getHTML());
 	}
-
-	function __fillGroupTable($group_ids)
-	{
-		$group_ids = $group_ids ? $group_ids : array();
-
-		$counter = 0;
-		foreach($group_ids as $group_id)
-		{
-			if(!$tmp_obj = ilObjectFactory::getInstanceByRefId($ref_id = end(
-																   $ref_ids = ilObject::_getAllReferences($group_id)),false))
-			{
-				continue;
-			}
-			$grp_ids[$counter] = $group_id;
-					
-			$f_result[$counter][] = ilUtil::formCheckbox(0,"group[]",$ref_id);
-			$f_result[$counter][] = array($tmp_obj->getTitle(),$tmp_obj->getDescription());
-			$f_result[$counter][] = $tmp_obj->getCountMembers();
-					
-			unset($tmp_obj);
-			++$counter;
-		}
-		return $f_result ? $f_result : array();
-	}
-		
-	function __fillRoleTable($role_ids)
-	{
-		$role_ids = $role_ids ? $role_ids : array();
-
-		$counter = 0;
-		foreach($role_ids as $role_id)
-		{
-			// exclude anonymous role
-			if ($role_id == ANONYMOUS_ROLE_ID)
-			{
-				continue;
-			}
-			if(!$tmp_obj = ilObjectFactory::getInstanceByObjId($role_id,false) or $tmp_obj->getType() != 'role')
-			{
-				continue;
-			}
-			// exclude roles with no users assigned to
-			if ($tmp_obj->getCountMembers() == 0)
-			{
-				continue;
-			}
-			$role_ids[$counter] = $role_id;
-				
-			$f_result[$counter][] = ilUtil::formCheckbox(0,"role[]",$role_id);
-			$f_result[$counter][] = array($tmp_obj->getTitle(),$tmp_obj->getDescription());
-			$f_result[$counter][] = $tmp_obj->getCountMembers();
-
-			unset($tmp_obj);
-			++$counter;
-		}
-		return $f_result ? $f_result : array();
-	}
-
-
-	function __showSearchResults()
+	
+	public function showSearchResults()
 	{
 		$counter = 0;
 		$f_result = array();
+		
+		$this->tpl->addBlockFile('ADM_CONTENT','adm_content','tpl.rep_search_result.html','Services/Search');
+		$this->addNewSearchButton();
+		
 		switch($this->search_type)
 		{
 			case "usr":
-				$result = $this->__fillUserTable($_SESSION['rep_search']['usr']);
-				$this->__showSearchUserTable($result,$_SESSION['rep_search']['usr']);
+				$this->showSearchUserTable($_SESSION['rep_search']['usr']);
 				break;
 
 			case 'grp':
-				$result = $this->__fillGroupTable($_SESSION['rep_search']['grp']);
-				$this->__showSearchGroupTable($result,$_SESSION['rep_search']['grp']);
+				$this->showSearchGroupTable($_SESSION['rep_search']['grp']);
+				break;
+
+			case 'crs':
+				$this->showSearchCourseTable($_SESSION['rep_search']['crs']);
 				break;
 
 			case 'role':
-				$result = $this->__fillRoleTable($_SESSION['rep_search']['role']);
-				$this->__showSearchRoleTable($result,$_SESSION['rep_search']['role']);
+				$this->showSearchRoleTable($_SESSION['rep_search']['role']);
 				break;
 		}
 
@@ -572,287 +550,117 @@ class ilRepositorySearchGUI
 			
 		}
 	}
-	function __showSearchUserTable($a_result_set,$a_user_ids = NULL,$a_cmd = "performSearch",$tpl_var = 'RES_TABLE')
+
+	/**
+	 * Show usr table
+	 * @return 
+	 * @param object $a_usr_ids
+	 */
+	protected function showSearchUserTable($a_usr_ids,$tpl_var = 'RES_TABLE')
 	{
-		if(!$a_result_set)
-		{
-			return false;
-		}
-
-		$tbl =& $this->__initTableGUI();
-		$tpl =& $tbl->getTemplateObject();
-
-
-		// SET FORMACTION
-		$tpl->setCurrentBlock("tbl_form_header");
-		$tpl->setVariable("FORMACTION",$this->ctrl->getFormAction($this,'addUser'));
-		$tpl->parseCurrentBlock();
+		include_once './Services/Search/classes/class.ilRepositoryUserResultTableGUI.php';
 		
-		if($this->add_options)
-		{
-			$tpl->setCurrentBlock('tbl_action_select');
-			$tpl->setVariable('SELECT_ACTION',
-				ilUtil::formSelect(
-					0,
-					'member_type',
-					$this->add_options,
-					false,
-					true
-				)
-			);
-			$tpl->setVariable("BTN_NAME","addUser");
-			$tpl->setVariable("BTN_VALUE",$this->lng->txt("btn_add"));
-			$tpl->parseCurrentBlock();
-		}
-		else
-		{
-			$tpl->setCurrentBlock("tbl_action_btn");
-			$tpl->setVariable("BTN_NAME","addUser");
-			$tpl->setVariable("BTN_VALUE",$this->lng->txt("btn_add"));
-			$tpl->parseCurrentBlock();
-		}
+		$table = new ilRepositoryUserResultTableGUI($this,'showSearchResults');
+		$table->initMultiCommands($this->add_options);
+		$table->parseUserIds($a_usr_ids);
 		
-		$tbl->enable('select_all');
-		$tbl->setFormName("cmd");
-		$tbl->setSelectAllCheckbox("user");
-
-		$tpl->setCurrentBlock("tbl_action_row");
-		$tpl->setVariable("COLUMN_COUNTS",5);
-		$tpl->setVariable("IMG_ARROW",ilUtil::getImagePath("arrow_downright.gif"));
-		$tpl->parseCurrentBlock();
-
-		$tbl->setTitle($this->lng->txt("search_results"),"icon_usr.gif",$this->lng->txt("search_results"));
-		$tbl->setHeaderNames(array("",
-								   $this->lng->txt("username"),
-								   $this->lng->txt("firstname"),
-								   $this->lng->txt("lastname")));
-		$tbl->setHeaderVars(array("",
-								  "login",
-								  "firstname",
-								  "lastname"),
-							$this->ctrl->getParameterArray($this,$a_cmd));
-
-		$tbl->setColumnWidth(array("","33%","33%","33%"));
-
-		$this->__setTableGUIBasicData($tbl,$a_result_set);
-		$tbl->render();
+		$this->tpl->setVariable($tpl_var,$table->getHTML());
+	}
+	
+	/**
+	 * Show usr table
+	 * @return 
+	 * @param object $a_usr_ids
+	 */
+	protected function showSearchRoleTable($a_obj_ids)
+	{
+		include_once './Services/Search/classes/class.ilRepositoryObjectResultTableGUI.php';
 		
-		$this->tpl->setVariable($tpl_var,$tbl->tpl->get());
-
-		return true;
+		$table = new ilRepositoryObjectResultTableGUI($this,'showSearchResults');
+		$table->parseObjectIds($a_obj_ids);
+		
+		$this->tpl->setVariable('RES_TABLE',$table->getHTML());
 	}
 
-	function __showSearchGroupTable($a_result_set,$a_grp_ids = NULL)
+	/**
+	 * 
+	 * @return 
+	 * @param array $a_obj_ids
+	 */
+	protected function showSearchGroupTable($a_obj_ids)
 	{
-		if(!$a_result_set)
-		{
-			return false;
-		}
-
-		$tbl =& $this->__initTableGUI();
-		$tpl =& $tbl->getTemplateObject();
-
-		$tpl->setCurrentBlock("tbl_form_header");
-		$tpl->setVariable("FORMACTION",$this->ctrl->getFormAction($this,'listUsersGroup'));
-		$tpl->parseCurrentBlock();
-
-		$tpl->setCurrentBlock("tbl_action_btn");
-		$tpl->setVariable("BTN_NAME","listUsersGroup");
-		$tpl->setVariable("BTN_VALUE",$this->lng->txt("crs_list_users"));
-		$tpl->parseCurrentBlock();
-
-		$tbl->enable('select_all');
-		$tbl->setFormName("cmd");
-		$tbl->setSelectAllCheckbox("group");
-
-		$tpl->setCurrentBlock("tbl_action_row");
-		$tpl->setVariable("COLUMN_COUNTS",5);
-		$tpl->setVariable("IMG_ARROW",ilUtil::getImagePath("arrow_downright.gif"));
-		$tpl->parseCurrentBlock();
-
-		$tbl->setTitle($this->lng->txt("crs_header_edit_members"),"icon_grp.gif",$this->lng->txt("crs_header_edit_members"));
-		$tbl->setHeaderNames(array("",
-								   $this->lng->txt("obj_grp"),
-								   $this->lng->txt("crs_count_members")));
-		$tbl->setHeaderVars(array("",
-								  "title",
-								  "nr_members"),
-							$this->ctrl->getParameterArray($this,'show'));
-
-		$tbl->setColumnWidth(array("","80%","19%"));
-
-
-		$this->__setTableGUIBasicData($tbl,$a_result_set,"group");
-		$tbl->render();
-
-		$this->tpl->setVariable("RES_TABLE",$tbl->tpl->get());
-
-		return true;
-	}
-	function __showSearchRoleTable($a_result_set,$a_role_ids)
-	{
-		if(!$a_result_set)
-		{
-			return false;
-		}
-
-		$tbl =& $this->__initTableGUI();
-		$tpl =& $tbl->getTemplateObject();
-
-		$tpl->setCurrentBlock("tbl_form_header");
-		$tpl->setVariable("FORMACTION",$this->ctrl->getFormAction($this,'listUsersRole'));
-		$tpl->parseCurrentBlock();
-
-		$tpl->setCurrentBlock("tbl_action_btn");
-		$tpl->setVariable("BTN_NAME","listUsersRole");
-		$tpl->setVariable("BTN_VALUE",$this->lng->txt("crs_list_users"));
-		$tpl->parseCurrentBlock();
-
-		$tbl->enable('select_all');
-		$tbl->setFormName("cmd");
-		$tbl->setSelectAllCheckbox("role");
-
-		$tpl->setCurrentBlock("tbl_action_row");
-		$tpl->setVariable("COLUMN_COUNTS",5);
-		$tpl->setVariable("IMG_ARROW",ilUtil::getImagePath("arrow_downright.gif"));
-		$tpl->parseCurrentBlock();
-
-		$tbl->setTitle($this->lng->txt("crs_header_edit_members"),"icon_role.gif",$this->lng->txt("crs_header_edit_members"));
-		$tbl->setHeaderNames(array("",
-								   $this->lng->txt("objs_role"),
-								   $this->lng->txt("crs_count_members")));
-		$tbl->setHeaderVars(array("",
-								  "title",
-								  "nr_members"),
-							$this->ctrl->getParameterArray($this,'show'));
-
-		$tbl->setColumnWidth(array("","80%","19%"));
-
-
-		$this->__setTableGUIBasicData($tbl,$a_result_set,"role");
-		$tbl->render();
+		include_once './Services/Search/classes/class.ilRepositoryObjectResultTableGUI.php';
 		
-		$this->tpl->setVariable("RES_TABLE",$tbl->tpl->get());
-
-		return true;
+		$table = new ilRepositoryObjectResultTableGUI($this,'showSearchResults');
+		$table->parseObjectIds($a_obj_ids);
+		
+		$this->tpl->setVariable('RES_TABLE',$table->getHTML());
+	}
+	
+	/**
+	 * 
+	 * @return 
+	 * @param array $a_obj_ids
+	 */
+	protected function showSearchCourseTable($a_obj_ids)
+	{
+		include_once './Services/Search/classes/class.ilRepositoryObjectResultTableGUI.php';
+		
+		$table = new ilRepositoryObjectResultTableGUI($this,'showSearchResults');
+		$table->parseObjectIds($a_obj_ids);
+		
+		$this->tpl->setVariable('RES_TABLE',$table->getHTML());
 	}
 
-
-	function listUsersGroup()
+	/**
+	 * List users of course/group/roles
+	 * @return 
+	 */
+	protected function listUsers()
 	{
-		global $rbacsystem,$tree;
-
-		$_SESSION["crs_group"] = $_POST["group"] = $_POST["group"] ? $_POST["group"] : $_SESSION["crs_group"];
-
-		if(!is_array($_POST["group"]))
+		if(!is_array($_POST['obj']))
 		{
-			ilUtil::sendInfo($this->lng->txt("crs_no_groups_selected"));
-			$this->show();
-
+			ilUtil::sendFailure($this->lng->txt('select_one'));
+			$this->showSearchResults();
 			return false;
 		}
-
-		$this->__showSearch();
-
-		// GET ALL MEMBERS
+		
+		// Get all members
 		$members = array();
-		foreach($_POST["group"] as $group_id)
+		foreach($_POST['obj'] as $obj_id)
 		{
-			if(!$tmp_obj = ilObjectFactory::getInstanceByRefId($group_id))
+			$type = ilObject::_lookupType($obj_id);
+			switch($type)
 			{
-				continue;
+				case 'crs':
+					include_once './Modules/Course/classes/class.ilCourseParticipants.php';
+					$part = ilCourseParticipants::_getInstanceByObjId($obj_id);
+					$members = array_merge($members, $part->getParticipants());
+					break;
+					
+				case 'grp':
+					include_once './Modules/Group/classes/class.ilGroupParticipants.php';
+					$part = ilGroupParticipants::_getInstanceByObjId($obj_id);
+					$members = array_merge($members, $part->getParticipants());
+					break;
+					
+				case 'role':
+					global $rbacreview;
+					
+					$members = array_merge($members, $rbacreview->assignedUsers($obj_id));
+					break;
 			}
-			$members = array_merge($tmp_obj->getGroupMemberIds(),$members);
-
-			unset($tmp_obj);
 		}
+		$members = array_unique((array) $members);
 		$this->__appendToStoredResults($members);
-
-		$result = $this->__fillUserTable($_SESSION['rep_search']['usr']);
-		$this->__showSearchUserTable($result,$_SESSION['rep_search']['usr'],"listUsersGroup");
-
-		return true;
-	}
-	function listUsersRole()
-	{
-		global $rbacsystem,$rbacreview,$tree;
-
-		$_SESSION["crs_role"] = $_POST["role"] = $_POST["role"] ? $_POST["role"] : $_SESSION["crs_role"];
-
-		if(!is_array($_POST["role"]))
-		{
-			ilUtil::sendInfo($this->lng->txt("crs_no_roles_selected"));
-			$this->show();
-
-			return false;
-		}
-
-		$this->__showSearch();
-
-		// GET ALL MEMBERS
-		$members = array();
-		foreach($_POST["role"] as $role_id)
-		{
-			$members = array_merge($rbacreview->assignedUsers($role_id),$members);
-		}
-		$members = $this->__appendToStoredResults($members);
-
-		$result = $this->__fillUserTable($_SESSION['rep_search']['usr']);
-		$this->__showSearchUserTable($result,$user_ids,"listUsersRole");
-
+		
+		$this->tpl->addBlockFile('ADM_CONTENT','adm_content','tpl.rep_search_result.html','Services/Search');
+		
+		$this->addNewSearchButton();
+		$this->showSearchUserTable($_SESSION['rep_search']['usr']);
 		return true;
 	}
 
-
-
-	function __setTableGUIBasicData(&$tbl,&$result_set,$from = "")
-	{
-		global $ilUser;
-
-        switch($from)
-		{
-			case "group":
-				$offset = $_GET["offset"];
-	           	$order = $_GET["sort_by"] ? $_GET["sort_by"] : "title";
-				$direction = $_GET["sort_order"];
-				$tbl->setLimit(1000000);
-				break;
-				
-   			case "role":
-				$offset = $_GET["offset"];
-	           	$order = $_GET["sort_by"] ? $_GET["sort_by"] : "title";
-				$direction = $_GET["sort_order"];
-				$tbl->setLimit(1000000);
-				break;
-
-			default:
-				$offset = $_GET["offset"];
-				// init sort_by (unfortunatly sort_by is preset with 'title'
-	           	if ($_GET["sort_by"] == "title" or empty($_GET["sort_by"]))
-                {
-                    $_GET["sort_by"] = "login";
-                }
-                $order = $_GET["sort_by"];
-				$direction = $_GET["sort_order"];
-				$tbl->setLimit($ilUser->getPref('hits_per_page'));
-				break;
-		}
-
-		$tbl->setOrderColumn($order);
-		$tbl->setOrderDirection($direction);
-		$tbl->setOffset($offset);
-		$tbl->setMaxCount(count($result_set));
-		$tbl->setFooter("tblfooter",$this->lng->txt("previous"),$this->lng->txt("next"));
-		$tbl->setData($result_set);
-	}
-
-
-	function &__initTableGUI()
-	{
-		include_once "./Services/Table/classes/class.ilTableGUI.php";
-
-		return new ilTableGUI(0,false);
-	}
 
 }
 ?>
