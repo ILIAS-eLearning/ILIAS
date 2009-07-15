@@ -149,47 +149,6 @@ class ilPermanentLinkGUI
 	}
 
 	/**
-	* Add Current Link to Bookmarks
-	*/
-	function addToBookmarks()
-	{
-		global $ilObjDataCache, $lng;
-		$result = new stdClass();
-		
-		include_once 'Services/PersonalDesktop/classes/class.ilBookmark.php';
-		
-		include_once('classes/class.ilLink.php');
-		$href = ilLink::_getStaticLink($this->getId(), $this->getType(),
-			true, $this->getAppend());
-
-		$bookmark = new ilBookmark();
-		
-		// try to find title if none is given
-		if ($_REQUEST["pm_bm_title"])
-		{
-			$title = $_REQUEST["pm_bm_title"];
-			$bookmark->setTitle($title);
-		}
-		else
-		{
-			$obj_id = $ilObjDataCache->lookupObjId($this->getId());
-			$title = $ilObjDataCache->lookupTitle($obj_id);
-			if ($title)
-				$bookmark->setTitle($title);
-			else
-				$bookmark->setTitle("untitled");
-		}
-		
-		$bookmark->setDescription($lng->txt('perma_link') . ': ' . $title);
-		$bookmark->setParent(1);
-		$bookmark->setTarget($href);
-		$bookmark->create();
-		
-		ilUtil::sendInfo($lng->txt('bookmark_added'), true);
-		ilUtil::redirect($href);
-	}
-	
-	/**
 	* Get HTML for link
 	*/
 	function getHTML()
@@ -202,13 +161,6 @@ class ilPermanentLinkGUI
 		include_once('classes/class.ilLink.php');
 		$href = ilLink::_getStaticLink($this->getId(), $this->getType(),
 			true, $this->getAppend());
-
-		// check if current page should be bookmarked
-		if ($_REQUEST["addToBookmark"] == "true")
-		{
-			$this->addToBookmarks();
-		}
-
 
 		if ($this->getIncludePermanentLinkText())
 		{
@@ -231,7 +183,7 @@ class ilPermanentLinkGUI
 
 		$tpl->setVariable("LINK", $href);
 		$tpl->setVariable("TXT_ADD_TO_ILIAS_BM", $lng->txt("bm_add_to_ilias"));
-		$tpl->setVariable("URL_ADD_TO_BM", $href . '&addToBookmark=true&bm_title='. urlencode($title));
+		$tpl->setVariable("URL_ADD_TO_BM", 'ilias.php?cmd=redirect&baseClass=ilPersonalDesktopGUI&redirectClass=ilbookmarkadministrationgui&redirectCmd=newFormBookmark&param_bmf_id=1&param_return_to=true&param_bm_title='. urlencode($title) . '&param_bm_link=' . urlencode(urlencode($href)));
 		
 		if ($this->getTarget() != "")
 		{
