@@ -91,7 +91,6 @@ class ilMediaPlayerGUI
 		global $tpl;
 		require_once 'Services/MediaObjects/classes/class.ilObjMediaObject.php';
 		$mimeType = $this->mimeType == "" ? ilObjMediaObject::getMimeType(basename($this->getFile())) : $this->mimeType;
-
 		if (strpos($mimeType,"flv") === false 
 		 && strpos($mimeType,"audio/mpeg") === false
 		 && strpos($mimeType,"image/png") === false
@@ -106,7 +105,7 @@ class ilMediaPlayerGUI
 		
 		$tpl->addJavaScript("./Services/MediaObjects/flash_flv_player/swfobject.js");		
 		$mp_tpl = new ilTemplate("tpl.flv_player.html", true, true, "Services/MediaObjects");
-		$mp_tpl->setVariable("FILE", $this->getFile());
+		$mp_tpl->setVariable("FILE", urlencode($this->getFile()));
 		$mp_tpl->setVariable("PLAYER_NR", self::$nr);
 		$mp_tpl->setVariable("DISPLAY_HEIGHT", strpos($mimeType,"audio/mpeg") === false ? "240" : "20");
 		$mp_tpl->setVariable("DISPLAY_WIDTH", "320");

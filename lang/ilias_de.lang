@@ -9650,3 +9650,7 @@ common#:#header_visible_registration#:#Im Registrierungsformular
 common#:#visible_registration#:#Im Registrierungsformular
 search#:#search_crs_title#:#Kursname
 search#:#search_for_crs_members#:#Nach Kursmitgliedern suchen
+mcst#:#mcst_mimetype#:#Mime Type
+mcst#:#mcst_mimetypes#:#Mime Types
+mcst#:#mcst_mimetype_info#:#Wählen Sie einen Mimetype um das richtige Plugin zu definieren. <br>Hinweis: Bitte berücksichtigen Sie, dass nicht alle Browser alle Plugins installiert haben bzw. unterstützen.
+mcst#:#mcst_mimetypes_info#:#Kommagetrennte Liste von Mimetypes
