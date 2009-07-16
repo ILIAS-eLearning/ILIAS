@@ -14599,3 +14599,30 @@ $ilCtrlStructureReader->getStructure();
 		}
 	}
 ?>
+<#2769>
+<?php
+	$ilDB->createTable("license_data", array(
+		'obj_id' => array(
+			'type'     => 'integer',
+			'length'   => 4,
+			'notnull' => true,
+			'default' => 0 
+		),
+		'licenses' => array(
+			'type'     => 'integer',
+			'length'   => 4,
+			'notnull' => true,
+			'default' => 0 
+		),
+		'used' => array(
+			'type'     => 'integer',
+			'length'   => 4,
+			'notnull' => true,
+			'default' => 0 
+		),
+		'remarks' => array(
+			'type'     => 'clob'
+		)
+	));
+	$ilDB->addPrimaryKey("license_data", array("obj_id"));
+?>
