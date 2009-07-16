@@ -186,13 +186,13 @@ class ilDiskQuotaChecker
 		$info['details'] = $details;
 
 
-		//ilDiskQuotaChecker::_updateDiskUsageStatistics();
+		//ilDiskQuotaChecker::_updateDiskUsageReport();
 
 		return $info;
 	}
 
 	/**
-	* Reads disk quota/disk usage statistics of the user accounts.
+	* Reads disk quota/disk usage report of the user accounts.
     *
 	* Returns an array or associative arrays with information about the disk
 	*  usage of each user account.
@@ -216,7 +216,7 @@ class ilDiskQuotaChecker
 	*	'disk_quota'=>integer,	// the disk quota in bytes
 	* } }
 	*/
-	public static function _fetchDiskUsageStatistics($a_usage_filter = 3, $a_access_filter = 1,  $a_order_column='disk_usage',$a_order_by='desc')
+	public static function _fetchDiskQuotaReport($a_usage_filter = 3, $a_access_filter = 1,  $a_order_column='disk_usage',$a_order_by='desc')
 	{
 		$data = array();
 		global $ilDB;
@@ -321,7 +321,7 @@ class ilDiskQuotaChecker
 	 * 'disk_usage.file'		- the disk usage of file objects owned by the
 	 *							  user.
 	 */
-	public static function _updateDiskUsageStatistics()
+	public static function _updateDiskUsageReport()
 	{
 		global $ilDB;
 
@@ -331,22 +331,22 @@ class ilDiskQuotaChecker
 
 
 		require_once 'Modules/File/classes/class.ilObjFileAccess.php';
-		self::__updateDiskUsageStatisticsOfType(new ilObjFileAccess(), 'file');
+		self::__updateDiskUsageReportOfType(new ilObjFileAccess(), 'file');
 
 		require_once 'Modules/Forum/classes/class.ilObjForumAccess.php';
-		self::__updateDiskUsageStatisticsOfType(new ilObjForumAccess(), 'frm');
+		self::__updateDiskUsageReportOfType(new ilObjForumAccess(), 'frm');
 
 		require_once 'Modules/HTMLLearningModule/classes/class.ilObjFileBasedLMAccess.php';
-		self::__updateDiskUsageStatisticsOfType(new ilObjFileBasedLMAccess(), 'htlm');
+		self::__updateDiskUsageReportOfType(new ilObjFileBasedLMAccess(), 'htlm');
 
 		require_once 'Modules/MediaCast/classes/class.ilObjMediaCastAccess.php';
-		self::__updateDiskUsageStatisticsOfType(new ilObjMediaCastAccess(), 'mcst');
+		self::__updateDiskUsageReportOfType(new ilObjMediaCastAccess(), 'mcst');
 
 		require_once 'Modules/ScormAicc/classes/class.ilObjSAHSLearningModuleAccess.php';
-		self::__updateDiskUsageStatisticsOfType(new ilObjSAHSLearningModuleAccess(), 'sahs');
+		self::__updateDiskUsageReportOfType(new ilObjSAHSLearningModuleAccess(), 'sahs');
 
 		require_once 'Services/Mail/classes/class.ilObjMailAccess.php';
-		self::__updateDiskUsageStatisticsOfUsers(new ilObjMailAccess(), 'mail');
+		self::__updateDiskUsageReportOfUsers(new ilObjMailAccess(), 'mail_attachment');
 
 		// insert the sum of the disk usage of each user
 		$ilDB->manipulate("INSERT INTO usr_pref ".
@@ -365,7 +365,7 @@ class ilDiskQuotaChecker
 	}
 
 	/**
-	 * Updates the disk usage statistics of the specified object type for
+	 * Updates the disk usage report of the specified object type for
 	 * all user accounts.
 	 * The results are stored in table usr_pref.
 	 * For each user which owns files the following rows are inserted:
@@ -377,7 +377,7 @@ class ilDiskQuotaChecker
 	 * 'disk_usage.file.count'	integer	The number of files owned by the user
 	 * 'disk_usage.file.usage'	integer	The disk usage of the files
 	 */
-	private static function __updateDiskUsageStatisticsOfType($a_access_obj, $a_type)
+	private static function __updateDiskUsageReportOfType($a_access_obj, $a_type)
 	{
 		global $ilDB;
 
@@ -439,7 +439,7 @@ class ilDiskQuotaChecker
 	}
 
 	/**
-	 * Updates the disk usage statistics of the specified object type for
+	 * Updates the disk usage report of the specified object type for
 	 * all user accounts.
 	 * The results are stored in table usr_pref.
 	 * For each user which owns files the following rows are inserted:
@@ -451,7 +451,7 @@ class ilDiskQuotaChecker
 	 * 'disk_usage.file.count'	integer	The number of files owned by the user
 	 * 'disk_usage.file.usage'	integer	The disk usage of the files
 	 */
-	private static function __updateDiskUsageStatisticsOfUsers($a_access_obj, $a_type)
+	private static function __updateDiskUsageReportOfUsers($a_access_obj, $a_type)
 	{
 		global $ilDB;
 
@@ -573,10 +573,10 @@ class ilDiskQuotaChecker
 	}
 
 	/**
-	* Returns the SQL datetime of the last update of the disk usage statistics.
-	* Returns null, if the disk usage statistics has never been made.
+	* Returns the SQL datetime of the last update of the disk usage report.
+	* Returns null, if the disk usage report has never been made.
 	*/
-	public static function _lookupDiskUsageStatisticsLastUpdate()
+	public static function _lookupDiskUsageReportLastUpdate()
 	{
 		global $ilDB;
 

@@ -327,9 +327,9 @@ class ilObjFileAccessSettingsGUI extends ilObjectGUI
 		require_once 'Services/WebDAV/classes/class.ilDiskQuotaActivationChecker.php';
 		if (ilDiskQuotaActivationChecker::_isActive())
 		{
-			$ilTabs->addSubTabTarget("statistics",
-				 $ilCtrl->getLinkTarget($this, "viewDiskUsageStatistics"),
-				 array("viewDiskUsageStatistics"));
+			$ilTabs->addSubTabTarget("disk_quota_report",
+				 $ilCtrl->getLinkTarget($this, "viewDiskQuotaReport"),
+				 array("viewDiskQuotaReport"));
 		}
 
 		$ilTabs->addSubTabTarget("disk_quota_reminder_mail",
@@ -413,10 +413,10 @@ class ilObjFileAccessSettingsGUI extends ilObjectGUI
 	}
 
 	/**
-	* The disk quota statistics list shows user accounts, their disk quota and their
+	* The disk quota report list shows user accounts, their disk quota and their
     * disk usage, as well as the last time a reminder was sent.
 	*/
-	public function viewDiskUsageStatistics()
+	public function viewDiskQuotaReport()
 	{
 		global $rbacsystem, $ilErr, $ilSetting, $lng;
 
@@ -426,7 +426,7 @@ class ilObjFileAccessSettingsGUI extends ilObjectGUI
 		}
 
 		$this->tabs_gui->setTabActive('disk_quota');
-		$this->addDiskQuotaSubtabs('statistics');
+		$this->addDiskQuotaSubtabs('disk_quota_report');
 
 		// nothing to do if disk quota is not active
 		require_once 'Services/WebDAV/classes/class.ilDiskQuotaActivationChecker.php';
@@ -436,15 +436,15 @@ class ilObjFileAccessSettingsGUI extends ilObjectGUI
 		}
 
 		// get the form
-		$this->tpl->addBlockfile('ADM_CONTENT','adm_content','tpl.diskquota_user_list.html');
+		$this->tpl->addBlockfile('ADM_CONTENT','adm_content','tpl.disk_quota_report.html');
 
 		// get the date of the last update
 		require_once("./Services/WebDAV/classes/class.ilDiskQuotaChecker.php");
-		$last_update = ilDiskQuotaChecker::_lookupDiskUsageStatisticsLastUpdate();
+		$last_update = ilDiskQuotaChecker::_lookupDiskUsageReportLastUpdate();
 		if ($last_update == null)
 		{
-			// nothing to do if disk usage statistics has not been run
-			$this->tpl->setVariable('LAST_UPDATE_TEXT',$lng->txt('disk_usage_statistics_not_run_yet'));
+			// nothing to do if disk usage report has not been run
+			$this->tpl->setVariable('LAST_UPDATE_TEXT',$lng->txt('disk_quota_report_not_run_yet'));
 			return;
 		}
 		else
@@ -478,7 +478,7 @@ class ilObjFileAccessSettingsGUI extends ilObjectGUI
 		$this->tpl->setVariable("FILTER_TXT_FILTER",$lng->txt('filter'));
 		$this->tpl->setVariable("SELECT_USAGE_FILTER",$select_usage_filter);
 		$this->tpl->setVariable("SELECT_ACCESS_FILTER",$select_access_filter);
-		$this->tpl->setVariable("FILTER_ACTION",$this->ctrl->getLinkTarget($this, 'viewDiskUsageStatistics'));
+		$this->tpl->setVariable("FILTER_ACTION",$this->ctrl->getLinkTarget($this, 'viewDiskQuotaReport'));
 		$this->tpl->setVariable("FILTER_NAME",'view');
 		$this->tpl->setVariable("FILTER_VALUE",$lng->txt('apply_filter'));
 		$this->tpl->parseCurrentBlock();
@@ -508,7 +508,7 @@ class ilObjFileAccessSettingsGUI extends ilObjectGUI
 		);
 		$tbl->setHeaderVars(
 			$header_vars,
-			$this->ctrl->getParameterArray($this,'viewDiskUsageStatistics',false)
+			$this->ctrl->getParameterArray($this,'viewDiskQuotaReport',false)
 		);
 
 		$tbl->enable("numinfo_header");
@@ -520,7 +520,7 @@ class ilObjFileAccessSettingsGUI extends ilObjectGUI
 		$tbl->setOrderDirection($_GET["sort_order"]);
 
 		// fetch the data
-		$data = ilDiskQuotaChecker::_fetchDiskUsageStatistics(
+		$data = ilDiskQuotaChecker::_fetchDiskQuotaReport(
 			$_SESSION['quota_usage_filter'],
 			$_SESSION['quota_access_filter'],
 			$header_vars[$tbl->getOrderColumn()], $tbl->getOrderDirection());
@@ -653,7 +653,7 @@ class ilObjFileAccessSettingsGUI extends ilObjectGUI
 		$this->tabs_gui->setTabActive('disk_quota');
 		$this->addDiskQuotaSubtabs('disk_quota_reminder_mail');
 
-		$this->tpl->addBlockFile('ADM_CONTENT','adm_content','tpl.diskquota_new_account_mail.html');
+		$this->tpl->addBlockFile('ADM_CONTENT','adm_content','tpl.disk_quota_reminder_mail.html');
 		$this->tpl->setVariable("FORMACTION", $this->ctrl->getFormAction($this));
 		$this->tpl->setVariable("IMG_MAIL", ilUtil::getImagePath("icon_mail.gif"));
 
