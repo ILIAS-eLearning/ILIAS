@@ -803,7 +803,14 @@ class ilTemplate extends ilTemplateX
 
 			// referer is modified if query string contains cmd=gateway and $_POST is not empty.
 			// this is a workaround to display formular again in case of error and if the referer points to another page
-			$url_parts = parse_url($_SERVER["REQUEST_URI"]);
+			$url_parts = @parse_url($_SERVER["REQUEST_URI"]);
+			if(!$url_parts)
+			{
+				$protocol = (isset($_SERVER['HTTPS']) ? 'https' : 'http').'://';
+				$host = $_SERVER['HTTP_HOST'];
+				$path = $_SERVER['REQUEST_URI'];
+				$url_parts = @parse_url($protocol.$host.$path);
+			}
 
 			if (preg_match("/cmd=gateway/",$url_parts["query"]) && (isset($_POST["cmd"]["create"])))
 			{
