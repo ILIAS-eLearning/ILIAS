@@ -27,6 +27,7 @@ define("IL_NO_OBJECT_ACCESS", "no_object_access");
 define("IL_NO_PARENT_ACCESS", "no_parent_access");
 define("IL_DELETED",'object_deleted');
 define("IL_STATUS_INFO",'object_status');
+define("IL_NO_LICENSE",'no_license');
 /**
 * class ilAccessInfo
 *

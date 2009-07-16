@@ -9737,3 +9737,23 @@ assessment#:#tst_finish_notification_no#:#Don't send a mail notification when a 
 assessment#:#tst_finish_notification_simple#:#Send user name and finish date to test owner
 assessment#:#tst_finish_notification_advanced#:#Send complete test result to test owner
 assessment#:#tst_user_finished_test#:#User finished test (%s)
+common#:#license#:#License
+common#:#licenses#:#Licenses
+common#:#no_license_available#:#No license available!
+license#:#license_counter#:#License counter
+license#:#license_counter_info#:#Allows to count the used licenses of purchased SCORM and HTML learning modules
+license#:#license_warning#:#License warning
+license#:#license_warning_info#:#Up to this number of remaining licenses for a course object a warning is presented when a user enters the course. 
+license#:#arbitrary#:#arbitrary
+license#:#course_licenses_exceeded#:#By adding users the potential accesses will exceed the available licenses. Look at the tab "Licenses" to see which licenses have to be extended.
+license#:#course_licenses_rare#:#Warning: only %s licenses are available for a course object. Look at the tab "Licenses" to see which licenses have to be extended.
+license#:#edit_license#:#Edit license
+license#:#existing_licenses#:#Existng licenses
+license#:#license_updated#:#The license data was updated.
+license#:#potential_accesses#:#Potential accesses
+license#:#potential_accesses_explanation#:#Every user with read access who hasn't accessed so far counts as a potential access.
+license#:#remaining_licenses#:#Available licenses
+license#:#remaining_licenses_explanation#:#The available licenses are calculated as purchased minus consumed.
+license#:#used_licenses#:#Consumed licenses
+license#:#used_licenses_explanation#:#Every first access of a user consumes a license.
+license#:#zero_licenses_explanation#:#Enter a 0 to deactivate the licensing.

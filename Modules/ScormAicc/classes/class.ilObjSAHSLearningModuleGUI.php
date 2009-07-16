@@ -32,6 +32,7 @@ require_once("classes/class.ilTabsGUI.php");
 * $Id$
 *
 * @ilCtrl_Calls ilObjSAHSLearningModuleGUI: ilFileSystemGUI, ilMDEditorGUI, ilPermissionGUI, ilInfoScreenGUI, ilLearningProgressGUI
+* @ilCtrl_Calls ilObjSAHSLearningModuleGUI: ilLicenseGUI
 *
 * @ingroup ModulesScormAicc
 */
@@ -111,6 +112,12 @@ class ilObjSAHSLearningModuleGUI extends ilObjectGUI
 				$new_gui =& new ilLearningProgressGUI(LP_MODE_REPOSITORY,$this->object->getRefId());
 				$this->ctrl->forwardCommand($new_gui);
 
+				break;
+
+			case 'illicensegui':
+				include_once("./Services/License/classes/class.ilLicenseGUI.php");
+				$license_gui =& new ilLicenseGUI($this);
+				$ret =& $this->ctrl->forwardCommand($license_gui);
 				break;
 
 			case "ilinfoscreengui":
@@ -653,6 +660,16 @@ class ilObjSAHSLearningModuleGUI extends ilObjectGUI
 								 $this->ctrl->getLinkTargetByClass(array('illearningprogressgui'),''),
 								 '',
 								 array('illplistofobjectsgui','illplistofsettingsgui','illearningprogressgui','illplistofprogressgui'));
+		}
+
+		global $ilSetting;
+		$lic_set = new ilSetting("license");
+		if ($rbacsystem->checkAccess('edit_permission',$this->object->getRefId())
+		and $lic_set->get("license_counter"))
+		{
+			$tabs_gui->addTarget("license",
+				$this->ctrl->getLinkTargetByClass('illicensegui', ''),
+			"", "illicensegui");
 		}
 
 		// perm

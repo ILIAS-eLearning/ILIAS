@@ -131,6 +131,8 @@ class ilSAHSPresentationGUI
 		if ($next_class != "ilinfoscreengui" &&
 			$cmd != "infoScreen")
 		{
+			include_once("./Services/License/classes/class.ilLicense.php");
+			ilLicense::_noteAccess($obj_id);
 			switch($type)
 			{
 				
