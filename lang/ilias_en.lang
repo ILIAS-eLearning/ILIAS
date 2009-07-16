@@ -9727,3 +9727,7 @@ survey#:#codes_deleted#:#Code(s) deleted
 survey#:#codes_created#:#Code(s) created
 survey#:#language_changed#:#Language changed
 survey#:#use_browser_print_function#:#Please use the print function of your web browser.
+content#:#cont_select_from_upload_dir#:#-- Select from the upload directory --
+content#:#cont_uploaded_file#:#Existing file
+content#:#cont_upload_dir#:#Upload directory
+content#:#cont_upload_dir_info#:#Server directory from which large SCORM and HTML packages can be copied instead of being uploaded. Only ILIAS administrators will see a selection of files from this directory. Please enter a full server path without trailing slash.

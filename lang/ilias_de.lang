@@ -9663,3 +9663,7 @@ mcst#:#mcst_mimetype#:#Mime Type
 mcst#:#mcst_mimetypes#:#Mime Types
 mcst#:#mcst_mimetype_info#:#Wählen Sie einen Mimetype um das richtige Plugin zu definieren. <br>Hinweis: Bitte berücksichtigen Sie, dass nicht alle Browser alle Plugins installiert haben bzw. unterstützen.
 mcst#:#mcst_mimetypes_info#:#Kommagetrennte Liste von Mimetypes
+content#:#cont_select_from_upload_dir#:#-- Wählen Sie aus dem Upload-Verzeichnis --
+content#:#cont_uploaded_file#:#Vorhandene Datei
+content#:#cont_upload_dir#:#Upload-Verzeichnis
+content#:#cont_upload_dir_info#:#Server-Verzeichnis, von dem große SCORM- und HTML-Pakete kopiert werden können, statt sie direkt hochzuladen. Nur ILIAS Administratoren sehen eine Auswahl von Dateien aus diesem Verzeichnis. Bitte geben Sie einen vollständigen Serverpfad ohne slash am Ende ein.

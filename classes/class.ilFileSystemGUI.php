@@ -183,6 +183,26 @@ class ilFileSystemGUI
 		$this->tpl->setVariable("BTN_NEW_DIR", $this->lng->txt("create"));
 		$this->tpl->setVariable("BTN_NEW_FILE", $this->lng->txt("upload"));
 
+		include_once 'Services/FileSystemStorage/classes/class.ilUploadFiles.php';
+		if (ilUploadFiles::_getUploadDirectory())
+		{
+			$files = ilUploadFiles::_getUploadFiles();
+			foreach($files as $file)
+			{
+				$file = htmlspecialchars($file, ENT_QUOTES, "utf-8");
+				$this->tpl->setCurrentBlock("option_uploaded_file");
+				$this->tpl->setVariable("UPLOADED_FILENAME", $file);
+				$this->tpl->setVariable("TXT_UPLOADED_FILENAME", $file);
+				$this->tpl->parseCurrentBlock();
+			}
+			$this->tpl->setCurrentBlock("select_uploaded_file");
+			$this->tpl->setVariable("TXT_SELECT_FROM_UPLOAD_DIR", $this->lng->txt("cont_select_from_upload_dir"));
+			$this->tpl->setVariable("TXT_UPLOADED_FILE", $this->lng->txt("cont_uploaded_file"));
+			$this->tpl->setVariable("CMD_SELECT_FILE", "uploadFile");
+			$this->tpl->setVariable("BTN_SELECT", $this->lng->txt("copy"));
+			$this->tpl->parseCurrentBlock();
+		}
+
 		//
 		$this->tpl->addBlockfile("FILE_TABLE", "files", "tpl.table.html");
 
@@ -487,11 +507,26 @@ class ilFileSystemGUI
 		$cur_dir = (!empty($cur_subdir))
 			? $this->main_dir."/".$cur_subdir
 			: $this->main_dir;
+
+
+		include_once 'Services/FileSystemStorage/classes/class.ilUploadFiles.php';
+
 		if (is_file($_FILES["new_file"]["tmp_name"]))
 		{
 			move_uploaded_file($_FILES["new_file"]["tmp_name"],
 				$cur_dir."/".ilUtil::stripSlashes($_FILES["new_file"]["name"]));
 		}
+		elseif ($_POST["uploaded_file"])
+		{
+			// check if the file is in the ftp directory and readable
+			if (ilUploadFiles::_checkUploadFile($_POST["uploaded_file"]))
+			{
+				// copy uploaded file to data directory
+				ilUploadFiles::_copyUploadFile($_POST["uploaded_file"],
+					$cur_dir."/".ilUtil::stripSlashes($_POST["uploaded_file"]));
+			}
+		}
+
 		$this->ctrl->saveParameter($this, "cdir");
 
 		ilUtil::renameExecutables($this->main_dir);

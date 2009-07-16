@@ -136,6 +136,14 @@ class ilObjLearningResourcesSettingsGUI extends ilObjectGUI
 		$cb_prop->setChecked($lm_set->get("time_scheduled_page_activation"));
 		$form->addItem($cb_prop);
 
+		// Upload dir for learning resources
+		$tx_prop = new ilTextInputGUI($lng->txt("cont_upload_dir"),
+			"cont_upload_dir");
+		$tx_prop->setInfo($lng->txt("cont_upload_dir_info"));
+		$tx_prop->setValue($lm_set->get("cont_upload_dir"));
+		$form->addItem($tx_prop);
+
+
 		// command buttons
 		$form->addCommandButton("saveSettings", $lng->txt("save"));
 		$form->addCommandButton("view", $lng->txt("cancel"));
@@ -153,6 +161,8 @@ class ilObjLearningResourcesSettingsGUI extends ilObjectGUI
 		$lm_set = new ilSetting("lm");
 		$lm_set->set("time_scheduled_page_activation",
 			ilUtil::stripSlashes($_POST["time_scheduled_page_activation"]));
+		$lm_set->set("cont_upload_dir",
+			ilUtil::stripSlashes($_POST["cont_upload_dir"]));
 		ilUtil::sendSuccess($this->lng->txt("settings_saved"),true);
 		
 		$ilCtrl->redirect($this, "view");

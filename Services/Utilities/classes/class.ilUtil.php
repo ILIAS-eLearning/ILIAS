@@ -3543,9 +3543,18 @@ class ilUtil
 	{
 		global $lng, $ilias;
 //echo "<br>ilUtli::moveuploadedFile($a_name)";
+
 		if (!is_file($a_file))
 		{
-			$lng->txt("upload_error_file_not_found");
+			if ($a_raise_errors)
+			{
+				$ilias->raiseError($lng->txt("upload_error_file_not_found"), $ilias->error_obj->MESSAGE);
+			}
+			else
+			{
+				ilUtil::sendFailure($lng->txt("upload_error_file_not_found"), true);
+			}
+			return false;
 		}
 
 		// virus handling
