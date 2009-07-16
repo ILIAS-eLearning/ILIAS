@@ -73,6 +73,10 @@ class assQuestionGUI
 
 		include_once "./Modules/TestQuestionPool/classes/class.assQuestion.php";
 		$this->errormessage = $this->lng->txt("fill_out_all_required_fields");
+		
+		$this->selfassessmenteditingmode = false;
+		$this->new_id_listeners = array();
+		$this->new_id_listener_cnt = 0;
 	}
 
 	/**
@@ -574,6 +578,7 @@ class assQuestionGUI
 					// first save
 					$this->ctrl->setParameterByClass($_GET["cmdClass"], "q_id", $this->object->getId());
 					$this->ctrl->setParameterByClass($_GET["cmdClass"], "sel_question_types", $_GET["sel_question_types"]);
+					$this->callNewIdListeners($this->object->getId());
 					ilUtil::sendSuccess($this->lng->txt("msg_obj_modified"), true);
 					$this->ctrl->redirectByClass($_GET["cmdClass"], "editQuestion");
 				}
@@ -695,6 +700,262 @@ class assQuestionGUI
 		}
 		return $result;
 	}
+
+	// scorm2004-start
+	/**
+	* Add a listener that is notified with the new question ID, when
+	* a new question is saved
+	*/
+	function addNewIdListener(&$a_object, $a_method, $a_parameters = "")
+	{
+		$cnt = $this->new_id_listener_cnt;
+		$this->new_id_listeners[$cnt]["object"] =& $a_object;
+		$this->new_id_listeners[$cnt]["method"] = $a_method;
+		$this->new_id_listeners[$cnt]["parameters"] = $a_parameters;
+		$this->new_id_listener_cnt++;
+	}
+
+	/**
+	* Call the new id listeners
+	*/
+	function callNewIdListeners($a_new_id)
+	{
+
+		for ($i=0; $i<$this->new_id_listener_cnt; $i++)
+		{
+			$this->new_id_listeners[$i]["parameters"]["new_id"] = $a_new_id;
+			$object =& $this->new_id_listeners[$i]["object"];
+			$method = $this->new_id_listeners[$i]["method"];
+			$parameters = $this->new_id_listeners[$i]["parameters"];
+//var_dump($object);
+//var_dump($method);
+//var_dump($parameters);
+
+			$object->$method($parameters);
+		}
+	}
+	
+	/**
+	* Set Self-Assessment Editing Mode.
+	*
+	* @param	boolean	$a_selfassessmenteditingmode	Self-Assessment Editing Mode
+	*/
+	function setSelfAssessmentEditingMode($a_selfassessmenteditingmode)
+	{
+		$this->selfassessmenteditingmode = $a_selfassessmenteditingmode;
+	}
+
+	/**
+	* Get Self-Assessment Editing Mode.
+	*
+	* @return	boolean	Self-Assessment Editing Mode
+	*/
+	function getSelfAssessmentEditingMode()
+	{
+		return $this->selfassessmenteditingmode;
+	}
+	
+	/**
+	* Set  Default Nr of Tries
+	*
+	* @param	int	$a_defaultnroftries		Default Nr. of Tries
+	*/
+	function setDefaultNrOfTries($a_defaultnroftries)
+	{
+		$this->defaultnroftries = $a_defaultnroftries;
+	}
+	
+	/**
+	* Get Default Nr of Tries
+	*
+	* @return	int	Default Nr of Tries
+	*/
+	function getDefaultNrOfTries()
+	{
+		return $this->defaultnroftries;
+	}
+	
+	/**
+	* Add basic question form properties:
+	* assessment: title, author, description, question, working time
+	*
+	* @return	int	Default Nr of Tries
+	*/
+	function addBasicQuestionFormProperties($form)
+	{
+		// title
+		$title = new ilTextInputGUI($this->lng->txt("title"), "title");
+		$title->setValue($this->object->getTitle());
+		$title->setRequired(TRUE);
+		$form->addItem($title);
+
+		if (!$this->getSelfAssessmentEditingMode())
+		{
+			// author
+			$author = new ilTextInputGUI($this->lng->txt("author"), "author");
+			$author->setValue($this->object->getAuthor());
+			$author->setRequired(TRUE);
+			$form->addItem($author);
+	
+			// description
+			$description = new ilTextInputGUI($this->lng->txt("description"), "comment");
+			$description->setValue($this->object->getComment());
+			$description->setRequired(FALSE);
+			$form->addItem($description);
+		}
+		else
+		{
+			// author as hidden field
+			$hi = new ilHiddenInputGUI("author");
+			$author = ilUtil::prepareFormOutput($this->object->getAuthor());
+			if (trim($author) == "")
+			{
+				$author = "-";
+			}
+			$hi->setValue($author);
+			$form->addItem($hi);
+			
+		}
+
+		// questiontext
+		$question = new ilTextAreaInputGUI($this->lng->txt("question"), "question");
+		$question->setValue($this->object->prepareTextareaOutput($this->object->getQuestion()));
+		$question->setRequired(TRUE);
+		$question->setRows(10);
+		$question->setCols(80);
+		$question->setUseRte(TRUE);
+		$question->addPlugin("latex");
+		$question->addButton("latex");
+		$question->addButton("pastelatex");
+		$question->setRTESupport($this->object->getId(), "qpl", "assessment");
+		$form->addItem($question);
+
+		if (!$this->getSelfAssessmentEditingMode())
+		{
+			// duration
+			$duration = new ilDurationInputGUI($this->lng->txt("working_time"), "Estimated");
+			$duration->setShowHours(TRUE);
+			$duration->setShowMinutes(TRUE);
+			$duration->setShowSeconds(TRUE);
+			$ewt = $this->object->getEstimatedWorkingTime();
+			$duration->setHours($ewt["h"]);
+			$duration->setMinutes($ewt["m"]);
+			$duration->setSeconds($ewt["s"]);
+			$duration->setRequired(FALSE);
+			$form->addItem($duration);
+		}
+		else
+		{
+			// number of tries
+			if (strlen($this->object->getNrOfTries()))
+			{
+				$nr_tries = $this->object->getNrOfTries();
+			}
+			else
+			{
+				$nr_tries = $this->getDefaultNrOfTries();
+			}
+			if ($nr_tries <= 0)
+			{
+				$nr_tries = 1;
+			}
+			$ni = new ilNumberInputGUI($this->lng->txt("qst_nr_of_tries"), "nr_of_tries");
+			$ni->setValue($nr_tries);
+			$ni->setMinValue(1);
+			$ni->setSize(5);
+			$ni->setMaxLength(5);
+			$ni->setRequired(true);
+			$form->addItem($ni);
+		}
+	}
+	
+	/**
+	* Fill assessment-only blocks
+	*/
+	function fillAssessmentBlocks($a_var, $a_solution_hints = false)
+	{
+		if ($this->getSelfAssessmentEditingMode())
+		{
+			$this->tpl->setVariable("STYLE_HIDDEN", "style=\"display:none;\"");
+			$this->tpl->setCurrentBlock("author_hidden");
+			$author = ilUtil::prepareFormOutput($this->object->getAuthor());
+			if (trim($author) == "") $author = "-";
+			$this->tpl->setVariable("VAL_AUTHOR", $author);
+			$this->tpl->parseCurrentBlock();
+			$this->tpl->setCurrentBlock("nr_of_tries");
+			$this->tpl->setVariable("STYLE_HIDDEN_NR", "style=\"display:none;\"");
+			$this->tpl->setVariable("TEXT_NR_OF_TRIES", $this->lng->txt("qst_nr_of_tries"));
+			if (strlen($this->object->getNrOfTries()))
+			{
+				$this->tpl->setVariable("VALUE_NR_OF_TRIES", " value=\"" . $this->object->getNrOfTries() . "\"");
+			}
+			if ($this->defaultnroftries != null ) {
+				$this->tpl->setVariable("VALUE_NR_OF_TRIES", " value=\"" . $this->getDefaultNrOfTries() . "\"");
+			}
+			$this->tpl->parseCurrentBlock();
+			$this->tpl->setCurrentBlock("self_ass_hint");
+			$this->tpl->setVariable("TEXT_SELF_ASS_HINT", $this->lng->txt("qst_hint_self"));
+			$this->tpl->parseCurrentBlock();
+		}
+		else
+		{
+			// call to other question data i.e. estimated working time block
+			$this->tpl->setCurrentBlock("working_time");
+			$this->outOtherQuestionData();
+			$this->tpl->parseCurrentBlock();
+	
+			$this->tpl->setCurrentBlock("author_comment");
+			$this->tpl->setVariable("TEXT_AUTHOR", $this->lng->txt("author"));
+			$this->tpl->setVariable("TEXT_COMMENT", $this->lng->txt("description"));
+			$this->tpl->setVariable("VALUE_".$a_var."_COMMENT", ilUtil::prepareFormOutput($this->object->getComment()));
+			$this->tpl->setVariable("VALUE_".$a_var."_AUTHOR", ilUtil::prepareFormOutput($this->object->getAuthor()));
+			$this->tpl->parseCurrentBlock();
+			
+			$this->tpl->setCurrentBlock("save_edit");
+			$this->tpl->setVariable("SAVE_EDIT", $this->lng->txt("save_edit"));
+			$this->tpl->parseCurrentBlock();
+			
+			if ($a_solution_hints)
+			{
+				$internallinks = array(
+					"lm" => $this->lng->txt("obj_lm"),
+					"st" => $this->lng->txt("obj_st"),
+					"pg" => $this->lng->txt("obj_pg"),
+					"glo" => $this->lng->txt("glossary_term")
+				);
+				foreach ($internallinks as $key => $value)
+				{
+					$this->tpl->setCurrentBlock("internallink");
+					$this->tpl->setVariable("TYPE_INTERNAL_LINK", $key);
+					$this->tpl->setVariable("TEXT_INTERNAL_LINK", $value);
+					$this->tpl->parseCurrentBlock();
+				}
+				if (count($this->object->suggested_solutions))
+				{
+					$this->tpl->setCurrentBlock("remove_solution");
+					$this->tpl->setVariable("BUTTON_REMOVE_SOLUTION", $this->lng->txt("remove"));
+					$this->tpl->parseCurrentBlock();
+					$this->tpl->setCurrentBlock("solution_hint");
+					$this->tpl->setVariable("TEXT_SOLUTION_HINT", $this->lng->txt("solution_hint"));
+					$solution_array = $this->object->getSuggestedSolution(0);
+					include_once "./Modules/TestQuestionPool/classes/class.assQuestion.php";
+					$href = assQuestion::_getInternalLinkHref($solution_array["internal_link"]);
+					$this->tpl->setVariable("TEXT_VALUE_SOLUTION_HINT", " <a href=\"$href\" target=\"content\">" . $this->lng->txt("solution_hint"). "</a> ");
+					$this->tpl->setVariable("BUTTON_ADD_SOLUTION", $this->lng->txt("change"));
+					$this->tpl->setVariable("VALUE_SOLUTION_HINT", $solution_array["internal_link"]);
+				}
+				else
+				{
+					$this->tpl->setCurrentBlock("solution_hint");
+					$this->tpl->setVariable("TEXT_SOLUTION_HINT", $this->lng->txt("solution_hint"));
+					$this->tpl->setVariable("BUTTON_ADD_SOLUTION", $this->lng->txt("add"));
+				}
+				$this->tpl->parseCurrentBlock();
+			}
+		}
+	}
+
+	// scorm2004-end
 
 	/**
 	* Returns the answer specific feedback depending on the results of the question

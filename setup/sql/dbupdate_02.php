@@ -14644,3 +14644,8 @@ if ($ilDB->tableExists('svy_inv_grp_seq'))
 <?php
 $ilDB->addTableColumn("tst_tests", "mailnotification", array("type" => "integer", "length" => 1, "notnull" => false, 'default'=> 0));
 ?>
+?>
+<#2773>
+<?php
+$ilCtrlStructureReader->getStructure();
+?>

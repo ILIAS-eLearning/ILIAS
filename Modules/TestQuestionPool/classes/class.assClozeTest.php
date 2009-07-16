@@ -1495,5 +1495,51 @@ class assClozeTest extends assQuestion
 		}
 		return $startrow + $i + 1;
 	}
+	
+	/**
+	* Returns a JSON representation of the question
+	*/
+	public function toJSON()
+	{
+		include_once("./Services/RTE/classes/class.ilRTE.php");
+		$result = array();
+		$result['id'] = (int) $this->getId();
+		$result['type'] = (string) $this->getQuestionType();
+		$result['title'] = (string) $this->getTitle();
+		$result['question'] =  (string) ilRTE::_replaceMediaObjectImageSrc($this->getQuestion(), 0);
+		$result['nr_of_tries'] = (int) $this->getNrOfTries();
+		$result['shuffle'] = (bool) $this->getShuffle();
+		$result['feedback'] = array(
+			"onenotcorrect" => ilRTE::_replaceMediaObjectImageSrc($this->getFeedbackGeneric(0), 0),
+			"allcorrect" => ilRTE::_replaceMediaObjectImageSrc($this->getFeedbackGeneric(1), 0)
+			);
+		$gaps = array();
+		foreach ($this->getGaps() as $key => $gap)
+		{
+			$items = array();
+			foreach ($gap->getItems() as $item)
+			{
+				$jitem = array();
+				$jitem['points'] = $item->getPoints();
+				$jitem['value'] = $item->getAnswertext();
+				if ($gap->getType() == CLOZE_NUMERIC)
+				{
+					$jitem['lowerbound'] = $item->getLowerBound();
+					$jitem['upperbound'] = $item->getUpperBound();
+				}
+				array_push($items, $jitem);
+			}
+			$jgap['shuffle'] = $gap->getShuffle();
+			$jgap['type'] = $gap->getType();
+			$jgap['item'] = $items;
+			array_push($gaps, $jgap);
+			
+		}
+		$result['gaps'] = $gaps;
+		$mobs = ilObjMediaObject::_getMobsOfObject("qpl:html", $this->getId());
+		$result['mobs'] = $mobs;
+		return json_encode($result);
+	}
+
 }
 ?>

@@ -714,6 +714,24 @@ class assTextQuestion extends assQuestion
 		$i++;
 		return $startrow + $i + 1;
 	}
+	
+	/**
+	* Returns a JSON representation of the question
+	*/
+	public function toJSON()
+	{
+		include_once("./Services/RTE/classes/class.ilRTE.php");
+		$result = array();
+		$result['id'] = (int) $this->getId();
+		$result['type'] = (string) $this->getQuestionType();
+		$result['title'] = (string) $this->getTitle();
+		$result['question'] =  (string) ilRTE::_replaceMediaObjectImageSrc($this->getQuestion(), 0);
+		$result['nr_of_tries'] = (int) $this->getNrOfTries();
+		$result['shuffle'] = (bool) $this->getShuffle();
+		$result['maxlength'] = (int) $this->getMaxNumOfChars();
+		return json_encode($result);
+	}
+
 }
 
 ?>

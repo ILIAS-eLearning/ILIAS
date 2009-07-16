@@ -1,25 +1,5 @@
 <?php
-/*
-	+-----------------------------------------------------------------------------+
-	| ILIAS open source                                                           |
-	+-----------------------------------------------------------------------------+
-	| Copyright (c) 1998-2001 ILIAS open source, University of Cologne            |
-	|                                                                             |
-	| This program is free software; you can redistribute it and/or               |
-	| modify it under the terms of the GNU General Public License                 |
-	| as published by the Free Software Foundation; either version 2              |
-	| of the License, or (at your option) any later version.                      |
-	|                                                                             |
-	| This program is distributed in the hope that it will be useful,             |
-	| but WITHOUT ANY WARRANTY; without even the implied warranty of              |
-	| MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the               |
-	| GNU General Public License for more details.                                |
-	|                                                                             |
-	| You should have received a copy of the GNU General Public License           |
-	| along with this program; if not, write to the Free Software                 |
-	| Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA. |
-	+-----------------------------------------------------------------------------+
-*/
+/* Copyright (c) 1998-2009 ILIAS open source, Extended GPL, see docs/LICENSE */
 
 include_once "./Modules/Test/classes/inc.AssessmentConstants.php";
 
@@ -1532,6 +1512,29 @@ class ilObjQuestionPool extends ilObject
 		ksort($types);
 		return $types;
 	}
+
+	/**
+	* Get all self assessment question types.
+	*
+	* @todo		Make it more flexible
+	*/ 
+	static function &_getSelfAssessmentQuestionTypes($all_tags = FALSE)
+	{
+		$allowed_types = array("assImagemapQuestion", "assMatchingQuestion",
+			"assTextQuestion",
+			"assClozeTest", "assMultipleChoice", "assSingleChoice", "assOrderingQuestion");
+		$satypes = array();
+		$qtypes = ilObjQuestionPool::_getQuestionTypes($all_tags);
+		foreach($qtypes as $k => $t)
+		{
+			if (in_array($t["type_tag"], $allowed_types))
+			{
+				$satypes[$k] = $t;
+			}
+		}
+		return $satypes;
+	}
+
 
 	function &getQuestionList()
 	{
