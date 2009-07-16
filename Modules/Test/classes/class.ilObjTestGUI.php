@@ -1239,6 +1239,19 @@ class ilObjTestGUI extends ilObjectGUI
 		$idle->setValue(($this->object->getAllowedUsersTimeGap()) ? $this->object->getAllowedUsersTimeGap() : '');
 		$form->addItem($idle);
 
+		// notifications
+		$notifications = new ilFormSectionHeaderGUI();
+		$notifications->setTitle($this->lng->txt("notifications"));
+		$form->addItem($notifications);
+
+		// mail notification
+		$mailnotification = new ilRadioGroupInputGUI($this->lng->txt("tst_finish_notification"), "mailnotification");
+		$mailnotification->addOption(new ilRadioOption($this->lng->txt("tst_finish_notification_no"), 0, ''));
+		$mailnotification->addOption(new ilRadioOption($this->lng->txt("tst_finish_notification_simple"), 1, ''));
+		$mailnotification->addOption(new ilRadioOption($this->lng->txt("tst_finish_notification_advanced"), 2, ''));
+		$mailnotification->setValue($this->object->getMailNotification());
+		$form->addItem($mailnotification);
+
 		$form->addCommandButton("saveProperties", $this->lng->txt("save"));
 		$errors = false;
 		
@@ -1339,6 +1352,7 @@ class ilObjTestGUI extends ilObjectGUI
 				$this->object->setListOfQuestionsEnd(0);
 				$this->object->setListOfQuestionsDescription(0);
 			}
+			$this->object->setMailNotification($_POST["mailnotification"]);
 			$this->object->setShowMarker(($_POST["chb_show_marker"]) ? 1 : 0);
 			$this->object->setShowCancel(($_POST["chb_show_cancel"]) ? 1 : 0);
 			$this->object->setKioskMode(($_POST["kiosk"]) ? 1 : 0);
