@@ -156,9 +156,17 @@ class ilObjFileAccessSettingsGUI extends ilObjectGUI
 		$form->setFormAction($ilCtrl->getFormAction($this));
 		$form->setTitle($lng->txt("settings"));
 		
+		// Backwards compatibility with ILIAS 3.9: Use the name of the
+		// uploaded file as the filename for the downloaded file instead
+		// of the title of the file object.
+		$dl_prop = new ilCheckboxInputGUI($lng->txt("download_with_uploaded_filename"), "download_with_uploaded_filename");
+		$dl_prop->setValue('1');
+		// default value should reflect previous behaviour (-> 0)
+		$dl_prop->setChecked($this->object->isDownloadWithUploadedFilename() == 1);
+		$dl_prop->setInfo($lng->txt('download_with_uploaded_filename_info'));
+		$form->addItem($dl_prop);
 
-		// show download action for folder
-
+		// Show download action for folder
 		$dl_prop = new ilCheckboxInputGUI($lng->txt("enable_download_folder"), "enable_download_folder");
 		$dl_prop->setValue('1');
 		// default value should reflect previous behaviour (-> 0)
@@ -195,6 +203,7 @@ class ilObjFileAccessSettingsGUI extends ilObjectGUI
 			$ilErr->raiseError($lng->txt("no_permission"),$ilErr->WARNING);
 		}
 
+		$this->object->setDownloadWithUploadedFilename(ilUtil::stripSlashes($_POST['download_with_uploaded_filename']));
 		$this->object->setInlineFileExtensions(ilUtil::stripSlashes($_POST['inline_file_extensions']));
 		$this->object->update();
 

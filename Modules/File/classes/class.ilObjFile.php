@@ -590,9 +590,15 @@ class ilObjFile extends ilObject
 
 		if (@is_file($file))
 		{
-			// BEGIN WebDAV: Deliver file with title, file type, and eventually as inline object.
-			ilUtil::deliverFile($file, $this->getTitle(), $this->guessFileType(), $this->isInline());
-			// END WebDAV: Deliver file with title, file type, and eventually as inline object.
+			global $ilClientIniFile;
+			if ($ilClientIniFile->readVariable('file_access','download_with_uploaded_filename') == '1')
+			{
+				ilUtil::deliverFile($file, $this->getTitle(), $this->guessFileType(), $this->isInline());
+			}
+			else
+			{
+				ilUtil::deliverFile($file, basename($file), $this->guessFileType(), $this->isInline());
+			}
 			return true;
 		}
 

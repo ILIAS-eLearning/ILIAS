@@ -68,6 +68,16 @@ class ilObjFileAccessSettings extends ilObject
 	 */
 	private $inlineFileExtensions;
 
+	/** Boolean property. 
+	 * 
+	 * If this variable is true, the filename of downloaded
+	 * files is the same as the filename of the uploaded file.
+	 * 
+	 * If this variable is false, the filename of downloaded
+	 * files is the title of the file object.
+	 */
+	private $downloadWithUploadedFilename;
+
 	/**
 	* Constructor
 	*
@@ -198,6 +208,26 @@ class ilObjFileAccessSettings extends ilObject
 	{
 		return $this->inlineFileExtensions;
 	}
+	/**
+	* Sets the downloadWithUploadedFilename property.
+	*
+	* @param	boolean	
+	* @return	void
+	*/
+	public function setDownloadWithUploadedFilename($newValue)
+	{
+		$this->downloadWithUploadedFilename = $newValue;
+	}
+	/**
+	* Gets the downloadWithUploadedFilename property.
+	*
+	* @return	boolean	value
+	*/
+	public function isDownloadWithUploadedFilename()
+	{
+		return $this->downloadWithUploadedFilename;
+	}
+
 
 	/**
 	* create
@@ -238,6 +268,7 @@ class ilObjFileAccessSettings extends ilObject
 		}
 		$ilClientIniFile->setVariable('file_access', 'webdav_enabled', $this->webdavEnabled ? '1' : '0');
 		$ilClientIniFile->setVariable('file_access', 'webdav_actions_visible', $this->webdavActionsVisible ? '1' : '0');
+		$ilClientIniFile->setVariable('file_access', 'download_with_uploaded_filename', $this->downloadWithUploadedFilename ? '1' : '0');
 		$ilClientIniFile->write();
 		
         if ($ilClientIniFile->getError()) {
@@ -262,6 +293,7 @@ class ilObjFileAccessSettings extends ilObject
 		global $ilClientIniFile;
 		$this->webdavEnabled = $ilClientIniFile->readVariable('file_access','webdav_enabled') == '1';
 		$this->webdavActionsVisible = $ilClientIniFile->readVariable('file_access','webdav_actions_visible') == '1';
+		$this->downloadWithUploadedFilename = $ilClientIniFile->readVariable('file_access','download_with_uploaded_filename') == '1';
 		$ilClientIniFile->ERROR = false;
 
 		require_once 'Services/Administration/classes/class.ilSetting.php';
