@@ -2270,6 +2270,21 @@ class ilUtil
 
 		return ilUtil::secureString($a_str, $a_strip_html, $a_allow);
 	}
+	
+	/**
+	* strip slashes if magic qoutes is enabled
+	*
+	* @param	string		string
+	*/
+	function stripOnlySlashes($a_str)
+	{
+		if (ini_get("magic_quotes_gpc"))
+		{
+			$a_str = stripslashes($a_str);
+		}
+
+		return $a_str;
+	}
 
 	/**
 	* Remove unsecure tags

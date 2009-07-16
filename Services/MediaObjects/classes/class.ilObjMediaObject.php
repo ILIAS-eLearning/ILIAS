@@ -1005,6 +1005,24 @@ class ilObjMediaObject extends ilObject
 						$obj_id = $qinfo["obj_fi"];		// usage in pool
 					}
 				}
+				
+				// Question Pool *Question* Text
+				if ($cont_type == "frm")
+				{
+					$post_pk = $a_usage['usage_id'];
+					include_once 'Modules/Forum/classes/class.ilForumPost.php';
+					include_once 'Modules/Forum/classes/class.ilForum.php';
+					$oPost = new ilForumPost($post_pk);					
+					$frm_pk =  $oPost->getForumId();
+					
+					$obj_id = ilForum::_lookupObjIdForForumId($frm_pk);
+				}
+				
+				if ($cont_type == 'frm~')
+				{
+					$obj_id = $a_usage['usage_id'];
+				}
+				
 				break;
 				
 			case "pg":

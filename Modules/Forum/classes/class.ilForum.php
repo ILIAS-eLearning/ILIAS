@@ -371,14 +371,12 @@ class ilForum
 		
 		if($this->getMDB2Query() != '' && $this->getMDB2DataType() != '' && $this->getMDB2DataValue() != '')
 		{
-			;
 			$query .= ''.$this->getMDB2Query().'';
 			$data_type = $data_type + $this->getMDB2DataType();
 			$data_value = $data_value + $this->getMDB2DataValue();
-			
-			$res = $ilDB->queryf($query, $data_type, $data_value);
-			
-			$row = $res->fetchRow(DB_FETCHMODE_ASSOC);
+
+			$res = $ilDB->queryf($query, $data_type, $data_value);			
+			$row = $ilDB->fetchAssoc($res);
 			
 			if(is_null($row)) return NULL;
 			
@@ -389,21 +387,18 @@ class ilForum
 			
 		}
 		else
-		{
-			
-			$query .= '1';
-			
-				$res = $ilDB->query($query);
-				
-				$row = $res->fetchRow(DB_FETCHMODE_ASSOC);
-				
-				if(is_null($row)) return NULL;
-				
-				$row["top_name"] = trim($row["top_name"]);
-				$row["top_description"] = nl2br($row["top_description"]);
+		{			
+			$query .= '1 = 1';
 		
-				return $row;
+			$res = $ilDB->query($query);			
+			$row = $ilDB->fetchAssoc($res);
 			
+			if(!is_array($row) || !count($row)) return null;
+			
+			$row['top_name'] = trim($row['top_name']);
+			$row['top_description'] = nl2br($row['top_description']);
+	
+			return $row;			
 		}
 	}
 	
@@ -549,17 +544,11 @@ class ilForum
 	{
 		global $ilUser, $ilDB;
 	
-
-/*		if ($alias != '')
-		{
-			$user = 0;
-		}
-*/		
 		$objNewPost = new ilForumPost();
 		$objNewPost->setForumId($forum_id);
 		$objNewPost->setThreadId($thread_id);
 		$objNewPost->setSubject($subject);
-		$objNewPost->setMessage(strip_tags($message));
+		$objNewPost->setMessage($message);
 		$objNewPost->setUserId($user);
 		$objNewPost->setUserAlias($alias);
 		if ($date == "")
@@ -577,6 +566,7 @@ class ilForum
 				$objNewPost->setCreateDate(date("Y-m-d H:i:s", $date));
 			}
 		}
+
 		$objNewPost->setImportName($this->getImportName());
 		$objNewPost->setNotification($notify);
 		$objNewPost->setStatus($status);
@@ -643,12 +633,13 @@ class ilForum
 		// Add Notification to news
 		if ($status)
 		{
+			require_once 'Services/RTE/classes/class.ilRTE.php';
 			include_once("./Services/News/classes/class.ilNewsItem.php");
 			$news_item = new ilNewsItem();
 			$news_item->setContext($forum_obj->getId(), 'frm', $objNewPost->getId(), 'pos');
 			$news_item->setPriority(NEWS_NOTICE);
 			$news_item->setTitle($objNewPost->getSubject());
-			$news_item->setContent($this->prepareText($objNewPost->getMessage(), 0));
+			$news_item->setContent(ilRTE::_replaceMediaObjectImageSrc($this->prepareText($objNewPost->getMessage(), 0), 1));
 			$news_item->setUserId($user);
 			$news_item->setVisibility(NEWS_USERS);
 			$news_item->create();
@@ -673,12 +664,6 @@ class ilForum
 	function generateThread($forum_id, $user, $subject, $message, $notify, $notify_posts, $alias = '', $date = '')
 	{	
 		global $ilDB;
-
-/*		if ($alias != '')
-		{
-			$user = 0;
-		}		
-*/
 
 		$objNewThread = new ilForumTopic();
 		$objNewThread->setForumId($forum_id);
@@ -1077,6 +1062,24 @@ class ilForum
 					$news_item = new ilNewsItem($news_id);
 					$news_item->delete();
 				}
+				
+				try
+				{
+					include_once 'Services/MediaObjects/classes/class.ilObjMediaObject.php';
+					$mobs = ilObjMediaObject::_getMobsOfObject('frm:html', $posrec['pos_pk']);
+					foreach($mobs as $mob)
+					{						
+						if(ilObjMediaObject::_exists($mob))
+						{
+							ilObjMediaObject::_removeUsage($mob, 'frm:html', $posrec['pos_pk']);
+							$mob_obj = new ilObjMediaObject($mob);
+							$mob_obj->delete();
+						}
+					}
+				}
+				catch(Exception $e)
+				{
+				}
 			}
 			
 			
@@ -1093,7 +1096,6 @@ class ilForum
 			// delete this post and its sub-posts
 			for ($i = 0; $i < $dead_pos; $i++)
 			{
-
 				$statement = $ilDB->manipulateF('
 					DELETE FROM frm_posts
 					WHERE pos_pk = %s',
@@ -1107,6 +1109,24 @@ class ilForum
 				{
 					$news_item = new ilNewsItem($news_id);
 					$news_item->delete();
+				}
+				
+				try
+				{
+					include_once 'Services/MediaObjects/classes/class.ilObjMediaObject.php';
+					$mobs = ilObjMediaObject::_getMobsOfObject('frm:html', $del_id[$i]);
+					foreach($mobs as $mob)
+					{						
+						if(ilObjMediaObject::_exists($mob))
+						{
+							ilObjMediaObject::_removeUsage($mob, 'frm:html', $del_id[$i]);
+							$mob_obj = new ilObjMediaObject($mob);
+							$mob_obj->delete();
+						}
+					}
+				}
+				catch(Exception $e)
+				{
 				}
 			}
 			
@@ -2006,17 +2026,17 @@ class ilForum
 	* @param	integer
 	* @return	string
 	*/
-	function prepareText($text, $edit=0, $quote_user = "", $type = '')
+	function prepareText($text, $edit=0, $quote_user = '', $type = '')
 	{
 		global $lng; 
 		
-		if ($type == 'export')
+		if($type == 'export')
 		{
 			$this->replQuote1 = "<blockquote class=\"quote\"><hr size=\"1\" color=\"#000000\">"; 
 			$this->replQuote2 = "<hr size=\"1\" color=\"#000000\"/></blockquote>"; 
 		}
 
-		if ($edit == 1)
+		if($edit == 1)
 		{
 			// add login name of quoted users
 			$lname = ($quote_user != "")
@@ -2050,12 +2070,12 @@ class ilForum
 
 					for ($i = 0; $i < $diff; $i++)
 					{
-						if ($type == 'export') $text .= $this->txtQuote1;
+						if ($type == 'export') $text = $this->txtQuote1.$text;
 						else $text = "[quote]".$text;
 					}
 				}
 
-				if ($edit == 0)
+				if($edit == 0)
 				{
 					$ws= "[ \t\r\f\v\n]*";
 					
@@ -2069,20 +2089,13 @@ class ilForum
 			}
 		}
 		
-		if ($type != 'export')
-		{		
-			// this removes real slashes of the content (e.g. in latex code)
-			//$text = stripslashes($text);		
-			if ($edit == 0)
+		if($type != 'export')
+		{
+			if($edit == 0)
 			{
 				$text = ilUtil::insertLatexImages($text);
 			}
 			
-	/*		if ($edit == 2)
-			{
-				$text = stripslashes($text);
-			}*/
-	
 			// workaround for preventing template engine
 			// from hiding text that is enclosed
 			// in curly brackets (e.g. "{a}")

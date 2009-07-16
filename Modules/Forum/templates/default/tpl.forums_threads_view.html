@@ -49,82 +49,8 @@
 		<!-- END commands -->			
 		</div>		
 <!-- END commands_block -->
-		{FORM}
-		<!-- BEGIN reply_post -->
 		<a name="{REPLY_ANKER}"></a>
-		<form name="formular1" class="ilForm" action="{FORMACTION}" enctype="multipart/form-data" method="post">
-		<table class="std" width="95%">
-		<!-- BEGIN alias -->
-		<tr class="tblheader">
-			<td class="std">{TXT_FORM_ALIAS}</td>
-		</tr>
-		<tr>
-			<td class="option_value">
-				<input type="text" name="formData[alias]" value="{ALIAS_VALUE}" size="32" maxlength="64"><br/>
-				<i>{TXT_ALIAS_INFO}</i>
-			</td>
-		</tr>
-		<!-- END alias -->
-		<tr class="tblheader">
-			<td class="std">{TXT_FORM_SUBJECT}</td>
-		</tr>
-		<tr>
-			<td class="option_value"><input type="text" name="formData[subject]" value="{SUBJECT_VALUE}" size="40" maxlength="64"></td>
-		</tr>
-		<tr class="tblheader">
-			<td class="std">
-			<!-- BEGIN quotation -->
-			<div style="float:right;"><input class="submit" type="submit" name="addQuote" value="{TXT_ADD_QUOTE}"/></div>
-			<!-- END quotation -->
-			{TXT_FORM_MESSAGE}<span class="asterisk">*</span></td>
-		</tr>
-		<tr>
-			<td class="option_value" valign="top">
-				<textarea name="formData[message]" cols="50" rows="15" wrap=virtual style="width:95%; height=250px">{MESSAGE_VALUE}</textarea>
-			</td>
-		</tr>
-		<!-- BEGIN reply_attachment -->
-		<tr class="tblheader">
-			<td class="std">{TXT_ATTACHMENTS_ADD}</td>
-		</tr>
-		<tr>
-			<td class="option_value" align="right">
-				<input type="file" name="userfile" />
-			</td>
-		</tr>
-		<!-- END reply_attachment -->
-		<tr class="submit">
-			<td class="submit">
-				<div style="float:right;">
-					<input class="submit" type="submit" name="SUB" value="{SUBMIT}"/>
-					<input class="submit" type="submit" name="cmd[cancelPost]" value="{CANCEL_FORM_TXT}"/>
-				</div>
-				<!-- BEGIN notify -->
-				<input type="checkbox" name="notify" value="1" {NOTIFY_CHECKED} /> {NOTIFY}					
-				<!-- END notify -->
-				<!-- BEGIN anonymize -->
-				<br /><input type="checkbox" name="anonymize" value="1" {ANONYMIZE_CHECKED} /> {ANONYMIZE}
-				<!-- END anonymize -->
-			</td>
-		</tr>
-		<!-- BEGIN reply_attachment_edit -->
-		<tr class="tblheader">
-			<td>{TXT_ATTACHMENTS_EDIT}</td>
-		</tr>
-		<!-- BEGIN attachment_edit_row -->
-		<tr>
-			<td class="option_value" align="left">{CHECK_FILE}&nbsp;{FILENAME}</td>
-		</tr>
-		<!-- END attachment_edit_row -->
-		<tr>
-			<td class="submit" align="left">
-				<input class="submit" type="submit" name="cmd[delete_file]" value="{ATTACHMENT_EDIT_DELETE}"/>
-			</td>
-		</tr>
-		<!-- END reply_attachment_edit -->
-		</table>
-		</form>
-		<!-- END reply_post -->
+		{FORM}
 	</td>
 </tr>
 <!-- END posts_row -->
@@ -145,9 +71,3 @@
 parent.frames['tree'].document.location.href = '{JAVASCRIPT}';
 </script>
 <!-- END javascript_block -->
-
-<!-- BEGIN perma_link_bottom_block -->
-<div class="il_info"><br />
-{TXT_PERMA_LINK_BOTTOM}:&nbsp;<a href="{PERMA_LINK_BOTTOM}" target="{PERMA_TARGET_BOTTOM}">{PERMA_LINK_BOTTOM}</a>
-</div>
-<!-- END perma_link_bottom_block -->

@@ -9666,6 +9666,9 @@ mep#:#mep_create_content_snippet#:#Create Content Snippet
 mep#:#mep_new_folder#:#New Folder
 mep#:#mep_edit_folder#:#Edit Folder
 assessment#:#thumb_size#:#Thumbnail Size
+forum#:#frm_purifier_not_implemented_for_type_x#:#Purifier for type %s not implemented yet.
+common#:#adve_frm_post_settings#:#Forum Posts
+common#:#advanced_editing_frm_post_settings#:#Forum Post Settings
 common#:#hint#:#Hint
 assessment#:#add_rect#:#Add rectangle area
 assessment#:#add_circle#:#Add circle area
