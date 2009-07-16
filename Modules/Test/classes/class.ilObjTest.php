@@ -410,6 +410,8 @@ class ilObjTest extends ilObject
 	* @var string;
 	*/
 	private $_customStyle;
+	
+	protected $mailnotification;
 
 	/**
 	* Constructor
@@ -471,6 +473,7 @@ class ilObjTest extends ilObject
 		$this->setShowSolutionSignature(FALSE);
 		$this->testSession = FALSE;
 		$this->testSequence = FALSE;
+		$this->mailnotification = 0;
 		global $lng;
 		$lng->loadLanguageModule("assessment");
 		$this->mark_schema->createSimpleSchema($lng->txt("failed_short"), $lng->txt("failed_official"), 0, 0, $lng->txt("passed_short"), $lng->txt("passed_official"), 50, 1);
@@ -1084,9 +1087,9 @@ class ilObjTest extends ilObject
 				"reset_processing_time, reporting_date, starting_time, ending_time, complete, ects_output, ects_a, ects_b, ects_c, ects_d, " .
 				"ects_e, ects_fx, random_test, random_question_count, count_system, mc_scoring, score_cutting, pass_scoring, " .
 				"shuffle_questions, results_presentation, show_summary, password, allowedUsers, " .
-				"allowedUsersTimeGap, certificate_visibility, created, tstamp) " .
+				"allowedUsersTimeGap, certificate_visibility, mailnotification, created, tstamp) " .
 				"VALUES (%s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, " .
-				"%s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s)",
+				"%s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s)",
 				array(
 					'integer', 'integer', 'text', 'text', 
 					'text', 'integer', 'integer', 'text', 'integer', 'integer',
@@ -1095,7 +1098,7 @@ class ilObjTest extends ilObject
 					'integer', 'text', 'text', 'text', 'text', 'text', 'float', 'float', 'float', 'float',
 					'float', 'float', 'text', 'integer', 'text', 'text', 'text', 'text',
 					'text', 'integer', 'integer', 'text', 'integer',
-					'integer', 'text', 'integer', 'integer'
+					'integer', 'text', 'integer', 'integer', 'integer'
 				),
 				array(
 					$next_id, 
@@ -1147,6 +1150,7 @@ class ilObjTest extends ilObject
 					$this->getAllowedUsers(),
 					$this->getAllowedUsersTimeGap(),
 					$this->getCertificateVisibility(), 
+					$this->getMailNotification(),
 					time(), 
 					time()
 				)
@@ -1181,7 +1185,7 @@ class ilObjTest extends ilObject
 				"reset_processing_time = %s, reporting_date = %s, starting_time = %s, ending_time = %s, complete = %s, ects_output = %s, ects_a = %s, ects_b = %s, ects_c = %s, ects_d = %s, " .
 				"ects_e = %s, ects_fx = %s, random_test = %s, random_question_count = %s, count_system = %s, mc_scoring = %s, score_cutting = %s, pass_scoring = %s, " . 
 				"shuffle_questions = %s, results_presentation = %s, show_summary = %s, password = %s, allowedUsers = %s, " . 
-				"allowedUsersTimeGap = %s, certificate_visibility = %s, tstamp = %s WHERE test_id = %s",
+				"allowedUsersTimeGap = %s, certificate_visibility = %s, mailnotification = %s, tstamp = %s WHERE test_id = %s",
 				array(
 					'text', 'text', 
 					'text', 'integer', 'integer', 'text', 'integer', 'integer',
@@ -1190,7 +1194,7 @@ class ilObjTest extends ilObject
 					'integer', 'text', 'text', 'text', 'text', 'text', 'float', 'float', 'float', 'float',
 					'float', 'float', 'text', 'integer', 'text', 'text', 'text', 'text',
 					'text', 'integer', 'integer', 'text', 'integer',
-					'integer', 'text', 'integer', 'integer'
+					'integer', 'text', 'integer', 'integer', 'integer'
 				),
 				array(
 					$this->getAuthor(), 
@@ -1240,6 +1244,7 @@ class ilObjTest extends ilObject
 					$this->getAllowedUsers(),
 					$this->getAllowedUsersTimeGap(),
 					$this->getCertificateVisibility(), 
+					$this->getMailNotification(),
 					time(), 
 					$this->getTestId()
 				)
@@ -1779,6 +1784,7 @@ class ilObjTest extends ilObject
 			$this->mark_schema->loadFromDb($this->getTestId());
 			$this->setCountSystem($data->count_system);
 			$this->setMCScoring($data->mc_scoring);
+			$this->setMailNotification($data->mailnotification);
 			$this->setScoreCutting($data->score_cutting);
 			$this->setPassword($data->password);
 			$this->setAllowedUsers($data->allowedUsers);
@@ -5387,6 +5393,9 @@ function loadQuestions($active_id = "", $pass = NULL)
 				case "mc_scoring":
 					$this->setMCScoring($metadata["entry"]);
 					break;
+				case "mailnotification":
+					$this->setMailNotification($metadata["entry"]);
+					break;
 				case "score_cutting":
 					$this->setScoreCutting($metadata["entry"]);
 					break;
@@ -5679,6 +5688,12 @@ function loadQuestions($active_id = "", $pass = NULL)
 		$a_xml_writer->xmlStartTag("qtimetadatafield");
 		$a_xml_writer->xmlElement("fieldlabel", NULL, "showinfo");
 		$a_xml_writer->xmlElement("fieldentry", NULL, sprintf("%d", (($this->getShowInfo()) ? "1" : "0")));
+		$a_xml_writer->xmlEndTag("qtimetadatafield");
+
+		// mail notification
+		$a_xml_writer->xmlStartTag("qtimetadatafield");
+		$a_xml_writer->xmlElement("fieldlabel", NULL, "mailnotification");
+		$a_xml_writer->xmlElement("fieldentry", NULL, $this->getMailNotification());
 		$a_xml_writer->xmlEndTag("qtimetadatafield");
 
 		// force JavaScript
@@ -6290,6 +6305,7 @@ function loadQuestions($active_id = "", $pass = NULL)
 		$newObj->setShowFinalStatement($this->getShowFinalStatement());
 		$newObj->setListOfQuestionsSettings($this->getListOfQuestionsSettings());
 		$newObj->setMCScoring($this->getMCScoring());
+		$newObj->setMailNotification($this->getMailNotification());
 		$newObj->setNrOfTries($this->getNrOfTries());
 		$newObj->setPassScoring($this->getPassScoring());
 		$newObj->setPassword($this->getPassword());
@@ -8167,7 +8183,7 @@ function loadQuestions($active_id = "", $pass = NULL)
 		return ($result->numRows() > 0) ? true : false;
 	}
 
-	function _getUserIdFromActiveId($active_id)
+	public static function _getUserIdFromActiveId($active_id)
 	{
 		global $ilDB;
 		$result = $ilDB->queryF("SELECT user_fi FROM tst_active WHERE active_id = %s",
@@ -8763,6 +8779,7 @@ function loadQuestions($active_id = "", $pass = NULL)
 			"RandomQuestionCount" => $this->getRandomQuestionCount(),
 			"CountSystem" => $this->getCountSystem(),
 			"MCScoring" => $this->getMCScoring(),
+			"mailnotification" => $this->getMailNotification(),
 			"ListOfQuestionsSettings" => $this->getListOfQuestionsSettings()
 		);
 		$next_id = $ilDB->nextId('tst_test_defaults');
@@ -8823,6 +8840,7 @@ function loadQuestions($active_id = "", $pass = NULL)
 			$this->setRandomQuestionCount($testsettings["RandomQuestionCount"]);
 			$this->setCountSystem($testsettings["CountSystem"]);
 			$this->setMCScoring($testsettings["MCScoring"]);
+			$this->setMailNotification($testsettings["mailnotification"]);
 			$this->setListOfQuestionsSettings($testsettings["ListOfQuestionsSettings"]);
 			$this->saveToDb();
 			$result = TRUE;
@@ -9452,6 +9470,76 @@ function loadQuestions($active_id = "", $pass = NULL)
 		include_once("./Modules/Test/classes/class.ilTestExport.php");
 		$test_exp = new ilTestExport($this, "xml");
 		return $test_exp->buildExportFile();
+	}
+	
+	/**
+	* Get mail notification settings
+	*/
+	public function getMailNotification()
+	{
+		return $this->mailnotification;
+	}
+	
+	/**
+	* Set mail notification settings
+	*
+	* @param $a_notification Mail notification setting
+	*/
+	public function setMailNotification($a_notification)
+	{
+		$this->mailnotification = $a_notification;
+	}
+	
+	public function sendSimpleNotification($active_id)
+	{
+		include_once "./Services/Mail/classes/class.ilMail.php";
+		$mail = new ilMail($this->getOwner());
+
+		$usr_data = $this->userLookupFullName(ilObjTest::_getUserIdFromActiveId($active_id));
+		$message = new ilTemplate("tpl.il_as_tst_finish_notification_simple.html", TRUE, TRUE, "Modules/Test");
+		$message->setVariable('TEXT_TEST_TITLE', $this->lng->txt('title'));
+		$message->setVariable('VALUE_TEST_TITLE', $this->getTitle());
+		$message->setVariable('TEXT_USER_NAME', $this->lng->txt('username'));
+		$message->setVariable('VALUE_USER_NAME', $usr_data);
+		$message->setVariable('TEXT_FINISH_TIME', $this->lng->txt('tst_finished'));
+		ilDatePresentation::setUseRelativeDates(false);
+		$message->setVariable('VALUE_FINISH_TIME', ilDatePresentation::formatDate(new ilDateTime(time(), IL_CAL_UNIX)));
+		
+		$mail->sendMail(
+			ilObjUser::_lookupLogin($this->getOwner()), // to
+			"", // cc
+			"", // bcc
+			sprintf($this->lng->txt('tst_user_finished_test'), $this->getTitle()), // subject
+			$message->get(), // message
+			array(), // attachments
+			array('system') // type
+		);	
+	}
+	
+	public function sendAdvancedNotification($active_id)
+	{
+		include_once "./Services/Mail/classes/class.ilMail.php";
+		$mail = new ilMail($this->getOwner());
+
+		$usr_data = $this->userLookupFullName(ilObjTest::_getUserIdFromActiveId($active_id));
+		$message = new ilTemplate("tpl.il_as_tst_finish_notification_simple.html", TRUE, TRUE, "Modules/Test");
+		$message->setVariable('TEXT_TEST_TITLE', $this->lng->txt('title'));
+		$message->setVariable('VALUE_TEST_TITLE', $this->getTitle());
+		$message->setVariable('TEXT_USER_NAME', $this->lng->txt('username'));
+		$message->setVariable('VALUE_USER_NAME', $usr_data);
+		$message->setVariable('TEXT_FINISH_TIME', $this->lng->txt('tst_finished'));
+		ilDatePresentation::setUseRelativeDates(false);
+		$message->setVariable('VALUE_FINISH_TIME', ilDatePresentation::formatDate(new ilDateTime(time(), IL_CAL_UNIX)));
+		
+		$mail->sendMail(
+			ilObjUser::_lookupLogin($this->getOwner()), // to
+			"", // cc
+			"", // bcc
+			sprintf($this->lng->txt('tst_user_finished_test'), $this->getTitle()), // subject
+			$message->get(), // message
+			array(), // attachments
+			array('system') // type
+		);	
 	}
 } // END class.ilObjTest
 

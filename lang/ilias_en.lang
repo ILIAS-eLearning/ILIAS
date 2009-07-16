@@ -9731,3 +9731,9 @@ content#:#cont_select_from_upload_dir#:#-- Select from the upload directory --
 content#:#cont_uploaded_file#:#Existing file
 content#:#cont_upload_dir#:#Upload directory
 content#:#cont_upload_dir_info#:#Server directory from which large SCORM and HTML packages can be copied instead of being uploaded. Only ILIAS administrators will see a selection of files from this directory. Please enter a full server path without trailing slash.
+common#:#notifications#:#Notifications
+assessment#:#tst_finish_notification#:#Mail on completion
+assessment#:#tst_finish_notification_no#:#Don't send a mail notification when a user finishes a test
+assessment#:#tst_finish_notification_simple#:#Send user name and finish date to test owner
+assessment#:#tst_finish_notification_advanced#:#Send complete test result to test owner
+assessment#:#tst_user_finished_test#:#User finished test (%s)

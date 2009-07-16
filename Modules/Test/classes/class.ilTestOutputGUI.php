@@ -1096,6 +1096,15 @@ class ilTestOutputGUI extends ilTestServiceGUI
 			$this->object->setActiveTestSubmitted($ilUser->getId());
 			$ilAuth->setIdle($ilias->ini->readVariable("session","expire"), false);
 			$ilAuth->setExpire(0);
+			switch ($this->object->getMailNotification())
+			{
+				case 1:
+					$this->object->sendSimpleNotification($active_id);
+					break;
+				case 2:
+					$this->object->sendAdvancedNotification($active_id);
+					break;
+			}
 		}
 		
 		if (($confirm) && ($actualpass == $this->object->getNrOfTries() - 1))
