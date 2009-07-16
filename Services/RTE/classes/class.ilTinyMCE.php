@@ -156,6 +156,12 @@ class ilTinyMCE extends ilRTE
 			//$tpl->setVariable("STYLESHEET_LOCATION", $this->getContentCSS());
 			$tpl->setVariable("STYLESHEET_LOCATION", ilUtil::getNewContentStyleSheetLocation());
 			$tpl->setVariable("LANG", $this->_getEditorLanguage());
+
+			if($this->getRTERootBlockElement() !== null)
+			{
+				$tpl->setVariable('FORCED_ROOT_BLOCK', $this->getRTERootBlockElement());
+			}
+			
 			$tpl->parseCurrentBlock();
 			
 			$this->tpl->setVariable("CONTENT_BLOCK", $tpl->get());
@@ -214,6 +220,12 @@ class ilTinyMCE extends ilRTE
 		//$tpl->setVariable("STYLESHEET_LOCATION", $this->getContentCSS());
 		$tpl->setVariable("STYLESHEET_LOCATION", ilUtil::getNewContentStyleSheetLocation());
 		$tpl->setVariable("LANG", $this->_getEditorLanguage());
+		
+		if($this->getRTERootBlockElement() !== null)
+		{
+			$tpl->setVariable('FORCED_ROOT_BLOCK', $this->getRTERootBlockElement());
+		}
+		
 		$tpl->parseCurrentBlock();
 		$this->tpl->setVariable("CONTENT_BLOCK", $tpl->get());
 	}

@@ -22,6 +22,7 @@
 */
 
 require_once './Modules/Forum/classes/class.ilForumProperties.php';
+require_once 'Services/RTE/classes/class.ilRTE.php';
 
 /**
 * Forum export to HTML and Print.
@@ -154,7 +155,7 @@ class ilForumExportGUI
 				}
 				else
 				{
-					$tplEx->setVariable('POST', nl2br($this->frm->prepareText($post->getMessage(), 0, '', 'export')));	
+					$tplEx->setVariable('POST',  ilRTE::_replaceMediaObjectImageSrc($this->frm->prepareText($post->getMessage(), 0, '', 'export'), 1));	
 				}
 				$tplEx->parseCurrentBlock('posts_row');
 				
@@ -257,7 +258,7 @@ class ilForumExportGUI
 			}
 			else
 			{
-				$tplEx->setVariable('POST', nl2br($this->frm->prepareText($post->getMessage(), 0, '', 'export')));	
+				$tplEx->setVariable('POST', ilRTE::_replaceMediaObjectImageSrc($this->frm->prepareText($post->getMessage(), 0, '', 'export'), 1));	
 			}
 
 			$tplEx->parseCurrentBlock('posts_row');				
@@ -366,7 +367,7 @@ class ilForumExportGUI
 					}
 					else
 					{
-						$tplEx->setVariable('POST', nl2br($this->frm->prepareText($post->getMessage(), 0, '', 'export')));	
+						$tplEx->setVariable('POST',  ilRTE::_replaceMediaObjectImageSrc($this->frm->prepareText($post->getMessage(), 0, '', 'export'), 1));	
 					}
 
 					$tplEx->parseCurrentBlock('posts_row');	

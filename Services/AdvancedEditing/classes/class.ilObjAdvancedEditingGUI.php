@@ -491,7 +491,48 @@ class ilObjAdvancedEditingGUI extends ilObjectGUI
 											 $this->ctrl->getLinkTarget($this, "learningModule"),
 											 array("learningModule", "saveLearningModuleSettings"),
 											 "", "");
+			$tabs_gui->addSubTabTarget("adve_frm_post_settings",
+											 $this->ctrl->getLinkTarget($this, "frmPost"),
+											 array("frmPost", "saveFrmPostSettings"),
+											 "", "");
 		}
+	}
+	
+	public function saveFrmPostSettingsObject()
+	{
+		ilUtil::sendSuccess($this->lng->txt("msg_obj_modified"),true);
+
+		$this->object->_setUsedHTMLTags($_POST["html_tags"], "frm_post");
+		$this->ctrl->redirect($this,'frmPost');
+	}
+	
+	public function frmPostObject()
+	{
+		$this->tpl->addBlockFile("ADM_CONTENT", "adm_content", "tpl.advanced_editing_frm_post.html");
+		
+		$alltags =& $this->object->getHTMLTags();
+		$usedtags =& $this->object->_getUsedHTMLTags("frm_post");
+		foreach ($alltags as $tag)
+		{
+			$this->tpl->setCurrentBlock("html_tag_row");
+			$this->tpl->setVariable("HTML_TAG", $tag);
+			if (is_array($usedtags))
+			{
+				if (in_array($tag, $usedtags))
+				{
+					$this->tpl->setVariable("HTML_TAG_SELECTED", " selected=\"selected\"");
+				}
+			}
+			$this->tpl->parseCurrentBlock();
+		}
+		
+		$this->tpl->setCurrentBlock("adm_content");
+		$this->tpl->setVariable("FORMACTION", $this->ctrl->getFormAction($this));
+		$this->tpl->setVariable("TXT_FRM_POST_SETTINGS", $this->lng->txt("advanced_editing_frm_post_settings"));
+		$this->tpl->setVariable("TXT_ALLOW_HTML_TAGS", $this->lng->txt("advanced_editing_allow_html_tags"));
+		$this->tpl->setVariable("TXT_SAVE", $this->lng->txt("save"));
+
+		$this->tpl->parseCurrentBlock();
 	}
 	
 	

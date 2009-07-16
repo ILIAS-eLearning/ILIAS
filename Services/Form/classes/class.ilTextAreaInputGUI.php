@@ -41,6 +41,17 @@ class ilTextAreaInputGUI extends ilSubEnabledFormPropertyGUI
 	protected $removeplugins;
 	protected $buttons;
 	protected $rtesupport;
+	protected $usePurifier = false;
+	protected $Purifier = null;
+	
+	/**
+	* Setter for the TinyMCE root block element
+	*
+	* @var		string
+	* @type		string
+	* @access	protected
+	*/
+	protected $root_block_element = null;
 	
 	protected $rte_tag_set = array(
 		"standard" => array ("strong", "em", "u", "ol", "li", "ul", "p", "div",
@@ -305,10 +316,17 @@ class ilTextAreaInputGUI extends ilSubEnabledFormPropertyGUI
 		global $lng;
 		include_once("./Services/AdvancedEditing/classes/class.ilObjAdvancedEditing.php");
 		
-		$_POST[$this->getPostVar()] = ($this->getUseRte())
-			? ilUtil::stripSlashes($_POST[$this->getPostVar()], true,
-				$this->getRteTagString())
-			: ilUtil::stripSlashes($_POST[$this->getPostVar()]);
+		if($this->usePurifier() && $this->getPurifier())
+		{
+			$_POST[$this->getPostVar()] = ilUtil::stripOnlySlashes($_POST[$this->getPostVar()]);
+   			$_POST[$this->getPostVar()] = $this->getPurifier()->purify($_POST[$this->getPostVar()]);
+		}
+		else
+		{
+			$_POST[$this->getPostVar()] = ($this->getUseRte())
+				? ilUtil::stripSlashes($_POST[$this->getPostVar()], true, $this->getRteTagString())
+				: ilUtil::stripSlashes($_POST[$this->getPostVar()]);
+		}
 
 		if ($this->getRequired() && trim($_POST[$this->getPostVar()]) == "")
 		{
@@ -357,6 +375,12 @@ class ilTextAreaInputGUI extends ilSubEnabledFormPropertyGUI
 					$rte->addButton($button);
 				}
 			}
+			
+			if($this->getRTERootBlockElement() !== null)
+			{
+				$rte->setRTERootBlockElement($this->getRTERootBlockElement());
+			}
+			
 			if (count($this->rteSupport) == 3)
 			{
 				$rte->addRTESupport($this->rteSupport["obj_id"], $this->rteSupport["obj_type"], $this->rteSupport["module"]);
@@ -364,7 +388,7 @@ class ilTextAreaInputGUI extends ilSubEnabledFormPropertyGUI
 			else
 			{
 				$rte->addCustomRTESupport(0, "", $this->getRteTags());
-			}
+			}			
 			
 			$a_tpl->touchBlock("prop_ta_w");
 			$a_tpl->setCurrentBlock("prop_textarea");
@@ -398,5 +422,57 @@ class ilTextAreaInputGUI extends ilSubEnabledFormPropertyGUI
 		$a_tpl->setVariable("PROPERTY_VALUE", $this->getValue());
 		$a_tpl->parseCurrentBlock();
 	}
-
+	
+	public function usePurifier($a_flag = null)
+	{
+		if(null === $a_flag)
+		{
+			return $this->usePurifier;
+		}
+		
+		$this->usePurifier = $a_flag;
+		return $this;
+	}
+	
+	/**
+	* Setter for the TinyMCE root block element
+	*
+	* @param	ilHtmlPurifierInterface	Instance of ilHtmlPurifierInterface 
+	* @return	ilRTE	instance
+	* @access	public
+	*/
+	public function setPurifier(ilHtmlPurifierInterface $Purifier)
+	{
+		$this->Purifier = $Purifier;
+		return $this;
+	}
+	
+	public function getPurifier()
+	{
+		return $this->Purifier;
+	}
+	
+	/**
+	* Setter for the TinyMCE root block element
+	*
+	* @param	string	$a_root_block_element		root block element
+	* @return	ilTextAreaInputGUI					This reference
+	* @access	public
+	*/
+	public function setRTERootBlockElement($a_root_block_element)
+	{
+		$this->root_block_element = $a_root_block_element;
+		return $this;
+	}
+	
+	/**
+	* Getter for the TinyMCE root block element
+	*
+	* @return	string	$a_text	root block element
+	* @access	public
+	*/
+	public function getRTERootBlockElement()
+	{
+		return $this->root_block_element;
+	}
 }

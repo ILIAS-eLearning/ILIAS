@@ -282,12 +282,13 @@ class ilObjForumAccess extends ilObjectAccess
 			$s = strrpos($text, "[quote", $e - strlen($text));		// last begin tag before first end tag
 			if ($e > $s && is_int($s))
 			{
-				$text = substr($text, 0, $s)." ".substr($text, $e+8);
+				$text = substr($text, 0, $s).' '.substr($text, $e+8);
 			}
 		}
 		
-		// shorten text
-		if (strlen($text) > 40)
+		$text = strip_tags($text);
+		
+		if(strlen($text) > 40)
 		{
 			$text = substr($text, 0, 37).'...';
 		}

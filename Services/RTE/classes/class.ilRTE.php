@@ -46,6 +46,15 @@ class ilRTE
 	var $ctrl;
 	var $lng;
 	
+	/**
+	* Setter for the TinyMCE root block element
+	*
+	* @var		string
+	* @type		string
+	* @access	protected
+	*/
+	protected $root_block_element = null;
+	
 	function ilRTE()
 	{
 		global $tpl, $ilCtrl, $lng;
@@ -243,6 +252,74 @@ class ilRTE
 				break;
 		}
 		return $a_text;
+	}
+	
+	/**
+	* Returns all media objects found in the passed string
+	*
+	* @param	string	$a_text			text, including media object tags
+	* @param  integer $a_direction 0 to find image src, 1 to find mob id
+	* @return array array of media objects
+	*/
+	function _getMediaObjects($a_text, $a_direction = 0)
+	{
+		if (!strlen($a_text)) return array();
+		include_once("./Services/MediaObjects/classes/class.ilObjMediaObject.php");
+		
+		$mediaObjects = array();
+		switch ($a_direction)
+		{
+			case 0:
+				if(preg_match_all("/src\=\"(.*?\/mobs\/mm_([0-9]+)\/.*?)\"/", $a_text, $matches))
+				{
+					foreach ($matches[2] as $idx => $mob)
+					{
+						if (ilObjMediaObject::_exists($mob) && !in_array($mob, $mediaObjects))
+						{
+							$mediaObjects[] = $mob;
+						}
+					}
+				}
+				break;
+			default:
+				
+				if(preg_match_all("/src\=\"il_([0-9]+)_mob_([0-9]+)\"/", $a_text, $matches))
+				{
+					foreach ($matches[2] as $idx => $mob)
+					{
+						if (ilObjMediaObject::_exists($mob) && !in_array($mob, $mediaObjects))
+						{
+							$mediaObjects[] = $mob;
+						}
+					}
+				}
+				break;
+		}
+		return $mediaObjects;
+	}
+	
+	/**
+	* Setter for the TinyMCE root block element
+	*
+	* @param	string	$a_root_block_element root block element
+	* @return	ilRTE	This reference
+	* @access	public
+	*/
+	public function setRTERootBlockElement($a_root_block_element)
+	{
+		$this->root_block_element = $a_root_block_element;
+		return $this;
+	}
+	
+	/**
+	* Getter for the TinyMCE root block element
+	*
+	* @return	string	root block element
+	* @access	public
+	*/
+	public function getRTERootBlockElement()
+	{
+		return $this->root_block_element;
 	}
 }
 

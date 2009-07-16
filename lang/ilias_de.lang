@@ -9644,6 +9644,9 @@ common#:#bm_add_to_ilias#:#Speichere als ILIAS Bookmark
 content#:#cont_print_selection#:#Auswahl Druckansicht
 common#:#bm_add_to_social_bookmarks#:#Speichere als Social Bookmark
 common#:#event_ass_materials_prop#:#Materialien zur Sitzung
+forum#:#frm_purifier_not_implemented_for_type_x#:#Es ist noch kein Purifier für den Typ %s implementiert.
+common#:#adve_frm_post_settings#:#Forum Posts
+common#:#advanced_editing_frm_post_settings#:#Forum Post Einstellungen
 dateplaner#:#cal_dstart_dend_warn#:#Der Tagesbeginn sollte vor dem Tagesende liegen. Bitte überprüfen Sie Ihre Eingaben.
 dateplaner#:#cal_day_start#:#Tagesbeginn
 dateplaner#:#cal_day_end#:#Tagesende
