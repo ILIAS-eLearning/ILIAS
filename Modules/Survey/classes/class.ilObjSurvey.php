@@ -1141,14 +1141,9 @@ class ilObjSurvey extends ilObject
 		global $ilDB;
 		global $ilAccess;
     $this->invitation = $invitation;
-		// remove the survey from the personal desktops
-		$affectedRows = $ilDB->manipulateF("DELETE FROM desktop_item WHERE type = %s AND item_id = %s",
-			array('text','integer'),
-			array('svy', $this->getRefId())
-		);
 		if ($invitation == INVITATION_OFF)
 		{
-			// already removed prior
+			$this->disinviteAllUsers();
 		}
 		else if ($invitation == INVITATION_ON)
 		{
@@ -1159,43 +1154,7 @@ class ilObjSurvey extends ilObject
 				{
 					if ($ilAccess->checkAccessOfUser($row["usr_id"], "read", "", $this->getRefId(), "svy", $this->getId()))
 					{
-						$affectedRows = $ilDB->manipulateF("INSERT INTO desktop_item (user_id, item_id, type, parameters) VALUES (%s, %s, %s, %s)",
-							array('integer', 'integer', 'text', 'text'),
-							array($row["usr_id"], $this->getRefId(), "svy", NULL)
-						);
-					}
-				}
-			}
-			else
-			{
-				$result = $ilDB->queryF("SELECT user_fi FROM svy_inv_usr WHERE survey_fi = %s",
-					array('integer'),
-					array($this->getSurveyId())
-				);
-				while ($row = $ilDB->fetchAssoc($result))
-				{
-					$affectedRows = $ilDB->manipulateF("INSERT INTO desktop_item (user_id, item_id, type, parameters) VALUES (%s, %s, %s, %s)",
-						array('integer', 'integer', 'text', 'text'),
-						array($row["user_fi"], $this->getRefId(), "svy", NULL)
-					);
-				}
-				$result = $ilDB->queryF("SELECT group_fi FROM svy_inv_grp WHERE survey_fi = %s",
-					array('integer'),
-					array($this->getSurveyId())
-				);
-				include_once "./Modules/Group/classes/class.ilObjGroup.php";
-				include_once './Services/User/classes/class.ilObjUser.php';
-				while ($row = $ilDB->fetchAssoc($result))
-				{
-					$group = new ilObjGroup($row["group_fi"]);
-					$members = $group->getGroupMemberIds();
-					foreach ($members as $user_id)
-					{
-						if (ilObjUser::_lookupLogin($user_id))
-						{
-							$user = new ilObjUser($user_id);
-							$user->addDesktopItem($this->getRefId(), "svy");
-						}
+						$this->inviteUser($row['usr_id']);
 					}
 				}
 			}
@@ -2703,13 +2662,28 @@ class ilObjSurvey extends ilObject
 		return $result_array;
 	}
 
+	/**
+	* Disinvite all users
+	*/
+	public function disinviteAllUsers()
+	{
+		global $ilDB;
+		$result = $ilDB->queryF("SELECT user_fi FROM svy_inv_usr WHERE survey_fi = %s",
+			array('integer'),
+			array($this->getSurveyId())
+		);
+		while ($row = $ilDB->fetchAssoc($result))
+		{
+			$this->disinviteUser($row['user_fi']);
+		}
+	}
+
 /**
 * Disinvites a user from a survey
 *
 * @param integer $user_id The database id of the disinvited user
-* @access public
 */
-	function disinviteUser($user_id)
+	public function disinviteUser($user_id)
 	{
 		global $ilDB;
 		
@@ -2717,15 +2691,8 @@ class ilObjSurvey extends ilObject
 			array('integer','integer'),
 			array($this->getSurveyId(), $user_id)
 		);
-		if ($this->getInvitation() == INVITATION_ON)
-		{
-			include_once './Services/User/classes/class.ilObjUser.php';
-			if (ilObjUser::_lookupLogin($user_id))
-			{
-				$userObj = new ilObjUser($user_id);
-				$userObj->dropDesktopItem($this->getRefId(), "svy");
-			}
-		}
+		include_once './Services/User/classes/class.ilObjUser.php';
+		ilObjUser::_dropDesktopItem($user_id, $this->getRefId(), "svy");
 	}
 
 /**
@@ -2754,11 +2721,7 @@ class ilObjSurvey extends ilObject
 		if ($this->getInvitation() == INVITATION_ON)
 		{
 			include_once './Services/User/classes/class.ilObjUser.php';
-			if (ilObjUser::_lookupLogin($user_id))
-			{
-				$userObj = new ilObjUser($user_id);
-				$userObj->addDesktopItem($this->getRefId(), "svy");
-			}
+			ilObjUser::_addDesktopItem($user_id, $this->getRefId(), "svy");
 		}
 	}
 
@@ -2782,12 +2745,8 @@ class ilObjSurvey extends ilObject
 					$this->inviteUser($user_id);
 					if ($this->getInvitation() == INVITATION_ON)
 					{
-						if (ilObjUser::_lookupLogin($user_id))
-						{
-							$userObj = new ilObjUser($user_id);
-							$userObj->addDesktopItem($this->getRefId(), "svy");
-							$invited++;
-						}
+						include_once './Services/User/classes/class.ilObjUser.php';
+						ilObjUser::_addDesktopItem($user_id, $this->getRefId(), "svy");
 					}
 				}
 			}
@@ -2813,12 +2772,8 @@ class ilObjSurvey extends ilObject
 					$this->inviteUser($user_id);
 					if ($this->getInvitation() == INVITATION_ON)
 					{
-						if (ilObjUser::_lookupLogin($user_id))
-						{
-							$userObj = new ilObjUser($user_id);
-							$userObj->addDesktopItem($this->getRefId(), "svy");
-							$invited++;
-						}
+						include_once './Services/User/classes/class.ilObjUser.php';
+						ilObjUser::_addDesktopItem($user_id, $this->getRefId(), "svy");
 					}
 				}
 			}
