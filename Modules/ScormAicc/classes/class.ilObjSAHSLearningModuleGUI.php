@@ -268,7 +268,24 @@ class ilObjSAHSLearningModuleGUI extends ilObjectGUI
 
 		// gives out the limit as a little notice
 		$this->tpl->setVariable("TXT_FILE_INFO", $this->lng->txt("file_notice")." $max_filesize");
-		
+
+		include_once 'Services/FileSystemStorage/classes/class.ilUploadFiles.php';
+		if (ilUploadFiles::_getUploadDirectory())
+		{
+			$files = ilUploadFiles::_getUploadFiles();
+			foreach($files as $file)
+			{
+				$file = htmlspecialchars($file, ENT_QUOTES, "utf-8");
+				$this->tpl->setCurrentBlock("option_uploaded_file");
+				$this->tpl->setVariable("UPLOADED_FILENAME", $file);
+				$this->tpl->setVariable("TXT_UPLOADED_FILENAME", $file);
+				$this->tpl->parseCurrentBlock();
+			}
+			$this->tpl->setCurrentBlock("select_uploaded_file");
+			$this->tpl->setVariable("TXT_SELECT_FROM_UPLOAD_DIR", $this->lng->txt("cont_select_from_upload_dir"));
+			$this->tpl->setVariable("TXT_UPLOADED_FILE", $this->lng->txt("cont_uploaded_file"));
+			$this->tpl->parseCurrentBlock();
+		}
 	
 		//$this->importObject();
 	}
@@ -344,38 +361,58 @@ class ilObjSAHSLearningModuleGUI extends ilObjectGUI
 	{
 		global $_FILES, $rbacsystem;
 
-		// check if file was uploaded
-		$source = $_FILES["scormfile"]["tmp_name"];
-		if (($source == 'none') || (!$source))
-		{
-			$this->ilias->raiseError("No file selected!",$this->ilias->error_obj->MESSAGE);
-		}
+		include_once 'Services/FileSystemStorage/classes/class.ilUploadFiles.php';
+
 		// check create permission
 		if (!$rbacsystem->checkAccess("create", $_GET["ref_id"], "sahs"))
 		{
 			$this->ilias->raiseError($this->lng->txt("no_create_permission"), $this->ilias->error_obj->WARNING);
 		}
-		// get_cfg_var("upload_max_filesize"); // get the may filesize form t he php.ini
-		switch ($__FILES["scormfile"]["error"])
+		elseif ($_FILES["scormfile"]["name"])
 		{
-			case UPLOAD_ERR_INI_SIZE:
-				$this->ilias->raiseError($this->lng->txt("err_max_file_size_exceeds"),$this->ilias->error_obj->MESSAGE);
-				break;
-
-			case UPLOAD_ERR_FORM_SIZE:
-				$this->ilias->raiseError($this->lng->txt("err_max_file_size_exceeds"),$this->ilias->error_obj->MESSAGE);
-				break;
-
-			case UPLOAD_ERR_PARTIAL:
-				$this->ilias->raiseError($this->lng->txt("err_partial_file_upload"),$this->ilias->error_obj->MESSAGE);
-				break;
-
-			case UPLOAD_ERR_NO_FILE:
-				$this->ilias->raiseError($this->lng->txt("err_no_file_uploaded"),$this->ilias->error_obj->MESSAGE);
-				break;
+			// check if file was uploaded
+			$source = $_FILES["scormfile"]["tmp_name"];
+			if (($source == 'none') || (!$source))
+			{
+					$this->ilias->raiseError($this->lng->txt("msg_no_file"),$this->ilias->error_obj->MESSAGE);
+			}
+			// get_cfg_var("upload_max_filesize"); // get the may filesize form t he php.ini
+			switch ($__FILES["scormfile"]["error"])
+			{
+				case UPLOAD_ERR_INI_SIZE:
+					$this->ilias->raiseError($this->lng->txt("err_max_file_size_exceeds"),$this->ilias->error_obj->MESSAGE);
+					break;
+	
+				case UPLOAD_ERR_FORM_SIZE:
+					$this->ilias->raiseError($this->lng->txt("err_max_file_size_exceeds"),$this->ilias->error_obj->MESSAGE);
+					break;
+	
+				case UPLOAD_ERR_PARTIAL:
+					$this->ilias->raiseError($this->lng->txt("err_partial_file_upload"),$this->ilias->error_obj->MESSAGE);
+					break;
+	
+				case UPLOAD_ERR_NO_FILE:
+					$this->ilias->raiseError($this->lng->txt("err_no_file_uploaded"),$this->ilias->error_obj->MESSAGE);
+					break;
+			}
+	
+			$file = pathinfo($_FILES["scormfile"]["name"]);
 		}
+		elseif ($_POST["uploaded_file"])
+		{
+			// check if the file is in the upload directory and readable
+			if (!ilUploadFiles::_checkUploadFile($_POST["uploaded_file"]))
+			{
+				$this->ilias->raiseError($this->lng->txt("upload_error_file_not_found"),$this->ilias->error_obj->MESSAGE);
+			}
 
-		$file = pathinfo($_FILES["scormfile"]["name"]);
+			$file = pathinfo($_POST["uploaded_file"]);
+		}
+		else
+		{
+			$this->ilias->raiseError($this->lng->txt("msg_no_file"),$this->ilias->error_obj->MESSAGE);
+		}
+		
 		$name = substr($file["basename"], 0, strlen($file["basename"]) - strlen($file["extension"]) - 1);
 		if ($name == "")
 		{
@@ -419,13 +456,21 @@ class ilObjSAHSLearningModuleGUI extends ilObjectGUI
 		// create data directory, copy file to directory
 		$newObj->createDataDirectory();
 
-		// copy uploaded file to data directory
-		$file_path = $newObj->getDataDirectory()."/".$_FILES["scormfile"]["name"];
+		if ($_FILES["scormfile"]["name"])
+		{
+			// copy uploaded file to data directory
+			$file_path = $newObj->getDataDirectory()."/".$_FILES["scormfile"]["name"];
 		
-		ilUtil::moveUploadedFile($_FILES["scormfile"]["tmp_name"],
-			$_FILES["scormfile"]["name"], $file_path);
+			ilUtil::moveUploadedFile($_FILES["scormfile"]["tmp_name"],
+					$_FILES["scormfile"]["name"], $file_path);
+		}
+		else
+		{
+			// copy uploaded file to data directory
+			$file_path = $newObj->getDataDirectory()."/". $_POST["uploaded_file"];
 
-		//move_uploaded_file($_FILES["scormfile"]["tmp_name"], $file_path);
+			ilUploadFiles::_copyUploadFile($_POST["uploaded_file"], $file_path);
+		}
 
 		ilUtil::unzip($file_path);
 		ilUtil::renameExecutables($newObj->getDataDirectory());
@@ -473,7 +518,6 @@ class ilObjSAHSLearningModuleGUI extends ilObjectGUI
 		$newObj->createScorm2004Tree();
 		ilUtil::sendInfo( $this->lng->txt($newObj->getType()."_added"), true);
 		ilUtil::redirect("ilias.php?baseClass=ilSAHSEditGUI&ref_id=".$newObj->getRefId());
-	
 	}
 
 

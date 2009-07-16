@@ -46,6 +46,19 @@
 		<input type="file" name="scormfile" value="{TXT_SAVE}" />
 	</td>
 </tr>
+<!-- BEGIN select_uploaded_file -->
+<tr>
+	<td class="option">{TXT_UPLOADED_FILE}</td>
+	<td class="option_value">
+		<select name="uploaded_file">
+			<option value="">{TXT_SELECT_FROM_UPLOAD_DIR}</option>
+			<!-- BEGIN option_uploaded_file -->
+			<option value="{UPLOADED_FILENAME}">{TXT_UPLOADED_FILENAME}</option>
+			<!-- END option_uploaded_file -->
+		</select>
+	</td>
+</tr>
+<!-- END select_uploaded_file -->
 <tr>
 	<td class="option">{TXT_VALIDATE_FILE}</td>
 	<td class="option_value">

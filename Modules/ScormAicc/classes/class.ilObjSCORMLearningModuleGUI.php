@@ -194,6 +194,24 @@ class ilObjSCORMLearningModuleGUI extends ilObjSAHSLearningModuleGUI
 		   $this->tpl->setVariable("TXT_TYPE", $this->lng->txt("lm_type_scorm"));
 	   }    
 	
+		include_once 'Services/FileSystemStorage/classes/class.ilUploadFiles.php';
+		if (ilUploadFiles::_getUploadDirectory())
+		{
+			$files = ilUploadFiles::_getUploadFiles();
+			foreach($files as $file)
+			{
+				$file = htmlspecialchars($file, ENT_QUOTES, "utf-8");
+				$this->tpl->setCurrentBlock("option_uploaded_file");
+				$this->tpl->setVariable("UPLOADED_FILENAME", $file);
+				$this->tpl->setVariable("TXT_UPLOADED_FILENAME", $file);
+				$this->tpl->parseCurrentBlock();
+			}
+			$this->tpl->setCurrentBlock("select_uploaded_file");
+			$this->tpl->setVariable("TXT_SELECT_FROM_UPLOAD_DIR", $this->lng->txt("cont_select_from_upload_dir"));
+			$this->tpl->setVariable("TXT_UPLOADED_FILE", $this->lng->txt("cont_uploaded_file"));
+			$this->tpl->parseCurrentBlock();
+		}
+
 	   $this->tpl->setVariable("TXT_UPLOAD", $this->lng->txt("upload"));
 	   $this->tpl->setVariable("TXT_CANCEL", $this->lng->txt("cancel"));
 	   $this->tpl->setVariable("TXT_IMPORT_LM", $this->lng->txt("import_sahs"));
@@ -237,18 +255,45 @@ class ilObjSCORMLearningModuleGUI extends ilObjSAHSLearningModuleGUI
 		$unzip = PATH_TO_UNZIP;
 		$tocheck = "imsmanifest.xml";
 		
-		// check if file was uploaded
-		$source = $_FILES["scormfile"]["tmp_name"];
-		if (($source == 'none') || (!$source))
-		{
-			ilUtil::sendInfo($this->lng->txt("No file selected"),true);
-			$this->newModuleVersion();
-		}
-		// check create permission
+		include_once 'Services/FileSystemStorage/classes/class.ilUploadFiles.php';
+
+		// check create permission before because the uploaded file will be copied
 		if (!$rbacsystem->checkAccess("create", $_GET["ref_id"], "sahs"))
 		{
 			$this->ilias->raiseError($this->lng->txt("no_create_permission"), $this->ilias->error_obj->WARNING);
 		}
+		elseif ($_FILES["scormfile"]["name"])
+		{
+			// check if file was uploaded
+			$source = $_FILES["scormfile"]["tmp_name"];
+			if (($source == 'none') || (!$source))
+			{
+				ilUtil::sendInfo($this->lng->txt("upload_error_file_not_found"),true);
+				$this->newModuleVersion();
+				return;
+			}
+		}
+		elseif ($_POST["uploaded_file"])
+		{
+			// check if the file is in the ftp directory and readable
+ 			if (!ilUploadFiles::_checkUploadFile($_POST["uploaded_file"]))
+			{
+				$this->ilias->raiseError($this->lng->txt("upload_error_file_not_found"),$this->ilias->error_obj->MESSAGE);
+			}
+
+			// copy the uploaded file to the client web dir to analyze the imsmanifest
+			// the copy will be moved to the lm directory or deleted
+ 			$source = CLIENT_WEB_DIR . "/" . $_POST["uploaded_file"];
+			ilUploadFiles::_copyUploadFile($_POST["uploaded_file"], $source);
+			$source_is_copy = true;
+		}
+		else
+		{
+			ilUtil::sendInfo($this->lng->txt("upload_error_file_not_found"),true);
+			$this->newModuleVersion();
+			return;
+		}
+		// fim.
 		
 		//unzip the imsmanifest-file from new uploaded file
 		$pathinfo = pathinfo($source);
@@ -277,11 +322,22 @@ class ilObjSCORMLearningModuleGUI extends ilObjSAHSLearningModuleGUI
 			//get exisiting module version
 			$module_version = $this->object->getModuleVersion();
 			
-			//build targetdir in lm_data
-			$file_path = $this->object->getDataDirectory()."/".$_FILES["scormfile"]["name"].".".$module_version;
-			
-			//move to data directory and add subfix for versioning
-			ilUtil::moveUploadedFile($_FILES["scormfile"]["tmp_name"],$_FILES["scormfile"]["name"], $file_path);
+			if ($_FILES["scormfile"]["name"])
+			{
+				//build targetdir in lm_data
+				$file_path = $this->object->getDataDirectory()."/".$_FILES["scormfile"]["name"].".".$module_version;
+				
+				//move to data directory and add subfix for versioning
+				ilUtil::moveUploadedFile($_FILES["scormfile"]["tmp_name"],$_FILES["scormfile"]["name"], $file_path);
+			}
+			else
+			{
+				//build targetdir in lm_data
+				$file_path = $this->object->getDataDirectory()."/".$_POST["uploaded_file"].".".$module_version;
+
+				// move the already copied file to the lm_data directory
+				rename($source, $file_path);
+			}
 			
 			//unzip and replace old extracted files
 			ilUtil::unzip($file_path, true);
@@ -295,7 +351,14 @@ class ilObjSCORMLearningModuleGUI extends ilObjSAHSLearningModuleGUI
 			ilUtil::sendInfo( $this->lng->txt("cont_new_module_added"), true);
 			ilUtil::redirect("ilias.php?baseClass=ilSAHSEditGUI&ref_id=".$_GET["ref_id"]);
 			exit;
-		} else {
+		}
+		else
+		{
+			if ($source_is_copy)
+			{
+				unlink($source);
+			}
+			
 			ilUtil::sendInfo($this->lng->txt("cont_invalid_new_module"),true);
 			$this->newModuleVersion();
 		}
