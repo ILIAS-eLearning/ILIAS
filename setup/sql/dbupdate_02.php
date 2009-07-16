@@ -14626,3 +14626,17 @@ $ilCtrlStructureReader->getStructure();
 	));
 	$ilDB->addPrimaryKey("license_data", array("obj_id"));
 ?>
+<#2770>
+<?php
+if ($ilDB->tableExists('svy_inv_grp'))
+{
+	$ilDB->dropTable('svy_inv_grp');
+}
+?>
+<#2771>
+<?php
+if ($ilDB->tableExists('svy_inv_grp_seq'))
+{
+	$ilDB->dropTable('svy_inv_grp_seq');
+}
+?>
