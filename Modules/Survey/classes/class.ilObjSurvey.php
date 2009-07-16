@@ -4463,23 +4463,18 @@ class ilObjSurvey extends ilObject
 	* Fetches the data for the survey codes table
 	*
 	* @param string $lang Language for the survey code URL
-	* @param integer $offset Offset for the requested data
-	* @param integer $limit Limit of the requested data
 	* @return array The requested data
 	* @access public
 	*/
-	function &getSurveyCodesTableData($lang = "en", $offset = 0, $limit = 10)
+	public function &getSurveyCodesTableData($lang = "en")
 	{
 		global $ilDB;
 
 		include_once "./classes/class.ilFormat.php";
 		if (strlen($lang) == 0) $lang = "en";
-		if (strlen($offset) == 0) $offset = 0;
-		if (strlen($limit) == 0) $limit = 10;
 		
 		$order = "ORDER BY tstamp, survey_key ASC";
 		$codes = array();
-		$ilDB->setLimit($limit, $offset);
 		$result = $ilDB->queryF("SELECT svy_anonymous.anonymous_id, svy_anonymous.survey_key, svy_anonymous.survey_fi, ".
 			"svy_anonymous.tstamp, svy_finished.state FROM svy_anonymous LEFT JOIN svy_finished ".
 			"ON svy_anonymous.survey_key = svy_finished.anonymous_id WHERE svy_anonymous.survey_fi = %s ".
@@ -4487,7 +4482,6 @@ class ilObjSurvey extends ilObject
 			array('integer'),
 			array($this->getSurveyId())
 		);
-		$counter = $offset+1;
 		if ($result->numRows() > 0)
 		{
 			while ($row = $ilDB->fetchAssoc($result))
@@ -4495,10 +4489,10 @@ class ilObjSurvey extends ilObject
 				$created = ilDatePresentation::formatDate(new ilDateTime($row["tstamp"],IL_CAL_UNIX));
 				$url = "";
 				
-				$state = "<span class=\"smallred\">" . $this->lng->txt("not_used") . "</span>";
+				$state = 0;
 				if ($this->isSurveyCodeUsed($row["survey_key"]))
 				{
-					$state = "<span class=\"smallgreen\">" . $this->lng->txt("used") . "</span>";
+					$state = 1;
 				}
 				else
 				{
@@ -4507,13 +4501,10 @@ class ilObjSurvey extends ilObject
 					{
 						$addlang = "&amp;lang=$lang";
 					}
-					$url = "<a href=\"" . ILIAS_HTTP_PATH."/goto.php?cmd=infoScreen&target=svy_".$this->getRefId() . "&amp;client_id=" . CLIENT_ID . "&amp;accesscode=".$row["survey_key"].$addlang . "\">";
-					$url .= $this->lng->txt("survey_code_url_name");
-					$url .= "</a>";
+					$href = ILIAS_HTTP_PATH."/goto.php?cmd=infoScreen&target=svy_".$this->getRefId() . "&amp;client_id=" . CLIENT_ID . "&amp;accesscode=".$row["survey_key"].$addlang;
+					$url = $this->lng->txt("survey_code_url_name");
 				}
-				$counter = "<input type=\"checkbox\" name=\"chb_code[]\" value=\"" . $row["survey_key"] . "\"/>";
-				array_push($codes, array($counter, $row["survey_key"], $created, $state, $url));
-				$counter++;
+				array_push($codes, array('code' => $row["survey_key"], 'date' => $created, 'used' => $state, 'url' => $url, 'href' => $href));
 			}
 		}
 		return $codes;

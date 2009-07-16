@@ -1465,12 +1465,6 @@ class ilTable2GUI extends ilTableGUI
 			$action_row = true;
 		}
 		
-		if ($buttons)
-		{
-			$this->tpl->setCurrentBlock("plain_buttons");
-			$this->tpl->parseCurrentBlock();
-		}
-		
 		// multi selection
 		if(count($this->mi_sel_buttons))
 		{

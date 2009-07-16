@@ -2293,11 +2293,9 @@ class ilObjSurveyGUI extends ilObjectGUI
 	{
 		ilUtil::sendQuestion($this->lng->txt("confirm_delete_all_user_data"));
 		$this->tpl->addBlockFile("ADM_CONTENT", "adm_content", "tpl.il_svy_svy_maintenance.html", "Modules/Survey");
-		$this->tpl->setCurrentBlock("confirm_delete");
+		$this->tpl->setCurrentBlock("adm_content");
 		$this->tpl->setVariable("BTN_CONFIRM_DELETE_ALL", $this->lng->txt("confirm"));
 		$this->tpl->setVariable("BTN_CANCEL_DELETE_ALL", $this->lng->txt("cancel"));
-		$this->tpl->parseCurrentBlock();
-		$this->tpl->setCurrentBlock("adm_content");
 		$this->tpl->setVariable("FORM_ACTION", $this->ctrl->getFormAction($this, "deleteAllUserData"));
 		$this->tpl->parseCurrentBlock();
 	}
@@ -2335,6 +2333,7 @@ class ilObjSurveyGUI extends ilObjectGUI
 	*/
 	public function cancelDeleteSelectedUserDataObject()
 	{
+		ilUtil::sendInfo($this->lng->txt('msg_cancel'), true);
 		$this->ctrl->redirect($this, "maintenance");
 	}
 	
@@ -2343,28 +2342,34 @@ class ilObjSurveyGUI extends ilObjectGUI
 	*/
 	public function deleteSingleUserResultsObject()
 	{
+		$this->handleWriteAccess();
+
 		if (count($_POST["chbUser"]) == 0)
 		{
+			ilUtil::sendInfo($this->lng->txt('no_checkbox'), true);
 			$this->ctrl->redirect($this, "maintenance");
 		}
-		ilUtil::sendQuestion($this->lng->txt("confirm_delete_single_user_data"));
-		$this->tpl->addBlockFile("ADM_CONTENT", "adm_content", "tpl.il_svy_svy_maintenance.html", "Modules/Survey");
 
-		$this->tpl->setCurrentBlock("confirm_delete_selected");
-		$this->tpl->setVariable("BTN_CONFIRM_DELETE_SELECTED", $this->lng->txt("confirm"));
-		$this->tpl->setVariable("BTN_CANCEL_DELETE_SELECTED", $this->lng->txt("cancel"));
-		$this->tpl->parseCurrentBlock();
-		
-		foreach ($_POST["chbUser"] as $key => $value)
+		ilUtil::sendQuestion($this->lng->txt("confirm_delete_single_user_data"));
+		include_once "./Modules/Survey/classes/class.ilSurveyMaintenanceTableGUI.php";
+		$table_gui = new ilSurveyMaintenanceTableGUI($this, 'maintenance', true);
+		$total =& $this->object->getSurveyParticipants();
+		$data = array();
+		foreach ($total as $user_data)
 		{
-			$this->tpl->setCurrentBlock("hidden");
-			$this->tpl->setVariable("USER_ID", $value);
-			$this->tpl->parseCurrentBlock();
+			if (in_array($user_data['active_id'], $_POST['chbUser']))
+			{
+				$last_access = $this->object->_getLastAccess($user_data["active_id"]);
+				array_push($data, array(
+					'id' => $user_data["active_id"],
+					'name' => $user_data["sortname"],
+					'login' => $user_data["login"],
+					'last_access' => ilDatePresentation::formatDate(new ilDateTime($last_access,IL_CAL_UNIX))
+				));
+			}
 		}
-		
-		$this->tpl->setCurrentBlock("adm_content");
-		$this->tpl->setVariable("FORM_ACTION", $this->ctrl->getFormAction($this, "deleteSingleUserResults"));
-		$this->tpl->parseCurrentBlock();
+		$table_gui->setData($data);
+		$this->tpl->setVariable('ADM_CONTENT', $table_gui->getHTML());	
 	}
 	
 	/**
@@ -2374,65 +2379,26 @@ class ilObjSurveyGUI extends ilObjectGUI
 	{
 		$this->handleWriteAccess();
 
-		global $rbacsystem;
-		
-		if ($rbacsystem->checkAccess("write", $this->ref_id)) 
+		if ($_GET["fill"] > 0) 
 		{
-			if ($_GET["fill"] > 0) 
-			{
-				for ($i = 0; $i < $_GET["fill"]; $i++) $this->object->fillSurveyForUser();
-			}
-			$this->tpl->addBlockFile("ADM_CONTENT", "adm_content", "tpl.il_svy_svy_maintenance.html", "Modules/Survey");
-			$total =& $this->object->getSurveyParticipants();
-			if (count($total))
-			{
-				$color_class = array("tblrow1", "tblrow2");
-				$counter = 0;
-				foreach ($total as $user_data)
-				{
-					$user_name = $user_data["sortname"];
-					$user_login = $user_data["login"];
-					$this->tpl->setCurrentBlock("userrow");
-					$this->tpl->setVariable("ROW_CLASS", $color_class[$counter % 2]);
-					$this->tpl->setVariable("USER_ID", $user_data["active_id"]);
-					$this->tpl->setVariable("VALUE_USER_NAME", $user_name);
-					$this->tpl->setVariable("VALUE_USER_LOGIN", $user_login);
-					$last_access = $this->object->_getLastAccess($user_data["active_id"]);
-					$this->tpl->setVariable('LAST_ACCESS',ilDatePresentation::formatDate(new ilDateTime($last_access,IL_CAL_UNIX)));
-					$this->tpl->parseCurrentBlock();
-					$counter++;
-				}
-				$this->tpl->setCurrentBlock("selectall");
-				$this->tpl->setVariable("SELECT_ALL", $this->lng->txt("select_all"));
-				$counter++;
-				$this->tpl->setVariable("ROW_CLASS", $color_class[$counter % 2]);
-				$this->tpl->parseCurrentBlock();
-				$this->tpl->setCurrentBlock("participanttable");
-				$this->tpl->setVariable("USER_NAME", $this->lng->txt("name"));
-				$this->tpl->setVariable("USER_LOGIN", $this->lng->txt("login"));
-				$this->tpl->setVariable("LAST_ACCESS", $this->lng->txt("last_access"));
-				$this->tpl->setVariable("IMG_ARROW", ilUtil::getImagePath("arrow_downright.gif"));
-				$this->tpl->setVariable("ARROW", $this->lng->txt("arrow_downright"));
-				$this->tpl->setVariable("DELETE", $this->lng->txt("delete_user_data"));
-				$this->tpl->parseCurrentBlock();
-
-				$this->tpl->setCurrentBlock("adm_content");
-				$this->tpl->setVariable("BTN_DELETE_ALL", $this->lng->txt("svy_delete_all_user_data"));
-	//			$this->tpl->setVariable("BTN_CREATE_SOLUTIONS", $this->lng->txt("tst_create_solutions"));
-				$this->tpl->setVariable("FORM_ACTION", $this->ctrl->getFormAction($this, "deleteSingleUserResults"));
-				$this->tpl->parseCurrentBlock();
-			}
-			else
-			{
-				$this->tpl->setCurrentBlock("maintenance_information");
-				$this->tpl->setVariable("MAINTENANCE_INFORMATION", $this->lng->txt("svy_maintenance_information_no_results"));
-				$this->tpl->parseCurrentBlock();
-			}
+			for ($i = 0; $i < $_GET["fill"]; $i++) $this->object->fillSurveyForUser();
 		}
-		else
+		include_once "./Modules/Survey/classes/class.ilSurveyMaintenanceTableGUI.php";
+		$table_gui = new ilSurveyMaintenanceTableGUI($this, 'maintenance');
+		$total =& $this->object->getSurveyParticipants();
+		$data = array();
+		foreach ($total as $user_data)
 		{
-			ilUtil::sendInfo($this->lng->txt("cannot_maintain_survey"));
+			$last_access = $this->object->_getLastAccess($user_data["active_id"]);
+			array_push($data, array(
+				'id' => $user_data["active_id"],
+				'name' => $user_data["sortname"],
+				'login' => $user_data["login"],
+				'last_access' => ilDatePresentation::formatDate(new ilDateTime($last_access,IL_CAL_UNIX))
+			));
 		}
+		$table_gui->setData($data);
+		$this->tpl->setVariable('ADM_CONTENT', $table_gui->getHTML());	
 	}	
 
 	/**
@@ -2763,14 +2729,18 @@ class ilObjSurveyGUI extends ilObjectGUI
 		$this->ctrl->redirect($this, "export");
 	}
 
-	function setCodeLanguageObject()
+	/**
+	* Change survey language for direct access URL's
+	*/
+	public function setCodeLanguageObject()
 	{
 		if (strcmp($_POST["lang"], "-1") != 0)
 		{
 			global $ilUser;
 			$ilUser->writePref("survey_code_language", $_POST["lang"]);
 		}
-		$this->ctrl->redirect($this, "codes");
+		ilUtil::sendSuccess($this->lng->txt('language_changed'), true);
+		$this->ctrl->redirect($this, 'codes');
 	}
 	
 	/**
@@ -2780,114 +2750,29 @@ class ilObjSurveyGUI extends ilObjectGUI
 	{
 		$this->handleWriteAccess();
 
+		global $ilUser;
 		if ($this->object->getAnonymize() != 1)
 		{
 			return ilUtil::sendInfo($this->lng->txt("survey_codes_no_anonymization"));
 		}
-		global $rbacsystem;
-		global $ilUser;
-		
+
+		include_once "./Modules/Survey/classes/class.ilSurveyCodesTableGUI.php";
+		$table_gui = new ilSurveyCodesTableGUI($this, 'codes');
 		$default_lang = $ilUser->getPref("survey_code_language");
-		$tableoutput = "";
-		
+		$survey_codes =& $this->object->getSurveyCodesTableData($default_lang);
+		$table_gui->setData($survey_codes);
 		$this->tpl->addBlockFile("ADM_CONTENT", "adm_content", "tpl.il_svy_svy_codes.html", true);
-		if ($rbacsystem->checkAccess("write", $this->ref_id))
-		{
-			$codecount = $this->object->getSurveyCodesCount();
-			if ($codecount)
-			{
-				$maxentries = $ilUser->getPref("hits_per_page");
-				if ($maxentries < 1)
-				{
-					$maxentries = 9999;
-				}
-	
-				$survey_codes =& $this->object->getSurveyCodesTableData($default_lang, $_GET["offset"], $maxentries, $_GET["sort_by"], $_GET["sort_order"]);
-				$headervars = array("", "counter", "date", "used", "url");
-	
-				include_once "./Services/Table/classes/class.ilTableGUI.php";
-				$tbl = new ilTableGUI(0, FALSE);
-				$tbl->setTitle($this->lng->txt("survey_code"));
-				$header_names = array(
-					"",
-					$this->lng->txt("survey_code"),
-					$this->lng->txt("create_date"),
-					$this->lng->txt("survey_code_used"),
-					$this->lng->txt("survey_code_url")
-				);
-				$tbl->setHeaderNames($header_names);
-	
-				$tbl->disable("sort");
-				$tbl->disable("auto_sort");
-				$tbl->disable("title");
-				$tbl->disable("form");
-				$tbl->enable("action");
-				$tbl->enable("select_all");
-				$tbl->setLimit($maxentries);
-				$tbl->setOffset($_GET["offset"]);
-				$tbl->setData($survey_codes);
-				$tbl->setMaxCount($codecount);
-				$tbl->setOrderDirection($_GET["sort_order"]);
-				$tbl->setSelectAllCheckbox("chb_code");
-				$tbl->setFormName("form_codes");
-				$tbl->addActionButton("deleteCodes", $this->lng->txt("delete"));
-				$tbl->addActionButton("exportCodes", $this->lng->txt("export"));
-	
-				$header_params = $this->ctrl->getParameterArray($this, "codes");
-				$tbl->setHeaderVars($headervars, $header_params);
-				
-				// footer
-				$tbl->setFooter("tblfooter", $this->lng->txt("previous"), $this->lng->txt("next"));
-				// render table
-				$tableoutput = $tbl->render();
-				$this->tpl->setCurrentBlock("exportall");
-				$this->tpl->setVariable("VALUE_EXPORT_ALL_CODES", $this->lng->txt("export_all_survey_codes"));
-				$this->tpl->parseCurrentBlock();
-			}
-			else
-			{
-				$this->tpl->setCurrentBlock("emptyrow");
-				$this->tpl->setVariable("NO_CODES", $this->lng->txt("survey_code_no_codes"));
-				$this->tpl->parseCurrentBlock();
-			}
-			
-			$languages = $this->lng->getInstalledLanguages();
-			foreach ($languages as $lang)
-			{
-				$this->tpl->setCurrentBlock("option_lang");
-				$this->tpl->setVariable("VALUE_LANG", $lang);
-				$this->tpl->setVariable("TEXT_LANG", $this->lng->txt("lang_$lang"));
-				if (strcmp($lang, $default_lang) == 0)
-				{
-					$this->tpl->setVariable("SELECTED_LANG", " selected=\"selected\"");
-				}
-				$this->tpl->parseCurrentBlock();
-			}
-			
-			$this->tpl->setCurrentBlock("adm_content");
-			$this->tpl->setVariable("FORM_ACTION", $this->ctrl->getFormAction($this, "codes"));
-			$this->tpl->setVariable("CODES_TABLE", $tableoutput);
-			$this->tpl->setVariable("TEXT_CREATE", $this->lng->txt("create"));
-			$this->tpl->setVariable("TEXT_SURVEY_CODES", $this->lng->txt("new_survey_codes"));
-			$this->tpl->setVariable("TEXT_SURVEY_CODES_LANG", $this->lng->txt("survey_codes_lang"));
-			$this->tpl->setVariable("TEXT_NO_LANGUAGE_SELECTED", $this->lng->txt("please_select"));
-			$this->tpl->setVariable("VALUE_ACTIVATE", $this->lng->txt("select"));
-			$this->tpl->parseCurrentBlock();
-		}
-		else
-		{
-			ilUtil::sendInfo($this->lng->txt("cannot_create_survey_codes"));
-		}
+		$this->tpl->setCurrentBlock("adm_content");
+		$this->tpl->setVariable("FORM_ACTION", $this->ctrl->getFormAction($this, "codes"));
+		$this->tpl->setVariable("TEXT_CREATE", $this->lng->txt("create"));
+		$this->tpl->setVariable("TEXT_SURVEY_CODES", $this->lng->txt("new_survey_codes"));
+		$this->tpl->setVariable('TABLE', $table_gui->getHTML());	
 	}
 	
 	/**
 	* Delete a list of survey codes
-	*
-	* Delete a list of survey codes
-	*
-	* @access private
 	*/
-	function deleteCodesObject()
+	public function deleteCodesObject()
 	{
 		if (is_array($_POST["chb_code"]) && (count($_POST["chb_code"]) > 0))
 		{
@@ -2895,18 +2780,19 @@ class ilObjSurveyGUI extends ilObjectGUI
 			{
 				$this->object->deleteSurveyCode($survey_code);
 			}
+			ilUtil::sendSuccess($this->lng->txt('codes_deleted'), true);
 		}
-		$this->codesObject();
+		else
+		{
+			ilUtil::sendInfo($this->lng->txt('no_checkbox'), true);
+		}
+		$this->ctrl->redirect($this, 'codes');
 	}
 	
 	/**
 	* Exports a list of survey codes
-	*
-	* Exports a list of survey codes
-	*
-	* @access private
 	*/
-	function exportCodesObject()
+	public function exportCodesObject()
 	{
 		if (is_array($_POST["chb_code"]) && (count($_POST["chb_code"]) > 0))
 		{
@@ -2915,18 +2801,15 @@ class ilObjSurveyGUI extends ilObjectGUI
 		}
 		else
 		{
-			$this->codesObject();
+			ilUtil::sendFailure($this->lng->txt("no_checkbox"), true);
+			$this->ctrl->redirect($this, 'codes');
 		}
 	}
 	
 	/**
 	* Exports all survey codes
-	*
-	* Exports all survey codes
-	*
-	* @access private
 	*/
-	function exportAllCodesObject()
+	public function exportAllCodesObject()
 	{
 		$export = $this->object->getSurveyCodesForExport(array());
 		ilUtil::deliverData($export, ilUtil::getASCIIFilename($this->object->getTitle() . ".txt"));
@@ -2934,32 +2817,25 @@ class ilObjSurveyGUI extends ilObjectGUI
 	
 	/**
 	* Create access codes for the survey
-	*
-	* Create access codes for the survey
-	*
-	* @access private
 	*/
-	function createSurveyCodesObject()
+	public function createSurveyCodesObject()
 	{
 		if (preg_match("/\d+/", $_POST["nrOfCodes"]))
 		{
 			$this->object->createSurveyCodes($_POST["nrOfCodes"]);
+			ilUtil::sendSuccess($this->lng->txt('codes_created'), true);
 		}
 		else
 		{
 			ilUtil::sendFailure($this->lng->txt("enter_valid_number_of_codes"), true);
 		}
-		$this->ctrl->redirect($this, "codes");
+		$this->ctrl->redirect($this, 'codes');
 	}
 
 	/**
 	* Display the form to add preconditions for survey questions
-	*
-	* Display the form to add preconditions for survey questions
-	*
-	* @access private
 	*/
-	function addConstraintForm($step, $postvalues, &$survey_questions, $questions = FALSE)
+	public function addConstraintForm($step, $postvalues, &$survey_questions, $questions = FALSE)
 	{
 		$this->ctrl->saveParameter($this, "preid");
 		$this->tpl->addBlockFile("ADM_CONTENT", "adm_content", "tpl.il_svy_svy_add_constraint.html", "Modules/Survey");

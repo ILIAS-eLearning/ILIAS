@@ -7166,7 +7166,7 @@ survey#:#survey_code_no_codes#:#You have not created any survey access codes yet
 survey#:#survey_code_url#:#URL for Direct Access
 survey#:#survey_code_url_name#:#URL (use right mouse button to copy URL)
 survey#:#survey_code_used#:#Code was used
-survey#:#survey_codes_lang#:#ILIAS language for the direct access URL
+survey#:#survey_codes_lang#:#Survey Language
 survey#:#survey_codes_no_anonymization#:#You must create an anonymized survey with access codes to create new access codes!
 survey#:#survey_error_insert_incomplete_question#:#You tried to add an incomplete question to the survey! The question was not added.
 survey#:#survey_finish#:#Finish Survey
@@ -9716,3 +9716,6 @@ user#:#usr_public_profile_logged_in#:#Logged in Users
 user#:#usr_public_profile_logged_in_info#:#Your information is only visible to users logged into the system.
 user#:#usr_public_profile_global#:#Globale Visible
 user#:#usr_public_profile_global_info#:#Your profile is visible to the internet.
+survey#:#codes_deleted#:#Code(s) deleted
+survey#:#codes_created#:#Code(s) created
+survey#:#language_changed#:#Language changed
