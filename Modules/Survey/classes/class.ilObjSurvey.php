@@ -1170,21 +1170,7 @@ class ilObjSurvey extends ilObject
 */
   function setInvitationMode($invitation_mode = 0) 
 	{
-		global $ilDB;
 		$this->invitation_mode = $invitation_mode;
-		if ($invitation_mode == MODE_UNLIMITED)
-		{
-			$affectedRows = $ilDB->manipulateF("DELETE FROM svy_inv_grp WHERE survey_fi = %s",
-				array('integer'),
-				array($this->getSurveyId())
-			);
-			$affectedRows = $ilDB->manipulateF("DELETE FROM svy_inv_usr WHERE survey_fi = %s",
-				array('integer'),
-				array($this->getSurveyId())
-			);
-		}
-		// add/remove the survey from personal desktops -> calling getInvitation with the same value makes all changes for the new invitation mode
-		$this->setInvitation($this->getInvitation());
   }
 	
 /**
@@ -1197,20 +1183,7 @@ class ilObjSurvey extends ilObject
 */
 	function setInvitationAndMode($invitation = 0, $invitation_mode = 0)
 	{
-		global $ilDB;
 		$this->invitation_mode = $invitation_mode;
-		if ($invitation_mode == MODE_UNLIMITED)
-		{
-			$affectedRows = $ilDB->manipulateF("DELETE FROM svy_inv_grp WHERE survey_fi = %s",
-				array('integer'),
-				array($this->getSurveyId())
-			);
-			$affectedRows = $ilDB->manipulateF("DELETE FROM svy_inv_usr WHERE survey_fi = %s",
-				array('integer'),
-				array($this->getSurveyId())
-			);
-		}
-		// add/remove the survey from personal desktops -> calling getInvitation with the same value makes all changes for the new invitation mode
 		$this->setInvitation($invitation);
 	}
 
@@ -2798,28 +2771,6 @@ class ilObjSurvey extends ilObject
 		while ($row = $ilDB->fetchAssoc($result))
 		{
 			array_push($result_array, $row["user_fi"]);
-		}
-		return $result_array;
-	}
-
-/**
-* Returns a list of all invited groups in a survey
-*
-* @return array The group id's of the invited groups
-* @access public
-*/
-	function &getInvitedGroups()
-	{
-		global $ilDB;
-		
-		$result_array = array();
-		$result = $ilDB->queryF("SELECT group_fi FROM svy_inv_grp WHERE survey_fi = %s",
-			array('integer'),
-			array($this->getSurveyId())
-		);
-		while ($row = $ilDB->fetchAssoc($result))
-		{
-			array_push($result_array, $row["group_fi"]);
 		}
 		return $result_array;
 	}
