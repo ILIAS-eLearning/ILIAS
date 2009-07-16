@@ -2210,7 +2210,7 @@ class ilObjSurvey extends ilObject
 *
 * @access public
 */
-	function &getSurveyQuestions($with_answers = false)
+	public function &getSurveyQuestions($with_answers = false)
 	{
 		global $ilDB;
 		$obligatory_states =& $this->getObligatoryStates();

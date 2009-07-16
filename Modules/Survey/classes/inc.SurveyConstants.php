@@ -56,7 +56,7 @@ define("QUESTIONTITLES_VISIBLE", 1);
 /**
 * File export constants
 */
-define("TYPE_XLS", "latin1");
+define("TYPE_XLS", "excel");
 define("TYPE_SPSS", "csv");
 
 /**

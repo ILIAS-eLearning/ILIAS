@@ -290,6 +290,38 @@ class ilSurveyEvaluationGUI
 		}
 	}
 	
+	public function exportData()
+	{
+		if (strlen($_POST["export_format"]))
+		{
+			$this->exportCumulatedResults(0);
+			return;
+		}
+		else
+		{
+			$this->ctrl->redirect($this, 'evaluation');
+		}
+	}
+	
+	public function exportDetailData()
+	{
+		if (strlen($_POST["export_format"]))
+		{
+			$this->exportCumulatedResults(1);
+			return;
+		}
+		else
+		{
+			$this->ctrl->redirect($this, 'evaluation');
+		}
+	}
+	
+	public function printEvaluation()
+	{
+		ilUtil::sendInfo($this->lng->txt('use_browser_print_function'), true);
+		$this->ctrl->redirect($this, 'evaluation');
+	}
+	
 	function evaluation($details = 0)
 	{
 		global $ilUser;
@@ -326,73 +358,42 @@ class ilSurveyEvaluationGUI
 				}
 				break;
 		}
-	
-		if (strlen($_POST["export_format"]))
-		{
-			$this->exportCumulatedResults($details);
-			return;
-		}
 
-		ilUtil::sendInfo();
 		$this->tpl->addBlockFile("ADM_CONTENT", "adm_content", "tpl.il_svy_svy_evaluation.html", "Modules/Survey");
-		$this->tpl->addCss("./Modules/Survey/templates/default/survey_print.css", "print");
-		$counter = 0;
-		$classes = array("tblrow1", "tblrow2");
 		$questions =& $this->object->getSurveyQuestions();
-		foreach ($questions as $data)
+		$data = array();
+		$counter = 1;
+		foreach ($questions as $qdata)
 		{
 			include_once "./Modules/SurveyQuestionPool/classes/class.SurveyQuestion.php";
-			$question_gui = SurveyQuestion::_instanciateQuestionGUI($data["question_id"]);
+			$question_gui = SurveyQuestion::_instanciateQuestionGUI($qdata["question_id"]);
 			$question = $question_gui->object;
-			$row = $question_gui->getCumulatedResultRow($counter, $classes[$counter % 2], $this->object->getSurveyId());
-			$this->tpl->setCurrentBlock("row");
-			$this->tpl->setVariable("ROW", $row);
-			$this->tpl->parseCurrentBlock();
+			$c = $question->getCumulatedResultData($this->object->getSurveyId(), $counter);
+			if (is_array($c[0]))
+			{
+				foreach ($c as $a)
+				{
+					array_push($data, $a);
+				}
+			}
+			else
+			{
+				array_push($data, $c);
+			}
+			$counter++;
 			if ($details)
 			{
-				$detail = $question_gui->getCumulatedResultsDetails($this->object->getSurveyId(), $counter+1);
+				$detail = $question_gui->getCumulatedResultsDetails($this->object->getSurveyId(), $counter-1);
 				$this->tpl->setCurrentBlock("detail");
 				$this->tpl->setVariable("DETAIL", $detail);
 				$this->tpl->parseCurrentBlock();
 			}
-			$counter++;
 		}
-
-		$this->tpl->setCurrentBlock("generic_css");
-		$this->tpl->setVariable("LOCATION_GENERIC_STYLESHEET", "./Modules/Survey/templates/default/evaluation_print.css");
-		$this->tpl->setVariable("MEDIA_GENERIC_STYLESHEET", "print");
-		$this->tpl->parseCurrentBlock();
-		$this->tpl->setCurrentBlock("adm_content");
-		$this->tpl->setVariable("QUESTION_TITLE", $this->lng->txt("title"));
-		$this->tpl->setVariable("QUESTION_TEXT", $this->lng->txt("question"));
-		$this->tpl->setVariable("QUESTION_TYPE", $this->lng->txt("question_type"));
-		$this->tpl->setVariable("USERS_ANSWERED", $this->lng->txt("users_answered"));
-		$this->tpl->setVariable("USERS_SKIPPED", $this->lng->txt("users_skipped"));
-		$this->tpl->setVariable("MODE", $this->lng->txt("mode"));
-		$this->tpl->setVariable("MODE_NR_OF_SELECTIONS", $this->lng->txt("mode_nr_of_selections"));
-		$this->tpl->setVariable("MEDIAN", $this->lng->txt("median"));
-		$this->tpl->setVariable("ARITHMETIC_MEAN", $this->lng->txt("arithmetic_mean"));
-		global $ilAccess;
-		if ($ilAccess->checkAccess("write", "", $this->object->getRefId())) 
-		{
-			$this->tpl->setVariable("FORM_ACTION", $this->ctrl->getFormAction($this, "evaluation"));
-			$this->tpl->setVariable("EXPORT_DATA", $this->lng->txt("export_data_as"));
-			$this->tpl->setVariable("TEXT_EXCEL", $this->lng->txt("exp_type_excel"));
-			$this->tpl->setVariable("TEXT_CSV", $this->lng->txt("exp_type_csv"));
-			$this->tpl->setVariable("BTN_EXPORT", $this->lng->txt("export"));
-			if ($details)
-			{
-				$this->tpl->setVariable("CMD_EXPORT", "evaluationdetails");
-			}
-			else
-			{
-				$this->tpl->setVariable("CMD_EXPORT", "evaluation");
-			}
-		}
-		$this->tpl->setVariable("BTN_PRINT", $this->lng->txt("print"));
-		$this->tpl->setVariable("VALUE_DETAIL", $details);
-		$this->tpl->setVariable("PRINT_ACTION", $this->ctrl->getFormAction($this, "evaluation"));
-		$this->tpl->parseCurrentBlock();
+		include_once "./Modules/Survey/classes/class.ilSurveyResultsCumulatedTableGUI.php";
+		$table_gui = new ilSurveyResultsCumulatedTableGUI($this, 'evaluation', $detail);
+		$table_gui->setData($data);
+		$this->tpl->setVariable('CUMULATED', $table_gui->getHTML());	
+		$this->tpl->addCss("./Modules/Survey/templates/default/survey_print.css", "print");
 	}
 	
 	/**

@@ -136,6 +136,11 @@ class SurveyQuestion
 	var $material;
 	var $complete;
 
+	/**
+	* An array containing the cumulated results of the question for a given survey
+	*/
+	protected $cumulated;
+
 /**
 * SurveyQuestion constructor
 * The constructor takes possible arguments an creates an instance of the SurveyQuestion object.
@@ -167,6 +172,7 @@ class SurveyQuestion
 		$this->description = $description;
 		$this->questiontext = $questiontext;
 		$this->author = $author;
+		$this->cumulated = array();
 		if (!$this->author) 
 		{
 			$this->author = $this->ilias->account->fullname;
@@ -2097,6 +2103,46 @@ class SurveyQuestion
 	{
 		// do nothing
 		return null;
+	}
+	
+	protected function &calculateCumulatedResults($survey_id)
+	{
+		if (count($this->cumulated) == 0)
+		{
+			include_once "./Modules/Survey/classes/class.ilObjSurvey.php";
+			$nr_of_users = ilObjSurvey::_getNrOfParticipants($survey_id);
+			$this->cumulated =& $this->getCumulatedResults($survey_id, $nr_of_users);
+		}
+		return $this->cumulated;
+	}
+
+	/**
+	* Creates a the cumulated results data for the question
+	*
+	* @return array Data
+	*/
+	public function getCumulatedResultData($survey_id, $counter)
+	{
+		$cumulated =& $this->calculateCumulatedResults($survey_id);
+		$questiontext = preg_replace("/\<[^>]+?>/ims", "", $this->getQuestiontext());
+		$maxlen = 37;
+		if (ilStr::strlen($questiontext) > $maxlen + 3)
+		{
+			$questiontext = ilStr::substr($questiontext, 0, $maxlen) . "...";
+		}
+		$result = array(
+			'counter' => $counter,
+			'title' => $this->getTitle(),
+			'question' => $questiontext,
+			'users_answered' => $cumulated['USERS_ANSWERED'],
+			'users_skipped' => $cumulated['USERS_SKIPPED'],
+			'question_type' => $this->lng->txt($cumulated["QUESTION_TYPE"]),
+			'mode' => $cumulated["MODE"],
+			'mode_nr_of_selections' => $cumulated["MODE_NR_OF_SELECTIONS"],
+			'median' => $cumulated["MEDIAN"],
+			'arithmetic_mean' => $cumulated["ARITHMETIC_MEAN"]
+		);
+		return $result;
 	}
 }
 ?>
