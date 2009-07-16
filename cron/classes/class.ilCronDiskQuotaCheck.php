@@ -43,7 +43,7 @@ class ilCronDiskQuotaCheck
 	function updateDiskUsageStatistics()
 	{
 		require_once'./Services/WebDAV/classes/class.ilDiskQuotaChecker.php';
-		ilDiskQuotaChecker::_updateDiskUsageStatistics();
+		ilDiskQuotaChecker::_updateDiskUsageReport();
 		return true;
 	}
 	function sendReminderMails()
