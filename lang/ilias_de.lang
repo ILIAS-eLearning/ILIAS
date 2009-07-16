@@ -9667,6 +9667,11 @@ content#:#cont_select_from_upload_dir#:#-- Wählen Sie aus dem Upload-Verzeichni
 content#:#cont_uploaded_file#:#Vorhandene Datei
 content#:#cont_upload_dir#:#Upload-Verzeichnis
 content#:#cont_upload_dir_info#:#Server-Verzeichnis, von dem große SCORM- und HTML-Pakete kopiert werden können, statt sie direkt hochzuladen. Nur ILIAS Administratoren sehen eine Auswahl von Dateien aus diesem Verzeichnis. Bitte geben Sie einen vollständigen Serverpfad ohne slash am Ende ein.
+assessment#:#tst_finish_notification#:#E-Mail beim Beenden
+assessment#:#tst_finish_notification_no#:#Keine E-Mail-Benachrichtigungen versenden, wenn ein Teilnehmer den Test beendet hat
+assessment#:#tst_finish_notification_simple#:#Benutzername und Datum des Beendens and den Testersteller senden
+assessment#:#tst_finish_notification_advanced#:#Komplettes Testergebnis an den Testersteller senden
+assessment#:#tst_user_finished_test#:#Ein Teilnehmer hat den Test beendet (%s)
 common#:#license#:#Lizenz
 common#:#licenses#:#Lizenzen
 common#:#no_license_available#:#Keine Lizenz verfügbar!
