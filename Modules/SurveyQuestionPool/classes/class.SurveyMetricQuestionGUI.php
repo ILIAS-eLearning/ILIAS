@@ -314,45 +314,6 @@ class SurveyMetricQuestionGUI extends SurveyQuestionGUI
 	}
 
 /**
-* Creates a the cumulated results row for the question
-*
-* Creates a the cumulated results row for the question
-*
-* @return string HTML text with the cumulated results
-* @access private
-*/
-	function getCumulatedResultRow($counter, $css_class, $survey_id)
-	{
-		include_once "./classes/class.ilTemplate.php";
-		if (count($this->cumulated) == 0)
-		{
-			include_once "./Modules/Survey/classes/class.ilObjSurvey.php";
-			$nr_of_users = ilObjSurvey::_getNrOfParticipants($survey_id);
-			$this->cumulated =& $this->object->getCumulatedResults($survey_id, $nr_of_users);
-		}
-		$template = new ilTemplate("tpl.il_svy_svy_cumulated_results_row.html", TRUE, TRUE, "Modules/Survey");
-		$template->setVariable("QUESTION_TITLE", ($counter+1) . ". ".$this->object->getTitle());
-		$maxlen = 37;
-		$questiontext = preg_replace("/\<[^>]+?>/ims", "", $this->object->getQuestiontext());
-		if (strlen($questiontext) > $maxlen + 3)
-		{
-			$questiontext = substr($questiontext, 0, $maxlen) . "...";
-		}
-		$template->setVariable("QUESTION_TEXT", $questiontext);
-		$template->setVariable("USERS_ANSWERED", $this->cumulated["USERS_ANSWERED"]);
-		$template->setVariable("USERS_SKIPPED", $this->cumulated["USERS_SKIPPED"]);
-		$template->setVariable("QUESTION_TYPE", $this->lng->txt($this->cumulated["QUESTION_TYPE"]));
-		$template->setVariable("MODE", $this->cumulated["MODE"]);
-		$template->setVariable("MODE_NR_OF_SELECTIONS", $this->cumulated["MODE_NR_OF_SELECTIONS"]);
-		$template->setVariable("MEDIAN", $this->cumulated["MEDIAN"]);
-		$template->setVariable("ARITHMETIC_MEAN", $this->cumulated["ARITHMETIC_MEAN"]);
-		$template->setVariable("COLOR_CLASS", $css_class);
-		return $template->get();
-	}
-
-/**
-* Creates the detailed output of the cumulated results for the question
-*
 * Creates the detailed output of the cumulated results for the question
 *
 * @param integer $survey_id The database ID of the survey

@@ -49,10 +49,6 @@ class SurveyQuestionGUI
 
 	/**
 	* An array containing the cumulated results of the question for a given survey
-	*
-	* An array containing the cumulated results of the question for a given survey
-	*
-	* @var array
 	*/
 	var $cumulated;
 	

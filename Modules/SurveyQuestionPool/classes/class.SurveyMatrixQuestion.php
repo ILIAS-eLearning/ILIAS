@@ -2471,5 +2471,54 @@ class SurveyMatrixQuestion extends SurveyQuestion
 	{
 		return $this->rows;
 	}
+
+	/**
+	* Creates a the cumulated results data for the question
+	*
+	* @return array Data
+	*/
+	public function getCumulatedResultData($survey_id, $counter)
+	{
+		$cumulated =& $this->calculateCumulatedResults($survey_id);
+		$questiontext = preg_replace("/\<[^>]+?>/ims", "", $this->getQuestiontext());
+		$maxlen = 37;
+		if (strlen($questiontext) > $maxlen + 3)
+		{
+			$questiontext = ilStr::substr($questiontext, 0, $maxlen) . "...";
+		}
+		$result = array();
+		$row = array(
+			'counter' => $counter,
+			'title' => $this->getTitle(),
+			'question' => $questiontext,
+			'users_answered' => $cumulated['TOTAL']['USERS_ANSWERED'],
+			'users_skipped' => $cumulated['TOTAL']['USERS_SKIPPED'],
+			'question_type' => $this->lng->txt($cumulated['TOTAL']['QUESTION_TYPE']),
+			'mode' => $cumulated['TOTAL']['MODE'],
+			'mode_nr_of_selections' => $cumulated['TOTAL']['MODE_NR_OF_SELECTIONS'],
+			'median' => $cumulated['TOTAL']['MEDIAN'],
+			'arithmetic_mean' => $cumulated['TOTAL']['ARITHMETIC_MEAN']
+		);
+		array_push($result, $row);
+		foreach ($cumulated as $key => $value)
+		{
+			if (is_numeric($key))
+			{
+				$row = array(
+					'title' => '',
+					'question' => ($key+1) . ". " . $value["ROW"],
+					'users_answered' => $value['USERS_ANSWERED'],
+					'users_skipped' => $value['USERS_SKIPPED'],
+					'question_type' => '',
+					'mode' => $value["MODE"],
+					'mode_nr_of_selections' => $value["MODE_NR_OF_SELECTIONS"],
+					'median' => $value["MEDIAN"],
+					'arithmetic_mean' => $value["ARITHMETIC_MEAN"]
+				);
+				array_push($result, $row);
+			}
+		}
+		return $result;
+	}
 }
 ?>

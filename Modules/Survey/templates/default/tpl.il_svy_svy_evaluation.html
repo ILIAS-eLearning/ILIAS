@@ -1,38 +1,4 @@
-<table>
-	<tr>
-<!-- BEGIN exportdata -->
-		<td>
-			<form name="form_evaluation" method="POST" action="{FORM_ACTION}" id="form_evaluation">
-				{EXPORT_DATA} <select name="export_format" size="1"><option value="latin1">{TEXT_EXCEL}</option><option value="csv">{TEXT_CSV}</option></select> <input type="submit" class="submit" name="cmd[{CMD_EXPORT}]" value="{BTN_EXPORT}" /></form>
-		</td>
-<!-- END exportdata -->
-		<td>
-			<form name="form_print" method="POST" action="{PRINT_ACTION}" target="_blank"><input class="submit" type="button" name="cmd[printEvaluation]" value="{BTN_PRINT}" onclick="javascript:window.print();" /><input type="hidden" name="detail" value="{VALUE_DETAIL}"></form>
-		</td>
-	</tr>
-</table>
-
-<table class="fullwidth">
-<thead>
-	<tr class="tblheader">
-		<th class="std">{QUESTION_TITLE}</th>
-		<th class="std">{QUESTION_TEXT}</th>
-		<th class="std">{QUESTION_TYPE}</th>
-		<th class="std">{USERS_ANSWERED}</th>
-		<th class="std">{USERS_SKIPPED}</th>
-		<th class="std">{MODE}</th>
-		<th class="std">{MODE_NR_OF_SELECTIONS}</th>
-		<th class="std">{MEDIAN}</th>
-		<th class="std">{ARITHMETIC_MEAN}</th>
-	</tr>
-</thead>
-<!-- BEGIN row -->
-{ROW}
-<!-- END row -->
-<!-- BEGIN Emptytable -->
-<tr><td class="option_value" colspan="9">{TEXT_EMPTYTABLE}</td></tr>
-<!-- END Emptytable -->
-</table>
+<div>{CUMULATED}</div>
 <!-- BEGIN detail -->
 {DETAIL}
 <!-- END detail -->

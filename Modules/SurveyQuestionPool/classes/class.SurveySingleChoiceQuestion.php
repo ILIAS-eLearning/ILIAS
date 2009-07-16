@@ -823,5 +823,6 @@ class SurveySingleChoiceQuestion extends SurveyQuestion
 	{
 		return $this->categories;
 	}
+
 }
 ?>
