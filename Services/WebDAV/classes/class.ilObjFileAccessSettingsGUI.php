@@ -449,7 +449,7 @@ class ilObjFileAccessSettingsGUI extends ilObjectGUI
 		}
 		else
 		{
-			$this->tpl->setVariable('LAST_UPDATE_TEXT',$lng->txt('last_update').': '.ilFormat::formatDate($last_update));
+			$this->tpl->setVariable('LAST_UPDATE_TEXT',$lng->txt('last_update').': '.ilFormat::formatDate($last_update,'datetime',true));
 		}
 
 		// Filter
