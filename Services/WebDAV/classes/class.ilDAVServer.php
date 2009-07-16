@@ -612,7 +612,14 @@ class ilDAVServer extends HTTP_WebDAV_Server
 		$fullPath = '';
 		foreach ($objectPath as $object)
 		{
-			$fullPath .= '/'.$this->davUrlEncode($object->getResourceName());
+			if ($object->getRefId() == 1 && $this->isFileHidden($object))
+			{
+				$fullPath .= '/ref_1';
+			}
+			else
+			{
+				$fullPath .= '/'.$this->davUrlEncode($object->getResourceName());
+			}
 		}
 		if (count($objectPath) > 1)
 		{
@@ -1786,16 +1793,21 @@ class ilDAVServer extends HTTP_WebDAV_Server
 		if ($refId == 1) {
 			global $tree;
 			$nodePath = $tree->getNodePath($refId);
-
 			if (count($nodePath) > 1)
 			{
 				$uri = $baseUri.'/ref_'.$nodePath[count($nodePath) - 2]['child'].'/'.
 						$this->davUrlEncode($nodePath[count($nodePath) - 1]['title'].
 						'/');
 			} else {
-				$uri = $baseUri.'/'.
-						$this->davUrlEncode($nodePath[count($nodePath) - 1]['title'].
-						'/');
+				$rootObj = ilObjectDAV::createObject($nodePath[0]['child'],$nodePath[0]['type']);
+				if ($this->isFileHidden($rootObj))
+				{
+					$uri = $baseUri.'/ref_'.$nodePath[0]['child'].'/';
+				} else {
+					$uri = $baseUri.'/'.
+							$this->davUrlEncode($nodePath[count($nodePath) - 1]['title'].
+							'/');
+				}
 			}
 		}
 		else
