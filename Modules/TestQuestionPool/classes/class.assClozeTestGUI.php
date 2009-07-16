@@ -85,7 +85,7 @@ class assClozeTestGUI extends assQuestionGUI
 			$this->object->setIdenticalScoring($_POST["identical_scoring"]);
 			$this->object->setFixedTextLength($_POST["fixedTextLength"]);
 			include_once "./Services/AdvancedEditing/classes/class.ilObjAdvancedEditing.php";
-			$cloze_text = ilUtil::stripSlashes($_POST["clozetext"], false, ilObjAdvancedEditing::_getUsedHTMLTagsAsString("assessment"));
+			$cloze_text = ilUtil::stripSlashes($_POST["question"], false, ilObjAdvancedEditing::_getUsedHTMLTagsAsString("assessment"));
 			$this->object->setClozeText($cloze_text);
 			$this->object->setEstimatedWorkingTime(
 				ilUtil::stripSlashes($_POST["Estimated"]["hh"]),
@@ -158,79 +158,47 @@ class assClozeTestGUI extends assQuestionGUI
 		$form->setTableWidth("100%");
 		$form->setId("assclozetest");
 
-		// title
-		$title = new ilTextInputGUI($this->lng->txt("title"), "title");
-		$title->setValue($this->object->getTitle());
-		$title->setRequired(TRUE);
-		$form->addItem($title);
-		// author
-		$author = new ilTextInputGUI($this->lng->txt("author"), "author");
-		$author->setValue($this->object->getAuthor());
-		$author->setRequired(TRUE);
-		$form->addItem($author);
-		// description
-		$description = new ilTextInputGUI($this->lng->txt("description"), "comment");
-		$description->setValue($this->object->getComment());
-		$description->setRequired(FALSE);
-		$form->addItem($description);
-		// questiontext
-		$question = new ilTextAreaInputGUI($this->lng->txt("question"), "clozetext");
-		$question->setValue($this->object->prepareTextareaOutput($this->object->getQuestion()));
-		$question->setRequired(TRUE);
-		$question->setRows(10);
-		$question->setCols(80);
-		$question->setUseRte(TRUE);
-		$question->addPlugin("latex");
-		$question->addButton("latex");
-		$question->addButton("pastelatex");
-		$question->setRTESupport($this->object->getId(), "qpl", "assessment");
-		
-		$form->addItem($question);
-
-		// duration
-		$duration = new ilDurationInputGUI($this->lng->txt("working_time"), "Estimated");
-		$duration->setShowHours(TRUE);
-		$duration->setShowMinutes(TRUE);
-		$duration->setShowSeconds(TRUE);
-		$ewt = $this->object->getEstimatedWorkingTime();
-		$duration->setHours($ewt["h"]);
-		$duration->setMinutes($ewt["m"]);
-		$duration->setSeconds($ewt["s"]);
-		$duration->setRequired(FALSE);
-		$form->addItem($duration);
+		// title, author, description, question, working time (assessment mode)
+		$this->addBasicQuestionFormProperties($form);
+		$q_item = $form->getItemByPostVar("question");
+		$q_item->setInfo($this->lng->txt("close_text_hint"));
+		$q_item->setTitle($this->lng->txt("cloze_text"));
 	
 		// text rating
-		$textrating = new ilSelectInputGUI($this->lng->txt("text_rating"), "textgap_rating");
-		$text_options = array(
-			"ci" => $this->lng->txt("cloze_textgap_case_insensitive"),
-			"cs" => $this->lng->txt("cloze_textgap_case_sensitive"),
-			"l1" => sprintf($this->lng->txt("cloze_textgap_levenshtein_of"), "1"),
-			"l2" => sprintf($this->lng->txt("cloze_textgap_levenshtein_of"), "2"),
-			"l3" => sprintf($this->lng->txt("cloze_textgap_levenshtein_of"), "3"),
-			"l4" => sprintf($this->lng->txt("cloze_textgap_levenshtein_of"), "4"),
-			"l5" => sprintf($this->lng->txt("cloze_textgap_levenshtein_of"), "5")
-		);
-		$textrating->setOptions($text_options);
-		$textrating->setValue($this->object->getTextgapRating());
-		$form->addItem($textrating);
-
-		// text field length
-		$fixedTextLength = new ilNumberInputGUI($this->lng->txt("cloze_fixed_textlength"), "fixedTextLength");
-		$fixedTextLength->setValue(ilUtil::prepareFormOutput($this->object->getFixedTextLength()));
-		$fixedTextLength->setMinValue(0);
-		$fixedTextLength->setSize(3);
-		$fixedTextLength->setMaxLength(6);
-		$fixedTextLength->setInfo($this->lng->txt('cloze_fixed_textlength_description'));
-		$fixedTextLength->setRequired(false);
-		$form->addItem($fixedTextLength);
-
-		// identical scoring
-		$identical_scoring = new ilCheckboxInputGUI($this->lng->txt("identical_scoring"), "identical_scoring");
-		$identical_scoring->setValue(1);
-		$identical_scoring->setChecked($this->object->getIdenticalScoring());
-		$identical_scoring->setInfo($this->lng->txt('identical_scoring_desc'));
-		$identical_scoring->setRequired(FALSE);
-		$form->addItem($identical_scoring);
+		if (!$this->getSelfAssessmentEditingMode())
+		{
+			$textrating = new ilSelectInputGUI($this->lng->txt("text_rating"), "textgap_rating");
+			$text_options = array(
+				"ci" => $this->lng->txt("cloze_textgap_case_insensitive"),
+				"cs" => $this->lng->txt("cloze_textgap_case_sensitive"),
+				"l1" => sprintf($this->lng->txt("cloze_textgap_levenshtein_of"), "1"),
+				"l2" => sprintf($this->lng->txt("cloze_textgap_levenshtein_of"), "2"),
+				"l3" => sprintf($this->lng->txt("cloze_textgap_levenshtein_of"), "3"),
+				"l4" => sprintf($this->lng->txt("cloze_textgap_levenshtein_of"), "4"),
+				"l5" => sprintf($this->lng->txt("cloze_textgap_levenshtein_of"), "5")
+			);
+			$textrating->setOptions($text_options);
+			$textrating->setValue($this->object->getTextgapRating());
+			$form->addItem($textrating);
+	
+			// text field length
+			$fixedTextLength = new ilNumberInputGUI($this->lng->txt("cloze_fixed_textlength"), "fixedTextLength");
+			$fixedTextLength->setValue(ilUtil::prepareFormOutput($this->object->getFixedTextLength()));
+			$fixedTextLength->setMinValue(0);
+			$fixedTextLength->setSize(3);
+			$fixedTextLength->setMaxLength(6);
+			$fixedTextLength->setInfo($this->lng->txt('cloze_fixed_textlength_description'));
+			$fixedTextLength->setRequired(false);
+			$form->addItem($fixedTextLength);
+	
+			// identical scoring
+			$identical_scoring = new ilCheckboxInputGUI($this->lng->txt("identical_scoring"), "identical_scoring");
+			$identical_scoring->setValue(1);
+			$identical_scoring->setChecked($this->object->getIdenticalScoring());
+			$identical_scoring->setInfo($this->lng->txt('identical_scoring_desc'));
+			$identical_scoring->setRequired(FALSE);
+			$form->addItem($identical_scoring);
+		}
 
 		for ($i = 0; $i < $this->object->getGapCount(); $i++)
 		{

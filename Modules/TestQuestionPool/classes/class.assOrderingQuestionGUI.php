@@ -211,52 +211,22 @@ class assOrderingQuestionGUI extends assQuestionGUI
 		$hidden = new ilHiddenInputGUI("ordering_type");
 		$hidden->setValue($orderingtype);
 		$form->addItem($hidden);
-		// title
-		$title = new ilTextInputGUI($this->lng->txt("title"), "title");
-		$title->setValue($this->object->getTitle());
-		$title->setRequired(TRUE);
-		$form->addItem($title);
-		// author
-		$author = new ilTextInputGUI($this->lng->txt("author"), "author");
-		$author->setValue($this->object->getAuthor());
-		$author->setRequired(TRUE);
-		$form->addItem($author);
-		// description
-		$description = new ilTextInputGUI($this->lng->txt("description"), "comment");
-		$description->setValue($this->object->getComment());
-		$description->setRequired(FALSE);
-		$form->addItem($description);
-		// questiontext
-		$question = new ilTextAreaInputGUI($this->lng->txt("question"), "question");
-		$question->setValue($this->object->prepareTextareaOutput($this->object->getQuestion()));
-		$question->setRequired(TRUE);
-		$question->setRows(10);
-		$question->setCols(80);
-		$question->setUseRte(TRUE);
-		$question->addPlugin("latex");
-		$question->addButton("latex");
-		$question->addButton("pastelatex");
-		$question->setRTESupport($this->object->getId(), "qpl", "assessment");
-		$form->addItem($question);
-		// duration
-		$duration = new ilDurationInputGUI($this->lng->txt("working_time"), "Estimated");
-		$duration->setShowHours(TRUE);
-		$duration->setShowMinutes(TRUE);
-		$duration->setShowSeconds(TRUE);
-		$ewt = $this->object->getEstimatedWorkingTime();
-		$duration->setHours($ewt["h"]);
-		$duration->setMinutes($ewt["m"]);
-		$duration->setSeconds($ewt["s"]);
-		$duration->setRequired(FALSE);
-		$form->addItem($duration);
-		$element_height = new ilNumberInputGUI($this->lng->txt("element_height"), "element_height");
-		$element_height->setValue($this->object->getElementHeight());
-		$element_height->setRequired(false);
-		$element_height->setMaxLength(6);
-		$element_height->setMinValue(20);
-		$element_height->setSize(6);
-		$element_height->setInfo($this->lng->txt("element_height_info"));
-		$form->addItem($element_height);
+		
+		// title, author, description, question, working time (assessment mode)
+		$this->addBasicQuestionFormProperties($form);
+
+		if (!$this->getSelfAssessmentEditingMode())
+		{
+			$element_height = new ilNumberInputGUI($this->lng->txt("element_height"), "element_height");
+			$element_height->setValue($this->object->getElementHeight());
+			$element_height->setRequired(false);
+			$element_height->setMaxLength(6);
+			$element_height->setMinValue(20);
+			$element_height->setSize(6);
+			$element_height->setInfo($this->lng->txt("element_height_info"));
+			$form->addItem($element_height);
+		}
+		
 		if ($orderingtype == OQ_PICTURES)
 		{
 			$geometry = new ilNumberInputGUI($this->lng->txt("thumb_geometry"), "thumb_geometry");
@@ -313,15 +283,20 @@ class assOrderingQuestionGUI extends assQuestionGUI
 		$form->addItem($points);
 		
 		$form->addCommandButton("save", $this->lng->txt("save"));
-		$form->addCommandButton("saveEdit", $this->lng->txt("save_edit"));
-		if ($orderingtype == OQ_PICTURES)
+		
+		if (!$this->getSelfAssessmentEditingMode())
 		{
-			$form->addCommandButton("changeToText", $this->lng->txt("order_terms"));
+			$form->addCommandButton("saveEdit", $this->lng->txt("save_edit"));
+			if ($orderingtype == OQ_PICTURES)
+			{
+				$form->addCommandButton("changeToText", $this->lng->txt("order_terms"));
+			}
+			else
+			{
+				$form->addCommandButton("changeToPictures", $this->lng->txt("order_pictures"));
+			}
 		}
-		else
-		{
-			$form->addCommandButton("changeToPictures", $this->lng->txt("order_pictures"));
-		}
+		
 		$errors = false;
 	
 		if ($save)

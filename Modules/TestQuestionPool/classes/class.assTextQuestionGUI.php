@@ -106,88 +106,62 @@ class assTextQuestionGUI extends assQuestionGUI
 		$form->setMultipart(TRUE);
 		$form->setTableWidth("100%");
 		$form->setId("asstextquestion");
+		
+		// title, author, description, question, working time (assessment mode)
+		$this->addBasicQuestionFormProperties($form);
 
-		// title
-		$title = new ilTextInputGUI($this->lng->txt("title"), "title");
-		$title->setValue($this->object->getTitle());
-		$title->setRequired(TRUE);
-		$form->addItem($title);
-		// author
-		$author = new ilTextInputGUI($this->lng->txt("author"), "author");
-		$author->setValue($this->object->getAuthor());
-		$author->setRequired(TRUE);
-		$form->addItem($author);
-		// description
-		$description = new ilTextInputGUI($this->lng->txt("description"), "comment");
-		$description->setValue($this->object->getComment());
-		$description->setRequired(FALSE);
-		$form->addItem($description);
-		// questiontext
-		$question = new ilTextAreaInputGUI($this->lng->txt("question"), "question");
-		$question->setValue($this->object->prepareTextareaOutput($this->object->getQuestion()));
-		$question->setRequired(TRUE);
-		$question->setRows(10);
-		$question->setCols(80);
-		$question->setUseRte(TRUE);
-		$question->addPlugin("latex");
-		$question->addButton("latex");
-		$question->addButton("pastelatex");
-		$question->setRTESupport($this->object->getId(), "qpl", "assessment");
-		$form->addItem($question);
 		// maxchars
 		$maxchars = new ilTextInputGUI($this->lng->txt("maxchars"), "maxchars");
 		$maxchars->setSize(5);
 		if ($this->object->getMaxNumOfChars() > 0) $maxchars->setValue($this->object->getMaxNumOfChars());
 		$maxchars->setInfo($this->lng->txt("description_maxchars"));
 		$form->addItem($maxchars);
-		// duration
-		$duration = new ilDurationInputGUI($this->lng->txt("working_time"), "Estimated");
-		$duration->setShowHours(TRUE);
-		$duration->setShowMinutes(TRUE);
-		$duration->setShowSeconds(TRUE);
-		$ewt = $this->object->getEstimatedWorkingTime();
-		$duration->setHours($ewt["h"]);
-		$duration->setMinutes($ewt["m"]);
-		$duration->setSeconds($ewt["s"]);
-		$duration->setRequired(FALSE);
-		$form->addItem($duration);
-		// points
-		$points = new ilNumberInputGUI($this->lng->txt("points"), "points");
-		$points->setValue($this->object->getPoints());
-		$points->setRequired(TRUE);
-		$points->setSize(3);
-		$points->setMinValue(0.0);
-		$form->addItem($points);
 
-		$header = new ilFormSectionHeaderGUI();
-		$header->setTitle($this->lng->txt("optional_keywords"));
-		$form->addItem($header);
+		if (!$this->getSelfAssessmentEditingMode())
+		{
+			// points
+			$points = new ilNumberInputGUI($this->lng->txt("points"), "points");
+			$points->setValue($this->object->getPoints());
+			$points->setRequired(TRUE);
+			$points->setSize(3);
+			$points->setMinValue(0.0);
+			$form->addItem($points);
+	
+			$header = new ilFormSectionHeaderGUI();
+			$header->setTitle($this->lng->txt("optional_keywords"));
+			$form->addItem($header);
+			
+			// keywords
+			$keywords = new ilTextAreaInputGUI($this->lng->txt("keywords"), "keywords");
+			$keywords->setValue(ilUtil::prepareFormOutput($this->object->getKeywords()));
+			$keywords->setRequired(FALSE);
+			$keywords->setInfo($this->lng->txt("keywords_hint"));
+			$keywords->setRows(10);
+			$keywords->setCols(40);
+			$keywords->setUseRte(FALSE);
+			$form->addItem($keywords);
+			// text rating
+			$textrating = new ilSelectInputGUI($this->lng->txt("text_rating"), "text_rating");
+			$text_options = array(
+				"ci" => $this->lng->txt("cloze_textgap_case_insensitive"),
+				"cs" => $this->lng->txt("cloze_textgap_case_sensitive"),
+				"l1" => sprintf($this->lng->txt("cloze_textgap_levenshtein_of"), "1"),
+				"l2" => sprintf($this->lng->txt("cloze_textgap_levenshtein_of"), "2"),
+				"l3" => sprintf($this->lng->txt("cloze_textgap_levenshtein_of"), "3"),
+				"l4" => sprintf($this->lng->txt("cloze_textgap_levenshtein_of"), "4"),
+				"l5" => sprintf($this->lng->txt("cloze_textgap_levenshtein_of"), "5")
+			);
+			$textrating->setOptions($text_options);
+			$textrating->setValue($this->object->getTextRating());
+			$form->addItem($textrating);
+		}
 		
-		// keywords
-		$keywords = new ilTextAreaInputGUI($this->lng->txt("keywords"), "keywords");
-		$keywords->setValue(ilUtil::prepareFormOutput($this->object->getKeywords()));
-		$keywords->setRequired(FALSE);
-		$keywords->setInfo($this->lng->txt("keywords_hint"));
-		$keywords->setRows(10);
-		$keywords->setCols(40);
-		$keywords->setUseRte(FALSE);
-		$form->addItem($keywords);
-		// text rating
-		$textrating = new ilSelectInputGUI($this->lng->txt("text_rating"), "text_rating");
-		$text_options = array(
-			"ci" => $this->lng->txt("cloze_textgap_case_insensitive"),
-			"cs" => $this->lng->txt("cloze_textgap_case_sensitive"),
-			"l1" => sprintf($this->lng->txt("cloze_textgap_levenshtein_of"), "1"),
-			"l2" => sprintf($this->lng->txt("cloze_textgap_levenshtein_of"), "2"),
-			"l3" => sprintf($this->lng->txt("cloze_textgap_levenshtein_of"), "3"),
-			"l4" => sprintf($this->lng->txt("cloze_textgap_levenshtein_of"), "4"),
-			"l5" => sprintf($this->lng->txt("cloze_textgap_levenshtein_of"), "5")
-		);
-		$textrating->setOptions($text_options);
-		$textrating->setValue($this->object->getTextRating());
-		$form->addItem($textrating);
 		$form->addCommandButton("save", $this->lng->txt("save"));
-		$form->addCommandButton("saveEdit", $this->lng->txt("save_edit"));
+		
+		if (!$this->getSelfAssessmentEditingMode())
+		{
+			$form->addCommandButton("saveEdit", $this->lng->txt("save_edit"));
+		}
 		$errors = false;
 	
 		if ($save)

@@ -1119,6 +1119,41 @@ class assOrderingQuestion extends assQuestion
 			ilUtil::convertImage($filename, $thumbpath, $ext, $this->getThumbGeometry());
 		}
 	}
+	
+	/**
+	* Returns a JSON representation of the question
+	*/
+	public function toJSON()
+	{
+		include_once("./Services/RTE/classes/class.ilRTE.php");
+		$result = array();
+		$result['id'] = (int) $this->getId();
+		$result['type'] = (string) $this->getQuestionType();
+		$result['title'] = (string) $this->getTitle();
+		$result['question'] =  (string) ilRTE::_replaceMediaObjectImageSrc($this->getQuestion(), 0);
+		$result['nr_of_tries'] = (int) $this->getNrOfTries();
+		$result['shuffle'] = (bool) $this->getShuffle();
+		$result['feedback'] = array(
+			"onenotcorrect" => ilRTE::_replaceMediaObjectImageSrc($this->getFeedbackGeneric(0), 0),
+			"allcorrect" => ilRTE::_replaceMediaObjectImageSrc($this->getFeedbackGeneric(1), 0)
+			);
+		$answers = array();
+		foreach ($this->getAnswers() as $key => $answer_obj)
+		{
+			array_push($answers, array(
+				"answertext" => (string) $answer_obj->getAnswertext(),
+				"points" => (float) $answer_obj->getPoints(),
+//todo
+//				"solutionorder" => (int) $answer_obj->getSolutionOrder(),
+				"order" => (int) $answer_obj->getOrder()
+			));
+		}
+		$result['answers'] = $answers;
+		$mobs = ilObjMediaObject::_getMobsOfObject("qpl:html", $this->getId());
+		$result['mobs'] = $mobs;
+		return json_encode($result);
+	}
+
 }
 
 ?>

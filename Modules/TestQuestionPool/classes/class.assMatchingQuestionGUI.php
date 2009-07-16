@@ -247,33 +247,10 @@ class assMatchingQuestionGUI extends assQuestionGUI
 		$hidden = new ilHiddenInputGUI("matching_type");
 		$hidden->setValue($matchingtype);
 		$form->addItem($hidden);
-		// title
-		$title = new ilTextInputGUI($this->lng->txt("title"), "title");
-		$title->setValue($this->object->getTitle());
-		$title->setRequired(TRUE);
-		$form->addItem($title);
-		// author
-		$author = new ilTextInputGUI($this->lng->txt("author"), "author");
-		$author->setValue($this->object->getAuthor());
-		$author->setRequired(TRUE);
-		$form->addItem($author);
-		// description
-		$description = new ilTextInputGUI($this->lng->txt("description"), "comment");
-		$description->setValue($this->object->getComment());
-		$description->setRequired(FALSE);
-		$form->addItem($description);
-		// questiontext
-		$question = new ilTextAreaInputGUI($this->lng->txt("question"), "question");
-		$question->setValue($this->object->prepareTextareaOutput($this->object->getQuestion()));
-		$question->setRequired(TRUE);
-		$question->setRows(10);
-		$question->setCols(80);
-		$question->setUseRte(TRUE);
-		$question->addPlugin("latex");
-		$question->addButton("latex");
-		$question->addButton("pastelatex");
-		$question->setRTESupport($this->object->getId(), "qpl", "assessment");
-		$form->addItem($question);
+		
+		// title, author, description, question, working time (assessment mode)
+		$this->addBasicQuestionFormProperties($form);
+
 		// shuffle
 		$shuffle = new ilSelectInputGUI($this->lng->txt("shuffle_answers"), "shuffle");
 		$shuffle_options = array(
@@ -286,17 +263,7 @@ class assMatchingQuestionGUI extends assQuestionGUI
 		$shuffle->setValue($this->object->getShuffle());
 		$shuffle->setRequired(FALSE);
 		$form->addItem($shuffle);
-		// duration
-		$duration = new ilDurationInputGUI($this->lng->txt("working_time"), "Estimated");
-		$duration->setShowHours(TRUE);
-		$duration->setShowMinutes(TRUE);
-		$duration->setShowSeconds(TRUE);
-		$ewt = $this->object->getEstimatedWorkingTime();
-		$duration->setHours($ewt["h"]);
-		$duration->setMinutes($ewt["m"]);
-		$duration->setSeconds($ewt["s"]);
-		$duration->setRequired(FALSE);
-		$form->addItem($duration);
+
 		$element_height = new ilNumberInputGUI($this->lng->txt("element_height"), "element_height");
 		$element_height->setValue($this->object->getElementHeight());
 		$element_height->setRequired(false);
@@ -334,15 +301,21 @@ class assMatchingQuestionGUI extends assQuestionGUI
 		$matchingpairs->setRequired(TRUE);
 		$form->addItem($matchingpairs);
 		$form->addCommandButton("save", $this->lng->txt("save"));
-		$form->addCommandButton("saveEdit", $this->lng->txt("save_edit"));
-		if ($matchingtype == MT_TERMS_DEFINITIONS)
+		
+		if (!$this->getSelfAssessmentEditingMode())
 		{
-			$form->addCommandButton("changeToPictures", $this->lng->txt("match_terms_and_pictures"));
+			$form->addCommandButton("saveEdit", $this->lng->txt("save_edit"));
+			
+			if ($matchingtype == MT_TERMS_DEFINITIONS)
+			{
+				$form->addCommandButton("changeToPictures", $this->lng->txt("match_terms_and_pictures"));
+			}
+			else
+			{
+				$form->addCommandButton("changeToDefinitions", $this->lng->txt("match_terms_and_definitions"));
+			}
 		}
-		else
-		{
-			$form->addCommandButton("changeToDefinitions", $this->lng->txt("match_terms_and_definitions"));
-		}
+
 		$errors = false;
 	
 		if ($save)
