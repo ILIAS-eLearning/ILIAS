@@ -1,28 +1,4 @@
 <form name="form_codes" method="POST" action="{FORM_ACTION}">
-<table class="fullwidth_invisible">
-<tr>
-	<td align="left">
-		<input type="submit" class="submit" name="cmd[createSurveyCodes]" value="{TEXT_CREATE}" /> <input type="text" name="nrOfCodes" size="3" value="1" /> {TEXT_SURVEY_CODES}
-	</td>
-	<td align="right">
-		{TEXT_SURVEY_CODES_LANG}: 
-		<select name="lang">
-			<option value="-1">{TEXT_NO_LANGUAGE_SELECTED}</option>
-<!-- BEGIN option_lang -->
-			<option value="{VALUE_LANG}"{SELECTED_LANG}>{TEXT_LANG}</option>
-<!-- END option_lang -->
-		</select> 
-		<input type="submit" class="submit" name="cmd[setCodeLanguage]" value="{VALUE_ACTIVATE}" />
-	</td>
-</tr>
-</table>
-<br />
-{CODES_TABLE}
-<!-- BEGIN exportall -->
-<br />
-<input type="submit" class="submit" name="cmd[exportAllCodes]" value="{VALUE_EXPORT_ALL_CODES}" />
-<!-- END exportall -->
-<!-- BEGIN emptyrow -->
-<p>{NO_CODES}</p>
-<!-- END emptyrow --> 
+<input type="submit" class="submit" name="cmd[createSurveyCodes]" value="{TEXT_CREATE}" /> <input type="text" name="nrOfCodes" size="3" value="1" /> {TEXT_SURVEY_CODES}
 </form>
+{TABLE}

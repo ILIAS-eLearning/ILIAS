@@ -7095,7 +7095,7 @@ survey#:#survey_code_url_name#:#URL (Benutzen Sie die rechte Maustaste, um die U
 survey#:#survey_code_url#:#URL für direkten Zugriff
 survey#:#survey_code_used#:#Der Zugangsschlüssel wurde verwendet
 survey#:#survey_code#:#Zugangsschlüssel für die Umfrage
-survey#:#survey_codes_lang#:#ILIAS-Sprache der URL für direkten Zugriff
+survey#:#survey_codes_lang#:#Sprache der Umfrage
 survey#:#survey_codes_no_anonymization#:#Sie müssen eine anonymisierte Umfrage mit Zugangsschlüsseln erstellen, um Zugangsschlüssel erzeugen zu können!
 survey#:#survey_error_insert_incomplete_question#:#Sie haben versucht, eine unvollständige Frage zur Umfrage hinzuzufügen. Die Frage wurde nicht hinzugefügt.
 survey#:#survey_finish#:#Umfrage beenden >>
