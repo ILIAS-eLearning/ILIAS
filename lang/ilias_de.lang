@@ -9667,3 +9667,23 @@ content#:#cont_select_from_upload_dir#:#-- Wählen Sie aus dem Upload-Verzeichni
 content#:#cont_uploaded_file#:#Vorhandene Datei
 content#:#cont_upload_dir#:#Upload-Verzeichnis
 content#:#cont_upload_dir_info#:#Server-Verzeichnis, von dem große SCORM- und HTML-Pakete kopiert werden können, statt sie direkt hochzuladen. Nur ILIAS Administratoren sehen eine Auswahl von Dateien aus diesem Verzeichnis. Bitte geben Sie einen vollständigen Serverpfad ohne slash am Ende ein.
+common#:#license#:#Lizenz
+common#:#licenses#:#Lizenzen
+common#:#no_license_available#:#Keine Lizenz verfügbar!
+license#:#license_counter#:#Lizenzzähler
+license#:#license_counter_info#:#Ermöglicht, den Verbrauch von Kauflizenzen für HTML- und SCORM-Lernmodule zu zählen.
+license#:#license_warning#:#Lizenzwarnung bis
+license#:#license_warning_info#:#Bis zu dieser Anzahl verfügbarer Lizenzen für Lerninhalte in einem Kurs wird bei der Aufnahme von Kursmitglieder eine Warnmeldung ausgegeben.
+license#:#arbitrary#:#beliebig
+license#:#course_licenses_exceeded#:#Durch das Hinzufügen der Nutzer überschreiten die potentiellen Zugriffe die verfügbaren Lizenzen! Wechseln Sie zur Registerkarte "Lizenzen", um zu sehen, welche Lizenzen erhöht werden müssen".
+license#:#course_licenses_rare#:#Warnung: für ein Kursobjekt sind nur noch %s Lizenzen vorhanden! Wechseln Sie zur Registerkarte "Lizenzen", um zu sehen, welche Lizenzen erhöht werden müssen.
+license#:#edit_license#:#Lizenz bearbeiten
+license#:#existing_licenses#:#Vorhandene Lizenzen
+license#:#license_updated#:#Die Lizenzdaten wurden aktualisiert.
+license#:#potential_accesses#:#Potentielle Zugriffe
+license#:#potential_accesses_explanation#:#Jeder Nutzer mit Leserecht, der noch nicht zugegriffen hat, zählt als potentieller Zugriff.
+license#:#remaining_licenses#:#Verfügbare Lizenzen
+license#:#remaining_licenses_explanation#:#Die verfügbaren Lizenzen ergeben sich aus den vorhandenen minus den verbrauchten.
+license#:#used_licenses#:#Verbrauchte Lizenzen
+license#:#used_licenses_explanation#:#Jeder Erstaufruf eines Nutzers verbraucht eine Lizenz.
+license#:#zero_licenses_explanation#:#Tragen Sie 0 ein, um die Lizensierung zu deaktivieren.

@@ -1976,6 +1976,19 @@ class ilObjectListGUI
 					//$this->default_command = $command;
 				}
 			}
+			elseif($command["default"] === true)
+			{
+				$items =& $command["access_info"];
+				foreach ($items as $item)
+				{
+					if ($item["type"] == IL_NO_LICENSE)
+					{
+						$this->addCustomProperty($this->lng->txt("license"),$item["text"],true);
+						$this->enableProperties(true);
+						break;
+					}
+				}
+			}
 		}
 
 		// custom commands

@@ -29,6 +29,7 @@ include_once("./classes/class.ilObjectGUI.php");
 * @version $Id$
 *
 * @ilCtrl_Calls ilObjLearningResourcesSettingsGUI: ilPermissionGUI
+* @ilCtrl_Calls ilObjLearningResourcesSettingsGUI: ilLicenseOverviewGUI
 * @ilCtrl_IsCalledBy ilObjLearningResourcesSettingsGUI: ilAdministrationGUI
 *
 * @ingroup ModulesLearningModule
@@ -71,6 +72,12 @@ class ilObjLearningResourcesSettingsGUI extends ilObjectGUI
 
 		switch($next_class)
 		{
+			case 'illicenseoverviewgui':
+				include_once("./Services/License/classes/class.ilLicenseOverviewGUI.php");
+				$license_gui =& new ilLicenseOverviewGUI($this,LIC_MODE_ADMINISTRATION);
+				$ret =& $this->ctrl->forwardCommand($license_gui);
+				break;
+
 			case 'ilpermissiongui':
 				$this->tabs_gui->setTabActive('perm_settings');
 				include_once("Services/AccessControl/classes/class.ilPermissionGUI.php");
@@ -98,13 +105,21 @@ class ilObjLearningResourcesSettingsGUI extends ilObjectGUI
 	 */
 	public function getAdminTabs()
 	{
-		global $rbacsystem, $ilAccess;
+		global $rbacsystem, $ilAccess, $ilSetting;
 
 		if ($rbacsystem->checkAccess("visible,read",$this->object->getRefId()))
 		{
 			$this->tabs_gui->addTarget("cont_edit_lrs_settings",
 				$this->ctrl->getLinkTarget($this, "editSettings"),
 				array("editSettings", "view"));
+
+			$lic_set = new ilSetting("license");
+			if ($lic_set->get("license_counter"))
+			{
+				$this->tabs_gui->addTarget("licenses",
+					$this->ctrl->getLinkTargetByClass('illicenseoverviewgui', ''),
+				"", "illicenseoverviewgui");
+			}
 		}
 
 		if ($rbacsystem->checkAccess('edit_permission',$this->object->getRefId()))
@@ -123,7 +138,9 @@ class ilObjLearningResourcesSettingsGUI extends ilObjectGUI
 		global $ilCtrl, $lng, $ilSetting;
 
 		$lm_set = new ilSetting("lm");
-	
+		$lic_set = new ilSetting("license");
+		$lng->loadLanguageModule("license");
+
 		include_once("./Services/Form/classes/class.ilPropertyFormGUI.php");
 		$form = new ilPropertyFormGUI();
 		$form->setFormAction($ilCtrl->getFormAction($this));
@@ -144,6 +161,21 @@ class ilObjLearningResourcesSettingsGUI extends ilObjectGUI
 		$form->addItem($tx_prop);
 
 
+		// license activation
+		$cb_prop = new ilCheckboxInputGUI($lng->txt("license_counter"),
+			"license_counter");
+		$cb_prop->setInfo($lng->txt("license_counter_info"));
+		$cb_prop->setChecked($lic_set->get("license_counter"));
+		$form->addItem($cb_prop);
+		
+		// license warning
+		$tx_prop = new ilTextInputGUI($lng->txt("license_warning"),
+			"license_warning");
+		$tx_prop->setSize(5);
+		$tx_prop->setInfo($lng->txt("license_warning_info"));
+		$tx_prop->setValue($lic_set->get("license_warning"));
+		$form->addItem($tx_prop);
+
 		// command buttons
 		$form->addCommandButton("saveSettings", $lng->txt("save"));
 		$form->addCommandButton("view", $lng->txt("cancel"));
@@ -163,8 +195,15 @@ class ilObjLearningResourcesSettingsGUI extends ilObjectGUI
 			ilUtil::stripSlashes($_POST["time_scheduled_page_activation"]));
 		$lm_set->set("cont_upload_dir",
 			ilUtil::stripSlashes($_POST["cont_upload_dir"]));
+			
+		$lic_set = new ilSetting("license");
+		$lic_set->set("license_counter",
+			ilUtil::stripSlashes($_POST["license_counter"]));
+		$lic_set->set("license_warning",
+			ilUtil::stripSlashes($_POST["license_warning"]));
+
 		ilUtil::sendSuccess($this->lng->txt("settings_saved"),true);
-		
+
 		$ilCtrl->redirect($this, "view");
 	}
 }

@@ -1,0 +1,27 @@
+	  <table class="std" width="100%">
+        <colgroup>
+            <col width="60%" />
+            <col width="20%"/>
+            <col width="20%"/>
+        </colgroup> 
+		<tr class="tbltitle">
+		  <td>{TXT_TITLE}<br />{TXT_REMARKS}</td>
+		  <td>{TXT_EXISTING_LICENSES}/<br />{TXT_USED_LICENSES}</td>
+		  <td>{TXT_REMAINING_LICENSES}/<br />{TXT_POTENTIAL_ACCESSES}</td>
+		</tr>
+		
+        <!-- BEGIN table_row -->
+        <tr>
+            <td class="option_value">{TITLE}{REMARKS}</td>
+            <td class="option_value" style="text-align:center">{LICENSES} / {USED_LICENSES}</td>
+            <td class="option_value" style="text-align:center"><b>{REMAINING_LICENSES}</b> / {POTENTIAL_ACCESSES}</td>
+ 		</tr>
+        <!-- END table_row -->
+ 		<tr>
+			<td class="submit" colspan="3">
+                {TXT_USED_LICENSES_EXPLANATION}<br />
+                {TXT_REMAINING_LICENSES_EXPLANATION}<br />
+                {TXT_POTENTIAL_ACCESSES_EXPLANATION}
+			</td>
+		</tr>
+	 </table>

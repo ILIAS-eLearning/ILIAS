@@ -290,6 +290,11 @@ class ilAccessHandler
 			return false;
 		}
 
+		if (!$this->doLicenseCheck($a_permission, $a_cmd, $a_ref_id, $a_user_id, $a_obj_id, $a_type))
+		{
+			return false;
+		}
+
 		// all checks passed
 		$this->storeAccessResult($a_permission, $a_cmd, $a_ref_id, true, $a_user_id);
 		return true;
@@ -692,6 +697,47 @@ class ilAccessHandler
 		$this->storeAccessResult($a_permission, $a_cmd, $a_ref_id, true, $a_user_id);
 		$ilBench->stop("AccessControl", "5000_checkAccess_object_check");
 		return true;
+	}
+
+	/**
+	* check for available licenses
+	*/
+	function doLicenseCheck($a_permission, $a_cmd, $a_ref_id,$a_user_id, $a_obj_id, $a_type)
+	{
+		global $ilSetting, $lng;
+		$lic_set = new ilSetting("license");
+
+		// simple checks first
+		if (!$lic_set->get("license_counter")
+		or  !in_array($a_type, array('sahs','htlm'))
+		or  !in_array($a_permission, array('read')))
+		{
+			$has_access = true;
+		}
+		// no license needed, if permissions can be set
+		// edit_permissions allows to change the numbers of licenses
+		elseif ($this->rbacsystem->checkAccessOfUser($a_user_id, "edit_permissions", $a_ref_id))
+		{
+			$has_access = true;
+		}
+		// now do the real check
+		else
+		{
+			require_once("Services/License/classes/class.ilLicense.php");
+			$has_access = ilLicense::_checkAccess($a_user_id, $a_obj_id);
+		}
+		
+		if ($has_access)
+		{
+			$this->storeAccessResult($a_permission, $a_cmd, $a_ref_id, true, $a_user_id);
+			return true;
+		}
+		else
+		{
+			$this->current_info->addInfoItem(IL_NO_LICENSE, $lng->txt("no_license_available"));
+			$this->storeAccessResult($a_permission, $a_cmd, $a_ref_id, false, $a_user_id);
+			return false;
+		}
 	}
 	
 	function clear()

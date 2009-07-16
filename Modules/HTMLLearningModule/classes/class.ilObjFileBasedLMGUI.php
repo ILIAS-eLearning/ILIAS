@@ -31,6 +31,7 @@
 *
 * @ilCtrl_Calls ilObjFileBasedLMGUI: ilFileSystemGUI, ilMDEditorGUI, ilPermissionGUI, ilLearningProgressGUI, ilInfoScreenGUI
 * @ilCtrl_Calls ilObjFileBasedLMGUI: ilShopPurchaseGUI
+* @ilCtrl_Calls ilObjFileBasedLMGUI: ilLicenseGUI
 * @ingroup ModulesHTMLLearningModule
 */
 
@@ -146,6 +147,12 @@ class ilObjFileBasedLMGUI extends ilObjectGUI
 				include_once("Services/AccessControl/classes/class.ilPermissionGUI.php");
 				$perm_gui =& new ilPermissionGUI($this);
 				$ret =& $this->ctrl->forwardCommand($perm_gui);
+				break;
+
+			case 'illicensegui':
+				include_once("./Services/License/classes/class.ilLicenseGUI.php");
+				$license_gui =& new ilLicenseGUI($this);
+				$ret =& $this->ctrl->forwardCommand($license_gui);
 				break;
 
 			default:				
@@ -590,6 +597,10 @@ class ilObjFileBasedLMGUI extends ilObjectGUI
 
 	function showLearningModule()
 	{
+		// Note license usage
+		include_once "Services/License/classes/class.ilLicense.php";
+		ilLicense::_noteAccess($this->object->getId());
+
 		// Track access
 		include_once "Services/Tracking/classes/class.ilTracking.php";
 		ilTracking::_trackAccess($this->object->getId(),'htlm');
@@ -739,6 +750,16 @@ class ilObjFileBasedLMGUI extends ilObjectGUI
 								 $this->ctrl->getLinkTargetByClass(array('ilobjfilebasedlmgui','illearningprogressgui'),''),
 								 '',
 								 array('illplistofobjectsgui','illplistofsettingsgui','illearningprogressgui','illplistofprogressgui'));
+		}
+
+		global $ilSetting;
+		$lic_set = new ilSetting("license");
+		if ($rbacsystem->checkAccess('edit_permission',$this->ref_id)
+		and $lic_set->get("license_counter"))
+		{
+			$tabs_gui->addTarget("license",
+				$this->ctrl->getLinkTargetByClass('illicensegui', ''),
+			"", "illicensegui");
 		}
 
 		// perm
