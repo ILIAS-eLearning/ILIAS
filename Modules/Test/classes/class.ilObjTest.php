@@ -9512,7 +9512,7 @@ function loadQuestions($active_id = "", $pass = NULL)
 			sprintf($this->lng->txt('tst_user_finished_test'), $this->getTitle()), // subject
 			$message->get(), // message
 			array(), // attachments
-			array('system') // type
+			array('normal') // type
 		);	
 	}
 	
@@ -9530,16 +9530,23 @@ function loadQuestions($active_id = "", $pass = NULL)
 		$message->setVariable('TEXT_FINISH_TIME', $this->lng->txt('tst_finished'));
 		ilDatePresentation::setUseRelativeDates(false);
 		$message->setVariable('VALUE_FINISH_TIME', ilDatePresentation::formatDate(new ilDateTime(time(), IL_CAL_UNIX)));
-		
-		$mail->sendMail(
+
+		include_once "./Modules/Test/classes/class.ilTestExport.php";
+		$exportObj = new ilTestExport($this, "results");
+		$file = $exportObj->exportToExcel($deliver = FALSE, 'active_id', $active_id, $passedonly = FALSE);
+		include_once "./classes/class.ilFileDataMail.php";
+		$fd = new ilFileDataMail($this->getOwner());
+		$fd->copyAttachmentFile($file, "result_" . $active_id . ".xls");
+		$result = $mail->sendMail(
 			ilObjUser::_lookupLogin($this->getOwner()), // to
 			"", // cc
 			"", // bcc
 			sprintf($this->lng->txt('tst_user_finished_test'), $this->getTitle()), // subject
 			$message->get(), // message
-			array(), // attachments
-			array('system') // type
-		);	
+			array("result_" . $active_id . ".xls"), // attachments
+			array('normal') // type
+		);
+		@unlink($file);
 	}
 } // END class.ilObjTest
 

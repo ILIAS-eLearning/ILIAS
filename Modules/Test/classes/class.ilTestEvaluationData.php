@@ -242,6 +242,13 @@ class ilTestEvaluationData
 						if (!$foundfilter) $remove = TRUE;
 					}
 				}
+				if (!$remove)
+				{
+					if (array_key_exists('active_id', $this->arrFilter))
+					{
+						if ($active_id != $this->arrFilter['active_id']) $remove = TRUE;
+					}
+				}
 				if (!$remove) $filteredParticipants[$active_id] = $participant;
 			}
 			return $filteredParticipants;
