@@ -29,6 +29,11 @@ class ilTagging
 	{
 		global $ilDB;
 		
+		if ($a_sub_obj_type == "")
+		{
+			$a_sub_obj_type = "-";
+		}
+		
 		$ilDB->manipulate("DELETE FROM il_tag WHERE ".
 			"user_id = ".$ilDB->quote($a_user_id, "integer")." AND ".
 			"obj_id = ".$ilDB->quote($a_obj_id, "integer")." AND ".
@@ -73,6 +78,11 @@ class ilTagging
 		$a_user_id)
 	{
 		global $ilDB;
+
+		if ($a_sub_obj_type == "")
+		{
+			$a_sub_obj_type = "-";
+		}
 		
 		$q = "SELECT * FROM il_tag WHERE ".
 			"user_id = ".$ilDB->quote($a_user_id, "integer")." AND ".
@@ -107,6 +117,11 @@ class ilTagging
 		$online_str = ($a_only_online)
 			? $online_str = " AND is_offline = ".$ilDB->quote(0, "integer")." "
 			: "";
+
+		if ($a_sub_obj_type == "")
+		{
+			$a_sub_obj_type = "-";
+		}
 		
 		$q = "SELECT count(user_id) as cnt, tag FROM il_tag WHERE ".
 			"obj_id = ".$ilDB->quote($a_obj_id, "integer")." AND ".
@@ -174,6 +189,10 @@ class ilTagging
 		{
 			if (ilObject::_exists($rec["obj_id"]))
 			{
+				if ($rec["sub_obj_type"] == "-")
+				{
+					$rec["sub_obj_type"] = "";
+				}
 				$objects[] = $rec;
 			}
 			else
@@ -221,6 +240,11 @@ class ilTagging
 		$a_offline = true)
 	{
 		global $ilDB;
+
+		if ($a_sub_obj_type == "")
+		{
+			$a_sub_obj_type = "-";
+		}
 		
 		$ilDB->manipulateF("UPDATE il_tag SET is_offline = %s ".
 			"WHERE ".
@@ -243,6 +267,11 @@ class ilTagging
 	static function deleteTagsOfObject($a_obj_id, $a_obj_type, $a_sub_obj_id, $a_sub_obj_type)
 	{
 		global $ilDB;
+
+		if ($a_sub_obj_type == "")
+		{
+			$a_sub_obj_type = "-";
+		}
 		
 		$ilDB->manipulateF("DELETE FROM il_tag ".
 			"WHERE ".
