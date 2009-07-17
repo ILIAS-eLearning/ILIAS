@@ -952,8 +952,7 @@ class assImagemapQuestion extends assQuestion
 			"onenotcorrect" => ilRTE::_replaceMediaObjectImageSrc($this->getFeedbackGeneric(0), 0),
 			"allcorrect" => ilRTE::_replaceMediaObjectImageSrc($this->getFeedbackGeneric(1), 0)
 			);
-//todo: fix this
-		$result['image'] = (string) $this->getImagePathWeb() . $this->get_image_filename();
+		$result['image'] = (string) $this->getImagePathWeb() . $this->getImageFilename();
 		
 		$answers = array();
 		foreach ($this->getAnswers() as $key => $answer_obj)

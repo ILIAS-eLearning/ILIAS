@@ -1138,15 +1138,16 @@ class assOrderingQuestion extends assQuestion
 			"allcorrect" => ilRTE::_replaceMediaObjectImageSrc($this->getFeedbackGeneric(1), 0)
 			);
 		$answers = array();
+		$counter = 0;
 		foreach ($this->getAnswers() as $key => $answer_obj)
 		{
 			array_push($answers, array(
 				"answertext" => (string) $answer_obj->getAnswertext(),
 				"points" => (float) $answer_obj->getPoints(),
-//todo
-//				"solutionorder" => (int) $answer_obj->getSolutionOrder(),
+				"solutionorder" => (int) $counter,
 				"order" => (int) $answer_obj->getOrder()
 			));
+			$counter++;
 		}
 		$result['answers'] = $answers;
 		$mobs = ilObjMediaObject::_getMobsOfObject("qpl:html", $this->getId());
