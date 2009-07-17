@@ -920,15 +920,13 @@ class ilObjMediaPoolGUI extends ilObject2GUI
 	function copyToClipboard()
 	{
 		global $ilUser, $ilAccess;
-		
-		if (!$ilAccess->checkAccess("write", "", $this->object->getRefId()))
-		{
-			$this->ilias->raiseError($this->lng->txt("permission_denied"),$this->ilias->error_obj->MESSAGE);
-		}
+
+		$this->checkPermission("write");		
 
 		if(!isset($_POST["id"]))
 		{
-			$this->ilias->raiseError($this->lng->txt("no_checkbox"),$this->ilias->error_obj->MESSAGE);
+			ilUtil::sendFailure($this->lng->txt("no_checkbox"), true);
+			$this->ctrl->redirect($this, $_GET["mep_mode"] ? $_GET["mep_mode"] : "listMedia");
 		}
 
 		foreach ($_POST["id"] as $obj_id)
@@ -937,7 +935,8 @@ class ilObjMediaPoolGUI extends ilObject2GUI
 			$type = ilObject::_lookupType($fid);
 			if ($type == "fold")
 			{
-				$this->ilias->raiseError($this->lng->txt("cont_cant_copy_folders"), $this->ilias->error_obj->MESSAGE);
+				ilUtil::sendFailure($this->lng->txt("cont_cant_copy_folders"), true);
+				$this->ctrl->redirect($this, $_GET["mep_mode"] ? $_GET["mep_mode"] : "listMedia");
 			}
 		}
 
@@ -951,7 +950,7 @@ class ilObjMediaPoolGUI extends ilObject2GUI
 			}
 		}
 
-		ilUtil::sendInfo($this->lng->txt("copied_to_clipboard"),true);
+		ilUtil::sendSuccess($this->lng->txt("copied_to_clipboard"),true);
 		$this->ctrl->redirect($this, $_GET["mep_mode"] ? $_GET["mep_mode"] : "listMedia");
 	}
 
