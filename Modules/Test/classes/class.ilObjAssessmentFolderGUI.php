@@ -41,7 +41,7 @@ class ilObjAssessmentFolderGUI extends ilObjectGUI
 	*/
 	var $conditions;
 
-	function ilObjAssessmentFolderGUI($a_data,$a_id,$a_call_by_reference)
+	public function ilObjAssessmentFolderGUI($a_data,$a_id,$a_call_by_reference)
 	{
 		global $rbacsystem;
 
@@ -54,7 +54,7 @@ class ilObjAssessmentFolderGUI extends ilObjectGUI
 		}
 	}
 	
-	function &executeCommand()
+	public function &executeCommand()
 	{
 		$next_class = $this->ctrl->getNextClass($this);
 		$cmd = $this->ctrl->getCmd();
@@ -86,7 +86,7 @@ class ilObjAssessmentFolderGUI extends ilObjectGUI
 	* save object
 	* @access	public
 	*/
-	function saveObject()
+	public function saveObject()
 	{
 		global $rbacadmin;
 
@@ -111,79 +111,80 @@ class ilObjAssessmentFolderGUI extends ilObjectGUI
 	/**
 	* display assessment folder settings form
 	*/
-	function settingsObject()
+	public function settingsObject()
 	{
-		$this->tpl->addBlockFile("ADM_CONTENT", "adm_content", "tpl.assessment_settings.html");
-	
 		include_once "./Modules/TestQuestionPool/classes/class.ilObjQuestionPool.php";
+		include_once("./Services/Form/classes/class.ilPropertyFormGUI.php");
+		$form = new ilPropertyFormGUI();
+		$form->setFormAction($this->ctrl->getFormAction($this));
+		$form->setTableWidth("100%");
+		$form->setId("settings");
+
+		// general properties
+		$header = new ilFormSectionHeaderGUI();
+		$header->setTitle($this->lng->txt("assessment_log_logging"));
+		$form->addItem($header);
+		
+		// assessment logging
+		$logging = new ilCheckboxInputGUI('', "chb_assessment_logging");
+		$logging->setValue(1);
+		$logging->setChecked($this->object->_enabledAssessmentLogging());
+		$logging->setOptionTitle($this->lng->txt("activate_assessment_logging"));
+		$form->addItem($logging);
+
+		// reporting language
+		$reporting = new ilSelectInputGUI($this->lng->txt('assessment_settings_reporting_language'), "reporting_language");
+		$languages = $this->lng->getInstalledLanguages();
+		$options = array();
+		foreach ($languages as $lang)
+		{
+			$options[$lang] = $this->lng->txt("lang_" . $lang);
+		}
+		$reporting->setOptions($options);
+		$reporting->setValue($this->object->_getLogLanguage());
+		$form->addItem($reporting);
+
+		// question settings
+		$header = new ilFormSectionHeaderGUI();
+		$header->setTitle($this->lng->txt("assf_questiontypes"));
+		$form->addItem($header);
+
+		// available question types
+		$allowed = new ilCheckboxGroupInputGUI($this->lng->txt('assf_allowed_questiontypes'), "chb_allowed_questiontypes");
 		$questiontypes =& ilObjQuestionPool::_getQuestionTypes(TRUE);
-		$manscoring = $this->object->_getManualScoring();
+		$forbidden_types = $this->object->_getForbiddenQuestionTypes();
+		$allowedtypes = array();
+		foreach ($questiontypes as $qt)
+		{
+			if (!in_array($qt['question_type_id'], $forbidden_types)) array_push($allowedtypes, $qt['question_type_id']);
+		}
+		$allowed->setValue($allowedtypes);
 		foreach ($questiontypes as $type_name => $qtype)
 		{
-			$type_id = $qtype["question_type_id"];
-			$this->tpl->setCurrentBlock("manual_scoring");
-			$this->tpl->setVariable("VALUE_MANUAL_SCORING", $type_id);
-			$this->tpl->setVariable("TXT_MANUAL_SCORING", $type_name);
-			if (in_array($type_id, $manscoring))
-			{
-				$this->tpl->setVariable("CHECKED_MANUAL_SCORING", " checked=\"checked\"");
-			}
-			$this->tpl->parseCurrentBlock();
-			
-			$this->tpl->setCurrentBlock("allowed_questiontypes");
-			$this->tpl->setVariable("VALUE_ALLOWED_QUESTIONTYPES", $type_id);
-			$this->tpl->setVariable("TEXT_ALLOWED_QUESTIONTYPES", $type_name);
-			$forbidden_types = $this->object->_getForbiddenQuestionTypes();
-			if (!in_array($type_id, $forbidden_types))
-			{
-				$this->tpl->setVariable("CHECKED_ALLOWED_QUESTIONTYPES", " checked=\"checked\"");
-			}
-			$this->tpl->parseCurrentBlock();
+			$allowed->addOption(new ilCheckboxOption($type_name, $qtype["question_type_id"]));
 		}
-		
-		$this->tpl->setCurrentBlock("adm_content");
-		$this->tpl->setVariable("FORMACTION", $this->ctrl->getFormAction($this));
-		$this->tpl->setVariable("TXT_LOGGING", $this->lng->txt("assessment_log_logging"));
-		$this->tpl->setVariable("TXT_ACTIVATE_ASSESSMENT_LOGGING", $this->lng->txt("activate_assessment_logging"));
-		$this->tpl->setVariable("TXT_ASSESSMENT_SETTINGS", $this->lng->txt("assessment_settings"));
-		$this->tpl->setVariable("TXT_REPORTING_LANGUAGE", $this->lng->txt("assessment_settings_reporting_language"));
-		$languages = $this->lng->getInstalledLanguages();
-		$default_language = $this->object->_getLogLanguage();
-		if (!in_array($default_language, $languages))
-		{
-			$default_language = "en";
-		}
-		foreach ($languages as $key)
-		{
-			$this->tpl->setCurrentBlock("reporting_lang_row");
-			$this->tpl->setVariable("LANG_VALUE", $key);
-			$this->tpl->setVariable("LANG_NAME", $this->lng->txt("lang_" . $key));
-			if (strcmp($default_language, $key) == 0)
-			{
-				$this->tpl->setVariable("LANG_SELECTED", " selected=\"selected\"");
-			}
-			$this->tpl->parseCurrentBlock();
-		}
-		
-		$this->tpl->setVariable("TXT_QUESTIONTYPES_HEADER", $this->lng->txt("assf_questiontypes"));
-		$this->tpl->setVariable("TXT_ALLOWED_QUESTIONTYPES", $this->lng->txt("assf_allowed_questiontypes"));
-		$this->tpl->setVariable("TXT_ALLOWED_QUESTIONTYPES_DESCRIPTION", $this->lng->txt("assf_allowed_questiontypes_desc"));
-		$this->tpl->setVariable("TXT_MANUAL_SCORING_DESCRIPTION", $this->lng->txt("assessment_log_manual_scoring_desc"));
-		$this->tpl->setVariable("TXT_MANUAL_SCORING_ACTIVATE", $this->lng->txt("assessment_log_manual_scoring_activate"));
-		$this->tpl->setVariable("TXT_SAVE", $this->lng->txt("save"));
+		$allowed->setInfo($this->lng->txt('assf_allowed_questiontypes_desc'));
+		$form->addItem($allowed);
 
-		if($this->object->_enabledAssessmentLogging())
+		// manual scoring
+		$manual = new ilCheckboxGroupInputGUI($this->lng->txt('assessment_log_manual_scoring_activate'), "chb_manual_scoring");
+		$manscoring = $this->object->_getManualScoring();
+		$manual->setValue($manscoring);
+		foreach ($questiontypes as $type_name => $qtype)
 		{
-			$this->tpl->setVariable("ASSESSMENT_LOGGING_CHECKED", " checked=\"checked\"");
+			$manual->addOption(new ilCheckboxOption($type_name, $qtype["question_type_id"]));
 		}
+		$manual->setInfo($this->lng->txt('assessment_log_manual_scoring_desc'));
+		$form->addItem($manual);
 
-		$this->tpl->parseCurrentBlock();
+		$form->addCommandButton("saveSettings", $this->lng->txt("save"));
+		$this->tpl->setVariable("ADM_CONTENT", $form->getHTML());
 	}
 	
 	/**
 	* Save Assessment settings
 	*/
-	function saveSettingsObject()
+	public function saveSettingsObject()
 	{
 		if ($_POST["chb_assessment_logging"] == 1)
 		{
@@ -214,281 +215,143 @@ class ilObjAssessmentFolderGUI extends ilObjectGUI
 	/**
 	* Called when the a log should be shown
 	*/
-	function showLogObject()
+	public function showLogObject()
 	{
-		$this->logsObject();
+		$from = mktime($_POST['log_from']['time']['h'], $_POST['log_from']['time']['m'], 0, $_POST['log_from']['date']['m'], $_POST['log_from']['date']['d'], $_POST['log_from']['date']['y']);
+		$until = mktime($_POST['log_until']['time']['h'], $_POST['log_until']['time']['m'], 0, $_POST['log_until']['date']['m'], $_POST['log_until']['date']['d'], $_POST['log_until']['date']['y']);
+		$test = $_POST['sel_test'];
+		$this->logsObject($from, $until, $test);
 	}
 	
 	/**
 	* Called when the a log should be exported
 	*/
-	function exportLogObject()
+	public function exportLogObject()
 	{
-		$this->logsObject();
+		$from = mktime($_POST['log_from']['time']['h'], $_POST['log_from']['time']['m'], 0, $_POST['log_from']['date']['m'], $_POST['log_from']['date']['d'], $_POST['log_from']['date']['y']);
+		$until = mktime($_POST['log_until']['time']['h'], $_POST['log_until']['time']['m'], 0, $_POST['log_until']['date']['m'], $_POST['log_until']['date']['d'], $_POST['log_until']['date']['y']);
+		$test = $_POST['sel_test'];
+
+		$csv = array();
+		$separator = ";";
+		$row = array(
+				$this->lng->txt("assessment_log_datetime"),
+				$this->lng->txt("user"),
+				$this->lng->txt("assessment_log_text"),
+				$this->lng->txt("question")
+		);
+		include_once "./Modules/Test/classes/class.ilObjTest.php";
+		include_once "./Modules/TestQuestionPool/classes/class.assQuestion.php";
+		$available_tests =& ilObjTest::_getAvailableTests(1);
+		array_push($csv, ilUtil::processCSVRow($row, TRUE, $separator));
+		$log_output =& $this->object->getLog($from, $until, $test);
+		$users = array();
+		foreach ($log_output as $key => $log)
+		{
+			if (!array_key_exists($log["user_fi"], $users))
+			{
+				$users[$log["user_fi"]] = ilObjUser::_lookupName($log["user_fi"]);
+			}
+			$title = "";
+			if ($log["question_fi"] || $log["original_fi"])
+			{
+				$title = assQuestion::_getQuestionTitle($log["question_fi"]);
+				if (strlen($title) == 0)
+				{
+					$title = assQuestion::_getQuestionTitle($log["original_fi"]);
+				}
+				$title = $this->lng->txt("assessment_log_question") . ": " . $title;
+			}
+			$csvrow = array();
+			$date = new ilDate($log['tstamp'],IL_CAL_UNIX);
+			array_push($csvrow, $date->get(IL_CAL_FKT_DATE,'Y-m-d H:i'));
+			array_push($csvrow, trim($users[$log["user_fi"]]["title"] . " " . $users[$log["user_fi"]]["firstname"] . " " . $users[$log["user_fi"]]["lastname"]));
+			array_push($csvrow, trim($log["logtext"]));
+			array_push($csvrow, $title);
+			array_push($csv, ilUtil::processCSVRow($csvrow, TRUE, $separator));
+		}
+		$csvoutput = "";
+		foreach ($csv as $row)
+		{
+			$csvoutput .= join($row, $separator) . "\n";
+		}
+		ilUtil::deliverData($csvoutput, str_replace(" ", "_", "log_" . $from . "_" . $until . "_" . $available_tests[$test]).".csv");
 	}
 
 	/**
 	* display assessment folder logs form
 	*/
-	function logsObject()
+	public function logsObject($p_from = null, $p_until = null, $p_test = null)
 	{
-		$this->lng->loadLanguageModule("jscalendar");
-		$this->tpl->addBlockFile("CALENDAR_LANG_JAVASCRIPT", "calendar_javascript", "tpl.calendar.html");
-		$this->tpl->addBlockFile("ADM_CONTENT", "adm_content", "tpl.assessment_logs.html");
-		$this->tpl->setCurrentBlock("calendar_javascript");
-		$this->tpl->setVariable("FULL_SUNDAY", $this->lng->txt("l_su"));
-		$this->tpl->setVariable("FULL_MONDAY", $this->lng->txt("l_mo"));
-		$this->tpl->setVariable("FULL_TUESDAY", $this->lng->txt("l_tu"));
-		$this->tpl->setVariable("FULL_WEDNESDAY", $this->lng->txt("l_we"));
-		$this->tpl->setVariable("FULL_THURSDAY", $this->lng->txt("l_th"));
-		$this->tpl->setVariable("FULL_FRIDAY", $this->lng->txt("l_fr"));
-		$this->tpl->setVariable("FULL_SATURDAY", $this->lng->txt("l_sa"));
-		$this->tpl->setVariable("SHORT_SUNDAY", $this->lng->txt("s_su"));
-		$this->tpl->setVariable("SHORT_MONDAY", $this->lng->txt("s_mo"));
-		$this->tpl->setVariable("SHORT_TUESDAY", $this->lng->txt("s_tu"));
-		$this->tpl->setVariable("SHORT_WEDNESDAY", $this->lng->txt("s_we"));
-		$this->tpl->setVariable("SHORT_THURSDAY", $this->lng->txt("s_th"));
-		$this->tpl->setVariable("SHORT_FRIDAY", $this->lng->txt("s_fr"));
-		$this->tpl->setVariable("SHORT_SATURDAY", $this->lng->txt("s_sa"));
-		$this->tpl->setVariable("FULL_JANUARY", $this->lng->txt("l_01"));
-		$this->tpl->setVariable("FULL_FEBRUARY", $this->lng->txt("l_02"));
-		$this->tpl->setVariable("FULL_MARCH", $this->lng->txt("l_03"));
-		$this->tpl->setVariable("FULL_APRIL", $this->lng->txt("l_04"));
-		$this->tpl->setVariable("FULL_MAY", $this->lng->txt("l_05"));
-		$this->tpl->setVariable("FULL_JUNE", $this->lng->txt("l_06"));
-		$this->tpl->setVariable("FULL_JULY", $this->lng->txt("l_07"));
-		$this->tpl->setVariable("FULL_AUGUST", $this->lng->txt("l_08"));
-		$this->tpl->setVariable("FULL_SEPTEMBER", $this->lng->txt("l_09"));
-		$this->tpl->setVariable("FULL_OCTOBER", $this->lng->txt("l_10"));
-		$this->tpl->setVariable("FULL_NOVEMBER", $this->lng->txt("l_11"));
-		$this->tpl->setVariable("FULL_DECEMBER", $this->lng->txt("l_12"));
-		$this->tpl->setVariable("SHORT_JANUARY", $this->lng->txt("s_01"));
-		$this->tpl->setVariable("SHORT_FEBRUARY", $this->lng->txt("s_02"));
-		$this->tpl->setVariable("SHORT_MARCH", $this->lng->txt("s_03"));
-		$this->tpl->setVariable("SHORT_APRIL", $this->lng->txt("s_04"));
-		$this->tpl->setVariable("SHORT_MAY", $this->lng->txt("s_05"));
-		$this->tpl->setVariable("SHORT_JUNE", $this->lng->txt("s_06"));
-		$this->tpl->setVariable("SHORT_JULY", $this->lng->txt("s_07"));
-		$this->tpl->setVariable("SHORT_AUGUST", $this->lng->txt("s_08"));
-		$this->tpl->setVariable("SHORT_SEPTEMBER", $this->lng->txt("s_09"));
-		$this->tpl->setVariable("SHORT_OCTOBER", $this->lng->txt("s_10"));
-		$this->tpl->setVariable("SHORT_NOVEMBER", $this->lng->txt("s_11"));
-		$this->tpl->setVariable("SHORT_DECEMBER", $this->lng->txt("s_12"));
-		$this->tpl->setVariable("ABOUT_CALENDAR", $this->lng->txt("about_calendar"));
-		$this->tpl->setVariable("ABOUT_CALENDAR_LONG", $this->lng->txt("about_calendar_long"));
-		$this->tpl->setVariable("ABOUT_TIME_LONG", $this->lng->txt("about_time"));
-		$this->tpl->setVariable("PREV_YEAR", $this->lng->txt("prev_year"));
-		$this->tpl->setVariable("PREV_MONTH", $this->lng->txt("prev_month"));
-		$this->tpl->setVariable("GO_TODAY", $this->lng->txt("go_today"));
-		$this->tpl->setVariable("NEXT_MONTH", $this->lng->txt("next_month"));
-		$this->tpl->setVariable("NEXT_YEAR", $this->lng->txt("next_year"));
-		$this->tpl->setVariable("SEL_DATE", $this->lng->txt("select_date"));
-		$this->tpl->setVariable("DRAG_TO_MOVE", $this->lng->txt("drag_to_move"));
-		$this->tpl->setVariable("PART_TODAY", $this->lng->txt("part_today"));
-		$this->tpl->setVariable("DAY_FIRST", $this->lng->txt("day_first"));
-		$this->tpl->setVariable("CLOSE", $this->lng->txt("close"));
-		$this->tpl->setVariable("TODAY", $this->lng->txt("today"));
-		$this->tpl->setVariable("TIME_PART", $this->lng->txt("time_part"));
-		$this->tpl->setVariable("DEF_DATE_FORMAT", $this->lng->txt("def_date_format"));
-		$this->tpl->setVariable("TT_DATE_FORMAT", $this->lng->txt("tt_date_format"));
-		$this->tpl->setVariable("WK", $this->lng->txt("wk"));
-		$this->tpl->setVariable("TIME", $this->lng->txt("time"));
-		$this->tpl->parseCurrentBlock();
-		$this->tpl->setCurrentBlock("CalendarJS");
-		$this->tpl->setVariable("LOCATION_JAVASCRIPT_CALENDAR", "./Modules/Test/js/calendar/calendar.js");
-		$this->tpl->setVariable("LOCATION_JAVASCRIPT_CALENDAR_SETUP", "./Modules/Test/js/calendar/calendar-setup.js");
-		$this->tpl->setVariable("LOCATION_JAVASCRIPT_CALENDAR_STYLESHEET", "./Modules/Test/js/calendar/calendar.css");
-		$this->tpl->parseCurrentBlock();
-		$this->tpl->setCurrentBlock("javascript_call_calendar");
-		$this->tpl->setVariable("INPUT_FIELDS_STARTING_DATE", "starting_date");
-		$this->tpl->setVariable("INPUT_FIELDS_ENDING_DATE", "ending_date");
-		$this->tpl->setVariable("INPUT_FIELDS_REPORTING_DATE", "reporting_date");
-		$this->tpl->parseCurrentBlock();
+		$template = new ilTemplate("tpl.assessment_logs.html", TRUE, TRUE, "Modules/Test");
+
 		include_once "./Modules/Test/classes/class.ilObjTest.php";
 		include_once "./Modules/TestQuestionPool/classes/class.assQuestion.php";
 		$available_tests =& ilObjTest::_getAvailableTests(1);
+		if (count($available_tests) == 0)
+		{
+			sendInfo($this->lng->txt('assessment_log_no_data'));
+			return;
+		}
+
+		include_once("./Services/Form/classes/class.ilPropertyFormGUI.php");
+		$form = new ilPropertyFormGUI();
+		$form->setFormAction($this->ctrl->getFormAction($this));
+		$form->setTableWidth("100%");
+		$form->setId("logs");
+
+		$header = new ilFormSectionHeaderGUI();
+		$header->setTitle($this->lng->txt("assessment_log"));
+		$form->addItem($header);
+		
+		// from
+		$from = new ilDateTimeInputGUI($this->lng->txt('cal_from'), "log_from");
+		$from->setShowDate(true);
+		$from->setShowTime(true);
+		$now = getdate();
+		$fromdate = ($p_from) ? $p_from : (($_GET['log_from']) ? $_GET['log_from'] : mktime(0, 0, 0, 1, 1, $now['year']));
+		$from->setDate(new ilDateTime($fromdate, IL_CAL_UNIX));
+		$form->addItem($from);
+
+		// until
+		$until = new ilDateTimeInputGUI($this->lng->txt('cal_until'), "log_until");
+		$until->setShowDate(true);
+		$until->setShowTime(true);
+		$untildate = ($p_until) ? $p_until : (($_GET['log_until']) ? $_GET['log_until'] : time());
+		$until->setDate(new ilDateTime($untildate, IL_CAL_UNIX));
+		$form->addItem($until);
+
+		// tests
+		$fortest = new ilSelectInputGUI($this->lng->txt('assessment_log_for_test'), "sel_test");
+		$options = array();
 		foreach ($available_tests as $key => $value)
 		{
-			$this->tpl->setCurrentBlock("sel_test_row");
-			$this->tpl->setVariable("TXT_OPTION", ilUtil::prepareFormOutput($value) . " [" . $this->object->getNrOfLogEntries($key) . " " . $this->lng->txt("assessment_log_log_entries") . "]");
-			$this->tpl->setVariable("VALUE_OPTION", $key);
-			if (($_POST["sel_test"] > -1) && ($_POST["sel_test"] == $key))
-			{
-				$this->tpl->setVariable("SELECTED_OPTION", " selected=\"selected\"");
-			}
-			$this->tpl->parseCurrentBlock();
+			$options[$key] = ilUtil::prepareFormOutput($value) . " [" . $this->object->getNrOfLogEntries($key) . " " . $this->lng->txt("assessment_log_log_entries") . "]";
 		}
-		
-		if ((strcmp($this->ctrl->getCmd(), "showLog") == 0) ||
-			(strcmp($this->ctrl->getCmd(), "exportLog") == 0))
+		$fortest->setOptions($options);
+		$p_test = ($p_test) ? $p_test : $_GET['sel_test'];
+		if ($p_test) $fortest->setValue($p_test);
+		$form->addItem($fortest);
+
+		$form->addCommandButton("showLog", $this->lng->txt("show"));
+		$form->addCommandButton("exportLog", $this->lng->txt("export"));
+		$template->setVariable("FORM", $form->getHTML());
+
+		if ($p_test)
 		{
-			include_once "./Services/Utilities/classes/class.ilUtil.php";
-			$separator = ";";
-			$csv = array();
-			if (strcmp($this->ctrl->getCmd(), "exportLog") == 0)
-			{
-				$row = array(
-						$this->lng->txt("assessment_log_datetime"),
-						$this->lng->txt("user"),
-						$this->lng->txt("assessment_log_text"),
-						$this->lng->txt("question")
-				);
-				array_push($csv, ilUtil::processCSVRow($row, TRUE, $separator));
-			}
-			$ts_from = mktime($_POST["log_from_time"]["h"], $_POST["log_from_time"]["m"], 0, $_POST["log_from_date"]["m"], $_POST["log_from_date"]["d"], $_POST["log_from_date"]["y"]);
-			$ts_to = mktime($_POST["log_to_time"]["h"], $_POST["log_to_time"]["m"], 0, $_POST["log_to_date"]["m"], $_POST["log_to_date"]["d"], $_POST["log_to_date"]["y"]);
-			$log_output =& $this->object->getLog($ts_from, $ts_to, $_POST["sel_test"]);
-			$users = array();
-			foreach ($log_output as $key => $log)
-			{
-				if (array_key_exists("value1", $log))
-				{
-					$tblrow = array("tblrow1light", "tblrow2light");
-				}
-				else
-				{
-					$tblrow = array("tblrow1", "tblrow2");
-				}
-				$title = "";
-				if (!array_key_exists($log["user_fi"], $users))
-				{
-					$users[$log["user_fi"]] = ilObjUser::_lookupName($log["user_fi"]);
-				}
-				$this->tpl->setCurrentBlock("output_row");
-				$this->tpl->setVariable("ROW_CLASS", $tblrow[$key % 2]);
-				$date = new ilDateTime($log["tstamp"],IL_CAL_UNIX);
-				$this->tpl->setVariable("TXT_DATETIME",$date->get(IL_CAL_FKT_DATE,'Y-m-d H:i'));
-				$csvrow = array();
-				if (strcmp($this->ctrl->getCmd(), "exportLog") == 0)
-				{
-					$date = new ilDate($log['tstamp'],IL_CAL_UNIX);
-					array_push($csvrow, $date->get(IL_CAL_FKT_DATE,'Y-m-d H:i'));
-					
-				}
-				if ($log["question_fi"] || $log["original_fi"])
-				{
-					$title = assQuestion::_getQuestionTitle($log["question_fi"]);
-					if (strlen($title) == 0)
-					{
-						$title = assQuestion::_getQuestionTitle($log["original_fi"]);
-					}
-					$title = $this->lng->txt("assessment_log_question") . ": " . $title;
-				}
-				$this->tpl->setVariable("TXT_USER", trim($users[$log["user_fi"]]["title"] . " " . $users[$log["user_fi"]]["firstname"] . " " . $users[$log["user_fi"]]["lastname"]));
-				if (strcmp($this->ctrl->getCmd(), "exportLog") == 0)
-				{
-					array_push($csvrow, trim($users[$log["user_fi"]]["title"] . " " . $users[$log["user_fi"]]["firstname"] . " " . $users[$log["user_fi"]]["lastname"]));
-				}
-				if (array_key_exists("value1", $log))
-				{
-					if (strlen($title))
-					{
-						$this->tpl->setVariable("TXT_LOGTEXT", ilUtil::prepareFormOutput($this->lng->txt("assessment_log_user_answer") . " (" . $title . ")"));
-					}
-					else
-					{
-						$this->tpl->setVariable("TXT_LOGTEXT", ilUtil::prepareFormOutput($this->lng->txt("assessment_log_user_answer")));
-					}
-					if (strcmp($this->ctrl->getCmd(), "exportLog") == 0)
-					{
-						array_push($csvrow, $this->lng->txt("assessment_log_user_answer"));
-						array_push($csvrow, $title);
-					}
-				}
-				else
-				{
-					if (strlen($title))
-					{
-						$this->tpl->setVariable("TXT_LOGTEXT", trim(ilUtil::prepareFormOutput($log["logtext"]) . " (" . $title . ")"));
-					}
-					else
-					{
-						$this->tpl->setVariable("TXT_LOGTEXT", trim(ilUtil::prepareFormOutput($log["logtext"])));
-					}
-					if (strcmp($this->ctrl->getCmd(), "exportLog") == 0)
-					{
-						array_push($csvrow, trim($log["logtext"]));
-						array_push($csvrow, $title);
-					}
-				}
-				$this->tpl->parseCurrentBlock();
-				if (strcmp($this->ctrl->getCmd(), "exportLog") == 0)
-				{
-					array_push($csv, ilUtil::processCSVRow($csvrow, TRUE, $separator));
-				}
-			}
-			if (count($log_output) == 0)
-			{
-				$this->tpl->setCurrentBlock("empty_row");
-				$this->tpl->setVariable("TXT_NOLOG", $this->lng->txt("assessment_log_no_log"));
-				$this->tpl->parseCurrentBlock();
-			}
-			else
-			{
-				if (strcmp($this->ctrl->getCmd(), "exportLog") == 0)
-				{
-					$csvoutput = "";
-					foreach ($csv as $row)
-					{
-						$csvoutput .= join($row, $separator) . "\n";
-					}
-					ilUtil::deliverData($csvoutput, str_replace(" ", "_", "log_" . $ts_from . "_" . $ts_to . "_" . $available_tests[$_POST["sel_test"]]).".csv");
-					return;
-				}
-			}
-			$this->tpl->setCurrentBlock("log_output");
-			$this->tpl->setVariable("HEADER_DATETIME", $this->lng->txt("assessment_log_datetime"));
-			$this->tpl->setVariable("HEADER_USER", $this->lng->txt("user"));
-			$this->tpl->setVariable("HEADER_LOGTEXT", $this->lng->txt("assessment_log_text"));
-			$this->tpl->parseCurrentBlock();
+			include_once "./Modules/Test/classes/class.ilAssessmentFolderLogTableGUI.php";
+			$table_gui = new ilAssessmentFolderLogTableGUI($this, 'logs');
+			$log_output =& $this->object->getLog($fromdate, $untildate, $p_test);
+			$table_gui->setData($log_output);
+			$template->setVariable('LOG', $table_gui->getHTML());	
 		}
-		
-		$this->tpl->setCurrentBlock("adm_content");
-		$this->tpl->setVariable("FORMACTION",
-			$this->ctrl->getFormAction($this));
-		$this->tpl->setVariable("TXT_ASSESSMENT_LOG", $this->lng->txt("assessment_log"));
-		$this->tpl->setVariable("TXT_LOG_FROM", $this->lng->txt("from"));
-		if (!is_array($_POST["log_from_date"]))
-		{
-			$date_input = ilUtil::makeDateSelect("log_from_date", "", "1", "1", 2004);
-			$time_input = ilUtil::makeTimeSelect("log_from_time", TRUE, 0, 0);
-		}
-		else
-		{
-			$date_input = ilUtil::makeDateSelect("log_from_date", $_POST["log_from_date"]["y"], $_POST["log_from_date"]["m"], $_POST["log_from_date"]["d"], 2004);
-		  $time_input = ilUtil::makeTimeSelect("log_from_time", TRUE, $_POST["log_from_time"]["h"], $_POST["log_from_time"]["m"]);
-		}
-		$this->tpl->setVariable("INPUT_LOG_FROM", $date_input." / ".$time_input);
-		$this->tpl->setVariable("IMG_CALENDAR", ilUtil::getImagePath("calendar.png"));
-		$this->tpl->setVariable("TXT_LOG_FROM_CALENDAR", $this->lng->txt("assessment_log_open_calendar"));
-		$this->tpl->setVariable("INPUT_FIELDS_LOG_FROM", "log_from_date");
-		$this->tpl->setVariable("TXT_LOG_TO", $this->lng->txt("to"));
-		if (!is_array($_POST["log_to_date"]))
-		{
-			$date_input = ilUtil::makeDateSelect("log_to_date", "", "", "", 2004);
-			$time_input = ilUtil::makeTimeSelect("log_to_time");
-		}
-		else
-		{
-			$date_input = ilUtil::makeDateSelect("log_to_date", $_POST["log_to_date"]["y"], $_POST["log_to_date"]["m"], $_POST["log_to_date"]["d"], 2004);
-		  $time_input = ilUtil::makeTimeSelect("log_to_time", TRUE, $_POST["log_to_time"]["h"], $_POST["log_to_time"]["m"]);
-		}
-		$this->tpl->setVariable("INPUT_LOG_TO", $date_input." / ".$time_input);
-		$this->tpl->setVariable("TXT_LOG_TO_CALENDAR", $this->lng->txt("assessment_log_open_calendar"));
-		$this->tpl->setVariable("INPUT_FIELDS_LOG_TO", "log_to_date");
-		$this->tpl->setVariable("TXT_CREATE", $this->lng->txt("show"));
-		$this->tpl->setVariable("TXT_EXPORT", $this->lng->txt("export"));
-		$this->tpl->setVariable("TXT_TEST", $this->lng->txt("assessment_log_for_test"));
-		$this->tpl->setVariable("TXT_SELECT_TEST", $this->lng->txt("assessment_log_select_test"));
-		$this->tpl->parseCurrentBlock();
+		$this->tpl->setVariable("ADM_CONTENT", $template->get());
 	}
 
 	/**
 	* Deletes the log entries for one or more tests
-	*
-	* @access public
 	*/
-	function deleteLogObject()
+	public function deleteLogObject()
 	{
 		if (is_array($_POST["chb_test"]) && (count($_POST["chb_test"])))
 		{
@@ -504,87 +367,29 @@ class ilObjAssessmentFolderGUI extends ilObjectGUI
 	
 	/**
 	* Administration output for assessment log files
-	*
-	* @access public
 	*/
-	function logAdminObject()
+	public function logAdminObject()
 	{
-		global $ilUser;
-
-		$this->tpl->addBlockFile("ADM_CONTENT", "adm_content", "tpl.assessment_log_admin.html");
-		
-		// get test titles with ref_id
+		include_once "./Modules/Test/classes/class.ilAssessmentFolderLogAdministrationTableGUI.php";
+		$table_gui = new ilAssessmentFolderLogAdministrationTableGUI($this, 'logAdmin');
 		include_once "./Modules/Test/classes/class.ilObjTest.php";
 		$available_tests =& ilObjTest::_getAvailableTests(true);
-		$count = count($available_tests);
-		if ($count)
+		$data = array();
+		foreach ($available_tests as $obj_id => $title)
 		{
-			$data = array();
-			$i=0;
-			foreach ($available_tests as $obj_id => $title)
-			{
-				$nr = $this->object->getNrOfLogEntries($obj_id);
-				array_push($data, array("<input type=\"checkbox\" name=\"chb_test[]\" value=\"$obj_id\" />", $title, $nr));
-			}
-
-			$offset = ($_GET["offset"]) ? $_GET["offset"] : 0;
-			$orderdirection = ($_GET["sort_order"]) ? $_GET["sort_order"] : "asc";
-			$ordercolumn = ($_GET["sort_by"]) ? $_GET["sort_by"] : "title";
-			
-			$maxentries = $ilUser->getPref("hits_per_page");
-			if ($maxentries < 1)
-			{
-				$maxentries = 9999;
-			}
-			
-			include_once("./Services/Table/classes/class.ilTableGUI.php");
-			$table = new ilTableGUI(0, FALSE);
-			$table->setTitle($this->lng->txt("ass_log_available_tests"));
-
-			$header_names = array(
-				"",
-				$this->lng->txt("title"),
-				$this->lng->txt("ass_log_count_datasets"),
-			);
-			$table->setHeaderNames($header_names);
-	
-			$table->enable("auto_sort");
-			$table->enable("sort");
-			$table->enable("select_all");
-			$table->enable("action");
-			$table->setLimit($maxentries);
-	
-			$table->addActionButton("deleteLog", $this->lng->txt("ass_log_delete_entries"));
-			
-			$table->setFormName("formLogAdmin");
-			$table->setSelectAllCheckbox("chb_test");
-			$header_params = $this->ctrl->getParameterArray($this, "logAdmin");
-			$header_vars = array("", "title", "count");
-			$table->setHeaderVars($header_vars, $header_params);
-			$table->setFooter("tblfooter", $this->lng->txt("previous"), $this->lng->txt("next"));
-	
-			$table->setOffset($offset);
-			$table->setMaxCount(count($available_tests));
-			$table->setOrderColumn($ordercolumn);
-			$table->setOrderDirection($orderdirection);
-			$table->setData($data);
-
-			// footer
-			$table->setFooter("tblfooter", $this->lng->txt("previous"), $this->lng->txt("next"));
-
-			// render table
-			$tableoutput = $table->render();
-			$this->tpl->setVariable("TABLE_DATA", $tableoutput);
-			$this->tpl->setVariable("FORMACTION", $this->ctrl->getFormAction($this, "deleteLog"));
+			$nr = $this->object->getNrOfLogEntries($obj_id);
+			array_push($data, array("title" => $title, "nr" => $nr, "id" => $obj_id));
 		}
+		$table_gui->setData($data);
+		$this->tpl->setVariable('ADM_CONTENT', $table_gui->getHTML());	
 	}
 
-	function getAdminTabs(&$tabs_gui)
+	public function getAdminTabs(&$tabs_gui)
 	{
 		$this->getTabs($tabs_gui);
 	}
 
-	function getLogdataSubtabs()
+	public function getLogdataSubtabs()
 	{
 		global $ilTabs;
 		
@@ -604,10 +409,8 @@ class ilObjAssessmentFolderGUI extends ilObjectGUI
 
 	/**
 	* Default settings tab for Test & Assessment
-	*
-	* @access	public
 	*/
-	function defaultsObject()
+	public function defaultsObject()
 	{
 		global $ilAccess, $rbacreview, $lng, $ilCtrl, $tpl;
 		
@@ -644,10 +447,8 @@ class ilObjAssessmentFolderGUI extends ilObjectGUI
 	
 	/**
 	* Save default settings for test & assessment
-	*
-	* @access	public
 	*/
-	function saveDefaultsObject()
+	public function saveDefaultsObject()
 	{
 		global $ilCtrl;
 
@@ -670,10 +471,10 @@ class ilObjAssessmentFolderGUI extends ilObjectGUI
 
 	/**
 	* get tabs
-	* @access	public
+	*
 	* @param	object	tabs gui object
 	*/
-	function getTabs(&$tabs_gui)
+	public function getTabs(&$tabs_gui)
 	{
 		global $rbacsystem;
 

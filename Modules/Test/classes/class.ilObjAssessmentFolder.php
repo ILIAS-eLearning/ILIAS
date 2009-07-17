@@ -352,6 +352,8 @@ class ilObjAssessmentFolder extends ilObject
 	*/
 	function &getLog($ts_from, $ts_to, $test_id, $test_only = FALSE)
 	{
+		global $ilDB;
+		
 		$log = array();
 		if ($test_only == TRUE)
 		{

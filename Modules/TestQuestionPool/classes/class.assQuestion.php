@@ -1593,7 +1593,7 @@ class assQuestion
 		
 		if ($question_id < 1) return "";
 
-		$result = $ilDB->query("SELECT title FROM qpl_questions WHERE qpl_questions.question_id = %s",
+		$result = $ilDB->queryF("SELECT title FROM qpl_questions WHERE qpl_questions.question_id = %s",
 			array('integer'),
 			array($question_id)
 		);
