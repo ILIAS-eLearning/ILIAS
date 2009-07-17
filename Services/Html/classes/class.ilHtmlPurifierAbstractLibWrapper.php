@@ -124,5 +124,33 @@ abstract class ilHtmlPurifierAbstractLibWrapper implements ilHtmlPurifierInterfa
 		
 		return ilUtil::getDataDir().'/HTMLPurifier';
 	}
+	
+	final protected function removeUnsupportedElements($a_array)
+	{
+		$supportedElements = array();
+		
+		$notSupportedTags = array(
+			'rp',
+			'rt',
+			'rb',
+			'rtc',
+			'rbc',
+			'ruby',
+			'u',
+			'strike',
+			'param',
+			'object'
+		);
+		
+		foreach($a_array as $element)
+		{
+			if(!in_array($element, $notSupportedTags))
+			{
+				$supportedElements[] = $element;
+			}
+		}
+
+		return $supportedElements;
+	}
 }
 ?>
