@@ -1549,6 +1549,10 @@ class ilObjUserGUI extends ilObjectGUI
 		}
 		$this->form_gui->addItem($pi);
 
+		$birthday = new ilBirthdayInputGUI($lng->txt('birthday'), 'birthday');
+		$birthday->setRequired(isset($settings["require_birthday"]) && $settings["require_birthday"]);
+		$this->form_gui->addItem($birthday);
+
 		// contact data
 		$sec_cd = new ilFormSectionHeaderGUI();
 		$sec_cd->setTitle($this->lng->txt("contact_data"));

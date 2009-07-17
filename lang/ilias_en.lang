@@ -1234,6 +1234,7 @@ form#:#form_hierarchy_drag_drop_help#:#Drag and drop icons on placeholders to mo
 form#:#form_min_value#:#Minimum Value
 form#:#form_max_value#:#Maximum Value
 form#:#form_format#:#Format
+form#:#form_msg_wrong_date_format#:#Wrong date format. Please enter the date as "%s"!
 form#:#form_msg_value_too_high#:#Value too high. Please enter a lower value.
 form#:#form_msg_value_too_low#:#Value too low. Please enter a higher value.
 form#:#form_msg_numeric_value_required#:#Please enter a numeric value.
@@ -9758,3 +9759,4 @@ license#:#remaining_licenses_explanation#:#The available licenses are calculated
 license#:#used_licenses#:#Consumed licenses
 license#:#used_licenses_explanation#:#Every first access of a user consumes a license.
 license#:#zero_licenses_explanation#:#Enter a 0 to deactivate the licensing.
+common#:#birthday#:#Birthday

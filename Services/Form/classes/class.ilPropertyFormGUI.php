@@ -36,6 +36,7 @@ include_once('./Services/Form/classes/class.ilTextWizardInputGUI.php');
 include_once('./Services/Form/classes/class.ilImageWizardInputGUI.php');
 include_once './Services/Form/classes/class.ilFileWizardInputGUI.php';
 include_once './Services/Form/classes/class.ilFormulaInputGUI.php';
+include_once './Services/Form/classes/class.ilBirthdayInputGUI.php';
 
 /**
 * This class represents a property form user interface
