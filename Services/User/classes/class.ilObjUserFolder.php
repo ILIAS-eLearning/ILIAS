@@ -553,13 +553,17 @@ class ilObjUserFolder extends ilObject
 		$profile_fields =& ilObjUserFolder::getProfileFields();
 		$profile_fields[] = "preferences";
 
-		$query = "SELECT * FROM `settings` WHERE keyword LIKE '%usr_settings_export_%' AND value = '1'";
+		$query = "SELECT * FROM settings WHERE ".
+			$ilDB->like("keyword", "text", '%usr_settings_export_%');
 		$result = $ilDB->query($query);
 		while ($row = $result->fetchRow(DB_FETCHMODE_ASSOC))
 		{
-			if (preg_match("/usr_settings_export_(.*)/", $row["keyword"], $setting))
+			if ($row["value"] == "1")
 			{
-				array_push($db_settings, $setting[1]);
+				if (preg_match("/usr_settings_export_(.*)/", $row["keyword"], $setting))
+				{
+					array_push($db_settings, $setting[1]);
+				}
 			}
 		}
 		$export_settings = array();
