@@ -423,11 +423,13 @@ class ilPageObject
 	function _lookupActive($a_id, $a_parent_type, $a_check_scheduled_activation = false)
 	{
 		global $ilDB;
-		
-		$st = $ilDB->prepare("SELECT active, activation_start, activation_end, now() n FROM page_object WHERE page_id = ?".
-			" AND parent_type = ?", array("integer", "text"));
-		$set = $ilDB->execute($st, array($a_id, $a_parent_type));
+
+		$set = $ilDB->queryF("SELECT active, activation_start, activation_end FROM page_object WHERE page_id = %s".
+			" AND parent_type = %s",
+				array("integer", "text"),
+				array($a_id, $a_parent_type));
 		$rec = $ilDB->fetchAssoc($set);
+		$rec["n"] = ilUtil::now();
 
 		if (!$rec["active"] && $a_check_scheduled_activation)
 		{
