@@ -1,25 +1,5 @@
 <?php
-/*
-	+-----------------------------------------------------------------------------+
-	| ILIAS open source                                                           |
-	+-----------------------------------------------------------------------------+
-	| Copyright (c) 1998-2009 ILIAS open source, University of Cologne            |
-	|                                                                             |
-	| This program is free software; you can redistribute it and/or               |
-	| modify it under the terms of the GNU General Public License                 |
-	| as published by the Free Software Foundation; either version 2              |
-	| of the License, or (at your option) any later version.                      |
-	|                                                                             |
-	| This program is distributed in the hope that it will be useful,             |
-	| but WITHOUT ANY WARRANTY; without even the implied warranty of              |
-	| MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the               |
-	| GNU General Public License for more details.                                |
-	|                                                                             |
-	| You should have received a copy of the GNU General Public License           |
-	| along with this program; if not, write to the Free Software                 |
-	| Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA. |
-	+-----------------------------------------------------------------------------+
-*/
+/* Copyright (c) 1998-2009 ILIAS open source, Extended GPL, see docs/LICENSE */
 
 require_once("./Services/COPage/classes/class.ilPageObject.php");
 
@@ -109,7 +89,7 @@ class ilGlossaryDefinition
 
 	function setShortText($a_text)
 	{
-		$this->short_text = $a_text;
+		$this->short_text = $this->shortenShortText($a_text);
 	}
 
 	function getShortText()
@@ -356,12 +336,14 @@ class ilGlossaryDefinition
 			" WHERE id = ".$ilDB->quote($this->getId(), "integer"));
 	}
 
-	function updateShortText()
+	/**
+	 * Shorten short text
+	 *
+	 * @param
+	 * @return
+	 */
+	function shortenShortText($text)
 	{
-		$this->page_object->buildDom();
-		$text = $this->page_object->getFirstParagraphText();
-
-		//$this->setShortText(ilUtil::shortenText($text, 180, true));
 		$text = str_replace("<br/>", "<br>", $text);
 		$text = strip_tags($text, "<br>");
 		if (is_int(strpos(substr($text, 175, 10), "[tex]")))
@@ -381,6 +363,19 @@ class ilGlossaryDefinition
 				$short = ilUtil::shortenText($text, $ltexe+6, true);
 			}
 		}
+		
+		$short = ilUtil::shortenText($text, 196, true);
+		
+		return $short;
+	}
+
+	function updateShortText()
+	{
+		$this->page_object->buildDom();
+		$text = $this->page_object->getFirstParagraphText();
+
+		$short = $this->shortenShortText($text);
+
 		$this->setShortText($short);
 		$this->update();
 	}
