@@ -14679,3 +14679,10 @@ $ilDB->manipulateF("INSERT INTO bookmark_social_bm (sbm_id, sbm_title, sbm_link,
 );
 
 ?>
+<#2775>
+<?php
+// must use mysql_query here, since $ilDB makes '' a null
+mysql_query("UPDATE il_tag SET sub_obj_type = '-' ".
+		" WHERE sub_obj_type = '' OR sub_obj_type IS NULL");
+
+?>
