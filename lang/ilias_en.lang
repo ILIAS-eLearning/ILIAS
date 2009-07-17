@@ -1265,7 +1265,7 @@ common#:#account_expires_subject#:#[ILIAS 3] Your account expires
 common#:#action#:#Action
 common#:#action_aborted#:#Action aborted
 common#:#actions#:#Actions
-common#:#activate_assessment_logging#:#Activate Test&Assessment logging
+common#:#activate_assessment_logging#:#Activate Test & Assessment logging
 common#:#activate_https#:#HTTPS handling by ILIAS<br>(Payment, Login)
 common#:#activate_tracking#:#Activation
 common#:#activation#:#Edit Timings
@@ -1301,7 +1301,7 @@ common#:#administrator#:#Administrator
 common#:#adopt#:#Adopt
 common#:#advanced_editing_allow_html_tags#:#Allow the selected HTML tags for text editing
 common#:#advanced_editing_allow_javascript_editor#:#Enable a Rich Text Editor
-common#:#advanced_editing_assessment_settings#:#Allowed HTML Tags for the ILIAS Test&Assessment tool
+common#:#advanced_editing_assessment_settings#:#Allowed HTML Tags for the ILIAS Test & Assessment tool
 common#:#advanced_editing_cat_page_editing#:#Enable Content Editing for Category Pages
 common#:#advanced_editing_cat_page_editing_desc#:#This enables the content editing of category pages. When deactivated, the categories are just displayed as a set of item lists.
 common#:#advanced_editing_lm_js_editing#:#Enable HTMLArea for Content Editing
@@ -1374,10 +1374,11 @@ common#:#assessment_log_logging#:#Logging
 common#:#assessment_log_manual_scoring_activate#:#Activate Manual Scoring for
 common#:#assessment_log_manual_scoring#:#Manual Scoring
 common#:#assessment_log_manual_scoring_desc#:#If the Manual Scoring is activated for a question type, all questions of this question type could be manually scored by a test author. Please be careful with these settings, because late manual scoring of automatically scored question types could cause even judical problems!
-common#:#assessment_log#:#Create an Test&Assessment log for a specific time period
+common#:#assessment_log#:#Create a Test & Assessment log for a specific time period
 common#:#assessment_log_datetime#:#Date/Time
 common#:#assessment_log_for_test#:#For test
 common#:#assessment_log_log_entries#:#log entries
+common#:#assessment_log_no_data#:#No log data available
 common#:#assessment_log_no_log#:#It is no log data available for the selected test and the selected time period!
 common#:#assessment_log_open_calendar#:#Click here to open a calendar for date selection (JavaScript required!)
 common#:#assessment_log_question#:#Question
@@ -1399,9 +1400,9 @@ common#:#ass_log_delete_entries#:#Delete Log Entries
 common#:#ass_log_deleted#:#The Log Data for the selected tests has been deleted
 common#:#ass_log_delete_no_selection#:#Please select at least one test to delete the Log Data
 common#:#assf_edit_permission#:#Change permission settings
-common#:#assf_read#:#Access Test&Assessment Administration
-common#:#assf_visible#:#Test&Assessment administration is visible
-common#:#assf_write#:#Edit Test&Assessment administration
+common#:#assf_read#:#Access Test & Assessment Administration
+common#:#assf_visible#:#Test & Assessment administration is visible
+common#:#assf_write#:#Edit Test & Assessment administration
 common#:#assf_questiontypes#:#Question Settings
 common#:#assf_allowed_questiontypes#:#Available Question Types
 common#:#assf_allowed_questiontypes_desc#:#All the checked question types will be available in this ILIAS installation. If you don't want to allow the creation of a certain question type in this installation, you must remove the selection in the associated check box.

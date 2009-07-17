@@ -184,10 +184,13 @@ class ilCheckboxGroupInputGUI extends ilSubEnabledFormPropertyGUI
 			{
 				$tpl->setVariable('DISABLED','disabled="disabled" ');
 			}
-			if (in_array($option->getValue(), $this->getValue()))
+			if (is_array($this->getValue()))
 			{
-				$tpl->setVariable("CHK_CHECKBOX_OPTION",
-					'checked="checked"');
+				if (in_array($option->getValue(), $this->getValue()))
+				{
+					$tpl->setVariable("CHK_CHECKBOX_OPTION",
+						'checked="checked"');
+				}
 			}
 			$tpl->setVariable("TXT_CHECKBOX_OPTION", $option->getTitle());
 			
