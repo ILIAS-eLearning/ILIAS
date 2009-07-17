@@ -37,6 +37,7 @@ require_once "./Services/Container/classes/class.ilContainerGUI.php";
 * @ilCtrl_Calls ilObjCourseGUI: ilCourseContentGUI, ilPublicUserProfileGUI, ilMemberExportGUI
 * @ilCtrl_Calls ilObjCourseGUI: ilCourseUserFieldsGUI, ilCourseAgreementGUI, ilSessionOverviewGUI
 * @ilCtrl_Calls ilObjCourseGUI: ilColumnGUI, ilPageObjectGUI, ilCourseItemAdministrationGUI
+* @ilCtrl_Calls ilObjCourseGUI: ilLicenseOverviewGUI
 *
 * 
 * @extends ilContainerGUI
@@ -2599,6 +2600,8 @@ class ilObjCourseGUI extends ilContainerGUI
 			unset($_SESSION["crs_search_str"]);
 			unset($_SESSION["crs_search_for"]);
 			unset($_SESSION['crs_usr_search_result']);
+
+			$this->checkLicenses(true);
 			$this->ctrl->redirect($this,'members');
 		}
 		ilUtil::sendFailure($this->lng->txt("crs_users_already_assigned"));
@@ -3181,6 +3184,16 @@ class ilObjCourseGUI extends ilContainerGUI
 								 $this->ctrl->getLinkTargetByClass(array('ilobjcoursegui','illearningprogressgui'),''),
 								 '',
 								 array('illplistofobjectsgui','illplistofsettingsgui','illearningprogressgui','illplistofprogressgui'));
+		}
+
+		// license overview
+		$lic_set = new ilSetting("license");
+		if ($ilAccess->checkAccess('edit_permission', '', $this->ref_id)
+		and $lic_set->get("license_counter"))
+		{
+			$tabs_gui->addTarget("licenses",
+				$this->ctrl->getLinkTargetByClass('illicenseoverviewgui', ''),
+			"", "illicenseoverviewgui");
 		}
 
 		if ($ilAccess->checkAccess('edit_permission','',$this->ref_id))
@@ -4209,6 +4222,13 @@ class ilObjCourseGUI extends ilContainerGUI
 				$this->tabs_gui->setTabActive('learning_progress');
 				break;
 				
+			case 'illicenseoverviewgui':
+				include_once("./Services/License/classes/class.ilLicenseOverviewGUI.php");
+				$license_gui =& new ilLicenseOverviewGUI($this, LIC_MODE_REPOSITORY);
+				$ret =& $this->ctrl->forwardCommand($license_gui);
+				$this->tabs_gui->setTabActive('licenses');
+				break;
+
 			case 'ilpermissiongui':
 				include_once("Services/AccessControl/classes/class.ilPermissionGUI.php");
 				$this->tabs_gui->setTabActive('perm_settings');
@@ -4227,8 +4247,9 @@ class ilObjCourseGUI extends ilContainerGUI
 						ilCourseContants::CRS_ADMIN => $this->lng->txt('crs_admin')
 						)
 					);
-						
 
+				$this->checkLicenses();
+						
 				// Set tabs
 				$this->ctrl->setReturn($this,'members');
 				$ret =& $this->ctrl->forwardCommand($rep_search);
@@ -4408,6 +4429,38 @@ class ilObjCourseGUI extends ilContainerGUI
 			return false;
 		}
 		return true;
+	}
+	
+	
+	/**
+	 * Check the remaining licenses of course objects and generate a message if raare
+	 *
+	 * @access private
+	 *
+	 */
+	private function checkLicenses($a_keep = false)
+	{
+		global $lng;
+		
+		$lic_set = new ilSetting("license");
+		if ($lic_set->get("license_counter"))
+		{
+			$buffer = $lic_set->get("license_warning");
+
+			include_once("./Services/License/classes/class.ilLicense.php");
+			$licensed_items = ilLicense::_getLicensedChildObjects($this->object->getRefId());
+			foreach ($licensed_items as $item)
+			{
+				$license =& new ilLicense($item['obj_id']);
+				$remaining = $license->getRemainingLicenses();
+				if ($remaining <= $buffer)
+				{
+					$lng->loadlanguageModule("license");
+					ilUtil::sendInfo(sprintf($this->lng->txt("course_licenses_rare"), $remaining), $a_keep);
+					break;
+				}
+			}
+		}
 	}
 	
 	/**
