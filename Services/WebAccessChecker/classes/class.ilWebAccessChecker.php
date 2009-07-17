@@ -20,7 +20,6 @@
 	| Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA. |
 	+-----------------------------------------------------------------------------+
 */
-
 require_once "./include/inc.header.php";
 require_once "./Services/Utilities/classes/class.ilUtil.php";
 require_once "./classes/class.ilObject.php";
@@ -142,7 +141,8 @@ class ilWebAccessChecker
 
 		if (file_exists($this->file))
 		{
-			$this->mimetype = ilObjMediaObject::getMimeType($this->file);
+			//$this->mimetype = ilObjMediaObject::getMimeType($this->file);
+			$this->mimetype = $this->getMimeType();
 		}
 		else
 		{
@@ -158,106 +158,110 @@ class ilWebAccessChecker
 	*/
 	function checkAccess()
 	{
-		global $ilLog;
-		
-		// extract the object id (html/scorm learning modules)
+		global $ilLog, $ilUser, $ilObjDataCache;
 		$pos1 = strpos($this->subpath, "lm_data/lm_") + 11;
-		$pos2 = strpos($this->subpath, "/", $pos1);
-
-		if ($pos1 == 11 or $pos2 === false)
+		$pos2 = strpos($this->subpath, "mobs/mm_") + 8;
+		
+		$obj_id = 0;
+		$type = 'none';
+		// trying to access data within a learning module folder
+		if ($pos1 > 11)
 		{
-			// media object
-			$pos1 = strpos($this->subpath, "mobs/mm_") + 8;
-			$pos2 = strpos($this->subpath, "/", $pos1);
-			if ($pos1 === false or $pos2 === false)
-			{
-				$this->errorcode = 404;
-				$this->errortext = $this->lng->txt("url_not_found");
-				return false;
-			}
-			else
-			{
-				$mob_id = substr($this->subpath, $pos1, $pos2-$pos1);
-				include_once("./Services/MediaObjects/classes/class.ilObjMediaObject.php");
-				$usages = ilObjMediaObject::lookupUsages($mob_id);
+			$type = 'lm';
+			$seperator = strpos($this->subpath, '/', $pos1);
+			$obj_id = substr($this->subpath, $pos1, ($seperator > 0 ? $seperator : strlen($this->subpath))-$pos1);
+		}
+		//trying to access media data
+		else if ($pos2 > 8)
+		{
+			$type = 'mob';
+			$seperator = strpos($this->subpath, '/', $pos2);
+			$obj_id = substr($this->subpath, $pos2, ($seperator > 0 ? $seperator : strlen($this->subpath))-$pos2);
+		}
+		
+		if (!$obj_id || $type == 'none')
+			return false;
+			
+		switch($type)
+		{
+			case 'lm':
+				return $this->checkAccessLM($obj_id, 'lm');
+				break;
+			case 'mob':
+				$usages = ilObjMediaObject::lookupUsages($obj_id);
 				foreach($usages as $usage)
 				{
-					//var_dump($usage);
 					$oid = ilObjMediaObject::getParentObjectIdForUsage($usage, true);
-					//var_dump($oid);
-					if ($oid > 0)
+					switch($usage['type'])
 					{
-						$obj_ids[] = $oid;
-					
-						// media objects in news (media casts)
-						if ($usage["type"] == "news")
-						{
+						case 'lm:pg':
+							if ($oid > 0)
+							{
+								if ($this->checkAccessLM($oid, 'lm', $usage['id']))
+									return true;
+							}
+							break;
+						case 'news':
+							// media objects in news (media casts)
+
 							include_once("./Modules/MediaCast/classes/class.ilObjMediaCastAccess.php");
 							include_once("./Services/News/classes/class.ilNewsItem.php");
-							
-							if (ilObjMediaCastAccess::_lookupPublicFiles($oid) &&
-								ilNewsItem::_lookupVisibility($usage["id"]) == NEWS_PUBLIC)
+						
+							if (ilObjMediaCastAccess::_lookupPublicFiles($oid) && ilNewsItem::_lookupVisibility($usage["id"]) == NEWS_PUBLIC)
 							{
 								return true;
 							}
-						}
+							break;
+						case 'frm~:html':
+							// $oid = userid
+							if ($ilObjDataCache->lookupType($oid) == 'usr' && $oid == $ilUser->getId())
+							{
+								return true;
+							}
+							break;
+						default:
+							$ref_ids  = ilObject::_getAllReferences($oid);
+							$obj_type = ilObject::_lookupType($oid);
+							foreach($ref_ids as $ref_id)
+							{
+								if ($this->ilAccess->checkAccess("read", "view", $ref_id, $obj_type, $oid))
+									return true;
+							}
+							break;
 					}
 				}
-			}
+				break;
 		}
-		$obj_ids[] = substr($this->subpath, $pos1, $pos2-$pos1);
-		foreach($obj_ids as $obj_id)
-		{
-			if (!is_numeric($obj_id))
-			{
-				$this->errorcode = 404;
-				$this->errortext = $this->lng->txt("obj_not_found");
-				return false;
-			}
-	
-			// look in cache, if already checked
-			if (is_array($this->checked_list))
-			{
-				if (in_array($obj_id, $this->checked_list))
-				{
-	//				return true;
-				}
-			}
-	
-			// find the object references
-			$obj_type = ilObject::_lookupType($obj_id);
-			$ref_ids  = ilObject::_getAllReferences($obj_id);
-			if (!$ref_ids)
-			{
-				$this->errorcode = 403;
-				$this->errortext = $this->lng->txt("permission_denied");
-				return false;
-			}
-	
-			// check, if one of the references is readable
-			$readable = false;
-	
-			foreach($ref_ids as $ref_id)
-			{
-				if ($this->ilAccess->checkAccess("read", "view", $ref_id, $obj_type, $obj_id))
-				{
-					$readable = true;
-					break;
-				}
-			}
-			if ($readable)
-			{
-				//add object to cache
-				$this->checked_list[] = $obj_id;
-				return true;
-			}
-		}
-		
-		$this->errorcode = 403;
-		$this->errortext = $this->lng->txt("permission_denied");
-		return false;
 	}
 	
+	private function checkAccessLM($obj_id, $obj_type, $page = 0)
+	{
+		//if (!$page)
+		//{
+			$ref_ids  = ilObject::_getAllReferences($obj_id);
+			foreach($ref_ids as $ref_id)
+			{
+				if ($this->ilAccess->checkAccess("read", "", $ref_id))
+					return true;
+			}
+			return false;
+		//}	
+		//else
+		//{
+		//	$ref_ids  = ilObject::_getAllReferences($obj_id);
+		//	foreach($ref_ids as $ref_id)
+		//	{
+		//		if ($this->ilAccess->checkAccess("read", "", $ref_id))
+		//		{
+		//			require_once 'Modules/LearningModule/classes/class.ilObjLearningModule.php'; 
+		//			$lm = new ilObjLearningModule($obj_id,false);
+		//			if ($lm->_checkPreconditionsOfPage($ref_id, $obj_id, $page))
+		//				return true;
+		//		}
+		//	}
+		//	return false;
+		//}
+	}
 	
 	/**
 	* Set the delivery mode for the file
@@ -286,9 +290,26 @@ class ilWebAccessChecker
 	*/
 	function sendFile()
 	{
+		//$system_use_xsendfile = true;
+		$xsendfile_available = false;
+		
+		//if (function_exists('apache_get_modules'))
+		//{
+		//	$modules = apache_get_modules();
+		//	$xsendfile_available = in_array('mod_xsendfile', $modules);
+		//}
+		
+		//$xsendfile_available = $system_use_xsendfile & $xsendfile_available;
+		
 		if ($this->getDisposition() == "attachment")
 		{
-			ilUtil::deliverFile($this->file, basename($this->file));
+			if ($xsendfile_available)
+			{
+				header('x-sendfile: ' . $this->file);
+				header("Content-Type: application/octet-stream");
+			}
+			else
+				ilUtil::deliverFile($this->file, basename($this->file));
 			exit;
 		}
 		else
@@ -298,7 +319,7 @@ class ilWebAccessChecker
 				header("Cache-Control: no-cache, must-revalidate");
 				header("Pragma: no-cache");
 			}
-			
+
 			header("Content-Type: " . $this->mimetype);
 			header("Content-Length: ".(string)(filesize($this->file)));
 			
@@ -310,7 +331,16 @@ class ilWebAccessChecker
 
 			header("Connection: close");
 
-			ilUtil::readFile( $this->file);
+			if ($xsendfile_available)
+			{
+				header('x-sendfile: ' . $this->file);
+				header("Content-Type: " . $this->mimetype);
+			}
+			else
+			{
+				ilUtil::readFile( $this->file);
+			}
+			
 			exit;
 		}
 	}
@@ -323,14 +353,36 @@ class ilWebAccessChecker
 	{
 		switch ($this->errorcode)
 		{
-			case 403:
-				header("HTTP/1.0: 403 Forbidden");
-				break;
 			case 404:
 				header("HTTP/1.0: 404 Not Found");
+				break;
+			case 403:
+			default:
+				header("HTTP/1.0: 403 Forbidden");
 				break;
 		}
 		exit($this->errortext);
 	}
+	
+	public function getMimeType($default = 'application/octet-stream')
+	{
+		$mime = '';
+		if (extension_loaded('Fileinfo'))
+		{
+			$finfo = finfo_open(FILEINFO_MIME);
+			$mime = finfo_file($finfo, $this->file);
+			finfo_close($finfo);
+			if ($pos = strpos($mime, ' '))
+			{
+				$mime = substr($mime, 0, $pos);
+			}
+		}
+		else
+			$mime = ilObjMediaObject::getMimeType($this->file);
+		
+		$this->mimetype = $mime ? $mime : $default;
+	}
+	
+	
 }
 ?>
