@@ -33,9 +33,9 @@ class ilHtmlForumPostPurifier extends ilHtmlPurifierAbstractLibWrapper
 		$config = HTMLPurifier_Config::createDefault();
 		$config->set('Cache.SerializerPath', ilHtmlPurifierAbstractLibWrapper::_getCacheDirectory());
 		$config->set('HTML.Doctype', 'XHTML 1.0 Strict');		
-		$config->set('HTML.AllowedElements', ilObjAdvancedEditing::_getUsedHTMLTags(self::$_type));
-		
+		$config->set('HTML.AllowedElements', $this->removeUnsupportedElements(ilObjAdvancedEditing::_getUsedHTMLTags(self::$_type)));
+	
 		return $config;
-	}
+	}	
 }
 ?>
