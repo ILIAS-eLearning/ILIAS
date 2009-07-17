@@ -1006,10 +1006,10 @@ class ilObjMediaObject extends ilObject
 					}
 				}
 				
-				// Question Pool *Question* Text
+				// Forum
 				if ($cont_type == "frm")
 				{
-					$post_pk = $a_usage['usage_id'];
+					$post_pk = $a_usage['id'];
 					include_once 'Modules/Forum/classes/class.ilForumPost.php';
 					include_once 'Modules/Forum/classes/class.ilForum.php';
 					$oPost = new ilForumPost($post_pk);					
@@ -1020,7 +1020,7 @@ class ilObjMediaObject extends ilObject
 				
 				if ($cont_type == 'frm~')
 				{
-					$obj_id = $a_usage['usage_id'];
+					$obj_id = $a_usage['id'];
 				}
 				
 				break;
@@ -1057,6 +1057,13 @@ class ilObjMediaObject extends ilObject
 					include_once("./Modules/Glossary/classes/class.ilGlossaryTerm.php");
 					$term_id = ilGlossaryDefinition::_lookupTermId($id);
 					$obj_id = ilGlossaryTerm::_lookGlossaryID($term_id);
+				}
+				
+				// wiki page
+				if ($cont_type == 'wpg')
+				{
+					include_once 'Modules/Wiki/classes/class.ilWikiPage.php';
+					$obj_id = ilWikiPage::lookupObjIdByPage($id);
 				}
 				
 				break;

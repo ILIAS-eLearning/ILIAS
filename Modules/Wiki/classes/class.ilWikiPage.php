@@ -597,6 +597,26 @@ class ilWikiPage extends ilPageObject
 		return $pages;
 	}
 
-	
+
+	/**
+	 * returns the wiki/object id to a given page id
+	 * 
+	 * @param $a_page_id
+	 * @return int the object id
+	 */
+	public static function lookupObjIdByPage($a_page_id)
+	{
+		global $ilDB;
+		
+		$query = "SELECT wiki_id FROM il_wiki_page".
+			" WHERE id = ".$ilDB->quote($a_page_id, "integer");
+		$set = $ilDB->query($query);
+		if($rec = $ilDB->fetchAssoc($set))
+		{
+			return $rec["wiki_id"];
+		}
+		
+		return false;		
+	}
 } // END class.ilWikiPage
 ?>
