@@ -14649,3 +14649,33 @@ $ilDB->addTableColumn("tst_tests", "mailnotification", array("type" => "integer"
 <?php
 $ilCtrlStructureReader->getStructure();
 ?>
+<#2774>
+<?php
+
+$ilDB->manipulateF("UPDATE bookmark_social_bm ".
+		"SET sbm_icon=%s WHERE sbm_title=%s",
+		array("text", "text"),
+		array('digg_15x15.gif','Digg')
+);
+
+$ilDB->manipulateF("UPDATE bookmark_social_bm ".
+		"SET sbm_icon=%s WHERE sbm_title=%s",
+		array("text", "text"),
+		array('delicious_15x15.gif','Del.icio.us')
+);
+
+$id = $ilDB->nextId("bookmark_social_bm");
+$ilDB->manipulateF("INSERT INTO bookmark_social_bm (sbm_id, sbm_title, sbm_link, sbm_icon, sbm_active) ".
+		"VALUES (%s, %s, %s, %s, %s)",
+		array("integer", "text", "text", "text", "integer"),
+		array($id, 'Mister Wong', 'http://www.mister-wong.com/index.php?action=addurl&bm_url={LINK}&bm_description={TITLE}', 'mister_wong_15x15.jpg',0)
+	);
+
+$id = $ilDB->nextId("bookmark_social_bm");
+$ilDB->manipulateF("INSERT INTO bookmark_social_bm (sbm_id, sbm_title, sbm_link, sbm_icon, sbm_active) ".
+		"VALUES (%s, %s, %s, %s, %s)",
+		array("integer", "text", "text", "text", "integer"),
+		array($id, 'StumbleUpon', 'http://www.stumbleupon.com/submit?url={LINK}&title={TITLE}', 'stumbleupon_15x15.jpg',0)
+);
+
+?>
