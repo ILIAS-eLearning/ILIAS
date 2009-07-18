@@ -14690,3 +14690,18 @@ mysql_query("UPDATE il_tag SET sub_obj_type = '-' ".
 <?php
 $ilDB->addTableColumn("usr_data", "birthday", array("type" => "date", "notnull" => false, 'default'=> null));
 ?>
+<#2777>
+<?php
+	$ilDB->addTableColumn("ut_access", "ut_month", array(
+		"type" => "text",
+		"notnull" => false,
+		"length" => 10,
+		"fixed" => false
+		));
+	$set = $ilDB->query("SELECT * FROM ut_access");
+	while ($rec = $ilDB->fetchAssoc($set))
+	{
+		$ilDB->manipulate("UPDATE ut_access SET ut_month = ".$ilDB->quote(substr($rec["acc_time"], 0, 7), "text").
+			" WHERE acc_time = ".$ilDB->quote($rec["acc_time"], "timestamp"));
+	}
+?>

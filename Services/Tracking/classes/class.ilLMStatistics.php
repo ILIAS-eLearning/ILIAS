@@ -1,31 +1,10 @@
 <?php
-/*
-+-----------------------------------------------------------------------------+
-| ILIAS open source                                                           |
-+-----------------------------------------------------------------------------+
-| Copyright (c) 1998-2001 ILIAS open source, University of Cologne            |
-|                                                                             |
-| This program is free software; you can redistribute it and/or               |
-| modify it under the terms of the GNU General Public License                 |
-| as published by the Free Software Foundation; either version 2              |
-| of the License, or (at your option) any later version.                      |
-|                                                                             |
-| This program is distributed in the hope that it will be useful,             |
-| but WITHOUT ANY WARRANTY; without even the implied warranty of              |
-| MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the               |
-| GNU General Public License for more details.                                |
-|                                                                             |
-| You should have received a copy of the GNU General Public License           |
-| along with this program; if not, write to the Free Software                 |
-| Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA. |
-+-----------------------------------------------------------------------------+
-*/
+/* Copyright (c) 1998-2009 ILIAS open source, Extended GPL, see docs/LICENSE */
 
 /**
  * @author Roland K�stermann
  * @date	20.02.2006
  */
-
 class ilLMStatistics {
 
     var $AppletData;
@@ -55,7 +34,7 @@ class ilLMStatistics {
 
     function calcStats($mode) {
 
-        global $tpl, $lng, $ilias, $db;
+        global $tpl, $lng, $ilias, $db, $ilDB;
 
         if ($mode == 1) { //wenn Aufruf aus Applet
             $from = $this->from;
@@ -99,15 +78,6 @@ class ilLMStatistics {
         if (count($user_IDs) > 0 || ($user_selection == "all")) {
 
             //Benutzer-String f�r SQL erzeugen
-
-            if (count($user_IDs) > 0) {
-                $stringUserID = "(";
-                foreach ($user_IDs as $result_id) {
-                    $stringUserID = $stringUserID.$result_id.",";
-                }
-                $stringUserID = substr($stringUserID, 0, -1);
-                $stringUserID = $stringUserID.")";
-            }
 
             //STATS-EINSTELLUNGSOPTIONEN
 
@@ -172,9 +142,15 @@ class ilLMStatistics {
             //2.SESSIONS bestimmen
 
             if ($_POST["stat2"] == 'all') {
-                $q = "SELECT id, user_id,acc_obj_id,acc_sub_id,session_id, acc_time FROM ut_access WHERE acc_obj_id='".$LehrModulID."' AND acc_time>'".$from."' AND acc_time<'".$to."' ";
+                $q = "SELECT id, user_id,acc_obj_id,acc_sub_id,session_id, acc_time ".
+					"FROM ut_access WHERE acc_obj_id=".$ilDB->quote($LehrModulID, "integer").
+					" AND acc_time > ".$ilDB->quote($from, "timestamp")." AND acc_time < ".
+					$ilDB->quote($to, "timestamp")." ";
             } else {
-                $q = "SELECT id, user_id, acc_obj_id, acc_sub_id, session_id, acc_time FROM ut_access WHERE acc_obj_id='".$LehrModulID."' AND acc_time>'".$from."' AND acc_time<'".$to."' AND user_id IN ".$stringUserID." ";
+                $q = "SELECT id, user_id, acc_obj_id, acc_sub_id, session_id, acc_time ".
+				"FROM ut_access WHERE acc_obj_id= ".$ilDB->quote($LehrModulID, "integer").
+					" AND acc_time > ".$ilDB->quote($from, "timestamp")." AND acc_time < ".
+					$ilDB->quote($to, "timestamp")." AND ".$ilDB->in("user_id", $user_IDs, false, "integer");
             }
             $result = $ilias->db->query($q);
 
