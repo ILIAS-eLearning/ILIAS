@@ -947,6 +947,7 @@ return;
 		$data["fields"]["firstname"] = "";
 		$data["fields"]["lastname"] = "";
 		$data["fields"]["title"] = "";
+		$data["fields"]["birthday"] = "";
 		$data["fields"]["institution"] = "";
 		$data["fields"]["department"] = "";
 		$data["fields"]["street"] = "";

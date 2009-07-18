@@ -14686,3 +14686,7 @@ mysql_query("UPDATE il_tag SET sub_obj_type = '-' ".
 		" WHERE sub_obj_type = '' OR sub_obj_type IS NULL");
 
 ?>
+<#2776>
+<?php
+$ilDB->addTableColumn("usr_data", "birthday", array("type" => "date", "notnull" => false, 'default'=> null));
+?>

@@ -887,7 +887,17 @@ class ilObjUserGUI extends ilObjectGUI
 			
 			$until = new ilDateTime($_POST['time_limit_until']['date'].' '.$_POST['time_limit_until']['time'],IL_CAL_DATETIME,$ilUser->getTimeZone());
 			$_POST['time_limit_until'] = $until->get(IL_CAL_UNIX);
-
+			if (is_array($_POST['birthday']))
+			{
+				if (strlen($_POST['birthday']['date']))
+				{
+					$_POST['birthday'] = $_POST['birthday']['date'];
+				}
+				else
+				{
+					$_POST['birthday'] = null;
+				}
+			}
 			$userObj->assignData($_POST);
 			$userObj->setTitle($userObj->getFullname());
 			$userObj->setDescription($userObj->getEmail());
@@ -1111,6 +1121,17 @@ class ilObjUserGUI extends ilObjectGUI
 			$until = new ilDateTime($_POST['time_limit_until']['date'].' '.$_POST['time_limit_until']['time'],IL_CAL_DATETIME,$ilUser->getTimeZone());
 			$_POST['time_limit_until'] = $until->get(IL_CAL_UNIX);
 			$_POST['time_limit_owner'] = $this->usrf_ref_id;
+			if (is_array($_POST['birthday']))
+			{
+				if (strlen($_POST['birthday']['date']))
+				{
+					$_POST['birthday'] = $_POST['birthday']['date'];
+				}
+				else
+				{
+					$_POST['birthday'] = null;
+				}
+			}
 			$this->object->assignData($_POST);
 
 			$udf = array();
@@ -1281,6 +1302,7 @@ class ilObjUserGUI extends ilObjectGUI
 		$data["firstname"] = $this->object->getFirstname();
 		$data["lastname"] = $this->object->getLastname();
 		$data["title"] = $this->object->getUTitle();
+		$data['birthday'] = $this->object->getBirthday();
 		$data["institution"] = $this->object->getInstitution();
 		$data["department"] = $this->object->getDepartment();
 		$data["street"] = $this->object->getStreet();
@@ -1574,6 +1596,8 @@ class ilObjUserGUI extends ilObjectGUI
 
 		$birthday = new ilBirthdayInputGUI($lng->txt('birthday'), 'birthday');
 		$birthday->setRequired(isset($settings["require_birthday"]) && $settings["require_birthday"]);
+		$birthday->setShowEmpty(true);
+		$birthday->setStartYear(1900);
 		$this->form_gui->addItem($birthday);
 
 		// contact data
