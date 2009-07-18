@@ -230,13 +230,13 @@ class ilObjUserTracking extends ilObject
 	{
 		global $ilDB;
 
-		$q = "SELECT count(*) as cnt, count(distinct user_id) as user_cnt, date_format(acc_time,'%Y-%m') AS month FROM ut_access".
-			" GROUP BY month ORDER BY month DESC";
+		$q = "SELECT count(*) as cnt, count(distinct user_id) as user_cnt, ut_month FROM ut_access".
+			" GROUP BY ut_month ORDER BY ut_month DESC";
 		$min_set = $ilDB->query($q);
 		$months = array();
 		while ($min_rec = $min_set->fetchRow(DB_FETCHMODE_ASSOC))
 		{
-			$months[] = array("month" => $min_rec["month"],
+			$months[] = array("month" => $min_rec["ut_month"],
 				"cnt" => $min_rec["cnt"], "user_cnt" => $min_rec["user_cnt"]);
 		}
 		return $months;
@@ -249,8 +249,8 @@ class ilObjUserTracking extends ilObject
 	{
 		global $ilDB;
 
-		$q = "SELECT count(*) as cnt, date_add('$a_month-01', INTERVAL 1 MONTH) as d FROM ut_access WHERE acc_time <= ".
-			"date_add('$a_month-01', INTERVAL 1 MONTH)";
+		$q = "SELECT count(*) as cnt, count(ut_month) as d FROM ut_access WHERE acc_time <= ".
+			$ilDB->quote($this->increaseMonth($a_month)."-01", "timestamp");
 
 		$cnt_set = $ilDB->query($q);
 		$cnt_rec = $cnt_set->fetchRow(DB_FETCHMODE_ASSOC);
@@ -371,12 +371,30 @@ class ilObjUserTracking extends ilObject
 	{
 		global $ilDB;
 
-		$q = "DELETE FROM ut_access WHERE acc_time <= ".
-			"date_add('$a_month-01', INTERVAL 1 MONTH)";
+		$q = "DELETE FROM ut_access WHERE acc_time < ".
+			$ilDB->quote($this->increaseMonth($a_month)."-01", "timestamp");
 
 		$ilDB->query($q);
 	}
 
+	/**
+	 * Increase Month string ("YYYY-MM") by one
+	 * month
+	 * @param	string	month string
+	 * @return	string	month string increase by one mont
+	 */
+	function increaseMonth($a_month)
+	{
+		$year = (int) substr($a_month, 0, 4);
+		$month = (int) substr($a_month, 5);
+		$month += 1;
+		if ($month == 13)
+		{
+			$year += 1;
+			$month = 1;
+		}
+		return $year."-".str_pad($month, 2, "0", STR_PAD_LEFT);
+	}
 
 	/**
 	* get all author
@@ -493,8 +511,8 @@ class ilObjUserTracking extends ilObject
 	{
 		global $ilDB;
 
-		$query = "DELETE FROM ut_access WHERE user_id = '".$a_usr_id."'";
-		$ilDB->query($query);
+		$query = "DELETE FROM ut_access WHERE user_id = ".$ilDB->quote($a_usr_id, "integer")."";
+		$ilDB->manipulate($query);
 
 		$query = sprintf('DELETE FROM read_event WHERE usr_id = %s ',
 			$ilDB->quote($a_usr_id,'integer'));

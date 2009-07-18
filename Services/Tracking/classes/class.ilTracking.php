@@ -1,26 +1,5 @@
 <?php
-/*
-	+-----------------------------------------------------------------------------+
-	| ILIAS open source                                                           |
-	+-----------------------------------------------------------------------------+
-	| Copyright (c) 1998-2001 ILIAS open source, University of Cologne            |
-	|                                                                             |
-	| This program is free software; you can redistribute it and/or               |
-	| modify it under the terms of the GNU General Public License                 |
-	| as published by the Free Software Foundation; either version 2              |
-	| of the License, or (at your option) any later version.                      |
-	|                                                                             |
-	| This program is distributed in the hope that it will be useful,             |
-	| but WITHOUT ANY WARRANTY; without even the implied warranty of              |
-	| MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the               |
-	| GNU General Public License for more details.                                |
-	|                                                                             |
-	| You should have received a copy of the GNU General Public License           |
-	| along with this program; if not, write to the Free Software                 |
-	| Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA. |
-	+-----------------------------------------------------------------------------+
-*/
-
+/* Copyright (c) 1998-2009 ILIAS open source, Extended GPL, see docs/LICENSE */
 
 /**
 * registration form for new u ilLearningProgresssers
@@ -30,9 +9,6 @@
 *
 * @package ilias-core
 */
-
-
-
 class ilTracking {
 
 	var $objId;
@@ -85,9 +61,9 @@ class ilTracking {
 		// We query for the session_id since it is more unique than the user_id. 
 		
 		$query = "SELECT COUNT(id) as num_entries FROM ut_access ".
-			"WHERE session_id = ".$ilDB->quote(session_id())." ".
-			"AND acc_obj_id = ".$ilDB->quote($a_obj_id)." ".
-			"AND acc_sub_id = ".$ilDB->quote($a_sub_id)." ";
+			"WHERE session_id = ".$ilDB->quote(session_id(), "text")." ".
+			"AND acc_obj_id = ".$ilDB->quote($a_obj_id, "integer")." ".
+			"AND acc_sub_id = ".$ilDB->quote($a_sub_id, "text")." ";
 		$res = $ilDB->query($query);
 		$row = $res->fetchRow(DB_FETCHMODE_OBJECT);
 		
@@ -141,19 +117,21 @@ class ilTracking {
 		$q = "INSERT INTO ut_access ("
 			."user_id, action_type, php_script, client_ip,"
 			."acc_obj_type, acc_obj_id, acc_sub_type, acc_sub_id,"
-			."language, browser, session_id, acc_time"
+			."language, browser, session_id, acc_time, ut_month"
 			.") VALUES ("
-			.$ilDB->quote($user_id).","
-			.$ilDB->quote($a_action_type).","
-			.$ilDB->quote($script).","
-			.$ilDB->quote($client_ip).","
-			.$ilDB->quote($a_obj_type).","
-			.$ilDB->quote($a_obj_id).","
-			.$ilDB->quote($a_sub_type).","
-			.$ilDB->quote($a_sub_id).","
-			.$ilDB->quote($language).","
+			.$ilDB->quote($user_id, "integer").","
+			.$ilDB->quote($a_action_type, "text").","
+			.$ilDB->quote($script, "text").","
+			.$ilDB->quote($client_ip, "text").","
+			.$ilDB->quote($a_obj_type, "text").","
+			.$ilDB->quote($a_obj_id, "integer").","
+			.$ilDB->quote($a_sub_type, "text").","
+			.$ilDB->quote($a_sub_id, "integer").","
+			.$ilDB->quote($language, "text").","
 			.$ilDB->quote($_SERVER["HTTP_USER_AGENT"]).","
-			.$ilDB->quote($session_id).", now()"
+			.$ilDB->quote($session_id, "text").", "
+			.$ilDB->quote(ilUtil::now(), "timestamp").", "
+			.$ilDB->quote(substr(ilUtil::now(), 0, 7), "text")
 			.")";
 	   $ilDB->query($q);
 		
@@ -195,7 +173,7 @@ class ilTracking {
 		global $ilDB;
 		
 		$q = " SELECT title from object_data "
-			." WHERE type = 'tst'"
+			." WHERE type = ".$ilDB->quote("tst", "text")
 			." AND owner = ".$ilDB->quote($user_id ,'integer');
 		$res = $this->ilias->db->query($q);
 		for($i=0;$i<$res->numRows();$i++)
@@ -265,9 +243,11 @@ class ilTracking {
 
 	function getSubId($id)
 	{
+		global $ilDB;
+		
 		$q = "SELECT obj_id from object_data "
-		." WHERE type = 'lm' and "
-		." owner = ".$id;
+		." where type = ".$ilDB->quote("lm", "text")." and "
+		." owner = ".$ilDB->quote($id, "integer");
 		$res = $this->ilias->db->query($q);
 		for($i=0;$i<$res->numRows();$i++)
 		{
@@ -277,9 +257,11 @@ class ilTracking {
 	}
 	function getSubTest($id)
 	{
+		global $ilDB;
+		
 		$q = "SELECT obj_id from object_data "
-		." WHERE type = 'tst' and "
-		." owner = ".$id;
+		." where type = ".$ilDB->quote("tst", "text")." and "
+		." owner = ".$ilDB->quote($id, "integer");
 		$res = $this->ilias->db->query($q);
 		for($i=0;$i<$res->numRows();$i++)
 		{
@@ -287,11 +269,14 @@ class ilTracking {
 		}
 		return $result;
 	}
+	
 	function getTestId($id)
 	{
+		global $ilDB;
+		
 		$q = "select obj_id from object_data "
-		." where type = 'tst' and "
-		." owner = ".$id;
+		." where type = ".$ilDB->quote("tst", "text")." and "
+		." owner = ".$ilDB->quote($id, "integer");
 		$res = $this->ilias->db->query($q);
 		for ($i=0;$i<$res->numRows();$i++)
 		{
@@ -299,8 +284,11 @@ class ilTracking {
 		}
 		return $result;
 	}
+	
 	function countResults($condition)
 	{
+		global $ilDB;
+		
 		$q = "SELECT count(*) from ut_access "
 		." WHERE "
 		.$condition;
@@ -308,8 +296,11 @@ class ilTracking {
 		$result = $res->fetchRow();
 		return $result[0];
 	}
+	
 	function searchResults($condition)
 	{
+		global $ilDB;
+		
 		$q = "SELECT a.login,b.acc_obj_type,b.language,b.client_ip,b.acc_time "
 			." FROM usr_data as a,ut_access as b "
 			." WHERE a.usr_id=b.user_id "
@@ -322,8 +313,11 @@ class ilTracking {
 		}
 		return $result;
 	}
+	
 	function searchTestResults($condition)
 	{
+		global $ilDB;
+		
 		$q = "SELECT a.login,b.acc_obj_type,b.client_ip,b.acc_time "
 			." FROM usr_data as a,ut_access as b "
 			." WHERE a.usr_id=b.user_id "
@@ -336,8 +330,11 @@ class ilTracking {
 		}
 		return $result;
 	}
+	
 	function searchUserId($condition)
 	{
+		global $ilDB;
+		
 		$q = "SELECT user_id from ut_access where ".$condition;
 //echo $q;
 		$res = $this->ilias->db->query($q);
@@ -347,8 +344,11 @@ class ilTracking {
 		}
 		return $result;
 	}
+	
 	function searchTestId($condition)
 	{
+		global $ilDB;
+		
 		$q = "select user_fi from tst_active where ".$condition;
 		$res = $this->ilias->db->query($q);
 		for($i=0;$i<$res->numRows();$i++)
@@ -357,18 +357,25 @@ class ilTracking {
 		}
 		return $result;
 	}
+	
 	function getPerTestId($test)
 	{
-		$q = "select obj_id from object_data where type = 'tst' and title = '".$test."'";
+		global $ilDB;
+		
+		$q = "select obj_id from object_data where type = ".
+			$ilDB->quote("tst", "text")." and title = ".$ilDB->quote($test, "text");
 		$res = $this->ilias->db->query($q);
 		$result = $res->fetchRow();
 		return $result[0];
 	}
+	
 	function countNum($from,$from1,$condition)
 	{
+		global $ilDB;
+		
 		$q = "SELECT count(*) from ut_access "
-			." WHERE (acc_time > '".$from
-			."' AND acc_time <='".$from1."')"
+			." WHERE (acc_time > ".$ilDB->quote($from, "timestamp")
+			." AND acc_time <= ".$ilDB->quote($from1, "integer").")"
 			." AND ".$condition;
 			//echo $condition;echo "<br>";
 //echo $q;
@@ -376,11 +383,14 @@ class ilTracking {
 		$result = $res->fetchRow();
 		return $result[0];
 	}
+	
 	function selectTime($from,$to,$condition)
 	{
+		global $ilDB;
+		
 		$q = "SELECT acc_time from ut_access "
-			." WHERE (acc_time >= '".$from
-			."' AND acc_time <='".$to."')"
+			." WHERE (acc_time > ".$ilDB->quote($from, "timestamp")
+			." AND acc_time <= ".$ilDB->quote($to, "integer").")"
 			." AND ".$condition;
 //echo $q;
 //echo "<br>";
@@ -394,11 +404,13 @@ class ilTracking {
 
 	function getTest($id)
 	{
+		global $ilDB;
+		
 		$q = "SELECT title from object_data "
 		." WHERE "
-		." type = 'tst' "
+		." type = ".$ilDB->quote("tst", "text")
 		." and "
-		." owner = ".$id;
+		." owner = ".$ilDB->quote($id, "integer");
 		$res = $this->ilias->db->query($q);
 		for($i=0;$i<$res->numRows();$i++)
 		{

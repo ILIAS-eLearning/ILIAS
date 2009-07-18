@@ -1,25 +1,7 @@
 <?php
-/*
-	+-----------------------------------------------------------------------------+
-	| ILIAS open source                                                           |
-	+-----------------------------------------------------------------------------+
-	| Copyright (c) 1998-2001 ILIAS open source, University of Cologne            |
-	|                                                                             |
-	| This program is free software; you can redistribute it and/or               |
-	| modify it under the terms of the GNU General Public License                 |
-	| as published by the Free Software Foundation; either version 2              |
-	| of the License, or (at your option) any later version.                      |
-	|                                                                             |
-	| This program is distributed in the hope that it will be useful,             |
-	| but WITHOUT ANY WARRANTY; without even the implied warranty of              |
-	| MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the               |
-	| GNU General Public License for more details.                                |
-	|                                                                             |
-	| You should have received a copy of the GNU General Public License           |
-	| along with this program; if not, write to the Free Software                 |
-	| Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA. |
-	+-----------------------------------------------------------------------------+
-*/
+/* Copyright (c) 1998-2009 ILIAS open source, Extended GPL, see docs/LICENSE */
+
+include_once "classes/class.ilObjectGUI.php";
 
 /**
 * Class ilObjUserTrackingGUI
@@ -35,9 +17,6 @@
 *
 * @ilCtrl_Calls ilObjUserTrackingGUI: ilLearningProgressGUI, ilPermissionGUI
 */
-
-include_once "classes/class.ilObjectGUI.php";
-
 class ilObjUserTrackingGUI extends ilObjectGUI
 {
 	/**
@@ -1337,7 +1316,7 @@ class ilObjUserTrackingGUI extends ilObjectGUI
 
 		if ($_POST["language"] != "0")
 		{
-			return "ut_access.language =".$ilDB->quote($_POST["language"]);
+			return "ut_access.language =".$ilDB->quote($_POST["language"], "text");
 		}
 
 		return "";
@@ -1465,10 +1444,12 @@ class ilObjUserTrackingGUI extends ilObjectGUI
 	*/
 	function selectTime($from,$to,$condition,$searchTermsCondition="",$objectCondition="")
 	{
+		global $ilDB;
+		
 		$q = "SELECT acc_time from ut_access "
 			.($searchTermsCondition != "" ? $searchTermsCondition : " WHERE ")
-			." (acc_time >= '".$from." 00:00:00'"
-			." AND acc_time <= '".$to." 23:59:59')"
+			." (acc_time >= ".$ilDB->quote($from." 00:00:00", "timestamp")
+			." AND acc_time <= ".$ilDB->quote($to." 23:59:59", "timestamp").")"
 			." AND ".$condition
 			.$objectCondition
 			." GROUP BY acc_time";
@@ -1485,10 +1466,12 @@ class ilObjUserTrackingGUI extends ilObjectGUI
 	*/
 	function countNum($from,$from1,$condition,$searchTermsCondition="",$objectCondition="")
 	{
+		global $ilDB;
+		
 		$q = "SELECT id FROM ut_access"
 			.($searchTermsCondition != "" ? $searchTermsCondition : " WHERE ")
-			." (acc_time >= '".$from." 00:00:00'"
-			." AND acc_time < '".$from1." 00:00:00')"
+			." (acc_time >= ".$ilDB->quote($from." 00:00:00", "timestamp")
+			." AND acc_time <= ".$ilDB->quote($from1." 00:00:00", "timestamp").")"
 			." AND ".$condition
 			.$objectCondition
 			." GROUP BY id";
