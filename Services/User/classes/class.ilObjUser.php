@@ -53,6 +53,7 @@ class ilObjUser extends ilObject
 	var $utitle;	// user title (keep in mind, that we derive $title from object also!)
 	var $firstname;
 	var $lastname;
+	protected $birthday;
 	var $fullname;	// title + firstname + lastname in one string
 	//var $archive_dir = "./image";  // point to image file (should be flexible)
  	// address data
@@ -266,7 +267,7 @@ class ilObjUser extends ilObject
 	*/
 	function assignData($a_data)
 	{
-		global $ilErr, $ilDB;
+		global $ilErr, $ilDB, $lng;
 		
 		// basic personal data
 		$this->setLogin($a_data["login"]);
@@ -286,7 +287,15 @@ class ilObjUser extends ilObject
 		$this->setFirstname($a_data["firstname"]);
 		$this->setLastname($a_data["lastname"]);
 		$this->setFullname();
-
+		if (!is_array($a_data['birthday']))
+		{
+			$this->setBirthday($a_data['birthday']);
+		}
+		else
+		{
+			$this->setBirthday(null);
+		}
+		
 		// address data
 		$this->setInstitution($a_data["institution"]);
 		$this->setDepartment($a_data["department"]);
@@ -405,6 +414,7 @@ class ilObjUser extends ilObject
 			"phone_home" => array("text", $this->phone_home),
 			"phone_mobile" => array("text", $this->phone_mobile),
 			"fax" => array("text", $this->fax),
+			"birthday" => array('date', $this->getBirthday()),
 			"last_login" => array("timestamp", null),
 			"last_update" => array("timestamp", ilUtil::now()),
 			"create_date" => array("timestamp", ilUtil::now()),
@@ -473,6 +483,7 @@ class ilObjUser extends ilObject
 			"firstname" => array("text", $this->firstname),
 			"lastname" => array("text", $this->lastname),
 			"email" => array("text", $this->email),
+			"birthday" => array('date', $this->getBirthday()),
 			"hobby" => array("text", $this->hobby),
 			"institution" => array("text", $this->institution),
 			"department" => array("text", $this->department),
@@ -4701,6 +4712,14 @@ class ilObjUser extends ilObject
 		throw new ilRegistrationHashNotFoundException('reg_confirmation_hash_not_found');
 	}
 
-
+	function setBirthday($a_birthday)
+	{
+		$this->birthday = $a_birthday;
+	}
+	
+	function getBirthday()
+	{
+		return $this->birthday;
+	}
 } // END class ilObjUser
 ?>

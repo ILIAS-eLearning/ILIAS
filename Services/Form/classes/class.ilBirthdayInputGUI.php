@@ -1,7 +1,7 @@
 <?php
 /* Copyright (c) 1998-2009 ILIAS open source, Extended GPL, see docs/LICENSE */
 
-include_once("./Services/Form/classes/class.ilTextInputGUI.php");
+include_once("./Services/Form/classes/class.ilDateTimeInputGUI.php");
 
 /**
 * This class represents a text property in a property form.
@@ -10,78 +10,38 @@ include_once("./Services/Form/classes/class.ilTextInputGUI.php");
 * @version $Id$
 * @ingroup	ServicesForm
 */
-class ilBirthdayInputGUI extends ilTextInputGUI
+class ilBirthdayInputGUI extends ilDateTimeInputGUI
 {
-	protected $dateformat;
-	
 	/**
-	* Constructor
+	* Set value by array
 	*
-	* @param	string	$a_title	Title
-	* @param	string	$a_postvar	Post Variable
+	* @param	array	$a_values	value array
 	*/
-	function __construct($a_title = "", $a_postvar = "")
+	function setValueByArray($a_values)
 	{
-		global $lng;
-		
-		parent::__construct($a_title, $a_postvar);
-		$this->maxlength = 10;
-		$this->size = 12;
-		$this->dateformat = $lng->txt('lang_dateformat');
-	}
-	
-	/**
-	* Set the date format
-	*/
-	public function setDateformat($a_format)
-	{
-		$this->dateformat = $a_format;
-	}
-	
-	/**
-	* Get the date format
-	*/
-	public function getDateformat()
-	{
-		return $this->dateformat;
-	}
-
-	/**
-	 * Return a regular expression to check a date
-	 * @param  string
-	 * @return string
-	 */
-	public function getRegexp($strFormat=false)
-	{
-		if (!$strFormat)
+		if (is_array($a_values[$this->getPostVar()]["date"]))
 		{
-			$strFormat = $this->dateformat;
+			if (checkdate($a_values[$this->getPostVar()]["date"]['m'], $a_values[$this->getPostVar()]["date"]['d'], $a_values[$this->getPostVar()]["date"]['y']))
+			{
+				parent::setValueByArray($a_values);
+				return;
+			}
 		}
-
-		if (preg_match('/[BbCcDEeFfIJKkLlMNOoPpQqRrSTtUuVvWwXxZz]+/', $strFormat))
+		else
 		{
-			throw new Exception(sprintf('Invalid date format "%s"', $strFormat));
+			if (!is_array($a_values[$this->getPostVar()]) && strlen($a_values[$this->getPostVar()]))
+			{
+				$this->setDate(new ilDate($a_values[$this->getPostVar()], IL_CAL_DATE));
+			}
+			else
+			{
+				$this->date = null;
+			}
 		}
-
-		$arrRegexp = array
-		(
-			'a' => '(?P<a>am|pm)',
-			'A' => '(?P<A>AM|PM)',
-			'd' => '(?P<d>0[1-9]|[12][0-9]|3[01])',
-			'g' => '(?P<g>[1-9]|1[0-2])',
-			'G' => '(?P<G>[0-9]|1[0-9]|2[0-3])',
-			'h' => '(?P<h>0[1-9]|1[0-2])',
-			'H' => '(?P<H>[01][0-9]|2[0-3])',
-			'i' => '(?P<i>[0-5][0-9])',
-			'j' => '(?P<j>[1-9]|[12][0-9]|3[01])',
-			'm' => '(?P<m>0[1-9]|1[0-2])',
-			'n' => '(?P<n>[1-9]|1[0-2])',
-			's' => '(?P<s>[0-5][0-9])',
-			'Y' => '(?P<Y>[0-9]{4})',
-			'y' => '(?P<y>[0-9]{2})',
-		);
-
-		return preg_replace('/[a-zA-Z]/e', 'isset($arrRegexp["$0"]) ? $arrRegexp["$0"] : "$0"', $strFormat);
+		foreach($this->getSubItems() as $item)
+		{
+			$item->setValueByArray($a_values);
+		}
 	}
 
 	/**
@@ -91,21 +51,106 @@ class ilBirthdayInputGUI extends ilTextInputGUI
 	*/	
 	function checkInput()
 	{
-		global $lng;
+		global $lng,$ilUser;
 		
-		$_POST[$this->getPostVar()] = ilUtil::stripSlashes($_POST[$this->getPostVar()]);
-		if ($this->getRequired() && trim($_POST[$this->getPostVar()]) == "")
+		$ok = true;
+		
+		$_POST[$this->getPostVar()]["date"]["y"] = 
+			ilUtil::stripSlashes($_POST[$this->getPostVar()]["date"]["y"]);
+		$_POST[$this->getPostVar()]["date"]["m"] = 
+			ilUtil::stripSlashes($_POST[$this->getPostVar()]["date"]["m"]);
+		$_POST[$this->getPostVar()]["date"]["d"] = 
+			ilUtil::stripSlashes($_POST[$this->getPostVar()]["date"]["d"]);
+		$_POST[$this->getPostVar()]["time"]["h"] = 
+			ilUtil::stripSlashes($_POST[$this->getPostVar()]["time"]["h"]);
+		$_POST[$this->getPostVar()]["time"]["m"] = 
+			ilUtil::stripSlashes($_POST[$this->getPostVar()]["time"]["m"]);
+		$_POST[$this->getPostVar()]["time"]["s"] = 
+			ilUtil::stripSlashes($_POST[$this->getPostVar()]["time"]["s"]);
+
+		// verify date
+		
+		$dt['year'] = (int) $_POST[$this->getPostVar()]['date']['y'];
+		$dt['mon'] = (int) $_POST[$this->getPostVar()]['date']['m'];
+		$dt['mday'] = (int) $_POST[$this->getPostVar()]['date']['d'];
+		$dt['hours'] = (int) $_POST[$this->getPostVar()]['time']['h'];
+		$dt['minutes'] = (int) $_POST[$this->getPostVar()]['time']['m'];
+		$dt['seconds'] = (int) $_POST[$this->getPostVar()]['time']['s'];
+		if ($dt['year'] == 0 && $dt['mon'] == 0 && $dt['mday'] == 0 && $this->getRequired())
 		{
+			$this->date = null;
 			$this->setAlert($lng->txt("msg_input_is_required"));
 			return false;
 		}
-		else if (!preg_match('~'. $this->getRegexp($this->dateformat) .'~i', $_POST[$this->getPostVar()]))
+		else if ($dt['year'] == 0 && $dt['mon'] == 0 && $dt['mday'] == 0)
 		{
-			$this->setAlert(sprintf($lng->txt("form_msg_wrong_date_format"), $lng->txt('lang_dateformat')));
-			return false;
+			$this->date = null;
+		}
+		else
+		{
+			if (!checkdate((int)$dt['mon'], (int)$dt['mday'], (int)$dt['year']))
+			{
+				$this->date = null;
+				$this->setAlert($lng->txt("exc_date_not_valid"));
+				return false;
+			}
+			$date = new ilDateTime($dt,IL_CAL_FKT_GETDATE,$ilUser->getTimeZone());
+			$_POST[$this->getPostVar()]['date'] = $date->get(IL_CAL_FKT_DATE,'Y-m-d',$ilUser->getTimeZone());
+			$this->setDate($date);
+		}
+		return true;
+	}
+
+	/**
+	* Insert property html
+	*
+	*/
+	function render()
+	{
+		global $lng,$ilUser;
+		
+		$tpl = new ilTemplate("tpl.prop_datetime.html", true, true, "Services/Form");
+		if (is_object($this->getDate()))
+		{
+			$date_info = $this->getDate()->get(IL_CAL_FKT_GETDATE,'','UTC'); 
+		}
+		else
+		{
+			$date_info = array(
+				'year' => $_POST[$this->getPostVar()]['date']['y'],
+				'mon' => $_POST[$this->getPostVar()]['date']['m'],
+				'mday' => $_POST[$this->getPostVar()]['date']['d']
+			);
 		}
 		
-		return $this->checkSubItemsInput();
+		$lng->loadLanguageModule("jscalendar");
+		require_once("./Services/Calendar/classes/class.ilCalendarUtil.php");
+		ilCalendarUtil::initJSCalendar();
+		
+		if(strlen($this->getActivationPostVar()))
+		{
+			$tpl->setCurrentBlock('prop_date_activation');
+			$tpl->setVariable('CHECK_ENABLED_DATE',$this->getActivationPostVar());
+			$tpl->setVariable('TXT_DATE_ENABLED',$this->activation_title);
+			$tpl->setVariable('CHECKED_ENABLED',$this->activation_checked ? 'checked="checked"' : '');
+			$tpl->setVariable('CHECKED_DISABLED',$this->getDisabled() ? 'disabled="disabled" ' : '');
+			$tpl->parseCurrentBlock();
+		}
+
+		if ($this->getShowDate())
+		{
+			$tpl->setCurrentBlock("prop_date");
+			$tpl->setVariable("IMG_DATE_CALENDAR", ilUtil::getImagePath("calendar.png"));
+			$tpl->setVariable("TXT_DATE_CALENDAR", $lng->txt("open_calendar"));
+			$tpl->setVariable("DATE_ID", $this->getPostVar());
+			$tpl->setVariable("INPUT_FIELDS_DATE", $this->getPostVar()."[date]");
+			$tpl->setVariable("DATE_SELECT",
+				ilUtil::makeDateSelect($this->getPostVar()."[date]", $date_info['year'], $date_info['mon'], $date_info['mday'],
+					$this->startyear,true,array('disabled' => $this->getDisabled()), $this->getShowEmpty()));
+			$tpl->parseCurrentBlock();
+			
+		}
+		return $tpl->get();
 	}
 }
 ?>

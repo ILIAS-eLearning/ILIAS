@@ -936,7 +936,7 @@ class ilUtil
 	* @author	Aresch Yavari <ay@databay.de>
 	* @author Helmut Schottmüller <hschottm@tzi.de>
 	*/
-	function makeDateSelect($prefix, $year = "", $month = "", $day = "", $startyear = "",$a_long_month = true,$a_further_options = array())
+	function makeDateSelect($prefix, $year = "", $month = "", $day = "", $startyear = "",$a_long_month = true,$a_further_options = array(), $emptyoption = false)
 	{
 		global $lng;
 
@@ -947,9 +947,12 @@ class ilUtil
 		}
 
 		$now = getdate();
-		if (!strlen($year)) $year = $now["year"];
-		if (!strlen($month)) $month = $now["mon"];
-		if (!strlen($day)) $day = $now["mday"];
+		if (!$emptyoption)
+		{
+			if (!strlen($year)) $year = $now["year"];
+			if (!strlen($month)) $month = $now["mon"];
+			if (!strlen($day)) $day = $now["mday"];
+		}
 
 		$year = (int) $year;
 		$month = (int) $month;
@@ -957,7 +960,7 @@ class ilUtil
 
 		// build day select
 		$sel_day .= "<select ".$disabled."name=\"".$prefix."[d]\" id=\"".$prefix."_d\">\n";
-
+		if ($emptyoption) $sel_day .= "<option value=\"0\">--</option>\n";
 		for ($i = 1; $i <= 31; $i++)
 		{
 			$sel_day .= "<option value=\"$i\">" . sprintf("%02d", $i) . "</option>\n";
@@ -968,6 +971,7 @@ class ilUtil
 		// build month select
 		$sel_month .= "<select ".$disabled."name=\"".$prefix."[m]\" id=\"".$prefix."_m\">\n";
 
+		if ($emptyoption) $sel_month .= "<option value=\"0\">--</option>\n";
 		for ($i = 1; $i <= 12; $i++)
 		{
 			if($a_long_month)
@@ -986,7 +990,7 @@ class ilUtil
 		$sel_year .= "<select ".$disabled."name=\"".$prefix."[y]\" id=\"".$prefix."_y\">\n";
 		if ((strlen($startyear) == 0) || ($startyear > $year))
 		{
-			$startyear = $year - 5;
+			if (!$emptyoption || $year != 0) $startyear = $year - 5;
 		}
 
 		if(($year + 5) < (date('Y',time()) + 5))
@@ -998,6 +1002,7 @@ class ilUtil
 			$end_year = $year + 5;
 		}
 
+		if ($emptyoption) $sel_year .= "<option value=\"0\">----</option>\n";
 		for ($i = $startyear; $i <= $end_year; $i++)
 		{
 			$sel_year .= "<option value=\"$i\">" . sprintf("%04d", $i) . "</option>\n";

@@ -17,6 +17,8 @@ class ilDateTimeInputGUI extends ilSubEnabledFormPropertyGUI
 	protected $showtime = false;
 	protected $showseconds = false;
 	protected $minute_step_size = 1;
+	protected $show_empty = false;
+	protected $startyear = '';
 	
 	protected $activation_title = '';
 	protected $activation_post_var = '';
@@ -125,6 +127,46 @@ class ilDateTimeInputGUI extends ilSubEnabledFormPropertyGUI
 	function getShowTime()
 	{
 		return $this->showtime;
+	}
+	
+	/**
+	* Set Show Empty Information.
+	*
+	* @param	boolean	Show Empty Information
+	*/
+	function setShowEmpty($a_empty)
+	{
+		$this->show_empty = $a_empty;
+	}
+
+	/**
+	* Get Show Empty Information.
+	*
+	* @return	boolean	Show Empty Information
+	*/
+	function getShowEmpty()
+	{
+		return $this->show_empty;
+	}
+	
+	/**
+	* Set start year
+	*
+	* @param	integer	Start year
+	*/
+	function setStartYear($a_year)
+	{
+		$this->startyear = $a_year;
+	}
+	
+	/**
+	* Get start year
+	*
+	* @return	integer	Start year
+	*/
+	function getStartYear()
+	{
+		return $this->startyear;
 	}
 	
 	/**
@@ -309,7 +351,7 @@ class ilDateTimeInputGUI extends ilSubEnabledFormPropertyGUI
 			$tpl->setVariable("INPUT_FIELDS_DATE", $this->getPostVar()."[date]");
 			$tpl->setVariable("DATE_SELECT",
 				ilUtil::makeDateSelect($this->getPostVar()."[date]", $date_info['year'], $date_info['mon'], $date_info['mday'],
-					'',true,array('disabled' => $this->getDisabled())));
+					$this->startyear,true,array('disabled' => $this->getDisabled()), $this->getShowEmpty()));
 			$tpl->parseCurrentBlock();
 			
 		}
