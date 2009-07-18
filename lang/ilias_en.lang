@@ -4893,7 +4893,7 @@ crs#:#crs_file_name#:#File name
 crs#:#crs_file_size_info#:#Filesize
 crs#:#crs_filename#:#Filename
 crs#:#crs_free_places#:#Available Places
-crs#:#crs_from#:#From:
+crs#:#crs_from#:#From
 crs#:#crs_further_settings#:#Further Settings
 crs#:#crs_general_info#:#General Information
 crs#:#crs_general_informations#:#General Information
@@ -5172,7 +5172,7 @@ crs#:#crs_timings_suggested_info#:#Suggested Editing Time
 crs#:#crs_timings_time_frame#:#Time Frame
 crs#:#crs_timings_update_error#:#Your settings are not valid, please verify the timings for the following course materials:
 crs#:#crs_timings_visibility#:#If chosen, the material is visible even outside of the given availability.
-crs#:#crs_to#:#Until:
+crs#:#crs_to#:#Until
 crs#:#crs_tutor#:#Tutor
 crs#:#crs_tutor_no_notify#:#Tutor (no notification)
 crs#:#crs_tutor_notify#:#Tutor (notification)
@@ -9758,5 +9758,7 @@ license#:#remaining_licenses#:#Available licenses
 license#:#remaining_licenses_explanation#:#The available licenses are calculated as purchased minus consumed.
 license#:#used_licenses#:#Consumed licenses
 license#:#used_licenses_explanation#:#Every first access of a user consumes a license.
+user#:#user_access_limited#:#Limited
+user#:#user_access_unlimited#:#Unlimited
 license#:#zero_licenses_explanation#:#Enter a 0 to deactivate the licensing.
 common#:#birthday#:#Birthday
