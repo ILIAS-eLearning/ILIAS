@@ -384,6 +384,7 @@ class ilObjUser extends ilObject
 									$this->id."!</b><br />class: ".get_class($this)."<br />Script: ".__FILE__.
 									"<br />Line: ".__LINE__, $ilErr->FATAL);
 		}
+
 		$insert_array = array(
 			"usr_id" => array("integer", $this->id),
 			"login" => array("text", $this->login),

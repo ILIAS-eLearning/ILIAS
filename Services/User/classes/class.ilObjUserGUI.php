@@ -45,7 +45,7 @@ class ilObjUserGUI extends ilObjectGUI
 	*/
 	function ilObjUserGUI($a_data,$a_id,$a_call_by_reference = false, $a_prepare_output = true)
 	{
-		global $ilCtrl;
+		global $ilCtrl, $lng;
 
 		define('USER_FOLDER_ID',7);
 
@@ -55,6 +55,8 @@ class ilObjUserGUI extends ilObjectGUI
 
 		$this->ctrl =& $ilCtrl;
 		$this->ctrl->saveParameter($this,'obj_id');
+		
+		$lng->loadLanguageModule('user');
 
 		// for gender selection. don't change this
 		// maybe deprecated
@@ -1070,6 +1072,12 @@ class ilObjUserGUI extends ilObjectGUI
 			}
 		}
 		$this->initForm("edit");
+		
+		// we do not want to store this dates, they are only printed out
+		unset($_POST['approve_date']);
+		unset($_POST['agree_date']);
+		unset($_POST['last_login']);
+		
 		if ($this->form_gui->checkInput())
 		{
 			// @todo: external account; time limit
@@ -1104,9 +1112,6 @@ class ilObjUserGUI extends ilObjectGUI
 			$_POST['time_limit_until'] = $until->get(IL_CAL_UNIX);
 			$_POST['time_limit_owner'] = $this->usrf_ref_id;
 			$this->object->assignData($_POST);
-
-
-
 
 			$udf = array();
 			foreach($_POST as $k => $v)
@@ -1222,12 +1227,18 @@ class ilObjUserGUI extends ilObjectGUI
 		$data["ext_account"] = $this->object->getExternalAccount();
 
 		// system information
-                require_once 'classes/class.ilFormat.php';
+		require_once 'classes/class.ilFormat.php';
 		$data["create_date"] = ilFormat::formatDate($this->object->getCreateDate(),'datetime',true);
 		$data["owner"] = ilObjUser::_lookupLogin($this->object->getOwner());
-		$data["approve_date"] = ilFormat::formatDate($this->object->getApproveDate(),'datetime',true);
-		$data["agree_date"] = ilFormat::formatDate($this->object->getAgreeDate(),'datetime',true);
-		$data["last_login"] = ilFormat::formatDate($this->object->getLastLogin(),'datetime',true);
+		$data["approve_date"] = ($this->object->getApproveDate() != "")
+			? ilFormat::formatDate($this->object->getApproveDate(),'datetime',true)
+			: null;
+		$data["agree_date"] = ($this->object->getAgreeDate() != "")
+			? ilFormat::formatDate($this->object->getAgreeDate(),'datetime',true)
+			: null;
+		$data["last_login"] =  ($this->object->getLastLogin() != "")
+			 ? ilFormat::formatDate($this->object->getLastLogin(),'datetime',true)
+			 : null;
 		$data["active"] = $this->object->getActive();
 		$data["time_limit_unlimited"] = $this->object->getTimeLimitUnlimited();
 		
@@ -1423,21 +1434,33 @@ class ilObjUserGUI extends ilObjectGUI
 
 		// access	@todo: get fields right (names change)
 		$lng->loadLanguageModule('crs');
-		$ac = new ilCheckboxInputGUI($lng->txt("time_limit"), "time_limit_unlimited");
-		$ac->setChecked(true);
-		$ac->setOptionTitle($lng->txt("crs_unlimited"));
+		
+		// access
+		$radg = new ilRadioGroupInputGUI($lng->txt("time_limit"), "time_limit_unlimited");
+		$radg->setValue(1);
+			$op1 = new ilRadioOption($lng->txt("user_access_unlimited"), 1);
+			$radg->addOption($op1);
+			$op2 = new ilRadioOption($lng->txt("user_access_limited"), 0);
+			$radg->addOption($op2);
+		
+//		$ac = new ilCheckboxInputGUI($lng->txt("time_limit"), "time_limit_unlimited");
+//		$ac->setChecked(true);
+//		$ac->setOptionTitle($lng->txt("crs_unlimited"));
 
 		// access.from
 		$acfrom = new ilDateTimeInputGUI($this->lng->txt("crs_from"), "time_limit_from");
 		$acfrom->setShowTime(true);
-		$ac->addSubItem($acfrom);
+//		$ac->addSubItem($acfrom);
+		$op2->addSubItem($acfrom);
 
 		// access.to
 		$acto = new ilDateTimeInputGUI($this->lng->txt("crs_to"), "time_limit_until");
 		$acto->setShowTime(true);
-		$ac->addSubItem($acto);
+//		$ac->addSubItem($acto);
+		$op2->addSubItem($acto);
 
-		$this->form_gui->addItem($ac);
+//		$this->form_gui->addItem($ac);
+		$this->form_gui->addItem($radg);
 
 		require_once 'Services/WebDAV/classes/class.ilDiskQuotaActivationChecker.php';
 		if (ilDiskQuotaActivationChecker::_isActive())
