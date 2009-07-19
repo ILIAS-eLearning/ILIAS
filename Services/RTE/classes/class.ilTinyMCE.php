@@ -1037,7 +1037,7 @@ class ilTinyMCE extends ilRTE
 					break;
 			}
 		}
-		return join(",", $valid_elements);
+		return join("\"+\n\"", $valid_elements);
 	}
 }
 
