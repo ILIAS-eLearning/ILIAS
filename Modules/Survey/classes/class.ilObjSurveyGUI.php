@@ -2189,7 +2189,7 @@ class ilObjSurveyGUI extends ilObjectGUI
 			$this->tpl->setVariable("SEARCH_TABLE", $searchform->getHTML());
 
 			$invited_users = $this->object->getUserData($this->object->getInvitedUsers());
-			include_once "./Modules/Survey/classes/class.ilSurveyInvitedUsersTableGUI.php";
+			include_once "./Modules/Survey/classes/tables/class.ilSurveyInvitedUsersTableGUI.php";
 			$table_gui = new ilSurveyInvitedUsersTableGUI($this, 'invite');
 			$table_gui->setData($invited_users);
 			$this->tpl->setVariable('TBL_INVITED_USERS', $table_gui->getHTML());	
@@ -2241,7 +2241,7 @@ class ilObjSurveyGUI extends ilObjectGUI
 							array_push($found, $res['id']);
 						}
 						$users = $this->object->getUserData($found);
-						include_once "./Modules/Survey/classes/class.ilSurveyInviteUsersTableGUI.php";
+						include_once "./Modules/Survey/classes/tables/class.ilSurveyInviteUsersTableGUI.php";
 						$table_gui = new ilSurveyInviteUsersTableGUI($this, 'invite');
 						$table_gui->setData($users);
 						$this->tpl->setVariable('TBL_USER_RESULT', $table_gui->getHTML());	
@@ -2255,7 +2255,7 @@ class ilObjSurveyGUI extends ilObjectGUI
 							array_push($found, $res['id']);
 						}
 						$groups = $this->object->getGroupData($found);
-						include_once "./Modules/Survey/classes/class.ilSurveyInviteGroupsTableGUI.php";
+						include_once "./Modules/Survey/classes/tables/class.ilSurveyInviteGroupsTableGUI.php";
 						$table_gui = new ilSurveyInviteGroupsTableGUI($this, 'invite');
 						$table_gui->setData($groups);
 						$this->tpl->setVariable('TBL_GROUP_RESULT', $table_gui->getHTML());	
@@ -2271,7 +2271,7 @@ class ilObjSurveyGUI extends ilObjectGUI
 						$roles = $this->object->getRoleData($found);
 						if (count($roles))
 						{
-							include_once "./Modules/Survey/classes/class.ilSurveyInviteRolesTableGUI.php";
+							include_once "./Modules/Survey/classes/tables/class.ilSurveyInviteRolesTableGUI.php";
 							$table_gui = new ilSurveyInviteRolesTableGUI($this, 'invite');
 							$table_gui->setData($roles);
 							$this->tpl->setVariable('TBL_ROLE_RESULT', $table_gui->getHTML());	
@@ -2351,7 +2351,7 @@ class ilObjSurveyGUI extends ilObjectGUI
 		}
 
 		ilUtil::sendQuestion($this->lng->txt("confirm_delete_single_user_data"));
-		include_once "./Modules/Survey/classes/class.ilSurveyMaintenanceTableGUI.php";
+		include_once "./Modules/Survey/classes/tables/class.ilSurveyMaintenanceTableGUI.php";
 		$table_gui = new ilSurveyMaintenanceTableGUI($this, 'maintenance', true);
 		$total =& $this->object->getSurveyParticipants();
 		$data = array();
@@ -2383,7 +2383,7 @@ class ilObjSurveyGUI extends ilObjectGUI
 		{
 			for ($i = 0; $i < $_GET["fill"]; $i++) $this->object->fillSurveyForUser();
 		}
-		include_once "./Modules/Survey/classes/class.ilSurveyMaintenanceTableGUI.php";
+		include_once "./Modules/Survey/classes/tables/class.ilSurveyMaintenanceTableGUI.php";
 		$table_gui = new ilSurveyMaintenanceTableGUI($this, 'maintenance');
 		$total =& $this->object->getSurveyParticipants();
 		$data = array();
@@ -2614,7 +2614,7 @@ class ilObjSurveyGUI extends ilObjectGUI
 			}
 		}
 
-		include_once "./Modules/Survey/classes/class.ilSurveyExportTableGUI.php";
+		include_once "./Modules/Survey/classes/tables/class.ilSurveyExportTableGUI.php";
 		$table_gui = new ilSurveyExportTableGUI($this, 'export');
 		$table_gui->setData($data);
 		$this->tpl->setVariable('ADM_CONTENT', $table_gui->getHTML());	
@@ -2688,7 +2688,7 @@ class ilObjSurveyGUI extends ilObjectGUI
 			}
 		}
 
-		include_once "./Modules/Survey/classes/class.ilSurveyExportTableGUI.php";
+		include_once "./Modules/Survey/classes/tables/class.ilSurveyExportTableGUI.php";
 		$table_gui = new ilSurveyExportTableGUI($this, 'export', true);
 		$table_gui->setData($data);
 		$this->tpl->setVariable('ADM_CONTENT', $table_gui->getHTML());	
@@ -2756,7 +2756,7 @@ class ilObjSurveyGUI extends ilObjectGUI
 			return ilUtil::sendInfo($this->lng->txt("survey_codes_no_anonymization"));
 		}
 
-		include_once "./Modules/Survey/classes/class.ilSurveyCodesTableGUI.php";
+		include_once "./Modules/Survey/classes/tables/class.ilSurveyCodesTableGUI.php";
 		$table_gui = new ilSurveyCodesTableGUI($this, 'codes');
 		$default_lang = $ilUser->getPref("survey_code_language");
 		$survey_codes =& $this->object->getSurveyCodesTableData($default_lang);

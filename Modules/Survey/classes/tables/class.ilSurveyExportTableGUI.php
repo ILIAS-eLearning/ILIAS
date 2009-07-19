@@ -31,7 +31,7 @@ include_once('./Services/Table/classes/class.ilTable2GUI.php');
 * @ingroup ModulesSurvey
 */
 
-class ilSurveyCodesTableGUI extends ilTable2GUI
+class ilSurveyExportTableGUI extends ilTable2GUI
 {
 	protected $counter;
 	protected $confirmdelete;
@@ -54,19 +54,18 @@ class ilSurveyCodesTableGUI extends ilTable2GUI
 		$this->counter = 1;
 		$this->confirmdelete = $confirmdelete;
 		
-		$this->setFormName('codesform');
+		$this->setFormName('exportsurvey');
 		$this->setStyle('table', 'fullwidth');
 
 		if (!$confirmdelete)
 		{
 			$this->addColumn('','f','1%');
 		}
-		$this->addColumn($this->lng->txt("survey_code"),'code', '');
-		$this->addColumn($this->lng->txt("create_date"),'date', '');
-		$this->addColumn($this->lng->txt("survey_code_used"),'used', '');
-		$this->addColumn($this->lng->txt("survey_code_url"),'url', '');
+		$this->addColumn($this->lng->txt("svy_file"),'file', '');
+		$this->addColumn($this->lng->txt("svy_size"),'size', '');
+		$this->addColumn($this->lng->txt("date"),'date', '');
 	
-		$this->setRowTemplate("tpl.il_svy_svy_codes_row.html", "Modules/Survey");
+		$this->setRowTemplate("tpl.il_svy_svy_export_row.html", "Modules/Survey");
 
 		if ($confirmdelete)
 		{
@@ -75,26 +74,16 @@ class ilSurveyCodesTableGUI extends ilTable2GUI
 		}
 		else
 		{
-			$this->addMultiCommand('exportCodes', $this->lng->txt('export'));
-			$this->addMultiCommand('deleteCodes', $this->lng->txt('delete'));
+			$this->addMultiCommand('downloadExportFile', $this->lng->txt('download'));
+			$this->addMultiCommand('confirmDeleteExportFile', $this->lng->txt('delete'));
 
-			$languages = $lng->getInstalledLanguages();
-			$data = array();
-			foreach ($languages as $lang)
-			{
-				$data[$lang] = $this->lng->txt("lang_$lang");
-			}
-			global $ilUser;
-			$this->addSelectionButton('lang', $data, 'setCodeLanguage', $this->lng->txt("survey_codes_lang"), $ilUser->getPref("survey_code_language"));
-			$this->addCommandButton('exportAllCodes', $this->lng->txt('export_all_survey_codes'));
+			$this->addCommandButton('createExportFile', $this->lng->txt('svy_create_export_file'));
 		}
 
 		$this->setFormAction($this->ctrl->getFormAction($a_parent_obj, $a_parent_cmd));
 
-		$this->setDefaultOrderField("code");
+		$this->setDefaultOrderField("file");
 		$this->setDefaultOrderDirection("asc");
-		$this->setPrefix('chb_code');
-		$this->setSelectAllCheckbox('chb_code');
 		
 		if ($confirmdelete)
 		{
@@ -103,6 +92,8 @@ class ilSurveyCodesTableGUI extends ilTable2GUI
 		}
 		else
 		{
+			$this->setPrefix('file');
+			$this->setSelectAllCheckbox('file');
 			$this->enable('sort');
 			$this->enable('select_all');
 		}
@@ -118,31 +109,23 @@ class ilSurveyCodesTableGUI extends ilTable2GUI
 	 */
 	public function fillRow($data)
 	{
-		global $lng;
-		
 		if (!$this->confirmdelete)
 		{
 			$this->tpl->setCurrentBlock('checkbox');
-			$this->tpl->setVariable('CB_CODE', $data['code']);
+			$this->tpl->setVariable('CB_ID', $this->counter++);
+			$this->tpl->setVariable("CB_FILE", $data['file']);
 			$this->tpl->parseCurrentBlock();
 		}
 		else
 		{
 			$this->tpl->setCurrentBlock('hidden');
-			$this->tpl->setVariable('HIDDEN_CODE', $data["code"]);
+			$this->tpl->setVariable('HIDDEN_FILE', $data["file"]);
 			$this->tpl->parseCurrentBlock();
 		}
-		if (strlen($data['href']))
-		{
-			$this->tpl->setCurrentBlock('url');
-			$this->tpl->setVariable("URL", $data['url']);
-			$this->tpl->setVariable("HREF", $data['href']);
-			$this->tpl->parseCurrentBlock();
-		}
-		$this->tpl->setVariable("USED", ($data['used']) ? $lng->txt("used") : $lng->txt("not_used"));
-		$this->tpl->setVariable("USED_CLASS", ($data['used']) ? ' smallgreen' : ' smallred');
+		$this->tpl->setVariable("ID", $this->counter++);
+		$this->tpl->setVariable("FILE", $data['file']);
+		$this->tpl->setVariable("SIZE", $data['size']);
 		$this->tpl->setVariable("DATE", $data['date']);
-		$this->tpl->setVariable("CODE", $data['code']);
 	}
 }
 ?>

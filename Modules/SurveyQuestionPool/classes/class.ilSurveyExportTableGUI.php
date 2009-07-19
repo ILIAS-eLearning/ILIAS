@@ -65,9 +65,6 @@ class ilSurveyExportTableGUI extends ilTable2GUI
 		$this->addColumn($this->lng->txt("size"),'size', '');
 		$this->addColumn($this->lng->txt("date"),'date', '');
 
-		$this->setPrefix('file');
-		$this->setSelectAllCheckbox('file');
-		
 		if ($confirmdelete)
 		{
 			$this->addCommandButton('deleteExportFile', $this->lng->txt('confirm'));
@@ -93,6 +90,8 @@ class ilSurveyExportTableGUI extends ilTable2GUI
 		}
 		else
 		{
+			$this->setPrefix('file');
+			$this->setSelectAllCheckbox('file');
 			$this->enable('sort');
 			$this->enable('select_all');
 		}

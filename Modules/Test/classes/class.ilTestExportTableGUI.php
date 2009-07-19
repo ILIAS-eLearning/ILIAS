@@ -85,8 +85,6 @@ class ilTestExportTableGUI extends ilTable2GUI
 
 		$this->setDefaultOrderField("file");
 		$this->setDefaultOrderDirection("asc");
-		$this->setPrefix('file');
-		$this->setSelectAllCheckbox('file');
 		
 		if ($confirmdelete)
 		{
@@ -95,6 +93,8 @@ class ilTestExportTableGUI extends ilTable2GUI
 		}
 		else
 		{
+			$this->setPrefix('file');
+			$this->setSelectAllCheckbox('file');
 			$this->enable('sort');
 			$this->enable('select_all');
 		}
@@ -113,7 +113,7 @@ class ilTestExportTableGUI extends ilTable2GUI
 		if (!$this->confirmdelete)
 		{
 			$this->tpl->setCurrentBlock('checkbox');
-			$this->tpl->setVariable('CB_ID', $this->counter++);
+			$this->tpl->setVariable('CB_ID', $this->counter);
 			$this->tpl->setVariable("CB_FILE", $data['file']);
 			$this->tpl->parseCurrentBlock();
 		}

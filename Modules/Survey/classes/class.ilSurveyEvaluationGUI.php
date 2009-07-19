@@ -389,7 +389,7 @@ class ilSurveyEvaluationGUI
 				$this->tpl->parseCurrentBlock();
 			}
 		}
-		include_once "./Modules/Survey/classes/class.ilSurveyResultsCumulatedTableGUI.php";
+		include_once "./Modules/Survey/classes/tables/class.ilSurveyResultsCumulatedTableGUI.php";
 		$table_gui = new ilSurveyResultsCumulatedTableGUI($this, 'evaluation', $detail);
 		$table_gui->setData($data);
 		$this->tpl->setVariable('CUMULATED', $table_gui->getHTML());	

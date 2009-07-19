@@ -61,9 +61,6 @@ class ilSurveyPhrasesTableGUI extends ilTable2GUI
 		$this->addColumn($this->lng->txt("phrase"),'phrase', '');
 		$this->addColumn($this->lng->txt("answers"),'answers', '');
 
-		$this->setPrefix('phrase');
-		$this->setSelectAllCheckbox('phrase');
-		
 		if ($confirmdelete)
 		{
 			$this->addCommandButton('confirmDeletePhrase', $this->lng->txt('confirm'));
@@ -87,6 +84,8 @@ class ilSurveyPhrasesTableGUI extends ilTable2GUI
 		}
 		else
 		{
+			$this->setPrefix('phrase');
+			$this->setSelectAllCheckbox('phrase');
 			$this->enable('sort');
 			$this->enable('select_all');
 		}
