@@ -1,26 +1,5 @@
 <?php
-/*
-	+-----------------------------------------------------------------------------+
-	| ILIAS open source                                                           |
-	+-----------------------------------------------------------------------------+
-	| Copyright (c) 1998-2008 ILIAS open source, University of Cologne            |
-	|                                                                             |
-	| This program is free software; you can redistribute it and/or               |
-	| modify it under the terms of the GNU General Public License                 |
-	| as published by the Free Software Foundation; either version 2              |
-	| of the License, or (at your option) any later version.                      |
-	|                                                                             |
-	| This program is distributed in the hope that it will be useful,             |
-	| but WITHOUT ANY WARRANTY; without even the implied warranty of              |
-	| MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the               |
-	| GNU General Public License for more details.                                |
-	|                                                                             |
-	| You should have received a copy of the GNU General Public License           |
-	| along with this program; if not, write to the Free Software                 |
-	| Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA. |
-	+-----------------------------------------------------------------------------+
-*/
-
+/* Copyright (c) 1998-2009 ILIAS open source, Extended GPL, see docs/LICENSE */
 
 /**
 * Class ilPageLayout
@@ -46,12 +25,20 @@ class ilPageLayout
 		global $ilias, $ilDB;
 		//create new instance
 		if ($a_id == null) {
-			$query = "INSERT INTO page_layout(active) values (0);";
-			$result = $ilDB->query($query);
-			$query = "SELECT LAST_INSERT_ID() as id";
-			$res = $ilDB->query($query);
-			$row = $res->fetchRow(DB_FETCHMODE_OBJECT);
-			$this->layout_id = $row->id;
+			$this->layout_id = $ilDB->nextId("page_layout");
+			$ilDB->insert("page_layout", array(
+				"layout_id" => array("integer", $this->layout_id),
+				"active" => array("integer", 0),
+				"title" => array("text", ""),
+				"content" => array("clob", ""),
+				"description" => array("text", "")
+				));
+			//$query = "INSERT INTO page_layout(active) values (0);";
+			//$result = $ilDB->query($query);
+			//$query = "SELECT LAST_INSERT_ID() as id";
+			//$res = $ilDB->query($query);
+			//$row = $res->fetchRow(DB_FETCHMODE_OBJECT);
+			//$this->layout_id = $row->id;
 			$this->active = false;
 		}
 	 	else {
@@ -86,30 +73,31 @@ class ilPageLayout
 	
 	public function activate($a_setting=true) {
 		global $ilias, $ilDB;
-		$query = "UPDATE page_layout SET active=".$ilDB->quote($a_setting)." WHERE layout_id =".$ilDB->quote($this->layout_id);
-		$result = $ilDB->query($query);
+		$query = "UPDATE page_layout SET active=".$ilDB->quote($a_setting, "integer").
+			" WHERE layout_id =".$ilDB->quote($this->layout_id, "integer");
+		$result = $ilDB->manipulate($query);
 	}
 	
 	public function delete($a_setting=true) {
 		global $ilias, $ilDB;
-		$query = "DELETE FROM page_layout WHERE layout_id =".$ilDB->quote($this->layout_id);
-		$result = $ilDB->query($query);
+		$query = "DELETE FROM page_layout WHERE layout_id =".$ilDB->quote($this->layout_id, "integer");
+		$result = $ilDB->manipulate($query);
 	}
 	
 	public function update() {
 		global $ilias, $ilDB;
-		$query = "UPDATE page_layout SET title=".$ilDB->quote($this->title).
-				  ",description =".$ilDB->quote($this->description).
-				  ",active =".$ilDB->quote($this->active).
-				   " WHERE layout_id =".$ilDB->quote($this->layout_id);
-		$result = $ilDB->query($query);
+		$query = "UPDATE page_layout SET title=".$ilDB->quote($this->title, "text").
+				  ",description =".$ilDB->quote($this->description, "text").
+				  ",active =".$ilDB->quote($this->active, "integer").
+				   " WHERE layout_id =".$ilDB->quote($this->layout_id, "integer");
+		$result = $ilDB->manipulate($query);
 	}
 	
 	public function readObject() {
 		global $ilias, $ilDB;
-		$query = "SELECT * FROM page_layout WHERE layout_id =".$ilDB->quote($this->layout_id);
+		$query = "SELECT * FROM page_layout WHERE layout_id =".$ilDB->quote($this->layout_id, "integer");
 		$result = $ilDB->query($query);
-		$row = $result->fetchRow(DB_FETCHMODE_ASSOC);
+		$row = $ilDB->fetchAssoc($result);
 		$this->title=$row['title'];
 		$this->description=$row['description'];
 		$this->active=$row['active'];
