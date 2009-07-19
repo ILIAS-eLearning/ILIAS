@@ -99,6 +99,7 @@ class ilExerciseMemberTableGUI extends ilTable2GUI
 		// mail sent
 		if ($this->exc->members_obj->getStatusSentByMember($member_id))
 		{
+			$this->tpl->setCurrentBlock();
 			if (($st = ilObjExercise::_lookupSentTime($this->exc->getId(),
 				$member_id)) > 0)
 			{
@@ -111,6 +112,7 @@ class ilExerciseMemberTableGUI extends ilTable2GUI
 				$this->tpl->setVariable("TXT_MAIL_SENT",
 					$lng->txt("sent"));
 			}
+			$this->tpl->parseCurrentBlock();
 		}
 
 		// submission:
