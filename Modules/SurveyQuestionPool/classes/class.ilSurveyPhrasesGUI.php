@@ -121,7 +121,7 @@ class ilSurveyPhrasesGUI
 		
 		if ($rbacsystem->checkAccess("write", $this->ref_id))
 		{
-			include_once "./Modules/SurveyQuestionPool/classes/class.ilSurveyPhrasesTableGUI.php";
+			include_once "./Modules/SurveyQuestionPool/classes/tables/class.ilSurveyPhrasesTableGUI.php";
 			$table_gui = new ilSurveyPhrasesTableGUI($this, 'phrases');
 			$phrases =& ilSurveyPhrases::_getAvailablePhrases(1);
 			$data = array();
@@ -165,7 +165,7 @@ class ilSurveyPhrasesGUI
 	*/
 	public function deletePhrasesForm($checked_phrases)
 	{
-		include_once "./Modules/SurveyQuestionPool/classes/class.ilSurveyPhrasesTableGUI.php";
+		include_once "./Modules/SurveyQuestionPool/classes/tables/class.ilSurveyPhrasesTableGUI.php";
 		$table_gui = new ilSurveyPhrasesTableGUI($this, 'phrases', true);
 		$phrases =& ilSurveyPhrases::_getAvailablePhrases(1);
 		$data = array();

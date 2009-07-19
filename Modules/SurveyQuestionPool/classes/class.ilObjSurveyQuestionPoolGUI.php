@@ -433,7 +433,7 @@ class ilObjSurveyQuestionPoolGUI extends ilObjectGUI
 	
 	public function filterQuestionBrowserObject()
 	{
-		include_once "./Modules/SurveyQuestionPool/classes/class.ilSurveyQuestionsTableGUI.php";
+		include_once "./Modules/SurveyQuestionPool/classes/tables/class.ilSurveyQuestionsTableGUI.php";
 		$table_gui = new ilSurveyQuestionsTableGUI($this, 'questions');
 		$table_gui->writeFilterToSession();
 		$this->questionsObject();
@@ -451,7 +451,7 @@ class ilObjSurveyQuestionPoolGUI extends ilObjectGUI
 		// reset test_id SESSION variable
 		$_SESSION["test_id"] = "";
 
-		include_once "./Modules/SurveyQuestionPool/classes/class.ilSurveyQuestionsTableGUI.php";
+		include_once "./Modules/SurveyQuestionPool/classes/tables/class.ilSurveyQuestionsTableGUI.php";
 		$table_gui = new ilSurveyQuestionsTableGUI($this, 'questions', (($rbacsystem->checkAccess('write', $_GET['ref_id']) ? true : false)));
 		$table_gui->setEditable($rbacsystem->checkAccess('write', $_GET['ref_id']));
 		$arrFilter = array();
@@ -478,8 +478,8 @@ class ilObjSurveyQuestionPoolGUI extends ilObjectGUI
 	*/
 	public function exportObject()
 	{
-		include_once "./Modules/SurveyQuestionPool/classes/class.ilSurveyExportTableGUI.php";
-		$table_gui = new ilSurveyExportTableGUI($this, 'export');
+		include_once "./Modules/SurveyQuestionPool/classes/tables/class.ilSurveyQuestionPoolExportTableGUI.php";
+		$table_gui = new ilSurveyQuestionPoolExportTableGUI($this, 'export');
 		$export_dir = $this->object->getExportDirectory();
 		$export_files = $this->object->getExportFiles($export_dir);
 		$data = array();
@@ -548,8 +548,8 @@ class ilObjSurveyQuestionPoolGUI extends ilObjectGUI
 		}
 
 		ilUtil::sendQuestion($this->lng->txt("info_delete_sure"));
-		include_once "./Modules/SurveyQuestionPool/classes/class.ilSurveyExportTableGUI.php";
-		$table_gui = new ilSurveyExportTableGUI($this, 'export', true);
+		include_once "./Modules/SurveyQuestionPool/classes/tables/class.ilSurveyQuestionPoolExportTableGUI.php";
+		$table_gui = new ilSurveyQuestionPoolExportTableGUI($this, 'export', true);
 		$export_dir = $this->object->getExportDirectory();
 		$data = array();
 		foreach ($_POST['file'] as $exp_file)
