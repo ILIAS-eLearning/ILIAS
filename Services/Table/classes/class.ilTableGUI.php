@@ -434,6 +434,9 @@ class ilTableGUI
 
 	/**
 	* enables particular modules of table
+	* 
+	* DEPRECATED for Table2GUI: Use setEnable...<Section>() of Table2GUI instead
+	* 
 	* @access	public
 	* @param	string	module name
 	*/
@@ -449,6 +452,9 @@ class ilTableGUI
 
 	/**
 	* diesables particular modules of table
+	* 
+	* DEPRECATED for Table2GUI: Use setEnable<Section>() of Table2GUI instead
+	* 
 	* @access	public
 	* @param	string	module name
 	*/
