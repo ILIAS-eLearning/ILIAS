@@ -450,12 +450,12 @@ class ilPageObject
 	{
 		global $ilDB;
 		
-		$st = $ilDB->prepare("SELECT active, activation_start, activation_end, now() n FROM page_object WHERE page_id = ?".
-			" AND parent_type = ?", array("integer", "text"));
-		$set = $ilDB->execute($st, array($a_id, $a_parent_type));
+		$set = $ilDB->queryF("SELECT active, activation_start, activation_end FROM page_object WHERE page_id = %s".
+			" AND parent_type = %s", array("integer", "text"),
+			array($a_id, $a_parent_type));
 		$rec = $ilDB->fetchAssoc($set);
 
-		if (!$rec["active"] && $rec["activation_start"] != "0000-00-00 00:00:00")
+		if (!$rec["active"] && $rec["activation_start"] != "")
 		{
 			return true;
 		}
@@ -472,15 +472,15 @@ class ilPageObject
 
 		if ($a_reset_scheduled_activation)
 		{
-			$st = $ilDB->manipulateF("UPDATE page_object SET active = ?, activation_start = ?, ".
-				" activation_end = ? WHERE page_id = ?".
-				" AND parent_type = ?", array("boolean", "timestamp", "timestamp", "integer", "text"),
+			$st = $ilDB->manipulateF("UPDATE page_object SET active = %s, activation_start = %s, ".
+				" activation_end = %s WHERE page_id = %s".
+				" AND parent_type = %s", array("boolean", "timestamp", "timestamp", "integer", "text"),
 				array($a_active, null, null, $a_id, $a_parent_type));
 		}
 		else
 		{
-			$st = $ilDB->prepareManip("UPDATE page_object SET active = ? WHERE page_id = ?".
-				" AND parent_type = ?", array("boolean", "integer", "text"),
+			$st = $ilDB->prepareManip("UPDATE page_object SET active = %s WHERE page_id = %s".
+				" AND parent_type = %s", array("boolean", "integer", "text"),
 				array($a_active, $a_id, $a_parent_type));
 		}
 	}
