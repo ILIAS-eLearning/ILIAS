@@ -241,7 +241,7 @@ class assFileUploadGUI extends assQuestionGUI
 			$files = ($show_manual_scoring) ? $this->object->getUploadedFilesForWeb($active_id, $pass) : $this->object->getUploadedFiles($active_id, $pass);
 			if (count($files))
 			{
-				include_once "./Modules/TestQuestionPool/classes/class.assFileUploadFileTableGUI.php";
+				include_once "./Modules/TestQuestionPool/classes/tables/class.assFileUploadFileTableGUI.php";
 				$table_gui = new assFileUploadFileTableGUI("iltestoutputgui", 'gotoquestion');
 				$table_gui->setTitle($this->lng->txt('already_delivered_files'), 'icon_file.gif', $this->lng->txt('already_delivered_files'));
 				$table_gui->setData($files);
@@ -352,7 +352,7 @@ class assFileUploadGUI extends assQuestionGUI
 			$files = $this->object->getUploadedFiles($active_id, $pass);
 			if (count($files))
 			{
-				include_once "./Modules/TestQuestionPool/classes/class.assFileUploadFileTableGUI.php";
+				include_once "./Modules/TestQuestionPool/classes/tables/class.assFileUploadFileTableGUI.php";
 				$table_gui = new assFileUploadFileTableGUI("iltestoutputgui", 'gotoquestion');
 				$table_gui->setTitle($this->lng->txt('already_delivered_files'), 'icon_file.gif', $this->lng->txt('already_delivered_files'));
 				$table_gui->setData($files);

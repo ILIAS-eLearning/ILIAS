@@ -881,7 +881,7 @@ class ilObjQuestionPoolGUI extends ilObjectGUI
 	
 	function filterQuestionBrowserObject()
 	{
-		include_once "./Modules/TestQuestionPool/classes/class.ilQuestionBrowserTableGUI.php";
+		include_once "./Modules/TestQuestionPool/classes/tables/class.ilQuestionBrowserTableGUI.php";
 		$table_gui = new ilQuestionBrowserTableGUI($this, 'questions');
 		$table_gui->writeFilterToSession();
 		$this->questionsObject();
@@ -899,7 +899,7 @@ class ilObjQuestionPoolGUI extends ilObjectGUI
 		// reset test_id SESSION variable
 		$_SESSION["test_id"] = "";
 
-		include_once "./Modules/TestQuestionPool/classes/class.ilQuestionBrowserTableGUI.php";
+		include_once "./Modules/TestQuestionPool/classes/tables/class.ilQuestionBrowserTableGUI.php";
 		$table_gui = new ilQuestionBrowserTableGUI($this, 'questions', (($rbacsystem->checkAccess('write', $this->ref_id) ? true : false)));
 		$table_gui->setEditable($rbacsystem->checkAccess('write', $this->ref_id));
 		$arrFilter = array();
@@ -1089,113 +1089,18 @@ class ilObjQuestionPoolGUI extends ilObjectGUI
 	*/
 	function exportObject()
 	{
-		global $tree;
-
-		//add template for view button
-		$this->tpl->addBlockfile("BUTTONS", "buttons", "tpl.il_as_qpl_export.html", "Modules/TestQuestionPool");
-
-		// create export file button
-		$this->tpl->setCurrentBlock("exporttype");
-		$this->tpl->setVariable("VALUE_EXPORTTYPE", "xml");
-		$this->tpl->setVariable("TEXT_EXPORTTYPE", $this->lng->txt("qpl_export_xml"));
-		$this->tpl->parseCurrentBlock();
-		$this->tpl->setCurrentBlock("exporttype");
-		$this->tpl->setVariable("VALUE_EXPORTTYPE", "xls");
-		$this->tpl->setVariable("TEXT_EXPORTTYPE", $this->lng->txt("qpl_export_excel"));
-		$this->tpl->parseCurrentBlock();
-		$this->tpl->setCurrentBlock("buttons");
-		$this->tpl->setVariable("FORMACTION_BUTTONS", $this->ctrl->getFormAction($this));
-		$this->tpl->setVariable("BTN_CREATE", $this->lng->txt("create"));
-		$this->tpl->parseCurrentBlock();
-
+		include_once "./Modules/TestQuestionPool/classes/tables/class.ilQuestionPoolExportTableGUI.php";
+		$table_gui = new ilQuestionPoolExportTableGUI($this, 'export');
 		$export_dir = $this->object->getExportDirectory();
 		$export_files = $this->object->getExportFiles($export_dir);
-
-		// create table
-		include_once("./Services/Table/classes/class.ilTableGUI.php");
-		$tbl = new ilTableGUI();
-
-		// load files templates
-		$this->tpl->addBlockfile("ADM_CONTENT", "adm_content", "tpl.table.html");
-
-		// load template for table content data
-		$this->tpl->addBlockfile("TBL_CONTENT", "tbl_content", "tpl.export_file_row.html", "Modules/TestQuestionPool");
-
-		$num = 0;
-
-		$this->tpl->setVariable("FORMACTION", $this->ctrl->getFormAction($this));
-
-		$tbl->setTitle($this->lng->txt("ass_export_files"));
-
-		$tbl->setHeaderNames(array("", $this->lng->txt("ass_file"),
-		$this->lng->txt("ass_size"), $this->lng->txt("date") ));
-		$tbl->enabled["sort"] = false;
-		$tbl->setColumnWidth(array("1%", "49%", "25%", "25%"));
-
-		// control
-		$tbl->setOrderColumn($_GET["sort_by"]);
-		$tbl->setOrderDirection($_GET["sort_order"]);
-		$tbl->setLimit($_GET["limit"]);
-		$tbl->setOffset($_GET["offset"]);
-		$header_params = $this->ctrl->getParameterArray($this, "export");
-		$tbl->setHeaderVars(array("", "file", "size", "date"), $header_params);
-
-		// footer
-		$tbl->setFooter("tblfooter",$this->lng->txt("previous"),$this->lng->txt("next"));
-		//$tbl->disable("footer");
-
-		$tbl->setMaxCount(count($export_files));
-		$export_files = array_slice($export_files, $_GET["offset"], $_GET["limit"]);
-
-		$tbl->render();
-		include_once "./Services/Utilities/classes/class.ilUtil.php";
-		if(count($export_files) > 0)
+		$data = array();
+		foreach ($export_files as $exp_file)
 		{
-			$this->tpl->setVariable("COLUMN_COUNTS", 4);
-
-			$i=0;
-			foreach($export_files as $exp_file)
-			{
-				$this->tpl->setCurrentBlock("tbl_content");
-				$this->tpl->setVariable("TXT_FILENAME", $exp_file);
-
-				$css_row = ilUtil::switchColor($i++, "tblrow1", "tblrow2");
-				$this->tpl->setVariable("CSS_ROW", $css_row);
-
-				$this->tpl->setVariable("TXT_SIZE", filesize($export_dir."/".$exp_file));
-				$this->tpl->setVariable("CHECKBOX_ID", $exp_file);
-
-				$file_arr = explode("__", $exp_file);
-				$this->tpl->setVariable("TXT_DATE", date("Y-m-d H:i:s",$file_arr[0]));
-
-				$this->tpl->parseCurrentBlock();
-			}
-			$this->tpl->setCurrentBlock("selectall");
-			$this->tpl->setVariable("SELECT_ALL", $this->lng->txt("select_all"));
-			$this->tpl->setVariable("CSS_ROW", $css_row);
-			$this->tpl->parseCurrentBlock();
-
-			// delete button
-			$this->tpl->setVariable("IMG_ARROW", ilUtil::getImagePath("arrow_downright.gif"));
-			$this->tpl->setCurrentBlock("tbl_action_btn");
-			$this->tpl->setVariable("BTN_NAME", "confirmDeleteExportFile");
-			$this->tpl->setVariable("BTN_VALUE", $this->lng->txt("delete"));
-			$this->tpl->parseCurrentBlock();
-	
-			$this->tpl->setCurrentBlock("tbl_action_btn");
-			$this->tpl->setVariable("BTN_NAME", "downloadExportFile");
-			$this->tpl->setVariable("BTN_VALUE", $this->lng->txt("download"));
-			$this->tpl->parseCurrentBlock();
-		} //if is_array
-		else
-		{
-			$this->tpl->setCurrentBlock("notfound");
-			$this->tpl->setVariable("TXT_OBJECT_NOT_FOUND", $this->lng->txt("obj_not_found"));
-			$this->tpl->setVariable("NUM_COLS", 3);
-			$this->tpl->parseCurrentBlock();
+			$file_arr = explode("__", $exp_file);
+			array_push($data, array('file' => $exp_file, 'date' => ilDatePresentation::formatDate(new ilDateTime($file_arr[0], IL_CAL_UNIX)), 'size' => filesize($export_dir."/".$exp_file)));
 		}
-
-		$this->tpl->parseCurrentBlock();
+		$table_gui->setData($data);
+		$this->tpl->setVariable('ADM_CONTENT', $table_gui->getHTML());	
 	}
 
 	
@@ -1252,48 +1157,22 @@ class ilObjQuestionPoolGUI extends ilObjectGUI
 	{
 		if(!isset($_POST["file"]))
 		{
-			ilUtil::sendInfo($this->lng->txt("no_checkbox"), true);
+			ilUtil::sendInfo($this->lng->txt("no_checkbox"),true);
 			$this->ctrl->redirect($this, "export");
 		}
 
-		// SAVE POST VALUES
-		$_SESSION["ilExportFiles"] = $_POST["file"];
-
-		$this->tpl->addBlockFile("ADM_CONTENT", "adm_content", "tpl.confirm_deletion.html", "Modules/TestQuestionPool");
-
 		ilUtil::sendQuestion($this->lng->txt("info_delete_sure"));
-
-		$this->tpl->setVariable("FORMACTION", $this->ctrl->getFormAction($this));
-
-		// BEGIN TABLE HEADER
-		$this->tpl->setCurrentBlock("table_header");
-		$this->tpl->setVariable("TEXT",$this->lng->txt("objects"));
-		$this->tpl->parseCurrentBlock();
-
-		// BEGIN TABLE DATA
-		$counter = 0;
-		include_once "./Services/Utilities/classes/class.ilUtil.php";
-		foreach($_POST["file"] as $file)
+		include_once "./Modules/TestQuestionPool/classes/tables/class.ilQuestionPoolExportTableGUI.php";
+		$table_gui = new ilQuestionPoolExportTableGUI($this, 'export', true);
+		$export_dir = $this->object->getExportDirectory();
+		$data = array();
+		foreach ($_POST['file'] as $exp_file)
 		{
-				$this->tpl->setCurrentBlock("table_row");
-				$this->tpl->setVariable("CSS_ROW",ilUtil::switchColor(++$counter,"tblrow1","tblrow2"));
-				$this->tpl->setVariable("TEXT_CONTENT", $file);
-				$this->tpl->parseCurrentBlock();
+			$file_arr = explode("__", $exp_file);
+			array_push($data, array('file' => $exp_file, 'date' => ilDatePresentation::formatDate(new ilDateTime($file_arr[0], IL_CAL_UNIX)), 'size' => filesize($export_dir."/".$exp_file)));
 		}
-
-		// cancel/confirm button
-		$this->tpl->setVariable("IMG_ARROW",ilUtil::getImagePath("arrow_downright.gif"));
-		$buttons = array(
-			"deleteExportFile"  => $this->lng->txt("confirm"),
-			"cancelDeleteExportFile"  => $this->lng->txt("cancel")
-		);
-		foreach ($buttons as $name => $value)
-		{
-			$this->tpl->setCurrentBlock("operation_btn");
-			$this->tpl->setVariable("BTN_NAME",$name);
-			$this->tpl->setVariable("BTN_VALUE",$value);
-			$this->tpl->parseCurrentBlock();
-		}
+		$table_gui->setData($data);
+		$this->tpl->setVariable('ADM_CONTENT', $table_gui->getHTML());	
 	}
 
 
@@ -1313,7 +1192,7 @@ class ilObjQuestionPoolGUI extends ilObjectGUI
 	{
 		include_once "./Services/Utilities/classes/class.ilUtil.php";
 		$export_dir = $this->object->getExportDirectory();
-		foreach($_SESSION["ilExportFiles"] as $file)
+		foreach($_POST['file'] as $file)
 		{
 			$exp_file = $export_dir."/".$file;
 			include_once "./Services/Utilities/classes/class.ilStr.php";
