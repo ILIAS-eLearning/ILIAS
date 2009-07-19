@@ -4240,6 +4240,8 @@ content#:#cont_not_js_chap_editing#:#Use No-JavaScript Editing Mode
 content#:#cont_js_chap_editing#:#Use JavaScript Editing Mode
 content#:#cont_chapters_after_pages#:#Please note that pages have to precede all subchapters of the same level.
 content#:#cont_add_rectangle#:#Add Rectangle
+content#:#cont_change_object_reference#:#Change Object Reference
+content#:#cont_select#:#Select
 content#:#cont_add_circle#:#Add Circle
 content#:#cont_add_polygon#:#Add Polygon
 content#:#cont_edit_shape_rectangle#:#Edit Shape (Rectangle)
