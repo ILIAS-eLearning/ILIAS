@@ -79,6 +79,25 @@ class ilExerciseMemberTableGUI extends ilTable2GUI
 			continue;
 		}
 
+		// mail sent
+		if ($this->exc->members_obj->getStatusSentByMember($member_id))
+		{
+			$this->tpl->setCurrentBlock("mail_sent");
+			if (($st = ilObjExercise::_lookupSentTime($this->exc->getId(),
+				$member_id)) > 0)
+			{
+				$this->tpl->setVariable("TXT_MAIL_SENT",
+					sprintf($lng->txt("exc_sent_at"),
+					ilDatePresentation::formatDate(new ilDateTime($st,IL_CAL_DATE))));
+			}
+			else
+			{
+				$this->tpl->setVariable("TXT_MAIL_SENT",
+					$lng->txt("sent"));
+			}
+			$this->tpl->parseCurrentBlock();
+		}
+
 		// checkbox
 		$this->tpl->setVariable("VAL_CHKBOX",
 			ilUtil::formCheckbox(0,"member[$member_id]",1));
@@ -95,25 +114,6 @@ class ilExerciseMemberTableGUI extends ilTable2GUI
 		$this->tpl->setVariable("USR_IMAGE",
 			$mem_obj->getPersonalPicturePath("xxsmall"));
 		$this->tpl->setVariable("USR_ALT", $lng->txt("personal_picture"));
-
-		// mail sent
-		if ($this->exc->members_obj->getStatusSentByMember($member_id))
-		{
-			$this->tpl->setCurrentBlock();
-			if (($st = ilObjExercise::_lookupSentTime($this->exc->getId(),
-				$member_id)) > 0)
-			{
-				$this->tpl->setVariable("TXT_MAIL_SENT",
-					sprintf($lng->txt("exc_sent_at"),
-					ilDatePresentation::formatDate(new ilDateTime($st,IL_CAL_DATE))));
-			}
-			else
-			{
-				$this->tpl->setVariable("TXT_MAIL_SENT",
-					$lng->txt("sent"));
-			}
-			$this->tpl->parseCurrentBlock();
-		}
 
 		// submission:
 		// see if files have been resubmmited after solved
