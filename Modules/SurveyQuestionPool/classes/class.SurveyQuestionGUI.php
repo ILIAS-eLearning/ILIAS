@@ -328,7 +328,7 @@ class SurveyQuestionGUI
 		$mat_html = "";
 		if (count($this->object->getMaterial()))
 		{
-			include_once "./Modules/SurveyQuestionPool/classes/class.ilSurveyMaterialsTableGUI.php";
+			include_once "./Modules/SurveyQuestionPool/classes/tables/class.ilSurveyMaterialsTableGUI.php";
 			$table_gui = new ilSurveyMaterialsTableGUI($this, 'material');
 			$data = array();
 			foreach ($this->object->getMaterial() as $material)

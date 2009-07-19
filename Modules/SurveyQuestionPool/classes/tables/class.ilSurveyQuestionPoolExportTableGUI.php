@@ -31,7 +31,7 @@ include_once('./Services/Table/classes/class.ilTable2GUI.php');
 * @ingroup ModulesSurveyQuestionPool
 */
 
-class ilSurveyExportTableGUI extends ilTable2GUI
+class ilSurveyQuestionPoolExportTableGUI extends ilTable2GUI
 {
 	protected $confirmdelete;
 	protected $counter;
