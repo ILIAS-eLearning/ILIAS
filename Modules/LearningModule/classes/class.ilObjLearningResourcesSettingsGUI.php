@@ -1,25 +1,6 @@
 <?php
-/*
-	+-----------------------------------------------------------------------------+
-	| ILIAS open source                                                           |
-	+-----------------------------------------------------------------------------+
-	| Copyright (c) 1998-2009 ILIAS open source, University of Cologne            |
-	|                                                                             |
-	| This program is free software; you can redistribute it and/or               |
-	| modify it under the terms of the GNU General Public License                 |
-	| as published by the Free Software Foundation; either version 2              |
-	| of the License, or (at your option) any later version.                      |
-	|                                                                             |
-	| This program is distributed in the hope that it will be useful,             |
-	| but WITHOUT ANY WARRANTY; without even the implied warranty of              |
-	| MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the               |
-	| GNU General Public License for more details.                                |
-	|                                                                             |
-	| You should have received a copy of the GNU General Public License           |
-	| along with this program; if not, write to the Free Software                 |
-	| Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA. |
-	+-----------------------------------------------------------------------------+
-*/
+/* Copyright (c) 1998-2009 ILIAS open source, Extended GPL, see docs/LICENSE */
+
 include_once("./classes/class.ilObjectGUI.php");
 
 /**
@@ -153,6 +134,13 @@ class ilObjLearningResourcesSettingsGUI extends ilObjectGUI
 		$cb_prop->setChecked($lm_set->get("time_scheduled_page_activation"));
 		$form->addItem($cb_prop);
 
+		// Activate replace media object function
+		$cb_prop = new ilCheckboxInputGUI($lng->txt("cont_replace_mob_feature"),
+			"replace_mob_feature");
+		$cb_prop->setInfo($lng->txt("cont_replace_mob_feature_info"));
+		$cb_prop->setChecked($lm_set->get("replace_mob_feature"));
+		$form->addItem($cb_prop);
+
 		// Upload dir for learning resources
 		$tx_prop = new ilTextInputGUI($lng->txt("cont_upload_dir"),
 			"cont_upload_dir");
@@ -193,6 +181,8 @@ class ilObjLearningResourcesSettingsGUI extends ilObjectGUI
 		$lm_set = new ilSetting("lm");
 		$lm_set->set("time_scheduled_page_activation",
 			ilUtil::stripSlashes($_POST["time_scheduled_page_activation"]));
+		$lm_set->set("replace_mob_feature",
+			ilUtil::stripSlashes($_POST["replace_mob_feature"]));
 		$lm_set->set("cont_upload_dir",
 			ilUtil::stripSlashes($_POST["cont_upload_dir"]));
 			
