@@ -14705,3 +14705,7 @@ $ilDB->addTableColumn("usr_data", "birthday", array("type" => "date", "notnull" 
 			" WHERE acc_time = ".$ilDB->quote($rec["acc_time"], "timestamp"));
 	}
 ?>
+<#2778>
+<?php
+	$ilMySQLAbstraction->performAbstraction("page_layout");
+?>
