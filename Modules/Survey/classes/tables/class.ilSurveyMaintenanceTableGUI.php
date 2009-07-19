@@ -82,8 +82,6 @@ class ilSurveyMaintenanceTableGUI extends ilTable2GUI
 
 		$this->setDefaultOrderField("name");
 		$this->setDefaultOrderDirection("asc");
-		$this->setPrefix('chbUser');
-		$this->setSelectAllCheckbox('chbUser');
 		
 		if ($confirmdelete)
 		{
@@ -92,6 +90,8 @@ class ilSurveyMaintenanceTableGUI extends ilTable2GUI
 		}
 		else
 		{
+			$this->setPrefix('chbUser');
+			$this->setSelectAllCheckbox('chbUser');
 			$this->enable('sort');
 			$this->enable('select_all');
 		}

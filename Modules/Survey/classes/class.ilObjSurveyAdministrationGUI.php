@@ -179,7 +179,7 @@ class ilObjSurveyAdministrationGUI extends ilObjectGUI
 			if (count($_SESSION["survey_adm_found_users"]))
 			{
 				$data = $_SESSION["survey_adm_found_users"];
-				include_once("./Modules/Survey/classes/class.ilFoundUsersTableGUI.php");
+				include_once("./Modules/Survey/classes/tables/class.ilFoundUsersTableGUI.php");
 				$table_gui = new ilFoundUsersTableGUI($this, "specialusers");
 				$table_gui->setPrefix("fu");
 				
@@ -206,7 +206,7 @@ class ilObjSurveyAdministrationGUI extends ilObjectGUI
 		$special_users = $this->object->getSpecialUsers();
 		if (count($special_users))
 		{
-			include_once("./Modules/Survey/classes/class.ilSpecialUsersTableGUI.php");
+			include_once("./Modules/Survey/classes/tables/class.ilSpecialUsersTableGUI.php");
 			$table_gui = new ilSpecialUsersTableGUI($this, "specialusers");
 			$table_gui->setPrefix("su");
 					
