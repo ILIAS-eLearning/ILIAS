@@ -566,7 +566,7 @@ class ilTestEvaluationGUI extends ilTestServiceGUI
 			));
 		} 
 
-		include_once "./Modules/Test/classes/class.ilTestAggregatedResultsTableGUI.php";
+		include_once "./Modules/Test/classes/tables/class.ilTestAggregatedResultsTableGUI.php";
 		$table_gui = new ilTestAggregatedResultsTableGUI($this, 'eval_a');
 		$table_gui->setData($data);
 		$this->tpl->setVariable('AGGREGATED_RESULTS', $table_gui->getHTML());	
@@ -605,7 +605,7 @@ class ilTestEvaluationGUI extends ilTestServiceGUI
 				)
 			);
 		}
-		include_once "./Modules/Test/classes/class.ilTestAverageReachedPointsTableGUI.php";
+		include_once "./Modules/Test/classes/tables/class.ilTestAverageReachedPointsTableGUI.php";
 		$table_gui = new ilTestAverageReachedPointsTableGUI($this, 'eval_a');
 		$table_gui->setData($rows);
 		$this->tpl->setVariable('TBL_AVG_REACHED', $table_gui->getHTML());	
@@ -1346,7 +1346,7 @@ class ilTestEvaluationGUI extends ilTestServiceGUI
 			}
 			if (count($rows))
 			{
-				include_once("./Modules/Test/classes/class.ilResultsByQuestionTableGUI.php");
+				include_once("./Modules/Test/classes/tables/class.ilResultsByQuestionTableGUI.php");
 				$table_gui = new ilResultsByQuestionTableGUI($this, "singleResults");
 
 				$table_gui->setTitle($this->lng->txt("tst_answered_questions_test"));

@@ -339,7 +339,7 @@ class ilObjAssessmentFolderGUI extends ilObjectGUI
 
 		if ($p_test)
 		{
-			include_once "./Modules/Test/classes/class.ilAssessmentFolderLogTableGUI.php";
+			include_once "./Modules/Test/classes/tables/class.ilAssessmentFolderLogTableGUI.php";
 			$table_gui = new ilAssessmentFolderLogTableGUI($this, 'logs');
 			$log_output =& $this->object->getLog($fromdate, $untildate, $p_test);
 			$table_gui->setData($log_output);
@@ -370,7 +370,7 @@ class ilObjAssessmentFolderGUI extends ilObjectGUI
 	*/
 	public function logAdminObject()
 	{
-		include_once "./Modules/Test/classes/class.ilAssessmentFolderLogAdministrationTableGUI.php";
+		include_once "./Modules/Test/classes/tables/class.ilAssessmentFolderLogAdministrationTableGUI.php";
 		$table_gui = new ilAssessmentFolderLogAdministrationTableGUI($this, 'logAdmin');
 		include_once "./Modules/Test/classes/class.ilObjTest.php";
 		$available_tests =& ilObjTest::_getAvailableTests(true);
