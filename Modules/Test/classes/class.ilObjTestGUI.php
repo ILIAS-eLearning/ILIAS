@@ -294,7 +294,7 @@ class ilObjTestGUI extends ilObjectGUI
 			}
 		}
 
-		include_once "./Modules/Test/classes/class.ilTestExportTableGUI.php";
+		include_once "./Modules/Test/classes/tables/class.ilTestExportTableGUI.php";
 		$table_gui = new ilTestExportTableGUI($this, 'export');
 		$table_gui->setData($data);
 		$this->tpl->setVariable('ADM_CONTENT', $table_gui->getHTML());	
@@ -394,7 +394,7 @@ class ilObjTestGUI extends ilObjectGUI
 			}
 		}
 
-		include_once "./Modules/Test/classes/class.ilTestExportTableGUI.php";
+		include_once "./Modules/Test/classes/tables/class.ilTestExportTableGUI.php";
 		$table_gui = new ilTestExportTableGUI($this, 'export', true);
 		$table_gui->setData($data);
 		$this->tpl->setVariable('ADM_CONTENT', $table_gui->getHTML());	
@@ -2237,7 +2237,7 @@ class ilObjTestGUI extends ilObjectGUI
 
 	function filterAvailableQuestionsObject()
 	{
-		include_once "./Modules/Test/classes/class.ilTestQuestionBrowserTableGUI.php";
+		include_once "./Modules/Test/classes/tables/class.ilTestQuestionBrowserTableGUI.php";
 		$table_gui = new ilTestQuestionBrowserTableGUI($this, 'browseForQuestions');
 		$table_gui->writeFilterToSession();
 		$this->ctrl->redirect($this, "browseForQuestions");
@@ -2254,7 +2254,7 @@ class ilObjTestGUI extends ilObjectGUI
 
 		$this->ctrl->setParameterByClass(get_class($this), "browse", "1");
 
-		include_once "./Modules/Test/classes/class.ilTestQuestionBrowserTableGUI.php";
+		include_once "./Modules/Test/classes/tables/class.ilTestQuestionBrowserTableGUI.php";
 		$table_gui = new ilTestQuestionBrowserTableGUI($this, 'browseForQuestions', (($ilAccess->checkAccess("write", "", $this->ref_id) ? true : false)));
 		$arrFilter = array();
 		foreach ($table_gui->getFilterItems() as $item)
@@ -2375,7 +2375,7 @@ class ilObjTestGUI extends ilObjectGUI
 		}
 
 		$this->tpl->setCurrentBlock("adm_content");
-		include_once "./Modules/Test/classes/class.ilTestQuestionsTableGUI.php";
+		include_once "./Modules/Test/classes/tables/class.ilTestQuestionsTableGUI.php";
 		$table_gui = new ilTestQuestionsTableGUI($this, 'questions', (($ilAccess->checkAccess("write", "", $this->ref_id) ? true : false)), $checked_move);
 		$data = $this->object->getTestQuestions();
 		$table_gui->setData($data);
@@ -2841,7 +2841,7 @@ class ilObjTestGUI extends ilObjectGUI
 	*/
 	function historyObject()
 	{
-		include_once "./Modules/Test/classes/class.ilTestHistoryTableGUI.php";
+		include_once "./Modules/Test/classes/tables/class.ilTestHistoryTableGUI.php";
 		$table_gui = new ilTestHistoryTableGUI($this, 'history');
 		$table_gui->setTestObject($this->object);
 		include_once "./Modules/Test/classes/class.ilObjAssessmentFolder.php";
@@ -3111,7 +3111,7 @@ class ilObjTestGUI extends ilObjectGUI
 						
 						if (count ($users))
 						{
-							include_once "./Modules/Test/classes/class.ilTestInviteUsersTableGUI.php";
+							include_once "./Modules/Test/classes/tables/class.ilTestInviteUsersTableGUI.php";
 							$table_gui = new ilTestInviteUsersTableGUI($this, 'inviteParticipants');
 							$table_gui->setData($users);
 							$this->tpl->setVariable('TBL_USER_RESULT', $table_gui->getHTML());	
@@ -3132,7 +3132,7 @@ class ilObjTestGUI extends ilObjectGUI
 						
 						if (count ($groups))
 						{
-							include_once "./Modules/Test/classes/class.ilTestInviteGroupsTableGUI.php";
+							include_once "./Modules/Test/classes/tables/class.ilTestInviteGroupsTableGUI.php";
 							$table_gui = new ilTestInviteGroupsTableGUI($this, 'inviteParticipants');
 							$table_gui->setData($groups);
 							$this->tpl->setVariable('TBL_GROUP_RESULT', $table_gui->getHTML());	
@@ -3154,7 +3154,7 @@ class ilObjTestGUI extends ilObjectGUI
 								
 						if (count ($roles))
 						{
-							include_once "./Modules/Test/classes/class.ilTestInviteRolesTableGUI.php";
+							include_once "./Modules/Test/classes/tables/class.ilTestInviteRolesTableGUI.php";
 							$table_gui = new ilTestInviteRolesTableGUI($this, 'inviteParticipants');
 							$table_gui->setData($roles);
 							$this->tpl->setVariable('TBL_ROLE_RESULT', $table_gui->getHTML());	
@@ -3320,7 +3320,7 @@ class ilObjTestGUI extends ilObjectGUI
 					'maxpass' => $maxpass
 				));
 			}
-			include_once "./Modules/Test/classes/class.ilTestFixedParticipantsTableGUI.php";
+			include_once "./Modules/Test/classes/tables/class.ilTestFixedParticipantsTableGUI.php";
 			$table_gui = new ilTestFixedParticipantsTableGUI($this, 'participants', $this->object->getAnonymity(), count($rows));
 			$table_gui->setData($rows);
 			$this->tpl->setVariable('ADM_CONTENT', $table_gui->getHTML());	
@@ -3353,7 +3353,7 @@ class ilObjTestGUI extends ilObjectGUI
 					'maxpass' => $maxpass
 				));
 			}
-			include_once "./Modules/Test/classes/class.ilTestParticipantsTableGUI.php";
+			include_once "./Modules/Test/classes/tables/class.ilTestParticipantsTableGUI.php";
 			$table_gui = new ilTestParticipantsTableGUI($this, 'participants', $this->object->getAnonymity(), count($rows));
 			$table_gui->setData($rows);
 			$this->tpl->setVariable('ADM_CONTENT', $table_gui->getHTML());	
