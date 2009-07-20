@@ -60,15 +60,134 @@ class SurveyTextQuestionGUI extends SurveyQuestionGUI
 		}
 	}
 
+	/**
+	* Evaluates a posted edit form and writes the form data in the question object
+	*
+	* @return integer A positive value, if one of the required fields wasn't set, else 0
+	* @access private
+	*/
+	function writePostData($always = false)
+	{
+		$hasErrors = (!$always) ? $this->editQuestion(true) : false;
+		if (!$hasErrors)
+		{
+			$this->object->setTitle(ilUtil::stripSlashes($_POST["title"]));
+			$this->object->setAuthor(ilUtil::stripSlashes($_POST["author"]));
+			$this->object->setDescription(ilUtil::stripSlashes($_POST["description"]));
+			include_once "./Services/AdvancedEditing/classes/class.ilObjAdvancedEditing.php";
+			$questiontext = ilUtil::stripSlashes($_POST["question"], false, ilObjAdvancedEditing::_getUsedHTMLTagsAsString("survey"));
+			$this->object->setQuestiontext($questiontext);
+			$this->object->setObligatory(($_POST["obligatory"]) ? 1 : 0);
+
+			$this->object->setMaxChars((strlen($_POST["maxchars"])) ? ilUtil::stripSlashes($_POST["maxchars"]) : null);
+			$this->object->setTextWidth(ilUtil::stripSlashes($_POST["textwidth"]));
+			$this->object->setTextHeight(ilUtil::stripSlashes($_POST["textheight"]));
+
+			return 0;
+		}
+		else
+		{
+			return 1;
+		}
+	}
+	
 /**
 * Creates an output of the edit form for the question
-*
-* Creates an output of the edit form for the question
-*
-* @access public
 */
-  function editQuestion() 
+	public function editQuestion() 
 	{
+		$save = ((strcmp($this->ctrl->getCmd(), "save") == 0) || (strcmp($this->ctrl->getCmd(), "saveEdit") == 0)) ? TRUE : FALSE;
+
+		include_once("./Services/Form/classes/class.ilPropertyFormGUI.php");
+		$form = new ilPropertyFormGUI();
+		$form->setFormAction($this->ctrl->getFormAction($this));
+		$form->setTitle($this->lng->txt($this->getQuestionType()));
+		$form->setMultipart(FALSE);
+		$form->setTableWidth("100%");
+		$form->setId("essay");
+
+		// title
+		$title = new ilTextInputGUI($this->lng->txt("title"), "title");
+		$title->setValue($this->object->getTitle());
+		$title->setRequired(TRUE);
+		$form->addItem($title);
+		
+		// author
+		$author = new ilTextInputGUI($this->lng->txt("author"), "author");
+		$author->setValue($this->object->getAuthor());
+		$author->setRequired(TRUE);
+		$form->addItem($author);
+		
+		// description
+		$description = new ilTextInputGUI($this->lng->txt("description"), "description");
+		$description->setValue($this->object->getDescription());
+		$description->setRequired(FALSE);
+		$form->addItem($description);
+		
+		// questiontext
+		$question = new ilTextAreaInputGUI($this->lng->txt("question"), "question");
+		$question->setValue($this->object->prepareTextareaOutput($this->object->getQuestiontext()));
+		$question->setRequired(TRUE);
+		$question->setRows(10);
+		$question->setCols(80);
+		$question->setUseRte(TRUE);
+		$question->addPlugin("latex");
+		$question->removePlugin("ibrowser");
+		$question->addButton("latex");
+		$question->addButton("pastelatex");
+		$question->setRTESupport($this->object->getId(), "spl", "survey");
+		$form->addItem($question);
+		
+		// maximum number of characters
+		$maxchars = new ilNumberInputGUI($this->lng->txt("maxchars"), "maxchars");
+		$maxchars->setRequired(false);
+		$maxchars->setSize(5);
+		if ($this->object->getMaxChars() > 0)
+		{
+			$maxchars->setValue($this->object->getMaxChars());
+		}
+		$maxchars->setDecimals(0);
+		$form->addItem($maxchars);
+		
+		// textwidth
+		$textwidth = new ilNumberInputGUI($this->lng->txt("width"), "textwidth");
+		$textwidth->setRequired(true);
+		$textwidth->setSize(3);
+		$textwidth->setValue($this->object->getTextWidth());
+		$textwidth->setDecimals(0);
+		$textwidth->setMinValue(10);
+		$form->addItem($textwidth);
+		
+		// textheight
+		$textheight = new ilNumberInputGUI($this->lng->txt("height"), "textheight");
+		$textheight->setRequired(true);
+		$textheight->setSize(3);
+		$textheight->setValue($this->object->getTextHeight());
+		$textheight->setDecimals(0);
+		$textheight->setMinValue(1);
+		$form->addItem($textheight);
+		
+		// obligatory
+		$shuffle = new ilCheckboxInputGUI($this->lng->txt("obligatory"), "obligatory");
+		$shuffle->setValue(1);
+		$shuffle->setChecked($this->object->getObligatory());
+		$shuffle->setRequired(FALSE);
+		$form->addItem($shuffle);
+
+		$form->addCommandButton("save", $this->lng->txt("save"));
+	
+		$errors = false;
+	
+		if ($save)
+		{
+			$form->setValuesByPost();
+			$errors = !$form->checkInput();
+			if ($errors) $checkonly = false;
+		}
+
+		if (!$checkonly) $this->tpl->setVariable("ADM_CONTENT", $form->getHTML());
+		return $errors;
+
 		$this->tpl->addBlockFile("ADM_CONTENT", "adm_content", "tpl.il_svy_qpl_text.html", "Modules/SurveyQuestionPool");
 	  $this->tpl->addBlockFile("OTHER_QUESTION_DATA", "other_question_data", "tpl.il_svy_qpl_other_question_data.html", "Modules/SurveyQuestionPool");
 
@@ -277,56 +396,6 @@ class SurveyTextQuestionGUI extends SurveyQuestionGUI
 		$question_output = $this->getWorkingForm();
 		$this->tpl->setVariable("QUESTION_OUTPUT", $question_output);
 	}
-
-/**
-* Evaluates a posted edit form and writes the form data in the question object
-*
-* Evaluates a posted edit form and writes the form data in the question object
-*
-* @return integer A positive value, if one of the required fields wasn't set, else 0
-* @access private
-*/
-	function writePostData() 
-	{
-		$result = 0;
-		if ((!$_POST["title"]) or (!$_POST["author"]) or (!$_POST["question"])) $result = 1;
-		if ($result == 1) $this->addErrorMessage($this->lng->txt("fill_out_all_required_fields"));
-
-		// Set the question id from a hidden form parameter
-		if ($_POST["id"] > 0) $this->object->setId($_POST["id"]);
-		include_once "./Services/Utilities/classes/class.ilUtil.php";
-		$this->object->setTitle(ilUtil::stripSlashes($_POST["title"]));
-		$this->object->setAuthor(ilUtil::stripSlashes($_POST["author"]));
-		$this->object->setDescription(ilUtil::stripSlashes($_POST["description"]));
-		$this->object->setMaxChars(ilUtil::stripSlashes($_POST["maxchars"]));
-		$this->object->setTextWidth(ilUtil::stripSlashes($_POST["textwidth"]));
-		$this->object->setTextHeight(ilUtil::stripSlashes($_POST["textheight"]));
-		if (strlen($_POST["material"]))
-		{
-			$this->object->setMaterial($_POST["material"], 0, ilUtil::stripSlashes($_POST["material_title"]));
-		}
-		include_once "./Services/AdvancedEditing/classes/class.ilObjAdvancedEditing.php";
-		$questiontext = ilUtil::stripSlashes($_POST["question"], true, ilObjAdvancedEditing::_getUsedHTMLTagsAsString("survey"));
-		$this->object->setQuestiontext($questiontext);
-		if ($_POST["obligatory"])
-		{
-			$this->object->setObligatory(1);
-		}
-		else
-		{
-			$this->object->setObligatory(0);
-		}
-
-		if ($saved) 
-		{
-			// If the question was saved automatically before an upload, we have to make
-			// sure, that the state after the upload is saved. Otherwise the user could be
-			// irritated, if he presses cancel, because he only has the question state before
-			// the upload process.
-			$this->object->saveToDb();
-		}
-    return $result;
-  }
 
 	function setQuestionTabs()
 	{
