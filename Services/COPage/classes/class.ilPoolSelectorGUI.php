@@ -66,7 +66,7 @@ class ilPoolSelectorGUI extends ilExplorer
 		
 		$ilCtrl->setParameterByClass($this->getContentGUIClass(), "subCmd", "selectPool");
 		$ilCtrl->setParameterByClass($this->getContentGUIClass(), "pool_ref_id", $a_node_id);
-		$link = $ilCtrl->getLinkTargetByClass($this->getContentGUIClass(), "insert");
+		$link = $ilCtrl->getLinkTargetByClass($this->getContentGUIClass(), $_GET["cmd"]);
 
 		return $link;
 	}

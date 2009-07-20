@@ -204,6 +204,23 @@ class ilPCMediaObject extends ilPageContent
 	}
 	
 	/**
+	* Updates the media object referenced by the media alias.
+	* This makes only sense, after the media object has changed.
+	* (-> change object reference function)
+	*/
+	function updateObjectReference()
+	{
+		if (is_object($this->mob_node))
+		{
+			$this->mal_node =& $this->mob_node->first_child();
+			if (is_object($this->mal_node) && $this->mal_node->node_name() == "MediaAlias")
+			{
+				$this->mal_node->set_attribute("OriginId", "il__mob_".$this->getMediaObject()->getId());
+			}
+		}
+	}
+
+	/**
 	* Dump node xml
 	*/
 	function dumpXML()
