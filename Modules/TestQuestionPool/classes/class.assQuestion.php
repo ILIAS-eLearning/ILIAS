@@ -1719,7 +1719,7 @@ class assQuestion
 			// update the question time stamp and completion status
 		$affectedRows = $ilDB->manipulateF("UPDATE qpl_questions SET tstamp = %s, owner = %s, complete = %s WHERE question_id = %s",
 			array('integer','integer', 'integer','text'),
-			array(time(), ($this->getOwner() <= 0) ? $this->ilias->account->id : $this->getOwner(), $this->getId(), $complete)
+			array(time(), ($this->getOwner() <= 0) ? $this->ilias->account->id : $this->getOwner(), $complete, $this->getId())
 		);
 	}
 	
