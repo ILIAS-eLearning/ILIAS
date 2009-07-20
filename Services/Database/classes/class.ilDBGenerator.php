@@ -124,7 +124,7 @@ class ilDBGenerator
 		{
 			return false;
 		}
-		
+
 		return true;
 	}
 	
@@ -135,7 +135,7 @@ class ilDBGenerator
 	*/
 	function buildDBGenerationScript($a_filename = "")
 	{
-echo "<br>3"; flush();
+//echo "<br>3"; flush();
 		$file = "";
 		if ($a_filename != "")
 		{
@@ -149,7 +149,7 @@ echo "<br>3"; flush();
 		{
 			echo "<pre>";
 		}
-echo "<br>4"; flush();
+//echo "<br>4"; flush();
 		$this->getTables();
 		foreach ($this->tables as $table)
 		{
@@ -174,6 +174,13 @@ echo "<br>4"; flush();
 				
 				// inserts
 				$this->buildInsertStatements($table, $file);
+			}
+			else
+			{
+				if ($a_filename != "")
+				{
+					echo "<br><b>missing: ".$table."</b>"; flush();
+				}
 			}
 		}
 		

@@ -1,25 +1,5 @@
 <?php
-/*
-	+-----------------------------------------------------------------------------+
-	| ILIAS open source                                                           |
-	+-----------------------------------------------------------------------------+
-	| Copyright (c) 1998-2006 ILIAS open source, University of Cologne            |
-	|                                                                             |
-	| This program is free software; you can redistribute it and/or               |
-	| modify it under the terms of the GNU General Public License                 |
-	| as published by the Free Software Foundation; either version 2              |
-	| of the License, or (at your option) any later version.                      |
-	|                                                                             |
-	| This program is distributed in the hope that it will be useful,             |
-	| but WITHOUT ANY WARRANTY; without even the implied warranty of              |
-	| MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the               |
-	| GNU General Public License for more details.                                |
-	|                                                                             |
-	| You should have received a copy of the GNU General Public License           |
-	| along with this program; if not, write to the Free Software                 |
-	| Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA. |
-	+-----------------------------------------------------------------------------+
-*/
+/* Copyright (c) 1998-2009 ILIAS open source, Extended GPL, see docs/LICENSE */
 
 include_once('Services/Calendar/classes/class.ilDate.php');
 include_once('./Services/Calendar/interfaces/interface.ilDatePeriod.php');
@@ -623,18 +603,16 @@ class ilCalendarEntry implements ilDatePeriod
 	{
 		global $ilDB;
 		
-		$st = $ilDB->prepareManip("DELETE FROM cal_entry_responsible WHERE cal_id = ?",
-			array("integer"));
-		$ilDB->execute($st, array($this->getEntryId()));
+		$ilDB->manipulateF("DELETE FROM cal_entry_responsible WHERE cal_id = %s",
+			array("integer"), array($this->getEntryId()));
 		
 		if (is_array($a_users))
 		{
 			foreach ($a_users as $user_id)
 			{
-				$st = $ilDB->prepareManip("INSERT INTO cal_entry_responsible (cal_id, user_id) ".
-					" VALUES (?,?)",
-					array("integer", "integer"));
-				$ilDB->execute($st, array($this->getEntryId(), $user_id));
+				$ilDB->manipulateF("INSERT INTO cal_entry_responsible (cal_id, user_id) ".
+					" VALUES (%s,%s)", array("integer", "integer"),
+					array($this->getEntryId(), $user_id));
 			}
 		}
 		
@@ -648,10 +626,8 @@ class ilCalendarEntry implements ilDatePeriod
 	{
 		global $ilDB;
 		
-		$st = $ilDB->prepare("SELECT * FROM cal_entry_responsible WHERE cal_id = ?",
-			array("integer"));
-		$set = $ilDB->execute($st, array($this->getEntryId()));
-//echo "-".$this->getEntryId()."-";
+		$set = $ilDB->queryF("SELECT * FROM cal_entry_responsible WHERE cal_id = %s",
+			array("integer"), array($this->getEntryId()));
 
 		$return = array();
 		while($rec = $ilDB->fetchAssoc($set))
