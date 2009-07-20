@@ -1644,7 +1644,7 @@ class ilObjSurveyGUI extends ilObjectGUI
 	{
 		$this->handleWriteAccess();
 		global $rbacsystem;
-
+		
 		$hasDatasets = $this->object->_hasDatasets($this->object->getSurveyId());
 		include_once "./Services/Utilities/classes/class.ilUtil.php";
 		if ((!$rbacsystem->checkAccess("read", $this->ref_id)) && (!$rbacsystem->checkAccess("write", $this->ref_id))) 
@@ -1721,7 +1721,6 @@ class ilObjSurveyGUI extends ilObjectGUI
 		}
 
 		$this->tpl->addBlockFile("ADM_CONTENT", "adm_content", "tpl.il_svy_svy_questions.html", "Modules/Survey");
-
 		$survey_questions =& $this->object->getSurveyQuestions();
 		$questionblock_titles =& $this->object->getQuestionblockTitles();
 		$questionpools =& $this->object->getQuestionpoolTitles();
