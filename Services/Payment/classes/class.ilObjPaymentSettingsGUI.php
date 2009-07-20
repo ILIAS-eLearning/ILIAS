@@ -2209,7 +2209,7 @@ class ilObjPaymentSettingsGUI extends ilObjectGUI
 		// HEADER SENT
 		
 		$workbook =& $pewa->getWorkbook();
-		$workbook->close();
+		@$workbook->close();
 	}
 
 	function addStatisticWorksheet(&$pewa)
@@ -2219,14 +2219,8 @@ class ilObjPaymentSettingsGUI extends ilObjectGUI
 
 		$this->__initBookingObject();
 
-		if(!count($bookings = $this->booking_obj->getBookings()))
-		{
-			return false;
-		}
-
 		$workbook =& $pewa->getWorkbook();
-		//$worksheet =& $workbook->addWorksheet(utf8_decode($this->lng->txt('paya_statistic')));
-		$worksheet =& $workbook->addWorksheet(utf8_decode($this->lng->txt('bookings')));
+		$worksheet =& $workbook->addWorksheet(utf8_decode($this->lng->txt('bookings')));	
 		
 		$worksheet->mergeCells(0,0,0,3);
 		$worksheet->setColumn(0,0,16);
@@ -2265,6 +2259,10 @@ class ilObjPaymentSettingsGUI extends ilObjectGUI
 		$worksheet->writeString(1,14,ilExcelUtils::_convert_text($this->lng->txt('city')),$pewa->getFormatHeader());
 		$worksheet->writeString(1,15,ilExcelUtils::_convert_text($this->lng->txt('country')),$pewa->getFormatHeader());
 		
+		if(!count($bookings = $this->booking_obj->getBookings()))
+		{
+			return false;
+		}
 
 		include_once 'Services/User/classes/class.ilObjUser.php';
 		$object_title_cache = array();
@@ -2357,10 +2355,6 @@ class ilObjPaymentSettingsGUI extends ilObjectGUI
 		include_once './classes/class.ilExcelUtils.php';
 
 		$this->object->initPaymentVendorsObject();
-		if(!count($vendors = $this->object->payment_vendors_obj->getVendors()))
-		{
-			return false;
-		}
 
 		$workbook =& $pewa->getWorkbook();
 		$worksheet =& $workbook->addWorksheet(ilExcelUtils::_convert_text($this->lng->txt('pays_vendor')));
@@ -2380,6 +2374,11 @@ class ilObjPaymentSettingsGUI extends ilObjectGUI
 		$worksheet->writeString(1,0,ilExcelUtils::_convert_text($this->lng->txt('login')),$pewa->getFormatHeader());
 		$worksheet->writeString(1,1,ilExcelUtils::_convert_text($this->lng->txt('fullname')),$pewa->getFormatHeader());
 		$worksheet->writeString(1,2,ilExcelUtils::_convert_text($this->lng->txt('pays_cost_center')),$pewa->getFormatHeader());
+
+		if(!count($vendors = $this->object->payment_vendors_obj->getVendors()))
+		{
+			return false;
+		}
 
 		$counter = 2;
 		foreach($vendors as $vendor)

@@ -318,24 +318,18 @@ class ilPaymentStatisticGUI extends ilShopBaseGUI
 		// HEADER SENT
 		
 		$workbook =& $pewa->getWorkbook();
-		$workbook->close();
+		@$workbook->close();
 	}
 
 	function addStatisticWorksheet(&$pewa)
 	{
 		include_once './payment/classes/class.ilPaymentVendors.php';
 
-		$this->__initBookingObject();
-
-		if(!count($bookings = $this->booking_obj->getBookings()))
-		{
-			return false;
-		}
+		$this->__initBookingObject();		
 
 		$workbook =& $pewa->getWorkbook();
-		//$worksheet =& $workbook->addWorksheet($this->lng->txt('paya_statistic'));
-		$worksheet =& $workbook->addWorksheet($this->lng->txt('bookings'));
-		
+		$worksheet =& $workbook->addWorksheet($this->lng->txt('bookings'));		
+
 		$worksheet->mergeCells(0,0,0,8);
 		$worksheet->setColumn(0,0,16);
 		$worksheet->setColumn(0,1,32);
@@ -365,6 +359,11 @@ class ilPaymentStatisticGUI extends ilShopBaseGUI
 		$worksheet->writeString(1,7,$this->lng->txt('duration'),$pewa->getFormatHeader());
 		$worksheet->writeString(1,8,$this->lng->txt('price_a'),$pewa->getFormatHeader());
 		$worksheet->writeString(1,9,$this->lng->txt('paya_payed_access'),$pewa->getFormatHeader());
+
+		if(!count($bookings = $this->booking_obj->getBookings()))
+		{
+			return false;
+		}		
 
 		include_once 'Services/User/classes/class.ilObjUser.php';
 		$object_title_cache = array();
