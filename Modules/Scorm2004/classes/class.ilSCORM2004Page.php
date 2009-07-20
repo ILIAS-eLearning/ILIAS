@@ -1,25 +1,5 @@
 <?php
-/*
-	+-----------------------------------------------------------------------------+
-	| ILIAS open source                                                           |
-	+-----------------------------------------------------------------------------+
-	| Copyright (c) 1998-2008 ILIAS open source, University of Cologne            |
-	|                                                                             |
-	| This program is free software; you can redistribute it and/or               |
-	| modify it under the terms of the GNU General Public License                 |
-	| as published by the Free Software Foundation; either version 2              |
-	| of the License, or (at your option) any later version.                      |
-	|                                                                             |
-	| This program is distributed in the hope that it will be useful,             |
-	| but WITHOUT ANY WARRANTY; without even the implied warranty of              |
-	| MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the               |
-	| GNU General Public License for more details.                                |
-	|                                                                             |
-	| You should have received a copy of the GNU General Public License           |
-	| along with this program; if not, write to the Free Software                 |
-	| Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA. |
-	+-----------------------------------------------------------------------------+
-*/
+/* Copyright (c) 1998-2009 ILIAS open source, Extended GPL, see docs/LICENSE */
 
 include_once("./Services/COPage/classes/class.ilPageObject.php");
 
@@ -161,9 +141,9 @@ class ilSCORM2004Page extends ilPageObject
 		// *** STEP 2: Save question references of page ***
 		
 		// delete all reference records
-		$stmt = $ilDB->prepareManip("DELETE FROM page_question WHERE page_parent_type = ? ".
-			" AND page_id = ?", array("text", "integer"));
-		$ilDB->execute($stmt, array($this->getParentType(), $this->getId()));
+		$ilDB->manipulateF("DELETE FROM page_question WHERE page_parent_type = %s ".
+			" AND page_id = %s", array("text", "integer"),
+			array($this->getParentType(), $this->getId()));
 		
 		// save question references of page
 		$doc = domxml_open_mem($a_xml);
@@ -187,10 +167,10 @@ class ilSCORM2004Page extends ilPageObject
 		}
 		foreach($q_ids as $qid)
 		{
-			$stmt = $ilDB->prepareManip("INSERT INTO page_question (page_parent_type, page_id, question_id)".
-				" VALUES (?,?,?)",
-				array("text", "integer", "integer"));
-			$ilDB->execute($stmt, array($this->getParentType(), $this->getId(), $qid));
+			$ilDB->manipulateF("INSERT INTO page_question (page_parent_type, page_id, question_id)".
+				" VALUES (%s,%s,%s)",
+				array("text", "integer", "integer"),
+				array($this->getParentType(), $this->getId(), $qid));
 		}
 	}
 	
@@ -201,10 +181,10 @@ class ilSCORM2004Page extends ilPageObject
 	{
 		global $ilDB;
 		
-		$stmt = $ilDB->prepare("SELECT * FROM page_question WHERE page_parent_type = ? ".
-			" AND page_id = ?",
-			array("text", "integer"));
-		$res = $ilDB->execute($stmt, array($a_parent_type, $a_page_id));
+		$ilDB->queryF("SELECT * FROM page_question WHERE page_parent_type = %s ".
+			" AND page_id = %s",
+			array("text", "integer"),
+			array($a_parent_type, $a_page_id));
 		$q_ids = array();
 		while ($rec = $ilDB->fetchAssoc($res))
 		{
