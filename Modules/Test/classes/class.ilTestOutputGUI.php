@@ -1473,6 +1473,7 @@ class ilTestOutputGUI extends ilTestServiceGUI
 */
 	function outQuestionSummary() 
 	{
+		$this->tpl->addBlockFile($this->getContentBlockName(), "adm_content", "tpl.il_as_tst_question_summary.html", "Modules/Test");
 		$active_id = $this->object->getTestSession()->getActiveId();
 		$result_array = & $this->object->getTestSequence()->getSequenceSummary();
 		$marked_questions = array();
@@ -1525,89 +1526,8 @@ class ilTestOutputGUI extends ilTestServiceGUI
 		include_once "./Modules/Test/classes/tables/class.ilListOfQuestionsTableGUI.php";
 		$table_gui = new ilListOfQuestionsTableGUI($this, 'backFromSummary', !$this->object->getTitleOutput(), $this->object->getShowMarker());
 		$table_gui->setData($data);
-		$this->tpl->setVariable('ADM_CONTENT', $table_gui->getHTML());	
-		return;
-		$this->tpl->addBlockFile($this->getContentBlockName(), "adm_content", "tpl.il_as_tst_question_summary.html", "Modules/Test");
-		$color_class = array ("tblrow1", "tblrow2");
-		$counter = 0;
-		
-		$result_array = & $this->object->getTestSequence()->getSequenceSummary();
-		$marked_questions = array();
-		if ($this->object->getShowMarker())
-		{
-			include_once "./Modules/Test/classes/class.ilObjTest.php";
-			$marked_questions = ilObjTest::_getSolvedQuestions($active_id);
-		}
-		foreach ($result_array as $key => $value) 
-		{
-			if (preg_match("/\d+/", $key)) 
-			{
-				$this->tpl->setCurrentBlock("question");
-				$this->tpl->setVariable("COLOR_CLASS", $color_class[$counter % 2]);
-				$this->tpl->setVariable("VALUE_QUESTION_COUNTER", $value["nr"]);
-				$this->ctrl->setParameter($this, "sequence", $value["sequence"]);
-				$this->tpl->setVariable("VALUE_QUESTION_TITLE", "<a href=\"".$this->ctrl->getLinkTargetByClass(get_class($this), "gotoQuestion")."\">" . $this->object->getQuestionTitle($value["title"]) . "</a>");
-				$this->ctrl->setParameter($this, "sequence", $_GET["sequence"]);
-				if ($this->object->getListOfQuestionsDescription())
-				{
-					$this->tpl->setVariable("VALUE_QUESTION_DESCRIPTION", $value["description"]);
-				}
-				if ($value["worked_through"])
-				{
-					$this->tpl->setVariable("VALUE_WORKED_THROUGH", ilUtil::getImagePath("icon_ok.gif"));
-					$this->tpl->setVariable("ALT_WORKED_THROUGH", $this->lng->txt("worked_through"));
-				}
-				else
-				{
-					$this->tpl->setVariable("VALUE_WORKED_THROUGH", ilUtil::getImagePath("icon_not_ok.gif"));
-					$this->tpl->setVariable("ALT_WORKED_THROUGH", $this->lng->txt("not_worked_through"));
-				}
-				if ($value["postponed"])
-				{
-					$this->tpl->setVariable("VALUE_POSTPONED", $this->lng->txt("postponed"));
-				}
-				if (!$this->object->getTitleOutput())
-				{
-					$this->tpl->setVariable("VALUE_QUESTION_POINTS", $value["points"]."&nbsp;".$this->lng->txt("points_short"));
-				}
-				if (count($marked_questions))
-				{
-					if (array_key_exists($value["qid"], $marked_questions))
-					{
-						$obj = $marked_questions[$value["qid"]];
-						if ($obj["solved"] == 1)
-						{
-							$this->tpl->setVariable("ALT_MARKED_IMAGE", $this->lng->txt("tst_question_marked"));
-							$this->tpl->setVariable("TITLE_MARKED_IMAGE", $this->lng->txt("tst_question_marked"));
-							$this->tpl->setVariable("MARKED_IMAGE", ilUtil::getImagePath("marked.png"));
-						}
-					} 
-				}
-				$this->tpl->parseCurrentBlock();
-				$counter ++;
-			}
-		}
-
-		$this->tpl->setVariable("QUESTION_ACTION","actions");
-		$this->tpl->setVariable("QUESTION_COUNTER", $this->lng->txt("tst_qst_order"));
-		$this->tpl->setVariable("QUESTION_TITLE", $this->lng->txt("tst_question_title"));
-		if (!$this->object->getTitleOutput())
-		{
-			$this->tpl->setVariable("QUESTION_POINTS", $this->lng->txt("tst_maximum_points"));
-		}
-		if ($this->object->getShowMarker())
-		{
-			$this->tpl->setVariable("TEXT_MARKED", $this->lng->txt("tst_question_marker"));
-		}
-		$this->tpl->setVariable("WORKED_THROUGH", $this->lng->txt("worked_through"));
-		$this->tpl->setVariable("USER_FEEDBACK", $this->lng->txt("tst_qst_summary_text"));
-		$this->tpl->setVariable("TXT_BACK", $this->lng->txt("back"));
-		$this->tpl->setVariable("TXT_SHOW_AND_SUBMIT_ANSWERS", $this->lng->txt("save_finish"));
-		$this->tpl->setVariable("FORMACTION", $this->ctrl->getFormAction($this, "backFromSummary"));	
-		$this->tpl->setVariable("TEXT_RESULTS", $this->lng->txt("question_summary"));		
-		
-		if ($this->object->getEnableProcessingTime())
-			$this->outProcessingTime($active_id);
+		$this->tpl->setVariable('TABLE_LIST_OF_QUESTIONS', $table_gui->getHTML());	
+		if ($this->object->getEnableProcessingTime()) $this->outProcessingTime($active_id);
 	}
 	
 	function showMaximumAllowedUsersReachedMessage()

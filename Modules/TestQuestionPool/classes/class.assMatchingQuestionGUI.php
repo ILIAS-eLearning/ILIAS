@@ -618,7 +618,7 @@ class assMatchingQuestionGUI extends assQuestionGUI
 			{
 				if ($this->object->getOutputType() == OUTPUT_JAVASCRIPT)
 				{
-					if (($solution_value["value2"] > 1) && ($solution_value["value1"] > 1))
+					if (($solution_value["value2"] > -1) && ($solution_value["value1"] > -1))
 					{
 						$template->setCurrentBlock("restoreposition");
 						$template->setVariable("TERM_ID", $solution_value["value1"]);
