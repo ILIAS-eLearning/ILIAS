@@ -219,12 +219,8 @@ class ilTestOutputGUI extends ilTestServiceGUI
 	
 	/**
 	* Creates the learners output of a question
-	*
-	* Creates the learners output of a question
-	*
-	* @access public
 	*/
-	function outWorkingForm($sequence = "", $test_id, $postpone_allowed, $directfeedback = 0)
+	public function outWorkingForm($sequence = "", $test_id, $postpone_allowed, $directfeedback = 0)
 	{
 		global $ilUser;
 
@@ -243,6 +239,21 @@ class ilTestOutputGUI extends ilTestServiceGUI
 		$this->tpl->setVariable("LOCATION_SYNTAX_STYLESHEET",
 		ilObjStyleSheet::getSyntaxStylePath());
 		$this->tpl->parseCurrentBlock();
+
+		if ($this->object->getListOfQuestions())
+		{
+			$show_side_list = $ilUser->getPref('side_list_of_questions');
+			$this->tpl->setCurrentBlock('view_sidelist');
+			$this->tpl->setVariable('IMAGE_SIDELIST', ($show_side_list) ? ilUtil::getImagePath('view_remove.png') : ilUtil::getImagePath('view_choose.png'));
+			$this->tpl->setVariable('TEXT_SIDELIST', ($show_side_list) ? $this->lng->txt('tst_hide_side_list') : $this->lng->txt('tst_show_side_list'));
+			$this->tpl->parseCurrentBlock();
+			if ($show_side_list)
+			{
+				$this->tpl->addCss(ilUtil::getStyleSheetLocation("output", "ta_split.css", "Modules/Test"), "screen");
+				$this->outQuestionSummary(false);
+			}
+		}
+		
 		$question_gui = $this->object->createQuestionGUI("", $this->object->getTestSequence()->getQuestionForSequence($sequence));
 		if ($this->object->getJavaScriptOutput())
 		{
@@ -401,17 +412,15 @@ class ilTestOutputGUI extends ilTestServiceGUI
 			if ($solved==1) 
 			{
 				$this->tpl->setCurrentBlock("ismarked");
-				$this->tpl->setVariable("TEXT_QUESTION_STATUS_LABEL", $this->lng->txt("tst_question_marked").":");
-				$this->tpl->setVariable("TEXT_RESET_MARK", $this->lng->txt("remove"));
-				$this->tpl->setVariable("ALT_MARKED", $this->lng->txt("tst_question_marked"));
-				$this->tpl->setVariable("TITLE_MARKED", $this->lng->txt("tst_question_marked"));
-				$this->tpl->setVariable("MARKED_SOURCE", ilUtil::getImagePath("marked.png"));
+				$this->tpl->setVariable("IMAGE_SET", ilUtil::getImagePath("marked.png"));
+				$this->tpl->setVariable("TEXT_SET", $this->lng->txt("tst_remove_mark"));
 				$this->tpl->parseCurrentBlock();
 			} 
 			else 
 			{
-				$this->tpl->setCurrentBlock("ismarked");
-				$this->tpl->setVariable("TEXT_MARK_QUESTION", $this->lng->txt("tst_question_mark"));
+				$this->tpl->setCurrentBlock("isnotmarked");
+				$this->tpl->setVariable("IMAGE_UNSET", ilUtil::getImagePath("marked_.png"));
+				$this->tpl->setVariable("TEXT_UNSET", $this->lng->txt("tst_question_mark"));
 				$this->tpl->parseCurrentBlock();
 			}
 		}
@@ -440,9 +449,6 @@ class ilTestOutputGUI extends ilTestServiceGUI
 
 		$this->tpl->addJavaScript(ilUtil::getJSLocation("autosave.js", "Modules/Test"));
 		$this->tpl->setVariable("AUTOSAVE_URL", $this->ctrl->getLinkTarget($this, "autosave"));
-
-		$this->tpl->setCurrentBlock("adm_content");
-		$this->tpl->parseCurrentBlock();
 	}
 	
 /**
@@ -600,12 +606,8 @@ class ilTestOutputGUI extends ilTestServiceGUI
 
 /**
 * Handles some form parameters on starting and resuming a test
-*
-* Handles some form parameters on starting and resuming a test
-*
-* @access public
 */
-	function handleStartCommands()
+	public function handleStartCommands()
 	{
 		global $ilUser;
 
@@ -880,6 +882,19 @@ class ilTestOutputGUI extends ilTestServiceGUI
 		}
 		echo $result;
 		exit;
+	}
+	
+	/**
+	* Toggle side list
+	*/
+	public function togglesidelist()
+	{
+		global $ilUser;
+		
+		$show_side_list = $ilUser->getPref('side_list_of_questions');
+		$ilUser->writePref('side_list_of_questions', !$show_side_list);
+		$this->saveQuestionSolution();
+		$this->ctrl->redirect($this, "redirectQuestion");
 	}
 	
 /**
@@ -1517,7 +1532,8 @@ class ilTestOutputGUI extends ilTestServiceGUI
 				'worked_through' => ($value["worked_through"]) ? true : false,
 				'postponed' => ($value["postponed"]) ? $this->lng->txt("postponed") : '',
 				'points' => $points,
-				'marked' => $marked
+				'marked' => $marked,
+				'sequence' => $value["sequence"]
 			));
 		}
 		$this->ctrl->setParameter($this, "sequence", $_GET["sequence"]);
@@ -1528,6 +1544,27 @@ class ilTestOutputGUI extends ilTestServiceGUI
 			$table_gui->setData($data);
 			$this->tpl->setVariable('TABLE_LIST_OF_QUESTIONS', $table_gui->getHTML());	
 			if ($this->object->getEnableProcessingTime()) $this->outProcessingTime($active_id);
+		}
+		else
+		{
+			$template = new ilTemplate('tpl.il_as_tst_list_of_questions_short.html', true, true, 'Modules/Test');
+			foreach ($data as $row)
+			{
+				if (strlen($row['description']))
+				{
+					$template->setCurrentBlock('description');
+					$template->setVariable("DESCRIPTION", $row['description']);
+					$template->parseCurrentBlock();
+				}
+				$template->setCurrentBlock('item');
+				$active = ($row['sequence'] == $_GET['sequence']) ? ' active' : '';
+				$template->setVariable('CLASS', ($row['walked_through']) ? ('answered'.$active) : ('unanswered'.$active));
+				$template->setVariable('ITEM', ilUtil::prepareFormOutput($row['title']));
+				$template->setVariable('HREF', $row['href']);
+				$template->parseCurrentBlock();
+				$template->setVariable('LIST_OF_QUESTIONS', $this->lng->txt('list_of_questions'));
+			}
+			$this->tpl->setVariable('LIST_OF_QUESTIONS', $template->get());
 		}
 	}
 	

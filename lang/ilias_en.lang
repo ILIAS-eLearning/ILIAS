@@ -9767,3 +9767,6 @@ license#:#zero_licenses_explanation#:#Enter a 0 to deactivate the licensing.
 common#:#birthday#:#Birthday
 content#:#cont_replace_mob_feature#:#Replace Media Objects in Content
 content#:#cont_replace_mob_feature_info#:#Activates a feature that allows to replace a media object while keeping the other properties of a media instance in the content.
+assessment#:#tst_remove_mark#:#Remove this mark
+assessment#:#tst_show_side_list#:#Show question list aside
+assessment#:#tst_hide_side_list#:#Hide question list
