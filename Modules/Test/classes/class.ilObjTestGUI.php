@@ -2724,23 +2724,12 @@ class ilObjTestGUI extends ilObjectGUI
 	
 	/**
 	* Asks for a confirmation to delete all user data of the test object
-	*
-	* Asks for a confirmation to delete all user data of the test object
-	*
-	* @access	public
 	*/
-	function deleteAllUserResultsObject()
+	public function deleteAllUserResultsObject()
 	{
+		ilUtil::sendQuestion($this->lng->txt("delete_all_user_data_confirmation"));
 		$this->tpl->addBlockFile("ADM_CONTENT", "adm_content", "tpl.confirm_deletion.html", "Modules/Test");
 		$this->tpl->setVariable("FORMACTION", $this->ctrl->getFormAction($this, "participants"));
-		$this->tpl->setCurrentBlock("table_header");
-		$this->tpl->setVariable("TEXT", $this->lng->txt("delete_all_user_data"));
-		$this->tpl->parseCurrentBlock();
-
-		$this->tpl->setCurrentBlock("table_row");
-		$this->tpl->setVariable("CSS_ROW", "tblrow1");
-		$this->tpl->setVariable("TEXT_CONTENT", $this->lng->txt("delete_all_user_data_confirmation"));
-		$this->tpl->parseCurrentBlock();
 
 		// cancel/confirm button
 		$buttons = array( "confirmDeleteAllUserResults"  => $this->lng->txt("proceed"),
@@ -2979,25 +2968,12 @@ class ilObjTestGUI extends ilObjectGUI
 	
  /**
 	* Shows a confirmation dialog to remove fixed participants from the text
-	*
-	* Shows a confirmation dialog to remove fixed participants from the text
-	*
-	* @access	public
 	*/
-	function confirmFixedParticipantsStatusChange()
+	public function confirmFixedParticipantsStatusChange()
 	{
+		ilUtil::sendQuestion($this->lng->txt("tst_fixed_participants_disable_description"));
 		$this->tpl->addBlockFile("ADM_CONTENT", "adm_content", "tpl.confirm_deletion.html", "Modules/Test");
-
-		$this->tpl->setVariable("FORMACTION", $this->ctrl->getFormAction($this));
-
-		$this->tpl->setCurrentBlock("table_header");
-		$this->tpl->setVariable("TEXT", $this->lng->txt("tst_fixed_participants_disable"));
-		$this->tpl->parseCurrentBlock();
-
-		$this->tpl->setCurrentBlock("table_row");
-		$this->tpl->setVariable("CSS_ROW", "tblrow1");
-		$this->tpl->setVariable("TEXT_CONTENT", $this->lng->txt("tst_fixed_participants_disable_description"));
-		$this->tpl->parseCurrentBlock();
+		$this->tpl->setVariable("FORMACTION", $this->ctrl->getFormAction($this, 'confirmFixedParticipantsStatusChange'));
 
 		// cancel/confirm button
 		$buttons = array( "confirmFixedParticipantsStatusChange"  => $this->lng->txt("proceed"),
