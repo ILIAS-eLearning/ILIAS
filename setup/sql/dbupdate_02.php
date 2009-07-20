@@ -14728,3 +14728,11 @@ $ilDB->addTableColumn("usr_data", "birthday", array("type" => "date", "notnull" 
 <?php
 	$ilMySQLAbstraction->performAbstraction("xmlvalue");
 ?>
+<#2783>
+<?php
+	$ilMySQLAbstraction->performAbstraction("cal_entry_responsible");
+?>
+<#2784>
+<?php
+	$ilMySQLAbstraction->performAbstraction("file_usage");
+?>
