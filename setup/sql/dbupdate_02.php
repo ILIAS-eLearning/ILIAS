@@ -14709,3 +14709,22 @@ $ilDB->addTableColumn("usr_data", "birthday", array("type" => "date", "notnull" 
 <?php
 	$ilMySQLAbstraction->performAbstraction("page_layout");
 ?>
+<#2779>
+<?php
+
+	$ilMySQLAbstraction->performAbstraction("xmlnestedset");
+?>
+<#2780>
+<?php
+
+	$ilMySQLAbstraction->performAbstraction("xmlparam");
+?>
+<#2781>
+<?php
+
+	$ilMySQLAbstraction->performAbstraction("xmltags");
+?>
+<#2782>
+<?php
+	$ilMySQLAbstraction->performAbstraction("xmlvalue");
+?>

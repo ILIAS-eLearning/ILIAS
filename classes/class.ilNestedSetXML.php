@@ -112,18 +112,21 @@ class ilNestedSetXML
         /**
         *   Insert Tag-Name 
         */
-        $this->db->query("INSERT INTO xmltags ( tag_name,tag_depth ) VALUES ('".$name."','".$this->DEPTH."') ");
-        // $pk = mysql_insert_id();
-        $r = $this->db->query("SELECT LAST_INSERT_ID()");
-        $row = $r->fetchRow();
 
-        $pk = $row[0];
+        $nextId = $this->db->nextId('xmltags');
+		$this->db->manipulateF('INSERT INTO xmltags ( tag_pk,tag_name,tag_depth ) VALUES (%s,%s,%s)',
+		array('integer','text','integer'), array($nextId, $name, $this->DEPTH));
+        
+        $pk = $nextId;
+        $this->db->manipulateF('
+	        UPDATE NestedSetTemp SET ns_r = ns_r+2 
+    	    WHERE ns_r >= %s  AND ns_book_fk = %s',
+        array('integer','integer'), array($this->LEFT,$this->obj_id));
 
-        $Q = "UPDATE NestedSetTemp SET ns_r=ns_r+2 WHERE ns_r>='".($this->LEFT)."' AND ns_book_fk='".$this->obj_id."' ";
-        $this->db->query($Q);
-
-        $Q = "INSERT INTO NestedSetTemp (ns_book_fk,ns_type,ns_tag_fk,ns_l,ns_r) VALUES ('".$this->obj_id."','".$this->obj_type."','".$pk."',".$this->LEFT.",".$this->RIGHT.") ";
-        $this->db->query($Q);
+      $this->db->manipulateF('
+	        INSERT INTO NestedSetTemp (ns_book_fk, ns_type, ns_tag_fk, ns_l,ns_r) VALUES (%s,%s,%s,%s,%s)',
+        array('integer','text','integer','integer','integer'), 
+        array($this->obj_id, $this->obj_type, $pk, $this->LEFT, $this->RIGHT));
         
 		$this->clean($attrs);
         if (is_array($attrs) && count($attrs)>0)
@@ -131,7 +134,9 @@ class ilNestedSetXML
             reset ($attrs);
             while (list ($key, $val) = each ($attrs)) 
 			{
-                  $this->db->query("INSERT INTO xmlparam ( tag_fk,param_name,param_value ) VALUES ('".$pk."','$key','".addslashes($val)."') ");
+                  $this->db->manipulateF('INSERT INTO xmlparam ( tag_fk,param_name,param_value ) VALUES (%s,%s,%s)',
+                  array('integer','text','text'),
+                  array($pk,$key,addslashes($val)));
             }
         }
         
@@ -163,21 +168,21 @@ class ilNestedSetXML
 
             if ($this->lastTag == "TAGVALUE")
 			{
-                $Q = "UPDATE xmlvalue SET tag_value=concat(tag_value,'".addslashes($data)."') WHERE tag_value_pk='".$value_pk."' ";
-                $this->db->query($Q);
+                $this->db->manipulateF('UPDATE xmlvalue SET tag_value = %s WHERE tag_value_pk = %s',
+                array('text','integer'), array(concat(tag_value,addslashes($data)),$value_pk));
             } 
             else 
             {
                 $tag_pk = $this->startElement($this->xml_parser,"TAGVALUE",array());
                 $this->endElement($this->xml_parser,"TAGVALUE");
             
-                $Q = "INSERT INTO xmlvalue (tag_fk,tag_value) VALUES ('".$tag_pk."','".addslashes($data)."') ";
-                $this->db->query($Q);
+                $nextId = $this->db->nextId('xmlvalue');
                 
-                $Q = "SELECT LAST_INSERT_ID()";
-				$r = $this->db->query($Q);
-				$row = $r->fetchRow();
-				$value_pk = $row[0];
+                
+                $this->db->manipulateF('INSERT INTO xmlvalue (tag_value_pk, tag_fk, tag_value) VALUES (%s,%s,%s)',
+                array('integer','integer','text'), array($nextId,$tag_pk,addslashes($data)));
+
+				$value_pk = $nextId;
 
                 $this->lastTag = "TAGVALUE";
             }
@@ -262,8 +267,8 @@ class ilNestedSetXML
         */
         $this->deleteAllDbData();
 
-        $this->db->query("INSERT INTO xmlnestedset SELECT * FROM NestedSetTemp");
-        $this->db->query("DROP TABLE IF EXISTS NestedSetTemp");
+        $this->db->manipulate("INSERT INTO xmlnestedset SELECT * FROM NestedSetTemp");
+        $this->db->manipulate("DROP TABLE IF EXISTS NestedSetTemp");
         // }}}
     }
 
@@ -292,8 +297,16 @@ class ilNestedSetXML
 	function export($obj_id, $type)
 	{
 		// {{{
-		$query = "SELECT * FROM xmlnestedset,xmltags WHERE ns_tag_fk=tag_pk AND ns_book_fk='$obj_id' AND ns_type='$type' ORDER BY ns_l";
-		$result = $this->db->query($query);
+
+		$result = $this->db->queryF('
+			SELECT * FROM xmlnestedset,xmltags 
+			WHERE ns_tag_fk = tag_pk 
+			AND ns_book_fk = %s
+			AND ns_type = %s 
+			ORDER BY ns_l',
+		array('integer','text'),
+		array($obj_id,$type));
+		
 		if (ilDB::isDbError($result))
 		{
 			die($this->className."::checkTable(): ".$result->getMessage().":<br>".$q);
@@ -302,14 +315,14 @@ class ilNestedSetXML
 		$xml = "";
 		$lastDepth = -1;
 
-		while (is_array($row = $result->fetchRow(DB_FETCHMODE_ASSOC) ) )
+		while (is_array($row = $this->db->fetchAssoc($result)))
         {
 
 			// {{{ tags
 			$Anfang = "<".$row[tag_name];
-            $query = "SELECT * FROM xmlparam WHERE tag_fk='$row[tag_pk]'";
-			$result_param = $this->db->query($query);
-			while (is_array($row_param = $result_param->fetchRow(DB_FETCHMODE_ASSOC) ) )
+
+			$result_param = $this->db->queryF('SELECT * FROM xmlparam WHERE tag_fk = %s',array('integer'),array($row[tag_pk]));
+			while (is_array($row_param = $this->db->fetchAssoc($result_param)))
 			{
 				$param_value = $row_param[param_value];
 				if (is_object($this->param_modifier))
@@ -328,9 +341,9 @@ class ilNestedSetXML
 			// {{{ TagValue
 			if ($row[tag_name]=="TAGVALUE") 
             {
-                $query = "SELECT * FROM xmlvalue WHERE tag_fk='$row[tag_pk]' ";
-				$result_value = $this->db->query($query);
-				$row_value = $result_value->fetchRow(DB_FETCHMODE_ASSOC);
+				$result_value = $this->db->queryF('SELECT * FROM xmlvalue WHERE tag_fk = %s', array('integer'),array($row[tag_pk]));
+				$row_value = $this->db->fetchAssoc($result_value); 
+				
 				$Anfang = $row_value["tag_value"];
 				$Ende = "";
 
@@ -386,10 +399,17 @@ class ilNestedSetXML
 	{
         // {{{
 		$this->db->setLimit(1);
-		$query = "SELECT * FROM xmlnestedset,xmltags WHERE ns_book_fk='".$obj_id."' AND ns_type='".
-			$obj_type."' AND ns_tag_fk=tag_pk ORDER BY ns_l";
-        $result = $this->db->query($query);
-        $row = $result->fetchRow(DB_FETCHMODE_ASSOC);
+
+		$result = $this->db->queryF('
+			SELECT * FROM xmlnestedset,xmltags 
+			WHERE ns_book_fk = %s
+			AND ns_type = %s
+			AND ns_tag_fk = tag_pk 
+			ORDER BY ns_l',
+		array('integer','text'),
+		array($obj_id, $obj_type));
+		        
+        $row = $this->db->fetchAssoc($result); 
 
         $this->LEFT = $row["ns_l"];
         $this->RIGHT = $row["ns_r"];
@@ -410,10 +430,19 @@ class ilNestedSetXML
 	{
 
 		$this->db->setLimit(1);
-        $query = "SELECT * FROM xmlnestedset,xmltags WHERE ns_book_fk='".$this->obj_id."' AND ns_type='".$this->obj_type."' AND ns_l='".$this->LEFT."' AND ns_r='".$this->RIGHT."' AND ns_tag_fk=tag_pk";
-		$result = $this->db->query($query);
-        $row = $result->fetchRow(DB_FETCHMODE_ASSOC);
 
+		$result = $this->db->queryF('
+			SELECT * FROM xmlnestedset,xmltags 
+			WHERE ns_book_fk = %s
+			AND ns_type = %s 
+ 			AND ns_l = %s 
+ 			AND ns_r = %s 
+ 			AND ns_tag_fk = tag_pk',
+		array('integer','text','integer','integer'),
+		array($this->obj_id,$this->obj_type,$this->LEFT,$this->RIGHT));
+		
+		$row = $this->db->fetchAssoc($result);
+		
         return($row["tag_name"]);
         
     }
@@ -431,13 +460,22 @@ class ilNestedSetXML
 	{
         
 		$this->db->setLimit(1);
-		$query = "SELECT * FROM xmlnestedset WHERE ns_book_fk='".$this->obj_id."' AND ns_type='".$this->obj_type."' AND ns_l='".$this->LEFT."' AND ns_r='".$this->RIGHT."'";
-        $result = $this->db->query($query);
-        $row = $result->fetchRow(DB_FETCHMODE_ASSOC);
+
+        $result = $this->db->queryF('
+        	SELECT * FROM xmlnestedset 
+        	WHERE ns_book_fk = %s 
+        	AND ns_type = %s 
+        	AND ns_l = %s 
+        	AND ns_r = %s', 
+		array('integer','text','integer','integer'),
+        array($this->obj_id,$this->obj_type,$this->LEFT,$this->RIGHT));
         
-		$query = "UPDATE xmltags SET tag_name='$tagName' WHERE tag_pk='".$row["ns_tag_fk"]."'";
-        $this->db->query($query);
+		$row = $this->db->fetchAssoc($result);
         
+		$this->db->manipulateF('UPDATE xmltags SET tag_name = %s WHERE tag_pk = %s',
+		array('text','integer'), array($tagName,$row["ns_tag_fk"]));
+		
+		
         return($row["tagName"]);
         
     }
@@ -454,15 +492,24 @@ class ilNestedSetXML
         
         $V = array();
         
-        $query = "SELECT * FROM xmlnestedset,xmltags WHERE ns_tag_fk=tag_pk AND ns_book_fk='".$this->obj_id."' AND ns_type='".$this->obj_type."' AND ns_l>='".$this->LEFT."' AND ns_r<='".$this->RIGHT."' AND tag_depth='".($this->DEPTH+1)."' ORDER BY ns_l";
-		$result = $this->db->query($query);
-        while (is_array($row = $result->fetchRow(DB_FETCHMODE_ASSOC) ) )
+		$result = $this->db->queryF('
+        	SELECT * FROM xmlnestedset,xmltags 
+        	WHERE ns_tag_fk = tag_pk 
+        	AND ns_book_fk = %s
+        	AND ns_type = %s
+        	AND ns_l >= %s
+        	AND ns_r <= %s
+        	AND tag_depth = %s
+        	ORDER BY ns_l',
+		array('integer','text','integer','integer','integer'),
+		array($this->obj_id,$this->obj_type,$this->LEFT,$this->RIGHT,$this->DEPTH+1));
+
+        while (is_array($row = $this->db->fetchAssoc($result) ) )
 		{
             if ($row[tag_name]=="TAGVALUE") 
 			{
-				$query = "SELECT * FROM xmlvalue WHERE tag_fk='".$row[tag_pk]."' ";
-                $result2 = $this->db->query($query);
-                $row2 = $result2->fetchRow(DB_FETCHMODE_ASSOC);
+                $result2 = $this->db->queryF('SELECT * FROM xmlvalue WHERE tag_fk = %s', array('integer'),array($row[tag_pk]));
+                $row2 = $this->db->fetchAssoc($result2);
                 $V[] = $row2[tag_value];
             }
 			else 
@@ -493,23 +540,26 @@ class ilNestedSetXML
 	{
         $V = array();
 
-        $query = "SELECT * FROM xmlnestedset,xmltags
-						LEFT JOIN xmlvalue ON xmltags.tag_pk=xmlvalue.tag_fk
-						WHERE ns_tag_fk=tag_pk AND 
-							ns_book_fk='".$this->obj_id."' AND
-							ns_type='".$this->obj_type."' AND
-							ns_l>='".$this->LEFT."' AND
-							ns_r<='".$this->RIGHT."' AND
-							tag_depth='".($this->DEPTH+1)."' AND
-							tag_name = 'TAGVALUE'
-							ORDER BY ns_l";
-		$result = $this->db->query($query);
+          
+		$result = $this->db->queryF('
+			SELECT * FROM xmlnestedset,xmltags
+			LEFT JOIN xmlvalue ON xmltags.tag_pk = xmlvalue.tag_fk
+			WHERE ns_tag_fk = tag_pk
+			AND ns_book_fk = %s
+			AND ns_type = %s
+			AND ns_l >= %s
+			AND ns_r <= %s
+			AND tag_depth = %s
+			AND tag_name = %s
+			AND ORDER BY ns_l',
+		array('integer','text','integer','integer','integer','text'),
+		array($this->obj_id, $this->obj_type, $this->LEFT, $this->RIGHT, $this->DEPTH+1,'TAGVALUE')
+	);
 
-        if (is_array($row = $result->fetchRow(DB_FETCHMODE_ASSOC) ) )
+        if (is_array($row = $this->db->fetchAssoc($result) ) )
 		{
-			
-			$query = "UPDATE xmlvalue SET tag_value='".addslashes($value)."' WHERE tag_value_pk='".$row["tag_value_pk"]."' ";
-			$this->db->query($query);
+			$this->db->manipulateF('UPDATE xmlvalue SET tag_value = %s WHERE tag_value_pk = %s',
+			array('text','integer'), array($value, $row["tag_value_pk"]));
 			
 		} 
         else 
@@ -1358,14 +1408,18 @@ class ilNestedSetXML
 		global $ilBench;
 
 		#$ilBench->start('NestedSet','deleteAllDBData');
-		$res = $this->db->query("SELECT * FROM xmlnestedset WHERE ns_book_fk='".$this->obj_id."' AND ns_type='".$this->obj_type."' ");
-		while ($row = $res->fetchRow(DB_FETCHMODE_ASSOC))
+		$res = $this->db->queryF('
+			SELECT * FROM xmlnestedset WHERE ns_book_fk = %s AND ns_type = %s ',
+		array('integer','text'), array($this->obj_id,$this->obj_type));
+		
+		while ($row = $this->db->fetchAssoc($res))
 		{
-			$this->db->query("DELETE FROM xmlparam WHERE tag_fk='".$row["ns_tag_fk"]."' ");
-			$this->db->query("DELETE FROM xmlvalue WHERE tag_fk='".$row["ns_tag_fk"]."' ");
-			$this->db->query("DELETE FROM xmltags WHERE tag_pk='".$row["ns_tag_fk"]."' ");
+			$this->db->manipulateF('DELETE FROM xmlparam WHERE tag_fk = %s',array('integer'), array($row["ns_tag_fk"]));
+			$this->db->manipulateF('DELETE FROM xmlvalue WHERE tag_fk = %s',array('integer'), array($row["ns_tag_fk"]));			
+			$this->db->manipulateF('DELETE FROM xmltags WHERE tag_pk = %s',array('integer'), array($row["ns_tag_fk"]));				
 		}
-		$this->db->query("DELETE FROM xmlnestedset WHERE ns_book_fk='".$this->obj_id."' AND ns_type='".$this->obj_type."' ");
+		$this->db->manipulateF('DELETE FROM xmlnestedset WHERE ns_book_fk = %s  AND ns_type = %s',
+		array('integer','text'), array($this->obj_id,$this->obj_type));				
 		#$ilBench->stop('NestedSet','deleteAllDBData');
 
 	}
@@ -1391,11 +1445,11 @@ class ilNestedSetXML
 		$query = "SELECT ns_tag_fk FROM xmlnestedset ".
 			"WHERE ns_book_fk ".$in;
 		$res = $ilDB->query($query);
-		while($row = $res->fetchRow(DB_FETCHMODE_OBJECT))
+		while($row = $ilDB->fetchObject($res))
 		{
 			$tag_fks[$row->ns_tag_fk] = $row->ns_tag_fk;
 		}
-		$ilDB->query("DELETE FROM xmlnestedset WHERE ns_book_fk ".$in);
+		$ilDB->manipulate("DELETE FROM xmlnestedset WHERE ns_book_fk ".$in);
 
 
 		// FINALLY DELETE
@@ -1406,9 +1460,9 @@ class ilNestedSetXML
 			$in .= implode("','", $tag_fks);
 			$in .= "')";
 
-			$ilDB->query("DELETE FROM xmlparam WHERE tag_fk ".$in);
-			$ilDB->query("DELETE FROM xmlvalue WHERE tag_fk ".$in);
-			$ilDB->query("DELETE FROM xmltags  WHERE tag_pk ".$in);
+			$ilDB->manipulate("DELETE FROM xmlparam WHERE tag_fk ".$in);
+			$ilDB->manipulate("DELETE FROM xmlvalue WHERE tag_fk ".$in);
+			$ilDB->manipulate("DELETE FROM xmltags  WHERE tag_pk ".$in);
 		}
 		// END WebDAV Object deletion failed if no tag_fks was present.
 
@@ -1426,9 +1480,8 @@ class ilNestedSetXML
 	{
 		global $ilDB;
 
-		$query = "SELECT obj_id FROM lm_data WHERE lm_id = '".$a_obj_id."'";
-		$res = $ilDB->query($query);
-		while($row = $res->fetchRow(DB_FETCHMODE_OBJECT))
+		$res = $ilDB->queryF('SELECT obj_id FROM lm_data WHERE lm_id = %s',array('integer'),array($a_obj_id));
+		while($row = $ilDB->fetchObject($res))
 		{
 			$ids[$row->obj_id] = $row->obj_id;
 		}
@@ -1436,8 +1489,7 @@ class ilNestedSetXML
 
 		return $ids ? $ids : array();
 	}
-		
-
+	
     // }}}
     
 }
