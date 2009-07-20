@@ -86,10 +86,8 @@ class ilChatBlockedUsers
 			return false;
 		}
 
-		$statement = $this->db->manipulateF('
-			INSERT INTO chat_blocked 
-			SET chat_id = %s,
-				usr_id = %s',
+		$statement = $this->db->manipulateF(
+			'INSERT INTO chat_blocked (chat_id, usr_id) VALUES (%s, %s)',
 			array('integer', 'integer'),
 			array($this->id, $a_usr_id));
 		
