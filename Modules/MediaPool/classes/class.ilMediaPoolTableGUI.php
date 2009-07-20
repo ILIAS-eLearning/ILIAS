@@ -17,6 +17,7 @@ class ilMediaPoolTableGUI extends ilTable2GUI
 	const IL_MEP_EDIT = "edit";
 	const IL_MEP_SELECT_CONTENT = "selectc";
 	var $insert_command = "create_mob";
+	const IL_MEP_SELECT_SINGLE = "selectsingle";
 	
 	/**
 	* Constructor
@@ -98,7 +99,13 @@ class ilMediaPoolTableGUI extends ilTable2GUI
 				}
 			}
 		}
-				
+
+		if ($this->getMode() == ilMediaPoolTableGUI::IL_MEP_SELECT_SINGLE)
+		{
+			// ... even more coupling with ilpcmediaobjectgui
+			$this->addMultiCommand("selectObjectReference", $lng->txt("cont_select"));
+		}
+		
 		if ($this->getMode() == ilMediaPoolTableGUI::IL_MEP_EDIT)
 		{
 			$this->setSelectAllCheckbox("id");
@@ -309,7 +316,8 @@ class ilMediaPoolTableGUI extends ilTable2GUI
 				break;
 
 			case "mob":
-				if ($this->getMode() == ilMediaPoolTableGUI::IL_MEP_SELECT)
+				if ($this->getMode() == ilMediaPoolTableGUI::IL_MEP_SELECT ||
+					$this->getMode() == ilMediaPoolTableGUI::IL_MEP_SELECT_SINGLE)
 				{
 					$this->tpl->setVariable("TXT_NO_LINK_TITLE", $a_set["title"]);
 				}
@@ -377,16 +385,25 @@ class ilMediaPoolTableGUI extends ilTable2GUI
 				break;
 		}
 
-		if ($ilAccess->checkAccess("write", "", $this->media_pool->getRefId()) &&
-			($this->getMode() == ilMediaPoolTableGUI::IL_MEP_EDIT ||
-				($this->getMode() == ilMediaPoolTableGUI::IL_MEP_SELECT && $a_set["type"] == "mob") ||
-				($this->getMode() == ilMediaPoolTableGUI::IL_MEP_SELECT_CONTENT && $a_set["type"] == "pg")
-				))
+		if ($ilAccess->checkAccess("write", "", $this->media_pool->getRefId()))
 		{
-			$this->tpl->setCurrentBlock("chbox");
-			$this->tpl->setVariable("CHECKBOX_ID", $a_set["obj_id"]);
-			$this->tpl->parseCurrentBlock();
-			$this->tpl->setCurrentBlock("tbl_content");
+			if (($this->getMode() == ilMediaPoolTableGUI::IL_MEP_EDIT ||
+					($this->getMode() == ilMediaPoolTableGUI::IL_MEP_SELECT && $a_set["type"] == "mob") ||
+					($this->getMode() == ilMediaPoolTableGUI::IL_MEP_SELECT_CONTENT && $a_set["type"] == "pg")
+					))
+			{
+				$this->tpl->setCurrentBlock("chbox");
+				$this->tpl->setVariable("CHECKBOX_ID", $a_set["obj_id"]);
+				$this->tpl->parseCurrentBlock();
+				$this->tpl->setCurrentBlock("tbl_content");
+			}
+			else if ($this->getMode() == ilMediaPoolTableGUI::IL_MEP_SELECT_SINGLE && $a_set["type"] == "mob")
+			{
+				$this->tpl->setCurrentBlock("radio");
+				$this->tpl->setVariable("RADIO_ID", $a_set["obj_id"]);
+				$this->tpl->parseCurrentBlock();
+				$this->tpl->setCurrentBlock("tbl_content");
+			}
 		}
 	}
 

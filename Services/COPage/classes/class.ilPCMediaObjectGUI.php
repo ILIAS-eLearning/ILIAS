@@ -156,7 +156,7 @@ class ilPCMediaObjectGUI extends ilPageContentGUI
 		switch ($_GET["subCmd"])
 		{
 			case "insertFromPool":
-				$this->insertFromPool($a_post_cmd, $a_submit_cmd);
+				$this->insertFromPool();
 				break;
 
 			case "poolSelection":
@@ -189,10 +189,66 @@ class ilPCMediaObjectGUI extends ilPageContentGUI
 		}
 	}
 
+	// #openconst-start
+	/**
+	* Change object reference
+	*/
+	function changeObjectReference()
+	{
+		global $ilTabs, $ilCtrl, $lng;
+		
+		if ($_GET["subCmd"] == "insertNew")
+		{
+			$_SESSION["cont_media_insert"] = "insertNew";
+		}
+		if ($_GET["subCmd"] == "insertFromPool")
+		{
+			$_SESSION["cont_media_insert"] = "insertFromPool";
+		}
+		
+		if (($_GET["subCmd"] == "") && $_SESSION["cont_media_insert"] != "")
+		{
+			$_GET["subCmd"] = $_SESSION["cont_media_insert"];
+		}
+		
+		switch ($_GET["subCmd"])
+		{
+			case "insertFromPool":
+				$this->insertFromPool(true);
+				break;
+
+			case "poolSelection":
+				$this->poolSelection(true);
+				break;
+
+			case "selectPool":
+				$this->selectPool(true);
+				break;
+			
+			case "insertNew":
+			default:
+				$ilCtrl->setParameter($this, "subCmd", "changeObjectReference");
+				$this->getTabs($ilTabs, true, true);
+				$ilTabs->setSubTabActive("cont_new_mob");
+		
+				$this->displayValidationError();
+						
+				$mob_gui = new ilObjMediaObjectGUI("");
+				$mob_gui->initForm("create");
+				$form = $mob_gui->getForm();
+				$form->setFormAction($ilCtrl->getFormAction($this));
+				$form->clearCommandButtons();
+				$form->addCommandButton("createNewObjectReference", $lng->txt("save"));
+				$form->addCommandButton("cancelCreate", $lng->txt("cancel"));
+				$this->tpl->setContent($form->getHTML());				
+		}
+	}
+	// #openconst-end
+
 	/**
 	* Insert media object from pool
 	*/
-	function insertFromPool($a_post_cmd = "edpost", $a_submit_cmd = "create_mob")
+	function insertFromPool($a_change_obj_ref = false)
 	{
 		global $ilCtrl, $ilAccess, $ilTabs, $tpl, $lng;
 		
@@ -204,54 +260,83 @@ class ilPCMediaObjectGUI extends ilPageContentGUI
 			$tpl->addBlockfile("BUTTONS", "buttons", "tpl.buttons.html");
 			$tpl->setCurrentBlock("btn_cell");
 			$ilCtrl->setParameter($this, "subCmd", "poolSelection");
-			$tpl->setVariable("BTN_LINK",
-				$ilCtrl->getLinkTarget($this, "insert"));
+			if ($a_change_obj_ref)
+			{
+				$tpl->setVariable("BTN_LINK",
+					$ilCtrl->getLinkTarget($this, "changeObjectReference"));
+			}
+			else
+			{
+				$tpl->setVariable("BTN_LINK",
+					$ilCtrl->getLinkTarget($this, "insert"));
+			}
 			$ilCtrl->setParameter($this, "subCmd", "");
 			$tpl->setVariable("BTN_TXT", $lng->txt("cont_select_media_pool"));
 			$tpl->parseCurrentBlock();
 
-			$this->getTabs($ilTabs, true);
+			$this->getTabs($ilTabs, true, $a_change_obj_ref);
 			$ilTabs->setSubTabActive("cont_mob_from_media_pool");
 			
 			include_once("./Modules/MediaPool/classes/class.ilObjMediaPool.php");
 			include_once("./Modules/MediaPool/classes/class.ilMediaPoolTableGUI.php");
 			$pool = new ilObjMediaPool($_SESSION["cont_media_pool"]);
 			$ilCtrl->setParameter($this, "subCmd", "insertFromPool");
-			$mpool_table = new ilMediaPoolTableGUI($this, "insert", $pool, "mep_folder",
-				ilMediaPoolTableGUI::IL_MEP_SELECT);
+			$tcmd = ($a_change_obj_ref)
+				? "changeObjectReference"
+				: "insert";
+			$tmode = ($a_change_obj_ref)
+				? ilMediaPoolTableGUI::IL_MEP_SELECT_SINGLE
+				: ilMediaPoolTableGUI::IL_MEP_SELECT;
+			$mpool_table = new ilMediaPoolTableGUI($this, $tcmd, $pool, "mep_folder",
+				$tmode);
 			
 			$tpl->setContent($mpool_table->getHTML());
 		}
 		else
 		{
-			$this->poolSelection();
+			$this->poolSelection($a_change_obj_ref);
 		}
 	}
 	
 	/**
 	* Select concrete pool
 	*/
-	function selectPool()
+	function selectPool($a_change_obj_ref = false)
 	{
 		global $ilCtrl;
 		
 		$_SESSION["cont_media_pool"] = $_GET["pool_ref_id"];
 		$ilCtrl->setParameter($this, "subCmd", "insertFromPool");
-		$ilCtrl->redirect($this, "insert");
+		if ($a_change_obj_ref)
+		{
+			$ilCtrl->redirect($this, "changeObjectReference");
+		}
+		else
+		{
+			$ilCtrl->redirect($this, "insert");
+		}
 	}
 	
 	/**
 	* Pool Selection
 	*/
-	function poolSelection()
+	function poolSelection($a_change_obj_ref = false)
 	{
 		global $ilCtrl, $tree, $tpl, $ilTabs;
 
-		$this->getTabs($ilTabs, true);
+		$this->getTabs($ilTabs, true, $a_change_obj_ref);
 		$ilTabs->setSubTabActive("cont_mob_from_media_pool");
 
 		include_once "./Services/COPage/classes/class.ilPoolSelectorGUI.php";
-		$exp = new ilPoolSelectorGUI($this->ctrl->getLinkTarget($this, "insert"));
+
+		if ($a_change_obj_ref)
+		{
+			$exp = new ilPoolSelectorGUI($this->ctrl->getLinkTarget($this, "changeObjectReference"));
+		}
+		else
+		{
+			$exp = new ilPoolSelectorGUI($this->ctrl->getLinkTarget($this, "insert"));
+		}
 		if ($_GET["expand"] == "")
 		{
 			$expanded = $tree->readRootId();
@@ -265,7 +350,14 @@ class ilPCMediaObjectGUI extends ilPageContentGUI
 		$exp->setTargetGet("sel_id");
 		$this->ctrl->setParameter($this, "target_type", $a_type);
 		$ilCtrl->setParameter($this, "subCmd", "poolSelection");
-		$exp->setParamsGet($this->ctrl->getParameterArray($this, "insert"));
+		if ($a_change_obj_ref)
+		{
+			$exp->setParamsGet($this->ctrl->getParameterArray($this, "changeObjectReference"));
+		}
+		else
+		{
+			$exp->setParamsGet($this->ctrl->getParameterArray($this, "insert"));
+		}
 		
 		// filter
 		$exp->setFiltered(true);
@@ -286,9 +378,43 @@ class ilPCMediaObjectGUI extends ilPageContentGUI
 
 	
 	/**
+	* Create new media object and replace currrent media item with it.
+	* (keep all instance parameters)
+	*/
+	function createNewObjectReference()
+	{
+		$this->create(false, true);
+	}
+
+	/**
+	* Create new media object and replace currrent media item with it.
+	* (keep all instance parameters)
+	*/
+	function selectObjectReference()
+	{
+		global $ilCtrl, $lng;
+		if (is_array($_POST["id"]) && count($_POST["id"]) == 1)
+		{
+			include_once("./Services/COPage/classes/class.ilPCMediaObject.php");
+			include_once("./Modules/MediaPool/classes/class.ilMediaPoolItem.php");
+			$fid = ilMediaPoolItem::lookupForeignId($_POST["id"][0]);
+			$this->content_obj->readMediaObject($fid);
+			$this->content_obj->updateObjectReference();
+			$this->updated = $this->pg_obj->update();
+		}
+		else
+		{
+			ilUtil::sendInfo($lng->txt("cont_select_max_one_item"), true);
+			$ilCtrl->redirect($this, "changeObjectReference");
+
+		}
+		$ilCtrl->redirect($this, "editAlias");
+	}
+	
+	/**
 	* create new media object in dom and update page in db
 	*/
-	function &create($a_create_alias = true)
+	function &create($a_create_alias = true, $a_change_obj_ref = false)
 	{
 		global $ilCtrl, $lng;
 		
@@ -313,7 +439,10 @@ class ilPCMediaObjectGUI extends ilPageContentGUI
 		
 		// create dummy object in db (we need an id)
 		include_once("./Services/COPage/classes/class.ilPCMediaObject.php");
-		$this->content_obj = new ilPCMediaObject($this->dom);
+		if ($a_change_obj_ref != true)
+		{
+			$this->content_obj = new ilPCMediaObject($this->dom);
+		}
 		$this->content_obj->createMediaObject();
 		$media_obj = $this->content_obj->getMediaObject();
 		
@@ -348,6 +477,12 @@ class ilPCMediaObjectGUI extends ilPageContentGUI
 		}
 		else
 		{
+			if ($a_change_obj_ref == true)
+			{
+				$this->content_obj->updateObjectReference();
+				$this->updated = $this->pg_obj->update();
+				$this->ctrl->redirect($this, "editAlias");
+			}
 			return $this->content_obj;
 		}
 	}
@@ -363,166 +498,6 @@ class ilPCMediaObjectGUI extends ilPageContentGUI
 		$this->initAliasForm();
 		$this->getAliasValues();
 		$tpl->setContent($this->form_gui->getHTML());
-		return;
-		
-		//add template for view button
-		$this->tpl->addBlockfile("BUTTONS", "buttons", "tpl.buttons.html");
-
-		//$item_nr = $this->content_obj->getMediaItemNr("Standard");
-		$std_alias_item =& new ilMediaAliasItem($this->dom, $this->getHierId(), "Standard",
-			$this->content_obj->getPcId());
-		$std_item = $this->content_obj->getMediaObject()->getMediaItem("Standard");
-
-		// edit media alias template
-		$this->tpl->addBlockFile("ADM_CONTENT", "adm_content", "tpl.mob_alias_properties.html", "Services/COPage");
-		$this->tpl->setVariable("TXT_ACTION", $this->lng->txt("cont_edit_mob_alias_prop"));
-		$this->tpl->setVariable("TXT_STANDARD_VIEW", $this->lng->txt("cont_std_view"));
-		$this->tpl->setVariable("TXT_DERIVE", $this->lng->txt("cont_derive_from_obj"));
-		$this->tpl->setVariable("TXT_TYPE", $this->lng->txt("cont_".strtolower($std_item->getLocationType())));
-		$this->tpl->setVariable("TXT_LOCATION", $std_item->getLocation());
-		$this->tpl->setVariable("TXT_FORMAT", $this->lng->txt("cont_format"));
-		$this->tpl->setVariable("VAL_FORMAT", $std_item->getFormat());
-		$this->tpl->setVariable("FORMACTION", $this->ctrl->getFormAction($this));
-
-		$this->displayValidationError();
-
-		// width
-		$this->tpl->setVariable("TXT_MOB_WIDTH", $this->lng->txt("cont_width"));
-		$this->tpl->setVariable("INPUT_MOB_WIDTH", "mob_width");
-		$this->tpl->setVariable("VAL_MOB_WIDTH", $std_alias_item->getWidth());
-
-		// height
-		$this->tpl->setVariable("TXT_MOB_HEIGHT", $this->lng->txt("cont_height"));
-		$this->tpl->setVariable("INPUT_MOB_HEIGHT", "mob_height");
-		$this->tpl->setVariable("VAL_MOB_HEIGHT", $std_alias_item->getHeight());
-
-		// caption
-		$this->tpl->setVariable("TXT_CAPTION", $this->lng->txt("cont_caption"));
-		$this->tpl->setVariable("INPUT_CAPTION", "mob_caption");
-		$this->tpl->setVariable("VAL_CAPTION", $std_alias_item->getCaption());
-//		$this->tpl->parseCurrentBlock();
-
-		// parameters
-		$this->tpl->setVariable("TXT_PARAMETER", $this->lng->txt("cont_parameter"));
-		$this->tpl->setVariable("INPUT_PARAMETERS", "mob_parameters");
-		$this->tpl->setVariable("VAL_PARAMETERS", $std_alias_item->getParameterString());
-//		$this->tpl->parseCurrentBlock();
-
-		// object default values
-		$this->tpl->setVariable("VAL_OBJ_ST_SIZE", $std_item->getWidth()." / ".$std_item->getHeight());
-		$this->tpl->setVariable("VAL_OBJ_ST_CAPTION", $std_item->getCaption());
-		$this->tpl->setVariable("VAL_OBJ_ST_PARAMETERS", $std_item->getParameterString());
-		if ($std_alias_item->definesSize())
-		{
-			$this->tpl->setVariable("DERIVE_ST_SIZE_N", "checked=\"1\"");
-		}
-		else
-		{
-			$this->tpl->setVariable("DERIVE_ST_SIZE_Y", "checked=\"1\"");
-		}
-		if ($std_alias_item->definesCaption())
-		{
-			$this->tpl->setVariable("DERIVE_ST_CAPTION_N", "checked=\"1\"");
-		}
-		else
-		{
-			$this->tpl->setVariable("DERIVE_ST_CAPTION_Y", "checked=\"1\"");
-		}
-		if ($std_alias_item->definesParameters())
-		{
-			$this->tpl->setVariable("DERIVE_ST_PARAMETER_N", "checked=\"1\"");
-		}
-		else
-		{
-			$this->tpl->setVariable("DERIVE_ST_PARAMETER_Y", "checked=\"1\"");
-		}
-
-		// fullscreen view
-		if ($this->content_obj->getMediaObject()->hasFullScreenItem())
-		{
-			$this->tpl->setCurrentBlock("fullscreen");
-			$full_alias_item =& new ilMediaAliasItem($this->dom, $this->getHierId(), "Fullscreen",
-				$this->content_obj->getPcId());
-			$full_item =& $this->content_obj->getMediaObject()->getMediaItem("Fullscreen");
-
-			$this->tpl->setVariable("TXT_FULLSCREEN_VIEW", $this->lng->txt("cont_fullscreen"));
-			$this->tpl->setVariable("TXT_FULL_TYPE", $this->lng->txt("cont_".strtolower($full_item->getLocationType())));
-			$this->tpl->setVariable("TXT_FULL_LOCATION", $full_item->getLocation());
-
-			$this->tpl->setVariable("TXT_FULL_FORMAT", $this->lng->txt("cont_format"));
-			$this->tpl->setVariable("VAL_FULL_FORMAT", $full_item->getFormat());
-
-			// width text
-			$this->tpl->setVariable("TXT_FULL_WIDTH", $this->lng->txt("cont_width"));
-			$this->tpl->setVariable("INPUT_FULL_WIDTH", "full_width");
-
-			// height text
-			$this->tpl->setVariable("TXT_FULL_HEIGHT", $this->lng->txt("cont_height"));
-			$this->tpl->setVariable("INPUT_FULL_HEIGHT", "full_height");
-
-			// caption text
-			$this->tpl->setVariable("TXT_FULL_CAPTION", $this->lng->txt("cont_caption"));
-			$this->tpl->setVariable("INPUT_FULL_CAPTION", "full_caption");
-
-			// parameters text
-			$this->tpl->setVariable("TXT_FULL_PARAMETER", $this->lng->txt("cont_parameter"));
-			$this->tpl->setVariable("INPUT_FULL_PARAMETERS", "full_parameters");
-
-			// object default values
-			$this->tpl->setVariable("VAL_OBJ_FULL_SIZE", $full_item->getWidth()." / ".$full_item->getHeight());
-			$this->tpl->setVariable("VAL_OBJ_FULL_CAPTION", $full_item->getCaption());
-			$this->tpl->setVariable("VAL_OBJ_FULL_PARAMETERS", $full_item->getParameterString());
-			if ($full_alias_item->definesSize())
-			{
-				$this->tpl->setVariable("DERIVE_FULL_SIZE_N", "checked=\"1\"");
-			}
-			else
-			{
-				$this->tpl->setVariable("DERIVE_FULL_SIZE_Y", "checked=\"1\"");
-			}
-			if ($full_alias_item->definesCaption())
-			{
-				$this->tpl->setVariable("DERIVE_FULL_CAPTION_N", "checked=\"1\"");
-			}
-			else
-			{
-				$this->tpl->setVariable("DERIVE_FULL_CAPTION_Y", "checked=\"1\"");
-			}
-			if ($full_alias_item->definesParameters())
-			{
-				$this->tpl->setVariable("DERIVE_FULL_PARAMETER_N", "checked=\"1\"");
-			}
-			else
-			{
-				$this->tpl->setVariable("DERIVE_FULL_PARAMETER_Y", "checked=\"1\"");
-			}
-
-			if ($full_alias_item->exists())
-			{
-				$this->tpl->setVariable("FULLSCREEN_CHECKED", "checked=\"1\"");
-
-				// width
-				$this->tpl->setVariable("VAL_FULL_WIDTH", $full_alias_item->getWidth());
-
-				// height
-				$this->tpl->setVariable("VAL_FULL_HEIGHT", $full_alias_item->getHeight());
-
-				// caption
-				$this->tpl->setVariable("VAL_FULL_CAPTION", $full_alias_item->getCaption());
-
-				// parameters
-				$this->tpl->setVariable("VAL_FULL_PARAMETERS", $full_alias_item->getParameterString());
-			}
-
-			$this->tpl->parseCurrentBlock();
-		}
-
-		// operations
-		$this->tpl->setCurrentBlock("commands");
-		$this->tpl->setVariable("BTN_NAME", "saveAliasProperties");
-		$this->tpl->setVariable("BTN_TEXT", $this->lng->txt("save"));
-		$this->tpl->parseCurrentBlock();
-
 	}
 
 	/**
@@ -752,8 +727,12 @@ class ilPCMediaObjectGUI extends ilPageContentGUI
 
 		$this->form_gui->setTitle($lng->txt("cont_edit_mob_alias_prop"));
 		$this->form_gui->addCommandButton("saveAliasProperties", $lng->txt("save"));
-		$this->form_gui->setFormAction($ilCtrl->getFormAction($this));
-		
+		$lm_set = new ilSetting("lm");
+		if ($lm_set->get("replace_mob_feature"))
+		{
+			$this->form_gui->addCommandButton("changeObjectReference", $lng->txt("cont_change_object_reference"));
+		}
+		$this->form_gui->setFormAction($ilCtrl->getFormAction($this));		
 	}
 
 	/**
@@ -1245,7 +1224,7 @@ class ilPCMediaObjectGUI extends ilPageContentGUI
 	* @param	object		$tab_gui		ilTabsGUI object
 	* @param	boolean		$a_create		new creation true/false
 	*/
-	function getTabs(&$tab_gui, $a_create = false)
+	function getTabs(&$tab_gui, $a_create = false, $a_change_obj_ref = false)
 	{
 		global $ilCtrl, $ilTabs;
 
@@ -1279,13 +1258,22 @@ class ilPCMediaObjectGUI extends ilPageContentGUI
 		}
 		else
 		{
+			if ($a_change_obj_ref)
+			{
+				$cmd = "changeObjectReference";
+			}
+			else
+			{
+				$cmd = "insert";
+			}
+			
 			$ilCtrl->setParameter($this, "subCmd", "insertNew");
 			$ilTabs->addSubTabTarget("cont_new_mob",
-				$ilCtrl->getLinkTarget($this, "insert"), "insert");
+				$ilCtrl->getLinkTarget($this, $cmd), $cmd);
 
 			$ilCtrl->setParameter($this, "subCmd", "insertFromPool");
 			$ilTabs->addSubTabTarget("cont_mob_from_media_pool",
-				$ilCtrl->getLinkTarget($this, "insert"), "insert");
+				$ilCtrl->getLinkTarget($this, $cmd), $cmd);
 			$ilCtrl->setParameter($this, "subCmd", "");
 		}
 	}
