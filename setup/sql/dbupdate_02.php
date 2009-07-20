@@ -14740,3 +14740,7 @@ $ilDB->addTableColumn("usr_data", "birthday", array("type" => "date", "notnull" 
 <?php
 	$ilMySQLAbstraction->performAbstraction("page_question");
 ?>
+<#2786>
+<?php
+	$ilMySQLAbstraction->performAbstraction("personal_pc_clipboard");
+?>
