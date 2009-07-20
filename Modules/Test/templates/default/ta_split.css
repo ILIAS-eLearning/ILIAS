@@ -1,0 +1,9 @@
+#tst_left {
+	float: left;
+	width: 20%;
+}
+
+#tst_right {
+	float: right;
+	width: 00%;
+}
