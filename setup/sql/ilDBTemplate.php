@@ -1195,6 +1195,34 @@ $ilDB->createSequence("cal_entries", 1);
 
 
 //
+// cal_entry_responsible
+//
+$fields = array (
+	"cal_id" => array (
+		"notnull" => true
+		,"length" => 4
+		,"unsigned" => false
+		,"default" => "0"
+		,"type" => "integer"
+	)
+	,"user_id" => array (
+		"notnull" => true
+		,"length" => 4
+		,"unsigned" => false
+		,"default" => "0"
+		,"type" => "integer"
+	)
+);
+$ilDB->createTable("cal_entry_responsible", $fields);
+
+$in_fields = array("cal_id");
+$ilDB->addIndex("cal_entry_responsible", $in_fields, "i1", false);
+
+$in_fields = array("user_id");
+$ilDB->addIndex("cal_entry_responsible", $in_fields, "i2", false);
+
+
+//
 // cal_recurrence_rules
 //
 $fields = array (
@@ -9611,6 +9639,45 @@ $ilDB->addPrimaryKey("file_data", $pk_fields);
 
 
 //
+// file_usage
+//
+$fields = array (
+	"id" => array (
+		"notnull" => true
+		,"length" => 4
+		,"unsigned" => false
+		,"default" => "0"
+		,"type" => "integer"
+	)
+	,"usage_type" => array (
+		"notnull" => true
+		,"length" => 10
+		,"default" => " "
+		,"fixed" => false
+		,"type" => "text"
+	)
+	,"usage_id" => array (
+		"notnull" => true
+		,"length" => 4
+		,"unsigned" => false
+		,"default" => "0"
+		,"type" => "integer"
+	)
+	,"usage_hist_nr" => array (
+		"notnull" => true
+		,"length" => 4
+		,"unsigned" => false
+		,"default" => "0"
+		,"type" => "integer"
+	)
+);
+$ilDB->createTable("file_usage", $fields);
+
+$pk_fields = array("id","usage_type","usage_id","usage_hist_nr");
+$ilDB->addPrimaryKey("file_usage", $pk_fields);
+
+
+//
 // frm_data
 //
 $fields = array (
@@ -14745,6 +14812,42 @@ $ilDB->createSequence("ldap_server_settings", 1);
 
 
 //
+// license_data
+//
+$fields = array (
+	"obj_id" => array (
+		"notnull" => true
+		,"length" => 4
+		,"unsigned" => false
+		,"default" => "0"
+		,"type" => "integer"
+	)
+	,"licenses" => array (
+		"notnull" => true
+		,"length" => 4
+		,"unsigned" => false
+		,"default" => "0"
+		,"type" => "integer"
+	)
+	,"used" => array (
+		"notnull" => true
+		,"length" => 4
+		,"unsigned" => false
+		,"default" => "0"
+		,"type" => "integer"
+	)
+	,"remarks" => array (
+		"notnull" => false
+		,"type" => "clob"
+	)
+);
+$ilDB->createTable("license_data", $fields);
+
+$pk_fields = array("obj_id");
+$ilDB->addPrimaryKey("license_data", $pk_fields);
+
+
+//
 // link_check
 //
 $fields = array (
@@ -15286,6 +15389,38 @@ $fields = array (
 	)
 );
 $ilDB->createTable("lo_access", $fields);
+
+
+//
+// loginname_history
+//
+$fields = array (
+	"usr_id" => array (
+		"notnull" => true
+		,"length" => 4
+		,"unsigned" => false
+		,"default" => ""
+		,"type" => "integer"
+	)
+	,"login" => array (
+		"notnull" => true
+		,"length" => 80
+		,"default" => ""
+		,"fixed" => false
+		,"type" => "text"
+	)
+	,"history_date" => array (
+		"notnull" => true
+		,"length" => 4
+		,"unsigned" => false
+		,"default" => ""
+		,"type" => "integer"
+	)
+);
+$ilDB->createTable("loginname_history", $fields);
+
+$pk_fields = array("usr_id","login","history_date");
+$ilDB->addPrimaryKey("loginname_history", $pk_fields);
 
 
 //
@@ -16003,6 +16138,47 @@ $ilDB->createTable("mep_data", $fields);
 
 $pk_fields = array("id");
 $ilDB->addPrimaryKey("mep_data", $pk_fields);
+
+
+//
+// mep_item
+//
+$fields = array (
+	"obj_id" => array (
+		"notnull" => true
+		,"length" => 4
+		,"unsigned" => false
+		,"default" => "0"
+		,"type" => "integer"
+	)
+	,"type" => array (
+		"notnull" => false
+		,"length" => 10
+		,"fixed" => false
+		,"type" => "text"
+	)
+	,"title" => array (
+		"notnull" => false
+		,"length" => 128
+		,"fixed" => false
+		,"type" => "text"
+	)
+	,"foreign_id" => array (
+		"notnull" => false
+		,"length" => 4
+		,"unsigned" => false
+		,"type" => "integer"
+	)
+);
+$ilDB->createTable("mep_item", $fields);
+
+$pk_fields = array("obj_id");
+$ilDB->addPrimaryKey("mep_item", $pk_fields);
+
+$ilDB->createSequence("mep_item", 2);
+
+$ilDB->insert("mep_item", array(
+'obj_id' => array('integer', '1'), 'type' => array('text', 'dummy'), 'title' => array('text', 'Dummy'), 'foreign_id' => array('integer', '1')));
 
 
 //
@@ -17282,6 +17458,34 @@ $ilDB->insert("page_object", array(
 
 
 //
+// page_question
+//
+$fields = array (
+	"page_parent_type" => array (
+		"notnull" => false
+		,"length" => 4
+		,"fixed" => false
+		,"type" => "text"
+	)
+	,"page_id" => array (
+		"notnull" => true
+		,"length" => 4
+		,"unsigned" => false
+		,"default" => "0"
+		,"type" => "integer"
+	)
+	,"question_id" => array (
+		"notnull" => true
+		,"length" => 4
+		,"unsigned" => false
+		,"default" => "0"
+		,"type" => "integer"
+	)
+);
+$ilDB->createTable("page_question", $fields);
+
+
+//
 // page_style_usage
 //
 $fields = array (
@@ -18207,6 +18411,260 @@ $ilDB->addPrimaryKey("personal_clipboard", $pk_fields);
 
 
 //
+// personal_pc_clipboard
+//
+$fields = array (
+	"user_id" => array (
+		"notnull" => true
+		,"length" => 4
+		,"unsigned" => false
+		,"default" => "0"
+		,"type" => "integer"
+	)
+	,"content" => array (
+		"notnull" => false
+		,"type" => "clob"
+	)
+	,"insert_time" => array (
+		"notnull" => false
+		,"type" => "timestamp"
+	)
+	,"order_nr" => array (
+		"notnull" => false
+		,"length" => 4
+		,"unsigned" => false
+		,"type" => "integer"
+	)
+);
+$ilDB->createTable("personal_pc_clipboard", $fields);
+
+$in_fields = array("user_id");
+$ilDB->addIndex("personal_pc_clipboard", $in_fields, "i1", false);
+
+
+//
+// qpl_a_cloze
+//
+$fields = array (
+	"answer_id" => array (
+		"notnull" => true
+		,"length" => 4
+		,"unsigned" => false
+		,"default" => "0"
+		,"type" => "integer"
+	)
+	,"question_fi" => array (
+		"notnull" => true
+		,"length" => 4
+		,"unsigned" => false
+		,"default" => "0"
+		,"type" => "integer"
+	)
+	,"shuffle" => array (
+		"notnull" => false
+		,"length" => 1
+		,"default" => "1"
+		,"fixed" => false
+		,"type" => "text"
+	)
+	,"answertext" => array (
+		"notnull" => false
+		,"length" => 1000
+		,"fixed" => false
+		,"type" => "text"
+	)
+	,"points" => array (
+		"notnull" => true
+		,"default" => "0"
+		,"type" => "float"
+	)
+	,"aorder" => array (
+		"notnull" => true
+		,"length" => 2
+		,"unsigned" => false
+		,"default" => "0"
+		,"type" => "integer"
+	)
+	,"gap_id" => array (
+		"notnull" => true
+		,"length" => 2
+		,"unsigned" => false
+		,"default" => "0"
+		,"type" => "integer"
+	)
+	,"cloze_type" => array (
+		"notnull" => false
+		,"length" => 1
+		,"default" => "0"
+		,"fixed" => false
+		,"type" => "text"
+	)
+	,"lowerlimit" => array (
+		"notnull" => false
+		,"length" => 20
+		,"default" => "0"
+		,"fixed" => false
+		,"type" => "text"
+	)
+	,"upperlimit" => array (
+		"notnull" => false
+		,"length" => 20
+		,"default" => "0"
+		,"fixed" => false
+		,"type" => "text"
+	)
+	,"tstamp" => array (
+		"notnull" => true
+		,"length" => 4
+		,"unsigned" => false
+		,"default" => "0"
+		,"type" => "integer"
+	)
+);
+$ilDB->createTable("qpl_a_cloze", $fields);
+
+$pk_fields = array("answer_id");
+$ilDB->addPrimaryKey("qpl_a_cloze", $pk_fields);
+
+$in_fields = array("question_fi");
+$ilDB->addIndex("qpl_a_cloze", $in_fields, "i1", false);
+
+$ilDB->createSequence("qpl_a_cloze", 1);
+
+
+//
+// qpl_a_imagemap
+//
+$fields = array (
+	"answer_id" => array (
+		"notnull" => true
+		,"length" => 4
+		,"unsigned" => false
+		,"default" => "0"
+		,"type" => "integer"
+	)
+	,"question_fi" => array (
+		"notnull" => true
+		,"length" => 4
+		,"unsigned" => false
+		,"default" => "0"
+		,"type" => "integer"
+	)
+	,"answertext" => array (
+		"notnull" => false
+		,"length" => 4000
+		,"fixed" => false
+		,"type" => "text"
+	)
+	,"points" => array (
+		"notnull" => true
+		,"default" => "0"
+		,"type" => "float"
+	)
+	,"aorder" => array (
+		"notnull" => true
+		,"length" => 2
+		,"unsigned" => false
+		,"default" => "0"
+		,"type" => "integer"
+	)
+	,"coords" => array (
+		"notnull" => false
+		,"length" => 4000
+		,"fixed" => false
+		,"type" => "text"
+	)
+	,"area" => array (
+		"notnull" => false
+		,"length" => 20
+		,"fixed" => false
+		,"type" => "text"
+	)
+	,"tstamp" => array (
+		"notnull" => true
+		,"length" => 4
+		,"unsigned" => false
+		,"default" => "0"
+		,"type" => "integer"
+	)
+);
+$ilDB->createTable("qpl_a_imagemap", $fields);
+
+$pk_fields = array("answer_id");
+$ilDB->addPrimaryKey("qpl_a_imagemap", $pk_fields);
+
+$in_fields = array("question_fi");
+$ilDB->addIndex("qpl_a_imagemap", $in_fields, "i1", false);
+
+$ilDB->createSequence("qpl_a_imagemap", 1);
+
+
+//
+// qpl_a_matching
+//
+$fields = array (
+	"answer_id" => array (
+		"notnull" => true
+		,"length" => 4
+		,"unsigned" => false
+		,"default" => "0"
+		,"type" => "integer"
+	)
+	,"question_fi" => array (
+		"notnull" => true
+		,"length" => 4
+		,"unsigned" => false
+		,"default" => "0"
+		,"type" => "integer"
+	)
+	,"term_fi" => array (
+		"notnull" => true
+		,"length" => 4
+		,"unsigned" => false
+		,"default" => "0"
+		,"type" => "integer"
+	)
+	,"points" => array (
+		"notnull" => true
+		,"default" => "0"
+		,"type" => "float"
+	)
+	,"matchingtext" => array (
+		"notnull" => false
+		,"length" => 1000
+		,"fixed" => false
+		,"type" => "text"
+	)
+	,"matching_order" => array (
+		"notnull" => true
+		,"length" => 4
+		,"unsigned" => false
+		,"default" => "0"
+		,"type" => "integer"
+	)
+	,"tstamp" => array (
+		"notnull" => true
+		,"length" => 4
+		,"unsigned" => false
+		,"default" => "0"
+		,"type" => "integer"
+	)
+);
+$ilDB->createTable("qpl_a_matching", $fields);
+
+$pk_fields = array("answer_id");
+$ilDB->addPrimaryKey("qpl_a_matching", $pk_fields);
+
+$in_fields = array("question_fi");
+$ilDB->addIndex("qpl_a_matching", $in_fields, "i1", false);
+
+$in_fields = array("term_fi");
+$ilDB->addIndex("qpl_a_matching", $in_fields, "i2", false);
+
+$ilDB->createSequence("qpl_a_matching", 1);
+
+
+//
 // qpl_a_mc
 //
 $fields = array (
@@ -18682,6 +19140,593 @@ $ilDB->createSequence("qpl_fb_sc", 1);
 
 
 //
+// qpl_num_range
+//
+$fields = array (
+	"range_id" => array (
+		"notnull" => true
+		,"length" => 4
+		,"unsigned" => false
+		,"default" => "0"
+		,"type" => "integer"
+	)
+	,"lowerlimit" => array (
+		"notnull" => false
+		,"length" => 20
+		,"default" => "0"
+		,"fixed" => false
+		,"type" => "text"
+	)
+	,"upperlimit" => array (
+		"notnull" => false
+		,"length" => 20
+		,"default" => "0"
+		,"fixed" => false
+		,"type" => "text"
+	)
+	,"points" => array (
+		"notnull" => true
+		,"default" => "0"
+		,"type" => "float"
+	)
+	,"aorder" => array (
+		"notnull" => true
+		,"length" => 4
+		,"unsigned" => false
+		,"default" => "0"
+		,"type" => "integer"
+	)
+	,"question_fi" => array (
+		"notnull" => true
+		,"length" => 4
+		,"unsigned" => false
+		,"default" => "0"
+		,"type" => "integer"
+	)
+	,"tstamp" => array (
+		"notnull" => true
+		,"length" => 4
+		,"unsigned" => false
+		,"default" => "0"
+		,"type" => "integer"
+	)
+);
+$ilDB->createTable("qpl_num_range", $fields);
+
+$pk_fields = array("range_id");
+$ilDB->addPrimaryKey("qpl_num_range", $pk_fields);
+
+$ilDB->createSequence("qpl_num_range", 1);
+
+
+//
+// qpl_qst_cloze
+//
+$fields = array (
+	"question_fi" => array (
+		"notnull" => true
+		,"length" => 4
+		,"unsigned" => false
+		,"default" => "0"
+		,"type" => "integer"
+	)
+	,"textgap_rating" => array (
+		"notnull" => false
+		,"length" => 2
+		,"fixed" => false
+		,"type" => "text"
+	)
+	,"identical_scoring" => array (
+		"notnull" => false
+		,"length" => 1
+		,"default" => "1"
+		,"fixed" => false
+		,"type" => "text"
+	)
+	,"fixed_textlen" => array (
+		"notnull" => false
+		,"length" => 4
+		,"unsigned" => false
+		,"type" => "integer"
+	)
+);
+$ilDB->createTable("qpl_qst_cloze", $fields);
+
+$pk_fields = array("question_fi");
+$ilDB->addPrimaryKey("qpl_qst_cloze", $pk_fields);
+
+
+//
+// qpl_qst_essay
+//
+$fields = array (
+	"question_fi" => array (
+		"notnull" => true
+		,"length" => 4
+		,"unsigned" => false
+		,"default" => "0"
+		,"type" => "integer"
+	)
+	,"maxnumofchars" => array (
+		"notnull" => true
+		,"length" => 4
+		,"unsigned" => false
+		,"default" => "0"
+		,"type" => "integer"
+	)
+	,"keywords" => array (
+		"notnull" => false
+		,"length" => 4000
+		,"fixed" => false
+		,"type" => "text"
+	)
+	,"textgap_rating" => array (
+		"notnull" => false
+		,"length" => 2
+		,"fixed" => false
+		,"type" => "text"
+	)
+);
+$ilDB->createTable("qpl_qst_essay", $fields);
+
+$pk_fields = array("question_fi");
+$ilDB->addPrimaryKey("qpl_qst_essay", $pk_fields);
+
+
+//
+// qpl_qst_fileupload
+//
+$fields = array (
+	"question_fi" => array (
+		"notnull" => true
+		,"length" => 4
+		,"unsigned" => false
+		,"default" => "0"
+		,"type" => "integer"
+	)
+	,"allowedextensions" => array (
+		"notnull" => false
+		,"length" => 255
+		,"fixed" => false
+		,"type" => "text"
+	)
+	,"maxsize" => array (
+		"notnull" => false
+		,"type" => "float"
+	)
+);
+$ilDB->createTable("qpl_qst_fileupload", $fields);
+
+$pk_fields = array("question_fi");
+$ilDB->addPrimaryKey("qpl_qst_fileupload", $pk_fields);
+
+
+//
+// qpl_qst_flash
+//
+$fields = array (
+	"question_fi" => array (
+		"notnull" => true
+		,"length" => 4
+		,"unsigned" => false
+		,"default" => "0"
+		,"type" => "integer"
+	)
+	,"params" => array (
+		"notnull" => false
+		,"length" => 4000
+		,"fixed" => false
+		,"type" => "text"
+	)
+	,"applet" => array (
+		"notnull" => false
+		,"length" => 150
+		,"fixed" => false
+		,"type" => "text"
+	)
+	,"width" => array (
+		"notnull" => true
+		,"length" => 4
+		,"unsigned" => false
+		,"default" => "550"
+		,"type" => "integer"
+	)
+	,"height" => array (
+		"notnull" => true
+		,"length" => 4
+		,"unsigned" => false
+		,"default" => "400"
+		,"type" => "integer"
+	)
+);
+$ilDB->createTable("qpl_qst_flash", $fields);
+
+$pk_fields = array("question_fi");
+$ilDB->addPrimaryKey("qpl_qst_flash", $pk_fields);
+
+
+//
+// qpl_qst_horder
+//
+$fields = array (
+	"question_fi" => array (
+		"notnull" => true
+		,"length" => 4
+		,"unsigned" => false
+		,"default" => "0"
+		,"type" => "integer"
+	)
+	,"ordertext" => array (
+		"notnull" => false
+		,"length" => 2000
+		,"fixed" => false
+		,"type" => "text"
+	)
+	,"textsize" => array (
+		"notnull" => false
+		,"type" => "float"
+	)
+);
+$ilDB->createTable("qpl_qst_horder", $fields);
+
+$pk_fields = array("question_fi");
+$ilDB->addPrimaryKey("qpl_qst_horder", $pk_fields);
+
+
+//
+// qpl_qst_imagemap
+//
+$fields = array (
+	"question_fi" => array (
+		"notnull" => true
+		,"length" => 4
+		,"unsigned" => false
+		,"default" => "0"
+		,"type" => "integer"
+	)
+	,"image_file" => array (
+		"notnull" => false
+		,"length" => 100
+		,"fixed" => false
+		,"type" => "text"
+	)
+);
+$ilDB->createTable("qpl_qst_imagemap", $fields);
+
+$pk_fields = array("question_fi");
+$ilDB->addPrimaryKey("qpl_qst_imagemap", $pk_fields);
+
+
+//
+// qpl_qst_javaapplet
+//
+$fields = array (
+	"question_fi" => array (
+		"notnull" => true
+		,"length" => 4
+		,"unsigned" => false
+		,"default" => "0"
+		,"type" => "integer"
+	)
+	,"image_file" => array (
+		"notnull" => false
+		,"length" => 100
+		,"fixed" => false
+		,"type" => "text"
+	)
+	,"params" => array (
+		"notnull" => false
+		,"length" => 4000
+		,"fixed" => false
+		,"type" => "text"
+	)
+);
+$ilDB->createTable("qpl_qst_javaapplet", $fields);
+
+$pk_fields = array("question_fi");
+$ilDB->addPrimaryKey("qpl_qst_javaapplet", $pk_fields);
+
+
+//
+// qpl_qst_matching
+//
+$fields = array (
+	"question_fi" => array (
+		"notnull" => true
+		,"length" => 4
+		,"unsigned" => false
+		,"default" => "0"
+		,"type" => "integer"
+	)
+	,"shuffle" => array (
+		"notnull" => false
+		,"length" => 1
+		,"default" => "1"
+		,"fixed" => false
+		,"type" => "text"
+	)
+	,"matching_type" => array (
+		"notnull" => false
+		,"length" => 1
+		,"default" => "1"
+		,"fixed" => false
+		,"type" => "text"
+	)
+	,"thumb_geometry" => array (
+		"notnull" => true
+		,"length" => 4
+		,"unsigned" => false
+		,"default" => "100"
+		,"type" => "integer"
+	)
+	,"element_height" => array (
+		"notnull" => false
+		,"length" => 4
+		,"unsigned" => false
+		,"type" => "integer"
+	)
+);
+$ilDB->createTable("qpl_qst_matching", $fields);
+
+$pk_fields = array("question_fi");
+$ilDB->addPrimaryKey("qpl_qst_matching", $pk_fields);
+
+
+//
+// qpl_qst_mc
+//
+$fields = array (
+	"question_fi" => array (
+		"notnull" => true
+		,"length" => 4
+		,"unsigned" => false
+		,"default" => "0"
+		,"type" => "integer"
+	)
+	,"shuffle" => array (
+		"notnull" => false
+		,"length" => 1
+		,"default" => "1"
+		,"fixed" => false
+		,"type" => "text"
+	)
+	,"allow_images" => array (
+		"notnull" => false
+		,"length" => 1
+		,"default" => "0"
+		,"fixed" => false
+		,"type" => "text"
+	)
+	,"resize_images" => array (
+		"notnull" => false
+		,"length" => 1
+		,"default" => "0"
+		,"fixed" => false
+		,"type" => "text"
+	)
+	,"thumb_size" => array (
+		"notnull" => false
+		,"length" => 2
+		,"unsigned" => false
+		,"type" => "integer"
+	)
+);
+$ilDB->createTable("qpl_qst_mc", $fields);
+
+$pk_fields = array("question_fi");
+$ilDB->addPrimaryKey("qpl_qst_mc", $pk_fields);
+
+
+//
+// qpl_qst_numeric
+//
+$fields = array (
+	"question_fi" => array (
+		"notnull" => true
+		,"length" => 4
+		,"unsigned" => false
+		,"default" => "0"
+		,"type" => "integer"
+	)
+	,"maxnumofchars" => array (
+		"notnull" => true
+		,"length" => 4
+		,"unsigned" => false
+		,"default" => "0"
+		,"type" => "integer"
+	)
+);
+$ilDB->createTable("qpl_qst_numeric", $fields);
+
+$pk_fields = array("question_fi");
+$ilDB->addPrimaryKey("qpl_qst_numeric", $pk_fields);
+
+
+//
+// qpl_qst_ordering
+//
+$fields = array (
+	"question_fi" => array (
+		"notnull" => true
+		,"length" => 4
+		,"unsigned" => false
+		,"default" => "0"
+		,"type" => "integer"
+	)
+	,"ordering_type" => array (
+		"notnull" => false
+		,"length" => 1
+		,"default" => "1"
+		,"fixed" => false
+		,"type" => "text"
+	)
+	,"thumb_geometry" => array (
+		"notnull" => true
+		,"length" => 4
+		,"unsigned" => false
+		,"default" => "100"
+		,"type" => "integer"
+	)
+	,"element_height" => array (
+		"notnull" => false
+		,"length" => 4
+		,"unsigned" => false
+		,"type" => "integer"
+	)
+);
+$ilDB->createTable("qpl_qst_ordering", $fields);
+
+$pk_fields = array("question_fi");
+$ilDB->addPrimaryKey("qpl_qst_ordering", $pk_fields);
+
+
+//
+// qpl_qst_sc
+//
+$fields = array (
+	"question_fi" => array (
+		"notnull" => true
+		,"length" => 4
+		,"unsigned" => false
+		,"default" => "0"
+		,"type" => "integer"
+	)
+	,"shuffle" => array (
+		"notnull" => false
+		,"length" => 1
+		,"default" => "1"
+		,"fixed" => false
+		,"type" => "text"
+	)
+	,"allow_images" => array (
+		"notnull" => false
+		,"length" => 1
+		,"default" => "0"
+		,"fixed" => false
+		,"type" => "text"
+	)
+	,"resize_images" => array (
+		"notnull" => false
+		,"length" => 1
+		,"default" => "0"
+		,"fixed" => false
+		,"type" => "text"
+	)
+	,"thumb_size" => array (
+		"notnull" => false
+		,"length" => 2
+		,"unsigned" => false
+		,"type" => "integer"
+	)
+);
+$ilDB->createTable("qpl_qst_sc", $fields);
+
+$pk_fields = array("question_fi");
+$ilDB->addPrimaryKey("qpl_qst_sc", $pk_fields);
+
+
+//
+// qpl_qst_textsubset
+//
+$fields = array (
+	"question_fi" => array (
+		"notnull" => true
+		,"length" => 4
+		,"unsigned" => false
+		,"default" => "0"
+		,"type" => "integer"
+	)
+	,"textgap_rating" => array (
+		"notnull" => false
+		,"length" => 2
+		,"fixed" => false
+		,"type" => "text"
+	)
+	,"correctanswers" => array (
+		"notnull" => false
+		,"length" => 4
+		,"unsigned" => false
+		,"default" => "0"
+		,"type" => "integer"
+	)
+);
+$ilDB->createTable("qpl_qst_textsubset", $fields);
+
+$pk_fields = array("question_fi");
+$ilDB->addPrimaryKey("qpl_qst_textsubset", $pk_fields);
+
+
+//
+// qpl_qst_type
+//
+$fields = array (
+	"question_type_id" => array (
+		"notnull" => true
+		,"length" => 4
+		,"unsigned" => false
+		,"default" => "0"
+		,"type" => "integer"
+	)
+	,"type_tag" => array (
+		"notnull" => false
+		,"length" => 35
+		,"fixed" => false
+		,"type" => "text"
+	)
+	,"plugin" => array (
+		"notnull" => true
+		,"length" => 1
+		,"unsigned" => false
+		,"default" => "0"
+		,"type" => "integer"
+	)
+);
+$ilDB->createTable("qpl_qst_type", $fields);
+
+$pk_fields = array("question_type_id");
+$ilDB->addPrimaryKey("qpl_qst_type", $pk_fields);
+
+$ilDB->insert("qpl_qst_type", array(
+'question_type_id' => array('integer', '1'), 'type_tag' => array('text', 'assSingleChoice'), 'plugin' => array('integer', '0')));
+
+$ilDB->insert("qpl_qst_type", array(
+'question_type_id' => array('integer', '2'), 'type_tag' => array('text', 'assMultipleChoice'), 'plugin' => array('integer', '0')));
+
+$ilDB->insert("qpl_qst_type", array(
+'question_type_id' => array('integer', '3'), 'type_tag' => array('text', 'assClozeTest'), 'plugin' => array('integer', '0')));
+
+$ilDB->insert("qpl_qst_type", array(
+'question_type_id' => array('integer', '4'), 'type_tag' => array('text', 'assMatchingQuestion'), 'plugin' => array('integer', '0')));
+
+$ilDB->insert("qpl_qst_type", array(
+'question_type_id' => array('integer', '5'), 'type_tag' => array('text', 'assOrderingQuestion'), 'plugin' => array('integer', '0')));
+
+$ilDB->insert("qpl_qst_type", array(
+'question_type_id' => array('integer', '6'), 'type_tag' => array('text', 'assImagemapQuestion'), 'plugin' => array('integer', '0')));
+
+$ilDB->insert("qpl_qst_type", array(
+'question_type_id' => array('integer', '7'), 'type_tag' => array('text', 'assJavaApplet'), 'plugin' => array('integer', '0')));
+
+$ilDB->insert("qpl_qst_type", array(
+'question_type_id' => array('integer', '8'), 'type_tag' => array('text', 'assTextQuestion'), 'plugin' => array('integer', '0')));
+
+$ilDB->insert("qpl_qst_type", array(
+'question_type_id' => array('integer', '9'), 'type_tag' => array('text', 'assNumeric'), 'plugin' => array('integer', '0')));
+
+$ilDB->insert("qpl_qst_type", array(
+'question_type_id' => array('integer', '10'), 'type_tag' => array('text', 'assTextSubset'), 'plugin' => array('integer', '0')));
+
+$ilDB->insert("qpl_qst_type", array(
+'question_type_id' => array('integer', '12'), 'type_tag' => array('text', 'assFlashQuestion'), 'plugin' => array('integer', '0')));
+
+$ilDB->insert("qpl_qst_type", array(
+'question_type_id' => array('integer', '13'), 'type_tag' => array('text', 'assOrderingHorizontal'), 'plugin' => array('integer', '0')));
+
+$ilDB->insert("qpl_qst_type", array(
+'question_type_id' => array('integer', '14'), 'type_tag' => array('text', 'assFileUpload'), 'plugin' => array('integer', '0')));
+
+
+//
 // qpl_questionpool
 //
 $fields = array (
@@ -18850,6 +19895,74 @@ $in_fields = array("title");
 $ilDB->addIndex("qpl_questions", $in_fields, "i4", false);
 
 $ilDB->createSequence("qpl_questions", 1);
+
+
+//
+// qpl_sol_sug
+//
+$fields = array (
+	"suggested_solution_id" => array (
+		"notnull" => true
+		,"length" => 4
+		,"unsigned" => false
+		,"default" => "0"
+		,"type" => "integer"
+	)
+	,"question_fi" => array (
+		"notnull" => true
+		,"length" => 4
+		,"unsigned" => false
+		,"default" => "0"
+		,"type" => "integer"
+	)
+	,"internal_link" => array (
+		"notnull" => false
+		,"length" => 50
+		,"fixed" => false
+		,"type" => "text"
+	)
+	,"import_id" => array (
+		"notnull" => false
+		,"length" => 50
+		,"fixed" => false
+		,"type" => "text"
+	)
+	,"subquestion_index" => array (
+		"notnull" => true
+		,"length" => 4
+		,"unsigned" => false
+		,"default" => "0"
+		,"type" => "integer"
+	)
+	,"type" => array (
+		"notnull" => false
+		,"length" => 32
+		,"fixed" => false
+		,"type" => "text"
+	)
+	,"value" => array (
+		"notnull" => false
+		,"length" => 4000
+		,"fixed" => false
+		,"type" => "text"
+	)
+	,"tstamp" => array (
+		"notnull" => true
+		,"length" => 4
+		,"unsigned" => false
+		,"default" => "0"
+		,"type" => "integer"
+	)
+);
+$ilDB->createTable("qpl_sol_sug", $fields);
+
+$pk_fields = array("suggested_solution_id");
+$ilDB->addPrimaryKey("qpl_sol_sug", $pk_fields);
+
+$in_fields = array("question_fi");
+$ilDB->addIndex("qpl_sol_sug", $in_fields, "i1", false);
+
+$ilDB->createSequence("qpl_sol_sug", 1);
 
 
 //
@@ -25613,7 +26726,7 @@ $ilDB->insert("settings", array(
 'module' => array('text', 'common'), 'keyword' => array('text', 'convert_path'), 'value' => array('clob', '')));
 
 $ilDB->insert("settings", array(
-'module' => array('text', 'common'), 'keyword' => array('text', 'db_version'), 'value' => array('clob', '2782')));
+'module' => array('text', 'common'), 'keyword' => array('text', 'db_version'), 'value' => array('clob', '2786')));
 
 $ilDB->insert("settings", array(
 'module' => array('text', 'common'), 'keyword' => array('text', 'ilias_version'), 'value' => array('clob', '3.2.3 2004-11-22')));
@@ -29451,6 +30564,35 @@ $ilDB->createSequence("tst_times", 1);
 
 
 //
+// udf_clob
+//
+$fields = array (
+	"usr_id" => array (
+		"notnull" => true
+		,"length" => 4
+		,"unsigned" => false
+		,"default" => ""
+		,"type" => "integer"
+	)
+	,"field_id" => array (
+		"notnull" => true
+		,"length" => 4
+		,"unsigned" => false
+		,"default" => ""
+		,"type" => "integer"
+	)
+	,"value" => array (
+		"notnull" => false
+		,"type" => "clob"
+	)
+);
+$ilDB->createTable("udf_clob", $fields);
+
+$pk_fields = array("usr_id","field_id");
+$ilDB->addPrimaryKey("udf_clob", $pk_fields);
+
+
+//
 // udf_data
 //
 $fields = array (
@@ -29558,6 +30700,37 @@ $pk_fields = array("field_id");
 $ilDB->addPrimaryKey("udf_definition", $pk_fields);
 
 $ilDB->createSequence("udf_definition", 1);
+
+
+//
+// udf_text
+//
+$fields = array (
+	"usr_id" => array (
+		"notnull" => true
+		,"length" => 4
+		,"unsigned" => false
+		,"default" => ""
+		,"type" => "integer"
+	)
+	,"field_id" => array (
+		"notnull" => true
+		,"length" => 4
+		,"unsigned" => false
+		,"default" => ""
+		,"type" => "integer"
+	)
+	,"value" => array (
+		"notnull" => false
+		,"length" => 4000
+		,"fixed" => false
+		,"type" => "text"
+	)
+);
+$ilDB->createTable("udf_text", $fields);
+
+$pk_fields = array("usr_id","field_id");
+$ilDB->addPrimaryKey("udf_text", $pk_fields);
 
 
 //
