@@ -74,14 +74,13 @@ class SurveyTextQuestion extends SurveyQuestion
 	function _getQuestionDataArray($id)
 	{
 		global $ilDB;
-		
 		$result = $ilDB->queryF("SELECT svy_question.*, " . $this->getAdditionalTableName() . ".* FROM svy_question, " . $this->getAdditionalTableName() . " WHERE svy_question.question_id = %s AND svy_question.question_id = " . $this->getAdditionalTableName() . ".question_fi",
 			array('integer'),
 			array($id)
 		);
 		if ($result->numRows() == 1)
 		{
-			return $ilDB->fetchAssoc($row);
+			return $ilDB->fetchAssoc($result);
 		}
 		else
 		{
