@@ -1180,14 +1180,11 @@ class ilTestOutputGUI extends ilTestServiceGUI
 	
 /**
 * Outputs the question of the active sequence
-*
-* Outputs the question of the active sequence
-*
-* @access public
 */
 	function outTestPage()
 	{
 		global $rbacsystem, $ilUser;
+
 		$this->tpl->addBlockFile($this->getContentBlockName(), "adm_content", "tpl.il_as_tst_output.html", "Modules/Test");	
 		if (!$rbacsystem->checkAccess("read", $this->object->getRefId())) 
 		{
@@ -1477,6 +1474,59 @@ class ilTestOutputGUI extends ilTestServiceGUI
 	function outQuestionSummary() 
 	{
 		$active_id = $this->object->getTestSession()->getActiveId();
+		$result_array = & $this->object->getTestSequence()->getSequenceSummary();
+		$marked_questions = array();
+		if ($this->object->getShowMarker())
+		{
+			include_once "./Modules/Test/classes/class.ilObjTest.php";
+			$marked_questions = ilObjTest::_getSolvedQuestions($active_id);
+		}
+		$data = array();
+		foreach ($result_array as $key => $value) 
+		{
+			$this->ctrl->setParameter($this, "sequence", $value["sequence"]);
+			$href = $this->ctrl->getLinkTargetByClass(get_class($this), "gotoQuestion");
+			$this->tpl->setVariable("VALUE_QUESTION_TITLE", "<a href=\"".$this->ctrl->getLinkTargetByClass(get_class($this), "gotoQuestion")."\">" . $this->object->getQuestionTitle($value["title"]) . "</a>");
+			$this->ctrl->setParameter($this, "sequence", $_GET["sequence"]);
+			$description = "";
+			if ($this->object->getListOfQuestionsDescription())
+			{
+				$description = $value["description"];
+			}
+			$points = "";
+			if (!$this->object->getTitleOutput())
+			{
+				$points = $value["points"]."&nbsp;".$this->lng->txt("points_short");
+			}
+			$marked = false;
+			if (count($marked_questions))
+			{
+				if (array_key_exists($value["qid"], $marked_questions))
+				{
+					$obj = $marked_questions[$value["qid"]];
+					if ($obj["solved"] == 1)
+					{
+						$marked = true;
+					}
+				} 
+			}
+			array_push($data, array(
+				'order' => $value["nr"],
+				'href' => $href,
+				'title' => $this->object->getQuestionTitle($value["title"]),
+				'description' => $description,
+				'worked_through' => ($value["worked_through"]) ? true : false,
+				'postponed' => ($value["postponed"]) ? $this->lng->txt("postponed") : '',
+				'points' => $points,
+				'marked' => $marked
+			));
+		}
+		$this->ctrl->setParameter($this, "sequence", $_GET["sequence"]);
+		include_once "./Modules/Test/classes/tables/class.ilListOfQuestionsTableGUI.php";
+		$table_gui = new ilListOfQuestionsTableGUI($this, 'backFromSummary', !$this->object->getTitleOutput(), $this->object->getShowMarker());
+		$table_gui->setData($data);
+		$this->tpl->setVariable('ADM_CONTENT', $table_gui->getHTML());	
+		return;
 		$this->tpl->addBlockFile($this->getContentBlockName(), "adm_content", "tpl.il_as_tst_question_summary.html", "Modules/Test");
 		$color_class = array ("tblrow1", "tblrow2");
 		$counter = 0;

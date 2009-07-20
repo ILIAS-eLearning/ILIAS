@@ -1,48 +1,4 @@
 <!-- BEGIN enableprocessingtime -->
 <p>{USER_WORKING_TIME}</p>
 <!-- END enableprocessingtime -->
-<h2>{TEXT_RESULTS}</h2>
-<form name="test_output" method="post" action="{FORMACTION}">
-<table class="fullwidth">
-<thead>
-	<tr class="tblheader">
-		<th class="std">{QUESTION_COUNTER}</th>
-		<th class="std">{QUESTION_TITLE}</th>
-		<th class="std">{POSTPONED}</th>
-		<th class="std">
-<!-- BEGIN title_question_points -->	
-			{QUESTION_POINTS}
-<!-- END title_question_points -->	
-		</th>
-		<th class="std">{WORKED_THROUGH}</th>
-		<th class="std">
-<!-- BEGIN title_marked -->	
-			{TEXT_MARKED}
-<!-- END title_marked -->	
-		</th>
-	</tr>
-</thead>
-<!-- BEGIN question -->
-<tr valign="middle">
-	<td class="{COLOR_CLASS}">{VALUE_QUESTION_COUNTER}</td>
-	<td class="{COLOR_CLASS}">{VALUE_QUESTION_TITLE}<!-- BEGIN question_summary --><br><small><em>{VALUE_QUESTION_DESCRIPTION}</em></small><!-- END question_summary --></td>	
-	<td class="{COLOR_CLASS}">{VALUE_POSTPONED}</td>
-	<td class="{COLOR_CLASS}">
-<!-- BEGIN value_question_points -->	
-		{VALUE_QUESTION_POINTS}
-<!-- END value_question_points -->	
-	</td>
-	<td class="{COLOR_CLASS}"><img src="{VALUE_WORKED_THROUGH}" alt="{ALT_WORKED_THROUGH}" /></td>
-	<td class="{COLOR_CLASS}">
-<!-- BEGIN value_marked -->	
-		<img src="{MARKED_IMAGE}" alt="{ALT_MARKED_IMAGE}" title="{TITLE_MARKED_IMAGE}" />
-<!-- END value_marked -->	
-	</td>
-</tr>
-<!-- END question --> 
-<tr class="tblfooter">
-	<td><input class="submit" type="submit" name="cmd[backFromSummary]" value="{TXT_BACK}"/></td>
- 	<td colspan="5" align="right"><input class="submit" type="submit" name="cmd[finishTest]" value="{TXT_SHOW_AND_SUBMIT_ANSWERS}"/></td>
-</tr>
-</table>
-</form>
+{TABLE}

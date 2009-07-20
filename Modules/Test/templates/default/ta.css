@@ -271,3 +271,20 @@ table.multiplechoicewizard th {
 	font-weight: bold;
 	text-align: center;
 }
+
+#tst_output {
+	clear: both;
+	overflow: hidden;
+	width: 100%;
+	float: left;
+}
+
+#tst_left {
+	float: left;
+	width: 0%;
+}
+
+#tst_right {
+	float: right;
+	width: 100%;
+}
