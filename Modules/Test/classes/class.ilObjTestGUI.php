@@ -2936,24 +2936,16 @@ class ilObjTestGUI extends ilObjectGUI
 
  /**
 	* Cancels the change of the fixed participants status when fixed participants already exist
-	*
-	* Cancels the change of the fixed participants status when fixed participants already exist
-	*
-	* @access	public
 	*/
-	function cancelFixedParticipantsStatusChangeObject()
+	public function cancelFixedParticipantsStatusChangeObject()
 	{
 		$this->ctrl->redirect($this, "inviteParticipants");
 	}
 	
  /**
 	* Confirms the change of the fixed participants status when fixed participants already exist
-	*
-	* Confirms the change of the fixed participants status when fixed participants already exist
-	*
-	* @access	public
 	*/
-	function confirmFixedParticipantsStatusChangeObject()
+	public function confirmFixedParticipantsStatusChangeObject()
 	{
 		$fixed_participants = 0;
 		$invited_users = $this->object->getInvitedUsers();
@@ -2989,12 +2981,8 @@ class ilObjTestGUI extends ilObjectGUI
 	
  /**
 	* Saves the status change of the fixed participants status
-	*
-	* Saves the status change of the fixed participants status
-	*
-	* @access	public
 	*/
-	function saveFixedParticipantsStatusObject()
+	public function saveFixedParticipantsStatusObject()
 	{
 		$fixed_participants = 0;
 		if (array_key_exists("chb_fixed_participants", $_POST))
@@ -3019,10 +3007,8 @@ class ilObjTestGUI extends ilObjectGUI
 	
  /**
 	* Creates the output for user/group invitation to a test
-	*
-	* @access	public
 	*/
-	function inviteParticipantsObject()
+	public function inviteParticipantsObject()
 	{
 		global $ilAccess;
 		if (!$ilAccess->checkAccess("write", "", $this->ref_id)) 

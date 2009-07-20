@@ -14,7 +14,7 @@
 </div>
 <!-- END kiosk_options -->
 <div id="tst_output">
-<div id="tst_left"></div>
+<div id="tst_left">{LIST_OF_QUESTIONS}</div>
 <div id="tst_right">
 <!-- BEGIN enableprocessingtime -->
 <div id="workingtime"><span id="userworkingtime">{USER_WORKING_TIME}</span><span id="timeleft">{USER_REMAINING_TIME}</span></div>
@@ -24,12 +24,15 @@
 <table class="fullwidth_invisible">
 		<tr>
 			<td>
+<!-- BEGIN view_sidelist -->
+	<input type="image" name="cmd[togglesidelist][list]" src="{IMAGE_SIDELIST}" title="{TEXT_SIDELIST}" />
+<!-- END view_sidelist -->
 <!-- BEGIN question_status -->
 <!-- BEGIN ismarked -->
-	<div><small>{TEXT_QUESTION_STATUS_LABEL}</small> <img src="{MARKED_SOURCE}" alt="{ALT_MARKED}" title="{TITLE_MARKED}" /> <input name="cmd[resetmarked]" type="submit" class="submit" value="{TEXT_RESET_MARK}" /></div>
+	<input type="image" name="cmd[resetmarked][mark]" src="{IMAGE_SET}" title="{TEXT_SET}" />
 <!-- END ismarked -->
 <!-- BEGIN isnotmarked -->
-	<div><input type="submit" class="submit" name="cmd[setmarked]" value="{TEXT_MARK_QUESTION}" /></div>
+	<input type="image" name="cmd[setmarked][mark]" src="{IMAGE_UNSET}" title="{TEXT_UNSET}" />
 <!-- END isnotmarked -->
 <!-- END question_status -->
 			</td>

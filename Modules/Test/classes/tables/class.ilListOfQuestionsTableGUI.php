@@ -101,7 +101,7 @@ class ilListOfQuestionsTableGUI extends ilTable2GUI
 		if (strlen($data['description']))
 		{
 			$this->tpl->setCurrentBlock('description');
-			$this->tpl->setVariable("DESCRIPTION", $data['description']);
+			$this->tpl->setVariable("DESCRIPTION", ilUtil::prepareFormOutput($data['description']));
 			$this->tpl->parseCurrentBlock();
 		}
 		if ($this->show_marker)
@@ -119,7 +119,7 @@ class ilListOfQuestionsTableGUI extends ilTable2GUI
 			}
 		}
 		$this->tpl->setVariable("ORDER", $data['order']);
-		$this->tpl->setVariable("TITLE", $data['title']);
+		$this->tpl->setVariable("TITLE", ilUtil::prepareFormOutput($data['title']));
 		$this->tpl->setVariable("HREF", $data['href']);
 		$this->tpl->setVariable("POSTPONED", $data['postponed']);
 		if ($data["worked_through"])

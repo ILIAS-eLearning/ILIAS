@@ -284,6 +284,11 @@ table.multiplechoicewizard th {
 	width: 0%;
 }
 
+#tst_left h1 {
+	font-size: 110%;
+	font-weight: bold;
+}
+
 #tst_right {
 	float: right;
 	width: 100%;
@@ -292,4 +297,17 @@ table.multiplechoicewizard th {
 .question_description {
 	font-style: italic;
 	font-size: 90%;
+}
+
+ul.shortlist {
+	list-style-type: none;
+	padding: 0;
+}
+
+ul.shortlist li {
+	padding: 0 0 6px 0;
+}
+
+ul.shortlist li.active {
+	font-weight: bold;
 }
