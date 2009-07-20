@@ -1,27 +1,5 @@
 <form action="{FORMACTION}" method="post">
-<div align="center">
-<table class="fullwidth">
-	<!-- BEGIN table_header -->
-<thead>
-	<tr class="tblheader">
-		<th>{TEXT}</th>
-	</tr>
-</thead>	
-	<!-- END table_header -->
-	<!-- BEGIN table_row -->
-	<tr class="{CSS_ROW}">
-		<td class="std" valign="top">
-		{TEXT_CONTENT}
-		</td>
-	</tr>
-	<!-- END table_row -->
-	<tr>
-		<td class="submit" align="right">
-		<!-- BEGIN operation_btn -->
-		<input class="submit" type="submit" name="cmd[{BTN_NAME}]" value="{BTN_VALUE}" />
-		<!-- END operation_btn -->
-		</td>
-	</tr>
-</table>
-</div>
+<!-- BEGIN operation_btn -->
+	<input class="submit" type="submit" name="cmd[{BTN_NAME}]" value="{BTN_VALUE}" />
+<!-- END operation_btn -->
 </form>

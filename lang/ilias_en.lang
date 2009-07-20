@@ -723,7 +723,7 @@ assessment#:#tst_finish_confirmation_question#:#You are going to finish this tes
 assessment#:#tst_finished#:#Finished
 assessment#:#tst_fixed_participants_data_exists#:#There are already participants who ran the test. You are not allowed to change the fixed participants status!
 assessment#:#tst_fixed_participants_disable#:#Confirm Status Change
-assessment#:#tst_fixed_participants_disable_description#:#You are about to disable the support for fixed participants in this test. All fixed participants who did not start the test yet will be removed from the test. G you want to proceed?
+assessment#:#tst_fixed_participants_disable_description#:#You are about to disable the support for fixed participants in this test. All fixed participants who did not start the test yet will be removed from the test. Do you want to proceed?
 assessment#:#tst_general_properties#:#General Properties
 assessment#:#tst_generate_xls#:#Generate Excel
 assessment#:#tst_heading_scoring#:#Scoring

@@ -1468,12 +1468,10 @@ class ilTestOutputGUI extends ilTestServiceGUI
 	
 /**
 * Output of a summary of all test questions for test participants
-*
-* @access public
 */
-	function outQuestionSummary() 
+	public function outQuestionSummary($fullpage = true) 
 	{
-		$this->tpl->addBlockFile($this->getContentBlockName(), "adm_content", "tpl.il_as_tst_question_summary.html", "Modules/Test");
+		if ($fullpage) $this->tpl->addBlockFile($this->getContentBlockName(), "adm_content", "tpl.il_as_tst_question_summary.html", "Modules/Test");
 		$active_id = $this->object->getTestSession()->getActiveId();
 		$result_array = & $this->object->getTestSequence()->getSequenceSummary();
 		$marked_questions = array();
@@ -1523,11 +1521,14 @@ class ilTestOutputGUI extends ilTestServiceGUI
 			));
 		}
 		$this->ctrl->setParameter($this, "sequence", $_GET["sequence"]);
-		include_once "./Modules/Test/classes/tables/class.ilListOfQuestionsTableGUI.php";
-		$table_gui = new ilListOfQuestionsTableGUI($this, 'backFromSummary', !$this->object->getTitleOutput(), $this->object->getShowMarker());
-		$table_gui->setData($data);
-		$this->tpl->setVariable('TABLE_LIST_OF_QUESTIONS', $table_gui->getHTML());	
-		if ($this->object->getEnableProcessingTime()) $this->outProcessingTime($active_id);
+		if ($fullpage)
+		{
+			include_once "./Modules/Test/classes/tables/class.ilListOfQuestionsTableGUI.php";
+			$table_gui = new ilListOfQuestionsTableGUI($this, 'backFromSummary', !$this->object->getTitleOutput(), $this->object->getShowMarker());
+			$table_gui->setData($data);
+			$this->tpl->setVariable('TABLE_LIST_OF_QUESTIONS', $table_gui->getHTML());	
+			if ($this->object->getEnableProcessingTime()) $this->outProcessingTime($active_id);
+		}
 	}
 	
 	function showMaximumAllowedUsersReachedMessage()
@@ -1559,7 +1560,7 @@ class ilTestOutputGUI extends ilTestServiceGUI
 		}
 		else
 		{
-			return $this->gotoQuestion();
+			$this->ctrl->redirect($this, 'gotoQuestion');
 		}
 	}
 	

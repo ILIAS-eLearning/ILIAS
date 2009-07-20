@@ -288,3 +288,8 @@ table.multiplechoicewizard th {
 	float: right;
 	width: 100%;
 }
+
+.question_description {
+	font-style: italic;
+	font-size: 90%;
+}
