@@ -14744,3 +14744,12 @@ $ilDB->addTableColumn("usr_data", "birthday", array("type" => "date", "notnull" 
 <?php
 	$ilMySQLAbstraction->performAbstraction("personal_pc_clipboard");
 ?>
+<#2787>
+<?php
+	$ilDB->dropIndex('sahs_sc13_seq_item','i1');
+?>
+<#2788>
+<?php
+	$ilDB->dropIndex('sahs_sc13_seq_node','i1');
+?>
+
