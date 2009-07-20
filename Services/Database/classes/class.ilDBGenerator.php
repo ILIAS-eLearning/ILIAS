@@ -38,11 +38,58 @@ class ilDBGenerator
 		
 		$query = "SELECT DISTINCT(table_name) FROM abstraction_progress ";
 		$res = $ilDB->query($query);
+		$names = array();
 		while($row = $res->fetchRow(DB_FETCHMODE_OBJECT))
 		{
 			$names[] = $row->table_name;
 		}
-		return $names ? $names : array();
+		
+		// tables that have been already created in an abstracted
+		// way or tables that have been renamed after being abstracted
+		// (see db_update script)
+		$abs_tables = array_merge($names, array(
+			'acc_access_key',
+			'acc_user_access_key',
+			'ldap_rg_mapping',
+			'page_anchor',
+			'qpl_question_orderinghorizontal',
+			'qpl_question_fileupload',
+			'payment_vats',
+			'chat_smilies',
+			'style_color',
+			'style_template_class',
+			'style_template',
+			'page_style_usage',
+			'style_setting',
+			'page_editor_settings',
+			'mep_data',
+			'license_data',
+			'loginname_history',
+			'mep_item',
+			'qpl_a_cloze',
+			'qpl_a_imagemap',
+			'qpl_a_matching',
+			'qpl_num_range',
+			'qpl_qst_cloze',
+			'qpl_qst_essay',
+			'qpl_qst_fileupload',
+			'qpl_qst_flash',
+			'qpl_qst_horder',
+			'qpl_qst_imagemap',
+			'qpl_qst_javaapplet',
+			'qpl_qst_matching',
+			'qpl_qst_mc',
+			'qpl_qst_numeric',
+			'qpl_qst_ordering',
+			'qpl_qst_sc',
+			'qpl_qst_textsubset',
+			'qpl_qst_type',
+			'qpl_sol_sug',
+			'udf_text',
+			'udf_clob'
+			));
+
+		return $abs_tables;
 	}
 	
 	/**
