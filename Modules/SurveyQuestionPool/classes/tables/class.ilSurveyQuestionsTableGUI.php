@@ -148,7 +148,7 @@ class ilSurveyQuestionsTableGUI extends ilTable2GUI
 		
 		// questiontype
 		include_once("./Services/Form/classes/class.ilSelectInputGUI.php");
-		include_once("./Modules/SurveyQuestionPool/classes/class.ilobjSurveyQuestionPool.php");
+		include_once("./Modules/SurveyQuestionPool/classes/class.ilObjSurveyQuestionPool.php");
 		$types = ilObjSurveyQuestionPool::_getQuestionTypes();
 		$options = array();
 		$options[""] = $lng->txt('filter_all_question_types');
