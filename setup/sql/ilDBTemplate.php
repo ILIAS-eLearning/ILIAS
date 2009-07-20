@@ -25576,9 +25576,6 @@ $ilDB->createTable("sahs_sc13_seq_item", $fields);
 $pk_fields = array("sahs_sc13_tree_node_id");
 $ilDB->addPrimaryKey("sahs_sc13_seq_item", $pk_fields);
 
-$in_fields = array("sahs_sc13_tree_node_id");
-$ilDB->addIndex("sahs_sc13_seq_item", $in_fields, "i1", false);
-
 
 //
 // sahs_sc13_seq_mapinfo
@@ -25659,9 +25656,6 @@ $ilDB->createTable("sahs_sc13_seq_node", $fields);
 
 $pk_fields = array("seqnodeid");
 $ilDB->addPrimaryKey("sahs_sc13_seq_node", $pk_fields);
-
-$in_fields = array("seqnodeid");
-$ilDB->addIndex("sahs_sc13_seq_node", $in_fields, "i1", false);
 
 $in_fields = array("tree_node_id");
 $ilDB->addIndex("sahs_sc13_seq_node", $in_fields, "i2", false);
@@ -26726,7 +26720,7 @@ $ilDB->insert("settings", array(
 'module' => array('text', 'common'), 'keyword' => array('text', 'convert_path'), 'value' => array('clob', '')));
 
 $ilDB->insert("settings", array(
-'module' => array('text', 'common'), 'keyword' => array('text', 'db_version'), 'value' => array('clob', '2786')));
+'module' => array('text', 'common'), 'keyword' => array('text', 'db_version'), 'value' => array('clob', '2788')));
 
 $ilDB->insert("settings", array(
 'module' => array('text', 'common'), 'keyword' => array('text', 'ilias_version'), 'value' => array('clob', '3.2.3 2004-11-22')));
