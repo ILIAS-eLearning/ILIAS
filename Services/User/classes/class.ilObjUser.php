@@ -3189,12 +3189,12 @@ class ilObjUser extends ilObject
 		{
 			$a_time = date("Y-m-d H:i:s", time());
 		}
-		$st = $ilDB->prepareManip("INSERT INTO personal_pc_clipboard ".
-			"(user_id, content, insert_time, order_nr) VALUES ".
-			" (?,?,?,?)",
-			array("integer", "text", "timestamp", "integer"));
-		$ilDB->execute($st,
-			array($this->getId(), $a_content, $a_time, $a_nr));
+		$ilDB->insert("personal_pc_clipboard", array(
+			"user_id" => array("integer", $this->getId()),
+			"content" => array("clob", $a_content),
+			"insert_time" => array("timestamp", $a_time),
+			"order_nr" => array("integer", $a_nr)
+			));
 	}
 
 	/**
@@ -3204,15 +3204,14 @@ class ilObjUser extends ilObject
 	{
 		global $ilDB;
 
-		$st = $ilDB->prepare("SELECT MAX(insert_time) mtime FROM personal_pc_clipboard ".
-			" WHERE user_id = ?", array("integer"));
-		$set = $ilDB->execute($st, array($this->getId()));
+		$set = $ilDB->queryF("SELECT MAX(insert_time) mtime FROM personal_pc_clipboard ".
+			" WHERE user_id = %s", array("integer"), array($this->getId()));
 		$row = $ilDB->fetchAssoc($set);
 		
-		$st = $ilDB->prepare("SELECT * FROM personal_pc_clipboard ".
-			" WHERE user_id = ? AND insert_time = ? ORDER BY order_nr ASC",
-			array("integer", "timestamp"));
-		$set = $ilDB->execute($st, array($this->getId(), $row["mtime"]));
+		$set = $ilDB->queryF("SELECT * FROM personal_pc_clipboard ".
+			" WHERE user_id = %s AND insert_time = %s ORDER BY order_nr ASC",
+			array("integer", "timestamp"),
+			array($this->getId(), $row["mtime"]));
 		$content = array();
 		while ($row = $ilDB->fetchAssoc($set))
 		{
