@@ -4966,14 +4966,14 @@ function loadQuestions($active_id = "", $pass = NULL)
 
 		if ($questionpool == 0)
 		{
-			$result = $ilDB->queryF("SELECT question_id FROM qpl_questions WHERE ISNULL(original_id) $available $constraint_qpls AND owner > %s AND complete = %s $original_clause",
+			$result = $ilDB->queryF("SELECT question_id FROM qpl_questions WHERE original_id IS NULL $available $constraint_qpls AND owner > %s AND complete = %s $original_clause",
 				array('integer', 'text'),
 				array(0, "1")
 			);
 		}
 		else
 		{
-			$result = $ilDB->queryF("SELECT question_id FROM qpl_questions WHERE ISNULL(original_id) AND obj_fi = %s AND owner > %s AND complete = %s $original_clause",
+			$result = $ilDB->queryF("SELECT question_id FROM qpl_questions WHERE original_id IS NULL AND obj_fi = %s AND owner > %s AND complete = %s $original_clause",
 				array('integer','integer', 'text'),
 				array($questionpool, 0, "1")
 			);
@@ -5208,10 +5208,10 @@ function loadQuestions($active_id = "", $pass = NULL)
 		}
 
 		$original_ids =& $this->getExistingQuestions();
-		$original_clause = " ISNULL(qpl_questions.original_id)";
+		$original_clause = " qpl_questions.original_id IS NULL";
 		if (count($original_ids))
 		{
-			$original_clause = " ISNULL(qpl_questions.original_id) AND " . $ilDB->in('qpl_questions.question_id',  $original_ids, true, 'integer');
+			$original_clause = " qpl_questions.original_id IS NULL AND " . $ilDB->in('qpl_questions.question_id',  $original_ids, true, 'integer');
 		}
 
 		$query_result = $ilDB->query(

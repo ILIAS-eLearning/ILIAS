@@ -528,7 +528,7 @@ class ilObjSurveyQuestionPool extends ilObject
 				$where .= " AND svy_qtype.type_tag = " . $ilDB->quote($arrFilter['type'], 'text');
 			}
 		}
-		$query_result = $ilDB->queryF("SELECT svy_question.*, svy_qtype.type_tag, svy_qtype.plugin FROM svy_question, svy_qtype WHERE ISNULL(svy_question.original_id) AND svy_question.tstamp > 0 AND svy_question.questiontype_fi = svy_qtype.questiontype_id AND svy_question.obj_fi = %s" . $where,
+		$query_result = $ilDB->queryF("SELECT svy_question.*, svy_qtype.type_tag, svy_qtype.plugin FROM svy_question, svy_qtype WHERE svy_question.original_id IS NULL AND svy_question.tstamp > 0 AND svy_question.questiontype_fi = svy_qtype.questiontype_id AND svy_question.obj_fi = %s" . $where,
 			array('integer'),
 			array($this->getId())
 		);
@@ -616,7 +616,7 @@ class ilObjSurveyQuestionPool extends ilObject
 		{
 			$maxentries = 9999;
 		}
-		$query_result = $ilDB->queryF("SELECT svy_question.question_id FROM svy_question, svy_qtype WHERE svy_question.questiontype_fi = svy_qtype.questiontype_id AND svy_question.tstamp > 0 AND svy_question.obj_fi = %s AND ISNULL(svy_question.original_id) $where$order",
+		$query_result = $ilDB->queryF("SELECT svy_question.question_id FROM svy_question, svy_qtype WHERE svy_question.questiontype_fi = svy_qtype.questiontype_id AND svy_question.tstamp > 0 AND svy_question.obj_fi = %s AND svy_question.original_id IS NULL $where$order",
 			array('integer'),
 			array($this->getId())
 		);
@@ -630,7 +630,7 @@ class ilObjSurveyQuestionPool extends ilObject
 			$startrow = 0;
 		}
 		$ilDB->setLimit($maxentries, $startrow);
-		$query_result = $ilDB->queryF("SELECT svy_question.*, svy_qtype.type_tag, svy_qtype.plugin FROM svy_question, svy_qtype WHERE svy_question.questiontype_fi = svy_qtype.questiontype_id AND svy_question.tstamp > 0 AND svy_question.obj_fi = %s AND ISNULL(svy_question.original_id) $where$order",
+		$query_result = $ilDB->queryF("SELECT svy_question.*, svy_qtype.type_tag, svy_qtype.plugin FROM svy_question, svy_qtype WHERE svy_question.questiontype_fi = svy_qtype.questiontype_id AND svy_question.tstamp > 0 AND svy_question.obj_fi = %s AND svy_question.original_id IS NULL $where$order",
 			array('integer'),
 			array($this->getId())
 		);
@@ -873,7 +873,7 @@ class ilObjSurveyQuestionPool extends ilObject
 	{
 		global $ilDB;
 		$questions = array();
-		$result = $ilDB->queryF("SELECT question_id FROM svy_question WHERE obj_fi = %s AND svy_question.tstamp > 0 AND ISNULL(original_id)",
+		$result = $ilDB->queryF("SELECT question_id FROM svy_question WHERE obj_fi = %s AND svy_question.tstamp > 0 AND original_id IS NULL",
 			array('integer'),
 			array($this->getId())
 		);

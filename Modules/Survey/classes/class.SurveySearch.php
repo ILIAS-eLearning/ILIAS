@@ -178,7 +178,7 @@ class SurveySearch
 		}
 		$result = $ilDB->query("SELECT svy_question.*, svy_qtype.type_tag, object_reference.ref_id FROM " .
 			"svy_question, svy_qtype, object_reference WHERE svy_question.questiontype_fi = svy_qtype.questiontype_id ".
-			"AND ISNULL(svy_question.original_id) AND svy_question.obj_fi = object_reference.obj_id AND ".
+			"AND svy_question.original_id IS NULL AND svy_question.obj_fi = object_reference.obj_id AND ".
 			"svy_question.obj_fi > 0$str_where");
 		$result_array = array();
 		global $rbacsystem;

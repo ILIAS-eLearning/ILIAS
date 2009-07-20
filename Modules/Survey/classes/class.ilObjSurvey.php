@@ -3405,13 +3405,13 @@ class ilObjSurvey extends ilObject
 		}
 		$query_result = $ilDB->query("SELECT svy_question.*, svy_qtype.type_tag, svy_qtype.plugin, object_reference.ref_id FROM ".
 			"svy_question, svy_qtype, object_reference WHERE svy_question.questiontype_fi = svy_qtype.questiontype_id".
-			"$forbidden$existing AND svy_question.tstamp > 0 AND svy_question.obj_fi = object_reference.obj_id AND ISNULL(svy_question.original_id) " . 
+			"$forbidden$existing AND svy_question.tstamp > 0 AND svy_question.obj_fi = object_reference.obj_id AND svy_question.original_id IS NULL " . 
 			" $where$order");
 		$max = $query_result->numRows();
 		$ilDB->setLimit($maxentries, $startrow);
 		$query_result = $ilDB->query("SELECT svy_question.*, svy_qtype.type_tag, svy_qtype.plugin, object_reference.ref_id FROM " .
 			"svy_question, svy_qtype, object_reference WHERE svy_question.questiontype_fi = svy_qtype.questiontype_id".
-			"$forbidden$existing AND svy_question.tstamp > 0 AND svy_question.obj_fi = object_reference.obj_id AND ISNULL(svy_question.original_id) " . 
+			"$forbidden$existing AND svy_question.tstamp > 0 AND svy_question.obj_fi = object_reference.obj_id AND svy_question.original_id IS NULL " . 
 			" $where$order");
 		if ($startrow > $max -1)
 		{
@@ -4314,7 +4314,7 @@ class ilObjSurvey extends ilObject
 	{
 		global $ilDB;
 
-		$result = $ilDB->queryF("SELECT anonymous_id FROM svy_anonymous WHERE survey_fi = %s AND ISNULL(user_key)",
+		$result = $ilDB->queryF("SELECT anonymous_id FROM svy_anonymous WHERE survey_fi = %s AND user_key IS NULL",
 			array('integer'),
 			array($this->getSurveyId())
 		);
@@ -4334,7 +4334,7 @@ class ilObjSurvey extends ilObject
 
 		$result = $ilDB->queryF("SELECT svy_anonymous.*, svy_finished.state FROM svy_anonymous ".
 			"LEFT JOIN svy_finished ON svy_anonymous.survey_key = svy_finished.anonymous_id ".
-			"WHERE svy_anonymous.survey_fi = %s AND ISNULL(svy_anonymous.user_key)",
+			"WHERE svy_anonymous.survey_fi = %s AND svy_anonymous.user_key IS NULL",
 			array('integer'),
 			array($this->getSurveyId())
 		);
@@ -4384,7 +4384,7 @@ class ilObjSurvey extends ilObject
 		$result = $ilDB->queryF("SELECT svy_anonymous.anonymous_id, svy_anonymous.survey_key, svy_anonymous.survey_fi, ".
 			"svy_anonymous.tstamp, svy_finished.state FROM svy_anonymous LEFT JOIN svy_finished ".
 			"ON svy_anonymous.survey_key = svy_finished.anonymous_id WHERE svy_anonymous.survey_fi = %s ".
-			"AND ISNULL(svy_anonymous.user_key) $order",
+			"AND svy_anonymous.user_key IS NULL $order",
 			array('integer'),
 			array($this->getSurveyId())
 		);
