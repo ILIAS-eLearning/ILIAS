@@ -14834,6 +14834,9 @@ $ilCtrlStructureReader->getStructure();
 				"answer_id" => array(
 					"type" => "integer", "length" => 4, "notnull" => true
 				),
+				"question_fi" => array(
+					"type" => "integer", "length" => 4, "notnull" => true
+				),
 				"text_wrong" => array(
 					"type" => "text", "length" => 150, "notnull" => true
 				),
@@ -14849,6 +14852,7 @@ $ilCtrlStructureReader->getStructure();
 			)
 		);
 		$ilDB->addPrimaryKey("qpl_a_errortext", array("answer_id"));
+		$ilDB->addIndex('qpl_a_errortext',array('question_fi'),'i1');
 	}
 ?>
 <#2797>
