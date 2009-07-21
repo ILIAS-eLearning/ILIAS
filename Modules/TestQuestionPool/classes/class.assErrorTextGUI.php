@@ -348,6 +348,7 @@ class assErrorTextGUI extends assQuestionGUI
 		$template = new ilTemplate("tpl.il_as_qpl_errortext_output.html",TRUE, TRUE, "Modules/TestQuestionPool");
 		if ($this->object->getTextSize() >= 10) echo $template->setVariable("STYLE", " style=\"font-size: " . $this->object->getTextSize() . "%;\"");
 		$template->setVariable("QUESTIONTEXT", $this->object->prepareTextareaOutput($this->object->question, TRUE));
+		$template->setVariable("ERRORTEXT", str_replace("\n", "<br />", $this->object->createErrorTextOutput()));
 		$questionoutput = $template->get();
 		if (!$show_question_only)
 		{

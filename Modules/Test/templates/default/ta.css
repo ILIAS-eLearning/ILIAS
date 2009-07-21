@@ -319,3 +319,15 @@ ul.shortlist li.active {
 .number {
 	text-align: right;
 }
+
+.errortext a {
+	text-decoration: none;
+	color: #000;
+	padding: 2px;
+}
+
+.errortext a:hover {
+	text-decoration: none;
+	background-color: #ddd;
+	color: #000;
+}

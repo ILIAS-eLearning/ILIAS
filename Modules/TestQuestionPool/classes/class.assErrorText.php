@@ -561,6 +561,20 @@ class assErrorText extends assQuestion
 		}
 	}
 	
+	public function createErrorTextOutput()
+	{
+		$items = preg_split("/\s+/", $this->getErrorText());
+		foreach ($items as $idx => $item)
+		{
+			if (strpos($item, '#') === 0)
+			{
+				$item = ilStr::substr($item, 1, ilStr::strlen($item));
+			}
+			$items[$idx] = '<a href="javascript:void(0)">' . ilUtil::prepareFormOutput($item) . '</a>';
+		}
+		return join($items, " ");
+	}
+	
 	/**
 	* Flush error data
 	*/
