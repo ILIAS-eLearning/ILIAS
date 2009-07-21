@@ -13,6 +13,7 @@ function setSelectionsForElement(elem)
 	hidden = YAHOO.util.Dom.getElementsBy(function (el) { return (el.type == 'hidden') ? true : false; }, 'input', elem);
 	for (j = 0; j < hidden.length; j++)
 	{
+		console.log(positions.join(','));
 		hidden[j].value = positions.join(',');
 	}
 }
@@ -28,7 +29,7 @@ function toggleSelection(e, obj)
 	{
 		elem.addClass('sel');
 	}
-	setSelectionsForElement(this.parentNode);
+	setSelectionsForElement(this.parentNode.parentNode);
 }
 
 function errortextEvents(e)
