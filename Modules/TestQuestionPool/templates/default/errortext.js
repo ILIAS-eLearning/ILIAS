@@ -1,3 +1,22 @@
+function setSelectionsForElement(elem)
+{
+	anchors = YAHOO.util.Dom.getElementsBy(function (el) { return true; }, 'a', elem);
+	positions = new Array();
+	for (j = 0; j < anchors.length; j++)
+	{
+		ye = new YAHOO.util.Element(anchors[j]);
+		if (ye.hasClass('sel'))
+		{
+			positions.push(j);
+		}
+	}
+	hidden = YAHOO.util.Dom.getElementsBy(function (el) { return (el.type == 'hidden') ? true : false; }, 'input', elem);
+	for (j = 0; j < hidden.length; j++)
+	{
+		hidden[j].value = positions.join(',');
+	}
+}
+
 function toggleSelection(e, obj)
 {
 	elem = new YAHOO.util.Element(this);
@@ -9,6 +28,7 @@ function toggleSelection(e, obj)
 	{
 		elem.addClass('sel');
 	}
+	setSelectionsForElement(this.parentNode);
 }
 
 function errortextEvents(e)
