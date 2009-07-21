@@ -349,6 +349,7 @@ class assErrorTextGUI extends assQuestionGUI
 		if ($this->object->getTextSize() >= 10) echo $template->setVariable("STYLE", " style=\"font-size: " . $this->object->getTextSize() . "%;\"");
 		$template->setVariable("QUESTIONTEXT", $this->object->prepareTextareaOutput($this->object->question, TRUE));
 		$template->setVariable("ERRORTEXT", str_replace("\n", "<br />", $this->object->createErrorTextOutput()));
+		$template->setVariable("ERRORTEXT_ID", uniqid());
 		$questionoutput = $template->get();
 		if (!$show_question_only)
 		{

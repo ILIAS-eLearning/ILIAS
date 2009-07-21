@@ -3,4 +3,7 @@
 <br />
 <!-- END feedback -->
 <p>{QUESTIONTEXT}</p>
-<div class="errortext"{STYLE}>{ERRORTEXT}</div>
+<div id="{ERRORTEXT_ID}" class="errortext"{STYLE}>
+	{ERRORTEXT}
+	<input type="hidden" name="{ERRORTEXT_ID}" value="{ERRORTEXT_VALUE}" />
+</div>
