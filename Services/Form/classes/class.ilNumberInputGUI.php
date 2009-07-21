@@ -33,6 +33,7 @@ class ilNumberInputGUI extends ilSubEnabledFormPropertyGUI
 	protected $value;
 	protected $maxlength = 200;
 	protected $size = 40;
+	protected $suffix;
 	protected $minvalue = false;
 	protected $maxvalue = false;
 	
@@ -45,6 +46,26 @@ class ilNumberInputGUI extends ilSubEnabledFormPropertyGUI
 	function __construct($a_title = "", $a_postvar = "")
 	{
 		parent::__construct($a_title, $a_postvar);
+	}
+
+	/**
+	* Set suffix.
+	*
+	* @param	string	$a_value	suffix
+	*/
+	function setSuffix($a_value)
+	{
+		$this->suffix = $a_value;
+	}
+
+	/**
+	* Get suffix.
+	*
+	* @return	string	suffix
+	*/
+	function getSuffix()
+	{
+		return $this->suffix;
 	}
 
 	/**
@@ -244,6 +265,7 @@ class ilNumberInputGUI extends ilSubEnabledFormPropertyGUI
 		$a_tpl->setVariable("ID", $this->getFieldId());
 		$a_tpl->setVariable("SIZE", $this->getSize());
 		$a_tpl->setVariable("MAXLENGTH", $this->getMaxLength());
+		if (strlen($this->getSuffix())) $a_tpl->setVariable("INPUT_SUFFIX", $this->getSuffix());
 		if ($this->getDisabled())
 		{
 			$a_tpl->setVariable("DISABLED",

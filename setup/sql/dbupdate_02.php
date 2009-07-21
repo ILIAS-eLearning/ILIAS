@@ -14783,3 +14783,75 @@ $ilDB->addTableColumn("usr_data", "birthday", array("type" => "date", "notnull" 
 <?php
 	$ilMySQLAbstraction->performAbstraction("payment_news");
 ?>
+<#2793>
+<?php
+	$res = $ilDB->queryF("SELECT * FROM qpl_qst_type WHERE type_tag = %s",
+		array('text'),
+		array('assErrorText')
+	);
+	if ($res->numRows() == 0)
+	{
+		$res = $ilDB->query("SELECT MAX(question_type_id) maxid FROM qpl_qst_type");
+		$data = $ilDB->fetchAssoc($res);
+		$max = $data["maxid"] + 1;
+
+		$affectedRows = $ilDB->manipulateF("INSERT INTO qpl_qst_type (question_type_id, type_tag, plugin) VALUES (%s, %s, %s)", 
+			array("integer", "text", "integer"),
+			array($max, 'assErrorText', 0)
+		);
+	}
+?>
+<#2794>
+<?php
+$ilCtrlStructureReader->getStructure();
+?>
+<#2795>
+<?php
+	if (!$ilDB->tableExists("qpl_qst_errortext"))
+	{
+		$ilDB->createTable("qpl_qst_errortext",
+			array(
+				"question_fi" => array(
+					"type" => "integer", "length" => 4, "notnull" => true
+				),
+				"errortext" => array(
+					"type" => "text", "length" => 4000, "notnull" => true
+				),
+				"textsize" => array(
+					"type" => "float", "notnull" => true, "default" => 100
+				)
+			)
+		);
+		$ilDB->addPrimaryKey("qpl_qst_errortext", array("question_fi"));
+	}
+?>
+<#2796>
+<?php
+	if (!$ilDB->tableExists("qpl_a_errortext"))
+	{
+		$ilDB->createTable("qpl_a_errortext",
+			array(
+				"answer_id" => array(
+					"type" => "integer", "length" => 4, "notnull" => true
+				),
+				"text_wrong" => array(
+					"type" => "text", "length" => 150, "notnull" => true
+				),
+				"text_correct" => array(
+					"type" => "text", "length" => 150, "notnull" => false, "default" => null
+				),
+				"points" => array(
+					"type" => "float", "notnull" => true, "default" => 0
+				),
+				"sequence" => array(
+					"type" => "integer", "length" => 2, "notnull" => true, "default" => 0
+				)
+			)
+		);
+		$ilDB->addPrimaryKey("qpl_a_errortext", array("answer_id"));
+	}
+?>
+<#2797>
+<?php
+$ilDB->createSequence("qpl_a_errortext");
+?>
