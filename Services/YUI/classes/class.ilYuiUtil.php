@@ -190,6 +190,17 @@ class ilYuiUtil
 	}
 	
 	/**
+	* init element selection
+	*/
+	static function initElementSelection()
+	{
+		global $tpl;
+
+		$tpl->addJavaScript("./Services/YUI/js/".self::$ver."/yahoo-dom-event/yahoo-dom-event.js");
+		$tpl->addJavaScript("./Services/YUI/js/".self::$ver."/element/element-min.js");
+	}
+	
+	/**
 	* get a drag & drop list
 	*/
 	static function getDragDropList($id_source, $title_source, $source, $id_dest, $title_dest, $dest)
