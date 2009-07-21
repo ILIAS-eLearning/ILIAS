@@ -960,16 +960,19 @@ class ilObjMediaCastGUI extends ilObjectGUI
 		$enable_internal_rss = $news_set->get("enable_rss_for_internal");
 
 		//Default Visibility
-		$radio_group = new ilRadioGroupInputGUI($lng->txt("news_default_visibility"), "defaultaccess");
-		$radio_option = new ilRadioOption($lng->txt("news_visibility_users"), "0");
-		$radio_group->addOption($radio_option);					
-		$radio_option = new ilRadioOption($lng->txt("news_visibility_public"), "1");
-		$radio_group->addOption($radio_option);
-		$radio_group->setInfo($lng->txt("news_news_item_visibility_info"));
-		$radio_group->setRequired(false);			
-		$radio_group->setValue($this->object->getDefaultAccess());			
-		#$ch->addSubItem($radio_group);
-		$this->form_gui->addItem($radio_group);
+		if ($enable_internal_rss)
+		{
+			$radio_group = new ilRadioGroupInputGUI($lng->txt("news_default_visibility"), "defaultaccess");
+			$radio_option = new ilRadioOption($lng->txt("news_visibility_users"), "0");
+			$radio_group->addOption($radio_option);					
+			$radio_option = new ilRadioOption($lng->txt("news_visibility_public"), "1");
+			$radio_group->addOption($radio_option);
+			$radio_group->setInfo($lng->txt("news_news_item_visibility_info"));
+			$radio_group->setRequired(false);			
+			$radio_group->setValue($this->object->getDefaultAccess());			
+			#$ch->addSubItem($radio_group);
+			$this->form_gui->addItem($radio_group);
+		}
 		
 		//Extra Feed
 		include_once("./Services/Block/classes/class.ilBlockSetting.php");
