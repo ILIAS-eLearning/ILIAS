@@ -355,11 +355,9 @@ class assErrorTextGUI extends assQuestionGUI
 			// get page object output
 			$questionoutput = $this->getILIASPage($questionoutput);
 		}
-		/*
 		include_once "./Services/YUI/classes/class.ilYuiUtil.php";
-		ilYuiUtil::initDragDropAnimation();
-		$this->tpl->addJavascript("./Modules/TestQuestionPool/templates/default/orderinghorizontal.js");
-		*/
+		ilYuiUtil::initElementSelection();
+		$this->tpl->addJavascript("./Modules/TestQuestionPool/templates/default/errortext.js");
 		return $questionoutput;
 	}
 

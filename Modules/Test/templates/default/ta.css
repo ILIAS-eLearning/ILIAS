@@ -331,3 +331,8 @@ ul.shortlist li.active {
 	background-color: #ddd;
 	color: #000;
 }
+
+.sel {
+	background-color: #00ff00;
+	border: 1px #666 solid;
+}
