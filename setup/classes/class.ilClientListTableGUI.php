@@ -59,7 +59,6 @@ class ilClientListTableGUI extends ilTable2GUI
 		global $lng;
 		
 		$clients = array();
-	
 		$clientlist = new ilClientList($this->setup->db_connections);
 		$list = $clientlist->getClients();
 

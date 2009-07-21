@@ -635,7 +635,8 @@ class ilObject
 		{
 			$values = array(
 				'obj_id'		=> array('integer',$this->id),
-				'description'	=> array('clob',$this->getLongDescription()));	
+				'description'	=> array('clob', $this->getLongDescription()));
+//var_dump($values);
 			$ilDB->insert('object_description',$values);
 		}
 		
@@ -1142,7 +1143,7 @@ class ilObject
 			"SET ".
 			"import_id = ".$ilDB->quote($a_import_id, "text").",".
 			"last_update = ".$ilDB->now()." ".
-			"WHERE obj_id = ".$ilDB->quote($a_obj_id. "integer");
+			"WHERE obj_id = ".$ilDB->quote($a_obj_id, "integer");
 
 		$ilDB->manipulate($q);
 	}

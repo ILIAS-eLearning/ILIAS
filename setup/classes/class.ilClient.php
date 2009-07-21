@@ -175,8 +175,10 @@ class ilClient
 		$this->db->setDBPassword($this->getdbPass());
 		$this->db->setDBHost($this->getdbHost());
 		$this->db->setDBName($this->getdbName());
-		
+//if ($this->getdbType() != "oracle")
+//{
 		$con = $this->db->connect(true);
+//}
 		
 		if (!$con)
 		{

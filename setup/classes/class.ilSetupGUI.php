@@ -187,7 +187,7 @@ echo "<br>+".$client_id;
 	function cmdAdmin()
 	{
 		$cmd = $this->cmd;
-//echo "-$cmd-";
+
 		switch ($this->cmd)
 		{
 			case NULL:
@@ -256,6 +256,8 @@ echo "<br>+".$client_id;
 				break;
 				
 			case "updateBasicSettings":
+			case "performLogin":
+			case "performMLogin":
 				$this->$cmd();
 				break;
 
