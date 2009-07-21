@@ -172,6 +172,7 @@ class assErrorTextGUI extends assQuestionGUI
 		$textsize->setRequired(true);
 		$form->addItem($textsize);
 		
+		$form->addCommandButton("anaylyze", $this->lng->txt('analyze_errortext'));
 		$form->addCommandButton("save", $this->lng->txt("save"));
 		$form->addCommandButton("saveEdit", $this->lng->txt("save_edit"));
 		
@@ -188,6 +189,16 @@ class assErrorTextGUI extends assQuestionGUI
 		return $errors;
 	}
 	
+	/**
+	* Parse the error text
+	*/
+	public function analyze()
+	{
+		$this->writePostData(true);
+		$this->object->setErrorData($this->object->getErrorsFromText($_POST['errortext']));
+		$this->editQuestion();
+	}
+
 	function outQuestionForTest($formaction, $active_id, $pass = NULL, $is_postponed = FALSE, $use_post_solutions = FALSE, $show_feedback = FALSE)
 	{
 		$test_output = $this->getTestOutput($active_id, $pass, $is_postponed, $use_post_solutions, $show_feedback); 
@@ -420,21 +431,10 @@ class assErrorTextGUI extends assQuestionGUI
 		{
 			$url = "";
 			if ($classname) $url = $this->ctrl->getLinkTargetByClass($classname, "editQuestion");
-			$commands = $_POST["cmd"];
-			if (is_array($commands))
-			{
-				foreach ($commands as $key => $value)
-				{
-					if (preg_match("/^suggestrange_.*/", $key, $matches))
-					{
-						$force_active = true;
-					}
-				}
-			}
 			// edit question properties
 			$ilTabs->addTarget("edit_properties",
 				$url,
-				array("editQuestion", "save", "saveEdit"),
+				array("editQuestion", "save", "saveEdit", "analyze"),
 				$classname, "", $force_active);
 		}
 

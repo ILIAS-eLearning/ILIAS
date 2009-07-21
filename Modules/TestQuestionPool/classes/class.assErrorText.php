@@ -34,6 +34,7 @@ class assErrorText extends assQuestion
 {
 	protected $errortext;
 	protected $textsize;
+	protected $errordata;
 	
 	/**
 	* assErorText constructor
@@ -58,6 +59,7 @@ class assErrorText extends assQuestion
 		parent::__construct($title, $comment, $author, $owner, $question);
 		$this->errortext = "";
 		$this->textsize = 100.0;
+		$this->errordata = array();
 	}
 	
 	/**
@@ -91,7 +93,6 @@ class assErrorText extends assQuestion
 		include_once("./Services/RTE/classes/class.ilRTE.php");
 		if ($this->id == -1)
 		{
-			// Neuen Datensatz schreiben
 			$next_id = $ilDB->nextId('qpl_questions');
 			$affectedRows = $ilDB->manipulateF("INSERT INTO qpl_questions (question_id, question_type_fi, obj_fi, title, description, author, owner, question_text, points, working_time, created, original_id, tstamp) VALUES (%s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s)", 
 				array("integer","integer", "integer", "text", "text", "text", "integer", "text", "float", "time", "integer","integer","integer"),
@@ -117,7 +118,6 @@ class assErrorText extends assQuestion
 		}
 		else
 		{
-			// Vorhandenen Datensatz aktualisieren
 			$affectedRows = $ilDB->manipulateF("UPDATE qpl_questions SET obj_fi = %s, title = %s, description = %s, author = %s, question_text = %s, points = %s, working_time=%s, tstamp = %s WHERE question_id = %s", 
 				array("integer", "text", "text", "text", "text", "float", "time", "integer", "integer"),
 				array(
@@ -148,6 +148,28 @@ class assErrorText extends assQuestion
 			)
 		);
 	
+		$affectedRows = $ilDB->manipulateF("DELETE FROM qpl_a_errortext WHERE question_fi = %s",
+			array('integer'),
+			array($this->getId())
+		);
+
+		$sequence = 0;
+		foreach ($this->errordata as $object)
+		{
+			$next_id = $ilDB->nextId('qpl_a_errortext');
+			$affectedRows = $ilDB->manipulateF("INSERT INTO qpl_a_errortext (answer_id, question_fi, text_wrong, text_correct, points, sequence) VALUES (%s, %s, %s, %s, %s, %s)",
+				array('integer','integer','text','text','float'),
+				array(
+					$next_id,
+					$this->getId(),
+					$object->txt_wrong,
+					$object->text_correct,
+					$object->points,
+					$sequence++
+				)
+			);
+		}
+		
 		parent::saveToDb();
 	}
 
@@ -181,6 +203,19 @@ class assErrorText extends assQuestion
 			$this->setErrorText($data["errortext"]);
 			$this->setTextSize($data["textsize"]);
 			$this->setEstimatedWorkingTime(substr($data["working_time"], 0, 2), substr($data["working_time"], 3, 2), substr($data["working_time"], 6, 2));
+		}
+
+		$result = $ilDB->queryF("SELECT * FROM qpl_a_errortext WHERE question_fi = %s ORDER BY sequence ASC",
+			array('integer'),
+			array($question_id)
+		);
+		include_once "./Modules/TestQuestionPool/classes/class.assAnswerErrorText.php";
+		if ($result->numRows() > 0)
+		{
+			while ($data = $ilDB->fetchAssoc($result))
+			{
+				array_push($this->errordata, new assAnswerErrorText($data["text_wrong"], $data["text_correct"], $data["poings"]));
+			}
 		}
 
 		parent::loadFromDb($question_id);
@@ -278,7 +313,12 @@ class assErrorText extends assQuestion
 	*/
 	public function getMaximumPoints()
 	{
-		return $this->getPoints();
+		$maxpoints = 0.0;
+		foreach ($this->errordata as $object)
+		{
+			if ($object->points > 0) $maxpoints += $object->points;
+		}
+		return $maxpoints;
 	}
 
 	/**
@@ -483,6 +523,25 @@ class assErrorText extends assQuestion
 	{
 		$user_solution = array();
 		return $user_solution;
+	}
+	
+	public function getErrorsFromText($a_text = "")
+	{
+		if (strlen($a_text) == 0) $a_text = $this->getErrorText();
+		preg_match_all("/#([^\s]+)/is", $a_text, $matches);
+		if (is_array($matches[1]))
+		{
+			return $matches[1];
+		}
+		else
+		{
+			return array();
+		}
+	}
+	
+	public function setErrorData($a_data)
+	{
+		
 	}
 	
 	/**
