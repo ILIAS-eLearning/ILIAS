@@ -563,16 +563,21 @@ class assErrorText extends assQuestion
 	
 	public function createErrorTextOutput()
 	{
-		$items = preg_split("/\s+/", $this->getErrorText());
-		foreach ($items as $idx => $item)
+		$textarray = preg_split("/[\n\r]+/", $this->getErrorText());
+		foreach ($textarray as $textidx => $text)
 		{
-			if (strpos($item, '#') === 0)
+			$items = preg_split("/\s+/", $text);
+			foreach ($items as $idx => $item)
 			{
-				$item = ilStr::substr($item, 1, ilStr::strlen($item));
+				if (strpos($item, '#') === 0)
+				{
+					$item = ilStr::substr($item, 1, ilStr::strlen($item));
+				}
+				$items[$idx] = '<a href="javascript:void(0)">' . ilUtil::prepareFormOutput($item) . '</a>';
 			}
-			$items[$idx] = '<a href="javascript:void(0)">' . ilUtil::prepareFormOutput($item) . '</a>';
+			$textarray[$textidx] = '<p>' . join($items, " ") . '</p>';
 		}
-		return join($items, " ");
+		return join($textarray, "\n");
 	}
 	
 	/**

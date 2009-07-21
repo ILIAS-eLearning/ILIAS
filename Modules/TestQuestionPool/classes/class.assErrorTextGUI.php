@@ -164,7 +164,7 @@ class assErrorTextGUI extends assQuestionGUI
 		}
 		// errortext
 		$errortext = new ilTextAreaInputGUI($this->lng->txt("errortext"), "errortext");
-		$errortext->setValue($this->object->prepareTextareaOutput($this->object->getErrorText()));
+		$errortext->setValue(ilUtil::prepareFormOutput($this->object->getErrorText()));
 		$errortext->setRequired(TRUE);
 		$errortext->setInfo($this->lng->txt("errortext_info"));
 		$errortext->setRows(10);
@@ -348,7 +348,7 @@ class assErrorTextGUI extends assQuestionGUI
 		$template = new ilTemplate("tpl.il_as_qpl_errortext_output.html",TRUE, TRUE, "Modules/TestQuestionPool");
 		if ($this->object->getTextSize() >= 10) echo $template->setVariable("STYLE", " style=\"font-size: " . $this->object->getTextSize() . "%;\"");
 		$template->setVariable("QUESTIONTEXT", $this->object->prepareTextareaOutput($this->object->question, TRUE));
-		$template->setVariable("ERRORTEXT", str_replace("\n", "<br />", $this->object->createErrorTextOutput()));
+		$template->setVariable("ERRORTEXT", $this->object->createErrorTextOutput());
 		$template->setVariable("ERRORTEXT_ID", uniqid());
 		$questionoutput = $template->get();
 		if (!$show_question_only)
