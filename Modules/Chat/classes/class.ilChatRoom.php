@@ -261,7 +261,7 @@ class ilChatRoom
 		global $ilDB;
 
 		$res = $ilDB->queryf('
-			SELECT * FROM chat_invitations ci JOIN chat_rooms ca 
+			SELECT * FROM chat_invitations ci, chat_rooms ca 
 			WHERE ci.room_id = ca.room_id 
 			AND ci.chat_id = %s
 			AND ci.room_id = %s
@@ -279,7 +279,7 @@ class ilChatRoom
 		global $ilDB;
 
 		$res = $ilDB->queryf('
-			SELECT * FROM chat_invitations ci JOIN chat_rooms ca 
+			SELECT * FROM chat_invitations ci, chat_rooms ca 
 			WHERE ci.room_id = ca.room_id 
 			AND ci.chat_id = %s
 			AND ci.room_id = %s
