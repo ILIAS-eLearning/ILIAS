@@ -4144,17 +4144,7 @@ class ilUtil
 	{
 		global $ilDB;
 
-		if ($ilDB->isMysql4_1OrHigher())
-		{
-			return $a_ts;
-		}
-		else
-		{
-			$t = $a_ts;
-			$ts = substr($t, 0, 4)."-".substr($t, 4, 2)."-".substr($t, 6, 2).
-				" ".substr($t, 8, 2).":".substr($t, 10, 2).":".substr($t, 12, 2);
-			return $ts;
-		}
+		return $a_ts;
 	}
 
 	/**
