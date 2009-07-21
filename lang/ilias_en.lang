@@ -9053,10 +9053,12 @@ assessment#:#thumb_geometry_info#:#The image thumbnails will be created with a m
 assessment#:#element_height#:#Minimum Height
 assessment#:#element_height_info#:#This is the minimum height in pixels for term and definition/picture items during the test output.
 assessment#:#assOrderingHorizontal#:#Ordering Question (Horizontal)
+assessment#:#assErrorText#:#Error Text
 assessment#:#ordertext#:#Ordering Text
 assessment#:#ordertext_info#:#Please enter the text that should be ordered horizontally. The ordering text will be separated by the whitespace signs in the text. If you need a different separation, you may use the separator %s to separate your text units.
 assessment#:#textsize#:#Text Size
 assessment#:#textsize_info#:#Enter the text size of the ordering text in percent if you want another size than 100 percent.
+assessment#:#textsize_errortext_info#:#Enter the text size of the error text in percent if you want another size than 100 percent.
 common#:#loginname_settings#:#Loginname-Settings
 common#:#allow_change_loginname#:#Allow to change the login name
 common#:#create_history_loginname#:#Create a history for changed login names
@@ -9770,3 +9772,5 @@ content#:#cont_replace_mob_feature_info#:#Activates a feature that allows to rep
 assessment#:#tst_remove_mark#:#Remove this mark
 assessment#:#tst_show_side_list#:#Show question list aside
 assessment#:#tst_hide_side_list#:#Hide question list
+assessment#:#errortext#:#Error Text
+assessment#:#errortext_info#:#Please enter the error text.
