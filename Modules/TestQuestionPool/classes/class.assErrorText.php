@@ -550,7 +550,7 @@ class assErrorText extends assQuestion
 			$points = 0.0;
 			foreach ($temp as $object)
 			{
-				if (ilStr::strcmp($object->text_wrong, $error) == 0)
+				if (strcmp($object->text_wrong, $error) == 0)
 				{
 					$text_correct = $object->text_correct;
 					$points = $object->points;
