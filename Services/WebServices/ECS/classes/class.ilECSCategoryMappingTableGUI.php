@@ -101,9 +101,6 @@ class ilECSCategoryMappingTableGUI extends ilTable2GUI
 	
 	private function buildPath($a_ref_id)
 	{
-		// TODO: Implement another class for creating the path
-		include_once './classes/class.ilLocatorGUI.php';
-		
 		$loc = new ilLocatorGUI();
 		$loc->setTextOnly(false);
 		$loc->addContextItems($a_ref_id);
