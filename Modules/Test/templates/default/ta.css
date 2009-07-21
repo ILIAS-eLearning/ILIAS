@@ -259,12 +259,16 @@ ul#horizontal li {
 }
 
 table.imagemapareas tr,
+table.kvpwizard tr,
+table.errortextwizard tr,
 table.singlechoicewizard tr,
 table.multiplechoicewizard tr {
 	vertical-align: top;
 }
 
 table.imagemapareas th,
+table.kvpwizard th,
+table.errortextwizard th,
 table.singlechoicewizard th,
 table.multiplechoicewizard th {
 	font-size: 90%;
@@ -310,4 +314,8 @@ ul.shortlist li {
 
 ul.shortlist li.active {
 	font-weight: bold;
+}
+
+.number {
+	text-align: right;
 }

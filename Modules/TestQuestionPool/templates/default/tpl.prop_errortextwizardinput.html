@@ -1,9 +1,10 @@
 <div id="{ELEMENT_ID}">
-	<table class="kvpwizard">
+	<table class="errortextwizard">
 		<thead>
 			<tr>
 				<th>{KEY_TEXT}</th>
 				<th>{VALUE_TEXT}</th>
+				<th>{POINTS_TEXT}</th>
 			</tr>
 		</thead>
 		<tbody>
@@ -15,13 +16,8 @@
 				<td>
 					<input type="text" size="{VALUE_SIZE}" id="{VALUE_ID}" maxlength="{VALUE_MAXLENGTH}" name="{POST_VAR}[value][{ROW_NUMBER}]" <!-- BEGIN prop_value_propval -->value="{PROPERTY_VALUE}" <!-- END prop_value_propval -->{DISABLED_VALUE}/>
 				</td>
-				<td style="vertical-align: top;">
-					<input type="image" name="{CMD_ADD}" class="kvp_add" id="add_{ID}" src="{ADD_BUTTON}" onclick="javascript: void(0); return false;" />
-					<input type="image" name="{CMD_REMOVE}" class="kvp_remove" id="remove_{ID}" src="{REMOVE_BUTTON}" onclick="javascript: void(0); return false;" />
-<!-- BEGIN move -->
-					<input type="image" name="{CMD_UP}" class="kvp_up" id="up_{ID}" src="{UP_BUTTON}" onclick="javascript: void(0); return false;" />
-					<input type="image" name="{CMD_DOWN}" class="kvp_down" id="down_{ID}" src="{DOWN_BUTTON}" onclick="javascript: void(0); return false;" />
-<!-- END move -->
+				<td>
+					<input type="text" class="number" size="3" id="{POINTS_ID}" name="{POST_VAR}[points][{ROW_NUMBER}]" <!-- BEGIN prop_points_propval -->value="{PROPERTY_VALUE}" <!-- END prop_points_propval -->{DISABLED_POINTS}/>
 				</td>
 			</tr>
 <!-- END row -->
