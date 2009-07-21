@@ -13262,7 +13262,7 @@ $ilDB->addTableColumn("ldap_role_assignments", "plugin_id", $atts);
 ?>
 <#2519>
 <?php
-	$ilDB->manipulate("ALTER TABLE `aicc_units` CHANGE `max_score` `max_score` FLOAT NOT NULL DEFAULT '0'");
+	$ilDB->manipulate("ALTER TABLE `aicc_units` CHANGE `max_score` `max_score` FLOAT NULL DEFAULT NULL");
 ?>
 <#2520>
 <?php
@@ -13314,7 +13314,7 @@ $ilDB->addTableColumn("ldap_role_assignments", "plugin_id", $atts);
 ?>
 <#2532>
 <?php
-	$ilDB->manipulate("ALTER TABLE `cmi_interaction` CHANGE `weighting` `weighting` FLOAT NOT NULL DEFAULT '0'");
+	$ilDB->manipulate("ALTER TABLE `cmi_interaction` CHANGE `weighting` `weighting` FLOAT NULL DEFAULT NULL");
 ?>
 <#2533>
 <?php	
@@ -13330,51 +13330,51 @@ $ilDB->addTableColumn("ldap_role_assignments", "plugin_id", $atts);
 ?>
 <#2536>
 <?php		
-	$ilDB->manipulate("ALTER TABLE `cmi_node` CHANGE `attemptCompletionAmount` `attemptcomplamount` FLOAT NOT NULL DEFAULT '0'");
+	$ilDB->manipulate("ALTER TABLE `cmi_node` CHANGE `attemptCompletionAmount` `attemptcomplamount` FLOAT NULL DEFAULT NULL");
 ?>
 <#2537>
 <?php	
-	$ilDB->manipulate("ALTER TABLE `cmi_node` CHANGE `audio_level` `audio_level` FLOAT NOT NULL DEFAULT '0'");
+	$ilDB->manipulate("ALTER TABLE `cmi_node` CHANGE `audio_level` `audio_level` FLOAT NULL DEFAULT NULL");
 ?>
 <#2538>
 <?php	
-	$ilDB->manipulate("ALTER TABLE `cmi_node` CHANGE `completion` `completion` FLOAT NOT NULL DEFAULT '0'");
+	$ilDB->manipulate("ALTER TABLE `cmi_node` CHANGE `completion` `completion` FLOAT NULL DEFAULT NULL");
 ?>
 <#2539>
 <?php
-	$ilDB->manipulate("ALTER TABLE `cmi_node` CHANGE `delivery_speed` `delivery_speed` FLOAT NOT NULL DEFAULT '0'");
+	$ilDB->manipulate("ALTER TABLE `cmi_node` CHANGE `delivery_speed` `delivery_speed` FLOAT NULL DEFAULT NULL");
 ?>
 <#2540>
 <?php
-	$ilDB->manipulate("ALTER TABLE `cmi_node` CHANGE `max` `c_max` FLOAT NOT NULL DEFAULT '0'");
+	$ilDB->manipulate("ALTER TABLE `cmi_node` CHANGE `max` `c_max` FLOAT NULL DEFAULT NULL");
 ?>
 <#2541>
 <?php	
-	$ilDB->manipulate("ALTER TABLE `cmi_node` CHANGE `min` `c_min` FLOAT NOT NULL DEFAULT '0'");
+	$ilDB->manipulate("ALTER TABLE `cmi_node` CHANGE `min` `c_min` FLOAT NULL DEFAULT NULL");
 ?>
 <#2542>
 <?php	
-	$ilDB->manipulate("ALTER TABLE `cmi_node` CHANGE `progress_measure` `progress_measure` FLOAT NOT NULL DEFAULT '0'");
+	$ilDB->manipulate("ALTER TABLE `cmi_node` CHANGE `progress_measure` `progress_measure` FLOAT NULL DEFAULT NULL");
 ?>
 <#2543>
 <?php	
-	$ilDB->manipulate("ALTER TABLE `cmi_node` CHANGE `raw` `c_raw` FLOAT NOT NULL DEFAULT '0'");
+	$ilDB->manipulate("ALTER TABLE `cmi_node` CHANGE `raw` `c_raw` FLOAT NULL DEFAULT NULL");
 ?>
 <#2544>
 <?php	
-	$ilDB->manipulate("ALTER TABLE `cmi_node` CHANGE `scaled` `scaled` FLOAT NOT NULL DEFAULT '0'");
+	$ilDB->manipulate("ALTER TABLE `cmi_node` CHANGE `scaled` `scaled` FLOAT NULL DEFAULT NULL");
 ?>
 <#2545>
 <?php	
-	$ilDB->manipulate("ALTER TABLE `cmi_node` CHANGE `scaled_passing_score` `scaled_passing_score` FLOAT NOT NULL DEFAULT '0'");
+	$ilDB->manipulate("ALTER TABLE `cmi_node` CHANGE `scaled_passing_score` `scaled_passing_score` FLOAT NULL DEFAULT NULL");
 ?>
 <#2546>
 <?php	
-	$ilDB->manipulate("ALTER TABLE `cmi_node` CHANGE `launch_data` `launch_data` VARCHAR(4000) NULL DEFAULT NULL");
+	$ilDB->modifyTableColumn("cmi_node", "launch_data", array("type" => "clob", "notnull" => false));	
 ?>
 <#2547>
 <?php
-	$ilDB->manipulate("ALTER TABLE `cmi_node` CHANGE `suspend_data` `suspend_data` VARCHAR(4000) NULL DEFAULT NULL");
+	$ilDB->modifyTableColumn("cmi_node", "suspend_data", array("type" => "clob", "notnull" => false));		
 ?>
 <#2548>
 <?php	
@@ -13724,7 +13724,7 @@ $ilMySQLAbstraction->performAbstraction('cp_package');
 ?>
 <#2636>
 <?php
-	$ilDB->manipulate("ALTER TABLE `cp_suspend` CHANGE `data` `data` VARCHAR(4000) NULL DEFAULT NULL");
+	$ilDB->modifyTableColumn("cp_suspend", "data", array("type" => "clob", "notnull" => false));	
 ?>
 <#2637>
 <?php
@@ -13792,7 +13792,7 @@ $ilMySQLAbstraction->performAbstraction('cp_package');
 ?>
 <#2653>
 <?php
-	$ilDB->manipulate("ALTER TABLE `sc_item` CHANGE `datafromlms` `datafromlms` VARCHAR(4000) NULL DEFAULT NULL");
+	$ilDB->modifyTableColumn("sc_item", "datafromlms", array("type" => "clob", "notnull" => false));		
 ?>
 <#2654>
 <?php
@@ -14752,4 +14752,34 @@ $ilDB->addTableColumn("usr_data", "birthday", array("type" => "date", "notnull" 
 <?php
 	$ilDB->dropIndex('sahs_sc13_seq_node','i1');
 ?>
-
+<#2789>
+<?php
+	$ilDB->modifyTableColumn("cmi_node", "audio_level", array("type" => "float", "notnull" => false, "default" => NULL ));	
+	$ilDB->modifyTableColumn("cmi_node", "completion", array("type" => "float", "notnull" => false, "default" => NULL ));	
+	$ilDB->modifyTableColumn("aicc_units", "max_score", array("type" => "float", "notnull" => false, "default" => NULL ));	
+	$ilDB->modifyTableColumn("cmi_interaction", "weighting", array("type" => "float", "notnull" => false, "default" => NULL ));	
+	$ilDB->modifyTableColumn("cmi_node", "attemptcomplamount", array("type" => "float", "notnull" => false, "default" => NULL ));
+	$ilDB->modifyTableColumn("cmi_node", "delivery_speed", array("type" => "float", "notnull" => false, "default" => NULL ));
+	$ilDB->modifyTableColumn("cmi_node", "c_max", array("type" => "float", "notnull" => false, "default" => NULL ));
+	$ilDB->modifyTableColumn("cmi_node", "c_min", array("type" => "float", "notnull" => false, "default" => NULL ));
+	$ilDB->modifyTableColumn("cmi_node", "progress_measure", array("type" => "float", "notnull" => false, "default" => NULL ));
+	$ilDB->modifyTableColumn("cmi_node", "c_raw", array("type" => "float", "notnull" => false, "default" => NULL ));
+	$ilDB->modifyTableColumn("cmi_node", "scaled", array("type" => "float", "notnull" => false, "default" => NULL ));
+	$ilDB->modifyTableColumn("cmi_node", "scaled_passing_score", array("type" => "float", "notnull" => false, "default" => NULL ));
+	$ilDB->modifyTableColumn("cmi_node", "launch_data", array("type" => "clob", "notnull" => false));	
+	$ilDB->modifyTableColumn("cmi_node", "suspend_data", array("type" => "clob", "notnull" => false));	
+	$ilDB->modifyTableColumn("cp_suspend", "data", array("type" => "clob", "notnull" => false));		
+	$ilDB->modifyTableColumn("sc_item", "datafromlms", array("type" => "clob", "notnull" => false));		
+?>
+<#2790>
+<?php
+	$ilMySQLAbstraction->performAbstraction("payment_bill_vendor");
+?>
+<#2791>
+<?php
+	$ilMySQLAbstraction->performAbstraction("payment_topic_usr_sort");
+?>
+<#2792>
+<?php
+	$ilMySQLAbstraction->performAbstraction("payment_news");
+?>
