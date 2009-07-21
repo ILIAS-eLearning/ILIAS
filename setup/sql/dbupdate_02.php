@@ -14859,3 +14859,7 @@ $ilCtrlStructureReader->getStructure();
 <?php
 $ilDB->createSequence("qpl_a_errortext");
 ?>
+<#2798>
+<?php
+	$ilMySQLAbstraction->performAbstraction("ecs_container_mapping");
+?>

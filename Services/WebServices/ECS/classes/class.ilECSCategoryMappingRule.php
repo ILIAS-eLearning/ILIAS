@@ -223,9 +223,10 @@ class ilECSCategoryMappingRule
 	 */
 	public function delete()
 	{
-		$sta = $this->db->prepareManip('DELETE FROM ecs_container_mapping WHERE mapping_id = ?',array('integer'));
-		$par = array($this->getMappingId());
-		$res = $this->db->execute($sta,$par);
+		$sta = $this->db->manipulateF('DELETE FROM ecs_container_mapping WHERE mapping_id = %s ',
+			array('integer'),
+			array($this->getMappingId())
+		);
 	}
 	
 	/**
@@ -234,25 +235,25 @@ class ilECSCategoryMappingRule
 	 */
 	public function update()
 	{
-		$sta = $this->db->prepareManip(
+		$sta = $this->db->manipulateF(
 			'UPDATE ecs_container_mapping SET '.
-			'container_id = ?, '.
-			'field_name = ?, '.
-			'mapping_type = ?, '.
-			'mapping_value = ?, '.
-			'date_range_start = ?,'.
-			'date_range_end = ? '.
-			'WHERE mapping_id = ?',
-			array('integer','clob','integer','clob','integer','integer','integer'));
-		$par = array(
+			'container_id = %s, '.
+			'field_name = %s, '.
+			'mapping_type = %s, '.
+			'mapping_value = %s, '.
+			'date_range_start = %s,'.
+			'date_range_end = %s '.
+			'WHERE mapping_id = %s',
+			array('integer','text','integer','text','integer','integer','integer'),
+			array(
 			$this->getContainerId(),
 			$this->getFieldName(),
 			$this->getMappingType(),
 			$this->getMappingValue(),
 			$this->getDateRangeStart()->get(IL_CAL_UNIX),
 			$this->getDateRangeEnd()->get(IL_CAL_UNIX),
-			$this->getMappingId());
-		$this->db->execute($sta,$par);
+			$this->getMappingId())
+		);
 	}
 	
 	/**
@@ -261,20 +262,23 @@ class ilECSCategoryMappingRule
 	 */
 	public function save()
 	{
-		$sta = $this->db->prepareManip(
+		global $ilDB;
+		
+		$mapping_id = $ilDB->nextId('ecs_container_mapping');
+		$sta = $this->db->manipulateF(
 			'INSERT INTO ecs_container_mapping  '.
-			'(container_id,field_name,mapping_type,mapping_value,date_range_start,date_range_end) '.
-			'VALUES(?,?,?,?,?,?) ',
-			array('integer','clob','integer','clob','integer','integer'));
-		$par = array(
-			$this->getContainerId(),
-			$this->getFieldName(),
-			$this->getMappingType(),
-			$this->getMappingValue(),
-			$this->getDateRangeStart()->get(IL_CAL_UNIX),
-			$this->getDateRangeEnd()->get(IL_CAL_UNIX));
-		$this->db->execute($sta,$par);
-		 
+			'(mapping_id,container_id,field_name,mapping_type,mapping_value,date_range_start,date_range_end) '.
+			'VALUES(%s,%s,%s,%s,%s,%s,%s) ',
+			array('integer','integer','text','integer','text','integer','integer'),
+			array(
+				$mapping_id,
+				$this->getContainerId(),
+				$this->getFieldName(),
+				$this->getMappingType(),
+				$this->getMappingValue(),
+				$this->getDateRangeStart()->get(IL_CAL_UNIX),
+				$this->getDateRangeEnd()->get(IL_CAL_UNIX))
+			);
 	}
 	
 	/**
@@ -460,8 +464,10 @@ class ilECSCategoryMappingRule
 		{
 			return false;
 		}
-		$sta = $this->db->prepare('SELECT * FROM ecs_container_mapping WHERE mapping_id = ?',array('integer'));
-		$res = $this->db->execute($sta,array($this->getMappingId()));
+		$res = $this->db->queryF('SELECT * FROM ecs_container_mapping WHERE mapping_id = %s',
+			array('integer'),
+			array($this->getMappingId())
+		);
 		while($row = $this->db->fetchObject($res))
 		{
 			$this->setMappingId($row->mapping_id);
