@@ -214,7 +214,7 @@ class ilObjMediaCast extends ilObject
 			", downloadable = ".$ilDB->quote((int) $this->getDownloadable(), "integer").
 		    ", def_access = ".$ilDB->quote((int) $this->getDefaultAccess(), "integer").
 			" WHERE id = ".$ilDB->quote((int) $this->getId(), "integer");
-		
+
 		$ilDB->manipulate($query);
 
 		return true;
