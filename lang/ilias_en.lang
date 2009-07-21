@@ -9775,3 +9775,7 @@ assessment#:#tst_hide_side_list#:#Hide question list
 assessment#:#errortext#:#Error Text
 assessment#:#errortext_info#:#Please enter the error text.
 assessment#:#analyze_errortext#:#Analyze Error Text
+assessment#:#text_wrong#:#Wrong Text
+assessment#:#text_correct#:#Correct Text
+assessment#:#errors#:#Errors
+assessment#:#errors_section#:#Error Data

@@ -82,6 +82,15 @@ class assErrorTextGUI extends assQuestionGUI
 			$this->writeOtherPostData();
 			$this->object->setTextSize(ilUtil::stripSlashes($_POST["textsize"]));
 			$this->object->setErrorText(ilUtil::stripSlashes($_POST["errortext"]));
+			
+			$this->object->flushErrorData();
+			if (is_array($_POST['errordata']['key']))
+			{
+				foreach ($_POST['errordata']['key'] as $idx => $val)
+				{
+					$this->object->addErrorData(ilUtil::stripSlashes($val), ilUtil::stripSlashes($_POST['errordata']['value'][$idx]), ilUtil::stripSlashes($_POST['errordata']['points'][$idx]));
+				}
+			}
 			return 0;
 		}
 		else
@@ -172,7 +181,22 @@ class assErrorTextGUI extends assQuestionGUI
 		$textsize->setRequired(true);
 		$form->addItem($textsize);
 		
-		$form->addCommandButton("anaylyze", $this->lng->txt('analyze_errortext'));
+		if (count($this->object->getErrorData()))
+		{
+			$header = new ilFormSectionHeaderGUI();
+			$header->setTitle($this->lng->txt("errors_section"));
+			$form->addItem($header);
+
+			include_once "./Modules/TestQuestionPool/classes/class.ilErrorTextWizardInputGUI.php";
+			$errordata = new ilErrorTextWizardInputGUI($this->lng->txt("errors"), "errordata");
+			$values = array();
+			$errordata->setKeyName($this->lng->txt('text_wrong'));
+			$errordata->setValueName($this->lng->txt('text_correct'));
+			$errordata->setValues($this->object->getErrorData());
+			$form->addItem($errordata);
+		}
+
+		$form->addCommandButton("analyze", $this->lng->txt('analyze_errortext'));
 		$form->addCommandButton("save", $this->lng->txt("save"));
 		$form->addCommandButton("saveEdit", $this->lng->txt("save_edit"));
 		
@@ -195,7 +219,7 @@ class assErrorTextGUI extends assQuestionGUI
 	public function analyze()
 	{
 		$this->writePostData(true);
-		$this->object->setErrorData($this->object->getErrorsFromText($_POST['errortext']));
+		$this->object->setErrorData($this->object->getErrorsFromText(ilUtil::stripSlashes($_POST['errortext'])));
 		$this->editQuestion();
 	}
 
@@ -322,15 +346,7 @@ class assErrorTextGUI extends assQuestionGUI
 	function getPreview($show_question_only = FALSE)
 	{
 		$template = new ilTemplate("tpl.il_as_qpl_errortext_output.html",TRUE, TRUE, "Modules/TestQuestionPool");
-		$elements = $this->object->getRandomOrderingElements();
-		foreach ($elements as $id => $element)
-		{
-			$template->setCurrentBlock("element");
-			$template->setVariable("ELEMENT_ID", "e$id");
-			$template->setVariable("ELEMENT_VALUE", ilUtil::prepareFormOutput($element));
-			$template->parseCurrentBlock();
-		}
-		if ($this->object->textsize >= 10) echo $template->setVariable("STYLE", " style=\"font-size: " . $this->object->textsize . "%;\"");
+		if ($this->object->getTextSize() >= 10) echo $template->setVariable("STYLE", " style=\"font-size: " . $this->object->getTextSize() . "%;\"");
 		$template->setVariable("QUESTIONTEXT", $this->object->prepareTextareaOutput($this->object->question, TRUE));
 		$questionoutput = $template->get();
 		if (!$show_question_only)
@@ -338,9 +354,11 @@ class assErrorTextGUI extends assQuestionGUI
 			// get page object output
 			$questionoutput = $this->getILIASPage($questionoutput);
 		}
+		/*
 		include_once "./Services/YUI/classes/class.ilYuiUtil.php";
 		ilYuiUtil::initDragDropAnimation();
 		$this->tpl->addJavascript("./Modules/TestQuestionPool/templates/default/orderinghorizontal.js");
+		*/
 		return $questionoutput;
 	}
 

@@ -158,11 +158,11 @@ class assErrorText extends assQuestion
 		{
 			$next_id = $ilDB->nextId('qpl_a_errortext');
 			$affectedRows = $ilDB->manipulateF("INSERT INTO qpl_a_errortext (answer_id, question_fi, text_wrong, text_correct, points, sequence) VALUES (%s, %s, %s, %s, %s, %s)",
-				array('integer','integer','text','text','float'),
+				array('integer','integer','text','text','float', 'integer'),
 				array(
 					$next_id,
 					$this->getId(),
-					$object->txt_wrong,
+					$object->text_wrong,
 					$object->text_correct,
 					$object->points,
 					$sequence++
@@ -214,7 +214,7 @@ class assErrorText extends assQuestion
 		{
 			while ($data = $ilDB->fetchAssoc($result))
 			{
-				array_push($this->errordata, new assAnswerErrorText($data["text_wrong"], $data["text_correct"], $data["poings"]));
+				array_push($this->errordata, new assAnswerErrorText($data["text_wrong"], $data["text_correct"], $data["points"]));
 			}
 		}
 
@@ -541,7 +541,48 @@ class assErrorText extends assQuestion
 	
 	public function setErrorData($a_data)
 	{
-		
+		include_once "./Modules/TestQuestionPool/classes/class.assAnswerErrorText.php";
+		$temp = $this->errordata;
+		$this->errordata = array();
+		foreach ($a_data as $error)
+		{
+			$text_correct = "";
+			$points = 0.0;
+			foreach ($temp as $object)
+			{
+				if (ilStr::strcmp($object->text_wrong, $error) == 0)
+				{
+					$text_correct = $object->text_correct;
+					$points = $object->points;
+					continue;
+				}
+			}
+			array_push($this->errordata, new assAnswerErrorText($error, $text_correct, $points));
+		}
+	}
+	
+	/**
+	* Flush error data
+	*/
+	public function flushErrorData()
+	{
+		$this->errordata = array();
+	}
+	
+	public function addErrorData($text_wrong, $text_correct, $points)
+	{
+		include_once "./Modules/TestQuestionPool/classes/class.assAnswerErrorText.php";
+		array_push($this->errordata, new assAnswerErrorText($text_wrong, $text_correct, $points));
+	}
+	
+	/**
+	* Get error data
+	*
+	* @return array Error data
+	*/
+	public function getErrorData()
+	{
+		return $this->errordata;
 	}
 	
 	/**
