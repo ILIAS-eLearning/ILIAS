@@ -565,9 +565,10 @@ class assErrorText extends assQuestion
 		}
 	}
 	
-	public function createErrorTextOutput($selections = null)
+	public function createErrorTextOutput($selections = null, $graphicalOutput = false, $correct_solution = false)
 	{
 		$counter = 0;
+		$errorcounter = 0;
 		if (!is_array($selections)) $selections = array();
 		$textarray = preg_split("/[\n\r]+/", $this->getErrorText());
 		foreach ($textarray as $textidx => $text)
@@ -578,18 +579,75 @@ class assErrorText extends assQuestion
 				if (strpos($item, '#') === 0)
 				{
 					$item = ilStr::substr($item, 1, ilStr::strlen($item));
+					if ($correct_solution)
+					{
+						$errorobject = $this->errordata[$errorcounter];
+						if (is_object($errorobject))
+						{
+							$item = $errorobject->text_correct;
+						}
+						$errorcounter++;
+					}
 				}
 				$class = '';
+				$img = '';
 				if (in_array($counter, $selections))
 				{
 					$class = ' class="sel"';
+					if ($graphicalOutput)
+					{
+						if ($this->getPointsForSelectedPositions(array($counter)) >= 0)
+						{
+							$img = ' <img src="' . ilUtil::getImagePath("icon_ok.gif") . '" alt="' . $this->lng->txt("answer_is_right") . '" title="' . $this->lng->txt("answer_is_right") . '" /> ';
+						}
+						else
+						{
+							$img = ' <img src="' . ilUtil::getImagePath("icon_not_ok.gif") . '" alt="' . $this->lng->txt("answer_is_wrong") . '" title="' . $this->lng->txt("answer_is_wrong") . '" /> ';
+						}
+					}
 				}
-				$items[$idx] = '<a' . $class . ' href="#HREF" onclick="javascript: return false;">' . ilUtil::prepareFormOutput($item) . '</a>';
+				$items[$idx] = '<a' . $class . ' href="#HREF" onclick="javascript: return false;">' . ilUtil::prepareFormOutput($item) . '</a>' . $img;
 				$counter++;
 			}
 			$textarray[$textidx] = '<p>' . join($items, " ") . '</p>';
 		}
 		return join($textarray, "\n");
+	}
+	
+	public function getBestSelection()
+	{
+		$words = array();
+		$counter = 0;
+		$errorcounter = 0;
+		$textarray = preg_split("/[\n\r]+/", $this->getErrorText());
+		foreach ($textarray as $textidx => $text)
+		{
+			$items = preg_split("/\s+/", $text);
+			foreach ($items as $word)
+			{
+				$points = $this->getPointsWrong();
+				if (strpos($word, '#') === 0)
+				{
+					$errorobject = $this->errordata[$errorcounter];
+					if (is_object($errorobject))
+					{
+						$points = $errorobject->points;
+					}
+					$errorcounter++;
+				}
+				$words[$counter] = array("word" => $word, "points" => $points);
+				$counter++;
+			}
+		}
+		$selections = array();
+		foreach ($words as $idx => $word)
+		{
+			if ($word['points'] > 0)
+			{
+				array_push($selections, $idx);
+			}
+		}
+		return $selections;
 	}
 	
 	protected function getPointsForSelectedPositions($positions)
@@ -603,7 +661,7 @@ class assErrorText extends assQuestion
 			$items = preg_split("/\s+/", $text);
 			foreach ($items as $word)
 			{
-				$points = 0;
+				$points = $this->getPointsWrong();
 				if (strpos($word, '#') === 0)
 				{
 					$errorobject = $this->errordata[$errorcounter];
