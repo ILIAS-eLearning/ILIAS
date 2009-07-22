@@ -9123,22 +9123,22 @@ payment#:#paya_sure_delete_vat#:#Are you sure, you want to delete this vat?###30
 payment#:#paya_vat_not_deleted#:#This vat rate is not deleted###30 04 2009 new variable
 payment#:#unlimited_duration#:#Unlimited duration###30 04 2009 new variable
 payment#:#vats#:#Vats###30 04 2009 new variable
-mail#:#invite_to_chat#:#Invite to Chat###30 04 2009 new variable
-mail#:#mail_invite_users_to_chat#:#Invite Users to Chat###30 04 2009 new variable
-mail#:#chat_select_room#:#Select Chat Room###30 04 2009 new variable
+mail#:#invite_to_chat#:#Inviter til chat
+mail#:#mail_invite_users_to_chat#:#Inviter brugere til chat
+mail#:#chat_select_room#:#Vælg chatrum
 mail#:#chat_users_without_permission#:#The following Users don't have access to the selected Chat Room.###30 04 2009 new variable
 mail#:#chat_users_have_been_invited#:#The Users have been invited.###30 04 2009 new variable
 mail#:#goto_invitation_chat#:#Open Chat Room###30 04 2009 new variable
 mail#:#chat_users_without_login#:#The following Users don't have an ILIAS Account and can't be invited to a Chat Room###30 04 2009 new variable
 chat#:#chat_open#:#Enter Room###30 04 2009 new variable
-chat#:#chat_kick#:#Kick###30 04 2009 new variable
-chat#:#chat_unkick#:#Unkick###30 04 2009 new variable
+chat#:#chat_kick#:#Smid ud
+chat#:#chat_unkick#:#Vis nåde
 chat#:#chat_add_to_bookmark#:#Add to Bookmarks###30 04 2009 new variable
 chat#:#chat_add_to_addressbook#:#Add to Contacts###30 04 2009 new variable
 chat#:#chat_confirm_delete_private_room#:#Are you sure to delete this private room?###30 04 2009 new variable
 chat#:#chat_confirm_kick_user#:#Are you sure to kick this user?###30 04 2009 new variable
 chat#:#chat_user_unkicked#:#The user has been unkicked.###30 04 2009 new variable
-chat#:#chat_invite#:#Invite###30 04 2009 new variable
+chat#:#chat_invite#:#Inviter
 chat#:#chat_disinvite#:#Disinvite###30 04 2009 new variable
 chat#:#chat_confirm_user_invite#:#The User will be invited to this Chat Room###30 04 2009 new variable
 chat#:#chat_added_to_bookmarks#:#The Room ' %s ' has been added to the top folder of your Bookmarks###30 04 2009 new variable
@@ -9189,8 +9189,8 @@ search#:#lucene_advances_settings_table#:#Advances Search Settings###30 04 2009 
 search#:#lucene_activate_field#:#Activate Search###30 04 2009 new variable
 common#:#bookmark_added#:#The Bookmark has been created.###30 04 2009 new variable
 common#:#bookmark_save_to#:#save as bookmark###30 04 2009 new variable
-common#:#pd_enable_chatviewer#:#Enable Chatviewer###30 04 2009 new variable
-common#:#chat_settings#:#Chat Settings###30 04 2009 new variable
+common#:#pd_enable_chatviewer#:#Aktiver chatviser
+common#:#chat_settings#:#Chatindstillinger
 survey#:#use_anonymous_id#:#Show survey code###30 04 2009 new variable
 survey#:#use_anonymous_id_desc#:#If checked, the user name in anonymized surveys will be shown as the survey code, otherwise the text "Anonymous" will be shown.###30 04 2009 new variable
 chat#:#chat_smilies_dir_not_exists#:#The smiley data directory does not exist. Trying to setup folders and database.###30 04 2009 new variable
@@ -9211,9 +9211,9 @@ acc#:#acc_access_keys#:#Access Keys###30 04 2009 new variable
 acc#:#acc_access_key#:#Access Key###30 04 2009 new variable
 acc#:#acc_component#:#Component###30 04 2009 new variable
 acc#:#acc_function#:#Function###30 04 2009 new variable
-acc#:#acc_next#:#Next###30 04 2009 new variable
-acc#:#acc_previous#:#Previous###30 04 2009 new variable
-acc#:#acc_delete#:#Delete###30 04 2009 new variable
+acc#:#acc_next#:#Næste
+acc#:#acc_previous#:#Forrige
+acc#:#acc_delete#:#Slet
 acc#:#acc_last_visited#:#Last Visited###30 04 2009 new variable
 acc#:#acc_tree_on#:#Tree On###30 04 2009 new variable
 acc#:#acc_tree_off#:#Tree Off###30 04 2009 new variable
@@ -9582,16 +9582,16 @@ style#:#sty_characteristic_already_exists#:#A style class with this title alread
 content#:#cont_pc_flist#:#File List###26 06 2009 new variable
 content#:#cont_pc_par#:#Text###26 06 2009 new variable
 content#:#cont_pc_mob#:#Media###26 06 2009 new variable
-content#:#cont_pc_qst#:#Question###26 06 2009 new variable
+content#:#cont_pc_qst#:#Spørgsmål
 content#:#cont_pc_sec#:#Section###26 06 2009 new variable
 content#:#cont_pc_dtab#:#Data Table###26 06 2009 new variable
 content#:#cont_pc_tab#:#Advanced Table###26 06 2009 new variable
 content#:#cont_pc_code#:#Code###26 06 2009 new variable
 content#:#cont_pc_vacc#:#Accordion (Vertical)###26 06 2009 new variable
 content#:#cont_pc_hacc#:#Accordion (Horizontal)###26 06 2009 new variable
-content#:#cont_pc_res#:#Resource###26 06 2009 new variable
+content#:#cont_pc_res#:#Resurse
 content#:#cont_pc_map#:#Map###26 06 2009 new variable
-content#:#cont_pc_list#:#Advanced List###26 06 2009 new variable
+content#:#cont_pc_list#:#Detaljeret liste
 common#:#session_reminder_lead_time#:#Leadtime###26 06 2009 new variable
 common#:#session_reminder_lead_time_info#:#Please specify, how much seconds before the session expires you want the session reminder to display a warning. The current value for a user session is %s.###26 06 2009 new variable
 rbac#:#rbac_delete_role#:#Delete Role###26 06 2009 new variable
