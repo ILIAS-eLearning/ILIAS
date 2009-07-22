@@ -823,6 +823,56 @@ class ilPageObjectGUI
 	}
 
 	/**
+	 * Determine file download link
+	 *
+	 * @return	string	file download link
+	 */
+	function determineFileDownloadLink()
+	{
+		global $ilCtrl;
+		
+		$file_download_link = $this->getFileDownloadLink();
+		if ($this->getFileDownloadLink() == "" && $this->getOutputMode() != "offline")
+		{
+			$file_download_link = $ilCtrl->getLinkTarget($this, "downloadFile");
+		}
+		return $file_download_link;
+	}
+
+	/**
+	 * Determine fullscreen link
+	 *
+	 * @return	string	fullscreen link
+	 */
+	function determineFullscreenLink()
+	{
+		global $ilCtrl;
+
+		$fullscreen_link = $this->getFullscreenLink();
+		if ($this->getFullscreenLink() == "" && $this->getOutputMode() != "offline")
+		{
+			$fullscreen_link = $ilCtrl->getLinkTarget($this, "displayMediaFullscreen");
+		}
+		return $fullscreen_link;
+	}
+
+	/**
+	 * Determine source code download script
+	 *
+	 * @return	string	sourcecode download script
+	 */
+	function determineSourcecodeDownloadScript()
+	{
+		global $ilCtrl;
+		$l = $this->sourcecode_download_script;
+		if ($this->sourcecode_download_script == "" && $this->getOutputMode() != "offline")
+		{
+			$l = $ilCtrl->getLinkTarget($this, "");
+		}
+		return $l;
+	}
+
+	/**
 	* Put information about activated plugins into XML
 	*/
 	function getComponentPluginsXML()
@@ -1448,24 +1498,12 @@ class ilPageObjectGUI
 			ilAccordionGUI::addCss();
 		}
 
+		$file_download_link = $this->determineFileDownloadLink();
+		$fullscreen_link = $this->determineFullscreenLink();
+		$this->sourcecode_download_script = $this->determineSourcecodeDownloadScript();
+		
 		// default values for various parameters (should be used by
 		// all instances in the future)
-		$file_download_link = $this->getFileDownloadLink();
-		if ($this->getFileDownloadLink() == "" && $this->getOutputMode() != "offline")
-		{
-			$file_download_link = $ilCtrl->getLinkTarget($this, "downloadFile");
-		}
-		
-		$fullscreen_link = $this->getFullscreenLink();
-		if ($this->getFullscreenLink() == "" && $this->getOutputMode() != "offline")
-		{
-			$fullscreen_link = $ilCtrl->getLinkTarget($this, "displayMediaFullscreen");
-		}
-		
-		if ($this->sourcecode_download_script == "" && $this->getOutputMode() != "offline")
-		{
-			$this->sourcecode_download_script = $ilCtrl->getLinkTarget($this, "");
-		}
 		$media_mode = ($this->getOutputMode() == "edit")
 			? $ilUser->getPref("ilPageEditor_MediaMode")
 			: "enable";
@@ -1863,9 +1901,9 @@ class ilPageObjectGUI
 					
 					if ($this->getOutputMode() != "offline")
 					{
-						$page_gui->setFileDownloadLink($ilCtrl->getLinkTarget($this, "downloadFile"));
-						$page_gui->setFullscreenLink($ilCtrl->getLinkTarget($this, "displayMediaFullscreen"));
-						$page_gui->setSourceCodeDownloadScript($ilCtrl->getLinkTarget($this, ""));
+						$page_gui->setFileDownloadLink($this->determineFileDownloadLink());
+						$page_gui->setFullscreenLink($this->determineFullscreenLink());
+						$page_gui->setSourceCodeDownloadScript($this->determineSourcecodeDownloadScript());
 					}
 		
 					$html = $page_gui->getRawContent();
