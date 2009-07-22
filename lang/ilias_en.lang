@@ -9779,5 +9779,12 @@ assessment#:#text_wrong#:#Wrong Text
 assessment#:#text_correct#:#Correct Text
 assessment#:#errors#:#Errors
 assessment#:#errors_section#:#Error Data
+meta#:#md_general_settings#:#General Settings
+meta#:#md_delimiter#:#Delimiter
+meta#:#md_delimiter_info#:#The delimiter is used in the quick editing screen for keywords and authors separation. Default is ','.
+meta#:#md_separated_by#:#Separated by %s
+content#:#cont_text_keyword#:#Keyword
+search#:#search_hide_adv_search#:#Hide Advanced Search
+search#:#search_auto_complete_length#:#Number of Auto Complete List Entries
 assessment#:#points_wrong#:#Wrong Selections
 assessment#:#points_wrong_info#:#Enter the points for all selections that are not in the list of the marked errors.
