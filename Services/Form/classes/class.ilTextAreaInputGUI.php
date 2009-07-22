@@ -227,9 +227,9 @@ class ilTextAreaInputGUI extends ilSubEnabledFormPropertyGUI
 	* @param string $obj_type Object Type
 	* @param string $module ILIAS module
 	*/
-	function setRTESupport($obj_id, $obj_type, $module)
+	function setRTESupport($obj_id, $obj_type, $module, $cfg_template = null)
 	{
-		$this->rteSupport = array("obj_id" => $obj_id, "obj_type" => $obj_type, "module" => $module);
+		$this->rteSupport = array("obj_id" => $obj_id, "obj_type" => $obj_type, "module" => $module, 'cfg_template' => $cfg_template);
 	}
 	
 	/**
@@ -381,9 +381,9 @@ class ilTextAreaInputGUI extends ilSubEnabledFormPropertyGUI
 				$rte->setRTERootBlockElement($this->getRTERootBlockElement());
 			}
 			
-			if (count($this->rteSupport) == 3)
+			if (count($this->rteSupport) >= 3)
 			{
-				$rte->addRTESupport($this->rteSupport["obj_id"], $this->rteSupport["obj_type"], $this->rteSupport["module"]);
+				$rte->addRTESupport($this->rteSupport["obj_id"], $this->rteSupport["obj_type"], $this->rteSupport["module"], false, $this->rteSupport['cfg_template']);
 			}
 			else
 			{
