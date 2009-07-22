@@ -14,7 +14,8 @@ var help_line = {
 		n: '{TXT_ANC} [anc name="..."]text[/anc]  (alt+n)',
 		t: '{TXT_TEX} [tex]LaTeX code[/tex]  (alt+t)',
 		m: '{TXT_IMP} [imp]text[/imp]  (alt+m)',
-		a: '{TXT_ACC} [acc]text[/acc]  (alt+a)'
+		a: '{TXT_ACC} [acc]text[/acc]  (alt+a)',
+		k: '{TXT_KW} [kw]text[/kw]  (alt+k)'
 }
 
 function myhelpline(help)
@@ -29,7 +30,7 @@ function myhelpline(help)
 // Define the bbCode tags
 var bbcode = new Array();
 var bbtags = new Array('[str]','[/str]','[emp]','[/emp]','[com]','[/com]','[quot]','[/quot]','[code]','[/code]','[fn]','[/fn]','[iln page=""]','[/iln]','[xln url="http://"]','[/xln]',
-	'[url]','[/url]', '[tex]','[/tex]','[[',']]','[anc name=""]','[/anc]','[acc]','[/acc]','[imp]','[/imp]');
+	'[url]','[/url]', '[tex]','[/tex]','[[',']]','[anc name=""]','[/anc]','[acc]','[/acc]','[imp]','[/imp]','[kw]','[/kw]');
 imageTag = false;
 
 var form_name = 'post';
@@ -61,6 +62,9 @@ var upload = false;
 <!-- BEGIN bb_acc_button -->
 <a style="color:black;" class="ilEditSubmit" href="#" accesskey="a" name="addbbcode24" onClick="bbstyle(24)" onMouseOver="myhelpline('a')" ><span class="ilc_text_inline_Accent">&nbsp;acc&nbsp;</span></a>&nbsp;
 <!-- END bb_acc_button -->
+<!-- BEGIN bb_kw_button -->
+<a style="color:black;" class="ilEditSubmit" href="#" accesskey="k" name="addbbcode28" onClick="bbstyle(28)" onMouseOver="helpline('k')" >&nbsp;kw&nbsp;</a>&nbsp;
+<!-- END bb_kw_button -->
 <!-- BEGIN bb_code_button -->
 <a style="color:black;" class="ilEditSubmit" href="#" accesskey="d" name="addbbcode8" onClick="bbstyle(8)" onMouseOver="myhelpline('d')" ><code>&nbsp;code&nbsp;</code></a>&nbsp;
 <!-- END bb_code_button -->

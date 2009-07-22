@@ -1997,6 +1997,7 @@ if ($_GET["pgEdMediaMode"] != "") {echo "ilPageObject::error media"; exit;}
 			$mob_ids = ilObjMediaObject::_getMobsOfObject(
 				$this->getParentType().":pg", $this->getId());
 			$this->saveMobUsage($this->getXMLFromDom());
+			$this->saveMetaKeywords($this->getXMLFromDom());
 			foreach($mob_ids as $mob)	// check, whether media object can be deleted
 			{
 				if (ilObject::_exists($mob) && ilObject::_lookupType($mob) == "mob")
@@ -2109,6 +2110,85 @@ if ($_GET["pgEdMediaMode"] != "") {echo "ilPageObject::error media"; exit;}
 
 	}
 
+	/**
+	* save all keywords
+	*
+	* @param	string		$a_xml		xml data of page
+	*/
+	function saveMetaKeywords($a_xml)
+	{
+		// not nice, should be set by context per method
+		if ($this->getParentType() == "gdf" ||
+			$this->getParentType() == "lm" ||
+			$this->getParentType() == "dbk")
+		{
+			$doc = domxml_open_mem($a_xml);
+
+			// get existing keywords
+			$keywords = array();
+			
+			// find all Keyw tags
+			$xpc = xpath_new_context($doc);
+			$path = "//Keyw";
+			$res = xpath_eval($xpc, $path);
+			for ($i=0; $i < count($res->nodeset); $i++)
+			{
+				$k =  trim(strip_tags($res->nodeset[$i]->get_content()));
+				if (!in_array($k, $keywords))
+				{
+					$keywords[] = $k;
+				}
+			}
+			
+			$meta_type = ($this->getParentType() == "gdf")
+				? "gdf"
+				: "pg";
+			$meta_rep_id = $this->getParentId();
+			$meta_id = $this->getId();
+			
+			include_once("./Services/MetaData/classes/class.ilMD.php");
+			$md_obj = new ilMD($meta_rep_id, $meta_id, $meta_type);
+			$mkeywords = array();
+			$lang = "";
+			if(is_object($md_section = $md_obj->getGeneral()))
+			{
+				foreach($ids = $md_section->getKeywordIds() as $id)
+				{
+					$md_key = $md_section->getKeyword($id);
+					$mkeywords[] = strtolower($md_key->getKeyword());
+					if ($lang == "")
+					{
+						$lang = $md_key->getKeywordLanguageCode();
+					}
+				}
+			}
+			if ($lang == "")
+			{
+				foreach($ids = $md_section->getLanguageIds() as $id)
+				{
+					$md_lang = $md_section->getLanguage($id);
+					if ($lang == "")
+					{
+						$lang = $md_lang->getLanguageCode();
+					}
+				}
+			}
+			foreach ($keywords as $k)
+			{
+				if (!in_array(strtolower($k), $mkeywords))
+				{
+					if (trim($k) != "" && $lang != "")
+					{
+						$md_key = $md_section->addKeyword();
+						$md_key->setKeyword(ilUtil::stripSlashes($k));
+						$md_key->setKeywordLanguage(new ilMDLanguageItem($lang));
+						$md_key->save();
+					}
+					$mkeywords[] = strtolower($k);
+				}
+			}
+		}
+	}
 
 	/**
 	* save all usages of media objects (media aliases, media objects, internal links)

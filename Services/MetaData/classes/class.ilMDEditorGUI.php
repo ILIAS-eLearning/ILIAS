@@ -57,6 +57,9 @@ class ilMDEditorGUI
 
 		$this->lng =& $lng;
 		$this->lng->loadLanguageModule('meta');
+		
+		include_once('Services/MetaData/classes/class.ilMDSettings.php');
+		$this->md_settings = ilMDSettings::_getInstance();
 
 		$this->tpl =& $tpl;
 
@@ -504,8 +507,11 @@ class ilMDEditorGUI
 		foreach($ids = $this->md_section->getKeywordIds() as $id)
 		{
 			$md_key = $this->md_section->getKeyword($id);
-			$keywords[$md_key->getKeywordLanguageCode()][]
-				= $md_key->getKeyword();
+			if (trim($md_key->getKeyword()) != "")
+			{
+				$keywords[$md_key->getKeywordLanguageCode()][]
+					= $md_key->getKeyword();
+			}
 		}
 		
 		foreach($keywords as $lang => $keyword_set)
@@ -514,7 +520,8 @@ class ilMDEditorGUI
 			{
 				$this->tpl->setCurrentBlock("keyword_head");
 				$this->tpl->setVariable("ROWSPAN_KEYWORD", count($keywords));
-				$this->tpl->setVariable("TXT_COMMA_SEP2",$this->lng->txt('comma_separated'));
+				$this->tpl->setVariable("TXT_COMMA_SEP2",
+					sprintf($this->lng->txt('md_separated_by'), $this->md_settings->getDelimiter()));
 				$this->tpl->setVariable("KEYWORD_LOOP_TXT_KEYWORD", $this->lng->txt("keywords"));
 				$this->tpl->parseCurrentBlock();
 				$first = false;
@@ -522,7 +529,7 @@ class ilMDEditorGUI
 
 			$this->tpl->setCurrentBlock("keyword_loop");
 			$this->tpl->setVariable("KEYWORD_LOOP_VAL", ilUtil::prepareFormOutput(
-				implode($keyword_set, ", ")));
+				implode($keyword_set, $this->md_settings->getDelimiter()." ")));
 			$this->tpl->setVariable("LANG", $lang);
 			$this->tpl->setVariable("KEYWORD_LOOP_VAL_LANGUAGE", $this->__showLanguageSelect("keyword[language][$lang]",
 																					   $lang));
@@ -533,7 +540,8 @@ class ilMDEditorGUI
 		{
 			$this->tpl->setCurrentBlock("keyword_head");
 			$this->tpl->setVariable("ROWSPAN_KEYWORD", 1);
-			$this->tpl->setVariable("TXT_COMMA_SEP2",$this->lng->txt('comma_separated'));
+			$this->tpl->setVariable("TXT_COMMA_SEP2",
+				sprintf($this->lng->txt('md_separated_by'), $this->md_settings->getDelimiter()));
 			$this->tpl->setVariable("KEYWORD_LOOP_TXT_KEYWORD", $this->lng->txt("keywords"));
 			$this->tpl->parseCurrentBlock();
 			$this->tpl->setCurrentBlock("keyword_loop");
@@ -544,7 +552,8 @@ class ilMDEditorGUI
 		// Lifecycle...
 		// Authors
 		$this->tpl->setVariable("TXT_AUTHORS",$this->lng->txt('authors'));
-		$this->tpl->setVariable("TXT_COMMA_SEP",$this->lng->txt('comma_separated'));
+		$this->tpl->setVariable("TXT_COMMA_SEP",
+			sprintf($this->lng->txt('md_separated_by'), $this->md_settings->getDelimiter()));
 		if(is_object($this->md_section = $this->md_obj->getLifecycle()))
 		{
 			$sep = $ent_str = "";
@@ -557,7 +566,7 @@ class ilMDEditorGUI
 					{
 						$md_ent = $md_con->getEntity($ent_id);
 						$ent_str = $ent_str.$sep.$md_ent->getEntity();
-						$sep = ", ";
+						$sep = $this->md_settings->getDelimiter()." ";
 					}
 				}
 			}
@@ -686,7 +695,7 @@ class ilMDEditorGUI
 			foreach($_POST["keywords"]["value"] as $lang => $keywords)
 			{
 				$language = $_POST["keyword"]["language"][$lang];
-				$keywords = explode(",", $keywords);
+				$keywords = explode($this->md_settings->getDelimiter(), $keywords);
 				foreach($keywords as $keyword)
 				{
 					$new_keywords[$language][] = trim($keyword);
@@ -796,7 +805,7 @@ class ilMDEditorGUI
 			}
 			
 			// determine all entered authors
-			$auth_arr = explode(",", $_POST["life_authors"]);
+			$auth_arr = explode($this->md_settings->getDelimiter(), $_POST["life_authors"]);
 			for($i = 0; $i < count($auth_arr); $i++)
 			{
 				$auth_arr[$i] = trim($auth_arr[$i]);

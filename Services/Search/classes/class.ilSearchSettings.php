@@ -1,25 +1,5 @@
 <?php
-/*
-	+-----------------------------------------------------------------------------+
-	| ILIAS open source                                                           |
-	+-----------------------------------------------------------------------------+
-	| Copyright (c) 1998-2001 ILIAS open source, University of Cologne            |
-	|                                                                             |
-	| This program is free software; you can redistribute it and/or               |
-	| modify it under the terms of the GNU General Public License                 |
-	| as published by the Free Software Foundation; either version 2              |
-	| of the License, or (at your option) any later version.                      |
-	|                                                                             |
-	| This program is distributed in the hope that it will be useful,             |
-	| but WITHOUT ANY WARRANTY; without even the implied warranty of              |
-	| MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the               |
-	| GNU General Public License for more details.                                |
-	|                                                                             |
-	| You should have received a copy of the GNU General Public License           |
-	| along with this program; if not, write to the Free Software                 |
-	| Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA. |
-	+-----------------------------------------------------------------------------+
-*/
+/* Copyright (c) 1998-2009 ILIAS open source, Extended GPL, see docs/LICENSE */
 
 /**
 * Class ilObjSearchSettingsGUI
@@ -156,6 +136,23 @@ class ilSearchSettings
 		$this->fragmentCount = $a_count;
 	}
 
+	function getHideAdvancedSearch()
+	{
+		return $this->hide_adv_search ? true : false;
+	}
+	function setHideAdvancedSearch($a_status)
+	{
+		$this->hide_adv_search = $a_status;
+	}
+	function getAutoCompleteLength()
+	{
+		return $this->auto_complete_length;
+	}
+	function setAutoCompleteLength($auto_complete_length)
+	{
+		$this->auto_complete_length = $auto_complete_length;
+	}
+
 	public function getFragmentCount()
 	{
 		return $this->fragmentCount;
@@ -212,6 +209,8 @@ class ilSearchSettings
 		$this->ilias->setSetting('lucene_show_relevance',$this->isRelevanceVisible());
 		$this->ilias->setSetting('lucene_last_index_time',$this->getLastIndexTime()->get(IL_CAL_UNIX));
 		// END PATCH Lucene Search
+		$this->ilias->setSetting('hide_adv_search',(int) $this->getHideAdvancedSearch());
+		$this->ilias->setSetting('auto_complete_length',(int) $this->getAutoCompleteLength());
 
 		return true;
 	}
@@ -240,6 +239,8 @@ class ilSearchSettings
 		}
 		// END PATCH Lucene Search
 		
+		$this->setHideAdvancedSearch($this->ilias->getSetting('hide_adv_search',0));
+		$this->setAutoCompleteLength($this->ilias->getSetting('auto_complete_length',10));
 	}
 }
 ?>

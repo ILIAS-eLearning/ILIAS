@@ -1,25 +1,7 @@
 <?php
-/*
-	+-----------------------------------------------------------------------------+
-	| ILIAS open source                                                           |
-	+-----------------------------------------------------------------------------+
-	| Copyright (c) 1998-2001 ILIAS open source, University of Cologne            |
-	|                                                                             |
-	| This program is free software; you can redistribute it and/or               |
-	| modify it under the terms of the GNU General Public License                 |
-	| as published by the Free Software Foundation; either version 2              |
-	| of the License, or (at your option) any later version.                      |
-	|                                                                             |
-	| This program is distributed in the hope that it will be useful,             |
-	| but WITHOUT ANY WARRANTY; without even the implied warranty of              |
-	| MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the               |
-	| GNU General Public License for more details.                                |
-	|                                                                             |
-	| You should have received a copy of the GNU General Public License           |
-	| along with this program; if not, write to the Free Software                 |
-	| Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA. |
-	+-----------------------------------------------------------------------------+
-*/
+/* Copyright (c) 1998-2009 ILIAS open source, Extended GPL, see docs/LICENSE */
+
+require_once "classes/class.ilObjectGUI.php";
 
 /**
 * Class ilObjSearchSettingsGUI
@@ -32,9 +14,6 @@
 * @extends ilObjectGUI
 * @package ilias-core
 */
-
-require_once "classes/class.ilObjectGUI.php";
-
 class ilObjSearchSettingsGUI extends ilObjectGUI
 {
 	/**
@@ -100,6 +79,44 @@ class ilObjSearchSettingsGUI extends ilObjectGUI
 		return true;
 	}
 
+	/**
+	* Save settings
+	* @access	public
+	*/
+	function saveSettingsObject()
+	{
+		include_once 'Services/WebServices/RPC/classes/class.ilRPCServerSettings.php';
+
+		global $rbacsystem;
+
+		if(!$rbacsystem->checkAccess('write',$this->object->getRefId()))
+		{
+			$this->ilias->raiseError($this->lng->txt("permission_denied"),$this->ilias->error_obj->MESSAGE);
+		}
+
+		$this->object->initSettingsObject();
+		$this->object->settings_obj->setMaxHits((int) $_POST['max_hits']);
+		$this->object->settings_obj->enableIndex($_POST['search_index']);
+		$this->object->settings_obj->enableLucene($_POST['search_lucene']);
+		$this->object->settings_obj->setHideAdvancedSearch($_POST['hide_adv_search']);
+		$this->object->settings_obj->setAutoCompleteLength($_POST['auto_complete_length']);
+
+		$rpc_settings =& new ilRPCServerSettings();
+		if($this->object->settings_obj->enabledLucene() and !$rpc_settings->pingServer())
+		{
+			ilUtil::sendInfo($this->lng->txt('search_no_connection_lucene'),true);
+			$this->ctrl->redirect($this,'settings');
+
+			return false;
+		}
+
+		$this->object->settings_obj->update();
+
+		ilUtil::sendInfo($this->lng->txt('settings_saved'),true);
+		$this->ctrl->redirect($this,'settings');
+
+		return true;
+	}
 	
 	function getAdminTabs(&$tabs_gui)
 	{
@@ -141,6 +158,8 @@ class ilObjSearchSettingsGUI extends ilObjectGUI
 	 */
 	protected function initFormSettings()
 	{
+		global $lng;
+		
 		include_once './Services/Form/classes/class.ilPropertyFormGUI.php';
 		include_once './Services/Search/classes/class.ilSearchSettings.php';
 		
@@ -177,10 +196,30 @@ class ilObjSearchSettingsGUI extends ilObjectGUI
 		else 
 		{
 			$type->setValue(ilSearchSettings::LIKE_SEARCH);
-		}
-		
+		}		
 		$type->setRequired(true);
 		$this->form->addItem($type);
+		
+		// hide advanced search 
+		$cb = new ilCheckboxInputGUI($lng->txt("search_hide_adv_search"), "hide_adv_search");
+		$cb->setChecked($settings->getHideAdvancedSearch());
+		$this->form->addItem($cb);
+		
+		// number of auto complete entries
+		$options = array(
+			5 => 5,
+			10 => 10,
+			20 => 20,
+			30 => 30
+			);
+		$si = new ilSelectInputGUI($lng->txt("search_auto_complete_length"), "auto_complete_length");
+		$si->setOptions($options);
+		$val = ($settings->getAutoCompleteLength() > 0)
+			? $settings->getAutoCompleteLength()
+			: 10;
+		$si->setValue($val);
+		$this->form->addItem($si);
+
 		
 		$direct = new ilRadioOption($this->lng->txt('search_direct'),ilSearchSettings::LIKE_SEARCH,$this->lng->txt('search_like_info'));
 		$type->addOption($direct);
@@ -200,6 +239,9 @@ class ilObjSearchSettingsGUI extends ilObjectGUI
 	protected function updateSettingsObject()
 	{
 		global $ilAccess,$ilErr;
+		
+		$this->initFormSettings();
+		$this->form->checkInput();
 		
 		if(!$ilAccess->checkAccess('write','',$this->object->getRefId()))
 		{
@@ -225,11 +267,17 @@ class ilObjSearchSettingsGUI extends ilObjectGUI
 				$settings->enableLucene(true);
 				break;
 		}
+
+		$settings->setHideAdvancedSearch($_POST['hide_adv_search']);
+		$settings->setAutoCompleteLength($_POST['auto_complete_length']);
+
 		$settings->update();
+
+
 
 		unset($_SESSION['search_last_class']);
 		
-		ilUtil::sendInfo($this->lng->txt('settings_saved'));
+		ilUtil::sendSuccess($this->lng->txt('settings_saved'));
 		$this->settingsObject();
 	}
 	
