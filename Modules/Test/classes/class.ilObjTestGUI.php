@@ -4160,25 +4160,6 @@ class ilObjTestGUI extends ilObjectGUI
 	
 	}
 	
-	function getParticipantsSubTabs()
-	{
-		global $ilTabs;
-		
-		// user results subtab
-		$ilTabs->addSubTabTarget("participants_data",
-			$this->ctrl->getLinkTarget($this,'participants'),
-			array("participants", "saveFixedParticipantsStatus",
-				"showParticipantAnswersForAuthor", "showResults",
-				"confirmDeleteAllUserData",
-				"deleteAllUserResults",
-				"cancelDeleteAllUserData", "deleteSingleUserResults",
-				"outParticipantsResultsOverview", "outParticipantsPassDetails",
-				"showPassOverview", "showUserAnswers", "participantsAction"
-			),
-			"", "");
-	
-	}
-	
 	function getSettingsSubTabs()
 	{
 		global $ilTabs, $ilias;
@@ -4286,18 +4267,6 @@ class ilObjTestGUI extends ilObjectGUI
 			case "resetTextFilter":
 			case "insertQuestions":
 				return $this->getBrowseForQuestionsTab($tabs_gui);
-				break;
-			case "showParticipantAnswersForAuthor":
-			case "participants":
-			case "outParticipantsPassDetails":
-			case "outParticipantsResultsOverview":
-			case "deleteAllUserResults":
-			case "confirmDeleteAllUserData":
-			case "cancelDeleteAllUserData":
-			case "deleteSingleUserResults":
-			case "showPassOverview":
-			case "showUserAnswers":
-					 $this->getParticipantsSubTabs();
 				break;
 			case "scoring":
 			case "properties":
@@ -4407,7 +4376,7 @@ class ilObjTestGUI extends ilObjectGUI
 					 $this->ctrl->getLinkTargetByClass('ilmdeditorgui','listSection'),
 					 "", "ilmdeditorgui");
 			}
-		
+
 			if ($ilAccess->checkAccess("write", "", $this->ref_id))
 			{
 				// participants
@@ -4419,7 +4388,8 @@ class ilObjTestGUI extends ilObjectGUI
 					 "deleteAllUserResults",
 					 "cancelDeleteAllUserData", "deleteSingleUserResults",
 					 "outParticipantsResultsOverview", "outParticipantsPassDetails",
-					 "showPassOverview", "showUserAnswers", "participantsAction"), 
+					 "showPassOverview", "showUserAnswers", "participantsAction",
+					"showDetailedResults"), 
 					 "");
 
 				// export tab
