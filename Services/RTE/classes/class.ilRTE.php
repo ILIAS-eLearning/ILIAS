@@ -298,28 +298,14 @@ class ilRTE
 		return $mediaObjects;
 	}
 	
-	/**
-	* Setter for the TinyMCE root block element
-	*
-	* @param	string	$a_root_block_element root block element
-	* @return	ilRTE	This reference
-	* @access	public
-	*/
-	public function setRTERootBlockElement($a_root_block_element)
+	public function setRTERootBlockElement()
 	{
-		$this->root_block_element = $a_root_block_element;
-		return $this;
+		// must be overwritten in sub classes
 	}
 	
-	/**
-	* Getter for the TinyMCE root block element
-	*
-	* @return	string	root block element
-	* @access	public
-	*/
 	public function getRTERootBlockElement()
 	{
-		return $this->root_block_element;
+		// must be overwritten in sub classes
 	}
 }
 

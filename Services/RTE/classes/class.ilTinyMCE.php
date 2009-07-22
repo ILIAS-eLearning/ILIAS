@@ -114,7 +114,7 @@ class ilTinyMCE extends ilRTE
 	* @param string $a_module Module or object which should use the HTML tags
 	* @access public
 	*/
-	function addRTESupport($obj_id, $obj_type, $a_module = "", $allowFormElements = FALSE)
+	function addRTESupport($obj_id, $obj_type, $a_module = "", $allowFormElements = FALSE, $cfg_template = null)
 	{
 		include_once "./Services/AdvancedEditing/classes/class.ilObjAdvancedEditing.php";
 		if (array_key_exists("show_rte", $_POST))
@@ -125,7 +125,7 @@ class ilTinyMCE extends ilRTE
 		include_once "./classes/class.ilTemplate.php";
 		if ((ilObjAdvancedEditing::_getRichTextEditorUserState() != 0) && (strcmp(ilObjAdvancedEditing::_getRichTextEditor(), "0") != 0))
 		{
-			$tpl = new ilTemplate("tpl.tinymce.html", true, true, "Services/RTE");
+			$tpl = new ilTemplate(($cfg_template === null ? "tpl.tinymce.html" : $cfg_template), true, true, "Services/RTE");
 			$tags =& ilObjAdvancedEditing::_getUsedHTMLTags($a_module);
 			if ($allowFormElements)
 			{
@@ -1037,7 +1037,31 @@ class ilTinyMCE extends ilRTE
 					break;
 			}
 		}
-		return join("\"+\n\"", $valid_elements);
+		return join(",", $valid_elements);
+	}
+	
+	/**
+	* Setter for the TinyMCE root block element
+	*
+	* @param	string	$a_root_block_element root block element
+	* @return	ilRTE	This reference
+	* @access	public
+	*/
+	public function setRTERootBlockElement($a_root_block_element)
+	{
+		$this->root_block_element = $a_root_block_element;
+		return $this;
+	}
+	
+	/**
+	* Getter for the TinyMCE root block element
+	*
+	* @return	string	root block element
+	* @access	public
+	*/
+	public function getRTERootBlockElement()
+	{
+		return $this->root_block_element;
 	}
 }
 
