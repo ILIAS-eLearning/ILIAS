@@ -20,7 +20,7 @@
 	<td class="option" style="white-space:nowrap;" width="1">
 		{TXT_CHARACTERISTIC}
 	</td>
-	<td class="option_value">{ADV_SEL_STYLE}</td>
+	<td class="option_value" width="99%">{ADV_SEL_STYLE}</td>
 </tr>
 <tr class="std">
 	<td class="option_value" colspan="2">
@@ -29,14 +29,14 @@
 </tr>
 <tr class="std">
 <td class="std" colspan="2">
-<textarea id="{PAR_TA_NAME}" name="{PAR_TA_NAME}" onkeyup="storeCaret(this);" onselect="storeCaret(this);" onclick="storeCaret(this);" style="width:95%" onkeyup="storeCaret(this);" cols="80" rows="12" wrap="virtual">{PAR_TA_CONTENT}</textarea>
+<textarea id="{PAR_TA_NAME}" name="{PAR_TA_NAME}" onfocus="initInsertions();" onkeyup="storeCaret(this);" onselect="storeCaret(this);" onclick="storeCaret(this);" style="width:100%;" onkeyup="storeCaret(this);" cols="80" rows="12" wrap="virtual">{PAR_TA_CONTENT}</textarea>
 </td>
 </tr>
 <tr>
 	<td class="option" style="white-space:nowrap;" width="1">
 		{TXT_LANGUAGE}
 	</td>
-	<td class="option_value">
+	<td class="option_value" width="99%">
 		{SELECT_LANGUAGE}
 	</td>
 </tr>

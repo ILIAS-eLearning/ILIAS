@@ -237,7 +237,7 @@ class ilPCParagraphGUI extends ilPageContentGUI
 		
 		$tpl->setVariable("PAR_TA_NAME", "par_content");
 		$tpl->setVariable("BB_MENU", $this->getBBMenu());
-		$this->tpl->addJavascript("./Services/COPage/phpBB/3_0_0/editor.js");
+		$this->tpl->addJavascript("./Services/COPage/phpBB/3_0_5/editor.js");
 		$this->tpl->addJavascript("./Services/COPage/js/paragraph_editing.js");
 		$this->setStyle();
 
