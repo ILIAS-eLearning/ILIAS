@@ -963,7 +963,7 @@ class ilObjQuestionPoolGUI extends ilObjectGUI
 				$question_gui = assQuestion::_instanciateQuestionGUI($row["question_id"]);
 				if (strcmp($_POST["output"], "detailed") == 0)
 				{
-					$solutionoutput = $question_gui->getSolutionOutput($active_id = "", $pass = NULL, $graphicalOutput = FALSE, $result_output = FALSE, $show_question_only = FALSE, $show_feedback = FALSE);
+					$solutionoutput = $question_gui->getSolutionOutput($active_id = "", $pass = NULL, $graphicalOutput = FALSE, $result_output = FALSE, $show_question_only = FALSE, $show_feedback = FALSE, $show_correct_solution = true, $show_manual_scoring = false);
 					if (strlen($solutionoutput) == 0) $solutionoutput = $question_gui->getPreview();
 					$this->tpl->setVariable("PREVIEW", $solutionoutput);
 				}
