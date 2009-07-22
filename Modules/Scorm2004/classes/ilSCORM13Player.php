@@ -733,6 +733,8 @@ class ilSCORM13Player
 		if ($this->slm->getDefaultLessonMode() == "browse") {return;}
 				
 		$data = json_decode(is_string($data) ? $data : file_get_contents('php://input'));
+		$ilLog->write("Got data:". file_get_contents('php://input'));
+
 		$return = $this->setCMIData($this->userId, $this->packageId, $data);
 		
 		if ($this->jsMode) 
@@ -985,13 +987,16 @@ class ilSCORM13Player
 	
 	function getUniqueValue($keys, $data, $table)
 	{
+		global $ilLog,$ilDB;
+
 		$uniqueIdPosition = null;
 		$counter = 0;
 		foreach($keys as $value)
 		{
-			if($value == $table.'_id')
+			if($value == "`".$table.'_id'."`")
 			{
 				$uniqueIdPosition = $counter;
+				$ilLog->write("Found position:".$uniqueIdPosition);
 				break;	
 			}
 			++$counter;
@@ -1006,6 +1011,7 @@ class ilSCORM13Player
 			{
 				if($counter == $uniqueIdPosition)
 				{
+					$ilLog->write("Found Value:".$value);
 					$uniqueIdValue = $value;
 					break;	
 				}
@@ -1065,7 +1071,7 @@ class ilSCORM13Player
 			if (!is_array($data->$table)) continue;
 			$i=0;
 				
-//$ilLog->write("SCORM: setCMIData, table -".$table."-");
+$ilLog->write("SCORM: setCMIData, table -".$table."-");
 			
 			// build up numerical index for schema fields
 			foreach ($schem as &$field) 
@@ -1113,11 +1119,6 @@ class ilSCORM13Player
 				// set if field to null, so it will be filled up by autoincrement
 				$row[$cmi_no] = null;
 				
-				
-				
-				// TODO validate values
-				// create sql statement, RDBS should support "REPLACE" command
-				//for Mysql
 				$keys=array();
 				foreach(array_keys($schem) as $key) 
 				{
@@ -1125,12 +1126,11 @@ class ilSCORM13Player
 					
 				}
 //$ilLog->write("SCORM: setCMIData, row c");
-
 				if ($table==='node') 
 				{
-					//error_log("Lets remove old data");
 					$this->removeCMIData($userId, $packageId, $row[$cp_no]);
 				}
+				
 
 				$ret = false;
 
@@ -1356,20 +1356,27 @@ class ilSCORM13Player
 						break;
 						
 					case 'node':
-					$uniqueIdValue = $this->getUniqueValue($keys,$data, 'cmi_node');
-						
+					$uniqueIdValue = $this->getUniqueValue($keys,$data, 'cp_node');
+					$ilLog->write("in case node".$uniqueIdValue);
+
 						if($uniqueIdValue !== null)
 						{
+							$ilLog->write("check Node and user".$uniqueIdValue." ".$userId);
+
 							$query = $ilDB->queryF('
 								SELECT * FROM cmi_node
-								WHERE cmi_node_id = %s',
-								array('integer'), array($uniqueIdValue));
+								WHERE cp_node_sid = %s AND user_id = %s',
+								array('integer','integer'), array($uniqueIdValue,$userId));
 
 							$res = $ilDB->numRows($query);
+							$ilLog->write("Returned number: ".$res);
+
 							if($res > 0)
 							{
 								$sql_types = $node_types;
-								array_push($sql_types, 'integer');
+								$row[42] = ilUtil::now();
+								$row[$cmi_no] = $ilDB->nextId('cmi_node');
+								$ilLog->write("Want to update row: ".count($row) );
 								//update
 								$sql = $ilDB->manipulateF('
 									UPDATE cmi_node
@@ -1414,18 +1421,21 @@ class ilSCORM13Player
 										success_status = %s,
 										suspend_data = %s,
 										total_time = %s,
-										user_id = %s
-		
-									WHERE cmi_node_id = %s',
+										user_id = %s,
+										c_timestamp = %s
+										
+									WHERE cp_node_id = %s AND user_id = %s',
 									$sql_types,
-									array(implode(",", self::quoteJSONArray($row)),$uniqueIdValue)
+									array($row,$uniqueIdValue,$userId)
 								);
 							}
 							else
 							{
 								//insert
 								$row[$cmi_no] = $ilDB->nextId('cmi_node');
-								
+								$row[42] = ilUtil::now();
+								$ilLog->write("Want to insert row: ".count($row) );
+	
 								$sql = $ilDB->manipulateF('
 								INSERT INTO cmi_node
 								(	
@@ -1470,12 +1480,14 @@ class ilSCORM13Player
 									success_status,
 									suspend_data,
 									total_time,
-									user_id							
+									user_id,
+									c_timestamp							
 								)
 								VALUES ('.$node_str_values.')',
 								$node_types,
-								array(implode(",", self::quoteJSONArray($row)))
+								$row
 								);
+
 							}
 						}						
 						break;
