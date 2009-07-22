@@ -338,18 +338,15 @@ class assErrorText extends assQuestion
 		{
 			$pass = $this->getSolutionMaxPass($active_id);
 		}
-		$result = $ilDB->queryF("SELECT * FROM tst_solutions WHERE active_fi = %s AND question_fi = %s AND pass = %s",
+		$result = $ilDB->queryF("SELECT value1 FROM tst_solutions WHERE active_fi = %s AND question_fi = %s AND pass = %s",
 			array('integer','integer','integer'),
 			array($active_id, $this->getId(), $pass)
 		);
-		$points = 0;
-		/*
-		$data = $ilDB->fetchAssoc($result);
-		if (strcmp($data["value1"], join($this->getOrderingElements(), "{::}")) == 0)
+		while ($row = $ilDB->fetchAssoc($result))
 		{
-			$points = $this->getPoints();
+			array_push($found_values, $row['value1']);
 		}
-		*/
+		$points = $this->getPointsForSelectedPositions($found_values);
 		$points = parent::calculateReachedPoints($active_id, $pass = NULL, $points);
 		return $points;
 	}
@@ -376,22 +373,26 @@ class assErrorText extends assQuestion
 			array('integer','integer','integer'),
 			array($active_id, $this->getId(), $pass)
 		);
-		
+
 		$entered_values = false;
-		if (strlen($_POST["orderresult"]))
+		if (strlen($_POST["qst_" . $this->getId()]))
 		{
-			$next_id = $ilDB->nextId('tst_solutions');
-			$query = $ilDB->manipulateF("INSERT INTO tst_solutions (solution_id, active_fi, question_fi, value1, value2, pass, tstamp) VALUES (%s, %s, %s, %s, NULL, %s, %s)",
-				array('integer','integer','integer','text','integer','integer'),
-				array(
-					$next_id,
-					$active_id,
-					$this->getId(),
-					$_POST["orderresult"],
-					$pass,
-					time()
-				)
-			);
+			$selected = split(",", $_POST["qst_" . $this->getId()]);
+			foreach ($selected as $position)
+			{
+				$next_id = $ilDB->nextId('tst_solutions');
+				$query = $ilDB->manipulateF("INSERT INTO tst_solutions (solution_id, active_fi, question_fi, value1, value2, pass, tstamp) VALUES (%s, %s, %s, %s, NULL, %s, %s)",
+					array('integer','integer','integer','text','integer','integer'),
+					array(
+						$next_id,
+						$active_id,
+						$this->getId(),
+						$position,
+						$pass,
+						time()
+					)
+				);
+			}
 			$entered_values = true;
 		}
 		if ($entered_values)
@@ -561,8 +562,10 @@ class assErrorText extends assQuestion
 		}
 	}
 	
-	public function createErrorTextOutput()
+	public function createErrorTextOutput($selections = null)
 	{
+		$counter = 0;
+		if (!is_array($selections)) $selections = array();
 		$textarray = preg_split("/[\n\r]+/", $this->getErrorText());
 		foreach ($textarray as $textidx => $text)
 		{
@@ -573,11 +576,50 @@ class assErrorText extends assQuestion
 				{
 					$item = ilStr::substr($item, 1, ilStr::strlen($item));
 				}
-				$items[$idx] = '<a href="javascript:void(0)">' . ilUtil::prepareFormOutput($item) . '</a>';
+				$class = '';
+				if (in_array($counter, $selections))
+				{
+					$class = ' class="sel"';
+				}
+				$items[$idx] = '<a' . $class . ' href="#HREF" onclick="javascript: return false;">' . ilUtil::prepareFormOutput($item) . '</a>';
+				$counter++;
 			}
 			$textarray[$textidx] = '<p>' . join($items, " ") . '</p>';
 		}
 		return join($textarray, "\n");
+	}
+	
+	protected function getPointsForSelectedPositions($positions)
+	{
+		$words = array();
+		$counter = 0;
+		$errorcounter = 0;
+		$textarray = preg_split("/[\n\r]+/", $this->getErrorText());
+		foreach ($textarray as $textidx => $text)
+		{
+			$items = preg_split("/\s+/", $text);
+			foreach ($items as $word)
+			{
+				$points = 0;
+				if (strpos($word, '#') === 0)
+				{
+					$errorobject = $this->errordata[$errorcounter];
+					if (is_object($errorobject))
+					{
+						$points = $errorobject->points;
+					}
+					$errorcounter++;
+				}
+				$words[$counter] = array("word" => $word, "points" => $points);
+				$counter++;
+			}
+		}
+		$total = 0;
+		foreach ($positions as $position)
+		{
+			$total += $words[$position]['points'];
+		}
+		return $total;
 	}
 	
 	/**
