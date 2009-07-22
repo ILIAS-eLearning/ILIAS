@@ -640,7 +640,7 @@ class ilRbacReview
 		// CREATE IN() STATEMENT
         $in = $ilDB->in('t.parent',$a_path,false,'integer');
 
-        $q = "SELECT t.* FROM tree t ".
+        $q = "SELECT t.child,t.depth FROM tree t ".
              "JOIN object_reference r ON r.ref_id = t.child ".
              "JOIN object_data o ON o.obj_id = r.obj_id ".
              "WHERE ".$in." ".
@@ -648,25 +648,31 @@ class ilRbacReview
              "ORDER BY t.depth ASC";
 
         $r = $this->ilDB->query($q);
-
-        while ($row = $r->fetchRow(DB_FETCHMODE_OBJECT))
-        {
-
-            $roles = $this->getRoleListByObject($row->child,$a_templates);
-
+		
+		// Sort by path (Administration -> Rolefolder is first element)
+		$role_rows = array();
+		while($row = $r->fetchRow(DB_FETCHMODE_OBJECT))
+		{
+			
+			$depth = ($row->child == ROLE_FOLDER_ID ? 0 : $row->depth);
+			$role_rows[$depth]['child'] = $row->child;
+		}
+		ksort($role_rows,SORT_NUMERIC);
+		foreach($role_rows as $row)
+		{
+			$roles = $this->getRoleListByObject($row['child'],$a_templates);
             foreach ($roles as $role)
             {
                 $id = $role["obj_id"];
-                $role["parent"] = $row->child;
+                $role["parent"] = $row['child'];
                 $parent_roles[$id] = $role;
 
                 if (!array_key_exists($role['obj_id'],$role_hierarchy))
                 {
-                    $role_hierarchy[$id] = $row->child;
+                    $role_hierarchy[$id] = $row['child'];
                 }
             }
         }
-
 		if (!$a_keep_protected)
 		{
 			return $this->__setProtectedStatus($parent_roles,$role_hierarchy,path);
