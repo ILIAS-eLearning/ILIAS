@@ -433,6 +433,8 @@ echo htmlentities($a_text);*/
 		$a_text = eregi_replace("\[\/acc\]","</Accent>",$a_text);
 		$a_text = eregi_replace("\[imp\]","<Important>",$a_text);
 		$a_text = eregi_replace("\[\/imp\]","</Important>",$a_text);
+		$a_text = eregi_replace("\[kw\]","<Keyw>",$a_text);
+		$a_text = eregi_replace("\[\/kw\]","</Keyw>",$a_text);
 
 		// internal links
 		//$any = "[^\]]*";	// this doesn't work :-(
@@ -843,6 +845,8 @@ echo htmlentities($a_text);*/
 		$a_text = eregi_replace("</Accent>","[/acc]",$a_text);
 		$a_text = eregi_replace("<Important>","[imp]",$a_text);
 		$a_text = eregi_replace("</Important>","[/imp]",$a_text);
+		$a_text = eregi_replace("<Keyw>","[kw]",$a_text);
+		$a_text = eregi_replace("</Keyw>","[/kw]",$a_text);
 
 		// replace lists
 		$a_text = ilPCParagraph::xml2outputReplaceLists($a_text);

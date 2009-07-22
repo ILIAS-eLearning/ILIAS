@@ -197,6 +197,8 @@ class ilPageContentGUI
 			$btpl->setVariable("BB_LINK_ILINK",
 				$this->ctrl->getLinkTargetByClass("ilInternalLinkGUI", "showLinkHelp"));
 			$btpl->parseCurrentBlock();
+			$btpl->touchBlock("bb_kw_button");
+			$btpl->setVariable("TXT_KW", $this->lng->txt("cont_text_keyword"));
 		}
 		if ($this->pg_obj->getParentType() == "wpg")
 		{

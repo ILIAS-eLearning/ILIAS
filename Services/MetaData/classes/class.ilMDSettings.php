@@ -89,6 +89,30 @@ class ilMDSettings
 	}
 	
 	/**
+	* Set delimiter (used in quick editing screen)
+	*
+	* @param	string delimiter
+	*/
+	function setDelimiter($a_val)
+	{
+		$this->delimiter = $a_val;
+	}
+	
+	/**
+	* Get delimiter
+	*
+	* @return	string delimiter
+	*/
+	function getDelimiter()
+	{
+		if (trim($this->delimiter) == "")
+		{
+			return ",";
+		}
+		return $this->delimiter;
+	}
+	
+	/**
 	 * save
 	 *
 	 * @access public
@@ -97,6 +121,7 @@ class ilMDSettings
 	public function save()
 	{
 	 	$this->settings->set('copyright_selection_active',(int) $this->isCopyrightSelectionActive());
+		$this->settings->set('delimiter', $this->getDelimiter());
 	}
 	
 	/**
@@ -110,6 +135,7 @@ class ilMDSettings
 		$this->settings = new ilSetting('md_settings');
 		
 	 	$this->copyright_selection_active = $this->settings->get('copyright_selection_active',0);
+		$this->delimiter = $this->settings->get('delimiter',",");
 	}
 }
 
