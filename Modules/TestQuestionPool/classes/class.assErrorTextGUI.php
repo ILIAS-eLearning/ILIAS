@@ -77,11 +77,11 @@ class assErrorTextGUI extends assQuestionGUI
 			include_once "./Services/AdvancedEditing/classes/class.ilObjAdvancedEditing.php";
 			$questiontext = ilUtil::stripSlashes($_POST["question"], false, ilObjAdvancedEditing::_getUsedHTMLTagsAsString("assessment"));
 			$this->object->setQuestion($questiontext);
-			$this->object->setPoints(ilUtil::stripSlashes($_POST["points"]));
 			// adding estimated working time
 			$this->writeOtherPostData();
 			$this->object->setTextSize(ilUtil::stripSlashes($_POST["textsize"]));
 			$this->object->setErrorText(ilUtil::stripSlashes($_POST["errortext"]));
+			$this->object->setPointsWrong(ilUtil::stripSlashes(str_replace(",", ".", $_POST["points_wrong"])));
 			
 			$this->object->flushErrorData();
 			if (is_array($_POST['errordata']['key']))
@@ -194,6 +194,14 @@ class assErrorTextGUI extends assQuestionGUI
 			$errordata->setValueName($this->lng->txt('text_correct'));
 			$errordata->setValues($this->object->getErrorData());
 			$form->addItem($errordata);
+
+			// points for wrong selection
+			$points_wrong = new ilNumberInputGUI($this->lng->txt("points_wrong"), "points_wrong");
+			$points_wrong->setValue($this->object->getPointsWrong());
+			$points_wrong->setInfo($this->lng->txt("points_wrong_info"));
+			$points_wrong->setSize(6);
+			$points_wrong->setRequired(true);
+			$form->addItem($points_wrong);
 		}
 
 		$form->addCommandButton("analyze", $this->lng->txt('analyze_errortext'));
