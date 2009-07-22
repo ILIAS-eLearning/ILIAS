@@ -52,7 +52,7 @@ class ilTestParticipantsTableGUI extends ilTable2GUI
 		$this->ctrl = $ilCtrl;
 		
 		$this->anonymity = $anonymity;
-		$this->setFormName('export');
+		$this->setFormName('participantsForm');
 		$this->setStyle('table', 'fullwidth');
 
 		$this->addColumn('','f','1%');

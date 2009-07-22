@@ -354,6 +354,47 @@ class assErrorText extends assQuestion
 		return $points;
 	}
 	
+	/*
+	* Change the selection during a test when a user selects/deselects a word without using javascript
+	*/
+	public function toggleSelection($position, $active_id, $pass = null)
+	{
+		global $ilDB;
+		global $ilUser;
+
+		if (is_null($pass))
+		{
+			include_once "./Modules/Test/classes/class.ilObjTest.php";
+			$pass = ilObjTest::_getPass($active_id);
+		}
+
+		$affectedRows = $ilDB->manipulateF("DELETE FROM tst_solutions WHERE active_fi = %s AND question_fi = %s AND pass = %s AND value1 = %s",
+			array('integer','integer','integer', 'text'),
+			array($active_id, $this->getId(), $pass, $position)
+		);
+		if ($affectedRows == 0)
+		{
+			$next_id = $ilDB->nextId('tst_solutions');
+			$query = $ilDB->manipulateF("INSERT INTO tst_solutions (solution_id, active_fi, question_fi, value1, value2, pass, tstamp) VALUES (%s, %s, %s, %s, NULL, %s, %s)",
+				array('integer','integer','integer','text','integer','integer'),
+				array(
+					$next_id,
+					$active_id,
+					$this->getId(),
+					$position,
+					$pass,
+					time()
+				)
+			);
+		}
+		include_once ("./Modules/Test/classes/class.ilObjAssessmentFolder.php");
+		if (ilObjAssessmentFolder::_enabledAssessmentLogging())
+		{
+			$this->logAction($this->lng->txtlng("assessment", "log_user_entered_values", ilObjAssessmentFolder::_getLogLanguage()), $active_id, $this->getId());
+		}
+		$this->calculateReachedPoints($active_id, $pass);
+	}
+	
 	/**
 	* Saves the learners input of the question to the database
 	*
@@ -606,7 +647,7 @@ class assErrorText extends assQuestion
 						}
 					}
 				}
-				$items[$idx] = '<a' . $class . ' href="#HREF" onclick="javascript: return false;">' . ilUtil::prepareFormOutput($item) . '</a>' . $img;
+				$items[$idx] = '<a' . $class . ' href="#HREF' . $idx . '" onclick="javascript: return false;">' . ilUtil::prepareFormOutput($item) . '</a>' . $img;
 				$counter++;
 			}
 			$textarray[$textidx] = '<p>' . join($items, " ") . '</p>';

@@ -299,7 +299,9 @@ class assErrorTextGUI extends assQuestionGUI
 		}
 		if ($this->object->getTextSize() >= 10) echo $template->setVariable("STYLE", " style=\"font-size: " . $this->object->getTextSize() . "%;\"");
 		$template->setVariable("QUESTIONTEXT", $this->object->prepareTextareaOutput($this->object->getQuestion(), TRUE));
-		$template->setVariable("ERRORTEXT", $this->object->createErrorTextOutput($selections, $graphicalOutput, $show_correct_solution));
+		$errortext = $this->object->createErrorTextOutput($selections, $graphicalOutput, $show_correct_solution);
+		$errortext = preg_replace("/#HREF\d+/is", "javascript:void(0);", $errortext);
+		$template->setVariable("ERRORTEXT", $errortext);
 		$questionoutput = $template->get();
 
 		$solutiontemplate = new ilTemplate("tpl.il_as_tst_solution_output.html",TRUE, TRUE, "Modules/TestQuestionPool");
@@ -317,8 +319,10 @@ class assErrorTextGUI extends assQuestionGUI
 	{
 		$template = new ilTemplate("tpl.il_as_qpl_errortext_output.html",TRUE, TRUE, "Modules/TestQuestionPool");
 		if ($this->object->getTextSize() >= 10) echo $template->setVariable("STYLE", " style=\"font-size: " . $this->object->getTextSize() . "%;\"");
-		$template->setVariable("QUESTIONTEXT", $this->object->prepareTextareaOutput($this->object->question, TRUE));
-		$template->setVariable("ERRORTEXT", $this->object->createErrorTextOutput());
+		$template->setVariable("QUESTIONTEXT", $this->object->prepareTextareaOutput($this->object->getQuestion(), TRUE));
+		$errortext = $this->object->createErrorTextOutput($selections);
+		$errortext = preg_replace("/#HREF\d+/is", "javascript:void(0);", $errortext);
+		$template->setVariable("ERRORTEXT", $errortext);
 		$template->setVariable("ERRORTEXT_ID", "qst_" . $this->object->getId());
 		$questionoutput = $template->get();
 		if (!$show_question_only)
@@ -336,7 +340,6 @@ class assErrorTextGUI extends assQuestionGUI
 	{
 		// generate the question output
 		$template = new ilTemplate("tpl.il_as_qpl_errortext_output.html",TRUE, TRUE, "Modules/TestQuestionPool");
-
 		if ($active_id)
 		{
 			$solutions = NULL;
@@ -347,8 +350,13 @@ class assErrorTextGUI extends assQuestionGUI
 			}
 			$solutions =& $this->object->getSolutionValues($active_id, $pass);
 		}
-		
 		$errortext_value = "";
+		if (strlen($_SESSION['qst_selection']))
+		{
+			$this->object->toggleSelection($_SESSION['qst_selection'], $active_id, $pass);
+			unset($_SESSION['qst_selection']);
+			$solutions =& $this->object->getSolutionValues($active_id, $pass);
+		}
 		$selections = array();
 		if (is_array($solutions))
 		{
@@ -359,8 +367,11 @@ class assErrorTextGUI extends assQuestionGUI
 			$errortext_value = join(",", $selections);
 		}
 		if ($this->object->getTextSize() >= 10) echo $template->setVariable("STYLE", " style=\"font-size: " . $this->object->getTextSize() . "%;\"");
-		$template->setVariable("QUESTIONTEXT", $this->object->prepareTextareaOutput($this->object->question, TRUE));
-		$template->setVariable("ERRORTEXT", $this->object->createErrorTextOutput($selections));
+		$template->setVariable("QUESTIONTEXT", $this->object->prepareTextareaOutput($this->object->getQuestion(), TRUE));
+		$errortext = $this->object->createErrorTextOutput($selections);
+		$errortext = preg_replace_callback("/#HREF(\d+)/is", array(&$this, 'exchangeURL'), $errortext);
+		$this->ctrl->setParameterByClass('iltestoutputgui', 'errorvalue', '');
+		$template->setVariable("ERRORTEXT", $errortext);
 		$template->setVariable("ERRORTEXT_ID", "qst_" . $this->object->getId());
 		$template->setVariable("ERRORTEXT_VALUE", $errortext_value);
 		$questionoutput = $template->get();
@@ -375,6 +386,12 @@ class assErrorTextGUI extends assQuestionGUI
 		$questionoutput = $template->get();
 		$pageoutput = $this->outQuestionPage("", $is_postponed, $active_id, $questionoutput);
 		return $pageoutput;
+	}
+	
+	public function exchangeURL($matches)
+	{
+		$this->ctrl->setParameterByClass('iltestoutputgui', 'qst_selection', $matches[1]);
+		return $this->ctrl->getLinkTargetByClass('iltestoutputgui', 'gotoQuestion');
 	}
 
 	/**
