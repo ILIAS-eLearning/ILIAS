@@ -290,7 +290,7 @@ class ilObjAssessmentFolderGUI extends ilObjectGUI
 		$available_tests =& ilObjTest::_getAvailableTests(1);
 		if (count($available_tests) == 0)
 		{
-			sendInfo($this->lng->txt('assessment_log_no_data'));
+			ilUtil::sendInfo($this->lng->txt('assessment_log_no_data'));
 			return;
 		}
 
