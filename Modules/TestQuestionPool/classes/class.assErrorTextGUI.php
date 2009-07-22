@@ -265,65 +265,27 @@ class assErrorTextGUI extends assQuestionGUI
 		// get the solution of the user for the active pass or from the last pass if allowed
 		$template = new ilTemplate("tpl.il_as_qpl_errortext_output_solution.html", TRUE, TRUE, "Modules/TestQuestionPool");
 
-		$solutionvalue = "";
+		$selections = array();
 		if (($active_id > 0) && (!$show_correct_solution))
 		{
 			$solutions =& $this->object->getSolutionValues($active_id, $pass);
-			if (strlen($solutions[0]["value1"]))
+			if (is_array($solutions))
 			{
-				$elements = split("{::}", $solutions[0]["value1"]);
-				foreach ($elements as $id => $element)
+				foreach ($solutions as $solution)
 				{
-					$template->setCurrentBlock("element");
-					$template->setVariable("ELEMENT_ID", "e$id");
-					$template->setVariable("ELEMENT_VALUE", ilUtil::prepareFormOutput($element));
-					$template->parseCurrentBlock();
+					array_push($selections, $solution['value1']);
 				}
+				$errortext_value = join(",", $selections);
 			}
-			$solutionvalue = str_replace("{::}", " ", $solutions[0]["value1"]);
 		}
 		else
 		{
-			$elements = $this->object->getOrderingElements();
-			foreach ($elements as $id => $element)
-			{
-				$template->setCurrentBlock("element");
-				$template->setVariable("ELEMENT_ID", "e$id");
-				$template->setVariable("ELEMENT_VALUE", ilUtil::prepareFormOutput($element));
-				$template->parseCurrentBlock();
-			}
-			$solutionvalue = join($this->object->getOrderingElements(), " ");
+			$selections = $this->object->getBestSelection();
 		}
 
 		if (($active_id > 0) && (!$show_correct_solution))
 		{
 			$reached_points = $this->object->getReachedPoints($active_id, $pass);
-			if ($graphicalOutput)
-			{
-				// output of ok/not ok icons for user entered solutions
-				if ($reached_points == $this->object->getMaximumPoints())
-				{
-					$template->setCurrentBlock("icon_ok");
-					$template->setVariable("ICON_OK", ilUtil::getImagePath("icon_ok.gif"));
-					$template->setVariable("TEXT_OK", $this->lng->txt("answer_is_right"));
-					$template->parseCurrentBlock();
-				}
-				else
-				{
-					$template->setCurrentBlock("icon_ok");
-					if ($reached_points > 0)
-					{
-						$template->setVariable("ICON_NOT_OK", ilUtil::getImagePath("icon_mostly_ok.gif"));
-						$template->setVariable("TEXT_NOT_OK", $this->lng->txt("answer_is_not_correct_but_positive"));
-					}
-					else
-					{
-						$template->setVariable("ICON_NOT_OK", ilUtil::getImagePath("icon_not_ok.gif"));
-						$template->setVariable("TEXT_NOT_OK", $this->lng->txt("answer_is_wrong"));
-					}
-					$template->parseCurrentBlock();
-				}
-			}
 		}
 		else
 		{
@@ -335,11 +297,11 @@ class assErrorTextGUI extends assQuestionGUI
 			$resulttext = ($reached_points == 1) ? "(%s " . $this->lng->txt("point") . ")" : "(%s " . $this->lng->txt("points") . ")"; 
 			$template->setVariable("RESULT_OUTPUT", sprintf($resulttext, $reached_points));
 		}
+		if ($this->object->getTextSize() >= 10) echo $template->setVariable("STYLE", " style=\"font-size: " . $this->object->getTextSize() . "%;\"");
 		$template->setVariable("QUESTIONTEXT", $this->object->prepareTextareaOutput($this->object->getQuestion(), TRUE));
-//		$template->setVariable("SOLUTION_TEXT", ilUtil::prepareFormOutput($solutionvalue));
-		if ($this->object->textsize >= 10) echo $template->setVariable("STYLE", " style=\"font-size: " . $this->object->textsize . "%;\"");
-
+		$template->setVariable("ERRORTEXT", $this->object->createErrorTextOutput($selections, $graphicalOutput, $show_correct_solution));
 		$questionoutput = $template->get();
+
 		$solutiontemplate = new ilTemplate("tpl.il_as_tst_solution_output.html",TRUE, TRUE, "Modules/TestQuestionPool");
 		$solutiontemplate->setVariable("SOLUTION_OUTPUT", $questionoutput);
 		$solutionoutput = $solutiontemplate->get(); 
