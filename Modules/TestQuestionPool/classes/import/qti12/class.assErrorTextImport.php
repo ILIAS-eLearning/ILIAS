@@ -73,7 +73,7 @@ class assErrorTextImport extends assQuestionImport
 		{
 			foreach ($errordata as $data)
 			{
-				$this->object->addErrorData($data[0], $data[1], $data[2]);
+				$this->object->addErrorData($data[1], $data[0], $data[2]);
 			}
 		}
 		$this->object->saveToDb();
