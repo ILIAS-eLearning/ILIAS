@@ -366,8 +366,7 @@ class assErrorTextGUI extends assQuestionGUI
 	{
 		// generate the question output
 		$template = new ilTemplate("tpl.il_as_qpl_errortext_output.html",TRUE, TRUE, "Modules/TestQuestionPool");
-		$elements = $this->object->getRandomOrderingElements();
-		
+
 		if ($active_id)
 		{
 			$solutions = NULL;
@@ -377,21 +376,23 @@ class assErrorTextGUI extends assQuestionGUI
 				if (is_null($pass)) $pass = ilObjTest::_getPass($active_id);
 			}
 			$solutions =& $this->object->getSolutionValues($active_id, $pass);
-			if (count($solutions) == 1)
-			{
-				$elements = split("{::}", $solutions[0]["value1"]);
-			}
 		}
 		
-		foreach ($elements as $id => $element)
+		$errortext_value = "";
+		$selections = array();
+		if (is_array($solutions))
 		{
-			$template->setCurrentBlock("element");
-			$template->setVariable("ELEMENT_ID", "e$id");
-			$template->setVariable("ELEMENT_VALUE", ilUtil::prepareFormOutput($element));
-			$template->parseCurrentBlock();
+			foreach ($solutions as $solution)
+			{
+				array_push($selections, $solution['value1']);
+			}
+			$errortext_value = join(",", $selections);
 		}
-		if ($this->object->textsize >= 10) echo $template->setVariable("STYLE", " style=\"font-size: " . $this->object->textsize . "%;\"");
+		if ($this->object->getTextSize() >= 10) echo $template->setVariable("STYLE", " style=\"font-size: " . $this->object->getTextSize() . "%;\"");
 		$template->setVariable("QUESTIONTEXT", $this->object->prepareTextareaOutput($this->object->question, TRUE));
+		$template->setVariable("ERRORTEXT", $this->object->createErrorTextOutput($selections));
+		$template->setVariable("ERRORTEXT_ID", "qst_" . $this->object->getId());
+		$template->setVariable("ERRORTEXT_VALUE", $errortext_value);
 		$questionoutput = $template->get();
 		if (!$show_question_only)
 		{
@@ -399,8 +400,8 @@ class assErrorTextGUI extends assQuestionGUI
 			$questionoutput = $this->getILIASPage($questionoutput);
 		}
 		include_once "./Services/YUI/classes/class.ilYuiUtil.php";
-		ilYuiUtil::initDragDropAnimation();
-		$this->tpl->addJavascript("./Modules/TestQuestionPool/templates/default/orderinghorizontal.js");
+		ilYuiUtil::initElementSelection();
+		$this->tpl->addJavascript("./Modules/TestQuestionPool/templates/default/errortext.js");
 		$questionoutput = $template->get();
 		$pageoutput = $this->outQuestionPage("", $is_postponed, $active_id, $questionoutput);
 		return $pageoutput;
