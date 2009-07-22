@@ -14863,3 +14863,11 @@ $ilDB->createSequence("qpl_a_errortext");
 <?php
 	$ilMySQLAbstraction->performAbstraction("ecs_container_mapping");
 ?>
+<#2799>
+<?php
+	$ilDB->addTableColumn("qpl_qst_errortext", "points_wrong", array(
+		"type" => "float",
+		"notnull" => true,
+		"default" => -1.0
+	));
+?>

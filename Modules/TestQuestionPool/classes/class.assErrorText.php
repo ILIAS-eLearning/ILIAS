@@ -35,6 +35,7 @@ class assErrorText extends assQuestion
 	protected $errortext;
 	protected $textsize;
 	protected $errordata;
+	protected $points_wrong;
 	
 	/**
 	* assErorText constructor
@@ -139,12 +140,13 @@ class assErrorText extends assQuestion
 			array($this->getId())
 		);
 
-		$affectedRows = $ilDB->manipulateF("INSERT INTO " . $this->getAdditionalTableName() . " (question_fi, errortext, textsize) VALUES (%s, %s, %s)", 
-			array("integer", "text", "float"),
+		$affectedRows = $ilDB->manipulateF("INSERT INTO " . $this->getAdditionalTableName() . " (question_fi, errortext, textsize, points_wrong) VALUES (%s, %s, %s, %s)", 
+			array("integer", "text", "float", "float"),
 			array(
 				$this->getId(),
 				$this->getErrorText(),
-				$this->getTextSize()
+				$this->getTextSize(),
+				$this->getPointsWrong()
 			)
 		);
 	
@@ -202,6 +204,7 @@ class assErrorText extends assQuestion
 			$this->setQuestion(ilRTE::_replaceMediaObjectImageSrc($data["question_text"], 1));
 			$this->setErrorText($data["errortext"]);
 			$this->setTextSize($data["textsize"]);
+			$this->setPointsWrong($data["points_wrong"]);
 			$this->setEstimatedWorkingTime(substr($data["working_time"], 0, 2), substr($data["working_time"], 3, 2), substr($data["working_time"], 6, 2));
 		}
 
@@ -687,6 +690,26 @@ class assErrorText extends assQuestion
 	}
 	
 	/**
+	* Get wrong points
+	*
+	* @return double Points for wrong selection
+	*/
+	public function getPointsWrong()
+	{
+		return $this->points_wrong;
+	}
+	
+	/**
+	* Set wrong points
+	*
+	* @param double $a_value Points for wrong selection
+	*/
+	public function setPointsWrong($a_value)
+	{
+		$this->points_wrong = $a_value;
+	}
+	
+	/**
 	* Object getter
 	*/
 	protected function __get($value)
@@ -698,6 +721,9 @@ class assErrorText extends assQuestion
 				break;
 			case "textsize":
 				return $this->getTextSize();
+				break;
+			case "points_wrong":
+				return $this->getPointsWrong();
 				break;
 			default:
 				return parent::__get($value);
@@ -717,6 +743,9 @@ class assErrorText extends assQuestion
 				break;
 			case "textsize":
 				$this->setTextSize($value);
+				break;
+			case "points_wrong":
+				$this->setPointsWrong($value);
 				break;
 			default:
 				parent::__set($key, $value);

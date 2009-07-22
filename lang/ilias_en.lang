@@ -9779,3 +9779,5 @@ assessment#:#text_wrong#:#Wrong Text
 assessment#:#text_correct#:#Correct Text
 assessment#:#errors#:#Errors
 assessment#:#errors_section#:#Error Data
+assessment#:#points_wrong#:#Wrong Selections
+assessment#:#points_wrong_info#:#Enter the points for all selections that are not in the list of the marked errors.

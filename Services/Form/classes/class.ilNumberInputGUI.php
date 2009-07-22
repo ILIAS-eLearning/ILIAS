@@ -75,7 +75,7 @@ class ilNumberInputGUI extends ilSubEnabledFormPropertyGUI
 	*/
 	function setValue($a_value)
 	{
-		$this->value = $a_value;
+		$this->value = str_replace(',', '.', $a_value);
 	}
 
 	/**
@@ -216,7 +216,7 @@ class ilNumberInputGUI extends ilSubEnabledFormPropertyGUI
 		}
 		
 		if (trim($_POST[$this->getPostVar()]) != "" &&
-			! is_numeric($_POST[$this->getPostVar()]))
+			! is_numeric(str_replace(',', '.', $_POST[$this->getPostVar()])))
 		{
 			$this->setAlert($lng->txt("form_msg_numeric_value_required"));
 
