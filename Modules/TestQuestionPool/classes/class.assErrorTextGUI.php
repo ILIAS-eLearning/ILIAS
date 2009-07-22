@@ -81,7 +81,9 @@ class assErrorTextGUI extends assQuestionGUI
 			$this->writeOtherPostData();
 			$this->object->setTextSize(ilUtil::stripSlashes($_POST["textsize"]));
 			$this->object->setErrorText(ilUtil::stripSlashes($_POST["errortext"]));
-			$this->object->setPointsWrong(ilUtil::stripSlashes(str_replace(",", ".", $_POST["points_wrong"])));
+			$points_wrong = ilUtil::stripSlashes(str_replace(",", ".", $_POST["points_wrong"]));
+			if (strlen($points_wrong) == 0) $points_wrong = -1.0;
+			$this->object->setPointsWrong($points_wrong);
 			
 			$this->object->flushErrorData();
 			if (is_array($_POST['errordata']['key']))
