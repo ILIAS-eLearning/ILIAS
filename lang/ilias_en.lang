@@ -9788,14 +9788,12 @@ content#:#cont_text_keyword#:#Keyword
 search#:#search_hide_adv_search#:#Hide Advanced Search
 search#:#search_auto_complete_length#:#Number of Auto Complete List Entries
 assessment#:#points_wrong#:#Wrong Selections
-<<<<<<< .mine
 assessment#:#points_wrong_info#:#Enter the points for all selections that are not in the list of the marked errors.
 content#:#import_sco_object#:#Import SCO
 content#:#scorm_editable#:#Import editable
-content#:#scorm_editable_comments#:#Works only SCORM 1.2/2004 package=======
-assessment#:#points_wrong_info#:#Enter the points for all selections that are not in the list of the marked errors.
+content#:#scorm_editable_comments#:#Works only SCORM 1.2/2004 package
 common#:#preview_learner#:#Members View
 common#:#preview_learner_info#:#If enabled, Course and Group administrators have the possibility to view the content form the perspective of a learner.
 common#:#mem_view_activate#:#Activate Members View
-common#:#mem_view_deactivate#:#Deactivate Members View>>>>>>> .r20720
+common#:#mem_view_deactivate#:#Deactivate Members View
 mcst#:#mcst_automatic_detection#:#Automatic Detection
