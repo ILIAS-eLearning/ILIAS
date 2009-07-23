@@ -27,7 +27,7 @@ class ilMailFolderTableGUI extends ilTable2GUI
 	 * @param
 	 * 
 	 */
-	public function __construct($mbox, $a_parent_obj, $current_folder, $a_parent_cmd = '')
+	public function __construct($mbox, $a_parent_obj, $current_folder, $sentOrDraft = false, $a_parent_cmd = '')
 	{
 	 	global $lng,$ilCtrl, $ilUser;
 	 	
@@ -41,10 +41,13 @@ class ilMailFolderTableGUI extends ilTable2GUI
 		parent::__construct($a_parent_obj, $a_parent_cmd);
 		
 		$this->setPrefix('mtable');
-		
+
 		$this->addColumn('', 'sort', '5%', true);
 		$this->addColumn($this->lng->txt('personal_picture'), '', '10%');
-		$this->addColumn($this->lng->txt('sender'), 'MAIL_FROM', '25%');
+		if ($sentOrDraft)
+			$this->addColumn($this->lng->txt('recipient'), 'MAIL_FROM', '25%');
+		else
+			$this->addColumn($this->lng->txt('sender'), 'MAIL_FROM', '25%');
 		$this->addColumn($this->lng->txt('subject'), 'MAIL_SUBJECT', '40%');
 		$this->addColumn($this->lng->txt('date'), 'MAIL_DATE', '20%');
 		
