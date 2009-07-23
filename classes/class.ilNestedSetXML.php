@@ -67,6 +67,13 @@ class ilNestedSetXML
 	* @access public
 	*/
 	var $dom;
+		
+	/**
+	* unique id for import
+	* @var string
+	* @access private
+	*/
+	private $unique_import_id = '';
 	
     // }}}
 
@@ -85,6 +92,7 @@ class ilNestedSetXML
         $this->LEFT = 0;
         $this->RIGHT = 0;
         $this->DEPTH = 0;
+		$this->unique_import_id = '';
 
 		$this->param_modifier = "";
     }
@@ -119,14 +127,14 @@ class ilNestedSetXML
         
         $pk = $nextId;
         $this->db->manipulateF('
-	        UPDATE NestedSetTemp SET ns_r = ns_r+2 
-    	    WHERE ns_r >= %s  AND ns_book_fk = %s',
-        array('integer','integer'), array($this->LEFT,$this->obj_id));
+	        UPDATE xmlnestedsettmp SET ns_r = ns_r+2 
+    	    WHERE ns_r >= %s  AND ns_book_fk = %s AND ns_unique_id = %s',
+        array('integer','integer', 'text'), array($this->LEFT, $this->obj_id, $this->unique_import_id));
 
       $this->db->manipulateF('
-	        INSERT INTO NestedSetTemp (ns_book_fk, ns_type, ns_tag_fk, ns_l,ns_r) VALUES (%s,%s,%s,%s,%s)',
-        array('integer','text','integer','integer','integer'), 
-        array($this->obj_id, $this->obj_type, $pk, $this->LEFT, $this->RIGHT));
+	        INSERT INTO xmlnestedsettmp (ns_unique_id, ns_book_fk, ns_type, ns_tag_fk, ns_l, ns_r) VALUES (%s,%s,%s,%s,%s,%s)',
+        array('text','integer','text','integer','integer','integer'), 
+        array($this->unique_import_id, $this->obj_id, $this->obj_type, $pk, $this->LEFT, $this->RIGHT));
         
 		$this->clean($attrs);
         if (is_array($attrs) && count($attrs)>0)
@@ -217,35 +225,25 @@ class ilNestedSetXML
     */
     function import($xmldata, $obj_id, $obj_type)
 	{
+		global $ilUser;
+		
         // {{{
         /**
         *   drop temporary table
-        */
-        $this->db->query("DROP TABLE IF EXISTS NestedSetTemp");
-        
-        /**
-        *   create new temp-Table
-        */        
-        $Q = "CREATE TEMPORARY TABLE NestedSetTemp (
-          ns_book_fk int(11)  NOT NULL,
-          ns_type char(50) NOT NULL,
-          ns_tag_fk int(11)  NOT NULL,
-          ns_l int(11)  NOT NULL,
-          ns_r int(11)  NOT NULL,
-          KEY ns_tag_fk (ns_tag_fk),
-          KEY ns_l (ns_l),
-          KEY ns_r (ns_r),
-          KEY ns_book_fk (ns_book_fk)
-        ) TYPE=MyISAM ";
-        $this->db->query($Q);
+        */		
 
         $this->obj_id = $obj_id;
         $this->obj_type = $obj_type;
 		$this->DEPTH = 0;
 		$this->LEFT = 0;
 		$this->RIGHT = 0;
-
-        $this->db->query("DELETE FROM NestedSetTemp");
+		$this->unique_import_id = $ilUser->getId();
+		
+		$this->db->manipulateF(
+			"DELETE FROM xmlnestedsettmp WHERE ns_unique_id = %s",
+			array('text'),
+			array($this->unique_import_id)
+		);    
 
         /**
         *   initialize XML-Parser
@@ -267,8 +265,17 @@ class ilNestedSetXML
         */
         $this->deleteAllDbData();
 
-        $this->db->manipulate("INSERT INTO xmlnestedset SELECT * FROM NestedSetTemp");
-        $this->db->manipulate("DROP TABLE IF EXISTS NestedSetTemp");
+        $this->db->manipulateF(
+			"INSERT INTO xmlnestedset (SELECT * FROM xmlnestedsettmp WHERE ns_unique_id = %s)",
+			array('text'),
+			array($this->unique_import_id)
+		);
+		
+       $this->db->manipulateF(
+			"DELETE FROM xmlnestedsettmp WHERE ns_unique_id = %s",
+			array('text'),
+			array($this->unique_import_id)
+		); 
         // }}}
     }
 

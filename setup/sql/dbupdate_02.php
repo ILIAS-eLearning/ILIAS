@@ -14871,3 +14871,31 @@ $ilDB->createSequence("qpl_a_errortext");
 		"default" => -1.0
 	));
 ?>
+<#2800>
+<?php
+if(!$ilDB->tableExists("xmlnestedsettmp"))
+{
+	$ilDB->createTable("xmlnestedsettmp",
+		array(
+			"ns_unique_id" => array(// text because maybe we have to store a session_id in future e.g.
+				"type" => "text", "length" => 32, "notnull" => true),
+			"ns_book_fk" => array(
+				"type" => "integer", "length" => 4, "notnull" => true),
+			"ns_type" => array(
+				"type" => "text", "length" => 50, "notnull" => true),
+			"ns_tag_fk" => array(
+				"type" => "integer", "length" => 4, "notnull" => true),
+			"ns_l" => array(
+				"type" => "integer", "length" => 4, "notnull" => true),
+			"ns_r" => array(
+				"type" => "integer", "length" => 4, "notnull" => true)
+				
+		)
+	);
+	$ilDB->addIndex("xmlnestedsettmp", array("ns_tag_fk"), 'i1');
+	$ilDB->addIndex("xmlnestedsettmp", array("ns_l"), 'i2');
+	$ilDB->addIndex("xmlnestedsettmp", array("ns_r"), 'i3');
+	$ilDB->addIndex("xmlnestedsettmp", array("ns_book_fk"), 'i4');
+	$ilDB->addIndex("xmlnestedsettmp", array("ns_unique_id"), 'i5');
+}	
+?>
