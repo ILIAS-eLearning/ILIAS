@@ -1382,7 +1382,7 @@ class ilObjCourse extends ilContainer
 
 		return $arr_crsDefaultRoles;
 	}
-
+	
 	function __getLocalRoles()
 	{
 		global $rbacreview;
@@ -1403,7 +1403,9 @@ class ilObjCourse extends ilContainer
 		$res = $ilDB->manipulate($query);
 
 		return true;
-	}	
+	}
+	
+	
 
 	function getDefaultMemberRole()
 	{

@@ -9693,3 +9693,7 @@ license#:#used_licenses#:#Verbrauchte Lizenzen
 license#:#used_licenses_explanation#:#Jeder Erstaufruf eines Nutzers verbraucht eine Lizenz.
 license#:#zero_licenses_explanation#:#Tragen Sie 0 ein, um die Lizensierung zu deaktivieren.
 common#:#advanced_editing_required_tags#:#Die folgenden HTML-Auszeichnungen sind für diesen Bereich zwingend notwendig: %s
+common#:#preview_learner#:#Teilnehmeransicht
+common#:#preview_learner_info#:#Wenn aktiviert, wird Kurs- und Gruppenadministratoren die Möglichkeit angeboten, Inhalte aus der Sicht eines Kursteilnehmers zu betrachten.
+common#:#mem_view_activate#:#Teilehmeransicht aktivieren
+common#:#mem_view_deactivate#:#Teilehmeransicht deaktivieren

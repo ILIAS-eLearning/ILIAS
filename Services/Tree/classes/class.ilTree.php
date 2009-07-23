@@ -830,6 +830,33 @@ class ilTree
 		return $filtered ? $filtered : array();
 	}
 	
+	/**
+	 * Get all ids of subnodes
+	 * @return 
+	 * @param object $a_ref_id
+	 */
+	public function getSubTreeIds($a_ref_id)
+	{
+		global $ilDB;
+		
+		$query = 'SELECT s.child FROM '.$this->table_tree.' s, '.$this->table_tree.' t '. 
+			'WHERE t.child = %s '.
+			'AND s.lft > t.lft '.
+			'AND s.rgt < t.rgt '.
+			'AND s.'.$this->tree_pk.' = %s';
+		
+		$res = $ilDB->queryF(
+			$query, 
+			array('integer','integer'),
+			array($a_ref_id,$this->tree_id)
+		);
+		while($row = $res->fetchRow(DB_FETCHMODE_OBJECT))
+		{
+			$childs[] = $row->child;
+		}
+		return $childs ? $childs : array();
+	}
+	
 
 	/**
 	* get all nodes in the subtree under specified node

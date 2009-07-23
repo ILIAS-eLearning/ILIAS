@@ -230,6 +230,33 @@ class ilParticipants
 		ilCourseWaitingList::_deleteUser($a_usr_id);
 	}
 	
+	public static function getDefaultMemberRole($a_ref_id)
+	{
+		$obj_id = ilObject::_lookupObjId($a_ref_id);
+		$type = ilObject::_lookupType($obj_id);
+		
+		if(!in_array($type,array('crs','grp')))
+		{
+			return 0;
+		}
+		
+		global $rbacreview;
+		
+
+		$rolf = $rbacreview->getRoleFolderIdOfObject($a_ref_id);
+		$roles = $rbacreview->getRolesOfRoleFolder($rolf,false);
+		
+		foreach($roles as $role)
+		{
+			$title = ilObject::_lookupTitle($role);
+			if(substr($title, 0, 13) == ('il_'.$type.'_member'))
+			{
+				return $role;
+			}
+		}
+		return 0;
+	}
+	
 	/**
 	 * Get admin, tutor which have notification enabled
 	 *

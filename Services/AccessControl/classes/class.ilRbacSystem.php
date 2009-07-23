@@ -25,8 +25,8 @@
 /**
 * class ilRbacSystem
 * system function like checkAccess, addActiveRole ...
-*  Supporting system functions are required for session management and in making access control decisions.
-*  This class depends on the session since we offer the possiblility to add or delete active roles during one session.
+* Supporting system functions are required for session management and in making access control decisions.
+* This class depends on the session since we offer the possiblility to add or delete active roles during one session.
 * 
 * @author Stefan Meyer <smeyer@databay.de> 
 * @version $Id$
@@ -35,6 +35,10 @@
 */
 class ilRbacSystem
 {
+	protected static $instance = null;
+	
+	protected $mem_view;
+	
 	protected static $user_role_cache = array();
 	var $ilias;
 
@@ -48,7 +52,7 @@ class ilRbacSystem
 	* Constructor
 	* @access	public
 	*/
-	function ilRbacSystem()
+	protected function ilRbacSystem()
 	{
 		global $ilDB,$ilErr,$ilias;
 
@@ -66,6 +70,15 @@ class ilRbacSystem
 		{
 			$this->ilErr =& $ilErr;
 		}
+	}
+	
+	public static function getInstance()
+	{
+		if(self::$instance)
+		{
+			return self::$instance;
+		}
+		return self::$instance = new ilRbacSystem();
 	}
 	
 	/**	
@@ -102,7 +115,7 @@ class ilRbacSystem
 	
 	function checkAccessOfUser($a_user_id, $a_operations, $a_ref_id, $a_type = "")
 	{
-		global $ilUser, $rbacreview,$ilObjDataCache,$ilDB;
+		global $ilUser, $rbacreview,$ilObjDataCache,$ilDB,$ilLog;
 
 		// Create the user cache key
 		$cacheKey = $a_user_id.':'.$a_operations.':'.$a_ref_id.':'.$a_type;
@@ -136,8 +149,7 @@ class ilRbacSystem
 
 		
 		// get roles using role cache
-		$roles = $this->fetchAssignedRoles($a_user_id);
-		
+		$roles = $this->fetchAssignedRoles($a_user_id,$a_ref_id);
 		
 		// exclude system role from rbac
 		if (in_array(SYSTEM_ROLE_ID, $roles))
@@ -170,7 +182,9 @@ class ilRbacSystem
         if (array_key_exists($paCacheKey, self::$_paCache)) {
 			// Return result from PA cache
             $ops = self::$_paCache[$paCacheKey];
-        } else {
+        } 
+		else 
+		{
 			// Data is not in PA cache, perform database query
 			$q = "SELECT * FROM rbac_pa ".
 					 "WHERE ref_id = ".$ilDB->quote($a_ref_id, 'integer');
@@ -181,13 +195,14 @@ class ilRbacSystem
 
 			while ($row = $r->fetchRow(DB_FETCHMODE_OBJECT))
 			{
-					if (in_array($row->rol_id, $roles)) {
-					  $ops = array_merge($ops,unserialize(stripslashes($row->ops_id)));
-					}
+				if (in_array($row->rol_id, $roles))
+				{
+					$ops = array_merge($ops,unserialize(stripslashes($row->ops_id)));
+				}
 			}
-
 			// Cache up to 1000 entries in the PA cache
-			if (count(self::$_paCache) < 1000) {
+			if (count(self::$_paCache) < 1000) 
+			{
 				self::$_paCache[$paCacheKey] = $ops;
 			}
         }
@@ -209,20 +224,24 @@ class ilRbacSystem
 			{
 				$ops_id = ilRbacReview::_getOperationIdByName($operation);
 			}
-
-			if (! in_array($ops_id,$ops)) {
-					// Store negative outcome in cache.
-					// Note: we only cache up to 1000 results to avoid memory overflows
-					if (count(self::$_checkAccessOfUserCache) < 1000) {
-						self::$_checkAccessOfUserCache[$cacheKey] = false;
-					}
-					return false;
+			if (! in_array($ops_id,$ops)) 
+			{
+				$ilLog->write('PERMISSION: '.$a_ref_id.' -> '.$a_ops_id.' failed');
+				// Store negative outcome in cache.
+				// Note: we only cache up to 1000 results to avoid memory overflows
+				if (count(self::$_checkAccessOfUserCache) < 1000) 
+				{
+					self::$_checkAccessOfUserCache[$cacheKey] = false;
+				}
+				return false;
 			}
 		}
 
 		// Store positive outcome in cache.
 		// Note: we only cache up to 1000 results to avoid memory overflows
-		if (count(self::$_checkAccessOfUserCache) < 1000) {
+		if (count(self::$_checkAccessOfUserCache) < 1000) 
+		{
+			$ilLog->write('PERMISSION: '.$a_ref_id.' -> '.$ops_id.' granted');
 			self::$_checkAccessOfUserCache[$cacheKey] = true;
 		}
 		return true;
@@ -264,7 +283,16 @@ class ilRbacSystem
 
 	function __filterOwnerPermissions($a_user_id,$a_operations,$a_ref_id)
 	{
-		global $ilObjDataCache;
+		global $ilObjDataCache,$ilUser;
+
+		// member view constraints
+		if($this->mem_view['active'] and $a_user_id == $ilUser->getId())
+		{
+			if(in_array($a_ref_id, $this->mem_view['items']))
+			{
+				return $a_operations;
+			}
+		}
 
 		if($a_user_id != $ilObjDataCache->lookupOwner($ilObjDataCache->lookupObjId($a_ref_id)))
 		{
@@ -287,6 +315,8 @@ class ilRbacSystem
 			}
 		}
 		return $new_ops;
+		
+		
 	}
 	
 	/**
@@ -297,15 +327,62 @@ class ilRbacSystem
 	 * @param int user id
 	 * 
 	 */
-	private function fetchAssignedRoles($a_usr_id)
+	private function fetchAssignedRoles($a_usr_id,$a_ref_id)
 	{
 	 	global $ilUser,$rbacreview;
-	 	
+		
+		// Member view constraints
+		if($this->mem_view['active'] and $a_usr_id == $ilUser->getId())
+		{
+			// check if current ref_id is subitem of active container
+			if(in_array($a_ref_id, $this->mem_view['items']) and $this->mem_view['role'])
+			{
+				// Return default member role
+				return array($this->mem_view['role']);
+			}
+		}
+
 		if(isset(self::$user_role_cache[$a_usr_id]) and is_array(self::$user_role_cache))
 		{
 			return self::$user_role_cache[$a_usr_id];
 		}
+
+
+
 		return self::$user_role_cache[$a_usr_id] = $rbacreview->assignedRoles($a_usr_id);
+	}
+	
+	/**
+	 * Init member view
+	 * @return 
+	 */
+	public function initMemberView()
+	{
+		include_once './Services/Container/classes/class.ilMemberViewSettings.php';
+		$settings = ilMemberViewSettings::getInstance();
+		if($settings->isEnabled() and isset($_GET['mv']))
+		{
+			$settings->toggleActivation((int) $_GET['ref_id'], (int) $_GET['mv']);
+		}
+		
+		if(!$settings->isActive())
+		{
+			$this->mem_view['active'] = false;
+			$this->mem_view['items'] = array();
+			$this->mem_view['role'] = 0;
+		}
+		else
+		{
+			global $tree;
+			
+			$this->mem_view['active'] = true;
+			$this->mem_view['items'] = $tree->getSubTreeIds($settings->getContainer());
+			$this->mem_view['items'] = array_merge($this->mem_view['items'],array($settings->getContainer()));
+			include_once './Services/Membership/classes/class.ilParticipants.php';
+			$this->mem_view['role'] = ilParticipants::getDefaultMemberRole($settings->getContainer());
+			
+		}
+		return true;
 	}
 
 } // END class.RbacSystem
