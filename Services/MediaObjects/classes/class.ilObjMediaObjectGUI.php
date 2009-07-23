@@ -660,9 +660,9 @@ class ilObjMediaObjectGUI extends ilObjectGUI
 		// fullscreen view
 		if ($_POST["full_type"] != "None")
 		{
-			$media_item = new ilMediaItem();
-			$a_mob->addMediaItem($media_item);
-			$media_item->setPurpose("Fullscreen");
+			$media_item2 = new ilMediaItem();
+			$a_mob->addMediaItem($media_item2);
+			$media_item2->setPurpose("Fullscreen");
 
 			// move file / set format and location
 			if ($_POST["full_type"] == "File")
@@ -694,9 +694,9 @@ class ilObjMediaObjectGUI extends ilObjectGUI
 						(int) $_POST["full_width_height"]["height"], (boolean) $_POST["full_width_height"]["constr_prop"]);
 				}
 	
-				$media_item->setFormat($format);
-				$media_item->setLocation($location);
-				$media_item->setLocationType("LocalFile");
+				$media_item2->setFormat($format);
+				$media_item2->setLocation($location);
+				$media_item2->setLocationType("LocalFile");
 				$type = "File";
 			}
 			
@@ -713,29 +713,30 @@ class ilObjMediaObjectGUI extends ilObjectGUI
 			if ($_POST["full_type"] == "Reference" ||
 				($_POST["full_type"] == "Standard" && $_POST["standard_type"] == "Reference"))
 			{		
-				$media_item->setFormat($format);
-				$media_item->setLocation($location);
-				$media_item->setLocationType("Reference");
+				$media_item2->setFormat($format);
+				$media_item2->setLocation($location);
+				$media_item2->setLocationType("Reference");
 				$type = "Reference";
 			}
 
 			// determine width and height of known image types
 			$wh = ilObjMediaObject::_determineWidthHeight(500, 400, $format,
-				$type, $mob_dir."/".$location, $media_item->getLocation(),
+				$type, $mob_dir."/".$location, $media_item2->getLocation(),
 				$_POST["full_width_height"]["constr_prop"], ($_POST["full_size"] == "original"),
 				$_POST["full_width_height"]["width"], $_POST["full_width_height"]["height"]);
 
-			$media_item->setWidth($wh["width"]);
-			$media_item->setHeight($wh["height"]);
+			$media_item2->setWidth($wh["width"]);
+			$media_item2->setHeight($wh["height"]);
 
 			if ($_POST["full_caption"] != "")
 			{
 				$media_item->setCaption(ilUtil::stripSlashes($_POST["full_caption"]));
 			}			
+
 		}
-		
+	
 		ilUtil::renameExecutables($mob_dir);
-		$a_mob->update();
+		$a_mob->update();		
 	}
 	
 	
