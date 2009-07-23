@@ -93,11 +93,11 @@ class ilPageObjectGUI
 		$this->setEnabledPageFocus(true);
 		$this->setLayoutMode(false);		
 		
-		
 		if ($a_id > 0)
 		{
 			$this->initPageObject($a_parent_type, $a_id, $a_old_nr);
 		}
+
 		$this->output2template = true;
 		$this->question_xml = "";
 		$this->question_html = "";

@@ -89,20 +89,28 @@ class ilSCORM2004ScoGUI extends ilSCORM2004NodeGUI
 				}
 				break;
 
-					case 'ilmdeditorgui':
-						$this->setTabs();
-						$this->setLocator();
-						include_once 'Services/MetaData/classes/class.ilMDEditorGUI.php';
+			case 'ilmdeditorgui':
+				$this->setTabs();
+				$this->setLocator();
+				include_once 'Services/MetaData/classes/class.ilMDEditorGUI.php';
 
-						$md_gui =& new ilMDEditorGUI($this->slm_object->getID(),
-						$this->node_object->getId(), $this->node_object->getType());
-						$md_gui->addObserver($this->node_object,'MDUpdateListener','General');
-						$ilCtrl->forwardCommand($md_gui);
-						break;
+				$md_gui =& new ilMDEditorGUI($this->slm_object->getID(),
+				$this->node_object->getId(), $this->node_object->getType());
+				$md_gui->addObserver($this->node_object,'MDUpdateListener','General');
+				$ilCtrl->forwardCommand($md_gui);
+				break;
+				
+			case 'ilscorm2004pagegui':
+				include_once("./Modules/Scorm2004/classes/class.ilSCORM2004PageGUI.php");
+				$page_obj = new ilSCORM2004PageGUI("sahs",$_GET["pg_id"]);
+				//$page_obj->setPresentationTitle($page["title"]);
+				$page_obj->setOutputMode(IL_PAGE_PREVIEW);
+				$ilCtrl->forwardCommand($page_obj);
+				break;
 
-					default:
-						$ret =& $this->$cmd();
-						break;
+			default:
+				$ret =& $this->$cmd();
+				break;
 		}
 	}
 

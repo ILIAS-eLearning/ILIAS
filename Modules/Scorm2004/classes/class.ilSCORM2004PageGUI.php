@@ -44,10 +44,9 @@ class ilSCORM2004PageGUI extends ilPageObjectGUI
 	*/
 	function __construct($a_parent_type, $a_id = 0, $a_old_nr = 0, $a_slm_id = 0)
 	{
-		global $tpl;
-		
+		global $tpl;	
 		parent::__construct($a_parent_type, $a_id, $a_old_nr);
-		
+
 		$this->setEnabledMaps(false);
 		$this->setPreventHTMLUnmasking(false);
 		$this->setEnabledInternalLinks(false);
