@@ -290,8 +290,7 @@ class ilMD extends ilMDBase
 		{
 			// Defaults
 			include_once 'Services/MetaData/classes/class.ilMDGeneral.php';
-			$gen = new ilMDGeneral($this->getRBACId(),$this->getObjId(),
-				$this->getObjType());	// added type, alex, 31 Oct 2007
+			$gen = new ilMDGeneral($this->getRBACId(),$this->getObjId(), $this->getObjType());	// added type, alex, 31 Oct 2007
 			$gen->setExportMode($this->getExportMode());
 			$gen->toXML($writer);
 		}

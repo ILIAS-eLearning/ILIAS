@@ -32,6 +32,7 @@
 */
 
 include_once 'Services/MetaData/classes/class.ilMDSaxParser.php';
+include_once 'Services/MetaData/classes/class.ilMD.php';
 
 class ilMDXMLCopier extends ilMDSaxParser
 {

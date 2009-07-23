@@ -101,6 +101,7 @@ class ilContObjectManifestBuilder
 		$this->writer->xmlStartTag("metadata");
 		$this->writer->xmlElement("schema",null,"ADL SCORM");
 		$this->writer->xmlElement("schemaversion",null,"2004 3rd Edition");
+        $this->writer->xmlElement("adlcp:location",null,"indexMD.xml");
 		$this->writer->xmlEndTag("metadata");
 		}
 		// organizations start tag
@@ -120,6 +121,8 @@ class ilContObjectManifestBuilder
 		$attrs = array();
 		$this->writer->xmlElement("title", $attrs, $this->cont_obj->getTitle());
 
+		
+        
 		// write item hierarchy
 		//$this->writeItemHierarchy();
 		$tree = new ilTree($this->cont_obj->getId());
@@ -166,7 +169,7 @@ class ilContObjectManifestBuilder
 	 */
 	function dump($a_target_dir)
 	{
-		$this->writer->xmlDumpFile($a_target_dir."/imsmanifest.xml", true);
+		$this->writer->xmlDumpFile($a_target_dir."/imsmanifest.xml", false);
 	}
 
 	/**
@@ -238,6 +241,12 @@ class ilContObjectManifestBuilder
 			
 			if($this->version=="2004")
 			{
+				if($obj['type']=='sco') 
+				{
+					$this->writer->xmlStartTag("metadata");
+                    $this->writer->xmlElement("adlcp:location",null,$obj['obj_id']."/indexMD.xml");
+            		$this->writer->xmlEndTag("metadata");
+				}	
 				require_once("./Modules/Scorm2004/classes/seq_editor/class.ilSCORM2004Item.php");
 				$seq_item = new ilSCORM2004Item($obj['obj_id']);
 				$this->writer->xmlData($this->writer->xmlFormatData($seq_item->exportAsXML()),false,false);
@@ -334,14 +343,14 @@ class ilContObjectManifestBuilder
 					if ($mob_id > 0 && ilObject::_exists($mob_id))
 					{
 						$media_obj = new ilObjMediaObject($mob_id);
-						$this->writer->xmlElement("file", array("href"=>"./".$obj['obj_id']."/objects/il_".IL_INST_ID."_mob_".$mob_id."/".$media_obj->getTitle()), "");
+						$this->writer->xmlElement("file", array("href"=>"./".$obj['obj_id']."/objects/il_".IL_INST_ID."_mob_".$mob_id."/".rawurlencode($media_obj->getMediaItem("Standard")->getLocation())), "");
 					}
 				}
 				$file_ids = $page_obj->collectFileItems();
 				foreach($file_ids as $file_id)
 				{
 					$file_obj = new ilObjFile($file_id, false);
-					$this->writer->xmlElement("file", array("href"=>"./".$obj['obj_id']."/objects/il_".IL_INST_ID."_mob_".$file_id."/".$file_obj->filename), "");
+					$this->writer->xmlElement("file", array("href"=>"./".$obj['obj_id']."/objects/il_".IL_INST_ID."_file_".$file_id."/".rawurlencode($file_obj->filename)), "");
 				}
 				unset($page_obj);
 			}

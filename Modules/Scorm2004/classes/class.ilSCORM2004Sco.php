@@ -130,6 +130,19 @@ class ilSCORM2004Sco extends ilSCORM2004Node
 		copy('./xml/ilias_co_3_7.dtd',$a_target_dir.'/ilias_co_3_7.dtd');
 		copy('./Modules/Scorm2004/templates/xsl/sco.xsl',$a_target_dir.'/sco.xsl');
 		
+		$a_xml_writer = new ilXmlWriter;
+		// MetaData
+		//file_put_contents($a_target_dir.'/indexMD.xml','<lom xmlns="http://ltsc.ieee.org/xsd/LOM"><general/><classification/></lom>');
+		$this->exportXMLMetaData($a_xml_writer);
+		$metadata_xml = $a_xml_writer->xmlDumpMem(false);
+		$a_xml_writer->_XmlWriter;
+		
+		$xsl = file_get_contents("./Modules/Scorm2004/templates/xsl/metadata.xsl");
+		$args = array( '/_xml' => $metadata_xml , '/_xsl' => $xsl );
+		$xh = xslt_create();
+		$output = xslt_process($xh,"arg:/_xml","arg:/_xsl",NULL,$args,NULL);
+		xslt_free($xh);
+		file_put_contents($a_target_dir.'/indexMD.xml',$output);		
 		
 		$a_xml_writer = new ilXmlWriter;
 		// set dtd definition
@@ -145,8 +158,7 @@ class ilSCORM2004Sco extends ilSCORM2004Node
 
 		$a_xml_writer->xmlStartTag("ContentObject", array("Type"=>"SCORM2004SCO"));
 
-		// MetaData
-		$this->exportXMLMetaData($a_xml_writer);
+		$this->exportXMLMetaData($a_xml_writer);		
 		
 		$this->exportXMLPageObjects($a_target_dir, $a_xml_writer, $a_inst, $expLog);
 		
@@ -270,22 +282,27 @@ class ilSCORM2004Sco extends ilSCORM2004Node
 		// alex, 4 Apr 09
 		//
 		
-		$output = '<html>
-			<meta http-equiv="Content-Type" content="text/html; charset=utf-8"/>
-			<link rel="stylesheet" type="text/css" href="./css/system.css" />
-			<link rel="stylesheet" type="text/css" href="./css/style.css" />
-			<link rel="stylesheet" type="text/css" href="./css/accordion.css" />
-			<script src="./js/scorm.js" type="text/javascript" language="JavaScript1.2"></script>
-			<script src="./js/jquery.js" type="text/javascript" language="JavaScript1.2"></script>
-			<script src="./js/jquery-ui-min.js" type="text/javascript" language="JavaScript1.2"></script>
-			<script src="./js/pager.js" type="text/javascript" language="JavaScript1.2"></script>
-			<script src="./js/pure.js" type="text/javascript" language="JavaScript1.2"></script>
-			<script src="./js/yahoo/yahoo-min.js" type="text/javascript" language="JavaScript1.2"></script>
-			<script src="./js/yahoo/yahoo-dom-event.js" type="text/javascript" language="JavaScript1.2"></script>
-			<script src="./js/yahoo/animation-min.js" type="text/javascript" language="JavaScript1.2"></script>
-			<script src="./js/accordion.js" type="text/javascript" language="JavaScript1.2"></script>
-			<script src="./js/questions_'. $this->getId().'.js" type="text/javascript" language="JavaScript1.2"></script>
-			<title>'.$this->getTitle().'</title>
+		$output = '
+		<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+		"http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+			<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en" lang="en">
+			<head>
+				<meta http-equiv="Content-Type" content="text/html; charset=utf-8"/>
+				<link rel="stylesheet" type="text/css" href="./css/system.css" />
+				<link rel="stylesheet" type="text/css" href="./css/style.css" />
+				<link rel="stylesheet" type="text/css" href="./css/accordion.css" />
+				<script src="./js/scorm.js" type="text/javascript" language="JavaScript1.2"></script>
+				<script src="./js/jquery.js" type="text/javascript" language="JavaScript1.2"></script>
+				<script src="./js/jquery-ui-min.js" type="text/javascript" language="JavaScript1.2"></script>
+				<script src="./js/pager.js" type="text/javascript" language="JavaScript1.2"></script>
+				<script src="./js/pure.js" type="text/javascript" language="JavaScript1.2"></script>
+				<script src="./js/yahoo/yahoo-min.js" type="text/javascript" language="JavaScript1.2"></script>
+				<script src="./js/yahoo/yahoo-dom-event.js" type="text/javascript" language="JavaScript1.2"></script>
+				<script src="./js/yahoo/animation-min.js" type="text/javascript" language="JavaScript1.2"></script>
+				<script src="./js/accordion.js" type="text/javascript" language="JavaScript1.2"></script>
+				<script src="./js/questions_'. $this->getId().'.js" type="text/javascript" language="JavaScript1.2"></script>
+				<title>'.$this->getTitle().'</title>
+			</head>
 			<body onLoad="init(0);" onunload="finish();">';
 			
 		if($mode!='pdf')
@@ -565,7 +582,7 @@ class ilSCORM2004Sco extends ilSCORM2004Node
 	function exportXMLMetaData(&$a_xml_writer)
 	{
 		include_once("Services/MetaData/classes/class.ilMD2XML.php");
-		$md2xml = new ilMD2XML($this->getId(), 0, $this->getType());
+		$md2xml = new ilMD2XML($this->getSLMId(), $this->getId(), $this->getType());
 		$md2xml->setExportMode(true);
 		$md2xml->startExport();
 		$a_xml_writer->appendXML($md2xml->getXML());
