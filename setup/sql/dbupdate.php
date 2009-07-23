@@ -2114,7 +2114,7 @@ while($row = $res->fetchRow(DB_FETCHMODE_OBJECT))
 	$role_ids[] = $row->rol_id;
 }
 
-$rbacsystem =& new ilRbacSystem();
+$rbacsystem = ilRbacSystem::getInstance();
 $rbacadmin =& new ilRbacAdmin();
 $rbacreview =& new ilRbacReview();
 
