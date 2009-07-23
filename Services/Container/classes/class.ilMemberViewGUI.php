@@ -65,6 +65,7 @@ class ilMemberViewGUI
 			$tpl->setVariable('MEM_VIEW_IMG',ilUtil::getImagePath('icon_rolt.gif'));
 			$tpl->setVariable('MEM_VIEW_ALT',$lng->txt('mem_view_deactivate'));
 			$tpl->parseCurrentBlock();
+			return true;
 		}
 		
 		$type = ilObject::_lookupType(ilObject::_lookupObjId($a_ref_id));
@@ -75,7 +76,8 @@ class ilMemberViewGUI
 			$tpl->setVariable('MEM_VIEW_IMG',ilUtil::getImagePath('icon_role.gif'));
 			$tpl->setVariable('MEM_VIEW_ALT',$lng->txt('mem_view_activate'));
 			$tpl->parseCurrentBlock();
-			
+			return true;
 		}
+		return true;
 	}
 }
