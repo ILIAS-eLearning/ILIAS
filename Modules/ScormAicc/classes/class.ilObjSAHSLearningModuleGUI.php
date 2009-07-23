@@ -250,6 +250,9 @@ class ilObjSAHSLearningModuleGUI extends ilObjectGUI
 		$this->tpl->setVariable("TXT_IMPORT_LM", $this->lng->txt("import_sahs"));
 		$this->tpl->setVariable("TXT_SELECT_FILE", $this->lng->txt("select_file"));
 		$this->tpl->setVariable("TXT_VALIDATE_FILE", $this->lng->txt("cont_validate_file"));
+		$this->tpl->setVariable("TXT_EDITABLE_LM", $this->lng->txt("scorm_editable"));
+		$this->tpl->setVariable("TXT_EDITABLE_LM_COMMENTS", $this->lng->txt("scorm_editable_comments"));
+		
 
 		// get the value for the maximal uploadable filesize from the php.ini (if available)
 		$umf=get_cfg_var("upload_max_filesize");
@@ -433,6 +436,7 @@ class ilObjSAHSLearningModuleGUI extends ilObjectGUI
 			case "scorm2004":
 				include_once("./Modules/Scorm2004/classes/class.ilObjSCORM2004LearningModule.php");
 				$newObj = new ilObjSCORM2004LearningModule();
+				$newObj->setEditable($_POST["editable"]=='y');
 				break;
 
 			case "scorm":

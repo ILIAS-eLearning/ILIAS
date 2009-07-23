@@ -3,10 +3,10 @@
 	<div id="container{VAL_ID}" class="ilc_question_SingleChoice">
 	<div class="ilc_qtitle_Title question id@id">qtitle</div>
 	<span class="ilc_answers answers">
-		<div class="ilc_qanswer_Answer"><input type="radio" class="name order@value" value="0" name="answers{VAL_ID}"> <span class="answertext" /></span></div>
+		<div class="ilc_qanswer_Answer"><input type="radio" class="name order@value" value="0" name="answers{VAL_ID}" /> <span class="answertext" /></span></div>
 		</span>	
 	<div id="feedback{VAL_ID}" style="display:none"></div>
-	<input type="button" class="ilc_qsubmit_Submit" {VAL_NO_DISPLAY} id="button{VAL_ID}" onclick="ilias.questions.checkAnswers({VAL_ID})" value="Submit Answers">
+	<input type="button" class="ilc_qsubmit_Submit" {VAL_NO_DISPLAY} id="button{VAL_ID}" onclick="ilias.questions.checkAnswers({VAL_ID})" value="Submit Answers" />
 	</div>
 <script>
 	ilias.questions.shuffle(questions[{VAL_ID}]);
@@ -17,10 +17,10 @@
 <div id="container{VAL_ID}" class="ilc_question_MultipleChoice">
 	<div class="ilc_qtitle_Title question id@id">qtitle</div>
 	<span class="ilc_answers answers">
-		<div class="ilc_qanswer_Answer"><input type="checkbox" class="name order@value" value="0" name="answers{VAL_ID}"> <span class="answertext" /></span></div>
+		<div class="ilc_qanswer_Answer"><input type="checkbox" class="name order@value" value="0" name="answers{VAL_ID}" /> <span class="answertext" /></span></div>
 		</span>	
 	<div id="feedback{VAL_ID}" style="display:none"></div>
-	<input type="button" class="ilc_qsubmit_Submit" id="button{VAL_ID}" {VAL_NO_DISPLAY} onclick="ilias.questions.checkAnswers({VAL_ID})" value="Submit Answers">
+	<input type="button" class="ilc_qsubmit_Submit" id="button{VAL_ID}" {VAL_NO_DISPLAY} onclick="ilias.questions.checkAnswers({VAL_ID})" value="Submit Answers" />
 	</div>
 <script>
 	ilias.questions.shuffle(questions[{VAL_ID}]);
@@ -34,7 +34,7 @@
 	<li class="answers solutionorder@id" style="list-style-type:circle; cursor:move; width:200px; border:1px; border-style:solid; margin:3px; padding:3px;"><div class="ilc_qanswer_Answer answertext"></div></li>
 </ul>
 <div id="feedback{VAL_ID}" style="display:none"></div>
-<input type="button" class="ilc_qsubmit_Submit" id="button{VAL_ID}" {VAL_NO_DISPLAY} onclick="ilias.questions.checkAnswers({VAL_ID})" value="Submit Answers">
+<input type="button" class="ilc_qsubmit_Submit" id="button{VAL_ID}" {VAL_NO_DISPLAY} onclick="ilias.questions.checkAnswers({VAL_ID})" value="Submit Answers" />
 </div>
 <script>
 	ilias.questions.shuffle(questions[{VAL_ID}]);
@@ -46,7 +46,7 @@
 <div id="container{VAL_ID}" class="ilc_question_ClozeTest">
 <div class="ilc_qanswer_Answer question id@id">qtitle</div>	
 <div id="feedback{VAL_ID}" style="display:none"></div>
-<input type="button" class="ilc_qsubmit_Submit" id="button{VAL_ID}" {VAL_NO_DISPLAY} onclick="ilias.questions.checkAnswers({VAL_ID})" value="Submit Answers">
+<input type="button" class="ilc_qsubmit_Submit" id="button{VAL_ID}" {VAL_NO_DISPLAY} onclick="ilias.questions.checkAnswers({VAL_ID})" value="Submit Answers" />
 </div>
 <script>
 	jQuery('div#container{VAL_ID}').autoRender(questions[{VAL_ID}]);
@@ -58,7 +58,7 @@
 	<div class="ilc_qtitle_Title question id@id">qtitle</div>
 	<textarea class="ilc_qlinput_LongTextInput answer" id="textarea{VAL_ID}" cols="60" rows="5" maxlength="{VAL_MAXLENGTH}"></textarea>
 <div id="feedback{VAL_ID}" style="display:none"></div><br/>
-<input type="button" class="ilc_qsubmit_Submit" id="button{VAL_ID}"  {VAL_NO_DISPLAY} onclick="ilias.questions.checkAnswers({VAL_ID})" value="Submit Answers">
+<input type="button" class="ilc_qsubmit_Submit" id="button{VAL_ID}"  {VAL_NO_DISPLAY} onclick="ilias.questions.checkAnswers({VAL_ID})" value="Submit Answers" />
 </div>
 <script>
 	jQuery('div#container{VAL_ID}').autoRender(questions[{VAL_ID}]);	
@@ -68,9 +68,9 @@
 <!-- BEGIN imagemapquestion -->
 <div id="container{VAL_ID}" class="ilc_question_ImagemapQuestion">
 	<div class="ilc_qtitle_Title question id@id">qtitle</div>
-	<img class="cmap{VAL_ID} imagemap image@src" src="url" usemap="#map{VAL_ID}">
+	<img class="cmap{VAL_ID} imagemap image@src" src="url" usemap="#map{VAL_ID}" />
 	<div id="feedback{VAL_ID}" style="display:none"></div>
-	<input type="button" class="ilc_qsubmit_Submit" id="button{VAL_ID}"  {VAL_NO_DISPLAY} onclick="ilias.questions.checkAnswers({VAL_ID})" value="Submit Answers">
+	<input type="button" class="ilc_qsubmit_Submit" id="button{VAL_ID}"  {VAL_NO_DISPLAY} onclick="ilias.questions.checkAnswers({VAL_ID})" value="Submit Answers" />
 	</div>
 	<map class="map" name="map{VAL_ID}">
 		<!-- BEGIN mapareas -->
@@ -109,7 +109,7 @@
 		<div id="render{VAL_ID}"></div>
 	</div>
 	<div id="feedback{VAL_ID}" style="display:none"></div>
-	<input type="button" class="ilc_qsubmit_Submit" id="button{VAL_ID}"  {VAL_NO_DISPLAY} onclick="ilias.questions.checkAnswers({VAL_ID})" value="Submit Answers">
+	<input type="button" class="ilc_qsubmit_Submit" id="button{VAL_ID}"  {VAL_NO_DISPLAY} onclick="ilias.questions.checkAnswers({VAL_ID})" value="Submit Answers" />
 	</div>
 		
 <script>

@@ -28,8 +28,11 @@
 
 
 require_once "./Modules/Scorm2004/classes/ilSCORM13Package.php";
+require_once "./Modules/Scorm2004/classes/class.ilSCORM2004Chapter.php";
+require_once "./Modules/Scorm2004/classes/class.ilSCORM2004Sco.php";
+require_once "./Modules/Scorm2004/classes/class.ilSCORM2004PageNode.php";
 require_once "./Modules/Scorm2004/classes/adlparser/SeqTreeBuilder.php";
-
+require_once("./Modules/ScormAicc/classes/SCORM/class.ilSCORMTree.php");
 
 class ilSCORM13Package
 {
@@ -47,6 +50,8 @@ class ilSCORM13Package
 	private $packageFolder;
 	private $packagesFolder;
 	private $packageData;
+	private $slm;
+	private $slm_tree;
 
 	public $imsmanifest;
 	public $manifest;
@@ -309,14 +314,14 @@ class ilSCORM13Package
 	* @access       public
 	* @return       string title of package
 	*/
-	public function il_importSco($packageId, $sco_id, $packageFolder){
+	public function il_importSco($packageId, $sco_id, $packageFolder)
+	{
 		global $ilDB, $ilLog;
 		
 		
 	  	$this->packageFolder=$packageFolder;
 	  	$this->packageId=$packageId;
 	  	$this->imsmanifestFile = $this->packageFolder . '/' . 'index.xml';
-	  	//step 1 - parse Manifest-File and validate
 	  	$this->imsmanifest = new DOMDocument;
 	  	$this->imsmanifest->async = false;
 	  	
@@ -326,31 +331,94 @@ class ilSCORM13Package
 	  		return false;
 	  	}
 	  	
-//		$ilLog->write("SCORM: parse");
-
-	  	//step 2 tranform
-//	  	$this->manifest = $this->transform($this->imsmanifest, self::DB_ENCODE_XSL);
-//    
-//	  	if (!$this->manifest)
-//	  	{
-//	  		$this->diagnostic[] = 'Cannot transform into normalized manifest';
-//	  		return false;
-//	  	}
-		
 	  	$slm = new ilObjSCORM2004LearningModule($packageId,false);
 	  	$sco = new ilSCORM2004Sco($slm,$sco_id);
-	  	
-//		$ilLog->write("SCORM: validate");
-	
-//	  	ilSCORM13DB::begin();
 	  	$this->dbImportSco($slm,$sco);
 	  	
-//		$ilLog->write("SCORM: import new");
-	
-//	  	ilSCORM13DB::commit();
+		return "";
+	}
 
-	  	return $j['item']['title'];
-	  }
+	public function il_importLM($slm, $packageFolder)
+	{
+		global $ilDB, $ilLog;
+		
+	  	$this->packageFolder=$packageFolder;
+	  	$this->packageId=$slm->getId();
+	  	$this->imsmanifestFile = $this->packageFolder . '/' . 'imsmanifest.xml';
+	  	$this->imsmanifest = new DOMDocument;
+	  	$this->imsmanifest->async = false;
+	  	$this->slm = $slm;
+	  	if (!@$this->imsmanifest->load($this->imsmanifestFile))
+	  	{
+	  		$this->diagnostic[] = 'XML not wellformed';
+	  		return false;
+	  	}
+		$this->dbImportLM(simplexml_import_dom($this->imsmanifest->documentElement),$this->slm);
+	  	//die($slm->title);
+		return $slm->title;
+	}
+	
+	function dbImportLM($node, $parent_id)
+	{
+	
+		switch($node->getName())
+		{
+			case "manifest":
+				$this->slm_tree =& new ilTree($this->slm->getId());
+				$this->slm_tree->setTreeTablePK("slm_id");
+				$this->slm_tree->setTableNames('sahs_sc13_tree', 'sahs_sc13_tree_node');
+				$this->slm_tree->addTree($this->slm->getId(), 1);
+				//add seqinfo for rootNode
+				include_once ("./Modules/Scorm2004/classes/seq_editor/class.ilSCORM2004Sequencing.php");
+				$seq_info = new ilSCORM2004Sequencing($this->slm->getId(),true);
+				$seq_info->insert();
+		  		$doc = simplexml_load_file($this->packageFolder . '/' . 'index.xml');
+		  		$l = $doc->xpath ( "/ContentObject/MetaData" );
+				if($l[0])
+			  	{
+			  		include_once 'Services/MetaData/classes/class.ilMDXMLCopier.php';
+			  		$mdxml =& new ilMDXMLCopier($l[0]->asXML(),$this->slm->getId(),$this->slm->getId(),$this->slm->getType());
+					$mdxml->startParsing();
+					$mdxml->getMDObject()->update();
+			  	}
+			  	
+				break;
+			case "organization":
+				$this->slm->title=$node->title;
+				break;
+			case "item":
+				$a = $node->attributes();
+				if(preg_match("/il_\d+_chap_\d+/",$a['identifier']))
+				{
+					$chap=& new ilSCORM2004Chapter($this->slm);
+					$chap->setTitle($node->title);
+					$chap->setSLMId($this->slm->getId());
+					$chap->create(true);
+					ilSCORM2004Node::putInTree($chap, "", "");
+					$parent_id=$chap->getId();
+				}
+				if(preg_match("/il_\d+_sco_(\d+)/",$a['identifier'],&$match))
+				{
+					$sco = new ilSCORM2004Sco($this->slm);
+					$sco->setTitle($node->title);
+					$sco->setSLMId($this->slm->getId());
+					$sco->create();
+					ilSCORM2004Node::putInTree($sco, $parent_id, "");
+					$newPack = new ilSCORM13Package();
+					$newPack->il_importSco($this->slm->getId(),$sco->getId(),$this->packageFolder."/".$match[1]);
+					$parent_id = $sco->getId();
+				}
+				
+				break;
+		}
+		//if($node->nodeType==XML_ELEMENT_NODE)
+		{
+			foreach($node->children() as $child)
+			{
+				 $this->dbImportLM($child,$parent_id);
+			}
+		}
+	}
 
 	private function setProgress($progress, $msg = '')
 	{
@@ -380,6 +448,118 @@ class ilSCORM13Package
 		foreach ($node->children() as $name => $child)
 		{
 			self::jsonNode($child, $sink[$name][]); // RECURSION
+		}
+	}
+
+	public function dbImportSco($slm, $sco) 
+	{
+		$qtis = array();
+		$d = ilUtil::getDir ( $this->packageFolder );
+		foreach ( $d as $f ) {
+			//continue;
+			if ($f [type] == 'file' && substr ( $f [entry], 0, 4 ) == 'qti_') {
+				include_once "./Services/QTI/classes/class.ilQTIParser.php";
+				include_once "./Modules/Test/classes/class.ilObjTest.php";
+				
+
+				$qtiParser = new ilQTIParser ( $this->packageFolder . "/" . $f [entry], IL_MO_VERIFY_QTI, 0, "" );
+				$result = $qtiParser->startParsing ();
+				$founditems = & $qtiParser->getFoundItems ();
+				//					die(print_r($founditems));
+				foreach ( $founditems as $qp ) {
+					$newObj = new ilObjTest ( 0, true );
+					$newObj->setType ( $qp ['type'] );
+					$newObj->setTitle ( $qp ['title'] );
+					$newObj->create ( true );
+					$newObj->createReference ();
+					$newObj->putInTree ($_GET ["ref_id"]);
+					$newObj->setPermissions ( $sco->getId ());
+					$newObj->notify ("new", $_GET["ref_id"], $sco->getId (), $_GET["ref_id"], $newObj->getRefId () );
+					$newObj->mark_schema->flush ();
+					$qtiParser = new ilQTIParser ( $this->packageFolder . "/" . $f [entry], IL_MO_PARSE_QTI, 0, "" );
+					$qtiParser->setTestObject ( $newObj );
+					$result = $qtiParser->startParsing ();
+					$newObj->saveToDb ();
+					$qtis = array_merge($qtis, $qtiParser->getImportMapping());
+				}
+			}
+		}
+		include_once 'class.ilSCORM2004Page.php';
+		$doc = new SimpleXMLElement ( $this->imsmanifest->saveXml () );
+		$l = $doc->xpath ( "/ContentObject/MetaData" );
+		if($l[0])
+	  	{
+	  		include_once 'Services/MetaData/classes/class.ilMDXMLCopier.php';
+	  		$mdxml =& new ilMDXMLCopier($l[0]->asXML(),$slm->getId(),$sco->getId(),$sco->getType());
+			$mdxml->startParsing();
+			$mdxml->getMDObject()->update();
+	  	}
+		$l = $doc->xpath ( "/ContentObject/PageObject" );
+		foreach ( $l as $page_xml ) {
+			$tnode = $page_xml->xpath ( 'MetaData/General/Title' );
+			$page = new ilSCORM2004PageNode ( $slm );
+			$page->setTitle ( $tnode [0] );
+			$page->setSLMId ( $slm->getId () );
+			$page->create ();
+			ilSCORM2004Node::putInTree ( $page, $sco->getId (), $target );
+			$tnode = $page_xml->xpath ( "//MediaObject/MediaAlias" );
+			foreach ( $tnode as $ttnode ) {
+				include_once './Services/MediaObjects/classes/class.ilObjMediaObject.php';
+				$media_object = new ilObjMediaObject ( );
+				$media_object->setTitle ( "" );
+				$media_object->setDescription ( "" );
+				$media_object->create ();
+				
+				// determine and create mob directory, move uploaded file to directory
+				$media_object->createDirectory ();
+				$mob_dir = ilObjMediaObject::_getDirectory ( $media_object->getId () );
+				if (! file_exists ( $this->packageFolder . "/objects/" . $ttnode [OriginId] ))
+					continue;
+				$d = ilUtil::getDir ( $this->packageFolder . "/objects/" . $ttnode [OriginId] );
+				foreach ( $d as $f ) {
+					if ($f [type] == 'file') {
+						$media_item = & new ilMediaItem ( );
+						$media_object->addMediaItem ( $media_item );
+						$media_item->setPurpose ( "Standard" );
+						
+						$tmp_name = $this->packageFolder . "/objects/" . $ttnode [OriginId] . "/" . $f [entry];
+						$name = $f [entry];
+						$file = $mob_dir . "/" . $name;
+						copy ( $tmp_name, $file );
+						
+						// get mime type
+						$format = ilObjMediaObject::getMimeType ( $file );
+						$location = $name;
+						// set real meta and object data
+						$media_item->setFormat ( $format );
+						$media_item->setLocation ( $location );
+						$media_item->setLocationType ( "LocalFile" );
+						$media_object->setTitle ( $name );
+						$media_object->setDescription ( $format );
+						
+						if (ilUtil::deducibleSize ( $format )) {
+							$size = getimagesize ( $file );
+							$media_item->setWidth ( $size [0] );
+							$media_item->setHeight ( $size [1] );
+						}
+						//$media_item->setHAlign("Left");
+					}
+				}
+				
+				ilUtil::renameExecutables ( $mob_dir );
+				$media_object->update ();
+				$ttnode [OriginId] = "il__mob_" . $media_object->getId ();
+			}
+			$pagex = new ilSCORM2004Page ( $page->getId () );
+			$tnode = $page_xml->xpath ( 'PageContent' );
+			$t = "<PageObject>";
+			foreach ( $tnode as $ttnode )
+				$t .= $ttnode->asXML ();
+			$t .= "</PageObject>";
+			foreach ($qtis as $old=>$q)
+				$t = str_replace($old,'il__qst_'.$q['test'], $t);
+			$pagex->setXMLContent ( $t );
+			$pagex->updateFromXML ();
 		}
 	}
 

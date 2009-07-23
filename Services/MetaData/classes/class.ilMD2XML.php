@@ -39,7 +39,6 @@ class ilMD2XML extends ilXmlWriter
 	function ilMD2XML($a_rbac_id,$a_obj_id,$a_type)
 	{
 		$this->md_obj =& new ilMD($a_rbac_id,$a_obj_id,$a_type);
-
 		parent::ilXmlWriter();
 	}
 	

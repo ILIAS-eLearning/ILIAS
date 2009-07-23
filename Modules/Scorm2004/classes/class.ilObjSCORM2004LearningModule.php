@@ -220,6 +220,8 @@ class ilObjSCORM2004LearningModule extends ilObjSCORMLearningModule
 		// start SCORM 2004 package parser/importer
 		include_once ("./Modules/Scorm2004/classes/ilSCORM13Package.php");
 		$newPack = new ilSCORM13Package();
+		if ($_POST["editable"] == "y")
+			return $newPack->il_importLM($this,$this->getDataDirectory());
 		return $newPack->il_import($this->getDataDirectory(),$this->getId(),$this->ilias,$_POST["validate"]);
 	}
 
@@ -1360,6 +1362,21 @@ class ilObjSCORM2004LearningModule extends ilObjSCORMLearningModule
 
 	function exportScorm($a_inst, $a_target_dir, $ver, &$expLog)
 	{
+		
+		$a_xml_writer = new ilXmlWriter;
+
+		$this->exportXMLMetaData($a_xml_writer);
+		$metadata_xml = $a_xml_writer->xmlDumpMem(false);
+		$a_xml_writer->_XmlWriter;
+		
+		$xsl = file_get_contents("./Modules/Scorm2004/templates/xsl/metadata.xsl");
+		$args = array( '/_xml' => $metadata_xml , '/_xsl' => $xsl );
+		$xh = xslt_create();
+		$output = xslt_process($xh,"arg:/_xml","arg:/_xsl",NULL,$args,NULL);
+		xslt_free($xh);
+		file_put_contents($a_target_dir.'/indexMD.xml',$output);
+		//die(htmlentities($metadata_xml).'<br/>'. htmlentities($output));		
+		
 		$a_xml_writer = new ilXmlWriter;
 		// set dtd definition
 		$a_xml_writer->xmlSetDtdDef("<!DOCTYPE ContentObject SYSTEM \"http://www.ilias.de/download/dtd/ilias_co_3_7.dtd\">");

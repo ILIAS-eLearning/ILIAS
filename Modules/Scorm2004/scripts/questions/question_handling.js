@@ -667,10 +667,24 @@ jQuery(document).ready(function() {
 	// IE!!!
 	else 
 	{   
+		var ie8=false;
 		// ie executes this code
-		document.createStyleSheet().addRule("v\\:*", "behavior: url(#default#VML); antialias: true;"); 
-		document.namespaces.add("v", "urn:schemas-microsoft-com:vml"); 
+		if (document.documentMode) // IE8
+		{  
+			if (document.documentMode==8) {
+				ie8 = true;
+			}
+		}
 			
+		if(ie8==true)
+		{
+			document.writeln('<?import namespace="v" implementation="#default#VML" ?>'); 
+			document.namespaces.add('v', 'urn:schemas-microsoft-com:vml', "#default#VML");		
+		} else {
+			document.createStyleSheet().addRule("v\\:*", "behavior: url(#default#VML); antialias: true;"); 
+			document.namespaces.add("v", "urn:schemas-microsoft-com:vml"); 
+		}	
+		
 		create_canvas_for = function(img)
 		{
 			return jQuery('<var id="iemainvmlcontainer" style="zoom:1;overflow:hidden;display:block;width:'+img.width+'px;height:'+img.height+'px;"></var>').get(0);
