@@ -84,7 +84,7 @@ class ilCourseAgreementGUI
 		switch($next_class)
 		{
 			default:
-				if(!$cmd)
+				if(!$cmd or $cmd == 'view')
 				{
 					$cmd = 'showAgreement';
 				}
