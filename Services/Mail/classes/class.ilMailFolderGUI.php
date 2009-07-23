@@ -223,7 +223,11 @@ class ilMailFolderGUI
 		$isTrashFolder = ($this->mbox->getTrashFolder() == $_GET["mobj_id"]) ? true : false;
 
 		include_once 'Services/Mail/classes/class.ilMailFolderTableGUI.php';
-		$mailtable = new ilMailFolderTableGUI($this->mbox, $this, $_GET["mobj_id"]);
+		
+		$isSentOrDraftFolder = $_GET['mobj_id'] == $this->mbox->getSentFolder() ||
+								$_GET['mobj_id'] == $this->mbox->getDraftsFolder(); 
+		
+		$mailtable = new ilMailFolderTableGUI($this->mbox, $this, $_GET["mobj_id"], $isSentOrDraftFolder);
 
 		// BEGIN CONFIRM_DELETE
 		if($_POST["selected_cmd"] == "deleteMails" &&
@@ -298,7 +302,7 @@ class ilMailFolderGUI
 		   
 			foreach($folders as $folder)
 			{
-				$folder = $mtree->getNodeData($folder['obj_id']);
+				$folder_d = $mtree->getNodeData($folder['obj_id']);
 				if($folder["obj_id"] == $_GET["mobj_id"])
 				{
 					$this->tpl->setVariable("FLAT_SELECTED","selected");
@@ -307,9 +311,9 @@ class ilMailFolderGUI
 				if($folder["type"] == 'user_folder')
 				{
 					$pre = "";
-					for ($i = 2; $i < $folder["depth"] - 1; $i++)
+					for ($i = 2; $i < $folder_d["depth"] - 1; $i++)
 						$pre .= "&nbsp";
-					if ($folder["depth"] > 1)
+					if ($folder_d["depth"] > 1)
 						$pre .= "+";					
 					$this->tpl->setVariable("FLAT_NAME", $pre." ".$folder["title"]);
 				}
@@ -445,7 +449,7 @@ class ilMailFolderGUI
 
 		$txt_folder = "";
 		$img_folder = "";
-		if($folder_node["type"] == 'user_folder')
+		if($folder_node["m_type"] == 'user_folder')
 		{
 			$txt_folder = $folder_node["title"];
 			$img_folder = "icon_user_folder.gif";		

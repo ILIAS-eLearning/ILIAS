@@ -136,7 +136,7 @@ class ilMailExplorer extends ilExplorer
 		global $lng;
 		static $counter = 0;
 
-		if ($objects =  $this->tree->getChilds($a_parent,"title,type"))
+		if ($objects =  $this->tree->getChilds($a_parent,"title,m_type"))
 		{
 //			var_dump("<pre>",$objects,"</pre");
 			$tab = ++$a_depth - 2;
@@ -160,8 +160,8 @@ class ilMailExplorer extends ilExplorer
 				$this->format_options["$counter"]["parent"] = $object["parent"];
 				$this->format_options["$counter"]["child"] = $object["child"];
 				$this->format_options["$counter"]["title"] = $object["title"];
-				$this->format_options["$counter"]["type"] = $object["type"];
-				$this->format_options["$counter"]["desc"] = $object["type"];
+				$this->format_options["$counter"]["type"] = $object["m_type"];
+				$this->format_options["$counter"]["desc"] = $object["m_type"];
 				$this->format_options["$counter"]["depth"] = $tab;
 				$this->format_options["$counter"]["container"] = false;
 				$this->format_options["$counter"]["visible"]	  = true;
@@ -270,7 +270,7 @@ class ilMailExplorer extends ilExplorer
 	*/
 	function getImage($a_name, $a_type = "", $a_obj_id = "")
 	{
-		if ($a_type) return ilUtil::getImagePath("icon_".$a_type.".gif");
+		if ($a_type) return ilUtil::getImagePath("icon_".$a_type."_s.gif");
 		else return ilUtil::getImagePath($a_name);
 	}
 
