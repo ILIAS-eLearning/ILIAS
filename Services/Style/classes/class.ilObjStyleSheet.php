@@ -2980,8 +2980,11 @@ class ilObjStyleSheet extends ilObject
 		$a_preview_html = str_replace(' width=""', "", $a_preview_html);
 		$a_preview_html = str_replace(' valign="top"', "", $a_preview_html);
 		$a_preview_html = str_replace('<div class="ilc_text_block_TableContent">', "<div>", $a_preview_html);
+//echo "1-".strlen($a_preview_html)."-";
+//echo htmlentities($a_preview_html);
 		if (strlen($a_preview_html) > 4000)
 		{
+//echo "2";
 			$a_preview_html = "";
 		}
 		$ilDB->manipulate("UPDATE style_template SET ".

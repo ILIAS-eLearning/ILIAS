@@ -438,9 +438,11 @@
 <!-- Edit Label -->
 <xsl:template name="EditLabel">
 	<xsl:param name="text"/>
+	<xsl:if test="$mode = 'edit'">
 	<div class="ilEditLabel" style="display:none;">
 		<xsl:attribute name="id">TCONTENT<xsl:value-of select="../@HierId"/>:<xsl:value-of select="../@PCID"/></xsl:attribute>
 	<xsl:value-of select="$text"/><xsl:comment>Dummy</xsl:comment></div>
+	</xsl:if>
 </xsl:template>
 
 <!-- Edit Menu -->

@@ -63,7 +63,10 @@ class ilTableTemplatesTableGUI extends ilTable2GUI
 		// action commands
 		$this->addMultiCommand("deleteTemplateConfirmation", $lng->txt("delete"));
 		
-		$this->addCommandButton("generateTemplate", $this->lng->txt("sty_generate_template"));
+		if ($a_temp_type == "table")
+		{
+			$this->addCommandButton("generateTemplate", $this->lng->txt("sty_generate_template"));
+		}
 		$this->addCommandButton("addTemplate", $this->lng->txt("sty_add_template"));
 		
 		$this->setEnableTitle(true);

@@ -2348,7 +2348,7 @@ class ilObjStyleSheetGUI extends ilObjectGUI
 				$t_id = $this->object->addTemplate($_GET["temp_type"],
 					$_POST["name"], $classes);
 				$this->object->writeTemplatePreview($t_id,
-					$this->getTemplatePreview($_GET["temp_type"], $_GET["temp_type"], $t_id, true));
+					$this->getTemplatePreview($_GET["temp_type"], $t_id, true));
 				$ilCtrl->redirect($this, "listTemplates");
 			}
 		}
