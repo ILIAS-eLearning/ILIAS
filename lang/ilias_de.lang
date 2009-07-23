@@ -9697,3 +9697,4 @@ common#:#preview_learner#:#Teilnehmeransicht
 common#:#preview_learner_info#:#Wenn aktiviert, wird Kurs- und Gruppenadministratoren die Möglichkeit angeboten, Inhalte aus der Sicht eines Kursteilnehmers zu betrachten.
 common#:#mem_view_activate#:#Teilehmeransicht aktivieren
 common#:#mem_view_deactivate#:#Teilehmeransicht deaktivieren
+mcst#:#mcst_automatic_detection#:#Automatisch

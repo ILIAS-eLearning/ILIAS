@@ -329,7 +329,7 @@ class ilObjMediaCastGUI extends ilObjectGUI
     			$mimeTypeSelection->setPostVar("mimetype_".$purpose);
     			$mimeTypeSelection->setTitle($lng->txt("mcst_mimetype"));
     			$mimeTypeSelection->setInfo($lng->txt("mcst_mimetype_info")); 
-    			$options = array($lng->txt("automatic_detection"));
+    			$options = array($lng->txt("mcst_automatic_detection"));
     			$options = array_merge($options, $this->mimeTypes);
     			$mimeTypeSelection->setOptions($options);    			
     			$this->form_gui->addItem($mimeTypeSelection);
