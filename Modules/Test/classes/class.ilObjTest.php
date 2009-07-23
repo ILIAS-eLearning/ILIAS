@@ -7507,7 +7507,7 @@ function loadQuestions($active_id = "", $pass = NULL)
 	function canShowTestResults($user_id)
 	{
 		$active_id = $this->getActiveIdOfUser($user_id);
-		if ($active > 0)
+		if ($active_id > 0)
 		{
 			$starting_time = $this->getStartingTimeOfUser($active_id);
 		}
