@@ -867,6 +867,13 @@ class ilInitialisation
 		$lng = new ilLanguage($_SESSION['lang']);
 		$GLOBALS['lng'] =& $lng;
 		$ilBench->stop("Core", "HeaderInclude_initLanguage");
+		
+		// TODO: another location
+		global $rbacsystem;
+		if(is_object($rbacsystem))
+		{
+			$rbacsystem->initMemberView();
+		}
 
 	}
 
@@ -878,12 +885,15 @@ class ilInitialisation
 		global $ilBench, $rbacsystem, $rbacadmin, $rbacreview;
 
 		$ilBench->start("Core", "HeaderInclude_initRBAC");
-		$rbacsystem = new ilRbacSystem();
-		$GLOBALS['rbacsystem'] =& $rbacsystem;
-		$rbacadmin = new ilRbacAdmin();
-		$GLOBALS['rbacadmin'] =& $rbacadmin;
 		$rbacreview = new ilRbacReview();
 		$GLOBALS['rbacreview'] =& $rbacreview;
+
+		$rbacsystem = ilRbacSystem::getInstance();
+		$GLOBALS['rbacsystem'] =& $rbacsystem;
+
+		$rbacadmin = new ilRbacAdmin();
+		$GLOBALS['rbacadmin'] =& $rbacadmin;
+
 		$ilAccess =& new ilAccessHandler();
 		$GLOBALS["ilAccess"] =& $ilAccess;
 		$ilBench->stop("Core", "HeaderInclude_initRBAC");
@@ -1032,12 +1042,12 @@ class ilInitialisation
 //		$objDefinition->startParsing();
 		$ilBench->stop("Core", "HeaderInclude_getObjectDefinitions");
 
-		// $ilAccess and $rbac... initialisation
-		$this->initAccessHandling();
-
 		// init tree
 		$tree = new ilTree(ROOT_FOLDER_ID);
 		$GLOBALS['tree'] =& $tree;
+
+		// $ilAccess and $rbac... initialisation
+		$this->initAccessHandling();
 
 		// authenticate & start session
 		PEAR::setErrorHandling(PEAR_ERROR_CALLBACK, array($ilErr, "errorHandler"));

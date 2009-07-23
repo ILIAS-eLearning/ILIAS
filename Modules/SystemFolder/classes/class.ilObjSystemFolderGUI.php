@@ -2043,6 +2043,13 @@ return $this->showServerInfoObject();
 			$cb->setChecked(true);
 		}
 		$this->form->addItem($cb);
+		
+		// Learners View
+		$pl = new ilCheckboxInputGUI($this->lng->txt('preview_learner'),'preview_learner');
+		$pl->setValue(1);
+		$pl->setInfo($this->lng->txt('preview_learner_info'));
+		$pl->setChecked($ilSetting->get('preview_learner'));
+		$this->form->addItem($pl);
 
 		// save and cancel commands
 		$this->form->addCommandButton("saveBasicSettings", $lng->txt("save"));
@@ -2073,6 +2080,7 @@ return $this->showServerInfoObject();
 			$ilSetting->set("password_assistance", $_POST["password_assistance"]);
 			$ilSetting->set("passwd_auto_generate", $_POST["passwd_auto_generate"]);
 			$ilSetting->set("locale", $_POST["locale"]);
+			$ilSetting->set('preview_learner',(int) $_POST['preview_learner']);
 			
 			ilUtil::sendSuccess($lng->txt("msg_obj_modified"), true);
 			$ilCtrl->redirect($this, "showBasicSettings");

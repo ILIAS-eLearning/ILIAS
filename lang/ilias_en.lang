@@ -9789,3 +9789,7 @@ search#:#search_hide_adv_search#:#Hide Advanced Search
 search#:#search_auto_complete_length#:#Number of Auto Complete List Entries
 assessment#:#points_wrong#:#Wrong Selections
 assessment#:#points_wrong_info#:#Enter the points for all selections that are not in the list of the marked errors.
+common#:#preview_learner#:#Members View
+common#:#preview_learner_info#:#If enabled, Course and Group administrators have the possibility to view the content form the perspective of a learner.
+common#:#mem_view_activate#:#Activate Members View
+common#:#mem_view_deactivate#:#Deactivate Members View

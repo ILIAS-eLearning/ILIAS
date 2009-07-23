@@ -247,6 +247,10 @@ class ilContainerGUI extends ilObjectGUI implements ilDesktopItemHandling
 				// This method is called directly from ilContainerGUI::renderObject
 				#$this->showPossibleSubObjects();
 				$this->showTreeFlatIcon();
+				
+				// Member view
+				include_once './Services/Container/classes/class.ilMemberViewGUI.php';
+				ilMemberViewGUI::showMemberViewSwitch($this->object->getRefId());
 			}
 		}
 	}
