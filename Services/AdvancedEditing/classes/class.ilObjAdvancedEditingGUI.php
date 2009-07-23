@@ -500,9 +500,17 @@ class ilObjAdvancedEditingGUI extends ilObjectGUI
 	
 	public function saveFrmPostSettingsObject()
 	{
-		ilUtil::sendSuccess($this->lng->txt("msg_obj_modified"),true);
-
-		$this->object->_setUsedHTMLTags($_POST["html_tags"], "frm_post");
+		ilUtil::sendSuccess($this->lng->txt('msg_obj_modified'), true);
+		
+		try
+		{
+			$this->object->_setUsedHTMLTags((array)$_POST['html_tags'], 'frm_post');	
+		}
+		catch(ilAdvancedEditingRequiredTagsException $e)
+		{
+			ilUtil::sendInfo($e->getMessage(), true);	
+		}
+		
 		$this->ctrl->redirect($this,'frmPost');
 	}
 	

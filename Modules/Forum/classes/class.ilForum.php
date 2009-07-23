@@ -2078,12 +2078,13 @@ class ilForum
 				if($edit == 0)
 				{
 					$ws= "[ \t\r\f\v\n]*";
-					
+
 					$text = eregi_replace("\[(quote$ws=$ws\"([^\"]*)\"$ws)\]",
 						$this->replQuote1.'<div class="ilForumQuoteHead">'.$lng->txt("quote")." (\\2)".'</div>', $text);
 
 					$text = str_replace("[quote]",
 						$this->replQuote1.'<div class="ilForumQuoteHead">'.$lng->txt("quote").'</div>', $text);
+					
 					$text = str_replace("[/quote]", $this->replQuote2, $text);
 				}
 			}

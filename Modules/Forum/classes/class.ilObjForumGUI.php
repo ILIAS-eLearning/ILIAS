@@ -1763,15 +1763,35 @@ class ilObjForumGUI extends ilObjectGUI
 		$oPostGUI->addPlugin('latex');
 		$oPostGUI->addButton('latex');
 		$oPostGUI->addButton('pastelatex');
+		$oPostGUI->addPlugin('ilfrmquote');
 		$oPostGUI->setRTERootBlockElement('');
 		$oPostGUI->usePurifier(true);
+		$oPostGUI->disableButtons(array(
+			'removeformat',
+			'charmap',
+			'undo',
+			'redo',
+			'justifyleft',
+			'justifycenter',
+			'justifyright',
+			'justifyfull',
+			'anchor',
+			'code',
+			'fullscreen',
+			'cut',
+			'copy',
+			'paste',
+			'pastetext',
+			'pasteword'
+		));
+		
 		if($_GET['action'] == 'showreply' || $_GET['action'] == 'ready_showreply')
 		{
-			$oPostGUI->setRTESupport($ilUser->getId(), 'frm~', 'frm_post');
+			$oPostGUI->setRTESupport($ilUser->getId(), 'frm~', 'frm_post', 'tpl.tinymce_frm_post.html');
 		}
 		else
 		{
-			$oPostGUI->setRTESupport($this->objCurrentPost->getId(), 'frm', 'frm_post');
+			$oPostGUI->setRTESupport($this->objCurrentPost->getId(), 'frm', 'frm_post', 'tpl.tinymce_frm_post.html');
 		}
 		// purifier
 		require_once 'Services/Html/classes/class.ilHtmlPurifierFactory.php';
@@ -3467,9 +3487,29 @@ class ilObjForumGUI extends ilObjectGUI
 		$post_gui->addPlugin('latex');
 		$post_gui->addButton('latex');
 		$post_gui->addButton('pastelatex');
+		$post_gui->addPlugin('ilfrmquote');
 		$post_gui->usePurifier(true);	
 		$post_gui->setRTERootBlockElement('');	
-		$post_gui->setRTESupport($ilUser->getId(), 'frm~', 'frm_post');		
+		$post_gui->setRTESupport($ilUser->getId(), 'frm~', 'frm_post', 'tpl.tinymce_frm_post.html');
+		$post_gui->disableButtons(array(
+			'removeformat',
+			'charmap',
+			'undo',
+			'redo',
+			'justifyleft',
+			'justifycenter',
+			'justifyright',
+			'justifyfull',
+			'anchor',
+			'code',
+			'fullscreen',
+			'cut',
+			'copy',
+			'paste',
+			'pastetext',
+			'pasteword'
+		));		
+				
 		// purifier
 		require_once 'Services/Html/classes/class.ilHtmlPurifierFactory.php';
 		$post_gui->setPurifier(ilHtmlPurifierFactory::_getInstanceByType('frm_post'));

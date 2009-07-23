@@ -232,6 +232,21 @@ class ilObjAdvancedEditing extends ilObject
 			"ul"			
 			);
 		}
+		
+		// frm_posts need blockquote and div urgently
+		if($a_module === 'frm_post')
+		{
+			if(!in_array('div', $usedtags))
+			{
+				$usedtags[] = 'div';
+			}
+			
+			if(!in_array('blockquote', $usedtags))
+			{
+				$usedtags[] = 'blockquote';
+			}
+		}
+		
 		return $usedtags;
 	}
 
@@ -290,14 +305,45 @@ class ilObjAdvancedEditing extends ilObject
 	*
 	* @param array $a_html_tags An array containing the allowed HTML tags
 	* @param string $a_module The name of the module or object which uses the tags
+	* @throws ilAdvancedEditingRequiredTagsException
+	* 
 	*/
 	function _setUsedHTMLTags($a_html_tags, $a_module)
 	{
+		global $lng;		
+		
 		if (strlen($a_module))
 		{
+			$auto_added_tags = array();
+			
+			// frm_posts need blockquote and div urgently
+			if($a_module == 'frm_post')
+			{				
+				if(!in_array('div', $a_html_tags))
+				{
+					$auto_added_tags[] = 'div';
+				}
+				
+				if(!in_array('blockquote', $a_html_tags))
+				{
+					$auto_added_tags[] = 'blockquote';
+				}				
+			}			
+			
 			include_once "./Services/Administration/classes/class.ilSetting.php";
 			$setting = new ilSetting("advanced_editing");
-			$setting->set("advanced_editing_used_html_tags_" . $a_module, serialize($a_html_tags));
+			$setting->set("advanced_editing_used_html_tags_" . $a_module, serialize(array_merge((array)$a_html_tags, $auto_added_tags)));
+			
+			if(count($auto_added_tags))
+			{
+				require_once 'Services/AdvancedEditing/exceptions/class.ilAdvancedEditingRequiredTagsException.php';
+				throw new ilAdvancedEditingRequiredTagsException(
+					sprintf(
+						$lng->txt('advanced_editing_required_tags'),
+						implode(', ', $auto_added_tags)
+					)
+				);
+			}
 		}
 	}
 	
