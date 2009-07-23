@@ -5077,6 +5077,22 @@ class ilObjCourseGUI extends ilContainerGUI
 		return true;
 	}
 	
+	public function prepareOutput()
+	{
+		global $rbacsystem;
+		if(!$this->getCreationMode())
+		{
+			include_once './Services/Container/classes/class.ilMemberViewSettings.php';
+			$settings = ilMemberViewSettings::getInstance();
+			if($settings->isActive() and $settings->getContainer() != $this->object->getRefId())
+			{
+				$settings->setContainer($this->object->getRefId());
+				$rbacsystem->initMemberView();				
+			}
+		}
+		parent::prepareOutput();
+	}
+	
 	
 } // END class.ilObjCourseGUI
 ?>
