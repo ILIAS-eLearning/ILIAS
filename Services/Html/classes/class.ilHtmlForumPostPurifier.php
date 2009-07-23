@@ -12,8 +12,23 @@ require_once 'Services/Html/classes/class.ilHtmlPurifierAbstractLibWrapper.php';
 */
 class ilHtmlForumPostPurifier extends ilHtmlPurifierAbstractLibWrapper
 {	
+	/** 
+	* Type of purifier
+	* 
+	* @var		string
+	* @type		string 
+	* @access	public
+	* @static
+	* 
+	*/
 	public static $_type = 'frm_post';
 	
+	/** 
+	* Constructor
+	* 
+	* @access	public
+	* 
+	*/
 	public function __construct()
 	{
 		parent::__construct();

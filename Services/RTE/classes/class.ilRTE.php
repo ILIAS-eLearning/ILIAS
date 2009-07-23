@@ -44,16 +44,7 @@ class ilRTE
 	var $buttons;
 	var $tpl;
 	var $ctrl;
-	var $lng;
-	
-	/**
-	* Setter for the TinyMCE root block element
-	*
-	* @var		string
-	* @type		string
-	* @access	protected
-	*/
-	protected $root_block_element = null;
+	var $lng;	
 	
 	function ilRTE()
 	{
@@ -304,6 +295,16 @@ class ilRTE
 	}
 	
 	public function getRTERootBlockElement()
+	{
+		// must be overwritten in sub classes
+	}
+	
+	public function disableButtons()
+	{
+		// must be overwritten in sub classes
+	}
+	
+	public function getDisabledButtons()
 	{
 		// must be overwritten in sub classes
 	}

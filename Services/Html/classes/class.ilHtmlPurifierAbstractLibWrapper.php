@@ -125,6 +125,15 @@ abstract class ilHtmlPurifierAbstractLibWrapper implements ilHtmlPurifierInterfa
 		return ilUtil::getDataDir().'/HTMLPurifier';
 	}
 	
+	/** 
+	* Removes all unsupported elements
+	* 
+	* @param	Array	$a_array array of all elements
+	* @return	Array	array of supported elements
+	* @access	protected
+	* @final
+	* 
+	*/
 	final protected function removeUnsupportedElements($a_array)
 	{
 		$supportedElements = array();

@@ -39,13 +39,41 @@ class ilTextAreaInputGUI extends ilSubEnabledFormPropertyGUI
 	protected $rtetags;
 	protected $plugins;
 	protected $removeplugins;
-	protected $buttons;
+	protected $buttons;	
 	protected $rtesupport;
-	protected $usePurifier = false;
+	
+	/** 
+	* Array of tinymce buttons which should be disabled
+	* 
+	* @var		Array
+	* @type		Array
+	* @access	protected
+	* 
+	*/
+	protected $disabled_buttons = array();
+	
+	/** 
+	* Use purifier or not
+	* 
+	* @var		boolean
+	* @type		boolean
+	* @access	protected
+	* 
+	*/
+	protected $usePurifier = false;	
+	
+	/** 
+	* Instance of ilHtmlPurifierInterface
+	* 
+	* @var		ilHtmlPurifierInterface
+	* @type		ilHtmlPurifierInterface
+	* @access	protected
+	* 
+	*/
 	protected $Purifier = null;
 	
 	/**
-	* Setter for the TinyMCE root block element
+	* TinyMCE root block element which surrounds the generated html
 	*
 	* @var		string
 	* @type		string
@@ -376,6 +404,8 @@ class ilTextAreaInputGUI extends ilSubEnabledFormPropertyGUI
 				}
 			}
 			
+			$rte->disableButtons($this->getDisabledButtons());
+			
 			if($this->getRTERootBlockElement() !== null)
 			{
 				$rte->setRTERootBlockElement($this->getRTERootBlockElement());
@@ -423,6 +453,13 @@ class ilTextAreaInputGUI extends ilSubEnabledFormPropertyGUI
 		$a_tpl->parseCurrentBlock();
 	}
 	
+	/**
+	* Setter/Getter for the html purifier usage
+	*
+	* @param	boolean	$a_flag	Use purifier or not
+	* @return	mixed	Returns instance of ilTextAreaInputGUI or boolean
+	* @access	public
+	*/
 	public function usePurifier($a_flag = null)
 	{
 		if(null === $a_flag)
@@ -435,10 +472,10 @@ class ilTextAreaInputGUI extends ilSubEnabledFormPropertyGUI
 	}
 	
 	/**
-	* Setter for the TinyMCE root block element
+	* Setter for the html purifier
 	*
 	* @param	ilHtmlPurifierInterface	Instance of ilHtmlPurifierInterface 
-	* @return	ilRTE	instance
+	* @return	ilTextAreaInputGUI		Instance of ilTextAreaInputGUI
 	* @access	public
 	*/
 	public function setPurifier(ilHtmlPurifierInterface $Purifier)
@@ -447,6 +484,12 @@ class ilTextAreaInputGUI extends ilSubEnabledFormPropertyGUI
 		return $this;
 	}
 	
+	/**
+	* Getter for the html purifier
+	*
+	* @return	ilHtmlPurifierInterface	Instance of ilHtmlPurifierInterface
+	* @access	public
+	*/
 	public function getPurifier()
 	{
 		return $this->Purifier;
@@ -455,8 +498,8 @@ class ilTextAreaInputGUI extends ilSubEnabledFormPropertyGUI
 	/**
 	* Setter for the TinyMCE root block element
 	*
-	* @param	string	$a_root_block_element		root block element
-	* @return	ilTextAreaInputGUI					This reference
+	* @param	string				$a_root_block_element	root block element
+	* @return	ilTextAreaInputGUI	Instance of ilTextAreaInputGUI
 	* @access	public
 	*/
 	public function setRTERootBlockElement($a_root_block_element)
@@ -468,11 +511,53 @@ class ilTextAreaInputGUI extends ilSubEnabledFormPropertyGUI
 	/**
 	* Getter for the TinyMCE root block element
 	*
-	* @return	string	$a_text	root block element
+	* @return	string	Root block element of TinyMCE
 	* @access	public
 	*/
 	public function getRTERootBlockElement()
 	{
 		return $this->root_block_element;
+	}
+	
+	/** 
+	* Sets buttons which should be disabled in TinyMCE
+	* 
+	* @param	mixed	$a_button	Either a button string or an array of button strings
+	* @return	ilTextAreaInputGUI	Instance of ilTextAreaInputGUI
+	* @access	public
+	* 
+	*/
+	public function disableButtons($a_button)
+	{
+		if(is_array($a_button))
+		{
+			$this->disabled_buttons = array_unique(array_merge($this->disabled_buttons, $a_button));
+		}
+		else
+		{
+			$this->disabled_buttons = array_unique(array_merge($this->disabled_buttons, array($a_button)));
+		}
+		
+		return $this;
+	}
+	
+	/** 
+	* Returns the disabled TinyMCE buttons
+	* 
+	* @param	boolean	$as_array	Should the disabled buttons be returned as a string or as an array
+	* @return	Array	Array of disabled buttons
+	* @access	public
+	* 
+	*/
+	public function getDisabledButtons($as_array = true)
+	{
+		if(!$as_array)
+		{
+			return implode(',', $this->disabled_buttons);
+		}
+		else
+		{
+			return $this->disabled_buttons;
+		}
 	}
 }

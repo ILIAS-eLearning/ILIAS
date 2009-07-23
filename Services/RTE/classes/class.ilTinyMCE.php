@@ -66,6 +66,25 @@ class ilTinyMCE extends ilRTE
 	}
 	
 	/**
+	* TinyMCE root block element which surrounds the generated html
+	*
+	* @var		string
+	* @type		string
+	* @access	protected
+	*/
+	protected $root_block_element = null;
+	
+	/** 
+	* Array of tinymce buttons which should be disabled
+	* 
+	* @var		Array
+	* @type		Array
+	* @access	protected
+	* 
+	*/
+	protected $disabled_buttons = array();
+	
+	/**
 	* Returns the path to the content css file for the editor
 	*
 	* Returns the path to the content css file for the editor
@@ -140,17 +159,16 @@ class ilTinyMCE extends ilRTE
 			$tpl->setVariable("SESSION_ID", $_COOKIE["PHPSESSID"]);
 			$tpl->setVariable("BLOCKFORMATS", $this->_buildAdvancedBlockformatsFromHTMLTags($tags));
 			$tpl->setVariable("VALID_ELEMENTS", $this->_getValidElementsFromHTMLTags($tags));
-			$more_buttons = "";
-			if (count($this->buttons) > 0)
-			{
-				$more_buttons = ",separator," . join(",", $this->buttons);
-			}
-			if ($this->getStyleSelect())
-			{
-				$tpl->setVariable("STYLE_SELECT", ",styleselect");
-			}
-			$tpl->setVariable("BUTTONS", $this->_buildAdvancedButtonsFromHTMLTags($tags) . $more_buttons);
-			$tpl->setVariable("TABLE_BUTTONS", $this->_buildAdvancedTableButtonsFromHTMLTags($tags));
+
+			$buttons_1 = $this->_buildAdvancedButtonsFromHTMLTags(1, $tags);
+			$buttons_2 = $this->_buildAdvancedButtonsFromHTMLTags(2, $tags)			
+					   . ','.$this->_buildAdvancedTableButtonsFromHTMLTags($tags)
+					   . ($this->getStyleSelect() ? ',styleselect' : '');
+			$buttons_3 = $this->_buildAdvancedButtonsFromHTMLTags(3, $tags);
+			$tpl->setVariable('BUTTONS_1', self::_removeRedundantSeparators($buttons_1));
+			$tpl->setVariable('BUTTONS_2', self::_removeRedundantSeparators($buttons_2));
+			$tpl->setVariable('BUTTONS_3', self::_removeRedundantSeparators($buttons_3));
+			
 			$tpl->setVariable("ADDITIONAL_PLUGINS", join(",", $this->plugins));
 			include_once "./Services/Utilities/classes/class.ilUtil.php";
 			//$tpl->setVariable("STYLESHEET_LOCATION", $this->getContentCSS());
@@ -204,17 +222,17 @@ class ilTinyMCE extends ilRTE
 		$tpl->setVariable("SESSION_ID", $_COOKIE["PHPSESSID"]);
 		$tpl->setVariable("BLOCKFORMATS", $this->_buildAdvancedBlockformatsFromHTMLTags($tags));
 		$tpl->setVariable("VALID_ELEMENTS", $this->_getValidElementsFromHTMLTags($tags));
-		$more_buttons = "";
-		if (count($this->buttons) > 0)
-		{
-			$more_buttons = ",separator," . join(",", $this->buttons);
-		}
-		if ($this->getStyleSelect())
-		{
-			$tpl->setVariable("STYLE_SELECT", ",styleselect");
-		}
-		$tpl->setVariable("BUTTONS", $this->_buildAdvancedButtonsFromHTMLTags($tags, array("charmap")) . $more_buttons);
-		$tpl->setVariable("TABLE_BUTTONS", $this->_buildAdvancedTableButtonsFromHTMLTags($tags));
+		
+		$this->disableButtons('charmap');
+		$buttons_1 = $this->_buildAdvancedButtonsFromHTMLTags(1, $tags);
+		$buttons_2 = $this->_buildAdvancedButtonsFromHTMLTags(2, $tags)			
+				   . ','.$this->_buildAdvancedTableButtonsFromHTMLTags($tags)
+				   . ($this->getStyleSelect() ? ',styleselect' : '');
+		$buttons_3 = $this->_buildAdvancedButtonsFromHTMLTags(3, $tags);
+		$tpl->setVariable('BUTTONS_1', self::_removeRedundantSeparators($buttons_1));
+		$tpl->setVariable('BUTTONS_2', self::_removeRedundantSeparators($buttons_2));
+		$tpl->setVariable('BUTTONS_3', self::_removeRedundantSeparators($buttons_3));		
+		
 		$tpl->setVariable("ADDITIONAL_PLUGINS", join(",", $this->plugins));
 		include_once "./Services/Utilities/classes/class.ilUtil.php";
 		//$tpl->setVariable("STYLESHEET_LOCATION", $this->getContentCSS());
@@ -249,12 +267,7 @@ class ilTinyMCE extends ilRTE
 		include_once "./classes/class.ilObject.php";
 		$template->setVariable("SELECTOR", $editor_selector);
 		$template->setVariable("BLOCKFORMATS", "");
-		$template->setVariable("VALID_ELEMENTS", $this->_getValidElementsFromHTMLTags($validtags));
-		$more_buttons = "";
-		if (count($this->buttons) > 0)
-		{
-			$more_buttons = ",separator," . join(",", $this->buttons);
-		}
+		$template->setVariable("VALID_ELEMENTS", $this->_getValidElementsFromHTMLTags($validtags));		
 		if ($this->getStyleSelect())
 		{
 			$template->setVariable("STYLE_SELECT", ",styleselect");
@@ -345,110 +358,139 @@ class ilTinyMCE extends ilRTE
 		}
 	}
 
-	function _buildAdvancedButtonsFromHTMLTags($a_html_tags, $remove_buttons = "")
+	function _buildAdvancedButtonsFromHTMLTags($a_buttons_section, $a_html_tags)
 	{
 		$theme_advanced_buttons = array();
-		if (in_array("strong", $a_html_tags))
-		{
-			array_push($theme_advanced_buttons, "bold");
-		}
-		if (in_array("em", $a_html_tags))
-		{
-			array_push($theme_advanced_buttons, "italic");
-		}
-		if (in_array("u", $a_html_tags))
-		{
-			array_push($theme_advanced_buttons, "underline");
-		}
-		if (in_array("strike", $a_html_tags))
-		{
-			array_push($theme_advanced_buttons, "strikethrough");
-		}
-		if (count($theme_advanced_buttons))
-		{
+		
+		if($a_buttons_section == 1)
+		{			
+			if (in_array("strong", $a_html_tags))
+			{
+				array_push($theme_advanced_buttons, "bold");
+			}
+			if (in_array("em", $a_html_tags))
+			{
+				array_push($theme_advanced_buttons, "italic");
+			}
+			if (in_array("u", $a_html_tags))
+			{
+				array_push($theme_advanced_buttons, "underline");
+			}
+			if (in_array("strike", $a_html_tags))
+			{
+				array_push($theme_advanced_buttons, "strikethrough");
+			}
+			if (count($theme_advanced_buttons))
+			{
+				array_push($theme_advanced_buttons, "separator");
+			}
+			if (in_array("p", $a_html_tags))
+			{
+				array_push($theme_advanced_buttons, "justifyleft");
+				array_push($theme_advanced_buttons, "justifycenter");
+				array_push($theme_advanced_buttons, "justifyright");
+				array_push($theme_advanced_buttons, "justifyfull");
+				array_push($theme_advanced_buttons, "separator");
+			}
+			if (strlen(ilTinyMCE::_buildAdvancedBlockformatsFromHTMLTags($a_html_tags)))
+			{
+				array_push($theme_advanced_buttons, "formatselect");
+			}
+			if (in_array("hr", $a_html_tags))
+			{
+				array_push($theme_advanced_buttons, "hr");
+			}
+			array_push($theme_advanced_buttons, "removeformat");
 			array_push($theme_advanced_buttons, "separator");
-		}
-		if (in_array("p", $a_html_tags))
-		{
-			array_push($theme_advanced_buttons, "justifyleft");
-			array_push($theme_advanced_buttons, "justifycenter");
-			array_push($theme_advanced_buttons, "justifyright");
-			array_push($theme_advanced_buttons, "justifyfull");
+			if (in_array("sub", $a_html_tags))
+			{
+				array_push($theme_advanced_buttons, "sub");
+			}
+			if (in_array("sup", $a_html_tags))
+			{
+				array_push($theme_advanced_buttons, "sup");
+			}
+			if (in_array("font", $a_html_tags))
+			{
+				array_push($theme_advanced_buttons, "fontselect");
+				array_push($theme_advanced_buttons, "fontsizeselect");
+			}
+			array_push($theme_advanced_buttons, "charmap");
+			if ((in_array("ol", $a_html_tags)) && (in_array("li", $a_html_tags)))
+			{
+				array_push($theme_advanced_buttons, "bullist");
+			}
+			if ((in_array("ul", $a_html_tags)) && (in_array("li", $a_html_tags)))
+			{
+				array_push($theme_advanced_buttons, "numlist");
+			}
 			array_push($theme_advanced_buttons, "separator");
+			if (in_array("cite", $a_html_tags))
+			{
+				array_push($theme_advanced_buttons, "cite");
+			}
+			if (in_array("abbr", $a_html_tags))
+			{
+				array_push($theme_advanced_buttons, "abbr");
+			}
+			if (in_array("acronym", $a_html_tags))
+			{
+				array_push($theme_advanced_buttons, "acronym");
+			}
+			if (in_array("del", $a_html_tags))
+			{
+				array_push($theme_advanced_buttons, "del");
+			}
+			if (in_array("ins", $a_html_tags))
+			{
+				array_push($theme_advanced_buttons, "ins");
+			}
+			if (in_array("blockquote", $a_html_tags))
+			{
+				array_push($theme_advanced_buttons, "indent");
+				array_push($theme_advanced_buttons, "outdent");
+			}
+			if (in_array("img", $a_html_tags))
+			{
+				//array_push($theme_advanced_buttons, "advimage");
+				array_push($theme_advanced_buttons, "image");
+				array_push($theme_advanced_buttons, "ibrowser");
+			}
+			if (in_array("a", $a_html_tags))
+			{
+				array_push($theme_advanced_buttons, "link");
+				array_push($theme_advanced_buttons, "unlink");
+				array_push($theme_advanced_buttons, "anchor");
+			}
+			array_push($theme_advanced_buttons, "separator");
+			array_push($theme_advanced_buttons, "undo");
+			array_push($theme_advanced_buttons, "redo");
+			
+			if(is_array($this->buttons) && count($this->buttons))
+			{
+				array_push($theme_advanced_buttons, "separator");
+				foreach($this->buttons as $button)
+				{
+					array_push($theme_advanced_buttons, $button);
+				}
+			}
+			
+			array_push($theme_advanced_buttons, "code");
+			array_push($theme_advanced_buttons, "fullscreen");
 		}
-		if (strlen(ilTinyMCE::_buildAdvancedBlockformatsFromHTMLTags($a_html_tags)))
+		else if($a_buttons_section == 2)
 		{
-			array_push($theme_advanced_buttons, "formatselect");
+			array_push($theme_advanced_buttons, "cut");
+			array_push($theme_advanced_buttons, "copy");
+			array_push($theme_advanced_buttons, "paste");
+			array_push($theme_advanced_buttons, "pastetext");
+			array_push($theme_advanced_buttons, "pasteword");
 		}
-		if (in_array("hr", $a_html_tags))
+		else if($a_buttons_section == 3)
 		{
-			array_push($theme_advanced_buttons, "hr");
 		}
-		array_push($theme_advanced_buttons, "removeformat");
-		array_push($theme_advanced_buttons, "separator");
-		if (in_array("sub", $a_html_tags))
-		{
-			array_push($theme_advanced_buttons, "sub");
-		}
-		if (in_array("sup", $a_html_tags))
-		{
-			array_push($theme_advanced_buttons, "sup");
-		}
-		if (in_array("font", $a_html_tags))
-		{
-			array_push($theme_advanced_buttons, "fontselect");
-			array_push($theme_advanced_buttons, "fontsizeselect");
-		}
-		array_push($theme_advanced_buttons, "charmap");
-		if ((in_array("ol", $a_html_tags)) && (in_array("li", $a_html_tags)))
-		{
-			array_push($theme_advanced_buttons, "bullist");
-		}
-		if ((in_array("ul", $a_html_tags)) && (in_array("li", $a_html_tags)))
-		{
-			array_push($theme_advanced_buttons, "numlist");
-		}
-		array_push($theme_advanced_buttons, "separator");
-		if (in_array("cite", $a_html_tags))
-		{
-			array_push($theme_advanced_buttons, "cite");
-		}
-		if (in_array("abbr", $a_html_tags))
-		{
-			array_push($theme_advanced_buttons, "abbr");
-		}
-		if (in_array("acronym", $a_html_tags))
-		{
-			array_push($theme_advanced_buttons, "acronym");
-		}
-		if (in_array("del", $a_html_tags))
-		{
-			array_push($theme_advanced_buttons, "del");
-		}
-		if (in_array("ins", $a_html_tags))
-		{
-			array_push($theme_advanced_buttons, "ins");
-		}
-		if (in_array("blockquote", $a_html_tags))
-		{
-			array_push($theme_advanced_buttons, "indent");
-			array_push($theme_advanced_buttons, "outdent");
-		}
-		if (in_array("img", $a_html_tags))
-		{
-			//array_push($theme_advanced_buttons, "advimage");
-			array_push($theme_advanced_buttons, "image");
-			array_push($theme_advanced_buttons, "ibrowser");
-		}
-		if (in_array("a", $a_html_tags))
-		{
-			array_push($theme_advanced_buttons, "link");
-			array_push($theme_advanced_buttons, "unlink");
-			array_push($theme_advanced_buttons, "anchor");
-		}
-		array_push($theme_advanced_buttons, "separator");
-		array_push($theme_advanced_buttons, "undo");
-		array_push($theme_advanced_buttons, "redo");
+		
+		$remove_buttons = $this->getDisabledButtons();
 		if (is_array($remove_buttons))
 		{
 			foreach ($remove_buttons as $buttontext)
@@ -459,10 +501,11 @@ class ilTinyMCE extends ilRTE
 				}
 			}
 		}
+		
 		return join(",", $theme_advanced_buttons);
 	}
 	
-	function _buildButtonsFromHTMLTags($a_html_tags, $remove_buttons = "")
+	function _buildButtonsFromHTMLTags($a_html_tags)
 	{
 		$theme_advanced_buttons = array();
 		if (in_array("strong", $a_html_tags))
@@ -554,6 +597,8 @@ class ilTinyMCE extends ilRTE
 			array_push($theme_advanced_buttons, "unlink");
 			array_push($theme_advanced_buttons, "anchor");
 		}
+		
+		$remove_buttons = $this->getDisabledButtons();
 		if (is_array($remove_buttons))
 		{
 			foreach ($remove_buttons as $buttontext)
@@ -564,6 +609,7 @@ class ilTinyMCE extends ilRTE
 				}
 			}
 		}
+		
 		return join(",", $theme_advanced_buttons);
 	}
 	
@@ -574,6 +620,19 @@ class ilTinyMCE extends ilRTE
 		{
 			array_push($theme_advanced_buttons, "tablecontrols");
 		}
+		
+		$remove_buttons = $this->getDisabledButtons();
+		if (is_array($remove_buttons))
+		{
+			foreach ($remove_buttons as $buttontext)
+			{
+				if (($res = array_search($buttontext, $theme_advanced_buttons)) !== FALSE)
+				{
+					unset($theme_advanced_buttons[$res]);
+				}
+			}
+		}
+		
 		return join(",", $theme_advanced_buttons);
 	}
 	
@@ -1043,26 +1102,101 @@ class ilTinyMCE extends ilRTE
 	/**
 	* Setter for the TinyMCE root block element
 	*
-	* @param	string	$a_root_block_element root block element
-	* @return	ilRTE	This reference
+	* @param	string				$a_root_block_element	root block element
+	* @return	ilTextAreaInputGUI	Instance of ilTinyMCE
 	* @access	public
 	*/
 	public function setRTERootBlockElement($a_root_block_element)
 	{
 		$this->root_block_element = $a_root_block_element;
 		return $this;
-	}
+	}	
 	
 	/**
 	* Getter for the TinyMCE root block element
 	*
-	* @return	string	root block element
+	* @return	string	Root block element of TinyMCE
 	* @access	public
 	*/
 	public function getRTERootBlockElement()
 	{
 		return $this->root_block_element;
 	}
-}
+	
+	/** 
+	* Sets buttons which should be disabled in TinyMCE
+	* 
+	* @param	mixed	$a_button	Either a button string or an array of button strings
+	* @return	ilTextAreaInputGUI	Instance of ilTextAreaInputGUI
+	* @access	public
+	* 
+	*/
+	public function disableButtons($a_button)
+	{
+		if(is_array($a_button))
+		{
+			$this->disabled_buttons = array_unique(array_merge($this->disabled_buttons, $a_button));
+		}
+		else
+		{
+			$this->disabled_buttons = array_unique(array_merge($this->disabled_buttons, array($a_button)));
+		}
+		
+		return $this;
+	}
+	
+	/** 
+	* Returns the disabled TinyMCE buttons
+	* 
+	* @param	boolean	$as_array	Should the disabled buttons be returned as a string or as an array
+	* @return	Array	Array of disabled buttons
+	* @access	public
+	* 
+	*/
+	public function getDisabledButtons($as_array = true)
+	{
+		if(!$as_array)
+		{
+			return implode(',', $this->disabled_buttons);
+		}
+		else
+		{
+			return $this->disabled_buttons;
+		}
+	}
+	
+	/** 
+	* Removes redundant seperators and removes ,, and , at the first or last position of the string
+	* 
+	* @param	string	$a_string A string
+	* @return	string	A string
+	* @access	public
+	* @static
+	* 
+	*/
+	public static function _removeRedundantSeparators($a_string)
+	{
+		while(strpos($a_string, 'separator,separator') !== false)
+		{
+			$a_string = str_replace('separator,separator', 'separator', $a_string);
+		}
+		
+		while(strpos($a_string, ',,') !== false)
+		{
+			$a_string = str_replace(',,', ',', $a_string);
+		}
 
+		if($a_string{0} == ',')
+		{
+			$a_string = (string)substr($a_string, 1);
+		}
+
+		if(strlen($a_string) && $a_string{strlen($a_string) - 1} == ',')
+		{
+			$a_string = substr($a_string, 0, strlen($a_string) - 1);
+		}
+
+		return $a_string;
+	}
+}
 ?>

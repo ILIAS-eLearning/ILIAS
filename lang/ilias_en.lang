@@ -9779,6 +9779,7 @@ assessment#:#text_wrong#:#Wrong Text
 assessment#:#text_correct#:#Correct Text
 assessment#:#errors#:#Errors
 assessment#:#errors_section#:#Error Data
+common#:#advanced_editing_required_tags#:#The following HTML tags are required: %s
 meta#:#md_general_settings#:#General Settings
 meta#:#md_delimiter#:#Delimiter
 meta#:#md_delimiter_info#:#The delimiter is used in the quick editing screen for keywords and authors separation. Default is ','.
