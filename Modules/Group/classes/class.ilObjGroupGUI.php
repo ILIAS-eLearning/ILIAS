@@ -360,7 +360,7 @@ class ilObjGroupGUI extends ilContainerGUI
 		{
 			$err = $this->lng->txt('err_check_input').'<br />';
 			$err .= $this->lng->txt($ilErr->getMessage());
-			ilUtil::sendInfo($err);
+			ilUtil::sendFailure($err);
 			$this->createObject();
 			return true;
 		}
@@ -389,7 +389,7 @@ class ilObjGroupGUI extends ilContainerGUI
 		// END ChangeEvent: Record save object.
 		
 		
-		ilUtil::sendInfo($this->lng->txt("grp_added"),true);
+		ilUtil::sendSuccess($this->lng->txt("grp_added"),true);
 		$this->redirectToRefId($_GET["ref_id"]);
 	}
 	
@@ -454,14 +454,14 @@ class ilObjGroupGUI extends ilContainerGUI
 		{
 			$err = $this->lng->txt('err_check_input').'<br />';
 			$err .= $this->lng->txt($ilErr->getMessage());
-			ilUtil::sendInfo($err);
+			ilUtil::sendFailure($err);
 			$this->editObject();
 			return true;
 		}
 		
 		if($this->object->isGroupTypeModified($old_type) and !$update_group_type)
 		{
-			ilUtil::sendInfo($this->lng->txt('grp_warn_grp_type_changed'));
+			ilUtil::sendFailure($this->lng->txt('grp_warn_grp_type_changed'));
 			$this->editObject(true);
 			return true;
 		}
@@ -482,7 +482,7 @@ class ilObjGroupGUI extends ilContainerGUI
 		}
 		// END PATCH ChangeEvents: Record update Object.
 
-		ilUtil::sendInfo($this->lng->txt("msg_obj_modified"),true);
+		ilUtil::sendSuccess($this->lng->txt("msg_obj_modified"),true);
 		$this->ctrl->redirect($this,'edit');
 		return true;
 	}
@@ -527,7 +527,7 @@ class ilObjGroupGUI extends ilContainerGUI
 				$_FILES["cont_small_icon"]['tmp_name'], $_FILES["cont_tiny_icon"]['tmp_name']);
 		}
 
-		ilUtil::sendInfo($this->lng->txt("msg_obj_modified"),true);
+		ilUtil::sendSuccess($this->lng->txt("msg_obj_modified"),true);
 		$this->ctrl->redirect($this,"editGroupIcons");
 	}
 	
@@ -717,7 +717,7 @@ class ilObjGroupGUI extends ilContainerGUI
 		$this->form->setFormAction($this->ctrl->getFormAction($this,'updateInfo'));
 		$this->form->setTitle($this->lng->txt('grp_general_informations'));
 		$this->form->addCommandButton('updateInfo',$this->lng->txt('save'));
-		$this->form->addCommandButton('editInfo',$this->lng->txt('cancel'));
+		$this->form->addCommandButton('cancel',$this->lng->txt('cancel'));
 		
 		$area = new ilTextAreaInputGUI($this->lng->txt('grp_information'),'important');
 		$area->setInfo($this->lng->txt('grp_information_info'));
@@ -740,7 +740,7 @@ class ilObjGroupGUI extends ilContainerGUI
 		$this->object->setInformation(ilUtil::stripSlashes($_POST['important']));
 		$this->object->update();
 		
-		ilUtil::sendInfo($this->lng->txt("settings_saved"));
+		ilUtil::sendSuccess($this->lng->txt("settings_saved"));
 		$this->editInfoObject();
 		return true;
 	}
@@ -1145,7 +1145,7 @@ class ilObjGroupGUI extends ilContainerGUI
 		
 		if(!count($_POST['subscribers']))
 		{
-			ilUtil::sendInfo($this->lng->txt('no_checkbox'));
+			ilUtil::sendFailure($this->lng->txt('no_checkbox'));
 			$this->membersObject();
 			return false;
 		}
@@ -1164,7 +1164,7 @@ class ilObjGroupGUI extends ilContainerGUI
 			$this->object->members_obj->add($usr_id,IL_GRP_MEMBER);
 			$this->object->members_obj->deleteSubscriber($usr_id);
 		}
-		ilUtil::sendInfo($this->lng->txt("grp_msg_applicants_assigned"));
+		ilUtil::sendSuccess($this->lng->txt("grp_msg_applicants_assigned"));
 		$this->membersObject();
 		return true;
 	}
@@ -1183,7 +1183,7 @@ class ilObjGroupGUI extends ilContainerGUI
 		
 		if(!count($_POST['subscribers']))
 		{
-			ilUtil::sendInfo($this->lng->txt('no_checkbox'));
+			ilUtil::sendFailure($this->lng->txt('no_checkbox'));
 			$this->membersObject();
 			return false;
 		}
@@ -1200,7 +1200,7 @@ class ilObjGroupGUI extends ilContainerGUI
 				array(),array('system'));	
 			$this->object->members_obj->deleteSubscriber($usr_id);
 		}
-		ilUtil::sendInfo($this->lng->txt("grp_msg_applicants_removed"));
+		ilUtil::sendSuccess($this->lng->txt("grp_msg_applicants_removed"));
 		$this->membersObject();
 		return true;
 		
@@ -1219,7 +1219,7 @@ class ilObjGroupGUI extends ilContainerGUI
 		
 		if(!count($_POST["waiting"]))
 		{
-			ilUtil::sendInfo($this->lng->txt("no_checkbox"));
+			ilUtil::sendFailure($this->lng->txt("no_checkbox"));
 			$this->membersObject();
 			return false;
 		}
@@ -1246,14 +1246,14 @@ class ilObjGroupGUI extends ilContainerGUI
 		}
 		if($added_users)
 		{
-			ilUtil::sendInfo($this->lng->txt("grp_users_added"));
+			ilUtil::sendSuccess($this->lng->txt("grp_users_added"));
 			$this->membersObject();
 
 			return true;
 		}
 		else
 		{
-			ilUtil::sendInfo($this->lng->txt("grp_users_already_assigned"));
+			ilUtil::sendFailure($this->lng->txt("grp_users_already_assigned"));
 			$this->searchObject();
 
 			return false;
@@ -1272,7 +1272,7 @@ class ilObjGroupGUI extends ilContainerGUI
 		
 		if(!count($_POST['waiting']))
 		{
-			ilUtil::sendInfo($this->lng->txt('no_checkbox'));
+			ilUtil::sendFailure($this->lng->txt('no_checkbox'));
 			$this->membersObject();
 			return false;
 		}
@@ -1285,7 +1285,7 @@ class ilObjGroupGUI extends ilContainerGUI
 			$waiting_list->removeFromList($user_id);
 		}
 		
-		ilUtil::sendInfo($this->lng->txt('grp_users_removed_from_list'));
+		ilUtil::sendSuccess($this->lng->txt('grp_users_removed_from_list'));
 		$this->membersObject();
 		return true;
 	}
@@ -1305,7 +1305,7 @@ class ilObjGroupGUI extends ilContainerGUI
 		
 		if(!count($_POST['admins']) and !count($_POST['members']))
 		{
-			ilUtil::sendInfo($this->lng->txt('no_checkbox'));
+			ilUtil::sendFailure($this->lng->txt('no_checkbox'));
 			$this->membersObject();
 			return true;
 		}
@@ -1341,13 +1341,13 @@ class ilObjGroupGUI extends ilContainerGUI
 		
 		if(!count($_POST['participants']))
 		{
-			ilUtil::sendInfo($this->lng->txt('no_checkbox'));
+			ilUtil::sendFailure($this->lng->txt('no_checkbox'));
 			$this->membersObject();
 			return true;
 		}
 	
 		$this->object->members_obj->deleteParticipants($_POST['participants']);
-		ilUtil::sendInfo($this->lng->txt("grp_msg_membership_annulled"));
+		ilUtil::sendSuccess($this->lng->txt("grp_msg_membership_annulled"));
 		$this->membersObject();
 		return true;
 	}
@@ -1374,7 +1374,7 @@ class ilObjGroupGUI extends ilContainerGUI
 		}
 		if (!count($_POST['participants']))
 		{
-			ilUtil::sendInfo($this->lng->txt("no_checkbox"));
+			ilUtil::sendFailure($this->lng->txt("no_checkbox"));
 			$this->membersObject();
 			return false;
 		}
@@ -1439,7 +1439,7 @@ class ilObjGroupGUI extends ilContainerGUI
 		
 		if(!count($participants))
 		{
-			ilUtil::sendInfo($this->lng->txt('no_checkbox'));
+			ilUtil::sendFailure($this->lng->txt('no_checkbox'));
 			$this->membersObject();
 			return false;
 		}
@@ -1470,7 +1470,7 @@ class ilObjGroupGUI extends ilContainerGUI
 		
 		if(!count($_POST['participants']))
 		{
-			ilUtil::sendInfo($this->lng->txt('no_checkbox'));
+			ilUtil::sendFailure($this->lng->txt('no_checkbox'));
 			$this->membersObject();
 			return false;
 		}
@@ -1489,7 +1489,7 @@ class ilObjGroupGUI extends ilContainerGUI
 				$this->object->members_obj->updateNotification($usr_id,1);
 			}
 		}
-		ilUtil::sendInfo($this->lng->txt("msg_obj_modified"));
+		ilUtil::sendSuccess($this->lng->txt("msg_obj_modified"));
 		$this->membersObject();
 		return true;		
 	}
@@ -1510,7 +1510,7 @@ class ilObjGroupGUI extends ilContainerGUI
 		{
 			$this->object->members_obj->updateNotification($admin_id,(int) in_array($admin_id,$notification));
 		}
-		ilUtil::sendInfo($this->lng->txt('settings_saved'));
+		ilUtil::sendSuccess($this->lng->txt('settings_saved'));
 		$this->membersObject();
 	}
 	
@@ -1650,12 +1650,12 @@ class ilObjGroupGUI extends ilContainerGUI
 
 		if(!count($_POST['file']))
 		{
-			ilUtil::sendInfo($this->lng->txt('grp_select_one_file'));
+			ilUtil::sendFailure($this->lng->txt('grp_select_one_file'));
 		}
 		else
 		{
 			$this->object->deleteExportFiles($_POST['file']);
-			ilUtil::sendInfo($this->lng->txt('grp_deleted_export_files'));
+			ilUtil::sendSuccess($this->lng->txt('grp_deleted_export_files'));
 		}
 
 		$this->listExportFilesObject();
@@ -1667,13 +1667,13 @@ class ilObjGroupGUI extends ilContainerGUI
 	{
 		if(!count($_POST['file']))
 		{
-			ilUtil::sendInfo($this->lng->txt('grp_select_one_file'));
+			ilUtil::sendFailure($this->lng->txt('grp_select_one_file'));
 			$this->listExportFilesObject();
 			return false;
 		}
 		if(count($_POST['file']) > 1)
 		{
-			ilUtil::sendInfo($this->lng->txt('grp_select_one_file_only'));
+			ilUtil::sendFailure($this->lng->txt('grp_select_one_file_only'));
 			$this->listExportFilesObject();
 			return false;
 		}
@@ -1681,7 +1681,7 @@ class ilObjGroupGUI extends ilContainerGUI
 		$this->object->downloadExportFile(ilUtil::stripSlashes($_POST['file'][0]));
 		
 		// If file wasn't sent
-		ilUtil::sendInfo($this->lng->txt('grp_error_sending_file'));
+		ilUtil::sendFailure($this->lng->txt('grp_error_sending_file'));
 		
 		return true;
 	}
@@ -1701,7 +1701,6 @@ class ilObjGroupGUI extends ilContainerGUI
 			$return_location = "";
 		}
 
-		ilUtil::sendInfo($this->lng->txt("action_aborted"),true);
 		$this->ctrl->redirect($this, $return_location);
 	}
 
@@ -1769,7 +1768,7 @@ class ilObjGroupGUI extends ilContainerGUI
 
 		unset($_SESSION["saved_post"]);
 
-		ilUtil::sendInfo($this->lng->txt("grp_msg_member_assigned"),true);
+		ilUtil::sendSuccess($this->lng->txt("grp_msg_member_assigned"),true);
 		ilUtil::redirect($this->ctrl->getLinkTarget($this,"members"));
 	}
 
@@ -1804,7 +1803,7 @@ class ilObjGroupGUI extends ilContainerGUI
 		{
 			// TODO: jumps back to grp content. go back to last search result
 			#$this->ilErr->raiseError($this->lng->txt("no_checkbox"),$this->ilErr->MESSAGE);
-			ilUtil::sendInfo($this->lng->txt("no_checkbox"));
+			ilUtil::sendFailure($this->lng->txt("no_checkbox"));
 			return false;
 		}
 
@@ -1839,7 +1838,7 @@ class ilObjGroupGUI extends ilContainerGUI
 		unset($_SESSION["saved_post"]);
 		unset($_SESSION['grp_usr_search_result']);
 
-		ilUtil::sendInfo($this->lng->txt("grp_msg_member_assigned"),true);
+		ilUtil::sendSuccess($this->lng->txt("grp_msg_member_assigned"),true);
 		ilUtil::redirect($this->ctrl->getLinkTarget($this,"members"));
 	}
 
@@ -1934,7 +1933,7 @@ class ilObjGroupGUI extends ilContainerGUI
 			$mail->sendMail($user->getLogin(),"","","Membership application refused: Group ".$this->object->getTitle(),"Your application has been refused.",array(),array('system'));
 		}
 
-		ilUtil::sendInfo($this->lng->txt("grp_msg_applicants_removed"),true);
+		ilUtil::sendSuccess($this->lng->txt("grp_msg_applicants_removed"),true);
 		ilUtil::redirect($this->ctrl->getLinkTarget($this,"members"));
 	}
 
@@ -2033,7 +2032,7 @@ class ilObjGroupGUI extends ilContainerGUI
 	{
 		if(!is_array($_FILES['xmldoc']))
 		{
-			ilUtil::sendInfo($this->lng->txt("import_file_not_valid"));
+			ilUtil::sendFailure($this->lng->txt("import_file_not_valid"));
 			$this->createObject();
 			return false;
 		}
@@ -2043,11 +2042,11 @@ class ilObjGroupGUI extends ilContainerGUI
 		if($ref_id = ilObjGroup::_importFromFile($_FILES['xmldoc'],(int) $_GET['ref_id']))
 		{
 			$this->ctrl->setParameter($this, "ref_id", $ref_id);
-			ilUtil::sendInfo($this->lng->txt("import_grp_finished"),true);
+			ilUtil::sendSuccess($this->lng->txt("import_grp_finished"),true);
 			ilUtil::redirect($this->ctrl->getLinkTarget($this,'edit'));
 		}
 		
-		ilUtil::sendInfo($this->lng->txt("import_file_not_valid"));
+		ilUtil::sendFailure($this->lng->txt("import_file_not_valid"));
 		$this->createObject();
 	}	
 
@@ -2384,7 +2383,7 @@ class ilObjGroupGUI extends ilContainerGUI
 					$_GET["cmd"] = "frameset";
 					$_GET["target"] = "";
 					$_GET["ref_id"] = ROOT_FOLDER_ID;
-					ilUtil::sendInfo(sprintf($lng->txt("msg_no_perm_read_item"),
+					ilUtil::sendFailure(sprintf($lng->txt("msg_no_perm_read_item"),
 						ilObject::_lookupTitle(ilObject::_lookupObjId($a_target))), true);
 					include("repository.php");
 					exit;

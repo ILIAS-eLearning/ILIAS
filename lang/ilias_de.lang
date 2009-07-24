@@ -1653,7 +1653,7 @@ common#:#crs_archives#:#Archive
 common#:#crs_at_least_one_admin#:#Diesem Kurs muss mindestens ein Administrator zugeordnet sein.
 common#:#crs_available#:#Verfügbare Kurse
 common#:#crs_container_link_not_allowed#:#Es ist nicht möglich, diesen Objekttyp zu verknüpfen.
-common#:#crs_copy_threads_info#:#Bitte wählen Sie aus welche Kursmaterialien kopiert, verknüpft oder aber bei dem Kopiervorgang ausgelassen werden sollen.
+common#:#crs_copy_threads_info#:#Bitte wählen Sie aus, welche Kursmaterialien kopiert, verknüpft oder aber bei dem Kopiervorgang ausgelassen werden sollen.
 common#:#crs_copy#:#Kurs kopieren
 common#:#crs_create_alm#:#Neues AICC-Lernmodul anlegen
 common#:#crs_create_chat#:#Neuen Chat anlegen
@@ -1984,7 +1984,7 @@ common#:#flatview#:#Baumansicht ausschalten
 common#:#fold_a#:#ein Ordner
 common#:#fold_add#:#Ordner anlegen
 common#:#fold_added#:#Ordner angelegt
-common#:#fold_copy_threads_info#:#Bitte wählen Sie aus welche Materialien kopiert, verknüpft oder aber bei dem Kopiervorgang ausgelassen werden sollen.
+common#:#fold_copy_threads_info#:#Bitte wählen Sie aus, welche Materialien kopiert, verknüpft oder aber bei dem Kopiervorgang ausgelassen werden sollen.
 common#:#fold_copy#:#Ordner kopieren
 common#:#fold_create_alm#:#Neues AICC-Lernmodul anlegen
 common#:#fold_create_chat#:#Neuen Chat anlegen
@@ -2156,7 +2156,7 @@ common#:#grp_added#:#Gruppe angelegt
 common#:#grp_already_applied#:#Sie haben bereits einen Aufnahmeantrag gestellt! Bitte warten Sie auf die Bestätigung
 common#:#grp_app_send_mail#:#Bewerber eine Nachricht senden
 common#:#grp_back#:#Zurück
-common#:#grp_copy_threads_info#:#Bitte wählen Sie aus welche Materialien kopiert, verknüpft oder aber bei dem Kopiervorgang ausgelassen werden sollen.
+common#:#grp_copy_threads_info#:#Bitte wählen Sie aus, welche Materialien kopiert, verknüpft oder aber bei dem Kopiervorgang ausgelassen werden sollen.
 common#:#grp_copy#:#Gruppe kopieren
 common#:#grp_count_members#:#Anzahl der Mitglieder
 common#:#grp_create_alm#:#Neues AICC-Lernmodul anlegen
@@ -2208,7 +2208,7 @@ common#:#grp_mem_change_status#:#Mitgliedsstatus ändern
 common#:#grp_mem_leave#:#Mitglied aus der Gruppe austragen
 common#:#grp_mem_send_mail#:#Mitglied eine Nachricht senden
 common#:#grp_members_gallery#:#Mitgliedergalerie
-common#:#grp_msg_applicants_assigned#:#Benutzer als Mitglied aufgenommen
+common#:#grp_msg_applicants_assigned#:#Der/die Benutzer wurde(n) in die Gruppe aufgenommen.
 common#:#grp_msg_applicants_removed#:#Antrag abgelehnt und aus der Liste entfernt
 common#:#grp_msg_member_assigned#:#Benutzer als Mitglied aufgenommen
 common#:#grp_msg_membership_annulled#:#Die Mitgliedschaft wurde aufgehoben
@@ -7734,7 +7734,7 @@ rbac#:#cals_read#:#Lesezugriff auf Kalendereinstellungen
 rbac#:#cals_write#:#Schreibzugriff auf Kalendereinstellungen
 common#:#obj_cat_duplicate#:#Kategorie kopieren
 common#:#obj_cat_select#:#-- Bitte wählen Sie einen Kategorie aus --
-common#:#cat_copy_threads_info#:#Bitte wählen Sie aus welche Materialien der Kategorie kopiert, verknüpft oder aber bei dem Kopiervorgang ausgelassen werden sollen.
+common#:#cat_copy_threads_info#:#Bitte wählen Sie aus, welche Materialien der Kategorie kopiert, verknüpft oder aber bei dem Kopiervorgang ausgelassen werden sollen.
 payment#:#object_deleted#:#Objekt gelöscht
 payment#:#user_deleted#:#Benutzer gelöscht
 payment#:#statistics_filter_advice#:#Bitte tätigen Sie die gewünschten Filtereinstellungen und klicken Sie anschließend auf "Ansicht aktualisieren"
@@ -9538,9 +9538,9 @@ cntr#:#cntr_manage#:#Manage###26 06 2009 new variable
 cntr#:#cntr_ordering#:#Sorting###26 06 2009 new variable
 cntr#:#cntr_text_media_editor#:#Text/Media Editor###26 06 2009 new variable
 cntr#:#cntr_saved_sorting#:#Saved Sorting.###26 06 2009 new variable
-crs#:#crs_search_users#:#Search Users###26 06 2009 new variable
+crs#:#crs_search_users#:#Benutzer suchen
 crs#:#crs_user_login#:#User Login###26 06 2009 new variable
-grp#:#grp_search_users#:#Search User###26 06 2009 new variable
+grp#:#grp_search_users#:#Benutzer suchen
 common#:#scorm_new#:#New SCORM/IACC Learning Module###26 06 2009 new variable
 common#:#scorm_add#:#Add SCORM/IACC Learning Module###26 06 2009 new variable
 common#:#scorm_create_export_file_scrom12#:#Create Export File (SCORM 1.2)###26 06 2009 new variable

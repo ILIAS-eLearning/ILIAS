@@ -396,7 +396,7 @@ class ilGroupRegistrationGUI extends ilRegistrationGUI
 			$info = sprintf($this->lng->txt('grp_added_to_list'),
 				$this->container->getTitle(),
 				$waiting_list->getPosition($ilUser->getId()));
-			ilUtil::sendInfo($info,true);
+			ilUtil::sendSuccess($info,true);
 			ilUtil::redirect("repository.php?ref_id=".$tree->getParentId($this->container->getRefId()));
 		}
 				
@@ -433,13 +433,13 @@ class ilGroupRegistrationGUI extends ilRegistrationGUI
 						array(),array('system'));	
 				}
 
-				ilUtil::sendInfo($this->lng->txt("application_completed"),true);
+				ilUtil::sendSuccess($this->lng->txt("application_completed"),true);
 				ilUtil::redirect("repository.php?ref_id=".$tree->getParentId($this->container->getRefId()));
 				break;
 			
 			default:
 				$this->participants->add($ilUser->getId(),IL_GRP_MEMBER);
-				ilUtil::sendInfo($this->lng->txt("grp_registration_completed"),true);
+				ilUtil::sendSuccess($this->lng->txt("grp_registration_completed"),true);
 				$this->ctrl->returnToParent($this);
 				break;
 		}		
