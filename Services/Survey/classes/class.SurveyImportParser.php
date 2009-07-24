@@ -645,6 +645,10 @@ class SurveyImportParser extends ilSaxParser
 								{
 									$this->survey->showQuestionTitles();
 								}
+								else
+								{
+									$this->survey->hideQuestionTitles();
+								}
 								break;
 							case "status":
 								$this->survey->setStatus($value["entry"]);
