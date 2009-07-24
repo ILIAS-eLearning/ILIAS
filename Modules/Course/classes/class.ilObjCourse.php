@@ -1062,7 +1062,7 @@ class ilObjCourse extends ilContainer
 			$ilDB->quote($this->getEnableCourseMap() ,'integer').", ".
 			#"objective_view = '0', ".
 			"1, ".
-			"1".
+			"1,".
 			$ilDB->quote($this->isSessionLimitEnabled(),'integer').', '.
 			$ilDB->quote($this->getNumberOfPreviousSessions(),'integer').', '.
 			$ilDB->quote($this->getNumberOfPreviousSessions(),'integer').' '.
