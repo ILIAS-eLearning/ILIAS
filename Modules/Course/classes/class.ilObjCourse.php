@@ -47,6 +47,10 @@ class ilObjCourse extends ilContainer
 	private $longitude = '';
 	private $locationzoom = 0;
 	private $enablemap = 0;
+	
+	private $session_limit = 0;
+	private $session_prev = -1;
+	private $session_next = -1;
 
 	/**
 	* Constructor
@@ -255,6 +259,21 @@ class ilObjCourse extends ilContainer
 	}
 	
 	/**
+	 * en/disable limited number of sessions 
+	 * @return 
+	 * @param object $a_status
+	 */
+	public function enableSessionLimit($a_status)
+	{
+		$this->session_limit = $a_status;
+	}
+	
+	public function isSessionLimitEnabled()
+	{
+		return (bool) $this->session_limit;
+	}
+	
+	/**
 	 * enable max members
 	 *
 	 * @access public
@@ -265,7 +284,44 @@ class ilObjCourse extends ilContainer
 	{
 		$this->subscription_membership_limitation = $a_status;
 	}
+
+	/**
+	 * Set number of previous sessions
+	 * @return 
+	 * @param int $a_num
+	 */
+	public function setNumberOfPreviousSessions($a_num)
+	{
+		$this->session_prev = $a_num;
+	}
 	
+	/**
+	 * Set number of previous sessions
+	 * @return 
+	 */
+	public function getNumberOfPreviousSessions()
+	{
+		return $this->session_prev;
+	}
+	
+	/**
+	 * Set number of previous sessions
+	 * @return 
+	 * @param int $a_num
+	 */
+	public function setNumberOfNextSessions($a_num)
+	{
+		$this->session_next = $a_num;
+	}
+	
+	/**
+	 * Set number of previous sessions
+	 * @return 
+	 */
+	public function getNumberOfNextSessions()
+	{
+		return $this->session_next;
+	}
 	/**
 	 * is membership limited
 	 *
@@ -916,7 +972,10 @@ class ilObjCourse extends ilContainer
 			"latitude = ".$ilDB->quote($this->getLatitude() ,'text').", ".
 			"longitude = ".$ilDB->quote($this->getLongitude() ,'text').", ".
 			"location_zoom = ".$ilDB->quote($this->getLocationZoom() ,'integer').", ".
-			"enable_course_map = ".$ilDB->quote($this->getEnableCourseMap() ,'integer')." ".
+			"enable_course_map = ".$ilDB->quote($this->getEnableCourseMap() ,'integer').", ".
+			'session_limit = '.$ilDB->quote($this->isSessionLimitEnabled(),'integer').', '.
+			'session_prev = '.$ilDB->quote($this->getNumberOfPreviousSessions(),'integer').', '.
+			'session_next = '.$ilDB->quote($this->getNumberOfNextSessions(),'integer').' '.
 			"WHERE obj_id = ".$ilDB->quote($this->getId() ,'integer')."";
 
 		$res = $ilDB->manipulate($query);
@@ -957,6 +1016,9 @@ class ilObjCourse extends ilContainer
 		$new_obj->enableWaitingList($this->enabledWaitingList());
 		$new_obj->setImportantInformation($this->getImportantInformation());
 		$new_obj->setShowMembers($this->getShowMembers());
+		$new_obj->enableSessionLimit($this->isSessionLimitEnabled());
+		$new_obj->setNumberOfPreviousSessions($this->getNumberOfPreviousSessions());
+		$new_obj->setNumberOfNextSessions($this->getNumberOfNextSessions());
 		$new_obj->update();
 	}
 
@@ -968,7 +1030,8 @@ class ilObjCourse extends ilContainer
 			"contact_phone,contact_email,contact_consultation,activation_type,activation_start,".
 			"activation_end,sub_limitation_type,sub_start,sub_end,sub_type,sub_password,sub_mem_limit,".
 			"sub_max_members,sub_notify,view_mode,archive_start,archive_end,archive_type,abo," .
-			"latitude,longitude,location_zoom,enable_course_map,waiting_list,show_members)" .
+			"latitude,longitude,location_zoom,enable_course_map,waiting_list,show_members, ".
+			"session_limit,session_prev,session_next ) ".
 			"VALUES( ".
 			$ilDB->quote($this->getId() ,'integer').", ".
 			$ilDB->quote($this->getSyllabus() ,'text').", ".
@@ -1000,6 +1063,9 @@ class ilObjCourse extends ilContainer
 			#"objective_view = '0', ".
 			"1, ".
 			"1".
+			$ilDB->quote($this->isSessionLimitEnabled(),'integer').', '.
+			$ilDB->quote($this->getNumberOfPreviousSessions(),'integer').', '.
+			$ilDB->quote($this->getNumberOfPreviousSessions(),'integer').' '.
 			")";
 			
 		$res = $ilDB->manipulate($query);
@@ -1050,6 +1116,9 @@ class ilObjCourse extends ilContainer
 			$this->setLongitude($row->longitude);
 			$this->setLocationZoom($row->location_zoom);
 			$this->setEnableCourseMap($row->enable_course_map);
+			$this->enableSessionLimit($row->session_limit);
+			$this->setNumberOfPreviousSessions($row->session_prev);
+			$this->setNumberOfNextSessions($row->session_next);
 		}
 		return true;
 	}

@@ -1095,6 +1095,10 @@ class ilObjCourseGUI extends ilContainerGUI
 		$this->object->setArchiveType($_POST['archive_type']);
 		$this->object->setAboStatus((int) $_POST['abo']);
 		$this->object->setShowMembers((int) $_POST['show_members']);
+		
+		$this->object->enableSessionLimit((int) $_POST['sl']);
+		$this->object->setNumberOfPreviousSessions($_POST['sp'] ? (int) $_POST['sp'] : -1 );
+		$this->object->setNumberOfnextSessions($_POST['sn'] ? (int) $_POST['sn'] : -1 );
 
 		if($this->object->validate())
 		{
@@ -1422,8 +1426,36 @@ class ilObjCourseGUI extends ilContainerGUI
 			$opt = new ilRadioOption($this->lng->txt('crs_sort_activation'),ilContainer::SORT_ACTIVATION);
 			$opt->setInfo($this->lng->txt('crs_sort_timing_info'));
 			$sort->addOption($opt);
+			
 
 		$this->form->addItem($sort);
+
+		$sess = new ilCheckboxInputGUI($this->lng->txt('sess_limit'),'sl');
+		$sess->setValue(1);
+		$sess->setChecked($this->object->isSessionLimitEnabled());
+		$sess->setInfo($this->lng->txt('sess_limit_info'));
+			
+			$prev = new ilNumberInputGUI($this->lng->txt('sess_num_prev'),'sp');
+			$prev->setMinValue(0);
+			$prev->setValue($this->object->getNumberOfPreviousSessions() == -1 ?
+				'' :
+				$this->object->getNumberOfPreviousSessions()
+			);
+			$prev->setSize(2);
+			$prev->setMaxLength(3);
+			$sess->addSubItem($prev);
+			
+			$next = new ilNumberInputGUI($this->lng->txt('sess_num_next'),'sn');
+			$next->setMinValue(0);
+			$next->setValue($this->object->getNumberOfNextSessions() == -1 ?
+				'' :
+				$this->object->getNumberOfnextSessions()
+			);
+			$next->setSize(2);
+			$next->setMaxLength(3);
+			$sess->addSubItem($next);
+			
+		$this->form->addItem($sess);
 		
 		$further = new ilFormSectionHeaderGUI();
 		$further->setTitle($this->lng->txt('crs_further_settings'));

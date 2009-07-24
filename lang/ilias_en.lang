@@ -9797,3 +9797,7 @@ common#:#preview_learner_info#:#If enabled, Course and Group administrators have
 common#:#mem_view_activate#:#Activate Members View
 common#:#mem_view_deactivate#:#Deactivate Members View
 mcst#:#mcst_automatic_detection#:#Automatic Detection
+crs#:#sess_limit#:#Limit Number of Sessions
+crs#:#sess_num_prev#:#Number of Past Sessions
+crs#:#sess_num_next#:#Number of Following Sessions
+crs#:#sess_limit_info#:#Choose this option for limiting the number of visible sessions.
