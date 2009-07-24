@@ -4,7 +4,6 @@
 
           Author: Boris H. Schuermann
 
-          $Id$
 
 
 Table of Contents
@@ -27,70 +26,44 @@ Table of Contents
 
 3. Updating ILIAS 3
 
-   3.1. Instructions for updating from ILIAS 3.4.0 or 3.4.1 if MySQL 4.1.x has
-        been used.
-
-4. Migrating from MySQL 4.0.x to MySQL 4.1.x
-
 Appendix A: Note on using Apache 2
 
 
 1. I N T R O D U C T I O N
 
+!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+THIS IS A TESTING RELEASE. PLEASE DO NOT USE IT ON PRODUCTIVE SYSTEMS.
+DATA WILL BE CORRUPTED.
+!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+
 ILIAS is a web-based Learning Content Managament System (LCMS) developed with
 the server-side scripting language PHP and distributed as Open Source software
 under the GNU General Public License (GPL). It uses the MySQL database and the
 Apache web server. The main target operating system is Linux, but ILIAS may also
-be run on other Unix systems and even Windows.
+be run on other Unix systems, Windows and Mac OS.
 
-This document describes the installation of ILIAS 3 with the all
-software required for running an ILIAS system. The procedure has been tested
-under RedHat and Debian. With minor modifications it should also apply to
-other Linux distributions, Solaris and other Unix systems. Some of the
-packages used are quite old, you can replace them with newer versions. The
-exact procedure how to install them may be different, please see also the
-documentation of these tools. Please also note, that most of these tools are
-already installed in default configurations of many Linux/Unix distributions.
-
-You should also consider to try one of the distribution related instructions
+We highly recommend to use one of the distribution related instructions
 provided at http://www.ilias.de/docu/goto.php?target=st_6487_367&client_id=docu
 
-The following third-party software is necessary for running ILIAS. Release
+This documentation describes how to install all the tools needed from scratch.
+Usually you should prefer to use any package manager provided by your
+distribution. Many of these tools are already installed in standard
+configurations of many distributions.
+
+The following third-party tools are necessary for running ILIAS. Release
 numbers refer to the version tested. Like ILIAS itself, all these programs are
 available as Open Source software.
 
-    - Apache 1.3.29            http://www.apache.org
-    - MySQL 4.1.x              http://www.mysql.com
-    - PHP 5.1.4                http://www.php.net
-    - GD (libgd) 2.0.15        http://www.boutell.com/gd/
+    - Apache 1.3.44            http://www.apache.org
+    - MySQL 5.1.32             http://www.mysql.com
+    - PHP 5.2.6                http://www.php.net
     - Zlib (libz) 1.1.4        http://www.gzip.org/zlib/
     - libpng 1.2.5             http://www.libpng.org
-    - IJG JPEG (libjpeg) 6b    ftp://ftp.uu.net/graphics/jpeg/jpegsrc.v6b.tar.gz
+    - libjpeg 6b               ftp://ftp.uu.net/graphics/jpeg/jpegsrc.v6b.tar.gz
     - ImageMagick 6.0.1        http://www.imagemagick.org
     - Info-ZIP (Zip/UnZip)     http://www.info-zip.org
     - libxml2 2.6.31           http://www.xmlsoft.org
-    - libxslt 1.1.22            http://www.xmlsoft.org
-
-
-Please read the MySQL chapter if you plan to migrate from an existing 
-MySQL 4.0.x to MySQL 4.1.x.
-
-Please see chapter 2.5 for information about optional software.
-
-In this guide it is assumed that none of the programs above are installed on
-your system. However, many Linux distributions install libraries and programs
-such as libz, libgd, libjpeg, libgd, ImageMagick and Zip/Unzip by default. If
-installed properly it might not be necessary to install these packages along
-with ILIAS again.
-
-If your installation of PHP, Apache or MySQL must meet additional requirements
-or if you prefer different versions of these components, you may of course
-configure the software yourself. Just make sure that your own configuration
-supports all components used by ILIAS.
-
-Prior to compilation your system should at least include the following programs:
-gcc,, g++, GNU make, autoconf (>=2.13), automake (>= 1.4), libtool (>=1.4.3),
-perl(>=5.0), gdbm, bison,(>=1.25), flex, GNU tar, libncurses.
+    - libxslt 1.1.22           http://www.xmlsoft.org
 
 Some functions in ILIAS require outgoing Internet mail. Therefore a sendmail
 daemon should run on your system and outgoing connections should be allowed
@@ -118,17 +91,12 @@ General advices on compiling the software packages:
 
 2  F I R S T   T I M E   I N S T A L L A T I O N
 
-Again, please try one of the distribution related instructions
-provided at http://www.ilias.de/docu/goto.php?target=st_6487_367&client_id=docu
+Please visit http://www.ilias.de/docu/goto.php?target=st_6487_367&client_id=docu
+and try a install procedure that suits your OS distribution. If this fails, you
+may try to install the tools from scratch.
 
-Usually, it is much faster to use one of these.
 
 2.1 Where to install ILIAS
-
-ILIAS will often be installed within an existing server environment. In this
-case the administrator of such a system will have to make sure, that the web
-server supports the PHP scripting language with all libraries required and that
-it can interact with a MySQL database server.
 
 The instructions herein assume that you do not have any of the software
 packages required for running ILIAS installed on your server. Following them
@@ -143,41 +111,11 @@ this solution is fine but if you intend to use ILIAS in a production environment
 we recommend to seperate the program binaries from the user data, e.g. to
 facilitate backup and administration tasks.
 
-You could for instance install all third-party software under /opt/ilias/ and
-create a directory /srv/ilias/ for the ILIAS web space and all other ILIAS
-related data (except for logfiles which should ideally go to /var/log/ilias/).
-The subdirectories under /srv/ilias/ could be the same as the ones which are
-created under /opt/ilias/ during the installation process described in this
-document. The /srv directory (which should be a mounted partition, as it could
-swallow up your disk space and thus cause problems when being part of your
-root partition) is not yet part of the Filesystem Hierarchy Standard (FHS) in
-its current version 2.2. But there have been proposals to add it to the FHS and
-some Linux distributions already use /srv/www as the default location for their
-web space. Since standardization efforts are still going on, our recommendation
-might be a temporary one.
-
 When compiling the components necessary to run ILIAS from source you may easily
 specify their installation location using an appropriate '--prefix' directive.
-Library locations that you specify must also reflect your system environment. It
-would be fine (and also in compliance with the FHS) to install everything
-including the data directories under /usr/local. That is also the default
-location where most source distributions will install themself in the build
-process. Of course you may also use symbolic links to change the location of
-the directories involved.
-
-In many cases you may want to use binary packages like RPMs instead of compiling
-the software yourself.  If these packages meet the requirements resulting from
-the configure options in this document, this should normally work fine. You
-would just have to put the ILIAS scripts into your web space and do some
-adjustments to the Apache, PHP and MySQL configuration files as well as some of
-the pathes in the ILIAS system settings.
-
 
 
 2.2 First steps
-
-If you choose to install ILIAS according to our recommendation, the directories
-below need to be created manually:
 
 Directories where third-party components will be located:
 
@@ -208,20 +146,19 @@ source files into separate directories in /opt/ilias/src:
     tar -xzf tarballs/zlib-1.1.4.tar.gz
     tar -xzf tarballs/jpegsrc.v6b.tar.gz
     tar -xzf tarballs/libpng-1.2.5.tar.gz
-    tar -xzf tarballs/gd-2.0.15.tar.gz
     tar -xzf tarballs/ImageMagick-6.0.1-2.tar.gz
     tar -xzf tarballs/zip23.tar.gz
     tar -xzf tarballs/unzip550.tar.gz
-    tar -xzf tarballs/mysql-4.1.x.tar.gz
-    tar -xzf tarballs/apache_1.3.29.tar.gz
-    tar -xzf tarballs/php-5.1.4.tar.gz
+    tar -xzf tarballs/mysql-5.1.32.tar.gz
+    tar -xzf tarballs/apache_1.3.44.tar.gz
+    tar -xzf tarballs/php-5.2.6.tar.gz
     tar -xzf tarballs/libxml2-2.6.31.tar.gz
     tar -xzf tarballs/libxslt-1.1.22.tar.gz
 
 The ILIAS software, its documentation and the web space directory structure is
 stored in:
 
-    ilias-3.10.2.tar.gz
+    ilias-4.0.0.beta1.tar.gz
 
 The ILIAS tarball may also reside in /opt/ilias/src/tarballs/. After all third-
 party software has been installed it can directly be extracted into the web
@@ -305,39 +242,13 @@ as /usr/lib or /usr/local/lib for the libaries by changing the configure option
 
 (d) GD-Library
 
-    PHP comes with a bundled libgd. Like all standard libgd
-    versions >= 1.6.x the bundled version does not allow the creation and
-    manipulation of GIF images due to the patent problem concerning the use of
-    the LZW algorithm.
-
-    For most purposes the bundled libgd is sufficient since ILIAS does rely on
-    GIF support by libgd anymore. A libgd supporting the GIF format would only
-    be necessary if you intend to create clickable maps based on GIF files with
-    the Imagemap editor being part of the ILIAS authoring tool.
-
-    The patent on the LZW algorithm held by Unisys Corporation has already
-    expired in the United States as well as in some other countries.(see
-    http://www.unisys.com/about__unisys/lzw/ for details). So depending on where
-    you live you may legally use a patched libgd with GIF support. Patched libgd
-    are available from an Australian website: http://www.rime.com.au/gd/
-
-    In case you want to build and use an external libgd please follow the steps
-    below which also apply to patched versions:
-
-        cd /opt/ilias/src/gd-2.0.15
-        ./configure \
-        --prefix=/opt/ilias \
-        --with-jpeg=/opt/ilias \
-        --with-png=/opt/ilias
-        make
-        make install
-
-    You may also use an older libgd, for example version 1.8.4. The latter does
-    not come with a configure script. To adapt it to your system you would have
-    to modify its Makefile manually. In particular the INSTALL_ pathes may have
-    to be adjusted.  Since libgd requires libz, libpng and libjpeg you may also
-    have to specify the exact locations of these libraries in the LIBS= section
-    of the Makefile (e.g. by entering '/opt/ilias/lib/libz.a' instead of '-lz').
+	We recommend to use the PHP bundled version of GD. Please visit the
+	PHP GD requirements page at http://php.net/manual/en/image.requirements.php
+	The page lists libraries for download to support various image formats.
+	We recommend to install a version that at least supports gif, jpeg and png.
+	
+	Configure options for PHP needed for GD:
+	--with-gd --with-jpeg-dir=DIR --with-png-dir=DIR (and more, if wanted)
 
 
 (e) ImageMagick
@@ -415,14 +326,12 @@ components:
 
 (a) MySQL database
 
-    ILIAS version 3.10.x supports MySQL 4.1.x and MysSQL 5.x. Using one of
-    the actual binaries provided at the MySQL web site is always the best idea.
-    However, if you decide to build MySQL from scratch. The following steps
-    give you an idea.
+    Using one of the actual binaries provided at the MySQL web site is always the best idea.
+    However, if you decide to build MySQL from scratch, here are the basic steps:
 
     Configure & make:
 
-        cd /opt/ilias/src/mysql-4.1.x
+        cd /opt/ilias/src/mysql-5.1.x
         ./configure \
         --prefix=/opt/ilias \
         --localstatedir=/opt/ilias/mysqldata \
@@ -467,7 +376,7 @@ components:
         cd /opt/ilias/mysqldata
         ln -s /opt/ilias/config/my.cnf
 
-    MySQL version 4.1.x comes with sample configuration files for different
+    MySQL version 5.1.x comes with sample configuration files for different
     memory sizes (small, medium, large, huge). Please select the appropriate
     file and apply further changes to /opt/ilias/config/my.cnf according to your
     specific needs. Since ILIAS currently does not rely on InnoDB support in
@@ -499,7 +408,7 @@ components:
     also consider using a dedicated MySQL account for running ILIAS instead of
     the MySQL root account.
 
-    For MySQL 4.1 and higher you need to grant the permission LOCK TABLES to
+    For MySQL 5.1 and higher you need to grant the permission LOCK TABLES to
     the ILIAS db-user. E.g. if the ILIAS db-user 'dbuser' accesses from host
     'localhost':
 
@@ -517,7 +426,7 @@ components:
 
     Configure & make:
 
-        cd /opt/ilias/src/apache_1.3.29
+        cd /opt/ilias/src/apache_1.3.44
         ./configure \
         --prefix=/opt/ilias \
         --enable-so \
@@ -567,7 +476,7 @@ components:
 
     Configure & make:
 
-    PHP 5.1.4:
+    PHP 5.2.6:
 		
         ./configure \
         --with-apxs=/opt/ilias/bin/apxs \
@@ -652,15 +561,15 @@ components:
 	  error_reporting  =  E_ALL & ~E_NOTICE & ~E_STRICT
 
 
-2.4 Installing ILIAS 3
+2.4 Installing ILIAS
 
 
-(a) Installing the ILIAS 3 program files
+(a) Installing the ILIAS program files
 
     First extract the content of the ILIAS tarball into the web space directory:
 
         cd /opt/ilias/www/htdocs/
-        tar -xzf /opt/ilias/src/tarballs/ilias-3.10.2.tar.gz
+        tar -xzf /opt/ilias/src/tarballs/ilias-4.0.0.beta1.tar.gz
 
     Please make sure your webserver has write permission to the ILIAS3 web space
     and data directories and all their subdirectories. If your webserver daemon
@@ -672,7 +581,7 @@ components:
 
 (b) Running the setup script
 
-    Open the ILIAS 3 setup script in your web browser:
+    Open the ILIAS setup script in your web browser:
 
         http://www.yourserver.com/ilias3/setup/setup.php
 
@@ -685,7 +594,7 @@ components:
 
 (c) Initial login
 
-    After all steps are passed you may proceed to the ILIAS 3 login,
+    After all steps are passed you may proceed to the ILIAS login,
     either using the [login] link or by accessing
 
         http://www.yourserver.com/ilias3/login.php
@@ -763,34 +672,39 @@ components:
     started cron job writes messages in your log file.
 
 
-3. Updating ILIAS 3
+3. Updating ILIAS
 
-THIS INSTRUCTIONS EXPLAIN HOW TO UPDATE FROM ANY ILIAS 3 stable version to
-ILIAS 3.10.2.
+!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+THIS IS A TESTING RELEASE. PLEASE DO NOT USE IT ON PRODUCTIVE SYSTEMS.
+DATA WILL BE CORRUPTED.
+!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+
+THIS INSTRUCTIONS EXPLAIN HOW TO UPDATE FROM ANY ILIAS stable version to
+ILIAS 4.0
 
 BACKUP YOUR ILIAS MYSQL DATABASE, THE ENTIRE CONTENTS OF THE ILIAS WEB DIRECTORY
 AND THE ILIAS DATA DIRECTORIES BEFORE DOING ANY CHANGES!
 
-IF YOU UPDATE FROM ILIAS 3.4.0 or 3.4.1 AND ALREADY USED MYSQL 4.1.x PLEASE
-READ AND FOLLOW THE INSTRUCTIONS OF CHAPTER 3.1. FIRST.
+BEFORE UPDATING FROM ANY ILIAS VERSION 3.9 OR LOWER YOU MUST UPGRADE TO
+ILIAS 3.10 FIRST. YOU SHOULD ONLY UPGRADE FROM ANY 3.10.x VERSION TO ILIAS 4.0.
 
-We recommend not to update from an any alpha or beta version of ILIAS 3 because
+We recommend not to update from an any alpha or beta version of ILIAS because
 this may cause ambiguous errors in the future. Please setup any stable version
-of ILIAS 3 from scratch.
+of ILIAS from scratch.
 
-For major updates (e.g. 3.9.x -> 3.10.x) the safest proceeding is, to upgrade
+For major updates (e.g. 3.10.x -> 4.0.x) the safest proceeding is, to upgrade
 a copy of your productive system first and test whether everything works ok.
 
 Please also note that major updates usually include changes in the style
 sheet and template files. So if you use individual styles/skins you will have
 to adopt them for the new release first. This does usually not apply for bugfix
-updates (e.g. 3.5.1 -> 3.5.2). See also
+updates (e.g. 4.0.1 -> 4.0.2). See also
 http://www.ilias.de/docu/goto.php?target=pg_16107_35&client_id=docu and
 http://www.ilias.de/docu/goto.php?target=pg_15917_367&client_id=docu
 
-At the time being no installation script is available for updating ILIAS 3. For
+At the time being no installation script is available for updating ILIAS. For
 this reason the ILIAS script files must be updated manually. In the following
-steps it is assumed that your existing ILIAS 3 installation is located in
+steps it is assumed that your existing ILIAS installation is located in
 /opt/ilias/www/htdocs/ilias/ while the contents of the ILIAS distribution tar
 file lies in /tmp/. If the locations differ on your system you may need to adapt
 the commands used in the following.
@@ -828,7 +742,7 @@ your choice). Do not simply overwrite the 'ilias' directory in your webspace!
 Example:
 
     cd /tmp
-    tar -xzf /opt/ilias/src/tarballs/ilias-3.10.2.tar.gz
+    tar -xzf /opt/ilias/src/tarballs/ilias-4.0.0.beta1.tar.gz
 
 After extracting the files you will find a newly created subdirectory 'ilias3' in
 your tmp/ directory. Depending on the ILIAS version you are replacing you must
@@ -845,7 +759,7 @@ you may remove /tmp/ilias/.
 
 Copy your saved ilias.ini.php file to /opt/ilias/www/htdocs/ilias/.
 
-After installing a new ILIAS 3 release you must run the setup script
+After installing a new ILIAS release you must run the setup script
 'http://www.yourserver.com/ilias/setup/setup.php' and update the database of all
 your clients. Select "Details" for every client in the client list and click on
 the "Database" button. Depending on the size of your database the update process
@@ -870,69 +784,6 @@ in the language administration of the system settings ("Administration" ->
 "System Settings" -> "Languages" -> "Refresh Languages").
 
 
-3.1. Instructions for updating from ILIAS 3.4.0 or 3.4.1 if MySQL 4.1.x has
-     been used.
-
-Due to a problem of the UTF-8 handling in these versions it is necessary to
-dump and reload the entire database. Please make a backup of your database.
-Then do the following steps:
-
-a. Determine your default client character set. Change to your mysql/bin
-   directory. Open the mysql shell and enter the following command:
-   > mysql ilias3
-   mysql> SHOW VARIABLES like '%char%';
-   mysql> exit;
-
-b. Dump the database using this character set (e.g. latin1). The result should
-   be an UTF-8 encoded file. Please note the "--skip-set-charset" attribute
-   which is very important here.
-   > mysqldump ilias3 --default-character-set=latin1 --skip-set-charset > ilias3.dump
-   (replace latin1 with your default client character set).
-
-c. Drop and recreate an empty database using an approriate collation, e.g.:
-   > mysqladmin drop ilias3
-   > mysql ilias3
-   mysql> CREATE DATABASE ilias3 CHARACTER SET utf8 COLLATE utf8_unicode_ci
-
-d. Reload the database using UTF-8 as character set:
-   > mysql --default-character-set=utf8 ilias3 < ilias3.dump
-
-e. Update ILIAS following the instructions of chapter 3.
-
-f. Check whether all content has been migrated properly.
-
-If you run multiple ILIAS 3.4.0/3.4.1 instances on the same database server you
-have to update them all at the same time.
-
-For big installations it might be safer to update to ILIAS 3.4.3 or 3.4.4 first
-(after doing the procedure above) and then to update to ILIAS 3.6.x seperately.
-The data migration from 3.4.x to 3.6.x can take a long time because all meta
-data has to be converted to a new format.
-
-
-4. Migrating from MySQL 4.0.x to MySQL 4.1.x
-
-    If you want to migrate an existing ILIAS from MySQL 4.0.x to 4.1.x you
-    need to do the following steps:
-	
-    1. Backup your database
-    2. Update to ILIAS 3.4.0 stable or higher (run db migration in setup)
-    3. Dump your ILIAS 3 MySQL 4.0.x database
-       /opt/ilias/bin/mysqldump > ilias3.dump
-    4. Update to MySQL 4.1.x
-    5. Create a new ILIAS database, set the default character set to utf-8
-       and the default collation to your appropriate utf-8 collation
-       (see http://dev.mysql.com/doc/mysql/en/charset-unicode-sets.html), e.g.
-       if you are located in germany:
-       /opt/ilias/bin/mysql
-       mysql> CREATE DATABASE ilias3 CHARACTER SET utf8 COLLATE utf8_unicode_ci;
-    6. Load the MySQL 4.0 dump file into the newly created database:
-       /opt/ilias/bin/mysql --default-character-set=utf8 ilias3 < ilias3.dump
-    7. Check if all content has been successfully migrated. Especially all
-       special characters.
-
-If you run multiple ILIAS versions on the same database server you have to
-update them all at the same time.
 	   
 A P P E N D I X  A: Note on using Apache 2
 
@@ -940,12 +791,12 @@ Please proceed as follows:
 
     - Omit the preparatory step and directly compile and install Apache 2 as
       described in section '2.3.2 - (d) Apache'" but replace the configure
-      directive '--activate-module=src/modules/php4/libphp4.a' by '--enable-so'.
+      directive '--activate-module=src/modules/php5/libphp5.a' by '--enable-so'.
 
     - Add this line to the Apache configuration file httpd.conf, so that PHP
       is loaded as a Dynamic Shared Object (DSO):
 
-          LoadModule php4_module modules/libphp4.so
+          LoadModule php5_module modules/libphp5.so
 
     - Build PHP as described in section '2.3.2 - (c) PHP' but replace the
       configure directive '--with-apache=/opt/ilias/src/apache_1.3.29' with
