@@ -607,16 +607,15 @@ class ilPropertyFormGUI extends ilFormGUI
 			$sf = null;
 			if ($item->getType() != "non_editable_value" or 1)
 			{
-				if ($item->hideSubForm())
+				$sf = $item->getSubForm();
+				if ($item->hideSubForm() && is_object($sf))
 				{
 					$this->tpl->setCurrentBlock("sub_form_hide");
 					$this->tpl->setVariable("DSFID", $item->getFieldId());
 					$this->tpl->parseCurrentBlock();
 				}
-				$sf = $item->getSubForm();
 			}
 			
-			$this->tpl->setCurrentBlock("prop");
 
 			$sf_content = "";
 			if (is_object($sf))
@@ -626,9 +625,14 @@ class ilPropertyFormGUI extends ilFormGUI
 				{
 					$this->setMultipart(true);
 				}
+				$this->tpl->setCurrentBlock("sub_form");
+				$this->tpl->setVariable("PROP_SUB_FORM", $sf_content);
+				$this->tpl->setVariable("SFID", $item->getFieldId());
+				$this->tpl->parseCurrentBlock();
 			}
-			$this->tpl->setVariable("PROP_SUB_FORM", $sf_content);
-			$this->tpl->setVariable("SFID", $item->getFieldId());
+
+			$this->tpl->setCurrentBlock("prop");
+
 			$this->tpl->parseCurrentBlock();
 		}
 		

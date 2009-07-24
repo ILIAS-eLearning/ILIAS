@@ -73,7 +73,38 @@ function ilFormHideSubForm(id)
 	obj = document.getElementById(id);
 	if (obj)
 	{
+		obj.style.overflow = 'hidden';
+		obj.style.height = '0px';
 		obj.style.display = 'none';
+	}
+}
+
+/**
+ * Show all input fields in a div
+ */
+function ilShowInputs(t)
+{
+	var inputs = YAHOO.util.Dom.getElementsBy(ilFormCheckInput, "input", t, null, null, null);
+	for (var i in inputs)
+	{
+		inputs[i].style.visibility = 'visible';
+	}
+}
+
+function ilFormCheckInput(e)
+{
+	return true;
+}
+
+/**
+ * Hide all input fields in a div
+ */
+function ilHideInputs(t)
+{
+	var inputs = YAHOO.util.Dom.getElementsBy(ilFormCheckInput, "input", t, null, null, null);
+	for (i in inputs)
+	{
+		inputs[i].style.visibility = 'hidden';
 	}
 }
 
@@ -97,6 +128,7 @@ function ilFormShowSubForm(id, cont_id, cb)
 			ilFormSubActive[cont_id] = null;
 		}
 	}
+
 	var subforms = YAHOO.util.Dom.getElementsByClassName('ilSubForm', 'div', cont_id);
 	for (k in subforms)
 	{
@@ -106,6 +138,9 @@ function ilFormShowSubForm(id, cont_id, cb)
 			var myAnim = new YAHOO.util.Anim(subforms[k], { 
 				height: { to: 0 }  
 				}, 1, YAHOO.util.Easing.easeOut);
+			myAnim.onStart.subscribe(function(a, b, t) {
+					ilHideInputs(t);
+				}, subforms[k]);
 			myAnim.onComplete.subscribe(function(a, b, t) {
 					t.style.display = 'none';
 					// activated in the meantime?
@@ -117,7 +152,7 @@ function ilFormShowSubForm(id, cont_id, cb)
 						}
 					}
 					t.style.height = 'auto';
-					t.style.overflow = '';
+					//	t.style.overflow = '';
 				}, subforms[k]);
 			myAnim.duration = 0.4;
 			myAnim.animate();
@@ -125,6 +160,8 @@ function ilFormShowSubForm(id, cont_id, cb)
 
 		/* subforms[k].style.display = 'none'; */
 	}
+
+	// activate subform
 	obj = document.getElementById(id);
 	if (obj && obj.style.display == 'none' && (cb == null || cb.checked == true))
 	{
@@ -142,17 +179,20 @@ function ilFormShowSubForm(id, cont_id, cb)
 				from: 0,
 				to: nh }  
 			}, 1, YAHOO.util.Easing.easeOut);
-		myAnim.onComplete.subscribe(function(a, b, t) {
-				t.style.height = 'auto';
-				t.style.overflow = '';
-			}, obj);
 		myAnim.onStart.subscribe(function(a, b, t) {
 				t.style.display = '';
+				ilHideInputs(t);
+			}, obj);
+		myAnim.onComplete.subscribe(function(a, b, t) {
+				t.style.height = 'auto';
+				ilShowInputs(t);
+				// t.style.overflow = '';
+
 			}, obj);
 		myAnim.duration = 0.4;
 		myAnim.animate();
 	}
-	
+
 	// deactivate subform of checkbox
 	if (obj && (cb != null && cb.checked == false))
 	{
@@ -160,6 +200,9 @@ function ilFormShowSubForm(id, cont_id, cb)
 		var myAnim = new YAHOO.util.Anim(obj, { 
 			height: { to: 0 }  
 			}, 1, YAHOO.util.Easing.easeOut);
+		myAnim.onStart.subscribe(function(a, b, t) {
+				ilHideInputs(t);
+			}, obj);
 		myAnim.onComplete.subscribe(function(a, b, t) {
 				t.style.display = 'none';
 				// activated in the meantime?
@@ -171,7 +214,8 @@ function ilFormShowSubForm(id, cont_id, cb)
 					}
 				}
 				t.style.height = 'auto';
-				t.style.overflow = '';
+				ilShowInputs(t);
+//				t.style.overflow = '';
 			}, obj);
 		myAnim.duration = 0.4;
 		myAnim.animate();
