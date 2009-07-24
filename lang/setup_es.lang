@@ -484,3 +484,16 @@ db_selection#:#Database Selection###26 06 2009 new variable
 db_service_name#:#Service Name###26 06 2009 new variable
 db_mysql#:#MySQL###26 06 2009 new variable
 db_oracle#:#Oracle###26 06 2009 new variable
+info_text_nic#:#Optionally register and obtain an installation ID (NIC-ID) from the ILIAS open source community server. Getting a NIC-ID is advisable if you want to share content with other ILIAS installations.###24 07 2009 new variable
+nic_reg_disable_info#:#You may register later anytime.###24 07 2009 new variable
+not_configured#:#Not Configured###24 07 2009 new variable
+pre_php_version_too_low#:#Your PHP version is not supported. We recommend to use PHP 5.2.1 or higher. PHP 6 has not been tested yet.###24 07 2009 new variable
+msg_input_is_required#:#This input is required. Please enter a value.###24 07 2009 new variable
+form_input_not_valid#:#Some data is incomplete or not valid. Please correct the form input.###24 07 2009 new variable
+form_retype_password#:#Retype Password###24 07 2009 new variable
+master_password#:#Master Password###24 07 2009 new variable
+passwd_not_match#:#Your entries for the new password don't match! Please re-enter your new password.###24 07 2009 new variable
+next_update_break#:#Next Update Break###24 07 2009 new variable
+next_update_break_info#:#Depending on the size of your insallation, it is usually advisable not to perform large updates in one run.###24 07 2009 new variable
+clients#:#Clients###24 07 2009 new variable
+no_items#:#No Entrie###24 07 2009 new variable
