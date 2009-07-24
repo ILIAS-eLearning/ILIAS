@@ -9698,3 +9698,7 @@ common#:#preview_learner_info#:#Wenn aktiviert, wird Kurs- und Gruppenadministra
 common#:#mem_view_activate#:#Teilehmeransicht aktivieren
 common#:#mem_view_deactivate#:#Teilehmeransicht deaktivieren
 mcst#:#mcst_automatic_detection#:#Automatisch
+crs#:#sess_limit#:#Sitzungsanzahl begrenzen
+crs#:#sess_num_prev#:#Anzahl vergangener Sitzungen
+crs#:#sess_num_next#:#Anzahl folgender Sitzungen
+crs#:#sess_limit_info#:#Wählen Sie diese Einstellung, um die Anzahl der dargestellten Sitzungen zu begrenzen.

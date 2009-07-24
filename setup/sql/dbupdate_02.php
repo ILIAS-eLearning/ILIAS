@@ -14899,3 +14899,30 @@ if(!$ilDB->tableExists("xmlnestedsettmp"))
 	$ilDB->addIndex("xmlnestedsettmp", array("ns_unique_id"), 'i5');
 }	
 ?>
+<#2801>
+<?php
+	$ilDB->addTableColumn("crs_settings", "session_limit", array(
+		"type" => "integer",
+		'length' => 1,
+		"notnull" => true,
+		"default" => 0
+	));
+?>
+<#2802>
+<?php
+	$ilDB->addTableColumn("crs_settings", "session_prev", array(
+		"type" => "integer",
+		'length' => 8,
+		"notnull" => true,
+		"default" => -1
+	));
+?>
+<#2803>
+<?php
+	$ilDB->addTableColumn("crs_settings", "session_next", array(
+		"type" => "integer",
+		'length' => 8,
+		"notnull" => true,
+		"default" => -1
+	));
+?>
