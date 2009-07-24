@@ -184,13 +184,22 @@ class ilAuthContainerLDAP extends Auth_Container_LDAP
 				$ilBench->stop('Auth','LDAPLoginObserver');
 				ilUtil::redirect('ilias.php?baseClass=ilStartUpGUI&cmdClass=ilstartupgui&cmd=showAccountMigration');
 			}
-
+			
 			// Refresh or create user data
 			$ilBench->start('Auth','LDAPUserSynchronization');
-			$this->initLDAPAttributeToUser();
-			$this->ldap_attr_to_user->setUserData($users);
-			$this->ldap_attr_to_user->refresh();
-			$user_data['ilInternalAccount'] = ilObjUser::_checkExternalAuthAccount("ldap",$a_username);
+			if($this->updateRequired($a_username))
+			{
+				#$GLOBALS['ilLog']->write(__METHOD__.': Starting update');
+				$this->initLDAPAttributeToUser();
+				$this->ldap_attr_to_user->setUserData($users);
+				$this->ldap_attr_to_user->refresh();
+				$user_data['ilInternalAccount'] = ilObjUser::_checkExternalAuthAccount("ldap",$a_username);
+			}
+			else
+			{
+				// User exists and no update required
+				$user_data['ilInternalAccount'] = ilObjUser::_checkExternalAuthAccount("ldap",$a_username);
+			}
 			$ilBench->stop('Auth','LDAPUserSynchronization');
 		}
 
@@ -266,6 +275,33 @@ class ilAuthContainerLDAP extends Auth_Container_LDAP
 		// No existing user found  => return first name
 		return $a_username[0];				
 	}
-}
 
+	/**
+	 * Check if an update is required
+	 * @return 
+	 * @param string $a_username
+	 */
+	protected function updateRequired($a_username)
+	{
+		if(!ilObjUser::_checkExternalAuthAccount("ldap",$a_username))
+		{
+			#$GLOBALS['ilLog']->write(__METHOD__.': Required 1');
+			return true;
+		}
+		// Check attribute mapping on login
+		include_once './Services/LDAP/classes/class.ilLDAPAttributeMapping.php';
+		if(ilLDAPAttributeMapping::hasRulesForUpdate($this->server->getServerId()))
+		{
+			#$GLOBALS['ilLog']->write(__METHOD__.': Required 2');
+			return true;
+		}
+		include_once './Services/LDAP/classes/class.ilLDAPRoleAssignmentRule.php';
+		if(ilLDAPRoleAssignmentRule::hasRulesForUpdate())
+		{
+			#$GLOBALS['ilLog']->write(__METHOD__.': Required 3');
+			return true;
+		}
+		return false;
+	}
+}
 ?>

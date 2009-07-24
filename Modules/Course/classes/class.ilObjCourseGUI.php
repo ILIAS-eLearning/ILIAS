@@ -5077,6 +5077,10 @@ class ilObjCourseGUI extends ilContainerGUI
 		return true;
 	}
 	
+	/**
+	 * Handle member view
+	 * @return 
+	 */
 	public function prepareOutput()
 	{
 		global $rbacsystem;
