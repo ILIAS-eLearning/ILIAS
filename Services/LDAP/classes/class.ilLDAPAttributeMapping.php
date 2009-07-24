@@ -110,6 +110,23 @@ class ilLDAPAttributeMapping
 		}
 		return 0;
 	}
+	
+	/**
+	 * Check if there is ldap attribute -> user data mapping which
+	 * which is updated on login
+	 * @return 
+	 * @param int $a_server_id
+	 */
+	public static function hasRulesForUpdate($a_server_id)
+	{
+		global $ilDB;
+		
+		$query = 'SELECT perform_update FROM ldap_attribute_mapping '.
+			'WHERE server_id = '.$ilDB->quote($a_server_id,'integer').' '.
+			'AND perform_update = 1';
+		$res = $ilDB->query($query);
+		return $res->numRows() ? true : false;
+	}
 
 	/**
 	 * Set mapping rule
@@ -314,7 +331,7 @@ class ilLDAPAttributeMapping
 			{
 				$this->rules_for_update[$row->keyword]['value'] = $row->value;
 			}
-		}			
+		}
 	}
 }
 ?>

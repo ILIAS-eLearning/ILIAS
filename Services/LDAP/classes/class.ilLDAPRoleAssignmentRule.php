@@ -79,6 +79,22 @@ class ilLDAPRoleAssignmentRule
 	}
 	
 	/**
+	 * Check if there any rule for updates
+	 * @return 
+	 */
+	public static function hasRulesForUpdate()
+	{
+		global $ilDB;
+		
+		$query = 'SELECT COUNT(*) num FROM ldap_role_assignments '.
+			'WHERE add_on_update = 1 '.
+			'OR remove_on_update = 1 ';
+		$res = $ilDB->query($query);
+		$row = $res->fetchRow(DB_FETCHMODE_OBJECT);
+		return $row->num > 0;
+	}
+	
+	/**
 	 * Check if a rule matches
 	 * @return 
 	 * @param object $a_user_data
