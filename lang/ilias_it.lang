@@ -245,83 +245,6 @@ assessment#:#cannot_export_test#:#Non hai l'autorizzazione per esportare il test
 assessment#:#cannot_maintain_test#:#Non hai l'autorizzazione per fare manutenzione al test!
 assessment#:#cannot_read_questionpool#:#Non hai l'autorizzazione per vedere i dati della raccolta di domande!
 assessment#:#cannot_save_metaobject#:#Non hai l'autorizzazione per salvare i metadati!
-assessment#:#certificate#:#Certificato
-assessment#:#certificate_a4#:#A4 (297 mm x 210 mm)
-assessment#:#certificate_a4_landscape#:#A4 Orizzontale (210 mm x 297 mm)
-assessment#:#certificate_a5#:#A5 (210 mm x 148 mm)
-assessment#:#certificate_a5_landscape#:#A5 Orizzontale (148 mm x 210 mm)
-assessment#:#certificate_background_image#:#Immagine di sfondo
-assessment#:#certificate_bottom#:#Giù
-assessment#:#certificate_confirm_deletion_text#:#Vuoi cancellare il certificato e tutti i dati ad esso associati?<br />
-assessment#:#certificate_custom#:#Personalizzato...
-assessment#:#certificate_delete#:#Cancella il certificato
-assessment#:#certificate_edit#:#Create/edit a certificate template
-assessment#:#certificate_error_import#:#Errore durante l'import certificati!
-assessment#:#certificate_error_upload_bgimage#:#Errore durante il caricamento dello sfondo!
-assessment#:#certificate_export#:#Esporta il Certificato
-assessment#:#certificate_failed#:#bocciato
-assessment#:#certificate_left#:#Left
-assessment#:#certificate_letter#:#Lettera (11 inch x 8.5 inch)
-assessment#:#certificate_letter_landscape#:#Lettera verticale (8.5 inch x 11 inch)
-assessment#:#certificate_margin_body#:#Cornice del testo
-assessment#:#certificate_not_well_formed#:#Il certificato non è compilato correttamente. Per favore inserisci un testo XHTML valido!
-assessment#:#certificate_padding_top#:#Spazio dal margine superiore
-assessment#:#certificate_page_format#:#Formato della pagina
-assessment#:#certificate_pageheight#:#Altezza della pagina
-assessment#:#certificate_pagewidth#:#Larghezza della pagina
-assessment#:#certificate_passed#:#Superato
-assessment#:#certificate_ph_city#:#Città nell'indirizzo utente
-assessment#:#certificate_ph_country#:#Nazione o indirizzo del partecipante
-assessment#:#certificate_ph_date#:#Data odierna
-assessment#:#certificate_ph_datetime#:#Data ed ora odierna
-assessment#:#certificate_ph_department#:#Dipartimento Utente
-assessment#:#certificate_ph_firstname#:#Nome utente
-assessment#:#certificate_ph_fullname#:#Nome completo utente (titolo, nome e cognome)<br />
-assessment#:#certificate_ph_institution#:#Ordinamento dei partecipanti
-assessment#:#certificate_ph_introduction#:#I seguenti segnalibri possono essere usati
-assessment#:#certificate_ph_lastname#:#Cognome del partecipante
-assessment#:#certificate_ph_marklong#:#Valutazione raggiunta (versione ufficiale)
-assessment#:#certificate_ph_markshort#:#Valutazione raggiunta (versione abbreviata)
-assessment#:#certificate_ph_maxpoints#:#Punteggio massimo disponibile
-assessment#:#certificate_ph_passed#:#"promosso" o "bocciato", a seconda dei risultati del test
-assessment#:#certificate_ph_resultpercent#:#Percentuale totale raggiunta da parte dei partecipanti
-assessment#:#certificate_ph_resultpoints#:#Percentuale raggiunta da parte dei partecipanti
-assessment#:#certificate_ph_street#:#Indirizzo del partecipante
-assessment#:#certificate_ph_testtitle#:#Titolo del test
-assessment#:#certificate_ph_title#:#Titolo del partecipante
-assessment#:#certificate_ph_zipcode#:#CAP dell'indirizzo del partecipante
-assessment#:#certificate_preview#:#Mostra anteprima del certificato
-assessment#:#certificate_right#:#Destra
-assessment#:#certificate_show#:#Mostra certificato
-assessment#:#certificate_status#:#Status
-assessment#:#certificate_status_complete#:#Il certificato è completo e può essere usato
-assessment#:#certificate_status_incomplete#:#Il certificato non è completo
-assessment#:#certificate_text#:#Certificato (Testo)
-assessment#:#certificate_top#:#Su
-assessment#:#certificate_unit_description#:#Inserire le unità di misura come  valore[cm|mm|in|pt|pc|px|em], p.es. 10mm o 3in
-assessment#:#certificate_var_max_points#:#46
-assessment#:#certificate_var_result_mark_long#:#Good
-assessment#:#certificate_var_result_mark_short#:#6
-assessment#:#certificate_var_result_passed#:#Superato
-assessment#:#certificate_var_result_percent#:#83%
-assessment#:#certificate_var_result_points#:#38
-assessment#:#certificate_var_user_city#:#Città
-assessment#:#certificate_var_user_country#:#Italia
-assessment#:#certificate_var_user_department#:#Assistenza clienti
-assessment#:#certificate_var_user_firstname#:#Jane
-assessment#:#certificate_var_user_fullname#:#Dr. Mario Rossi
-assessment#:#certificate_var_user_institution#:#ILIAS Open Source
-assessment#:#certificate_var_user_lastname#:#Tizio
-assessment#:#certificate_var_user_street#:#via Tal dei Tali 69
-assessment#:#certificate_var_user_title#:#Dr.
-assessment#:#certificate_var_user_zipcode#:#00195
-assessment#:#certificate_visibility#:#Visibilità
-assessment#:#certificate_visibility_always#:#Sempre visible
-assessment#:#certificate_visibility_introduction#:#Il tasto per scaricare il certificato dei risultati è
-assessment#:#certificate_visibility_never#:#Non visibile
-assessment#:#certificate_visibility_passed#:#Visibile solo se il partecipante ha superato il test
-assessment#:#certificate_wrong_unit#:#Hai inserito un'unità errata
-assessment#:#certificate_wrong_units#:#Hai inserito un ordine sbagliato di valori
 assessment#:#change_properties_from_random_to_standard#:#Stai cambiando le impostazioni di questo test da random a non random. Le raccolte di domande che hai aggiunto al test verranno cancellate. Vuoi cambiare queste impostazioni?
 assessment#:#change_properties_from_standard_to_random#:#Stai cambiando le impostazioni di questo test da non random a random. Le domande che hai aggiunto al test verranno cancellate dato che hai selezionato una raccolta di domande. Vuoi cambiare queste impostazioni?
 assessment#:#change_solution#:#Cambia la soluzione suggerita
@@ -380,7 +303,6 @@ assessment#:#disable_javascript#:#Cliccare per disabilitare JavaScript support
 assessment#:#duplicate#:#Duplica
 assessment#:#duplicate_matching_values_selected#:#Hai scelto due volte la stessa risposta!
 assessment#:#duplicate_order_values_entered#:#Hai inserito due volte lo stesso valore!
-assessment#:#duplicate_term_message#:#You have entered at least one duplicate term. Please use unique terms.
 assessment#:#ects_allow_ects_grades#:#Mostra ulteriori voti ECTS per accettare una prova
 assessment#:#ects_fill_out_all_values#:#Per favore, inserisci un valore per ognuno dei voti della scala ECTS!
 assessment#:#ects_grade#:#Scala ECTS
@@ -3287,7 +3209,6 @@ common#:#mcst_read#:#Read access to MediaCast
 common#:#mcst_visible#:#MediaCast is visible
 common#:#mcst_write#:#Edit MediaCast
 common#:#mem_alert_no_places#:#There are no free places available.
-common#:#mem_already_on_list#:#You are already subscribed to the waiting list.
 common#:#mem_end#:#Registration End:
 common#:#mem_free_places#:#Free Places:
 common#:#mem_max_users#:#Maximum of Users:
@@ -5743,7 +5664,6 @@ crs#:#crs_unblocked#:#Ingresso libero
 crs#:#crs_unblocked_member#:#Iscritti al corso
 crs#:#crs_unblocked_member_body#:#La tua iscrizione &#232; stata ripristinata
 crs#:#crs_unlimited#:#Senza limite
-crs#:#crs_unsubscribe#:#Cancella iscrizione
 crs#:#crs_unsubscribe_sure#:#Vuoi annullare l&#039;iscrizione per questo corso?
 crs#:#crs_unsubscribed_from_crs#:#Sei iscritto a questo corso.
 crs#:#crs_update_objective#:#Modifica l&#039;obiettivo formativo
@@ -6503,7 +6423,6 @@ grp#:#grp_accept_subscriber#:#Admission to group "%s"
 grp#:#grp_accept_subscriber_body#:#You have been admitted to group "%1$s".\n\n%2$s
 grp#:#grp_added_to_list#:#You have been assigned to the waiting list. You are assigned to position %s on the waiting list.
 grp#:#grp_admins#:#Administrators
-grp#:#grp_btn_unsubscribe#:#Unsubscribe From Group
 grp#:#grp_change_type#:#Change Group Type
 grp#:#grp_closed#:#Closed Group
 grp#:#grp_closed_info#:#Group is not visible for non-members.
@@ -8062,7 +7981,6 @@ ps#:#ps_error_message_invalid_password_max_length#:#Maximum password size may no
 ps#:#ps_error_message_invalid_password_min_length#:#Minimum password size may not be less than 0.
 ps#:#ps_error_message_password_max_less_min#:#Maximum password size may not be less than minimum password size.
 ps#:#ps_error_message_password_min2_because_chars_numbers#:#Minimum password size may not be less than 2 if password have to contain characters and numbers.
-ps#:#ps_error_message_password_min3_because_chars_numbers_special#:#Minimum password size may not be less than 3 if password have to contain characters, numbers and special characters.
 ps#:#ps_export_admin#:#Administrators
 ps#:#ps_export_confirm#:#User Confirmation when Entering Courses
 ps#:#ps_export_course#:#Advanced Export of User Profile Data in Courses
@@ -8990,8 +8908,6 @@ survey#:#survey_text_textwidth_desc#:#Enter the width in characters for the text
 survey#:#survey_use_start_button#:#You must enter the survey using the start button!
 survey#:#SurveyMatrixQuestion#:#Matrix Question
 survey#:#SurveyMetricQuestion#:#Metric question
-survey#:#SurveyNominalQuestion#:#Nominal question
-survey#:#SurveyOrdinalQuestion#:#Ordinal question
 survey#:#SurveyTextQuestion#:#Essay
 survey#:#svy_all_user_data_deleted#:#Tutti i dati degli utenti di questo sondaggio sono stati eliminati!
 survey#:#svy_check_evaluation_access_introduction#:#Il sondaggio di prova &#232; accessibile solo dai partecipanti: per poter accedere occorre inserire il codice di accesso.
@@ -9254,7 +9170,6 @@ trac#:#trac_occurrences#:#Percorso:
 trac#:#trac_participated#:#Participated
 trac#:#trac_processing_time#:#Tempo di esecuzione presunto
 trac#:#trac_progress#:#Progressi didattici personali
-trac#:#trac_query#:#Titolo/descrizione
 trac#:#trac_reached_objectives#:#Reached Learning Objectives
 trac#:#trac_reached_points#:#Punteggio raggiunto
 trac#:#trac_reached_visits#:#Accessi raggiunti
@@ -9344,3 +9259,567 @@ wiki#:#wiki_what_links_here#:#What Links Here?
 wiki#:#wiki_what_links_to_page#:#What links to page "%s"?
 wiki#:#wiki_wiki_page#:#Wiki Page
 wiki#:#wiki_wiki_search#:#Wiki Search
+common#:#download_with_uploaded_filename#:#Download with uploaded filename###24 07 2009 new variable
+common#:#download_with_uploaded_filename_info#:#Select this option exclusively for backwards compatibility with ILIAS 3.9 and older versions: When this option is selected, the filename of a downloaded file is equal to the filename that was used for uploading the file into ILIAS. If this option is not selected, the filename of a downloaded file is equal to the title of the file object in ILIAS. This option does not affect WebDAV. For WebDAV the filename of a downloaded file is always equal to the title of the file object.###24 07 2009 new variable
+form#:#form_msg_wrong_date#:#Wrong date. Please enter a valid date.###24 07 2009 new variable
+form#:#form_msg_wrong_date_format#:#Wrong date format. Please enter the date as "%s"!###24 07 2009 new variable
+form#:#form_msg_formula_is_required#:#Please enter a correct formula.###24 07 2009 new variable
+common#:#assessment_log_no_data#:#No log data available###24 07 2009 new variable
+common#:#back_to_sess_content#:#Back to Session Content###24 07 2009 new variable
+common#:#lang_size_gb#:#GB###24 07 2009 new variable
+common#:#lang_size_mb#:#MB###24 07 2009 new variable
+common#:#lang_size_kb#:#KB###24 07 2009 new variable
+common#:#lang_size_bytes#:#bytes###24 07 2009 new variable
+common#:#webdav#:#WebDAV###24 07 2009 new variable
+common#:#downloading_settings#:#Downloading Settings###24 07 2009 new variable
+common#:#enable_disk_quota#:#Activate Disk Quota###24 07 2009 new variable
+common#:#enable_disk_quota_info#:#Allows to specify a disk quota for each user account and each global role. The disk usage of a user account is determined once every day using a cron job and listed in the user edit form and in the disk quota report.###24 07 2009 new variable
+common#:#enable_disk_quota_reminder_mail#:#Send disk quota reminder mails###24 07 2009 new variable
+common#:#mail_attachment#:#Mail attachment###24 07 2009 new variable
+content#:#cont_change_object_reference#:#Change Object Reference###24 07 2009 new variable
+content#:#cont_select#:#Select###24 07 2009 new variable
+common#:#crs_unsubscribe#:#Unsubscribe###24 07 2009 new variable
+survey#:#SurveyMultipleChoiceQuestion#:#Multiple Choice Question (Multiple Response)###24 07 2009 new variable
+survey#:#SurveySingleChoiceQuestion#:#Multiple Choice Question (Single Response)###24 07 2009 new variable
+survey#:#invitation_off#:#No invitations###24 07 2009 new variable
+dateplaner#:#cal_edit_milestone#:#Edit Milestone###24 07 2009 new variable
+common#:#grp_btn_unsubscribe#:#Unsubscribe From Group###24 07 2009 new variable
+dateplaner#:#cal_deadline#:#Deadline###24 07 2009 new variable
+dateplaner#:#cal_ms_users_responsible#:#Users Responsible###24 07 2009 new variable
+dateplaner#:#cal_save_responsible_users#:#Save Responsible Users###24 07 2009 new variable
+dateplaner#:#cal_change_responsible_users#:#Change Responsible Users###24 07 2009 new variable
+dateplaner#:#cal_ms_details#:#Milestone Details###24 07 2009 new variable
+dateplaner#:#cal_enable_group_milestones#:#Enable Milestones###24 07 2009 new variable
+dateplaner#:#cal_enable_group_milestones_desc#:#This option enables milestone planning in the calendar.###24 07 2009 new variable
+dateplaner#:#cal_new_ms#:#New Milestone###24 07 2009 new variable
+dateplaner#:#cal_add_milestone#:#Add Milestone###24 07 2009 new variable
+dateplaner#:#cal_task_completion#:#Task Completion###24 07 2009 new variable
+dateplaner#:#cal_responsible#:#Responsible###24 07 2009 new variable
+ps#:#ps_error_message_password_min3_because_chars_numbers_sc#:#Minimum password size may not be less than 3 if password have to contain characters, numbers and special characters.###24 07 2009 new variable
+assessment#:#assErrorText#:#Error Text###24 07 2009 new variable
+assessment#:#textsize_errortext_info#:#Enter the text size of the error text in percent if you want another size than 100 percent.###24 07 2009 new variable
+assessment#:#file_uploads#:#File Uploads###24 07 2009 new variable
+search#:#lucene_err_asterisk#:#The wildcard (*) character must be preceded by at least one alphabet or number.###24 07 2009 new variable
+search#:#lucene_err_ampersand#:#Queries containing the special characters && must be in the form: term1 && term2.###24 07 2009 new variable
+search#:#lucene_err_caret#:#The caret (^) character must be preceded by alphanumeric characters and followed by numbers.###24 07 2009 new variable
+search#:#lucene_err_squigglet#:#The tilde (~) character must be preceded by alphanumeric characters and followed by numbers.###24 07 2009 new variable
+search#:#lucene_err_exclamation_mark#:#Queries containing the special character (!) must be in the form: term1 ! term2.###24 07 2009 new variable
+search#:#lucene_err_question_mark#:#The question mark (?) character must be preceded by at least one alphabet or number.###24 07 2009 new variable
+search#:#lucene_err_parenthesis_not_closed#:#Parentheses must be closed.###24 07 2009 new variable
+search#:#lucene_err_parenthesis_empty#:#Parentheses must contain at least one character.###24 07 2009 new variable
+search#:#lucene_err_plus_minus#:#(+) and (-) modifiers must be followed by at least one alphabet or number.###24 07 2009 new variable
+search#:#lucene_err_and_or_not#:#Queries containing AND/OR/NOT must be in the form: term1 AND|OR|NOT|AND NOT term2.###24 07 2009 new variable
+search#:#lucene_err_quotes#:#Please close all quote (") marks.###24 07 2009 new variable
+search#:#lucene_err_quotes_not_empty#:#Quotes (") must contain at least one character.###24 07 2009 new variable
+search#:#lucene_err_colon#:#Field declarations (:) must be preceded by at least one alphabet or number and followed by at least one alphabet or number.###24 07 2009 new variable
+news#:#news_time_period#:#Time Period###24 07 2009 new variable
+common#:#collapsed#:#Collapsed###24 07 2009 new variable
+common#:#tree#:#Tree###24 07 2009 new variable
+common#:#list#:#List###24 07 2009 new variable
+search#:#search_title_description#:#Title / Description###24 07 2009 new variable
+assessment#:#qst_nr_of_tries#:#Number of tries###24 07 2009 new variable
+assessment#:#qst_hint_self#:#Self-Assessment-Mode active! Enter 0 points for incorrect answers, 1 point for correct answers.###24 07 2009 new variable
+content#:#cont_qtries#:#Number of tries for questions###24 07 2009 new variable
+content#:#cont_sc_preview#:#Preview###24 07 2009 new variable
+style#:#sty_colors#:#Colors###24 07 2009 new variable
+style#:#sty_color_name#:#Color Name###24 07 2009 new variable
+style#:#sty_color_code#:#Color Code###24 07 2009 new variable
+style#:#sty_color_flavors#:#Color Flavors###24 07 2009 new variable
+style#:#sty_add_color#:#Add Color###24 07 2009 new variable
+style#:#sty_delete_color#:#Delete Color###24 07 2009 new variable
+style#:#sty_confirm_color_deletion#:#Confirm Color Deletion###24 07 2009 new variable
+style#:#sty_msg_color_must_only_include#:#The color name may only include the following characters:###24 07 2009 new variable
+style#:#sty_color_already_exists#:#A color with this name already exisits in this style.###24 07 2009 new variable
+style#:#sty_color_info#:#Predefined colors make it easy to reuse a color for different purposes. You refer to a predefined color by using its name with a leading "!" for any color attribute in your style classes. To use a flavor, append a lightness value in brackets to the color name, e.g. !MyColor(20).###24 07 2009 new variable
+style#:#sty_table_templates#:#Table Templates###24 07 2009 new variable
+style#:#sty_template_name#:#Name###24 07 2009 new variable
+style#:#sty_preview#:#Preview###24 07 2009 new variable
+style#:#sty_add_template#:#Add Template###24 07 2009 new variable
+style#:#sty_edit_template#:#Edit Template###24 07 2009 new variable
+style#:#sty_table_class#:#Table Style Class###24 07 2009 new variable
+style#:#sty_row_head_class#:#Row Header###24 07 2009 new variable
+style#:#sty_row_foot_class#:#Row Footer###24 07 2009 new variable
+style#:#sty_col_head_class#:#Column Header###24 07 2009 new variable
+style#:#sty_col_foot_class#:#Column Footer###24 07 2009 new variable
+style#:#sty_odd_row_class#:#Odd Rows###24 07 2009 new variable
+style#:#sty_even_row_class#:#Even Rows###24 07 2009 new variable
+style#:#sty_odd_col_class#:#Odd Columns###24 07 2009 new variable
+style#:#sty_even_col_class#:#Even Columns###24 07 2009 new variable
+content#:#cont_ed_flist#:# File List###24 07 2009 new variable
+content#:#cont_nr_row_header#:#Header Rows###24 07 2009 new variable
+content#:#cont_nr_col_header#:#Header Columns###24 07 2009 new variable
+content#:#cont_nr_row_footer#:#Footer Rows###24 07 2009 new variable
+content#:#cont_nr_col_footer#:#Footer Columns###24 07 2009 new variable
+style#:#sty_type_table_caption#:#Table Caption###24 07 2009 new variable
+style#:#sty_caption_side#:#Caption Side###24 07 2009 new variable
+style#:#sty_caption#:#Caption###24 07 2009 new variable
+style#:#sty_caption_class#:#Caption###24 07 2009 new variable
+style#:#sty_confirm_template_deletion#:#Confirm Template Deletion###24 07 2009 new variable
+style#:#sty_generate_template#:#Generate Template###24 07 2009 new variable
+style#:#sty_template_layout#:#Template Layout###24 07 2009 new variable
+style#:#sty_table_template_colored_zebra#:#Colored Zebra###24 07 2009 new variable
+style#:#sty_table_template_bw_zebra#:#Gray Zebra###24 07 2009 new variable
+style#:#sty_table_template_no_zebra#:#No Zebra###24 07 2009 new variable
+style#:#sty_top_bottom_padding#:#Cell Padding Top/Bottom###24 07 2009 new variable
+style#:#sty_left_right_padding#:#Cell Padding Left/Right###24 07 2009 new variable
+style#:#sty_base_color#:#Base Color###24 07 2009 new variable
+style#:#sty_lightness_border#:#Lightness Border###24 07 2009 new variable
+style#:#sty_lightness_header_text#:#Lightness Header Text###24 07 2009 new variable
+style#:#sty_lightness_header_bg#:#Lightness Header Background###24 07 2009 new variable
+style#:#sty_lightness_cell1_text#:#Lightness Cell 1 Text###24 07 2009 new variable
+style#:#sty_lightness_cell1_bg#:#Lightness Cell 1 Background###24 07 2009 new variable
+style#:#sty_lightness_cell2_text#:#Lightness Cell 2 Text###24 07 2009 new variable
+style#:#sty_lightness_cell2_bg#:#Lightness Cell 2 Background###24 07 2009 new variable
+style#:#sty_type_flist_a#:#File List Item Link###24 07 2009 new variable
+style#:#sty_hide#:#Hide###24 07 2009 new variable
+style#:#sty_save_hide_status#:#Save Hide Status###24 07 2009 new variable
+content#:#cont_text_imp#:#Important:###24 07 2009 new variable
+content#:#cont_text_acc#:#Accent:###24 07 2009 new variable
+content#:#cont_tabs_acc_hor#:#Horizontal Accordion###24 07 2009 new variable
+content#:#cont_tabs_acc_ver#:#Vertical Accordion###24 07 2009 new variable
+content#:#cont_edit_tabs#:#Properties###24 07 2009 new variable
+content#:#cont_new_tab#:#New Tab###24 07 2009 new variable
+content#:#cont_tabs#:#Tabs###24 07 2009 new variable
+content#:#cont_add_tab#:#Add Tab###24 07 2009 new variable
+content#:#cont_tabs_confirm_deletion#:#Are you sure that all of the tabs and their contents should be deleted?###24 07 2009 new variable
+content#:#cont_tab_cont_width#:#Content Width###24 07 2009 new variable
+content#:#cont_tab_cont_height#:#Content Height###24 07 2009 new variable
+content#:#cont_tabs_hor_align_info#:#Horizontal accordions will always be aligned left.###24 07 2009 new variable
+style#:#sty_templates#:#Templates###24 07 2009 new variable
+style#:#sty_tabs_char#:#Tabs & Accordions###24 07 2009 new variable
+style#:#sty_type_va_cntr#:#Vert. Accordion Container###24 07 2009 new variable
+style#:#sty_type_va_icntr#:#Vert. Accordion Item Container###24 07 2009 new variable
+style#:#sty_type_va_ihead#:#Vert. Accordion Item Header###24 07 2009 new variable
+style#:#sty_type_va_icont#:#Vert. Accordion Item Content###24 07 2009 new variable
+style#:#sty_type_ha_cntr#:#Hor. Accordion Container###24 07 2009 new variable
+style#:#sty_type_ha_icntr#:#Hor. Accordion Item Container###24 07 2009 new variable
+style#:#sty_type_ha_ihead#:#Hor. Accordion Item Header###24 07 2009 new variable
+style#:#sty_type_ha_icont#:#Hor. Accordion Item Content###24 07 2009 new variable
+style#:#sty_va_cntr_class#:#Vert. Accordion Container###24 07 2009 new variable
+style#:#sty_va_icntr_class#:#Vert. Accordion Item Container###24 07 2009 new variable
+style#:#sty_va_ihead_class#:#Vert. Accordion Item Header###24 07 2009 new variable
+style#:#sty_va_icont_class#:#Vert. Accordion Item Content###24 07 2009 new variable
+style#:#sty_ha_cntr_class#:#Hor. Accordion Container###24 07 2009 new variable
+style#:#sty_ha_icntr_class#:#Hor. Accordion Item Container###24 07 2009 new variable
+style#:#sty_ha_ihead_class#:#Hor. Accordion Item Header###24 07 2009 new variable
+style#:#sty_ha_icont_class#:#Hor. Accordion Item Content###24 07 2009 new variable
+style#:#sty_style_class#:#Style Classes###24 07 2009 new variable
+style#:#sty_del_template_keep_classes#:#Delete and keep Style Classes###24 07 2009 new variable
+style#:#sty_del_template#:#Delete Templates and Classes###24 07 2009 new variable
+style#:#sty_vaccordion_templates#:#Vert. Accordion Templates###24 07 2009 new variable
+style#:#sty_haccordion_templates#:#Hor. Accordion Templates###24 07 2009 new variable
+style#:#sty_acopy#:#Copy###24 07 2009 new variable
+style#:#sty_tag_normal#:#Normal###24 07 2009 new variable
+style#:#sty_tag_hover#:#:hover###24 07 2009 new variable
+content#:#cont_span#:#Span###24 07 2009 new variable
+content#:#cont_colspan#:#Col. Span###24 07 2009 new variable
+content#:#cont_rowspan#:#Row Span###24 07 2009 new variable
+content#:#cont_save_spans#:#Save Spans###24 07 2009 new variable
+content#:#cont_save_widths#:#Save Widths###24 07 2009 new variable
+content#:#cont_set_styles#:#Set Styles###24 07 2009 new variable
+style#:#sty_disable_auto_margins#:#Disable Auto Margins###24 07 2009 new variable
+style#:#sty_disable_auto_margins_info#:#Disables automatic setting of left/right to 0px, if media objects or tables are left/right aligned.###24 07 2009 new variable
+content#:#cont_number_std#:#Standard###24 07 2009 new variable
+content#:#cont_decimal#:#Decimal###24 07 2009 new variable
+content#:#cont_start_value#:#Start Value###24 07 2009 new variable
+content#:#cont_start_value_info#:#Enter start value as decimal number. Default is 1.###24 07 2009 new variable
+common#:#collapse_all#:#Collapse All###24 07 2009 new variable
+common#:#expand_all#:#Expand All###24 07 2009 new variable
+sahs#:#sahs_objective#:#Learning Objective###24 07 2009 new variable
+sahs#:#sahs_objectives#:#Learning Objectives###24 07 2009 new variable
+style#:#sty_type_sco_desct#:#SCO Description Heading###24 07 2009 new variable
+style#:#sty_type_sco_objt#:#SCO Objectives Heading###24 07 2009 new variable
+adve#:#adve_rte_settings#:#Rich Text Editor Settings###24 07 2009 new variable
+adve#:#adve_page_editor_settings#:#ILIAS Page Editor Settings###24 07 2009 new variable
+adve#:#adve_grp_lm#:#ILIAS Learning Modules###24 07 2009 new variable
+adve#:#adve_grp_wiki#:#Wikis###24 07 2009 new variable
+adve#:#adve_grp_scorm#:#SCORM Editing###24 07 2009 new variable
+adve#:#adve_grp_glo#:#Glossaries###24 07 2009 new variable
+adve#:#adve_grp_test#:#Test & Assessment###24 07 2009 new variable
+adve#:#adve_grp_rep#:#Repository Pages###24 07 2009 new variable
+adve#:#adve_text_content_features#:#Text Content Menu###24 07 2009 new variable
+content#:#cont_behavior#:#Behavior###24 07 2009 new variable
+content#:#cont_all_closed#:#All Closed###24 07 2009 new variable
+content#:#cont_first_open#:#First Opened###24 07 2009 new variable
+content#:#cont_force_all_open#:#Force All Opened###24 07 2009 new variable
+content#:#cont_number_type#:#Number Type###24 07 2009 new variable
+user#:#user_activation#:#Activation###24 07 2009 new variable
+user#:#user_all#:#All###24 07 2009 new variable
+user#:#user_last_login_before#:#Last Login Before###24 07 2009 new variable
+user#:#user_limited_access#:#Limited Access###24 07 2009 new variable
+user#:#user_no_courses#:#No Courses Assigned###24 07 2009 new variable
+user#:#user_member_of_course_group#:#Member of Course/Group###24 07 2009 new variable
+user#:#user_select_course_group#:#Select Course/Group###24 07 2009 new variable
+search#:#search_no_match_hint#:#Your search - <b>%s</b> - did not match any documents.<br /><br />Suggestions:<br />Make sure all words are spelled correctly.<br />Try different keywords.<br />Try more general keywords.<br />Try fewer keywords.###24 07 2009 new variable
+user#:#user_please_select_course_group#:#Please select a course or a group.###24 07 2009 new variable
+user#:#user_any#:#Any###24 07 2009 new variable
+user#:#user_global_role#:#Global Role###24 07 2009 new variable
+mep#:#mep_folder_content#:#Folder Content###24 07 2009 new variable
+mep#:#mep_all_mobs#:#All Media Objects###24 07 2009 new variable
+mep#:#mep_unknown#:#Unknown###24 07 2009 new variable
+mep#:#mep_all#:#All###24 07 2009 new variable
+mep#:#mep_format#:#Format###24 07 2009 new variable
+mep#:#mep_default_width#:#Default Width###24 07 2009 new variable
+mep#:#mep_default_height#:#Default Height###24 07 2009 new variable
+mep#:#mep_default_width_height_info#:#Default width and height are used as presets for new media object creation.###24 07 2009 new variable
+content#:#cont_layout#:#Layout###24 07 2009 new variable
+content#:#cont_lm_default_layout#:#Default Layout of Learning Module###24 07 2009 new variable
+content#:#cont_page_layout#:#Page Layout###24 07 2009 new variable
+content#:#cont_layout_per_page#:#Layout per Page###24 07 2009 new variable
+content#:#cont_layout_per_page_info#:#Allow to set individual layouts for each page. This automatically activates the "Synchronize Frames" setting, too.###24 07 2009 new variable
+payment#:#paya_vats_info#:#If you like to sell an object without a vat, please insert a vat-rate with 0 %###24 07 2009 new variable
+payment#:#payment_tax_rates#:#Tax Rates###24 07 2009 new variable
+payment#:#payment_vat_already_created#:#A VAT with this rate is already created.###24 07 2009 new variable
+payment#:#payment_cannot_save_existing_vat#:#Cannot save an existing VAT.###24 07 2009 new variable
+payment#:#payment_cannot_update_nonexisting_vat#:#Cannot update a nonexisting VAT.###24 07 2009 new variable
+payment#:#payment_cannot_find_vat#:#Cannot find VAT dataset for the passed id.###24 07 2009 new variable
+payment#:#payment_cannot_read_nonexisting_vat#:#The ID for fechting the VAT dataset was not passed.###24 07 2009 new variable
+payment#:#payment_edit_vat#:#Edit VAT###24 07 2009 new variable
+payment#:#payment_add_vat#:#Create VAT###24 07 2009 new variable
+payment#:#payment_vat_title_info#:#Please insert a label/title for the VAT.###24 07 2009 new variable
+payment#:#payment_vat_rate_info#:#Please insert the VAT rate (without the %-sign), e.g. 7.###24 07 2009 new variable
+payment#:#payment_vat_deleted_successfully#:#The selected VAT rates were deleted.###24 07 2009 new variable
+payment#:#payment_vat_has_to_be_defined_by_administration_short#:#----###24 07 2009 new variable
+payment#:#payment_object_not_buyable_if_not_vat_assigned#:#Until there is no VAT assigned the object is not buyable in the webshop.###24 07 2009 new variable
+payment#:#payment_vat_administration#:#Administration###24 07 2009 new variable
+payment#:#payment_vat_input_invalid#:#Please insert a valid value for the VAT rate.###24 07 2009 new variable
+payment#:#payment_no_price_selected#:#No price selected.###24 07 2009 new variable
+payment#:#payment_no_price_type_selected#:#Please select a type for the price.###24 07 2009 new variable
+payment#:#payment_price_invalid_price#:#Please enter a valid price.###24 07 2009 new variable
+payment#:#paya_updated_price#:#The price was saved.###24 07 2009 new variable
+payment#:#payment_already_bought_but_no_access#:#You already bought the object %s, but you do not have access yet or your license is expired.###24 07 2009 new variable
+cmps#:#cmps_plugin_activated#:#The plugin has been activated.###24 07 2009 new variable
+cmps#:#cmps_plugin_deactivated#:#The plugin has been deactivated.###24 07 2009 new variable
+common#:#preferences#:#User-defined Preferences###24 07 2009 new variable
+common#:#on_waiting_list#:#You are on the waiting list###24 07 2009 new variable
+common#:#leave_waiting_list#:#Leave Waiting List###24 07 2009 new variable
+cntr#:#cntr_manage#:#Manage###24 07 2009 new variable
+cntr#:#cntr_ordering#:#Sorting###24 07 2009 new variable
+cntr#:#cntr_text_media_editor#:#Text/Media Editor###24 07 2009 new variable
+cntr#:#cntr_saved_sorting#:#Saved Sorting.###24 07 2009 new variable
+chat#:#chat_show_smilies#:#Show smilies###24 07 2009 new variable
+chat#:#chat_hide_smilies#:#Hide smilies###24 07 2009 new variable
+chat#:#chat_no_room_selected#:#No room has been selected.###24 07 2009 new variable
+common#:#grp_removed_from_waiting_list#:#You have been detached from the waiting list of group "%s".###24 07 2009 new variable
+common#:#crs_removed_from_waiting_list#:#You have been detached from the waiting list of course "%s".###24 07 2009 new variable
+common#:#membership_leave#:#Leave###24 07 2009 new variable
+crs#:#event_section_information#:#Session Information###24 07 2009 new variable
+crs#:#event_btn_add_edit#:#Add Session and Assign Materials###24 07 2009 new variable
+crs#:#crs_search_users#:#Search Users###24 07 2009 new variable
+crs#:#crs_user_login#:#User Login###24 07 2009 new variable
+grp#:#grp_search_users#:#Search User###24 07 2009 new variable
+dateplaner#:#cal_type_sess#:#Session Calendar###24 07 2009 new variable
+crs#:#event_tbl_admins#:#Administrators###24 07 2009 new variable
+crs#:#event_tbl_tutors#:#Tutors###24 07 2009 new variable
+crs#:#event_tbl_members#:#Members###24 07 2009 new variable
+crs#:#event_participant_selection#:#Participant Selection###24 07 2009 new variable
+crs#:#event_inc_admins#:#Show Administrators###24 07 2009 new variable
+crs#:#event_inc_tutors#:#Show Tutors###24 07 2009 new variable
+crs#:#event_inc_members#:#Show Members###24 07 2009 new variable
+crs#:#event_materials#:#Session Materials###24 07 2009 new variable
+common#:#crs_cancel_waiting_list#:#Do you really want to remove yourself from the waiting list of course "%s"?###24 07 2009 new variable
+common#:#grp_cancel_waiting_list#:#Do you really want to remove yourself from the waiting list of group "%s"? ###24 07 2009 new variable
+crs#:#crs_warn_no_max_set_on_waiting_list#:#The maximum number of course members is exceeded. You can add your join request to the waiting list. You will receive a message from a course administrator when your request has been approved or rejected.###24 07 2009 new variable
+crs#:#crs_warn_wl_set_on_waiting_list#:#Some users are already assigned to the waiting list. You can add your join request to the waiting list. You will receive a message from a course administrator when your request has been approved or rejected.###24 07 2009 new variable
+grp#:#grp_warn_no_max_set_on_waiting_list#:#The maximum number of group members is exceeded. You can add your join request to the waiting list. You will receive a message from a group administrator when your request has been approved or rejected.###24 07 2009 new variable
+grp#:#grp_warn_wl_set_on_waiting_list#:#Some users are already assigned to the waiting list. You can add your join request to the waiting list. You will receive a message from a group administrator when your request has been approved or rejected.###24 07 2009 new variable
+common#:#mem_add_to_wl#:#Add to Waiting List###24 07 2009 new variable
+common#:#event_assign_files#:#File Assignment###24 07 2009 new variable
+assessment#:#qpl_browsercolumns#:#Customized question list###24 07 2009 new variable
+assessment#:#qpl_browsercolumns_description#:#Select the question data columns that are shown in the question list of a question pool. This setting will be applied for each available question pool.###24 07 2009 new variable
+chat#:#chat_export_status#:#Required export permissions###24 07 2009 new variable
+chat#:#chat_export_all#:#No restrictions (all users with access may export)###24 07 2009 new variable
+chat#:#chat_export_moderator#:#Moderators only###24 07 2009 new variable
+chat#:#chat_export_period#:#Export period###24 07 2009 new variable
+chat#:#chat_export_period_info#:#Export the given number of days###24 07 2009 new variable
+chat#:#chat_export_info#:#Displays an export button for the current room. The messages will be exported to html.###24 07 2009 new variable
+chat#:#chat_textformat#:#Format text###24 07 2009 new variable
+chat#:#chat_show_textformat#:#Format text###24 07 2009 new variable
+registration#:#reg_type_confirmation#:#Registration with E-Mail Confirmation###24 07 2009 new variable
+registration#:#reg_type_confirmation_info#:#This type allows self-registration of users but requires an email confirmation to activate the account. This avoids self-registration to ILIAS with wrong or non-existant email addresses.###24 07 2009 new variable
+registration#:#reg_confirmation_hash_life_time_info#:#Enter the lifetime (seconds) of confirmation links.###24 07 2009 new variable
+registration#:#reg_confirmation_hash_life_time_expired#:#The confirmation link is not valid anymore.###24 07 2009 new variable
+registration#:#reg_confirmation_hash_not_found#:#No user account could be matched to this confirmation link.###24 07 2009 new variable
+common#:#reg_account_confirmation_successful#:#Your user account has been activated.###24 07 2009 new variable
+registration#:#reg_confirmation_link_successful#:#You successfully submitted an account request to ILIAS. You will receive a confirmation e-mail in the next minutes. Please confirm your registration by clicking the confirmation link in this mail.###24 07 2009 new variable
+registration#:#reg_activation_your_confirmation_link#:#Your confirmation link:###24 07 2009 new variable
+registration#:#reg_confirmation_hash_not_passed#:#The confirmation link was not entirely passed.###24 07 2009 new variable
+crs#:#crs_lim_assigned#:#Already assigned to associated course "%s".###24 07 2009 new variable
+grp#:#grp_lim_assigned#:#Already assigned to associated group "%s".###24 07 2009 new variable
+common#:#soap_wsdl_path#:#WSDL Path###24 07 2009 new variable
+common#:#soap_wsdl_path_info#:#Please enter the path to the ilias wsdl file which should be used for the webservice. If you leave this field blank, the following path will be used per default:%s###24 07 2009 new variable
+common#:#scorm_new#:#New SCORM/IACC Learning Module###24 07 2009 new variable
+common#:#scorm_add#:#Add SCORM/IACC Learning Module###24 07 2009 new variable
+common#:#scorm_create_export_file_scrom12#:#Create Export File (SCORM 1.2)###24 07 2009 new variable
+common#:#scorm_create_export_file_scrom2004#:#Create Export File (SCORM 2004)###24 07 2009 new variable
+common#:#scorm_create_export_file_pdf#:#Create Export File (PDF)###24 07 2009 new variable
+common#:#scorm_create_export_file_iso#:#Create Export File (ISO for CD-ROM)###24 07 2009 new variable
+common#:#scorm_create_export_file_html#:#Create Export File (HTML)###24 07 2009 new variable
+common#:#sahs_insert_page_from_clip#:#Paste Pages from Clipboard###24 07 2009 new variable
+common#:#sahs_insert_chap_from_clip#:#Paste Chapters from Clipboard###24 07 2009 new variable
+common#:#sahs_insert_sco_from_clip#:#Paste SCOs from Clipboard###24 07 2009 new variable
+sahs#:#sahs_insert_chapter#:#Insert Chapter###24 07 2009 new variable
+sahs#:#sahs_choose_pages_or_chapters_or_scos_only#:#Please select either pages, SCOs or chapters only.###24 07 2009 new variable
+sahs#:#sahs_insert_scenario#:#Insert Sequenced Chapter###24 07 2009 new variable
+sahs#:#sahs_insert_pagelayout#:#Insert Template Page###24 07 2009 new variable
+sahs#:#sahs_properties#:#Properties###24 07 2009 new variable
+sahs#:#sahs_insert_page#:#Insert Page###24 07 2009 new variable
+sahs#:#sahs_insert_sco#:#Insert SCO###24 07 2009 new variable
+sahs#:#sahs_chapter#:#Chapter###24 07 2009 new variable
+sahs#:#sahs_unit#:#SCO###24 07 2009 new variable
+sahs#:#sahs_page#:#Page###24 07 2009 new variable
+sahs#:#sahs_objectives_alignment#:#Learning Objectives Alignment###24 07 2009 new variable
+sahs#:#sahs_learning_objectives#:#Learning Objectives###24 07 2009 new variable
+sahs#:#sahs_sco_objective#:#Objectives###24 07 2009 new variable
+sahs#:#sahs_questions#:#Questions###24 07 2009 new variable
+sahs#:#sahs_organization#:#Organization###24 07 2009 new variable
+sahs#:#sahs_sequencing#:#Sequencing###24 07 2009 new variable
+sahs#:#sahs_objective_alignment#:#Objectives Alignment###24 07 2009 new variable
+content#:#cont_LocalFile#:#Local File###24 07 2009 new variable
+content#:#cont_Ressources#:#Ressources###24 07 2009 new variable
+content#:#cont_Reading#:#Reading###24 07 2009 new variable
+content#:#cont_Hint#:#Hint###24 07 2009 new variable
+content#:#cont_ed_paste#:#Paste###24 07 2009 new variable
+content#:#cont_ed_insert_pcqst#:#Insert Question###24 07 2009 new variable
+content#:#cont_ed_select_pctext#:#Select Text Item###24 07 2009 new variable
+content#:#cont_question_pool#:#Question Pool###24 07 2009 new variable
+content#:#cont_question_type#:#Question Type###24 07 2009 new variable
+content#:#cont_text_type#:#Text Item Type###24 07 2009 new variable
+content#:#cont_ed_par#:#Text###24 07 2009 new variable
+content#:#cont_ed_dtable#:#Data Table###24 07 2009 new variable
+content#:#cont_ed_atable#:#Advanced Table###24 07 2009 new variable
+content#:#cont_ed_list#:# Advanced List###24 07 2009 new variable
+content#:#cont_ed_textitem#:# Text Item###24 07 2009 new variable
+content#:#cont_mob_files#:#Object Files###24 07 2009 new variable
+content#:#cont_mob_prop#:#Object Properties###24 07 2009 new variable
+meta#:#meta_pointofcontact#:#Point of Contact###24 07 2009 new variable
+meta#:#sco_propagate#:#Propagate to all SCOs###24 07 2009 new variable
+content#:#cont_empty_question#:#Question editing not finished. Please either click and edit or delete question.###24 07 2009 new variable
+content#:#cont_media_placeh#:#Click and edit to insert media###24 07 2009 new variable
+content#:#cont_question_placeh#:#Click and edit to insert question###24 07 2009 new variable
+content#:#cont_text_placeh#:#Click and edit to insert text###24 07 2009 new variable
+content#:#cont_no_glossary#:#No glossary###24 07 2009 new variable
+common#:#obj_sco#:#SCO###24 07 2009 new variable
+common#:#obj_chap#:#Chapter###24 07 2009 new variable
+common#:#obj_page#:#Page###24 07 2009 new variable
+common#:#disk_quota#:#Disk Quota###24 07 2009 new variable
+common#:#disk_usage#:#Disk Usage###24 07 2009 new variable
+common#:#disk_quota_report#:#Disk Quota Report###24 07 2009 new variable
+common#:#disk_usage_details#:#Disk Usage Details###24 07 2009 new variable
+common#:#disk_quota_report_not_run_yet#:#No disk quota report available. The daily cron job which determines the disk usage needs to be executed first.###24 07 2009 new variable
+common#:#enter_in_mb_desc#:#Enter a value in MB.###24 07 2009 new variable
+common#:#disk_quota_on_role_desc#:#The disk quota specified on a role affects all user accounts which are assigned to this role.###24 07 2009 new variable
+common#:#disk_quota_is_1_by_2#:#The effective disk quota is %1$s due to membership in role "%2$s".###24 07 2009 new variable
+common#:#disk_quota_is_unlimited_by_1#:#The effective disk quota is unlimited due to membership in role "%1$s".###24 07 2009 new variable
+common#:#disk_quota_is_1_instead_of_2_by_3#:#The effective disk quota is %1$s as defined in this user account. The disk quota by role membership would have been %2$s by role "%3$s".###24 07 2009 new variable
+common#:#disk_quota_reminder_mail#:#Reminder mail###24 07 2009 new variable
+common#:#disk_quota_reminder_mail_desc#:#The disk quota reminder mail is sent to active users who have exceeded their disk quota. This e-mail is sent once every day to the users when the daily ILIAS cron job is run. Users who already have received a reminder e-mail receive it again every 7 days as long as they exceed their disk quota.###24 07 2009 new variable
+common#:#last_reminder#:#Last reminder###24 07 2009 new variable
+common#:#disk_quota_last_reminder_sent#:#Last quota reminder sent###24 07 2009 new variable
+common#:#disk_quota_last_reminder_sent_desc#:#Last date on which the user has received a reminder mail because of exceeding the disk quota.###24 07 2009 new variable
+common#:#filter_users_without_disk_usage#:#Only users with no disk space used###24 07 2009 new variable
+common#:#filter_users_with_disk_usage#:#Only users with disk space used###24 07 2009 new variable
+common#:#filter_users_with_exceeded_disk_quota#:#Only users with disk quota exceeded###24 07 2009 new variable
+common#:#filter_users_with_access#:#Only users with access###24 07 2009 new variable
+common#:#filter_users_without_access#:#Only users without access###24 07 2009 new variable
+common#:#statistics#:#Statistics###24 07 2009 new variable
+style#:#sty_characteristic_already_exists#:#A style class with this title already exists within this style.###24 07 2009 new variable
+content#:#cont_pc_flist#:#File List###24 07 2009 new variable
+content#:#cont_pc_par#:#Text###24 07 2009 new variable
+content#:#cont_pc_mob#:#Media###24 07 2009 new variable
+content#:#cont_pc_qst#:#Question###24 07 2009 new variable
+content#:#cont_pc_sec#:#Section###24 07 2009 new variable
+content#:#cont_pc_dtab#:#Data Table###24 07 2009 new variable
+content#:#cont_pc_tab#:#Advanced Table###24 07 2009 new variable
+content#:#cont_pc_code#:#Code###24 07 2009 new variable
+content#:#cont_pc_vacc#:#Accordion (Vertical)###24 07 2009 new variable
+content#:#cont_pc_hacc#:#Accordion (Horizontal)###24 07 2009 new variable
+content#:#cont_pc_res#:#Resource###24 07 2009 new variable
+content#:#cont_pc_map#:#Map###24 07 2009 new variable
+content#:#cont_pc_list#:#Advanced List###24 07 2009 new variable
+common#:#session_reminder_lead_time#:#Leadtime###24 07 2009 new variable
+common#:#session_reminder_lead_time_info#:#Please specify, how much seconds before the session expires you want the session reminder to display a warning. The current value for a user session is %s.###24 07 2009 new variable
+rbac#:#rbac_delete_role#:#Delete Role###24 07 2009 new variable
+rbac#:#rbac_role_delete_qst#:#Are you sure you want to delete the following role?<br />All permissions granted by this role will be deleted permanently.###24 07 2009 new variable
+rbac#:#rbac_role_delete_self#:#<strong>Attention:</strong> You are assigned to this role. If you continue this delete operation, you may loose access to some ILIAS materials.###24 07 2009 new variable
+ldap#:#ldap_global_role#:#Global Role###24 07 2009 new variable
+ldap#:#ldap_local_role#:#Local Role###24 07 2009 new variable
+ldap#:#ldap_role_name_info#:#Please choose either a global role or enter the name of a local role.###24 07 2009 new variable
+ldap#:#ldap_update_roles#:#Role Assignments###24 07 2009 new variable
+ldap#:#ldap_check_role_assignment#:#Assignment of Roles After Later Logins###24 07 2009 new variable
+ldap#:#ldap_add_missing#:#Assign Missing Roles###24 07 2009 new variable
+ldap#:#ldap_remove_deprecated#:#Deassign Deprecated Roles###24 07 2009 new variable
+ldap#:#ldap_plugin#:#Assignment by Plugin###24 07 2009 new variable
+ldap#:#ldap_plugin_info#:#Validate the role assignment with a plugin. Please enter a valid plugin id.###24 07 2009 new variable
+ldap#:#ldap_plugin_id#:#Plugin Id###24 07 2009 new variable
+ldap#:#ldap_err_missing_plugin_id#:#Please enter a valid plugin id.###24 07 2009 new variable
+ldap#:#ldap_add_remove#:#Add/Remove Roles###24 07 2009 new variable
+ldap#:#ldap_deleted_rule#:#Deleted selected role assignments.###24 07 2009 new variable
+ldap#:#ldap_role_selection#:#Role Selection###24 07 2009 new variable
+ldap#:#ldap_role_selection_info#:#Your selection is ambiguous. Please choose one of the following roles.###24 07 2009 new variable
+ldap#:#ldap_role_by_plugin#:#By Plugin###24 07 2009 new variable
+common#:#reg_mail_subject_confirmation#:#ILIAS eLearning - Your Confirmationlink###24 07 2009 new variable
+common#:#reg_mail_body_confirmation#:#to activate your account and confirm ownership of this email address, click the link below:###24 07 2009 new variable
+chat#:#chat_add_blocking#:#Block user###24 07 2009 new variable
+chat#:#chat_confirm_delete#:#Are you sure that you want to delete this rooms?###24 07 2009 new variable
+style#:#sty_type_heading1#:#Heading 1###24 07 2009 new variable
+style#:#sty_type_heading2#:#Heading 2###24 07 2009 new variable
+content#:#saved_media_object#:#Saved media object.###24 07 2009 new variable
+content#:#text_repr#:#Text Representation###24 07 2009 new variable
+content#:#text_repr_info#:#Used for image "alt" attribute.###24 07 2009 new variable
+style#:#sty_type_heading3#:#Heading 3###24 07 2009 new variable
+common#:#socialbm_extt_social_bookmarks#:#Social Bookmarks###24 07 2009 new variable
+common#:#bm_manage_social_bm#:#Manage Social Bookmarks###24 07 2009 new variable
+common#:#bm_add_to_ilias#:#Add to ILIAS Bookmarks###24 07 2009 new variable
+common#:#bm_add_to_social_bookmarks#:#Add to Social Bookmarks###24 07 2009 new variable
+assessment#:#answer_types#:#Answer Types###24 07 2009 new variable
+assessment#:#answers_singleline#:#Single Line Answers###24 07 2009 new variable
+assessment#:#answers_multiline#:#Multi Line Answers###24 07 2009 new variable
+assessment#:#allow_images#:#Image Support for Answers###24 07 2009 new variable
+content#:#cont_no_text#:#No Text###24 07 2009 new variable
+content#:#cont_print_selection#:#Print View Selection###24 07 2009 new variable
+dateplaner#:#cal_dstart_dend_warn#:#Please check your input. The start of a day should be before the end of the day.###24 07 2009 new variable
+dateplaner#:#ca_day_start#:#Day Start###24 07 2009 new variable
+dateplaner#:#cal_day_end#:#Day End###24 07 2009 new variable
+dateplaner#:#cal_day_week_view#:#Day/Week View Settings###24 07 2009 new variable
+dateplaner#:#cal_week_month_view#:#Week/Month View Settings###24 07 2009 new variable
+common#:#event_ass_materials_prop#:#Session Materials###24 07 2009 new variable
+assessment#:#resize_images#:#Resize Images###24 07 2009 new variable
+common#:#mobs_edit_permission#:#Change permission settings###24 07 2009 new variable
+common#:#mobs_visible#:#Media Objects/Pools Settings are visible###24 07 2009 new variable
+common#:#mobs_read#:#Read access to Media Objects/Pools Settings###24 07 2009 new variable
+common#:#mobs_write#:#Edit Media Objects/Pools Settings###24 07 2009 new variable
+common#:#obj_mobs#:#Media Objects/Pools###24 07 2009 new variable
+common#:#obj_mobs_desc#:#Settings for media objects and media pools.###24 07 2009 new variable
+mep#:#mobs_activate_pages#:#Activate Content Pages Management###24 07 2009 new variable
+mep#:#mobs_activate_pages_info#:#Allow to add content pages to media pools. These pages can be re-used (not edited) in learning modules etc.###24 07 2009 new variable
+mep#:#mep_create_content_snippet#:#Create Content Snippet###24 07 2009 new variable
+mep#:#mep_new_folder#:#New Folder###24 07 2009 new variable
+mep#:#mep_edit_folder#:#Edit Folder###24 07 2009 new variable
+assessment#:#thumb_size#:#Thumbnail Size###24 07 2009 new variable
+forum#:#frm_purifier_not_implemented_for_type_x#:#Purifier for type %s not implemented yet.###24 07 2009 new variable
+common#:#adve_frm_post_settings#:#Forum Posts###24 07 2009 new variable
+common#:#advanced_editing_frm_post_settings#:#Forum Post Settings###24 07 2009 new variable
+common#:#hint#:#Hint###24 07 2009 new variable
+assessment#:#add_rect#:#Add rectangle area###24 07 2009 new variable
+assessment#:#add_circle#:#Add circle area###24 07 2009 new variable
+assessment#:#add_poly#:#Add polygon area###24 07 2009 new variable
+assessment#:#msg_rect_added#:#Rectangle added###24 07 2009 new variable
+assessment#:#msg_circle_added#:#Circle added###24 07 2009 new variable
+assessment#:#msg_poly_added#:#Polygon added###24 07 2009 new variable
+assessment#:#form_msg_area_missing_points#:#Please enter points for all areas.###24 07 2009 new variable
+assessment#:#values#:#Values###24 07 2009 new variable
+mep#:#mep_new_content_snippet#:#New Content Snippet###24 07 2009 new variable
+mep#:#mep_edit_content_snippet#:#Edit Content Snippet###24 07 2009 new variable
+mep#:#mep_folder#:#Folder###24 07 2009 new variable
+mep#:#mep_page_properties#:#Page Properties###24 07 2009 new variable
+content#:#cont_ed_insert_incl#:#Insert Content Snippet###24 07 2009 new variable
+content#:#cont_pc_incl#:#Content Snippet###24 07 2009 new variable
+survey#:#scale#:#Scale###24 07 2009 new variable
+survey#:#add_material#:#Add Material###24 07 2009 new variable
+survey#:#internal_link#:#Internal Link###24 07 2009 new variable
+survey#:#materials#:#Materials###24 07 2009 new variable
+survey#:#materials_deleted#:#Material(s) deleted###24 07 2009 new variable
+survey#:#phrase_added#:#Phrase added###24 07 2009 new variable
+survey#:#matrix_left_pole#:#Left Pole###24 07 2009 new variable
+survey#:#matrix_right_pole#:#Right Pole###24 07 2009 new variable
+survey#:#row_text#:#Row Text###24 07 2009 new variable
+common#:#header_visible_registration#:#Visible in Registration###24 07 2009 new variable
+common#:#visible_registration#:#Visible in Registration###24 07 2009 new variable
+survey#:#spl_browsercolumns#:#Customized question list###24 07 2009 new variable
+survey#:#spl_browsercolumns_description#:#Select the question data columns that are shown in the question list of a question pool. This setting will be applied for each available question pool.###24 07 2009 new variable
+survey#:#spl_move_insert_clipboard#:#The selected question(s) are marked for moving###24 07 2009 new variable
+survey#:#spl_move_select_none#:#Please check at least one question to select it for moving###24 07 2009 new variable
+survey#:#spl_copy_insert_clipboard#:#The selected question(s) are copied to the clipboard###24 07 2009 new variable
+survey#:#spl_copy_select_none#:#Please check at least one question to copy it to the clipboard###24 07 2009 new variable
+survey#:#spl_paste_no_objects#:#There are no questions in the clipboard. Please copy or move a question into the clipboard.###24 07 2009 new variable
+survey#:#spl_paste_success#:#The question(s) have been pasted into the question pool###24 07 2009 new variable
+survey#:#invitation_mode_desc#:#To invite a user to this survey a link reference to the survey is created on the users personal desktop.###24 07 2009 new variable
+survey#:#msg_deleted_export_files#:#Export file(s) deleted###24 07 2009 new variable
+assessment#:#msg_deleted_export_files#:#Export file(s) deleted###24 07 2009 new variable
+common#:#udf_type_wysiwyg#:#Text Area (WYSIWYG)###24 07 2009 new variable
+common#:#add_new_user_defined_wysiwyg_field#:#Add New Text Area (WYSIWYG) Field###24 07 2009 new variable
+common#:#udf_update_wysiwyg_field#:#Edit Text Area (WYSIWYG) Field###24 07 2009 new variable
+search#:#search_crs_title#:#Course Name###24 07 2009 new variable
+search#:#search_for_crs_members#:#Search for Course Members###24 07 2009 new variable
+mcst#:#mcst_mimetype#:#Mime Type###24 07 2009 new variable
+mcst#:#mcst_mimetypes#:#Mime Types###24 07 2009 new variable
+mcst#:#mcst_mimetype_info#:#Select mime type to control plugin used for playback.<br>Please note: Be aware that not every browser contains the plugin you intend to use.###24 07 2009 new variable
+mcst#:#mcst_mimetypes_info#:#Comma separated list of mime types###24 07 2009 new variable
+user#:#usr_public_profile_disabled#:#Public Profile Disabled###24 07 2009 new variable
+user#:#usr_public_profile_disabled_info#:#Your information is only visible to administrative staff.###24 07 2009 new variable
+user#:#usr_public_profile_logged_in#:#Logged in Users###24 07 2009 new variable
+user#:#usr_public_profile_logged_in_info#:#Your information is only visible to users logged into the system.###24 07 2009 new variable
+user#:#usr_public_profile_global#:#Globale Visible###24 07 2009 new variable
+user#:#usr_public_profile_global_info#:#Your profile is visible to the internet.###24 07 2009 new variable
+survey#:#codes_deleted#:#Code(s) deleted###24 07 2009 new variable
+survey#:#codes_created#:#Code(s) created###24 07 2009 new variable
+survey#:#language_changed#:#Language changed###24 07 2009 new variable
+survey#:#use_browser_print_function#:#Please use the print function of your web browser.###24 07 2009 new variable
+content#:#cont_select_from_upload_dir#:#-- Select from the upload directory --###24 07 2009 new variable
+content#:#cont_uploaded_file#:#Existing file###24 07 2009 new variable
+content#:#cont_upload_dir#:#Upload directory###24 07 2009 new variable
+content#:#cont_upload_dir_info#:#Server directory from which large SCORM and HTML packages can be copied instead of being uploaded. Only ILIAS administrators will see a selection of files from this directory. Please enter a full server path without trailing slash.###24 07 2009 new variable
+common#:#notifications#:#Notifications###24 07 2009 new variable
+assessment#:#tst_finish_notification#:#Mail on completion###24 07 2009 new variable
+assessment#:#tst_finish_notification_no#:#Don't send a mail notification when a user finishes a test###24 07 2009 new variable
+assessment#:#tst_finish_notification_simple#:#Send user name and finish date to test owner###24 07 2009 new variable
+assessment#:#tst_finish_notification_advanced#:#Send complete test result to test owner###24 07 2009 new variable
+assessment#:#tst_user_finished_test#:#User finished test (%s)###24 07 2009 new variable
+common#:#license#:#License###24 07 2009 new variable
+common#:#licenses#:#Licenses###24 07 2009 new variable
+common#:#no_license_available#:#No license available!###24 07 2009 new variable
+license#:#license_counter#:#License counter###24 07 2009 new variable
+license#:#license_counter_info#:#Allows to count the used licenses of purchased SCORM and HTML learning modules###24 07 2009 new variable
+license#:#license_warning#:#License warning###24 07 2009 new variable
+license#:#license_warning_info#:#Up to this number of remaining licenses for a course object a warning is presented when a user enters the course. ###24 07 2009 new variable
+license#:#arbitrary#:#arbitrary###24 07 2009 new variable
+license#:#course_licenses_exceeded#:#By adding users the potential accesses will exceed the available licenses. Look at the tab "Licenses" to see which licenses have to be extended.###24 07 2009 new variable
+license#:#course_licenses_rare#:#Warning: only %s licenses are available for a course object. Look at the tab "Licenses" to see which licenses have to be extended.###24 07 2009 new variable
+license#:#edit_license#:#Edit license###24 07 2009 new variable
+license#:#existing_licenses#:#Existng licenses###24 07 2009 new variable
+license#:#license_updated#:#The license data was updated.###24 07 2009 new variable
+license#:#potential_accesses#:#Potential accesses###24 07 2009 new variable
+license#:#potential_accesses_explanation#:#Every user with read access who hasn't accessed so far counts as a potential access.###24 07 2009 new variable
+license#:#remaining_licenses#:#Available licenses###24 07 2009 new variable
+license#:#remaining_licenses_explanation#:#The available licenses are calculated as purchased minus consumed.###24 07 2009 new variable
+license#:#used_licenses#:#Consumed licenses###24 07 2009 new variable
+license#:#used_licenses_explanation#:#Every first access of a user consumes a license.###24 07 2009 new variable
+user#:#user_access_limited#:#Limited###24 07 2009 new variable
+user#:#user_access_unlimited#:#Unlimited###24 07 2009 new variable
+license#:#zero_licenses_explanation#:#Enter a 0 to deactivate the licensing.###24 07 2009 new variable
+common#:#birthday#:#Birthday###24 07 2009 new variable
+content#:#cont_replace_mob_feature#:#Replace Media Objects in Content###24 07 2009 new variable
+content#:#cont_replace_mob_feature_info#:#Activates a feature that allows to replace a media object while keeping the other properties of a media instance in the content.###24 07 2009 new variable
+assessment#:#tst_remove_mark#:#Remove this mark###24 07 2009 new variable
+assessment#:#tst_show_side_list#:#Show question list aside###24 07 2009 new variable
+assessment#:#tst_hide_side_list#:#Hide question list###24 07 2009 new variable
+assessment#:#errortext#:#Error Text###24 07 2009 new variable
+assessment#:#errortext_info#:#Please enter the error text.###24 07 2009 new variable
+assessment#:#analyze_errortext#:#Analyze Error Text###24 07 2009 new variable
+assessment#:#text_wrong#:#Wrong Text###24 07 2009 new variable
+assessment#:#text_correct#:#Correct Text###24 07 2009 new variable
+assessment#:#errors#:#Errors###24 07 2009 new variable
+assessment#:#errors_section#:#Error Data###24 07 2009 new variable
+common#:#advanced_editing_required_tags#:#The following HTML tags are required: %s###24 07 2009 new variable
+meta#:#md_general_settings#:#General Settings###24 07 2009 new variable
+meta#:#md_delimiter#:#Delimiter###24 07 2009 new variable
+meta#:#md_delimiter_info#:#The delimiter is used in the quick editing screen for keywords and authors separation. Default is ','.###24 07 2009 new variable
+meta#:#md_separated_by#:#Separated by %s###24 07 2009 new variable
+content#:#cont_text_keyword#:#Keyword###24 07 2009 new variable
+search#:#search_hide_adv_search#:#Hide Advanced Search###24 07 2009 new variable
+search#:#search_auto_complete_length#:#Number of Auto Complete List Entries###24 07 2009 new variable
+assessment#:#points_wrong#:#Wrong Selections###24 07 2009 new variable
+assessment#:#points_wrong_info#:#Enter the points for all selections that are not in the list of the marked errors.###24 07 2009 new variable
+content#:#import_sco_object#:#Import SCO###24 07 2009 new variable
+content#:#scorm_editable#:#Import editable###24 07 2009 new variable
+content#:#scorm_editable_comments#:#Works only SCORM 1.2/2004 package###24 07 2009 new variable
+common#:#preview_learner#:#Members View###24 07 2009 new variable
+common#:#preview_learner_info#:#If enabled, Course and Group administrators have the possibility to view the content form the perspective of a learner.###24 07 2009 new variable
+common#:#mem_view_activate#:#Activate Members View###24 07 2009 new variable
+common#:#mem_view_deactivate#:#Deactivate Members View###24 07 2009 new variable
+mcst#:#mcst_automatic_detection#:#Automatic Detection###24 07 2009 new variable
+crs#:#sess_limit#:#Limit Number of Sessions###24 07 2009 new variable
+crs#:#sess_num_prev#:#Number of Past Sessions###24 07 2009 new variable
+crs#:#sess_num_next#:#Number of Following Sessions###24 07 2009 new variable
+crs#:#sess_limit_info#:#Choose this option for limiting the number of visible sessions###24 07 2009 new variable

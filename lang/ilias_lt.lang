@@ -5816,8 +5816,6 @@ style#:#sty_vertical_align#:#Vertikalus Lygiavimas
 style#:#sty_white_space#:#Tuščia Vieta
 style#:#sty_word_spacing#:#Tarpai tarp Žodžių
 survey#:#SurveyMetricQuestion#:#Skaitinis klausimas
-survey#:#SurveyNominalQuestion#:#Nominalus klausimas
-survey#:#SurveyOrdinalQuestion#:#Ordinalus klausimas
 survey#:#SurveyTextQuestion#:#Esė
 survey#:#add_category#:#Pridėti atsakymą
 survey#:#add_heading#:#Pridėti antraštę
@@ -9519,7 +9517,6 @@ common#:#reg_account_confirmation_successful#:#Your user account has been activa
 registration#:#reg_confirmation_link_successful#:#You successfully submitted an account request to ILIAS. You have to confirm your registration by clicking the confirmation link.###26 06 2009 new variable
 registration#:#reg_activation_your_confirmation_link#:#Your confirmation link:###26 06 2009 new variable
 registration#:#reg_confirmation_hash_not_passed#:#The confirmation link was not entirely passed.###26 06 2009 new variable
-mail#:#mail_nacc_confirmation_link#:#Confirmation Link###26 06 2009 new variable
 crs#:#crs_lim_assigned#:#Already assigned to associated course "%s".###26 06 2009 new variable
 grp#:#grp_lim_assigned#:#Already assigned to associated group "%s".###26 06 2009 new variable
 common#:#soap_wsdl_path#:#WSDL Path###26 06 2009 new variable
@@ -9597,3 +9594,228 @@ common#:#session_reminder_lead_time_info#:#Please specify, how much seconds befo
 rbac#:#rbac_delete_role#:#Delete Role###26 06 2009 new variable
 rbac#:#rbac_role_delete_qst#:#Are you sure you want to delete the following role?<br />All permissions granted by this role will be deleted permanently.###26 06 2009 new variable
 rbac#:#rbac_role_delete_self#:#<strong>Attention:</strong> You are assigned to this role. If you continue this delete operation, you may loose access to some ILIAS materials.  ###26 06 2009 new variable
+common#:#download_with_uploaded_filename#:#Download with uploaded filename###24 07 2009 new variable
+common#:#download_with_uploaded_filename_info#:#Select this option exclusively for backwards compatibility with ILIAS 3.9 and older versions: When this option is selected, the filename of a downloaded file is equal to the filename that was used for uploading the file into ILIAS. If this option is not selected, the filename of a downloaded file is equal to the title of the file object in ILIAS. This option does not affect WebDAV. For WebDAV the filename of a downloaded file is always equal to the title of the file object.###24 07 2009 new variable
+form#:#form_msg_wrong_date#:#Wrong date. Please enter a valid date.###24 07 2009 new variable
+form#:#form_msg_wrong_date_format#:#Wrong date format. Please enter the date as "%s"!###24 07 2009 new variable
+form#:#form_msg_formula_is_required#:#Please enter a correct formula.###24 07 2009 new variable
+common#:#assessment_log_no_data#:#No log data available###24 07 2009 new variable
+common#:#lang_size_gb#:#GB###24 07 2009 new variable
+common#:#lang_size_mb#:#MB###24 07 2009 new variable
+common#:#lang_size_kb#:#KB###24 07 2009 new variable
+common#:#lang_size_bytes#:#bytes###24 07 2009 new variable
+common#:#webdav#:#WebDAV###24 07 2009 new variable
+common#:#downloading_settings#:#Downloading Settings###24 07 2009 new variable
+common#:#enable_disk_quota#:#Activate Disk Quota###24 07 2009 new variable
+common#:#enable_disk_quota_info#:#Allows to specify a disk quota for each user account and each global role. The disk usage of a user account is determined once every day using a cron job and listed in the user edit form and in the disk quota report.###24 07 2009 new variable
+common#:#enable_disk_quota_reminder_mail#:#Send disk quota reminder mails###24 07 2009 new variable
+common#:#mail_attachment#:#Mail attachment###24 07 2009 new variable
+content#:#cont_change_object_reference#:#Change Object Reference###24 07 2009 new variable
+content#:#cont_select#:#Select###24 07 2009 new variable
+survey#:#SurveyMultipleChoiceQuestion#:#Multiple Choice Question (Multiple Response)###24 07 2009 new variable
+survey#:#SurveySingleChoiceQuestion#:#Multiple Choice Question (Single Response)###24 07 2009 new variable
+survey#:#invitation_off#:#No invitations###24 07 2009 new variable
+assessment#:#assErrorText#:#Error Text###24 07 2009 new variable
+assessment#:#textsize_errortext_info#:#Enter the text size of the error text in percent if you want another size than 100 percent.###24 07 2009 new variable
+common#:#disk_quota#:#Disk Quota###24 07 2009 new variable
+common#:#disk_usage#:#Disk Usage###24 07 2009 new variable
+common#:#disk_quota_report#:#Disk Quota Report###24 07 2009 new variable
+common#:#disk_usage_details#:#Disk Usage Details###24 07 2009 new variable
+common#:#disk_quota_report_not_run_yet#:#No disk quota report available. The daily cron job which determines the disk usage needs to be executed first.###24 07 2009 new variable
+common#:#enter_in_mb_desc#:#Enter a value in MB.###24 07 2009 new variable
+common#:#disk_quota_on_role_desc#:#The disk quota specified on a role affects all user accounts which are assigned to this role.###24 07 2009 new variable
+common#:#disk_quota_is_1_by_2#:#The effective disk quota is %1$s due to membership in role "%2$s".###24 07 2009 new variable
+common#:#disk_quota_is_unlimited_by_1#:#The effective disk quota is unlimited due to membership in role "%1$s".###24 07 2009 new variable
+common#:#disk_quota_is_1_instead_of_2_by_3#:#The effective disk quota is %1$s as defined in this user account. The disk quota by role membership would have been %2$s by role "%3$s".###24 07 2009 new variable
+common#:#disk_quota_reminder_mail#:#Reminder mail###24 07 2009 new variable
+common#:#disk_quota_reminder_mail_desc#:#The disk quota reminder mail is sent to active users who have exceeded their disk quota. This e-mail is sent once every day to the users when the daily ILIAS cron job is run. Users who already have received a reminder e-mail receive it again every 7 days as long as they exceed their disk quota.###24 07 2009 new variable
+common#:#last_reminder#:#Last reminder###24 07 2009 new variable
+common#:#disk_quota_last_reminder_sent#:#Last quota reminder sent###24 07 2009 new variable
+common#:#disk_quota_last_reminder_sent_desc#:#Last date on which the user has received a reminder mail because of exceeding the disk quota.###24 07 2009 new variable
+common#:#filter_users_without_disk_usage#:#Only users with no disk space used###24 07 2009 new variable
+common#:#filter_users_with_disk_usage#:#Only users with disk space used###24 07 2009 new variable
+common#:#filter_users_with_exceeded_disk_quota#:#Only users with disk quota exceeded###24 07 2009 new variable
+common#:#filter_users_with_access#:#Only users with access###24 07 2009 new variable
+common#:#filter_users_without_access#:#Only users without access###24 07 2009 new variable
+common#:#statistics#:#Statistics###24 07 2009 new variable
+ldap#:#ldap_global_role#:#Global Role###24 07 2009 new variable
+ldap#:#ldap_local_role#:#Local Role###24 07 2009 new variable
+ldap#:#ldap_role_name_info#:#Please choose either a global role or enter the name of a local role.###24 07 2009 new variable
+ldap#:#ldap_update_roles#:#Role Assignments###24 07 2009 new variable
+ldap#:#ldap_check_role_assignment#:#Assignment of Roles After Later Logins###24 07 2009 new variable
+ldap#:#ldap_add_missing#:#Assign Missing Roles###24 07 2009 new variable
+ldap#:#ldap_remove_deprecated#:#Deassign Deprecated Roles###24 07 2009 new variable
+ldap#:#ldap_plugin#:#Assignment by Plugin###24 07 2009 new variable
+ldap#:#ldap_plugin_info#:#Validate the role assignment with a plugin. Please enter a valid plugin id.###24 07 2009 new variable
+ldap#:#ldap_plugin_id#:#Plugin Id###24 07 2009 new variable
+ldap#:#ldap_err_missing_plugin_id#:#Please enter a valid plugin id.###24 07 2009 new variable
+ldap#:#ldap_add_remove#:#Add/Remove Roles###24 07 2009 new variable
+ldap#:#ldap_deleted_rule#:#Deleted selected role assignments.###24 07 2009 new variable
+ldap#:#ldap_role_selection#:#Role Selection###24 07 2009 new variable
+ldap#:#ldap_role_selection_info#:#Your selection is ambiguous. Please choose one of the following roles.###24 07 2009 new variable
+ldap#:#ldap_role_by_plugin#:#By Plugin###24 07 2009 new variable
+common#:#reg_mail_subject_confirmation#:#ILIAS eLearning - Your Confirmationlink###24 07 2009 new variable
+common#:#reg_mail_body_confirmation#:#to activate your account and confirm ownership of this email address, click the link below:###24 07 2009 new variable
+chat#:#chat_add_blocking#:#Block user###24 07 2009 new variable
+chat#:#chat_confirm_delete#:#Are you sure that you want to delete this rooms?###24 07 2009 new variable
+style#:#sty_type_heading1#:#Heading 1###24 07 2009 new variable
+style#:#sty_type_heading2#:#Heading 2###24 07 2009 new variable
+content#:#saved_media_object#:#Saved media object.###24 07 2009 new variable
+content#:#text_repr#:#Text Representation###24 07 2009 new variable
+content#:#text_repr_info#:#Used for image "alt" attribute.###24 07 2009 new variable
+style#:#sty_type_heading3#:#Heading 3###24 07 2009 new variable
+common#:#socialbm_extt_social_bookmarks#:#Social Bookmarks###24 07 2009 new variable
+common#:#bm_manage_social_bm#:#Manage Social Bookmarks###24 07 2009 new variable
+common#:#bm_add_to_ilias#:#Add to ILIAS Bookmarks###24 07 2009 new variable
+common#:#bm_add_to_social_bookmarks#:#Add to Social Bookmarks###24 07 2009 new variable
+assessment#:#answer_types#:#Answer Types###24 07 2009 new variable
+assessment#:#answers_singleline#:#Single Line Answers###24 07 2009 new variable
+assessment#:#answers_multiline#:#Multi Line Answers###24 07 2009 new variable
+assessment#:#allow_images#:#Image Support for Answers###24 07 2009 new variable
+content#:#cont_no_text#:#No Text###24 07 2009 new variable
+content#:#cont_print_selection#:#Print View Selection###24 07 2009 new variable
+dateplaner#:#cal_dstart_dend_warn#:#Please check your input. The start of a day should be before the end of the day.###24 07 2009 new variable
+dateplaner#:#ca_day_start#:#Day Start###24 07 2009 new variable
+dateplaner#:#cal_day_end#:#Day End###24 07 2009 new variable
+dateplaner#:#cal_day_week_view#:#Day/Week View Settings###24 07 2009 new variable
+dateplaner#:#cal_week_month_view#:#Week/Month View Settings###24 07 2009 new variable
+common#:#event_ass_materials_prop#:#Session Materials###24 07 2009 new variable
+assessment#:#resize_images#:#Resize Images###24 07 2009 new variable
+common#:#mobs_edit_permission#:#Change permission settings###24 07 2009 new variable
+common#:#mobs_visible#:#Media Objects/Pools Settings are visible###24 07 2009 new variable
+common#:#mobs_read#:#Read access to Media Objects/Pools Settings###24 07 2009 new variable
+common#:#mobs_write#:#Edit Media Objects/Pools Settings###24 07 2009 new variable
+common#:#obj_mobs#:#Media Objects/Pools###24 07 2009 new variable
+common#:#obj_mobs_desc#:#Settings for media objects and media pools.###24 07 2009 new variable
+mep#:#mobs_activate_pages#:#Activate Content Pages Management###24 07 2009 new variable
+mep#:#mobs_activate_pages_info#:#Allow to add content pages to media pools. These pages can be re-used (not edited) in learning modules etc.###24 07 2009 new variable
+mep#:#mep_create_content_snippet#:#Create Content Snippet###24 07 2009 new variable
+mep#:#mep_new_folder#:#New Folder###24 07 2009 new variable
+mep#:#mep_edit_folder#:#Edit Folder###24 07 2009 new variable
+assessment#:#thumb_size#:#Thumbnail Size###24 07 2009 new variable
+forum#:#frm_purifier_not_implemented_for_type_x#:#Purifier for type %s not implemented yet.###24 07 2009 new variable
+common#:#adve_frm_post_settings#:#Forum Posts###24 07 2009 new variable
+common#:#advanced_editing_frm_post_settings#:#Forum Post Settings###24 07 2009 new variable
+common#:#hint#:#Hint###24 07 2009 new variable
+assessment#:#add_rect#:#Add rectangle area###24 07 2009 new variable
+assessment#:#add_circle#:#Add circle area###24 07 2009 new variable
+assessment#:#add_poly#:#Add polygon area###24 07 2009 new variable
+assessment#:#msg_rect_added#:#Rectangle added###24 07 2009 new variable
+assessment#:#msg_circle_added#:#Circle added###24 07 2009 new variable
+assessment#:#msg_poly_added#:#Polygon added###24 07 2009 new variable
+assessment#:#form_msg_area_missing_points#:#Please enter points for all areas.###24 07 2009 new variable
+assessment#:#values#:#Values###24 07 2009 new variable
+mep#:#mep_new_content_snippet#:#New Content Snippet###24 07 2009 new variable
+mep#:#mep_edit_content_snippet#:#Edit Content Snippet###24 07 2009 new variable
+mep#:#mep_folder#:#Folder###24 07 2009 new variable
+mep#:#mep_page_properties#:#Page Properties###24 07 2009 new variable
+content#:#cont_ed_insert_incl#:#Insert Content Snippet###24 07 2009 new variable
+content#:#cont_pc_incl#:#Content Snippet###24 07 2009 new variable
+survey#:#scale#:#Scale###24 07 2009 new variable
+survey#:#add_material#:#Add Material###24 07 2009 new variable
+survey#:#internal_link#:#Internal Link###24 07 2009 new variable
+survey#:#materials#:#Materials###24 07 2009 new variable
+survey#:#materials_deleted#:#Material(s) deleted###24 07 2009 new variable
+survey#:#phrase_added#:#Phrase added###24 07 2009 new variable
+survey#:#matrix_left_pole#:#Left Pole###24 07 2009 new variable
+survey#:#matrix_right_pole#:#Right Pole###24 07 2009 new variable
+survey#:#row_text#:#Row Text###24 07 2009 new variable
+common#:#header_visible_registration#:#Visible in Registration###24 07 2009 new variable
+common#:#visible_registration#:#Visible in Registration###24 07 2009 new variable
+survey#:#spl_browsercolumns#:#Customized question list###24 07 2009 new variable
+survey#:#spl_browsercolumns_description#:#Select the question data columns that are shown in the question list of a question pool. This setting will be applied for each available question pool.###24 07 2009 new variable
+survey#:#spl_move_insert_clipboard#:#The selected question(s) are marked for moving###24 07 2009 new variable
+survey#:#spl_move_select_none#:#Please check at least one question to select it for moving###24 07 2009 new variable
+survey#:#spl_copy_insert_clipboard#:#The selected question(s) are copied to the clipboard###24 07 2009 new variable
+survey#:#spl_copy_select_none#:#Please check at least one question to copy it to the clipboard###24 07 2009 new variable
+survey#:#spl_paste_no_objects#:#There are no questions in the clipboard. Please copy or move a question into the clipboard.###24 07 2009 new variable
+survey#:#spl_paste_success#:#The question(s) have been pasted into the question pool###24 07 2009 new variable
+survey#:#invitation_mode_desc#:#To invite a user to this survey a link reference to the survey is created on the users personal desktop.###24 07 2009 new variable
+survey#:#msg_deleted_export_files#:#Export file(s) deleted###24 07 2009 new variable
+assessment#:#msg_deleted_export_files#:#Export file(s) deleted###24 07 2009 new variable
+common#:#udf_type_wysiwyg#:#Text Area (WYSIWYG)###24 07 2009 new variable
+common#:#add_new_user_defined_wysiwyg_field#:#Add New Text Area (WYSIWYG) Field###24 07 2009 new variable
+common#:#udf_update_wysiwyg_field#:#Edit Text Area (WYSIWYG) Field###24 07 2009 new variable
+search#:#search_crs_title#:#Course Name###24 07 2009 new variable
+search#:#search_for_crs_members#:#Search for Course Members###24 07 2009 new variable
+mcst#:#mcst_mimetype#:#Mime Type###24 07 2009 new variable
+mcst#:#mcst_mimetypes#:#Mime Types###24 07 2009 new variable
+mcst#:#mcst_mimetype_info#:#Select mime type to control plugin used for playback.<br>Please note: Be aware that not every browser contains the plugin you intend to use.###24 07 2009 new variable
+mcst#:#mcst_mimetypes_info#:#Comma separated list of mime types###24 07 2009 new variable
+user#:#usr_public_profile_disabled#:#Public Profile Disabled###24 07 2009 new variable
+user#:#usr_public_profile_disabled_info#:#Your information is only visible to administrative staff.###24 07 2009 new variable
+user#:#usr_public_profile_logged_in#:#Logged in Users###24 07 2009 new variable
+user#:#usr_public_profile_logged_in_info#:#Your information is only visible to users logged into the system.###24 07 2009 new variable
+user#:#usr_public_profile_global#:#Globale Visible###24 07 2009 new variable
+user#:#usr_public_profile_global_info#:#Your profile is visible to the internet.###24 07 2009 new variable
+survey#:#codes_deleted#:#Code(s) deleted###24 07 2009 new variable
+survey#:#codes_created#:#Code(s) created###24 07 2009 new variable
+survey#:#language_changed#:#Language changed###24 07 2009 new variable
+survey#:#use_browser_print_function#:#Please use the print function of your web browser.###24 07 2009 new variable
+content#:#cont_select_from_upload_dir#:#-- Select from the upload directory --###24 07 2009 new variable
+content#:#cont_uploaded_file#:#Existing file###24 07 2009 new variable
+content#:#cont_upload_dir#:#Upload directory###24 07 2009 new variable
+content#:#cont_upload_dir_info#:#Server directory from which large SCORM and HTML packages can be copied instead of being uploaded. Only ILIAS administrators will see a selection of files from this directory. Please enter a full server path without trailing slash.###24 07 2009 new variable
+common#:#notifications#:#Notifications###24 07 2009 new variable
+assessment#:#tst_finish_notification#:#Mail on completion###24 07 2009 new variable
+assessment#:#tst_finish_notification_no#:#Don't send a mail notification when a user finishes a test###24 07 2009 new variable
+assessment#:#tst_finish_notification_simple#:#Send user name and finish date to test owner###24 07 2009 new variable
+assessment#:#tst_finish_notification_advanced#:#Send complete test result to test owner###24 07 2009 new variable
+assessment#:#tst_user_finished_test#:#User finished test (%s)###24 07 2009 new variable
+common#:#license#:#License###24 07 2009 new variable
+common#:#licenses#:#Licenses###24 07 2009 new variable
+common#:#no_license_available#:#No license available!###24 07 2009 new variable
+license#:#license_counter#:#License counter###24 07 2009 new variable
+license#:#license_counter_info#:#Allows to count the used licenses of purchased SCORM and HTML learning modules###24 07 2009 new variable
+license#:#license_warning#:#License warning###24 07 2009 new variable
+license#:#license_warning_info#:#Up to this number of remaining licenses for a course object a warning is presented when a user enters the course. ###24 07 2009 new variable
+license#:#arbitrary#:#arbitrary###24 07 2009 new variable
+license#:#course_licenses_exceeded#:#By adding users the potential accesses will exceed the available licenses. Look at the tab "Licenses" to see which licenses have to be extended.###24 07 2009 new variable
+license#:#course_licenses_rare#:#Warning: only %s licenses are available for a course object. Look at the tab "Licenses" to see which licenses have to be extended.###24 07 2009 new variable
+license#:#edit_license#:#Edit license###24 07 2009 new variable
+license#:#existing_licenses#:#Existng licenses###24 07 2009 new variable
+license#:#license_updated#:#The license data was updated.###24 07 2009 new variable
+license#:#potential_accesses#:#Potential accesses###24 07 2009 new variable
+license#:#potential_accesses_explanation#:#Every user with read access who hasn't accessed so far counts as a potential access.###24 07 2009 new variable
+license#:#remaining_licenses#:#Available licenses###24 07 2009 new variable
+license#:#remaining_licenses_explanation#:#The available licenses are calculated as purchased minus consumed.###24 07 2009 new variable
+license#:#used_licenses#:#Consumed licenses###24 07 2009 new variable
+license#:#used_licenses_explanation#:#Every first access of a user consumes a license.###24 07 2009 new variable
+user#:#user_access_limited#:#Limited###24 07 2009 new variable
+user#:#user_access_unlimited#:#Unlimited###24 07 2009 new variable
+license#:#zero_licenses_explanation#:#Enter a 0 to deactivate the licensing.###24 07 2009 new variable
+common#:#birthday#:#Birthday###24 07 2009 new variable
+content#:#cont_replace_mob_feature#:#Replace Media Objects in Content###24 07 2009 new variable
+content#:#cont_replace_mob_feature_info#:#Activates a feature that allows to replace a media object while keeping the other properties of a media instance in the content.###24 07 2009 new variable
+assessment#:#tst_remove_mark#:#Remove this mark###24 07 2009 new variable
+assessment#:#tst_show_side_list#:#Show question list aside###24 07 2009 new variable
+assessment#:#tst_hide_side_list#:#Hide question list###24 07 2009 new variable
+assessment#:#errortext#:#Error Text###24 07 2009 new variable
+assessment#:#errortext_info#:#Please enter the error text.###24 07 2009 new variable
+assessment#:#analyze_errortext#:#Analyze Error Text###24 07 2009 new variable
+assessment#:#text_wrong#:#Wrong Text###24 07 2009 new variable
+assessment#:#text_correct#:#Correct Text###24 07 2009 new variable
+assessment#:#errors#:#Errors###24 07 2009 new variable
+assessment#:#errors_section#:#Error Data###24 07 2009 new variable
+common#:#advanced_editing_required_tags#:#The following HTML tags are required: %s###24 07 2009 new variable
+meta#:#md_general_settings#:#General Settings###24 07 2009 new variable
+meta#:#md_delimiter#:#Delimiter###24 07 2009 new variable
+meta#:#md_delimiter_info#:#The delimiter is used in the quick editing screen for keywords and authors separation. Default is ','.###24 07 2009 new variable
+meta#:#md_separated_by#:#Separated by %s###24 07 2009 new variable
+content#:#cont_text_keyword#:#Keyword###24 07 2009 new variable
+search#:#search_hide_adv_search#:#Hide Advanced Search###24 07 2009 new variable
+search#:#search_auto_complete_length#:#Number of Auto Complete List Entries###24 07 2009 new variable
+assessment#:#points_wrong#:#Wrong Selections###24 07 2009 new variable
+assessment#:#points_wrong_info#:#Enter the points for all selections that are not in the list of the marked errors.###24 07 2009 new variable
+content#:#import_sco_object#:#Import SCO###24 07 2009 new variable
+content#:#scorm_editable#:#Import editable###24 07 2009 new variable
+content#:#scorm_editable_comments#:#Works only SCORM 1.2/2004 package###24 07 2009 new variable
+common#:#preview_learner#:#Members View###24 07 2009 new variable
+common#:#preview_learner_info#:#If enabled, Course and Group administrators have the possibility to view the content form the perspective of a learner.###24 07 2009 new variable
+common#:#mem_view_activate#:#Activate Members View###24 07 2009 new variable
+common#:#mem_view_deactivate#:#Deactivate Members View###24 07 2009 new variable
+mcst#:#mcst_automatic_detection#:#Automatic Detection###24 07 2009 new variable
+crs#:#sess_limit#:#Limit Number of Sessions###24 07 2009 new variable
+crs#:#sess_num_prev#:#Number of Past Sessions###24 07 2009 new variable
+crs#:#sess_num_next#:#Number of Following Sessions###24 07 2009 new variable
+crs#:#sess_limit_info#:#Choose this option for limiting the number of visible sessions###24 07 2009 new variable
