@@ -446,6 +446,10 @@ class ilSoapGroupAdministration extends ilSoapAdministration
 				$refs = array();
 				foreach($allrefs as $r)
 				{
+					if($tree->isDeleted($r))
+					{
+						continue;
+					}
 					if ($tree->isInTree($r))
 					{
 						$refs[] = $r;

@@ -374,7 +374,7 @@ class ilObjUserTracking extends ilObject
 		$q = "DELETE FROM ut_access WHERE acc_time < ".
 			$ilDB->quote($this->increaseMonth($a_month)."-01", "timestamp");
 
-		$ilDB->query($q);
+		$ilDB->manipulate($q);
 	}
 
 	/**

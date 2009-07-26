@@ -51,7 +51,6 @@ class ilObjectFactory
 		$query = "SELECT * FROM object_data,object_reference ".
 			"WHERE object_reference.obj_id = object_data.obj_id ".
 			" AND object_data.type=".$ilDB->quote($object_type,'text').
-			" AND object_reference.deleted = '0000-00-00 00:00:00'".
 			" AND object_data.owner = ".$ilDB->quote($owner_id,'integer');
 		$res = $ilDB->query($query);
 

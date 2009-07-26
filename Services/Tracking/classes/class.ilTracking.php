@@ -48,7 +48,7 @@ class ilTracking {
 		$ilDB->setLimit(1);
 		$q = "SELECT * from ut_access "
 		." WHERE "
-		." user_id = ".$ilDB->quote($ilUser->getId())
+		." user_id = ".$ilDB->quote($ilUser->getId(),'integer')
 		." ORDER BY acc_time DESC";
 		$res = $ilDB->query($q);
 		return $res->fetchRow(DB_FETCHMODE_ASSOC);
@@ -302,7 +302,7 @@ class ilTracking {
 		global $ilDB;
 		
 		$q = "SELECT a.login,b.acc_obj_type,b.language,b.client_ip,b.acc_time "
-			." FROM usr_data as a,ut_access as b "
+			." FROM usr_data a,ut_access b "
 			." WHERE a.usr_id=b.user_id "
 			." AND ".$condition;
 //echo $q;
@@ -319,7 +319,7 @@ class ilTracking {
 		global $ilDB;
 		
 		$q = "SELECT a.login,b.acc_obj_type,b.client_ip,b.acc_time "
-			." FROM usr_data as a,ut_access as b "
+			." FROM usr_data a,ut_access b "
 			." WHERE a.usr_id=b.user_id "
 			." AND ".$condition;
 //echo $q;
