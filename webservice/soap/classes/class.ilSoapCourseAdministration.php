@@ -563,6 +563,10 @@ class ilSoapCourseAdministration extends ilSoapAdministration
 				$allrefs = ilObject::_getAllReferences($obj_id);
 				foreach($allrefs as $r)
 				{
+					if($tree->isDeleted($r))
+					{
+						continue;
+					}
 					if ($tree->isInTree($r))
 					{
 						$refs[] = $r;

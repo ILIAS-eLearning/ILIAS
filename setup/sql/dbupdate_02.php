@@ -14926,3 +14926,7 @@ if(!$ilDB->tableExists("xmlnestedsettmp"))
 		"default" => -1
 	));
 ?>
+<#2804>
+<?php
+	$ilMySQLAbstraction->performAbstraction('ut_access');
+?>
