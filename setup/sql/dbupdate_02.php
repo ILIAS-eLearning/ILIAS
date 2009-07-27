@@ -14940,4 +14940,8 @@ if(!$ilDB->tableExists("xmlnestedsettmp"))
 	$ilDB->manipulateF('UPDATE frm_threads SET thr_date = NULL WHERE  thr_date = %s', array('timestamp'), array('0000-00-00 00:00:00'));
 	$ilDB->manipulateF('UPDATE frm_thread_access SET access_old_ts = NULL WHERE  access_old_ts = %s', array('timestamp'), array('0000-00-00 00:00:00'));
 ?>
+<#2806>
+<?php
+	$ilDB->manipulateF('UPDATE frm_threads SET thr_update = NULL WHERE  thr_update = %s', array('timestamp'), array('0000-00-00 00:00:00'));
+?>
 	
