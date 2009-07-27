@@ -237,10 +237,12 @@ class ilTemplate extends ilTemplateX
 				}
 
 				$_SESSION["referer"] = preg_replace("/cmd=gateway/",substr($str,1),$_SERVER["REQUEST_URI"]);
+				$_SESSION['referer_ref_id'] = (int) $_GET['ref_id'];
 			}
 			else
 			{
 				$_SESSION["referer"] = $_SERVER["REQUEST_URI"];
+				$_SESSION['referer_ref_id'] = (int) $_GET['ref_id'];
 			}
 
 			unset($_SESSION["error_post_vars"]);
