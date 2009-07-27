@@ -2570,7 +2570,14 @@ class ilObjCourseGUI extends ilContainerGUI
 	*/
 	public function addAsMemberObject()
 	{	
+		if(!strlen(trim($_POST['user_login'])))
+		{
+			ilUtil::sendFailure($this->lng->txt('msg_no_search_string'));
+			$this->membersObject();
+			return false;
+		}
 		$users = explode(',', $_POST['user_login']);
+		
 		foreach($users as $user)
 		{
 			$_POST['user'][] = ilObjUser::_lookupId($user);
