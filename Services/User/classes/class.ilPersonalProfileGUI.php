@@ -228,10 +228,16 @@ class ilPersonalProfileGUI
 		// select password from auto generated passwords
 		if ($this->ilias->getSetting("passwd_auto_generate") == 1)
 		{
-			// check old password
-			if (md5($_POST["current_password"]) != $ilUser->getPasswd())
+			// The old password needs to be checked for verification
+			// unless the user uses Shibboleth authentication with additional
+			// local authentication for WebDAV.
+			if ($ilUser->getAuthMode(true) != AUTH_SHIBBOLETH || ! $ilSetting->get("shib_auth_allow_local"))
 			{
-				$this->password_error = $this->lng->txt("passwd_wrong");
+				// check old password
+				if (md5($_POST["current_password"]) != $ilUser->getPasswd())
+				{
+					$this->password_error = $this->lng->txt("passwd_wrong");
+				}
 			}
 			// validate transmitted password
 			if (!ilUtil::isPassword($_POST["new_passwd"]))
@@ -2765,16 +2771,22 @@ return;
 		// Check whether password change is allowed
 		if ($this->allowPasswordChange())
 		{
-			// current password
-			$cpass = new ilPasswordInputGUI($lng->txt("current_password"), "current_password");
-			$cpass->setRetype(false);
-			$cpass->setSkipSyntaxCheck(true);
-			// only if a password exists.
-			if($ilUser->getPasswd())
+			// The current password needs to be checked for verification
+			// unless the user uses Shibboleth authentication with additional
+			// local authentication for WebDAV.
+			if ($ilUser->getAuthMode(true) != AUTH_SHIBBOLETH || ! $ilSetting->get("shib_auth_allow_local"))
 			{
-				$cpass->setRequired(true);
+				// current password
+				$cpass = new ilPasswordInputGUI($lng->txt("current_password"), "current_password");
+				$cpass->setRetype(false);
+				$cpass->setSkipSyntaxCheck(true);
+				// only if a password exists.
+				if($ilUser->getPasswd())
+				{
+					$cpass->setRequired(true);
+				}
+				$this->form->addItem($cpass);
 			}
-			$this->form->addItem($cpass);
 			
 			// new password
 			$ipass = new ilPasswordInputGUI($lng->txt("desired_password"), "new_password");
@@ -2850,7 +2862,7 @@ return;
 	*/
 	public function savePassword()
 	{
-		global $tpl, $lng, $ilCtrl, $ilUser;
+		global $tpl, $lng, $ilCtrl, $ilUser, $ilSetting;
 	
 		// normally we should not end up here
 		if (!$this->allowPasswordChange())
@@ -2866,12 +2878,18 @@ return;
 			$np = $this->form->getItemByPostVar("new_password");
 			$error = false;
 			
-			// check current password
-			if (md5($_POST["current_password"]) != $ilUser->getPasswd() and
-				$ilUser->getPasswd())
+			// The old password needs to be checked for verification
+			// unless the user uses Shibboleth authentication with additional
+			// local authentication for WebDAV.
+			if ($ilUser->getAuthMode(true) != AUTH_SHIBBOLETH || ! $ilSetting->get("shib_auth_allow_local"))
 			{
-				$error = true;
-				$cp->setAlert($this->lng->txt("passwd_wrong"));
+				// check current password
+				if (md5($_POST["current_password"]) != $ilUser->getPasswd() and
+					$ilUser->getPasswd())
+				{
+					$error = true;
+					$cp->setAlert($this->lng->txt("passwd_wrong"));
+				}
 			}
 
 			// select password from auto generated passwords
