@@ -1764,6 +1764,7 @@ class ilObjForumGUI extends ilObjectGUI
 		$oPostGUI->addButton('latex');
 		$oPostGUI->addButton('pastelatex');
 		$oPostGUI->addPlugin('ilfrmquote');
+		$oPostGUI->removePlugin('advlink');
 		$oPostGUI->setRTERootBlockElement('');
 		$oPostGUI->usePurifier(true);
 		$oPostGUI->disableButtons(array(
@@ -3488,6 +3489,7 @@ class ilObjForumGUI extends ilObjectGUI
 		$post_gui->addButton('latex');
 		$post_gui->addButton('pastelatex');
 		$post_gui->addPlugin('ilfrmquote');
+		$post_gui->removePlugin('advlink');
 		$post_gui->usePurifier(true);	
 		$post_gui->setRTERootBlockElement('');	
 		$post_gui->setRTESupport($ilUser->getId(), 'frm~', 'frm_post', 'tpl.tinymce_frm_post.html');
