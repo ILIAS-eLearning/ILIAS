@@ -134,7 +134,7 @@ class ilObjRoleGUI extends ilObjectGUI
 			}
 			else
 			{
-				$this->setAdminTabs();
+				//$this->setAdminTabs();
 				//$this->addAdminLocatorItems();
 				//$tpl->setLocator();
 			}
