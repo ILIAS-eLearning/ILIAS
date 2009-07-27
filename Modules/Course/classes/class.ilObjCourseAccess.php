@@ -233,6 +233,12 @@ class ilObjCourseAccess extends ilObjectAccess
 	public static function _isActivated($a_obj_id)
 	{
 		global $ilDB;
+		
+		include_once './Services/Container/classes/class.ilMemberViewSettings.php';
+		if(ilMemberViewSettings::getInstance()->isActive())
+		{
+			return true;
+		}
 
 		$query = "SELECT * FROM crs_settings ".
 			"WHERE obj_id = ".$ilDB->quote($a_obj_id ,'integer')." ";

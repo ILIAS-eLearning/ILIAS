@@ -76,6 +76,7 @@ class ilMemberViewSettings
     {
         $this->container = $container;
 		$_SESSION['member_view_container'] = $this->container;
+		$_SESSION['il_cont_admin_panel'] = false;
     }
 
 	/**

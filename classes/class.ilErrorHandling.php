@@ -157,6 +157,10 @@ class ilErrorHandling extends PEAR
 			}
 
 #echo "-".$_SESSION["referer"]."-";
+			if(!$GLOBALS['ilAccess']->checkAccess('read','',$_SESSION['referer_ref_id']))
+			{
+				ilUtil::redirect('repository.php?ref_id='.ROOT_FOLDER_ID);
+			}
 			ilUtil::redirect($_SESSION["referer"].$glue);
 		}
 	}
