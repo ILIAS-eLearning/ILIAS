@@ -444,7 +444,30 @@ class ilMainMenuGUI
 	
 	function getHTML()
 	{
+		include_once './Services/Container/classes/class.ilMemberViewSettings.php';
+		$set = ilMemberViewSettings::getInstance();
+		
+		if($set->isActive())
+		{
+			return $this->getMemberViewHTML();
+		}
+		
+		
 		$this->setTemplateVars();
+		return $this->tpl->get();
+	}
+	
+	protected function getMemberViewHTML()
+	{
+		global $lng;
+		
+		$this->tpl = new ilTemplate('tpl.member_view_main_menu.html',true,true,'Services/MainMenu');
+		
+		$this->tpl->setVariable('TXT_MM_HEADER',$lng->txt('mem_view_long'));
+		$this->tpl->setVariable('TXT_MM_CLOSE_PREVIEW',$lng->txt('mem_view_close'));
+		$this->tpl->setVariable('MM_CLOSE_IMG',ilUtil::getImagePath('cancel.gif'));
+		$this->tpl->setVAriable('HREF_CLOSE_MM','repository.php?cmd=frameset&mv=0&ref_id='.(int) $_GET['ref_id']);
+		
 		return $this->tpl->get();
 	}
 }

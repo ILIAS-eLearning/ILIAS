@@ -9694,8 +9694,8 @@ license#:#zero_licenses_explanation#:#Tragen Sie 0 ein, um die Lizensierung zu d
 common#:#advanced_editing_required_tags#:#Die folgenden HTML-Auszeichnungen sind für diesen Bereich zwingend notwendig: %s
 common#:#preview_learner#:#Teilnehmeransicht
 common#:#preview_learner_info#:#Wenn aktiviert, wird Kurs- und Gruppenadministratoren die Möglichkeit angeboten, Inhalte aus der Sicht eines Kursteilnehmers zu betrachten.
-common#:#mem_view_activate#:#Teilehmeransicht aktivieren
-common#:#mem_view_deactivate#:#Teilehmeransicht deaktivieren
+common#:#mem_view_activate#:#Teilnehmeransicht aktivieren
+common#:#mem_view_deactivate#:#Teilnehmeransicht deaktivieren
 mcst#:#mcst_automatic_detection#:#Automatisch
 crs#:#sess_limit#:#Sitzungsanzahl begrenzen
 crs#:#sess_num_prev#:#Anzahl vergangener Sitzungen
@@ -9819,3 +9819,5 @@ assessment#:#points_wrong_info#:#Enter the points for all selections that are no
 content#:#import_sco_object#:#Import SCO###24 07 2009 new variable
 content#:#scorm_editable#:#Import editable###24 07 2009 new variable
 content#:#scorm_editable_comments#:#Works only SCORM 1.2/2004 package###24 07 2009 new variable
+common#:#mem_view_long#:#Sie befinden sich in der Teilnehmeransicht
+common#:#mem_view_close#:#Teilnehmeransicht schließen

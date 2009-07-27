@@ -2041,6 +2041,14 @@ div.ilMainHeader
 	padding-top: 8px;
 }
 
+div.ilMemberViewMainHeader
+{
+	background-color: #981a0a;
+	right: 0px;
+	min-height: 50px;
+	padding-top: 8px;
+}
+
 a.ilLogin, a.ilLogin:visited
 {
 

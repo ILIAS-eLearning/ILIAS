@@ -76,6 +76,17 @@ class ilLocatorGUI
 			$a_ref_id = $_GET["ref_id"];
 		}
 		
+		include_once './Services/Container/classes/class.ilMemberViewSettings.php';
+		if(ilMemberViewSettings::getInstance()->isActive())
+		{
+			$a_start = ilMemberViewSettings::getInstance()->getContainer();
+		}
+		else
+		{
+			$a_start = ROOT_FOLDER_ID;
+		}
+		
+		
 		$pre = "";
 		if (defined("ILIAS_MODULE"))
 		{
@@ -84,7 +95,7 @@ class ilLocatorGUI
 		
 		if ($a_ref_id > 0)
 		{
-			$path = $tree->getPathFull($a_ref_id);
+			$path = $tree->getPathFull($a_ref_id,$a_start);
 			
 			// add item for each node on path
 			foreach ($path as $key => $row)
