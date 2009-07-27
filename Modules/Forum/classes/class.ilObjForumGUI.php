@@ -2103,7 +2103,7 @@ class ilObjForumGUI extends ilObjectGUI
 		$oForumObjects = $this->getForumObjects();	
 		$frm = $oForumObjects['frm'];
 		
-		$html = $frm->prepareText($this->objCurrentPost->getMessage(), 1, $this->objCurrentPost->getLoginName());
+		$html = ilRTE::_replaceMediaObjectImageSrc($frm->prepareText($this->objCurrentPost->getMessage(), 1, $this->objCurrentPost->getLoginName()), 1);
 		echo $html;
 		exit();	
 	}
