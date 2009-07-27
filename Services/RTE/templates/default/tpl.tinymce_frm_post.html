@@ -36,6 +36,14 @@
 		<!-- BEGIN forced_root_block -->forced_root_block : '{FORCED_ROOT_BLOCK}',<!-- END forced_root_block -->
 	  font_size_style_values : "8pt,10pt,12pt,14pt,18pt,24pt,36pt"
 		});
+		
+	var ed = new tinymce.Editor('message', {
+	});
+
+	ed.onSubmit.add(function(ed, e) {
+   		alert("x");
+	});
+
 </script>
 <!-- END tinymce -->
 
