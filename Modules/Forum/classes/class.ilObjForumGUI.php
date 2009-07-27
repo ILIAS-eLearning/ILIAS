@@ -2726,7 +2726,7 @@ class ilObjForumGUI extends ilObjectGUI
 							}
 						}
 		
-						$node->setChangeDate($frm->convertDate($node->getChangeDate()));
+						$node->setChangeDate($node->getChangeDate());
 
 						$last_user_data = $frm->getUserData($node->getUpdateUserId());
 						if ($span_class == '')

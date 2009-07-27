@@ -14930,3 +14930,14 @@ if(!$ilDB->tableExists("xmlnestedsettmp"))
 <?php
 	$ilMySQLAbstraction->performAbstraction('ut_access');
 ?>
+<#2805>
+<?php
+	$ilDB->manipulateF('UPDATE frm_data SET top_date = NULL WHERE  top_date = %s', array('timestamp'), array('0000-00-00 00:00:00'));
+	$ilDB->manipulateF('UPDATE frm_data SET top_date = NULL WHERE  top_update = %s', array('timestamp'), array('0000-00-00 00:00:00'));
+	$ilDB->manipulateF('UPDATE frm_posts SET pos_date = NULL WHERE  pos_date = %s', array('timestamp'), array('0000-00-00 00:00:00'));
+	$ilDB->manipulateF('UPDATE frm_posts SET pos_update = NULL WHERE  pos_update = %s', array('timestamp'), array('0000-00-00 00:00:00'));
+	$ilDB->manipulateF('UPDATE frm_posts_tree SET fpt_date= NULL WHERE  fpt_date= %s', array('timestamp'), array('0000-00-00 00:00:00'));
+	$ilDB->manipulateF('UPDATE frm_threads SET thr_date = NULL WHERE  thr_date = %s', array('timestamp'), array('0000-00-00 00:00:00'));
+	$ilDB->manipulateF('UPDATE frm_thread_access SET access_old_ts = NULL WHERE  access_old_ts = %s', array('timestamp'), array('0000-00-00 00:00:00'));
+?>
+	
