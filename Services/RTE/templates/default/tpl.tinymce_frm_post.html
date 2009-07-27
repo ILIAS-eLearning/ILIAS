@@ -34,16 +34,13 @@
 		theme_advanced_resizing : true,
 		theme_advanced_fonts : "Arial=sans-serif;Courier=monospace;Times Roman=serif",
 		<!-- BEGIN forced_root_block -->forced_root_block : '{FORCED_ROOT_BLOCK}',<!-- END forced_root_block -->
-	  font_size_style_values : "8pt,10pt,12pt,14pt,18pt,24pt,36pt"
+	  font_size_style_values : "8pt,10pt,12pt,14pt,18pt,24pt,36pt",
+	  setup : function(ed) {
+      	ed.onSubmit.add(function(ed, e) {
+           console.debug('Form submit:' + e.target);
+      	});
+   	  }
 		});
-		
-	var ed = new tinymce.Editor('message', {
-	});
-
-	ed.onSubmit.add(function(ed, e) {
-   		alert("x");
-	});
-
 </script>
 <!-- END tinymce -->
 
