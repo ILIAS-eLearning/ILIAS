@@ -100,7 +100,7 @@ class ilObjForumGUI extends ilObjectGUI
 					     	  'performPostActivation', 'performPostDeactivation', 'performPostAndChildPostsActivation',
 					     	  'askForPostActivation', 'askForPostDeactivation',
 					     	  'toggleThreadNotification', 'toggleThreadNotificationTab',
-					     	  'toggleStickiness', 'cancelPost', 'savePost', 'quotePost'
+					     	  'toggleStickiness', 'cancelPost', 'savePost', 'quotePost', 'getQuotationHTMLAsynch'
 					     	  );
 
 		if (!is_array($exclude_cmds) || !in_array($cmd, $exclude_cmds))
@@ -1763,7 +1763,11 @@ class ilObjForumGUI extends ilObjectGUI
 		$oPostGUI->addPlugin('latex');
 		$oPostGUI->addButton('latex');
 		$oPostGUI->addButton('pastelatex');
-		$oPostGUI->addPlugin('ilfrmquote');
+		$oPostGUI->addPlugin('ilfrmquote');		
+		if($_GET['action'] == 'showreply' || $_GET['action'] == 'ready_showreply')
+		{
+			$oPostGUI->addButton('ilFrmQuoteAjaxCall');
+		}
 		$oPostGUI->removePlugin('advlink');
 		$oPostGUI->setRTERootBlockElement('');
 		$oPostGUI->usePurifier(true);
@@ -1836,7 +1840,12 @@ class ilObjForumGUI extends ilObjectGUI
 		$this->replyEditForm->addCommandButton('savePost', $this->lng->txt('submit'));				
 		if($_GET['action'] == 'showreply' || $_GET['action'] == 'ready_showreply')
 		{
-			$this->replyEditForm->addCommandButton('quotePost', $this->lng->txt('forum_add_quote'));
+			include_once 'Services/RTE/classes/class.ilRTE.php';
+			$rtestring = ilRTE::_getRTEClassname();
+			if(strtolower($rtestring) != 'iltinymce')
+			{
+				$this->replyEditForm->addCommandButton('quotePost', $this->lng->txt('forum_add_quote'));
+			}	
 		}
 		$this->replyEditForm->addCommandButton('cancelPost', $this->lng->txt('cancel'));
 	}
@@ -2087,6 +2096,16 @@ class ilObjForumGUI extends ilObjectGUI
 		$_GET['action'] = 'showreply';		
 		
 		return $this->viewThreadObject();
+	}
+	
+	public function getQuotationHTMLAsynchObject()
+	{
+		$oForumObjects = $this->getForumObjects();	
+		$frm = $oForumObjects['frm'];
+		
+		$html = $frm->prepareText($this->objCurrentPost->getMessage(), 1, $this->objCurrentPost->getLoginName());
+		echo $html;
+		exit();	
 	}
 	
 	private function getForumObjects()
@@ -2415,6 +2434,14 @@ class ilObjForumGUI extends ilObjectGUI
 												'del_file' => array()
 											));
 										}
+										
+										$this->ctrl->setParameter($this, 'pos_pk', $this->objCurrentPost->getId());
+										$this->ctrl->setParameter($this, 'thr_pk', $this->objCurrentPost->getThreadId());										
+										$jsTpl = new ilTemplate('ilFrmPostAjaxHandler.js', true, true, 'Modules/Forum');
+										$jsTpl->setVariable('IL_FRM_QUOTE_CALLBACK_SRC',
+											$this->ctrl->getLinkTarget($this, 'getQuotationHTMLAsynch', '', true));
+										$this->ctrl->clearParameters($this);
+										$this->tpl->setVariable('FRM_POST_JS', $jsTpl->get());
 										break;									
 									case 'showedit':
 										if($this->ctrl->getCmd() == 'savePost')
