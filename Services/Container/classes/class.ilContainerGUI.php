@@ -264,6 +264,12 @@ class ilContainerGUI extends ilObjectGUI implements ilDesktopItemHandling
 		{
 			return;
 		}
+		// hide for member view
+		include_once './Services/Container/classes/class.ilMemberViewSettings.php';
+		if(ilMemberViewSettings::getInstance()->isActive())
+		{
+			return;
+		}
 		
 		$mode = ($_SESSION["il_rep_mode"] == "flat")
 			? "tree"

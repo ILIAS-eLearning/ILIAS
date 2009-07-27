@@ -9801,3 +9801,5 @@ crs#:#sess_limit#:#Limit Number of Sessions
 crs#:#sess_num_prev#:#Number of Past Sessions
 crs#:#sess_num_next#:#Number of Following Sessions
 crs#:#sess_limit_info#:#Choose this option for limiting the number of visible sessions.
+common#:#mem_view_long#:#Member View
+common#:#mem_view_close#:#Close Member View
