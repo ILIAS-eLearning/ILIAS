@@ -25,7 +25,20 @@
 
 				if (o.get)
 					o.content = t['_html2ilfrmquote'](ed, o.content);
-			});		
+			});
+
+			// Register button
+			ed.addButton('ilFrmQuoteAjaxCall', {
+				title : ed.getLang('ilfrmquote.quote'),
+				cmd : 'ilFrmQuoteAjaxCall',
+				image : url + '/images/quote.gif'
+			});
+			
+			ed.addCommand('ilFrmQuoteAjaxCall', function() {
+				if (ilFrmQuoteAjaxHandler) {
+					new ilFrmQuoteAjaxHandler(t, ed);
+				}			
+			});
 		},
 		
 		getInfo : function() {
