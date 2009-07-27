@@ -2184,7 +2184,7 @@ restore starts here
 					.$row->refobj_id
 					.(($isRefObjOkay) ? '' : '</b>')
 					.(($isRowOkay) ? '' : '<font color=#ff0000>')
-					.(($row->deleted != '0000-00-00 00:00:00') ? ', '.$row->deleted : '')
+					.(($row->deleted != null) ? ', '.$row->deleted : '')
 					.'</td><td>'
 					.(($isRowOkay) ? '' : '<font color=#ff0000>')
 					.$indent

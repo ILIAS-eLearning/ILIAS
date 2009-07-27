@@ -577,7 +577,7 @@ class ilCalendarCategories
 			"WHERE od2.type = 'sess' ".
 			"AND od1.type = 'crs' ".
 			"AND ".$ilDB->in('od1.obj_id',$course_ids,false,'integer').' '.
-			"AND or2.deleted = '0000-00-00 00:00:00'";
+			"AND or2.deleted IS NULL";
 
 		$res = $ilDB->query($query);
 		$cat_ids = array();
