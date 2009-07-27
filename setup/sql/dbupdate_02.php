@@ -14944,4 +14944,9 @@ if(!$ilDB->tableExists("xmlnestedsettmp"))
 <?php
 	$ilDB->manipulateF('UPDATE frm_threads SET thr_update = NULL WHERE  thr_update = %s', array('timestamp'), array('0000-00-00 00:00:00'));
 ?>
-	
+
+<#2807>
+<?php
+	$query = "UPDATE object_reference SET deleted = NULL WHERE deleted = '0000-00-00 00:00:00'";
+	$ilDB->query($query);
+?>
