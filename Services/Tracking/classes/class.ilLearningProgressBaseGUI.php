@@ -272,8 +272,6 @@ class ilLearningProgressBaseGUI
 			$this->tpl->parseCurrentBlock();
 */
 		
-			// catch feedback message
-			ilUtil::sendInfo();
 			// display infopanel if something happened
 			ilUtil::infoPanel();
 		}
