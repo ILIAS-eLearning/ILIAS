@@ -1,15 +1,16 @@
 <?php
+/* Copyright (c) 1998-2009 ILIAS open source, Extended GPL, see docs/LICENSE */
 include_once("./Services/Component/classes/class.ilPlugin.php");
  
 /**
-* Abstract parent class for all Personal Desktop plugin classes.
+* Abstract parent class for all personal desktop plugin classes.
 *
 * @author Stefan Schneider <stefan.schneider@hrz.uni-giessen.de>
 * @version $Id$
 *
 * @ingroup ServicesPersonalDesktop
 */
-abstract class ilPersonalDesktopGUIHookPlugin extends ilPlugin
+abstract class ilPersonalDesktopHookPlugin extends ilPlugin
 {
         /**
         * Get Component Type
@@ -20,7 +21,7 @@ abstract class ilPersonalDesktopGUIHookPlugin extends ilPlugin
         {
                 return IL_COMP_SERVICE;
         }
-	
+
         /**
         * Get Component Name.
         *
@@ -28,9 +29,9 @@ abstract class ilPersonalDesktopGUIHookPlugin extends ilPlugin
         */
         final function getComponentName()
         {
-                return "PersonalDesktopGUI";
+                return "PersonalDesktop";
         }
- 
+
         /**
         * Get Slot Name.
         *
@@ -38,9 +39,9 @@ abstract class ilPersonalDesktopGUIHookPlugin extends ilPlugin
         */
         final function getSlot()
         {
-                return "PersonalDesktopGUIHook";
+                return "PersonalDesktopHook";
         }
- 
+
         /**
         * Get Slot ID.
         *
@@ -50,7 +51,7 @@ abstract class ilPersonalDesktopGUIHookPlugin extends ilPlugin
         {
                 return "pdhk";
         }
- 
+
         /**
         * Object initialization done by slot.
         */
