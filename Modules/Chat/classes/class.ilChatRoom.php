@@ -703,7 +703,7 @@ class ilChatRoom
 		$data_types = array();
 		$data_values = array();
 		$query = 'SELECT DISTINCT(cr.room_id) room_id, owner, title, cr.chat_id chat_id 
-				FROM chat_rooms cr NATURAL LEFT JOIN chat_invitations 
+				FROM chat_rooms cr LEFT JOIN chat_invitations ON cr.room_id = chat_invitations.room_id 
 				WHERE (owner = %s) OR (guest_id = %s)';
 		
 		array_push($data_types, 'integer', 'integer');
@@ -711,9 +711,9 @@ class ilChatRoom
 		
 		if($rbacsystem->checkAccess('moderate', $_GET['ref_id']))
 		{
-			$query .= ' OR %s';
-			array_push($data_types, 'integer');
-			array_push($data_values, '1');
+			$query .= ' OR 1=1';
+			//array_push($data_types, 'integer');
+			//array_push($data_values, '1');
 		}
 		$res = $ilDB->queryf($query, $data_types, $data_values);
 
