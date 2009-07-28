@@ -11,6 +11,6 @@
 		</object>
 	</objects>
 	<pluginslots>
-		<pluginslot id="pdhk" name="PersonalDesktopHook" />
+		<pluginslot id="pdhk" name="PersonalDesktopGUIHook" />
 	</pluginslots>
 </service>

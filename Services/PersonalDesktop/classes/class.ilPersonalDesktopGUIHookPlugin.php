@@ -1,14 +1,15 @@
+<?php
 include_once("./Services/Component/classes/class.ilPlugin.php");
  
 /**
-* Abstract parent class for all event hook plugin classes.
+* Abstract parent class for all Personal Desktop plugin classes.
 *
-* @author Alex Killing <stefan.schneider@hrz.uni-giessen.de>
+* @author Stefan Schneider <stefan.schneider@hrz.uni-giessen.de>
 * @version $Id$
 *
 * @ingroup ServicesPersonalDesktop
 */
-abstract class ilPersonalDesktopHookPlugin extends ilPlugin
+abstract class ilPersonalDesktopGUIHookPlugin extends ilPlugin
 {
         /**
         * Get Component Type
@@ -19,7 +20,7 @@ abstract class ilPersonalDesktopHookPlugin extends ilPlugin
         {
                 return IL_COMP_SERVICE;
         }
-        
+	
         /**
         * Get Component Name.
         *
@@ -27,7 +28,7 @@ abstract class ilPersonalDesktopHookPlugin extends ilPlugin
         */
         final function getComponentName()
         {
-                return "PersonalDesktop";
+                return "PersonalDesktopGUI";
         }
  
         /**
@@ -37,7 +38,7 @@ abstract class ilPersonalDesktopHookPlugin extends ilPlugin
         */
         final function getSlot()
         {
-                return "PersonalDesktopHook";
+                return "PersonalDesktopGUIHook";
         }
  
         /**
@@ -57,7 +58,5 @@ abstract class ilPersonalDesktopHookPlugin extends ilPlugin
         {
                 // nothing to do here
         }
- 
- 
 }
 ?>
