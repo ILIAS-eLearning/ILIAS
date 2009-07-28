@@ -244,7 +244,7 @@ class ilSCORM2004Item
 	{
 		global $ilDB;
 		$query = "DELETE FROM sahs_sc13_seq_item"." WHERE (sahs_sc13_tree_node_id = ".$ilDB->quote($this->treeNodeId, "integer").
-				  "AND rootlevel=".$ilDB->quote($this->rootLevel, "integer").")";
+				  " AND rootlevel=".$ilDB->quote($this->rootLevel, "integer").")";
 		$obj_set = $ilDB->manipulate($query);	
 	}
 	
