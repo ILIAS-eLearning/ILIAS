@@ -334,28 +334,28 @@ class ilLPListOfSettingsGUI extends ilLearningProgressBaseGUI
 
 		if($this->obj_settings->getMode() == $_POST['modus'])
 		{
-			ilUtil::sendInfo($message);
+			ilUtil::sendSuccess($message);
 			return true;
 		}
+
+		ilUtil::sendSuccess($message);
 
 		switch($_POST['modus'])
 		{
 			case LP_MODE_COLLECTION:
-				$message .= '<br />';
-				$message .= $this->lng->txt('trac_edit_collection');
+				$message = $this->lng->txt('trac_edit_collection');
+				ilUtil::sendInfo($message);
 				break;
 
 			case LP_MODE_VISITS:
-				$message .= '<br />';
-				$message .= $this->lng->txt('trac_edit_visits');
+				$message = $this->lng->txt('trac_edit_visits');
+				ilUtil::sendInfo($message);
 				break;
 				
 
 			default:
 				;
 		}
-		ilUtil::sendInfo($message);
-
 		return true;
 	}
 
