@@ -1097,8 +1097,8 @@ class ilObjCourseGUI extends ilContainerGUI
 		$this->object->setShowMembers((int) $_POST['show_members']);
 		
 		$this->object->enableSessionLimit((int) $_POST['sl']);
-		$this->object->setNumberOfPreviousSessions($_POST['sp'] ? (int) $_POST['sp'] : -1 );
-		$this->object->setNumberOfnextSessions($_POST['sn'] ? (int) $_POST['sn'] : -1 );
+		$this->object->setNumberOfPreviousSessions(is_numeric($_POST['sp']) ? (int) $_POST['sp'] : -1 );
+		$this->object->setNumberOfnextSessions(is_numeric($_POST['sn']) ? (int) $_POST['sn'] : -1 );
 
 		if($this->object->validate())
 		{
@@ -4220,7 +4220,6 @@ class ilObjCourseGUI extends ilContainerGUI
 				$this->tabs_gui->setTabActive('none');
 				$this->checkPermission("read");
 				//$this->prepareOutput();
-				//$this->getSubItems();
 				//include_once("./Services/Style/classes/class.ilObjStyleSheet.php");
 				//$this->tpl->setVariable("LOCATION_CONTENT_STYLESHEET",
 				//	ilObjStyleSheet::getContentStylePath(0));

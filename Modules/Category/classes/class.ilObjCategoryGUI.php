@@ -96,7 +96,6 @@ class ilObjCategoryGUI extends ilContainerGUI
 			case "ilcolumngui":
 				$this->checkPermission("read");
 				$this->prepareOutput();
-				//$this->getSubItems();
 				include_once("./Services/Style/classes/class.ilObjStyleSheet.php");
 				$this->tpl->setVariable("LOCATION_CONTENT_STYLESHEET",
 					ilObjStyleSheet::getContentStylePath(0));

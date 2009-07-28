@@ -362,6 +362,75 @@ class ilObjCourse extends ilContainer
 		return $res->numRows() ? true : false;
 	}
 	
+	/**
+	 * Get subitems of container
+	 * @param bool $a_admin_panel_enabled[optional]
+	 * @param bool $a_include_side_block[optional]
+	 * @return array 
+	 */
+	public function getSubItems($a_admin_panel_enabled = false, $a_include_side_block = false)
+	{
+		// Caching
+		if (is_array($this->items[(int) $a_admin_panel_enabled][(int) $a_include_side_block]))
+		{
+			return $this->items[(int) $a_admin_panel_enabled][(int) $a_include_side_block];
+		}
+		
+		// Results are stored in $this->items
+		parent::getSubItems($a_admin_panel_enabled,$a_include_side_block);
+	
+		// No sessions
+		if(!is_array($this->items['sess']) or !$this->items['sess'])
+		{
+			return $this->items[(int) $a_admin_panel_enabled][(int) $a_include_side_block];
+		}
+		// No session limit
+		if(!$this->isSessionLimitEnabled() or $a_admin_panel_enabled)
+		{
+			return $this->items[(int) $a_admin_panel_enabled][(int) $a_include_side_block];
+		}
+		
+		// Search key of next appointment
+		$sessions = ilUtil::sortArray($this->items['sess'],'start','ASC',true,false);
+
+		$num = 0;
+		$today = new ilDate(date('Ymd',time()),IL_CAL_DATE);
+		$today = $today->get(IL_CAL_UNIX);
+		foreach($sessions as $key => $item)
+		{
+			if($item['start'] >= $today)
+			{
+				break;
+			}
+			$num++;
+		}
+		
+		$previous = $sessions;
+		$next = $sessions;
+		
+		// Cut previous sessions
+		$previous = array_slice($previous, 0, $num);
+		if($this->getNumberOfPreviousSessions() >= 0)
+		{
+			$to_remove = (count($previous) - $this->getNumberOfPreviousSessions() > 0) ?
+				count($previous) - $this->getNumberOfPreviousSessions() :
+				0;
+			array_splice($previous, 0, $to_remove);
+		}
+
+		// Cut next sessions
+		$next = array_slice($next, $num);
+		if($this->getNumberOfNextSessions() >= 0)
+		{
+			$next = array_splice($next, 0, $this->getNumberOfNextSessions());
+		}
+
+		$sessions = array_merge($previous,$next);
+		$this->items['sess'] = $sessions;
+		$this->items[(int) $a_admin_panel_enabled][(int) $a_include_side_block] = $this->items;
+		return $this->items[(int) $a_admin_panel_enabled][(int) $a_include_side_block];
+	}
+	
 	function getSubscriptionNotify()
 	{
 		return true;

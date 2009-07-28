@@ -481,17 +481,20 @@ class ilContainer extends ilObject
 	
 	/**
 	* Get subitems of container
+	* 
+	* @param bool administration panel enabled
+	* @param bool side blocks enabled
 	*
 	* @return	array
 	*/
-	function getSubItems($a_include_hidden_files = false, $a_include_side_block = false)
+	function getSubItems($a_admin_panel_enabled = false, $a_include_side_block = false)
 	{
 		global $objDefinition, $ilBench, $tree;
 
 		// Caching
-		if (is_array($this->items[(int) $a_include_hidden_files][(int) $a_include_side_block]))
+		if (is_array($this->items[(int) $a_admin_panel_enabled][(int) $a_include_side_block]))
 		{
-			return $this->items[(int) $a_include_hidden_files][(int) $a_include_side_block];
+			return $this->items[(int) $a_admin_panel_enabled][(int) $a_include_side_block];
 		}
 		
 		$type_grps = $this->getGroupedObjTypes();
@@ -523,7 +526,7 @@ class ilContainer extends ilObject
 				if (ilObjFileAccess::_isFileHidden($object['title']))
 				{
 					$this->setHiddenFilesFound(true);
-					if (!$a_include_hidden_files)
+					if (!$a_admin_panel_enabled)
 					{
 						continue;
 					}
@@ -560,10 +563,10 @@ class ilContainer extends ilObject
 			}
 		}
 
-		$this->items[(int) $a_include_hidden_files][(int) $a_include_side_block]
+		$this->items[(int) $a_admin_panel_enabled][(int) $a_include_side_block]
 			= $sort->sortItems($this->items);
 
-		return $this->items[(int) $a_include_hidden_files][(int) $a_include_side_block];
+		return $this->items[(int) $a_admin_panel_enabled][(int) $a_include_side_block];
 	}
 	
 	/**
