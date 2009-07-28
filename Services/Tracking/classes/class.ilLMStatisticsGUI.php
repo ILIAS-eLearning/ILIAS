@@ -279,7 +279,6 @@ class ilLMStatisticsGUI extends ilLearningProgressBaseGUI {
 	function cancelMember() {
 		$return_location = "members";
 
-		ilUtil::sendInfo($this->lng->txt("action_aborted"), true);
 		ilUtil :: redirect($this->ctrl->getLinkTarget($this, $return_location));
 	}
 
@@ -299,14 +298,14 @@ class ilLMStatisticsGUI extends ilLearningProgressBaseGUI {
 		}
 
 		if (!isset ($_POST["search_for"]) or !isset ($_POST["search_str"])) {
-			ilUtil::sendInfo($this->lng->txt("grp_search_enter_search_string"));
+			ilUtil::sendFailure($this->lng->txt("grp_search_enter_search_string"));
 			$this->searchUserForm();
 
 			return false;
 		}
 
 		if (!count($result = $this->__search(ilUtil :: stripSlashes($_POST["search_str"]), $_POST["search_for"]))) {
-			ilUtil::sendInfo($this->lng->txt("grp_no_results_found"));
+			ilUtil::sendFailure($this->lng->txt("grp_no_results_found"));
 			$this->searchUserForm();
 
 			return false;
@@ -396,7 +395,7 @@ class ilLMStatisticsGUI extends ilLearningProgressBaseGUI {
 				}
 
 				if (!count($f_result)) {
-					ilUtil::sendInfo($this->lng->txt("grp_no_results_found"));
+					ilUtil::sendFailure($this->lng->txt("grp_no_results_found"));
 					$this->searchUserFormObject();
 
 					return false;
@@ -408,7 +407,6 @@ class ilLMStatisticsGUI extends ilLearningProgressBaseGUI {
 		}
 	}
 	function searchCancelled() {
-		ilUtil::sendInfo($this->lng->txt("action_aborted"), true);
 		ilUtil :: redirect($this->ctrl->getLinkTarget($this, "members"));
 	}
 	function __search($a_search_string, $a_search_for) {
@@ -422,10 +420,13 @@ class ilLMStatisticsGUI extends ilLearningProgressBaseGUI {
 		$search->setSearchFor(array (0 => $a_search_for));
 		$search->setSearchType('new');
 
-		if ($search->validate($message)) {
+		if ($search->validate($message)) 
+		{
 			$search->performSearch();
-		} else {
-			ilUtil::sendInfo($message, true);
+		} 
+		else 
+		{
+			ilUtil::sendFailure($message, true);
 			$this->ctrl->redirect($this, "searchUserForm");
 		}
 
@@ -621,7 +622,7 @@ class ilLMStatisticsGUI extends ilLearningProgressBaseGUI {
 		}
 
 		if (!is_array($_POST["role"])) {
-			ilUtil::sendInfo($this->lng->txt("grp_no_roles_selected"));
+			ilUtil::sendFailure($this->lng->txt("grp_no_roles_selected"));
 			$this->searchObject();
 
 			return false;
@@ -677,7 +678,7 @@ class ilLMStatisticsGUI extends ilLearningProgressBaseGUI {
 		}
 
 		if (!is_array($_POST["group"])) {
-			ilUtil::sendInfo($this->lng->txt("grp_no_groups_selected"));
+			ilUtil::sendFailure($this->lng->txt("grp_no_groups_selected"));
 			$this->searchObject();
 
 			return false;

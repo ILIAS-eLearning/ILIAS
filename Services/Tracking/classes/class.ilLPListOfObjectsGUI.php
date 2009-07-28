@@ -122,7 +122,7 @@ class ilLPListOfObjectsGUI extends ilLearningProgressBaseGUI
 		$marks->setComment(ilUtil::stripSlashes($_POST['comment']));
 		$marks->setCompleted((bool) $_POST['completed']);
 		$marks->update();
-		ilUtil::sendInfo($this->lng->txt('trac_update_edit_user'));
+		ilUtil::sendSuccess($this->lng->txt('trac_update_edit_user'));
 		$this->details();
 	}
 
@@ -371,7 +371,7 @@ class ilLPListOfObjectsGUI extends ilLearningProgressBaseGUI
 			$all_users = $user_filter->getUsers();
 			if(!count($all_users))
 			{
-				ilUtil::sendInfo($this->lng->txt('trac_filter_no_access'));
+				ilUtil::sendFailure($this->lng->txt('trac_filter_no_access'));
 				return false;
 			}
 		}
@@ -515,7 +515,7 @@ class ilLPListOfObjectsGUI extends ilLearningProgressBaseGUI
 		$this->filter->setRequiredPermission('edit_learning_progress');
 		if(!count($objs = $this->filter->getObjects()))
 		{
-			ilUtil::sendInfo($this->lng->txt('trac_filter_no_access'));
+			ilUtil::sendFailure($this->lng->txt('trac_filter_no_access'));
 			return true;
 		}
 

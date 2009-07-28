@@ -211,14 +211,14 @@ class ilObjUserTrackingGUI extends ilObjectGUI
 
 		if(!$this->object->validateSettings())
 		{
-			ilUtil::sendInfo($this->lng->txt('tracking_time_span_not_valid'));
+			ilUtil::sendFailure($this->lng->txt('tracking_time_span_not_valid'));
 			$this->settingsObject();
 
 			return false;
 		}
 		
 		$this->object->updateSettings();
-		ilUtil::sendInfo($this->lng->txt("msg_obj_modified"));
+		ilUtil::sendSuccess($this->lng->txt("msg_obj_modified"));
 		$this->settingsObject();
 		
 		return true;
@@ -289,10 +289,6 @@ class ilObjUserTrackingGUI extends ilObjectGUI
 	*/
 	function cancelDeleteDataObject()
 	{
-		ilUtil::sendInfo($this->lng->txt("msg_cancel"),true);
-
-		#ilUtil::redirect("adm_object.php?ref_id=".$_GET["ref_id"]."&cmd=manageData");
-
 		$this->ctrl->redirect($this,'manageData');
 	}
 

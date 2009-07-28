@@ -386,7 +386,7 @@ class ilLPListOfProgressGUI extends ilLearningProgressBaseGUI
 		$this->filter->setRequiredPermission('read');
 		if(!count($objs = $this->filter->getObjects()))
 		{
-			ilUtil::sendInfo($this->lng->txt('trac_filter_no_access'));
+			ilUtil::sendFailure($this->lng->txt('trac_filter_no_access'));
 //			return true;
 		}
 

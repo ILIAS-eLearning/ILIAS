@@ -122,7 +122,7 @@ class ilLPListOfSettingsGUI extends ilLearningProgressBaseGUI
 	{
 		if(!$_POST['item_ids'] and !$_POST['event_ids'])
 		{
-			ilUtil::sendInfo($this->lng->txt('select_one'));
+			ilUtil::sendFailure($this->lng->txt('select_one'));
 			$this->show();
 			return false;
 		}
@@ -135,7 +135,7 @@ class ilLPListOfSettingsGUI extends ilLearningProgressBaseGUI
 				$lp_collections->add($ref_id);
 			}
 		}
-		ilUtil::sendInfo($this->lng->txt('trac_settings_saved'));
+		ilUtil::sendSuccess($this->lng->txt('trac_settings_saved'));
 		$this->show();
 	}
 
@@ -143,7 +143,7 @@ class ilLPListOfSettingsGUI extends ilLearningProgressBaseGUI
 	{
 		if(!$_POST['item_ids'] and !$_POST['event_ids'])
 		{
-			ilUtil::sendInfo($this->lng->txt('select_one'));
+			ilUtil::sendFailure($this->lng->txt('select_one'));
 			$this->show();
 			return false;
 		}
@@ -156,7 +156,7 @@ class ilLPListOfSettingsGUI extends ilLearningProgressBaseGUI
 				$lp_collections->delete($ref_id);
 			}
 		}
-		ilUtil::sendInfo($this->lng->txt('trac_settings_saved'));
+		ilUtil::sendSuccess($this->lng->txt('trac_settings_saved'));
 		$this->show();
 	}
 	
@@ -189,7 +189,7 @@ class ilLPListOfSettingsGUI extends ilLearningProgressBaseGUI
 
 		if(!$items = ilLPCollections::_getPossibleSAHSItems($this->getObjId()))
 		{
-			ilUtil::sendInfo($this->lng->txt('trac_no_sahs_items_found'));
+			ilUtil::sendFailure($this->lng->txt('trac_no_sahs_items_found'));
 			return false;
 		}
 
