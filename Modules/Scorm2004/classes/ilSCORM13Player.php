@@ -487,14 +487,14 @@ class ilSCORM13Player
 		global $ilDB,$ilUser;
 
 		$set = $ilDB->queryF('
-			SELECT * FROM cmi_gobjective, cp_node, cp_mapinfo 
+			SELECT objective_id,scope_id,satisfied,measure,user_id FROM cmi_gobjective, cp_node, cp_mapinfo 
 			WHERE(cmi_gobjective.objective_id <> %s 
 			AND cmi_gobjective.status IS NULL 
 			AND cp_node.slm_id = %s
 			AND cp_node.nodename = %s  
 			AND cp_node.cp_node_id = cp_mapinfo.cp_node_id  
 			AND cmi_gobjective.objective_id = cp_mapinfo.targetobjectiveid)
-			GROUP BY objective_id, scope_id',
+			GROUP BY objective_id, scope_id,satisfied,measure,user_id',
 			array('text', 'integer', 'text'),
 			array('-course_overall_status-', $this->packageId, 'mapinfo')
 		);
@@ -1068,6 +1068,8 @@ class ilSCORM13Player
 		foreach ($tables as $table)
 		{
 			$schem = & self::$schema[$table];
+			$ilLog->write("SCORM: setCMIData, table -".$table."-".$data->objective);
+
 			if (!is_array($data->$table)) continue;
 			$i=0;
 				
@@ -1134,361 +1136,184 @@ $ilLog->write("SCORM: setCMIData, table -".$table."-");
 
 				$ret = false;
 
-				$data = self::quoteJSONArray($row);
+				$rowq = self::quoteJSONArray($row);
+				$ilLog->write("Checking table: ".$table);
+
 				switch ($table)
 				{
 					case 'correct_response':
 						
-						$uniqueIdValue = $this->getUniqueValue($keys,$data, 'correct_response');
+						$uniqueIdValue = $this->getUniqueValue($keys,$rowq, 'correct_response');
 						
 						if($uniqueIdValue !== null)
 						{
-							$query = $ilDB->queryF('
-								SELECT * FROM cmi_correct_response
-								WHERE cmi_correct_resp_id = %s',
-								array('integer'), array($uniqueIdValue));
-
-							$res = $ilDB->numRows($query);
-							if($res > 0)
-							{
-								//update
-								$sql = $ilDB->manipulateF('
-								UPDATE cmi_correct_response
-								SET cmi_correct_resp_id = %s,
-									cmi_interaction_id = %s,
-									pattern = %s
-								WHERE cmi_correct_resp_id = %s',
-								array('integer','integer','text','integer'),
-								array(implode(",", self::quoteJSONArray($row)),$uniqueIdValue)
-								);
-							}
-							else
-							{
-								//insert
-								$row[$cmi_no] = $ilDB->nextId('cmi_correct_response');
-								
-								$sql = $ilDB->manipulateF('
-								INSERT INTO cmi_correct_response
-								(cmi_correct_resp_id,cmi_interaction_id,pattern)
-								VALUES (%s,%s,%s)',
-								array('integer','integer','text'),
-								array(implode(",", self::quoteJSONArray($row)))
-								);
-							}
+						
+							//insert
+							$row[$cmi_no] = $ilDB->nextId('cmi_correct_response');
+							
+							$sql = $ilDB->manipulateF('
+							INSERT INTO cmi_correct_response
+							(cmi_correct_resp_id,cmi_interaction_id,pattern)
+							VALUES (%s,%s,%s)',
+							array('integer','integer','text'),
+							$row
+							);
+						
 						}
 						break;
 						
 					case 'comment':
-						$uniqueIdValue = $this->getUniqueValue($keys,$data, 'comment');
+						$uniqueIdValue = $this->getUniqueValue($keys,$rowq, 'comment');
 						
 						if($uniqueIdValue !== null)
 						{
-							$query = $ilDB->queryF('
-								SELECT * FROM cmi_comment
-								WHERE cmi_comment_id = %s',
-								array('integer'), array($uniqueIdValue));
-
-							$res = $ilDB->numRows($query);
-							if($res > 0)
-							{
-								$sql_types = $comment_types;
-								array_push($sql_types, 'integer');
-								
-								//update
-								$sql = $ilDB->manipulateF('
-								UPDATE cmi_comment
-								SET cmi_comment_id = %s,
-									cmi_node_id = %s,
-									c_comment = %s,
-									c_timestamp = %s,
-									location = %s,
-									sourceislms = %s
-								WHERE cmi_comment_id = %s',
-								
-								$sql_types,
-								array(implode(",", self::quoteJSONArray($row)),$uniqueIdValue)
-								);
-							}
-							else
-							{
-								//insert
-								$row[$cmi_no] = $ilDB->nextId('cmi_comment');
-								
-								$sql = $ilDB->manipulateF('
-								INSERT INTO cmi_comment
-								(cmi_comment_id,
-								cmi_node_id,
-								c_comment,
-								c_timestamp,
-								location,
-								sourceislms
-								)
-								VALUES ('.$comment_str_values.')',
-								$comment_types,
-								array(implode(",", self::quoteJSONArray($row)))
-								);
-							}
+						
+							//insert
+							$row[$cmi_no] = $ilDB->nextId('cmi_comment');
+							
+							$sql = $ilDB->manipulateF('
+							INSERT INTO cmi_comment
+							(cmi_comment_id,
+							cmi_node_id,
+							c_comment,
+							c_timestamp,
+							location,
+							sourceislms
+							)
+							VALUES ('.$comment_str_values.')',
+							$comment_types,
+							$row
+							);
+							
 						}
 						break;
 						
 					case 'interaction':
-						$uniqueIdValue = $this->getUniqueValue($keys,$data, 'cmi_interaction');
+						$uniqueIdValue = $this->getUniqueValue($keys,$rowq, 'cmi_interaction');
 						
 						if($uniqueIdValue !== null)
 						{
-							$query = $ilDB->queryF('
-								SELECT * FROM cmi_interaction
-								WHERE cmi_interaction_id = %s',
-								array('integer'), array($uniqueIdValue));
-
-							$res = $ilDB->numRows($query);
-							if($res > 0)
-							{
-								$sql_types = $interaction_types;
-								array_push($sql_types, 'integer');
-								//update
-								$sql = $ilDB->manipulateF('
-									UPDATE cmi_interaction
-									SET cmi_interaction_id = %s,
-										cmi_node_id = %s,
-										description = %s,
-										id = %s,
-										latency = %s,
-										learner_response = %s,
-										result = %s,
-										c_timestamp = %s,
-										c_type = %s,
-										weighting = %s
-		
-									WHERE cmi_interaction_id = %s',
-									$sql_types,
-									array(implode(",", self::quoteJSONArray($row)),$uniqueIdValue)
-								);
-							}
-							else
-							{
-								//insert
-								$row[$cmi_no] = $ilDB->nextId('cmi_interaction');
-								
-								$sql = $ilDB->manipulateF('
-								INSERT INTO cmi_interaction
-								(	cmi_interaction_id,
-									cmi_node_id,
-									description,
-									id,
-									latency,
-									learner_response,
-									result,
-									c_timestamp,
-									c_type,
-									weighting
-								)
-								VALUES ('.$interaction_str_values.')',
-								$interaction_types,
-								array(implode(",", self::quoteJSONArray($row)))
-								);
-							}
+							
+							//insert
+							$row[$cmi_no] = $ilDB->nextId('cmi_interaction');
+							
+							$sql = $ilDB->manipulateF('
+							INSERT INTO cmi_interaction
+							(	cmi_interaction_id,
+								cmi_node_id,
+								description,
+								id,
+								latency,
+								learner_response,
+								result,
+								c_timestamp,
+								c_type,
+								weighting
+							)
+							VALUES ('.$interaction_str_values.')',
+							$interaction_types,
+							$row
+							);
+							
 						}						
 						break;
 						
 					case 'objective':
-						$uniqueIdValue = $this->getUniqueValue($keys,$data, 'cmi_objective');
-						
+						$uniqueIdValue = $this->getUniqueValue($keys,$rowq, 'cmi_node');
+						$ilLog->write("Ib Objective check".$uniqueIdValue);
+
 						if($uniqueIdValue !== null)
 						{
-							$query = $ilDB->queryF('
-								SELECT * FROM cmi_objective
-								WHERE cmi_objective_id = %s',
-								array('integer'), array($uniqueIdValue));
-
-							$res = $ilDB->numRows($query);
-							if($res > 0)
-							{
-								$sql_types = $objective_types;
-								array_push($sql_types, 'integer');
-								//update
-								$sql = $ilDB->manipulateF('
-									UPDATE cmi_objective
-									SET cmi_interaction_id = %s, 
-										cmi_node_id = %s,
-										cmi_objective_id = %s,
-										completion_status = %s,
-										description = %s,
-										id = %s,
-										c_max = %s,
-										c_min = %s,
-										scaled = %s,
-										progress_measure = %s,
-										success_status = %s,
-										scope = %s
-		
-									WHERE cmi_interaction_id = %s',
-									$sql_types,
-									array(implode(",", self::quoteJSONArray($row)),$uniqueIdValue)
-								);
-							}
-							else
-							{
-								//insert
-								$row[$cmi_no] = $ilDB->nextId('cmi_objective');
-								
-								$sql = $ilDB->manipulateF('
-								INSERT INTO cmi_objective
-								(	cmi_interaction_id,
-									cmi_node_id,
-									cmi_objective_id,
-									completion_status,
-									description,
-									id,
-									c_max,
-									c_min,
-									scaled,
-									progress_measure,
-									success_status,
-									scope
-								)
-								VALUES ('.$objective_str_values.')',
-								$objective_types,
-								array(implode(",", self::quoteJSONArray($row)))
-								);
-							}
+							$ilLog->write("Want to insert row: ".count($row) );
+						
+							//insert
+							$row[$cmi_no] = $ilDB->nextId('cmi_objective');
+							
+							$sql = $ilDB->manipulateF('
+							INSERT INTO cmi_objective
+							(	cmi_interaction_id,
+								cmi_node_id,
+								cmi_objective_id,
+								completion_status,
+								description,
+								id,
+								c_max,
+								c_min,
+								c_raw,
+								scaled,
+								progress_measure,
+								success_status,
+								scope
+							)
+							VALUES ('.$objective_str_values.')',
+							$objective_types,
+							$row);
+							
 						}						
 						break;
 						
 					case 'node':
-					$uniqueIdValue = $this->getUniqueValue($keys,$data, 'cp_node');
+					$uniqueIdValue = $this->getUniqueValue($keys,$rowq, 'cp_node');
 					$ilLog->write("in case node".$uniqueIdValue);
 
 						if($uniqueIdValue !== null)
 						{
-							$ilLog->write("check Node and user".$uniqueIdValue." ".$userId);
+							//insert
+							$row[$cmi_no] = $ilDB->nextId('cmi_node');
+							$row[42] = ilUtil::now();
+							$ilLog->write("Want to insert row: ".count($row) );
 
-							$query = $ilDB->queryF('
-								SELECT * FROM cmi_node
-								WHERE cp_node_sid = %s AND user_id = %s',
-								array('integer','integer'), array($uniqueIdValue,$userId));
-
-							$res = $ilDB->numRows($query);
-							$ilLog->write("Returned number: ".$res);
-
-							if($res > 0)
-							{
-								$sql_types = $node_types;
-								$row[42] = ilUtil::now();
-								$row[$cmi_no] = $ilDB->nextId('cmi_node');
-								$ilLog->write("Want to update row: ".count($row) );
-								//update
-								$sql = $ilDB->manipulateF('
-									UPDATE cmi_node
-									SET accesscount = %s,
-										accessduration = %s,
-										accessed = %s,
-										activityabsduration = %s,
-										activityattemptcount = %s,
-										activityexpduration = %s,
-										activityprogstatus = %s,
-										attemptabsduration = %s,
-										attemptcomplamount = %s,
-										attemptcomplstatus = %s,
-										attemptexpduration = %s,
-										attemptprogstatus = %s,
-										audio_captioning = %s,
-										audio_level = %s,
-										availablechildren = %s,
-										cmi_node_id = %s,
-										completion = %s,
-										completion_status = %s,
-										completion_threshold = %s,
-										cp_node_id = %s,
-										created = %s,
-										credit = %s,
-										delivery_speed = %s,
-										c_entry = %s,
-										c_exit = %s,
-										c_language = %s,
-										launch_data = %s,
-										learner_name = %s,
-										location = %s,
-										c_max = %s,
-										c_min = %s,
-										c_mode = %s,
-										modified = %s,
-										progress_measure = %s,
-										c_raw = %s,
-										scaled = %s,
-										scaled_passing_score = %s,
-										session_time = %s,
-										success_status = %s,
-										suspend_data = %s,
-										total_time = %s,
-										user_id = %s,
-										c_timestamp = %s
-										
-									WHERE cp_node_id = %s AND user_id = %s',
-									$sql_types,
-									array($row,$uniqueIdValue,$userId)
-								);
-							}
-							else
-							{
-								//insert
-								$row[$cmi_no] = $ilDB->nextId('cmi_node');
-								$row[42] = ilUtil::now();
-								$ilLog->write("Want to insert row: ".count($row) );
-	
-								$sql = $ilDB->manipulateF('
-								INSERT INTO cmi_node
-								(	
-									accesscount,
-									accessduration,
-									accessed,
-									activityabsduration,
-									activityattemptcount,
-									activityexpduration,
-									activityprogstatus,
-									attemptabsduration,
-									attemptcomplamount,
-									attemptcomplstatus,
-									attemptexpduration,
-									attemptprogstatus,
-									audio_captioning,
-									audio_level,
-									availablechildren,
-									cmi_node_id,
-									completion,
-									completion_status,
-									completion_threshold,
-									cp_node_id,
-									created,
-									credit,
-									delivery_speed,
-									c_entry,
-									c_exit,
-									c_language,
-									launch_data,
-									learner_name,
-									location,
-									c_max,
-									c_min,
-									c_mode,
-									modified,
-									progress_measure,
-									c_raw,
-									scaled,
-									scaled_passing_score,
-									session_time,
-									success_status,
-									suspend_data,
-									total_time,
-									user_id,
-									c_timestamp							
-								)
-								VALUES ('.$node_str_values.')',
-								$node_types,
-								$row
-								);
-
-							}
+							$sql = $ilDB->manipulateF('
+							INSERT INTO cmi_node
+							(	
+								accesscount,
+								accessduration,
+								accessed,
+								activityabsduration,
+								activityattemptcount,
+								activityexpduration,
+								activityprogstatus,
+								attemptabsduration,
+								attemptcomplamount,
+								attemptcomplstatus,
+								attemptexpduration,
+								attemptprogstatus,
+								audio_captioning,
+								audio_level,
+								availablechildren,
+								cmi_node_id,
+								completion,
+								completion_status,
+								completion_threshold,
+								cp_node_id,
+								created,
+								credit,
+								delivery_speed,
+								c_entry,
+								c_exit,
+								c_language,
+								launch_data,
+								learner_name,
+								location,
+								c_max,
+								c_min,
+								c_mode,
+								modified,
+								progress_measure,
+								c_raw,
+								scaled,
+								scaled_passing_score,
+								session_time,
+								success_status,
+								suspend_data,
+								total_time,
+								user_id,
+								c_timestamp							
+							)
+							VALUES ('.$node_str_values.')',
+							$node_types,
+							$row
+							);
 						}						
 						break;
 				}				
@@ -1513,7 +1338,6 @@ $ilLog->write("SCORM: setCMIData, table -".$table."-");
 				$map[$table][$cmi_id] = $row[$cmi_no];
 			}
 		}
-		//$return===false ? ilSCORM13DB::rollback() : ilSCORM13DB::commit();
 		return $result;
 	}
 	
