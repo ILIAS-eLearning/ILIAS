@@ -190,7 +190,6 @@ class ilObjGroupGUI extends ilContainerGUI
 				$this->tabs_gui->setTabActive('none');
 				$this->checkPermission("read");
 				include_once("./Services/Style/classes/class.ilObjStyleSheet.php");
-				//$this->getSubItems();
 				$this->tpl->setVariable("LOCATION_CONTENT_STYLESHEET",
 					ilObjStyleSheet::getContentStylePath(0));
 				$this->renderObject();

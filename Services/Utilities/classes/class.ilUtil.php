@@ -2921,7 +2921,7 @@ class ilUtil
 	*
 	* @return	array	sorted array
 	*/
-	function sortArray($array,$a_array_sortby,$a_array_sortorder = 0,$a_numeric = false,
+	public static function sortArray($array,$a_array_sortby,$a_array_sortorder = 0,$a_numeric = false,
 		$a_keep_keys = false)
 	{
 		include_once("./Services/Utilities/classes/class.ilStr.php");
