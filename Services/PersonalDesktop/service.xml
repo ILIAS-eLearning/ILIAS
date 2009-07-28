@@ -10,4 +10,7 @@
 			<parent id="adm" max="1">adm</parent>
 		</object>
 	</objects>
+	<pluginslots>
+		<pluginslot id="pdhk" name="PersonalDesktopHook" />
+	</pluginslots>
 </service>
