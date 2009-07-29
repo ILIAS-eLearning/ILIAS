@@ -72,7 +72,7 @@ class ilQuestionBrowserTableGUI extends ilTable2GUI
 		$this->browsercolumns['created'] = $qplSetting->get("created", 1) ? true : false;
 		$this->browsercolumns['updated'] = $qplSetting->get("updated", 1) ? true : false;
 		if ($this->browsercolumns['description']) $this->addColumn($this->lng->txt("description"),'description', '');
-		if ($this->browsercolumns['type']) $this->addColumn($this->lng->txt("question_type"),'type', '');
+		if ($this->browsercolumns['type']) $this->addColumn($this->lng->txt("question_type"),'ttype', '');
 		if ($this->browsercolumns['points']) $this->addColumn($this->lng->txt("points"),'', '', false, 'right');
 		if ($this->browsercolumns['statistics']) $this->addColumn('','statistics', '');
 		if ($this->browsercolumns['author']) $this->addColumn($this->lng->txt("author"),'author', '');
@@ -94,14 +94,6 @@ class ilQuestionBrowserTableGUI extends ilTable2GUI
 			{
 				$this->addCommandButton('paste', $this->lng->txt('paste'));
 			}
-			$types = ilObjQuestionPool::_getQuestionTypes();
-			$questiontype = array();
-			foreach ($types as $txt => $row)
-			{
-				$questiontypes[$row['type_tag']] = $txt;
-			}
-			global $ilUser;
-			$this->addSelectionButton('sel_question_types', $questiontypes, 'createQuestion', $this->lng->txt("create"), $ilUser->getPref("tst_lastquestiontype"));
 		}
 
 

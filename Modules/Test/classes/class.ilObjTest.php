@@ -5189,7 +5189,7 @@ function loadQuestions($active_id = "", $pass = NULL)
 			{
 				$where .= " AND " . $ilDB->like('qpl_questions.title', 'text', "%%" . $arrFilter['title'] . "%%");
 			}
-			if (array_key_exists('comment', $arrFilter) && strlen($arrFilter['comment']))
+			if (array_key_exists('description', $arrFilter) && strlen($arrFilter['description']))
 			{
 				$where .= " AND " . $ilDB->like('qpl_questions.description', 'text', "%%" . $arrFilter['description'] . "%%");
 			}
@@ -5220,10 +5220,12 @@ function loadQuestions($active_id = "", $pass = NULL)
 			"object_data.obj_id = qpl_questions.obj_fi AND qpl_questions.tstamp > 0 AND " .
 			"qpl_questions.question_type_fi = qpl_qst_type.question_type_id$where");
 		$rows = array();
+		$types = $this->getQuestionTypeTranslations();
 		if ($query_result->numRows())
 		{
 			while ($row = $ilDB->fetchAssoc($query_result))
 			{
+				$row['ttype'] = $types[$row['type_tag']];
 				if ($row["plugin"])
 				{
 					if ($this->isPluginActive($row["type_tag"]))
@@ -5238,6 +5240,39 @@ function loadQuestions($active_id = "", $pass = NULL)
 			}
 		}
 		return $rows;
+	}
+
+	public function &getQuestionTypeTranslations()
+	{
+		global $ilDB;
+		global $lng;
+		global $ilLog;
+		global $ilPluginAdmin;
+		
+		$lng->loadLanguageModule("assessment");
+		$result = $ilDB->query("SELECT * FROM qpl_qst_type");
+		$types = array();
+		while ($row = $ilDB->fetchAssoc($result))
+		{
+			if ($row["plugin"] == 0)
+			{
+				$types[$row['type_tag']] = $lng->txt($row["type_tag"]);
+			}
+			else
+			{
+				$pl_names = $ilPluginAdmin->getActivePluginsForSlot(IL_COMP_MODULE, "TestQuestionPool", "qst");
+				foreach ($pl_names as $pl_name)
+				{
+					$pl = ilPlugin::getPluginObject(IL_COMP_MODULE, "TestQuestionPool", "qst", $pl_name);
+					if (strcmp($pl->getQuestionType(), $row["type_tag"]) == 0)
+					{
+						$types[$row['type_tag']] = $pl->getQuestionTypeTranslation();
+					}
+				}
+			}
+		}
+		ksort($types);
+		return $types;
 	}
 
 	/**
@@ -8785,7 +8820,7 @@ function loadQuestions($active_id = "", $pass = NULL)
 		$next_id = $ilDB->nextId('tst_test_defaults');
 		$affectedRows = $ilDB->manipulateF("INSERT INTO tst_test_defaults (test_defaults_id, name, user_fi, defaults, marks, tstamp) VALUES (%s, %s, %s, %s, %s, %s)",
 			array('integer', 'text', 'integer', 'text', 'text', 'integer'),
-			array($next_id, $a_name, $ilUser->getId(), serialize($testsettings), serialize($this->mark_schema))
+			array($next_id, $a_name, $ilUser->getId(), serialize($testsettings), serialize($this->mark_schema), time())
 		);
 	}
 	

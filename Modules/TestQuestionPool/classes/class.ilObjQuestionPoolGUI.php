@@ -899,6 +899,7 @@ class ilObjQuestionPoolGUI extends ilObjectGUI
 		// reset test_id SESSION variable
 		$_SESSION["test_id"] = "";
 
+		$this->tpl->addBlockFile("ADM_CONTENT", "adm_content", "tpl.il_as_qpl_questionbrowser.html", "Modules/TestQuestionPool");
 		include_once "./Modules/TestQuestionPool/classes/tables/class.ilQuestionBrowserTableGUI.php";
 		$table_gui = new ilQuestionBrowserTableGUI($this, 'questions', (($rbacsystem->checkAccess('write', $this->ref_id) ? true : false)));
 		$table_gui->setEditable($rbacsystem->checkAccess('write', $this->ref_id));
@@ -912,7 +913,24 @@ class ilObjQuestionPoolGUI extends ilObjectGUI
 		}
 		$data = $this->object->getQuestionBrowserData($arrFilter);
 		$table_gui->setData($data);
-		$this->tpl->setVariable('ADM_CONTENT', $table_gui->getHTML());	
+		$this->tpl->setVariable('TABLE', $table_gui->getHTML());	
+
+		$this->tpl->setCurrentBlock("QTypes");
+		$types =& $this->object->getQuestionTypes();
+		$lastquestiontype = $ilUser->getPref("tst_lastquestiontype");
+		foreach ($types as $translation => $data)
+		{
+			if ($data["type_tag"] == $lastquestiontype)
+			{
+				$this->tpl->setVariable("QUESTION_TYPE_SELECTED", " selected=\"selected\"");
+			}
+			$this->tpl->setVariable("QUESTION_TYPE_ID", $data["type_tag"]);
+			$this->tpl->setVariable("QUESTION_TYPE", $translation);
+			$this->tpl->parseCurrentBlock();
+		}
+		$this->tpl->setVariable("QUESTION_ADD", $this->lng->txt("create"));
+		$this->tpl->setVariable("FORMACTION", $this->ctrl->getFormAction($this, 'questions'));
+		$this->tpl->parseCurrentBlock();
 	}
 
 	/**
@@ -932,7 +950,7 @@ class ilObjQuestionPoolGUI extends ilObjectGUI
 		$this->tpl->addBlockFile("ADM_CONTENT", "adm_content", "tpl.il_as_qpl_printview.html", "Modules/TestQuestionPool");
 		$sortorder = array(
 			"title" => $this->lng->txt("title"),
-			"comment" => $this->lng->txt("description"),
+			"description" => $this->lng->txt("description"),
 			"type" => $this->lng->txt("question_type"),
 			"author" => $this->lng->txt("author"),
 			"created" => $this->lng->txt("create_date"),
@@ -981,7 +999,7 @@ class ilObjQuestionPoolGUI extends ilObjectGUI
 			$this->tpl->setVariable("ROW_CLASS", $colors[$counter % 2]);
 			$this->tpl->setVariable("TEXT_COUNTER", $counter);
 			$this->tpl->setVariable("TEXT_TITLE", ilUtil::prepareFormOutput($row["title"]));
-			$this->tpl->setVariable("TEXT_DESCRIPTION", ilUtil::prepareFormOutput($row["comment"]));
+			$this->tpl->setVariable("TEXT_DESCRIPTION", ilUtil::prepareFormOutput($row["description"]));
 			$this->tpl->setVariable("TEXT_QUESTIONTYPE", assQuestion::_getQuestionTypeName($row["type_tag"]));
 			$this->tpl->setVariable("TEXT_AUTHOR", $row["author"]);
 			$this->tpl->setVariable("TEXT_CREATED", ilDatePresentation::formatDate(new ilDate($row["created"],IL_CAL_UNIX)));

@@ -468,9 +468,9 @@ class ilObjQuestionPool extends ilObject
 			{
 				$where .= " AND " . $ilDB->like('qpl_questions.title', 'text', "%%" . $arrFilter['title'] . "%%");
 			}
-			if (array_key_exists('comment', $arrFilter) && strlen($arrFilter['comment']))
+			if (array_key_exists('description', $arrFilter) && strlen($arrFilter['description']))
 			{
-				$where .= " AND " . $ilDB->like('qpl_questions.description', 'text', "%%" . $arrFilter['comment'] . "%%");
+				$where .= " AND " . $ilDB->like('qpl_questions.description', 'text', "%%" . $arrFilter['description'] . "%%");
 			}
 			if (array_key_exists('author', $arrFilter) && strlen($arrFilter['author']))
 			{
@@ -485,11 +485,13 @@ class ilObjQuestionPool extends ilObject
 			array('integer'),
 			array($this->getId())
 		);
+		$types = $this->getQuestionTypeTranslations();
 		$rows = array();
 		if ($query_result->numRows())
 		{
 			while ($row = $ilDB->fetchAssoc($query_result))
 			{
+				$row['ttype'] = $types[$row['type_tag']];
 				if ($row["plugin"])
 				{
 					if ($this->isPluginActive($row["type_tag"]))
@@ -1505,6 +1507,39 @@ class ilObjQuestionPool extends ilObject
 						{
 							$types[$pl->getQuestionTypeTranslation()] = $row;
 						}
+					}
+				}
+			}
+		}
+		ksort($types);
+		return $types;
+	}
+
+	public function &getQuestionTypeTranslations()
+	{
+		global $ilDB;
+		global $lng;
+		global $ilLog;
+		global $ilPluginAdmin;
+		
+		$lng->loadLanguageModule("assessment");
+		$result = $ilDB->query("SELECT * FROM qpl_qst_type");
+		$types = array();
+		while ($row = $ilDB->fetchAssoc($result))
+		{
+			if ($row["plugin"] == 0)
+			{
+				$types[$row['type_tag']] = $lng->txt($row["type_tag"]);
+			}
+			else
+			{
+				$pl_names = $ilPluginAdmin->getActivePluginsForSlot(IL_COMP_MODULE, "TestQuestionPool", "qst");
+				foreach ($pl_names as $pl_name)
+				{
+					$pl = ilPlugin::getPluginObject(IL_COMP_MODULE, "TestQuestionPool", "qst", $pl_name);
+					if (strcmp($pl->getQuestionType(), $row["type_tag"]) == 0)
+					{
+						$types[$row['type_tag']] = $pl->getQuestionTypeTranslation();
 					}
 				}
 			}

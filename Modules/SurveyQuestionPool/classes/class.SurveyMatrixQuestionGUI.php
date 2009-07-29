@@ -98,7 +98,7 @@ class SurveyMatrixQuestionGUI extends SurveyQuestionGUI
 			$questiontext = ilUtil::stripSlashes($_POST["question"], false, ilObjAdvancedEditing::_getUsedHTMLTagsAsString("survey"));
 			$this->object->setQuestiontext($questiontext);
 			$this->object->setObligatory(($_POST["obligatory"]) ? 1 : 0);
-			$this->object->setSubtype($_POST["subtype"]);
+			$this->object->setSubtype($_POST["type"]);
 			$this->object->setRowSeparators(($_POST["row_separators"]) ? 1 : 0);
 			$this->object->setColumnSeparators(($_POST["column_separators"]) ? 1 : 0);
 			$this->object->setNeutralColumnSeparator(($_POST["neutral_column_separator"]) ? 1 : 0);

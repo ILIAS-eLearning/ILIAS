@@ -4143,14 +4143,11 @@ class ilObjTestGUI extends ilObjectGUI
 			array("eval_a"),
 			"", "");
 	
-		if ($this->object->hasPDFProcessing())
-		{
-			// question export
-			$ilTabs->addSubTabTarget("tst_single_results",
-				$this->ctrl->getLinkTargetByClass("iltestevaluationgui", "singleResults"),
-				array("singleResults"),
-				"", "");
-		}
+		// question export
+		$ilTabs->addSubTabTarget("tst_single_results",
+			$this->ctrl->getLinkTargetByClass("iltestevaluationgui", "singleResults"),
+			array("singleResults"),
+			"", "");
 
 		// settings
 		$ilTabs->addSubTabTarget("settings",

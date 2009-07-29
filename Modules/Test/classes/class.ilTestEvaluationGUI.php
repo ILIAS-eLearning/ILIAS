@@ -1347,7 +1347,7 @@ class ilTestEvaluationGUI extends ilTestServiceGUI
 			if (count($rows))
 			{
 				include_once("./Modules/Test/classes/tables/class.ilResultsByQuestionTableGUI.php");
-				$table_gui = new ilResultsByQuestionTableGUI($this, "singleResults");
+				$table_gui = new ilResultsByQuestionTableGUI($this, "singleResults", $this->object->hasPDFProcessing());
 
 				$table_gui->setTitle($this->lng->txt("tst_answered_questions_test"));
 				$table_gui->setData($rows);
