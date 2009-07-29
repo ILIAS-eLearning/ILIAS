@@ -555,7 +555,7 @@ function showTrackingItems()
 			     $this->tpl->setVariable("VAL_USERNAME", $item["username"]);
 			     $this->tpl->setVariable("VAL_LAST", $item["last_access"]);
 			     $this->tpl->setVariable("VAL_ATTEMPT", $item["attempts"]);
-			     $this->tpl->setVariable("VAL_VERSION", $version['version']);
+			     $this->tpl->setVariable("VAL_VERSION", $item['version']);
 			     $this->ctrl->setParameter($this, "user_id", $item["user_id"]);
 			     $this->ctrl->setParameter($this, "obj_id", $_GET["obj_id"]);
 			     $this->tpl->setVariable("LINK_ITEM",
@@ -865,7 +865,7 @@ function showTrackingItem()
 				WHERE user_id = %s
 				AND lvalue = %s
 				AND obj_id = %s
-				sco_id = %s',
+				AND sco_id = %s',
 				array('integer','text','integer','integer'),
 				array($user, 'package_attempts',$this->object->getID(),0));
 
