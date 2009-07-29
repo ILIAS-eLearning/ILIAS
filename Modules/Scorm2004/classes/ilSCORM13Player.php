@@ -538,7 +538,7 @@ class ilSCORM13Player
 	//saves global_objectives to database	
 	public function writeGObjective()
 	{
-		global $ilDB, $ilUser;
+		global $ilDB, $ilUser, $ilLog;
 		$user=$ilUser->getID();
 		$package=$this->packageId;
 		//get json string
@@ -578,7 +578,7 @@ class ilSCORM13Player
 		    		AND scope_id = %s', 
 		    		array('text', 'integer', 'integer'), 
 		    		array($objective_id,$dbuser,$scope));
-		    		 
+					$ilLog->write("Count is: ".$ilDB->numRows($res));
 		    		if(!$ilDB->numRows($res))	
 		    		{
 		    			$statement = $ilDB->manipulateF('
@@ -610,7 +610,8 @@ class ilSCORM13Player
 		    		AND scope_id = %s', 
 		    		array('text', 'integer', 'integer'), 
 		    		array($objective_id,$dbuser,$scope));
-		    		 
+		    		 					$ilLog->write("Count is: ".$ilDB->numRows($res));
+
 		    		if(!$ilDB->numRows($res))	
 		    		{
 		    			$statement = $ilDB->manipulateF('
@@ -647,8 +648,9 @@ class ilSCORM13Player
 		    		AND user_id = %s
 		    		AND scope_id = %s', 
 		    		array('text', 'integer', 'integer'), 
-		    		array($objective_id,$dbuser,$scope));
-		    		 
+		    		array($obj,$dbuser,$pkg_id));
+		    		 					$ilLog->write("Count is: ".$ilDB->numRows($res));
+
 		    		if(!$ilDB->numRows($res))	
 		    		{
 		    			$statement = $ilDB->manipulateF('
@@ -669,7 +671,7 @@ class ilSCORM13Player
 		    			AND user_id = %s
 		    			AND scope_id = %s', 
 			    		array('text', 'text','text','text', 'integer', 'integer'), 
-			    		array($completed,$measure,$satisfied,$objective_id,$dbuser,$scope));		    			
+			    		array($completed,$measure,$satisfied,$obj,$dbuser,$pkd_id));		    			
 		    		}		    		
 
 		    	}	
@@ -1091,7 +1093,10 @@ $ilLog->write("SCORM: setCMIData, table -".$table."-");
 				{
 					case 'correct_response':
 						$no = $schem['cmi_interaction_id']['no'];
+						$ilLog->write("correct_response no: ".$no);
+						$ilLog->write("The Row: ".count($row));
 						$row[$no] = $map['interaction'][$row[$no]];
+						$ilLog->write("Value: ".print_r($map['interaction'],true));
 					case 'comment':
 					case 'interaction':
 						$no = $schem['cmi_node_id']['no'];
@@ -1142,15 +1147,13 @@ $ilLog->write("SCORM: setCMIData, table -".$table."-");
 				switch ($table)
 				{
 					case 'correct_response':
-						
-						$uniqueIdValue = $this->getUniqueValue($keys,$rowq, 'correct_response');
-						
+						$uniqueIdValue = $this->getUniqueValue($keys,$rowq, 'cmi_interaction');
 						if($uniqueIdValue !== null)
 						{
 						
 							//insert
 							$row[$cmi_no] = $ilDB->nextId('cmi_correct_response');
-							
+
 							$sql = $ilDB->manipulateF('
 							INSERT INTO cmi_correct_response
 							(cmi_correct_resp_id,cmi_interaction_id,pattern)
@@ -1158,12 +1161,13 @@ $ilLog->write("SCORM: setCMIData, table -".$table."-");
 							array('integer','integer','text'),
 							$row
 							);
+							
 						
 						}
 						break;
 						
 					case 'comment':
-						$uniqueIdValue = $this->getUniqueValue($keys,$rowq, 'comment');
+						$uniqueIdValue = $this->getUniqueValue($keys,$rowq, 'cmi_node');
 						
 						if($uniqueIdValue !== null)
 						{
@@ -1189,7 +1193,7 @@ $ilLog->write("SCORM: setCMIData, table -".$table."-");
 						break;
 						
 					case 'interaction':
-						$uniqueIdValue = $this->getUniqueValue($keys,$rowq, 'cmi_interaction');
+						$uniqueIdValue = $this->getUniqueValue($keys,$rowq, 'cmi_node');
 						
 						if($uniqueIdValue !== null)
 						{
