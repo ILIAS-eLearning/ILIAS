@@ -353,7 +353,7 @@ class ilObjSCORM2004LearningModule extends ilObjSCORMLearningModule
 		{
 			$name = ilObjUser::_lookupName($sco_rec["user_id"]);
 			if ($sco_rec['last_access'] != 0) {
-				$sco_rec['last_access'] = ilDatePresentation::formatDate(new ilDateTime($sco_rec['last_access'],IL_CAL_UNIX));
+				$sco_rec['last_access'] = ilDatePresentation::formatDate(new ilDateTime($sco_rec['last_access'],IL_CAL_DATETIME));
 				
 			} else {
 				$sco_rec['last_access'] = "";
@@ -594,7 +594,7 @@ class ilObjSCORM2004LearningModule extends ilObjSCORMLearningModule
 					array($user,$scos[$i],'completed','passed')
 				);
 				
-				if ($ilDb->numRows($val_set)>0) 
+				if ($ilDB->numRows($val_set)>0) 
 				{
 					//delete from array
 					$key = array_search($scos[$i], $scos_c); 
@@ -618,8 +618,7 @@ class ilObjSCORM2004LearningModule extends ilObjSCORMLearningModule
 				$department = $e_user->getDepartment();
 			
 				$val_set2 = $ilDB->queryF('
-					SELECT DISTINCT user_id,MAX(
-					CONCAT(SUBSTR(c_timestamp, 9,2), '.', SUBSTR(c_timestamp, 6, 2), '.', SUBSTR(c_timestamp, 1, 4))) date 
+					SELECT DISTINCT user_id,MAX(c_timestamp) AS date 
 					FROM cmi_node, cp_node 
 					WHERE cmi_node.cp_node_id = cp_node.cp_node_id 
 					AND cp_node.slm_id = %s
@@ -1006,7 +1005,7 @@ class ilObjSCORM2004LearningModule extends ilObjSCORMLearningModule
 			SELECT * FROM cp_item
 			WHERE cp_node_id = %s',
 			array('integer'),
-			array(a_node_id)
+			array($a_node_id)
 		);
 		
 		if ($i = $ilDB->fetchAssoc($r))
