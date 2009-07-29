@@ -58,7 +58,7 @@ class ilTestQuestionBrowserTableGUI extends ilTable2GUI
 		$this->addColumn('','f','1%');
 		$this->addColumn($this->lng->txt("tst_question_title"),'title', '');
 		$this->addColumn($this->lng->txt("description"),'description', '');
-		$this->addColumn($this->lng->txt("tst_question_type"),'type', '');
+		$this->addColumn($this->lng->txt("tst_question_type"),'ttype', '');
 		$this->addColumn($this->lng->txt("author"),'author', '');
 		$this->addColumn($this->lng->txt("create_date"),'created', '');
 		$this->addColumn($this->lng->txt("last_update"),'updated', '');
@@ -107,7 +107,7 @@ class ilTestQuestionBrowserTableGUI extends ilTable2GUI
 		$ti->setSize(20);
 		$this->addFilterItem($ti);
 		$ti->readFromSession();
-		$this->filter["comment"] = $ti->getValue();
+		$this->filter["description"] = $ti->getValue();
 		
 		// questiontype
 		include_once("./Services/Form/classes/class.ilSelectInputGUI.php");

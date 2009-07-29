@@ -389,7 +389,6 @@ class assFileUpload extends assQuestion
 				return false;
 			}
 		}
-		
 		return true;
 	}
 
@@ -420,9 +419,13 @@ class assFileUpload extends assQuestion
 	*
 	* @return array Results
 	*/
-	public function getUploadedFiles($active_id, $pass)
+	public function getUploadedFiles($active_id, $pass = null)
 	{
 		global $ilDB;
+		if (is_null($pass))
+		{
+			$pass = $this->getSolutionMaxPass($active_id);
+		}
 		$result = $ilDB->queryF("SELECT * FROM tst_solutions WHERE active_fi = %s AND question_fi = %s AND pass = %s ORDER BY tstamp",
 			array("integer", "integer", "integer"),
 			array($active_id, $this->getId(), $pass)
@@ -561,7 +564,6 @@ class assFileUpload extends assQuestion
 		}
 
 		$entered_values = false;
-
 		if (strcmp($_POST['cmd']['gotoquestion'], $this->lng->txt('delete')) == 0)
 		{
 			$deletefiles = $_POST['file'];
