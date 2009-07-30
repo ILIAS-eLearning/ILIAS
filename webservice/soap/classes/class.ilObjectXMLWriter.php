@@ -122,7 +122,7 @@ class ilObjectXMLWriter extends ilXmlWriter
 
 	function getXML()
 	{
-		return $this->xmlDumpMem(true);
+		return $this->xmlDumpMem(false);
 	}
 
 
