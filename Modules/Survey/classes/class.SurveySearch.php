@@ -143,14 +143,14 @@ class SurveySearch
 			{
 				case "all":
 					$fields["$term"] = array();
-					array_push($fields["$term"], $ilDB->like("svy_question.title", 'text', "%" .$term . "%"));
-					array_push($fields["$term"], $ilDB->like("svy_question.description", 'text', "%" .$term . "%"));
-					array_push($fields["$term"], $ilDB->like("svy_question.author", 'text', "%" .$term . "%"));
-					array_push($fields["$term"], $ilDB->like("svy_question.questiontext", 'text', "%" .$term . "%"));
+					array_push($fields["$term"], $ilDB->like("UPPER(svy_question.title)", 'text', "UPPER(%" .$term . "%)"));
+					array_push($fields["$term"], $ilDB->like("UPPER(svy_question.description)", 'text', "UPPER(%" .$term . "%)"));
+					array_push($fields["$term"], $ilDB->like("UPPER(svy_question.author)", 'text', "UPPER(%" .$term . "%)"));
+					array_push($fields["$term"], $ilDB->like("UPPER(svy_question.questiontext)", 'text', "UPPER(%" .$term . "%)"));
 					break;
 				default:
 					$fields["$term"] = array();
-					array_push($fields["$term"], $ilDB->like("svy_question." . $this->search_field, 'text', "%" .$term . "%"));
+					array_push($fields["$term"], $ilDB->like("UPPER(svy_question." . $this->search_field . ")", 'text', "UPPER(%" .$term . "%)"));
 					break;
 			}
 		}
