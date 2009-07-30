@@ -596,12 +596,12 @@ class ilLDAPServer
 		$query = 'INSERT INTO ldap_server_settings (server_id,active,name,url,version,base_dn,referrals,tls,bind_type,bind_user,bind_pass,'.
 			'search_base,user_scope,user_attribute,filter,group_dn,group_scope,group_filter,group_member,group_memberisdn,group_name,'.
 			'group_attribute,group_optional,group_user_filter,sync_on_login,sync_per_cron,role_sync_active,role_bind_dn,role_bind_pass) '.
-			'VALUES (%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s)';
+			'VALUES (%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s)';
 		$res = $ilDB->queryF($query,
 			array(
 				'integer','integer','text','text','integer','text','integer','integer','integer','text','text','text','integer',
 				'text','text','text','integer','text','text','integer','text','text','integer','text','integer','integer','integer',
-				'text','text'),
+				'text','text', 'integer'),
 			array(
 				$next_id,
 				$this->isActive(),
@@ -631,7 +631,8 @@ class ilLDAPServer
 				$this->enabledSyncPerCron(),
 				$this->enabledRoleSynchronization(),
 				$this->getRoleBindDN(),
-				$this->getRoleBindPassword()
+				$this->getRoleBindPassword(),
+				$this->isAccountMigrationEnabled()
 			));
 			
 		return $next_id;
@@ -669,7 +670,8 @@ class ilLDAPServer
 			"sync_per_cron = ".$this->db->quote(($this->enabledSyncPerCron() ? 1 : 0),'integer').", ".
 			"role_sync_active = ".$this->db->quote($this->enabledRoleSynchronization(),'integer').", ".
 			"role_bind_dn = ".$this->db->quote($this->getRoleBindDN(),'text').", ".
-			"role_bind_pass = ".$this->db->quote($this->getRoleBindPassword(),'text')." ".
+			"role_bind_pass = ".$this->db->quote($this->getRoleBindPassword(),'text').", ".
+			"migration = ".$this->db->quote((int)$this->isAccountMigrationEnabled(),'integer')." ".
 			"WHERE server_id = ".$this->db->quote($this->getServerId(),'integer');
 			
 		$res = $ilDB->manipulate($query);
@@ -841,6 +843,7 @@ class ilLDAPServer
 			$this->enableRoleSynchronization($row->role_sync_active);
 			$this->setRoleBindDN($row->role_bind_dn);
 			$this->setRoleBindPassword($row->role_bind_pass);
+			$this->enableAccountMigration($row->migration);
 		}
 	}
 }

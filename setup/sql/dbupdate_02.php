@@ -14950,3 +14950,15 @@ if(!$ilDB->tableExists("xmlnestedsettmp"))
 	$query = "UPDATE object_reference SET deleted = NULL WHERE deleted = '0000-00-00 00:00:00'";
 	$ilDB->query($query);
 ?>
+<#2808>
+<?php
+	if(!$ilDB->tableColumnExists("ldap_server_settings", "migration"))
+	{	
+		$ilDB->addTableColumn("ldap_server_settings", "migration", array(
+			"type" => "integer",
+			'length' => 1,
+			"notnull" => true,
+			"default" => 0
+		));
+	}
+?>

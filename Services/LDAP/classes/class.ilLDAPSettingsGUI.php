@@ -855,124 +855,216 @@ class ilLDAPSettingsGUI
 		$this->setSubTabs();
 		$this->tabs_gui->setSubTabActive('ldap_settings');
 		
-		$this->tpl->addBlockFile('ADM_CONTENT','adm_content','tpl.ldap_server_list.html','Services/LDAP');
-		$this->tpl->setVariable("FORMACTION",$this->ctrl->getFormAction($this));
-		
-		// Text variables
-		$this->tpl->setVariable("TXT_LDAP_SERVER_SETTINGS",$this->lng->txt('ldap_configure'));
-		$this->tpl->setVariable('TXT_ACTIVE',$this->lng->txt('auth_ldap_enable'));
-		$this->tpl->setVariable('TXT_SERVER_NAME',$this->lng->txt('ldap_server_name'));
-		$this->tpl->setVariable('TXT_SERVER_URL',$this->lng->txt('ldap_server'));
-		$this->tpl->setVariable('TXT_SERVER_VERSION',$this->lng->txt('ldap_version'));
-		$this->tpl->setVariable('TXT_BASE_DN',$this->lng->txt('basedn'));
-		$this->tpl->setVariable('TXT_REFERRALS',$this->lng->txt('ldap_referrals'));
-		
-		$this->tpl->setVariable('TXT_SECURITY_SETTINGS',$this->lng->txt('ldap_server_security_settings'));
-		$this->tpl->setVariable('TXT_TLS',$this->lng->txt('ldap_tls'));
-		$this->tpl->setVariable('TXT_BINDING',$this->lng->txt('ldap_server_binding'));
-		$this->tpl->setVariable('TXT_ANONYMOUS',$this->lng->txt('ldap_bind_anonymous'));
-		$this->tpl->setVariable('TXT_USER',$this->lng->txt('ldap_bind_user'));
-		$this->tpl->setVariable('TXT_BIND_DN',$this->lng->txt('ldap_server_bind_dn'));
-		$this->tpl->setVariable('TXT_BIND_PASSWD',$this->lng->txt('ldap_server_bind_pass'));
-		
-		$this->tpl->setVariable('TXT_AUTH_SETTINGS',$this->lng->txt('ldap_authentication_settings'));
-		$this->tpl->setVariable('TXT_USER_ATTRIBUTE',$this->lng->txt('ldap_user_attribute'));
-		$this->tpl->setVariable('TXT_USER_SCOPE',$this->lng->txt('ldap_user_scope'));
-		$this->tpl->setVariable('TXT_SEARCH_BASE',$this->lng->txt('ldap_user_dn'));
-		$this->tpl->setVariable('TXT_FILTER',$this->lng->txt('ldap_search_filter'));
-		$this->tpl->setVariable('TXT_REQUIRED_FLD',$this->lng->txt('required_field'));
-		
-		// Group restrictions
-		$this->tpl->setVariable('TXT_GROUP_RESTRICTIONS',$this->lng->txt('ldap_group_restrictions'));
-		$this->tpl->setVariable('TXT_GROUP_DN',$this->lng->txt('ldap_group_search_base'));
-		$this->tpl->setVariable('TXT_GROUP_SCOPE',$this->lng->txt('ldap_group_scope'));
-		$this->tpl->setVariable('TXT_GROUP_FILTER',$this->lng->txt('ldap_group_filter'));
-		$this->tpl->setVariable('TXT_MEMBER',$this->lng->txt('ldap_group_member'));
-		$this->tpl->setVariable('TXT_MEMBERISDN',$this->lng->txt('ldap_memberisdn'));
-		$this->tpl->setVariable('TXT_GROUP',$this->lng->txt('ldap_group_name'));
-		$this->tpl->setVariable('TXT_GROUP_ATTRIBUTE',$this->lng->txt('ldap_group_attribute'));
-		$this->tpl->setVariable('TXT_GROUP_MEMBERSHIP',$this->lng->txt('ldap_group_membership'));
-		$this->tpl->setVariable('TXT_OPTIONAL',$this->lng->txt('ldap_group_member_optional'));
-		$this->tpl->setVariable('TXT_GROUP_USER_FILTER',$this->lng->txt('ldap_group_user_filter'));
-		$this->tpl->setVariable('TXT_OPTIONAL_INFO',$this->lng->txt('ldap_group_optional_info'));
-		
-		// User Sync
-		$this->tpl->setVariable('TXT_USER_SYNC',$this->lng->txt('ldap_user_sync'));
-		$this->tpl->setVariable('TXT_MOMENT',$this->lng->txt('ldap_moment_sync'));
-		$this->tpl->setVariable('TXT_LOGIN',$this->lng->txt('ldap_sync_login'));
-		$this->tpl->setVariable('TXT_CRON',$this->lng->txt('ldap_sync_cron'));
-		$this->tpl->setVariable('TXT_GLOBAL_ROLE',$this->lng->txt('ldap_global_role_assignment'));
-
-		$this->tpl->setVariable('TXT_SAVE',$this->lng->txt('save'));
-		
-		// Info text
-		$this->tpl->setVariable('TXT_SERVER_NAME_INFO',$this->lng->txt('ldap_server_name_info'));
-		$this->tpl->setVariable('TXT_SERVER_URL_INFO',$this->lng->txt('ldap_server_url_info'));
-		$this->tpl->setVariable('TXT_SERVER_VERSION_INFO',$this->lng->txt('ldap_server_version_info'));
-		$this->tpl->setVariable('TXT_REFERRALS_INFO',$this->lng->txt('ldap_referrals_info'));
-		$this->tpl->setVariable('TXT_SEARCH_BASE_INFO',$this->lng->txt('ldap_search_base_info'));
-		$this->tpl->setVariable('TXT_FILTER_INFO',$this->lng->txt('ldap_filter_info'));
-		$this->tpl->setVariable('TXT_GROUP_DN_INFO',$this->lng->txt('ldap_group_dn_info'));
-		$this->tpl->setVariable('TXT_GROUP_FILTER_INFO',$this->lng->txt('ldap_group_filter_info'));
-		$this->tpl->setVariable('TXT_MEMBER_INFO',$this->lng->txt('ldap_group_member_info'));
-		$this->tpl->setVariable('TXT_GROUP_INFO',$this->lng->txt('ldap_group_name_info'));
-		$this->tpl->setVariable('TXT_GROUP_ATTRIBUTE_INFO',$this->lng->txt('ldap_group_attribute_info'));
-		$this->tpl->setVariable('TXT_GROUP_SCOPE_INFO',$this->lng->txt('ldap_group_scope_info'));
-		$this->tpl->setVariable('TXT_USER_SCOPE_INFO',$this->lng->txt('ldap_user_scope_info'));
-		$this->tpl->setVariable('TXT_USER_SYNC_INFO',$this->lng->txt('ldap_user_sync_info'));
-		$this->tpl->setVariable('TXT_GLOBAL_ROLE_INFO',$this->lng->txt('ldap_global_role_info'));
-		
-		
-		// Settings
-		$this->tpl->setVariable('CHECK_ACTIVE',ilUtil::formCheckbox($this->server->isActive() ? true : false,'active',1));
-		$this->tpl->setVariable('SERVER_NAME',$this->server->getName());
-		$this->tpl->setVariable('SERVER_URL',$this->server->getUrlString());
-		$this->tpl->setVariable('SELECT_VERSION',ilUtil::formSelect($this->server->getVersion(),
-			'version',array(2 => 2,3 => 3),false,true));
-		$this->tpl->setVariable('BASE_DN',$this->server->getBaseDN());
-		$this->tpl->setVariable('CHECK_REFERRALS',ilUtil::formCheckbox($this->server->isActiveReferrer() ? true : false,'referrals',1));
-		$this->tpl->setVariable('CHECK_TLS',ilUtil::formCheckbox($this->server->isActiveTLS() ? true : false,'tls',1));
-					
-		$this->tpl->setVariable('RADIO_ANONYMOUS',ilUtil::formRadioButton($this->server->getBindingType() == IL_LDAP_BIND_ANONYMOUS ? true : false,
-			'binding_type',IL_LDAP_BIND_ANONYMOUS));
-		$this->tpl->setVariable('RADIO_USER',ilUtil::formRadioButton($this->server->getBindingType() == IL_LDAP_BIND_USER ? true : false,
-			'binding_type',IL_LDAP_BIND_USER));
-		$this->tpl->setVariable('BIND_DN',$this->server->getBindUser());
-		$this->tpl->setVariable('BIND_PASS',$this->server->getBindPassword());
-		
-		$this->tpl->setVariable('SEARCH_BASE',$this->server->getSearchBase());
-		$this->tpl->setVariable('USER_ATTRIBUTE',$this->server->getUserAttribute());
-		$this->tpl->setVariable('SELECT_USER_SCOPE',ilUtil::formSelect($this->server->getUserScope(),
-			'user_scope',
-			array(IL_LDAP_SCOPE_ONE => $this->lng->txt('ldap_scope_one'),
-				IL_LDAP_SCOPE_SUB => $this->lng->txt('ldap_scope_sub')),false,true));
-		$this->tpl->setVariable('FILTER',$this->server->getFilter());
-		$this->tpl->setVariable('GROUP_DN',$this->server->getGroupDN());
-		$this->tpl->setVariable('SELECT_GROUP_SCOPE',ilUtil::formSelect($this->server->getGroupScope(),
-			'group_scope',
-			array(IL_LDAP_SCOPE_ONE => $this->lng->txt('ldap_scope_one'),
-				IL_LDAP_SCOPE_SUB => $this->lng->txt('ldap_scope_sub')),false,true));
-		$this->tpl->setVariable('GROUP_FILTER',$this->server->getGroupFilter());
-		$this->tpl->setVariable('GROUP_MEMBER',$this->server->getGroupMember());
-		$this->tpl->setVariable('CHECK_MEMBERISDN',ilUtil::formCheckbox($this->server->enabledGroupMemberIsDN() ? 1 : 0,'memberisdn',1));
-		$this->tpl->setVariable('GROUP',$this->server->getGroupName());
-		$this->tpl->setVariable('GROUP_ATTRIBUTE',$this->server->getGroupAttribute());
-		$this->tpl->setVariable('GROUP_USER_FILTER',$this->server->getGroupUserFilter());
-		
-		$this->tpl->setVariable('CHECK_OPTIONAL',ilUtil::formCheckbox($this->server->isMembershipOptional() ? 1 : 0,
-			'group_optional',
-			1));
-		// User sync
-		$this->tpl->setVariable('CHECK_LOGIN',ilUtil::formCheckbox($this->server->enabledSyncOnLogin() ? true : false,
-			'sync_on_login',
-			1));
-		$this->tpl->setVariable('CHECK_CRON',ilUtil::formCheckbox($this->server->enabledSyncPerCron() ? true : false,
-			'sync_per_cron',
-			1));
-		$this->tpl->setVariable('SELECT_GLOBAL_ROLE',$this->prepareRoleSelect());
-
-		return true;
+		$this->initForm();
+		$this->setServerFormValues();		
+		return $this->tpl->setContent($this->form_gui->getHtml());
 	}
+	
+	public function setServerFormValues()
+	{
+		$this->form_gui->setValuesByArray(array(
+			'active' => $this->server->isActive(),
+			'server_name' => $this->server->getName(),
+			'server_url' => $this->server->getUrlString(), 
+			'version' => $this->server->getVersion(),
+			'base_dn' => $this->server->getBaseDN(),
+			'referrals' => $this->server->isActiveReferrer(),
+			'tls' => $this->server->isActiveTLS(),			
+			'binding_type' => $this->server->getBindingType(),
+			'bind_dn' => $this->server->getBindUser(),
+			'bind_pass' => $this->server->getBindPassword(),
+			'search_base' => $this->server->getSearchBase(),
+			'user_scope' => $this->server->getUserScope(),
+			'user_attribute' => $this->server->getUserAttribute(),			
+			'filter' => $this->server->getFilter(),
+			'group_dn' => $this->server->getGroupDN(),
+			'group_scope' => $this->server->getGroupScope(),
+			'group_filter' => $this->server->getGroupFilter(),
+			'group_member' => $this->server->getGroupMember(),
+			'memberisdn' => $this->server->enabledGroupMemberIsDN(),
+			'group' => $this->server->getGroupName(),
+			'group_attribute' => $this->server->getGroupAttribute(),
+			'group_optional' => $this->server->isMembershipOptional(),
+			'group_user_filter' => $this->server->getGroupUserFilter(),
+			'sync_on_login' => $this->server->enabledSyncOnLogin(),
+			'sync_per_cron' => $this->server->enabledSyncPerCron(),
+			'global_role' => ilLDAPAttributeMapping::_lookupGlobalRole($this->server->getServerId()),
+			'migration' => (int)$this->server->isAccountMigrationEnabled(),			
+		));
+	}
+	
+	private function initForm()
+	{	
+		include_once 'Services/Form/classes/class.ilPropertyFormGUI.php';		
+	 		 	
+		$this->form_gui = new ilPropertyFormGUI();
+		$this->form_gui->setFormAction($this->ctrl->getFormAction($this, 'save'));
+		$this->form_gui->setTitle($this->lng->txt('ldap_configure'));
+ 		
+		$active = new ilCheckboxInputGUI($this->lng->txt('auth_ldap_enable'), 'active');
+		$active->setValue(1);
+		$this->form_gui->addItem($active);
+
+		$servername = new ilTextInputGUI($this->lng->txt('ldap_server_name'), 'server_name');
+		$servername->setRequired(true);
+		$servername->setInfo($this->lng->txt('ldap_server_name_info'));
+		$servername->setSize(32);
+		$servername->setMaxLength(32);
+		$this->form_gui->addItem($servername);
+ 		
+		$serverurl = new ilTextInputGUI($this->lng->txt('ldap_server'), 'server_url');
+		$serverurl->setRequired(true);
+		$serverurl->setInfo($this->lng->txt('ldap_server_url_info'));
+		$serverurl->setSize(64);
+		$serverurl->setMaxLength(255);
+		$this->form_gui->addItem($serverurl);
+ 		
+		$version = new ilSelectInputGUI($this->lng->txt('ldap_version'), 'version');
+		$version->setOptions(array(2 => 2, 3 => 3));
+		$version->setInfo($this->lng->txt('ldap_server_version_info'));
+		$this->form_gui->addItem($version);
+ 		
+		$basedsn = new ilTextInputGUI($this->lng->txt('basedn'), 'base_dn');
+		$basedsn->setRequired(true);
+		$basedsn->setSize(64);
+		$basedsn->setMaxLength(255);
+		$this->form_gui->addItem($basedsn);
+ 		
+		$referrals = new ilCheckboxInputGUI($this->lng->txt('ldap_referrals'), 'referrals');
+		$referrals->setValue(1);
+		$referrals->setInfo($this->lng->txt('ldap_referrals_info'));
+		$this->form_gui->addItem($referrals);
+ 		
+		$section_security = new ilFormSectionHeaderGUI();
+		$section_security->setTitle($this->lng->txt('ldap_server_security_settings'));
+		$this->form_gui->addItem($section_security);
+ 		
+		$tls = new ilCheckboxInputGUI($this->lng->txt('ldap_tls'), 'tls');
+		$tls->setValue(1);
+		$this->form_gui->addItem($tls);		
+ 		
+		$binding = new ilRadioGroupInputGUI($this->lng->txt('ldap_server_binding'), 'binding_type' );
+			$anonymous = new ilRadioOption($this->lng->txt('ldap_bind_anonymous'), IL_LDAP_BIND_ANONYMOUS);
+		$binding->addOption($anonymous);
+			$user = new ilRadioOption($this->lng->txt('ldap_bind_user'), IL_LDAP_BIND_USER);
+				$dn = new ilTextInputGUI($this->lng->txt('ldap_server_bind_dn'), 'bind_dn');
+				$dn->setSize(32);
+				$dn->setMaxLength(255);
+			$user->addSubItem($dn);
+				$pass = new ilPasswordInputGUI($this->lng->txt('ldap_server_bind_dn'), 'bind_pass');
+				$pass->setSize(12);
+				$pass->setMaxLength(36);
+			$user->addSubItem($pass);
+		$binding->addOption($user);
+		$this->form_gui->addItem($binding);
+ 		
+		$section_auth = new ilFormSectionHeaderGUI();
+		$section_auth->setTitle($this->lng->txt('ldap_authentication_settings'));
+		$this->form_gui->addItem($section_auth);
+		
+		$search_base = new ilTextInputGUI($this->lng->txt('ldap_user_dn'), 'search_base');
+		$search_base->setInfo($this->lng->txt('ldap_search_base_info'));
+		$search_base->setSize(32);
+		$search_base->setMaxLength(255);
+		$this->form_gui->addItem($search_base);
+		
+		$user_scope = new ilSelectInputGUI($this->lng->txt('ldap_user_scope'), 'user_scope');
+		$user_scope->setOptions(array(IL_LDAP_SCOPE_ONE => $this->lng->txt('ldap_scope_one'),
+				IL_LDAP_SCOPE_SUB => $this->lng->txt('ldap_scope_sub')));
+		$user_scope->setInfo($this->lng->txt('ldap_user_scope_info'));
+		$this->form_gui->addItem($user_scope);
+		
+		$user_attribute = new ilTextInputGUI($this->lng->txt('ldap_user_attribute'), 'user_attribute');
+		$user_attribute->setSize(16);
+		$user_attribute->setMaxLength(64);
+		$user_attribute->setRequired(true);
+		$this->form_gui->addItem($user_attribute);
+		
+		$filter = new ilTextInputGUI($this->lng->txt('ldap_search_filter'), 'filter');
+		$filter->setInfo($this->lng->txt('ldap_filter_info'));
+		$filter->setSize(32);
+		$filter->setMaxLength(255);
+		$this->form_gui->addItem($filter);
+		
+		$section_restrictions = new ilFormSectionHeaderGUI();
+		$section_restrictions->setTitle($this->lng->txt('ldap_group_restrictions'));
+		$this->form_gui->addItem($section_restrictions);
+		
+		$group_dn = new ilTextInputGUI($this->lng->txt('ldap_group_search_base'), 'group_dn');
+		$group_dn->setInfo($this->lng->txt('ldap_group_dn_info'));
+		$group_dn->setSize(32);
+		$group_dn->setMaxLength(255);
+		$this->form_gui->addItem($group_dn);
+		
+		$group_scope = new ilSelectInputGUI($this->lng->txt('ldap_group_scope'), 'group_scope');
+		$group_scope->setOptions(array(IL_LDAP_SCOPE_ONE => $this->lng->txt('ldap_scope_one'),
+				IL_LDAP_SCOPE_SUB => $this->lng->txt('ldap_scope_sub')));
+		$group_scope->setInfo($this->lng->txt('ldap_group_scope_info'));
+		$this->form_gui->addItem($group_scope);
+		
+		$group_filter = new ilTextInputGUI($this->lng->txt('ldap_group_filter'), 'group_filter');
+		$group_filter->setInfo($this->lng->txt('ldap_group_filter_info'));
+		$group_filter->setSize(32);
+		$group_filter->setMaxLength(255);
+		$this->form_gui->addItem($group_filter);
+		
+		$group_member = new ilTextInputGUI($this->lng->txt('ldap_group_member'), 'group_member');
+		$group_member->setInfo($this->lng->txt('ldap_group_member_info'));
+		$group_member->setSize(32);
+		$group_member->setMaxLength(255);
+			$group_member_isdn = new ilCheckboxInputGUI($this->lng->txt('ldap_memberisdn'), 'memberisdn');
+			$group_member_isdn->setValue(1);
+			$group_member->addSubItem($group_member_isdn);	
+		$this->form_gui->addItem($group_member);		
+		
+		$group = new ilTextInputGUI($this->lng->txt('ldap_group_name'), 'group');
+		$group->setInfo($this->lng->txt('ldap_group_name_info'));
+		$group->setSize(32);
+		$group->setMaxLength(255);
+		$this->form_gui->addItem($group);
+		
+		$group_atrr = new ilTextInputGUI($this->lng->txt('ldap_group_attribute'), 'group_attribute');
+		$group_atrr->setInfo($this->lng->txt('ldap_group_attribute_info'));
+		$group_atrr->setSize(16);
+		$group_atrr->setMaxLength(64);
+		$this->form_gui->addItem($group_atrr);
+		
+		$group_optional = new ilCheckboxInputGUI($this->lng->txt('ldap_group_membership'), 'group_optional');
+		$group_optional->setOptionTitle($this->lng->txt('ldap_group_member_optional'));
+		$group_optional->setInfo($this->lng->txt('ldap_group_optional_info'));
+		$group_optional->setValue(1);
+			$group_user_filter = new ilTextInputGUI($this->lng->txt('ldap_group_user_filter'), 'group_user_filter');
+			$group_user_filter->setSize(32);
+			$group_user_filter->setMaxLength(255);
+			$group_optional->addSubItem($group_user_filter);			
+		$this->form_gui->addItem($group_optional);
+	
+		$section_sync = new ilFormSectionHeaderGUI();
+		$section_sync->setTitle($this->lng->txt('ldap_user_sync'));
+		$this->form_gui->addItem($section_sync);		
+		
+		$ci_gui = new ilCustomInputGUI($this->lng->txt('ldap_moment_sync'));
+			$sync_on_login = new ilCheckboxInputGUI($this->lng->txt('ldap_sync_login'), 'sync_on_login');
+			$sync_on_login->setValue(1);
+		$ci_gui->addSubItem($sync_on_login);
+			$sync_per_cron = new ilCheckboxInputGUI($this->lng->txt('ldap_sync_cron'), 'sync_per_cron');
+			$sync_per_cron->setValue(1);
+		$ci_gui->addSubItem($sync_per_cron);
+		$ci_gui->setInfo($this->lng->txt('ldap_user_sync_info'));
+		$this->form_gui->addItem($ci_gui);
+		
+		$global_role = new ilSelectInputGUI($this->lng->txt('ldap_global_role_assignment'), 'global_role');
+		$global_role->setOptions($this->prepareRoleSelect(false));
+		$global_role->setInfo($this->lng->txt('ldap_global_role_info'));
+		$this->form_gui->addItem($global_role);
+		
+		$migr = new ilCheckboxInputGUI($this->lng->txt('auth_ldap_migration'), 'migration');
+		$migr->setInfo($this->lng->txt('auth_ldap_migration_info'));
+		$migr->setValue(1);
+		$this->form_gui->addItem($migr);
+		
+		$this->form_gui->addCommandButton('save', $this->lng->txt('save'));			
+ 	}
 	
 	/* 
  	 * Update Settings
@@ -981,58 +1073,69 @@ class ilLDAPSettingsGUI
 	{
 		global $ilErr;
 		
-		$this->server->toggleActive((int) $_POST['active']);
-		$this->server->setName(ilUtil::stripSlashes($_POST['server_name']));
-		$this->server->setUrl(ilUtil::stripSlashes($_POST['server_url']));
-		$this->server->setVersion(ilUtil::stripSlashes($_POST['version']));
-		$this->server->setBaseDN(ilUtil::stripSlashes($_POST['base_dn']));
-		$this->server->toggleReferrer(ilUtil::stripSlashes($_POST['referrals']));
-		$this->server->toggleTLS(ilUtil::stripSlashes($_POST['tls']));
-		$this->server->setBindingType((int) $_POST['binding_type']);
-		$this->server->setBindUser(ilUtil::stripSlashes($_POST['bind_dn']));
-		$this->server->setBindPassword(ilUtil::stripSlashes($_POST['bind_pass']));
-		$this->server->setSearchBase(ilUtil::stripSlashes($_POST['search_base']));
-		$this->server->setUserScope((int) $_POST['user_scope']);
-		$this->server->setUserAttribute(ilUtil::stripSlashes($_POST['user_attribute']));
-		$this->server->setFilter(ilUtil::stripSlashes($_POST['filter']));
-		$this->server->setGroupDN(ilUtil::stripSlashes($_POST['group_dn']));
-		$this->server->setGroupScope((int) $_POST['group_scope']);
-		$this->server->setGroupFilter(ilUtil::stripSlashes($_POST['group_filter']));
-		$this->server->setGroupMember(ilUtil::stripSlashes($_POST['group_member']));
-		$this->server->enableGroupMemberIsDN((int) $_POST['memberisdn']);
-		$this->server->setGroupName(ilUtil::stripSlashes($_POST['group']));
-		$this->server->setGroupAttribute(ilUtil::stripSlashes($_POST['group_attribute']));
-		$this->server->setGroupUserFilter(ilUtil::stripSlashes($_POST['group_user_filter']));
-		$this->server->toggleMembershipOptional((int) $_POST['group_optional']);
-		$this->server->enableSyncOnLogin((int) $_POST['sync_on_login']);
-		$this->server->enableSyncPerCron((int) $_POST['sync_per_cron']);
-		$this->server->setGlobalRole((int) $_POST['global_role']);
+		$this->setSubTabs();
+		$this->tabs_gui->setSubTabActive('ldap_settings');
 		
-		if(!$this->server->validate())
-		{
-			ilUtil::sendInfo($ilErr->getMessage());
-			$this->serverList();
-			return false;
-		}
-		
-		// Update or create
-		if($this->server->getServerId())
-		{
-			$this->server->update();
-		}
-		else
-		{
-			$_GET['ldap_server_id'] = $this->server->create();
-		}
-		
-		// Now server_id exists => update LDAP attribute mapping
-		$this->initAttributeMapping();
-		$this->mapping->setRule('global_role',(int) $_POST['global_role'],false);
-		$this->mapping->save();
+		$this->initForm();
+		if($this->form_gui->checkInput())
+ 		{
+			$this->server->toggleActive((int)$this->form_gui->getInput('active'));
+			$this->server->setName($this->form_gui->getInput('server_name'));
+			$this->server->setUrl($this->form_gui->getInput('server_url'));
+			$this->server->setVersion($this->form_gui->getInput('version'));
+			$this->server->setBaseDN($this->form_gui->getInput('base_dn'));
+			$this->server->toggleReferrer($this->form_gui->getInput('referrals'));
+			$this->server->toggleTLS($this->form_gui->getInput('tls'));
+			$this->server->setBindingType((int)$this->form_gui->getInput('binding_type'));
+			$this->server->setBindUser($this->form_gui->getInput('bind_dn'));
+			$this->server->setBindPassword($this->form_gui->getInput('bind_pass'));
+			$this->server->setSearchBase($this->form_gui->getInput('search_base'));
+			$this->server->setUserScope($this->form_gui->getInput('user_scope'));
+			$this->server->setUserAttribute($this->form_gui->getInput('user_attribute'));
+			$this->server->setFilter($this->form_gui->getInput('filter'));
+			$this->server->setGroupDN($this->form_gui->getInput('group_dn'));
+			$this->server->setGroupScope((int)$this->form_gui->getInput('group_scope'));
+			$this->server->setGroupFilter($this->form_gui->getInput('group_filter'));
+			$this->server->setGroupMember($this->form_gui->getInput('group_member'));
+			$this->server->enableGroupMemberIsDN((int)$this->form_gui->getInput('memberisdn'));
+			$this->server->setGroupName($this->form_gui->getInput('group'));
+			$this->server->setGroupAttribute($this->form_gui->getInput('group_attribute'));
+			$this->server->setGroupUserFilter($this->form_gui->getInput('group_user_filter'));
+			$this->server->toggleMembershipOptional((int)$this->form_gui->getInput('group_optional'));
+			$this->server->enableSyncOnLogin((int)$this->form_gui->getInput('sync_on_login'));
+			$this->server->enableSyncPerCron((int)$this->form_gui->getInput('sync_per_cron'));
+			$this->server->setGlobalRole((int)$this->form_gui->getInput('global_role'));
+			$this->server->enableAccountMigration((int)$this->form_gui->getInput('migration'));
 
-		ilUtil::sendInfo($this->lng->txt('settings_saved'));
-		$this->serverList();
-		return true;
+			if(!$this->server->validate())
+			{
+				ilUtil::sendInfo($ilErr->getMessage());
+				$this->form_gui->setValuesByPost();
+				return $this->tpl->setContent($this->form_gui->getHtml());
+			}
+			
+			// Update or create
+			if($this->server->getServerId())
+			{
+				$this->server->update();
+			}
+			else
+			{
+				$_GET['ldap_server_id'] = $this->server->create();
+			}
+			
+			// Now server_id exists => update LDAP attribute mapping
+			$this->initAttributeMapping();
+			$this->mapping->setRule('global_role', (int)$this->form_gui->getInput('global_role'), false);
+			$this->mapping->save();
+	
+			ilUtil::sendInfo($this->lng->txt('settings_saved'));
+			$this->form_gui->setValuesByPost();
+			return $this->tpl->setContent($this->form_gui->getHtml());
+ 		}		
+		
+		$this->form_gui->setValuesByPost();
+		return $this->tpl->setContent($this->form_gui->getHtml());
 	}
 	
 	
