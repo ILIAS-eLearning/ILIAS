@@ -14950,6 +14950,7 @@ if(!$ilDB->tableExists("xmlnestedsettmp"))
 	$query = "UPDATE object_reference SET deleted = NULL WHERE deleted = '0000-00-00 00:00:00'";
 	$ilDB->query($query);
 ?>
+
 <#2808>
 <?php
 	if(!$ilDB->tableColumnExists("ldap_server_settings", "migration"))
@@ -14988,3 +14989,8 @@ if(!$ilDB->tableExists("xmlnestedsettmp"))
 		$ilDB->addIndex('tst_rnd_cpy',array('tst_fi'),'i3');
 		$ilDB->createSequence("tst_rnd_cpy");
 	}
+?>
+<#2810>
+<?php
+	$ilDB->modifyTableColumn('ut_access','browser', array("type" => "text", "length" => 255, 'notnull' => false));
+?>
