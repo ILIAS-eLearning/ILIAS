@@ -1,0 +1,11 @@
+<div class="ilToolbar"><h3 class="ilAccHeadingHidden">Add Questions</h3>
+	<form name="form_questions" method="POST" action="{FORMACTION}">
+		<select name="sel_question_types">
+		<!-- BEGIN QTypes -->
+		<option value="{QUESTION_TYPE_ID}"{QUESTION_TYPE_SELECTED}>{QUESTION_TYPE}</option>
+		<!-- END QTypes -->
+		</select>
+		<input class="submit" type="submit" name="cmd[createQuestion]" value="{QUESTION_ADD}"{DISABLED} />
+	</form>
+</div>
+{TABLE}

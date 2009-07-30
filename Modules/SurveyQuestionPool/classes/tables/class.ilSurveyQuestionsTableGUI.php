@@ -89,14 +89,6 @@ class ilSurveyQuestionsTableGUI extends ilTable2GUI
 			{
 				$this->addCommandButton('paste', $this->lng->txt('paste'));
 			}
-			$types = ilObjSurveyQuestionPool::_getQuestionTypes();
-			$questiontype = array();
-			foreach ($types as $txt => $row)
-			{
-				$questiontypes[$row['type_tag']] = $txt;
-			}
-			global $ilUser;
-			$this->addSelectionButton('sel_question_types', $questiontypes, 'createQuestion', $this->lng->txt("create"), $ilUser->getPref("svy_lastquestiontype"));
 		}
 
 

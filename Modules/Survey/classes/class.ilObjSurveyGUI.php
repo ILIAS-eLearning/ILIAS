@@ -1630,6 +1630,7 @@ class ilObjSurveyGUI extends ilObjectGUI
 			}
 		}
 		$this->object->setObligatoryStates($obligatory);
+		ilUtil::sendSuccess($this->lng->txt('msg_obj_modified'), true);
 		$this->ctrl->redirect($this, "questions");
 	}
 	
