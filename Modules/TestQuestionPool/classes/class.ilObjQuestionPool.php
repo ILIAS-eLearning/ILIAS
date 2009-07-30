@@ -513,42 +513,21 @@ class ilObjQuestionPool extends ilObject
 	*
 	* @access public
 	*/
-	function &getPrintviewQuestions($sort)
+	function &getPrintviewQuestions()
 	{
 		global $ilDB;
 		
-	    // build sort order for sql query
-		$order = "";
-		switch($sort)
-		{
-			case "title":
-				$order = " ORDER BY title";
-				break;
-			case "comment":
-				$order = " ORDER BY description,title";
-				break;
-			case "type":
-				$order = " ORDER BY question_type_id,title";
-				break;
-			case "author":
-				$order = " ORDER BY author,title";
-				break;
-			case "created":
-				$order = " ORDER BY created,title";
-				break;
-			case "updated":
-				$order = " ORDER BY tstamp,title";
-				break;
-		}
-		$query_result = $ilDB->queryF("SELECT qpl_questions.*, qpl_qst_type.type_tag, qpl_qst_type.plugin FROM qpl_questions, qpl_qst_type WHERE qpl_questions.original_id IS NULL AND qpl_questions.tstamp > 0 AND qpl_questions.question_type_fi = qpl_qst_type.question_type_id AND qpl_questions.obj_fi = %s $order",
+		$query_result = $ilDB->queryF("SELECT qpl_questions.*, qpl_qst_type.type_tag, qpl_qst_type.plugin FROM qpl_questions, qpl_qst_type WHERE qpl_questions.original_id IS NULL AND qpl_questions.tstamp > 0 AND qpl_questions.question_type_fi = qpl_qst_type.question_type_id AND qpl_questions.obj_fi = %s",
 			array('integer'),
 			array($this->getId())
 		);
 		$rows = array();
+		$types = $this->getQuestionTypeTranslations();
 		if ($query_result->numRows())
 		{
 			while ($row = $ilDB->fetchAssoc($query_result))
 			{
+				$row['ttype'] = $types[$row['type_tag']];
 				if ($row["plugin"])
 				{
 					if ($this->isPluginActive($row["type_tag"]))
@@ -561,7 +540,7 @@ class ilObjQuestionPool extends ilObject
 					array_push($rows, $row);
 				}
 			}
-		}
+		}print_r($row);
 		return $rows;
 	}
 

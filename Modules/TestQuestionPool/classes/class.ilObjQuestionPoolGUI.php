@@ -942,12 +942,33 @@ class ilObjQuestionPoolGUI extends ilObjectGUI
 	*/
 	function printObject()
 	{
-		$sort = "title";
-		if (strlen($_POST["sortorder"]))
-		{
-			$sort = $_POST["sortorder"];
-		}
 		$this->tpl->addBlockFile("ADM_CONTENT", "adm_content", "tpl.il_as_qpl_printview.html", "Modules/TestQuestionPool");
+		switch ($_POST["output"])
+		{
+			case 'detailed':
+				$this->tpl->setVariable("SELECTED_DETAILED", " selected=\"selected\"");
+				break;
+			case 'detailed_printview':
+				$this->tpl->setVariable("SELECTED_DETAILED_PRINTVIEW", " selected=\"selected\"");
+				break;
+			default:
+				break;
+		}
+		$this->tpl->setVariable("TEXT_DETAILED", $this->lng->txt("detailed_output_solutions"));
+		$this->tpl->setVariable("TEXT_DETAILED_PRINTVIEW", $this->lng->txt("detailed_output_printview"));
+		$this->tpl->setVariable("TEXT_OVERVIEW", $this->lng->txt("overview"));
+		$this->tpl->setVariable("TEXT_SUBMIT", $this->lng->txt("submit"));
+		$this->tpl->setVariable("OUTPUT_MODE", $this->lng->txt("output_mode"));
+		$this->tpl->setVariable("FORMACTION", $this->ctrl->getFormAction($this, 'print'));
+
+		include_once "./Modules/TestQuestionPool/classes/tables/class.ilQuestionPoolPrintViewTableGUI.php";
+		$table_gui = new ilQuestionPoolPrintViewTableGUI($this, 'print', $_POST['output']);
+		$data =& $this->object->getPrintviewQuestions();
+		$table_gui->setData($data);
+		$this->tpl->setVariable('TABLE', $table_gui->getHTML());	
+		return;
+
+
 		$sortorder = array(
 			"title" => $this->lng->txt("title"),
 			"description" => $this->lng->txt("description"),
@@ -1016,19 +1037,6 @@ class ilObjQuestionPoolGUI extends ilObjectGUI
 		$this->tpl->setVariable("TEXT_UPDATED", $this->lng->txt("last_update"));
 		$this->tpl->parseCurrentBlock();
 		$this->tpl->setCurrentBlock("adm_content");
-		if (strcmp($_POST["output"], "detailed") == 0)
-		{
-			$this->tpl->setVariable("SELECTED_DETAILED", " selected=\"selected\"");
-		}
-		else if (strcmp($_POST["output"], "detailed_printview") == 0)
-		{
-			$this->tpl->setVariable("SELECTED_DETAILED_PRINTVIEW", " selected=\"selected\"");
-		}
-		$this->tpl->setVariable("TEXT_DETAILED", $this->lng->txt("detailed_output_solutions"));
-		$this->tpl->setVariable("TEXT_DETAILED_PRINTVIEW", $this->lng->txt("detailed_output_printview"));
-		$this->tpl->setVariable("TEXT_OVERVIEW", $this->lng->txt("overview"));
-		$this->tpl->setVariable("OUTPUT_MODE", $this->lng->txt("output_mode"));
-		$this->tpl->setVariable("FORMACTION", $this->ctrl->getFormAction($this));
 		$this->tpl->setVariable("SORT_TEXT", $this->lng->txt("sort_by_this_column"));
 		$this->tpl->setVariable("TEXT_SUBMIT", $this->lng->txt("submit"));
 		$this->tpl->setVariable("PRINT", $this->lng->txt("print"));

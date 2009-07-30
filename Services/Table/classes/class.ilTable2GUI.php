@@ -605,9 +605,9 @@ class ilTable2GUI extends ilTableGUI
 	* @param	string	Command
 	* @param	string	Text
 	*/
-	function addCommandButton($a_cmd, $a_text)
+	function addCommandButton($a_cmd, $a_text, $a_onclick = '')
 	{
-		$this->buttons[] = array("cmd" => $a_cmd, "text" => $a_text);
+		$this->buttons[] = array("cmd" => $a_cmd, "text" => $a_text, 'onclick' => $a_onclick);
 	}
 
 	/**
@@ -1455,6 +1455,12 @@ class ilTable2GUI extends ilTableGUI
 		{
 			foreach ($this->buttons as $button)
 			{
+				if (strlen($button['onclick']))
+				{
+					$this->tpl->setCurrentBlock('cmdonclick');
+					$this->tpl->setVariable('CMD_ONCLICK', $button['onclick']);
+					$this->tpl->parseCurrentBlock();
+				}
 				$this->tpl->setCurrentBlock("plain_button");
 				$this->tpl->setVariable("PBTN_NAME", $button["cmd"]);
 				$this->tpl->setVariable("PBTN_VALUE", $button["text"]);

@@ -23,7 +23,7 @@ body {
 	padding: 0;
 }
 
-#form_test, #legend, #dontprint, #imgtop, #imgtree, #headerimage {
+#form_test, #legend, #dontprint, #imgtop, #imgtree, #headerimage, .form_test, .legend, .dontprint, .imgtop, .imgtree, .headerimage {
 	visibility: hidden;
 	display: none;
 }

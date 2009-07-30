@@ -1,47 +1,11 @@
-<form name="formPrintview" action="{FORMACTION}" method="POST">
-<p id="dontprint">
-{SORT_TEXT}: <select name="sortorder">
-<!-- BEGIN sortorder -->
-	<option value="{VALUE_SORTORDER}"{SELECTED_SORTORDER}>{TEXT_SORTORDER}</option>
-<!-- END sortorder -->
-</select>
-{OUTPUT_MODE}: <select name="output">
+<div class="ilToolbar dontprint"><h3 class="ilAccHeadingHidden">Printview Selection</h3>
+<form name="printviewOptions" action="{FORMACTION}" method="POST">
+{OUTPUT_MODE}: <select name="output" onchange="javascript:document.printviewOptions.submit();">
 	<option value="overview">{TEXT_OVERVIEW}</option>
 	<option value="detailed"{SELECTED_DETAILED}>{TEXT_DETAILED}</option>
 	<option value="detailed_printview"{SELECTED_DETAILED_PRINTVIEW}>{TEXT_DETAILED_PRINTVIEW}</option>
 </select>
 <input type="submit" class="submit" name="cmd[print]" value="{TEXT_SUBMIT}" />
-<input type="button" class="submit" name="print" value="{PRINT}" onclick="javascript:window.print();" />
-</p>
-<!-- BEGIN overview -->
-<table class="fullwidth">
-	<tr class="tblheader">
-		<th></th>
-		<th>{TEXT_TITLE}</th>
-		<th>{TEXT_DESCRIPTION}</th>
-		<th>{TEXT_AUTHOR}</th>
-		<th>{TEXT_QUESTIONTYPE}</th>
-		<th>{TEXT_CREATED}</th>
-		<th>{TEXT_UPDATED}</th>
-	</tr>
-<!-- BEGIN overview_row -->	
-	<tr class="{ROW_CLASS}">
-		<td>{TEXT_COUNTER}.</td>
-		<td>{TEXT_TITLE}</td>
-		<td>{TEXT_DESCRIPTION}</td>
-		<td>{TEXT_AUTHOR}</td>
-		<td>{TEXT_QUESTIONTYPE}</td>
-		<td>{TEXT_CREATED}</td>
-		<td>{TEXT_UPDATED}</td>
-	</tr>
-<!-- BEGIN overview_row_detail -->
-	<tr class="{ROW_CLASS}">
-		<td colspan="7">
-			{PREVIEW}
-		</td>
-	</tr>
-<!-- END overview_row_detail -->
-<!-- END overview_row -->	
-</table>
-<!-- END overview -->	
 </form>
+</div>	
+{TABLE}

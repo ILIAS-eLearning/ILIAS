@@ -1356,8 +1356,8 @@ class ilObjTestGUI extends ilObjectGUI
 			$this->object->setShowMarker(($_POST["chb_show_marker"]) ? 1 : 0);
 			$this->object->setShowCancel(($_POST["chb_show_cancel"]) ? 1 : 0);
 			$this->object->setKioskMode(($_POST["kiosk"]) ? 1 : 0);
-			$this->object->setShowKioskModeTitle((in_array('kiosk_title', $_POST["kiosk_options"])) ? 1 : 0);
-			$this->object->setShowKioskModeParticipant((in_array('kiosk_participant', $_POST["kiosk_options"])) ? 1 : 0);
+			$this->object->setShowKioskModeTitle((is_array($_POST["kiosk_options"]) && in_array('kiosk_title', $_POST["kiosk_options"])) ? 1 : 0);
+			$this->object->setShowKioskModeParticipant((is_array($_POST["kiosk_options"]) && in_array('kiosk_participant', $_POST["kiosk_options"])) ? 1 : 0);
 			$this->object->setNrOfTries($_POST["nr_of_tries"]);
 			$this->object->setEnableProcessingTime(($_POST["chb_processing_time"]) ? 1 : 0);
 			if ($this->object->getEnableProcessingTime())
