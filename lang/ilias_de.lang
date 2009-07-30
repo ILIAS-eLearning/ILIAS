@@ -9821,3 +9821,5 @@ content#:#scorm_editable#:#Import editable###24 07 2009 new variable
 content#:#scorm_editable_comments#:#Works only SCORM 1.2/2004 package###24 07 2009 new variable
 common#:#mem_view_long#:#Sie befinden sich in der Teilnehmeransicht
 common#:#mem_view_close#:#Teilnehmeransicht schließen
+common#:#auth_ldap_migration#:#Account Migration
+common#:#auth_ldap_migration_info#:#Aktivieren Sie diese Einstellung, um neuen Benutzern die Möglichkeit zu bieten eventuell vorhandene ILIAS Benutzerkonten auf LDAP Authentifizierung umzustellen.

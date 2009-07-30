@@ -9803,3 +9803,5 @@ crs#:#sess_num_next#:#Number of Following Sessions
 crs#:#sess_limit_info#:#Choose this option for limiting the number of visible sessions.
 common#:#mem_view_long#:#Member View
 common#:#mem_view_close#:#Close Member View
+common#:#auth_ldap_migration#:#Account Migration
+common#:#auth_ldap_migration_info#:#Activate this option to give new users the possibility to migrate their existing ILIAS accounts to LDAP authentication.

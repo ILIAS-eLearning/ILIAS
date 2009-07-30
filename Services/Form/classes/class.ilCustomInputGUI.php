@@ -103,6 +103,6 @@ class ilCustomInputGUI extends ilSubEnabledFormPropertyGUI
 			$this->setAlert($lng->txt("msg_input_is_required"));
 			return false;
 		}
-		return true;
+		return $this->checkSubItemsInput();
 	}
 }
