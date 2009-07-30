@@ -763,7 +763,7 @@ class SurveyMatrixQuestionGUI extends SurveyQuestionGUI
 						{
 							foreach ($working_data as $data)
 							{
-								if (($data["value"] == $j) && ($data["row"] == $i))
+								if (($data["value"] == $j) && ($data["rowvalue"] == $i))
 								{
 									$tplrow->setVariable("CHECKED_RADIOBUTTON", " checked=\"checked\"");
 								}
@@ -780,7 +780,7 @@ class SurveyMatrixQuestionGUI extends SurveyQuestionGUI
 						{
 							foreach ($working_data as $data)
 							{
-								if (($data["value"] == $j) && ($data["row"] == $i))
+								if (($data["value"] == $j) && ($data["rowvalue"] == $i))
 								{
 									$tplrow->setVariable("CHECKED_CHECKBOX", " checked=\"checked\"");
 								}
@@ -829,7 +829,7 @@ class SurveyMatrixQuestionGUI extends SurveyQuestionGUI
 						{
 							foreach ($working_data as $data)
 							{
-								if (($data["value"] == $j) && ($data["row"] == $i))
+								if (($data["value"] == $j) && ($data["rowvalue"] == $i))
 								{
 									$tplrow->setVariable("CHECKED_RADIOBUTTON", " checked=\"checked\"");
 								}
@@ -846,7 +846,7 @@ class SurveyMatrixQuestionGUI extends SurveyQuestionGUI
 						{
 							foreach ($working_data as $data)
 							{
-								if (($data["value"] == $j) && ($data["row"] == $i))
+								if (($data["value"] == $j) && ($data["rowvalue"] == $i))
 								{
 									$tplrow->setVariable("CHECKED_CHECKBOX", " checked=\"checked\"");
 								}
