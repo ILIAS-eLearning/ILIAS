@@ -56,7 +56,7 @@ class assImagemapQuestionGUI extends assQuestionGUI
 			$this->object->loadFromDb($id);
 		}
 		$assessmentSetting = new ilSetting("assessment");
-		$this->linecolor = (strlen($assessmentSetting->get("imap_line_color"))) ? "\"#" . $assessmentSetting->get("imap_line_color") . "\"" : "\"#FF0000\"";
+		$this->linecolor = (strlen($assessmentSetting->get("imap_line_color"))) ? "#" . $assessmentSetting->get("imap_line_color") : "#FF0000";
 		
 	}
 
