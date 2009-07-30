@@ -513,15 +513,15 @@ class ilObjSurveyQuestionPool extends ilObject
 		{
 			if (array_key_exists('title', $arrFilter) && strlen($arrFilter['title']))
 			{
-				$where .= " AND " . $ilDB->like('UPPER(svy_question.title)', 'text', "UPPER(%%" . $arrFilter['title'] . "%%)");
+				$where .= " AND " . $ilDB->like('UPPER(svy_question.title)', 'text', "UPPER(%" . $arrFilter['title'] . "%)");
 			}
 			if (array_key_exists('description', $arrFilter) && strlen($arrFilter['description']))
 			{
-				$where .= " AND " . $ilDB->like('UPPER(svy_question.description)', 'text', "UPPER(%%" . $arrFilter['description'] . "%%)");
+				$where .= " AND " . $ilDB->like('UPPER(svy_question.description)', 'text', "UPPER(%" . $arrFilter['description'] . "%)");
 			}
 			if (array_key_exists('author', $arrFilter) && strlen($arrFilter['author']))
 			{
-				$where .= " AND " . $ilDB->like('UPPER(svy_question.author)', 'text', "UPPER(%%" . $arrFilter['author'] . "%%)");
+				$where .= " AND " . $ilDB->like('UPPER(svy_question.author)', 'text', "UPPER(%" . $arrFilter['author'] . "%)");
 			}
 			if (array_key_exists('type', $arrFilter) && strlen($arrFilter['type']))
 			{
