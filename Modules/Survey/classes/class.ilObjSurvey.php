@@ -786,7 +786,7 @@ class ilObjSurvey extends ilObject
 	{
 		global $ilDB;
 		$result = $ilDB->queryF("SELECT anonymous_id FROM svy_finished WHERE anonymous_id = %s",
-			array('integer'),
+			array('text'),
 			array($id)
 		);
 		if ($result->numRows())
