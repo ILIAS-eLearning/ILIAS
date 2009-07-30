@@ -1631,7 +1631,7 @@ if ($this->getDBType() == "mysql")
 	*
 	* @param	string		column type; must be "text" or "clob" ("blob" added for lng_data)
 	*/
-	function like($a_col, $a_type, $a_value = "?", $case_insensitive = false)
+	function like($a_col, $a_type, $a_value = "?", $case_insensitive = true)
 	{
 		if (!in_array($a_type, array("text", "clob", "blob")))
 		{
