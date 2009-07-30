@@ -448,9 +448,8 @@ class ilObjSurveyQuestionPoolGUI extends ilObjectGUI
 		global $ilUser;
 
 		$this->object->purgeQuestions();
-		// reset test_id SESSION variable
-		$_SESSION["test_id"] = "";
 
+		$this->tpl->addBlockFile("ADM_CONTENT", "adm_content", "tpl.il_svy_qpl_questionbrowser.html", "Modules/SurveyQuestionPool");
 		include_once "./Modules/SurveyQuestionPool/classes/tables/class.ilSurveyQuestionsTableGUI.php";
 		$table_gui = new ilSurveyQuestionsTableGUI($this, 'questions', (($rbacsystem->checkAccess('write', $_GET['ref_id']) ? true : false)));
 		$table_gui->setEditable($rbacsystem->checkAccess('write', $_GET['ref_id']));
@@ -464,7 +463,24 @@ class ilObjSurveyQuestionPoolGUI extends ilObjectGUI
 		}
 		$data = $this->object->getQuestionsData($arrFilter);
 		$table_gui->setData($data);
-		$this->tpl->setVariable('ADM_CONTENT', $table_gui->getHTML());	
+		$this->tpl->setVariable('TABLE', $table_gui->getHTML());	
+
+		$this->tpl->setCurrentBlock("QTypes");
+		$types =& ilObjSurveyQuestionPool::_getQuestionTypes();
+		$lastquestiontype = $ilUser->getPref("svy_lastquestiontype");
+		foreach ($types as $translation => $data)
+		{
+			if ($data["type_tag"] == $lastquestiontype)
+			{
+				$this->tpl->setVariable("QUESTION_TYPE_SELECTED", " selected=\"selected\"");
+			}
+			$this->tpl->setVariable("QUESTION_TYPE_ID", $data["type_tag"]);
+			$this->tpl->setVariable("QUESTION_TYPE", $translation);
+			$this->tpl->parseCurrentBlock();
+		}
+		$this->tpl->setVariable("QUESTION_ADD", $this->lng->txt("create"));
+		$this->tpl->setVariable("FORMACTION", $this->ctrl->getFormAction($this, 'questions'));
+		$this->tpl->parseCurrentBlock();
 	}
 
 	public function updateObject() 

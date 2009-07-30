@@ -9655,7 +9655,7 @@ dateplaner#:#cal_day_week_view#:#Einstellungen Tages/Wochenansicht
 dateplaner#:#cal_week_month_view#:#Einstellungen Wochen/Monatsansicht
 common#:#header_visible_registration#:#Im Registrierungsformular
 common#:#visible_registration#:#Im Registrierungsformular
-survey#:#invitation_mode_desc#:#Wenn ein Benutzer zu einer Umfrage eingeladen ist, wir eine Verknüpfung zu dieser Umfrage auf den persönlichen Schreibtisch des Benutzers gelegt.
+survey#:#invitation_mode_desc#:#Wenn ein Benutzer zu einer Umfrage eingeladen ist, wird eine Verknüpfung zu dieser Umfrage auf den persönlichen Schreibtisch des Benutzers gelegt.
 search#:#search_crs_title#:#Kursname
 search#:#search_for_crs_members#:#Nach Kursmitgliedern suchen
 mcst#:#mcst_mimetype#:#Mime Type
