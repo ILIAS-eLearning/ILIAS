@@ -1639,11 +1639,11 @@ if ($this->getDBType() == "mysql")
 		}
 		if ($a_value == "?")
 		{
-			return $a_col." LIKE(?)";
+			return "UPPER(".$a_col.") LIKE(UPPER(?))";
 		}
 		else
 		{
-			return $a_col." LIKE(".$this->quote($a_value, $a_type).")";
+			return "UPPER(".$a_col.") LIKE(UPPER(".$this->quote($a_value, $a_type)."))";
 		}
 	}
 

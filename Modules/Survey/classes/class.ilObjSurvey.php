@@ -3305,13 +3305,13 @@ class ilObjSurvey extends ilObject
 			switch($sel_filter_type) 
 			{
 				case "title":
-					$where = " AND " . $ilDB->like('UPPER(svy_question.title)', 'text', "UPPER(%" . $filter_text . "%)");
+					$where = " AND " . $ilDB->like('svy_question.title', 'text', "%" . $filter_text . "%");
 					break;
 				case "description":
-					$where = " AND " . $ilDB->like('UPPER(svy_question.description)', 'text', "UPPER(%" . $filter_text . "%)");
+					$where = " AND " . $ilDB->like('svy_question.description', 'text', "%" . $filter_text . "%");
 					break;
 				case "author":
-					$where = " AND " . $ilDB->like('UPPER(svy_question.author)', 'text', "UPPER(%" . $filter_text . "%)");
+					$where = " AND " . $ilDB->like('svy_question.author', 'text', "%" . $filter_text . "%");
 					break;
 			}
 		}
@@ -3452,7 +3452,7 @@ class ilObjSurvey extends ilObject
 			switch($sel_filter_type) 
 			{
 				case "title":
-					$where = "WHERE " . $ilDB->like('UPPER(svy_qblk.title)', 'text', "UPPER(%".$filter_text."%)");
+					$where = "WHERE " . $ilDB->like('svy_qblk.title', 'text', "%".$filter_text."%");
 					break;
 			}
 		}
