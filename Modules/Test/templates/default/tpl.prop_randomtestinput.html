@@ -1,0 +1,23 @@
+<div id="{ELEMENT_ID}">
+	<table class="singlechoicewizard">
+<!-- BEGIN row -->
+			<tr class="{ROW_CLASS}">
+<!-- BEGIN question_count -->
+				<td>
+					<input type="text" size="{SIZE}" id="{QUESTION_COUNT_ID}" maxlength="{MAXLENGTH}" name="{POST_VAR}[count][{QUESTION_COUNT_ROW_NUMBER}]" <!-- BEGIN prop_text_propval -->value="{PROPERTY_VALUE}" <!-- END prop_text_propval -->{DISABLED_QUESTION_COUNT}/>
+				</td>
+<!-- END question_count -->
+				<td>
+					<select name="{POST_VAR}[qpl][{QUESTION_POOL_ROW_NUMBER}]">
+<!-- BEGIN option -->						<option value="{OPTION_VALUE}"{OPTION_SELECTED}>{OPTION_TEXT}</option><!-- END option -->
+					</select>
+				</td>
+				<td style="vertical-align: top;">
+					<input type="image" name="{CMD_ADD}" class="randompool_add" id="add_{ID}" src="{ADD_BUTTON}" />
+					<input type="image" name="{CMD_REMOVE}" class="randompool_remove" id="remove_{ID}" src="{REMOVE_BUTTON}" />
+				</td>
+			</tr>
+<!-- END row -->
+		</tbody>
+	</table>
+</div>

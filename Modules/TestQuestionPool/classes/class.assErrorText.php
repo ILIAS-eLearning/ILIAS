@@ -262,7 +262,6 @@ class assErrorText extends assQuestion
 		{
 			$clone->saveToDb();
 		}
-
 		// copy question page content
 		$clone->copyPageOfQuestion($this_id);
 		// copy XHTML media objects

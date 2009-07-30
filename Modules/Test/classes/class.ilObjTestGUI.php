@@ -1660,215 +1660,147 @@ class ilObjTestGUI extends ilObjectGUI
 		}
 	}
 	
-	function saveRandomQuestionsObject()
+	function addQuestionpoolObject()
 	{
 		$this->randomQuestionsObject();
 	}
 	
-	function addQuestionpoolObject()
+	/**
+	* Evaluates a posted random question form and saves the form data
+	*
+	* @return integer A positive value, if one of the required fields wasn't set, else 0
+	* @access private
+	*/
+	function writeRandomQuestionInput($always = false)
 	{
+		$hasErrors = (!$always) ? $this->randomQuestionsObject(true) : false;
+		if (!$hasErrors)
+		{
+			global $ilUser;
+			$ilUser->setPref("tst_question_selection_mode_equal", ($_POST['chbQuestionSelectionMode']) ? 1 : 0);
+			$ilUser->writePref("tst_question_selection_mode_equal", ($_POST['chbQuestionSelectionMode']) ? 1 : 0);
+			$this->object->setRandomQuestionCount($_POST['total_questions']);
+			if (is_array($_POST['source']['qpl']))
+			{
+				$data = array();
+				include_once "./Modules/Test/classes/class.ilRandomTestData.php";
+				foreach ($_POST['source']['qpl'] as $idx => $qpl)
+				{
+					array_push($data, new ilRandomTestData($_POST['source']['count'][$idx], $qpl));
+				}
+				$this->object->setRandomQuestionpoolData($data);
+			}
+			return 0;
+		}
+		return 1;
+	}
+
+	function saveRandomQuestionsObject()
+	{
+		if ($this->writeRandomQuestionInput() == 0)
+		{
+			$this->object->saveRandomQuestionCount($this->object->getRandomQuestionCount());
+			$this->object->saveRandomQuestionpools();
+			$this->object->saveCompleteStatus();
+			ilUtil::sendSuccess($this->lng->txt("msg_obj_modified"), true);
+			$this->ctrl->redirect($this, 'randomQuestions');
+		}
+	}
+		
+	function addsourceObject()
+	{
+		$this->writeRandomQuestionInput(true);
+		$position = key($_POST['cmd']['addsource']);
+		$this->object->addRandomQuestionpoolData(0, 0, $position+1);
+		$this->randomQuestionsObject();
+	}
+	
+	function removesourceObject()
+	{
+		$this->writeRandomQuestionInput(true);
+		$position = key($_POST['cmd']['removesource']);
+		$this->object->removeRandomQuestionpoolData($position);
 		$this->randomQuestionsObject();
 	}
 
 	function randomQuestionsObject()
 	{
 		global $ilUser;
+
+		$save = (strcmp($this->ctrl->getCmd(), "saveRandomQuestions") == 0) ? TRUE : FALSE;
+
+		include_once("./Services/Form/classes/class.ilPropertyFormGUI.php");
+		$form = new ilPropertyFormGUI();
+		$form->setFormAction($this->ctrl->getFormAction($this, 'randomQuestions'));
+		$form->setTitle($this->lng->txt('random_selection'));
+		$form->setDescription($this->lng->txt('tst_select_random_questions'));
+		$form->setMultipart(FALSE);
+		$form->setTableWidth("100%");
+		$form->setId("randomSelectionForm");
+
+		// question selection
 		$selection_mode = $ilUser->getPref("tst_question_selection_mode_equal");
-		$total = $this->object->evalTotalPersons();
-		$available_qpl =& $this->object->getAvailableQuestionpools(TRUE, $selection_mode, FALSE, TRUE, TRUE);
-		include_once "./Modules/TestQuestionPool/classes/class.ilObjQuestionPool.php";
-		$qpl_question_count = array();
-		foreach ($available_qpl as $key => $value)
-		{
-			if ($value["count"] > 0)
-			{
-				$qpl_question_count[$key] = $value["count"];
-			}
-			else
-			{
-				unset($available_qpl[$key]);
-			}
-		}
-		$this->tpl->addBlockFile("ADM_CONTENT", "adm_content", "tpl.il_as_tst_random_questions.html", "Modules/Test");
-		$found_qpls = array();
-		if (count($_POST) == 0)
-		{
-			$found_qpls = $this->object->getRandomQuestionpools();
-		}
-		$qpl_unselected = 0;
-		foreach ($_POST as $key => $value)
-		{
-			if (preg_match("/countqpl_(\d+)/", $key, $matches))
-			{
-				$questioncount = $qpl_question_count[$_POST["qpl_" . $matches[1]]];
-				if ((strlen($questioncount) > 0) && ($value > $questioncount))
-				{
-					$value = $questioncount;
-					ilUtil::sendInfo($this->lng->txt("tst_random_selection_question_count_too_high"));
-				}
-				$found_qpls[$matches[1]] = array(
-					"index" => $matches[1],
-					"count" => sprintf("%d", $value),
-					"qpl"   => $_POST["qpl_" . $matches[1]],
-					"title" => $available_qpl[$_POST["qpl_" . $matches[1]]]["title"]
-				);
-				if ($_POST["qpl_" . $matches[1]] == -1)
-				{
-					$qpl_unselected = 1;
-				}
-			}
-		}
-		$commands = $_POST["cmd"];
-		if (is_array($commands))
-		{
-			foreach ($commands as $key => $value)
-			{
-				if (preg_match("/deleteqpl_(\d+)/", $key, $matches))
-				{
-					unset($found_qpls[$matches[1]]);
-				}
-			}
-		}
-		sort($found_qpls);
-		$found_qpls = array_values($found_qpls);
+		$question_selection = new ilCheckboxInputGUI($this->lng->txt("tst_question_selection"), "chbQuestionSelectionMode");
+		$question_selection->setValue(1);
+		$question_selection->setChecked($selection_mode);
+		$question_selection->setOptionTitle($this->lng->txt('tst_question_selection_equal'));
+		$question_selection->setInfo($this->lng->txt('tst_question_selection_description'));
+		$question_selection->setRequired(false);
+		$form->addItem($question_selection);
+		
+		// total amount of questions
+		$total_questions = new ilNumberInputGUI($this->lng->txt('tst_total_questions'), 'total_questions');
+		$total_questions->setValue($this->object->getRandomQuestionCount());
+		$total_questions->setSize(3);
+		$total_questions->setInfo($this->lng->txt('tst_total_questions_description'));
+		$total_questions->setRequired(false);
+		$form->addItem($total_questions);
+
+		$found_qpls = $this->object->getRandomQuestionpoolData();
+		include_once "./Modules/Test/classes/class.ilRandomTestData.php";
 		if (count($found_qpls) == 0)
 		{
-			foreach ($available_qpl as $key => $value)
-			{
-				$this->tpl->setCurrentBlock("qpl_value");
-				$this->tpl->setVariable("QPL_ID", $key);
-				$this->tpl->setVariable("QPL_TEXT", $value["title"]);
-				$this->tpl->parseCurrentBlock();
-			}
-			$this->tpl->setCurrentBlock("questionpool_row");
-			$this->tpl->setVariable("COUNTQPL", "0");
-			$this->tpl->setVariable("VALUE_COUNTQPL", $_POST["countqpl_0"]);
-			$this->tpl->setVariable("TEXT_SELECT_QUESTIONPOOL", $this->lng->txt("select_questionpool_option"));
-			$this->tpl->setVariable("TEXT_QUESTIONS_FROM", $this->lng->txt("questions_from"));
-			$this->tpl->setVariable("BTNCOUNTQPL", 0);
-			$this->tpl->setVariable("BTN_DELETE", $this->lng->txt("delete"));
-			$this->tpl->parseCurrentBlock();
+			array_push($found_qpls, new ilRandomTestData());
 		}
-		$counter = 0;
-		foreach ($found_qpls as $key => $value)
-		{
-			$pools = $available_qpl;
-			foreach ($found_qpls as $pkey => $pvalue)
-			{
-				if ($pvalue["qpl"] != $value["qpl"])
-				{
-					unset($pools[$pvalue["qpl"]]);
-				}
-			}
-			// create first questionpool row automatically
-			foreach ($pools as $pkey => $pvalue)
-			{
-				$this->tpl->setCurrentBlock("qpl_value");
-				$this->tpl->setVariable("QPL_ID", $pkey);
-				$this->tpl->setVariable("QPL_TEXT", $pvalue["title"]);
-				if ($pkey == $value["qpl"])
-				{
-					$this->tpl->setVariable("SELECTED_QPL", " selected=\"selected\"");
-				}
-				$this->tpl->parseCurrentBlock();
-			}
-			$this->tpl->setCurrentBlock("questionpool_row");
-			$this->tpl->setVariable("COUNTQPL", $counter);
-			$this->tpl->setVariable("VALUE_COUNTQPL", $value["count"]);
-			$this->tpl->setVariable("TEXT_SELECT_QUESTIONPOOL", $this->lng->txt("select_questionpool_option"));
-			$this->tpl->setVariable("TEXT_QUESTIONS_FROM", $this->lng->txt("questions_from"));
-			$this->tpl->setVariable("BTNCOUNTQPL", $counter);
-			$this->tpl->setVariable("BTN_DELETE", $this->lng->txt("delete"));
-			$this->tpl->parseCurrentBlock();
-			$counter++;
-		}
-		if ($_POST["cmd"]["addQuestionpool"])
-		{
-			if ($qpl_unselected)
-			{
-				ilUtil::sendInfo($this->lng->txt("tst_random_qpl_unselected"));
-			}
-			else
-			{
-				$pools = $available_qpl;
-				foreach ($found_qpls as $pkey => $pvalue)
-				{
-					unset($pools[$pvalue["qpl"]]);
-				}
-				if (count($pools) == 0)
-				{
-					ilUtil::sendInfo($this->lng->txt("tst_no_more_available_questionpools"));
-				}
-				else
-				{
-					foreach ($pools as $key => $value)
-					{
-						$this->tpl->setCurrentBlock("qpl_value");
-						$this->tpl->setVariable("QPL_ID", $key);
-						$this->tpl->setVariable("QPL_TEXT", $value["title"]);
-						$this->tpl->parseCurrentBlock();
-					}
-					$this->tpl->setCurrentBlock("questionpool_row");
-					$this->tpl->setVariable("COUNTQPL", "$counter");
-					$this->tpl->setVariable("TEXT_SELECT_QUESTIONPOOL", $this->lng->txt("select_questionpool_option"));
-					$this->tpl->setVariable("TEXT_QUESTIONS_FROM", $this->lng->txt("questions_from"));
-					$this->tpl->setVariable("BTNCOUNTQPL", $counter);
-					$this->tpl->setVariable("BTN_DELETE", $this->lng->txt("delete"));
-					$this->tpl->parseCurrentBlock();
-				}
-			}
-		}
-		if ($_POST["cmd"]["saveRandomQuestions"])
-		{
-			$this->object->saveRandomQuestionCount($_POST["total_questions"]);
-			$this->object->saveRandomQuestionpools($found_qpls);
-			$this->object->saveCompleteStatus();
-		}
-		$this->tpl->setCurrentBlock("adm_content");
-		$this->tpl->setVariable("TEXT_SELECT_RANDOM_QUESTIONS", $this->lng->txt("tst_select_random_questions"));
-		$this->tpl->setVariable("TEXT_TOTAL_QUESTIONS", $this->lng->txt("tst_total_questions"));
-		$this->tpl->setVariable("TEXT_TOTAL_QUESTIONS_DESCRIPTION", $this->lng->txt("tst_total_questions_description"));
-		$total_questions = $this->object->getRandomQuestionCount();
-		if (array_key_exists("total_questions", $_POST))
-		{
-			$total_questions = $_POST["total_questions"];
-		}
-		if ($total_questions > 0)
-		{
-			$sum = 0;
-			foreach ($found_qpls as $key => $value)
-			{
-				$sum += $qpl_question_count[$value["qpl"]];
-			}
-			if ($total_questions > $sum)
-			{
-				$total_questions = $sum;
-				if ($_POST["cmd"]["saveRandomQuestions"])
-				{
-					$this->object->saveRandomQuestionCount($total_questions);
-				}
-				ilUtil::sendInfo($this->lng->txt("tst_random_selection_question_total_count_too_high"));
-			}
-		}
-		$this->tpl->setVariable("VALUE_TOTAL_QUESTIONS", $total_questions);
-		$this->tpl->setVariable("TEXT_QUESTIONPOOLS", $this->lng->txt("tst_random_questionpools"));
-		if (!$total)
-		{
-			$this->tpl->setVariable("BTN_SAVE", $this->lng->txt("save"));
-			$this->tpl->setVariable("BTN_ADD_QUESTIONPOOL", $this->lng->txt("add_questionpool"));
-		}
-		$this->tpl->setVariable("FORM_ACTION", $this->ctrl->getFormAction($this));
+		$available_qpl =& $this->object->getAvailableQuestionpools(TRUE, $selection_mode, FALSE, TRUE, TRUE);
+		include_once './Modules/Test/classes/class.ilRandomTestInputGUI.php';
+		$source = new ilRandomTestInputGUI($this->lng->txt('tst_random_questionpools'), 'source');
+		$source->setUseEqualPointsOnly($selection_mode);
+		$source->setRandomQuestionPools($available_qpl);
+		$source->setUseQuestionCount((array_key_exists('total_questions', $_POST)) ? ($_POST['total_questions'] < 1) : ($this->object->getRandomQuestionCount() < 1));
+		$source->setValues($found_qpls);
+		$form->addItem($source);
 
-		$this->tpl->setVariable("TEXT_QUESTION_SELECTION", $this->lng->txt("tst_question_selection"));
-		$this->tpl->setVariable("VALUE_QUESTION_SELECTION", $this->lng->txt("tst_question_selection_equal"));
-		$this->tpl->setVariable("CMD_QUESTION_SELECTION", "setEqualQplSelection");
-		$this->tpl->setVariable("TEXT_QUESTION_SELECTION_DESCRIPTION", $this->lng->txt("tst_question_selection_description"));
-		$this->tpl->setVariable("BUTTON_SAVE", $this->lng->txt("change"));
-		if ($selection_mode == 1)
+		$form->addCommandButton("saveRandomQuestions", $this->lng->txt("save"));
+	
+		$errors = false;
+	
+		if ($save)
 		{
-			$this->tpl->setVariable("CHECKED_QUESTION_SELECTION_MODE", " checked=\"checked\"");
+			$form->setValuesByPost();
+			$errors = !$form->checkInput();
+			if (!$errors)
+			{
+				// check total amount of questions
+				if ($_POST['total_questions'] > 0)
+				{
+					$totalcount = 0;
+					foreach ($_POST['source']['qpl'] as $idx => $qpl)
+					{
+						$totalcount += $available_qpl[$qpl]['count'];
+					}
+					if ($_POST['total_questions'] > $totalcount)
+					{
+						$total_questions->setAlert($this->lng->txt('msg_total_questions_too_high'));
+						$errors = true;
+					}
+				}
+			}
+			if ($errors) $checkonly = false;
 		}
-		$this->tpl->parseCurrentBlock();
+
+		if (!$checkonly) $this->tpl->setVariable("ADM_CONTENT", $form->getHTML());
+		return $errors;
 	}
 	
 	function saveQuestionSelectionModeObject()
@@ -4335,7 +4267,8 @@ class ilObjTestGUI extends ilObjectGUI
 					 "insertRandomSelection", "removeQuestions", "moveQuestions",
 					 "insertQuestionsBefore", "insertQuestionsAfter", "confirmRemoveQuestions",
 					 "cancelRemoveQuestions", "executeCreateQuestion", "cancelCreateQuestion",
-					 "addQuestionpool", "saveRandomQuestions", "saveQuestionSelectionMode", "print"), 
+					 "addQuestionpool", "saveRandomQuestions", "saveQuestionSelectionMode", "print",
+					"addsource", "removesource", "randomQuestions"), 
 					 "", "", $force_active);
 			}
 
