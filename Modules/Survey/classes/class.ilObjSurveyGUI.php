@@ -1443,6 +1443,7 @@ class ilObjSurveyGUI extends ilObjectGUI
 				include_once "./Services/Utilities/classes/class.ilUtil.php";
 				$this->object->createQuestionblock(ilUtil::stripSlashes($_POST["title"]), $show_questiontext, $questionblock);
 			}
+			ilUtil::sendSuccess($this->lng->txt('msg_obj_modified'), true);
 			$this->ctrl->redirect($this, "questions");
 		}
 		else
@@ -1455,12 +1456,8 @@ class ilObjSurveyGUI extends ilObjectGUI
 
 /**
 * Unfold a question block
-*
-* Unfold a question block
-*
-* @access private
 */
-	function unfoldQuestionblockObject()
+	public function unfoldQuestionblockObject()
 	{
 		$unfoldblocks = array();
 		foreach ($_POST as $key => $value)
@@ -1472,6 +1469,7 @@ class ilObjSurveyGUI extends ilObjectGUI
 		}
 		if (count($unfoldblocks))
 		{
+			ilUtil::sendSuccess($this->lng->txt('msg_obj_modified'), true);
 			$this->object->unfoldQuestionblocks($unfoldblocks);
 		}
 		else
@@ -1483,24 +1481,17 @@ class ilObjSurveyGUI extends ilObjectGUI
 	
 /**
 * Cancel define a question block
-*
-* Cancel define a question block
-*
-* @access private
 */
-	function cancelDefineQuestionblockObject()
+	public function cancelDefineQuestionblockObject()
 	{
+		ilUtil::sendInfo($this->lng->txt('msg_cancel'), true);
 		$this->ctrl->redirect($this, "questions");
 	}
 	
 /**
 * Move questions
-*
-* Move questions
-*
-* @access private
 */
-	function moveQuestionsObject()
+	public function moveQuestionsObject()
 	{
 		$move_questions = array();
 		foreach ($_POST as $key => $value)
@@ -1533,12 +1524,8 @@ class ilObjSurveyGUI extends ilObjectGUI
 
 /**
 * Insert questions from move clipboard
-*
-* Insert questions from move clipboard
-*
-* @access private
 */
-	function insertQuestions($insert_mode)
+	public function insertQuestions($insert_mode)
 	{
 		// get all questions to move
 		$move_questions = $_SESSION["move_questions"];
@@ -1578,6 +1565,7 @@ class ilObjSurveyGUI extends ilObjectGUI
 		}
 		else
 		{
+			ilUtil::sendSuccess($this->lng->txt('msg_obj_modified'), true);
 			$this->object->moveQuestions($move_questions, $insert_id, $insert_mode);
 		}
 		unset($_SESSION["move_questions"]);
@@ -1586,36 +1574,24 @@ class ilObjSurveyGUI extends ilObjectGUI
 
 /**
 * Insert questions before selection
-*
-* Insert questions before selection
-*
-* @access private
 */
-	function insertQuestionsBeforeObject()
+	public function insertQuestionsBeforeObject()
 	{
 		$this->insertQuestions(0);
 	}
 	
 /**
 * Insert questions after selection
-*
-* Insert questions after selection
-*
-* @access private
 */
-	function insertQuestionsAfterObject()
+	public function insertQuestionsAfterObject()
 	{
 		$this->insertQuestions(1);
 	}
 
 /**
 * Save obligatory states
-*
-* Save obligatory states
-*
-* @access private
 */
-	function saveObligatoryObject()
+	public function saveObligatoryObject()
 	{
 		$obligatory = array();
 		foreach ($_POST as $key => $value)
@@ -1632,12 +1608,8 @@ class ilObjSurveyGUI extends ilObjectGUI
 	
 /**
 * Creates the questions form for the survey object
-*
-* Creates the questions form for the survey object
-*
-* @access public
 */
-	function questionsObject() 
+	public function questionsObject() 
 	{
 		$this->handleWriteAccess();
 		global $rbacsystem;

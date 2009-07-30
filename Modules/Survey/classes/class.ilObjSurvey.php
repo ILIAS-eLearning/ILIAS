@@ -1942,7 +1942,7 @@ class ilObjSurvey extends ilObject
 	function &getQuestionblockQuestionIds($questionblock_id)
 	{
 		global $ilDB;
-		$result = $ilDB->queryF("SELECT question_fi FROM svy_qblk_qst WHERE questionblock_fi = ?",
+		$result = $ilDB->queryF("SELECT question_fi FROM svy_qblk_qst WHERE questionblock_fi = %s",
 			array("integer"),
 			array($questionblock_id)
 		);
