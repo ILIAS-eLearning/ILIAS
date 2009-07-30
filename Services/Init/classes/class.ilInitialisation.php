@@ -1133,7 +1133,11 @@ class ilInitialisation
 		//
 		// SUCCESSFUL AUTHENTICATION
 		//
-//echo "<br>B-".$ilAuth->getAuth()."-".$ilAuth->_sessionName."-";
+//if (!$ilAuth->getAuth() && $this->script != "login.php")
+//{
+//	var_dump($_SESSION);
+//	echo "<br>B-".$ilAuth->getAuth()."-".$ilAuth->_sessionName."-".$ilias->account->isCurrentUserActive()."-";
+//}
 //var_dump ($session[_authsession]);
 		if (($ilAuth->getAuth() && $ilias->account->isCurrentUserActive()) ||
 			(defined("IL_PHPUNIT_TEST") && DEVMODE))

@@ -24,33 +24,6 @@ div.ilFrameTR{
 	background-position: top right;
 }
 
-body.il_Explorer {
-	background-image: url(images/frame_back.gif);
-	background-repeat: repeat-x;
-	background-color: #f0f0f0;
-	font-family:Verdana,Arial,Helvetica,sans-serif;
-	margin:0px;
-	font-size:0.9em;
-}
-
-table.ilExplorer {
-	width:100%;
-	background-color: #F6F6F6;
-	/* background-image: url(images/head_back.gif);
-	background-repeat: repeat-x;
-	background-color: #a7d3ff; */
-}
-
-div.ilExplorerFrame {
-	padding:5px;
-	min-height:600px;
-}
-
-td.ilExpH {
-	background-image: url(images/trbw.gif);
-	background-repeat: no-repeat;
-	background-position: top right; 
-}
 
 .btnbar {
 	background-color:#ffffff;
@@ -859,11 +832,43 @@ td.il_InfoScreenPropertyValue
 
 /* Explorer */
 
+body.il_Explorer {
+	background-image: url(images/frame_back.gif);
+	background-repeat: repeat-x;
+	background-color: #f0f0f0;
+	font-family:Verdana,Arial,Helvetica,sans-serif;
+	margin:0px;
+	font-size:0.9em;
+}
+
+table.ilExplorer {
+	width:100%;
+	background-color: #F6F6F6;
+	/* background-image: url(images/head_back.gif);
+	background-repeat: repeat-x;
+	background-color: #a7d3ff; */
+}
+
+div.ilExplorerFrame {
+	padding:5px;
+	min-height:600px;
+}
+
+td.ilExpH {
+	background-image: url(images/trbw.gif);
+	background-repeat: no-repeat;
+	background-position: top right; 
+}
+
 div.il_Explorer
 {
 	margin:0px;
 	padding:3px;
-	min-height: 400px;
+	min-height: 550px;
+	background-image: url(images/blbw.gif);
+	background-repeat: no-repeat;
+	background-position: bottom left;
+	padding: 10px 5px; 
 }
 
 div.ilExpH{
@@ -875,7 +880,9 @@ div.ilExpH{
 td.ilExpBody{
 	border-top: 1px solid #E0E0E0;
 	background-color: #FAFAFA;
-	padding: 10px 5px;
+	background-image: url(images/brbw.gif);
+	background-repeat: no-repeat;
+	background-position: bottom right; 
 }
 
 h1.ilExplorerHead
