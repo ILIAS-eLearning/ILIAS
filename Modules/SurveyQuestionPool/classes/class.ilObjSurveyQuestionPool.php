@@ -1176,23 +1176,31 @@ class ilObjSurveyQuestionPool extends ilObject
 					{
 						$row = $ilDB->fetchAssoc($result);
 						$source_questionpool = $row["obj_fi"];
-						// change the questionpool id in the qpl_questions table
-						$affectedRows = $ilDB->manipulateF("UPDATE svy_question SET obj_fi = %s WHERE question_id = %s",
-							array('integer','integer'),
-							array($this->getId(), $question_object["question_id"])
-						);
-						
-						// move question data to the new target directory
-						$source_path = CLIENT_WEB_DIR . "/survey/" . $source_questionpool . "/" . $question_object["question_id"] . "/";
-						if (@is_dir($source_path))
+						if ($this->getId() != $source_questionpool)
 						{
-							$target_path = CLIENT_WEB_DIR . "/survey/" . $this->getId() . "/";
-							if (!@is_dir($target_path))
+							// change the questionpool id in the qpl_questions table
+							$affectedRows = $ilDB->manipulateF("UPDATE svy_question SET obj_fi = %s WHERE question_id = %s",
+								array('integer','integer'),
+								array($this->getId(), $question_object["question_id"])
+							);
+
+							// move question data to the new target directory
+							$source_path = CLIENT_WEB_DIR . "/survey/" . $source_questionpool . "/" . $question_object["question_id"] . "/";
+							if (@is_dir($source_path))
 							{
-								include_once "./Services/Utilities/classes/class.ilUtil.php";
-								ilUtil::makeDirParents($target_path);
+								$target_path = CLIENT_WEB_DIR . "/survey/" . $this->getId() . "/";
+								if (!@is_dir($target_path))
+								{
+									include_once "./Services/Utilities/classes/class.ilUtil.php";
+									ilUtil::makeDirParents($target_path);
+								}
+								@rename($source_path, $target_path . $question_object["question_id"]);
 							}
-							@rename($source_path, $target_path . $question_object["question_id"]);
+						}
+						else
+						{
+							ilUtil::sendFailure($this->lng->txt("spl_move_same_pool"), true);
+							return;
 						}
 					}
 				}
@@ -1202,6 +1210,7 @@ class ilObjSurveyQuestionPool extends ilObject
 				}
 			}
 		}
+		ilUtil::sendSuccess($this->lng->txt("spl_paste_success"), true);
 		unset($_SESSION["spl_clipboard"]);
 	}
 } // END class.ilSurveyObjQuestionPool
