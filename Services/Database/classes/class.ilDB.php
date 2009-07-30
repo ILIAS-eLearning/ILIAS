@@ -1631,7 +1631,7 @@ if ($this->getDBType() == "mysql")
 	*
 	* @param	string		column type; must be "text" or "clob" ("blob" added for lng_data)
 	*/
-	function like($a_col, $a_type, $a_value = "?")
+	function like($a_col, $a_type, $a_value = "?", $case_insensitive = false)
 	{
 		if (!in_array($a_type, array("text", "clob", "blob")))
 		{
@@ -1639,11 +1639,25 @@ if ($this->getDBType() == "mysql")
 		}
 		if ($a_value == "?")
 		{
-			return "UPPER(".$a_col.") LIKE(UPPER(?))";
+			if ($case_insensitive)
+			{
+				return "UPPER(".$a_col.") LIKE(UPPER(?))";
+			}
+			else
+			{
+				return $a_col ." LIKE(?)";
+			}
 		}
 		else
 		{
-			return "UPPER(".$a_col.") LIKE(UPPER(".$this->quote($a_value, $a_type)."))";
+			if ($case_insensitive)
+			{
+				return "UPPER(".$a_col.") LIKE(UPPER(".$this->quote($a_value, $a_type)."))";
+			}
+			else
+			{
+				return $a_col." LIKE(".$this->quote($a_value, $a_type).")";
+			}
 		}
 	}
 
