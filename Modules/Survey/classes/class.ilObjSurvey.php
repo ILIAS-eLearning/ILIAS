@@ -1652,9 +1652,8 @@ class ilObjSurvey extends ilObject
 * Moves a question down in the list of survey questions
 *
 * @param integer $question_id The question id of the question which has to be moved down
-* @access public
 */
-	function moveDownQuestion($question_id)
+	public function moveDownQuestion($question_id)
 	{
 		$move_questions = array($question_id);
 		$pages =& $this->getSurveyPages();
@@ -1894,28 +1893,6 @@ class ilObjSurvey extends ilObject
 				array($index, $this->getSurveyId())
 			);
 		}
-	}
-	
-/**
-* Returns the titles of all question blocks of the question pool
-*
-* @result array The titles of the the question blocks
-* @access public
-*/
-	function &getQuestionblockTitles()
-	{
-		global $ilDB;
-		$titles = array();
-		$result = $ilDB->queryF("SELECT svy_qblk.* FROM svy_qblk, svy_question, svy_qblk_qst WHERE ".
-			"svy_qblk_qst.question_fi = svy_question.question_id AND svy_question.obj_fi = %s",
-			array('integer'),
-			array($this->getId())
-		);
-		while ($row = $ilDB->fetchAssoc($result))
-		{
-			$titles[$row["questionblock_id"]] = $row["title"];
-		}
-		return $titles;
 	}
 	
 /**
@@ -2189,13 +2166,13 @@ class ilObjSurvey extends ilObject
 		{
 			$result = $ilDB->queryF("SELECT svy_qblk.*, svy_qblk_qst.question_fi FROM svy_qblk, svy_qblk_qst WHERE " .
 				"svy_qblk.questionblock_id = svy_qblk_qst.questionblock_fi AND svy_qblk_qst.survey_fi = %s " .
-				"AND " . $ilDB->in('svy_qblk_qst.question_fi', $all_questions, false, 'integer'),
+				"AND " . $ilDB->in('svy_qblk_qst.question_fi', array_keys($all_questions), false, 'integer'),
 				array('integer'),
 				array($this->getSurveyId())
 			);
 			while ($row = $ilDB->fetchAssoc($result))
 			{
-				$questionblocks[$row->question_fi] = $row;
+				$questionblocks[$row['question_fi']] = $row;
 			}
 		}
 		
@@ -2204,8 +2181,8 @@ class ilObjSurvey extends ilObject
 			$constraints = $this->getConstraints($question_id);
 			if (isset($questionblocks[$question_id]))
 			{
-				$all_questions[$question_id]["questionblock_title"] = $questionblocks[$question_id]->title;
-				$all_questions[$question_id]["questionblock_id"] = $questionblocks[$question_id]->questionblock_id;
+				$all_questions[$question_id]["questionblock_title"] = $questionblocks[$question_id]['title'];
+				$all_questions[$question_id]["questionblock_id"] = $questionblocks[$question_id]['questionblock_id'];
 				$all_questions[$question_id]["constraints"] = $constraints;
 			}
 			else
@@ -2330,13 +2307,13 @@ class ilObjSurvey extends ilObject
 		{
 			$result = $ilDB->queryF("SELECT svy_qblk.*, svy_qblk_qst.question_fi FROM svy_qblk, svy_qblk_qst ".
 				"WHERE svy_qblk.questionblock_id = svy_qblk_qst.questionblock_fi AND svy_qblk_qst.survey_fi = %s ".
-				"AND " . $ilDB->in('svy_qblk_qst.question_fi', $all_questions, false, 'integer'),
+				"AND " . $ilDB->in('svy_qblk_qst.question_fi', array_keys($all_questions), false, 'integer'),
 				array('integer'),
 				array($this->getSurveyId())
 			);
 			while ($row = $ilDB->fetchAssoc($result))
 			{
-				$questionblocks["$row->question_fi"] = $row;
+				$questionblocks[$row['question_fi']] = $row;
 			}
 		}
 		
@@ -2347,19 +2324,19 @@ class ilObjSurvey extends ilObject
 		{
 			if (array_key_exists($question_id, $obligatory_states))
 			{
-				$all_questions["$question_id"]["obligatory"] = $obligatory_states["$question_id"];
+				$all_questions[$question_id]["obligatory"] = $obligatory_states[$question_id];
 			}
 			$constraints = array();
 			if (isset($questionblocks[$question_id]))
 			{
-				if (!$currentblock or ($currentblock != $questionblocks[$question_id]->questionblock_id))
+				if (!$currentblock or ($currentblock != $questionblocks[$question_id]['questionblock_id']))
 				{
 					$pageindex++;
 				}
-				$all_questions[$question_id]["questionblock_title"] = $questionblocks[$question_id]->title;
-				$all_questions[$question_id]["questionblock_id"] = $questionblocks[$question_id]->questionblock_id;
-				$all_questions[$question_id]["questionblock_show_questiontext"] = $questionblocks[$question_id]->show_questiontext;
-				$currentblock = $questionblocks[$question_id]->questionblock_id;
+				$all_questions[$question_id]["questionblock_title"] = $questionblocks[$question_id]['title'];
+				$all_questions[$question_id]["questionblock_id"] = $questionblocks[$question_id]['questionblock_id'];
+				$all_questions[$question_id]["questionblock_show_questiontext"] = $questionblocks[$question_id]['show_questiontext'];
+				$currentblock = $questionblocks[$question_id]['questionblock_id'];
 				$constraints = $this->getConstraints($question_id);
 				$all_questions[$question_id]["constraints"] = $constraints;
 			}

@@ -1419,12 +1419,8 @@ class ilObjSurveyGUI extends ilObjectGUI
 	
 /**
 * Confirm define a question block
-*
-* Confirm define a question block
-*
-* @access private
 */
-	function saveDefineQuestionblockObject()
+	public function saveDefineQuestionblockObject()
 	{
 		if ($_POST["title"])
 		{
@@ -1685,18 +1681,22 @@ class ilObjSurveyGUI extends ilObjectGUI
 		if ($_GET["up"] > 0)
 		{
 			$this->object->moveUpQuestion($_GET["up"]);
+			ilUtil::sendSuccess($this->lng->txt('msg_obj_modified'));
 		}
 		if ($_GET["down"] > 0)
 		{
 			$this->object->moveDownQuestion($_GET["down"]);
+			ilUtil::sendSuccess($this->lng->txt('msg_obj_modified'));
 		}
 		if ($_GET["qbup"] > 0)
 		{
 			$this->object->moveUpQuestionblock($_GET["qbup"]);
+			ilUtil::sendSuccess($this->lng->txt('msg_obj_modified'));
 		}
 		if ($_GET["qbdown"] > 0)
 		{
 			$this->object->moveDownQuestionblock($_GET["qbdown"]);
+			ilUtil::sendSuccess($this->lng->txt('msg_obj_modified'));
 		}
 		
 		if ($_GET["removeheading"])
@@ -1723,7 +1723,6 @@ class ilObjSurveyGUI extends ilObjectGUI
 
 		$this->tpl->addBlockFile("ADM_CONTENT", "adm_content", "tpl.il_svy_svy_questions.html", "Modules/Survey");
 		$survey_questions =& $this->object->getSurveyQuestions();
-		$questionblock_titles =& $this->object->getQuestionblockTitles();
 		$questionpools =& $this->object->getQuestionpoolTitles();
 		$colors = array("tblrow1", "tblrow2");
 		$counter = 0;
@@ -1763,7 +1762,7 @@ class ilObjSurveyGUI extends ilObjectGUI
 					{
 						if ($data["question_id"] != $this->object->questions[0])
 						{
-							$this->tpl->setVariable("BUTTON_UP", "<a href=\"" . $this->ctrl->getLinkTarget($this, "questions") . "$&qbup=" . $data["questionblock_id"] . "\"><img src=\"" . ilUtil::getImagePath("a_up.gif") . "\" alt=\"" . $this->lng->txt("up") . "\" title=\"" . $this->lng->txt("up") . "\" border=\"0\" /></a>");
+							$this->tpl->setVariable("BUTTON_UP", "<a href=\"" . $this->ctrl->getLinkTarget($this, "questions") . "&qbup=" . $data["questionblock_id"] . "\"><img src=\"" . ilUtil::getImagePath("a_up.gif") . "\" alt=\"" . $this->lng->txt("up") . "\" title=\"" . $this->lng->txt("up") . "\" border=\"0\" /></a>");
 						}
 						$akeys = array_keys($survey_questions);
 						if ($data["questionblock_id"] != $survey_questions[$akeys[count($akeys)-1]]["questionblock_id"])
