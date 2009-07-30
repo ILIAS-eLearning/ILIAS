@@ -9773,7 +9773,7 @@ assessment#:#tst_remove_mark#:#Remove this mark
 assessment#:#tst_show_side_list#:#Show question list aside
 assessment#:#tst_hide_side_list#:#Hide question list
 assessment#:#errortext#:#Error Text
-assessment#:#errortext_info#:#Please enter the error text.
+assessment#:#errortext_info#:#Please enter the error text. To mark a word as an error please insert a hash sign (#) in front of the word. If you press the &quot;Analyze Error Text&quot; button, all marked words will be extracted for further processing.
 assessment#:#analyze_errortext#:#Analyze Error Text
 assessment#:#text_wrong#:#Wrong Text
 assessment#:#text_correct#:#Correct Text
