@@ -9825,3 +9825,4 @@ assessment#:#msg_question_count_too_low#:#Die Anzahl der Fragen muss größer al
 assessment#:#msg_total_questions_too_high#:#Die Anzahl der Fragen überschreitet die maximal verfügbare Anzahl der Fragen in den ausgewählten Fragenpools
 common#:#auth_ldap_migration#:#Account Migration
 common#:#auth_ldap_migration_info#:#Aktivieren Sie diese Einstellung, um neuen Benutzern die Möglichkeit zu bieten eventuell vorhandene ILIAS Benutzerkonten auf LDAP Authentifizierung umzustellen.
+survey#:#spl_move_same_pool#:#Sie können Fragen nicht innerhalb des gleichen Fragenpools verschieben

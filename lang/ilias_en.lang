@@ -9807,3 +9807,4 @@ assessment#:#msg_question_count_too_low#:#Please enter a question count greater 
 assessment#:#msg_total_questions_too_high#:#The number of questions is greater than the number of available questions in the selected questionpools
 common#:#auth_ldap_migration#:#Account Migration
 common#:#auth_ldap_migration_info#:#Activate this option to give new users the possibility to migrate their existing ILIAS accounts to LDAP authentication.
+survey#:#spl_move_same_pool#:#It has no effect to move questions from inside the same question pool.

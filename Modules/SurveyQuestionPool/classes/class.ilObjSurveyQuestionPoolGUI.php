@@ -372,7 +372,6 @@ class ilObjSurveyQuestionPoolGUI extends ilObjectGUI
 		if (array_key_exists("spl_clipboard", $_SESSION))
 		{
 			$this->object->pasteFromClipboard();
-			ilUtil::sendSuccess($this->lng->txt("spl_paste_success"), true);
 		}
 		else
 		{
