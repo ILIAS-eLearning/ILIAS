@@ -110,15 +110,18 @@ class ilTracking {
 
 		#$last_access = ilTracking::_getLastAccess();
 
+
 		if(ilTracking::_hasEntry($a_obj_id, $a_obj_type,$a_sub_id, $a_sub_type))
 		{
 			return true;
 		}
 		$q = "INSERT INTO ut_access ("
+			."id,"
 			."user_id, action_type, php_script, client_ip,"
 			."acc_obj_type, acc_obj_id, acc_sub_type, acc_sub_id,"
 			."language, browser, session_id, acc_time, ut_month"
 			.") VALUES ("
+			.$ilDB->quote($ilDB->nextId('ut_access'),'integer').','
 			.$ilDB->quote($user_id, "integer").","
 			.$ilDB->quote($a_action_type, "text").","
 			.$ilDB->quote($script, "text").","
@@ -128,13 +131,13 @@ class ilTracking {
 			.$ilDB->quote($a_sub_type, "text").","
 			.$ilDB->quote($a_sub_id, "integer").","
 			.$ilDB->quote($language, "text").","
-			.$ilDB->quote($_SERVER["HTTP_USER_AGENT"]).","
+			.$ilDB->quote(substr($_SERVER["HTTP_USER_AGENT"],0.255)).","
 			.$ilDB->quote($session_id, "text").", "
 			.$ilDB->quote(ilUtil::now(), "timestamp").", "
 			.$ilDB->quote(substr(ilUtil::now(), 0, 7), "text")
 			.")";
-	   $ilDB->query($q);
-		
+	   $ilDB->manipulate($q);
+	   
 		/*
 		if(($session_id == $last_access["session_id"]) &&
 			($a_obj_id == $last_access["acc_obj_id"]) &&

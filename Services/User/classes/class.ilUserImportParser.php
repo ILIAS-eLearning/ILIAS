@@ -1588,7 +1588,9 @@ class ilUserImportParser extends ilSaxParser
 					if ($timestamp !== false)
 					{
 						$this->userObj->setAgreeDate(date('c', $timestamp));
-					} else if ($this->cdata == "0000-00-00 00:00:00") {
+					} 
+					elseif ($this->cdata == "0000-00-00 00:00:00") 
+					{
 					    $this->userObj->setAgreeDate($this->cdata);
 					}
 				}
