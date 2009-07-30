@@ -1449,7 +1449,7 @@ class ilObjTest extends ilObject
 			$next_id = $ilDB->nextId('tst_test_rnd_qst');
 			$result = $ilDB->manipulateF("INSERT INTO tst_test_rnd_qst (test_random_question_id, active_fi, question_fi, sequence, pass, tstamp) VALUES (%s, %s, %s, %s, %s, %s)",
 				array('integer','integer','integer','integer','integer','integer'),
-				array($next_id,$active_id, $duplicate_id, $result->numRows()+1, $pass)
+				array($next_id,$active_id, $duplicate_id, $result->numRows()+1, $pass, time())
 			);
 		}
 	}

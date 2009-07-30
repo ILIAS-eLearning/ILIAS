@@ -780,7 +780,6 @@ class ilTestOutputGUI extends ilTestServiceGUI
 						$this->object->generateRandomQuestions($active_id, $this->object->getTestSession()->getPass());
 					}
 				}
-
 				$shuffle = $this->object->getShuffleQuestions();
 				if ($this->object->isRandomTest())
 				{
