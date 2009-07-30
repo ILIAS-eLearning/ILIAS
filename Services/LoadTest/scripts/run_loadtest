@@ -82,6 +82,7 @@
 			$p.= " -Jthreads=".$test["threads"];
 			$p.= " -Jrampup=".$test["ramp_up"];
 			$p.= " -Jjtlfile=".$test["jtlfile"];
+			$p.= " -Jclient=".$client;
 			$cmd = ($jmeter_base."/bin/jmeter -n -t ".$test["testplan"].$p);
 			echo "    Run jmeter: ".$cmd.".\n";
 			system($cmd);
