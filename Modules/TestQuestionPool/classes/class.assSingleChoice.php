@@ -385,7 +385,6 @@ class assSingleChoice extends assQuestion
 		{
 			$clone->setOwner($owner);
 		}
-
 		if ($for_test)
 		{
 			$clone->saveToDb($original_id);
@@ -397,6 +396,7 @@ class assSingleChoice extends assQuestion
 
 		// copy question page content
 		$clone->copyPageOfQuestion($this_id);
+		
 		// copy XHTML media objects
 		$clone->copyXHTMLMediaObjectsOfQuestion($this_id);
 		// duplicate the images
@@ -434,7 +434,6 @@ class assSingleChoice extends assQuestion
 			$clone->setTitle($title);
 		}
 		$clone->saveToDb();
-
 		// copy question page content
 		$clone->copyPageOfQuestion($original_id);
 		// copy XHTML media objects

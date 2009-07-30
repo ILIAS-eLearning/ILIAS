@@ -412,6 +412,7 @@ class ilObjTest extends ilObject
 	private $_customStyle;
 	
 	protected $mailnotification;
+	protected $random_questionpool_data;
 
 	/**
 	* Constructor
@@ -1637,51 +1638,6 @@ class ilObjTest extends ilObject
 	}
 
 /**
-* Saves the question pools used for a random test
-*
-* @param array $qpl_array An array containing the questionpool id's
-* @access public
-* @see $questions
-*/
-	function saveRandomQuestionpools($qpl_array)
-	{
-		global $ilDB;
-
-		include_once ("./Modules/Test/classes/class.ilObjAssessmentFolder.php");
-		// delete existing random questionpools
-		$affectedRows = $ilDB->manipulateF("DELETE FROM tst_test_random WHERE test_fi = %s",
-			array('integer'),
-			array($this->getTestId())
-		);
-		if (ilObjAssessmentFolder::_enabledAssessmentLogging())
-		{
-			$this->logAction($this->lng->txtlng("assessment", "log_random_question_pool_deleted", ilObjAssessmentFolder::_getLogLanguage()));
-		}
-		// create new random questionpools
-		foreach ($qpl_array as $key => $value) 
-		{
-			if ($value["qpl"] > -1)
-			{
-				include_once "./Modules/TestQuestionPool/classes/class.ilObjQuestionPool.php";
-				$count = ilObjQuestionPool::_getQuestionCount($value["qpl"]);
-				if ($value["count"] > $count)
-				{
-					$value["count"] = $count;
-				}
-				$next_id = $ilDB->nextId('tst_test_random');
-				$result = $ilDB->manipulateF("INSERT INTO tst_test_random (test_random_id, test_fi, questionpool_fi, num_of_q, tstamp) VALUES (%s, %s, %s, %s, %s)",
-					array('integer','integer', 'integer', 'integer', 'integer'),
-					array($next_id, $this->getTestId(), $value["qpl"], sprintf("%d", $value["count"]), time())
-				);
-				if (ilObjAssessmentFolder::_enabledAssessmentLogging())
-				{
-					$this->logAction(sprintf($this->lng->txtlng("assessment", "log_random_question_pool_added", ilObjAssessmentFolder::_getLogLanguage()), $value["title"] . " (" . $value["qpl"] . ")", $value["count"]));
-				}
-			}
-		}
-	}
-
-/**
 * Returns an array containing the random questionpools saved to the database
 *
 * @access public
@@ -1709,6 +1665,106 @@ class ilObjTest extends ilObject
 					"contains" => $row["questioncount"]
 				);
 				$counter++;
+			}
+		}
+		return $qpls;
+	}
+	
+	/**
+	* Saves the question pools used for a random test
+	*/
+	public function saveRandomQuestionpools()
+	{
+		global $ilDB;
+
+		include_once ("./Modules/Test/classes/class.ilObjAssessmentFolder.php");
+		// delete existing random questionpools
+		$affectedRows = $ilDB->manipulateF("DELETE FROM tst_test_random WHERE test_fi = %s",
+			array('integer'),
+			array($this->getTestId())
+		);
+		if (ilObjAssessmentFolder::_enabledAssessmentLogging())
+		{
+			$this->logAction($this->lng->txtlng("assessment", "log_random_question_pool_deleted", ilObjAssessmentFolder::_getLogLanguage()));
+		}
+		// create new random questionpools
+		foreach ($this->random_questionpool_data as $data) 
+		{
+			if ($data->qpl > 0)
+			{
+				$next_id = $ilDB->nextId('tst_test_random');
+				$result = $ilDB->manipulateF("INSERT INTO tst_test_random (test_random_id, test_fi, questionpool_fi, num_of_q, tstamp) VALUES (%s, %s, %s, %s, %s)",
+					array('integer','integer', 'integer', 'integer', 'integer'),
+					array($next_id, $this->getTestId(), $data->qpl, $data->count, time())
+				);
+				if (ilObjAssessmentFolder::_enabledAssessmentLogging())
+				{
+					$this->logAction(sprintf($this->lng->txtlng("assessment", "log_random_question_pool_added", ilObjAssessmentFolder::_getLogLanguage()), $value["title"] . " (" . $value["qpl"] . ")", $value["count"]));
+				}
+			}
+		}
+	}
+
+	function addRandomQuestionpoolData($count = 0, $qpl = 0, $position)
+	{
+		if (array_key_exists($position, $this->random_questionpool_data))
+		{
+			$newitems = array();
+			for ($i = 0; $i < $position; $i++)
+			{
+				array_push($newitems, $this->random_questionpool_data[$i]);
+			}
+			array_push($newitems, new ilRandomTestData($count, $qpl));
+			for ($i = $position; $i < count($this->random_questionpool_data); $i++)
+			{
+				array_push($newitems, $this->random_questionpool_data[$i]);
+			}
+			$this->random_questionpool_data = $newitems;
+		}
+		else
+		{
+			array_push($this->random_questionpool_data, new ilRandomTestData($count, $qpl));
+		}
+	}
+
+	function removeRandomQuestionpoolData($position)
+	{
+		if (array_key_exists($position, $this->random_questionpool_data))
+		{
+			unset($this->random_questionpool_data[$position]);
+		}
+	}
+
+	function setRandomQuestionpoolData($a_data)
+	{
+		$this->random_questionpool_data = $a_data;
+	}
+
+	/**
+	* Returns an array containing ilRandomTestData objects containing the random test selection
+	*
+	* @access public
+	* @return array All saved random questionpools
+	* @see $questions
+	*/
+	function &getRandomQuestionpoolData()
+	{
+		if (is_array($this->random_questionpool_data) && count($this->random_questionpool_data)) return $this->random_questionpool_data;
+
+		global $ilDB;
+
+		$qpls = array();
+		$counter = 0;
+		$result = $ilDB->queryF("SELECT tst_test_random.*, qpl_questionpool.questioncount FROM tst_test_random, qpl_questionpool WHERE tst_test_random.test_fi = %s AND tst_test_random.questionpool_fi = qpl_questionpool.obj_fi ORDER BY test_random_id",
+			array("integer"),
+			array($this->getTestId())
+		);
+		include_once "./Modules/Test/classes/class.ilRandomTestData.php";
+		if ($result->numRows())
+		{
+			while ($row = $ilDB->fetchAssoc($result))
+			{
+				array_push($qpls, new ilRandomTestData($row['num_of_q'], $row['questionpool_fi']));
 			}
 		}
 		return $qpls;

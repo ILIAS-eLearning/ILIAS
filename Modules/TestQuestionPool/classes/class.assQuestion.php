@@ -569,23 +569,6 @@ class assQuestion
 		$this->obj_id = $obj_id;
 	}
 
-	/**
-	* create page object of question
-	*/
-	function createPageObject()
-	{
-		$qpl_id = $this->getObjId();
-
-		include_once "./Services/COPage/classes/class.ilPageObject.php";
-		$this->page = new ilPageObject("qpl", 0);
-		$this->page->setId($this->getId());
-		$this->page->setParentId($qpl_id);
-		$this->page->setXMLContent("<PageObject><PageContent>".
-			"<Question QRef=\"il__qst_".$this->getId()."\"/>".
-			"</PageContent></PageObject>");
-		$this->page->create();
-	}
-
 /**
 * Returns the maximum points, a learner can reach answering the question
 *
@@ -1532,6 +1515,23 @@ class assQuestion
 		}
 	}
 	
+	/**
+	* create page object of question
+	*/
+	function createPageObject()
+	{
+		$qpl_id = $this->getObjId();
+
+		include_once "./Services/COPage/classes/class.ilPageObject.php";
+		$this->page = new ilPageObject("qpl", 0);
+		$this->page->setId($this->getId());
+		$this->page->setParentId($qpl_id);
+		$this->page->setXMLContent("<PageObject><PageContent>".
+			"<Question QRef=\"il__qst_".$this->getId()."\"/>".
+			"</PageContent></PageObject>");
+		$this->page->create();
+	}
+
 	function copyPageOfQuestion($a_q_id)
 	{
 		if ($a_q_id > 0)
@@ -3173,7 +3173,6 @@ class assQuestion
 	{
 		$this->nr_of_tries = $a_nr_of_tries;
 	}
-
 }
 
 ?>

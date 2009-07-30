@@ -7050,7 +7050,7 @@ survey#:#ratio_absolute#:#Absolutskaliert
 survey#:#ratio_non_absolute#:#Verhältnisskaliert
 survey#:#ratio_scale_ge_zero#:#Der Minimalwert muss größer oder gleich Null sein
 survey#:#remove_question#:#Entfernen
-survey#:#remove_questions#:#Sind Sie sicher, dass Sie die folgenden Frage(n) und/oder Fragenblöcke aus der Umfrage enfernen wollen?#
+survey#:#remove_questions#:#Sind Sie sicher, dass Sie die folgenden Frage(n) und/oder Fragenblöcke aus der Umfrage enfernen wollen?
 survey#:#reset_filter#:#Filter zurücksetzen
 survey#:#results#:#Ergebnisse
 survey#:#resume_survey#:#Umfrage fortsetzen
@@ -9821,5 +9821,7 @@ content#:#scorm_editable#:#Import editable###24 07 2009 new variable
 content#:#scorm_editable_comments#:#Works only SCORM 1.2/2004 package###24 07 2009 new variable
 common#:#mem_view_long#:#Sie befinden sich in der Teilnehmeransicht
 common#:#mem_view_close#:#Teilnehmeransicht schließen
+assessment#:#msg_question_count_too_low#:#Die Anzahl der Fragen muss größer als 0 sein
+assessment#:#msg_total_questions_too_high#:#Die Anzahl der Fragen überschreitet die maximal verfügbare Anzahl der Fragen in den ausgewählten Fragenpools
 common#:#auth_ldap_migration#:#Account Migration
 common#:#auth_ldap_migration_info#:#Aktivieren Sie diese Einstellung, um neuen Benutzern die Möglichkeit zu bieten eventuell vorhandene ILIAS Benutzerkonten auf LDAP Authentifizierung umzustellen.

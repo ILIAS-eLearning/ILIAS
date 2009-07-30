@@ -14962,3 +14962,29 @@ if(!$ilDB->tableExists("xmlnestedsettmp"))
 		));
 	}
 ?>
+<#2809>
+<?php
+	if (!$ilDB->tableExists("tst_rnd_cpy"))
+	{
+		$ilDB->createTable("tst_rnd_cpy",
+			array(
+				"copy_id" => array(
+					"type" => "integer", "length" => 4, "notnull" => true
+				),
+				"tst_fi" => array(
+					"type" => "integer", "length" => 4, "notnull" => true
+				),
+				"qst_fi" => array(
+					"type" => "integer", "length" => 4, "notnull" => true
+				),
+				"qpl_fi" => array(
+					"type" => "integer", "length" => 4, "notnull" => true
+				)
+			)
+		);
+		$ilDB->addPrimaryKey("tst_rnd_cpy", array("copy_id"));
+		$ilDB->addIndex('tst_rnd_cpy',array('qst_fi'),'i1');
+		$ilDB->addIndex('tst_rnd_cpy',array('qpl_fi'),'i2');
+		$ilDB->addIndex('tst_rnd_cpy',array('tst_fi'),'i3');
+		$ilDB->createSequence("tst_rnd_cpy");
+	}
