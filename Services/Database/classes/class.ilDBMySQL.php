@@ -137,7 +137,11 @@ class ilDBMySQL extends ilDB
 	*/
 	function getDBVersion()
 	{
-		return mysql_get_server_info();
+		$vers = @mysql_get_server_info();
+		if (trim($vers) == "")
+		{
+			$vers = "Unknown";
+		}
 	}
 	
 
@@ -147,11 +151,11 @@ class ilDBMySQL extends ilDB
 	function isMysql4_0OrHigher()
 	{
 		$version = explode(".", $this->getDBVersion());
-		if((int) $version[0] >= 4)
+		if((int) $version[0] < 4)
 		{
-			return true;
+			return false;
 		}
-		return false;
+		return true;
 	}
 
 	/**
