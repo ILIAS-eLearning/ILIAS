@@ -1787,7 +1787,8 @@ class ilObjForumGUI extends ilObjectGUI
 			'copy',
 			'paste',
 			'pastetext',
-			'pasteword'
+			'pasteword',
+			'formatselect'
 		));
 		
 		if($_GET['action'] == 'showreply' || $_GET['action'] == 'ready_showreply')
@@ -3542,7 +3543,8 @@ class ilObjForumGUI extends ilObjectGUI
 			'copy',
 			'paste',
 			'pastetext',
-			'pasteword'
+			'pasteword',
+			'formatselect'
 		));		
 				
 		// purifier
