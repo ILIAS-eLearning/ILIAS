@@ -199,38 +199,59 @@ class ilObjAdvancedEditing extends ilObject
 		}
 		else
 		{
-			// default: everything but tables
-			$usedtags = array(
-			"a",
-			"blockquote",
-			"br",
-			"cite",
-			"code",
-			"dd",
-			"div",
-			"dl",
-			"dt",
-			"em",
-			"h1",
-			"h2",
-			"h3",
-			"h4",
-			"h5",
-			"h6",
-			"hr",
-			"img",
-			"li",
-			"ol",
-			"p",
-			"pre",
-			"span",
-			"strike",
-			"strong",
-			"sub",
-			"sup",
-			"u",
-			"ul"			
-			);
+			if($a_module == 'frm_post')
+			{
+				$usedtags = array(
+				"a",
+				"blockquote",
+				"br",
+				"code",
+				"div",
+				"em",				
+				"img",
+				"li",
+				"ol",
+				"p",
+				"strong",				
+				"u",
+				"ul"			
+				);
+			}
+			else
+			{
+				// default: everything but tables
+				$usedtags = array(
+				"a",
+				"blockquote",
+				"br",
+				"cite",
+				"code",
+				"dd",
+				"div",
+				"dl",
+				"dt",
+				"em",
+				"h1",
+				"h2",
+				"h3",
+				"h4",
+				"h5",
+				"h6",
+				"hr",
+				"img",
+				"li",
+				"ol",
+				"p",
+				"pre",
+				"span",
+				"strike",
+				"strong",
+				"sub",
+				"sup",
+				"u",
+				"ul"			
+				);
+			}
 		}
 		
 		// frm_posts need blockquote and div urgently
