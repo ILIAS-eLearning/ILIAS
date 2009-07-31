@@ -601,6 +601,43 @@ class ilObjUser extends ilObject
 	}
 	
 	/**
+	* Lookup Full Name
+	*/
+	function _lookupFullname($a_user_id)
+	{
+		global $ilDB;
+		
+		$set = $ilDB->queryF("SELECT title, firstname, lastname FROM usr_data WHERE usr_id = %s",
+			array("integer"), array($a_user_id));
+
+		if ($rec = $ilDB->fetchAssoc($set))
+		{
+			if ($rec["title"])
+			{
+				$fullname = $rec["title"]." ";
+			}
+			if ($rec["firstname"])
+			{
+				$fullname .= $rec["firstname"]." ";
+			}
+			if ($rec["lastname"])
+			{
+				$fullname .= $rec["lastname"];
+			}
+		}
+		return $fullname;
+	}
+	
+	/**
+	* Lookup IM
+	*/
+	function _lookupIm($a_user, $a_type)
+	{
+		return ilObjUser::_lookup($a_user_id, "im_".$a_type);
+	}
+	
+	
+	/**
 	* Lookup email
 	*/
 	function _lookupEmail($a_user_id)
@@ -4501,7 +4538,7 @@ class ilObjUser extends ilObject
 	* @param	integer	user_id (optional)
 	* @return	array
 	*/
-	function _getUsersOnline($a_user_id = 0)
+	function _getUsersOnline($a_user_id = 0, $a_no_anonymous = false)
 	{
 		global $ilDB;
 
@@ -4522,10 +4559,18 @@ class ilObjUser extends ilObject
 			$val_array = array($a_user_id, time());
 		}
 
+		$no_anonym = ($a_no_anonymous)
+			? "AND user_id <> ".$ilDB->quote(ANONYMOUS_USER_ID, "integer")." "
+			: "";
+
 		$r = $ilDB->queryF("SELECT count(user_id) as num,user_id,firstname,lastname,title,login,last_login,max(ctime) AS ctime ".
 			"FROM usr_session ".
-			"LEFT JOIN usr_data ON user_id=usr_id ".$where.
+			"LEFT JOIN usr_data u ON user_id = u.usr_id ".
+			"LEFT JOIN usr_pref p ON (p.usr_id = u.usr_id AND p.keyword = ".
+				$ilDB->quote("hide_own_online_status", "text").") ".$where.
 			"AND expires > %s ".
+			"AND (p.value IS NULL OR NOT p.value = ".$ilDB->quote("y", "text").") ".
+			$no_anonym.
 			"GROUP BY user_id,firstname,lastname,title,login,last_login ".
 			"ORDER BY lastname, firstname", $type_array, $val_array);
 
@@ -4549,13 +4594,16 @@ class ilObjUser extends ilObject
 	* @param	integer	user_id User ID of the current user.
 	* @return	array
 	*/
-	function _getAssociatedUsersOnline($a_user_id)
+	function _getAssociatedUsersOnline($a_user_id, $a_no_anonymous = false)
 	{
 		global $ilias, $ilDB;
 
 		$pd_set = new ilSetting("pd");
 		$atime = $pd_set->get("user_activity_time") * 60;
 		$ctime = time();
+		$no_anonym = ($a_no_anonymous)
+			? "AND user_id <> ".$ilDB->quote(ANONYMOUS_USER_ID, "integer")." "
+			: "";
 
 		// Get a list of object id's of all courses and groups for which
 		// the current user has local roles.
@@ -4585,6 +4633,7 @@ class ilObjUser extends ilObject
 				"FROM usr_session ".
 				"JOIN usr_data ON user_id=usr_id ".
 				"WHERE user_id = ".$ilDB->quote($a_user_id, "integer")." ".
+				$no_anonym.
 				" AND NOT agree_date IS NULL ".
 				"AND expires > ".$ilDB->quote(time(), "integer")." ".
 				"GROUP BY user_id,ctime,firstname,lastname,title,login,last_login";
@@ -4600,7 +4649,11 @@ class ilObjUser extends ilObject
 				"JOIN tree ON tree.child = fa.parent ".
 				"JOIN object_reference or1 ON or1.ref_id = tree.parent ".
 				"JOIN object_data od ON od.obj_id = or1.obj_id ".
+				"LEFT JOIN usr_pref p ON (p.usr_id = ud.usr_id AND p.keyword = ".
+					$ilDB->quote("hide_own_online_status", "text").") ".
 				"WHERE s.user_id != 0 ".
+				$no_anonym.
+				"AND (p.value IS NULL OR NOT p.value = ".$ilDB->quote("y", "text").") ".
 				"AND s.expires > ".$ilDB->quote(time(),"integer")." ".
 				"AND fa.assign = ".$ilDB->quote("y", "text")." ".
 				" AND NOT ud.agree_date IS NULL ".

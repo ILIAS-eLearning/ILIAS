@@ -126,21 +126,26 @@ class ilUsersOnlineBlockGUI extends ilBlockGUI
 		
 		if ($this->users_online_pref == "associated")
 		{
-			$this->users = ilUtil::getAssociatedUsersOnline($ilUser->getId());
+			$this->users = ilUtil::getAssociatedUsersOnline($ilUser->getId(), true);
 		}
 		else
 		{
-			$this->users = ilUtil::getUsersOnline();
+			$this->users = ilObjUser::_getUsersOnline(0, true);
 		}
 		
 		$this->num_users = 0;
 		
-		$this->users[$ilUser->getId()] =
-			array("user_id" => $ilUser->getId(),
-				"firstname" => $ilUser->getFirstname(),
-				"lastname" => $ilUser->getLastname(),
-				"title" => $ilUser->getUTitle(),
-				"login" => $ilUser->getLogin());
+		// add current user always to list
+		if ($ilUser->getId() != ANONYMOUS_USER_ID &&
+			ilObjUser::_lookupPref($ilUser->getId(), "hide_own_online_status") != "y")
+		{
+			$this->users[$ilUser->getId()] =
+				array("user_id" => $ilUser->getId(),
+					"firstname" => $ilUser->getFirstname(),
+					"lastname" => $ilUser->getLastname(),
+					"title" => $ilUser->getUTitle(),
+					"login" => $ilUser->getLogin());
+		}
 
 		foreach ($this->users as $user_id => $user)
 		{
@@ -194,55 +199,17 @@ class ilUsersOnlineBlockGUI extends ilBlockGUI
 		$data = array();
 		
 		$mail = new ilMail($ilUser->getId());
-		$mail_settings_id = $mail->getMailObjectReferenceId();
+		$this->mail_settings_id = $mail->getMailObjectReferenceId();
+		$this->mail_allowed = ($_SESSION["AccountId"] != ANONYMOUS_USER_ID
+			&& $rbacsystem->checkAccess('mail_visible',$this->mail_settings_id));
 		
 		foreach ($this->users as $user_id => $user)
 		{
-			if ($user_id != ANONYMOUS_USER_ID &&
-				ilObjUser::_lookupPref($user_id, "hide_own_online_status") != "y")
-			{
-				// hide mail-to icon for anonymous users
-				// usability: we do show mail-to for the current user, because
-				//            we often got requests by users that their own
-				//            e-mail address doesn't appear 
-				$mail_to = "";
-				if ($_SESSION["AccountId"] != ANONYMOUS_USER_ID)
-				{
-					// No mail for users that do have permissions to use the mail system
-					if($rbacsystem->checkAccess('mail_visible',$mail_settings_id) and
-					   $rbacsystem->checkAccessOfUser($user_id,'mail_visible',$mail_settings_id))
-					{
-						$mail_to = ilMail::_getUserInternalMailboxAddress(
-							$user_id, $user['login'], $user['firstname'], $user['lastname']
-						);
-						
-						#$mail_to = urlencode($mail_to);
-						$mail_to = $user['login'];
-					}
-				}
-				
-				// check for profile
-				// todo: use user class!
-				$q = "SELECT value FROM usr_pref WHERE usr_id = ".
-					$ilDB->quote($user_id, "integer").
-					" AND keyword = ".$ilDB->quote('public_profile', "text").
-					" AND value = ".$ilDB->quote('y', "text");
-				$r = $ilDB->query($q);
-				$profile = false;
-				if ($ilDB->numRows($r))
-				{
-					$profile = true;
-				}
-											
-				$data[] = array(
-					"mail_to" => $mail_to,
-					"id" => $user_id,
-					"profile" => $profile,
-					"login" => $user["login"]
-					);
-			}
+			$data[] = array(
+				"id" => $user_id,
+				"login" => $user["login"]
+				);
 		}
-		
 		$this->setData($data);
 		
 		// we do not have at least one (non hidden) active user
@@ -260,10 +227,26 @@ class ilUsersOnlineBlockGUI extends ilBlockGUI
 	*/
 	function fillRow($a_set)
 	{
-		global $ilUser, $ilCtrl, $lng, $ilSetting;
+		global $ilUser, $ilCtrl, $lng, $ilSetting, $rbacsetting, $rbacsystem;
 		
-		$user_obj = new ilObjUser($a_set["id"]);
+		// mail link
+		$a_set["mail_to"] = "";
+		if($this->mail_allowed &&
+		   $rbacsystem->checkAccessOfUser($a_set["id"],'mail_visible',$this->mail_settings_id))
+		{
+//			$a_set["mail_to"] = ilMail::_getUserInternalMailboxAddress(
+//				$a_set["id"], $a_set['login'], $a_set['firstname'], $a_set['lastname']
+//			);
+			
+			#$mail_to = urlencode($mail_to);
+			$a_set["mail_to"] = $a_set['login'];
+		}
 		
+		// check for profile
+		$a_set["profile"] = in_array(
+			ilObjUser::_lookupPref($a_set["id"], "public_profile"),
+			array("y", "g"));
+
 		// user image
 		if ($this->getCurrentDetailLevel() > 2)
 		{
@@ -287,7 +270,7 @@ class ilUsersOnlineBlockGUI extends ilBlockGUI
 				global $rbacsystem;
 				
 				include_once './Modules/Chat/classes/class.ilObjChat.php';
-				if($user_obj->getId() == $ilUser->getId() &&
+				if($a_set["id"] == $ilUser->getId() &&
 				   $rbacsystem->checkAccess('read', ilObjChat::_getPublicChatRefId()))
 				{
 					$this->tpl->setCurrentBlock('chat_link');
@@ -301,7 +284,7 @@ class ilUsersOnlineBlockGUI extends ilBlockGUI
 			// user image
 			$this->tpl->setCurrentBlock("usr_image");
 			$this->tpl->setVariable("USR_IMAGE",
-				$user_obj->getPersonalPicturePath("xxsmall"));
+				ilObjUser::_getPersonalPicturePath($a_set["id"],"xxsmall"));
 			$this->tpl->setVariable("USR_ALT", $lng->txt("personal_picture"));
 			$this->tpl->parseCurrentBlock();
 		
@@ -326,7 +309,7 @@ class ilUsersOnlineBlockGUI extends ilBlockGUI
 		
 				foreach ($im_arr as $im_name => $im_check)
 				{
-					if ($im_id = $user_obj->getInstantMessengerId($im_name))
+					if ($im_id = ilObjUser::_lookupIm($a_set["id"], $im_name))
 					{
 						switch ($im_name)
 						{
@@ -405,12 +388,12 @@ class ilUsersOnlineBlockGUI extends ilBlockGUI
 			$this->tpl->setVariable("LINK_PROFILE",
 			$ilCtrl->getLinkTarget($this, "showUserProfile"));
 			$this->tpl->setVariable("USR_ID", $a_set["id"]);
-			$this->tpl->setVariable("LINK_FULLNAME", $user_obj->getFullname());
+			$this->tpl->setVariable("LINK_FULLNAME", ilObjUser::_lookupFullName($a_set["id"]));
 			$this->tpl->parseCurrentBlock();
 		}
 		else
 		{
-			$this->tpl->setVariable("USR_FULLNAME", $user_obj->getFullname());
+			$this->tpl->setVariable("USR_FULLNAME", ilObjUser::_lookupFullName($a_set["id"]));
 		}
 	}
 
