@@ -237,7 +237,7 @@ class ilSetup extends PEAR
 			return false;
 		}
 		
-		$r = $ilDB->createDatabase($this->client->getdbName(),
+		$r = $db->createDatabase($this->client->getdbName(),
 			"utf8", $a_collation);
 		
 		if (MDB2::isError($r))
