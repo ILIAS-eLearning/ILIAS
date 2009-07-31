@@ -384,40 +384,24 @@ class assMultipleChoiceGUI extends assQuestionGUI
 			}
 			if (strlen($answer->getImage()))
 			{
+				$template->setCurrentBlock("answer_image");
 				if ($this->object->getThumbSize())
 				{
-					$template->setCurrentBlock("preview");
-					$template->setVariable("URL_PREVIEW", $this->object->getImagePathWeb() . $answer->getImage());
-					$template->setVariable("TEXT_PREVIEW", $this->lng->txt('preview'));
-					$template->setVariable("IMG_PREVIEW", ilUtil::getImagePath('enlarge.gif'));
 					$template->setVariable("ANSWER_IMAGE_URL", $this->object->getImagePathWeb() . $this->object->getThumbPrefix() . $answer->getImage());
-					list($width, $height, $type, $attr) = getimagesize($this->object->getImagePath() . $answer->getImage());
-					$alt = $answer->getImage();
-					if (strlen($answer->getAnswertext()))
-					{
-						$alt = $answer->getAnswertext();
-					}
-					$alt = preg_replace("/<[^>]*?>/", "", $alt);
-					$template->setVariable("ANSWER_IMAGE_ALT", ilUtil::prepareFormOutput($alt));
-					$template->setVariable("ANSWER_IMAGE_TITLE", ilUtil::prepareFormOutput($alt));
-					$template->parseCurrentBlock();
 				}
 				else
 				{
-					$template->setCurrentBlock("answer_image");
 					$template->setVariable("ANSWER_IMAGE_URL", $this->object->getImagePathWeb() . $answer->getImage());
-					list($width, $height, $type, $attr) = getimagesize($this->object->getImagePath() . $answer->getImage());
-					$alt = $answer->getImage();
-					if (strlen($answer->getAnswertext()))
-					{
-						$alt = $answer->getAnswertext();
-					}
-					$alt = preg_replace("/<[^>]*?>/", "", $alt);
-					$template->setVariable("ATTR", $attr);
-					$template->setVariable("ANSWER_IMAGE_ALT", ilUtil::prepareFormOutput($alt));
-					$template->setVariable("ANSWER_IMAGE_TITLE", ilUtil::prepareFormOutput($alt));
-					$template->parseCurrentBlock();
 				}
+				$alt = $answer->getImage();
+				if (strlen($answer->getAnswertext()))
+				{
+					$alt = $answer->getAnswertext();
+				}
+				$alt = preg_replace("/<[^>]*?>/", "", $alt);
+				$template->setVariable("ANSWER_IMAGE_ALT", ilUtil::prepareFormOutput($alt));
+				$template->setVariable("ANSWER_IMAGE_TITLE", ilUtil::prepareFormOutput($alt));
+				$template->parseCurrentBlock();
 			}
 			if ($show_feedback)
 			{
