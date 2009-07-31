@@ -140,7 +140,7 @@
         </CSVDataSet>
         <hashTree/>
         <GaussianRandomTimer guiclass="GaussianRandomTimerGui" testclass="GaussianRandomTimer" testname="Gaussian Random Timer" enabled="true">
-          <stringProp name="ConstantTimer.delay">1000</stringProp>
+          <stringProp name="ConstantTimer.delay">3000</stringProp>
           <stringProp name="RandomTimer.range">500.0</stringProp>
         </GaussianRandomTimer>
         <hashTree/>
@@ -323,6 +323,29 @@
           <stringProp name="HTTPSampler.embedded_url_re"></stringProp>
         </HTTPSampler>
         <hashTree/>
+        <HTTPSampler guiclass="HttpTestSampleGui" testclass="HTTPSampler" testname="Personal Desktop 2" enabled="true">
+          <elementProp name="HTTPsampler.Arguments" elementType="Arguments" guiclass="HTTPArgumentsPanel" testclass="Arguments" testname="User Defined Variables" enabled="true">
+            <collectionProp name="Arguments.arguments"/>
+          </elementProp>
+          <stringProp name="HTTPSampler.domain"></stringProp>
+          <stringProp name="HTTPSampler.port"></stringProp>
+          <stringProp name="HTTPSampler.connect_timeout"></stringProp>
+          <stringProp name="HTTPSampler.response_timeout"></stringProp>
+          <stringProp name="HTTPSampler.protocol"></stringProp>
+          <stringProp name="HTTPSampler.contentEncoding"></stringProp>
+          <stringProp name="HTTPSampler.path">${relwebdir}/ilias.php?baseClass=ilPersonalDesktopGUI</stringProp>
+          <stringProp name="HTTPSampler.method">GET</stringProp>
+          <boolProp name="HTTPSampler.follow_redirects">false</boolProp>
+          <boolProp name="HTTPSampler.auto_redirects">false</boolProp>
+          <boolProp name="HTTPSampler.use_keepalive">true</boolProp>
+          <boolProp name="HTTPSampler.DO_MULTIPART_POST">false</boolProp>
+          <stringProp name="HTTPSampler.FILE_NAME"></stringProp>
+          <stringProp name="HTTPSampler.FILE_FIELD"></stringProp>
+          <stringProp name="HTTPSampler.mimetype"></stringProp>
+          <boolProp name="HTTPSampler.monitor">false</boolProp>
+          <stringProp name="HTTPSampler.embedded_url_re"></stringProp>
+        </HTTPSampler>
+        <hashTree/>
         <ResultCollector guiclass="GraphVisualizer" testclass="ResultCollector" testname="Graph Results" enabled="false">
           <boolProp name="ResultCollector.error_logging">false</boolProp>
           <objProp>
@@ -352,7 +375,7 @@
               <bytes>true</bytes>
             </value>
           </objProp>
-          <stringProp name="filename">/htdocs/ilias3/Services/LoadTest/results/test1.jtl</stringProp>
+          <stringProp name="filename">/Users/alex/Documents/_BasicConceptsAndStandards/ILIAS/Performanz_Hardware/LoadTests/test1/test1.jtl</stringProp>
         </ResultCollector>
         <hashTree/>
         <ResultCollector guiclass="StatVisualizer" testclass="ResultCollector" testname="Aggregate Report" enabled="false">
@@ -384,7 +407,7 @@
               <bytes>true</bytes>
             </value>
           </objProp>
-          <stringProp name="filename">/htdocs/ilias3/Services/LoadTest/results/test2.jtl</stringProp>
+          <stringProp name="filename">/Users/alex/Documents/_BasicConceptsAndStandards/ILIAS/Performanz_Hardware/LoadTests/test1/test1.jtl</stringProp>
         </ResultCollector>
         <hashTree/>
         <ResultCollector guiclass="TableVisualizer" testclass="ResultCollector" testname="View Results in Table" enabled="true">
