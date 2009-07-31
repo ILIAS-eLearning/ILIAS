@@ -1842,7 +1842,13 @@ class ilObjForumGUI extends ilObjectGUI
 		{
 			include_once 'Services/RTE/classes/class.ilRTE.php';
 			$rtestring = ilRTE::_getRTEClassname();
-			if(strtolower($rtestring) != 'iltinymce')
+			
+			if (array_key_exists('show_rte', $_POST))
+			{
+				ilObjAdvancedEditing::_setRichTextEditorUserState($_POST['show_rte']);
+			}			
+
+			if(strtolower($rtestring) != 'iltinymce' || !ilObjAdvancedEditing::_getRichTextEditorUserState())
 			{
 				$this->replyEditForm->addCommandButton('quotePost', $this->lng->txt('forum_add_quote'));
 			}	
