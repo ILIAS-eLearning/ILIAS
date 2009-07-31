@@ -408,6 +408,27 @@ if ($this->getDBType() == "mysql")
 	//
 	
 	/**
+	* Create database
+	*/
+	function createDatabase($a_name, $a_charset = "utf8", $a_collation = "")
+	{
+		if ($a_collation != "")
+		{
+			$sql = "CREATE DATABASE ".$a_name.
+				" CHARACTER SET ".$a_charset.
+				" COLLATE ".$a_collation;
+		}
+		else
+		{
+			$sql = "CREATE DATABASE ".$a_name.
+				" CHARACTER SET ".$a_charset;
+		}
+
+		return $this->query($sql, false);
+	}
+	
+	
+	/**
 	* Create a new table in the database
 	*
 	* @param	string		table name
@@ -1144,13 +1165,16 @@ if ($this->getDBType() == "mysql")
 	* @param string
 	* @return object DB
 	*/
-	function query($sql)
+	function query($sql, $a_handle_error = true)
 	{
 		$r = $this->db->query($sql);
+		
+		if ($a_handle_error)
+		{
+			return $this->handleError($r, "query(".$sql.")");
+		}
 
-//		$this->logStatement($sql);
-
-		return $this->handleError($r, "query(".$sql.")");
+		return $r;
 	}
 
 	/**
