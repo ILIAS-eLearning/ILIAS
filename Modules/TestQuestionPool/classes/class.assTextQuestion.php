@@ -171,7 +171,7 @@ class assTextQuestion extends assQuestion
 			array($this->getId())
 		);
 
-		$affectedRows = $ilDB->manipulateF("INSERT INTO " . $this->getAdditionalTableName() . " (question_fi, maxNumOfChars, keywords, textgap_rating) VALUES (%s, %s, %s, %s)",
+		$affectedRows = $ilDB->manipulateF("INSERT INTO " . $this->getAdditionalTableName() . " (question_fi, maxnumofchars, keywords, textgap_rating) VALUES (%s, %s, %s, %s)",
 			array("integer", "integer", "text", "text"),
 			array(
 				$this->getId(),
@@ -213,7 +213,7 @@ class assTextQuestion extends assQuestion
 			include_once("./Services/RTE/classes/class.ilRTE.php");
 			$this->setQuestion(ilRTE::_replaceMediaObjectImageSrc($data["question_text"], 1));
 			$this->setShuffle($data["shuffle"]);
-			$this->setMaxNumOfChars($data["maxNumOfChars"]);
+			$this->setMaxNumOfChars($data["maxnumofchars"]);
 			$this->setKeywords($data["keywords"]);
 			$this->setTextRating($data["textgap_rating"]);
 			$this->setEstimatedWorkingTime(substr($data["working_time"], 0, 2), substr($data["working_time"], 3, 2), substr($data["working_time"], 6, 2));
