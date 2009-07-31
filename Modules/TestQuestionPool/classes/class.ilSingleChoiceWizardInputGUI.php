@@ -46,6 +46,7 @@ class ilSingleChoiceWizardInputGUI extends ilTextInputGUI
 	{
 		parent::__construct($a_title, $a_postvar);
 		$this->setSuffixes(array("jpg", "jpeg", "png", "gif"));
+		$this->setSize('25');
 		$this->validationRegexp = "";
 	}
 
@@ -347,18 +348,6 @@ class ilSingleChoiceWizardInputGUI extends ilTextInputGUI
 		{
 			if ($this->getSingleline())
 			{
-				if (is_array($this->getSuffixes()))
-				{
-					$suff_str = $delim = "";
-					foreach($this->getSuffixes() as $suffix)
-					{
-						$suff_str.= $delim.".".$suffix;
-						$delim = ", ";
-					}
-					$tpl->setCurrentBlock('allowed_image_suffixes');
-					$tpl->setVariable("TXT_ALLOWED_SUFFIXES", $lng->txt("file_allowed_suffixes")." ".$suff_str);
-					$tpl->parseCurrentBlock();
-				}
 				if (strlen($value->getImage()))
 				{
 					$imagename = $this->qstObject->getImagePathWeb() . $value->getImage();
@@ -383,7 +372,6 @@ class ilSingleChoiceWizardInputGUI extends ilTextInputGUI
 				$tpl->setVariable("IMAGE_SUBMIT", $lng->txt("upload"));
 				$tpl->setVariable("IMAGE_ROW_NUMBER", $i);
 				$tpl->setVariable("IMAGE_POST_VAR", $this->getPostVar());
-				$tpl->setVariable("TXT_MAX_SIZE", ilUtil::getFileSizeInfo());
 				$tpl->parseCurrentBlock();
 
 				if (is_object($value))
@@ -459,8 +447,21 @@ class ilSingleChoiceWizardInputGUI extends ilTextInputGUI
 
 		if ($this->getSingleline())
 		{
+			if (is_array($this->getSuffixes()))
+			{
+				$suff_str = $delim = "";
+				foreach($this->getSuffixes() as $suffix)
+				{
+					$suff_str.= $delim.".".$suffix;
+					$delim = ", ";
+				}
+				$tpl->setCurrentBlock('allowed_image_suffixes');
+				$tpl->setVariable("TXT_ALLOWED_SUFFIXES", $lng->txt("file_allowed_suffixes")." ".$suff_str);
+				$tpl->parseCurrentBlock();
+			}
 			$tpl->setCurrentBlock("image_heading");
 			$tpl->setVariable("ANSWER_IMAGE", $lng->txt('answer_image'));
+			$tpl->setVariable("TXT_MAX_SIZE", ilUtil::getFileSizeInfo());
 			$tpl->parseCurrentBlock();
 		}
 		

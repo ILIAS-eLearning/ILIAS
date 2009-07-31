@@ -264,27 +264,11 @@ class assMultipleChoiceImport extends assQuestionImport
 		$this->object->setObjId($questionpool_id);
 		$this->object->setEstimatedWorkingTime($duration["h"], $duration["m"], $duration["s"]);
 		$this->object->setShuffle($shuffle);
-		$this->object->setResizeImages($item->getMetadataEntry("resize_images"));
 		$this->object->setThumbSize($item->getMetadataEntry("thumb_size"));
-		$hasimages = false;
 		foreach ($answers as $answer)
 		{
 			$this->object->addAnswer($answer["answertext"], $answer["points"], $answer["points_unchecked"], $answer["answerorder"], $answer["imagefile"]["label"]);
-			if (strlen($answer["imagefile"]["label"])) $hasimages = true;
 		}
-		$allow_images = $item->getMetadataEntry("allow_images");
-		if (is_null($allow_images))
-		{
-			if ($hasimages)
-			{
-				$allow_images = 1;
-			}
-			else
-			{
-				$allow_images = 0;
-			}
-		}
-		$this->object->setGraphicalAnswerSetting($allow_images);
 		$this->object->saveToDb();
 		foreach ($answers as $answer)
 		{
@@ -301,18 +285,12 @@ class assMultipleChoiceImport extends assQuestionImport
 				$fh = fopen($imagepath, "wb");
 				if ($fh == false)
 				{
-//									global $ilErr;
-//									$ilErr->raiseError($this->lng->txt("error_save_image_file") . ": $php_errormsg", $ilErr->MESSAGE);
-//									return;
 				}
 				else
 				{
 					$imagefile = fwrite($fh, $image);
 					fclose($fh);
 				}
-				// create thumbnail file
-				$thumbpath = $imagepath . "." . "thumb.jpg";
-				ilUtil::convertImage($imagepath, $thumbpath, "JPEG", 100);
 			}
 		}
 		// handle the import of media objects in XHTML code

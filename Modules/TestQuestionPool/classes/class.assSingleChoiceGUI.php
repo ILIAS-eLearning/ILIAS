@@ -94,6 +94,7 @@ class assSingleChoiceGUI extends assQuestionGUI
 			{
 				foreach ($_POST['choice']['answer'] as $index => $answer)
 				{
+					$filename = $_POST['choice']['imagename'][$index];
 					if (strlen($_FILES['choice']['name']['image'][$index]))
 					{
 						// upload image

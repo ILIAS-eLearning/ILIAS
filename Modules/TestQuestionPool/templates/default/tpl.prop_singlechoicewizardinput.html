@@ -22,11 +22,7 @@
 <!-- BEGIN addimage -->
 				<td>
 					<div class="imageselection">
-					<div><input type="file" id="{IMAGE_ID}" name="{IMAGE_POST_VAR}[image][{IMAGE_ROW_NUMBER}]" size="30" /> <input type="submit" class="submit" name="cmd[upload{IMAGE_POST_VAR}][{IMAGE_ROW_NUMBER}]" value="{IMAGE_SUBMIT}" /></div>
-					<div class="ilFormInfo">{TXT_MAX_SIZE}</div>
-<!-- BEGIN allowed_image_suffixes -->
-					<div class="ilFormInfo">{TXT_ALLOWED_SUFFIXES}</div>
-<!-- END allowed_image_suffixes -->
+					<div><input type="file" id="{IMAGE_ID}" name="{IMAGE_POST_VAR}[image][{IMAGE_ROW_NUMBER}]" size="20" /> <input type="submit" class="submit" name="cmd[upload{IMAGE_POST_VAR}][{IMAGE_ROW_NUMBER}]" value="{IMAGE_SUBMIT}" /></div>
 <!-- BEGIN image -->
 					<div class="imagepresentation">
 						<input type="hidden" name="{IMAGE_POST_VAR}[imagename][{IMAGE_ROW_NUMBER}]" value="{IMAGE_NAME}" />
@@ -52,4 +48,5 @@
 <!-- END row -->
 		</tbody>
 	</table>
+	<div class="ilFormInfo">{TXT_MAX_SIZE}<!-- BEGIN allowed_image_suffixes --> {TXT_ALLOWED_SUFFIXES}<!-- END allowed_image_suffixes --></div>
 </div>

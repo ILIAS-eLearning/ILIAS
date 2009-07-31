@@ -69,9 +69,9 @@ class ilMultipleChoiceWizardInputGUI extends ilSingleChoiceWizardInputGUI
 			// check answers
 			if (is_array($foundvalues['answer']))
 			{
-				foreach ($foundvalues['answer'] as $answervalue)
+				foreach ($foundvalues['answer'] as $aidx => $answervalue)
 				{
-					if ((strlen($answervalue)) == 0) 
+					if (((strlen($answervalue)) == 0) && (strlen($foundvalues['imagename'][$aidx]) == 0))
 					{
 						$this->setAlert($lng->txt("msg_input_is_required"));
 						return FALSE;
@@ -107,7 +107,7 @@ class ilMultipleChoiceWizardInputGUI extends ilSingleChoiceWizardInputGUI
 				return false;
 			}
 
-			if (is_array($_FILES) && $this->getAllowImages())
+			if (is_array($_FILES) && $this->getSingleline())
 			{
 				if (is_array($_FILES[$this->getPostVar()]['error']['image']))
 				{
@@ -136,7 +136,7 @@ class ilMultipleChoiceWizardInputGUI extends ilSingleChoiceWizardInputGUI
 								case UPLOAD_ERR_NO_FILE:
 									if ($this->getRequired())
 									{
-										if (!strlen($foundvalues['imagename'][$index]))
+										if ((!strlen($foundvalues['imagename'][$index])) && (!strlen($foundvalues['answer'][$index])))
 										{
 											$this->setAlert($lng->txt("form_msg_file_no_upload"));
 											return false;
@@ -237,24 +237,12 @@ class ilMultipleChoiceWizardInputGUI extends ilSingleChoiceWizardInputGUI
 		$i = 0;
 		foreach ($this->values as $value)
 		{
-			if ($this->getAllowImages())
+			if ($this->getSingleline())
 			{
-				if (is_array($this->getSuffixes()))
-				{
-					$suff_str = $delim = "";
-					foreach($this->getSuffixes() as $suffix)
-					{
-						$suff_str.= $delim.".".$suffix;
-						$delim = ", ";
-					}
-					$tpl->setCurrentBlock('allowed_image_suffixes');
-					$tpl->setVariable("TXT_ALLOWED_SUFFIXES", $lng->txt("file_allowed_suffixes")." ".$suff_str);
-					$tpl->parseCurrentBlock();
-				}
 				if (strlen($value->getImage()))
 				{
 					$imagename = $this->qstObject->getImagePathWeb() . $value->getImage();
-					if (($this->qstObject->getGraphicalAnswerSetting()) && ($this->qstObject->getResizeImages()))
+					if (($this->getSingleline()) && ($this->qstObject->getThumbSize()))
 					{
 						if (@file_exists($this->qstObject->getImagePath() . $this->qstObject->getThumbPrefix() . $value->getImage()))
 						{
@@ -272,13 +260,11 @@ class ilMultipleChoiceWizardInputGUI extends ilSingleChoiceWizardInputGUI
 				}
 				$tpl->setCurrentBlock('addimage');
 				$tpl->setVariable("IMAGE_ID", $this->getPostVar() . "[image][$i]");
+				$tpl->setVariable("IMAGE_SUBMIT", $lng->txt("upload"));
 				$tpl->setVariable("IMAGE_ROW_NUMBER", $i);
 				$tpl->setVariable("IMAGE_POST_VAR", $this->getPostVar());
-				$tpl->setVariable("TXT_MAX_SIZE", ilUtil::getFileSizeInfo());
 				$tpl->parseCurrentBlock();
-			}
-			if ($this->getSingleline())
-			{
+
 				if (is_object($value))
 				{
 					$tpl->setCurrentBlock("prop_text_propval");
@@ -356,12 +342,37 @@ class ilMultipleChoiceWizardInputGUI extends ilSingleChoiceWizardInputGUI
 			$tpl->parseCurrentBlock();
 			$i++;
 		}
+
+		if ($this->getSingleline())
+		{
+			if (is_array($this->getSuffixes()))
+			{
+				$suff_str = $delim = "";
+				foreach($this->getSuffixes() as $suffix)
+				{
+					$suff_str.= $delim.".".$suffix;
+					$delim = ", ";
+				}
+				$tpl->setCurrentBlock('allowed_image_suffixes');
+				$tpl->setVariable("TXT_ALLOWED_SUFFIXES", $lng->txt("file_allowed_suffixes")." ".$suff_str);
+				$tpl->parseCurrentBlock();
+			}
+			$tpl->setCurrentBlock("image_heading");
+			$tpl->setVariable("ANSWER_IMAGE", $lng->txt('answer_image'));
+			$tpl->setVariable("TXT_MAX_SIZE", ilUtil::getFileSizeInfo());
+			$tpl->parseCurrentBlock();
+		}
+		
 		$tpl->setVariable("ELEMENT_ID", $this->getPostVar());
+		$tpl->setVariable("TEXT_YES", $lng->txt('yes'));
+		$tpl->setVariable("TEXT_NO", $lng->txt('no'));
+		$tpl->setVariable("DELETE_IMAGE_HEADER", $lng->txt('delete_image_header'));
+		$tpl->setVariable("DELETE_IMAGE_QUESTION", $lng->txt('delete_image_question'));
 		$tpl->setVariable("ANSWER_TEXT", $lng->txt('answer_text'));
 		$tpl->setVariable("POINTS_TEXT", $lng->txt('points'));
+		$tpl->setVariable("COMMANDS_TEXT", $lng->txt('actions'));
 		$tpl->setVariable("POINTS_CHECKED_TEXT", $lng->txt('checkbox_checked'));
 		$tpl->setVariable("POINTS_UNCHECKED_TEXT", $lng->txt('checkbox_unchecked'));
-		$tpl->setVariable("COMMANDS_TEXT", $lng->txt('actions'));
 
 		$a_tpl->setCurrentBlock("prop_generic");
 		$a_tpl->setVariable("PROP_GENERIC", $tpl->get());
