@@ -111,7 +111,7 @@ class assTextQuestionGUI extends assQuestionGUI
 		$this->addBasicQuestionFormProperties($form);
 
 		// maxchars
-		$maxchars = new ilTextInputGUI($this->lng->txt("maxchars"), "maxchars");
+		$maxchars = new ilNumberInputGUI($this->lng->txt("maxchars"), "maxchars");
 		$maxchars->setSize(5);
 		if ($this->object->getMaxNumOfChars() > 0) $maxchars->setValue($this->object->getMaxNumOfChars());
 		$maxchars->setInfo($this->lng->txt("description_maxchars"));
