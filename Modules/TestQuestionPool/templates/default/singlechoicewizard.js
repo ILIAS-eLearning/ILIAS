@@ -61,12 +61,18 @@ function reindexRows(rootel, postvar)
 			hidden[j].name = postvar + '[imagename][' + i + ']';
 		}
 
-		// change id and name of file delete checkboxes
-		checkboxes = YAHOO.util.Dom.getElementsBy(function (el) { return (el.type == 'checkbox') ? true : false; }, 'input', rows[i]);
-		for (j = 0; j < checkboxes.length; j++)
+		// change id and name of file delete buttons
+		buttons = YAHOO.util.Dom.getElementsBy(function (el) { return (el.type == 'submit') ? true : false; }, 'input', rows[i]);
+		for (j = 0; j < buttons.length; j++)
 		{
-			checkboxes[j].id = postvar + '[deleteimage][' + i + ']';
-			checkboxes[j].name = postvar + '[deleteimage][' + i + ']';
+			if (buttons[j].name.indexOf('[upload') >= 0)
+			{
+				buttons[j].name = 'cmd[upload' + postvar + '][' + i + ']';
+			} 
+			else if (buttons[j].name.indexOf('[removeimage') >= 0)
+			{
+				buttons[j].name = 'cmd[removeimage' + postvar + '][' + i + ']';
+			}
 		}
 
 		// change id and name of textarea fields
@@ -296,6 +302,12 @@ function singlechoiceWizardEvents(e)
 			button = downbuttons[i];
 			button.onclick = skipJS;
 		}
+	}
+	deleteboxes = YAHOO.util.Dom.getElementsByClassName('deleteimage');
+	for (i = 0; i < deleteboxes.length; i++)
+	{
+		checkbox = deleteboxes[i];
+		YAHOO.util.Event.addListener(checkbox, 'click', deleteImage);
 	}
 }
 

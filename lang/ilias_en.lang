@@ -9808,3 +9808,7 @@ assessment#:#msg_total_questions_too_high#:#The number of questions is greater t
 common#:#auth_ldap_migration#:#Account Migration
 common#:#auth_ldap_migration_info#:#Activate this option to give new users the possibility to migrate their existing ILIAS accounts to LDAP authentication.
 survey#:#spl_move_same_pool#:#It has no effect to move questions from inside the same question pool.
+assessment#:#delete_image_header#:#Delete image
+assessment#:#delete_image_question#:#Do you really want to delete the image?
+assessment#:#answer_image#:#Answer Image
+assessment#:#thumb_size_info#:#If you enter a thumbnail size, a thumbnail of this size will be generated for uploaded images. Without a thumbnail size, the original image size will be used.

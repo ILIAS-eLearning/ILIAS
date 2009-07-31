@@ -33,7 +33,6 @@ class ilSingleChoiceWizardInputGUI extends ilTextInputGUI
 	protected $values = array();
 	protected $allowMove = false;
 	protected $singleline = true;
-	protected $allowImages = false;
 	protected $qstObject = null;
 	protected $suffixes = array();
 	
@@ -173,26 +172,6 @@ class ilSingleChoiceWizardInputGUI extends ilTextInputGUI
 	}
 
 	/**
-	* Set allow images
-	*
-	* @param	boolean	$a_allow_images Allow images
-	*/
-	function setAllowImages($a_allow_images)
-	{
-		$this->allowImages = $a_allow_images;
-	}
-
-	/**
-	* Get allow images
-	*
-	* @return	boolean	Allow images
-	*/
-	function getAllowImages()
-	{
-		return $this->allowImages;
-	}
-	
-	/**
 	* Check input, strip slashes etc. set alert, if input is not ok.
 	*
 	* @return	boolean		Input ok, true/false
@@ -207,9 +186,9 @@ class ilSingleChoiceWizardInputGUI extends ilTextInputGUI
 			// check answers
 			if (is_array($foundvalues['answer']))
 			{
-				foreach ($foundvalues['answer'] as $answervalue)
+				foreach ($foundvalues['answer'] as $aidx => $answervalue)
 				{
-					if ((strlen($answervalue)) == 0) 
+					if (((strlen($answervalue)) == 0) && (strlen($foundvalues['imagename'][$aidx]) == 0))
 					{
 						$this->setAlert($lng->txt("msg_input_is_required"));
 						return FALSE;
@@ -236,7 +215,7 @@ class ilSingleChoiceWizardInputGUI extends ilTextInputGUI
 				return false;
 			}
 
-			if (is_array($_FILES) && $this->getAllowImages())
+			if (is_array($_FILES) && $this->getSingleline())
 			{
 				if (is_array($_FILES[$this->getPostVar()]['error']['image']))
 				{
@@ -265,7 +244,7 @@ class ilSingleChoiceWizardInputGUI extends ilTextInputGUI
 								case UPLOAD_ERR_NO_FILE:
 									if ($this->getRequired())
 									{
-										if (!strlen($foundvalues['imagename'][$index]))
+										if ((!strlen($foundvalues['imagename'][$index])) && (!strlen($foundvalues['answer'][$index])))
 										{
 											$this->setAlert($lng->txt("form_msg_file_no_upload"));
 											return false;
@@ -366,7 +345,7 @@ class ilSingleChoiceWizardInputGUI extends ilTextInputGUI
 		$i = 0;
 		foreach ($this->values as $value)
 		{
-			if ($this->getAllowImages())
+			if ($this->getSingleline())
 			{
 				if (is_array($this->getSuffixes()))
 				{
@@ -383,7 +362,7 @@ class ilSingleChoiceWizardInputGUI extends ilTextInputGUI
 				if (strlen($value->getImage()))
 				{
 					$imagename = $this->qstObject->getImagePathWeb() . $value->getImage();
-					if (($this->qstObject->getGraphicalAnswerSetting()) && ($this->qstObject->getResizeImages()))
+					if (($this->getSingleline()) && ($this->qstObject->getThumbSize()))
 					{
 						if (@file_exists($this->qstObject->getImagePath() . $this->qstObject->getThumbPrefix() . $value->getImage()))
 						{
@@ -401,13 +380,12 @@ class ilSingleChoiceWizardInputGUI extends ilTextInputGUI
 				}
 				$tpl->setCurrentBlock('addimage');
 				$tpl->setVariable("IMAGE_ID", $this->getPostVar() . "[image][$i]");
+				$tpl->setVariable("IMAGE_SUBMIT", $lng->txt("upload"));
 				$tpl->setVariable("IMAGE_ROW_NUMBER", $i);
 				$tpl->setVariable("IMAGE_POST_VAR", $this->getPostVar());
 				$tpl->setVariable("TXT_MAX_SIZE", ilUtil::getFileSizeInfo());
 				$tpl->parseCurrentBlock();
-			}
-			if ($this->getSingleline())
-			{
+
 				if (is_object($value))
 				{
 					$tpl->setCurrentBlock("prop_text_propval");
@@ -478,7 +456,19 @@ class ilSingleChoiceWizardInputGUI extends ilTextInputGUI
 			$tpl->parseCurrentBlock();
 			$i++;
 		}
+
+		if ($this->getSingleline())
+		{
+			$tpl->setCurrentBlock("image_heading");
+			$tpl->setVariable("ANSWER_IMAGE", $lng->txt('answer_image'));
+			$tpl->parseCurrentBlock();
+		}
+		
 		$tpl->setVariable("ELEMENT_ID", $this->getPostVar());
+		$tpl->setVariable("TEXT_YES", $lng->txt('yes'));
+		$tpl->setVariable("TEXT_NO", $lng->txt('no'));
+		$tpl->setVariable("DELETE_IMAGE_HEADER", $lng->txt('delete_image_header'));
+		$tpl->setVariable("DELETE_IMAGE_QUESTION", $lng->txt('delete_image_question'));
 		$tpl->setVariable("ANSWER_TEXT", $lng->txt('answer_text'));
 		$tpl->setVariable("POINTS_TEXT", $lng->txt('points'));
 		$tpl->setVariable("COMMANDS_TEXT", $lng->txt('actions'));
