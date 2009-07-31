@@ -292,6 +292,12 @@
 			// mysql
 			if ($ilDB->getDBType() == "mysql")
 			{
+				$fp = fopen($file, 'r');
+				if (!$fp)
+				{
+					$this->log("Error reading file $file.");
+					return;
+				}
 				$this->log("Dropping Tables.");
 				$set = $ilDB->query("SHOW tables");
 				while ($rec = $ilDB->fetchAssoc($set))
@@ -301,7 +307,6 @@
 						$ilDB->query("DROP TABLE ".$v);
 					}
 				}
-				$fp = fopen($file, 'r');
 		
 				$this->log("Read Dump.");
 				while(!feof($fp))
