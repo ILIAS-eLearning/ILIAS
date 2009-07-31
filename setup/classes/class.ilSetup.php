@@ -236,19 +236,9 @@ class ilSetup extends PEAR
 			$this->error = "connection_failed";
 			return false;
 		}
-		if ($a_collation != "")
-		{
-			$sql = "CREATE DATABASE ".$this->client->getdbName().
-				" CHARACTER SET utf8".
-				" COLLATE ".$a_collation;
-		}
-		else
-		{
-			$sql = "CREATE DATABASE ".$this->client->getdbName();
-		}
-
-		$r = $db->query($sql);
-
+		
+		$r = $ilDB->createDatabase($this->client->getdbName(),
+			"utf8", $a_collation);
 		
 		if (MDB2::isError($r))
 		{
