@@ -218,7 +218,7 @@
           <stringProp name="HTTPSampler.response_timeout"></stringProp>
           <stringProp name="HTTPSampler.protocol"></stringProp>
           <stringProp name="HTTPSampler.contentEncoding"></stringProp>
-          <stringProp name="HTTPSampler.path">${relwebdir}/goto_${client}_cat_${cat_id}.html</stringProp>
+          <stringProp name="HTTPSampler.path">${relwebdir}/goto.php?client_id=${client}&amp;target=cat_${cat_id}</stringProp>
           <stringProp name="HTTPSampler.method">GET</stringProp>
           <boolProp name="HTTPSampler.follow_redirects">false</boolProp>
           <boolProp name="HTTPSampler.auto_redirects">true</boolProp>
@@ -241,7 +241,7 @@
           <stringProp name="HTTPSampler.response_timeout"></stringProp>
           <stringProp name="HTTPSampler.protocol"></stringProp>
           <stringProp name="HTTPSampler.contentEncoding"></stringProp>
-          <stringProp name="HTTPSampler.path">${relwebdir}/goto_${client}_cat_${cat_id}.html</stringProp>
+          <stringProp name="HTTPSampler.path">${relwebdir}/goto.php?client_id=${client}&amp;target=cat_${cat_id}</stringProp>
           <stringProp name="HTTPSampler.method">GET</stringProp>
           <boolProp name="HTTPSampler.follow_redirects">false</boolProp>
           <boolProp name="HTTPSampler.auto_redirects">true</boolProp>
@@ -264,7 +264,7 @@
           <stringProp name="HTTPSampler.response_timeout"></stringProp>
           <stringProp name="HTTPSampler.protocol"></stringProp>
           <stringProp name="HTTPSampler.contentEncoding"></stringProp>
-          <stringProp name="HTTPSampler.path">${relwebdir}/goto_${client}_crs_${crs_id}.html</stringProp>
+          <stringProp name="HTTPSampler.path">${relwebdir}/goto.php?client_id=${client}&amp;target=crs_${crs_id}</stringProp>
           <stringProp name="HTTPSampler.method">GET</stringProp>
           <boolProp name="HTTPSampler.follow_redirects">false</boolProp>
           <boolProp name="HTTPSampler.auto_redirects">true</boolProp>
@@ -287,7 +287,7 @@
           <stringProp name="HTTPSampler.response_timeout"></stringProp>
           <stringProp name="HTTPSampler.protocol"></stringProp>
           <stringProp name="HTTPSampler.contentEncoding"></stringProp>
-          <stringProp name="HTTPSampler.path">${relwebdir}/goto_${client}_crs_${crs_id}.html</stringProp>
+          <stringProp name="HTTPSampler.path">${relwebdir}/goto.php?client_id=${client}&amp;target=crs_${crs_id}</stringProp>
           <stringProp name="HTTPSampler.method">GET</stringProp>
           <boolProp name="HTTPSampler.follow_redirects">false</boolProp>
           <boolProp name="HTTPSampler.auto_redirects">true</boolProp>
@@ -449,7 +449,7 @@
               <bytes>true</bytes>
             </value>
           </objProp>
-          <stringProp name="filename">/htdocs/ilias3/Services/LoadTest/results/test1.jtl</stringProp>
+          <stringProp name="filename">/Users/alex/Documents/_BasicConceptsAndStandards/ILIAS/Performanz_Hardware/LoadTests/test1/test1.jtl</stringProp>
         </ResultCollector>
         <hashTree/>
       </hashTree>
