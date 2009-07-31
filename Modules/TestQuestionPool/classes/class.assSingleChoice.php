@@ -54,20 +54,6 @@ class assSingleChoice extends assQuestion
 	var $output_type;
 
 	/**
-	* Allow images in choices
-	*
-	* @var integer
-	*/
-	protected $allow_images;
-
-	/**
-	* Resize images (create thumbs)
-	*
-	* @var integer
-	*/
-	protected $resize_images;
-
-	/**
 	* Thumbnail size
 	*
 	* @var integer
@@ -98,8 +84,6 @@ class assSingleChoice extends assQuestion
 	)
 	{
 		parent::__construct($title, $comment, $author, $owner, $question);
-		$this->allow_images = false;
-		$this->resize_images = false;
 		$this->thumb_size = 150;
 		$this->output_type = $output_type;
 		$this->answers = array();
@@ -188,7 +172,7 @@ class assSingleChoice extends assQuestion
 			}
 
 			$oldthumbsize = 0;
-			if (($this->getGraphicalAnswerSetting()) && ($this->getResizeImages()))
+			if ((!$this->getMultilineAnswerSetting()) && ($this->getThumbSize()))
 			{
 				// get old thumbnail size
 				$result = $ilDB->queryF("SELECT thumb_size FROM " . $this->getAdditionalTableName() . " WHERE question_fi = %s",
@@ -201,7 +185,7 @@ class assSingleChoice extends assQuestion
 					$oldthumbsize = $data['thumb_size'];
 				}
 			}
-			if (!$this->getGraphicalAnswerSetting())
+			if ($this->getMultilineAnswerSetting())
 			{
 				ilUtil::delDir($this->getImagePath());
 			}
@@ -212,14 +196,12 @@ class assSingleChoice extends assQuestion
 				array($this->getId())
 			);
 
-			$affectedRows = $ilDB->manipulateF("INSERT INTO " . $this->getAdditionalTableName() . " (question_fi, shuffle, allow_images, resize_images, thumb_size) VALUES (%s, %s, %s, %s, %s)", 
-				array("integer", "text", "text", "text", "integer"),
+			$affectedRows = $ilDB->manipulateF("INSERT INTO " . $this->getAdditionalTableName() . " (question_fi, shuffle, thumb_size) VALUES (%s, %s, %s)", 
+				array("integer", "text", "integer"),
 				array(
 					$this->getId(),
 					$this->getShuffle(),
-					$this->getGraphicalAnswerSetting(),
-					$this->getResizeImages(),
-					($this->getThumbSize() < 20) ? null : $this->getThumbSize()
+					(strlen($this->getThumbSize()) == 0) ? null : $this->getThumbSize()
 				)
 			);
 
@@ -256,11 +238,14 @@ class assSingleChoice extends assQuestion
 	*/
 	protected function rebuildThumbnails()
 	{
-		if (($this->getGraphicalAnswerSetting()) && ($this->getResizeImages()))
+		if ((!$this->getMultilineAnswerSetting()) && ($this->getThumbSize()))
 		{
 			foreach ($this->getAnswers() as $answer)
 			{
-				$this->generateThumbForFile($this->getImagePath(), $answer->getImage());
+				if (strlen($answer->getImage()))
+				{
+					$this->generateThumbForFile($this->getImagePath(), $answer->getImage());
+				}
 			}
 		}
 	}
@@ -326,8 +311,6 @@ class assSingleChoice extends assQuestion
 			$this->setQuestion(ilRTE::_replaceMediaObjectImageSrc($data["question_text"], 1));
 			$this->setShuffle($data["shuffle"]);
 			$this->setEstimatedWorkingTime(substr($data["working_time"], 0, 2), substr($data["working_time"], 3, 2), substr($data["working_time"], 6, 2));
-			$this->setGraphicalAnswerSetting($data['allow_images']);
-			$this->setResizeImages($data['resize_images']);
 			$this->setThumbSize($data['thumb_size']);
 		}
 
@@ -821,16 +804,6 @@ class assSingleChoice extends assQuestion
 		return "qpl_a_sc";
 	}
 	
-	function getGraphicalAnswerSetting()
-	{
-		return ($this->allow_images) ? 1 : 0;
-	}
-	
-	function setGraphicalAnswerSetting($a_setting = 0)
-	{
-		$this->allow_images = ($a_setting) ? 1 : 0;
-	}
-
 	/**
 	* Sets the image file and uploads the image to the object's image directory.
 	*
@@ -867,7 +840,7 @@ class assSingleChoice extends assQuestion
 				else
 				{
 					// create thumbnail file
-					if (($this->getGraphicalAnswerSetting()) && ($this->getResizeImages()))
+					if ((!$this->getMultilineAnswerSetting()) && ($this->getThumbSize()))
 					{
 						$this->generateThumbForFile($imagepath, $image_filename);
 					}
@@ -1138,16 +1111,6 @@ class assSingleChoice extends assQuestion
 		return $startrow + $i + 1;
 	}
 
-	public function getResizeImages()
-	{
-		return ($this->resize_images) ? 1 : 0;
-	}
-	
-	public function setResizeImages($a_setting = 0)
-	{
-		$this->resize_images = ($a_setting) ? 1 : 0;
-	}
-
 	public function getThumbSize()
 	{
 		return $this->thumb_size;
@@ -1190,6 +1153,16 @@ class assSingleChoice extends assQuestion
 		$mobs = ilObjMediaObject::_getMobsOfObject("qpl:html", $this->getId());
 		$result['mobs'] = $mobs;
 		return json_encode($result);
+	}
+	
+	public function removeAnswerImage($index)
+	{
+		$answer = $this->answers[$index];
+		if (is_object($answer))
+		{
+			$this->deleteImage($answer->getImage());
+			$answer->setImage('');
+		}
 	}
 
 }

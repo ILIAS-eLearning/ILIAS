@@ -145,6 +145,21 @@ class ilYuiUtil
 	}
 	
 	/**
+	* Init assessment wizard
+	*/
+	static function initAssessmentWizard()
+	{
+		global $tpl;
+
+		$tpl->addJavaScript("./Services/YUI/js/".self::$ver."/yahoo-dom-event/yahoo-dom-event.js");
+		$tpl->addJavaScript("./Services/YUI/js/".self::$ver."/element/element-min.js");
+		$tpl->addJavaScript("./Services/YUI/js/".self::$ver."/button/button-min.js");
+		$tpl->addJavaScript("./Services/YUI/js/".self::$ver."/container/container-min.js");
+		$tpl->addCss("./Services/YUI/js/".self::$ver."/button/assets/skins/sam/button.css");
+		$tpl->addCss("./Services/YUI/js/".self::$ver."/container/assets/skins/sam/container.css");
+	}
+	
+	/**
 	* init drag & drop list
 	*/
 	static function initDragDropList()

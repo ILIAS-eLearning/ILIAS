@@ -210,7 +210,7 @@ assessment#:#all_available_question_pools#:#Alle vorhandenen Fragenpools
 assessment#:#analyze_errortext#:#Fehlertext analysieren
 assessment#:#answer#:#Antwort
 assessment#:#answers_multiline#:#Mehrzeilige Antworten
-assessment#:#answers_singleline#:#Einzeilig Antworten
+assessment#:#answers_singleline#:#Einzeilige Antworten
 assessment#:#answer_is_not_correct_but_positive#:#Sie haben Punkte für Ihre Lösung erhalten, allerdings handelt es sich dabei nicht um die beste Lösung
 assessment#:#answer_is_right#:#Ihre Lösung ist korrekt
 assessment#:#answer_is_wrong#:#Ihre Lösung ist falsch
@@ -9826,3 +9826,7 @@ wiki#:#wiki_what_links_here#:#Was verlinkt hierher?
 wiki#:#wiki_what_links_to_page#:#Was verlinkt auf die Seite "%s"?
 wiki#:#wiki_wiki_page#:#Wiki-Seite
 wiki#:#wiki_wiki_search#:#Suche in Wiki
+assessment#:#delete_image_header#:#Bild löschen
+assessment#:#delete_image_question#:#Wollen Sie wirklich das Bild löschen?
+assessment#:#answer_image#:#Antwort-Grafik
+assessment#:#thumb_size_info#:#Wenn Sie eine Vorschaugröße angeben, werden hochgeladene Bilder automatisch auf diese Größe verkleinert. Ohne Vorschaugröße werden die Bilder in ihrer Originalgröße verwendet.
