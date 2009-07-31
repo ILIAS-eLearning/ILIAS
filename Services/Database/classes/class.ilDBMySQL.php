@@ -142,6 +142,7 @@ class ilDBMySQL extends ilDB
 		{
 			$vers = "Unknown";
 		}
+		return $vers;
 	}
 	
 
