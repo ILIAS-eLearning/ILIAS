@@ -4618,14 +4618,14 @@ class ilObjUser extends ilObject
 			"JOIN object_data dat ON dat.obj_id = r2.obj_id ".
 			"WHERE ua.usr_id = ".$ilDB->quote($a_user_id, "integer")." ".
 			"AND fa.assign = ".$ilDB->quote("y", "text")." ".
-			"AND dat.type IN (".$ilDB->quote("usr", "text").",".
+			"AND dat.type IN (".$ilDB->quote("crs", "text").",".
 			$ilDB->quote("grp", "text").")";
 		$r = $ilDB->query($q);
+
 		while ($row = $ilDB->fetchAssoc($r))
 		{
 			$groups_and_courses_of_user[] = $row["obj_id"];
 		}
-
 		// If the user is not in a course or a group, he has no associated users.
 		if (count($groups_and_courses_of_user) == 0)
 		{
