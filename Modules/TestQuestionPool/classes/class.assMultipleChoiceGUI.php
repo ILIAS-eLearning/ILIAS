@@ -86,22 +86,15 @@ class assMultipleChoiceGUI extends assQuestionGUI
 				ilUtil::stripSlashes($_POST["Estimated"]["ss"])
 			);
 			$this->object->setMultilineAnswerSetting($_POST["types"]);
-			$this->object->setGraphicalAnswerSetting(($_POST["allow_images"]) ? 1 : 0);
-			$this->object->setResizeImages(($_POST["resize_images"]) ? 1 : 0);
 			$this->object->setThumbSize((strlen($_POST["thumb_size"])) ? $_POST["thumb_size"] : "");
 
 			// Delete all existing answers and create new answers from the form data
 			$this->object->flushAnswers();
-			if ($this->object->getGraphicalAnswerSetting())
+			if (!$this->object->getMultilineAnswerSetting())
 			{
 				foreach ($_POST['choice']['answer'] as $index => $answer)
 				{
 					$filename = $_POST['choice']['imagename'][$index];
-					if ($_POST['choice']['deleteimage'][$index] == 1)
-					{
-						$this->object->deleteImage($_POST['choice']['imagename'][$index]);
-						$filename = "";
-					}
 					if (strlen($_FILES['choice']['name']['image'][$index]))
 					{
 						// upload image
@@ -146,8 +139,7 @@ class assMultipleChoiceGUI extends assQuestionGUI
 		$form = new ilPropertyFormGUI();
 		$form->setFormAction($this->ctrl->getFormAction($this));
 		$form->setTitle($this->outQuestionType());
-		$usegraphics = ($save) ? $_POST['allow_images'] : $this->object->getGraphicalAnswerSetting();
-		$useresize = ($save) ? $_POST['resize_images'] : $this->object->getResizeImages();
+		$usegraphics = ($save) ? (($_POST['types']) ? false : true) : (($this->object->getMultilineAnswerSetting()) ? false : true);
 		if ($usegraphics)
 		{
 			$form->setMultipart(TRUE);
@@ -186,36 +178,17 @@ class assMultipleChoiceGUI extends assQuestionGUI
 		));
 		$form->addItem($types);
 
-		// Allow images
-		if (!$this->getSelfAssessmentEditingMode())
-		{
-			$allowImages = new ilCheckboxInputGUI($this->lng->txt("allow_images"), "allow_images");
-			$allowImages->setValue(1);
-			$allowImages->setChecked($this->object->getGraphicalAnswerSetting());
-			$allowImages->setRequired(FALSE);
-			$form->addItem($allowImages);
-		}
-
 		if ($usegraphics)
 		{
-			// Resize images
-			$resize_images = new ilCheckboxInputGUI($this->lng->txt("resize_images"), "resize_images");
-			$resize_images->setValue(1);
-			$resize_images->setChecked($useresize);
-			$resize_images->setRequired(false);
-			$form->addItem($resize_images);
-			
-			if ($useresize)
-			{
-				// thumb size
-				$thumb_size = new ilNumberInputGUI($this->lng->txt("thumb_size"), "thumb_size");
-				$thumb_size->setMinValue(20);
-				$thumb_size->setDecimals(0);
-				$thumb_size->setSize(6);
-				$thumb_size->setValue($this->object->getThumbSize());
-				$thumb_size->setRequired(true);
-				$form->addItem($thumb_size);
-			}
+			// thumb size
+			$thumb_size = new ilNumberInputGUI($this->lng->txt("thumb_size"), "thumb_size");
+			$thumb_size->setMinValue(20);
+			$thumb_size->setDecimals(0);
+			$thumb_size->setSize(6);
+			$thumb_size->setInfo($this->lng->txt('thumb_size_info'));
+			$thumb_size->setValue($this->object->getThumbSize());
+			$thumb_size->setRequired(false);
+			$form->addItem($thumb_size);
 		}
 
 		// Choices
@@ -225,7 +198,6 @@ class assMultipleChoiceGUI extends assQuestionGUI
 		$choices->setQuestionObject($this->object);
 		$choices->setSingleline(($this->object->getMultilineAnswerSetting()) ? false : true);
 		$choices->setAllowMove(false);
-		$choices->setAllowImages($usegraphics);
 		if ($this->object->getAnswerCount() == 0) $this->object->addAnswer("", 0, 0, 0);
 		$choices->setValues($this->object->getAnswers());
 		$form->addItem($choices);
@@ -244,6 +216,28 @@ class assMultipleChoiceGUI extends assQuestionGUI
 
 		if (!$checkonly) $this->tpl->setVariable("QUESTION_DATA", $form->getHTML());
 		return $errors;
+	}
+
+	/**
+	* Upload an image
+	*/
+	public function uploadchoice()
+	{
+		$this->writePostData(true);
+		$position = key($_POST['cmd']['uploadchoice']);
+		$this->editQuestion();
+	}
+
+	/**
+	* Remove an image
+	*/
+	public function removeimagechoice()
+	{
+		$this->writePostData(true);
+		$position = key($_POST['cmd']['removeimagechoice']);
+		$filename = $_POST['choice']['imagename'][$position];
+		$this->object->removeAnswerImage($position);
+		$this->editQuestion();
 	}
 
 	/**
@@ -391,7 +385,7 @@ class assMultipleChoiceGUI extends assQuestionGUI
 			if (strlen($answer->getImage()))
 			{
 				$template->setCurrentBlock("answer_image");
-				if (($this->object->getGraphicalAnswerSetting()) && ($this->object->getResizeImages()))
+				if ((!$this->object->getMultilineAnswerSetting()) && ($this->object->getThumbSize()))
 				{
 					$template->setVariable("ANSWER_IMAGE_URL", $this->object->getImagePathWeb() . $this->object->getThumbPrefix() . $answer->getImage());
 				}
@@ -484,7 +478,7 @@ class assMultipleChoiceGUI extends assQuestionGUI
 			if (strlen($answer->getImage()))
 			{
 				$template->setCurrentBlock("answer_image");
-				if (($this->object->getGraphicalAnswerSetting()) && ($this->object->getResizeImages()))
+				if ((!$this->object->getMultilineAnswerSetting()) && ($this->object->getThumbSize()))
 				{
 					$template->setVariable("ANSWER_IMAGE_URL", $this->object->getImagePathWeb() . $this->object->getThumbPrefix() . $answer->getImage());
 				}
@@ -548,7 +542,7 @@ class assMultipleChoiceGUI extends assQuestionGUI
 			if (strlen($answer->getImage()))
 			{
 				$template->setCurrentBlock("answer_image");
-				if (($this->object->getGraphicalAnswerSetting()) && ($this->object->getResizeImages()))
+				if ((!$this->object->getMultilineAnswerSetting()) && ($this->object->getThumbSize()))
 				{
 					$template->setVariable("ANSWER_IMAGE_URL", $this->object->getImagePathWeb() . $this->object->getThumbPrefix() . $answer->getImage());
 				}
@@ -703,23 +697,10 @@ class assMultipleChoiceGUI extends assQuestionGUI
 			$url = "";
 			if ($classname) $url = $this->ctrl->getLinkTargetByClass($classname, "editQuestion");
 			$force_active = false;
-			$commands = $_POST["cmd"];
-			if (is_array($commands))
-			{
-				foreach ($commands as $key => $value)
-				{
-					if (preg_match("/^deleteImage_.*/", $key, $matches) || 
-						preg_match("/^upload_.*/", $key, $matches)
-						)
-					{
-						$force_active = true;
-					}
-				}
-			}
 			// edit question properties
 			$ilTabs->addTarget("edit_properties",
 				$url,
-				array("editQuestion", "save", "saveEdit", "addchoice", "removechoice"),
+				array("editQuestion", "save", "saveEdit", "addchoice", "removechoice", "removeimagechoice", "uploadchoice"),
 				$classname, "", $force_active);
 		}
 

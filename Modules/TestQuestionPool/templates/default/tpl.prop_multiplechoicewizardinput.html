@@ -8,6 +8,9 @@
 			</tr>
 			<tr>
 				<th>{ANSWER_TEXT}</th>
+<!-- BEGIN image_heading -->
+				<th>{ANSWER_IMAGE}</th>
+<!-- END image_heading -->
 				<th class="checked">{POINTS_CHECKED_TEXT}</th>
 				<th class="unchecked">{POINTS_UNCHECKED_TEXT}</th>
 				<th>{COMMANDS_TEXT}</th>
@@ -23,21 +26,21 @@
 <!-- BEGIN multiline -->
 					<textarea cols="60" rows="4" name="{MULTILINE_POST_VAR}[answer][{MULTILINE_ROW_NUMBER}]" id="{MULTILINE_ID}"{DISABLED_MULTILINE}>{PROPERTY_VALUE}</textarea>
 <!-- END multiline -->
+				</td>
 <!-- BEGIN addimage -->
-					<div><input type="file" id="{IMAGE_ID}" name="{IMAGE_POST_VAR}[image][{IMAGE_ROW_NUMBER}]" size="30" /></div>
-					<div class="ilFormInfo">{TXT_MAX_SIZE}</div>
-<!-- BEGIN allowed_image_suffixes -->
-					<div class="ilFormInfo">{TXT_ALLOWED_SUFFIXES}</div>
-<!-- END allowed_image_suffixes -->
+				<td>
+					<div class="imageselection">
+					<div><input type="file" id="{IMAGE_ID}" name="{IMAGE_POST_VAR}[image][{IMAGE_ROW_NUMBER}]" size="20" /> <input type="submit" class="submit" name="cmd[upload{IMAGE_POST_VAR}][{IMAGE_ROW_NUMBER}]" value="{IMAGE_SUBMIT}" /></div>
 <!-- BEGIN image -->
 					<div class="imagepresentation">
 						<input type="hidden" name="{IMAGE_POST_VAR}[imagename][{IMAGE_ROW_NUMBER}]" value="{IMAGE_NAME}" />
 						<img style="margin: 5px 0px 5px 0px;" src="{SRC_IMAGE}" alt="{ALT_IMAGE}" {WIDTH} {HEIGHT} border="0" /><br />
-						<input type="checkbox" name="{IMAGE_POST_VAR}[deleteimage][{IMAGE_ROW_NUMBER}]" id="{IMAGE_POST_VAR}[deleteimage][{IMAGE_ROW_NUMBER}]" value="1" /><label for="{IMAGE_POST_VAR}[deleteimage][{IMAGE_ROW_NUMBER}]">{TXT_DELETE_EXISTING}</label><br />
+						<input type="submit" class="submit" name="cmd[removeimage{IMAGE_POST_VAR}][{IMAGE_ROW_NUMBER}]" value="{TXT_DELETE_EXISTING}" /><br />
 					</div>
 <!-- END image -->
-<!-- END addimage -->
+				</div>
 				</td>
+<!-- END addimage -->
 				<td style="vertical-align: top;">
 					<input type="text" style="text-align: right;" size="5" id="{POINTS_ID}" name="{POST_VAR}[points][{ROW_NUMBER}]" <!-- BEGIN prop_points_propval -->value="{PROPERTY_VALUE}" <!-- END prop_points_propval -->{DISABLED_POINTS}/>
 				</td>
@@ -56,4 +59,5 @@
 <!-- END row -->
 		</tbody>
 	</table>
+	<div class="ilFormInfo">{TXT_MAX_SIZE}<!-- BEGIN allowed_image_suffixes --> {TXT_ALLOWED_SUFFIXES}<!-- END allowed_image_suffixes --></div>
 </div>
