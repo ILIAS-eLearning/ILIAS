@@ -87,6 +87,7 @@ function addTextField(e, obj)
 	removeListeners(addmaincontainer);
 	var parentclone = addparent.cloneNode(true);
 	cleanTextWizardElements(parentclone);
+	
 	textinputs = YAHOO.util.Dom.getElementsBy(function (el) { return (el.type == 'text') ? true : false; }, 'input', addmaincontainer);
 	parentindex = 0;
 	for (i = 0; i < textinputs.length; i++)
