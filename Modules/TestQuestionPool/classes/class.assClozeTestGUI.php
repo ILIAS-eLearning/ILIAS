@@ -224,28 +224,26 @@ class assClozeTestGUI extends assQuestionGUI
 			if ($gap->getType() == CLOZE_TEXT)
 			{
 				// Choices
-				include_once "./Modules/TestQuestionPool/classes/class.ilSingleChoiceWizardInputGUI.php";
+				include_once "./Modules/TestQuestionPool/classes/class.ilAnswerWizardInputGUI.php";
 				include_once "./Modules/TestQuestionPool/classes/class.assAnswerCloze.php";
-				$values = new ilSingleChoiceWizardInputGUI($this->lng->txt("values"), "gap_" . $i . "");
+				$values = new ilAnswerWizardInputGUI($this->lng->txt("values"), "gap_" . $i . "");
 				$values->setRequired(true);
 				$values->setQuestionObject($this->object);
 				$values->setSingleline(true);
 				$values->setAllowMove(false);
-				$values->setAllowImages(false);
 				if (count($gap->getItemsRaw()) == 0) $gap->addItem(new assAnswerCloze("", 0, 0));
 				$values->setValues($gap->getItemsRaw());
 				$form->addItem($values);
 			}
 			else if ($gap->getType() == CLOZE_SELECT)
 			{
-				include_once "./Modules/TestQuestionPool/classes/class.ilSingleChoiceWizardInputGUI.php";
+				include_once "./Modules/TestQuestionPool/classes/class.ilAnswerWizardInputGUI.php";
 				include_once "./Modules/TestQuestionPool/classes/class.assAnswerCloze.php";
-				$values = new ilSingleChoiceWizardInputGUI($this->lng->txt("values"), "gap_" . $i . "");
+				$values = new ilAnswerWizardInputGUI($this->lng->txt("values"), "gap_" . $i . "");
 				$values->setRequired(true);
 				$values->setQuestionObject($this->object);
 				$values->setSingleline(true);
 				$values->setAllowMove(false);
-				$values->setAllowImages(false);
 				if (count($gap->getItemsRaw()) == 0) $gap->addItem(new assAnswerCloze("", 0, 0));
 				$values->setValues($gap->getItemsRaw());
 				$form->addItem($values);
