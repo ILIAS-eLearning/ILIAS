@@ -34,7 +34,6 @@ class ilAnswerWizardInputGUI extends ilTextInputGUI
 	protected $allowMove = false;
 	protected $singleline = true;
 	protected $qstObject = null;
-	protected $suffixes = array();
 	
 	/**
 	* Constructor
@@ -45,7 +44,6 @@ class ilAnswerWizardInputGUI extends ilTextInputGUI
 	function __construct($a_title = "", $a_postvar = "")
 	{
 		parent::__construct($a_title, $a_postvar);
-		$this->setSuffixes(array("jpg", "jpeg", "png", "gif"));
 		$this->setSize('25');
 		$this->validationRegexp = "";
 	}
@@ -72,26 +70,6 @@ class ilAnswerWizardInputGUI extends ilTextInputGUI
 		}
 	}
 
-	/**
-	* Set Accepted Suffixes.
-	*
-	* @param	array	$a_suffixes	Accepted Suffixes
-	*/
-	function setSuffixes($a_suffixes)
-	{
-		$this->suffixes = $a_suffixes;
-	}
-
-	/**
-	* Get Accepted Suffixes.
-	*
-	* @return	array	Accepted Suffixes
-	*/
-	function getSuffixes()
-	{
-		return $this->suffixes;
-	}
-	
 	/**
 	* Set Values
 	*
@@ -189,7 +167,7 @@ class ilAnswerWizardInputGUI extends ilTextInputGUI
 			{
 				foreach ($foundvalues['answer'] as $aidx => $answervalue)
 				{
-					if (((strlen($answervalue)) == 0) && (strlen($foundvalues['imagename'][$aidx]) == 0))
+					if ((strlen($answervalue)) == 0)
 					{
 						$this->setAlert($lng->txt("msg_input_is_required"));
 						return FALSE;
@@ -214,114 +192,6 @@ class ilAnswerWizardInputGUI extends ilTextInputGUI
 			{
 				$this->setAlert($lng->txt("enter_enough_positive_points"));
 				return false;
-			}
-
-			if (is_array($_FILES) && $this->getSingleline())
-			{
-				if (is_array($_FILES[$this->getPostVar()]['error']['image']))
-				{
-					foreach ($_FILES[$this->getPostVar()]['error']['image'] as $index => $error)
-					{
-						// error handling
-						if ($error > 0)
-						{
-							switch ($error)
-							{
-								case UPLOAD_ERR_INI_SIZE:
-									$this->setAlert($lng->txt("form_msg_file_size_exceeds"));
-									return false;
-									break;
-
-								case UPLOAD_ERR_FORM_SIZE:
-									$this->setAlert($lng->txt("form_msg_file_size_exceeds"));
-									return false;
-									break;
-
-								case UPLOAD_ERR_PARTIAL:
-									$this->setAlert($lng->txt("form_msg_file_partially_uploaded"));
-									return false;
-									break;
-
-								case UPLOAD_ERR_NO_FILE:
-									if ($this->getRequired())
-									{
-										if ((!strlen($foundvalues['imagename'][$index])) && (!strlen($foundvalues['answer'][$index])))
-										{
-											$this->setAlert($lng->txt("form_msg_file_no_upload"));
-											return false;
-										}
-									}
-									break;
-
-								case UPLOAD_ERR_NO_TMP_DIR:
-									$this->setAlert($lng->txt("form_msg_file_missing_tmp_dir"));
-									return false;
-									break;
-
-								case UPLOAD_ERR_CANT_WRITE:
-									$this->setAlert($lng->txt("form_msg_file_cannot_write_to_disk"));
-									return false;
-									break;
-
-								case UPLOAD_ERR_EXTENSION:
-									$this->setAlert($lng->txt("form_msg_file_upload_stopped_ext"));
-									return false;
-									break;
-							}
-						}
-					}
-				}
-				else
-				{
-					if ($this->getRequired())
-					{
-						$this->setAlert($lng->txt("form_msg_file_no_upload"));
-						return false;
-					}
-				}
-
-				if (is_array($_FILES[$this->getPostVar()]['tmp_name']['image']))
-				{
-					foreach ($_FILES[$this->getPostVar()]['tmp_name']['image'] as $index => $tmpname)
-					{
-						$filename = $_FILES[$this->getPostVar()]['name']['image'][$index];
-						$filename_arr = pathinfo($filename);
-						$suffix = $filename_arr["extension"];
-						$mimetype = $_FILES[$this->getPostVar()]['type']['image'][$index];
-						$size_bytes = $_FILES[$this->getPostVar()]['size']['image'][$index];
-						// check suffixes
-						if (strlen($tmpname) && is_array($this->getSuffixes()))
-						{
-							if (!in_array(strtolower($suffix), $this->getSuffixes()))
-							{
-								$this->setAlert($lng->txt("form_msg_file_wrong_file_type"));
-								return false;
-							}
-						}
-					}
-				}
-
-				if (is_array($_FILES[$this->getPostVar()]['tmp_name']['image']))
-				{
-					foreach ($_FILES[$this->getPostVar()]['tmp_name']['image'] as $index => $tmpname)
-					{
-						$filename = $_FILES[$this->getPostVar()]['name']['image'][$index];
-						$filename_arr = pathinfo($filename);
-						$suffix = $filename_arr["extension"];
-						$mimetype = $_FILES[$this->getPostVar()]['type']['image'][$index];
-						$size_bytes = $_FILES[$this->getPostVar()]['size']['image'][$index];
-						// virus handling
-						if (strlen($tmpname))
-						{
-							$vir = ilUtil::virusHandling($tmpname, $filename);
-							if ($vir[0] == false)
-							{
-								$this->setAlert($lng->txt("form_msg_file_virus_found")."<br />".$vir[1]);
-								return false;
-							}
-						}
-					}
-				}
 			}
 		}
 		else
