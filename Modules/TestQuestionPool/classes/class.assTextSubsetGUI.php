@@ -185,13 +185,12 @@ class assTextSubsetGUI extends assQuestionGUI
 		$form->addItem($duration);
 	
 		// Choices
-		include_once "./Modules/TestQuestionPool/classes/class.ilSingleChoiceWizardInputGUI.php";
-		$choices = new ilSingleChoiceWizardInputGUI($this->lng->txt("answers"), "answers");
+		include_once "./Modules/TestQuestionPool/classes/class.ilAnswerWizardInputGUI.php";
+		$choices = new ilAnswerWizardInputGUI($this->lng->txt("answers"), "answers");
 		$choices->setRequired(true);
 		$choices->setQuestionObject($this->object);
 		$choices->setSingleline(true);
 		$choices->setAllowMove(false);
-		$choices->setAllowImages(false);
 		if ($this->object->getAnswerCount() == 0) $this->object->addAnswer("", 0, 0);
 		$choices->setValues($this->object->getAnswers());
 		$form->addItem($choices);
