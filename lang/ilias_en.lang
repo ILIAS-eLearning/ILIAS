@@ -364,7 +364,7 @@ assessment#:#end_tag#:#End Tag
 assessment#:#ending_time_reached#:#You have reached the ending time
 assessment#:#enlarge#:#Enlarge
 assessment#:#enter_anonymous_code#:#Enter Anonymous Access Code
-assessment#:#enter_enough_positive_points#:#The maxium available points for the question must be greater than 0! Please enter sufficient non negative points for your answers.
+assessment#:#enter_enough_positive_points#:#The maxium available points must be greater than 0! Please enter sufficient positive points for your answers.
 assessment#:#error_random_question_generation#:#A fatal error occured during the generation of your random questions for the test. Please contact your administrator with the following information: The system could not create an active ID for user ID %s and test ID %s.
 assessment#:#error_image_upload_copy_file#:#There was an error moving the uploaded image file to its destination folder!
 assessment#:#error_image_upload_wrong_format#:#Please upload a valid image file! Supported image formats are gif, jpeg and png.

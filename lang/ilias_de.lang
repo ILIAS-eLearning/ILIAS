@@ -354,7 +354,7 @@ assessment#:#ending_time_reached#:#Sie haben das Ende der möglichen Bearbeitung
 assessment#:#end_tag#:#Endmarkierung
 assessment#:#enlarge#:#vergrößern
 assessment#:#enter_anonymous_code#:#Zugangsschlüssel für anonymen Zugang
-assessment#:#enter_enough_positive_points#:#Die maximale Punktezahl für die Frage muss größer als Null sein! Bitte geben Sie ausreichend viele nicht-negative Punkte für die Antworten ein.
+assessment#:#enter_enough_positive_points#:#Die maximale Punktezahl muss größer als Null sein! Bitte geben Sie ausreichend viele positive Punkte für die Antworten ein.
 assessment#:#errors#:#Fehler
 assessment#:#errors_section#:#Fehlerdaten
 assessment#:#errortext#:#Fehlertext
