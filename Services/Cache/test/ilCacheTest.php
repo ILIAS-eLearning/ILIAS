@@ -47,26 +47,24 @@ class ilCacheTest extends PHPUnit_Framework_TestCase
 	 */
 	public function testCache()
 	{
-		include_once './Services/Cache/classes/class.ilCache.php';
+		include_once './Services/Cache/classes/class.ilExampleCache.php';
 		
-		$module = md5(time());
-		$cache = new ilCache($module);
-		$cache->setValue(1,2);
+		$cache = new ilExampleCache($module);
+		$get = $cache->getEntry("test_id");
+		$stat = $cache->getLastAccessStatus();
+		$value.= $stat."-".$get."-";
 		
-		$val = $cache->getValue(1);
-		$this->assertEquals($val,2);
+		$get = $cache->getEntry("test_id");
+		$stat = $cache->getLastAccessStatus();
+		$value.= $stat."-".$get."-";
 		
-		$val = $cache->getValueForModule($module,1);
-		$this->assertEquals($val,2);
+		sleep(6);
 
-		$cache->deleteValue(1);
-		$val = $cache->getValue(1);
-		$this->assertEquals($val,null);
-
-		$cache->setValue(1,2);
-		$cache->deleteAll($module);
-		$val = $cache->getValue(1);
-		$this->assertEquals($val,null);
+		$get = $cache->getEntry("test_id");
+		$stat = $cache->getLastAccessStatus();
+		$value.= $stat."-".$get."-";
+		
+		$this->assertEquals("miss-value_test_id-hit-value_test_id-miss-value_test_id-", $value);
 	}
 }
 ?>

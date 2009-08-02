@@ -1,162 +1,207 @@
 <?php
-/*
-	+-----------------------------------------------------------------------------+
-	| ILIAS open source                                                           |
-	+-----------------------------------------------------------------------------+
-	| Copyright (c) 1998-2006 ILIAS open source, University of Cologne            |
-	|                                                                             |
-	| This program is free software; you can redistribute it and/or               |
-	| modify it under the terms of the GNU General Public License                 |
-	| as published by the Free Software Foundation; either version 2              |
-	| of the License, or (at your option) any later version.                      |
-	|                                                                             |
-	| This program is distributed in the hope that it will be useful,             |
-	| but WITHOUT ANY WARRANTY; without even the implied warranty of              |
-	| MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the               |
-	| GNU General Public License for more details.                                |
-	|                                                                             |
-	| You should have received a copy of the GNU General Public License           |
-	| along with this program; if not, write to the Free Software                 |
-	| Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA. |
-	+-----------------------------------------------------------------------------+
-*/
-
+/* Copyright (c) 1998-2009 ILIAS open source, Extended GPL, see docs/LICENSE */
 
 /**
-* ILIAS Cache Class
-*
-* @author Helmut Schottmüller <helmut.schottmueller@mac.com>
-* @version $Id$
-*/
-class ilCache
+ * Abstract cache class
+ *
+ * @author Alex Killing <alex.killing@gmx.de>
+ * @version $Id$
+ * @ingroup ingroup ServicesCache
+ */
+abstract class ilCache
 {
-	private $module = "";
+	/**
+	 * Constructor
+	 *
+	 * @param
+	 * @return
+	 */
+	function __construct($a_component, $a_cache_name, $a_use_long_content = false)
+	{
+		$this->setComponent($a_component);
+		$this->setName($a_cache_name);
+		$this->setUseLongContent($a_use_long_content);
+	}
 	
 	/**
-	* Initialise Cache 
-	*/
-	function __construct($a_module = "common")
+	 * Set component
+	 *
+	 * @param	string	component
+	 */
+	function setComponent($a_val)
+	{
+		$this->component = $a_val;
+	}
+	
+	/**
+	 * Get component
+	 *
+	 * @return	string	component
+	 */
+	protected function getComponent()
+	{
+		return $this->component;
+	}
+	
+	/**
+	 * Set name
+	 *
+	 * @param	string	name
+	 */
+	protected function setName($a_val)
+	{
+		$this->name = $a_val;
+	}
+	
+	/**
+	 * Get name
+	 *
+	 * @return	string	name
+	 */
+	protected function getName()
+	{
+		return $this->name;
+	}
+	
+	/**
+	 * Set use long content
+	 *
+	 * @param	boolean	use long content
+	 */
+	protected function setUseLongContent($a_val)
+	{
+		$this->use_long_content = $a_val;
+	}
+	
+	/**
+	 * Get use long content
+	 *
+	 * @return	boolean	use long content
+	 */
+	protected function getUseLongContent()
+	{
+		return $this->use_long_content;
+	}
+	
+	/**
+	 * Set expires after x seconds
+	 *
+	 * @param	int	expires after x seconds
+	 */
+	public function setExpiresAfter($a_val)
+	{
+		$this->expires_after = $a_val;
+	}
+	
+	/**
+	 * Get expires after x seconds
+	 *
+	 * @return	int	expires after x seconds
+	 */
+	public function getExpiresAfter()
+	{
+		return $this->expires_after;
+	}
+	
+	/**
+	 * Get entry
+	 *
+	 * @param	string	entry id
+	 * @return	string	entry value
+	 */
+	public function getEntry($a_id)
+	{
+		
+		if ($this->readEntry($a_id))	// cache hit
+		{
+echo "A";
+			$this->last_access = "hit";
+			return $this->entry;
+		}
+		else							// cache miss
+		{
+echo "B";
+			$this->last_access = "miss";
+			$value = $this->determineEntryValue($a_id);
+			$this->storeEntry($a_id, $value);
+			return $value;
+		}
+	}
+	
+	/**
+	 * Read entry
+	 *
+	 * @param
+	 * @return
+	 */
+	final private function readEntry($a_id)
 	{
 		global $ilDB;
 		
-		$this->module = $a_module;
-	}
+		$table = $this->getUseLongContent()
+			? "cache_clob"
+			: "cache_text";
 	
-	/**
-	* get cached value
-	*
-	* @access	public
-	*
-	* @param	string	keyword
-	* @return	string	value
-	*/
-	public function getValue($a_keyword)
-	{
-		global $ilDB;
-		$query = sprintf("SELECT * FROM data_cache WHERE module = %s AND keyword = %s",
-			$ilDB->quote($this->module,'text'),
-			$ilDB->quote($a_keyword,'text')
-		);
-		$res = $ilDB->query($query);
-
-		if ($res->numRows() == 1) 
-		{
-			$row = $res->fetchRow(DB_FETCHMODE_ASSOC);
-			return $row["value"];
-		}
-		else
-		{
-			return NULL;
-		}
-	}
-	
-	/**
-	* get cached value
-	*
-	* @access	public
-	*
-	* @param	string	module
-	* @param	string	keyword
-	* @return	string	value
-	*/
-	public function getValueForModule($a_module, $a_keyword)
-	{
-		global $ilDB;
-		$query = sprintf("SELECT * FROM data_cache WHERE module = %s AND keyword = %s",
-			$ilDB->quote($a_module ,'text'),
-			$ilDB->quote($a_keyword ,'text')
-		);
-		$res = $ilDB->query($query);
-
-		if ($res->numRows() == 1) 
-		{
-			$row = $res->fetchRow(DB_FETCHMODE_ASSOC);
-			return $row["value"];
-		}
-		else
-		{
-			return NULL;
-		}
-	}
-	
-	/**
-	* Delete all cached values of a current module
-	*
-	* @param string $a_module A module or if empty, the current module
-	* @access public
-	* 
-	*/
-	public function deleteAll($a_module = "")
-	{
-		global $ilDB;
-		
-		$module = (strlen($a_module) ? $a_module : $this->module);
-		$query = sprintf("DELETE FROM data_cache WHERE module = %s",
-			$ilDB->quote($module ,'text')
-		);
-		$res = $ilDB->manipulate($query);
-	}
-	
-	/**
-	* Delete a single value from the data cache
-	* @access	public
-	* @param	string	keyword
-	*/
-	public function deleteValue($a_keyword)
-	{
-		global $ilDB;
-
-		$query = sprintf("DELETE FROM data_cache WHERE keyword = %s AND module = %s",
-			$ilDB->quote($a_keyword ,'text'),
-			$ilDB->quote($this->module ,'text')
-		);
-		$res = $ilDB->manipulate($query);
-	}
-	
-	/**
-	* Write a cached value
-	*
-	* @access	public
-	* @param	string	$a_key keyword
-	* @param	string $a_val value
-	*/
-	public function setValue($a_key, $a_val)
-	{
-		global $ilDB, $ilLog;
-		
-		$sql = sprintf("DELETE FROM data_cache WHERE keyword = %s AND module = %s",
-			$ilDB->quote($a_key ,'text'),
-			$ilDB->quote($this->module ,'text')
-		);
-		$res = $ilDB->manipulate($sql);
-
-		$values = array(
-			'module'	=> array('text',$this->module),
-			'keyword'	=> array('text',$a_key),
-			'value'		=> array('clob',$a_val)
+		$set = $ilDB->query("SELECT value FROM $table WHERE ".
+			"component = ".$ilDB->quote($this->getComponent(), "text")." AND ".
+			"name = ".$ilDB->quote($this->getName(), "text")." AND ".
+			"expire_time > ".$ilDB->quote(time(), "integer")." AND ".
+			"ilias_version = ".$ilDB->quote(ILIAS_VERSION_NUMERIC, "text")." AND ".
+			"entry_id = ".$ilDB->quote($a_id, "text")
 			);
-		$ilDB->insert('data_cache',$values);
+		if ($rec  = $ilDB->fetchAssoc($set))
+		{
+			$this->entry = $rec["value"];
+			return true;
+		}
+		return false;
 	}
+	
+	/**
+	 * Last access
+	 */
+	function getLastAccessStatus()
+	{
+		return $this->last_access;
+	}
+	
+	
+	/**
+	 * Store entry
+	 *
+	 * @param
+	 * @return
+	 */
+	function storeEntry($a_id, $a_value)
+	{
+		global $ilDB;
 
+		$table = $this->getUseLongContent()
+			? "cache_clob"
+			: "cache_text";
+		$type =  $this->getUseLongContent()
+			? "clob"
+			: "text";
+
+		$set = $ilDB->replace($table, array(
+			"component" => array("text", $this->getComponent()),
+			"name" => array("text", $this->getName()),
+			"entry_id" => array("text", $a_id)
+			), array (
+			"value" => array($type, $a_value),
+			"expire_time" => array("integer", (int) (time() + $this->getExpiresAfter())),
+			"ilias_version" => array("text", ILIAS_VERSION_NUMERIC)
+			));
+		
+	}
+	
+	/**
+	 * Determine entry value (the non-cache version)
+	 *
+	 * @param	string		entry id
+	 * @return	string		entry value
+	 */
+	abstract function determineEntryValue($a_id);
+	
 }
 ?>

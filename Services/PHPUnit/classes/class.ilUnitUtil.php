@@ -44,7 +44,17 @@ class ilUnitUtil
 	
 	function errorHandler($a_error_obj)
 	{
-		var_dump($a_error_obj);
+		echo "Error occured: ".get_class($a_error_obj)."\n";
+		try
+ 		{
+ 			throw new Exception("dummy");
+ 		}
+ 		catch(Exception $e)
+ 		{
+	 		$this->write($e->getTraceAsString());
+ 		}
+
+		//var_dump($a_error_obj);
 		exit;
 	}
 }
