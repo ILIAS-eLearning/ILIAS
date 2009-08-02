@@ -3,14 +3,17 @@
 		<thead>
 			<tr>
 				<th></th>
+				<th class="imagecolumn"></th>
 				<th colspan="2">{POINTS_TEXT}</th>
 				<th></th>
 			</tr>
 			<tr>
 				<th>{ANSWER_TEXT}</th>
+				<th class="imagecolumn">
 <!-- BEGIN image_heading -->
-				<th>{ANSWER_IMAGE}</th>
+					{ANSWER_IMAGE}
 <!-- END image_heading -->
+				</th>
 				<th class="checked">{POINTS_CHECKED_TEXT}</th>
 				<th class="unchecked">{POINTS_UNCHECKED_TEXT}</th>
 				<th>{COMMANDS_TEXT}</th>
@@ -27,8 +30,8 @@
 					<textarea cols="60" rows="4" name="{MULTILINE_POST_VAR}[answer][{MULTILINE_ROW_NUMBER}]" id="{MULTILINE_ID}"{DISABLED_MULTILINE}>{PROPERTY_VALUE}</textarea>
 <!-- END multiline -->
 				</td>
+				<td class="imagecolumn">
 <!-- BEGIN addimage -->
-				<td>
 					<div class="imageselection">
 					<div><input type="file" id="{IMAGE_ID}" name="{IMAGE_POST_VAR}[image][{IMAGE_ROW_NUMBER}]" size="20" /> <input type="submit" class="submit" name="cmd[upload{IMAGE_POST_VAR}][{IMAGE_ROW_NUMBER}]" value="{IMAGE_SUBMIT}" /></div>
 <!-- BEGIN image -->
@@ -39,8 +42,8 @@
 					</div>
 <!-- END image -->
 				</div>
-				</td>
 <!-- END addimage -->
+				</td>
 				<td style="vertical-align: top;">
 					<input type="text" style="text-align: right;" size="5" id="{POINTS_ID}" name="{POST_VAR}[points][{ROW_NUMBER}]" <!-- BEGIN prop_points_propval -->value="{PROPERTY_VALUE}" <!-- END prop_points_propval -->{DISABLED_POINTS}/>
 				</td>
