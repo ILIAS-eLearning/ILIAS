@@ -14994,3 +14994,62 @@ if(!$ilDB->tableExists("xmlnestedsettmp"))
 <?php
 	$ilDB->modifyTableColumn('ut_access','browser', array("type" => "text", "length" => 255, 'notnull' => false));
 ?>
+<#2811>
+<?php
+$ilDB->createTable("cache_text",
+	array(
+		"component" => array(
+			"type" => "text", "length" => 50, "fixed" => false, "notnull" => true
+		),
+		"name" => array(
+			"type" => "text", "length" => 50, "fixed" => false, "notnull" => true
+		),
+		"entry_id" => array(
+			"type" => "text", "length" => 50, "fixed" => false, "notnull" => true
+		),
+		"value" => array(
+			"type" => "text", "length" => 4000, "fixed" => false, "notnull" => false
+		),
+		"expire_time" => array(
+			"type" => "integer", "length" => 4, "notnull" => true
+		),
+		"ilias_version" => array(
+			"type" => "text", "length" => 10, "notnull" => false
+		)
+	)
+);
+$ilDB->addPrimaryKey("cache_text", array("component", "name", "entry_id"));
+?>
+<#2812>
+<?php
+$ilDB->createTable("cache_clob",
+	array(
+		"component" => array(
+			"type" => "text", "length" => 50, "fixed" => false, "notnull" => true
+		),
+		"name" => array(
+			"type" => "text", "length" => 50, "fixed" => false, "notnull" => true
+		),
+		"entry_id" => array(
+			"type" => "text", "length" => 50, "fixed" => false, "notnull" => true
+		),
+		"value" => array(
+			"type" => "clob"
+		),
+		"expire_time" => array(
+			"type" => "integer", "length" => 4, "notnull" => true
+		),
+		"ilias_version" => array(
+			"type" => "text", "length" => 10, "notnull" => false
+		)
+	)
+);
+$ilDB->addPrimaryKey("cache_clob", array("component", "name", "entry_id"));
+?>
+<#2813>
+<?php
+	$ilDB->addIndex('cache_clob',array('expire_time'),'et');
+	$ilDB->addIndex('cache_text',array('expire_time'),'et');
+	$ilDB->addIndex('cache_clob',array('ilias_version'),'iv');
+	$ilDB->addIndex('cache_text',array('ilias_version'),'iv');
+?>
