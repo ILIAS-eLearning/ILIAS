@@ -644,6 +644,12 @@ class ilObjTest extends ilObject
 			array($this->getTestId())
 		);
 
+		if ($this->isRandomTest())
+		{
+			$this->removeDuplicatedQuestionpools();
+		}
+
+
 		// delete export files
 		include_once "./Services/Utilities/classes/class.ilUtil.php";
 		$tst_data_dir = ilUtil::getDataDir()."/tst_data";
@@ -1324,7 +1330,11 @@ class ilObjTest extends ilObject
 					}
 				}
 			}
-    }
+		}
+		if (!$this->isRandomTest())
+		{
+			$this->removeDuplicatedQuestionpools();
+		}
 		if (!$properties_only)
 		{
 			if (PEAR::isError($result)) 
@@ -1423,6 +1433,19 @@ class ilObjTest extends ilObject
 			}
 		}
 	}
+	
+	/**
+	* Checks wheather the test is a new random test (using tst_rnd_cpy) or an old one
+	*/
+	protected function isNewRandomTest()
+	{
+		global $ilDB;
+		$result = $ilDB->queryF('SELECT copy_id FROM tst_rnd_cpy WHERE tst_fi = %s',
+			array('integer'),
+			array($this->getTestId())
+		);
+		return $result->numRows() > 0;
+	}
 
 /**
 * Saves a random question to the database
@@ -1442,10 +1465,14 @@ class ilObjTest extends ilObject
 		);
 		if ($result->numRows() < $maxcount)
 		{
-			$duplicate_id = $this->getRandomQuestionDuplicate($question_id, $active_id);
-			if ($duplicate_id === FALSE)
+			$duplicate_id = $question_id;
+			if (!$this->isNewRandomTest())
 			{
-				$duplicate_id = $this->duplicateQuestionForTest($question_id);
+				$duplicate_id = $this->getRandomQuestionDuplicate($question_id, $active_id);
+				if ($duplicate_id === FALSE)
+				{
+					$duplicate_id = $this->duplicateQuestionForTest($question_id);
+				}
 			}
 			$next_id = $ilDB->nextId('tst_test_rnd_qst');
 			$result = $ilDB->manipulateF("INSERT INTO tst_test_rnd_qst (test_random_question_id, active_fi, question_fi, sequence, pass, tstamp) VALUES (%s, %s, %s, %s, %s, %s)",
@@ -1559,7 +1586,7 @@ class ilObjTest extends ilObject
 		if ($num > 0)
 		{
 			$qpls =& $this->getRandomQuestionpools();
-			$rndquestions = $this->randomSelectQuestions($num, 0, 1, $qpls, $pass);
+			$rndquestions = $this->generateRandomPass($num, $qpls, $pass);
 			$allquestions = array();
 			foreach ($rndquestions as $question_id)
 			{
@@ -1591,7 +1618,7 @@ class ilObjTest extends ilObject
 			{
 				if ($value["count"] > 0)
 				{
-					$rndquestions = $this->randomSelectQuestions($value["count"], $value["qpl"], 1, "", $pass);
+					$rndquestions = $this->generateRandomPass($value["count"], array($value["qpl"]), $pass);
 					foreach ($rndquestions as $question_id)
 					{
 						array_push($allquestions, $question_id);
@@ -1687,11 +1714,15 @@ class ilObjTest extends ilObject
 		{
 			$this->logAction($this->lng->txtlng("assessment", "log_random_question_pool_deleted", ilObjAssessmentFolder::_getLogLanguage()));
 		}
+		// delete existing duplicated questions
+		$this->removeDuplicatedQuestionpools();
+		
 		// create new random questionpools
 		foreach ($this->random_questionpool_data as $data) 
 		{
 			if ($data->qpl > 0)
 			{
+				// save questionpool information
 				$next_id = $ilDB->nextId('tst_test_random');
 				$result = $ilDB->manipulateF("INSERT INTO tst_test_random (test_random_id, test_fi, questionpool_fi, num_of_q, tstamp) VALUES (%s, %s, %s, %s, %s)",
 					array('integer','integer', 'integer', 'integer', 'integer'),
@@ -1700,6 +1731,106 @@ class ilObjTest extends ilObject
 				if (ilObjAssessmentFolder::_enabledAssessmentLogging())
 				{
 					$this->logAction(sprintf($this->lng->txtlng("assessment", "log_random_question_pool_added", ilObjAssessmentFolder::_getLogLanguage()), $value["title"] . " (" . $value["qpl"] . ")", $value["count"]));
+				}
+				// duplicate all questions of the questionpools
+				$this->duplicateQuestionpoolForTest($data->qpl);
+			}
+		}
+	}
+
+	/**
+	* Remove all duplicated questions from a random test
+	*/
+	protected function removeDuplicatedQuestionpools()
+	{
+		global $ilDB;
+		
+		$result = $ilDB->queryF('SELECT * FROM tst_rnd_cpy WHERE tst_fi = %s',
+			array('integer'),
+			array($this->getTestId())
+		);
+		while ($row = $ilDB->fetchAssoc($result))
+		{
+			$question =& ilObjTest::_instanciateQuestion($row['qst_fi']);
+			$question->delete($row['qst_fi']);
+		}
+
+		$affectedRows = $ilDB->manipulateF('DELETE FROM tst_rnd_cpy WHERE tst_fi = %s',
+			array('integer'),
+			array($this->getTestId())
+		);
+
+		$affectedRows = $ilDB->manipulateF('DELETE FROM tst_rnd_qpl_title WHERE tst_fi = %s',
+			array('integer'),
+			array($this->getTestId())
+		);
+	}
+
+	/**
+	* Creates an array with title and question count of used random questionpools
+	*/
+	public function getUsedRandomQuestionpools()
+	{
+		global $ilDB;
+		$result = $ilDB->queryF('SELECT tst_rnd_cpy.*, tst_test_random.num_of_q FROM tst_rnd_cpy, tst_test_random WHERE tst_rnd_cpy.tst_fi = %s AND tst_rnd_cpy.tst_fi = tst_test_random.test_fi AND tst_rnd_cpy.qpl_fi = tst_test_random.questionpool_fi',
+			array('integer'),
+			array($this->getTestId())
+		);
+		$pools = array();
+		while ($row = $ilDB->fetchAssoc($result))
+		{
+			if (is_array($pools[$row['qpl_fi']]))
+			{
+				$pools[$row['qpl_fi']]['count']++;
+			}
+			else
+			{
+				$pools[$row['qpl_fi']]['count'] = 1;
+			}
+			$pools[$row['qpl_fi']]['num_of_q'] = $row['num_of_q'];
+		}
+		$result = $ilDB->queryF('SELECT * FROM tst_rnd_qpl_title WHERE tst_fi = %s',
+			array('integer'),
+			array($this->getTestId())
+		);
+
+		while ($row = $ilDB->fetchAssoc($result))
+		{
+			$pools[$row['qpl_fi']]['title'] = $row['qpl_title'];
+		}
+		return $pools;
+	}
+
+	/**
+	* Duplicates all valid questions of a questionpool for use in a random test
+	*/
+	protected function duplicateQuestionpoolForTest($questionpool_id)
+	{
+		global $ilDB;
+		$result = $ilDB->queryF('SELECT question_id FROM qpl_questions WHERE obj_fi = %s AND complete = %s AND original_id IS NULL',
+			array('integer', 'text'),
+			array($questionpool_id, 1)
+		);
+		$saved_titles = array();
+		while ($row = $ilDB->fetchAssoc($result))
+		{
+			$question =& ilObjTest::_instanciateQuestion($row['question_id']);
+			$duplicate_id = $question->duplicate(true);
+			if ($duplicate_id > 0)
+			{
+				$next_id = $ilDB->nextId('tst_rnd_cpy');
+				$ilDB->manipulateF('INSERT INTO tst_rnd_cpy (copy_id, tst_fi, qst_fi, qpl_fi) VALUES (%s, %s, %s, %s)',
+					array('integer', 'integer', 'integer', 'integer'),
+					array($next_id, $this->getTestId(), $duplicate_id, $questionpool_id)
+				);
+				if (!array_key_exists($questionpool_id, $saved_titles))
+				{
+					$next_id = $ilDB->nextId('tst_rnd_qpl_title');
+					$ilDB->manipulateF('INSERT INTO tst_rnd_qpl_title (title_id, tst_fi, qpl_fi, qpl_title) VALUES (%s, %s, %s, %s)',
+						array('integer', 'integer', 'integer', 'text'),
+						array($next_id, $this->getTestId(), $questionpool_id, ilObject::_lookupTitle($questionpool_id))
+					);
+					$saved_titles[$questionpool_id] = 1;
 				}
 			}
 		}
@@ -3132,10 +3263,8 @@ function loadQuestions($active_id = "", $pass = NULL)
 * is the same as before. So we have to delete all already started or completed tests using that question.
 * Therefore we have to delete all references to that question in tst_solutions and the tst_active
 * entries which were created for the user and test in the tst_solutions entry.
-*
-* @access public
 */
-	function removeAllTestEditings($question_id = "")
+	public function removeAllTestEditings($question_id = "")
 	{
 		global $ilDB;
 		// remove the question from tst_solutions
@@ -4954,6 +5083,44 @@ function loadQuestions($active_id = "", $pass = NULL)
 		return $result;
 	}
 
+	/**
+	* Generates a random test pass for a random test
+	*
+	* @param integer $nr Number of questions to return
+	* @param array $qpls Array of questionpools
+	* @param integer $pass Test pass
+	* @return array A random selection of questions
+	*/
+	public function generateRandomPass($nr, $qpls, $pass = NULL)
+	{
+		global $ilDB;
+		$qplids = array();
+		foreach ($qpls as $arr) array_push($qplids, $arr['qpl']);
+		$result = $ilDB->queryF('SELECT * FROM tst_rnd_cpy WHERE tst_fi = %s AND ' . $ilDB->in('qpl_fi', $qplids, false, 'integer'),
+			array('integer'),
+			array($this->getTestId())
+		);
+		if ($result->numRows())
+		{
+			$ids = array();
+			while ($row = $ilDB->fetchAssoc($result)) array_push($ids, $row['qst_fi']);
+			$nr = ($nr > count($ids)) ? count($ids) : $nr;
+			if ($nr == 0) return array();
+			$rand_keys = array_rand($ids, $nr);
+			$selection = array();
+			foreach ($rand_keys as $key)
+			{
+				$selection[$ids[$key]] = $ids[$key];
+			}
+			return $selection;
+		}
+		else
+		{
+			// old style random questions
+			return $this->randomSelectQuestions($nr, 0, 1, $qpls, $pass);
+		}
+	}
+
 /**
 * Returns a random selection of questions
 *
@@ -5009,7 +5176,7 @@ function loadQuestions($active_id = "", $pass = NULL)
 			{
 				if (count($qpls) > 0)
 				{
-					$constraint_qpls = " AND " . $ilDB->in('obj_fi', $qpls, 'false', 'integer');
+					$constraint_qpls = " AND " . $ilDB->in('obj_fi', $qpls, false, 'integer');
 				}
 			}
 		}

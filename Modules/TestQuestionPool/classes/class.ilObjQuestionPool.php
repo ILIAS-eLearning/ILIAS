@@ -394,7 +394,7 @@ class ilObjQuestionPool extends ilObject
 		$question_gui =& new $question_type_gui();
 		return $question_gui;
 	}
-
+	
 	/**
 	* Duplicates a question for a questionpool
 	*

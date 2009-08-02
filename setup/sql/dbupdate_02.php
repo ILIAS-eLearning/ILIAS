@@ -15053,3 +15053,29 @@ $ilDB->addPrimaryKey("cache_clob", array("component", "name", "entry_id"));
 	$ilDB->addIndex('cache_clob',array('ilias_version'),'iv');
 	$ilDB->addIndex('cache_text',array('ilias_version'),'iv');
 ?>
+<#2814>
+<?php
+	if (!$ilDB->tableExists("tst_rnd_qpl_title"))
+	{
+		$ilDB->createTable("tst_rnd_qpl_title",
+			array(
+				"title_id" => array(
+					"type" => "integer", "length" => 4, "notnull" => true
+				),
+				"qpl_fi" => array(
+					"type" => "integer", "length" => 4, "notnull" => true
+				),
+				"tst_fi" => array(
+					"type" => "integer", "length" => 4, "notnull" => true
+				),
+				"qpl_title" => array(
+					"type" => "text", "length" => 1000, "notnull" => true
+				)
+			)
+		);
+		$ilDB->addPrimaryKey("tst_rnd_qpl_title", array("title_id"));
+		$ilDB->addIndex('tst_rnd_qpl_title',array('qpl_fi'),'i1');
+		$ilDB->addIndex('tst_rnd_qpl_title',array('tst_fi'),'i2');
+		$ilDB->createSequence("tst_rnd_qpl_title");
+	}
+?>
