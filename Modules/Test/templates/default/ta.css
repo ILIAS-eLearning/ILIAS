@@ -340,3 +340,12 @@ ul.shortlist li.active {
 
 .imageselection {
 }
+
+.questionpool_info {
+	padding: 0.4em;
+	margin-top: 0.4em;
+}
+
+.questionpool_title {
+	font-weight: bold;
+}

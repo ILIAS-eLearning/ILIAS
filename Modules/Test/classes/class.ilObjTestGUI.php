@@ -1727,6 +1727,7 @@ class ilObjTestGUI extends ilObjectGUI
 	{
 		global $ilUser;
 
+		$total = $this->object->evalTotalPersons();
 		$save = (strcmp($this->ctrl->getCmd(), "saveRandomQuestions") == 0) ? TRUE : FALSE;
 
 		include_once("./Services/Form/classes/class.ilPropertyFormGUI.php");
@@ -1756,22 +1757,33 @@ class ilObjTestGUI extends ilObjectGUI
 		$total_questions->setRequired(false);
 		$form->addItem($total_questions);
 
-		$found_qpls = $this->object->getRandomQuestionpoolData();
-		include_once "./Modules/Test/classes/class.ilRandomTestData.php";
-		if (count($found_qpls) == 0)
+		if ($total == 0)
 		{
-			array_push($found_qpls, new ilRandomTestData());
+			$found_qpls = $this->object->getRandomQuestionpoolData();
+			include_once "./Modules/Test/classes/class.ilRandomTestData.php";
+			if (count($found_qpls) == 0)
+			{
+				array_push($found_qpls, new ilRandomTestData());
+			}
+			$available_qpl =& $this->object->getAvailableQuestionpools(TRUE, $selection_mode, FALSE, TRUE, TRUE);
+			include_once './Modules/Test/classes/class.ilRandomTestInputGUI.php';
+			$source = new ilRandomTestInputGUI($this->lng->txt('tst_random_questionpools'), 'source');
+			$source->setUseEqualPointsOnly($selection_mode);
+			$source->setRandomQuestionPools($available_qpl);
+			$source->setUseQuestionCount((array_key_exists('total_questions', $_POST)) ? ($_POST['total_questions'] < 1) : ($this->object->getRandomQuestionCount() < 1));
+			$source->setValues($found_qpls);
+			$form->addItem($source);
 		}
-		$available_qpl =& $this->object->getAvailableQuestionpools(TRUE, $selection_mode, FALSE, TRUE, TRUE);
-		include_once './Modules/Test/classes/class.ilRandomTestInputGUI.php';
-		$source = new ilRandomTestInputGUI($this->lng->txt('tst_random_questionpools'), 'source');
-		$source->setUseEqualPointsOnly($selection_mode);
-		$source->setRandomQuestionPools($available_qpl);
-		$source->setUseQuestionCount((array_key_exists('total_questions', $_POST)) ? ($_POST['total_questions'] < 1) : ($this->object->getRandomQuestionCount() < 1));
-		$source->setValues($found_qpls);
-		$form->addItem($source);
+		else
+		{
+			$qpls = $this->object->getUsedRandomQuestionpools();
+			include_once './Modules/Test/classes/class.ilRandomTestROInputGUI.php';
+			$source = new ilRandomTestROInputGUI($this->lng->txt('tst_random_questionpools'), 'source');
+			$source->setValues($qpls);
+			$form->addItem($source);
+		}
 
-		$form->addCommandButton("saveRandomQuestions", $this->lng->txt("save"));
+		if ($total == 0) $form->addCommandButton("saveRandomQuestions", $this->lng->txt("save"));
 	
 		$errors = false;
 	
