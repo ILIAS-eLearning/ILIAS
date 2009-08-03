@@ -2955,6 +2955,28 @@ function loadQuestions($active_id = "", $pass = NULL)
 		return (strlen($this->processing_time)) ? $this->processing_time : NULL;
 	}
 
+	/**
+	* Returns the processing time for the test
+	*
+	* @return string The processing time for the test
+	* @see $processing_time
+	*/
+	public function getProcessingTimeAsArray()
+	{
+		if (strlen($this->processing_time))
+		{
+			if (preg_match("/(\d{2}):(\d{2}):(\d{2})/is", $this->processing_time, $matches))
+			{
+				return array(
+					'hh' => $matches[1],
+					'mm' => $matches[2],
+					'ss' => $matches[3],
+				);
+			}
+		}
+		return array();
+	}
+
 /**
 * Returns the processing time for the test in seconds
 *
