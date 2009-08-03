@@ -632,7 +632,7 @@ class ilObjTest extends ilObject
 			array($this->getTestId())
 		);
 
-		$affectedRows = $ilDB->manipulateF("DELETE FROM tst_test_rnd_qst USING tst_test_rnd_qst, tst_active WHERE tst_active.test_fi = %s AND tst_active.active_id = tst_test_rnd_qst.active_fi",
+		$affectedRows = $ilDB->manipulateF("DELETE FROM tst_test_rnd_qst WHERE tst_test_rnd_qst.active_fi IN  (SELECT active_id FROM tst_active WHERE test_fi = %s)",
 			array('integer'),
 			array($this->getTestId())
 		);
@@ -3270,38 +3270,38 @@ function loadQuestions($active_id = "", $pass = NULL)
 		// remove the question from tst_solutions
 		if ($question_id)
 		{
-			$affectedRows = $ilDB->manipulateF("DELETE FROM tst_solutions USING tst_solutions, tst_active WHERE tst_solutions.active_fi = tst_active.active_id AND tst_active.test_fi = %s AND tst_solutions.question_fi = %s",
+			$affectedRows = $ilDB->manipulateF("DELETE FROM tst_solutions WHERE tst_solutions.active_fi IN (SELECT active_id FROM tst_active WHERE test_fi = %s) AND tst_solutions.question_fi = %s",
 				array('integer','integer'),
 				array($this->getTestId(), $question_id)
 			);
-			$affectedRows = $ilDB->manipulateF("DELETE FROM tst_qst_solved USING tst_qst_solved, tst_active WHERE tst_qst_solved.active_fi = tst_active.active_id AND tst_active.test_fi = %s AND tst_qst_solved.question_fi = %s",
+			$affectedRows = $ilDB->manipulateF("DELETE FROM tst_qst_solved WHERE tst_qst_solved.active_fi IN (SELECT active_id FROM tst_active WHERE test_fi = %s) AND tst_qst_solved.question_fi = %s",
 				array('integer','integer'),
 				array($this->getTestId(), $question_id)
 			);
-			$affectedRows = $ilDB->manipulateF("DELETE FROM tst_test_result USING tst_test_result, tst_active WHERE tst_active.test_fi = %s AND tst_test_result.question_fi = %s AND tst_active.active_id = tst_test_result.active_fi",
+			$affectedRows = $ilDB->manipulateF("DELETE FROM tst_test_result WHERE tst_test_result.active_fi IN (SELECT active_id FROM tst_active WHERE test_fi = %s) AND tst_test_result.question_fi = %s",
 				array('integer','integer'),
 				array($this->getTestId(), $question_id)
 			);
-			$affectedRows = $ilDB->manipulateF("DELETE FROM tst_pass_result USING tst_pass_result, tst_active WHERE tst_active.test_fi = %s AND tst_active.active_id = tst_pass_result.active_fi",
+			$affectedRows = $ilDB->manipulateF("DELETE FROM tst_pass_result WHERE tst_pass_result.active_fi IN (SELECT active_id FROM tst_active WHERE test_fi = %s)",
 				array('integer'),
 				array($this->getTestId())
 			);
 		} 
 		else 
 		{
-			$affectedRows = $ilDB->manipulateF("DELETE FROM tst_solutions USING tst_solutions, tst_active WHERE tst_solutions.active_fi = tst_active.active_id AND tst_active.test_fi = %s",
+			$affectedRows = $ilDB->manipulateF("DELETE FROM tst_solutions WHERE tst_solutions.active_fi IN  (SELECT active_id FROM tst_active WHERE test_fi = %s)",
 				array('integer'),
 				array($this->getTestId())
 			);
-			$affectedRows = $ilDB->manipulateF("DELETE FROM tst_qst_solved USING tst_qst_solved, tst_active WHERE tst_qst_solved.active_fi = tst_active.active_id AND tst_active.test_fi = %s",
+			$affectedRows = $ilDB->manipulateF("DELETE FROM tst_qst_solved WHERE tst_qst_solved.active_fi IN  (SELECT active_id FROM tst_active WHERE test_fi = %s)",
 				array('integer'),
 				array($this->getTestId())
 			);
-			$affectedRows = $ilDB->manipulateF("DELETE FROM tst_test_result USING tst_test_result, tst_active WHERE tst_active.test_fi = %s AND tst_active.active_id = tst_test_result.active_fi",
+			$affectedRows = $ilDB->manipulateF("DELETE FROM tst_test_result WHERE tst_test_result.active_fi IN  (SELECT active_id FROM tst_active WHERE test_fi = %s)",
 				array('integer'),
 				array($this->getTestId())
 			);
-			$affectedRows = $ilDB->manipulateF("DELETE FROM tst_pass_result USING tst_pass_result, tst_active WHERE tst_active.test_fi = %s AND tst_active.active_id = tst_pass_result.active_fi",
+			$affectedRows = $ilDB->manipulateF("DELETE FROM tst_pass_result WHERE tst_pass_result.active_fi IN  (SELECT active_id FROM tst_active WHERE test_fi = %s)",
 				array('integer'),
 				array($this->getTestId())
 			);
@@ -3311,14 +3311,14 @@ function loadQuestions($active_id = "", $pass = NULL)
 				$this->logAction($this->lng->txtlng("assessment", "log_user_data_removed", ilObjAssessmentFolder::_getLogLanguage()));
 			}
 		}
-		$affectedRows = $ilDB->manipulateF("DELETE FROM tst_sequence USING tst_sequence, tst_active WHERE tst_active.test_fi = %s AND tst_active.active_id = tst_sequence.active_fi",
+		$affectedRows = $ilDB->manipulateF("DELETE FROM tst_sequence WHERE tst_sequence.active_fi IN  (SELECT active_id FROM tst_active WHERE test_fi = %s)",
 			array('integer'),
 			array($this->getTestId())
 		);
 
 		if ($this->isRandomTest())
 		{
-			$affectedRows = $ilDB->manipulateF("DELETE FROM tst_test_rnd_qst USING tst_test_rnd_qst, tst_active WHERE tst_active.test_fi = %s AND tst_test_rnd_qst.active_fi = tst_active.active_id",
+			$affectedRows = $ilDB->manipulateF("DELETE FROM tst_test_rnd_qst WHERE tst_test_rnd_qst.active_fi IN  (SELECT active_id FROM tst_active WHERE test_fi = %s)",
 				array('integer'),
 				array($this->getTestId())
 			);
