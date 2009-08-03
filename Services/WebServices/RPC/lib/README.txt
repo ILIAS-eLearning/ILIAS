@@ -10,7 +10,7 @@ that requires full-text search, especially cross-platform.
 Requirements
 -------------------------------------------------------------------------------
 
-This Java server has been tested with Sun Java Runtime Environment 1.4.2.
+This Java server has been tested with Sun Java Runtime Environment 1.5.
 To be able to index and search for non-ASCII characters your system should
 support UTF-8 encodings.
 

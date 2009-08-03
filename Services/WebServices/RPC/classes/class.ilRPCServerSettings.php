@@ -25,7 +25,7 @@
 /**
 * Class for storing all rpc communication settings
 *
-* @author Stefan Meyer <smeyer@databay.de>
+* @author Stefan Meyer <meyer@leifos.com>
 * @version $Id$
 *
 * @package ilias
@@ -36,6 +36,8 @@ define("RPC_SERVER_ALIVE",true);
 
 class ilRPCServerSettings
 {
+	private static $instance = null;
+	
 	
 	var $rpc_host = '';
 	var $rpc_port = '';
@@ -47,7 +49,11 @@ class ilRPCServerSettings
 	var $settings_obj  = null;
 
 
-	function ilRPCServerSettings()
+	/**
+	 * Singleton contructor
+	 * @return 
+	 */
+	private function __construct()
 	{
 		global $ilLog,$ilDB,$ilError,$ilias;
 
@@ -56,6 +62,34 @@ class ilRPCServerSettings
 		$this->err =& $ilError;
 		$this->ilias =& $ilias;
 	}
+	
+	/**
+	 * Get singelton instance
+	 * @return object $ilRPCServerSettings
+	 */
+	public static function getInstance()
+	{
+		if(self::$instance)
+		{
+			return self::$instance;
+		}
+		return self::$instance = new ilRPCServerSettings();
+	}
+	
+	/**
+	 * Returns true if server ip and port are set. 
+	 * @return bool
+	 */
+	public function isEnabled()
+	{
+		return strlen($this->getHost()) and strlen($this->getPort());
+	}
+	
+	public function getServerUrl()
+	{
+		return 'http://'.$this->getHost().':'.$this->getPort().'/'.RPC_SERVER_PATH;
+	}
+	
 
 	function getHost()
 	{
@@ -96,17 +130,18 @@ class ilRPCServerSettings
 
 	function pingServer()
 	{
-		include_once 'Services/Search/classes/Lucene/class.ilLuceneRPCAdapter.php';
-
-		$rpc_adapter =& new ilLuceneRPCAdapter();
-		$rpc_adapter->setMode('ping');
-		$res = $rpc_adapter->send();
-
-		if($res == RPC_SERVER_ALIVE)
+		include_once './Services/WebServices/RPC/classes/class.ilRpcClientFactory.php';
+		
+		try
 		{
+			ilRpcClientFactory::factory('RPCebug')->ping();
 			return true;
 		}
-		return false;
+		catch(Exception $e)
+		{
+			$ilLog->write(__METHOD__.': '.$e->getMessage());
+			return false;
+		}
 	}
 }
 ?>

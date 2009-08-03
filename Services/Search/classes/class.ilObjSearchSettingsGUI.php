@@ -101,7 +101,7 @@ class ilObjSearchSettingsGUI extends ilObjectGUI
 		$this->object->settings_obj->setHideAdvancedSearch($_POST['hide_adv_search']);
 		$this->object->settings_obj->setAutoCompleteLength($_POST['auto_complete_length']);
 
-		$rpc_settings =& new ilRPCServerSettings();
+		$rpc_settings = ilRPCServerSettings::getInstance();
 		if($this->object->settings_obj->enabledLucene() and !$rpc_settings->pingServer())
 		{
 			ilUtil::sendInfo($this->lng->txt('search_no_connection_lucene'),true);
@@ -379,7 +379,7 @@ class ilObjSearchSettingsGUI extends ilObjectGUI
 	 */
 	protected function saveLuceneSettingsObject()
 	{
-		global $ilBench;
+		global $ilBench,$ilLog,$ilSetting;
 		
 		$this->initFormLuceneSettings();
 
@@ -397,15 +397,23 @@ class ilObjSearchSettingsGUI extends ilObjectGUI
 			
 			// refresh lucene server
 			$ilBench->start('Lucene','LuceneRefreshSettings');
-			include_once './Services/Search/classes/Lucene/class.ilLuceneRPCAdapter.php';
-			$adapter = new ilLuceneRPCAdapter();
-			$adapter->setMode('refreshSettings');
-			$res = $adapter->send();
-			$ilBench->stop('Lucene','LuceneRefreshSettings');
 			
-			ilUtil::sendInfo($this->lng->txt('settings_saved'));
-			$this->luceneSettingsObject();
-			return true;
+			try {
+				include_once './Services/WebServices/RPC/classes/class.ilRpcClientFactory.php';
+				ilRpcClientFactory::factory('RPCAdministration')->refreshSettings(
+					CLIENT_ID.'_'.$ilSetting->get('inst_id',0));
+			
+				ilUtil::sendInfo($this->lng->txt('settings_saved'));
+				$this->luceneSettingsObject();
+				return true;
+			}
+			catch(Exception $e)
+			{
+				$ilLog->write(__METHOD__.': '.$e->getMessage());
+				ilUtil::sendFailure($e->getMessage());
+				$this->luceneSettingsObject();
+				return false;
+			}
 		}
 		
 		ilUtil::sendInfo($this->lng->txt('err_check_input'));
