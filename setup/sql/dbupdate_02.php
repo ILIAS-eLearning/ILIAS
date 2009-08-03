@@ -15079,3 +15079,11 @@ $ilDB->addPrimaryKey("cache_clob", array("component", "name", "entry_id"));
 		$ilDB->createSequence("tst_rnd_qpl_title");
 	}
 ?>
+<#2815>
+<?php
+	$ilDB->modifyTableColumn('tst_tests','processing_time', array("type" => "text", "length" => 8, 'notnull' => false));
+?>
+<#2816>
+<?php
+	$ilDB->modifyTableColumn('qpl_questions','working_time', array("type" => "text", "length" => 8, 'notnull' => false));
+?>

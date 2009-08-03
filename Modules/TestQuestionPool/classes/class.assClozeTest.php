@@ -269,7 +269,7 @@ class assClozeTest extends assQuestion
 		{
 			$next_id = $ilDB->nextId('qpl_questions');
 			$affectedRows = $ilDB->manipulateF("INSERT INTO qpl_questions (question_id, question_type_fi, obj_fi, title, description, author, owner, question_text, points, working_time, created, original_id, tstamp) VALUES (%s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s)", 
-				array("integer","integer", "integer", "text", "text", "text", "integer", "text", "float", "time", "integer","integer","integer"),
+				array("integer","integer", "integer", "text", "text", "text", "integer", "text", "float", "text", "integer","integer","integer"),
 				array(
 					$next_id,
 					$this->getQuestionTypeID(), 
@@ -315,7 +315,7 @@ class assClozeTest extends assQuestion
 					"float",
 					"text",
 					"text",
-					"time",
+					"text",
 					"integer",
 					"integer"
 				),
