@@ -1132,8 +1132,13 @@ class ilObjTestGUI extends ilObjectGUI
 		$processing->setValue(1);
 		$processing->setOptionTitle($this->lng->txt("enabled"));
 		$processing->setChecked($this->object->getEnableProcessingTime());
+		
 		// max. processing time
 		$processingtime = new ilDurationInputGUI('', 'processing_time');
+		$ptime = $this->object->getProcessingTimeAsArray();
+		$processingtime->setHours($ptime['hh']);
+		$processingtime->setMinutes($ptime['mm']);
+		$processingtime->setSeconds($ptime['ss']);
 		$processingtime->setShowMonths(false);
 		$processingtime->setShowDays(false);
 		$processingtime->setShowHours(true);
@@ -1141,6 +1146,7 @@ class ilObjTestGUI extends ilObjectGUI
 		$processingtime->setShowSeconds(true);
 		$processingtime->setInfo($this->lng->txt("tst_processing_time_desc"));
 		$processing->addSubItem($processingtime);
+		
 		// reset max. processing time
 		$resetprocessing = new ilCheckboxInputGUI('', "chb_reset_processing_time");
 		$resetprocessing->setValue(1);
