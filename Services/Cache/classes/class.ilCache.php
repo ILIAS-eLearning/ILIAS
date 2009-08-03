@@ -2,13 +2,13 @@
 /* Copyright (c) 1998-2009 ILIAS open source, Extended GPL, see docs/LICENSE */
 
 /**
- * Abstract cache class
+ * Cache class
  *
  * @author Alex Killing <alex.killing@gmx.de>
  * @version $Id$
  * @ingroup ingroup ServicesCache
  */
-abstract class ilCache
+class ilCache
 {
 	/**
 	 * Constructor
@@ -109,23 +109,14 @@ abstract class ilCache
 	 * @param	string	entry id
 	 * @return	string	entry value
 	 */
-	public function getEntry($a_id)
+	final public function getEntry($a_id)
 	{
-		
 		if ($this->readEntry($a_id))	// cache hit
 		{
-echo "A";
 			$this->last_access = "hit";
 			return $this->entry;
 		}
-		else							// cache miss
-		{
-echo "B";
-			$this->last_access = "miss";
-			$value = $this->determineEntryValue($a_id);
-			$this->storeEntry($a_id, $value);
-			return $value;
-		}
+		$this->last_access = "miss";
 	}
 	
 	/**
@@ -182,6 +173,12 @@ echo "B";
 		$type =  $this->getUseLongContent()
 			? "clob"
 			: "text";
+			
+		// do not store values, that do not fit into the text field
+		if (strlen($a_value) > 4000 && $type == "text")
+		{
+			return;
+		}
 
 		$set = $ilDB->replace($table, array(
 			"component" => array("text", $this->getComponent()),
@@ -193,15 +190,17 @@ echo "B";
 			"ilias_version" => array("text", ILIAS_VERSION_NUMERIC)
 			));
 		
+		// In 1/2000 times, delete old entries
+		$num = rand(1,2000);
+		if ($num == 500)
+		{
+			$ilDB->manipulate("DELETE FROM $table WHERE ".
+				" ilias_version <> ".$ilDB->quote(ILIAS_VERSION_NUMERIC, "text").
+				" OR expire_time < ".$ilDB->quote(time(), "integer")
+				);
+		}
+			
 	}
-	
-	/**
-	 * Determine entry value (the non-cache version)
-	 *
-	 * @param	string		entry id
-	 * @return	string		entry value
-	 */
-	abstract function determineEntryValue($a_id);
 	
 }
 ?>

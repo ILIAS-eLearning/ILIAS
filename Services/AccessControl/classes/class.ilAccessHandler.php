@@ -71,7 +71,8 @@ class ilAccessHandler
 		if ($this->cache)
 		{
 			$this->results[$a_ref_id][$a_permission][$a_cmd][$a_user_id] = 
-					array("granted" => $a_access_granted, "info" => $a_info);
+					array("granted" => $a_access_granted, "info" => $a_info,
+					"prevent_db_cache" => $this->getPreventCachingLastResult());
 //echo "<br>write-$a_ref_id-$a_permission-$a_cmd-$a_user_id-$a_access_granted-";
 			$this->current_result_element = array($a_access_granted,$a_ref_id,$a_permission,$a_cmd,$a_user_id);			
 			$this->last_result = $this->results[$a_ref_id][$a_permission][$a_cmd][$a_user_id];
@@ -83,6 +84,25 @@ class ilAccessHandler
 
 	}
 
+	/**
+	* Set prevent caching last result.
+	*
+	* @param	boolean		true if last result should not be cached
+	*/
+	function setPreventCachingLastResult($a_val)
+	{
+		$this->prevent_caching_last_result = $a_val;
+	}
+	
+	/**
+	* Get prevent caching last result.
+	*
+	* @return	boolean		true if last result should not be cached
+	*/
+	function getPreventCachingLastResult()
+	{
+		return $this->prevent_caching_last_result;
+	}
 
 	/**
 	* get stored access result
@@ -201,11 +221,13 @@ class ilAccessHandler
 	{
 		global $ilBench, $lng;
 		
+		$this->setPreventCachingLastResult(false);	// for external db based caches
+		
 		$ilBench->start("AccessControl", "0400_clear_info");
 		$this->current_info->clear();
 		$ilBench->stop("AccessControl", "0400_clear_info");
 		
-        // get stored result
+        // get stored result (internal memory based cache)
 		$cached = $this->doCacheCheck($a_permission, $a_cmd, $a_ref_id, $a_user_id);
 		if ($cached["hit"])
 		{
@@ -213,6 +235,10 @@ class ilAccessHandler
 			if (!$cached["granted"])
 			{
 				$this->current_info->addInfoItem(IL_NO_PERMISSION, $lng->txt("no_permission"));
+			}
+			if ($cached["prevent_db_cache"])
+			{
+				$this->setPreventCachingLastResult(true);	// should have been saved in previous call already
 			}
 			return $cached["granted"];
 		}
@@ -279,6 +305,7 @@ class ilAccessHandler
 		{
 			$this->current_info->addInfoItem(IL_NO_PERMISSION, $lng->txt("no_permission"));
 			$this->storeAccessResult($a_permission, $a_cmd, $a_ref_id, false, $a_user_id);
+			$this->setPreventCachingLastResult(true);		// do not store this in db, since condition updates are not monitored
 			return false;
 		}
 
@@ -287,11 +314,13 @@ class ilAccessHandler
 		{
 			$this->current_info->addInfoItem(IL_NO_PERMISSION, $lng->txt("no_permission"));
 			$this->storeAccessResult($a_permission, $a_cmd, $a_ref_id, false, $a_user_id);
+			$this->setPreventCachingLastResult(true);		// do not store this in db, since status updates are not monitored
 			return false;
 		}
 
 		if (!$this->doLicenseCheck($a_permission, $a_cmd, $a_ref_id, $a_user_id, $a_obj_id, $a_type))
 		{
+			$this->setPreventCachingLastResult(true);		// do not store this in db, since status updates are not monitored
 			return false;
 		}
 
@@ -347,12 +376,14 @@ class ilAccessHandler
 			$this->current_info = $stored_access["info"];
 			//var_dump("cache-treffer:");
 			$ilBench->stop("AccessControl", "1000_checkAccess_get_cache_result");
-			return array("hit" => true, "granted" => $stored_access["granted"]);
+			return array("hit" => true, "granted" => $stored_access["granted"],
+				"prevent_db_cache" => $stored_access["prevent_db_cache"]);
 		}
 		
 		// not in cache
 		$ilBench->stop("AccessControl", "1000_checkAccess_get_cache_result");
-		return array("hit" => false, "granted" => false);
+		return array("hit" => false, "granted" => false,
+			"prevent_db_cache" => false);
 	}
 	
 	/**
