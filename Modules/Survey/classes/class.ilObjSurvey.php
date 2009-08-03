@@ -689,7 +689,7 @@ class ilObjSurvey extends ilObject
 		if ($this->getSurveyId() < 1)
 		{
 			$next_id = $ilDB->nextId('svy_svy');
-			$ilDB->insert("svy_svy", array(
+			$affectedRows = $ilDB->insert("svy_svy", array(
 				"survey_id" => array("integer", $next_id),
 				"obj_fi" => array("integer", $this->getId()),
 				"author" => array("text", $this->getAuthor()),
@@ -711,7 +711,7 @@ class ilObjSurvey extends ilObject
 		}
 		else
 		{
-			$ilDB->update("svy_svy", array(
+			$affectedRows = $ilDB->update("svy_svy", array(
 				"author" => array("text", $this->getAuthor()),
 				"introduction" => array("clob", ilRTE::_replaceMediaObjectImageSrc($this->getIntroduction(), 0)),
 				"outro" => array("clob", ilRTE::_replaceMediaObjectImageSrc($this->getOutro(), 0)),
