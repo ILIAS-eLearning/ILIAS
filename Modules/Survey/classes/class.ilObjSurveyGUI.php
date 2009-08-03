@@ -3436,8 +3436,9 @@ class ilObjSurveyGUI extends ilObjectGUI
 		
 		$this->questionsSubtabs("printview");
 		$template = new ilTemplate("tpl.il_svy_svy_printview.html", TRUE, TRUE, "Modules/Survey");
-
-		if ((strlen($ilias->getSetting("rpc_server_host"))) && (strlen($ilias->getSetting("rpc_server_port"))))
+			
+		include_once './Services/WebServices/RPC/classes/class.ilRPCServerSettings.php';
+		if(ilRPCServerSettings::getInstance()->isEnabled())
 		{
 			$this->ctrl->setParameter($this, "pdf", "1");
 			$template->setCurrentBlock("pdf_export");

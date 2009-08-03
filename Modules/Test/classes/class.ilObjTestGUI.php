@@ -3410,7 +3410,8 @@ class ilObjTestGUI extends ilObjectGUI
 		$this->getQuestionsSubTabs();
 		$template = new ilTemplate("tpl.il_as_tst_print_test_confirm.html", TRUE, TRUE, "Modules/Test");
 
-		if ((strlen($ilias->getSetting("rpc_server_host"))) && (strlen($ilias->getSetting("rpc_server_port"))))
+		include_once './Services/WebServices/RPC/classes/class.ilRPCServerSettings.php';
+		if(ilRPCServerSettings::getInstance()->isEnabled())
 		{
 			$this->ctrl->setParameter($this, "pdf", "1");
 			$template->setCurrentBlock("pdf_export");
@@ -4132,7 +4133,8 @@ class ilObjTestGUI extends ilObjectGUI
 			array("", "ilobjtestgui", "ilcertificategui")
 		);
 	
-		if ((strlen($ilias->getSetting("rpc_server_host"))) && (strlen($ilias->getSetting("rpc_server_port"))))
+		include_once './Services/WebServices/RPC/classes/class.ilRPCServerSettings.php';
+		if(ilRPCServerSettings::getInstance()->isEnabled())
 		{
 			// certificate subtab
 			$ilTabs->addSubTabTarget(
