@@ -573,7 +573,7 @@ return $this->showServerInfoObject();
 				trim($_POST["rpc_server_port"]) != "")
 			{
 				include_once 'Services/WebServices/RPC/classes/class.ilRPCServerSettings.php';
-				$rpc_settings =& new ilRPCServerSettings();
+				$rpc_settings = ilRPCServerSettings::getInstance();
 				if(!$rpc_settings->pingServer())
 				{
 					$feedback .= "<br />\n".$this->lng->txt('java_server_no_connection');
@@ -2686,6 +2686,8 @@ return $this->showServerInfoObject();
 			$ilSetting->set("rpc_server_port", trim($_POST["rpc_server_port"]));
 			ilUtil::sendSuccess($lng->txt("msg_obj_modified"), true);
 			$ilCtrl->redirect($this, "showJavaServer");
+			
+			// TODO check settings, ping server 
 		}
 		else
 		{

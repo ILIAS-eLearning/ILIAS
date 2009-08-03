@@ -9204,15 +9204,39 @@ function loadQuestions($active_id = "", $pass = NULL)
 	*/
 	public function deliverPDFfromFO($fo, $title = null)
 	{
+		global $ilLog;
+
 		include_once "./Services/Utilities/classes/class.ilUtil.php";
 		$fo_file = ilUtil::ilTempnam() . ".fo";
 		$fp = fopen($fo_file, "w"); fwrite($fp, $fo); fclose($fp);
+
+		include_once './Services/WebServices/RPC/classes/class.ilRpcClientFactory.php';
+		try
+		{
+			$pdf_base64 = ilRpcClientFactory::factory('RPCTransformationHandler')->ilFO2PDF($fo);
+			$filename = (strlen($title)) ? $title : $this->getTitle();
+			ilUtil::deliverData($pdf_base64->scalar, ilUtil::getASCIIFilename($filename) . ".pdf", "application/pdf", false, true);
+			return true;
+		}
+		catch(XML_RPC2_FaultException $e)
+		{
+			$ilLog->write(__METHOD__.': '.$e->getMessage());
+			return false;
+		}
+		catch(Exception $e)
+		{
+			$ilLog->write(__METHOD__.': '.$e->getMessage());
+			return false;
+		}
+
+		/*
 		include_once "./Services/Transformation/classes/class.ilFO2PDF.php";
 		$fo2pdf = new ilFO2PDF();
 		$fo2pdf->setFOString($fo);
 		$result = $fo2pdf->send();
 		$filename = (strlen($title)) ? $title : $this->getTitle();
 		ilUtil::deliverData($result, ilUtil::getASCIIFilename($filename) . ".pdf", "application/pdf", false, true);
+		*/
 	}
 	
 	/**
@@ -9624,7 +9648,9 @@ function loadQuestions($active_id = "", $pass = NULL)
 	public function hasPDFProcessing()
 	{
 		global $ilias;
-		if ((strlen($ilias->getSetting("rpc_server_host"))) && (strlen($ilias->getSetting("rpc_server_port"))))
+		
+		include_once './Services/WebServices/RPC/classes/class.ilRPCServerSettings.php';
+		if(ilRPCServerSettings::getInstance()->isEnabled())
 		{
 			return TRUE;
 		}

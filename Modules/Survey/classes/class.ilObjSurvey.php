@@ -4696,14 +4696,37 @@ class ilObjSurvey extends ilObject
 	*/
 	function deliverPDFfromFO($fo)
 	{
+		global $ilLog;
+
 		include_once "./Services/Utilities/classes/class.ilUtil.php";
 		$fo_file = ilUtil::ilTempnam() . ".fo";
 		$fp = fopen($fo_file, "w"); fwrite($fp, $fo); fclose($fp);
+
+		include_once './Services/WebServices/RPC/classes/class.ilRpcClientFactory.php';
+		try
+		{
+			$pdf_base64 = ilRpcClientFactory::factory('RPCTransformationHandler')->ilFO2PDF($fo);
+			ilUtil::deliverData($pdf_base64->scalar, ilUtil::getASCIIFilename($this->getTitle()) . ".pdf", "application/pdf");
+			return true;
+		}
+		catch(XML_RPC2_FaultException $e)
+		{
+			$ilLog->write(__METHOD__.': '.$e->getMessage());
+			return false;
+		}
+		catch(Exception $e)
+		{
+			$ilLog->write(__METHOD__.': '.$e->getMessage());
+			return false;
+		}
+
+		/*
 		include_once "./Services/Transformation/classes/class.ilFO2PDF.php";
 		$fo2pdf = new ilFO2PDF();
 		$fo2pdf->setFOString($fo);
 		$result = $fo2pdf->send();
 		ilUtil::deliverData($result, ilUtil::getASCIIFilename($this->getTitle()) . ".pdf", "application/pdf");
+		*/
 	}
 	
 	function _checkCondition($a_svy_id,$a_operator,$a_value,$a_usr_id = 0)
