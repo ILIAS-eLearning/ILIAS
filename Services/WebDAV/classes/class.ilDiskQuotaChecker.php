@@ -256,17 +256,22 @@ class ilDiskQuotaChecker
 		}
 
 		$res = $ilDB->queryf(
-			// Note: We add 0 to some of the values to convert them into a number
-			//       This is needed for correct sorting.
 			"SELECT u.usr_id,u.firstname,u.lastname,u.login,u.email,u.last_login,u.active,".
 				"u.time_limit_unlimited, FROM_UNIXTIME(u.time_limit_from), FROM_UNIXTIME(u.time_limit_until),".
-				"IF(u.active = 0,'0000-00-00',IF (u.time_limit_unlimited=1,'9999-12-31',FROM_UNIXTIME(u.time_limit_until))) AS access_until,".
+
+				// Inactive users get the date 0001-01-01 so that they appear
+				// first when the list is sorted by this field.
+				"IF(u.active = 0,'0001-01-01',IF (u.time_limit_unlimited=1,'9999-12-31',FROM_UNIXTIME(u.time_limit_until))) AS access_until,".
+
 				"IF(UNIX_TIMESTAMP() BETWEEN u.time_limit_from AND u.time_limit_until,0,1) AS expired,".
 				"rq.role_disk_quota, system_role.rol_id AS role_id, ".
 				"p1.value+0 AS user_disk_quota,".
 				"p2.value+0 AS disk_usage, ".
 				"p3.value AS last_update, ".
 				"p4.value AS last_reminder, ".
+
+				// We add 0 to some of the values to convert them into a number.
+				// This is needed for correct sorting.
 				"IF(rq.role_disk_quota+0>p1.value+0 OR p1.value IS NULL,rq.role_disk_quota+0,p1.value+0) AS disk_quota	".
 			"FROM usr_data AS u  ".
 
@@ -491,11 +496,13 @@ class ilDiskQuotaChecker
 		$mail = new ilDiskQuotaReminderMail();
 
 		$res = $ilDB->queryf(
-			// Note: We add 0 to some of the values to convert them into a number
-			//       This is needed for correct sorting.
 			"SELECT u.usr_id,u.gender,u.firstname,u.lastname,u.login,u.email,u.last_login,u.active,".
 				"u.time_limit_unlimited, FROM_UNIXTIME(u.time_limit_from), FROM_UNIXTIME(u.time_limit_until),".
-				"IF(u.active = 0,'0000-00-00',IF (u.time_limit_unlimited=1,'9999-12-31',FROM_UNIXTIME(u.time_limit_until))) AS access_until,".
+
+				// Inactive users get the date 0001-01-01 so that they appear
+				// first when the list is sorted by this field.
+				"IF(u.active = 0,'0001-01-01',IF (u.time_limit_unlimited=1,'9999-12-31',FROM_UNIXTIME(u.time_limit_until))) AS access_until,".
+
 				"IF(UNIX_TIMESTAMP() BETWEEN u.time_limit_from AND u.time_limit_until,0,1) AS expired,".
 				"rq.role_disk_quota, system_role.rol_id AS role_id, ".
 				"p1.value+0 AS user_disk_quota,".
@@ -503,6 +510,9 @@ class ilDiskQuotaChecker
 				"p3.value AS last_update, ".
 				"p4.value AS last_reminder, ".
 				"p5.value AS language, ".
+
+				// We add 0 to some of the values to convert them into a number.
+				// This is needed for correct sorting.
 				"IF(rq.role_disk_quota+0>p1.value+0 OR p1.value IS NULL,rq.role_disk_quota+0,p1.value+0) AS disk_quota	".
 			"FROM usr_data AS u  ".
 
