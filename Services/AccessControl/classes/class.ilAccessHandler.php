@@ -410,12 +410,6 @@ class ilAccessHandler
 
 		$ilBench->start("AccessControl", "2000_checkAccess_in_tree");
 
-//		if (isset($this->is_in_tree[$a_ref_id]))
-//		{
-//			$ilBench->stop("AccessControl", "2000_checkAccess_in_tree");
-//			return $this->is_in_tree[$a_ref_id];
-//		}
-
 		if(!$tree->isInTree($a_ref_id) or $tree->isDeleted($a_ref_id))
 		{
             // Store negative access results
@@ -432,7 +426,6 @@ class ilAccessHandler
 			$this->storeAccessResult($a_permission, $a_cmd, $a_ref_id, false, $a_user_id);
 
 			$ilBench->stop("AccessControl", "2000_checkAccess_in_tree");
-//			$this->is_in_tree[$a_ref_id] = false;
 
 			return false;
 		}
@@ -472,15 +465,18 @@ class ilAccessHandler
 				$ilErr->raiseError($message,$ilErr->MESSAGE);
 		}
 		
-//		if (isset($this->stored_rbac_access[$a_user_id."-".$a_permission."-".$a_ref_id]))
-//		{
-//			$access = $this->stored_rbac_access[$a_user_id."-".$a_permission."-".$a_ref_id];//
-//		}
-//		else
-//		{
-		$access = $this->rbacsystem->checkAccessOfUser($a_user_id, $a_permission, $a_ref_id);
-//			$this->stored_rbac_access[$a_user_id."-".$a_permission."-".$a_ref_id] = $access;
-//		}
+		if (isset($this->stored_rbac_access[$a_user_id."-".$a_permission."-".$a_ref_id]))
+		{
+			$access = $this->stored_rbac_access[$a_user_id."-".$a_permission."-".$a_ref_id];
+		}
+		else
+		{
+			$access = $this->rbacsystem->checkAccessOfUser($a_user_id, $a_permission, $a_ref_id);
+			if (!is_array($this->stored_rbac_access) || count($this->stored_rbac_access) < 1000)
+			{
+				$this->stored_rbac_access[$a_user_id."-".$a_permission."-".$a_ref_id] = $access;
+			}
+		}
 
 		// Store in result cache
 		if (!$access)
