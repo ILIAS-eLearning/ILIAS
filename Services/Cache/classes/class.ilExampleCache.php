@@ -24,24 +24,7 @@ class ilExampleCache extends ilCache
 	{
 		parent::__construct("ServicesCache", "Example", false);
 		$this->setExpiresAfter(5);		// only five seconds to make a hit
-				// usually you would this value from some setting
-	}
-	
-	/**
-	 * Determine entry value
-	 *
-	 * @param	string		entry id
-	 * @return	string		entry value
-	 */
-	function determineEntryValue($a_id)
-	{
-		// normally the $a_id contains a string with
-		// several parts, e.g. userid:refid for a news cache
-		// the parts would be separated and
-		// the value would be determined by using application classes
-		// of the corresponding service or module.
-		// here we just return a dummy value
-		return "value_".$a_id;
+		// usually you would this value from some setting
 	}
 }
 ?>

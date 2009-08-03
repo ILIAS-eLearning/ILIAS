@@ -784,11 +784,23 @@ class ilObjectListGUI
 	 * @param
 	 * @return
 	 */
-	public function checkCommandAccess($a_permission,$a_cmd,$a_ref_id,$a_type)
+	public function checkCommandAccess($a_permission,$a_cmd,$a_ref_id,$a_type,$a_obj_id="")
 	{
 		global $ilAccess;
 		
-		return $ilAccess->checkAccess($a_permission,$a_cmd,$a_ref_id,$a_type);
+		if (isset($this->access_cache[$a_permission]["-".$a_cmd][$a_ref_id]))
+		{
+//echo "A";
+			return $this->access_cache[$a_permission]["-".$a_cmd][$a_ref_id];
+		}
+//echo "<br>Check access in checkCommandAccess";
+		$access = $ilAccess->checkAccess($a_permission,$a_cmd,$a_ref_id,$a_type,$a_obj_id);
+		if ($ilAccess->getPreventCachingLastResult())
+		{
+			$this->prevent_access_caching = true;
+		}
+		$this->access_cache[$a_permission]["-".$a_cmd][$a_ref_id] = $access;
+		return $access;
 	}
 	
 	/**
@@ -801,6 +813,7 @@ class ilObjectListGUI
 	*/
 	function initItem($a_ref_id, $a_obj_id, $a_title = "", $a_description = "")
 	{
+		$this->access_cache = array();
 		$this->ref_id = $a_ref_id;
 		$this->obj_id = $a_obj_id;
 		$this->setTitle($a_title);
@@ -809,6 +822,7 @@ class ilObjectListGUI
 				
 		// checks, whether any admin commands are included in the output
 		$this->adm_commands_included = false;
+		$this->prevent_access_caching = false;
 	}
 	
 	/**
@@ -1866,7 +1880,7 @@ class ilObjectListGUI
 			{
 				// Pass type and object ID to ilAccess to improve performance
 			    global $ilAccess;
-    			if ($ilAccess->checkAccess("read", "", $this->ref_id, $this->type, $this->obj_id))
+    			if ($this->checkCommandAccess("read", "", $this->ref_id, $this->type, $this->obj_id))
 				{
 					if($this->getContainerObject() instanceof ilDesktopItemHandling)
 					{
@@ -2208,6 +2222,24 @@ class ilObjectListGUI
 	}
 
 	/**
+	 * Store access cache
+	 */
+	function storeAccessCache()
+	{
+		global $ilUser;
+if (true)
+{
+//echo "<br>-".$this->acache->getLastAccessStatus()."-".$this->prevent_access_caching."-";
+		if($this->acache->getLastAccessStatus() == "miss" &&
+			!$this->prevent_access_caching)
+		{
+			$this->acache->storeEntry($ilUser->getId().":".$this->ref_id,
+				serialize($this->access_cache));
+		}
+}
+	}
+	
+	/**
 	* Get all item information (title, commands, description) in HTML
 	*
 	* @access	public
@@ -2220,7 +2252,7 @@ class ilObjectListGUI
 	function getListItemHTML($a_ref_id, $a_obj_id, $a_title, $a_description)
 	{
 
-		global $ilAccess, $ilBench;
+		global $ilAccess, $ilBench, $ilUser;
 		
 		// this variable stores wheter any admin commands
 		// are included in the output
@@ -2236,19 +2268,36 @@ class ilObjectListGUI
 		$this->initItem($a_ref_id, $a_obj_id, $a_title, $a_description);
 		$ilBench->stop("ilObjectListGUI", "1000_getListHTML_init$type");
 
+		// read from cache
+if (true)
+{
+		include_once("./Services/Object/classes/class.ilListItemAccessCache.php");
+		$this->acache = new ilListItemAccessCache();
+		$cres = $this->acache->getEntry($ilUser->getId().":".$a_ref_id);
+		if($this->acache->getLastAccessStatus() == "hit")
+		{
+			$this->access_cache = unserialize($cres);
+		}
+}
+
   		// visible check
 		$ilBench->start("ilObjectListGUI", "2000_getListHTML_check_visible");
-		if (!$ilAccess->checkAccess("visible", "", $a_ref_id, "", $a_obj_id))
+		if (!$this->checkCommandAccess("visible", "", $a_ref_id, "", $a_obj_id))
 		{
+			$this->storeAccessCache();
 			$ilBench->stop("ilObjectListGUI", "2000_getListHTML_check_visible");
 			return "";
 		}
 		$ilBench->stop("ilObjectListGUI", "2000_getListHTML_check_visible");
 
+		
 		// commands
 		$ilBench->start("ilObjectListGUI", "4000_insert_commands");
 		$this->insertCommands();
 		$ilBench->stop("ilObjectListGUI", "4000_insert_commands");
+
+		// write to cache
+		$this->storeAccessCache();
 
 		// payment
 		$ilBench->start("ilObjectListGUI", "5000_insert_pay");

@@ -49,11 +49,12 @@ class ilCacheTest extends PHPUnit_Framework_TestCase
 	{
 		include_once './Services/Cache/classes/class.ilExampleCache.php';
 		
-		$cache = new ilExampleCache($module);
+		$cache = new ilExampleCache();
 		$get = $cache->getEntry("test_id");
 		$stat = $cache->getLastAccessStatus();
 		$value.= $stat."-".$get."-";
 		
+		$get = $cache->storeEntry("test_id", "test_value");
 		$get = $cache->getEntry("test_id");
 		$stat = $cache->getLastAccessStatus();
 		$value.= $stat."-".$get."-";
@@ -64,7 +65,7 @@ class ilCacheTest extends PHPUnit_Framework_TestCase
 		$stat = $cache->getLastAccessStatus();
 		$value.= $stat."-".$get."-";
 		
-		$this->assertEquals("miss-value_test_id-hit-value_test_id-miss-value_test_id-", $value);
+		$this->assertEquals("miss--hit-test_value-miss--", $value);
 	}
 }
 ?>
