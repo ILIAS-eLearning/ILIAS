@@ -2046,97 +2046,60 @@ class ilObjTestGUI extends ilObjectGUI
 	
 	/**
 	* Marks selected questions for moving
-	*
-	* Marks selected questions for moving
-	*
-	* @access	public
 	*/
 	function moveQuestionsObject()
 	{
-		$this->questionsObject();
+		$_SESSION['tst_qst_move_' . $this->object->getTestId()] = $_POST['q_id'];
+		ilUtil::sendSuccess($this->lng->txt("msg_selected_for_move"), true);
+		$this->ctrl->redirect($this, 'questions');
 	}
 	
 	/**
 	* Insert checked questions before the actual selection
-	*
-	* Insert checked questions before the actual selection
-	*
-	* @access	public
 	*/
-	function insertQuestionsBeforeObject()
+	public function insertQuestionsBeforeObject()
 	{
 		// get all questions to move
-		$move_questions = array();
-		foreach ($_POST as $key => $value)
+		$move_questions = $_SESSION['tst_qst_move_' . $this->object->getTestId()];
+
+		if (count($_POST['q_id']) == 0)
 		{
-			if (preg_match("/^move_(\d+)$/", $key, $matches))
-			{
-				array_push($move_questions, $value);
-			}
+			ilUtil::sendFailure($this->lng->txt("no_target_selected_for_move"), true);
+			$this->ctrl->redirect($this, 'questions');
 		}
-		// get insert point
-		$insert_id = -1;
-		foreach ($_POST as $key => $value)
+		if (count($_POST['q_id']) > 1)
 		{
-			if (preg_match("/^cb_(\d+)$/", $key, $matches))
-			{
-				if ($insert_id < 0)
-				{
-					$insert_id = $matches[1];
-				}
-			}
+			ilUtil::sendFailure($this->lng->txt("too_many_targets_selected_for_move"), true);
+			$this->ctrl->redirect($this, 'questions');
 		}
-		if ($insert_id <= 0)
-		{
-			ilUtil::sendInfo($this->lng->txt("no_target_selected_for_move"), true);
-		}
-		else
-		{
-			$insert_mode = 0;
-			$this->object->moveQuestions($move_questions, $insert_id, $insert_mode);
-		}
+		$insert_mode = 0;
+		$this->object->moveQuestions($_SESSION['tst_qst_move_' . $this->object->getTestId()], $_POST['q_id'][0], $insert_mode);
+		ilUtil::sendSuccess($this->lng->txt("msg_questions_moved"), true);
+		unset($_SESSION['tst_qst_move_' . $this->object->getTestId()]);
 		$this->ctrl->redirect($this, "questions");
 	}
 	
 	/**
 	* Insert checked questions after the actual selection
-	*
-	* Insert checked questions after the actual selection
-	*
-	* @access	public
 	*/
-	function insertQuestionsAfterObject()
+	public function insertQuestionsAfterObject()
 	{
 		// get all questions to move
-		$move_questions = array();
-		foreach ($_POST as $key => $value)
+		$move_questions = $_SESSION['tst_qst_move_' . $this->object->getTestId()];
+		if (count($_POST['q_id']) == 0)
 		{
-			if (preg_match("/^move_(\d+)$/", $key, $matches))
-			{
-				array_push($move_questions, $value);
-			}
+			ilUtil::sendFailure($this->lng->txt("no_target_selected_for_move"), true);
+			$this->ctrl->redirect($this, 'questions');
 		}
-		// get insert point
-		$insert_id = -1;
-		foreach ($_POST as $key => $value)
+		if (count($_POST['q_id']) > 1)
 		{
-			if (preg_match("/^cb_(\d+)$/", $key, $matches))
-			{
-				if ($insert_id < 0)
-				{
-					$insert_id = $matches[1];
-				}
-			}
+			ilUtil::sendFailure($this->lng->txt("too_many_targets_selected_for_move"), true);
+			$this->ctrl->redirect($this, 'questions');
 		}
-		if ($insert_id <= 0)
-		{
-			ilUtil::sendInfo($this->lng->txt("no_target_selected_for_move"), true);
-		}
-		else
-		{
-			$insert_mode = 1;
-			$this->object->moveQuestions($move_questions, $insert_id, $insert_mode);
-		}
+		$insert_mode = 1;
+		$this->object->moveQuestions($_SESSION['tst_qst_move_' . $this->object->getTestId()], $_POST['q_id'][0], $insert_mode);
+		ilUtil::sendSuccess($this->lng->txt("msg_questions_moved"), true);
+		unset($_SESSION['tst_qst_move_' . $this->object->getTestId()]);
 		$this->ctrl->redirect($this, "questions");
 	}
 	
@@ -2268,26 +2231,6 @@ class ilObjTestGUI extends ilObjectGUI
 
 		$this->tpl->addBlockFile("ADM_CONTENT", "adm_content", "tpl.il_as_tst_questions.html", "Modules/Test");
 
-		$checked_move = 0;
-		if (strcmp($this->ctrl->getCmd(), "moveQuestions") == 0)
-		{
-			if (is_array($_POST['q_id']))
-			{
-				foreach ($_POST['q_id'] as $value)
-				{
-					$checked_move++;
-					$this->tpl->setCurrentBlock("move");
-					$this->tpl->setVariable("MOVE_COUNTER", $value);
-					$this->tpl->setVariable("MOVE_VALUE", $value);
-					$this->tpl->parseCurrentBlock();
-				}
-			}
-			if (!$checked_move)
-			{
-				ilUtil::sendInfo($this->lng->txt("no_question_selected_for_move"));
-			}
-		}
-
 		$total = $this->object->evalTotalPersons();
 		if (($ilAccess->checkAccess("write", "", $this->ref_id) and ($total == 0))) 
 		{
@@ -2320,6 +2263,7 @@ class ilObjTestGUI extends ilObjectGUI
 
 		$this->tpl->setCurrentBlock("adm_content");
 		include_once "./Modules/Test/classes/tables/class.ilTestQuestionsTableGUI.php";
+		$checked_move = is_array($_SESSION['tst_qst_move_' . $this->object->getTestId()]) && (count($_SESSION['tst_qst_move_' . $this->object->getTestId()]));
 		$table_gui = new ilTestQuestionsTableGUI($this, 'questions', (($ilAccess->checkAccess("write", "", $this->ref_id) ? true : false)), $checked_move);
 		$data = $this->object->getTestQuestions();
 		$table_gui->setData($data);

@@ -9812,3 +9812,6 @@ assessment#:#delete_image_header#:#Delete image
 assessment#:#delete_image_question#:#Do you really want to delete the image?
 assessment#:#answer_image#:#Answer Image
 assessment#:#thumb_size_info#:#If you enter a thumbnail size, a thumbnail of this size will be generated for uploaded images. Without a thumbnail size, the original image size will be used.
+assessment#:#msg_questions_moved#:#Question(s) moved
+assessment#:#too_many_targets_selected_for_move#:#You must select exactly one target position!
+assessment#:#msg_selected_for_move#:#Question(s) selected for moving
