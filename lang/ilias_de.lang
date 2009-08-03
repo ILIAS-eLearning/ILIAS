@@ -9830,3 +9830,6 @@ assessment#:#delete_image_header#:#Bild löschen
 assessment#:#delete_image_question#:#Wollen Sie wirklich das Bild löschen?
 assessment#:#answer_image#:#Antwort-Grafik
 assessment#:#thumb_size_info#:#Wenn Sie eine Vorschaugröße angeben, werden hochgeladene Bilder automatisch auf diese Größe verkleinert. Ohne Vorschaugröße werden die Bilder in ihrer Originalgröße verwendet.
+assessment#:#msg_questions_moved#:#Frage(n) verschoben
+assessment#:#too_many_targets_selected_for_move#:#Sie müssen genau eine Zielposition auswählen!
+assessment#:#msg_selected_for_move#:#Frage(n) zum Verschieben ausgewählt
