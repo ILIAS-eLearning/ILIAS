@@ -106,7 +106,7 @@ class ilTestEvaluationData
 			"LEFT JOIN usr_data ON tst_active.user_fi = usr_data.usr_id " .
 			"WHERE tst_active.active_id = tst_pass_result.active_fi " .
 			"AND tst_active.test_fi = %s " .
-			"ORDER BY usr_data.lastname, usr_data.firstname, active_id, pass, tstamp",
+			"ORDER BY usr_data.lastname, usr_data.firstname, tst_pass_result.active_fi, tst_pass_result.pass, tst_pass_result.tstamp",
 			array('integer'),
 			array($this->getTest()->getTestId())
 		);
