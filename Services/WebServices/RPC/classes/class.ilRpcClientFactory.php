@@ -21,73 +21,37 @@
 	+-----------------------------------------------------------------------------+
 */
 
+include_once 'XML/RPC2/Client.php';
 
 /**
-* Adapter class for communication between ilias and ilRPCServer
-*
-* @author Stefan Meyer <smeyer@databay.de>
-* @version $Id$
-*
-* @package ilias
-*/
-include_once 'Services/WebServices/RPC/classes/class.ilRPCServerAdapter.php';
-
-define("MODE_FO2PDF",1);
-
-class ilFO2PDF extends ilRPCServerAdapter
+ * @classDescription Factory for PEAR XML rpc2 clients
+ * @author Stefan Meyer <meyer@leifos.com>
+ * @version $Id$
+ */
+class ilRpcClientFactory
 {
-	var $log = null;
-	var $mode = MODE_FO2PDF;
-	var $fo_string = '';
 	
-	function ilFO2PDF()
+	/**
+	 * Create an XML_RPC2 client instance
+	 * 
+	 * We use Php as backend, since xmlrpc encodes utf8 as html entity 
+	 * 
+	 * @param string $a_package	 Package name
+	 * @return 
+	 */
+	public static function factory($a_package)
 	{
-		global $ilLog;
+		include_once './Services/WebServices/RPC/classes/class.ilRPCServerSettings.php';
 
-		parent::ilRPCServerAdapter();
-
-	}
-
-	function setFOString($a_fo)
-	{
-		$this->fo_string = $a_fo;
-	}
-	function getFOString()
-	{
-		return $this->fo_string;
-	}
-
-
-	function setMode($a_mode)
-	{
-		$this->mode = $a_mode;
-	}
-	function getMode()
-	{
-		return $this->mode;
-	}
-
-	function send()
-	{
-		$this->__initClient();
-		switch($this->getMode())
-		{
-			case MODE_FO2PDF:
-				$this->__prepareFO2PDFParams();
-				break;
-
-			default:
-				$this->log->write('ilFO2PDF(): No valid mode given');
-				return false;
-
-		}
-		return parent::send();
-	}
-	function __prepareFO2PDFParams()
-	{
-		$this->__initMessage('RPCTransformationHandler.ilFO2PDF',array(new XML_RPC_Value($this->getFOString(),"string")));
-
-		return true;
+		$client = XML_RPC2_Client::create(
+			ilRPCServerSettings::getInstance()->getServerUrl(),
+			array(
+				'prefix'	=> $a_package.'.',
+				'encoding'	=> 'utf-8',
+				'backend'	=> 'Php',
+				'debug'		=> false
+			)
+		);
+		return $client;
 	}
 }
-?>

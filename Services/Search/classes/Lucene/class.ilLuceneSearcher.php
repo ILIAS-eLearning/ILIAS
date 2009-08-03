@@ -85,24 +85,38 @@ class ilLuceneSearcher
 	 */
 	public function highlight($a_obj_ids)
 	{
-		global $ilBench;
+		global $ilBench,$ilSetting;
 
 		// TODO error handling
 		if(!$this->query_parser->getQuery())
 		{
 			return;
 		}
-
+		
 		// Search in combined index
 		$ilBench->start('Lucene','SearchHighlight');
-		include_once './Services/Search/classes/Lucene/class.ilLuceneRPCAdapter.php';
-		$adapter = new ilLuceneRPCAdapter();
-		$adapter->setQueryString($this->query_parser->getQuery());
-		$adapter->setMode('highlight');
-		$adapter->setResultIds($a_obj_ids);
-		$res = $adapter->send();
+		try
+		{
+			include_once './Services/WebServices/RPC/classes/class.ilRpcClientFactory.php';
+			$res = ilRpcClientFactory::factory('RPCSearchHandler')->highlight(
+				CLIENT_ID.'_'.$ilSetting->get('inst_id',0),
+				$a_obj_ids,
+				$this->query_parser->getQuery()
+				);
+		}
+		catch(XML_RPC2_FaultException $e)
+		{
+			// TODO: better error handling
+			$ilLog->write(__METHOD__.': '.$e->getMessage());
+			return new ilLuceneHighlighterResultParser();
+		}
+		catch(Exception $e)
+		{
+			$ilLog->write(__METHOD__.': '.$e->getMessage());
+			return new ilLuceneHighlighterResultParser();
+		}
 		$ilBench->stop('Lucene','SearchHighlight');
-		
+
 		$ilBench->start('Lucene','SearchHighlightParser');
 		include_once './Services/Search/classes/Lucene/class.ilLuceneHighlighterResultParser.php';
 		$this->highlighter = new ilLuceneHighlighterResultParser();
@@ -163,23 +177,38 @@ class ilLuceneSearcher
 	 */
 	protected function performSearch()
 	{
-		global $ilBench;
+		global $ilBench,$ilSetting;
 
 		// TODO error handling
 		if(!$this->query_parser->getQuery())
 		{
 			return;
 		}
-
-		// Search in combined index
 		$ilBench->start('Lucene','SearchCombinedIndex');
-		include_once './Services/Search/classes/Lucene/class.ilLuceneRPCAdapter.php';
-		$adapter = new ilLuceneRPCAdapter();
-		$adapter->setQueryString($this->query_parser->getQuery());
-		$adapter->setPageNumber($this->getPageNumber());
-		$adapter->setMode('search');
-		$res = $adapter->send();
-		$ilBench->stop('Lucene','SearchCombinedIndex');
+		try
+		{
+			include_once './Services/WebServices/RPC/classes/class.ilRpcClientFactory.php';
+			$res = ilRpcClientFactory::factory('RPCSearchHandler')->search(
+				CLIENT_ID.'_'.$ilSetting->get('inst_id',0),
+				(string) $this->query_parser->getQuery(),
+				$this->getPageNumber()
+			);
+		}
+		catch(XML_RPC2_FaultException $e)
+		{
+			// TODO: better error handling
+			$ilBench->stop('Lucene','SearchCombinedIndex');
+			$ilLog->write(__METHOD__.': '.$e->getMessage());
+			return;
+		}
+		catch(Exception $e)
+		{
+			$ilBench->stop('Lucene','SearchCombinedIndex');
+			$ilLog->write(__METHOD__.': '.$e->getMessage());
+			return;
+		}
+		$ilBench->stop('Lucene','SearchCombinedIndex');		
+
 		
 		// Parse results
 		$ilBench->start('Lucene','ParseSearchResult');

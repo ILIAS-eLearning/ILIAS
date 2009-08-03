@@ -56,7 +56,7 @@ class ilRPCServerAdapter
 
 		$this->__checkPear();
 
-		$this->settings_obj =& new ilRPCServerSettings();
+		$this->settings_obj = ilRPCServerSettings::getInstance();
 	}
 	
 	function setResponseTimeout($a_response_timeout)

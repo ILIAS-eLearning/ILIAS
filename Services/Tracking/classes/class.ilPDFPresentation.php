@@ -301,18 +301,28 @@ class ilPDFPresentation extends ilLearningProgressBaseGUI
 
 	function __toPDF()
 	{
-		include_once 'Services/Transformation/classes/class.ilFO2PDF.php';
-
-		$fo2pdf = new ilFO2PDF();
-		$fo2pdf->setFOString($this->fo_string);
-		$pdf_base64 = $fo2pdf->send();
-
-		if(!$pdf_base64)
+		global $ilLog;
+		
+		include_once './Services/WebServices/RPC/classes/class.ilRpcClientFactory.php';
+		try
 		{
-			ilUtil::sendInfo($this->lng->txt('trac_error_pdf',true));
-			$this->ctrl->returnToParent($this);
+			$pdf_base64 = ilRpcClientFactory::factory('RPCTransformationHandler')->ilFO2PDF($this->fo_string);
+			ilUtil::deliverData($pdf_base64->scalar,'learning_progress.pdf','application/pdf');
 		}
-		ilUtil::deliverData($pdf_base64,'learning_progress.pdf','application/pdf');
+		catch(XML_RPC2_FaultException $e)
+		{
+			ilUtil::sendFailure('trac_error_pdf',true);
+			$ilLog->write(__METHOD__.': '.$e->getMessage());
+			$this->ctrl->returnToParent($this);
+			return false;
+		}
+		catch(Exception $e)
+		{
+			ilUtil::sendFailure('trac_error_pdf',true);
+			$ilLog->write(__METHOD__.': '.$e->getMessage());
+			$this->ctrl->returnToParent($this);
+			return false;
+		}
 	}
 
 	function __createPersonalProgressList()
@@ -397,32 +407,29 @@ class ilPDFPresentation extends ilLearningProgressBaseGUI
 
 	function __convert()
 	{
-		#include_once 'Services/Transformation/classes/class.ilContentObject2FO.php';
-		#$co2fo = new ilContentObject2FO();
-		#$co2fo->setXMLString($xml = $this->xml_tpl->get());
-
-		#if(!$co2fo->transform())
-		#{
-		#endInfo($this->lng->txt('trac_error_pdf',true));
-		#	$this->ctrl->returnToParent($this);
-		#}
-
-		include_once 'Services/Transformation/classes/class.ilFO2PDF.php';
-
-		$fo2pdf = new ilFO2PDF();
-		#echo htmlentities($this->tpl->get());
-		$fo2pdf->setFOString($this->tpl->get());
-
-		#var_dump("<pre>",htmlentities($fo2pdf->getFOString()),"<pre>");
-
-		$pdf_base64 = $fo2pdf->send();
-
-		if(!$pdf_base64)
+		global $ilLog;
+		
+		include_once './Services/WebServices/RPC/classes/class.ilRpcClientFactory.php';
+		try
 		{
-			ilUtil::sendInfo($this->lng->txt('trac_error_pdf',true));
-			$this->ctrl->returnToParent($this);
+			$pdf_base64 = ilRpcClientFactory::factory('RPCTransformationHandler')->ilFO2PDF($this->tpl->get());
+			ilUtil::deliverData($pdf_base64->scalar,'learning_progress.pdf','application/pdf');
+			return true;
 		}
-		ilUtil::deliverData($pdf_base64,'learning_progress.pdf','application/pdf');
+		catch(XML_RPC2_FaultException $e)
+		{
+			ilUtil::sendFailure('trac_error_pdf',true);
+			$ilLog->write(__METHOD__.': '.$e->getMessage());
+			$this->ctrl->returnToParent($this);
+			return false;
+		}
+		catch(Exception $e)
+		{
+			ilUtil::sendFailure('trac_error_pdf',true);
+			$ilLog->write(__METHOD__.': '.$e->getMessage());
+			$this->ctrl->returnToParent($this);
+			return false;
+		}
 	}
 }	
 ?>
