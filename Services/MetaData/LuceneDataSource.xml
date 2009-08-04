@@ -3,8 +3,9 @@
 	<DataSource type="JDBC" action="append">
 		<Query>
 			SELECT language FROM il_meta_language
-			WHERE obj_id IN (?) AND obj_type IN (?);
+			WHERE rbac_id IN (?) AND obj_id IN (?) AND obj_type IN (?);
 		</Query>
+		<Param format="list" type="int" value="metaRbacId" />
 		<Param format="list" type="int" value="metaObjId" />
 		<Param format="list" type="string" value="metaType" />
 		<Field store="YES" index="NOT_ANALYZED" column="language" name="lomLanguage" />
@@ -13,8 +14,9 @@
 	<DataSource type="JDBC" action="append">
 		<Query>
 			SELECT keyword FROM il_meta_keyword
-			WHERE obj_id IN (?) AND obj_type IN (?);
+			WHERE rbac_id IN (?) AND obj_id IN (?) AND obj_type IN (?);
 		</Query>
+		<Param format="list" type="int" value="metaRbacId" />
 		<Param format="list" type="int" value="metaObjId" />
 		<Param format="list" type="string" value="metaType" />
 		<Field store="YES" index="ANALYZED" column="keyword" name="lomKeyword" />
@@ -23,8 +25,9 @@
 	<DataSource type="JDBC" action="append">
 		<Query>
 			SELECT general_structure,coverage FROM il_meta_general
-			WHERE obj_id IN (?) AND obj_type IN (?);
+			WHERE rbac_id IN (?) AND  obj_id IN (?) AND obj_type IN (?);
 		</Query>
+		<Param format="list" type="int" value="metaRbacId" />
 		<Param format="list" type="int" value="metaObjId" />
 		<Param format="list" type="string" value="metaType" />
 		<Field store="YES" index="ANALYZED" column="general_structure" name="lomStructure" />
@@ -35,8 +38,9 @@
 	<DataSource type="JDBC" action="append">
 		<Query>
 			SELECT lifecycle_status,meta_version FROM il_meta_lifecycle
-			WHERE obj_id IN (?) AND obj_type IN (?);
+			WHERE rbac_id IN (?) AND  obj_id IN (?) AND obj_type IN (?);
 		</Query>
+		<Param format="list" type="int" value="metaRbacId" />
 		<Param format="list" type="int" value="metaObjId" />
 		<Param format="list" type="string" value="metaType" />
 		<Field store="YES" index="ANALYZED" column="lifecycle_status" name="lomStatus" />
@@ -50,10 +54,12 @@
 			JOIN il_meta_entity ime ON meta_contribute_id = ime.parent_id
 			WHERE imc.obj_id IN (?)
 			AND imc.obj_type IN (?)
+			AND imc.rbac_id IN (?)
 			AND ime.parent_type = 'meta_contribute';
 		</Query>
 		<Param format="list" type="int" value="metaObjId" />
 		<Param format="list" type="string" value="metaType" />
+		<Param format="list" type="int" value="metaRbacId" />
 		<Field store="YES" index="ANALYZED" column="role" name="lomRole" />
 		<Field store="YES" index="ANALYZED" column="role" name="metaData" />
 		<Field store="YES" index="ANALYZED" column="entity" name="lomRoleEntity" />
@@ -62,8 +68,9 @@
 	<DataSource type="JDBC" action="append">
 		<Query>
 			SELECT format FROM il_meta_format
-			WHERE obj_id IN (?) AND obj_type IN (?);
+			WHERE  rbac_id IN (?) AND obj_id IN (?) AND obj_type IN (?);
 		</Query>
+		<Param format="list" type="int" value="metaRbacId" />
 		<Param format="list" type="int" value="metaObjId" />
 		<Param format="list" type="string" value="metaType" />
 		<Field store="YES" index="ANALYZED" column="format" name="lomFormat" />
@@ -72,8 +79,9 @@
 	<DataSource type="JDBC" action="append">
 		<Query>
 			SELECT operating_system_name,browser_name FROM il_meta_requirement
-			WHERE obj_id IN (?) AND obj_type IN (?);
+			WHERE  rbac_id IN (?) AND obj_id IN (?) AND obj_type IN (?);
 		</Query>
+		<Param format="list" type="int" value="metaRbacId" />
 		<Param format="list" type="int" value="metaObjId" />
 		<Param format="list" type="string" value="metaType" />
 		<Field store="YES" index="ANALYZED" column="operating_system_name" name="lomOS" />
@@ -86,8 +94,9 @@
 			SELECT interactivity_type, learning_resource_type,
 			interactivity_level, semantic_density, intended_end_user_role,context,difficulty 
 			FROM il_meta_educational
-			WHERE obj_id IN (?) AND obj_type IN (?);
+			WHERE  rbac_id IN (?) AND obj_id IN (?) AND obj_type IN (?);
 		</Query>
+		<Param format="list" type="int" value="metaRbacId" />
 		<Param format="list" type="int" value="metaObjId" />
 		<Param format="list" type="string" value="metaType" />
 		<Field store="YES" index="ANALYZED" column="interactivity_type" name="lomInteractivity" />
@@ -108,8 +117,9 @@
 	<DataSource type="JDBC" action="append">
 		<Query>
 			SELECT costs, cpr_and_or FROM il_meta_rights
-			WHERE obj_id IN (?) AND obj_type IN (?);
+			WHERE  rbac_id IN (?) AND obj_id IN (?) AND obj_type IN (?);
 		</Query>
+		<Param format="list" type="int" value="metaRbacId" />
 		<Param format="list" type="int" value="metaObjId" />
 		<Param format="list" type="string" value="metaType" />
 		<Field store="YES" index="ANALYZED" column="costs" name="lomCosts" />
@@ -120,8 +130,9 @@
 	<DataSource type="JDBC" action="append">
 		<Query>
 			SELECT purpose FROM il_meta_classification
-			WHERE obj_id IN (?) AND obj_type IN (?);
+			WHERE  rbac_id IN (?) AND obj_id IN (?) AND obj_type IN (?);
 		</Query>
+		<Param format="list" type="int" value="metaRbacId" />
 		<Param format="list" type="int" value="metaObjId" />
 		<Param format="list" type="string" value="metaType" />
 		<Field store="YES" index="ANALYZED" column="purpose" name="lomPurpose" />
@@ -130,8 +141,9 @@
 	<DataSource type="JDBC" action="append">
 		<Query>
 			SELECT taxon FROM il_meta_taxon
-			WHERE obj_id IN (?) AND obj_type IN (?);
+			WHERE  rbac_id IN (?) AND obj_id IN (?) AND obj_type IN (?);
 		</Query>
+		<Param format="list" type="int" value="metaRbacId" />
 		<Param format="list" type="int" value="metaObjId" />
 		<Param format="list" type="string" value="metaType" />
 		<Field store="YES" index="ANALYZED" column="taxon" name="lomTaxon" />
