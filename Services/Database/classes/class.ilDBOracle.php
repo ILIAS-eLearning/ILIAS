@@ -156,7 +156,7 @@ class ilDBOracle extends ilDB
 		$b = array();
 		foreach ($a_columns as $k => $col)
 		{
-			$val_field[] = $ilDB->quote($col[1], $col[0])." ".$k;
+			$val_field[] = $this->quote($col[1], $col[0])." ".$k;
 			$fields[] = $k;
 			$placeholders[] = "%s";
 			$placeholders2[] = ":$k";
