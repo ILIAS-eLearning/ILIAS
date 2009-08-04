@@ -100,7 +100,8 @@ class ilObjForumGUI extends ilObjectGUI
 					     	  'performPostActivation', 'performPostDeactivation', 'performPostAndChildPostsActivation',
 					     	  'askForPostActivation', 'askForPostDeactivation',
 					     	  'toggleThreadNotification', 'toggleThreadNotificationTab',
-					     	  'toggleStickiness', 'cancelPost', 'savePost', 'quotePost', 'getQuotationHTMLAsynch'
+					     	  'toggleStickiness', 'cancelPost', 'savePost', 'quotePost', 'getQuotationHTMLAsynch',
+							  'doReloadTree'
 					     	  );
 
 		if (!is_array($exclude_cmds) || !in_array($cmd, $exclude_cmds))
@@ -1976,7 +1977,10 @@ class ilObjForumGUI extends ilObjectGUI
 					$message = $lng->txt('forums_post_new_entry');
 				}
 				
-				ilUtil::sendSuccess($message);									
+				ilUtil::sendSuccess($message, true);
+				$this->ctrl->setParameter($this, 'pos_pk', $newPost);
+				$this->ctrl->setParameter($this, 'thr_pk', $this->objCurrentPost->getThreadId());				
+				$this->ctrl->redirect($this, 'doReloadTree', $newPost);								
 			}
 			else
 			{
@@ -2053,11 +2057,11 @@ class ilObjForumGUI extends ilObjectGUI
 						$oFDForum->unlinkFilesByMD5Filenames($file2delete);
 					}				
 				}
-				
-				ilUtil::sendSuccess($lng->txt('forums_post_modified'));			
-			}
-			
-			$this->reloadTree(true);		
+				ilUtil::sendSuccess($lng->txt('forums_post_modified'), true);
+				$this->ctrl->setParameter($this, 'pos_pk', $this->objCurrentPost->getId());
+				$this->ctrl->setParameter($this, 'thr_pk', $this->objCurrentPost->getThreadId());				
+				$this->ctrl->redirect($this, 'doReloadTree', $this->objCurrentPost->getId());
+			}	
 		}
 		else
 		{
@@ -2131,6 +2135,13 @@ class ilObjForumGUI extends ilObjectGUI
 		}
 		
 		return $this->forumObjects;
+	}
+	
+	public function doReloadTreeObject()
+	{
+		$this->reloadTree(true);
+
+		$this->viewThreadObject();	
 	}
 	
 	/**
@@ -3698,8 +3709,8 @@ class ilObjForumGUI extends ilObjectGUI
 			
 			if(!$a_prevent_redirect)
 			{
-				ilUtil::sendSuccess($this->lng->txt('forums_thread_new_entry'));
-				return $this->showThreadsObject();
+				ilUtil::sendSuccess($this->lng->txt('forums_thread_new_entry'), true);
+				$this->ctrl->redirect($this);
 			}
 			else
 			{
