@@ -31,9 +31,18 @@ import java.util.Vector;
 import javax.xml.parsers.DocumentBuilder;
 import javax.xml.parsers.DocumentBuilderFactory;
 import javax.xml.parsers.ParserConfigurationException;
+import javax.xml.transform.Result;
+import javax.xml.transform.Source;
+import javax.xml.transform.Transformer;
+import javax.xml.transform.TransformerConfigurationException;
+import javax.xml.transform.TransformerException;
+import javax.xml.transform.TransformerFactory;
+import javax.xml.transform.dom.DOMSource;
+import javax.xml.transform.stream.StreamResult;
 
 import org.apache.log4j.Logger;
 import org.jdom.Element;
+import org.w3c.dom.Node;
 import org.xml.sax.SAXException;
 
 import de.ilias.services.lucene.index.FieldInfo;
@@ -94,6 +103,26 @@ public class ObjectDefinitionParser {
 		}
 		return true;
 	}
+	
+	public static String xmlToString(Node node) {
+        try {
+            Source source = new DOMSource(node);
+            StringWriter stringWriter = new StringWriter();
+            Result result = new StreamResult(stringWriter);
+            TransformerFactory factory = TransformerFactory.newInstance();
+            Transformer transformer = factory.newTransformer();
+            transformer.transform(source, result);
+            return stringWriter.getBuffer().toString();
+        } 
+        catch (TransformerConfigurationException e) {
+            e.printStackTrace();
+        } 
+        catch (TransformerException e) {
+            e.printStackTrace();
+        }
+        return null;
+    }
+	
 
 	/**
 	 * @param file
@@ -111,13 +140,17 @@ public class ObjectDefinitionParser {
 			DocumentBuilder builder = builderFactory.newDocumentBuilder();
 			org.w3c.dom.Document document = builder.parse(file);
 			
+			//logger.info(ObjectDefinitionParser.xmlToString(document));
+			
+			
 			// JDOM does not understand x:include but has a more comfortable API.
 			org.jdom.Document jdocument = convertToJDOM(document);
+			
 			
 			definitions.addDefinition(parseObjectDefinition(jdocument));
 			
 			logger.debug("Start logging");
-			//logger.debug(definitions.toString());
+			//logger.info(definitions.toString());
 			
 			
 		} 
@@ -283,6 +316,17 @@ public class ObjectDefinitionParser {
 			ds.addDataSource(parseDataSource((Element) nestedDS));
 		}
 		
+		// workaround for nested xi:include (e.g meta data)
+		for(Object dataSources : source.getChildren("DataSources")) {
+
+			logger.info("Adding nested dataSources...");
+			for(Object xiDS : ((Element) dataSources).getChildren("DataSource")) {
+				
+				ds.addDataSource(parseDataSource((Element) xiDS));
+			}
+			
+		}
+
 		// Add fields
 		for(Object field : source.getChildren("Field")) {
 			
