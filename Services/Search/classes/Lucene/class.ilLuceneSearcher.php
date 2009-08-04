@@ -85,7 +85,7 @@ class ilLuceneSearcher
 	 */
 	public function highlight($a_obj_ids)
 	{
-		global $ilBench,$ilSetting;
+		global $ilBench,$ilSetting, $ilLog;
 
 		// TODO error handling
 		if(!$this->query_parser->getQuery())
@@ -177,7 +177,7 @@ class ilLuceneSearcher
 	 */
 	protected function performSearch()
 	{
-		global $ilBench,$ilSetting;
+		global $ilBench,$ilSetting, $ilLog;
 
 		// TODO error handling
 		if(!$this->query_parser->getQuery())
