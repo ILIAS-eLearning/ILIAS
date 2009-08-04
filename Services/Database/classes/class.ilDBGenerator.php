@@ -87,7 +87,13 @@ class ilDBGenerator
 			'qpl_sol_sug',
 			'udf_text',
 			'udf_clob',
-			'xmlnestedsettmp'
+			'xmlnestedsettmp',
+			'cache_text',
+			'cache_clob',
+			'qpl_a_errortext',
+			'qpl_qst_errortext',
+			'tst_rnd_cpy',
+			'tst_rnd_qpl_title'
 			));
 
 		return $abs_tables;
