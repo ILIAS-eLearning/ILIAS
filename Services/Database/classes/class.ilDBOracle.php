@@ -195,7 +195,7 @@ class ilDBOracle extends ilDB
 		{
 			$q = "MERGE INTO ".$a_table." a ".
 				"USING (SELECT ".implode($val_field, ", ")." ".
-				"FROM DUAL) b ON (".implode($abpk, ", ").") ".
+				"FROM DUAL) b ON (".implode($abpk, " AND ").") ".
 				"WHEN MATCHED THEN SET ".implode($aboc, ", ")." ".
 				"WHEN NOT MATCHED THEN INSERT (".implode($a, ",").") VALUES (".implode($b, ",").")";
 echo $q;
