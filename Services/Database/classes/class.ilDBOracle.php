@@ -150,7 +150,7 @@ class ilDBOracle extends ilDB
 		$types = array();
 		$values = array();
 		$lobs = false;
-		$lob = array()
+		$lob = array();
 		$val_field = array();
 		$a = array();
 		$b = array();
