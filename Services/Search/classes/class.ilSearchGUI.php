@@ -348,6 +348,9 @@ class ilSearchGUI extends ilSearchBaseGUI
 	}
 		
 
+	/**
+	 * Perform search
+	 */
 	function performSearch()
 	{
 		global $ilUser;

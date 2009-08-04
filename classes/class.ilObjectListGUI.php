@@ -2046,16 +2046,17 @@ class ilObjectListGUI
 			{
 				$this->insertSubscribeCommand();
 			}
-			
+
 			// BEGIN PATCH Lucene search
 			if($this->cut_enabled or $this->link_enabled)
 			{
 				$this->insertPasteCommand();
 			}
 			// END PATCH Lucene Search
+
 		}
 		$this->ctrl->clearParametersByClass($this->gui_class_name);
-		
+
 		$this->ctpl->setVariable("COMMAND_SELECTION_LIST",
 			$this->current_selection_list->getHTML());
 	}
@@ -2253,7 +2254,7 @@ if (true)
 	{
 
 		global $ilAccess, $ilBench, $ilUser;
-		
+
 		// this variable stores wheter any admin commands
 		// are included in the output
 		$this->adm_commands_included = false;
@@ -2290,8 +2291,8 @@ if (true)
 		}
 		$ilBench->stop("ilObjectListGUI", "2000_getListHTML_check_visible");
 
-		
-		// commands
+
+// commands
 		$ilBench->start("ilObjectListGUI", "4000_insert_commands");
 		$this->insertCommands();
 		$ilBench->stop("ilObjectListGUI", "4000_insert_commands");
@@ -2308,9 +2309,9 @@ if (true)
 		{
 			$this->insertProgressInfo();	
 		}
-		
+
 		if ($this->getCommandsStatus() || 
-		    ($this->payment_enabled && (bool)ilGeneralSettings::_getInstance()->get('shop_enabled')))
+			($this->payment_enabled && (bool)ilGeneralSettings::_getInstance()->get('shop_enabled')))
 		{
 			if (!$this->getSeparateCommands())
 			{

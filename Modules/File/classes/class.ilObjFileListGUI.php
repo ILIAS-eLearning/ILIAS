@@ -177,6 +177,7 @@ class ilObjFileListGUI extends ilObjectListGUI
 			"value" => ilObjFileAccess::_getFileExtension($this->title),
 			'propertyNameVisible' => false
 			);
+
 		$fileData = ilObjFileAccess::_lookupFileData($this->obj_id);
 		$props[] = array("alert" => false, "property" => $lng->txt("size"),
 			"value" => ilFormat::formatSize($fileData['file_size'], 'short'),
