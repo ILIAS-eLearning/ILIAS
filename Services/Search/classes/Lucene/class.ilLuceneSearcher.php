@@ -87,6 +87,8 @@ class ilLuceneSearcher
 	{
 		global $ilBench,$ilSetting, $ilLog;
 
+		include_once './Services/Search/classes/Lucene/class.ilLuceneHighlighterResultParser.php';
+		
 		// TODO error handling
 		if(!$this->query_parser->getQuery())
 		{
