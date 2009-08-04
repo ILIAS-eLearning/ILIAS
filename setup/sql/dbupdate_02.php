@@ -6542,27 +6542,33 @@ ALTER TABLE `shib_role_assignment` ADD `plugin_id` INT( 3 ) NOT NULL AFTER `plug
 UPDATE `style_data` SET `uptodate` = 0;
 <#1389>
 <?php
-	$q = "UPDATE `style_char` SET characteristic = 'TextInput' WHERE type = 'qinput'";
-	$ilDB->query($q);
-	$q = "UPDATE `style_parameter` SET class = 'TextInput' WHERE type = 'qinput'";
-	$ilDB->query($q);
-
-	// add LongTextInput
-	$sts = $ilDB->prepare("SELECT * FROM object_data WHERE type = 'sty'");
-	$sets = $ilDB->execute($sts);
+	$setting = new ilSetting();
+	$unirstep = (int) $setting->get('unir_db');
 	
-	while ($recs = $ilDB->fetchAssoc($sets))
+	if ($unirstep <= 8)
 	{
-		$id = $recs["obj_id"];
+		$q = "UPDATE `style_char` SET characteristic = 'TextInput' WHERE type = 'qinput'";
+		$ilDB->query($q);
+		$q = "UPDATE `style_parameter` SET class = 'TextInput' WHERE type = 'qinput'";
+		$ilDB->query($q);
+	
+		// add LongTextInput
+		$sts = $ilDB->prepare("SELECT * FROM object_data WHERE type = 'sty'");
+		$sets = $ilDB->execute($sts);
 		
-		$st = $ilDB->prepare("SELECT * FROM style_char WHERE type = ? AND style_id = ?",
-			array("text", "integer"));
-		$set = $ilDB->execute($st, array("qlinput", $id));
-		if (!($rec = $ilDB->fetchAssoc($set)))
+		while ($recs = $ilDB->fetchAssoc($sets))
 		{
-			$q = "INSERT INTO `style_char` (style_id, type, characteristic) VALUES ".
-				"(".$ilDB->quote($id).",".$ilDB->quote("qlinput").",".$ilDB->quote("LongTextInput").")";
-			$ilDB->query($q);
+			$id = $recs["obj_id"];
+			
+			$st = $ilDB->prepare("SELECT * FROM style_char WHERE type = ? AND style_id = ?",
+				array("text", "integer"));
+			$set = $ilDB->execute($st, array("qlinput", $id));
+			if (!($rec = $ilDB->fetchAssoc($set)))
+			{
+				$q = "INSERT INTO `style_char` (style_id, type, characteristic) VALUES ".
+					"(".$ilDB->quote($id).",".$ilDB->quote("qlinput").",".$ilDB->quote("LongTextInput").")";
+				$ilDB->query($q);
+			}
 		}
 	}
 ?>
