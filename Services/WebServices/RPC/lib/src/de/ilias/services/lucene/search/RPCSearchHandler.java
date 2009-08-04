@@ -82,7 +82,7 @@ public class RPCSearchHandler {
 		FieldInfo fieldInfo;
 		String rewrittenQuery;
 		
-		
+		logger.info("Query is: " + queryString);
 		
 		try {
 			

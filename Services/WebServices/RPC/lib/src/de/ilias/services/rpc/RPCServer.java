@@ -139,6 +139,7 @@ public class RPCServer {
 		
 		config = (XmlRpcServerConfigImpl) rpcServer.getConfig();
 		config.setKeepAliveEnabled(true);
+		config.setEncoding("UTF8");
 		// nothing to do in the moment.
 		
 		return;

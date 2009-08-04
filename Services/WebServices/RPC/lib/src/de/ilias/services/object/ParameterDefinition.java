@@ -177,17 +177,34 @@ public class ParameterDefinition {
 		
 		// Check for parent result (e.g. pg,st)
 		if(parentResult != null) {
-			logger.debug("Reading parameter from parent result set...");
-			return parentResult.getInt(getValue());
+
+			logger.debug("Trying to read parameter from parent result set...");
+			try {
+				logger.debug(parentResult.getInt(getValue()));
+				return parentResult.getInt(getValue());
+			}
+			catch(SQLException e) {
+				// ignoring this error
+				// and trying to fetch objId and metaObjId
+			}
+			
 		}
 
 		if(getValue().equals("objId")) {
+			logger.debug(el.getObjId());
 			return el.getObjId();
 		}
 		
 		if(getValue().equals("metaObjId")) {
+			logger.debug(el.getObjId());
 			return el.getObjId();
 		}
+		
+		if(getValue().equals("metaRbacId")) {
+			logger.debug(el.getObjId());
+			return el.getObjId();
+		}
+		
 		return 0;
 	}
 	
@@ -200,15 +217,25 @@ public class ParameterDefinition {
 	private String getParameterString(CommandQueueElement el, ResultSet parentResult) throws SQLException {
 		
 		if(parentResult != null) {
-			logger.debug("Reading parameter from parent result set...");
-			return parentResult.getString(getValue());
+			logger.debug("Trying to read parameter from parent result set...");
+			
+			try {
+				logger.info(parentResult.getString(getValue()));
+				return parentResult.getString(getValue());
+			}
+			catch (SQLException e) {
+				// ignoring this error
+				// and trying to fetch objId and metaObjId
+			}
 		}
 
 		if(getValue().equals("objType")) {
+			logger.debug(el.getObjType());
 			return el.getObjType();
 		}
 		
 		if(getValue().equals("metaType")) {
+			logger.debug(el.getObjType());
 			return el.getObjType();
 		}
 		return "";

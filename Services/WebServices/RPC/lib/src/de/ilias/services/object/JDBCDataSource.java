@@ -152,7 +152,10 @@ public class JDBCDataSource extends DataSource {
 				
 				((ParameterDefinition) param).writeParameter(getStatement(),paramNumber++,el,parentResult);
 			}
+			
+			logger.debug(getStatement());
 			ResultSet res = getStatement().executeQuery();
+			
 			while(res.next()) {
 				
 				logger.debug("Found new result");
@@ -165,7 +168,7 @@ public class JDBCDataSource extends DataSource {
 					
 					((DocumentHandler)ds).writeDocument(el,res);
 				}
-				
+
 				// Finally addDocument to index
 				if(getAction().equalsIgnoreCase(ACTION_CREATE) && !res.isLast()) {
 					logger.info("Adding new document...");
