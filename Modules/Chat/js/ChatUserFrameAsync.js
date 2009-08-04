@@ -847,15 +847,15 @@ function ilHideSmileySelector()
 
 function ilShowTextformatSelector()
 {
-	//document.getElementById('show_textformat_button').style.display = 'none';
-	//document.getElementById('hide_textformat_button').style.display = 'block';
+	document.getElementById('show_textformat_button').style.display = 'none';
+	document.getElementById('hide_textformat_button').style.display = 'block';
 	document.getElementById('textformat_selector').style.display = 'block';
 }
 
 function ilHideTextformatSelector()
 {
-	//document.getElementById('show_textformat_button').style.display = 'block';
-	//document.getElementById('hide_textformat_button').style.display = 'none';
+	document.getElementById('show_textformat_button').style.display = 'block';
+	document.getElementById('hide_textformat_button').style.display = 'none';
 	document.getElementById('textformat_selector').style.display = 'none';
 }
 
