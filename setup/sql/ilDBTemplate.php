@@ -20352,9 +20352,11 @@ $fields = array (
 		,"type" => "text"
 	)
 	,"working_time" => array (
-		"notnull" => true
+		"notnull" => false
+		,"length" => 8
 		,"default" => "00:00:00"
-		,"type" => "time"
+		,"fixed" => false
+		,"type" => "text"
 	)
 	,"points" => array (
 		"notnull" => false
@@ -27236,7 +27238,7 @@ $ilDB->insert("settings", array(
 'module' => array('text', 'common'), 'keyword' => array('text', 'convert_path'), 'value' => array('clob', '')));
 
 $ilDB->insert("settings", array(
-'module' => array('text', 'common'), 'keyword' => array('text', 'db_version'), 'value' => array('clob', '2814')));
+'module' => array('text', 'common'), 'keyword' => array('text', 'db_version'), 'value' => array('clob', '2816')));
 
 $ilDB->insert("settings", array(
 'module' => array('text', 'common'), 'keyword' => array('text', 'ilias_version'), 'value' => array('clob', '3.2.3 2004-11-22')));
@@ -30847,7 +30849,9 @@ $fields = array (
 	)
 	,"processing_time" => array (
 		"notnull" => false
-		,"type" => "time"
+		,"length" => 8
+		,"fixed" => false
+		,"type" => "text"
 	)
 	,"enable_processing_time" => array (
 		"notnull" => false
