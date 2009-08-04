@@ -25,5 +25,18 @@
 			<Field store="YES" index="NOT_ANALYZED" column="parent_type" name="type" global="NO"/>
 			<xi:include href="../../Services/MetaData/LuceneDataSource.xml" />
 		</DataSource>
+		<DataSource type="JDBC" action="create">
+			<Query>
+				SELECT title, lm_id, obj_id, 'st' AS metaType, parent_type
+				FROM lm_data
+				WHERE type = 'st'
+				AND lm_id IN (?)
+			</Query>
+			<Param format="list" type="int" value="objId" />
+			<Field store="YES" index="NOT_ANALYZED" column="lm_id" name="objId" global="NO" />
+			<Field store="YES" index="ANALYZED" column="title" name="propertyMedium" />
+			<Field store="YES" index="NOT_ANALYZED" column="obj_id" name="subItem" />
+			<Field store="YES" index="NOT_ANALYZED" column="metaType" name="type" global="NO"/>
+		</DataSource>
 	</Document>
 </ObjectDefinition>
