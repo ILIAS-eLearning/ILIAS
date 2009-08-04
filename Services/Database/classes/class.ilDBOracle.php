@@ -194,10 +194,10 @@ class ilDBOracle extends ilDB
 		else	// if no lobs are used, use manipulate
 		{
 			$q = "MERGE INTO ".$a_table." a ".
-				"USING (SELECT ".implode($val_field, ", ").
+				"USING (SELECT ".implode($val_field, ", ")." ".
 				"FROM DUAL) b ON (".implode($abpk, ", ").") ".
 				"WHEN MATCHED THEN SET ".implode($aboc, ", ")." ".
-				"WHEN NOT MATCHED THEN INSERT (".implode($a, ",").") VALUES (".implode($a, ",").")";
+				"WHEN NOT MATCHED THEN INSERT (".implode($a, ",").") VALUES (".implode($b, ",").")";
 echo $q;
 			$r = $this->manipulate($q);
 		}
