@@ -8,7 +8,8 @@
 	<Document type="subItem">
 		<DataSource type="JDBC" action="create">
 			<Query>
-				SELECT content, lm_id, obj_id,parent_type FROM lm_data ld
+				SELECT content, lm_id, obj_id AS metaObjId, 'pg' AS metaType, parent_type 
+				FROM lm_data ld
 				JOIN page_object po ON ld.obj_id = po.page_id
 				WHERE parent_type = 'lm'
 				AND type = 'pg'
@@ -19,8 +20,9 @@
 				<Transformer name="ContentObjectTransformer" />
 			</Field>
 			<Field store="YES" index="NOT_ANALYZED" column="lm_id" name="objId" global="NO" />
-			<Field store="YES" index="NOT_ANALYZED" column="obj_id" name="subItem" />
+			<Field store="YES" index="NOT_ANALYZED" column="metaObjId" name="subItem" />
 			<Field store="YES" index="NOT_ANALYZED" column="parent_type" name="type" global="NO"/>
+			<xi:include href="../../Services/MetaData/LuceneDataSource.xml" />
 		</DataSource>
 	</Document>
 </ObjectDefinition>
