@@ -162,7 +162,13 @@ class ilQueryParser
 			#}
 			$this->words[] = ilUtil::prepareDBString($word);
 		}
-
+		
+		$fullstr = trim($this->getQueryString());
+		if (!in_array($fullstr, $this->words))
+		{
+			$this->words[] = ilUtil::prepareDBString($fullstr);
+		}
+		
 		// Parse strings like && 'A "B C D" E' as 'A' && 'B C D' && 'E'
 		// Can be used in LIKE search or fulltext search > MYSQL 4.0
 		$this->__parseQuotation();
