@@ -389,8 +389,8 @@ class assImagemapQuestion extends assQuestion
 		$added = 0;
 		if (!empty($imagemap_filename)) 
 		{
-			$fp = fopen($imagemap_tempfilename, "r");
-			$contents = fread($fp, filesize($imagemap_tempfilename));
+			$fp = fopen($imagemap_filename, "r");
+			$contents = fread($fp, filesize($imagemap_filename));
 			fclose($fp);
 			if (preg_match_all("/<area(.+)>/siU", $contents, $matches)) 
 			{
