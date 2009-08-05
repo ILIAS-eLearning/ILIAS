@@ -35,6 +35,7 @@ class ilSingleChoiceWizardInputGUI extends ilTextInputGUI
 	protected $singleline = true;
 	protected $qstObject = null;
 	protected $suffixes = array();
+	protected $showPoints = true;
 	
 	/**
 	* Constructor
@@ -90,6 +91,16 @@ class ilSingleChoiceWizardInputGUI extends ilTextInputGUI
 	function getSuffixes()
 	{
 		return $this->suffixes;
+	}
+	
+	public function setShowPoints($a_value)
+	{
+		$this->showPoints = $a_value;
+	}
+	
+	public function getShowPoints()
+	{
+		return $this->showPoints;
 	}
 	
 	/**
@@ -399,9 +410,12 @@ class ilSingleChoiceWizardInputGUI extends ilTextInputGUI
 			{
 				if (is_object($value))
 				{
-					$tpl->setCurrentBlock("prop_points_propval");
-					$tpl->setVariable("PROPERTY_VALUE", ilUtil::prepareFormOutput($value->getPoints()));
-					$tpl->parseCurrentBlock();
+					if ($this->getShowPoints())
+					{
+						$tpl->setCurrentBlock("prop_points_propval");
+						$tpl->setVariable("PROPERTY_VALUE", ilUtil::prepareFormOutput($value->getPoints()));
+						$tpl->parseCurrentBlock();
+					}
 				}
 				$tpl->setCurrentBlock('multiline');
 				$tpl->setVariable("PROPERTY_VALUE", $this->qstObject->prepareTextareaOutput($value->getAnswertext()));
@@ -424,6 +438,13 @@ class ilSingleChoiceWizardInputGUI extends ilTextInputGUI
 				$tpl->setVariable("DOWN_BUTTON", ilUtil::getImagePath('a_down.gif'));
 				$tpl->parseCurrentBlock();
 			}
+			if ($this->getShowPoints())
+			{
+				$tpl->setCurrentBlock("points");
+				$tpl->setVariable("POINTS_ID", $this->getPostVar() . "[points][$i]");
+				$tpl->setVariable("POINTS_ROW_NUMBER", $i);
+				$tpl->parseCurrentBlock();
+			}
 			$tpl->setCurrentBlock("row");
 			$class = ($i % 2 == 0) ? "even" : "odd";
 			if ($i == 0) $class .= " first";
@@ -432,7 +453,6 @@ class ilSingleChoiceWizardInputGUI extends ilTextInputGUI
 			$tpl->setVariable("POST_VAR", $this->getPostVar());
 			$tpl->setVariable("ROW_NUMBER", $i);
 			$tpl->setVariable("ID", $this->getPostVar() . "[answer][$i]");
-			$tpl->setVariable("POINTS_ID", $this->getPostVar() . "[points][$i]");
 			$tpl->setVariable("CMD_ADD", "cmd[add" . $this->getFieldId() . "][$i]");
 			$tpl->setVariable("CMD_REMOVE", "cmd[remove" . $this->getFieldId() . "][$i]");
 			if ($this->getDisabled())
@@ -464,6 +484,13 @@ class ilSingleChoiceWizardInputGUI extends ilTextInputGUI
 			$tpl->setVariable("TXT_MAX_SIZE", ilUtil::getFileSizeInfo());
 			$tpl->parseCurrentBlock();
 		}
+
+		if ($this->getShowPoints())
+		{
+			$tpl->setCurrentBlock("points_heading");
+			$tpl->setVariable("POINTS_TEXT", $lng->txt('points'));
+			$tpl->parseCurrentBlock();
+		}
 		
 		$tpl->setVariable("ELEMENT_ID", $this->getPostVar());
 		$tpl->setVariable("TEXT_YES", $lng->txt('yes'));
@@ -471,7 +498,6 @@ class ilSingleChoiceWizardInputGUI extends ilTextInputGUI
 		$tpl->setVariable("DELETE_IMAGE_HEADER", $lng->txt('delete_image_header'));
 		$tpl->setVariable("DELETE_IMAGE_QUESTION", $lng->txt('delete_image_question'));
 		$tpl->setVariable("ANSWER_TEXT", $lng->txt('answer_text'));
-		$tpl->setVariable("POINTS_TEXT", $lng->txt('points'));
 		$tpl->setVariable("COMMANDS_TEXT", $lng->txt('actions'));
 
 		$a_tpl->setCurrentBlock("prop_generic");

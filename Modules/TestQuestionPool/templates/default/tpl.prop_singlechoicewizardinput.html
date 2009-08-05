@@ -4,7 +4,9 @@
 			<tr>
 				<th>{ANSWER_TEXT}</th>
 				<th class="imagecolumn"><!-- BEGIN image_heading -->{ANSWER_IMAGE}<!-- END image_heading --></th>
+<!-- BEGIN points_heading -->
 				<th>{POINTS_TEXT}</th>
+<!-- END points_heading -->
 				<th>{COMMANDS_TEXT}</th>
 			</tr>
 		</thead>
@@ -33,9 +35,11 @@
 					</div>
 <!-- END addimage -->
 				</td>
+<!-- BEGIN points -->
 				<td style="vertical-align: top;">
-					<input type="text" style="text-align: right;" size="5" id="{POINTS_ID}" name="{POST_VAR}[points][{ROW_NUMBER}]" <!-- BEGIN prop_points_propval -->value="{PROPERTY_VALUE}" <!-- END prop_points_propval -->{DISABLED_POINTS}/>
+					<input type="text" style="text-align: right;" size="5" id="{POINTS_ID}" name="{POST_VAR}[points][{POINTS_ROW_NUMBER}]" <!-- BEGIN prop_points_propval -->value="{PROPERTY_VALUE}" <!-- END prop_points_propval -->{DISABLED_POINTS}/>
 				</td>
+<!-- END points -->
 				<td style="vertical-align: top;">
 					<input type="image" name="{CMD_ADD}" class="singlechoicewizard_add" id="add_{ID}" src="{ADD_BUTTON}" onclick="javascript: void(0); return false;" />
 					<input type="image" name="{CMD_REMOVE}" class="singlechoicewizard_remove" id="remove_{ID}" src="{REMOVE_BUTTON}" onclick="javascript: void(0); return false;" />

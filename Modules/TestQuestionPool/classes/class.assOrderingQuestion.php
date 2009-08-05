@@ -1047,6 +1047,11 @@ class assOrderingQuestion extends assQuestion
 		return $this->thumb_geometry;
 	}
 	
+	public function getThumbSize()
+	{
+		return $this->getThumbGeometry();
+	}
+
 	/*
 	* Set the thumbnail geometry
 	*
@@ -1153,6 +1158,16 @@ class assOrderingQuestion extends assQuestion
 		$mobs = ilObjMediaObject::_getMobsOfObject("qpl:html", $this->getId());
 		$result['mobs'] = $mobs;
 		return json_encode($result);
+	}
+
+	public function removeAnswerImage($index)
+	{
+		$answer = $this->answers[$index];
+		if (is_object($answer))
+		{
+			$this->deleteImagefile($answer->getAnswertext());
+			$answer->setAnswertext('');
+		}
 	}
 
 }

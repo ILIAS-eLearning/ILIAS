@@ -81,6 +81,15 @@ class assOrderingQuestionGUI extends assQuestionGUI
 		$this->editQuestion();
 	}
 
+	public function removeimageanswers()
+	{
+		$this->writePostData(true);
+		$position = key($_POST['cmd']['removeimageanswers']);
+		$filename = $_POST['answers']['imagename'][$position];
+		$this->object->removeAnswerImage($position);
+		$this->editQuestion();
+	}
+
 	public function removeanswers()
 	{
 		$this->writePostData(true);
@@ -102,6 +111,12 @@ class assOrderingQuestionGUI extends assQuestionGUI
 		$this->writePostData(true);
 		$position = key($_POST["cmd"]["downanswers"]);
 		$this->object->moveAnswerDown($position);
+		$this->editQuestion();
+	}
+
+	public function uploadanswers()
+	{
+		$this->writePostData(true);
 		$this->editQuestion();
 	}
 
@@ -151,29 +166,26 @@ class assOrderingQuestionGUI extends assQuestionGUI
 			}
 			else
 			{
-				$pictures = $_FILES["answers"];
-				if (is_array($pictures))
+				foreach ($_POST['answers']['count'] as $index => $dummy)
 				{
-					foreach ($pictures["name"] as $index => $name)
+					$filename = $_POST['answers']['imagename'][$index];
+					if (strlen($_FILES['answers']['name']['image'][$index]))
 					{
-						$picturefile = $_POST["picture_answers"][$index];
-						if (strlen($name))
+						// upload image
+						$filename = $this->object->createNewImageFileName($_FILES['answers']['name']['image'][$index]);
+						if ($this->object->setImageFile($_FILES['answers']['tmp_name']['image'][$index], $this->object->getEncryptedFilename($filename), $_POST['answers']['']))
 						{
-							// upload the new file
-							if ($this->object->setImageFile($pictures["tmp_name"][$index], $this->object->getEncryptedFilename($name), $picturefile))
-							{
-								$picturefile = $this->object->getEncryptedFilename($name);
-							}
-							else
-							{
-								$picturefile = "";
-							}
-							$this->object->addAnswer($picturefile);
+							$picturefile = $this->object->getEncryptedFilename($filename);
 						}
 						else
 						{
-							$this->object->addAnswer($picturefile);
+							$picturefile = "";
 						}
+						$this->object->addAnswer($picturefile);
+					}
+					else
+					{
+						$this->object->addAnswer($_POST['answers']['imagename'][$index]);
 					}
 				}
 			}
@@ -245,19 +257,17 @@ class assOrderingQuestionGUI extends assQuestionGUI
 		// Answers
 		if ($orderingtype == OQ_PICTURES)
 		{
+			include_once "./Modules/TestQuestionPool/classes/class.ilImageWizardInputGUI.php";
 			$answers = new ilImageWizardInputGUI($this->lng->txt("answers"), "answers");
 			$answers->setRequired(TRUE);
-			$answers->setThumbPrefix($this->object->getThumbPrefix());
-			$answers->setImagePathWeb($this->object->getImagePathWeb());
-			$answers->setImagePath($this->object->getImagePath());
+			$answers->setQuestionObject($this->object);
 			$answers->setAllowMove(TRUE);
 			$answervalues = array();
 			foreach ($this->object->getAnswers() as $index => $answervalue)
 			{
 				$answervalues[$index] = $answervalue->getAnswertext();
 			}
-			ksort($answervalues);
-			$answers->setFilenames($answervalues);
+			$answers->setValues($answervalues);
 			$form->addItem($answers);
 		}
 		else
@@ -861,7 +871,7 @@ class assOrderingQuestionGUI extends assQuestionGUI
 			// edit question properties
 			$ilTabs->addTarget("edit_properties",
 				$url,
-				array("editQuestion", "save", "saveEdit", "addanswers", "removeanswers", "changeToPictures", "changeToText", "upanswers", "downanswers"),
+				array("editQuestion", "save", "saveEdit", "addanswers", "removeanswers", "changeToPictures", "uploadanswers", "changeToText", "upanswers", "downanswers"),
 				$classname, "", $force_active);
 		}
 
