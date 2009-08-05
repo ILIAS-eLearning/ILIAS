@@ -73,7 +73,7 @@ class ilPCDataTableGUI extends ilPCTableGUI
 		$dtpl->setVariable("FORMACTION", $this->ctrl->getFormAction($this, "tableAction"));
 		$dtpl->setVariable("BB_MENU", $this->getBBMenu("cell_0_0"));
 		
-		$this->tpl->addJavascript("./Services/COPage/phpBB/3_0_0/editor.js");
+		$this->tpl->addJavascript("./Services/COPage/phpBB/3_0_5/editor.js");
 		$this->tpl->addJavascript("./Services/COPage/js/page_editing.js");
 
 		// get all rows
@@ -302,7 +302,7 @@ class ilPCDataTableGUI extends ilPCTableGUI
 
 		if ($a_redirect)
 		{
-			ilUtil::sendSuccess($lng->txt("msg_obj_modified", true));
+			ilUtil::sendSuccess($lng->txt("msg_obj_modified"), true);
 			$this->ctrl->redirect($this, "editData");
 		}
 	}

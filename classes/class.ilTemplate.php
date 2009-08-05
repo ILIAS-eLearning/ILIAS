@@ -223,7 +223,7 @@ class ilTemplate extends ilTemplateX
 	function fillMessage()
 	{
 		global $lng;
-		
+
 		$ms = array("info", "success", "failure", "question");
 		$out = "";
 		
@@ -237,7 +237,7 @@ class ilTemplate extends ilTemplateX
 			$txt = ($_SESSION[$m] != "")
 				? $_SESSION[$m]
 				: $this->message[$m];
-				
+
 			if ($m == "mess_question")
 			{
 				$m = "question";

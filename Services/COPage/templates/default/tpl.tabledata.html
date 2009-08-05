@@ -1,6 +1,12 @@
 <script language="JavaScript" type="text/javascript">
 <!--
 
+function ilInitInsertions(el)
+{
+	text_name = el.id;
+	initInsertions();
+}
+
 function handleTDInput(el)
 {
 	storeCaret(el);
@@ -59,7 +65,7 @@ var current_row_col;
 	<!-- END row_icon -->
 	<!-- BEGIN cell -->
 	<td {COLSPAN} {ROWSPAN}>
-	<textarea id="{PAR_TA_ID}" name="{PAR_TA_NAME}" onkeyup="handleTDInput(this);" onselect="handleTDInput(this);" onclick="handleTDInput(this);" onkeyup="handleTDInput(this);" style="width:{WIDTH}px; height:{HEIGHT}px; padding:2px; margin:0px; border-width:1px; overflow:auto;" wrap="virtual">{PAR_TA_CONTENT}</textarea>
+	<textarea id="{PAR_TA_ID}" name="{PAR_TA_NAME}" onfocus="ilInitInsertions();" onkeyup="handleTDInput(this);" onselect="handleTDInput(this);" onclick="handleTDInput(this);" onkeyup="handleTDInput(this);" style="width:{WIDTH}px; height:{HEIGHT}px; padding:2px; margin:0px; border-width:1px; overflow:auto;" wrap="virtual">{PAR_TA_CONTENT}</textarea>
 	</td>
 	<!-- END cell -->
 </tr>
