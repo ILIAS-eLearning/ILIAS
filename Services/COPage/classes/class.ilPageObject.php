@@ -2091,6 +2091,12 @@ if ($_GET["pgEdMediaMode"] != "") {echo "ilPageObject::error media"; exit;}
 		// delete media objects
 		foreach ($mobs as $mob_id)
 		{
+			if(ilObject::_lookupType($mob_id) != 'mob')
+			{
+				$GLOBALS['ilLog']->write(__METHOD__.': Type mismatch. Ignoring mob with id: '.$mob_id);
+				continue;
+			}
+			
 			if (ilObject::_exists($mob_id))
 			{
 				$mob_obj =& new ilObjMediaObject($mob_id);

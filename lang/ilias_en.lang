@@ -9816,6 +9816,8 @@ assessment#:#msg_questions_moved#:#Question(s) moved
 assessment#:#too_many_targets_selected_for_move#:#You must select exactly one target position!
 assessment#:#msg_selected_for_move#:#Question(s) selected for moving
 chat#:#chat_hide_textformat#:#Hide Textformat
+search#:#lucene_advanced_settings_table#:#Advanced Search Settings
+dateplaner#:#cal_day_start#:#Day Start
 survey#:#questionblock_inserted#:#Question Block inserted
 survey#:#questionblocks_inserted#:#Question Blocks inserted
 survey#:#msg_users_disinvited#:#User(s) disinvited
