@@ -8026,8 +8026,8 @@ common#:#obj_cat_duplicate#:#Copy Category
 common#:#obj_cat_select#:#-- Please select one Category --
 common#:#cat_wizard_page#:#Copy Category (Step 2/2)
 common#:#cat_copy_threads_info#:#Please decide which category items should be copied, linked or even omitted.
-survey#:#no_user_of_group_invited#:#All users of the selected group(s) did not possess sufficient permissions to run the survey. No user was invited.
-survey#:#no_user_of_role_invited#:#All users of the selected role(s) did not possess sufficient permissions to run the survey. No user was invited.
+survey#:#no_user_invited#:#All invited users did not possess sufficient permissions to run the survey. No user was invited.
+survey#:#users_invited#:#%s users have been invited
 payment#:#object_deleted#:#Object Deleted
 payment#:#user_deleted#:#User Deleted
 payment#:#statistics_filter_advice#:#Please choose your favoured filter settings and press the "Update View" button.
@@ -9818,3 +9818,4 @@ assessment#:#msg_selected_for_move#:#Question(s) selected for moving
 chat#:#chat_hide_textformat#:#Hide Textformat
 survey#:#questionblock_inserted#:#Question Block inserted
 survey#:#questionblocks_inserted#:#Question Blocks inserted
+survey#:#msg_users_disinvited#:#User(s) disinvited
