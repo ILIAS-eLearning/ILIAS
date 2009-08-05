@@ -312,7 +312,7 @@ class ilAdvancedMDRecord
 	 	
 	 	$query = "INSERT INTO adv_md_record (record_id,import_id,active,title,description) ".
 	 		"VALUES(".
-	 		$ilDB->quote('record_id','integer').", ".
+	 		$ilDB->quote($next_id,'integer').", ".
 			$this->db->quote($this->getImportId(),'text').", ".
 	 		$this->db->quote($this->isActive() ,'integer').", ".
 	 		$this->db->quote($this->getTitle() ,'text').", ".
@@ -359,6 +359,7 @@ class ilAdvancedMDRecord
 	 		"description = ".$this->db->quote($this->getDescription() ,'text')." ".
 	 		"WHERE record_id = ".$this->db->quote($this->getRecordId() ,'integer')." ";
 		$res = $ilDB->manipulate($query);
+		echo $query;
 				
 		// Delete assignments
 	 	$query = "DELETE FROM adv_md_record_objs ".
