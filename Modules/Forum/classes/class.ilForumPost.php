@@ -405,17 +405,28 @@ class ilForumPost
 	public function activatePostAndChildPosts()
 	{
 		if ($this->id)
-		{					  
-			$statement = $this->db->manipulateF('
-				UPDATE frm_posts_tree treea
-				INNER JOIN frm_posts_tree treeb ON treeb.thr_fk = treea.thr_fk  
-					AND treeb.lft BETWEEN treea.lft AND treea.rgt
-				INNER JOIN frm_posts ON pos_pk = treeb.pos_fk
-				SET pos_status = %s
-				WHERE treea.pos_fk = %s',
-				array('integer', 'integer'),
-				array('1', $this->id));
+		{			
+			$query = "SELECT pos_pk FROM frm_posts_tree treea "
+			       . "INNER JOIN frm_posts_tree treeb ON treeb.thr_fk = treea.thr_fk "
+				   . "AND treeb.lft BETWEEN treea.lft AND treea.rgt "
+				   . "INNER JOIN frm_posts ON pos_pk = treeb.pos_fk "
+				   . "WHERE treea.pos_fk = %s";
+			$result = $this->db->queryF(
+				$query,
+				array('integer'),
+				array($this->id)
+			);
 
+			while($row = $this->db->fetchAssoc($result))
+			{
+				$query = "UPDATE frm_posts SET pos_status = %s WHERE pos_pk = %s";
+				$this->db->manipulateF(
+					$query,
+					array('integer', 'integer'),
+					array(1, $row['pos_pk'])
+				);
+			}
+			
 			$this->activateParentPosts();
 				
 			return true;
@@ -427,16 +438,25 @@ class ilForumPost
 	public function activateParentPosts()
 	{
 		if ($this->id)
-		{					  
-			$statement = $this->db->manipulateF('
-				UPDATE frm_posts
-				INNER JOIN frm_posts_tree ON pos_fk = pos_pk
-				SET pos_status = %s
-				WHERE lft < %s AND rgt > %s
-				AND thr_fk = %s',
-				array('integer', 'integer', 'integer', 'integer'),
-				array('1', $this->lft, $this->rgt, $this->thread_id));
+		{
+			$query = "SELECT pos_pk FROM frm_posts "
+			       . "INNER JOIN frm_posts_tree ON pos_fk = pos_pk "
+				   . "WHERE lft < %s AND rgt > %s AND thr_fk = %s";
+			$result = $this->db->queryF(
+				$query,
+				array('integer', 'integer', 'integer'),
+				array($this->lft, $this->rgt, $this->thread_id)
+			);
 			
+			while($row = $this->db->fetchAssoc($result))
+			{
+				$query = "UPDATE frm_posts SET pos_status = %s WHERE pos_pk = %s";
+				$this->db->manipulateF(
+					$query,
+					array('integer', 'integer'),
+					array(1, $row['pos_pk'])
+				);
+			}
 			
 			return true;
 		}
@@ -448,15 +468,26 @@ class ilForumPost
 	{
 		if ($this->id)
 		{
-			$statement = $this->db->manipulateF('
-				UPDATE frm_posts_tree treea		   
-				INNER JOIN frm_posts_tree treeb ON treeb.thr_fk = treea.thr_fk  
-					AND treeb.lft BETWEEN treea.lft AND treea.rgt
-				INNER JOIN frm_posts ON pos_pk = treeb.pos_fk
-				SET pos_status = %s
-				WHERE treea.pos_fk = %s',
-				array('integer', 'integer'),
-				array('0', $this->id));
+			$query = "SELECT pos_pk FROM frm_posts_tree treea "
+			       . "INNER JOIN frm_posts_tree treeb ON treeb.thr_fk = treea.thr_fk "
+				   . "AND treeb.lft BETWEEN treea.lft AND treea.rgt "
+				   . "INNER JOIN frm_posts ON pos_pk = treeb.pos_fk "
+				   . "WHERE treea.pos_fk = %s";
+			$result = $this->db->queryF(
+				$query,
+				array('integer'),
+				array($this->id)
+			);
+			
+			while($row = $this->db->fetchAssoc($result))
+			{
+				$query = "UPDATE frm_posts SET pos_status = %s WHERE pos_pk = %s";
+				$this->db->manipulateF(
+					$query,
+					array('integer', 'integer'),
+					array(0, $row['pos_pk'])
+				);
+			}
 			
 			return true;
 		}
