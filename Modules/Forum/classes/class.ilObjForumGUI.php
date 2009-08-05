@@ -2882,7 +2882,7 @@ class ilObjForumGUI extends ilObjectGUI
 								$tpl->setVariable('USR_NAME', $usr_data['firstname'].' '.$usr_data['lastname']);
 							}
 							
-							if($ilAccess->checkAccessOfUser($user_obj->getId(), 'moderate_frm', '', $_GET['ref_id']))
+							if(ilForum::_isModerator($_GET['ref_id'], $node->getUserId()))
 							{						
 								if($user_obj->getGender() == 'f')
 								{
