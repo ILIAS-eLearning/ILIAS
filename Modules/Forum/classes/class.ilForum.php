@@ -1311,9 +1311,7 @@ class ilForum
 		$data_types = array();
 		$data = array();
 		
-		$query = 	"SELECT COUNT(f.pos_usr_id) ranking, u.login, 
-						IF(p.value <> 'n', u.lastname, '') lastname, 
-						IF (p.value <> 'n', u.firstname,'') firstname 
+		$query = 	"SELECT COUNT(f.pos_usr_id) ranking, u.login, p.value, u.lastname, u.firstname						
 	 				FROM frm_posts f, frm_posts_tree t, frm_threads th, usr_data u, frm_data d , usr_pref p
 					WHERE p.usr_id = u.usr_id 
 					AND p.keyword = %s";
@@ -1347,8 +1345,8 @@ class ilForum
 		{
 		    $statistic[$counter][] = $row['ranking'];
 		    $statistic[$counter][] = $row['login'];
-		    $statistic[$counter][] = $row['lastname'];
-		    $statistic[$counter][] = $row['firstname'];
+		    $statistic[$counter][] = ($row['value'] == 'n' ? '' : $row['lastname']);
+		    $statistic[$counter][] = ($row['value'] == 'n' ? '' : $row['firstname']);
 		    
 		    ++$counter;
 		}	  
