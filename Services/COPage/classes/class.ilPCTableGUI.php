@@ -645,6 +645,8 @@ class ilPCTableGUI extends ilPageContentGUI
 	*/
 	function setStyles()
 	{
+		global $lng;
+		
 		if (is_array($_POST["target"]))
 		{
 			foreach ($_POST["target"] as $k => $value)
@@ -658,6 +660,7 @@ class ilPCTableGUI extends ilPageContentGUI
 			}
 		}
 		$this->updated = $this->pg_obj->update();
+		ilUtil::sendSuccess($lng->txt("msg_obj_modified"), true);
 		$this->ctrl->redirect($this, "editCellStyle");
 	}
 	
@@ -666,6 +669,8 @@ class ilPCTableGUI extends ilPageContentGUI
 	*/
 	function setWidths()
 	{
+		global $lng;
+		
 		if (is_array($_POST["width"]))
 		{
 			foreach ($_POST["width"] as $k => $width)
@@ -676,6 +681,7 @@ class ilPCTableGUI extends ilPageContentGUI
 			}
 		}
 		$this->updated = $this->pg_obj->update();
+		ilUtil::sendSuccess($lng->txt("msg_obj_modified"), true);
 		$this->ctrl->redirect($this, "editCellWidth");
 	}
 
@@ -684,6 +690,8 @@ class ilPCTableGUI extends ilPageContentGUI
 	*/
 	function setSpans()
 	{
+		global $lng;
+		
 		if (is_array($_POST["colspan"]))
 		{
 			foreach ($_POST["colspan"] as $k => $span)
@@ -694,6 +702,7 @@ class ilPCTableGUI extends ilPageContentGUI
 			$this->content_obj->setTDSpans($_POST["colspan"], $_POST["rowspan"]);
 		}
 		$this->updated = $this->pg_obj->update();
+		ilUtil::sendSuccess($lng->txt("msg_obj_modified"), true);
 		$this->ctrl->redirect($this, "editCellSpan");
 	}
 
