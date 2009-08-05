@@ -1166,7 +1166,7 @@ class ilContainerGUI extends ilObjectGUI implements ilDesktopItemHandling
 	*/
 	function addStandardContainerSubTabs($a_include_view = true)
 	{
-		global $ilTabs, $ilAccess, $lng, $ilCtrl, $ilUser;
+		global $ilTabs, $ilAccess, $lng, $ilCtrl, $ilUser, $ilSetting;
 
 		if (!is_object($this->object))
 		{
@@ -1218,8 +1218,11 @@ class ilContainerGUI extends ilObjectGUI implements ilDesktopItemHandling
 			$ilAccess->checkAccess("write", "", $this->object->getRefId())
 			)
 		{
-			$ilTabs->addSubTab("page_editor", $lng->txt("cntr_text_media_editor"), $ilCtrl->getLinkTarget($this, "editPageFrame"),
-				ilFrameTargetInfo::_getFrame("MainContent"));
+			if ($ilSetting->get("enable_cat_page_edit"))
+			{
+				$ilTabs->addSubTab("page_editor", $lng->txt("cntr_text_media_editor"), $ilCtrl->getLinkTarget($this, "editPageFrame"),
+					ilFrameTargetInfo::_getFrame("MainContent"));
+			}
 		}
 	}
 	
