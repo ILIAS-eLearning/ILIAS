@@ -584,7 +584,8 @@ class ilValidator extends PEAR
 		
 		while ($row = $r->fetchRow(DB_FETCHMODE_OBJECT))
 		{
-			if (!in_array($row->type,$this->object_types_exclude))
+			#if (!in_array($row->type,$this->object_types_exclude))
+			if(!$this->isExcludedFromRecovery($row->type,$row->obj_id))
 			{
 				$this->missing_objects[] = array(
 													"obj_id"		=> $row->obj_id,
@@ -1343,7 +1344,8 @@ restore starts here
 			}
 
 			// put in tree under RecoveryFolder if not on exclude list
-			if (!in_array($missing_obj["type"],$this->object_types_exclude))
+			#if (!in_array($missing_obj["type"],$this->object_types_exclude))
+			if(!$this->isExcludedFromRecovery($missing_obj['type'],$missing_obj['obj_id']))
 			{
 				$rbacadmin->revokePermission($missing_obj["ref_id"]);
 				$obj_data =& $ilias->obj_factory->getInstanceByRefId($missing_obj["ref_id"]);
@@ -2476,6 +2478,25 @@ restore starts here
 		}
 
 		return in_array($a_obj_id,$this->media_pool_ids) ? true : false;
+	}
+	
+	/**
+	 * Check if type is excluded from recovery
+	 * @param string $a_type
+	 * @param int	$a_obj_id
+	 * @return bool
+	 */
+	protected function isExcludedFromRecovery($a_type,$a_obj_id)
+	{
+		switch($a_type)
+		{
+			case 'fold':
+				if(!$this->isMediaFolder($a_obj_id))
+				{
+					return false;
+				}
+		}
+		return in_array($a_type,$this->object_types_exclude);
 	}
 } // END class.ilValidator
 ?>
