@@ -760,7 +760,7 @@ class ilObjCourseGUI extends ilContainerGUI
 		}
 		if($added)
 		{
-			ilUtil::sendFailure($this->lng->txt('crs_added_starters'));
+			ilUtil::sendSuccess($this->lng->txt('crs_added_starters'));
 			$this->listStructureObject();
 
 			return true;
