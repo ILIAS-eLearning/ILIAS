@@ -1,7 +1,7 @@
 <div class="ilMainMenuSearch">
 <form class="ilMainMenuSearch" action="{FORMACTION}" method="post" target="_top">
 <div style="margin-top:3px; position:absolute; text-align:left; right:23px;">
-<div>
+<table cellpadding="0" cellspacing="0" datatable="0"><tr><td>
 	<!-- block-inline hack, see: http://blog.mozilla.com/webdev/2009/02/20/cross-browser-inline-block/
 		-moz-inline-stack for FF2
 		zoom 1; *display:inline for IE6 & 7 -->
@@ -10,8 +10,8 @@
 		<input type="hidden" name="root_id" value="{CONT_REF_ID}" />
 	    <div class="yui-skin-sam" style="font-size: 75%;" id="{ID_AUTOCOMPLETE}"></div>
 	</div>
-	<span><input class="ilMainMenuSearchSubmit" type="submit" name="cmd[remoteSearch]" value="{BTN_SEARCH}" /></span>
-</div>
+	</td><td><input style="margin-left:5px;" class="ilMainMenuSearchSubmit" type="submit" name="cmd[remoteSearch]" value="{BTN_SEARCH}" /></td>
+</td></tr></table>
 </div>
 	<script type="text/javascript">
 		ilAddOnLoad(
