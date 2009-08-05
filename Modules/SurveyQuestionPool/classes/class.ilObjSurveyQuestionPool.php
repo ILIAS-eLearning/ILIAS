@@ -554,126 +554,6 @@ class ilObjSurveyQuestionPool extends ilObject
 	}
 
 	/**
-	* Calculates the data for the output of the questionpool
-	*
-	* @access public
-	*/
-	function getQuestionsTable($sort, $sortorder, $filter_text, $sel_filter_type, $startrow = 0)
-	{
-		global $ilUser;
-		global $ilDB;
-		
-		$where = "";
-		if (strlen($filter_text) > 0) 
-		{
-			switch($sel_filter_type) 
-			{
-				case "title":
-					$where = " AND " . $ilDB->like('svy_question.title', 'text', "%" . $filter_text . "%");
-					break;
-				case "description":
-					$where = " AND " . $ilDB->like('svy_question.description', 'text', "%" . $filter_text . "%");
-					break;
-				case "author":
-					$where = " AND " . $ilDB->like('svy_question.author', 'text', "%" . $filter_text . "%");
-					break;
-			}
-		}
-  
-		// build sort order for sql query
-		$order = "";
-		$images = array();
-		include_once "./Services/Utilities/classes/class.ilUtil.php";
-		switch ($sort) 
-		{
-			case "title":
-				$order = " ORDER BY title $sortorder";
-				$images["title"] = " <img src=\"" . ilUtil::getImagePath(strtolower($sortorder) . "_order.gif") . "\" alt=\"" . strtolower($sortorder) . "ending order\" />";
-				break;
-			case "description":
-				$order = " ORDER BY description $sortorder";
-				$images["description"] = " <img src=\"" . ilUtil::getImagePath(strtolower($sortorder) . "_order.gif") . "\" alt=\"" . strtolower($sortorder) . "ending order\" />";
-				break;
-			case "type":
-				$order = " ORDER BY questiontype_id $sortorder";
-				$images["type"] = " <img src=\"" . ilUtil::getImagePath(strtolower($sortorder) . "_order.gif") . "\" alt=\"" . strtolower($sortorder) . "ending order\" />";
-				break;
-			case "author":
-				$order = " ORDER BY author $sortorder";
-				$images["author"] = " <img src=\"" . ilUtil::getImagePath(strtolower($sortorder) . "_order.gif") . "\" alt=\"" . strtolower($sortorder) . "ending order\" />";
-				break;
-			case "created":
-				$order = " ORDER BY created $sortorder";
-				$images["created"] = " <img src=\"" . ilUtil::getImagePath(strtolower($sortorder) . "_order.gif") . "\" alt=\"" . strtolower($sortorder) . "ending order\" />";
-				break;
-			case "updated":
-				$order = " ORDER BY tstamp $sortorder";
-				$images["updated"] = " <img src=\"" . ilUtil::getImagePath(strtolower($sortorder) . "_order.gif") . "\" alt=\"" . strtolower($sortorder) . "ending order\" />";
-				break;
-		}
-		$maxentries = $ilUser->prefs["hits_per_page"];
-		if ($maxentries < 1)
-		{
-			$maxentries = 9999;
-		}
-		$query_result = $ilDB->queryF("SELECT svy_question.question_id FROM svy_question, svy_qtype WHERE svy_question.questiontype_fi = svy_qtype.questiontype_id AND svy_question.tstamp > 0 AND svy_question.obj_fi = %s AND svy_question.original_id IS NULL $where$order",
-			array('integer'),
-			array($this->getId())
-		);
-		$max = $query_result->numRows();
-		if ($startrow > $max -1)
-		{
-			$startrow = $max - ($max % $maxentries);
-		}
-		else if ($startrow < 0)
-		{
-			$startrow = 0;
-		}
-		$ilDB->setLimit($maxentries, $startrow);
-		$query_result = $ilDB->queryF("SELECT svy_question.*, svy_qtype.type_tag, svy_qtype.plugin FROM svy_question, svy_qtype WHERE svy_question.questiontype_fi = svy_qtype.questiontype_id AND svy_question.tstamp > 0 AND svy_question.obj_fi = %s AND svy_question.original_id IS NULL $where$order",
-			array('integer'),
-			array($this->getId())
-		);
-		$rows = array();
-		if ($query_result->numRows())
-		{
-			while ($row = $ilDB->fetchAssoc($query_result))
-			{
-				if ($row["plugin"])
-				{
-					if ($this->isPluginActive($row["type_tag"]))
-					{
-						array_push($rows, $row);
-					}
-				}
-				else
-				{
-					array_push($rows, $row);
-				}
-			}
-		}
-		$nextrow = $startrow + $maxentries;
-		if ($nextrow > $max - 1)
-		{
-			$nextrow = $startrow;
-		}
-		$prevrow = $startrow - $maxentries;
-		if ($prevrow < 0)
-		{
-			$prevrow = 0;
-		}
-		return array(
-			"rows" => $rows,
-			"images" => $images,
-			"startrow" => $startrow,
-			"nextrow" => $nextrow,
-			"prevrow" => $prevrow,
-			"step" => $maxentries,
-			"rowcount" => $max
-		);
-	}
-	
-	/**
 	* creates data directory for export files
 	* (data_dir/spl_data/spl_<id>/export, depending on data
 	* directory that is set in ILIAS setup/ini)
@@ -1024,7 +904,40 @@ class ilObjSurveyQuestionPool extends ilObject
 		ksort($types);
 		return $types;
 	}
+	
+	public static function &_getQuestionTypeTranslations()
+	{
+		global $ilDB;
+		global $lng;
+		global $ilLog;
+		global $ilPluginAdmin;
 		
+		$lng->loadLanguageModule("survey");
+		$result = $ilDB->query("SELECT * FROM svy_qtype");
+		$types = array();
+		while ($row = $ilDB->fetchAssoc($result))
+		{
+			if ($row["plugin"] == 0)
+			{
+				$types[$row['type_tag']] = $lng->txt($row["type_tag"]);
+			}
+			else
+			{
+				$pl_names = $ilPluginAdmin->getActivePluginsForSlot(IL_COMP_MODULE, "SurveyQuestionPool", "svyq");
+				foreach ($pl_names as $pl_name)
+				{
+					$pl = ilPlugin::getPluginObject(IL_COMP_MODULE, "SurveyQuestionPool", "svyq", $pl_name);
+					if (strcmp($pl->getQuestionType(), $row["type_tag"]) == 0)
+					{
+						$types[$row['type_tag']] = $pl->getQuestionTypeTranslation();
+					}
+				}
+			}
+		}
+		ksort($types);
+		return $types;
+	}
+
 	/**
 	* Returns the available question pools for the active user
 	*

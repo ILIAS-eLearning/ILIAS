@@ -9834,3 +9834,5 @@ assessment#:#msg_questions_moved#:#Frage(n) verschoben
 assessment#:#too_many_targets_selected_for_move#:#Sie müssen genau eine Zielposition auswählen!
 assessment#:#msg_selected_for_move#:#Frage(n) zum Verschieben ausgewählt
 chat#:#chat_hide_textformat#:#Textformat verbergen
+survey#:#questionblock_inserted#:#Fragenblock eingefügt
+survey#:#questionblocks_inserted#:#Fragenblöcke eingefügt

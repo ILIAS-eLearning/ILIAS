@@ -3294,77 +3294,33 @@ class ilObjSurvey extends ilObject
 *
 * @access public
 */
-	function getQuestionsTable($sort, $sortorder, $filter_text, $sel_filter_type, $startrow = 0, $completeonly = 0, $filter_question_type = "", $filter_questionpool = "")
+	function getQuestionsTable($arrFilter)
 	{
 		global $ilUser;
 		global $ilDB;
-		
 		$where = "";
-		if (strlen($filter_text) > 0) 
+		if (is_array($arrFilter))
 		{
-			switch($sel_filter_type) 
+			if (array_key_exists('title', $arrFilter) && strlen($arrFilter['title']))
 			{
-				case "title":
-					$where = " AND " . $ilDB->like('svy_question.title', 'text', "%" . $filter_text . "%");
-					break;
-				case "description":
-					$where = " AND " . $ilDB->like('svy_question.description', 'text', "%" . $filter_text . "%");
-					break;
-				case "author":
-					$where = " AND " . $ilDB->like('svy_question.author', 'text', "%" . $filter_text . "%");
-					break;
+				$where .= " AND " . $ilDB->like('svy_question.title', 'text', "%%" . $arrFilter['title'] . "%%");
 			}
-		}
-  
-		if ($filter_question_type && (strcmp($filter_question_type, "all") != 0))
-		{
-			$where .= " AND svy_qtype.type_tag = " . $ilDB->quote($filter_question_type, 'text');
-		}
-		
-		if ($filter_questionpool && (strcmp($filter_questionpool, "all") != 0))
-		{
-			$where .= " AND svy_question.obj_fi = " . $ilDB->quote($filter_questionpool, 'integer');
-		}
-  
-    // build sort order for sql query
-		$order = "";
-		$images = array();
-		include_once "./Services/Utilities/classes/class.ilUtil.php";
-		switch($sort) 
-		{
-			case "title":
-				$order = " ORDER BY title $sortorder";
-				$images["title"] = " <img src=\"" . ilUtil::getImagePath(strtolower($sortorder) . "_order.gif") . "\" alt=\"" . strtolower($sortorder) . "ending order\" />";
-				break;
-			case "description":
-				$order = " ORDER BY description $sortorder";
-				$images["description"] = " <img src=\"" . ilUtil::getImagePath(strtolower($sortorder) . "_order.gif") . "\" alt=\"" . strtolower($sortorder) . "ending order\" />";
-				break;
-			case "type":
-				$order = " ORDER BY questiontype_id $sortorder";
-				$images["type"] = " <img src=\"" . ilUtil::getImagePath(strtolower($sortorder) . "_order.gif") . "\" alt=\"" . strtolower($sortorder) . "ending order\" />";
-				break;
-			case "author":
-				$order = " ORDER BY author $sortorder";
-				$images["author"] = " <img src=\"" . ilUtil::getImagePath(strtolower($sortorder) . "_order.gif") . "\" alt=\"" . strtolower($sortorder) . "ending order\" />";
-				break;
-			case "created":
-				$order = " ORDER BY created $sortorder";
-				$images["created"] = " <img src=\"" . ilUtil::getImagePath(strtolower($sortorder) . "_order.gif") . "\" alt=\"" . strtolower($sortorder) . "ending order\" />";
-				break;
-			case "updated":
-				$order = " ORDER BY tstamp $sortorder";
-				$images["updated"] = " <img src=\"" . ilUtil::getImagePath(strtolower($sortorder) . "_order.gif") . "\" alt=\"" . strtolower($sortorder) . "ending order\" />";
-				break;
-			case "qpl":
-				$order = " ORDER BY obj_fi $sortorder";
-				$images["qpl"] = " <img src=\"" . ilUtil::getImagePath(strtolower($sortorder) . "_order.gif") . "\" alt=\"" . strtolower($sortorder) . "ending order\" />";
-				break;
-		}
-		$maxentries = $ilUser->prefs["hits_per_page"];
-		if ($maxentries < 1)
-		{
-			$maxentries = 9999;
+			if (array_key_exists('description', $arrFilter) && strlen($arrFilter['description']))
+			{
+				$where .= " AND " . $ilDB->like('svy_question.description', 'text', "%%" . $arrFilter['description'] . "%%");
+			}
+			if (array_key_exists('author', $arrFilter) && strlen($arrFilter['author']))
+			{
+				$where .= " AND " . $ilDB->like('svy_question.author', 'text', "%%" . $arrFilter['author'] . "%%");
+			}
+			if (array_key_exists('type', $arrFilter) && strlen($arrFilter['type']))
+			{
+				$where .= " AND svy_qtype.type_tag = " . $ilDB->quote($arrFilter['type'], 'text');
+			}
+			if (array_key_exists('spl', $arrFilter) && strlen($arrFilter['spl']))
+			{
+				$where .= "AND svy_question.obj_fi = " . $ilDB->quote($arrFilter['spl'], 'integer');
+			}
 		}
 
 		$spls =& $this->getAvailableQuestionpools($use_obj_id = TRUE, $could_be_offline = FALSE, $showPath = FALSE);
@@ -3380,29 +3336,18 @@ class ilObjSurvey extends ilObject
 		{
 			$existing = " AND " . $ilDB->in('svy_question.question_id', $existing_questions, true, 'integer');
 		}
-		$query_result = $ilDB->query("SELECT svy_question.*, svy_qtype.type_tag, svy_qtype.plugin, object_reference.ref_id FROM ".
-			"svy_question, svy_qtype, object_reference WHERE svy_question.questiontype_fi = svy_qtype.questiontype_id".
-			"$forbidden$existing AND svy_question.tstamp > 0 AND svy_question.obj_fi = object_reference.obj_id AND svy_question.original_id IS NULL " . 
-			" $where$order");
-		$max = $query_result->numRows();
-		$ilDB->setLimit($maxentries, $startrow);
-		$query_result = $ilDB->query("SELECT svy_question.*, svy_qtype.type_tag, svy_qtype.plugin, object_reference.ref_id FROM " .
-			"svy_question, svy_qtype, object_reference WHERE svy_question.questiontype_fi = svy_qtype.questiontype_id".
-			"$forbidden$existing AND svy_question.tstamp > 0 AND svy_question.obj_fi = object_reference.obj_id AND svy_question.original_id IS NULL " . 
-			" $where$order");
-		if ($startrow > $max -1)
-		{
-			$startrow = $max - ($max % $maxentries);
-		}
-		else if ($startrow < 0)
-		{
-			$startrow = 0;
-		}
+		
+		include_once "./Modules/SurveyQuestionPool/classes/class.ilObjSurveyQuestionPool.php";
+		$trans = ilObjSurveyQuestionPool::_getQuestionTypeTranslations();
+
+		$query_result = $ilDB->query("SELECT svy_question.*, svy_qtype.type_tag, svy_qtype.plugin, object_reference.ref_id FROM svy_question, svy_qtype, object_reference WHERE svy_question.original_id IS NULL$forbidden$existing AND svy_question.obj_fi = object_reference.obj_id AND svy_question.tstamp > 0 AND svy_question.questiontype_fi = svy_qtype.questiontype_id" . $where);
+
 		$rows = array();
 		if ($query_result->numRows())
 		{
 			while ($row = $ilDB->fetchAssoc($query_result))
 			{
+				$row['ttype'] = $trans[$row['type_tag']];
 				if ($row["plugin"])
 				{
 					if ($this->isPluginActive($row["type_tag"]))
@@ -3416,25 +3361,7 @@ class ilObjSurvey extends ilObject
 				}
 			}
 		}
-		$nextrow = $startrow + $maxentries;
-		if ($nextrow > $max - 1)
-		{
-			$nextrow = $startrow;
-		}
-		$prevrow = $startrow - $maxentries;
-		if ($prevrow < 0)
-		{
-			$prevrow = 0;
-		}
-		return array(
-			"rows" => $rows,
-			"images" => $images,
-			"startrow" => $startrow,
-			"nextrow" => $nextrow,
-			"prevrow" => $prevrow,
-			"step" => $maxentries,
-			"rowcount" => $max
-		);
+		return $rows;
 	}
 
 /**
@@ -3442,60 +3369,22 @@ class ilObjSurvey extends ilObject
 *
 * @access public
 */
-	function getQuestionblocksTable($sort, $sortorder, $filter_text, $sel_filter_type, $startrow = 0)
+	function getQuestionblocksTable($arrFilter)
 	{
-		global $ilDB;
 		global $ilUser;
+		global $ilDB;
 		$where = "";
-		if (strlen($filter_text) > 0) 
+		if (is_array($arrFilter))
 		{
-			switch($sel_filter_type) 
+			if (array_key_exists('title', $arrFilter) && strlen($arrFilter['title']))
 			{
-				case "title":
-					$where = "WHERE " . $ilDB->like('svy_qblk.title', 'text', "%".$filter_text."%");
-					break;
+				$where .= " AND " . $ilDB->like('svy_qblk.title', 'text', "%%" . $arrFilter['title'] . "%%");
 			}
 		}
   
-    // build sort order for sql query
-		$order = "";
-		$images = array();
-		include_once "./Services/Utilities/classes/class.ilUtil.php";
-		switch($sort) 
-		{
-			case "title":
-				$order = " ORDER BY title $sortorder";
-				$images["title"] = " <img src=\"" . ilUtil::getImagePath(strtolower($sortorder) . "_order.gif") . "\" alt=\"" . strtolower($sortorder) . "ending order\" />";
-				break;
-			case "svy":
-//				$order = " ORDER BY svy_svy_qst.survey_fi $sortorder";
-//				$images["svy"] = " <img src=\"" . ilUtil::getImagePath(strtolower($sortorder) . "_order.gif") . "\" alt=\"" . strtolower($sortorder) . "ending order\" />";
-				break;
-		}
-		$maxentries = $ilUser->prefs["hits_per_page"];
-		$query_result = $ilDB->query("SELECT questionblock_id FROM svy_qblk");
-		$max = $query_result->numRows();
-		if ($startrow > $max -1)
-		{
-			$startrow = $max - ($max % $maxentries);
-		}
-		else if ($startrow < 0)
-		{
-			$startrow = 0;
-		}
-		$ilDB->setLimit($maxentries, $startrow);
-		if (strlen($where))
-		{
-			$query_result = $ilDB->query("SELECT svy_qblk.*, svy_svy.obj_fi FROM svy_qblk , svy_qblk_qst, svy_svy WHERE ".
-				"svy_qblk.questionblock_id = svy_qblk_qst.questionblock_fi AND svy_svy.survey_id = svy_qblk_qst.survey_fi ".
-				"$where GROUP BY svy_qblk.questionblock_id, svy_qblk.title, svy_qblk.show_questiontext, svy_qblk.owner_fi, svy_qblk.tstamp, svy_svy.obj_fi $order");
-		}
-		else
-		{
-			$query_result = $ilDB->query("SELECT svy_qblk.*, svy_svy.obj_fi FROM svy_qblk , svy_qblk_qst, svy_svy WHERE ".
-				"svy_qblk.questionblock_id = svy_qblk_qst.questionblock_fi AND svy_svy.survey_id = svy_qblk_qst.survey_fi ".
-				"GROUP BY svy_qblk.questionblock_id, svy_qblk.title, svy_qblk.show_questiontext, svy_qblk.owner_fi, svy_qblk.tstamp, svy_svy.obj_fi $order");
-		}
+		$query_result = $ilDB->query("SELECT svy_qblk.*, svy_svy.obj_fi FROM svy_qblk , svy_qblk_qst, svy_svy WHERE ".
+			"svy_qblk.questionblock_id = svy_qblk_qst.questionblock_fi AND svy_svy.survey_id = svy_qblk_qst.survey_fi ".
+			"$where GROUP BY svy_qblk.questionblock_id, svy_qblk.title, svy_qblk.show_questiontext, svy_qblk.owner_fi, svy_qblk.tstamp, svy_svy.obj_fi");
 		$rows = array();
 		if ($query_result->numRows())
 		{
@@ -3519,32 +3408,14 @@ class ilObjSurvey extends ilObject
 					$rows[$row["questionblock_id"]] = array(
 						"questionblock_id" => $row["questionblock_id"],
 						"title" => $row["title"], 
-						"surveytitle" => $surveytitles[$row["obj_fi"]], 
-						"questions" => join($questions_array, ", "),
+						"svy" => $surveytitles[$row["obj_fi"]], 
+						"contains" => join($questions_array, ", "),
 						"owner" => $row["owner_fi"]
 					);
 				}
 			}
 		}
-		$nextrow = $startrow + $maxentries;
-		if ($nextrow > $max - 1)
-		{
-			$nextrow = $startrow;
-		}
-		$prevrow = $startrow - $maxentries;
-		if ($prevrow < 0)
-		{
-			$prevrow = 0;
-		}
-		return array(
-			"rows" => $rows,
-			"images" => $images,
-			"startrow" => $startrow,
-			"nextrow" => $nextrow,
-			"prevrow" => $prevrow,
-			"step" => $maxentries,
-			"rowcount" => $max
-		);
+		return $rows;
 	}
 
 	/**
