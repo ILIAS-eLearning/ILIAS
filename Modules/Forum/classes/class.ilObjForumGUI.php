@@ -2337,11 +2337,11 @@ class ilObjForumGUI extends ilObjectGUI
 			{
 				if($_POST['confirm'] != '' && $_GET['action'] == 'ready_censor')
 				{
-					$frm->postCensorship($this->handleFormInput($formData['cens_message']), $this->objCurrentPost->getId(), 1);
+					$frm->postCensorship($this->handleFormInput($_POST['formData']['cens_message']), $this->objCurrentPost->getId(), 1);
 				}
 				else if($_POST['cancel'] != '' && $_GET['action'] == 'ready_censor')
 				{
-					$frm->postCensorship($this->handleFormInput($formData['cens_message']), $this->objCurrentPost->getId());
+					$frm->postCensorship($this->handleFormInput($_POST['formData']['cens_message']), $this->objCurrentPost->getId());
 				}
 			}
 
