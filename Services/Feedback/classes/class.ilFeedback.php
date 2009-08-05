@@ -193,7 +193,7 @@ class ilFeedback {
 			"votes" => array("clob", $this->votes),
 			"starttime" => array("integer", (int) $this->starttime),
 			"endtime" => array("integer", (int) $this->endtime),
-			"repeat_interval" => array("clob", (int) $this->interval),
+			"repeat_interval" => array("integer", (int) $this->interval),
 			"interval_unit" => array("integer", (int) $this->interval_unit),
 			"first_vote_best" => array("integer", (int) $this->first_vote_best),
 			"ref_id" => array("integer", (int) $this->ref_id),
@@ -237,7 +237,7 @@ class ilFeedback {
 			"votes" => array("clob", $this->votes),
 			"starttime" => array("integer", (int) $this->starttime),
 			"endtime" => array("integer", (int) $this->endtime),
-			"repeat_interval" => array("clob", (int) $this->interval),
+			"repeat_interval" => array("integer", (int) $this->interval),
 			"interval_unit" => array("integer", (int) $this->interval_unit),
 			"first_vote_best" => array("integer", (int) $this->first_vote_best)
 			),array(
