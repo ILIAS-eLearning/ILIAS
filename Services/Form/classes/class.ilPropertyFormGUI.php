@@ -33,7 +33,6 @@ include_once('./Services/Form/classes/class.ilNumberInputGUI.php');
 include_once('./Services/Form/classes/class.ilCSSRectInputGUI.php');
 include_once('./Services/Form/classes/class.ilRadioMatrixInputGUI.php');
 include_once('./Services/Form/classes/class.ilTextWizardInputGUI.php');
-include_once('./Services/Form/classes/class.ilImageWizardInputGUI.php');
 include_once './Services/Form/classes/class.ilFileWizardInputGUI.php';
 include_once './Services/Form/classes/class.ilFormulaInputGUI.php';
 include_once './Services/Form/classes/class.ilBirthdayInputGUI.php';
