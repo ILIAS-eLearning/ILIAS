@@ -9834,6 +9834,8 @@ assessment#:#msg_questions_moved#:#Frage(n) verschoben
 assessment#:#too_many_targets_selected_for_move#:#Sie müssen genau eine Zielposition auswählen!
 assessment#:#msg_selected_for_move#:#Frage(n) zum Verschieben ausgewählt
 chat#:#chat_hide_textformat#:#Textformat verbergen
+search#:#lucene_advanced_settings_table#:#Einstellungen zur erweiterten Suche
+dateplaner#:#cal_day_start#:#Tagesbeginn
 survey#:#questionblock_inserted#:#Fragenblock eingefügt
 survey#:#questionblocks_inserted#:#Fragenblöcke eingefügt
 survey#:#msg_users_disinvited#:#Benutzer ausgeladen
