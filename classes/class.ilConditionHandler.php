@@ -215,7 +215,7 @@ class ilConditionHandler
 	 */
 	public function getReferenceHandlingType()
 	{
-	 	return $this->condition_reference_type;
+	 	return (int) $this->condition_reference_type;
 	}
 
 	// SET GET
