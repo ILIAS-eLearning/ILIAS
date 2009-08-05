@@ -9312,8 +9312,8 @@ survey#:#no_question_selected_for_move#:#Bitte wählen Sie mindestens eine Frage
 survey#:#no_question_selected_for_removal#:#Bitte wählen Sie mindestens eine Frage und/oder einen Fragenblock zum Entfernen aus!
 survey#:#no_search_results#:#Die Suche hat zu keinem Ergebnis geführt!
 survey#:#no_target_selected_for_move#:#Sie müssen eine Zielposition auswählen!
-survey#:#no_user_of_group_invited#:#Allen Benutzern der ausgewählten Gruppe(n) fehlen die notwendigen Rechte, um die Umfrage durchzuführen. Es wurde niemand eingeladen.
-survey#:#no_user_of_role_invited#:#Allen Benutzern der ausgewählten Rolle(n) fehlen die notwendigen Rechte, um die Umfrage durchzuführen. Es wurde niemand eingeladen.
+survey#:#no_user_invited#:#Allen eingeladenen Benutzern fehlen die notwendigen Rechte, um die Umfrage durchzuführen. Es wurde niemand eingeladen.
+survey#:#users_invited#:#Es wurden %s Benutzer eingeladen
 survey#:#no_user_or_group_selected#:#Bitte wählen Sie eine Zielgruppe aus, in der die Suche durchgeführt werden soll (NutzerInnen und/oder Gruppen)!
 survey#:#no_user_phrases_defined#:#Sie haben keine selbst definierten Phrasen!
 survey#:#obligatory#:#verpflichtend
@@ -9836,3 +9836,4 @@ assessment#:#msg_selected_for_move#:#Frage(n) zum Verschieben ausgewählt
 chat#:#chat_hide_textformat#:#Textformat verbergen
 survey#:#questionblock_inserted#:#Fragenblock eingefügt
 survey#:#questionblocks_inserted#:#Fragenblöcke eingefügt
+survey#:#msg_users_disinvited#:#Benutzer ausgeladen

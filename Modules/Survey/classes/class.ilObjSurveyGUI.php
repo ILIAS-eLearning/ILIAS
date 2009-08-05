@@ -1631,6 +1631,7 @@ class ilObjSurveyGUI extends ilObjectGUI
 				$this->object->disinviteUser($user_id);
 			}
 		}
+		ilUtil::sendSuccess($this->lng->txt('msg_users_disinvited'), true);
 		$this->ctrl->redirect($this, "invite");
 	}
 	
@@ -1639,42 +1640,40 @@ class ilObjSurveyGUI extends ilObjectGUI
 	*/
 	public function inviteUserGroupObject()
 	{
+		$invited = 0;
 		// add users to invitation
 		if (is_array($_POST["user_select"]))
 		{
 			foreach ($_POST["user_select"] as $user_id)
 			{
 				$this->object->inviteUser($user_id);
+				$invited++;
 			}
 		}
 		// add groups to invitation
-		$error = "";
 		if (is_array($_POST["group_select"]))
 		{
-			$invited = 0;
 			foreach ($_POST["group_select"] as $group_id)
 			{
 				$invited += $this->object->inviteGroup($group_id);
-			}
-			if ($invited == 0)
-			{
-				$error .= $this->lng->txt("no_user_of_group_invited");
 			}
 		}
 		// add roles to invitation
 		if (is_array($_POST["role_select"]))
 		{
-			$invited = 0;
 			foreach ($_POST["role_select"] as $role_id)
 			{
 				$invited += $this->object->inviteRole($role_id);
 			}
-			if ($invited == 0)
-			{
-				$error .= $this->lng->txt("no_user_of_group_invited");
-			}
 		}
-		if (strlen($error)) ilUtil::sendFailure($error, TRUE);	
+		if ($invited == 0)
+		{
+			ilUtil::sendFailure($this->lng->txt('no_user_invited'), TRUE);	
+		}
+		else
+		{
+			ilUtil::sendSuccess(sprintf($this->lng->txt('users_invited'), $invited), TRUE);	
+		}
 		$this->ctrl->redirect($this, "invite");
 	}
 
