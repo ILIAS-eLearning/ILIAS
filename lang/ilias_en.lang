@@ -1304,8 +1304,8 @@ common#:#adopt#:#Adopt
 common#:#advanced_editing_allow_html_tags#:#Allow the selected HTML tags for text editing
 common#:#advanced_editing_allow_javascript_editor#:#Enable a Rich Text Editor
 common#:#advanced_editing_assessment_settings#:#Allowed HTML Tags for the ILIAS Test & Assessment tool
-common#:#advanced_editing_cat_page_editing#:#Enable Content Editing for Category Pages
-common#:#advanced_editing_cat_page_editing_desc#:#This enables the content editing of category pages. When deactivated, the categories are just displayed as a set of item lists.
+common#:#advanced_editing_rep_page_editing#:#Enable Content Editing in Repository
+common#:#advanced_editing_rep_page_editing_desc#:#This feature allows to add text/media to category, course, group and folder pages.
 common#:#advanced_editing_lm_js_editing#:#Enable HTMLArea for Content Editing
 common#:#advanced_editing_lm_js_editing_desc#:#Enables HTMLArea and JavaScript support for page editing in learning modules and glossaries.
 common#:#advanced_editing_lm_settings#:#Learning Module and Glossary Settings
@@ -1314,7 +1314,7 @@ common#:#advanced_editing_settings#:#Advanced Editing Settings
 common#:#advanced_editing_survey_settings#:#Allowed HTML Tags for the ILIAS survey tool
 common#:#advanced_editing_tinymce#:#TinyMCE Editor
 common#:#adve_assessment_settings#:#Test & Assessment Settings
-common#:#adve_cat_settings#:#Category Settings
+common#:#adve_rep_settings#:#Repository Settings
 common#:#adve_edit_permission#:#Change Permission Settings
 common#:#adve_general_settings#:#General Settings
 common#:#adve_lm_settings#:#LM / Glossary Settings

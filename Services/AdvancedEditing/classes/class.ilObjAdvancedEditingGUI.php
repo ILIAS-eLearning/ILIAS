@@ -241,12 +241,31 @@ class ilObjAdvancedEditingGUI extends ilObjectGUI
 	/**
 	* Display settings for categories.
 	*/
-	function categoryObject()
+	function repositorySettingsObject()
 	{
-		global $ilSetting, $tree;
+		global $ilSetting, $tree, $ilCtrl, $lng, $tpl;
 
+		include_once("Services/Form/classes/class.ilPropertyFormGUI.php");
+		$this->form = new ilPropertyFormGUI();
+	
+		// allow editing 
+		$cb = new ilCheckboxInputGUI($this->lng->txt("advanced_editing_rep_page_editing"), "cat_page_edit");
+		$cb->setInfo($this->lng->txt("advanced_editing_rep_page_editing_desc"));
+		if ($ilSetting->get("enable_cat_page_edit"))
+		{
+			$cb->setChecked(true);
+		}
+		$this->form->addItem($cb);
+		
+		$this->form->addCommandButton("saveRepositorySettings", $lng->txt("save"));
+					
+		$this->form->setTitle($lng->txt("adve_rep_settings"));
+		$this->form->setFormAction($ilCtrl->getFormAction($this));
+		
+		$tpl->setContent($this->form->getHTML());
+
+return;
 		$this->tpl->addBlockFile("ADM_CONTENT", "adm_content", "tpl.advanced_editing_category.html");
-				
 		$this->tpl->setCurrentBlock("adm_content");
 		$this->tpl->setVariable("FORMACTION", $this->ctrl->getFormAction($this));
 		$this->tpl->setVariable("TXT_CAT_SETTINGS", $this->lng->txt("adve_cat_settings"));
@@ -281,20 +300,21 @@ class ilObjAdvancedEditingGUI extends ilObjectGUI
 	}
 
 	/**
-	* Save settings for category editing
+	* Save settings for repository editing
 	*/
-	function saveCategorySettingsObject()
+	function saveRepositorySettingsObject()
 	{
 		global $ilSetting;
 
 		ilUtil::sendSuccess($this->lng->txt("msg_obj_modified"), true);
 		$ilSetting->set("enable_cat_page_edit", $_POST["cat_page_edit"]);
-		$this->ctrl->redirect($this, 'category');
+		$this->ctrl->redirect($this, 'repositorySettings');
 	}
 
 	/**
 	* Save settings for category editing
 	*/
+/*
 	function undoLastCategoryChangeObject()
 	{
 		global $ilSetting;
@@ -317,10 +337,11 @@ class ilObjAdvancedEditingGUI extends ilObjectGUI
 
 		$this->ctrl->redirect($this, 'category');
 	}
-
+*/
 	/**
 	* Save settings for category editing
 	*/
+/*
 	function clearCategoryPageObject()
 	{
 		global $ilSetting;
@@ -343,7 +364,7 @@ class ilObjAdvancedEditingGUI extends ilObjectGUI
 
 		$this->ctrl->redirect($this, 'category');
 	}
-
+*/
 	/**
 	* Save Assessment settings
 	*/
@@ -483,9 +504,9 @@ class ilObjAdvancedEditingGUI extends ilObjectGUI
 											 $this->ctrl->getLinkTarget($this, "survey"),
 											 array("survey", "saveSurveySettings"),
 											 "", "");
-			$tabs_gui->addSubTabTarget("adve_cat_settings",
-											 $this->ctrl->getLinkTarget($this, "category"),
-											 array("category", "saveCategorySettings"),
+			$tabs_gui->addSubTabTarget("adve_rep_settings",
+											 $this->ctrl->getLinkTarget($this, "repositorySettings"),
+											 array("repositorySettings"),
 											 "", "");
 			$tabs_gui->addSubTabTarget("adve_lm_settings",
 											 $this->ctrl->getLinkTarget($this, "learningModule"),
