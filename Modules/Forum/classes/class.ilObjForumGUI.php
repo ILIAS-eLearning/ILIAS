@@ -58,6 +58,7 @@ class ilObjForumGUI extends ilObjectGUI
 	private $create_topic_form_gui = null;
 	
 	private $reloadTree = false;
+	private $hideToolbar = false;
 	
 	public function ilObjForumGUI($a_data, $a_id, $a_call_by_reference, $a_prepare_output = true)
 	{
@@ -320,7 +321,8 @@ class ilObjForumGUI extends ilObjectGUI
 		}	
 			
 		if ($ilAccess->checkAccess('add_post', '', $this->object->getRefId()) &&
-			$ilAccess->checkAccess('add_thread', '', $this->object->getRefId()))
+			$ilAccess->checkAccess('add_thread', '', $this->object->getRefId()) &&
+			!$this->hideToolbar())
 		{	
 			// button: new topic
 			$ilToolbar->addButton($this->lng->txt('forums_new_thread'), $this->ctrl->getLinkTarget($this, 'createThread'));
@@ -328,7 +330,8 @@ class ilObjForumGUI extends ilObjectGUI
 
 		// button: enable/disable forum notification
 		if($ilUser->getId() != ANONYMOUS_USER_ID &&
-		   $this->ilias->getSetting('forum_notification') != 0)
+		   $this->ilias->getSetting('forum_notification') != 0 &&
+		   !$this->hideToolbar())
 		{		
 			if($frm->isForumNotificationEnabled($ilUser->getId()))
 			{
@@ -1188,6 +1191,8 @@ class ilObjForumGUI extends ilObjectGUI
 		}
 		
 		$this->confirmation_gui_html = $c_gui->getHTML();
+		
+		$this->hideToolbar(true);
 		
 		return $this->showThreadsObject();
 	}
@@ -2079,6 +2084,17 @@ class ilObjForumGUI extends ilObjectGUI
 		}
 		
 		$this->reloadTree = $a_flag;
+		return $this;
+	}
+	
+	private function hideToolbar($a_flag = null)
+	{
+		if(null === $a_flag)
+		{
+			return $this->hideToolbar;
+		}
+		
+		$this->hideToolbar = $a_flag;
 		return $this;
 	}
 	
@@ -3242,7 +3258,8 @@ class ilObjForumGUI extends ilObjectGUI
 			$this->moveThreadsObject();
 			return true;
 		}
-		
+				
+		$this->hideToolbar(true);
 		$this->moveThreadsObject(true);
 	
 		return true;	
@@ -3283,14 +3300,12 @@ class ilObjForumGUI extends ilObjectGUI
 			$this->ctrl->redirect($this, 'showThreads');
 		}		
 		
-		require_once 'Services/Table/classes/class.ilTable2GUI.php';
-		
-		$ilToolbar->addButton($this->lng->txt('back'), $this->ctrl->getLinkTarget($this));
-		
+		require_once 'Services/Table/classes/class.ilTable2GUI.php';		
+				
 		$this->tpl->addBlockFile('ADM_CONTENT', 'adm_content', 'tpl.forums_threads_move.html', 'Modules/Forum');
 
 		if($confirm)
-		{			
+		{
 			include_once('Services/Utilities/classes/class.ilConfirmationGUI.php');
 			$c_gui = new ilConfirmationGUI();
 			
@@ -3308,6 +3323,8 @@ class ilObjForumGUI extends ilObjectGUI
 						
 			$this->tpl->setVariable('CONFIRM_TABLE', $c_gui->getHTML());
 		}	
+		if(!$this->hideToolbar())
+			$ilToolbar->addButton($this->lng->txt('back'), $this->ctrl->getLinkTarget($this));
 
 		$tblThr = new ilTable2GUI($this);		
 		$tblThr->setTitle($this->lng->txt('move_chosen_topics'));
