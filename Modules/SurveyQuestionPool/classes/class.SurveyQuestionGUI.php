@@ -153,12 +153,12 @@ class SurveyQuestionGUI
 	
 	function originalSyncForm()
 	{
+		ilUtil::sendQuestion($this->lng->txt("confirm_sync_questions"));
 		$this->tpl->addBlockFile("ADM_CONTENT", "adm_content", "tpl.il_svy_qpl_sync_original.html", "Modules/SurveyQuestionPool");
 		$this->tpl->setCurrentBlock("adm_content");
 		$this->tpl->setVariable("BUTTON_YES", $this->lng->txt("yes"));
 		$this->tpl->setVariable("BUTTON_NO", $this->lng->txt("no"));
 		$this->tpl->setVariable("FORM_ACTION", $this->ctrl->getFormAction($this));
-		$this->tpl->setVariable("TEXT_SYNC", $this->lng->txt("confirm_sync_questions"));
 		$this->tpl->parseCurrentBlock();
 	}
 	
@@ -169,19 +169,14 @@ class SurveyQuestionGUI
 		{
 			$this->object->syncWithOriginal();
 		}
+		ilUtil::sendSuccess($this->lng->txt("msg_obj_modified"), true);
 		$this->ctrl->redirect($this, "editQuestion");
-		
-		/*$_GET["ref_id"] = $_GET["calling_survey"];
-		include_once "./Services/Utilities/classes/class.ilUtil.php";
-		ilUtil::redirect("ilias.php?baseClass=ilObjSurveyGUI&ref_id=" . $_GET["calling_survey"] . "&cmd=questions");*/
 	}
 
 	function cancelSync()
 	{
+		ilUtil::sendInfo($this->lng->txt("msg_cancel"), true);
 		$this->ctrl->redirect($this, "editQuestion");
-		/*$_GET["ref_id"] = $_GET["calling_survey"];
-		include_once "./Services/Utilities/classes/class.ilUtil.php";
-		ilUtil::redirect("ilias.php?baseClass=ilObjSurveyGUI&ref_id=" . $_GET["calling_survey"] . "&cmd=questions");*/
 	}
 		
 	/**
@@ -203,11 +198,11 @@ class SurveyQuestionGUI
 			include_once "./Modules/SurveyQuestionPool/classes/class.SurveyQuestion.php";
 			if ($_GET["calling_survey"] && $originalexists && SurveyQuestion::_isWriteable($this->object->original_id, $ilUser->getId()))
 			{
-				$this->originalSyncForm();
-				return;
+				$this->ctrl->redirect($this, 'originalSyncForm');
 			}
 			elseif ($_GET["calling_survey"])
 			{
+				ilUtil::sendSuccess($this->lng->txt("msg_obj_modified"), true);
 				$_GET["ref_id"] = $_GET["calling_survey"];
 				include_once "./Services/Utilities/classes/class.ilUtil.php";
 				ilUtil::redirect("ilias.php?baseClass=ilObjSurveyGUI&ref_id=" . $_GET["calling_survey"] . "&cmd=questions");
@@ -215,6 +210,7 @@ class SurveyQuestionGUI
 			}
 			elseif ($_GET["new_for_survey"] > 0)
 			{
+				ilUtil::sendSuccess($this->lng->txt("msg_obj_modified"), true);
 				$this->ctrl->setParameterByClass($_GET["cmdClass"], "q_id", $this->object->getId());
 				$this->ctrl->setParameterByClass($_GET["cmdClass"], "sel_question_types", $_GET["sel_question_types"]);
 				$this->ctrl->setParameterByClass($_GET["cmdClass"], "new_for_survey", $_GET["new_for_survey"]);
@@ -595,7 +591,7 @@ class SurveyQuestionGUI
 		if ($rbacsystem->checkAccess('edit', $_GET["ref_id"])) {
 			$ilTabs->addTarget("edit_properties",
 									 $this->ctrl->getLinkTargetByClass("$guiclass", "editQuestion"), 
-									 array("editQuestion", "save", "cancel"),
+									 array("editQuestion", "save", "cancel", "originalSyncForm"),
 									 "$guiclass");
 		}
 		if ($_GET["q_id"])
