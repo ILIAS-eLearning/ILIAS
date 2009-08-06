@@ -369,7 +369,7 @@ class ilGlossaryTerm
 			$where = " glo_id = ".$ilDB->quote($a_glo_id, "integer")." ";
 		}
 		
-		$q = "SELECT * FROM glossary_term WHERE ".$where.$searchterm." ORDER BY language, term";
+		$q = "SELECT * FROM glossary_term WHERE ".$where.$searchterm." ORDER BY term";
 		$term_set = $ilDB->query($q);
 
 		while ($term_rec = $ilDB->fetchAssoc($term_set))
