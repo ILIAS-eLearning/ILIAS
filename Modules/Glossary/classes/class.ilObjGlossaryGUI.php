@@ -1528,14 +1528,18 @@ class ilObjGlossaryGUI extends ilObjectGUI
 	*/
 	function addDefinition()
 	{
+		global $ilCtrl;
+		
 		if (count($_POST["id"]) < 1)
 		{
-			$this->ilias->raiseError($this->lng->txt("cont_select_term"),$this->ilias->error_obj->MESSAGE);
+			ilUtil::sendFailure($this->lng->txt("cont_select_term"), true);
+			$ilCtrl->redirect($this, "listTerms");
 		}
 
 		if (count($_POST["id"]) > 1)
 		{
-			$this->ilias->raiseError($this->lng->txt("cont_select_max_one_term"),$this->ilias->error_obj->MESSAGE);
+			ilUtil::sendFailure($this->lng->txt("cont_select_max_one_term"), true);
+			$ilCtrl->redirect($this, "listTerms");
 		}
 
 		// add term
