@@ -2,8 +2,8 @@
 	<table class="matchingpairwizard">
 		<thead>
 			<tr>
-				<th>{TEXT_TERM}</th>
 				<th>{TEXT_DEFINITION}</th>
+				<th>{TEXT_TERM}</th>
 				<th>{TEXT_POINTS}</th>
 			</tr>
 		</thead>
@@ -11,17 +11,17 @@
 <!-- BEGIN row -->
 			<tr class="{ROW_CLASS}">
 				<td>
-					<select name="{POST_VAR}[term][{ROW_NUMBER}]">
-<!-- BEGIN option_term -->
-						<option value="{VALUE_OPTION}"{SELECTED_OPTION}>{TEXT_OPTION}</option>
-<!-- END option_term -->
-					</select>
-				</td>
-				<td>
 					<select name="{POST_VAR}[definition][{ROW_NUMBER}]">
 <!-- BEGIN option_definition -->
 						<option value="{VALUE_OPTION}"{SELECTED_OPTION}>{TEXT_OPTION}</option>
 <!-- END option_definition -->
+					</select>
+				</td>
+				<td>
+					<select name="{POST_VAR}[term][{ROW_NUMBER}]">
+<!-- BEGIN option_term -->
+						<option value="{VALUE_OPTION}"{SELECTED_OPTION}>{TEXT_OPTION}</option>
+<!-- END option_term -->
 					</select>
 				</td>
 				<td>

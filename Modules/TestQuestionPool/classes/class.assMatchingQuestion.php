@@ -193,7 +193,7 @@ class assMatchingQuestion extends assQuestion
 				$this->shuffle,
 				$this->matching_type,
 				$this->getThumbGeometry(),
-				($this->getElementHeight() > 20) ? $this->getElementHeight() : NULL
+				($this->getElementHeight() >= 20) ? $this->getElementHeight() : NULL
 			)
 		);
 
@@ -1320,6 +1320,33 @@ class assMatchingQuestion extends assQuestion
 					break;
 			}
 			ilUtil::convertImage($filename, $thumbpath, $ext, $this->getThumbGeometry());
+		}
+	}
+	
+	public function getEstimatedElementHeight()
+	{
+		$hasImages = false;
+		foreach ($this->terms as $term)
+		{
+			if (strlen($term->picture))
+			{
+				$hasImages = true;
+			}
+		}
+		foreach ($this->definitions as $definition)
+		{
+			if (strlen($definition->picture))
+			{
+				$hasImages = true;
+			}
+		}
+		if ($hasImages)
+		{ // 40 is approx. the height of the preview image
+			return max($this->getElementHeight(), $this->getThumbSize() + 40);
+		}
+		else
+		{
+			return ($this->getElementHeight()) ? $this->getElementHeight() : 0;
 		}
 	}
 	

@@ -229,6 +229,22 @@ class assMatchingQuestionGUI extends assQuestionGUI
 		$this->editQuestion();
 	}
 
+	public function addpairs()
+	{
+		$this->writePostData();
+		$position = key($_POST["cmd"]["addpairs"]);
+		$this->object->insertMatchingPair($position+1);
+		$this->editQuestion();
+	}
+
+	public function removepairs()
+	{
+		$this->writePostData();
+		$position = key($_POST["cmd"]["removepairs"]);
+		$this->object->deleteMatchingPair($position);
+		$this->editQuestion();
+	}
+
 	/**
 	* Creates an output of the edit form for the question
 	*
@@ -259,9 +275,9 @@ class assMatchingQuestionGUI extends assQuestionGUI
 		$shuffle = new ilSelectInputGUI($this->lng->txt("shuffle_answers"), "shuffle");
 		$shuffle_options = array(
 			0 => $this->lng->txt("no"),
-			1 => ($matchingtype == MT_TERMS_DEFINITIONS) ? $this->lng->txt("matching_shuffle_terms_definitions") : $this->lng->txt("matching_shuffle_terms_pictures"),
+			1 => $this->lng->txt("matching_shuffle_terms_definitions"),
 			2 => $this->lng->txt("matching_shuffle_terms"),
-			3 => ($matchingtype == MT_TERMS_DEFINITIONS) ? $this->lng->txt("matching_shuffle_definitions") : $this->lng->txt("matching_shuffle_pictures")
+			3 => $this->lng->txt("matching_shuffle_definitions")
 		);
 		$shuffle->setOptions($shuffle_options);
 		$shuffle->setValue($this->object->getShuffle());
@@ -276,29 +292,15 @@ class assMatchingQuestionGUI extends assQuestionGUI
 		$element_height->setSize(6);
 		$element_height->setInfo($this->lng->txt("element_height_info"));
 		$form->addItem($element_height);
-		if ($matchingtype == MT_TERMS_PICTURES)
-		{
-			$geometry = new ilNumberInputGUI($this->lng->txt("thumb_geometry"), "thumb_geometry");
-			$geometry->setValue($this->object->getThumbGeometry());
-			$geometry->setRequired(true);
-			$geometry->setMaxLength(6);
-			$geometry->setMinValue(20);
-			$geometry->setSize(6);
-			$geometry->setInfo($this->lng->txt("thumb_geometry_info"));
-			$form->addItem($geometry);
-		}
-		
-		// Terms
-		include_once "./Modules/TestQuestionPool/classes/class.ilMatchingWizardInputGUI.php";
-		$terms = new ilMatchingWizardInputGUI($this->lng->txt("terms"), "terms");
-		$terms->setRequired(true);
-		$terms->setQuestionObject($this->object);
-		$terms->setTextName($this->lng->txt('term_text'));
-		$terms->setImageName($this->lng->txt('term_image'));
-		include_once "./Modules/TestQuestionPool/classes/class.assAnswerMatchingTerm.php";
-		$termvalues = (count($this->object->getTerms())) ? $this->object->getTerms() : array(new assAnswerMatchingTerm());
-		$terms->setValues($termvalues);
-		$form->addItem($terms);
+
+		$geometry = new ilNumberInputGUI($this->lng->txt("thumb_geometry"), "thumb_geometry");
+		$geometry->setValue($this->object->getThumbGeometry());
+		$geometry->setRequired(true);
+		$geometry->setMaxLength(6);
+		$geometry->setMinValue(20);
+		$geometry->setSize(6);
+		$geometry->setInfo($this->lng->txt("thumb_geometry_info"));
+		$form->addItem($geometry);
 		
 		// Definitions
 		include_once "./Modules/TestQuestionPool/classes/class.ilMatchingWizardInputGUI.php";
@@ -311,6 +313,18 @@ class assMatchingQuestionGUI extends assQuestionGUI
 		$definitionvalues = (count($this->object->getDefinitions())) ? $this->object->getDefinitions() : array(new assAnswerMatchingDefinition());
 		$definitions->setValues($definitionvalues);
 		$form->addItem($definitions);
+		
+		// Terms
+		include_once "./Modules/TestQuestionPool/classes/class.ilMatchingWizardInputGUI.php";
+		$terms = new ilMatchingWizardInputGUI($this->lng->txt("terms"), "terms");
+		$terms->setRequired(true);
+		$terms->setQuestionObject($this->object);
+		$terms->setTextName($this->lng->txt('term_text'));
+		$terms->setImageName($this->lng->txt('term_image'));
+		include_once "./Modules/TestQuestionPool/classes/class.assAnswerMatchingTerm.php";
+		$termvalues = (count($this->object->getTerms())) ? $this->object->getTerms() : array(new assAnswerMatchingTerm());
+		$terms->setValues($termvalues);
+		$form->addItem($terms);
 		
 		// Matching Pairs
 		include_once "./Modules/TestQuestionPool/classes/class.ilMatchingPairWizardInputGUI.php";
@@ -506,67 +520,104 @@ class assMatchingQuestionGUI extends assQuestionGUI
 	
 	function getPreview($show_question_only = FALSE)
 	{
-		return;
 		// generate the question output
 		include_once "./classes/class.ilTemplate.php";
 		$template = new ilTemplate("tpl.il_as_qpl_matching_output.html", TRUE, TRUE, "Modules/TestQuestionPool");
 		
 		// shuffle output
-		$keys = array_keys($this->object->matchingpairs);
-		$keys2 = array_keys($this->object->getTerms());
-		if ($this->object->getShuffle())
-		{
-			if (($this->object->getShuffle() == 3) || ($this->object->getShuffle() == 1))
-				$keys = $this->object->pcArrayShuffle(array_keys($this->object->matchingpairs));
-			if (($this->object->getShuffle() == 2) || ($this->object->getShuffle() == 1))
-				$keys2 = $this->object->pcArrayShuffle($keys2);
-		}
-
 		$terms = $this->object->getTerms();
-		foreach ($keys as $idx)
+		$definitions = $this->object->getDefinitions();
+		switch ($this->object->getShuffle())
 		{
-			$answer = $this->object->matchingpairs[$idx];
-			foreach ($keys2 as $termkey)
+			case 1:
+				$terms = $this->object->pcArrayShuffle($terms);
+				$definitions = $this->object->pcArrayShuffle($definitions);
+				break;
+			case 2:
+				$terms = $this->object->pcArrayShuffle($terms);
+				break;
+			case 3:
+				$definitions = $this->object->pcArrayShuffle($definitions);
+				break;
+		}
+		$maxcount = max(count($terms), count($definitions));
+		for ($i = 0; $i < count($definitions); $i++)
+		{
+			$definition = $definitions[$i];
+			if (is_object($definition))
 			{
-				$comboanswer = $this->object->matchingpairs[$comboidx];
-				$template->setCurrentBlock("matching_selection");
-				$template->setVariable("VALUE_SELECTION", $termkey);
-				$template->setVariable("TEXT_SELECTION", ilUtil::prepareFormOutput($terms[$termkey]));
-				$template->parseCurrentBlock();
-			}
-//			if ($this->object->get_matching_type() == MT_TERMS_PICTURES)
-			{
-				$template->setCurrentBlock("standard_matching_pictures");
-				$template->setVariable("DEFINITION_ID", $answer->getPictureId());
-				$template->setVariable("IMAGE_HREF", $this->object->getImagePathWeb() . $answer->getPicture());
-				$thumbweb = $this->object->getImagePathWeb() . $this->object->getThumbPrefix() . $answer->getPicture();
-				$thumb = $this->object->getImagePath() . $this->object->getThumbPrefix() . $answer->getPicture();
-				if (!@file_exists($thumb)) $this->object->rebuildThumbnails();
-				$template->setVariable("THUMBNAIL_HREF", $thumbweb);
-				$template->setVariable("THUMB_ALT", $this->lng->txt("image"));
-				$template->setVariable("THUMB_TITLE", $this->lng->txt("image"));
-				$template->parseCurrentBlock();
-			}
-//			else
-			{
-				$template->setCurrentBlock("standard_matching_terms");
-				$template->setVariable("DEFINITION", $this->object->prepareTextareaOutput($answer->getDefinition(), TRUE));
-				$template->parseCurrentBlock();
+				if (strlen($definition->picture))
+				{
+					$template->setCurrentBlock('definition_image');
+					$template->setVariable('ANSWER_IMAGE_URL', $this->object->getImagePathWeb() . $this->object->getThumbPrefix() . $definition->picture);
+					$template->setVariable('ANSWER_IMAGE_ALT', (strlen($definition->text)) ? ilUtil::prepareFormOutput($definition->text) : ilUtil::prepareFormOutput($definition->picture));
+					$template->setVariable('ANSWER_IMAGE_TITLE', (strlen($definition->text)) ? ilUtil::prepareFormOutput($definition->text) : ilUtil::prepareFormOutput($definition->picture));
+					$template->setVariable('URL_PREVIEW', $this->object->getImagePathWeb() . $definition->picture);
+					$template->setVariable("TEXT_PREVIEW", $this->lng->txt('preview'));
+					$template->setVariable("IMG_PREVIEW", ilUtil::getImagePath('enlarge.gif'));
+					$template->setVariable("TEXT_DEFINITION", (strlen($definition->text)) ? $this->lng->txt('definition') . ' ' . ($i+1) . ': ' . ilUtil::prepareFormOutput($definition->text) : $this->lng->txt('definition') . ' ' . ($i+1));
+					$template->parseCurrentBlock();
+				}
+				else
+				{
+					$template->setCurrentBlock('definition_text');
+					$template->setVariable("DEFINITION", ilUtil::prepareFormOutput($definition->text));
+					$template->parseCurrentBlock();
+				}
 			}
 
-			$template->setCurrentBlock("standard_matching_row");
-			if ($this->object->getElementHeight() >= 20)
+			$template->setCurrentBlock('option');
+			$template->setVariable("VALUE_OPTION", 0);
+			$template->setVariable("TEXT_OPTION", ilUtil::prepareFormOutput($this->lng->txt('please_select')));
+			$template->parseCurrentBlock();
+			$j = 1;
+			foreach ($terms as $term)
 			{
-				$template->setVariable("ELEMENT_HEIGHT", " style=\"height: " . $this->object->getElementHeight() . "px;\"");
+				$template->setCurrentBlock('option');
+				$template->setVariable("VALUE_OPTION", $term->identifier);
+				$template->setVariable("TEXT_OPTION", (strlen($term->text)) ? $this->lng->txt('term') . ' ' . ($j) . ': ' . ilUtil::prepareFormOutput($term->text) : $this->lng->txt('term') . ' ' . ($j));
+				$template->parseCurrentBlock();
+				$j++;
 			}
-			$template->setVariable("MATCHES", $this->lng->txt("matches"));
-			$template->setVariable("DEFINITION_ID", $answer->getDefinitionId());
-			$template->setVariable("PLEASE_SELECT", $this->lng->txt("please_select"));
+			
+			$template->setCurrentBlock('row');
+			$template->setVariable("TEXT_MATCHES", $this->lng->txt("matches"));
+			if ($this->object->getEstimatedElementHeight() > 0)
+			{
+				$template->setVariable("ELEMENT_HEIGHT", " style=\"height: " . $this->object->getEstimatedElementHeight() . "px;\"");
+			}
+			$template->setVariable("QUESTION_ID", $this->object->getId());
+			$template->setVariable("DEFINITION_ID", $definition->identifier);
 			$template->parseCurrentBlock();
 		}
-		
+
+		foreach ($terms as $term)
+		{
+			if (strlen($term->picture))
+			{
+				$template->setCurrentBlock('term_image');
+				$template->setVariable('ANSWER_IMAGE_URL', $this->object->getImagePathWeb() . $this->object->getThumbPrefix() . $term->picture);
+				$template->setVariable('ANSWER_IMAGE_ALT', (strlen($term->text)) ? ilUtil::prepareFormOutput($term->text) : ilUtil::prepareFormOutput($term->picture));
+				$template->setVariable('ANSWER_IMAGE_TITLE', (strlen($term->text)) ? ilUtil::prepareFormOutput($term->text) : ilUtil::prepareFormOutput($term->picture));
+				$template->setVariable('URL_PREVIEW', $this->object->getImagePathWeb() . $term->picture);
+				$template->setVariable("TEXT_PREVIEW", $this->lng->txt('preview'));
+				$template->setVariable("TEXT_TERM", (strlen($term->text)) ? $this->lng->txt('term') . ' ' . ($i+1) . ': ' . ilUtil::prepareFormOutput($term->text) : $this->lng->txt('term') . ' ' . ($i+1));
+				$template->setVariable("IMG_PREVIEW", ilUtil::getImagePath('enlarge.gif'));
+				$template->parseCurrentBlock();
+			}
+			else
+			{
+				$template->setCurrentBlock('term_text');
+				$template->setVariable("TERM", ilUtil::prepareFormOutput($term->text));
+				$template->parseCurrentBlock();
+			}
+			$template->touchBlock('terms');
+		}
+
 		$questiontext = $this->object->getQuestion();
 		$template->setVariable("QUESTIONTEXT", $this->object->prepareTextareaOutput($questiontext, TRUE));
+		$template->setVariable("TEXT_TERMS", ilUtil::prepareFormOutput($this->lng->txt('available_terms')));
+		$template->setVariable('TEXT_SELECTION', ilUtil::prepareFormOutput($this->lng->txt('selection')));
 		$questionoutput = $template->get();
 		if (!$show_question_only)
 		{
@@ -835,8 +886,8 @@ class assMatchingQuestionGUI extends assQuestionGUI
 			// edit question properties
 			$ilTabs->addTarget("edit_properties",
 				$url,
-				array("editQuestion", "save", "saveEdit", "changeToDefinitions", "changeToPictures",
-					"addMatchingDefinition", "removeMatchingDefinition", "addterms", "removeterms"),
+				array("editQuestion", "save", "saveEdit", "removeimageterms", "uploadterms", "removeimagedefinitions", "uploaddefinitions",
+					"addpairs", "removepairs", "addterms", "removeterms", "adddefinitions", "removedefinitions"),
 				$classname, "", $force_active);
 		}
 

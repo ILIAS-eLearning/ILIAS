@@ -353,3 +353,13 @@ ul.shortlist li.active {
 .questionpool_title {
 	font-weight: bold;
 }
+
+td.matching {
+	vertical-align: middle;
+}
+
+div.term {
+	display: inline;
+	padding: 0.5em 1em;
+	margin: 0.5em 2em;
+}
