@@ -223,7 +223,7 @@ class ilGlossaryDefinition
 			" AND nr > ".$ilDB->quote($this->getNr(), "integer"));
 
 		// delete current definition
-		$$ilDB->manipulate("DELETE FROM glossary_definition ".
+		$ilDB->manipulate("DELETE FROM glossary_definition ".
 			" WHERE id = ".$ilDB->quote($this->getId(), "integer"));
 
 		// unlock glossary_definition table
