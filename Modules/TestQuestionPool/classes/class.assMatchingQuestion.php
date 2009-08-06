@@ -302,7 +302,7 @@ class assMatchingQuestion extends assQuestion
 		{
 			while ($data = $ilDB->fetchAssoc($result))
 			{
-				$term = new assAnswerMatchingTerm($data['term'], $data['picture']);
+				$term = new assAnswerMatchingTerm($data['term'], $data['picture'], $data['term_id']);
 				array_push($this->terms, $term);
 				$termids[$data['term_id']] = $term;
 			}
@@ -868,11 +868,11 @@ class assMatchingQuestion extends assQuestion
 		$points = 0;
 		foreach ($found_value2 as $key => $value)
 		{
-			foreach ($this->matchingpairs as $answer_key => $answer_value)
+			foreach ($this->matchingpairs as $pair)
 			{
-				if (($answer_value->getDefinitionId() == $value) and ($answer_value->getTermId() == $found_value1[$key]))
+				if (($pair->definition->identifier == $value) && ($pair->term->identifier == $found_value1[$key]))
 				{
-					$points += $answer_value->getPoints();
+					$points += $pair->points;
 				}
 			}
 		}
@@ -990,7 +990,7 @@ class assMatchingQuestion extends assQuestion
 
 	/**
 	* Checks the data to be saved for consistency
-	* TODO
+	*
   * @return boolean True, if the check was ok, False otherwise
 	* @see $answers
 	*/
@@ -998,29 +998,26 @@ class assMatchingQuestion extends assQuestion
 	{
 		$result = true;
 		$matching_values = array();
-		foreach ($_POST as $key => $value)
+		foreach ($_POST['matching'][$this->getId()] as $definition => $term)
 		{
-			if (preg_match("/^sel_matching_(\d+)/", $key, $matches))
+			if ($term > 0)
 			{
-				if ((strcmp($value, "") != 0) && ($value != -1))
-				{
-					array_push($matching_values, $value);
-				}
+				array_push($matching_values, $term);
 			}
 		}
+
 		$check_matching = array_flip($matching_values);
 		if (count($check_matching) != count($matching_values))
 		{
-			// duplicate matching values!!!
 			$result = false;
-			ilUtil::sendInfo($this->lng->txt("duplicate_matching_values_selected"), TRUE);
+			ilUtil::sendFailure($this->lng->txt("duplicate_matching_values_selected"), TRUE);
 		}
 		return $result;
 	}
 
 	/**
 	* Saves the learners input of the question to the database
-	* TODO
+	* 
 	* @param integer $test_id The database id of the test containing this question
   * @return boolean Indicates the save status (true if saved successful, false otherwise)
 	*/
@@ -1028,7 +1025,7 @@ class assMatchingQuestion extends assQuestion
 	{
 		global $ilDB;
 		global $ilUser;
-		
+
 		$saveWorkingDataResult = $this->checkSaveData();
 		$entered_values = 0;
 		if ($saveWorkingDataResult)
@@ -1038,33 +1035,28 @@ class assMatchingQuestion extends assQuestion
 				include_once "./Modules/Test/classes/class.ilObjTest.php";
 				$pass = ilObjTest::_getPass($active_id);
 			}
-			
+
 			$affectedRows = $ilDB->manipulateF("DELETE FROM tst_solutions WHERE active_fi = %s AND question_fi = %s AND pass = %s",
 				array('integer','integer','integer'),
 				array($active_id, $this->getId(), $pass)
 			);
-			foreach ($_POST as $key => $value)
+
+			foreach ($_POST['matching'][$this->getId()] as $definition => $term)
 			{
-				if (preg_match("/^sel_matching_(\d+)/", $key, $matches))
-				{
-					if ($value > -1) // -1 is the unselected value in the non javascript version
-					{
-						$entered_values++;
-						$next_id = $ilDB->nextId('tst_solutions');
-						$query = $ilDB->manipulateF("INSERT INTO tst_solutions (solution_id, active_fi, question_fi, value1, value2, pass, tstamp) VALUES (%s, %s, %s, %s, %s, %s, %s)",
-							array('integer','integer','integer','text','text','integer','integer'),
-							array(
-								$next_id,
-								$active_id,
-								$this->getId(),
-								trim($value),
-								trim($matches[1]),
-								$pass,
-								time()
-							)
-						);
-					}
-				}
+				$entered_values++;
+				$next_id = $ilDB->nextId('tst_solutions');
+				$query = $ilDB->manipulateF("INSERT INTO tst_solutions (solution_id, active_fi, question_fi, value1, value2, pass, tstamp) VALUES (%s, %s, %s, %s, %s, %s, %s)",
+					array('integer','integer','integer','text','text','integer','integer'),
+					array(
+						$next_id,
+						$active_id,
+						$this->getId(),
+						$term,
+						$definition,
+						$pass,
+						time()
+					)
+				);
 			}
 			$saveWorkingDataResult = true;
 		}
@@ -1084,7 +1076,7 @@ class assMatchingQuestion extends assQuestion
 				$this->logAction($this->lng->txtlng("assessment", "log_user_not_entered_values", ilObjAssessmentFolder::_getLogLanguage()), $active_id, $this->getId());
 			}
 		}
-    parent::saveWorkingData($active_id, $pass);
+		parent::saveWorkingData($active_id, $pass);
 		return $saveWorkingDataResult;
 	}
 
