@@ -367,3 +367,7 @@ div.term {
 .solutiontable td {
 	padding: 0 1em;
 }
+
+span.result {
+	font-style: italic;
+}
