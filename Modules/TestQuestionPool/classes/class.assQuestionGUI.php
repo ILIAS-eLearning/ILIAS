@@ -146,9 +146,6 @@ class assQuestionGUI
 		$this->tpl->addBlockFile("CONTENT", "content", "tpl.il_as_qpl_content.html", "Modules/TestQuestionPool");
 		$this->tpl->addBlockFile("STATUSLINE", "statusline", "tpl.statusline.html");
 
-		// catch feedback message
-		ilUtil::sendInfo();
-
 		$total_of_answers = $this->object->getTotalAnswers();
 		$counter = 0;
 		$color_class = array("tblrow1", "tblrow2");

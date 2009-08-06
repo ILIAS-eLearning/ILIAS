@@ -627,8 +627,153 @@ class assMatchingQuestionGUI extends assQuestionGUI
 		return $questionoutput;
 	}
 
+	function getTestOutputJS($active_id, $pass = NULL, $is_postponed = FALSE, $user_post_solution = FALSE)
+	{
+		
+	}
+
 	function getTestOutput($active_id, $pass = NULL, $is_postponed = FALSE, $user_post_solution = FALSE)
 	{
+		if ($this->object->getOutputType() == OUTPUT_JAVASCRIPT)
+		{
+			return $this->getTestOutputJS($active_id, $pass, $is_postponed, $user_post_solution);
+		}
+		// generate the question output
+		include_once "./classes/class.ilTemplate.php";
+		$template = new ilTemplate("tpl.il_as_qpl_matching_output.html", TRUE, TRUE, "Modules/TestQuestionPool");
+		
+		if ($active_id)
+		{
+			$solutions = NULL;
+			include_once "./Modules/Test/classes/class.ilObjTest.php";
+			if (!ilObjTest::_getUsePreviousAnswers($active_id, true))
+			{
+				if (is_null($pass)) $pass = ilObjTest::_getPass($active_id);
+			}
+			if (is_array($user_post_solution)) 
+			{ 
+				$solutions = array();
+				foreach ($user_post_solution['matching'][$this->object->getId()] as $definition => $term)
+				{
+					array_push($solutions, array("value1" => $term, "value2" => $definition));
+				}
+			}
+			else
+			{ 
+				$solutions =& $this->object->getSolutionValues($active_id, $pass);
+			}
+		}
+
+		
+		// shuffle output
+		$terms = $this->object->getTerms();
+		$definitions = $this->object->getDefinitions();
+		switch ($this->object->getShuffle())
+		{
+			case 1:
+				$terms = $this->object->pcArrayShuffle($terms);
+				$definitions = $this->object->pcArrayShuffle($definitions);
+				break;
+			case 2:
+				$terms = $this->object->pcArrayShuffle($terms);
+				break;
+			case 3:
+				$definitions = $this->object->pcArrayShuffle($definitions);
+				break;
+		}
+		$maxcount = max(count($terms), count($definitions));
+		for ($i = 0; $i < count($definitions); $i++)
+		{
+			$definition = $definitions[$i];
+			if (is_object($definition))
+			{
+				if (strlen($definition->picture))
+				{
+					$template->setCurrentBlock('definition_image');
+					$template->setVariable('ANSWER_IMAGE_URL', $this->object->getImagePathWeb() . $this->object->getThumbPrefix() . $definition->picture);
+					$template->setVariable('ANSWER_IMAGE_ALT', (strlen($definition->text)) ? ilUtil::prepareFormOutput($definition->text) : ilUtil::prepareFormOutput($definition->picture));
+					$template->setVariable('ANSWER_IMAGE_TITLE', (strlen($definition->text)) ? ilUtil::prepareFormOutput($definition->text) : ilUtil::prepareFormOutput($definition->picture));
+					$template->setVariable('URL_PREVIEW', $this->object->getImagePathWeb() . $definition->picture);
+					$template->setVariable("TEXT_PREVIEW", $this->lng->txt('preview'));
+					$template->setVariable("IMG_PREVIEW", ilUtil::getImagePath('enlarge.gif'));
+					$template->setVariable("TEXT_DEFINITION", (strlen($definition->text)) ? $this->lng->txt('definition') . ' ' . ($i+1) . ': ' . ilUtil::prepareFormOutput($definition->text) : $this->lng->txt('definition') . ' ' . ($i+1));
+					$template->parseCurrentBlock();
+				}
+				else
+				{
+					$template->setCurrentBlock('definition_text');
+					$template->setVariable("DEFINITION", ilUtil::prepareFormOutput($definition->text));
+					$template->parseCurrentBlock();
+				}
+			}
+
+			$template->setCurrentBlock('option');
+			$template->setVariable("VALUE_OPTION", 0);
+			$template->setVariable("TEXT_OPTION", ilUtil::prepareFormOutput($this->lng->txt('please_select')));
+			$template->parseCurrentBlock();
+			$j = 1;
+			foreach ($terms as $term)
+			{
+				$template->setCurrentBlock('option');
+				$template->setVariable("VALUE_OPTION", $term->identifier);
+				$template->setVariable("TEXT_OPTION", (strlen($term->text)) ? $this->lng->txt('term') . ' ' . ($j) . ': ' . ilUtil::prepareFormOutput($term->text) : $this->lng->txt('term') . ' ' . ($j));
+				foreach ($solutions as $solution)
+				{
+					if ($solution["value1"] == $term->identifier && $solution["value2"] == $definition->identifier)
+					{
+						$template->setVariable("SELECTED_OPTION", " selected=\"selected\"");
+					}
+				}
+				$template->parseCurrentBlock();
+				$j++;
+			}
+			
+			$template->setCurrentBlock('row');
+			$template->setVariable("TEXT_MATCHES", $this->lng->txt("matches"));
+			if ($this->object->getEstimatedElementHeight() > 0)
+			{
+				$template->setVariable("ELEMENT_HEIGHT", " style=\"height: " . $this->object->getEstimatedElementHeight() . "px;\"");
+			}
+			$template->setVariable("QUESTION_ID", $this->object->getId());
+			$template->setVariable("DEFINITION_ID", $definition->identifier);
+			$template->parseCurrentBlock();
+		}
+
+		foreach ($terms as $term)
+		{
+			if (strlen($term->picture))
+			{
+				$template->setCurrentBlock('term_image');
+				$template->setVariable('ANSWER_IMAGE_URL', $this->object->getImagePathWeb() . $this->object->getThumbPrefix() . $term->picture);
+				$template->setVariable('ANSWER_IMAGE_ALT', (strlen($term->text)) ? ilUtil::prepareFormOutput($term->text) : ilUtil::prepareFormOutput($term->picture));
+				$template->setVariable('ANSWER_IMAGE_TITLE', (strlen($term->text)) ? ilUtil::prepareFormOutput($term->text) : ilUtil::prepareFormOutput($term->picture));
+				$template->setVariable('URL_PREVIEW', $this->object->getImagePathWeb() . $term->picture);
+				$template->setVariable("TEXT_PREVIEW", $this->lng->txt('preview'));
+				$template->setVariable("TEXT_TERM", (strlen($term->text)) ? $this->lng->txt('term') . ' ' . ($i+1) . ': ' . ilUtil::prepareFormOutput($term->text) : $this->lng->txt('term') . ' ' . ($i+1));
+				$template->setVariable("IMG_PREVIEW", ilUtil::getImagePath('enlarge.gif'));
+				$template->parseCurrentBlock();
+			}
+			else
+			{
+				$template->setCurrentBlock('term_text');
+				$template->setVariable("TERM", ilUtil::prepareFormOutput($term->text));
+				$template->parseCurrentBlock();
+			}
+			$template->touchBlock('terms');
+		}
+
+		$questiontext = $this->object->getQuestion();
+		$template->setVariable("QUESTIONTEXT", $this->object->prepareTextareaOutput($questiontext, TRUE));
+		$template->setVariable("TEXT_TERMS", ilUtil::prepareFormOutput($this->lng->txt('available_terms')));
+		$template->setVariable('TEXT_SELECTION', ilUtil::prepareFormOutput($this->lng->txt('selection')));
+
+		$questiontext = $this->object->getQuestion();
+		$template->setVariable("QUESTIONTEXT", $this->object->prepareTextareaOutput($questiontext, TRUE));
+		$questionoutput = $template->get();
+		$pageoutput = $this->outQuestionPage("", $is_postponed, $active_id, $questionoutput);
+		return $pageoutput;
+
+return;
 		$allterms = $this->object->getTerms();
 		// generate the question output
 		include_once "./classes/class.ilTemplate.php";
