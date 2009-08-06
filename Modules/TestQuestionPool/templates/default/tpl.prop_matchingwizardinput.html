@@ -1,25 +1,19 @@
-<div class="yui-skin-sam" id="{ELEMENT_ID}">
-	<table class="singlechoicewizard">
+<div id="{ELEMENT_ID}">
+	<table class="matchingwizard">
 		<thead>
 			<tr>
+				<th>{NUMBER_TEXT}</th>
 				<th>{ANSWER_TEXT}</th>
 				<th class="imagecolumn"><!-- BEGIN image_heading -->{ANSWER_IMAGE}<!-- END image_heading --></th>
-<!-- BEGIN points_heading -->
-				<th>{POINTS_TEXT}</th>
-<!-- END points_heading -->
 				<th>{COMMANDS_TEXT}</th>
 			</tr>
 		</thead>
 		<tbody>
 <!-- BEGIN row -->
 			<tr class="{ROW_CLASS}">
+				<td>{ROW_NUMBER}<input type="hidden" name="{SINGLELINE_POST_VAR}[identifier][{SINGLELINE_ROW_NUMBER}]" value="{ROW_IDENTIFIER}" /></td>
 				<td>
-<!-- BEGIN singleline -->
 					<input type="text" size="{SIZE}" id="{SINGLELINE_ID}" maxlength="{MAXLENGTH}" name="{SINGLELINE_POST_VAR}[answer][{SINGLELINE_ROW_NUMBER}]" <!-- BEGIN prop_text_propval -->value="{PROPERTY_VALUE}" <!-- END prop_text_propval -->{DISABLED_SINGLELINE}/>
-<!-- END singleline -->
-<!-- BEGIN multiline -->
-					<textarea cols="60" rows="4" name="{MULTILINE_POST_VAR}[answer][{MULTILINE_ROW_NUMBER}]" id="{MULTILINE_ID}"{DISABLED_MULTILINE}>{PROPERTY_VALUE}</textarea>
-<!-- END multiline -->
 				</td>
 				<td class="imagecolumn">
 <!-- BEGIN addimage -->
@@ -35,17 +29,12 @@
 					</div>
 <!-- END addimage -->
 				</td>
-<!-- BEGIN points -->
 				<td style="vertical-align: top;">
-					<input type="text" style="text-align: right;" size="5" id="{POINTS_ID}" name="{POINTS_POST_VAR}[points][{POINTS_ROW_NUMBER}]" <!-- BEGIN prop_points_propval -->value="{PROPERTY_VALUE}" <!-- END prop_points_propval -->{DISABLED_POINTS}/>
-				</td>
-<!-- END points -->
-				<td style="vertical-align: top;">
-					<input type="image" name="{CMD_ADD}" class="singlechoicewizard_add" id="add_{ID}" src="{ADD_BUTTON}" onclick="javascript: void(0); return false;" />
-					<input type="image" name="{CMD_REMOVE}" class="singlechoicewizard_remove" id="remove_{ID}" src="{REMOVE_BUTTON}" onclick="javascript: void(0); return false;" />
+					<input type="image" name="{CMD_ADD}" class="matchingwizard_add" id="add_{ID}" src="{ADD_BUTTON}" />
+					<input type="image" name="{CMD_REMOVE}" class="matchingwizard_remove" id="remove_{ID}" src="{REMOVE_BUTTON}" />
 <!-- BEGIN move -->
-					<input type="image" name="{CMD_UP}" class="singlechoicewizard_up" id="up_{ID}" src="{UP_BUTTON}" onclick="javascript: void(0); return false;" />
-					<input type="image" name="{CMD_DOWN}" class="singlechoicewizard_down" id="down_{ID}" src="{DOWN_BUTTON}" onclick="javascript: void(0); return false;" />
+					<input type="image" name="{CMD_UP}" class="matchingwizard_up" id="up_{ID}" src="{UP_BUTTON}" />
+					<input type="image" name="{CMD_DOWN}" class="matchingwizard_down" id="down_{ID}" src="{DOWN_BUTTON}" />
 <!-- END move -->
 				</td>
 			</tr>

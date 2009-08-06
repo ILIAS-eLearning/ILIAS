@@ -21,6 +21,8 @@
 	+-----------------------------------------------------------------------------+
 */
 
+include_once "./Modules/TestQuestionPool/classes/class.ilSingleChoiceWizardInputGUI.php";
+
 /**
 * This class represents a single choice wizard property in a property form.
 *
@@ -28,15 +30,15 @@
 * @version $Id$
 * @ingroup	ServicesForm
 */
-class ilSingleChoiceWizardInputGUI extends ilTextInputGUI
+class ilMatchingWizardInputGUI extends ilTextInputGUI
 {
+	protected $text_name = '';
+	protected $image_name = '';
 	protected $values = array();
 	protected $allowMove = false;
-	protected $singleline = true;
 	protected $qstObject = null;
 	protected $suffixes = array();
-	protected $showPoints = true;
-	
+
 	/**
 	* Constructor
 	*
@@ -45,34 +47,15 @@ class ilSingleChoiceWizardInputGUI extends ilTextInputGUI
 	*/
 	function __construct($a_title = "", $a_postvar = "")
 	{
+		global $lng;
+		
 		parent::__construct($a_title, $a_postvar);
 		$this->setSuffixes(array("jpg", "jpeg", "png", "gif"));
 		$this->setSize('25');
-		$this->validationRegexp = "";
+		$this->text_name = $lng->txt('answer_text');
+		$this->image_name = $lng->txt('answer_image');
 	}
-
-	/**
-	* Set Value.
-	*
-	* @param	string	$a_value	Value
-	*/
-	function setValue($a_value)
-	{
-		$this->values = array();
-		if (is_array($a_value))
-		{
-			if (is_array($a_value['answer']))
-			{
-				foreach ($a_value['answer'] as $index => $value)
-				{
-					include_once "./Modules/TestQuestionPool/classes/class.assAnswerBinaryStateImage.php";
-					$answer = new ASS_AnswerBinaryStateImage($value, $a_value['points'][$index], $index, 1, $a_value['imagename'][$index]);
-					array_push($this->values, $answer);
-				}
-			}
-		}
-	}
-
+	
 	/**
 	* Set Accepted Suffixes.
 	*
@@ -91,16 +74,6 @@ class ilSingleChoiceWizardInputGUI extends ilTextInputGUI
 	function getSuffixes()
 	{
 		return $this->suffixes;
-	}
-	
-	public function setShowPoints($a_value)
-	{
-		$this->showPoints = $a_value;
-	}
-	
-	public function getShowPoints()
-	{
-		return $this->showPoints;
 	}
 	
 	/**
@@ -123,26 +96,16 @@ class ilSingleChoiceWizardInputGUI extends ilTextInputGUI
 		return $this->values;
 	}
 
-	/**
-	* Set singleline
-	*
-	* @param	boolean	$a_value	Value
-	*/
-	function setSingleline($a_value)
+	function setTextName($a_value)
 	{
-		$this->singleline = $a_value;
+		$this->text_name = $a_value;
 	}
-
-	/**
-	* Get singleline
-	*
-	* @return	boolean	Value
-	*/
-	function getSingleline()
+	
+	function setImageName($a_value)
 	{
-		return $this->singleline;
+		$this->image_name = $a_value;
 	}
-
+	
 	/**
 	* Set question object
 	*
@@ -184,6 +147,28 @@ class ilSingleChoiceWizardInputGUI extends ilTextInputGUI
 	}
 
 	/**
+	* Set Value.
+	*
+	* @param	string	$a_value	Value
+	*/
+	function setValue($a_value)
+	{
+		$this->values = array();
+		if (is_array($a_value))
+		{
+			if (is_array($a_value['answer']))
+			{
+				foreach ($a_value['answer'] as $index => $value)
+				{
+					include_once "./Modules/TestQuestionPool/classes/class.assAnswerMatchingTerm.php";
+					$answer = new assAnswerMatchingTerm($value, $a_value['imagename'][$index], $a_value['identifier'][$index]);
+					array_push($this->values, $answer);
+				}
+			}
+		}
+	}
+
+	/**
 	* Check input, strip slashes etc. set alert, if input is not ok.
 	*
 	* @return	boolean		Input ok, true/false
@@ -207,27 +192,8 @@ class ilSingleChoiceWizardInputGUI extends ilTextInputGUI
 					}
 				}
 			}
-			// check points
-			$max = 0;
-			if (is_array($foundvalues['points']))
-			{
-				foreach ($foundvalues['points'] as $points)
-				{
-					if ($points > $max) $max = $points;
-					if (((strlen($points)) == 0) || (!is_numeric($points))) 
-					{
-						$this->setAlert($lng->txt("form_msg_numeric_value_required"));
-						return FALSE;
-					}
-				}
-			}
-			if ($max == 0)
-			{
-				$this->setAlert($lng->txt("enter_enough_positive_points"));
-				return false;
-			}
 
-			if (is_array($_FILES) && $this->getSingleline())
+			if (is_array($_FILES))
 			{
 				if (is_array($_FILES[$this->getPostVar()]['error']['image']))
 				{
@@ -353,81 +319,53 @@ class ilSingleChoiceWizardInputGUI extends ilTextInputGUI
 	{
 		global $lng;
 		
-		$tpl = new ilTemplate("tpl.prop_singlechoicewizardinput.html", true, true, "Modules/TestQuestionPool");
+		$tpl = new ilTemplate("tpl.prop_matchingwizardinput.html", true, true, "Modules/TestQuestionPool");
 		$i = 0;
 		foreach ($this->values as $value)
 		{
-			if ($this->getSingleline())
+			if (strlen($value->picture))
 			{
-				if (strlen($value->getImage()))
+				$imagename = $this->qstObject->getImagePathWeb() . $value->picture;
+				if ($this->qstObject->getThumbSize())
 				{
-					$imagename = $this->qstObject->getImagePathWeb() . $value->getImage();
-					if (($this->getSingleline()) && ($this->qstObject->getThumbSize()))
+					if (@file_exists($this->qstObject->getImagePath() . $this->qstObject->getThumbPrefix() . $value->picture))
 					{
-						if (@file_exists($this->qstObject->getImagePath() . $this->qstObject->getThumbPrefix() . $value->getImage()))
-						{
-							$imagename = $this->qstObject->getImagePathWeb() . $this->qstObject->getThumbPrefix() . $value->getImage();
-						}
+						$imagename = $this->qstObject->getImagePathWeb() . $this->qstObject->getThumbPrefix() . $value->picture;
 					}
-					$tpl->setCurrentBlock('image');
-					$tpl->setVariable('SRC_IMAGE', $imagename);
-					$tpl->setVariable('IMAGE_NAME', $value->getImage());
-					$tpl->setVariable('ALT_IMAGE', ilUtil::prepareFormOutput($value->getAnswertext()));
-					$tpl->setVariable("TXT_DELETE_EXISTING", $lng->txt("delete_existing_file"));
-					$tpl->setVariable("IMAGE_ROW_NUMBER", $i);
-					$tpl->setVariable("IMAGE_POST_VAR", $this->getPostVar());
-					$tpl->parseCurrentBlock();
 				}
-				$tpl->setCurrentBlock('addimage');
-				$tpl->setVariable("IMAGE_ID", $this->getPostVar() . "[image][$i]");
-				$tpl->setVariable("IMAGE_SUBMIT", $lng->txt("upload"));
+				$tpl->setCurrentBlock('image');
+				$tpl->setVariable('SRC_IMAGE', $imagename);
+				$tpl->setVariable('IMAGE_NAME', $value->picture);
+				$tpl->setVariable('ALT_IMAGE', ilUtil::prepareFormOutput($value->text));
+				$tpl->setVariable("TXT_DELETE_EXISTING", $lng->txt("delete_existing_file"));
 				$tpl->setVariable("IMAGE_ROW_NUMBER", $i);
 				$tpl->setVariable("IMAGE_POST_VAR", $this->getPostVar());
 				$tpl->parseCurrentBlock();
+			}
+			$tpl->setCurrentBlock('addimage');
+			$tpl->setVariable("IMAGE_ID", $this->getPostVar() . "[image][$i]");
+			$tpl->setVariable("IMAGE_SUBMIT", $lng->txt("upload"));
+			$tpl->setVariable("IMAGE_ROW_NUMBER", $i);
+			$tpl->setVariable("IMAGE_POST_VAR", $this->getPostVar());
+			$tpl->parseCurrentBlock();
 
-				if (is_object($value))
-				{
-					$tpl->setCurrentBlock("prop_text_propval");
-					$tpl->setVariable("PROPERTY_VALUE", ilUtil::prepareFormOutput($value->getAnswertext()));
-					$tpl->parseCurrentBlock();
-					$tpl->setCurrentBlock("prop_points_propval");
-					$tpl->setVariable("PROPERTY_VALUE", ilUtil::prepareFormOutput($value->getPoints()));
-					$tpl->parseCurrentBlock();
-				}
-				$tpl->setCurrentBlock('singleline');
-				$tpl->setVariable("SIZE", $this->getSize());
-				$tpl->setVariable("SINGLELINE_ID", $this->getPostVar() . "[answer][$i]");
-				$tpl->setVariable("SINGLELINE_ROW_NUMBER", $i);
-				$tpl->setVariable("SINGLELINE_POST_VAR", $this->getPostVar());
-				$tpl->setVariable("MAXLENGTH", $this->getMaxLength());
-				if ($this->getDisabled())
-				{
-					$tpl->setVariable("DISABLED_SINGLELINE", " disabled=\"disabled\"");
-				}
-				$tpl->parseCurrentBlock();
-			}
-			else if (!$this->getSingleline())
+			if (is_object($value))
 			{
-				if (is_object($value))
-				{
-					if ($this->getShowPoints())
-					{
-						$tpl->setCurrentBlock("prop_points_propval");
-						$tpl->setVariable("PROPERTY_VALUE", ilUtil::prepareFormOutput($value->getPoints()));
-						$tpl->parseCurrentBlock();
-					}
-				}
-				$tpl->setCurrentBlock('multiline');
-				$tpl->setVariable("PROPERTY_VALUE", $this->qstObject->prepareTextareaOutput($value->getAnswertext()));
-				$tpl->setVariable("MULTILINE_ID", $this->getPostVar() . "[answer][$i]");
-				$tpl->setVariable("MULTILINE_ROW_NUMBER", $i);
-				$tpl->setVariable("MULTILINE_POST_VAR", $this->getPostVar());
-				if ($this->getDisabled())
-				{
-					$tpl->setVariable("DISABLED_MULTILINE", " disabled=\"disabled\"");
-				}
+				$tpl->setCurrentBlock("prop_text_propval");
+				$tpl->setVariable("PROPERTY_VALUE", ilUtil::prepareFormOutput($value->text));
 				$tpl->parseCurrentBlock();
 			}
+			$tpl->setCurrentBlock('singleline');
+			$tpl->setVariable("SIZE", $this->getSize());
+			$tpl->setVariable("SINGLELINE_ID", $this->getPostVar() . "[answer][$i]");
+			$tpl->setVariable("SINGLELINE_ROW_NUMBER", $i);
+			$tpl->setVariable("SINGLELINE_POST_VAR", $this->getPostVar());
+			$tpl->setVariable("MAXLENGTH", $this->getMaxLength());
+			if ($this->getDisabled())
+			{
+				$tpl->setVariable("DISABLED_SINGLELINE", " disabled=\"disabled\"");
+			}
+			$tpl->parseCurrentBlock();
 			if ($this->getAllowMove())
 			{
 				$tpl->setCurrentBlock("move");
@@ -438,76 +376,56 @@ class ilSingleChoiceWizardInputGUI extends ilTextInputGUI
 				$tpl->setVariable("DOWN_BUTTON", ilUtil::getImagePath('a_down.gif'));
 				$tpl->parseCurrentBlock();
 			}
-			if ($this->getShowPoints())
-			{
-				$tpl->setCurrentBlock("points");
-				$tpl->setVariable("POINTS_ID", $this->getPostVar() . "[points][$i]");
-				$tpl->setVariable("POINTS_POST_VAR", $this->getPostVar());
-				$tpl->setVariable("POINTS_ROW_NUMBER", $i);
-				$tpl->parseCurrentBlock();
-			}
 			$tpl->setCurrentBlock("row");
 			$class = ($i % 2 == 0) ? "even" : "odd";
 			if ($i == 0) $class .= " first";
 			if ($i == count($this->values)-1) $class .= " last";
 			$tpl->setVariable("ROW_CLASS", $class);
 			$tpl->setVariable("POST_VAR", $this->getPostVar());
-			$tpl->setVariable("ROW_NUMBER", $i);
+			$tpl->setVariable("ROW_NUMBER", $i+1);
+			$tpl->setVariable("ROW_IDENTIFIER", $value->identifier);
 			$tpl->setVariable("ID", $this->getPostVar() . "[answer][$i]");
 			$tpl->setVariable("CMD_ADD", "cmd[add" . $this->getFieldId() . "][$i]");
 			$tpl->setVariable("CMD_REMOVE", "cmd[remove" . $this->getFieldId() . "][$i]");
-			if ($this->getDisabled())
-			{
-				$tpl->setVariable("DISABLED_POINTS", " disabled=\"disabled\"");
-			}
 			$tpl->setVariable("ADD_BUTTON", ilUtil::getImagePath('edit_add.png'));
 			$tpl->setVariable("REMOVE_BUTTON", ilUtil::getImagePath('edit_remove.png'));
 			$tpl->parseCurrentBlock();
 			$i++;
 		}
 
-		if ($this->getSingleline())
+		if (is_array($this->getSuffixes()))
 		{
-			if (is_array($this->getSuffixes()))
+			$suff_str = $delim = "";
+			foreach($this->getSuffixes() as $suffix)
 			{
-				$suff_str = $delim = "";
-				foreach($this->getSuffixes() as $suffix)
-				{
-					$suff_str.= $delim.".".$suffix;
-					$delim = ", ";
-				}
-				$tpl->setCurrentBlock('allowed_image_suffixes');
-				$tpl->setVariable("TXT_ALLOWED_SUFFIXES", $lng->txt("file_allowed_suffixes")." ".$suff_str);
-				$tpl->parseCurrentBlock();
+				$suff_str.= $delim.".".$suffix;
+				$delim = ", ";
 			}
-			$tpl->setCurrentBlock("image_heading");
-			$tpl->setVariable("ANSWER_IMAGE", $lng->txt('answer_image'));
-			$tpl->setVariable("TXT_MAX_SIZE", ilUtil::getFileSizeInfo());
+			$tpl->setCurrentBlock('allowed_image_suffixes');
+			$tpl->setVariable("TXT_ALLOWED_SUFFIXES", $lng->txt("file_allowed_suffixes")." ".$suff_str);
 			$tpl->parseCurrentBlock();
 		}
+		$tpl->setCurrentBlock("image_heading");
+		$tpl->setVariable("ANSWER_IMAGE", $this->image_name);
+		$tpl->setVariable("TXT_MAX_SIZE", ilUtil::getFileSizeInfo());
+		$tpl->parseCurrentBlock();
 
-		if ($this->getShowPoints())
-		{
-			$tpl->setCurrentBlock("points_heading");
-			$tpl->setVariable("POINTS_TEXT", $lng->txt('points'));
-			$tpl->parseCurrentBlock();
-		}
-		
 		$tpl->setVariable("ELEMENT_ID", $this->getPostVar());
 		$tpl->setVariable("TEXT_YES", $lng->txt('yes'));
 		$tpl->setVariable("TEXT_NO", $lng->txt('no'));
 		$tpl->setVariable("DELETE_IMAGE_HEADER", $lng->txt('delete_image_header'));
 		$tpl->setVariable("DELETE_IMAGE_QUESTION", $lng->txt('delete_image_question'));
-		$tpl->setVariable("ANSWER_TEXT", $lng->txt('answer_text'));
+		$tpl->setVariable("ANSWER_TEXT", $this->text_name);
+		$tpl->setVariable("NUMBER_TEXT", $lng->txt('row'));
 		$tpl->setVariable("COMMANDS_TEXT", $lng->txt('actions'));
 
 		$a_tpl->setCurrentBlock("prop_generic");
 		$a_tpl->setVariable("PROP_GENERIC", $tpl->get());
 		$a_tpl->parseCurrentBlock();
-		
+		/*
 		global $tpl;
 		include_once "./Services/YUI/classes/class.ilYuiUtil.php";
 		ilYuiUtil::initDomEvent();
-		$tpl->addJavascript("./Modules/TestQuestionPool/templates/default/singlechoicewizard.js");
+		$tpl->addJavascript("./Modules/TestQuestionPool/templates/default/matchingwizard.js");*/
 	}
 }

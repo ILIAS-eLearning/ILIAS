@@ -9821,5 +9821,10 @@ search#:#lucene_advanced_settings_table#:#Advanced Search Settings
 dateplaner#:#cal_day_start#:#Day Start
 survey#:#questionblock_inserted#:#Question Block inserted
 survey#:#questionblocks_inserted#:#Question Blocks inserted
+assessment#:#term_text#:#Term Text
+assessment#:#term_image#:#Term Image
+assessment#:#definition_text#:#Definition Text
+assessment#:#definition_image#:#Definition Image
+assessment#:#definitions#:#Definitions
 survey#:#msg_users_disinvited#:#User(s) disinvited
 content#:#mep_folder_created#:#Added new folder.

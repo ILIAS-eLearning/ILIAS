@@ -15099,3 +15099,86 @@ $ilDB->addPrimaryKey("cache_clob", array("component", "name", "entry_id"));
 <?php
 	$ilDB->modifyTableColumn('qpl_questions','working_time', array("type" => "text", "length" => 8, 'notnull' => false));
 ?>
+<#2817>
+<?php
+	if(!$ilDB->tableColumnExists("qpl_a_mterm", "picture"))
+	{	
+		$ilDB->addTableColumn("qpl_a_mterm", "picture", array(
+			"type" => "text",
+			'length' => 1000,
+			"notnull" => false
+		));
+	}
+?>
+<#2818>
+<?php
+	if (!$ilDB->tableExists("qpl_a_mdef"))
+	{
+		$ilDB->createTable("qpl_a_mdef",
+			array(
+				"def_id" => array(
+					"type" => "integer", "length" => 4, "notnull" => true
+				),
+				"question_fi" => array(
+					"type" => "integer", "length" => 4, "notnull" => true
+				),
+				"definition" => array(
+					"type" => "text", "length" => 1000, "notnull" => false
+				),
+				"morder" => array(
+					"type" => "integer", "length" => 4, "notnull" => true
+				),
+				"picture" => array(
+					"type" => "text", "length" => 1000, "notnull" => false
+				)
+			)
+		);
+		$ilDB->addPrimaryKey("qpl_a_mdef", array("def_id"));
+		$ilDB->addIndex('qpl_a_mdef',array('question_fi'),'i1');
+		$ilDB->createSequence("qpl_a_mdef");
+	}
+?>
+<#2819>
+<?php
+	if(!$ilDB->tableColumnExists("qpl_a_matching", "definition_fi"))
+	{	
+		$ilDB->addTableColumn("qpl_a_matching", "definition_fi", array(
+			"type" => "integer",
+			'length' => 4,
+			"notnull" => true,
+			"default" => 0
+		));
+	}
+?>
+<#2820>
+<?php
+	$result = $ilDB->query('SELECT qpl_a_matching.*, qpl_questions.obj_fi FROM qpl_a_matching, qpl_questions WHERE qpl_a_matching.question_fi = qpl_questions.question_id');
+	while ($row = $ilDB->fetchAssoc($result))
+	{
+		$next_id = $ilDB->nextId("qpl_a_mdef");
+		if (@file_exists(CLIENT_WEB_DIR . "/assessment/" . $row['obj_fi'] . "/" . $row['question_fi'] . "/images/" . $row['matchingtext']))
+		{
+			$affectedRows = $ilDB->manipulateF('INSERT INTO qpl_a_mdef (def_id, question_fi, definition, morder, picture) VALUES (%s, %s, %s, %s, %s)',
+				array('integer', 'integer', 'text', 'integer', 'text'),
+				array($next_id, $row['question_fi'], null, $row['matching_order'], $row['matchingtext'])
+			);
+		}
+		else
+		{
+			$affectedRows = $ilDB->manipulateF('INSERT INTO qpl_a_mdef (def_id, question_fi, definition, morder, picture) VALUES (%s, %s, %s, %s, %s)',
+				array('integer', 'integer', 'text', 'integer', 'text'),
+				array($next_id, $row['question_fi'], $row['matchingtext'], $row['matching_order'], null)
+			);
+		}
+		$affectedRows = $ilDB->manipulateF('UPDATE qpl_a_matching SET definition_fi = %s WHERE answer_id = %s',
+			array('integer', 'integer'),
+			array($next_id, $row['answer_id'])
+		);
+	}
+?>
+<#2821>
+<?php
+	$ilDB->alterTable("qpl_a_matching",
+		array("remove" => array("matchingtext" => array(), "matching_order" => array(), "tstamp" => array())
+	));
+?>
