@@ -176,9 +176,17 @@ class ilGlossaryPresentationGUI
 	}
 
 
+	/**
+	 * List all terms
+	 */
 	function listTerms()
 	{
-		global $ilNavigationHistory;
+		global $ilNavigationHistory, $ilAccess, $ilias, $lng;
+
+		if (!$ilAccess->checkAccess("read", "", $_GET["ref_id"]))
+		{
+			$ilias->raiseError($lng->txt("permission_denied"),$ilias->error_obj->MESSAGE);
+		}
 		
 		if (!$this->offlineMode())
 		{
@@ -196,8 +204,13 @@ class ilGlossaryPresentationGUI
 	*/
 	function listTermByGiven($term_list, $filter ="")
 	{
-		global $ilCtrl, $ilAccess;
+		global $ilCtrl, $ilAccess, $ilias, $lng;
 		
+		if (!$ilAccess->checkAccess("read", "", $_GET["ref_id"]))
+		{
+			$ilias->raiseError($lng->txt("permission_denied"),$ilias->error_obj->MESSAGE);
+		}
+
 		$this->lng->loadLanguageModule("meta");
 		include_once "./Services/Table/classes/class.ilTableGUI.php";
 
@@ -432,8 +445,13 @@ class ilGlossaryPresentationGUI
 	*/
 	function listDefinitions()
 	{
-		global $ilUser, $ilAccess;
+		global $ilUser, $ilAccess, $ilias, $lng;
 		
+		if (!$ilAccess->checkAccess("read", "", $_GET["ref_id"]))
+		{
+			$ilias->raiseError($lng->txt("permission_denied"),$ilias->error_obj->MESSAGE);
+		}
+
 		require_once("./Services/COPage/classes/class.ilPageObjectGUI.php");
 		$this->tpl->addBlockFile("CONTENT", "content", "tpl.adm_content.html");
 		$this->tpl->addBlockFile("STATUSLINE", "statusline", "tpl.statusline.html");
@@ -684,7 +702,12 @@ class ilGlossaryPresentationGUI
 	*/
 	function showDownloadList()
 	{
-		global $ilBench;
+		global $ilBench, $ilAccess, $ilias, $lng;
+
+		if (!$ilAccess->checkAccess("read", "", $_GET["ref_id"]))
+		{
+			$ilias->raiseError($lng->txt("permission_denied"),$ilias->error_obj->MESSAGE);
+		}
 
 		$this->tpl->addBlockFile("ADM_CONTENT", "adm_content", "tpl.glo_download_list.html", "Modules/Glossary");
 
@@ -799,6 +822,13 @@ class ilGlossaryPresentationGUI
 	*/
 	function downloadExportFile()
 	{
+		global $ilAccess, $ilias, $lng;
+		
+		if (!$ilAccess->checkAccess("read", "", $_GET["ref_id"]))
+		{
+			$ilias->raiseError($lng->txt("permission_denied"),$ilias->error_obj->MESSAGE);
+		}
+
 		$file = $this->glossary->getPublicExportFile($_GET["type"]);
 		if ($this->glossary->getPublicExportFile($_GET["type"]) != "")
 		{
@@ -842,6 +872,13 @@ class ilGlossaryPresentationGUI
 	*/
 	function downloadFile()
 	{
+		global $ilAccess, $ilias, $lng;
+		
+		if (!$ilAccess->checkAccess("read", "", $_GET["ref_id"]))
+		{
+			$ilias->raiseError($lng->txt("permission_denied"),$ilias->error_obj->MESSAGE);
+		}
+
 		$file = explode("_", $_GET["file_id"]);
 		include_once("./Modules/File/classes/class.ilObjFile.php");
 		$fileObj =& new ilObjFile($file[count($file) - 1], false);
