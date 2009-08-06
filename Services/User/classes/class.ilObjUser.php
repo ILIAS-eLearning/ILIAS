@@ -3741,7 +3741,8 @@ class ilObjUser extends ilObject
 					$upload = $row['value'] == 'y';
 					break;
 				case 'public_profile' :
-					$profile = $row['value'] == 'y';
+					$profile = ($row['value'] == 'y' ||
+						$row['value'] == 'g');
 					break;
 			}
 		}
