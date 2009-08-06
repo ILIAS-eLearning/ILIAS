@@ -3746,6 +3746,7 @@ class ilObjUser extends ilObject
 					break;
 			}
 		}
+
 		// END DiskQuota: Fetch all user preferences in a single query
 
 		if(defined('ILIAS_MODULE'))

@@ -166,24 +166,12 @@ class ilWikiPagesTableGUI extends ilTable2GUI
 		$this->tpl->setVariable("HREF_PAGE",
 			ilObjWikiGUI::getGotoLink($_GET["ref_id"], $a_set["title"]));
 
-		if (ilObject::_exists($a_set["user"]))
-		{
-			// user name
-			$user = ilObjUser::_lookupName($a_set["user"]);
-			$login = ilObjUser::_lookupLogin($a_set["user"]);
-			$this->tpl->setVariable("TXT_LINKED_USER",
-				$user["lastname"].", ".$user["firstname"]." [".$login."]");
-				
-			// profile link
-			$ilCtrl->setParameterByClass("ilpublicuserprofilegui", "user", $a_set["user"]);
-			$ilCtrl->setParameterByClass("ilpublicuserprofilegui", "back_url",
-				rawurlencode($ilCtrl->getLinkTarget($this->getParentObject(), $this->getParentCmd())));
-			$this->tpl->setVariable("USER_LINK",
-				$ilCtrl->getLinkTargetByClass("ilpublicuserprofilegui", "getHTML"));
-			$img = ilObjUser::_getPersonalPicturePath($a_set["user"], "xxsmall");
-			$this->tpl->setVariable("IMG_USER", $img);
-		}
-
+		// user name
+		include_once("./Services/User/classes/class.ilUserUtil.php");
+		$this->tpl->setVariable("TXT_USER",
+			ilUserUtil::getNamePresentation($a_set["user"], true, true,
+			$ilCtrl->getLinkTarget($this->getParentObject(), $this->getParentCmd())
+			));
 	}
 
 }

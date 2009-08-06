@@ -336,7 +336,8 @@ class ilPublicUserProfileGUI
 		require_once "./Services/User/classes/class.ilvCard.php";
 		$vcard = new ilvCard();
 		
-		if ($user->getPref("public_profile")!="y")
+		if ($user->getPref("public_profile") != "y" &&
+			$user->getPref("public_profile") != "g")
 		{
 			return;
 		}
