@@ -1,0 +1,247 @@
+<div>{QUESTIONTEXT}</div>
+<div style="text-align: right; margin: 0 0 1em 0;"><input type="button" class="submit" name="reset" value="{RESET_BUTTON}" onclick="resetpositions()"></div>
+<table style="width: 100%">
+	<tr>
+		<td style="width: 66%; vertical-align: top;">
+<!-- BEGIN droparea --><div class="droparea" id="{ID_DROPAREA}"{ELEMENT_HEIGHT}>
+<!-- BEGIN js_match_definition -->
+				{DEFINITION}
+<!-- END js_match_definition -->		
+<!-- BEGIN js_match_picture -->
+				<a href="{IMAGE_HREF}" target="_new" id="enlarge_{DEFINITION_ID}">
+					<img src="{THUMBNAIL_HREF}" border="0" id="thumb_{DEFINITION_ID}" alt="{THUMB_ALT}" title="{THUMB_TITLE}" />
+				</a>
+<!-- END js_match_picture -->		
+			<input id="data_{ID_DROPAREA}" type="hidden" name="sel_matching_{ID_DROPAREA}" value="-1">
+	</div><!-- END droparea -->
+		</td>
+		<td id="sourceArea" style="width: 33% vertical-align: top; float: right;">
+<!-- BEGIN draggable --><div class="draggable" id="{ID_DRAGGABLE}"{ELEMENT_HEIGHT}>{VALUE_DRAGGABLE}</div><!-- END draggable -->
+		</td>
+	</tr>
+</table>
+
+<script type="text/javascript">
+
+(function() {
+
+matchingQuestion = function(id, sGroup, config) {
+    matchingQuestion.superclass.constructor.apply(this, arguments);
+    this.initMatching(id, sGroup, config);
+};
+
+YAHOO.extend(matchingQuestion, YAHOO.util.DDProxy, {
+
+    initMatching: function(id, sGroup, config) {
+        if (!id) { 
+            return; 
+        }
+
+        var el = this.getDragEl()
+        YAHOO.util.Dom.setStyle(el, "borderColor", "transparent");
+        YAHOO.util.Dom.setStyle(el, "opacity", 0.76);
+
+        // specify that this is not currently a drop target
+        this.isTarget = false;
+				this.id = id;
+        this.originalStyles = [];
+        this.droparea = null;
+
+        this.startPos = YAHOO.util.Dom.getXY( this.getEl() );
+    },
+
+    startDrag: function(x, y) {
+        var Dom = YAHOO.util.Dom;
+
+        var dragEl = this.getDragEl();
+        var clickEl = this.getEl();
+
+        dragEl.innerHTML = clickEl.innerHTML;
+        dragEl.className = clickEl.className;
+
+        Dom.setStyle(dragEl, "color",  Dom.getStyle(clickEl, "color"));
+        Dom.setStyle(dragEl, "backgroundColor", Dom.getStyle(clickEl, "backgroundColor"));
+
+        Dom.setStyle(clickEl, "opacity", 0.5);
+
+        var targets = YAHOO.util.DDM.getRelated(this, true);
+
+        for (var i=0; i<targets.length; i++) {
+						if (!targets[i].draggable)
+						{
+	            var targetEl = this.getTargetDomRef(targets[i]);
+
+	            if (!this.originalStyles[targetEl.id]) {
+	                this.originalStyles[targetEl.id] = targetEl.className;
+	            }
+	            targetEl.className = targetEl.className + " target";
+						}
+        }
+
+    },
+
+    getTargetDomRef: function(oDD) {
+        if (oDD.draggable) {
+            return oDD.draggable.getEl();
+        } else {
+            return oDD.getEl();
+        }
+    },
+
+    endDrag: function(e) {
+        // reset the linked element styles
+        YAHOO.util.Dom.setStyle(this.getEl(), "opacity", 1);
+        this.resetTargets();
+    },
+
+		backToStart: function() {
+			YAHOO.util.Dom.setXY(this.getEl(), this.startPos);
+			if (this.droparea != null)
+			{
+				this.droparea.draggable = null;
+				dataElement = YAHOO.util.Dom.get("data_" + this.droparea.id);
+				if (dataElement != null) dataElement.value = -1;
+			}
+      this.droparea = null;
+      this.isTarget = false;
+      this.originalStyles = [];
+		},
+		
+		getTargetId: function() {
+			if (this.droparea != null)
+			{
+				return this.droparea.id;
+			}
+			return this.droparea;
+		},
+		
+		dropIntoElement: function(draggableId, dropareaId)
+		{
+			if (this.id == draggableId)
+			{
+				oDD = YAHOO.util.DDM.getDDById(dropareaId);
+				region = YAHOO.util.Dom.getRegion(oDD.getEl());
+				width = region.right - region.left;
+				if (this.config.width != null) width = this.config.width;
+				YAHOO.util.Dom.setXY(this.getEl(), new YAHOO.util.Point(YAHOO.util.Dom.getX(oDD.getEl()) + width + 20, YAHOO.util.Dom.getY(oDD.getEl())));
+				this.resetTargets();
+				this.droparea = oDD;
+				this.droparea.draggable = this;
+				dataElement = YAHOO.util.Dom.get("data_" + dropareaId);
+				if (dataElement != null) dataElement.value = draggableId;
+			}
+		},
+		
+    resetTargets: function() {
+
+        // reset the target styles
+        var targets = YAHOO.util.DDM.getRelated(this, true);
+        for (var i=0; i<targets.length; i++) {
+            var targetEl = this.getTargetDomRef(targets[i]);
+            var oldStyle = this.originalStyles[targetEl.id];
+            if (oldStyle) {
+                targetEl.className = oldStyle;
+            }
+        }
+    },
+
+    onDragDrop: function(e, id) {
+        // get the drag and drop object that was targeted
+        var oDD;
+        
+        if ("string" == typeof id) {
+            oDD = YAHOO.util.DDM.getDDById(id);
+        } else {
+            oDD = YAHOO.util.DDM.getBestMatch(id);
+        }
+
+        var el = this.getEl();
+
+        // check if the droparea has a draggable in it already
+        if (oDD.draggable) {
+	        this.resetTargets();
+        } else {
+            // Move the draggable into the emply droparea
+            // I may be moving off a droparea so I need to clear the draggable ref
+            if (this.droparea) {
+                this.droparea.draggable = null;
+            }
+        }
+//        YAHOO.util.DDM.moveToEl(el, oDD.getEl());
+				if (oDD.id == "sourceArea")
+				{
+					dataElement = YAHOO.util.Dom.get("data_" + this.droparea.id);
+					if (dataElement != null) dataElement.value = null;
+					this.droparea = null;
+					this.resetTargets();
+					this.backToStart();
+				}
+				else
+				{
+					region = YAHOO.util.Dom.getRegion(oDD.getEl());
+					width = region.right - region.left;
+					if (this.config.width != null) width = this.config.width;
+					YAHOO.util.Dom.setXY(el, new YAHOO.util.Point(YAHOO.util.Dom.getX(oDD.getEl())+width + 20, YAHOO.util.Dom.getY(oDD.getEl())));
+	        this.resetTargets();
+	        this.droparea = oDD;
+	        this.droparea.draggable = this;
+					dataElement = YAHOO.util.Dom.get("data_" + this.droparea.id);
+					if (dataElement != null) dataElement.value = this.id;
+				}
+    },
+
+    swap: function(el1, el2) {
+        var Dom = YAHOO.util.Dom;
+        var pos1 = Dom.getXY(el1);
+        var pos2 = Dom.getXY(el2);
+        Dom.setXY(el1, pos2);
+        Dom.setXY(el2, pos1);
+    },
+
+    onDragOver: function(e, id) {
+    },
+
+    onDrag: function(e, id) {
+    }
+
+});
+
+var dropareas = [], draggables = [],
+    Event = YAHOO.util.Event, DDM = YAHOO.util.DDM;
+
+Event.onDOMReady(function() { 
+    // dropareas
+<!-- BEGIN init_dropareas -->dropareas[{COUNTER}] = new YAHOO.util.DDTarget("{ID_DROPAREA}", "dropareas");<!-- END init_dropareas -->
+	dropareas[dropareas.length] = new YAHOO.util.DDTarget("sourceArea", "dropareas");
+    
+    // draggable items
+<!-- BEGIN init_draggables -->draggables[{COUNTER}] = new matchingQuestion("{ID_DRAGGABLE}", "dropareas"<!-- BEGIN fixedwidth -->, { width: {VALUE_FIXEDWIDTH} }<!-- END fixedwidth -->);<!-- END init_draggables -->
+
+    DDM.mode = 0; // point, intersect = 1
+		initdropareas = dropareas;
+		initdraggables = draggables;
+		restorepositions();
+});
+
+resetpositions = function() {
+  for (var i=0; i<draggables.length; i++) {
+		draggables[i].backToStart();
+	}	
+};
+
+restorepositions = function() {
+  for (var i=0; i<draggables.length; i++) {
+<!-- BEGIN restoreposition -->
+		draggables[i].dropIntoElement("{TERM_ID}", "{PICTURE_DEFINITION_ID}");
+<!-- END restoreposition -->
+	}	
+};
+
+results = function() {
+  for (var i=0; i<draggables.length; i++) {
+		alert(draggables[i].id + " is in " + draggables[i].getTargetId());
+	}	
+};
+
+})();
+</script>
