@@ -266,7 +266,7 @@ class ilNestedSetXML
         $this->deleteAllDbData();
 
         $this->db->manipulateF(
-			"INSERT INTO xmlnestedset (SELECT * FROM xmlnestedsettmp WHERE ns_unique_id = %s)",
+			"INSERT INTO xmlnestedset (SELECT ns_book_fk, ns_type, ns_tag_fk, ns_l, ns_r FROM xmlnestedsettmp WHERE ns_unique_id = %s)",
 			array('text'),
 			array($this->unique_import_id)
 		);
