@@ -64,6 +64,7 @@ class ilYuiUtil
 
 		$tpl->addJavaScript("./Services/YUI/js/".self::$ver."/yahoo-dom-event/yahoo-dom-event.js");
 		$tpl->addJavaScript("./Services/YUI/js/".self::$ver."/dragdrop/dragdrop-min.js");
+		$tpl->addJavaScript("./Services/YUI/js/".self::$ver."/element/element-min.js");
 	}
 	
 	/**
