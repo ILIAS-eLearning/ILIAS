@@ -175,7 +175,7 @@ class ilObjFileBasedLMGUI extends ilObjectGUI
 	*/
 	function createObject()
 	{
-		global $rbacsystem;
+		global $rbacsystem, $tpl;
 
 		$new_type = $_POST["new_type"] ? $_POST["new_type"] : $_GET["new_type"];
 
@@ -185,46 +185,121 @@ class ilObjFileBasedLMGUI extends ilObjectGUI
 		}
 		else
 		{
-			// fill in saved values in case of error
-			$data = array();
-			$data["fields"] = array();
-			$data["fields"]["title"] = ilUtil::prepareFormOutput($_SESSION["error_post_vars"]["Fobject"]["title"],true);
-			$data["fields"]["desc"] = ilUtil::stripSlashes($_SESSION["error_post_vars"]["Fobject"]["desc"]);
-
-			$this->getTemplateFile("edit",$new_type);
-			
-			$this->tpl->setCurrentBlock("img");
-			$this->tpl->setVariable("TYPE_IMG",
-				ilUtil::getImagePath("icon_".$new_type.".gif"));
-			$this->tpl->setVariable("ALT_IMG",
-				$this->lng->txt("obj_".$new_type));
-			$this->tpl->parseCurrentBlock();
-
-			foreach ($data["fields"] as $key => $val)
-			{
-				$this->tpl->setVariable("TXT_".strtoupper($key), $this->lng->txt($key));
-				$this->tpl->setVariable(strtoupper($key), $val);
-
-				if ($this->prepare_output)
-				{
-					$this->tpl->parseCurrentBlock();
-				}
-			}
-
 			$this->ctrl->setParameter($this, "new_type", $new_type);
-			$this->tpl->setVariable("FORMACTION", $this->ctrl->getFormAction($this, "save"));
-			//$this->tpl->setVariable("FORMACTION", $this->getFormAction("save","adm_object.php?cmd=gateway&ref_id=".
-			//	$_GET["ref_id"]."&new_type=".$new_type));
-			$this->tpl->setVariable("TXT_HEADER", $this->lng->txt($new_type."_new"));
-			$this->tpl->setVariable("TXT_CANCEL", $this->lng->txt("cancel"));
-			$this->tpl->setVariable("TXT_SUBMIT", $this->lng->txt($new_type."_add"));
-			$this->tpl->setVariable("CMD_SUBMIT", "save");
-			$this->tpl->setVariable("TARGET", ' target="'.
-				ilFrameTargetInfo::_getFrame("MainContent").'" ');
-			$this->tpl->setVariable("TXT_REQUIRED_FLD", $this->lng->txt("required_field"));
+			$this->initEditForm("create", $new_type);
+			$tpl->setContent($this->form->getHTML());
+
+			$tpl->setContent($this->form->getHTML().$clone_html);
 		}
 	}
+	
+	
+	/**
+	* save object
+	*
+	* @access	public
+	*/
+	function saveObject()
+	{
+		global $rbacsystem, $objDefinition, $tpl, $lng;
 
+		$new_type = $_POST["new_type"] ? $_POST["new_type"] : $_GET["new_type"];
+
+		// create permission is already checked in createObject. This check here is done to prevent hacking attempts
+		if (!$rbacsystem->checkAccess("create", $_GET["ref_id"], $new_type))
+		{
+			$this->ilias->raiseError($this->lng->txt("no_create_permission"), $this->ilias->error_obj->MESSAGE);
+		}
+		$this->ctrl->setParameter($this, "new_type", $new_type);
+		$this->initEditForm("create", $new_type);
+		if ($this->form->checkInput())
+		{
+			
+			$location = $objDefinition->getLocation($new_type);
+	
+				// create and insert object in objecttree
+			$class_name = "ilObj".$objDefinition->getClassName($new_type);
+			include_once($location."/class.".$class_name.".php");
+			$newObj = new $class_name();
+			$newObj->setType($new_type);
+			$newObj->setTitle(ilUtil::stripSlashes($_POST["title"]));
+			$newObj->setDescription(ilUtil::stripSlashes($_POST["desc"]));
+			$newObj->create();
+			$newObj->createReference();
+			$newObj->putInTree($_GET["ref_id"]);
+			$newObj->setPermissions($_GET["ref_id"]);
+			ilUtil::sendSuccess($lng->txt("msg_obj_modified"), true);
+			$this->afterSave($newObj);
+			return;
+		}
+		
+		$this->form->setValuesByPost();
+		$tpl->setContent($this->form->getHtml());
+	}
+
+	/**
+	* Init object creation form
+	*
+	* @param        int        $a_mode        Edit Mode
+	*/
+	public function initEditForm($a_mode = "edit", $a_new_type = "")
+	{
+		global $lng, $ilCtrl;
+	
+		include_once("Services/Form/classes/class.ilPropertyFormGUI.php");
+		$this->form = new ilPropertyFormGUI();
+		$this->form->setTarget("_top");
+	
+		// title
+		$ti = new ilTextInputGUI($this->lng->txt("title"), "title");
+		$ti->setMaxLength(128);
+		$ti->setSize(40);
+		$ti->setRequired(true);
+		$this->form->addItem($ti);
+		
+		// description
+		$ta = new ilTextAreaInputGUI($this->lng->txt("description"), "desc");
+		$ta->setCols(40);
+		$ta->setRows(2);
+		$this->form->addItem($ta);
+	
+		// save and cancel commands
+		if ($a_mode == "create")
+		{
+			$this->form->addCommandButton("save", $lng->txt($a_new_type."_add"));
+			$this->form->addCommandButton("cancelCreation", $lng->txt("cancel"));
+			$this->form->setTitle($lng->txt($a_new_type."_new"));
+		}
+		else
+		{
+			$this->form->addCommandButton("update", $lng->txt("save"));
+			$this->form->addCommandButton("cancelUpdate", $lng->txt("cancel"));
+			$this->form->setTitle($lng->txt("edit"));
+		}
+	                
+		$this->form->setFormAction($ilCtrl->getFormAction($this));
+	 
+	}
+
+	/**
+	* Get values for edit form
+	*/
+	function getEditFormValues()
+	{
+		$values["title"] = $this->object->getTitle();
+		$values["desc"] = $this->object->getDescription();
+		$this->form->setValuesByArray($values);
+	}
+	
+	/**
+	* cancel action and go back to previous page
+	* @access	public
+	*
+	*/
+	final function cancelCreationObject($in_rep = false)
+	{
+		ilUtil::redirect("repository.php?cmd=frameset&ref_id=".$_GET["ref_id"]);
+	}
 
 	/**
 	* edit properties of object (admin form)
@@ -299,33 +374,6 @@ class ilObjFileBasedLMGUI extends ilObjectGUI
 		$this->ctrl->redirect($this, "properties");
 	}
 
-
-	/**
-	* save object
-	* @access	public
-	*/
-	function saveObject()
-	{
-		global $rbacadmin;
-
-		// create and insert forum in objecttree
-		$newObj = parent::saveObject();
-
-		// setup rolefolder & default local roles
-		//$roles = $newObj->initDefaultRoles();
-
-		// ...finally assign role to creator of object
-		//$rbacadmin->assignUser($roles[0], $newObj->getOwner(), "y");
-
-		// put here object specific stuff
-
-		// always send a message
-		ilUtil::sendSuccess($this->lng->txt("object_added"),true);
-		ilUtil::redirect("ilias.php?baseClass=ilHTLMEditorGUI&ref_id=".$newObj->getRefId());
-
-		//ilUtil::redirect($this->getReturnLocation("save","adm_object.php?".$this->link_params));
-	}
-
 	/**
 	* edit properties of object (admin form)
 	*
@@ -361,6 +409,18 @@ class ilObjFileBasedLMGUI extends ilObjectGUI
 	{
 		//$this->setReturnLocation("cancel","fblm_edit.php?cmd=listFiles&ref_id=".$_GET["ref_id"]);
 		$this->cancelObject();
+	}
+	
+	/**
+	* save object
+	* @access	public
+	*/
+	function afterSave($newObj)
+	{
+		// always send a message
+		ilUtil::sendSuccess($this->lng->txt("object_added"),true);
+
+		ilUtil::redirect("ilias.php?baseClass=ilHTLMEditorGUI&ref_id=".$newObj->getRefId());
 	}
 	
 	/**
