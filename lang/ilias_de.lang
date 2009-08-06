@@ -9851,3 +9851,5 @@ content#:#cont_enter_a_file#:#Bitte wählen Sie eine Datei aus.
 content#:#cont_rename_dir#:#Verzeichnis umbenennen
 assessment#:#available_terms#:#Auswählbare Terme
 assessment#:#selection#:#Auswahl
+mcst#:#mcst_set_playtime#:#Die Laufzeit wurde gesetzt.
+mcst#:#mcst_unable_to_determin_playtime#:#Leider konnte die Laufzeit nicht automatisch bestimmt werden. Unter "Bearbeiten" können Sie die Laufzeit manuell einstellen.

@@ -782,7 +782,7 @@ class ilObjMediaCastGUI extends ilObjectGUI
 	*/
 	function determinePlaytimeObject()
 	{
-		global $ilCtrl;
+		global $ilCtrl, $lng;
 		
 		$mc_item = new ilNewsItem($_GET["item_id"]);
 		$mob = $mc_item->getMobId();
@@ -792,9 +792,16 @@ class ilObjMediaCastGUI extends ilObjectGUI
 		$m_item = $mob->getMediaItem("Standard");
 		$file = $mob_dir."/".$m_item->getLocation();
 		$duration = $this->getDuration($file);
-
-		$mc_item->setPlaytime($duration);
-		$mc_item->update();
+		if ($duration != "00:00:00")
+		{
+			$mc_item->setPlaytime($duration);
+			$mc_item->update();
+			ilUtil::sendSuccess($lng->txt("mcst_set_playtime"), true);
+		}
+		else
+		{
+			ilUtil::sendFailure($lng->txt("mcst_unable_to_determin_playtime"), true);
+		}
 
 		$ilCtrl->redirect($this, "listItems");
 	}
