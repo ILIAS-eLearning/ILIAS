@@ -25,6 +25,7 @@ class ilFileSystemGUI
 		$this->file_labels = array();
 		$this->label_enable = false;
 		$this->ctrl->saveParameter($this, "cdir");
+		$lng->loadLanguageModule("content");
 //echo "<br>main_dir:".$this->main_dir.":";
 	}
 
@@ -426,7 +427,7 @@ class ilFileSystemGUI
 		$this->tpl->setVariable("FORMACTION", $this->ctrl->getFormAction($this, "renameFile"));
 		if (@is_dir($file))
 		{
-			$this->tpl->setVariable("TXT_HEADER", $this->lng->txt("rename_dir"));
+			$this->tpl->setVariable("TXT_HEADER", $this->lng->txt("cont_rename_dir"));
 		}
 		else
 		{
@@ -479,7 +480,8 @@ class ilFileSystemGUI
 	*/
 	function createDirectory()
 	{
-
+		global $lng;
+		
 		// determine directory
 		$cur_subdir = str_replace(".", "", ilUtil::stripSlashes($_GET["cdir"]));
 		$cur_dir = (!empty($cur_subdir))
@@ -493,6 +495,10 @@ class ilFileSystemGUI
 		{
 			ilUtil::makeDir($cur_dir."/".$new_dir);
 		}
+		else
+		{
+			ilUtil::sendFailure($lng->txt("cont_enter_a_dir_name"), true);
+		}
 		$this->ctrl->saveParameter($this, "cdir");
 		$this->ctrl->redirect($this, "listFiles");
 	}
@@ -502,6 +508,8 @@ class ilFileSystemGUI
 	*/
 	function uploadFile()
 	{
+		global $lng;
+		
 		// determine directory
 		$cur_subdir = str_replace(".", "", ilUtil::stripSlashes($_GET["cdir"]));
 		$cur_dir = (!empty($cur_subdir))
@@ -526,6 +534,11 @@ class ilFileSystemGUI
 					$cur_dir."/".ilUtil::stripSlashes($_POST["uploaded_file"]));
 			}
 		}
+		if (trim($_FILES["new_file"]["name"]) == "")
+		{
+			ilUtil::sendFailure($lng->txt("cont_enter_a_file"), true);
+		}
+
 
 		$this->ctrl->saveParameter($this, "cdir");
 

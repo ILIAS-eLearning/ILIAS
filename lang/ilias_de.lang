@@ -9846,5 +9846,8 @@ common#:#advanced_editing_rep_page_editing_desc#:#This feature allows to add tex
 common#:#adve_rep_settings#:#Repository Settings###06 08 2009 new variable
 content#:#cont_please_enter_a_term#:#Please enter a term.###06 08 2009 new variable
 content#:#mep_folder_created#:#Ordner wurde angelegt.
+content#:#cont_enter_a_dir_name#:#Bitte geben Sie einen Verzeichnisnamen an.
+content#:#cont_enter_a_file#:#Bitte wählen Sie eine Datei aus.
+content#:#cont_rename_dir#:#Verzeichnis umbenennen
 assessment#:#available_terms#:#Auswählbare Terme
 assessment#:#selection#:#Auswahl
