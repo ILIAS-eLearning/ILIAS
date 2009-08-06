@@ -34,6 +34,27 @@ include_once "./Modules/TestQuestionPool/classes/import/qti12/class.assQuestionI
 */
 class assMatchingQuestionImport extends assQuestionImport
 {
+	public function saveImage($data, $filename)
+	{
+		$image =& base64_decode($data);
+		$imagepath = $this->object->getImagePath();
+		include_once "./Services/Utilities/classes/class.ilUtil.php";
+		if (!file_exists($imagepath))
+		{
+			ilUtil::makeDirParents($imagepath);
+		}
+		$imagepath .=  $filename;
+		$fh = fopen($imagepath, "wb");
+		if ($fh == false)
+		{
+		}
+		else
+		{
+			$imagefile = fwrite($fh, $image);
+			fclose($fh);
+		}
+	}
+	
 	/**
 	* Creates a question from a QTI file
 	*
@@ -58,7 +79,7 @@ class assMatchingQuestionImport extends assQuestionImport
 		$shuffle = 0;
 		$now = getdate();
 		$created = sprintf("%04d%02d%02d%02d%02d%02d", $now['year'], $now['mon'], $now['mday'], $now['hours'], $now['minutes'], $now['seconds']);
-		$pictures_or_definitions = array();
+		$definitions = array();
 		$terms = array();
 		$foundimage = FALSE;
 		foreach ($presentation->order as $entry)
@@ -100,7 +121,7 @@ class assMatchingQuestionImport extends assQuestionImport
 								}
 								if (($response_label->getMatchMax() == 1) && (strlen($response_label->getMatchGroup())))
 								{
-									$pictures_or_definitions[$ident] = array(
+									$definitions[$ident] = array(
 										"answertext" => $answertext,
 										"answerimage" => $answerimage,
 										"points" => 0,
@@ -111,9 +132,12 @@ class assMatchingQuestionImport extends assQuestionImport
 								else
 								{
 									$terms[$ident] = array(
-											"term" => $answertext,
-											"ident" => $ident
-										);
+										"term" => $answertext,
+										"answerimage" => $answerimage,
+										"points" => 0,
+										"ident" => $ident,
+										"action" => ""
+									);
 								}
 							}
 							break;
@@ -207,53 +231,62 @@ class assMatchingQuestionImport extends assQuestionImport
 
 			}
 		}
-		$type = 1;
-		if ($foundimage)
-		{
-			$type = 0;
-		}
+		
+		include_once "./Modules/TestQuestionPool/classes/class.assAnswerMatchingTerm.php";
+		include_once "./Modules/TestQuestionPool/classes/class.assAnswerMatchingDefinition.php";
+		include_once "./Modules/TestQuestionPool/classes/class.assAnswerMatchingPair.php";
+		$this->object->createNewQuestion();
 		$this->object->setTitle($item->getTitle());
 		$this->object->setComment($item->getComment());
 		$this->object->setAuthor($item->getAuthor());
 		$this->object->setOwner($ilUser->getId());
 		$this->object->setQuestion($this->object->QTIMaterialToString($item->getQuestiontext()));
-		$this->object->setMatchingType($type);
 		$this->object->setObjId($questionpool_id);
 		$this->object->setEstimatedWorkingTime($duration["h"], $duration["m"], $duration["s"]);
 		$extended_shuffle = $item->getMetadataEntry("shuffle");
 		$this->object->setThumbGeometry($item->getMetadataEntry("thumb_geometry"));
 		$this->object->setElementHeight($item->getMetadataEntry("element_height"));
+		
+		// save images
+		foreach ($terms as $term)
+		{
+			if (count($term['answerimage'])) $this->saveImage($term['answerimage']['content'], $term['answerimage']['label']);
+		}
+		foreach ($definitions as $definition)
+		{
+			if (count($definition['answerimage'])) $this->saveImage($definition['answerimage']['content'], $definition['answerimage']['label']);
+		}
+
 		foreach ($terms as $termindex => $term)
 		{
-			$this->object->setTerm($term["term"], $term["ident"]);
+			$this->object->addTerm(new assAnswerMatchingTerm($term["term"], $term['answerimage']['label'], $term["ident"]));
 		}
+		foreach ($definitions as $definitionindex => $definition)
+		{
+			$this->object->addDefinition(new assAnswerMatchingDefinition($definition["answertext"], $definition['answerimage']['label'], $definition["answerorder"]));
+		}
+
 		if (strlen($extended_shuffle) > 0)
 		{
 			$shuffle = $extended_shuffle;
 		}
 		$this->object->setShuffle($shuffle);
+
 		foreach ($responses as $response)
 		{
 			$subset = $response["subset"];
 			foreach ($subset as $ident)
 			{
-				if (array_key_exists($ident, $pictures_or_definitions))
+				if (array_key_exists($ident, $definitions))
 				{
-					$picture_or_definition = $pictures_or_definitions[$ident];
+					$definition = $definitions[$ident];
 				}
 				if (array_key_exists($ident, $terms))
 				{
 					$term = $terms[$ident];
 				}
 			}
-			if ($type == 0)
-			{
-				$this->object->addMatchingPair($picture_or_definition["answerimage"]["label"], $response["points"], $term["ident"], $picture_or_definition["answerorder"]);
-			}
-			else
-			{
-				$this->object->addMatchingPair($picture_or_definition["answertext"], $response["points"], $term["ident"], $picture_or_definition["answerorder"]);
-			}
+			$this->object->addMatchingPair(new assAnswerMatchingTerm('', '', $term["ident"]), new assAnswerMatchingDefinition('', '', $definition["answerorder"]), $response['points']);
 		}
 		$this->object->saveToDb();
 		if (count($item->suggested_solutions))
@@ -269,40 +302,14 @@ class assMatchingQuestionImport extends assQuestionImport
 			$subset = $response["subset"];
 			foreach ($subset as $ident)
 			{
-				if (array_key_exists($ident, $pictures_or_definitions))
+				if (array_key_exists($ident, $definitions))
 				{
-					$picture_or_definition = $pictures_or_definitions[$ident];
+					$definition = $definitions[$ident];
 				}
 				if (array_key_exists($ident, $terms))
 				{
 					$term = $terms[$ident];
 				}
-			}
-			if ($type == 0)
-			{
-				$image =& base64_decode($picture_or_definition["answerimage"]["content"]);
-				$imagepath = $this->object->getImagePath();
-				include_once "./Services/Utilities/classes/class.ilUtil.php";
-				if (!file_exists($imagepath))
-				{
-					ilUtil::makeDirParents($imagepath);
-				}
-				$imagepath .=  $picture_or_definition["answerimage"]["label"];
-				$fh = fopen($imagepath, "wb");
-				if ($fh == false)
-				{
-//									global $ilErr;
-//									$ilErr->raiseError($this->object->lng->txt("error_save_image_file") . ": $php_errormsg", $ilErr->MESSAGE);
-//									return;
-				}
-				else
-				{
-					$imagefile = fwrite($fh, $image);
-					fclose($fh);
-				}
-				// create thumbnail file
-				$thumbpath = $imagepath . "." . "thumb.jpg";
-				ilUtil::convertImage($imagepath, $thumbpath, "JPEG", $this->object->getThumbGeometry());
 			}
 		}
 

@@ -103,25 +103,10 @@ class assMatchingQuestionExport extends assQuestionExport
 		// add material with question text to presentation
 		$this->object->addQTIMaterial($a_xml_writer, $this->object->getQuestion());
 		// add answers to presentation
-		$attrs = array();
-		if ($this->object->getMatchingType() == MT_TERMS_PICTURES)
-		{
-			$attrs = array(
-				"ident" => "MQP",
-				"rcardinality" => "Multiple"
-			);
-		}
-		else
-		{
-			$attrs = array(
-				"ident" => "MQT",
-				"rcardinality" => "Multiple"
-			);
-		}
-		if ($this->object->getOutputType() == OUTPUT_JAVASCRIPT)
-		{
-			$attrs["output"] = "javascript";
-		}
+		$attrs = array(
+			"ident" => "MQ",
+			"rcardinality" => "Multiple"
+		);
 		$a_xml_writer->xmlStartTag("response_grp", $attrs);
 		$solution = $this->object->getSuggestedSolution(0);
 		if (count($solution))
@@ -160,40 +145,38 @@ class assMatchingQuestionExport extends assQuestionExport
 		$matchingtext_orders = array();
 		foreach ($this->object->getMatchingPairs() as $index => $matchingpair)
 		{
-			array_push($matchingtext_orders, $matchingpair->getTermId());
+			array_push($matchingtext_orders, $matchingpair->term->identifier);
 		}
 
-		// shuffle it
-		$pkeys = array_keys($this->object->getMatchingPairs());
-		if ($this->object->getShuffle() && $a_shuffle)
+		$termids = array();
+		foreach ($this->object->getTerms() as $term)
 		{
-			$pkeys = $this->object->pcArrayShuffle($pkeys);
+			array_push($termids, $term->identifier);
 		}
 		// add answers
-		foreach ($pkeys as $index)
+		foreach ($this->object->getDefinitions() as $definition)
 		{
-			$matchingpair = $this->object->getMatchingPair($index);
 			$attrs = array(
-				"ident" => $matchingpair->getDefinitionId(),
+				"ident" => $definition->identifier,
 				"match_max" => "1",
-				"match_group" => join($matchingtext_orders, ",")
+				"match_group" => join($termids, ",")
 			);
 			$a_xml_writer->xmlStartTag("response_label", $attrs);
-			if ($this->object->getMatchingType() == MT_TERMS_PICTURES)
+			$a_xml_writer->xmlStartTag("material");
+			if (strlen($definition->picture))
 			{
-				$a_xml_writer->xmlStartTag("material");
 				if ($force_image_references)
 				{
 					$attrs = array(
 						"imagtype" => "image/jpeg",
-						"label" => $matchingpair->getPicture(),
-						"uri" => $this->object->getImagePathWeb() . $matchingpair->getPicture()
+						"label" => $definition->picture,
+						"uri" => $this->object->getImagePathWeb() . $definition->picture
 					);
 					$a_xml_writer->xmlElement("matimage", $attrs);
 				}
 				else
 				{
-					$imagepath = $this->object->getImagePath() . $matchingpair->getPicture();
+					$imagepath = $this->object->getImagePath() . $definition->picture;
 					$fh = @fopen($imagepath, "rb");
 					if ($fh != false)
 					{
@@ -202,7 +185,58 @@ class assMatchingQuestionExport extends assQuestionExport
 						$base64 = base64_encode($imagefile);
 						$attrs = array(
 							"imagtype" => "image/jpeg",
-							"label" => $matchingpair->getPicture(),
+							"label" => $definition->picture,
+							"embedded" => "base64"
+						);
+						$a_xml_writer->xmlElement("matimage", $attrs, $base64, FALSE, FALSE);
+					}
+				}
+			}
+			if (strlen($definition->text))
+			{
+				$attrs = array(
+					"texttype" => "text/plain"
+				);
+				if ($this->object->isHTML($definition->text))
+				{
+					$attrs["texttype"] = "text/xhtml";
+				}
+				$a_xml_writer->xmlElement("mattext", $attrs, $definition->text);
+			}
+			$a_xml_writer->xmlEndTag("material");
+			$a_xml_writer->xmlEndTag("response_label");
+		}
+		// add matchingtext
+		foreach ($this->object->getTerms() as $term)
+		{
+			$attrs = array(
+				"ident" => $term->identifier
+			);
+			$a_xml_writer->xmlStartTag("response_label", $attrs);
+			$a_xml_writer->xmlStartTag("material");
+			if (strlen($term->picture))
+			{
+				if ($force_image_references)
+				{
+					$attrs = array(
+						"imagtype" => "image/jpeg",
+						"label" => $term->picture,
+						"uri" => $this->object->getImagePathWeb() . $term->picture
+					);
+					$a_xml_writer->xmlElement("matimage", $attrs);
+				}
+				else
+				{
+					$imagepath = $this->object->getImagePath() . $term->picture;
+					$fh = @fopen($imagepath, "rb");
+					if ($fh != false)
+					{
+						$imagefile = fread($fh, filesize($imagepath));
+						fclose($fh);
+						$base64 = base64_encode($imagefile);
+						$attrs = array(
+							"imagtype" => "image/jpeg",
+							"label" => $term->picture,
 							"embedded" => "base64"
 						);
 						$a_xml_writer->xmlElement("matimage", $attrs, $base64, FALSE, FALSE);
@@ -210,30 +244,17 @@ class assMatchingQuestionExport extends assQuestionExport
 				}
 				$a_xml_writer->xmlEndTag("material");
 			}
-			else
+			if (strlen($term->text))
 			{
-				$a_xml_writer->xmlStartTag("material");
-				$this->object->addQTIMaterial($a_xml_writer, $matchingpair->getDefinition(), TRUE, FALSE);
-				$a_xml_writer->xmlEndTag("material");
+				$attrs = array(
+					"texttype" => "text/plain"
+				);
+				if ($this->object->isHTML($term->text))
+				{
+					$attrs["texttype"] = "text/xhtml";
+				}
+				$a_xml_writer->xmlElement("mattext", $attrs, $term->text);
 			}
-			$a_xml_writer->xmlEndTag("response_label");
-		}
-		// add matchingtext
-		foreach ($this->object->getTerms() as $index => $term)
-		{
-			$attrs = array(
-				"ident" => $index
-			);
-			$a_xml_writer->xmlStartTag("response_label", $attrs);
-			$a_xml_writer->xmlStartTag("material");
-			$attrs = array(
-				"texttype" => "text/plain"
-			);
-			if ($this->object->isHTML($term))
-			{
-				$attrs["texttype"] = "text/xhtml";
-			}
-			$a_xml_writer->xmlElement("mattext", $attrs, $term);
 			$a_xml_writer->xmlEndTag("material");
 			$a_xml_writer->xmlEndTag("response_label");
 		}
@@ -249,7 +270,7 @@ class assMatchingQuestionExport extends assQuestionExport
 		$a_xml_writer->xmlEndTag("decvar");
 		$a_xml_writer->xmlEndTag("outcomes");
 		// add response conditions
-		foreach ($this->object->getMatchingPairs() as $index => $matchingpair)
+		foreach ($this->object->getMatchingPairs() as $matchingpair)
 		{
 			$attrs = array(
 				"continue" => "Yes"
@@ -257,31 +278,21 @@ class assMatchingQuestionExport extends assQuestionExport
 			$a_xml_writer->xmlStartTag("respcondition", $attrs);
 			// qti conditionvar
 			$a_xml_writer->xmlStartTag("conditionvar");
-			$attrs = array();
-			if ($this->object->getMatchingType() == MT_TERMS_PICTURES)
-			{
-				$attrs = array(
-					"respident" => "MQP"
-				);
-			}
-				else
-			{
-				$attrs = array(
-					"respident" => "MQT"
-				);
-			}
-			$a_xml_writer->xmlElement("varsubset", $attrs, $matchingpair->getTermId() . "," . $matchingpair->getDefinitionId());
+			$attrs = array(
+				"respident" => "MQ"
+			);
+			$a_xml_writer->xmlElement("varsubset", $attrs, $matchingpair->term->identifier . "," . $matchingpair->definition->identifier);
 			$a_xml_writer->xmlEndTag("conditionvar");
 
 			// qti setvar
 			$attrs = array(
 				"action" => "Add"
 			);
-			$a_xml_writer->xmlElement("setvar", $attrs, $matchingpair->getPoints());
+			$a_xml_writer->xmlElement("setvar", $attrs, $matchingpair->points);
 			// qti displayfeedback
 			$attrs = array(
 				"feedbacktype" => "Response",
-				"linkrefid" => "correct_" . $matchingpair->getTermId() . "_" . $matchingpair->getDefinitionId()
+				"linkrefid" => "correct_" . $matchingpair->term->identifier . "_" . $matchingpair->definition_identifier
 			);
 			$a_xml_writer->xmlElement("displayfeedback", $attrs);
 			$a_xml_writer->xmlEndTag("respcondition");
@@ -297,22 +308,12 @@ class assMatchingQuestionExport extends assQuestionExport
 			// qti conditionvar
 			$a_xml_writer->xmlStartTag("conditionvar");
 
-			foreach ($this->object->getMatchingPairs() as $index => $matchingpair)
+			foreach ($this->object->getMatchingPairs() as $matchingpair)
 			{
-				$attrs = array();
-				if ($this->object->getMatchingType() == MT_TERMS_PICTURES)
-				{
-					$attrs = array(
-						"respident" => "MQP"
-					);
-				}
-					else
-				{
-					$attrs = array(
-						"respident" => "MQT"
-					);
-				}
-				$a_xml_writer->xmlElement("varsubset", $attrs, $matchingpair->getTermId() . "," . $matchingpair->getDefinitionId());
+				$attrs = array(
+					"respident" => "MQ"
+				);
+				$a_xml_writer->xmlElement("varsubset", $attrs, $matchingpair->term->identifier . "," . $matchingpair->definition->identifier);
 			}
 			$a_xml_writer->xmlEndTag("conditionvar");
 			// qti displayfeedback
@@ -333,22 +334,12 @@ class assMatchingQuestionExport extends assQuestionExport
 			// qti conditionvar
 			$a_xml_writer->xmlStartTag("conditionvar");
 			$a_xml_writer->xmlStartTag("not");
-			foreach ($this->object->getMatchingPairs() as $index => $matchingpair)
+			foreach ($this->object->getMatchingPairs() as $matchingpair)
 			{
-				$attrs = array();
-				if ($this->object->getMatchingType() == MT_TERMS_PICTURES)
-				{
-					$attrs = array(
-						"respident" => "MQP"
-					);
-				}
-					else
-				{
-					$attrs = array(
-						"respident" => "MQT"
-					);
-				}
-				$a_xml_writer->xmlElement("varsubset", $attrs, $matchingpair->getTermId() . "," . $matchingpair->getDefinitionId());
+				$attrs = array(
+					"respident" => "MQ"
+				);
+				$a_xml_writer->xmlElement("varsubset", $attrs, $matchingpair->term->identifier . "," . $matchingpair->definition->identifier);
 			}
 			$a_xml_writer->xmlEndTag("not");
 			$a_xml_writer->xmlEndTag("conditionvar");
@@ -364,10 +355,10 @@ class assMatchingQuestionExport extends assQuestionExport
 		$a_xml_writer->xmlEndTag("resprocessing");
 
 		// PART III: qti itemfeedback
-		foreach ($this->object->getMatchingPairs() as $index => $matchingpair)
+		foreach ($this->object->getMatchingPairs() as $matchingpair)
 		{
 			$attrs = array(
-				"ident" => "correct_" . $matchingpair->getTermId() . "_" . $matchingpair->getDefinitionId(),
+				"ident" => "correct_" . $matchingpair->term->identifier . "_" . $matchingpair->definition->identifier,
 				"view" => "All"
 			);
 			$a_xml_writer->xmlStartTag("itemfeedback", $attrs);
