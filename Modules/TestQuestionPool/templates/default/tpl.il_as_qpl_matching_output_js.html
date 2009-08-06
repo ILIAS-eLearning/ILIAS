@@ -9,9 +9,16 @@
 				{DEFINITION}
 <!-- END definition_text -->		
 <!-- BEGIN definition_picture -->
-				<a href="{IMAGE_HREF}" target="_new" id="enlarge_{DEFINITION_ID}">
-					<img src="{THUMBNAIL_HREF}" border="0" id="thumb_{DEFINITION_ID}" alt="{THUMB_ALT}" title="{THUMB_TITLE}" />
-				</a>
+			<table class="ilc_media_cont_MediaContainer">
+				<tr>
+					<td class="ilc_Mob"><img border="0" src="{THUMBNAIL_HREF}" alt="{THUMB_ALT}" title="{THUMB_TITLE}" /></td>
+				</tr>
+				<tr>
+					<td>
+						<div class="ilc_media_caption_MediaCaption"><a target="_blank" href="{IMAGE_HREF}" title="{TEXT_PREVIEW}">{TEXT_DEFINITION} <img border="0" align="right" src="{IMG_PREVIEW}"/></a></div>
+					</td>
+				</tr>
+			</table>
 <!-- END definition_picture -->		
 			<input id="data_{ID_DROPAREA}" type="hidden" name="matching[{QUESTION_ID}][{ID_DROPAREA}]" value="-1">
 		</div>
@@ -24,6 +31,16 @@
 				{TERM_TEXT}
 <!-- END term_text -->		
 <!-- BEGIN term_picture -->
+				<table class="ilc_media_cont_MediaContainer">
+					<tr>
+						<td class="ilc_Mob"><img border="0" src="{THUMBNAIL_HREF}" alt="{THUMB_ALT}" title="{THUMB_TITLE}" /></td>
+					</tr>
+					<tr>
+						<td>
+							<div class="ilc_media_caption_MediaCaption"><a target="_blank" href="{IMAGE_HREF}" title="{TEXT_PREVIEW}">{TEXT_TERM} <img border="0" align="right" src="{IMG_PREVIEW}"/></a></div>
+						</td>
+					</tr>
+				</table>
 				<a href="{IMAGE_HREF}" target="_new" id="enlarge_{TERM_ID}">
 					<img src="{THUMBNAIL_HREF}" border="0" id="thumb_{TERM_ID}" alt="{THUMB_ALT}" title="{THUMB_TITLE}" />
 				</a>
@@ -164,6 +181,11 @@ YAHOO.extend(matchingQuestion, YAHOO.util.DDProxy,
 			if (dataElement != null) 
 			{
 				dataElement.value = draggableId;
+				yEl = new YAHOO.util.Element(dropareaId);
+				if (yEl.hasClass('droparea'))
+				{
+					yEl.addClass('dragover');
+				}
 			}
 		}
 	},
