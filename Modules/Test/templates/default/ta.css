@@ -260,6 +260,8 @@ ul#horizontal li {
 
 table.imagemapareas tr,
 table.kvpwizard tr,
+table.matchingwizard tr,
+table.matchingpairwizard tr,
 table.errortextwizard tr,
 table.singlechoicewizard tr,
 table.multiplechoicewizard tr {
@@ -268,6 +270,8 @@ table.multiplechoicewizard tr {
 
 table.imagemapareas th,
 table.kvpwizard th,
+table.matchingwizard th,
+table.matchingpairwizard th,
 table.errortextwizard th,
 table.singlechoicewizard th,
 table.multiplechoicewizard th {
