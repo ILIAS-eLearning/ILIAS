@@ -395,6 +395,7 @@ class ilObjForumGUI extends ilObjectGUI
 				$this->ctrl->setParameter($this, 'cmd', 'post');
 				
 				$tbl = new ilTable2GUI($this);
+				$tbl->setFormAction($this->ctrl->getLinkTarget($this, 'showThreads'));
   				$tbl->setRowTemplate('tpl.forums_threads_table.html', 'Modules/Forum');				
 		
 				$tbl->addColumn('','check', '1');
@@ -585,6 +586,8 @@ class ilObjForumGUI extends ilObjectGUI
 				}
 				
 				$tbl->disable('sort');
+				$tbl->setSelectAllCheckbox('thread_ids');
+				$tbl->setPrefix('frm_threads');
 				$tbl->setData($result);
 				
 				$tbl->addMultiCommand('please_choose', $this->lng->txt('please_choose'));
@@ -3067,7 +3070,8 @@ class ilObjForumGUI extends ilObjectGUI
 		global $lng, $ilUser, $ilAccess;
 
 		unset($_SESSION['threads2move']);
-		unset($_SESSION['forums_search_submitted']);		
+		unset($_SESSION['forums_search_submitted']);
+		unset($_SESSION['frm_topic_paste_expand']);	
 
 		if (is_array($_POST['thread_ids']))
 		{
@@ -3213,6 +3217,7 @@ class ilObjForumGUI extends ilObjectGUI
 						
 			unset($_SESSION['threads2move']);
 			unset($_SESSION['forums_search_submitted']);
+			unset($_SESSION['frm_topic_paste_expand']);
 			ilUtil::sendInfo($lng->txt('threads_moved_successfully'), true);			
 			$this->ctrl->redirect($this, 'showThreads');		
 			
@@ -3238,6 +3243,7 @@ class ilObjForumGUI extends ilObjectGUI
 		
 		unset($_SESSION['threads2move']);
 		unset($_SESSION['forums_search_submitted']);
+		unset($_SESSION['frm_topic_paste_expand']);
 		$this->ctrl->redirect($this, 'showThreads');
 		
 		return true;
@@ -3292,9 +3298,8 @@ class ilObjForumGUI extends ilObjectGUI
 		}
 				
 		$threads2move = $_SESSION['threads2move'];
-
 		
-		if (empty($threads2move))
+		if(empty($threads2move))
 		{
 			ilUtil::sendInfo($this->lng->txt('select_at_least_one_thread'), true);
 			$this->ctrl->redirect($this, 'showThreads');
@@ -3342,167 +3347,49 @@ class ilObjForumGUI extends ilObjectGUI
 		{
 			$objCurrentTopic = new ilForumTopic($thr_pk, $ilAccess->checkAccess('moderate_frm', '', $_GET['ref_id']));
 
+			$result[$counter]['num'] = $counter + 1;
 			$result[$counter]['thr_subject'] = $objCurrentTopic->getSubject();
-			$result[$counter]['thr_pk'] = $thr_pk;
 			
 			unset($objCurrentTopic);
 			
 			++$counter;			
 		}			 	
 		$tblThr->setData($result);		
-		$this->tpl->setVariable('THREADS_TABLE', $tblThr->getHTML());			
+		$this->tpl->setVariable('THREADS_TABLE', $tblThr->getHTML());
 		
 		
-		if (!$_SESSION['forums_search_submitted'])
+		
+		// selection tree
+		require_once 'Modules/Forum/classes/class.ilForumMoveTopicsExplorer.php';
+		$exp = new ilForumMoveTopicsExplorer($this->ctrl->getLinkTarget($this, 'moveThreads'), 'frm_topic_paste_expand');	
+		$exp->setExpandTarget($this->ctrl->getLinkTarget($this, 'moveThreads'));
+		$exp->setTargetGet('ref_id');				
+		$exp->setPostVar('frm_ref_id');
+		$exp->excludeObjIdFromSelection($ilObjDataCache->lookupObjId($_GET['ref_id']));
+		$exp->setCheckedItem($_POST['frm_ref_id']);
+		
+		// open current position in tree
+		if(!strlen($_SESSION['frm_topic_paste_expand']))
+			$_SESSION['frm_topic_paste_expand'][] = $_GET['ref_id'];
+
+		if($_GET['frm_topic_paste_expand'] == '')
 		{
-			$forums_ref_ids = ilUtil::_getObjectsByOperations('frm', 'moderate_frm', 0, -1);
+			$expanded = $this->tree->readRootId();
 		}
 		else
 		{
-			$this->lng->loadLanguageModule('search');
-			include_once './Services/Search/classes/class.ilQueryParser.php';
-			$query_parser = new ilQueryParser(ilUtil::stripSlashes($_POST['title']));
-			$query_parser->setMinWordLength(1);
-			$query_parser->setCombination(QP_COMBINATION_AND);
-			$query_parser->parse();
-			if (!$query_parser->validate())
-			{
-				ilUtil::sendInfo($query_parser->getMessage());
-			}
-			else
-			{			
-				include_once 'Services/Search/classes/Like/class.ilLikeObjectSearch.php';
-				$object_search = new ilLikeObjectSearch($query_parser);
-		
-				$object_search->setFilter(array('frm'));
-				$res = $object_search->performSearch();
-				$res->setRequiredPermission('moderate_frm');	
-				
-				$res->filter(ROOT_FOLDER_ID, true);
-				
-				if (!count($forums = $res->getResults()))
-				{
-					ilUtil::sendInfo($this->lng->txt('search_no_match'));
-				}
-			}
-		}
-		
-		if ($_SESSION['forums_search_submitted'] || 
-			count($forums_ref_ids) >= $this->ilias->getSetting('search_max_hits', 100)) 
-		{
-			$this->tpl->setVariable('FORMACTION', $this->ctrl->getFormAction($this, 'searchForums'));
-			$this->tpl->setVariable('SEARCH_COMMAND', 'searchForums');
-			
-			$this->tpl->setVariable('TXT_SEARCH_TITLE', $this->lng->txt('search'));
-			$this->tpl->setVariable('TXT_TITLE', $this->lng->txt('title'));
-			$this->tpl->setVariable('TXT_SEARCH_COMMAND', $this->lng->txt('search'));
-			$this->tpl->setVariable('VAL_TITLE', ilUtil::prepareFormOutput($_POST['title'], true));
+			$expanded = $_GET['frm_topic_paste_expand'];
 		}
 
-		if (($_SESSION['forums_search_submitted'] && is_object($query_parser) && $query_parser->validate()) || 
-			(!$_SESSION['forums_search_submitted'] && count($forums_ref_ids) < $this->ilias->getSetting('search_max_hits', 100)))
-		{
-			$this->tpl->setVariable('FORMACTION', $this->ctrl->getFormAction($this, 'confirmMoveThreads'));
-			
-			$tbl = new ilTable2GUI($this);
-			$tbl->setTitle($this->lng->txt('to_forum'));
-			$tbl->setLimit(0);		
-			$tbl->setRowTemplate('tpl.forums_threads_move_frm_row.html', 'Modules/Forum');
-			$tbl->addColumn('', 'radio', '1%');
-		 	$tbl->addColumn($this->lng->txt('title'), 'top_name', '10%');
-		 	$tbl->addColumn($this->lng->txt('path'), 'path', '89%');
-			$tbl->disable('footer');
-			$tbl->disable('sort');
-			$tbl->disable('linkbar');
-			
-			$tbl->setColumnWidth(2);	 	
-			$tbl->setDefaultOrderField('top_name');
-			
-			$result = array();	
-			
-			$counter = 0;
-			if (is_array($forums_ref_ids))
-			{		
-				foreach ($forums_ref_ids as $ref_id)
-				{
-					if ($ilObjDataCache->lookupObjId($_GET['ref_id']) != $ilObjDataCache->lookupObjId($ref_id))
-					{
-						$this->object->Forum->setMDB2WhereCondition('top_frm_fk = %s ', array('integer'), array($ilObjDataCache->lookupObjId($ref_id)));
-							
-						if(!is_null($frmData = $this->object->Forum->getOneTopic()))
-						{
-							$check = 0;			
-							if (isset($_POST['frm_ref_id']) && $_POST['frm_ref_id'] == $ref_id) $check = 1;  
-										
-							$result[$counter]['radio'] = ilUtil::formRadioButton($check, 'frm_ref_id', $ref_id);
-							$result[$counter]['top_name'] = $frmData['top_name'];
-							
-							$path_arr = $tree->getPathFull($ref_id, ROOT_FOLDER_ID);
-							$path_counter = 0;
-							$path = '';
-							foreach($path_arr as $data)
-							{
-								if($path_counter++)
-								{
-									$path .= " -> ";
-								}
-								$path .= $data['title'];
-							}
-							$result[$counter]['path'] = $this->lng->txt('path').': '.$path;
-							
-							++$counter;
-						}
-					}
-				}	 	
-			}
-			if (is_array($forums))
-			{
-				foreach ($forums as $obj_id => $val)
-				{
-					if ($ilObjDataCache->lookupObjId($_GET['ref_id']) != $val['obj_id'])
-					{	
+		$exp->setExpand($expanded);
+		// build html-output
+		$exp->setOutput(0);
+		$output = $exp->getOutput();
+		$this->tpl->setVariable('FRM_SELECTION_TREE', $output);		
+		$this->tpl->setVariable('CMD_SUBMIT', 'confirmMoveThreads');
+		$this->tpl->setVariable('TXT_SUBMIT', $this->lng->txt('paste'));
+		$this->tpl->setVariable('FORMACTION', $this->ctrl->getFormAction($this, 'confirmMoveThreads'));
 
-						$this->object->Forum->setMDB2WhereCondition('top_frm_fk = %s ', array('integer'), array($val['obj_id']));	
-							
-						if(!is_null($frmData = $this->object->Forum->getOneTopic()))				
-						{
-							$check = 0;			
-							if (isset($_POST['frm_ref_id']) && $_POST['frm_ref_id'] == $val['ref_id']) $check = 1;  
-										
-							$result[$counter]['radio'] = ilUtil::formRadioButton($check, 'frm_ref_id', $val['ref_id']);
-							$result[$counter]['top_name'] = $frmData['top_name'];
-							$path_arr = $tree->getPathFull($val['ref_id'], ROOT_FOLDER_ID);
-							$path_counter = 0;
-							$path = '';
-							foreach($path_arr as $data)
-							{
-								if($path_counter++)
-								{
-									$path .= " -> ";
-								}
-								$path .= $data['title'];
-							}
-							$result[$counter]['path'] = $this->lng->txt('path').': '.$path;
-							
-							++$counter;
-						}
-					}
-				}
-			}
-			
-			$tbl->setData($result);
-			
-			if (empty($result))
-			{
-				$tbl->setNoEntriesText($lng->txt('no_forum_available_for_moving_threads'));
-			}
-			else
-			{		
-				$tbl->addCommandButton('confirmMoveThreads', $this->lng->txt('move'));
-			}
-			
-			$this->tpl->setVariable('FORUMS_TABLE', $tbl->getHTML());
-		}				
 
 		return true;
 	}
