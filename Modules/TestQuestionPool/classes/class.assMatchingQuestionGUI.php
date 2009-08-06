@@ -523,12 +523,42 @@ class assMatchingQuestionGUI extends assQuestionGUI
 		}
 		return $solutionoutput;
 	}
-	
-	function getPreview($show_question_only = FALSE)
+
+	public function getPreviewJS($show_question_only = FALSE)
 	{
+		global $ilUser;
+		
 		// generate the question output
 		include_once "./classes/class.ilTemplate.php";
-		$template = new ilTemplate("tpl.il_as_qpl_matching_output.html", TRUE, TRUE, "Modules/TestQuestionPool");
+		$template = new ilTemplate("tpl.il_as_qpl_matching_output_js.html", TRUE, TRUE, "Modules/TestQuestionPool");
+
+		$jsswitch = "";
+		if (strcmp($this->ctrl->getCmd(), 'preview') == 0)
+		{
+			if (array_key_exists('js', $_GET))
+			{
+				$ilUser->writePref('tst_javascript', $_GET['js']);
+			}
+			$jstemplate = new ilTemplate("tpl.il_as_qpl_javascript_switch.html", TRUE, TRUE, "Modules/TestQuestionPool");
+			if ($ilUser->getPref("tst_javascript") == 1)
+			{
+				$jstemplate->setVariable("JAVASCRIPT_IMAGE", ilUtil::getImagePath("javascript_disable.png"));
+				$jstemplate->setVariable("JAVASCRIPT_IMAGE_ALT", $this->lng->txt("disable_javascript"));
+				$jstemplate->setVariable("JAVASCRIPT_IMAGE_TITLE", $this->lng->txt("disable_javascript"));
+				$this->ctrl->setParameterByClass($this->ctrl->getCmdClass(), "js", "0");
+				$jstemplate->setVariable("JAVASCRIPT_URL", $this->ctrl->getLinkTargetByClass($this->ctrl->getCmdClass(), $this->ctrl->getCmd()));
+			}
+			else
+			{
+				$jstemplate->setVariable("JAVASCRIPT_IMAGE", ilUtil::getImagePath("javascript.png"));
+				$jstemplate->setVariable("JAVASCRIPT_IMAGE_ALT", $this->lng->txt("enable_javascript"));
+				$jstemplate->setVariable("JAVASCRIPT_IMAGE_TITLE", $this->lng->txt("enable_javascript"));
+				$this->ctrl->setParameterByClass($this->ctrl->getCmdClass(), "js", "1");
+				$jstemplate->setVariable("JAVASCRIPT_URL", $this->ctrl->getLinkTargetByClass($this->ctrl->getCmdClass(), $this->ctrl->getCmd()));
+			}
+			$jsswitch = $jstemplate->get();
+			if ($ilUser->getPref('tst_javascript')) $this->object->setOutputType(OUTPUT_JAVASCRIPT);
+		}
 		
 		// shuffle output
 		$terms = $this->object->getTerms();
@@ -546,7 +576,166 @@ class assMatchingQuestionGUI extends assQuestionGUI
 				$definitions = $this->object->pcArrayShuffle($definitions);
 				break;
 		}
-		$maxcount = max(count($terms), count($definitions));
+
+		include_once "./Services/YUI/classes/class.ilYuiUtil.php";
+		ilYuiUtil::initDragDrop();
+
+		// create definitions
+		$counter = 0;
+		foreach ($this->object->getDefinitions() as $definition)
+		{
+			if (strlen($definition->picture))
+			{
+				$template->setCurrentBlock("definition_picture");
+				$template->setVariable("DEFINITION_ID", $definition->identifier);
+				$template->setVariable("IMAGE_HREF", $this->object->getImagePathWeb() . $definition->picture);
+				$thumbweb = $this->object->getImagePathWeb() . $this->object->getThumbPrefix() . $definition->picture;
+				$thumb = $this->object->getImagePath() . $this->object->getThumbPrefix() . $definition->picture;
+				if (!@file_exists($thumb)) $this->object->rebuildThumbnails();
+				$template->setVariable("THUMBNAIL_HREF", $thumbweb);
+				$template->setVariable("THUMB_ALT", $this->lng->txt("image"));
+				$template->setVariable("THUMB_TITLE", $this->lng->txt("image"));
+				$template->setVariable("TEXT_DEFINITION", (strlen($definition->text)) ? ilUtil::prepareFormOutput($definition->text) : '');
+				$template->setVariable("TEXT_PREVIEW", $this->lng->txt('preview'));
+				$template->setVariable("IMG_PREVIEW", ilUtil::getImagePath('enlarge.gif'));
+				$template->parseCurrentBlock();
+			}
+			else
+			{
+				$template->setCurrentBlock("definition_text");
+				$template->setVariable("DEFINITION", ilUtil::prepareFormOutput($definition->text));
+				$template->parseCurrentBlock();
+			}
+
+			$template->setCurrentBlock("droparea");
+			$template->setVariable("ID_DROPAREA", $definition->identifier);
+			$template->setVariable("QUESTION_ID", $this->object->getId());
+			if ($this->object->getEstimatedElementHeight() > 0)
+			{
+				$template->setVariable("ELEMENT_HEIGHT", " style=\"height: " . $this->object->getEstimatedElementHeight() . "px;\"");
+			}
+			$template->parseCurrentBlock();
+
+			$template->setCurrentBlock("init_dropareas");
+			$template->setVariable("COUNTER", $counter++);
+			$template->setVariable("ID_DROPAREA", $definition->identifier);
+			$template->parseCurrentBlock();
+		}
+
+
+		// create terms
+		$counter = 0;
+		foreach ($this->object->getTerms() as $term)
+		{
+			if (strlen($term->picture))
+			{
+				$template->setCurrentBlock("term_picture");
+				$template->setVariable("TERM_ID", $term->identifier);
+				$template->setVariable("IMAGE_HREF", $this->object->getImagePathWeb() . $term->picture);
+				$thumbweb = $this->object->getImagePathWeb() . $this->object->getThumbPrefix() . $term->picture;
+				$thumb = $this->object->getImagePath() . $this->object->getThumbPrefix() . $term->picture;
+				if (!@file_exists($thumb)) $this->object->rebuildThumbnails();
+				$template->setVariable("THUMBNAIL_HREF", $thumbweb);
+				$template->setVariable("THUMB_ALT", $this->lng->txt("image"));
+				$template->setVariable("THUMB_TITLE", $this->lng->txt("image"));
+				$template->setVariable("TEXT_PREVIEW", $this->lng->txt('preview'));
+				$template->setVariable("TEXT_TERM", (strlen($term->text)) ? ilUtil::prepareFormOutput($term->text) : '');
+				$template->setVariable("IMG_PREVIEW", ilUtil::getImagePath('enlarge.gif'));
+				$template->parseCurrentBlock();
+			}
+			else
+			{
+				$template->setCurrentBlock("term_text");
+				$template->setVariable("TERM_TEXT", ilUtil::prepareFormOutput($term->text));
+				$template->parseCurrentBlock();
+			}
+			$template->setCurrentBlock("draggable");
+			$template->setVariable("ID_DRAGGABLE", $term->identifier);
+			if ($this->object->getEstimatedElementHeight() > 0)
+			{
+				$template->setVariable("ELEMENT_HEIGHT", " style=\"height: " . $this->object->getEstimatedElementHeight() . "px;\"");
+			}
+			$template->parseCurrentBlock();
+
+			$template->setCurrentBlock("init_draggables");
+			$template->setVariable("COUNTER", $counter++);
+			$template->setVariable("ID_DRAGGABLE", $term->identifier);
+			$template->parseCurrentBlock();
+		}
+
+		$template->setVariable("RESET_BUTTON", $this->lng->txt("reset_terms"));
+
+		$this->tpl->setVariable("LOCATION_ADDITIONAL_STYLESHEET", ilUtil::getStyleSheetLocation("output", "test_javascript.css", "Modules/TestQuestionPool"));
+
+		$questiontext = $this->object->getQuestion();
+		$template->setVariable("QUESTIONTEXT", $this->object->prepareTextareaOutput($questiontext, TRUE));
+		$questionoutput = $jsswitch . $template->get();
+		if (!$show_question_only)
+		{
+			// get page object output
+			$questionoutput = $this->getILIASPage($questionoutput);
+		}
+		return $questionoutput;
+	}
+	
+	public function getPreview($show_question_only = FALSE)
+	{
+		global $ilUser;
+		
+		// generate the question output
+		include_once "./classes/class.ilTemplate.php";
+		$template = new ilTemplate("tpl.il_as_qpl_matching_output.html", TRUE, TRUE, "Modules/TestQuestionPool");
+
+		$jsswitch = "";
+		if (strcmp($this->ctrl->getCmd(), 'preview') == 0)
+		{
+			if (array_key_exists('js', $_GET))
+			{
+				$ilUser->writePref('tst_javascript', $_GET['js']);
+			}
+			$jstemplate = new ilTemplate("tpl.il_as_qpl_javascript_switch.html", TRUE, TRUE, "Modules/TestQuestionPool");
+			if ($ilUser->getPref("tst_javascript") == 1)
+			{
+				$jstemplate->setVariable("JAVASCRIPT_IMAGE", ilUtil::getImagePath("javascript_disable.png"));
+				$jstemplate->setVariable("JAVASCRIPT_IMAGE_ALT", $this->lng->txt("disable_javascript"));
+				$jstemplate->setVariable("JAVASCRIPT_IMAGE_TITLE", $this->lng->txt("disable_javascript"));
+				$this->ctrl->setParameterByClass($this->ctrl->getCmdClass(), "js", "0");
+				$jstemplate->setVariable("JAVASCRIPT_URL", $this->ctrl->getLinkTargetByClass($this->ctrl->getCmdClass(), $this->ctrl->getCmd()));
+			}
+			else
+			{
+				$jstemplate->setVariable("JAVASCRIPT_IMAGE", ilUtil::getImagePath("javascript.png"));
+				$jstemplate->setVariable("JAVASCRIPT_IMAGE_ALT", $this->lng->txt("enable_javascript"));
+				$jstemplate->setVariable("JAVASCRIPT_IMAGE_TITLE", $this->lng->txt("enable_javascript"));
+				$this->ctrl->setParameterByClass($this->ctrl->getCmdClass(), "js", "1");
+				$jstemplate->setVariable("JAVASCRIPT_URL", $this->ctrl->getLinkTargetByClass($this->ctrl->getCmdClass(), $this->ctrl->getCmd()));
+			}
+			$jsswitch = $jstemplate->get();
+			if ($ilUser->getPref('tst_javascript')) $this->object->setOutputType(OUTPUT_JAVASCRIPT);
+		}
+		
+		if ($this->object->getOutputType() == OUTPUT_JAVASCRIPT)
+		{
+			return $this->getPreviewJS($show_question_only);
+		}
+		
+		// shuffle output
+		$terms = $this->object->getTerms();
+		$definitions = $this->object->getDefinitions();
+		switch ($this->object->getShuffle())
+		{
+			case 1:
+				$terms = $this->object->pcArrayShuffle($terms);
+				$definitions = $this->object->pcArrayShuffle($definitions);
+				break;
+			case 2:
+				$terms = $this->object->pcArrayShuffle($terms);
+				break;
+			case 3:
+				$definitions = $this->object->pcArrayShuffle($definitions);
+				break;
+		}
+
 		for ($i = 0; $i < count($definitions); $i++)
 		{
 			$definition = $definitions[$i];
@@ -624,7 +813,7 @@ class assMatchingQuestionGUI extends assQuestionGUI
 		$template->setVariable("QUESTIONTEXT", $this->object->prepareTextareaOutput($questiontext, TRUE));
 		$template->setVariable("TEXT_TERMS", ilUtil::prepareFormOutput($this->lng->txt('available_terms')));
 		$template->setVariable('TEXT_SELECTION', ilUtil::prepareFormOutput($this->lng->txt('selection')));
-		$questionoutput = $template->get();
+		$questionoutput = $jsswitch . $template->get();
 		if (!$show_question_only)
 		{
 			// get page object output
@@ -711,6 +900,9 @@ class assMatchingQuestionGUI extends assQuestionGUI
 				$template->setVariable("THUMBNAIL_HREF", $thumbweb);
 				$template->setVariable("THUMB_ALT", $this->lng->txt("image"));
 				$template->setVariable("THUMB_TITLE", $this->lng->txt("image"));
+				$template->setVariable("TEXT_DEFINITION", (strlen($definition->text)) ? ilUtil::prepareFormOutput($definition->text) : '');
+				$template->setVariable("TEXT_PREVIEW", $this->lng->txt('preview'));
+				$template->setVariable("IMG_PREVIEW", ilUtil::getImagePath('enlarge.gif'));
 				$template->parseCurrentBlock();
 			}
 			else
@@ -751,6 +943,9 @@ class assMatchingQuestionGUI extends assQuestionGUI
 				$template->setVariable("THUMBNAIL_HREF", $thumbweb);
 				$template->setVariable("THUMB_ALT", $this->lng->txt("image"));
 				$template->setVariable("THUMB_TITLE", $this->lng->txt("image"));
+				$template->setVariable("TEXT_PREVIEW", $this->lng->txt('preview'));
+				$template->setVariable("TEXT_TERM", (strlen($term->text)) ? ilUtil::prepareFormOutput($term->text) : '');
+				$template->setVariable("IMG_PREVIEW", ilUtil::getImagePath('enlarge.gif'));
 				$template->parseCurrentBlock();
 			}
 			else
