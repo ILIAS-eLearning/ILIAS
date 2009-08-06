@@ -886,6 +886,14 @@ class ilObjGlossaryGUI extends ilObjectGUI
 	*/
 	function addTerm()
 	{
+		global $lng, $ilCtrl;
+		
+		if (trim($_POST["new_term"]) == "")
+		{
+			ilUtil::sendFailure($lng->txt("cont_please_enter_a_term"), true);
+			$ilCtrl->redirect($this, "listTerms");
+		}
+		
 		// add term
 		include_once ("./Modules/Glossary/classes/class.ilGlossaryTerm.php");
 		$term =& new ilGlossaryTerm();
