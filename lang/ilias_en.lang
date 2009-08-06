@@ -4661,14 +4661,15 @@ content#:#cont_school#:#School
 content#:#cont_score#:#Score
 content#:#cont_scorm_type#:#adlcp:scormtype
 content#:#cont_select_item#:#Select at least one item.
-content#:#cont_select_max_one_item#:#Please select one item only
-content#:#cont_select_max_one_term#:#Select one term only
+content#:#cont_select_max_one_item#:#Please select one item only.
+content#:#cont_select_max_one_term#:#Please select one term only.
 content#:#cont_select_one_edition#:#Please select at least one edition.
 content#:#cont_select_one_translation#:#Please select one translation
 content#:#cont_select_one_translation_warning#:#It is not possible to show more than one translation.
-content#:#cont_select_term#:#Select a term
+content#:#cont_select_term#:#Please select a term.
 content#:#cont_select_translation#:#Please select the assignment from the list above
 content#:#cont_series#:#Series
+content#:#cont_please_enter_a_term#:#Please enter a term.
 content#:#cont_series_editor#:#Series editor
 content#:#cont_series_title#:#Series title
 content#:#cont_series_volume#:#Series volume

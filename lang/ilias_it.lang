@@ -1542,8 +1542,6 @@ common#:#adopt_perm_from_template#:#Copy Permission Settings
 common#:#advanced_editing_allow_html_tags#:#Allow the selected HTML tags for text editing
 common#:#advanced_editing_allow_javascript_editor#:#Enable a Rich Text Editor
 common#:#advanced_editing_assessment_settings#:#Allowed HTML Tags for the ILIAS Test&Assessment tool
-common#:#advanced_editing_cat_page_editing#:#Enable Content Editing for Category Pages
-common#:#advanced_editing_cat_page_editing_desc#:#This enables the content editing of category pages. When deactivated, the categories are just displayed as a set of item lists.
 common#:#advanced_editing_lm_js_editing#:#Enable HTMLArea for Content Editing
 common#:#advanced_editing_lm_js_editing_desc#:#Enables HTMLArea and JavaScript support for page editing in learning modules and glossaries.
 common#:#advanced_editing_lm_settings#:#Learning Module and Glossary Settings
@@ -1552,7 +1550,6 @@ common#:#advanced_editing_settings#:#Advanced editing settings
 common#:#advanced_editing_survey_settings#:#Allowed HTML Tags for the ILIAS survey tool
 common#:#advanced_editing_tinymce#:#TinyMCE editor
 common#:#adve_assessment_settings#:#Test&Assessment settings
-common#:#adve_cat_settings#:#Category Settings
 common#:#adve_edit_permission#:#Change permission settings
 common#:#adve_general_settings#:#General settings
 common#:#adve_lm_settings#:#LM / Glossary Settings
@@ -8775,8 +8772,6 @@ survey#:#no_questionblocks_available#:#Non ci sono blocchi di domande disponibil
 survey#:#no_questions_available#:#Non ci sono domande disponibili!
 survey#:#no_search_results#:#La ricerca non ha prodotto risultati!
 survey#:#no_target_selected_for_move#:#Devi scegliere la posizione di destinazione!
-survey#:#no_user_of_group_invited#:#All users of the selected group(s) did not possess sufficient permissions to run the survey. No user was invited.
-survey#:#no_user_of_role_invited#:#All users of the selected role(s) did not possess sufficient permissions to run the survey. No user was invited.
 survey#:#no_user_or_group_selected#:#Per favore, indica quello che vuoi cercare (utenti e/o gruppi)!
 survey#:#no_user_phrases_defined#:#Non ci sono frasi definite dagli utenti disponibili!
 survey#:#question_mr_not_checked#:#Please check at least one of the offered answers!
@@ -9823,3 +9818,29 @@ crs#:#sess_limit#:#Limit Number of Sessions###24 07 2009 new variable
 crs#:#sess_num_prev#:#Number of Past Sessions###24 07 2009 new variable
 crs#:#sess_num_next#:#Number of Following Sessions###24 07 2009 new variable
 crs#:#sess_limit_info#:#Choose this option for limiting the number of visible sessions###24 07 2009 new variable
+common#:#advanced_editing_rep_page_editing#:#Enable Content Editing in Repository###06 08 2009 new variable
+common#:#advanced_editing_rep_page_editing_desc#:#This feature allows to add text/media to category, course, group and folder pages.###06 08 2009 new variable
+common#:#adve_rep_settings#:#Repository Settings###06 08 2009 new variable
+content#:#cont_please_enter_a_term#:#Please enter a term.###06 08 2009 new variable
+survey#:#no_user_invited#:#All invited users did not possess sufficient permissions to run the survey. No user was invited.###06 08 2009 new variable
+survey#:#users_invited#:#%s users have been invited###06 08 2009 new variable
+common#:#mem_view_long#:#Member View###06 08 2009 new variable
+common#:#mem_view_close#:#Close Member View###06 08 2009 new variable
+assessment#:#msg_question_count_too_low#:#Please enter a question count greater than 0###06 08 2009 new variable
+assessment#:#msg_total_questions_too_high#:#The number of questions is greater than the number of available questions in the selected questionpools###06 08 2009 new variable
+common#:#auth_ldap_migration#:#Account Migration###06 08 2009 new variable
+common#:#auth_ldap_migration_info#:#Activate this option to give new users the possibility to migrate their existing ILIAS accounts to LDAP authentication.###06 08 2009 new variable
+survey#:#spl_move_same_pool#:#It has no effect to move questions from inside the same question pool.###06 08 2009 new variable
+assessment#:#delete_image_header#:#Delete image###06 08 2009 new variable
+assessment#:#delete_image_question#:#Do you really want to delete the image?###06 08 2009 new variable
+assessment#:#answer_image#:#Answer Image###06 08 2009 new variable
+assessment#:#thumb_size_info#:#If you enter a thumbnail size, a thumbnail of this size will be generated for uploaded images. Without a thumbnail size, the original image size will be used.###06 08 2009 new variable
+assessment#:#msg_questions_moved#:#Question(s) moved###06 08 2009 new variable
+assessment#:#too_many_targets_selected_for_move#:#You must select exactly one target position!###06 08 2009 new variable
+assessment#:#msg_selected_for_move#:#Question(s) selected for moving###06 08 2009 new variable
+chat#:#chat_hide_textformat#:#Hide Textformat###06 08 2009 new variable
+search#:#lucene_advanced_settings_table#:#Advanced Search Settings###06 08 2009 new variable
+dateplaner#:#cal_day_start#:#Day Start###06 08 2009 new variable
+survey#:#questionblock_inserted#:#Question Block inserted###06 08 2009 new variable
+survey#:#questionblocks_inserted#:#Question Blocks inserted###06 08 2009 new variable
+survey#:#msg_users_disinvited#:#User(s) disinvite###06 08 2009 new variable

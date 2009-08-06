@@ -1608,8 +1608,6 @@ common#:#adopt_perm_from_template#:#Rechteeinstellungen kopieren
 common#:#advanced_editing_allow_html_tags#:#Erlaube die ausgewählten HTML-Auszeichnungen in Textfeldern
 common#:#advanced_editing_allow_javascript_editor#:#Bearbeitung mit einem Rich Text Editor aktivieren
 common#:#advanced_editing_assessment_settings#:#Erlaubte HTML-Auszeichnungen für das Test&Assessment-Werkzeug
-common#:#advanced_editing_cat_page_editing#:#Seiteneditor für Kategorien aktivieren
-common#:#advanced_editing_cat_page_editing_desc#:#Diese Einstellung erlaubt das Hinzufügen von Text und anderen Inhalten auf Kategorienseiten. Ist der Seiteneditor deaktiviert, werden in Kategorien nur die enthaltenen Inhaltsobjekte angezeigt.
 common#:#advanced_editing_frm_post_settings#:#Forum Post Einstellungen
 common#:#advanced_editing_lm_js_editing#:#Aktiviere HTMLArea-Textfelder bei der Inhaltebearbeitung
 common#:#advanced_editing_lm_js_editing_desc#:#Aktiviert HTMLArea- und JavaScript-Unterstützung für den Seiteneditor in Lernmodulen und Glossaren.
@@ -1620,7 +1618,6 @@ common#:#advanced_editing_settings#:#Erweiterte Bearbeitungseinstellungen
 common#:#advanced_editing_survey_settings#:#Erlaubte HTML-Auszeichnungen für das Umfrage-Werkzeug
 common#:#advanced_editing_tinymce#:#TinyMCE-Editor
 common#:#adve_assessment_settings#:#Test&Assessment-Einstellungen
-common#:#adve_cat_settings#:#Kategorien-Einstellungen
 common#:#adve_edit_permission#:#Rechteeinstellungen ändern
 common#:#adve_frm_post_settings#:#Forum Posts
 common#:#adve_general_settings#:#Allgemeine Einstellungen
@@ -5301,7 +5298,7 @@ content#:#cont_selected_pg_chap#:#Ausgewählte Seiten/Kapitel
 content#:#cont_select_from_upload_dir#:#-- Wählen Sie aus dem Upload-Verzeichnis --
 content#:#cont_select_item#:#Wählen Sie mindestens ein Objekt aus.
 content#:#cont_select_max_one_item#:#Bitte wählen Sie nur ein Objekt aus.
-content#:#cont_select_max_one_term#:#Bitte wählen Sie nur einen Zeitraum aus.
+content#:#cont_select_max_one_term#:#Bitte wählen Sie nur einen Begriff aus.
 content#:#cont_select_media_pool#:#Media-Pool auswählen
 content#:#cont_select_one_edition#:#Bitte wählen Sie mindestens eine Auflage aus.
 content#:#cont_select_one_translation#:#Bitte wählen Sie mindestens eine Übersetzung aus
@@ -9838,4 +9835,7 @@ search#:#lucene_advanced_settings_table#:#Einstellungen zur erweiterten Suche
 dateplaner#:#cal_day_start#:#Tagesbeginn
 survey#:#questionblock_inserted#:#Fragenblock eingefügt
 survey#:#questionblocks_inserted#:#Fragenblöcke eingefügt
-survey#:#msg_users_disinvited#:#Benutzer ausgeladen
+survey#:#msg_users_disinvited#:#Benutzer ausgeladencommon#:#advanced_editing_rep_page_editing#:#Enable Content Editing in Repository###06 08 2009 new variable
+common#:#advanced_editing_rep_page_editing_desc#:#This feature allows to add text/media to category, course, group and folder pages.###06 08 2009 new variable
+common#:#adve_rep_settings#:#Repository Settings###06 08 2009 new variable
+content#:#cont_please_enter_a_term#:#Please enter a term.###06 08 2009 new variable

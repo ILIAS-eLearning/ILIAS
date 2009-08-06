@@ -5873,8 +5873,6 @@ common#:#additional_info#:#Additional Information###25 02 2007 new variable
 common#:#advanced_editing_allow_html_tags#:#Allow the selected HTML tags for text editing###25 02 2007 new variable
 common#:#advanced_editing_allow_javascript_editor#:#Enable a Rich Text Editor###25 02 2007 new variable
 common#:#advanced_editing_assessment_settings#:#Allowed HTML Tags for the ILIAS Test&Assessment tool###25 02 2007 new variable
-common#:#advanced_editing_cat_page_editing#:#Enable Content Editing for Category Pages###25 02 2007 new variable
-common#:#advanced_editing_cat_page_editing_desc#:#This enables the content editing of category pages. When deactivated, the categories are just displayed as a set of item lists.###25 02 2007 new variable
 common#:#advanced_editing_lm_js_editing#:#Enable HTMLArea for Content Editing###25 02 2007 new variable
 common#:#advanced_editing_lm_js_editing_desc#:#Enables HTMLArea and JavaScript support for page editing in learning modules and glossaries.###25 02 2007 new variable
 common#:#advanced_editing_lm_settings#:#Learning Module and Glossary Settings###25 02 2007 new variable
@@ -5883,7 +5881,6 @@ common#:#advanced_editing_settings#:#Advanced Editing Settings###25 02 2007 new 
 common#:#advanced_editing_survey_settings#:#Allowed HTML Tags for the ILIAS survey tool###25 02 2007 new variable
 common#:#advanced_editing_tinymce#:#TinyMCE Editor###25 02 2007 new variable
 common#:#adve_assessment_settings#:#Test & Assessment Settings###25 02 2007 new variable
-common#:#adve_cat_settings#:#Category Settings###25 02 2007 new variable
 common#:#adve_edit_permission#:#Change Permission Settings###25 02 2007 new variable
 common#:#adve_general_settings#:#General Settings###25 02 2007 new variable
 common#:#adve_lm_settings#:#LM / Glossary Settings###25 02 2007 new variable
@@ -7778,8 +7775,6 @@ common#:#obj_cat_duplicate#:#Copy Category###11 03 2008 new variable
 common#:#obj_cat_select#:#-- Please select one Category --###11 03 2008 new variable
 common#:#cat_wizard_page#:#Copy Category (Step 2/2)###11 03 2008 new variable
 common#:#cat_copy_threads_info#:#Please decide which category items should be copied, linked or even omitted.###11 03 2008 new variable
-survey#:#no_user_of_group_invited#:#All users of the selected group(s) did not possess sufficient permissions to run the survey. No user was invited.###11 03 2008 new variable
-survey#:#no_user_of_role_invited#:#All users of the selected role(s) did not possess sufficient permissions to run the survey. No user was invited.###11 03 2008 new variable
 payment#:#object_deleted#:#Object Deleted###11 03 2008 new variable
 payment#:#user_deleted#:#User Deleted###11 03 2008 new variable
 payment#:#statistics_filter_advice#:#Please choose your favoured filter settings and press the "Update View" button.###11 03 2008 new variable
@@ -9826,3 +9821,29 @@ crs#:#sess_limit#:#Limit Number of Sessions###24 07 2009 new variable
 crs#:#sess_num_prev#:#Number of Past Sessions###24 07 2009 new variable
 crs#:#sess_num_next#:#Number of Following Sessions###24 07 2009 new variable
 crs#:#sess_limit_info#:#Choose this option for limiting the number of visible sessions###24 07 2009 new variable
+common#:#advanced_editing_rep_page_editing#:#Enable Content Editing in Repository###06 08 2009 new variable
+common#:#advanced_editing_rep_page_editing_desc#:#This feature allows to add text/media to category, course, group and folder pages.###06 08 2009 new variable
+common#:#adve_rep_settings#:#Repository Settings###06 08 2009 new variable
+content#:#cont_please_enter_a_term#:#Please enter a term.###06 08 2009 new variable
+survey#:#no_user_invited#:#All invited users did not possess sufficient permissions to run the survey. No user was invited.###06 08 2009 new variable
+survey#:#users_invited#:#%s users have been invited###06 08 2009 new variable
+common#:#mem_view_long#:#Member View###06 08 2009 new variable
+common#:#mem_view_close#:#Close Member View###06 08 2009 new variable
+assessment#:#msg_question_count_too_low#:#Please enter a question count greater than 0###06 08 2009 new variable
+assessment#:#msg_total_questions_too_high#:#The number of questions is greater than the number of available questions in the selected questionpools###06 08 2009 new variable
+common#:#auth_ldap_migration#:#Account Migration###06 08 2009 new variable
+common#:#auth_ldap_migration_info#:#Activate this option to give new users the possibility to migrate their existing ILIAS accounts to LDAP authentication.###06 08 2009 new variable
+survey#:#spl_move_same_pool#:#It has no effect to move questions from inside the same question pool.###06 08 2009 new variable
+assessment#:#delete_image_header#:#Delete image###06 08 2009 new variable
+assessment#:#delete_image_question#:#Do you really want to delete the image?###06 08 2009 new variable
+assessment#:#answer_image#:#Answer Image###06 08 2009 new variable
+assessment#:#thumb_size_info#:#If you enter a thumbnail size, a thumbnail of this size will be generated for uploaded images. Without a thumbnail size, the original image size will be used.###06 08 2009 new variable
+assessment#:#msg_questions_moved#:#Question(s) moved###06 08 2009 new variable
+assessment#:#too_many_targets_selected_for_move#:#You must select exactly one target position!###06 08 2009 new variable
+assessment#:#msg_selected_for_move#:#Question(s) selected for moving###06 08 2009 new variable
+chat#:#chat_hide_textformat#:#Hide Textformat###06 08 2009 new variable
+search#:#lucene_advanced_settings_table#:#Advanced Search Settings###06 08 2009 new variable
+dateplaner#:#cal_day_start#:#Day Start###06 08 2009 new variable
+survey#:#questionblock_inserted#:#Question Block inserted###06 08 2009 new variable
+survey#:#questionblocks_inserted#:#Question Blocks inserted###06 08 2009 new variable
+survey#:#msg_users_disinvited#:#User(s) disinvite###06 08 2009 new variable
