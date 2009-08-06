@@ -363,3 +363,7 @@ div.term {
 	padding: 0.5em 1em;
 	margin: 0.5em 2em;
 }
+
+.solutiontable td {
+	padding: 0 1em;
+}

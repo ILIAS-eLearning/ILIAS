@@ -3163,6 +3163,7 @@ class ilObjTestGUI extends ilObjectGUI
 					$last_access = $this->object->_getLastAccess($data["active_id"]);
 					$access = ilDatePresentation::formatDate(new ilDateTime($last_access,IL_CAL_DATETIME));					
 				}
+				$this->ctrl->setParameterByClass('iltestevaluationgui', 'active_id', $data['active_id']);
 				array_push($rows, array(
 					'usr_id' => $data["usr_id"],
 					'active_id' => $data['active_id'],
@@ -3173,7 +3174,8 @@ class ilObjTestGUI extends ilObjectGUI
 					'started' => ($data["active_id"] > 0) ? 1 : 0,
 					'finished' => ($data["test_finished"] == 1) ? 1 : 0,
 					'access' => $access,
-					'maxpass' => $maxpass
+					'maxpass' => $maxpass,
+					'result' => $this->ctrl->getLinkTargetByClass('iltestevaluationgui', 'outParticipantsResultsOverview')
 				));
 			}
 			include_once "./Modules/Test/classes/tables/class.ilTestFixedParticipantsTableGUI.php";
@@ -3198,15 +3200,18 @@ class ilObjTestGUI extends ilObjectGUI
 					$last_access = $this->object->_getLastAccess($data["active_id"]);
 					$access = ilDatePresentation::formatDate(new ilDateTime($last_access,IL_CAL_DATETIME));
 				}
+				$this->ctrl->setParameterByClass('iltestevaluationgui', 'active_id', $data['active_id']);
 				array_push($rows, array(
 					'usr_id' => $data["active_id"],
+					'active_id' => $data['active_id'],
 					'login' => $data["login"],
 					'firstname' => $data["firstname"],
 					'lastname' => $data["lastname"],
 					'started' => ($data["active_id"] > 0) ? 1 : 0,
 					'finished' => ($data["test_finished"] == 1) ? 1 : 0,
 					'access' => $access,
-					'maxpass' => $maxpass
+					'maxpass' => $maxpass,
+					'result' => $this->ctrl->getLinkTargetByClass('iltestevaluationgui', 'outParticipantsResultsOverview')
 				));
 			}
 			include_once "./Modules/Test/classes/tables/class.ilTestParticipantsTableGUI.php";

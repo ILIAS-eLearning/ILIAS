@@ -128,7 +128,13 @@ class ilTestFixedParticipantsTableGUI extends ilTable2GUI
 		$this->tpl->setVariable("PASSES", $passes);
 		$this->tpl->setVariable("FINISHED", ($data['finished']) ? $finished : '');
 		$this->tpl->setVariable("ACCESS", (strlen($data['access'])) ? $data['access'] : $this->lng->txt('not_yet_accessed'));
-		$this->tpl->setVariable("RESULT", $data['result']);
+		if ($data['active_id'] > 0)
+		{
+			$this->tpl->setCurrentBlock('results');
+			$this->tpl->setVariable("RESULTS", $data['result']);
+			$this->tpl->setVariable("RESULTS_TEXT", ilUtil::prepareFormOutput($this->lng->txt('tst_show_results')));
+			$this->tpl->parseCurrentBlock();
+		}
 	}
 }
 ?>

@@ -1,22 +1,53 @@
-	{QUESTIONTEXT}
-<!-- BEGIN standard_matching_row -->
-	<p>
-		<span class="solutionbox"{ELEMENT_HEIGHT}>{SOLUTION}</span>
-		{MATCHES}
-<!-- BEGIN standard_matching_terms -->
-			<strong>{DEFINITION}</strong>
-<!-- END standard_matching_terms -->		
-<!-- BEGIN standard_matching_pictures -->
-			<img src="{THUMBNAIL_HREF}" border="0" width="{THUMBNAIL_WIDTH}" height="{THUMBNAIL_HEIGHT}" id="thumb_{DEFINITION_ID}" alt="{THUMB_ALT}" title="{THUMB_TITLE}" />
-<!-- END standard_matching_pictures -->		
+<div>{QUESTIONTEXT}</div>
+<table class="solutiontable">
+<!-- BEGIN row -->
+	<tr>
+		<td class="matching"{ELEMENT_HEIGHT}>
+<!-- BEGIN definition_text -->
+			<span class="solutionbox">{DEFINITION}</span>
+<!-- END definition_text -->		
+<!-- BEGIN definition_image -->
+			<table class="ilc_media_cont_MediaContainer">
+				<tr>
+					<td class="ilc_Mob"><img border="0" src="{ANSWER_IMAGE_URL}" alt="{ANSWER_IMAGE_ALT}" title="{ANSWER_IMAGE_TITLE}" /></td>
+				</tr>
+				<tr>
+					<td>
+						<div class="ilc_media_caption_MediaCaption"><a target="_blank" href="{URL_PREVIEW}" title="{TEXT_PREVIEW}">{TEXT_DEFINITION} <img border="0" align="right" src="{IMG_PREVIEW}"/></a></div>
+					</td>
+				</tr>
+			</table>
+<!-- END definition_image -->
+		</td>
+		<td><span>{TEXT_MATCHES}</span></td>
+		<td class="matching"{ELEMENT_HEIGHT}>
+<!-- BEGIN term_text -->
+			<span class="solutionbox">{TERM}</span>
+<!-- END term_text -->		
+<!-- BEGIN term_image -->
+				<table class="ilc_media_cont_MediaContainer">
+					<tr>
+						<td class="ilc_Mob"><img border="0" src="{ANSWER_IMAGE_URL}" alt="{ANSWER_IMAGE_ALT}" title="{ANSWER_IMAGE_TITLE}" /></td>
+					</tr>
+					<tr>
+						<td>
+							<div class="ilc_media_caption_MediaCaption"><a target="_blank" href="{URL_PREVIEW}" title="{TEXT_PREVIEW}">{TEXT_TERM} <img border="0" align="right" src="{IMG_PREVIEW}"/></a></div>
+						</td>
+					</tr>
+				</table>
+<!-- END term_image -->
+			</td>
+			<td>
 <!-- BEGIN icon_ok -->
 			<img src="{ICON_OK}" alt="{TEXT_OK}" title="{TEXT_OK}" />
 <!-- END icon_ok -->
 <!-- BEGIN icon_not_ok -->
 			<img src="{ICON_NOT_OK}" alt="{TEXT_NOT_OK}" title="{TEXT_NOT_OK}" />
 <!-- END icon_not_ok -->
+			</td>
+	</tr>
+<!-- END row -->
+</table>
 <!-- BEGIN result_output -->
-		<em>{RESULT_OUTPUT}</em>
+<div class="result">{RESULT_OUTPUT}</div>
 <!-- END result_output -->
-	</p>
-<!-- END standard_matching_row -->
