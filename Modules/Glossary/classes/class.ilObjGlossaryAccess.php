@@ -56,10 +56,9 @@ class ilObjGlossaryAccess extends ilObjectAccess
 			$a_user_id = $ilUser->getId();
 		}
 
-		switch ($a_cmd)
+		switch ($a_permission)
 		{
-			case "view":
-
+			case "read":
 				if(!ilObjGlossaryAccess::_lookupOnline($a_obj_id)
 					&& !$rbacsystem->checkAccessOfUser($a_user_id,'write',$a_ref_id))
 				{
@@ -67,10 +66,7 @@ class ilObjGlossaryAccess extends ilObjectAccess
 					return false;
 				}
 				break;
-		}
 
-		switch ($a_permission)
-		{
 			case "visible":
 				if (!ilObjGlossaryAccess::_lookupOnline($a_obj_id) &&
 					(!$rbacsystem->checkAccessOfUser($a_user_id,'write', $a_ref_id)))
