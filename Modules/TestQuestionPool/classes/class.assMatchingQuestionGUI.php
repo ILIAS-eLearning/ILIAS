@@ -391,8 +391,6 @@ class assMatchingQuestionGUI extends assQuestionGUI
 		$template = new ilTemplate("tpl.il_as_qpl_matching_output_solution.html", TRUE, TRUE, "Modules/TestQuestionPool");
 		$solutiontemplate = new ilTemplate("tpl.il_as_tst_solution_output.html",TRUE, TRUE, "Modules/TestQuestionPool");
 		
-		$keys = array_keys($this->object->matchingpairs);
-
 		$solutions = array();
 		if (($active_id > 0) && (!$show_correct_solution))
 		{
@@ -402,29 +400,68 @@ class assMatchingQuestionGUI extends assQuestionGUI
 		}
 		else
 		{
-			foreach ($this->object->matchingpairs as $pair)
+			foreach ($this->object->getMatchingPairs() as $pair)
 			{
-				array_push($solutions, array("value1" => $pair->getTermId(), "value2" => $pair->getDefinitionId()));
+				array_push($solutions, array("value1" => $pair->term->identifier, "value2" => $pair->definition->identifier));
 			}
 		}
-		foreach ($keys as $idx)
+
+		foreach ($solutions as $solution)
 		{
-			$answer = $this->object->matchingpairs[$idx];
+			$definition = $this->object->getDefinitionWithIdentifier($solution['value2']);
+			$term = $this->object->getTermWithIdentifier($solution['value1']);
+
+			if (is_object($definition))
+			{
+				if (strlen($definition->picture))
+				{
+					$template->setCurrentBlock('definition_image');
+					$template->setVariable('ANSWER_IMAGE_URL', $this->object->getImagePathWeb() . $this->object->getThumbPrefix() . $definition->picture);
+					$template->setVariable('ANSWER_IMAGE_ALT', (strlen($definition->text)) ? ilUtil::prepareFormOutput($definition->text) : ilUtil::prepareFormOutput($definition->picture));
+					$template->setVariable('ANSWER_IMAGE_TITLE', (strlen($definition->text)) ? ilUtil::prepareFormOutput($definition->text) : ilUtil::prepareFormOutput($definition->picture));
+					$template->setVariable('URL_PREVIEW', $this->object->getImagePathWeb() . $definition->picture);
+					$template->setVariable("TEXT_PREVIEW", $this->lng->txt('preview'));
+					$template->setVariable("IMG_PREVIEW", ilUtil::getImagePath('enlarge.gif'));
+					$template->setVariable("TEXT_DEFINITION", (strlen($definition->text)) ? $this->lng->txt('definition') . ' ' . ($i+1) . ': ' . ilUtil::prepareFormOutput($definition->text) : $this->lng->txt('definition') . ' ' . ($i+1));
+					$template->parseCurrentBlock();
+				}
+				else
+				{
+					$template->setCurrentBlock('definition_text');
+					$template->setVariable("DEFINITION", ilUtil::prepareFormOutput($definition->text));
+					$template->parseCurrentBlock();
+				}
+			}
+			if (is_object($term))
+			{
+				if (strlen($term->picture))
+				{
+					$template->setCurrentBlock('term_image');
+					$template->setVariable('ANSWER_IMAGE_URL', $this->object->getImagePathWeb() . $this->object->getThumbPrefix() . $term->picture);
+					$template->setVariable('ANSWER_IMAGE_ALT', (strlen($term->text)) ? ilUtil::prepareFormOutput($term->text) : ilUtil::prepareFormOutput($term->picture));
+					$template->setVariable('ANSWER_IMAGE_TITLE', (strlen($term->text)) ? ilUtil::prepareFormOutput($term->text) : ilUtil::prepareFormOutput($term->picture));
+					$template->setVariable('URL_PREVIEW', $this->object->getImagePathWeb() . $term->picture);
+					$template->setVariable("TEXT_PREVIEW", $this->lng->txt('preview'));
+					$template->setVariable("TEXT_TERM", (strlen($term->text)) ? $this->lng->txt('term') . ' ' . ($i+1) . ': ' . ilUtil::prepareFormOutput($term->text) : $this->lng->txt('term') . ' ' . ($i+1));
+					$template->setVariable("IMG_PREVIEW", ilUtil::getImagePath('enlarge.gif'));
+					$template->parseCurrentBlock();
+				}
+				else
+				{
+					$template->setCurrentBlock('term_text');
+					$template->setVariable("TERM", ilUtil::prepareFormOutput($term->text));
+					$template->parseCurrentBlock();
+				}
+			}
 			if (($active_id > 0) && (!$show_correct_solution))
 			{
 				if ($graphicalOutput)
 				{
 					// output of ok/not ok icons for user entered solutions
 					$ok = FALSE;
-					foreach ($solutions as $solution)
+					foreach ($this->object->getMatchingPairs() as $pair)
 					{
-						if ($answer->getDefinitionId() == $solution["value2"])
-						{
-							if ($answer->getTermId() == $solution["value1"])
-							{
-								$ok = TRUE;
-							}
-						}
+						if (is_object($term)) if (($pair->definition->identifier == $definition->identifier) && ($pair->term->identifier == $term->identifier)) $ok = true;
 					}
 					if ($ok)
 					{
@@ -442,64 +479,32 @@ class assMatchingQuestionGUI extends assQuestionGUI
 					}
 				}
 			}
+			$template->setCurrentBlock("row");
+			if ($this->object->getEstimatedElementHeight() > 0)
+			{
+				$template->setVariable("ELEMENT_HEIGHT", " style=\"height: " . $this->object->getEstimatedElementHeight() . "px;\"");
+			}
+			$template->setVariable("TEXT_MATCHES", $this->lng->txt("matches"));
+			$template->parseCurrentBlock();
+		}
 
-//			if ($this->object->get_matching_type() == MT_TERMS_PICTURES)
+		if ($result_output)
+		{
+			$points = 0.0;
+			foreach ($this->object->getMatchingPairs() as $pair)
 			{
-				$template->setCurrentBlock("standard_matching_pictures");
-				$template->setVariable("DEFINITION_ID", $answer->getPictureId());
-				$thumbweb = $this->object->getImagePathWeb() . $this->object->getThumbPrefix() . $answer->getPicture();
-				$thumb = $this->object->getImagePath() . $this->object->getThumbPrefix() . $answer->getPicture();
-				if (!@file_exists($thumb)) $this->object->rebuildThumbnails();
-				if (file_exists($thumb))
+				foreach ($solutions as $solution)
 				{
-					$size = getimagesize($thumb);
-				}
-				$template->setVariable("THUMBNAIL_WIDTH", $size[0]);
-				$template->setVariable("THUMBNAIL_HEIGHT", $size[1]);
-				$template->setVariable("THUMBNAIL_HREF", $thumbweb);
-				$template->setVariable("THUMB_ALT", $this->lng->txt("image"));
-				$template->setVariable("THUMB_TITLE", $this->lng->txt("image"));
-				$template->parseCurrentBlock();
-			}
-//			else
-			{
-				$template->setCurrentBlock("standard_matching_terms");
-				$template->setVariable("DEFINITION", $this->object->prepareTextareaOutput($answer->getDefinition(), TRUE));
-				$template->parseCurrentBlock();
-			}
-
-			$template->setCurrentBlock("standard_matching_row");
-			if ($this->object->getElementHeight() >= 20)
-			{
-				$template->setVariable("ELEMENT_HEIGHT", " style=\"height: " . $this->object->getElementHeight() . "px;\"");
-			}
-			$template->setVariable("MATCHES", $this->lng->txt("matches"));
-			if ($result_output)
-			{
-				$points = $answer->getPoints();
-				$resulttext = ($points == 1) ? "(%s " . $this->lng->txt("point") . ")" : "(%s " . $this->lng->txt("points") . ")"; 
-				$template->setVariable("RESULT_OUTPUT", sprintf($resulttext, $points));
-			}
-			$hasoutput = FALSE;
-			foreach ($solutions as $solution)
-			{
-				if ($answer->getDefinitionId() == $solution["value2"])
-				{
-					foreach ($this->object->getTerms() as $termindex => $termvalue)
+					if (($solution['value2'] == $pair->definition->identifier) && ($solution['value1'] == $pair->term->identifier))
 					{
-						if ($termindex == $solution["value1"])
-						{
-							$template->setVariable("SOLUTION", ilUtil::prepareFormOutput($termvalue));
-							$hasoutput = TRUE;
-						}
+						$points += $pair->points;
 					}
 				}
+				$resulttext = ($points == 1) ? "(%s " . $this->lng->txt("point") . ")" : "(%s " . $this->lng->txt("points") . ")"; 
+				$template->setCurrentBlock("result_output");
+				$template->setVariable("RESULT_OUTPUT", sprintf($resulttext, $points));
+				$template->parseCurrentBlock();
 			}
-			if (!$hasoutput)
-			{
-				$template->setVariable("SOLUTION", "&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;");
-			}
-			$template->parseCurrentBlock();
 		}
 		
 		$questiontext = $this->object->getQuestion();
