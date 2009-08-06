@@ -3369,8 +3369,19 @@ class ilObjForumGUI extends ilObjectGUI
 		$exp->setCheckedItem($_POST['frm_ref_id']);
 		
 		// open current position in tree
-		if(!strlen($_SESSION['frm_topic_paste_expand']))
-			$_SESSION['frm_topic_paste_expand'][] = $_GET['ref_id'];
+		if(!is_array($_SESSION['frm_topic_paste_expand']))
+		{
+			global $tree;
+			
+			$_SESSION['frm_topic_paste_expand'] = array();
+			
+			$path = $tree->getPathId((int)$_GET['ref_id']);
+			foreach((array)$path as $node_id)
+			{
+				if(!in_array($node_id, $_SESSION['frm_topic_paste_expand']))
+					$_SESSION['frm_topic_paste_expand'][] = $node_id;
+			}
+		}
 
 		if($_GET['frm_topic_paste_expand'] == '')
 		{
