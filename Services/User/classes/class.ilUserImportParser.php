@@ -1562,7 +1562,8 @@ class ilUserImportParser extends ilSaxParser
 				if (is_numeric($this->cdata))
 				{
 					// Treat cdata as a unix timestamp
-					$this->userObj->setApproveDate(date('c', $this->cdata));
+					$tmp_date = new ilDateTime($this->cdata,IL_CAL_UNIX);
+					$this->userObj->setApproveDate($tmp_date->get(IL_CAL_DATETIME));
 				}
 				else
 				{
@@ -1570,7 +1571,8 @@ class ilUserImportParser extends ilSaxParser
 					$timestamp = strtotime($this->cdata);
 					if ($timestamp !== false)
 					{
-						$this->userObj->setApproveDate(date('c', $timestamp));
+						$tmp_date = new ilDateTime($timestamp,IL_CAL_UNIX);
+						$this->userObj->setApproveDate($tmp_date->get(IL_CAL_DATETIME));
 					}
 				}
 				break;
@@ -1579,7 +1581,8 @@ class ilUserImportParser extends ilSaxParser
 				if (is_numeric($this->cdata))
 				{
 					// Treat cdata as a unix timestamp
-					$this->userObj->setAgreeDate(date('c', $this->cdata));
+					$tmp_date = new ilDateTime($this->cdata,IL_CAL_UNIX);
+					$this->userObj->setAgreeDate($tmp_date->get(IL_CAL_DATETIME));
 				}
 				else
 				{
@@ -1587,11 +1590,12 @@ class ilUserImportParser extends ilSaxParser
 					$timestamp = strtotime($this->cdata);
 					if ($timestamp !== false)
 					{
-						$this->userObj->setAgreeDate(date('c', $timestamp));
+						$tmp_date = new ilDateTime($timestamp,IL_CAL_UNIX);
+						$this->userObj->setAgreeDate($tmp_date->get(IL_CAL_DATETIME));
 					} 
 					elseif ($this->cdata == "0000-00-00 00:00:00") 
 					{
-					    $this->userObj->setAgreeDate($this->cdata);
+					    $this->userObj->setAgreeDate(null);
 					}
 				}
 				break;
