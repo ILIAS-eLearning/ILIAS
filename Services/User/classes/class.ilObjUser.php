@@ -95,7 +95,7 @@ class ilObjUser extends ilObject
 	var $login_attempts;
 
 	var $user_defined_data = array();
-
+	
 	/**
 	* Contains variable Userdata (Prefs, Settings)
 	* @var		array

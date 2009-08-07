@@ -352,6 +352,15 @@ class ilFormPropertyGUI
 		}
 		$this->unserializeData($_SESSION["form_".$parent->getId()][$this->getFieldId()]);
 	}
+	
+	/**
+	 * Get hidden tag (used for disabled properties)
+	 */
+	function getHiddenTag($a_post_var, $a_value)
+	{
+		return '<input type="hidden" name="'.$a_post_var.'" value="'.ilUtil::prepareFormOutput($a_value).'" />';
+	}
+	
 
 }
 ?>

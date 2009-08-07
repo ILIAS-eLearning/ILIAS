@@ -519,7 +519,7 @@ class ilPersonalProfileGUI
 			}				
 			else if($ilSetting->get('create_history_loginname') == 1)
 			{	
-				// falls Loginname in historie vorkommt pr�fen, ob er noch benutzt werden darf					
+				// falls Loginname in historie vorkommt pruefen, ob er noch benutzt werden darf					
 				$found = ilObjUser::getLoginHistory($_POST['usr_login']);
 			
 				if($found == 1 && $ilSetting->get('allow_history_loginname_again') == 0)
@@ -1917,342 +1917,14 @@ return;
 		include_once("Services/Form/classes/class.ilPropertyFormGUI.php");
 		$this->form = new ilPropertyFormGUI();
 		$this->form->setFormAction($this->ctrl->getFormAction($this));
-		$this->form->setTitle($this->lng->txt("personal_data"));
-
-		if ((int)$ilSetting->get('allow_change_loginname'))
-		{
-			$val = new ilTextInputGUI($lng->txt('username'),'username');
-			$val->setValue($ilUser->getLogin());
-			$val->setMaxLength(32);
-			$val->setSize(40);
-			$val->setRequired(true);
-		}
-		else
-		{
-			// user account name
-			$val = new ilNonEditableValueGUI($this->lng->txt("username"));	
-			$val->setValue($ilUser->getLogin());
-		}
 		
-		$this->form->addItem($val);
-
-		// default roles
-		$global_roles = $rbacreview->getGlobalRoles();
-		foreach($global_roles as $role_id)
-		{
-			if (in_array($role_id,$rbacreview->assignedRoles($ilUser->getId())))
-			{
-				$roleObj = $this->ilias->obj_factory->getInstanceByObjId($role_id);
-				$role_names .= $roleObj->getTitle().", ";
-				unset($roleObj);
-			}
-		}
-		$dr = new ilNonEditableValueGUI($this->lng->txt("default_roles"));
-		$dr->setValue(substr($role_names,0,-2));
-		$this->form->addItem($dr);
-
-		// gender
-		if ($this->userSettingVisible("gender"))
-		{
-			$this->input["gender"] =
-				new ilRadioGroupInputGUI($lng->txt("gender"), "usr_gender");
-			$this->input["gender"]->setValue($ilUser->getGender());
-			$fem = new ilRadioOption($lng->txt("gender_f"), "f");
-			$mal = new ilRadioOption($lng->txt("gender_m"), "m");
-			$this->input["gender"]->addOption($fem);
-			$this->input["gender"]->addOption($mal);
-			$this->input["gender"]->setDisabled($ilSetting->get("usr_settings_disable_gender"));
-			$this->form->addItem($this->input["gender"]);
-		}
-
-		// first name
-		if ($this->userSettingVisible("firstname"))
-		{
-			$this->input["firstname"] =
-				new ilTextInputGUI($lng->txt("firstname"), "usr_firstname");
-			$this->input["firstname"]->setValue($ilUser->getFirstname());
-			$this->input["firstname"]->setMaxLength(32);
-			$this->input["firstname"]->setSize(40);
-			$this->input["firstname"]->setDisabled($ilSetting->get("usr_settings_disable_firstname"));
-			$this->form->addItem($this->input["firstname"]);
-		}
-
-		// last name
-		if ($this->userSettingVisible("lastname"))
-		{
-			$this->input["lastname"] =
-				new ilTextInputGUI($lng->txt("lastname"), "usr_lastname");
-			$this->input["lastname"]->setValue($ilUser->getLastname());
-			$this->input["lastname"]->setMaxLength(32);
-			$this->input["lastname"]->setSize(40);
-			$this->input["lastname"]->setDisabled($ilSetting->get("usr_settings_disable_lastname"));
-			$this->form->addItem($this->input["lastname"]);
-		}
-
-		// title
-		if ($this->userSettingVisible("title"))
-		{
-			$this->input["title"] =
-				new ilTextInputGUI($lng->txt("person_title"), "usr_title");
-			$this->input["title"]->setValue($ilUser->getUTitle());
-			$this->input["title"]->setMaxLength(32);
-			$this->input["title"]->setSize(40);
-			$this->input["title"]->setDisabled($ilSetting->get("usr_settings_disable_title"));
-			$this->form->addItem($this->input["title"]);
-		}
-
-		// personal picture
-		if ($this->userSettingVisible("upload"))
-		{
-			$this->input["image"] =
-				new ilImageFileInputGUI($this->lng->txt("personal_picture"), "userfile");
-			$im = ilObjUser::_getPersonalPicturePath($ilUser->getId(), "small", true,
-				true);
-			$this->input["image"]->setDisabled($ilSetting->get("usr_settings_disable_upload"));
-			if ($im != "")
-			{
-				$this->input["image"]->setImage($im);
-				$this->input["image"]->setAlt($this->lng->txt("personal_picture"));
-			}
-
-			// ilinc link as info
-			if ($this->userSettingVisible("upload") and $this->ilias->getSetting("ilinc_active"))
-			{
-				include_once ('./Modules/ILinc/classes/class.ilObjiLincUser.php');
-				$ilinc_user = new ilObjiLincUser($ilUser);
-
-				if ($ilinc_user->id)
-				{
-					include_once ('./Modules/ILinc/classes/class.ilnetucateXMLAPI.php');
-					$ilincAPI = new ilnetucateXMLAPI();
-					$ilincAPI->uploadPicture($ilinc_user);
-					$response = $ilincAPI->sendRequest("uploadPicture");
-
-					// return URL to user's personal page
-					$url = trim($response->data['url']['cdata']);
-					$desc =
-						$this->lng->txt("ilinc_upload_pic_text")." ".
-						'<a href="'.$url.'">'.$this->lng->txt("ilinc_upload_pic_linktext").'</a>';
-					$this->input["image"]->setInfo($desc);
-				}
-			}
-
-			$this->form->addItem($this->input["image"]);
-		}
-
-		// contact data
-		$sh = new ilFormSectionHeaderGUI();
-		$sh->setTitle($this->lng->txt("contact_data"));
-		$this->form->addItem($sh);
-
-		// institution
-		if ($this->userSettingVisible("institution"))
-		{
-			$this->input["institution"] =
-				new ilTextInputGUI($lng->txt("institution"), "usr_institution");
-			$this->input["institution"]->setValue($ilUser->getInstitution());
-			$this->input["institution"]->setMaxLength(80);
-			$this->input["institution"]->setSize(40);
-			$this->input["institution"]->setDisabled($ilSetting->get("usr_settings_disable_institution"));
-			$this->form->addItem($this->input["institution"]);
-		}
-
-		// department
-		if ($this->userSettingVisible("department"))
-		{
-			$this->input["department"] =
-				new ilTextInputGUI($lng->txt("department"), "usr_department");
-			$this->input["department"]->setValue($ilUser->getDepartment());
-			$this->input["department"]->setMaxLength(80);
-			$this->input["department"]->setSize(40);
-			$this->input["department"]->setDisabled($ilSetting->get("usr_settings_disable_department"));
-			$this->form->addItem($this->input["department"]);
-		}
-
-		// street
-		if ($this->userSettingVisible("street"))
-		{
-			$this->input["street"] =
-				new ilTextInputGUI($lng->txt("street"), "usr_street");
-			$this->input["street"]->setValue($ilUser->getStreet());
-			$this->input["street"]->setMaxLength(40);
-			$this->input["street"]->setSize(40);
-			$this->input["street"]->setDisabled($ilSetting->get("usr_settings_disable_street"));
-			$this->form->addItem($this->input["street"]);
-		}
-
-		// zipcode
-		if ($this->userSettingVisible("zipcode"))
-		{
-			$this->input["zipcode"] =
-				new ilTextInputGUI($lng->txt("zipcode"), "usr_zipcode");
-			$this->input["zipcode"]->setValue($ilUser->getZipcode());
-			$this->input["zipcode"]->setMaxLength(10);
-			$this->input["zipcode"]->setSize(10);
-			$this->input["zipcode"]->setDisabled($ilSetting->get("usr_settings_disable_zipcode"));
-			$this->form->addItem($this->input["zipcode"]);
-		}
-
-		// city
-		if ($this->userSettingVisible("city"))
-		{
-			$this->input["city"] =
-				new ilTextInputGUI($lng->txt("city"), "usr_city");
-			$this->input["city"]->setValue($ilUser->getCity());
-			$this->input["city"]->setMaxLength(40);
-			$this->input["city"]->setSize(40);
-			$this->input["city"]->setDisabled($ilSetting->get("usr_settings_disable_city"));
-			$this->form->addItem($this->input["city"]);
-		}
-
-		// country
-		if ($this->userSettingVisible("country"))
-		{
-			$this->input["country"] =
-				new ilTextInputGUI($lng->txt("country"), "usr_country");
-			$this->input["country"]->setValue($ilUser->getCountry());
-			$this->input["country"]->setMaxLength(40);
-			$this->input["country"]->setSize(40);
-			$this->input["country"]->setDisabled($ilSetting->get("usr_settings_disable_country"));
-			$this->form->addItem($this->input["country"]);
-		}
-
-		// phone office
-		if ($this->userSettingVisible("phone_office"))
-		{
-			$this->input["phone_office"] =
-				new ilTextInputGUI($lng->txt("phone_office"), "usr_phone_office");
-			$this->input["phone_office"]->setValue($ilUser->getPhoneOffice());
-			$this->input["phone_office"]->setMaxLength(40);
-			$this->input["phone_office"]->setSize(40);
-			$this->input["phone_office"]->setDisabled($ilSetting->get("usr_settings_disable_phone_office"));
-			$this->form->addItem($this->input["phone_office"]);
-		}
-
-		// phone home
-		if ($this->userSettingVisible("phone_home"))
-		{
-			$this->input["phone_home"] =
-				new ilTextInputGUI($lng->txt("phone_home"), "usr_phone_home");
-			$this->input["phone_home"]->setValue($ilUser->getPhoneHome());
-			$this->input["phone_home"]->setMaxLength(40);
-			$this->input["phone_home"]->setSize(40);
-			$this->input["phone_home"]->setDisabled($ilSetting->get("usr_settings_disable_phone_home"));
-			$this->form->addItem($this->input["phone_home"]);
-		}
-
-		// phone mobile
-		if ($this->userSettingVisible("phone_mobile"))
-		{
-			$this->input["phone_mobile"] =
-				new ilTextInputGUI($lng->txt("phone_mobile"), "usr_phone_mobile");
-			$this->input["phone_mobile"]->setValue($ilUser->getPhoneMobile());
-			$this->input["phone_mobile"]->setMaxLength(40);
-			$this->input["phone_mobile"]->setSize(40);
-			$this->input["phone_mobile"]->setDisabled($ilSetting->get("usr_settings_disable_phone_mobile"));
-			$this->form->addItem($this->input["phone_mobile"]);
-		}
-
-		// fax
-		if ($this->userSettingVisible("fax"))
-		{
-			$this->input["fax"] =
-				new ilTextInputGUI($lng->txt("fax"), "usr_fax");
-			$this->input["fax"]->setValue($ilUser->getFax());
-			$this->input["fax"]->setMaxLength(40);
-			$this->input["fax"]->setSize(40);
-			$this->input["fax"]->setDisabled($ilSetting->get("usr_settings_disable_fax"));
-			$this->form->addItem($this->input["fax"]);
-		}
-
-		// email
-		if ($this->userSettingVisible("email"))
-		{
-			$this->input["email"] =
-				new ilTextInputGUI($lng->txt("email"), "usr_email");
-			$this->input["email"]->setValue($ilUser->getEmail());
-			$this->input["email"]->setMaxLength(80);
-			$this->input["email"]->setSize(40);
-			$this->input["email"]->setDisabled($ilSetting->get("usr_settings_disable_email"));
-			$this->form->addItem($this->input["email"]);
-		}
-
-		// hobby
-		if ($this->userSettingVisible("hobby"))
-		{
-			$this->input["hobby"] =
-				new ilTextAreaInputGUI($lng->txt("hobby"), "usr_hobby");
-			$this->input["hobby"]->setValue($ilUser->getHobby());
-			$this->input["hobby"]->setRows(3);
-			$this->input["hobby"]->setCols(45);
-			$this->input["hobby"]->setDisabled($ilSetting->get("usr_settings_disable_hobby"));
-			$this->form->addItem($this->input["hobby"]);
-		}
-
-		// referral comment
-		if ($this->userSettingVisible("referral_comment"))
-		{
-			$this->input["referral_comment"] =
-				new ilTextAreaInputGUI($lng->txt("referral_comment"), "usr_referral_comment");
-			$this->input["referral_comment"]->setValue($ilUser->getComment());
-			$this->input["referral_comment"]->setRows(3);
-			$this->input["referral_comment"]->setDisabled($ilSetting->get("usr_settings_disable_referral_comment"));
-			$this->input["referral_comment"]->setCols(45);
-			
-			$this->form->addItem($this->input["referral_comment"]);
-		}
-
-		// instant messengers
-		if ($this->userSettingVisible("instant_messengers"))
-		{
-			$sh = new ilFormSectionHeaderGUI();
-			$sh->setTitle($this->lng->txt("user_profile_instant_messengers"));
-			$this->form->addItem($sh);
-
-			$im_arr = array("icq","yahoo","msn","aim","skype","jabber","voip");
-			foreach ($im_arr as $im_name)
-			{
-				$this->input["im_".$im_name] =
-					new ilTextInputGUI($lng->txt("im_".$im_name), "usr_im_".$im_name);
-				$this->input["im_".$im_name]->setValue($ilUser->getInstantMessengerId($im_name));
-				$this->input["im_".$im_name]->setMaxLength(40);
-				$this->input["im_".$im_name]->setSize(40);
-				$this->input["im_".$im_name]->setDisabled(!$this->userSettingEnabled("instant_messengers"));
-				$this->form->addItem($this->input["im_".$im_name]);
-			}
-		}
-
-		// other information
-		if($this->__showOtherInformations())
-		{
-			$sh = new ilFormSectionHeaderGUI();
-			$sh->setTitle($this->lng->txt("user_profile_other"));
-			$this->form->addItem($sh);
-		}
-
-		// matriculation number
-		if ($this->userSettingVisible("matriculation"))
-		{
-			$this->input["matriculation"] =
-				new ilTextInputGUI($lng->txt("matriculation"), "usr_matriculation");
-			$this->input["matriculation"]->setValue($ilUser->getMatriculation());
-			$this->input["matriculation"]->setMaxLength(40);
-			$this->input["matriculation"]->setSize(40);
-			$this->input["matriculation"]->setDisabled($ilSetting->get("usr_settings_disable_matriculation"));
-			$this->form->addItem($this->input["matriculation"]);
-		}
-
-		// delicious account
-		$d_set = new ilSetting("delicious");
-		if ($d_set->get("user_profile") == "1")
-		{
-			$this->input["delicious"] =
-				new ilTextInputGUI($lng->txt("delicious"), "usr_delicious");
-			$this->input["delicious"]->setValue($ilUser->getDelicious());
-			$this->input["delicious"]->setMaxLength(40);
-			$this->input["delicious"]->setSize(40);
-			$this->form->addItem($this->input["delicious"]);
-		}
+		// standard fields
+		include_once("./Services/User/classes/class.ilUserProfile.php");
+		$up = new ilUserProfile();
+		$up->setOmitPassword(true);
+		$up->hideGroup("settings");
+		$up->hideGroup("preferences");
+		$up->addStandardFieldsToForm($this->form, $ilUser);
 
 		// user defined fields
 		$user_defined_data = $ilUser->getUserDefinedData();
@@ -2404,12 +2076,17 @@ return;
 			}
 
 			// Set user defined data
+			$defs = $this->user_defined_fields->getVisibleDefinitions();
 			$udf = array();
 			foreach ($_POST as $k => $v)
 			{
 				if (substr($k, 0, 4) == "udf_")
 				{
-					$udf[substr($k, 4)] = $v;
+					$f = substr($k, 4);
+					if ($defs[$f]["changeable"] && $defs[$f]["visible"])
+					{
+						$udf[$f] = $v;
+					}
 				}
 			}
 
