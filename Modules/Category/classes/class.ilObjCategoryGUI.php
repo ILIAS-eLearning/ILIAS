@@ -422,9 +422,6 @@ class ilObjCategoryGUI extends ilContainerGUI
 		// always call parent method first to create an object_data entry & a reference
 		$newObj = parent::saveObject();
 
-		// setup rolefolder & default local roles if needed (see ilObjForum & ilObjForumGUI for an example)
-		//$roles = $newObj->initDefaultRoles();
-
 		// write translations to object_translation
 		foreach ($data["Fobject"] as $key => $val)
 		{
@@ -448,7 +445,6 @@ class ilObjCategoryGUI extends ilContainerGUI
 
 		// always send a message
 		ilUtil::sendSuccess($this->lng->txt("cat_added"),true);
-		//$this->ctrl->setParameter($this, "ref_id", $newObj->getRefId());
 		
 		// BEGIN ChangeEvent: Record object creation
 		global $ilUser;

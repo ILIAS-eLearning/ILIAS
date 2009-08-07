@@ -234,7 +234,7 @@ class ilObjFolderGUI extends ilContainerGUI
 	*/
 	function saveObject($a_parent = 0)
 	{
-		global $lng;
+		global $lng,$ilErr;
 
 		$this->lng =& $lng;
 
@@ -242,7 +242,13 @@ class ilObjFolderGUI extends ilContainerGUI
 		{
 			$a_parent = $_GET["ref_id"];
 		}
-
+		
+		// check title
+		if ($_POST["Fobject"]["title"] == "")
+		{
+			$ilErr->raiseError($this->lng->txt("please_enter_title"), $ilErr->MESSAGE);
+		}
+		
 		// create and insert Folder in grp_tree
 		include_once("./Modules/Folder/classes/class.ilObjFolder.php");
 		$folderObj = new ilObjFolder(0,$this->withReferences());

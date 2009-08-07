@@ -4174,7 +4174,7 @@ class ilUtil
 	* @param	string	message
 	* @param	boolean	if true message is kept in session
 	*/
-	function sendInfo($a_info = "",$a_keep = false)
+	public static function sendInfo($a_info = "",$a_keep = false)
 	{
 		global $tpl;
 		$tpl->setMessage("info", $a_info, $a_keep);
@@ -4186,7 +4186,7 @@ class ilUtil
 	* @param	string	message
 	* @param	boolean	if true message is kept in session
 	*/
-	function sendFailure($a_info = "",$a_keep = false)
+	public static function sendFailure($a_info = "",$a_keep = false)
 	{
 		global $tpl;
 		$tpl->setMessage("failure", $a_info, $a_keep);
@@ -4198,7 +4198,7 @@ class ilUtil
 	* @param	string	message
 	* @param	boolean	if true message is kept in session
 	*/
-	function sendQuestion($a_info = "",$a_keep = false)
+	public static function sendQuestion($a_info = "",$a_keep = false)
 	{
 		global $tpl;
 		$tpl->setMessage("question", $a_info, $a_keep);
@@ -4210,7 +4210,7 @@ class ilUtil
 	* @param	string	message
 	* @param	boolean	if true message is kept in session
 	*/
-	function sendSuccess($a_info = "",$a_keep = false)
+	public static function sendSuccess($a_info = "",$a_keep = false)
 	{
 		global $tpl;
 		$tpl->setMessage("success", $a_info, $a_keep);
