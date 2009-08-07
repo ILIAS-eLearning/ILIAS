@@ -80,6 +80,15 @@ class ilImageFileInputGUI extends ilFileInputGUI
 		
 		if ($this->getImage() != "")
 		{
+			if (!$this->getDisabled())
+			{
+				$i_tpl->setCurrentBlock("delete_bl");
+				$i_tpl->setVariable("POST_VAR_D", $this->getPostVar());
+				$i_tpl->setVariable("TXT_DELETE_EXISTING",
+					$lng->txt("delete_existing_file"));
+				$i_tpl->parseCurrentBlock();
+			}
+			
 			if (strlen($this->getValue()))
 			{
 				$i_tpl->setCurrentBlock("has_value");
@@ -89,9 +98,6 @@ class ilImageFileInputGUI extends ilFileInputGUI
 			$i_tpl->setCurrentBlock("image");
 			$i_tpl->setVariable("SRC_IMAGE", $this->getImage());
 			$i_tpl->setVariable("ALT_IMAGE", $this->getAlt());
-			$i_tpl->setVariable("POST_VAR_D", $this->getPostVar());
-			$i_tpl->setVariable("TXT_DELETE_EXISTING",
-				$lng->txt("delete_existing_file"));
 			$i_tpl->parseCurrentBlock();
 		}
 		
@@ -99,6 +105,12 @@ class ilImageFileInputGUI extends ilFileInputGUI
 		$i_tpl->setVariable("ID", $this->getFieldId());
 		$i_tpl->setVariable("TXT_MAX_SIZE", $lng->txt("file_notice")." ".
 			$this->getMaxFileSizeString());
+			
+		if ($this->getDisabled())
+		{
+			$i_tpl->setVariable("DISABLED",
+				" disabled=\"disabled\"");
+		}
 			
 		$a_tpl->setCurrentBlock("prop_generic");
 		$a_tpl->setVariable("PROP_GENERIC", $i_tpl->get());

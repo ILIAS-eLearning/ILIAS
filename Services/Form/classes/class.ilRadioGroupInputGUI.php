@@ -184,7 +184,10 @@ class ilRadioGroupInputGUI extends ilSubEnabledFormPropertyGUI
 			}
 
 			$tpl->setCurrentBlock("prop_radio_option");
-			$tpl->setVariable("POST_VAR", $this->getPostVar());
+			if (!$this->getDisabled())
+			{
+				$tpl->setVariable("POST_VAR", $this->getPostVar());
+			}
 			$tpl->setVariable("VAL_RADIO_OPTION", $option->getValue());
 			$tpl->setVariable("OP_ID", $this->getFieldId()."_".$option->getValue());
 			$tpl->setVariable("FID", $this->getFieldId());
@@ -204,6 +207,12 @@ class ilRadioGroupInputGUI extends ilSubEnabledFormPropertyGUI
 		}
 		$tpl->setVariable("ID", $this->getFieldId());
 		
+		if ($this->getDisabled())
+		{
+			$tpl->setVariable("HIDDEN_INPUT",
+				$this->getHiddenTag($this->getPostVar(), $this->getValue()));
+		}
+
 		$a_tpl->setCurrentBlock("prop_generic");
 		$a_tpl->setVariable("PROP_GENERIC", $tpl->get());
 		$a_tpl->parseCurrentBlock();

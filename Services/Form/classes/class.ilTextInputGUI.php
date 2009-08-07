@@ -357,15 +357,21 @@ class ilTextInputGUI extends ilSubEnabledFormPropertyGUI implements ilTableFilte
 			default:
 				$tpl->setVariable('PROP_INPUT_TYPE','text');
 		}
-		$tpl->setVariable("POST_VAR", $this->getPostVar());
 		$tpl->setVariable("ID", $this->getFieldId());
 		$tpl->setVariable("SIZE", $this->getSize());
 		$tpl->setVariable("MAXLENGTH", $this->getMaxLength());
 		if (strlen($this->getSuffix())) $tpl->setVariable("INPUT_SUFFIX", $this->getSuffix());
+		
 		if ($this->getDisabled())
 		{
 			$tpl->setVariable("DISABLED",
 				" disabled=\"disabled\"");
+			$tpl->setVariable("HIDDEN_INPUT",
+				$this->getHiddenTag($this->getPostVar(), $this->getValue()));
+		}
+		else
+		{
+			$tpl->setVariable("POST_VAR", $this->getPostVar());
 		}
 
 		// use autocomplete feature?

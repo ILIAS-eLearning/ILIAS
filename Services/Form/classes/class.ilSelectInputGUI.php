@@ -153,12 +153,23 @@ class ilSelectInputGUI extends ilSubEnabledFormPropertyGUI implements ilTableFil
 			$tpl->parseCurrentBlock();
 		}
 		$tpl->setVariable("ID", $this->getFieldId());
-		$tpl->setVariable("POST_VAR", $this->getPostVar());
 		if ($this->getDisabled())
 		{
 			$tpl->setVariable("DISABLED",
 				" disabled=\"disabled\"");
 		}
+		if ($this->getDisabled())
+		{
+			$tpl->setVariable("DISABLED",
+				" disabled=\"disabled\"");
+			$tpl->setVariable("HIDDEN_INPUT",
+				$this->getHiddenTag($this->getPostVar(), $this->getValue()));
+		}
+		else
+		{
+			$tpl->setVariable("POST_VAR", $this->getPostVar());
+		}
+
 		return $tpl->get();
 	}
 	

@@ -1,11 +1,11 @@
-<input type="file" id="{ID}" name="{POST_VAR}" size="30" />
+<input type="file" id="{ID}" name="{POST_VAR}" size="30" {DISABLED}/>
 <div class="ilFormInfo">{TXT_MAX_SIZE}</div>
 <!-- BEGIN allowed_image_suffixes -->
 <div class="ilFormInfo">{TXT_ALLOWED_SUFFIXES}</div>
 <!-- END allowed_image_suffixes -->
 <!-- BEGIN image -->
 <img style="margin: 5px 0px 5px 0px;" src="{SRC_IMAGE}" alt="{ALT_IMAGE}" {WIDTH} {HEIGHT} border="0" /><br />
-<input type="checkbox" name="{POST_VAR_D}_delete" id="{POST_VAR_D}_delete" value="1" /><label for="{POST_VAR_D}_delete">{TXT_DELETE_EXISTING}</label><br />
+<!-- BEGIN delete_bl --><input type="checkbox" name="{POST_VAR_D}_delete" id="{POST_VAR_D}_delete" value="1" /><label for="{POST_VAR_D}_delete">{TXT_DELETE_EXISTING}</label><br /><!-- END delete_bl -->
 <!-- BEGIN has_value -->
 <input type="hidden" name="{POST_VAR_D}_name" value="{TEXT_IMAGE_NAME}" />
 <!-- END has_value -->
