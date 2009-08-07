@@ -336,7 +336,10 @@ class assMatchingQuestionGUI extends assQuestionGUI
 		$pairs->setTerms($this->object->getTerms());
 		$pairs->setDefinitions($this->object->getDefinitions());
 		include_once "./Modules/TestQuestionPool/classes/class.assAnswerMatchingPair.php";
-		if (count($this->object->getMatchingPairs() == 0)) $this->object->addMatchingPair(new assAnswerMatchingPair());
+		if (count($this->object->getMatchingPairs()) == 0)
+		{
+			$this->object->addMatchingPair(new assAnswerMatchingPair());
+		}
 		$pairs->setPairs($this->object->getMatchingPairs());
 		$form->addItem($pairs);
 
