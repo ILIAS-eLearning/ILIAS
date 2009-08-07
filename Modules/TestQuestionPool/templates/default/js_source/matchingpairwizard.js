@@ -32,14 +32,12 @@ function reindexRows(rootel, postvar)
 		selects = YAHOO.util.Dom.getElementsBy(function (el) { return true; }, 'select', rows[i]);
 		for (j = 0; j < selects.length; j++)
 		{
-			if (selects[j].id.indexOf('[term]') >= 0)
+			if (selects[j].name.indexOf('[term]') >= 0)
 			{
-				selects[j].id = postvar + '[term][' + i + ']';
 				selects[j].name = postvar + '[term][' + i + ']';
 			}
-			else if (selects[j].id.indexOf('[definition]') >= 0)
+			else if (selects[j].name.indexOf('[definition]') >= 0)
 			{
-				selects[j].id = postvar + '[definition][' + i + ']';
 				selects[j].name = postvar + '[definition][' + i + ']';
 			}
 		}

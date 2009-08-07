@@ -9853,6 +9853,7 @@ assessment#:#available_terms#:#Auswählbare Terme
 assessment#:#selection#:#Auswahl
 mcst#:#mcst_set_playtime#:#Die Laufzeit wurde gesetzt.
 mcst#:#mcst_unable_to_determin_playtime#:#Leider konnte die Laufzeit nicht automatisch bestimmt werden. Unter "Bearbeiten" können Sie die Laufzeit manuell einstellen.
+assessment#:#msg_number_of_terms_too_low#:#Die Anzahl der Terme muss größer oder gleich der Anzahl der Definitionen sein.
 grp#:#grp_missing_title#:#Bitte geben Sie einen Titel ein.
 grp#:#grp_missing_grp_type#:#Bitte wählen Sie die Art der Gruppe aus.
 grp#:#grp_missing_password#:#Bitte geben Sie ein Gruppenpasswort ein.

@@ -147,7 +147,6 @@ class assMatchingQuestionGUI extends assQuestionGUI
 					$this->object->addMatchingPair($this->object->getTermWithIdentifier($term_id), $this->object->getDefinitionWithIdentifier($definition_id), $points);
 				}
 			}
-
 			return 0;
 		}
 		else
@@ -356,6 +355,12 @@ class assMatchingQuestionGUI extends assQuestionGUI
 		{
 			$form->setValuesByPost();
 			$errors = !$form->checkInput();
+			if ((!$errors) && (count($terms->getValues()) < (count($definitions->getValues()))))
+			{
+				$errors = true;
+				$terms->setAlert($this->lng->txt("msg_number_of_terms_too_low"));
+				ilUtil::sendFailure($this->lng->txt('form_input_not_valid'));
+			}
 			if ($errors) $checkonly = false;
 		}
 
@@ -590,7 +595,7 @@ class assMatchingQuestionGUI extends assQuestionGUI
 
 		// create definitions
 		$counter = 0;
-		foreach ($this->object->getDefinitions() as $definition)
+		foreach ($definitions as $definition)
 		{
 			if (strlen($definition->picture))
 			{
@@ -633,7 +638,7 @@ class assMatchingQuestionGUI extends assQuestionGUI
 
 		// create terms
 		$counter = 0;
-		foreach ($this->object->getTerms() as $term)
+		foreach ($terms as $term)
 		{
 			if (strlen($term->picture))
 			{
@@ -794,6 +799,7 @@ class assMatchingQuestionGUI extends assQuestionGUI
 			$template->parseCurrentBlock();
 		}
 
+		$i = 0;
 		foreach ($terms as $term)
 		{
 			if (strlen($term->picture))
@@ -815,6 +821,7 @@ class assMatchingQuestionGUI extends assQuestionGUI
 				$template->parseCurrentBlock();
 			}
 			$template->touchBlock('terms');
+			$i++;
 		}
 
 		$questiontext = $this->object->getQuestion();
