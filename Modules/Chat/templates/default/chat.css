@@ -5,7 +5,7 @@ body {
 .il_chat_list {
 	margin: 0px 0px 4px 4px;
 	padding: 0;
-	width: 90%;
+	width: 100%;
 	overflow: auto;
 	
 	border: 1px solid #9eadba;
@@ -28,13 +28,26 @@ body {
 	padding-bottom: 0;
 }
 .chatlist_header {
-	width: 90%;
+	width: 100%;
 	margin: 4px 0 0 4px;
 	line-height: 25px;
 	height: 25px;
-	background-image: url(../../../../templates/default/images/TableHeaderBlue.gif);
+	background-color: #F1F1F1;
 	vertical-align: middle;
 	border: 1px solid #9eadba;
+	
+	font-size: 12px;
+	font-weight: bold;
+	color: #404040;
+}
+
+.il_hide_cmd
+{
+	line-height: 16px;
+	height: 16px;
+	margin-top: 3px;
+	margin-right: 5px;
+	padding-top: 2px;
 }
 
 .il_chat_list li {
@@ -164,7 +177,7 @@ body {
 #il_message_container {
 	width: 99%;
 	overflow: auto;
-	height: 42px;
+	height: 56px;
 	padding-bottom: 4px;
 }
 
@@ -196,4 +209,15 @@ body {
 	width: 10px;
 	height: 14px;
 	float: left;
+}
+
+#server_iframe
+{
+	border: 1px solid #9eadba;
+}
+
+#ilChatTitle
+{
+	font-weight: normal;
+	color: #505050;
 }

@@ -65,9 +65,91 @@
 </script>
 <!-- END js_chat_init -->
 
-{MAINMENU}
-<div class="il_Locator">{LOCATOR}</div>
-<h1 id="ilChatTitle" class="il_Header" style="margin-left: 4px">{TITLE}</h1>
+<div class="ilFrame"><div class="ilFrameH"><div class="ilFrameTL"><div class="ilFrameTR">
+{MAINMENU}<!-- BEGIN sr_focus -->
+<script type="text/javascript">ilAddOnLoad(ilScreenReaderFocus); var il_sr_opt = true;</script>
+<!-- END sr_focus --><div class="ilBelowMainMenu">
+		<!-- BEGIN tree_mode -->
+		<a {TREE_ACC_KEY} class="ilTreeView" href="{LINK_MODE}" target="{TARGET_TREE}" id="imgtree"><img src="{IMG_TREE}" alt="{ALT_TREE}" title="{ALT_TREE}" border="0" /></a>
+		<!-- END tree_mode -->
+<div style="padding-left:2px;">{STATUSLINE}</div>
+
+<div class="il_HeaderOuter">
+<div class="il_Header">
+<div class="il_HeaderInner">
+	<h1 class="il_Header" style="font-size: 140%"><img id="headerimage" border="0" src="./templates/default/images/icon_chat_b.gif" title="Icon Chat" alt="Icon Chat" style="vertical-align: middle;"/>&nbsp;
+	<a class="ilAccAnchor" name="il_mhead_t_focus" id="ilChatTitle">{TITLE}</a></h1><div class="il_Description">{H_DESCRIPTION}</div></div>
+	<!-- BEGIN tree_icons -->
+	<div class="il_TreeIcons" style="float:right;">
+		<!-- BEGIN top -->
+		<a style="display:none;" class="{CLASS_TOP}" href="{LINK_TOP}" <!-- BEGIN target_top -->target="{TARGET_TOP}"<!-- END target_top -->
+			id="imgtop"><img src="{IMG_TOP}" border="0" <!-- BEGIN alt_top --> alt="{ALT_TOP}" title="{ALT_TOP}" <!-- END alt_top --> /></a>
+		<!-- END top -->
+		<!-- BEGIN mount_webfolder -->
+		<!-- always show actions on item level -->
+		<!-- <a class="{CLASS_MOUNT_WEBFOLDER}" href="{LINK_MOUNT_WEBFOLDER}" folder="{FOLDER_MOUNT_WEBFOLDER}" target="{TARGET_MOUNT_WEBFOLDER}"><img src="{IMG_MOUNT_WEBFOLDER}" title="{ALT_MOUNT_WEBFOLDER}" alt="{ALT_MOUNT_WEBFOLDER}" border="0"></a> -->
+		<!-- END mount_webfolder -->
+	</div>
+	<!-- END tree_icons -->
+	<div style="clear:both;"><!-- BEGIN stop_floating -->&nbsp;<!-- END stop_floating --></div>
+{TABS}
+</div>
+</div>
+
+<!-- BEGIN tabs_outer_start --><table class="ilTabContentOuter"><tr><td><!-- END tabs_outer_start -->
+<div style="clear:both;">{SUB_TABS}</div><span class="ilAccHidden"><a id="after_sub_tabs" name="after_sub_tabs"></a></span>
+<!-- BEGIN tabs_inner_start --><div class="ilTabContentInner"><!-- END tabs_inner_start -->
+<!-- BEGIN page_form_start --><form id="main_page_form" action="{PAGE_FORM_ACTION}" method="post"><!-- END page_form_start -->
+<table class="il_ColumnLayout{COL_LAY_SKIN}" style="clear:both;"><tr>
+<!-- BEGIN left_columnt -->
+<td></td>
+<!-- END left_columnt -->
+<td>{MESSAGE}
+	<!-- BEGIN add_commands -->
+	<div style="text-align: right; padding-right:19px; margin-bottom: 5px;">{SELECT_OBJTYPE_REPOS}</div>
+	<!-- END add_commands -->
+	<!-- BEGIN adm_view_components -->
+	<div style="margin: 10px 0px 20px 0px;">{ADM_PANEL1}</div>
+	<!-- END adm_view_components -->
+</td>
+<!-- BEGIN right_columnt -->
+<td></td>
+<!-- END right_columnt -->
+</tr><tr>
+<!-- BEGIN left_column -->
+<td class="il_LeftColumn" id="il_left_col_td"><div id="il_left_col">{LEFT_CONTENT}</div></td>
+<!-- END left_column -->
+<td class="il_CenterColumn" id="il_CenterColumn">
+<!-- BEGIN adv_layout_init -->
+<div id="il_adv_center_col" style="width:800px; height:450px;"></div>
+<style type="text/css">
+<!--
+.yui-skin-sam .yui-layout .yui-layout-unit div.yui-layout-bd {
+    border: 1px solid #FFFFFF;
+    background-color: #FFFFFF;
+}
+-->
+</style>
+<script type="text/javascript">
+//Element Based Layout
+ilAddOnLoad(function() {
+var ltd = document.getElementById('il_left_col_td');
+ltd.style.width = 0;
+var layoutEl = new YAHOO.widget.Layout('il_adv_center_col', { units: [
+		{ position: 'right', width: 200, scroll: false }, //Width required here
+        { position: 'left', width: 300, body: 'il_left_col', scroll: true }, //Width required here
+        { position: 'center', body: 'il_center_col', scroll: true }
+    ]
+});
+layoutEl.render();
+});
+</script>
+<!-- END adv_layout_init -->
+
+
+<div id="il_center_col">
+
+<table class="ilTabContentOuter"><tr><td>
 
 <div id="left_col" style="width: 30%; float: left;">
 <!-- BEGIN add_chatroom -->
@@ -94,12 +176,11 @@
 
 		<table class="std" border="0">
 		  <tr class="tblheader">
-			  <th class="std" align="left" nowrap="nowrap" colspan="3">
+			  <th class="std chatlist_header" style="height: 20px" align="left" nowrap="nowrap" colspan="3">
 				{TXT_NEW_MESSAGE}
 			  </th>
 		</tr>
 		<tr>
-<!--			<td class="option">{TXT_INPUT}</td>//-->
 			<td class="option_value" colspan="3" style="text-align:center">
 			    <p style="display: none; text-align: center;" id="recipient_message"></p>
 				<input type="text" name="message" id="chat_post_message" size="50" maxlength="1800" />
@@ -120,7 +201,7 @@
 				<div style="width: 380px; display: none; text-align: center; margin: auto; margin-top: 2px;" id="textformat_selector">
 				<table class="std" border="0">
 				 <tr class="tblheader">
-					  <th class="std" align="left" nowrap="nowrap" colspan="3">{TXT_TEXTFORMAT}</th>
+					  <th class="std chatlist_header" align="left" nowrap="nowrap" colspan="3">{TXT_TEXTFORMAT}</th>
 				</tr>
 				<tr>
 					<td class="option">{TXT_COLOR}</td>
@@ -164,12 +245,12 @@
 		<form action="{MODERATOR_FORMACTION}" name="mod_input" method="post" target="{MODERATOR_TARGET}">
 		<table class="std" border="0">
 		  <tr class="tblheader">
-			  <th class="std" align="left" nowrap="nowrap" colspan="2">
+			  <th class="std chatlist_header" align="left" nowrap="nowrap" colspan="2">
 				{TXT_RECORDINGS}
 			  </th>
 			</tr>
 			<tr id="start_record_1">
-				<td class="option">{TXT_TITLE_START_RECORDING}</td>
+				<td class="option" style="font-size: 12px">{TXT_TITLE_START_RECORDING}</td>
 				<td class="option_value"><input type="text" name="title" value="" /></td>
 			</tr>
 			<tr id="start_record_2" class="tblfooter">
@@ -197,6 +278,27 @@
   </tr>
   </table>
 </div><!-- end bottom row -->
+
+	<!-- BEGIN adm_view_components2 -->
+	<div style="margin-bottom:10px;">{ADM_PANEL2}</div>
+	<!-- END adm_view_components2 -->
+</div>
+</td>
+<!-- BEGIN right_column -->
+<td class="il_RightColumn">{RIGHT_CONTENT}</td>
+<!-- END right_column -->
+</tr></table>
+<!-- BEGIN print_content --><div style="padding-left: 15px; padding-right: 15px;">{PRINT_CONTENT}</div><!-- END print_content -->
+<!-- BEGIN page_form_end --></form><!-- END page_form_end -->
+<!-- BEGIN tabs_inner_end --></div><!-- END tabs_inner_end -->
+<!-- BEGIN tabs_outer_end --></td></tr></table><!-- END tabs_outer_end -->
+
+</td></tr></table>
+
+<div class="ilPermaLink">{PRMLINK}</div>
+</div>
+{FOOTER}
+</div></div></div></div>
 
 <div style="position: absolute; display: none;" id="il_chat_context">
 	<div id="il_chat_context_userimage" style="display: none;"></div>

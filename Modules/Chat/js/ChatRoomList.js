@@ -398,9 +398,15 @@ function ilRoomTable()
 		div_title.className = 'tblheader std chatlist_header';
 		div_body.className = 'il_chat_list il_chat_list_limit_height';
 		
-		div_show_hide.appendChild(document.createTextNode(chatLanguage.getTxt('hide')));
+		//div_show_hide.appendChild(document.createTextNode(chatLanguage.getTxt('hide')));
+		
+		var clsImg = document.createElement('img');
+		clsImg.src ="templates/default/images/icon_close2_s.gif";
+		clsImg.alt = chatLanguage.getTxt('hide');
+		div_show_hide.appendChild(clsImg);
+		
 		div_show_hide.onclick = me.hide;
-		div_show_hide.className = 'il_ContainerItemCommand';
+		div_show_hide.className = 'il_hide_cmd';
 		div_show_hide.style.cssFloat = "right";
 		div_show_hide.style.styleFloat = "right";
 		div_show_hide.style.lineHeight = "100%";
@@ -428,16 +434,16 @@ function ilRoomTable()
 	this.hide = function ()
 	{
 		div_body.style.display = "none";
-		div_show_hide.innerHTML = chatLanguage.getTxt('show');
+		div_show_hide.innerHTML = '<img src="templates/default/images/icon_open2_s.gif" alt="'+chatLanguage.getTxt('show');+'"/>';
 		div_show_hide.onclick = me.show;
 	};
 
 	this.show = function ()
 	{
 		div_body.style.display = "block";
-		div_show_hide.innerHTML = chatLanguage.getTxt('hide');
+		div_show_hide.innerHTML = '<img src="templates/default/images/icon_close2_s.gif" alt="'+chatLanguage.getTxt('hide');+'"/>';
 		div_show_hide.onclick = me.hide;
-	};	
+	};
 };
 
 
