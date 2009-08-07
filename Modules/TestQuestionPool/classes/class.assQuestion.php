@@ -1044,7 +1044,7 @@ class assQuestion
 			$pass = $this->getSolutionMaxPass($active_id);
 		}		
 
-		$result = $ilDB->queryF("SELECT * FROM tst_solutions WHERE active_fi = %s AND question_fi = %s AND pass = %s",
+		$result = $ilDB->queryF("SELECT * FROM tst_solutions WHERE active_fi = %s AND question_fi = %s AND pass = %s ORDER BY solution_id",
 			array('integer','integer','integer'),
 			array($active_id, $this->getId(), $pass)
 		);
