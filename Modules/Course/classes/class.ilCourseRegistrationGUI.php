@@ -336,16 +336,22 @@ class ilCourseRegistrationGUI extends ilRegistrationGUI
 				$txt = new ilNonEditableValueGUI($this->lng->txt('mem_reg_type'));
 				$txt->setValue($this->lng->txt('crs_subscription_options_confirmation'));
 			
-				$sub = new ilTextAreaInputGUI($this->lng->txt('subject'),'grp_subject');
-				$sub->setValue($_POST['grp_subject']);
+				$sub = new ilTextAreaInputGUI($this->lng->txt('subject'),'subject');
+				$sub->setValue($_POST['subject']);
 				$sub->setInfo($this->lng->txt('crs_info_reg_confirmation'));
 				$sub->setCols(40);
 				$sub->setRows(5);
 				if($this->participants->isSubscriber($ilUser->getId()))
 				{
-					#$sub->setAlert($this->lng->txt('crs_reg_user_already_subscribed'));
+					$sub_data = $this->participants->getSubscriberData($ilUser->getId());
+					$sub->setValue($sub_data['subject']);
+					$sub->setInfo('');
 					ilUtil::sendFailure($this->lng->txt('crs_reg_user_already_subscribed'));
-					$this->enableRegistration(false);					
+					$this->enableRegistration(false);	
+					
+					$this->form->addCommandButton('updateSubscriptionRequest', $this->lng->txt('crs_update_subscr_request'));				
+					$this->form->addCommandButton('cancelSubscriptionRequest', $this->lng->txt('crs_cancel_subscr_request'));				
+
 				}
 				$txt->addSubItem($sub);
 				$this->form->addItem($txt);
@@ -632,7 +638,7 @@ class ilCourseRegistrationGUI extends ilRegistrationGUI
 			case IL_CRS_SUBSCRIPTION_CONFIRMATION:
 				$this->participants->addSubscriber($ilUser->getId());
 				$this->participants->updateSubscriptionTime($ilUser->getId(),time());
-				$this->participants->updateSubject($ilUser->getId(),ilUtil::stripSlashes($_POST['grp_subject']));
+				$this->participants->updateSubject($ilUser->getId(),ilUtil::stripSlashes($_POST['subject']));
 				$this->participants->sendNotification($this->participants->NOTIFY_SUBSCRIPTION_REQUEST,$ilUser->getId());
 				
 				ilUtil::sendSuccess($this->lng->txt("application_completed"),true);

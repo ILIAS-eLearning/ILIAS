@@ -2300,7 +2300,7 @@ common#:#group_memstat_admin#:#Administrator
 common#:#group_memstat_member#:#Member
 common#:#group_name#:#Group Name
 common#:#group_new_registrations#:#Join Requests
-common#:#group_no_registration#:#Join group
+common#:#group_no_registration#:#Join Group
 common#:#group_no_registration_msg#:#You can join this group directly.
 common#:#group_not_available#:#No group available
 common#:#group_objects#:#Group Objects
@@ -2395,7 +2395,7 @@ common#:#grp_no_roles_selected#:#Please select a role
 common#:#grp_options#:#Options
 common#:#grp_read#:#Read access to Group
 common#:#grp_register#:#Join
-common#:#grp_registration#:#Join group
+common#:#grp_registration#:#Join Group
 common#:#grp_registration_completed#:#You have joined the group
 common#:#grp_search_enter_search_string#:#Please enter a search string
 common#:#grp_search_members#:#User search
@@ -9840,3 +9840,10 @@ grp#:#grp_missing_title#:#Please enter a group title.
 grp#:#grp_missing_grp_type#:#Please choose a group type.
 grp#:#grp_missing_password#:#Please enter a group password.
 grp#:#grp_wrong_reg_time_limit#:#Please check the registration start and end times.
+grp#:#grp_already_assigned#:#You have already requested membership for this group.
+common#:#sub_request_saved#:#Saved membership request
+grp#:#grp_update_subscr_request#:#Update Membership Request
+grp#:#grp_cancel_subscr_request#:#Delete Membership Request
+crs#:#crs_update_subscr_request#:#Update Membership Request
+crs#:#crs_cancel_subscr_request#:#Delete Membership Request
+common#:#sub_request_deleted#:#Deleted membership request

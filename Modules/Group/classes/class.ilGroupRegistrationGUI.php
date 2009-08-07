@@ -305,16 +305,21 @@ class ilGroupRegistrationGUI extends ilRegistrationGUI
 				$txt = new ilNonEditableValueGUI($this->lng->txt('mem_reg_type'));
 				$txt->setValue($this->lng->txt('grp_reg_request'));
 			
-				$sub = new ilTextAreaInputGUI($this->lng->txt('subject'),'grp_subject');
-				$sub->setValue($_POST['grp_subject']);
+				$sub = new ilTextAreaInputGUI($this->lng->txt('subject'),'subject');
+				$sub->setValue($_POST['subject']);
 				$sub->setInfo($this->lng->txt('group_req_registration_msg'));
 				$sub->setCols(40);
 				$sub->setRows(5);
 				if($this->participants->isSubscriber($ilUser->getId()))
 				{
-					#$sub->setAlert($this->lng->txt('grp_already_applied'));
+					$sub_data = $this->participants->getSubscriberData($ilUser->getId());
+					$sub->setValue($sub_data['subject']);
+					$sub->setInfo('');
 					ilUtil::sendFailure($this->lng->txt('grp_already_assigned'));
-					$this->enableRegistration(false);					
+					$this->enableRegistration(false);	
+					
+					$this->form->addCommandButton('updateSubscriptionRequest', $this->lng->txt('grp_update_subscr_request'));				
+					$this->form->addCommandButton('cancelSubscriptionRequest', $this->lng->txt('grp_cancel_subscr_request'));				
 				}
 				$txt->addSubItem($sub);
 				$this->form->addItem($txt);
@@ -406,7 +411,7 @@ class ilGroupRegistrationGUI extends ilRegistrationGUI
 			case GRP_REGISTRATION_REQUEST:
 				$this->participants->addSubscriber($ilUser->getId());
 				$this->participants->updateSubscriptionTime($ilUser->getId(),time());
-				$this->participants->updateSubject($ilUser->getId(),ilUtil::stripSlashes($_POST['grp_subject']));
+				$this->participants->updateSubject($ilUser->getId(),ilUtil::stripSlashes($_POST['subject']));
 				
 				// send an e-mail to the group administrators, so that they know,
 				// that a new registration request has been issued
@@ -429,7 +434,7 @@ class ilGroupRegistrationGUI extends ilRegistrationGUI
 					$mail->sendMail($rbacreview->getRoleMailboxAddress($grp_admin_role['rol_id']),"","",
 						sprintf($lng->txt('grp_membership_request_subject'), $ilUser->getFirstname(), $ilUser->getLastname(), $this->container->getTitle()),
 						sprintf(str_replace('\n',"\n",$lng->txt('grp_membership_request_body')), $ilUser->getFirstname(), $ilUser->getLastname(), $ilUser->getLogin(), $ilUser->getEmail(), 
-								$this->container->getTitle(), $ilIliasIniFile->readVariable('server','http_path').'/goto.php?client_id='.CLIENT_ID.'&target=grp_'.$this->container->getRefId(), $_POST["grp_subject"]),
+								$this->container->getTitle(), $ilIliasIniFile->readVariable('server','http_path').'/goto.php?client_id='.CLIENT_ID.'&target=grp_'.$this->container->getRefId(), $_POST["subject"]),
 						array(),array('system'));	
 				}
 
