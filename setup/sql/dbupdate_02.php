@@ -15188,6 +15188,6 @@ $ilDB->addPrimaryKey("cache_clob", array("component", "name", "entry_id"));
 	if ($d_set->get("user_profile") != "1")
 	{
 		$set = new ilSetting();
-		$set->set("usr_settings_hide_delicious");
+		$set->set("usr_settings_hide_delicious", 1);
 	}
 ?>
