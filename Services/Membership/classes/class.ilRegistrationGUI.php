@@ -375,5 +375,28 @@ abstract class ilRegistrationGUI
 			$this->form->addCommandButton('cancel', $this->lng->txt('cancel'));
 		}
 	}
+	
+	/**
+	 * Update subscription message
+	 * @return void
+	 */
+	protected function updateSubscriptionRequest()
+	{
+		global $ilUser,$tree;
+		
+		$this->participants->updateSubject($ilUser->getId(),ilUtil::stripSlashes($_POST['subject']));
+		ilUtil::sendSuccess($this->lng->txt('sub_request_saved'),true);
+		ilUtil::redirect("repository.php?ref_id=".$tree->getParentId($this->container->getRefId()));
+	}
+	
+	protected function cancelSubscriptionRequest()
+	{
+		global $ilUser,$tree;
+		
+		$this->participants->deleteSubscriber($ilUser->getId());
+		ilUtil::sendSuccess($this->lng->txt('sub_request_deleted'),true);
+		ilUtil::redirect("repository.php?ref_id=".$tree->getParentId($this->container->getRefId()));
+		
+	}
 }
 ?>

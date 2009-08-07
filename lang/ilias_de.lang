@@ -9858,3 +9858,10 @@ grp#:#grp_missing_title#:#Bitte geben Sie einen Titel ein.
 grp#:#grp_missing_grp_type#:#Bitte wählen Sie die Art der Gruppe aus.
 grp#:#grp_missing_password#:#Bitte geben Sie ein Gruppenpasswort ein.
 grp#:#grp_wrong_reg_time_limit#:#Bitte überprüfen Sie Ihre Eingaben zum Anmeldungszeitraum.
+grp#:#grp_already_assigned#:#Sie haben bereits einen Aufnahmeantrag für diese Gruppe gestellt.
+common#:#sub_request_saved#:#Ihr Aufnahmeantrag wurde aktualisiert
+grp#:#grp_update_subscr_request#:#Aufnahmeantrag aktualisieren
+grp#:#grp_cancel_subscr_request#:#Aufnahmeantrag zurückziehen
+crs#:#crs_update_subscr_request#:#Aufnahmeantrag aktualisieren
+crs#:#crs_cancel_subscr_request#:#Aufnahmeantrag zurückziehen
+common#:#sub_request_deleted#:#Ihr Aufnahmeantrag wurde gelöscht
