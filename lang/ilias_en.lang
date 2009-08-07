@@ -2378,7 +2378,7 @@ common#:#grp_mail_body_new_subscription#:#You have been subscribed to this group
 common#:#grp_mail_body_subscription_cancelled#:#Your membership has been cancelled.
 common#:#grp_mail_subj_new_subscription#:#New subscription
 common#:#grp_mail_subj_subscription_cancelled#:#Subscription cancelled
-common#:#grp_mem_change_status#:#Change Member Status
+common#:#grp_mem_change_status#:#Change Participant Status
 common#:#grp_mem_leave#:#Dismiss member from group
 common#:#grp_mem_send_mail#:#Send member a message
 common#:#grp_members_gallery#:#Group Members Gallery
@@ -9847,3 +9847,5 @@ grp#:#grp_cancel_subscr_request#:#Delete Membership Request
 crs#:#crs_update_subscr_request#:#Update Membership Request
 crs#:#crs_cancel_subscr_request#:#Delete Membership Request
 common#:#sub_request_deleted#:#Deleted membership request
+grp#:#grp_min_one_admin#:#There has to be at least one administrator assigned to this group.
+crs#:#crs_min_one_admin#:#There has to be at least one administrator assigned to this course.

@@ -2431,14 +2431,10 @@ class ilObjCourseGUI extends ilContainerGUI
 		// Get all assignable local roles of the course object, and
 		// determine the role id of the course administrator role.
 		$assignableLocalCourseRoles = array();
-        $courseAdminRoleId = null;
+        $courseAdminRoleId = $this->object->getDefaultAdminRole();
 		foreach ($this->object->getLocalCourseRoles(false) as $title => $role_id)
 		{
-			if (substr($title, 0, 12) == 'il_crs_admin')
-			{
-				$courseAdminRoleId = $role_id;
-			}
-                        $assignableLocalCourseRoles[$role_id] = $title;
+			$assignableLocalCourseRoles[$role_id] = $title;
 		}
                 
 		// Validate the user ids and role ids in the post data
@@ -2447,8 +2443,8 @@ class ilObjCourseGUI extends ilContainerGUI
 			$memberIsCourseAdmin = $rbacreview->isAssigned($usr_id, $courseAdminRoleId);
                         
 			// If the current user doesn't have the 'edit_permission' 
-                        // permission, make sure he doesn't remove the course
-                        // administrator role of members who are course administrator.
+			// permission, make sure he doesn't remove the course
+			// administrator role of members who are course administrator.
 			if (! $hasEditPermissionAccess && $memberIsCourseAdmin &&
 				! in_array($courseAdminRoleId, $_POST['roles'][$usr_id])
 			)
@@ -2459,22 +2455,46 @@ class ilObjCourseGUI extends ilContainerGUI
 			// Validate the role ids in the post data
 			foreach ((array) $_POST['roles'][$usr_id] as $role_id)
 			{
-				if (! array_key_exists($role_id, $assignableLocalCourseRoles))
+				if(!array_key_exists($role_id, $assignableLocalCourseRoles))
 				{
 					ilUtil::sendFailure($this->lng->txt('msg_no_perm_perm'));
 					$this->membersObject();
 					return false;
 		        }
-		        if (!$hasEditPermissionAccess && 
+		        if(!$hasEditPermissionAccess && 
 					$role_id == $courseAdminRoleId &&
-					! $memberIsCourseAdmin)
+					!$memberIsCourseAdmin)
 				{
 					ilUtil::sendFailure($this->lng->txt('msg_no_perm_perm'));
 					$this->membersObject();
 					return false;
 				}
 			}
-		}                        
+		}
+		
+		$has_admin = false;
+		foreach(ilCourseParticipants::_getInstanceByObjId($this->object->getId())->getAdmins() as $admin_id)
+		{
+			if(!isset($_POST['roles'][$admin_id]))
+			{
+				$has_admin = true;
+				break;
+			}
+			if(in_array($courseAdminRoleId,$_POST['roles'][$admin_id]))
+			{
+				$has_admin = true;
+				break;
+			}
+		}
+		
+		if(!$has_admin)
+		{
+			ilUtil::sendFailure($this->lng->txt('crs_min_one_admin'));
+			$_POST['members'] = $_POST['participants'];
+			$this->editMembersObject();
+			return false;
+		}
+		                    
                 
 		foreach($_POST['participants'] as $usr_id)
 		{
