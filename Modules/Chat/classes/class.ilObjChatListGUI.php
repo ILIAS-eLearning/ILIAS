@@ -86,11 +86,16 @@ class ilObjChatListGUI extends ilObjectListGUI
 				$cmd_link = "ilias.php?baseClass=ilChatHandlerGUI&ref_id=".$this->ref_id."&cmd=$a_cmd";
 				break;
 		}
-
+		$this->default_command["frame"] = "_top";
 		return $cmd_link;
 	}
 
 
+	function getCommandFrame($a_cmd)
+	{
+		return "_top";
+	}
+	
 	/**
 	* Get item properties
 	*
