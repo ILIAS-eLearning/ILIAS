@@ -137,12 +137,15 @@ class assMatchingQuestionGUI extends assQuestionGUI
 			}
 
 			// add matching pairs
-			include_once "./Modules/TestQuestionPool/classes/class.assAnswerMatchingPair.php";
-			foreach ($_POST['pairs']['points'] as $index => $points)
+			if (is_array($_POST['pairs']['points']))
 			{
-				$term_id = $_POST['pairs']['term'][$index];
-				$definition_id = $_POST['pairs']['definition'][$index];
-				$this->object->addMatchingPair($this->object->getTermWithIdentifier($term_id), $this->object->getDefinitionWithIdentifier($definition_id), $points);
+				include_once "./Modules/TestQuestionPool/classes/class.assAnswerMatchingPair.php";
+				foreach ($_POST['pairs']['points'] as $index => $points)
+				{
+					$term_id = $_POST['pairs']['term'][$index];
+					$definition_id = $_POST['pairs']['definition'][$index];
+					$this->object->addMatchingPair($this->object->getTermWithIdentifier($term_id), $this->object->getDefinitionWithIdentifier($definition_id), $points);
+				}
 			}
 
 			return 0;
@@ -332,6 +335,8 @@ class assMatchingQuestionGUI extends assQuestionGUI
 		$pairs->setRequired(true);
 		$pairs->setTerms($this->object->getTerms());
 		$pairs->setDefinitions($this->object->getDefinitions());
+		include_once "./Modules/TestQuestionPool/classes/class.assAnswerMatchingPair.php";
+		if (count($this->object->getMatchingPairs() == 0)) $this->object->addMatchingPair(new assAnswerMatchingPair());
 		$pairs->setPairs($this->object->getMatchingPairs());
 		$form->addItem($pairs);
 
