@@ -6029,7 +6029,7 @@ crs#:#export_members#:#Teilnehmerexport
 crs#:#grouping_change_assignment#:#Zuordnungen ändern
 crs#:#import_crs#:#Kurs importieren
 crs#:#learners_view#:#Lerneransicht
-crs#:#max_members_not_numeric#:#Bitte überprüfen Sie Ihre Eingabe für die maximale Teilnehmeranzahl.
+crs#:#max_members_not_numeric#:#Bitte geben Sie eine Zahl für die maximale Teilnehmeranzahl ein.
 crs#:#save_status#:#Status speichern
 crs#:#sess_attendance_list#:#Teilnehmerliste
 crs#:#sess_date_time#:#Sitzungstermin
@@ -9853,3 +9853,7 @@ assessment#:#available_terms#:#Auswählbare Terme
 assessment#:#selection#:#Auswahl
 mcst#:#mcst_set_playtime#:#Die Laufzeit wurde gesetzt.
 mcst#:#mcst_unable_to_determin_playtime#:#Leider konnte die Laufzeit nicht automatisch bestimmt werden. Unter "Bearbeiten" können Sie die Laufzeit manuell einstellen.
+grp#:#grp_missing_title#:#Bitte geben Sie einen Titel ein.
+grp#:#grp_missing_grp_type#:#Bitte wählen Sie die Art der Gruppe aus.
+grp#:#grp_missing_password#:#Bitte geben Sie ein Gruppenpasswort ein.
+grp#:#grp_wrong_reg_time_limit#:#Bitte überprüfen Sie Ihre Eingaben zum Anmeldungszeitraum.

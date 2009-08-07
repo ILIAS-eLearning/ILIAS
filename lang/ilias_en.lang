@@ -9835,3 +9835,7 @@ assessment#:#available_terms#:#Available Terms
 assessment#:#selection#:#Selection
 mcst#:#mcst_set_playtime#:#Playtime has been set.
 mcst#:#mcst_unable_to_determin_playtime#:#Unable to determine playtime. Please set it manually be clicking on Edit.
+grp#:#grp_missing_title#:#Please enter a group title. 
+grp#:#grp_missing_grp_type#:#Please choose a group type.
+grp#:#grp_missing_password#:#Please enter a group password.
+grp#:#grp_wrong_reg_time_limit#:#Please check the registration start and end times.
