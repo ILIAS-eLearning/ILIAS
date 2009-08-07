@@ -1851,7 +1851,7 @@ class ilUtil
 	/**
 	*   deliver data for download via browser.
 	*/
-	function deliverData($a_data, $a_filename, $mime = "application/octet-stream", $charset = "")
+	public static function deliverData($a_data, $a_filename, $mime = "application/octet-stream", $charset = "")
 	{
 		$disposition = "attachment"; // "inline" to view file in browser or "attachment" to download to hard disk
 		//		$mime = "application/octet-stream"; // or whatever the mime type is

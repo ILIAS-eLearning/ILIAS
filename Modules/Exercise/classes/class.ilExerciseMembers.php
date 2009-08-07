@@ -260,13 +260,6 @@ class ilExerciseMembers
 			array((int) $a_status, ilUtil::now(), ($a_status ? ilUtil::now() : null),
 				$this->getObjId(), $a_member_id));
 
-		/*$query = "UPDATE exc_members ".
-			"SET sent = ".$ilDB->quote(($a_status ? 1 : 0))." , ".
-			"sent_time=".$ilDB->quote(($a_status ? (date("Y-m-d H:i:s")) : ("0000-00-00 00:00:00"))).
-			" WHERE obj_id = ".$ilDB->quote($this->getObjId())." ".
-			"AND usr_id = ".$ilDB->quote($a_member_id)." ";
-
-		$this->ilias->db->query($query);*/
 		$this->read();
 
 		return true;
@@ -349,14 +342,6 @@ class ilExerciseMembers
 			array((int) $a_status, ilUtil::now(), ($a_status ? ilUtil::now() : null),
 				$this->getObjId(), $a_member_id));
 
-		
-		/*$query = "UPDATE exc_members ".
-			"SET feedback = ".$ilDB->quote(($a_status ? 1 : 0)).", ".
-			"feedback_time=".$ilDB->quote(($a_status ? (date("Y-m-d H:i:s")) : ("0000-00-00 00:00:00"))).
-			" WHERE obj_id = ".$ilDB->quote($this->getObjId())." ".
-			"AND usr_id = ".$ilDB->quote($a_member_id);
-
-		$this->ilias->db->query($query);*/
 		$this->read();
 
 		return true;
