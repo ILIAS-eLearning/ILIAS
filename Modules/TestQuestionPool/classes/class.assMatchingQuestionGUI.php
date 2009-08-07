@@ -837,6 +837,17 @@ class assMatchingQuestionGUI extends assQuestionGUI
 		return $questionoutput;
 	}
 
+	protected function sortDefinitionsBySolution($solution)
+	{
+		$neworder = array();
+		foreach ($solution as $solution_values)
+		{
+			$id = $solution_values['value2'];
+			array_push($neworder, $this->object->getDefinitionWithIdentifier($id));
+		}
+		return $neworder;
+	}
+
 	function getTestOutputJS($active_id, $pass = NULL, $is_postponed = FALSE, $user_post_solution = FALSE)
 	{
 		// generate the question output
@@ -879,7 +890,6 @@ class assMatchingQuestionGUI extends assQuestionGUI
 			}
 		}
 
-		
 		// shuffle output
 		$terms = $this->object->getTerms();
 		$definitions = $this->object->getDefinitions();
@@ -887,13 +897,27 @@ class assMatchingQuestionGUI extends assQuestionGUI
 		{
 			case 1:
 				$terms = $this->object->pcArrayShuffle($terms);
-				$definitions = $this->object->pcArrayShuffle($definitions);
+				if (count($solutions))
+				{
+					$definitions = $this->sortDefinitionsBySolution($solutions);
+				}
+				else
+				{
+					$definitions = $this->object->pcArrayShuffle($definitions);
+				}
 				break;
 			case 2:
 				$terms = $this->object->pcArrayShuffle($terms);
 				break;
 			case 3:
-				$definitions = $this->object->pcArrayShuffle($definitions);
+				if (count($solutions))
+				{
+					$definitions = $this->sortDefinitionsBySolution($solutions);
+				}
+				else
+				{
+					$definitions = $this->object->pcArrayShuffle($definitions);
+				}
 				break;
 		}
 
@@ -902,7 +926,7 @@ class assMatchingQuestionGUI extends assQuestionGUI
 
 		// create definitions
 		$counter = 0;
-		foreach ($this->object->getDefinitions() as $definition)
+		foreach ($definitions as $definition)
 		{
 			if (strlen($definition->picture))
 			{
@@ -945,7 +969,7 @@ class assMatchingQuestionGUI extends assQuestionGUI
 
 		// create terms
 		$counter = 0;
-		foreach ($this->object->getTerms() as $term)
+		foreach ($terms as $term)
 		{
 			if (strlen($term->picture))
 			{
@@ -1034,13 +1058,27 @@ class assMatchingQuestionGUI extends assQuestionGUI
 		{
 			case 1:
 				$terms = $this->object->pcArrayShuffle($terms);
-				$definitions = $this->object->pcArrayShuffle($definitions);
+				if (count($solutions))
+				{
+					$definitions = $this->sortDefinitionsBySolution($solutions);
+				}
+				else
+				{
+					$definitions = $this->object->pcArrayShuffle($definitions);
+				}
 				break;
 			case 2:
 				$terms = $this->object->pcArrayShuffle($terms);
 				break;
 			case 3:
-				$definitions = $this->object->pcArrayShuffle($definitions);
+				if (count($solutions))
+				{
+					$definitions = $this->sortDefinitionsBySolution($solutions);
+				}
+				else
+				{
+					$definitions = $this->object->pcArrayShuffle($definitions);
+				}
 				break;
 		}
 		$maxcount = max(count($terms), count($definitions));
