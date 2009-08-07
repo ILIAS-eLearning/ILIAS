@@ -2248,7 +2248,7 @@ class ilUtil
 	/**
 	* Strip slashes from array
 	*/
-	function stripSlashesArray($a_arr, $a_strip_html = true, $a_allow = "")
+	public static function stripSlashesArray($a_arr, $a_strip_html = true, $a_allow = "")
 	{
 		if (is_array($a_arr))
 		{
@@ -2266,7 +2266,7 @@ class ilUtil
 	*
 	* @param	boolean		strip also html tags
 	*/
-	function stripSlashes($a_str, $a_strip_html = true, $a_allow = "")
+	public static function stripSlashes($a_str, $a_strip_html = true, $a_allow = "")
 	{
 		if (ini_get("magic_quotes_gpc"))
 		{

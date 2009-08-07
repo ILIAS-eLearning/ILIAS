@@ -976,7 +976,7 @@ class ilObjGroup extends ilContainer
 	* @param	integer	group id
 	* @param	returns userids that are assigned to a group administrator! role
 	*/
-	function getGroupAdminIds($a_grpId="")
+	function getGroupAdminIds($a_grpId = "")
 	{
 		global $rbacreview;
 

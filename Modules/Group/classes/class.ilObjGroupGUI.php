@@ -1308,7 +1308,15 @@ class ilObjGroupGUI extends ilContainerGUI
 		{
 			ilUtil::sendFailure($this->lng->txt('no_checkbox'));
 			$this->membersObject();
-			return true;
+			return false;
+		}
+		
+		if(count($_POST['admins']) == 
+			count(ilGroupParticipants::_getInstanceByObjId($this->object->getId())->getAdmins()))
+		{
+			ilUtil::sendFailure($this->lng->txt('grp_err_administrator_required'));
+			$this->membersObject();
+			return false;
 		}
 		
 		include_once('./Services/Utilities/classes/class.ilConfirmationGUI.php');
@@ -1473,6 +1481,31 @@ class ilObjGroupGUI extends ilContainerGUI
 		{
 			ilUtil::sendFailure($this->lng->txt('no_checkbox'));
 			$this->membersObject();
+			return false;
+		}
+		
+		// Check minimum one admin
+		$has_admin = false;
+		$admin_role = $this->object->getDefaultAdminRole();
+		foreach(ilGroupParticipants::_getInstanceByObjId($this->object->getId())->getAdmins() as $admin_id)
+		{
+			if(!isset($_POST['roles'][$admin_id]))
+			{
+				$has_admin = true;
+				break;
+			}
+			if(in_array($admin_role,$_POST['roles'][$admin_id]))
+			{
+				$has_admin = true;
+				break;
+			}
+		}
+		
+		if(!$has_admin)
+		{
+			ilUtil::sendFailure($this->lng->txt('grp_min_one_admin'));
+			$_POST['members'] = $_POST['participants'];
+			$this->editMembersObject();
 			return false;
 		}
 		
