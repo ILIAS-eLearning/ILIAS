@@ -863,17 +863,17 @@ class ilParticipants
 			switch($a_field)
 			{
 				case 'login':
-					$and = "AND login = ".$ilDB->quote($tmp_user->getLogin())." ";
+					$and = "AND login = ".$ilDB->quote($tmp_user->getLogin(),'text')." ";
 					break;
 				case 'email':
-					$and = "AND email = ".$ilDB->quote($tmp_user->getEmail())." ";
+					$and = "AND email = ".$ilDB->quote($tmp_user->getEmail(),'text')." ";
 					break;
 				case 'matriculation':
-					$and = "AND matriculation = ".$ilDB->quote($tmp_user->getMatriculation())." ";
+					$and = "AND matriculation = ".$ilDB->quote($tmp_user->getMatriculation(),'text')." ";
 					break;
 
 				default:
-					$and = "AND usr_id = '".$a_usr_id."'";
+					$and = "AND usr_id = ".$ilDB->quote($a_usr_id,'integer'). " ";
 					break;
 			}
 			
@@ -882,9 +882,10 @@ class ilParticipants
 				return false;
 			}
 
-			$query = "SELECT * FROM usr_data as ud ".
-				"WHERE usr_id IN (".implode(",",ilUtil::quoteArray($this->getParticipants())).") ".
+			$query = "SELECT * FROM usr_data ud ".
+				"WHERE ".$ilDB->in('usr_id',$this->getParticipants(),false,'integer')." ".
 				$and;
+
 			$res = $ilDB->query($query);
 			return $res->numRows() ? true : false;
 		}
