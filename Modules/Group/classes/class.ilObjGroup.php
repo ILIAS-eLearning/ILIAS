@@ -472,23 +472,23 @@ class ilObjGroup extends ilContainer
 		if(!$this->getTitle())
 		{
 			$this->title = '';
-			$ilErr->appendMessage(self::ERR_MISSING_TITLE);
+			$ilErr->appendMessage($this->lng->txt(self::ERR_MISSING_TITLE));
 		}
 		if(!$this->getGroupType())
 		{
-			$ilErr->appendMessage(self::ERR_MISSING_GROUP_TYPE);
+			$ilErr->appendMessage($this->lng->txt(self::ERR_MISSING_GROUP_TYPE));
 		}
 		if($this->getRegistrationType() == GRP_REGISTRATION_PASSWORD and !strlen($this->getPassword()))
 		{
-			$ilErr->appendMessage(self::ERR_MISSING_PASSWORD);
+			$ilErr->appendMessage($this->lng->txt(self::ERR_MISSING_PASSWORD));
 		}
 		if(ilDateTime::_before($this->getRegistrationEnd(),$this->getRegistrationStart()))
 		{
-			$ilErr->appendMessage(self::ERR_WRONG_REG_TIME_LIMIT);
+			$ilErr->appendMessage($this->lng->txt(self::ERR_WRONG_REG_TIME_LIMIT));
 		}
 		if($this->isMembershipLimited() and (!is_numeric($this->getMaxMembers()) or $this->getMaxMembers() <= 0))
 		{
-			$ilErr->appendMessage(self::ERR_WRONG_MAX_MEMBERS);
+			$ilErr->appendMessage($this->lng->txt(self::ERR_WRONG_MAX_MEMBERS));
 		}
 		return strlen($ilErr->getMessage()) == 0;
 	}

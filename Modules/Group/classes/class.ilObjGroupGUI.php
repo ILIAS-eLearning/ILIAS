@@ -357,9 +357,10 @@ class ilObjGroupGUI extends ilContainerGUI
 		
 		if(!$this->object->validate())
 		{
-			$err = $this->lng->txt('err_check_input').'<br />';
-			$err .= $this->lng->txt($ilErr->getMessage());
+			$err = $this->lng->txt('err_check_input');
 			ilUtil::sendFailure($err);
+			$err = $ilErr->getMessage();
+			ilUtil::sendInfo($err);
 			$this->createObject();
 			return true;
 		}
@@ -451,9 +452,10 @@ class ilObjGroupGUI extends ilContainerGUI
 		
 		if(!$this->object->validate())
 		{
-			$err = $this->lng->txt('err_check_input').'<br />';
-			$err .= $this->lng->txt($ilErr->getMessage());
+			$err = $this->lng->txt('err_check_input');
 			ilUtil::sendFailure($err);
+			$err = $ilErr->getMessage();
+			ilUtil::sendInfo($err);
 			$this->editObject();
 			return true;
 		}
