@@ -456,7 +456,7 @@ class ilObjGroup extends ilContainer
 	*/
 	function getEnableGroupMap()
 	{
-		return $this->enablemap;
+		return (bool) $this->enablemap;
 	}
 	
 	/**
