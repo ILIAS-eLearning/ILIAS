@@ -550,8 +550,14 @@ class ilObjUserFolder extends ilObject
 		global $ilDB;
 
 		$db_settings = array();
-		$profile_fields =& ilObjUserFolder::getProfileFields();
-		$profile_fields[] = "preferences";
+		
+		include_once("./Services/User/classes/class.ilUserProfile.php");
+		$up = new ilUserProfile();
+		$up->skipField("roles");
+		$profile_fields = $up->getStandardUserFields();
+
+		/*$profile_fields =& ilObjUserFolder::getProfileFields();
+		$profile_fields[] = "preferences";*/
 
 		$query = "SELECT * FROM settings WHERE ".
 			$ilDB->like("keyword", "text", '%usr_settings_export_%');
@@ -569,15 +575,15 @@ class ilObjUserFolder extends ilObject
 		$export_settings = array();
 		foreach ($profile_fields as $key => $value)
 		{
-			if (in_array($value, $db_settings))
+			if (in_array($key, $db_settings))
 			{
-				if (strcmp($value, "password") == 0)
+				if (strcmp($key, "password") == 0)
 				{
 					array_push($export_settings, "passwd");
 				}
 				else
 				{
-					array_push($export_settings, $value);
+					array_push($export_settings, $key);
 				}
 			}
 		}
@@ -691,6 +697,16 @@ class ilObjUserFolder extends ilObject
 		}
 	}
 
+	
+/*
+		DEPRECATED, USE:
+		
+		include_once("./Services/User/classes/class.ilUserProfile.php");
+		$up = new ilUserProfile();
+		$up->hideGroup("preferences");
+		$up->getStandardUserFields();
+
+*/
 	/**
 	 * get Profile fields
 	 *
@@ -726,6 +742,7 @@ class ilObjUserFolder extends ilObject
 			"instant_messengers",
 			"hide_own_online_status" 
 		);
+		
 		return $profile_fields;
 	}
 

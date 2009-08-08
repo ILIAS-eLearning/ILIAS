@@ -1921,9 +1921,9 @@ return;
 		// standard fields
 		include_once("./Services/User/classes/class.ilUserProfile.php");
 		$up = new ilUserProfile();
-		$up->setOmitPassword(true);
-		$up->hideGroup("settings");
-		$up->hideGroup("preferences");
+		$up->skipField("password");
+		$up->skipGroup("settings");
+		$up->skipGroup("preferences");
 		$up->addStandardFieldsToForm($this->form, $ilUser);
 
 		// user defined fields
