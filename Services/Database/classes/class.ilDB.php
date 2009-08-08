@@ -177,17 +177,24 @@ abstract class ilDB extends PEAR
 
 	/**
 	* Init db parameters from ini file
+	* @param $tmpClientIniFile	overwrite global client ini file if is set to an object 
 	*/
-	function initFromIniFile()
+	function initFromIniFile($tmpClientIniFile = null)
 	{
 		global $ilClientIniFile;
 		
-		if (is_object($ilClientIniFile))
+		//overwrite global client ini file if local parameter is set 
+		if (is_object($tmpClientIniFile))
+			$clientIniFile = $tmpClientIniFile;
+		else 
+			$clientIniFile = $ilClientIniFile;	
+			
+		if (is_object($clientIniFile ))
 		{
-			$this->setDBUser($ilClientIniFile->readVariable("db", "user"));
-			$this->setDBHost($ilClientIniFile->readVariable("db", "host"));
-			$this->setDBPassword($ilClientIniFile->readVariable("db", "pass"));
-			$this->setDBName($ilClientIniFile->readVariable("db", "name"));
+			$this->setDBUser($clientIniFile ->readVariable("db", "user"));
+			$this->setDBHost($clientIniFile ->readVariable("db", "host"));
+			$this->setDBPassword($clientIniFile ->readVariable("db", "pass"));
+			$this->setDBName($clientIniFile ->readVariable("db", "name"));
 		}
 	}
 	
