@@ -1279,7 +1279,7 @@ common#:#add_comments#:#Edit comments
 common#:#add_condition#:#Create New Association
 common#:#add_member#:#Add Member
 common#:#add_members#:#Add Members
-common#:#add_new_user_defined_field#:#Add New User-defined Field
+common#:#add_new_user_defined_field#:#Add New Custom Field
 common#:#add_new_user_defined_select_field#:#Add New Select Box
 common#:#add_new_user_defined_text_field#:#Add New Text Field
 common#:#add_note#:#Add Note
@@ -3268,7 +3268,7 @@ common#:#no_roles_user_can_be_assigned_to#:#There are no global roles the user c
 common#:#no_submission_made#:#---
 common#:#no_title#:#No Title
 common#:#no_tst_in_personal_list#:#No tests in personal list.
-common#:#no_user_defined_fields_defined#:#No user-defined fields available.
+common#:#no_user_defined_fields_defined#:#No custom fields available.
 common#:#no_users_applied#:#Please select a user.
 common#:#no_users_selected#:#Please select one user.
 common#:#no_xml_file_found_in_zip#:#XML file within zip file not found:
@@ -4083,8 +4083,8 @@ common#:#user_added#:#User added
 common#:#user_assignment#:#User Assignment
 common#:#user_cant_receive_mail#:#user is not allowed to use the mail system
 common#:#user_comment#:#User comment
-common#:#user_defined_fields#:#User-defined Fields
-common#:#user_defined_list#:#Overview User-defined Fields
+common#:#user_defined_fields#:#Custom Fields
+common#:#user_defined_list#:#Custom User Profile Fields
 common#:#user_deleted#:#User deleted
 common#:#user_activated#:#User has been approved
 common#:#user_deactivated#:#User has been disapproved
@@ -4135,7 +4135,7 @@ common#:#usr_hits_per_page#:#Hits/page in tables
 common#:#usr_inactive_only#:#Inactive Users only
 common#:#usr_new#:#New User
 common#:#usr_settings_explanation_profile#:#Check 'Visible' to show fields in the registration form and personal user profile on the personal desktop. Check 'Changeable' to allow the user to change the value in the personal profile. Please note that visible fields can always be entered in the registration form. Required fields are required in the registration form and the personal user profile. All data can be changed in the user administration independent on these settings.
-common#:#usr_settings_header_profile#:#User profile settings
+common#:#usr_settings_header_profile#:#Standard User Profile Fields
 common#:#usr_settings_header_profile_profile#:#Personal profile setting
 common#:#usr_settings_saved#:#Global user settings saved successfully!
 common#:#usr_skin_style#:#Skin / Style
@@ -9060,7 +9060,7 @@ assessment#:#ordertext_info#:#Please enter the text that should be ordered horiz
 assessment#:#textsize#:#Text Size
 assessment#:#textsize_info#:#Enter the text size of the ordering text in percent if you want another size than 100 percent.
 assessment#:#textsize_errortext_info#:#Enter the text size of the error text in percent if you want another size than 100 percent.
-common#:#loginname_settings#:#Loginname-Settings
+common#:#loginname_settings#:#Login Name Settings
 common#:#allow_change_loginname#:#Allow to change the login name
 common#:#create_history_loginname#:#Create a history for changed login names
 common#:#allow_history_loginname_again#:#It is allowed to use login names again, which are saved in the history
@@ -9469,7 +9469,7 @@ payment#:#paya_updated_price#:#The price was saved.
 payment#:#payment_already_bought_but_no_access#:#You already bought the object %s, but you do not have access yet or your license is expired.
 cmps#:#cmps_plugin_activated#:#The plugin has been activated.
 cmps#:#cmps_plugin_deactivated#:#The plugin has been deactivated.
-common#:#preferences#:#User-defined Preferences
+common#:#preferences#:#Preferences
 common#:#on_waiting_list#:#You are on the waiting list
 common#:#leave_waiting_list#:#Leave Waiting List
 cntr#:#cntr_manage#:#Manage
@@ -9840,6 +9840,8 @@ grp#:#grp_missing_title#:#Please enter a group title.
 grp#:#grp_missing_grp_type#:#Please choose a group type.
 grp#:#grp_missing_password#:#Please enter a group password.
 grp#:#grp_wrong_reg_time_limit#:#Please check the registration start and end times.
+user#:#user_field#:#Field
+user#:#user_visible_in_profile#:#Visible in Profile
 grp#:#grp_already_assigned#:#You have already requested membership for this group.
 common#:#sub_request_saved#:#Saved membership request
 grp#:#grp_update_subscr_request#:#Update Membership Request
