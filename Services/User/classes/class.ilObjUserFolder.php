@@ -554,7 +554,7 @@ class ilObjUserFolder extends ilObject
 		include_once("./Services/User/classes/class.ilUserProfile.php");
 		$up = new ilUserProfile();
 		$up->skipField("roles");
-		$profile_fields = $up->getStandardUserFields();
+		$profile_fields = $up->getStandardFields();
 
 		/*$profile_fields =& ilObjUserFolder::getProfileFields();
 		$profile_fields[] = "preferences";*/
