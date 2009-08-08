@@ -1,0 +1,42 @@
+<tr class="{CSS_ROW}">
+	<!-- <td class="std" valign="top" nowrap>{TXT_GROUP}</td> -->
+	<td class="std" valign="top">{TXT_FIELD}</td>
+	<td class="std" valign="top" nowrap>
+		<!-- BEGIN visible -->
+		<input type="checkbox" name="chb[{PROFILE_OPTION_VISIBLE}]" value="1" id="{PROFILE_OPTION_VISIBLE}"{CHECKED_VISIBLE}{DISABLE_VISIBLE} /> <label for="{PROFILE_OPTION_VISIBLE}">{HEADER_VISIBLE}</label>
+		<!-- END visible --><br />
+		<!-- BEGIN registration -->
+		<input type="checkbox" name="chb[{PROFILE_OPTION_REGISTRATION}]" value="1" id="{PROFILE_OPTION_REGISTRATION}"{CHECKED_REGISTRATION}{DISABLE_REGISTRATION} /> <label for="{PROFILE_OPTION_REGISTRATION}">{HEADER_REGISTRATION}</label>
+		<!-- END registration --><br />
+		<!-- BEGIN changeable -->
+		<input type="checkbox" name="chb[{PROFILE_OPTION_CHANGEABLE}]" value="1" id="{PROFILE_OPTION_CHANGEABLE}"{CHECKED_CHANGEABLE}{DISABLE_CHANGEABLE} /> <label for="{PROFILE_OPTION_CHANGEABLE}">{HEADER_CHANGEABLE}</label>
+		<!-- END changeable --><br />
+		<!-- BEGIN required -->
+		<input type="checkbox" name="chb[{PROFILE_OPTION_REQUIRED}]" value="1" id="{PROFILE_OPTION_REQUIRED}"{CHECKED_REQUIRED}{DISABLE_REQUIRED}/> <label for="{PROFILE_OPTION_REQUIRED}">{HEADER_REQUIRED}</label>
+		<!-- END required -->
+	</td><td class="std" valign="top" nowrap>
+		<!-- BEGIN export -->
+		<input type="checkbox" name="chb[{PROFILE_OPTION_EXPORT}]" value="1" id="{PROFILE_OPTION_EXPORT}"{CHECKED_EXPORT}{DISABLE_EXPORT} /> <label for="{PROFILE_OPTION_EXPORT}">{HEADER_EXPORT}</label>
+		<!-- END export --><br />
+		<!-- BEGIN course_export -->
+		<input type="checkbox" name="chb[{PROFILE_OPTION_COURSE_EXPORT}]" value="1" id="{PROFILE_OPTION_COURSE_EXPORT}"{CHECKED_COURSE_EXPORT}{DISABLE_COURSE_EXPORT} /> <label for="{PROFILE_OPTION_COURSE_EXPORT}">{HEADER_COURSE_EXPORT}</label>
+		<!-- END course_export --><br />
+		<!-- BEGIN searchable -->
+		<input type="checkbox" name="chb[{PROFILE_OPTION_SEARCHABLE}]" value="1" id="{PROFILE_OPTION_SEARCHABLE}"{CHECKED_SEARCHABLE}{DISABLE_SEARCHABLE} /> <label for="{PROFILE_OPTION_SEARCHABLE}">{HEADER_SEARCHABLE}</label>
+		<!-- END searchable --><br />
+	</td>
+	<td class="std" valign="top" nowrap>
+		<!-- BEGIN default -->
+		<!-- BEGIN def_selection -->
+    	<select name="select[{PROFILE_OPTION_DEFAULT_VALUE}]" id="{PROFILE_OPTION_DEFAULT_VALUE}">
+			<!-- BEGIN def_sel_option -->
+		    <option value="{OPTION_VALUE}" {OPTION_SELECTED}>{OPTION_TEXT}</option>
+			<!-- END def_sel_option -->
+        </select>
+		<!-- END def_selection -->		
+		<!-- END default -->
+		<!-- BEGIN action -->
+		<div><a class="il_ContainerItemCommand" href="{HREF_CMD}">{TXT_CMD}</a></div>
+		<!-- END action -->
+	</td>
+</tr>

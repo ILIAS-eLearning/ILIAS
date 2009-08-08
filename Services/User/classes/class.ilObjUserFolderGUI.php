@@ -2635,10 +2635,12 @@ if (true)
 	}
 
 
-	// Functions for user defined fields
+	/**
+	 * List all custom user fields
+	 */
 	function listUserDefinedFieldsObject()
 	{
-		global $lng;
+		global $lng, $tpl;
 		
 		$lng->loadLanguageModule("administration");
 		
@@ -2648,9 +2650,18 @@ if (true)
 		include_once './Services/User/classes/class.ilUserDefinedFields.php';	
 
 		$this->setSubTabs('settings');
-		$this->tabs_gui->setTabActive('global_settings');
+		$this->tabs_gui->setTabActive('settings');
 		$this->tabs_gui->setSubTabActive('user_defined_fields');
 
+if (true)
+{
+	include_once("./Services/User/classes/class.ilCustomUserFieldSettingsTableGUI.php");
+	$tab = new ilCustomUserFieldSettingsTableGUI($this, "listUserDefinedFields");
+	$tpl->setContent($tab->getHTML());
+}
+else
+{
+		
 		$this->tpl->addBlockFile('ADM_CONTENT','adm_content','tpl.usrf_list_user_defined.html');
 		$this->tpl->setVariable("FORMACTION",$this->ctrl->getFormAction($this));
 		
@@ -2741,6 +2752,7 @@ if (true)
 			$this->tpl->setVariable("DELETE",$this->lng->txt('delete'));
 			$this->tpl->parseCurrentBlock();			
 		}
+}
 	}
 	
 	function editTextFieldObject()
@@ -2753,7 +2765,7 @@ if (true)
 		$this->ctrl->setParameter($this,'field_id',(int) $_GET['field_id']);
 
 		$this->setSubTabs('settings');
-		$this->tabs_gui->setTabActive('global_settings');
+		$this->tabs_gui->setTabActive('settings');
 		$this->tabs_gui->setSubTabActive('user_defined_fields');
 		
 		$this->tpl->addBlockFile('ADM_CONTENT','adm_content','tpl.usrf_update_text_field.html');
@@ -2806,7 +2818,7 @@ if (true)
 		$this->ctrl->setParameter($this,'field_id',(int) $_GET['field_id']);
 
 		$this->setSubTabs('settings');
-		$this->tabs_gui->setTabActive('global_settings');
+		$this->tabs_gui->setTabActive('settings');
 		$this->tabs_gui->setSubTabActive('user_defined_fields');
 		
 		$this->tpl->addBlockFile('ADM_CONTENT','adm_content','tpl.usrf_update_text_field.html');
@@ -2862,7 +2874,7 @@ if (true)
 		$this->ctrl->setParameter($this,'field_id',(int) $_GET['field_id']);
 
 		$this->setSubTabs('settings');
-		$this->tabs_gui->setTabActive('global_settings');
+		$this->tabs_gui->setTabActive('settings');
 		$this->tabs_gui->setSubTabActive('user_defined_fields');
 		
 		$this->tpl->addBlockFile('ADM_CONTENT','adm_content','tpl.usrf_update_select_field.html');
@@ -2979,7 +2991,7 @@ if (true)
 		ilUtil::sendQuestion($this->lng->txt('udf_delete_sure'));
 
 		$this->setSubTabs('settings');
-		$this->tabs_gui->setTabActive('global_settings');
+		$this->tabs_gui->setTabActive('settings');
 		$this->tabs_gui->setSubTabActive('user_defined_fields');
 
 		$this->tpl->addBlockFile('ADM_CONTENT','adm_content','tpl.usrf_ask_delete.html');
@@ -3017,13 +3029,15 @@ if (true)
 		$this->updateFieldsObject("save");
 	}
 
+	/**
+	 * Update custom fields properties
+	 */
 	function updateFieldsObject($action = "")
 	{
 		include_once './Services/User/classes/class.ilUserDefinedFields.php';		
 		
 		$user_field_definitions =& ilUserDefinedFields::_getInstance();
 		$a_fields = $user_field_definitions->getDefinitions();
-			
 		// check if a course export state of any user defined field has been added
 		if ($action != 'save')
 		{
@@ -3033,7 +3047,7 @@ if (true)
 			{ 
 				foreach($a_fields as $field_id => $definition)
 				{
-					if ($definition['course_export'] == 0 && (int) $_POST['def'][$field_id]['course_export'] == 1)
+					if ($definition['course_export'] == 0 && (int) $_POST['chb']['course_export_'.$field_id] == 1)
 					{	
 						$this->confirm_change = 1;
 						$this->listUserDefinedFieldsObject();
@@ -3055,14 +3069,14 @@ if (true)
 			$user_field_definitions->setFieldName($definition['field_name']);
 			$user_field_definitions->setFieldType($definition['field_type']);
 			$user_field_definitions->setFieldValues($definition['field_values']);
-			$user_field_definitions->enableVisible((int) $_POST['def'][$field_id]['visible']);
-			$user_field_definitions->enableChangeable((int) $_POST['def'][$field_id]['changeable']);
-			$user_field_definitions->enableRequired((int) $_POST['def'][$field_id]['required']);
-			$user_field_definitions->enableSearchable((int) $_POST['def'][$field_id]['searchable']);
-			$user_field_definitions->enableExport((int) $_POST['def'][$field_id]['export']);
-			$user_field_definitions->enableCourseExport((int) $_POST['def'][$field_id]['course_export']);
+			$user_field_definitions->enableVisible((int) $_POST['chb']['visible_'.$field_id]);
+			$user_field_definitions->enableChangeable((int) $_POST['chb']['changeable_'.$field_id]);
+			$user_field_definitions->enableRequired((int) $_POST['chb']['required_'.$field_id]);
+			$user_field_definitions->enableSearchable((int) $_POST['chb']['searchable_'.$field_id]);
+			$user_field_definitions->enableExport((int) $_POST['chb']['export_'.$field_id]);
+			$user_field_definitions->enableCourseExport((int) $_POST['chb']['course_export_'.$field_id]);
 
-			$user_field_definitions->enableRegistration((int)$_POST['def'][$field_id]['visible_registration']);
+			$user_field_definitions->enableRegistration((int)$_POST['chb']['registration_'.$field_id]);
 
 			$user_field_definitions->update($field_id);
 		}
@@ -3083,7 +3097,7 @@ if (true)
 		$_SESSION['num_values'] = 3;
 
 		$this->setSubTabs('settings');
-		$this->tabs_gui->setTabActive('global_settings');
+		$this->tabs_gui->setTabActive('settings');
 		$this->tabs_gui->setSubTabActive('user_defined_fields');
 		
 		include_once("./Services/Form/classes/class.ilPropertyFormGUI.php");
@@ -3114,7 +3128,7 @@ if (true)
 		include_once './Services/User/classes/class.ilUserDefinedFields.php';
 
 		$this->setSubTabs('settings');
-		$this->tabs_gui->setTabActive('global_settings');
+		$this->tabs_gui->setTabActive('settings');
 		$this->tabs_gui->setSubTabActive('user_defined_fields');
 
 		switch($field_type = (int) $_REQUEST['field_type'])
@@ -3379,15 +3393,20 @@ if (true)
 	*/
 	function settingsObject()
 	{
-		include_once 'Services/Search/classes/class.ilUserSearchOptions.php';
+		global $tpl, $lng, $ilias;
 
-		global $ilias;		
-		global $lng;	
-		
+		include_once 'Services/Search/classes/class.ilUserSearchOptions.php';
 		$lng->loadLanguageModule("administration");
-		
-		$this->getTemplateFile("settings","usr");
 		$this->setSubTabs('settings');
+if (true)
+{
+	include_once("./Services/User/classes/class.ilUserFieldSettingsTableGUI.php");
+	$tab = new ilUserFieldSettingsTableGUI($this, "settings");
+	$tpl->setContent($tab->getHTML());
+}
+else
+{
+		$this->getTemplateFile("settings","usr");
 		
 		$profile_fields =& $this->object->getProfileFields();
 		
@@ -3633,7 +3652,8 @@ if (true)
 			$this->tpl->setVariable("CONFIRM_MESSAGE", $this->lng->txt("confirm_message_course_export"));
 			$this->tpl->setVariable("BUTTON_CONFIRM", $this->lng->txt("confirm"));	
 			$this->tpl->setVariable("BUTTON_CANCEL", $this->lng->txt("cancel"));						
-		}		
+		}
+}		
 	}
 	
 	function confirmSavedObject()
@@ -3690,7 +3710,7 @@ if (true)
 			// Enable disable searchable
 			if(ilUserSearchOptions::_isSearchable($field))
 			{
-				ilUserSearchOptions::_saveStatus($field,(bool) $_POST['cbh'][$field]['searchable']);
+				ilUserSearchOptions::_saveStatus($field,(bool) $_POST['chb']['searchable_'.$field]);
 			}
 
 			if (! $_POST["chb"]["visible_".$field])
@@ -3702,7 +3722,7 @@ if (true)
 				$ilias->deleteSetting("usr_settings_hide_".$field);
 			}
 
-			if (! $_POST["chb"]["enabled_" . $field])
+			if (! $_POST["chb"]["changeable_" . $field])
 			{
 				$ilias->setSetting("usr_settings_disable_".$field, "1");
 			}
@@ -3712,7 +3732,7 @@ if (true)
 			}
 
 			// registration visible			
-			if ((int)$_POST['chb']['visible_registration_' . $field])
+			if ((int)$_POST['chb']['registration_' . $field])
 			{
 				$ilias->setSetting('usr_settings_visible_registration_'.$field, 1);
 			}
@@ -4031,7 +4051,7 @@ if (true)
 		global $lng;
 		
 		$this->setSubTabs('settings');
-		$this->tabs_gui->setTabActive('global_settings');
+		$this->tabs_gui->setTabActive('settings');
 		$this->tabs_gui->setSubTabActive('user_new_account_mail');
 
 		$this->tpl->addBlockFile('ADM_CONTENT','adm_content','tpl.usrf_new_account_mail.html');
@@ -4146,7 +4166,7 @@ if (true)
 		
 		if ($rbacsystem->checkAccess("write",$this->object->getRefId()))
 		{
-			$tabs_gui->addTarget("global_settings",
+			$tabs_gui->addTarget("settings",
 				$this->ctrl->getLinkTarget($this, "settings"), array("settings", "saveGlobalUserSettings"), "", "");
 				
 			$tabs_gui->addTarget("export",
@@ -4201,7 +4221,7 @@ if (true)
 		global $ilSetting;
 		
 		$this->setSubTabs('settings');
-		$this->tabs_gui->setTabActive('global_settings');
+		$this->tabs_gui->setTabActive('settings');
 		$this->tabs_gui->setSubTabActive('loginname_settings');
 		
 		include_once("./Services/Form/classes/class.ilPropertyFormGUI.php");

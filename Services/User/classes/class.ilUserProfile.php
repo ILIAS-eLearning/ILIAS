@@ -22,18 +22,25 @@ class ilUserProfile
 						"maxlength" => 32,
 						"size" => 40,
 						"method" => "getLogin",
+						"course_export_fix_value" => 1,
+						"changeable_hide" => true,
+						"required_hide" => true,
 						"group" => "personal_data"),
 		"firstname" => array(
 						"input" => "text",
 						"maxlength" => 32,
 						"size" => 40,
 						"method" => "getFirstname",
+						"required_fix_value" => 1,
+						"course_export_fix_value" => 1,
 						"group" => "personal_data"),
 		"lastname" => array(
 						"input" => "text",
 						"maxlength" => 32,
 						"size" => 40,
 						"method" => "getLastname",
+						"required_fix_value" => 1,
+						"course_export_fix_value" => 1,
 						"group" => "personal_data"),
 		"title" => array(
 						"input" => "text",
@@ -49,12 +56,24 @@ class ilUserProfile
 						"group" => "personal_data"),
 		"picture" => array(
 						"input" => "picture",
+						"required_hide" => true,
+						"registration_hide" => true,
+						"course_export_hide" => true,
+						"lang_var" => "personal_picture",
 						"group" => "personal_data"),
 		"roles" => array(
 						"input" => "roles",
+						"changeable_hide" => true,
+						"required_hide" => true,
+						"registration_hide" => true,
+						"export_hide" => true,
+						"course_export_hide" => true,
 						"group" => "personal_data"),
 		"password" => array(
 						"input" => "password",
+						"required_hide" => true,
+						"registration_hide" => true,
+						"course_export_hide" => true,
 						"group" => "personal_data"),
 		"institution" => array(
 						"input" => "text",
@@ -133,12 +152,15 @@ class ilUserProfile
 						"rows" => 3,
 						"cols" => 45,
 						"method" => "getComment",
+						"course_export_hide" => true,
 						"group" => "contact_data"),
-		"im" => array(
+		"instant_messengers" => array(
 						"input" => "messenger",
 						"types" => array("icq","yahoo","msn","aim","skype","jabber","voip"), 
 						"maxlength" => 40,
 						"size" => 40,
+						"registration_hide" => true,
+						"course_export_hide" => true,
 						"group" => "instant_messengers"),
 		"matriculation" => array(
 						"input" => "text",
@@ -155,20 +177,49 @@ class ilUserProfile
 		"language" => array(
 						"input" => "language",
 						"method" => "getLanguage",
+						"required_hide" => true,
+						"registration_hide" => true,
+						"course_export_hide" => true,
 						"group" => "settings"),
-		"skinstyle" => array(
+		"skin_style" => array(
 						"input" => "skinstyle",
+						"required_hide" => true,
+						"registration_hide" => true,
+						"course_export_hide" => true,
 						"group" => "settings"),
-		"hitsperpage" => array(
-						"input" => "selection",
+		"hits_per_page" => array(
+						"input" => "hitsperpage",
+						"default" => 10,
+						"options" => array(
+							10 => 10, 15 => 15, 20 => 20, 30 => 30, 40 => 40,
+							50 => 50, 100 => 100, 9999 => 9999),
+						"required_hide" => true,
+						"registration_hide" => true,
+						"course_export_hide" => true,
 						"group" => "settings"),
-		"showactiveusers" => array(
+		"show_users_online" => array(
 						"input" => "selection",
+						"default" => "y",
+						"options" => array(
+							"y" => "users_online_show_short_y",
+							"associated" => "users_online_show_short_associated",
+							"n" => "users_online_show_short_n"),
+						"required_hide" => true,
+						"registration_hide" => true,
+						"course_export_hide" => true,
 						"group" => "settings"),
-		"hideonlinestatus" => array(
+		"hide_own_online_status" => array(
 						"input" => "selection",
+						"required_hide" => true,
+						"registration_hide" => true,
+						"course_export_hide" => true,
 						"group" => "settings"),
 		"preferences" => array(
+						"visible_fix_value" => 1,
+						"changeable_fix_value" => 1,
+						"required_hide" => true,
+						"registration_hide" => true,
+						"course_export_hide" => true,
 						"group" => "preferences")
 		
 		);
@@ -178,43 +229,43 @@ class ilUserProfile
 	 */
 	function __construct()
 	{
-		$this->hidden_groups = array();
+		$this->skip_groups = array();
+		$this->skip_fields = array();
 	}
 	
-	/**
-	 * Set omit password
-	 *
-	 * @param	boolean		no password
-	 */
-	function setOmitPassword($a_val)
-	{
-		$this->omit_password = $a_val;
-	}
-	
-	/**
-	 * Get omit password
-	 *
-	 * @return	boolean		no password
-	 */
-	function getOmitPassword()
-	{
-		return $this->omit_password;
-	}
-
 	/**
 	 * Get standard user fields array
 	 */
-	static function getStandardFields()
+	function getStandardFields()
 	{
-		return self::$user_field;
+		$fields = array();
+		foreach (self::$user_field as $f => $p)
+		{
+			// skip hidden groups
+			if (in_array($p["group"], $this->skip_groups) ||
+				in_array($f, $this->skip_fields))
+			{
+				continue;
+			}
+			$fields[$f] = $p;
+		}
+		return $fields;
 	}
 	
 	/**
-	 * Hide a group
+	 * Skip a group
 	 */
-	function hideGroup($a_group)
+	function skipGroup($a_group)
 	{
-		$this->hidden_groups[] = $a_group;
+		$this->skip_groups[] = $a_group;
+	}
+
+	/**
+	 * Skip a field
+	 */
+	function skipField($a_field)
+	{
+		$this->skip_fields[] = $a_field;
 	}
 	
 	/**
@@ -224,17 +275,11 @@ class ilUserProfile
 	{
 		global $ilSetting, $lng, $rbacreview, $ilias;
 		
-		$fields = ilUserProfile::getStandardFields();
+		$fields = $this->getStandardFields();
 		
 		$current_group = "";
 		foreach ($fields as $f => $p)
 		{
-			// skip hidden groups
-			if (in_array($p["group"], $this->hidden_groups))
-			{
-				continue;
-			}
-			
 			// next group? -> diplay subheader
 			if ($p["group"] != $current_group)
 			{
@@ -400,10 +445,7 @@ class ilUserProfile
 					break;
 					
 				case "password":
-					if (!$this->getOmitPassword())
-					{
-						// todo
-					}
+					// todo
 					break;
 			}
 		}
