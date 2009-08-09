@@ -9851,3 +9851,5 @@ crs#:#crs_cancel_subscr_request#:#Delete Membership Request
 common#:#sub_request_deleted#:#Deleted membership request
 grp#:#grp_min_one_admin#:#There has to be at least one administrator assigned to this group.
 crs#:#crs_min_one_admin#:#There has to be at least one administrator assigned to this course.
+administration#:#adm_repository_cache_time#:#Repository Cache Time
+administration#:#adm_repository_cache_time_info#:#Repository access cache time. Set 0 to disable the cache. Higher values may improve performance but also display actions that lead to a no-permission screen.
