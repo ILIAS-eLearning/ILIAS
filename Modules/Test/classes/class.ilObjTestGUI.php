@@ -773,9 +773,12 @@ class ilObjTestGUI extends ilObjectGUI
 				$this->object->setPassScoring($_POST["pass_scoring"]);
 			}
 
-			$this->object->setAnswerFeedback(in_array('instant_feedback_answer', $_POST['instant_feedback']) ? 1 : 0);
-			$this->object->setAnswerFeedbackPoints(in_array('instant_feedback_points', $_POST['instant_feedback']) ? 1 : 0);
-			$this->object->setInstantFeedbackSolution(in_array('instant_feedback_solution', $_POST['instant_feedback']) ? 1 : 0);
+			if (is_array($_POST['instant_feedback']))
+			{
+				$this->object->setAnswerFeedback((is_array($_POST['instant_feedback']) && in_array('instant_feedback_answer', $_POST['instant_feedback'])) ? 1 : 0);
+				$this->object->setAnswerFeedbackPoints((is_array($_POST['instant_feedback']) && in_array('instant_feedback_points', $_POST['instant_feedback'])) ? 1 : 0);
+				$this->object->setInstantFeedbackSolution((is_array($_POST['instant_feedback']) && in_array('instant_feedback_solution', $_POST['instant_feedback'])) ? 1 : 0);
+			}
 
 			$this->object->setScoreReporting($_POST["results_access"]);
 			if ($this->object->getScoreReporting() == REPORT_AFTER_DATE)
@@ -794,13 +797,14 @@ class ilObjTestGUI extends ilObjectGUI
 				$this->object->setReportingDate('');
 			}
 
-			$this->object->setShowPassDetails(in_array('pass_details', $_POST['results_presentation']) ? 1 : 0);
-			$this->object->setShowSolutionDetails(in_array('solution_details', $_POST['results_presentation']) ? 1 : 0);
-			$this->object->setShowSolutionPrintview(in_array('solution_printview', $_POST['results_presentation']) ? 1 : 0);
-			$this->object->setShowSolutionFeedback(in_array('solution_feedback', $_POST['results_presentation']) ? 1 : 0);
-			$this->object->setShowSolutionAnswersOnly(in_array('solution_answers_only', $_POST['results_presentation']) ? 1 : 0);
-			$this->object->setShowSolutionSignature(in_array('solution_signature', $_POST['results_presentation']) ? 1 : 0);
-			$this->object->setShowSolutionSuggested(in_array('solution_suggested', $_POST['results_presentation']) ? 1 : 0);
+			$this->object->setShowPassDetails((is_array($_POST['results_presentation']) && in_array('pass_details', $_POST['results_presentation'])) ? 1 : 0);
+			$this->object->setShowSolutionDetails((is_array($_POST['results_presentation']) && in_array('solution_details', $_POST['results_presentation'])) ? 1 : 0);
+			$this->object->setShowSolutionPrintview((is_array($_POST['results_presentation']) && in_array('solution_printview', $_POST['results_presentation'])) ? 1 : 0);
+			$this->object->setShowSolutionFeedback((is_array($_POST['results_presentation']) && in_array('solution_feedback', $_POST['results_presentation'])) ? 1 : 0);
+			$this->object->setShowSolutionAnswersOnly((is_array($_POST['results_presentation']) && in_array('solution_answers_only', $_POST['results_presentation'])) ? 1 : 0);
+			$this->object->setShowSolutionSignature((is_array($_POST['results_presentation']) && in_array('solution_signature', $_POST['results_presentation'])) ? 1 : 0);
+			$this->object->setShowSolutionSuggested((is_array($_POST['results_presentation']) && in_array('solution_suggested', $_POST['results_presentation'])) ? 1 : 0);
+
 			$this->object->saveToDb(true);
 			ilUtil::sendSuccess($this->lng->txt("msg_obj_modified"), TRUE);
 			$this->ctrl->redirect($this, "scoring");
