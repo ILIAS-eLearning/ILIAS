@@ -775,6 +775,7 @@ class assQuestion
 			$pass = ilObjTest::_getPass($active_id);
 		}
 		$reached_points = $this->calculateReachedPoints($active_id, $pass);
+		if (is_null($reached_points)) $reached_points = 0;
 
 		$affectedRows = $ilDB->manipulateF("DELETE FROM tst_test_result WHERE active_fi = %s AND question_fi = %s AND pass = %s",
 			array("integer", "integer", "integer"),
