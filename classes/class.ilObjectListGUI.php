@@ -2228,16 +2228,12 @@ class ilObjectListGUI
 	function storeAccessCache()
 	{
 		global $ilUser;
-if (true)
-{
-//echo "<br>-".$this->acache->getLastAccessStatus()."-".$this->prevent_access_caching."-";
 		if($this->acache->getLastAccessStatus() == "miss" &&
 			!$this->prevent_access_caching)
 		{
 			$this->acache->storeEntry($ilUser->getId().":".$this->ref_id,
-				serialize($this->access_cache));
+				serialize($this->access_cache), $this->ref_id);
 		}
-}
 	}
 	
 	/**
@@ -2270,8 +2266,6 @@ if (true)
 		$ilBench->stop("ilObjectListGUI", "1000_getListHTML_init$type");
 
 		// read from cache
-if (true)
-{
 		include_once("./Services/Object/classes/class.ilListItemAccessCache.php");
 		$this->acache = new ilListItemAccessCache();
 		$cres = $this->acache->getEntry($ilUser->getId().":".$a_ref_id);
@@ -2279,7 +2273,6 @@ if (true)
 		{
 			$this->access_cache = unserialize($cres);
 		}
-}
 
   		// visible check
 		$ilBench->start("ilObjectListGUI", "2000_getListHTML_check_visible");

@@ -1987,6 +1987,20 @@ return $this->showServerInfoObject();
 		}
 		$this->form->addItem($si);
 		
+		// repository access check
+		$options = array(
+			0 => "0",
+			10 => "10",
+			30 => "30",
+			60 => "60",
+			120 => "120"
+			);
+		$si = new ilSelectInputGUI($this->lng->txt("adm_repository_cache_time"), "rep_cache");
+		$si->setOptions($options);
+		$si->setValue($ilSetting->get("rep_cache"));
+		$si->setInfo($this->lng->txt("adm_repository_cache_time_info"));
+		$this->form->addItem($si);
+		
 		// locale
 		$ti = new ilTextInputGUI($this->lng->txt("adm_locale"), "locale");
 		$ti->setMaxLength(80);
@@ -2081,6 +2095,7 @@ return $this->showServerInfoObject();
 			$ilSetting->set("passwd_auto_generate", $_POST["passwd_auto_generate"]);
 			$ilSetting->set("locale", $_POST["locale"]);
 			$ilSetting->set('preview_learner',(int) $_POST['preview_learner']);
+			$ilSetting->set('rep_cache',(int) $_POST['rep_cache']);
 			
 			ilUtil::sendSuccess($lng->txt("msg_obj_modified"), true);
 			$ilCtrl->redirect($this, "showBasicSettings");

@@ -15191,3 +15191,25 @@ $ilDB->addPrimaryKey("cache_clob", array("component", "name", "entry_id"));
 		$set->set("usr_settings_hide_delicious", 1);
 	}
 ?>
+<#2823>
+<?php
+	$ilDB->addTableColumn("cache_text", "int_key_1",
+		array("type" => "integer", "length" => 4, "notnull" => false));
+	$ilDB->addTableColumn("cache_text", "int_key_2",
+		array("type" => "integer", "length" => 4, "notnull" => false));
+	$ilDB->addTableColumn("cache_text", "text_key_1",
+		array("type" => "text", "length" => 20, "fixed" => false, "notnull" => false));
+	$ilDB->addTableColumn("cache_text", "text_key_2",
+		array("type" => "text", "length" => 20, "fixed" => false, "notnull" => false));
+?>
+<#2824>
+<?php
+	$ilDB->addTableColumn("cache_clob", "int_key_1",
+		array("type" => "integer", "length" => 4, "notnull" => false));
+	$ilDB->addTableColumn("cache_clob", "int_key_2",
+		array("type" => "integer", "length" => 4, "notnull" => false));
+	$ilDB->addTableColumn("cache_clob", "text_key_1",
+		array("type" => "text", "length" => 20, "fixed" => false, "notnull" => false));
+	$ilDB->addTableColumn("cache_clob", "text_key_2",
+		array("type" => "text", "length" => 20, "fixed" => false, "notnull" => false));
+?>

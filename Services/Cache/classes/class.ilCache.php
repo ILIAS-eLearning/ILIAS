@@ -2,8 +2,15 @@
 /* Copyright (c) 1998-2009 ILIAS open source, Extended GPL, see docs/LICENSE */
 
 /**
- * Cache class
+ * Cache class. The cache class stores key/value pairs. Since the primary
+ * key is only one text field. It's sometimes necessary to combine parts
+ * like "100:200" for user id 100 and ref_id 200.
  *
+ * However sometimes records should be deleted by pars of the main key. For
+ * this reason up to two optional additional optional integer and two additional
+ * optional text fields can be stored. A derived class may delete records
+ * based on the content of this additional keys.
+ * 
  * @author Alex Killing <alex.killing@gmx.de>
  * @version $Id$
  * @ingroup ingroup ServicesCache
@@ -125,7 +132,7 @@ class ilCache
 	 * @param
 	 * @return
 	 */
-	final private function readEntry($a_id)
+	protected function readEntry($a_id)
 	{
 		global $ilDB;
 		
@@ -160,10 +167,16 @@ class ilCache
 	/**
 	 * Store entry
 	 *
-	 * @param
+	 * @param	string		key
+	 * @param	string		value
+	 * @param	int			additional optional integer key
+	 * @param	int			additional optional integer key
+	 * @param	string		additional optional text key
+	 * @param	string		additional optional text key
 	 * @return
 	 */
-	function storeEntry($a_id, $a_value)
+	function storeEntry($a_id, $a_value, $a_int_key1 = null, $a_int_key2 = null,
+		$a_text_key1 = null, $a_text_key2 = null)
 	{
 		global $ilDB;
 
@@ -186,6 +199,10 @@ class ilCache
 			"entry_id" => array("text", $a_id)
 			), array (
 			"value" => array($type, $a_value),
+			"int_key_1" => array("integer", $a_int_key1),
+			"int_key_2" => array("integer", $a_int_key2),
+			"text_key_1" => array("text", $a_text_key1),
+			"text_key_2" => array("text", $a_text_key2),
 			"expire_time" => array("integer", (int) (time() + $this->getExpiresAfter())),
 			"ilias_version" => array("text", ILIAS_VERSION_NUMERIC)
 			));
@@ -200,6 +217,36 @@ class ilCache
 				);
 		}
 			
+	}
+	
+	/**
+	 * Delete by additional keys
+	 */
+	protected function deleteByAdditionalKeys($a_int_key1 = null, $a_int_key2 = null,
+		$a_text_key1 = null, $a_text_key2 = null)
+	{
+		global $ilDB;
+
+		$table = $this->getUseLongContent()
+			? "cache_clob"
+			: "cache_text";
+			
+		$q = "DELETE FROM $table ";
+		$fds = array("int_key_1" => array("v" => $a_int_key1, "t" => "integer"),
+			"int_key_2" => array("v" => $a_int_key2, "t" => "integer"),
+			"text_key_1" => array("v" => $a_text_key1, "t" => "text"),
+			"text_key_2" => array("v" => $a_text_key1, "t" => "text"));
+		$sep = " WHERE";
+		foreach ($fds as $k => $fd)
+		{
+			if (!is_null($fd["v"]))
+			{
+				$q = $sep." ".$k." = ".$ilDB->quote($fd["v"], $fd["t"]);
+				$set = " AND";
+			}
+		}
+		
+		$ilDB->manipulate($q);
 	}
 	
 }
