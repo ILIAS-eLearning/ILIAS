@@ -16,6 +16,25 @@ class ilUserProfile
 	// public profile, user import/export
 	// for now this is not implemented yet. Please list places, that already use it:
 	//
+	// - personal profile
+	// - (global) standard user profile fields settings
+	//
+	// the following attributes are defined (can be extended if needed):
+	// - input: input type
+	//			standard inputs: text, radio, selection, textarea
+	//			special inputs: login
+	// - input dependend attributes
+	//		- maxlength, sizte for text
+	//		- values array for radio
+	//		- cols/rows for text areas
+	//		- options array for selections
+	// - method: ilObjUser get-method, e.g. getFirstname
+	// - group: group id (id is also used as lang_var for sub headers in forms
+	// - lang_var: if key should not be used as lang var, this overwrites the usage in forms
+	// - settings property related attributes, settingsproperties are ("visible", "changeable",
+	//   "searchable", "required", "export", "course_export" and "registration")
+	// 		- <settingsproperty>_hide: hide this property in settings (not implemented)
+	// 		- <settingsproperty>_fix_value: property has a fix value (cannot be changed)
 	private static $user_field = array(
 		"username" => array(
 						"input" => "login",
