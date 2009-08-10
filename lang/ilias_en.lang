@@ -2906,7 +2906,7 @@ common#:#mcst_delete#:#Delete Mediacast
 common#:#feed_delete#:#Delete Web Feed
 common#:#message#:#Message
 common#:#message_content#:#Message Content
-common#:#message_no_delivered_files#:#You do not have submitted any files.
+common#:#message_no_delivered_files#:#You have not submitted any files.
 common#:#message_to#:#Message to:
 common#:#meta_data#:#Metadata
 common#:#migrate#:#Migrate
