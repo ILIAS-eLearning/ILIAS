@@ -4213,7 +4213,7 @@ common#:#sess#:#Sitzung
 common#:#session_reminder#:#Session-Reminder
 common#:#session_reminder_alert#:#Ihre Sitzung läuft in %s ab (Aktuelle Zeit: %s). Klicken Sie auf OK um Ihre Sitzung zu verlängern.
 common#:#session_reminder_extended#:#Ihre Sitzung wurde um %s verlängert###30 04 2009 new variable
-common#:#session_reminder_info#:#Wenn aktiviert, erhalten Sie eine Erinnerung, bevor Ihre Sitzung abläuft.
+common#:#session_reminder_info#:#Wenn aktiviert, erhalten Sie eine Erinnerung, bevor die Online-Sitzung Ihres Browsers abläuft.
 common#:#session_reminder_lead_time#:#Vorlaufzeit
 common#:#session_reminder_lead_time_info#:#Bitte geben Sie an, wieviele Sekunden Sie vor dem Ablauf der Sitzung erinnert werden möchten. Der aktuelle Wert für eine Sitzungsdauer beträgt %s.
 common#:#session_reminder_session_duration#:#(Sitzungsdauer: %s).###30 04 2009 new variable
