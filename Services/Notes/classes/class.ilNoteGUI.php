@@ -59,6 +59,7 @@ class ilNoteGUI
 		$this->ctrl =& $ilCtrl;
 		$this->lng =& $lng;
 		
+		$this->anchor_jump = true;
 		$this->add_note_form = false;
 		$this->edit_note_form = false;
 		$this->private_enabled = false;
@@ -188,6 +189,14 @@ class ilNoteGUI
 		$this->multi_selection = $a_enable;
 	}
 
+	/**
+	* enable anchor for form jump
+	*/
+	function enableAnchorJump($a_enable = true)
+	{
+		$this->anchor_jump = $a_enable;
+	}
+
 	/***
 	* get note lists html code
 	*/
@@ -232,6 +241,8 @@ class ilNoteGUI
 		$comments_col = false;
 		if ($this->public_enabled && (!$this->delete_note || $this->public_deletion_enabled)
 			&& !$hide_comments)
+//		if ($this->public_enabled && ($ilUser->getId() != ANONYMOUS_USER_ID)
+//			&& !$hide_comments)
 		{
 			$ntpl->setVariable("COMMENTS", $this->getNoteListHTML(IL_NOTE_PUBLIC, $a_init_form));
 			$comments_col = true;
@@ -373,7 +384,6 @@ class ilNoteGUI
 				$filter = $_POST["note"];
 			}
 		}
-		
 		$notes = ilNote::_getNotesOfObject($this->rep_obj_id, $this->obj_id,
 			$this->obj_type, $a_type, $this->inc_sub, $filter,
 			$ilUser->getPref("notes_pub_all"), $this->public_deletion_enabled);
@@ -412,7 +422,10 @@ class ilNoteGUI
 			$tpl->setVariable("ALT_NOTES", $lng->txt("icon")." ".$lng->txt("notes_public_comments"));
 			$ilCtrl->setParameterByClass("ilnotegui", "note_type", IL_NOTE_PUBLIC);
 		}
-		$tpl->setVariable("FORMACTION", $ilCtrl->getFormAction($this, "getNotesHTML", "notes_top"));
+		$anch = $this->anchor_jump
+			? "notes_top"
+			: "";
+		$tpl->setVariable("FORMACTION", $ilCtrl->getFormAction($this, "getNotesHTML", $anch));
 		
 		if ($this->export_html || $this->print)
 		{
@@ -555,18 +568,19 @@ class ilNoteGUI
 						$tpl->parseCurrentBlock();
 					}
 					
+					// checkboxes in multiselection mode
+					if ($this->multi_selection && !$this->delete_note)
+					{
+						$tpl->setCurrentBlock("checkbox_col");
+						$tpl->setVariable("CHK_NOTE", "note[]");
+						$tpl->setVariable("CHK_NOTE_ID", $note->getId());
+						$tpl->parseCurrentBlock();
+						$cnt_col = 1;
+					}
+					
 					// edit note stuff for all private notes
 					if ($this->checkEdit($note))
 					{
-						// checkboxes in multiselection mode
-						if ($this->multi_selection && !$this->delete_note)
-						{
-							$tpl->setCurrentBlock("checkbox_col");
-							$tpl->setVariable("CHK_NOTE", "note[]");
-							$tpl->setVariable("CHK_NOTE_ID", $note->getId());
-							$tpl->parseCurrentBlock();
-							$cnt_col = 1;
-						}
 
 						if (!$this->delete_note && !$this->export_html && !$this->print
 							&& !$this->edit_note_form && !$this->add_note_form)
@@ -684,11 +698,17 @@ class ilNoteGUI
 			// multiple items commands
 			if ($this->multi_selection && !$this->delete_note && !$this->edit_note_form)
 			{
+				if ($a_type == IL_NOTE_PRIVATE)
+				{
+					$tpl->setCurrentBlock("delete_cmd");
+					$tpl->setVariable("TXT_DELETE_NOTES", $this->lng->txt("delete"));
+					$tpl->parseCurrentBlock();
+				}
+				
 				$tpl->setCurrentBlock("multiple_commands");
 				$tpl->setVariable("TXT_SELECT_ALL", $this->lng->txt("select_all"));
 				$tpl->setVariable("IMG_ARROW", ilUtil::getImagePath("arrow_downright.gif"));
 				$tpl->setVariable("ALT_ARROW", $this->lng->txt("actions"));
-				$tpl->setVariable("TXT_DELETE_NOTES", $this->lng->txt("delete"));
 				$tpl->setVariable("TXT_PRINT_NOTES", $this->lng->txt("print"));
 				$tpl->setVariable("TXT_EXPORT_NOTES", $this->lng->txt("exp_html"));
 				$tpl->parseCurrentBlock();
@@ -1145,6 +1165,7 @@ class ilNoteGUI
 			$this->delete_note = true;
 			$this->note_mess = "qdel";
 		}
+
 		return $this->getNotesHTML();
 	}
 

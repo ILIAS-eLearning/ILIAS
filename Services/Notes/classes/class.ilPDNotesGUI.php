@@ -146,6 +146,7 @@ class ilPDNotesGUI
 		$notes_gui->enableHiding(false);
 		$notes_gui->enableTargets(true);
 		$notes_gui->enableMultiSelection(true);
+		$notes_gui->enableAnchorJump(false);
 
 		$next_class = $this->ctrl->getNextClass($this);
 
