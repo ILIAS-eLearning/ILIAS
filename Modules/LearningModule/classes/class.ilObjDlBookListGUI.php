@@ -135,7 +135,8 @@ class ilObjDlBookListGUI extends ilObjectListGUI
 				}
 				else
 				{
-					$frame = "ilContObj".$this->obj_id;
+					$frame = ilFrameTargetInfo::_getFrame("MainContent");
+					//$frame = "ilContObj".$this->obj_id;
 				}
 				break;
 
