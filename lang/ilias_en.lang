@@ -9017,7 +9017,7 @@ common#:#msg_paste_object_not_in_itself#:#It's not possible to paste the object 
 common#:#mgs_objects_linked_to_the_following_folders#:#The object(s) was/were linked to the following folder(s): %s
 common#:#session_reminder_alert#:#Your session expires in %s (Current Time: %s). Please choose OK to continue your Session.
 common#:#session_reminder#:#Session-Reminder
-common#:#session_reminder_info#:#If enabled, you receive a reminder before your session expires.
+common#:#session_reminder_info#:#If enabled, you receive a reminder before the online-session of your browser expires.
 ecs#:#ecs_no_owner#:#Please select one community name.
 export#:#export_select_resources#:#Select Resources
 export#:#export_resource#:#Resource
