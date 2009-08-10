@@ -2704,7 +2704,7 @@ class ilObjPaymentSettingsGUI extends ilObjectGUI
 
 		$this->tpl->addBlockFile('ADM_CONTENT', 'adm_content', 'tpl.paya_object_selector.html','payment');
 		//$this->__showButton('statistic',$this->lng->txt('back'));
-		$this->__showButton('bookings',$this->lng->txt('back'));
+		$this->__showButton('statistic',$this->lng->txt('back'));
 
 
 		ilUtil::sendInfo($this->lng->txt('paya_select_object_to_sell'));
