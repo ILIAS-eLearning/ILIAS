@@ -1534,8 +1534,6 @@ if ($this->getDBType() == "mysql")
 			$st = $this->db->prepare("REPLACE INTO ".$a_table." (".implode($fields,",").") VALUES (".
 				implode($placeholders2,",").")", $types, MDB2_PREPARE_MANIP, $lob);
 			$r = $st->execute($field_values);
-			
-			
 			//$r = $this->db->extended->autoExecute($a_table, $field_values, MDB2_AUTOQUERY_INSERT, null, $types);
 			$this->handleError($r, "insert / prepare/execute(".$a_table.")");
 			$this->free($st);
