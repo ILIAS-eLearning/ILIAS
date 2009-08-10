@@ -1627,7 +1627,7 @@ common#:#adve_survey_settings#:#Umfrage-Einstellungen
 common#:#adve_visible#:#Erweiterte Bearbeitungseinstellungen sind sichtbar
 common#:#adve_write#:#Erweiterte Bearbeitungseinstellungen bearbeiten
 common#:#agree_date#:#Zugestimmt am
-common#:#allow_assign_users#:#Benutzerzuweisung für lokale Administratoren erlauben.
+common#:#allow_assign_users#:#Benutzerzuweisung für lokale Administratoren erlauben
 common#:#allow_change_loginname#:#Ändern des Login-Namens erlauben
 common#:#allow_history_loginname_again#:#Es dürfen bereits genutzte Login-Namen aus der Historie wieder verwendet werden
 common#:#allow_override_alert#:#Die Regeln der .htaccess-Datei können nicht ausgewertet werden.

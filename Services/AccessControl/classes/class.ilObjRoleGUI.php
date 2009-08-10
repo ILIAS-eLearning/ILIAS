@@ -470,19 +470,19 @@ class ilObjRoleGUI extends ilObjectGUI
 		$desc->setRows(3);
 		$this->form->addItem($desc);
 		
-		$reg = new ilCheckboxInputGUI($this->lng->txt('rbac_new_acc_reg'),'reg');
+		$reg = new ilCheckboxInputGUI($this->lng->txt('allow_register'),'reg');
 		$reg->setValue(1);
-		$reg->setInfo($this->lng->txt('rbac_new_acc_reg_info'));
+		#$reg->setInfo($this->lng->txt('rbac_new_acc_reg_info'));
 		$this->form->addItem($reg);
 		
-		$la = new ilCheckboxInputGUI($this->lng->txt('rbac_local_admin'),'la');
+		$la = new ilCheckboxInputGUI($this->lng->txt('allow_assign_users'),'la');
 		$la->setValue(1);
-		$la->setInfo($this->lng->txt('rbac_local_admin_info'));
+		#$la->setInfo($this->lng->txt('rbac_local_admin_info'));
 		$this->form->addItem($la);
 		
-		$pro = new ilCheckboxInputGUI($this->lng->txt('role_protect_permission'),'pro');
+		$pro = new ilCheckboxInputGUI($this->lng->txt('role_protect_permissions'),'pro');
 		$pro->setValue(1);
-		$pro->setInfo($this->lng->txt('role_protext_permission_info'));
+		#$pro->setInfo($this->lng->txt('role_protext_permission_info'));
 		$this->form->addItem($pro);
 		
 		include_once 'Services/WebDAV/classes/class.ilDiskQuotaActivationChecker.php';
