@@ -44,7 +44,7 @@ class ilNewsForContextBlockGUI extends ilBlockGUI
 	*/
 	function ilNewsForContextBlockGUI()
 	{
-		global $ilCtrl, $lng;
+		global $ilCtrl, $lng, $ilUser;
 		
 		parent::ilBlockGUI();
 		
@@ -59,27 +59,38 @@ class ilNewsForContextBlockGUI extends ilBlockGUI
 		
 		$this->dynamic = false;
 		
-if ($this->getDynamic() && false)
-{
-	$this->dynamic = true;
-	$data = array();
-}
-else if ($this->getCurrentDetailLevel() > 0)
-{
-		if (!empty(self::$st_data))
+		include_once("./Services/News/classes/class.ilNewsCache.php");
+		$this->acache = new ilNewsCache();
+		$cres = $this->acache->getEntry($ilUser->getId().":".$_GET["ref_id"]);
+		$this->cache_hit = false;
+		
+		if ($this->acache->getLastAccessStatus() == "hit")
 		{
-			$data = self::$st_data;
+			self::$st_data = unserialize($cres);
+			$this->cache_hit = true;
+		}
+		
+		if ($this->getDynamic() && !$this->cache_hit)
+		{
+			$this->dynamic = true;
+			$data = array();
+		}
+		else if ($this->getCurrentDetailLevel() > 0)
+		{
+				if (!empty(self::$st_data))
+				{
+					$data = self::$st_data;
+				}
+				else
+				{
+					$data = $this->getNewsData();
+					self::$st_data = $data;
+				}
 		}
 		else
 		{
-			$data = $this->getNewsData();
-			self::$st_data = $data;
+			$data = array();
 		}
-}
-else
-{
-	$data = array();
-}
 		
 		$this->setTitle($lng->txt("news_internal_news"));
 		$this->setRowTemplate("tpl.block_row_news_for_context.html", "Services/News");
@@ -93,27 +104,43 @@ else
 	*/
 	function getNewsData()
 	{
-		global $ilCtrl;
+		global $ilCtrl, $ilUser;
 		
-		$news_item = new ilNewsItem();
-		$news_item->setContextObjId($ilCtrl->getContextObjId());
-		$news_item->setContextObjType($ilCtrl->getContextObjType());
-		
-		// workaround, better: reduce constructor and introduce
-		//$prevent_aggregation = $this->getProperty("prevent_aggregation");
-		$prevent_aggregation = true;
-		if ($ilCtrl->getContextObjType() != "frm")
+		include_once("./Services/News/classes/class.ilNewsCache.php");
+		$this->acache = new ilNewsCache();
+		$cres = $this->acache->getEntry($ilUser->getId().":".$_GET["ref_id"]);
+		if ($this->acache->getLastAccessStatus() == "hit" && false)
 		{
-			$forum_grouping = true;
+			$news_data = unserialize($cres);
 		}
 		else
 		{
-			$forum_grouping = false;
-		}
+			$news_item = new ilNewsItem();
+			$news_item->setContextObjId($ilCtrl->getContextObjId());
+			$news_item->setContextObjType($ilCtrl->getContextObjType());
+			
+			// workaround, better: reduce constructor and introduce
+			//$prevent_aggregation = $this->getProperty("prevent_aggregation");
+			$prevent_aggregation = true;
+			if ($ilCtrl->getContextObjType() != "frm")
+			{
+				$forum_grouping = true;
+			}
+			else
+			{
+				$forum_grouping = false;
+			}
+	
+			
+			$news_data = $news_item->getNewsForRefId($_GET["ref_id"], false, false, 0,
+				$prevent_aggregation, $forum_grouping);
+				
+			$this->acache->storeEntry($ilUser->getId().":".$_GET["ref_id"],
+				$news_data);
 
-		
-		return $news_item->getNewsForRefId($_GET["ref_id"], false, false, 0,
-			$prevent_aggregation, $forum_grouping);
+		}
+//var_dump($news_data);
+		return $news_data;
 	}
 		
 	/**

@@ -173,9 +173,11 @@ class ilDBOracle extends ilDB
 		}
 		$abpk = array();
 		$aboc = array();
+		$delwhere = array();
 		foreach ($a_pk_columns as $k => $col)
 		{
 			$abpk[] = "a.".$k." = b.".$k;
+			$delwhere[] = $k." = ".$ilDB->quote($col[1], $col[0]);
 		}
 		foreach ($a_other_columns as $k => $col)
 		{
@@ -183,13 +185,13 @@ class ilDBOracle extends ilDB
 		}
 		if ($lobs)	// lobs -> use prepare execute (autoexecute broken in PEAR 2.4.1)
 		{
-			$st = $this->db->prepare("REPLACE INTO ".$a_table." (".implode($fields,",").") VALUES (".
-				implode($placeholders2,",").")", $types, MDB2_PREPARE_MANIP, $lob);
-			$r = $st->execute($field_values);
-
+			$ilDB->manipulate("DELETE FROM ".$a_table." WHERE ".
+				implode ($delwhere, " AND ")
+				);
+			$this->insert($a_table, $a_columns);
+			
 			//$r = $this->db->extended->autoExecute($a_table, $field_values, MDB2_AUTOQUERY_INSERT, null, $types);
-			$this->handleError($r, "insert / prepare/execute(".$a_table.")");
-			$this->free($st);
+			$this->handleError($r, "replace, delete/insert(".$a_table.")");
 		}
 		else	// if no lobs are used, use manipulate
 		{
