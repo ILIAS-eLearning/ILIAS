@@ -123,7 +123,7 @@ class ilUserXMLWriter extends ilXmlWriter
 
 	function __buildHeader()
 	{
-		$this->xmlSetDtdDef("<!DOCTYPE Users PUBLIC \"-//ILIAS//DTD UserImport//EN\" \"".ILIAS_HTTP_PATH."/xml/ilias_user_3_10.dtd\">");
+		$this->xmlSetDtdDef("<!DOCTYPE Users PUBLIC \"-//ILIAS//DTD UserImport//EN\" \"".ILIAS_HTTP_PATH."/xml/ilias_user_4_0.dtd\">");
 		$this->xmlSetGenCmt("User of ilias system");
 		$this->xmlHeader();
 
@@ -228,6 +228,7 @@ class ilUserXMLWriter extends ilXmlWriter
 
 		$this->__addElement ("Gender", $row["gender"]);
 		$this->__addElement ("Email", $row["email"]);
+		$this->__addElement ("Birthday", $row["birthday"]);
 		$this->__addElement ("Institution", $row["institution"]);
 		$this->__addElement ("Street", $row["street"]);
 		$this->__addElement ("City", $row["city"]);

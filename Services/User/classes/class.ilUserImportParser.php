@@ -1248,6 +1248,7 @@ class ilUserImportParser extends ilSaxParser
 							if (! is_null($this->userObj->getUTitle())) $updateUser->setUTitle($this->userObj->getUTitle());
 							if (! is_null($this->userObj->getGender())) $updateUser->setGender($this->userObj->getGender());
 							if (! is_null($this->userObj->getEmail())) $updateUser->setEmail($this->userObj->getEmail());
+							if (! is_null($this->userObj->getBirthday())) $updateUser->setBirthday($this->userObj->getBirthday());
 							if (! is_null($this->userObj->getInstitution())) $updateUser->setInstitution($this->userObj->getInstitution());
 							if (! is_null($this->userObj->getStreet())) $updateUser->setStreet($this->userObj->getStreet());
 							if (! is_null($this->userObj->getCity())) $updateUser->setCity($this->userObj->getCity());
@@ -1449,6 +1450,13 @@ class ilUserImportParser extends ilSaxParser
 				$this->userObj->setEmail($this->cdata);
 				break;
 
+			case "Birthday":
+				$timestamp = strtotime($this->cdata);
+				if ($timestamp !== false)
+				{
+					$this->userObj->setBirthday($this->cdata);
+				}				
+				break;				
 			case "Institution":
 				$this->userObj->setInstitution($this->cdata);
 				break;
