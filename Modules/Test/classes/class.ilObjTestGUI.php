@@ -1004,7 +1004,7 @@ class ilObjTestGUI extends ilObjectGUI
 
 		// introduction
 		$intro = new ilTextAreaInputGUI($this->lng->txt("tst_introduction"), "introduction");
-		$intro->setValue(ilUtil::prepareFormOutput($this->object->prepareTextareaOutput($this->object->getIntroduction())));
+		$intro->setValue($this->object->prepareTextareaOutput($this->object->getIntroduction()));
 		$intro->setRows(10);
 		$intro->setCols(80);
 		$intro->setUseRte(TRUE);
@@ -1023,7 +1023,7 @@ class ilObjTestGUI extends ilObjectGUI
 
 		// final statement
 		$finalstatement = new ilTextAreaInputGUI($this->lng->txt("final_statement"), "finalstatement");
-		$finalstatement->setValue(ilUtil::prepareFormOutput($this->object->prepareTextareaOutput($this->object->getFinalStatement())));
+		$finalstatement->setValue($this->object->prepareTextareaOutput($this->object->getFinalStatement()));
 		$finalstatement->setRows(10);
 		$finalstatement->setCols(80);
 		$finalstatement->setUseRte(TRUE);
