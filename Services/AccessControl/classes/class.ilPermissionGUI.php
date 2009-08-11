@@ -330,7 +330,7 @@ class ilPermissionGUI
 	*/
 	function addRole()
 	{
-		global $rbacadmin, $rbacreview, $rbacsystem;
+		global $rbacadmin, $rbacreview, $rbacsystem,$ilErr;
 
 		// check if role title has il_ prefix
 		if (substr($_POST["Fobject"]["title"],0,3) == "il_")
@@ -341,6 +341,20 @@ class ilPermissionGUI
 		{
 			$this->ilias->raiseError($this->lng->txt("fill_out_all_required_fields"),$this->ilias->error_obj->MESSAGE);
 		}
+		
+		$new_title = ilUtil::stripSlashes($_POST['Fobject']['title']);
+		$rolf_data = $rbacreview->getRoleFolderOfObject($this->gui_obj->object->getRefId());
+		if($rolf_data['child'])
+		{
+			foreach($rbacreview->getRolesOfRoleFolder($rolf_data['child']) as $role_id)
+			{
+				if(trim($new_title) == ilObject::_lookupTitle($role_id))
+				{
+					$ilErr->raiseError($this->lng->txt('rbac_role_exists_alert'),$ilErr->MESSAGE);
+				}				
+			}
+		}
+		
 
 		// if the current object is no role folder, create one
 		if ($this->gui_obj->object->getType() != "rolf")

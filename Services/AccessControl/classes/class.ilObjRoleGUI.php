@@ -713,10 +713,10 @@ class ilObjRoleGUI extends ilObjectGUI
 	 */
 	public function saveObject()
 	{
-		global $rbacadmin;
+		global $rbacadmin,$rbacreview;
 		
 		$this->initFormRoleProperties(self::MODE_GLOBAL_CREATE);
-		if($this->form->checkInput())
+		if($this->form->checkInput() and !$this->checkDuplicate())
 		{
 			include_once './Services/AccessControl/classes/class.ilObjRole.php';
 			$this->loadRoleProperties($this->role = new ilObjRole());
@@ -738,6 +738,31 @@ class ilObjRoleGUI extends ilObjectGUI
 	}
 	
 	/**
+	 * Check if role with same name already exists in this folder
+	 * @return bool 
+	 */
+	protected function checkDuplicate($a_role_id = 0)
+	{
+		global $rbacreview;
+
+		foreach($rbacreview->getRolesOfRoleFolder($this->rolf_ref_id) as $role_id)
+		{
+			if($role_id == $a_role_id)
+			{
+				continue;
+			}
+			
+			$title = trim(ilObject::_lookupTitle($role_id));
+			if(strcmp($title, trim($this->form->getInput('title'))) === 0)
+			{
+				$this->form->getItemByPostVar('title')->setAlert($this->lng->txt('rbac_role_exists_alert'));
+				return true;
+			}
+		}
+		return false;
+	}
+	
+	/**
 	 * Save role settings
 	 * @return 
 	 */
@@ -746,7 +771,7 @@ class ilObjRoleGUI extends ilObjectGUI
 		global $rbacadmin;
 		
 		$this->initFormRoleProperties(self::MODE_GLOBAL_UPDATE);
-		if($this->form->checkInput())
+		if($this->form->checkInput() and !$this->checkDuplicate($this->object->getId()))
 		{
 			include_once './Services/AccessControl/classes/class.ilObjRole.php';
 			$this->loadRoleProperties($this->object);
