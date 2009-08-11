@@ -3319,7 +3319,7 @@ class ilObjSurvey extends ilObject
 			}
 			if (array_key_exists('spl', $arrFilter) && strlen($arrFilter['spl']))
 			{
-				$where .= "AND svy_question.obj_fi = " . $ilDB->quote($arrFilter['spl'], 'integer');
+				$where .= " AND svy_question.obj_fi = " . $ilDB->quote($arrFilter['spl'], 'integer');
 			}
 		}
 
@@ -3340,7 +3340,7 @@ class ilObjSurvey extends ilObject
 		include_once "./Modules/SurveyQuestionPool/classes/class.ilObjSurveyQuestionPool.php";
 		$trans = ilObjSurveyQuestionPool::_getQuestionTypeTranslations();
 
-		$query_result = $ilDB->query("SELECT svy_question.*, svy_qtype.type_tag, svy_qtype.plugin, object_reference.ref_id FROM svy_question, svy_qtype, object_reference WHERE svy_question.original_id IS NULL$forbidden$existing AND svy_question.obj_fi = object_reference.obj_id AND svy_question.tstamp > 0 AND svy_question.questiontype_fi = svy_qtype.questiontype_id" . $where);
+		$query_result = $ilDB->query("SELECT svy_question.*, svy_qtype.type_tag, svy_qtype.plugin, object_reference.ref_id FROM svy_question, svy_qtype, object_reference WHERE svy_question.original_id IS NULL$forbidden$existing AND svy_question.obj_fi = object_reference.obj_id AND svy_question.tstamp > 0 AND svy_question.questiontype_fi = svy_qtype.questiontype_id " . $where);
 
 		$rows = array();
 		if ($query_result->numRows())
