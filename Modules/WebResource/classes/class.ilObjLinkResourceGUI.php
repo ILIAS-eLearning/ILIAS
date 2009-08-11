@@ -948,6 +948,14 @@ class ilObjLinkResourceGUI extends ilObjectGUI
 	function saveObject()
 	{
 		global $rbacadmin;
+		
+		if ($_POST["Fobject"]["title"] == "")
+		{
+			ilUtil::sendFailure($this->lng->txt('please_enter_title'));
+			$this->createObject();
+			return false;
+		}
+		
 
 		// create and insert forum in objecttree
 		$newObj = parent::saveObject();
