@@ -401,6 +401,7 @@ class ilObjChatServerGUI extends ilObjectGUI
 		$data['chat_ssl_status'] = $this->object->server_conf->getSSLStatus();
 		$data['chat_ssl_port'] = $this->object->server_conf->getSSLPort();
 		$data['chat_moderator'] = $this->object->server_conf->getModeratorPassword();
+		$data['chat_moderator_retype'] = $this->object->server_conf->getModeratorPassword();		
 		$data['chat_logfile'] = $this->object->server_conf->getLogfile();
 		$data['chat_loglevel'] = $this->object->server_conf->getLogLevel();		
 		$data['chat_allowed'] = $this->object->server_conf->getAllowedHosts();
@@ -565,7 +566,8 @@ class ilObjChatServerGUI extends ilObjectGUI
 		
 		$this->initForm('edit');
 		
-		if(!$this->form_gui->checkInput())	{			
+		if(!$this->form_gui->checkInput())
+		{			
 			$this->tabs_gui->setTabActive('edit_properties');					
 			$this->form_gui->setValuesByPost();
 			$this->tpl->setContent($this->form_gui->getHtml());
@@ -583,11 +585,10 @@ class ilObjChatServerGUI extends ilObjectGUI
 			$this->object->server_conf->setLogLevel(ilUtil::stripSlashes($_POST['chat_loglevel']));
 			$this->object->server_conf->setAllowedHosts(ilUtil::stripSlashes($_POST['chat_allowed']));
 			
-			$this->object->server_conf->validate();			
+			$this->object->server_conf->validate();	
 			
 			$ilSetting->set('chat_sound_status', (int)$_POST['chat_sound_status']);
-			$ilSetting->set('chat_new_invitation_sound_status', (int)$_POST['chat_new_invitation_sound_status']);
-		
+			$ilSetting->set('chat_new_invitation_sound_status', (int)$_POST['chat_new_invitation_sound_status']);		
 			$ilSetting->set('chat_new_message_sound_status', (int)$_POST['chat_new_message_sound_status']);
 			$ilSetting->set('chat_message_notify_status', (int)$_POST['chat_message_notify_status']);
 			$ilSetting->set('chat_smilies_status', (int)$_POST['chat_smilies_status']);

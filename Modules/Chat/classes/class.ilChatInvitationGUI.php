@@ -112,11 +112,7 @@ class ilChatInvitationGUI
 			$tpl->parseCurrentBlock();
 			
 			$invitations[] = (int)$chat_ref_id.'_'.(int)$item['room_id'];
-			if((int)$ilSetting->get('chat_sound_status') &&
-			   (int)$ilSetting->get('chat_new_invitation_sound_status'))
-			{
-				$beep = true;
-			}
+			$beep = true;
 			
 			if($cnt == 0)
 			{
@@ -137,7 +133,7 @@ class ilChatInvitationGUI
 		$tpl->setVariable('TXT_GO', $this->lng->txt('go'));
 		$tpl->setVariable('ACTION', 'ilias.php?baseClass=ilChatPresentationGUI');		
 
-		if((int)$ilSetting->get('chat_sound_status') && 
+		if((int)$ilSetting->get('chat_sound_status') &&
 		   (int)$ilSetting->get('chat_new_invitation_sound_status') &&
 		   (int)$ilUser->getPref('chat_sound_status') &&
 		   (int)$ilUser->getPref('chat_new_invitation_sound_status')
