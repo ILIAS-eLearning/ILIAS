@@ -436,21 +436,40 @@ class ilNote
 	/**
 	* get all related objects for user
 	*/
-	function _getRelatedObjectsOfUser()
+	function _getRelatedObjectsOfUser($a_mode)
 	{
 		global $ilDB, $ilUser;
 		
-		$q = "SELECT DISTINCT rep_obj_id FROM note WHERE ".
-			" type = ".$ilDB->quote((int) IL_NOTE_PRIVATE, "integer").
-			" AND author = ".$ilDB->quote($ilUser->getId(), "integer").
-			" ORDER BY rep_obj_id";
-
-		$ilDB->quote($q);
-		$set = $ilDB->query($q);
-		$reps = array();
-		while($rep_rec = $ilDB->fetchAssoc($set))
+		if ($a_mode == ilPDNotesGUI::PRIVATE_NOTES)
 		{
-			$reps[] = array("rep_obj_id" => $rep_rec["rep_obj_id"]);
+			$q = "SELECT DISTINCT rep_obj_id FROM note WHERE ".
+				" type = ".$ilDB->quote((int) IL_NOTE_PRIVATE, "integer").
+				" AND author = ".$ilDB->quote($ilUser->getId(), "integer").
+				" ORDER BY rep_obj_id";
+	
+			$ilDB->quote($q);
+			$set = $ilDB->query($q);
+			$reps = array();
+			while($rep_rec = $ilDB->fetchAssoc($set))
+			{
+				$reps[] = array("rep_obj_id" => $rep_rec["rep_obj_id"]);
+			}
+		}
+		else
+		{
+			// all objects where the user wrote at least one comment
+			$q = "SELECT DISTINCT rep_obj_id FROM note WHERE ".
+				" type = ".$ilDB->quote((int) IL_NOTE_PUBLIC, "integer").
+				" AND author = ".$ilDB->quote($ilUser->getId(), "integer").
+				" ORDER BY rep_obj_id";
+
+			$ilDB->quote($q);
+			$set = $ilDB->query($q);
+			$reps = array();
+			while($rep_rec = $ilDB->fetchAssoc($set))
+			{
+				$reps[] = array("rep_obj_id" => $rep_rec["rep_obj_id"]);
+			}
 		}
 		
 		return $reps;
