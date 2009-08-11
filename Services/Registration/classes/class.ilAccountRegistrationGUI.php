@@ -179,7 +179,9 @@ class ilAccountRegistrationGUI
 				if((isset($settings['usr_settings_visible_registration_' . $key])
 				    && (int)$settings['usr_settings_visible_registration_'.$key]) ||
 				   in_array($key, array('passwd', 'passwd2')) ||
-				   ($key == 'email' && $this->registration_settings->passwordGenerationEnabled()))
+				   ($key == 'email' && ($this->registration_settings->passwordGenerationEnabled() ||
+				   						$this->registration_settings->getRegistrationType() == IL_REG_ACTIVATION)
+				   ))
 				{
 					$this->tpl->setCurrentBlock($key."_section");
 				}
@@ -442,8 +444,9 @@ class ilAccountRegistrationGUI
 			}
 		}
 
-		// email address is required if password generation is enabled
-		if($this->registration_settings->passwordGenerationEnabled() &&
+		// email address is required if password generation is enabled or registration type = link confirmation
+		if(($this->registration_settings->passwordGenerationEnabled() ||
+		   $this->registration_settings->getRegistrationType() == IL_REG_ACTIVATION)&&
 		   !in_array('email', $require_keys))
 		{
 			$require_keys[] = 'email';
