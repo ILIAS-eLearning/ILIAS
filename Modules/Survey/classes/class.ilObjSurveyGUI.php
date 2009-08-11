@@ -198,10 +198,6 @@ class ilObjSurveyGUI extends ilObjectGUI
 		if (!$hasErrors)
 		{
 			$result = $this->object->setStatus($_POST['online']);
-			if ($result)
-			{
-				ilUtil::sendInfo($result, true);
-			}
 			$this->object->setEvaluationAccess($_POST["evaluation_access"]);
 			$this->object->setStartDateEnabled($_POST["enabled_start_date"]);
 			if ($this->object->getStartDateEnabled())
@@ -280,7 +276,7 @@ class ilObjSurveyGUI extends ilObjectGUI
 
 		// introduction
 		$intro = new ilTextAreaInputGUI($this->lng->txt("introduction"), "introduction");
-		$intro->setValue(ilUtil::prepareFormOutput($this->object->prepareTextareaOutput($this->object->getIntroduction())));
+		$intro->setValue($this->object->prepareTextareaOutput($this->object->getIntroduction()));
 		$intro->setRows(10);
 		$intro->setCols(80);
 		$intro->setUseRte(TRUE);
@@ -373,7 +369,7 @@ class ilObjSurveyGUI extends ilObjectGUI
 
 		// final statement
 		$finalstatement = new ilTextAreaInputGUI($this->lng->txt("outro"), "outro");
-		$finalstatement->setValue(ilUtil::prepareFormOutput($this->object->prepareTextareaOutput($this->object->getOutro())));
+		$finalstatement->setValue($this->object->prepareTextareaOutput($this->object->getOutro()));
 		$finalstatement->setRows(10);
 		$finalstatement->setCols(80);
 		$finalstatement->setUseRte(TRUE);
@@ -391,6 +387,15 @@ class ilObjSurveyGUI extends ilObjectGUI
 		{
 			$errors = !$form->checkInput();
 			$form->setValuesByPost();
+			if (!$errors)
+			{
+				if (($online->getChecked()) && (count($this->object->questions) == 0))
+				{
+					$online->setAlert($this->lng->txt("cannot_switch_to_online_no_questions"));
+					ilUtil::sendFailure($this->lng->txt('form_input_not_valid'));
+					$errors = true;
+				}
+			}
 			if ($errors) $checkonly = false;
 		}
 		if (!$checkonly) $this->tpl->setVariable("ADM_CONTENT", $form->getHTML());
