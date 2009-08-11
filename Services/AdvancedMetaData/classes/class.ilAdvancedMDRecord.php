@@ -359,7 +359,6 @@ class ilAdvancedMDRecord
 	 		"description = ".$this->db->quote($this->getDescription() ,'text')." ".
 	 		"WHERE record_id = ".$this->db->quote($this->getRecordId() ,'integer')." ";
 		$res = $ilDB->manipulate($query);
-		echo $query;
 				
 		// Delete assignments
 	 	$query = "DELETE FROM adv_md_record_objs ".
