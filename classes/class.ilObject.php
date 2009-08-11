@@ -919,7 +919,7 @@ class ilObject
 	*
 	* @param	int		$a_id		object id
 	*/
-	function _lookupTitle($a_id)
+	public static function _lookupTitle($a_id)
 	{
 		global $ilObjDataCache;
 
@@ -1016,7 +1016,7 @@ class ilObject
 		return ($rec["last_update"]);
 	}
 
-	function _lookupObjId($a_id)
+	public static function _lookupObjId($a_id)
 	{
 		global $ilObjDataCache;
 
