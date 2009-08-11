@@ -1101,12 +1101,15 @@ class ilObjCourseGUI extends ilContainerGUI
 			}
 
 			ilUtil::sendSuccess($this->lng->txt('settings_saved'));
+			$this->ctrl->redirect($this,'edit');
 		}
 		else
 		{
 			ilUtil::sendFailure($this->object->getMessage());
+			$this->editObject();
+			return false;
 		}
-		$this->editObject();
+		
 	}
 
 	/**
