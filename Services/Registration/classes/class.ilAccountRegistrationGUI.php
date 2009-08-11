@@ -42,6 +42,10 @@ class ilAccountRegistrationGUI
 {
 	var $ctrl;
 	var $tpl;
+	
+	private $display_pdata = false;
+	private $display_cdata = false;
+	private $display_odata = false;
 
 	public function __construct()
 	{
@@ -170,7 +174,6 @@ class ilAccountRegistrationGUI
 
 
 		// fill presets
-		$blocks_filled = array();
 		foreach((array)$data["fields"] as $key => $val)
 		{		
 			if(!in_array($key, array('login')))
@@ -178,7 +181,7 @@ class ilAccountRegistrationGUI
 				// dont show fields, which are not enabled for registration
 				if((isset($settings['usr_settings_visible_registration_' . $key])
 				    && (int)$settings['usr_settings_visible_registration_'.$key]) ||
-				   in_array($key, array('passwd', 'passwd2')) ||
+				    in_array($key, array('passwd', 'passwd2')) ||
 				   ($key == 'email' && ($this->registration_settings->passwordGenerationEnabled() ||
 				   						$this->registration_settings->getRegistrationType() == IL_REG_ACTIVATION)
 				   ))
@@ -196,7 +199,16 @@ class ilAccountRegistrationGUI
 			{
 				$str = $lng->txt('person_title');
 			}
-
+			
+			// check to see if dynamically required
+			if (((isset($settings['require_' . $key]) && 
+			    (int)$settings['require_' . $key])) 
+			    || in_array($key, array('login', 'passwd')) ||
+			    ($key == 'email' && ($this->registration_settings->passwordGenerationEnabled() || 
+				                     $this->registration_settings->getRegistrationType() == IL_REG_ACTIVATION)))
+			{
+				$str = $str . '<span class="asterisk">*</span>';
+			}
 
 			if($key == 'passwd2')
 			{
@@ -204,9 +216,24 @@ class ilAccountRegistrationGUI
 				$str = $lng->txt('retype_password');				
 				$str = $str . '<span class="asterisk">*</span>';
 			}
- 
+			
  			$this->tpl->setVariable("TXT_".strtoupper($key), $str);
 			$this->tpl->setVariable(strtoupper($key), ilUtil::prepareFormOutput($_POST['user'][$key],true));
+			
+			if($key == 'matriculation')
+			{
+				$this->display_odata = true;
+			}
+			else if(in_array($key, array('title', 'gender', 'firstname', 'lastname')))
+			{
+				$this->display_pdata = true;
+			}
+			else if(in_array($key, array('institution', 'department', 'street', 'city',
+										 'zipcode', 'country', 'phone_office', 'phone_home',
+										 'phone_mobile', 'fax', 'email', 'hobby', 'referral_comment')))
+			{
+				$this->display_cdata = true;
+			}
 
 			if($key == 'gender')
 			{
@@ -223,52 +250,16 @@ class ilAccountRegistrationGUI
 						$this->tpl->setVariable('BTN_GENDER_'.$gender, 'checked="checked"');
 					}
 				}
-			}			
-
-			if (!in_array($key, array("login")))
+			}
+			
+			if(!in_array($key, array('login')))
 			{
 				$this->tpl->parseCurrentBlock();
 			}
+		}		
 
-			if($key == 'matriculation')
-			{
-				$blocks_filled['otherdata'] = true;
-			}
-			else if(in_array($key, array('title', 'gender', 'firstname', 'lastname')))
-			{
-				$blocks_filled['personalinfo'] = true;
-			}
-			else if(in_array($key, array('institution', 'department', 'street', 'city',
-										 'zipcode', 'country', 'phone_office', 'phone_home',
-										 'phone_mobile', 'fax', 'email', 'hobby', 'referral_comment')))
-			{
-				$blocks_filled['contactinfo'] = true;
-			}
-		}
-		
-		// show personal data if at least one field appears
-		if(isset($blocks_filled['personalinfo']))
-		{
-			$this->tpl->setCurrentBlock('block_headline_personalinfo');
-			$this->tpl->setVariable("TXT_PERSONAL_DATA", $lng->txt("personal_data"));
-			$this->tpl->parseCurrentBlock();
-		}
-		// show contact data if at least one field appears
-		if(isset($blocks_filled['contactinfo']))
-		{		
-			$this->tpl->setCurrentBlock('block_headline_contactinfo');
-			$this->tpl->setVariable("TXT_CONTACT_DATA", $lng->txt("contact_data"));
-			$this->tpl->parseCurrentBlock();
-		}
-		// show other data if at least one field appears
-		if(isset($blocks_filled['otherdata']))
-		{		
-			$this->tpl->setCurrentBlock('block_headline_otherdata');
-			$this->tpl->setVariable("TXT_OTHER", $lng->txt("user_profile_other"));
-			$this->tpl->parseCurrentBlock();
-		}
-
-		if($this->registration_settings->passwordGenerationEnabled())
+		if($this->registration_settings->passwordGenerationEnabled() ||
+		   $this->registration_settings->getRegistrationType() == IL_REG_ACTIVATION)
 		{
 			$this->tpl->setCurrentBlock('select_password');
 			$this->tpl->setVariable("TXT_PASSWD_SELECT", $lng->txt("passwd"));
@@ -317,7 +308,7 @@ class ilAccountRegistrationGUI
 		// preselect previous chosen language otherwise default language
 		$selected_lang = (isset($_POST["user"]["language"])) ?
 			$_POST["user"]["language"] : $lng->lang_key;
-
+		
 		foreach ($languages as $lang_key)
 		{
 			$this->tpl->setCurrentBlock("language_selection");
@@ -343,6 +334,28 @@ class ilAccountRegistrationGUI
 		$this->tpl->setVariable("ACCEPT_AGREEMENT", $lng->txt("accept_usr_agreement") . '<span class="asterisk">*</span>');
 
 		$this->showUserDefinedFields();
+		
+		// show personal data if at least one field appears
+		if($this->display_pdata)
+		{
+			$this->tpl->setCurrentBlock('block_headline_personalinfo');
+			$this->tpl->setVariable("TXT_PERSONAL_DATA", $lng->txt("personal_data"));
+			$this->tpl->parseCurrentBlock();
+		}
+		// show contact data if at least one field appears
+		if($this->display_cdata)
+		{		
+			$this->tpl->setCurrentBlock('block_headline_contactinfo');
+			$this->tpl->setVariable("TXT_CONTACT_DATA", $lng->txt("contact_data"));
+			$this->tpl->parseCurrentBlock();
+		}
+		// show other data if at least one field appears
+		if($this->display_odata)
+		{		
+			$this->tpl->setCurrentBlock('block_headline_otherdata');
+			$this->tpl->setVariable("TXT_OTHER", $lng->txt("user_profile_other"));
+			$this->tpl->parseCurrentBlock();
+		}
 	}
 
 	function showUserDefinedFields()
@@ -353,6 +366,8 @@ class ilAccountRegistrationGUI
 		#$user_defined_data = $ilUser->getUserDefinedData();
 		foreach($user_defined_fields->getRegistrationDefinitions() as $field_id => $definition)
 		{
+			$this->display_odata = true;
+			
 			if($definition['field_type'] == UDF_TYPE_TEXT)
 			{
 				$old = isset($_POST["udf"][$field_id]) ?
@@ -381,7 +396,7 @@ class ilAccountRegistrationGUI
 			}
 			$this->tpl->setCurrentBlock("user_defined");
 
-			if($definition['required_registration'])
+			if($definition['required'])
 			{
 				$name = $definition['field_name']."<span class=\"asterisk\">*</span>";
 			}
@@ -403,7 +418,7 @@ class ilAccountRegistrationGUI
 
 		foreach($user_defined_fields->getRegistrationDefinitions() as $field_id => $definition)
 		{
-			if($definition['required_registration'] and !strlen($_POST['udf'][$field_id]))
+			if($definition['required'] and !strlen($_POST['udf'][$field_id]))
 			{
 				return false;
 			}
@@ -431,16 +446,21 @@ class ilAccountRegistrationGUI
 		$require_keys = array();
 		foreach($settings as $key => $val)
 		{
-			if(substr($key, 0, 35) == 'usr_settings_required_registration_' &&
+			if (substr($key, 0, 8) == 'require_' &&
 			   (int)$settings[$key])
 			{
 				if($this->registration_settings->passwordGenerationEnabled() && 
-				   (substr($key, 35) == 'passwd' ||  substr($key, 35) == 'passwd2'))
+				   ($key == 'require_passwd' || $key == 'require_passwd2'))
+				{
+					continue;
+				}
+				
+				if($key == 'require_default_role')
 				{
 					continue;
 				}
 
-				$require_keys[] = substr($key, 35);
+				$require_keys[] = substr($key, 8);
 			}
 		}
 
