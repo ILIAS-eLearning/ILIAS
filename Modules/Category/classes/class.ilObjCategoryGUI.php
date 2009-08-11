@@ -515,6 +515,12 @@ class ilObjCategoryGUI extends ilContainerGUI
 				$info->setBlockProperty("news", "public_notifications_option", true);
 			}
 		}
+		
+		include_once('Services/AdvancedMetaData/classes/class.ilAdvancedMDRecordGUI.php');
+		$record_gui = new ilAdvancedMDRecordGUI(ilAdvancedMDRecordGUI::MODE_INFO,'cat',$this->object->getId());
+		$record_gui->setInfoObject($info);
+		$record_gui->parse();
+		
 
 		// standard meta data
 		$info->addMetaDataSections($this->object->getId(),0, $this->object->getType());
