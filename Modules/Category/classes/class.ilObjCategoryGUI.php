@@ -387,12 +387,22 @@ class ilObjCategoryGUI extends ilContainerGUI
 	*/
 	function saveObject()
 	{
+		global $ilErr;
+		
 		$data = $_POST;
 
 		// default language set?
 		if (!isset($data["default_language"]))
 		{
 			$this->ilias->raiseError($this->lng->txt("msg_no_default_language"),$this->ilias->error_obj->MESSAGE);
+		}
+		
+		// check title
+		if ($_POST["Fobject"]["title"] == "")
+		{
+			ilUtil::sendFailure($this->lng->txt('please_enter_title'));
+			$this->createObject();
+			return false;
 		}
 
 		// prepare array fro further checks
