@@ -139,10 +139,11 @@ class ilBookmarkImportExport
 		$htmlCont.='<H1>'.ilUtil::prepareFormOutput($title).'</H1>'."\n\n";
 		$htmlCont.='<DL><p>'."\n";
 		foreach ($obj_ids as $obj_id) {
-			$object=ilBookmarkFolder::getObject($obj_id);
+			$object = ilBookmarkFolder::getObject($obj_id);
 			$htmlCont.=ilBookmarkImportExport::__parseExport($object,1,$recursive);
 		}
 		$htmlCont.='</DL><p>'."\n";
+//echo htmlentities($htmlCont); exit;
 		return $htmlCont;
 	}
 	/**

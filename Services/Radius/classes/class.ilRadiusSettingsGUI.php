@@ -149,11 +149,8 @@ class ilRadiusSettingsGUI
 		$migr->setValue(1);
 		$check->addSubItem($migr);
 		$form->addItem($check);
-		
-		
 
 		$form->addCommandButton('save',$this->lng->txt('save'));
-		$form->addCommandButton('cancel',$this->lng->txt('cancel'));
 		$this->tpl->setVariable('SETTINGS_TABLE',$form->getHTML());
 	}
 	

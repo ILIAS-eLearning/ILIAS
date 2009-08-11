@@ -499,12 +499,43 @@ return;
 	}
 	
 	/**
+	* Init import bookmark form
+	*
+	*/
+	private function initImportBookmarksForm()
+	{
+		global $lng, $ilCtrl, $ilUser;
+		
+		if (!$this->tree->isInTree($this->id))
+		{
+			return;
+		}
+
+		include_once 'Services/Form/classes/class.ilPropertyFormGUI.php';
+		$form = new ilPropertyFormGUI();
+		$form->setTopAnchor("bookmark_top");
+		$form->setTitle($lng->txt("bkm_import"));
+		
+		$fi = new ilFileInputGUI($lng->txt("file_add"), "bkmfile");
+		$fi->setRequired(true);
+		$form->addItem($fi);
+
+		$form->addCommandButton("importFile", $lng->txt('import'));
+		$form->addCommandButton('cancel', $lng->txt('cancel'));
+		
+		return $form;
+	}
+
+	/**
 	* display new bookmark form
 	*/
 	function newFormBookmark()
 	{
 		$form = $this->initFormBookmark();
-		$this->tpl->setVariable("ADM_CONTENT", $form->getHTML());
+		$html1 = $form->getHTML();
+		$form2 = $this->initImportBookmarksForm();
+		$html2 = $form2->getHTML();
+		$this->tpl->setVariable("ADM_CONTENT", $html1."<br />".$html2);
 	}
 
 
@@ -696,7 +727,7 @@ return;
 				$export_ids[]=$id;
 			}
 		}
-		
+
 		require_once ("./Services/PersonalDesktop/classes/class.ilBookmarkImportExport.php");
 		$html_content=ilBookmarkImportExport::_exportBookmark ($export_ids,true,
 			$this->lng->txt("bookmarks_of")." ".$this->ilias->account->getFullname());
