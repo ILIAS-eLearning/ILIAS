@@ -106,7 +106,6 @@ class ilObjAuthSettingsGUI extends ilObjectGUI
 
 		$this->tpl->setVariable("TXT_CONFIGURE", $this->lng->txt("auth_configure"));
 		$this->tpl->setVariable("TXT_AUTH_REMARK", $this->lng->txt("auth_remark_non_local_auth"));
-		$this->tpl->setVariable("TXT_CANCEL", $this->lng->txt("cancel"));
 		$this->tpl->setVariable("TXT_SUBMIT", $this->lng->txt("save"));
 		$this->tpl->setVariable("CMD_SUBMIT", "setAuthMode");
 				
