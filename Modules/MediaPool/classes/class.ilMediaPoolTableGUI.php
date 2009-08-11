@@ -222,7 +222,6 @@ class ilMediaPoolTableGUI extends ilTable2GUI
 			{
 				$mobjs = $this->media_pool->getChildsExceptFolders($this->current_folder);
 			}
-
 			$m2objs = array();
 			foreach ($mobjs as $obj)
 			{
@@ -304,7 +303,7 @@ class ilMediaPoolTableGUI extends ilTable2GUI
 				{
 					$this->tpl->setCurrentBlock("edit");
 					$this->tpl->setVariable("TXT_EDIT", $lng->txt("edit"));
-					$ilCtrl->setParameterByClass("ilmediapoolpagegui", "item_id", $a_set["obj_id"]);
+					$ilCtrl->setParameterByClass("ilmediapoolpagegui", "item_id", $a_set["child"]);
 					$this->tpl->setVariable("EDIT_LINK",
 						$ilCtrl->getLinkTargetByClass("ilmediapoolpagegui", "edit"));
 					$this->tpl->parseCurrentBlock();
@@ -325,7 +324,7 @@ class ilMediaPoolTableGUI extends ilTable2GUI
 				{
 					$this->tpl->setVariable("TXT_TITLE", $a_set["title"]);
 					$this->tpl->touchBlock("nf");
-					$ilCtrl->setParameterByClass("ilobjmediaobjectgui", "item_id", $a_set["obj_id"]);
+					$ilCtrl->setParameterByClass("ilobjmediaobjectgui", "item_id", $a_set["child"]);
 					$ilCtrl->setParameter($this->parent_obj, "mob_id", $a_set["foreign_id"]);
 					$this->tpl->setVariable("LINK_VIEW",
 						$ilCtrl->getLinkTarget($this->parent_obj, "showMedia"));
