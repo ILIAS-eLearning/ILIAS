@@ -129,20 +129,9 @@ class ilAccountRegistrationGUI
 			$this->tpl->setVariable("TXT_REGISTERED", $lng->txt("txt_registered_passw_gen"));
 		}
 	}
-
-	function displayForm()
+	
+	private function getRegistrationFieldsArray()
 	{
-		global $ilias,$lng,$ObjDefinition;
-
-		$this->tpl->addBlockFile("CONTENT", "content", "tpl.usr_registration.html");
-		$this->tpl->addBlockFile("STATUSLINE", "statusline", "tpl.statusline.html");
-
-		//load ILIAS settings
-		$settings = $ilias->getAllSettings();
-
-
-		$this->__showRoleSelection();
-
 		$data = array();
 		$data["fields"] = array();
 		$data["fields"]["login"] = "";
@@ -171,16 +160,32 @@ class ilAccountRegistrationGUI
 		$data["fields"]["hobby"] = "";
 		$data["fields"]["referral_comment"] = "";
 		$data["fields"]["matriculation"] = "";
+		
+		return $data;
+	}
 
+	function displayForm()
+	{
+		global $ilias,$lng,$ObjDefinition;
+
+		$this->tpl->addBlockFile("CONTENT", "content", "tpl.usr_registration.html");
+		$this->tpl->addBlockFile("STATUSLINE", "statusline", "tpl.statusline.html");
+
+		//load ILIAS settings
+		$settings = $ilias->getAllSettings();
+
+		$this->__showRoleSelection();
+		
+		$data = $this->getRegistrationFieldsArray();
 
 		// fill presets
 		foreach((array)$data["fields"] as $key => $val)
-		{		
+		{
 			if(!in_array($key, array('login')))
 			{
 				// dont show fields, which are not enabled for registration
-				if((isset($settings['usr_settings_visible_registration_' . $key])
-				    && (int)$settings['usr_settings_visible_registration_'.$key]) ||
+				if((isset($settings['usr_settings_visible_registration_' . $key]) &&
+				    (int)$settings['usr_settings_visible_registration_'.$key]) ||
 				    in_array($key, array('passwd', 'passwd2')) ||
 				   ($key == 'email' && ($this->registration_settings->passwordGenerationEnabled() ||
 				   						$this->registration_settings->getRegistrationType() == IL_REG_ACTIVATION)
@@ -258,8 +263,7 @@ class ilAccountRegistrationGUI
 			}
 		}		
 
-		if($this->registration_settings->passwordGenerationEnabled() ||
-		   $this->registration_settings->getRegistrationType() == IL_REG_ACTIVATION)
+		if($this->registration_settings->passwordGenerationEnabled())
 		{
 			$this->tpl->setCurrentBlock('select_password');
 			$this->tpl->setVariable("TXT_PASSWD_SELECT", $lng->txt("passwd"));
@@ -441,36 +445,31 @@ class ilAccountRegistrationGUI
 			$this->displayForm();
 			return false;
 		}
-
-		// check dynamically required fields
+		
+		$data = $this->getRegistrationFieldsArray();
 		$require_keys = array();
-		foreach($settings as $key => $val)
+		foreach($data['fields'] as $key => $val)
 		{
-			if (substr($key, 0, 8) == 'require_' &&
-			   (int)$settings[$key])
+			if(in_array($key, array('login', 'passwd', 'passwd2')))
 			{
-				if($this->registration_settings->passwordGenerationEnabled() && 
-				   ($key == 'require_passwd' || $key == 'require_passwd2'))
-				{
-					continue;
-				}
-				
-				if($key == 'require_default_role')
-				{
-					continue;
-				}
-
-				$require_keys[] = substr($key, 8);
+				$require_keys[] = $key;
+				continue;
+			}
+			
+			if((int)$settings['require_'.$key] &&
+			   (int)$settings['usr_settings_visible_registration_'.$key])
+			{
+				$require_keys[] = $key;
 			}
 		}
 
 		// email address is required if password generation is enabled or registration type = link confirmation
 		if(($this->registration_settings->passwordGenerationEnabled() ||
-		   $this->registration_settings->getRegistrationType() == IL_REG_ACTIVATION)&&
+		   $this->registration_settings->getRegistrationType() == IL_REG_ACTIVATION) &&
 		   !in_array('email', $require_keys))
 		{
 			$require_keys[] = 'email';
-		}	
+		}
 
 		foreach($require_keys as $key => $val)
 		{
