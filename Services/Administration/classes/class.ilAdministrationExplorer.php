@@ -144,6 +144,13 @@ class ilAdministrationExplorer extends ilExplorer
 		
 		return parent::getImage($a_name);
 	}
+
+	function isClickable($a_type, $a_ref_id)
+	{
+		global $rbacsystem;
+
+		return $rbacsystem->checkAccess('read',$a_ref_id);
+	}
 	
 	function isVisible($a_ref_id,$a_type)
 	{
