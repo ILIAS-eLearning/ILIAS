@@ -812,7 +812,7 @@ class ilAccountRegistrationGUI
             
             //@todo: $settings["admin_email"] -> I suggest to add the System Administrators mail
 			//address (from Administration > General Settings > Contact Information) as contact in the body.
-			vd($body);
+			
 			$mail_obj->sendMail($this->userObj->getEmail(), '', '',
 				$subject,
 				$body,
