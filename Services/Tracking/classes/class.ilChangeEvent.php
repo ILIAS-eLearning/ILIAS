@@ -556,20 +556,28 @@ class ilChangeEvent
 			// deactivated.
 
 			// IGNORE isn't supported in oracle
-			$nid = $ilDB->nextId("write_event");
-			$query = sprintf('INSERT INTO write_event '.
-				'(write_id, obj_id,parent_obj_id,usr_id,action,ts) '.
-				'SELECT %s,r1.obj_id,r2.obj_id,d.owner,%s,d.create_date '.
+			$set = $ilDB->query(sprintf('SELECT r1.obj_id,r2.obj_id p,d.owner,%s,d.create_date '.
 				'FROM object_data d '.
 				'LEFT JOIN write_event w ON d.obj_id = w.obj_id '.
 				'JOIN object_reference r1 ON d.obj_id=r1.obj_id '.
 				'JOIN tree t ON t.child=r1.ref_id '.
 				'JOIN object_reference r2 on r2.ref_id=t.parent '.
 				'WHERE w.obj_id IS NULL',
-				$ilDB->quote($nid,'integer'),
-				$ilDB->quote('create','text'));
-			$res = $ilDB->manipulate($query);
-			
+				$ilDB->quote('create','text')));
+			while ($rec = $ilDB->fetchAssoc($set))
+			{
+				$nid = $ilDB->nextId("write_event");
+				$query = 'INSERT INTO write_event '.
+					'(write_id, obj_id,parent_obj_id,usr_id,action,ts) VALUES ('.
+					$ilDB->quote($nid, "integer").",".
+					$ilDB->quote($rec["obj_id"], "integer").",".
+					$ilDB->quote($rec["p"], "integer").",".
+					$ilDB->quote($rec["owner"], "integer").",".
+					$ilDB->quote("create", "text").",".
+					$ilDB->quote($rec["create_date"], "timestamp").
+					')';
+				$res = $ilDB->query($query);
+			}
 			
 			if ($ilDB->isError($res) || $ilDB->isError($res->result))
 			{
