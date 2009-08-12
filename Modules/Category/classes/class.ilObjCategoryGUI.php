@@ -398,7 +398,7 @@ class ilObjCategoryGUI extends ilContainerGUI
 		}
 		
 		// check title
-		if ($_POST["Fobject"]["title"] == "")
+		if(!$_POST['Fobject'][$_POST['default_language']]['title'])
 		{
 			ilUtil::sendFailure($this->lng->txt('please_enter_title'));
 			$this->createObject();
