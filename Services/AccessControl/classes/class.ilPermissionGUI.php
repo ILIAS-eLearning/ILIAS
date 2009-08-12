@@ -330,7 +330,7 @@ class ilPermissionGUI
 	*/
 	function addRole()
 	{
-		global $rbacadmin, $rbacreview, $rbacsystem,$ilErr;
+		global $rbacadmin, $rbacreview, $rbacsystem,$ilErr,$ilCtrl;
 
 		// check if role title has il_ prefix
 		if (substr($_POST["Fobject"]["title"],0,3) == "il_")
@@ -369,8 +369,9 @@ class ilPermissionGUI
 
 				if (!isset($subobjects["rolf"]))
 				{
-					$this->ilias->raiseError($this->lng->txt("msg_no_rolf_allowed1")." '".$this->gui_obj->object->getTitle()."' ".
-											$this->lng->txt("msg_no_rolf_allowed2"),$this->ilias->error_obj->WARNING);
+					ilUtil::sendFailure($this->lng->txt("msg_no_rolf_allowed1")." '".$this->gui_obj->object->getTitle()."' ".
+							$this->lng->txt("msg_no_rolf_allowed2"), true);
+					$ilCtrl->redirect($this, "perm");
 				}
 
 				// create a rolefolder
@@ -702,6 +703,13 @@ class ilPermissionGUI
 	{
 		// do not display this option for admin section and root node
 		$object_types_exclude = array("adm","root","mail","objf","lngf","trac","taxf","auth", "assf","svyf",'seas','extt','adve');
+		
+		// can the current object contain a rolefolder?
+		$subobjects = $this->objDefinition->getSubObjects($this->gui_obj->object->getType());
+		if (!isset($subobjects["rolf"]))
+		{
+			return;
+		}
 
 		if (!in_array($this->gui_obj->object->getType(),$object_types_exclude) and $this->gui_obj->object->getRefId() != ROLE_FOLDER_ID)
 		{
