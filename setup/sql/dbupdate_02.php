@@ -8668,7 +8668,7 @@ CREATE TABLE `payment_news` (
 
 <#1854>
  CREATE  TABLE `payment_news_seq` (  `sequence` int( 11  )  NOT  NULL  auto_increment ,
- PRIMARY  KEY (  `sequence`  )  ) ENGINE  =  MyISAM  DEFAULT CHARSET  = utf8;   
+ PRIMARY  KEY (  `sequence`  )  );   
  
 <#1855> 
 ALTER TABLE `mail_options` MODIFY `signature` VARCHAR( 4000 ) NULL DEFAULT NULL;
@@ -8685,7 +8685,9 @@ ALTER TABLE `mail` MODIFY `rcp_cc` VARCHAR( 4000 ) NULL DEFAULT NULL;
 <#1859>
 ALTER TABLE `mail` MODIFY `rcp_bcc` VARCHAR( 4000 ) NULL DEFAULT NULL;
 <#1860>
-ALTER TABLE `mail` MODIFY `m_message` VARCHAR( 4000 ) NULL DEFAULT NULL;
+<?php
+$ilDB->manipulate("ALTER TABLE `mail` CHANGE `m_message` `m_message` LONGTEXT NULL default NULL");
+?>
 <#1861>
 ALTER TABLE `mail` MODIFY `import_name` VARCHAR( 4000 ) NULL DEFAULT NULL;
 <#1862>
@@ -11505,7 +11507,9 @@ $ilDB->addIndex('svy_qst_mat',array('question_fi'),'i1');
 ?>
 
 <#2378>
-ALTER TABLE `frm_posts` CHANGE `pos_message` `pos_message` VARCHAR( 4000 ) NULL DEFAULT NULL;  
+<?php
+$ilDB->manipulate("ALTER TABLE `frm_posts` CHANGE `pos_message` `pos_message` LONGTEXT NULL default NULL");
+?>
 
 <#2379>
 ALTER TABLE `frm_posts` CHANGE `pos_subject` `pos_subject` VARCHAR( 4000 ) NULL DEFAULT NULL;  
@@ -12151,8 +12155,9 @@ ALTER TABLE `mail_saved` CHANGE `rcp_cc` `rcp_cc` VARCHAR( 4000 ) NULL DEFAULT N
 ALTER TABLE `mail_saved` CHANGE `rcp_bcc` `rcp_bcc` VARCHAR( 4000 ) NULL DEFAULT NULL;
 
 <#2418>
-ALTER TABLE `mail_saved` CHANGE `m_message` `m_message` VARCHAR( 4000 ) NULL DEFAULT NULL;
-
+<?php
+$ilDB->manipulate("ALTER TABLE `mail_saved` CHANGE `m_message` `m_message` LONGTEXT NULL default NULL");
+?>
 <#2419>
 <?php 
 	$ilMySQLAbstraction->performAbstraction('mail_saved');
