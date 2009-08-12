@@ -124,7 +124,7 @@ class ilHTTPS
 		// only check standard port in the moment
 		$port = 443;
 
-		if(($sp = @fsockopen($_SERVER["SERVER_NAME"],$port,$errno,$error)) === false)
+		if(($sp = fsockopen($_SERVER["SERVER_NAME"],$port,$errno,$error)) === false)
 		{
 			return false;
 		}
@@ -141,7 +141,7 @@ class ilHTTPS
 	{
 		$port = 80;
 
-		if(($sp = @fsockopen($_SERVER["SERVER_NAME"],$port,$errno,$error)) === false)
+		if(($sp = fsockopen($_SERVER["SERVER_NAME"],$port,$errno,$error)) === false)
 		{
 			return false;
 		}
