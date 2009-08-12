@@ -27328,7 +27328,7 @@ $ilDB->insert("settings", array(
 'module' => array('text', 'common'), 'keyword' => array('text', 'convert_path'), 'value' => array('clob', '')));
 
 $ilDB->insert("settings", array(
-'module' => array('text', 'common'), 'keyword' => array('text', 'db_version'), 'value' => array('clob', '2824')));
+'module' => array('text', 'common'), 'keyword' => array('text', 'db_version'), 'value' => array('clob', '2825')));
 
 $ilDB->insert("settings", array(
 'module' => array('text', 'common'), 'keyword' => array('text', 'ilias_version'), 'value' => array('clob', '3.2.3 2004-11-22')));
@@ -32488,7 +32488,7 @@ $fields = array (
 		"notnull" => true
 		,"length" => 4
 		,"unsigned" => false
-		,"default" => ""
+		,"default" => "0"
 		,"type" => "integer"
 	)
 );
@@ -32499,6 +32499,8 @@ $ilDB->addPrimaryKey("write_event", $pk_fields);
 
 $in_fields = array("parent_obj_id","ts");
 $ilDB->addIndex("write_event", $in_fields, "i1", false);
+
+$ilDB->createSequence("write_event", 26);
 
 $ilDB->insert("write_event", array(
 'obj_id' => array('integer', '7'), 'parent_obj_id' => array('integer', '9'), 'usr_id' => array('integer', '-1'), 'action' => array('text', 'create'), 'ts' => array('timestamp', '2002-06-26 23:24:06'), 'write_id' => array('integer', '1')));

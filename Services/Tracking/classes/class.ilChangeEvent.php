@@ -73,14 +73,16 @@ class ilChangeEvent
 	{
 		global $ilDB;
 		
+		$nid = $ilDB->nextId("write_event");
 		if ($parent_obj_id == null)
 		{
-			$query = sprintf('INSERT IGNORE INTO write_event '.
-				'(obj_id, parent_obj_id, usr_id, action, ts) '.
-				'SELECT %s,r2.obj_id,%s,%s,'.$ilDB->now().' FROM object_reference r1 '.
+			$query = sprintf('INSERT INTO write_event '.
+				'(write_id, obj_id, parent_obj_id, usr_id, action, ts) '.
+				'SELECT %s, %s,r2.obj_id,%s,%s,'.$ilDB->now().' FROM object_reference r1 '.
 				'JOIN tree t ON t.child = r1.ref_id '.
 				'JOIN object_reference r2 ON r2.ref_id = t.parent '.
 				'WHERE r1.obj_id = %s ',
+				$ilDB->quote($nid,'integer'),
 				$ilDB->quote($obj_id,'integer'),
 				$ilDB->quote($usr_id,'integer'),
 				$ilDB->quote($action,'text'),
@@ -89,9 +91,10 @@ class ilChangeEvent
 		}
 		else
 		{
-			$query = sprintf('INSERT IGNORE INTO write_event '.
-				'(obj_id, parent_obj_id, usr_id, action, ts) '.
+			$query = sprintf('INSERT INTO write_event '.
+				'(write_id, obj_id, parent_obj_id, usr_id, action, ts) '.
 				'VALUES(%s,%s,%s,%s,'.$ilDB->now().')',
+				$ilDB->quote($nid,'integer'),
 				$ilDB->quote($obj_id,'integer'),
 				$ilDB->quote($parent_obj_id,'integer'),
 				$ilDB->quote($usr_id,'integer'),
@@ -553,15 +556,17 @@ class ilChangeEvent
 			// deactivated.
 
 			// IGNORE isn't supported in oracle
+			$nid = $ilDB->nextId("write_event");
 			$query = sprintf('INSERT INTO write_event '.
-				'(obj_id,parent_obj_id,usr_id,action,ts) '.
-				'SELECT r1.obj_id,r2.obj_id,d.owner,%s,d.create_date '.
+				'(write_id, obj_id,parent_obj_id,usr_id,action,ts) '.
+				'SELECT %s,r1.obj_id,r2.obj_id,d.owner,%s,d.create_date '.
 				'FROM object_data d '.
 				'LEFT JOIN write_event w ON d.obj_id = w.obj_id '.
 				'JOIN object_reference r1 ON d.obj_id=r1.obj_id '.
 				'JOIN tree t ON t.child=r1.ref_id '.
 				'JOIN object_reference r2 on r2.ref_id=t.parent '.
 				'WHERE w.obj_id IS NULL',
+				$ilDB->quote($nid,'integer'),
 				$ilDB->quote('create','text'));
 			$res = $ilDB->manipulate($query);
 			
