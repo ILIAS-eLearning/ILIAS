@@ -302,12 +302,12 @@ class ilUserDefinedFields
 		
 		// Add definition entry
 		$next_id = $ilDB->nextId('udf_definition');
-
+		
 		$values = array(
 			'field_id'					=> array('integer',$next_id),
 			'field_name'				=> array('text',$this->getFieldName()),
 			'field_type'				=> array('integer', (int) $this->getFieldType()),
-			'field_values'				=> array('clob',$this->getFieldValues()),
+			'field_values'				=> array('clob',serialize($this->getFieldValues())),
 			'visible'					=> array('integer', (int) $this->enabledVisible()),
 			'changeable'				=> array('integer', (int) $this->enabledChangeable()),
 			'required'					=> array('integer', (int) $this->enabledRequired()),
@@ -353,7 +353,7 @@ class ilUserDefinedFields
 		$values = array(
 			'field_name'				=> array('text',$this->getFieldName()),
 			'field_type'				=> array('integer', (int) $this->getFieldType()),
-			'field_values'				=> array('clob',$this->getFieldValues()),
+			'field_values'				=> array('clob',serialize($this->getFieldValues())),
 			'visible'					=> array('integer', (int) $this->enabledVisible()),
 			'changeable'				=> array('integer', (int) $this->enabledChangeable()),
 			'required'					=> array('integer', (int) $this->enabledRequired()),
@@ -386,7 +386,7 @@ class ilUserDefinedFields
 			$this->definitions[$row->field_id]['field_type'] = $row->field_type;
 			$this->definitions[$row->field_id]['il_id'] = 'il_'.$ilSetting->get('inst_id',0).'_udf_'.$row->field_id;
 
-			$tmp = unserialize(stripslashes($row->field_values));
+			$tmp = (array) unserialize($row->field_values);
 			sort($tmp);
 			$this->definitions[$row->field_id]['field_values'] = $tmp;
 
