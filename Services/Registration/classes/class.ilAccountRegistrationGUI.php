@@ -122,7 +122,8 @@ class ilAccountRegistrationGUI
 		}
 		else if($this->registration_settings->getRegistrationType() == IL_REG_ACTIVATION)
 		{
-			$this->tpl->setVariable("TXT_REGISTERED", $lng->txt("reg_confirmation_link_successful"));
+			$this->tpl->setVariable("TXT_REGISTERED", sprintf($lng->txt("reg_confirmation_link_successful"), './login.php'));
+			$this->tpl->setVariable("REDIRECT_URL", './login.php');
 		}
 		else
 		{
