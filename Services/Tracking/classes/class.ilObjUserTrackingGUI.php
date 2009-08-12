@@ -248,7 +248,7 @@ class ilObjUserTrackingGUI extends ilObjectGUI
 			$tpl->setVariable("VAL_NUMBER_OF_ACC", $month["cnt"]);
 			$tpl->parseCurrentBlock();
 		}
-		$tpl->parseCurrentBlock();
+//		$tpl->parseCurrentBlock();
 	}
 
 	/**
