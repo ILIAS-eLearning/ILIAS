@@ -1657,7 +1657,8 @@ if ($this->getDBType() == "mysql")
 	
 	/**
 	 * Abstraction of SQL function CONCAT
-	 * @param 
+	 * @param array $a_values array('title' => 'field','some text' => 'text');
+	 * @param bool	$a_allow_null
 	 * @return 
 	 */
 	public function concat($a_values,$a_allow_null = true)
@@ -1701,9 +1702,24 @@ if ($this->getDBType() == "mysql")
 		return $concat;
 	}
 	
-	public function locate()
+	
+	/**
+	 * Create locate string
+	 * @param string $a_needle
+	 * @param string $a_string
+	 * @param int $a_start_pos [optional]
+	 * @return 
+	 */
+	public function locate($a_needle,$a_string,$a_start_pos = 0)
 	{
-		
+		$locate = ' LOCATE( ';
+		$locate .= $a_needle;
+		$locate .= ',';
+		$locate .= $a_string;
+		$locate .= ',';
+		$locate .= $a_start_pos;
+		$locate .= ') ';
+		return $locate;
 	}
 	
 	

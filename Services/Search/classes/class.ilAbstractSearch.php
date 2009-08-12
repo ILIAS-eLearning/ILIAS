@@ -150,8 +150,12 @@ class ilAbstractSearch
 		$counter = 0;
 		foreach($this->query_parser->getQuotedWords() as $word)
 		{
-			$locate .= (", LOCATE('".$word."',".$complete_str.") ");
-			$locate .= ("as found".$counter++." ");
+			$locate .= ',';
+			$locate .= $ilDB->locate($ilDB->quote($word,'text'),$complete_str);
+			$locate .= (' found'.$counter++);
+			$locate .= ' ';
+			#$locate .= (", LOCATE('".$word."',".$complete_str.") ");
+			#$locate .= ("as found".$counter++." ");
 		}
 		
 		return $locate;

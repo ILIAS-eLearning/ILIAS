@@ -204,6 +204,26 @@ class ilDBOracle extends ilDB
 		}
 		return $r;
 	}
+	
+	/**
+	 * Create locate string
+	 * @param string $a_needle
+	 * @param string $a_string
+	 * @param int $a_start_pos [optional]
+	 * @return 
+	 */
+	public function locate($a_needle,$a_string,$a_start_pos = 0)
+	{
+		$locate = ' INSTR( ';
+		$locate .= $a_needle;
+		$locate .= ',';
+		$locate .= $a_string;
+		$locate .= ',';
+		$locate .= $a_start_pos;
+		$locate .= ') ';
+		return $locate;
+	}
+	
 
 }
 ?>
