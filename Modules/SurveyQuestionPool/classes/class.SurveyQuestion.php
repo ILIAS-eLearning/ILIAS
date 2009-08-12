@@ -782,6 +782,49 @@ class SurveyQuestion
 	*/
 	function saveToDb($original_id = "")
 	{
+		global $ilDB;
+		
+		// cleanup RTE images which are not inserted into the question text
+		include_once("./Services/RTE/classes/class.ilRTE.php");
+		ilRTE::_cleanupMediaObjectUsage($this->getQuestiontext(), "spl:html", $this->getId());
+		$affectedRows = 0;
+		if ($this->getId() == -1) 
+		{
+			// Write new dataset
+			$next_id = $ilDB->nextId('svy_question');
+			$affectedRows = $ilDB->insert("svy_question", array(
+				"question_id" => array("integer", $next_id),
+				"questiontype_fi" => array("integer", $this->getQuestionTypeID()),
+				"obj_fi" => array("integer", $this->getObjId()),
+				"owner_fi" => array("integer", $this->getOwner()),
+				"title" => array("text", $this->getTitle()),
+				"description" => array("text", $this->getDescription()),
+				"author" => array("text", $this->getAuthor()),
+				"questiontext" => array("clob", ilRTE::_replaceMediaObjectImageSrc($this->getQuestiontext(), 0)),
+				"obligatory" => array("text", $this->getObligatory()),
+				"complete" => array("text", $this->isComplete()),
+				"created" => array("integer", time()),
+				"original_id" => array("integer", ($original_id) ? $original_id : NULL),
+				"tstamp" => array("integer", time())
+			));
+			$this->setId($next_id);
+		} 
+		else 
+		{
+			// update existing dataset
+			$affectedRows = $ilDB->update("svy_question", array(
+				"title" => array("text", $this->getTitle()),
+				"description" => array("text", $this->getDescription()),
+				"author" => array("text", $this->getAuthor()),
+				"questiontext" => array("clob", ilRTE::_replaceMediaObjectImageSrc($this->getQuestiontext(), 0)),
+				"obligatory" => array("text", $this->getObligatory()),
+				"complete" => array("text", $this->isComplete()),
+				"tstamp" => array("integer", time())
+			), array(
+			"question_id" => array("integer", $this->getId())
+			));
+		}
+		return $affectedRows;
 	}
 	
 	/**

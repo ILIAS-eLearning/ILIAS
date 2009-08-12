@@ -256,97 +256,33 @@ class assClozeTest extends assQuestion
 	{
 		global $ilDB;
 
+		$this->saveQuestionDataToDb($original_id);
+
 		include_once "./Services/Math/classes/class.EvalMath.php";
 		$eval = new EvalMath();
 		$eval->suppress_errors = TRUE;
 
-		$estw_time = $this->getEstimatedWorkingTime();
-		$estw_time = sprintf("%02d:%02d:%02d", $estw_time['h'], $estw_time['m'], $estw_time['s']);
+		// save additional data
+		$affectedRows = $ilDB->manipulateF("DELETE FROM " . $this->getAdditionalTableName() . " WHERE question_fi = %s", 
+			array("integer"),
+			array($this->getId())
+		);
 
-		// cleanup RTE images which are not inserted into the question text
-		include_once("./Services/RTE/classes/class.ilRTE.php");
-		if ($this->id == -1)
-		{
-			$next_id = $ilDB->nextId('qpl_questions');
-			$affectedRows = $ilDB->manipulateF("INSERT INTO qpl_questions (question_id, question_type_fi, obj_fi, title, description, author, owner, question_text, points, working_time, created, original_id, tstamp) VALUES (%s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s)", 
-				array("integer","integer", "integer", "text", "text", "text", "integer", "text", "float", "text", "integer","integer","integer"),
-				array(
-					$next_id,
-					$this->getQuestionTypeID(), 
-					$this->getObjId(), 
-					$this->getTitle(), 
-					$this->getComment(), 
-					$this->getAuthor(), 
-					$this->getOwner(), 
-					ilRTE::_replaceMediaObjectImageSrc($this->getClozeText(), 0),
-					$this->getMaximumPoints(),
-					$estw_time,
-					time(),
-					($original_id) ? $original_id : NULL,
-					time()
-				)
-			);
-			$this->setId($next_id);
-			$affectedRows = $ilDB->manipulateF("INSERT INTO " . $this->getAdditionalTableName() . " (question_fi, textgap_rating, identical_scoring, fixed_textlen) VALUES (%s, %s, %s, %s)",
-				array(
-					"integer", 
-					"text",
-					"text",
-					"integer"
-				),
-				array(
-					$this->getId(),
-					$this->getTextgapRating(),
-					$this->getIdenticalScoring(),
-					$this->getFixedTextLength() ? $this->getFixedTextLength() : NULL
-				)
-			);
 
-			$this->createPageObject();
-		}
-		else
-		{
-			$affectedRows = $ilDB->manipulateF("UPDATE qpl_questions SET obj_fi = %s, title = %s, description = %s, points = %s, author = %s,  " .
-				"question_text = %s, working_time = %s, tstamp = %s WHERE question_id = %s",
-				array(
-					"integer",
-					"text",
-					"text",
-					"float",
-					"text",
-					"text",
-					"text",
-					"integer",
-					"integer"
-				),
-				array(
-					$this->getObjId(),
-					$this->getTitle(),
-					$this->getComment(),
-					$this->getMaximumPoints(),
-					$this->getAuthor(),
-					ilRTE::_replaceMediaObjectImageSrc($this->getClozeText(), 0),
-					$estw_time,
-					time(),
-					$this->getId(),
-				)
-			);
-
-			$affectedRows = $ilDB->manipulateF("UPDATE " . $this->getAdditionalTableName() . " SET textgap_rating = %s, fixed_textlen = %s, identical_scoring = %s WHERE question_fi = %s",
-				array(
-					"text", 
-					"integer",
-					"text",
-					"integer"
-				),
-				array(
-					$this->getTextgapRating(),
-					$this->getFixedTextLength() ? $this->getFixedTextLength() : NULL,
-					$this->getIdenticalScoring(),
-					$this->getId()
-				)
-			);
-		}
+		$affectedRows = $ilDB->manipulateF("INSERT INTO " . $this->getAdditionalTableName() . " (question_fi, textgap_rating, identical_scoring, fixed_textlen) VALUES (%s, %s, %s, %s)",
+			array(
+				"integer", 
+				"text",
+				"text",
+				"integer"
+			),
+			array(
+				$this->getId(),
+				$this->getTextgapRating(),
+				$this->getIdenticalScoring(),
+				$this->getFixedTextLength() ? $this->getFixedTextLength() : NULL
+			)
+		);
 
 		$affectedRows = $ilDB->manipulateF("DELETE FROM qpl_a_cloze WHERE question_fi = %s",
 			array("integer"),

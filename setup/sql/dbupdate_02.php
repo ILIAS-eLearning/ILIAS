@@ -8817,7 +8817,7 @@ $ilDB->manipulate("ALTER TABLE `qpl_questions` CHANGE `description` `description
 ?>
 <#1883>
 <?php
-$ilDB->manipulate("ALTER TABLE `qpl_questions` CHANGE `question_text` `question_text` VARCHAR(4000) NOT NULL");
+$ilDB->manipulate("ALTER TABLE `qpl_questions` CHANGE `question_text` `question_text` LONGTEXT NULL default NULL");
 ?>
 <#1884>
 <?php
@@ -10269,7 +10269,7 @@ $ilDB->manipulate("ALTER TABLE `survey_question` DROP " . $ilDB->quoteIdentifier
 ?>
 <#2135>
 <?php
-$ilDB->manipulate("ALTER TABLE `survey_question` CHANGE `questiontext` `questiontext` VARCHAR(4000) NULL DEFAULT NULL");
+$ilDB->manipulate("ALTER TABLE `survey_question` CHANGE `questiontext` `questiontext` LONGTEXT NULL DEFAULT NULL");
 ?>
 <#2136>
 <?php

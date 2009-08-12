@@ -270,53 +270,8 @@ class SurveyMetricQuestion extends SurveyQuestion
   function saveToDb($original_id = "")
   {
 		global $ilDB;
-		$complete = $this->isComplete();
-		$original_id = ($original_id) ? $original_id : NULL;
-		// cleanup RTE images which are not inserted into the question text
-		include_once("./Services/RTE/classes/class.ilRTE.php");
-		ilRTE::_cleanupMediaObjectUsage($this->questiontext, "spl:html", $this->getId());
 
-		if ($this->getId() == -1) 
-		{
-			// Write new dataset
-			$next_id = $ilDB->nextId('svy_question');
-			$affectedRows = $ilDB->manipulateF("INSERT INTO svy_question (question_id, questiontype_fi, obj_fi, owner_fi, title, description, author, questiontext, obligatory, complete, created, original_id, tstamp) VALUES (%s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s)",
-				array('integer', 'integer', 'integer', 'integer', 'text', 'text', 'text', 'text', 'text', 'text', 'integer', 'integer', 'integer'),
-				array(
-					$next_id,
-					$this->getQuestionTypeID(),
-					$this->getObjId(),
-					$this->getOwner(),
-					$this->getTitle(),
-					$this->getDescription(),
-					$this->getAuthor(),
-					ilRTE::_replaceMediaObjectImageSrc($this->getQuestiontext(), 0),
-					$this->getObligatory(),
-					$this->isComplete(),
-					time(),
-					$original_id,
-					time()
-				)
-			);
-			$this->setId($next_id);
-		} 
-		else 
-		{
-			// update existing dataset
-			$affectedRows = $ilDB->manipulateF("UPDATE svy_question SET title = %s, description = %s, author = %s, questiontext = %s, obligatory = %s, complete = %s, tstamp = %s WHERE question_id = %s",
-				array('text', 'text', 'text', 'text', 'text', 'text', 'integer', 'integer'),
-				array(
-					$this->getTitle(),
-					$this->getDescription(),
-					$this->getAuthor(),
-					ilRTE::_replaceMediaObjectImageSrc($this->getQuestiontext(), 0),
-					$this->getObligatory(),
-					$this->isComplete(),
-					time(),
-					$this->getId()
-				)
-			);
-		}
+		$affectedRows = parent::saveToDb($original_id);
 		if ($affectedRows == 1) 
 		{
 			$affectedRows = $ilDB->manipulateF("DELETE FROM " . $this->getAdditionalTableName() . " WHERE question_fi = %s",
@@ -351,7 +306,6 @@ class SurveyMetricQuestion extends SurveyQuestion
 				array($next_id, 0, $this->getId(), $this->getMinimum(), $max, 0, time())
 			);
 		} 
-		parent::saveToDb($original_id);
   }
 	
 	/**
