@@ -93,7 +93,8 @@ class ilDBGenerator
 			'qpl_a_errortext',
 			'qpl_qst_errortext',
 			'tst_rnd_cpy',
-			'tst_rnd_qpl_title'
+			'tst_rnd_qpl_title',
+			'qpl_a_mdef'
 			));
 
 		return $abs_tables;
@@ -435,6 +436,7 @@ class ilDBGenerator
 			{
 				$fields[] = $f;
 				$types[] = '"'.$this->fields[$f]["type"].'"';
+				$v = str_replace('\\', '\\\\', $v);
 				$values[] = "'".str_replace("'", "\'", $v)."'";
 				$i_str[] = "'".$f."' => array('".$this->fields[$f]["type"].
 					"', '".str_replace("'", "\'", $v)."')";
