@@ -501,6 +501,8 @@ if ($this->getDBType() == "mysql")
 	
 	/**
 	* Alter a table in the database
+	* This method is DEPRECATED, see http://www.ilias.de/docu/goto.php?target=pg_25354_42&client_id=docu
+	* PLEASE USE THE SPECIALIZED METHODS OF THIS CLASS TO CHANGE THE DB SCHEMA
 	*/
 	function alterTable($a_name, $a_changes)
 	{
