@@ -49,9 +49,19 @@ class ilLikeObjectSearch extends ilObjectSearch
 
 	function __createWhereCondition()
 	{
+		global $ilDB;
+		
+		/*
 		$concat  = " CONCAT(";
 		$concat .= 'title,description';
 		$concat .= ") ";
+		*/
+		
+		$concat = $ilDB->concat(
+			array(
+				'title'			=> 'field',
+				'description'	=> 'field'));
+		
 
 		$where = "WHERE (";
 		$counter = 0;

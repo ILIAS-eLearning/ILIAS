@@ -1656,6 +1656,58 @@ if ($this->getDBType() == "mysql")
 	}
 	
 	/**
+	 * Abstraction of SQL function CONCAT
+	 * @param 
+	 * @return 
+	 */
+	public function concat($a_values,$a_allow_null = true)
+	{
+		if(!count($a_values))
+		{
+			return ' ';
+		}
+		$concat = ' CONCAT(';
+		$first = true;
+		foreach($a_values as $val => $type)
+		{
+			if(!$first)
+			{
+				$concat .= ',';
+			}
+			
+			if($a_allow_null)
+			{
+				$concat .= 'COALESCE(';
+			}
+			
+			if($type == 'field')
+			{
+				$concat .= $val;
+			}
+			else
+			{
+				$concat .= $this->quote($val,$type);	
+			}
+			
+			if($a_allow_null)
+			{
+				$concat .= ",''";
+				$concat .= ')';
+			}
+			
+			$first = false;
+		}
+		$concat .= ') ';
+		return $concat;
+	}
+	
+	public function locate()
+	{
+		
+	}
+	
+	
+	/**
 	* Like
 	*
 	* @param	string		column type; must be "text" or "clob" ("blob" added for lng_data)
@@ -1681,14 +1733,15 @@ if ($this->getDBType() == "mysql")
 		{
 			if ($case_insensitive)
 			{
-				return "UPPER(".$a_col.") LIKE(UPPER(".$this->quote($a_value, $a_type)."))";
+				return " UPPER(".$a_col.") LIKE(UPPER(".$this->quote($a_value, $a_type)."))";
 			}
 			else
 			{
-				return $a_col." LIKE(".$this->quote($a_value, $a_type).")";
+				return " ".$a_col." LIKE(".$this->quote($a_value, $a_type).")";
 			}
 		}
 	}
+	
 
 	/**
 	* Use this only on text fields.

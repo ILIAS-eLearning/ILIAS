@@ -48,9 +48,18 @@ class ilLikeMediaPoolSearch extends ilMediaPoolSearch
 
 	function __createAndCondition()
 	{
+		global $ilDB;
+		
+		/*
 		$concat  = " CONCAT(";
 		$concat .= 'title,description';
 		$concat .= ") ";
+		*/
+		$concat = $ilDB->concat(
+			array(
+				'title'			=> 'field',
+				'description'	=> 'field'));
+
 
 		$and = "  AND ( ";
 		$counter = 0;

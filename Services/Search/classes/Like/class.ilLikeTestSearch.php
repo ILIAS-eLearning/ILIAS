@@ -47,11 +47,23 @@ class ilLikeTestSearch extends ilTestSearch
 	}
 
 
-	function __createWhereCondition($a_field_str)
+	function __createWhereCondition()
 	{
+		global $ilDB;
+
+		foreach($this->getFields() as $field)
+		{
+			$tmp_field[$field] = 'field'; 
+		}
+		$concat = $ilDB->concat($tmp_field);
+		
+		/*
 		$concat = ' CONCAT(';
 		$concat .= $a_field_str;
 		$concat .= ') ';
+		
+		$concat = $a_field_str;
+		*/
 
 		$and = "  WHERE  ";
 		$counter = 0;
@@ -59,10 +71,10 @@ class ilLikeTestSearch extends ilTestSearch
 		{
 			if($counter++)
 			{
-				$and .= " OR";
+				$and .= " OR ";
 			}
 			$and .= $concat;
-			$and .= ("LIKE ('%".$word."%')");
+			$and .= (" LIKE ('%".$word."%')");
 		}
 		return $and;
 	}
