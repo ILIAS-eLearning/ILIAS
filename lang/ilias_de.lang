@@ -9869,3 +9869,5 @@ grp#:#grp_min_one_admin#:#Dieser Gruppe muß mindestens ein Administrator zugeor
 crs#:#crs_min_one_admin#:#Diesem Kurs muß mindestens ein Administrator zugeordnet bleiben.
 rbac#:#rbac_role_exists_alert#:#Es existiert bereits eine Rolle mit dem gleichen Namen. Bitte wählen Sie einen anderen Rollennamen.
 trac#:#trac_query#:#Titel/Beschreibung
+common#:#reg_mail_body_2_confirmation#:#Der Link wird nur für %s gültig sein, danach müssen Sie sich erneut registrieren.
+common#:#reg_mail_body_3_confirmation#:#Falls Sie diese E-Mail unerwartet erhalten haben ist es möglich, dass eine andere Person Ihre E-Mail Adresse versehentlich oder vorsätzlich angegeben hat. In diesem Fall ignorieren Sie diese Mail bitte.
