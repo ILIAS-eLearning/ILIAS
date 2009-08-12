@@ -1747,7 +1747,11 @@ class ilObjSurveyGUI extends ilObjectGUI
 		$invitation = new ilRadioGroupInputGUI($this->lng->txt('invitation_mode'), "invitation");
 		$invitation->setInfo($this->lng->txt('invitation_mode_desc'));
 		$invitation->addOption(new ilRadioOption($this->lng->txt("invitation_off"), 0, ''));
-		$invitation->addOption(new ilRadioOption($this->lng->txt("unlimited_users"), 1, ''));
+		$surveySetting = new ilSetting("survey");
+		if ($surveySetting->get("unlimited_invitation"))
+		{
+			$invitation->addOption(new ilRadioOption($this->lng->txt("unlimited_users"), 1, ''));
+		}
 		$invitation->addOption(new ilRadioOption($this->lng->txt("predefined_users"), 2, ''));
 		$inv = 0;
 		if ($this->object->getInvitation())
