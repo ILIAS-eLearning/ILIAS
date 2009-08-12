@@ -65,22 +65,40 @@ abstract class ilObject2 extends ilObject
 
 	final function create()
 	{
-		$id = parent::create();
-		$this->doCreate();
+		if($this->beforeCreate())
+		{
+			$id = parent::create();
+			$this->doCreate();
+		}
 	}
 	abstract function doCreate();
 	
-	final function update()
+	protected function beforeCreate()
 	{
-		if (!parent::update())
-		{
-			return false;
-		}
-		$this->doUpdate();
-		
 		return true;
 	}
+	
+	final function update()
+	{
+		if($this->beforeUpdate())
+		{
+			if (!parent::update())
+			{
+				return false;
+			}
+			$this->doUpdate();
+			
+			return true;
+		}
+		
+		return false;
+	}
 	abstract function doUpdate();
+	
+	protected function beforeUpdate()
+	{
+		return true;
+	}
 
 	final function MDUpdateListener($a_element) { return parent::MDUpdateListener($a_element); }
 	final function createMetaData() { return parent::createMetaData(); }
@@ -114,14 +132,25 @@ abstract class ilObject2 extends ilObject
 
 	final function delete()
 	{
-		if (!parent::delete())
+		if($this->beforeDelete())
 		{
-			return false;
+			if (!parent::delete())
+			{
+				return false;
+			}
+			$this->doDelete();
+			
+			return true;
 		}
-		$this->doDelete();
-		return true;
+		
+		return false;
 	}
 	abstract function doDelete();
+	
+	protected function beforeDelete()
+	{
+		return true;
+	}
 
 	function initDefaultRoles() { return array(); }
 	
@@ -141,11 +170,19 @@ abstract class ilObject2 extends ilObject
 	
 	final function cloneObject($a_target_id,$a_copy_id = 0)
 	{
-		$new_obj = parent::cloneObject($a_target_id,$a_copy_id);
-		$this->doClone($a_target_id,$a_copy_id,$new_obj);
-		return $new_obj;
+		if($this->beforeClone())
+		{
+			$new_obj = parent::cloneObject($a_target_id,$a_copy_id);
+			$this->doClone($a_target_id,$a_copy_id,$new_obj);
+			return $new_obj;
+		}
 	}
 	abstract function doClone($a_target_id,$a_copy_id,$new_obj);
+	
+	protected function beforeClone()
+	{
+		return true;
+	}
 
 	function cloneDependencies($a_target_id,$a_copy_id) { return parent::cloneDependencies($a_target_id,$a_copy_id); }
 	
