@@ -9520,7 +9520,7 @@ registration#:#reg_confirmation_hash_life_time_info#:#Enter the lifetime (second
 registration#:#reg_confirmation_hash_life_time_expired#:#The confirmation link is not valid anymore.
 registration#:#reg_confirmation_hash_not_found#:#No user account could be matched to this confirmation link.
 common#:#reg_account_confirmation_successful#:#Your user account has been activated.
-registration#:#reg_confirmation_link_successful#:#You successfully submitted an account request to ILIAS. You will receive a confirmation e-mail in the next minutes. Please confirm your registration by clicking the confirmation link in this mail.
+registration#:#reg_confirmation_link_successful#:#You successfully submitted an account request to ILIAS. You will receive a confirmation e-mail in the next minutes. Please confirm your registration by clicking the confirmation link in this mail.<br />You will be redirected to the <a href="%s" title="login screen">login screen</a> after 20 seconds.
 registration#:#reg_activation_your_confirmation_link#:#Your confirmation link:
 registration#:#reg_confirmation_hash_not_passed#:#The confirmation link was not entirely passed.
 crs#:#crs_lim_assigned#:#Already assigned to associated course "%s".

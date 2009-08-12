@@ -1169,15 +1169,9 @@ class ilStartUpGUI
 	            $acc_mail->send();
 			}
 			else	// do default mail
-			{
-				$settings = $ilias->getAllSettings();
-				
-				include_once "Services/Mail/classes/class.ilMimeMail.php";
-	
-				$mmail = new ilMimeMail();
-				$mmail->autoCheck(false);
-				$mmail->From($settings["admin_email"]);
-				$mmail->To($oUser->getEmail());
+			{				
+				include_once 'Services/Mail/classes/class.ilMail.php';
+				$mail_obj = new ilMail(ANONYMOUS_USER_ID);			
 	
 				// mail subject
 				$subject = $lng->txt("reg_mail_subject");
@@ -1198,9 +1192,11 @@ class ilStartUpGUI
 	
 				$body .= ($lng->txt("reg_mail_body_text3")."\n\r");
 				$body .= $oUser->getProfileAsString($lng);
-				$mmail->Subject($subject);
-				$mmail->Body($body);
-				$mmail->Send();
+				
+				$mail_obj->sendMail($oUser->getEmail(), '', '',
+					$subject,
+					$body,
+					array(), array('normal'));
 			}	
 			
 			ilUtil::redirect('./login.php?cmd=force_login&reg_confirmation_msg=reg_account_confirmation_successful');
