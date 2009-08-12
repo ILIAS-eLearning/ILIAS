@@ -1127,11 +1127,22 @@ class ilObjMediaPoolGUI extends ilObject2GUI
 		else
 		{
 			$this->form->addCommandButton("updateFolder", $lng->txt("save"));
-			$this->form->addCommandButton("cancelUpdate", $lng->txt("cancel"));
+			$this->form->addCommandButton("cancelFolderUpdate", $lng->txt("cancel"));
 			$this->form->setTitle($lng->txt("mep_edit_folder"));
 		}
 	                
 		$this->form->setFormAction($ilCtrl->getFormAction($this));
+	}
+
+	/**
+	 * Cancel save
+	 */
+	function cancelFolderUpdate()
+	{
+		global $ilCtrl;
+		$ilCtrl->setParameter($this, "item_id",
+			$this->object->getTree()->getParentId($_GET["item_id"]));
+		$ilCtrl->redirect($this, "listMedia");
 	}
 
 	/**
