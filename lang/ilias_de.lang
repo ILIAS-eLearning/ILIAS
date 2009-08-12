@@ -6083,7 +6083,7 @@ dateplaner#:#busytime#:#belegte Zeit innerhalb der Gruppe
 dateplaner#:#cal_accepted#:#Angenommen
 dateplaner#:#cal_add_appointment#:#Termin anlegen
 dateplaner#:#cal_add_category#:#Neuen Kalender anlegen
-dateplaner#:#cal_add_milestone#:#Add Milestone###26 06 2009 new variable
+dateplaner#:#cal_add_milestone#:#Meilenstein hinzufügen
 dateplaner#:#cal_all_day#:#Ganztags
 dateplaner#:#cal_appointments#:#Termine
 dateplaner#:#cal_apps#:#Anzahl Termine
@@ -6103,7 +6103,7 @@ dateplaner#:#cal_day_overview#:#Tagesübersicht
 dateplaner#:#cal_day_s#:#Tag(e)
 dateplaner#:#cal_day_selection#:#Tagesauswahl
 dateplaner#:#cal_day_week_view#:#Einstellungen Tages/Wochenansicht
-dateplaner#:#cal_deadline#:#Deadline###26 06 2009 new variable
+dateplaner#:#cal_deadline#:#Endtermin
 dateplaner#:#cal_declined#:#Abgelehnt
 dateplaner#:#cal_default_calendar#:#Persönliche Termine
 dateplaner#:#cal_def_timezone#:#Default-Zeitzone
@@ -6120,9 +6120,9 @@ dateplaner#:#cal_dstart_dend_warn#:#Der Tagesbeginn sollte vor dem Tagesende lie
 dateplaner#:#cal_duration#:#Dauer
 dateplaner#:#cal_edit_appointment#:#Termin bearbeiten
 dateplaner#:#cal_edit_category#:#Kalender bearbeiten
-dateplaner#:#cal_edit_milestone#:#Edit Milestone###26 06 2009 new variable
-dateplaner#:#cal_enable_group_milestones#:#Enable Milestones###26 06 2009 new variable
-dateplaner#:#cal_enable_group_milestones_desc#:#This option enables milestone planning in the calendar.###26 06 2009 new variable
+dateplaner#:#cal_edit_milestone#:#Meilenstein bearbeiten
+dateplaner#:#cal_enable_group_milestones#:#Meilensteine aktivieren
+dateplaner#:#cal_enable_group_milestones_desc#:#Diese Option aktiviert das Management von Meilensteinen im Kalender (Kurse und Gruppen).
 dateplaner#:#cal_end#:#Ende
 dateplaner#:#cal_every#:#Alle:
 dateplaner#:#cal_fifth#:#Fünften
@@ -6137,10 +6137,10 @@ dateplaner#:#cal_monthly#:#Monatlich
 dateplaner#:#cal_month_overview#:#Monatsübersicht
 dateplaner#:#cal_month_s#:#Monat(e)
 dateplaner#:#cal_month_selection#:#Monatsauswahl
-dateplaner#:#cal_ms_details#:#Milestone Details###26 06 2009 new variable
+dateplaner#:#cal_ms_details#:#Details zum Meilenstein
 dateplaner#:#cal_ms_users_responsible#:#Users Responsible###26 06 2009 new variable
 dateplaner#:#cal_new_app#:#Neuer Termin
-dateplaner#:#cal_new_ms#:#New Milestone###26 06 2009 new variable
+dateplaner#:#cal_new_ms#:#Neuer Meilenstein
 dateplaner#:#cal_no_ending#:#Kein Endtermin
 dateplaner#:#cal_no_recurrence#:#Keine Wiederholung
 dateplaner#:#cal_no_recurrences#:#Keine Wiederholungen anlegen
