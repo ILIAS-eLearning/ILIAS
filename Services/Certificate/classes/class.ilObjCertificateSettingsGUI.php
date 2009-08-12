@@ -117,7 +117,7 @@ class ilObjCertificateSettingsGUI extends ilObjectGUI
 	*/
 	public function settings()
 	{
-		global $lng;
+		global $lng, $ilAccess;
 
 		$this->tabs_gui->setTabActive('settings');
 		$form_settings = new ilSetting("certificate");
@@ -166,8 +166,11 @@ class ilObjCertificateSettingsGUI extends ilObjectGUI
 		$form->addItem($format);
 
 
-		$form->addCommandButton('save',$this->lng->txt('save'));
-		$form->addCommandButton('cancel',$this->lng->txt('cancel'));
+		if($ilAccess->checkAccess('write','',$this->object->getRefId()))
+		{
+			$form->addCommandButton('save',$this->lng->txt('save'));
+			$form->addCommandButton('cancel',$this->lng->txt('cancel'));
+		}
 
 		$this->tpl->setContent($form->getHTML());
 
