@@ -920,7 +920,7 @@ class ilObjGroupGUI extends ilContainerGUI
 				if(isset($progress[$usr_id]['ts']) and $progress[$usr_id]['ts'])
 				{
 					$tmp_data['access_time'] = ilDatePresentation::formatDate(
-						$tmp_date = new ilDateTime($progress[$usr_id]['ts'],IL_CAL_DATETIME));
+						$tmp_date = new ilDateTime($progress[$usr_id]['ts'],IL_CAL_UNIX));
 					$tmp_data['access_time_unix'] = $tmp_date->get('IL_CAL_UNIX');
 				}
 				else
