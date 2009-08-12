@@ -494,6 +494,9 @@ class ilObjFileBasedLMGUI extends ilObjectGUI
 	*/
 	function saveBibItem()
 	{
+		// questionable workaround to make this old stuff work
+		$this->ctrl->setParameter($this, ilCtrl::IL_RTOKEN_NAME, $this->ctrl->getRequestToken());
+
 		//$this->setTabs();
 		$this->saveBibItemObject($this->ctrl->getLinkTarget($this));
 	}
@@ -525,6 +528,9 @@ class ilObjFileBasedLMGUI extends ilObjectGUI
 	*/
 	function editBibItem()
 	{
+		// questionable workaround to make this old stuff work
+		$this->ctrl->setParameter($this, ilCtrl::IL_RTOKEN_NAME, $this->ctrl->getRequestToken());
+
 		//$this->setTabs();
 		$this->editBibItemObject($this->ctrl->getLinkTarget($this));
 	}
@@ -556,6 +562,9 @@ class ilObjFileBasedLMGUI extends ilObjectGUI
 	*/
 	function deleteBibItem()
 	{
+		// questionable workaround to make this old stuff work
+		$this->ctrl->setParameter($this, ilCtrl::IL_RTOKEN_NAME, $this->ctrl->getRequestToken());
+
 		//$this->setTabs();
 		$this->deleteBibItemObject($this->ctrl->getLinkTarget($this));
 	}
@@ -607,6 +616,9 @@ class ilObjFileBasedLMGUI extends ilObjectGUI
 	*/
 	function addBibItem()
 	{
+		// questionable workaround to make this old stuff work
+		$this->ctrl->setParameter($this, ilCtrl::IL_RTOKEN_NAME, $this->ctrl->getRequestToken());
+
 		//$this->setTabs();
 		$this->addBibItemObject($this->ctrl->getLinkTarget($this));
 	}
