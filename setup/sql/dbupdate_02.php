@@ -15183,9 +15183,9 @@ $ilDB->addPrimaryKey("cache_clob", array("component", "name", "entry_id"));
 ?>
 <#2821>
 <?php
-	$ilDB->alterTable("qpl_a_matching",
-		array("remove" => array("matchingtext" => array(), "matching_order" => array(), "tstamp" => array())
-	));
+	$ilDB->dropTableColumn("qpl_a_matching", "matchingtext");
+	$ilDB->dropTableColumn("qpl_a_matching", "matching_order");
+	$ilDB->dropTableColumn("qpl_a_matching", "tstamp");
 ?>
 <#2822>
 <?php
