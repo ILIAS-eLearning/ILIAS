@@ -47,8 +47,8 @@ class ilFulltextWikiContentSearch extends ilWikiContentSearch
 	function __createWhereCondition()
 	{
 		// IN BOOLEAN MODE
-//		if($this->db->isMysql4_0OrHigher())
-//		{
+		if($this->db->getDbType() == "mysql")
+		{
 			$where .= " WHERE MATCH(content,title) AGAINST('";
 			foreach($this->query_parser->getQuotedWords(true) as $word)
 			{
@@ -56,18 +56,20 @@ class ilFulltextWikiContentSearch extends ilWikiContentSearch
 				$where .= '* ';
 			}
 			$where .= "' IN BOOLEAN MODE) ";
-/*		}
-		else
+		}
+		else if($this->db->getDbType() == "oracle")
 		{
-			// i do not see any reason, but MATCH AGAINST(...) OR MATCH AGAINST(...) does not use an index
-			$where .= " WHERE MATCH (content) AGAINST(' ";
+			// fallback to like
+			$where.= " WHERE ";
 			foreach($this->query_parser->getQuotedWords(true) as $word)
 			{
-				$where .= $word;
-				$where .= ' ';
-				}
-			$where .= "') ";
-		}*/
+				$where.= " ".$sep." ";
+				$where.= $this->db->like("content", "clob", $word);
+				$where.= " OR ";
+				$where.= $this->db->like("title", "text", $word);
+				$sep = "OR";
+			}
+		}
 		return $where;
 	}		
 }
