@@ -9856,3 +9856,5 @@ administration#:#adm_repository_cache_time_info#:#Repository access cache time. 
 wiki#:#wiki_please_enter_search_term#:#Please enter a search term.
 rbac#:#rbac_role_exists_alert#:#A role with the same name already exists in this context. Please choose another name.
 trac#:#trac_query#:#Title/Description
+common#:#reg_mail_body_2_confirmation#:#The link will only be good for %s, after that you will have to try again from the beginning.
+common#:#reg_mail_body_3_confirmation#:#If this email means nothing to you, then it is possible that somebody else has entered your email address either deliberately or accidentally, so please ignore this email.
