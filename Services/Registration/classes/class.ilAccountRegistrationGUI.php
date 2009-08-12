@@ -799,7 +799,7 @@ class ilAccountRegistrationGUI
 
 			// mail body			
 			$hashcode = ilObjUser::_generateRegistrationHash($this->userObj->getId());
-			$body = $this->lng->txt("reg_mail_body_salutation")." ".$this->userObj->getFullname().",\n\n".
+			$body = $this->lng->txt("reg_mail_body_salutation")." ".$this->userObj->getFullname().",\n\n";
 			$body .= $this->lng->txt('reg_mail_body_confirmation')."\n".
             	ILIAS_HTTP_PATH.'/confirmReg.php?client_id='.CLIENT_ID."&rh=".$hashcode."\n\n";
 	
