@@ -15213,3 +15213,11 @@ $ilDB->addPrimaryKey("cache_clob", array("component", "name", "entry_id"));
 	$ilDB->addTableColumn("cache_clob", "text_key_2",
 		array("type" => "text", "length" => 20, "fixed" => false, "notnull" => false));
 ?>
+<#2825>
+<?php
+	$ilDB->modifyTableColumn("write_event", "write_id", array("type" => "integer", "length" => 4, "notnull" => true));
+	$set = $ilDB->query("SELECT MAX(write_id) ma FROM write_event");
+	$rec  = $ilDB->fetchAssoc($set);
+	$next = $rec["ma"] + 1;
+	$ilDB->createSequence("write_event", $next);
+?>
