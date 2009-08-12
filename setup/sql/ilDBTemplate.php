@@ -1029,6 +1029,30 @@ $fields = array (
 		,"fixed" => false
 		,"type" => "text"
 	)
+	,"int_key_1" => array (
+		"notnull" => false
+		,"length" => 4
+		,"unsigned" => false
+		,"type" => "integer"
+	)
+	,"int_key_2" => array (
+		"notnull" => false
+		,"length" => 4
+		,"unsigned" => false
+		,"type" => "integer"
+	)
+	,"text_key_1" => array (
+		"notnull" => false
+		,"length" => 20
+		,"fixed" => false
+		,"type" => "text"
+	)
+	,"text_key_2" => array (
+		"notnull" => false
+		,"length" => 20
+		,"fixed" => false
+		,"type" => "text"
+	)
 );
 $ilDB->createTable("cache_clob", $fields);
 
@@ -1083,6 +1107,30 @@ $fields = array (
 	,"ilias_version" => array (
 		"notnull" => false
 		,"length" => 10
+		,"fixed" => false
+		,"type" => "text"
+	)
+	,"int_key_1" => array (
+		"notnull" => false
+		,"length" => 4
+		,"unsigned" => false
+		,"type" => "integer"
+	)
+	,"int_key_2" => array (
+		"notnull" => false
+		,"length" => 4
+		,"unsigned" => false
+		,"type" => "integer"
+	)
+	,"text_key_1" => array (
+		"notnull" => false
+		,"length" => 20
+		,"fixed" => false
+		,"type" => "text"
+	)
+	,"text_key_2" => array (
+		"notnull" => false
+		,"length" => 20
 		,"fixed" => false
 		,"type" => "text"
 	)
@@ -19109,20 +19157,7 @@ $fields = array (
 		,"default" => "0"
 		,"type" => "float"
 	)
-	,"matchingtext" => array (
-		"notnull" => false
-		,"length" => 1000
-		,"fixed" => false
-		,"type" => "text"
-	)
-	,"matching_order" => array (
-		"notnull" => true
-		,"length" => 4
-		,"unsigned" => false
-		,"default" => "0"
-		,"type" => "integer"
-	)
-	,"tstamp" => array (
+	,"definition_fi" => array (
 		"notnull" => true
 		,"length" => 4
 		,"unsigned" => false
@@ -19211,6 +19246,55 @@ $ilDB->createSequence("qpl_a_mc", 1);
 
 
 //
+// qpl_a_mdef
+//
+$fields = array (
+	"def_id" => array (
+		"notnull" => true
+		,"length" => 4
+		,"unsigned" => false
+		,"default" => ""
+		,"type" => "integer"
+	)
+	,"question_fi" => array (
+		"notnull" => true
+		,"length" => 4
+		,"unsigned" => false
+		,"default" => ""
+		,"type" => "integer"
+	)
+	,"definition" => array (
+		"notnull" => false
+		,"length" => 1000
+		,"fixed" => false
+		,"type" => "text"
+	)
+	,"morder" => array (
+		"notnull" => true
+		,"length" => 4
+		,"unsigned" => false
+		,"default" => ""
+		,"type" => "integer"
+	)
+	,"picture" => array (
+		"notnull" => false
+		,"length" => 1000
+		,"fixed" => false
+		,"type" => "text"
+	)
+);
+$ilDB->createTable("qpl_a_mdef", $fields);
+
+$pk_fields = array("def_id");
+$ilDB->addPrimaryKey("qpl_a_mdef", $pk_fields);
+
+$in_fields = array("question_fi");
+$ilDB->addIndex("qpl_a_mdef", $in_fields, "i1", false);
+
+$ilDB->createSequence("qpl_a_mdef", 1);
+
+
+//
 // qpl_a_mterm
 //
 $fields = array (
@@ -19229,6 +19313,12 @@ $fields = array (
 		,"type" => "integer"
 	)
 	,"term" => array (
+		"notnull" => false
+		,"length" => 1000
+		,"fixed" => false
+		,"type" => "text"
+	)
+	,"picture" => array (
 		"notnull" => false
 		,"length" => 1000
 		,"fixed" => false
@@ -27238,7 +27328,7 @@ $ilDB->insert("settings", array(
 'module' => array('text', 'common'), 'keyword' => array('text', 'convert_path'), 'value' => array('clob', '')));
 
 $ilDB->insert("settings", array(
-'module' => array('text', 'common'), 'keyword' => array('text', 'db_version'), 'value' => array('clob', '2816')));
+'module' => array('text', 'common'), 'keyword' => array('text', 'db_version'), 'value' => array('clob', '2824')));
 
 $ilDB->insert("settings", array(
 'module' => array('text', 'common'), 'keyword' => array('text', 'ilias_version'), 'value' => array('clob', '3.2.3 2004-11-22')));
@@ -27467,6 +27557,9 @@ $ilDB->insert("settings", array(
 
 $ilDB->insert("settings", array(
 'module' => array('text', 'common'), 'keyword' => array('text', 'chat_export_period'), 'value' => array('clob', '1')));
+
+$ilDB->insert("settings", array(
+'module' => array('text', 'common'), 'keyword' => array('text', 'usr_settings_hide_delicious'), 'value' => array('clob', '1')));
 
 
 //
