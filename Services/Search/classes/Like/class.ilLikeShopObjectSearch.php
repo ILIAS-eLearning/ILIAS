@@ -41,6 +41,8 @@ class ilLikeShopObjectSearch extends ilShopObjectSearch
 
 	public function __createWhereCondition()
 	{
+		global $ilDB;
+		
 		$where = '';
 		$types = array();
 		$values = array();		
@@ -52,8 +54,12 @@ class ilLikeShopObjectSearch extends ilShopObjectSearch
 			if($counter++)
 			{
 				$where .= 'OR';
-			}		
-			$where .= $this->db->like(" CONCAT(title, COALESCE(description, ''))", 'text', '%%'.$word.'%%');
+			}	
+			$concat = $ilDB->concat(
+				array(
+					'title'			=> 'field',
+					'description'	=> 'field'));
+			$where .= $this->db->like($concat, 'text', '%%'.$word.'%%');
 			
 		}
 		$where .= ') ';

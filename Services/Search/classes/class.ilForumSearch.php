@@ -80,7 +80,7 @@ class ilForumSearch extends ilAbstractSearch
 			"FROM  frm_posts,frm_data ".
 			"WHERE pos_top_fk = top_pk ".
 			$and;
-
+			
 		$res = $this->db->query($query);
 		while($row = $res->fetchRow(DB_FETCHMODE_OBJECT))
 		{

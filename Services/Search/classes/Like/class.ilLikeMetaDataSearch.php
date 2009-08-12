@@ -82,9 +82,19 @@ class ilLikeMetaDataSearch extends ilMetaDataSearch
 	}		
 	function __createTitleWhereCondition()
 	{
-		#$concat = ' CONCAT(title,coverage) '; // broken if coverage is null
-		// TODO: fix coverage search
+		global $ilDB;
+		
+		/*
+		$concat = ' CONCAT(title,coverage) '; // broken if coverage is null
+		// DONE: fix coverage search
 		$concat = ' title ';
+		*/
+		
+		$concat = $ilDB->concat(
+			array(
+				'title'		=> 'field',
+				'coverage'	=> 'field'));
+		
 		
 		$where = " WHERE (";
 		$counter = 0;

@@ -122,15 +122,25 @@ class ilAbstractSearch
 	*/
 	function __createLocateString()
 	{
+		global $ilDB;
+		
 		if($this->query_parser->getCombination() == 'or')
 		{
 			return '';
 		}
 		if(count($this->fields) > 1)
 		{
+			foreach($this->fields as $field)
+			{
+				$tmp_fields[$field] = 'field'; 
+			}
+			$complete_str = $ilDB->concat($tmp_fields);
+			
+			/*
 			$complete_str = 'CONCAT(';
 			$complete_str .= implode(',',$this->fields);
 			$complete_str .= ')';
+			*/
 		}
 		else
 		{

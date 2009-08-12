@@ -48,9 +48,19 @@ class ilLikeMediaCastSearch extends ilMediaCastSearch
 
 	function __createWhereCondition()
 	{
+		global $ilDB;
+		
+		/*
 		$concat  = " CONCAT(";
 		$concat .= 'title,content';
 		$concat .= ") ";
+		*/
+		
+		$concat = $ilDB->concat(
+			array(
+				'title'	=> 'field',
+				'content'	=> 'field'));
+
 
 		$and = "  WHERE context_obj_type='mcst' AND (  ";
 		$counter = 0;

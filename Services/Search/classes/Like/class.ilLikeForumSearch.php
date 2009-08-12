@@ -49,9 +49,17 @@ class ilLikeForumSearch extends ilForumSearch
 
 	function __createPostAndCondition()
 	{
+		global $ilDB;
+		
+		/*
 		$concat  = " CONCAT(";
 		$concat .= 'pos_message,pos_subject';
 		$concat .= ") ";
+		*/
+		$concat = $ilDB->concat(
+			array(
+				'pos_message'	=> 'field',
+				'pos_subject'	=> 'field'));
 
 		$and = "  AND ( ";
 		$counter = 0;
