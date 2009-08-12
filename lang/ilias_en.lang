@@ -9853,5 +9853,6 @@ grp#:#grp_min_one_admin#:#There has to be at least one administrator assigned to
 crs#:#crs_min_one_admin#:#There has to be at least one administrator assigned to this course.
 administration#:#adm_repository_cache_time#:#Repository Cache Time
 administration#:#adm_repository_cache_time_info#:#Repository access cache time. Set 0 to disable the cache. Higher values may improve performance but also display actions that lead to a no-permission screen.
+wiki#:#wiki_please_enter_search_term#:#Please enter a search term.
 rbac#:#rbac_role_exists_alert#:#A role with the same name already exists in this context. Please choose another name.
 trac#:#trac_query#:#Title/Description
