@@ -49,6 +49,8 @@ class ilLikeExerciseSearch extends ilExerciseSearch
 
 	function __createWhereCondition()
 	{
+		global $ilDB;
+		
 		$concat = 'instruction ';
 
 		$and = "  WHERE ( ";
@@ -59,8 +61,9 @@ class ilLikeExerciseSearch extends ilExerciseSearch
 			{
 				$and .= " OR ";
 			}
-			$and .= $concat;
-			$and .= ("LIKE ('%".$word."%')");
+			#$and .= $concat;
+			$and .= $ilDB->like('instruction','text','%'.$word.'%',false);
+			#$and .= ("LIKE ('%".$word."%')");
 		}
 		return $and.") ";
 	}
