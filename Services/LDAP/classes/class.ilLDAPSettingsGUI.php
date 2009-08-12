@@ -54,15 +54,17 @@ class ilLDAPSettingsGUI
 	
 	public function executeCommand()
 	{
-		global $ilAccess,$ilErr;
-		
-		if(!$ilAccess->checkAccess('write','',$this->ref_id))
-		{
-			$ilErr->raiseError($this->lng->txt('msg_no_perm_write'),$ilErr->WARNING);
-		}
-		
+		global $ilAccess,$ilias, $ilErr, $ilCtrl;
+
 		$next_class = $this->ctrl->getNextClass($this);
 		$cmd = $this->ctrl->getCmd();
+		
+		if(!$ilAccess->checkAccess('write','',$this->ref_id) && $cmd != "serverList")
+		{
+			ilUtil::sendFailure($this->lng->txt('msg_no_perm_write'), true);
+			$ilCtrl->redirect($this, "serverList");
+		}
+		
 
 		switch($next_class)
 		{
@@ -852,6 +854,13 @@ class ilLDAPSettingsGUI
 	
 	public function serverList()
 	{
+		global $ilAccess, $ilErr;
+		
+		if(!$ilAccess->checkAccess('read','',$this->ref_id) && $cmd != "serverList")
+		{
+			$ilErr->raiseError($this->lng->txt('msg_no_perm_write'),$ilErr->WARNING);
+		}
+
 		$this->setSubTabs();
 		$this->tabs_gui->setSubTabActive('ldap_settings');
 		

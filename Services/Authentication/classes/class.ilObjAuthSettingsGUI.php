@@ -476,7 +476,7 @@ class ilObjAuthSettingsGUI extends ilObjectGUI
 	{
 		global $rbacsystem, $rbacreview, $ilSetting;
 		
-		if (!$rbacsystem->checkAccess("write",$this->object->getRefId()))
+		if (!$rbacsystem->checkAccess("read",$this->object->getRefId()))
 		{
 			$this->ilias->raiseError($this->lng->txt("permission_denied"),$this->ilias->error_obj->MESSAGE);
 		}
@@ -581,7 +581,12 @@ class ilObjAuthSettingsGUI extends ilObjectGUI
 	*/
 	function saveCASObject()
 	{
-         global $ilUser, $ilSetting;
+         global $ilUser, $ilSetting, $rbacsystem;
+
+ 		if (!$rbacsystem->checkAccess("write",$this->object->getRefId()))
+		{
+			$this->ilias->raiseError($this->lng->txt("permission_denied"),$this->ilias->error_obj->MESSAGE);
+		}
 
         // validate required data 
 		if (!$_POST["cas"]["server"] or !$_POST["cas"]["port"])
@@ -618,7 +623,7 @@ class ilObjAuthSettingsGUI extends ilObjectGUI
 	{
 		global $rbacsystem, $rbacreview, $ilSetting, $ilCtrl, $lng;
 		
-		if (!$rbacsystem->checkAccess("write",$this->object->getRefId()))
+		if (!$rbacsystem->checkAccess("read",$this->object->getRefId()))
 		{
 			$this->ilias->raiseError($this->lng->txt("permission_denied"),$this->ilias->error_obj->MESSAGE);
 		}
@@ -787,7 +792,12 @@ class ilObjAuthSettingsGUI extends ilObjectGUI
 	*/
 	function saveSOAPObject()
 	{
-         global $ilUser, $ilSetting;
+         global $ilUser, $ilSetting, $rbacsystem;
+
+ 		if (!$rbacsystem->checkAccess("write",$this->object->getRefId()))
+		{
+			$this->ilias->raiseError($this->lng->txt("permission_denied"),$this->ilias->error_obj->MESSAGE);
+		}
 
         // validate required data 
 		if (!$_POST["soap"]["server"])

@@ -46,15 +46,22 @@ class ilRadiusSettingsGUI
 	 */
 	public function executeCommand()
 	{
-		global $ilAccess,$ilErr;
+		global $ilAccess,$ilErr,$ilCtrl;
+
+		$next_class = $this->ctrl->getNextClass($this);
+		$cmd = $this->ctrl->getCmd("settings");
 		
-		if(!$ilAccess->checkAccess('write','',$this->ref_id))
+		if(!$ilAccess->checkAccess('read','',$this->ref_id))
 		{
 			$ilErr->raiseError($this->lng->txt('msg_no_perm_write'),$ilErr->WARNING);
 		}
 		
-		$next_class = $this->ctrl->getNextClass($this);
-		$cmd = $this->ctrl->getCmd();
+		if(!$ilAccess->checkAccess('write','',$this->ref_id) && $cmd != "settings")
+		{
+			ilUtil::sendFailure($this->lng->txt('msg_no_perm_write'), true);
+			$ilCtrl->redirect($this, "settings");
+		}
+
 
 		switch($next_class)
 		{
