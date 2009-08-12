@@ -8664,7 +8664,7 @@ CREATE TABLE `payment_news` (
   `user_id` int(11) NOT NULL,
   PRIMARY KEY  (`news_id`),
   KEY `c_date` (`creation_date`)
-) ENGINE=MyISAM  DEFAULT CHARSET=utf8;
+);
 
 <#1854>
  CREATE  TABLE `payment_news_seq` (  `sequence` int( 11  )  NOT  NULL  auto_increment ,

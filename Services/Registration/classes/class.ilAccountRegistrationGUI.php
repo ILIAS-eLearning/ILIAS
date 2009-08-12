@@ -790,12 +790,9 @@ class ilAccountRegistrationGUI
 		// Registration with confirmation link ist enabled		
 		if($this->registration_settings->getRegistrationType() == IL_REG_ACTIVATION)
 		{			
-			include_once "Services/Mail/classes/class.ilMimeMail.php";
-			$mmail = new ilMimeMail();
-			$mmail->autoCheck(false);
-			$mmail->From($settings["admin_email"]);
-			$mmail->To($this->userObj->getEmail());
-
+			include_once 'Services/Mail/classes/class.ilMail.php';
+			$mail_obj = new ilMail(ANONYMOUS_USER_ID);			
+		
 			// mail subject
 			$subject = $this->lng->txt("reg_mail_subject_confirmation");
 
@@ -804,10 +801,14 @@ class ilAccountRegistrationGUI
 			$body = $this->lng->txt("reg_mail_body_salutation")." ".$this->userObj->getFullname().",\n\n".
 			$body .= $this->lng->txt('reg_mail_body_confirmation')."\n".
             	ILIAS_HTTP_PATH.'/confirmReg.php?client_id='.CLIENT_ID."&rh=".$hashcode."\n\n";
-						 
-			$mmail->Subject($subject);
-			$mmail->Body($body);
-			$mmail->Send();
+	
+			//@todo: $settings["admin_email"] -> I suggest to add the System Administrators mail
+			//address (from Administration > General Settings > Contact Information) as contact in the body.
+			
+			$mail_obj->sendMail($this->userObj->getEmail(), '', '',
+				$subject,
+				$body,
+				array(), array('normal'));
 		}
 		else
 		{
