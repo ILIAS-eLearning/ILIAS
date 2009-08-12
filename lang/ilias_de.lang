@@ -1561,10 +1561,10 @@ common#:#access_until#:#Zugang bis
 common#:#access_users#:#Eingeloggte Benutzer
 common#:#account_expires_body#:#Ihr Benutzerzugang ist zeitlich begrenzt. Ablauftermin:
 common#:#account_expires_subject#:#[ILIAS 3] Benutzerzugang
-common#:#accs_edit_permission#:#Change permission settings###30 04 2009 new variable
-common#:#accs_read#:#Read access to Accessibility Settings###30 04 2009 new variable
-common#:#accs_visible#:#Accessibility Settings are visible###30 04 2009 new variable
-common#:#accs_write#:#Edit Accessibility Settings###30 04 2009 new variable
+common#:#accs_edit_permission#:#Rechteeinstellungen ändern
+common#:#accs_read#:#Lesezugriff auf Barrierefreiheitseinstellungen
+common#:#accs_visible#:#Barrierefreiheitseinstellungen sind sichtbar
+common#:#accs_write#:#Barrierefreiheitseinstellungen bearbeiten
 common#:#action#:#Aktion
 common#:#actions#:#Aktionen
 common#:#action_aborted#:#Aktion abgebrochen
@@ -3378,10 +3378,10 @@ common#:#missing#:#Nicht vorhanden
 common#:#missing_perm#:#Fehlende Berechtigung
 common#:#missing_precondition#:#Fehlende Vorbedingung
 common#:#mob#:#Media Objekt
-common#:#mobs_edit_permission#:#Change permission settings###24 07 2009 new variable
-common#:#mobs_read#:#Read access to Media Objects/Pools Settings###24 07 2009 new variable
-common#:#mobs_visible#:#Media Objects/Pools Settings are visible###24 07 2009 new variable
-common#:#mobs_write#:#Edit Media Objects/Pools Settings###24 07 2009 new variable
+common#:#mobs_edit_permission#:#Rechteeinstellungen ändern
+common#:#mobs_read#:#Lesezugriff auf Medieneinstellungen
+common#:#mobs_visible#:#Medieneinstellungen sind sichtbar
+common#:#mobs_write#:#Medieneinstellungen bearbeiten
 common#:#module#:#Modul
 common#:#modules#:#Module
 common#:#mod_rewrite_disabled#:#Das Apache-Modul 'mod_rewrite' ist nicht verfügbar.
@@ -8455,10 +8455,10 @@ rbac#:#cat_create_catr#:#Neue Kategorie-Referenz anlegen
 rbac#:#cat_create_crsr#:#Neue Kurs-Referenz anlegen
 rbac#:#cat_create_rcrs#:#Neuen externen Kurs anlegen
 rbac#:#cat_create_wiki#:#Neues Wiki anlegen
-rbac#:#cmps_edit_permission#:#Change permission settings###06 11 2008 new variable
-rbac#:#cmps_read#:#Read access to component settings###06 11 2008 new variable
-rbac#:#cmps_visible#:#Component settings are visible###06 11 2008 new variable
-rbac#:#cmps_write#:#Edit component settings###06 11 2008 new variable
+rbac#:#cmps_edit_permission#:#Rechteeinstellungen ändern
+rbac#:#cmps_read#:#Lesezugriff auf Komponenteneinstellungen
+rbac#:#cmps_visible#:#Komponenteneinstellungen sind sichtbar
+rbac#:#cmps_write#:#Komponenteneinstellungen bearbeiten
 rbac#:#crsr_copy#:#Kurs-Referenzen kopieren
 rbac#:#crsr_delete#:#Kurs-Referenzen löschen
 rbac#:#crsr_edit_permission#:#Rechteeinstellungen ändern
@@ -8469,10 +8469,10 @@ rbac#:#crs_create_sess#:#Sitzung anlegen
 rbac#:#crs_create_wiki#:#Neues Wiki anlegen
 rbac#:#crs_edit_event#:#Kalendertermine bearbeiten
 rbac#:#edit_learning_progress#:#Lernfortschritt bearbeiten
-rbac#:#facs_edit_permission#:#Change permission settings###06 11 2008 new variable
-rbac#:#facs_read#:#Read access to files & foldes settings###06 11 2008 new variable
-rbac#:#facs_visible#:#Files & foldes settings are visible###06 11 2008 new variable
-rbac#:#facs_write#:#Edit files & foldes settings###06 11 2008 new variable
+rbac#:#facs_edit_permission#:#Rechteeinstellungen ändern
+rbac#:#facs_read#:#Lesezugriff auf Einstellungen zu Dateien/Ordnern
+rbac#:#facs_visible#:#Einstellungen zu Dateien/Ordnern sind sichtbar
+rbac#:#facs_write#:#Einstellungen zu Dateien/Ordnern bearbeiten
 rbac#:#filter_all_roles#:#Zeige alle Rollen im aktuellen Kontext
 rbac#:#filter_global_roles#:#Zeige nur globale Rollen
 rbac#:#filter_local_roles#:#Zeige nur lokale Rollen im aktuellen Kontext
@@ -8483,19 +8483,19 @@ rbac#:#grp_create_wiki#:#Neues Wiki anlegen
 rbac#:#grp_edit_event#:#Kalendertermine bearbeiten
 rbac#:#info_user_view_changed#:#Benutzersicht gewechselt
 rbac#:#leave#:#Verlassen
-rbac#:#mcts_edit_permission#:#Change permission settings###06 11 2008 new variable
-rbac#:#mcts_read#:#Read access to mediacast settings###06 11 2008 new variable
-rbac#:#mcts_visible#:#Mediacast settings are visible###06 11 2008 new variable
-rbac#:#mcts_write#:#Edit mediacast settings###06 11 2008 new variable
+rbac#:#mcts_edit_permission#:#Rechteeinstellungen ändern
+rbac#:#mcts_read#:#Lesezugriff auf Mediacast-Einstellungen
+rbac#:#mcts_visible#:#Mediacast-Einstellungen sind sichtbar
+rbac#:#mcts_write#:#Mediacast-Einstellungen bearbeiten
 rbac#:#mds_edit_permission#:#Rechteeinstellung ändern
 rbac#:#mds_read#:#Lesezugriff auf Metadata-Einstellungen
 rbac#:#mds_visible#:#Metadata-Einstellungen sind sichtbar
 rbac#:#mds_write#:#Schreibzugriff auf Metadata-Einstellungen
 rbac#:#msg_no_roles_of_type#:#Keine Rollen vorhanden mit der gewählten Filtereinstellung
-rbac#:#pdts_edit_permission#:#Change permission settings###06 11 2008 new variable
-rbac#:#pdts_read#:#Read access to personal desktop settings###06 11 2008 new variable
-rbac#:#pdts_visible#:#Personal desktop settings are visible###06 11 2008 new variable
-rbac#:#pdts_write#:#Edit personal desktop settings###06 11 2008 new variable
+rbac#:#pdts_edit_permission#:#Rechteeinstellungen ändern
+rbac#:#pdts_read#:#Lesezugriff auf Einstellungen zum persönlichen Schreibtisch
+rbac#:#pdts_visible#:#Einstellungen zum persönlichen Schreibtisch sind sichtbar
+rbac#:#pdts_write#:#Einstellungen zum persönlichen Schreibtisch bearbeiten
 rbac#:#perm_administrate#:#Verwalten
 rbac#:#perm_class_create#:#Neue Objekte erzeugen
 rbac#:#perm_class_create_desc#:#Hier stellen Sie ein, welche Objekte unter diesem Objekt angelegt werden dürfen.
@@ -8523,7 +8523,7 @@ rbac#:#recf_visible#:#Wiederhergestellte Objekte sind sichtbar
 rbac#:#recf_write#:#Wiederhergestellte Objekte bearbeiten
 rbac#:#root_create_catr#:#Create Category Reference###06 11 2008 new variable
 rbac#:#sess_copy#:#Kopieren
-rbac#:#sess_delete#:#Delete Session###06 11 2008 new variable
+rbac#:#sess_delete#:#Sitzungen löschen
 rbac#:#sess_edit_event#:#Kalendertermine bearbeiten
 rbac#:#sess_edit_permission#:#Rechteeinstellungen ändern
 rbac#:#sess_read#:#Lesezugriff auf Sitzungen
@@ -9871,3 +9871,8 @@ rbac#:#rbac_role_exists_alert#:#Es existiert bereits eine Rolle mit dem gleichen
 trac#:#trac_query#:#Titel/Beschreibung
 common#:#reg_mail_body_2_confirmation#:#Der Link wird nur für %s gültig sein, danach müssen Sie sich erneut registrieren.
 common#:#reg_mail_body_3_confirmation#:#Falls Sie diese E-Mail unerwartet erhalten haben ist es möglich, dass eine andere Person Ihre E-Mail Adresse versehentlich oder vorsätzlich angegeben hat. In diesem Fall ignorieren Sie diese Mail bitte.
+user#:#user_field#:#Field###12 08 2009 new variable
+user#:#user_visible_in_profile#:#Visible in Profile###12 08 2009 new variable
+administration#:#adm_repository_cache_time#:#Repository Cache Time###12 08 2009 new variable
+administration#:#adm_repository_cache_time_info#:#Repository access cache time. Set 0 to disable the cache. Higher values may improve performance but also display actions that lead to a no-permission screen.###12 08 2009 new variable
+wiki#:#wiki_please_enter_search_term#:#Please enter a search term.###12 08 2009 new variable
