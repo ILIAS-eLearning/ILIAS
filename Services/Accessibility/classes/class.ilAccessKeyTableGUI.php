@@ -47,7 +47,10 @@ class ilAccessKeyTableGUI extends ilTable2GUI
 		$this->setEnableTitle(true);
 
 //		$this->addMultiCommand("", $lng->txt(""));
-		$this->addCommandButton("saveAccessKeys", $lng->txt("save"));
+		if ($ilAccess->checkAccess("write", "", $_GET["ref_id"]))
+		{
+			$this->addCommandButton("saveAccessKeys", $lng->txt("save"));
+		}
 	}
 	
 	/**
