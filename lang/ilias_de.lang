@@ -9868,3 +9868,4 @@ common#:#sub_request_deleted#:#Ihr Aufnahmeantrag wurde gelöscht
 grp#:#grp_min_one_admin#:#Dieser Gruppe muß mindestens ein Administrator zugeordnet bleiben.
 crs#:#crs_min_one_admin#:#Diesem Kurs muß mindestens ein Administrator zugeordnet bleiben.
 rbac#:#rbac_role_exists_alert#:#Es existiert bereits eine Rolle mit dem gleichen Namen. Bitte wählen Sie einen anderen Rollennamen.
+trac#:#trac_query#:#Titel/Beschreibung
