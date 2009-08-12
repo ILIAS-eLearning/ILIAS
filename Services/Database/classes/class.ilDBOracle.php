@@ -17,6 +17,8 @@ include_once ("./Services/Database/classes/class.ilDB.php");
 */
 class ilDBOracle extends ilDB
 {
+	const CLOB_BUFFER_SIZE = 3000;
+
 
 	/**
 	* Get DSN.
@@ -214,15 +216,57 @@ class ilDBOracle extends ilDB
 	 */
 	public function locate($a_needle,$a_string,$a_start_pos = 0)
 	{
+		$a_start_pos = $a_start_pos ? $a_start_pos : 1;
+		
 		$locate = ' INSTR( ';
-		$locate .= $a_needle;
+		$locate .= ('SUBSTR('.$a_string.',0,'.self::CLOB_BUFFER_SIZE.')');
 		$locate .= ',';
-		$locate .= $a_string;
+		$locate .= $a_needle;
 		$locate .= ',';
 		$locate .= $a_start_pos;
 		$locate .= ') ';
 		return $locate;
 	}
+	
+	/**
+	 * Provisional LIKE support for oracle CLOB's
+	 * Uses SUBSTR to reduce the length.
+	 * @param object $a_col
+	 * @param object $a_type
+	 * @param object $a_value [optional]
+	 * @param object $case_insensitive [optional]
+	 * @return 
+	 */
+	public function like($a_col, $a_type, $a_value = "?", $case_insensitive = true)
+	{
+		if (!in_array($a_type, array("text", "clob", "blob")))
+		{
+			$this->raisePearError("Like: Invalid column type '".$a_type."'.", $this->error_class->FATAL);
+		}
+		if ($a_value == "?")
+		{
+			if ($case_insensitive)
+			{
+				return "UPPER(SUBSTR(".$a_col.",0,".self::CLOB_BUFFER_SIZE.")) LIKE(UPPER(?))";
+			}
+			else
+			{
+				return "SUBSTR(".$a_col .",0,".self::CLOB_BUFFER_SIZE.") LIKE(?)";
+			}
+		}
+		else
+		{
+			if ($case_insensitive)
+			{
+				return " UPPER(SUBSTR(".$a_col.",0,".self::CLOB_BUFFER_SIZE.")) LIKE(UPPER(".$this->quote($a_value, $a_type)."))";
+			}
+			else
+			{
+				return " SUBSTR(".$a_col.",0,".self::CLOB_BUFFER_SIZE.") LIKE(".$this->quote($a_value, $a_type).")";
+			}
+		}
+	}
+	
 	
 
 }
