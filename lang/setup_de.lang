@@ -489,10 +489,10 @@ not_configured#:#Not Configured###24 07 2009 new variable
 pre_php_version_too_low#:#Your PHP version is not supported. We recommend to use PHP 5.2.1 or higher. PHP 6 has not been tested yet.###24 07 2009 new variable
 msg_input_is_required#:#This input is required. Please enter a value.###24 07 2009 new variable
 form_input_not_valid#:#Some data is incomplete or not valid. Please correct the form input.###24 07 2009 new variable
-form_retype_password#:#Retype Password###24 07 2009 new variable
-master_password#:#Master Password###24 07 2009 new variable
+form_retype_password#:#Passwortwiederholung
+master_password#:#Master-Passwort
 passwd_not_match#:#Your entries for the new password don't match! Please re-enter your new password.###24 07 2009 new variable
-next_update_break#:#Next Update Break###24 07 2009 new variable
-next_update_break_info#:#Depending on the size of your insallation, it is usually advisable not to perform large updates in one run.###24 07 2009 new variable
-clients#:#Clients###24 07 2009 new variable
-no_items#:#No Entrie###24 07 2009 new variable
+next_update_break#:#Nächste Unterbrechung des Updates
+next_update_break_info#:#Je nach Grösse Ihrer Installation ist es nicht ratsam das Update in einem Durchlauf auszuführen.
+clients#:#Mandanten
+no_items#:#Keine Einträge

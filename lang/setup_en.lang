@@ -486,6 +486,6 @@ form_retype_password#:#Retype Password
 master_password#:#Master Password
 passwd_not_match#:#Your entries for the new password don't match! Please re-enter your new password.
 next_update_break#:#Next Update Break
-next_update_break_info#:#Depending on the size of your insallation, it is usually advisable not to perform large updates in one run.
+next_update_break_info#:#Depending on the size of your installation, it is usually advisable not to perform large updates in one run.
 clients#:#Clients
 no_items#:#No Entries
