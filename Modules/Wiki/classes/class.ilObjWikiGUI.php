@@ -946,13 +946,19 @@ class ilObjWikiGUI extends ilObjectGUI
 	*/
 	function performSearchObject()
 	{
-		global $tpl, $ilTabs;
+		global $tpl, $ilTabs, $ilCtrl, $lng;
 		
 		$this->checkPermission("read");
 		
 		include_once("./Modules/Wiki/classes/class.ilWikiSearchResultsTableGUI.php");
 		
 		$ilTabs->setTabActive("wiki_search_results");
+		
+		if (trim($_POST["search_term"]) == "")
+		{
+			ilUtil::sendFailure($lng->txt("wiki_please_enter_search_term"), true);
+			$ilCtrl->redirectByClass("ilwikipagegui", "preview");
+		}
 		
 		$search_results = ilObjWiki::_performSearch($this->object->getId(),
 			ilUtil::stripSlashes($_POST["search_term"]));
