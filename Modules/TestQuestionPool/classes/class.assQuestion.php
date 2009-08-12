@@ -1693,6 +1693,56 @@ class assQuestion
 		return $this->getId();
 	}
 
+	public function saveQuestionDataToDb($original_id = "")
+	{
+		global $ilDB;
+
+		$estw_time = $this->getEstimatedWorkingTime();
+		$estw_time = sprintf("%02d:%02d:%02d", $estw_time['h'], $estw_time['m'], $estw_time['s']);
+
+		// cleanup RTE images which are not inserted into the question text
+		include_once("./Services/RTE/classes/class.ilRTE.php");
+		if ($this->getId() == -1)
+		{
+			// Neuen Datensatz schreiben
+			$next_id = $ilDB->nextId('qpl_questions');
+			$affectedRows = $ilDB->insert("qpl_questions", array(
+				"question_id" => array("integer", $next_id),
+				"question_type_fi" => array("integer", $this->getQuestionTypeID()),
+				"obj_fi" => array("integer", $this->getObjId()),
+				"title" => array("text", $this->getTitle()),
+				"description" => array("text", $this->getComment()),
+				"author" => array("text", $this->getAuthor()),
+				"owner" => array("integer", $this->getOwner()),
+				"question_text" => array("clob", ilRTE::_replaceMediaObjectImageSrc($this->getQuestion(), 0)),
+				"points" => array("float", $this->getMaximumPoints()),
+				"working_time" => array("text", $estw_time),
+				"created" => array("integer", time()),
+				"original_id" => array("integer", ($original_id) ? $original_id : NULL),
+				"tstamp" => array("integer", time())
+			));
+			$this->setId($next_id);
+			// create page object of question
+			$this->createPageObject();
+		}
+		else
+		{
+			// Vorhandenen Datensatz aktualisieren
+			$affectedRows = $ilDB->update("qpl_questions", array(
+				"obj_fi" => array("integer", $this->getObjId()),
+				"title" => array("text", $this->getTitle()),
+				"description" => array("text", $this->getComment()),
+				"author" => array("text", $this->getAuthor()),
+				"question_text" => array("clob", ilRTE::_replaceMediaObjectImageSrc($this->getQuestion(), 0)),
+				"points" => array("float", $this->getMaximumPoints()),
+				"working_time" => array("text", $estw_time),
+				"tstamp" => array("integer", time())
+			), array(
+			"question_id" => array("integer", $this->getId())
+			));
+		}
+	}
+
 	/**
 	* Saves the question to the database
 	*

@@ -121,89 +121,41 @@ class assSingleChoice extends assQuestion
 	{
 		global $ilDB;
 
-		$estw_time = $this->getEstimatedWorkingTime();
-		$estw_time = sprintf("%02d:%02d:%02d", $estw_time['h'], $estw_time['m'], $estw_time['s']);
+		$this->saveQuestionDataToDb($original_id);
 
-			// cleanup RTE images which are not inserted into the question text
-			include_once("./Services/RTE/classes/class.ilRTE.php");
-			if ($this->id == -1)
-			{
-				// Neuen Datensatz schreiben
-				$next_id = $ilDB->nextId('qpl_questions');
-				$affectedRows = $ilDB->manipulateF("INSERT INTO qpl_questions (question_id, question_type_fi, obj_fi, title, description, author, owner, question_text, points, working_time, created, original_id, tstamp) VALUES (%s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s)", 
-					array("integer","integer", "integer", "text", "text", "text", "integer", "text", "float", "text", "integer","integer","integer"),
-					array(
-						$next_id,
-						$this->getQuestionTypeID(), 
-						$this->getObjId(), 
-						$this->getTitle(), 
-						$this->getComment(), 
-						$this->getAuthor(), 
-						$this->getOwner(), 
-						ilRTE::_replaceMediaObjectImageSrc($this->getQuestion(), 0), 
-						$this->getMaximumPoints(),
-						$estw_time,
-						time(),
-						($original_id) ? $original_id : NULL,
-						time()
-					)
-				);
-				$this->setId($next_id);
-				// create page object of question
-				$this->createPageObject();
-			}
-			else
-			{
-				// Vorhandenen Datensatz aktualisieren
-				$affectedRows = $ilDB->manipulateF("UPDATE qpl_questions SET obj_fi = %s, title = %s, description = %s, author = %s, question_text = %s, points = %s, working_time=%s, tstamp = %s WHERE question_id = %s", 
-					array("integer", "text", "text", "text", "text", "float", "text", "integer", "integer"),
-					array(
-						$this->getObjId(), 
-						$this->getTitle(), 
-						$this->getComment(), 
-						$this->getAuthor(), 
-						ilRTE::_replaceMediaObjectImageSrc($this->getQuestion(), 0), 
-						$this->getMaximumPoints(),
-						$estw_time,
-						time(),
-						$this->getId()
-					)
-				);
-			}
-
-			$oldthumbsize = 0;
-			if ((!$this->getMultilineAnswerSetting()) && ($this->getThumbSize()))
-			{
-				// get old thumbnail size
-				$result = $ilDB->queryF("SELECT thumb_size FROM " . $this->getAdditionalTableName() . " WHERE question_fi = %s",
-					array("integer"),
-					array($this->getId())
-				);
-				if ($result->numRows() == 1)
-				{
-					$data = $ilDB->fetchAssoc($result);
-					$oldthumbsize = $data['thumb_size'];
-				}
-			}
-			if ($this->getMultilineAnswerSetting())
-			{
-				ilUtil::delDir($this->getImagePath());
-			}
-
-			// save additional data
-			$affectedRows = $ilDB->manipulateF("DELETE FROM " . $this->getAdditionalTableName() . " WHERE question_fi = %s", 
+		$oldthumbsize = 0;
+		if ((!$this->getMultilineAnswerSetting()) && ($this->getThumbSize()))
+		{
+			// get old thumbnail size
+			$result = $ilDB->queryF("SELECT thumb_size FROM " . $this->getAdditionalTableName() . " WHERE question_fi = %s",
 				array("integer"),
 				array($this->getId())
 			);
+			if ($result->numRows() == 1)
+			{
+				$data = $ilDB->fetchAssoc($result);
+				$oldthumbsize = $data['thumb_size'];
+			}
+		}
+		if ($this->getMultilineAnswerSetting())
+		{
+			ilUtil::delDir($this->getImagePath());
+		}
 
-			$affectedRows = $ilDB->manipulateF("INSERT INTO " . $this->getAdditionalTableName() . " (question_fi, shuffle, thumb_size) VALUES (%s, %s, %s)", 
-				array("integer", "text", "integer"),
-				array(
-					$this->getId(),
-					$this->getShuffle(),
-					(strlen($this->getThumbSize()) == 0) ? null : $this->getThumbSize()
-				)
-			);
+		// save additional data
+		$affectedRows = $ilDB->manipulateF("DELETE FROM " . $this->getAdditionalTableName() . " WHERE question_fi = %s", 
+			array("integer"),
+			array($this->getId())
+		);
+
+		$affectedRows = $ilDB->manipulateF("INSERT INTO " . $this->getAdditionalTableName() . " (question_fi, shuffle, thumb_size) VALUES (%s, %s, %s)", 
+			array("integer", "text", "integer"),
+			array(
+				$this->getId(),
+				$this->getShuffle(),
+				(strlen($this->getThumbSize()) == 0) ? null : $this->getThumbSize()
+			)
+		);
 
 		$affectedRows = $ilDB->manipulateF("DELETE FROM qpl_a_sc WHERE question_fi = %s",
 			array('integer'),
