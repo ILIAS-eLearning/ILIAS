@@ -113,11 +113,14 @@ class ilObjAccessibilitySettingsGUI extends ilObjectGUI
 	*/
 	function saveAccessKeys()
 	{
-		global $ilCtrl, $lng;
+		global $ilCtrl, $lng, $ilAccess;
 		
-		include_once("./Services/Accessibility/classes/class.ilAccessKey.php");
-		ilAccessKey::writeKeys(ilUtil::stripSlashesArray($_POST["acckey"]));
-		ilUtil::sendSuccess($lng->txt("msg_obj_modified"), true);
+		if ($ilAccess->checkAccess("write", "", $_GET["ref_id"]))
+		{
+			include_once("./Services/Accessibility/classes/class.ilAccessKey.php");
+			ilAccessKey::writeKeys(ilUtil::stripSlashesArray($_POST["acckey"]));
+			ilUtil::sendSuccess($lng->txt("msg_obj_modified"), true);
+		}
 		$ilCtrl->redirect($this, "editAccessKeys");
 	}
 	
