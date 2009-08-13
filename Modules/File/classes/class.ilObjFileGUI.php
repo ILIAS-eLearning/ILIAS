@@ -478,6 +478,18 @@ class ilObjFileGUI extends ilObjectGUI
 			$titleExtension = ilObjFileAccess::_getFileExtension($title);
 			if ($titleExtension != $fileExtension && strlen($fileExtension) > 0)
 			{
+				// remove old extension
+				$pi = pathinfo($this->object->getFileName());
+				$suffix = $pi["extension"];
+				if ($suffix != "")
+				{ 
+					if (substr($title,
+						strlen($title) - strlen($suffix) - 1)
+						== ".".$suffix)
+					{
+						$title = substr($title, 0, strlen($title) - strlen($suffix) - 1);
+					}
+				}
 				$title .= '.'.$fileExtension;
 			}
 			// END WebDAV: Ensure that object title ends with the filename extension

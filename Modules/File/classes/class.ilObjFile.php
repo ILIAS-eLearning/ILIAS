@@ -571,7 +571,7 @@ class ilObjFile extends ilObject
 		if (@is_file($file))
 		{
 			global $ilClientIniFile;
-			if ($ilClientIniFile->readVariable('file_access','download_with_uploaded_filename') == '1')
+			if ($ilClientIniFile->readVariable('file_access','download_with_uploaded_filename') != '1')
 			{
 				ilUtil::deliverFile($file, $this->getTitle(), $this->guessFileType(), $this->isInline());
 			}
