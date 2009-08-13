@@ -347,6 +347,20 @@ class ilAdministrationGUI
 		$this->ctrl->setParameter($this, "expand", $_GET["expand"]);
 		echo $output;
 	}
+	
+	/**
+	 * Special jump to plugin slot after ilCtrl has been reloaded
+	 */
+	function jumpToPluginSlot()
+	{
+		global $ilCtrl;
+		
+		$ilCtrl->setParameterByClass("ilobjcomponentsettingsgui", "ctype", $_GET["ctype"]);
+		$ilCtrl->setParameterByClass("ilobjcomponentsettingsgui", "cname", $_GET["cname"]);
+		$ilCtrl->setParameterByClass("ilobjcomponentsettingsgui", "slot_id", $_GET["slot_id"]);
+		$ilCtrl->redirectByClass("ilobjcomponentsettingsgui", "showPluginSlot");
+
+	}
 
 } // END class.ilRepository
 
