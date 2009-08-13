@@ -241,6 +241,10 @@ class ilMailSearchCoursesGUI
 	{
 		global $lng;
 		$ids = ((int)$_GET['search_members']) ? array((int)$_GET['search_members']) : $_POST['search_members']; 
+
+		if ((int)$ids && !is_array($ids))
+			$ids = array((int)$ids);
+
 		if ($ids )
 		{
 			$members = array();
