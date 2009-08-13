@@ -48,6 +48,8 @@ class ilLikeGlossaryDefinitionSearch extends ilGlossaryDefinitionSearch
 
 	function __createWhereCondition()
 	{
+		global $ilDB;
+		
 		$concat  = " term ";
 
 		$and = "  WHERE ( ";
@@ -58,8 +60,9 @@ class ilLikeGlossaryDefinitionSearch extends ilGlossaryDefinitionSearch
 			{
 				$and .= " OR";
 			}
-			$and .= $concat;
-			$and .= ("LIKE ('%".$word."%')");
+			$and .= $ilDB->like($concat,'text','%'.$word.'%');
+			#$and .= $concat;
+			#$and .= ("LIKE ('%".$word."%')");
 		}
 		return $and.") ";
 	}

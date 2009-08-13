@@ -57,8 +57,8 @@ class ilLikeMediaPoolSearch extends ilMediaPoolSearch
 		*/
 		$concat = $ilDB->concat(
 			array(
-				'title'			=> 'field',
-				'description'	=> 'field'));
+				'title'			=> 'text',
+				'description'	=> 'text'));
 
 
 		$and = "  AND ( ";
@@ -69,8 +69,9 @@ class ilLikeMediaPoolSearch extends ilMediaPoolSearch
 			{
 				$and .= " OR";
 			}
-			$and .= $concat;
-			$and .= ("LIKE ('%".$word."%')");
+			#$and .= $concat;
+			#$and .= ("LIKE ('%".$word."%')");
+			$and .= $ilDB->like($concat,'text','%'.$word.'%');
 		}
 		return $and.") ";
 	}

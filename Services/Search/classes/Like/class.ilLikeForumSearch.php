@@ -26,7 +26,7 @@
 *
 * Performs Mysql Like search in object_data title and description
 *
-* @author Stefan Meyer <smeyer@databay.de>
+* @author Stefan Meyer <smeyer.ilias@gmx.de>
 * @version $Id$
 * 
 * @package ilias-search
@@ -58,8 +58,8 @@ class ilLikeForumSearch extends ilForumSearch
 		*/
 		$concat = $ilDB->concat(
 			array(
-				'pos_message'	=> 'field',
-				'pos_subject'	=> 'field'));
+				'pos_subject'	=> 'text',
+				'pos_message'	=> 'text'));
 
 		$and = "  AND ( ";
 		$counter = 0;
@@ -69,16 +69,18 @@ class ilLikeForumSearch extends ilForumSearch
 			{
 				$and .= " OR";
 			}
-			$and .= $concat;
-			$and .= ("LIKE ('%".$word."%')");
+			#$and .= $concat;
+			#$and .= ("LIKE ('%".$word."%')");
+			$and .= $ilDB->like($concat,'clob','%'.$word.'%');
 		}
 		return $and.") ";
 	}
 
 	function __createTopicAndCondition()
 	{
-		$field = 'thr_subject ';
+		global $ilDB;
 
+		$field = 'thr_subject ';
 		$and = " AND( ";
 
 		$counter = 0;
@@ -88,8 +90,9 @@ class ilLikeForumSearch extends ilForumSearch
 			{
 				$and .= " OR ";
 			}
-			$and .= $field;
-			$and .= ("LIKE ('%".$word."%')");
+			#$and .= $field;
+			#$and .= ("LIKE ('%".$word."%')");
+			$and .= $ilDB->like($field,'text','%'.$word.'%');
 		}
 		return $and." ) ";
 	}

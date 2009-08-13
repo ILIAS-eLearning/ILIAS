@@ -49,6 +49,8 @@ class ilLikeMetaDataSearch extends ilMetaDataSearch
 	// Private
 	function __createKeywordWhereCondition()
 	{
+		global $ilDB;
+		
 		$concat = ' keyword ';
 		$where = " WHERE (";
 		$counter = 0;
@@ -58,14 +60,17 @@ class ilLikeMetaDataSearch extends ilMetaDataSearch
 			{
 				$where .= "OR";
 			}
-			$where .= $concat;
-			$where .= (" LIKE ('%".$word."%')");
+			$where .= $ilDB->like($concat,'text','%'.$word.'%');
+			#$where .= $concat;
+			#$where .= (" LIKE ('%".$word."%')");
 		}
 		return $where.') ';
 	}		
 
 	function __createContributeWhereCondition()
 	{
+		global $ilDB;
+		
 		$concat = ' entity ';
 		$where = " WHERE (";
 		$counter = 0;
@@ -75,8 +80,9 @@ class ilLikeMetaDataSearch extends ilMetaDataSearch
 			{
 				$where .= "OR";
 			}
-			$where .= $concat;
-			$where .= (" LIKE ('%".$word."%')");
+			#$where .= $concat;
+			#$where .= (" LIKE ('%".$word."%')");
+			$where .= $ilDB->like($concat,'text','%'.$word.'%');
 		}
 		return $where.') ';
 	}		
@@ -92,8 +98,8 @@ class ilLikeMetaDataSearch extends ilMetaDataSearch
 		
 		$concat = $ilDB->concat(
 			array(
-				'title'		=> 'field',
-				'coverage'	=> 'field'));
+				'title'		=> 'text',
+				'coverage'	=> 'text'));
 		
 		
 		$where = " WHERE (";
@@ -104,14 +110,17 @@ class ilLikeMetaDataSearch extends ilMetaDataSearch
 			{
 				$where .= "OR";
 			}
-			$where .= $concat;
-			$where .= (" LIKE ('%".$word."%')");
+			#$where .= $concat;
+			#$where .= (" LIKE ('%".$word."%')");
+			$where .= $ilDB->like($concat,'text','%'.$word.'%');
 		}
 		return $where.' )';
 	}
 
-	function __createDescriptionWhereCondition()
+	public function __createDescriptionWhereCondition()
 	{
+		global $ilDB;
+		
 		$concat = ' description ';
 		$where = " WHERE (";
 		$counter = 0;
@@ -121,8 +130,9 @@ class ilLikeMetaDataSearch extends ilMetaDataSearch
 			{
 				$where .= "OR";
 			}
-			$where .= $concat;
-			$where .= (" LIKE ('%".$word."%')");
+			#$where .= $concat;
+			#$where .= (" LIKE ('%".$word."%')");
+			$where .= $ilDB->like($concat,'text','%'.$word.'%');
 		}
 		return $where.') ';
 	}

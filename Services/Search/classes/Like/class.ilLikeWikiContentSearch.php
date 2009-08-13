@@ -21,36 +21,34 @@
 	+-----------------------------------------------------------------------------+
 */
 
+include_once 'Services/Search/classes/class.ilWikiContentSearch.php';
+
 /**
-* Class ilLikeLMContentSearch
+* Class ilLikeWikiContentSearch
 *
 * class for searching media pool folders and titles of mob's
 *
-* @author Stefan Meyer <smeyer@databay.de>
+* @author Stefan Meyer <smeyer.ilias@gmx.de>
 * @version $Id$
 * 
 * @package ilias-search
 *
 */
-include_once 'Services/Search/classes/class.ilLMContentSearch.php';
-
-class ilLikeLMContentSearch extends ilLMContentSearch
+class ilLikeWikiContentSearch extends ilWikiContentSearch
 {
 
 	/**
 	* Constructor
 	* @access public
 	*/
-	function ilLikeLMContentSearch(&$qp_obj)
+	function __construct($qp_obj)
 	{
-		parent::ilLMContentSearch($qp_obj);
+		parent::__construct($qp_obj);
 	}
 
 	function __createWhereCondition()
 	{
 		global $ilDB;
-
-		$concat  = " content ";
 
 		$and = "  WHERE ( ";
 		$counter = 0;
@@ -60,10 +58,9 @@ class ilLikeLMContentSearch extends ilLMContentSearch
 			{
 				$and .= " OR";
 			}
-			#$and .= $concat;
-			#$and .= ("LIKE ('%".$word."%')");
-			$and .= $ilDB->like($concat,'clob','%'.$word.'%');
-
+			$and .= $this->db->like("content", "clob", $word);
+			$and .= " OR ";
+			$and .= $this->db->like("title", "text", $word);
 		}
 		return $and.") ";
 	}

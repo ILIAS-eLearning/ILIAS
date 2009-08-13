@@ -53,28 +53,21 @@ class ilLikeTestSearch extends ilTestSearch
 
 		foreach($this->getFields() as $field)
 		{
-			$tmp_field[$field] = 'field'; 
+			$tmp_field[$field] = 'text'; 
 		}
-		$concat = $ilDB->concat($tmp_field);
-		
-		/*
-		$concat = ' CONCAT(';
-		$concat .= $a_field_str;
-		$concat .= ') ';
-		
-		$concat = $a_field_str;
-		*/
 
 		$and = "  WHERE  ";
 		$counter = 0;
 		foreach($this->query_parser->getQuotedWords() as $word)
 		{
-			if($counter++)
+			foreach($this->getFields() as $field)
 			{
-				$and .= " OR ";
+				if($counter++)
+				{
+					$and .= " OR ";
+				}
+				$and .= $ilDB->like($field,'text','%'.$word.'%');
 			}
-			$and .= $concat;
-			$and .= (" LIKE ('%".$word."%')");
 		}
 		return $and;
 	}

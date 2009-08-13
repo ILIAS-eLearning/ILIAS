@@ -56,11 +56,12 @@ class ilLikeMediaCastSearch extends ilMediaCastSearch
 		$concat .= ") ";
 		*/
 		
+		/*
 		$concat = $ilDB->concat(
 			array(
-				'title'	=> 'field',
-				'content'	=> 'field'));
-
+				'title'	=> 'text',
+				'content'	=> 'clob'));
+		*/
 
 		$and = "  WHERE context_obj_type='mcst' AND (  ";
 		$counter = 0;
@@ -70,8 +71,11 @@ class ilLikeMediaCastSearch extends ilMediaCastSearch
 			{
 				$and .= " OR ";
 			}
-			$and .= $concat;
-			$and .= ("LIKE ('%".$word."%')");
+			#$and .= $concat;
+			#$and .= ("LIKE ('%".$word."%')");
+			$and .= $ilDB->like('title','text','%'.$word.'%');
+			$and .= ' OR ';
+			$and .= $ilDB->like('content','clob','%'.$word.'%');
 		}
 		return $and.") ";
 	}

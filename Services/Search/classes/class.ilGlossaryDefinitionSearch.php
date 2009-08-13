@@ -56,7 +56,7 @@ class ilGlossaryDefinitionSearch extends ilAbstractSearch
 
 		$query = "SELECT glo_id,gt.id  ".
 			$locate.
-			"FROM glossary_term as gt JOIN ".
+			"FROM glossary_term gt JOIN ".
 			"glossary_definition ON (gt.id = glossary_definition.term_id) ".
 			$where;
 

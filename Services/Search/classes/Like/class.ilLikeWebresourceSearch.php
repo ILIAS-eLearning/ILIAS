@@ -22,50 +22,47 @@
 */
 
 /**
-* Class ilLikeLMContentSearch
+* Class webresource search
 *
-* class for searching media pool folders and titles of mob's
+* Performs Mysql Like search in object_data title and description
 *
-* @author Stefan Meyer <smeyer@databay.de>
+* @author Stefan Meyer <smeyer.ilias@gmx.de>
 * @version $Id$
 * 
-* @package ilias-search
 *
 */
-include_once 'Services/Search/classes/class.ilLMContentSearch.php';
+include_once 'Services/Search/classes/class.ilTestSearch.php';
 
-class ilLikeLMContentSearch extends ilLMContentSearch
+class ilLikeWebresourceSearch extends ilWebresourceSearch
 {
 
 	/**
 	* Constructor
 	* @access public
 	*/
-	function ilLikeLMContentSearch(&$qp_obj)
+	function __construct($qp_obj)
 	{
-		parent::ilLMContentSearch($qp_obj);
+		parent::__construct($qp_obj);
 	}
+
 
 	function __createWhereCondition()
 	{
 		global $ilDB;
 
-		$concat  = " content ";
+		$concat = ' title ';
 
-		$and = "  WHERE ( ";
+		$and = "  WHERE  ";
 		$counter = 0;
 		foreach($this->query_parser->getQuotedWords() as $word)
 		{
 			if($counter++)
 			{
-				$and .= " OR";
+				$and .= " OR ";
 			}
-			#$and .= $concat;
-			#$and .= ("LIKE ('%".$word."%')");
-			$and .= $ilDB->like($concat,'clob','%'.$word.'%');
-
+			$and .= $ilDB->like($concat,'text','%'.$word.'%');
 		}
-		return $and.") ";
+		return $and;
 	}
 }
 ?>

@@ -482,12 +482,6 @@ class ilSearchGUI extends ilSearchBaseGUI
 					$content_search =& ilObjectSearchFactory::_getLMContentSearchInstance($query_parser);
 					$content_search->setFilter($this->__getFilter());
 					$result->mergeEntries($content_search->performSearch());
-
-					if($this->settings->enabledLucene())
-					{
-						$htlm_search =& ilObjectSearchFactory::_getHTLMSearchInstance($query_parser);
-						$result->mergeEntries($htlm_search->performSearch());
-					}
 					break;
 
 				case 'frm':
@@ -529,14 +523,6 @@ class ilSearchGUI extends ilSearchBaseGUI
 					$result->mergeEntries($mep_search->performSearch());
 					break;
 
-				case 'fil':
-					if($this->settings->enabledLucene())
-					{
-						$file_search =& ilObjectSearchFactory::_getFileSearchInstance($query_parser);
-						$result->mergeEntries($file_search->performSearch());
-					}
-					break;
-					
 				case 'wiki':
 					$wiki_search =& ilObjectSearchFactory::_getWikiContentSearchInstance($query_parser);
 					$wiki_search->setFilter($this->__getFilter());
