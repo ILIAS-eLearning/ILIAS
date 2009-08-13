@@ -1189,6 +1189,9 @@ class ilStartUpGUI
 				}
 				
 				$body.= "\n";
+				$body.= $lng->txt('reg_mail_body_forgot_password_info')."\n";
+				
+				$body.= "\n";
 	
 				$body .= ($lng->txt("reg_mail_body_text3")."\n\r");
 				$body .= $oUser->getProfileAsString($lng);
