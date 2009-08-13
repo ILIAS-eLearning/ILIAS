@@ -62,7 +62,7 @@ class ilLikeExerciseSearch extends ilExerciseSearch
 				$and .= " OR ";
 			}
 			#$and .= $concat;
-			$and .= $ilDB->like('instruction','text','%'.$word.'%',false);
+			$and .= $ilDB->like('instruction','clob','%'.$word.'%',false);
 			#$and .= ("LIKE ('%".$word."%')");
 		}
 		return $and.") ";

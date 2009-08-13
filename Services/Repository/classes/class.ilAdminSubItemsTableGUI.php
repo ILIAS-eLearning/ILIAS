@@ -40,6 +40,14 @@ class ilAdminSubItemsTableGUI extends ilTable2GUI
 		$this->setDefaultOrderField("title");
 		$this->setDefaultOrderDirection("asc");
 
+		// TODO: Needs other solution
+		if(ilObject::_lookupType((int) $_GET['ref_id'],true) == 'chac')
+		{
+			$this->getItems();
+			return true;
+		}
+		
+
 		if (ilObject::_lookupType($_GET["ref_id"], true) != "recf")
 		{
 			if ($_SESSION["clipboard"])

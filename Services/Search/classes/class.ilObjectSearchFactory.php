@@ -21,13 +21,14 @@
 	+-----------------------------------------------------------------------------+
 */
 
+include_once 'Services/Search/classes/class.ilSearchSettings.php';
 /**
 * Class ilSearchObjectListFactory
 *
 * Factory for Fulltext/LikeObjectSearch classes
 * It depends on the search administration setting which class is instantiated
 *
-* @author Stefan Meyer <smeyer@databay.de>
+* @author Stefan Meyer <smeyer.ilias@gmx.de>
 * @version $Id$
 * 
 * @package ilias-search
@@ -126,12 +127,18 @@ class ilObjectSearchFactory
 	 * @param object query parser object
 	 * @return object reference of ilFulltextLMContentSearch
 	 */
-	function &_getLMContentSearchInstance(&$query_parser)
+	public static function _getLMContentSearchInstance(&$query_parser)
 	{
-		// In the moment only Fulltext search. Maybe later is lucene search possible
-		include_once 'Services/Search/classes/Fulltext/class.ilFulltextLMContentSearch.php';
-		
-		return new ilFulltextLMContentSearch($query_parser);
+		if(ilSearchSettings::getInstance()->enabledIndex())
+		{
+			include_once 'Services/Search/classes/Fulltext/class.ilFulltextLMContentSearch.php';
+			return new ilFulltextLMContentSearch($query_parser);
+		}
+		else
+		{
+			include_once './Services/Search/classes/Like/class.ilLikeLMContentSearch.php';
+			return new ilLikeLMContentSearch($query_parser);	
+		}
 
 	}
 
@@ -143,8 +150,6 @@ class ilObjectSearchFactory
 	 */
 	function &_getForumSearchInstance(&$query_parser)
 	{
-		include_once 'Services/Search/classes/class.ilSearchSettings.php';
-
 		$search_settings = new ilSearchSettings();
 
 		if($search_settings->enabledIndex())
