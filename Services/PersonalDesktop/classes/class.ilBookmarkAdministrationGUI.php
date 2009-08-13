@@ -167,7 +167,15 @@ class ilBookmarkAdministrationGUI
 		$etpl->setCurrentBlock("adm_tree_content");
 		$etpl->setVariable("TXT_EXPLORER_HEADER", $this->lng->txt("bookmarks"));
 		$this->ctrl->setParameter($this, "bmf_id", 1);
-		$etpl->setVariable("LINK_EXPLORER_HEADER",$this->ctrl->getLinkTarget($this));
+
+		if ($_REQUEST['bm_link'])
+		{
+			$link = $_SERVER['REQUEST_URI'];
+			$link = ereg_replace('bmf_id=[0-9]*', 'bmf_id=1', $link);
+			$etpl->setVariable("LINK_EXPLORER_HEADER",$link);
+		}
+		else
+			$etpl->setVariable("LINK_EXPLORER_HEADER",$this->ctrl->getLinkTarget($this));
 
 		$etpl->setVariable("EXPLORER",$output);
 		$tpl->setLeftContent($etpl->get());;
@@ -533,9 +541,13 @@ return;
 	{
 		$form = $this->initFormBookmark();
 		$html1 = $form->getHTML();
-		$form2 = $this->initImportBookmarksForm();
-		$html2 = $form2->getHTML();
-		$this->tpl->setVariable("ADM_CONTENT", $html1."<br />".$html2);
+		$html2 = '';
+		if (!$_REQUEST["bm_link"])
+		{
+			$form2 = $this->initImportBookmarksForm();
+			$html2 = "<br />" . $form2->getHTML();
+		}
+		$this->tpl->setVariable("ADM_CONTENT", $html1.$html2);
 	}
 
 

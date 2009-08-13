@@ -1068,11 +1068,28 @@ div.il_Footer
 	background-color: #F9F9F9;
 }
 
+/* ----------------- permanent link  ------------- */
+
 div.ilPermaLink
 {
 	margin: 15px;
 }
 
+div.ilPermaLink .small, div.ilPermaLink a
+{
+	font-size: 70%;
+}
+
+div.ilPermaLink .il_adv_sel
+{
+	font-size: 100%;
+}
+
+div.ilPermaLink input
+{
+	font-size: 70%;
+	width: 350px;
+}
 
 /* ----------------- invisible border ------------- */
 

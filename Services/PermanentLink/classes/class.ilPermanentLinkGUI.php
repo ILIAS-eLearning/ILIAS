@@ -180,8 +180,8 @@ class ilPermanentLinkGUI
 
 			$tpl->setVariable("TXT_BOOKMARK_DEFAULT", $title);
 
-			$tpl->setVariable("TXT_ADD_TO_ILIAS_BM", $lng->txt("bm_add_to_ilias"));
-			$tpl->setVariable("URL_ADD_TO_BM", 'ilias.php?cmd=redirect&baseClass=ilPersonalDesktopGUI&redirectClass=ilbookmarkadministrationgui&redirectCmd=newFormBookmark&param_bmf_id=1&param_return_to=true&param_bm_title='. urlencode($title) . '&param_bm_link=' . urlencode(urlencode($href)));
+			//$tpl->setVariable("TXT_ADD_TO_ILIAS_BM", $lng->txt("bm_add_to_ilias"));
+			//$tpl->setVariable("URL_ADD_TO_BM", 'ilias.php?cmd=redirect&baseClass=ilPersonalDesktopGUI&redirectClass=ilbookmarkadministrationgui&redirectCmd=newFormBookmark&param_bmf_id=1&param_return_to=true&param_bm_title='. urlencode($title) . '&param_bm_link=' . urlencode(urlencode($href)));
 		}
 
 		$tpl->setVariable("LINK", $href);
@@ -192,6 +192,26 @@ class ilPermanentLinkGUI
 		}
 		
 		
+		// bookmark links		
+		$bm_html = self::_getBookmarksSelectionList($title, $href);
+		
+		if ($bm_html)
+		{
+			$tpl->setVariable('SELECTION_LIST', $bm_html);
+		}
+		
+		return $tpl->get();
+	}
+
+
+	/**
+	 * returns the active bookmark links. if only one link is enabled, a single link is returned.
+	 * otherwise a the html of an advanced selection list is returned.
+	 */
+	public static function _getBookmarksSelectionList($title, $href)
+	{
+		global $ilDB, $lng;
+
 		// social bookmarkings
 		
 		$q = 'SELECT sbm_title, sbm_link, sbm_icon, sbm_active FROM bookmark_social_bm WHERE sbm_active = 1';
@@ -205,6 +225,11 @@ class ilPermanentLinkGUI
 		$current_selection_list->setUseImages(true);
 		
 		$cnt = 0;
+
+		$linktpl = 'ilias.php?cmd=redirect&baseClass=ilPersonalDesktopGUI&redirectClass=ilbookmarkadministrationgui&redirectCmd=newFormBookmark&param_bmf_id=1&param_return_to=true&param_bm_title='. urlencode($title) . '&param_bm_link=' . urlencode(urlencode($href));
+		$current_selection_list->addItem($lng->txt("bm_add_to_ilias"), '', $linktpl, ilUtil::getImagePath('socialbookmarks/icon_bm_15x15.gif') , $lng->txt("bm_add_to_ilias"), '_top');
+		$cnt++;
+
 		while ($row = $ilDB->fetchObject($rset))
 		{
 			$linktpl = $row->sbm_link;
@@ -213,13 +238,20 @@ class ilPermanentLinkGUI
 			$current_selection_list->addItem($row->sbm_title, '', $linktpl, ilUtil::getImagePath('socialbookmarks/' . $row->sbm_icon) , $row->title, '_blank');
 			$cnt++;
 		}
-		
-		if ($cnt)
+
+		if ($cnt == 1)
 		{
-			$tpl->setVariable('SELECTION_LIST', $current_selection_list->getHTML());
+			$loc_tpl = new ilTemplate('tpl.single_link.html', true, true, 'Services/PermanentLink');
+			$loc_tpl->setVariable("TXT_ADD_TO_ILIAS_BM", $lng->txt("bm_add_to_ilias"));
+			$loc_tpl->setVariable("URL_ADD_TO_BM", 'ilias.php?cmd=redirect&baseClass=ilPersonalDesktopGUI&redirectClass=ilbookmarkadministrationgui&redirectCmd=newFormBookmark&param_bmf_id=1&param_return_to=true&param_bm_title='. urlencode($title) . '&param_bm_link=' . urlencode(urlencode($href)));
+			$loc_tpl->setVariable("ICON", ilUtil::getImagePath('icon_bm.gif'));
+			return $loc_tpl->get();
 		}
-		
-		return $tpl->get();
+		else
+		{
+			return $current_selection_list->getHTML();
+		}
+
 	}
 }
 

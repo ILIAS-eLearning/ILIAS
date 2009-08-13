@@ -226,6 +226,13 @@ class ilBookmarkExplorer extends ilExplorer
 	*/
 	function buildLinkTarget($a_node_id, $a_type)
 	{
+		if ($_REQUEST['bm_link'] && $a_type == 'bmf')
+		{
+			$link = $_SERVER['REQUEST_URI'];
+			$link = ereg_replace('bmf_id=[0-9]*', 'bmf_id=' . $a_node_id, $link);
+			return $link;
+		}
+
 		switch ($a_type) {
 			case 'bm':
 				// return stored Bookmark target;

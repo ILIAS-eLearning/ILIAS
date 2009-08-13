@@ -405,7 +405,7 @@ class ilInfoScreenGUI
 	*/
 	function addObjectSections()
 	{
-		global $lng, $ilCtrl, $ilUser, $ilAccess, $tree, $ilSetting;
+		global $lng, $ilCtrl, $ilUser, $ilAccess, $tree, $ilSetting, $ilObjDataCache;
 		
 		$this->addSection($lng->txt("additional_info"));
 		$a_obj = $this->gui_object->object;
@@ -422,7 +422,7 @@ class ilInfoScreenGUI
 				
 			// delicous link
 			$d_set = new ilSetting("delicious");
-			if ($d_set->get("add_info_links") == "1")
+			if (true || $d_set->get("add_info_links") == "1")
 			{
 				$lng->loadLanguageModule("delic");
 				$del_link = '<br/><a class="small" href="http://del.icio.us/post?desc=nn&url='.
@@ -443,6 +443,18 @@ class ilInfoScreenGUI
 			$this->addProperty($lng->txt("perma_link"),
 				$href,
 				$href
+				);
+			
+			// bookmarks
+
+			$title = $ilObjDataCache->lookupTitle($a_obj->getId());
+
+			include_once 'Services/PermanentLink/classes/class.ilPermanentLinkGUI.php';
+			$bms = ilPermanentLinkGUI::_getBookmarksSelectionList($title, $href);
+
+			$this->addProperty(' ',
+				$bms,
+				''
 				);
 			
 			// links to resource
