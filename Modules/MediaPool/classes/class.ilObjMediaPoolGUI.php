@@ -931,19 +931,17 @@ class ilObjMediaPoolGUI extends ilObject2GUI
 
 		foreach ($_POST["id"] as $obj_id)
 		{
-			$fid = ilMediaPoolItem::lookupForeignId($obj_id);
-			$type = ilObject::_lookupType($fid);
+			$type = ilMediaPoolItem::lookupType($obj_id);
 			if ($type == "fold")
 			{
 				ilUtil::sendFailure($this->lng->txt("cont_cant_copy_folders"), true);
 				$this->ctrl->redirect($this, $_GET["mep_mode"] ? $_GET["mep_mode"] : "listMedia");
 			}
 		}
-
 		foreach ($_POST["id"] as $obj_id)
 		{
 			$fid = ilMediaPoolItem::lookupForeignId($obj_id);
-			$type = ilObject::_lookupType($fid);
+			$type = ilMediaPoolItem::lookupType($obj_id);
 			if ($type == "mob")
 			{
 				$ilUser->addObjectToClipboard($fid, "mob", "");

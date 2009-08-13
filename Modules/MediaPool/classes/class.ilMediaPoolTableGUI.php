@@ -392,14 +392,14 @@ class ilMediaPoolTableGUI extends ilTable2GUI
 					))
 			{
 				$this->tpl->setCurrentBlock("chbox");
-				$this->tpl->setVariable("CHECKBOX_ID", $a_set["obj_id"]);
+				$this->tpl->setVariable("CHECKBOX_ID", $a_set["child"]);
 				$this->tpl->parseCurrentBlock();
 				$this->tpl->setCurrentBlock("tbl_content");
 			}
 			else if ($this->getMode() == ilMediaPoolTableGUI::IL_MEP_SELECT_SINGLE && $a_set["type"] == "mob")
 			{
 				$this->tpl->setCurrentBlock("radio");
-				$this->tpl->setVariable("RADIO_ID", $a_set["obj_id"]);
+				$this->tpl->setVariable("RADIO_ID", $a_set["child"]);
 				$this->tpl->parseCurrentBlock();
 				$this->tpl->setCurrentBlock("tbl_content");
 			}
