@@ -36,12 +36,13 @@ class ilUserTableGUI extends ilTable2GUI
 		$this->setExternalSorting(true);
 		$this->setExternalSegmentation(true);
 		$this->setEnableHeader(true);
-		$this->setFormAction($ilCtrl->getFormAction($this->parent_obj));
+		$this->setFormAction($ilCtrl->getFormAction($this->parent_obj, "applyFilter"));
 		$this->setRowTemplate("tpl.user_list_row.html", "Services/User");
 		//$this->disable("footer");
 		$this->setEnableTitle(true);
 		$this->setId("user_table");
 		$this->initFilter();
+		$this->setFilterCommand("applyFilter");
 		$this->setDefaultOrderField("login");
 		$this->setDefaultOrderDirection("asc");
 
@@ -129,6 +130,7 @@ class ilUserTableGUI extends ilTable2GUI
 		$ti = new ilTextInputGUI($lng->txt("login")."/".$lng->txt("email")."/".$lng->txt("name"), "query");
 		$ti->setMaxLength(64);
 		$ti->setSize(20);
+		$ti->setSubmitFormOnEnter(true);
 		$this->addFilterItem($ti);
 		$ti->readFromSession();
 		$this->filter["query"] = $ti->getValue();

@@ -26,6 +26,7 @@ class ilTextInputGUI extends ilSubEnabledFormPropertyGUI implements ilTableFilte
 	protected $yui_dataSchema;
 	protected $yui_formatCallback;
 	protected $yui_delimiterarray = array();
+	protected $submit_form_on_enter = false;
 
 	/**
 	* Constructor
@@ -207,6 +208,25 @@ class ilTextInputGUI extends ilSubEnabledFormPropertyGUI implements ilTableFilte
 	 	return $this->input_type;
 	}
 	
+	/**
+	 * Set submit form on enter
+	 *
+	 * @param	boolean
+	 */
+	function setSubmitFormOnEnter($a_val)
+	{
+		$this->submit_form_on_enter = $a_val;
+	}
+	
+	/**
+	 * Get submit form on enter
+	 *
+	 * @return	boolean
+	 */
+	function getSubmitFormOnEnter()
+	{
+		return $this->submit_form_on_enter;
+	}
 
 	/**
 	* Check input, strip slashes etc. set alert, if input is not ok.
@@ -343,6 +363,10 @@ class ilTextInputGUI extends ilSubEnabledFormPropertyGUI implements ilTableFilte
 			$tpl->setCurrentBlock("stylecss");
 			$tpl->setVariable("CSS_STYLE", ilUtil::prepareFormOutput($this->getInlineStyle()));
 			$tpl->parseCurrentBlock();
+		}
+		if ($this->getSubmitFormOnEnter())
+		{
+			$tpl->touchBlock("submit_form_on_enter");
 		}
 
 		switch($this->getInputType())
