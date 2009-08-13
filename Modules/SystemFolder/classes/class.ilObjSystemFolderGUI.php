@@ -2464,7 +2464,7 @@ return $this->showServerInfoObject();
 		$ti = new ilTextInputGUI($this->lng->txt("street"), "admin_street");
 		$ti->setMaxLength(64);
 		$ti->setSize(40);
-		$ti->setRequired(true);
+		//$ti->setRequired(true);
 		$ti->setValue($ilSetting->get("admin_street"));
 		$this->form->addItem($ti);
 		
@@ -2472,7 +2472,7 @@ return $this->showServerInfoObject();
 		$ti = new ilTextInputGUI($this->lng->txt("zipcode"), "admin_zipcode");
 		$ti->setMaxLength(10);
 		$ti->setSize(5);
-		$ti->setRequired(true);
+		//$ti->setRequired(true);
 		$ti->setValue($ilSetting->get("admin_zipcode"));
 		$this->form->addItem($ti);
 		
@@ -2480,7 +2480,7 @@ return $this->showServerInfoObject();
 		$ti = new ilTextInputGUI($this->lng->txt("city"), "admin_city");
 		$ti->setMaxLength(64);
 		$ti->setSize(40);
-		$ti->setRequired(true);
+		//$ti->setRequired(true);
 		$ti->setValue($ilSetting->get("admin_city"));
 		$this->form->addItem($ti);
 		
@@ -2488,7 +2488,7 @@ return $this->showServerInfoObject();
 		$ti = new ilTextInputGUI($this->lng->txt("country"), "admin_country");
 		$ti->setMaxLength(64);
 		$ti->setSize(40);
-		$ti->setRequired(true);
+		//$ti->setRequired(true);
 		$ti->setValue($ilSetting->get("admin_country"));
 		$this->form->addItem($ti);
 		
@@ -2496,7 +2496,7 @@ return $this->showServerInfoObject();
 		$ti = new ilTextInputGUI($this->lng->txt("phone"), "admin_phone");
 		$ti->setMaxLength(64);
 		$ti->setSize(40);
-		$ti->setRequired(true);
+		//$ti->setRequired(true);
 		$ti->setValue($ilSetting->get("admin_phone"));
 		$this->form->addItem($ti);
 		
