@@ -545,7 +545,7 @@ class ilRepositorySearchGUI
 		switch($this->search_type)
 		{
 			case "usr":
-				$this->showSearchUserTable($_SESSION['rep_search']['usr']);
+				$this->showSearchUserTable($_SESSION['rep_search']['usr'],'showSearchResults');
 				break;
 
 			case 'grp':
@@ -560,14 +560,6 @@ class ilRepositorySearchGUI
 				$this->showSearchRoleTable($_SESSION['rep_search']['role']);
 				break;
 		}
-
-		// Finally fill user table, if search type append
-		if($_SESSION['search_append'] and $this->search_type != 'usr')
-		{
-			$result = $this->__fillUserTable($_SESSION['rep_search']['usr']);
-			$this->__showSearchUserTable($result,$_SESSION['rep_search']['usr'],'search','APPEND_TABLE');
-			
-		}
 	}
 
 	/**
@@ -575,15 +567,15 @@ class ilRepositorySearchGUI
 	 * @return 
 	 * @param object $a_usr_ids
 	 */
-	protected function showSearchUserTable($a_usr_ids,$tpl_var = 'RES_TABLE')
+	protected function showSearchUserTable($a_usr_ids,$a_parent_cmd)
 	{
 		include_once './Services/Search/classes/class.ilRepositoryUserResultTableGUI.php';
 		
-		$table = new ilRepositoryUserResultTableGUI($this,'showSearchResults');
+		$table = new ilRepositoryUserResultTableGUI($this,$a_parent_cmd);
 		$table->initMultiCommands($this->add_options);
 		$table->parseUserIds($a_usr_ids);
 		
-		$this->tpl->setVariable($tpl_var,$table->getHTML());
+		$this->tpl->setVariable('RES_TABLE',$table->getHTML());
 	}
 	
 	/**
@@ -637,12 +629,14 @@ class ilRepositorySearchGUI
 	 */
 	protected function listUsers()
 	{
-		if(!is_array($_POST['obj']))
+		if(!is_array($_POST['obj']) or !$_POST['obj'])
 		{
 			ilUtil::sendFailure($this->lng->txt('select_one'));
 			$this->showSearchResults();
 			return false;
 		}
+		
+		$_SESSION['rep_search']['objs'] = $_POST['obj'];
 		
 		// Get all members
 		$members = array();
@@ -676,10 +670,20 @@ class ilRepositorySearchGUI
 		$this->tpl->addBlockFile('ADM_CONTENT','adm_content','tpl.rep_search_result.html','Services/Search');
 		
 		$this->addNewSearchButton();
-		$this->showSearchUserTable($_SESSION['rep_search']['usr']);
+		$this->showSearchUserTable($_SESSION['rep_search']['usr'],'storedUserList');
 		return true;
 	}
-
-
+	
+	/**
+	 * Called from table sort
+	 * @return 
+	 */
+	protected function storedUserList()
+	{
+		$_POST['obj'] = $_SESSION['rep_search']['objs'];
+		$this->listUsers();
+		return true;	
+	}
+	
 }
 ?>
