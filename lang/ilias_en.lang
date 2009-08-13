@@ -9649,8 +9649,8 @@ content#:#text_repr_info#:#Used for image "alt" attribute.
 style#:#sty_type_heading3#:#Heading 3
 common#:#socialbm_extt_social_bookmarks#:#Social Bookmarks
 common#:#bm_manage_social_bm#:#Manage Social Bookmarks
-common#:#bm_add_to_ilias#:#Add to ILIAS Bookmarks
-common#:#bm_add_to_social_bookmarks#:#Add to Social Bookmarks
+common#:#bm_add_to_ilias#:#ILIAS Bookmarks
+common#:#bm_add_to_social_bookmarks#:#Add to Bookmarks
 assessment#:#answer_types#:#Answer Types
 assessment#:#answers_singleline#:#Single Line Answers
 assessment#:#answers_multiline#:#Multi Line Answers
