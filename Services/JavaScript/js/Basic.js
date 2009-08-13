@@ -277,3 +277,16 @@ function ilScreenReaderFocus()
 		}
 	}
 }
+
+function ilSubmitOnEnter(ev, form)
+{
+	if (typeof ev != 'undefined' && typeof ev.keyCode != 'undefined')
+	{
+		if (ev.keyCode == 13)
+		{
+			form.submit();
+			return false;
+		}
+	}
+	return true;
+}
