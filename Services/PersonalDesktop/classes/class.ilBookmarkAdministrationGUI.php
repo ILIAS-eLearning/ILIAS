@@ -485,7 +485,10 @@ return;
 			$form->addItem($prop);
 			
 			$prop = new ilHiddenInputGUI('return_to_url');
-			$prop->setValue($_GET['bm_link']);
+			if ($_GET['return_to_url'])
+				$prop->setValue($_GET['return_to_url']);
+			else
+				$prop->setValue($_GET['bm_link']);		
 			$form->addItem($prop);
 		}
 		
