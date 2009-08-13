@@ -1215,11 +1215,13 @@ class ilObjectGUI
 	
 	protected function __showClipboardTable($a_result_set,$a_from = "")
 	{
+		global $ilCtrl;
+		
     	$tbl =& $this->__initTableGUI();
 		$tpl =& $tbl->getTemplateObject();
 
 		$tpl->setCurrentBlock("tbl_form_header");
-		$tpl->setVariable("FORMACTION",$this->ctrl->getTargetScript()."?".$this->link_params."&cmd=post");
+		$tpl->setVariable("FORMACTION", $ilCtrl->getFormAction($this));
 		$tpl->parseCurrentBlock();
 
 		$tpl->setCurrentBlock("tbl_action_btn");
