@@ -1395,10 +1395,12 @@ class MDB2_Statement_oci8 extends MDB2_Statement_Common
                         $value.= fread($fp, 8192);
                     }
                 } elseif (preg_match('/^(\w+:\/\/)(.*)$/', $value, $match)) {
-                    $lobs[$i]['file'] = true;
-                    if ($match[1] == 'file://') {
-                        $value = $match[2];
-                    }
+// ILIAS patch. We need interpretation as string not as file handle. alex 13.10.2009
+// See ILIAS Mantis Bug #4636
+//                    $lobs[$i]['file'] = true;
+//                    if ($match[1] == 'file://') {
+//                        $value = $match[2];
+//                    }
                 }
                 $lobs[$i]['value'] = $value;
                 $lobs[$i]['descriptor'] = @OCINewDescriptor($connection, OCI_D_LOB);
