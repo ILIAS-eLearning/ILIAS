@@ -96,6 +96,7 @@ class ilMailSearchCoursesMembersTableGUI extends ilTable2GUI
 		$current_selection_list->setId("act_".$a_set['MEMBERS_ID']);
 
 		$ilCtrl->setParameter($this->parentObject, 'search_members', $a_set['MEMBERS_ID']);
+		$ilCtrl->setParameter($this->parentObject, 'search_' . $this->mode['short'], $_REQUEST['search_' . $this->mode['short']]);
 		$ilCtrl->setParameter($this->parentObject, 'view', $this->mode['view']);
 		
 		$current_selection_list->addItem($this->lng->txt("mail_members"), '', $ilCtrl->getLinkTarget($this->parentObject, "mail"));
