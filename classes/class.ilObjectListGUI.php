@@ -1938,16 +1938,19 @@ class ilObjectListGUI
 			return;
 		}
 
+		$id_ref = ($this->reference_ref_id > 0)
+			? $this->reference_ref_id
+			: $this->ref_id;
 		include_once("./Services/AdvancedSelectionList/classes/class.ilAdvancedSelectionListGUI.php");
 		$this->current_selection_list = new ilAdvancedSelectionListGUI();
 		$this->current_selection_list->setListTitle($lng->txt("actions"));
-		$this->current_selection_list->setId("act_".$this->ref_id);
+		$this->current_selection_list->setId("act_".$id_ref);
 		$this->current_selection_list->setSelectionHeaderClass("small");
 		$this->current_selection_list->setItemLinkClass("xsmall");
 		$this->current_selection_list->setLinksMode("il_ContainerItemCommand2");
 		$this->current_selection_list->setHeaderIcon(ilAdvancedSelectionListGUI::DOWN_ARROW_DARK);
 		$this->current_selection_list->setUseImages(false);
-		$this->current_selection_list->setAdditionalToggleElement("lg_div_".$this->ref_id, "ilContainerListItemOuterHighlight");
+		$this->current_selection_list->setAdditionalToggleElement("lg_div_".$id_ref, "ilContainerListItemOuterHighlight");
 		
 		include_once './payment/classes/class.ilPaymentObject.php';
 		
@@ -2384,7 +2387,11 @@ class ilObjectListGUI
 		$this->sub_item_html = array();
 		$this->position_enabled = false;
 
-		$this->tpl->setVariable("DIV_ID", 'id = "lg_div_'.$this->ref_id.'"');
+		$id_ref = ($this->reference_ref_id > 0)
+			? $this->reference_ref_id
+			: $this->ref_id;
+
+		$this->tpl->setVariable("DIV_ID", 'id = "lg_div_'.$id_ref.'"');
 		$this->tpl->setVariable("ADDITIONAL", $this->getAdditionalInformation());
 		
 		return $this->tpl->get();
