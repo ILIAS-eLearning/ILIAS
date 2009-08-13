@@ -1153,7 +1153,7 @@ class ilObject
 	*
 	* @param	int		$a_id		object id
 	*/
-	function _lookupType($a_id,$a_reference = false)
+	public static function _lookupType($a_id,$a_reference = false)
 	{
 		global $ilObjDataCache;
 

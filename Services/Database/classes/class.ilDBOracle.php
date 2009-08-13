@@ -231,6 +231,8 @@ class ilDBOracle extends ilDB
 	/**
 	 * Provisional LIKE support for oracle CLOB's
 	 * Uses SUBSTR to reduce the length.
+	 * TODO: we can use <code>self::CLOB_BUFFER_SIZE = 4000</code> since
+	 * since the maximum buffer is 4000 byte and not 4000 chars
 	 * @param object $a_col
 	 * @param object $a_type
 	 * @param object $a_value [optional]
@@ -239,6 +241,11 @@ class ilDBOracle extends ilDB
 	 */
 	public function like($a_col, $a_type, $a_value = "?", $case_insensitive = true)
 	{
+		if($a_type == 'text')
+		{
+			return parent::like($a_col,$a_type,$a_value,$case_insensitive);
+		}
+
 		if (!in_array($a_type, array("text", "clob", "blob")))
 		{
 			$this->raisePearError("Like: Invalid column type '".$a_type."'.", $this->error_class->FATAL);
@@ -258,11 +265,11 @@ class ilDBOracle extends ilDB
 		{
 			if ($case_insensitive)
 			{
-				return " UPPER(SUBSTR(".$a_col.",0,".self::CLOB_BUFFER_SIZE.")) LIKE(UPPER(".$this->quote($a_value, $a_type)."))";
+				return " UPPER(SUBSTR(".$a_col.",0,".self::CLOB_BUFFER_SIZE.")) LIKE(UPPER(".$this->quote($a_value, 'text')."))";
 			}
 			else
 			{
-				return " SUBSTR(".$a_col.",0,".self::CLOB_BUFFER_SIZE.") LIKE(".$this->quote($a_value, $a_type).")";
+				return " SUBSTR(".$a_col.",0,".self::CLOB_BUFFER_SIZE.") LIKE(".$this->quote($a_value, 'text').")";
 			}
 		}
 	}

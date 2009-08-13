@@ -2566,7 +2566,7 @@ class ilObjRoleGUI extends ilObjectGUI
 		global $ilLocator;
 
 		if ($_GET["admin_mode"] == "settings"
-			&& $_GET["ref_id"] != SYSTEM_FOLDER_ID)	// system settings
+			&& $_GET["ref_id"] == ROLE_FOLDER_ID)	// system settings
 		{		
 			$ilLocator->addItem($this->lng->txt("administration"),
 				$this->ctrl->getLinkTargetByClass("iladministrationgui", "frameset"),
@@ -2591,6 +2591,8 @@ class ilObjRoleGUI extends ilObjectGUI
 	function showUpperIcon()
 	{
 		global $tree, $tpl, $objDefinition;
+		
+		return parent::showUpperIcon();
 
 		if (strtolower($_GET["baseClass"]) == "iladministrationgui")
 		{
