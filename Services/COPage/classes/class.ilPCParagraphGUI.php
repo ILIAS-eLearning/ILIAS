@@ -316,7 +316,6 @@ class ilPCParagraphGUI extends ilPageContentGUI
 		$selection->setFormSelectMode("par_characteristic", "", false,
 			"", "", "",
 			"", "", "", "");
-		$selection->setListTitle($a_s_char);
 		$selection->setId("style_selection");
 		//$selection->setSelectionHeaderClass("MMInactive");
 		$selection->setHeaderIcon(ilAdvancedSelectionListGUI::DOWN_ARROW_DARK);
@@ -326,6 +325,10 @@ class ilPCParagraphGUI extends ilPageContentGUI
 		$selection->setOnClickMode(ilAdvancedSelectionListGUI::ON_ITEM_CLICK_FORM_SELECT);
 		
 		$chars = $this->getCharacteristics();
+		$title_char = $chars[$a_s_char] != ""
+			? $chars[$a_s_char]
+			: $a_s_char;
+		$selection->setListTitle($title_char);
 
 		if ($chars[$a_seleted_value] == "" && ($a_seleted_value != ""))
 		{
