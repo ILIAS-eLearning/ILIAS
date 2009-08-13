@@ -9861,3 +9861,5 @@ common#:#reg_mail_body_3_confirmation#:#If this email means nothing to you, then
 common#:#reg_mail_body_forgot_password_info#:#To get your password, please use the function « Forgot password? » at the login screen to request a new password for this account.
 cmps#:#no_changes#:#Keine Änderungen
 cmps#:#database_is_uptodate#:#Die Datenbank ist aktuell.
+administration#:#path_to_mkisofs#:#Path to mkisofs
+common#:#obj_sty#:#Style
