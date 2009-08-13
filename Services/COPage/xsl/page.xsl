@@ -140,7 +140,7 @@
 			<xsl:attribute name="name">fn<xsl:number count="Footnote" level="any"/></xsl:attribute>
 			<span class="ilc_text_inline_Strong">[<xsl:number count="Footnote" level="any"/>] </span>
 			</a>
-			<xsl:value-of select="."/>
+			<xsl:apply-templates />
 			</div>
 		</xsl:for-each>
 	</xsl:if>
