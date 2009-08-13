@@ -14715,12 +14715,7 @@ $ilDB->addTableColumn("usr_data", "birthday", array("type" => "date", "notnull" 
 		"length" => 10,
 		"fixed" => false
 		));
-	$set = $ilDB->query("SELECT * FROM ut_access");
-	while ($rec = $ilDB->fetchAssoc($set))
-	{
-		$ilDB->manipulate("UPDATE ut_access SET ut_month = ".$ilDB->quote(substr($rec["acc_time"], 0, 7), "text").
-			" WHERE acc_time = ".$ilDB->quote($rec["acc_time"], "timestamp"));
-	}
+	$ilDB->manipulate("UPDATE ut_access SET ut_month = substr(acc_time, 1, 7)");
 ?>
 <#2778>
 <?php
