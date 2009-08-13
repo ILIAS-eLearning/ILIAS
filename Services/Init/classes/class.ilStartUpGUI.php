@@ -1195,7 +1195,7 @@ class ilStartUpGUI
 	
 				$body .= ($lng->txt("reg_mail_body_text3")."\n\r");
 				$body .= $oUser->getProfileAsString($lng);
-				
+				$mail_obj->appendInstallationSignature(true);
 				$mail_obj->sendMail($oUser->getEmail(), '', '',
 					$subject,
 					$body,

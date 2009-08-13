@@ -224,8 +224,9 @@ class ilMail
 
 	var $soap_enabled = true;
 	
-	private $mlists = null;
+	protected $mlists = null;
 
+	protected $appendInstallationSignature = false;
 
 	/**
 	* Constructor
@@ -1039,7 +1040,7 @@ class ilMail
 		if(!$a_m_subject)	$a_m_subject = NULL;
 		if(!$a_m_message)	$a_m_message = NULL;
 		/**/
-		
+				
 		$next_id = $ilDB->nextId($this->table_mail);
 		$statement = $ilDB->manipulateF('
 			INSERT INTO '. $this->table_mail .'
@@ -1902,7 +1903,12 @@ class ilMail
 		   !$rbacsystem->checkAccess('smtp_mail', $this->mail_obj_ref_id))
 		{
 			return $this->lng->txt('mail_no_permissions_write_smtp');
-		}			
+		}
+
+		if($this->appendInstallationSignature())
+		{
+			$a_m_message .= self::_getInstallationSignature();
+		}vd($a_m_message);
 			
 		// save mail in sent box
 		$sent_id = $this->saveInSentbox($a_attachment,$a_rcp_to,$a_rcp_cc,$a_rcp_bc,$a_type,
@@ -2508,9 +2514,56 @@ class ilMail
 			ILIAS_HTTP_PATH."\n\n");
 	}
 	
+	/**
+	 * Get the name used for mails sent by the anonymous user 
+	 *
+	 * @access public
+	 * @static
+	 *
+	 * @return string Name of sender
+	 */
 	public static function _getAnonymousName()
 	{		
 		return 'ILIAS';
+	}
+	
+	/**
+	 * Setter/Getter for appending the installation signarue 
+	 *
+	 * @access public
+	 *
+	 * @param	mixed	boolean or nothing
+	 * @return	mixed	boolean if called without passing any params, otherwise $this
+	 */
+	public function appendInstallationSignature($a_flag = null)
+	{
+		if(null === $a_flag) {
+			return $this->appendInstallationSignature;
+		}
+		
+		$this->appendInstallationSignature = $a_flag;
+		
+		return $this;
+	}
+	
+	/**
+	 * Static getter for the installation signature 
+	 *
+	 * @access public
+	 * @static
+	 *
+	 * @return	string	The installation mail signature
+	 */
+	public static function _getInstallationSignature()
+	{
+		global $ilClientIniFile;
+		
+		$signature = "\n\n* * * * *\n";
+		$signature .= CLIENT_ID."\n";
+		$signature .= $ilClientIniFile->readVariable('client', 'name')."\n";
+		$signature .= ILIAS_HTTP_PATH.'/?client_id='.CLIENT_ID;
+		
+		return $signature;
 	}
 } // END class.ilMail
 ?>

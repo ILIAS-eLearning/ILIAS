@@ -806,13 +806,9 @@ class ilAccountRegistrationGUI
             $body .= sprintf($this->lng->txt('reg_mail_body_2_confirmation'), 
             	ilFormat::_secondsToString($this->registration_settings->getRegistrationHashLifetime()))."\n\n";
 	
-			$body .= $this->lng->txt('reg_mail_body_3_confirmation')."\n\n";
-			
-			$body .= ILIAS_HTTP_PATH.'/?client_id='.CLIENT_ID;			
+			$body .= $this->lng->txt('reg_mail_body_3_confirmation');			
             
-            //@todo: $settings["admin_email"] -> I suggest to add the System Administrators mail
-			//address (from Administration > General Settings > Contact Information) as contact in the body.
-			
+			$mail_obj->appendInstallationSignature(true);
 			$mail_obj->sendMail($this->userObj->getEmail(), '', '',
 				$subject,
 				$body,
