@@ -30,7 +30,7 @@
 */
 
 define("DEBUG",false);
-
+set_include_path("./Services/PEAR/lib".PATH_SEPARATOR.ini_get('include_path'));
 require_once "./include/inc.check_pear.php";
 
 //include files from PEAR

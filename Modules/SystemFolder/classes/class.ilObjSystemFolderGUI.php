@@ -1193,12 +1193,27 @@ return $this->showServerInfoObject();
 			if($ilias->account->getPref('systemcheck_log_scan'))
 				$this->tpl->touchBlock('log_scan_checked');
 
-			$types = array_merge(array(""), $objDefinition->getAllObjects());
+			$types = $objDefinition->getAllObjects();
+			$ts = array("" => "");
+			foreach ($types as $t)
+			{
+				if ($t != "" && !$objDefinition->isSystemObject($t) && $t != "root")
+				{
+					if ($objDefinition->isPlugin($t))
+					{
+						$ts[$t] = ilPlugin::lookupTxt("rep_robj", $t, "obj_".$t);
+					}
+					else
+					{
+						$ts[$t] = $this->lng->txt("obj_".$t);
+					}
+				}
+			}
 			$this->tpl->setVariable("TYPE_LIMIT_CHOICE",
 				ilUtil::formSelect(
 					$ilias->account->getPref("systemcheck_type_limit"),
 					'type_limit',
-					$types
+					$ts, false, true
 					)
 			);
 			$this->tpl->setVariable("TXT_LOG_SCAN", $this->lng->txt("log_scan"));

@@ -3866,12 +3866,12 @@ common#:#paste_clipboard_items_into_multiple_objects#:#In mehrere Objekte einfü
 common#:#path#:#Pfad
 common#:#pathes#:#Pfade
 common#:#path_not_set#:#Pfad nicht gesetzt
-common#:#path_to_babylon#:#BABYLON Befehlszeile
-common#:#path_to_convert#:#CONVERT Befehlszeile
-common#:#path_to_htmldoc#:#HTMLdoc Befehlszeile
-common#:#path_to_java#:#JAVA Befehlszeile
-common#:#path_to_unzip#:#UNZIP Befehlszeile
-common#:#path_to_zip#:#ZIP Befehszeile
+common#:#path_to_babylon#:#Bablon Pfad
+common#:#path_to_convert#:#Convert Pfad
+common#:#path_to_htmldoc#:#HTMLdoc Pfad
+common#:#path_to_java#:#Java Pfad
+common#:#path_to_unzip#:#Unzip Pfad
+common#:#path_to_zip#:#Zip Pfad
 common#:#payment_buyable#:#Kaufbar
 common#:#payment_demo#:#Demo
 common#:#payment_in_sc#:#Bereits im Warenkorb
@@ -9877,3 +9877,5 @@ administration#:#adm_repository_cache_time#:#Repository Cache Time###12 08 2009 
 administration#:#adm_repository_cache_time_info#:#Repository access cache time. Set 0 to disable the cache. Higher values may improve performance but also display actions that lead to a no-permission screen.###12 08 2009 new variable
 wiki#:#wiki_please_enter_search_term#:#Please enter a search term.###12 08 2009 new variable
 common#:#reg_mail_body_forgot_password_info#:#Um ein neues Passwort für diesen Benutzerzugang zu beantragen nutzen Sie bitte die Funktion « Passwort vergessen? » auf der Loginseite.
+administration#:#path_to_mkisofs#:#Mkisofs Pfad
+common#:#obj_sty#:#Style
