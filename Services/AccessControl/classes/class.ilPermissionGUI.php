@@ -702,7 +702,7 @@ class ilPermissionGUI
 	function __displayAddRoleForm()
 	{
 		// do not display this option for admin section and root node
-		$object_types_exclude = array("adm","root","mail","objf","lngf","trac","taxf","auth", "assf","svyf",'seas','extt','adve');
+		$object_types_exclude = array("adm","root","objf","taxf");
 		
 		// can the current object contain a rolefolder?
 		$subobjects = $this->objDefinition->getSubObjects($this->gui_obj->object->getType());
