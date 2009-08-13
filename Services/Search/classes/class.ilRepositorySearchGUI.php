@@ -232,9 +232,28 @@ class ilRepositorySearchGUI
 		$this->performSearch();
 	}
 
-
+	/**
+	 * Perform a search
+	 * @return 
+	 */
 	function performSearch()
 	{
+		$found_query = false;
+		foreach((array) $_POST['rep_query'][$_POST['search_for']] as $field => $value)
+		{
+			if(trim(ilUtil::stripSlashes($value)))
+			{
+				$found_query = true;
+				break;
+			}
+		}
+		if(!$found_query)
+		{
+			ilUtil::sendFailure($this->lng->txt('msg_no_search_string'));
+			$this->start();
+			return false;
+		}
+	
 		// unset search_append if called directly
 		if($_POST['cmd']['performSearch'])
 		{
