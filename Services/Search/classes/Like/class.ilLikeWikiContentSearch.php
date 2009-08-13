@@ -58,9 +58,9 @@ class ilLikeWikiContentSearch extends ilWikiContentSearch
 			{
 				$and .= " OR";
 			}
-			$and .= $this->db->like("content", "clob", $word);
+			$and .= $this->db->like("content", "clob", '%'.$word.'%');
 			$and .= " OR ";
-			$and .= $this->db->like("title", "text", $word);
+			$and .= $this->db->like("title", "text", '%'.$word.'%');
 		}
 		return $and.") ";
 	}
