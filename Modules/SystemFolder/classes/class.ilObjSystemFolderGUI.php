@@ -349,6 +349,11 @@ return $this->showServerInfoObject();
 
 		$settings = $this->ilias->getAllSettings();
 
+		if (!$rbacsystem->checkAccess("write",$this->object->getRefId()))
+		{
+			$this->ilias->raiseError($this->lng->txt("permission_denied"),$this->ilias->error_obj->MESSAGE);
+		}
+
 		//init checking var
 		$form_valid = true;
 
@@ -2079,8 +2084,13 @@ return $this->showServerInfoObject();
 	*/
 	public function saveBasicSettingsObject()
 	{
-		global $tpl, $lng, $ilCtrl, $ilSetting;
+		global $tpl, $lng, $ilCtrl, $ilSetting, $rbacsystem;
 	
+		if (!$rbacsystem->checkAccess("write",$this->object->getRefId()))
+		{
+			$this->ilias->raiseError($this->lng->txt("permission_denied"),$this->ilias->error_obj->MESSAGE);
+		}
+
 		$this->initBasicSettingsForm();
 		if ($this->form->checkInput())
 		{
@@ -2164,7 +2174,12 @@ return $this->showServerInfoObject();
 	*/
 	function saveHeaderTitlesObject()
 	{
-		global $ilCtrl, $lng;
+		global $ilCtrl, $lng, $rbacsystem;
+
+		if (!$rbacsystem->checkAccess("write",$this->object->getRefId()))
+		{
+			$this->ilias->raiseError($this->lng->txt("permission_denied"),$this->ilias->error_obj->MESSAGE);
+		}
 		
 //		var_dump($_POST);
 		
@@ -2367,8 +2382,13 @@ return $this->showServerInfoObject();
 	*/
 	public function saveCronJobsObject()
 	{
-		global $tpl, $lng, $ilCtrl, $ilSetting;
-	
+		global $tpl, $lng, $ilCtrl, $ilSetting, $rbacsystem;
+
+		if (!$rbacsystem->checkAccess("write",$this->object->getRefId()))
+		{
+			$this->ilias->raiseError($this->lng->txt("permission_denied"),$this->ilias->error_obj->MESSAGE);
+		}
+
 		$this->initCronJobsForm();
 		if ($this->form->checkInput())
 		{
@@ -2531,8 +2551,13 @@ return $this->showServerInfoObject();
 	*/
 	public function saveContactInformationObject()
 	{
-		global $tpl, $lng, $ilCtrl, $ilSetting;
+		global $tpl, $lng, $ilCtrl, $ilSetting, $rbacsystem;
 	
+		if (!$rbacsystem->checkAccess("write",$this->object->getRefId()))
+		{
+			$this->ilias->raiseError($this->lng->txt("permission_denied"),$this->ilias->error_obj->MESSAGE);
+		}
+
 		$this->initContactInformationForm();
 		if ($this->form->checkInput())
 		{
@@ -2613,7 +2638,12 @@ return $this->showServerInfoObject();
 	*/
 	public function saveWebServicesObject()
 	{
-		global $tpl, $lng, $ilCtrl, $ilSetting;
+		global $tpl, $lng, $ilCtrl, $ilSetting, $rbacsystem;
+		
+		if (!$rbacsystem->checkAccess("write",$this->object->getRefId()))
+		{
+			$this->ilias->raiseError($this->lng->txt("permission_denied"),$this->ilias->error_obj->MESSAGE);
+		}
 	
 		$this->initWebServicesForm();
 		if ($this->form->checkInput())
@@ -2692,8 +2722,13 @@ return $this->showServerInfoObject();
 	*/
 	public function saveJavaServerObject()
 	{
-		global $tpl, $lng, $ilCtrl, $ilSetting;
+		global $tpl, $lng, $ilCtrl, $ilSetting, $rbacsystem;
 	
+		if (!$rbacsystem->checkAccess("write",$this->object->getRefId()))
+		{
+			$this->ilias->raiseError($this->lng->txt("permission_denied"),$this->ilias->error_obj->MESSAGE);
+		}
+
 		$this->initJavaServerForm();
 		if ($this->form->checkInput())
 		{
