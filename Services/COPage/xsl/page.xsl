@@ -7,7 +7,7 @@
 <xsl:output method="xml" omit-xml-declaration="yes" />
 <!-- <xsl:output method="html"/> -->
 
-<xsl:preserve-space elements="Paragraph"/>
+<xsl:preserve-space elements="Paragraph Footnote"/>
 
 <!-- changing the default template to output all unknown tags -->
 <xsl:template match="*">
