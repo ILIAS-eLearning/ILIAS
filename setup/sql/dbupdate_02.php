@@ -15221,3 +15221,7 @@ $ilDB->addPrimaryKey("cache_clob", array("component", "name", "entry_id"));
 	$next = $rec["ma"] + 1;
 	$ilDB->createSequence("write_event", $next);
 ?>
+<#2826>
+<?php
+$ilCtrlStructureReader->getStructure();
+?>
