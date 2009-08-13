@@ -93,7 +93,7 @@ class ilChangeEvent
 		{
 			$query = sprintf('INSERT INTO write_event '.
 				'(write_id, obj_id, parent_obj_id, usr_id, action, ts) '.
-				'VALUES(%s,%s,%s,%s,'.$ilDB->now().')',
+				'VALUES (%s,%s,%s,%s,%s,'.$ilDB->now().')',
 				$ilDB->quote($nid,'integer'),
 				$ilDB->quote($obj_id,'integer'),
 				$ilDB->quote($parent_obj_id,'integer'),
