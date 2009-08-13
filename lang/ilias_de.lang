@@ -9876,3 +9876,4 @@ user#:#user_visible_in_profile#:#Visible in Profile###12 08 2009 new variable
 administration#:#adm_repository_cache_time#:#Repository Cache Time###12 08 2009 new variable
 administration#:#adm_repository_cache_time_info#:#Repository access cache time. Set 0 to disable the cache. Higher values may improve performance but also display actions that lead to a no-permission screen.###12 08 2009 new variable
 wiki#:#wiki_please_enter_search_term#:#Please enter a search term.###12 08 2009 new variable
+common#:#reg_mail_body_forgot_password_info#:#Um ein neues Passwort für diesen Benutzerzugang zu beantragen nutzen Sie bitte die Funktion « Passwort vergessen? » auf der Loginseite.
