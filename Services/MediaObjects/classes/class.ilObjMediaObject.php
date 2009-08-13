@@ -1196,13 +1196,22 @@ class ilObjMediaObject extends ilObject
 			{
 				if ($size[0] > 0 && $size[1] > 0)
 				{
+					if ($w > 0)
+					{
 						$wr = $size[0] / $w;
+					}
+					if ($h > 0)
+					{
 						$hr = $size[1] / $h;
+					}
 //echo "<br>+".$wr."+".$size[0]."+".$w."+";
 //echo "<br>+".$hr."+".$size[1]."+".$h."+";
-						$r = max($wr, $hr);
+					$r = max($wr, $hr);
+					if ($r > 0)
+					{
 						$width = (int) ($size[0]/$r);
 						$height = (int) ($size[1]/$r);
+					}
 				}
 			}
 //echo "<br>D-$width-$height-";
