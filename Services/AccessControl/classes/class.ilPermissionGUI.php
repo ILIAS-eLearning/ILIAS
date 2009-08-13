@@ -18,10 +18,6 @@ class ilPermissionGUI
 {
 	/**
 	* Constructor
-	* @access	public
-	* @param	array	??
-	* @param	integer	object id
-	* @param	boolean	call be reference
 	*/
 	function ilPermissionGUI(&$a_gui_obj)
 	{
@@ -737,6 +733,8 @@ class ilPermissionGUI
 	
 	function __showPermissionsGeneralSection()
 	{
+		global $objDefinition;
+		
 		$this->tpl->setCurrentBlock("perm_subtitle");
 		$this->tpl->setVariable("TXT_PERM_CLASS",$this->lng->txt('perm_class_general'));
 		$this->tpl->setVariable("TXT_PERM_CLASS_DESC",$this->lng->txt('perm_class_general_desc'));
@@ -758,7 +756,16 @@ class ilPermissionGUI
 				$this->tpl->setCurrentBlock("perm_item");
 				$this->tpl->setVariable("PERM_CHECKBOX",$box);
 				$this->tpl->setVariable("PERM_NAME",$this->lng->txt($perm['name']));
-				$this->tpl->setVariable("PERM_TOOLTIP",$this->lng->txt($this->gui_obj->object->getType()."_".$perm['name']));
+				if ($objDefinition->isPlugin($this->gui_obj->object->getType()))
+				{
+					$this->tpl->setVariable("PERM_TOOLTIP",
+						ilPlugin::lookupTxt("rep_robj", $this->gui_obj->object->getType(),
+						$this->gui_obj->object->getType()."_".$perm['name']));
+				}
+				else
+				{
+					$this->tpl->setVariable("PERM_TOOLTIP",$this->lng->txt($this->gui_obj->object->getType()."_".$perm['name']));
+				}
 				$this->tpl->setVariable("PERM_LABEL",'perm_'.$role['obj_id'].'_'.$perm['ops_id']);
 				$this->tpl->parseCurrentBlock();
 			}
@@ -773,6 +780,8 @@ class ilPermissionGUI
 	
 	function __showPermissionsObjectSection()
 	{
+		global $objDefinition;
+		
 		// create pointer to first role (only the permission list is needed)
 		reset($this->roles);
 		$first_role =& current($this->roles);
@@ -794,7 +803,16 @@ class ilPermissionGUI
 					$this->tpl->setCurrentBlock("perm_item");
 					$this->tpl->setVariable("PERM_CHECKBOX",$box);
 					$this->tpl->setVariable("PERM_NAME",$this->lng->txt($this->gui_obj->object->getType()."_".$perm['name']));
-					$this->tpl->setVariable("PERM_TOOLTIP",$this->lng->txt($this->gui_obj->object->getType()."_".$perm['name']));
+					if ($objDefinition->isPlugin($this->gui_obj->object->getType()))
+					{
+						$this->tpl->setVariable("PERM_TOOLTIP",
+							ilPlugin::lookupTxt("rep_robj", $this->gui_obj->object->getType(),
+							$this->gui_obj->object->getType()."_".$perm['name']));
+					}
+					else
+					{
+						$this->tpl->setVariable("PERM_TOOLTIP",$this->lng->txt($this->gui_obj->object->getType()."_".$perm['name']));
+					}
 					$this->tpl->setVariable("PERM_LABEL",'perm_'.$role['obj_id'].'_'.$perm['ops_id']);
 					$this->tpl->parseCurrentBlock();
 				}
@@ -810,6 +828,8 @@ class ilPermissionGUI
 	
 	function __showPermissionsRBACSection()
 	{
+		global $objDefinition;
+		
 		$this->tpl->setCurrentBlock("perm_subtitle");
 		$this->tpl->setVariable("TXT_PERM_CLASS",$this->lng->txt('perm_class_rbac'));
 		$this->tpl->setVariable("TXT_PERM_CLASS_DESC",$this->lng->txt('perm_class_rbac_desc'));
@@ -825,7 +845,16 @@ class ilPermissionGUI
 				$this->tpl->setCurrentBlock("perm_item");
 				$this->tpl->setVariable("PERM_CHECKBOX",$box);
 				$this->tpl->setVariable("PERM_NAME",$this->lng->txt('perm_administrate'));
-				$this->tpl->setVariable("PERM_TOOLTIP",$this->lng->txt($this->gui_obj->object->getType()."_".$perm['name']));
+				if ($objDefinition->isPlugin($this->gui_obj->object->getType()))
+				{
+					$this->tpl->setVariable("PERM_TOOLTIP",
+						ilPlugin::lookupTxt("rep_robj", $this->gui_obj->object->getType(),
+						$this->gui_obj->object->getType()."_".$perm['name']));
+				}
+				else
+				{
+					$this->tpl->setVariable("PERM_TOOLTIP",$this->lng->txt($this->gui_obj->object->getType()."_".$perm['name']));
+				}
 				$this->tpl->setVariable("PERM_LABEL",'perm_'.$role['obj_id'].'_'.$perm['ops_id']);
 				$this->tpl->parseCurrentBlock();
 			}

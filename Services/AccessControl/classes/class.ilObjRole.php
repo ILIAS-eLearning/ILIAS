@@ -534,10 +534,20 @@ class ilObjRole extends ilObject
 			}
 			$rbac_objects[$info['typ_id']] = array("obj_id"	=> $info['typ_id'],
 											   	   "type"	=> $info['type']);
+			
+			// handle plugin permission texts
+			$txt = $objDefinition->isPlugin($info['type'])
+				? ilPlugin::lookupTxt("rep_robj", $info['type'], $info['type']."_".$info['operation'])
+				: $lng->txt($info['type']."_".$info['operation']);
+			if (substr($info['operation'], 0, 7) == "create_" &&
+				$objDefinition->isPlugin(substr($info['operation'], 7)))
+			{
+				$txt = ilPlugin::lookupTxt("rep_robj", substr($info['operation'], 7), $info['type']."_".$info['operation']);
+			}
 			$rbac_operations[$info['typ_id']][$info['ops_id']] = array(
 									   							"ops_id"	=> $info['ops_id'],
 									  							"title"		=> $info['operation'],
-																"name"		=> $lng->txt($info['type']."_".$info['operation']));
+																"name"		=> $txt);
 			
 		}
 		return array($rbac_objects,$rbac_operations);

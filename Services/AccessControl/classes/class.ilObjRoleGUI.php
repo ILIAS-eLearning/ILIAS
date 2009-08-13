@@ -87,9 +87,6 @@ class ilObjRoleGUI extends ilObjectGUI
 		$this->type = "role";
 		$this->ilObjectGUI($a_data,$a_id,$a_call_by_reference,false);
 		$this->ctrl->saveParameter($this, array("obj_id", "rolf_ref_id"));
-
-		
-
 	}
 
 
@@ -819,7 +816,15 @@ class ilObjRoleGUI extends ilObjectGUI
 
 		foreach ($rbac_objects as $key => $obj_data)
 		{
-			$rbac_objects[$key]["name"] = $this->lng->txt("obj_".$obj_data["type"]);
+			if ($objDefinition->isPlugin($obj_data["type"]))
+			{
+				$rbac_objects[$key]["name"] = ilPlugin::lookupTxt("rep_robj", $obj_data["type"],
+						"obj_".$obj_data["type"]);
+			}
+			else
+			{
+				$rbac_objects[$key]["name"] = $this->lng->txt("obj_".$obj_data["type"]);
+			}
 			$rbac_objects[$key]["ops"] = $rbac_operations[$key];
 		}
 		
@@ -878,7 +883,7 @@ class ilObjRoleGUI extends ilObjectGUI
 					$disabled = false;
 				}
 
-				// Es wird eine 2-dim Post Variable �bergeben: perm[rol_id][ops_id]
+				// Es wird eine 2-dim Post Variable uebergeben: perm[rol_id][ops_id]
 				$box = ilUtil::formCheckBox($checked,"template_perm[".$obj_data["type"]."][]",$operation["ops_id"],$disabled);
 				$output["perm"][$obj_data["obj_id"]][$operation["ops_id"]] = $box;
 			}
@@ -1031,7 +1036,13 @@ class ilObjRoleGUI extends ilObjectGUI
 			$this->tpl->setVariable("CHANGE_PERM_OBJ_TYPE_DESC",$this->lng->txt("change_existing_object_type_desc"));
 
 			// use different Text for system objects		
-			if ($objDefinition->isSystemObject($obj_data["type"]))
+			if ($objDefinition->isPlugin($obj_data["type"]))
+			{
+				$this->tpl->setVariable("CHANGE_PERM_OBJ_TYPE",$this->lng->txt("change_existing_prefix")." ".
+					ilPlugin::lookupTxt("rep_robj", $obj_data["type"], "objs_".$obj_data["type"]).
+					" ".$this->lng->txt("change_existing_suffix"));
+			}
+			else if ($objDefinition->isSystemObject($obj_data["type"]))
 			{
 				$this->tpl->setVariable("CHANGE_PERM_OBJ_TYPE",$this->lng->txt("change_existing_prefix_single")." ".$this->lng->txt("obj_".$obj_data["type"])." ".$this->lng->txt("change_existing_suffix_single"));
 
