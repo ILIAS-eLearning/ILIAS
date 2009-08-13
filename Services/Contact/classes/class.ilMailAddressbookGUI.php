@@ -314,8 +314,17 @@ class ilMailAddressbookGUI
 	public function mailToUsers()
 	{
 		global $ilUser;
-		
-		$addr_ids = ((int)$_GET['addr_id']) ? array((int)$_GET['addr_id']) : $_POST['addr_id'];
+
+		if ($_GET['addr_id'] && is_array($_GET['addr_id']))
+			$addr_ids = $_GET['addr_id'];
+		else if ((int)$_GET['addr_id'])
+			$addr_ids = array((int)$_GET['addr_id']);
+		else if ($_POST['addr_id'] && is_array($_POST['addr_id']))
+			$addr_ids = $_POST['addr_id'];
+		else if ((int)$_POST['addr_id'])
+			$addr_ids = array((int)$_POST['addr_id']);
+
+//		$addr_ids = ((int)$_GET['addr_id']) ? array((int)$_GET['addr_id']) : $_POST['addr_id'];
 		
 		if (!$addr_ids)
 	 	{
@@ -451,7 +460,7 @@ class ilMailAddressbookGUI
 					//$this->ctrl->setParameterByClass("ilmailformgui", "rcp", urlencode($entry["login"]));
 					//$result[$counter]['login'] = "<a class=\"navigation\" href=\"" .  $this->ctrl->getLinkTargetByClass("ilmailformgui") . "\">" . $entry["login"] . "</a>";
 					//$this->ctrl->clearParametersByClass("ilmailformgui");
-					$result[$counter]['login'] = "<a class=\"navigation\" href=\"" .  $this->ctrl->getLinkTarget($this, 'mailToUsers') . "&addr_id[]=".$entry['addr_id']."\">" . $entry["login"] . "</a>";
+					$result[$counter]['login'] = "<a class=\"navigation\" href=\"" .  $this->ctrl->getLinkTarget($this, 'mailToUsers') . "&addr_id=".$entry['addr_id']."\">" . $entry["login"] . "</a>";
 				}				
 				
 				$result[$counter]['firstname'] = $entry["firstname"];
