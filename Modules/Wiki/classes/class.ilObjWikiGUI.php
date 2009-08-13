@@ -936,7 +936,16 @@ class ilObjWikiGUI extends ilObjectGUI
 		// determine target frames for internal links
 		$page_gui->setOutputMode("print");
 		$page_content = $page_gui->showPage();
-		$tpl->setVariable("CONTENT", $page_content);
+		$tpl->setVariable("CONTENT", $page_content.
+		'<script type="text/javascript" language="javascript1.2">
+		<!--
+			// Do print the page
+			if (typeof(window.print) != \'undefined\')
+			{
+				window.print();
+			}
+		//-->
+		</script>');
 		$tpl->show(false);
 		exit;
 	}
