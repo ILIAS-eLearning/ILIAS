@@ -107,13 +107,13 @@ abstract class ilObject2 extends ilObject
 	final function updateOwner() { return parent::updateOwner(); }
 	final function _getIdForImportId($a_import_id) { return parent::_getIdForImportId($a_import_id); }
 	final function _getAllReferences($a_id) { return parent::_getAllReferences($a_id); }
-	final function _lookupTitle($a_id) { return parent::_lookupTitle($a_id); }
+	final static function _lookupTitle($a_id) { return parent::_lookupTitle($a_id); }
 	final function _lookupOwner($a_id) { return parent::_lookupOwner($a_id); }
 	final static function _getIdsForTitle($title, $type = '', $partialmatch = false) { return parent::_getIdsForTitle($title, $type, $partialmatch); }
 	final function _lookupDescription($a_id) { return parent::_lookupDescription($a_id); }
 	final function _lookupLastUpdate($a_id, $a_as_string = false) { return parent::_lookupLastUpdate($a_id, $a_as_string); }
 	final function _getLastUpdateOfObjects($a_objs) { return parent::_getLastUpdateOfObjects($a_objs); }
-	final function _lookupObjId($a_id) { return parent::_lookupObjId($a_id); }
+	final static function _lookupObjId($a_id) { return parent::_lookupObjId($a_id); }
 	final function _setDeletedDate($a_ref_id) { return parent::_setDeletedDate($a_ref_id); }
 	final function _resetDeletedDate($a_ref_id) { return parent::_resetDeletedDate($a_ref_id); }
 	final function _lookupDeletedDate($a_ref_id) { return parent::_lookupDeletedDate($a_ref_id); }

@@ -181,7 +181,12 @@ class ilObjComponentSettingsGUI extends ilObjectGUI
 	*/
 	function showPluginSlot()
 	{
-		global $tpl,$lng;
+		global $tpl,$lng, $ilTabs;
+		
+		if ($_GET["mode"] == "Services")
+		{
+			$ilTabs->setTabActive("cmps_services");
+		}
 		
 		//slot_id
 		$ptpl = new ilTemplate("tpl.plugin_slot.html", true, true,
@@ -295,7 +300,6 @@ die ("ilObjComponentSettigsGUI::refreshPluginsInformation: deprecated");
 	*/
 	function updatePlugin()
 	{
-		global $ilCtrl;
 
 		include_once("./Services/Component/classes/class.ilPlugin.php");
 		$pl = ilPlugin::getPluginObject($_GET["ctype"], $_GET["cname"],
@@ -311,11 +315,17 @@ die ("ilObjComponentSettigsGUI::refreshPluginsInformation: deprecated");
 		{
 			ilUtil::sendSuccess($pl->message, true);
 		}
-			
-		$ilCtrl->setParameter($this, "ctype", $_GET["ctype"]);
-		$ilCtrl->setParameter($this, "cname", $_GET["cname"]);
-		$ilCtrl->setParameter($this, "slot_id", $_GET["slot_id"]);
-		$ilCtrl->redirect($this, "showPluginSlot");
+		
+		// reinitialize control class
+		global $ilCtrl;
+		$ilCtrl->initBaseClass("iladministrationgui");
+		$_GET["cmd"] = "jumpToPluginSlot";
+		$ilCtrl->setParameterByClass("iladministrationgui", "ctype", $_GET["ctype"]);
+		$ilCtrl->setParameterByClass("iladministrationgui", "cname", $_GET["cname"]);
+		$ilCtrl->setParameterByClass("iladministrationgui", "slot_id", $_GET["slot_id"]);
+		$ilCtrl->setTargetScript("ilias.php");
+		$ilCtrl->callBaseClass();
+		//$ilCtrl->redirectByClass("iladministrationgui", );
 	}
 
 	/**
