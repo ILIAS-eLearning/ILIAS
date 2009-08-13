@@ -284,7 +284,7 @@ class ilWikiPageGUI extends ilPageObjectGUI
 			"whatLinksHere"), "whatLinksHere");
 		$ilTabs->addTarget("wiki_print_view",
 			$this->ctrl->getLinkTargetByClass("ilobjwikigui",
-			"printView"), "printView");	
+			"printView"), "printView", "", "_blank");	
 
 	}
 
