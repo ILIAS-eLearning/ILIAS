@@ -1659,7 +1659,7 @@ if ($this->getDBType() == "mysql")
 	
 	/**
 	 * Abstraction of SQL function CONCAT
-	 * @param array $a_values array('title' => 'field','some text' => 'text');
+	 * @param array $a_values array('title' => 'text','description' => 'clob',some text' => 'text');
 	 * @param bool	$a_allow_null
 	 * @return 
 	 */
@@ -1682,15 +1682,7 @@ if ($this->getDBType() == "mysql")
 			{
 				$concat .= 'COALESCE(';
 			}
-			
-			if($type == 'field')
-			{
-				$concat .= $val;
-			}
-			else
-			{
-				$concat .= $this->quote($val,$type);	
-			}
+			$concat .= $val;
 			
 			if($a_allow_null)
 			{

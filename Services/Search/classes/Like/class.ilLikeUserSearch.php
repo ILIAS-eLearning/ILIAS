@@ -49,6 +49,8 @@ class ilLikeUserSearch extends ilUserSearch
 
 	function __createWhereCondition()
 	{
+		global $ilDB;
+		
 		$fields = $this->getFields();
 		$field = $fields[0].' ';
 
@@ -61,15 +63,18 @@ class ilLikeUserSearch extends ilUserSearch
 			{
 				$and .= " OR ";
 			}
-			$and .= $field;
+			
+			#$and .= $field;
 
 			if(strpos($word,'^') === 0)
 			{
-				$and .= ("LIKE ('".substr($word,1)."%')");
+				$and .= $ilDB->like($field,'text',substr($word,1).'%');
+				#$and .= ("LIKE ('".substr($word,1)."%')");
 			}
 			else
 			{
-				$and .= ("LIKE ('%".$word."%')");
+				$and .= $ilDB->like($field,'text','%'.$word.'%');
+				#$and .= ("LIKE ('%".$word."%')");
 			}
 		}
 		

@@ -444,13 +444,13 @@ class ilLPListOfProgressGUI extends ilLearningProgressBaseGUI
 			$tpl->parseCurrentBlock();
 		}*/
 		
-// new table
-reset($sorted_objs);
-include_once("./Services/Tracking/classes/class.ilLPProgressTableGUI.php");
-$lp_table = new ilLPProgressTableGUI($this, "", $type, $this->tracked_user, $sorted_objs);
-$lp_table->setData($sorted_objs);
-//$tpl->setVariable("LP_TABLE", $lp_table->getHTML());
-$this->tpl->setVariable("LP_OBJECTS", $lp_table->getHTML());
+		// new table
+		reset($sorted_objs);
+		include_once("./Services/Tracking/classes/class.ilLPProgressTableGUI.php");
+		$lp_table = new ilLPProgressTableGUI($this, "", $type, $this->tracked_user, $sorted_objs);
+		$lp_table->setData($sorted_objs);
+		//$tpl->setVariable("LP_TABLE", $lp_table->getHTML());
+		$this->tpl->setVariable("LP_OBJECTS", $lp_table->getHTML());
 
 		// Hide button
 /*		$tpl->setVariable("DOWNRIGHT",ilUtil::getImagePath('arrow_downright.gif'));

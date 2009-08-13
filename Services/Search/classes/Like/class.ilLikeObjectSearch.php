@@ -59,8 +59,8 @@ class ilLikeObjectSearch extends ilObjectSearch
 		
 		$concat = $ilDB->concat(
 			array(
-				'title'			=> 'field',
-				'description'	=> 'field'));
+				'title'			=> 'text',
+				'description'	=> 'text'));
 		
 
 		$where = "WHERE (";
@@ -71,8 +71,11 @@ class ilLikeObjectSearch extends ilObjectSearch
 			{
 				$where .= "OR";
 			}
-			$where .= $concat;
-			$where .= ("LIKE ('%".$word."%') ");
+			
+			$where .= $ilDB->like($concat,'text','%'.$word.'%');
+			
+			#$where .= $concat;
+			#$where .= ("LIKE ('%".$word."%') ");
 		}
 		$where .= ') ';
 		return $where;

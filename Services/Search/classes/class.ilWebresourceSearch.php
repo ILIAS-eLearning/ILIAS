@@ -47,8 +47,6 @@ class ilWebresourceSearch extends ilAbstractSearch
 
 	function &performSearch()
 	{
-		// Search in glossary term
-		
 		$this->setFields(array('title'));
 
 		$where = $this->__createWhereCondition();
