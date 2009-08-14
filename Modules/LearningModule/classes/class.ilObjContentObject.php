@@ -1644,12 +1644,32 @@ class ilObjContentObject extends ilObject
 		ilUtil::makeDir($file_dir);
 		$teximg_dir = $a_target_dir."/teximg";
 		ilUtil::makeDir($teximg_dir);
+		$style_dir = $a_target_dir."/style";
+		ilUtil::makeDir($style_dir);
+		$style_img_dir = $a_target_dir."/style/images";
+		ilUtil::makeDir($style_img_dir);
+		$content_style_dir = $a_target_dir."/content_style";
+		ilUtil::makeDir($content_style_dir);
+		$content_style_img_dir = $a_target_dir."/content_style/images";
+		ilUtil::makeDir($content_style_img_dir);
 		$GLOBALS["teximgcnt"] = 0;
 
 		// export system style sheet
 		$location_stylesheet = ilUtil::getStyleSheetLocation("filesystem");
 		$style_name = $ilUser->prefs["style"].".css";
-		copy($location_stylesheet, $a_target_dir."/".$style_name);
+		copy($location_stylesheet, $style_dir."/".$style_name);
+		$fh = fopen($location_stylesheet, "r");
+		$css = fread($fh, filesize($location_stylesheet));
+		preg_match_all("/url\(([^\)]*)\)/",$css,$files);
+		foreach (array_unique($files[1]) as $fileref)
+		{
+			$fileref = dirname($location_stylesheet)."/".$fileref;
+			if (is_file($fileref))
+			{
+				copy($fileref, $style_img_dir."/".basename($fileref));
+			}
+		}
+		fclose($fh);
 		$location_stylesheet = ilUtil::getStyleSheetLocation();
 		
 		// export content style sheet
@@ -1657,12 +1677,24 @@ class ilObjContentObject extends ilObject
 		if ($this->getStyleSheetId() < 1)
 		{
 			$cont_stylesheet = "./Services/COPage/css/content.css";
-			copy($cont_stylesheet, $a_target_dir."/content.css");
+			
+			$css = fread(fopen($cont_stylesheet,'r'),filesize($cont_stylesheet));
+			preg_match_all("/url\(([^\)]*)\)/",$css,$files);
+			foreach (array_unique($files[1]) as $fileref)
+			{
+				if (is_file(str_replace("..", ".", $fileref)))
+				{
+					copy(str_replace("..", ".", $fileref), $content_style_img_dir."/".basename($fileref));
+				}
+				$css = str_replace($fileref, "images/".basename($fileref),$css);
+			}	
+			fwrite(fopen($content_style_dir."/content.css",'w'),$css);
 		}
 		else
 		{
 			$style = new ilObjStyleSheet($this->getStyleSheetId());
-			$style->writeCSSFile($a_target_dir."/content.css");
+			$style->writeCSSFile($content_style_dir."/content.css", "images");
+			$style->copyImagesToDir($content_style_img_dir);
 		}
 		$ilBench->stop("ExportHTML", "exportContentStyle");
 		
@@ -1754,6 +1786,8 @@ class ilObjContentObject extends ilObject
 			$image_dir."/browser/minus.gif");
 		copy(ilUtil::getImagePath("browser/blank.gif", false, "filesystem"),
 			$image_dir."/browser/blank.gif");
+		copy(ilUtil::getImagePath("spacer.gif", false, "filesystem"),
+			$image_dir."/spacer.gif");
 		copy(ilUtil::getImagePath("icon_st.gif", false, "filesystem"),
 			$image_dir."/icon_st.gif");
 		copy(ilUtil::getImagePath("icon_pg.gif", false, "filesystem"),
@@ -1770,6 +1804,8 @@ class ilObjContentObject extends ilObject
 			$image_dir."/nav_arr_L.gif");
 		copy(ilUtil::getImagePath("nav_arr_R.gif", false, "filesystem"),
 			$image_dir."/nav_arr_R.gif");
+		copy(ilUtil::getImagePath("browser/forceexp.gif", false, "filesystem"),
+			$image_dir."/browser/forceexp.gif");
 			
 		copy(ilUtil::getImagePath("download.gif", false, "filesystem"),
 			$image_dir."/download.gif");
@@ -1789,6 +1825,16 @@ class ilObjContentObject extends ilObject
 		copy("./Services/MediaObjects/flash_mp3_player/mp3player.swf",
 			$mp3_dir."/mp3player.swf");
 
+		// accordion stuff
+		ilUtil::makeDir($a_target_dir.'/js');
+		ilUtil::makeDir($a_target_dir.'/js/yahoo');
+		ilUtil::makeDir($a_target_dir.'/css');
+		include_once("./Services/YUI/classes/class.ilYuiUtil.php");
+		copy(ilYuiUtil::getLocalPath('yahoo/yahoo-min.js'), $a_target_dir.'/js/yahoo/yahoo-min.js');
+		copy(ilYuiUtil::getLocalPath('yahoo-dom-event/yahoo-dom-event.js'), $a_target_dir.'/js/yahoo/yahoo-dom-event.js');
+		copy(ilYuiUtil::getLocalPath('animation/animation-min.js'), $a_target_dir.'/js/yahoo/animation-min.js');
+		copy('./Services/Accordion/js/accordion.js',$a_target_dir.'/js/accordion.js');
+		copy('./Services/Accordion/css/accordion.css',$a_target_dir.'/css/accordion.css');
 
 		// template workaround: reset of template 
 		$tpl = new ilTemplate("tpl.main.html", true, true);

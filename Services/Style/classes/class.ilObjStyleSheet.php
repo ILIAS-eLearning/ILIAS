@@ -994,7 +994,14 @@ class ilObjStyleSheet extends ilObject
 		return $new_obj->getId();
 	}
 
-
+	/**
+	* Copy images to directory
+	*/
+	function copyImagesToDir($a_target)
+	{
+		ilUtil::rCopy($this->getImagesDirectory(), $a_target);
+	}
+	
 	/**
 	* write style parameter to db
 	*
@@ -1301,7 +1308,7 @@ class ilObjStyleSheet extends ilObject
 	/**
 	* write css file to webspace directory
 	*/
-	function writeCSSFile($a_target_file = "")
+	function writeCSSFile($a_target_file = "", $a_image_dir = "")
 	{
 		$style = $this->getStyle();
 
@@ -1353,7 +1360,14 @@ class ilObjStyleSheet extends ilObject
 					}
 					else		// internal
 					{
-						$cur_val = "url(../sty/sty_".$this->getId()."/images/".$cur_val.")";
+						if ($a_image_dir == "")
+						{
+							$cur_val = "url(../sty/sty_".$this->getId()."/images/".$cur_val.")";
+						}
+						else
+						{
+							$cur_val = "url(".$a_image_dir."/".$cur_val.")";
+						}
 					}
 				}
 				
