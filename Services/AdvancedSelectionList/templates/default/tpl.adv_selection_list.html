@@ -27,8 +27,8 @@
 <!-- BEGIN top_img --><img border="0" src="{IMG_DOWN}" alt="{ALT_SEL_TOP}" style="position:relative; top:-1px; vertical-align:middle;"/><!-- END top_img --> <span id="ilAdvSelListAnchorText_{ID}">{TXT_SEL_TOP}</span>
 </a>
 </span>
-<div class="il_adv_cont" style="clear:both; z-index:100; display:none; position:absolute;" id="ilAdvSelListTable_{ID}">
-<div class="il_adv_sel" style="position:relative; top:-2px; left:-2px; overflow:auto; background-color:white;" onmouseover="ilAdvSelListOn('{ID}', false);" onmouseout="ilAdvSelListOff('{ID}');" id="ilAdvSelListTableInner_{ID}">
+<div class="il_adv_sel" style="overflow:auto; background-color:white; clear:both; z-index:100; display:none; position:absolute;" id="ilAdvSelListTable_{ID}"
+	onmouseover="ilAdvSelListOn('{ID}', false);" onmouseout="ilAdvSelListOff('{ID}');">
 <table class="il_adv_sel">
 <!-- BEGIN item -->
 <tr class="il_adv_sel" onmouseover="ilAdvSelItemOn(this);" onmouseout="ilAdvSelItemOff(this);" {ONCLICK_ITEM}><!-- BEGIN no_image --><td class="il_adv_sel_ic"></td><!-- END no_image --><!-- BEGIN image --><td class="il_adv_sel_ic"><img src="{IMG_ITEM}" alt="{ALT_ITEM}"/></td><!-- END image --><td class="il_adv_sel"><a {HREF_ITEM} <!-- BEGIN frame -->target="{TARGET_ITEM}"<!-- END frame -->><span <!-- BEGIN item_link_class -->class="{ITEM_LINK_CLASS}"<!-- END item_link_class -->>{TXT_ITEM}</span></a></td></tr>
@@ -38,7 +38,7 @@
 <input type="hidden" id="ilAdvSelListHidden_{HID}" />
 <input type="hidden" id="ilAdvSelListHiddenCmd_{HID}" />
 <!-- END hidden_input -->
-</div></div>
+</div>
 <script type="text/javascript">
 //<![CDATA[
 il_adv_sel_lists.push('{ID}');
