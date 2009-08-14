@@ -65,7 +65,7 @@ class ilObjFileAccessSettingsGUI extends ilObjectGUI
 	 */
 	public function executeCommand()
 	{
-		global $rbacsystem,$ilErr,$ilAccess;
+		global $rbacsystem,$ilErr,$ilAccess, $ilias, $lng;
 
 		$next_class = $this->ctrl->getNextClass($this);
 		$cmd = $this->ctrl->getCmd();
@@ -74,7 +74,7 @@ class ilObjFileAccessSettingsGUI extends ilObjectGUI
 
 		if(!$ilAccess->checkAccess('read','',$this->object->getRefId()))
 		{
-			$ilErr->raiseError($lng->txt('no_permission'),$ilErr->WARNING);
+			$ilias->raiseError($lng->txt('no_permission'),$ilias->error_obj->MESSAGE);
 		}
 
 		switch($next_class)
