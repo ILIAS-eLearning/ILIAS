@@ -1650,12 +1650,12 @@ if ($this->getDBType() == "mysql")
 	/**
 	* now()
 	*
-	* @todo: oracle version
 	*/
 	function now()
 	{
 		return "now()";
 	}
+	
 	
 	/**
 	 * Abstraction of SQL function CONCAT
@@ -1783,6 +1783,25 @@ if ($this->getDBType() == "mysql")
 		}
 	}
 
+	/**
+	* fromUnixtime (makes timestamp out of unix timestamp)
+	*
+	* @param	string		expression
+	* @param	boolean		typecasting to text y/n
+	*/
+	function fromUnixtime($a_expr, $a_to_text = true)
+	{
+		return "FROM_UNIXTIME(".$a_expr.")";
+	}
+	
+	/**
+	* Unix timestamp
+	*/
+	function unixTimestamp()
+	{
+		return "UNIX_TIMESTAMP()";
+	}
+	
 	/**
 	* Optimize Table
 	*/

@@ -247,23 +247,23 @@ class ilDiskQuotaChecker
 			case 2: // only users who have access
 			default:
 				$where_clause .= ($where_clause == '' ? 'WHERE ' : ' AND ' ).
-					'(u.active=1 AND (u.time_limit_unlimited = 1 OR UNIX_TIMESTAMP() BETWEEN u.time_limit_from AND u.time_limit_until)) ';
+					'(u.active=1 AND (u.time_limit_unlimited = 1 OR '.$ilDB->unixTimestamp().' BETWEEN u.time_limit_from AND u.time_limit_until)) ';
 				break;
 			case 3: // only users who don't have access
 				$where_clause .= ($where_clause == '' ? 'WHERE ' : ' AND ' ).
-					'(u.active=0 OR (u.time_limit_unlimited IS NULL AND UNIX_TIMESTAMP() NOT BETWEEN u.time_limit_from AND u.time_limit_until)) ';
+					'(u.active=0 OR (u.time_limit_unlimited IS NULL AND '.$ilDB->unixTimestamp().' NOT BETWEEN u.time_limit_from AND u.time_limit_until)) ';
 				break;
 		}
 
 		$res = $ilDB->queryf(
 			"SELECT u.usr_id,u.firstname,u.lastname,u.login,u.email,u.last_login,u.active,".
-				"u.time_limit_unlimited, FROM_UNIXTIME(u.time_limit_from), FROM_UNIXTIME(u.time_limit_until),".
+				"u.time_limit_unlimited, ".$ilDB->fromUnixtime("u.time_limit_from").", ".$ilDB->fromUnixtime("u.time_limit_until").",".
 
 				// Inactive users get the date 0001-01-01 so that they appear
 				// first when the list is sorted by this field.
-				"IF(u.active = 0,'0001-01-01',IF (u.time_limit_unlimited=1,'9999-12-31',FROM_UNIXTIME(u.time_limit_until))) AS access_until,".
+				"IF(u.active = 0,'0001-01-01',IF (u.time_limit_unlimited=1,'9999-12-31',".$ilDB->fromUnixtime("u.time_limit_until").")) AS access_until,".
 
-				"IF(UNIX_TIMESTAMP() BETWEEN u.time_limit_from AND u.time_limit_until,0,1) AS expired,".
+				"IF(".$ilDB->unixTimestamp()." BETWEEN u.time_limit_from AND u.time_limit_until,0,1) AS expired,".
 				"rq.role_disk_quota, system_role.rol_id AS role_id, ".
 				"p1.value+0 AS user_disk_quota,".
 				"p2.value+0 AS disk_usage, ".
@@ -497,13 +497,13 @@ class ilDiskQuotaChecker
 
 		$res = $ilDB->queryf(
 			"SELECT u.usr_id,u.gender,u.firstname,u.lastname,u.login,u.email,u.last_login,u.active,".
-				"u.time_limit_unlimited, FROM_UNIXTIME(u.time_limit_from), FROM_UNIXTIME(u.time_limit_until),".
+				"u.time_limit_unlimited, ".$ilDB->fromUnixtime("u.time_limit_from").", ".$ilDB->fromUnixtime("u.time_limit_until").",".
 
 				// Inactive users get the date 0001-01-01 so that they appear
 				// first when the list is sorted by this field.
-				"IF(u.active = 0,'0001-01-01',IF (u.time_limit_unlimited=1,'9999-12-31',FROM_UNIXTIME(u.time_limit_until))) AS access_until,".
+				"IF(u.active = 0,'0001-01-01',IF (u.time_limit_unlimited=1,'9999-12-31',".$ilDB->fromUnixtime("u.time_limit_until").")) AS access_until,".
 
-				"IF(UNIX_TIMESTAMP() BETWEEN u.time_limit_from AND u.time_limit_until,0,1) AS expired,".
+				"IF(".$ilDB->unixTimestamp()." BETWEEN u.time_limit_from AND u.time_limit_until,0,1) AS expired,".
 				"rq.role_disk_quota, system_role.rol_id AS role_id, ".
 				"p1.value+0 AS user_disk_quota,".
 				"p2.value+0 AS disk_usage, ".
@@ -544,7 +544,7 @@ class ilDiskQuotaChecker
 			// Fetch only users who have exceeded their quota, and who have
 			// access, and who have not received a reminder in the past seven days
 			'WHERE (p2.value > p1.value AND p2.value > rq.role_disk_quota) '.
-			'AND (u.active=1 AND (u.time_limit_unlimited = 1 OR UNIX_TIMESTAMP() BETWEEN u.time_limit_from AND u.time_limit_until)) '.
+			'AND (u.active=1 AND (u.time_limit_unlimited = 1 OR '.$ilDB->unixTimestamp().' BETWEEN u.time_limit_from AND u.time_limit_until)) '.
 			'AND (p4.value IS NULL OR p4.value < DATE_SUB(NOW(), INTERVAL 7 DAY)) '
 
 			,
