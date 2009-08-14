@@ -168,13 +168,13 @@ class ilLocationInputGUI extends ilFormPropertyGUI
 	*/
 	function insert(&$a_tpl)
 	{
-		global $tpl, $lng;
+		global $lng;
 		
 		$lng->loadLanguageModule("gmaps");
-		$a_tpl->setCurrentBlock("prop_location");
-		$a_tpl->setVariable("POST_VAR", $this->getPostVar());
-		$a_tpl->setVariable("TXT_ZOOM", $lng->txt("gmaps_zoom_level"));
-		$a_tpl->setVariable("LOC_DESCRIPTION", $lng->txt("gmaps_std_location_desc"));
+		$tpl = new ilTemplate("tpl.prop_location.html", true, true, "Services/Form");
+		$tpl->setVariable("POST_VAR", $this->getPostVar());
+		$tpl->setVariable("TXT_ZOOM", $lng->txt("gmaps_zoom_level"));
+		$tpl->setVariable("LOC_DESCRIPTION", $lng->txt("gmaps_std_location_desc"));
 		
 		$lat = is_numeric($this->getLatitude())
 			? $this->getLatitude()
@@ -182,19 +182,19 @@ class ilLocationInputGUI extends ilFormPropertyGUI
 		$long = is_numeric($this->getLongitude())
 			? $this->getLongitude()
 			: 0;
-		$a_tpl->setVariable("PROPERTY_VALUE_LAT", $lat);
-		$a_tpl->setVariable("PROPERTY_VALUE_LONG", $long);
+		$tpl->setVariable("PROPERTY_VALUE_LAT", $lat);
+		$tpl->setVariable("PROPERTY_VALUE_LONG", $long);
 		for($i = 0; $i <= 18; $i++)
 		{
 			$levels[$i] = $i;
 		}
-		$a_tpl->setVariable("ZOOM_SELECT",
+		$tpl->setVariable("ZOOM_SELECT",
 			ilUtil::formSelect($this->getZoom(), $this->getPostVar()."[zoom]",
 			$levels, false, true, 0, "", array("id" => "map_".$this->getPostVar()."_zoom",
 				"onchange" => "ilUpdateMap('"."map_".$this->getPostVar()."');")));
-		$a_tpl->setVariable("MAP_ID", "map_".$this->getPostVar());
-		$a_tpl->setVariable("TXT_LOOKUP", $lng->txt("gmaps_lookup_address"));
-		$a_tpl->setVariable("TXT_ADDRESS", $this->getAddress());
+		$tpl->setVariable("MAP_ID", "map_".$this->getPostVar());
+		$tpl->setVariable("TXT_LOOKUP", $lng->txt("gmaps_lookup_address"));
+		$tpl->setVariable("TXT_ADDRESS", $this->getAddress());
 		
 		include_once("./Services/GoogleMaps/classes/class.ilGoogleMapGUI.php");
 		$map_gui = new ilGoogleMapGUI();
@@ -207,8 +207,10 @@ class ilLocationInputGUI extends ilFormPropertyGUI
 		$map_gui->setEnableUpdateListener(true);
 		$map_gui->setEnableCentralMarker(true);
 		
-		$a_tpl->setVariable("MAP", $map_gui->getHtml());
+		$tpl->setVariable("MAP", $map_gui->getHtml());
 		
+		$a_tpl->setCurrentBlock("prop_generic");
+		$a_tpl->setVariable("PROP_GENERIC", $tpl->get());
 		$a_tpl->parseCurrentBlock();
 	}
 
