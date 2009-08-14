@@ -9863,3 +9863,5 @@ cmps#:#no_changes#:#Keine Änderungen
 cmps#:#database_is_uptodate#:#Die Datenbank ist aktuell.
 administration#:#path_to_mkisofs#:#Path to mkisofs
 common#:#obj_sty#:#Style
+dateplaner#:#cal_created_milestone#:#Added milestone.
+dateplaner#:#cal_created_milestone_resp_q#:#Added milestone. Please select users that are responsible to meet the milestone.

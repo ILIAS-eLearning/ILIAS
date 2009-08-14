@@ -122,7 +122,7 @@ class ilCalendarAppointmentGUI
 		
 		include_once('./Services/YUI/classes/class.ilYuiUtil.php');
 		ilYuiUtil::initDomEvent();
-		
+		$resp_info = false;
 		switch($a_mode)
 		{
 			case 'create':
@@ -153,8 +153,16 @@ class ilCalendarAppointmentGUI
 				}
 				$this->ctrl->saveParameter($this,array('seed','app_id'));
 				$this->form->setFormAction($this->ctrl->getFormAction($this));
-				if ($a_as_milestone)
+				
+				$ass = new ilCalendarCategoryAssignments($this->app->getEntryId());
+				$cat = $ass->getFirstAssignment();
+				include_once('./Services/Calendar/classes/class.ilCalendarCategory.php');
+				$cat_info = ilCalendarCategories::_getInstance()->getCategoryInfo($cat);
+				$type = ilObject::_lookupType($cat_info['obj_id']);
+				if ($a_as_milestone && $cat_info['type'] == ilCalendarCategory::TYPE_OBJ
+					&& ($type == "grp" || $type == "crs"))
 				{
+					$resp_info = true;
 					$this->form->addCommandButton('editResponsibleUsers',$this->lng->txt('cal_change_responsible_users'));
 				}
 				$this->form->addCommandButton('update',$this->lng->txt('save'));
@@ -255,7 +263,7 @@ class ilCalendarAppointmentGUI
 		$desc->setCols(3);
 		$this->form->addItem($desc);
 
-		if ($a_as_milestone && $a_mode == "edit")
+		if ($a_as_milestone && $a_mode == "edit" && $resp_info)
 		{
 			// users responsible
 			$users = $this->app->readResponsibleUsers();
@@ -349,19 +357,19 @@ class ilCalendarAppointmentGUI
 			$ass = new ilCalendarCategoryAssignments($this->app->getEntryId());
 			$ass->addAssignment($cat_id);
 			
-			ilUtil::sendSuccess($this->lng->txt('cal_created_appointment'));
-			
 			include_once('./Services/Calendar/classes/class.ilCalendarCategory.php');
 			$cat_info = ilCalendarCategories::_getInstance()->getCategoryInfo($cat_id);
 			$type = ilObject::_lookupType($cat_info['obj_id']);
 			
 			if ($a_as_milestone && $cat_info['type'] == ilCalendarCategory::TYPE_OBJ
-				&& $type == "grp")
+				&& ($type == "grp" || $type == "crs"))
 			{
+				ilUtil::sendInfo($this->lng->txt('cal_created_milestone_resp_q'));
 				return $this->showResponsibleUsersList($cat_info['obj_id']);
 			}
 			else
 			{
+				ilUtil::sendSuccess($this->lng->txt('cal_created_milestone'));
 				$this->ctrl->returnToParent($this);
 			}
 		}
@@ -500,7 +508,12 @@ class ilCalendarAppointmentGUI
 				$this->app->getCompletion()." %");
 		}
 
-		if ($this->app->isMilestone())
+		include_once('./Services/Calendar/classes/class.ilCalendarCategoryAssignments.php');
+		$cat_id = ilCalendarCategoryAssignments::_lookupCategory($this->app->getEntryId());
+		$cat_info = ilCalendarCategories::_getInstance()->getCategoryInfo($cat_id);
+		$type = ilObject::_lookupType($cat_info['obj_id']);
+		if ($this->app->isMilestone() && $cat_info['type'] == ilCalendarCategory::TYPE_OBJ
+			&& ($type == "grp" || $type == "crs"))
 		{
 			// users responsible
 			$users = $this->app->readResponsibleUsers();
@@ -517,8 +530,6 @@ class ilCalendarAppointmentGUI
 			}
 		}
 
-		include_once('./Services/Calendar/classes/class.ilCalendarCategoryAssignments.php');
-		$cat_id = ilCalendarCategoryAssignments::_lookupCategory($this->app->getEntryId());
 		$category = new ilCalendarCategory($cat_id);		
 		
 		if($category->getType() == ilCalendarCategory::TYPE_OBJ)

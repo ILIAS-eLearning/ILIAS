@@ -6094,7 +6094,7 @@ dateplaner#:#cal_cal_details#:#Kalenderdetails
 dateplaner#:#cal_cal_type#:#Kalenderart
 dateplaner#:#cal_category_selection#:#Kalenderauswahl
 dateplaner#:#cal_changed_events_header#:#Geänderte Termine
-dateplaner#:#cal_change_responsible_users#:#Change Responsible Users###26 06 2009 new variable
+dateplaner#:#cal_change_responsible_users#:#Verantwortliche Mitglieder ändern
 dateplaner#:#cal_create#:#Erzeuge
 dateplaner#:#cal_daily#:#Täglich
 dateplaner#:#cal_day_end#:#Tagesende
@@ -6138,7 +6138,7 @@ dateplaner#:#cal_month_overview#:#Monatsübersicht
 dateplaner#:#cal_month_s#:#Monat(e)
 dateplaner#:#cal_month_selection#:#Monatsauswahl
 dateplaner#:#cal_ms_details#:#Details zum Meilenstein
-dateplaner#:#cal_ms_users_responsible#:#Users Responsible###26 06 2009 new variable
+dateplaner#:#cal_ms_users_responsible#:#Verantwortliche Mitglieder
 dateplaner#:#cal_new_app#:#Neuer Termin
 dateplaner#:#cal_new_ms#:#Neuer Meilenstein
 dateplaner#:#cal_no_ending#:#Kein Endtermin
@@ -6148,8 +6148,8 @@ dateplaner#:#cal_on#:#Am:
 dateplaner#:#cal_on_the#:#Am:
 dateplaner#:#cal_recurrences#:#Wiederholungen
 dateplaner#:#cal_rec_err_limit#:#Bitte geben Sie eine Anzahl von Terminen ein.
-dateplaner#:#cal_responsible#:#Responsible###26 06 2009 new variable
-dateplaner#:#cal_save_responsible_users#:#Save Responsible Users###26 06 2009 new variable
+dateplaner#:#cal_responsible#:#Verantworlich
+dateplaner#:#cal_save_responsible_users#:#Verantwortliche Mitglieder speichern
 dateplaner#:#cal_search#:#Suchbegriff
 dateplaner#:#cal_search_info_share#:#Bitte geben Sie den Namen der Person/Rolle ein, für die Sie diesen Kalender freigeben möchten.
 dateplaner#:#cal_second#:#Zweiten
@@ -6166,7 +6166,7 @@ dateplaner#:#cal_share_search_role_header#:#Rollenauswahl
 dateplaner#:#cal_share_search_usr_header#:#Benutzerauswahl
 dateplaner#:#cal_start#:#Start
 dateplaner#:#cal_table_categories#:#Kalenderauswahl
-dateplaner#:#cal_task_completion#:#Task Completion###26 06 2009 new variable
+dateplaner#:#cal_task_completion#:#Fertigstellung
 dateplaner#:#cal_third#:#Dritten
 dateplaner#:#cal_timezone_info#:#Bitte wählen Sie die nächstgelegene Stadt in Ihrer Zeitzone aus.
 dateplaner#:#cal_time_format_info#:#Bitte wählen Sie ein Format für die Dartellung der Zeit.
@@ -9879,3 +9879,5 @@ wiki#:#wiki_please_enter_search_term#:#Please enter a search term.###12 08 2009 
 common#:#reg_mail_body_forgot_password_info#:#Um ein neues Passwort für diesen Benutzerzugang zu beantragen nutzen Sie bitte die Funktion « Passwort vergessen? » auf der Loginseite.
 administration#:#path_to_mkisofs#:#Mkisofs Pfad
 common#:#obj_sty#:#Style
+dateplaner#:#cal_created_milestone#:#Der Meilenstein wurde angelegt.
+dateplaner#:#cal_created_milestone_resp_q#:#Der Meilenstein wurde angelegt. Bitte wählen Sie die Mitglieder aus, die für den Meilenstein verantwortlich sein sollen.
