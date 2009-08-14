@@ -31,7 +31,7 @@
 // The language file starts beyond the HTML-comment below. DO NOT modify this line!
 // To edit your language file with a spreadsheet (i.e. Excel or StarCalc) remove all lines
 // from the first line to the HTML-comment. After editing paste the lines in place again.
-// NOTICE: Character coding of all ILIAS 3 lang files is UTF-8! Please set your editor
+// NOTICE: Character coding of all ILIAS 4 lang files is UTF-8! Please set your editor
 // to the corresponding mode!
 <!-- language file start -->
 3rd_party_software_req#:#Megkívánt eszközök 3. féltől
@@ -138,8 +138,8 @@ enabled#:#engedélyezve
 enter_dir_and_filename#:#Adja meg a teljes elérési utat (abszolút útvonalat) és a fájl nevét!
 enter_password#:#Gépelje be a jelszót
 env_ok#:#Rendben. Jól hangzik.
-env_using#:#Az ILIAS 3 mindjárt működik
-env_warning#:#Az ILIAS 3 csak Linux-on és Windows-on volt tesztelve Apache webszerver használatával.<br/>Emellett működhet más környezetben is.
+env_using#:#Az ILIAS 4 mindjárt működik
+env_warning#:#Az ILIAS 4 csak Linux-on és Windows-on volt tesztelve Apache webszerver használatával.<br/>Emellett működhet más környezetben is.
 environment#:#Környezet
 err_create_database_failed#:#Az adatbázis létrehozása nem sikerült.
 err_wrong_login#:#Hibás bejelentkezés
@@ -167,7 +167,7 @@ ilias_db_mode#:#ILIAS adatbázis-mód
 ilias_homepage#:#ILIAS honlap
 ilias_nic#:#NIC-regisztráció
 ilias_nic_id#:#NIC-azonosító
-ilias_setup#:#ILIAS 3 telepítés
+ilias_setup#:#ILIAS 4 telepítés
 ilias_version#:#ILIAS verzió
 include_local#:#beleértve a helyit
 user#:#Felhasználó
@@ -192,7 +192,7 @@ info_text_nic1#:#Érvényes installációs ID (nic-id) ILIAS szerverétől. Egye
 info_text_nic2#:#az Ön installálásának információival az ilias-info@uni-koeln.de címre. Megadva a nic-id-t, egy válasz e-mailt fog kapni, válassza a 'regisztrálás e-mailen keresztül'-t.
 info_text_nic3#:#Regisztrálta installációját. Az Ön nic-id-je
 info_text_password#:#Itt cserélheti le telepítési programjának master jelszavát.
-info_text_pathes#:#Az ILIAS3 támogatja a sokklienses struktúrát különböző adatbázisokkal. Alább megadhatja az alap adatkönyvtárat, a naplófájl helyét és az elérési utat a 3. felek által készített programokhoz. Ezek a beállítások minden Ön által a későbbiekben létrehozott kliensre érvényesek.
+info_text_pathes#:#Az ilias4 támogatja a sokklienses struktúrát különböző adatbázisokkal. Alább megadhatja az alap adatkönyvtárat, a naplófájl helyét és az elérési utat a 3. felek által készített programokhoz. Ezek a beállítások minden Ön által a későbbiekben létrehozott kliensre érvényesek.
 ini_client_id_exists#:#Ezzel az azonosítóval (ID) már létezik kliens! Válasszon másik kliensazonosítót!
 ini_client_id_invalid#:#A megadott kliensazonosító (ID) nem megfelelő karaktereket is tartalmaz
 ini_client_id_no_change#:#A kliens azonosító (ID) nem változtatható meg ebben a verzióban, miután a kliens könyvtárak sikeresen létre lettek hozva.
@@ -204,12 +204,12 @@ ini_no_db_host#:#Nem hostnév.
 ini_no_db_name#:#nem adatbázisnév.
 ini_no_db_user#:#Nem adatbázis-felhasználónév.
 inifile#:#ini-fájl
-inifile_can_write#:#Az ILIAS3 telepítés tudja írni az ini-fájlját.
-inifile_cannot_write#:#Az ILIAS3 telepítés nem tudja írni az ini-fájlját. Először ellenőrizze az írási jogosultságokat.
+inifile_can_write#:#Az ilias4 telepítés tudja írni az ini-fájlját.
+inifile_cannot_write#:#Az ilias4 telepítés nem tudja írni az ini-fájlját. Először ellenőrizze az írási jogosultságokat.
 inifile_content#:#Ini-fájljának ez a tartalma:
 inifile_exists#:#Létezik egy ini-fájl. Ez az installációs folyamat törli az előző beállításokat.
 inifile_fill_all#:#Töltsön ki minden mezőt.
-inifile_firsttime#:#Nincs előzetes ini-fájl! Úgy tűnik, ez az első indítása az ILIAS3-nak.
+inifile_firsttime#:#Nincs előzetes ini-fájl! Úgy tűnik, ez az első indítása az ilias4-nak.
 inifile_written#:#Az ini-fájl sikeresen elmentésre került hostjára.
 input_error#:#Inputhiba
 inst_identification#:#Installációs azonosítás
@@ -219,7 +219,7 @@ installation#:#Installáció
 installed#:#installálva
 installed_local#:#Helyivel installálva
 institution#:#Intézmény
-intro_install#:#Ez az ILIAS3 telepítésének főlapja. Innen le tudja folytatni az installációt.
+intro_install#:#Ez az ilias4 telepítésének főlapja. Innen le tudja folytatni az installációt.
 ip_address#:#IP-cím
 java_path#:#Java elérési útvonala
 java_path_comment#:#Választható SCORM tananyagok érvényesítéséhez, pl. '/your_path/java'.
@@ -263,7 +263,7 @@ list#:#lista
 list_disabled#:#A kliensszekció nem engedélyezett
 list_enabled#:#A kliensszekció engedélyezett
 log_path#:#Naplófájl elérési útvonala
-log_path_comment#:#Pl. '/path_to_log_dir/ilias3.log' (A fájl létre lesz hozva.)
+log_path_comment#:#Pl. '/path_to_log_dir/ilias4.log' (A fájl létre lesz hozva.)
 logged_out#:#Ön kijelentkezett.
 logging#:#Naplózás (logging)
 login#:#bejelentkezés
@@ -357,14 +357,14 @@ pre_gd_missing#:#Engedélyezze a GD támogatást PHP installációjában, lásd 
 pre_memory#:#PHP memóriahatár beállítás (php.ini)
 pre_memory_limit_too_low#:#Adjon meg  legalább 40M-nyi értéket a "memory_limit"-hez php.ini-jében! 80M-t vagy többet ajánlunk.
 pre_memory_limit_recommend#:#80M-t vagy magasabban ajánlunk.
-pre_cookies_disabled#:#A cookie-k le vannak tiltva, pedig szükségesek az ILIAS3-hoz.
+pre_cookies_disabled#:#A cookie-k le vannak tiltva, pedig szükségesek az ilias4-hoz.
 pre_cookies_enabled#:#Cookie-k engedélyezve
 pre_error#:#Néhány alapbeállítás nem illeszkedik az Ön installációjában. További információkat kaphat az <a href="%s" target="_blank">ILIAS szájton</a>.
 pre_folder_create#:#Mappák hozhatók létre a webterület főmappájában.
 pre_folder_create_error#:#Nem hozhatók létre almappák. Változtassa meg ennek megfelelően a jogosultságokat.
 pre_root#:#Írható webterület főmappa
-pre_folder_write_error#:#Nem írható az ILIAS3-ban mappa! Ellenőrizze jogosultsági beállításait a fájlrendszerében!
-pre_intro#:#Először nézzük, hogy környezete minden követelménynek megfelel-e, hogy installálja és futtassa az ILIAS3-at rendszerében.
+pre_folder_write_error#:#Nem írható az ilias4-ban mappa! Ellenőrizze jogosultsági beállításait a fájlrendszerében!
+pre_intro#:#Először nézzük, hogy környezete minden követelménynek megfelel-e, hogy installálja és futtassa az ilias4-at rendszerében.
 pre_javascript_comment#:#Javascript nélkül is futtathatja az ILIAS-t, de néhány interfészjellemzőt elveszít.
 pre_javascript_enabled#:#Javascript engedélyezett
 pre_php#:#PHP-verzió
@@ -427,7 +427,7 @@ setup_process_step_ini#:#Alapadatok beállítása
 setup_process_step_lang#:#Rendszernyelvek installálása
 setup_process_step_nic#:#ILIAS-NIC-nél regisztrálás
 setup_ready#:#A telepítés befejeződött. Folytathatja a munkát a bejelentkezéssel és a további rendszerbeállítások ellenőrzésével.
-setup_welcome#:#Üdvözli az ILIAS3 telepítés! Ez a telepítésrutin segít Önnek, hogy
+setup_welcome#:#Üdvözli az ilias4 telepítés! Ez a telepítésrutin segít Önnek, hogy
 sophos#:#Sophos
 sort_by_this_column#:#Rendezés oszlopok szerint
 status#:#Állapot

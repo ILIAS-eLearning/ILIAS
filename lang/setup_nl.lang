@@ -30,7 +30,7 @@
 // The language file starts beyond the HTML-comment below. DO NOT modify this line!
 // To edit your language file with a spreadsheet (i.e. Excel or StarCalc) remove all lines
 // from the first line to the HTML-comment. After editing paste the lines in place again.
-// NOTICE: Character coding of all ILIAS 3 lang files is UTF-8! Please set your editor
+// NOTICE: Character coding of all ILIAS 4 lang files is UTF-8! Please set your editor
 // to the corresponding mode!
 <!-- language file start -->
 3rd_party_software#:#software van derden(3)###07 Apr 2005 content changed
@@ -134,8 +134,8 @@ enabled#:#ingeschakeld###07 Apr 2005 content changed
 enter_dir_and_filename#:#Vul het volledige (absolute) pad en de bestands-naam!###07 Apr 2005 content changed
 enter_password#:#A.u.b. voer een wachtwoord in###07 Apr 2005 content changed
 env_ok#:#Ok. Klinkt goed.###07 Apr 2005 content changed
-env_using#:#ILIAS 3 zal kunnen werken op###07 Apr 2005 content changed
-env_warning#:#ILIAS 3 is alleen getest op Linix en Windows met gebruik making van Apache web server!<br />Echter, ILIAS 3 kan ook met uw omgeving werken.###07 Apr 2005 content changed
+env_using#:#ILIAS 4 zal kunnen werken op###07 Apr 2005 content changed
+env_warning#:#ILIAS 4 is alleen getest op Linix en Windows met gebruik making van Apache web server!<br />Echter, ILIAS 4 kan ook met uw omgeving werken.###07 Apr 2005 content changed
 environment#:#Omgeving###07 Apr 2005 content changed
 err_create_database_failed#:#De creatie van uw databank is mislukt###07 Apr 2005 content changed
 err_wrong_login#:#Foutief ingelogd###07 Apr 2005 content changed
@@ -163,7 +163,7 @@ ilias_db_mode#:#ILIAS database mode###20 Jun 2005 new variable
 ilias_homepage#:#ILIAS Homepage###07 Apr 2005 content changed
 ilias_nic#:#NIC-registratie###07 Apr 2005 content changed
 ilias_nic_id#:#NIC-ID###07 Apr 2005 content changed
-ilias_setup#:#Setup ILIAS 3###07 Apr 2005 content changed
+ilias_setup#:#Setup ILIAS 4###07 Apr 2005 content changed
 ilias_version#:#ILIAS-versie###07 Apr 2005 content changed
 include_local#:#include local###include local language file when updating language
 info_text_3rdparty#:#Here you setup the third party add-ons which are needed by ILIAS. Follow the setup information for every add-on to complete this step.###10 Jul 2006 new variable
@@ -175,7 +175,7 @@ info_text_delete#:#U kunt deze cliënt verwijderen door op de onderstaande verwi
 info_text_finish1#:#Gefeliciteerd! De setup van uw cliënt is gelukt. Klik op 'Login" om uw ILIAS-installatie te gaan gebruiken.###07 Apr 2005 content changed
 info_text_finish2#:#Enige instellingen zijn er niet of zijn incorrect. Bestudeer de proces-diagram wat er moet gebeuren!###07 Apr 2005 content changed
 info_text_first_client#:#Uw basis-instellingen zijn opgeslagen. Nu gaan we uw eerste cliënt creëren. Opzet zal u door het installatie-proces begeleiden. Op het rechter paneel kunt u steeds de huidige status van het installatie-proces zien###07 Apr 2005 content changed
-info_text_first_install#:#Het lijkt erop dat u ILIAS 3 voor de eerste keer installeert omdat er geen ilias.ini is gevonden. In ilias.ini wordt het hoofd-wachtwoord opgeslagen om ILIAS-setup te beschermen tegen ongeautoriseerde toegang. ###07 Apr 2005 content changed
+info_text_first_install#:#Het lijkt erop dat u ILIAS 4 voor de eerste keer installeert omdat er geen ilias.ini is gevonden. In ilias.ini wordt het hoofd-wachtwoord opgeslagen om ILIAS-setup te beschermen tegen ongeautoriseerde toegang. ###07 Apr 2005 content changed
 info_text_ini#:#Kies a.u.b. een Cliënt-ID.Elke letter (m.u.v. umlauts) of nummer zijn toegestaan.Het Cliënt-ID moet één woord zijn.<br />Hierna voert u de gegevens van uw databank-verbinding in. Setup voert een test uit of uw gegevens correct zijn en of uw databank al bestaat . Als de databank nog niet bestaat mag u Setup in devolgende installatie-stap vragen om de databank voor u te creëren###07 Apr 2005 content changed
 info_text_lang#:#Kies additionele talen en/of verwijder geselecteerde talen. De standaard taal specificeert de taal voor nieuwe gebruiker-accounts welke nog geen geprefereerde taal gekozen hebben.###07 Apr 2005 content changed
 info_text_list#:#In dit overzicht ziet u alle beschikbare cliënten en hun setup- en toegangs-status. Aan de bovenzijde rechts kunt u het cliënt-selectie-scherm aan/uit zetten. Als de cliënt-selectie aan is worden alle online-cliënten gepresenteerd in een lijst op de start-pagina van ILIAS. Als de cliënt-selectie uit is en een gebruiker selecteert de start-pagina van ILIAS dan wordt het login-scherm van de <i>default</i> cliënt gepresenteerd. U kunt met de knop hieronder de default cliënt bepalen.###07 Apr 2005 content changed
@@ -184,7 +184,7 @@ info_text_nic1#:#Haal een installatie-ID (nic-id) van uw  ILIAS-server. Een unie
 info_text_nic2#:#met uw installatie-informatie aan ilias-info@uni-koeln.de. Vul het nic-id, dat u wilt ontvangen in een antwoord-email, in het betreffende veld en selecteer 'registreer via email'. ###07 Apr 2005 content changed
 info_text_nic3#:#U registreerde uw installatie. Uw nic-id is###07 Apr 2005 content changed
 info_text_password#:#Hier kunt u uw hoofd-wachtwoord voor het setup-programma wijzigen.###07 Apr 2005 content changed
-info_text_pathes#:#ILIAS 3 ondersteunt meerdere cliënten met verschillende databanken. Hier onder geeft u de databank-map, logbestand-locatie en de paden naar de programma's van geleverd door derden(3) op. Deze instellingen zijn geldig voor alle cliënten  die u later creëerd. ###07 Apr 2005 content changed
+info_text_pathes#:#ILIAS 4 ondersteunt meerdere cliënten met verschillende databanken. Hier onder geeft u de databank-map, logbestand-locatie en de paden naar de programma's van geleverd door derden(3) op. Deze instellingen zijn geldig voor alle cliënten  die u later creëerd. ###07 Apr 2005 content changed
 ini_client_id_exists#:#Een cliënt met dit ID bestaat al. Kies a.u.b. een ander Cliënt-ID.###07 Apr 2005 content changed
 ini_client_id_invalid#:#Het cliënt-ID dat u invoerde bevat niet toegestane tekens###07 Apr 2005 content changed
 ini_client_id_no_change#:#Het Cliënt-ID kan in deze versie niet gewijzigd worden nadat de cliënt-mappen gecreëerd zijn.###07 Apr 2005 content changed
@@ -196,12 +196,12 @@ ini_no_db_host#:#Geen hostnaam###07 Apr 2005 content changed
 ini_no_db_name#:#Geen databank-naam###07 Apr 2005 content changed
 ini_no_db_user#:#Nee databank###07 Apr 2005 content changed
 inifile#:#Ini-bestand###07 Apr 2005 content changed
-inifile_can_write#:#Setup van ILIAS 3 kan uw ini-bestand schrijven.###07 Apr 2005 content changed
-inifile_cannot_write#:#Setup van ILIAS 3 kan uw ini-bestand niet schrijven. Controleer eerst uw schrijfrechten.###07 Apr 2005 content changed
+inifile_can_write#:#Setup van ILIAS 4 kan uw ini-bestand schrijven.###07 Apr 2005 content changed
+inifile_cannot_write#:#Setup van ILIAS 4 kan uw ini-bestand niet schrijven. Controleer eerst uw schrijfrechten.###07 Apr 2005 content changed
 inifile_content#:#Uw ini-bestand heeft als inhoud:###07 Apr 2005 content changed
 inifile_exists#:#Er bestaat al een ini-bestand. Als u doorgaat worden de vorige instellingen overschreven.###07 Apr 2005 content changed
 inifile_fill_all#:#A.u.b. alle benodigde velden invullen.###07 Apr 2005 content changed
-inifile_firsttime#:#Er is geen ini-betand aanwezig. Dit is waarschijnlijk een nieuwe installatie van ILIAS 3.###07 Apr 2005 content changed
+inifile_firsttime#:#Er is geen ini-betand aanwezig. Dit is waarschijnlijk een nieuwe installatie van ILIAS 4.###07 Apr 2005 content changed
 inifile_written#:#Het ini-bestand is met succes op de host opgeslagen###07 Apr 2005 content changed
 input_error#:#Invoer fout###07 Apr 2005 content changed
 inst_identification#:#Installatie-identificatie###07 Apr 2005 content changed
@@ -211,7 +211,7 @@ installation#:#Installatie###07 Apr 2005 content changed
 installed#:#geïnstalleerd###07 Apr 2005 content changed
 installed_local#:#Installed With Local###13 Apr 2005 new variable
 institution#:#Instituut###07 Apr 2005 content changed
-intro_install#:#Dit is de hoofd-pagina van de setup van ILIAS 3. Vanaf hier kunt u stap voor stap door de installatie.###07 Apr 2005 content changed
+intro_install#:#Dit is de hoofd-pagina van de setup van ILIAS 4. Vanaf hier kunt u stap voor stap door de installatie.###07 Apr 2005 content changed
 ip_address#:#IP-adres###07 Apr 2005 content changed
 java_path#:#Pad naar Java###07 Apr 2005 content changed
 java_path_comment#:#vereist voor SCORM les-modules###07 Apr 2005 content changed
@@ -328,21 +328,21 @@ pathes#:#Paden###07 Apr 2005 content changed
 phone#:#Telefoon###07 Apr 2005 content changed
 port#:#poort###07 Apr 2005 content changed
 position#:#Positie###07 Apr 2005 content changed
-pre_cookies_disabled#:#Cookies zijn uitgeschakeld. Cookies zijn verplicht voor gebruik van ILIAS 3.###07 Apr 2005 content changed
+pre_cookies_disabled#:#Cookies zijn uitgeschakeld. Cookies zijn verplicht voor gebruik van ILIAS 4.###07 Apr 2005 content changed
 pre_cookies_enabled#:#Cookies ingeschakeld###07 Apr 2005 content changed
-pre_error#:#Eén of twee dingen gingen fout. Herstel eerst de problemen anders kunt u ILIAS 3 niet installeren.###07 Apr 2005 content changed
+pre_error#:#Eén of twee dingen gingen fout. Herstel eerst de problemen anders kunt u ILIAS 4 niet installeren.###07 Apr 2005 content changed
 pre_folder_create#:#Nieuwe mappen aanleggen in de Ilias 3 map###07 Apr 2005 content changed
 pre_folder_create_error#:#Kan geen sub-mappen creëren. Controleer de  instellingen van uw rechten m.b.t. uw bestands-systeem!###07 Apr 2005 content changed
-pre_folder_write#:#Schrijfbare ILIAS 3 map###07 Apr 2005 content changed
-pre_folder_write_error#:#Kan niet schrijven in ILIAS 3 map! Controleer de  instellingen van uw rechten m.b.t. uw bestands-systeem!###07 Apr 2005 content changed
-pre_intro#:#Laten we eerst eens nagaan of uw omgeving aan alle voorwaarden voldoet om ILIAS 3 op uw systeem te installeren en te laten draaien.###07 Apr 2005 content changed
+pre_folder_write#:#Schrijfbare ILIAS 4 map###07 Apr 2005 content changed
+pre_folder_write_error#:#Kan niet schrijven in ILIAS 4 map! Controleer de  instellingen van uw rechten m.b.t. uw bestands-systeem!###07 Apr 2005 content changed
+pre_intro#:#Laten we eerst eens nagaan of uw omgeving aan alle voorwaarden voldoet om ILIAS 4 op uw systeem te installeren en te laten draaien.###07 Apr 2005 content changed
 pre_javascript_comment#:#U kunt ILIAS zonder JavaScrip gebruiken, maar u mist dan enige interface-eigenschappen ###07 Apr 2005 content changed
 pre_javascript_enabled#:#Javascript ingeschakeld###07 Apr 2005 content changed
 pre_php_version#:#PHP-versie###07 Apr 2005 content changed
-pre_php_version_3#:#Uw PHP-versie is veel te oud voor gebruik van ILIAS 3!. Waardeer PHP op .a.u.b. ###07 Apr 2005 content changed
+pre_php_version_3#:#Uw PHP-versie is veel te oud voor gebruik van ILIAS 4!. Waardeer PHP op .a.u.b. ###07 Apr 2005 content changed
 pre_php_version_4.1#:#PEAR-classes werken niet correct met deze versie!. Waardeer PHP op .a.u.b.###07 Apr 2005 content changed
 pre_php_version_4.2#:#DOMXML en XSLT werken niet correct met deze versie!###07 Apr 2005 content changed
-pre_php_version_5#:#ILIAS 3 is nog niet getest met PHP 5. Gebruik is voor eigen risico.###07 Apr 2005 content changed
+pre_php_version_5#:#ILIAS 4 is nog niet getest met PHP 5. Gebruik is voor eigen risico.###07 Apr 2005 content changed
 pre_php_version_unknown#:#ILIAS opzet kent deze versie niet. Gebruik is voor eigen risico!###07 Apr 2005 content changed
 preliminaries#:#Voorbereidende maatregelen###07 Apr 2005 content changed
 prev#:#Vorige###07 Apr 2005 content changed
@@ -396,7 +396,7 @@ setup_process_step_ini#:#Opzet van basis-gegevens###07 Apr 2005 content changed
 setup_process_step_lang#:#Installeren systeem-talen###07 Apr 2005 content changed
 setup_process_step_nic#:#Registreer op ILIAS-NIC###07 Apr 2005 content changed
 setup_ready#:#Setup is klaar. U kunt doorgaan met inloggen en verder controles van de systeem-instellingen.###07 Apr 2005 content changed
-setup_welcome#:#Welkom bij de setup van ILIAS 3. De setup-routine helpt u met ###07 Apr 2005 content changed
+setup_welcome#:#Welkom bij de setup van ILIAS 4. De setup-routine helpt u met ###07 Apr 2005 content changed
 sophos#:#Sophos###18 Nov 2004 new variable
 sort_by_this_column#:#Sorteer op deze kolom###07 Apr 2005 content changed
 status#:#Status###07 Apr 2005 content changed

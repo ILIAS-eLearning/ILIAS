@@ -30,7 +30,7 @@
 // The language file starts beyond the HTML-comment below. DO NOT modify this line!
 // To edit your language file with a spreadsheet (i.e. Excel or StarCalc) remove all lines
 // from the first line to the HTML-comment. After editing paste the lines in place again.
-// NOTICE: Character coding of all ILIAS 3 lang files is UTF-8! Please set your editor
+// NOTICE: Character coding of all ILIAS 4 lang files is UTF-8! Please set your editor
 // to the corresponding mode!
 <!-- language file start -->
 check_db_versions#:#Please ensure that the database mode determined by ILIAS matches to your version of MySQL. This should be the case usually. If not, your database version is not supported.<br> Example 1: If the mode is 'MySQL 4.1.x or higher' and your database version is '4.0.12' then this MySQL version is not supported. Please contact the ILIAS team.<br />Example 2: If the mode is 'MySQL 4.1.x or higher' and your database version is '4.1.14' then everything is ok.
@@ -122,9 +122,9 @@ en_by_default#:#(Angličtina je instalována jako implicitní jazyk a nemůže b
 enable#:#zapnout
 enabled#:#zapnuto
 enter_password#:#Prosím zadejte heslo
-env_ok#:#Ok.env_using#:#ILIAS 3 bude provozován na
-env_using#:#ILIAS 3 will be running on###04 Mar 2004 new variable
-env_warning#:#ILIAS 3 byl testován pouze na systémech Linux a Windows používajících web server Apache!<br />Přesto bude možná fungovat i na vašem systému.
+env_ok#:#Ok.env_using#:#ILIAS 4 bude provozován na
+env_using#:#ILIAS 4 will be running on###04 Mar 2004 new variable
+env_warning#:#ILIAS 4 byl testován pouze na systémech Linux a Windows používajících web server Apache!<br />Přesto bude možná fungovat i na vašem systému.
 environment#:#Prostředí
 err_create_database_failed#:#vytvoření databáze selhalo
 err_wrong_login#:#Špatné heslo
@@ -148,7 +148,7 @@ id#:#ID
 ilias_homepage#:#ILIAS Homepage
 ilias_nic#:#NIC Registrace
 ilias_nic_id#:#NIC ID
-ilias_setup#:#ILIAS3 instalace
+ilias_setup#:#ilias4 instalace
 ilias_version#:#ILIAS verze
 info_text_contact#:#Zde uveďte další informace o klientovi a kontaktní údaje na systémového administrátora tohoto klienta. Pole označená hvězdičkou musí být vyplněna. Všechny údaje budou uloženy v databázi. Na další stránce můžete registrovat vaši instalaci na serveru ILIAS-NIC a tyto údaje budou odeslány na tento sever
 info_text_db#:#Databáze neexistuje nebo je prázdná. Pro instalaci databáze klikněte na níže zobrazené tlačítko. Pokud databáze s uvedeným názvem doposud neexistuje, prosím zaškrtněte volbu 'vytvořit databázi' . Instalační proces se poté pokusí automaticky databázi vytvořit. Pokud vytvoření selže, kontaktujte správce databázového serveru a požádejte ho o vytvoření databáze
@@ -165,7 +165,7 @@ info_text_nic1#:#Získejte identifikační číslo instalace (nic-id) z našeho 
 info_text_nic2#:#současně s instalačními informacemi  na na ilias-info@uni-koeln.de. Do příslušného políčka zadejte nic-id, které obdržíte v odpovědi na zaslaný email  a zvolte 'registrovat e-mailem'
 info_text_nic3#:#Vaše instalace byla registrována. Bylo jí přiděleno ID 
 info_text_password#:#Zde můžete změnit heslo správce instalace
-info_text_pathes#:#ILIAS3 podporuje více klientů s různou databází. Níže zadejte základní adresář pro data, umístění logovacího souboru a programu třetích stran. Tyto nastavení budou platné pro všechny klienty, které v budoucnosti vytvoříte.
+info_text_pathes#:#ilias4 podporuje více klientů s různou databází. Níže zadejte základní adresář pro data, umístění logovacího souboru a programu třetích stran. Tyto nastavení budou platné pro všechny klienty, které v budoucnosti vytvoříte.
 ini_client_id_exists#:#Klient s tímto ID již existuje! Prosím zvolte jiné ID.
 ini_client_id_invalid#:#ID klienta, které jste vložili, obsahuje nepovolené znaky.
 ini_client_id_no_change#:#Id klienta nemůže být změněno v této verzi, pokud již byl vytvořen adresář tohoto klienta
@@ -183,7 +183,7 @@ inifile_cannot_write#:#Konfigurační soubor nebyl zapsán. Prosím zkontrolujte
 inifile_content#:#Váš konfigurační soubor obsahuje následující:
 inifile_exists#:#Konfigurační soubor existuje. Předešlá konfigurace systému bude ztracena.
 inifile_fill_all#:#Prosím vyplňte všechna pole.
-inifile_firsttime#:#Nebyl nalezen konfigurační soubor. Zdá se, že jde o první spuštění ILIAS 3.
+inifile_firsttime#:#Nebyl nalezen konfigurační soubor. Zdá se, že jde o první spuštění ILIAS 4.
 inifile_written#:#Konfigurační soubor byl úspěšně uložen.
 input_error#:#Chyba vstupu
 inst_identification#:#Identifikace instalace
@@ -192,7 +192,7 @@ install#:#instalovat
 installation#:#Instalace
 installed#:#instalováno
 institution#:#Instituce
-intro_install#:#Toto je hlavní stránka instalace ILIAS 3, odkud můžete projít postupně celou inslalací a nastavením.
+intro_install#:#Toto je hlavní stránka instalace ILIAS 4, odkud můžete projít postupně celou inslalací a nastavením.
 ip_address#:#IP adresa
 java_path#:#Cesta k Javě
 java_path_comment#:#požadováno pro výukové moduly SCORM
@@ -302,21 +302,21 @@ pathes#:#Opravy
 phone#:#Telefon
 port#:#port
 position#:#Pozice
-pre_cookies_disabled#:#Cookies jsou vypnuty. Pro používání ILIAS 3 musíte mít povoleny cookies.
+pre_cookies_disabled#:#Cookies jsou vypnuty. Pro používání ILIAS 4 musíte mít povoleny cookies.
 pre_cookies_enabled#:#Cookies zapnuty
-pre_error#:#Jedna nebo obě věci selhaly. Prosím odstraňte problém a poté budete moci nainstalovat ILIAS 3.
+pre_error#:#Jedna nebo obě věci selhaly. Prosím odstraňte problém a poté budete moci nainstalovat ILIAS 4.
 pre_folder_create#:#Lze vytvářet podadresáře v adresáři ILIASu.
 pre_folder_create_error#:#Nelze vytvářet podadresáře! Prosím zkontrolujte právo zápisu do souborového systému
-pre_folder_write#:#Do adresáře ILIAS 3 lze zapisovat
+pre_folder_write#:#Do adresáře ILIAS 4 lze zapisovat
 pre_folder_write_error#:#Nelze zapisovat do adresáře ILIASu! Prosím zkontrolujte nastavení práv v souborovém systému!
-pre_intro#:#Nejdříve bude zkontrolován váš systém, zda splňuje všechny požadavky pro instalaci ILIAS3.
+pre_intro#:#Nejdříve bude zkontrolován váš systém, zda splňuje všechny požadavky pro instalaci ilias4.
 pre_javascript_comment#:#Můžete spustit ILIAS bez podpory Javascriptu, ale budou vypnuty některé funkce uživatelského rozhraní.
 pre_javascript_enabled#:#Javascript aktivní
 pre_php_version#:#verze PHP
 pre_php_version_3#:#Verze PHP, kterou používáte je příliš stará. Aktualizujte PHP
 pre_php_version_4.1#:#PEAR třídy nebudou fungovat správně v této verzi! Aktualizujte PHP 
 pre_php_version_4.2#:#DOMXML a XSLT podpora nebude fungovat správně s touto verzí!
-pre_php_version_5#:#ILIAS 3 nebyl testován pod PHP 5. Použití jen na vlastní nebezpečí!
+pre_php_version_5#:#ILIAS 4 nebyl testován pod PHP 5. Použití jen na vlastní nebezpečí!
 pre_php_version_unknown#:#Instalace ILIASu nezná tuto verzi. Použití jen na vlastní nebezpečí!
 preliminaries#:#Příprava
 prev#:#Předchozí
@@ -366,7 +366,7 @@ setup_process_step_ini#:#Nastavení základních údajů
 setup_process_step_lang#:#Instalace systémového jazyka
 setup_process_step_nic#:#Registrovat v ILIAS-NIC
 setup_ready#:#Instalace je připravena. Nyní můžete pokračovat přihlášením a zkontrolovat další nastavení systému.
-setup_welcome#:#Vítejte v instalaci ILIAS 3. Tato instalační procedura vám pomůže
+setup_welcome#:#Vítejte v instalaci ILIAS 4. Tato instalační procedura vám pomůže
 sort_by_this_column#:#Seřadit podle tohoto sloupce
 status#:#Status
 step#:#Krok

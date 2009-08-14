@@ -30,7 +30,7 @@
 // The language file starts beyond the HTML-comment below. DO NOT modify this line!
 // To edit your language file with a spreadsheet (i.e. Excel or StarCalc) remove all lines
 // from the first line to the HTML-comment. After editing paste the lines in place again.
-// NOTICE: Character coding of all ILIAS 3 lang files is UTF-8! Please set your editor
+// NOTICE: Character coding of all ILIAS 4 lang files is UTF-8! Please set your editor
 // to the corresponding mode!
 <!-- language file start -->
 3rd_party_software#:#Software 3rd Party###07 Apr 2005 content changed
@@ -133,8 +133,8 @@ enabled#:#ligado###07 Apr 2005 content changed
 enter_dir_and_filename#:#Please enter the full (absolute) path and the file name!###07 Aug 2004 new variable
 enter_password#:#Por favor insira a palavra-passe###07 Apr 2005 content changed
 env_ok#:#Ok. Parece bom.###07 Apr 2005 content changed
-env_using#:#O ILIAS 3 correrá num###07 Apr 2005 content changed
-env_warning#:#O ILIAS 3 apenas foi testado no Linux e Windows usando o servidor web Apache!<br />No entanto, o ILIAS 3 pode trabalhar com o seu ambiente também.###07 Apr 2005 content changed
+env_using#:#O ILIAS 4 correrá num###07 Apr 2005 content changed
+env_warning#:#O ILIAS 4 apenas foi testado no Linux e Windows usando o servidor web Apache!<br />No entanto, o ILIAS 4 pode trabalhar com o seu ambiente também.###07 Apr 2005 content changed
 environment#:#Ambiente###07 Apr 2005 content changed
 err_create_database_failed#:#a criação da base de dados falhou###07 Apr 2005 content changed
 err_wrong_login#:#Entrada errada###07 Apr 2005 content changed
@@ -162,7 +162,7 @@ ilias_db_mode#:#ILIAS database mode###20 Jun 2005 new variable
 ilias_homepage#:#Página inicial do ILIAS###07 Apr 2005 content changed
 ilias_nic#:#Registo NIC###07 Apr 2005 content changed
 ilias_nic_id#:#NIC ID###07 Apr 2005 content changed
-ilias_setup#:#Setup ILIAS3###14 Sep 2004 content changed
+ilias_setup#:#Setup ilias4###14 Sep 2004 content changed
 ilias_version#:#Versão ILIAS###07 Apr 2005 content changed
 include_local#:#include local###include local language file when updating language
 info_text_3rdparty#:#Here you setup the third party add-ons which are needed by ILIAS. Follow the setup information for every add-on to complete this step.###10 Jul 2006 new variable
@@ -174,7 +174,7 @@ info_text_delete#:#Você pode apagar este cliente carregando no botão 'Apagar' 
 info_text_finish1#:#Parabéns! O seu setup de cliente teve sucesso. Carregue em 'Entrar' para entrar na sua instalação do ILIAS.###07 Apr 2005 content changed
 info_text_finish2#:#Algumas definições ainda faltam ou estão incorrectas. Por favor veja no cartaz do proceso o que tem de ser feito!###07 Apr 2005 content changed
 info_text_first_client#:#As suas definições básicas foram guardadas. Agora faremos o setup do seu primeiro cliente. O setup o guiará através do processo de instalação. No painel da direita você pode sempre ver o estado actual do processo de instalação.###07 Apr 2005 content changed
-info_text_first_install#:#Parece que está a instalar o ILIAS3 pela primeira vez, porque o ficheiro ilias.ini não foi encontrado. No ilias.ini guardamos a palavra-passe mestre para proteger o setup do ILIAS de acesso não autorizado.###14 Sep 2004 content changed
+info_text_first_install#:#Parece que está a instalar o ilias4 pela primeira vez, porque o ficheiro ilias.ini não foi encontrado. No ilias.ini guardamos a palavra-passe mestre para proteger o setup do ILIAS de acesso não autorizado.###14 Sep 2004 content changed
 info_text_ini#:#Por favor escolha um ID de cliente. É permitida qualquer letra e número. O ID de cliente tem de estar em uma palavra.<br/>Depois você insere os seus dados de conexão da base de dados. O setup faz uma conexão de teste para verificar as suas definições e testar se a base de dados já existe. Se não, você pode enviar o Setup para o próximo passo da instalação para criar a base de dados.###14 Sep 2004 content changed
 info_text_lang#:#Por favor escolha linguagens adicionais e/ou remova as linguagens seleccionadas. A linguagem por omissão especifica a linguagem para novas contas de utilizadores ou utilizadores que ainda não seleccionaram uma linguagem preferida.###14 Sep 2004 content changed
 info_text_list#:#Nesta vista você vê todos os clientes disponíveis e os seus setup's e estado de acesso. No topo direito você pode mudar o ecrâ de selecção de cliente ligado/desligado. Se a selecção de cliente estiver ligada, todos os clientes disponíveis que estão ligados serão mostrados numa lista na página inicial do ILIAS. Se a selecção cliente estiver desligada e um utilizador entrar na página inicial, será sempre mostrado o ecrã de entrada do cliente<i>por omissão</i>. Você pode determinar o cliente por omissão com o botão abaixo.###14 Sep 2004 content changed
@@ -183,7 +183,7 @@ info_text_nic1#:#Obter um id de instalação (nic-id) do nosso servidor ILIAS. U
 info_text_nic2#:#com as informações da sua instalação para ilias-info@uni-koeln.de. Insira o nic-id que receberá numa resposta de email no campo apropriado e seleccione 'registar via Email'.###14 Sep 2004 content changed
 info_text_nic3#:#Você registou a sua instalação. O seu nic-id é###07 Apr 2005 content changed
 info_text_password#:#Aqui você pode mudar a palavra-passe mestre para o programa de setup.###14 Sep 2004 content changed
-info_text_pathes#:#O ILIAS3 suporta clientes múltiplos com diferentes bases de dados. Abaixo você pode inserir a directoria de dados base, a localização do ficheiro de log e os caminhos para programas 3rd partys. Estas definições são válidas para todos os clientes que criar a partir de agora.###14 Sep 2004 content changed
+info_text_pathes#:#O ilias4 suporta clientes múltiplos com diferentes bases de dados. Abaixo você pode inserir a directoria de dados base, a localização do ficheiro de log e os caminhos para programas 3rd partys. Estas definições são válidas para todos os clientes que criar a partir de agora.###14 Sep 2004 content changed
 ini_client_id_exists#:#Um cliente com esse ID já existe! Por favor escolha outro ID de cliente.###07 Apr 2005 content changed
 ini_client_id_invalid#:#O ID de cliente que inseriu contém caracteres inválidos###14 Sep 2004 content changed
 ini_client_id_no_change#:#O ID de cliente não pode ser mudado nesta versão depois de directorias do cliente teram sido criadas com sucesso.###14 Sep 2004 content changed
@@ -195,12 +195,12 @@ ini_no_db_host#:#Nenhum nome de anfitrião###07 Apr 2005 content changed
 ini_no_db_name#:#Nenhum nome de base de dados###07 Apr 2005 content changed
 ini_no_db_user#:#Nenhum nome de utilizador de base de dados###07 Apr 2005 content changed
 inifile#:#ficheiro-ini###07 Apr 2005 content changed
-inifile_can_write#:#O setup do ILIAS 3 pode escrever o seu ficheiro-ini.###07 Apr 2005 content changed
-inifile_cannot_write#:#O setup do ILIAS 3 não pode escrever o seu ficheiro-ini. Por favor verifique primeiro as permissões de escrita.###07 Apr 2005 content changed
+inifile_can_write#:#O setup do ILIAS 4 pode escrever o seu ficheiro-ini.###07 Apr 2005 content changed
+inifile_cannot_write#:#O setup do ILIAS 4 não pode escrever o seu ficheiro-ini. Por favor verifique primeiro as permissões de escrita.###07 Apr 2005 content changed
 inifile_content#:#O seu ficheiro-ini tem este conteúdo:###07 Apr 2005 content changed
 inifile_exists#:#Um ficheiro-ini já existe. Atenção que este processo de Instalação apagará definições anteriores.###07 Apr 2005 content changed
 inifile_fill_all#:#Por favor preencha todos os campos.###07 Apr 2005 content changed
-inifile_firsttime#:#Nenhum ficheiro-ini presente! Parece que este é o primeiro acesso ao ILIAS 3.###07 Apr 2005 content changed
+inifile_firsttime#:#Nenhum ficheiro-ini presente! Parece que este é o primeiro acesso ao ILIAS 4.###07 Apr 2005 content changed
 inifile_written#:#O ficheiro-ini foi guardado com sucesso no seu anfitrião.###07 Apr 2005 content changed
 input_error#:#Erro de entrada###07 Apr 2005 content changed
 inst_identification#:#Identificação de Instalação###07 Apr 2005 content changed
@@ -210,7 +210,7 @@ installation#:#Instalação###07 Apr 2005 content changed
 installed#:#instalado###07 Apr 2005 content changed
 installed_local#:#Installed With Local###13 Apr 2005 new variable
 institution#:#Instituição###07 Apr 2005 content changed
-intro_install#:#Esta é a página principal do setup do ILIAS 3. Daqui você pode percorrer a instalação.###07 Apr 2005 content changed
+intro_install#:#Esta é a página principal do setup do ILIAS 4. Daqui você pode percorrer a instalação.###07 Apr 2005 content changed
 ip_address#:#Endereço IP###07 Apr 2005 content changed
 java_path#:#Caminho para o Java###07 Apr 2005 content changed
 java_path_comment#:#necessário para os Módulos de Aprendizagem SCORM###07 Apr 2005 content changed
@@ -327,21 +327,21 @@ pathes#:#Caminhos###14 Sep 2004 content changed
 phone#:#Telefone###07 Apr 2005 content changed
 port#:#porto###07 Apr 2005 content changed
 position#:#Posição###07 Apr 2005 content changed
-pre_cookies_disabled#:#As Cookies estão desactivadas. As Cookies são necessárias para usar o ILIAS 3.###07 Apr 2005 content changed
+pre_cookies_disabled#:#As Cookies estão desactivadas. As Cookies são necessárias para usar o ILIAS 4.###07 Apr 2005 content changed
 pre_cookies_enabled#:#Cookies ligadas###07 Apr 2005 content changed
-pre_error#:#Uma ou duas coisas falharam. Por favor corrija os problemas primeiro ou você não pode fazer o setup do ILIAS 3.###07 Apr 2005 content changed
-pre_folder_create#:#Novas pastas podem ser criadas na pasta do ILIAS 3###07 Apr 2005 content changed
+pre_error#:#Uma ou duas coisas falharam. Por favor corrija os problemas primeiro ou você não pode fazer o setup do ILIAS 4.###07 Apr 2005 content changed
+pre_folder_create#:#Novas pastas podem ser criadas na pasta do ILIAS 4###07 Apr 2005 content changed
 pre_folder_create_error#:#Não é possível criar subpastas! Por favor verifique as suas definições de permissões no seu sistema de ficheiros!###07 Apr 2005 content changed
-pre_folder_write#:#Pode-se escrever na pasta ILIAS 3###07 Apr 2005 content changed
-pre_folder_write_error#:#Não é possível escrever na pasta do ILIAS 3! Por favor verifique as suas definições de permissões no seu sistema de ficheiros!###07 Apr 2005 content changed
-pre_intro#:#Vamos ver primeiro se o seu ambiente está de acordo com todos os requisitos para instalar e correr o ILIAS3 no seu sistema.###14 Sep 2004 content changed
+pre_folder_write#:#Pode-se escrever na pasta ILIAS 4###07 Apr 2005 content changed
+pre_folder_write_error#:#Não é possível escrever na pasta do ILIAS 4! Por favor verifique as suas definições de permissões no seu sistema de ficheiros!###07 Apr 2005 content changed
+pre_intro#:#Vamos ver primeiro se o seu ambiente está de acordo com todos os requisitos para instalar e correr o ilias4 no seu sistema.###14 Sep 2004 content changed
 pre_javascript_comment#:#Você pode correr o ILIAS sem o Javascript mas faltarão algumas funcionalidades da interface.###14 Sep 2004 content changed
 pre_javascript_enabled#:#Javascript ligado###14 Sep 2004 content changed
 pre_php_version#:#Versão do PHP###07 Apr 2005 content changed
-pre_php_version_3#:#A sua versão do PHP é muito antiga para correr o ILIAS 3! Por favor actualize o PHP.###07 Apr 2005 content changed
+pre_php_version_3#:#A sua versão do PHP é muito antiga para correr o ILIAS 4! Por favor actualize o PHP.###07 Apr 2005 content changed
 pre_php_version_4.1#:#As classes PEAR não funcionam correctamente com esta versão! Por favor actualize o PHP.###07 Apr 2005 content changed
 pre_php_version_4.2#:#O DOMXML e o XSLT não funcionam correctamente com esta versão!###07 Apr 2005 content changed
-pre_php_version_5#:#O ILIAS 3 ainda não foi testado com o PHP 5. Use com o seu risco.###07 Apr 2005 content changed
+pre_php_version_5#:#O ILIAS 4 ainda não foi testado com o PHP 5. Use com o seu risco.###07 Apr 2005 content changed
 pre_php_version_unknown#:#O setup do ILIAS não conhece esta versão. Use com o seu risco.###07 Apr 2005 content changed
 preliminaries#:#Preliminários###07 Apr 2005 content changed
 prev#:#Anterior###07 Apr 2005 content changed
@@ -395,7 +395,7 @@ setup_process_step_ini#:#Setup dos dados básicos###07 Apr 2005 content changed
 setup_process_step_lang#:#Instalar linguagens de sistema###07 Apr 2005 content changed
 setup_process_step_nic#:#Registar no ILIAS-NIC###07 Apr 2005 content changed
 setup_ready#:#O setup está pronto. Você pode agora proceder com a sua entrada e verificar outras definições de sistema.###07 Apr 2005 content changed
-setup_welcome#:#Benvindo ao setup do ILIAS 3. Esta rotina de setup aguda-o a###07 Apr 2005 content changed
+setup_welcome#:#Benvindo ao setup do ILIAS 4. Esta rotina de setup aguda-o a###07 Apr 2005 content changed
 sophos#:#Sophos###18 Nov 2004 new variable
 sort_by_this_column#:#Ordenar por esta coluna###07 Apr 2005 content changed
 status#:#Estado###07 Apr 2005 content changed

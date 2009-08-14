@@ -30,7 +30,7 @@
 // The language file starts beyond the HTML-comment below. DO NOT modify this line!
 // To edit your language file with a spreadsheet (i.e. Excel or StarCalc) remove all lines
 // from the first line to the HTML-comment. After editing paste the lines in place again.
-// NOTICE: Character coding of all ILIAS 3 lang files is UTF-8! Please set your editor
+// NOTICE: Character coding of all ILIAS 4 lang files is UTF-8! Please set your editor
 // to the corresponding mode!
 <!-- language file start -->
 3rd_party_software#:#Oprogramowanie innych firm
@@ -133,8 +133,8 @@ enabled#:#włączony
 enter_dir_and_filename#:#Podaj pełną nazwę pliku (wraz ze ścieżką absolutną)!
 enter_password#:#Podaj hasło
 env_ok#:#Ok. Wszystko w porządku
-env_using#:#ILIAS 3 będzie uruchomiony na:
-env_warning#:#ILIAS 3 był testowany na Linuksie i w Windows przy użyciu serwera Apache!<br />Jednak, ILIAS 3 może również pracować w twoim środowisku.
+env_using#:#ILIAS 4 będzie uruchomiony na:
+env_warning#:#ILIAS 4 był testowany na Linuksie i w Windows przy użyciu serwera Apache!<br />Jednak, ILIAS 4 może również pracować w twoim środowisku.
 environment#:#środowisko
 err_create_database_failed#:#utworzenie bazy danych nieudane
 err_wrong_login#:#Błędny login
@@ -162,7 +162,7 @@ ilias_db_mode#:#Tryb pracy bazy danych ILIAS
 ilias_homepage#:#Strona domowa ILIAS
 ilias_nic#:#Rejestracja w NIC
 ilias_nic_id#:#ID NIC
-ilias_setup#:#Instalowanie ILIAS3
+ilias_setup#:#Instalowanie ilias4
 ilias_version#:#wersja ILIAS
 include_local#:#włącznie z lokalnym plikiem językowym przy uaktualnianiu języka
 info_text_3rdparty#:#Tutaj zainstalujesz dodatki innych firm wymagane przez ILIAS. Aby wykonać instalację, postępuj zgodnie z informacjami podanymi dla każdego dodatku.
@@ -174,7 +174,7 @@ info_text_delete#:#Możesz usunąć tego klienta poprzez kliknięcie na przycisk
 info_text_finish1#:#Gratulacje! Instalacja klienta zakończona. Kliknij na 'Zaloguj' aby wejść do swojej instalacji ILIAS.
 info_text_finish2#:#Brak pewnych ustawień lub są błędne. Spójrz na arkusz procesu instalacji aby zobaczyć co ma być zrobione!
 info_text_first_client#:#Twoje ustawienia podstawowe zostały zachowane. Teraz należy zainstalować pierwszego klienta. Instalator poprowadzi Cię przez proces instalacji. W panelu po prawej stronie zawsze możesz zobaczyć bieżący status procesu instalacji.
-info_text_first_install#:#Wygląda na to, że instalujesz ILIAS3 pierwszy raz, ponieważ nie został odnaleziony plik ilias.ini. W ilias.ini jest pamiętane główne hasło zabezpieczające instalator ILIAS przed nieuprawnionym dostępem.
+info_text_first_install#:#Wygląda na to, że instalujesz ilias4 pierwszy raz, ponieważ nie został odnaleziony plik ilias.ini. W ilias.ini jest pamiętane główne hasło zabezpieczające instalator ILIAS przed nieuprawnionym dostępem.
 info_text_ini#:#Wybierz ID klienta. Można stosować dowolne litery alfabetu łacińskiego lub cyfry. ID klienta musi być jednym słowem.<br/>Następnie podaj dane dla połączenia z bazą danych. Instalator dokona testowego połączenia aby zweryfikować twoje ustawienia i sprawdzić czy taka baza istnieje. Jeśli nie, to możesz ustawić w następnym kroku opcję, która pozwoli utworzyć tę bazę danych dla Ciebie.
 info_text_lang#:#Wybierz dodatkowe języki i/lub usuń wybrane języki.
 info_text_list#:#W tym widoku widzisz wszystkich klientów oraz ich ustawienia i status dostępu. W górnym prawym rogu możesz włączać/wyłączać ekran wyboru klienta. Gdy wybór klienta jest włączony, wszyscy dostępni klienci będą wyświetleni na liście na stronie startowej systemu ILIAS. Jeśli wybór klienta jest wyłączony, na stronie startowej zawsze jest wyświetlony ekran logowania <i>domyślnego</i> klienta. Możesz wybrać domyślnego klienta za pomocą przycisku umieszczonego poniżej.
@@ -183,7 +183,7 @@ info_text_nic1#:#Pobranie id instalacji (nic-id) z naszego serwera ILIAS. Unikal
 info_text_nic2#:#z informacjami o twojej instalacji do ilias-info@uni-koeln.de. W odpowiednim polu podaj nic-id, który chcesz otrzymać w odpowiedzi na swoją pocztę i wybierz 'rejestracja poprzez Email'.
 info_text_nic3#:#Zarejestrowałeś swoją instalację. Twój nic-id to
 info_text_password#:#bla bla asdasasdwrer
-info_text_pathes#:#ILIAS3 wspomaga wykorzystanie wielu klientów z różnymi bazani danych. Poniżej podaj katalog bazy danych, lokalizację pliku logu i ścieżki do oprogramowania innych firm. Te ustawienia są potrzebne dla wszystkich klientów, których utworzysz później.
+info_text_pathes#:#ilias4 wspomaga wykorzystanie wielu klientów z różnymi bazani danych. Poniżej podaj katalog bazy danych, lokalizację pliku logu i ścieżki do oprogramowania innych firm. Te ustawienia są potrzebne dla wszystkich klientów, których utworzysz później.
 ini_client_id_exists#:#Klient z takim ID już istnieje! Wybież inny kod ID.
 ini_client_id_invalid#:#ID klienta, który wprowadziłeś zawiera nieodpowiednie znaki.
 ini_client_id_no_change#:#Id klienta nie może być zmienione (w tej wersji) po utworzeniu   katalogów klienta.
@@ -195,12 +195,12 @@ ini_no_db_host#:#Brak nazwy serwera
 ini_no_db_name#:#Brak nazwy bazy danych
 ini_no_db_user#:#Brak nazwy użytkownika bazy danych
 inifile#:#plik-ini
-inifile_can_write#:#Instalacja ILIAS 3 może zostać zapisana w pliku-ini.
-inifile_cannot_write#:#Instalator ILIAS 3 nie może zapisać pliku-ini. Sprawdź uprawnienia do zapisu.
+inifile_can_write#:#Instalacja ILIAS 4 może zostać zapisana w pliku-ini.
+inifile_cannot_write#:#Instalator ILIAS 4 nie może zapisać pliku-ini. Sprawdź uprawnienia do zapisu.
 inifile_content#:#Zawartość twojego pliku-ini:
 inifile_exists#:#Plik-ini już istnieje. Bieżący proces instalacji usunie poprzednie ustawienia.
 inifile_fill_all#:#Wypełnij wszystkie pola.
-inifile_firsttime#:#Plik-ini nie istnieje! To jest pierwsze uruchomienie ILIAS 3.
+inifile_firsttime#:#Plik-ini nie istnieje! To jest pierwsze uruchomienie ILIAS 4.
 inifile_written#:#Plik-ini  został zachowany na twoim serwerze.
 input_error#:#Błąd wejścia
 inst_identification#:#Identyfikacja instalacji
@@ -210,7 +210,7 @@ installation#:#Instaluj
 installed#:#zainstalowany
 installed_local#:#Zainstalowane z plikiem lokalizacji
 institution#:#Instytucja
-intro_install#:#To jest główna strona instalatora ILIAS 3. Stąd można wywołać kolejne etapy instalacji.
+intro_install#:#To jest główna strona instalatora ILIAS 4. Stąd można wywołać kolejne etapy instalacji.
 ip_address#:#Adres IP
 java_path#:#Ścieżka do Javy
 java_path_comment#:#wymagany dla modułów nauczania SCORM.
@@ -309,7 +309,7 @@ password#:#hasło
 password_changed#:#Hasło zostało zmienione.
 password_empty#:#Nie podano hasła!
 password_enter_old#:#Najpierw musisz podać swoje stare hasło!
-password_info#:#Aby zabezpieczyć dane konfiguracyjne przed niepowołanym dostępem powinieneś ustawić hasło do instalatora ILIAS 3.
+password_info#:#Aby zabezpieczyć dane konfiguracyjne przed niepowołanym dostępem powinieneś ustawić hasło do instalatora ILIAS 4.
 password_new_master#:#Ustaw nowe hasło
 password_not_match#:#Wprowadzone nowe hasło nie zgadza się!
 password_old_wrong#:#Wprowadzone stare hasło jest błędne!
@@ -327,21 +327,21 @@ pathes#:#Ścieżki
 phone#:#Telefon
 port#:#port
 position#:#Stanowisko
-pre_cookies_disabled#:#Ciasteczka są wyłączone. Do używania ILIAS 3 potrzebne są ciasteczka.
+pre_cookies_disabled#:#Ciasteczka są wyłączone. Do używania ILIAS 4 potrzebne są ciasteczka.
 pre_cookies_enabled#:#Ciasteczka wybrane
-pre_error#:#Jedna lub dwie rzeczy są nieprawidłowe. Usuń najpierw problem ponieważ dalsza instalacja ILIAS 3 nie jest możliwa.
-pre_folder_create#:#Możliwość tworzenia nowych podkatalogów w katalogu ILIAS 3
+pre_error#:#Jedna lub dwie rzeczy są nieprawidłowe. Usuń najpierw problem ponieważ dalsza instalacja ILIAS 4 nie jest możliwa.
+pre_folder_create#:#Możliwość tworzenia nowych podkatalogów w katalogu ILIAS 4
 pre_folder_create_error#:#Nie można tworzyć podkatalogów! Sprawdź swoje uprawnienia do systemu plików!
-pre_folder_write#:#Katalog ILIAS 3 z możliwością zapisu
-pre_folder_write_error#:#Nie można pisać w katalogu ILIAS 3! Sprawdź swoje uprawnienia do systemu plików!
-pre_intro#:#Najpierw sprawdź czy, twoje środowisko spełnia wymagania instalacji i uruchomienia ILIAS3 na twoim serwerze.
+pre_folder_write#:#Katalog ILIAS 4 z możliwością zapisu
+pre_folder_write_error#:#Nie można pisać w katalogu ILIAS 4! Sprawdź swoje uprawnienia do systemu plików!
+pre_intro#:#Najpierw sprawdź czy, twoje środowisko spełnia wymagania instalacji i uruchomienia ilias4 na twoim serwerze.
 pre_javascript_comment#:#Możesz uruchomić ILIAS bez Javascript lecz utracisz pewne właściwości interfejsu.
 pre_javascript_enabled#:#Javascript wybrane
 pre_php_version#:#Wersja PHP
-pre_php_version_3#:#Wersja PHP jest  zbyt stara dla użycia w ILIAS 3! Uaktualnij PHP.
+pre_php_version_3#:#Wersja PHP jest  zbyt stara dla użycia w ILIAS 4! Uaktualnij PHP.
 pre_php_version_4.1#:#Klasy PEAR nie pracują poprawnie z tą wersją! Uaktualnij PHP.
 pre_php_version_4.2#:#DOMXML i XSLT nie pracują poprawnie z tą wersją!
-pre_php_version_5#:#ILIAS 3 nie był jeszcze testowany z PHP 5. Możesz użyć tej wersji na własne ryzyko!
+pre_php_version_5#:#ILIAS 4 nie był jeszcze testowany z PHP 5. Możesz użyć tej wersji na własne ryzyko!
 pre_php_version_unknown#:#Instalator ILIAS nie zna tej wersji. Możesz użyć tej wersji na własne ryzyko!
 preliminaries#:#Proces instalacji
 prev#:#Poprzedni
