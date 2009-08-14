@@ -46,7 +46,7 @@
 // The language file starts beyond the HTML-comment below. DO NOT modify this line!
 // To edit your language file with a spreadsheet (i.e. Excel or StarCalc) remove all lines
 // from the first line to the HTML-comment. After editing paste the lines in place again.
-// NOTICE: Character coding of all ILIAS 3 lang files is UTF-8! Please set your editor
+// NOTICE: Character coding of all ILIAS 4 lang files is UTF-8! Please set your editor
 // to the corresponding mode!
 <!-- language file start -->
 3rd_party_software#:#第三方软件 ###07 Apr 2005 content changed
@@ -149,8 +149,8 @@ enabled#:#已激活 ###07 Apr 2005 content changed
 enter_dir_and_filename#:#Please enter the full (absolute) path and the file name!###07 Aug 2004 new variable
 enter_password#:#请输入口令###07 Apr 2005 content changed
 env_ok#:#好，看起来不错。 ###07 Apr 2005 content changed
-env_using#:#ILIAS 3将运行于 ###07 Apr 2005 content changed
-env_warning#:#ILIAS 3只在Linux和Windows上使用web服务器Apache测试过！<br />然而，ILIAS 3也可以在于您自己的环境下运行。###07 Apr 2005 content changed
+env_using#:#ILIAS 4将运行于 ###07 Apr 2005 content changed
+env_warning#:#ILIAS 4只在Linux和Windows上使用web服务器Apache测试过！<br />然而，ILIAS 4也可以在于您自己的环境下运行。###07 Apr 2005 content changed
 environment#:#环境 ###07 Apr 2005 content changed
 err_create_database_failed#:#数据库创建失败 ###07 Apr 2005 content changed
 err_wrong_login#:#错误登录 ###07 Apr 2005 content changed
@@ -178,7 +178,7 @@ ilias_db_mode#:#ILIAS database mode###20 Jun 2005 new variable
 ilias_homepage#:#ILIAS主页###07 Apr 2005 content changed
 ilias_nic#:#NIC注册 ###07 Apr 2005 content changed
 ilias_nic_id#:#NIC身份 ###07 Apr 2005 content changed
-ilias_setup#:#ILIAS3安装 ###14 Sep 2004 content changed
+ilias_setup#:#ilias4安装 ###14 Sep 2004 content changed
 ilias_version#:#ILIAS版本 ###07 Apr 2005 content changed
 include_local#:#include local###include local language file when updating language
 info_text_3rdparty#:#Here you setup the third party add-ons which are needed by ILIAS. Follow the setup information for every add-on to complete this step.###10 Jul 2006 new variable
@@ -190,7 +190,7 @@ info_text_delete#:#您可以点击下面的删除按钮伤处此客户。但是�
 info_text_finish1#:#祝贺您，！客户安装成功！点击”登录“进入您的ILIAS安装程序。###07 Apr 2005 content changed
 info_text_finish2#:#一些设置还缺少或不正确。请参见步骤表看还需要做什么！###07 Apr 2005 content changed
 info_text_first_client#:#基本设置已存。现在我们将安装您的第一位客户。安装程序将引导您安装过程。在右边的面板上总是显示安装过程的当前状态。 ###07 Apr 2005 content changed
-info_text_first_install#:#看起来您是第一次安装ILIAS3，因为未发现ilias.ini文件。在ilias.ini文件中存有主口令保护ILIAS安装被未授权访问。###14 Sep 2004 content changed
+info_text_first_install#:#看起来您是第一次安装ilias4，因为未发现ilias.ini文件。在ilias.ini文件中存有主口令保护ILIAS安装被未授权访问。###14 Sep 2004 content changed
 info_text_ini#:#请选择客户身份。允许任何字符（变音字符除外）和数字。客户身份必须为一个词。<br/>下一步要输入数据库连接信息。安装程序建立一个测试连接验证您的设置并测试数据库是否存在。如果数据库不存在，您可以在下一个安装步骤中提示安装程序创建数据库。###14 Sep 2004 content changed
 info_text_lang#:#请选择其它语言及删除选择的语言。缺省语言被设定为新用户账号或尚未选择优先语言用户账号的语言。 ###14 Sep 2004 content changed
 info_text_list#:#在此概观中，您可以看见全部可用客户及其安装访问状态。在右上边，您可以将客户选择屏幕转换为开或关。如果客户选择为开，则全部在线可用客户将显示在ILIAS首页。如果客户选择为关并且用户点击首页，则总是显示<i>缺省</i>客户的登录屏。您可以用下面的按钮确定缺省客户。###14 Sep 2004 content changed
@@ -199,7 +199,7 @@ info_text_nic1#:#从我们的ILIA服务器中获得安装身份（nic-id）。�
 info_text_nic2#:#并附上您的安装信息。将您从收到回信中的nic-id输入到相应的域中并选择”通过电子邮件注册“。 ###14 Sep 2004 content changed
 info_text_nic3#:#您已注册安装。您的nic-id是###07 Apr 2005 content changed
 info_text_password#:#在这里您可以更改安装程序的主口令。###14 Sep 2004 content changed
-info_text_pathes#:#ILIAS3支持具有不同数据库的多客户。在下面输入基本数据目录、日志文件位置和第三方程序路径。这些设置对所有您以后创建的客户有效。###14 Sep 2004 content changed
+info_text_pathes#:#ilias4支持具有不同数据库的多客户。在下面输入基本数据目录、日志文件位置和第三方程序路径。这些设置对所有您以后创建的客户有效。###14 Sep 2004 content changed
 ini_client_id_exists#:#具有此身份的客户已存在！请选择其它客户身份。 ###07 Apr 2005 content changed
 ini_client_id_invalid#:#您输入的客户身份包含非法字符 ###14 Sep 2004 content changed
 ini_client_id_no_change#:#在此版本中当客户目录成功创建后，客户身份不能更改。###14 Sep 2004 content changed
@@ -211,12 +211,12 @@ ini_no_db_host#:#无主机名 ###07 Apr 2005 content changed
 ini_no_db_name#:#无数据库名称###07 Apr 2005 content changed
 ini_no_db_user#:#无数据库用户名###07 Apr 2005 content changed
 inifile#:#ini文件 ###07 Apr 2005 content changed
-inifile_can_write#:#ILIAS 3安装程序可以写ini文件。###07 Apr 2005 content changed
-inifile_cannot_write#:#ILIAS 3安装程序不能写ini文件。请先检查写许可。 ###07 Apr 2005 content changed
+inifile_can_write#:#ILIAS 4安装程序可以写ini文件。###07 Apr 2005 content changed
+inifile_cannot_write#:#ILIAS 4安装程序不能写ini文件。请先检查写许可。 ###07 Apr 2005 content changed
 inifile_content#:#ini文件具有内容： ###07 Apr 2005 content changed
 inifile_exists#:#存在一个ini文件。注意此安装过程将删除以前的设置。###07 Apr 2005 content changed
 inifile_fill_all#:#请填充全部域。 ###07 Apr 2005 content changed
-inifile_firsttime#:#无ini文件！看起来这是第一次启动ILIAS 3。 ###07 Apr 2005 content changed
+inifile_firsttime#:#无ini文件！看起来这是第一次启动ILIAS 4。 ###07 Apr 2005 content changed
 inifile_written#:#ini文件已经成功保存到主机。###07 Apr 2005 content changed
 input_error#:#输入错误 ###07 Apr 2005 content changed
 inst_identification#:#安装证明 ###07 Apr 2005 content changed
@@ -226,7 +226,7 @@ installation#:#安装 ###07 Apr 2005 content changed
 installed#:#已安装###07 Apr 2005 content changed
 installed_local#:#Installed With Local###13 Apr 2005 new variable
 institution#:#单位 ###07 Apr 2005 content changed
-intro_install#:#这是ILIAS 3安装程序主页。从这里可以一步步进行安装。###07 Apr 2005 content changed
+intro_install#:#这是ILIAS 4安装程序主页。从这里可以一步步进行安装。###07 Apr 2005 content changed
 ip_address#:#IP地址###07 Apr 2005 content changed
 java_path#:#Java路径 ###07 Apr 2005 content changed
 java_path_comment#:#用于SCORM学习模块 ###07 Apr 2005 content changed
@@ -343,21 +343,21 @@ pathes#:#路径 ###14 Sep 2004 content changed
 phone#:#电话 ###07 Apr 2005 content changed
 port#:#端口###07 Apr 2005 content changed
 position#:#位置 ###07 Apr 2005 content changed
-pre_cookies_disabled#:#禁止Cookies。ILIAS 3需要使用Cookies。###07 Apr 2005 content changed
+pre_cookies_disabled#:#禁止Cookies。ILIAS 4需要使用Cookies。###07 Apr 2005 content changed
 pre_cookies_enabled#:#激活Cookies ###07 Apr 2005 content changed
-pre_error#:#有一两件事失败了。请先解决问题，否则不能安装ILIAS 3。 ###07 Apr 2005 content changed
-pre_folder_create#:#可以在ILIAS 3文件夹中创建新文件夹###07 Apr 2005 content changed
+pre_error#:#有一两件事失败了。请先解决问题，否则不能安装ILIAS 4。 ###07 Apr 2005 content changed
+pre_folder_create#:#可以在ILIAS 4文件夹中创建新文件夹###07 Apr 2005 content changed
 pre_folder_create_error#:#不能创建子文件夹！请检查文件系统的许可设置！###07 Apr 2005 content changed
-pre_folder_write#:#可写ILIAS 3文件夹 ###07 Apr 2005 content changed
-pre_folder_write_error#:#不能在ILIAS 3文件夹中写！请检查文件系统的许可设置！###07 Apr 2005 content changed
-pre_intro#:#先检查环境是否满足安装要求，然后在系统上运行ILIAS3 ###14 Sep 2004 content changed
+pre_folder_write#:#可写ILIAS 4文件夹 ###07 Apr 2005 content changed
+pre_folder_write_error#:#不能在ILIAS 4文件夹中写！请检查文件系统的许可设置！###07 Apr 2005 content changed
+pre_intro#:#先检查环境是否满足安装要求，然后在系统上运行ilias4 ###14 Sep 2004 content changed
 pre_javascript_comment#:#可以无Javascript运行ILIAS，但将缺少一些界面特色###14 Sep 2004 content changed
 pre_javascript_enabled#:#激活Javascript ###14 Sep 2004 content changed
 pre_php_version#:#PHP版本 ###07 Apr 2005 content changed
-pre_php_version_3#:#对于ILIAS 3，PHP版本太老！###07 Apr 2005 content changed
+pre_php_version_3#:#对于ILIAS 4，PHP版本太老！###07 Apr 2005 content changed
 pre_php_version_4.1#:#此版本PEAR类不能正常工作！请升级PHP。###07 Apr 2005 content changed
 pre_php_version_4.2#:#此版本DOMXML和XSLT支持不能正常工作！###07 Apr 2005 content changed
-pre_php_version_5#:#ILIAS 3尚未用PHP 5测试。如若使用，责任自负。###07 Apr 2005 content changed
+pre_php_version_5#:#ILIAS 4尚未用PHP 5测试。如若使用，责任自负。###07 Apr 2005 content changed
 pre_php_version_unknown#:#ILIAS安装程序不知此版本。如若使用，责任自负。###07 Apr 2005 content changed
 preliminaries#:#预备 ###07 Apr 2005 content changed
 prev#:#前一个###07 Apr 2005 content changed
@@ -411,7 +411,7 @@ setup_process_step_ini#:#安装基本信息 ###07 Apr 2005 content changed
 setup_process_step_lang#:#安装系统语言###07 Apr 2005 content changed
 setup_process_step_nic#:#在ILIAS-NIC上注册 ###07 Apr 2005 content changed
 setup_ready#:#安装完成。可以登录进一步检查系统设置。###07 Apr 2005 content changed
-setup_welcome#:#欢迎使用ILIAS 3安装程序。此安装程序将帮助您###07 Apr 2005 content changed
+setup_welcome#:#欢迎使用ILIAS 4安装程序。此安装程序将帮助您###07 Apr 2005 content changed
 sophos#:#Sophos###18 Nov 2004 new variable
 sort_by_this_column#:#根据此列排序 ###07 Apr 2005 content changed
 status#:#状态 ###07 Apr 2005 content changed

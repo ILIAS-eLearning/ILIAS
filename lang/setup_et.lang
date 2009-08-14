@@ -31,7 +31,7 @@
 // The language file starts beyond the HTML-comment below. DO NOT modify this line!
 // To edit your language file with a spreadsheet (i.e. Excel or StarCalc) remove all lines
 // from the first line to the HTML-comment. After editing paste the lines in place again.
-// NOTICE: Character coding of all ILIAS 3 lang files is UTF-8! Please set your editor
+// NOTICE: Character coding of all ILIAS 4 lang files is UTF-8! Please set your editor
 // to the corresponding mode!
 <!-- language file start -->
 3rd_party_software#:#3rd Party Software
@@ -135,8 +135,8 @@ enabled#:#enabled
 enter_dir_and_filename#:#Palun sisesta täielik kausta asukoht ja faili nimi!
 enter_password#:#Palun sisesta salasõna
 env_ok#:#Ok. Kõlab hästi.
-env_using#:#ILIAS 3 will be running on
-env_warning#:#ILIAS 3 testiti ainult Linuxis ja Windowsis, kasutades Apach`i  serverit!<br />ILIAS 3 võib töötada ka sinu keskkonnas.
+env_using#:#ILIAS 4 will be running on
+env_warning#:#ILIAS 4 testiti ainult Linuxis ja Windowsis, kasutades Apach`i  serverit!<br />ILIAS 4 võib töötada ka sinu keskkonnas.
 environment#:#Environment
 err_create_database_failed#:#andmebaasi loomine ebaõnnestus
 err_wrong_login#:#Vale kasutajanimi
@@ -164,7 +164,7 @@ ilias_db_mode#:#ILIAS database mode
 ilias_homepage#:#ILIAS Homepage
 ilias_nic#:#NIC Registration
 ilias_nic_id#:#NIC ID
-ilias_setup#:#ILIAS 3 setup
+ilias_setup#:#ILIAS 4 setup
 ilias_version#:#ILIAS versioon
 include_local#:#include local
 info_text_3rdparty#:#Here you setup the third party add-ons which are needed by ILIAS. Follow the setup information for every add-on to complete this step.
@@ -176,7 +176,7 @@ info_text_delete#:#You may delete this client by clicking on the delete button b
 info_text_finish1#:#Congratulations! Your client setup were successful. Click on 'Login' to enter your ILIAS installation.
 info_text_finish2#:#Some settings are still missing or incorrect. Please look at the process chart what has to be done!
 info_text_first_client#:#Your basic settings have been saved. Now we will setup your first client. Setup will guide you through the installation process. On the panel to the right you can always see the current status of the installation process.
-info_text_first_install#:#It seems that you install ILIAS 3 for the very first time, because no ilias.ini was found. In ilias.ini we store a master password to protect ILIAS setup from unauthorized access.
+info_text_first_install#:#It seems that you install ILIAS 4 for the very first time, because no ilias.ini was found. In ilias.ini we store a master password to protect ILIAS setup from unauthorized access.
 info_text_ini#:#Please choose a client ID. Any letter (except umlauts) or number is allowed. The client ID must be in one word.<br />Next you enter your database connection data. Setup establishes a test connection to verify your settings and to test if the database exists. If the database does not yet exist, you may prompt Setup in the next installation step to create the database for you.
 info_text_lang#:#Please choose additional languages and/or remove selected languages. The default language specified the language for new user accounts or users which haven't selected a preferred language yet.
 info_text_list#:#In this overview you see all available clients and their setup and access status. On the top right you may toggle the client selection screen on/off. If client selection is on, all available clients that are online will be displayed in a list on the start page of ILIAS. If client selection is turned off and a user views the start page, the login screen of the <i>default</i> client is displayed. You may determine the default client with the button below.
@@ -185,7 +185,7 @@ info_text_nic1#:#Obtain an installation id (nic-id) from our ILIAS server. A uni
 info_text_nic2#:#with your installation information to ilias-info@uni-koeln.de. Enter the nic-id you will receive in a response email into the appropriate field, and select 'register via Email'.
 info_text_nic3#:#You registered your installation. Your nic-id is
 info_text_password#:#Here you may change the master password for the setup program.
-info_text_pathes#:#ILIAS 3 supports multiple clients with different databases. Below you enter the base data directory, log file location and the paths to 3rd party programs. These settings are valid for all clients you create later on.
+info_text_pathes#:#ILIAS 4 supports multiple clients with different databases. Below you enter the base data directory, log file location and the paths to 3rd party programs. These settings are valid for all clients you create later on.
 ini_client_id_exists#:#A client with that ID already exists! Please choose another client ID.
 ini_client_id_invalid#:#The client ID you entered contains invalid characters
 ini_client_id_no_change#:#Client ID cannot be changed in this version after client directories has been created successfully.
@@ -197,12 +197,12 @@ ini_no_db_host#:#No hostname
 ini_no_db_name#:#no database name
 ini_no_db_user#:#No database username
 inifile#:#ini-file
-inifile_can_write#:#ILIAS 3 setup can write your ini-file.
-inifile_cannot_write#:#ILIAS 3 setup cannot write your ini-file. Please check write permissions first.
+inifile_can_write#:#ILIAS 4 setup can write your ini-file.
+inifile_cannot_write#:#ILIAS 4 setup cannot write your ini-file. Please check write permissions first.
 inifile_content#:#Your ini-file has this content:
 inifile_exists#:#An ini-file exists. Note that this Installation process deletes previous settings.
 inifile_fill_all#:#Please fill out all fields.
-inifile_firsttime#:#No ini-file present! It seems this is the first start of ILIAS 3.
+inifile_firsttime#:#No ini-file present! It seems this is the first start of ILIAS 4.
 inifile_written#:#The ini-file has been successfully saved on your host.
 input_error#:#Input error
 inst_identification#:#Installation Identification
@@ -212,7 +212,7 @@ installation#:#Installation
 installed#:#installeeritud
 installed_local#:#Installed With Local
 institution#:#Asutus
-intro_install#:#This is the main page of ILIAS 3 setup. From here you can step through the installation.
+intro_install#:#This is the main page of ILIAS 4 setup. From here you can step through the installation.
 ip_address#:#IP address
 java_path#:#Path to Java
 java_path_comment#:#required for SCORM Learning modules
@@ -332,21 +332,21 @@ pathes#:#Paths
 phone#:#Telefon
 port#:#port
 position#:#Ametikoht
-pre_cookies_disabled#:#Cookies are disabled. Cookies are required to use ILIAS 3.
+pre_cookies_disabled#:#Cookies are disabled. Cookies are required to use ILIAS 4.
 pre_cookies_enabled#:#Cookies enabled
-pre_error#:#One or two things failed. Please correct the problems first or you cannot setup ILIAS 3.
-pre_folder_create#:#New folders creatable in ILIAS 3 folder
+pre_error#:#One or two things failed. Please correct the problems first or you cannot setup ILIAS 4.
+pre_folder_create#:#New folders creatable in ILIAS 4 folder
 pre_folder_create_error#:#Cannot create subfolders! Please check your permission settings in your filesystem!
-pre_folder_write#:#Writable ILIAS 3 folder
-pre_folder_write_error#:#Cannot write in ILIAS 3 folder! Please check your permission settings in your filesystem!
-pre_intro#:#Let us first see if your environment meets all requirements to install and run ILIAS 3 on your system.
+pre_folder_write#:#Writable ILIAS 4 folder
+pre_folder_write_error#:#Cannot write in ILIAS 4 folder! Please check your permission settings in your filesystem!
+pre_intro#:#Let us first see if your environment meets all requirements to install and run ILIAS 4 on your system.
 pre_javascript_comment#:#You may run ILIAS without JavaScript, but some interface features will be missing.
 pre_javascript_enabled#:#JavaScript enabled
 pre_php_version#:#PHP version
-pre_php_version_3#:#Your PHP version is much too old for using ILIAS 3! Please upgrade PHP.
+pre_php_version_3#:#Your PHP version is much too old for using ILIAS 4! Please upgrade PHP.
 pre_php_version_4.1#:#PEAR classes won't work properly with this version! Please upgrade PHP.
 pre_php_version_4.2#:#DOMXML and XSLT support won't work properly with this version!
-pre_php_version_5#:#ILIAS 3 has not been tested with PHP 5 yet. Use with own risk.
+pre_php_version_5#:#ILIAS 4 has not been tested with PHP 5 yet. Use with own risk.
 pre_php_version_unknown#:#ILIAS setup don't know this version. Use with own risk!
 preliminaries#:#Preliminaries
 prev#:#Previous
@@ -400,7 +400,7 @@ setup_process_step_ini#:#Setup basic data
 setup_process_step_lang#:#Install system languages
 setup_process_step_nic#:#Register at ILIAS-NIC
 setup_ready#:#Setup is ready. you may now proceed with the login and check further system settings.
-setup_welcome#:#Welcome to ILIAS 3 setup. This setup-routine helps you to
+setup_welcome#:#Welcome to ILIAS 4 setup. This setup-routine helps you to
 sophos#:#Sophos
 sort_by_this_column#:#Sordi selle veeru järgi
 status#:#Staatus

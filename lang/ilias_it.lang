@@ -34,7 +34,7 @@
 // The language file starts beyond the HTML-comment below. DO NOT modify this line!
 // To edit your language file with a spreadsheet (i.e. Excel or StarCalc) remove all lines
 // from the first line to the HTML-comment. After editing paste the lines in place again.
-// NOTICE: Character coding of all ILIAS 3 lang files is UTF-8! Please set your editor
+// NOTICE: Character coding of all ILIAS 4 lang files is UTF-8! Please set your editor
 // to the corresponding mode! 
 // Language file names refer to ISO 639, see: http://www.oasis-open.org/cover/iso639a.html
 <!-- language file start -->
@@ -1572,7 +1572,7 @@ common#:#accesscount_registered_users#:#Read by number of distinct ILIAS users
 common#:#accessFree#:#Remove limited Access
 common#:#accessRestrict#:#Set limited Access
 common#:#account_expires_body#:#La tua iscrizione &#232; a tempo, scadr&#224; il:
-common#:#account_expires_subject#:#[ILIAS 3] La tua iscrizione scade
+common#:#account_expires_subject#:#[ILIAS 4] La tua iscrizione scade
 common#:#accs_edit_permission#:#Modifica impostazioni dei permessi
 common#:#accs_read#:#Read access to Accessibility Settings
 common#:#accs_visible#:#Le impostazioni di Accessibilita' sono visibili
@@ -2286,7 +2286,7 @@ common#:#down#:#Gi&#249;
 common#:#download#:#Download
 common#:#download_all_returned_files#:#Download di tutti i file restituiti
 common#:#download_with_uploaded_filename#:#Download with uploaded filename
-common#:#download_with_uploaded_filename_info#:#Select this option exclusively for backwards compatibility with ILIAS 3.9 and older versions: When this option is selected, the filename of a downloaded file is equal to the filename that was used for uploading the file into ILIAS. If this option is not selected, the filename of a downloaded file is equal to the title of the file object in ILIAS. This option does not affect WebDAV. For WebDAV the filename of a downloaded file is always equal to the title of the file object.
+common#:#download_with_uploaded_filename_info#:#Select this option exclusively for backwards compatibility with ILIAS 4.9 and older versions: When this option is selected, the filename of a downloaded file is equal to the filename that was used for uploading the file into ILIAS. If this option is not selected, the filename of a downloaded file is equal to the title of the file object in ILIAS. This option does not affect WebDAV. For WebDAV the filename of a downloaded file is always equal to the title of the file object.
 common#:#downloading_settings#:#Downloading Settings
 common#:#drafts#:#Bozze
 common#:#drop#:#Togli
@@ -2916,7 +2916,7 @@ common#:#il_icrs_admin#:#Amministratore di seminario LearnLinc
 common#:#il_icrs_member#:#Membro di seminario LearnLinc
 common#:#ilias_and_webfolder_username#:#ILIAS and Webfolder User Name
 common#:#ilias_username#:#ILIAS User Name
-common#:#ilias_version#:#Versione ILIAS 3
+common#:#ilias_version#:#Versione ILIAS 4
 common#:#ilinc_add_user#:#Aggiungi utenti
 common#:#ilinc_akclassvalue#:#Centro di Costo
 common#:#ilinc_akclassvalues#:#Centri di costo
@@ -3185,7 +3185,7 @@ common#:#link_check_body_top#:#Hai ricevuto questa mail perch&#232; hai scelto d
 common#:#link_check_message_b#:#Se selezionato, sarai informato sui collegamenti che non sono pi&#249; validi tramite eMail.
 common#:#link_check_message_disabled#:#Mail disabilitata
 common#:#link_check_message_enabled#:#Mail abilitata
-common#:#link_check_subject#:#[ILIAS 3] verifica collegamenti
+common#:#link_check_subject#:#[ILIAS 4] verifica collegamenti
 common#:#link_checker_refreshed#:#Vista aggiornata
 common#:#link_dynamic_info#:#Puoi anche aggiungere parametri dinamici (come per esempio l&#039;id utente).
 common#:#link_selected_items#:#Collega gli oggetti selezionati
@@ -3263,13 +3263,13 @@ common#:#login_information_desc#:#Please enter a login information for the respe
 common#:#login_information_settings_saved#:#The login information were saved successfully
 common#:#login_invalid#:#L&#039;utente scelto non &#232; valido! Solo i seguenti caratteri sono consentiti (minimo 4 caratteri): A-Z a-z 0-9 _.-+*@!$%~
 common#:#login_time#:#Tempo di accesso
-common#:#login_to_ilias#:#Entra in ILIAS 3
+common#:#login_to_ilias#:#Entra in ILIAS 4
 common#:#login_to_ilias_via_cas#:#Login to ILIAS via Central Authentication Service
 common#:#login_to_ilias_via_shibboleth#:#Entra in ILIAS utilizzando Shibboleth
 common#:#loginname_already_exists#:#This login name already exists.
 common#:#loginname_settings#:#Loginname-Settings
 common#:#logout#:#Logout
-common#:#logout_text#:#Sei uscito da ILIAS 3. La tua sessione &#232; terminata.
+common#:#logout_text#:#Sei uscito da ILIAS 4. La tua sessione &#232; terminata.
 common#:#logs#:#Crea il report
 common#:#los#:#Unit&#224; didattica
 common#:#los_last_visited#:#Ultima unit&#224; didattica visitata
@@ -3604,7 +3604,7 @@ common#:#not_available#:#Not Available
 common#:#not_enabled_or_configured#:#Not configured or enabled
 common#:#not_implemented_yet#:#Non ancora implementato
 common#:#not_installed#:#Non installata
-common#:#not_logged_in#:#Non sei entrato in ILIAS 3
+common#:#not_logged_in#:#Non sei entrato in ILIAS 4
 common#:#note#:#Nota
 common#:#note_all_pub_notes#:#Tutte le note
 common#:#note_my_pub_notes#:#Solo le mie note
@@ -3622,7 +3622,7 @@ common#:#obj#:#Oggetto
 common#:#obj_accs#:#Accessibilita'
 common#:#obj_accs_desc#:#Settings for accessibility features.
 common#:#obj_adm#:#Amministrazione
-common#:#obj_adm_desc#:#Questa sezione contiene tutte le schede che consentono di amministrare la tua installazione di ILIAS 3.
+common#:#obj_adm_desc#:#Questa sezione contiene tutte le schede che consentono di amministrare la tua installazione di ILIAS 4.
 common#:#obj_adve#:#Editing Avanzato
 common#:#obj_adve_desc#:#Impostazioni di amministrazioni per editing avanzato come Editors JavaScript, LaTeX support etc..
 common#:#obj_alm#:#Modulo AICC
@@ -4130,7 +4130,7 @@ common#:#root_edit#:#Modificare il nodo di sistema
 common#:#root_edit_permission#:#Modificare le impostazioni dei permessi
 common#:#root_read#:#Accedere in lettura al sistema
 common#:#root_visible#:#Vedere il sistema
-common#:#root_write#:#Modificare il nodo radice di ILIAS 3
+common#:#root_write#:#Modificare il nodo radice di ILIAS 4
 common#:#row#:#Row
 common#:#rows#:#Rows
 common#:#rte_editor_disabled#:#Rich Text Editor disabled
@@ -4493,7 +4493,7 @@ common#:#tst_warning_test_not_complete#:#Il test non &#232; completo!
 common#:#tst_write#:#Modificare un test
 common#:#txt_add_object_instruction1#:#Cerca la cartella nella quale vuoi aggiungere
 common#:#txt_add_object_instruction2#:#vuoi inserire
-common#:#txt_registered#:#Ti sei registrato con successo a ILIAS 3. Per favore, utilizza il pulsante sotto per accedere ad ILIAS 3 con il tuo utente.
+common#:#txt_registered#:#Ti sei registrato con successo a ILIAS 4. Per favore, utilizza il pulsante sotto per accedere ad ILIAS 4 con il tuo utente.
 common#:#txt_registered_passw_gen#:#You successfully registered to ILIAS. You should receive an e-Mail including your generated password shortly.
 common#:#txt_submitted#:#E&#039; stata registrata con successo la richiesta di poter accedere ad ILIAS. La richiesta verr&#224; esaminata dall&#039;amministratore, e potrebbe essere risolta entro 48 ore. Non &#232; possibile accedere fino a che non &#232; stato attivato il tuo utente.
 common#:#typ#:#Definizione del tipo di oggetto
@@ -8019,8 +8019,8 @@ payment#:#pay_max_hits_info#:#Please enter a number for the maximum number of se
 payment#:#pay_message_attachment#:#Come confermato nel tuo ordine, invieremo la fattura (in formato PDF) in allegato.
 payment#:#pay_message_hello#:#Caro
 payment#:#pay_message_regards#:#Cordiali saluti.
-payment#:#pay_message_subject#:#Il vostro ordine in ILIAS 3.
-payment#:#pay_message_thanks#:#Grazie per aver ordinato con ILIAS 3.
+payment#:#pay_message_subject#:#Il vostro ordine in ILIAS 4.
+payment#:#pay_message_thanks#:#Grazie per aver ordinato con ILIAS 4.
 payment#:#pay_no_vendors_created#:#Non sono stati creati venditori
 payment#:#pay_not_buyed_any_object#:#Non hai comprato nessun oggetto.
 payment#:#pay_order_date_from#:#Ordini a partire dal

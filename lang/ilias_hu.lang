@@ -30,7 +30,7 @@
 // The language file starts beyond the HTML-comment below. DO NOT modify this line!
 // To edit your language file with a spreadsheet (i.e. Excel or StarCalc) remove all lines
 // from the first line to the HTML-comment. After editing paste the lines in place again.
-// NOTICE: Character coding of all ILIAS 3 lang files is UTF-8! Please set your editor
+// NOTICE: Character coding of all ILIAS 4 lang files is UTF-8! Please set your editor
 // to the corresponding mode!
 // Language file names refer to ISO 639, see: http://www.oasis-open.org/cover/iso639a.html
 <!-- language file start -->
@@ -45,7 +45,7 @@ common#:#access_expired#:#lejárt
 common#:#enable_ext_lang_maint#:#Kiterjesztett karbantartás engedélyezése
 common#:#disable_ext_lang_maint#:#Kiterjesztett karbantartás kikapcsolása
 common#:#lang_refresh_confirm#:#Valóban frissíteni akarja a nyelvi fájlokat?
-common#:#lang_refresh_confirm_info#:#A kiterjesztett nyelvkarbantartás jelenleg aktív. A nyelvek frissítéséhez minden nyelvi adat letöltődik az ILIAS nyelvi fájlokból az adatbázisba. A helyi változtatások mentésre kerülnek az adatbázisba, mielőtt az ILIAS 3.10.0 felülíródhatna, ha nem exportáltuk ki leőtte. Ez nem érinti a "*.lang.local" fájlokat a Customizing könyvtárban. A helyi változtatások mentésre kerültek a 3.10.0 vagy magasabb verzióval, ha újabbak, mint a helyi nyelvi áfjl módosítási dátuma.
+common#:#lang_refresh_confirm_info#:#A kiterjesztett nyelvkarbantartás jelenleg aktív. A nyelvek frissítéséhez minden nyelvi adat letöltődik az ILIAS nyelvi fájlokból az adatbázisba. A helyi változtatások mentésre kerülnek az adatbázisba, mielőtt az ILIAS 4.10.0 felülíródhatna, ha nem exportáltuk ki leőtte. Ez nem érinti a "*.lang.local" fájlokat a Customizing könyvtárban. A helyi változtatások mentésre kerültek a 3.10.0 vagy magasabb verzióval, ha újabbak, mint a helyi nyelvi áfjl módosítási dátuma.
 common#:#delete_existing_file#:#Meglévő fájlok törlése
 common#:#res_links#:#Taneszköz tároló linkek
 common#:#short_inst_name#:#Rövid cím
@@ -1276,7 +1276,7 @@ common#:#absolute_path#:#Abszolút elérési út
 common#:#accept_usr_agreement#:#A felhasználói megállapodást tudomásul veszem, és azt elfogadom.
 common#:#access#:#Hozzáférés
 common#:#account_expires_body#:#Bejelentkezése korlátozott, lejárati dátuma:
-common#:#account_expires_subject#:#[ILIAS 3] Bejelentkezése lejár
+common#:#account_expires_subject#:#[ILIAS 4] Bejelentkezése lejár
 common#:#action#:#Akció
 common#:#action_aborted#:#Tevékenység megszakítva.
 common#:#actions#:#Tevékenységek
@@ -2753,7 +2753,7 @@ common#:#link_check_body_top#:#Azért kapta ezt a levelet, mert értesülni akar
 common#:#link_check_message_b#:#Ha engedélyezett, levélben kap értesítést az érvénytelen linkekről.
 common#:#link_check_message_disabled#:#Üzenetek engedélyezve.
 common#:#link_check_message_enabled#:#Üzenetek engedélyezve.
-common#:#link_check_subject#:#[ILIAS 3] Linkellenőrzés
+common#:#link_check_subject#:#[ILIAS 4] Linkellenőrzés
 common#:#link_checker_refreshed#:#Frissített nézet
 common#:#link_dynamic_info#:#Dinamikus paramétereket vehet fel, mint az ILIAS felhasználói azonosító.
 common#:#linked_object#:#Az objektum linkelve van.
@@ -6412,7 +6412,7 @@ payment#:#pay_message_attachment#:#Megrendelése megerősítéséül csatolásba
 payment#:#pay_message_hello#:#Kedves
 payment#:#pay_message_regards#:#Üdvözlettel
 payment#:#pay_message_subject#:#Az Ön ILIAS megrendelése
-payment#:#pay_message_thanks#:#Köszönjük ILIAS 3-beli megrendelését!
+payment#:#pay_message_thanks#:#Köszönjük ILIAS 4-beli megrendelését!
 payment#:#pay_no_vendors_created#:#Nincs létrehozva eladó.
 payment#:#pay_not_buyed_any_object#:#Nem vásárolt objektumot.
 payment#:#pay_order_date_from#:#Megrendelt időszak kezdete
@@ -9590,7 +9590,7 @@ rbac#:#rbac_delete_role#:#Delete Role###26 06 2009 new variable
 rbac#:#rbac_role_delete_qst#:#Are you sure you want to delete the following role?<br />All permissions granted by this role will be deleted permanently.###26 06 2009 new variable
 rbac#:#rbac_role_delete_self#:#<strong>Attention:</strong> You are assigned to this role. If you continue this delete operation, you may loose access to some ILIAS materials.  ###26 06 2009 new variable
 common#:#download_with_uploaded_filename#:#Download with uploaded filename###24 07 2009 new variable
-common#:#download_with_uploaded_filename_info#:#Select this option exclusively for backwards compatibility with ILIAS 3.9 and older versions: When this option is selected, the filename of a downloaded file is equal to the filename that was used for uploading the file into ILIAS. If this option is not selected, the filename of a downloaded file is equal to the title of the file object in ILIAS. This option does not affect WebDAV. For WebDAV the filename of a downloaded file is always equal to the title of the file object.###24 07 2009 new variable
+common#:#download_with_uploaded_filename_info#:#Select this option exclusively for backwards compatibility with ILIAS 4.9 and older versions: When this option is selected, the filename of a downloaded file is equal to the filename that was used for uploading the file into ILIAS. If this option is not selected, the filename of a downloaded file is equal to the title of the file object in ILIAS. This option does not affect WebDAV. For WebDAV the filename of a downloaded file is always equal to the title of the file object.###24 07 2009 new variable
 form#:#form_msg_wrong_date#:#Wrong date. Please enter a valid date.###24 07 2009 new variable
 form#:#form_msg_wrong_date_format#:#Wrong date format. Please enter the date as "%s"!###24 07 2009 new variable
 form#:#form_msg_formula_is_required#:#Please enter a correct formula.###24 07 2009 new variable

@@ -30,7 +30,7 @@
 // The language file starts beyond the HTML-comment below. DO NOT modify this line!
 // To edit your language file with a spreadsheet (i.e. Excel or StarCalc) remove all lines
 // from the first line to the HTML-comment. After editing paste the lines in place again.
-// NOTICE: Character coding of all ILIAS 3 lang files is UTF-8! Please set your editor
+// NOTICE: Character coding of all ILIAS 4 lang files is UTF-8! Please set your editor
 // to the corresponding mode!
 <!-- language file start -->
 3rd_party_software#:#Softuer Ndihmës (3rd Party)
@@ -133,8 +133,8 @@ enabled#:#mundësohet
 enter_dir_and_filename#:#Ju lutem specifikoni komplet shtegun (absolut) dhe emrin e skedarit!
 enter_password#:#Ju lutem shkruani parullën
 env_ok#:#OK. Duket të jetë në rregull.
-env_using#:#ILIAS 3 do të vazhdoj në 
-env_warning#:#ILIAS 3 është testuar të punoj vetëm për Linux dhe Windows duke përdorur serverin për web Apache! <br/> Megjithatë, ILIAS 3 mund të punoj gjithashtu edhe në këtë konfiguracion.
+env_using#:#ILIAS 4 do të vazhdoj në 
+env_warning#:#ILIAS 4 është testuar të punoj vetëm për Linux dhe Windows duke përdorur serverin për web Apache! <br/> Megjithatë, ILIAS 4 mund të punoj gjithashtu edhe në këtë konfiguracion.
 environment#:#Ambienti softuerik
 err_create_database_failed#:#krijimi i databazës ka dështuar
 err_wrong_login#:#Gabim gjatë identifikimit
@@ -161,7 +161,7 @@ ilias_db_mode#:#ILIAS database mode###20 Jun 2005 new variable
 ilias_homepage#:#Faqja e parë e ILIAS
 ilias_nic#:#Regjistrimi i NIC (Network Information Center)
 ilias_nic_id#:#NIC-ID (Network Information Center)
-ilias_setup#:#Instalimi i ILIAS 3
+ilias_setup#:#Instalimi i ILIAS 4
 ilias_version#:#ILIAS Versioni
 include_local#:#include local###20 May 2005 content changed
 info_text_3rdparty#:#Here you setup the third party add-ons which are needed by ILIAS. Follow the setup information for every add-on to complete this step.###10 Jul 2006 new variable
@@ -171,7 +171,7 @@ info_text_delete#:#Mund ta fshini klientin duke klikuar në butonin 'fshij'. Meg
 info_text_finish1#:#Urime! Instalimi i klientit ka qenë i suksesshëm. Kliko në "Identifikimi" për të u qasur në instalimin e ILIAS-it.
 info_text_finish2#:#Disa parametra mungojnë ose nuk janë instaluar si duhet. Ju lutem shikoni në diagram se çka duhet të bëhet!
 info_text_first_client#:#Parametrat bazë janë ruajtur. Tani do të instalohet klienti i parë. Programi do të ju udhëzoj për procesin e instalimit. Në panelin në të djathtë gjithnjë do të shihet statusi aktual i procesit të instalimit.
-info_text_first_install#:#Me sa duket keni instaluar ILIAS 3 për herë ta parë, sepse nuk është gjetur asnjë skedar ilias.ini. Në skedarin ilias.ini ruhet parulla master për të mbrojtur ILIAS-in nga ndonjë qasje e pa autorizuar.
+info_text_first_install#:#Me sa duket keni instaluar ILIAS 4 për herë ta parë, sepse nuk është gjetur asnjë skedar ilias.ini. Në skedarin ilias.ini ruhet parulla master për të mbrojtur ILIAS-in nga ndonjë qasje e pa autorizuar.
 info_text_ini#:#Ju lutem zgjedhni ndonjë Klient ID. Çdo shkronjë (karaktere alfanumerike) ose numër lejohet. Klient ID duhet të jetë në një fjalë.<br/> Pastaj do të jepni të dhënat për lidhje me databazë. Instalimi do të vendosë një lidhje test për të verifikuar parametrat tuaj dhe për të testuar nëse databaza ekziston. Nëse databaza nuk ekziston, do të mund të njoftoni Programin për të krijuar databazën në hapin e ardhshëm të instalimit.
 info_text_lang#:#Ju lutem zgjedhni gjuhët shtesë dhe/ose largoni gjuhët e zgjedhura. Gjuha e paradefinuar do të vendoset në llogaritë e shfrytëzuesve të ri ose të atyre që ende nuk e kanë zgjedhur gjuhen.
 info_text_list#:#Në këtë pasqyrë shihen të gjithë klientët në dispozicion setup i tyre dhe statusi i qasjes. Në këndin lart djathtas mund të mundësoni ose pamundësoni dritaren e zgjedhjes së klientëve. Nëse zgjedhja e klientëve është e mundësuar, të gjithë klientët online do të paraqiten në një listë të faqes së parë të ILIAS. Nëse zgjedhja e klientëve është e pamundësuar vetëm klienti i <i>paradefinuar<i> do të paraqitet. Mund të paradefinoni klient përmes butonit t mëposhtëm.
@@ -180,7 +180,7 @@ info_text_nic1#:#Pranoni një id të instalimit (nic-id) nga serveri ILIAS. Kjo 
 info_text_nic2#:#dhe do të dërgoni një e-mail me informacionet tuaja të instalimit në ilias-info@uni-koeln.de. Pasi të keni pranuar nic-id zgjedhni metodën 'regjistrimi përmes e-mailit'.
 info_text_nic3#:#Keni regjistruar instalimin tuaj. NIC-ID është:
 info_text_password#:#Këtu mund të ndërroni parullën master të programit të instalimit.
-info_text_pathes#:#ILIAS 3 përkrah klientë të shumëfishtë me databaza të ndryshme. Më poshtë do të jepni direktoriumin bazë të të dhënave, lokacionin e log skedarit dhe shtigjet për programet ndihmëse. Këto parametra do të vlejnë për të gjithë klientët qe do t'i krijoni më vonë.
+info_text_pathes#:#ILIAS 4 përkrah klientë të shumëfishtë me databaza të ndryshme. Më poshtë do të jepni direktoriumin bazë të të dhënave, lokacionin e log skedarit dhe shtigjet për programet ndihmëse. Këto parametra do të vlejnë për të gjithë klientët qe do t'i krijoni më vonë.
 ini_client_id_exists#:#Klienti me këtë ID tanimë ekziston! Ju lutem të zgjedhni ndonjë tjetër ID.
 ini_client_id_invalid#:#Kjo Klient ID përmban karaktere jovalide.
 ini_client_id_no_change#:#Klient ID nuk mund të ndërrohet në këtë version para se të krijohen direktoriumet e klientëve.
@@ -192,12 +192,12 @@ ini_no_db_host#:#Nuk është dhënë ndonjë hostname
 ini_no_db_name#:#nuk është dhënë ndonjë emër për databazë
 ini_no_db_user#:#nuk është dhënë ndonjë emër identifikues për databazë
 inifile#:#ini-dataotekë
-inifile_can_write#:#Programi për instalim ILIAS 3 mund të shkruaj ini-skedarin.
-inifile_cannot_write#:#Programi për instalim ILIAS 3 nuk mund të shkruaj ini-skedarin. Ju lutem kontrolloni të drejtat për të shkruar së pari.
+inifile_can_write#:#Programi për instalim ILIAS 4 mund të shkruaj ini-skedarin.
+inifile_cannot_write#:#Programi për instalim ILIAS 4 nuk mund të shkruaj ini-skedarin. Ju lutem kontrolloni të drejtat për të shkruar së pari.
 inifile_content#:#Ini-dataoteka juaj ka këtë përmbajtje:
 inifile_exists#:#Një ini-skedar eksiton. Vëni re se ky instalim do të i fshij parametrat e instalimit të mëparshëm.
 inifile_fill_all#:#Ju lutem t'i kompletoni të gjitha fushat.
-inifile_firsttime#:#Nuk ka ndonjë ini-skedar! Me sa duket ky është ekzekutimi i parë i ILIAS 3.
+inifile_firsttime#:#Nuk ka ndonjë ini-skedar! Me sa duket ky është ekzekutimi i parë i ILIAS 4.
 inifile_written#:#Ini-skedari është ruajtur me sukses në host-in tuaj.
 input_error#:#Gabim gjatë vendosjes së parametrave
 inst_identification#:#Identifikimi i Instalimit
@@ -206,7 +206,7 @@ install#:#instalo
 installation#:#instalimi
 installed#:#instalohet
 institution#:#Institucioni
-intro_install#:#Kjo është faqja kryesore e programit për instalimin e ILIAS 3. Nga kjo faqe do të vazhdoni instalimin hap pas hapi të ILIAS 3.   
+intro_install#:#Kjo është faqja kryesore e programit për instalimin e ILIAS 4. Nga kjo faqe do të vazhdoni instalimin hap pas hapi të ILIAS 4.   
 ip_address#:#IP adresa
 java_path#:#Shtegu për Java
 java_path_comment#:#kërkohet për Modul Mësimor SCORM
@@ -323,21 +323,21 @@ pathes#:#Shtigjet
 phone#:#Numri i Telefonit
 port#:#porti
 position#:#Pozita
-pre_cookies_disabled#:#Opsioni Coockie është pamundësuar në brouserin tuaj, ky opsion kërkohet për të përdorur ILIAS 3.
+pre_cookies_disabled#:#Opsioni Coockie është pamundësuar në brouserin tuaj, ky opsion kërkohet për të përdorur ILIAS 4.
 pre_cookies_enabled#:#Mundësohet Coockies
-pre_error#:#Janë vërtetuar disa gabime. Ju lutem korrektoni së pari problemet ose nuk mund të vazhdoni më programin për instalim të ILIAS 3.
-pre_folder_create#:#Janë krijuar direktoriume të reja në direktoriumin ILIAS 3
+pre_error#:#Janë vërtetuar disa gabime. Ju lutem korrektoni së pari problemet ose nuk mund të vazhdoni më programin për instalim të ILIAS 4.
+pre_folder_create#:#Janë krijuar direktoriume të reja në direktoriumin ILIAS 4
 pre_folder_create_error#:#Nuk mund të krijoj nëndirektoriume! Ju lutem kontrolloni parametrat për të drejtat në fajllsistemin tuaj!
-pre_folder_write#:#Direktorium ILIAS 3 me mundësi për ta ndryshuar
-pre_folder_write_error#:#Nuk mund të shkruaj në direktoriumin ILIAS 3! Ju lutem kontrolloni parametrat për të drejtat në fajllsistemin tuaj!
-pre_intro#:#Së pari të shohim nëse ky ambient softuerik përmbush të gjitha kërkesat për të instaluar dhe ekzekutuar ILIAS 3 programin në sistemin tuaj.
+pre_folder_write#:#Direktorium ILIAS 4 me mundësi për ta ndryshuar
+pre_folder_write_error#:#Nuk mund të shkruaj në direktoriumin ILIAS 4! Ju lutem kontrolloni parametrat për të drejtat në fajllsistemin tuaj!
+pre_intro#:#Së pari të shohim nëse ky ambient softuerik përmbush të gjitha kërkesat për të instaluar dhe ekzekutuar ILIAS 4 programin në sistemin tuaj.
 pre_javascript_comment#:#Mund të ekzekutoni ILIAS edhe pa JavaScript, por disa nga funksionet nuk do të jenë të mundshme.
 pre_javascript_enabled#:#JavaScript mundësohet
 pre_php_version#:#versioni i PHP
-pre_php_version_3#:#Versioni i PHP është shumë i vjetër për ILIAS 3! Ju lutem aktualizoni PHP-në.
+pre_php_version_3#:#Versioni i PHP është shumë i vjetër për ILIAS 4! Ju lutem aktualizoni PHP-në.
 pre_php_version_4.1#:#Klasat PEAR nuk do të punojnë në mënyrë korrekte më këtë version. Ju lutem aktualizoni PHP-ë.
 pre_php_version_4.2#:#Përkrahja për DOMXML dhe XSLT nuk do të punoj në mënyrë korrekte me këtë version!
-pre_php_version_5#:#ILIAS 3 nuk është testuar ende me PHP 5. Mund ta përdorni pa rekomandimin tonë.
+pre_php_version_5#:#ILIAS 4 nuk është testuar ende me PHP 5. Mund ta përdorni pa rekomandimin tonë.
 pre_php_version_unknown#:#Programi për instalim i ILIAS nuk e njeh këtë version. Mund ta përdorni pa rekomandimin tonë.
 preliminaries#:#Veprimet Preliminare
 prev#:#Prapa
@@ -390,8 +390,8 @@ setup_process_step_finish#:#Përfundo Instalimin
 setup_process_step_ini#:#Instalo të dhënat bazike
 setup_process_step_lang#:#Instalo gjuhët e sistemit
 setup_process_step_nic#:#Regjistrimi në ILIAS-NIC
-setup_ready#:#Instalimi është i gatshëm. Mund të vazhdoni me identifikimin në ILIAS 3 dhe të kryeni konfigurime të mëtutjeshme në sistem.
-setup_welcome#:#Mirë se erdhët në programin për instalim të ILIAS 3. Kjo ju ndihmon në:
+setup_ready#:#Instalimi është i gatshëm. Mund të vazhdoni me identifikimin në ILIAS 4 dhe të kryeni konfigurime të mëtutjeshme në sistem.
+setup_welcome#:#Mirë se erdhët në programin për instalim të ILIAS 4. Kjo ju ndihmon në:
 sophos#:#Sophos
 sort_by_this_column#:#Radhit sipas kësaj kolone
 status#:#Statusi

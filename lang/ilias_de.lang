@@ -30,7 +30,7 @@
 // The language file starts beyond the HTML-comment below. DO NOT modify this line !
 // To edit your language file with a spreadsheet (i.e. Excel or StarCalc) remove all lines
 // from the first line to the HTML-comment. After editing paste the lines in place again.
-// Notice: Character coding of all ILIAS 3 lang files is UTF-8! Please set your editor
+// Notice: Character coding of all ILIAS 4 lang files is UTF-8! Please set your editor
 // to the corresponding mode!
 // Language file names refer to ISO 639, see: http://www.oasis-open.org/cover/iso639a.html
 <!-- language file start -->
@@ -1560,7 +1560,7 @@ common#:#access_unlimited#:#unbefristet
 common#:#access_until#:#Zugang bis
 common#:#access_users#:#Eingeloggte Benutzer
 common#:#account_expires_body#:#Ihr Benutzerzugang ist zeitlich begrenzt. Ablauftermin:
-common#:#account_expires_subject#:#[ILIAS 3] Benutzerzugang
+common#:#account_expires_subject#:#[ILIAS 4] Benutzerzugang
 common#:#accs_edit_permission#:#Rechteeinstellungen ändern
 common#:#accs_read#:#Lesezugriff auf Barrierefreiheitseinstellungen
 common#:#accs_visible#:#Barrierefreiheitseinstellungen sind sichtbar
@@ -2272,7 +2272,7 @@ common#:#download#:#Herunterladen
 common#:#downloading_settings#:#Download Einstellungen
 common#:#download_all_returned_files#:#Alle abgegebenen Dateien herunterladen
 common#:#download_with_uploaded_filename#:#Hochgeladenen Dateinamen verwenden
-common#:#download_with_uploaded_filename_info#:#Wählen Sie diese Option ausschliesslich für die Rückwärtskompatibilität mit ILIAS 3.9 und älteren Versionen aus: Wenn diese Option aktiviert ist, erhalten heruntergeladene Dateien den Namen, der beim Hochladen in ILIAS verwendet worden ist. Wenn diese Option nicht ausgewählt ist, erhalten heruntergeladene Dateien den Titel des Dateiobjekts als Namen. Diese Option hat keine Auswirkung auf WebDAV. Bei WebDAV erhalten heruntergeladene Dateien immer den Titel des Dateiobjekts als Namen.
+common#:#download_with_uploaded_filename_info#:#Wählen Sie diese Option ausschliesslich für die Rückwärtskompatibilität mit ILIAS 4.9 und älteren Versionen aus: Wenn diese Option aktiviert ist, erhalten heruntergeladene Dateien den Namen, der beim Hochladen in ILIAS verwendet worden ist. Wenn diese Option nicht ausgewählt ist, erhalten heruntergeladene Dateien den Titel des Dateiobjekts als Namen. Diese Option hat keine Auswirkung auf WebDAV. Bei WebDAV erhalten heruntergeladene Dateien immer den Titel des Dateiobjekts als Namen.
 common#:#drafts#:#Entwürfe
 common#:#drop#:#Entfernen
 common#:#edit#:#Bearbeiten
@@ -3105,7 +3105,7 @@ common#:#lang_path#:#Sprachdateien-Pfad
 common#:#lang_pl#:#Polnisch
 common#:#lang_pt#:#Portugisisch
 common#:#lang_refresh_confirm#:#Sollen wirklich alle Sprachen aktualisiert werden?
-common#:#lang_refresh_confirm_info#:#Die erweiterte Sprachverwaltung ist zur Zeit aktiviert. Die Aktualisierung der Sprachen lädt alle Daten aus den Sprachdateien in die Datenbank. Lokale Änderungen, die vor ILIAS 3.10.0 gespeichert wurden, werden dabei möglicherweise überschrieben. Die "*.lang.local" Dateien im Customizing Verzeichnis sind davon nicht betroffen. Lokale Änderungen, die mit ILIAS 3.10.0 oder höher gespeichert wurden, werden vor dem Überschreiben bewahrt, wenn sie jünger als das Änderungsdatum der lokalen Sprachdatei sind.
+common#:#lang_refresh_confirm_info#:#Die erweiterte Sprachverwaltung ist zur Zeit aktiviert. Die Aktualisierung der Sprachen lädt alle Daten aus den Sprachdateien in die Datenbank. Lokale Änderungen, die vor ILIAS 4.10.0 gespeichert wurden, werden dabei möglicherweise überschrieben. Die "*.lang.local" Dateien im Customizing Verzeichnis sind davon nicht betroffen. Lokale Änderungen, die mit ILIAS 4.10.0 oder höher gespeichert wurden, werden vor dem Überschreiben bewahrt, wenn sie jünger als das Änderungsdatum der lokalen Sprachdatei sind.
 common#:#lang_refresh_confirm_selected#:#Möchten Sie wirklich die ausgewählten Sprachen aktualisieren?
 common#:#lang_ro#:#Rumänisch
 common#:#lang_ru#:#Russisch
@@ -3188,7 +3188,7 @@ common#:#link_check_body_top#:#Sie erhalten diese Nachricht, da sie über ungül
 common#:#link_check_message_b#:#Wenn diese Option eingeschaltet ist, werden sie per Mail über ungültige Links dieser Lerneinheit benachrichtigt.
 common#:#link_check_message_disabled#:#Der Versand von Nachrichten ist deaktiviert.
 common#:#link_check_message_enabled#:#Der Versand von Nachrichten ist aktiviert.
-common#:#link_check_subject#:#[ILIAS 3] Link überprüfen
+common#:#link_check_subject#:#[ILIAS 4] Link überprüfen
 common#:#link_dynamic_info#:#Hier können Sie dynamische Parameter wie z.B. die ILIAS Benutzer-ID an den Web-Link anhängen.
 common#:#link_selected_items#:#Verknüpfen
 common#:#list#:#Liste
