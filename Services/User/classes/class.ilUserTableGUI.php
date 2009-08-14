@@ -20,7 +20,7 @@ class ilUserTableGUI extends ilTable2GUI
 	*/
 	function __construct($a_parent_obj, $a_parent_cmd)
 	{
-		global $ilCtrl, $lng, $ilAccess, $lng;
+		global $ilCtrl, $lng, $ilAccess, $lng, $rbacsystem;
 		
 		parent::__construct($a_parent_obj, $a_parent_cmd);
 //		$this->setTitle($this->lng->txt("users"));
@@ -48,7 +48,10 @@ class ilUserTableGUI extends ilTable2GUI
 
 		$this->setSelectAllCheckbox("id[]");
 
-		$this->addMultiCommand("deleteUsers", $lng->txt("delete"));
+		if ($rbacsystem->checkAccess('delete', $a_parent_obj->object->getRefId()))
+		{
+			$this->addMultiCommand("deleteUsers", $lng->txt("delete"));
+		}
 		$this->addMultiCommand("activateUsers", $lng->txt("activate"));
 		$this->addMultiCommand("deactivateUsers", $lng->txt("deactivate"));
 		$this->addMultiCommand("restrictAccess", $lng->txt("accessRestrict"));

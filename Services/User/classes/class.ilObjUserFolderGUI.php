@@ -1130,12 +1130,13 @@ if (true)
 	*/
 	function confirmdeleteObject()
 	{
-		global $rbacsystem;
+		global $rbacsystem, $ilCtrl;
 
 		// FOR NON_REF_OBJECTS WE CHECK ACCESS ONLY OF PARENT OBJECT ONCE
 		if (!$rbacsystem->checkAccess('delete',$this->object->getRefId()))
 		{
-			$this->ilias->raiseError($this->lng->txt("msg_no_perm_delete"),$this->ilias->error_obj->WARNING);
+			ilUtil::sendFailure($this->lng->txt("msg_no_perm_delete"), true);
+			$ilCtrl->redirect($this, "view");
 		}
 		
 		$_SESSION['saved_post'] = $_SESSION['saved_post'] ? $_SESSION['saved_post'] : array();
