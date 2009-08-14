@@ -359,15 +359,18 @@ class ilObjRootFolderGUI extends ilContainerGUI
 
 		parent::setTitleAndDescription();
 		$this->tpl->setDescription("");
-		if ($this->object->getTitle() == "ILIAS")
+		if (!ilContainer::_lookupContainerSetting($this->object->getId(), "hide_header_icon_and_title"))
 		{
-			$this->tpl->setTitle($lng->txt("repository"));
-		}
-		else
-		{
-			if ($this->object->getDescription() != "")
+			if ($this->object->getTitle() == "ILIAS")
 			{
-				$this->tpl->setTitle($this->object->getDescription());
+				$this->tpl->setTitle($lng->txt("repository"));
+			}
+			else
+			{
+				if ($this->object->getDescription() != "")
+				{
+					$this->tpl->setTitle($this->object->getDescription());
+				}
 			}
 		}
 	}

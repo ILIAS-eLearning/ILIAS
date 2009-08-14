@@ -284,7 +284,7 @@ class ilContainerGUI extends ilObjectGUI implements ilDesktopItemHandling
 	function setTitleAndDescription()
 	{
 		global $ilias;
-		
+
 		if (!ilContainer::_lookupContainerSetting($this->object->getId(), "hide_header_icon_and_title"))
 		{
 			$this->tpl->setTitle($this->object->getTitle());
