@@ -1905,6 +1905,10 @@ class ilPageObjectGUI
 						$page_gui->setFullscreenLink($this->determineFullscreenLink());
 						$page_gui->setSourceCodeDownloadScript($this->determineSourcecodeDownloadScript());
 					}
+					else
+					{
+						$page_gui->setOutputMode(IL_PAGE_OFFLINE);
+					}
 		
 					$html = $page_gui->getRawContent();
 				}
