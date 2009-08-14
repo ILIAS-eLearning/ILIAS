@@ -225,9 +225,9 @@ function ilShowAdvSelList(id, opt)
 	}
 	
 	obj = document.getElementById('ilAdvSelListTable_' + id);
-	obj2 = document.getElementById('ilAdvSelListTableInner_' + id);
+//	obj2 = document.getElementById('ilAdvSelListTableInner_' + id);
 	anchor = document.getElementById('ilAdvSelListAnchorElement_' + id);
-	
+	obj.style.overflow = '';
 	var wih = ilGetWinInnerHeight();
 	var yoff = ilGetWinPageYOffset();
 	
@@ -250,9 +250,9 @@ function ilShowAdvSelList(id, opt)
 			newHeight = 150;
 		}
 		obj.style.height = newHeight + "px";
-		obj2.style.height = newHeight + "px";
+//		obj2.style.height = newHeight + "px";
 		//obj.style.width = obj.offsetWidth + 20 + "px";
-		obj2.style.width = obj2.offsetWidth + 20 + "px";
+		obj.style.width = obj.offsetWidth + 20 + "px";
 //alert("Too small wih: " + wih + ", obj height: " + obj.offsetHeight);
 	}
 	
@@ -262,17 +262,21 @@ function ilShowAdvSelList(id, opt)
 		obj.style.top = (wih + yoff - (obj.offsetHeight + 10)) + "px";
 	}
 
+	var region = YAHOO.util.Dom.getRegion(obj);
+	var elmWidth = region.right - region.left;
+
+
 	var wiw = getBodyWidth();
 	// if too far on the right: show it more left
-	if ((absLeft(obj) + (obj.offsetWidth + 10)) > wiw)
+	if ((absLeft(obj) + (elmWidth + 10)) > wiw)
 	{
 /*alert ("absleft: " + absLeft(obj)
 		+ "\n width: " + obj.offsetWidth
 		+ "\n window width: " + wiw
 	);*/
-		obj.style.left = (wiw - (obj.offsetWidth + 10)) + "px";
+		obj.style.left = (wiw - (elmWidth + 10)) + "px";
 	}
-
+	obj.style.overflow = 'auto';
 }
 
 /**
