@@ -112,6 +112,31 @@ class ilDBOracle extends ilDB
 	}
 	
 	/**
+	* fromUnixtime (makes timestamp out of unix timestamp)
+	*/
+	function fromUnixtime($a_expr, $a_to_text)
+	{
+		if (!$a_to_char)
+		{
+			return "TO_DATE('19700101000000','YYYYMMDDHH24MISS') ".
+				"+ NUMTODSINTERVAL(".$a_expr.", 'SECOND')";
+		}
+		else
+		{
+			return "to_char(TO_DATE('19700101000000','YYYYMMDDHH24MISS') ".
+				"+ NUMTODSINTERVAL(".$a_expr.", 'SECOND'), 'dd.mm.yyyy hh24:mi')";
+		}
+	}
+
+	/**
+	* Unix timestamp
+	*/
+	function unixTimestamp()
+	{
+		return "ROUND(sysdate - to_date('01-JAN-1970','DD-MON-YYYY')) * (86400)";
+	}
+
+	/**
 	* Constraint names must be "globally" unique in oracle.
 	*/
 	function constraintName($a_table, $a_constraint)
