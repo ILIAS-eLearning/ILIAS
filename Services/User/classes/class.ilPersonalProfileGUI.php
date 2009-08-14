@@ -1619,7 +1619,7 @@ return;
 
 	function saveLocation()
 	{
-		global $ilCtrl, $ilUser;
+		global $ilCtrl, $ilUser, $lng;
 
 		$ilUser->writePref("public_location", $_POST["public_location"]);
 
@@ -1627,6 +1627,7 @@ return;
 		$ilUser->setLongitude(ilUtil::stripSlashes($_POST["location"]["longitude"]));
 		$ilUser->setLocationZoom(ilUtil::stripSlashes($_POST["location"]["zoom"]));
 		$ilUser->update();
+		ilUtil::sendSuccess($lng->txt("msg_obj_modified"), true);
 
 		$ilCtrl->redirect($this, "showLocation");
 	}
