@@ -179,7 +179,7 @@ class ilDBOracle extends ilDB
 		foreach ($a_pk_columns as $k => $col)
 		{
 			$abpk[] = "a.".$k." = b.".$k;
-			$delwhere[] = $k." = ".$ilDB->quote($col[1], $col[0]);
+			$delwhere[] = $k." = ".$this->quote($col[1], $col[0]);
 		}
 		foreach ($a_other_columns as $k => $col)
 		{
@@ -187,7 +187,7 @@ class ilDBOracle extends ilDB
 		}
 		if ($lobs)	// lobs -> use prepare execute (autoexecute broken in PEAR 2.4.1)
 		{
-			$ilDB->manipulate("DELETE FROM ".$a_table." WHERE ".
+			$this->manipulate("DELETE FROM ".$a_table." WHERE ".
 				implode ($delwhere, " AND ")
 				);
 			$this->insert($a_table, $a_columns);
