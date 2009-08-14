@@ -1,0 +1,9 @@
+<input type="text" id="{MAP_ID}_lat" size="14" maxlength="18" name="{POST_VAR}[latitude]" value="{PROPERTY_VALUE_LAT}"
+	onchange="ilUpdateMap('{MAP_ID}');" /> /
+<input type="text" id="{MAP_ID}_lng" size="14" maxlength="18" name="{POST_VAR}[longitude]" value="{PROPERTY_VALUE_LONG}"
+	onchange="ilUpdateMap('{MAP_ID}');" />
+&nbsp;&nbsp;{TXT_ZOOM}: {ZOOM_SELECT}<br />
+<input type="text" name="address" value="{TXT_ADDRESS}" size="50" onkeypress="if (event.keyCode == 13) {ilLookupAddress('{MAP_ID}', this.form.address.value); return false;}"/>
+<input class="submit" type="button" value="{TXT_LOOKUP}" onclick="ilLookupAddress('{MAP_ID}', this.form.address.value)" /><br />
+<div class="ilFormInfo">{LOC_DESCRIPTION}</div>
+{MAP}
