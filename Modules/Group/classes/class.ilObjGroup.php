@@ -527,7 +527,7 @@ class ilObjGroup extends ilContainer
 			$ilDB->quote($this->getLatitude() ,'text').", ".
 			$ilDB->quote($this->getLongitude() ,'text').", ".
 			$ilDB->quote($this->getLocationZoom() ,'integer').", ".
-			$ilDB->quote($this->getEnableGroupMap() ,'integer')." ".
+			$ilDB->quote((int) $this->getEnableGroupMap() ,'integer')." ".
 			")";
 		$res = $ilDB->manipulate($query);
 
@@ -568,7 +568,7 @@ class ilObjGroup extends ilContainer
 			"latitude = ".$ilDB->quote($this->getLatitude() ,'text').", ".
 			"longitude = ".$ilDB->quote($this->getLongitude() ,'text').", ".
 			"location_zoom = ".$ilDB->quote($this->getLocationZoom() ,'integer').", ".
-			"enablemap = ".$ilDB->quote($this->getEnableGroupMap() ,'integer')." ".
+			"enablemap = ".$ilDB->quote((int) $this->getEnableGroupMap() ,'integer')." ".
 			"WHERE obj_id = ".$ilDB->quote($this->getId() ,'integer')." ";
 		$res = $ilDB->manipulate($query);
 		

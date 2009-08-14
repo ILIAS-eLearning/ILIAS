@@ -1041,7 +1041,7 @@ class ilObjCourse extends ilContainer
 			"latitude = ".$ilDB->quote($this->getLatitude() ,'text').", ".
 			"longitude = ".$ilDB->quote($this->getLongitude() ,'text').", ".
 			"location_zoom = ".$ilDB->quote($this->getLocationZoom() ,'integer').", ".
-			"enable_course_map = ".$ilDB->quote($this->getEnableCourseMap() ,'integer').", ".
+			"enable_course_map = ".$ilDB->quote((int) $this->getEnableCourseMap() ,'integer').", ".
 			'session_limit = '.$ilDB->quote($this->isSessionLimitEnabled(),'integer').', '.
 			'session_prev = '.$ilDB->quote($this->getNumberOfPreviousSessions(),'integer').', '.
 			'session_next = '.$ilDB->quote($this->getNumberOfNextSessions(),'integer').' '.
