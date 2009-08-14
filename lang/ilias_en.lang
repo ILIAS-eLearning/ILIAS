@@ -5039,10 +5039,10 @@ crs#:#crs_objectives_chapter_assignment#:#Chapter assignment
 crs#:#crs_objectives_deassign_question_sure#:#Are you sure, you want to delete the following questions?
 crs#:#crs_objectives_deleted#:#Delete learning objectives
 crs#:#crs_objectives_edit_question_assignments#:#Edit Question Assignment
-crs#:#crs_objectives_info_final#:#You did not accomplish all course objectives in the previous exam. <br />Please select all red marked objectives one after another and review the related materials. <br />After you have reviewed all red marked objectives, you can take the exam again.
+crs#:#crs_objectives_info_final#:#You did not accomplish all course objectives in the previous exam. <br />Please select the not completed objectives one after another and review the related materials. <br />After you have reviewed these objectives, you can take the exam again.
 crs#:#crs_objectives_info_finished#:#Congratulations, you have accomplished all objectives of this course!
 crs#:#crs_objectives_info_none#:#The following is a list of the course objectives.<br /> Please select the objectives one after another and work through the related materials.
-crs#:#crs_objectives_info_pretest#:#The following are the results of your self assessment. <br />Please select the red marked objectives one after another and work through their related material. <br />After you have processed all red marked objectives, you can take the final exam of this course, which is located in the test section of this page.
+crs#:#crs_objectives_info_pretest#:#The following are the results of your self assessment. <br />Please select the not completed objectives one after another and work through their related material. <br />After you have processed these objectives, you can take the final exam of this course, which is located in the test section of this page.
 crs#:#crs_objectives_info_pretest_non_suggest#:#The following are the results of your self assessment. <br />According to this you have fullfilled any learning objective. You can now take the final exam of this course, which is located in the test section of this page.
 crs#:#crs_objectives_lm_assignment#:#Assignment of Course Materials
 crs#:#crs_objectives_max_points#:#Maximum points

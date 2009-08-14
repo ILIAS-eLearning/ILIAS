@@ -354,30 +354,35 @@ class ilCourseObjectiveResult
 		{
 			return false;
 		}
-
 		// Read reachable points
+		/*
 		$types = $ilDB->addTypesToArray(array(), 'integer', count($objectives['all_questions']));
 		$placeholders = $ilDB->addTypesToArray(array(), '%s', count($objectives['all_questions']));
 		$res = $ilDB->queryF("SELECT question_id,points FROM qpl_questions WHERE question_id IN(". implode(",", $placeholders) .")",
 			$types,
 			$objectives['all_questions']
 		);
+		*/
+		$query = "SELECT question_id,points FROM qpl_questions ".
+			"WHERE ".$ilDB->in('question_id',(array) $objectives['all_questions'],false,'integer');
+		$res = $ilDB->query($query);
 		while($row = $ilDB->fetchAssoc($res))
 		{
 			$objectives['all_question_points'][$row['question_id']]['max_points'] = $row['points'];
 		}
 		// Read reached points
-		$query = "SELECT question_fi, MAX(points) as reached FROM tst_test_result JOIN tst_active ".
-			"ON (active_id = active_fi) ".
-			"WHERE user_fi = ".$ilDB->quote($a_user_id)." ".
-			"AND question_fi IN (".implode(",",ilUtil::quoteArray($objectives['all_questions'])).") ".
+		$query = "SELECT question_fi, MAX(points) as reached FROM tst_test_result ".
+			"JOIN tst_active ON (active_id = active_fi) ".
+			"WHERE user_fi = ".$ilDB->quote($a_user_id,'integer')." ".
+			"AND ".$ilDB->in('question_fi',(array) $objectives['all_questions'],false,'integer')." ".
+			#"AND question_fi IN (".implode(",",ilUtil::quoteArray($objectives['all_questions'])).") ".
 			"GROUP BY question_fi,user_fi";
 		$res = $ilDB->query($query);
 		while($row = $res->fetchRow(DB_FETCHMODE_OBJECT))
 		{
 			$objectives['all_question_points'][$row->question_fi]['reached_points'] = $row->reached;
 		}
-
+		
 		// Check accomplished
 		$fullfilled = array();
 		$pretest = array();
