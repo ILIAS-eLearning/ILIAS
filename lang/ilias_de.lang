@@ -5724,10 +5724,10 @@ crs#:#crs_objectives_chapter_assignment#:#Kapitel-Zuordnung
 crs#:#crs_objectives_deassign_question_sure#:#Sind Sie sicher, dass die folgende Zuordnung entfernt werden soll?
 crs#:#crs_objectives_deleted#:#Die Lernziele wurden entfernt.
 crs#:#crs_objectives_edit_question_assignments#:#Fragenzuordnung bearbeiten
-crs#:#crs_objectives_info_final#:#Leider haben Sie noch nicht alle Lernziele diese Kurses erfüllt. <br />Bitte wählen Sie die rot markierten Lernziele eins nach dem anderen aus und bearbeiten Sie die zugehörigen Materialen. <br />Wenn Sie alle rot markierten Lernziele überprüft haben, können Sie den Abschlusstest erneut durchführen.
+crs#:#crs_objectives_info_final#:#Leider haben Sie noch nicht alle Lernziele diese Kurses erfüllt. <br />Bitte wählen Sie die nicht erfüllten Lernziele eins nach dem anderen aus und bearbeiten Sie die zugehörigen Materialen. <br />Wenn Sie alle Lernziele überprüft haben, können Sie den Abschlusstest erneut durchführen.
 crs#:#crs_objectives_info_finished#:#Gratulation, Sie haben alle Lernziele dieses Kurses erreicht.
 crs#:#crs_objectives_info_none#:#Das Folgende ist eine Auflistung aller Lernziele diese Kurses. <br />Bitte wählen Sie ein Lernziel nach dem anderen aus und bearbeiten Sie die zugehörigen Materialien.
-crs#:#crs_objectives_info_pretest#:#Dies sind die Ergebnisse Ihrer Selbsteinschätzung. <br />Bitte wählen Sie die rot markierten Lernziele eins nach dem anderen aus und bearbeiten Sie die zugehörigen Materialien. Wenn Sie alle Lernziele bearbeitet haben, können Sie den Abschlusstest durchführen.
+crs#:#crs_objectives_info_pretest#:#Dies sind die Ergebnisse Ihrer Selbsteinschätzung. <br />Bitte wählen Sie die nicht erfüllten Lernziele eins nach dem anderen aus und bearbeiten Sie die zugehörigen Materialien. Wenn Sie alle Lernziele bearbeitet haben, können Sie den Abschlusstest durchführen.
 crs#:#crs_objectives_info_pretest_non_suggest#:#Dies sind die Ergebnisse Ihrer Selbsteinschätzung. <br />Demnach haben Sie alle Lernziele erreicht. Sie können nun den Abschlusstest durchführen.
 crs#:#crs_objectives_lm_assignment#:#Zuordnung von Kursmaterialien
 crs#:#crs_objectives_max_points#:#Maximale Punktzahl
