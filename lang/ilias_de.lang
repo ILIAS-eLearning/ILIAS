@@ -9765,7 +9765,7 @@ user#:#user_no_courses#:#Keinem Kurs zugeordnet
 user#:#user_please_select_course_group#:#Bitte wählen Sie eine Gruppe oder einen Kurs aus.
 user#:#user_public_profile_info#:#Bitte wählen Sie aus, welche Daten im öffentlichen Profil erscheinen sollen.
 user#:#user_screen_reader_optimization#:#Screen-Reader-Optimierung
-user#:#user_screen_reader_optimization_info#:#Automatischer Fokus and Ajax Optimierungen.
+user#:#user_screen_reader_optimization_info#:#Optimiert ILIAS für die Benutzung mit Bildschirmleseprogrammen. 
 user#:#user_select_course_group#:#Kurs/Gruppe auswählen
 user#:#usr_public_profile_disabled#:#Public Profile Disabled###24 07 2009 new variable
 user#:#usr_public_profile_disabled_info#:#Your information is only visible to administrative staff.###24 07 2009 new variable
