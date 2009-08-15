@@ -78,7 +78,8 @@ class ilTemplate extends ilTemplateX
 		{
 			$this->setOption('use_preg', false);
 		}
-
+		$this->setBodyClass("std");
+		
 		return true;
 	}
 	
@@ -143,6 +144,7 @@ class ilTemplate extends ilTemplateX
 			$this->fillCssFiles();
 			$this->fillJavaScriptFiles();
 			$this->fillContentStyle();
+			$this->fillBodyClass();
 
 			// these fill just plain placeholder variables in tpl.main.html
 			$this->setCurrentBlock("DEFAULT");
@@ -317,7 +319,7 @@ class ilTemplate extends ilTemplateX
 	function show($part = "DEFAULT", $a_fill_tabs = true, $a_skip_main_menu = false)
 	{
 		global $ilias;
-		
+
 		// include yahoo dom per default
 		include_once("./Services/YUI/classes/class.ilYuiUtil.php");
 		ilYuiUtil::initDom();
@@ -337,6 +339,7 @@ class ilTemplate extends ilTemplateX
 		}
 
 		// set standard parts (tabs and title icon)
+		$this->fillBodyClass();
 		if ($a_fill_tabs)
 		{
 			// to get also the js files for the main menu
@@ -1227,6 +1230,21 @@ class ilTemplate extends ilTemplateX
 	{
 		$this->icon_desc = $a_icon_desc;
 		$this->icon_path = $a_icon_path;
+	}
+
+	function setBodyClass($a_class = "")
+	{
+		$this->body_class = $a_class;
+	}
+	
+	function fillBodyClass()
+	{
+		if ($this->body_class != "")
+		{
+			$this->setCurrentBlock("body_class");
+			$this->setVariable("BODY_CLASS", $this->body_class);
+			$this->parseCurrentBlock();
+		}
 	}
 	
 	function setPageFormAction($a_action)

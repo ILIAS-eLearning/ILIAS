@@ -1726,7 +1726,7 @@ class ilTestOutputGUI extends ilTestServiceGUI
 	{
 		if ($this->object->getKioskMode())
 		{
-			$this->tpl->setVariable("BODY_CLASS", "kiosk");
+			$this->tpl->setBodyClass("kiosk");
 			$this->tpl->setAddFooter(FALSE);
 			return "CONTENT";
 		}

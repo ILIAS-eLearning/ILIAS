@@ -1,10 +1,19 @@
 {RELOAD}
-<div align="center">
-<img src="./templates/default/images/ilias_logo_big.png" border="0" style="margin: 20px;"/>
+<div class="ilFrame" style="margin-top:5px; width:700px; margin-left:auto; margin-right:auto;"><div class="ilFrameH"><div class="ilFrameTL"><div class="ilFrameTR">
+<img src="./templates/default/images/HeaderIcon.png" border="0" style="margin: 20px;"/>
+<div class="ilFrameBL"><div class="ilFrameBR" style="min-height: 450px;">
+<div style="padding:35px 10px;">
 <!-- <p class="small">{ILIAS_RELEASE}</p> -->
 <!-- BEGIN warning -->
-<p class="warning">&nbsp;{TXT_MSG_LOGIN_FAILED}&nbsp;</p>
+<img class="ilFailureMessage" alt="{ALT_IMAGE}" title="{ALT_IMAGE}" src="{SRC_IMAGE}" />
+<div class="ilFailureMessage">
+<h5 class="ilAccHeadingHidden"><a id="il_message_focus" name="il_message_focus">{MESSAGE_HEADING}</a></h5>
+{TXT_MSG_LOGIN_FAILED}</div>
 <!-- END warning -->
+<!-- BEGIN login_information -->
+<div class="small">{TXT_LOGIN_INFORMATION}</div>
+<!-- END login_information -->
+<div align="center" style="padding-top: 25px">
 <!-- BEGIN cookies_howto -->
 <a class="il_ContainerItemCommand" href="{LINK_NO_COOKIES}" target="_blank">{COOKIES_HOWTO}</a><br /><br />
 <!-- END cookies_howto -->
@@ -85,15 +94,11 @@
 	<br />
 <!-- END shibboleth_login -->
 <!-- BEGIN ilias_login -->
-<table class="std" width="400" datatable="0">
+{LOGIN_FORM}
+<!-- <table class="std" width="400" datatable="0">
   <tr class="tblheader">
 	<td class="std" colspan="2">{TXT_ILIAS_LOGIN}</td>
   </tr>
-	<!-- BEGIN login_information -->
-	<tr class="std">
-		<td class="std" colspan="2">{TXT_LOGIN_INFORMATION}</td>
-	</tr>
-	<!-- END login_information -->
 		  <!-- BEGIN auth_selection -->
 		  <tr>
 			<td class="option">{TXT_AUTH_MODE}</td>
@@ -115,10 +120,10 @@
   <tr class="tblfooter">
 	<td class="submit" colspan="2" align="center"><input class="submit" type="submit" name="butSubmit" value="{TXT_SUBMIT}"/></td>
   </tr>
-</table>
+</table> -->
 <!-- END ilias_login -->
 </form>
-<p>
+<p style="padding-top: 20px;">
 <!-- BEGIN new_registration -->
 <a class="il_ContainerItemCommand" href="{CMD_REGISTER}">{REGISTER}</a>
 <!-- END new_registration -->
@@ -146,8 +151,10 @@
 </form>
 </p>
 <p><a class="il_ContainerItemCommand" href="{LINK_USER_AGREEMENT}">{USER_AGREEMENT}</a></p>
-
+</div></div>
 </div>
+</div></div></div></div>
+
 <script language="JavaScript">
 <!--
 if (document.formlogin.username && document.formlogin.password)
