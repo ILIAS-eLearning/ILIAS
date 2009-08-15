@@ -76,7 +76,7 @@ class ilStartUpGUI
 	*/
 	function showLogin()
 	{
-		global $ilSetting, $ilAuth, $ilUser, $tpl, $ilIliasIniFile, $ilias;
+		global $ilSetting, $ilAuth, $ilUser, $tpl, $ilIliasIniFile, $ilias, $lng;
 
 		// if authentication of soap user failed, but email address is
 		// known, show users and ask for password
@@ -332,6 +332,22 @@ class ilStartUpGUI
 			{
 				$tpl->setVariable("TXT_LOGIN_INFORMATION", $information);
 			}
+
+			include_once("Services/Form/classes/class.ilPropertyFormGUI.php");
+			$form = new ilPropertyFormGUI();
+			$form->setOpenTag(false);
+			$form->setCloseTag(false);
+			$form->setTitle($lng->txt("login_to_ilias"));
+			$ti = new ilTextInputGUI($lng->txt("username"), "username");
+			$ti->setSize(20);
+			$form->addItem($ti);
+			$pi = new ilPasswordInputGUI($lng->txt("password"), "password");
+			$pi->setRetype(false);
+			$pi->setSize(20);
+			$form->addItem($pi);
+			$form->addCommandButton("butSubmit", $lng->txt("submit"));
+			$tpl->setVariable("LOGIN_FORM", $form->getHTML());
+			
 			$tpl->setVariable("TXT_ILIAS_LOGIN", $lng->txt("login_to_ilias"));
 			$tpl->setVariable("TXT_USERNAME", $lng->txt("username"));
 			$tpl->setVariable("TXT_PASSWORD", $lng->txt("password"));
@@ -353,21 +369,21 @@ class ilStartUpGUI
 
 		if($_GET['inactive'])
 		{
-			$tpl->setVariable(TXT_MSG_LOGIN_FAILED, $lng->txt('err_inactive'));
+			$this->showFailure($lng->txt("err_inactive"));
 		}
 		else if($_GET['expired'])
 		{
-			$tpl->setVariable(TXT_MSG_LOGIN_FAILED, $lng->txt('err_session_expired'));
+			$this->showFailure($lng->txt("err_session_expired"));
 		}
 		else if($_GET['login_to_purchase_object'])
 		{
 			$lng->loadLanguageModule('payment');
-			$tpl->setVariable(TXT_MSG_LOGIN_FAILED, $lng->txt('payment_login_to_buy_object'));
+			$this->showFailure($lng->txt("payment_login_to_buy_object"));
 		}
 		else if(isset($_GET['reg_confirmation_msg']) && strlen(trim($_GET['reg_confirmation_msg'])))
 		{
 			$lng->loadLanguageModule('registration');
-			$tpl->setVariable('TXT_MSG_LOGIN_FAILED', $lng->txt(trim($_GET['reg_confirmation_msg'])));
+			$this->showFailure($lng->txt(trim($_GET['reg_confirmation_msg'])));
 		}
 
 		// TODO: Move this to header.inc since an expired session could not detected in login script
@@ -385,7 +401,7 @@ class ilStartUpGUI
 			switch ($status)
 			{
 				case AUTH_EXPIRED:
-					$tpl->setVariable('TXT_MSG_LOGIN_FAILED', $lng->txt("err_session_expired"));
+					$this->showFailure($lng->txt("err_session_expired"));
 					break;
 				case AUTH_IDLED:
 					// lang variable err_idled not existing
@@ -393,28 +409,23 @@ class ilStartUpGUI
 					break;
 
 				case AUTH_CAS_NO_ILIAS_USER:
-					$tpl->setVariable('TXT_MSG_LOGIN_FAILED',
-						$lng->txt("err_auth_cas_no_ilias_user"));
+					$this->showFailure($lng->txt("err_auth_cas_no_ilias_user"));
 					break;
 
 				case AUTH_SOAP_NO_ILIAS_USER:
-					$tpl->setVariable('TXT_MSG_LOGIN_FAILED',
-					$lng->txt("err_auth_soap_no_ilias_user"));
+					$this->showFailure($lng->txt("err_auth_soap_no_ilias_user"));
 					break;
 
 				case AUTH_LDAP_NO_ILIAS_USER:
-					$tpl->setVariable('TXT_MSG_LOGIN_FAILED',
-						$lng->txt('err_auth_ldap_no_ilias_user'));
+					$this->showFailure($lng->txt("err_auth_ldap_no_ilias_user"));
 					break;
 				
 				case AUTH_RADIUS_NO_ILIAS_USER:
-					$tpl->setVariable('TXT_MSG_LOGIN_FAILED',
-						$lng->txt('err_auth_radius_no_ilias_user'));
+					$this->showFailure($lng->txt("err_auth_radius_no_ilias_user"));
 					break;
 					
 				case AUTH_MODE_INACTIVE:
-					$tpl->setVariable('TXT_MSG_LOGIN_FAILED',
-						$lng->txt('err_auth_mode_inactive'));
+					$this->showFailure($lng->txt("err_auth_mode_inactive"));
 					break;
 							
 					
@@ -425,7 +436,7 @@ class ilStartUpGUI
 					{
 						$add = "<br>".$auth_error->getMessage();
 					}
-					$tpl->setVariable(TXT_MSG_LOGIN_FAILED, $lng->txt("err_wrong_login").$add);
+					$this->showFailure($lng->txt("err_wrong_login").$add);
 					break;
 			}
 		}
@@ -433,19 +444,19 @@ class ilStartUpGUI
 
 		if ($_GET['time_limit'])
 		{
-			$tpl->setVariable("TXT_MSG_LOGIN_FAILED", $lng->txt('time_limit_reached'));
+			$this->showFailure($lng->txt("time_limit_reached"));
 		}
 
 		// output wrong IP message
 		if($_GET['wrong_ip'])
 		{
-			$tpl->setVariable("TXT_MSG_LOGIN_FAILED", $lng->txt('wrong_ip_detected')." (".$_SERVER["REMOTE_ADDR"].")");
+			$this->showFailure($lng->txt("wrong_ip_detected")." (".$_SERVER["REMOTE_ADDR"].")");
 		}
 		
 		// outout simultaneous login message
 		if($_GET['simultaneous_login'])
 		{
-			$tpl->setVariable('TXT_MSG_LOGIN_FAILED', $lng->txt('simultaneous_login_detected'));
+			$this->showFailure($lng->txt("simultaneous_login_detected"));
 		}
 
 		$this->ctrl->setTargetScript("ilias.php");
@@ -457,13 +468,25 @@ class ilStartUpGUI
 		// browser does not accept cookies
 		if ($_GET['cookies'] == 'nocookies')
 		{
-			$tpl->setVariable(TXT_MSG_LOGIN_FAILED, $lng->txt("err_no_cookies"));
+			$this->showFailure($lng->txt("err_no_cookies"));
 			$tpl->setVariable("COOKIES_HOWTO", $lng->txt("cookies_howto"));
 			$tpl->setVariable("LINK_NO_COOKIES",
 				$this->ctrl->getLinkTarget($this, "showNoCookiesScreen"));
 		}
 
 		$tpl->show("DEFAULT", false);
+	}
+	
+	function showFailure($a_mess)
+	{
+		global $tpl, $lng;
+		
+		$tpl->setCurrentBlock("warning");
+		$tpl->setVariable('TXT_MSG_LOGIN_FAILED', $a_mess);
+		$tpl->setVariable("MESSAGE_HEADING", $lng->txt("failure_message"));
+		$tpl->setVariable("ALT_IMAGE", $lng->txt("icon")." ".$lng->txt("failure_message"));
+		$tpl->setVariable("SRC_IMAGE", ilUtil::getImagePath("mess_failure.gif"));
+		$tpl->parseCurrentBlock();
 	}
 	
 	/**
@@ -664,9 +687,7 @@ class ilStartUpGUI
 
 		if ($ilAuth->sub_status == AUTH_WRONG_LOGIN)
 		{
-			$tpl->setCurrentBlock("msg");
-			$tpl->setVariable("TXT_MSG_LOGIN_FAILED", $lng->txt("err_wrong_login"));
-			$tpl->parseCurrentBlock();
+			$this->showFailure($lng->txt("err_wrong_login"));
 		}
 
 		include_once('./Services/User/classes/class.ilObjUser.php');

@@ -141,7 +141,7 @@ class ilShopPublicSectionSelector extends ilLMTOCExplorer
 		}
 		
 		// set global body class
-		$tpl->setVariable('BODY_CLASS', 'il_Explorer');
+		$tpl->setBodyClass("il_Explorer");
 		
 		$tpl_tree = new ilTemplate('tpl.tree_form.html', true, true);
 		

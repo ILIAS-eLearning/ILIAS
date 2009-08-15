@@ -2,9 +2,6 @@
 
 div.ilFrame{
 	padding:5px;
-	background-image: url(images/frame_back.gif);
-	background-repeat: repeat-x;
-	background-color: #f0f0f0;
 }
 
 div.ilFrameH{
@@ -24,6 +21,12 @@ div.ilFrameTR{
 	background-position: top right;
 }
 
+div.ilFrameBR{
+	background-image: url(images/brbw.gif);
+	background-repeat: no-repeat;
+	background-position: bottom right;
+	padding: 0px 10px 10px 10px;
+}
 
 .btnbar {
 	background-color:#ffffff;
@@ -850,8 +853,7 @@ table.ilExplorer {
 }
 
 div.ilExplorerFrame {
-	padding:5px;
-	min-height:600px;
+	padding: 53px 5px;
 }
 
 td.ilExpH {
@@ -864,11 +866,11 @@ div.il_Explorer
 {
 	margin:0px;
 	padding:3px;
-	min-height: 550px;
+	min-height: 468px;
 	background-image: url(images/blbw.gif);
 	background-repeat: no-repeat;
 	background-position: bottom left;
-	padding: 10px 5px; 
+	padding: 10px 5px 15px 5px; 
 }
 
 div.ilExpH{
@@ -1001,16 +1003,24 @@ div.il_Header, a#il_mhead_t_focus
 	color: #505050;
 }
 
-h1.il_Header
+h1.ilHeader
 {
-	padding-left: 5px;
+	margin: 0px;
+	padding: 0px 10px 0px 50px;
+}
+div.ilHeaderDesc
+{
+	padding-left: 51px;
+	font-size: 80%;
+	padding-top: 3px;
+	color: #808080;
 }
 
 div.il_HeaderInner
 {
 	float:left;
 	margin: 0px;
-	padding-left: 10px;
+	padding: 15px 10px 20px 10px;
 	color:#222222;
 }
 
@@ -1065,7 +1075,6 @@ div.il_Footer
 	padding-bottom:10px;
 	font-size: 90%;
 	text-align:center;
-	background-color: #F9F9F9;
 }
 
 /* ----------------- permanent link  ------------- */
@@ -2203,10 +2212,12 @@ div.ilTabContentInner
 }
 
 
-div.ilBelowMainMenu
+div.ilFrameBL
 {
+	background-image: url(images/blbw.gif);
+	background-repeat: no-repeat;
+	background-position: bottom left;
 	background-color: #F9F9F9;
-	padding: 0px 5px 10px 5px;
 }
 
 body {
@@ -2218,6 +2229,8 @@ body {
 }
 
 body.std {
+	background-image: url(images/frame_back.gif);
+	background-repeat: repeat-x;
 	background-color: #f0f0f0;
 }
 

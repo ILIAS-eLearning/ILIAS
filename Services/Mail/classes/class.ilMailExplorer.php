@@ -85,7 +85,7 @@ class ilMailExplorer extends ilExplorer
 		$tpl->addBlockFile("EXPLORER_TOP", "exp_top", "tpl.explorer_top.html");
 		
 		// set global body class
-		$tpl->setVariable("BODY_CLASS", "il_Explorer");
+		$tpl->setBodyClass("il_Explorer");
 		
 		$tpl_tree = new ilTemplate("tpl.tree.html", true, true);
 		
