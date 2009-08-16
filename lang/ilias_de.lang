@@ -2000,7 +2000,7 @@ common#:#check_link#:#Externen Link überprüfen
 common#:#check_link_desc#:#Wenn eingeschaltet, werden alle ILIAS-Lerneinheiten nach ungültigen externen Links überprüft.
 common#:#check_max_allowed_packet_size#:#Der Seiteninhalt ist zu umfangreich.
 common#:#check_user_accounts#:#Benutzerzugänge überprüfen
-common#:#check_user_accounts_desc#:#Wenn Cron-jobs aktiviert sind und diese Option eingeschaltet ist, werden alle Benutzer, deren Zugang zeitlich begrenzt ist, 2 Wochen vor Ablauf darüber informiert.
+common#:#check_user_accounts_desc#:#Wenn Cron-jobs aktiviert sind und diese Option eingeschaltet ist, werden alle Benutzer, deren Zugang zeitlich begrenzt ist, 2 Wochen vor Ablauf darüber informiert. Des Weiteren werden alle Benutzer gelöscht, die ihren Zugang nach einer Neuanmeldung mit E-Mail-Bestätigungslink nicht aktiviert haben.
 common#:#check_web_resources#:#Links überprüfen
 common#:#check_web_resources_desc#:#Wenn eingeschaltet, werden alle Links nach ungültigen externen Links überprüft.
 common#:#chg_ilias_and_webfolder_password#:#ILIAS and Webordner Passwort ändern
