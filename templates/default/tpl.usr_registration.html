@@ -1,10 +1,11 @@
-<style>
-body { margin: 15px; }
-</style>
+<div class="ilFrame" style="margin-top:5px; width:700px; margin-left:auto; margin-right:auto;"><div class="ilFrameH"><div class="ilFrameTL"><div class="ilFrameTR">
+<img src="./templates/default/images/HeaderIcon.png" border="0" style="margin: 20px;"/>
+<div class="ilFrameBL"><div class="ilFrameBR" style="min-height: 450px;">
+<div style="padding:10px 10px;">
+<div>
 {STATUSLINE}
-
 <form action="{FORMACTION}" {TARGET} method="post">
-<div class="il_Header">
+<div class="il_Header" style="margin:20px 0px;">
 <div style="float:right;">
 	<input type="hidden" name="cmd" value="">
 	<select name="change_lang_to" onChange="this.form.submit()">
@@ -15,7 +16,7 @@ body { margin: 15px; }
 	</select>
 	<input class="submit" type="submit" value="{TXT_OK}"/>
 </div>
-<h1><img border="0" src="{IMG_USER}" style="vertical-align:middle" />&nbsp;{TXT_PAGEHEADLINE}</h1>
+<h1><!-- <img border="0" src="{IMG_USER}" style="vertical-align:middle" />&nbsp;-->{TXT_PAGEHEADLINE}</h1>
 </div>
 <p>{TXT_WELCOME}</p>
 {MESSAGE}
@@ -230,4 +231,6 @@ body { margin: 15px; }
   </tr>
 </table>
 </form>
-
+</div>
+</div>
+</div></div></div></div></div></div>
