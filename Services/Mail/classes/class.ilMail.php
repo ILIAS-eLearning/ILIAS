@@ -1908,7 +1908,7 @@ class ilMail
 		if($this->appendInstallationSignature())
 		{
 			$a_m_message .= self::_getInstallationSignature();
-		}vd($a_m_message);
+		}
 			
 		// save mail in sent box
 		$sent_id = $this->saveInSentbox($a_attachment,$a_rcp_to,$a_rcp_cc,$a_rcp_bc,$a_type,
