@@ -1768,7 +1768,7 @@ common#:#check_link#:#Link check
 common#:#check_link_desc#:#If enabled all external links in ILIAS learning modules will be checked if they are active.
 common#:#check_max_allowed_packet_size#:#The page content size is too large.
 common#:#check_user_accounts#:#Check user accounts
-common#:#check_user_accounts_desc#:#If cron jobs are activated and this option is enabled, all users whose account expires will be informed by e-mail.
+common#:#check_user_accounts_desc#:#If cron jobs are activated and this option is enabled, all users whose account expires will be informed by e-mail. Furthermore all users which have not confirmed their account after a registration with e-mail confirmation will be deleted.
 common#:#check_web_resources#:#Check Web Resources
 common#:#check_web_resources_desc#:#If enabled all Web Resources will be checked if they are active.
 common#:#checked_files#:#Importable files

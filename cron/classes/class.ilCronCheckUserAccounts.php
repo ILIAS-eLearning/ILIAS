@@ -90,11 +90,41 @@ class ilCronCheckUserAccounts
 		}
 
 		$this->log->write('Cron: End ilCronCheckUserAccounts::check()');
+		
+		$this->checkNotConfirmedUserAccounts();
 	}
 	function txt($language,$key,$module = 'common')
 	{
-		include_once './Services/Language/classes/class.ilLanguage.php';
+		include_once 'Services/Language/classes/class.ilLanguage.php';
 		return ilLanguage::_lookupEntry($language, $module, $key);
+	}
+	
+	protected function checkNotConfirmedUserAccounts()
+	{
+		global  $ilDB;
+		
+		$this->log->write('Cron: Start '.__METHOD__);
+		
+		require_once 'Services/Registration/classes/class.ilRegistrationSettings.php';
+		$oRegSettigs = new ilRegistrationSettings();
+		
+		$query = 'SELECT usr_id FROM usr_data '
+			   . 'WHERE reg_hash IS NOT NULL '
+			   . 'AND active = %s ' 
+			   . 'AND create_date < %s';
+		$res = $ilDB->queryF(
+			$query,
+			array('integer', 'timestamp'),
+			array(0, date('Y-m-d H:i:s', time() - (int)$oRegSettigs->getRegistrationHashLifetime()))
+		);
+		while($row = $ilDB->fetchAssoc($res))
+		{
+			$oUser = ilObjectFactory::getInstanceByObjId((int)$row['usr_id']);
+			$oUser->delete();
+			$this->log->write('Cron: Deleted '.$oUser->getLogin().' ['.$oUser->getId().'] '.__METHOD__);
+		}
+
+		$this->log->write('Cron: End '.__METHOD__);
 	}
 }
 
