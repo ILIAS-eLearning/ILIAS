@@ -76,8 +76,8 @@ class ilCourseObjectiveMaterialAssignmentTableGUI extends ilTable2GUI
 		$this->setNoEntriesText($this->lng->txt('crs_no_objective_lms_found'));
 		
 		
-		#$this->addCommandButton('updateMaterialAssignment',$this->lng->txt('crs_wiz_next'));
-		$this->addMultiCommand('updateMaterialAssignment', $this->lng->txt('crs_wiz_next'));
+		$this->addCommandButton('updateMaterialAssignment',$this->lng->txt('crs_wiz_next'));
+		#$this->addMultiCommand('updateMaterialAssignment', $this->lng->txt('crs_wiz_next'));
 		$this->addCommandButton('create',$this->lng->txt('crs_wiz_back'));
 		
 		$this->initObjectiveAssignments();
