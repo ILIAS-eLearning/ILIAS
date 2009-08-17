@@ -23,6 +23,7 @@
 
 include_once("classes/class.ilObjectAccess.php");
 include_once './Modules/Course/classes/class.ilCourseConstants.php';
+include_once 'Modules/Course/classes/class.ilCourseParticipants.php';
 
 /**
 * Class ilObjCourseAccess
@@ -55,13 +56,12 @@ class ilObjCourseAccess extends ilObjectAccess
 			$a_user_id = $ilUser->getId();
 		}
 		
-		
+		$participants = ilCourseParticipants::_getInstanceByObjId($a_obj_id);
 
 		switch ($a_cmd)
 		{
 			case "view":
-				include_once 'Modules/Course/classes/class.ilCourseParticipants.php';
-				if(ilCourseParticipants::_isBlocked($a_obj_id,$a_user_id) and ilCourseParticipants::_isParticipant($a_ref_id,$a_user_id))
+				if($participants->isBlocked($a_user_id) and $participants->isAssigned($a_user_id))
 				{
 					$ilAccess->addInfoItem(IL_NO_OBJECT_ACCESS, $lng->txt("crs_status_blocked"));
 					return false;
@@ -76,8 +76,7 @@ class ilObjCourseAccess extends ilObjectAccess
 					return false;
 				}
 
-				include_once 'Modules/Course/classes/class.ilCourseParticipants.php';
-				if(ilCourseParticipants::_isParticipant($a_ref_id,$a_user_id))
+				if($participants->isAssigned($a_user_id))
 				{
 					return false;
 				}
@@ -89,7 +88,7 @@ class ilObjCourseAccess extends ilObjectAccess
 				if($a_permission == 'leave')
 				{
 					include_once './Modules/Course/classes/class.ilCourseParticipants.php';
-					if(!ilCourseParticipants::_isParticipant($a_ref_id, $a_user_id))
+					if(!$participants->isAssigned($a_user_id) or $participants->isLastAdmin($a_user_id))
 					{
 						return false;
 					}
@@ -137,8 +136,7 @@ class ilObjCourseAccess extends ilObjectAccess
 					return false;
 				}
 				
-				include_once('Modules/Course/classes/class.ilCourseParticipants.php');
-				if(ilCourseParticipants::_isBlocked($a_obj_id,$a_user_id) and ilCourseParticipants::_isParticipant($a_ref_id,$a_user_id))
+				if($participants->isBlocked($a_user_id) and $participants->isAssigned($a_user_id))
 				{
 					$ilAccess->addInfoItem(IL_NO_OBJECT_ACCESS, $lng->txt("crs_status_blocked"));
 					return false;

@@ -2928,7 +2928,17 @@ class ilObjCourseGUI extends ilContainerGUI
 	
 	public function leaveObject()
 	{
+		global $ilUser;
+		
 		$this->checkPermission('leave');
+		
+		if($this->object->members_obj->isLastAdmin($ilUser->getId()))
+		{
+			ilUtil::sendFailure($this->lng->txt('crs_min_one_admin'));
+			$this->viewObject();
+			return false;
+		}
+		
 		
 		$this->tabs_gui->setTabActive('crs_unsubscribe');
 		
