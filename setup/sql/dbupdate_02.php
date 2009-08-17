@@ -15225,3 +15225,8 @@ $ilDB->addPrimaryKey("cache_clob", array("component", "name", "entry_id"));
 <?php
 $ilCtrlStructureReader->getStructure();
 ?>
+<#2827>
+<?php
+	$setting = new ilSetting();
+	$setting->set("icon_position_in_lists", "item_rows");
+?>
