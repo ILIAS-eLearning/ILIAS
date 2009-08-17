@@ -46,8 +46,17 @@ abstract class ilObjectPluginGUI extends ilObject2GUI
 				$lng->txt("icon")." ".$this->txt("obj_".$this->object->getType()));
 				
 			// set tabs
-			$this->setTabs();
-			$this->setLocator();
+			if (strtolower($_GET["baseClass"]) != "iladministrationgui")
+			{
+				$this->setTabs();
+				$this->setLocator();
+			}
+			else
+			{
+				$this->addAdminLocatorItems();
+				$tpl->setLocator();
+				$this->setAdminTabs();
+			}
 			
 			// add entry to navigation history
 			if ($ilAccess->checkAccess("read", "", $_GET["ref_id"]))
@@ -86,6 +95,12 @@ abstract class ilObjectPluginGUI extends ilObject2GUI
 			break;
 
 			default:
+				if (strtolower($_GET["baseClass"]) == "iladministrationgui")
+				{
+					$this->viewObject();
+					$tpl->show();
+					return;
+				}
 				if(!$cmd)
 				{
 					$cmd = $this->getStandardCmd();

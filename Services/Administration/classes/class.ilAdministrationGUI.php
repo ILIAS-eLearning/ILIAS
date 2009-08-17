@@ -116,7 +116,7 @@ class ilAdministrationGUI
 	*/
 	function &executeCommand()
 	{
-		global $tree, $rbacsystem, $ilias, $lng;
+		global $tree, $rbacsystem, $ilias, $lng, $objDefinition;
 		
 		// permission checks
 		include_once './Services/MainMenu/classes/class.ilMainMenuGUI.php';
@@ -232,7 +232,14 @@ class ilAdministrationGUI
 					}
 					else
 					{
-						$this->gui_obj = new $class_name("", $this->cur_ref_id, true, false);
+						if ($objDefinition->isPlugin(ilObject::_lookupType($this->cur_ref_id,true)))
+						{
+							$this->gui_obj = new $class_name($this->cur_ref_id);
+						}
+						else
+						{
+							$this->gui_obj = new $class_name("", $this->cur_ref_id, true, false);
+						}
 						$this->gui_obj->setCreationMode($this->creation_mode);
 					}
 					$tabs_out = ($new_type == "")

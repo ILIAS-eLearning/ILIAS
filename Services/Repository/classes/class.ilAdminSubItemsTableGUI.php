@@ -171,8 +171,12 @@ class ilAdminSubItemsTableGUI extends ilTable2GUI
 		$this->tpl->setVariable("VAL_TITLE", $title);
 		$this->tpl->setVariable("VAL_DESC", ilUtil::shortenText($a_set["desc"] ,MAXLENGTH_OBJ_DESC, true));
 		$this->tpl->setVariable("VAL_LAST_CHANGE", $a_set["last_update"]);
-		$this->tpl->setVariable("IMG_TYPE", ilUtil::img(ilUtil::getImagePath("icon_".$a_set["type"].".gif"),
-			$lng->txt("icon")." ".$lng->txt("obj_".$a_set["type"])));
+		$alt = ($objDefinition->isPlugin($a_set["type"]))
+			? $lng->txt("icon")." ".ilPlugin::lookupTxt("rep_robj", $a_set["type"], "obj_".$a_set["type"])
+			: $lng->txt("icon")." ".$lng->txt("obj_".$a_set["type"]);
+		$this->tpl->setVariable("IMG_TYPE", ilUtil::img(ilObject::_getIcon($a_set["obj_id"], "small"), $alt));
+		//$this->tpl->setVariable("IMG_TYPE", ilObject::_getIcon($a_set["obj_id"], "small", $this->getIconImageType()),
+		//	$lng->txt("icon")." ".$lng->txt("obj_".$a_set["type"])));
 	}
 
 }
