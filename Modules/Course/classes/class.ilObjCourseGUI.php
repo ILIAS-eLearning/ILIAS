@@ -911,7 +911,7 @@ class ilObjCourseGUI extends ilContainerGUI
 	
 		include_once("./Services/Form/classes/class.ilPropertyFormGUI.php");
 		$this->form = new ilPropertyFormGUI();
-		$this->form->setFormAction($this->ctrl->getFormAction($this));
+		$this->form->setFormAction($this->ctrl->getFormAction($this,'updateInfo'));
 		$this->form->setMultipart(true);
 		$this->form->setTitle($this->lng->txt('crs_general_info'));
 		$this->form->addCommandButton('updateInfo',$this->lng->txt('save'));
@@ -1212,10 +1212,11 @@ class ilObjCourseGUI extends ilContainerGUI
 		$this->form->addCommandButton('cancel',$this->lng->txt('cancel'));
 		
 		$this->form->setTableWidth('75%');
-		$this->form->setFormAction($this->ctrl->getFormAction($this));
+		$this->form->setFormAction($this->ctrl->getFormAction($this,'update'));
 		
 		// title
 		$title = new ilTextInputGUI($this->lng->txt('title'),'title');
+		$title->setSubmitFormOnEnter(true);
 		$title->setValue($this->object->getTitle());
 		$title->setSize(40);
 		$title->setMaxLength(128);
@@ -1309,6 +1310,7 @@ class ilObjCourseGUI extends ilContainerGUI
 			$opt = new ilRadioOption($this->lng->txt('crs_subscription_options_password'),IL_CRS_SUBSCRIPTION_PASSWORD);
 			
 				$pass = new ilTextInputGUI('','subscription_password');
+				$pass->setSubmitFormOnEnter(true);
 				$pass->setSize(12);
 				$pass->setMaxLength(12);
 				$pass->setValue($this->object->getSubscriptionPassword());
@@ -1325,6 +1327,7 @@ class ilObjCourseGUI extends ilContainerGUI
 		$lim->setChecked($this->object->isSubscriptionMembershipLimited());
 		
 			$max = new ilTextInputGUI('','subscription_max');
+			$max->setSubmitFormOnEnter(true);
 			$max->setSize(4);
 			$max->setMaxLength(4);
 			$max->setValue($this->object->getSubscriptionMaxMembers() ? $this->object->getSubscriptionMaxMembers() : '');
@@ -1418,6 +1421,7 @@ class ilObjCourseGUI extends ilContainerGUI
 		$sess->setInfo($this->lng->txt('sess_limit_info'));
 			
 			$prev = new ilNumberInputGUI($this->lng->txt('sess_num_prev'),'sp');
+			#$prev->setSubmitFormOnEnter(true);
 			$prev->setMinValue(0);
 			$prev->setValue($this->object->getNumberOfPreviousSessions() == -1 ?
 				'' :
@@ -1428,6 +1432,7 @@ class ilObjCourseGUI extends ilContainerGUI
 			$sess->addSubItem($prev);
 			
 			$next = new ilNumberInputGUI($this->lng->txt('sess_num_next'),'sn');
+			#$next->setSubmitFormOnEnter(true);
 			$next->setMinValue(0);
 			$next->setValue($this->object->getNumberOfNextSessions() == -1 ?
 				'' :
@@ -1593,7 +1598,7 @@ class ilObjCourseGUI extends ilContainerGUI
 
 		$this->tpl->addBlockFile("ADM_CONTENT", "adm_content", "tpl.crs_edit_icons.html",'Modules/Course');
 		$this->showCustomIconsEditing();
-		$this->tpl->setVariable("FORMACTION", $this->ctrl->getFormAction($this));
+		$this->tpl->setVariable("FORMACTION", $this->ctrl->getFormAction($this,'updateCourseIcons'));
 		$this->tpl->setVariable("TXT_CANCEL", $this->lng->txt("cancel"));
 		$this->tpl->setVariable("TXT_SUBMIT", $this->lng->txt("save"));
 		$this->tpl->setVariable("CMD_CANCEL", "cancel");
