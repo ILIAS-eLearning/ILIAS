@@ -145,7 +145,7 @@ class ilCourseObjectiveResult
 		
 			foreach($tmp_obj_question->getTests() as $test_data)
 			{
-				$this->__deleteEntries($tmp_obj_question->getQuestionsByTest($test_data['ref_id']));
+				#$this->__deleteEntries($tmp_obj_question->getQuestionsByTest($test_data['ref_id']));
 				
 				if($tmp_test =& ilObjectFactory::getInstanceByRefId($test_data['ref_id']))
 				{
@@ -257,12 +257,12 @@ class ilCourseObjectiveResult
 		global $ilLog;
 		
 		$ilLog->logStack();
-		$ilLog(__METHOD__.': Call of deprecated method.');
+		#$ilLog(__METHOD__.': Call of deprecated method.');
 		
 		return true;
 	}
 
-	function _deleteUser($user_id)
+	public static function _deleteUser($user_id)
 	{
 		global $ilDB;
 
