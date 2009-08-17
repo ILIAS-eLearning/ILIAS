@@ -30,8 +30,8 @@ enabled = 1
 level = WARNING
 
 [debian]
-data_dir = /var/opt/ilias3
-log = /var/log/ilias3/ilias3.log
+data_dir = /var/opt/ilias
+log = /var/log/ilias/ilias.log
 convert = /usr/bin/convert
 zip = /usr/bin/zip
 unzip = /usr/bin/unzip

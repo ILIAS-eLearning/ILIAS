@@ -14,7 +14,7 @@ type = mysql
 host = localhost
 user = root
 pass =
-name = ilias3
+name = ilias
 
 [auth]
 table = usr_data
