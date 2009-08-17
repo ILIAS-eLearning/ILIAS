@@ -286,11 +286,13 @@ class ilObjCourseGUI extends ilContainerGUI
 		global $rbacsystem, $ilUser, $ilCtrl;
 
 		// CHECK ACCESS
+		$this->checkPermission('read','view');
+		/*
 		if(!$rbacsystem->checkAccess("read",$this->object->getRefId()))
 		{
 			$this->ilias->raiseError($this->lng->txt("msg_no_perm_read"),$this->ilias->error_obj->MESSAGE);
 		}
-		
+		*/
 		if (strtolower($_GET["baseClass"]) == "iladministrationgui")
 		{
 			parent::viewObject();
@@ -369,12 +371,14 @@ class ilObjCourseGUI extends ilContainerGUI
 	{
 		global $ilErr,$ilAccess;
 
+		$this->checkPermission('visible');
+		/*
 		if(!$ilAccess->checkAccess('visible','',$this->object->getRefId()))
 		{
 			$ilErr->raiseError($this->lng->txt('msg_no_perm_read'),$ilErr->MESSAGE);
 			return false;
 		}
-		
+		*/
 		
 		// Fill meta header tags
 		include_once('Services/MetaData/classes/class.ilMDUtils.php');
@@ -601,12 +605,15 @@ class ilObjCourseGUI extends ilContainerGUI
 		include_once './Modules/Course/classes/class.ilCourseStart.php';
 
 		global $rbacsystem;
-
+		
+		$this->checkPermission('write');
+		
+		/*
 		if(!$rbacsystem->checkAccess("write", $this->ref_id))
 		{
 			$this->ilias->raiseError($this->lng->txt("msg_no_perm_write"),$this->ilias->error_obj->MESSAGE);
 		}
-		
+		*/
 		$this->setSubTabs("properties");
 		$this->tabs_gui->setTabActive('settings');
 		$this->tabs_gui->setSubTabActive('crs_start_objects');
@@ -665,12 +672,14 @@ class ilObjCourseGUI extends ilContainerGUI
 		include_once './Modules/Course/classes/class.ilCourseStart.php';
 
 		global $rbacsystem;
-
+		
+		$this->checkPermission('write');
+		/*
 		if(!$rbacsystem->checkAccess("write", $this->ref_id))
 		{
 			$this->ilias->raiseError($this->lng->txt("msg_no_perm_write"),$this->ilias->error_obj->MESSAGE);
 		}
-
+		*/
 		$crs_start =& new ilCourseStart($this->object->getRefId(),$this->object->getId());
 		$crs_start->delete((int) $_GET['del_starter']);
 	
@@ -691,11 +700,13 @@ class ilObjCourseGUI extends ilContainerGUI
 
 		global $rbacsystem;
 
+		$this->checkPermission('write');
+		/*
 		if(!$rbacsystem->checkAccess("write", $this->ref_id))
 		{
 			$this->ilias->raiseError($this->lng->txt("msg_no_perm_write"),$this->ilias->error_obj->MESSAGE);
 		}
-
+		*/
 		$crs_start =& new ilCourseStart($this->object->getRefId(),$this->object->getId());
 
 		$this->tpl->addBlockFile("ADM_CONTENT", "adm_content", "tpl.crs_add_starter.html",'Modules/Course');
@@ -736,10 +747,13 @@ class ilObjCourseGUI extends ilContainerGUI
 
 		global $rbacsystem;
 
+		$this->checkPermission('write');
+		/*
 		if(!$rbacsystem->checkAccess("write", $this->ref_id))
 		{
 			$this->ilias->raiseError($this->lng->txt("msg_no_perm_write"),$this->ilias->error_obj->MESSAGE);
 		}
+		*/
 		if(!count($_POST['starter']))
 		{
 			ilUtil::sendFailure($this->lng->txt('crs_select_one_object'));
@@ -786,10 +800,13 @@ class ilObjCourseGUI extends ilContainerGUI
 
 		global $ilErr,$ilAccess;
 
+		$this->checkPermission('write');
+		/*
 		if(!$ilAccess->checkAccess('write','',$this->object->getRefId()))
 		{
 			$ilErr->raiseError($this->lng->txt('msg_no_perm_read'),$ilErr->MESSAGE);
 		}
+		*/
 		$this->setSubTabs('properties');
 		$this->tabs_gui->setTabActive('settings');
 		$this->tabs_gui->setSubTabActive('crs_info_settings');
@@ -984,11 +1001,13 @@ class ilObjCourseGUI extends ilContainerGUI
 	{
 		global $ilErr,$ilAccess;
 
+		$this->checkPermission('write');
+		/*
 		if(!$ilAccess->checkAccess('write','',$this->object->getRefId()))
 		{
 			$ilErr->raiseError($this->lng->txt('msg_no_perm_read'),$ilErr->MESSAGE);
 		}
-		
+		*/
 		include_once 'Modules/Course/classes/class.ilCourseFile.php';
 		$file_obj = new ilCourseFile();
 		$file_obj->setCourseId($this->object->getId());
@@ -1588,11 +1607,13 @@ class ilObjCourseGUI extends ilContainerGUI
 	{
 		global $rbacsystem;
 
+		$this->checkPermission('write');
+		/*
 		if(!$rbacsystem->checkAccess("write", $this->ref_id))
 		{
 			$this->ilias->raiseError($this->lng->txt("msg_no_perm_read"),$this->ilias->error_obj->MESSAGE);
 		}
-		
+		*/
 		$this->setSubTabs("properties");
 		$this->tabs_gui->setTabActive('settings');
 
@@ -1622,11 +1643,13 @@ class ilObjCourseGUI extends ilContainerGUI
 	{
 		global $rbacsystem;
 		
+		$this->checkPermission('write');
+		/*
 		if (!$rbacsystem->checkAccess("write",$_GET["ref_id"]) )
 		{
 			$this->ilErr->raiseError($this->lng->txt("permission_denied"),$this->ilErr->MESSAGE);
 		}
-		
+		*/
 		//save custom icons
 		if ($this->ilias->getSetting("custom_icons"))
 		{
@@ -1839,10 +1862,13 @@ class ilObjCourseGUI extends ilContainerGUI
 		$_POST["archives"] = $_POST["archives"] ? $_POST["archives"] : array();
 
 		// MINIMUM ACCESS LEVEL = 'write'
+		$this->checkPermission('read');
+		/*
 		if(!$rbacsystem->checkAccess("read", $this->object->getRefId()))
 		{
 			$this->ilias->raiseError($this->lng->txt("msg_no_perm_read"),$this->ilias->error_obj->MESSAGE);
 		}
+		*/
 		if(!count($_POST['archives']))
 		{
 			ilUtil::sendFailure($this->lng->txt('crs_no_archive_selected'));
@@ -2601,10 +2627,13 @@ class ilObjCourseGUI extends ilContainerGUI
 		global $rbacsystem;
 
 		// MINIMUM ACCESS LEVEL = 'administrate'
+		$this->checkPermission('write');
+		/*
 		if(!$rbacsystem->checkAccess("write", $this->object->getRefId()))
 		{
 			$this->ilias->raiseError($this->lng->txt("msg_no_perm_write"),$this->ilias->error_obj->MESSAGE);
 		}
+		*/
 		if(!is_array($_POST["user"]))
 		{
 			ilUtil::sendFailure($this->lng->txt("crs_no_users_selected"));
@@ -2743,11 +2772,13 @@ class ilObjCourseGUI extends ilContainerGUI
 		global $rbacsystem;
 
 		// MINIMUM ACCESS LEVEL = 'administrate'
+		$this->checkPermission('write');
+		/*
 		if(!$rbacsystem->checkAccess("write", $this->object->getRefId()))
 		{
 			$this->ilias->raiseError($this->lng->txt("msg_no_perm_write"),$this->ilias->error_obj->MESSAGE);
 		}
-
+		*/
 		if(!is_array($_SESSION["crs_delete_waiting_list_ids"]))
 		{
 			ilUtil::sendFailure($this->lng->txt("crs_no_users_selected"));
@@ -2839,10 +2870,13 @@ class ilObjCourseGUI extends ilContainerGUI
 		$this->tabs_gui->setTabActive('members');
 
 		// MINIMUM ACCESS LEVEL = 'administrate'
+		$this->checkPermission('write');
+		/*
 		if(!$rbacsystem->checkAccess("write", $this->object->getRefId()))
 		{
 			$this->ilias->raiseError($this->lng->txt("msg_no_perm_write"),$this->ilias->error_obj->MESSAGE);
 		}
+		*/
 		if(!is_array($_POST["subscriber"]) or !count($_POST["subscriber"]))
 		{
 			ilUtil::sendFailure($this->lng->txt("crs_no_subscribers_selected"));
@@ -2888,10 +2922,13 @@ class ilObjCourseGUI extends ilContainerGUI
 		$this->tabs_gui->setTabActive('members');
 
 		// MINIMUM ACCESS LEVEL = 'administrate'
+		$this->checkPermission('write');
+		/*
 		if(!$rbacsystem->checkAccess("write", $this->object->getRefId()))
 		{
 			$this->ilias->raiseError($this->lng->txt("msg_no_perm_write"),$this->ilias->error_obj->MESSAGE);
 		}
+		*/
 		if(!is_array($_POST["waiting_list"]) or !count($_POST["waiting_list"]))
 		{
 			ilUtil::sendFailure($this->lng->txt("crs_no_users_selected"));
@@ -2964,10 +3001,13 @@ class ilObjCourseGUI extends ilContainerGUI
 		global $rbacsystem,$ilAccess;
 
 		// CHECK ACCESS
+		$this->checkPermission('leave');
+		/*
 		if(!$ilAccess->checkAccess("leave",'', $this->ref_id))
 		{
 			$this->ilias->raiseError($this->lng->txt("msg_no_perm_write"),$this->ilias->error_obj->MESSAGE);
 		}
+		*/
 
 		$this->tabs_gui->setTabActive('crs_unsubscribe');
 		#$this->setSubTabs('members');
@@ -2989,10 +3029,13 @@ class ilObjCourseGUI extends ilContainerGUI
 		global $rbacsystem;
 
 		// CHECK ACCESS
+		$this->checkPermission('leave');
+		/*
 		if(!$rbacsystem->checkAccess("leave", $this->ref_id))
 		{
 			$this->ilias->raiseError($this->lng->txt("msg_no_perm_write"),$this->ilias->error_obj->MESSAGE);
 		}
+		*/
 		$this->object->initCourseMemberObject();
 		$this->object->members_obj->delete($this->ilias->account->getId());
 		$this->object->members_obj->sendUnsubscribeNotificationToAdmins($this->ilias->account->getId());
@@ -4384,10 +4427,16 @@ class ilObjCourseGUI extends ilContainerGUI
 				break;
 				
 			default:
+				if(!$this->creation_mode)
+				{
+					$this->checkPermission('visible');
+				}
+				/*
 				if(!$this->creation_mode and !$ilAccess->checkAccess('visible','',$this->object->getRefId(),'crs'))
 				{
 					$ilErr->raiseError($this->lng->txt("msg_no_perm_read"),$ilErr->MESSAGE);
 				}
+				*/
 				if( !$this->creation_mode
 					&& $cmd != 'infoScreen'
 					&& $cmd != 'sendfile'
