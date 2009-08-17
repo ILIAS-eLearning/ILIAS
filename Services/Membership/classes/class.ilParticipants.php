@@ -401,6 +401,17 @@ class ilParticipants
 	}
 	
 	/**
+	 * Check if user is last admin
+	 * @param int $a_usr_id
+	 * @return bool
+	 */
+	public function isLastAdmin($a_usr_id)
+	{
+		return in_array($a_usr_id,$this->getAdmins()) and count($this->getAdmins()) == 1;
+	}
+	
+	
+	/**
 	 * Get course roles
 	 *
 	 * @access public
