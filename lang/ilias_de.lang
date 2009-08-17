@@ -7,7 +7,7 @@
 * @version		$Id$
 * @il_server		http://localhost:8888/ilias-trunk
 * @il_version		4.0.0 Beta1 2009-07-24
-* @created		2009-08-17 15:55:21
+* @created		2009-08-17 16:36:13
 * @created_by		mkunkel Matthias Kunkel <m.kunkel@uni-koeln.de>
 */
 
@@ -182,15 +182,15 @@ administration#:#systemcheck#:#Systemcheck
 administration#:#tree_corrupt#:#Baum ist korrumpiert! Siehe Scan-Log für Details
 administration#:#view_last_log#:#Zeige letztes Scan-Log
 administration#:#view_log#:#Zeige Details
-adve#:#adve_grp_glo#:#Glossaries
-adve#:#adve_grp_lm#:#ILIAS Learning Modules
-adve#:#adve_grp_rep#:#Repository Pages
-adve#:#adve_grp_scorm#:#SCORM Editing
+adve#:#adve_grp_glo#:#Glossare
+adve#:#adve_grp_lm#:#ILIAS-Lernmodule
+adve#:#adve_grp_rep#:#Magazinseiten
+adve#:#adve_grp_scorm#:#SCORM bearbeiten
 adve#:#adve_grp_test#:#Test & Assessment
 adve#:#adve_grp_wiki#:#Wikis
-adve#:#adve_page_editor_settings#:#ILIAS Page Editor Settings
-adve#:#adve_rte_settings#:#Rich Text Editor Settings
-adve#:#adve_text_content_features#:#Text Content Menu
+adve#:#adve_page_editor_settings#:#Einstellungen ILIAS-Seiteneditor
+adve#:#adve_rte_settings#:#Einstellungen Rich Text Editor
+adve#:#adve_text_content_features#:#Text Content Menü
 assessment#:#0_unlimited#:#(0 = unbegrenzt)
 assessment#:#action#:#Aktion
 assessment#:#add_answer#:#Antwort hinzufügen
@@ -438,7 +438,7 @@ assessment#:#insert_after#:#Einfügen hinter
 assessment#:#insert_before#:#Einfügen vor
 assessment#:#internal_links#:#Interne Verweise
 assessment#:#internal_links_update#:#Aktualisierung
-assessment#:#javaapplet#:#Java Applet
+assessment#:#javaapplet#:#Java-Applet
 assessment#:#keywords_hint#:#Um eine automatische Punktevergabe für die Freitext-Frage zu erreichen, geben Sie hier bitte eine Liste von Schlüsselwörtern an, die durch Leerzeichen oder Zeilenumbrüche voneinander getrennt sind. Wenn eines der Schlüsselwörter in dem Antworttext gefunden wird, vergibt ILIAS die für die Frage eingetragene maximale Punktezahl anstelle der üblichen Bewertung von 0 Punkten.
 assessment#:#kiosk#:#Kiosk-Modus
 assessment#:#kiosk_description#:#Führt den Test in einem sogenannten Kiosk-Modus aus. Alle Bildschirmelemente, die nicht zum Test gehören, werden ausgeblendet, damit die Teilnehmerinnen und Teilnehmer keine Möglichkeit haben, den Test zu verlassen.
@@ -598,8 +598,8 @@ assessment#:#qpl_paste_success#:#Die Frage(n) wurde(n) in den Fragenpool eingef�
 assessment#:#qpl_question_is_in_use#:#Die Frage, die Sie jetzt bearbeiten möchten, existiert bereits in %s Test(s). Wenn Sie diese Frage jetzt verändern, so hat das KEINE Auswirkungen auf bereits in Tests eingebundene Fragen, da das System automatisch eine Kopie der Frage anlegt, wenn diese in einen Test eingebunden wird!
 assessment#:#qpl_questions_deleted#:#Frage(n) gelöscht
 assessment#:#qpl_select_file_for_import#:#Sie müssen eine Datei zum importieren auswählen!
-assessment#:#qst_hint_self#:#Self-Assessment-Mode active! Enter 0 points for incorrect answers, 1 point for correct answers.
-assessment#:#qst_nr_of_tries#:#Number of tries
+assessment#:#qst_hint_self#:#Selbstlernkontrolle aktiv! Geben Sie 0 Punkte für falsche und einen Punkt für richtige Antworten.
+assessment#:#qst_nr_of_tries#:#Anzahl der Versuche
 assessment#:#qt_multiple_choice#:#Multiple Choice Frage
 assessment#:#question_cumulated_statistics#:#Kumulierte Fragenstatistik
 assessment#:#question_instances_title#:#Diese Frage wird in den folgenden Tests verwendet
@@ -1211,7 +1211,7 @@ certificate#:#certificate_var_user_country#:#Deutschland
 certificate#:#certificate_var_user_department#:#Benutzerbetreuung
 certificate#:#certificate_var_user_firstname#:#Erika
 certificate#:#certificate_var_user_fullname#:#Erika Mustermann
-certificate#:#certificate_var_user_institution#:#ILIAS Open Source
+certificate#:#certificate_var_user_institution#:#ILIAS open source
 certificate#:#certificate_var_user_lastname#:#Mustermann
 certificate#:#certificate_var_user_street#:#Heidestraße 17
 certificate#:#certificate_var_user_title#:#Dr.
@@ -1259,7 +1259,7 @@ chat#:#chat_chat_invitation#:#Einladungen zu Chats
 chat#:#chat_chatroom_body#:#Chatraum:
 chat#:#chat_chatroom_rename#:#Chatraum bearbeiten
 chat#:#chat_chatrooms#:#Chaträume
-chat#:#chat_chatviewer#:#Chat Viewer
+chat#:#chat_chatviewer#:#Chatviewer
 chat#:#chat_color#:#Schriftfarbe
 chat#:#chat_confirm_delete_private_room#:#Sind Sie sicher, dass der Raum gelöscht werden soll?
 chat#:#chat_confirm_kick_user#:#Sind Sie sicher, dass der Benutzer rausgeworfen werden soll?
@@ -1386,10 +1386,10 @@ chat#:#chat_smilies_dir_not_available#:#Das Smiley-Verzeichnis konnte nicht ange
 chat#:#chat_smilies_dir_not_exists#:#Das Verzeichnis mit den Smiliey-Daten existiert nicht. Versuche es anzulegen.
 chat#:#chat_smilies_dir_not_writable#:#Das Smiley-Verzeichnis existiert, ist aber nicht beschreibbar. Es können keine neuen Smilies hinzugefügt werden.
 chat#:#chat_smilies_initialized#:#Die Smilies wurden erstellt und können nun benutzt werden
-chat#:#chat_smilies_status#:#Chat Smilies
+chat#:#chat_smilies_status#:#Chat-Smilies
 chat#:#chat_sound_status_activate#:#Sounds aktivieren
 chat#:#chat_sound_status_deactivate#:#Sounds deaktvieren
-chat#:#chat_sounds#:#Sounds
+chat#:#chat_sounds#:#Klänge
 chat#:#chat_start_recording#:#Aufnahme starten
 chat#:#chat_status#:#Status
 chat#:#chat_status_saved#:#Der Status wurde geändert
@@ -1402,7 +1402,7 @@ chat#:#chat_to_chat_body#:#Zum Chat
 chat#:#chat_type#:#Schriftart
 chat#:#chat_unblocked_user#:#Der Zugang für die ausgewählten Benutzer wurde freigeschaltet.
 chat#:#chat_underlined#:#Unterstrichen
-chat#:#chat_unkick#:#Unkick
+chat#:#chat_unkick#:#Wieder aufnehmen
 chat#:#chat_unkick_user_session#:#Sperrung aufheben
 chat#:#chat_upload_smiley#:#Smiley hochladen
 chat#:#chat_user_already_blocked#:#Der Zugang dieses Benutzers ist bereits gesperrt.
@@ -1415,7 +1415,7 @@ chat#:#chat_user_invited#:#Der Benutzer wurde zum Chat eingeladen.
 chat#:#chat_user_invited_private#:#Der Benutzer wurde in den privaten Chatraum '%s' eingeladen.
 chat#:#chat_user_invited_public#:#Der Benutzer wurde in den Chat '%s' eingeladen.
 chat#:#chat_user_name#:#Benutzername
-chat#:#chat_user_unkicked#:#The user has been unkicked.
+chat#:#chat_user_unkicked#:#Der Benutzer wurde wieder aufgenommen.
 chat#:#chat_user_visible#:#sichtbar
 chat#:#chat_whisper#:#Flüstern
 chat#:#chat_yellow#:#gelb
@@ -1457,9 +1457,9 @@ cmps#:#cmps_needs_upgrade#:#Die aktuell installierte Plugin-Version ist älter a
 cmps#:#cmps_no_db_update_file_available#:#Kein Datenbank-Update-Skript verfügbar
 cmps#:#cmps_no_language_file_available#:#Keine Sprachdatei verfügbar
 cmps#:#cmps_plugin#:#Plugin
-cmps#:#cmps_plugin_activated#:#The plugin has been activated.
+cmps#:#cmps_plugin_activated#:#Das Plugin wurde aktiviert.
 cmps#:#cmps_plugin_db_prefixes#:#Präfixe Datenbanktabelle
-cmps#:#cmps_plugin_deactivated#:#The plugin has been deactivated.
+cmps#:#cmps_plugin_deactivated#:#Das Plugin wurde deaktiviert.
 cmps#:#cmps_plugin_dirs#:#Plugin-Verzeichnisse
 cmps#:#cmps_plugin_file#:#Plugin-Datei
 cmps#:#cmps_plugin_lang_prefixes#:#Plugin-Sprachpräfixe
@@ -1479,12 +1479,12 @@ cmps#:#cmps_update_db#:#Datenbank aktualisieren
 cmps#:#cmps_version#:#Version
 cntr#:#cntr_add_new_item#:#Neues Objekt hinzufügen
 cntr#:#cntr_back_to_old_editor#:#Zurück zum alten Editor
-cntr#:#cntr_disable_multi_commands#:#Disable Multi Commands
-cntr#:#cntr_enable_multi_commands#:#Enable Multi Commands
+cntr#:#cntr_disable_multi_commands#:#Deaktiviere Multi-Commands
+cntr#:#cntr_enable_multi_commands#:#Aktiviere Multi-Commands
 cntr#:#cntr_hide_title_and_icon#:#Titel und Icon nicht anzeigen
 cntr#:#cntr_old_editor_open_standard_editor#:#Standard-Seiteneditor öffnen
 cntr#:#cntr_old_editor_warning#:#Dieser Editor wird aus technischen Gründen in einer der nächsten Versionen nicht mehr weiter unterstützt. Er kann noch für die Bearbeitung dieser Seite genutzt werden. Wir empfehlen aber, auf die Nutzung des Standard-Seiteneditors von ILIAS umzusteigen, wenn dies möglich ist.
-cntr#:#cntr_page_actions#:#Page Actions
+cntr#:#cntr_page_actions#:#Seitenaktionen
 cntr#:#cntr_switch_to_new_editor_cmd#:#Zu untenstehenden Inhalten wechseln. Alte Inhalte werden gelöscht.
 cntr#:#cntr_switch_to_new_editor_message#:#Dies ist der Standard-Seiteneditor. Wenn Sie ihn nutzen möchten, müssen Sie die Inhalte per Click auf die Platzhalter unten hinzufügen. Wenn Sie auf den nachfolgenden Link klicken, werden die untenstehende Inhalte für die Seitendarstellung genutzt.
 cntr#:#cntr_switched_editor#:#Auf neue Darstellung umgestellt
@@ -1513,10 +1513,10 @@ common#:#accessFree#:#Beschränkten Zugriff Deaktivieren
 common#:#accessRestrict#:#Beschränkten Zugriff Aktivieren
 common#:#account_expires_body#:#Ihr Benutzerzugang ist zeitlich begrenzt. Ablauftermin:
 common#:#account_expires_subject#:#[ILIAS 3] Benutzerzugang
-common#:#accs_edit_permission#:#Change permission settings
-common#:#accs_read#:#Read access to Accessibility Settings
-common#:#accs_visible#:#Accessibility Settings are visible
-common#:#accs_write#:#Edit Accessibility Settings
+common#:#accs_edit_permission#:#Rechteeinstellungen ändern
+common#:#accs_read#:#Lesezugriff auf Einstellungen Barrierefreiheit
+common#:#accs_visible#:#Einstellungen Barrierefreiheit sichtbar
+common#:#accs_write#:#Einstellungen Barrierefreiheit bearbeiten
 common#:#action#:#Aktion
 common#:#action_aborted#:#Aktion abgebrochen
 common#:#actions#:#Aktionen
@@ -1782,17 +1782,17 @@ common#:#bkm_import#:#Bookmarks importieren
 common#:#bkm_import_ok#:#Es wurden %d Bookmarks und %d Bookmark Ordner erfolgreich importiert.
 common#:#bkm_sendmail#:#Als Anhang versenden
 common#:#block#:#Block
-common#:#block_management#:#Block Management
+common#:#block_management#:#Blockmanagement
 common#:#bm#:#Bookmark
 common#:#bmf#:#Bookmark-Ordner
 common#:#bold#:#Fett
 common#:#bookings#:#Bestellungen
-common#:#bookmark_added#:#The Bookmark has been created.
+common#:#bookmark_added#:#Bookmark wurde angelegt!
 common#:#bookmark_edit#:#Bookmark bearbeiten
 common#:#bookmark_folder_edit#:#Bookmark Ordner bearbeiten
 common#:#bookmark_folder_new#:#Neuer Bookmark-Ordner
 common#:#bookmark_new#:#Bookmark hinzufügen
-common#:#bookmark_save_to#:#save as bookmark
+common#:#bookmark_save_to#:#Als Bookmark speichern
 common#:#bookmark_target#:#Ziel
 common#:#bookmarks#:#Bookmarks
 common#:#bookmarks_of#:#Bookmarks von
@@ -1885,7 +1885,7 @@ common#:#cen_save#:#Centra-Ereignis abspeichern
 common#:#censorship#:#Zensur
 common#:#centra_account#:#Centra Administrator Account
 common#:#centra_rooms#:#Centra-Räume
-common#:#centra_server#:#Centra Server
+common#:#centra_server#:#Centra-Server
 common#:#cert_edit_permission#:#Rechteeinstellungen ändern
 common#:#cert_read#:#Lesezugriff zu den Zertifikat-Einstellungen
 common#:#cert_visible#:#Zertifikat-Einstellungen sind sichtbar
@@ -1974,7 +1974,7 @@ common#:#close#:#Schließen
 common#:#close_window#:#Fenster schließen
 common#:#cnt_new#:#(%s Neu)
 common#:#collapse#:#Einklappen
-common#:#collapse_all#:#Collapse All
+common#:#collapse_all#:#Alle zusammenklappen
 common#:#collapsed#:#Geschlossen
 common#:#comma_separated#:#Kommagetrennt
 common#:#comment#:#Kommentar
@@ -2004,7 +2004,7 @@ common#:#container#:#Container
 common#:#container_no_items#:#No items found
 common#:#content#:#Inhalt
 common#:#content_frame#:#Rahmen Inhalt
-common#:#content_styles#:#Content Styles
+common#:#content_styles#:#Content-Styles
 common#:#context#:#Kontext
 common#:#continue_work#:#Fortsetzen
 common#:#contra#:#Contra
@@ -2340,7 +2340,7 @@ common#:#execute#:#Ausführen
 common#:#exercise_time_over#:#Sie haben das Enddatum für die Verfügbarkeit der Übung erreicht. Sie können keine Bearbeitungen mehr abgeben!
 common#:#exp_html#:#HTML exportieren
 common#:#expand#:#Ausklappen
-common#:#expand_all#:#Expand All
+common#:#expand_all#:#Alle ausklappen
 common#:#expanded#:#Geöffnet
 common#:#explorer_frame#:#Explorer-Baum
 common#:#export#:#Export
@@ -2865,7 +2865,7 @@ common#:#im_aim_icon#:#AIM-Logo
 common#:#im_icq#:#ICQ
 common#:#im_icq_icon#:#ICQ-Logo
 common#:#im_jabber#:#Jabber
-common#:#im_jabber_icon#:#Jabber Logo
+common#:#im_jabber_icon#:#Jabber-Logo
 common#:#im_msn#:#MSN
 common#:#im_msn_icon#:#MSN-Logo
 common#:#im_skype#:#Skype
@@ -2970,9 +2970,9 @@ common#:#inst_id#:#Installations ID
 common#:#inst_info#:#Installations-Info
 common#:#inst_name#:#Installationsname
 common#:#install#:#Installieren
-common#:#install_local#:#Install With Local
+common#:#install_local#:#Mit lokaler Version installieren
 common#:#installed#:#Installiert
-common#:#installed_local#:#Installed With Local
+common#:#installed_local#:#Mit lokaler Version installiert
 common#:#instant_messengers#:#Instant Messengers
 common#:#institution#:#Institution
 common#:#internal_local_roles_only#:#Lokale Rollen (nur autom. erstellte)
@@ -3522,7 +3522,7 @@ common#:#obj_catr#:#Kategorie-Referenz
 common#:#obj_cen#:#Centra-Ereignis
 common#:#obj_cert#:#Zertifikate
 common#:#obj_cert_desc#:#Einstellungen für Zertifikate
-common#:#obj_chac#:#Chat Server
+common#:#obj_chac#:#Chat-Server
 common#:#obj_chac_desc#:#Konfigurieren Sie hier Ihren Chatserver. Aktivieren/Deaktivieren der Chats
 common#:#obj_chat#:#Chat
 common#:#obj_cmps#:#Module, Services und Plugins
@@ -3701,7 +3701,7 @@ common#:#objs_webr#:#Web-Links
 common#:#objs_wiki#:#Wikis
 common#:#of#:#von
 common#:#offline#:#Offline
-common#:#offline_version#:#Offline Version
+common#:#offline_version#:#Offline-Version
 common#:#ok#:#OK
 common#:#old#:#Alt
 common#:#omit#:#Auslassen
@@ -3710,7 +3710,7 @@ common#:#on_waiting_list#:#Eingetragen auf der Warteliste
 common#:#online#:#Online
 common#:#online_chapter#:#Online Kapitel
 common#:#online_time#:#Gesamtzeit Online (DD:HH:MM:SS)
-common#:#online_version#:#Online Version
+common#:#online_version#:#Online-Version
 common#:#open_views_inside_frameset#:#Ansichten innerhalb Frameset öffnen
 common#:#operation#:#Operation
 common#:#optimize#:#Optimieren
@@ -3775,7 +3775,7 @@ common#:#pays_edit_permission#:#Rechteeinstellungen ändern
 common#:#pays_read#:#Lesezugriff auf Paymenteinstellungen
 common#:#pays_visible#:#Paymenteinstellungen sind sichtbar
 common#:#pays_write#:#Paymenteinstellungen bearbeiten
-common#:#pd_enable_chatviewer#:#Enable Chatviewer
+common#:#pd_enable_chatviewer#:#Chatviewer aktivieren
 common#:#pd_items_news#:#Einschließlich Nachrichten der ausgewählten Objekte
 common#:#pd_items_news_info#:#Wenn aktiviert, werden alle Nachrichten der ausgewählten Objekte im Nachrichtenblock auf dem Persönlichen Schreibtisch angezeigt.
 common#:#pdf_export#:#PDF-Export
@@ -4086,13 +4086,13 @@ common#:#sequence#:#Sequenz
 common#:#sequences#:#Sequenzen
 common#:#server#:#Server
 common#:#server_data#:#Serverdaten
-common#:#server_software#:#Server Software
+common#:#server_software#:#Server-Software
 common#:#sess#:#Sitzung
 common#:#session_reminder#:#Session-Reminder
 common#:#session_reminder_alert#:#Ihre Sitzung läuft in 5 Minuten ab.
-common#:#session_reminder_extended#:#Your Session was extended for %s
+common#:#session_reminder_extended#:#Die Sitzung wurde verlängert um %s
 common#:#session_reminder_info#:#Wenn aktiviert, erhalten Sie eine Erinnerung, bevor Ihre Sitzung abläuft.
-common#:#session_reminder_session_duration#:#(Session Duration: %s).
+common#:#session_reminder_session_duration#:#(Sessiondauer: %s).
 common#:#set#:#Setzen
 common#:#set_edit_mode#:#Bearbeitungsmodus setzen
 common#:#set_offline#:#Offline setzen
@@ -4654,7 +4654,7 @@ content#:#cont_autoindent#:#Automatische Einrückung
 content#:#cont_autostart#:#Autostart
 content#:#cont_back#:#Zurück
 content#:#cont_bb_tip#:#Das Menü erlaubt die schnelle Zuweisung von Textauszeichnungen.
-content#:#cont_behavior#:#Behavior
+content#:#cont_behavior#:#Verhalten
 content#:#cont_Block#:#Block
 content#:#cont_booktitle#:#Buchtitel
 content#:#cont_bottom#:#Unten
@@ -4694,7 +4694,7 @@ content#:#cont_click_next_point#:#Bitte klicken Sie auf die nächste Ecke des Po
 content#:#cont_click_starting_point#:#Bitte klicken Sie auf den Startpunkt des Polygons.
 content#:#cont_click_tl_corner#:#Bitte klicken Sie in die obere linke Ecke des gewünschten Bereichs
 content#:#cont_Code#:#Code
-content#:#cont_colspan#:#Col. Span
+content#:#cont_colspan#:#Colspan
 content#:#cont_confirm_delete#:#wirklich löschen ?
 content#:#cont_constrain_proportions#:#Proportionen erhalten
 content#:#cont_content#:#Inhalt
@@ -4720,19 +4720,19 @@ content#:#cont_cross_reference#:#Verweis
 content#:#cont_current_chapter#:#Aktuelles Kapitel
 content#:#cont_current_page#:#Aktuelle Seite
 content#:#cont_current_style#:#Style
-content#:#cont_current_version#:#Current Version
-content#:#cont_custom#:#Custom
-content#:#cont_custom_size#:#Custom Size
+content#:#cont_current_version#:#Aktuelle Version
+content#:#cont_custom#:#Kundenspezifisch
+content#:#cont_custom_size#:#Kundenspezifische Grösse
 content#:#cont_data_from_lms#:#adlcp:datafromlms
 content#:#cont_de_activate#:#(De-)Aktivieren
 content#:#cont_deactivate_page#:#Seite deaktivieren
 content#:#cont_deactivated#:#Deaktiviert
-content#:#cont_decimal#:#Decimal
+content#:#cont_decimal#:#Dezimal
 content#:#cont_def_layout#:#Standard-Layout
 content#:#cont_def_lesson_mode#:#Standard Lesson-Modus
 content#:#cont_def_map_areas#:#Verlinkte Bereiche (Standard)
 content#:#cont_def_organization#:#Standard
-content#:#cont_default#:#Default
+content#:#cont_default#:#Standard
 content#:#cont_definition#:#Definition
 content#:#cont_definitions#:#Definitionen
 content#:#cont_del_assignment#:#Zuordnung löschen
@@ -4823,7 +4823,7 @@ content#:#cont_edit_shape_rectangle#:#Umriss (Viereck) bearbeiten
 content#:#cont_edit_src#:# Programmcode bearbeiten
 content#:#cont_edit_style#:#Style Editieren
 content#:#cont_edit_tab_properties#:#Tabellen-Eigenschaften
-content#:#cont_edit_tabs#:#Properties
+content#:#cont_edit_tabs#:#Eigenschaften
 content#:#cont_edit_term#:#Begriff editieren
 content#:#cont_edition#:#Ausgabe
 content#:#cont_empty_mep_folder#:#Es sind keine Medien in diesem Ordner.
@@ -4847,7 +4847,7 @@ content#:#cont_file#:#Datei
 content#:#cont_file_from_repository#:#Datei aus Magazin
 content#:#cont_FileListItem#:#Dateilisteneintrag (Standard)
 content#:#cont_files#:#Dateien
-content#:#cont_first_open#:#First Opened
+content#:#cont_first_open#:#Zuerst geöffnet
 content#:#cont_first_row_style#:#Stil der ersten Zeile
 content#:#cont_fix_tree#:#Struktur reparieren
 content#:#cont_fix_tree_confirm#:#Bitte führen sie diese Funktion nur aus, wenn die Struktur des Lernmoduls beschädigt ist, z.B. leere Einträge in der Kapitelstruktur auftauchen.
@@ -4990,32 +4990,32 @@ content#:#cont_new_file#:#Neue Datei
 content#:#cont_new_media_obj#:#Neues Medienobjekt
 content#:#cont_new_mob#:#Neues Media-Objekt
 content#:#cont_new_module_added#:#Neue Modulversion erfolgreich hochgeladen
-content#:#cont_new_tab#:#New Tab
+content#:#cont_new_tab#:#Neuer Tab
 content#:#cont_new_term#:#Neuer Begriff
 content#:#cont_next_rev#:#Nachfolgende Änderung
 content#:#cont_no_access#:#Kein Zugriff
 content#:#cont_no_assign_itself#:#Das aktuelle Objekt kann nicht sich selbst zugeordnet werden
-content#:#cont_no_caption#:#No Caption
+content#:#cont_no_caption#:#Keine Legende
 content#:#cont_no_manifest#:#Es wurde keine Datei namens imsmanifest.xml im Hauptverzeichnis gefunden.
 content#:#cont_no_object_found#:#Es konnte kein Objekt mit diesem Titel gefunden werden
 content#:#cont_no_page#:#Keine Seite gefunden
 content#:#cont_no_page_in_chapter#:#In diesem Kapitel befinden sich zur Zeit leider keine aktiven Inhalte.
-content#:#cont_no_parameters#:#No Parameters
+content#:#cont_no_parameters#:#Keine Parameter
 content#:#cont_no_subdir_in_zip#:#Das ZIP-Kommando konnte nicht ausgeführt werden oder die Importdatei ist fehlerhaft.<br />Sie enthält kein Unterordner '%s'.
 content#:#cont_no_zip_file#:#Die Importdatei ist keine ZIP-Datei
 content#:#cont_none#:#Keine
 content#:#cont_not_js_chap_editing#:#Bearbeitungsmodus «Ohne JavaScript» benutzen
-content#:#cont_nr_col_footer#:#Footer Columns
-content#:#cont_nr_col_header#:#Header Columns
+content#:#cont_nr_col_footer#:#Fußzeile Spalten
+content#:#cont_nr_col_header#:#Kopfzeile Spalten
 content#:#cont_nr_cols#:#Zahl der Spalten
 content#:#cont_nr_items#:#Anzahl der Einträge
-content#:#cont_nr_row_footer#:#Footer Rows
-content#:#cont_nr_row_header#:#Header Rows
+content#:#cont_nr_row_footer#:#Fußzeile Reihen
+content#:#cont_nr_row_header#:#Kopfzeile Zeilen
 content#:#cont_nr_rows#:#Zahl der Zeilen
 content#:#cont_Number#:#Nummer
 content#:#cont_number_of_tabs#:#Anzahl der Tabulatoren
 content#:#cont_number_std#:#Standard
-content#:#cont_number_type#:#Number Type
+content#:#cont_number_type#:#Nummerntyp
 content#:#cont_numbered_list#:#Nummerierte Liste
 content#:#cont_obj_removed#:#Objekte entfernt
 content#:#cont_offline#:#Offline Versionen
@@ -5060,7 +5060,7 @@ content#:#cont_prereq_type#:#adlcp:prerequisites.type
 content#:#cont_prerequisites#:#adlcp:prerequisites
 content#:#cont_preview#:#Vorschau
 content#:#cont_previous_rev#:#Letzte Änderung
-content#:#cont_print_no_page_selected#:#Please select at least one page.
+content#:#cont_print_no_page_selected#:#Bitte wählen Sie mindestens eine Seite aus.
 content#:#cont_print_view#:#Druckansicht
 content#:#cont_print_view_pre_glo#:#Keine Anzeige des Glossaranhanges in der Druckansicht
 content#:#cont_public_access#:#Öffentlicher Zugriff
@@ -5068,7 +5068,7 @@ content#:#cont_public_notes#:#Öffentliche Notizen
 content#:#cont_public_notes_desc#:#Erlaubt Nutzern, auf jeder Seite eines Lernmoduls öffentliche Notizen anzulegen.
 content#:#cont_publisher#:#Herausgeber
 content#:#cont_purpose#:#Verwendung
-content#:#cont_qtries#:#Number of tries for questions
+content#:#cont_qtries#:#Anzahl der Versuche für Fragen
 content#:#cont_question_placehl#:#Fragen-Platzhalter
 content#:#cont_Rect#:#Rechteck
 content#:#cont_ref_helptext#:#(e.g. http://www.ilias.de/logo.jpg)
@@ -5083,7 +5083,7 @@ content#:#cont_repository_item_links#:#Links auf Objekte in Magazin
 content#:#cont_resize_explanation#:#Wenn diese Option aktiviert ist, werden hochgeladene Bilder automatisch auf die angegebene Größe skaliert.
 content#:#cont_resize_explanation2#:#Diese Funktion skaliert lokale Bilddateien auf die angegebene Größe.
 content#:#cont_resize_image#:#Bilder skalieren
-content#:#cont_resize_img#:#Resize Image File
+content#:#cont_resize_img#:#Bildgrösse anpassen
 content#:#cont_resource#:#Ressource
 content#:#cont_resource_size#:#Resource Size
 content#:#cont_resource_type#:#Typ
@@ -5095,13 +5095,13 @@ content#:#cont_rollback#:#Rollback
 content#:#cont_rollback_confirmation#:#Wollen Sie wirklich diese alte Version der Seite wiederherstellen?
 content#:#cont_roman#:#Römisch I, II, ...
 content#:#cont_roman_s#:#Römisch i, ii, ...
-content#:#cont_rowspan#:#Row Span
+content#:#cont_rowspan#:#Abstand Reihe
 content#:#cont_rvalue#:#Wert
 content#:#cont_save_all_titles#:#Titel abspeichern
 content#:#cont_save_positions#:#Reihenfolge Speichern
 content#:#cont_save_positions_and_classes#:#Positionen und Styles speichern
-content#:#cont_save_spans#:#Save Spans
-content#:#cont_save_widths#:#Save Widths
+content#:#cont_save_spans#:#Abstände speichern
+content#:#cont_save_widths#:#Breiten speichern
 content#:#cont_saved_map_area#:#Link-Bereich gespeichert.
 content#:#cont_saved_map_data#:#Image-Map gespeichert.
 content#:#cont_sc_auto_review#:#Nach Abschluss Lesson-Modus auf 'review' setzen.
@@ -5110,7 +5110,7 @@ content#:#cont_sc_less_mode_normal#:#Normal
 content#:#cont_sc_max_attempt#:#Max. Anzahl von Versuchen
 content#:#cont_sc_max_attempt_exceed#:#Die maxmimale Anzahl von Versuchen für dieses Modul wurde erreich.
 content#:#cont_sc_new_version#:#Neue Version hochladen
-content#:#cont_sc_preview#:#Preview
+content#:#cont_sc_preview#:#Vorschau
 content#:#cont_sc_stat_browsed#:#Besucht
 content#:#cont_sc_stat_completed#:#Abgeschlossen
 content#:#cont_sc_stat_failed#:#Nicht bestanden
@@ -5149,7 +5149,7 @@ content#:#cont_set_into#:#darunter einfügen
 content#:#cont_set_link#:#Verweis ändern
 content#:#cont_set_shape#:#Form ändern
 content#:#cont_set_start_file#:#Startdatei festlegen
-content#:#cont_set_styles#:#Set Styles
+content#:#cont_set_styles#:#Styles bestimmen
 content#:#cont_set_styles_and_widths#:#Stil und Breite festlegen
 content#:#cont_set_tab_style_info#:#Checkboxen aktivieren, um die Tabellenzellen zu formatieren
 content#:#cont_set_width#:#Breite festlegen
@@ -5161,7 +5161,7 @@ content#:#cont_show_print_view#:#Druckansicht
 content#:#cont_size#:#Größe
 content#:#cont_skip_chapter#:#Überspringe dieses Kapitel
 content#:#cont_source#:#Quelle
-content#:#cont_span#:#Span
+content#:#cont_span#:#Abstand
 content#:#cont_Special#:#Spezial
 content#:#cont_spreadsheet_table#:#Kalkulationstabelle
 content#:#cont_src#:#Programmiersprache
@@ -5170,8 +5170,8 @@ content#:#cont_st_on_pg#:#Diese Funktion ist nicht möglich.
 content#:#cont_st_title#:#Titel des Kapitels
 content#:#cont_StandardTable#:#Stanardtabelle
 content#:#cont_start#:#Start
-content#:#cont_start_value#:#Start Value
-content#:#cont_start_value_info#:#Enter start value as decimal number. Default is 1.
+content#:#cont_start_value#:#Startwert
+content#:#cont_start_value_info#:#Geben Sie eine Startwert als Dezimalzahl ein. Standardwert ist 1.
 content#:#cont_startfile#:#Startdatei
 content#:#cont_status#:#Status
 content#:#cont_std_is_in_dir#:#Löschen nicht möglich. Datei für Standardansicht liegt im Verzeichnis.
@@ -5182,8 +5182,8 @@ content#:#cont_subchapters#:#Unterkapitel
 content#:#cont_synchronize_frames#:#Frames synchronisieren
 content#:#cont_synchronize_frames_desc#:#Diese Funktion aktualisiert das Inhaltsverzeichnis entsprechend der Position im Inhaltsfenster. Bei der Drei-Fenster-Ansicht aktualisiert es die Zusatzfenster. Wird diese Funktion genutzt, kann es zu einem längeren Seitenaufbau kommen.
 content#:#cont_syntax_help#:#Syntax-Hilfe
-content#:#cont_tab_cont_height#:#Content Height
-content#:#cont_tab_cont_width#:#Content Width
+content#:#cont_tab_cont_height#:#Höhe Inhalt
+content#:#cont_tab_cont_width#:#Breite Inhalt
 content#:#cont_table#:#Tabelle
 content#:#cont_table_border#:#Tabellenrand
 content#:#cont_table_cell_properties#:#Eigenschaften der Tabellenzellen
@@ -5192,16 +5192,16 @@ content#:#cont_table_cellspacing#:#Abstand Tabellenzellen
 content#:#cont_table_html_import#:#HTML-Tabelle importieren
 content#:#cont_table_html_import_info#:#Der Import funktioniert nur mit XHTML-konformen Tabellen. Table must be root tag!
 content#:#cont_table_properties#:#Eigenschaften der Tabelle
-content#:#cont_table_spreadsheet_import#:#Spreadsheet Import
+content#:#cont_table_spreadsheet_import#:#Tabellenimport
 content#:#cont_table_spreadsheet_import_info#:#Fügen Sie eine Tabelle aus dem Tabellenkalkulationsprogramm über die Zwischenablage ein.
 content#:#cont_table_width#:#Tabellenbreite
 content#:#cont_TableContent#:#Tabelleninhalt
 content#:#cont_tabs#:#Tabs
-content#:#cont_tabs_acc_hor#:#Horizontal Accordion
-content#:#cont_tabs_acc_ver#:#Vertical Accordion
+content#:#cont_tabs_acc_hor#:#Horizontales Akkordeon
+content#:#cont_tabs_acc_ver#:#Vertikales Akkordeon
 content#:#cont_tabs_accordion#:#Akkordeon
 content#:#cont_tabs_confirm_deletion#:#Sind Sie sicher, dass alle Tabs und ihre Inhalte gelöscht werden sollen.
-content#:#cont_tabs_hor_align_info#:#Horizontal accordions will always be aligned left.
+content#:#cont_tabs_hor_align_info#:#Horizontale Akkordeons sind immer linksbündig angeordnet.
 content#:#cont_tabs_hor_tabs#:#Horizontale Tabulatoren
 content#:#cont_target_missing#:#Zielpunkt fehlt
 content#:#cont_target_within_source#:#Das Ziel darf nicht innerhalb des Objektes liegen.
@@ -5227,8 +5227,8 @@ content#:#cont_toc#:#Inhaltsverzeichnis
 content#:#cont_toc_mode#:#Inhaltsverzeichnis enthält:
 content#:#cont_top#:#Oben
 content#:#cont_total_time#:#Gesamtzeit
-content#:#cont_tracking_bysco#:#By Chapter
-content#:#cont_tracking_byuser#:#By User
+content#:#cont_tracking_bysco#:#Nach Kapiteln
+content#:#cont_tracking_byuser#:#Nach Benutzern
 content#:#cont_tracking_data#:#Protokolldaten
 content#:#cont_tracking_items#:#Protokollierte Inhalte
 content#:#cont_translations#:#Übersetzung(en)
@@ -5249,8 +5249,8 @@ content#:#cont_use_same_resource_as_above#:#Obige Datei benutzen
 content#:#cont_users_have_mob_in_clip1#:#Dieses Medienobjekt befindet sich in der Zwischenablage von
 content#:#cont_users_have_mob_in_clip2#:#Benutzer(n).
 content#:#cont_validate_file#:#Datei validieren
-content#:#cont_version#:#version
-content#:#cont_versions#:#Versions
+content#:#cont_version#:#Version
+content#:#cont_versions#:#Versionen
 content#:#cont_view_last_export_log#:#Letzter Exporteintrag
 content#:#cont_where_published#:#Veröffentlichungsort
 content#:#cont_width#:#Breite
@@ -5277,11 +5277,12 @@ content#:#msg_entry_added#:#Menüeintrag gespeichert
 content#:#msg_entry_removed#:#Menüeintrag entfernt
 content#:#msg_entry_updated#:#Menüeintrag aktualisiert
 content#:#msg_page_no_public_access#:#Die aufgerufene Seite ist für den öffentlichen Bereich nicht freigegeben. Bitte melden Sie sich zuerst bei ILIAS an, um Zugang zu dieser Seite zu erhalten.
-content#:#msg_page_not_public#:#Page is not public
+content#:#msg_page_not_public#:#Seite ist nicht öffentlich
 content#:#Pages#:#Seiten
 content#:#pages from#:#Seiten von
 content#:#par#:#Text
 content#:#PDF export#:#PDF Export
+content#:#PDF_export#:#PDF Export
 content#:#pg#:#Seite
 content#:#public_section#:#Öffentlicher Bereich
 content#:#read offline#:#Offline lesen
