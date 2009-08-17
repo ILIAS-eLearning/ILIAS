@@ -174,7 +174,7 @@ abstract class ilObject2GUI extends ilObjectGUI
 	final private function displayList() { return parent::displayList(); }
 	final public function viewObject() { return parent::viewObject(); }
 //	final private function setAdminTabs() { return parent::setAdminTabs(); }
-	final public function getAdminTabs() { return parent::getAdminTabs(); }
+	final public function getAdminTabs($a) { return parent::getAdminTabs($a); }
 	final protected function addAdminLocatorItems() { return parent::addAdminLocatorItems(); }
 	
 	/**

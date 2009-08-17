@@ -387,7 +387,7 @@ class ilObjectGUI
 	* set admin tabs
 	* @access	public
 	*/
-	final private function setAdminTabs()
+	protected final function setAdminTabs()
 	{
 		$this->getAdminTabs($this->tabs_gui);
 	}
@@ -397,7 +397,7 @@ class ilObjectGUI
 	*/
 	function getAdminTabs(&$tabs_gui)
 	{
-		global $rbacsystem;
+		global $rbacsystem, $tree;
 
 		if ($_GET["admin_mode"] == "repository")
 		{
@@ -420,7 +420,7 @@ class ilObjectGUI
 				$this->ctrl->getLinkTargetByClass(array(get_class($this),'ilpermissiongui'), "perm"), "", "ilpermissiongui");
 		}
 			
-		if ($this->tree->getSavedNodeData($this->object->getRefId()))
+		if ($tree->getSavedNodeData($this->object->getRefId()))
 		{
 			$tabs_gui->addTarget("trash",
 				$this->ctrl->getLinkTarget($this, "trash"), "trash", get_class($this));
