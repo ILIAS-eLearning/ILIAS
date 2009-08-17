@@ -89,12 +89,17 @@ class ilObjComponentSettingsGUI extends ilObjectGUI
 				$this->ctrl->getLinkTarget($this, "listServices"),
 				array("listServices"));
 		}
-
+		
 		if ($rbacsystem->checkAccess('edit_permission',$this->object->getRefId()))
 		{
 			$this->tabs_gui->addTarget("perm_settings",
 				$this->ctrl->getLinkTargetByClass('ilpermissiongui',"perm"),
 				array(),'ilpermissiongui');
+		}
+		
+		if ($_GET["ctype"] == "Services")
+		{
+			$this->tabs_gui->activateTab("cmps_services");
 		}
 	}
 
