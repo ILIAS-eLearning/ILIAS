@@ -161,8 +161,10 @@ class ilFeedbackGUI
 		return new ilTableGUI(0,false);
 
 	}
-	function delete(){
-		if(is_Array($_POST['barometer'])){
+	function delete()
+	{
+		if(is_array($_POST['barometer']))
+		{
 			include_once('Services/Feedback/classes/class.ilFeedback.php');
 			$ilFB = new ilFeedback();
 			$ilFB->setIds($_POST['barometer']);

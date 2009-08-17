@@ -12,8 +12,10 @@
 * @ingroup	ServicesFeedback
 *
 */
-class ilFeedback {
-	function ilFeedback($a_id = 0){
+class ilFeedback 
+{
+	function ilFeedback($a_id = 0)
+	{
 		if($a_id > 0){
 			$this->id = $a_id;
 			$this->getBarometer();
@@ -21,13 +23,15 @@ class ilFeedback {
 
 	}
 	/* Set / Get Methods */
-	function setId($a_id){
+	function setId($a_id)
+	{
 		$this->id = $a_id;
 	}
 	function getId(){
 		return($this->id);
 	}
-	function setTitle($a_title){
+	function setTitle($a_title)
+	{
 		$this->title = $a_title;
 	}
 	function getTitle(){
@@ -372,12 +376,16 @@ class ilFeedback {
 	{
 		global $ilDB;
 
+		/*
 		foreach ($this->ids as $k => $v)
 		{
-			$this->ids[$k] = $ilDB->quote($v);
+			$this->ids[$k] = $ilDB->quote($v,'integer');
 		}
+		*/
+
 		$q = "DELETE FROM feedback_items WHERE ".
 			$ilDB->in("fb_id", $this->ids, false, "integer");
+
 			//"fb_id IN (".implode(',',$this->ids).")";
 		$ilDB->manipulate($q);
 		$q = "DELETE FROM feedback_results WHERE ".
