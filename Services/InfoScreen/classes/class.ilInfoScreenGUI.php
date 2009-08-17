@@ -766,16 +766,6 @@ class ilInfoScreenGUI
 			$tpl->parseCurrentBlock();
 		}
 
-		// tagging
-		if (is_object($this->gui_object->object))
-		{
-			$tags_set = new ilSetting("tags");
-			if ($tags_set->get("enable") && $ilUser->getId() != ANONYMOUS_USER_ID)
-			{
-				$this->addTagging($tpl);
-			}
-		}
-
 		// notes section
 		if ($this->private_notes_enabled && !$ilSetting->get('disable_notes'))
 		{
@@ -785,12 +775,22 @@ class ilInfoScreenGUI
 			$tpl->parseCurrentBlock();
 		}
 
+		// tagging
+		if (is_object($this->gui_object->object))
+		{
+			$tags_set = new ilSetting("tags");
+			if ($tags_set->get("enable") && $ilUser->getId() != ANONYMOUS_USER_ID)
+			{
+				$this->addTagging();
+			}
+		}
+
 		if(is_object($this->gui_object->object))
 		{
 			$this->addObjectSections();
 		}
 
-                // render all sections
+        // render all sections
 		for($i = 1; $i <= $this->sec_nr; $i++)
 		{
 			if (is_array($this->section[$i]["properties"]))
@@ -1103,42 +1103,28 @@ class ilInfoScreenGUI
 	/**
 	* Add tagging
 	*/
-	function addTagging($tpl)
+	function addTagging()
 	{
 		global $lng, $ilCtrl;
 		
 		$lng->loadLanguageModule("tagging");
-		
+		$tags_set = new ilSetting("tags");
+
 		include_once("Services/Tagging/classes/class.ilTaggingGUI.php");
 		$tagging_gui = new ilTaggingGUI();
 		$tagging_gui->setObject($this->gui_object->object->getId(),
 			$this->gui_object->object->getType());
 		
-		// section header
-		$tpl->setCurrentBlock("header_row");
-		$tpl->setVariable("TXT_SECTION",
-			$this->lng->txt("tagging_tags"));
-		$tpl->parseCurrentBlock();
-		$tpl->touchBlock("row");
+		$this->addSection($lng->txt("tagging_tags"));
 		
-		// tags of all users
-		$tpl->setCurrentBlock("pv");
-		$tpl->setVariable("TXT_PROPERTY_VALUE",
-			$tagging_gui->getAllUserTagsForObjectHTML());
-		$tpl->parseCurrentBlock();
-		$tpl->setCurrentBlock("property_row");
-		$tpl->setVariable("TXT_PROPERTY", $lng->txt("tagging_all_users"));
-		$tpl->parseCurrentBlock();
-		$tpl->touchBlock("row");
-
-		// user tags
-		$tpl->setCurrentBlock("pv");
-		$tpl->setVariable("TXT_PROPERTY_VALUE", $tagging_gui->getTaggingInputHTML());
-		$tpl->parseCurrentBlock();
-		$tpl->setCurrentBlock("property_row");
-		$tpl->setVariable("TXT_PROPERTY", $lng->txt("tagging_my_tags"));
-		$tpl->parseCurrentBlock();
-		$tpl->touchBlock("row");
+		if ($tags_set->get("enable_all_users"))
+		{
+			$this->addProperty($lng->txt("tagging_all_users"),
+				$tagging_gui->getAllUserTagsForObjectHTML());
+		}
+		
+		$this->addProperty($lng->txt("tagging_my_tags"),
+			$tagging_gui->getTaggingInputHTML());
 	}
 	
 	function saveTags()

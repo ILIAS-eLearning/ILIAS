@@ -73,7 +73,7 @@ class ilUserProfile
 						"values" => array("f" => "gender_f", "m" => "gender_m"),
 						"method" => "getGender",
 						"group" => "personal_data"),
-		"picture" => array(
+		"upload" => array(
 						"input" => "picture",
 						"required_hide" => true,
 						"registration_hide" => true,

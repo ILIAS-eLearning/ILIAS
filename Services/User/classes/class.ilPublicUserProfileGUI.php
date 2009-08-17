@@ -186,7 +186,7 @@ class ilPublicUserProfileGUI
 		$tpl->setVariable('MAIL_USR_LOGIN',urlencode($user->getLogin()));
 
 		$tpl->setVariable("TXT_NAME", $lng->txt("name"));
-		$tpl->setVariable("FIRSTNAME", $user->getFirstName());
+		$tpl->setVariable("FIRSTNAME", $user->getUTitle()." ".$user->getFirstName());
 		$tpl->setVariable("LASTNAME", $user->getLastName());
 		
 		$tpl->setCurrentBlock("vcard");
@@ -210,12 +210,87 @@ class ilPublicUserProfileGUI
 			$tpl->setVariable("IMAGE_PATH", $webspace_dir."/usr_images/".$user->getPref("profile_image")."?dummy=".rand(1,999999));
 			$tpl->parseCurrentBlock();
 		}
+		
+		// address
+		if ($user->getPref("public_street") == "y" || $user->getPref("public_zip") == "y"
+			|| $user->getPref("public_city") == "y" || $user->getPref("public_countr") == "y")
+		{
+			$tpl->setCurrentBlock("address");
+			$tpl->setVariable("TXT_ADDRESS", $lng->txt("address"));
+			$val_arr = array ("getStreet" => "street",
+			"getZipcode" => "zip", "getCity" => "city", "getCountry" => "country");
+			foreach ($val_arr as $key => $value)
+			{
+				// if value "y" show information
+				if ($user->getPref("public_".$value) == "y")
+				{
+					$tpl->setVariable(strtoupper($value), $user->$key());
+				}
+			}
+			$tpl->parseCurrentBlock();
+		}
 
-		$val_arr = array("getInstitution" => "institution", "getDepartment" => "department",
-			"getStreet" => "street",
-			"getZipcode" => "zip", "getCity" => "city", "getCountry" => "country",
+		// institution / department
+		if ($user->getPref("public_institution") == "y" || $user->getPref("public_department") == "y")
+		{
+			$tpl->setCurrentBlock("inst_dep");
+			$sep = "";
+			if ($user->getPref("public_institution") == "y")
+			{
+				$h = $lng->txt("institution");
+				$v = $user->getInstitution();
+				$sep = " / ";
+			}
+			if ($user->getPref("public_department") == "y")
+			{
+				$h.= $sep.$lng->txt("department");
+				$v.= $sep.$user->getDepartment();
+			}
+			$tpl->setVariable("TXT_INST_DEP", $h);
+			$tpl->setVariable("INST_DEP", $v);
+			$tpl->parseCurrentBlock();
+		}
+
+		// contact
+		$val_arr = array(
 			"getPhoneOffice" => "phone_office", "getPhoneHome" => "phone_home",
-			"getPhoneMobile" => "phone_mobile", "getFax" => "fax", "getEmail" => "email",
+			"getPhoneMobile" => "phone_mobile", "getFax" => "fax", "getEmail" => "email");
+		$v = $sep = "";
+		foreach ($val_arr as $key => $value)
+		{
+			// if value "y" show information
+			if ($user->getPref("public_".$value) == "y")
+			{
+				$v.= $sep.$lng->txt($value).": ".$user->$key();
+				$sep = "<br />";
+			}
+		}
+		if ($ilSetting->get("usr_settings_hide_instant_messengers") != 1)
+		{
+			$im_arr = array("icq","yahoo","msn","aim","skype","jabber","voip");
+			
+			foreach ($im_arr as $im_name)
+			{
+				if ($im_id = $user->getInstantMessengerId($im_name))
+				{
+					if ($user->getPref("public_im_".$im_name) != "n")
+					{
+						$v.= $sep.$lng->txt('im_'.$im_name).": ".$im_id;
+						$sep = "<br />";
+					}
+				}
+			}
+		}
+		if ($v != "")
+		{
+			$tpl->parseCurrentBlock("contact");
+			$tpl->setVariable("TXT_CONTACT", $lng->txt("contact"));
+			$tpl->setVariable("CONTACT", $v);
+			$tpl->parseCurrentBlock();
+		}
+
+		
+		$val_arr = array(
 			"getHobby" => "hobby", "getMatriculation" => "matriculation", "getClientIP" => "client_ip");
 			
 		foreach ($val_arr as $key => $value)
@@ -262,28 +337,6 @@ class ilPublicUserProfileGUI
 			$map_gui->addUserMarker($user->getId());
 			
 			$tpl->setVariable("MAP_CONTENT", $map_gui->getHTML());
-		}
-		
-		// display available IM contacts
-		if ($ilSetting->get("usr_settings_hide_instant_messengers") != 1)
-		{
-			$im_arr = array("icq","yahoo","msn","aim","skype","jabber","voip");
-			
-			foreach ($im_arr as $im_name)
-			{
-				if ($im_id = $user->getInstantMessengerId($im_name))
-				{
-					if ($user->getPref("public_im_".$im_name) != "n")
-					{
-						$tpl->setCurrentBlock("profile_data");
-						$tpl->setVariable("TXT_DATA", $lng->txt('im_'.$im_name));
-						$tpl->setVariable("IMG_ICON", ilUtil::getImagePath($im_name.'online.gif'));
-						$tpl->setVariable("TXT_ICON", $lng->txt("im_".$im_name."_icon"));
-						$tpl->setVariable("DATA", $im_id);
-						$tpl->parseCurrentBlock();
-					}
-				}
-			}
 		}
 		
 		// additional defined user data fields

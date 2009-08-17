@@ -53,6 +53,18 @@ class ilTaggingGUI
 		$this->setSaveCmd("saveTags");
 		$this->setUserId($ilUser->getId());
 		$this->setInputFieldName("il_tags");
+		
+		$tags_set = new ilSetting("tags");
+		$forbidden = $tags_set->get("forbidden_tags");
+		if ($forbidden != "")
+		{
+			$this->forbidden = unserialize($forbidden);
+		}
+		else
+		{
+			$this->forbidden = array();
+		}
+
 	}
 	
 	/**
@@ -139,6 +151,8 @@ class ilTaggingGUI
 	*/
 	function saveInput()
 	{
+		global $lng;
+		
 		$input = ilUtil::stripSlashes($_POST[$this->getInputFieldName()]);
 		$input = str_replace(",", " ", $input);
 		$itags = explode(" ", $input);
@@ -148,12 +162,33 @@ class ilTaggingGUI
 			$itag = trim($itag);
 			if (!in_array($itag, $tags) && $itag != "")
 			{
-				$tags[] = $itag;
+				if (!$this->isForbidden($itag))
+				{
+					$tags[] = $itag;
+				}
 			}
 		}
 
 		ilTagging::writeTagsForUserAndObject($this->obj_id, $this->obj_type,
 			$this->sub_obj_id, $this->sub_obj_type, $this->getUserId(), $tags);
+		ilUtil::sendSuccess($lng->txt('msg_obj_modified'));
+	}
+	
+	/**
+	* Check whether a tag is forbiddens
+	*/
+	function isForbidden($a_tag)
+	{
+		foreach ($this->forbidden as $f)
+		{
+			if (is_int(strpos(strtolower(
+				str_replace(array("+", "§", '"', "'", "*", "%", "&", "/", "\\", "(", ")", "=", ":", ";", ":", "-", "_", "\$",
+					"£". "!". "¨", "^", "`", "@", "<", ">"), "", $a_tag)), $f)))
+			{
+				return true;
+			}
+		}
+		return false;
 	}
 	
 	/**
@@ -175,10 +210,13 @@ class ilTaggingGUI
 		reset($tags);
 		foreach ($tags as $tag)
 		{
-			$ttpl->setCurrentBlock("unlinked_tag");
-			$ttpl->setVariable("FONT_SIZE", ilTagging::calculateFontSize($tag["cnt"], $max)."%");
-			$ttpl->setVariable("TAG_TITLE", $tag["tag"]);
-			$ttpl->parseCurrentBlock();
+			if (!$this->isForbidden($tag))
+			{
+				$ttpl->setCurrentBlock("unlinked_tag");
+				$ttpl->setVariable("FONT_SIZE", ilTagging::calculateFontSize($tag["cnt"], $max)."%");
+				$ttpl->setVariable("TAG_TITLE", $tag["tag"]);
+				$ttpl->parseCurrentBlock();
+			}
 		}
 		
 		return $ttpl->get();

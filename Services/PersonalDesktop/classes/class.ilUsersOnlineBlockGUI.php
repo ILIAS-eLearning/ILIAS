@@ -61,7 +61,7 @@ class ilUsersOnlineBlockGUI extends ilBlockGUI
 		switch($ilCtrl->getCmd())
 		{
 			case "showUserProfile":
-				return IL_SCREEN_CENTER;
+				return IL_SCREEN_FULL;
 				break;
 				
 			default:
@@ -502,21 +502,23 @@ class ilUsersOnlineBlockGUI extends ilBlockGUI
 	{
 		global $lng, $ilCtrl;
 		
-		include_once("./Services/PersonalDesktop/classes/class.ilPDContentBlockGUI.php");
-		$content_block = new ilPDContentBlockGUI("ilpersonaldesktopgui", "show");
+//		include_once("./Services/PersonalDesktop/classes/class.ilPDContentBlockGUI.php");
+//		$content_block = new ilPDContentBlockGUI("ilpersonaldesktopgui", "show");
 		include_once('./Services/User/classes/class.ilPublicUserProfileGUI.php');
 		$profile_gui = new ilPublicUserProfileGUI($_GET["user"]);
-		$profile_gui->setAsRows(true);
-		$content_block->setContent($ilCtrl->getHTML($profile_gui));
+		//$profile_gui->setAsRows(true);
+		$profile_gui->setBackUrl($ilCtrl->getParentReturn($this));
+//		$content_block->setContent($ilCtrl->getHTML($profile_gui));
 		
-		$content_block->setTitle($lng->txt("profile_of")." ".
-			ilObjUser::_lookupLogin($_GET["user"]));
-		$content_block->setColSpan(2);
-		$content_block->setImage(ilUtil::getImagePath("icon_usr.gif"));
-		$content_block->addHeaderCommand($ilCtrl->getParentReturn($this),
-			$lng->txt("selected_items_back"));
+//		$content_block->setTitle($lng->txt("profile_of")." ".
+//			ilObjUser::_lookupLogin($_GET["user"]));
+//		$content_block->setColSpan(2);
+//		$content_block->setImage(ilUtil::getImagePath("icon_usr.gif"));
+//		$content_block->addHeaderCommand($ilCtrl->getParentReturn($this),
+//			$lng->txt("selected_items_back"));
 		
-		return $content_block->getHTML();
+//		return $content_block->getHTML();
+		return $ilCtrl->getHTML($profile_gui);
 	}
 
 }

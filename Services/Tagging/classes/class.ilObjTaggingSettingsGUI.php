@@ -2,7 +2,6 @@
 /* Copyright (c) 1998-2009 ILIAS open source, Extended GPL, see docs/LICENSE */
 include_once("./classes/class.ilObjectGUI.php");
 
-
 /**
 * Media Cast Settings.
 *
@@ -97,11 +96,40 @@ class ilObjTaggingSettingsGUI extends ilObjectGUI
 	}
 
 	/**
+	 * Add subtabs
+	 */
+	function addSubTabs()
+	{
+		global $ilTabs, $lng, $ilCtrl, $ilAccess;
+		
+		$tags_set = new ilSetting("tags");
+		if ($tags_set->get("enable"))
+		{
+			$ilTabs->addSubTab("settings", $lng->txt("settings"),
+				$ilCtrl->getLinkTarget($this, "editSettings"));
+
+			if ($ilAccess->checkAccess("write", "", $this->object->getRefId()))
+			{
+				$ilTabs->addSubTab("forbidden_tags", $lng->txt("tagging_forbidden_tags"),
+					$ilCtrl->getLinkTarget($this, "editForbiddenTags"));
+	
+				$ilTabs->addSubTab("users", $lng->txt("users"),
+					$ilCtrl->getLinkTarget($this, "showUsers"));
+			}
+		}
+	}
+	
+	
+	/**
 	* Edit mediacast settings.
 	*/
 	public function editSettings()
 	{
-		$this->tabs_gui->setTabActive('tagging_edit_settings');		
+		global $ilTabs;
+		
+		$this->tabs_gui->setTabActive('tagging_edit_settings');
+		$this->addSubTabs();
+		$ilTabs->activateSubTab("settings");		
 		$this->initFormSettings();
 		return true;
 	}
@@ -112,9 +140,12 @@ class ilObjTaggingSettingsGUI extends ilObjectGUI
 	public function saveSettings()
 	{
 		global $ilCtrl, $ilSetting;
+		
+		$this->checkPermission("write");
 
 		$tags_set = new ilSetting("tags");
 		$tags_set->set("enable", ilUtil::stripSlashes($_POST["enable_tagging"]));
+		$tags_set->set("enable_all_users", ilUtil::stripSlashes($_POST["enable_all_users"]));
 		$ilSetting->set("block_activated_pdtag", $_POST["enable_tagging"]);
 
 		ilUtil::sendSuccess($this->lng->txt("settings_saved"),true);
@@ -142,6 +173,7 @@ class ilObjTaggingSettingsGUI extends ilObjectGUI
 		
 		$tags_set = new ilSetting("tags");
 		
+		
 		include_once('Services/Form/classes/class.ilPropertyFormGUI.php');
 		$form = new ilPropertyFormGUI();
 		$form->setFormAction($this->ctrl->getFormAction($this));
@@ -154,9 +186,156 @@ class ilObjTaggingSettingsGUI extends ilObjectGUI
 			"enable_tagging");
 		$cb_prop->setValue("1");
 		$cb_prop->setChecked($tags_set->get("enable"));
+		
+			// enable all users info
+			$cb_prop2 = new ilCheckboxInputGUI($lng->txt("tagging_enable_all_users"),
+				"enable_all_users");
+			$cb_prop2->setInfo($lng->txt("tagging_enable_all_users_info"));
+			$cb_prop2->setChecked($tags_set->get("enable_all_users"));
+			$cb_prop->addSubItem($cb_prop2);
 
 		$form->addItem($cb_prop);
 		$this->tpl->setContent($form->getHTML());
+	}
+	
+	//
+	//
+	// FORBIDDEN TAGS
+	//
+	//
+	
+	/**
+	 * Edit forbidden tags
+	 */
+	function editForbiddenTags()
+	{
+		global $ilTabs, $tpl;
+		
+		$this->addSubTabs();
+		$ilTabs->activateSubTab("forbidden_tags");
+		$ilTabs->activateTab("tagging_edit_settings");
+		$this->initForbiddenTagsForm();
+		
+		$tpl->setContent($this->form->getHTML());
+	}
+	
+	/**
+	 * Init forbidden tags form.
+	 */
+	public function initForbiddenTagsForm()
+	{
+		global $lng, $ilCtrl;
+	
+		$tags_set = new ilSetting("tags");
+		$forbidden = $tags_set->get("forbidden_tags");
+
+		if ($forbidden != "")
+		{
+			$tags_array = unserialize($forbidden);
+			$forb_str = implode($tags_array, " ");
+		}
+		
+		include_once("Services/Form/classes/class.ilPropertyFormGUI.php");
+		$this->form = new ilPropertyFormGUI();
+		
+		// tags
+		$ta = new ilTextAreaInputGUI($this->lng->txt("tagging_tags"), "forbidden_tags");
+		$ta->setCols(50);
+		$ta->setRows(10);
+		$ta->setValue($forb_str);
+		$this->form->addItem($ta);
+	
+		$this->form->addCommandButton("saveForbiddenTags", $lng->txt("save"));
+	                
+		$this->form->setTitle($lng->txt("tagging_forbidden_tags"));
+		$this->form->setFormAction($ilCtrl->getFormAction($this));
+	 
+	}
+	
+	/**
+	* Save forbidden tags
+	*/
+	public function saveForbiddenTags()
+	{
+		global $tpl, $lng, $ilCtrl;
+
+		$this->initForbiddenTagsForm();
+		$this->form->checkInput();
+		
+		$this->checkPermission("write");
+		
+		$tags = str_replace(",", " ", $_POST["forbidden_tags"]);
+		$tags = explode(" ", $tags);
+		$tags_array = array();
+		foreach ($tags as $t)
+		{
+			$t = strtolower(trim($t));
+			if ($t != "")
+			{
+				$tags_array[$t] = $t;
+			}
+		}
+		
+		asort($tags_array);
+		
+		$tags_set = new ilSetting("tags");
+		
+		$tags_set->set("forbidden_tags", serialize($tags_array));
+		
+		ilUtil::sendSuccess($lng->txt("msg_obj_modified"), true);
+		$ilCtrl->redirect($this, "editForbiddenTags");
+	}
+	
+	//
+	//
+	// USER INFO
+	//
+	//
+
+	/**
+	 * Show users
+	 */
+	function showUsers($a_search = false)
+	{
+		global $ilTabs, $tpl, $ilToolbar, $lng, $ilCtrl;
+		
+		$this->checkPermission("write");
+		
+		$this->addSubTabs();
+		$ilTabs->activateTab("tagging_edit_settings");
+		$ilTabs->activateSubTab("users");
+
+		$tag = ($_POST["tag"] != "")
+			? ilUtil::stripSlashes($_POST["tag"])
+			: $_GET["tag"];
+		
+		// tag input
+		include_once("./Services/Form/classes/class.ilTextInputGUI.php");
+		$ti = new ilTextInputGUI($lng->txt("tagging_tag"), "tag");
+		$ti->setSize(15);
+		$ti->setValue($tag);
+		$ilToolbar->addInputItem($ti, true);
+		
+		$ilToolbar->addFormButton($lng->txt("tagging_search_users"), "searchUsersForTag");
+		$ilToolbar->setFormAction($ilCtrl->getFormAction($this, "searchUsersForTag"));
+		
+		if ($a_search)
+		{
+			include_once("./Services/Tagging/classes/class.ilUserForTagTableGUI.php");
+			$ilCtrl->setParameter($this, "tag", $tag);
+			$table = new ilUserForTagTableGUI($this, "searchUsersForTag",
+				$tag);
+			$tpl->setContent($table->getHTML());
+		}
+	}
+	
+	
+	/**
+	 * Search users for tag
+	 */
+	function searchUsersForTag()
+	{
+		$this->showUsers(true);
 	}
 }
 ?>

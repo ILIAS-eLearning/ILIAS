@@ -29,10 +29,11 @@ class ilUserUtil
 		
 		$user = ilObjUser::_lookupName($a_user_id);
 		$login = ilObjUser::_lookupLogin($a_user_id);
+
 		if ($a_force_first_lastname ||
 			in_array(ilObjUser::_lookupPref($a_user_id, "public_profile"), array("y", "g")))
 		{
-			$pres = $user["lastname"].", ".$user["firstname"]." ";
+			$pres = $user["lastname"].", ".$user["title"]." ".$user["firstname"]." ";
 		}
 		
 		$pres.= "[".$login."]";

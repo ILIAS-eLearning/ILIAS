@@ -283,6 +283,25 @@ class ilTagging
 			array($a_obj_id, $a_obj_type, $a_sub_obj_id));
 	}
 
+	/**
+	 * Get users for tag
+	 */
+	function getUsersForTag($a_tag)
+	{
+		global $ilDB;
+		
+		$set = $ilDB->query("SELECT DISTINCT user_id, firstname, lastname FROM il_tag JOIN usr_data ON (user_id = usr_id) ".
+			" WHERE LOWER(tag) = LOWER(".$ilDB->quote($a_tag, "text").")".
+			" ORDER BY lastname, firstname"
+			);
+		$users = array();
+		while ($rec  = $ilDB->fetchAssoc($set))
+		{
+			$users[] = array("id" => $rec["user_id"]);
+		}
+		return $users;
+	}
+	
 }
 
 ?>

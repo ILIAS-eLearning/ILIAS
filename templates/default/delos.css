@@ -692,7 +692,6 @@ td.ilFormOption
 
 td.ilFormSubOption
 {
-	font-weight: bold;
 	padding: 8px;
 	padding-left: 40px;
 	text-align:right;
@@ -2978,4 +2977,36 @@ div.ilc_HeadlineThumb
 	border-bottom-width: 1px;
 	margin-bottom:4px;
 	margin-top:2px;
+}
+
+/* Profile */
+div.ilProfile {
+	width: 450px;
+	margin-left:auto;
+	margin-right:auto;
+	background-image: url(images/form_back.gif);
+	background-repeat: repeat-y;
+	background-color:#F6F6F6;
+	border-width:1px;
+	border-style:solid;
+	border-color:#D0D5EA;
+	padding: 15px;
+}
+h3.ilProfileName {
+	margin: 0px 0px 10px 0px;
+	padding: 0px;
+	font-weight: normal;
+	font-size: 130%
+}
+div.ilProfileSection {
+	margin-top: 20px;
+	font-size: 90%;
+	color: #606060;
+}
+h3.ilProfileSectionHead {
+	margin: 0px 0px 3px 0px;
+	padding: 0px;
+	font-weight: normal;
+	font-size: 110%;
+	color: #202020;
 }
