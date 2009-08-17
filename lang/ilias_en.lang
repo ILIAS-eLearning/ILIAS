@@ -9865,3 +9865,11 @@ administration#:#path_to_mkisofs#:#Path to mkisofs
 common#:#obj_sty#:#Style
 dateplaner#:#cal_created_milestone#:#Added milestone.
 dateplaner#:#cal_created_milestone_resp_q#:#Added milestone. Please select users that are responsible to meet the milestone.
+common#:#address#:#Address
+common#:#contact#:#Contact
+tagging#:#tagging_enable_all_users#:#Show Tags of All Users
+tagging#:#tagging_enable_all_users_info#:#Adds a section "All Users" to the info screens that lists all tags of all users attached to a resource.
+tagging#:#tagging_forbidden_tags#:#Forbidden Tags
+tagging#:#tagging_tag#:#Tag
+tagging#:#tagging_search_users#:#Search Users
+tagging#:#tagging_users_using_tag#:#Users Using Tag
