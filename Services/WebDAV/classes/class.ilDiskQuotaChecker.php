@@ -99,10 +99,10 @@ class ilDiskQuotaChecker
 		//       will always returned first.
 		$ilDB->setLimit(1);
 		$res = $ilDB->queryf("SELECT rd.role_id, rd.disk_quota, od.title ".
-			"FROM rbac_ua AS ua ".
-			"JOIN rbac_fa AS fa ON fa.rol_id=ua.rol_id AND fa.parent = %s ".
-			"JOIN role_data AS rd ON ua.rol_id=rd.role_id ".
-			"JOIN object_data AS od ON od.obj_id=rd.role_id ".
+			"FROM rbac_ua ua ".
+			"JOIN rbac_fa fa ON fa.rol_id=ua.rol_id AND fa.parent = %s ".
+			"JOIN role_data rd ON ua.rol_id=rd.role_id ".
+			"JOIN object_data od ON od.obj_id=rd.role_id ".
 			"WHERE ua.usr_id = %s ".
 			"ORDER BY disk_quota DESC, role_id ASC",
 	        array('integer','integer'),
@@ -261,41 +261,41 @@ class ilDiskQuotaChecker
 
 				// Inactive users get the date 0001-01-01 so that they appear
 				// first when the list is sorted by this field.
-				"IF(u.active = 0,'0001-01-01',IF (u.time_limit_unlimited=1,'9999-12-31',".$ilDB->fromUnixtime("u.time_limit_until").")) AS access_until,".
+				"IF(u.active = 0,'0001-01-01',IF (u.time_limit_unlimited=1,'9999-12-31',".$ilDB->fromUnixtime("u.time_limit_until").")) access_until,".
 
-				"IF(".$ilDB->unixTimestamp()." BETWEEN u.time_limit_from AND u.time_limit_until,0,1) AS expired,".
-				"rq.role_disk_quota, system_role.rol_id AS role_id, ".
-				"p1.value+0 AS user_disk_quota,".
-				"p2.value+0 AS disk_usage, ".
-				"p3.value AS last_update, ".
-				"p4.value AS last_reminder, ".
+				"IF(".$ilDB->unixTimestamp()." BETWEEN u.time_limit_from AND u.time_limit_until,0,1) expired,".
+				"rq.role_disk_quota, system_role.rol_id role_id, ".
+				"p1.value+0 user_disk_quota,".
+				"p2.value+0 disk_usage, ".
+				"p3.value last_update, ".
+				"p4.value last_reminder, ".
 
 				// We add 0 to some of the values to convert them into a number.
 				// This is needed for correct sorting.
-				"IF(rq.role_disk_quota+0>p1.value+0 OR p1.value IS NULL,rq.role_disk_quota+0,p1.value+0) AS disk_quota	".
-			"FROM usr_data AS u  ".
+				"IF(rq.role_disk_quota+0>p1.value+0 OR p1.value IS NULL,rq.role_disk_quota+0,p1.value+0) disk_quota	".
+			"FROM usr_data u  ".
 
 			// Fetch the role with the highest disk quota value.
-			"JOIN (SELECT u.usr_id AS usr_id,MAX(rd.disk_quota) AS role_disk_quota ".
-				"FROM usr_data AS u ".
-				"JOIN rbac_ua AS ua ON ua.usr_id=u.usr_id ".
-				"JOIN rbac_fa AS fa ON fa.rol_id=ua.rol_id AND fa.parent=%s  ".
-				"JOIN role_data AS rd ON rd.role_id=ua.rol_id WHERE u.usr_id=ua.usr_id GROUP BY usr_id) AS rq ON rq.usr_id=u.usr_id ".
+			"JOIN (SELECT u.usr_id usr_id,MAX(rd.disk_quota) role_disk_quota ".
+				"FROM usr_data u ".
+				"JOIN rbac_ua ua ON ua.usr_id=u.usr_id ".
+				"JOIN rbac_fa fa ON fa.rol_id=ua.rol_id AND fa.parent=%s  ".
+				"JOIN role_data rd ON rd.role_id=ua.rol_id WHERE u.usr_id=ua.usr_id GROUP BY usr_id) rq ON rq.usr_id=u.usr_id ".
 
 			// Fetch the system role in order to determine whether the user has unlimited disk quota
-			"LEFT JOIN rbac_ua AS system_role ON system_role.usr_id=u.usr_id AND system_role.rol_id = %s ".
+			"LEFT JOIN rbac_ua system_role ON system_role.usr_id=u.usr_id AND system_role.rol_id = %s ".
 
 			// Fetch the user disk quota from table usr_pref
-			"LEFT JOIN usr_pref AS p1 ON p1.usr_id=u.usr_id AND p1.keyword = 'disk_quota'  ".
+			"LEFT JOIN usr_pref p1 ON p1.usr_id=u.usr_id AND p1.keyword = 'disk_quota'  ".
 
 			// Fetch the disk usage from table usr_pref
-			"LEFT JOIN usr_pref AS p2 ON p2.usr_id=u.usr_id AND p2.keyword = 'disk_usage'  ".
+			"LEFT JOIN usr_pref p2 ON p2.usr_id=u.usr_id AND p2.keyword = 'disk_usage'  ".
 
 			// Fetch the last update from table usr_pref
-			"LEFT JOIN usr_pref AS p3 ON p3.usr_id=u.usr_id AND p3.keyword = 'disk_usage.last_update'  ".
+			"LEFT JOIN usr_pref p3 ON p3.usr_id=u.usr_id AND p3.keyword = 'disk_usage.last_update'  ".
 
 			// Fetch the date when the last disk quota reminder was sent from table usr_pref
-			"LEFT JOIN usr_pref AS p4 ON p4.usr_id=u.usr_id AND p4.keyword = 'disk_quota_last_reminder'  ".
+			"LEFT JOIN usr_pref p4 ON p4.usr_id=u.usr_id AND p4.keyword = 'disk_quota_last_reminder'  ".
 
 			$where_clause.
 			"ORDER BY ".
@@ -389,9 +389,9 @@ class ilDiskQuotaChecker
 		// get all objects of the desired type which are in the repository
 		// ordered by owner
 		$res = $ilDB->query("SELECT DISTINCT d.obj_id, d.owner ".
-			"FROM object_data AS d ".
-			"JOIN object_reference AS r ON d.obj_id=r.obj_id ".
-			"JOIN tree AS t ON t.child=r.ref_id ".
+			"FROM object_data d ".
+			"JOIN object_reference r ON d.obj_id=r.obj_id ".
+			"JOIN tree t ON t.child=r.ref_id ".
 			"WHERE d.type = ".$ilDB->quote($a_type)." ".
 			"AND t.tree=1 ".
 			"ORDER BY d.owner"
@@ -501,45 +501,45 @@ class ilDiskQuotaChecker
 
 				// Inactive users get the date 0001-01-01 so that they appear
 				// first when the list is sorted by this field.
-				"IF(u.active = 0,'0001-01-01',IF (u.time_limit_unlimited=1,'9999-12-31',".$ilDB->fromUnixtime("u.time_limit_until").")) AS access_until,".
+				"IF(u.active = 0,'0001-01-01',IF (u.time_limit_unlimited=1,'9999-12-31',".$ilDB->fromUnixtime("u.time_limit_until").")) access_until,".
 
-				"IF(".$ilDB->unixTimestamp()." BETWEEN u.time_limit_from AND u.time_limit_until,0,1) AS expired,".
-				"rq.role_disk_quota, system_role.rol_id AS role_id, ".
-				"p1.value+0 AS user_disk_quota,".
-				"p2.value+0 AS disk_usage, ".
-				"p3.value AS last_update, ".
-				"p4.value AS last_reminder, ".
-				"p5.value AS language, ".
+				"IF(".$ilDB->unixTimestamp()." BETWEEN u.time_limit_from AND u.time_limit_until,0,1) expired,".
+				"rq.role_disk_quota, system_role.rol_id role_id, ".
+				"p1.value+0 user_disk_quota,".
+				"p2.value+0 disk_usage, ".
+				"p3.value last_update, ".
+				"p4.value last_reminder, ".
+				"p5.value language, ".
 
 				// We add 0 to some of the values to convert them into a number.
 				// This is needed for correct sorting.
-				"IF(rq.role_disk_quota+0>p1.value+0 OR p1.value IS NULL,rq.role_disk_quota+0,p1.value+0) AS disk_quota	".
-			"FROM usr_data AS u  ".
+				"IF(rq.role_disk_quota+0>p1.value+0 OR p1.value IS NULL,rq.role_disk_quota+0,p1.value+0) disk_quota	".
+			"FROM usr_data u  ".
 
 			// Fetch the role with the highest disk quota value.
-			"JOIN (SELECT u.usr_id AS usr_id,MAX(rd.disk_quota) AS role_disk_quota ".
-				"FROM usr_data AS u ".
-				"JOIN rbac_ua AS ua ON ua.usr_id=u.usr_id ".
-				"JOIN rbac_fa AS fa ON fa.rol_id=ua.rol_id AND fa.parent=%s  ".
-				"JOIN role_data AS rd ON rd.role_id=ua.rol_id WHERE u.usr_id=ua.usr_id GROUP BY usr_id) AS rq ON rq.usr_id=u.usr_id ".
+			"JOIN (SELECT u.usr_id usr_id,MAX(rd.disk_quota) role_disk_quota ".
+				"FROM usr_data u ".
+				"JOIN rbac_ua ua ON ua.usr_id=u.usr_id ".
+				"JOIN rbac_fa fa ON fa.rol_id=ua.rol_id AND fa.parent=%s  ".
+				"JOIN role_data rd ON rd.role_id=ua.rol_id WHERE u.usr_id=ua.usr_id GROUP BY usr_id) rq ON rq.usr_id=u.usr_id ".
 
 			// Fetch the system role in order to determine whether the user has unlimited disk quota
-			"LEFT JOIN rbac_ua AS system_role ON system_role.usr_id=u.usr_id AND system_role.rol_id = %s ".
+			"LEFT JOIN rbac_ua system_role ON system_role.usr_id=u.usr_id AND system_role.rol_id = %s ".
 
 			// Fetch the user disk quota from table usr_pref
-			"LEFT JOIN usr_pref AS p1 ON p1.usr_id=u.usr_id AND p1.keyword = 'disk_quota'  ".
+			"LEFT JOIN usr_pref p1 ON p1.usr_id=u.usr_id AND p1.keyword = 'disk_quota'  ".
 
 			// Fetch the disk usage from table usr_pref
-			"LEFT JOIN usr_pref AS p2 ON p2.usr_id=u.usr_id AND p2.keyword = 'disk_usage'  ".
+			"LEFT JOIN usr_pref p2 ON p2.usr_id=u.usr_id AND p2.keyword = 'disk_usage'  ".
 
 			// Fetch the last update from table usr_pref
-			"LEFT JOIN usr_pref AS p3 ON p3.usr_id=u.usr_id AND p3.keyword = 'disk_usage.last_update'  ".
+			"LEFT JOIN usr_pref p3 ON p3.usr_id=u.usr_id AND p3.keyword = 'disk_usage.last_update'  ".
 
 			// Fetch the date when the last disk quota reminder was sent from table usr_pref
-			"LEFT JOIN usr_pref AS p4 ON p4.usr_id=u.usr_id AND p4.keyword = 'disk_quota_last_reminder'  ".
+			"LEFT JOIN usr_pref p4 ON p4.usr_id=u.usr_id AND p4.keyword = 'disk_quota_last_reminder'  ".
 
 			// Fetch the language of the user
-			"LEFT JOIN usr_pref AS p5 ON p5.usr_id=u.usr_id AND p5.keyword = 'language'  ".
+			"LEFT JOIN usr_pref p5 ON p5.usr_id=u.usr_id AND p5.keyword = 'language'  ".
 
 			// Fetch only users who have exceeded their quota, and who have
 			// access, and who have not received a reminder in the past seven days
@@ -593,7 +593,7 @@ class ilDiskQuotaChecker
 		require_once 'Services/Mail/classes/class.ilDiskQuotaReminderMail.php';
 		$mail = new ilDiskQuotaReminderMail();
 
-		$res = $ilDB->query("SELECT MAX(value) AS last_update ".
+		$res = $ilDB->query("SELECT MAX(value) last_update ".
 			"FROM usr_pref WHERE keyword='disk_usage.last_update'");
 		$row = $res->fetchRow(DB_FETCHMODE_ASSOC);
 		return ($row != null) ? $row['last_update'] : null;
