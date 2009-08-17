@@ -111,7 +111,10 @@ class ilDBMySQL extends ilDB
 		// - setup/classes/class.ilClient.php
 
 		$this->query("SET NAMES utf8");
-		$this->query("SET SESSION SQL_MODE = 'ONLY_FULL_GROUP_BY'");
+		if (DEVMODE == 1)
+		{
+			$this->query("SET SESSION SQL_MODE = 'ONLY_FULL_GROUP_BY'");
+		}
 
 	}
 
