@@ -183,12 +183,19 @@ class ilObjSCORMTracking
 	function _getInProgress($scorm_item_id,$a_obj_id)
 	{
 		global $ilDB;
+		
+		$in = '';
+		if(is_array($scorm_item_id) && count($scorm_item_id))
+		{
+			$in = $ilDB->in('sco_id', $scorm_item_id, false, 'integer').' AND ';
+		}
 
+		
 		if(is_array($scorm_item_id))
 		{
 			$res = $ilDB->queryF('SELECT user_id,sco_id FROM scorm_tracking
-			WHERE sco_id IN('.implode(",", $scorm_item_id).') 
-			AND obj_id = %s 
+			WHERE '.$in.'
+			obj_id = %s 
 			GROUP BY user_id, sco_id',
 			array('integer'),array($a_obj_id));
 			   
@@ -197,7 +204,7 @@ class ilObjSCORMTracking
 		{
 			$res = $ilDB->queryF('SELECT user_id,sco_id FROM scorm_tracking			
 			WHERE sco_id = %s 
-			AND obj_id =%s',
+			AND obj_id = %s',
 			array('integer','integer'),array($scorm_item_id,$a_obj_id)
 			);
 		}
@@ -212,12 +219,18 @@ class ilObjSCORMTracking
 	function _getCompleted($scorm_item_id,$a_obj_id)
 	{
 		global $ilDB;
+		
+		$in = '';
+		if(is_array($scorm_item_id) && count($scorm_item_id))
+		{
+			$in = $ilDB->in('sco_id', $scorm_item_id, false, 'integer').' AND ';
+		}
 
 		if(is_array($scorm_item_id))
 		{
 			$res = $ilDB->queryF('SELECT DISTINCT(user_id) FROM scorm_tracking 
-			WHERE sco_id IN('.implode(",",$scorm_item_id).')
-			AND obj_id = %s
+			WHERE '.$in.'
+			obj_id = %s
 			AND lvalue = %s 
 			AND ( rvalue = %s 
 			OR rvalue = %s)',
@@ -246,15 +259,21 @@ class ilObjSCORMTracking
 	function _getFailed($scorm_item_id,$a_obj_id)
 	{
 		global $ilDB;
+		
+		$in = '';
+		if(is_array($scorm_item_id) && count($scorm_item_id))
+		{
+			$in = $ilDB->in('sco_id', $scorm_item_id, false, 'integer').' AND ';
+		}
 
 		if(is_array($scorm_item_id))
 		{
 			$res = $ilDB->queryF('
 				SELECT DISTINCT(user_id) FROM scorm_tracking 
-				WHERE sco_id IN('.implode(',',$scorm_item_id).')
-				AND obj_id = %s
+				WHERE '.$in.'
+				obj_id = %s
 				AND lvalue =  %s
-				AND rvalue =%s',
+				AND rvalue = %s',
 			array('integer','text','text'),
 			array($a_obj_id,'cmi.core.lesson_status','failed'))	;				
 		}
@@ -266,7 +285,7 @@ class ilObjSCORMTracking
 				WHERE sco_id = %s
 				AND obj_id = %s
 				AND lvalue =  %s
-				AND rvalue =%s',
+				AND rvalue = %s',
 			array('integer','integer','text','text'),
 			array($scorm_item_id,$a_obj_id,'cmi.core.lesson_status','failed'))	;					
 
@@ -282,11 +301,17 @@ class ilObjSCORMTracking
 	function _getCountCompletedPerUser($a_scorm_item_ids,$a_obj_id)
 	{
 		global $ilDB;
+		
+		$in = '';
+		if(is_array($a_scorm_item_ids) && count($a_scorm_item_ids))
+		{
+			$in = $ilDB->in('sco_id', $a_scorm_item_ids, false, 'integer').' AND ';
+		}
 
 		$res = $ilDB->queryF('
 			SELECT user_id, COUNT(user_id) as completed FROM scorm_tracking
-			WHERE sco_id IN('.implode(",",$a_scorm_item_ids).') 
-			AND lvalue = %s 
+			WHERE '.$in.'
+			lvalue = %s 
 			AND (rvalue = %s
 			OR rvalue = %s
 			GROUP BY user_id',
@@ -305,11 +330,17 @@ class ilObjSCORMTracking
 	function _getProgressInfo($sco_item_ids,$a_obj_id)
 	{
 		global $ilDB;
+		
+		$in = '';
+		if(is_array($sco_item_ids) && count($sco_item_ids))
+		{
+			$in = $ilDB->in('sco_id', $sco_item_ids, false, 'integer').' AND ';
+		}
 
 		$res = $ilDB->queryF('
 		SELECT * FROM scorm_tracking 
-		WHERE sco_id IN('.implode(",",$sco_item_ids).') 
-		AND obj_id = %s 
+		WHERE '.$in.'
+		obj_id = %s 
 		AND lvalue = %s ',
 		array('integer','text'), 
 		array($a_obj_id,'cmi.core.lesson_status'));
