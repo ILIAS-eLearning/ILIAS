@@ -1,5 +1,5 @@
-<?php
-/*
+; <?php exit; ?>
+
 [server]
 http_path =
 absolute_path =
@@ -56,4 +56,3 @@ zip =
 unzip = 
 java = 
 htmldoc = 
-*/ ?>
