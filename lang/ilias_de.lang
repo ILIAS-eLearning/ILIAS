@@ -1538,7 +1538,6 @@ cntr#:#cntr_saved_sorting#:#Sortierung gespeichert
 cntr#:#cntr_switched_editor#:#Auf neue Darstellung umgestellt
 cntr#:#cntr_switch_to_new_editor_cmd#:#Zu untenstehenden Inhalten wechseln. Alte Inhalte werden gelöscht.
 cntr#:#cntr_switch_to_new_editor_message#:#Dies ist der Standard-Seiteneditor. Wenn Sie ihn nutzen möchten, müssen Sie die Inhalte per Click auf die Platzhalter unten hinzufügen. Wenn Sie auf den nachfolgenden Link klicken, werden die untenstehende Inhalte für die Seitendarstellung genutzt.
-cntr#:#cntr_switched_editor#:#Auf neue Darstellung umgestellt
 cntr#:#cntr_text_media_editor#:#Text/Media-Editor
 cntr#:#cntr_view_by_type#:#Ansicht nach Typen
 cntr#:#cntr_view_info_by_type#:#Diese Kursansicht ordnet alle Kursinhalte nach ihrem Objekttyp.
@@ -9574,25 +9573,17 @@ wiki#:#wiki_wiki_page#:#Wiki-Seite
 wiki#:#wiki_wiki_search#:#Suche in Wiki
 mail#:#mail_incoming_mail#:#Nachrichten Empfang
 mail#:#mail_settings_incoming_type_see_also#:#Eine weitere Möglichkeit die Empfangsart für die Anwender/-innenfinden zu ändern haben Sie <a href="%s">hier</a>.
-common#:#download_with_uploaded_filename#:#Download with uploaded filename###18 08 2009 new variable
-common#:#download_with_uploaded_filename_info#:#Select this option exclusively for backwards compatibility with ILIAS 3.9 and older versions: When this option is selected, the filename of a downloaded file is equal to the filename that was used for uploading the file into ILIAS. If this option is not selected, the filename of a downloaded file is equal to the title of the file object in ILIAS. This option does not affect WebDAV. For WebDAV the filename of a downloaded file is always equal to the title of the file object.###18 08 2009 new variable
 form#:#form_msg_wrong_date#:#Wrong date. Please enter a valid date.###18 08 2009 new variable
 form#:#form_msg_wrong_date_format#:#Wrong date format. Please enter the date as "%s"!###18 08 2009 new variable
 form#:#form_msg_formula_is_required#:#Please enter a correct formula.###18 08 2009 new variable
 common#:#advanced_editing_rep_page_editing#:#Enable Content Editing in Repository###18 08 2009 new variable
 common#:#advanced_editing_rep_page_editing_desc#:#This feature allows to add text/media to category, course, group and folder pages.###18 08 2009 new variable
 common#:#adve_rep_settings#:#Repository Settings###18 08 2009 new variable
-common#:#assessment_log_no_data#:#No log data available###18 08 2009 new variable
-common#:#back_to_sess_content#:#Back to Session Content###18 08 2009 new variable
 common#:#lang_size_gb#:#GB###18 08 2009 new variable
 common#:#lang_size_mb#:#MB###18 08 2009 new variable
 common#:#lang_size_kb#:#KB###18 08 2009 new variable
 common#:#lang_size_bytes#:#bytes###18 08 2009 new variable
 common#:#webdav#:#WebDAV###18 08 2009 new variable
-common#:#downloading_settings#:#Downloading Settings###18 08 2009 new variable
-common#:#enable_disk_quota#:#Activate Disk Quota###18 08 2009 new variable
-common#:#enable_disk_quota_info#:#Allows to specify a disk quota for each user account and each global role. The disk usage of a user account is determined once every day using a cron job and listed in the user edit form and in the disk quota report.###18 08 2009 new variable
-common#:#enable_disk_quota_reminder_mail#:#Send disk quota reminder mails###18 08 2009 new variable
 common#:#mail_attachment#:#Mail attachment###18 08 2009 new variable
 content#:#cont_change_object_reference#:#Change Object Reference###18 08 2009 new variable
 content#:#cont_select#:#Select###18 08 2009 new variable
@@ -9618,23 +9609,11 @@ dateplaner#:#cal_new_ms#:#New Milestone###18 08 2009 new variable
 dateplaner#:#cal_add_milestone#:#Add Milestone###18 08 2009 new variable
 dateplaner#:#cal_task_completion#:#Task Completion###18 08 2009 new variable
 dateplaner#:#cal_responsible#:#Responsible###18 08 2009 new variable
-cntr#:#cntr_manage#:#Manage###18 08 2009 new variable
-cntr#:#cntr_ordering#:#Sorting###18 08 2009 new variable
-cntr#:#cntr_text_media_editor#:#Text/Media Editor###18 08 2009 new variable
-cntr#:#cntr_saved_sorting#:#Saved Sorting.###18 08 2009 new variable
 crs#:#crs_search_users#:#Search Users###18 08 2009 new variable
 crs#:#crs_user_login#:#User Login###18 08 2009 new variable
 grp#:#grp_search_users#:#Search User###18 08 2009 new variable
 common#:#mem_add_to_wl#:#Add to Waiting List###18 08 2009 new variable
 common#:#event_assign_files#:#File Assignment###18 08 2009 new variable
-chat#:#chat_export_status#:#Required export permissions###18 08 2009 new variable
-chat#:#chat_export_all#:#No restrictions (all users with access may export)###18 08 2009 new variable
-chat#:#chat_export_moderator#:#Moderators only###18 08 2009 new variable
-chat#:#chat_export_period#:#Export period###18 08 2009 new variable
-chat#:#chat_export_period_info#:#Export the given number of days###18 08 2009 new variable
-chat#:#chat_export_info#:#Displays an export button for the current room. The messages will be exported to html.###18 08 2009 new variable
-chat#:#chat_textformat#:#Format text###18 08 2009 new variable
-chat#:#chat_show_textformat#:#Format text###18 08 2009 new variable
 registration#:#reg_type_confirmation#:#Registration with E-Mail Confirmation###18 08 2009 new variable
 registration#:#reg_type_confirmation_info#:#This type allows self-registration of users but requires an email confirmation to activate the account. This avoids self-registration to ILIAS with wrong or non-existant email addresses.###18 08 2009 new variable
 registration#:#reg_confirmation_hash_life_time_info#:#Enter the lifetime (seconds) of confirmation links.###18 08 2009 new variable
@@ -9698,21 +9677,8 @@ content#:#cont_no_glossary#:#No glossary###18 08 2009 new variable
 common#:#obj_sco#:#SCO###18 08 2009 new variable
 common#:#obj_chap#:#Chapter###18 08 2009 new variable
 common#:#obj_page#:#Page###18 08 2009 new variable
-common#:#disk_quota#:#Disk Quota###18 08 2009 new variable
-common#:#disk_usage#:#Disk Usage###18 08 2009 new variable
-common#:#disk_quota_report#:#Disk Quota Report###18 08 2009 new variable
-common#:#disk_usage_details#:#Disk Usage Details###18 08 2009 new variable
-common#:#disk_quota_report_not_run_yet#:#No disk quota report available. The daily cron job which determines the disk usage needs to be executed first.###18 08 2009 new variable
 common#:#enter_in_mb_desc#:#Enter a value in MB.###18 08 2009 new variable
-common#:#disk_quota_on_role_desc#:#The disk quota specified on a role affects all user accounts which are assigned to this role.###18 08 2009 new variable
-common#:#disk_quota_is_1_by_2#:#The effective disk quota is %1$s due to membership in role "%2$s".###18 08 2009 new variable
-common#:#disk_quota_is_unlimited_by_1#:#The effective disk quota is unlimited due to membership in role "%1$s".###18 08 2009 new variable
-common#:#disk_quota_is_1_instead_of_2_by_3#:#The effective disk quota is %1$s as defined in this user account. The disk quota by role membership would have been %2$s by role "%3$s".###18 08 2009 new variable
-common#:#disk_quota_reminder_mail#:#Reminder mail###18 08 2009 new variable
-common#:#disk_quota_reminder_mail_desc#:#The disk quota reminder mail is sent to active users who have exceeded their disk quota. This e-mail is sent once every day to the users when the daily ILIAS cron job is run. Users who already have received a reminder e-mail receive it again every 7 days as long as they exceed their disk quota.###18 08 2009 new variable
 common#:#last_reminder#:#Last reminder###18 08 2009 new variable
-common#:#disk_quota_last_reminder_sent#:#Last quota reminder sent###18 08 2009 new variable
-common#:#disk_quota_last_reminder_sent_desc#:#Last date on which the user has received a reminder mail because of exceeding the disk quota.###18 08 2009 new variable
 common#:#filter_users_without_disk_usage#:#Only users with no disk space used###18 08 2009 new variable
 common#:#filter_users_with_disk_usage#:#Only users with disk space used###18 08 2009 new variable
 common#:#filter_users_with_exceeded_disk_quota#:#Only users with disk quota exceeded###18 08 2009 new variable
@@ -9748,15 +9714,10 @@ ldap#:#ldap_role_selection_info#:#Your selection is ambiguous. Please choose one
 ldap#:#ldap_role_by_plugin#:#By Plugin###18 08 2009 new variable
 common#:#reg_mail_subject_confirmation#:#ILIAS eLearning - Your Confirmation Link###18 08 2009 new variable
 common#:#reg_mail_body_confirmation#:#to activate your account and confirm ownership of this email address, click the link below:###18 08 2009 new variable
-chat#:#chat_add_blocking#:#Block user###18 08 2009 new variable
-chat#:#chat_confirm_delete#:#Are you sure that you want to delete this rooms?###18 08 2009 new variable
 content#:#saved_media_object#:#Saved media object.###18 08 2009 new variable
 content#:#text_repr#:#Text Representation###18 08 2009 new variable
 content#:#text_repr_info#:#Used for image "alt" attribute.###18 08 2009 new variable
 common#:#socialbm_extt_social_bookmarks#:#Social Bookmarks###18 08 2009 new variable
-common#:#bm_manage_social_bm#:#Manage Social Bookmarks###18 08 2009 new variable
-common#:#bm_add_to_ilias#:#ILIAS Bookmarks###18 08 2009 new variable
-common#:#bm_add_to_social_bookmarks#:#Add to Bookmarks###18 08 2009 new variable
 content#:#cont_no_text#:#No Text###18 08 2009 new variable
 content#:#cont_print_selection#:#Print View Selection###18 08 2009 new variable
 dateplaner#:#cal_dstart_dend_warn#:#Please check your input. The start of a day should be before the end of the day.###18 08 2009 new variable
@@ -9775,8 +9736,6 @@ mep#:#mep_create_content_snippet#:#Create Content Snippet###18 08 2009 new varia
 mep#:#mep_new_folder#:#New Folder###18 08 2009 new variable
 mep#:#mep_edit_folder#:#Edit Folder###18 08 2009 new variable
 forum#:#frm_purifier_not_implemented_for_type_x#:#Purifier for type %s not implemented yet.###18 08 2009 new variable
-common#:#adve_frm_post_settings#:#Forum Posts###18 08 2009 new variable
-common#:#advanced_editing_frm_post_settings#:#Forum Post Settings###18 08 2009 new variable
 common#:#hint#:#Hint###18 08 2009 new variable
 mep#:#mep_new_content_snippet#:#New Content Snippet###18 08 2009 new variable
 mep#:#mep_edit_content_snippet#:#Edit Content Snippet###18 08 2009 new variable
@@ -9850,10 +9809,8 @@ license#:#used_licenses_explanation#:#Every first access of a user consumes a li
 user#:#user_access_limited#:#Limited###18 08 2009 new variable
 user#:#user_access_unlimited#:#Unlimited###18 08 2009 new variable
 license#:#zero_licenses_explanation#:#Enter a 0 to deactivate the licensing.###18 08 2009 new variable
-common#:#birthday#:#Birthday###18 08 2009 new variable
 content#:#cont_replace_mob_feature#:#Replace Media Objects in Content###18 08 2009 new variable
 assessment#:#errors#:#Errors###18 08 2009 new variable
-common#:#advanced_editing_required_tags#:#The following HTML tags are required: %s###18 08 2009 new variable
 meta#:#md_general_settings#:#General Settings###18 08 2009 new variable
 meta#:#md_delimiter#:#Delimiter###18 08 2009 new variable
 meta#:#md_delimiter_info#:#The delimiter is used in the quick editing screen for keywords and authors separation. Default is ','.###18 08 2009 new variable
@@ -9875,7 +9832,6 @@ crs#:#sess_num_next#:#Number of Following Sessions###18 08 2009 new variable
 crs#:#sess_limit_info#:#Choose this option for limiting the number of visible sessions.###18 08 2009 new variable
 common#:#mem_view_long#:#Member View###18 08 2009 new variable
 common#:#mem_view_close#:#Close Member View###18 08 2009 new variable
-common#:#auth_ldap_migration_info#:#Activate this option to give new users the possibility to migrate their existing ILIAS accounts to LDAP authentication.###18 08 2009 new variable
 survey#:#spl_move_same_pool#:#It has no effect to move questions from inside the same question pool.###18 08 2009 new variable
 assessment#:#delete_image_header#:#Delete image###18 08 2009 new variable
 assessment#:#delete_image_question#:#Do you really want to delete the image?###18 08 2009 new variable
