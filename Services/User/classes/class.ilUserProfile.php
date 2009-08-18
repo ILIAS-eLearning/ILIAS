@@ -239,7 +239,20 @@ class ilUserProfile
 						"required_hide" => true,
 						"registration_hide" => true,
 						"course_export_hide" => true,
-						"group" => "preferences")
+						"group" => "preferences"),
+		"mail_incoming_mail" => array(
+						"input" => "selection",
+						"default" => "0",
+						"options" => array(
+							"0" => "mail_incoming_local",
+							"1" => "mail_incoming_smtp",
+							"2" => "mail_incoming_both"),
+						"required_hide" => true,
+						"registration_hide" => true,
+						"course_export_hide" => true,
+						"export_hide" => true,
+						"search_hide" => true,
+						"group" => "settings")
 		
 		);
 		

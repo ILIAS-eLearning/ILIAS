@@ -1350,7 +1350,7 @@ return;
 	*/
 	public function saveMailOptions()
 	{
-		global $ilUser, $lng, $ilTabs;
+		global $ilUser, $lng, $ilTabs, $ilSetting;
 		
 		$lng->loadLanguageModule('mail');
 		
@@ -1359,21 +1359,36 @@ return;
 		
 		$this->tpl->setTitleIcon(ilUtil::getImagePath('icon_pd_b.gif'),
 			$lng->txt('personal_desktop'));
-		$this->tpl->setTitle($lng->txt('personal_desktop'));		
+		$this->tpl->setTitle($lng->txt('personal_desktop'));
+		
+		require_once 'Services/Mail/classes/class.ilMailOptions.php';
+		$mailOptions = new ilMailOptions($ilUser->getId());
+		if($ilSetting->get('usr_settings_hide_mail_incoming_mail') != '1' && 
+		   $ilSetting->get('usr_settings_disable_mail_incoming_mail') != '1')
+		{
+			$incoming_type = (int)$_POST['incoming_type'];
+		}
+		else
+		{
+			$incoming_type = $mailOptions->getIncomingType();
+		}			
 		
 		$this->initMailOptionsForm();
 		if($this->form->checkInput())
-		{
-			require_once 'Services/Mail/classes/class.ilMailOptions.php';
-			$mailOptions = new ilMailOptions($ilUser->getId());			
+		{		
 			$mailOptions->updateOptions(
 				ilUtil::stripSlashes($_POST['signature']),
 				(int)$_POST['linebreak'],
-				(int)$_POST['incoming_type'],
+				$incoming_type,
 				(int)$_POST['cronjob_notification']
 			);
 			
 			ilUtil::sendSuccess($lng->txt('mail_options_saved'));			
+		}
+		
+		if(!isset($_POST['incoming_type']))
+		{
+			$_POST['incoming_type'] = $mailOptions->getIncomingType();
 		}
 		
 		$this->form->setValuesByPost();
@@ -1399,18 +1414,25 @@ return;
 		$this->form->setTitle($lng->txt('mail_settings'));
 			
 		// BEGIN INCOMING
-		$options = array(
-			$lng->txt('mail_incoming_local'), 
-			$lng->txt('mail_incoming_smtp'),
-			$lng->txt('mail_incoming_both')
-		);		
-		$si = new ilSelectInputGUI($lng->txt('mail_incoming'), 'incoming_type');
-		$si->setOptions($options);
-		if(!strlen(ilObjUser::_lookupEmail($ilUser->getId())))
+		if($ilSetting->get('usr_settings_hide_mail_incoming_mail') != '1')
 		{
-			$si->setDisabled(true);
-		}		
-		$this->form->addItem($si);
+			$options = array(
+				$lng->txt('mail_incoming_local'), 
+				$lng->txt('mail_incoming_smtp'),
+				$lng->txt('mail_incoming_both')
+			);	
+			$si = new ilSelectInputGUI($lng->txt('mail_incoming'), 'incoming_type');
+			$si->setOptions($options);
+			if($ilSetting->get('usr_settings_disable_mail_incoming_mail') == '1')
+			{
+				$si->setDisabled(true);	
+			}		
+			if(!strlen(ilObjUser::_lookupEmail($ilUser->getId())))
+			{
+				$si->setDisabled(true);
+			}		
+			$this->form->addItem($si);
+		}
 		
 		// BEGIN LINEBREAK_OPTIONS
 		$options = array();
@@ -1448,17 +1470,23 @@ return;
 	*/
 	private function setMailOptionsValuesByDB()
 	{
-		global $ilUser;		
+		global $ilUser, $ilSetting;		
 		
 		require_once 'Services/Mail/classes/class.ilMailOptions.php';
 		$mailOptions = new ilMailOptions($ilUser->getId());
 		
-		$this->form->setValuesByArray(array(
-			'incoming_type' => $mailOptions->getIncomingType(),
+		$data = array(
 			'linebreak' => $mailOptions->getLinebreak(),
 			'signature' => $mailOptions->getSignature(),
 			'cronjob_notification' => $mailOptions->getCronjobNotification()
-		));		
+		);
+		
+		if($ilSetting->get('usr_settings_hide_mail_incoming_mail') != '1')
+		{		
+			$data['incoming_type'] = $mailOptions->getIncomingType();
+		}
+		
+		$this->form->setValuesByArray($data);		
 	}
 
 	/** 

@@ -742,7 +742,8 @@ class ilObjUserFolder extends ilObject
 			"hits_per_page",
 			"show_users_online",
 			"instant_messengers",
-			"hide_own_online_status" 
+			"hide_own_online_status",
+			"mail_incoming_mail"
 		);
 		
 		return $profile_fields;
