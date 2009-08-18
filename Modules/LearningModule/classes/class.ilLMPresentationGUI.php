@@ -890,7 +890,7 @@ class ilLMPresentationGUI
 		}
 		
 		$this->tpl->setVariable("MAINMENU", $ilMainMenu->getHTML());
-		$this->tpl->addJavascript("./Services/Javascript/js/Basic.js");
+		$this->tpl->addJavascript("./Services/JavaScript/js/Basic.js");
 		$this->tpl->addJavascript("./Services/Navigation/js/ServiceNavigation.js");
 		$this->tpl->fillJavaScriptFiles();
 		$this->tpl->fillScreenReaderFocus();

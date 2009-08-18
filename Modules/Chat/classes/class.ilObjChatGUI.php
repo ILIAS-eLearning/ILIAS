@@ -1069,7 +1069,7 @@ class ilObjChatGUI extends ilObjectGUI
 		ilYuiUtil::initMenu();
 		ilYuiUtil::initJson();
 		
-		$this->tpl->addJavascript("./Services/Javascript/js/Basic.js");
+		$this->tpl->addJavascript("./Services/JavaScript/js/Basic.js");
 		$this->tpl->addJavascript("./Services/Navigation/js/ServiceNavigation.js");
 		$this->tpl->addJavascript('./Services/YUI/js/2_5_0/yahoo/yahoo-min.js');
 		$this->tpl->addJavascript('./Services/YUI/js/2_5_0/event/event-min.js');
