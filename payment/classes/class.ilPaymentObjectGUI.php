@@ -65,7 +65,6 @@ class ilPaymentObjectGUI extends ilShopBaseGUI
 	
 	public function executeCommand()
 	{
-
 		$cmd = $this->ctrl->getCmd();
 		switch($this->ctrl->getNextClass($this))
 		{
@@ -158,7 +157,7 @@ class ilPaymentObjectGUI extends ilShopBaseGUI
 		}
 
 		$this->__initPaymentObject();
-		
+
 
 		$img_change = "<img src=\"".ilUtil::getImagePath("edit.gif")."\" alt=\"".
 			$this->lng->txt("edit")."\" title=\"".$this->lng->txt("edit").
@@ -255,25 +254,26 @@ class ilPaymentObjectGUI extends ilShopBaseGUI
 
 	function editDetails($a_show_confirm = false)
 	{
+		global $ilToolbar;
+		
 		if(!(int)$_GET['pobject_id'])
-		{
+		{	
 			ilUtil::sendInfo($this->lng->txt('paya_no_object_selected'));
 			return $this->showObjects();
 		}
-		
+			
 		$this->__initPaymentObject((int)$_GET['pobject_id']);
-		
-		$this->ctrl->setParameter($this,'pobject_id', (int)$_GET['pobject_id']);
 
+		$this->ctrl->setParameter($this,'pobject_id', (int)$_GET['pobject_id']);
+	
 		$this->showButton('editDetails', $this->lng->txt('paya_edit_details'));
-		$this->showButton('editPrices', $this->lng->txt('paya_edit_prices'));		
-		// edit abstract
-		$this->tpl->setCurrentBlock('btn_cell');
-		$this->tpl->setVariable('BTN_LINK', $this->ctrl->getLinkTargetByClass(array('ilpageobjectgui'), 'edit'));
-		$this->tpl->setVariable('BTN_TXT', $this->lng->txt('pay_edit_abstract'));		
-		$this->tpl->parseCurrentBlock();		
-				
-		$this->tpl->addBlockfile('ADM_CONTENT','adm_content','tpl.paya_edit.html','payment');		
+
+		$this->showButton('editPrices', $this->lng->txt('paya_edit_prices'));	
+
+		$ilToolbar->addButton($this->lng->txt('pay_edit_abstract'), $this->ctrl->getLinkTargetByClass(array('ilpageobjectgui'), 'edit'));
+		
+		$this->tpl->addBlockfile('ADM_CONTENT','adm_content','tpl.paya_edit.html','payment');	
+		$this->tpl->addBlockFile('ADM_CONTENT', 'adm_content', 'tpl.shop_content.html', 'Services/Payment');	
 
 		if($a_show_confirm)
 		{
@@ -286,7 +286,7 @@ class ilPaymentObjectGUI extends ilShopBaseGUI
 		}
 		
 		$tmp_obj = ilObjectFactory::getInstanceByRefId($this->pobject->getRefId());
-		
+
 		include_once 'Services/Form/classes/class.ilPropertyFormGUI.php';
 		$oForm = new ilPropertyFormGUI();
 		$oForm->setFormAction($this->ctrl->getFormAction($this, 'updateDetails'));
@@ -376,7 +376,7 @@ class ilPaymentObjectGUI extends ilShopBaseGUI
 		// buttons
 		$oForm->addCommandButton('updateDetails', $this->lng->txt('save'));
 		$oForm->addCommandButton('deleteObject', $this->lng->txt('delete'));		
-		
+
 		$this->tpl->setVariable('PAYMENT_OBJECT_FORM', $oForm->getHTML());
 	}
 
@@ -923,6 +923,8 @@ class ilPaymentObjectGUI extends ilShopBaseGUI
 
 	function updateDetails()
 	{
+		
+		
 		if(!$_GET['pobject_id'])
 		{
 			ilUtil::sendInfo($this->lng->txt('paya_no_object_selected'));
