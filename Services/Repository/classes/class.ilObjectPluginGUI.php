@@ -98,7 +98,6 @@ abstract class ilObjectPluginGUI extends ilObject2GUI
 				if (strtolower($_GET["baseClass"]) == "iladministrationgui")
 				{
 					$this->viewObject();
-					$tpl->show();
 					return;
 				}
 				if(!$cmd)
