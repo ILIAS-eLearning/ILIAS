@@ -34,7 +34,7 @@
 // The language file starts beyond the HTML-comment below. DO NOT modify this line!
 // To edit your language file with a spreadsheet (i.e. Excel or StarCalc) remove all lines
 // from the first line to the HTML-comment. After editing paste the lines in place again.
-// NOTICE: Character coding of all ILIAS 3 lang files is UTF-8! Please set your editor
+// NOTICE: Character coding of all ILIAS lang files is UTF-8! Please set your editor
 // to the corresponding mode! 
 // Language file names refer to ISO 639, see: http://www.oasis-open.org/cover/iso639a.html
 <!-- language file start -->
@@ -1512,7 +1512,7 @@ common#:#accesscount_registered_users#:#Gelesen von ILIAS-Benutzern (Anzahl)
 common#:#accessFree#:#Beschränkten Zugriff Deaktivieren
 common#:#accessRestrict#:#Beschränkten Zugriff Aktivieren
 common#:#account_expires_body#:#Ihr Benutzerzugang ist zeitlich begrenzt. Ablauftermin:
-common#:#account_expires_subject#:#[ILIAS 3] Benutzerzugang
+common#:#account_expires_subject#:#[ILIAS] Benutzerzugang
 common#:#accs_edit_permission#:#Rechteeinstellungen ändern
 common#:#accs_read#:#Lesezugriff auf Einstellungen Barrierefreiheit
 common#:#accs_visible#:#Einstellungen Barrierefreiheit sichtbar
@@ -3079,7 +3079,7 @@ common#:#link_check_body_top#:#Sie erhalten diese Nachricht, da sie über ungül
 common#:#link_check_message_b#:#Wenn diese Option eingeschaltet ist, werden sie per Mail über ungültige Links dieser Lerneinheit benachrichtigt.
 common#:#link_check_message_disabled#:#Der Versand von Nachrichten ist deaktiviert.
 common#:#link_check_message_enabled#:#Der Versand von Nachrichten ist aktiviert.
-common#:#link_check_subject#:#[ILIAS 3] Link überprüfen
+common#:#link_check_subject#:#[ILIAS] Link überprüfen
 common#:#link_checker_refreshed#:#Die Ansicht wurde aktualisiert.
 common#:#link_dynamic_info#:#Hier können Sie dynamische Parameter wie z.B. die ILIAS Benutzer-ID an den Web-Link anhängen.
 common#:#link_selected_items#:#Verknüpfen
