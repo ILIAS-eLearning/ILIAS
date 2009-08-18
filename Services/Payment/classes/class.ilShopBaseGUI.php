@@ -56,21 +56,13 @@ class ilShopBaseGUI
 	
 	protected function prepareOutput()
 	{		
-		global $ilLocator;
-		
 		$this->tpl->getStandardTemplate();
-		
-		$ilLocator->addItem($this->lng->txt('search'),$this->ctrl->getLinkTarget($this));
-		$this->tpl->setLocator();
-		
-		$this->tpl->setCurrentBlock("header_image");
-		$this->tpl->setVariable("IMG_HEADER", ilUtil::getImagePath("icon_pays_cart_b.gif"));
-		$this->tpl->parseCurrentBlock();
 
-		$this->tpl->setVariable("TXT_HEADER",$this->lng->txt('shop'));
-		
+		$this->tpl->setTitleIcon(ilUtil::getImagePath("icon_pays_cart_b.gif"), $this->lng->txt("search"));
+		$this->tpl->setTitle($this->lng->txt("shop"));
+
 		ilUtil::infoPanel();
-		
+	
 		$this->buildSubTabs();
 	}
 	
