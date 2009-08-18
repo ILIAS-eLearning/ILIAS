@@ -10,7 +10,7 @@
     +-----------------------------------------------------------------------------+
     | ILIAS open source                                                           |
     +-----------------------------------------------------------------------------+
-    | Copyright (c) 1998-2001 ILIAS open source, University of Cologne            |
+    | Copyright (c) 1998-2009 ILIAS open source, University of Cologne            |
     |                                                                             |
     | This program is free software; you can redistribute it and/or               |
     | modify it under the terms of the GNU General Public License                 |
@@ -30,7 +30,7 @@
 // The language file starts beyond the HTML-comment below. DO NOT modify this line!
 // To edit your language file with a spreadsheet (i.e. Excel or StarCalc) remove all lines
 // from the first line to the HTML-comment. After editing paste the lines in place again.
-// NOTICE: Character coding of all ILIAS 4 lang files is UTF-8! Please set your editor
+// NOTICE: Character coding of all ILIAS lang files is UTF-8! Please set your editor
 // to the corresponding mode!
 <!-- language file start -->
 check_db_versions#:#Please ensure that the database mode determined by ILIAS matches to your version of MySQL. This should be the case usually. If not, your database version is not supported.<br> Example 1: If the mode is 'MySQL 4.1.x or higher' and your database version is '4.0.12' then this MySQL version is not supported. Please contact the ILIAS team.<br />Example 2: If the mode is 'MySQL 4.1.x or higher' and your database version is '4.1.14' then everything is ok.
@@ -124,8 +124,8 @@ enabled#:#дозволений
 enter_dir_and_filename#:#Будь ласка вкажіть повний (абсолютний) шлях та ім'я файлу!
 enter_password#:#Бедь ласка введіть пароль
 env_ok#:#Так. Звучить добре.
-env_using#:#ILIAS 4 буде запущений на
-env_warning#:#ILIAS 4 був протестований тільки на Linux та Windows використовуючи Apache веб сервер!<br />Однак, ILIAS 4 може працювати на вашій конфігурації також.
+env_using#:#ILIAS буде запущений на
+env_warning#:#ILIAS був протестований тільки на Linux та Windows використовуючи Apache веб сервер!<br />Однак, ILIAS може працювати на вашій конфігурації також.
 environment#:#Конфігурація
 err_create_database_failed#:#створення бази даних завершилось невдало
 err_wrong_login#:#Невірний логін
@@ -180,12 +180,12 @@ ini_no_db_host#:#Не вказане ім'я хоста
 ini_no_db_name#:#не вказано ім'я бази даних
 ini_no_db_user#:#Не вказано ім'я користувача бази даних
 inifile#:#іні-файл
-inifile_can_write#:#Порграма установки ILIAS 4 може записати ваш ini-file.
-inifile_cannot_write#:#Програма установки ILIAS 4 не може записати ваш ini-file. Будь ласка перевірте спочатку права на запис.
+inifile_can_write#:#Порграма установки ILIAS може записати ваш ini-file.
+inifile_cannot_write#:#Програма установки ILIAS не може записати ваш ini-file. Будь ласка перевірте спочатку права на запис.
 inifile_content#:#Ваш ini-файл має цей вміст:
 inifile_exists#:#Ini-файл існує. Зауважте, що цей Інсталяційний процес знищить попередні настройки.
 inifile_fill_all#:#Будь ласка заповніть усі поля.
-inifile_firsttime#:#Немає ini-файлу! Здається що це перший старт ILIAS 4.
+inifile_firsttime#:#Немає ini-файлу! Здається що це перший старт ILIAS.
 inifile_written#:#Ini-файл був вдало збережений на вашому хості.
 input_error#:#Помилка вводу
 inst_identification#:#Ідентифікація Інсталяції
@@ -195,7 +195,7 @@ install#:#інсталювати
 installation#:#Інсталяція
 installed#:#інстальований
 institution#:#Інститут
-intro_install#:#Це головна сторінка установки ILIAS 4. Звідси ви пройдете через процес інсталяції.
+intro_install#:#Це головна сторінка установки ILIAS. Звідси ви пройдете через процес інсталяції.
 ip_address#:#IP адреса
 java_path#:#Шлях до Java
 java_path_comment#:#потрібний для SCORM Учбових модулів
@@ -307,21 +307,21 @@ pathes#:#Шляхи
 phone#:#Телефон
 port#:#порт
 position#:#Позиція
-pre_cookies_disabled#:#Cookies відключені. Cookies потрібні щов використовувати ILIAS 4.
+pre_cookies_disabled#:#Cookies відключені. Cookies потрібні щов використовувати ILIAS.
 pre_cookies_enabled#:#Cookies включені
-pre_error#:#Одна або дві речі завершились невдало. Будь ласка вирішіть цю проблему або ви не зможете встановити ILIAS 4.
+pre_error#:#Одна або дві речі завершились невдало. Будь ласка вирішіть цю проблему або ви не зможете встановити ILIAS.
 pre_folder_create#:#Нові папки створені в папці ILIAS
 pre_folder_create_error#:#Неможливо створити підпапки! Будь ласка перевірте ваші права в файловій системі!
-pre_folder_write#:#Папка ILIAS 4 з правами на запис
-pre_folder_write_error#:#Неможливо записати в папку ILIAS 4! Будь ласка перевірте ваші права в файловій ситсемі!
+pre_folder_write#:#Папка ILIAS з правами на запис
+pre_folder_write_error#:#Неможливо записати в папку ILIAS! Будь ласка перевірте ваші права в файловій ситсемі!
 pre_intro#:#Давайте спочатку перевіримо, чи ваше середовище відповідає усім вимогам для встановлення та запуску ilias4 на вашій системі.
 pre_javascript_comment#:#Ви можете запустити ILIAS без Javascript але ви втратите деякі фічі інтерфейсу.
 pre_javascript_enabled#:#Javascript включений
 pre_php_version#:#PHP версія
-pre_php_version_3#:#Ваша версія PHP дуже стара для використання ILIAS 4! Будь ласка обновіть PHP.
+pre_php_version_3#:#Ваша версія PHP дуже стара для використання ILIAS! Будь ласка обновіть PHP.
 pre_php_version_4.1#:#PEAR класи не можуть працювати коректно з цією версією! Будь ласка обновіть PHP.
 pre_php_version_4.2#:#DOMXML та XSLT підтримка не може працювати коректно з цієб версією!
-pre_php_version_5#:#ILIAS 4 ще не була протестована з PHP. Ви будете її використовувати на свій власний ризик!
+pre_php_version_5#:#ILIAS ще не була протестована з PHP. Ви будете її використовувати на свій власний ризик!
 pre_php_version_unknown#:#Програма установки ILIAS не знає цієї версії. Ви будете її використовувати на свій власний ризик!
 preliminaries#:#Попередні примітки
 prev#:#Попередній
@@ -371,7 +371,7 @@ setup_process_step_ini#:#Встановити базові дані
 setup_process_step_lang#:#Встановити системну мову
 setup_process_step_nic#:#Зареєструвати на ILIAS-NIC
 setup_ready#:#Прогруму установки завершено. Ви можеете зараз перейти до процесу входу в систему то перевірити подальші настройки системи.
-setup_welcome#:#Ласкаво просимо до програми установки ILIAS 4. Ця програма установки допоможе вам 
+setup_welcome#:#Ласкаво просимо до програми установки ILIAS. Ця програма установки допоможе вам 
 sort_by_this_column#:#Сортувати по цій колонці
 status#:#Статус
 step#:#Крок

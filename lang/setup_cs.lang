@@ -10,7 +10,7 @@
     +-----------------------------------------------------------------------------+
     | ILIAS open source                                                           |
     +-----------------------------------------------------------------------------+
-    | Copyright (c) 1998-2001 ILIAS open source, University of Cologne            |
+    | Copyright (c) 1998-2009 ILIAS open source, University of Cologne            |
     |                                                                             |
     | This program is free software; you can redistribute it and/or               |
     | modify it under the terms of the GNU General Public License                 |
@@ -30,7 +30,7 @@
 // The language file starts beyond the HTML-comment below. DO NOT modify this line!
 // To edit your language file with a spreadsheet (i.e. Excel or StarCalc) remove all lines
 // from the first line to the HTML-comment. After editing paste the lines in place again.
-// NOTICE: Character coding of all ILIAS 4 lang files is UTF-8! Please set your editor
+// NOTICE: Character coding of all ILIAS lang files is UTF-8! Please set your editor
 // to the corresponding mode!
 <!-- language file start -->
 check_db_versions#:#Please ensure that the database mode determined by ILIAS matches to your version of MySQL. This should be the case usually. If not, your database version is not supported.<br> Example 1: If the mode is 'MySQL 4.1.x or higher' and your database version is '4.0.12' then this MySQL version is not supported. Please contact the ILIAS team.<br />Example 2: If the mode is 'MySQL 4.1.x or higher' and your database version is '4.1.14' then everything is ok.
@@ -122,9 +122,9 @@ en_by_default#:#(Angličtina je instalována jako implicitní jazyk a nemůže b
 enable#:#zapnout
 enabled#:#zapnuto
 enter_password#:#Prosím zadejte heslo
-env_ok#:#Ok.env_using#:#ILIAS 4 bude provozován na
-env_using#:#ILIAS 4 will be running on###04 Mar 2004 new variable
-env_warning#:#ILIAS 4 byl testován pouze na systémech Linux a Windows používajících web server Apache!<br />Přesto bude možná fungovat i na vašem systému.
+env_ok#:#Ok.env_using#:#ILIAS bude provozován na
+env_using#:#ILIAS will be running on###04 Mar 2004 new variable
+env_warning#:#ILIAS byl testován pouze na systémech Linux a Windows používajících web server Apache!<br />Přesto bude možná fungovat i na vašem systému.
 environment#:#Prostředí
 err_create_database_failed#:#vytvoření databáze selhalo
 err_wrong_login#:#Špatné heslo
@@ -183,7 +183,7 @@ inifile_cannot_write#:#Konfigurační soubor nebyl zapsán. Prosím zkontrolujte
 inifile_content#:#Váš konfigurační soubor obsahuje následující:
 inifile_exists#:#Konfigurační soubor existuje. Předešlá konfigurace systému bude ztracena.
 inifile_fill_all#:#Prosím vyplňte všechna pole.
-inifile_firsttime#:#Nebyl nalezen konfigurační soubor. Zdá se, že jde o první spuštění ILIAS 4.
+inifile_firsttime#:#Nebyl nalezen konfigurační soubor. Zdá se, že jde o první spuštění ILIAS.
 inifile_written#:#Konfigurační soubor byl úspěšně uložen.
 input_error#:#Chyba vstupu
 inst_identification#:#Identifikace instalace
@@ -192,7 +192,7 @@ install#:#instalovat
 installation#:#Instalace
 installed#:#instalováno
 institution#:#Instituce
-intro_install#:#Toto je hlavní stránka instalace ILIAS 4, odkud můžete projít postupně celou inslalací a nastavením.
+intro_install#:#Toto je hlavní stránka instalace ILIAS, odkud můžete projít postupně celou inslalací a nastavením.
 ip_address#:#IP adresa
 java_path#:#Cesta k Javě
 java_path_comment#:#požadováno pro výukové moduly SCORM
@@ -302,12 +302,12 @@ pathes#:#Opravy
 phone#:#Telefon
 port#:#port
 position#:#Pozice
-pre_cookies_disabled#:#Cookies jsou vypnuty. Pro používání ILIAS 4 musíte mít povoleny cookies.
+pre_cookies_disabled#:#Cookies jsou vypnuty. Pro používání ILIAS musíte mít povoleny cookies.
 pre_cookies_enabled#:#Cookies zapnuty
-pre_error#:#Jedna nebo obě věci selhaly. Prosím odstraňte problém a poté budete moci nainstalovat ILIAS 4.
+pre_error#:#Jedna nebo obě věci selhaly. Prosím odstraňte problém a poté budete moci nainstalovat ILIAS.
 pre_folder_create#:#Lze vytvářet podadresáře v adresáři ILIASu.
 pre_folder_create_error#:#Nelze vytvářet podadresáře! Prosím zkontrolujte právo zápisu do souborového systému
-pre_folder_write#:#Do adresáře ILIAS 4 lze zapisovat
+pre_folder_write#:#Do adresáře ILIAS lze zapisovat
 pre_folder_write_error#:#Nelze zapisovat do adresáře ILIASu! Prosím zkontrolujte nastavení práv v souborovém systému!
 pre_intro#:#Nejdříve bude zkontrolován váš systém, zda splňuje všechny požadavky pro instalaci ilias4.
 pre_javascript_comment#:#Můžete spustit ILIAS bez podpory Javascriptu, ale budou vypnuty některé funkce uživatelského rozhraní.
@@ -316,7 +316,7 @@ pre_php_version#:#verze PHP
 pre_php_version_3#:#Verze PHP, kterou používáte je příliš stará. Aktualizujte PHP
 pre_php_version_4.1#:#PEAR třídy nebudou fungovat správně v této verzi! Aktualizujte PHP 
 pre_php_version_4.2#:#DOMXML a XSLT podpora nebude fungovat správně s touto verzí!
-pre_php_version_5#:#ILIAS 4 nebyl testován pod PHP 5. Použití jen na vlastní nebezpečí!
+pre_php_version_5#:#ILIAS nebyl testován pod PHP 5. Použití jen na vlastní nebezpečí!
 pre_php_version_unknown#:#Instalace ILIASu nezná tuto verzi. Použití jen na vlastní nebezpečí!
 preliminaries#:#Příprava
 prev#:#Předchozí
@@ -366,7 +366,7 @@ setup_process_step_ini#:#Nastavení základních údajů
 setup_process_step_lang#:#Instalace systémového jazyka
 setup_process_step_nic#:#Registrovat v ILIAS-NIC
 setup_ready#:#Instalace je připravena. Nyní můžete pokračovat přihlášením a zkontrolovat další nastavení systému.
-setup_welcome#:#Vítejte v instalaci ILIAS 4. Tato instalační procedura vám pomůže
+setup_welcome#:#Vítejte v instalaci ILIAS. Tato instalační procedura vám pomůže
 sort_by_this_column#:#Seřadit podle tohoto sloupce
 status#:#Status
 step#:#Krok

@@ -10,7 +10,7 @@
     +-----------------------------------------------------------------------------+
     | ILIAS open source                                                           |
     +-----------------------------------------------------------------------------+
-    | Copyright (c) 1998-2001 ILIAS open source, University of Cologne            |
+    | Copyright (c) 1998-2009 ILIAS open source, University of Cologne            |
     |                                                                             |
     | This program is free software; you can redistribute it and/or               |
     | modify it under the terms of the GNU General Public License                 |
@@ -30,7 +30,7 @@
 // The language file starts beyond the HTML-comment below. DO NOT modify this line!
 // To edit your language file with a spreadsheet (i.e. Excel or StarCalc) remove all lines
 // from the first line to the HTML-comment. After editing paste the lines in place again.
-// NOTICE: Character coding of all ILIAS 4 lang files is UTF-8! Please set your editor
+// NOTICE: Character coding of all ILIAS lang files is UTF-8! Please set your editor
 // to the corresponding mode!
 <!-- language file start -->
 3rd_party_software#:#3rd Party Software###07 Apr 2005 content changed
@@ -134,8 +134,8 @@ enabled#:#habilitado###07 Apr 2005 content changed
 enter_dir_and_filename#:#¡Por favor introduzca la ruta absoluta y el nombre de fichero!###07 Apr 2005 content changed
 enter_password#:#Por favor, introduce una contrase&ntilde;a###07 Apr 2005 content changed
 env_ok#:#Ok. parece correcto.###07 Apr 2005 content changed
-env_using#:#ILIAS 4 se ejecutará en###07 Apr 2005 content changed
-env_warning#:#ILIAS 4 fue probado en Linux y Windows usando Apache como servidor web.<br />En cualquier caso, ILIAS 4 puede trabajar con su entorno también.###07 Apr 2005 content changed
+env_using#:#ILIAS se ejecutará en###07 Apr 2005 content changed
+env_warning#:#ILIAS fue probado en Linux y Windows usando Apache como servidor web.<br />En cualquier caso, ILIAS puede trabajar con su entorno también.###07 Apr 2005 content changed
 environment#:#Entorno###07 Apr 2005 content changed
 err_create_database_failed#:#La creación de la base de datos no ha sido posible.###07 Apr 2005 content changed
 err_wrong_login#:#Identificación fallida###07 Apr 2005 content changed
@@ -175,7 +175,7 @@ info_text_delete#:#Usted puede eliminar esta instalación haciendo click en el b
 info_text_finish1#:#Felicidades! Su configuración de la instalación fue realizada con éxito. Haga click en 'Login' para entrar a su instalación ILIAS.###07 Apr 2005 content changed
 info_text_finish2#:#Algunas configuraciones no están realizadas o son incorrectas. Por favor mire en el cuadro de proceso que debe hacerse!###07 Apr 2005 content changed
 info_text_first_client#:#Su configuración básica ha sido salvada. ahora configuraremos su instalación principal. El programa de configuración le guiará a través del proceso de instalación. En el panel de la derecha siempre puede mirar el estado actual del proceso de instalación.###07 Apr 2005 content changed
-info_text_first_install#:#Parece que está instalando ILIAS 4 por primera vez, porque no se encontró un fichero ilias.ini. En ilias.ini se almacena una contraseña maestra para proteger la configuración de ILIAS de un acceso externo no autorizado.###07 Apr 2005 content changed
+info_text_first_install#:#Parece que está instalando ILIAS por primera vez, porque no se encontró un fichero ilias.ini. En ilias.ini se almacena una contraseña maestra para proteger la configuración de ILIAS de un acceso externo no autorizado.###07 Apr 2005 content changed
 info_text_ini#:#Por favor escoja un ID de instalación. Solo se permiten letras (excepto mayusculas) y números. El ID de instalación  debe ser una única palabra.<br/>A continuación introduzca sus datos de conexión a la base de datos. El Setup establece una conexión para verificar su configuración y comprobar si la base de datos ya existe. Si no, usted puede ayudarse del proceso de configuración en el próximo paso para crear la base de datos por usted.###07 Apr 2005 content changed
 info_text_lang#:#Por favor escoja idiomas adicionales y/o elimine los idiomas seleccionados.###07 Apr 2005 content changed
 info_text_list#:#En este resumen podrá ver todas las instalaciones disponibles y el estado de acceso. En la parte superior derecha pueede activar/desactivar la pantalla de selección de instalaciones ILIAS. Si la selección está activa, todas las instalaciones disponibles que estén 'online' serán mostradas en la lista en la página de inicio de ILIAS. Si la selección de instalación está desactivada y un usuario llega a la página de entrada, siempre le aparecerá la pantalla de 'login' de la instalación <i>por defecto</i>. Puede determinar la instalación por defecto con el botón inferior.###07 Apr 2005 content changed
@@ -196,12 +196,12 @@ ini_no_db_host#:#No existe hostname###07 Apr 2005 content changed
 ini_no_db_name#:#No existe el nombre de la base de datos###07 Apr 2005 content changed
 ini_no_db_user#:#No existe el usuario de la base de datos###07 Apr 2005 content changed
 inifile#:#archivo ini###07 Apr 2005 content changed
-inifile_can_write#:#ILIAS 4 generará tu archivo ini.###07 Apr 2005 content changed
-inifile_cannot_write#:#la configuración de ILIAS 4 no puede escribir tu fichero ini. Por favor compruebe los permisos de escritura en primer lugar.###07 Apr 2005 content changed
+inifile_can_write#:#ILIAS generará tu archivo ini.###07 Apr 2005 content changed
+inifile_cannot_write#:#la configuración de ILIAS no puede escribir tu fichero ini. Por favor compruebe los permisos de escritura en primer lugar.###07 Apr 2005 content changed
 inifile_content#:#Tu fichero ini tiene este contenido. Este fichero tiene este contenido.###07 Apr 2005 content changed
 inifile_exists#:#Atención, ya existe un archivo ini. Este proceso borrará la configuración anterior.###07 Apr 2005 content changed
 inifile_fill_all#:#Por favor rellene todos los campos.###07 Apr 2005 content changed
-inifile_firsttime#:#El fichero ini no se encuentra! Poare que es la primera vez que comienza ILIAS 4.###07 Apr 2005 content changed
+inifile_firsttime#:#El fichero ini no se encuentra! Poare que es la primera vez que comienza ILIAS.###07 Apr 2005 content changed
 inifile_written#:#El fichero ini ha sido satisfactoriamente grabado en su máquina.###07 Apr 2005 content changed
 input_error#:#Error de entrada.###07 Apr 2005 content changed
 inst_identification#:#Identificación de Instalación###07 Apr 2005 content changed
@@ -211,7 +211,7 @@ installation#:#Installación###07 Apr 2005 content changed
 installed#:#instalado###07 Apr 2005 content changed
 installed_local#:#Instalado con Local###13 Apr 2005 new variable
 institution#:#Institución###07 Apr 2005 content changed
-intro_install#:#Esta es la página de configuración de ILIAS 4. Aquí puedes proceder a la instalación paso a paso.###07 Apr 2005 content changed
+intro_install#:#Esta es la página de configuración de ILIAS. Aquí puedes proceder a la instalación paso a paso.###07 Apr 2005 content changed
 ip_address#:#Dirección IP###07 Apr 2005 content changed
 java_path#:#Ruta a Java###07 Apr 2005 content changed
 java_path_comment#:#requerido para usar Módulos de aprendizaje SCORM###07 Apr 2005 content changed
@@ -310,7 +310,7 @@ password#:#contraseña###07 Apr 2005 content changed
 password_changed#:#La contraseña ha sido cambiada correctamente.###07 Apr 2005 content changed
 password_empty#:#No se ha introducido contraseña!###07 Apr 2005 content changed
 password_enter_old#:#Debes introducir tu antigua contraseña en primer lugar!###07 Apr 2005 content changed
-password_info#:#Para proteger tus datos de configuración contra otros usuarios necesitas una contraseña para volver a acceder al setup de ILIAS 4 una vez más.###07 Apr 2005 content changed
+password_info#:#Para proteger tus datos de configuración contra otros usuarios necesitas una contraseña para volver a acceder al setup de ILIAS una vez más.###07 Apr 2005 content changed
 password_new_master#:#Introducir nueva contraseña maestra###07 Apr 2005 content changed
 password_not_match#:#La nueva contraseña introducida no coincide!###07 Apr 2005 content changed
 password_old_wrong#:#La antigua contraseña introducida es errónea!###07 Apr 2005 content changed
@@ -328,21 +328,21 @@ pathes#:#Rutas###07 Apr 2005 content changed
 phone#:#Telefono###07 Apr 2005 content changed
 port#:#puerto###07 Apr 2005 content changed
 position#:#Posición###07 Apr 2005 content changed
-pre_cookies_disabled#:#Las Cookies están deshabilitadas. Las Cookies se requieren para usar ILIAS 4.###07 Apr 2005 content changed
+pre_cookies_disabled#:#Las Cookies están deshabilitadas. Las Cookies se requieren para usar ILIAS.###07 Apr 2005 content changed
 pre_cookies_enabled#:#Cookies habilitadas###07 Apr 2005 content changed
-pre_error#:#Alguna cosa falló. Por favor corrija los problemas antes o no podrá configurar ILIAS 4.###07 Apr 2005 content changed
-pre_folder_create#:#Nuevas carpetas pueden crearse en la carpeta de ILIAS 4###07 Apr 2005 content changed
+pre_error#:#Alguna cosa falló. Por favor corrija los problemas antes o no podrá configurar ILIAS.###07 Apr 2005 content changed
+pre_folder_create#:#Nuevas carpetas pueden crearse en la carpeta de ILIAS###07 Apr 2005 content changed
 pre_folder_create_error#:#No puede crear subcarpetas! Por favor compruebe sus permisos en el sistema de ficheros!###07 Apr 2005 content changed
-pre_folder_write#:#Carpeta ILIAS 4 con permiso de escritura###07 Apr 2005 content changed
-pre_folder_write_error#:#No puede escribir en la carpeta ILIAS 4! Por favor compruebe su configuración de permisos en el sistema de ficheros!###07 Apr 2005 content changed
-pre_intro#:#Comprobemos en primer lugar, si tu entorno reune todos los requisitos para instalar y ejecutar ILIAS 4 en tu sistema!###07 Apr 2005 content changed
+pre_folder_write#:#Carpeta ILIAS con permiso de escritura###07 Apr 2005 content changed
+pre_folder_write_error#:#No puede escribir en la carpeta ILIAS! Por favor compruebe su configuración de permisos en el sistema de ficheros!###07 Apr 2005 content changed
+pre_intro#:#Comprobemos en primer lugar, si tu entorno reune todos los requisitos para instalar y ejecutar ILIAS en tu sistema!###07 Apr 2005 content changed
 pre_javascript_comment#:#Usted puede ejecutar ILIAS sin Javascript pero perderá algunas funcionalidades de la interfaz.###07 Apr 2005 content changed
 pre_javascript_enabled#:#Javascript habilitado###07 Apr 2005 content changed
 pre_php_version#:#Versión PHP###07 Apr 2005 content changed
-pre_php_version_3#:#Su versión PHP es demasiado antigua para usar ILIAS 4! Por favor actualice PHP!###07 Apr 2005 content changed
+pre_php_version_3#:#Su versión PHP es demasiado antigua para usar ILIAS! Por favor actualice PHP!###07 Apr 2005 content changed
 pre_php_version_4.1#:#Las clases PEAR no funcionarán bien con esta versión! Por favor actualice PHP.###07 Apr 2005 content changed
 pre_php_version_4.2#:#El soporte DOMXML y XSLT no funcionaran bien con esta versión!###07 Apr 2005 content changed
-pre_php_version_5#:#ILIAS 4 no ha sido testeado con PHP 5 aún. Úselo bajo su responsabilidad.###07 Apr 2005 content changed
+pre_php_version_5#:#ILIAS no ha sido testeado con PHP 5 aún. Úselo bajo su responsabilidad.###07 Apr 2005 content changed
 pre_php_version_unknown#:#ILIAS setup no conoce esta version de PHP. Ejecútelo bajo su responsabilidad.###07 Apr 2005 content changed
 preliminaries#:#-Preliminaries-###07 Apr 2005 content changed
 prev#:#Previo###07 Apr 2005 content changed
@@ -396,7 +396,7 @@ setup_process_step_ini#:#configurar datos básicos###07 Apr 2005 content changed
 setup_process_step_lang#:#instalar idiomas de sistema###07 Apr 2005 content changed
 setup_process_step_nic#:#registrar en ILIAS-NIC###07 Apr 2005 content changed
 setup_ready#:#La configuración está lista. Ahora puedes continuar con la identificación y comprobar otras configuraciones del sistema.###07 Apr 2005 content changed
-setup_welcome#:#Bienvenido a la configuración de ILIAS 4.<br />###07 Apr 2005 content changed
+setup_welcome#:#Bienvenido a la configuración de ILIAS.<br />###07 Apr 2005 content changed
 sophos#:#Sophos###07 Apr 2005 content changed
 sort_by_this_column#:#Ordenar por esta columna###07 Apr 2005 content changed
 status#:#Estado###07 Apr 2005 content changed

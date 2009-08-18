@@ -10,7 +10,7 @@
     +-----------------------------------------------------------------------------+
     | ILIAS open source                                                           |
     +-----------------------------------------------------------------------------+
-    | Copyright (c) 1998-2001 ILIAS open source, University of Cologne            |
+    | Copyright (c) 1998-2009 ILIAS open source, University of Cologne            |
     |                                                                             |
     | This program is free software; you can redistribute it and/or               |
     | modify it under the terms of the GNU General Public License                 |
@@ -30,7 +30,7 @@
 // The language file starts beyond the HTML-comment below. DO NOT modify this line!
 // To edit your language file with a spreadsheet (i.e. Excel or StarCalc) remove all lines
 // from the first line to the HTML-comment. After editing paste the lines in place again.
-// NOTICE: Character coding of all ILIAS 4 lang files is UTF-8! Please set your editor
+// NOTICE: Character coding of all ILIAS lang files is UTF-8! Please set your editor
 // to the corresponding mode!
 <!-- language file start -->
 3rd_party_software#:#Software 3rd Party###07 Apr 2005 content changed
@@ -133,8 +133,8 @@ enabled#:#ligado###07 Apr 2005 content changed
 enter_dir_and_filename#:#Please enter the full (absolute) path and the file name!###07 Aug 2004 new variable
 enter_password#:#Por favor insira a palavra-passe###07 Apr 2005 content changed
 env_ok#:#Ok. Parece bom.###07 Apr 2005 content changed
-env_using#:#O ILIAS 4 correrá num###07 Apr 2005 content changed
-env_warning#:#O ILIAS 4 apenas foi testado no Linux e Windows usando o servidor web Apache!<br />No entanto, o ILIAS 4 pode trabalhar com o seu ambiente também.###07 Apr 2005 content changed
+env_using#:#O ILIAS correrá num###07 Apr 2005 content changed
+env_warning#:#O ILIAS apenas foi testado no Linux e Windows usando o servidor web Apache!<br />No entanto, o ILIAS pode trabalhar com o seu ambiente também.###07 Apr 2005 content changed
 environment#:#Ambiente###07 Apr 2005 content changed
 err_create_database_failed#:#a criação da base de dados falhou###07 Apr 2005 content changed
 err_wrong_login#:#Entrada errada###07 Apr 2005 content changed
@@ -195,12 +195,12 @@ ini_no_db_host#:#Nenhum nome de anfitrião###07 Apr 2005 content changed
 ini_no_db_name#:#Nenhum nome de base de dados###07 Apr 2005 content changed
 ini_no_db_user#:#Nenhum nome de utilizador de base de dados###07 Apr 2005 content changed
 inifile#:#ficheiro-ini###07 Apr 2005 content changed
-inifile_can_write#:#O setup do ILIAS 4 pode escrever o seu ficheiro-ini.###07 Apr 2005 content changed
-inifile_cannot_write#:#O setup do ILIAS 4 não pode escrever o seu ficheiro-ini. Por favor verifique primeiro as permissões de escrita.###07 Apr 2005 content changed
+inifile_can_write#:#O setup do ILIAS pode escrever o seu ficheiro-ini.###07 Apr 2005 content changed
+inifile_cannot_write#:#O setup do ILIAS não pode escrever o seu ficheiro-ini. Por favor verifique primeiro as permissões de escrita.###07 Apr 2005 content changed
 inifile_content#:#O seu ficheiro-ini tem este conteúdo:###07 Apr 2005 content changed
 inifile_exists#:#Um ficheiro-ini já existe. Atenção que este processo de Instalação apagará definições anteriores.###07 Apr 2005 content changed
 inifile_fill_all#:#Por favor preencha todos os campos.###07 Apr 2005 content changed
-inifile_firsttime#:#Nenhum ficheiro-ini presente! Parece que este é o primeiro acesso ao ILIAS 4.###07 Apr 2005 content changed
+inifile_firsttime#:#Nenhum ficheiro-ini presente! Parece que este é o primeiro acesso ao ILIAS.###07 Apr 2005 content changed
 inifile_written#:#O ficheiro-ini foi guardado com sucesso no seu anfitrião.###07 Apr 2005 content changed
 input_error#:#Erro de entrada###07 Apr 2005 content changed
 inst_identification#:#Identificação de Instalação###07 Apr 2005 content changed
@@ -210,7 +210,7 @@ installation#:#Instalação###07 Apr 2005 content changed
 installed#:#instalado###07 Apr 2005 content changed
 installed_local#:#Installed With Local###13 Apr 2005 new variable
 institution#:#Instituição###07 Apr 2005 content changed
-intro_install#:#Esta é a página principal do setup do ILIAS 4. Daqui você pode percorrer a instalação.###07 Apr 2005 content changed
+intro_install#:#Esta é a página principal do setup do ILIAS. Daqui você pode percorrer a instalação.###07 Apr 2005 content changed
 ip_address#:#Endereço IP###07 Apr 2005 content changed
 java_path#:#Caminho para o Java###07 Apr 2005 content changed
 java_path_comment#:#necessário para os Módulos de Aprendizagem SCORM###07 Apr 2005 content changed
@@ -327,21 +327,21 @@ pathes#:#Caminhos###14 Sep 2004 content changed
 phone#:#Telefone###07 Apr 2005 content changed
 port#:#porto###07 Apr 2005 content changed
 position#:#Posição###07 Apr 2005 content changed
-pre_cookies_disabled#:#As Cookies estão desactivadas. As Cookies são necessárias para usar o ILIAS 4.###07 Apr 2005 content changed
+pre_cookies_disabled#:#As Cookies estão desactivadas. As Cookies são necessárias para usar o ILIAS.###07 Apr 2005 content changed
 pre_cookies_enabled#:#Cookies ligadas###07 Apr 2005 content changed
-pre_error#:#Uma ou duas coisas falharam. Por favor corrija os problemas primeiro ou você não pode fazer o setup do ILIAS 4.###07 Apr 2005 content changed
-pre_folder_create#:#Novas pastas podem ser criadas na pasta do ILIAS 4###07 Apr 2005 content changed
+pre_error#:#Uma ou duas coisas falharam. Por favor corrija os problemas primeiro ou você não pode fazer o setup do ILIAS.###07 Apr 2005 content changed
+pre_folder_create#:#Novas pastas podem ser criadas na pasta do ILIAS###07 Apr 2005 content changed
 pre_folder_create_error#:#Não é possível criar subpastas! Por favor verifique as suas definições de permissões no seu sistema de ficheiros!###07 Apr 2005 content changed
-pre_folder_write#:#Pode-se escrever na pasta ILIAS 4###07 Apr 2005 content changed
-pre_folder_write_error#:#Não é possível escrever na pasta do ILIAS 4! Por favor verifique as suas definições de permissões no seu sistema de ficheiros!###07 Apr 2005 content changed
+pre_folder_write#:#Pode-se escrever na pasta ILIAS###07 Apr 2005 content changed
+pre_folder_write_error#:#Não é possível escrever na pasta do ILIAS! Por favor verifique as suas definições de permissões no seu sistema de ficheiros!###07 Apr 2005 content changed
 pre_intro#:#Vamos ver primeiro se o seu ambiente está de acordo com todos os requisitos para instalar e correr o ilias4 no seu sistema.###14 Sep 2004 content changed
 pre_javascript_comment#:#Você pode correr o ILIAS sem o Javascript mas faltarão algumas funcionalidades da interface.###14 Sep 2004 content changed
 pre_javascript_enabled#:#Javascript ligado###14 Sep 2004 content changed
 pre_php_version#:#Versão do PHP###07 Apr 2005 content changed
-pre_php_version_3#:#A sua versão do PHP é muito antiga para correr o ILIAS 4! Por favor actualize o PHP.###07 Apr 2005 content changed
+pre_php_version_3#:#A sua versão do PHP é muito antiga para correr o ILIAS! Por favor actualize o PHP.###07 Apr 2005 content changed
 pre_php_version_4.1#:#As classes PEAR não funcionam correctamente com esta versão! Por favor actualize o PHP.###07 Apr 2005 content changed
 pre_php_version_4.2#:#O DOMXML e o XSLT não funcionam correctamente com esta versão!###07 Apr 2005 content changed
-pre_php_version_5#:#O ILIAS 4 ainda não foi testado com o PHP 5. Use com o seu risco.###07 Apr 2005 content changed
+pre_php_version_5#:#O ILIAS ainda não foi testado com o PHP 5. Use com o seu risco.###07 Apr 2005 content changed
 pre_php_version_unknown#:#O setup do ILIAS não conhece esta versão. Use com o seu risco.###07 Apr 2005 content changed
 preliminaries#:#Preliminários###07 Apr 2005 content changed
 prev#:#Anterior###07 Apr 2005 content changed
@@ -395,7 +395,7 @@ setup_process_step_ini#:#Setup dos dados básicos###07 Apr 2005 content changed
 setup_process_step_lang#:#Instalar linguagens de sistema###07 Apr 2005 content changed
 setup_process_step_nic#:#Registar no ILIAS-NIC###07 Apr 2005 content changed
 setup_ready#:#O setup está pronto. Você pode agora proceder com a sua entrada e verificar outras definições de sistema.###07 Apr 2005 content changed
-setup_welcome#:#Benvindo ao setup do ILIAS 4. Esta rotina de setup aguda-o a###07 Apr 2005 content changed
+setup_welcome#:#Benvindo ao setup do ILIAS. Esta rotina de setup aguda-o a###07 Apr 2005 content changed
 sophos#:#Sophos###18 Nov 2004 new variable
 sort_by_this_column#:#Ordenar por esta coluna###07 Apr 2005 content changed
 status#:#Estado###07 Apr 2005 content changed

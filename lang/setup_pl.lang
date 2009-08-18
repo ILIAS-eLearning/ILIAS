@@ -10,7 +10,7 @@
     +-----------------------------------------------------------------------------+
     | ILIAS open source                                                           |
     +-----------------------------------------------------------------------------+
-    | Copyright (c) 1998-2001 ILIAS open source, University of Cologne            |
+    | Copyright (c) 1998-2009 ILIAS open source, University of Cologne            |
     |                                                                             |
     | This program is free software; you can redistribute it and/or               |
     | modify it under the terms of the GNU General Public License                 |
@@ -30,7 +30,7 @@
 // The language file starts beyond the HTML-comment below. DO NOT modify this line!
 // To edit your language file with a spreadsheet (i.e. Excel or StarCalc) remove all lines
 // from the first line to the HTML-comment. After editing paste the lines in place again.
-// NOTICE: Character coding of all ILIAS 4 lang files is UTF-8! Please set your editor
+// NOTICE: Character coding of all ILIAS lang files is UTF-8! Please set your editor
 // to the corresponding mode!
 <!-- language file start -->
 3rd_party_software#:#Oprogramowanie innych firm
@@ -133,8 +133,8 @@ enabled#:#włączony
 enter_dir_and_filename#:#Podaj pełną nazwę pliku (wraz ze ścieżką absolutną)!
 enter_password#:#Podaj hasło
 env_ok#:#Ok. Wszystko w porządku
-env_using#:#ILIAS 4 będzie uruchomiony na:
-env_warning#:#ILIAS 4 był testowany na Linuksie i w Windows przy użyciu serwera Apache!<br />Jednak, ILIAS 4 może również pracować w twoim środowisku.
+env_using#:#ILIAS będzie uruchomiony na:
+env_warning#:#ILIAS był testowany na Linuksie i w Windows przy użyciu serwera Apache!<br />Jednak, ILIAS może również pracować w twoim środowisku.
 environment#:#środowisko
 err_create_database_failed#:#utworzenie bazy danych nieudane
 err_wrong_login#:#Błędny login
@@ -195,12 +195,12 @@ ini_no_db_host#:#Brak nazwy serwera
 ini_no_db_name#:#Brak nazwy bazy danych
 ini_no_db_user#:#Brak nazwy użytkownika bazy danych
 inifile#:#plik-ini
-inifile_can_write#:#Instalacja ILIAS 4 może zostać zapisana w pliku-ini.
-inifile_cannot_write#:#Instalator ILIAS 4 nie może zapisać pliku-ini. Sprawdź uprawnienia do zapisu.
+inifile_can_write#:#Instalacja ILIAS może zostać zapisana w pliku-ini.
+inifile_cannot_write#:#Instalator ILIAS nie może zapisać pliku-ini. Sprawdź uprawnienia do zapisu.
 inifile_content#:#Zawartość twojego pliku-ini:
 inifile_exists#:#Plik-ini już istnieje. Bieżący proces instalacji usunie poprzednie ustawienia.
 inifile_fill_all#:#Wypełnij wszystkie pola.
-inifile_firsttime#:#Plik-ini nie istnieje! To jest pierwsze uruchomienie ILIAS 4.
+inifile_firsttime#:#Plik-ini nie istnieje! To jest pierwsze uruchomienie ILIAS.
 inifile_written#:#Plik-ini  został zachowany na twoim serwerze.
 input_error#:#Błąd wejścia
 inst_identification#:#Identyfikacja instalacji
@@ -210,7 +210,7 @@ installation#:#Instaluj
 installed#:#zainstalowany
 installed_local#:#Zainstalowane z plikiem lokalizacji
 institution#:#Instytucja
-intro_install#:#To jest główna strona instalatora ILIAS 4. Stąd można wywołać kolejne etapy instalacji.
+intro_install#:#To jest główna strona instalatora ILIAS. Stąd można wywołać kolejne etapy instalacji.
 ip_address#:#Adres IP
 java_path#:#Ścieżka do Javy
 java_path_comment#:#wymagany dla modułów nauczania SCORM.
@@ -309,7 +309,7 @@ password#:#hasło
 password_changed#:#Hasło zostało zmienione.
 password_empty#:#Nie podano hasła!
 password_enter_old#:#Najpierw musisz podać swoje stare hasło!
-password_info#:#Aby zabezpieczyć dane konfiguracyjne przed niepowołanym dostępem powinieneś ustawić hasło do instalatora ILIAS 4.
+password_info#:#Aby zabezpieczyć dane konfiguracyjne przed niepowołanym dostępem powinieneś ustawić hasło do instalatora ILIAS.
 password_new_master#:#Ustaw nowe hasło
 password_not_match#:#Wprowadzone nowe hasło nie zgadza się!
 password_old_wrong#:#Wprowadzone stare hasło jest błędne!
@@ -327,21 +327,21 @@ pathes#:#Ścieżki
 phone#:#Telefon
 port#:#port
 position#:#Stanowisko
-pre_cookies_disabled#:#Ciasteczka są wyłączone. Do używania ILIAS 4 potrzebne są ciasteczka.
+pre_cookies_disabled#:#Ciasteczka są wyłączone. Do używania ILIAS potrzebne są ciasteczka.
 pre_cookies_enabled#:#Ciasteczka wybrane
-pre_error#:#Jedna lub dwie rzeczy są nieprawidłowe. Usuń najpierw problem ponieważ dalsza instalacja ILIAS 4 nie jest możliwa.
-pre_folder_create#:#Możliwość tworzenia nowych podkatalogów w katalogu ILIAS 4
+pre_error#:#Jedna lub dwie rzeczy są nieprawidłowe. Usuń najpierw problem ponieważ dalsza instalacja ILIAS nie jest możliwa.
+pre_folder_create#:#Możliwość tworzenia nowych podkatalogów w katalogu ILIAS
 pre_folder_create_error#:#Nie można tworzyć podkatalogów! Sprawdź swoje uprawnienia do systemu plików!
-pre_folder_write#:#Katalog ILIAS 4 z możliwością zapisu
-pre_folder_write_error#:#Nie można pisać w katalogu ILIAS 4! Sprawdź swoje uprawnienia do systemu plików!
+pre_folder_write#:#Katalog ILIAS z możliwością zapisu
+pre_folder_write_error#:#Nie można pisać w katalogu ILIAS! Sprawdź swoje uprawnienia do systemu plików!
 pre_intro#:#Najpierw sprawdź czy, twoje środowisko spełnia wymagania instalacji i uruchomienia ilias4 na twoim serwerze.
 pre_javascript_comment#:#Możesz uruchomić ILIAS bez Javascript lecz utracisz pewne właściwości interfejsu.
 pre_javascript_enabled#:#Javascript wybrane
 pre_php_version#:#Wersja PHP
-pre_php_version_3#:#Wersja PHP jest  zbyt stara dla użycia w ILIAS 4! Uaktualnij PHP.
+pre_php_version_3#:#Wersja PHP jest  zbyt stara dla użycia w ILIAS! Uaktualnij PHP.
 pre_php_version_4.1#:#Klasy PEAR nie pracują poprawnie z tą wersją! Uaktualnij PHP.
 pre_php_version_4.2#:#DOMXML i XSLT nie pracują poprawnie z tą wersją!
-pre_php_version_5#:#ILIAS 4 nie był jeszcze testowany z PHP 5. Możesz użyć tej wersji na własne ryzyko!
+pre_php_version_5#:#ILIAS nie był jeszcze testowany z PHP 5. Możesz użyć tej wersji na własne ryzyko!
 pre_php_version_unknown#:#Instalator ILIAS nie zna tej wersji. Możesz użyć tej wersji na własne ryzyko!
 preliminaries#:#Proces instalacji
 prev#:#Poprzedni
