@@ -10,7 +10,7 @@
     +-----------------------------------------------------------------------------+
     | ILIAS open source                                                           |
     +-----------------------------------------------------------------------------+
-    | Copyright (c) 1998-2001 ILIAS open source, University of Cologne            |
+    | Copyright (c) 1998-2009 ILIAS open source, University of Cologne            |
     |                                                                             |
     | This program is free software; you can redistribute it and/or               |
     | modify it under the terms of the GNU General Public License                 |
@@ -30,7 +30,7 @@
 // The language file starts beyond the HTML-comment below. DO NOT modify this line!
 // To edit your language file with a spreadsheet (i.e. Excel or StarCalc) remove all lines
 // from the first line to the HTML-comment. After editing paste the lines in place again.
-// NOTICE: Character coding of all ILIAS 4 lang files is UTF-8! Please set your editor
+// NOTICE: Character coding of all ILIAS lang files is UTF-8! Please set your editor
 // to the corresponding mode!
 <!-- language file start -->
 3rd_party_software#:#Softver trece strane
@@ -133,8 +133,8 @@ enabled#:#omoguceno
 enter_dir_and_filename#:#Molimo unesite celu (apsolutnu) putanju i naziv datoteke!
 enter_password#:#Molimo unesite lozinku
 env_ok#:#Ok. Dobro zvuci.
-env_using#:#ILIAS 4 ce da radi na
-env_warning#:#ILIAS 4 je testiran samo na Linux i Windows korišcenje Apache web servera!<br />Kako bilo, iILIAS 4 može da radi i sa vašom okolinom. 
+env_using#:#ILIAS ce da radi na
+env_warning#:#ILIAS je testiran samo na Linux i Windows korišcenje Apache web servera!<br />Kako bilo, iILIAS može da radi i sa vašom okolinom. 
 environment#:#Okolina
 err_create_database_failed#:#kreiranje baze podataka nije uspelo
 err_wrong_login#:#Pogrešna prijava
@@ -161,7 +161,7 @@ ilias_db_mode#:#ILIAS database mode###20 Jun 2005 new variable
 ilias_homepage#:#Pocetna strana ILIAS-a
 ilias_nic#:#Registracija nadimka
 ilias_nic_id#:#nadimak
-ilias_setup#:#postavljanje ILIAS 4 
+ilias_setup#:#postavljanje ILIAS 
 ilias_version#:#Verzija ILIAS-a
 include_local#:#include local###20 May 2005 content changed
 info_text_3rdparty#:#Here you setup the third party add-ons which are needed by ILIAS. Follow the setup information for every add-on to complete this step.###10 Jul 2006 new variable
@@ -171,7 +171,7 @@ info_text_delete#:#Možete obrisati ovog klijenta ako kliknete na donje dugme za
 info_text_finish1#:#Cestitamo! Vaše postavljanje klijenta je uspešno. Kliknite na 'login' da biste uneli vašu ILIAS instalaciju.
 info_text_finish2#:#Neka podešavanja i dalje nedostaju ili su nepravilna. Molimo pogledajte procesnu tabelu šta treba uraditi.
 info_text_first_client#:#Vaša osnovna podešavanja su sacuvana. Sada cemo postaviti vašeg prvog klijenta. Postavljanje ce vas voditi kroz instalacioni proces. Sa desne strane uvek možete videti trenutni status instalacionog procesa.
-info_text_first_install#:#Izgleda da ste po prvi put instalirali ILIAS 4 zato što nijedan ilias.ini nije pronaden. U ilias.ini cuvamo glavnu lozinku da bi zaštitili ILIAS postavljanje od neovlašcenih pristupa. 
+info_text_first_install#:#Izgleda da ste po prvi put instalirali ILIAS zato što nijedan ilias.ini nije pronaden. U ilias.ini cuvamo glavnu lozinku da bi zaštitili ILIAS postavljanje od neovlašcenih pristupa. 
 info_text_ini#:#Molimo odaberite ID klijenta. Bilo koje slovo (osim umlauta) ili broj su dozvoljeni. ID klijenta mora biti jedna rec.<br />Zatim unesite vaše podatke vezane za bazu podataka. Postavljanje uspostavlja test vezu da bi proverilo vaša podešavanja i da bi testirala da li baza podataka postoji. Ako baza podataka vec ne postoji, možete brzo postaviti u sledecem instalacionom koraku bazu podataka za vas.
 info_text_lang#:#Molimo odaberite dodatne jezike i/ili uklonite odabrane jezike. Standardno odreden jezik za novi korisnicki nalog ili korisnika koji još uvek nema selektovan željeni jezik.
 info_text_list#:#Ovo je pregled gde vidite sve dostupne klijente i njihovo postavljanje, kao i pristupni status. Gore desno možete klijentov ekran za odabir ukljuciti ili iskljuciti. Ako je klijetov odabir ukljucen, svi raspoloživi klijenti koji su na vezi ce biti prikazani na spisku na pocetnoj strani ILIAS. Ako je iskljucen i korisnik vidi pocetnu stranu, prozor za prijavu <i>standardno</i> klijenta je prikazan. Možete odrediti standardnog klijenta uz pomoc donjeg dugmeta.
@@ -180,7 +180,7 @@ info_text_nic1#:#Dobijen instalacioni id (nic-id) od našeg ILIAS servera.Jedins
 info_text_nic2#:#sa vašim instalacionim informacijama na ilias-info@uni-koeln.de. Unesite nic-id koji cete dobiti odgovor u email-u u odgovarajuce polje i oznacite 'regisrer via Email'.
 info_text_nic3#:#Registrovali ste vašu instalaciju. Vaš nic-id je
 info_text_password#:#Ovde možete promeniti glavnu lozinku za postavljanje programa.
-info_text_pathes#:#ILIAS 4 podržava više klijenata sa razlicitim bazama podataka. Ispod unesite direktorijum baze podataka, lokaciju datoteke pristupa i putanju do prodrama trece strane. Ova podešavanja su važeca za sve klijente koje kasnije kreirate.
+info_text_pathes#:#ILIAS podržava više klijenata sa razlicitim bazama podataka. Ispod unesite direktorijum baze podataka, lokaciju datoteke pristupa i putanju do prodrama trece strane. Ova podešavanja su važeca za sve klijente koje kasnije kreirate.
 ini_client_id_exists#:#Klijent sa tim ID vec postoji. Odaberite drugi ID klijenta.
 ini_client_id_invalid#:#ID klijenta koji ste uneli sadrži nevažece karaktere
 ini_client_id_no_change#:#Klijentov ID ne može biti promenjen u ovoj verziji nakon što su direktorijumi klijenta kreirani uspešno.
@@ -192,8 +192,8 @@ ini_no_db_host#:#Nema naziva domacina
 ini_no_db_name#:#nema naziva baze podataka
 ini_no_db_user#:#Nema korisnickog imena baze podataka
 inifile#:#ini-file
-inifile_can_write#:#ILIAS 4 set up može ispisati vaš ini-file.
-inifile_cannot_write#:#ILIAS 4 set up ne može ispisati vaš ini-file. Molimo prvo proverite dozvole.
+inifile_can_write#:#ILIAS set up može ispisati vaš ini-file.
+inifile_cannot_write#:#ILIAS set up ne može ispisati vaš ini-file. Molimo prvo proverite dozvole.
 inifile_content#:#vaš ini-file ima ovakav sadržaj:
 inifile_exists#:#Postoji jedanini-file. Obratite pažnju da instalacioni proces briše prethodna podešavanja.
 inifile_fill_all#:#Molimo popunite sva polja.
@@ -206,7 +206,7 @@ install#:#Instaliraj bazu podataka
 installation#:#instalacija
 installed#:#instalirano
 institution#:#Institucija
-intro_install#:#Ovo je glavna stranisa ILIAS 4 postavljanja. Odavde možete videti kretanje kroz instalaciju.
+intro_install#:#Ovo je glavna stranisa ILIAS postavljanja. Odavde možete videti kretanje kroz instalaciju.
 ip_address#:#IP adresa
 java_path#:#Putanja do Java
 java_path_comment#:#zahtevano za SCORM metode ucenja
@@ -323,21 +323,21 @@ pathes#:#Putanje
 phone#:#Telefon
 port#:#ulaz
 position#:#Pozicija
-pre_cookies_disabled#:#Kolacici su onemoguceni. Kolacicima se zahteva da koriste ILIAS 4.
+pre_cookies_disabled#:#Kolacici su onemoguceni. Kolacicima se zahteva da koriste ILIAS.
 pre_cookies_enabled#:#Kolacici omoguceni
-pre_error#:#Jedna ili dve stvari su propale. Molimo prvo rešite probleme ili necete moci da postavite ILIAS 4.
-pre_folder_create#:#Moguce je kreirati novi registrator u registratoru ILIAS 4
+pre_error#:#Jedna ili dve stvari su propale. Molimo prvo rešite probleme ili necete moci da postavite ILIAS.
+pre_folder_create#:#Moguce je kreirati novi registrator u registratoru ILIAS
 pre_folder_create_error#:#Ne mogu se kreirati pod registratori! Molimo proverite vaša podešavanja za dozvolu i vašem sistemu datoteke!
-pre_folder_write#:#ILIAS 4 registrator u kome je moguce pisati.
-pre_folder_write_error#:#Ne možete pisati u registratoru ILIAS 4! Molimo proverite vaša podešavanja za dozvolu i vašem sistemu datoteke!
-pre_intro#:#Dozvolite da prvo vidimo da li vaše okruženje odgovara na sve zahteve koji su da biste instalirali  i koristili ILIAS 4 na vašem sistemu.
+pre_folder_write#:#ILIAS registrator u kome je moguce pisati.
+pre_folder_write_error#:#Ne možete pisati u registratoru ILIAS! Molimo proverite vaša podešavanja za dozvolu i vašem sistemu datoteke!
+pre_intro#:#Dozvolite da prvo vidimo da li vaše okruženje odgovara na sve zahteve koji su da biste instalirali  i koristili ILIAS na vašem sistemu.
 pre_javascript_comment#:#Možete koristiti ILIAS bez JavaScript, ali ce neki medusklopovi nedostajati.
 pre_javascript_enabled#:#JavaScript omogucen
 pre_php_version#:#PHP verzija
-pre_php_version_3#:#Vaša PHP verzija je mnogo stara da bi koristila ILIAS 4! Molimo nadogradite PHP.
+pre_php_version_3#:#Vaša PHP verzija je mnogo stara da bi koristila ILIAS! Molimo nadogradite PHP.
 pre_php_version_4.1#:#PEAR klase nece da rade kako treba sa ovom verzijom. Molimo nadogradite PHP.
 pre_php_version_4.2#:#DOMXML i XSLT podrška ne radi ispravno uz ovu verziju!
-pre_php_version_5#:#ILIAS 4 još nije testiran sa PHP 5. Koristi uz sopstveni rizik.
+pre_php_version_5#:#ILIAS još nije testiran sa PHP 5. Koristi uz sopstveni rizik.
 pre_php_version_unknown#:#ILIAS postavljanje ne poznaje ovu verziju. Koristi uz sopstveni rizik.
 preliminaries#:#pripreme
 prev#:#prethodni
@@ -391,7 +391,7 @@ setup_process_step_ini#:#Osnovni podaci o postavljanju
 setup_process_step_lang#:#Instaliraj sistemske jezike
 setup_process_step_nic#:#Registruj na ILIAS-NIC
 setup_ready#:#Postavljanje je spremno. Sada možete nastaviti sa prijavom i proverom daljih sistemskih podašavanja.
-setup_welcome#:#Dobro došli na ILIAS 4 postavljanje. Rutinsko postavljanje vam pomaže da
+setup_welcome#:#Dobro došli na ILIAS postavljanje. Rutinsko postavljanje vam pomaže da
 sophos#:#Sophos
 sort_by_this_column#:#Sortiraj po ovoj koloni
 status#:#Status procesa posatvljanja

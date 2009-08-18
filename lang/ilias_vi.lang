@@ -12,7 +12,7 @@
     +-----------------------------------------------------------------------------+
     | Hệ mã nguồn mở ILIAS                                                        |
     +-----------------------------------------------------------------------------+
-    | Bản quyền (c) 1998-2001 ILIAS open source, Đại học Cologne				  |
+    | Bản quyền (c) 1998-2009 ILIAS open source, Đại học Cologne				  |
 	| Phiên bản ngôn ngữ ILIAS Tiếng Việt này không phải là miễn phí			  |
 	| Bạn phải liên hệ với Đỗ Xuân Tiến 091 2283720	              				  |
 	| Nhận hướng dẫn cài đặt và tổ chức Elearning bằng ILIAS					  |
@@ -37,7 +37,7 @@
 // The language file starts beyond the HTML-comment below. DO NOT modify this line!
 // To edit your language file with a spreadsheet (i.e. Excel or StarCalc) remove all lines
 // from the first line to the HTML-comment. After editing paste the lines in place again.
-// NOTICE: Character coding của all ILIAS 4 lang files is UTF-8! Please set your editor
+// NOTICE: Character coding của all ILIAS lang files is UTF-8! Please set your editor
 // to the corresponding mode!
 // language file names refer to ISO 639, see: http://www.oasis-open.org/cover/iso639a.html
 <!-- language file start -->
@@ -818,7 +818,7 @@ common#:#absolute_path#:#Đường dẫn tuyệt đối
 common#:#accept_usr_agreement#:#Chấp nhận thỏa thuận sử dụng?
 common#:#access#:#Truy cập
 common#:#account_expires_body#:#Tài khoản của bạn bị giới hạn, sẽ hết hạn vào:
-common#:#account_expires_subject#:#[ILIAS 4] Tài khoản của bạn hết hạn
+common#:#account_expires_subject#:#[ILIAS] Tài khoản của bạn hết hạn
 common#:#action#:#Thao tác
 common#:#action_aborted#:#Thao tác đã hủy bỏ
 common#:#actions#:#Thao tác
@@ -1948,7 +1948,7 @@ common#:#link_check_body_top#:#Bạn nhận thư này vì bạn muốn được 
 common#:#link_check_message_b#:#Nếu được cho phép, bạn sẽ được thông báo về các liên kết hợp lệ qua email.
 common#:#link_check_message_disabled#:#Khóa thư
 common#:#link_check_message_enabled#:#Mở khóa thư
-common#:#link_check_subject#:#[ILIAS 4] Kiểm tra liên kết
+common#:#link_check_subject#:#[ILIAS] Kiểm tra liên kết
 common#:#link_checker_refreshed#:#Đã cập nhật khung nhìn
 common#:#link_dynamic_info#:#Bạn có thể thêm các tham số động chẳng hạn như định danh người sử dụng ILIAS.
 common#:#link_selected_items#:#Liên kết các mục đã chọn
@@ -9597,7 +9597,7 @@ rbac#:#rbac_delete_role#:#Delete Role###26 06 2009 new variable
 rbac#:#rbac_role_delete_qst#:#Are you sure you want to delete the following role?<br />All permissions granted by this role will be deleted permanently.###26 06 2009 new variable
 rbac#:#rbac_role_delete_self#:#<strong>Attention:</strong> You are assigned to this role. If you continue this delete operation, you may loose access to some ILIAS materials.  ###26 06 2009 new variable
 common#:#download_with_uploaded_filename#:#Download with uploaded filename###24 07 2009 new variable
-common#:#download_with_uploaded_filename_info#:#Select this option exclusively for backwards compatibility with ILIAS 4.9 and older versions: When this option is selected, the filename of a downloaded file is equal to the filename that was used for uploading the file into ILIAS. If this option is not selected, the filename of a downloaded file is equal to the title of the file object in ILIAS. This option does not affect WebDAV. For WebDAV the filename of a downloaded file is always equal to the title of the file object.###24 07 2009 new variable
+common#:#download_with_uploaded_filename_info#:#Select this option exclusively for backwards compatibility with ILIAS 3.9 and older versions: When this option is selected, the filename of a downloaded file is equal to the filename that was used for uploading the file into ILIAS. If this option is not selected, the filename of a downloaded file is equal to the title of the file object in ILIAS. This option does not affect WebDAV. For WebDAV the filename of a downloaded file is always equal to the title of the file object.###24 07 2009 new variable
 form#:#form_msg_wrong_date#:#Wrong date. Please enter a valid date.###24 07 2009 new variable
 form#:#form_msg_wrong_date_format#:#Wrong date format. Please enter the date as "%s"!###24 07 2009 new variable
 form#:#form_msg_formula_is_required#:#Please enter a correct formula.###24 07 2009 new variable

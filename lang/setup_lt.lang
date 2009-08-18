@@ -11,7 +11,7 @@
     +-----------------------------------------------------------------------------+
     | ILIAS open source                                                           |
     +-----------------------------------------------------------------------------+
-    | Copyright (c) 1998-2001 ILIAS open source, University of Cologne            |
+    | Copyright (c) 1998-2009 ILIAS open source, University of Cologne            |
     |                                                                             |
     | This program is free software; you can redistribute it and/or               |
     | modify it under the terms of the GNU General Public License                 |
@@ -31,7 +31,7 @@
 // The language file starts beyond the HTML-comment below. DO NOT modify this line!
 // To edit your language file with a spreadsheet (i.e. Excel or StarCalc) remove all lines
 // from the first line to the HTML-comment. After editing paste the lines in place again.
-// NOTICE: Character coding of all ILIAS 4 lang files is UTF-8! Please set your editor
+// NOTICE: Character coding of all ILIAS lang files is UTF-8! Please set your editor
 // to the corresponding mode!
 <!-- language file start -->
 3rd_party_software#:#3-ios šalie programa
@@ -135,8 +135,8 @@ enabled#:#įjungta
 enter_dir_and_filename#:#Įrašykite pilną (absoliutų) kelią ir failo pavadinimą!
 enter_password#:#Prašom įvesti slaptažodį
 env_ok#:#Taigi, viskas atrodo teisingai.
-env_using#:#ILIAS 4 veiks ant
-env_warning#:#ILIAS 4 veikimas patikrintas tik ant GNU/Linux ir MS Windows naudojant Apache serverį!<br />Gali būti, ILIAS 4 sėkmingai veiks ir kitokiose aplinkose.
+env_using#:#ILIAS veiks ant
+env_warning#:#ILIAS veikimas patikrintas tik ant GNU/Linux ir MS Windows naudojant Apache serverį!<br />Gali būti, ILIAS sėkmingai veiks ir kitokiose aplinkose.
 environment#:#Aplinka
 err_create_database_failed#:#sukurti duomenų bazę nepavyko
 err_wrong_login#:#Neteisingas prisijungimas
@@ -197,12 +197,12 @@ ini_no_db_host#:#Nenurodytas serveris
 ini_no_db_name#:#nenurodytas duomenų bazės pavadinimas
 ini_no_db_user#:#nenurodytas duomenų bazės vartotojas
 inifile#:#nustatymų byla
-inifile_can_write#:#ILIAS 4 diegimo vedlys gali sukurti nustatymų bylą.
-inifile_cannot_write#:#ILIAS 4 diegimo vedlys negali sukurti nustatymų bylos. Patikrinkite, ar pakankamos teisės į bylą.
+inifile_can_write#:#ILIAS diegimo vedlys gali sukurti nustatymų bylą.
+inifile_cannot_write#:#ILIAS diegimo vedlys negali sukurti nustatymų bylos. Patikrinkite, ar pakankamos teisės į bylą.
 inifile_content#:#Nustatymų bylos turinys:
 inifile_exists#:#Nustatymų byla jau egzistuoja. Atkreipkite dėmesį, kad nauji nustatymai sunaikins senus.
 inifile_fill_all#:#Prašom užpildyti visus laukelius!
-inifile_firsttime#:#Nustatymų byla nerasta! Matomai, tai pirmas Jūsų ILIAS 4 startas.
+inifile_firsttime#:#Nustatymų byla nerasta! Matomai, tai pirmas Jūsų ILIAS startas.
 inifile_written#:#Nustatymų byla sėkmingai sukurta.
 input_error#:#Įvesties klaida
 inst_identification#:#Instaliacijos Identifikacija
@@ -212,7 +212,7 @@ installation#:#Instaliacija
 installed#:#įdiegta
 installed_local#:#Įdiegta Su Lokaliu
 institution#:#Institucija
-intro_install#:#Tai pagrindinis ILIAS 4 diegimo programos puslapis. Iš čia Jūs galite vykdyti diegimo/atnaujinimo darbus.
+intro_install#:#Tai pagrindinis ILIAS diegimo programos puslapis. Iš čia Jūs galite vykdyti diegimo/atnaujinimo darbus.
 ip_address#:#IP adresas
 java_path#:#Kelias iki Java
 java_path_comment#:#būtina SCORM Mokymo moduliams
@@ -311,7 +311,7 @@ password#:#slaptažodis
 password_changed#:#Slaptažodis pakeistas.
 password_empty#:#Tuščias slaptažodis!
 password_enter_old#:#Pirma nurodykite savo seną slaptažodį!
-password_info#:#Siekiant apsaugoti nustatymų duomenis nuo pašalinių, Jums reikėtų slaptažodžiu apriboti priėjimą prie ILIAS 4 diegimo programos.
+password_info#:#Siekiant apsaugoti nustatymų duomenis nuo pašalinių, Jums reikėtų slaptažodžiu apriboti priėjimą prie ILIAS diegimo programos.
 password_new_master#:#Nustatyti naują pagrindinį slaptažodį
 password_not_match#:#Naujai įvestį Slaptažodžaž nesutampa!
 password_old_wrong#:#Įvestas senas slaptažodis yra klaidingas!
@@ -329,21 +329,21 @@ pathes#:#Keliai
 phone#:#Telefonas
 port#:#prievadas
 position#:#Pozicija
-pre_cookies_disabled#:#Sausainiukai išjungti. Sausainiukai būtini norint naudotis ILIAS 4.
+pre_cookies_disabled#:#Sausainiukai išjungti. Sausainiukai būtini norint naudotis ILIAS.
 pre_cookies_enabled#:#Sausainiukai įjungti
-pre_error#:#Ne visi minimalūs sistemos reikalavimai įvykdyti. Išpildykite reikalavimus, kitaip ILIAS 4 sistemos diegimo tęsti nepavyks.
-pre_folder_create#:#ILIAS 4 kataloge sukurti naujus pakatalogius galima
+pre_error#:#Ne visi minimalūs sistemos reikalavimai įvykdyti. Išpildykite reikalavimus, kitaip ILIAS sistemos diegimo tęsti nepavyks.
+pre_folder_create#:#ILIAS kataloge sukurti naujus pakatalogius galima
 pre_folder_create_error#:#Negalime sukurti naujo pakatalogio! Patikrinkite leidimo nustatymus failų sistemoje!
-pre_folder_write#:#ILIAS 4 kataloge rašyti galima
-pre_folder_write_error#:#Negalima rašyti į ILIAS 4 katalogą! Patikrinkite leidimo nustatymus failų sistemoje!
-pre_intro#:#Pirmiausia patikrinkime, ar visi minimalūs ILIAS 4 sistemos reikalavimai išpildyti.
+pre_folder_write#:#ILIAS kataloge rašyti galima
+pre_folder_write_error#:#Negalima rašyti į ILIAS katalogą! Patikrinkite leidimo nustatymus failų sistemoje!
+pre_intro#:#Pirmiausia patikrinkime, ar visi minimalūs ILIAS sistemos reikalavimai išpildyti.
 pre_javascript_comment#:#Galite naudoti ILIAS be Javascript , bet negalėsite naudotis kai kuriomis aplinkos funkcijomis.
 pre_javascript_enabled#:#Javascript įjungtas
 pre_php_version#:#PHP versija
-pre_php_version_3#:#Jūsų PHP versija pernelyg sena ILIAS 4 sistemai! Atnaujinkite PHP.
+pre_php_version_3#:#Jūsų PHP versija pernelyg sena ILIAS sistemai! Atnaujinkite PHP.
 pre_php_version_4.1#:#PEAR klasės su šia versija korektiškai neveiks ! Atnaujinkite PHP.
 pre_php_version_4.2#:#DOMXML ir XSLT palaikymas su šia versija korektiškai neveiks!
-pre_php_version_5#:#ILIAS 4 su PHP 5 versija dar nebuvo bandytasyet. Naudokitės savo atsakomybei.
+pre_php_version_5#:#ILIAS su PHP 5 versija dar nebuvo bandytasyet. Naudokitės savo atsakomybei.
 pre_php_version_unknown#:#ILIAS diegimo sistema šios versijos nežino. Naudokitės savo atsakomybei!
 preliminaries#:#Preliminariai
 prev#:#Ankstesnis
@@ -396,8 +396,8 @@ setup_process_step_finish#:#Užbaigti diegimą
 setup_process_step_ini#:#įdiegti pagrindinius duomenis
 setup_process_step_lang#:#įdiegti sistemos kalbas
 setup_process_step_nic#:#registruotis ILIAS-NIC
-setup_ready#:#Diegimas užbaigtas. Galite tęsti diegimą prisijungęs prie ILIAS 4 sistemos.
-setup_welcome#:#ILIAS 4 diegimo sistema. Čia Jūs galite
+setup_ready#:#Diegimas užbaigtas. Galite tęsti diegimą prisijungęs prie ILIAS sistemos.
+setup_welcome#:#ILIAS diegimo sistema. Čia Jūs galite
 sophos#:#Sophos
 sort_by_this_column#:#Rūšiuoti pagal šį stulpelį
 status#:#Statusas

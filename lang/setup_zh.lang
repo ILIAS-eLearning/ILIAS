@@ -10,7 +10,7 @@
     +-----------------------------------------------------------------------------+
     | ILIAS open source                                                           |
     +-----------------------------------------------------------------------------+
-    | Copyright (c) 1998-2001 ILIAS open source, University of Cologne            |
+    | Copyright (c) 1998-2009 ILIAS open source, University of Cologne            |
     |                                                                             |
     | This program is free software; you can redistribute it and/or               |
     | modify it under the terms of the GNU General Public License                 |
@@ -30,7 +30,7 @@
 	+-----------------------------------------------------------------------------+
     | ILIAS open source （开放代码软件）                                           |
     +-----------------------------------------------------------------------------+
-    | 版权 (c) 1998-2001 ILIAS 开放代码软件，University of Cologne （科隆大学）   |
+    | 版权 (c) 1998-2009 ILIAS 开放代码软件，University of Cologne （科隆大学）   |
     |                                                                             |
     | 本程序为自由软件；在遵循由自由软件基金会公布的GNU公共版权许可证（GPL）条款下|
     | （许可证版本2或根据你的需要选择而后的版本），你可以重新分发及修改本软件。   |
@@ -46,7 +46,7 @@
 // The language file starts beyond the HTML-comment below. DO NOT modify this line!
 // To edit your language file with a spreadsheet (i.e. Excel or StarCalc) remove all lines
 // from the first line to the HTML-comment. After editing paste the lines in place again.
-// NOTICE: Character coding of all ILIAS 4 lang files is UTF-8! Please set your editor
+// NOTICE: Character coding of all ILIAS lang files is UTF-8! Please set your editor
 // to the corresponding mode!
 <!-- language file start -->
 3rd_party_software#:#第三方软件 ###07 Apr 2005 content changed
@@ -149,8 +149,8 @@ enabled#:#已激活 ###07 Apr 2005 content changed
 enter_dir_and_filename#:#Please enter the full (absolute) path and the file name!###07 Aug 2004 new variable
 enter_password#:#请输入口令###07 Apr 2005 content changed
 env_ok#:#好，看起来不错。 ###07 Apr 2005 content changed
-env_using#:#ILIAS 4将运行于 ###07 Apr 2005 content changed
-env_warning#:#ILIAS 4只在Linux和Windows上使用web服务器Apache测试过！<br />然而，ILIAS 4也可以在于您自己的环境下运行。###07 Apr 2005 content changed
+env_using#:#ILIAS将运行于 ###07 Apr 2005 content changed
+env_warning#:#ILIAS只在Linux和Windows上使用web服务器Apache测试过！<br />然而，ILIAS也可以在于您自己的环境下运行。###07 Apr 2005 content changed
 environment#:#环境 ###07 Apr 2005 content changed
 err_create_database_failed#:#数据库创建失败 ###07 Apr 2005 content changed
 err_wrong_login#:#错误登录 ###07 Apr 2005 content changed
@@ -211,12 +211,12 @@ ini_no_db_host#:#无主机名 ###07 Apr 2005 content changed
 ini_no_db_name#:#无数据库名称###07 Apr 2005 content changed
 ini_no_db_user#:#无数据库用户名###07 Apr 2005 content changed
 inifile#:#ini文件 ###07 Apr 2005 content changed
-inifile_can_write#:#ILIAS 4安装程序可以写ini文件。###07 Apr 2005 content changed
-inifile_cannot_write#:#ILIAS 4安装程序不能写ini文件。请先检查写许可。 ###07 Apr 2005 content changed
+inifile_can_write#:#ILIAS安装程序可以写ini文件。###07 Apr 2005 content changed
+inifile_cannot_write#:#ILIAS安装程序不能写ini文件。请先检查写许可。 ###07 Apr 2005 content changed
 inifile_content#:#ini文件具有内容： ###07 Apr 2005 content changed
 inifile_exists#:#存在一个ini文件。注意此安装过程将删除以前的设置。###07 Apr 2005 content changed
 inifile_fill_all#:#请填充全部域。 ###07 Apr 2005 content changed
-inifile_firsttime#:#无ini文件！看起来这是第一次启动ILIAS 4。 ###07 Apr 2005 content changed
+inifile_firsttime#:#无ini文件！看起来这是第一次启动ILIAS。 ###07 Apr 2005 content changed
 inifile_written#:#ini文件已经成功保存到主机。###07 Apr 2005 content changed
 input_error#:#输入错误 ###07 Apr 2005 content changed
 inst_identification#:#安装证明 ###07 Apr 2005 content changed
@@ -226,7 +226,7 @@ installation#:#安装 ###07 Apr 2005 content changed
 installed#:#已安装###07 Apr 2005 content changed
 installed_local#:#Installed With Local###13 Apr 2005 new variable
 institution#:#单位 ###07 Apr 2005 content changed
-intro_install#:#这是ILIAS 4安装程序主页。从这里可以一步步进行安装。###07 Apr 2005 content changed
+intro_install#:#这是ILIAS安装程序主页。从这里可以一步步进行安装。###07 Apr 2005 content changed
 ip_address#:#IP地址###07 Apr 2005 content changed
 java_path#:#Java路径 ###07 Apr 2005 content changed
 java_path_comment#:#用于SCORM学习模块 ###07 Apr 2005 content changed
@@ -343,21 +343,21 @@ pathes#:#路径 ###14 Sep 2004 content changed
 phone#:#电话 ###07 Apr 2005 content changed
 port#:#端口###07 Apr 2005 content changed
 position#:#位置 ###07 Apr 2005 content changed
-pre_cookies_disabled#:#禁止Cookies。ILIAS 4需要使用Cookies。###07 Apr 2005 content changed
+pre_cookies_disabled#:#禁止Cookies。ILIAS需要使用Cookies。###07 Apr 2005 content changed
 pre_cookies_enabled#:#激活Cookies ###07 Apr 2005 content changed
-pre_error#:#有一两件事失败了。请先解决问题，否则不能安装ILIAS 4。 ###07 Apr 2005 content changed
-pre_folder_create#:#可以在ILIAS 4文件夹中创建新文件夹###07 Apr 2005 content changed
+pre_error#:#有一两件事失败了。请先解决问题，否则不能安装ILIAS。 ###07 Apr 2005 content changed
+pre_folder_create#:#可以在ILIAS文件夹中创建新文件夹###07 Apr 2005 content changed
 pre_folder_create_error#:#不能创建子文件夹！请检查文件系统的许可设置！###07 Apr 2005 content changed
-pre_folder_write#:#可写ILIAS 4文件夹 ###07 Apr 2005 content changed
-pre_folder_write_error#:#不能在ILIAS 4文件夹中写！请检查文件系统的许可设置！###07 Apr 2005 content changed
+pre_folder_write#:#可写ILIAS文件夹 ###07 Apr 2005 content changed
+pre_folder_write_error#:#不能在ILIAS文件夹中写！请检查文件系统的许可设置！###07 Apr 2005 content changed
 pre_intro#:#先检查环境是否满足安装要求，然后在系统上运行ilias4 ###14 Sep 2004 content changed
 pre_javascript_comment#:#可以无Javascript运行ILIAS，但将缺少一些界面特色###14 Sep 2004 content changed
 pre_javascript_enabled#:#激活Javascript ###14 Sep 2004 content changed
 pre_php_version#:#PHP版本 ###07 Apr 2005 content changed
-pre_php_version_3#:#对于ILIAS 4，PHP版本太老！###07 Apr 2005 content changed
+pre_php_version_3#:#对于ILIAS，PHP版本太老！###07 Apr 2005 content changed
 pre_php_version_4.1#:#此版本PEAR类不能正常工作！请升级PHP。###07 Apr 2005 content changed
 pre_php_version_4.2#:#此版本DOMXML和XSLT支持不能正常工作！###07 Apr 2005 content changed
-pre_php_version_5#:#ILIAS 4尚未用PHP 5测试。如若使用，责任自负。###07 Apr 2005 content changed
+pre_php_version_5#:#ILIAS尚未用PHP 5测试。如若使用，责任自负。###07 Apr 2005 content changed
 pre_php_version_unknown#:#ILIAS安装程序不知此版本。如若使用，责任自负。###07 Apr 2005 content changed
 preliminaries#:#预备 ###07 Apr 2005 content changed
 prev#:#前一个###07 Apr 2005 content changed
@@ -411,7 +411,7 @@ setup_process_step_ini#:#安装基本信息 ###07 Apr 2005 content changed
 setup_process_step_lang#:#安装系统语言###07 Apr 2005 content changed
 setup_process_step_nic#:#在ILIAS-NIC上注册 ###07 Apr 2005 content changed
 setup_ready#:#安装完成。可以登录进一步检查系统设置。###07 Apr 2005 content changed
-setup_welcome#:#欢迎使用ILIAS 4安装程序。此安装程序将帮助您###07 Apr 2005 content changed
+setup_welcome#:#欢迎使用ILIAS安装程序。此安装程序将帮助您###07 Apr 2005 content changed
 sophos#:#Sophos###18 Nov 2004 new variable
 sort_by_this_column#:#根据此列排序 ###07 Apr 2005 content changed
 status#:#状态 ###07 Apr 2005 content changed

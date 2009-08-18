@@ -10,7 +10,7 @@
 	+-----------------------------------------------------------------------------+
     | ILIAS open source                                                           |
     +-----------------------------------------------------------------------------+
-    | Copyright (c) 1998-2001 ILIAS open source, Universitatea din Koln           |
+    | Copyright (c) 1998-2009 ILIAS open source, Universitatea din Koln           |
     |                                                                             |
     | Acest program este free software; poate fi redistribuit si/sau              |
     | modificat in conditiile GNU General Public License                          |
@@ -30,7 +30,7 @@
 // The language file starts beyond the HTML-comment below. DO NOT modify this line!
 // To edit your language file with a spreadsheet (i.e. Excel or StarCalc) remove all lines
 // from the first line to the HTML-comment. After editing paste the lines in place again.
-// NOTICE: Character coding of all ILIAS 4 lang files is UTF-8! Please set your editor
+// NOTICE: Character coding of all ILIAS lang files is UTF-8! Please set your editor
 // to the corresponding mode!
 <!-- language file start -->
 3rd_party_software#:#Software 3rd Party
@@ -134,8 +134,8 @@ enabled#:#Activat
 enter_dir_and_filename#:#Va rugam introduceti calea completa (absoluta) si numele fisierului!
 enter_password#:#Va rugam introduceti parola
 env_ok#:#Ok. Suna bine.
-env_using#:#ILIAS 4 va rula
-env_warning#:#ILIAS 4 a fost testat doar pe Linux si Windows folosind serverul web Apache !<br />Cu toate acestea, ILIAS 4 poate functiona si pe mediul dumneavoastra.
+env_using#:#ILIAS va rula
+env_warning#:#ILIAS a fost testat doar pe Linux si Windows folosind serverul web Apache !<br />Cu toate acestea, ILIAS poate functiona si pe mediul dumneavoastra.
 environment#:#Mediu de lucru
 err_create_database_failed#:#Crearea bazei de date a esuat
 err_wrong_login#:#Login gresit
@@ -163,7 +163,7 @@ ilias_db_mode#:#ILIAS database mode###20 Jun 2005 new variable
 ilias_homepage#:#Pagina de start ILIAS
 ilias_nic#:#Inregistrarea NIC
 ilias_nic_id#:#Numarul de identificare al NIC
-ilias_setup#:#Setare ILIAS 4
+ilias_setup#:#Setare ILIAS
 ilias_version#:#Versiunea ILIAS
 include_local#:#include local###20 May 2005 content changed
 info_text_3rdparty#:#Here you setup the third party add-ons which are needed by ILIAS. Follow the setup information for every add-on to complete this step.###10 Jul 2006 new variable
@@ -175,7 +175,7 @@ info_text_delete#:#Puteti sterge acest client apasand pe butonul de stergere de 
 info_text_finish1#:#Felicitari! Configurarea clientului dumneavoastra s-a realizat cu succes. Apasati pe 'Logare' pentru a intra in pagina de instalare a ILIAS.
 info_text_finish2#:#Unele configurari inca lipsesc sau sunt incorecte. va rugam sa verificati starea curenta a instalarii pentru a vedea ce trebuie facut!
 info_text_first_client#:#Configurarile de baza au fost salvate. Acum vom configura primul dumneavoastra client. Meniul de configurare o sa va asiste pe tot parcursul procesului de instalare. Pe panoul din dreapta puteti intotdeauna vedea starea curenta a procesului de instalare.
-info_text_first_install#:#Se pare ca instalati ILIAS 4 pentru prima data, deoarece nu a fost gasit nici un fisier ilias.ini. In fisierul ilias.ini pastram o parola principala pentru a proteja configurarea ILIAS de un acces neautorizat.
+info_text_first_install#:#Se pare ca instalati ILIAS pentru prima data, deoarece nu a fost gasit nici un fisier ilias.ini. In fisierul ilias.ini pastram o parola principala pentru a proteja configurarea ILIAS de un acces neautorizat.
 info_text_ini#:#Va rugam sa alegeti un client ID. Este acceptata orice litera (in afara de umlauturi) sau cifra.Client ID-ul trebuie sa fie un cuvant.<br />Apoi introduceti datele de legatura cu baza de date. Configurarea stabileste o legatura de test pentru a verifica setarile dumneavoastra si pentru a testa daca baza de date exista. Daca baza de date nu exista inca, in urmatorul pas din procesul de configurare puteti crea o baza de date.
 info_text_lang#:#Va rugam alegeti limbi suplimentare si/sau stergeti limbile selectate. Limba implicita va fi folosita pentru noile conturi de utilizator sau pentru utilizatorii care nu au selectat inca o limba preferata.
 info_text_list#:#In aceasta prezentare vedeti toti clientii disponibili si starea lor de configurare si acces. In partea dreapta sus puteti activa/dezactiva ecranul de selectie a clientilor. Daca selectia clientului este activa, toti clientii disponibili care sunt online vor fi afisati intr-o lista pe pagina de start a ILIAS. Daca selectia clientilor este inactiva si un utilizator viziteaza pagina de start, este afisat ecranul de logare al clientului <i>implicit</i>. Puteti determina clientul implicit cu butonul de mai jos.
@@ -184,7 +184,7 @@ info_text_nic1#:#Obtineti un id de instalare (nic-id) de la serverul nostru ILIA
 info_text_nic2#:#email cu informatiile de instalare la ilias-info@uni-koeln.de. Introduceti nic-id pe care il veti primi prin email in campul corespunzator, si selectati 'inregistrare prin Email'.
 info_text_nic3#:#Ati inregistrat instalarea dumneavoastra. Nic-id-ul dumneavoastra este
 info_text_password#:#Aici puteti schimba parola principala pentru programul de configurare.
-info_text_pathes#:#ILIAS 4 suporta clienti multipli cu baze de date. Mai jos introduceti directorul de date principal, locatia fisierului de logare si caile catre software-ul 3rd party. Aceste setari sunt valide pentru toti clientii pe care ii veti crea mai tarziu.
+info_text_pathes#:#ILIAS suporta clienti multipli cu baze de date. Mai jos introduceti directorul de date principal, locatia fisierului de logare si caile catre software-ul 3rd party. Aceste setari sunt valide pentru toti clientii pe care ii veti crea mai tarziu.
 ini_client_id_exists#:#Un client cu acest ID deja exista! Va rugam alegeti un alt client ID.
 ini_client_id_invalid#:#ID-ul client pe care l-ati introdus contine caractere invalide
 ini_client_id_no_change#:#ID-ul client nu poate fi schimbat in aceasta versiune dupa ce directoarele client au fost create cu succes.
@@ -196,12 +196,12 @@ ini_no_db_host#:#Nu exista nume pentru gazda
 ini_no_db_name#:#Nu exista nume pentru baza de date
 ini_no_db_user#:#Nu exista nume de utilizator pentru baza de date
 inifile#:#fisier-ini
-inifile_can_write#:#Configurarea ILIAS 4 poate scrie fisierul-ini.
-inifile_cannot_write#:#Configurarea ILIAS 4 nu poate scrie fisierul-ini. Va rugam verificati permisiunile la scriere.
+inifile_can_write#:#Configurarea ILIAS poate scrie fisierul-ini.
+inifile_cannot_write#:#Configurarea ILIAS nu poate scrie fisierul-ini. Va rugam verificati permisiunile la scriere.
 inifile_content#:#Fisierul-ini are acest continut:
 inifile_exists#:#Un fisier-ini exista. Procesul de instalare sterge setarile precedente.
 inifile_fill_all#:#Va rugam completati toate campurile.
-inifile_firsttime#:#Nu exista nici un fisier-ini! Se pare ca aceasta este prima pornire a ILIAS 4.
+inifile_firsttime#:#Nu exista nici un fisier-ini! Se pare ca aceasta este prima pornire a ILIAS.
 inifile_written#:#Fisierul-ini a fost salvat cu succes pe gazda dumneavoastra.
 input_error#:#Eroare de intrare
 inst_identification#:#Identificarea instalarii
@@ -210,7 +210,7 @@ install#:#Instaleaza
 installation#:#Instalare
 installed#:#instalat
 institution#:#Institutia
-intro_install#:#Aceasta este pagina principala a configurarii ILIAS 4. De aici puteti parcurge pasii instalarii.
+intro_install#:#Aceasta este pagina principala a configurarii ILIAS. De aici puteti parcurge pasii instalarii.
 ip_address#:#Adresa IP
 java_path#:#Calea catre Java
 java_path_comment#:#Necesar pentru Modulele de invatare SCORM
@@ -327,21 +327,21 @@ pathes#:#Cai
 phone#:#Telefon
 port#:#port
 position#:#Pozitia
-pre_cookies_disabled#:#Cookie-urile sunt dezactivate. Cookie-urile sunt necesare pentru a folosi ILIAS 4.
+pre_cookies_disabled#:#Cookie-urile sunt dezactivate. Cookie-urile sunt necesare pentru a folosi ILIAS.
 pre_cookies_enabled#:#Cookie-urile activate
-pre_error#:#Unul sau doua lucruri nu au reusit. Va rugam remediati mai intai aceste probleme sau nu puteti configura ILIAS 4.
-pre_folder_create#:#Noi directoare pot fi create in directorul ILIAS 4
+pre_error#:#Unul sau doua lucruri nu au reusit. Va rugam remediati mai intai aceste probleme sau nu puteti configura ILIAS.
+pre_folder_create#:#Noi directoare pot fi create in directorul ILIAS
 pre_folder_create_error#:#Nu se pot crea subdirectoare! Va rugam verificati daca aveti acces la fisiere!
-pre_folder_write#:#Director ILIAS 4 cu permisiune de scriere
-pre_folder_write_error#:#Nu se poate scrie in directorul ILIAS 4! Va rugam verificati daca aveti acces la fisiere!
-pre_intro#:#Lasati-ne sa verificam daca mediul dumneavoastra indeplineste toate cerintele pentru a instala si rula ILIAS 4.
+pre_folder_write#:#Director ILIAS cu permisiune de scriere
+pre_folder_write_error#:#Nu se poate scrie in directorul ILIAS! Va rugam verificati daca aveti acces la fisiere!
+pre_intro#:#Lasati-ne sa verificam daca mediul dumneavoastra indeplineste toate cerintele pentru a instala si rula ILIAS.
 pre_javascript_comment#:#Puteti rula ILIAS fara JavaScript, dar unele reprezentari grafice vor lipsi.
 pre_javascript_enabled#:#JavaScript activata
 pre_php_version#:#Versiunea PHP
-pre_php_version_3#:#Versiunea dumneavoastra de PHP este mult prea veche pentru ILIAS 4! Va rugam instalati o versiune mai noua de PHP.
+pre_php_version_3#:#Versiunea dumneavoastra de PHP este mult prea veche pentru ILIAS! Va rugam instalati o versiune mai noua de PHP.
 pre_php_version_4.1#:#Clasele PEAR nu vor functiona cum trebuie cu aceasta versiune! Va rugam instalati o versiune mai noua de PHP.
 pre_php_version_4.2#:#DOMXML and XSLT nu vor functiona cum trebuie cu aceasta versiune!
-pre_php_version_5#:#ILIAS 4 nu a fost inca testat cu PHP 5. Folositi-l pe riscul dumneavoastra.
+pre_php_version_5#:#ILIAS nu a fost inca testat cu PHP 5. Folositi-l pe riscul dumneavoastra.
 pre_php_version_unknown#:#Configurarea ILIAS nu cunoaste aceasta versiune. Folositi-o pe riscul dumneavoastra!
 preliminaries#:#Preliminarii
 prev#:#Precedent
@@ -395,7 +395,7 @@ setup_process_step_ini#:#Configurare date de baza
 setup_process_step_lang#:#Instaleaza suport pentru alte limbi
 setup_process_step_nic#:#Inregistrare la ILIAS-NIC
 setup_ready#:#Configurarea este terminata. puteti acum sa va logati si sa verificati setarile sistemului.
-setup_welcome#:#Bine ati venit in configurarea ILIAS 4. Aceasta rutina de configurare o sa va ajute sa
+setup_welcome#:#Bine ati venit in configurarea ILIAS. Aceasta rutina de configurare o sa va ajute sa
 sophos#:#Sophos
 sort_by_this_column#:#Sorteaza dupa aceasta coloana
 status#:#Stare

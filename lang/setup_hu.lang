@@ -11,7 +11,7 @@
 	+-----------------------------------------------------------------------------+
 	| ILIAS open source                                                           |
 	+-----------------------------------------------------------------------------+
-	| Copyright (c) 1998-2001 ILIAS open source, University of Cologne            |
+	| Copyright (c) 1998-2009 ILIAS open source, University of Cologne            |
 	|                                                                             |
 	| This program is free software; you can redistribute it and/or               |
 	| modify it under the terms of the GNU General Public License                 |
@@ -31,7 +31,7 @@
 // The language file starts beyond the HTML-comment below. DO NOT modify this line!
 // To edit your language file with a spreadsheet (i.e. Excel or StarCalc) remove all lines
 // from the first line to the HTML-comment. After editing paste the lines in place again.
-// NOTICE: Character coding of all ILIAS 4 lang files is UTF-8! Please set your editor
+// NOTICE: Character coding of all ILIAS lang files is UTF-8! Please set your editor
 // to the corresponding mode!
 <!-- language file start -->
 3rd_party_software_req#:#Megkívánt eszközök 3. féltől
@@ -138,8 +138,8 @@ enabled#:#engedélyezve
 enter_dir_and_filename#:#Adja meg a teljes elérési utat (abszolút útvonalat) és a fájl nevét!
 enter_password#:#Gépelje be a jelszót
 env_ok#:#Rendben. Jól hangzik.
-env_using#:#Az ILIAS 4 mindjárt működik
-env_warning#:#Az ILIAS 4 csak Linux-on és Windows-on volt tesztelve Apache webszerver használatával.<br/>Emellett működhet más környezetben is.
+env_using#:#Az ILIAS mindjárt működik
+env_warning#:#Az ILIAS csak Linux-on és Windows-on volt tesztelve Apache webszerver használatával.<br/>Emellett működhet más környezetben is.
 environment#:#Környezet
 err_create_database_failed#:#Az adatbázis létrehozása nem sikerült.
 err_wrong_login#:#Hibás bejelentkezés
@@ -167,7 +167,7 @@ ilias_db_mode#:#ILIAS adatbázis-mód
 ilias_homepage#:#ILIAS honlap
 ilias_nic#:#NIC-regisztráció
 ilias_nic_id#:#NIC-azonosító
-ilias_setup#:#ILIAS 4 telepítés
+ilias_setup#:#ILIAS telepítés
 ilias_version#:#ILIAS verzió
 include_local#:#beleértve a helyit
 user#:#Felhasználó

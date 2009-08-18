@@ -10,7 +10,7 @@
     +-----------------------------------------------------------------------------+
     | Hệ mã nguồn mở ILIAS                                                        |
     +-----------------------------------------------------------------------------+
-    | Bản quyền (c) 1998-2001 ILIAS open source, Đại học Cologne				  |
+    | Bản quyền (c) 1998-2009 ILIAS open source, Đại học Cologne				  |
 	| Phiên bản ngôn ngữ ILIAS Tiếng Việt này không phải là miễn phí			  |
 	| Bạn phải liên hệ với Đỗ Xuân Tiến 091 2283720	              				  |
 	| Nhận hướng dẫn cài đặt và tổ chức Elearning bằng ILIAS					  |
@@ -35,7 +35,7 @@
 // The language file starts beyond the HTML-comment below. DO NOT modify this line!
 // To edit your language file with a spreadsheet (i.e. Excel or StarCalc) remove all lines
 // from the first line to the HTML-comment. After editing paste the lines in place again.
-// NOTICE: Character coding of all ILIAS 4 lang files is UTF-8! Please set your editor
+// NOTICE: Character coding of all ILIAS lang files is UTF-8! Please set your editor
 // to the corresponding mode!
 <!-- language file start -->
 3rd_party_software#:#Phần mềm bổ sung
@@ -134,8 +134,8 @@ enabled#:#đã bật
 enter_dir_and_filename#:#Nhập vào tên thư mục và tên file
 enter_password#:#Hãy nhập vào mật khẩu
 env_ok#:#Môi trường đảm bảo. Rất tốt.
-env_using#:#ILIAS 4 sẽ chạy trên
-env_warning#:#ILIAS 4 mới chỉ được thử nghiệm trên Linux và Windows sử dụng máy chủ Apache!<br />Cũng có thể hoạt động trên môi trường của bạn.
+env_using#:#ILIAS sẽ chạy trên
+env_warning#:#ILIAS mới chỉ được thử nghiệm trên Linux và Windows sử dụng máy chủ Apache!<br />Cũng có thể hoạt động trên môi trường của bạn.
 environment#:#Môi trường
 err_create_database_failed#:#không tạo được cơ sở dữ liệu
 err_wrong_login#:#Đăng nhập sai
@@ -163,7 +163,7 @@ ilias_db_mode#:#Phương thức cơ sở dữ liệu ILIAS
 ilias_homepage#:#Trang chủ ILIAS
 ilias_nic#:#Đăng ký NIC
 ilias_nic_id#:#Định danh NIC
-ilias_setup#:#Cài đặt ILIAS 4
+ilias_setup#:#Cài đặt ILIAS
 ilias_version#:#Phiên bản ILIAS
 include_local#:#Bao gồm cả nội bộ
 info_text_contact#:#Bạn nhập các thông tin về máy trạm và thông tin về người quản trị. Các trường có dấu * là bắt buộc. Mọi thông tin sẽ được ghi vào trong cơ sở dữ liệu. Ở trang tiếp theo bạn sẽ đăng ký bản cài đặt của bạn với máy chủ ILIAS-NIC của chúng tôi, khi đó thông tin sẽ được chuyển về máy chủ này.
@@ -195,12 +195,12 @@ ini_no_db_host#:#Không có máy chủ
 ini_no_db_name#:#Không có tên cơ sở dữ liệu
 ini_no_db_user#:#Không có tên người dùng cơ sở dữ liệu
 inifile#:#file khởi tạo
-inifile_can_write#:#Cài đặt ILIAS 4 có thể ghi vào file khởi tạo.
-inifile_cannot_write#:#Cài đặt ILIAS 4 không thể ghi vào file khởi tạo. Hãy vui lòng kiểm tra lại quyền hạn.
+inifile_can_write#:#Cài đặt ILIAS có thể ghi vào file khởi tạo.
+inifile_cannot_write#:#Cài đặt ILIAS không thể ghi vào file khởi tạo. Hãy vui lòng kiểm tra lại quyền hạn.
 inifile_content#:#File khởi tạo của bạn chứa nội dung:
 inifile_exists#:#Một file khoởi tạo đang tồn tại. Chú ý : quá trình cài đặt sẽ xóa hết các thông tin thiết lập cài đặt trước đó.
 inifile_fill_all#:#Hãy điền đủ các trường.
-inifile_firsttime#:#Không có file khởi tạo! Chắc là lần đầu tiên chạy ILIAS 4.
+inifile_firsttime#:#Không có file khởi tạo! Chắc là lần đầu tiên chạy ILIAS.
 inifile_written#:#File khởi tạo đã ghi vào máy chủ của bạn.
 input_error#:#Nhập sai
 inst_identification#:#Định danh cài đặt
@@ -210,7 +210,7 @@ installation#:#Cài đặt
 installed#:#Cài đặt
 installed_local#:#Cài đặt địa phương
 institution#:#Trường (Viện)
-intro_install#:#Đây là trang chính cài đặt ILIAS 4. Từ đây bạn có thể qua các bước cài đặt.
+intro_install#:#Đây là trang chính cài đặt ILIAS. Từ đây bạn có thể qua các bước cài đặt.
 ip_address#:#Địa chỉ IP
 java_path#:#Đường dẫn Java
 java_path_comment#:#bắt buộc đối với các học phần SCORM
@@ -327,21 +327,21 @@ pathes#:#Đ`g dẫn
 phone#:#Điện thoại
 port#:#cổng
 position#:#Vị trí
-pre_cookies_disabled#:#Cookie đã tắt. ILIAS 4 bắt buộc phải dùng cookie.
+pre_cookies_disabled#:#Cookie đã tắt. ILIAS bắt buộc phải dùng cookie.
 pre_cookies_enabled#:#Cookie đã bật
-pre_error#:#Một hoặc hai điều kiện chưa đạt. Hãy chuẩn hoá trước khi cài đặt ILIAS 4.
-pre_folder_create#:#Có thể tạo được thư mục mới trong thư mục ILIAS 4
+pre_error#:#Một hoặc hai điều kiện chưa đạt. Hãy chuẩn hoá trước khi cài đặt ILIAS.
+pre_folder_create#:#Có thể tạo được thư mục mới trong thư mục ILIAS
 pre_folder_create_error#:#Không tạo được thư mục con! Hãy kiểm tra thiết lập quyền hạn trên file!
-pre_folder_write#:#Thư mục ILIAS 4 có thể ghi được
-pre_folder_write_error#:#Không thể ghi vào thư mục ILIAS 4! Hãy kiểm tra quyền hạn trên file!
+pre_folder_write#:#Thư mục ILIAS có thể ghi được
+pre_folder_write_error#:#Không thể ghi vào thư mục ILIAS! Hãy kiểm tra quyền hạn trên file!
 pre_intro#:#Để chúng tôi xem, môi trường của bạn có thỏa mãn đầy đủ các yêu cầu để cài đặt và chạy ilias4 trên hệ thống không.
 pre_javascript_comment#:#Bạn có thể chạy ILIAS không cần Javascript tuy nhiên bạn sẽ mất một vài chức năng giao diện.
 pre_javascript_enabled#:#Javascript đã bật
 pre_php_version#:#Phiên bản PHP
-pre_php_version_3#:#Phiên bản PHP của bạn quá cũ để sử dụng ILIAS 4! Hãy cập nhật PHP.
+pre_php_version_3#:#Phiên bản PHP của bạn quá cũ để sử dụng ILIAS! Hãy cập nhật PHP.
 pre_php_version_4.1#:#Các lớp PEAR không hoạt động đúng với phiên bản này! Hãy cập nhật PHP.
 pre_php_version_4.2#:#DOMXML và XSLT không hoạt động đúng với phiên bản này!
-pre_php_version_5#:#ILIAS 4 chưa được kiểm nghiệm với PHP 5. Sử dụng là mạo hiểm.
+pre_php_version_5#:#ILIAS chưa được kiểm nghiệm với PHP 5. Sử dụng là mạo hiểm.
 pre_php_version_unknown#:#Bản cài đặt ILIAS không biết phiên bản PHP. Sử dụng là mạo hiểm!
 preliminaries#:#Sơ bộ
 prev#:#Trước
@@ -393,7 +393,7 @@ setup_process_step_ini#:#Thông tin cài đặt cơ sở
 setup_process_step_lang#:#Cài đặt ngôn ngữ hệ thống
 setup_process_step_nic#:#Đăng ký tại ILIAS-NIC
 setup_ready#:#Cài đặt đã sẵn sàng. Bạn có thể tiếp tục đăng nhập kiểm tra các thiết lập.
-setup_welcome#:#Chào mừng đến với cài đặt ILIAS 4. Một loạt thao tác cài đặt này sẽ giúp bạn
+setup_welcome#:#Chào mừng đến với cài đặt ILIAS. Một loạt thao tác cài đặt này sẽ giúp bạn
 sophos#:#Sophos
 sort_by_this_column#:#Sắp xếp theo cột này
 status#:#Trạng thái
