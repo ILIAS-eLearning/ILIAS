@@ -2690,11 +2690,135 @@ return $this->showServerInfoObject();
 	{
 		global $tpl;
 		
+		$tpl->addBlockFile('ADM_CONTENT','adm_content','tpl.java_settings.html','Modules/SystemFolder');
+		
+		$GLOBALS['lng']->loadLanguageModule('search');
+
+		include_once './Services/UIComponent/Toolbar/classes/class.ilToolbarGUI.php';
+		$toolbar = new ilToolbarGUI();
+		$toolbar->addButton($this->lng->txt('lucene_create_ini'),
+			$this->ctrl->getLinkTarget($this,'createJavaServerIni'));
+		$tpl->setVariable('ACTION_BUTTONS',$toolbar->getHTML());
+		
 		$this->initJavaServerForm();
 		$this->setGeneralSettingsSubTabs("java_server");
-		$tpl->setContent($this->form->getHTML());
+		$tpl->setVariable('SETTINGS_TABLE',$this->form->getHTML());
 	}
 	
+	/**
+	 * Create a server ini file
+	 * @return 
+	 */
+	public function createJavaServerIniObject()
+	{
+		#include_once './Services/WebServices/RPC/classes/classs.ilRPCServerSettings.php';
+		#$ini = ilRPCServerSettings::createServerIni();
+		#ilUtil::deliverData($ini, 'ilServer.ini','text/plain');
+		
+		$this->setGeneralSettingsSubTabs('java_server');
+		$this->initJavaServerIniForm();
+		$this->tpl->setContent($this->form->getHTML());
+	}
+	
+	protected function initJavaServerIniForm()
+	{
+		include_once './Services/Form/classes/class.ilPropertyFormGUI.php';
+		
+		$this->form = new ilPropertyFormGUI();
+		
+		$GLOBALS['lng']->loadLanguageModule('search');
+		
+		$this->form->setTitle($this->lng->txt('lucene_tbl_create_ini'));
+		$this->form->setFormAction($this->ctrl->getFormAction($this,'createJavaServerIni'));
+		$this->form->addCommandButton('downloadJavaServerIni',$this->lng->txt('lucene_download_ini'));
+		$this->form->addCommandButton('showJavaServer', $this->lng->txt('cancel'));
+		
+		// Host
+		$ip = new ilTextInputGUI($this->lng->txt('lucene_host'),'ho');
+		$ip->setInfo($this->lng->txt('lucene_host_info'));
+		$ip->setMaxLength(128);
+		$ip->setSize(32);
+		$ip->setRequired(true);
+		$this->form->addItem($ip);
+		
+		// Port
+		$port = new ilNumberInputGUI($this->lng->txt('lucene_port'),'po');
+		$port->setSize(5);
+		$port->setMinValue(1);
+		$port->setMaxValue(65535);
+		$port->setRequired(true);
+		$this->form->addItem($port);
+		
+		// Index Path
+		$path = new ilTextInputGUI($this->lng->txt('lucene_index_path'),'in');
+		$path->setSize(80);
+		$path->setMaxLength(1024);
+		$path->setInfo($this->lng->txt('lucene_index_path_info'));
+		$path->setRequired(true);
+		$this->form->addItem($path);
+		
+		// Logging
+		$log = new ilTextInputGUI($this->lng->txt('lucene_log'),'lo');
+		$log->setSize(80);
+		$log->setMaxLength(1024);
+		$log->setInfo($this->lng->txt('lucene_log_info'));
+		$log->setRequired(true);
+		$this->form->addItem($log);
+		
+		// Level
+		$lev = new ilSelectInputGUI($this->lng->txt('lucene_level'),'le');
+		$lev->setOptions(array(
+			'DEBUG'		=> 'DEBUG',
+			'INFO'		=> 'INFO',
+			'WARN'		=> 'WARN',
+			'ERROR'		=> 'ERROR',
+			'FATAL'		=> 'FATAL'));
+		$lev->setValue('INFO');
+		$lev->setRequired(true);
+		$this->form->addItem($lev);
+		
+		// CPU
+		$cpu = new ilNumberInputGUI($this->lng->txt('lucene_cpu'),'cp');
+		$cpu->setValue(1);
+		$cpu->setSize(1);
+		$cpu->setMaxLength(2);
+		$cpu->setMinValue(1);
+		$cpu->setRequired(true);
+		$this->form->addItem($cpu);
+		
+		return true;
+	}
+	
+	/**
+	 * Create and offer server ini file for download
+	 * @return 
+	 */
+	protected function downloadJavaServerIniObject()
+	{
+		$this->initJavaServerIniForm();
+		if($this->form->checkInput())
+		{
+			include_once './Services/WebServices/RPC/classes/class.ilRpcIniFileWriter.php';
+			$ini = new ilRpcIniFileWriter();
+			$ini->setHost($this->form->getInput('ho'));
+			$ini->setPort($this->form->getInput('po'));
+			$ini->setIndexPath($this->form->getInput('in'));
+			$ini->setLogPath($this->form->getInput('lo'));
+			$ini->setLogLevel($this->form->getInput('le'));
+			$ini->setNumThreads($this->form->getInput('cp'));
+			
+			$ini->write();
+			ilUtil::deliverData($ini->getIniString(),'ilServer.ini','text/plain','utf-8');
+			return true;
+		}
+		
+		$this->form->setValuesByPost();
+		ilUtil::sendFailure($this->lng->txt('err_check_input'));
+		$this->setGeneralSettingsSubTabs('java_server');
+		$this->tpl->setContent($this->form->getHTML());
+		return true;
+	}
+
 	/**
 	* Init java server form.
 	*/
