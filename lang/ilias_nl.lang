@@ -30,7 +30,7 @@
 // The language file starts beyond the HTML-comment below. DO NOT modify this line!
 // To edit your language file with a spreadsheet (i.e. Excel or StarCalc) remove all lines
 // from the first line to the HTML-comment. After editing paste the lines in place again.
-// NOTICE: Character coding of all ILIAS 4 lang files is UTF-8! Please set your editor
+// NOTICE: Character coding of all ILIAS lang files is UTF-8! Please set your editor
 // to the corresponding mode!
 // Language file names refer to ISO 639, see: http://www.oasis-open.org/cover/iso639a.html
 <!-- language file start -->
@@ -950,7 +950,7 @@ common#:#absolute_path#:#Absolute pad
 common#:#accept_usr_agreement#:#Gebruikersovereenkomst accepteren?
 common#:#access#:#Toegang
 common#:#account_expires_body#:#Uw toegang is gelimiteerd. Het loopt af op:
-common#:#account_expires_subject#:#[ILIAS 4] Uw abonnement verloopt
+common#:#account_expires_subject#:#[ILIAS] Uw abonnement verloopt
 common#:#action#:#Action
 common#:#action_aborted#:#Activiteit afgebroken
 common#:#actions#:#Activiteiten
@@ -2234,7 +2234,7 @@ common#:#link_check_body_top#:#U ontvangt deze mail omdat u geïnformeerd wou wo
 common#:#link_check_message_b#:#Indien ingeschakeld, zal u geïnformeerd worden over foute links in de leermodule
 common#:#link_check_message_disabled#:#Berichten uitgeschakeld
 common#:#link_check_message_enabled#:#Berichten ingeschakeld
-common#:#link_check_subject#:#[ILIAS 4] Link controle
+common#:#link_check_subject#:#[ILIAS] Link controle
 common#:#link_checker_refreshed#:#Vernieuw scherm
 common#:#link_dynamic_info#:#u kunt dynamische parameters toevoegen zoals de ILIAS gebruikersID.
 common#:#link_selected_items#:#Link geselecteerd items
@@ -9590,7 +9590,7 @@ rbac#:#rbac_delete_role#:#Delete Role###26 06 2009 new variable
 rbac#:#rbac_role_delete_qst#:#Are you sure you want to delete the following role?<br />All permissions granted by this role will be deleted permanently.###26 06 2009 new variable
 rbac#:#rbac_role_delete_self#:#<strong>Attention:</strong> You are assigned to this role. If you continue this delete operation, you may loose access to some ILIAS materials.  ###26 06 2009 new variable
 common#:#download_with_uploaded_filename#:#Download with uploaded filename###24 07 2009 new variable
-common#:#download_with_uploaded_filename_info#:#Select this option exclusively for backwards compatibility with ILIAS 4.9 and older versions: When this option is selected, the filename of a downloaded file is equal to the filename that was used for uploading the file into ILIAS. If this option is not selected, the filename of a downloaded file is equal to the title of the file object in ILIAS. This option does not affect WebDAV. For WebDAV the filename of a downloaded file is always equal to the title of the file object.###24 07 2009 new variable
+common#:#download_with_uploaded_filename_info#:#Select this option exclusively for backwards compatibility with ILIAS 3.9 and older versions: When this option is selected, the filename of a downloaded file is equal to the filename that was used for uploading the file into ILIAS. If this option is not selected, the filename of a downloaded file is equal to the title of the file object in ILIAS. This option does not affect WebDAV. For WebDAV the filename of a downloaded file is always equal to the title of the file object.###24 07 2009 new variable
 form#:#form_msg_wrong_date#:#Wrong date. Please enter a valid date.###24 07 2009 new variable
 form#:#form_msg_wrong_date_format#:#Wrong date format. Please enter the date as "%s"!###24 07 2009 new variable
 form#:#form_msg_formula_is_required#:#Please enter a correct formula.###24 07 2009 new variable

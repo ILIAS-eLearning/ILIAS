@@ -30,7 +30,7 @@
 // The language file starts beyond the HTML-comment below. DO NOT modify this line!
 // To edit your language file with a spreadsheet (i.e. Excel or StarCalc) remove all lines
 // from the first line to the HTML-comment. After editing paste the lines in place again.
-// NOTICE: Character coding of all ILIAS 4 lang files is UTF-8! Please set your editor
+// NOTICE: Character coding of all ILIAS lang files is UTF-8! Please set your editor
 // to the corresponding mode!
 // Language file names refer to ISO 639, see: http://www.oasis-open.org/cover/iso639a.html
 <!-- language file start -->
@@ -947,7 +947,7 @@ common#:#absolute_path#:#Absolute Path
 common#:#accept_usr_agreement#:#Nõustu kasutajatingimustega
 common#:#access#:#Ligipääs
 common#:#account_expires_body#:#Your account is limited, it will expire at:
-common#:#account_expires_subject#:#[ILIAS 4] Your account expires
+common#:#account_expires_subject#:#[ILIAS] Your account expires
 common#:#action#:#Action
 common#:#action_aborted#:#Action aborted
 common#:#actions#:#Actions
@@ -2235,7 +2235,7 @@ common#:#link_check_body_top#:#You receive this mail because you want to be info
 common#:#link_check_message_b#:#If enabled, you will be informed about invalid links by email.
 common#:#link_check_message_disabled#:#Messages diabled
 common#:#link_check_message_enabled#:#Messages enabled
-common#:#link_check_subject#:#[ILIAS 4] Link check
+common#:#link_check_subject#:#[ILIAS] Link check
 common#:#link_checker_refreshed#:#Värskendatud vaade
 common#:#link_dynamic_info#:#You can add dynamic parameters like the ILIAS user id.
 common#:#link_selected_items#:#Lingi valitud üksused
@@ -5453,7 +5453,7 @@ payment#:#pay_message_attachment#:#As a confirmation for your order we send you 
 payment#:#pay_message_hello#:#Dear
 payment#:#pay_message_regards#:#Yours sincerely
 payment#:#pay_message_subject#:#Your ILIAS order
-payment#:#pay_message_thanks#:#Thank you for your ILIAS 4 order.
+payment#:#pay_message_thanks#:#Thank you for your ILIAS order.
 payment#:#pay_no_vendors_created#:#No vendors created
 payment#:#pay_not_buyed_any_object#:#You have not bought any object.
 payment#:#pay_order_date_from#:#Order date from
@@ -9590,7 +9590,7 @@ rbac#:#rbac_delete_role#:#Delete Role###26 06 2009 new variable
 rbac#:#rbac_role_delete_qst#:#Are you sure you want to delete the following role?<br />All permissions granted by this role will be deleted permanently.###26 06 2009 new variable
 rbac#:#rbac_role_delete_self#:#<strong>Attention:</strong> You are assigned to this role. If you continue this delete operation, you may loose access to some ILIAS materials.  ###26 06 2009 new variable
 common#:#download_with_uploaded_filename#:#Download with uploaded filename###24 07 2009 new variable
-common#:#download_with_uploaded_filename_info#:#Select this option exclusively for backwards compatibility with ILIAS 4.9 and older versions: When this option is selected, the filename of a downloaded file is equal to the filename that was used for uploading the file into ILIAS. If this option is not selected, the filename of a downloaded file is equal to the title of the file object in ILIAS. This option does not affect WebDAV. For WebDAV the filename of a downloaded file is always equal to the title of the file object.###24 07 2009 new variable
+common#:#download_with_uploaded_filename_info#:#Select this option exclusively for backwards compatibility with ILIAS 3.9 and older versions: When this option is selected, the filename of a downloaded file is equal to the filename that was used for uploading the file into ILIAS. If this option is not selected, the filename of a downloaded file is equal to the title of the file object in ILIAS. This option does not affect WebDAV. For WebDAV the filename of a downloaded file is always equal to the title of the file object.###24 07 2009 new variable
 form#:#form_msg_wrong_date#:#Wrong date. Please enter a valid date.###24 07 2009 new variable
 form#:#form_msg_wrong_date_format#:#Wrong date format. Please enter the date as "%s"!###24 07 2009 new variable
 form#:#form_msg_formula_is_required#:#Please enter a correct formula.###24 07 2009 new variable
