@@ -20,6 +20,7 @@ class ilUtil
 	* Builds an html image tag
 	* TODO: function still in use, but in future use getImagePath and move HTML-Code to your template file
 	* @access	public
+	*
 	* @param	string	object type
 	* @param	string	tpl path
 	*/
