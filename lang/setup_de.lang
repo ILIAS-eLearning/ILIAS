@@ -163,7 +163,7 @@ ilias_db_mode#:#ILIAS Datenbank-Modus
 ilias_homepage#:#ILIAS Homepage
 ilias_nic#:#NIC Registrierung
 ilias_nic_id#:#NIC ID
-ilias_setup#:#ilias4 Setup
+ilias_setup#:#ILIAS Setup
 ilias_version#:#ILIAS Version
 include_local#:#include local###include local language file when updating language
 info_text_3rdparty#:#In diesem Schritt werden die Erweiterungen von Fremdanbietern konfiguriert, die in ILIAS benötigt werden. Folgen Sie bitte den Installationsanweisungen, die zu den jweiligen Erweiterungen angegeben werden, um diesen Schritt zu komplettieren.
@@ -184,7 +184,7 @@ info_text_nic1#:#Wenn Sie Ihre Installation über ILIAS-NIC-Server registrieren 
 info_text_nic2#:#an ilias-info@uni-koeln.de. Sie erhalten dann umgehend ihre Kennung per Email zugeschickt. tragen Sie diese Nummer bitte bei der Option 'Email-Registrierung' in das Freifeld ein.
 info_text_nic3#:#Sie haben Ihre Installation registriert. Ihre Kennung ist
 info_text_password#:#Hier könnnen Sie das Administrator-Password für das Setup-Programm ändern.
-info_text_pathes#:#ilias4 ist mandantenfähig. Sie können mit einer Installation mehrere ILIAS Instanzen (Mandanten) betreiben, die jeweils eigene Datenbanken und Datenverzeichnisse nutzen. Geben Sie bitte ein Verzeichnis für Daten ausserhalb des Webspaces, den Pfad der Log-Datei, sowie die Pfade zu den unten aufgeführten Drittanbieter-Programmen an. Diese Einstellung sind für alle Mandanten gültig.<br/><br/>Bei aktivierten Safe Mode müssen Sie bei den Drittanbieter-Programmen nur die auszuführende Datei ohne den Pfad angeben. Diese Dateien müssen im geschützten Basisverzeichnis von PHP liegen (ggf. per Symlink).
+info_text_pathes#:#ILIAS ist mandantenfähig. Sie können mit einer Installation mehrere ILIAS Instanzen (Mandanten) betreiben, die jeweils eigene Datenbanken und Datenverzeichnisse nutzen. Geben Sie bitte ein Verzeichnis für Daten ausserhalb des Webspaces, den Pfad der Log-Datei, sowie die Pfade zu den unten aufgeführten Drittanbieter-Programmen an. Diese Einstellung sind für alle Mandanten gültig.<br/><br/>Bei aktivierten Safe Mode müssen Sie bei den Drittanbieter-Programmen nur die auszuführende Datei ohne den Pfad angeben. Diese Dateien müssen im geschützten Basisverzeichnis von PHP liegen (ggf. per Symlink).
 ini_client_id_exists#:#Diese Mandanten ID ist bereits vergeben. Wählen Sie eine andere Kennung
 ini_client_id_invalid#:#Die gewählte Mandanten ID enthält ungültige Zeichen.
 ini_client_id_no_change#:#Die Mandanten ID kann nicht mehr geändert werden, nachdem die Datenverzeichnisse angelegt wurden.

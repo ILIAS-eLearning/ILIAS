@@ -79,6 +79,7 @@ contact#:#Contact Information
 contact_data#:#Contact Information
 convert_path#:#ImageMagick Convert Path
 convert_path_comment#:#Required for displaying thumbnails of images, e.g. '/your_path/convert'.
+convert_path_comment_win#:#Required for displaying thumbnails of images, e.g. 'C:/tools/ImageMagick/convert.exe'.
 could_not_create_logfile#:#Could not create log file.
 country#:#Country
 create#:#Create
@@ -161,6 +162,7 @@ hide_clientlist#:#Client Selection is hidden for users.
 host#:#Host
 htmldoc_path#:#Path to HTMLdoc
 htmldoc_path_comment#:#Optional to generate PDF documents, e.g. '/your_path/htmldoc'.
+htmldoc_path_comment_win#:#Optional to generate PDF documents, e.g. 'C:/tools/htmldoc/htmldoc.exe'.
 mkisofs_path#:#Path to mkisofs
 mkisofs_path_comment#:#Optional to create iso images.
 http_path#:#HTTP Path
@@ -224,6 +226,7 @@ intro_install#:#This is the main page of ILIAS Setup. From here you can step thr
 ip_address#:#IP Address
 java_path#:#Path to Java
 java_path_comment#:#Optional for validating SCORM Learning Modules, e.g. '/your_path/java'.
+java_path_comment_win#:#Optional for validating SCORM Learning Modules, e.g. 'C:/Program Files/Java/bin/java.eve'.
 lang_bg#:#Bulgarian
 lang_cs#:#Czech
 lang_da#:#Danish
@@ -264,7 +267,8 @@ list#:#list
 list_disabled#:#Client Selection Disabled
 list_enabled#:#Client Selection Enabled
 log_path#:#Path to Log File
-log_path_comment#:#E.g. '/path_to_log_dir/ilias4.log' (File will be created)
+log_path_comment#:#E.g. '/path_to_log_dir/ilias.log' (File will be created)
+log_path_comment_win#:#E.g. 'C:/iliasdata/iliaslog.txt' (File will be created)
 logged_out#:#You logged out.
 logging#:#Logging
 login#:#Login
@@ -452,6 +456,7 @@ unknown_display_mode#:#Unknown Display Mode
 unzip#:#Extract
 unzip_path#:#Path to Unzip
 unzip_path_comment#:#Required for extracting import files, e.g. '/your_path/unzip'.
+unzip_path_comment_win#:#Required for extracting import files, e.g. 'C:/tools/unzip/unzip.exe'.
 update_applied#:#Update Applied
 update_error#:#Error while Updating
 update_not_found#:#Update not found!
@@ -464,6 +469,7 @@ with#:#with
 wrong_password#:#Wrong Password!
 zip_path#:#Path to Zip
 zip_path_comment#:#Required for building export files, e.g. '/your_path/zip'.
+zip_path_comment_win#:#Required for extracting import files, e.g. 'C:/tools/zip/zip.exe'.
 zipcode#:#Zip Code
 step_ini#:#ini-File
 step_db#:#Database

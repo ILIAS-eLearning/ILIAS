@@ -948,6 +948,10 @@ echo "<br>+".$client_id;
 			$this->form->addItem($ne);
 		}
 			
+		$lvext = (ilUtil::isWindows())
+			? "_win"
+			: "";
+
 	
 		// logging
 		$sh = new ilFormSectionHeaderGUI();
@@ -956,7 +960,7 @@ echo "<br>+".$client_id;
 		
 		// path to log file
 		$ti = new ilTextInputGUI($lng->txt("log_path"), "log_path");
-		$ti->setInfo($lng->txt("log_path_comment"));
+		$ti->setInfo($lng->txt("log_path_comment".$lvext));
 		$this->form->addItem($ti);
 		
 		// disable logging 
@@ -970,19 +974,19 @@ echo "<br>+".$client_id;
 		
 		// convert path
 		$ti = new ilTextInputGUI($lng->txt("convert_path"), "convert_path");
-		$ti->setInfo($lng->txt("convert_path_comment"));
+		$ti->setInfo($lng->txt("convert_path_comment".$lvext));
 		$ti->setRequired(true);
 		$this->form->addItem($ti);
 
 		// zip path
 		$ti = new ilTextInputGUI($lng->txt("zip_path"), "zip_path");
-		$ti->setInfo($lng->txt("zip_path_comment"));
+		$ti->setInfo($lng->txt("zip_path_comment".$lvext));
 		$ti->setRequired(true);
 		$this->form->addItem($ti);
 
 		// unzip path
 		$ti = new ilTextInputGUI($lng->txt("unzip_path"), "unzip_path");
-		$ti->setInfo($lng->txt("unzip_path_comment"));
+		$ti->setInfo($lng->txt("unzip_path_comment".$lvext));
 		$ti->setRequired(true);
 		$this->form->addItem($ti);
 
@@ -993,12 +997,12 @@ echo "<br>+".$client_id;
 
 		// java path
 		$ti = new ilTextInputGUI($lng->txt("java_path"), "java_path");
-		$ti->setInfo($lng->txt("java_path_comment"));
+		$ti->setInfo($lng->txt("java_path_comment".$lvext));
 		$this->form->addItem($ti);
 
 		// htmldoc path
 		$ti = new ilTextInputGUI($lng->txt("htmldoc_path"), "htmldoc_path");
-		$ti->setInfo($lng->txt("htmldoc_path_comment"));
+		$ti->setInfo($lng->txt("htmldoc_path_comment".$lvext));
 		$this->form->addItem($ti);
 
 		// mkisofs path
