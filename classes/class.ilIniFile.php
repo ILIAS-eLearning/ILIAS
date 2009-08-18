@@ -173,7 +173,7 @@ class ilIniFile
 		}
 		
 		//write php tags (security issue)
-		$result = fwrite($fp, "<?php /*\r\n");
+		$result = fwrite($fp, "; <?php exit; ?>\r\n");
 
 		$groups = $this->readGroups();
 		$group_cnt = count($groups);
@@ -201,8 +201,6 @@ class ilIniFile
 			}
 		}
 		
-		//write php tags (security issue)
-		$result = fwrite($fp, "*/ ?>");
 		
 		fclose($fp);
 
