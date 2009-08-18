@@ -927,6 +927,10 @@ echo "<br>+".$client_id;
 		{
 			$ne->setInfo($this->lng->txt("data_directory_in_ws_info"));
 		}
+		$cwd = ilUtil::isWindows()
+			? str_replace("\\", "/", getcwd())
+			: getcwd();
+
 		$ne->setValue(getcwd()."/data");
 		$this->form->addItem($ne);
 		
@@ -1098,6 +1102,17 @@ echo "<br>+".$client_id;
 		$this->initBasicSettingsForm(true);
 		if ($this->form->checkInput())
 		{
+			// correct paths on windows
+			if (ilUtil::isWindows())
+			{
+				$fs = array("datadir_path", "log_path", "convert_path", "zip_path",
+					"unzip_path", "java_path", "htmldoc_path", "mkisofs_path");
+				foreach ($fs as $f)
+				{
+					$_POST[$f] = str_replace("\\", "/", $_POST[$f]);
+				}
+			}
+			
 			$_POST["setup_pass"] = $_POST["password"];
 			$_POST["setup_pass2"] = $_POST["password_retype"];
 			if (!$this->setup->checkDataDirSetup($_POST))
