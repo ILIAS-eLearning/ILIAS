@@ -1285,7 +1285,7 @@ chat#:#chat_green#:#grün
 chat#:#chat_hide_details#:#Details verbergen
 chat#:#chat_hide_smilies#:#Smilies verbergen
 chat#:#chat_html_export#:#Export als HTML
-chat#:#chat_ilias#:#Ilias Chat Modul
+chat#:#chat_ilias#:#ILIAS Chat Modul
 chat#:#chat_image_path#:#Bildpfad
 chat#:#chat_inactive#:#Inaktiv
 chat#:#chat_input#:#Eingabe
@@ -4186,7 +4186,7 @@ common#:#st_edit#:#Kapitel bearbeiten
 common#:#st_new#:#Neues Kapitel
 common#:#standard_fields#:#Standardfelder
 common#:#standard_icon#:#Standard-Icon
-common#:#startpage#:#ILIAS Anmeldeseite
+common#:#startpage#:#ILIAS-Anmeldeseite
 common#:#stat_selected#:#Ausgewählt
 common#:#state_changed#:#geändert
 common#:#state_changed_inside#:#Inhalt geändert
@@ -6389,7 +6389,7 @@ forum#:#deactivate_post_txt#:#Möchten Sie wirklich diesen Beitrag und alle sein
 forum#:#fmr_copy_threads_info#:#Sie können hier Themen auswählen, die kopiert werden sollen. Es werden nur die Anfangsbeiträge, nicht deren Antworten kopiert.
 forum#:#forum_add_quote#:#Zitieren
 forum#:#forum_anonymize#:#Anonym Schreiben
-forum#:#forum_anonymize_desc#:#Diesen Beitrag anonym schreiben (Ihr ILIAS Benutzername wird nicht angezeigt).
+forum#:#forum_anonymize_desc#:#Diesen Beitrag anonym schreiben (Ihr ILIAS-Benutzername wird nicht angezeigt).
 forum#:#forums#:#Foren
 forum#:#forums_all_threads_marked_read#:#Alle Threads wurden als gelesen markiert.
 forum#:#forums_attachments#:#Dateianhänge
@@ -6667,7 +6667,7 @@ jsmath#:#jsmath_path_to_jsmath#:#Pfad zur jsMath-Bibliothek
 jsmath#:#jsmath_path_to_jsmath_desc#:#Der Pfad zum Basisverzeichnis der jsMath-Bibliothek, relativ zum ILIAS-Basisverzeichnis, also z.B. &quot;./Services/Javascript/jsMath&quot;
 jsmath#:#jsmath_settings#:#jsMath Einstellungen
 ldap#:#ldap_add_missing#:#Fehlende Rollen zuweisen
-ldap#:#ldap_add_role_ass_rule#:#Neue Regel für die ILIAS Rollenzuordnung
+ldap#:#ldap_add_role_ass_rule#:#Neue Regel für die ILIAS-Rollenzuordnung
 ldap#:#ldap_assignment_type#:#Art der Zuordnung
 ldap#:#ldap_authentication_settings#:#Einstellungen zur Authentifizierung
 ldap#:#ldap_bind_anonymous#:#Anonym verbinden
@@ -6680,7 +6680,7 @@ ldap#:#ldap_dn_info#:#Wählen Sie hier den kompletten DN der LDAP-Gruppe.
 ldap#:#ldap_edit_role_ass_rule#:#Regel zur Rollenzuordnung bearbeiten
 ldap#:#ldap_filter_info#:#Filter, der dem Suchfilter folgendermaßen hinzugefügt wird: (&(userattr=username)<strong>(userfilter)</strong>)
 ldap#:#ldap_global_role_assignment#:#Rollenzuordnung
-ldap#:#ldap_global_role_info#:#Bitte wählen Sie eine globale Rolle für neu anzulegende ILIAS Benutzer.
+ldap#:#ldap_global_role_info#:#Bitte wählen Sie eine globale Rolle für neu anzulegende ILIAS-Benutzer.
 ldap#:#ldap_group_attribute#:#Attributname der Gruppe
 ldap#:#ldap_group_attribute_info#:#Geben Sie hier den Attributnamen der Gruppe ein.
 ldap#:#ldap_group_dn#:#Gruppen DN
@@ -6701,13 +6701,13 @@ ldap#:#ldap_group_scope#:#Suchbereich
 ldap#:#ldap_group_scope_info#:#Bereich für die Gruppensuche. Wählen Sie im Zweifelsfall "Sub".
 ldap#:#ldap_group_search_base#:#Suchbasis
 ldap#:#ldap_group_user_filter#:#Benutzerfilter
-ldap#:#ldap_ilias_role#:#ILIAS Rollenname
-ldap#:#ldap_ilias_role_short#:#Role:
+ldap#:#ldap_ilias_role#:#ILIAS-Rollenname
+ldap#:#ldap_ilias_role_short#:#Rolle:
 ldap#:#ldap_info_text#:#Informationstext
 ldap#:#ldap_info_text_info#:#Sie können hier einen Informationstext angeben, der auf der Infoseite des der Rolle zugehörigen Objektes angezeigt wird. Optional kann dieser Text auch im Magazin und auf dem Persönlichen Schreibtisch eingeblendet werden.
 ldap#:#ldap_info_text_short#:#Infotext:
 ldap#:#ldap_mapping_info_type#:#Auch im Magazin/Persönlichen Schreibtisch anzeigen.
-ldap#:#ldap_mapping_table#:#Zuordnung von LDAP-Attributen zu ILIAS Benutzerdaten
+ldap#:#ldap_mapping_table#:#Zuordnung von LDAP-Attributen zu ILIAS-Benutzerdaten
 ldap#:#ldap_mapping_template#:#Vorlage benutzen für Objektklasse:
 ldap#:#ldap_member_info#:#Geben Sie hier den Attributnamen ein, dem die Gruppenmitglieder zugeordnet sind. Wählen Sie 'Attributwert ist DN', wenn die Mitgliedernamen als DN angelegt werden.
 ldap#:#ldap_memberisdn#:#Attributwert ist DN
@@ -6732,11 +6732,11 @@ ldap#:#ldap_role_by_group#:#Gruppenzugehörigkeit
 ldap#:#ldap_role_group_assignments#:#Vorhandene Zuordnungen
 ldap#:#ldap_role_grp_at#:#Attribut
 ldap#:#ldap_role_grp_dn_info#:#Bitte geben Sie den vollständigen "Distinguished Name" der Gruppe an.
-ldap#:#ldap_role_grp_info#:#Mitglieder einer bestimmten LDAP Gruppe werden der angegebenen ILIAS Rolle zugeordnet.
+ldap#:#ldap_role_grp_info#:#Mitglieder einer bestimmten LDAP Gruppe werden der angegebenen ILIAS-Rolle zugeordnet.
 ldap#:#ldap_role_grp_isdn#:#Attributwert ist DN
 ldap#:#ldap_role_info#:#Bitte geben Sie den Namen der ILIAS-Rolle ein, die die LDAP-Gruppenzugehörigkeit steuern soll.
-ldap#:#ldap_role_mapping#:#ILIAS Rollen -> LDAP-Gruppen Zuordnung
-ldap#:#ldap_role_not_exists#:#Eine ILIAS Rolle mit dem folgenden Namen existiert nicht:
+ldap#:#ldap_role_mapping#:#Zuordnung ILIAS-Rollen » LDAP-Gruppen 
+ldap#:#ldap_role_not_exists#:#Eine ILIAS-Rolle mit dem folgenden Namen existiert nicht:
 ldap#:#ldap_role_settings#:#Einstellungen zur LDAP-Gruppen Aktualisierung
 ldap#:#ldap_rule_condition#:#Bedingung
 ldap#:#ldap_rule_type#:#Art der Zuordnung
@@ -6773,7 +6773,7 @@ mail#:#also_as_email#:#Auch als E-Mail
 mail#:#bc#:#BC
 mail#:#chat_select_room#:#Chatraum auswählen
 mail#:#chat_users_have_been_invited#:#Die Benutzer wurden eingeladen
-mail#:#chat_users_without_login#:#Die folgenden Benutzer haben keinen ILIAS Account und können nicht eingeladen werden.
+mail#:#chat_users_without_login#:#Die folgenden Benutzer haben keinen ILIAS-Account und können nicht eingeladen werden.
 mail#:#chat_users_without_permission#:#Die folgenden Benutzer haben keinen Zugriff zum ausgewählten Raum
 mail#:#forward#:#Weiterleiten
 mail#:#goto_invitation_chat#:#öffne Chatraum
@@ -7719,14 +7719,14 @@ payment#:#pay_bmf_vat_included#:#MwSt. enthalten
 payment#:#pay_bmf_your_order#:#Ihre Bestellung
 payment#:#pay_change_price#:#Preis-/Dauer-Kombination ändern
 payment#:#pay_click_to_buy#:#Zur Kasse
-payment#:#pay_confirm_order#:#Bitte bestätigen Sie, dass Sie die oben aufgeführten Objekte kaufen möchten, indem Sie Ihr ILIAS Passwort eingeben.
+payment#:#pay_confirm_order#:#Bitte bestätigen Sie, dass Sie die oben aufgeführten Objekte kaufen möchten, indem Sie Ihr ILIAS-Passwort eingeben.
 payment#:#pay_crs_max_members_exceeded#:#Die maximale Teilnehmerzahl für diesen Kurs ist bereits erreicht. Deswegen können Sie diesen Kurs momentan leider nicht kaufen.
 payment#:#pay_customer_no#:#Kundennr.
 payment#:#pay_deleted_booking#:#Der Datensatz wurde gelöscht.
 payment#:#pay_deleted_items#:#Die ausgewählten Artikel wurden gelöscht.
 payment#:#pay_edit_abstract#:#Abstract Bearbeiten
 payment#:#pay_enable_shop#:#Webshop aktivieren
-payment#:#pay_enable_shop_info#:#Wenn aktiviert, ist der ILIAS Webshop verfügbar und Objekte können von Benutzern gekauft werden.
+payment#:#pay_enable_shop_info#:#Wenn aktiviert, ist der ILIAS-Webshop verfügbar und Objekte können von Benutzern gekauft werden.
 payment#:#pay_ending#:#hört auf mit
 payment#:#pay_entitled_retrieve#:#Berechtigt, Daten abzurufen für
 payment#:#pay_expires_info#:#Dieses Objekt ist nicht frei zugänglich. Sie können jedoch keinen Zugang erwerben, da die Bezahlfrist abgelaufen ist.
@@ -7746,8 +7746,8 @@ payment#:#pay_max_hits_info#:#Sie können hier die Maximalanzahl von Treffern ei
 payment#:#pay_message_attachment#:#Als Bestätigung Ihrer Bestellung finden Sie eine Rechnung im PDF Format im Anhang dieser E-Mail.
 payment#:#pay_message_hello#:#Guten Tag
 payment#:#pay_message_regards#:#Mit freundlichen Grüßen
-payment#:#pay_message_subject#:#Ihre ILIAS Bestellung
-payment#:#pay_message_thanks#:#Vielen Dank für Ihre ILIAS Bestellung.
+payment#:#pay_message_subject#:#Ihre ILIAS-Bestellung
+payment#:#pay_message_thanks#:#Vielen Dank für Ihre ILIAS-Bestellung.
 payment#:#pay_no_vendors_created#:#Sie haben noch keine Verkäufer angelegt.
 payment#:#pay_not_buyed_any_object#:#Sie haben noch keine Objekte gekauft.
 payment#:#pay_order_date_from#:#Zeitraum von
@@ -7763,8 +7763,8 @@ payment#:#pay_paypal_error_prev_trans_id#:#Die von PayPal erhaltene Transaktions
 payment#:#pay_paypal_error_wrong_customer#:#Die Überprüfung der Transaktion ergab keine Übereinstimmung des Käufers.
 payment#:#pay_paypal_error_wrong_items#:#Die Überprüfung der Transaktion ergab keine Übereinstimmung der gekauften Objekte.
 payment#:#pay_paypal_error_wrong_vendor#:#Die Überprüfung der Transaktion ergab keine Übereinstimmung des Verkäufers.
-payment#:#pay_paypal_failed#:#Ihr Kauf von ILIAS Objekten über PayPal ist leider fehlgeschlagen!
-payment#:#pay_paypal_success#:#Vielen Dank für Ihren Kauf von ILIAS Objekten! Sie erhalten darüber eine schriftliche Bestätigung im PDF Format an Ihre E-Mail-Adresse.
+payment#:#pay_paypal_failed#:#Ihr Kauf von ILIAS-Objekten über PayPal ist leider fehlgeschlagen!
+payment#:#pay_paypal_success#:#Vielen Dank für Ihren Kauf von ILIAS-Objekten! Sie erhalten darüber eine schriftliche Bestätigung im PDF Format an Ihre E-Mail-Adresse.
 payment#:#pay_paypal_unreachable#:#Es konnte keine Verbindung zum Payment-Server von PayPal aufgebaut werden.
 payment#:#pay_personal_settings#:#Persönliche Einstellungen
 payment#:#pay_reset_filter#:#Filter zurücksetzen
@@ -8167,19 +8167,19 @@ pwassist#:#password_assistance#:#Passwort-Unterstützung
 pwassist#:#pwassist_enter_email#:#Geben Sie eine E-Mail-Adresse ein, und klicken Sie auf Abschicken.\nILIAS sendet eine E-Mail an diese Adresse. Die E-Mail enthält alle Benutzernamen, in deren Profil die Email eingegeben wurde.\nWählen Sie den passenden Benutzernamen aus und lassen Sie sich mit der "Passwort vergessen"-Funktion ein neues Passwort schicken. Falls Sie mit dieser Funktion keine E-Mail erhalten, benachrichtigen Sie bitte Ihre Kursleitung oder senden Sie ein E-Mail an %1$s.
 pwassist#:#pwassist_enter_username_and_email#:#Geben Sie einen Benutzernamen und die dazugehörende E-Mail-Adresse ein, und klicken Sie auf Abschicken.\nILIAS sendet eine E-Mail an diese Adresse. Die E-Mail enthält eine Adresse zu einer Webseite, mit der Sie ein neues Passwort für das Benutzerkonto eingeben können.\nFalls Sie mit dieser Funktion Ihr Passwort nicht setzen können, benachrichtigen Sie bitte Ihre Kursleitung oder senden Sie ein E-Mail an %1$s.
 pwassist#:#pwassist_enter_username_and_new_password#:#Geben Sie den Benutzernamen, für den Sie Passwort-Unterstützung angefordert haben, und das zuzuweisende Passwort ein.
-pwassist#:#pwassist_invalid_auth_mode#:#Der angegebene Nutzer wird nicht direkt am ILIAS System authentifiziert. Eine Zusendung des Kennworts ist daher nicht möglich.
+pwassist#:#pwassist_invalid_auth_mode#:#Der angegebene Nutzer wird nicht direkt am ILIAS-System authentifiziert. Eine Zusendung des Kennworts ist daher nicht möglich.
 pwassist#:#pwassist_invalid_email#:#Bitte korrigieren Sie den Wert im Eingabefeld.\nDie E-Mail-Adresse, die Sie eingegeben haben, ist in der Datenbank nicht vorhanden.
 pwassist#:#pwassist_invalid_username_or_email#:#Bitte korrigieren Sie die Werte in den Eingabefeldern.\nDer Benutzername und die E-Mail-Adresse, die Sie eingegeben haben, sind auf der Datenbank nicht vorhanden.
 pwassist#:#pwassist_login_not_match#:#Bitte geben Sie einen anderen Benutzernamen ein.\nDer Benutzername, den Sie eingegeben haben, stimmt nicht mit dem Benutzernamen überein, für den Sie Passwort-Unterstützung angefordert hatten.
-pwassist#:#pwassist_mail_body#:#Registrieren Sie ein neues Passwort für Ihr Benutzerkonto:\n\t%1$s\n\nDiese Nachricht ist automatisch von folgendem ILIAS Server generiert worden:\n\t%2$s\n\nSie (oder jemand mit der Adresse %3$s) hat Passwort-Unterstützung für den Benutzernamen "%4$s" angefordert.\n\nBitte prüfen Sie sorgfältig die nachfolgend aufgeführten Fälle, und handeln Sie wie vorgeschlagen:\n\n-Sie haben die Passwort-Unterstützung auf dem Server versehentlich benutzt:\nLöschen Sie dieses E-Mail.\n\n-Sie sind sicher, dass Sie nie Passwort-Unterstützung für den angegebenen ILIAS Server angefordert haben:\nBitte nehmen Sie mit %5$s Kontakt auf.\n\n- Sie haben um Passwort-Unterstützung angefragt.\nBitte gehen Sie wie folgt vor:\n\n1. Starten Sie Ihren Browser.\n\n2. Geben Sie folgende Adresse in Ihrem Browser ein:\n\t%6$s\n\nWichtig: Die Adresse besteht aus einer einzigen Zeile. Wenn Sie die Adresse aufgetrennt in mehrere Zeilen sehen, dann hat Ihr E-Mail Programm diese Zeilenumbrüche eingefügt.\n\n3. Ihr Browser zeigt nun eine Seite an, mit der Sie ein neues Passwort an das Benutzerkonto zuweisen können.\n\nBitte beachen Sie:\nAus Sicherheitsgründen können Sie diese drei Schritte nur exakt einmal und innerhalb einer begrenzten Zeit ausführen. Danach wird die Adresse ungültig, und Sie müssen die Passwort-Unterstützung auf dem ILIAS Server erneut anfordern.
+pwassist#:#pwassist_mail_body#:#Registrieren Sie ein neues Passwort für Ihr Benutzerkonto:\n\t%1$s\n\nDiese Nachricht ist automatisch von folgendem ILIAS-Server generiert worden:\n\t%2$s\n\nSie (oder jemand mit der Adresse %3$s) hat Passwort-Unterstützung für den Benutzernamen "%4$s" angefordert.\n\nBitte prüfen Sie sorgfältig die nachfolgend aufgeführten Fälle, und handeln Sie wie vorgeschlagen:\n\n-Sie haben die Passwort-Unterstützung auf dem Server versehentlich benutzt:\nLöschen Sie dieses E-Mail.\n\n-Sie sind sicher, dass Sie nie Passwort-Unterstützung für den angegebenen ILIAS-Server angefordert haben:\nBitte nehmen Sie mit %5$s Kontakt auf.\n\n- Sie haben um Passwort-Unterstützung angefragt.\nBitte gehen Sie wie folgt vor:\n\n1. Starten Sie Ihren Browser.\n\n2. Geben Sie folgende Adresse in Ihrem Browser ein:\n\t%6$s\n\nWichtig: Die Adresse besteht aus einer einzigen Zeile. Wenn Sie die Adresse aufgetrennt in mehrere Zeilen sehen, dann hat Ihr E-Mail Programm diese Zeilenumbrüche eingefügt.\n\n3. Ihr Browser zeigt nun eine Seite an, mit der Sie ein neues Passwort an das Benutzerkonto zuweisen können.\n\nBitte beachen Sie:\nAus Sicherheitsgründen können Sie diese drei Schritte nur exakt einmal und innerhalb einer begrenzten Zeit ausführen. Danach wird die Adresse ungültig, und Sie müssen die Passwort-Unterstützung auf dem ILIAS-Server erneut anfordern.
 pwassist#:#pwassist_mail_sent#:#ILIAS hat eine E-Mail an die Adresse %1$s versandt.\nWeitere Anweisungen finden Sie in diesem Mail.
-pwassist#:#pwassist_mail_subject#:#ILIAS Passwort-Unterstützung
+pwassist#:#pwassist_mail_subject#:#ILIAS-Passwort-Unterstützung
 pwassist#:#pwassist_no_email_found#:#Leider kann die Passwortunterstützung nicht genutzt werden, da für das angegebene Benutzerkonto keine E-Mail Adresse hinterlegt ist.
 pwassist#:#pwassist_not_permitted#:#Bitte geben Sie einen anderen Benutzernamen ein.\nPasswort-Unterstützung ist für den angegebenen Benutzer nicht erlaubt.
 pwassist#:#pwassist_password_assigned#:#Das Passwort ist erfolgreich dem Benutzernamen %1$s zugewiesen worden.
 pwassist#:#pwassist_session_expired#:#Bitte füllen Sie das Formular erneut aus.\nDie Zeit für die Durchführung der Passwort-Unterstützung ist abgelaufen. Dies kann passiert sein, weil Sie versucht haben, die Adresse, die Ihnen per E-Mail zugesandt wurde, mehr als einmal zu verwenden, oder weil zu viel Zeit verstrichen ist, seit die Adresse zu Ihnen gesandt wurde.
 pwassist#:#pwassist_update_error#:#Bitte benachrichtigen Sie den System Administrator.\nDas Passwort konnte aufgrund eines Datenbank Fehlers nicht zugewiesen werden.
-pwassist#:#pwassist_username_mail_body#:#Dies sind die aktiven Benutzernamen, die ILIAS für die E-Mail-Adresse verfügbar hat:\n%s\n\nDiese Nachricht ist automatisch von folgendem ILIAS Server generiert worden:\n\t%s\n\nSie (oder jemand mit der Adresse %s) hat die Benutzernamenauflistung für die Emailadresse '%s' angefordert.\n\nBitte prüfen Sie sorgfältig die nachfolgend aufgeführten Fälle, und handeln Sie wie vorgeschlagen:\n\n-Sie haben die Benutzernamen-Unterstützung auf dem Server versehentlich benutzt:\nLöschen Sie dieses E-Mail.\n\n-Sie sind sicher, dass Sie nie Benutzernamen-Unterstützung für den angegebenen ILIAS Server angefordert haben:\nBitte nehmen Sie mit %s Kontakt auf.\n\n- Sie haben um Benutzernamen-Unterstützung angefragt.\nBitte gehen Sie wie folgt vor:\n\n1. Starten Sie Ihren Browser.\n\n2. Geben Sie folgende Adresse in Ihrem Browser ein:\n\t%s\n\nWichtig: Die Adresse besteht aus einer einzigen Zeile. Wenn Sie die Adresse aufgetrennt in mehrere Zeilen sehen, dann hat Ihr E-Mail-Programm diese Zeilenumbrüche eingefügt.\n\n3. Ihr Browser zeigt nun die Passwort-Unterstützungs-Seite an. Verwenden Sie diese Funktion, um sich zu einer Kombination aus Benutzernamen und Email ein neues Passwort schicken zu lassen.
+pwassist#:#pwassist_username_mail_body#:#Dies sind die aktiven Benutzernamen, die ILIAS für die E-Mail-Adresse verfügbar hat:\n%s\n\nDiese Nachricht ist automatisch von folgendem ILIAS-Server generiert worden:\n\t%s\n\nSie (oder jemand mit der Adresse %s) hat die Benutzernamenauflistung für die Emailadresse '%s' angefordert.\n\nBitte prüfen Sie sorgfältig die nachfolgend aufgeführten Fälle, und handeln Sie wie vorgeschlagen:\n\n-Sie haben die Benutzernamen-Unterstützung auf dem Server versehentlich benutzt:\nLöschen Sie dieses E-Mail.\n\n-Sie sind sicher, dass Sie nie Benutzernamen-Unterstützung für den angegebenen ILIAS-Server angefordert haben:\nBitte nehmen Sie mit %s Kontakt auf.\n\n- Sie haben um Benutzernamen-Unterstützung angefragt.\nBitte gehen Sie wie folgt vor:\n\n1. Starten Sie Ihren Browser.\n\n2. Geben Sie folgende Adresse in Ihrem Browser ein:\n\t%s\n\nWichtig: Die Adresse besteht aus einer einzigen Zeile. Wenn Sie die Adresse aufgetrennt in mehrere Zeilen sehen, dann hat Ihr E-Mail-Programm diese Zeilenumbrüche eingefügt.\n\n3. Ihr Browser zeigt nun die Passwort-Unterstützungs-Seite an. Verwenden Sie diese Funktion, um sich zu einer Kombination aus Benutzernamen und Email ein neues Passwort schicken zu lassen.
 rating#:#rating_average_rating#:#Durchschnittliche Bewertung
 rating#:#rating_nr_users#:#%s Benutzer
 rating#:#rating_your_rating#:#Ihre Bewertung
@@ -8280,7 +8280,7 @@ registration#:#auth_radius_name#:#Name der RADIUS Konfiguration
 registration#:#auth_radius_name_desc#:#Bitte wählen Sie einen Namen für diese Server-Konfiguration
 registration#:#auth_radius_role_select#:#Rolle:
 registration#:#auth_radius_sync#:#Benutzer-Synchronisierung
-registration#:#auth_radius_sync_info#:#Wenn aktiviert, wird automatisch ein ILIAS Benutzerkonto für Anwender angelegt, wenn sich diese erfolgreich gegen RADIUS authentifiziert haben, bisher aber noch nicht über einen ILIAS-Account verfügen.
+registration#:#auth_radius_sync_info#:#Wenn aktiviert, wird automatisch ein ILIAS-Benutzerkonto für Anwender angelegt, wenn sich diese erfolgreich gegen RADIUS authentifiziert haben, bisher aber noch nicht über einen ILIAS-Account verfügen.
 registration#:#reg_access_limitation_limited_time#:#Zugang ab Anmeldedatum für
 registration#:#reg_access_limitation_limited_until#:#Zugang ist befristet bis zum
 registration#:#reg_access_limitation_missing_mode#:#Bitte für alle Rollen die Art der Zugangsbefristung auswählen
@@ -8480,22 +8480,22 @@ shib#:#shib_choose_role#:#Rolle übernehmen
 shib#:#shib_confirm_del_role_ass#:#Sind Sie sicher, dass Sie die folgenden Zuordnungen löschen möchten?
 shib#:#shib_deleted_rule#:#Die Zuordnungsregeln wurden gelöscht.
 shib#:#shib_global_role#:#Globale Rolle
-shib#:#shib_ilias_role#:#ILIAS Rollenname
+shib#:#shib_ilias_role#:#ILIAS-Rollenname
 shib#:#shib_local_role#:#Lokale Rolle
 shib#:#shib_missing_attr_name#:#Bitte geben Sie den Namen des Attributes ein.
 shib#:#shib_missing_attr_value#:#Bitte geben Sie den Wert des Attributes ein.
 shib#:#shib_missing_plugin_id#:#Bitte geben Sie eine eindeutige Plugin-Id ein.
-shib#:#shib_missing_role#:#Bitte wählen Sie eine ILIAS Rolle aus.
+shib#:#shib_missing_role#:#Bitte wählen Sie eine ILIAS-Rolle aus.
 shib#:#shib_new_rule#:#Neue Regel anlegen
 shib#:#shib_plugin#:#Zuordnung durch Plugin
 shib#:#shib_plugin_id#:#Plugin-Id
 shib#:#shib_plugin_info#:#Falls die Zuordnung nicht mit einer einfachen Überprüfung (Attributname/-wert) erfolgen kann, können Sie die Zuordnung alternativ über ein Plugin regeln.
 shib#:#shib_remove_deprecated#:#Unberechtigte Rollen entfernen
-shib#:#shib_role_ass_table#:#Neue Regel für die ILIAS Rollenzuordnung
+shib#:#shib_role_ass_table#:#Neue Regel für die ILIAS-Rollenzuordnung
 shib#:#shib_role_assignment#:#Rollenzuordnungen
 shib#:#shib_role_by_attribute#:#Benutzerattribut
 shib#:#shib_role_by_plugin#:#Durch Plugin
-shib#:#shib_role_name#:#ILIAS Rollenname
+shib#:#shib_role_name#:#ILIAS-Rollenname
 shib#:#shib_role_name_info#:#Bitte wählen Sie entweder eine globale Rolle aus oder geben Sie den Namen einer lokalen Rolle ein.
 shib#:#shib_role_selection#:#Rollenauswahl
 shib#:#shib_rule_condition#:#Bedingung
@@ -8747,14 +8747,14 @@ survey#:#adm_special_users#:#Spezielle Benutzer, die Umfragen mehrfach durchfüh
 survey#:#already_completed_survey#:#Sie haben die Umfrage bereits durchgeführt! Eine Umfrage kann kein zweites Mal durchgeführt werden.
 survey#:#anonymization#:#Anonymisierung
 survey#:#anonymize_anonymous_introduction#:#Diese Umfrage anonymisiert alle persönlichen Informationen. Um Ihnen Zugang zu dieser Umfrage gewähren zu können, müssen Sie einen 5stelligen Zugangsschlüssel verwenden, den Sie von der verantwortlichen Person für diese Umfrage erhalten.<br />Bitte geben Sie diesen Zugangsschlüssel in das untere Textfeld ein.
-survey#:#anonymize_key_introduction#:#In dieser Umfrage werden alle Daten anonymisiert. Um Ihnen einen Zugang zur Umfrage zu gewähren, wurde vom System ein 5stelliger Schlüssel generiert, der Ihnen nach der Beantwortung der ersten Frage auch in Ihren ILIAS Posteingang gesendet wird. Ihr Zugangsschlüssel lautet:<br /><span class="bold">%s</span><br />Bitte tragen Sie diesen Schlüssel im folgenden Textfeld ein, damit Sie an der Umfrage teilnehmen können.
+survey#:#anonymize_key_introduction#:#In dieser Umfrage werden alle Daten anonymisiert. Um Ihnen einen Zugang zur Umfrage zu gewähren, wurde vom System ein 5stelliger Schlüssel generiert, der Ihnen nach der Beantwortung der ersten Frage auch in Ihren ILIAS-Posteingang gesendet wird. Ihr Zugangsschlüssel lautet:<br /><span class="bold">%s</span><br />Bitte tragen Sie diesen Schlüssel im folgenden Textfeld ein, damit Sie an der Umfrage teilnehmen können.
 survey#:#anonymize_personalized#:#Personalisierte Umfrage
 survey#:#anonymize_registered_user#:#Anonymisierter Zugang
-survey#:#anonymize_resume_introduction#:#Bitte geben Sie Ihren Zugangsschlüssel für die Umfrage ein, um die Umfrage wieder aufnehmen zu können. Der Zugangsschlüssel wurde Ihnen in Ihren ILIAS Posteingang gesendet, nachdem Sie die Umfrage begonnen haben.
+survey#:#anonymize_resume_introduction#:#Bitte geben Sie Ihren Zugangsschlüssel für die Umfrage ein, um die Umfrage wieder aufnehmen zu können. Der Zugangsschlüssel wurde Ihnen in Ihren ILIAS-Posteingang gesendet, nachdem Sie die Umfrage begonnen haben.
 survey#:#anonymize_survey_description#:#Die Anonymisierung entfernt alle persönlichen Daten aus der Umfragenstatistik. Ein Zugangsschlüssel ist eine fünfstellige Kennung, die benötigt wird, an einer anoymisierten Umfrage teilzunehmen. Für registrierte ILIAS-Nutzer entfällt diese Eingabe, da der Zugangsschlüssel automatisch generiert wird.
 survey#:#anonymize_with_code#:#Zugriff über einen Zugangsschlüssel
 survey#:#anonymize_without_code#:#Freier Zugriff
-survey#:#anonymous_with_personalized_survey#:#Sie müssen im ILIAS System angemeldet sein, um eine personalisierte Umfrage ausführen zu dürfen!
+survey#:#anonymous_with_personalized_survey#:#Sie müssen im ILIAS-System angemeldet sein, um eine personalisierte Umfrage ausführen zu dürfen!
 survey#:#answer#:#Antwort
 survey#:#apply#:#Übernehmen
 survey#:#arithmetic_mean#:#Arithmetisches Mittel
