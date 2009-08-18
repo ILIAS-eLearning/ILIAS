@@ -30,7 +30,7 @@
 // The language file starts beyond the HTML-comment below. DO NOT modify this line!
 // To edit your language file with a spreadsheet (i.e. Excel or StarCalc) remove all lines
 // from the first line to the HTML-comment. After editing paste the lines in place again.
-// NOTICE: Character coding of all ILIAS 4 lang files is UTF-8! Please set your editor
+// NOTICE: Character coding of all ILIAS lang files is UTF-8! Please set your editor
 // to the corresponding mode!
 <!-- language file start -->
 3rd_party_software#:#Drittanbieter-Programme
@@ -134,8 +134,8 @@ enabled#:#eingeschaltet
 enter_dir_and_filename#:#Bitte den gesamten (absoluten) Pfad und den Dateinamen angeben!
 enter_password#:#Bitte geben Sie das Passwort ein
 env_ok#:#Ok. Hört sich gut an.
-env_using#:#ILIAS 4 wird betrieben auf
-env_warning#:#ILIAS 4 wurde auf Linux und Windows jeweils mit dem Apache-Webserver getestet!<br/>Möglicherweise läuft die Software auch in dieser Softwareumgebung.
+env_using#:#ILIAS wird betrieben auf
+env_warning#:#ILIAS wurde auf Linux und Windows jeweils mit dem Apache-Webserver getestet!<br/>Möglicherweise läuft die Software auch in dieser Softwareumgebung.
 environment#:#Softwareumgebung
 err_create_database_failed#:#Datenbank konnte nicht erstellt werden
 err_wrong_login#:#Login ungültig
@@ -196,12 +196,12 @@ ini_no_db_host#:#Keinen Host angegeben
 ini_no_db_name#:#Keine Datenbanknamen angegeben
 ini_no_db_user#:#Geben Sie einen Datenbankbenutzer an
 inifile#:#ini-Datei
-inifile_can_write#:#ILIAS 4 setup kann eine neue ini-Datei erzeugen.
+inifile_can_write#:#ILIAS setup kann eine neue ini-Datei erzeugen.
 inifile_cannot_write#:#Die Setup-Routine konnte die ini-Datei nicht erzeugen! Bitte überprüfen Sie die Schreibrechte in Ihrem Dateisystem.
 inifile_content#:#Ihre ini-Datei hat folgenden Inhalt:
 inifile_exists#:#Es exisitiert bereits eine ini-Datei! Wenn Sie fortfahren, wird die bestehende Datei überschrieben.
 inifile_fill_all#:#Bitte füllen Sie alle Felder aus.
-inifile_firsttime#:#Keine ini-Datei vorhanden! Offensichtlich ist das eine Neu-Installation von ILIAS 4.
+inifile_firsttime#:#Keine ini-Datei vorhanden! Offensichtlich ist das eine Neu-Installation von ILIAS.
 inifile_written#:#Die ini-Datei wurde erfolgreich auf Ihrem Server angelegt.
 input_error#:#Eingabefehler
 inst_identification#:#Eindeutige Kennung der Installation
@@ -211,7 +211,7 @@ installation#:#Installation
 installed#:#installiert
 installed_local#:#Installed With Local###13 Apr 2005 new variable
 institution#:#Institution
-intro_install#:#Das ist das Hauptmenü von ILIAS 4 Setup. Hier können Sie Schritt für Schritt die Installation von ILIAS 4 durchführen.
+intro_install#:#Das ist das Hauptmenü von ILIAS Setup. Hier können Sie Schritt für Schritt die Installation von ILIAS durchführen.
 ip_address#:#IP-Adresse
 java_path#:#Java-Befehlszeile
 java_path_comment#:#Wird benötigt, um SCORM-Lernmodule anzuzeigen
@@ -328,21 +328,21 @@ pathes#:#Pfade
 phone#:#Telefon
 port#:#Port
 position#:#Position
-pre_cookies_disabled#:#Cookies sind nicht aktiviert. Sie benötigen Cookies für den Betrieb von ILIAS 4.
+pre_cookies_disabled#:#Cookies sind nicht aktiviert. Sie benötigen Cookies für den Betrieb von ILIAS.
 pre_cookies_enabled#:#Cookies sind eingeschaltet
 pre_error#:#Ein oder mehrere Tests wurden nicht bestanden. Bitte beheben Sie die Probleme bevor Sie mit der Installation fortfahren.
-pre_folder_create#:#Neue Ordner anlegen im ILIAS 4 Verzeichnis
-pre_folder_create_error#:#Im ILIAS 4 Verzeichnis können keine Unterverzeichnisse angelegt werden. Bitte überprüfen Sie die Zugriffsrechte im Dateisystem!
-pre_folder_write#:#Schreibbares ILIAS 4 Verzeichnis
-pre_folder_write_error#:#Das ILIAS 4 Verzeichnis ist nicht schreibbar. Bitte überprüfen Sie die Zugriffsrechte im Dateisystem!
-pre_intro#:#Die Setup-Routine prüft, ob alle Vorraussetzungen für die Installation und den Betrieb von ILIAS 4 erfüllt sind.
+pre_folder_create#:#Neue Ordner anlegen im ILIAS Verzeichnis
+pre_folder_create_error#:#Im ILIAS Verzeichnis können keine Unterverzeichnisse angelegt werden. Bitte überprüfen Sie die Zugriffsrechte im Dateisystem!
+pre_folder_write#:#Schreibbares ILIAS Verzeichnis
+pre_folder_write_error#:#Das ILIAS Verzeichnis ist nicht schreibbar. Bitte überprüfen Sie die Zugriffsrechte im Dateisystem!
+pre_intro#:#Die Setup-Routine prüft, ob alle Vorraussetzungen für die Installation und den Betrieb von ILIAS erfüllt sind.
 pre_javascript_comment#:#Sie können ILIAS auch ohne Javascript nutzen. Allerdings sind einige Komfortfunktion in der Bedienung deaktiviert.
 pre_javascript_enabled#:#Javascript ist eingeschaltet
 pre_php_version#:#PHP-Version
-pre_php_version_3#:#Ihre PHP-Version ist hoffnungslos veraltet und nicht geeignet für den Betrieb von ILIAS 4.
+pre_php_version_3#:#Ihre PHP-Version ist hoffnungslos veraltet und nicht geeignet für den Betrieb von ILIAS.
 pre_php_version_4.1#:#Einige PEAR Module arbeiten nicht vernünftig unter dieser PHP-Version.
 pre_php_version_4.2#:#Die DOMXML und XSLT Unterstüzung arbeiten nicht vernünftig unter dieser PHP-Version.
-pre_php_version_5#:#ILIAS 4 wurde noch nicht getestet mit PHP 5. Benutzung also auf eigene Gefahr.
+pre_php_version_5#:#ILIAS wurde noch nicht getestet mit PHP 5. Benutzung also auf eigene Gefahr.
 pre_php_version_unknown#:#Unbekannte PHP-Version. Benutzung auf eigene Gefahr.
 preliminaries#:#Systemvoraussetzungen
 prev#:#Zurück
@@ -395,8 +395,8 @@ setup_process_step_finish#:#Installation abschliessen
 setup_process_step_ini#:#Basisverzeichnisse erzeugen
 setup_process_step_lang#:#Systemsprachen installieren
 setup_process_step_nic#:#ILIAS-NIC Registrierung
-setup_ready#:#Setup wurde erfolgreich beendet. Sie können sich nun in ILIAS 4 einloggen.
-setup_welcome#:#Willkommen zum Installationsprogramm für ILIAS 4. Diese Setup-Routine hilft Ihnen bei der
+setup_ready#:#Setup wurde erfolgreich beendet. Sie können sich nun in ILIAS einloggen.
+setup_welcome#:#Willkommen zum Installationsprogramm für ILIAS. Diese Setup-Routine hilft Ihnen bei der
 sophos#:#Sophos
 sort_by_this_column#:#Nach dieser Spalte sortieren
 status#:#Status
