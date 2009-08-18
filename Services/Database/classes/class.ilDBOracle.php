@@ -239,10 +239,8 @@ class ilDBOracle extends ilDB
 	 * @param int $a_start_pos [optional]
 	 * @return 
 	 */
-	public function locate($a_needle,$a_string,$a_start_pos = 0)
+	public function locate($a_needle,$a_string,$a_start_pos = 1)
 	{
-		$a_start_pos = $a_start_pos ? $a_start_pos : 1;
-		
 		$locate = ' INSTR( ';
 		$locate .= ('SUBSTR('.$a_string.',0,'.self::CLOB_BUFFER_SIZE.')');
 		$locate .= ',';
