@@ -211,7 +211,6 @@ assessment#:#all_available_question_pools#:#Alle vorhandenen Fragenpools
 assessment#:#allowedextensions#:#Erlaubte Dateierweiterungen
 assessment#:#allowedextensions_info#:#Geben Sie eine kommagetrennte Liste der erlaubten Dateierweiterungen an, wenn Sie das Hochladen auf bestimmte Dateitypen einschränken wollen (z.B. doc,xls,odt).
 assessment#:#allow_images#:#Grafikunterstützung für Antworten		 
-assessment#:#all_available_question_pools#:#Alle vorhandenen Fragenpools		 
 assessment#:#analyze_errortext#:#Fehlertext analysieren		 
 assessment#:#answer#:#Antwort
 assessment#:#answers_multiline#:#Mehrzeilige Antworten		 
@@ -9530,7 +9529,8 @@ wiki#:#wiki_what_links_to_page#:#Was verlinkt auf die Seite "%s"?
 wiki#:#wiki_wiki_page#:#Wiki-Seite
 wiki#:#wiki_wiki_search#:#Suche in Wiki
 mail#:#mail_incoming_mail#:#Nachrichten Empfang
-mail#:#mail_settings_incoming_type_see_also#:#Eine weitere Möglichkeit die Empfangsart für die Anwender/-innenfinden zu ändern haben Sie <a href="%s">hier</a>.common#:#download_with_uploaded_filename#:#Download with uploaded filename###18 08 2009 new variable
+mail#:#mail_settings_incoming_type_see_also#:#Eine weitere Möglichkeit die Empfangsart für die Anwender/-innenfinden zu ändern haben Sie <a href="%s">hier</a>.
+common#:#download_with_uploaded_filename#:#Download with uploaded filename###18 08 2009 new variable
 common#:#download_with_uploaded_filename_info#:#Select this option exclusively for backwards compatibility with ILIAS 3.9 and older versions: When this option is selected, the filename of a downloaded file is equal to the filename that was used for uploading the file into ILIAS. If this option is not selected, the filename of a downloaded file is equal to the title of the file object in ILIAS. This option does not affect WebDAV. For WebDAV the filename of a downloaded file is always equal to the title of the file object.###18 08 2009 new variable
 form#:#form_msg_wrong_date#:#Wrong date. Please enter a valid date.###18 08 2009 new variable
 form#:#form_msg_wrong_date_format#:#Wrong date format. Please enter the date as "%s"!###18 08 2009 new variable
