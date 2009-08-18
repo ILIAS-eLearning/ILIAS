@@ -51,13 +51,16 @@ class ilTrashTableGUI extends ilTable2GUI
 	*/
 	protected function fillRow($a_set)
 	{
-		global $lng;
+		global $lng, $objDefinition;
 		
-		$img = ilUtil::getImagePath("icon_".$a_set["type"].".gif");
+		$img = ilObject::_getIcon($obj_id, "small", $a_set["type"]);
 		if (is_file($img))
 		{
-			$this->tpl->setVariable("IMG_TYPE", ilUtil::img($img,
-				$lng->txt("icon")." ".$lng->txt("obj_".$a_set["type"])));
+			$alt = ($objDefinition->isPlugin($a_set["type"]))
+				? $lng->txt("icon")." ".ilPlugin::lookupTxt("rep_robj", $a_set["type"], "obj_".$a_set["type"])
+				: $lng->txt("icon")." ".$lng->txt("obj_".$a_set["type"]);
+
+			$this->tpl->setVariable("IMG_TYPE", ilUtil::img($img, $alt));
 		}
 		$this->tpl->setVariable("ID", $a_set["ref_id"]);
 		$this->tpl->setVariable("VAL_TITLE", $a_set["title"]);

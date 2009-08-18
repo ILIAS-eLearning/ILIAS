@@ -29,7 +29,7 @@ class ilRepUtilGUI
 	*/
 	function showDeleteConfirmation($a_ids, $a_supress_message = false)
 	{
-		global $lng, $ilSetting, $ilCtrl, $tpl;
+		global $lng, $ilSetting, $ilCtrl, $tpl, $objDefinition;
 
 		if (!is_array($a_ids) || count($a_ids) == 0)
 		{
@@ -60,8 +60,12 @@ class ilRepUtilGUI
 			$obj_id = ilObject::_lookupObjId($ref_id);
 			$title = ilObject::_lookupTitle($obj_id);
 			$type = ilObject::_lookupType($obj_id);
-			$cgui->addItem("id[]", $ref_id, $title, ilUtil::getImagePath("icon_".$type.".gif"),
-				$lng->txt("icon")." ".$lng->txt("obj_".$type));
+			$alt = ($objDefinition->isPlugin($type))
+				? $lng->txt("icon")." ".ilPlugin::lookupTxt("rep_robj", $type, "obj_".$type)
+				: $lng->txt("icon")." ".$lng->txt("obj_".$type);
+			$cgui->addItem("id[]", $ref_id, $title,
+				ilObject::_getIcon($obj_id, "small", $type),
+				$alt);
 		}
 		
 		$tpl->setContent($cgui->getHTML());

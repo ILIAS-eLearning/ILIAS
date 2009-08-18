@@ -587,7 +587,7 @@ class ilObjectGUI
 	public function confirmedDeleteObject()
 	{
 		global $ilSetting, $lng;
-		
+
 		include_once("./Services/Repository/classes/class.ilRepUtilGUI.php");
 		$ru = new ilRepUtilGUI($this);
 		$ru->deleteObjects($_GET["ref_id"], $_SESSION["saved_post"]);
