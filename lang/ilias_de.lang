@@ -138,7 +138,7 @@ administration#:#options#:#Optionen
 administration#:#output_options#:#Ausgabeoptionen
 administration#:#passwd_auto_generate#:#Passwortgenerierung und -weiterleitung
 administration#:#purge_age_limit#:#Begrenze Alter
-administration#:#purge_age_limit_desc#:#Wenn dieses Feld einen Wert enthält, werden nur Objekte, die vor mehr als der angegebenen Zahl Tagen gelöscht worden sind,  aus dem System entfernt.
+administration#:#purge_age_limit_desc#:#Wenn dieses Feld einen Wert enthält, werden nur Objekte, die vor mehr als der angegebenen Zahl Tagen gelöscht worden sind, aus dem System entfernt.
 administration#:#purge_count_limit#:#Begrenze Anzahl
 administration#:#purge_count_limit_desc#:#Wenn dieses Feld einen Wert enthält, wird höchstens die angegebene Anzahl Objekte aus dem System entfernt.
 administration#:#purge_missing#:#Entferne fehlende Objekte
@@ -202,9 +202,9 @@ assessment#:#add_circle#:#Kreis hinzufügen
 assessment#:#add_gap#:#Lückentext hinzufügen
 assessment#:#add_imagemap#:#Imagemap importieren
 assessment#:#add_matching_pair#:#Zuordnungspaar hinzufügen
-assessment#:#add_poly#:#Polygon hinzufügen	
+assessment#:#add_poly#:#Polygon hinzufügen
 assessment#:#add_questionpool#:#Fragenpool hinzufügen
-assessment#:#add_rect#:#Rechteck hinzufügen	
+assessment#:#add_rect#:#Rechteck hinzufügen
 assessment#:#add_solution#:#Musterlösung hinzufügen
 assessment#:#addSuggestedSolution#:#Musterlösung hinzufügen
 assessment#:#all_available_question_pools#:#Alle vorhandenen Fragenpools
@@ -213,14 +213,14 @@ assessment#:#allowedextensions_info#:#Geben Sie eine kommagetrennte Liste der er
 assessment#:#allow_images#:#Grafikunterstützung für Antworten		 
 assessment#:#analyze_errortext#:#Fehlertext analysieren		 
 assessment#:#answer#:#Antwort
-assessment#:#answers_multiline#:#Mehrzeilige Antworten		 
+assessment#:#answers_multiline#:#Mehrzeilige Antworten 
 assessment#:#answers_singleline#:#Einzeilige Antworten
 assessment#:#answer_is_not_correct_but_positive#:#Sie haben Punkte für Ihre Lösung erhalten, allerdings handelt es sich dabei nicht um die beste Lösung
 assessment#:#answer_is_right#:#Ihre Lösung ist korrekt
 assessment#:#answer_is_wrong#:#Ihre Lösung ist falsch
 assessment#:#answer_picture#:#Antwort-Bild
 assessment#:#answer_text#:#Antwort-Text
-assessment#:#answer_types#:#Antwort-Typen	
+assessment#:#answer_types#:#Antwort-Typen
 assessment#:#applet_attributes#:#Applet-Attribute
 assessment#:#applet_new_parameter#:#Neuer Parameter
 assessment#:#applet_parameter#:#Parameter
@@ -371,8 +371,8 @@ assessment#:#error_open_image_file#:#Fehler beim Öffnen einer Bilddatei!
 assessment#:#error_open_java_file#:#Fehler beim Öffnen eines Java-Applets!
 assessment#:#error_random_question_generation#:#Bei der Erzeugung von Zufallsfragen ist ein unbekannter Fehler aufgetreten. Bitte kontaktieren Sie Ihren ILIAS-Administrator und geben Sie die folgende Information weiter: Das ILIAS-System konnte keine Aktivitäts-ID für die Benutzer-ID %s und die Test-ID %s erzeugen.
 assessment#:#error_save_image_file#:#Fehler beim Speichern einer Bilddatei!
-assessment#:#errors_section#:#Fehlerdaten		 
-assessment#:#errortext#:#Fehlertext		 
+assessment#:#errors_section#:#Fehlerdaten 
+assessment#:#errortext#:#Fehlertext 
 assessment#:#errortext_info#:#Bitte geben Sie einen Fehlertext ein. Um ein Wort als fehlerhaft zu markieren, setzen Sie bitte eine Raute (#) direkt vor das gewünschte Wort. Wenn Sie auf die Schaltfläche &quot;Fehlertext analysieren&quot; klicken, werden die markierten Wörter für die weitere Bearbeitung extrahiert.
 assessment#:#eval_all_users#:#Auswertung für alle NutzerInnen
 assessment#:#eval_choice_result#:#Die Auswahl mit dem Wert %s ist %s. Sie erreichten %s Punkte.
@@ -517,11 +517,11 @@ assessment#:#maxsize#:#Maximale Dateigröße
 assessment#:#maxsize_info#:#Geben Sie die maximale Größe in Bytes an, die eine hochgeladene Datei haben darf. Wenn Sie das Feld leer lassen, wird die Einstellung des zugrunde liegenden Systems verwendet.
 assessment#:#meaning#:#Bedeutung
 assessment#:#min_percentage_ne_0#:#Sie müssen einen minimalen Prozentsatz von 0 Prozent festlegen, damit alle erreichten Punktezahlen berücksichtigt werden können. Das Notenschema wurde nicht gespeichert!
-assessment#:#msg_circle_added#:#Kreis hinzugefügt		 
-assessment#:#msg_deleted_export_files#:#Exportdatei(en) gelöscht		 
-assessment#:#msg_poly_added#:#Polygon hinzugefügt		 
-assessment#:#msg_question_count_too_low#:#Die Anzahl der Fragen muss größer als 0 sein		 
-assessment#:#msg_rect_added#:#Rechteck hinzugefügt		 
+assessment#:#msg_circle_added#:#Kreis hinzugefügt 
+assessment#:#msg_deleted_export_files#:#Exportdatei(en) gelöscht 
+assessment#:#msg_poly_added#:#Polygon hinzugefügt 
+assessment#:#msg_question_count_too_low#:#Die Anzahl der Fragen muss größer als 0 sein 
+assessment#:#msg_rect_added#:#Rechteck hinzugefügt 
 assessment#:#msg_total_questions_too_high#:#Die Anzahl der Fragen überschreitet die maximal verfügbare Anzahl der Fragen in den ausgewählten Fragenpools
 assessment#:#multiline_answers_hide#:#Einzeilige Antworten verwenden
 assessment#:#multiline_answers_show#:#Mehrzeilige Antworten verwenden
@@ -574,7 +574,7 @@ assessment#:#points#:#Punkte
 assessment#:#points_checked#:#Punkte (ausgewählt)
 assessment#:#points_short#:#Pt.
 assessment#:#points_unchecked#:#Punkte (nicht ausgewählt)
-assessment#:#points_wrong#:#Falsche Selektionen		 
+assessment#:#points_wrong#:#Falsche Selektionen 
 assessment#:#points_wrong_info#:#Geben Sie Punkte für die Auswahl von Wörtern an, die nicht in der Liste der markierten Fehler enthalten sind.
 assessment#:#polygon#:#Polygonzug
 assessment#:#polygon_click_next_or_save#:#Bitte klicken Sie auf den nächsten Punkt im Polygonzug oder speichern Sie die Region. (Es ist nicht nötig, noch einmal auf den Startpunkt zu klicken, um den Polygonzug zu schließen!)
@@ -590,7 +590,7 @@ assessment#:#qpl_assessment_no_assessment_of_questions#:#Für die ausgewählte F
 assessment#:#qpl_assessment_of_questions#:#Statistische Auswertung der Frage
 assessment#:#qpl_assessment_total_of_answers#:#Gesamtzahl der Antworten
 assessment#:#qpl_assessment_total_of_right_answers#:#Gesamtprozentsatz der richtigen Antworten
-assessment#:#qpl_browsercolumns#:#Individuelle Fragenliste		 
+assessment#:#qpl_browsercolumns#:#Individuelle Fragenliste 
 assessment#:#qpl_browsercolumns_description#:#Wählen Sie die Datenspalten aus, die in der Fragenliste des Fragenpools angezeigt werden sollen. Diese Einstellung wirkt sich auf alle bestehenden Fragenpools aus.
 assessment#:#qpl_confirm_delete_questions#:#Sind Sie sicher, dass Sie die folgende(n) Frage(n) löschen wollen?
 assessment#:#qpl_copy_insert_clipboard#:#Die ausgewählte(n) Frage(n) wurden in die Zwischenablage kopiert
@@ -786,7 +786,7 @@ assessment#:#tst_finish_confirm_list_of_answers_button#:#Nein, zurück zur Liste
 assessment#:#tst_finish_confirmation_question#:#Sie sind dabei, diesen Test zu beenden und die maximale Anzahl erlaubter Testdurchläufe zu erreichen. Danach werden Sie nicht mehr in der Lage sein, den Test erneut aufzurufen, um Ihre Antworten zu ändern. Wollen Sie den Test wirklich beenden?
 assessment#:#tst_finish_notification#:#E-Mail beim Beenden
 assessment#:#tst_finish_notification_advanced#:#Komplettes Testergebnis an den Testersteller senden
-assessment#:#tst_finish_notification_no#:#Keine E-Mail-Benachrichtigungen versenden, wenn ein Teilnehmer den Test beendet hat		 
+assessment#:#tst_finish_notification_no#:#Keine E-Mail-Benachrichtigungen versenden, wenn ein Teilnehmer den Test beendet hat 
 assessment#:#tst_finish_notification_simple#:#Benutzername und Datum des Beendens and den Testersteller senden
 assessment#:#tst_finished#:#Beendet
 assessment#:#tst_fixed_participants_data_exists#:#Es gibt bereits Teilnehmer, die den Test begonnen haben. Sie dürfen die Einstellung für feste Teilnehmer nicht verändern!
@@ -1101,7 +1101,7 @@ barometer#:#required#:#Pflicht
 barometer#:#save#:#Speichern
 barometer#:#save_vote#:#Wertung abgeben
 barometer#:#skip#:#Überspringen
-barometer#:#statistics#:#Statististik
+barometer#:#statistics#:#Statistik
 barometer#:#status#:#Status
 barometer#:#table#:#Tabelle
 barometer#:#text#:#Text
@@ -1268,7 +1268,7 @@ chat#:#chat_access_blocked#:#Ihr Zugang zu diesen Chaträumen wurde gesperrt.
 chat#:#chat_active#:#Aktiv
 chat#:#chat_active_users#:#Weitere Benutzer (anwesend)
 chat#:#chat_add_allowed_hosts#:#Bitte geben Sie die Adresse des/der Rechner ein, die auf den Chatserver zugreifen dürfen
-chat#:#chat_add_external_ip#:#Bitte geben Sie die externe IP des Servers an.
+chat#:#chat_add_blocking#:#Benutzer sperrenchat#:#chat_add_external_ip#:#Bitte geben Sie die externe IP des Servers an.
 chat#:#chat_add_internal_ip#:#Bitte geben Sie die interne IP des Servers an.
 chat#:#chat_add_moderator_password#:#Bitte geben Sie ein Moderatorpasswort ein.
 chat#:#chat_add_port#:#Bitte geben Sie den Server-Port ein.
@@ -1298,6 +1298,7 @@ chat#:#chat_chatroom_rename#:#Chatraum bearbeiten
 chat#:#chat_chatrooms#:#Chaträume
 chat#:#chat_chatviewer#:#Chatviewer
 chat#:#chat_color#:#Schriftfarbe
+chat#:#chat_confirm_delete#:#Sind Sie sicher, dass sie diese Chaträume löschen möchten?
 chat#:#chat_confirm_delete_private_room#:#Sind Sie sicher, dass der Raum gelöscht werden soll?
 chat#:#chat_confirm_kick_user#:#Sind Sie sicher, dass der Benutzer rausgeworfen werden soll?
 chat#:#chat_confirm_user_invite#:#Der Benutzer wird in den Chat eingeladen
@@ -1314,6 +1315,12 @@ chat#:#chat_edit_smiley#:#Smiley bearbeiten
 chat#:#chat_empty#:#Leeren
 chat#:#chat_enable_autoscroll#:#aktiviere automatisches Scrollen
 chat#:#chat_enter_valid_username#:#Bitte geben Sie einen gültigen Benutzernamen ein.
+chat#:#chat_export_all#:#Jeder mit Zugang zum Chatraum 
+chat#:#chat_export_info#:#Zeigt eine Export Schaltfläche für den aktuellen Raum an. Nachrichten werden nach html exportiert. 
+chat#:#chat_export_moderator#:#Nur Moderatoren 
+chat#:#chat_export_period#:#Export Zeitraum 
+chat#:#chat_export_period_info#:#Exportiert die angegebene Anzahl von Tagen 
+chat#:#chat_export_status#:#Export Berechtigungen
 chat#:#chat_face#:#Schrifttyp
 chat#:#chat_fuchsia#:#fuchsia
 chat#:#chat_general_settings#:#Allgemeine Einstellungen
@@ -1411,6 +1418,7 @@ chat#:#chat_server_ssl_settings#:#SSL Einstellungen
 chat#:#chat_settings_saved#:#Die Einstellungen wurden gespeichert
 chat#:#chat_show_details#:#Details anzeigen
 chat#:#chat_show_smilies#:#Smilies anzeigen
+chat#:#chat_show_textformat#:#Textformat anzeigen
 chat#:#chat_silver#:#silber
 chat#:#chat_smiley_image#:#Smiley Bild
 chat#:#chat_smiley_image_only_if_changed#:#Bitte geben Sie nur ein neues Bild an, wenn Sie das vorhandene ändern wollen. Wenn kein neues Bild angegeben wird, wird das vorhandene nicht verändert.
@@ -1433,6 +1441,7 @@ chat#:#chat_status_saved#:#Der Status wurde geändert
 chat#:#chat_stop_recording#:#Aufnahme stoppen
 chat#:#chat_tahoma#:#Tahoma
 chat#:#chat_teal#:#teal
+chat#:#chat_textformat#:#Textformat
 chat#:#chat_times#:#Times
 chat#:#chat_title_missing#:#Bitte geben Sie einen Namen an.
 chat#:#chat_to_chat_body#:#Zum Chat
@@ -1519,12 +1528,17 @@ cntr#:#cntr_back_to_old_editor#:#Zurück zum alten Editor
 cntr#:#cntr_disable_multi_commands#:#Deaktiviere Multi-Commands
 cntr#:#cntr_enable_multi_commands#:#Aktiviere Multi-Commands
 cntr#:#cntr_hide_title_and_icon#:#Titel und Icon nicht anzeigen
+cntr#:#cntr_manage#:#Verwalten
 cntr#:#cntr_old_editor_open_standard_editor#:#Standard-Seiteneditor öffnen
 cntr#:#cntr_old_editor_warning#:#Dieser Editor wird aus technischen Gründen in einer der nächsten Versionen nicht mehr weiter unterstützt. Er kann noch für die Bearbeitung dieser Seite genutzt werden. Wir empfehlen aber, auf die Nutzung des Standard-Seiteneditors von ILIAS umzusteigen, wenn dies möglich ist.
+cntr#:#cntr_ordering#:#Sortierung
 cntr#:#cntr_page_actions#:#Seitenaktionen
+cntr#:#cntr_saved_sorting#:#Sortierung gespeichert
+cntr#:#cntr_switched_editor#:#Auf neue Darstellung umgestellt
 cntr#:#cntr_switch_to_new_editor_cmd#:#Zu untenstehenden Inhalten wechseln. Alte Inhalte werden gelöscht.
 cntr#:#cntr_switch_to_new_editor_message#:#Dies ist der Standard-Seiteneditor. Wenn Sie ihn nutzen möchten, müssen Sie die Inhalte per Click auf die Platzhalter unten hinzufügen. Wenn Sie auf den nachfolgenden Link klicken, werden die untenstehende Inhalte für die Seitendarstellung genutzt.
 cntr#:#cntr_switched_editor#:#Auf neue Darstellung umgestellt
+cntr#:#cntr_text_media_editor#:#Text/Media-Editor
 cntr#:#cntr_view_by_type#:#Ansicht nach Typen
 cntr#:#cntr_view_info_by_type#:#Diese Kursansicht ordnet alle Kursinhalte nach ihrem Objekttyp.
 cntr#:#cntr_view_info_sessions#:#In dieser Kursansicht werden zunächst alle Sitzungen angezeigt. Kursinhalte, die nicht Sitzungen zugeordnet sind, werden darunter aufgeführt.
@@ -1551,9 +1565,9 @@ common#:#accessRestrict#:#Beschränkten Zugriff Aktivieren
 common#:#account_expires_body#:#Ihr Benutzerzugang ist zeitlich begrenzt. Ablauftermin:
 common#:#account_expires_subject#:#[ILIAS] Benutzerzugang
 common#:#accs_edit_permission#:#Rechteeinstellungen ändern
-common#:#accs_read#:#Lesezugriff auf Einstellungen Barrierefreiheit
-common#:#accs_visible#:#Einstellungen Barrierefreiheit sichtbar
-common#:#accs_write#:#Einstellungen Barrierefreiheit bearbeiten
+common#:#accs_read#:#Lesezugriff auf Barrierefreiheitseinstellungen
+common#:#accs_visible#:#Barrierefreiheitseinstellungen sichtbar
+common#:#accs_write#:#Barrierefreiheitseinstellungen bearbeiten
 common#:#action#:#Aktion
 common#:#action_aborted#:#Aktion abgebrochen
 common#:#actions#:#Aktionen
@@ -1597,15 +1611,18 @@ common#:#adopt_perm_from_template#:#Rechteeinstellungen kopieren
 common#:#advanced_editing_allow_html_tags#:#Erlaube die ausgewählten HTML-Auszeichnungen in Textfeldern
 common#:#advanced_editing_allow_javascript_editor#:#Bearbeitung mit einem Rich-Text-Editor aktivieren
 common#:#advanced_editing_assessment_settings#:#Erlaubte HTML-Auszeichnungen für das Test&Assessment-Werkzeug
+common#:#advanced_editing_frm_post_settings#:#Einstellungen Forenbeiträge
 common#:#advanced_editing_lm_js_editing#:#Aktiviere HTMLArea-Textfelder bei der Inhaltebearbeitung
 common#:#advanced_editing_lm_js_editing_desc#:#Aktiviert HTMLArea- und JavaScript-Unterstützung für den Seiteneditor in Lernmodulen und Glossaren.
 common#:#advanced_editing_lm_settings#:#Lernmodul- und Glossar-Einstellungen
 common#:#advanced_editing_no_rte#:#Bearbeitung mit einem Rich-Text-Editor nicht erlauben
+common#:#advanced_editing_required_tags#:#Die folgenden HTML-Auszeichnungen sind für diesen Bereich zwingend notwendig: %s
 common#:#advanced_editing_settings#:#Erweiterte Bearbeitungseinstellungen
 common#:#advanced_editing_survey_settings#:#Erlaubte HTML-Auszeichnungen für das Umfrage-Werkzeug
 common#:#advanced_editing_tinymce#:#TinyMCE-Editor
 common#:#adve_assessment_settings#:#Test&Assessment-Einstellungen
 common#:#adve_edit_permission#:#Rechteeinstellungen ändern
+common#:#adve_frm_post_settings#:#Forum Posts
 common#:#adve_general_settings#:#Allgemeine Einstellungen
 common#:#adve_lm_settings#:#Lernmodul-/Glossar-Einstellungen
 common#:#adve_read#:#Zugriff auf die erweiterten Bearbeitungseinstellungen
@@ -1682,6 +1699,7 @@ common#:#assessment_log_logging#:#Protokollierung
 common#:#assessment_log_manual_scoring#:#Manuelle Bewertung
 common#:#assessment_log_manual_scoring_activate#:#Aktivieren der manuellen Bewertung für
 common#:#assessment_log_manual_scoring_desc#:#Wenn die manuelle Bewertung für einen Fragentyp aktiviert ist, können alle Fragen dieses Fragentyps vom Testautor manuell bewertet werden. Seien Sie bitte vorsichtig mit diesen Einstellungen, da das nachträgliche Ändern von Fragenergebnissen eventuell zu rechtlichen Problemen führen kann!
+common#:#assessment_log_no_data#:#Es sind keine Protokolldaten vorhanden
 common#:#assessment_log_no_log#:#Es ist keine Protokollierung für den ausgewählten Test in der angegebenen Zeitspanne vorhanden!
 common#:#assessment_log_open_calendar#:#Klicken Sie hier, um einen Kalender für die Datumauswahl zu erhalten (Nur mit JavaScript!)
 common#:#assessment_log_question#:#Frage
@@ -1738,6 +1756,7 @@ common#:#auth_ldap#:#LDAP
 common#:#auth_ldap_desc#:#Authentifizierung über einen LDAP-Server
 common#:#auth_ldap_enable#:#LDAP-Unterstützung aktivieren
 common#:#auth_ldap_migration#:#Account-Migration
+common#:#auth_ldap_migration_info#:#Aktivieren Sie diese Einstellung, um neuen Benutzern die Möglichkeit zu bieten, eventuell vorhandene ILIAS-Benutzerkonten auf LDAP-Authentifizierung umzustellen.
 common#:#auth_ldap_not_configured#:#LDAP ist noch nicht eingerichtet
 common#:#auth_ldap_settings_saved#:#LDAP-Einstellungen gespeichert
 common#:#auth_local#:#ILIAS Datenbank
@@ -1799,9 +1818,10 @@ common#:#available#:#Verfügbar
 common#:#available_languages#:#Verfügbare Sprachen
 common#:#average_time#:#Durchschnittszeit
 common#:#back#:#Zurück
-common#:#back_to_crs_content#:#Zurück zum Kursinhalt
-common#:#back_to_fold_content#:#Zurück zum Ordnerinhalt
-common#:#back_to_grp_content#:#Zurück zum Gruppeninhalt
+common#:#back_to_crs_content#:#Zurück zum Inhalt des Kurses
+common#:#back_to_fold_content#:#Zurück zum Inhalt des Ordners
+common#:#back_to_grp_content#:#Zurück zum Inhalt der Gruppe
+common#:#back_to_sess_content#:#Zurück zum Inhalt der Sitzung
 common#:#basedn#:#BaseDN
 common#:#basic_commands#:#Basisfunktionen
 common#:#basic_data#:#Grunddaten
@@ -1812,18 +1832,22 @@ common#:#benchmark_settings#:#Benchmark Einstellungen
 common#:#benchmarks#:#Benchmarks
 common#:#bib_data#:#Bibliographische Daten
 common#:#big_icon#:#Grosses Symbol
+common#:#birthday#:#Geburtstag
 common#:#bkm_import#:#Bookmarks importieren
 common#:#bkm_import_ok#:#Es wurden %d Bookmarks und %d Bookmark Ordner erfolgreich importiert.
 common#:#bkm_sendmail#:#Als Anhang versenden
 common#:#block#:#Block
 common#:#block_management#:#Blockmanagement
 common#:#bm#:#Bookmark
+common#:#bm_add_to_ilias#:#ILIAS-Bookmark 
+common#:#bm_add_to_social_bookmarks#:#Speichere als Bookmark 
+common#:#bm_manage_social_bm#:#Social-Bookmarks verwalten
 common#:#bmf#:#Bookmark-Ordner
 common#:#bold#:#Fett
 common#:#bookings#:#Bestellungen
 common#:#bookmark_added#:#Bookmark wurde angelegt!
 common#:#bookmark_edit#:#Bookmark bearbeiten
-common#:#bookmark_folder_edit#:#Bookmark Ordner bearbeiten
+common#:#bookmark_folder_edit#:#Bookmark-Ordner bearbeiten
 common#:#bookmark_folder_new#:#Neuer Bookmark-Ordner
 common#:#bookmark_new#:#Bookmark hinzufügen
 common#:#bookmark_save_to#:#Als Bookmark speichern
@@ -1917,7 +1941,7 @@ common#:#cen_edit#:#Centra-Ereignis bearbeiten
 common#:#cen_new#:#Neues Centra-Ereignis
 common#:#cen_save#:#Centra-Ereignis abspeichern
 common#:#censorship#:#Zensur
-common#:#centra_account#:#Centra Administrator Account
+common#:#centra_account#:#Centra-Administratorenaccount
 common#:#centra_rooms#:#Centra-Räume
 common#:#centra_server#:#Centra-Server
 common#:#cert_edit_permission#:#Rechteeinstellungen ändern
@@ -1977,7 +2001,7 @@ common#:#check_link#:#Externen Link überprüfen
 common#:#check_link_desc#:#Wenn eingeschaltet, werden alle ILIAS-Lerneinheiten nach ungültigen externen Links überprüft.
 common#:#check_max_allowed_packet_size#:#Der Seiteninhalt ist zu umfangreich.
 common#:#check_user_accounts#:#Benutzerzugänge überprüfen
-common#:#check_user_accounts_desc#:#Wenn Cron-jobs aktiviert sind und diese Option eingeschaltet ist, werden alle Benutzer, deren Zugang zeitlich begrenzt ist, 2 Wochen vor Ablauf darüber informiert.
+common#:#check_user_accounts_desc#:#Wenn Cron-jobs aktiviert sind und diese Option eingeschaltet ist, werden alle Benutzer, deren Zugang zeitlich begrenzt ist, zwei Wochen vor Ablauf darüber informiert. Außerdem werden alle Benutzer gelöscht, die ihren Zugang nach einer Neuanmeldung mit E-Mail-Bestätigungslink nicht fristgerecht aktiviert haben.
 common#:#check_web_resources#:#Links überprüfen
 common#:#check_web_resources_desc#:#Wenn eingeschaltet, werden alle Links nach ungültigen externen Links überprüft.
 common#:#checked#:#Ausgewählt
@@ -2229,13 +2253,29 @@ common#:#disable_anonymous_fora_desc#:#Wenn diese Option ausgewählt ist, könne
 common#:#disable_check#:#Keine Überprüfung
 common#:#disable_ext_lang_maint#:#Deaktiviere erweiterte Sprachenverwaltung
 common#:#disabled#:#Ausgeschaltet
+common#:#disk_quota#:#Disk Quota
+common#:#disk_quota_is_1_by_2#:#Die effektive Disk Quota ist %1$s aufgrund Mitgliedschaft in Rolle "%2$s". 
+common#:#disk_quota_is_1_instead_of_2_by_3#:#Die effektive Disk Quota ist %1$s wie definiert in diesem Benutzerkonto. Die Disk Quota durch Rollenzugehörigkeit wäre %2$s über Rolle "%3$s" gewesen. 
+common#:#disk_quota_is_unlimited_by_1#:#Die effektive Disk Quota ist unbegrenzt aufgrund Mitgliedschaft in Rolle "%1$s". 
+common#:#disk_quota_last_reminder_sent#:#Letzte Quota-Erinnerung zugestellt 
+common#:#disk_quota_last_reminder_sent_desc#:#Datum, an dem der Benutzer zum letzten Mal wegen Überschreitung der Disk Quota eine Erinnerungsnachricht erhalten hat. 
+common#:#disk_quota_on_role_desc#:#Die Disk Quota einer Rolle wirkt sich auf alle Benutzerkonten aus, welche dieser Rolle zugeordnet sind. 
+common#:#disk_quota_reminder_mail#:#Erinnerungsnachricht 
+common#:#disk_quota_reminder_mail_desc#:#Die Disk Quota-Erinnerungsnachricht wird an alle aktiven Benutzer versandt, die Ihre Disk Quota überschritten haben. Der Versand erfolgt einmal täglich, wenn der ILIAS-Cronjob ausgeführt wird. Benutzer, die bereits eine Erinnerungsnachricht bekommen haben, erhalten diese alle sieben Tage solange sie ihre Disk Quota überschreiten.
+common#:#disk_quota_report#:#Disk Quota-Bericht
+common#:#disk_quota_report_not_run_yet#:#Keine Disk Quota-Berichte vorhanden. Der tägliche Cronjob zur Ermittlung der Speicherverwendung muss zuerst ausgeführt werden.
 common#:#disk_space_used#:#Belegter Festplattenspeicher
-common#:#display_webdav_actions#:#WebDAV Aktionen anzeigen
+common#:#disk_usage#:#Speicherverwendung
+common#:#disk_usage_details#:#Einzelheiten zur Speicherverwendung
+common#:#display_webdav_actions#:#WebDAV-Aktionen anzeigen
 common#:#display_webdav_actions_info#:#Zeigt die Aktion 'Als Webordner öffnen' bei jeder Kategorie, Ordner, Gruppe und Kurs im Magazin an.
 common#:#domain#:#Domäne
 common#:#down#:#Runter
 common#:#download#:#Herunterladen
+common#:#downloading_settings#:#Download-Einstellungen
 common#:#download_all_returned_files#:#Alle abgegebenen Dateien herunterladen
+common#:#download_with_uploaded_filename#:#Hochgeladenen Dateinamen verwenden		 
+common#:#download_with_uploaded_filename_info#:#Wählen Sie diese Option ausschliesslich für die Rückwärtskompatibilität mit ILIAS 3.9 und älteren Versionen aus: Wenn diese Option aktiviert ist, erhalten heruntergeladene Dateien den Namen, der beim Hochladen in ILIAS verwendet worden ist. Wenn diese Option nicht ausgewählt ist, erhalten heruntergeladene Dateien den Titel des Dateiobjekts als Namen. Diese Option hat keine Auswirkung auf WebDAV. Bei WebDAV erhalten heruntergeladene Dateien IMMER den Titel des Dateiobjekts als Namen.
 common#:#drafts#:#Entwürfe
 common#:#drop#:#Entfernen
 common#:#edit#:#Bearbeiten
@@ -2261,11 +2301,14 @@ common#:#enable#:#Aktivieren
 common#:#enable_calendar#:#Kalender aktivieren
 common#:#enable_custom_icons#:#Standard-Symbole aktivieren
 common#:#enable_custom_icons_info#:#Damit können Sie eigene Symbole (Icons) für einzelne Kategorien, Kurse und Gruppen definieren. Die entsprechenden Bilddateien laden Sie in den Eigenschaften der entsprechenden Kategorien, Kurse und Gruppenie hoch.
-common#:#enable_download_folder#:#Ordner herunterladen aktivieren
-common#:#enable_download_folder_info#:#Erlaubt Ordner inklusive Unterstrukturen als ZIP-Datei herunterzuladen.
-common#:#enable_ext_lang_maint#:#Aktiviere erweiterte Sprachenverwaltung
+common#:#enable_disk_quota#:#Aktiviere Disk Quota		 
+common#:#enable_disk_quota_info#:#Erlaubt jedem Benutzerkonto und jeder globalen Rolle eine Disk Quota zu vergeben. Die Speicherplatznutzung wird einmal täglich per Cron Job ermittelt. Die Speicherplatznutzung wird im Benutzerformular im Disk Quota Bericht aufgeführt.		 
+common#:#enable_disk_quota_reminder_mail#:#Sende Disk Quota-Erinnerungsnachrichten
+common#:#enable_download_folder#:#«Ordner herunterladen» aktivieren
+common#:#enable_download_folder_info#:#Erlaubt das Herunterladen von Ordnern und ihrer Binnenstrukturen als ZIP-Datei.
+common#:#enable_ext_lang_maint#:#Aktiviere «Erweiterte Sprachenverwaltung»
 common#:#enable_fora_statistics#:#Forenstatistiken aktivieren
-common#:#enable_fora_statistics_desc#:#Wenn dies deaktiviert ist, kann niemand auf die Forenstatistiken zugreifen.
+common#:#enable_fora_statistics_desc#:#Wenn diese deaktiviert ist, kann niemand auf die Forenstatistiken zugreifen.
 common#:#enable_hist_user_comments#:#Erlaube Kommentare in Seitenchronik
 common#:#enable_hist_user_comments_desc#:#Damit können Sie Anmerkungen zu ihren Änderungen in der Seitenchronik festhalten. Wählen Sie diesen Modus, wenn mehrere Autoren an diesem Lernmodul arbeiten und über Änderungen informiert sein sollten.
 common#:#enable_js_edit#:#Aktiviere JavaScript-Editor
@@ -4598,7 +4641,7 @@ common#:#webr_item_updated#:#Die Änderungen wurden übernommen
 common#:#webr_join#:#Web-Links abonnieren
 common#:#webr_last_check#:#Letzte Überprüfung
 common#:#webr_last_check_table#:#Letzte Überprüfung:
-common#:#webr_leave#:#Abonnement der  Web-Links aufheben
+common#:#webr_leave#:#Abonnement der Web-Links aufheben
 common#:#webr_modified_items#:#Die Änderungen wurden übernommen.
 common#:#webr_never_checked#:#Noch nicht überprüft
 common#:#webr_new#:#Neue Web-Links anlegen
@@ -6630,7 +6673,7 @@ ilinc#:#ilinc_user_added#:#Benutzerkonto angelegt auf iLinc-Server
 ilinc#:#ilinc_user_id#:#iLinc UserID
 ilinc#:#ilinc_user_settings#:#iLinc Benutzerdaten
 jscalendar#:#about_calendar#:#Über den Kalender
-jscalendar#:#about_calendar_long#:#DHTML Date/Time Selector\n(c) dynarch.com 2002-2003\nFor latest version visit: http://dynarch.com/mishoo/calendar.epl\nDistributed under GNU LGPL.  See http://gnu.org/licenses/lgpl.html for details.\n\nAuswahl des Datums:\n- Verwenden Sie die «, » Schaltflächen, um das Jahr auszuwählen\n- Verwenden Sie die <, > Schaltflächen, um den Monat auszuwählen\n- Lassen Sie die Maustaste über jeder der oberen Schaltflächen gedrückt, um eine Schnellauswahl zu erhalten.
+jscalendar#:#about_calendar_long#:#DHTML Date/Time Selector\n(c) dynarch.com 2002-2003\nFor latest version visit: http://dynarch.com/mishoo/calendar.epl\nDistributed under GNU LGPL. See http://gnu.org/licenses/lgpl.html for details.\n\nAuswahl des Datums:\n- Verwenden Sie die «, » Schaltflächen, um das Jahr auszuwählen\n- Verwenden Sie die <, > Schaltflächen, um den Monat auszuwählen\n- Lassen Sie die Maustaste über jeder der oberen Schaltflächen gedrückt, um eine Schnellauswahl zu erhalten.
 jscalendar#:#about_time#:#\n\nAuswahl der Zeit:\n- Klicken Sie auf die Zeitfelder, um den Wert zu erhöhen\n- or Umschalten+Klicken, um den Wert zu erniedrigen\n- oder klicken und ziehen für eine Schnellauswahl.
 jscalendar#:#close#:#Schließen
 jscalendar#:#day_first#:#%s zuerst Anzeigen
@@ -6785,7 +6828,7 @@ ldap#:#ldap_server_name#:#Name der LDAP-Konfiguration
 ldap#:#ldap_server_name_info#:#Bitte wählen Sie einen Namen für diese Server-Konfiguration
 ldap#:#ldap_server_security_settings#:#Sicherheitseinstellungen
 ldap#:#ldap_server_short#:#Server URL:
-ldap#:#ldap_server_url_info#:#Die komplette URL für die Verbindung zum LDAP-Server. Z.B. "ldap://ldap.ilias.de:389".  Mehrere Server können mit Komma getrennt angegeben werden. Ist der erste Server nicht erreichbar, wird automatisch der nächste angefragt.
+ldap#:#ldap_server_url_info#:#Die komplette URL für die Verbindung zum LDAP-Server. Z.B. "ldap://ldap.ilias.de:389". Mehrere Server können mit Komma getrennt angegeben werden. Ist der erste Server nicht erreichbar, wird automatisch der nächste angefragt.
 ldap#:#ldap_server_version_info#:#Protokollversion des LDAP-Server (in den meisten Fällen "LDAPv3").
 ldap#:#ldap_settings#:#Server-Einstellungen
 ldap#:#ldap_sync_cron#:#Per Cron-Job
@@ -7961,7 +8004,7 @@ payment#:#payment_already_bought_but_no_access#:#Sie haben das Objekt %s bereits
 payment#:#payment_back_to_shop#:#Zurück zum Shop
 payment#:#payment_cannot_find_vat#:#Es konnte kein Steuersatz zur übergebenen ID gefunden werden.
 payment#:#payment_cannot_read_nonexisting_vat#:#Die ID zum Einlesen des Steuersatzes wurde nicht übertragen.
-payment#:#payment_cannot_save_existing_vat#:#Ein  vorhandener Steuersatz kann nicht angelegt werden.
+payment#:#payment_cannot_save_existing_vat#:#Ein vorhandener Steuersatz kann nicht angelegt werden.
 payment#:#payment_cannot_update_nonexisting_vat#:#Cannot update a nonexisting VAT.
 payment#:#payment_edit_vat#:#Steuersatz bearbeiten
 payment#:#payment_login_to_buy_object#:#Bitte melden Sie Sich bei ILIAS an, um Objekte in den Warenkorb legen zu können.
@@ -8361,7 +8404,7 @@ registration#:#registration_settings#:#Neuanmeldungen
 rep#:#rep_intro#:#Willkommen im Magazin!
 rep#:#rep_intro1#:#In diesem Bereich können Sie Lern- und Arbeitsmaterialien erstellen und verfügbar machen. Alle Inhalte werden in Kategorien organisiert. Diese Kategorien können z. B. die Organisation Ihrer Institution (z. B. Abteilungen oder Klassen) abbilden. Kategorien können aber auch verwendet werden, um die Inhalte thematisch zu strukturieren.
 rep#:#rep_intro2#:#Mit drei Schritten können Sie eine erste Struktur aufbauen:
-rep#:#rep_intro3#:#Klicken Sie auf den  <i>%s</i>-Button neben der Auswahlliste oben rechts, um eine erste Kategorie anzulegen.
+rep#:#rep_intro3#:#Klicken Sie auf den <i>%s</i>-Button neben der Auswahlliste oben rechts, um eine erste Kategorie anzulegen.
 rep#:#rep_intro4#:#Im folgenden Menü geben Sie bitte einen Titel und einen Beschreibungstext für die Kategorie ein und klicken abschließend auf <i>%s</i>.
 rep#:#rep_intro5#:#Durch Klicken auf den Titel gelangen Sie in Ihre erste Kategorie.
 rep#:#rep_intro6#:#Nach diesem ersten Schritt können Sie nun weitere Kategorien anlegen oder erste Lernmaterialien in diese Kategorie einfügen.
