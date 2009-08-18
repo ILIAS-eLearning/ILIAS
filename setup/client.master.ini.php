@@ -1,5 +1,4 @@
-<?php
-/*
+; <?php exit; ?>
 
 [server]
 start = ./login.php
@@ -40,4 +39,3 @@ MAIL_SETTINGS_ID = 12
 MAXLENGTH_OBJ_TITLE = 65
 MAXLENGTH_OBJ_DESC = 123
 DEBUG = 0
-*/ ?>
