@@ -40,176 +40,122 @@ class ilObjMailGUI extends ilObjectGUI
 	* Constructor
 	* @access public
 	*/
-	function ilObjMailGUI($a_data,$a_id,$a_call_by_reference)
+	public function __construct($a_data,$a_id,$a_call_by_reference)
 	{
-		$this->type = "mail";
-		$this->ilObjectGUI($a_data,$a_id,$a_call_by_reference, false);
+		$this->type = 'mail';
+		parent::__construct($a_data,$a_id,$a_call_by_reference, false);
+		
+		$this->lng->loadLanguageModule('mail');
 	}
 
-	function viewObject()
+	public function viewObject()
 	{
-#		parent::editObject();
+		global $ilAccess;
 		
-		$this->lng->loadLanguageModule("mail");
-
-		$this->tpl->addBlockFile("SYSTEMSETTINGS", "systemsettings", "tpl.mail_basicdata.html", "Services/Mail");
-		$this->tpl->setCurrentBlock("systemsettings");
-
-		$settings = $this->ilias->getAllSettings();
-
-		if (isset($_POST["save_settings"]))  // formular sent
+		if(!$ilAccess->checkAccess('write,read', '', $this->object->getRefId()))
 		{
-			//init checking var
-			$form_valid = true;
-			
-			// put any checks here!!!
-
-			if (!$form_valid)	//required fields not satisfied. Set formular to already fill in values
-			{
-				// mail server
-				$settings["mail_server"] = $_POST["mail_server"];
-				$settings["mail_port"] = $_POST["mail_port"];
-
-				// internal mail
-#				$settings["mail_intern_enable"] = $_POST["mail_intern_enable"];
-				$settings["mail_maxsize_mail"] = $_POST["mail_maxsize_mail"];
-				$settings["mail_maxsize_attach"] = $_POST["mail_maxsize_attach"];
-				$settings["mail_maxsize_box"] = $_POST["mail_maxsize_box"];
-				$settings["mail_maxtime_mail"] = $_POST["mail_maxtime_mail"];
-				$settings["mail_maxtime_attach"] = $_POST["mail_maxtime_attach"];
-				$settings['mail_external_sender_noreply'] = ilUtil::stripSlashes($_POST['mail_external_sender_noreply']);
-			}
-			else // all required fields ok
-			{
-
-		////////////////////////////////////////////////////////////
-		// write new settings
-
-				// mail server
-				$this->ilias->setSetting("mail_server",$_POST["mail_server"]);
-				$this->ilias->setSetting("mail_port",$_POST["mail_port"]);
-
-				// internal mail
-				$this->ilias->setSetting("mail_incoming_mail",$_POST["mail_incoming_mail"]);
-
-#				$this->ilias->setSetting("mail_intern_enable",$_POST["mail_intern_enable"]);
-				$this->ilias->setSetting("mail_maxsize_mail",$_POST["mail_maxsize_mail"]);
-				$this->ilias->setSetting("mail_maxsize_attach",$_POST["mail_maxsize_attach"]);
-				$this->ilias->setSetting("mail_maxsize_box",$_POST["mail_maxsize_box"]);
-				$this->ilias->setSetting("mail_maxtime_mail",$_POST["mail_maxtime_mail"]);
-				$this->ilias->setSetting("mail_maxtime_attach",$_POST["mail_maxtime_attach"]);
-				$this->ilias->setSetting("pear_mail_enable",$_POST["pear_mail_enable"]);
-				$this->ilias->setSetting('mail_external_sender_noreply', ilUtil::stripSlashes($_POST['mail_external_sender_noreply']));
-
-				$settings = $this->ilias->getAllSettings();
-
-				// feedback
-				ilUtil::sendInfo($this->lng->txt("saved_successfully"));
-			}
+			$this->ilias->raiseError($this->lng->txt('msg_no_perm_write'), $this->ilias->error_obj->WARNING);
 		}
-
-		////////////////////////////////////////////////////////////
-		// setting language vars
-
-		// common
-		$this->tpl->setVariable("TXT_DAYS",$this->lng->txt("days"));
-		$this->tpl->setVariable("TXT_KB",$this->lng->txt("kb"));
-
-		// mail server
-		$this->tpl->setVariable("TXT_MAIL_SMTP", $this->lng->txt("mail")." (".$this->lng->txt("smtp").")");
-		$this->tpl->setVariable("TXT_MAIL_SERVER", $this->lng->txt("server"));
-		$this->tpl->setVariable("TXT_MAIL_PORT", $this->lng->txt("port"));
-
+		
+		$this->initForm();
+		$this->setDefaultValues();
+		$this->tpl->setContent($this->form->getHTML());
+	}
+	
+	private function initForm()
+	{		
+		include_once 'Services/Form/classes/class.ilPropertyFormGUI.php';
+		$this->form = new ilPropertyFormGUI();
+		
+		$this->form->setFormAction($this->ctrl->getFormAction($this, 'save'));
+		$this->form->setTitle($this->lng->txt('general_settings'));
+		
+		// incoming type
+		include_once 'Services/Mail/classes/class.ilMailOptions.php';
+		$options = array(
+			IL_MAIL_LOCAL => $this->lng->txt('mail_incoming_local'), 
+			IL_MAIL_EMAIL => $this->lng->txt('mail_incoming_smtp'),
+			IL_MAIL_BOTH => $this->lng->txt('mail_incoming_both')
+		);	
+		$si = new ilSelectInputGUI($this->lng->txt('mail_incoming'), 'mail_incoming_mail');
+		$si->setOptions($options);		
+		$si->setInfo(sprintf($this->lng->txt('mail_settings_incoming_type_see_also'), $this->ctrl->getLinkTargetByClass('ilobjuserfoldergui', 'settings')));
+		$this->form->addItem($si);
+		
+		// noreply address
+		$ti = new ilTextInputGUI($this->lng->txt('mail_external_sender_noreply'), 'mail_external_sender_noreply');
+		$ti->setInfo($this->lng->txt('info_mail_external_sender_noreply'));
+		$ti->setMaxLength(255);
+		$this->form->addItem($ti);
+		
 		// Pear Mail extension
 		// Note: We use the include statement to determine whether PEAR MAIL is
 		//      installed. We use the @ operator to prevent PHP from issuing a
 		//      warning while we test for PEAR MAIL.
-		$is_pear_mail_installed = @include_once 'Mail/RFC822.php';
-		$this->tpl->setVariable("TXT_PEAR_MAIL", $this->lng->txt("mail_use_pear_mail"));
-		if ($settings['pear_mail_enable'] && $is_pear_mail_installed) 
+		$is_pear_mail_installed = @include_once 'Mail/RFC822.php';		
+		$cb = new ilCheckboxInputGUI($this->lng->txt('mail_use_pear_mail'), 'pear_mail_enable');			
+		if($is_pear_mail_installed)
 		{
-			$this->tpl->setVariable("PEAR_MAIL_CHECKED", 'checked="checked"');
-		}
-		if ($is_pear_mail_installed)
-		{
-			$this->tpl->setVariable("TXT_PEAR_MAIL_INFO", 
-				$this->lng->txt("mail_use_pear_mail_info")
-			);
+			$cb->setInfo($this->lng->txt('mail_use_pear_mail_info'));
 		}
 		else
 		{
-			$this->tpl->setVariable("TXT_PEAR_MAIL_INFO", 
-				$this->lng->txt("mail_use_pear_mail_info").'<br>'.
-				$this->lng->txt("mail_pear_mail_needed")
-			);
-			$this->tpl->setVariable("PEAR_MAIL_DISABLED", 'disabled="disabled"');
+			$cb->setInfo($this->lng->txt('mail_use_pear_mail_info').' '.
+						 $this->lng->txt('mail_pear_mail_needed'));				
 		}
-
-		// internal mail
-		include_once "Services/Mail/classes/class.ilMailOptions.php";
-		$this->tpl->setVariable("TXT_GENERAL_SETTINGS", $this->lng->txt("general_settings"));
-		$this->tpl->setVariable("TXT_MAIL_INCOMING", $this->lng->txt("mail_incoming"));
-		$types = array(
-			array(
-				"name" => $this->lng->txt("mail_incoming_local"),
-				"value" => IL_MAIL_LOCAL
-			),
-			array(
-				"name" => $this->lng->txt("mail_incoming_smtp"),
-				"value" => IL_MAIL_EMAIL
-			),
-			array(
-				"name" => $this->lng->txt("mail_incoming_both"),
-				"value" => IL_MAIL_BOTH
-			)
-		);
-		for ($i = 0; $i < count($types); $i++)
-		{
-			$this->tpl->setCurrentBlock("loop_incoming_mail");
-			$this->tpl->setVariable("LOOP_INCOMING_MAIL_VALUE", $types[$i]["value"]);
-			$this->tpl->setVariable("LOOP_INCOMING_MAIL_NAME", $types[$i]["name"]);
-			if ($settings["mail_incoming_mail"] == $types[$i]["value"])
-			{
-				$this->tpl->setVariable("LOOP_INCOMING_MAIL_SELECTED", "selected");
-			}
-			$this->tpl->parseCurrentBlock("loop_incoming_mail");
-		}
-
-#		$this->tpl->setVariable("TXT_MAIL_INTERN", $this->lng->txt("mail")." (".$this->lng->txt("internal_system").")");
-		$this->tpl->setVariable("TXT_MAIL_INTERN", $this->lng->txt("internal_system"));
-#		$this->tpl->setVariable("TXT_MAIL_INTERN_ENABLE", $this->lng->txt("mail_intern_enable"));
-		$this->tpl->setVariable("TXT_MAIL_MAXSIZE_MAIL", $this->lng->txt("mail_maxsize_mail"));
-		$this->tpl->setVariable("TXT_MAIL_MAXSIZE_ATTACH", $this->lng->txt("mail_maxsize_attach"));
-		$this->tpl->setVariable("TXT_MAIL_MAXSIZE_BOX", $this->lng->txt("mail_maxsize_box"));
-		$this->tpl->setVariable("TXT_MAIL_MAXTIME_MAIL", $this->lng->txt("mail_maxtime_mail"));
-		$this->tpl->setVariable("TXT_MAIL_MAXTIME_ATTACH", $this->lng->txt("mail_maxtime_attach"));
-		$this->tpl->setVariable("TXT_SAVE", $this->lng->txt("save"));
-
-		///////////////////////////////////////////////////////////
-		// display formula data
-
-		// mail server
-		$this->tpl->setVariable("MAIL_SERVER",$settings["mail_server"]);
-		$this->tpl->setVariable("MAIL_PORT",$settings["mail_port"]);
-
-		// internal mail
-#		if ($settings["mail_intern_enable"] == "y")
-#		{
-#			$this->tpl->setVariable("MAIL_INTERN_ENABLE","checked=\"checked\"");
-#		}
-
-		$this->tpl->setVariable("MAIL_MAXSIZE_MAIL", $settings["mail_maxsize_mail"]);
-		$this->tpl->setVariable("MAIL_MAXSIZE_ATTACH", $settings["mail_maxsize_attach"]);
-		$this->tpl->setVariable("MAIL_MAXSIZE_BOX", $settings["mail_maxsize_box"]);
-		$this->tpl->setVariable("MAIL_MAXTIME_MAIL", $settings["mail_maxtime_mail"]);
-		$this->tpl->setVariable("MAIL_MAXTIME_ATTACH", $settings["mail_maxtime_attach"]);
+		$cb->setValue('y');
+		$this->form->addItem($cb);
 		
-		// noreply
-		$this->tpl->setVariable('TXT_MAIL_EXTERNAL_SENDER_NOREPLY', $this->lng->txt('mail_external_sender_noreply'));
-		$this->tpl->setVariable('MAIL_EXTERNAL_SENDER_NOREPLY', $settings['mail_external_sender_noreply']);
-		$this->tpl->setVariable('INFO_MAIL_EXTERNAL_SENDER_NOREPLY', $this->lng->txt('info_mail_external_sender_noreply'));
+		// section header
+		$sh = new ilFormSectionHeaderGUI();
+		$sh->setTitle($this->lng->txt('mail').' ('.$this->lng->txt('internal_system').')');
+		$this->form->addItem($sh);
+		
+		// max attachment size
+		$ti = new ilTextInputGUI($this->lng->txt('mail_maxsize_attach'), 'mail_maxsize_attach');
+		$ti->setInfo($this->lng->txt('kb'));
+		$ti->setMaxLength(10);
+		$ti->setSize(10);
+		$this->form->addItem($ti);
+		
+		$this->form->addCommandButton('save', $this->lng->txt('save'));
+	}
+	
+	private function setDefaultValues()
+	{
+		$settings = $this->ilias->getAllSettings();		
+		$is_pear_mail_installed = @include_once 'Mail/RFC822.php';	
+		
+		$this->form->setValuesByArray(array(
+			'mail_incoming_mail' => (int)$settings['mail_incoming_mail'],
+			'pear_mail_enable' => ($settings['pear_mail_enable'] == 'y' && $is_pear_mail_installed) ? true : false,
+			'mail_external_sender_noreply' => $settings['mail_external_sender_noreply'],
+			'mail_maxsize_attach' => $settings['mail_maxsize_attach']			
+		));
+	}
+	
+	public function saveObject()
+	{
+		global $ilAccess;
+		
+		if(!$ilAccess->checkAccess('write,read', '', $this->object->getRefId()))
+		{
+			$this->ilias->raiseError($this->lng->txt('msg_no_perm_write'), $this->ilias->error_obj->WARNING);
+		}
 
-		$this->tpl->parseCurrentBlock();
+		$this->initForm();		
+		if($this->form->checkInput())
+		{
+			$this->ilias->setSetting('mail_incoming_mail', (int)$this->form->getInput('mail_incoming_mail'));
+			$this->ilias->setSetting('mail_maxsize_attach', $this->form->getInput('mail_maxsize_attach'));
+			$this->ilias->setSetting('pear_mail_enable', $this->form->getInput('pear_mail_enable'));
+			$this->ilias->setSetting('mail_external_sender_noreply', $this->form->getInput('mail_external_sender_noreply'));
+			
+			ilUtil::sendSuccess($this->lng->txt('saved_successfully'));
+		}		
+		$this->form->setValuesByPost();		
+		
+		$this->tpl->setContent($this->form->getHTML());
 	}
 
 	function importObject()
@@ -374,7 +320,7 @@ class ilObjMailGUI extends ilObjectGUI
 		if ($rbacsystem->checkAccess("visible,read",$this->object->getRefId()))
 		{
 			$tabs_gui->addTarget("settings",
-				$this->ctrl->getLinkTarget($this, "view"), array("view",""), "", "");
+				$this->ctrl->getLinkTarget($this, "view"), array("view", 'save', ""), "", "");
 		}
 
 		if ($rbacsystem->checkAccess('edit_permission',$this->object->getRefId()))
