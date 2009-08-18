@@ -1414,13 +1414,14 @@ return;
 		$this->form->setTitle($lng->txt('mail_settings'));
 			
 		// BEGIN INCOMING
+		include_once 'Services/Mail/classes/class.ilMailOptions.php';
 		if($ilSetting->get('usr_settings_hide_mail_incoming_mail') != '1')
 		{
 			$options = array(
-				$lng->txt('mail_incoming_local'), 
-				$lng->txt('mail_incoming_smtp'),
-				$lng->txt('mail_incoming_both')
-			);	
+				IL_MAIL_LOCAL => $this->lng->txt('mail_incoming_local'), 
+				IL_MAIL_EMAIL => $this->lng->txt('mail_incoming_smtp'),
+				IL_MAIL_BOTH => $this->lng->txt('mail_incoming_both')
+			);
 			$si = new ilSelectInputGUI($lng->txt('mail_incoming'), 'incoming_type');
 			$si->setOptions($options);
 			if($ilSetting->get('usr_settings_disable_mail_incoming_mail') == '1')

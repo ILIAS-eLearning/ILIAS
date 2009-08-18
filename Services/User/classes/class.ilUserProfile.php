@@ -1,6 +1,9 @@
 <?php
 /* Copyright (c) 1998-2009 ILIAS open source, Extended GPL, see docs/LICENSE */
 
+// mjansen@databay.de essential for mail constants, do not remove this include
+include_once 'Services/Mail/classes/class.ilMailOptions.php';
+
 /**
  * Class ilUserProfile
  *
@@ -242,11 +245,11 @@ class ilUserProfile
 						"group" => "preferences"),
 		"mail_incoming_mail" => array(
 						"input" => "selection",
-						"default" => "0",
+						"default" => "y",
 						"options" => array(
-							"0" => "mail_incoming_local",
-							"1" => "mail_incoming_smtp",
-							"2" => "mail_incoming_both"),
+							IL_MAIL_LOCAL => "mail_incoming_local",
+							IL_MAIL_EMAIL => "mail_incoming_smtp",
+							IL_MAIL_BOTH => "mail_incoming_both"),
 						"required_hide" => true,
 						"registration_hide" => true,
 						"course_export_hide" => true,
