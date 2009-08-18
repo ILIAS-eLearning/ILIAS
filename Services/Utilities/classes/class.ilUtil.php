@@ -1754,6 +1754,7 @@ class ilUtil
 			: "";
 		$convert_cmd = ilUtil::getConvertCmd()." ".
 			ilUtil::escapeShellArg($a_from)." ".$bg_color.$geometry.ilUtil::escapeShellArg($format_str.$a_to);
+
 		system($convert_cmd);
 	}
 

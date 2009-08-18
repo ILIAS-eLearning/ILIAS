@@ -1105,7 +1105,6 @@ echo "<br>+".$client_id;
 	
 		$this->initBasicSettingsForm(true);
 
-
 		if ($this->form->checkInput())
 		{
 			// correct paths on windows
@@ -1160,8 +1159,19 @@ echo "<br>+".$client_id;
 		global $tpl, $lng, $ilCtrl;
 	
 		$this->initBasicSettingsForm();
+
 		if ($this->form->checkInput())
 		{
+			if (ilUtil::isWindows())
+			{
+				$fs = array("datadir_path", "log_path", "convert_path", "zip_path",
+					"unzip_path", "java_path", "htmldoc_path", "mkisofs_path");
+				foreach ($fs as $f)
+				{
+					$_POST[$f] = str_replace("\\", "/", $_POST[$f]);
+				}
+			}
+
 			if (!$this->setup->checkLogSetup($_POST))
 			{
 				$i = $this->form->getItemByPostVar("log_path");
@@ -1386,25 +1396,41 @@ echo "<br>+".$client_id;
 	*/
 	function determineTools($a_tools = "")
 	{
-		$tools = array("convert", "zip", "unzip", "java", "htmldoc","mkisofs");
-		$dirs = array("/usr/local", "/usr/local/bin", "/usr/bin", "/bin", "/sw/bin", "/usr/bin");
-		foreach($tools as $tool)
+		$cwd = ilUtil::isWindows()
+			? str_replace("\\", "/", getcwd())
+			: getcwd();
+		if (!ilUtil::isWindows())
+		{
+			$tools = array("convert" => "convert",
+				"zip" => "zip", "unzip" => "unzip",
+				"java" => "java",  "htmldoc" => "htmldoc", "mkisofs" => "mkisofs");
+			$dirs = array("/usr/local", "/usr/local/bin", "/usr/bin", "/bin", "/sw/bin", "/usr/bin");
+		}
+		else
+		{
+			$tools = array("convert" => "convert.exe",
+				"zip" => "zip.exe", "unzip" => "unzip.exe");
+			$dirs = array($cwd."/Services/Windows/bin32/zip", 
+				$cwd."/Services/Windows/bin32/unzip",
+				$cwd."/Services/Windows/bin32/convert");
+		}
+		foreach($tools as $k => $tool)
 		{
 			// try which command
 			unset($ret);
 			@exec("which ".$tool, $ret);
 			if (substr($ret[0], 0, 3) != "no " && substr($ret[0], 0, 1) == "/")
 			{
-				$a_tools[$tool."_path"] = $ret[0];
+				$a_tools[$k."_path"] = $ret[0];
 				continue;
 			}
-			
+
 			// try common directories
 			foreach($dirs as $dir)
 			{
 				if (is_file($dir."/".$tool))
 				{
-					$a_tools[$tool."_path"] = $dir."/".$tool;
+					$a_tools[$k."_path"] = $dir."/".$tool;
 					continue;
 				}
 			}
