@@ -49,7 +49,7 @@ acc#:#acc_forward_mail#:#Weiterleiten
 acc#:#acc_function#:#Funktion
 acc#:#acc_last_visited#:#Zuletzt besucht
 acc#:#acc_mark_all_read#:#Alle auf gelesen setzen
-acc#:#acc_next#:#Next
+acc#:#acc_next#:#Weiter (zur nächsten Seite)
 acc#:#acc_previous#:#Zurück (zur vorigen Seite)
 acc#:#acc_reply#:#Antworten
 acc#:#acc_tree_off#:#Baumansicht aus
@@ -189,7 +189,7 @@ adve#:#adve_grp_scorm#:#SCORM bearbeiten
 adve#:#adve_grp_test#:#Test & Assessment
 adve#:#adve_grp_wiki#:#Wikis
 adve#:#adve_page_editor_settings#:#Einstellungen ILIAS-Seiteneditor
-adve#:#adve_rte_settings#:#Einstellungen Rich Text Editor
+adve#:#adve_rte_settings#:#Einstellungen Rich-Text-Editor
 adve#:#adve_text_content_features#:#Text Content Menü
 assessment#:#0_unlimited#:#(0 = unbegrenzt)
 assessment#:#action#:#Aktion
@@ -198,21 +198,30 @@ assessment#:#add_answer_tf#:#Wahr-/Falsch-Antworten
 assessment#:#add_answer_yn#:#Ja-/Nein-Antworten
 assessment#:#add_applet_parameter#:#Applet-Parameter hinzufügen
 assessment#:#add_area#:#Region hinzufügen
+assessment#:#add_circle#:#Kreis hinzufügen
 assessment#:#add_gap#:#Lückentext hinzufügen
 assessment#:#add_imagemap#:#Imagemap importieren
 assessment#:#add_matching_pair#:#Zuordnungspaar hinzufügen
+assessment#:#add_poly#:#Polygon hinzufügen	
 assessment#:#add_questionpool#:#Fragenpool hinzufügen
+assessment#:#add_rect#:#Rechteck hinzufügen	
 assessment#:#add_solution#:#Musterlösung hinzufügen
 assessment#:#addSuggestedSolution#:#Musterlösung hinzufügen
 assessment#:#all_available_question_pools#:#Alle vorhandenen Fragenpools
 assessment#:#allowedextensions#:#Erlaubte Dateierweiterungen
 assessment#:#allowedextensions_info#:#Geben Sie eine kommagetrennte Liste der erlaubten Dateierweiterungen an, wenn Sie das Hochladen auf bestimmte Dateitypen einschränken wollen (z.B. doc,xls,odt).
+assessment#:#allow_images#:#Grafikunterstützung für Antworten		 
+assessment#:#all_available_question_pools#:#Alle vorhandenen Fragenpools		 
+assessment#:#analyze_errortext#:#Fehlertext analysieren		 
 assessment#:#answer#:#Antwort
+assessment#:#answers_multiline#:#Mehrzeilige Antworten		 
+assessment#:#answers_singleline#:#Einzeilige Antworten
 assessment#:#answer_is_not_correct_but_positive#:#Sie haben Punkte für Ihre Lösung erhalten, allerdings handelt es sich dabei nicht um die beste Lösung
 assessment#:#answer_is_right#:#Ihre Lösung ist korrekt
 assessment#:#answer_is_wrong#:#Ihre Lösung ist falsch
 assessment#:#answer_picture#:#Antwort-Bild
 assessment#:#answer_text#:#Antwort-Text
+assessment#:#answer_types#:#Antwort-Typen	
 assessment#:#applet_attributes#:#Applet-Attribute
 assessment#:#applet_new_parameter#:#Neuer Parameter
 assessment#:#applet_parameter#:#Parameter
@@ -225,6 +234,7 @@ assessment#:#ass_file#:#Datei
 assessment#:#ass_question#:#Frage
 assessment#:#ass_size#:#Größe
 assessment#:#assClozeTest#:#Lückentext-Frage
+assessment#:#assErrorText#:#Fehlertext
 assessment#:#assessment_eval_settings#:#Die folgenden Datenfelder in der Auswertung für alle Nutzerinnen anzeigen
 assessment#:#assFileUpload#:#Datei hochladen
 assessment#:#assFlashQuestion#:#Flash-Frage
@@ -362,6 +372,9 @@ assessment#:#error_open_image_file#:#Fehler beim Öffnen einer Bilddatei!
 assessment#:#error_open_java_file#:#Fehler beim Öffnen eines Java-Applets!
 assessment#:#error_random_question_generation#:#Bei der Erzeugung von Zufallsfragen ist ein unbekannter Fehler aufgetreten. Bitte kontaktieren Sie Ihren ILIAS-Administrator und geben Sie die folgende Information weiter: Das ILIAS-System konnte keine Aktivitäts-ID für die Benutzer-ID %s und die Test-ID %s erzeugen.
 assessment#:#error_save_image_file#:#Fehler beim Speichern einer Bilddatei!
+assessment#:#errors_section#:#Fehlerdaten		 
+assessment#:#errortext#:#Fehlertext		 
+assessment#:#errortext_info#:#Bitte geben Sie einen Fehlertext ein. Um ein Wort als fehlerhaft zu markieren, setzen Sie bitte eine Raute (#) direkt vor das gewünschte Wort. Wenn Sie auf die Schaltfläche &quot;Fehlertext analysieren&quot; klicken, werden die markierten Wörter für die weitere Bearbeitung extrahiert.
 assessment#:#eval_all_users#:#Auswertung für alle NutzerInnen
 assessment#:#eval_choice_result#:#Die Auswahl mit dem Wert %s ist %s. Sie erreichten %s Punkte.
 assessment#:#eval_cloze_result#:#Die Lücke Nummer %s mit dem Wert %s ist %s. Sie erreichten %s Punkte.
@@ -413,11 +426,12 @@ assessment#:#filter_users#:#Teilnehmer filtern
 assessment#:#final_statement#:#Abschließende Bemerkung
 assessment#:#final_statement_show#:#Abschließende Bemerkung anzeigen
 assessment#:#final_statement_show_desc#:#Wenn diese Option ausgewählt ist, wird die Abschließende Bemerkung direkt nach dem finalen Beenden eines Tests anzeigt.
-assessment#:#fixed_participants_hint#:#Dieser Test ist nur für diese feste Gruppe von Teilnehmern verfügbar. Wenn Sie den Test für beliebige Teilnehmer verfügbar machen wollen, müssen Sie die Auswahl im Kontrollkästchen für feste Teilnehmer des %s Karteireiters entfernen.
+assessment#:#fixed_participants_hint#:#Dieser Test ist nur für diese feste Gruppe von Teilnehmern verfügbar. Wenn Sie den Test für beliebige Teilnehmer verfügbar machen wollen, müssen Sie die Auswahl im Kontrollkästchen für feste Teilnehmer in den Testeinstellungen ändern.
 assessment#:#flashfile#:#Flash-Datei
 assessment#:#forcejs#:#JavaScript für die Ausgabe von Testfragen erzwingen
 assessment#:#forcejs_desc#:#Wenn diese Option ausgewählt ist, wird bei allen Testfragen die JavaScript-basierte Ausgabe herkömmlichen Ausgabe vorgezogen.
 assessment#:#forcejs_short#:#JavaScript erzwingen
+assessment#:#form_msg_area_missing_points#:#Bitte tragen Sie für alle Regionen eine Punktezahl ein.
 assessment#:#gap#:#Lücke
 assessment#:#gap_definition#:#Lückendefinition
 assessment#:#gap_selection#:#Lückenauswahl
@@ -504,6 +518,12 @@ assessment#:#maxsize#:#Maximale Dateigröße
 assessment#:#maxsize_info#:#Geben Sie die maximale Größe in Bytes an, die eine hochgeladene Datei haben darf. Wenn Sie das Feld leer lassen, wird die Einstellung des zugrunde liegenden Systems verwendet.
 assessment#:#meaning#:#Bedeutung
 assessment#:#min_percentage_ne_0#:#Sie müssen einen minimalen Prozentsatz von 0 Prozent festlegen, damit alle erreichten Punktezahlen berücksichtigt werden können. Das Notenschema wurde nicht gespeichert!
+assessment#:#msg_circle_added#:#Kreis hinzugefügt		 
+assessment#:#msg_deleted_export_files#:#Exportdatei(en) gelöscht		 
+assessment#:#msg_poly_added#:#Polygon hinzugefügt		 
+assessment#:#msg_question_count_too_low#:#Die Anzahl der Fragen muss größer als 0 sein		 
+assessment#:#msg_rect_added#:#Rechteck hinzugefügt		 
+assessment#:#msg_total_questions_too_high#:#Die Anzahl der Fragen überschreitet die maximal verfügbare Anzahl der Fragen in den ausgewählten Fragenpools
 assessment#:#multiline_answers_hide#:#Einzeilige Antworten verwenden
 assessment#:#multiline_answers_show#:#Mehrzeilige Antworten verwenden
 assessment#:#multiline_terms_hide#:#Einzeilige Terme verwenden
@@ -555,6 +575,8 @@ assessment#:#points#:#Punkte
 assessment#:#points_checked#:#Punkte (ausgewählt)
 assessment#:#points_short#:#Pt.
 assessment#:#points_unchecked#:#Punkte (nicht ausgewählt)
+assessment#:#points_wrong#:#Falsche Selektionen		 
+assessment#:#points_wrong_info#:#Geben Sie Punkte für die Auswahl von Wörtern an, die nicht in der Liste der markierten Fehler enthalten sind.
 assessment#:#polygon#:#Polygonzug
 assessment#:#polygon_click_next_or_save#:#Bitte klicken Sie auf den nächsten Punkt im Polygonzug oder speichern Sie die Region. (Es ist nicht nötig, noch einmal auf den Startpunkt zu klicken, um den Polygonzug zu schließen!)
 assessment#:#polygon_click_next_point#:#Bitte klicken Sie auf den nächsten Punkt im Polygonzug.
@@ -569,6 +591,8 @@ assessment#:#qpl_assessment_no_assessment_of_questions#:#Für die ausgewählte F
 assessment#:#qpl_assessment_of_questions#:#Statistische Auswertung der Frage
 assessment#:#qpl_assessment_total_of_answers#:#Gesamtzahl der Antworten
 assessment#:#qpl_assessment_total_of_right_answers#:#Gesamtprozentsatz der richtigen Antworten
+assessment#:#qpl_browsercolumns#:#Individuelle Fragenliste		 
+assessment#:#qpl_browsercolumns_description#:#Wählen Sie die Datenspalten aus, die in der Fragenliste des Fragenpools angezeigt werden sollen. Diese Einstellung wirkt sich auf alle bestehenden Fragenpools aus.
 assessment#:#qpl_confirm_delete_questions#:#Sind Sie sicher, dass Sie die folgende(n) Frage(n) löschen wollen?
 assessment#:#qpl_copy_insert_clipboard#:#Die ausgewählte(n) Frage(n) wurden in die Zwischenablage kopiert
 assessment#:#qpl_copy_select_none#:#Bitte wählen Sie mindestens eine Frage aus, um diese in die Zwischenablage zu kopieren
@@ -598,8 +622,8 @@ assessment#:#qpl_paste_success#:#Die Frage(n) wurde(n) in den Fragenpool eingef�
 assessment#:#qpl_question_is_in_use#:#Die Frage, die Sie jetzt bearbeiten möchten, existiert bereits in %s Test(s). Wenn Sie diese Frage jetzt verändern, so hat das KEINE Auswirkungen auf bereits in Tests eingebundene Fragen, da das System automatisch eine Kopie der Frage anlegt, wenn diese in einen Test eingebunden wird!
 assessment#:#qpl_questions_deleted#:#Frage(n) gelöscht
 assessment#:#qpl_select_file_for_import#:#Sie müssen eine Datei zum importieren auswählen!
-assessment#:#qst_hint_self#:#Selbstlernkontrolle aktiv! Geben Sie 0 Punkte für falsche und einen Punkt für richtige Antworten.
-assessment#:#qst_nr_of_tries#:#Anzahl der Versuche
+assessment#:#qst_hint_self#:#Selbsttest-Modus ist aktiv! Bitte tragen Sie 0 Punkte für falsche und einen Punkt für richtige Antworten ein.
+assessment#:#qst_nr_of_tries#:#Anzahl der erlaubten Testdurchläufe
 assessment#:#qt_multiple_choice#:#Multiple Choice Frage
 assessment#:#question_cumulated_statistics#:#Kumulierte Fragenstatistik
 assessment#:#question_instances_title#:#Diese Frage wird in den folgenden Tests verwendet
@@ -634,6 +658,7 @@ assessment#:#reset_definitions#:#Positionen der Definitionen zurücksetzen
 assessment#:#reset_filter#:#Filter zurücksetzen
 assessment#:#reset_pictures#:#Positionen der Bilder zurücksetzen
 assessment#:#reset_terms#:#Positionen der Terme zurücksetzen
+assessment#:#resize_images#:#Bildgröße anpassen
 assessment#:#result#:#Ergebnis
 assessment#:#result_successful_saved#:#Ihre Ergebnisse wurden erfolgreich gespeichert!
 assessment#:#result_unsuccessful_saved#:#Beim Speichern Ihrer Ergebnisse ist ein Fehler aufgetreten!
@@ -692,13 +717,17 @@ assessment#:#terms#:#Terme
 assessment#:#test_cancelled#:#Der Test wurde unterbrochen!
 assessment#:#test_reference#:#Test-Verknüpfung
 assessment#:#text_answers_saved#:#Die Punkte der Textfragen wurden gespeichert!
+assessment#:#text_correct#:#Korrekter Text
 assessment#:#text_gap#:#Textlücke
 assessment#:#text_maximum_chars_allowed#:#Bitte geben Sie nicht mehr als ein Maximum von %s Zeichen ein. Alle weiteren Zeichen werden am Ende abgeschnitten.
 assessment#:#text_rating#:#Methode für Textvergleiche
+assessment#:#text_wrong#:#Fehlerhafter Text
 assessment#:#textsize#:#Textgröße
+assessment#:#textsize_errortext_info#:#Geben Sie bitte die Textgröße des Fehlertextes in Prozent der Normalgröße an. Wenn Sie keinen Wert angeben, wird die Normalgröße (100 Prozent) verwendet.
 assessment#:#textsize_info#:#Geben Sie bitte die Textgröße des anzuordnenden Texts in Prozent der Normalgröße an. Wenn Sie keinen Wert angeben, wird die Normalgröße (100 Prozent) verwendet.
 assessment#:#thumb_geometry#:#Vorschaugröße
 assessment#:#thumb_geometry_info#:#Geben Sie einen Wert in Bildpunkten für die maximale Vorschaugröße der Grafiken an. Abhängig vom Seitenverhältnis wird die Vorschau entweder in der Höhe oder in der Breite auf die maximale Vorschaugröße umgewandelt.
+assessment#:#thumb_size#:#Vorschaugröße
 assessment#:#time_format#:#HH MM SS
 assessment#:#too_many_empty_parameters#:#Bitte tragen Sie erst die leeren Applet-Parameter ein, bevor Sie neue Parameter hinzufügen!
 assessment#:#true#:#Wahr
@@ -756,6 +785,10 @@ assessment#:#tst_finish_confirm_button#:#Ja, ich will den Test beenden
 assessment#:#tst_finish_confirm_cancel_button#:#Nein, ich will zur letzten Antwort zurückgehen
 assessment#:#tst_finish_confirm_list_of_answers_button#:#Nein, zurück zur Liste der Antworten
 assessment#:#tst_finish_confirmation_question#:#Sie sind dabei, diesen Test zu beenden und die maximale Anzahl erlaubter Testdurchläufe zu erreichen. Danach werden Sie nicht mehr in der Lage sein, den Test erneut aufzurufen, um Ihre Antworten zu ändern. Wollen Sie den Test wirklich beenden?
+assessment#:#tst_finish_notification#:#E-Mail beim Beenden
+assessment#:#tst_finish_notification_advanced#:#Komplettes Testergebnis an den Testersteller senden
+assessment#:#tst_finish_notification_no#:#Keine E-Mail-Benachrichtigungen versenden, wenn ein Teilnehmer den Test beendet hat		 
+assessment#:#tst_finish_notification_simple#:#Benutzername und Datum des Beendens and den Testersteller senden
 assessment#:#tst_finished#:#Beendet
 assessment#:#tst_fixed_participants_data_exists#:#Es gibt bereits Teilnehmer, die den Test begonnen haben. Sie dürfen die Einstellung für feste Teilnehmer nicht verändern!
 assessment#:#tst_fixed_participants_disable#:#Statuswechsel bestätigen
@@ -768,6 +801,7 @@ assessment#:#tst_hide_previous_results#:#Vorherige Ergebnisse nicht anzeigen
 assessment#:#tst_hide_previous_results_description#:#Die vorherigen Ergebnisse von Lernenden werden in weiteren Testdurchläufen eines Tests nicht als voreingestellte Werte übernommen
 assessment#:#tst_hide_previous_results_hide#:#Meine Ergebnisse aus dem vorigen Testdurchlauf nicht anzeigen
 assessment#:#tst_hide_previous_results_introduction#:#Wenn Sie mehr als einen Durchlauf dieses Tests bearbeiten, werden Ihre vorherigen Ergebnisse nicht als voreingestellte Werte übernommen
+assessment#:#tst_hide_side_list#:#Fragenliste nicht anzeigen
 assessment#:#tst_import_no_items#:#Fehler: Die Importdatei beinhaltet keine Fragen!
 assessment#:#tst_import_verify_found_questions#:#ILIAS hat die folgenden Fragen in der Importdatei gefunden. Bitte wählen Sie die Fragen aus, die Sie mit diesem Test importieren wollen.
 assessment#:#tst_in_use_edit_questions_disabled#:#Der Test wurde bereits von %s Teilnehmerin(nen) begonnen. Sie dürfen deshalb keine Fragen mehr bearbeiten oder verschieben!
@@ -871,6 +905,7 @@ assessment#:#tst_random_selection_question_total_count_too_high#:#Die Anzahl der
 assessment#:#tst_random_test#:#Zufallstest
 assessment#:#tst_random_test_description#:#Wählen Sie dieses Kontrollkästchen aus, um die Fragen des Tests für jeden Teilnehmer mit einem Zufallsgenerator zusammenstellen zu lassen. Bei der Auswahl der Fragen müssen Sie lediglich einen oder mehrere Fragenpools angeben. ILIAS erzeugt für jeden Testdurchlauf eine neue zufällige Auswahl.
 assessment#:#tst_reached_points#:#Erreichte Punkte
+assessment#:#tst_remove_mark#:#Markierung entfernen
 assessment#:#tst_remove_questions#:#Sind Sie sicher, dass Sie die folgende(n) Frage(n) aus Ihrem Test entfernen wollen?
 assessment#:#tst_remove_questions_and_results#:#Dieser Test wurde bereits von %s Nutzer(n) bearbeitet. Das Entfernen von Fragen wird alle bestehenden Ergebnisse zu diesem Test löschen. Sind Sie sicher, dass Sie die folgende(n) Frage(n) entfernen wollen?
 assessment#:#tst_report_after_date#:#Nach einem festgelegten Datum
@@ -926,6 +961,7 @@ assessment#:#tst_show_cancel#:#"Test unterbrechen" Option anzeigen
 assessment#:#tst_show_cancel_description#:#Zeigt während der Testdurchführung eine Schaltfläche zum Unterbrechen des Tests an.
 assessment#:#tst_show_pass_details#:#Ergebnisübersicht für laufende Tests anbieten
 assessment#:#tst_show_results#:#Testergebnisse anzeigen
+assessment#:#tst_show_side_list#:#Fragenliste seitlich anzeigen
 assessment#:#tst_show_solution_answers_only#:#Druckausgabe der Ergebnisse (nur Antworten)
 assessment#:#tst_show_solution_details#:#Bewertungsdetails
 assessment#:#tst_show_solution_feedback#:#Antwortspezifische Rückmeldungen in den Testergebnissen anzeigen
@@ -994,6 +1030,7 @@ assessment#:#tst_use_javascript#:#JavaScript für das Ziehen und Ablegen von Ant
 assessment#:#tst_use_previous_answers#:#Vorherige Lösungen verwenden
 assessment#:#tst_use_previous_answers_description#:#Aktiviert das Kontrollkästchen auf der Startseite des Tests, um die Lösungen aus einem vorherigen Testdurchlauf als vorgegebene Werte in zukünftigen Testdurchläufen zu verwenden.
 assessment#:#tst_use_previous_answers_user#:#Meine Lösungen aus einem vorherigen Testdurchlauf als vorgegebene Werte verwenden
+assessment#:#tst_user_finished_test#:#Ein Teilnehmer hat den Test beendet (%s)
 assessment#:#tst_your_answer_was#:#Sie haben die folgende Antwort gegeben
 assessment#:#tst_your_answers#:#Dies sind die Antworten, die Sie zu den folgenden Fragen gegeben haben. Bitte kontrollieren Sie ihre Antworten und senden Sie diese dann ab.
 assessment#:#tt_assessment#:#Test unter Prüfungsbedingungen
@@ -1009,6 +1046,7 @@ assessment#:#uploaded_material#:#Hochgeladene Materialien
 assessment#:#user_not_invited#:#Sie sind kein Teilnehmer der Prüfung.
 assessment#:#user_wrong_clientip#:#Falsche Client IP
 assessment#:#value_between_x_and_y#:#Der Wert muss zwischen %s und %s liegen
+assessment#:#values#:#Werte
 assessment#:#warning_question_not_complete#:#Die Frage ist unvollständig!
 assessment#:#warning_test_not_complete#:#Der Test ist unvollständig!
 assessment#:#when#:#wenn
@@ -1558,7 +1596,7 @@ common#:#administrator#:#Administrator
 common#:#adopt#:#Übernehmen
 common#:#adopt_perm_from_template#:#Rechteeinstellungen kopieren
 common#:#advanced_editing_allow_html_tags#:#Erlaube die ausgewählten HTML-Auszeichnungen in Textfeldern
-common#:#advanced_editing_allow_javascript_editor#:#Bearbeitung mit einem Rich Text Editor aktivieren
+common#:#advanced_editing_allow_javascript_editor#:#Bearbeitung mit einem Rich-Text-Editor aktivieren
 common#:#advanced_editing_assessment_settings#:#Erlaubte HTML-Auszeichnungen für das Test&Assessment-Werkzeug
 common#:#advanced_editing_cat_page_editing#:#Seiteneditor für Kategorien aktivieren
 common#:#advanced_editing_cat_page_editing_desc#:#Diese Einstellung erlaubt das Hinzufügen von Text und anderen Inhalten auf Kategorienseiten. Ist der Seiteneditor deaktiviert, werden in Kategorien nur die enthaltenen Inhaltsobjekte angezeigt.
