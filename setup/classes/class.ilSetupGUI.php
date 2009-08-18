@@ -931,7 +931,7 @@ echo "<br>+".$client_id;
 			? str_replace("\\", "/", getcwd())
 			: getcwd();
 
-		$ne->setValue(getcwd()."/data");
+		$ne->setValue($cwd."/data");
 		$this->form->addItem($ne);
 		
 		// data dir
