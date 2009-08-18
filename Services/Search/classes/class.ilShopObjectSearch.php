@@ -43,7 +43,7 @@ class ilShopObjectSearch extends ilAbstractSearch
 		$where = $this->__createWhereCondition();
 		$locate = $this->__createLocateString();
 
-		$query = "SELECT object_data.obj_id,object_data.type, title ".$locate."			  
+		$query = "SELECT object_data.obj_id,object_data.type ".$locate."			  
 				  FROM payment_objects 
 				  INNER JOIN object_reference ON object_reference.ref_id = payment_objects.ref_id
 				  INNER JOIN object_data ON object_data.obj_id = object_reference.obj_id ";	
@@ -61,7 +61,7 @@ class ilShopObjectSearch extends ilAbstractSearch
 			$types,
 			$values
 		);
-				
+
 		while($row = $statement->fetchRow(DB_FETCHMODE_OBJECT))
 		{
 			$this->search_result->addEntry($row->obj_id,$row->type,$this->__prepareFound($row));
