@@ -1101,19 +1101,19 @@ echo "<br>+".$client_id;
 	
 		$this->initBasicSettingsForm(true);
 
-		// correct paths on windows
-		if (ilUtil::isWindows())
-		{
-			$fs = array("datadir_path", "log_path", "convert_path", "zip_path",
-				"unzip_path", "java_path", "htmldoc_path", "mkisofs_path");
-			foreach ($fs as $f)
-			{
-				$_POST[$f] = str_replace("\\", "/", $_POST[$f]);
-			}
-		}
 
 		if ($this->form->checkInput())
 		{
+			// correct paths on windows
+			if (ilUtil::isWindows())
+			{
+				$fs = array("datadir_path", "log_path", "convert_path", "zip_path",
+					"unzip_path", "java_path", "htmldoc_path", "mkisofs_path");
+				foreach ($fs as $f)
+				{
+					$_POST[$f] = str_replace("\\", "/", $_POST[$f]);
+				}
+			}
 			
 			$_POST["setup_pass"] = $_POST["password"];
 			$_POST["setup_pass2"] = $_POST["password_retype"];
