@@ -30,7 +30,8 @@ class ilNonEditableValueGUI extends ilSubEnabledFormPropertyGUI implements ilTab
 	
 	function checkInput()
 	{
-		return true;
+		$_POST[$this->getPostVar()] = ilUtil::stripSlashes($_POST[$this->getPostVar()]);
+		return $this->checkSubItemsInput();
 	}
 
 	/**
