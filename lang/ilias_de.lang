@@ -1598,8 +1598,6 @@ common#:#adopt_perm_from_template#:#Rechteeinstellungen kopieren
 common#:#advanced_editing_allow_html_tags#:#Erlaube die ausgewählten HTML-Auszeichnungen in Textfeldern
 common#:#advanced_editing_allow_javascript_editor#:#Bearbeitung mit einem Rich-Text-Editor aktivieren
 common#:#advanced_editing_assessment_settings#:#Erlaubte HTML-Auszeichnungen für das Test&Assessment-Werkzeug
-common#:#advanced_editing_cat_page_editing#:#Seiteneditor für Kategorien aktivieren
-common#:#advanced_editing_cat_page_editing_desc#:#Diese Einstellung erlaubt das Hinzufügen von Text und anderen Inhalten auf Kategorienseiten. Ist der Seiteneditor deaktiviert, werden in Kategorien nur die enthaltenen Inhaltsobjekte angezeigt.
 common#:#advanced_editing_lm_js_editing#:#Aktiviere HTMLArea-Textfelder bei der Inhaltebearbeitung
 common#:#advanced_editing_lm_js_editing_desc#:#Aktiviert HTMLArea- und JavaScript-Unterstützung für den Seiteneditor in Lernmodulen und Glossaren.
 common#:#advanced_editing_lm_settings#:#Lernmodul- und Glossar-Einstellungen
@@ -1608,7 +1606,6 @@ common#:#advanced_editing_settings#:#Erweiterte Bearbeitungseinstellungen
 common#:#advanced_editing_survey_settings#:#Erlaubte HTML-Auszeichnungen für das Umfrage-Werkzeug
 common#:#advanced_editing_tinymce#:#TinyMCE-Editor
 common#:#adve_assessment_settings#:#Test&Assessment-Einstellungen
-common#:#adve_cat_settings#:#Kategorien-Einstellungen
 common#:#adve_edit_permission#:#Rechteeinstellungen ändern
 common#:#adve_general_settings#:#Allgemeine Einstellungen
 common#:#adve_lm_settings#:#Lernmodul-/Glossar-Einstellungen
@@ -5320,7 +5317,6 @@ content#:#Pages#:#Seiten
 content#:#pages from#:#Seiten von
 content#:#par#:#Text
 content#:#PDF export#:#PDF Export
-content#:#PDF_export#:#PDF Export
 content#:#pg#:#Seite
 content#:#public_section#:#Öffentlicher Bereich
 content#:#read offline#:#Offline lesen
@@ -9043,11 +9039,8 @@ survey#:#no_questionblocks_available#:#Es sind keine Fragenblöcke verfübar!
 survey#:#no_questions_available#:#Es sind keine Fragen verfügbar!
 survey#:#no_search_results#:#Die Suche hat zu keinem Ergebnis geführt!
 survey#:#no_target_selected_for_move#:#Sie müssen eine Zielposition auswählen!
-survey#:#no_user_of_group_invited#:#Allen Benutzern der ausgewählten Gruppe(n) fehlen die notwendigen Rechte, um die Umfrage durchzuführen. Es wurde niemand eingeladen.
-survey#:#no_user_of_role_invited#:#Allen Benutzern der ausgewählten Rolle(n) fehlen die notwendigen Rechte, um die Umfrage durchzuführen. Es wurde niemand eingeladen.
 survey#:#no_user_or_group_selected#:#Bitte wählen Sie eine Zielgruppe aus, in der die Suche durchgeführt werden soll (NutzerInnen und/oder Gruppen)!
 survey#:#no_user_phrases_defined#:#Sie haben keine selbst definierten Phrasen!
-survey#:#nominal_question_mr_not_checked#:#Bitte wählen Sie mindestens eine der angebotenen Antworten aus!
 survey#:#nominal_question_not_checked#:#Sie müssen eine der angebotenen Antworten auswählen!
 survey#:#non_ratio#:#Intervallskala
 survey#:#not_used#:#nicht verwendet
@@ -9057,7 +9050,6 @@ survey#:#offline#:#offline (nicht aktiviert)
 survey#:#on#:#An
 survey#:#on_additional#:#An, und zusätzlich
 survey#:#or#:#oder
-survey#:#ordinal_question_not_checked#:#Sie müssen eine der angebotenen Anworten auswählen!
 survey#:#orientation#:#Ausrichtung
 survey#:#outro#:#Abschließende Bemerkung
 survey#:#percentage_of_entered_values#:#Prozentsatz der NutzerInnen, die diesen Wert ausgewählt haben
@@ -9176,8 +9168,6 @@ survey#:#survey_text_textwidth_desc#:#Geben Sie die Breite des Eingabefeldes in 
 survey#:#survey_use_start_button#:#Sie dürfen eine Umfrage nur über die Schaltfläche "Umfrage beginnen" starten!
 survey#:#SurveyMatrixQuestion#:#Matrixfrage
 survey#:#SurveyMetricQuestion#:#Metrische Frage
-survey#:#SurveyNominalQuestion#:#Nominale Frage
-survey#:#SurveyOrdinalQuestion#:#Ordinale Frage
 survey#:#SurveyTextQuestion#:#Textfrage
 survey#:#svy_all_user_data_deleted#:#Alle Nutzerdaten der Umfrage wurden gelöscht!
 survey#:#svy_check_evaluation_access_introduction#:#Da diese Auswertung nur für Teilnehmer der Umfrage verfügbar ist, müssen Sie Ihren Zugangsschlüssel für die Umfrage angeben, um die Auswertung zu öffnen.
@@ -9540,4 +9530,370 @@ wiki#:#wiki_what_links_to_page#:#Was verlinkt auf die Seite "%s"?
 wiki#:#wiki_wiki_page#:#Wiki-Seite
 wiki#:#wiki_wiki_search#:#Suche in Wiki
 mail#:#mail_incoming_mail#:#Nachrichten Empfang
-mail#:#mail_settings_incoming_type_see_also#:#Eine weitere Möglichkeit die Empfangsart für die Anwender/-innenfinden zu ändern haben Sie <a href="%s">hier</a>.
+mail#:#mail_settings_incoming_type_see_also#:#Eine weitere Möglichkeit die Empfangsart für die Anwender/-innenfinden zu ändern haben Sie <a href="%s">hier</a>.common#:#download_with_uploaded_filename#:#Download with uploaded filename###18 08 2009 new variable
+common#:#download_with_uploaded_filename_info#:#Select this option exclusively for backwards compatibility with ILIAS 3.9 and older versions: When this option is selected, the filename of a downloaded file is equal to the filename that was used for uploading the file into ILIAS. If this option is not selected, the filename of a downloaded file is equal to the title of the file object in ILIAS. This option does not affect WebDAV. For WebDAV the filename of a downloaded file is always equal to the title of the file object.###18 08 2009 new variable
+form#:#form_msg_wrong_date#:#Wrong date. Please enter a valid date.###18 08 2009 new variable
+form#:#form_msg_wrong_date_format#:#Wrong date format. Please enter the date as "%s"!###18 08 2009 new variable
+form#:#form_msg_formula_is_required#:#Please enter a correct formula.###18 08 2009 new variable
+common#:#advanced_editing_rep_page_editing#:#Enable Content Editing in Repository###18 08 2009 new variable
+common#:#advanced_editing_rep_page_editing_desc#:#This feature allows to add text/media to category, course, group and folder pages.###18 08 2009 new variable
+common#:#adve_rep_settings#:#Repository Settings###18 08 2009 new variable
+common#:#assessment_log_no_data#:#No log data available###18 08 2009 new variable
+common#:#back_to_sess_content#:#Back to Session Content###18 08 2009 new variable
+common#:#lang_size_gb#:#GB###18 08 2009 new variable
+common#:#lang_size_mb#:#MB###18 08 2009 new variable
+common#:#lang_size_kb#:#KB###18 08 2009 new variable
+common#:#lang_size_bytes#:#bytes###18 08 2009 new variable
+common#:#webdav#:#WebDAV###18 08 2009 new variable
+common#:#downloading_settings#:#Downloading Settings###18 08 2009 new variable
+common#:#enable_disk_quota#:#Activate Disk Quota###18 08 2009 new variable
+common#:#enable_disk_quota_info#:#Allows to specify a disk quota for each user account and each global role. The disk usage of a user account is determined once every day using a cron job and listed in the user edit form and in the disk quota report.###18 08 2009 new variable
+common#:#enable_disk_quota_reminder_mail#:#Send disk quota reminder mails###18 08 2009 new variable
+common#:#mail_attachment#:#Mail attachment###18 08 2009 new variable
+content#:#cont_change_object_reference#:#Change Object Reference###18 08 2009 new variable
+content#:#cont_select#:#Select###18 08 2009 new variable
+content#:#cont_please_enter_a_term#:#Please enter a term.###18 08 2009 new variable
+crs#:#crs_set_on_waiting_list#:#You can add your join request to the waiting list. You will receive a message from a course administrator when your request has been approved or rejected.###18 08 2009 new variable
+survey#:#SurveyMultipleChoiceQuestion#:#Multiple Choice Question (Multiple Response)###18 08 2009 new variable
+survey#:#SurveySingleChoiceQuestion#:#Multiple Choice Question (Single Response)###18 08 2009 new variable
+survey#:#question_mr_not_checked#:#Please check at least one of the offered answers!###18 08 2009 new variable
+survey#:#question_not_checked#:#Please check one of the offered answers!###18 08 2009 new variable
+survey#:#invitation_off#:#No invitations###18 08 2009 new variable
+survey#:#no_user_invited#:#All invited users did not possess sufficient permissions to run the survey. No user was invited.###18 08 2009 new variable
+survey#:#users_invited#:#%s users have been invited###18 08 2009 new variable
+dateplaner#:#cal_edit_milestone#:#Edit Milestone###18 08 2009 new variable
+grp#:#grp_set_on_waiting_list#:#You can add your join request to the waiting list. You will receive a message from a group administrator when your request has been approved or rejected.###18 08 2009 new variable
+dateplaner#:#cal_deadline#:#Deadline###18 08 2009 new variable
+dateplaner#:#cal_ms_users_responsible#:#Users Responsible###18 08 2009 new variable
+dateplaner#:#cal_save_responsible_users#:#Save Responsible Users###18 08 2009 new variable
+dateplaner#:#cal_change_responsible_users#:#Change Responsible Users###18 08 2009 new variable
+dateplaner#:#cal_ms_details#:#Milestone Details###18 08 2009 new variable
+dateplaner#:#cal_enable_group_milestones#:#Enable Milestones###18 08 2009 new variable
+dateplaner#:#cal_enable_group_milestones_desc#:#This option enables milestone planning in the calendar.###18 08 2009 new variable
+dateplaner#:#cal_new_ms#:#New Milestone###18 08 2009 new variable
+dateplaner#:#cal_add_milestone#:#Add Milestone###18 08 2009 new variable
+dateplaner#:#cal_task_completion#:#Task Completion###18 08 2009 new variable
+dateplaner#:#cal_responsible#:#Responsible###18 08 2009 new variable
+cntr#:#cntr_manage#:#Manage###18 08 2009 new variable
+cntr#:#cntr_ordering#:#Sorting###18 08 2009 new variable
+cntr#:#cntr_text_media_editor#:#Text/Media Editor###18 08 2009 new variable
+cntr#:#cntr_saved_sorting#:#Saved Sorting.###18 08 2009 new variable
+crs#:#crs_search_users#:#Search Users###18 08 2009 new variable
+crs#:#crs_user_login#:#User Login###18 08 2009 new variable
+grp#:#grp_search_users#:#Search User###18 08 2009 new variable
+common#:#mem_add_to_wl#:#Add to Waiting List###18 08 2009 new variable
+common#:#event_assign_files#:#File Assignment###18 08 2009 new variable
+chat#:#chat_export_status#:#Required export permissions###18 08 2009 new variable
+chat#:#chat_export_all#:#No restrictions (all users with access may export)###18 08 2009 new variable
+chat#:#chat_export_moderator#:#Moderators only###18 08 2009 new variable
+chat#:#chat_export_period#:#Export period###18 08 2009 new variable
+chat#:#chat_export_period_info#:#Export the given number of days###18 08 2009 new variable
+chat#:#chat_export_info#:#Displays an export button for the current room. The messages will be exported to html.###18 08 2009 new variable
+chat#:#chat_textformat#:#Format text###18 08 2009 new variable
+chat#:#chat_show_textformat#:#Format text###18 08 2009 new variable
+registration#:#reg_type_confirmation#:#Registration with E-Mail Confirmation###18 08 2009 new variable
+registration#:#reg_type_confirmation_info#:#This type allows self-registration of users but requires an email confirmation to activate the account. This avoids self-registration to ILIAS with wrong or non-existant email addresses.###18 08 2009 new variable
+registration#:#reg_confirmation_hash_life_time_info#:#Enter the lifetime (seconds) of confirmation links.###18 08 2009 new variable
+registration#:#reg_confirmation_hash_life_time_expired#:#The confirmation link is not valid anymore.###18 08 2009 new variable
+registration#:#reg_confirmation_hash_not_found#:#No user account could be matched to this confirmation link.###18 08 2009 new variable
+common#:#reg_account_confirmation_successful#:#Your user account has been activated.###18 08 2009 new variable
+registration#:#reg_confirmation_link_successful#:#You successfully submitted an account request to ILIAS. You will receive a confirmation e-mail in the next minutes. Please confirm your registration by clicking the confirmation link in this mail.<br />You will be redirected to the <a href="%s" title="login screen">login screen</a> after 20 seconds.###18 08 2009 new variable
+registration#:#reg_activation_your_confirmation_link#:#Your confirmation link:###18 08 2009 new variable
+registration#:#reg_confirmation_hash_not_passed#:#The confirmation link was not entirely passed.###18 08 2009 new variable
+crs#:#crs_lim_assigned#:#Already assigned to associated course "%s".###18 08 2009 new variable
+grp#:#grp_lim_assigned#:#Already assigned to associated group "%s".###18 08 2009 new variable
+common#:#soap_wsdl_path#:#WSDL Path###18 08 2009 new variable
+common#:#soap_wsdl_path_info#:#Please enter the path to the ilias wsdl file which should be used for the webservice. If you leave this field blank, the following path will be used per default:%s###18 08 2009 new variable
+common#:#scorm_new#:#New SCORM/IACC Learning Module###18 08 2009 new variable
+common#:#scorm_create_export_file_scrom12#:#Create Export File (SCORM 1.2)###18 08 2009 new variable
+common#:#scorm_create_export_file_scrom2004#:#Create Export File (SCORM 2004)###18 08 2009 new variable
+common#:#scorm_create_export_file_pdf#:#Create Export File (PDF)###18 08 2009 new variable
+common#:#scorm_create_export_file_iso#:#Create Export File (ISO for CD-ROM)###18 08 2009 new variable
+common#:#scorm_create_export_file_html#:#Create Export File (HTML)###18 08 2009 new variable
+common#:#sahs_insert_page_from_clip#:#Paste Pages from Clipboard###18 08 2009 new variable
+common#:#sahs_insert_chap_from_clip#:#Paste Chapters from Clipboard###18 08 2009 new variable
+common#:#sahs_insert_sco_from_clip#:#Paste SCOs from Clipboard###18 08 2009 new variable
+sahs#:#sahs_insert_chapter#:#Insert Chapter###18 08 2009 new variable
+sahs#:#sahs_choose_pages_or_chapters_or_scos_only#:#Please select either pages, SCOs or chapters only.###18 08 2009 new variable
+sahs#:#sahs_insert_scenario#:#Insert Sequenced Chapter###18 08 2009 new variable
+sahs#:#sahs_insert_pagelayout#:#Insert Template Page###18 08 2009 new variable
+sahs#:#sahs_properties#:#Properties###18 08 2009 new variable
+sahs#:#sahs_insert_page#:#Insert Page###18 08 2009 new variable
+sahs#:#sahs_insert_sco#:#Insert SCO###18 08 2009 new variable
+sahs#:#sahs_chapter#:#Chapter###18 08 2009 new variable
+sahs#:#sahs_unit#:#SCO###18 08 2009 new variable
+sahs#:#sahs_page#:#Page###18 08 2009 new variable
+sahs#:#sahs_objectives_alignment#:#Learning Objectives Alignment###18 08 2009 new variable
+sahs#:#sahs_learning_objectives#:#Learning Objectives###18 08 2009 new variable
+sahs#:#sahs_sco_objective#:#Objectives###18 08 2009 new variable
+sahs#:#sahs_questions#:#Questions###18 08 2009 new variable
+sahs#:#sahs_organization#:#Organization###18 08 2009 new variable
+sahs#:#sahs_sequencing#:#Sequencing###18 08 2009 new variable
+sahs#:#sahs_objective_alignment#:#Objectives Alignment###18 08 2009 new variable
+content#:#cont_LocalFile#:#Local File###18 08 2009 new variable
+content#:#cont_Ressources#:#Ressources###18 08 2009 new variable
+content#:#cont_Reading#:#Reading###18 08 2009 new variable
+content#:#cont_Hint#:#Hint###18 08 2009 new variable
+content#:#cont_ed_paste#:#Paste###18 08 2009 new variable
+content#:#cont_ed_insert_pcqst#:#Insert Question###18 08 2009 new variable
+content#:#cont_ed_select_pctext#:#Select Text Item###18 08 2009 new variable
+content#:#cont_question_pool#:#Question Pool###18 08 2009 new variable
+content#:#cont_question_type#:#Question Type###18 08 2009 new variable
+content#:#cont_text_type#:#Text Item Type###18 08 2009 new variable
+content#:#cont_ed_par#:#Text###18 08 2009 new variable
+content#:#cont_ed_dtable#:#Data Table###18 08 2009 new variable
+content#:#cont_mob_files#:#Object Files###18 08 2009 new variable
+content#:#cont_mob_prop#:#Object Properties###18 08 2009 new variable
+meta#:#meta_pointofcontact#:#Point of Contact###18 08 2009 new variable
+meta#:#sco_propagate#:#Propagate to all SCOs###18 08 2009 new variable
+content#:#cont_empty_question#:#Question editing not finished. Please either click and edit or delete question.###18 08 2009 new variable
+content#:#cont_media_placeh#:#Click and edit to insert media###18 08 2009 new variable
+content#:#cont_question_placeh#:#Click and edit to insert question###18 08 2009 new variable
+content#:#cont_text_placeh#:#Click and edit to insert text###18 08 2009 new variable
+content#:#cont_no_glossary#:#No glossary###18 08 2009 new variable
+common#:#obj_sco#:#SCO###18 08 2009 new variable
+common#:#obj_chap#:#Chapter###18 08 2009 new variable
+common#:#obj_page#:#Page###18 08 2009 new variable
+common#:#disk_quota#:#Disk Quota###18 08 2009 new variable
+common#:#disk_usage#:#Disk Usage###18 08 2009 new variable
+common#:#disk_quota_report#:#Disk Quota Report###18 08 2009 new variable
+common#:#disk_usage_details#:#Disk Usage Details###18 08 2009 new variable
+common#:#disk_quota_report_not_run_yet#:#No disk quota report available. The daily cron job which determines the disk usage needs to be executed first.###18 08 2009 new variable
+common#:#enter_in_mb_desc#:#Enter a value in MB.###18 08 2009 new variable
+common#:#disk_quota_on_role_desc#:#The disk quota specified on a role affects all user accounts which are assigned to this role.###18 08 2009 new variable
+common#:#disk_quota_is_1_by_2#:#The effective disk quota is %1$s due to membership in role "%2$s".###18 08 2009 new variable
+common#:#disk_quota_is_unlimited_by_1#:#The effective disk quota is unlimited due to membership in role "%1$s".###18 08 2009 new variable
+common#:#disk_quota_is_1_instead_of_2_by_3#:#The effective disk quota is %1$s as defined in this user account. The disk quota by role membership would have been %2$s by role "%3$s".###18 08 2009 new variable
+common#:#disk_quota_reminder_mail#:#Reminder mail###18 08 2009 new variable
+common#:#disk_quota_reminder_mail_desc#:#The disk quota reminder mail is sent to active users who have exceeded their disk quota. This e-mail is sent once every day to the users when the daily ILIAS cron job is run. Users who already have received a reminder e-mail receive it again every 7 days as long as they exceed their disk quota.###18 08 2009 new variable
+common#:#last_reminder#:#Last reminder###18 08 2009 new variable
+common#:#disk_quota_last_reminder_sent#:#Last quota reminder sent###18 08 2009 new variable
+common#:#disk_quota_last_reminder_sent_desc#:#Last date on which the user has received a reminder mail because of exceeding the disk quota.###18 08 2009 new variable
+common#:#filter_users_without_disk_usage#:#Only users with no disk space used###18 08 2009 new variable
+common#:#filter_users_with_disk_usage#:#Only users with disk space used###18 08 2009 new variable
+common#:#filter_users_with_exceeded_disk_quota#:#Only users with disk quota exceeded###18 08 2009 new variable
+common#:#filter_users_with_access#:#Only users with access###18 08 2009 new variable
+common#:#filter_users_without_access#:#Only users without access###18 08 2009 new variable
+common#:#statistics#:#Statistics###18 08 2009 new variable
+content#:#cont_pc_flist#:#File List###18 08 2009 new variable
+content#:#cont_pc_par#:#Text###18 08 2009 new variable
+content#:#cont_pc_mob#:#Media###18 08 2009 new variable
+content#:#cont_pc_qst#:#Question###18 08 2009 new variable
+content#:#cont_pc_sec#:#Section###18 08 2009 new variable
+content#:#cont_pc_dtab#:#Data Table###18 08 2009 new variable
+content#:#cont_pc_code#:#Code###18 08 2009 new variable
+content#:#cont_pc_res#:#Resource###18 08 2009 new variable
+content#:#cont_pc_map#:#Map###18 08 2009 new variable
+common#:#session_reminder_lead_time#:#Leadtime###18 08 2009 new variable
+common#:#session_reminder_lead_time_info#:#Please specify, how much seconds before the session expires you want the session reminder to display a warning. The current value for a user session is %s.###18 08 2009 new variable
+rbac#:#rbac_delete_role#:#Delete Role###18 08 2009 new variable
+rbac#:#rbac_role_delete_qst#:#Are you sure you want to delete the following role?<br />All permissions granted by this role will be deleted permanently.###18 08 2009 new variable
+rbac#:#rbac_role_delete_self#:#<strong>Attention:</strong> You are assigned to this role. If you continue this delete operation, you may loose access to some ILIAS materials.###18 08 2009 new variable
+ldap#:#ldap_global_role#:#Global Role###18 08 2009 new variable
+ldap#:#ldap_local_role#:#Local Role###18 08 2009 new variable
+ldap#:#ldap_role_name_info#:#Please choose either a global role or enter the name of a local role.###18 08 2009 new variable
+ldap#:#ldap_update_roles#:#Role Assignments###18 08 2009 new variable
+ldap#:#ldap_remove_deprecated#:#Deassign Deprecated Roles###18 08 2009 new variable
+ldap#:#ldap_plugin_info#:#Validate the role assignment with a plugin. Please enter a valid plugin id.###18 08 2009 new variable
+ldap#:#ldap_plugin_id#:#Plugin Id###18 08 2009 new variable
+ldap#:#ldap_err_missing_plugin_id#:#Please enter a valid plugin id.###18 08 2009 new variable
+ldap#:#ldap_add_remove#:#Add/Remove Roles###18 08 2009 new variable
+ldap#:#ldap_deleted_rule#:#Deleted selected role assignments.###18 08 2009 new variable
+ldap#:#ldap_role_selection#:#Role Selection###18 08 2009 new variable
+ldap#:#ldap_role_selection_info#:#Your selection is ambiguous. Please choose one of the following roles.###18 08 2009 new variable
+ldap#:#ldap_role_by_plugin#:#By Plugin###18 08 2009 new variable
+common#:#reg_mail_subject_confirmation#:#ILIAS eLearning - Your Confirmation Link###18 08 2009 new variable
+common#:#reg_mail_body_confirmation#:#to activate your account and confirm ownership of this email address, click the link below:###18 08 2009 new variable
+chat#:#chat_add_blocking#:#Block user###18 08 2009 new variable
+chat#:#chat_confirm_delete#:#Are you sure that you want to delete this rooms?###18 08 2009 new variable
+content#:#saved_media_object#:#Saved media object.###18 08 2009 new variable
+content#:#text_repr#:#Text Representation###18 08 2009 new variable
+content#:#text_repr_info#:#Used for image "alt" attribute.###18 08 2009 new variable
+common#:#socialbm_extt_social_bookmarks#:#Social Bookmarks###18 08 2009 new variable
+common#:#bm_manage_social_bm#:#Manage Social Bookmarks###18 08 2009 new variable
+common#:#bm_add_to_ilias#:#ILIAS Bookmarks###18 08 2009 new variable
+common#:#bm_add_to_social_bookmarks#:#Add to Bookmarks###18 08 2009 new variable
+content#:#cont_no_text#:#No Text###18 08 2009 new variable
+content#:#cont_print_selection#:#Print View Selection###18 08 2009 new variable
+dateplaner#:#cal_dstart_dend_warn#:#Please check your input. The start of a day should be before the end of the day.###18 08 2009 new variable
+dateplaner#:#ca_day_start#:#Day Start###18 08 2009 new variable
+dateplaner#:#cal_day_end#:#Day End###18 08 2009 new variable
+dateplaner#:#cal_day_week_view#:#Day/Week View Settings###18 08 2009 new variable
+dateplaner#:#cal_week_month_view#:#Week/Month View Settings###18 08 2009 new variable
+common#:#event_ass_materials_prop#:#Session Materials###18 08 2009 new variable
+common#:#mobs_edit_permission#:#Change permission settings###18 08 2009 new variable
+common#:#mobs_visible#:#Media Objects/Pools Settings are visible###18 08 2009 new variable
+common#:#mobs_read#:#Read access to Media Objects/Pools Settings###18 08 2009 new variable
+common#:#mobs_write#:#Edit Media Objects/Pools Settings###18 08 2009 new variable
+common#:#obj_mobs#:#Media Objects/Pools###18 08 2009 new variable
+common#:#obj_mobs_desc#:#Settings for media objects and media pools.###18 08 2009 new variable
+mep#:#mep_create_content_snippet#:#Create Content Snippet###18 08 2009 new variable
+mep#:#mep_new_folder#:#New Folder###18 08 2009 new variable
+mep#:#mep_edit_folder#:#Edit Folder###18 08 2009 new variable
+forum#:#frm_purifier_not_implemented_for_type_x#:#Purifier for type %s not implemented yet.###18 08 2009 new variable
+common#:#adve_frm_post_settings#:#Forum Posts###18 08 2009 new variable
+common#:#advanced_editing_frm_post_settings#:#Forum Post Settings###18 08 2009 new variable
+common#:#hint#:#Hint###18 08 2009 new variable
+mep#:#mep_new_content_snippet#:#New Content Snippet###18 08 2009 new variable
+mep#:#mep_edit_content_snippet#:#Edit Content Snippet###18 08 2009 new variable
+mep#:#mep_folder#:#Folder###18 08 2009 new variable
+mep#:#mep_page_properties#:#Page Properties###18 08 2009 new variable
+content#:#cont_ed_insert_incl#:#Insert Content Snippet###18 08 2009 new variable
+content#:#cont_pc_incl#:#Content Snippet###18 08 2009 new variable
+survey#:#scale#:#Scale###18 08 2009 new variable
+survey#:#add_material#:#Add Material###18 08 2009 new variable
+survey#:#internal_link#:#Internal Link###18 08 2009 new variable
+survey#:#materials#:#Materials###18 08 2009 new variable
+survey#:#materials_deleted#:#Material(s) deleted###18 08 2009 new variable
+survey#:#phrase_added#:#Phrase added###18 08 2009 new variable
+survey#:#matrix_left_pole#:#Left Pole###18 08 2009 new variable
+survey#:#matrix_right_pole#:#Right Pole###18 08 2009 new variable
+survey#:#row_text#:#Row Text###18 08 2009 new variable
+common#:#header_visible_registration#:#Visible in Registration###18 08 2009 new variable
+common#:#visible_registration#:#Visible in Registration###18 08 2009 new variable
+survey#:#spl_browsercolumns#:#Customized question list###18 08 2009 new variable
+survey#:#spl_browsercolumns_description#:#Select the question data columns that are shown in the question list of a question pool. This setting will be applied for each available question pool.###18 08 2009 new variable
+survey#:#spl_move_insert_clipboard#:#The selected question(s) are marked for moving###18 08 2009 new variable
+survey#:#spl_move_select_none#:#Please check at least one question to select it for moving###18 08 2009 new variable
+survey#:#spl_copy_insert_clipboard#:#The selected question(s) are copied to the clipboard###18 08 2009 new variable
+survey#:#spl_copy_select_none#:#Please check at least one question to copy it to the clipboard###18 08 2009 new variable
+survey#:#spl_paste_no_objects#:#There are no questions in the clipboard. Please copy or move a question into the clipboard.###18 08 2009 new variable
+survey#:#spl_paste_success#:#The question(s) have been pasted into the question pool###18 08 2009 new variable
+survey#:#invitation_mode_desc#:#To invite a user to this survey a link reference to the survey is created on the users personal desktop.###18 08 2009 new variable
+survey#:#msg_deleted_export_files#:#Export file(s) deleted###18 08 2009 new variable
+common#:#udf_type_wysiwyg#:#Text Area (WYSIWYG)###18 08 2009 new variable
+common#:#udf_update_wysiwyg_field#:#Edit Text Area (WYSIWYG) Field###18 08 2009 new variable
+search#:#search_crs_title#:#Course Name###18 08 2009 new variable
+search#:#search_for_crs_members#:#Search for Course Members###18 08 2009 new variable
+mcst#:#mcst_mimetype#:#Mime Type###18 08 2009 new variable
+mcst#:#mcst_mimetypes#:#Mime Types###18 08 2009 new variable
+mcst#:#mcst_mimetype_info#:#Select mime type to control plugin used for playback.<br>Please note: Be aware that not every browser contains the plugin you intend to use.###18 08 2009 new variable
+mcst#:#mcst_mimetypes_info#:#Comma separated list of mime types###18 08 2009 new variable
+user#:#usr_public_profile_disabled#:#Public Profile Disabled###18 08 2009 new variable
+user#:#usr_public_profile_disabled_info#:#Your information is only visible to administrative staff.###18 08 2009 new variable
+user#:#usr_public_profile_logged_in#:#Logged in Users###18 08 2009 new variable
+user#:#usr_public_profile_logged_in_info#:#Your information is only visible to users logged into the system.###18 08 2009 new variable
+user#:#usr_public_profile_global#:#Globale Visible###18 08 2009 new variable
+user#:#usr_public_profile_global_info#:#Your profile is visible to the internet.###18 08 2009 new variable
+survey#:#codes_deleted#:#Code(s) deleted###18 08 2009 new variable
+survey#:#codes_created#:#Code(s) created###18 08 2009 new variable
+survey#:#language_changed#:#Language changed###18 08 2009 new variable
+survey#:#use_browser_print_function#:#Please use the print function of your web browser.###18 08 2009 new variable
+content#:#cont_select_from_upload_dir#:#-- Select from the upload directory --###18 08 2009 new variable
+content#:#cont_uploaded_file#:#Existing file###18 08 2009 new variable
+content#:#cont_upload_dir#:#Upload directory###18 08 2009 new variable
+content#:#cont_upload_dir_info#:#Server directory from which large SCORM and HTML packages can be copied instead of being uploaded. Only ILIAS administrators will see a selection of files from this directory. Please enter a full server path without trailing slash.###18 08 2009 new variable
+common#:#notifications#:#Notifications###18 08 2009 new variable
+common#:#license#:#License###18 08 2009 new variable
+common#:#licenses#:#Licenses###18 08 2009 new variable
+common#:#no_license_available#:#No license available!###18 08 2009 new variable
+license#:#license_counter#:#License counter###18 08 2009 new variable
+license#:#license_counter_info#:#Allows to count the used licenses of purchased SCORM and HTML learning modules###18 08 2009 new variable
+license#:#license_warning#:#License warning###18 08 2009 new variable
+license#:#license_warning_info#:#Up to this number of remaining licenses for a course object a warning is presented when a user enters the course. ###18 08 2009 new variable
+license#:#arbitrary#:#arbitrary###18 08 2009 new variable
+license#:#course_licenses_exceeded#:#By adding users the potential accesses will exceed the available licenses. Look at the tab "Licenses" to see which licenses have to be extended.###18 08 2009 new variable
+license#:#course_licenses_rare#:#Warning: only %s licenses are available for a course object. Look at the tab "Licenses" to see which licenses have to be extended.###18 08 2009 new variable
+license#:#edit_license#:#Edit license###18 08 2009 new variable
+license#:#existing_licenses#:#Existng licenses###18 08 2009 new variable
+license#:#license_updated#:#The license data was updated.###18 08 2009 new variable
+license#:#potential_accesses#:#Potential accesses###18 08 2009 new variable
+license#:#potential_accesses_explanation#:#Every user with read access who hasn't accessed so far counts as a potential access.###18 08 2009 new variable
+license#:#remaining_licenses#:#Available licenses###18 08 2009 new variable
+license#:#remaining_licenses_explanation#:#The available licenses are calculated as purchased minus consumed.###18 08 2009 new variable
+license#:#used_licenses#:#Consumed licenses###18 08 2009 new variable
+license#:#used_licenses_explanation#:#Every first access of a user consumes a license.###18 08 2009 new variable
+user#:#user_access_limited#:#Limited###18 08 2009 new variable
+user#:#user_access_unlimited#:#Unlimited###18 08 2009 new variable
+license#:#zero_licenses_explanation#:#Enter a 0 to deactivate the licensing.###18 08 2009 new variable
+common#:#birthday#:#Birthday###18 08 2009 new variable
+content#:#cont_replace_mob_feature#:#Replace Media Objects in Content###18 08 2009 new variable
+assessment#:#errors#:#Errors###18 08 2009 new variable
+common#:#advanced_editing_required_tags#:#The following HTML tags are required: %s###18 08 2009 new variable
+meta#:#md_general_settings#:#General Settings###18 08 2009 new variable
+meta#:#md_delimiter#:#Delimiter###18 08 2009 new variable
+meta#:#md_delimiter_info#:#The delimiter is used in the quick editing screen for keywords and authors separation. Default is ','.###18 08 2009 new variable
+meta#:#md_separated_by#:#Separated by %s###18 08 2009 new variable
+content#:#cont_text_keyword#:#Keyword###18 08 2009 new variable
+search#:#search_hide_adv_search#:#Hide Advanced Search###18 08 2009 new variable
+search#:#search_auto_complete_length#:#Number of Auto Complete List Entries###18 08 2009 new variable
+content#:#import_sco_object#:#Import SCO###18 08 2009 new variable
+content#:#scorm_editable#:#Import editable###18 08 2009 new variable
+content#:#scorm_editable_comments#:#Works only SCORM 1.2/2004 package###18 08 2009 new variable
+common#:#preview_learner#:#Members View###18 08 2009 new variable
+common#:#preview_learner_info#:#If enabled, Course and Group administrators have the possibility to view the content form the perspective of a learner.###18 08 2009 new variable
+common#:#mem_view_activate#:#Activate Members View###18 08 2009 new variable
+common#:#mem_view_deactivate#:#Deactivate Members View###18 08 2009 new variable
+mcst#:#mcst_automatic_detection#:#Automatic Detection###18 08 2009 new variable
+crs#:#sess_limit#:#Limit Number of Sessions###18 08 2009 new variable
+crs#:#sess_num_prev#:#Number of Past Sessions###18 08 2009 new variable
+crs#:#sess_num_next#:#Number of Following Sessions###18 08 2009 new variable
+crs#:#sess_limit_info#:#Choose this option for limiting the number of visible sessions.###18 08 2009 new variable
+common#:#mem_view_long#:#Member View###18 08 2009 new variable
+common#:#mem_view_close#:#Close Member View###18 08 2009 new variable
+common#:#auth_ldap_migration_info#:#Activate this option to give new users the possibility to migrate their existing ILIAS accounts to LDAP authentication.###18 08 2009 new variable
+survey#:#spl_move_same_pool#:#It has no effect to move questions from inside the same question pool.###18 08 2009 new variable
+assessment#:#delete_image_header#:#Delete image###18 08 2009 new variable
+assessment#:#delete_image_question#:#Do you really want to delete the image?###18 08 2009 new variable
+assessment#:#answer_image#:#Answer Image###18 08 2009 new variable
+assessment#:#thumb_size_info#:#If you enter a thumbnail size, a thumbnail of this size will be generated for uploaded images. Without a thumbnail size, the original image size will be used.###18 08 2009 new variable
+assessment#:#msg_questions_moved#:#Question(s) moved###18 08 2009 new variable
+assessment#:#too_many_targets_selected_for_move#:#You must select exactly one target position!###18 08 2009 new variable
+assessment#:#msg_selected_for_move#:#Question(s) selected for moving###18 08 2009 new variable
+chat#:#chat_hide_textformat#:#Hide Textformat###18 08 2009 new variable
+search#:#lucene_advanced_settings_table#:#Advanced Search Settings###18 08 2009 new variable
+dateplaner#:#cal_day_start#:#Day Start###18 08 2009 new variable
+survey#:#questionblock_inserted#:#Question Block inserted###18 08 2009 new variable
+survey#:#questionblocks_inserted#:#Question Blocks inserted###18 08 2009 new variable
+assessment#:#term_text#:#Term Text###18 08 2009 new variable
+assessment#:#term_image#:#Term Image###18 08 2009 new variable
+assessment#:#definition_text#:#Definition Text###18 08 2009 new variable
+assessment#:#definition_image#:#Definition Image###18 08 2009 new variable
+assessment#:#definitions#:#Definitions###18 08 2009 new variable
+survey#:#msg_users_disinvited#:#User(s) disinvited###18 08 2009 new variable
+content#:#cont_enter_a_dir_name#:#Please enter a directory name.###18 08 2009 new variable
+content#:#cont_enter_a_file#:#Please select a file.###18 08 2009 new variable
+content#:#cont_rename_dir#:#Rename Directory###18 08 2009 new variable
+content#:#mep_folder_created#:#Added new folder.###18 08 2009 new variable
+assessment#:#available_terms#:#Available Terms###18 08 2009 new variable
+assessment#:#selection#:#Selection###18 08 2009 new variable
+mcst#:#mcst_set_playtime#:#Playtime has been set.###18 08 2009 new variable
+mcst#:#mcst_unable_to_determin_playtime#:#Unable to determine playtime. Please set it manually be clicking on Edit.###18 08 2009 new variable
+assessment#:#msg_number_of_terms_too_low#:#The number of terms must be greater or equal to the number of definitions.###18 08 2009 new variable
+grp#:#grp_missing_title#:#Please enter a group title. ###18 08 2009 new variable
+grp#:#grp_missing_grp_type#:#Please choose a group type.###18 08 2009 new variable
+grp#:#grp_missing_password#:#Please enter a group password.###18 08 2009 new variable
+grp#:#grp_wrong_reg_time_limit#:#Please check the registration start and end times.###18 08 2009 new variable
+user#:#user_field#:#Field###18 08 2009 new variable
+user#:#user_visible_in_profile#:#Visible in Profile###18 08 2009 new variable
+grp#:#grp_already_assigned#:#You have already requested membership for this group.###18 08 2009 new variable
+common#:#sub_request_saved#:#Saved membership request###18 08 2009 new variable
+grp#:#grp_update_subscr_request#:#Update Membership Request###18 08 2009 new variable
+grp#:#grp_cancel_subscr_request#:#Delete Membership Request###18 08 2009 new variable
+crs#:#crs_update_subscr_request#:#Update Membership Request###18 08 2009 new variable
+crs#:#crs_cancel_subscr_request#:#Delete Membership Request###18 08 2009 new variable
+common#:#sub_request_deleted#:#Deleted membership request###18 08 2009 new variable
+grp#:#grp_min_one_admin#:#There has to be at least one administrator assigned to this group.###18 08 2009 new variable
+crs#:#crs_min_one_admin#:#There has to be at least one administrator assigned to this course.###18 08 2009 new variable
+administration#:#adm_repository_cache_time#:#Repository Cache Time###18 08 2009 new variable
+administration#:#adm_repository_cache_time_info#:#Repository access cache time. Set 0 to disable the cache. Higher values may improve performance but also display actions that lead to a no-permission screen.###18 08 2009 new variable
+wiki#:#wiki_please_enter_search_term#:#Please enter a search term.###18 08 2009 new variable
+rbac#:#rbac_role_exists_alert#:#A role with the same name already exists in this context. Please choose another name.###18 08 2009 new variable
+trac#:#trac_query#:#Title/Description###18 08 2009 new variable
+common#:#reg_mail_body_2_confirmation#:#The link will only be good for %s, after that you will have to try again from the beginning.###18 08 2009 new variable
+common#:#reg_mail_body_3_confirmation#:#If this email means nothing to you, then it is possible that somebody else has entered your email address either deliberately or accidentally, so please ignore this email.###18 08 2009 new variable
+common#:#reg_mail_body_forgot_password_info#:#To get your password, please use the function « Forgot password? » at the login screen to request a new password for this account.###18 08 2009 new variable
+cmps#:#no_changes#:#Keine Änderungen###18 08 2009 new variable
+cmps#:#database_is_uptodate#:#Die Datenbank ist aktuell.###18 08 2009 new variable
+administration#:#path_to_mkisofs#:#Path to mkisofs###18 08 2009 new variable
+common#:#obj_sty#:#Style###18 08 2009 new variable
+dateplaner#:#cal_created_milestone#:#Added milestone.###18 08 2009 new variable
+dateplaner#:#cal_created_milestone_resp_q#:#Added milestone. Please select users that are responsible to meet the milestone.###18 08 2009 new variable
+common#:#address#:#Address###18 08 2009 new variable
+common#:#contact#:#Contact###18 08 2009 new variable
+tagging#:#tagging_enable_all_users#:#Show Tags of All Users###18 08 2009 new variable
+tagging#:#tagging_enable_all_users_info#:#Adds a section "All Users" to the info screens that lists all tags of all users attached to a resource.###18 08 2009 new variable
+tagging#:#tagging_forbidden_tags#:#Forbidden Tags###18 08 2009 new variable
+tagging#:#tagging_tag#:#Tag###18 08 2009 new variable
+tagging#:#tagging_search_users#:#Search Users###18 08 2009 new variable
+tagging#:#tagging_users_using_tag#:#Users Using Tag###18 08 2009 new variable

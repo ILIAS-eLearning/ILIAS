@@ -9880,3 +9880,20 @@ rbac#:#rbac_role_exists_alert#:#A role with the same name already exists in this
 trac#:#trac_query#:#Title/Description###12 08 2009 new variable
 common#:#reg_mail_body_2_confirmation#:#The link will only be good for %s, after that you will have to try again from the beginning.###12 08 2009 new variable
 common#:#reg_mail_body_3_confirmation#:#If this email means nothing to you, then it is possible that somebody else has entered your email address either deliberately or accidentally, so please ignore this email###12 08 2009 new variable
+common#:#reg_mail_body_forgot_password_info#:#To get your password, please use the function « Forgot password? » at the login screen to request a new password for this account.###18 08 2009 new variable
+cmps#:#no_changes#:#Keine Änderungen###18 08 2009 new variable
+cmps#:#database_is_uptodate#:#Die Datenbank ist aktuell.###18 08 2009 new variable
+administration#:#path_to_mkisofs#:#Path to mkisofs###18 08 2009 new variable
+common#:#obj_sty#:#Style###18 08 2009 new variable
+dateplaner#:#cal_created_milestone#:#Added milestone.###18 08 2009 new variable
+dateplaner#:#cal_created_milestone_resp_q#:#Added milestone. Please select users that are responsible to meet the milestone.###18 08 2009 new variable
+common#:#address#:#Address###18 08 2009 new variable
+common#:#contact#:#Contact###18 08 2009 new variable
+tagging#:#tagging_enable_all_users#:#Show Tags of All Users###18 08 2009 new variable
+tagging#:#tagging_enable_all_users_info#:#Adds a section "All Users" to the info screens that lists all tags of all users attached to a resource.###18 08 2009 new variable
+tagging#:#tagging_forbidden_tags#:#Forbidden Tags###18 08 2009 new variable
+tagging#:#tagging_tag#:#Tag###18 08 2009 new variable
+tagging#:#tagging_search_users#:#Search Users###18 08 2009 new variable
+tagging#:#tagging_users_using_tag#:#Users Using Tag###18 08 2009 new variable
+mail#:#mail_incoming_mail#:#Incoming mail###18 08 2009 new variable
+mail#:#mail_settings_incoming_type_see_also#:#You can find a further possibility to modify the incoming type of e-mails for users <a href="%s">here</a>###18 08 2009 new variable
