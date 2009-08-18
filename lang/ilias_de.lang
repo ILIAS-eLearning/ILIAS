@@ -1268,7 +1268,8 @@ chat#:#chat_access_blocked#:#Ihr Zugang zu diesen Chaträumen wurde gesperrt.
 chat#:#chat_active#:#Aktiv
 chat#:#chat_active_users#:#Weitere Benutzer (anwesend)
 chat#:#chat_add_allowed_hosts#:#Bitte geben Sie die Adresse des/der Rechner ein, die auf den Chatserver zugreifen dürfen
-chat#:#chat_add_blocking#:#Benutzer sperrenchat#:#chat_add_external_ip#:#Bitte geben Sie die externe IP des Servers an.
+chat#:#chat_add_blocking#:#Benutzer sperren
+chat#:#chat_add_external_ip#:#Bitte geben Sie die externe IP des Servers an.
 chat#:#chat_add_internal_ip#:#Bitte geben Sie die interne IP des Servers an.
 chat#:#chat_add_moderator_password#:#Bitte geben Sie ein Moderatorpasswort ein.
 chat#:#chat_add_port#:#Bitte geben Sie den Server-Port ein.
