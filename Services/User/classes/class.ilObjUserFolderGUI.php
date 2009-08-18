@@ -3398,6 +3398,7 @@ else
 
 		include_once 'Services/Search/classes/class.ilUserSearchOptions.php';
 		$lng->loadLanguageModule("administration");
+		$lng->loadLanguageModule("mail");
 		$this->setSubTabs('settings');
 if (true)
 {
@@ -3787,6 +3788,8 @@ else
 		} else {
 			$ilias->deleteSetting("usr_settings_export_preferences");
 		}
+		
+		$ilias->setSetting('mail_incoming_mail', (int)$_POST['select']['default_mail_incoming_mail']);
 
 		ilUtil::sendSuccess($this->lng->txt("usr_settings_saved"));
 		$this->settingsObject();
