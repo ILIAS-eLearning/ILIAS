@@ -497,3 +497,9 @@ next_update_break#:#Next Update Break###24 07 2009 new variable
 next_update_break_info#:#Depending on the size of your insallation, it is usually advisable not to perform large updates in one run.###24 07 2009 new variable
 clients#:#Clients###24 07 2009 new variable
 no_items#:#No Entrie###24 07 2009 new variable
+convert_path_comment_win#:#Required for displaying thumbnails of images, e.g. 'C:/tools/ImageMagick/convert.exe'.###18 08 2009 new variable
+htmldoc_path_comment_win#:#Optional to generate PDF documents, e.g. 'C:/tools/htmldoc/htmldoc.exe'.###18 08 2009 new variable
+java_path_comment_win#:#Optional for validating SCORM Learning Modules, e.g. 'C:/Program Files/Java/bin/java.eve'.###18 08 2009 new variable
+log_path_comment_win#:#E.g. 'C:/iliasdata/iliaslog.txt' (File will be created)###18 08 2009 new variable
+unzip_path_comment_win#:#Required for extracting import files, e.g. 'C:/tools/unzip/unzip.exe'.###18 08 2009 new variable
+zip_path_comment_win#:#Required for extracting import files, e.g. 'C:/tools/zip/zip.exe'.###18 08 2009 new variable
