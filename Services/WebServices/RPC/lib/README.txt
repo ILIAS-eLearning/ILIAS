@@ -10,31 +10,20 @@ that requires full-text search, especially cross-platform.
 Requirements
 -------------------------------------------------------------------------------
 
-This Java server has been tested with Sun Java Runtime Environment 1.5.
+This Java server has been tested with Sun Java Runtime Environment 1.6.
 To be able to index and search for non-ASCII characters your system should
 support UTF-8 encodings.
-
-ILIAS needs the pear XML_RPC library.
 
 
 A Installation
 -------------------------------------------------------------------------------
 
-1) Install pear XML_RPC:
-
-bash$ pear install XML_RPC
-
-Please check if your XML_RPC package is newer than Release 1.4 due to security bugs in older libraries.
-If not upgrade the package XML_RPC:
-
-bash$ pear upgrade XML_RPC
-
-2) Change directory to:
+1) Change directory to:
 
 bash$ cd <YOUR_ILIAS_DIR>/Services/WebServices/RPC/lib
 
 
-3) Edit the file ilServer.properties
+2) Edit the file ilServer.properties
 
 ilServer.properties:
 IpAddress = 127.0.0.1 # Configure the Ip the RPC server is bound to. 
@@ -49,17 +38,28 @@ IndexPath = /tmp	  # Choose an existing directory where lucene will store the
 
 LogFile = /var/log/ilServer.log # Choose a filename. The LogFile will be created.
 
-4) Start the server:
+3) Start the server:
 
 Start the server:
 
-bash$ java -Dfile.encoding=UTF-8 -jar ilServer.jar ilServer.properties &
+bash$ java -Dfile.encoding=UTF-8 -jar ilServer.jar ilServer.ini start &
 
-You will receive the PROCESS_ID of the started RPC-Server
 
 To stop the server simply type:
 
-bash$ kill <PROCESS_ID>
+bash$ java -jar ilServer.jar ilServer.ini stop
+
+
+Show the server status:
+
+bash$ java -jar ilServer.jar ilServer.ini status
+
+Possible return values are:
+
+Running
+Stopped
+Indexing
+
 
 B Preparing ILIAS
 --------------------------------------------------------------------------------
