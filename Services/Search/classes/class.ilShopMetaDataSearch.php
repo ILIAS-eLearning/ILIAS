@@ -251,6 +251,74 @@ class ilShopMetaDataSearch extends ilAbstractSearch
 		}
 
 		return $this->search_result;
-	}		
+	}	
+	
+	/**
+	* build locate string in case of AND search
+	* @return string 
+	* @access public
+	*/
+	public function __createLocateString()
+	{
+		global $ilDB;
+		
+		if($this->query_parser->getCombination() == 'or')
+		{
+			return '';
+		}
+		
+		if(!strlen($this->query_parser->getQueryString()))
+		{
+			return '';
+		}
+		
+		$locate = '';
+		
+		if(count($this->fields) > 1)
+		{
+			$tmp_fields = array();
+			foreach($this->fields as $field)
+			{
+				$tmp_fields[$field] = 'text'; 
+			}
+			$complete_str = $ilDB->concat($tmp_fields);
+		}
+		else
+		{
+			$complete_str = $this->fields[0];
+		}
+
+		$counter = 0;
+		foreach($this->query_parser->getQuotedWords() as $word)
+		{
+			$locate .= ',';
+			$locate .= $ilDB->locate($ilDB->quote($word, 'text'), $complete_str, 1);
+			$locate .= (' found'.$counter++);
+			$locate .= ' ';
+		}
+		
+		return $locate;
+	}
+
+	public function __prepareFound(&$row)
+	{
+		if($this->query_parser->getCombination() == 'or')
+		{
+			return array();
+		}
+		
+		if(!strlen($this->query_parser->getQueryString()))
+		{
+			return array();
+		}
+		
+		$counter = 0;
+		foreach($this->query_parser->getQuotedWords() as $word)
+		{
+			$res_found = 'found'.$counter++;
+			$found[] = $row->$res_found;
+		}
+		return $found ? $found : array();
+	}	
 }
 ?>
