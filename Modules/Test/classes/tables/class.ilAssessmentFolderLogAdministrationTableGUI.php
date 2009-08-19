@@ -40,7 +40,7 @@ class ilAssessmentFolderLogAdministrationTableGUI extends ilTable2GUI
 	 * @param
 	 * @return
 	 */
-	public function __construct($a_parent_obj, $a_parent_cmd)
+	public function __construct($a_parent_obj, $a_parent_cmd, $a_write_access = false)
 	{
 		parent::__construct($a_parent_obj, $a_parent_cmd);
 
@@ -61,17 +61,20 @@ class ilAssessmentFolderLogAdministrationTableGUI extends ilTable2GUI
 
 		$this->setFormAction($this->ctrl->getFormAction($a_parent_obj, $a_parent_cmd));
 
-		$this->addMultiCommand('deleteLog', $this->lng->txt('ass_log_delete_entries'));
+		if ($a_write_access)
+		{
+			$this->addMultiCommand('deleteLog', $this->lng->txt('ass_log_delete_entries'));
+			$this->setSelectAllCheckbox('chb_test');
+			$this->enable('select_all');
+		}
 
 		$this->setDefaultOrderField("title");
 		$this->setDefaultOrderDirection("asc");
 		
 		$this->setPrefix('chb_test');
-		$this->setSelectAllCheckbox('chb_test');
 		
 		$this->enable('header');
 		$this->enable('sort');
-		$this->enable('select_all');
 	}
 
 	/**
