@@ -5495,7 +5495,6 @@ content#:#Pages#:#Seiten
 content#:#pages from#:#Seiten von
 content#:#par#:#Text
 content#:#PDF export#:#PDF Export
-content#:#PDF_export#:#PDF Export
 content#:#pg#:#Seite
 content#:#public_section#:#Öffentlicher Bereich
 content#:#read offline#:#Offline lesen
@@ -9889,3 +9888,12 @@ wiki#:#wiki_what_links_here#:#Was verlinkt hierher?
 wiki#:#wiki_what_links_to_page#:#Was verlinkt auf die Seite "%s"?
 wiki#:#wiki_wiki_page#:#Wiki-Seite
 wiki#:#wiki_wiki_search#:#Suche in Wiki
+content#:#cont_localfile#:#Local File###19 08 2009 new variable
+dateplaner#:#ca_day_start#:#Day Start###19 08 2009 new variable
+survey#:#spl_browsercolumns#:#Customized question list###19 08 2009 new variable
+survey#:#spl_browsercolumns_description#:#Select the question data columns that are shown in the question list of a question pool. This setting will be applied for each available question pool.###19 08 2009 new variable
+search#:#search_crs_title#:#Course Name###19 08 2009 new variable
+license#:#remaining_licenses#:#Available licenses###19 08 2009 new variable
+license#:#remaining_licenses_explanation#:#The available licenses are calculated as purchased minus consumed.###19 08 2009 new variable
+user#:#user_field#:#Field###19 08 2009 new variable
+user#:#user_visible_in_profile#:#Visible in Profile###19 08 2009 new variable
