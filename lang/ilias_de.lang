@@ -2277,7 +2277,7 @@ common#:#details#:#Details
 common#:#disable#:#ausschalten
 common#:#disable_anonymous_fora#:#Anonyme Foren deaktivieren
 common#:#disable_anonymous_fora_desc#:#Wenn diese Option ausgewählt ist, können Foren nicht mehr anonym geschaltet werden. Anonyme Foren können jedoch noch immer nicht-anonym geschaltet werden.
-common#:#disable_check#:#Keine Überprüfung
+common#:#disable_check#:#Nicht überprüfen
 common#:#disable_ext_lang_maint#:#Deaktiviere erweiterte Sprachenverwaltung
 common#:#disabled#:#Ausgeschaltet
 common#:#disk_quota#:#Disk Quota
