@@ -6446,9 +6446,12 @@ form#:#form_msg_file_size_exceeds#:#Die hochzuladende Datei überschreitet die m
 form#:#form_msg_file_upload_stopped_ext#:#Upload durch PHP-Extension abgebrochen.
 form#:#form_msg_file_virus_found#:#In der hochzuladenden Datei wurde ein Virus gefunden!
 form#:#form_msg_file_wrong_file_type#:#Falscher Dateityp
+form#:#form_msg_formula_is_required#:#Bitte geben Sie eine korrekte Formel an.
 form#:#form_msg_numeric_value_required#:#Bitte geben Sie einen numerischen Wert ein.
 form#:#form_msg_value_too_high#:#Wert ist zu hoch. Bitte geben Sie einen niedrigeren Wert ein.
 form#:#form_msg_value_too_low#:#Wert ist zu niedrig. Bitte geben Sie einen höheren Wert ein.
+form#:#form_msg_wrong_date#:#Falsches Datum. Bitte geben Sie ein gültiges Datum an.		 
+form#:#form_msg_wrong_date_format#:#Falsches Datumsformat. Bitte geben Sie das Datum als "%s" an!
 form#:#form_password_not_allowed_for_auth#:#Für die gewählte Authentifizierungmethode können Sie das Passwort nicht ändern
 form#:#form_password_required_for_auth#:#Für die gewählte Authentifizierungmethode ist ein Passwort notwendig.
 form#:#form_retype_password#:#Passwort nochmals eingeben
@@ -9573,42 +9576,39 @@ wiki#:#wiki_wiki_page#:#Wiki-Seite
 wiki#:#wiki_wiki_search#:#Suche in Wiki
 mail#:#mail_incoming_mail#:#Nachrichten Empfang
 mail#:#mail_settings_incoming_type_see_also#:#Eine weitere Möglichkeit die Empfangsart für die Anwender/-innenfinden zu ändern haben Sie <a href="%s">hier</a>.
-form#:#form_msg_wrong_date#:#Wrong date. Please enter a valid date.###18 08 2009 new variable
-form#:#form_msg_wrong_date_format#:#Wrong date format. Please enter the date as "%s"!###18 08 2009 new variable
-form#:#form_msg_formula_is_required#:#Please enter a correct formula.###18 08 2009 new variable
-common#:#advanced_editing_rep_page_editing#:#Enable Content Editing in Repository###18 08 2009 new variable
-common#:#advanced_editing_rep_page_editing_desc#:#This feature allows to add text/media to category, course, group and folder pages.###18 08 2009 new variable
-common#:#adve_rep_settings#:#Repository Settings###18 08 2009 new variable
-common#:#lang_size_gb#:#GB###18 08 2009 new variable
-common#:#lang_size_mb#:#MB###18 08 2009 new variable
-common#:#lang_size_kb#:#KB###18 08 2009 new variable
-common#:#lang_size_bytes#:#bytes###18 08 2009 new variable
-common#:#webdav#:#WebDAV###18 08 2009 new variable
-common#:#mail_attachment#:#Mail attachment###18 08 2009 new variable
-content#:#cont_change_object_reference#:#Change Object Reference###18 08 2009 new variable
-content#:#cont_select#:#Select###18 08 2009 new variable
-content#:#cont_please_enter_a_term#:#Please enter a term.###18 08 2009 new variable
-crs#:#crs_set_on_waiting_list#:#You can add your join request to the waiting list. You will receive a message from a course administrator when your request has been approved or rejected.###18 08 2009 new variable
-survey#:#SurveyMultipleChoiceQuestion#:#Multiple Choice Question (Multiple Response)###18 08 2009 new variable
-survey#:#SurveySingleChoiceQuestion#:#Multiple Choice Question (Single Response)###18 08 2009 new variable
-survey#:#question_mr_not_checked#:#Please check at least one of the offered answers!###18 08 2009 new variable
-survey#:#question_not_checked#:#Please check one of the offered answers!###18 08 2009 new variable
-survey#:#invitation_off#:#No invitations###18 08 2009 new variable
-survey#:#no_user_invited#:#All invited users did not possess sufficient permissions to run the survey. No user was invited.###18 08 2009 new variable
-survey#:#users_invited#:#%s users have been invited###18 08 2009 new variable
-dateplaner#:#cal_edit_milestone#:#Edit Milestone###18 08 2009 new variable
+common#:#advanced_editing_rep_page_editing#:#Aktiviere Seitenbearbeitung im Magazin
+common#:#advanced_editing_rep_page_editing_desc#:#Diese Funktion ermöglicht das Hinzufügen von Text und Medien zu einer Kategorie, einem Ordner und zu den Inhaltsseiten von Kursen und Gruppen.
+common#:#adve_rep_settings#:#Magazineinstellungen
+common#:#lang_size_gb#:#GB
+common#:#lang_size_mb#:#MB
+common#:#lang_size_kb#:#KB
+common#:#lang_size_bytes#:#Bytes
+common#:#webdav#:#WebDAV
+common#:#mail_attachment#:#Mailanhang
+content#:#cont_change_object_reference#:#Ändere Objektreferenz
+content#:#cont_select#:#Auswählen
+content#:#cont_please_enter_a_term#:#Bitte geben Sie einen Term ein.
+crs#:#crs_set_on_waiting_list#:#Wenn Sie einen Aufnahmeantrag stellen, werden Sie auf die Warteliste gesetzt. Sie erhalten dann eine Nachricht der Kursadministration, ob Ihr Antrag angenommen oder abgelehnt wird.
+survey#:#SurveyMultipleChoiceQuestion#:#Multiple Choice Frage (Mehrfachauswahl)		 
+survey#:#SurveySingleChoiceQuestion#:#Multiple Choice Frage (Einfachauswahl)		 
+survey#:#question_mr_not_checked#:#Bitte wählen Sie mindestens eine der angebotenen Antworten aus!		 
+survey#:#question_not_checked#:#Sie müssen eine der angebotenen Anworten auswählen!		 
+survey#:#invitation_off#:#Niemanden einladen
+survey#:#no_user_invited#:#Allen eingeladenen Benutzern fehlen die notwendigen Rechte, um die Umfrage durchzuführen. Es wurde niemand eingeladen.
+survey#:#users_invited#:#Es wurden %s Benutzer eingeladen
 grp#:#grp_set_on_waiting_list#:#You can add your join request to the waiting list. You will receive a message from a group administrator when your request has been approved or rejected.###18 08 2009 new variable
-dateplaner#:#cal_deadline#:#Deadline###18 08 2009 new variable
-dateplaner#:#cal_ms_users_responsible#:#Users Responsible###18 08 2009 new variable
-dateplaner#:#cal_save_responsible_users#:#Save Responsible Users###18 08 2009 new variable
-dateplaner#:#cal_change_responsible_users#:#Change Responsible Users###18 08 2009 new variable
-dateplaner#:#cal_ms_details#:#Milestone Details###18 08 2009 new variable
-dateplaner#:#cal_enable_group_milestones#:#Enable Milestones###18 08 2009 new variable
-dateplaner#:#cal_enable_group_milestones_desc#:#This option enables milestone planning in the calendar.###18 08 2009 new variable
-dateplaner#:#cal_new_ms#:#New Milestone###18 08 2009 new variable
-dateplaner#:#cal_add_milestone#:#Add Milestone###18 08 2009 new variable
-dateplaner#:#cal_task_completion#:#Task Completion###18 08 2009 new variable
-dateplaner#:#cal_responsible#:#Responsible###18 08 2009 new variable
+dateplaner#:#cal_edit_milestone#:#Meilenstein bearbeiten
+dateplaner#:#cal_deadline#:#Endtermin
+dateplaner#:#cal_ms_users_responsible#:#Verantwortliche Mitglieder
+dateplaner#:#cal_save_responsible_users#:#Verantwortliche Mitglieder speichern
+dateplaner#:#cal_change_responsible_users#:#Verantwortliche Mitglieder ändern
+dateplaner#:#cal_ms_details#:#Details zum Meilenstein
+dateplaner#:#cal_enable_group_milestones#:#Meilensteine aktivieren		 
+dateplaner#:#cal_enable_group_milestones_desc#:#Diese Option aktiviert das Management von Meilensteinen im Kalender (Kurse und Gruppen).
+dateplaner#:#cal_new_ms#:#Neuer Meilenstein
+dateplaner#:#cal_add_milestone#:#Meilenstein hinzufügen
+dateplaner#:#cal_task_completion#:#Fertigstellung
+dateplaner#:#cal_responsible#:#Verantwortlich
 crs#:#crs_search_users#:#Search Users###18 08 2009 new variable
 crs#:#crs_user_login#:#User Login###18 08 2009 new variable
 grp#:#grp_search_users#:#Search User###18 08 2009 new variable
