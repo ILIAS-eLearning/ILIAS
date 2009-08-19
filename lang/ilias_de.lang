@@ -9712,19 +9712,18 @@ ldap#:#ldap_deleted_rule#:#Ausgewählte Rollenzuordnung gelöscht
 ldap#:#ldap_role_selection#:#Auswahl der Rollen
 ldap#:#ldap_role_selection_info#:#Ihre Auswahl ist nicht eindeutig. Bitte wählen Sie eine der nachfolgenden Rollen.
 ldap#:#ldap_role_by_plugin#:#Per Plugin
-common#:#reg_mail_subject_confirmation#:#ILIAS eLearning - Your Confirmation Link###18 08 2009 new variable
-common#:#reg_mail_body_confirmation#:#to activate your account and confirm ownership of this email address, click the link below:###18 08 2009 new variable
-content#:#saved_media_object#:#Saved media object.###18 08 2009 new variable
-content#:#text_repr#:#Text Representation###18 08 2009 new variable
-content#:#text_repr_info#:#Used for image "alt" attribute.###18 08 2009 new variable
-common#:#socialbm_extt_social_bookmarks#:#Social Bookmarks###18 08 2009 new variable
-content#:#cont_no_text#:#No Text###18 08 2009 new variable
-content#:#cont_print_selection#:#Print View Selection###18 08 2009 new variable
-dateplaner#:#cal_dstart_dend_warn#:#Please check your input. The start of a day should be before the end of the day.###18 08 2009 new variable
-dateplaner#:#ca_day_start#:#Day Start###18 08 2009 new variable
-dateplaner#:#cal_day_end#:#Day End###18 08 2009 new variable
-dateplaner#:#cal_day_week_view#:#Day/Week View Settings###18 08 2009 new variable
-dateplaner#:#cal_week_month_view#:#Week/Month View Settings###18 08 2009 new variable
+common#:#reg_mail_subject_confirmation#:#ILIAS eLearning - Ihr Bestätigungslink
+common#:#reg_mail_body_confirmation#:#um Ihr Benutzerprofil freizuschalten und gleichzeitig diese E-Mail-Adresse zu bestätigen, klicken Sie bitte den folgenden Link an:
+content#:#saved_media_object#:#Medienobjekt gespeichert
+content#:#text_repr#:#Alternativtext
+content#:#text_repr_info#:#Wird verwendet, wenn die Grafik nicht angezeigt werden kann. 
+common#:#socialbm_extt_social_bookmarks#:#SocialBookmarks
+content#:#cont_no_text#:#Kein Text
+content#:#cont_print_selection#:#Auswahl Druckansicht
+dateplaner#:#cal_dstart_dend_warn#:#Bitte überprüfen Sie Ihre Eingabe. Der Tagesbeginn muss vor dem Tagesende sein.
+dateplaner#:#cal_day_end#:#Tageende
+dateplaner#:#cal_day_week_view#:#Einstellungen Tages-/Wochenansicht
+dateplaner#:#cal_week_month_view#:#Einstellungen Wochen-/Monatsansicht
 common#:#event_ass_materials_prop#:#Session Materials###18 08 2009 new variable
 common#:#mobs_edit_permission#:#Change permission settings###18 08 2009 new variable
 common#:#mobs_visible#:#Media Objects/Pools Settings are visible###18 08 2009 new variable
