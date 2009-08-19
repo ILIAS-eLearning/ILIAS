@@ -104,6 +104,7 @@ public class DBFactory {
 			} 
 			catch (ClassNotFoundException e) {
 				// no oracle driver!
+				logger.error(e);
 				logger.error("Could not load the JDBC driver. Check your CLASSPATH for a proper Oracle JDBC driver.");
 			}
 			return null;
