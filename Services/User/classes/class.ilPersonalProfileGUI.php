@@ -1424,14 +1424,11 @@ return;
 			);
 			$si = new ilSelectInputGUI($lng->txt('mail_incoming'), 'incoming_type');
 			$si->setOptions($options);
-			if($ilSetting->get('usr_settings_disable_mail_incoming_mail') == '1')
+			if(!strlen(ilObjUser::_lookupEmail($ilUser->getId())) ||
+			   $ilSetting->get('usr_settings_disable_mail_incoming_mail') == '1')
 			{
 				$si->setDisabled(true);	
-			}		
-			if(!strlen(ilObjUser::_lookupEmail($ilUser->getId())))
-			{
-				$si->setDisabled(true);
-			}		
+			}
 			$this->form->addItem($si);
 		}
 		
@@ -1487,7 +1484,7 @@ return;
 			$data['incoming_type'] = $mailOptions->getIncomingType();
 		}
 		
-		$this->form->setValuesByArray($data);		
+		$this->form->setValuesByArray($data);
 	}
 
 	/** 
