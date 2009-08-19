@@ -50,10 +50,6 @@ class ilObjSurveyAdministrationGUI extends ilObjectGUI
 		$this->type = "svyf";
 		$lng->loadLanguageModule("survey");
 		$this->ilObjectGUI($a_data,$a_id,$a_call_by_reference,false);
-		if (!$rbacsystem->checkAccess('read',$this->object->getRefId()))
-		{
-			$this->ilias->raiseError($this->lng->txt("msg_no_perm_read_assf"),$this->ilias->error_obj->WARNING);
-		}
 	}
 	
 	function &executeCommand()
@@ -172,6 +168,9 @@ class ilObjSurveyAdministrationGUI extends ilObjectGUI
 	*/
 	function specialusersObject()
 	{
+		global $ilAccess;
+		
+		$a_write_access = ($ilAccess->checkAccess("write", "", $this->object->getRefId())) ? true : false;
 		$this->tpl->addBlockFile("ADM_CONTENT", "adm_content", "tpl.il_svy_adm_specialusers.html", "Modules/Survey");
 		$found_users = "";
 		if (array_key_exists("survey_adm_found_users", $_SESSION))
@@ -186,8 +185,11 @@ class ilObjSurveyAdministrationGUI extends ilObjectGUI
 				$table_gui->setTitle($this->lng->txt("found_users"));
 				$table_gui->setData($data);
 				
-				$table_gui->addCommandButton("addSpecialUser", $this->lng->txt("add"));
-				$table_gui->setSelectAllCheckbox("user_id");
+				if ($a_write_access)
+				{
+					$table_gui->addCommandButton("addSpecialUser", $this->lng->txt("add"));
+					$table_gui->setSelectAllCheckbox("user_id");
+				}
 				$found_users = $table_gui->getHTML();
 			}
 		}
@@ -207,14 +209,17 @@ class ilObjSurveyAdministrationGUI extends ilObjectGUI
 		if (count($special_users))
 		{
 			include_once("./Modules/Survey/classes/tables/class.ilSpecialUsersTableGUI.php");
-			$table_gui = new ilSpecialUsersTableGUI($this, "specialusers");
+			$table_gui = new ilSpecialUsersTableGUI($this, "specialusers", $a_write_access);
 			$table_gui->setPrefix("su");
 					
 			$table_gui->setTitle($this->lng->txt("adm_special_users"));
 			$table_gui->setData($special_users);
 			
-			$table_gui->addCommandButton("removeSpecialUser", $this->lng->txt("remove"));
-			$table_gui->setSelectAllCheckbox("special_user_id");
+			if ($a_write_access)
+			{
+				$table_gui->addCommandButton("removeSpecialUser", $this->lng->txt("remove"));
+				$table_gui->setSelectAllCheckbox("special_user_id");
+			}
 			$this->tpl->setVariable("SPECIAL_USERS", $table_gui->getHTML());
 		}
 		else
@@ -239,10 +244,6 @@ class ilObjSurveyAdministrationGUI extends ilObjectGUI
 		$unlimited_invitation = array_key_exists("unlimited_invitation", $_GET) ? $_GET["unlimited_invitation"] : $surveySetting->get("unlimited_invitation");
 		$googlechart = array_key_exists("googlechart", $_GET) ? $_GET["googlechart"] : $surveySetting->get("googlechart");
 		$use_anonymous_id = array_key_exists("use_anonymous_id", $_GET) ? $_GET["use_anonymous_id"] : $surveySetting->get("use_anonymous_id");
-		if (!$ilAccess->checkAccess("write", "", $this->object->getRefId()))
-		{
-			$this->ilias->raiseError($this->lng->txt("permission_denied"),$this->ilias->error_obj->MESSAGE);
-		}
 		
 		include_once("./Services/Form/classes/class.ilPropertyFormGUI.php");
 		$form = new ilPropertyFormGUI();
@@ -267,8 +268,10 @@ class ilObjSurveyAdministrationGUI extends ilObjectGUI
 		$code->setInfo($lng->txt("use_anonymous_id_desc"));
 		$form->addItem($code);
 
-		$form->addCommandButton("saveSettings", $lng->txt("save"));
-		$form->addCommandButton("defaults", $lng->txt("cancel"));
+		if ($ilAccess->checkAccess("write", "", $this->object->getRefId()))
+		{
+			$form->addCommandButton("saveSettings", $lng->txt("save"));
+		}
 		
 		$tpl->setVariable("ADM_CONTENT", $form->getHTML());
 	}
@@ -278,12 +281,14 @@ class ilObjSurveyAdministrationGUI extends ilObjectGUI
 	*/
 	function saveSettingsObject()
 	{
-		global $ilCtrl;
+		global $ilCtrl, $ilAccess;
 
+		if (!$ilAccess->checkAccess("write", "", $this->object->getRefId())) $ilCtrl->redirect($this, "settings");
 		$surveySetting = new ilSetting("survey");
 		$surveySetting->set("unlimited_invitation", ($_POST["unlimited_invitation"]) ? "1" : "0");
 		$surveySetting->set("googlechart", ($_POST["googlechart"]) ? "1" : "0");
 		$surveySetting->set("use_anonymous_id", ($_POST["use_anonymous_id"]) ? "1" : "0");
+		ilUtil::sendSuccess($this->lng->txt("msg_obj_modified"), true);
 		$ilCtrl->redirect($this, "settings");
 	}
 	

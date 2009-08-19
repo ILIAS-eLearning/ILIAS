@@ -113,6 +113,8 @@ class ilObjAssessmentFolderGUI extends ilObjectGUI
 	*/
 	public function settingsObject()
 	{
+		global $ilAccess;
+		
 		include_once "./Modules/TestQuestionPool/classes/class.ilObjQuestionPool.php";
 		include_once("./Services/Form/classes/class.ilPropertyFormGUI.php");
 		$form = new ilPropertyFormGUI();
@@ -177,7 +179,10 @@ class ilObjAssessmentFolderGUI extends ilObjectGUI
 		$manual->setInfo($this->lng->txt('assessment_log_manual_scoring_desc'));
 		$form->addItem($manual);
 
-		$form->addCommandButton("saveSettings", $this->lng->txt("save"));
+		if ($ilAccess->checkAccess("write", "", $this->object->getRefId()))
+		{
+			$form->addCommandButton("saveSettings", $this->lng->txt("save"));
+		}
 		$this->tpl->setVariable("ADM_CONTENT", $form->getHTML());
 	}
 	
@@ -186,6 +191,9 @@ class ilObjAssessmentFolderGUI extends ilObjectGUI
 	*/
 	public function saveSettingsObject()
 	{
+		global $ilAccess;
+		if (!$ilAccess->checkAccess("write", "", $this->object->getRefId())) $this->ctrl->redirect($this,'settings');
+		
 		if ($_POST["chb_assessment_logging"] == 1)
 		{
 			$this->object->_enableAssessmentLogging(1);
@@ -370,8 +378,11 @@ class ilObjAssessmentFolderGUI extends ilObjectGUI
 	*/
 	public function logAdminObject()
 	{
+		global $ilAccess;
+		$a_write_access = ($ilAccess->checkAccess("write", "", $this->object->getRefId())) ? true : false;
+		
 		include_once "./Modules/Test/classes/tables/class.ilAssessmentFolderLogAdministrationTableGUI.php";
-		$table_gui = new ilAssessmentFolderLogAdministrationTableGUI($this, 'logAdmin');
+		$table_gui = new ilAssessmentFolderLogAdministrationTableGUI($this, 'logAdmin', $a_write_access);
 		include_once "./Modules/Test/classes/class.ilObjTest.php";
 		$available_tests =& ilObjTest::_getAvailableTests(true);
 		$data = array();
@@ -419,11 +430,6 @@ class ilObjAssessmentFolderGUI extends ilObjectGUI
 		$imap_line_color = array_key_exists("imap_line_color", $_GET) ? $_GET["imap_line_color"] : $assessmentSetting->get("imap_line_color");
 		if (strlen($imap_line_color) == 0) $imap_line_color = "FF0000";
 		
-		if (!$ilAccess->checkAccess("write", "", $this->object->getRefId()))
-		{
-			$this->ilias->raiseError($this->lng->txt("permission_denied"),$this->ilias->error_obj->MESSAGE);
-		}
-		
 		include_once("./Services/Form/classes/class.ilPropertyFormGUI.php");
 		$form = new ilPropertyFormGUI();
 		$form->setFormAction($ilCtrl->getFormAction($this));
@@ -439,8 +445,11 @@ class ilObjAssessmentFolderGUI extends ilObjectGUI
 		$linepicker->setValue($imap_line_color);
 		$form->addItem($linepicker);
 				
-		$form->addCommandButton("saveDefaults", $lng->txt("save"));
-		$form->addCommandButton("defaults", $lng->txt("cancel"));
+		if ($ilAccess->checkAccess("write", "", $this->object->getRefId()))
+		{
+			$form->addCommandButton("saveDefaults", $lng->txt("save"));
+		}
+		
 		
 		$tpl->setVariable("ADM_CONTENT", $form->getHTML());
 	}
@@ -465,6 +474,7 @@ class ilObjAssessmentFolderGUI extends ilObjectGUI
 		{
 			$assessmentSetting->set("imap_line_color", $_POST["imap_line_color"]);
 		}
+		ilUtil::sendSuccess($this->lng->txt("msg_obj_modified"), true);
 		$ilCtrl->redirect($this, "defaults");
 	}
 

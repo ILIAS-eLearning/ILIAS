@@ -116,8 +116,16 @@ class ilObjAdvancedEditingGUI extends ilObjectGUI
 	*/
 	function settingsObject()
 	{
+		global $ilAccess;
+		
 		$this->tpl->addBlockFile("ADM_CONTENT", "adm_content", "tpl.advanced_editing.html");
 		
+		if ($ilAccess->checkAccess("write", "", $this->object->getRefId()))
+		{
+			$this->tpl->setCurrentBlock("save");
+			$this->tpl->setVariable("TXT_SAVE", $this->lng->txt("save"));
+			$this->tpl->parseCurrentBlock();
+		}
 		$this->tpl->setCurrentBlock("adm_content");
 		$this->tpl->setVariable("FORMACTION", $this->ctrl->getFormAction($this));
 		$this->tpl->setVariable("TXT_ADVANCED_EDITING_SETTINGS", $this->lng->txt("advanced_editing_settings"));
@@ -132,8 +140,6 @@ class ilObjAdvancedEditingGUI extends ilObjectGUI
 				break;
 		}
 		
-		$this->tpl->setVariable("TXT_SAVE", $this->lng->txt("save"));
-
 		$this->tpl->parseCurrentBlock();
 	}
 	
@@ -142,6 +148,8 @@ class ilObjAdvancedEditingGUI extends ilObjectGUI
 	*/
 	function assessmentObject()
 	{
+		global $ilAccess;
+		
 		$this->tpl->addBlockFile("ADM_CONTENT", "adm_content", "tpl.advanced_editing_assessment.html");
 		
 		$alltags =& $this->object->getHTMLTags();
@@ -160,11 +168,17 @@ class ilObjAdvancedEditingGUI extends ilObjectGUI
 			$this->tpl->parseCurrentBlock();
 		}
 		
+		if ($ilAccess->checkAccess("write", "", $this->object->getRefId()))
+		{
+			$this->tpl->setCurrentBlock("save");
+			$this->tpl->setVariable("TXT_SAVE", $this->lng->txt("save"));
+			$this->tpl->parseCurrentBlock();
+		}
+
 		$this->tpl->setCurrentBlock("adm_content");
 		$this->tpl->setVariable("FORMACTION", $this->ctrl->getFormAction($this));
 		$this->tpl->setVariable("TXT_ASSESSMENT_SETTINGS", $this->lng->txt("advanced_editing_assessment_settings"));
 		$this->tpl->setVariable("TXT_ALLOW_HTML_TAGS", $this->lng->txt("advanced_editing_allow_html_tags"));
-		$this->tpl->setVariable("TXT_SAVE", $this->lng->txt("save"));
 
 		$this->tpl->parseCurrentBlock();
 	}
@@ -175,6 +189,8 @@ class ilObjAdvancedEditingGUI extends ilObjectGUI
 	*/
 	function surveyObject()
 	{
+		global $ilAccess;
+		
 		$this->tpl->addBlockFile("ADM_CONTENT", "adm_content", "tpl.advanced_editing_survey.html");
 		
 		$alltags =& $this->object->getHTMLTags();
@@ -193,11 +209,17 @@ class ilObjAdvancedEditingGUI extends ilObjectGUI
 			$this->tpl->parseCurrentBlock();
 		}
 		
+		if ($ilAccess->checkAccess("write", "", $this->object->getRefId()))
+		{
+			$this->tpl->setCurrentBlock("save");
+			$this->tpl->setVariable("TXT_SAVE", $this->lng->txt("save"));
+			$this->tpl->parseCurrentBlock();
+		}
+
 		$this->tpl->setCurrentBlock("adm_content");
 		$this->tpl->setVariable("FORMACTION", $this->ctrl->getFormAction($this));
 		$this->tpl->setVariable("TXT_SURVEY_SETTINGS", $this->lng->txt("advanced_editing_survey_settings"));
 		$this->tpl->setVariable("TXT_ALLOW_HTML_TAGS", $this->lng->txt("advanced_editing_allow_html_tags"));
-		$this->tpl->setVariable("TXT_SAVE", $this->lng->txt("save"));
 
 		$this->tpl->parseCurrentBlock();
 	}

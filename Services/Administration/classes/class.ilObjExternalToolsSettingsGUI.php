@@ -411,11 +411,6 @@ class ilObjExternalToolsSettingsGUI extends ilObjectGUI
 		$jsMathSetting = new ilSetting("jsMath");
 		$path_to_jsmath = array_key_exists("path_to_jsmath", $_GET) ? $_GET["path_to_jsmath"] : $jsMathSetting->get("path_to_jsmath");
 		
-		if (!$ilAccess->checkAccess("write", "", $this->object->getRefId()))
-		{
-			$this->ilias->raiseError($this->lng->txt("permission_denied"),$this->ilias->error_obj->MESSAGE);
-		}
-		
 		$this->__initSubTabs("editjsMath");
 
 		include_once("./Services/Form/classes/class.ilPropertyFormGUI.php");
@@ -442,9 +437,11 @@ class ilObjExternalToolsSettingsGUI extends ilObjectGUI
 		$enable->setInfo($lng->txt("jsmath_default_setting_info"));
 		$form->addItem($enable);
 
-		$form->addCommandButton("savejsMath", $lng->txt("save"));
-		$form->addCommandButton("view", $lng->txt("cancel"));
-		
+		if ($ilAccess->checkAccess("write", "", $this->object->getRefId()))
+		{
+			$form->addCommandButton("savejsMath", $lng->txt("save"));
+		}
+				
 		$tpl->setVariable("ADM_CONTENT", $form->getHTML());
 	}
 
