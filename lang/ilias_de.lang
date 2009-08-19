@@ -56,6 +56,8 @@ acc#:#acc_tree_off#:#Baumansicht aus
 acc#:#acc_tree_on#:#Baumansicht an
 administration#:#adm_locale#:#Locale
 administration#:#adm_locale_info#:#Die Locale-Einstellung beeinflusst die alphabetische Sortierung in Listen. Beispiele sind nl_NL oder de_DE. Es können mehrere Werte angegeben werden (kommagetrennt). Der erste gültige Wert wird genutzt.
+administration#:#adm_repository_cache_time#:#Zeitspanne Magazin-Cache
+administration#:#adm_repository_cache_time_info#:#Cache-Zeit für Magazinzugriffe. Setzen Sie den Wert auf 0, um den Cache zu deaktivieren. Höhere Werte verbessern die Performanz des Magazins, können aber zur Anzeige von fehlenden Berechtigungen führen.
 administration#:#analysis_options#:#Analyse-Optionen
 administration#:#analyze_data#:#Analysiere und repariere Datenintegrität
 administration#:#analyzing#:#Analysiert...
@@ -137,6 +139,7 @@ administration#:#obj_mds_desc#:#Einstellungen für Metadaten
 administration#:#options#:#Optionen
 administration#:#output_options#:#Ausgabeoptionen
 administration#:#passwd_auto_generate#:#Passwortgenerierung und -weiterleitung
+administration#:#path_to_mkisofs#:#Mkisofs-Pfad
 administration#:#purge_age_limit#:#Begrenze Alter
 administration#:#purge_age_limit_desc#:#Wenn dieses Feld einen Wert enthält, werden nur Objekte, die vor mehr als der angegebenen Zahl Tagen gelöscht worden sind, aus dem System entfernt.
 administration#:#purge_count_limit#:#Begrenze Anzahl
@@ -189,7 +192,7 @@ adve#:#adve_grp_scorm#:#SCORM bearbeiten
 adve#:#adve_grp_test#:#Test & Assessment
 adve#:#adve_grp_wiki#:#Wikis
 adve#:#adve_page_editor_settings#:#Einstellungen ILIAS-Seiteneditor
-adve#:#adve_rte_settings#:#Einstellungen Rich-Text-Editor
+adve#:#adve_rte_settings#:#Einstellungen Rich Text Editor
 adve#:#adve_text_content_features#:#Text Content Menü
 assessment#:#0_unlimited#:#(0 = unbegrenzt)
 assessment#:#action#:#Aktion
@@ -208,19 +211,20 @@ assessment#:#add_rect#:#Rechteck hinzufügen
 assessment#:#add_solution#:#Musterlösung hinzufügen
 assessment#:#addSuggestedSolution#:#Musterlösung hinzufügen
 assessment#:#all_available_question_pools#:#Alle vorhandenen Fragenpools
+assessment#:#allow_images#:#Grafikunterstützung für Antworten
 assessment#:#allowedextensions#:#Erlaubte Dateierweiterungen
 assessment#:#allowedextensions_info#:#Geben Sie eine kommagetrennte Liste der erlaubten Dateierweiterungen an, wenn Sie das Hochladen auf bestimmte Dateitypen einschränken wollen (z.B. doc,xls,odt).
-assessment#:#allow_images#:#Grafikunterstützung für Antworten		 
-assessment#:#analyze_errortext#:#Fehlertext analysieren		 
+assessment#:#analyze_errortext#:#Fehlertext analysieren
 assessment#:#answer#:#Antwort
-assessment#:#answers_multiline#:#Mehrzeilige Antworten 
-assessment#:#answers_singleline#:#Einzeilige Antworten
+assessment#:#answer_image#:#Antwort-Grafik
 assessment#:#answer_is_not_correct_but_positive#:#Sie haben Punkte für Ihre Lösung erhalten, allerdings handelt es sich dabei nicht um die beste Lösung
 assessment#:#answer_is_right#:#Ihre Lösung ist korrekt
 assessment#:#answer_is_wrong#:#Ihre Lösung ist falsch
 assessment#:#answer_picture#:#Antwort-Bild
 assessment#:#answer_text#:#Antwort-Text
 assessment#:#answer_types#:#Antwort-Typen
+assessment#:#answers_multiline#:#Mehrzeilige Antworten
+assessment#:#answers_singleline#:#Einzeilige Antworten
 assessment#:#applet_attributes#:#Applet-Attribute
 assessment#:#applet_new_parameter#:#Neuer Parameter
 assessment#:#applet_parameter#:#Parameter
@@ -251,6 +255,7 @@ assessment#:#assTextSubset#:#Text-Teilmenge
 assessment#:#autosave_failed#:#Automatisches Speichern fehlgeschlagen!
 assessment#:#autosave_success#:#Automatisches Speichern erfolgreich durchgeführt...
 assessment#:#available_points#:#Erreichbare Punkte
+assessment#:#available_terms#:#Auswählbare Terme
 assessment#:#average_reached_points#:#Durchschnittlich erreichte Punktezahl
 assessment#:#backtocallingtest#:#Zurück zum aufrufenden Test
 assessment#:#by#:#nach
@@ -299,10 +304,15 @@ assessment#:#create_new#:#erzeuge neue
 assessment#:#customstyle#:#Eigener Stil
 assessment#:#customstyle_description#:#Es ist möglich, eine eigenen Stil für diesen Test zu verwenden. Bitte wählen Sie eine der verfügbaren Stilvorlagen aus, um sie mit diesem Test zu verwenden.
 assessment#:#definition#:#Definition
+assessment#:#definition_image#:#Bild
+assessment#:#definition_text#:#Text
+assessment#:#definitions#:#Definitionen
 assessment#:#delete_all_user_data#:#Testdaten aller NutzerInnen löschen
 assessment#:#delete_all_user_data_confirmation#:#Wollen Sie wirklich die Testdaten aller NutzerInnen löschen?
 assessment#:#delete_area#:#Region löschen
 assessment#:#delete_image#:#Bild löschen
+assessment#:#delete_image_header#:#Bild löschen
+assessment#:#delete_image_question#:#Möchten Sie das Bild wirklich löschen?
 assessment#:#delete_user_data#:#Testdaten löschen
 assessment#:#deleteSuggestedSolution#:#Musterlösung entfernen
 assessment#:#description_maxchars#:#Wenn nichts eingegeben wird, ist die maximale Anzahl von Zeichen für diese Textantwort unbegrenzt.
@@ -371,8 +381,9 @@ assessment#:#error_open_image_file#:#Fehler beim Öffnen einer Bilddatei!
 assessment#:#error_open_java_file#:#Fehler beim Öffnen eines Java-Applets!
 assessment#:#error_random_question_generation#:#Bei der Erzeugung von Zufallsfragen ist ein unbekannter Fehler aufgetreten. Bitte kontaktieren Sie Ihren ILIAS-Administrator und geben Sie die folgende Information weiter: Das ILIAS-System konnte keine Aktivitäts-ID für die Benutzer-ID %s und die Test-ID %s erzeugen.
 assessment#:#error_save_image_file#:#Fehler beim Speichern einer Bilddatei!
-assessment#:#errors_section#:#Fehlerdaten 
-assessment#:#errortext#:#Fehlertext 
+assessment#:#errors#:#Fehler
+assessment#:#errors_section#:#Fehlerdaten
+assessment#:#errortext#:#Fehlertext
 assessment#:#errortext_info#:#Bitte geben Sie einen Fehlertext ein. Um ein Wort als fehlerhaft zu markieren, setzen Sie bitte eine Raute (#) direkt vor das gewünschte Wort. Wenn Sie auf die Schaltfläche &quot;Fehlertext analysieren&quot; klicken, werden die markierten Wörter für die weitere Bearbeitung extrahiert.
 assessment#:#eval_all_users#:#Auswertung für alle NutzerInnen
 assessment#:#eval_choice_result#:#Die Auswahl mit dem Wert %s ist %s. Sie erreichten %s Punkte.
@@ -452,7 +463,7 @@ assessment#:#insert_before#:#Einfügen vor
 assessment#:#internal_links#:#Interne Verweise
 assessment#:#internal_links_update#:#Aktualisierung
 assessment#:#javaapplet#:#Java-Applet
-assessment#:#keywords_hint#:#Um eine automatische Punktevergabe für die Freitext-Frage zu erreichen, geben Sie hier bitte eine Liste von Schlüsselwörtern an, die durch Leerzeichen oder Zeilenumbrüche voneinander getrennt sind. Wenn eines der Schlüsselwörter in dem Antworttext gefunden wird, vergibt ILIAS die für die Frage eingetragene maximale Punktezahl anstelle der üblichen Bewertung von 0 Punkten.
+assessment#:#keywords_hint#:#Um eine automatische Punktevergabe für die Freitext-Frage zu erreichen, geben Sie hier bitte eine Liste von Schlagwörtern an, die durch Leerzeichen oder Zeilenumbrüche voneinander getrennt sind. Wenn eines der Schlagwörter in dem Antworttext gefunden wird, vergibt ILIAS die für die Frage eingetragene maximale Punktezahl anstelle der üblichen Bewertung von 0 Punkten.
 assessment#:#kiosk#:#Kiosk-Modus
 assessment#:#kiosk_description#:#Führt den Test in einem sogenannten Kiosk-Modus aus. Alle Bildschirmelemente, die nicht zum Test gehören, werden ausgeblendet, damit die Teilnehmerinnen und Teilnehmer keine Möglichkeit haben, den Test zu verlassen.
 assessment#:#kiosk_options#:#Kiosk-Modus Einstellungen
@@ -517,11 +528,14 @@ assessment#:#maxsize#:#Maximale Dateigröße
 assessment#:#maxsize_info#:#Geben Sie die maximale Größe in Bytes an, die eine hochgeladene Datei haben darf. Wenn Sie das Feld leer lassen, wird die Einstellung des zugrunde liegenden Systems verwendet.
 assessment#:#meaning#:#Bedeutung
 assessment#:#min_percentage_ne_0#:#Sie müssen einen minimalen Prozentsatz von 0 Prozent festlegen, damit alle erreichten Punktezahlen berücksichtigt werden können. Das Notenschema wurde nicht gespeichert!
-assessment#:#msg_circle_added#:#Kreis hinzugefügt 
-assessment#:#msg_deleted_export_files#:#Exportdatei(en) gelöscht 
-assessment#:#msg_poly_added#:#Polygon hinzugefügt 
-assessment#:#msg_question_count_too_low#:#Die Anzahl der Fragen muss größer als 0 sein 
-assessment#:#msg_rect_added#:#Rechteck hinzugefügt 
+assessment#:#msg_circle_added#:#Kreis hinzugefügt
+assessment#:#msg_deleted_export_files#:#Exportdatei(en) gelöscht
+assessment#:#msg_number_of_terms_too_low#:#Die Anzahl der Terme muss größer oder gleich der Anzahl der Definitionen sein.
+assessment#:#msg_poly_added#:#Polygon hinzugefügt
+assessment#:#msg_question_count_too_low#:#Die Anzahl der Fragen muss größer als 0 sein
+assessment#:#msg_questions_moved#:#Frage(n) verschoben
+assessment#:#msg_rect_added#:#Rechteck hinzugefügt
+assessment#:#msg_selected_for_move#:#Frage(n) zum Verschieben ausgewählt
 assessment#:#msg_total_questions_too_high#:#Die Anzahl der Fragen überschreitet die maximal verfügbare Anzahl der Fragen in den ausgewählten Fragenpools
 assessment#:#multiline_answers_hide#:#Einzeilige Antworten verwenden
 assessment#:#multiline_answers_show#:#Mehrzeilige Antworten verwenden
@@ -543,7 +557,7 @@ assessment#:#number_of_answers#:#Anzahl der Antworten
 assessment#:#numeric_gap#:#Numerische Lücke
 assessment#:#online_exam_show_answer_print_sheet#:#Sie haben Ihre Online-Prüfung beendet. Um ihre Antworten auszudrucken, klicken Sie bitte auf die Schaltfläche &quot;Druckansicht der Antworten&quot;.
 assessment#:#online_exam_show_finish_test#:#Sie müssen Ihre Online-Prüfung noch endgültig abschicken. Bitte klicken Sie auf die &quot;Test beenden&quot;-Schaltfläche, um die Online-Prüfung endgültig abzuschicken.
-assessment#:#optional_keywords#:#Optionale Eingabe von Schlüsselwörtern
+assessment#:#optional_keywords#:#Optionale Eingabe von Schlagwörtern
 assessment#:#or#:#oder
 assessment#:#order_pictures#:#Bilder ordnen
 assessment#:#order_terms#:#Terme ordnen
@@ -574,7 +588,7 @@ assessment#:#points#:#Punkte
 assessment#:#points_checked#:#Punkte (ausgewählt)
 assessment#:#points_short#:#Pt.
 assessment#:#points_unchecked#:#Punkte (nicht ausgewählt)
-assessment#:#points_wrong#:#Falsche Selektionen 
+assessment#:#points_wrong#:#Falsche Selektionen
 assessment#:#points_wrong_info#:#Geben Sie Punkte für die Auswahl von Wörtern an, die nicht in der Liste der markierten Fehler enthalten sind.
 assessment#:#polygon#:#Polygonzug
 assessment#:#polygon_click_next_or_save#:#Bitte klicken Sie auf den nächsten Punkt im Polygonzug oder speichern Sie die Region. (Es ist nicht nötig, noch einmal auf den Startpunkt zu klicken, um den Polygonzug zu schließen!)
@@ -590,7 +604,7 @@ assessment#:#qpl_assessment_no_assessment_of_questions#:#Für die ausgewählte F
 assessment#:#qpl_assessment_of_questions#:#Statistische Auswertung der Frage
 assessment#:#qpl_assessment_total_of_answers#:#Gesamtzahl der Antworten
 assessment#:#qpl_assessment_total_of_right_answers#:#Gesamtprozentsatz der richtigen Antworten
-assessment#:#qpl_browsercolumns#:#Individuelle Fragenliste 
+assessment#:#qpl_browsercolumns#:#Individuelle Fragenliste
 assessment#:#qpl_browsercolumns_description#:#Wählen Sie die Datenspalten aus, die in der Fragenliste des Fragenpools angezeigt werden sollen. Diese Einstellung wirkt sich auf alle bestehenden Fragenpools aus.
 assessment#:#qpl_confirm_delete_questions#:#Sind Sie sicher, dass Sie die folgende(n) Frage(n) löschen wollen?
 assessment#:#qpl_copy_insert_clipboard#:#Die ausgewählte(n) Frage(n) wurden in die Zwischenablage kopiert
@@ -621,8 +635,8 @@ assessment#:#qpl_paste_success#:#Die Frage(n) wurde(n) in den Fragenpool eingef�
 assessment#:#qpl_question_is_in_use#:#Die Frage, die Sie jetzt bearbeiten möchten, existiert bereits in %s Test(s). Wenn Sie diese Frage jetzt verändern, so hat das KEINE Auswirkungen auf bereits in Tests eingebundene Fragen, da das System automatisch eine Kopie der Frage anlegt, wenn diese in einen Test eingebunden wird!
 assessment#:#qpl_questions_deleted#:#Frage(n) gelöscht
 assessment#:#qpl_select_file_for_import#:#Sie müssen eine Datei zum importieren auswählen!
-assessment#:#qst_hint_self#:#Selbsttest-Modus ist aktiv! Bitte tragen Sie 0 Punkte für falsche und einen Punkt für richtige Antworten ein.
-assessment#:#qst_nr_of_tries#:#Anzahl der erlaubten Testdurchläufe
+assessment#:#qst_hint_self#:#Selbstlernkontrolle aktiv! Geben Sie 0 Punkte für falsche und einen Punkt für richtige Antworten.
+assessment#:#qst_nr_of_tries#:#Anzahl der Versuche
 assessment#:#qt_multiple_choice#:#Multiple Choice Frage
 assessment#:#question_cumulated_statistics#:#Kumulierte Fragenstatistik
 assessment#:#question_instances_title#:#Diese Frage wird in den folgenden Tests verwendet
@@ -688,6 +702,7 @@ assessment#:#select_qpl_option#:#--- Bitte wählen Sie einen Fragenpool aus ---
 assessment#:#select_target_position_for_move_question#:#Bitte wählen Sie eine Zielposition zum Verschieben der Frage(n) aus und klicken Sie auf eine der Einfügeschaltflächen!
 assessment#:#select_tst_option#:#--- Bitte wählen Sie einen Test aus ---
 assessment#:#selected_image#:#Ausgewählte Grafik
+assessment#:#selection#:#Auswahl
 assessment#:#set_edit_mode#:#Bearbeitungsmodus setzen
 assessment#:#set_filter#:#Filter setzen
 assessment#:#set_manscoring_done#:#Diesen Teilnehmer als Bewertet markieren
@@ -701,7 +716,7 @@ assessment#:#showinfo_desc#:#Wenn diese Option ausgewählt ist, wird die komplet
 assessment#:#showSuggestedSolution#:#Musterlösung
 assessment#:#shuffle_answers#:#Antworten mischen
 assessment#:#solution_hint#:#Musterlösung
-assessment#:#solution_may_contain_keywords#:#Die Lösung sollte eines der folgenden Schlüsselwörter enthalten
+assessment#:#solution_may_contain_keywords#:#Die Lösung sollte eines der folgenden Schlagwörter enthalten
 assessment#:#solution_order#:#Lösungsreihenfolge
 assessment#:#solutionText#:#Text
 assessment#:#start_tag#:#Start-Marke
@@ -712,6 +727,8 @@ assessment#:#suggested_solution_added_successfully#:#Die Musterlösung wurde erf
 assessment#:#suggestedSolutionType#:#Art der Musterlösung
 assessment#:#symbol#:#Symbol
 assessment#:#term#:#Term
+assessment#:#term_image#:#Bild
+assessment#:#term_text#:#Text
 assessment#:#terms#:#Terme
 assessment#:#test_cancelled#:#Der Test wurde unterbrochen!
 assessment#:#test_reference#:#Test-Verknüpfung
@@ -727,8 +744,10 @@ assessment#:#textsize_info#:#Geben Sie bitte die Textgröße des anzuordnenden T
 assessment#:#thumb_geometry#:#Vorschaugröße
 assessment#:#thumb_geometry_info#:#Geben Sie einen Wert in Bildpunkten für die maximale Vorschaugröße der Grafiken an. Abhängig vom Seitenverhältnis wird die Vorschau entweder in der Höhe oder in der Breite auf die maximale Vorschaugröße umgewandelt.
 assessment#:#thumb_size#:#Vorschaugröße
+assessment#:#thumb_size_info#:#Wenn Sie eine Vorschaugröße angeben, werden hochgeladene Bilder automatisch auf diese Größe verkleinert. Ohne Vorschaugröße werden die Bilder in ihrer Originalgröße verwendet.
 assessment#:#time_format#:#HH MM SS
 assessment#:#too_many_empty_parameters#:#Bitte tragen Sie erst die leeren Applet-Parameter ein, bevor Sie neue Parameter hinzufügen!
+assessment#:#too_many_targets_selected_for_move#:#Sie müssen genau eine Zielposition auswählen!
 assessment#:#true#:#Wahr
 assessment#:#tst_access_code_created#:#Um Ihnen einen dauerhaften Zugang zu Ihren Testergebnissen zu ermöglichen und Ihnen die Möglichkeit zu eröffnen, einen abgebrochenen Test wiederaufnehmen zu können, wurde für Sie ein persönlicher Zugangsschlüssel erzeugt. Bitte notieren Sie sich diesen Code, damit Sie ihn für spätere Aktionen nutzen können.
 assessment#:#tst_all_user_data_deleted#:#Die Testdaten aller NutzerInnen wurden gelöscht!
@@ -786,7 +805,7 @@ assessment#:#tst_finish_confirm_list_of_answers_button#:#Nein, zurück zur Liste
 assessment#:#tst_finish_confirmation_question#:#Sie sind dabei, diesen Test zu beenden und die maximale Anzahl erlaubter Testdurchläufe zu erreichen. Danach werden Sie nicht mehr in der Lage sein, den Test erneut aufzurufen, um Ihre Antworten zu ändern. Wollen Sie den Test wirklich beenden?
 assessment#:#tst_finish_notification#:#E-Mail beim Beenden
 assessment#:#tst_finish_notification_advanced#:#Komplettes Testergebnis an den Testersteller senden
-assessment#:#tst_finish_notification_no#:#Keine E-Mail-Benachrichtigungen versenden, wenn ein Teilnehmer den Test beendet hat 
+assessment#:#tst_finish_notification_no#:#Keine E-Mail-Benachrichtigungen versenden, wenn ein Teilnehmer den Test beendet hat
 assessment#:#tst_finish_notification_simple#:#Benutzername und Datum des Beendens and den Testersteller senden
 assessment#:#tst_finished#:#Beendet
 assessment#:#tst_fixed_participants_data_exists#:#Es gibt bereits Teilnehmer, die den Test begonnen haben. Sie dürfen die Einstellung für feste Teilnehmer nicht verändern!
@@ -1316,11 +1335,11 @@ chat#:#chat_edit_smiley#:#Smiley bearbeiten
 chat#:#chat_empty#:#Leeren
 chat#:#chat_enable_autoscroll#:#aktiviere automatisches Scrollen
 chat#:#chat_enter_valid_username#:#Bitte geben Sie einen gültigen Benutzernamen ein.
-chat#:#chat_export_all#:#Jeder mit Zugang zum Chatraum 
-chat#:#chat_export_info#:#Zeigt eine Export Schaltfläche für den aktuellen Raum an. Nachrichten werden nach html exportiert. 
-chat#:#chat_export_moderator#:#Nur Moderatoren 
-chat#:#chat_export_period#:#Export Zeitraum 
-chat#:#chat_export_period_info#:#Exportiert die angegebene Anzahl von Tagen 
+chat#:#chat_export_all#:#Jeder mit Zugang zum Chatraum
+chat#:#chat_export_info#:#Zeigt eine Export Schaltfläche für den aktuellen Raum an. Nachrichten werden nach html exportiert.
+chat#:#chat_export_moderator#:#Nur Moderatoren
+chat#:#chat_export_period#:#Export Zeitraum
+chat#:#chat_export_period_info#:#Exportiert die angegebene Anzahl von Tagen
 chat#:#chat_export_status#:#Export Berechtigungen
 chat#:#chat_face#:#Schrifttyp
 chat#:#chat_fuchsia#:#fuchsia
@@ -1329,6 +1348,7 @@ chat#:#chat_gray#:#grau
 chat#:#chat_green#:#grün
 chat#:#chat_hide_details#:#Details verbergen
 chat#:#chat_hide_smilies#:#Smilies verbergen
+chat#:#chat_hide_textformat#:#Textformat verbergen
 chat#:#chat_html_export#:#Export als HTML
 chat#:#chat_ilias#:#ILIAS Chat Modul
 chat#:#chat_image_path#:#Bildpfad
@@ -1423,9 +1443,9 @@ chat#:#chat_show_textformat#:#Textformat anzeigen
 chat#:#chat_silver#:#silber
 chat#:#chat_smiley_image#:#Smiley Bild
 chat#:#chat_smiley_image_only_if_changed#:#Bitte geben Sie nur ein neues Bild an, wenn Sie das vorhandene ändern wollen. Wenn kein neues Bild angegeben wird, wird das vorhandene nicht verändert.
-chat#:#chat_smiley_keyword#:#Smiley Schlüsselwort
-chat#:#chat_smiley_keywords#:#Smiley Schlüsselwörter
-chat#:#chat_smiley_keywords_one_per_line_note#:#Sie können mehrere Schlüsselwörter für jedes Smiley angeben. Jede Zeile wird als einzelnes Schlüsselwort benutzt.
+chat#:#chat_smiley_keyword#:#Smiley Schlagwort
+chat#:#chat_smiley_keywords#:#Smiley Schlagwörter
+chat#:#chat_smiley_keywords_one_per_line_note#:#Sie können mehrere Schlagwörter für jedes Smiley angeben. Jede Zeile wird als einzelnes Schlagwort benutzt.
 chat#:#chat_smilies_activate#:#aktiviere Smilies
 chat#:#chat_smilies_deactivate#:#deaktiviere Smilies
 chat#:#chat_smilies_dir_not_available#:#Das Smiley-Verzeichnis konnte nicht angelegt werden. Es können keine Smilies genutzt werden, bis dieses Problem behoben wurde.
@@ -1524,6 +1544,8 @@ cmps#:#cmps_status#:#Status
 cmps#:#cmps_update#:#Aktualisieren
 cmps#:#cmps_update_db#:#Datenbank aktualisieren
 cmps#:#cmps_version#:#Version
+cmps#:#database_is_uptodate#:#Die Datenbank ist aktuell.
+cmps#:#no_changes#:#Keine Änderungen
 cntr#:#cntr_add_new_item#:#Neues Objekt hinzufügen
 cntr#:#cntr_back_to_old_editor#:#Zurück zum alten Editor
 cntr#:#cntr_disable_multi_commands#:#Deaktiviere Multi-Commands
@@ -1535,9 +1557,9 @@ cntr#:#cntr_old_editor_warning#:#Dieser Editor wird aus technischen Gründen in 
 cntr#:#cntr_ordering#:#Sortierung
 cntr#:#cntr_page_actions#:#Seitenaktionen
 cntr#:#cntr_saved_sorting#:#Sortierung gespeichert
-cntr#:#cntr_switched_editor#:#Auf neue Darstellung umgestellt
 cntr#:#cntr_switch_to_new_editor_cmd#:#Zu untenstehenden Inhalten wechseln. Alte Inhalte werden gelöscht.
 cntr#:#cntr_switch_to_new_editor_message#:#Dies ist der Standard-Seiteneditor. Wenn Sie ihn nutzen möchten, müssen Sie die Inhalte per Click auf die Platzhalter unten hinzufügen. Wenn Sie auf den nachfolgenden Link klicken, werden die untenstehende Inhalte für die Seitendarstellung genutzt.
+cntr#:#cntr_switched_editor#:#Auf neue Darstellung umgestellt
 cntr#:#cntr_text_media_editor#:#Text/Media-Editor
 cntr#:#cntr_view_by_type#:#Ansicht nach Typen
 cntr#:#cntr_view_info_by_type#:#Diese Kursansicht ordnet alle Kursinhalte nach ihrem Objekttyp.
@@ -1565,9 +1587,9 @@ common#:#accessRestrict#:#Beschränkten Zugriff Aktivieren
 common#:#account_expires_body#:#Ihr Benutzerzugang ist zeitlich begrenzt. Ablauftermin:
 common#:#account_expires_subject#:#[ILIAS] Benutzerzugang
 common#:#accs_edit_permission#:#Rechteeinstellungen ändern
-common#:#accs_read#:#Lesezugriff auf Barrierefreiheitseinstellungen
-common#:#accs_visible#:#Barrierefreiheitseinstellungen sichtbar
-common#:#accs_write#:#Barrierefreiheitseinstellungen bearbeiten
+common#:#accs_read#:#Lesezugriff auf Einstellungen Barrierefreiheit
+common#:#accs_visible#:#Einstellungen Barrierefreiheit sichtbar
+common#:#accs_write#:#Einstellungen Barrierefreiheit bearbeiten
 common#:#action#:#Aktion
 common#:#action_aborted#:#Aktion abgebrochen
 common#:#actions#:#Aktionen
@@ -1596,6 +1618,7 @@ common#:#add_user#:#Lokalen Benutzer hinzufügen
 common#:#add_user_defined_field#:#Neues Feld anlegen
 common#:#added_new_condition#:#Eine neue Vorbedingung wurde angelegt.
 common#:#additional_info#:#Zusätzliche Informationen
+common#:#address#:#Adresse
 common#:#adm_create_tax#:#Neue Taxonomie anlegen
 common#:#adm_edit_permission#:#Rechteeinstellungen ändern
 common#:#adm_read#:#Lesezugriff auf Systemeinstellungen
@@ -1616,6 +1639,8 @@ common#:#advanced_editing_lm_js_editing#:#Aktiviere HTMLArea-Textfelder bei der 
 common#:#advanced_editing_lm_js_editing_desc#:#Aktiviert HTMLArea- und JavaScript-Unterstützung für den Seiteneditor in Lernmodulen und Glossaren.
 common#:#advanced_editing_lm_settings#:#Lernmodul- und Glossar-Einstellungen
 common#:#advanced_editing_no_rte#:#Bearbeitung mit einem Rich-Text-Editor nicht erlauben
+common#:#advanced_editing_rep_page_editing#:#Aktiviere Seitenbearbeitung im Magazin
+common#:#advanced_editing_rep_page_editing_desc#:#Diese Funktion ermöglicht das Hinzufügen von Text und Medien zu einer Kategorie, einem Ordner und zu den Inhaltsseiten von Kursen und Gruppen.
 common#:#advanced_editing_required_tags#:#Die folgenden HTML-Auszeichnungen sind für diesen Bereich zwingend notwendig: %s
 common#:#advanced_editing_settings#:#Erweiterte Bearbeitungseinstellungen
 common#:#advanced_editing_survey_settings#:#Erlaubte HTML-Auszeichnungen für das Umfrage-Werkzeug
@@ -1626,6 +1651,7 @@ common#:#adve_frm_post_settings#:#Forum Posts
 common#:#adve_general_settings#:#Allgemeine Einstellungen
 common#:#adve_lm_settings#:#Lernmodul-/Glossar-Einstellungen
 common#:#adve_read#:#Zugriff auf die erweiterten Bearbeitungseinstellungen
+common#:#adve_rep_settings#:#Magazineinstellungen
 common#:#adve_survey_settings#:#Umfrage-Einstellungen
 common#:#adve_visible#:#Erweiterte Bearbeitungseinstellungen sind sichtbar
 common#:#adve_write#:#Erweiterte Bearbeitungseinstellungen bearbeiten
@@ -1839,8 +1865,8 @@ common#:#bkm_sendmail#:#Als Anhang versenden
 common#:#block#:#Block
 common#:#block_management#:#Blockmanagement
 common#:#bm#:#Bookmark
-common#:#bm_add_to_ilias#:#ILIAS-Bookmark 
-common#:#bm_add_to_social_bookmarks#:#Speichere als Bookmark 
+common#:#bm_add_to_ilias#:#ILIAS-Bookmark
+common#:#bm_add_to_social_bookmarks#:#Speichere als Bookmark
 common#:#bm_manage_social_bm#:#Social-Bookmarks verwalten
 common#:#bmf#:#Bookmark-Ordner
 common#:#bold#:#Fett
@@ -2057,6 +2083,7 @@ common#:#confirm_delete_parameter#:#Wollen Sie den Parameter wirklich löschen?
 common#:#confirmation#:#Aktion bestätigen
 common#:#conflict_handling#:#Konfliktbehandlung
 common#:#cont_object#:#Objekt
+common#:#contact#:#Kontakt
 common#:#contact_data#:#Kontaktinformationen
 common#:#container#:#Container
 common#:#container_no_items#:#No items found
@@ -2254,13 +2281,13 @@ common#:#disable_check#:#Keine Überprüfung
 common#:#disable_ext_lang_maint#:#Deaktiviere erweiterte Sprachenverwaltung
 common#:#disabled#:#Ausgeschaltet
 common#:#disk_quota#:#Disk Quota
-common#:#disk_quota_is_1_by_2#:#Die effektive Disk Quota ist %1$s aufgrund Mitgliedschaft in Rolle "%2$s". 
-common#:#disk_quota_is_1_instead_of_2_by_3#:#Die effektive Disk Quota ist %1$s wie definiert in diesem Benutzerkonto. Die Disk Quota durch Rollenzugehörigkeit wäre %2$s über Rolle "%3$s" gewesen. 
-common#:#disk_quota_is_unlimited_by_1#:#Die effektive Disk Quota ist unbegrenzt aufgrund Mitgliedschaft in Rolle "%1$s". 
-common#:#disk_quota_last_reminder_sent#:#Letzte Quota-Erinnerung zugestellt 
-common#:#disk_quota_last_reminder_sent_desc#:#Datum, an dem der Benutzer zum letzten Mal wegen Überschreitung der Disk Quota eine Erinnerungsnachricht erhalten hat. 
-common#:#disk_quota_on_role_desc#:#Die Disk Quota einer Rolle wirkt sich auf alle Benutzerkonten aus, welche dieser Rolle zugeordnet sind. 
-common#:#disk_quota_reminder_mail#:#Erinnerungsnachricht 
+common#:#disk_quota_is_1_by_2#:#Die effektive Disk Quota ist %1$s aufgrund Mitgliedschaft in Rolle "%2$s".
+common#:#disk_quota_is_1_instead_of_2_by_3#:#Die effektive Disk Quota ist %1$s wie definiert in diesem Benutzerkonto. Die Disk Quota durch Rollenzugehörigkeit wäre %2$s über Rolle "%3$s" gewesen.
+common#:#disk_quota_is_unlimited_by_1#:#Die effektive Disk Quota ist unbegrenzt aufgrund Mitgliedschaft in Rolle "%1$s".
+common#:#disk_quota_last_reminder_sent#:#Letzte Quota-Erinnerung zugestellt
+common#:#disk_quota_last_reminder_sent_desc#:#Datum, an dem der Benutzer zum letzten Mal wegen Überschreitung der Disk Quota eine Erinnerungsnachricht erhalten hat.
+common#:#disk_quota_on_role_desc#:#Die Disk Quota einer Rolle wirkt sich auf alle Benutzerkonten aus, welche dieser Rolle zugeordnet sind.
+common#:#disk_quota_reminder_mail#:#Erinnerungsnachricht
 common#:#disk_quota_reminder_mail_desc#:#Die Disk Quota-Erinnerungsnachricht wird an alle aktiven Benutzer versandt, die Ihre Disk Quota überschritten haben. Der Versand erfolgt einmal täglich, wenn der ILIAS-Cronjob ausgeführt wird. Benutzer, die bereits eine Erinnerungsnachricht bekommen haben, erhalten diese alle sieben Tage solange sie ihre Disk Quota überschreiten.
 common#:#disk_quota_report#:#Disk Quota-Bericht
 common#:#disk_quota_report_not_run_yet#:#Keine Disk Quota-Berichte vorhanden. Der tägliche Cronjob zur Ermittlung der Speicherverwendung muss zuerst ausgeführt werden.
@@ -2272,10 +2299,10 @@ common#:#display_webdav_actions_info#:#Zeigt die Aktion 'Als Webordner öffnen' 
 common#:#domain#:#Domäne
 common#:#down#:#Runter
 common#:#download#:#Herunterladen
-common#:#downloading_settings#:#Download-Einstellungen
 common#:#download_all_returned_files#:#Alle abgegebenen Dateien herunterladen
-common#:#download_with_uploaded_filename#:#Hochgeladenen Dateinamen verwenden		 
+common#:#download_with_uploaded_filename#:#Hochgeladenen Dateinamen verwenden
 common#:#download_with_uploaded_filename_info#:#Wählen Sie diese Option ausschliesslich für die Rückwärtskompatibilität mit ILIAS 3.9 und älteren Versionen aus: Wenn diese Option aktiviert ist, erhalten heruntergeladene Dateien den Namen, der beim Hochladen in ILIAS verwendet worden ist. Wenn diese Option nicht ausgewählt ist, erhalten heruntergeladene Dateien den Titel des Dateiobjekts als Namen. Diese Option hat keine Auswirkung auf WebDAV. Bei WebDAV erhalten heruntergeladene Dateien IMMER den Titel des Dateiobjekts als Namen.
+common#:#downloading_settings#:#Download-Einstellungen
 common#:#drafts#:#Entwürfe
 common#:#drop#:#Entfernen
 common#:#edit#:#Bearbeiten
@@ -2301,8 +2328,8 @@ common#:#enable#:#Aktivieren
 common#:#enable_calendar#:#Kalender aktivieren
 common#:#enable_custom_icons#:#Standard-Symbole aktivieren
 common#:#enable_custom_icons_info#:#Damit können Sie eigene Symbole (Icons) für einzelne Kategorien, Kurse und Gruppen definieren. Die entsprechenden Bilddateien laden Sie in den Eigenschaften der entsprechenden Kategorien, Kurse und Gruppenie hoch.
-common#:#enable_disk_quota#:#Aktiviere Disk Quota		 
-common#:#enable_disk_quota_info#:#Erlaubt jedem Benutzerkonto und jeder globalen Rolle eine Disk Quota zu vergeben. Die Speicherplatznutzung wird einmal täglich per Cron Job ermittelt. Die Speicherplatznutzung wird im Benutzerformular im Disk Quota Bericht aufgeführt.		 
+common#:#enable_disk_quota#:#Aktiviere Disk Quota
+common#:#enable_disk_quota_info#:#Erlaubt jedem Benutzerkonto und jeder globalen Rolle eine Disk Quota zu vergeben. Die Speicherplatznutzung wird einmal täglich per Cron Job ermittelt. Die Speicherplatznutzung wird im Benutzerformular im Disk Quota Bericht aufgeführt.
 common#:#enable_disk_quota_reminder_mail#:#Sende Disk Quota-Erinnerungsnachrichten
 common#:#enable_download_folder#:#«Ordner herunterladen» aktivieren
 common#:#enable_download_folder_info#:#Erlaubt das Herunterladen von Ordnern und ihrer Binnenstrukturen als ZIP-Datei.
@@ -2322,6 +2349,7 @@ common#:#enable_webdav#:#WebDAV Zugriff aktivieren
 common#:#enable_webdav_info#:#Erlaubt WebDAV Clients den Zugriff auf das Magazin über einen Webordner. Benutzer können Webordner öffnen, indem Sie im Magazin die Aktion "Als Webordner öffnen" ausführen, oder in einem WebDAV Client folgende Adresse eingeben: <a href="%1$s" folder="%1$s">%1$s</a>
 common#:#enabled#:#Eingeschaltet
 common#:#enter_filename_deliver#:#Bitte geben Sie hier Ihre Lösungsergebnisse ab
+common#:#enter_in_mb_desc#:#Geben Sie eine Größe in MB ein.
 common#:#enumerate#:#Nummerieren
 common#:#err_1_param#:#Nur 1 Parameter!
 common#:#err_2_param#:#Nur 2 Parameter!
@@ -2354,6 +2382,8 @@ common#:#err_wrong_password#:#Falsches Passwort
 common#:#error#:#Fehler
 common#:#error_parser#:#Fehler beim Starten des Parsers.
 common#:#error_recipient#:#Empfänger von Fehlermeldungen
+common#:#event_ass_materials_prop#:#Materialien zur Sitzung
+common#:#event_assign_files#:#Dateien zuordnen
 common#:#exc#:#Übung
 common#:#exc_add#:#Übung anlegen
 common#:#exc_added#:#Eine neue Übung wurde angelegt
@@ -2513,6 +2543,11 @@ common#:#filesize#:#Dateigröße
 common#:#filetype#:#Dateityp
 common#:#fill_out_all_required_fields#:#Bitte füllen Sie alle benötigten Felder aus
 common#:#filter#:#Filter:
+common#:#filter_users_with_access#:#Nur Benutzer mit Zugriff
+common#:#filter_users_with_disk_usage#:#Nur Benutzer die Speicherplatz belegen
+common#:#filter_users_with_exceeded_disk_quota#:#Nur Benutzer die ihre Disk Quota überschreiten
+common#:#filter_users_without_access#:#Nur Benutzer ohne Zugriff
+common#:#filter_users_without_disk_usage#:#Nur Benutzer die keinen Speicherplatz belegen
 common#:#firstname#:#Vorname
 common#:#flatview#:#Baumansicht ausschalten
 common#:#fold#:#Ordner
@@ -2780,6 +2815,7 @@ common#:#guest#:#Gast
 common#:#guests#:#Gäste
 common#:#header_searchable#:#Durchsuchbar
 common#:#header_title#:#Installationsüberschrift
+common#:#header_visible_registration#:#Sichtbar im Registrierungsformular
 common#:#header_zip#:#Mehrere Dateien als ZIP-Archiv hochladen
 common#:#height#:#Höhe
 common#:#help#:#Hilfe
@@ -2791,6 +2827,7 @@ common#:#hide_details#:#Details ausblenden
 common#:#hide_own_online_status#:#Eigenen Online-Status nicht anzeigen
 common#:#hide_private_notes#:#Private Notizen ausblenden
 common#:#hide_structure#:#Strukturansicht ausblenden
+common#:#hint#:#Hinweis
 common#:#hist_dbk_delete_pg#:#Seite "%1" [%2] wurde gelöscht.
 common#:#hist_dbk_delete_st#:#Kapitel "%1" [%2] wurde gelöscht.
 common#:#hist_dbk_pg_create#:#Seite erstellt.
@@ -3067,7 +3104,7 @@ common#:#java_server_port#:#Port
 common#:#java_server_readme#:#Zur Installationsanleitung
 common#:#join#:#Beitreten
 common#:#kb#:#KByte
-common#:#keywords#:#Schlüsselwörter
+common#:#keywords#:#Schlagwörter
 common#:#lang_bg#:#Bulgarisch
 common#:#lang_cs#:#Tschechisch
 common#:#lang_da#:#Dänisch
@@ -3097,6 +3134,10 @@ common#:#lang_ro#:#Rumänisch
 common#:#lang_ru#:#Russisch
 common#:#lang_sep_decimal#:#,
 common#:#lang_sep_thousand#:#.
+common#:#lang_size_bytes#:#Bytes
+common#:#lang_size_gb#:#GB
+common#:#lang_size_kb#:#KB
+common#:#lang_size_mb#:#MB
 common#:#lang_sq#:#Albanisch
 common#:#lang_sr#:#Serbisch
 common#:#lang_sv#:#Schwedisch
@@ -3118,6 +3159,7 @@ common#:#last_access#:#Letzter Zugriff
 common#:#last_change#:#Letzte Änderung
 common#:#last_edited_on#:#Zuletzt bearbeitet am
 common#:#last_login#:#Letztes Login
+common#:#last_reminder#:#Letzte Erinnerung
 common#:#last_update#:#Letzte Aktualisierung
 common#:#last_visit#:#Letzter Besuch
 common#:#last_visited#:#Zuletzt besucht
@@ -3149,6 +3191,8 @@ common#:#learning_resources#:#Lernmaterialien
 common#:#leave_waiting_list#:#Von der Warteliste abmelden
 common#:#legend#:#Legende
 common#:#level#:#Stufe
+common#:#license#:#Lizenz
+common#:#licenses#:#Lizenzen
 common#:#link#:#Verknüpfen
 common#:#link_all#:#Alle verknüpfen
 common#:#link_check#:#Links überprüfen
@@ -3253,6 +3297,7 @@ common#:#mail#:#Mail
 common#:#mail_a_root#:#Nachrichten
 common#:#mail_addressbook#:#Kontakte
 common#:#mail_allow_smtp#:#SMTP zulassen
+common#:#mail_attachment#:#Mailanhang
 common#:#mail_attachments#:#Mailanhänge
 common#:#mail_b_inbox#:#Posteingang
 common#:#mail_c_trash#:#Papierkorb
@@ -3315,6 +3360,7 @@ common#:#mcst_new#:#Neuer Mediacast
 common#:#mcst_read#:#Mediacast lesen
 common#:#mcst_visible#:#Mediacast ist sichtbar
 common#:#mcst_write#:#Mediacast bearbeiten
+common#:#mem_add_to_wl#:#Zur Warteliste hinzufügen
 common#:#mem_alert_no_places#:#Es sind keine freien Plätze verfügbar.
 common#:#mem_end#:#Anmeldungsende:
 common#:#mem_free_places#:#Freie Plätze
@@ -3326,6 +3372,10 @@ common#:#mem_reg_period#:#Anmeldungszeitraum
 common#:#mem_reg_type#:#Aufnahmeverfahren
 common#:#mem_start#:#Anmeldungsbeginn:
 common#:#mem_unlimited#:#Unbegrenzt
+common#:#mem_view_activate#:#Voransicht als Teilnehmer aktivieren
+common#:#mem_view_close#:#Voransicht als Teilnehmer schließen
+common#:#mem_view_deactivate#:#Voransicht als Teilnehmer deaktivieren
+common#:#mem_view_long#:#Voransicht als Teilnehmer
 common#:#mem_waiting_list#:#Personen auf der Warteliste:
 common#:#mem_waiting_list_position#:#Ihre Position auf der Warteliste:
 common#:#member#:#Mitglied
@@ -3358,6 +3408,10 @@ common#:#missing#:#Nicht vorhanden
 common#:#missing_perm#:#Fehlende Berechtigung
 common#:#missing_precondition#:#Fehlende Vorbedingung
 common#:#mob#:#Medienobjekt
+common#:#mobs_edit_permission#:#Rechteeinstellungen ändern
+common#:#mobs_read#:#Lesezugriff auf Einstellungen für Medienobjekte und -pools
+common#:#mobs_visible#:#Einstellungen für Medienobjekte und -pools sind sichtbar
+common#:#mobs_write#:#Medienobjekte und -pools bearbeiten
 common#:#mod_rewrite_disabled#:#Das Apache-Modul 'mod_rewrite' ist nicht verfügbar.
 common#:#module#:#Modul
 common#:#modules#:#Module
@@ -3538,6 +3592,7 @@ common#:#no_import_available#:#Import nicht verfügbar für Typ
 common#:#no_import_file_found#:#Keine Import Datei gefunden
 common#:#no_invalid_links#:#Es wurden keine ungültigen Links gefunden.
 common#:#no_items#:#Keine Einträge
+common#:#no_license_available#:#Keine Lizenz verfügbar!
 common#:#no_limit#:#Kein Limit
 common#:#no_lo_in_personal_list#:#Es sind keine Lernobjekte abonniert.
 common#:#no_local_users#:#Es sind keine lokalen Benutzer angelegt.
@@ -3570,6 +3625,7 @@ common#:#note_all_pub_notes#:#Alle Notizen
 common#:#note_my_pub_notes#:#Nur eigene Notizen
 common#:#notes#:#Notizen
 common#:#notes_and_comments#:#Notizen und Kommentare
+common#:#notifications#:#Notifications
 common#:#num_users#:#Anzahl Benutzer
 common#:#number_of_accesses#:#Anzahl Zugriffe
 common#:#number_of_records#:#Zahl der Einträge
@@ -3601,6 +3657,7 @@ common#:#obj_cert#:#Zertifikate
 common#:#obj_cert_desc#:#Einstellungen für Zertifikate
 common#:#obj_chac#:#Chat-Server
 common#:#obj_chac_desc#:#Konfigurieren Sie hier Ihren Chatserver. Aktivieren/Deaktivieren der Chats
+common#:#obj_chap#:#Kapitel
 common#:#obj_chat#:#Chat
 common#:#obj_cmps#:#Module, Services und Plugins
 common#:#obj_cmps_desc#:#Allgemeine Einstellungen für Module, Dienste und Plugins.
@@ -3651,6 +3708,8 @@ common#:#obj_mcts#:#Mediacast
 common#:#obj_mcts_desc#:#Allgemeine Einstellungen des Mediacasts
 common#:#obj_mep#:#Media-Pool
 common#:#obj_mob#:#Medienobjekt
+common#:#obj_mobs#:#Medienobjekte und -pools
+common#:#obj_mobs_desc#:#Einstellungen für Medienobjekte und -pools
 common#:#obj_not_found#:#Kein Objekt gefunden
 common#:#obj_note#:#Notiz
 common#:#obj_notf#:#Notizen
@@ -3659,6 +3718,7 @@ common#:#obj_nwss_desc#:#Einstellungen für interne Nachrichten und externe Webf
 common#:#obj_objf#:#Objektdefinitionen
 common#:#obj_objf_desc#:#ILIAS-Objekttypen und -rechte. (Nur für Experten!)
 common#:#obj_owner#:#Besitzer des Objekts ist
+common#:#obj_page#:#Seite
 common#:#obj_pays#:#Payment
 common#:#obj_pays_desc#:#Konfiguration der Paymenteinstellungen, Verkäuferverwaltung...
 common#:#obj_pdts#:#Persönlicher Schreibtisch
@@ -3680,6 +3740,7 @@ common#:#obj_rolf_local_desc#:#Enthält lokale Rollen für Objekt Nr.
 common#:#obj_rolt#:#Rollenvorlage
 common#:#obj_root#:#ILIAS-System
 common#:#obj_sahs#:#Lernmodul SCORM/AICC
+common#:#obj_sco#:#SCO
 common#:#obj_seas#:#Suche
 common#:#obj_seas_desc#:#Konfigurieren Sie hier die Suche.
 common#:#obj_sess#:#Sitzung
@@ -3689,6 +3750,7 @@ common#:#obj_spl#:#Fragenpool für Umfrage
 common#:#obj_spl_duplicate#:#Fragenpool für Umfrage kopieren
 common#:#obj_spl_select#:#-- Bitte wählen Sie einen Fragenpool für Umfrage aus --
 common#:#obj_st#:#Kapitel
+common#:#obj_sty#:#Style
 common#:#obj_stys#:#Skin/Style
 common#:#obj_stys_desc#:#Enthält Einstellungen für systemweite Styles und Styles für die Anzeige von Inhalten.
 common#:#obj_svy#:#Umfrage
@@ -3904,6 +3966,8 @@ common#:#preconditions#:#Vorbedingungen
 common#:#predefined_template#:#Vordefinierte Rollenvorlage
 common#:#preferences#:#Benutzerdefinierte Einstellungen
 common#:#presentation_options#:#Präsentationsoptionen
+common#:#preview_learner#:#Voransicht als Teilnehmer
+common#:#preview_learner_info#:#Wenn aktiviert, wird Kurs- und Gruppenadministratoren die Möglichkeit angeboten, Inhalte aus der Sicht eines fiktiven Kurs- oder Gruppenteilnehmers zu betrachten.
 common#:#previous#:#zurück
 common#:#print#:#Drucken
 common#:#print_view#:#Druckansicht
@@ -3958,11 +4022,17 @@ common#:#refresh#:#Aktualisieren
 common#:#refresh_languages#:#Sprachen aktualisieren
 common#:#refresh_list#:#Liste aktualisieren
 common#:#refuse#:#Antrag ablehnen
+common#:#reg_account_confirmation_successful#:#Das Benutzerkonto wurde bestätigt und aktiviert.
+common#:#reg_mail_body_2_confirmation#:#Der Link wird nur für %s gültig sein, danach müssen Sie sich erneut registrieren.
+common#:#reg_mail_body_3_confirmation#:#Falls Sie diese E-Mail unerwartet erhalten haben, ist es möglich, dass eine andere Person Ihre E-Mail Adresse versehentlich oder vorsätzlich angegeben hat. In diesem Fall ignorieren Sie diese Mail bitte.
+common#:#reg_mail_body_confirmation#:#um Ihr Benutzerprofil freizuschalten und gleichzeitig diese E-Mail-Adresse zu bestätigen, klicken Sie bitte den folgenden Link an:
+common#:#reg_mail_body_forgot_password_info#:#Um ein neues Passwort für diesen Benutzerzugang zu beantragen nutzen Sie bitte die Funktion « Passwort vergessen? » auf der Loginseite.
 common#:#reg_mail_body_salutation#:#Hallo
 common#:#reg_mail_body_text1#:#Willkommen auf der eLearning-Plattform ILIAS!
 common#:#reg_mail_body_text2#:#Ihre Zugangsdaten:
 common#:#reg_mail_body_text3#:#Weitere persönliche Angaben:
 common#:#reg_mail_subject#:#ILIAS eLearning - Ihre Zugangsdaten
+common#:#reg_mail_subject_confirmation#:#ILIAS eLearning - Ihr Bestätigungslink
 common#:#reg_passwd_via_mail#:#Das Passwort wird an die unten anzugebene E-Mail-Adresse geschickt.
 common#:#register#:#Registrieren
 common#:#register_info#:#Bitte füllen Sie das Formular aus, um sich zu registrieren (Die mit Stern gekennzeichnenten Felder sind Pflichtangaben).
@@ -4091,6 +4161,9 @@ common#:#sahs_create#:#Neues SCORM/AICC Lernmodul anlegen
 common#:#sahs_delete#:#SCORM/AICC Lernmodul löschen
 common#:#sahs_edit_learning_progress#:#Lernfortschritt bearbeiten
 common#:#sahs_edit_permission#:#Rechteeinstellungen ändern
+common#:#sahs_insert_chap_from_clip#:#Füge Kapitel aus Zwischenablage ein
+common#:#sahs_insert_page_from_clip#:#Füge Seiten aus Zwischenablage ein
+common#:#sahs_insert_sco_from_clip#:#Füge SCOs aus Zwischenablage ein
 common#:#sahs_join#:#SCORM/AICC Lernmodul abonnieren
 common#:#sahs_leave#:#SCORM/AICC Lernmodulabonnement aufheben
 common#:#sahs_read#:#SCORM/AICC Lernmodul lesen
@@ -4112,6 +4185,12 @@ common#:#save_user_related_data#:#Benutzerspezifische Zugriffsdaten speichern
 common#:#saved#:#Gespeichert
 common#:#saved_successfully#:#Ihre Änderungen wurden gespeichert
 common#:#scorm_add#:#SCORM/AICC-Lernmodul hinzufügen
+common#:#scorm_create_export_file_html#:#Erzeuge Exportdatei (HTML)
+common#:#scorm_create_export_file_iso#:#Erzeuge Exportdatei (ISO for CD-ROM)
+common#:#scorm_create_export_file_pdf#:#Erzeuge Exportdatei (PDF)
+common#:#scorm_create_export_file_scrom12#:#Erzeuge Exportdatei (SCORM 1.2)
+common#:#scorm_create_export_file_scrom2004#:#Erzeuge Exportdatei (SCORM 2004)
+common#:#scorm_new#:#Neues SCORM/AICC-Lernmodul
 common#:#search#:#Suche
 common#:#search_active#:#Active Benutzer
 common#:#search_engine#:#Suchmaschinen
@@ -4169,6 +4248,8 @@ common#:#session_reminder#:#Session-Reminder
 common#:#session_reminder_alert#:#Ihre Sitzung läuft in 5 Minuten ab.
 common#:#session_reminder_extended#:#Die Sitzung wurde verlängert um %s
 common#:#session_reminder_info#:#Wenn aktiviert, erhalten Sie eine Erinnerung, bevor Ihre Sitzung abläuft.
+common#:#session_reminder_lead_time#:#Vorlaufzeit
+common#:#session_reminder_lead_time_info#:#Bitte geben Sie an, wieviele Sekunden Sie vor dem Ablauf der Sitzung erinnert werden möchten. Der aktuelle Wert für eine Sitzungsdauer beträgt %s Sekunden.
 common#:#session_reminder_session_duration#:#(Sessiondauer: %s).
 common#:#set#:#Setzen
 common#:#set_edit_mode#:#Bearbeitungsmodus setzen
@@ -4238,6 +4319,9 @@ common#:#skin_style#:#Standard-Skin / -Style
 common#:#smtp#:#SMTP
 common#:#soap_user_administration#:#Administration über SOAP
 common#:#soap_user_administration_desc#:#Wenn eingeschaltet, kann ILIAS über die SOAP-Schnittstelle verwaltet werden.
+common#:#soap_wsdl_path#:#WSDL-Pfad
+common#:#soap_wsdl_path_info#:#Hier können Sie den Pfad zur WSDL-Datei angeben, die von ILIAS für den Webservice genutzt werden soll. Falls Sie dieses Feld leer lassen, wird folgender Pfad als Standard verwendet:%s
+common#:#socialbm_extt_social_bookmarks#:#SocialBookmarks
 common#:#sort_by_this_column#:#Nach dieser Spalte sortieren
 common#:#sorting_header#:#Sortierung
 common#:#sorting_info_manual#:#Wenn ausgewählt, können die Materialien manuell in beliebiger Reihenfolge sortiert werden.
@@ -4270,6 +4354,7 @@ common#:#state_changed_inside#:#Inhalt geändert
 common#:#state_new#:#neu
 common#:#state_unread#:#ungelesen
 common#:#statistic#:#Statistik
+common#:#statistics#:#Statistik
 common#:#status#:#Status
 common#:#step#:#Schritt
 common#:#stop_inheritance#:#Vererbung unterbrechen
@@ -4282,6 +4367,8 @@ common#:#stys_edit_permission#:#Rechteeinstellungen ändern
 common#:#stys_read#:#Lesezugriff auf Style-Einstellungen
 common#:#stys_visible#:#Style-Einstellungen sind sichtbar
 common#:#stys_write#:#Style-Einstellungen ändern
+common#:#sub_request_deleted#:#Ihr Aufnahmeantrag wurde gelöscht
+common#:#sub_request_saved#:#Ihr Aufnahmeantrag wurde aktualisiert
 common#:#subcat_name#:#Unterkategorie Name
 common#:#subchapter_new#:#Neues Unterkapitel
 common#:#subject#:#Betreff
@@ -4446,9 +4533,11 @@ common#:#udf_type_date#:#Datum
 common#:#udf_type_datetime#:#Datum und Uhrzeit
 common#:#udf_type_select#:#Auswahlliste (feste Werte)
 common#:#udf_type_text#:#Text (beliebige Werte)
+common#:#udf_type_wysiwyg#:#Textbereich (WYSIWYG)
 common#:#udf_update_select_field#:#Auswahlliste bearbeiten
 common#:#udf_update_success#:#Die Daten wurden aktualisiert.
 common#:#udf_update_text_field#:#Textfeld bearbeiten
+common#:#udf_update_wysiwyg_field#:#Feld für Textbereich bearbeiten (WYSIWYG)
 common#:#udf_value#:#Wert
 common#:#udf_value_deleted#:#Der Wert wurde gelöscht.
 common#:#uid#:#UID
@@ -4611,10 +4700,12 @@ common#:#view#:#Zeigen
 common#:#view_content#:#Inhalt
 common#:#visible#:#Anzeigen
 common#:#visible_layers#:#Sichtbare Ebenen
+common#:#visible_registration#:#Im Registrierungsformular
 common#:#visitor#:#Besucher
 common#:#visitors#:#Besucher
 common#:#visits#:#Besuche
 common#:#web_resources#:#Web-Links
+common#:#webdav#:#WebDAV
 common#:#webdav_pear_auth_http_needed#:#Sie benötigen PEAR-Auth_HTTP um diese Funktion zu verwenden. Geben Sie im Terminal-Fenster <code>pear install Auth_HTTP</code> ein.
 common#:#webfolder#:#Webordner
 common#:#webfolder_dir_info#:#Sie sind hierher gelangt, weil Ihr Browser keine Webordner öffnen kann. Lesen Sie die <a href="%1$s">Anleitung zum Öffnen dieses Webordners</a>.
@@ -4742,6 +4833,7 @@ content#:#cont_cant_del_full#:#Löschen der Datei für die Vollansicht nicht mö
 content#:#cont_cant_del_std#:#Löschen der Datei für die Standardansicht nicht möglich.
 content#:#cont_caption#:#Bildunterschrift
 content#:#cont_center#:#Mittig
+content#:#cont_change_object_reference#:#Ändere Objektreferenz
 content#:#cont_change_type#:#Typ ändern
 content#:#cont_chap_and_pages#:#Kapitel und Seiten
 content#:#cont_chap_copy_select_target_now#:#Das Kapitel wurde für das Kopieren markiert. Wählen Sie jetzt das Ziel.
@@ -4844,6 +4936,7 @@ content#:#cont_ed_delete#:#Löschen
 content#:#cont_ed_delete_col#:#Spalte löschen
 content#:#cont_ed_delete_item#:#Eintrag löschen
 content#:#cont_ed_delete_row#:#Zeile löschen
+content#:#cont_ed_dtable#:#Datentabelle
 content#:#cont_ed_edit#:#Bearbeiten
 content#:#cont_ed_edit_data#:#Daten bearbeiten
 content#:#cont_ed_edit_files#:#Dateien editieren
@@ -4855,10 +4948,12 @@ content#:#cont_ed_insert_atable#:#Erweiterte Tabelle einfügen
 content#:#cont_ed_insert_code#:#Programmcode einfügen
 content#:#cont_ed_insert_dtable#:#Datentabelle einfügen
 content#:#cont_ed_insert_filelist#:#Dateiliste einfügen
+content#:#cont_ed_insert_incl#:#Inhaltsbaustein einfügen
 content#:#cont_ed_insert_list#:#Erweiterte Liste einfügen
 content#:#cont_ed_insert_map#:#Karte einfügen
 content#:#cont_ed_insert_media#:#Bild/Audio/Video einfügen
 content#:#cont_ed_insert_par#:#Text einfügen
+content#:#cont_ed_insert_pcqst#:#Frage einfügen
 content#:#cont_ed_insert_plach#:#Platzhalter Einfügen
 content#:#cont_ed_insert_repobj#:#Materialienliste einfügen
 content#:#cont_ed_insert_section#:#Block einfügen
@@ -4874,6 +4969,8 @@ content#:#cont_ed_new_item_after#:#Neuen Eintrag anf.
 content#:#cont_ed_new_item_before#:#Neuen Eintrag vor.
 content#:#cont_ed_new_row_after#:#Neue Zeile anf.
 content#:#cont_ed_new_row_before#:#Neue Zeile vor.
+content#:#cont_ed_par#:#Text
+content#:#cont_ed_paste#:#Einfügen
 content#:#cont_ed_paste_clip#:#Aus Ablage einf.
 content#:#cont_ed_pglprop#:#Seitenlayouteigenschaften
 content#:#cont_ed_plachmedia#:#Platzhalter Bild/Medien
@@ -4882,6 +4979,7 @@ content#:#cont_ed_plachquestion#:#Platzhalter Frage
 content#:#cont_ed_plachtext#:#Platzhalter Text
 content#:#cont_ed_row_down#:#Zeile nach unten verschieben
 content#:#cont_ed_row_up#:#Zeile nach oben verschieben
+content#:#cont_ed_select_pctext#:#Textelement auswählen
 content#:#cont_ed_split_page#:#Seite aufteilen
 content#:#cont_ed_split_page_next#:#Auf nächste Seite schieben
 content#:#cont_ed_textitem#:#Testelement
@@ -4904,12 +5002,15 @@ content#:#cont_edit_tabs#:#Eigenschaften
 content#:#cont_edit_term#:#Begriff editieren
 content#:#cont_edition#:#Ausgabe
 content#:#cont_empty_mep_folder#:#Es sind keine Medien in diesem Ordner.
+content#:#cont_empty_question#:#Die Frage ist noch nicht fertiggestellt. Bitte bearbeiten Sie diese abschließend oder löschen Sie die Frage.
 content#:#cont_enable_html#:#HTML aktiv
 content#:#cont_enable_js#:#JavaScript aktiv
 content#:#cont_enable_media#:#Medien aktiv
 content#:#cont_enable_time_scheduled_page_activation#:#Zeitliche Aktivierung von Seiten
 content#:#cont_enable_time_scheduled_page_activation_info#:#Die Funktion ermöglicht Aktivierungszeiten für einzelne Lernmodulseiten einzustellen.
 content#:#cont_end#:#Ende
+content#:#cont_enter_a_dir_name#:#Bitte geben Sie einen Verzeichnisnamen an.
+content#:#cont_enter_a_file#:#Bitte wählen Sie eine Datei aus.
 content#:#cont_Example#:#Beispiel
 content#:#cont_Excursus#:#Exkurs
 content#:#cont_export_all#:#Alle exportieren
@@ -4950,6 +5051,7 @@ content#:#cont_Headline1#:#Überschrift 1
 content#:#cont_Headline2#:#Überschrift 2
 content#:#cont_Headline3#:#Überschrift 3
 content#:#cont_height#:#Höhe
+content#:#cont_Hint#:#Hinweis
 content#:#cont_how_published#:#Veröffentlichungsart
 content#:#cont_href#:#href
 content#:#cont_html_table#:#HTML-Tabelle
@@ -5037,7 +5139,7 @@ content#:#cont_lk_term_new#:#Glossarbegriff (Neuer Frame)
 content#:#cont_lm_default_layout#:#Standardlayout des Lernmoduls
 content#:#cont_lm_menu#:#Menü
 content#:#cont_lm_properties#:#Lernmodul-Eigenschaften
-content#:#cont_localfile#:#Lokale Datei
+content#:#cont_LocalFile#:#Lokale Datei
 content#:#cont_location#:#Position
 content#:#cont_lrs_settings#:#Einstellungen
 content#:#cont_lvalue#:#Datenelement
@@ -5047,14 +5149,17 @@ content#:#cont_map_file_not_generated#:#Die Imagemap-Datei konnte leider nicht g
 content#:#cont_mastery_score#:#adlcp:masteryscore
 content#:#cont_max_time_allowed#:#adlcp:maxtimeallowed
 content#:#cont_Media#:#Medien (Standard)
+content#:#cont_media_placeh#:#Klicken und bearbeiten, um ein Medienobjekt einzufügen
 content#:#cont_media_placehl#:#Bild/Medien-Platzhalter
 content#:#cont_media_source#:#Medienquelle
 content#:#cont_mep_structure#:#Struktur Media-Pool
 content#:#cont_missing_preconditions#:#Sie müssen folgende Vorbedingungen erfüllen, um Zugang zu bekommen zu Kapitel "%s".
 content#:#cont_Mnemonic#:#Merksatz
 content#:#cont_mob_def_prop#:#Standardeinstellungen
+content#:#cont_mob_files#:#Objektdateien
 content#:#cont_mob_from_media_pool#:#Aus Media-Pool auswählen
 content#:#cont_mob_inst_prop#:#Eigenschaften der Instanz
+content#:#cont_mob_prop#:#Objekteigenschaften
 content#:#cont_mob_usages#:#Nutzung
 content#:#cont_month#:#Monat
 content#:#cont_move_object#:#Objekt verschieben
@@ -5073,12 +5178,14 @@ content#:#cont_next_rev#:#Nachfolgende Änderung
 content#:#cont_no_access#:#Kein Zugriff
 content#:#cont_no_assign_itself#:#Das aktuelle Objekt kann nicht sich selbst zugeordnet werden
 content#:#cont_no_caption#:#Keine Legende
+content#:#cont_no_glossary#:#Kein Glossar
 content#:#cont_no_manifest#:#Es wurde keine Datei namens imsmanifest.xml im Hauptverzeichnis gefunden.
 content#:#cont_no_object_found#:#Es konnte kein Objekt mit diesem Titel gefunden werden
 content#:#cont_no_page#:#Keine Seite gefunden
 content#:#cont_no_page_in_chapter#:#In diesem Kapitel befinden sich zur Zeit leider keine aktiven Inhalte.
 content#:#cont_no_parameters#:#Keine Parameter
 content#:#cont_no_subdir_in_zip#:#Das ZIP-Kommando konnte nicht ausgeführt werden oder die Importdatei ist fehlerhaft.<br />Sie enthält kein Unterordner '%s'.
+content#:#cont_no_text#:#Kein Text
 content#:#cont_no_zip_file#:#Die Importdatei ist keine ZIP-Datei
 content#:#cont_none#:#Keine
 content#:#cont_not_js_chap_editing#:#Bearbeitungsmodus «Ohne JavaScript» benutzen
@@ -5120,16 +5227,27 @@ content#:#cont_parameter#:#Parameter
 content#:#cont_parameters#:#Parameter
 content#:#cont_paste_from_clipboard#:#Aus Zwischenablage einfügen
 content#:#cont_paste_table#:#Tabelle einfügen
+content#:#cont_pc_code#:#Code
 content#:#cont_pc_deleted#:#Gelöschte Inhalte
+content#:#cont_pc_dtab#:#Datentabelle
+content#:#cont_pc_flist#:#Dateiliste
 content#:#cont_pc_hacc#:#Akkordeon (horizontal)
+content#:#cont_pc_incl#:#Inhaltsbaustein
 content#:#cont_pc_list#:#Erweiterte Liste
+content#:#cont_pc_map#:#Karte
+content#:#cont_pc_mob#:#Medienobjekt
 content#:#cont_pc_modified#:#Geänderte Inhalte
 content#:#cont_pc_new#:#Neue Inhalte
+content#:#cont_pc_par#:#Text
+content#:#cont_pc_qst#:#Frage
+content#:#cont_pc_res#:#Ressource
+content#:#cont_pc_sec#:#Sektion
 content#:#cont_pc_tab#:#Erweiterte Tabelle
 content#:#cont_pc_vacc#:#Akkordeon (vertikal)
 content#:#cont_personal_clipboard#:#Persönliche Zwischenablage
 content#:#cont_pg_content#:#Seiteninhalt
 content#:#cont_pg_title#:#Titel der Seite
+content#:#cont_please_enter_a_term#:#Bitte geben Sie einen Term ein.
 content#:#cont_please_select#:#Bitte auswählen
 content#:#cont_Poly#:#Polygon
 content#:#cont_position#:#Position
@@ -5138,6 +5256,7 @@ content#:#cont_prerequisites#:#adlcp:prerequisites
 content#:#cont_preview#:#Vorschau
 content#:#cont_previous_rev#:#Letzte Änderung
 content#:#cont_print_no_page_selected#:#Bitte wählen Sie mindestens eine Seite aus.
+content#:#cont_print_selection#:#Auswahl Druckansicht
 content#:#cont_print_view#:#Druckansicht
 content#:#cont_print_view_pre_glo#:#Keine Anzeige des Glossaranhanges in der Druckansicht
 content#:#cont_public_access#:#Öffentlicher Zugriff
@@ -5146,7 +5265,11 @@ content#:#cont_public_notes_desc#:#Erlaubt Nutzern, auf jeder Seite eines Lernmo
 content#:#cont_publisher#:#Herausgeber
 content#:#cont_purpose#:#Verwendung
 content#:#cont_qtries#:#Anzahl der Versuche für Fragen
+content#:#cont_question_placeh#:#Klicken und bearbeiten, um eine Frage einzufügen
 content#:#cont_question_placehl#:#Fragen-Platzhalter
+content#:#cont_question_pool#:#Fragenpool
+content#:#cont_question_type#:#Fragentyp
+content#:#cont_Reading#:#Lektüre
 content#:#cont_Rect#:#Rechteck
 content#:#cont_ref_helptext#:#(e.g. http://www.ilias.de/logo.jpg)
 content#:#cont_ref_images#:#Referenzierte Bilder
@@ -5154,6 +5277,8 @@ content#:#cont_reference#:#Referenz
 content#:#cont_Remark#:#Bemerkung
 content#:#cont_remove_fullscreen#:#Vollansicht entfernen
 content#:#cont_removeiln#:#Internen Link entfernen ?
+content#:#cont_rename_dir#:#Verzeichnis umbenennen
+content#:#cont_replace_mob_feature#:#Medienobjekte im Inhalt ersetzen
 content#:#cont_replace_mob_feature_info#:#Aktiviert eine Funktion, um Medienobjekte zu ersetzen, aber die Einstellungen der bereits verwendeten Instanz/en des Objekts zu erhalten.
 content#:#cont_repository_item#:#Objekt in Magazin
 content#:#cont_repository_item_links#:#Links auf Objekte in Magazin
@@ -5165,6 +5290,7 @@ content#:#cont_resource#:#Ressource
 content#:#cont_resource_size#:#Resource Size
 content#:#cont_resource_type#:#Typ
 content#:#cont_resources#:#Ressourcen
+content#:#cont_Ressources#:#Resourcen
 content#:#cont_revision#:#Änderung
 content#:#cont_right#:#Rechts
 content#:#cont_right_float#:#Rechts, Text umfließt
@@ -5201,6 +5327,8 @@ content#:#cont_scheduled_activation#:#Zeitliche Aktivierung
 content#:#cont_school#:#Schule
 content#:#cont_score#:#Punkte
 content#:#cont_scorm_type#:#adlcp:scormtype
+content#:#cont_select#:#Auswählen
+content#:#cont_select_from_upload_dir#:#-- Wählen Sie aus dem Upload-Verzeichnis --
 content#:#cont_select_item#:#Wählen Sie mindestens ein Objekt aus.
 content#:#cont_select_max_one_item#:#Bitte wählen Sie nur ein Objekt aus.
 content#:#cont_select_max_one_term#:#Bitte wählen Sie nur einen Zeitraum aus.
@@ -5291,10 +5419,13 @@ content#:#cont_text_emp#:#Betonter Text:
 content#:#cont_text_fn#:#Fußnote:
 content#:#cont_text_iln#:#Interner Link, z.B.:
 content#:#cont_text_imp#:#Important:
+content#:#cont_text_keyword#:#Schlagwort
+content#:#cont_text_placeh#:#Klicken und bearbeiten, um einen Text einzufügen
 content#:#cont_text_placehl#:#Text-Platzhalter
 content#:#cont_text_quot#:#Zitat:
 content#:#cont_text_str#:#Stark betonter Text:
 content#:#cont_text_tex#:#LaTeX-Code:
+content#:#cont_text_type#:#Typ des Textelements
 content#:#cont_text_xln#:#Externer Link:
 content#:#cont_time#:#Zeit
 content#:#cont_time_limit_action#:#adlcp:timelimitaction
@@ -5319,7 +5450,10 @@ content#:#cont_update_names#:#Namen aktualisieren
 content#:#cont_update_resources#:#Materialliste aktualisieren
 content#:#cont_update_section#:#Block aktualisieren
 content#:#cont_update_tabs#:#Tabulatoren aktualisieren
+content#:#cont_upload_dir#:#Upload-Verzeichnis
+content#:#cont_upload_dir_info#:#Server-Verzeichnis, von dem große SCORM- und HTML-Pakete kopiert werden können, statt sie direkt hochzuladen. Nur ILIAS Administratoren sehen eine Auswahl von Dateien aus diesem Verzeichnis. Bitte geben Sie einen vollständigen Serverpfad ohne Slash am Ende ein.
 content#:#cont_upload_file#:#Datei hochladen
+content#:#cont_uploaded_file#:#Vorhandene Datei
 content#:#cont_url#:#URL
 content#:#cont_usage#:#Gebrauch
 content#:#cont_use_same_resource_as_above#:#Obige Datei benutzen
@@ -5344,12 +5478,14 @@ content#:#dgl_pagebreak#:#Seitenumbruch
 content#:#glo_definition_abbr#:#Def.
 content#:#glo_term_used_in#:#Folgende Ressourcen verweisen auf diesen Begriff
 content#:#HTML export#:#HTML-Export
+content#:#import_sco_object#:#SCO importieren
 content#:#lm_menu_edit_entry#:#Menüeintrag bearbeiten
 content#:#lm_menu_entry_target#:#Ziel
 content#:#lm_menu_entry_title#:#Titel
 content#:#lm_menu_new_entry#:#Neuen Menüeintrag erstellen
 content#:#lm_menu_select_internal_object#:#Internes Objekt auswählen >>
 content#:#lm_menu_select_object_to_add#:#Bitte klicken Sie auf das Objekt, welches Sie im Menü hinzufügen wollen
+content#:#mep_folder_created#:#Ordner wurde angelegt.
 content#:#msg_entry_added#:#Menüeintrag gespeichert
 content#:#msg_entry_removed#:#Menüeintrag entfernt
 content#:#msg_entry_updated#:#Menüeintrag aktualisiert
@@ -5359,9 +5495,13 @@ content#:#Pages#:#Seiten
 content#:#pages from#:#Seiten von
 content#:#par#:#Text
 content#:#PDF export#:#PDF Export
+content#:#PDF_export#:#PDF Export
 content#:#pg#:#Seite
 content#:#public_section#:#Öffentlicher Bereich
 content#:#read offline#:#Offline lesen
+content#:#saved_media_object#:#Medienobjekt gespeichert
+content#:#scorm_editable#:#Zur Bearbeitung importieren
+content#:#scorm_editable_comments#:#Funktioniert nur mit SCORM 1.2/2004-Paketen
 content#:#scplayer_continue#:#Weiter
 content#:#scplayer_exit#:#Schliessen
 content#:#scplayer_exitall#:#Bearbeitung Beenden
@@ -5389,6 +5529,8 @@ content#:#seq_toc#:#Bitte wählen Sie eine Lektion aus der Übersicht auf der li
 content#:#set_public_mode#:#Zugriffsmodus setzen
 content#:#st#:#Kapitel
 content#:#start export#:#Export starten
+content#:#text_repr#:#Alternativtext
+content#:#text_repr_info#:#Wird verwendet, wenn die Grafik nicht angezeigt werden kann.
 crs#:#activation_times_not_valid#:#Die Zeidauer für 'Verfügbarkeit' ist nicht gültig.
 crs#:#add_event#:#Sitzung hinzufügen
 crs#:#assigned#:#Zugeordnet
@@ -5442,6 +5584,7 @@ crs#:#crs_availability_unvisible_info#:#Wählen Sie diese Einstellung, wenn der 
 crs#:#crs_blocked#:#Zugang gesperrt
 crs#:#crs_blocked_member#:#Status in Kurs "\%s\"
 crs#:#crs_blocked_member_body#:#Ihre Mitgliedschaft in Kurs "%s" wurde gesperrt.
+crs#:#crs_cancel_subscr_request#:#Aufnahmeantrag zurückziehen
 crs#:#crs_cancel_subscription#:#Austritt aus Kurs "%s"
 crs#:#crs_cancel_subscription_body#:#Ein Teilnehmer ist aus dem Kurs "%s" ausgetreten.
 crs#:#crs_change_status#:#Darf Status des Lernziels ändern:
@@ -5539,6 +5682,7 @@ crs#:#crs_info_start#:#Bitte bearbeiten Sie zunächst alle unten aufgeführten M
 crs#:#crs_item_availability_info#:#Wählen Sie diese Einstellung, um das Kursmaterial nur während eines bestimmten Zeitraumes verfügbar zu machen.
 crs#:#crs_item_presetting_info#:#Wählen Sie diese Einstellung, um den Lernenden eine Bearbeitungsdauer zu empfehlen.
 crs#:#crs_learning_materials#:#Materialien
+crs#:#crs_lim_assigned#:#Bereits Mitglied in Kurs "%s".
 crs#:#crs_list_users#:#Benutzer auflisten
 crs#:#crs_lm_assignment#:#Lernmaterialien-Zuordnung
 crs#:#crs_lm_assignment_deleted#:#Die Zuordnung wurde entfernt.
@@ -5566,6 +5710,7 @@ crs#:#crs_members_map#:#Karte Kursmitglieder
 crs#:#crs_members_print_title#:#Kursmitglieder
 crs#:#crs_members_table#:#Teilnehmer des Kurses
 crs#:#crs_members_title#:#Kursmitglieder
+crs#:#crs_min_one_admin#:#Diesem Kurs muß mindestens ein Administrator zugeordnet bleiben.
 crs#:#crs_move_down#:#Nach unten verschieben
 crs#:#crs_move_up#:#Nach oben verschieben
 crs#:#crs_moved_item#:#Das Kursobjekt wurde verschoben.
@@ -5722,6 +5867,7 @@ crs#:#crs_search_enter_search_string#:#Bitte geben Sie einen Suchbegriff ein
 crs#:#crs_search_for#:#Suchen nach:
 crs#:#crs_search_members#:#Benutzersuche
 crs#:#crs_search_str#:#Suchbegriff
+crs#:#crs_search_users#:#Benutzer suchen
 crs#:#crs_select_archive_language#:#Bitte wählen Sie eine Sprache, in der das Archiv erstellt werden soll.
 crs#:#crs_select_exactly_one_lm#:#Bitte wählen Sie genau eine Lerneinheit aus.
 crs#:#crs_select_exactly_one_tst#:#Bitte wählen Sie genau einen Test aus.
@@ -5731,6 +5877,7 @@ crs#:#crs_select_one_object#:#Bitte wählen Sie mindestens ein Objekt aus.
 crs#:#crs_select_registration_type#:#Bitte wählen Sie ein Beitrittsverfahren aus.
 crs#:#crs_select_starter#:#Startobjekt auswählen
 crs#:#crs_selected_users#:#Ausgewählte Teilnehmer
+crs#:#crs_set_on_waiting_list#:#Wenn Sie einen Aufnahmeantrag stellen, werden Sie auf die Warteliste gesetzt. Sie erhalten dann eine Nachricht der Kursleitung, ob Ihr Antrag angenommen oder abgelehnt wird.
 crs#:#crs_settings#:#Kurseinstellungen
 crs#:#crs_settings_saved#:#Die Einstellungen wurden gespeichert
 crs#:#crs_show_link_lms#:#Lernmaterialien anzeigen
@@ -5825,9 +5972,11 @@ crs#:#crs_unlimited#:#Unbegrenzt
 crs#:#crs_unsubscribe_sure#:#Sind Sie sicher, dass Sie die Mitgliedschaft in diesem Kurs beenden möchten?
 crs#:#crs_unsubscribed_from_crs#:#Ihre Kursmitgliedschaft wurde beendet.
 crs#:#crs_update_objective#:#Lernziel bearbeiten
+crs#:#crs_update_subscr_request#:#Aufnahmeantrag aktualisieren
 crs#:#crs_user_agreement#:#Freigegebene Daten
 crs#:#crs_user_agreement_info#:#Für Kursadministratoren freigegebene Daten
 crs#:#crs_user_already_assigned#:#Der/die BenutzerIn ist bereits TeilnehmerIn dieses Kurses.
+crs#:#crs_user_login#:#Benutzername
 crs#:#crs_users_added#:#Der/die Benutzer wurde(n) in den Kurs aufgenommen
 crs#:#crs_users_already_assigned#:#Ein Benutzer ist bereits Mitglied dieses Kurses
 crs#:#crs_users_removed_from_list#:#Die ausgewählten Benutzer wurden aus der Warteliste ausgetragen.
@@ -5932,6 +6081,10 @@ crs#:#sess_gen_attendance_list#:#Teilnehmerliste erstellen
 crs#:#sess_gen_comment#:#Erzeuge Spalte für Kommentare
 crs#:#sess_gen_mark_title#:#Erzeuge Spalte für Noten
 crs#:#sess_gen_signature#:#Erzeuge Spalte für Unterschrift
+crs#:#sess_limit#:#Sitzungsanzahl begrenzen
+crs#:#sess_limit_info#:#Wählen Sie diese Einstellung, um die Anzahl der dargestellten Sitzungen zu begrenzen.
+crs#:#sess_num_next#:#Anzahl nachfolgender Sitzungen
+crs#:#sess_num_prev#:#Anzahl vergangener Sitzungen
 crs#:#sess_print_attendance_list#:#Teilnehmerliste drucken
 crs#:#sess_signature#:#Unterschrift
 crs#:#subscription_times_not_valid#:#Die Zeitdauer für 'Registrierung' ist nicht gültig.
@@ -5975,6 +6128,7 @@ dateplaner#:#c_date#:#erstelle Termin
 dateplaner#:#cal_accepted#:#Angenommen
 dateplaner#:#cal_add_appointment#:#Termin anlegen
 dateplaner#:#cal_add_category#:#Neuen Kalender anlegen
+dateplaner#:#cal_add_milestone#:#Meilenstein hinzufügen
 dateplaner#:#cal_all_day#:#Ganztags
 dateplaner#:#cal_appointments#:#Termine
 dateplaner#:#cal_apps#:#Anzahl Termine
@@ -5984,13 +6138,20 @@ dateplaner#:#cal_cal_type#:#Kalenderart
 dateplaner#:#cal_calendar_color#:#Farbe
 dateplaner#:#cal_calendar_name#:#Kalendername
 dateplaner#:#cal_category_selection#:#Kalenderauswahl
+dateplaner#:#cal_change_responsible_users#:#Verantwortliche Mitglieder ändern
 dateplaner#:#cal_changed_events_header#:#Geänderte Termine
 dateplaner#:#cal_create#:#Erzeuge
+dateplaner#:#cal_created_milestone#:#Der Meilenstein wurde angelegt.
+dateplaner#:#cal_created_milestone_resp_q#:#Der Meilenstein wurde angelegt. Bitte wählen Sie die Mitglieder aus, die für den Meilenstein verantwortlich sein sollen.
 dateplaner#:#cal_daily#:#Täglich
+dateplaner#:#cal_day_end#:#Tageende
 dateplaner#:#cal_day_of_month#:#Tag des Monats
 dateplaner#:#cal_day_overview#:#Tagesübersicht
 dateplaner#:#cal_day_s#:#Tag(e)
 dateplaner#:#cal_day_selection#:#Tagesauswahl
+dateplaner#:#cal_day_start#:#Tagesbeginn
+dateplaner#:#cal_day_week_view#:#Einstellungen Tages-/Wochenansicht
+dateplaner#:#cal_deadline#:#Endtermin
 dateplaner#:#cal_declined#:#Abgelehnt
 dateplaner#:#cal_def_time_format#:#Default-Zeitformat
 dateplaner#:#cal_def_time_format_info#:#Bitte wählen Sie ein Format für die Darstellung der Zeit aus.
@@ -6003,9 +6164,13 @@ dateplaner#:#cal_del_cal_sure#:#Möchten Sie wirklich die ausgewählten Kalender
 dateplaner#:#cal_delete_app_sure#:#Sind Sie sicher, dass Sie die folgenden Termine löschen möchten?
 dateplaner#:#cal_deleted_app#:#Die ausgewählten Termine wurden gelöscht.
 dateplaner#:#cal_details#:#Termindetails
+dateplaner#:#cal_dstart_dend_warn#:#Bitte überprüfen Sie Ihre Eingabe. Der Tagesbeginn muss vor dem Tagesende sein.
 dateplaner#:#cal_duration#:#Dauer
 dateplaner#:#cal_edit_appointment#:#Termin bearbeiten
 dateplaner#:#cal_edit_category#:#Kalender bearbeiten
+dateplaner#:#cal_edit_milestone#:#Meilenstein bearbeiten
+dateplaner#:#cal_enable_group_milestones#:#Meilensteine aktivieren
+dateplaner#:#cal_enable_group_milestones_desc#:#Diese Option aktiviert das Management von Meilensteinen im Kalender (Kurse und Gruppen).
 dateplaner#:#cal_end#:#Ende
 dateplaner#:#cal_every#:#Alle:
 dateplaner#:#cal_fifth#:#Fünften
@@ -6020,7 +6185,10 @@ dateplaner#:#cal_month_overview#:#Monatsübersicht
 dateplaner#:#cal_month_s#:#Monat(e)
 dateplaner#:#cal_month_selection#:#Monatsauswahl
 dateplaner#:#cal_monthly#:#Monatlich
+dateplaner#:#cal_ms_details#:#Details zum Meilenstein
+dateplaner#:#cal_ms_users_responsible#:#Verantwortliche Mitglieder
 dateplaner#:#cal_new_app#:#Neuer Termin
+dateplaner#:#cal_new_ms#:#Neuer Meilenstein
 dateplaner#:#cal_no_ending#:#Kein Endtermin
 dateplaner#:#cal_no_recurrence#:#Keine Wiederholung
 dateplaner#:#cal_no_recurrences#:#Keine Wiederholungen anlegen
@@ -6028,6 +6196,8 @@ dateplaner#:#cal_on#:#Am:
 dateplaner#:#cal_on_the#:#Am:
 dateplaner#:#cal_rec_err_limit#:#Bitte geben Sie eine Anzahl von Terminen ein.
 dateplaner#:#cal_recurrences#:#Wiederholungen
+dateplaner#:#cal_responsible#:#Verantwortlich
+dateplaner#:#cal_save_responsible_users#:#Verantwortliche Mitglieder speichern
 dateplaner#:#cal_search#:#Suchbegriff
 dateplaner#:#cal_search_info_share#:#Bitte geben Sie den Namen der Person/Rolle ein, für die Sie diesen Kalender freigeben möchten.
 dateplaner#:#cal_second#:#Zweiten
@@ -6044,6 +6214,7 @@ dateplaner#:#cal_shared_header#:#Kalender Freigaben
 dateplaner#:#cal_shared_selected_usr#:#Der Kalender wurde für die ausgewählten Benutzer/Rollen freigegeben.
 dateplaner#:#cal_start#:#Start
 dateplaner#:#cal_table_categories#:#Kalenderauswahl
+dateplaner#:#cal_task_completion#:#Fertigstellung
 dateplaner#:#cal_third#:#Dritten
 dateplaner#:#cal_time_format_info#:#Bitte wählen Sie ein Format für die Dartellung der Zeit.
 dateplaner#:#cal_timezone_info#:#Bitte wählen Sie die nächstgelegene Stadt in Ihrer Zeitzone aus.
@@ -6060,6 +6231,7 @@ dateplaner#:#cal_user_settings#:#Kalendereinstellungen
 dateplaner#:#cal_user_time_format#:#Zeitformat
 dateplaner#:#cal_user_timezone#:#Zeitzone
 dateplaner#:#cal_week_abbrev#:#KW
+dateplaner#:#cal_week_month_view#:#Einstellungen Wochen-/Monatsansicht
 dateplaner#:#cal_week_overview#:#Wochenübersicht
 dateplaner#:#cal_week_s#:#Woche(n)
 dateplaner#:#cal_week_selection#:#Wochenauswahl
@@ -6158,22 +6330,22 @@ dateplaner#:#help_group#:#Gruppentermine Auswahl
 dateplaner#:#help_group_l#:#Beinhaltet die Gruppen, für die der angemeldete User Administratorenrechte hat und für die ein Termin erstellt werden kann. <br /> Nach der Auswahl ist es möglich, die unverplante Zeit der Gruppe zu erkennen.
 dateplaner#:#help_inbox#:#Kalender Inbox
 dateplaner#:#help_inbox_l#:#Hier werden alle neuen, geänderten und gelöschten Gruppentermine angezeigt.
-dateplaner#:#help_keyword#:#Schlüsselwort / Keyword Auswahl
-dateplaner#:#help_keyword_l#:#Beinhaltet die Schlüsselwörter die der User ein Termin zuordnen kann.
-dateplaner#:#help_keywordUse#:#Keywords/Schlüsselwörter/Schlagwörter Auswahl
-dateplaner#:#help_keywordUse_l#:#Im Auswahlfeld ein oder mehrere Schlüsselwörter wählen. <br />TIP: die STRG Taste gedrückt halten um mehrere auszuwählen.
+dateplaner#:#help_keyword#:#Schlagwort / Keyword Auswahl
+dateplaner#:#help_keyword_l#:#Beinhaltet die Schlagwörter, die der User ein Termin zuordnen kann.
+dateplaner#:#help_keywordUse#:#Keywords/Schlagwörter Auswahl
+dateplaner#:#help_keywordUse_l#:#Im Auswahlfeld ein oder mehrere Schlagwörter wählen. <br />TIP: die STRG Taste gedrückt halten um mehrere auszuwählen.
 dateplaner#:#help_list#:#Kalender Terminliste
 dateplaner#:#help_list_l#:#In der Terminliste werden alle Termine eines gewählten Zeitraumes angezeigt.
 dateplaner#:#help_month#:#Kalender Monatsansicht
 dateplaner#:#help_month_l#:#In der Monatsansicht werden alle Termine innerhalb eines gewählten Monates angezeigt.
-dateplaner#:#help_properties_alt#:#Verändert das Schlüsselwort
-dateplaner#:#help_properties_alt_l#:#Im Bereich Schlagwörter im Auswahlfeld ein Schlüsselwort wählen.<br />Im Bereich Schlagwörter im Feld Ändern zu das Schlüsselwort ändern. Wichtig: max. 20 Zeichen.
-dateplaner#:#help_properties_del#:#Löscht das Schlüsselwort
-dateplaner#:#help_properties_del_l#:#Im Bereich Schlagwörter im Auswahlfeld ein Schlüsselwort wählen. Auf nebenstehenden löschen Button klicken
+dateplaner#:#help_properties_alt#:#Verändert das Schlagwort
+dateplaner#:#help_properties_alt_l#:#Im Bereich Schlagwörter im Auswahlfeld ein Schlagwort wählen.<br />Im Bereich Schlagwörter im Feld Ändern zu das Schlagwort ändern. Wichtig: max. 20 Zeichen.
+dateplaner#:#help_properties_del#:#Löscht das Schlagwort
+dateplaner#:#help_properties_del_l#:#Im Bereich Schlagwörter im Auswahlfeld ein Schlagwort wählen. Auf nebenstehenden löschen Button klicken
 dateplaner#:#help_properties_import#:#Importieren von Outlook-CSV-Dateien
 dateplaner#:#help_properties_import_l#:#Hier kann eine CSV Datei ausgewählt werden die durch den Kalender von Outlook erstellt wurde, um diese zu importieren.
 dateplaner#:#help_properties_new#:#Schlüßelwort hinzufügen max. 20 Zeichen
-dateplaner#:#help_properties_new_l#:#Im Bereich Schlagwörter im Feld neu ein Schlüsselwort einfügen. Wichtig: max. 20 Zeichen.
+dateplaner#:#help_properties_new_l#:#Im Bereich Schlagwörter im Feld neu ein Schlagwort einfügen. Wichtig: max. 20 Zeichen.
 dateplaner#:#help_properties_time#:#Zeiteinstellung für Tages/Wochenansicht
 dateplaner#:#help_properties_time_l#:#Den Zeitraum (Uhrzeit) der Anzeige die in der Tages-/Wochenansicht für Termine bestimmt ist, kann in den Einstellungen verändert werden. Termine außerhalb dieses Zeitraumes werden natürlich trotzdem angezeigt. Standard ist 8-18 Uhr.
 dateplaner#:#help_rotation#:#Rotation
@@ -6450,7 +6622,7 @@ form#:#form_msg_formula_is_required#:#Bitte geben Sie eine korrekte Formel an.
 form#:#form_msg_numeric_value_required#:#Bitte geben Sie einen numerischen Wert ein.
 form#:#form_msg_value_too_high#:#Wert ist zu hoch. Bitte geben Sie einen niedrigeren Wert ein.
 form#:#form_msg_value_too_low#:#Wert ist zu niedrig. Bitte geben Sie einen höheren Wert ein.
-form#:#form_msg_wrong_date#:#Falsches Datum. Bitte geben Sie ein gültiges Datum an.		 
+form#:#form_msg_wrong_date#:#Falsches Datum. Bitte geben Sie ein gültiges Datum an.
 form#:#form_msg_wrong_date_format#:#Falsches Datumsformat. Bitte geben Sie das Datum als "%s" an!
 form#:#form_password_not_allowed_for_auth#:#Für die gewählte Authentifizierungmethode können Sie das Passwort nicht ändern
 form#:#form_password_required_for_auth#:#Für die gewählte Authentifizierungmethode ist ein Passwort notwendig.
@@ -6543,6 +6715,7 @@ forum#:#frm_moderators_search_query#:#Suchbegriff(e)
 forum#:#frm_moderators_select_at_least_one#:#Bitte wählen Sie mindestens einen Moderator aus.
 forum#:#frm_moderators_select_one#:#Bitte wählen Sie einen Benutzer, dem Sie die Moderatorenrolle zuweisen möchten.
 forum#:#frm_post_not_activated_yet#:#Der Beitrag wurde noch nicht aktiviert.
+forum#:#frm_purifier_not_implemented_for_type_x#:#Es ist noch kein Reiniger für den Typ %s implementiert.
 forum#:#frm_statistics#:#Statistiken
 forum#:#frm_statistics_disabled_for_participants#:#Die Statistiken sind für normalen Forenmitglieder nicht sichtbar.
 forum#:#frm_statistics_enabled#:#Statistiken anzeigen
@@ -6597,6 +6770,8 @@ grp#:#grp_accept_subscriber#:#Aufnahme in Gruppe "%s"
 grp#:#grp_accept_subscriber_body#:#Sie sind in die Gruppe "%1$s" aufgenommen worden.\n\n%2$s
 grp#:#grp_added_to_list#:#Sie sind in die Warteliste der Gruppe "%s" aufgenommen worden.<br />Sie haben Platz %s auf der Warteliste.
 grp#:#grp_admins#:#Administratoren
+grp#:#grp_already_assigned#:#Sie haben bereits einen Aufnahmeantrag für diese Gruppe gestellt.
+grp#:#grp_cancel_subscr_request#:#Aufnahmeantrag zurückziehen
 grp#:#grp_change_type#:#Gruppenart ändern
 grp#:#grp_closed#:#Geschlossene Gruppe
 grp#:#grp_closed_info#:#Die Gruppe ist für Nicht-Mitglieder unsichtbar.
@@ -6611,12 +6786,17 @@ grp#:#grp_icon_settings#:#Gruppen-Icon
 grp#:#grp_info_settings#:#Gruppeninfo
 grp#:#grp_information#:#Wichtige Informationen
 grp#:#grp_information_info#:#Die hier angegebenen Informationen werden auf der Info-Seite und bei der Gruppenanmeldung angezeigt.
+grp#:#grp_lim_assigned#:#Bereits Mitglied in Gruppe "%s".
 grp#:#grp_map_location#:#Standort auf Gruppenkarte
 grp#:#grp_map_settings#:#Einstellungen Karte
 grp#:#grp_members#:#Mitglieder
 grp#:#grp_members_map#:#Karte Gruppenmitglieder
 grp#:#grp_membership_request_body#:#%1$s %2$s hat einen Aufnahmeantrag für die Gruppe "%5$s" gestellt.\n\nBitte bearbeiten Sie den Antrag auf der "Aufnahmeanträge" Seite der Gruppe.\n\nGruppe: "%5$s", %6$s\n\nAntragsteller: %1$s %2$s, %3$s, mailto:%4$s.\n\nBetreff:\n%7$s
 grp#:#grp_membership_request_subject#:#%1$s %2$s möchte der Gruppe "%3$s" beitreten.
+grp#:#grp_min_one_admin#:#Dieser Gruppe muß mindestens ein Administrator zugeordnet bleiben.
+grp#:#grp_missing_grp_type#:#Bitte wählen Sie die Art der Gruppe aus.
+grp#:#grp_missing_password#:#Bitte geben Sie ein Gruppenpasswort ein.
+grp#:#grp_missing_title#:#Bitte geben Sie einen Titel ein.
 grp#:#grp_notification#:#Benachrichtigung
 grp#:#grp_open#:#Offene Gruppe
 grp#:#grp_open_info#:#Die Gruppe und dessen Inhalt ist für Nicht-Mitglieder sichtbar. Eine direkte Anmeldung ist für alle möglich.
@@ -6644,12 +6824,15 @@ grp#:#grp_reg_start#:#Start:
 grp#:#grp_registration_unlimited#:#Zeitlich unbegrenzt
 grp#:#grp_reject_subscriber#:#Ablehnung für Gruppe "%s"
 grp#:#grp_reject_subscriber_body#:#Ihr Antrag für die Gruppe "%s" ist abgelehnt worden.
+grp#:#grp_search_users#:#Benutzer suchen
 grp#:#grp_select_one_file#:#Bitte wählen Sie mindestens eine Datei aus.
 grp#:#grp_selected_users#:#Ausgewählte Teilnehmer
+grp#:#grp_set_on_waiting_list#:#Wenn Sie einen Aufnahmeantrag stellen, werden Sie auf die Warteliste gesetzt. Sie erhalten dann eine Nachricht der Gruppenleitung, ob Ihr Antrag angenommen oder abgelehnt wird.
 grp#:#grp_settings#:#Gruppeneinstellungen
 grp#:#grp_typ#:#Art der Gruppe
 grp#:#grp_type_changed_info#:#Die Gruppenart wurde geändert.
 grp#:#grp_unsubscribe#:#Gruppenmitgliedschaft beenden
+grp#:#grp_update_subscr_request#:#Aufnahmeantrag aktualisieren
 grp#:#grp_users_added#:#Der/die Benutzer wurde(n) in die Gruppe aufgenommen.
 grp#:#grp_users_already_assigned#:#Ein Benutzer ist bereits Mitglied dieser Gruppe.
 grp#:#grp_users_removed_from_list#:#Die ausgewählten Benutzer wurden aus der Warteliste ausgetragen.
@@ -6659,6 +6842,7 @@ grp#:#grp_warn_grp_type_changed#:#Sind Sie sicher, dass Sie die Gruppenart ände
 grp#:#grp_warn_no_max_set_on_waiting_list#:#Die maximale Teilnehmeranzahl ist überschritten. Sie können sich jedoch auf die Warteliste für dieser Gruppe setzen lassen. Sie erhalten eine Nachricht, sobald Ihr Antrag von der Gruppenleitung angenommen oder abgelehnt wurde.
 grp#:#grp_warn_wl_set_on_waiting_list#:#Es sind bereits Teilnehmer auf der Warteliste eingetragen. Sie können sich jedoch auf die Warteliste für diese Gruppe setzen lassen. Sie erhalten eine Nachricht, sobald Ihr Antrag von der Gruppenleitung angenommen oder abgelehnt wurde.
 grp#:#grp_wrong_max_members#:#Bitte überprüfen Sie Ihre Eingabe für die maximale Teilnehmeranzahl.
+grp#:#grp_wrong_reg_time_limit#:#Bitte überprüfen Sie Ihre Eingaben zum Anmeldungszeitraum.
 grp#:#reg_grp_max_members#:#Begrenzte Teilnehmeranzahl
 grp#:#reg_grp_max_members_short#:#Teilnehmeranzahl
 ilinc#:#akclassvalue1#:#Kostenstelle 1
@@ -6746,6 +6930,7 @@ jsmath#:#jsmath_path_to_jsmath#:#Pfad zur jsMath-Bibliothek
 jsmath#:#jsmath_path_to_jsmath_desc#:#Der Pfad zum Basisverzeichnis der jsMath-Bibliothek, relativ zum ILIAS-Basisverzeichnis, also z.B. &quot;./Services/Javascript/jsMath&quot;
 jsmath#:#jsmath_settings#:#jsMath Einstellungen
 ldap#:#ldap_add_missing#:#Fehlende Rollen zuweisen
+ldap#:#ldap_add_remove#:#Rollen hinzufügen/entfernen
 ldap#:#ldap_add_role_ass_rule#:#Neue Regel für die ILIAS-Rollenzuordnung
 ldap#:#ldap_assignment_type#:#Art der Zuordnung
 ldap#:#ldap_authentication_settings#:#Einstellungen zur Authentifizierung
@@ -6755,9 +6940,12 @@ ldap#:#ldap_btn_add_role_ass#:#Neue Regel anlegen
 ldap#:#ldap_check_role_assignment#:#Rollenzuweisung nach späteren Logins
 ldap#:#ldap_confirm_del_role_ass#:#Rollenzuordnung löschen
 ldap#:#ldap_deleted_role_mapping#:#Die Zuordnung wurde entfernt
+ldap#:#ldap_deleted_rule#:#Ausgewählte Rollenzuordnung gelöscht
 ldap#:#ldap_dn_info#:#Wählen Sie hier den kompletten DN der LDAP-Gruppe.
 ldap#:#ldap_edit_role_ass_rule#:#Regel zur Rollenzuordnung bearbeiten
+ldap#:#ldap_err_missing_plugin_id#:#Bitte geben Sie eine gültige Plugin-Id ein.
 ldap#:#ldap_filter_info#:#Filter, der dem Suchfilter folgendermaßen hinzugefügt wird: (&(userattr=username)<strong>(userfilter)</strong>)
+ldap#:#ldap_global_role#:#Globale Rolle
 ldap#:#ldap_global_role_assignment#:#Rollenzuordnung
 ldap#:#ldap_global_role_info#:#Bitte wählen Sie eine globale Rolle für neu anzulegende ILIAS-Benutzer.
 ldap#:#ldap_group_attribute#:#Attributname der Gruppe
@@ -6785,6 +6973,7 @@ ldap#:#ldap_ilias_role_short#:#Rolle:
 ldap#:#ldap_info_text#:#Informationstext
 ldap#:#ldap_info_text_info#:#Sie können hier einen Informationstext angeben, der auf der Infoseite des der Rolle zugehörigen Objektes angezeigt wird. Optional kann dieser Text auch im Magazin und auf dem Persönlichen Schreibtisch eingeblendet werden.
 ldap#:#ldap_info_text_short#:#Infotext:
+ldap#:#ldap_local_role#:#Lokale Rolle
 ldap#:#ldap_mapping_info_type#:#Auch im Magazin/Persönlichen Schreibtisch anzeigen.
 ldap#:#ldap_mapping_table#:#Zuordnung von LDAP-Attributen zu ILIAS-Benutzerdaten
 ldap#:#ldap_mapping_template#:#Vorlage benutzen für Objektklasse:
@@ -6795,8 +6984,11 @@ ldap#:#ldap_missing_role_assignment#:#Bitte wählen Sie eine globale Rolle aus, 
 ldap#:#ldap_moment_sync#:#Synchronisierungsart
 ldap#:#ldap_new_role_assignment#:#Neue Zuordnung anlegen
 ldap#:#ldap_plugin#:#Zuweisung über Plugin
+ldap#:#ldap_plugin_id#:#Plugin-Id
+ldap#:#ldap_plugin_info#:#Überprüfung der Rollenzuordnung per Plugin. Bitte geben Sie dazu eine gültige Plugin-ID ein.
 ldap#:#ldap_referrals#:#Weiterleitungen
 ldap#:#ldap_referrals_info#:#Legt fest, ob Weiterleitungen des LDAP-Servers automatisch gefolgt wird oder nicht.
+ldap#:#ldap_remove_deprecated#:#Unberechtigte Rollen entfernen
 ldap#:#ldap_role_active#:#Gruppenaktualisierung eingeschaltet
 ldap#:#ldap_role_assignments#:#Rollenzuordnung
 ldap#:#ldap_role_at_info#:#Die Zuordnung erfolgt anhand eines bestimmten Attributs im LDAP Benutzerprofil.
@@ -6808,14 +7000,18 @@ ldap#:#ldap_role_bind_user#:#Benutzername
 ldap#:#ldap_role_bind_user_info#:#Bitte geben einen LDAP-Benutzernamen ein. Dieser Benutzer muss Schreibzugriff auf die zu aktualisierenden Gruppen besitzen.
 ldap#:#ldap_role_by_attribute#:#Benutzerattribut
 ldap#:#ldap_role_by_group#:#Gruppenzugehörigkeit
+ldap#:#ldap_role_by_plugin#:#Per Plugin
 ldap#:#ldap_role_group_assignments#:#Vorhandene Zuordnungen
 ldap#:#ldap_role_grp_at#:#Attribut
 ldap#:#ldap_role_grp_dn_info#:#Bitte geben Sie den vollständigen "Distinguished Name" der Gruppe an.
 ldap#:#ldap_role_grp_info#:#Mitglieder einer bestimmten LDAP Gruppe werden der angegebenen ILIAS-Rolle zugeordnet.
 ldap#:#ldap_role_grp_isdn#:#Attributwert ist DN
 ldap#:#ldap_role_info#:#Bitte geben Sie den Namen der ILIAS-Rolle ein, die die LDAP-Gruppenzugehörigkeit steuern soll.
-ldap#:#ldap_role_mapping#:#Zuordnung ILIAS-Rollen » LDAP-Gruppen 
+ldap#:#ldap_role_mapping#:#Zuordnung ILIAS-Rollen » LDAP-Gruppen
+ldap#:#ldap_role_name_info#:#Bitte wählen Sie entweder eine globale Rolle oder geben Sie den Namen einer lokalen Rolle ein.
 ldap#:#ldap_role_not_exists#:#Eine ILIAS-Rolle mit dem folgenden Namen existiert nicht:
+ldap#:#ldap_role_selection#:#Auswahl der Rollen
+ldap#:#ldap_role_selection_info#:#Ihre Auswahl ist nicht eindeutig. Bitte wählen Sie eine der nachfolgenden Rollen.
 ldap#:#ldap_role_settings#:#Einstellungen zur LDAP-Gruppen Aktualisierung
 ldap#:#ldap_rule_condition#:#Bedingung
 ldap#:#ldap_rule_type#:#Art der Zuordnung
@@ -6839,6 +7035,7 @@ ldap#:#ldap_sync_login#:#Bei Anmeldung der Benutzer
 ldap#:#ldap_tbl_role_ass#:#Aktive Regeln für die Rollenzuordnung
 ldap#:#ldap_tls_conflict#:#LDAP-TLS kann nicht in Kombination mit Protokollversion 2 genutzt werden.
 ldap#:#ldap_update_field_info#:#Automatisch aktualisieren
+ldap#:#ldap_update_roles#:#Rollenzuordnungen
 ldap#:#ldap_user_attribute#:#Attributname der Benutzerzugänge
 ldap#:#ldap_user_dn#:#Suchbasis
 ldap#:#ldap_user_mapping#:#Zuordnung der Profildaten
@@ -6846,6 +7043,21 @@ ldap#:#ldap_user_scope#:#Suchbereich
 ldap#:#ldap_user_scope_info#:#Bereich für die Benutzersuche. Wählen Sie im Zweifelsfall "Sub".
 ldap#:#ldap_user_sync#:#Einstellungen zur Benutzersynchronisierung
 ldap#:#ldap_user_sync_info#:#Legt fest, ob noch nicht in ILIAS vorhandene Benutzer automatisch beim ersten Login oder aber regelmäßig per Cron-Job angelegt werden.
+license#:#arbitrary#:#beliebig
+license#:#course_licenses_exceeded#:#Durch das Hinzufügen der Nutzer überschreiten die potentiellen Zugriffe die verfügbaren Lizenzen! Wechseln Sie zur Registerkarte "Lizenzen", um zu sehen, welche Lizenzen erhöht werden müssen".
+license#:#course_licenses_rare#:#Warnung: für ein Kursobjekt sind nur noch %s Lizenzen vorhanden! Wechseln Sie zur Registerkarte "Lizenzen", um zu sehen, welche Lizenzen erhöht werden müssen.
+license#:#edit_license#:#Lizenz bearbeiten
+license#:#existing_licenses#:#Vorhandene Lizenzen
+license#:#license_counter#:#Lizenzzähler
+license#:#license_counter_info#:#Ermöglicht, den Verbrauch von Kauflizenzen für HTML- und SCORM-Lernmodule zu zählen.
+license#:#license_updated#:#Die Lizenzdaten wurden aktualisiert.
+license#:#license_warning#:#Lizenzwarnung bis
+license#:#license_warning_info#:#Bis zu dieser Anzahl verfügbarer Lizenzen für Lerninhalte in einem Kurs wird bei der Aufnahme von Kursmitglieder eine Warnmeldung ausgegeben.
+license#:#potential_accesses#:#Potentielle Zugriffe
+license#:#potential_accesses_explanation#:#Jeder Nutzer mit Leserecht, der noch nicht zugegriffen hat, zählt als potentieller Zugriff.
+license#:#used_licenses#:#Verbrauchte Lizenzen
+license#:#used_licenses_explanation#:#Jeder Erstaufruf eines Nutzers verbraucht eine Lizenz.
+license#:#zero_licenses_explanation#:#Tragen Sie 0 ein, um die Lizensierung zu deaktivieren.
 mail#:#activate_serial_letter_placeholders#:#Platzhalter für Serienbrief aktivieren
 mail#:#advice_mail_body_secured#:#Aus Ihrer Nachricht wurden aus Sicherheitsgründen bestimmte Elemente entfernt. Bitte kontrollieren Sie die vom System bereinigte Nachricht und schicken Sie die Mail erneut ab.
 mail#:#also_as_email#:#Auch als E-Mail
@@ -6912,6 +7124,7 @@ mail#:#mail_in_addressbook#:#Bereits in den Kontakten
 mail#:#mail_incoming#:#Nachrichten Empfang
 mail#:#mail_incoming_both#:#Lokal und Weiterleitung
 mail#:#mail_incoming_local#:#Nur lokal
+mail#:#mail_incoming_mail#:#Nachrichten Empfang
 mail#:#mail_incoming_smtp#:#An eingetragene E-Mail-Adresse weiterleiten
 mail#:#mail_insert_folder_name#:#Bitte geben Sie einen Ordnernamen ein
 mail#:#mail_insert_query#:#Bitte geben Sie einen Suchbegriff ein
@@ -6977,6 +7190,7 @@ mail#:#mail_select_one_entry#:#Sie müssen mindestens einen Eintrag auswählen
 mail#:#mail_select_one_file#:#Sie müssen mindestens eine Datei auswählen
 mail#:#mail_select_only_one_entry#:#Bitte wählen Sie nur einen Eintrag aus.
 mail#:#mail_send_with_system_address#:#Mit Adresse des Systems senden
+mail#:#mail_settings_incoming_type_see_also#:#Eine weitere Möglichkeit die Empfangsart für die Anwender/-innenfinden zu ändern haben Sie <a href="%s">hier</a>.
 mail#:#mail_sure_delete#:#Sind Sie sicher, dass die markierten Nachrichten gelöscht werden sollen?
 mail#:#mail_sure_delete_entry#:#Sind Sie sicher, dass die markierten Einträge gelöscht werden sollen?
 mail#:#mail_sure_delete_file#:#Sind Sie sicher, dass die markierten Dateien gelöscht werden sollen?
@@ -6992,6 +7206,7 @@ mcst#:#mcst_add_new_item#:#Neues Mediacast-Objekt hinzufügen
 mcst#:#mcst_audioportable_settings_info#:#Kommagetrennte Liste von Dateiendungen
 mcst#:#mcst_audioportable_settings_title#:#Dateiendungen für das Audio Format
 mcst#:#mcst_audioportable_title#:#Zusätzliches Audio File für portable Geräte
+mcst#:#mcst_automatic_detection#:#Automatisch
 mcst#:#mcst_clear_purpose_title#:#Löschen
 mcst#:#mcst_current_value_info#:#Aktueller Wert des Formats
 mcst#:#mcst_default_visibility#:#Standardzugriff
@@ -7014,14 +7229,20 @@ mcst#:#mcst_last_submission#:#Letzter Beitrag
 mcst#:#mcst_media_cast#:#Mediacast
 mcst#:#mcst_media_cast_not_online#:#Mediacast ist nicht online
 mcst#:#mcst_media_cast_not_online_text#:#Der Mediacast ist nicht online oder wurde deaktiviert
+mcst#:#mcst_mimetype#:#Mime-Type
+mcst#:#mcst_mimetype_info#:#Wählen Sie einen Mimetype aus, um das richtige Plugin zu definieren. <br>Hinweis: Bitte berücksichtigen Sie, dass nicht alle Browser alle Plugins installiert haben bzw. unterstützen.
+mcst#:#mcst_mimetypes#:#Mime-Types
+mcst#:#mcst_mimetypes_info#:#Kommagetrennte Liste von Mimetypes
 mcst#:#mcst_news_item_visibility_info#:#Öffentliche Nachrichten können von außerhalb und ohne Anmeldung gelesen werden. Sie sollten keine vertraulichen Informationen enthalten.
 mcst#:#mcst_nr_items#:#Zahl der Objekte
 mcst#:#mcst_play_time#:#Laufzeit
 mcst#:#mcst_reference_info#:#URL zur Ressource, z.B. HTTP-Adresse.
+mcst#:#mcst_set_playtime#:#Die Laufzeit wurde gesetzt.
 mcst#:#mcst_settings#:#Einstellungen Mediacast
 mcst#:#mcst_standard_settings_info#:#Kommagetrennte Liste von Dateiendungen
 mcst#:#mcst_standard_settings_title#:#Dateiendungen für das Standard Format
 mcst#:#mcst_standard_title#:#Standard Media File
+mcst#:#mcst_unable_to_determin_playtime#:#Leider konnte die Laufzeit nicht automatisch bestimmt werden. Unter "Bearbeiten" können Sie die Laufzeit manuell einstellen.
 mcst#:#mcst_videoportable_settings_info#:#Kommagetrennte Liste von Dateiendungen
 mcst#:#mcst_videoportable_settings_title#:#Dateiendungen für das Video Format
 mcst#:#mcst_videoportable_title#:#Zusätzliches Video File für portable Geräte
@@ -7031,13 +7252,20 @@ mcst#:#mcst_visibility_users#:#Öffentlich
 mep#:#mep_all#:#Alle
 mep#:#mep_all_mobs#:#Alle Medienobjekte
 mep#:#mep_copy_to_mep#:#In Mediapool kopieren
+mep#:#mep_create_content_snippet#:#Inhaltsbaustein erzeugen
 mep#:#mep_create_folder#:#Ordner anlegen
 mep#:#mep_create_mob#:#Medienobjekt anlegen
 mep#:#mep_default_height#:#Standardhöhe
 mep#:#mep_default_width#:#Standardbreite
 mep#:#mep_default_width_height_info#:#Standardbreite und -höhe werden als Voreinstellung für neue Medienobjekte verwendet.
+mep#:#mep_edit_content_snippet#:#Inhaltsbaustein bearbeiten
+mep#:#mep_edit_folder#:#Ordner bearbeiten
+mep#:#mep_folder#:#Ordner
 mep#:#mep_folder_content#:#Verzeichnisinhalt
 mep#:#mep_format#:#Format
+mep#:#mep_new_content_snippet#:#Neuer Inhaltsbaustein
+mep#:#mep_new_folder#:#Neuer Ordner
+mep#:#mep_page_properties#:#Eigenschaften der Seite
 mep#:#mep_parent_folder#:#Übergeordneter Ordner
 mep#:#mep_thumbnail#:#Miniaturbild
 mep#:#mep_title_and_description#:#Titel und Beschreibung
@@ -7087,11 +7315,15 @@ meta#:#md_copyright_value#:#Copyright
 meta#:#md_copyrights_deleted#:#Die ausgewählten Vorgaben wurden entfernt.
 meta#:#md_days#:#Tage:
 meta#:#md_delete_cp_sure#:#Möchten Sie wirklich die ausgewählten Vorgaben entfernen?
+meta#:#md_delimiter#:#Trennzeichen
+meta#:#md_delimiter_info#:#Das Trennzeichen wird in der Schnellbearbeitung der Metadaten verwendet, um Angaben zu mehreren Schlagwörtern und Autoren zu trennen. Standardzeichen ist ','.
 meta#:#md_fields#:#Felder
+meta#:#md_general_settings#:#Allgemeine Einstellungen
 meta#:#md_months#:#Monate:
 meta#:#md_obj_types#:#Zugeordnete Objekte
 meta#:#md_record_export_table#:#Exportdateien
 meta#:#md_record_list_table#:#Verfügbare Metadatensätze
+meta#:#md_separated_by#:#Getrennt mit
 meta#:#md_time#:#Zeit:
 meta#:#md_used#:#Verwendung (Anzahl)
 meta#:#meta_accessibility_restrictions#:#Zugangsbeschränkungen
@@ -7588,6 +7820,7 @@ meta#:#meta_other#:#Andere
 meta#:#meta_other_plattform_requirements#:#Andere Plattform-Anforderungen
 meta#:#meta_pc_dos#:#PC-DOS
 meta#:#meta_please_select#:#Bitte wählen Sie
+meta#:#meta_pointofcontact#:#Anknüpfungspunkt
 meta#:#meta_prerequisite#:#Voraussetzung
 meta#:#meta_problem_statement#:#Problemstellung
 meta#:#meta_publisher#:#Herausgeber
@@ -7640,6 +7873,7 @@ meta#:#meta_very_easy#:#Sehr leicht
 meta#:#meta_very_high#:#Sehr hoch
 meta#:#meta_very_low#:#Sehr niedrig
 meta#:#meta_yes#:#Ja
+meta#:#sco_propagate#:#Auf alle SCOs verbreiten
 news#:#news_1_file_created#:#Es wurde eine Datei hinzugefügt.
 news#:#news_1_file_updated#:#Es wurde eine Datei aktualisiert.
 news#:#news_1_postings#:#Es wurde ein Beitrag hinzugefügt.
@@ -8331,6 +8565,10 @@ rbac#:#perm_local_role#:#Lokale Rolle
 rbac#:#perm_local_role_desc#:#Diese Rolle ist lokal an diesem Objekt definiert und entspricht bereits einer lokalen Zugriffsregelung
 rbac#:#perm_use_local_policy#:#Verwende lokale Zugriffsregelung
 rbac#:#perm_use_local_policy_desc#:#Wenn die lokale Zugriffsregelung aktiviert ist, können an dieser Stelle andere Rechtevorgaben definiert werden
+rbac#:#rbac_delete_role#:#Rolle löschen
+rbac#:#rbac_role_delete_qst#:#Sind Sie sicher, dass Sie diese Rolle löschen möchten. Alle Rechte, die durch sie gewährt werden, sind dann unwiederruflich aufgehoben.
+rbac#:#rbac_role_delete_self#:#<strong>Achtung:</strong> Sie selbst sind dieser Rolle zugeordnet. Wenn Sie den Löschvorgang fortführen, kann es sein, dass Sie Zugriffsrechte an diesem oder anderen ILIAS-Materialien verlieren.
+rbac#:#rbac_role_exists_alert#:#Es existiert bereits eine Rolle mit dem gleichen Namen. Bitte wählen Sie einen anderen Rollennamen.
 rbac#:#rcrs_delete#:#Externe Kurse löschen
 rbac#:#rcrs_edit_permission#:#Rechteeinstellungen ändern
 rbac#:#rcrs_read#:#Lesezugriff auf externe Kurse
@@ -8370,11 +8608,17 @@ registration#:#reg_access_limitation_mode_unlimited#:#Ohne Zugangbefristung
 registration#:#reg_access_limitation_none#:#unbefristeter Zugang
 registration#:#reg_access_limitation_out_of_date#:#Für eine oder mehrere Rollen ist die Zugangsfrist bereits abgelaufen!
 registration#:#reg_access_limitations#:#Zugangsbefristung
+registration#:#reg_activation_your_confirmation_link#:#Ihr Bestätigungslink:
 registration#:#reg_add_assignment#:#Neue Zuordnung
 registration#:#reg_added_assignment#:#Eine neue Zuordung wurde angelegt.
 registration#:#reg_approve#:#Neuanmeldung mit Überprüfung
 registration#:#reg_approve_info#:#Alle neu angemeldeten Benutzer müssen vom einem Administrator freigeschaltet werden.
 registration#:#reg_available_roles#:#Verfügbare Rollen:
+registration#:#reg_confirmation_hash_life_time_expired#:#Der Bestätigungslink ist nicht mehr gültig.
+registration#:#reg_confirmation_hash_life_time_info#:#Geben Sie die Gültigkeitsdauer des Bestätigungslinks (in Sekunden) an.
+registration#:#reg_confirmation_hash_not_found#:#Dieser Bestätigungslink passt zu keinem Benutzerkonto.
+registration#:#reg_confirmation_hash_not_passed#:#Der Bestätigungslink wurde nicht vollständig übergeben.
+registration#:#reg_confirmation_link_successful#:#Sie haben sich erfolgreich bei ILIAS registriert. Sie müssen Ihr Benutzerkonto durch Klicken des Bestätigungslink aktivieren um dieses zu aktivieren.<br />Sie werden in 20 Sekunden zur <a href="%s" title="Loginseite">Loginseite</a> weitergeleitet.
 registration#:#reg_default#:#Default
 registration#:#reg_deleted_assignment#:#Die Zuordnungen wurde(n) gelöscht.
 registration#:#reg_direct#:#Direkte Anmeldung
@@ -8402,6 +8646,8 @@ registration#:#reg_select_one#:#Bitte treffen Sie eine Auswahl.
 registration#:#reg_selectable_roles#:#Auswählbare Rollen
 registration#:#reg_settings_header#:#Einstellungen für die Neuanmeldung
 registration#:#reg_type#:#Registrierungsart
+registration#:#reg_type_confirmation#:#Registrieren mit E-Mail-Bestätigung
+registration#:#reg_type_confirmation_info#:#Bei dieser Registrierungsmethode erhält der neue Benutzer zunächst per E-Mail-Adresse einen Bestätigungslink zugesandt. Wird dieser bestätigt, erfolgt die automatische Freischaltung des Benutzerkontos.
 registration#:#reg_unknown_recipients#:#Die folgenden Benutzer sind nicht gültig:
 registration#:#registration_settings#:#Neuanmeldungen
 rep#:#rep_intro#:#Willkommen im Magazin!
@@ -8411,17 +8657,35 @@ rep#:#rep_intro3#:#Klicken Sie auf den <i>%s</i>-Button neben der Auswahlliste o
 rep#:#rep_intro4#:#Im folgenden Menü geben Sie bitte einen Titel und einen Beschreibungstext für die Kategorie ein und klicken abschließend auf <i>%s</i>.
 rep#:#rep_intro5#:#Durch Klicken auf den Titel gelangen Sie in Ihre erste Kategorie.
 rep#:#rep_intro6#:#Nach diesem ersten Schritt können Sie nun weitere Kategorien anlegen oder erste Lernmaterialien in diese Kategorie einfügen.
+sahs#:#sahs_chapter#:#Kapitel
+sahs#:#sahs_choose_pages_or_chapters_or_scos_only#:#Wählen Sie bitte entweder nur Seiten oder SCOs oder Kapitel aus!
+sahs#:#sahs_insert_chapter#:#Kapitel einfügen
+sahs#:#sahs_insert_page#:#Seite einfügen
+sahs#:#sahs_insert_pagelayout#:#Seitenvorlage einfügen
+sahs#:#sahs_insert_scenario#:#Kapitelsequenz einfügen
+sahs#:#sahs_insert_sco#:#SCO einfügen
+sahs#:#sahs_learning_objectives#:#Lernziele
 sahs#:#sahs_new_chapter#:#Neuse Kapitel
 sahs#:#sahs_new_page#:#Neue Seite
 sahs#:#sahs_new_sco#:#Neuer SCO
 sahs#:#sahs_objective#:#Learning Objective
+sahs#:#sahs_objective_alignment#:#Anordnung der Ziele
 sahs#:#sahs_objectives#:#Learning Objectives
+sahs#:#sahs_objectives_alignment#:#Anordnung der Lernziele
+sahs#:#sahs_organization#:#Organisation
+sahs#:#sahs_page#:#Seite
+sahs#:#sahs_properties#:#Eigenschaften
+sahs#:#sahs_questions#:#Fragen
+sahs#:#sahs_sco_objective#:#Ziele
+sahs#:#sahs_sequencing#:#Sequencing
+sahs#:#sahs_unit#:#SCO
 search#:#add_members_header#:#Benutzer hinzufügen
 search#:#adv_md_search_title#:#Suche in den erweiterterten Metadaten
 search#:#append_results#:#Ergebnisse anhängen
 search#:#last_search_result#:#Letztes Suchergebnis
 search#:#lucene_activate_field#:#Suche aktivieren
 search#:#lucene_advanced_settings#:#Erweiterte Suche
+search#:#lucene_advanced_settings_table#:#Einstellungen zur erweiterten Suche
 search#:#lucene_advances_settings_table#:#Erweiterte Sucheinstellungen
 search#:#lucene_all_occurrences#:#... %s weitere(s) Vorkommen
 search#:#lucene_and#:#UND
@@ -8467,6 +8731,7 @@ search#:#search_any#:#-- Beliebig --
 search#:#search_any_word#:#Einen der Begriffe
 search#:#search_area#:#Suchbereich
 search#:#search_area_info#:#Bitte wählen Sie einen Bereich aus unterhalb dessen die Suche starten soll.
+search#:#search_auto_complete_length#:#Anzahl der Einträge in Auto-Complete-Liste
 search#:#search_below#:#Unterhalb von:
 search#:#search_change#:#Ändern
 search#:#search_choose_object_type#:#Bitte wählen Sie mindestens einen Objekttyp aus.
@@ -8477,13 +8742,15 @@ search#:#search_dbk_meta#:#Digitale Bibliothek (Metadaten)
 search#:#search_delete_sure#:#Sind Sie, dass dieses Objekt mit seinem Inhalt gelöscht werden soll?
 search#:#search_details_info#:#Detailsuche in den unten ausgewählten Objekttypen
 search#:#search_direct#:#Direktsuche
-search#:#search_fast_info#:#Suche nach Titeln, Beschreibungen und Schlüsselwörtern
+search#:#search_fast_info#:#Suche nach Titeln, Beschreibungen und Schlagwörtern
+search#:#search_for_crs_members#:#Nach Kursmitgliedern suchen
 search#:#search_for_grp_members#:#Nach Gruppenmitgliedern suchen
 search#:#search_for_role_members#:#Nach Rollenmitgliedern suchen
 search#:#search_for_users#:#Nach Benutzern suchen
 search#:#search_full_info#:#Diese Suchart benutzt einen Index, um in großen Datenmengen zu suchen.
 search#:#search_group#:#Gruppen
 search#:#search_grp_title#:#Gruppenname
+search#:#search_hide_adv_search#:#Erweiterte Suche ausblenden
 search#:#search_hits#:#Gefunden in:
 search#:#search_in_magazin#:#Im Magazin
 search#:#search_in_result#:#In den Resultaten suchen
@@ -8813,6 +9080,7 @@ style#:#sty_word_spacing#:#Wortabstand
 survey#:#add_category#:#Antwort hinzufügen
 survey#:#add_heading#:#Textblock hinzufügen
 survey#:#add_limits_for_standard_numbers#:#Bitte geben Sie eine untere und obere Grenze für die Standardzahlen an, die Sie als Antworten hinzufügen wollen.
+survey#:#add_material#:#Material hinzufügen
 survey#:#add_phrase#:#Phrase hinzufügen
 survey#:#add_phrase_introduction#:#Bitte wählen Sie eine Phrase aus:
 survey#:#add_standard_numbers#:#Standardzahlen hinzufügen
@@ -8862,6 +9130,8 @@ survey#:#category_nr_selected#:#Anzahl der Teilnehmerinnen, die diese Antwort au
 survey#:#chart#:#Diagramm
 survey#:#check_category_to_save_phrase#:#Sie müssen mindestens eine Antwort auswählen, um eine Phrase speichern zu können!
 survey#:#codes#:#Zugangsschlüssel
+survey#:#codes_created#:#Zugangsschlüssel erzeugt
+survey#:#codes_deleted#:#Zugangsschlüssel gelöscht
 survey#:#combobox#:#Kombinationsfeld
 survey#:#concatenation#:#Verknüpfung
 survey#:#confirm_delete_all_user_data#:#Sind Sie sicher, dass Sie alle Nutzerdaten der Umfrage löschen wollen?
@@ -9005,13 +9275,17 @@ survey#:#insert_after#:#Einfügen hinter
 survey#:#insert_before#:#Einfügen vor
 survey#:#insert_missing_question#:#Bitte wählen Sie mindestens eine Frage aus, die Sie der Umfrage hinzufügen wollen!
 survey#:#insert_missing_questionblock#:#Bitte wählen Sie mindestens einen Fragenblock aus, den Sie der Umfrage hinzufügen wollen!
+survey#:#internal_link#:#Interner Verweis
 survey#:#introduction#:#Einleitung
 survey#:#introduction_manage_phrases#:#Verwalten Sie Ihre eigenen Phrasen. Diese stehen Ihnen in allen ordinalen Fragen zur Verfügung, die Sie erstellen/bearbeiten.
 survey#:#invitation#:#Einladung
 survey#:#invitation_mode#:#Einladungsmodus
+survey#:#invitation_mode_desc#:#Wenn ein Benutzer zu einer Umfrage eingeladen wurde, wird eine Verknüpfung zu dieser Umfrage auf den persönlichen Schreibtisch des Benutzers gelegt.
+survey#:#invitation_off#:#Niemanden einladen
 survey#:#invited_groups#:#Eingeladene Gruppen
 survey#:#invited_users#:#Eingeladene NutzerInnen
 survey#:#label_resume_survey#:#Bitte geben Sie den aus 5 Zeichen bestehenden Zugangsschlüssel ein
+survey#:#language_changed#:#Sprache geändert
 survey#:#last_update#:#Letzte Aktualisierung
 survey#:#layout#:#Layout
 survey#:#legend#:#Legende
@@ -9021,6 +9295,8 @@ survey#:#manage_phrases#:#Meine Phrasen
 survey#:#material#:#Material
 survey#:#material_added_successfully#:#Sie haben erfolgreich einen Verweis auf Material eingestellt!
 survey#:#material_file#:#Material-Datei
+survey#:#materials#:#Materialien
+survey#:#materials_deleted#:#Material(ien) gelöscht
 survey#:#matrix_appearance#:#Darstellung
 survey#:#matrix_bipolar_adjectives#:#Pol und Gegenpol
 survey#:#matrix_bipolar_adjectives_description#:#Sie können ein Wertepaar mit einem Pol und einem Gegenpol verwenden, um die Spaltenskala genauer zu beschreiben
@@ -9032,11 +9308,13 @@ survey#:#matrix_columns#:#Matrixspalten
 survey#:#matrix_columns_rows#:#Spalten/Zeilen bearbeiten
 survey#:#matrix_error_no_columns#:#Bitte füllen Sie mindestens eine Spalte mit Text!
 survey#:#matrix_error_no_rows#:#Bitte füllen Sie mindestens eine Zeile mit Text!
+survey#:#matrix_left_pole#:#Linker Pol
 survey#:#matrix_neutral_answer#:#Text für eine neutrale Spalte ("Nicht definiert", "Ich weiß nicht", "Keine Angabe" etc.)
 survey#:#matrix_neutral_column_separator#:#Trenner für die neutrale Spalte
 survey#:#matrix_neutral_column_separator_description#:#Wählen Sie das Kontrollkästchen aus, wenn Sie in der Ausgabe der Matrixfrage einen Trenner (breite Linie) zwischen der neutralen Spalte und den restlichen Spalten anzeigen wollen
 survey#:#matrix_question_checkbox_not_checked#:#Bitte wählen Sie in jeder Zeile mindestens ein Kontrollkästchen aus!
 survey#:#matrix_question_radio_button_not_checked#:#Bitte wählen Sie in jeder Zeile eine Optionsschaltfläche aus!
+survey#:#matrix_right_pole#:#Rechter Pol
 survey#:#matrix_row_delete_select_none#:#Bitte wählen Sie mindestens eine Zeile zum Löschen aus!
 survey#:#matrix_row_separators#:#Zeilentrenner
 survey#:#matrix_row_separators_description#:#Wählen Sie das Kontrollkästchen aus, wenn Sie in der Ausgabe der Matrixfrage Trenner (schmale Linien) zwischen den Zeilen anzeigen wollen
@@ -9068,7 +9346,9 @@ survey#:#missing_upper_or_lower_limit#:#Bitte geben Sie eine untere und obere Sc
 survey#:#mode#:#Häufigste Auswahl
 survey#:#mode_nr_of_selections#:#Anzahl der Auswahlen
 survey#:#mode_text#:#Häufigste Auswahl (Text)
+survey#:#msg_deleted_export_files#:#Exportdatei(en) gelöscht
 survey#:#msg_enter_value_for_valid_constraint#:#Bitte geben Sie einen Wert ein, um eine gültige Vorbedingung zu erstellen.
+survey#:#msg_users_disinvited#:#Benutzer ausgeladen
 survey#:#multiple_choice_multiple_response#:#Multiple Choice Frage (Mehrfachauswahl)
 survey#:#multiple_choice_single_response#:#Multiple Choice Frage (Einfachauswahl)
 survey#:#multiple_choice_subtype_description#:#Wählen Sie Einfachauswahl, wenn Sie wünschen, dass die Teilnehmer nur genau eine Antwort auswählen und Mehrfachauswahl, wenn die Teilnehmer mehr als eine Antwort auswählen dürfen.
@@ -9084,6 +9364,7 @@ survey#:#no_questionblocks_available#:#Es sind keine Fragenblöcke verfübar!
 survey#:#no_questions_available#:#Es sind keine Fragen verfügbar!
 survey#:#no_search_results#:#Die Suche hat zu keinem Ergebnis geführt!
 survey#:#no_target_selected_for_move#:#Sie müssen eine Zielposition auswählen!
+survey#:#no_user_invited#:#Allen eingeladenen Benutzern fehlen die notwendigen Rechte, um die Umfrage durchzuführen. Es wurde niemand eingeladen.
 survey#:#no_user_or_group_selected#:#Bitte wählen Sie eine Zielgruppe aus, in der die Suche durchgeführt werden soll (NutzerInnen und/oder Gruppen)!
 survey#:#no_user_phrases_defined#:#Sie haben keine selbst definierten Phrasen!
 survey#:#nominal_question_not_checked#:#Sie müssen eine der angebotenen Antworten auswählen!
@@ -9100,6 +9381,7 @@ survey#:#outro#:#Abschließende Bemerkung
 survey#:#percentage_of_entered_values#:#Prozentsatz der NutzerInnen, die diesen Wert ausgewählt haben
 survey#:#percentage_of_offered_answers#:#Prozentsatz der angebotenen Antworten
 survey#:#percentage_of_selections#:#Prozentsatz der NutzerInnen, die diese Antwort ausgewählt haben
+survey#:#phrase_added#:#Phrase hinzugefügt
 survey#:#phrase_saved#:#Die Phrase wurde erfolgreich gespeichert
 survey#:#please_select#:#-- bitte auswählen --
 survey#:#predefined_users#:#Vordefinierte NutzerInnengruppe
@@ -9123,13 +9405,17 @@ survey#:#qpl_unfold_select_none#:#Bitte wählen Sie mindestens einen Fragenblock
 survey#:#question_contains_no_categories#:#Für diese Frage wurden noch keine Antworten definiert
 survey#:#question_has_constraints#:#Vorbedingungen
 survey#:#question_icon#:#Fragensymbol
+survey#:#question_mr_not_checked#:#Bitte wählen Sie mindestens eine der angebotenen Antworten aus!
+survey#:#question_not_checked#:#Sie müssen eine der angebotenen Anworten auswählen!
 survey#:#question_obligatory#:#Diese Frage ist verpflichtend!
 survey#:#question_saved_for_upload#:#Die Frage wurde automatisch gespeichert, um das Hochladen einer Datei zu ermöglichen. Wenn Sie die Bearbeitung dieser Frage jetzt abbrechen, beachten Sie bitte, dass Sie die Frage im Fragenpool löschen müssen, wenn Sie sie nicht behalten wollen.
 survey#:#question_type#:#Fragentyp
 survey#:#questionblock#:#Fragenblock
 survey#:#questionblock_has_constraints#:#Vorbedingungen
 survey#:#questionblock_icon#:#Fragenblock-Symbol
+survey#:#questionblock_inserted#:#Fragenblock eingefügt
 survey#:#questionblocks#:#Fragenblöcke
+survey#:#questionblocks_inserted#:#Fragenblöcke eingefügt
 survey#:#questions#:#Fragen
 survey#:#questions_inserted#:#Frage(n) angefügt
 survey#:#questions_removed#:#Frage(n) und/oder Fragenblock entfernt!
@@ -9142,11 +9428,13 @@ survey#:#remove_questions#:#Sind Sie sicher, dass Sie die folgenden Frage(n) und
 survey#:#reset_filter#:#Filter zurücksetzen
 survey#:#results#:#Ergebnisse
 survey#:#resume_survey#:#Umfrage fortsetzen
+survey#:#row_text#:#Zeile
 survey#:#save_back_to_survey#:#Speichern und zurück zur Umfrage
 survey#:#save_obligatory_state#:#verpflichtend-Status speichern
 survey#:#save_phrase#:#Als Phrase speichern
 survey#:#save_phrase_categories_not_checked#:#Bitte wählen Sie mindestens zwei Antworten aus, um diese in einer neuen Phrase speichern zu können!
 survey#:#save_phrase_introduction#:#Wenn Sie die unten aufgeführten Antworten für sich als Standard-Phrase speichern wollen, geben Sie bitte noch einen Titel für die Phrase ein. Sie können auf diese Phrase jederzeit zugreifen, wenn Sie Phrasen zu einer ordinalen Frage hinzufügen.
+survey#:#scale#:#Skala
 survey#:#search_field_all#:#In allen Feldern suchen
 survey#:#search_for#:#Suchen nach
 survey#:#search_groups#:#Gruppen
@@ -9172,9 +9460,16 @@ survey#:#show_questiontext#:#Fragentext anzeigen
 survey#:#show_questiontext_description#:#Wenn dieses Kontrollkästchen aktiviert ist, wird für jede Frage innerhalb des Fragenblocks der Fragentext angezeigt (Standard). Wenn dieses Kontrollkästchen nicht aktiviert ist, werden die Fragentexte nicht angezeigt und nur die Antworten angeboten. Dies kann sinnvoll sein, wenn Sie mehrere Fragen mit identischen Fragentexten in einem Fragenblock anbieten.
 survey#:#skipped#:#übersprungen
 survey#:#specialusers#:#Spezielle Benutzer
+survey#:#spl_copy_insert_clipboard#:#Die ausgewählten Fragen wurden in die Zwischenablage kopiert
+survey#:#spl_copy_select_none#:#Bitte wählen Sie mindestens eine Frage zum Kopieren aus
 survey#:#spl_general_properties#:#Allgemeine Eigenschaften
+survey#:#spl_move_insert_clipboard#:#Die ausgewählten Fragen wurden für zum Verschieben markiert
+survey#:#spl_move_same_pool#:#Sie können Fragen nicht innerhalb des gleichen Fragenpools verschieben
+survey#:#spl_move_select_none#:#Bitte wählen Sie mindestens eine Frage zum Verschieben aus
 survey#:#spl_online_property#:#Online
 survey#:#spl_online_property_description#:#Wenn der Fragenpool nicht online ist, kann er nicht in Umfragen verwendet werden.
+survey#:#spl_paste_no_objects#:#Es sind keine Fragen in der Zwischenablage vorhanden. Bitte nutzen Sie hierfür die Kopieren- oder Verschieben-Schaltflächen.
+survey#:#spl_paste_success#:#Frage(n) eingefügt
 survey#:#spl_select_file_for_import#:#Sie müssen eine Datei für den Import auswählen!
 survey#:#start_date#:#Startdatum
 survey#:#start_date_not_reached#:#Sie können die Umfrage erst starten, wenn das Startdatum erreicht ist!
@@ -9213,6 +9508,8 @@ survey#:#survey_text_textwidth_desc#:#Geben Sie die Breite des Eingabefeldes in 
 survey#:#survey_use_start_button#:#Sie dürfen eine Umfrage nur über die Schaltfläche "Umfrage beginnen" starten!
 survey#:#SurveyMatrixQuestion#:#Matrixfrage
 survey#:#SurveyMetricQuestion#:#Metrische Frage
+survey#:#SurveyMultipleChoiceQuestion#:#Multiple Choice Frage (Mehrfachauswahl)
+survey#:#SurveySingleChoiceQuestion#:#Multiple Choice Frage (Einfachauswahl)
 survey#:#SurveyTextQuestion#:#Textfrage
 survey#:#svy_all_user_data_deleted#:#Alle Nutzerdaten der Umfrage wurden gelöscht!
 survey#:#svy_check_evaluation_access_introduction#:#Da diese Auswertung nur für Teilnehmer der Umfrage verfügbar ist, müssen Sie Ihren Zugangsschlüssel für die Umfrage angeben, um die Auswertung zu öffnen.
@@ -9253,10 +9550,12 @@ survey#:#upper_limit#:#Obere Schranke
 survey#:#upper_limit_must_be_greater#:#Die obere Schranke muss größer als die untere Schranke sein!
 survey#:#use_anonymous_id#:#Zugangsschlüssel anzeigen
 survey#:#use_anonymous_id_desc#:#Zeigt bei anonymisierten Umfragen statt des Benutzernamens den Zugangsschlüssel an. Wenn die Option nicht ausgewählt ist, wird stattdessen die Zeichenkette "Unbekannt" angezeigt.
+survey#:#use_browser_print_function#:#Bitte verwenden Sie die Druckfunktion Ihres Webbrowsers
 survey#:#use_google_chart_api#:#Google Chart API verwenden
 survey#:#use_google_chart_api_desc#:#Wählen Sie das Kontrollkästchen aus, wenn Sie die <a href="http://code.google.com/apis/chart/" target="_blank">Google Chart API</a> für die Darstellung der Diagramme in den detaillierten kumulierten Ergebnissen der Umfragestatistik aktivieren wollen. Bitte beachten Sie, dass für die Verwendung der Google Chart API eine permanente Internetverbindung notwendig ist.
 survey#:#used#:#benutzt
 survey#:#users_answered#:#Beantwortet
+survey#:#users_invited#:#Es wurden %s Benutzer eingeladen
 survey#:#users_skipped#:#Übersprungen
 survey#:#value_nr_entered#:#Anzahl der NutzerInnen, die diesen Wert angegeben haben
 survey#:#values#:#Werte
@@ -9269,11 +9568,17 @@ survey#:#wrong_categories_selected_for_insert#:#ILIAS konnte die geplante Aktion
 survey#:#wrong_survey_code_used#:#Sie können diese Umfrage nicht starten, da Sie versucht haben, einen ungültigen Zugangsschlüssel zu verwenden.
 tagging#:#tagging_all_users#:#Alle Benutzer
 tagging#:#tagging_edit_settings#:#Einstellungen
+tagging#:#tagging_enable_all_users#:#Zeige Tags aller Benutzer
+tagging#:#tagging_enable_all_users_info#:#Fügt auf der Infoseite einen Bereich "Alle Benutzer" hinzu, im dem die Tags aller Besucher zu einer Ressource angezeigt werden.
 tagging#:#tagging_enable_tagging#:#Tagging aktivieren
+tagging#:#tagging_forbidden_tags#:#Verbotene Tags
 tagging#:#tagging_resources_for_tag#:#Inhalte verschlagwortet mit %s
+tagging#:#tagging_search_users#:#Benutzer suchen
 tagging#:#tagging_settings#:#Einstellungen
+tagging#:#tagging_tag#:#Tag
 tagging#:#tagging_tag_info#:#Um Inhalte mit Tags (Schlagwörtern) auszuzeichnen, öffnen Sie die Info-Seite des Objekts und geben dort die Tags ein.
 tagging#:#tagging_tags#:#Tags
+tagging#:#tagging_users_using_tag#:#Benutzer, die Tags benutzen
 trac#:#found_objects#:#Gefundene Objekte
 trac#:#found_too_much_objects#:#Dabei wurden insgesamt mehr als %s Objekte gefunden. Bitte verfeinern Sie daher Ihre Suchanfrage.
 trac#:#info_all_objects#:#Die nachfolgende Zugriffsstatistik bezieht sich auf alle Objekte des Typs '%s'.
@@ -9475,6 +9780,7 @@ trac#:#trac_occurrences#:#Pfad:
 trac#:#trac_participated#:#Teilgenommen
 trac#:#trac_processing_time#:#Angenommene Bearbeitungszeit
 trac#:#trac_progress#:#Persönlicher Lernfortschritt
+trac#:#trac_query#:#Titel/Beschreibung
 trac#:#trac_reached_objectives#:#Erreichte Lernziele
 trac#:#trac_reached_points#:#Erreichte Punktzahl
 trac#:#trac_reached_visits#:#Benötigte Aufrufe
@@ -9509,6 +9815,8 @@ trac#:#view_mode#:#Anzeigemodus
 trac#:#vm_access_of_users#:#Zugriffe der Benutzer innerhalb des Zeitraums
 trac#:#vm_days_of_period#:#Tage innerhalb des Zeitraums
 trac#:#vm_times_of_day#:#Tageszeiten innerhalb des Zeitraums
+user#:#user_access_limited#:#Begrenzt
+user#:#user_access_unlimited#:#Unbegrenzt
 user#:#user_activate_public_profile#:#Öffentliches Profil aktivieren
 user#:#user_activate_public_profile_info#:#Globale Aktivierung Ihres öffentlichen Profiles. Vor- und Nachname werden sichtbar.
 user#:#user_activation#:#Aktivierung
@@ -9524,6 +9832,12 @@ user#:#user_public_profile_info#:#Bitte wählen Sie aus, welche Daten im öffent
 user#:#user_screen_reader_optimization#:#Screen-Reader-Optimierung
 user#:#user_screen_reader_optimization_info#:#Automatischer Fokus and Ajax Optimierungen.
 user#:#user_select_course_group#:#Kurs/Gruppe auswählen
+user#:#usr_public_profile_disabled#:#Öffentliches Profil deaktiviert
+user#:#usr_public_profile_disabled_info#:#Ihre Angaben sind nur für Systemadministratoren einsehbar.
+user#:#usr_public_profile_global#:#Global sichtbar
+user#:#usr_public_profile_global_info#:#Ihr Profil ist ohne Einschränkung im Internet sichtbar.
+user#:#usr_public_profile_logged_in#:#Angemeldete Benutzer
+user#:#usr_public_profile_logged_in_info#:#Ihre Angaben sind nur für Benutzer sichtbar, die in ILIAS eingeloggt sind.
 wiki#:#wiki_activate_rating#:#Bewertung aktivieren
 wiki#:#wiki_all_pages#:#Alle Seiten
 wiki#:#wiki_article#:#Artikel
@@ -9557,6 +9871,7 @@ wiki#:#wiki_page_deletion_confirmation#:#Wollen Sie diese Wiki-Seite wirklich l�
 wiki#:#wiki_page_hits#:#Seitenaufrufe
 wiki#:#wiki_pages#:#Seiten
 wiki#:#wiki_passed#:#Bestanden
+wiki#:#wiki_please_enter_search_term#:#Bitte geben Sie einen Suchbegriff ein.
 wiki#:#wiki_popular_pages#:#Beliebte Seiten
 wiki#:#wiki_print_view#:#Druckansicht
 wiki#:#wiki_quick_navigation#:#Wiki-Schnellnavigation
@@ -9574,325 +9889,3 @@ wiki#:#wiki_what_links_here#:#Was verlinkt hierher?
 wiki#:#wiki_what_links_to_page#:#Was verlinkt auf die Seite "%s"?
 wiki#:#wiki_wiki_page#:#Wiki-Seite
 wiki#:#wiki_wiki_search#:#Suche in Wiki
-mail#:#mail_incoming_mail#:#Nachrichten Empfang
-mail#:#mail_settings_incoming_type_see_also#:#Eine weitere Möglichkeit die Empfangsart für die Anwender/-innenfinden zu ändern haben Sie <a href="%s">hier</a>.
-common#:#advanced_editing_rep_page_editing#:#Aktiviere Seitenbearbeitung im Magazin
-common#:#advanced_editing_rep_page_editing_desc#:#Diese Funktion ermöglicht das Hinzufügen von Text und Medien zu einer Kategorie, einem Ordner und zu den Inhaltsseiten von Kursen und Gruppen.
-common#:#adve_rep_settings#:#Magazineinstellungen
-common#:#lang_size_gb#:#GB
-common#:#lang_size_mb#:#MB
-common#:#lang_size_kb#:#KB
-common#:#lang_size_bytes#:#Bytes
-common#:#webdav#:#WebDAV
-common#:#mail_attachment#:#Mailanhang
-content#:#cont_change_object_reference#:#Ändere Objektreferenz
-content#:#cont_select#:#Auswählen
-content#:#cont_please_enter_a_term#:#Bitte geben Sie einen Term ein.
-crs#:#crs_set_on_waiting_list#:#Wenn Sie einen Aufnahmeantrag stellen, werden Sie auf die Warteliste gesetzt. Sie erhalten dann eine Nachricht der Kursleitung, ob Ihr Antrag angenommen oder abgelehnt wird.
-survey#:#SurveyMultipleChoiceQuestion#:#Multiple Choice Frage (Mehrfachauswahl)		 
-survey#:#SurveySingleChoiceQuestion#:#Multiple Choice Frage (Einfachauswahl)		 
-survey#:#question_mr_not_checked#:#Bitte wählen Sie mindestens eine der angebotenen Antworten aus!		 
-survey#:#question_not_checked#:#Sie müssen eine der angebotenen Anworten auswählen!		 
-survey#:#invitation_off#:#Niemanden einladen
-survey#:#no_user_invited#:#Allen eingeladenen Benutzern fehlen die notwendigen Rechte, um die Umfrage durchzuführen. Es wurde niemand eingeladen.
-survey#:#users_invited#:#Es wurden %s Benutzer eingeladen
-grp#:#grp_set_on_waiting_list#:#Wenn Sie einen Aufnahmeantrag stellen, werden Sie auf die Warteliste gesetzt. Sie erhalten dann eine Nachricht der Gruppenleitung, ob Ihr Antrag angenommen oder abgelehnt wird.
-dateplaner#:#cal_edit_milestone#:#Meilenstein bearbeiten
-dateplaner#:#cal_deadline#:#Endtermin
-dateplaner#:#cal_ms_users_responsible#:#Verantwortliche Mitglieder
-dateplaner#:#cal_save_responsible_users#:#Verantwortliche Mitglieder speichern
-dateplaner#:#cal_change_responsible_users#:#Verantwortliche Mitglieder ändern
-dateplaner#:#cal_ms_details#:#Details zum Meilenstein
-dateplaner#:#cal_enable_group_milestones#:#Meilensteine aktivieren		 
-dateplaner#:#cal_enable_group_milestones_desc#:#Diese Option aktiviert das Management von Meilensteinen im Kalender (Kurse und Gruppen).
-dateplaner#:#cal_new_ms#:#Neuer Meilenstein
-dateplaner#:#cal_add_milestone#:#Meilenstein hinzufügen
-dateplaner#:#cal_task_completion#:#Fertigstellung
-dateplaner#:#cal_responsible#:#Verantwortlich
-crs#:#crs_search_users#:#Benutzer suchen
-crs#:#crs_user_login#:#Benutzername
-grp#:#grp_search_users#:#Benutzer suchen
-common#:#mem_add_to_wl#:#Zur Warteliste hinzufügen
-common#:#event_assign_files#:#Dateien zuordnen
-registration#:#reg_type_confirmation#:#Registrieren mit E-Mail-Bestätigung
-registration#:#reg_type_confirmation_info#:#Bei dieser Registrierungsmethode erhält der neue Benutzer zunächst per E-Mail-Adresse einen Bestätigungslink zugesandt. Wird dieser bestätigt, erfolgt die automatische Freischaltung des Benutzerkontos.
-registration#:#reg_confirmation_hash_life_time_info#:#Geben Sie die Gültigkeitsdauer des Bestätigungslinks (in Sekunden) an.
-registration#:#reg_confirmation_hash_life_time_expired#:#Der Bestätigungslink ist nicht mehr gültig.
-registration#:#reg_confirmation_hash_not_found#:#Dieser Bestätigungslink passt zu keinem Benutzerkonto.
-common#:#reg_account_confirmation_successful#:#Das Benutzerkonto wurde bestätigt und aktiviert.
-registration#:#reg_confirmation_link_successful#:#Sie haben sich erfolgreich bei ILIAS registriert. Sie müssen Ihr Benutzerkonto durch Klicken des Bestätigungslink aktivieren um dieses zu aktivieren.<br />Sie werden in 20 Sekunden zur <a href="%s" title="Loginseite">Loginseite</a> weitergeleitet.
-registration#:#reg_activation_your_confirmation_link#:#Ihr Bestätigungslink:
-registration#:#reg_confirmation_hash_not_passed#:#Der Bestätigungslink wurde nicht vollständig übergeben.
-crs#:#crs_lim_assigned#:#Bereits Mitglied in Kurs "%s".
-grp#:#grp_lim_assigned#:#Bereits Mitglied in Gruppe "%s".
-common#:#soap_wsdl_path#:#WSDL-Pfad
-common#:#soap_wsdl_path_info#:#Hier können Sie den Pfad zur WSDL-Datei angeben, die von ILIAS für den Webservice genutzt werden soll. Falls Sie dieses Feld leer lassen, wird folgender Pfad als Standard verwendet:%s
-common#:#scorm_new#:#Neues SCORM/AICC-Lernmodul
-common#:#scorm_create_export_file_scrom12#:#Erzeuge Exportdatei (SCORM 1.2)
-common#:#scorm_create_export_file_scrom2004#:#Erzeuge Exportdatei (SCORM 2004)
-common#:#scorm_create_export_file_pdf#:#Erzeuge Exportdatei (PDF)
-common#:#scorm_create_export_file_iso#:#Erzeuge Exportdatei (ISO for CD-ROM)
-common#:#scorm_create_export_file_html#:#Erzeuge Exportdatei (HTML)
-common#:#sahs_insert_page_from_clip#:#Füge Seiten aus Zwischenablage ein
-common#:#sahs_insert_chap_from_clip#:#Füge Kapitel aus Zwischenablage ein
-common#:#sahs_insert_sco_from_clip#:#Füge SCOs aus Zwischenablage ein
-sahs#:#sahs_insert_chapter#:#Kapitel einfügen
-sahs#:#sahs_choose_pages_or_chapters_or_scos_only#:#Wählen Sie bitte entweder nur Seiten oder SCOs oder Kapitel aus!
-sahs#:#sahs_insert_scenario#:#Kapitelsequenz einfügen
-sahs#:#sahs_insert_pagelayout#:#Seitenvorlage einfügen
-sahs#:#sahs_properties#:#Eigenschaften
-sahs#:#sahs_insert_page#:#Seite einfügen
-sahs#:#sahs_insert_sco#:#SCO einfügen
-sahs#:#sahs_chapter#:#Kapitel
-sahs#:#sahs_unit#:#SCO
-sahs#:#sahs_page#:#Seite
-sahs#:#sahs_objectives_alignment#:#Anordnung der Lernziele
-sahs#:#sahs_learning_objectives#:#Lernziele
-sahs#:#sahs_sco_objective#:#Ziele
-sahs#:#sahs_questions#:#Fragen
-sahs#:#sahs_organization#:#Organisation
-sahs#:#sahs_sequencing#:#Sequencing
-sahs#:#sahs_objective_alignment#:#Anordnung der Ziele
-content#:#cont_LocalFile#:#Lokale Datei
-content#:#cont_Ressources#:#Resourcen
-content#:#cont_Reading#:#Lektüre
-content#:#cont_Hint#:#Hinweis
-content#:#cont_ed_paste#:#Einfügen
-content#:#cont_ed_insert_pcqst#:#Frage einfügen
-content#:#cont_ed_select_pctext#:#Textelement auswählen
-content#:#cont_question_pool#:#Fragenpool
-content#:#cont_question_type#:#Fragentyp
-content#:#cont_text_type#:#Typ des Textelements
-content#:#cont_ed_par#:#Text
-content#:#cont_ed_dtable#:#Datentabelle
-content#:#cont_mob_files#:#Objektdateien
-content#:#cont_mob_prop#:#Objekteigenschaften
-meta#:#meta_pointofcontact#:#Anknüpfungspunkt
-meta#:#sco_propagate#:#Auf alle SCOs verbreiten
-content#:#cont_empty_question#:#Die Frage ist noch nicht fertiggestellt. Bitte bearbeiten Sie diese abschließend oder löschen Sie die Frage. 
-content#:#cont_media_placeh#:#Klicken und bearbeiten, um ein Medienobjekt einzufügen
-content#:#cont_question_placeh#:#Klicken und bearbeiten, um eine Frage einzufügen
-content#:#cont_text_placeh#:#Klicken und bearbeiten, um einen Text einzufügen
-content#:#cont_no_glossary#:#Kein Glossar
-common#:#obj_sco#:#SCO
-common#:#obj_chap#:#Kapitel
-common#:#obj_page#:#Seite
-common#:#enter_in_mb_desc#:#Geben Sie eine Größe in MB ein.
-common#:#last_reminder#:#Letzte Erinnerung
-common#:#filter_users_without_disk_usage#:#Nur Benutzer die keinen Speicherplatz belegen
-common#:#filter_users_with_disk_usage#:#Nur Benutzer die Speicherplatz belegen
-common#:#filter_users_with_exceeded_disk_quota#:#Nur Benutzer die ihre Disk Quota überschreiten
-common#:#filter_users_with_access#:#Nur Benutzer mit Zugriff
-common#:#filter_users_without_access#:#Nur Benutzer ohne Zugriff
-common#:#statistics#:#Statistik
-content#:#cont_pc_flist#:#Dateiliste
-content#:#cont_pc_par#:#Text
-content#:#cont_pc_mob#:#Medienobjekt
-content#:#cont_pc_qst#:#Frage
-content#:#cont_pc_sec#:#Sektion
-content#:#cont_pc_dtab#:#Datentabelle
-content#:#cont_pc_code#:#Code
-content#:#cont_pc_res#:#Ressource
-content#:#cont_pc_map#:#Karte
-common#:#session_reminder_lead_time#:#Vorlaufzeit
-common#:#session_reminder_lead_time_info#:#Bitte geben Sie an, wieviele Sekunden Sie vor dem Ablauf der Sitzung erinnert werden möchten. Der aktuelle Wert für eine Sitzungsdauer beträgt %s Sekunden.
-rbac#:#rbac_delete_role#:#Rolle löschen
-rbac#:#rbac_role_delete_qst#:#Sind Sie sicher, dass Sie diese Rolle löschen möchten. Alle Rechte, die durch sie gewährt werden, sind dann unwiederruflich aufgehoben.		 
-rbac#:#rbac_role_delete_self#:#<strong>Achtung:</strong> Sie selbst sind dieser Rolle zugeordnet. Wenn Sie den Löschvorgang fortführen, kann es sein, dass Sie Zugriffsrechte an diesem oder anderen ILIAS-Materialien verlieren.
-ldap#:#ldap_global_role#:#Globale Rolle
-ldap#:#ldap_local_role#:#Lokale Rolle
-ldap#:#ldap_role_name_info#:#Bitte wählen Sie entweder eine globale Rolle oder geben Sie den Namen einer lokalen Rolle ein.
-ldap#:#ldap_update_roles#:#Rollenzuordnungen
-ldap#:#ldap_remove_deprecated#:#Unberechtigte Rollen entfernen
-ldap#:#ldap_plugin_info#:#Überprüfung der Rollenzuordnung per Plugin. Bitte geben Sie dazu eine gültige Plugin-ID ein.
-ldap#:#ldap_plugin_id#:#Plugin-Id
-ldap#:#ldap_err_missing_plugin_id#:#Bitte geben Sie eine gültige Plugin-Id ein.
-ldap#:#ldap_add_remove#:#Rollen hinzufügen/entfernen
-ldap#:#ldap_deleted_rule#:#Ausgewählte Rollenzuordnung gelöscht
-ldap#:#ldap_role_selection#:#Auswahl der Rollen
-ldap#:#ldap_role_selection_info#:#Ihre Auswahl ist nicht eindeutig. Bitte wählen Sie eine der nachfolgenden Rollen.
-ldap#:#ldap_role_by_plugin#:#Per Plugin
-common#:#reg_mail_subject_confirmation#:#ILIAS eLearning - Ihr Bestätigungslink
-common#:#reg_mail_body_confirmation#:#um Ihr Benutzerprofil freizuschalten und gleichzeitig diese E-Mail-Adresse zu bestätigen, klicken Sie bitte den folgenden Link an:
-content#:#saved_media_object#:#Medienobjekt gespeichert
-content#:#text_repr#:#Alternativtext
-content#:#text_repr_info#:#Wird verwendet, wenn die Grafik nicht angezeigt werden kann. 
-common#:#socialbm_extt_social_bookmarks#:#SocialBookmarks
-content#:#cont_no_text#:#Kein Text
-content#:#cont_print_selection#:#Auswahl Druckansicht
-dateplaner#:#cal_dstart_dend_warn#:#Bitte überprüfen Sie Ihre Eingabe. Der Tagesbeginn muss vor dem Tagesende sein.
-dateplaner#:#cal_day_end#:#Tageende
-dateplaner#:#cal_day_week_view#:#Einstellungen Tages-/Wochenansicht
-dateplaner#:#cal_week_month_view#:#Einstellungen Wochen-/Monatsansicht
-common#:#event_ass_materials_prop#:#Session Materials###18 08 2009 new variable
-common#:#mobs_edit_permission#:#Change permission settings###18 08 2009 new variable
-common#:#mobs_visible#:#Media Objects/Pools Settings are visible###18 08 2009 new variable
-common#:#mobs_read#:#Read access to Media Objects/Pools Settings###18 08 2009 new variable
-common#:#mobs_write#:#Edit Media Objects/Pools Settings###18 08 2009 new variable
-common#:#obj_mobs#:#Media Objects/Pools###18 08 2009 new variable
-common#:#obj_mobs_desc#:#Settings for media objects and media pools.###18 08 2009 new variable
-mep#:#mep_create_content_snippet#:#Create Content Snippet###18 08 2009 new variable
-mep#:#mep_new_folder#:#New Folder###18 08 2009 new variable
-mep#:#mep_edit_folder#:#Edit Folder###18 08 2009 new variable
-forum#:#frm_purifier_not_implemented_for_type_x#:#Purifier for type %s not implemented yet.###18 08 2009 new variable
-common#:#hint#:#Hint###18 08 2009 new variable
-mep#:#mep_new_content_snippet#:#New Content Snippet###18 08 2009 new variable
-mep#:#mep_edit_content_snippet#:#Edit Content Snippet###18 08 2009 new variable
-mep#:#mep_folder#:#Folder###18 08 2009 new variable
-mep#:#mep_page_properties#:#Page Properties###18 08 2009 new variable
-content#:#cont_ed_insert_incl#:#Insert Content Snippet###18 08 2009 new variable
-content#:#cont_pc_incl#:#Content Snippet###18 08 2009 new variable
-survey#:#scale#:#Scale###18 08 2009 new variable
-survey#:#add_material#:#Add Material###18 08 2009 new variable
-survey#:#internal_link#:#Internal Link###18 08 2009 new variable
-survey#:#materials#:#Materials###18 08 2009 new variable
-survey#:#materials_deleted#:#Material(s) deleted###18 08 2009 new variable
-survey#:#phrase_added#:#Phrase added###18 08 2009 new variable
-survey#:#matrix_left_pole#:#Left Pole###18 08 2009 new variable
-survey#:#matrix_right_pole#:#Right Pole###18 08 2009 new variable
-survey#:#row_text#:#Row Text###18 08 2009 new variable
-common#:#header_visible_registration#:#Visible in Registration###18 08 2009 new variable
-common#:#visible_registration#:#Visible in Registration###18 08 2009 new variable
-survey#:#spl_browsercolumns#:#Customized question list###18 08 2009 new variable
-survey#:#spl_browsercolumns_description#:#Select the question data columns that are shown in the question list of a question pool. This setting will be applied for each available question pool.###18 08 2009 new variable
-survey#:#spl_move_insert_clipboard#:#The selected question(s) are marked for moving###18 08 2009 new variable
-survey#:#spl_move_select_none#:#Please check at least one question to select it for moving###18 08 2009 new variable
-survey#:#spl_copy_insert_clipboard#:#The selected question(s) are copied to the clipboard###18 08 2009 new variable
-survey#:#spl_copy_select_none#:#Please check at least one question to copy it to the clipboard###18 08 2009 new variable
-survey#:#spl_paste_no_objects#:#There are no questions in the clipboard. Please copy or move a question into the clipboard.###18 08 2009 new variable
-survey#:#spl_paste_success#:#The question(s) have been pasted into the question pool###18 08 2009 new variable
-survey#:#invitation_mode_desc#:#To invite a user to this survey a link reference to the survey is created on the users personal desktop.###18 08 2009 new variable
-survey#:#msg_deleted_export_files#:#Export file(s) deleted###18 08 2009 new variable
-common#:#udf_type_wysiwyg#:#Text Area (WYSIWYG)###18 08 2009 new variable
-common#:#udf_update_wysiwyg_field#:#Edit Text Area (WYSIWYG) Field###18 08 2009 new variable
-search#:#search_crs_title#:#Course Name###18 08 2009 new variable
-search#:#search_for_crs_members#:#Search for Course Members###18 08 2009 new variable
-mcst#:#mcst_mimetype#:#Mime Type###18 08 2009 new variable
-mcst#:#mcst_mimetypes#:#Mime Types###18 08 2009 new variable
-mcst#:#mcst_mimetype_info#:#Select mime type to control plugin used for playback.<br>Please note: Be aware that not every browser contains the plugin you intend to use.###18 08 2009 new variable
-mcst#:#mcst_mimetypes_info#:#Comma separated list of mime types###18 08 2009 new variable
-user#:#usr_public_profile_disabled#:#Public Profile Disabled###18 08 2009 new variable
-user#:#usr_public_profile_disabled_info#:#Your information is only visible to administrative staff.###18 08 2009 new variable
-user#:#usr_public_profile_logged_in#:#Logged in Users###18 08 2009 new variable
-user#:#usr_public_profile_logged_in_info#:#Your information is only visible to users logged into the system.###18 08 2009 new variable
-user#:#usr_public_profile_global#:#Globale Visible###18 08 2009 new variable
-user#:#usr_public_profile_global_info#:#Your profile is visible to the internet.###18 08 2009 new variable
-survey#:#codes_deleted#:#Code(s) deleted###18 08 2009 new variable
-survey#:#codes_created#:#Code(s) created###18 08 2009 new variable
-survey#:#language_changed#:#Language changed###18 08 2009 new variable
-survey#:#use_browser_print_function#:#Please use the print function of your web browser.###18 08 2009 new variable
-content#:#cont_select_from_upload_dir#:#-- Select from the upload directory --###18 08 2009 new variable
-content#:#cont_uploaded_file#:#Existing file###18 08 2009 new variable
-content#:#cont_upload_dir#:#Upload directory###18 08 2009 new variable
-content#:#cont_upload_dir_info#:#Server directory from which large SCORM and HTML packages can be copied instead of being uploaded. Only ILIAS administrators will see a selection of files from this directory. Please enter a full server path without trailing slash.###18 08 2009 new variable
-common#:#notifications#:#Notifications###18 08 2009 new variable
-common#:#license#:#License###18 08 2009 new variable
-common#:#licenses#:#Licenses###18 08 2009 new variable
-common#:#no_license_available#:#No license available!###18 08 2009 new variable
-license#:#license_counter#:#License counter###18 08 2009 new variable
-license#:#license_counter_info#:#Allows to count the used licenses of purchased SCORM and HTML learning modules###18 08 2009 new variable
-license#:#license_warning#:#License warning###18 08 2009 new variable
-license#:#license_warning_info#:#Up to this number of remaining licenses for a course object a warning is presented when a user enters the course. ###18 08 2009 new variable
-license#:#arbitrary#:#arbitrary###18 08 2009 new variable
-license#:#course_licenses_exceeded#:#By adding users the potential accesses will exceed the available licenses. Look at the tab "Licenses" to see which licenses have to be extended.###18 08 2009 new variable
-license#:#course_licenses_rare#:#Warning: only %s licenses are available for a course object. Look at the tab "Licenses" to see which licenses have to be extended.###18 08 2009 new variable
-license#:#edit_license#:#Edit license###18 08 2009 new variable
-license#:#existing_licenses#:#Existng licenses###18 08 2009 new variable
-license#:#license_updated#:#The license data was updated.###18 08 2009 new variable
-license#:#potential_accesses#:#Potential accesses###18 08 2009 new variable
-license#:#potential_accesses_explanation#:#Every user with read access who hasn't accessed so far counts as a potential access.###18 08 2009 new variable
-license#:#remaining_licenses#:#Available licenses###18 08 2009 new variable
-license#:#remaining_licenses_explanation#:#The available licenses are calculated as purchased minus consumed.###18 08 2009 new variable
-license#:#used_licenses#:#Consumed licenses###18 08 2009 new variable
-license#:#used_licenses_explanation#:#Every first access of a user consumes a license.###18 08 2009 new variable
-user#:#user_access_limited#:#Limited###18 08 2009 new variable
-user#:#user_access_unlimited#:#Unlimited###18 08 2009 new variable
-license#:#zero_licenses_explanation#:#Enter a 0 to deactivate the licensing.###18 08 2009 new variable
-content#:#cont_replace_mob_feature#:#Replace Media Objects in Content###18 08 2009 new variable
-assessment#:#errors#:#Errors###18 08 2009 new variable
-meta#:#md_general_settings#:#General Settings###18 08 2009 new variable
-meta#:#md_delimiter#:#Delimiter###18 08 2009 new variable
-meta#:#md_delimiter_info#:#The delimiter is used in the quick editing screen for keywords and authors separation. Default is ','.###18 08 2009 new variable
-meta#:#md_separated_by#:#Separated by %s###18 08 2009 new variable
-content#:#cont_text_keyword#:#Keyword###18 08 2009 new variable
-search#:#search_hide_adv_search#:#Hide Advanced Search###18 08 2009 new variable
-search#:#search_auto_complete_length#:#Number of Auto Complete List Entries###18 08 2009 new variable
-content#:#import_sco_object#:#Import SCO###18 08 2009 new variable
-content#:#scorm_editable#:#Import editable###18 08 2009 new variable
-content#:#scorm_editable_comments#:#Works only SCORM 1.2/2004 package###18 08 2009 new variable
-common#:#preview_learner#:#Members View###18 08 2009 new variable
-common#:#preview_learner_info#:#If enabled, Course and Group administrators have the possibility to view the content form the perspective of a learner.###18 08 2009 new variable
-common#:#mem_view_activate#:#Activate Members View###18 08 2009 new variable
-common#:#mem_view_deactivate#:#Deactivate Members View###18 08 2009 new variable
-mcst#:#mcst_automatic_detection#:#Automatic Detection###18 08 2009 new variable
-crs#:#sess_limit#:#Limit Number of Sessions###18 08 2009 new variable
-crs#:#sess_num_prev#:#Number of Past Sessions###18 08 2009 new variable
-crs#:#sess_num_next#:#Number of Following Sessions###18 08 2009 new variable
-crs#:#sess_limit_info#:#Choose this option for limiting the number of visible sessions.###18 08 2009 new variable
-common#:#mem_view_long#:#Member View###18 08 2009 new variable
-common#:#mem_view_close#:#Close Member View###18 08 2009 new variable
-survey#:#spl_move_same_pool#:#It has no effect to move questions from inside the same question pool.###18 08 2009 new variable
-assessment#:#delete_image_header#:#Delete image###18 08 2009 new variable
-assessment#:#delete_image_question#:#Do you really want to delete the image?###18 08 2009 new variable
-assessment#:#answer_image#:#Answer Image###18 08 2009 new variable
-assessment#:#thumb_size_info#:#If you enter a thumbnail size, a thumbnail of this size will be generated for uploaded images. Without a thumbnail size, the original image size will be used.###18 08 2009 new variable
-assessment#:#msg_questions_moved#:#Question(s) moved###18 08 2009 new variable
-assessment#:#too_many_targets_selected_for_move#:#You must select exactly one target position!###18 08 2009 new variable
-assessment#:#msg_selected_for_move#:#Question(s) selected for moving###18 08 2009 new variable
-chat#:#chat_hide_textformat#:#Hide Textformat###18 08 2009 new variable
-search#:#lucene_advanced_settings_table#:#Advanced Search Settings###18 08 2009 new variable
-dateplaner#:#cal_day_start#:#Day Start###18 08 2009 new variable
-survey#:#questionblock_inserted#:#Question Block inserted###18 08 2009 new variable
-survey#:#questionblocks_inserted#:#Question Blocks inserted###18 08 2009 new variable
-assessment#:#term_text#:#Term Text###18 08 2009 new variable
-assessment#:#term_image#:#Term Image###18 08 2009 new variable
-assessment#:#definition_text#:#Definition Text###18 08 2009 new variable
-assessment#:#definition_image#:#Definition Image###18 08 2009 new variable
-assessment#:#definitions#:#Definitions###18 08 2009 new variable
-survey#:#msg_users_disinvited#:#User(s) disinvited###18 08 2009 new variable
-content#:#cont_enter_a_dir_name#:#Please enter a directory name.###18 08 2009 new variable
-content#:#cont_enter_a_file#:#Please select a file.###18 08 2009 new variable
-content#:#cont_rename_dir#:#Rename Directory###18 08 2009 new variable
-content#:#mep_folder_created#:#Added new folder.###18 08 2009 new variable
-assessment#:#available_terms#:#Available Terms###18 08 2009 new variable
-assessment#:#selection#:#Selection###18 08 2009 new variable
-mcst#:#mcst_set_playtime#:#Playtime has been set.###18 08 2009 new variable
-mcst#:#mcst_unable_to_determin_playtime#:#Unable to determine playtime. Please set it manually be clicking on Edit.###18 08 2009 new variable
-assessment#:#msg_number_of_terms_too_low#:#The number of terms must be greater or equal to the number of definitions.###18 08 2009 new variable
-grp#:#grp_missing_title#:#Please enter a group title. ###18 08 2009 new variable
-grp#:#grp_missing_grp_type#:#Please choose a group type.###18 08 2009 new variable
-grp#:#grp_missing_password#:#Please enter a group password.###18 08 2009 new variable
-grp#:#grp_wrong_reg_time_limit#:#Please check the registration start and end times.###18 08 2009 new variable
-user#:#user_field#:#Field###18 08 2009 new variable
-user#:#user_visible_in_profile#:#Visible in Profile###18 08 2009 new variable
-grp#:#grp_already_assigned#:#You have already requested membership for this group.###18 08 2009 new variable
-common#:#sub_request_saved#:#Saved membership request###18 08 2009 new variable
-grp#:#grp_update_subscr_request#:#Update Membership Request###18 08 2009 new variable
-grp#:#grp_cancel_subscr_request#:#Delete Membership Request###18 08 2009 new variable
-crs#:#crs_update_subscr_request#:#Update Membership Request###18 08 2009 new variable
-crs#:#crs_cancel_subscr_request#:#Delete Membership Request###18 08 2009 new variable
-common#:#sub_request_deleted#:#Deleted membership request###18 08 2009 new variable
-grp#:#grp_min_one_admin#:#There has to be at least one administrator assigned to this group.###18 08 2009 new variable
-crs#:#crs_min_one_admin#:#There has to be at least one administrator assigned to this course.###18 08 2009 new variable
-administration#:#adm_repository_cache_time#:#Repository Cache Time###18 08 2009 new variable
-administration#:#adm_repository_cache_time_info#:#Repository access cache time. Set 0 to disable the cache. Higher values may improve performance but also display actions that lead to a no-permission screen.###18 08 2009 new variable
-wiki#:#wiki_please_enter_search_term#:#Please enter a search term.###18 08 2009 new variable
-rbac#:#rbac_role_exists_alert#:#A role with the same name already exists in this context. Please choose another name.###18 08 2009 new variable
-trac#:#trac_query#:#Title/Description###18 08 2009 new variable
-common#:#reg_mail_body_2_confirmation#:#The link will only be good for %s, after that you will have to try again from the beginning.###18 08 2009 new variable
-common#:#reg_mail_body_3_confirmation#:#If this email means nothing to you, then it is possible that somebody else has entered your email address either deliberately or accidentally, so please ignore this email.###18 08 2009 new variable
-common#:#reg_mail_body_forgot_password_info#:#To get your password, please use the function « Forgot password? » at the login screen to request a new password for this account.###18 08 2009 new variable
-cmps#:#no_changes#:#Keine Änderungen###18 08 2009 new variable
-cmps#:#database_is_uptodate#:#Die Datenbank ist aktuell.###18 08 2009 new variable
-administration#:#path_to_mkisofs#:#Path to mkisofs###18 08 2009 new variable
-common#:#obj_sty#:#Style###18 08 2009 new variable
-dateplaner#:#cal_created_milestone#:#Added milestone.###18 08 2009 new variable
-dateplaner#:#cal_created_milestone_resp_q#:#Added milestone. Please select users that are responsible to meet the milestone.###18 08 2009 new variable
-common#:#address#:#Address###18 08 2009 new variable
-common#:#contact#:#Contact###18 08 2009 new variable
-tagging#:#tagging_enable_all_users#:#Show Tags of All Users###18 08 2009 new variable
-tagging#:#tagging_enable_all_users_info#:#Adds a section "All Users" to the info screens that lists all tags of all users attached to a resource.###18 08 2009 new variable
-tagging#:#tagging_forbidden_tags#:#Forbidden Tags###18 08 2009 new variable
-tagging#:#tagging_tag#:#Tag###18 08 2009 new variable
-tagging#:#tagging_search_users#:#Search Users###18 08 2009 new variable
-tagging#:#tagging_users_using_tag#:#Users Using Tag###18 08 2009 new variable
