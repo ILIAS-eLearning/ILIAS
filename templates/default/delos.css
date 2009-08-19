@@ -1401,7 +1401,7 @@ input.ilEditSubmit {
 	color:#2255a0;
 	padding: 1px;
 	margin: 0px;
-	font-size: 80%;
+	font-size: 12px;
 	line-height: 14px;
 	cursor:pointer;
 	
@@ -1494,7 +1494,7 @@ select.ilEditSelect {
 	padding:1px;
 	background-image: none;
 	text-decoration:none;
-	font-size: 80%;
+	font-size: 12px;
 }
 
 img {
