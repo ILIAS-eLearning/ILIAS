@@ -51,6 +51,8 @@ class ilObjQuestionPoolAccess extends ilObjectAccess
 	{
 		$commands = array
 		(
+			array("permission" => "write", "cmd" => "questions", "lang_var" => "edit",
+				"default" => false),
 			array("permission" => "read", "cmd" => "questions", "lang_var" => "edit",
 				"default" => true)
 		);
