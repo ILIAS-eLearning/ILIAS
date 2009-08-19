@@ -273,13 +273,32 @@ class ilPCTabsGUI extends ilPageContentGUI
 
 		if ($this->updated === true)
 		{
-			$this->ctrl->returnToParent($this, "jump".$this->hier_id);
+			$this->afterCreation();
+			//$this->ctrl->returnToParent($this, "jump".$this->hier_id);
 		}
 		else
 		{
 			$this->insert();
 		}
 	}
+	
+	/**
+	* After creation processing
+	*/
+	function afterCreation()
+	{
+		global $ilCtrl;
+
+		$this->pg_obj->stripHierIDs();
+		$this->pg_obj->addHierIDs();
+		$ilCtrl->setParameter($this, "hier_id", $this->content_obj->readHierId());
+		$ilCtrl->setParameter($this, "pc_id", $this->content_obj->readPCId());
+		$this->content_obj->setHierId($this->content_obj->readHierId());
+		$this->setHierId($this->content_obj->readHierId());
+		$this->content_obj->setPCId($this->content_obj->readPCId());
+		$this->editTabs();
+	}
+
 
 	/**
 	* Save tabs properties in db and return to page edit screen
@@ -328,9 +347,10 @@ class ilPCTabsGUI extends ilPageContentGUI
 	*/
 	function editTabs()
 	{
-		global $tpl;
+		global $tpl, $ilTabs;
 		
 		$this->setTabs();
+		$ilTabs->activateTab("cont_tabs");
 		include_once("./Services/COPage/classes/class.ilPCTabsTableGUI.php");
 		$table_gui = new ilPCTabsTableGUI($this, "editTabs", $this->content_obj);
 		$tpl->setContent($table_gui->getHTML());

@@ -76,6 +76,7 @@ class ilLMPageObjectGUI extends ilLMObjectGUI
 				$page_gui->activateMetaDataEditor($this->content_object->getID(),
 					$this->obj->getId(), $this->obj->getType(),
 					$this->obj, "MDUpdateListener");
+				$page_gui->setEnabledPCTabs(true);
 
 				// set page view link
 				if ($showViewInFrameset)

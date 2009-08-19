@@ -501,7 +501,7 @@ class ilTemplate extends ilTemplateX
 		{
 			$vers = "vers=".str_replace(array(".", " "), "-", $ilSetting->get("ilias_version"));
 		}
-		
+
 		if ($this->blockExists("js_file"))
 		{
 			foreach($this->js_files as $file)
