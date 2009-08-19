@@ -116,7 +116,7 @@ public class CommandQueue {
 	 */
 	public synchronized void loadFromDb() throws SQLException {
 
-		logger.debug("Start reading command queue");
+		logger.info("Start reading command queue");
 		
 		
 		// Substitute all reset_all commands withc reset command for each undeleted object id 
@@ -138,6 +138,7 @@ public class CommandQueue {
 			
 			CommandQueueElement element = new CommandQueueElement();
 
+			logger.debug("Found type: " + res.getString("obj_type") + " with id " + res.getInt("obj_id"));
 			element.setObjId(res.getInt("obj_id"));
 			element.setObjType(res.getString("obj_type"));
 			element.setSubId(res.getInt("sub_id"));
@@ -160,22 +161,24 @@ public class CommandQueue {
 	private synchronized void substituteResetCommands() throws SQLException {
 
 		try {
-			PreparedStatement sta = db.prepareStatement("SELECT * FROM search_command_queue " +
-					"WHERE command = ? " +
-					"AND obj_id = 0");
-			sta.setString(1, "reset_all");
+			logger.info("Substituting reset commands");
 			
+			PreparedStatement sta = db.prepareStatement("SELECT * FROM search_command_queue WHERE command = 'reset_all' AND obj_id = 0");
 			ResultSet res = sta.executeQuery();
 			while(res.next()) {
 				
-				logger.debug("Start substituting obj_type " + res.getString("obj_type"));
+				logger.info("Start substituting obj_type " + res.getString("obj_type"));
 				deleteCommandsByType(res.getString("obj_type"));
 				addCommandsByType(res.getString("obj_type"));
 				deleteResetCommandByType(res.getString("obj_type"));
 			}
-		} catch(SQLException e) {
+		} 
+		catch(SQLException e) {
 			logger.fatal("Invalid SQL statement!");
 			throw e;
+		}
+		catch(Throwable e) {
+			logger.fatal(e);
 		}
 	}
 
@@ -224,35 +227,44 @@ public class CommandQueue {
 	 */
 	private synchronized void addCommandsByType(String objType) throws SQLException {
 
-		// TODO: Error handling
+		try {
 		
-		PreparedStatement sta = db.prepareStatement(
-			"SELECT DISTINCT(oda.obj_id) FROM object_data oda JOIN object_reference ore ON oda.obj_id = ore.obj_id WHERE (deleted = '0000-00-00 00:00:00' OR deleted IS NULL) AND type = ?");
-		sta.setString(1, objType);
-		ResultSet res = sta.executeQuery();
-		
-		logger.debug("Adding commands for object type: " + objType);
-		
-		// Add each single object
-		PreparedStatement objReset = db.prepareStatement(
-				"INSERT INTO search_command_queue SET obj_id = ?,obj_type = ?, sub_id = ?, sub_type = ?, command = ?, last_update = ?, finished = ? ");
-
-		while(res.next()) {
+			PreparedStatement sta = db.prepareStatement(
+				"SELECT DISTINCT(oda.obj_id) FROM object_data oda JOIN object_reference ore ON oda.obj_id = ore.obj_id " +
+				"WHERE (deleted IS NULL) AND type = ? " +
+				"GROUP BY oda.obj_id");
+			sta.setString(1, objType);
+			ResultSet res = sta.executeQuery();
 			
-			logger.debug("Added new reset command");
+			logger.debug("Adding commands for object type: " + objType);
 			
-			objReset.setInt(1,res.getInt("obj_id"));
-			objReset.setString(2, objType);
-			objReset.setInt(3,0);
-			objReset.setString(4,"");
-			objReset.setString(5,"reset");
-			objReset.setTimestamp(6,new java.sql.Timestamp(new java.util.Date().getTime()));
-			objReset.setInt(7,0);
-			
-			objReset.executeUpdate();
+			// Add each single object
+			PreparedStatement objReset = db.prepareStatement(
+					"INSERT INTO search_command_queue (obj_id, obj_type, sub_id, sub_type, command, last_update, finished) " + 
+					"VALUES (?, ?, ?, ?, ?, ?, ?)");
+	
+			while(res.next()) {
+				
+				logger.debug("Added new reset command");
+				
+				objReset.setInt(1,res.getInt("obj_id"));
+				objReset.setString(2, objType);
+				objReset.setInt(3,0);
+				objReset.setString(4,"");
+				objReset.setString(5,"reset");
+				objReset.setTimestamp(6,new java.sql.Timestamp(new java.util.Date().getTime()));
+				objReset.setInt(7,0);
+				
+				objReset.executeUpdate();
+			}
+			objReset.close();
+			return;
 		}
-		objReset.close();
-		return;
+		catch(SQLException e) {
+			
+			logger.fatal("Cannot build index: " + e);
+			throw e;
+		}
 		
 	}
 	
@@ -310,12 +322,12 @@ public class CommandQueue {
 		try {
 
 			Statement delete = db.createStatement();
-			delete.executeUpdate("DELETE FROM search_command_queue");
+			delete.executeUpdate("TRUNCATE TABLE search_command_queue");
 			
 			ClientSettings client = ClientSettings.getInstance(LocalSettings.getClientKey());
 
-			PreparedStatement pst = DBFactory.getPreparedStatement("INSERT INTO search_command_queue " +
-			"SET obj_id = ?,obj_type = ?, sub_id = ?, sub_type = ?, command = ?, last_update = ?, finished = ? ");
+			PreparedStatement pst = DBFactory.getPreparedStatement("INSERT INTO search_command_queue (obj_id,obj_type,sub_id,sub_type,command,last_update,finished ) " +
+			"VALUES ( ?, ?, ?, ?, ?, ?, ?) ");
 
 			for(Object def : ObjectDefinitions.getInstance(client.getAbsolutePath()).getDefinitions()) {
 				
@@ -345,8 +357,8 @@ public class CommandQueue {
 		
 		logger.info("Deleting search_command_queue");
 		Statement delete = db.createStatement();
-		delete.execute("DELETE FROM search_command_queue");
-		logger.info("search-command queue deleted");
+		delete.execute("TRUNCATE TABLE search_command_queue");
+		logger.info("Search command queue deleted");
 	}
 
 	/**
