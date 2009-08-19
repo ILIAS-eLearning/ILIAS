@@ -2843,8 +2843,10 @@ class ilObjForumGUI extends ilObjectGUI
 							$webspace_dir = ilUtil::getWebspaceDir();
 							$image_dir = $webspace_dir.'/usr_images';
 							$xthumb_file = $image_dir.'/usr_'.$user_obj->getID().'_xsmall.jpg';
+
 							if ($user_obj->getPref('public_upload') == 'y' &&
-								$user_obj->getPref('public_profile') == 'y' &&
+								($user_obj->getPref('public_profile') == 'y' || 
+								 $user_obj->getPref('public_profile') == 'g') &&
 								@is_file($xthumb_file))
 							{
 								#$tpl->setCurrentBlock('usr_image');
