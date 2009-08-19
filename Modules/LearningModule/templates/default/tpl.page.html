@@ -15,15 +15,17 @@
 	<!-- BEGIN js_file -->
 	<script type="text/javascript" src="{JS_FILE}"></script>
 	<!-- END js_file -->
+	<!-- BEGIN css_file -->
+	<link rel="stylesheet" type="text/css" href="{CSS_FILE}" media="{CSS_MEDIA}" />
+	<!-- END css_file -->
 </head>
-<body>
-<style>
-body { margin:0px; }
-</style>
+<body <!-- BEGIN body_class -->class="{BODY_CLASS}" <!-- END body_class --> >
 <div class="ilFrame"><div class="ilFrameH"><div class="ilFrameTL"><div class="ilFrameTR">
 {MAINMENU}<!-- BEGIN sr_focus -->
 <script type="text/javascript">ilAddOnLoad(ilScreenReaderFocus);</script>
-<!-- END sr_focus --><div class="ilBelowMainMenu">
+<!-- END sr_focus -->
+</div></div></div>
+<div class="ilFrameBL"><div class="ilFrameBR">
 {NAVIGATION_HISTORY}
 <!-- BEGIN ilLocator -->
 {STATUSLINE}
@@ -84,6 +86,6 @@ body { margin:0px; }
 {NOTES}
 </td></tr></table>
 </div>
-</div></div></div></div>
+</div></div>
 </body>
 </html>

@@ -792,7 +792,18 @@ class ilLMPresentationGUI
 		if (strcmp($_GET["frame"], "right") == 0) $this->tpl->fillJavaScriptFiles();
 		if (strcmp($_GET["frame"], "botright") == 0) $this->tpl->fillJavaScriptFiles();
 		
-		$content =  $this->tpl->get();
+	include_once("./Services/Accordion/classes/class.ilAccordionGUI.php");
+	ilAccordionGUI::addJavaScript();
+	ilAccordionGUI::addCss();
+	
+	// from main menu
+	$this->tpl->addJavascript("./Services/JavaScript/js/Basic.js");
+	$this->tpl->addJavascript("./Services/Navigation/js/ServiceNavigation.js");
+	$this->tpl->fillJavaScriptFiles();
+	$this->tpl->fillScreenReaderFocus();
+
+	$this->tpl->fillCssFiles();
+	$this->tpl->fillBodyClass();
 
 		if ($doShow)
 		{
@@ -807,6 +818,10 @@ class ilLMPresentationGUI
 
 			header('Content-type: text/html; charset=UTF-8');
 			echo $content;
+		}
+		else
+		{
+			$content =  $this->tpl->get();
 		}
 
 		$ilBench->stop("ContentPresentation", "layout");
@@ -890,10 +905,12 @@ class ilLMPresentationGUI
 		}
 		
 		$this->tpl->setVariable("MAINMENU", $ilMainMenu->getHTML());
-		$this->tpl->addJavascript("./Services/JavaScript/js/Basic.js");
-		$this->tpl->addJavascript("./Services/Navigation/js/ServiceNavigation.js");
-		$this->tpl->fillJavaScriptFiles();
-		$this->tpl->fillScreenReaderFocus();
+//		$this->tpl->addJavascript("./Services/JavaScript/js/Basic.js");
+//		$this->tpl->addJavascript("./Services/Navigation/js/ServiceNavigation.js");
+		
+
+//		$this->tpl->fillJavaScriptFiles();
+//		$this->tpl->fillScreenReaderFocus();
 		
 		//require_once("Services/Navigation/classes/class.ilNavigationHistoryGUI.php");
 		//$nav_hist = new ilNavigationHistoryGUI();

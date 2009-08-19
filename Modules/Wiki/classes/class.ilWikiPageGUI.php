@@ -42,6 +42,7 @@ class ilWikiPageGUI extends ilPageObjectGUI
 		$this->setPreventHTMLUnmasking(true);
 		$this->setEnabledInternalLinks(false);
 		$this->setEnabledWikiLinks(true);
+		$this->setEnabledPCTabs(true);
 
 	}
 	
