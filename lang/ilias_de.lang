@@ -3357,7 +3357,7 @@ common#:#minutes#:#Minute(n)
 common#:#missing#:#Nicht vorhanden
 common#:#missing_perm#:#Fehlende Berechtigung
 common#:#missing_precondition#:#Fehlende Vorbedingung
-common#:#mob#:#Media Objekt
+common#:#mob#:#Medienobjekt
 common#:#mod_rewrite_disabled#:#Das Apache-Modul 'mod_rewrite' ist nicht verfügbar.
 common#:#module#:#Modul
 common#:#modules#:#Module
@@ -4889,7 +4889,7 @@ content#:#cont_ed_width#:#Breite
 content#:#cont_edit_area#:#Bereich ändern
 content#:#cont_edit_file_list_properties#:#Eigenschaften der Dateilisten bearbeiten
 content#:#cont_edit_lrs_settings#:#Einstellungen
-content#:#cont_edit_mob#:#Media Objekt editieren
+content#:#cont_edit_mob#:#Medienobjekt editieren
 content#:#cont_edit_mob_alias_prop#:#Eigenschaften der Instanz des Medienobjekts bearbeiten
 content#:#cont_edit_mob_files#:#Objektdateien
 content#:#cont_edit_mob_properties#:#Eigenschaften des Medienobjekts bearbeiten
@@ -4965,7 +4965,7 @@ content#:#cont_insert_file_item#:#Datei einfügen
 content#:#cont_insert_file_list#:#Dateiliste einfügen
 content#:#cont_insert_list#:#Erweiterte Liste einfügen
 content#:#cont_insert_map#:#Karte einfügen
-content#:#cont_insert_mob#:#Mediaobjekt
+content#:#cont_insert_mob#:#Medienobjekt
 content#:#cont_insert_new_footnote#:#Neue Fußnote einfügen
 content#:#cont_insert_page#:#Seite einfügen
 content#:#cont_insert_page_from_clip#:#Seite aus Zwischenablage einfügen
@@ -5154,7 +5154,7 @@ content#:#cont_reference#:#Referenz
 content#:#cont_Remark#:#Bemerkung
 content#:#cont_remove_fullscreen#:#Vollansicht entfernen
 content#:#cont_removeiln#:#Internen Link entfernen ?
-content#:#cont_replace_mob_feature_info#:#Aktiviert eine Funktion, um Mediaobjekte zu ersetzen, aber die Einstellungen der bereits verwendeten Instanz/en des Objekts zu erhalten.
+content#:#cont_replace_mob_feature_info#:#Aktiviert eine Funktion, um Medienobjekte zu ersetzen, aber die Einstellungen der bereits verwendeten Instanz/en des Objekts zu erhalten.
 content#:#cont_repository_item#:#Objekt in Magazin
 content#:#cont_repository_item_links#:#Links auf Objekte in Magazin
 content#:#cont_resize_explanation#:#Wenn diese Option aktiviert ist, werden hochgeladene Bilder automatisch auf die angegebene Größe skaliert.
@@ -6657,7 +6657,7 @@ grp#:#grp_waiting_list#:#Warteliste aktivieren
 grp#:#grp_waiting_list_info#:#Wenn diese Option eingeschaltet ist und die Maximalanzahl von Benutzern erreicht ist, können sich Benutzer automatisch auf eine Warteliste setzen lassen.
 grp#:#grp_warn_grp_type_changed#:#Sind Sie sicher, dass Sie die Gruppenart ändern möchten? Die Rechteeinstellungen dieser Gruppe werden überschrieben und an die neue Art der Gruppe angepasst.
 grp#:#grp_warn_no_max_set_on_waiting_list#:#Die maximale Teilnehmeranzahl ist überschritten. Sie können sich jedoch auf die Warteliste für dieser Gruppe setzen lassen. Sie erhalten eine Nachricht, sobald Ihr Antrag von der Gruppenleitung angenommen oder abgelehnt wurde.
-grp#:#grp_warn_wl_set_on_waiting_list#:#Es sind bereits Teilnehmer auf der Warteliste eingetragen. Sie können sich jedoch auf die Warteliste für diese Gruppe setzen lassen. Sie erhalten eine Nachricht, sobald Ihr Antrag von der Kursleitung angenommen oder abgelehnt wurde.
+grp#:#grp_warn_wl_set_on_waiting_list#:#Es sind bereits Teilnehmer auf der Warteliste eingetragen. Sie können sich jedoch auf die Warteliste für diese Gruppe setzen lassen. Sie erhalten eine Nachricht, sobald Ihr Antrag von der Gruppenleitung angenommen oder abgelehnt wurde.
 grp#:#grp_wrong_max_members#:#Bitte überprüfen Sie Ihre Eingabe für die maximale Teilnehmeranzahl.
 grp#:#reg_grp_max_members#:#Begrenzte Teilnehmeranzahl
 grp#:#reg_grp_max_members_short#:#Teilnehmeranzahl
@@ -7032,7 +7032,7 @@ mep#:#mep_all#:#Alle
 mep#:#mep_all_mobs#:#Alle Medienobjekte
 mep#:#mep_copy_to_mep#:#In Mediapool kopieren
 mep#:#mep_create_folder#:#Ordner anlegen
-mep#:#mep_create_mob#:#Mediaobjekt anlegen
+mep#:#mep_create_mob#:#Medienobjekt anlegen
 mep#:#mep_default_height#:#Standardhöhe
 mep#:#mep_default_width#:#Standardbreite
 mep#:#mep_default_width_height_info#:#Standardbreite und -höhe werden als Voreinstellung für neue Medienobjekte verwendet.
@@ -9588,7 +9588,7 @@ common#:#mail_attachment#:#Mailanhang
 content#:#cont_change_object_reference#:#Ändere Objektreferenz
 content#:#cont_select#:#Auswählen
 content#:#cont_please_enter_a_term#:#Bitte geben Sie einen Term ein.
-crs#:#crs_set_on_waiting_list#:#Wenn Sie einen Aufnahmeantrag stellen, werden Sie auf die Warteliste gesetzt. Sie erhalten dann eine Nachricht der Kursadministration, ob Ihr Antrag angenommen oder abgelehnt wird.
+crs#:#crs_set_on_waiting_list#:#Wenn Sie einen Aufnahmeantrag stellen, werden Sie auf die Warteliste gesetzt. Sie erhalten dann eine Nachricht der Kursleitung, ob Ihr Antrag angenommen oder abgelehnt wird.
 survey#:#SurveyMultipleChoiceQuestion#:#Multiple Choice Frage (Mehrfachauswahl)		 
 survey#:#SurveySingleChoiceQuestion#:#Multiple Choice Frage (Einfachauswahl)		 
 survey#:#question_mr_not_checked#:#Bitte wählen Sie mindestens eine der angebotenen Antworten aus!		 
@@ -9596,7 +9596,7 @@ survey#:#question_not_checked#:#Sie müssen eine der angebotenen Anworten auswä
 survey#:#invitation_off#:#Niemanden einladen
 survey#:#no_user_invited#:#Allen eingeladenen Benutzern fehlen die notwendigen Rechte, um die Umfrage durchzuführen. Es wurde niemand eingeladen.
 survey#:#users_invited#:#Es wurden %s Benutzer eingeladen
-grp#:#grp_set_on_waiting_list#:#You can add your join request to the waiting list. You will receive a message from a group administrator when your request has been approved or rejected.###18 08 2009 new variable
+grp#:#grp_set_on_waiting_list#:#Wenn Sie einen Aufnahmeantrag stellen, werden Sie auf die Warteliste gesetzt. Sie erhalten dann eine Nachricht der Gruppenleitung, ob Ihr Antrag angenommen oder abgelehnt wird.
 dateplaner#:#cal_edit_milestone#:#Meilenstein bearbeiten
 dateplaner#:#cal_deadline#:#Endtermin
 dateplaner#:#cal_ms_users_responsible#:#Verantwortliche Mitglieder
@@ -9609,101 +9609,101 @@ dateplaner#:#cal_new_ms#:#Neuer Meilenstein
 dateplaner#:#cal_add_milestone#:#Meilenstein hinzufügen
 dateplaner#:#cal_task_completion#:#Fertigstellung
 dateplaner#:#cal_responsible#:#Verantwortlich
-crs#:#crs_search_users#:#Search Users###18 08 2009 new variable
-crs#:#crs_user_login#:#User Login###18 08 2009 new variable
-grp#:#grp_search_users#:#Search User###18 08 2009 new variable
-common#:#mem_add_to_wl#:#Add to Waiting List###18 08 2009 new variable
-common#:#event_assign_files#:#File Assignment###18 08 2009 new variable
-registration#:#reg_type_confirmation#:#Registration with E-Mail Confirmation###18 08 2009 new variable
-registration#:#reg_type_confirmation_info#:#This type allows self-registration of users but requires an email confirmation to activate the account. This avoids self-registration to ILIAS with wrong or non-existant email addresses.###18 08 2009 new variable
-registration#:#reg_confirmation_hash_life_time_info#:#Enter the lifetime (seconds) of confirmation links.###18 08 2009 new variable
-registration#:#reg_confirmation_hash_life_time_expired#:#The confirmation link is not valid anymore.###18 08 2009 new variable
-registration#:#reg_confirmation_hash_not_found#:#No user account could be matched to this confirmation link.###18 08 2009 new variable
-common#:#reg_account_confirmation_successful#:#Your user account has been activated.###18 08 2009 new variable
-registration#:#reg_confirmation_link_successful#:#You successfully submitted an account request to ILIAS. You will receive a confirmation e-mail in the next minutes. Please confirm your registration by clicking the confirmation link in this mail.<br />You will be redirected to the <a href="%s" title="login screen">login screen</a> after 20 seconds.###18 08 2009 new variable
-registration#:#reg_activation_your_confirmation_link#:#Your confirmation link:###18 08 2009 new variable
-registration#:#reg_confirmation_hash_not_passed#:#The confirmation link was not entirely passed.###18 08 2009 new variable
-crs#:#crs_lim_assigned#:#Already assigned to associated course "%s".###18 08 2009 new variable
-grp#:#grp_lim_assigned#:#Already assigned to associated group "%s".###18 08 2009 new variable
-common#:#soap_wsdl_path#:#WSDL Path###18 08 2009 new variable
-common#:#soap_wsdl_path_info#:#Please enter the path to the ilias wsdl file which should be used for the webservice. If you leave this field blank, the following path will be used per default:%s###18 08 2009 new variable
-common#:#scorm_new#:#New SCORM/IACC Learning Module###18 08 2009 new variable
-common#:#scorm_create_export_file_scrom12#:#Create Export File (SCORM 1.2)###18 08 2009 new variable
-common#:#scorm_create_export_file_scrom2004#:#Create Export File (SCORM 2004)###18 08 2009 new variable
-common#:#scorm_create_export_file_pdf#:#Create Export File (PDF)###18 08 2009 new variable
-common#:#scorm_create_export_file_iso#:#Create Export File (ISO for CD-ROM)###18 08 2009 new variable
-common#:#scorm_create_export_file_html#:#Create Export File (HTML)###18 08 2009 new variable
-common#:#sahs_insert_page_from_clip#:#Paste Pages from Clipboard###18 08 2009 new variable
-common#:#sahs_insert_chap_from_clip#:#Paste Chapters from Clipboard###18 08 2009 new variable
-common#:#sahs_insert_sco_from_clip#:#Paste SCOs from Clipboard###18 08 2009 new variable
-sahs#:#sahs_insert_chapter#:#Insert Chapter###18 08 2009 new variable
-sahs#:#sahs_choose_pages_or_chapters_or_scos_only#:#Please select either pages, SCOs or chapters only.###18 08 2009 new variable
-sahs#:#sahs_insert_scenario#:#Insert Sequenced Chapter###18 08 2009 new variable
-sahs#:#sahs_insert_pagelayout#:#Insert Template Page###18 08 2009 new variable
-sahs#:#sahs_properties#:#Properties###18 08 2009 new variable
-sahs#:#sahs_insert_page#:#Insert Page###18 08 2009 new variable
-sahs#:#sahs_insert_sco#:#Insert SCO###18 08 2009 new variable
-sahs#:#sahs_chapter#:#Chapter###18 08 2009 new variable
-sahs#:#sahs_unit#:#SCO###18 08 2009 new variable
-sahs#:#sahs_page#:#Page###18 08 2009 new variable
-sahs#:#sahs_objectives_alignment#:#Learning Objectives Alignment###18 08 2009 new variable
-sahs#:#sahs_learning_objectives#:#Learning Objectives###18 08 2009 new variable
-sahs#:#sahs_sco_objective#:#Objectives###18 08 2009 new variable
-sahs#:#sahs_questions#:#Questions###18 08 2009 new variable
-sahs#:#sahs_organization#:#Organization###18 08 2009 new variable
-sahs#:#sahs_sequencing#:#Sequencing###18 08 2009 new variable
-sahs#:#sahs_objective_alignment#:#Objectives Alignment###18 08 2009 new variable
-content#:#cont_LocalFile#:#Local File###18 08 2009 new variable
-content#:#cont_Ressources#:#Ressources###18 08 2009 new variable
-content#:#cont_Reading#:#Reading###18 08 2009 new variable
-content#:#cont_Hint#:#Hint###18 08 2009 new variable
-content#:#cont_ed_paste#:#Paste###18 08 2009 new variable
-content#:#cont_ed_insert_pcqst#:#Insert Question###18 08 2009 new variable
-content#:#cont_ed_select_pctext#:#Select Text Item###18 08 2009 new variable
-content#:#cont_question_pool#:#Question Pool###18 08 2009 new variable
-content#:#cont_question_type#:#Question Type###18 08 2009 new variable
-content#:#cont_text_type#:#Text Item Type###18 08 2009 new variable
-content#:#cont_ed_par#:#Text###18 08 2009 new variable
-content#:#cont_ed_dtable#:#Data Table###18 08 2009 new variable
-content#:#cont_mob_files#:#Object Files###18 08 2009 new variable
-content#:#cont_mob_prop#:#Object Properties###18 08 2009 new variable
-meta#:#meta_pointofcontact#:#Point of Contact###18 08 2009 new variable
-meta#:#sco_propagate#:#Propagate to all SCOs###18 08 2009 new variable
-content#:#cont_empty_question#:#Question editing not finished. Please either click and edit or delete question.###18 08 2009 new variable
-content#:#cont_media_placeh#:#Click and edit to insert media###18 08 2009 new variable
-content#:#cont_question_placeh#:#Click and edit to insert question###18 08 2009 new variable
-content#:#cont_text_placeh#:#Click and edit to insert text###18 08 2009 new variable
-content#:#cont_no_glossary#:#No glossary###18 08 2009 new variable
-common#:#obj_sco#:#SCO###18 08 2009 new variable
-common#:#obj_chap#:#Chapter###18 08 2009 new variable
-common#:#obj_page#:#Page###18 08 2009 new variable
-common#:#enter_in_mb_desc#:#Enter a value in MB.###18 08 2009 new variable
-common#:#last_reminder#:#Last reminder###18 08 2009 new variable
-common#:#filter_users_without_disk_usage#:#Only users with no disk space used###18 08 2009 new variable
-common#:#filter_users_with_disk_usage#:#Only users with disk space used###18 08 2009 new variable
-common#:#filter_users_with_exceeded_disk_quota#:#Only users with disk quota exceeded###18 08 2009 new variable
-common#:#filter_users_with_access#:#Only users with access###18 08 2009 new variable
-common#:#filter_users_without_access#:#Only users without access###18 08 2009 new variable
-common#:#statistics#:#Statistics###18 08 2009 new variable
-content#:#cont_pc_flist#:#File List###18 08 2009 new variable
-content#:#cont_pc_par#:#Text###18 08 2009 new variable
-content#:#cont_pc_mob#:#Media###18 08 2009 new variable
-content#:#cont_pc_qst#:#Question###18 08 2009 new variable
-content#:#cont_pc_sec#:#Section###18 08 2009 new variable
-content#:#cont_pc_dtab#:#Data Table###18 08 2009 new variable
-content#:#cont_pc_code#:#Code###18 08 2009 new variable
-content#:#cont_pc_res#:#Resource###18 08 2009 new variable
-content#:#cont_pc_map#:#Map###18 08 2009 new variable
-common#:#session_reminder_lead_time#:#Leadtime###18 08 2009 new variable
-common#:#session_reminder_lead_time_info#:#Please specify, how much seconds before the session expires you want the session reminder to display a warning. The current value for a user session is %s.###18 08 2009 new variable
-rbac#:#rbac_delete_role#:#Delete Role###18 08 2009 new variable
-rbac#:#rbac_role_delete_qst#:#Are you sure you want to delete the following role?<br />All permissions granted by this role will be deleted permanently.###18 08 2009 new variable
-rbac#:#rbac_role_delete_self#:#<strong>Attention:</strong> You are assigned to this role. If you continue this delete operation, you may loose access to some ILIAS materials.###18 08 2009 new variable
-ldap#:#ldap_global_role#:#Global Role###18 08 2009 new variable
-ldap#:#ldap_local_role#:#Local Role###18 08 2009 new variable
-ldap#:#ldap_role_name_info#:#Please choose either a global role or enter the name of a local role.###18 08 2009 new variable
-ldap#:#ldap_update_roles#:#Role Assignments###18 08 2009 new variable
-ldap#:#ldap_remove_deprecated#:#Deassign Deprecated Roles###18 08 2009 new variable
+crs#:#crs_search_users#:#Benutzer suchen
+crs#:#crs_user_login#:#Benutzername
+grp#:#grp_search_users#:#Benutzer suchen
+common#:#mem_add_to_wl#:#Zur Warteliste hinzufügen
+common#:#event_assign_files#:#Dateien zuordnen
+registration#:#reg_type_confirmation#:#Registrieren mit E-Mail-Bestätigung
+registration#:#reg_type_confirmation_info#:#Bei dieser Registrierungsmethode erhält der neue Benutzer zunächst per E-Mail-Adresse einen Bestätigungslink zugesandt. Wird dieser bestätigt, erfolgt die automatische Freischaltung des Benutzerkontos.
+registration#:#reg_confirmation_hash_life_time_info#:#Geben Sie die Gültigkeitsdauer des Bestätigungslinks (in Sekunden) an.
+registration#:#reg_confirmation_hash_life_time_expired#:#Der Bestätigungslink ist nicht mehr gültig.
+registration#:#reg_confirmation_hash_not_found#:#Dieser Bestätigungslink passt zu keinem Benutzerkonto.
+common#:#reg_account_confirmation_successful#:#Das Benutzerkonto wurde bestätigt und aktiviert.
+registration#:#reg_confirmation_link_successful#:#Sie haben sich erfolgreich bei ILIAS registriert. Sie müssen Ihr Benutzerkonto durch Klicken des Bestätigungslink aktivieren um dieses zu aktivieren.<br />Sie werden in 20 Sekunden zur <a href="%s" title="Loginseite">Loginseite</a> weitergeleitet.
+registration#:#reg_activation_your_confirmation_link#:#Ihr Bestätigungslink:
+registration#:#reg_confirmation_hash_not_passed#:#Der Bestätigungslink wurde nicht vollständig übergeben.
+crs#:#crs_lim_assigned#:#Bereits Mitglied in Kurs "%s".
+grp#:#grp_lim_assigned#:#Bereits Mitglied in Gruppe "%s".
+common#:#soap_wsdl_path#:#WSDL-Pfad
+common#:#soap_wsdl_path_info#:#Hier können Sie den Pfad zur WSDL-Datei angeben, die von ILIAS für den Webservice genutzt werden soll. Falls Sie dieses Feld leer lassen, wird folgender Pfad als Standard verwendet:%s
+common#:#scorm_new#:#Neues SCORM/AICC-Lernmodul
+common#:#scorm_create_export_file_scrom12#:#Erzeuge Exportdatei (SCORM 1.2)
+common#:#scorm_create_export_file_scrom2004#:#Erzeuge Exportdatei (SCORM 2004)
+common#:#scorm_create_export_file_pdf#:#Erzeuge Exportdatei (PDF)
+common#:#scorm_create_export_file_iso#:#Erzeuge Exportdatei (ISO for CD-ROM)
+common#:#scorm_create_export_file_html#:#Erzeuge Exportdatei (HTML)
+common#:#sahs_insert_page_from_clip#:#Füge Seiten aus Zwischenablage ein
+common#:#sahs_insert_chap_from_clip#:#Füge Kapitel aus Zwischenablage ein
+common#:#sahs_insert_sco_from_clip#:#Füge SCOs aus Zwischenablage ein
+sahs#:#sahs_insert_chapter#:#Kapitel einfügen
+sahs#:#sahs_choose_pages_or_chapters_or_scos_only#:#Wählen Sie bitte entweder nur Seiten oder SCOs oder Kapitel aus!
+sahs#:#sahs_insert_scenario#:#Kapitelsequenz einfügen
+sahs#:#sahs_insert_pagelayout#:#Seitenvorlage einfügen
+sahs#:#sahs_properties#:#Eigenschaften
+sahs#:#sahs_insert_page#:#Seite einfügen
+sahs#:#sahs_insert_sco#:#SCO einfügen
+sahs#:#sahs_chapter#:#Kapitel
+sahs#:#sahs_unit#:#SCO
+sahs#:#sahs_page#:#Seite
+sahs#:#sahs_objectives_alignment#:#Anordnung der Lernziele
+sahs#:#sahs_learning_objectives#:#Lernziele
+sahs#:#sahs_sco_objective#:#Ziele
+sahs#:#sahs_questions#:#Fragen
+sahs#:#sahs_organization#:#Organisation
+sahs#:#sahs_sequencing#:#Sequencing
+sahs#:#sahs_objective_alignment#:#Anordnung der Ziele
+content#:#cont_LocalFile#:#Lokale Datei
+content#:#cont_Ressources#:#Resourcen
+content#:#cont_Reading#:#Lektüre
+content#:#cont_Hint#:#Hinweis
+content#:#cont_ed_paste#:#Einfügen
+content#:#cont_ed_insert_pcqst#:#Frage einfügen
+content#:#cont_ed_select_pctext#:#Textelement auswählen
+content#:#cont_question_pool#:#Fragenpool
+content#:#cont_question_type#:#Fragentyp
+content#:#cont_text_type#:#Typ des Textelements
+content#:#cont_ed_par#:#Text
+content#:#cont_ed_dtable#:#Datentabelle
+content#:#cont_mob_files#:#Objektdateien
+content#:#cont_mob_prop#:#Objekteigenschaften
+meta#:#meta_pointofcontact#:#Anknüpfungspunkt
+meta#:#sco_propagate#:#Auf alle SCOs verbreiten
+content#:#cont_empty_question#:#Die Frage ist noch nicht fertiggestellt. Bitte bearbeiten Sie diese abschließend oder löschen Sie die Frage. 
+content#:#cont_media_placeh#:#Klicken und bearbeiten, um ein Medienobjekt einzufügen
+content#:#cont_question_placeh#:#Klicken und bearbeiten, um eine Frage einzufügen
+content#:#cont_text_placeh#:#Klicken und bearbeiten, um einen Text einzufügen
+content#:#cont_no_glossary#:#Kein Glossar
+common#:#obj_sco#:#SCO
+common#:#obj_chap#:#Kapitel
+common#:#obj_page#:#Seite
+common#:#enter_in_mb_desc#:#Geben Sie eine Größe in MB ein.
+common#:#last_reminder#:#Letzte Erinnerung
+common#:#filter_users_without_disk_usage#:#common#:#filter_users_without_disk_usage#:#Nur Benutzer die keinen Speicherplatz belegen
+common#:#filter_users_with_disk_usage#:#Nur Benutzer die Speicherplatz belegen
+common#:#filter_users_with_exceeded_disk_quota#:#Nur Benutzer die ihre Disk Quota überschreiten
+common#:#filter_users_with_access#:#Nur Benutzer mit Zugriff
+common#:#filter_users_without_access#:#Nur Benutzer ohne Zugriff
+common#:#statistics#:#Statistik
+content#:#cont_pc_flist#:#Dateiliste
+content#:#cont_pc_par#:#Text
+content#:#cont_pc_mob#:#Medienobjekt
+content#:#cont_pc_qst#:#Frage
+content#:#cont_pc_sec#:#Sektion
+content#:#cont_pc_dtab#:#Datentabelle
+content#:#cont_pc_code#:#Code
+content#:#cont_pc_res#:#Ressource
+content#:#cont_pc_map#:#Karte
+common#:#session_reminder_lead_time#:#Vorlaufzeit
+common#:#session_reminder_lead_time_info#:#Bitte geben Sie an, wieviele Sekunden Sie vor dem Ablauf der Sitzung erinnert werden möchten. Der aktuelle Wert für eine Sitzungsdauer beträgt %s Sekunden.
+rbac#:#rbac_delete_role#:#Rolle löschen
+rbac#:#rbac_role_delete_qst#:#Sind Sie sicher, dass Sie diese Rolle löschen möchten. Alle Rechte, die durch sie gewährt werden, sind dann unwiederruflich aufgehoben.		 
+rbac#:#rbac_role_delete_self#:#<strong>Achtung:</strong> Sie selbst sind dieser Rolle zugeordnet. Wenn Sie den Löschvorgang fortführen, kann es sein, dass Sie Zugriffsrechte an diesem oder anderen ILIAS-Materialien verlieren.
+ldap#:#ldap_global_role#:#Globale Rolle
+ldap#:#ldap_local_role#:#Lokale Rolle
+ldap#:#ldap_role_name_info#:#Bitte wählen Sie entweder eine globale Rolle oder geben Sie den Namen einer lokalen Rolle ein.
+ldap#:#ldap_update_roles#:#Rollenzuordnungen
+ldap#:#ldap_remove_deprecated#:#Unberechtigte Rollen entfernen
 ldap#:#ldap_plugin_info#:#Validate the role assignment with a plugin. Please enter a valid plugin id.###18 08 2009 new variable
 ldap#:#ldap_plugin_id#:#Plugin Id###18 08 2009 new variable
 ldap#:#ldap_err_missing_plugin_id#:#Please enter a valid plugin id.###18 08 2009 new variable
