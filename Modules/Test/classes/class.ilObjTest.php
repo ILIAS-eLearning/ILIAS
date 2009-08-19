@@ -5701,6 +5701,9 @@ function loadQuestions($active_id = "", $pass = NULL)
 						$this->setReportingDate(sprintf("%02d%02d%02d%02d%02d%02d", $matches[1], $matches[2], $matches[3], $matches[4], $matches[5], $matches[6]));
 					}
 					break;
+				case "processing_time":
+					$this->setProcessingTime($metadata['entry']);
+					break;
 				case "starting_time":
 					$iso8601period = $metadata["entry"];
 					if (preg_match("/P(\d+)Y(\d+)M(\d+)DT(\d+)H(\d+)M(\d+)S/", $iso8601period, $matches))
@@ -5992,6 +5995,12 @@ function loadQuestions($active_id = "", $pass = NULL)
 		$a_xml_writer->xmlStartTag("qtimetadatafield");
 		$a_xml_writer->xmlElement("fieldlabel", NULL, "shuffle_questions");
 		$a_xml_writer->xmlElement("fieldentry", NULL, sprintf("%d", $this->getShuffleQuestions()));
+		$a_xml_writer->xmlEndTag("qtimetadatafield");
+
+		// processing time
+		$a_xml_writer->xmlStartTag("qtimetadatafield");
+		$a_xml_writer->xmlElement("fieldlabel", NULL, "processing_time");
+		$a_xml_writer->xmlElement("fieldentry", NULL, $this->getProcessingTime());
 		$a_xml_writer->xmlEndTag("qtimetadatafield");
 
 		// starting time
