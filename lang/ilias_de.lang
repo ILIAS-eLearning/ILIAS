@@ -9679,7 +9679,7 @@ common#:#obj_chap#:#Kapitel
 common#:#obj_page#:#Seite
 common#:#enter_in_mb_desc#:#Geben Sie eine Größe in MB ein.
 common#:#last_reminder#:#Letzte Erinnerung
-common#:#filter_users_without_disk_usage#:#common#:#filter_users_without_disk_usage#:#Nur Benutzer die keinen Speicherplatz belegen
+common#:#filter_users_without_disk_usage#:#Nur Benutzer die keinen Speicherplatz belegen
 common#:#filter_users_with_disk_usage#:#Nur Benutzer die Speicherplatz belegen
 common#:#filter_users_with_exceeded_disk_quota#:#Nur Benutzer die ihre Disk Quota überschreiten
 common#:#filter_users_with_access#:#Nur Benutzer mit Zugriff
@@ -9704,14 +9704,14 @@ ldap#:#ldap_local_role#:#Lokale Rolle
 ldap#:#ldap_role_name_info#:#Bitte wählen Sie entweder eine globale Rolle oder geben Sie den Namen einer lokalen Rolle ein.
 ldap#:#ldap_update_roles#:#Rollenzuordnungen
 ldap#:#ldap_remove_deprecated#:#Unberechtigte Rollen entfernen
-ldap#:#ldap_plugin_info#:#Validate the role assignment with a plugin. Please enter a valid plugin id.###18 08 2009 new variable
-ldap#:#ldap_plugin_id#:#Plugin Id###18 08 2009 new variable
-ldap#:#ldap_err_missing_plugin_id#:#Please enter a valid plugin id.###18 08 2009 new variable
-ldap#:#ldap_add_remove#:#Add/Remove Roles###18 08 2009 new variable
-ldap#:#ldap_deleted_rule#:#Deleted selected role assignments.###18 08 2009 new variable
-ldap#:#ldap_role_selection#:#Role Selection###18 08 2009 new variable
-ldap#:#ldap_role_selection_info#:#Your selection is ambiguous. Please choose one of the following roles.###18 08 2009 new variable
-ldap#:#ldap_role_by_plugin#:#By Plugin###18 08 2009 new variable
+ldap#:#ldap_plugin_info#:#Überprüfung der Rollenzuordnung per Plugin. Bitte geben Sie dazu eine gültige Plugin-ID ein.
+ldap#:#ldap_plugin_id#:#Plugin-Id
+ldap#:#ldap_err_missing_plugin_id#:#Bitte geben Sie eine gültige Plugin-Id ein.
+ldap#:#ldap_add_remove#:#Rollen hinzufügen/entfernen
+ldap#:#ldap_deleted_rule#:#Ausgewählte Rollenzuordnung gelöscht
+ldap#:#ldap_role_selection#:#Auswahl der Rollen
+ldap#:#ldap_role_selection_info#:#Ihre Auswahl ist nicht eindeutig. Bitte wählen Sie eine der nachfolgenden Rollen.
+ldap#:#ldap_role_by_plugin#:#Per Plugin
 common#:#reg_mail_subject_confirmation#:#ILIAS eLearning - Your Confirmation Link###18 08 2009 new variable
 common#:#reg_mail_body_confirmation#:#to activate your account and confirm ownership of this email address, click the link below:###18 08 2009 new variable
 content#:#saved_media_object#:#Saved media object.###18 08 2009 new variable
