@@ -852,7 +852,7 @@ table.ilExplorer {
 }
 
 div.ilExplorerFrame {
-	padding: 53px 5px;
+	padding: 5px 5px;
 }
 
 td.ilExpH {
@@ -875,6 +875,7 @@ div.il_Explorer
 div.ilExpH{
 	background-image: url(images/tlbw.gif);
 	background-repeat: no-repeat;
+	padding-top: 48px;
 	min-height: 35px;
 }
 
