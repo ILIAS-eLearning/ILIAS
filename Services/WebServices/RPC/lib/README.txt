@@ -18,41 +18,32 @@ support UTF-8 encodings.
 A Installation
 -------------------------------------------------------------------------------
 
-1) Change directory to:
+1) Create a Server Configuration File
+
+Open the java server configuration in "Administration ->  General Setting
+Java-Server" and click the button "Create Configuration File".
+
+Fill the form and download the configuration file.
+Save the newly created file (ilServer.ini) on your ILIAS server.
+
+
+2) Change directory to:
 
 bash$ cd <YOUR_ILIAS_DIR>/Services/WebServices/RPC/lib
 
-
-2) Edit the file ilServer.properties
-
-ilServer.properties:
-IpAddress = 127.0.0.1 # Configure the Ip the RPC server is bound to. 
-					  # If the loopback device is configured on your system, you
-					  # can use the default value (127.0.0.1)
-
-Port = 11111		  # Configure the port number the RPC server is bound to.
-					  # You can use any port.
-
-IndexPath = /tmp	  # Choose an existing directory where lucene will store the
-					  # index files. Write permission is required for this dierectory.
-
-LogFile = /var/log/ilServer.log # Choose a filename. The LogFile will be created.
-
 3) Start the server:
 
-Start the server:
-
-bash$ java -Dfile.encoding=UTF-8 -jar ilServer.jar ilServer.ini start &
+bash$ java -Dfile.encoding=UTF-8 -jar ilServer.jar <PATH_TO_SERVER_INI> start &
 
 
 To stop the server simply type:
 
-bash$ java -jar ilServer.jar ilServer.ini stop
+bash$ java -jar ilServer.jar <PATH_TO_SERVER_INI> stop
 
 
 Show the server status:
 
-bash$ java -jar ilServer.jar ilServer.ini status
+bash$ java -jar ilServer.jar <PATH_TO_SERVER_INI> status
 
 Possible return values are:
 
@@ -60,55 +51,42 @@ Running
 Stopped
 Indexing
 
+4) Creating a new Lucene index:
+
+bash$ java -jar ilServer.jar <PATH_TO_SERVER_INI> createIndex <CLIENT> &
+
+The <CLIENT_INFO> is a combination of the client id and the installation id.
+You find these values in the table "Administration -> Server Data".
+
+E.g
+bash$ java -jar ilServer.jar <PATH_TO_SERVER_INI> createIndex ilias40_4000 &
+
+or
+
+bash$ java -jar ilServer.jar <PATH_TO_SERVER_INI> createIndex ilias40_0 &
+
+if no installation id is given.
+
+5) Updating an existing index:
+
+bash$ java -jar ilServer.jar <PATH_TO_SERVER_INI> updateIndex <CLIENT> &
+
 
 B Preparing ILIAS
 --------------------------------------------------------------------------------
 
 1) Log in to ILIAS
 
-2) Setup up the Lucene IpAddress and Port in 
-   'Administration -> Administration -> Search -> 'Search settings'
+2) Setup up the Lucene Host and Port in 
+   'Administration -> General settings -> Java-Server'
 
-3) Tick the checkbox activate lucene
+3) Enable Lucene Search
 
-4) Save these settings
-
-5) Enable the Lucene indexing for cron jobs by ticking the checkbox 'Administration -> Cron-jobs -> Update Lucene index'.
-
-6) Enter the IP and the port of the Server in 'Administration -> WebServices':
-
-E.g:
-Host: 127.0.0.1
-Port: 11111
-
-7) Finally save these settings.
+Enable the option "Lucene search" in "Administration -> Search -> Settings".
 
 
-C Indexing ILIAS HTML learning modules
--------------------------------------------------------------------------------
 
-1) Change to the directory of your ILIAS installation.
-
-bash$ cd <YOUR_ILIAS_DIR>
-
-2) Start indexing:
-
-bash$ php cron/cron.php <ADMIN_LOGIN> <ADMIN_PASSWORD> <ILIAS_CLIENT_NAME>
-
-3) you will find informations about the new created index in the Lucene LogFile
-
-D Finally, start searching
--------------------------------------------------------------------------------
-
-1) Log in to ILIAS
-
-2) Click on Search in the Main-Menu
-
-3) Enter a search string and tick the checkboxes 'Detail search', 
-   'Learning materials' and 'Files'.
-
-
-E Starting Lucene server at boot time
+C Starting Lucene server at boot time
 --------------------------------------------------------------------------------
 
 To start the Lucene RPC server automatically at boottime, follow these instructions:
@@ -123,64 +101,63 @@ Type in your root password
 2) Change the working directory and create a file named rpcserver
 
 bash$ cd /etc/init.d	# Adjust this path according to your distribution
-bash$ vi rpcserver
+bash$ vi ilserver
 
 with this content
 
 #!/bin/bash
 
 JAVABIN=/usr/bin/java
-ILIASDIR=/var/www/ilias		# Type in the root directory of your ILIAS installation
+ILIASDIR=/var/www/ilias    # Type in the root directory of your ILIAS installation
+IL_SERVER_INI = /path_to_server_ini
 
 case "$1" in
-	start)
-		if [ -f /tmp/rpcserver.pid ]
-		then
-			echo "The RPC Server seems to be running. Type 'rpcserver stop' or remove the file '/tmp/rpcserver.pid' manually"
-			exit 1
-		fi
-		echo "Starting RPC server"
-		$JAVABIN -Dfile.encoding=UTF-8 -jar $ILIASDIR/Services/WebServices/RPC/lib/ilServer.jar $ILIASDIR/Services/WebServices/RPC/lib/ilServer.properties $USER &
-		echo $! > /tmp/rpcserver.pid
+    start)
+		echo "Starting ILIAS Java-Server"
+        $JAVABIN -Dfile.encoding=UTF-8 -jar $ILIASDIR/ilServer.jar $IL_SERVER_INI start &
 		;;
 
-	stop)
-		echo "Shutting down RPC server"
-		{
-			kill `cat /tmp/rpcserver.pid`
-			unlink /tmp/rpcserver.pid
-		} 2> /dev/null
-		;;
+    stop)
+        echo "Shutting down ILIAS Java-Server"
+        $JAVABIN -jar $ILIASDIR/ilServer.jar $IL_SERVER_INI stop
+        ;;
+        
+    status)
+        $JAVABIN -jar $ILIASDIR/ilServer.jar $IL_SERVER_INI status
+        ;;    	
 
-	restart)
-		$0 stop
-		sleep 2
-		$0 start
-		;;
+    restart)
+        $0 stop
+        sleep 2
+        $0 start
+        ;;
 
-	*)
-		echo "Usage: $0 {start|stop|restart}"
-		exit 1
+    *)
+        echo "Usage: $0 {start|stop|status|restart}"
+        exit 1
 esac
 
 exit 0
 
 3) Change the file permissions by typing
 
-bash$ chmod 750 rpcserver
+bash$ chmod 750 ilserver
 
-4) You can start the RPC server by typing:
+4) You can start the ILIAS Java-Server by typing:
 
-bash$ /etc/init.d/rpcserver start
+bash$ /etc/init.d/ilserver start
 
 stop it:
 
-bash$ /etc/init.d/rpcserver stop
+bash$ /etc/init.d/ilserver stop
 
-or restart it:
+restart it:
 
-bash$ /etc/init.d/rpcserver restart
+bash$ /etc/init.d/ilserver restart
 
-5) You can start the rpcserver automatically at boottime by linking 'rpcserver'
+or receive the status:
+
+bash$ /etc/init.d/ilserver status
+
+5) You can start the ILIAS Java-Server automatically at boottime by linking 'ilserver'
 to one of the /etc/rcX.d ( X indicates the specific runlevel).
-
