@@ -324,7 +324,12 @@ class ilShopNewsGUI extends ilShopBaseGUI
 		$c_gui = new ilConfirmationGUI();				
 		$c_gui->setHeaderText($this->lng->txt('payment_news_delete_sure'));		
 		$c_gui->addHiddenItem('news_id', (int)$_GET['news_id']);		
+
+		$oNewsItem = new ilShopNewsItem($_GET['news_id']);
+		$title=$oNewsItem->getTitle();
+		$c_gui->addItem($news_title,$_GET['news_id'],$title);
 		
+
 		switch($view)
 		{
 			case 'archive':
@@ -500,6 +505,7 @@ class ilShopNewsGUI extends ilShopBaseGUI
 				  ->setPublicSection($ilUser->getId() == ANONYMOUS_USER_ID)
 				  ->setArchiveDate(time() - ($ilSetting->get('payment_news_archive_period') * 24 * 60 * 60))
 				  ->read();
+				 
 		$result = array();		
 		if($oNewsList->hasItems())
 		{
@@ -508,7 +514,7 @@ class ilShopNewsGUI extends ilShopBaseGUI
 			
 			$counter = 0;
 			foreach($oNewsList as $entry)
-			{				
+			{	
 				if($rbacreview->isAssigned($ilUser->getId(), SYSTEM_ROLE_ID) == true)
 				{	
 					$this->ctrl->setParameter($this, 'news_id', $entry->getId());
@@ -545,6 +551,7 @@ class ilShopNewsGUI extends ilShopBaseGUI
 		}
 		else
 		{
+			
 			$tbl->setNoEntriesText($this->lng->txt('payment_news_no_news_items'));
 		}
 

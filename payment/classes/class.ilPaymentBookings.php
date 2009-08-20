@@ -806,7 +806,6 @@ class ilPaymentBookings
 				if(ilPaymentTrustees::_hasStatisticPermissionByVendor($this->user_id,$v))
 				{
 					$vendors[] = $v;
-					#vendors = array_merge($vendors,$v);
 				}
 			}
 		}

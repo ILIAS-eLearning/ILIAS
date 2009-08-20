@@ -474,7 +474,11 @@ class ilObjPaymentSettingsGUI extends ilObjectGUI
 		$this->__showButton('objects',$this->lng->txt('back'));	
 		$this->__showButton('editObject',$this->lng->txt('paya_edit_details'));
 		$this->__showButton('editPrices',$this->lng->txt('paya_edit_prices'));
-
+		$this->tpl->setCurrentBlock('btn_cell');
+		$this->tpl->setVariable('BTN_LINK', $this->ctrl->getLinkTargetByClass(array('ilpageobjectgui'), 'edit'));
+		$this->tpl->setVariable('BTN_TXT', $this->lng->txt('pay_edit_abstract'));		
+		$this->tpl->parseCurrentBlock();
+		
 		$this->__initPaymentObject((int) $_GET['pobject_id']);
 
 		$this->tpl->addBlockfile('ADM_CONTENT','adm_content','tpl.paya_adm_edit_prices.html','payment');
@@ -1248,7 +1252,7 @@ class ilObjPaymentSettingsGUI extends ilObjectGUI
 			}			
 		
 			$f_result[$counter][] = $vat_rate;
-						
+
 			$tmp_user =& ilObjectFactory::getInstanceByObjId($data['vendor_id']);
 			$f_result[$counter][] = $tmp_user->getFullname().' ['.$tmp_user->getLogin().']';
 
@@ -1267,7 +1271,7 @@ class ilObjPaymentSettingsGUI extends ilObjectGUI
 
 			++$counter;
 		}
-		
+
 		$this->__showObjectsTable($f_result);	
 
 		return true;
@@ -2903,15 +2907,14 @@ class ilObjPaymentSettingsGUI extends ilObjectGUI
 		$this->lng->loadLanguageModule('search');
 
 		$this->ctrl->setParameter($this, 'sell_id', $_GET['sell_id']);
-		$this->tpl->setVariable('F_ACTION',$this->ctrl->getFormAction($this));
+		$this->tpl->setVariable('F_ACTION',$this->ctrl->getFormAction($this, 'performSearchSP'));
 		$this->tpl->setVariable('SEARCH_ASSIGN_USR',$this->lng->txt('search_user'));
 		$this->tpl->setVariable('SEARCH_SEARCH_TERM',$this->lng->txt('search_search_term'));
 		$this->tpl->setVariable('SEARCH_VALUE',$_SESSION['paya_search_str_user_sp'] ? $_SESSION['paya_search_str_user_sp'] : '');
 		$this->tpl->setVariable('BTN2_VALUE',$this->lng->txt('cancel'));
 		$this->tpl->setVariable('BTN1_VALUE',$this->lng->txt('search'));
 		$this->tpl->setVariable('SEARCH','performSearchSP');
-	//	$this->tpl->setVariable('CANCEL','statistic');
-		$this->tpl->setVariable('CANCEL','bookings');
+		$this->tpl->setVariable('CANCEL','statistic');
 
 		return true;
 	}

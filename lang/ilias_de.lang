@@ -9897,3 +9897,4 @@ license#:#remaining_licenses#:#Available licenses###19 08 2009 new variable
 license#:#remaining_licenses_explanation#:#The available licenses are calculated as purchased minus consumed.###19 08 2009 new variable
 user#:#user_field#:#Field###19 08 2009 new variable
 user#:#user_visible_in_profile#:#Visible in Profile###19 08 2009 new variable
+payment#:#paya_deleted_selected_prices#:#Preis(e) gelöscht

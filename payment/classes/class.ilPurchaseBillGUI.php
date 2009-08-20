@@ -369,7 +369,7 @@ class ilPurchaseBillGUI
 				$book_obj->setPayed(1);
 				$book_obj->setAccess(1);
 				$book_obj->setVoucher('');
-				$book_obj->setTransactionExtern($a_id);
+				$book_obj->setTransactionExtern('');
 
 				include_once './payment/classes/class.ilGeneralSettings.php';
 				$genSet = new ilGeneralSettings();
