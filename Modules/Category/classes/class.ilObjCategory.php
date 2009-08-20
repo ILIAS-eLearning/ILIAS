@@ -150,7 +150,7 @@ class ilObjCategory extends ilContainer
 		return true;
 	}
 	
-// update a translation to current category
+	// update a translation to current category
 	function updateTranslation($a_title,$a_desc,$a_lang,$a_lang_default)
 	{
 		global $ilDB, $ilLog;
@@ -161,10 +161,10 @@ class ilObjCategory extends ilContainer
 		}
 
 		$query = "UPDATE object_translation ".
-			 "SET title = ". $ilDB->quote($a_title,'integer').",".
+			 "SET title = ". $ilDB->quote($a_title,'text').",".
 				  "description = ".$ilDB->quote($a_desc,'text').",".
 				  "lang_code = ".$ilDB->quote($a_lang,'text') . ",". 
-				  "lang_default = ".$ilDB->quote($a_lang_default,'text')." ".
+				  "lang_default = ".$ilDB->quote($a_lang_default,'integer')." ".
 			 "WHERE ".
 			 " obj_id = ".$ilDB->quote($this->getId(),'integer');
 		$res = $ilDB->manipulate($query);
