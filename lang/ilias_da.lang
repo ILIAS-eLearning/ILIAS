@@ -9382,19 +9382,19 @@ sahs#:#sahs_objective#:#Learning Objective###15 05 2009 new variable
 sahs#:#sahs_objectives#:#Learning Objectives###15 05 2009 new variable
 style#:#sty_type_sco_desct#:#SCO Description Heading###15 05 2009 new variable
 style#:#sty_type_sco_objt#:#SCO Objectives Heading###15 05 2009 new variable
-adve#:#adve_rte_settings#:#Rich Text Editor Settings###15 05 2009 new variable
-adve#:#adve_page_editor_settings#:#ILIAS Page Editor Settings###15 05 2009 new variable
-adve#:#adve_grp_lm#:#ILIAS Learning Modules###15 05 2009 new variable
-adve#:#adve_grp_wiki#:#Wikis###15 05 2009 new variable
-adve#:#adve_grp_scorm#:#SCORM Editing###15 05 2009 new variable
+adve#:#adve_rte_settings#:#Rigtekst redigering
+adve#:#adve_page_editor_settings#:#ILIAS sideredigering indstillinger
+adve#:#adve_grp_lm#:#ILIAS læremoduler
+adve#:#adve_grp_wiki#:#Wikier
+adve#:#adve_grp_scorm#:#SCORM redigering
 adve#:#adve_grp_glo#:#Glossaries###15 05 2009 new variable
 adve#:#adve_grp_test#:#Test & Assessment###15 05 2009 new variable
 adve#:#adve_grp_rep#:#Repository Pages###15 05 2009 new variable
 adve#:#adve_text_content_features#:#Text Content Menu###15 05 2009 new variable
 content#:#cont_behavior#:#Behavior###15 05 2009 new variable
-content#:#cont_all_closed#:#All Closed###15 05 2009 new variable
-content#:#cont_first_open#:#First Opened###15 05 2009 new variable
-content#:#cont_force_all_open#:#Force All Opened###15 05 2009 new variable
+content#:#cont_all_closed#:#Alle lukket
+content#:#cont_first_open#:#Først åbnet
+content#:#cont_force_all_open#:#Tving alle åben
 content#:#cont_number_type#:#Number Type###15 05 2009 new variable
 user#:#user_activation#:#Aktivering
 user#:#user_all#:#Alle
@@ -9411,7 +9411,7 @@ mep#:#mep_folder_content#:#Mappeindhold
 mep#:#mep_all_mobs#:#Alle medieobjekter
 mep#:#mep_unknown#:#Ukendt
 mep#:#mep_all#:#Alle
-mep#:#mep_format#:#Format###15 05 2009 new variable
+mep#:#mep_format#:#Format
 mep#:#mep_default_width#:#Default Width###15 05 2009 new variable
 mep#:#mep_default_height#:#Default Height###15 05 2009 new variable
 mep#:#mep_default_width_height_info#:#Default width and height are used as presets for new media object creation.###15 05 2009 new variable
@@ -9690,10 +9690,10 @@ mep#:#mep_edit_folder#:#Edit Folder###24 07 2009 new variable
 assessment#:#thumb_size#:#Thumbnail Size###24 07 2009 new variable
 forum#:#frm_purifier_not_implemented_for_type_x#:#Purifier for type %s not implemented yet.###24 07 2009 new variable
 common#:#adve_frm_post_settings#:#Forum Posts###24 07 2009 new variable
-common#:#advanced_editing_frm_post_settings#:#Forum Post Settings###24 07 2009 new variable
-common#:#hint#:#Hint###24 07 2009 new variable
-assessment#:#add_rect#:#Add rectangle area###24 07 2009 new variable
-assessment#:#add_circle#:#Add circle area###24 07 2009 new variable
+common#:#advanced_editing_frm_post_settings#:#Indstillinger for indlæg i fora
+common#:#hint#:#Tip
+assessment#:#add_rect#:#Lav rektangulært område
+assessment#:#add_circle#:#Lav cirkelområde
 assessment#:#add_poly#:#Add polygon area###24 07 2009 new variable
 assessment#:#msg_rect_added#:#Rectangle added###24 07 2009 new variable
 assessment#:#msg_circle_added#:#Circle added###24 07 2009 new variable
@@ -9814,8 +9814,8 @@ crs#:#sess_limit#:#Limit Number of Sessions###24 07 2009 new variable
 crs#:#sess_num_prev#:#Number of Past Sessions###24 07 2009 new variable
 crs#:#sess_num_next#:#Number of Following Sessions###24 07 2009 new variable
 crs#:#sess_limit_info#:#Choose this option for limiting the number of visible sessions###24 07 2009 new variable
-common#:#advanced_editing_rep_page_editing#:#Enable Content Editing in Repository###06 08 2009 new variable
-common#:#advanced_editing_rep_page_editing_desc#:#This feature allows to add text/media to category, course, group and folder pages.###06 08 2009 new variable
+common#:#advanced_editing_rep_page_editing#:#Brug indholdsredigering i oversigten
+common#:#advanced_editing_rep_page_editing_desc#:#Dette aktiverer CMS funktionaliteten der gør det muligt at lave tekst/grafik i kategorier, kurser, grupper og mapper.
 common#:#adve_rep_settings#:#Repository Settings###06 08 2009 new variable
 content#:#cont_please_enter_a_term#:#Please enter a term.###06 08 2009 new variable
 survey#:#no_user_invited#:#All invited users did not possess sufficient permissions to run the survey. No user was invited.###06 08 2009 new variable
