@@ -27,8 +27,8 @@ import java.sql.DriverManager;
 import java.sql.PreparedStatement;
 import java.sql.SQLException;
 import java.util.HashMap;
-import java.util.Vector;
 
+import oracle.jdbc.OraclePreparedStatement;
 
 import org.apache.log4j.Logger;
 
@@ -81,14 +81,14 @@ public class DBFactory {
 					Class.forName("oracle.jdbc.driver.OracleDriver");
 					
 					logger.info(
-							"jdbc:oracle:thin:" +
+							"jdbc:oracle:oci8:" +
 							client.getDbUser() + "/" +
 							client.getDbPass() + "@" + 
 							client.getDbHost() + "/" +
 							client.getDbName()
 					);
 					return DriverManager.getConnection(
-							"jdbc:oracle:thin:" +
+							"jdbc:oracle:oci8:" +
 							client.getDbUser() + "/" +
 							client.getDbPass() + "@" + 
 							client.getDbHost() + "/" +
@@ -156,5 +156,27 @@ public class DBFactory {
 		// Create new Prepared statement
 		ps.get().put(query, DBFactory.factory().prepareStatement(query));
 		return ps.get().get(query);
+	}
+	
+	public static void setString(PreparedStatement ps,int index,String str) throws SQLException {
+		
+		ClientSettings client;
+		try {
+			
+			client = ClientSettings.getInstance(LocalSettings.getClientKey());
+			if(client.getDbType().equals("mysql")) {
+				
+				ps.setString(index, str);
+			}
+			else {
+				
+				((OraclePreparedStatement) ps).setFixedCHAR(index, str);
+			}
+		}
+		catch (ConfigurationException e) {
+			// shouldn't happen here
+			logger.error(e);
+		}
+		
 	}
 }

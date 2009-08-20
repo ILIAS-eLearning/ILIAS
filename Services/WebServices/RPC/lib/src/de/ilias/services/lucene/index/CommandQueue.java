@@ -83,9 +83,9 @@ public class CommandQueue {
 				"AND sub_type = ? ");
 		sta.setInt(1, el.getObjId());
 		sta.setTimestamp(2,new java.sql.Timestamp(new java.util.Date().getTime()));
-		sta.setString(3, el.getObjType());
+		DBFactory.setString(sta, 3, el.getObjType());
 		sta.setInt(4, el.getSubId());
-		sta.setString(5, el.getSubType());
+		DBFactory.setString(sta, 5, el.getSubType());
 		sta.executeUpdate();
 	}
 	
@@ -149,6 +149,7 @@ public class CommandQueue {
 			getElements().add(element);
 			counter++;
 		}
+		res.close();
 		logger.info("Found " + counter + " new update events!");
 	}
 	
@@ -162,8 +163,10 @@ public class CommandQueue {
 
 		try {
 			logger.info("Substituting reset commands");
-			
-			PreparedStatement sta = db.prepareStatement("SELECT * FROM search_command_queue WHERE command = 'reset_all' AND obj_id = 0");
+
+			PreparedStatement sta = DBFactory.getPreparedStatement("SELECT * FROM search_command_queue WHERE command = ? AND obj_id = 0");
+			DBFactory.setString(sta, 1, "reset_all");
+			logger.debug("Substitution query: " + sta.toString());
 			ResultSet res = sta.executeQuery();
 			while(res.next()) {
 				
@@ -172,12 +175,14 @@ public class CommandQueue {
 				addCommandsByType(res.getString("obj_type"));
 				deleteResetCommandByType(res.getString("obj_type"));
 			}
+			res.close();
 		} 
 		catch(SQLException e) {
 			logger.fatal("Invalid SQL statement!");
 			throw e;
 		}
 		catch(Throwable e) {
+			e.printStackTrace();
 			logger.fatal(e);
 		}
 	}
@@ -189,10 +194,12 @@ public class CommandQueue {
 	private synchronized void deleteResetCommandByType(String objType) throws SQLException {
 
 		try {
-			PreparedStatement sta = db.prepareStatement("DELETE FROM search_command_queue " +
+
+			PreparedStatement sta = DBFactory.getPreparedStatement(
+				"DELETE FROM search_command_queue " +
 				"WHERE obj_type = ? " + 
 				"AND obj_id = 0 ");
-			sta.setString(1, objType);
+			DBFactory.setString(sta, 1, objType);
 			sta.executeUpdate();
 			return;
 		}
@@ -209,13 +216,15 @@ public class CommandQueue {
 	private synchronized void deleteCommandsByType(String objType) throws SQLException {
 
 		try {
-			PreparedStatement sta = db.prepareStatement("DELETE FROM search_command_queue " + 
+			
+			PreparedStatement sta = DBFactory.getPreparedStatement("DELETE FROM search_command_queue " +
 				"WHERE obj_type = ? " +
 				"AND obj_id > 0");
-			sta.setString(1, objType);
+			DBFactory.setString(sta, 1, objType);
 			sta.executeUpdate();
 			return;
-		} catch (SQLException e) {
+		} 
+		catch (SQLException e) {
 			logger.fatal("Cannot delete reset commands!");
 			throw e;
 		}
@@ -229,17 +238,18 @@ public class CommandQueue {
 
 		try {
 		
-			PreparedStatement sta = db.prepareStatement(
+			PreparedStatement sta = DBFactory.getPreparedStatement(
 				"SELECT DISTINCT(oda.obj_id) FROM object_data oda JOIN object_reference ore ON oda.obj_id = ore.obj_id " +
 				"WHERE (deleted IS NULL) AND type = ? " +
 				"GROUP BY oda.obj_id");
-			sta.setString(1, objType);
+
+			DBFactory.setString(sta, 1, objType);
 			ResultSet res = sta.executeQuery();
 			
 			logger.debug("Adding commands for object type: " + objType);
 			
 			// Add each single object
-			PreparedStatement objReset = db.prepareStatement(
+			PreparedStatement objReset = DBFactory.getPreparedStatement(
 					"INSERT INTO search_command_queue (obj_id, obj_type, sub_id, sub_type, command, last_update, finished) " + 
 					"VALUES (?, ?, ?, ?, ?, ?, ?)");
 	
@@ -257,7 +267,7 @@ public class CommandQueue {
 				
 				objReset.executeUpdate();
 			}
-			objReset.close();
+			res.close();
 			return;
 		}
 		catch(SQLException e) {
@@ -299,7 +309,7 @@ public class CommandQueue {
 	 */
 	public synchronized void debug(String type) throws SQLException {
 		
-		PreparedStatement resetType = db.prepareStatement(
+		PreparedStatement resetType = DBFactory.getPreparedStatement(
 				"INSERT INTO search_command_queue SET obj_id = ?,obj_type = ?, sub_id = ?, sub_type = ?, command = ?, last_update = ?, finished = ? ");
 		resetType.setInt(1,0);
 		resetType.setString(2,type);
@@ -375,7 +385,8 @@ public class CommandQueue {
 				
 				if(((ObjectDefinition) def).getIndexType() == ObjectDefinition.TYPE_FULL) {
 					
-					pst.setString(1, ((ObjectDefinition) def).getType());
+					DBFactory.setString(pst, 1, ((ObjectDefinition) def).getType());
+					//pst.setString(1, ((ObjectDefinition) def).getType());
 					pst.executeUpdate();
 				}
 			}
