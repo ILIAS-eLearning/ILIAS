@@ -540,8 +540,8 @@ class ilFileDataMail extends ilFileData
 		$mail_data_dir = ilUtil::getDataDir('filesystem').DIRECTORY_SEPARATOR."mail";
 
 		$q = "SELECT path ".
-			"FROM mail_attachment AS ma ".
-			"JOIN mail AS m ON ma.mail_id=m.mail_id ".
+			"FROM mail_attachment ma ".
+			"JOIN mail m ON ma.mail_id=m.mail_id ".
 			"WHERE m.user_id = ".$ilDB->quote($user_id);
 		$result_set = $ilDB->query($q);
 		$size = 0;

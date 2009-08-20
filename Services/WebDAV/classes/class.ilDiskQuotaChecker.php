@@ -147,7 +147,7 @@ class ilDiskQuotaChecker
 		$res = $ilDB->query("SELECT keyword, value ".
 			"FROM usr_pref ".
 			"WHERE usr_id = ".$ilDB->quote($a_user_id, 'integer')." ".
-			"AND keyword LIKE 'disk\\_usage%'"
+			"AND ".$ilDB->like("keyword", "text", 'disk\\_usage%')
 			);
 
 		while ($row = $res->fetchRow(DB_FETCHMODE_OBJECT)) {
@@ -261,9 +261,9 @@ class ilDiskQuotaChecker
 
 				// Inactive users get the date 0001-01-01 so that they appear
 				// first when the list is sorted by this field.
-				"IF(u.active = 0,'0001-01-01',IF (u.time_limit_unlimited=1,'9999-12-31',".$ilDB->fromUnixtime("u.time_limit_until").")) access_until,".
+				"CASE WHEN u.active = 0 THEN '0001-01-01' ELSE CASE WHEN u.time_limit_unlimited=1 THEN '9999-12-31' ELSE ".$ilDB->fromUnixtime("u.time_limit_until")." END END access_until,".
 
-				"IF(".$ilDB->unixTimestamp()." BETWEEN u.time_limit_from AND u.time_limit_until,0,1) expired,".
+				"CASE WHEN ".$ilDB->unixTimestamp()." BETWEEN u.time_limit_from AND u.time_limit_until THEN 0 ELSE 1 END expired,".
 				"rq.role_disk_quota, system_role.rol_id role_id, ".
 				"p1.value+0 user_disk_quota,".
 				"p2.value+0 disk_usage, ".
@@ -272,7 +272,7 @@ class ilDiskQuotaChecker
 
 				// We add 0 to some of the values to convert them into a number.
 				// This is needed for correct sorting.
-				"IF(rq.role_disk_quota+0>p1.value+0 OR p1.value IS NULL,rq.role_disk_quota+0,p1.value+0) disk_quota	".
+				"CASE WHEN rq.role_disk_quota+0>p1.value+0 OR p1.value IS NULL THEN rq.role_disk_quota+0 ELSE p1.value+0 END disk_quota	".
 			"FROM usr_data u  ".
 
 			// Fetch the role with the highest disk quota value.
@@ -280,7 +280,7 @@ class ilDiskQuotaChecker
 				"FROM usr_data u ".
 				"JOIN rbac_ua ua ON ua.usr_id=u.usr_id ".
 				"JOIN rbac_fa fa ON fa.rol_id=ua.rol_id AND fa.parent=%s  ".
-				"JOIN role_data rd ON rd.role_id=ua.rol_id WHERE u.usr_id=ua.usr_id GROUP BY usr_id) rq ON rq.usr_id=u.usr_id ".
+				"JOIN role_data rd ON rd.role_id=ua.rol_id WHERE u.usr_id=ua.usr_id GROUP BY u.usr_id) rq ON rq.usr_id=u.usr_id ".
 
 			// Fetch the system role in order to determine whether the user has unlimited disk quota
 			"LEFT JOIN rbac_ua system_role ON system_role.usr_id=u.usr_id AND system_role.rol_id = %s ".
@@ -298,8 +298,7 @@ class ilDiskQuotaChecker
 			"LEFT JOIN usr_pref p4 ON p4.usr_id=u.usr_id AND p4.keyword = 'disk_quota_last_reminder'  ".
 
 			$where_clause.
-			"ORDER BY ".
-				$ilDB->quoteIdentifier($a_order_column).($a_order_by=='asc'?' ASC':' DESC').", ".
+			"ORDER BY ".$a_order_column." ".($a_order_by=='asc'?' ASC':' DESC').", ".
 				"lastname, firstname, login"
 			,
 	        array('integer','integer'),
@@ -332,7 +331,7 @@ class ilDiskQuotaChecker
 
 		// delete old values
 		$ilDB->manipulate("DELETE FROM usr_pref ".
-			"WHERE keyword like ('disk\_usage%')");
+			"WHERE ".$ilDB->like("keyword", "text", 'disk_usage%'));
 
 
 		require_once 'Modules/File/classes/class.ilObjFileAccess.php';
@@ -358,14 +357,14 @@ class ilDiskQuotaChecker
 			"(usr_id, keyword, value) ".
 			"SELECT usr_id, 'disk_usage', SUM(value) ".
 			"FROM usr_pref ".
-			"WHERE keyword LIKE 'disk_usage.%.size' ".
+			"WHERE ".$ilDB->like("keyword", "text", 'disk_usage.%.size').
 			"GROUP BY usr_id"
 			);
 
 		// insert last update
 		$ilDB->manipulate("INSERT INTO usr_pref ".
 			"(usr_id, keyword, value) ".
-			"SELECT usr_id, 'disk_usage.last_update', NOW() ".
+			"SELECT usr_id, 'disk_usage.last_update', ".$ilDB->now()." ".
 			"FROM usr_data");
 	}
 
@@ -392,7 +391,7 @@ class ilDiskQuotaChecker
 			"FROM object_data d ".
 			"JOIN object_reference r ON d.obj_id=r.obj_id ".
 			"JOIN tree t ON t.child=r.ref_id ".
-			"WHERE d.type = ".$ilDB->quote($a_type)." ".
+			"WHERE d.type = ".$ilDB->quote($a_type, "text")." ".
 			"AND t.tree=1 ".
 			"ORDER BY d.owner"
 			);
@@ -408,11 +407,13 @@ class ilDiskQuotaChecker
 					$ilDB->manipulate("INSERT INTO usr_pref ".
 						"(usr_id, keyword, value) ".
 						"VALUES ".
-
 						"(".$ilDB->quote($owner,'integer').", ".
 						$ilDB->quote('disk_usage.'.$a_type.'.size').", ".
-						$ilDB->quote($size, 'integer')."),".
+						$ilDB->quote($size, 'integer').")");
 
+					$ilDB->manipulate("INSERT INTO usr_pref ".
+						"(usr_id, keyword, value) ".
+						"VALUES ".
 						"(".$ilDB->quote($owner,'integer').", ".
 						$ilDB->quote('disk_usage.'.$a_type.'.count').", ".
 						$ilDB->quote($count, 'integer').")"
@@ -430,15 +431,16 @@ class ilDiskQuotaChecker
 			$ilDB->manipulate("INSERT INTO usr_pref ".
 				"(usr_id, keyword, value) ".
 				"VALUES ".
-
 				"(".$ilDB->quote($owner,'integer').", ".
 				$ilDB->quote('disk_usage.'.$a_type.'.size').", ".
-				$ilDB->quote($size, 'integer')."),".
-
+				$ilDB->quote($size, 'integer').")");
+				
+			$ilDB->manipulate("INSERT INTO usr_pref ".
+				"(usr_id, keyword, value) ".
+				"VALUES ".
 				"(".$ilDB->quote($owner,'integer').", ".
 				$ilDB->quote('disk_usage.'.$a_type.'.count').", ".
-				$ilDB->quote($count, 'integer').")"
-				);
+				$ilDB->quote($count, 'integer').")");
 		}
 
 	}
@@ -474,12 +476,13 @@ class ilDiskQuotaChecker
 				"VALUES ".
 					"(".$ilDB->quote($row->usr_id,'integer').", ".
 					$ilDB->quote('disk_usage.'.$a_type.'.size').", ".
-					$ilDB->quote($data['size'], 'integer')."),".
-
+					$ilDB->quote($data['size'], 'integer').")");
+			$ilDB->manipulate("INSERT INTO usr_pref ".
+				"(usr_id, keyword, value) ".
+				"VALUES ".
 					"(".$ilDB->quote($row->usr_id,'integer').", ".
 					$ilDB->quote('disk_usage.'.$a_type.'.count').", ".
-					$ilDB->quote($data['count'], 'integer').")"
-					);
+					$ilDB->quote($data['count'], 'integer').")");
 			}
 		}
 	}
@@ -501,9 +504,9 @@ class ilDiskQuotaChecker
 
 				// Inactive users get the date 0001-01-01 so that they appear
 				// first when the list is sorted by this field.
-				"IF(u.active = 0,'0001-01-01',IF (u.time_limit_unlimited=1,'9999-12-31',".$ilDB->fromUnixtime("u.time_limit_until").")) access_until,".
+				"CASE WHEN u.active = 0 THEN '0001-01-01' ELSE CASE WHEN u.time_limit_unlimited=1 THEN '9999-12-31' ELSE ".$ilDB->fromUnixtime("u.time_limit_until")." END END access_until,".
 
-				"IF(".$ilDB->unixTimestamp()." BETWEEN u.time_limit_from AND u.time_limit_until,0,1) expired,".
+				" CASE WHEN ".$ilDB->unixTimestamp()." BETWEEN u.time_limit_from AND u.time_limit_until THEN 0 ELSE 1 END expired,".
 				"rq.role_disk_quota, system_role.rol_id role_id, ".
 				"p1.value+0 user_disk_quota,".
 				"p2.value+0 disk_usage, ".
@@ -513,7 +516,7 @@ class ilDiskQuotaChecker
 
 				// We add 0 to some of the values to convert them into a number.
 				// This is needed for correct sorting.
-				"IF(rq.role_disk_quota+0>p1.value+0 OR p1.value IS NULL,rq.role_disk_quota+0,p1.value+0) disk_quota	".
+				"CASE WHEN rq.role_disk_quota+0>p1.value+0 OR p1.value IS NULL THEN rq.role_disk_quota+0 ELSE p1.value+0 END disk_quota	".
 			"FROM usr_data u  ".
 
 			// Fetch the role with the highest disk quota value.
@@ -521,7 +524,7 @@ class ilDiskQuotaChecker
 				"FROM usr_data u ".
 				"JOIN rbac_ua ua ON ua.usr_id=u.usr_id ".
 				"JOIN rbac_fa fa ON fa.rol_id=ua.rol_id AND fa.parent=%s  ".
-				"JOIN role_data rd ON rd.role_id=ua.rol_id WHERE u.usr_id=ua.usr_id GROUP BY usr_id) rq ON rq.usr_id=u.usr_id ".
+				"JOIN role_data rd ON rd.role_id=ua.rol_id WHERE u.usr_id=ua.usr_id GROUP BY u.usr_id) rq ON rq.usr_id=u.usr_id ".
 
 			// Fetch the system role in order to determine whether the user has unlimited disk quota
 			"LEFT JOIN rbac_ua system_role ON system_role.usr_id=u.usr_id AND system_role.rol_id = %s ".
@@ -563,7 +566,7 @@ class ilDiskQuotaChecker
 			// Store the date the last reminder was sent in the table usr_pref.
 			if ($row['last_reminder'] != null)
 			{
-				$ilDB->manipulatef("UPDATE usr_pref SET value=NOW() ".
+				$ilDB->manipulatef("UPDATE usr_pref SET value= ".$ilDB->now()." ".
 					"WHERE usr_id=%s AND keyword = 'disk_quota_last_reminder'"
 					,
 					array('integer'),
@@ -573,7 +576,7 @@ class ilDiskQuotaChecker
 			else
 			{
 				$ilDB->manipulatef("INSERT INTO usr_pref (usr_id, keyword, value) ".
-					"VALUES (%s, 'disk_quota_last_reminder', NOW())"
+					"VALUES (%s, 'disk_quota_last_reminder', ".$ilDB->now().")"
 					,
 					array('integer'),
 					array($row['usr_id'])

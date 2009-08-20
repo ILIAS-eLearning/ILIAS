@@ -114,9 +114,9 @@ class ilDBOracle extends ilDB
 	/**
 	* fromUnixtime (makes timestamp out of unix timestamp)
 	*/
-	function fromUnixtime($a_expr, $a_to_text)
+	function fromUnixtime($a_expr, $a_to_text = true)
 	{
-		if (!$a_to_char)
+		if (!$a_to_text)
 		{
 			return "TO_DATE('19700101000000','YYYYMMDDHH24MISS') ".
 				"+ NUMTODSINTERVAL(".$a_expr.", 'SECOND')";
