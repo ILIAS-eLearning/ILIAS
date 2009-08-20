@@ -34,118 +34,43 @@
 
 class ilLuceneIndexer
 {
-	function ilLuceneIndexer()
+	/**
+	 * Constructor 
+	 */
+	public function __construct()
 	{
-		global $ilLog,$ilDB;
-
-		$this->log =& $ilLog;
-		$this->db =& $ilDB;
-	}
-
-	function index()
-	{
-		return false;
 		
-		// Todo check in settings which objects should be indexed
-		$this->__flushIndex();
-		$this->__indexFiles();
-		$this->__indexHTLMs();
-
-		return true;
 	}
-
-	// PRIVATE
-	function __indexFiles()
+	
+	/**
+	 * index 
+	 * @return 
+	 */
+	public function index()
 	{
-		include_once('Services/FileSystemStorage/classes/class.ilFileSystemStorage.php');
+		global $ilSetting;
 		
-		global $tree;
-
-
-		$mimes = array('text/plain','application/pdf','text/html','text/x-pdf','application/x-pdf');
-
-		$query = "SELECT * FROM file_data ".
-			"WHERE ".$ilDB->in('file_type',$mimes,false,'text');
-
-		$res = $this->db->query($query);
-
-		$counter = 0;
-		$files = array();
-		while($row = $res->fetchRow(DB_FETCHMODE_OBJECT))
+		try
 		{
-			++$counter;
-			$bname = ilUtil::getDataDir();
-			$bname .= ("/ilFiles/");
-			$bname .= ilFileSystemStorage::_createPathFromId($row->file_id,'file');
-			$vname = (sprintf("%03d", $row->version));
-
-			if(is_file($bname.'/'.$vname.'/'.$row->file_name))
-			{
-				$files[$row->file_id] = $bname.'/'.$vname.'/'.$row->file_name;
-			}
-			else
-			{
-				$files[$row->file_id] = $bname.'/'.$row->file_name;
-			}
+			include_once './Services/WebServices/RPC/classes/class.ilRpcClientFactory.php';
+			$res = ilRpcClientFactory::factory('RPCIndexHandler')->index(
+				CLIENT_ID.'_'.$ilSetting->get('inst_id',0),
+				true
+			);
 		}
-		$this->log->write('Lucene indexer: Found '.$counter.' files for indexing');
-
-		if(count($files))
+		catch(XML_RPC2_FaultException $e)
 		{
-			// Send files to lucene rpc server
-			include_once './Services/Search/classes/Lucene/class.ilLuceneRPCAdapter.php';
-
-			$rpc_adapter =& new ilLuceneRPCAdapter();
-			$rpc_adapter->setMode('file');
-			$rpc_adapter->setFiles($files);
-			if($rpc_adapter->send())
-			{
-				$this->log->write('Lucene indexer: files sent');
-			}
-			return true;
+			// TODO: better error handling
+			$ilLog->write(__METHOD__.': '.$e->getMessage());
+			return;
+		}
+		catch(Exception $e)
+		{
+			$ilLog->write(__METHOD__.': '.$e->getMessage());
+			return;
 		}
 	}
-	function __indexHTLMs()
-	{
-		global $ilias;
+	
 
-		$query = "SELECT * FROM object_data WHERE type = 'htlm'";
-		$res = $this->db->query($query);
-		$counter = 0;
-		while($row = $res->fetchRow(DB_FETCHMODE_OBJECT))
-		{
-			++$counter;
-			$lms[$row->obj_id] = ILIAS_ABSOLUTE_PATH.'/'.ILIAS_WEB_DIR.'/'.CLIENT_ID.'/lm_data/lm_'.$row->obj_id;
-
-		}
-		$this->log->write('Lucene indexer: Found '.$counter.' html learning modules for indexing');
-
-		if(count($lms))
-		{
-			// Send files to lucene rpc server
-			include_once './Services/Search/classes/Lucene/class.ilLuceneRPCAdapter.php';
-
-			$rpc_adapter =& new ilLuceneRPCAdapter();
-			$rpc_adapter->setMode('htlm');
-			$rpc_adapter->setHTLMs($lms);
-			if($rpc_adapter->send())
-			{
-				$this->log->write('Lucene indexer: files sent');
-			}
-			return true;
-		}
-	}
-	function __flushIndex()
-	{
-		include_once './Services/Search/classes/Lucene/class.ilLuceneRPCAdapter.php';
-
-		$rpc_adapter =& new ilLuceneRPCAdapter();
-		$rpc_adapter->setMode('flush');
-		if($rpc_adapter->send())
-		{
-			$this->log->write('Lucene indexer: deleted index');
-		}
-		return true;
-	}		
 }
 ?>
