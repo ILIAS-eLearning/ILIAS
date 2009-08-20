@@ -164,7 +164,7 @@ common#:#action#:#Handling
 common#:#apply#:#Send
 common#:#by#:#Af
 common#:#user_profile_instant_messengers#:#Kontakt til Instant Messengers
-common#:#instant_messengers#:#Instant Messengers
+common#:#instant_messengers#:#Programmer til øjebliksbeskeder
 common#:#im_icq#:#ICQ
 common#:#im_yahoo#:#Yahoo
 common#:#im_msn#:#MSN
@@ -2558,7 +2558,7 @@ common#:#time_limit_until#:#Until (time limit)###20 Jun 2005 new variable
 common#:#time_limit_users_updated#:#Brugerdata er opdateret
 common#:#time_limits#:#Adgang
 common#:#time_segment#:#Tidsperiode
-common#:#title_long#:#Long Title###22 12 2006 new variable
+common#:#title_long#:#Beskrivelse
 common#:#to#:#Til
 common#:#to_client_list#:#Til valg af klient
 common#:#to_desktop#:#Vis på skrivebord
@@ -3068,7 +3068,7 @@ certificate#:#certificate_custom#:#Custom...###10 10 2006 new variable
 certificate#:#certificate_edit#:#Create/edit a certificate template###10 10 2006 new variable
 certificate#:#certificate_export#:#Export Certificate###19 10 2006 new variable
 certificate#:#certificate_page_format#:#Page Format###10 10 2006 new variable
-certificate#:#certificate_background_image#:#Background Image###10 10 2006 new variable
+certificate#:#certificate_background_image#:#Baggrundsbillede
 certificate#:#certificate_padding_top#:#Top Padding###10 10 2006 new variable
 certificate#:#certificate_margin_body#:#Body Margin###10 10 2006 new variable
 certificate#:#certificate_not_well_formed#:#The certificate text is not well formed. Please enter valid XHTML for the certificate text!###12 11 2006 new variable
@@ -8074,11 +8074,11 @@ survey#:#search_users#:#Søg brugere
 survey#:#adm_no_users_found#:#No users were found that match the search string.###02 06 2008 new variable
 survey#:#adm_search_string_too_small#:#Please enter at least two characters in the search field!###02 06 2008 new variable
 survey#:#adm_search_select_user#:#Please select at least one user!###02 06 2008 new variable
-survey#:#adm_no_special_users#:#There are no special users defined who are able to run a survey more than once.###02 06 2008 new variable
+survey#:#adm_no_special_users#:#Der er pt. ingen specielle brugere som kan gennemføre afstemninger mere end en gang.
 survey#:#adm_special_users#:#Særlige brugere der kan udfylde afstemningen mere end en gang.
 survey#:#adm_removed_users#:#Brugere fjernet
-survey#:#adm_remove_select_user#:#Please select at least one user for removal!###02 06 2008 new variable
-content#:#cont_sc_max_attempt#:#Max. number of attempts###02 06 2008 new variable
+survey#:#adm_remove_select_user#:#Du skal vælge mindst en bruger som skal fjernes!
+content#:#cont_sc_max_attempt#:#Maksimalt antal forsøg
 content#:#cont_sc_max_attempt_exceed#:#Max. number of attempts for this module has been reached.###02 06 2008 new variable
 content#:#cont_sc_new_version#:#Upload ny version
 content#:#cont_sc_version#:#Version
@@ -8347,8 +8347,8 @@ crs#:#crs_subscription_max_members_short#:#Antal medlemmer
 crs#:#max_members_not_numeric#:#Vælg venligst det maksimale antal brugere.
 ps#:#ps_show_crs_access#:#Vis hvornår deltagere sidst besøgte kurset.
 assessment#:#assessment_eval_settings#:#Show the following fields in Evaluation for All Users###23 07 2008 new variable
-mail#:#mail_external_sender_noreply#:#noreply-Adresse
-mail#:#info_mail_external_sender_noreply#:#Tragen Sie hier die E-Mail Adresse für externe System- oder Benachrichtigungsmails ein, die als Absender verwendet werden soll.###23 07 2008 new variable
+mail#:#mail_external_sender_noreply#:#noreply afsender
+mail#:#info_mail_external_sender_noreply#:#Afsenderadresse der bruges til email fra systemet som brugeren ikke kan svare direkte på.
 chat#:#chat_cannot_connect_to_server#:#ILIAS cannot build a socket connection to the chat server.###23 07 2008 new variable
 crs#:#sess_gen_attendance_list#:#Generate Attendance List###23 07 2008 new variable
 crs#:#sess_date_time#:#Session Appointment###23 07 2008 new variable
@@ -9083,7 +9083,7 @@ payment#:#payment_news_settings_saved#:#The settings have been saved###30 04 200
 cntr#:#cntr_page_actions#:#Page Actions###30 04 2009 new variable
 cntr#:#cntr_enable_multi_commands#:#Enable Multi Commands###30 04 2009 new variable
 cntr#:#cntr_disable_multi_commands#:#Disable Multi Commands###30 04 2009 new variable
-cntr#:#cntr_add_new_item#:#Add New Item###30 04 2009 new variable
+cntr#:#cntr_add_new_item#:#Tilføj indhold
 search#:#lucene_settings_tab#:#Lucene###30 04 2009 new variable
 search#:#lucene_settings_title#:#Lucene Settings###30 04 2009 new variable
 search#:#lucene_default_operator#:#Default Operator###30 04 2009 new variable
@@ -9172,10 +9172,10 @@ common#:#info_message#:#Information Message###30 04 2009 new variable
 common#:#failure_message#:#Failure Message###30 04 2009 new variable
 common#:#success_message#:#Success Message###30 04 2009 new variable
 common#:#question_message#:#Question###30 04 2009 new variable
-common#:#form_input_not_valid#:#Some data is incomplete or not valid. Please correct the form input.###30 04 2009 new variable
-user#:#user_public_profile_info#:#Please select which personal data should be visible to other users.###30 04 2009 new variable
-user#:#user_activate_public_profile#:#Activate Public Profile###30 04 2009 new variable
-user#:#user_activate_public_profile_info#:#Global activation of your public profile. If activated your first and last name will be visible to other users.###30 04 2009 new variable
+common#:#form_input_not_valid#:#Nogle af informationerne er ufuldstændige eller ugyldige. Ret venligst disse før du fortsætter.
+user#:#user_public_profile_info#:#Her vælger du hvilke af dine personlige data der er tilgængelige for andre brugere.
+user#:#user_activate_public_profile#:#Aktiver offentlig profil
+user#:#user_activate_public_profile_info#:#Global aktivering af offentlig profil. Dette gør dit for- og efternavn synligt for de andre brugere.
 search#:#lucene_general_settings#:#General Settings###30 04 2009 new variable
 search#:#lucene_advanced_settings#:#Advanced Search###30 04 2009 new variable
 search#:#lucene_advances_settings_table#:#Advances Search Settings###30 04 2009 new variable
@@ -9184,8 +9184,8 @@ common#:#bookmark_added#:#The Bookmark has been created.###30 04 2009 new variab
 common#:#bookmark_save_to#:#save as bookmark###30 04 2009 new variable
 common#:#pd_enable_chatviewer#:#Aktiver chatviser
 common#:#chat_settings#:#Chatindstillinger
-survey#:#use_anonymous_id#:#Show survey code###30 04 2009 new variable
-survey#:#use_anonymous_id_desc#:#If checked, the user name in anonymized surveys will be shown as the survey code, otherwise the text "Anonymous" will be shown.###30 04 2009 new variable
+survey#:#use_anonymous_id#:#Vis afstemningskode
+survey#:#use_anonymous_id_desc#:#Hvis valgt vises undersøgelseskoden i anonyme afstemninger, ellers vises bolt "anonym"
 chat#:#chat_smilies_dir_not_exists#:#The smiley data directory does not exist. Trying to setup folders and database.###30 04 2009 new variable
 chat#:#chat_smilies_dir_not_available#:#The smiley data directory could not be created. This ILIAS will not be able to use chat smilies as further actions are needed.###30 04 2009 new variable
 chat#:#chat_smilies_dir_not_writable#:#Your smiley data directory exists but is not writable. You will not be able to add smiles.###30 04 2009 new variable
@@ -9207,19 +9207,19 @@ acc#:#acc_function#:#Function###30 04 2009 new variable
 acc#:#acc_next#:#Næste
 acc#:#acc_previous#:#Forrige
 acc#:#acc_delete#:#Slet
-acc#:#acc_last_visited#:#Last Visited###30 04 2009 new variable
-acc#:#acc_tree_on#:#Tree On###30 04 2009 new variable
-acc#:#acc_tree_off#:#Tree Off###30 04 2009 new variable
-acc#:#acc_reply#:#Reply###30 04 2009 new variable
-acc#:#acc_forward_mail#:#Forward Mail###30 04 2009 new variable
-acc#:#acc_mark_all_read#:#Mark All Read###30 04 2009 new variable
-acc#:#acc_comp_global#:#Global###30 04 2009 new variable
+acc#:#acc_last_visited#:#Sidst besøgt
+acc#:#acc_tree_on#:#Trænavigation til
+acc#:#acc_tree_off#:#Trænavigation fra
+acc#:#acc_reply#:#Svar
+acc#:#acc_forward_mail#:#Videresend
+acc#:#acc_mark_all_read#:#Marker alle læst
+acc#:#acc_comp_global#:#Global
 acc#:#acc_comp_mail#:#Mail###30 04 2009 new variable
 acc#:#acc_comp_frm#:#Forum###30 04 2009 new variable
 form#:#form_image_file_input#:#Image File Input###30 04 2009 new variable
 form#:#form_file_input#:#File Input###30 04 2009 new variable
-user#:#user_screen_reader_optimization#:#Screen Reader Optimization###30 04 2009 new variable
-user#:#user_screen_reader_optimization_info#:#Automatic focus and Ajax optimization to improve screen reader performance.###30 04 2009 new variable
+user#:#user_screen_reader_optimization#:#Optimering til skærmlæsere
+user#:#user_screen_reader_optimization_info#:#Automatisk fokus og Ajax optimering til bedre understøttelse af skærmlæserhjælpemidler.
 common#:#block#:#Block###30 04 2009 new variable
 common#:#block_management#:#Block Management###30 04 2009 new variable
 common#:#show_hidden_block#:#Show Hidden Block###30 04 2009 new variable
@@ -9452,8 +9452,8 @@ dateplaner#:#cal_ms_users_responsible#:#Users Responsible###26 06 2009 new varia
 dateplaner#:#cal_save_responsible_users#:#Save Responsible Users###26 06 2009 new variable
 dateplaner#:#cal_change_responsible_users#:#Change Responsible Users###26 06 2009 new variable
 dateplaner#:#cal_ms_details#:#Milestone Details###26 06 2009 new variable
-dateplaner#:#cal_enable_group_milestones#:#Enable Milestones###26 06 2009 new variable
-dateplaner#:#cal_enable_group_milestones_desc#:#This option enables milestone planning in the calendar.###26 06 2009 new variable
+dateplaner#:#cal_enable_group_milestones#:#Brug milesten
+dateplaner#:#cal_enable_group_milestones_desc#:#Slå planlægning med milesten i kalenderen til.
 dateplaner#:#cal_new_ms#:#New Milestone###26 06 2009 new variable
 dateplaner#:#cal_add_milestone#:#Add Milestone###26 06 2009 new variable
 dateplaner#:#cal_task_completion#:#Task Completion###26 06 2009 new variable
@@ -9461,7 +9461,7 @@ dateplaner#:#cal_responsible#:#Responsible###26 06 2009 new variable
 common#:#preferences#:#User-defined Preferences###26 06 2009 new variable
 common#:#on_waiting_list#:#You are on the waiting list###26 06 2009 new variable
 common#:#leave_waiting_list#:#Leave Waiting List###26 06 2009 new variable
-cntr#:#cntr_manage#:#Manage###26 06 2009 new variable
+cntr#:#cntr_manage#:#Ret
 cntr#:#cntr_ordering#:#Sorting###26 06 2009 new variable
 cntr#:#cntr_text_media_editor#:#Text/Media Editor###26 06 2009 new variable
 cntr#:#cntr_saved_sorting#:#Saved Sorting.###26 06 2009 new variable
@@ -9661,7 +9661,7 @@ content#:#text_repr_info#:#Used for image "alt" attribute.###24 07 2009 new vari
 style#:#sty_type_heading3#:#Heading 3###24 07 2009 new variable
 common#:#socialbm_extt_social_bookmarks#:#Social Bookmarks###24 07 2009 new variable
 common#:#bm_manage_social_bm#:#Manage Social Bookmarks###24 07 2009 new variable
-common#:#bm_add_to_ilias#:#Add to ILIAS Bookmarks###24 07 2009 new variable
+common#:#bm_add_to_ilias#:#Føj til ILIAS bogmærker
 common#:#bm_add_to_social_bookmarks#:#Add to Social Bookmarks###24 07 2009 new variable
 assessment#:#answer_types#:#Answer Types###24 07 2009 new variable
 assessment#:#answers_singleline#:#Single Line Answers###24 07 2009 new variable
@@ -9699,7 +9699,7 @@ assessment#:#msg_rect_added#:#Rectangle added###24 07 2009 new variable
 assessment#:#msg_circle_added#:#Circle added###24 07 2009 new variable
 assessment#:#msg_poly_added#:#Polygon added###24 07 2009 new variable
 assessment#:#form_msg_area_missing_points#:#Please enter points for all areas.###24 07 2009 new variable
-assessment#:#values#:#Values###24 07 2009 new variable
+assessment#:#values#:#Værdier
 mep#:#mep_new_content_snippet#:#New Content Snippet###24 07 2009 new variable
 mep#:#mep_edit_content_snippet#:#Edit Content Snippet###24 07 2009 new variable
 mep#:#mep_folder#:#Folder###24 07 2009 new variable
@@ -9737,12 +9737,12 @@ mcst#:#mcst_mimetype#:#Mime Type###24 07 2009 new variable
 mcst#:#mcst_mimetypes#:#Mime Types###24 07 2009 new variable
 mcst#:#mcst_mimetype_info#:#Select mime type to control plugin used for playback.<br>Please note: Be aware that not every browser contains the plugin you intend to use.###24 07 2009 new variable
 mcst#:#mcst_mimetypes_info#:#Comma separated list of mime types###24 07 2009 new variable
-user#:#usr_public_profile_disabled#:#Public Profile Disabled###24 07 2009 new variable
-user#:#usr_public_profile_disabled_info#:#Your information is only visible to administrative staff.###24 07 2009 new variable
-user#:#usr_public_profile_logged_in#:#Logged in Users###24 07 2009 new variable
-user#:#usr_public_profile_logged_in_info#:#Your information is only visible to users logged into the system.###24 07 2009 new variable
-user#:#usr_public_profile_global#:#Globale Visible###24 07 2009 new variable
-user#:#usr_public_profile_global_info#:#Your profile is visible to the internet.###24 07 2009 new variable
+user#:#usr_public_profile_disabled#:#Deaktiveret
+user#:#usr_public_profile_disabled_info#:#Dine oplysninger er kun synlige overfor administratorer på systemet.
+user#:#usr_public_profile_logged_in#:#Brugere der er logget ind
+user#:#usr_public_profile_logged_in_info#:#Dine informationer er kun synlige overfor andre brugere der er logget på systemet.
+user#:#usr_public_profile_global#:#Globalt synlige
+user#:#usr_public_profile_global_info#:#Din profil er synlig på internet.
 survey#:#codes_deleted#:#Code(s) deleted###24 07 2009 new variable
 survey#:#codes_created#:#Code(s) created###24 07 2009 new variable
 survey#:#language_changed#:#Language changed###24 07 2009 new variable
@@ -9877,19 +9877,19 @@ trac#:#trac_query#:#Title/Description###12 08 2009 new variable
 common#:#reg_mail_body_2_confirmation#:#The link will only be good for %s, after that you will have to try again from the beginning.###12 08 2009 new variable
 common#:#reg_mail_body_3_confirmation#:#If this email means nothing to you, then it is possible that somebody else has entered your email address either deliberately or accidentally, so please ignore this email###12 08 2009 new variable
 common#:#reg_mail_body_forgot_password_info#:#To get your password, please use the function « Forgot password? » at the login screen to request a new password for this account.###18 08 2009 new variable
-cmps#:#no_changes#:#Keine Änderungen###18 08 2009 new variable
-cmps#:#database_is_uptodate#:#Die Datenbank ist aktuell.###18 08 2009 new variable
+cmps#:#no_changes#:#Ingen ændringer
+cmps#:#database_is_uptodate#:#Databasen er opdateret
 administration#:#path_to_mkisofs#:#Path to mkisofs###18 08 2009 new variable
 common#:#obj_sty#:#Style###18 08 2009 new variable
 dateplaner#:#cal_created_milestone#:#Added milestone.###18 08 2009 new variable
 dateplaner#:#cal_created_milestone_resp_q#:#Added milestone. Please select users that are responsible to meet the milestone.###18 08 2009 new variable
 common#:#address#:#Address###18 08 2009 new variable
-common#:#contact#:#Contact###18 08 2009 new variable
-tagging#:#tagging_enable_all_users#:#Show Tags of All Users###18 08 2009 new variable
+common#:#contact#:#Kontakt
+tagging#:#tagging_enable_all_users#:#Vis alle brugeres tags
 tagging#:#tagging_enable_all_users_info#:#Adds a section "All Users" to the info screens that lists all tags of all users attached to a resource.###18 08 2009 new variable
-tagging#:#tagging_forbidden_tags#:#Forbidden Tags###18 08 2009 new variable
-tagging#:#tagging_tag#:#Tag###18 08 2009 new variable
-tagging#:#tagging_search_users#:#Search Users###18 08 2009 new variable
+tagging#:#tagging_forbidden_tags#:#Ulovlige tags
+tagging#:#tagging_tag#:#Tag
+tagging#:#tagging_search_users#:#Find brugere
 tagging#:#tagging_users_using_tag#:#Users Using Tag###18 08 2009 new variable
-mail#:#mail_incoming_mail#:#Incoming mail###18 08 2009 new variable
+mail#:#mail_incoming_mail#:#Ny post
 mail#:#mail_settings_incoming_type_see_also#:#You can find a further possibility to modify the incoming type of e-mails for users <a href="%s">here</a>###18 08 2009 new variable
