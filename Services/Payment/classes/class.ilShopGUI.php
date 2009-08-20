@@ -213,7 +213,7 @@ class ilShopGUI extends ilShopBaseGUI
 	public function performSearch($oResult = null)
 	{
 		global $ilUser;
-		
+	
 		if(!is_object($oResult))
 		{
 			$oResult = new ilShopSearchResult(SHOP_CONTENT);		
@@ -262,7 +262,8 @@ class ilShopGUI extends ilShopBaseGUI
 			$res = $object_search->performSearch();			
 		}
 		else if($this->getType() == 'author')
-		{
+		{ 
+			
 			include_once 'Services/Search/classes/class.ilObjectSearchFactory.php';
 			$meta_search =  ilObjectSearchFactory::_getShopMetaDataSearchInstance($query_parser);
 			$meta_search->setMode('contribute');
@@ -371,6 +372,7 @@ class ilShopGUI extends ilShopBaseGUI
 		
 		if(count($oResult->getResults()))
 		{
+
 			// sorting form
 			$order_fields = array(
 				'title' => $this->lng->txt('title'),
@@ -380,16 +382,18 @@ class ilShopGUI extends ilShopBaseGUI
 			
 			foreach($order_fields as $key => $value)
 			{
+			
 				$this->tpl->setCurrentBlock('order_field');
 				$this->tpl->setVariable('ORDER_FIELD_VALUE', $key);
 				$this->tpl->setVariable('ORDER_FIELD_TEXT', $value);
+				
 				if (strcmp(trim($this->getSortField()), $key) == 0)
 				{
 					$this->tpl->setVariable('ORDER_FIELD_SELECTED', ' selected="selected"');
 				}
 				$this->tpl->parseCurrentBlock();
 			}
-			
+
 			$this->tpl->setVariable('SORTING_FORM_ACTION', $this->ctrl->getFormAction($this, 'setSorting'));			
 			$this->tpl->setVariable('CMD_SORT', 'setSorting');
 			$this->tpl->setVariable('SORT_TEXT', $this->lng->txt('sort'));
@@ -397,9 +401,9 @@ class ilShopGUI extends ilShopBaseGUI
 			$this->tpl->setVariable('ASCENDING_TEXT', $this->lng->txt('sort_asc'));
 			$this->tpl->setVariable('DESCENDING_TEXT', $this->lng->txt('sort_desc'));			
 			$this->tpl->setVariable('ORDER_DIRECTION_'.strtoupper(trim($this->getSortDirection())).'_SELECTED', " selected=\"selected\"");		
-			
+
 			if((bool)$this->oGeneralSettings->get('topics_allow_custom_sorting'))
-			{
+			{		
 				$this->tpl->setCurrentBlock('topics_sort_block');
 				
 				$this->tpl->setVariable('SORT_TOPICS_BY_TEXT', $this->lng->txt('sort_topics_by'));
@@ -447,7 +451,9 @@ class ilShopGUI extends ilShopBaseGUI
 			
 			$this->tpl->setCurrentBlock('sorting');
 			$this->tpl->parseCurrentBlock();
-		}		
+		}	
+
+		
 	}
 	
 	public function setTopicId($a_topic_id)
@@ -512,6 +518,8 @@ class ilShopGUI extends ilShopBaseGUI
 			$this->sort_type_topics = ilShopTopics::TOPICS_SORT_BY_TITLE;
 		}
 		
+		else
+
 		return $this->sort_type_topics;
 	}
 	public function setSortingDirectionTopics($a_sort_direction)

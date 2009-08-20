@@ -116,7 +116,7 @@ class ilShopMetaDataSearch extends ilAbstractSearch
 		$where = $this->__createContributeWhereCondition();
 		$locate = $this->__createLocateString();
 		
-		$query = "SELECT rbac_id,il_meta_entity.obj_id,obj_type ".$locate."				  
+		$query = "SELECT object_reference.ref_id,rbac_id,il_meta_entity.obj_id,obj_type ".$locate."				  
 				  FROM payment_objects 
 				  INNER JOIN object_reference ON object_reference.ref_id = payment_objects.ref_id
 				  INNER JOIN il_meta_entity ON il_meta_entity.obj_id = object_reference.obj_id ";
@@ -126,17 +126,17 @@ class ilShopMetaDataSearch extends ilAbstractSearch
 		$values = array_merge($values, $where['values']);
 		$query .= $in;  
 		
-		$query .= " GROUP BY il_meta_entity.obj_id,rbac_id,obj_type,il_meta_entity.entity ";
+		$query .= " GROUP BY object_reference.ref_id,il_meta_entity.obj_id,rbac_id,obj_type,il_meta_entity.entity ";
 
 		$statement = $this->db->queryf(
 			$query,
 			$types,
 			$values
 		);
-		
+
 		while($row = $statement->fetchRow(DB_FETCHMODE_OBJECT))
 		{
-			$this->search_result->addEntry($row->rbac_id,$row->obj_type,$this->__prepareFound($row),$row->obj_id);
+			$this->search_result->addEntry($row->ref_id,$row->obj_type,$this->__prepareFound($row),$row->obj_id);
 		}
 
 		return $this->search_result;
@@ -153,7 +153,7 @@ class ilShopMetaDataSearch extends ilAbstractSearch
 		$where = $this->__createKeywordWhereCondition();
 		$locate = $this->__createLocateString();
 		
-		$query = "SELECT rbac_id,il_meta_keyword.obj_id,obj_type ".$locate."				  
+		$query = "SELECT object_reference.ref_id,rbac_id,il_meta_keyword.obj_id,obj_type ".$locate."				  
 				  FROM payment_objects 
 				  INNER JOIN object_reference ON object_reference.ref_id = payment_objects.ref_id
 				  INNER JOIN il_meta_keyword ON il_meta_keyword.obj_id = object_reference.obj_id ";
@@ -163,7 +163,7 @@ class ilShopMetaDataSearch extends ilAbstractSearch
 		$values = array_merge($values, $where['values']);
 		$query .= $in;
 		
-		$query .= " GROUP BY il_meta_keyword.obj_id,rbac_id,obj_type,il_meta_keyword.keyword ";
+		$query .= " GROUP BY object_reference.ref_id,il_meta_keyword.obj_id,rbac_id,obj_type,il_meta_keyword.keyword ";
 
 		$statement = $this->db->queryf(
 			$query,
@@ -173,7 +173,7 @@ class ilShopMetaDataSearch extends ilAbstractSearch
 
 		while($row = $statement->fetchRow(DB_FETCHMODE_OBJECT))
 		{
-			$this->search_result->addEntry($row->rbac_id,$row->obj_type,$this->__prepareFound($row),$row->obj_id);
+			$this->search_result->addEntry($row->ref_id,$row->obj_type,$this->__prepareFound($row),$row->obj_id);
 		}
 
 		return $this->search_result;
@@ -190,7 +190,7 @@ class ilShopMetaDataSearch extends ilAbstractSearch
 		$where = $this->__createTitleWhereCondition();
 		$locate = $this->__createLocateString();
 		
-		$query = "SELECT rbac_id,il_meta_general.obj_id,obj_type ".$locate."				  
+		$query = "SELECT object_reference.ref_id,rbac_id,il_meta_general.obj_id,obj_type ".$locate."				  
 				  FROM payment_objects 
 				  INNER JOIN object_reference ON object_reference.ref_id = payment_objects.ref_id
 				  INNER JOIN il_meta_general ON il_meta_general.obj_id = object_reference.obj_id ";
@@ -200,7 +200,7 @@ class ilShopMetaDataSearch extends ilAbstractSearch
 		$values = array_merge($values, $where['values']);
 		$query .= $in;		
 		
-		$query .= " GROUP BY il_meta_general.obj_id,rbac_id,obj_type,il_meta_general.title ";
+		$query .= " GROUP BY object_reference.ref_id,il_meta_general.obj_id,rbac_id,obj_type,il_meta_general.title ";
 
 		$statement = $this->db->queryf(
 			$query,
@@ -210,7 +210,7 @@ class ilShopMetaDataSearch extends ilAbstractSearch
 		
 		while($row = $statement->fetchRow(DB_FETCHMODE_OBJECT))
 		{
-			$this->search_result->addEntry($row->rbac_id,$row->obj_type,$this->__prepareFound($row),$row->obj_id);
+			$this->search_result->addEntry($row->ref_id,$row->obj_type,$this->__prepareFound($row),$row->obj_id);
 		}
 
 		return $this->search_result;
@@ -227,7 +227,7 @@ class ilShopMetaDataSearch extends ilAbstractSearch
 		$where = $this->__createDescriptionWhereCondition();
 		$locate = $this->__createLocateString();
 		
-		$query = "SELECT rbac_id,il_meta_description.obj_id,obj_type ".$locate."				  
+		$query = "SELECT object_reference.ref_id,rbac_id,il_meta_description.obj_id,obj_type ".$locate."				  
 				  FROM payment_objects 
 				  INNER JOIN object_reference ON object_reference.ref_id = payment_objects.ref_id
 				  INNER JOIN il_meta_description ON il_meta_description.obj_id = object_reference.obj_id ";
@@ -237,7 +237,7 @@ class ilShopMetaDataSearch extends ilAbstractSearch
 		$values = array_merge($values, $where['values']);
 		$query .= $in;
 		
-		$query .= " GROUP BY il_meta_description.obj_id,rbac_id,obj_type,il_meta_description.description ";
+		$query .= " GROUP BY object_reference.ref_id,il_meta_description.obj_id,rbac_id,obj_type,il_meta_description.description ";
 
 		$statement = $this->db->queryf(
 			$query,
@@ -247,7 +247,7 @@ class ilShopMetaDataSearch extends ilAbstractSearch
 		
 		while($row = $statement->fetchRow(DB_FETCHMODE_OBJECT))
 		{
-			$this->search_result->addEntry($row->rbac_id,$row->obj_type,$this->__prepareFound($row),$row->obj_id);
+			$this->search_result->addEntry($row->ref_id,$row->obj_type,$this->__prepareFound($row),$row->obj_id);
 		}
 
 		return $this->search_result;

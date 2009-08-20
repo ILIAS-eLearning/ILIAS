@@ -54,8 +54,6 @@ class ilPaymentStatisticGUI extends ilShopBaseGUI
 		parent::prepareOutput();
 
 		$ilTabs->setTabActive('paya_header');
-		//$ilTabs->setSubTabActive('paya_statistic');
-		
 		$ilTabs->setSubTabActive('bookings');
 	}
 	
@@ -905,24 +903,6 @@ class ilPaymentStatisticGUI extends ilShopBaseGUI
 		$tpl->setVariable("FORMACTION",$this->ctrl->getFormAction($this));
 		$tpl->parseCurrentBlock();
 
-		/*
-		$tpl->setCurrentBlock("tbl_action_row");
-		$tpl->setCurrentBlock("plain_buttons");
-		$tpl->parseCurrentBlock();
-
-		$tpl->setVariable("COLUMN_COUNTS",6);
-		$tpl->setVariable("IMG_ARROW", ilUtil::getImagePath("arrow_downright.gif"));
-
-		$tpl->setCurrentBlock("tbl_action_button");
-		$tpl->setVariable("BTN_NAME","deleteTrustee");
-		$tpl->setVariable("BTN_VALUE",$this->lng->txt("delete"));
-		$tpl->parseCurrentBlock();
-		$tpl->setCurrentBlock("tbl_action_row");
-		$tpl->setVariable("TPLPATH",$this->tpl->tplPath);
-		$tpl->parseCurrentBlock();
-		*/
-
-		//$tbl->setTitle($this->lng->txt("paya_statistic"),"icon_pays.gif",$this->lng->txt("paya_statistic"));
 		$tbl->setTitle($this->lng->txt("bookings"),"icon_pays.gif",$this->lng->txt("bookings"));
 		$tbl->setHeaderNames(array($this->lng->txt("paya_transaction"),
 								   $this->lng->txt("title"),
@@ -945,12 +925,6 @@ class ilPaymentStatisticGUI extends ilShopBaseGUI
 								  "discount",
 								  "payed_access",
 								  "options"),$header_params);
-								  /*
-							array("cmd" => "",
-								  "cmdClass" => "ilpaymentstatisticgui",
-								  "baseClass" => "ilPersonalDesktopGUI",
-								  "cmdNode" => $_GET["cmdNode"]));
-								  */
 
 		$offset = $_GET["offset"];
 		$order = $_GET["sort_by"];
@@ -1063,11 +1037,6 @@ class ilPaymentStatisticGUI extends ilShopBaseGUI
 								  "login",
 								  "firstname",
 								  "lastname"), $header_params);
-								  /*
-							array("cmd" => 'performSearch',
-								  "cmdClass" => "ilpaymentstatisticgui",
-								  "cmdNode" => $_GET["cmdNode"]));
-								  */
 
 		$tbl->setColumnWidth(array("3%","32%","32%","32%"));
 

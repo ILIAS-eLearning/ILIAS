@@ -6470,7 +6470,7 @@ payment#:#paya_customer_added_successfully#:#The selling process was added to th
 payment#:#paya_delete_price#:#Delete price
 payment#:#paya_delete_trustee_msg#:#Deleted selected trustees.
 payment#:#paya_deleted_last_price#:#The last price has been deleted.
-payment#:#paya_deleted_object#:#Stoped payment for the selected object.
+payment#:#paya_deleted_object#:#Stopped payment for the selected object.
 payment#:#paya_details_updated#:#Details updated.
 payment#:#paya_disabled#:#Disabled
 payment#:#paya_edit_details#:#Edit Details
@@ -9875,3 +9875,4 @@ tagging#:#tagging_search_users#:#Search Users
 tagging#:#tagging_users_using_tag#:#Users Using Tag
 mail#:#mail_incoming_mail#:#Incoming mail
 mail#:#mail_settings_incoming_type_see_also#:#You can find a further possibility to modify the incoming type of e-mails for users <a href="%s">here</a>.
+payment#:#paya_deleted_selected_prices#:#Price(s) deleted

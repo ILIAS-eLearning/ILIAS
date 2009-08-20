@@ -113,8 +113,7 @@ class ilShopSearchResult extends ilSearchResult
 		$offset_counter = 0;
 
 		$tmp_entries = array();
-
-		foreach($this->getEntries() as $entry)
+		foreach($this->getEntries() as $ref_id => $entry)
 		{
 			// boolean and failed continue
 			if($check_and && in_array(0, $entry['found']))
@@ -128,18 +127,13 @@ class ilShopSearchResult extends ilSearchResult
 				continue;
 			}			
 			
-			// Check referenced objects
-			foreach(ilObject::_getAllReferences($entry['obj_id']) as $ref_id)
-			{
-				$type = ilObject::_lookupType($ref_id, true);
-				if($this->ilAccess->checkAccessOfUser($this->getUserId(),
-													  $this->getRequiredPermission(),
-													  '',
-													  $ref_id,
-													  $type,
-													  $entry['obj_id']))
+			// Check access
+			if($this->ilAccess->checkAccessOfUser($this->getUserId(),
+					  $this->getRequiredPermission(),
+					  '',
+					  $ref_id))
 				{					
-					if($a_root_node == ROOT_FOLDER_ID or $tree->isGrandChild($a_root_node,$ref_id))
+					if($a_root_node == ROOT_FOLDER_ID || $tree->isGrandChild($a_root_node, $ref_id))
 					{
 						if($this->callListeners($ref_id, $entry))
 						{
@@ -149,9 +143,7 @@ class ilShopSearchResult extends ilSearchResult
 							$tmp_entries[$ref_id] = $entry;							
 						}
 					}
-					continue;
 				}
-			}
 		}
 
 		$this->results = array();		
@@ -326,5 +318,97 @@ class ilShopSearchResult extends ilSearchResult
 	 	
 	 	$this->search_cache->switchSearchType($this->search_type);
 	}
+	
+	function addEntry($a_ref_id, $a_type, $found, $a_child_id = 0)
+	{
+		global $ilObjDataCache;		
+		
+		$a_obj_id = $ilObjDataCache->lookupObjId($a_ref_id);
+		
+		// Create new entry if it not exists
+		if(!$this->entries[$a_ref_id])
+		{
+			$this->entries[$a_ref_id]['ref_id'] = $a_ref_id;
+			$this->entries[$a_ref_id]['obj_id'] = $a_obj_id;
+			$this->entries[$a_ref_id]['type'] = $a_type;
+			$this->entries[$a_ref_id]['found'] = $found;
+
+			if($a_child_id and $a_child_id != $a_ref_id)
+			{
+				$this->entries[$a_ref_id]['child'][$a_child_id] = $a_child_id;
+			}
+		}
+		else
+		{
+			// replace or add child ('pg','st') id
+			if($a_child_id and $a_child_id != $a_obj_id)
+			{
+				$this->entries[$a_ref_id]['child'][$a_child_id] = $a_child_id;
+			}
+
+			// UPDATE FOUND
+			$counter = 0;
+			foreach($found as $position)
+			{
+				if($position)
+				{
+					$this->entries[$a_ref_id]['found'][$counter] = $position;
+				}
+				$counter++;
+			}
+		}
+		return true;
+	}
+
+	function __updateEntryChilds($a_ref_id,$a_childs)
+	{
+		if($this->entries[$a_ref_id] and is_array($a_childs))
+		{
+			foreach($a_childs as $child_id)
+			{
+				if($child_id)
+				{
+					$this->entries[$a_ref_id]['child'][$child_id] = $child_id;
+				}
+			}
+			return true;
+		}
+		return false;
+	}
+	
+	function mergeEntries(&$result_obj)
+	{
+		foreach($result_obj->getEntries() as $entry)
+		{
+			$this->addEntry($entry['ref_id'],$entry['type'],$entry['found']);
+			$this->__updateEntryChilds($entry['ref_id'],$entry['child']);
+		}
+		return true;
+	}
+	
+	function diffEntriesFromResult(&$result_obj)
+	{
+		$new_entries = $this->getEntries();
+		$this->entries = array();
+
+		// Get all checked objects
+		foreach($this->search_cache->getCheckedItems() as $ref_id => $obj_id)
+		{
+			if(isset($new_entries[$ref_id]))
+			{
+				$this->addEntry($new_entries[$ref_id]['ref_id'],
+								$new_entries[$ref_id]['type'],
+								$new_entries[$ref_id]['found']);
+				$this->__updateEntryChilds($new_entries[$ref_id]['ref_id'],
+									 $new_entries[$ref_id]['child']);
+			}
+		}
+	}
+	
+	function getUniqueResults()
+	{
+		return $this->results;
+	}
+	
 } 
 ?>
