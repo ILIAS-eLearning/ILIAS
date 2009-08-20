@@ -157,6 +157,10 @@ class ilAuthFactory
 			case self::CONTEXT_CALENDAR:
 				include_once './Services/Calendar/classes/class.ilAuthCalendar.php';
 				return new ilAuthCalendar($deco,$options);
+				
+			case self::CONTEXT_CRON:
+				include_once './cron/classes/class.ilAuthCron.php';
+				return new ilAuthCron($deco,$options);
 		}
 	}
 }

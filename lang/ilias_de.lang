@@ -9898,3 +9898,15 @@ license#:#remaining_licenses_explanation#:#The available licenses are calculated
 user#:#user_field#:#Field###19 08 2009 new variable
 user#:#user_visible_in_profile#:#Visible in Profile###19 08 2009 new variable
 payment#:#paya_deleted_selected_prices#:#Preis(e) gelöscht
+search#:#lucene_tbl_create_ini#:#Java-Server Konfigurationsdatei erstellen
+search#:#lucene_host#:#Host
+search#:#lucene_port#:#Port
+search#:#lucene_index_path#:#Verzeichnis für Indexdateien
+search#:#lucene_log#:#Pfad zur Logdatei
+search#:#lucene_level#:#Log-Level
+search#:#lucene_cpu#:#Anzahl Threads
+search#:#lucene_index_path_info#:#Bitte geben Sie ein Verzeichnis an, in dem die Indexdateien der Lucene-suche abgelegt werden.
+search#:#lucene_host_info#:#Bitte tragen Sie hier den Rechnernamen bzw. die Ip-Adresse des Rechners ein, auf dem der Java-Server laufen soll.
+search#:#lucene_log_info#:#Die Datei wird automatisch angelegt.
+search#:#lucene_download_ini#:#Konfigurationsdatei herunterladen
+search#:#lucene_create_ini#:#Konfigurationsdatei erstellen

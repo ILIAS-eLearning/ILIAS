@@ -9875,4 +9875,17 @@ tagging#:#tagging_search_users#:#Search Users
 tagging#:#tagging_users_using_tag#:#Users Using Tag
 mail#:#mail_incoming_mail#:#Incoming mail
 mail#:#mail_settings_incoming_type_see_also#:#You can find a further possibility to modify the incoming type of e-mails for users <a href="%s">here</a>.
+mail#:#mail_settings_incoming_type_see_also#:#You can find a further possibility to modify the incoming type of e-mails for users <a href="%s">here</a>.
 payment#:#paya_deleted_selected_prices#:#Price(s) deleted
+search#:#lucene_tbl_create_ini#:#Create Java-Server Ini-File
+search#:#lucene_host#:#Host
+search#:#lucene_port#:#Port
+search#:#lucene_index_path#:#Directory for Index Files
+search#:#lucene_log#:#Path to Logfile
+search#:#lucene_level#:#Log-Level
+search#:#lucene_cpu#:#Maximum Number of Threads
+search#:#lucene_index_path_info#:#Please enter a directory name for storing index files.
+search#:#lucene_host_info#:#Please enter the hostname or Ip-address for the java server.
+search#:#lucene_log_info#:#The file will be created automatically.
+search#:#lucene_download_ini#:#Download Configuration File
+search#:#lucene_create_ini#:#Create Configuration File
