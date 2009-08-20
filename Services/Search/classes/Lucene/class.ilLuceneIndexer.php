@@ -44,6 +44,8 @@ class ilLuceneIndexer
 
 	function index()
 	{
+		return false;
+		
 		// Todo check in settings which objects should be indexed
 		$this->__flushIndex();
 		$this->__indexFiles();

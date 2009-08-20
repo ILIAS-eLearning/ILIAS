@@ -3,21 +3,16 @@ chdir(dirname(__FILE__));
 chdir('..');
 
 
-include_once "./cron/classes/class.ilCronAuthentication.php";
+include_once 'Services/Authentication/classes/class.ilAuthFactory.php';
+ilAuthFactory::setContext(ilAuthFactory::CONTEXT_CRON);
 
-$cron_auth =& new ilCronAuthentication();
+$_COOKIE["ilClientId"] = $_SERVER['argv'][3];
+$_POST['username'] = $_SERVER['argv'][1];
+$_POST['password'] = $_SERVER['argv'][2];
 
 if($_SERVER['argc'] != 4)
 {
 	die("Usage: cron.php username password client\n");
-}
-$cron_auth->setUsername($_SERVER['argv'][1]);
-$cron_auth->setPassword($_SERVER['argv'][2]);
-$cron_auth->setClient($_SERVER['argv'][3]);
-
-if(!$cron_auth->authenticate())
-{
-	die($cron_auth->getMessage()."\n");
 }
 
 include_once './include/inc.header.php';
