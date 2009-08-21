@@ -229,7 +229,7 @@ common#:#active_roles#:#Aktive Roller
 common#:#add#:#Tilføj
 common#:#add_author#:#Tilføj Forfatter
 common#:#add_comments#:#Rediger kommentar
-common#:#add_condition#:#Opret ny organisation
+common#:#add_condition#:#Opret betingelse
 common#:#add_member#:#Tilføj medlem
 common#:#add_members#:#Tilføj medlemmer
 common#:#add_new_user_defined_field#:#Opret bruger-defineret felt
@@ -4669,7 +4669,7 @@ crs#:#crs_add_member#:#Tilføj medlem(er)
 crs#:#crs_add_objective#:#Tilføj emne
 crs#:#crs_add_remove_from_desktop#:#Tilføj/Fjern fra skriveborg
 crs#:#crs_add_remove_from_desktop_info#:#Tillad kursister at tilføje kursusobjekter på deres 'Mit Skrivebord'
-crs#:#crs_add_starter#:#Tilføj startobjekt
+crs#:#crs_add_starter#:#Vælg startmateriale
 crs#:#crs_add_subscribers#:#Tilføj abonent
 crs#:#crs_added_member#:#Kursusdeltagere
 crs#:#crs_added_member_body#:#Du er blevet indmeldt på dette kursus.
@@ -4942,7 +4942,7 @@ crs#:#crs_select_native_lm#:#Single chapters can only be assigned to native ILIA
 crs#:#crs_select_one_archive#:#Vælg venligst et arkiv
 crs#:#crs_select_one_object#:#Vælg et kursusobjekt
 crs#:#crs_select_registration_type#:#Vælg en tilmeldingsmetode
-crs#:#crs_select_starter#:#Vælg startobjekt
+crs#:#crs_select_starter#:#Vælg startmateriale
 crs#:#crs_set_on_waiting_list#:#Please register to the course to be assigned to the waiting list.###09 Jul 2005 new variable
 crs#:#crs_settings#:#Kursus indstillinger
 crs#:#crs_settings_saved#:#Indstillinger gemt
