@@ -145,7 +145,6 @@ public class ilServer {
 		XmlRpcClient client;
 		IniFileParser parser;
 		
-		
 		try {
 			parser = new IniFileParser();
 			parser.parseServerSettings(arguments[0],true);
