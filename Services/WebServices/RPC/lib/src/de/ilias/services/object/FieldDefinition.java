@@ -48,6 +48,7 @@ public class FieldDefinition {
 	private Field.Index index;
 	private Store store;
 	private String column;
+	private String type = "text";
 	private String name;
 	private boolean global = true;
 	private boolean isDynamic = false;
@@ -60,10 +61,11 @@ public class FieldDefinition {
 	 * @param index
 	 * @param name
 	 * @param column
+	 * @param type;
 	 * @param isGlobal
 	 * @param dynamicName
 	 */
-	public FieldDefinition(String store, String index, String name, String column, String isGlobal, String dynamicName) {
+	public FieldDefinition(String store, String index, String name, String column, String type, String isGlobal, String dynamicName) {
 
 		if(store.equalsIgnoreCase("YES")) {
 			this.store = Store.YES;
@@ -96,6 +98,10 @@ public class FieldDefinition {
 		}
 
 		this.column = column;
+		
+		if(type != null && type.length() != 0) {
+			this.setType(type);
+		}
 	}
 	
 	/**
@@ -162,6 +168,22 @@ public class FieldDefinition {
 	}
 	
 	/**
+	 * set type (one of char,text,clob)
+	 * @param type
+	 */
+	public void setType(String type) {
+		this.type = type;
+	}
+
+	/**
+	 * 
+	 * @return
+	 */
+	public String getType() {
+		return type;
+	}
+
+	/**
 	 * 
 	 * @param res
 	 * @return String name of lucene field
@@ -173,8 +195,23 @@ public class FieldDefinition {
 			return getName();
 		}
 		if(res != null) {
-			//String value = res.getString(getName().trim());
-			String value = DBFactory.getString(res, getName());
+
+			String value;
+			
+			if(getType().equalsIgnoreCase("clob")) {
+				value = DBFactory.getCLOB(res,getName());
+			}
+			else if(getType().equalsIgnoreCase("text")) {
+				value = DBFactory.getString(res,getName());
+			}
+			else if(getType().equalsIgnoreCase("integer")) {
+				value = DBFactory.getInt(res,getName());
+			}
+			else {
+				logger.warn("Unknown type given for Field name: " + getName());
+				return "";
+			}
+
 			if(value != null) {
 				logger.debug("Dynamic name value: " + value);
 				logger.debug("Dynamic name:" + getName());
@@ -264,12 +301,28 @@ public class FieldDefinition {
 	public void writeDocument(ResultSet res) throws SQLException {
 
 		try {
-			Object value = res.getObject(getColumn());
-			if(value != null && value.toString() != "") {
-				String purged = callTransformers(value.toString());
+			String value;
+			
+			if(getType().equalsIgnoreCase("clob")) {
+				value = DBFactory.getCLOB(res,getColumn());
+			}
+			else if(getType().equalsIgnoreCase("text")) {
+				value = DBFactory.getString(res,getColumn());
+			}
+			else if(getType().equalsIgnoreCase("integer")) {
+				value = DBFactory.getInt(res,getColumn());
+			}
+			else {
+				logger.warn("Unknown type given for Field name: " + getName());
+				return;
+			}
+
+			if(value != null && value.length() > 0) {
+				String purged = callTransformers(value);
 				String fieldName = parseName(res);
+
 				logger.debug("Found value: " + purged + " for name: " + fieldName);
-				DocumentHolder.factory().add(fieldName,purged, isGlobal(), store, index);
+				DocumentHolder.factory().add(fieldName, purged, isGlobal(), store, index);
 			}
 			return;
 		}
@@ -312,6 +365,7 @@ public class FieldDefinition {
 		}
 		return value;
 	}
+
 
 
 

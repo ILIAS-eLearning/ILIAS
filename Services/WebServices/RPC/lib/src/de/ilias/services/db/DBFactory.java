@@ -227,4 +227,50 @@ public class DBFactory {
 		}
 		return "";
 	}
+
+	/**
+	 * Get clob value
+	 * @param res
+	 * @param name
+	 * @return
+	 * @throws SQLException 
+	 */
+	public static String getCLOB(ResultSet res, String name) throws SQLException {
+
+		if(getDbType().equalsIgnoreCase("mysql")) {
+			return DBFactory.getString(res, name);
+		}
+		else {
+			return DBFactory.getString(res, name);
+		}
+	}
+
+	/**
+	 * Get integer value and parse it to int
+	 * @param res
+	 * @param name
+	 * @return
+	 * @throws SQLException
+	 */
+	public static String getInt(ResultSet res, String name) throws SQLException {
+
+		return String.valueOf(res.getInt(name));
+	}
+	
+	/**
+	 * get db type
+	 * @return
+	 */
+	public static String getDbType() {
+		
+		try {
+			
+			return ClientSettings.getInstance(LocalSettings.getClientKey()).getDbType();
+		}
+		catch (ConfigurationException e) {
+			// shouldn't happen here
+			logger.error(e);
+		}
+		return "";
+	}
 }
