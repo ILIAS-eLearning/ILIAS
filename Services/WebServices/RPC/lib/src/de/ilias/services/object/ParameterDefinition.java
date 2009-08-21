@@ -28,6 +28,7 @@ import java.sql.SQLException;
 
 import org.apache.log4j.Logger;
 
+import de.ilias.services.db.DBFactory;
 import de.ilias.services.lucene.index.CommandQueueElement;
 import de.ilias.services.lucene.index.DocumentHandlerException;
 
@@ -220,8 +221,8 @@ public class ParameterDefinition {
 			logger.debug("Trying to read parameter from parent result set...");
 			
 			try {
-				logger.info(parentResult.getString(getValue()));
-				return parentResult.getString(getValue());
+				logger.info(parentResult.getString(getValue()).trim());
+				return DBFactory.getString(parentResult, getValue());
 			}
 			catch (SQLException e) {
 				// ignoring this error

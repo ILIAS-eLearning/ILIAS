@@ -140,10 +140,10 @@ public class CommandQueue {
 
 			logger.debug("Found type: " + res.getString("obj_type") + " with id " + res.getInt("obj_id"));
 			element.setObjId(res.getInt("obj_id"));
-			element.setObjType(res.getString("obj_type"));
+			element.setObjType(DBFactory.getString(res, "obj_type"));
 			element.setSubId(res.getInt("sub_id"));
-			element.setSubType(res.getString("sub_type"));
-			element.setCommand(res.getString("command"));
+			element.setSubType(DBFactory.getString(res, "sub_type"));
+			element.setCommand(DBFactory.getString(res, "command"));
 			element.setFinished(false);
 			
 			getElements().add(element);
@@ -171,9 +171,9 @@ public class CommandQueue {
 			while(res.next()) {
 				
 				logger.info("Start substituting obj_type " + res.getString("obj_type"));
-				deleteCommandsByType(res.getString("obj_type"));
-				addCommandsByType(res.getString("obj_type"));
-				deleteResetCommandByType(res.getString("obj_type"));
+				deleteCommandsByType(DBFactory.getString(res, "obj_type"));
+				addCommandsByType(DBFactory.getString(res, "obj_type"));
+				deleteResetCommandByType(DBFactory.getString(res, "obj_type"));
 			}
 			res.close();
 		} 
@@ -195,6 +195,7 @@ public class CommandQueue {
 
 		try {
 
+			logger.info("Deleting reset command");
 			PreparedStatement sta = DBFactory.getPreparedStatement(
 				"DELETE FROM search_command_queue " +
 				"WHERE obj_type = ? " + 
@@ -204,7 +205,7 @@ public class CommandQueue {
 			return;
 		}
 		catch(SQLException e) {
-			logger.fatal("Cannot delete reset commands!");
+			logger.error("Cannot delete reset commands!" + e);
 			throw e;
 		}
 	}
@@ -217,6 +218,7 @@ public class CommandQueue {
 
 		try {
 			
+			logger.info("Deleting old commands from command queue");
 			PreparedStatement sta = DBFactory.getPreparedStatement("DELETE FROM search_command_queue " +
 				"WHERE obj_type = ? " +
 				"AND obj_id > 0");
@@ -225,7 +227,7 @@ public class CommandQueue {
 			return;
 		} 
 		catch (SQLException e) {
-			logger.fatal("Cannot delete reset commands!");
+			logger.fatal("Cannot delete reset commands! " + e);
 			throw e;
 		}
 	}
@@ -246,7 +248,7 @@ public class CommandQueue {
 			DBFactory.setString(sta, 1, objType);
 			ResultSet res = sta.executeQuery();
 			
-			logger.debug("Adding commands for object type: " + objType);
+			logger.info("Adding new commands for object type: " + objType);
 			
 			// Add each single object
 			PreparedStatement objReset = DBFactory.getPreparedStatement(

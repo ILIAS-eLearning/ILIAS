@@ -25,6 +25,7 @@ package de.ilias.services.db;
 import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.PreparedStatement;
+import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.HashMap;
 
@@ -81,14 +82,14 @@ public class DBFactory {
 					Class.forName("oracle.jdbc.driver.OracleDriver");
 					
 					logger.info(
-							"jdbc:oracle:oci8:" +
+							"jdbc:oracle:thin:" +
 							client.getDbUser() + "/" +
 							client.getDbPass() + "@" + 
 							client.getDbHost() + "/" +
 							client.getDbName()
 					);
 					return DriverManager.getConnection(
-							"jdbc:oracle:oci8:" +
+							"jdbc:oracle:thin:" +
 							client.getDbUser() + "/" +
 							client.getDbPass() + "@" + 
 							client.getDbHost() + "/" +
@@ -143,22 +144,35 @@ public class DBFactory {
 		ps.remove();
 	}
 	
+	/**
+	 * get prepared statement
+	 * @param query
+	 * @return
+	 * @throws SQLException
+	 */
 	public static PreparedStatement getPreparedStatement(String query) throws SQLException {
 		
-		// Delete, if satement is closed
-		if(ps.get().containsKey(query) && ps.get().get(query).isClosed()) {
-			ps.get().remove(query);
-		}
-		// Return if exists 
-		if((ps.get().containsKey(query))) {
+		if(ps.get().containsKey(query)) {
+			
+			logger.debug("Reusing prepared statement: " + query);
 			return ps.get().get(query);
 		}
+		
 		// Create new Prepared statement
+		logger.debug("Creating new prepared statement: " + query);
 		ps.get().put(query, DBFactory.factory().prepareStatement(query));
 		return ps.get().get(query);
 	}
 	
-	public static void setString(PreparedStatement ps,int index,String str) throws SQLException {
+	/**
+	 * set string overwritten for oracle
+	 * @param ps
+	 * @param index
+	 * @param str
+	 * @return
+	 * @throws SQLException
+	 */
+	public static PreparedStatement setString(PreparedStatement ps,int index,String str) throws SQLException {
 		
 		ClientSettings client;
 		try {
@@ -167,16 +181,50 @@ public class DBFactory {
 			if(client.getDbType().equals("mysql")) {
 				
 				ps.setString(index, str);
+				return ps;
 			}
 			else {
 				
 				((OraclePreparedStatement) ps).setFixedCHAR(index, str);
+				return (PreparedStatement) ps;
 			}
 		}
 		catch (ConfigurationException e) {
 			// shouldn't happen here
 			logger.error(e);
 		}
+		return (PreparedStatement) ps;
+	}
+	
+	/**
+	 * get string overwritten for oracle
+	 * @param res
+	 * @param name
+	 * @throws SQLException 
+	 */
+	public static String getString(ResultSet res,String name) throws SQLException {
 		
+		ClientSettings client;
+		try {
+			
+			client = ClientSettings.getInstance(LocalSettings.getClientKey());
+			if(client.getDbType().equals("mysql")) {
+				
+				return res.getString(name);
+			}
+			else {
+				
+				String ret = res.getString(name);
+				if(ret == null) {
+					return "";
+				}
+				return ret.trim();
+			}
+		}
+		catch (ConfigurationException e) {
+			// shouldn't happen here
+			logger.error(e);
+		}
+		return "";
 	}
 }

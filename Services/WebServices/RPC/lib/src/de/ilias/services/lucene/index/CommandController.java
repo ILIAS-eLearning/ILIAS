@@ -187,6 +187,8 @@ public class CommandController {
 				logger.info("Current element id: " + currentElement.getObjId() + " " + currentElement.getObjType());
 				String command = currentElement.getCommand();
 				
+				logger.debug("Handling command: " + command + "!");
+				
 				if(command.equals("reset")) {
 					
 					// Delete document
