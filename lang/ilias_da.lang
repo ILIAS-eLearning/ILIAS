@@ -6354,7 +6354,7 @@ payment#:#pay_step3_credit_card#:#Din ordre - Trin 3/3: Indtast dine kreditkortd
 payment#:#pay_step3_debit_entry#:#Din ordre - Trin 3/3: Indtast dine bankoplysninger og send din ordre
 payment#:#pay_update_view#:#Opdater vindue
 payment#:#paya_access#:#Adgang
-payment#:#paya_add_customer#:#Add Selling Process
+payment#:#paya_add_customer#:#Lav salgsforløb
 payment#:#paya_add_price#:#Tilføj ny pris
 payment#:#paya_add_price_title#:#Ny pris
 payment#:#paya_added_new_object#:#Tilføjet nyt objekt/modul. Indtast venligst betalingsform og priser.
@@ -6392,7 +6392,7 @@ payment#:#paya_months#:#Måned/måneder
 payment#:#paya_no_booking_id_given#:#Fejl: ingen 'booking id' givet
 payment#:#paya_no_bookings#:#Ingen statistik til rådighed.
 payment#:#paya_no_object_selected#:#Vælg venligst et objekt.
-payment#:#paya_no_objects_assigned#:#Der er ingen objekter til salg.
+payment#:#paya_no_objects_assigned#:#Der er ingen varer til salg
 payment#:#paya_no_price_available#:#Ingen priser til rådighed
 payment#:#paya_no_prices_selected#:#Vælg venligst en pris
 payment#:#paya_no_settings_necessary#:#Der er ingen indstillinger til denne betalingsmetode
@@ -6459,7 +6459,7 @@ payment#:#pays_no_vendor_selected#:#Ingen forhandler valgt
 payment#:#pays_number_bookings#:#Aktive ordrer
 payment#:#pays_objects_bill_exist#:#Betalingsmetoden 'regning' er aktiveret for nogen objekter. Derfor kan det ikke deaktiveres.
 payment#:#pays_objects_bmf_exist#:#Betalingsmetoden 'BMF' er aktiveret for nogen objekter. Derfor kan det ikke deaktiveres.
-payment#:#pays_objects_paypal_exist#:#Pay method 'PayPal' is activated for some objects. Therefore it can not be deactivated.
+payment#:#pays_objects_paypal_exist#:#Betaling via 'PayPal' anvendes til nogle varer og den kan derfor ikke deaktiveres.
 payment#:#pays_offline#:#Offline###21 Apr 2005 new variable
 payment#:#pays_online#:#Online
 payment#:#pays_page_style#:#Page style
@@ -6468,43 +6468,43 @@ payment#:#pays_paypal#:#PayPal
 payment#:#pays_paypal_settings#:#Settings for PayPal
 payment#:#pays_paypal_settings_not_valid#:#Your settings for PayPal aren't valid. Please check out whether all fields are filled out correctly.
 payment#:#pays_pdf_path#:#Sti til generering af faktura som PDF fil
-payment#:#pays_server_host#:#Server host (e.g. www.paypal.com)
-payment#:#pays_server_path#:#Path to the scripts (e.g. /cgi-bin/webscr)
+payment#:#pays_server_host#:#Server host (f.eks. www.paypal.com)
+payment#:#pays_server_path#:#Sti til scripts (f.eks. /cgi-bin/webscr)
 payment#:#pays_sure_delete_selected_vendors#:#Er du sikker på at du gerne vil slette de/den valgte forhandler/forhandlere
 payment#:#pays_too_many_vendors_selected#:#Vælg venligst kun 1 kunde til denne funktion.
 payment#:#pays_updated_general_settings#:#Generelle indstillinger opdateret.
 payment#:#pays_updated_pay_method#:#Betalingsmetode ændret.
-payment#:#pays_updated_paypal_settings#:#Your settings for PayPal were updated.
+payment#:#pays_updated_paypal_settings#:#Dine PayPal indstillinger blev opdateret.
 payment#:#pays_user_already_assigned#:#Denne bruger er allerede tilføjet til forhandlerlisten
 payment#:#pays_vat_rate#:#Moms i %(valgfrit)
 payment#:#pays_vendor#:#Forhandler
 payment#:#price_a#:#Pris
 payment#:#prices#:#Priser
-payment#:#paya_coupons_codes_import#:#Import Codes###16 08 2007 new variable
-payment#:#paya_coupons_add#:#Add Coupon###16 08 2007 new variable
-payment#:#paya_coupons_edit#:#Edit Coupon###16 08 2007 new variable
-payment#:#paya_coupons_coupons#:#Coupons###16 08 2007 new variable
-payment#:#paya_coupons_coupon#:#Coupon###16 08 2007 new variable
-payment#:#paya_coupons_type#:#Coupon Type###16 08 2007 new variable
+payment#:#paya_coupons_codes_import#:#Importer koder
+payment#:#paya_coupons_add#:#Lav kupon
+payment#:#paya_coupons_edit#:#Ret kupon
+payment#:#paya_coupons_coupons#:#Kuponner
+payment#:#paya_coupons_coupon#:#Kupon
+payment#:#paya_coupons_type#:#Kupontype
 payment#:#paya_coupons_fix#:#fix###16 08 2007 new variable
 payment#:#paya_coupons_percentaged#:#percentaged###16 08 2007 new variable
-payment#:#paya_coupons_title#:#Title###16 08 2007 new variable
-payment#:#paya_coupons_number_of_codes#:#Number of Codes###16 08 2007 new variable
+payment#:#paya_coupons_title#:#Titel
+payment#:#paya_coupons_number_of_codes#:#Antal koder
 payment#:#paya_coupons_usage_of_codes#:#Usage of Codes###16 08 2007 new variable
-payment#:#paya_coupons_objects#:#Objects###16 08 2007 new variable
-payment#:#paya_coupons_from#:#Valid From###16 08 2007 new variable
-payment#:#paya_coupons_till#:#Valid Till###16 08 2007 new variable
-payment#:#paya_coupons_not_available#:#No coupons created yet.###16 08 2007 new variable
-payment#:#paya_coupons_description#:#Description###16 08 2007 new variable
-payment#:#paya_coupons_value#:#Value###16 08 2007 new variable
-payment#:#paya_coupons_edit_codes#:#Edit Codes###16 08 2007 new variable
-payment#:#paya_coupons_edit_objects#:#Edit Objects###16 08 2007 new variable
-payment#:#paya_coupons_codes#:#Codes###16 08 2007 new variable
-payment#:#paya_coupons_code#:#Code###16 08 2007 new variable
-payment#:#paya_coupons_generate_codes#:#Generate Codes###16 08 2007 new variable
+payment#:#paya_coupons_objects#:#Varer
+payment#:#paya_coupons_from#:#Gyldig fra
+payment#:#paya_coupons_till#:#Gyldig til
+payment#:#paya_coupons_not_available#:#Endnu ingen kuponner
+payment#:#paya_coupons_description#:#Beskrivelse
+payment#:#paya_coupons_value#:#Værdi
+payment#:#paya_coupons_edit_codes#:#Ret koder
+payment#:#paya_coupons_edit_objects#:#Ret var5er
+payment#:#paya_coupons_codes#:#Koder
+payment#:#paya_coupons_code#:#Kode
+payment#:#paya_coupons_generate_codes#:#Lav koder
 payment#:#paya_coupons_availability#:#Maximum Number of Usage of one Code###16 08 2007 new variable
 payment#:#paya_coupons_code_deleted_successfully#:#Deleted Successfully###16 08 2007 new variable
-payment#:#paya_coupons_code_length#:#Code Length###16 08 2007 new variable
+payment#:#paya_coupons_code_length#:#Kodelængde
 payment#:#paya_coupons_code_chars#:#Chars###16 08 2007 new variable
 payment#:#paya_coupons_code_generation#:#Code Generation###16 08 2007 new variable
 payment#:#paya_coupons_type_auto#:#Automatically###16 08 2007 new variable
@@ -6515,12 +6515,12 @@ payment#:#paya_coupons_sure_delete_all_codes#:#Are you sure you want to delete a
 payment#:#paya_coupons_codes_not_available#:#No codes created yet.###16 08 2007 new variable
 payment#:#paya_coupons_assigned_objects#:#Assigned Objects###16 08 2007 new variable
 payment#:#paya_coupons_unassigned_objects#:#Unassigned Objects###16 08 2007 new variable
-payment#:#paya_coupons_not_found#:#No coupons found.###16 08 2007 new variable
-payment#:#paya_coupons_not_valid#:#The coupon is not valid.###16 08 2007 new variable
-payment#:#paya_coupons_no_object_assigned#:#No object assigned to the coupon.###16 08 2007 new variable
+payment#:#paya_coupons_not_found#:#Ingen kuponner fundet
+payment#:#paya_coupons_not_valid#:#Kuponnen er ikke gyldig.
+payment#:#paya_coupons_no_object_assigned#:#Ingen vare til denne kupon.
 payment#:#paya_coupons_coupon_not_found#:#No coupon found for the code you typed in.###16 08 2007 new variable
 payment#:#paya_coupons_already_in_use#:#The code you typed in belongs to the same coupon as a code which is already in use.###16 08 2007 new variable
-payment#:#paya_coupons_coupon_added#:#Coupon added.###16 08 2007 new variable
+payment#:#paya_coupons_coupon_added#:#Kupon tilføjet
 payment#:#paya_coupons_fix_selected_objects#:#%s %s discount on the total amount of selected objects###16 08 2007 new variable
 payment#:#paya_coupons_fix_all_objects#:#%s %s discount on the total amount of all objects###16 08 2007 new variable
 payment#:#paya_coupons_percentaged_selected_objects#:#%s %s discount on the total amount of selected objects###16 08 2007 new variable
@@ -6529,8 +6529,8 @@ payment#:#paya_coupons_no_codes_generated#:#No codes generated.###16 08 2007 new
 payment#:#paya_coupons_import_codes#:#Import Codes###16 08 2007 new variable
 payment#:#paya_coupons_import_error_opening_file#:#Error opening the import file!###16 08 2007 new variable
 payment#:#paya_coupon_codes_import_successful#:#Import successful.###16 08 2007 new variable
-payment#:#pays_bmf_settings#:#Settings for BMF###16 08 2007 new variable
-payment#:#pays_bmf_client_id#:#Cliend Id###16 08 2007 new variable
+payment#:#pays_bmf_settings#:#Indstillinger for BMF
+payment#:#pays_bmf_client_id#:#Klient Id
 payment#:#pays_bmf_bewirtschafter_nr#:#BewirtschafterNr###16 08 2007 new variable
 payment#:#pays_bmf_haushaltsstelle#:#Haushaltsstelle###16 08 2007 new variable
 payment#:#pays_bmf_object_id#:#Object Id###16 08 2007 new variable
@@ -6539,8 +6539,8 @@ payment#:#pays_bmf_waehrungskennzeichen#:#Währungskennzeichen###16 08 2007 new 
 payment#:#pays_bmf_epayment_server#:#ePaymentServer###16 08 2007 new variable
 payment#:#pays_bmf_client_certificate#:#Path to ClientCertificate###16 08 2007 new variable
 payment#:#pays_bmf_ca_certificate#:#Path to CACertificate###16 08 2007 new variable
-payment#:#pays_bmf_timeout#:#Timeout###16 08 2007 new variable
-payment#:#pays_updated_bmf_settings#:#Your settings for BMF were updated.###16 08 2007 new variable
+payment#:#pays_bmf_timeout#:#Timeout
+payment#:#pays_updated_bmf_settings#:#Dine BMF indstillinger blev opdateret
 payment#:#pays_bmf_settings_not_valid#:#Your settings for BMF aren't valid. Please check out whether all fields are filled out correctly.###16 08 2007 new variable
 pwassist#:#password_assistance#:#Password Hjælp
 pwassist#:#pwassist_enter_email#:#Indtast venligst din emailadresse og tryk på <b>udfør</b>. ILIAS sender en email til adressen med den/de registrerede brugernavne som er tilknyttet. Vælg derefter det ønskede brugernavn og brug <i>password service</i> til at få et nyt password. Hvis du ikke modtager en mail, så kontakt venligst din kursusadministrator eller %1$s.
@@ -8400,26 +8400,26 @@ payment#:#sort#:#Sorter
 payment#:#sort_by#:#Sorter objekter efter
 common#:#shop#:#Shop
 payment#:#price_from#:#Fra
-payment#:#select_one_topic#:#Please select at least one topic###23 07 2008 new variable
-payment#:#topics_deleted#:#The chosen topics were deleted successfully###23 07 2008 new variable
+payment#:#select_one_topic#:#Vælg mindst et emne
+payment#:#topics_deleted#:#De valgte emner blev slettet
 payment#:#no_topics_yet#:#Der er endnu ingen emner
-payment#:#topic_saved#:#The topic was saved successfully###23 07 2008 new variable
-payment#:#topic_edited#:#The topic was edited successfully###23 07 2008 new variable
+payment#:#topic_saved#:#Emnet blev gemt
+payment#:#topic_edited#:#Emnet blev redigeret
 payment#:#sure_delete_topics#:#Er du sikker på du vil slette de valgte emner?
-payment#:#pay_topics_default_sorting_type#:#Default Sorting Type of Topics###23 07 2008 new variable
+payment#:#pay_topics_default_sorting_type#:#Standardsortering af emner
 payment#:#pay_topics_default_sorting_direction#:#Default Sorting Direction of Topics###23 07 2008 new variable
-payment#:#pay_topics_allow_custom_sorting#:#Custom Sorting of Topics###23 07 2008 new variable
-payment#:#pay_topics_allow_custom_sorting_info#:#If enabled, every user can determine the sorting of topics in the webshop independently.###23 07 2008 new variable
+payment#:#pay_topics_allow_custom_sorting#:#Manuel emnerækkefølge
+payment#:#pay_topics_allow_custom_sorting_info#:#Hvis aktiveret kan hver bruger selv bestemme sorteringen af emner i webshoppen.
 payment#:#pay_topics_sort_by_title#:#Efter titel
 payment#:#pay_topics_sort_by_date#:#Efter dato
 payment#:#pay_topics_sort_manually#:#Manuelt
 payment#:#pay_sorting_value#:#Sorteringsværdi
 payment#:#pay_save_sorting#:#Gem sortering
 payment#:#pay_max_hits#:#Maks hits
-payment#:#pay_max_hits_info#:#Please enter a number for the maximum number of search results.###23 07 2008 new variable
+payment#:#pay_max_hits_info#:#Vælg det maksimale antal resultater ved søgninger
 payment#:#pay_personal_settings#:#Personlige indstillinger
-payment#:#pay_manual_sorting_of_topics#:#Manual Sorting of Topics###23 07 2008 new variable
-payment#:#sort_topics_by#:#Sort Topics by###23 07 2008 new variable
+payment#:#pay_manual_sorting_of_topics#:#Manuel emnerækkefølge
+payment#:#sort_topics_by#:#Sorter emner efter
 payment#:#sort_topics_by_title#:#Titel
 payment#:#sort_topics_by_date#:#Dato
 payment#:#sort_topics_manually#:#Manuelt
@@ -9104,10 +9104,10 @@ search#:#lucene_relevance#:#Relevance of Search Results###30 04 2009 new variabl
 search#:#lucene_show_relevance#:#Show Relevance###30 04 2009 new variable
 search#:#lucene_show_relevance_info#:#Search results are sorted by their relevance. If activated, the relevance is shown as additional information for each search result.###30 04 2009 new variable
 payment#:#pay_payed_bill#:#Rechnung bezahlt###30 04 2009 new variable
-payment#:#vat_title#:#Vat-Title###30 04 2009 new variable
-payment#:#vat_rate#:#Vat-Rate###30 04 2009 new variable
+payment#:#vat_title#:#Momstitel
+payment#:#vat_rate#:#Moms %
 payment#:#vat_unit#:#Vat-Unit###30 04 2009 new variable
-payment#:#paya_insert_vats#:#Insert Vat-Rate###30 04 2009 new variable
+payment#:#paya_insert_vats#:#Indsæt moms
 payment#:#paya_no_vats_assigned#:#No vats assigned###30 04 2009 new variable
 payment#:#paya_vat_not_valid#:#This vat is not valid###30 04 2009 new variable
 payment#:#paya_vat_already_exists#:#This vat rate already exists###30 04 2009 new variable
@@ -9115,7 +9115,7 @@ payment#:#paya_no_vat_id_given#:#There is no vat-id given###30 04 2009 new varia
 payment#:#paya_sure_delete_vat#:#Are you sure, you want to delete this vat?###30 04 2009 new variable
 payment#:#paya_vat_not_deleted#:#This vat rate is not deleted###30 04 2009 new variable
 payment#:#unlimited_duration#:#Unlimited duration###30 04 2009 new variable
-payment#:#vats#:#Vats###30 04 2009 new variable
+payment#:#vats#:#Moms
 mail#:#invite_to_chat#:#Inviter til chat
 mail#:#mail_invite_users_to_chat#:#Inviter brugere til chat
 mail#:#chat_select_room#:#Vælg chatrum
