@@ -2932,7 +2932,7 @@ search#:#search_area#:#Område
 search#:#search_area_info#:#Vælg hvorfra søgningen skal starte.
 search#:#search_below#:#Materiale under
 search#:#search_change#:#Vælg
-search#:#search_choose_object_type#:#Please choose minimum one object type.###18 Aug 2005 new variable
+search#:#search_choose_object_type#:#Du skal som minimum vælge en materialetype.
 search#:#search_concatenation#:#Sammenkædning
 search#:#search_content#:#Side indhold
 search#:#search_dbk_content#:#Digitalt bibliotek (indhold)
@@ -4963,7 +4963,7 @@ crs#:#crs_sort_title_info#:#Vælg denne indstilling for at sortere kursusdele au
 crs#:#crs_sortorder#:#Sorter
 crs#:#crs_sortorder_abo#:#Sortering af elementer
 crs#:#crs_start#:#Start###21 Apr 2005 new variable
-crs#:#crs_start_objects#:#Start objects###21 Apr 2005 new variable
+crs#:#crs_start_objects#:#Startmateriale
 crs#:#crs_starter_deleted#:#Removed assignment.###21 Apr 2005 new variable
 crs#:#crs_starters_already_assigned#:#This object was already assigned.###21 Apr 2005 new variable
 crs#:#crs_status#:#Status###21 Apr 2005 new variable
@@ -6258,7 +6258,7 @@ payment#:#pay_added_to_shopping_cart#:#Tilføjet til indkøbskurv
 payment#:#pay_all#:#Alle
 payment#:#pay_article#:#Vare
 payment#:#pay_bank_data#:#Bankdata
-payment#:#pay_bill_no#:#Ifakturanummer.
+payment#:#pay_bill_no#:#Fakturanummer
 payment#:#pay_bmf_account_holder#:#Kontoejer
 payment#:#pay_bmf_account_number#:#Kontonummer
 payment#:#pay_bmf_back#:#tilbage
@@ -6315,7 +6315,7 @@ payment#:#pay_goto_buyed_objects#:#Gå til dine indkøb
 payment#:#pay_goto_shopping_cart#:#Gå til indkøbskurv
 payment#:#pay_header#:#Betaling
 payment#:#pay_hint_paypal#:#Tip til Paypal
-payment#:#pay_info#:#Access to the following material is not for free. If you want to gain access to a certain learning object please select a price. You can purchase one or several learning objects by using the button "shopping cart" on your personal desktop.  You are going to gain immediate access to a chosen object and period.
+payment#:#pay_info#:#Adgangen til materialet er ikke gratis. Hvis du ønsker adgang til materialet skal du vælge mellem prismulighederne herunder og tilføje det valgte til din indkøbskurv. Du vil få øjeblikkelig adgang til de valgte varer i den givne periode.
 payment#:#pay_info_paypal#:#To pay for those objects that are in your shopping cart you'll leave ILIAS temporary and head for the PayPal website. Please follow the steps that are shown to you there. After paying successfully you'll be directed back to ILIAS automatically. Don't close the window of your browser at any time whilst the selling process. Otherwise the objects you've bought can't be activated for you automatically.
 payment#:#pay_item_already_in_sc#:#Du har allerede tilføjet dette objekt til din indkøbskurv.
 payment#:#pay_item_already_in_sc_choose_another#:#denne artikel kan bestilles som varekøb men der kan forekomme nye priser eller prisændringer.
@@ -6357,12 +6357,12 @@ payment#:#paya_access#:#Adgang
 payment#:#paya_add_customer#:#Lav salgsforløb
 payment#:#paya_add_price#:#Tilføj ny pris
 payment#:#paya_add_price_title#:#Ny pris
-payment#:#paya_added_new_object#:#Tilføjet nyt objekt/modul. Indtast venligst betalingsform og priser.
+payment#:#paya_added_new_object#:#Ny vare tilføjet. Vælg betalingsform og pris.
 payment#:#paya_added_new_price#:#Oprettet ny pris
 payment#:#paya_added_trustee#:#Oprettet ny fuldmægtig/bestyrer.
 payment#:#paya_bookings_available#:#Dette objekt/modul er blevet solgt. Slet venligst alle statistik data.
 payment#:#paya_buyable#:#Til salg
-payment#:#paya_buyed_objects#:#Købte objekter/moduler
+payment#:#paya_buyed_objects#:#Købte varer
 payment#:#paya_count_purchaser#:#Antal købere
 payment#:#paya_customer#:#Kunde
 payment#:#paya_customer_added_successfully#:#The selling process was added to the statistics sucessfully.
@@ -6393,7 +6393,7 @@ payment#:#paya_no_booking_id_given#:#Fejl: ingen 'booking id' givet
 payment#:#paya_no_bookings#:#Ingen statistik til rådighed.
 payment#:#paya_no_object_selected#:#Vælg venligst et objekt.
 payment#:#paya_no_objects_assigned#:#Der er ingen varer til salg
-payment#:#paya_no_price_available#:#Ingen priser til rådighed
+payment#:#paya_no_price_available#:#Der er endnu ikke oprettet priser
 payment#:#paya_no_prices_selected#:#Vælg venligst en pris
 payment#:#paya_no_settings_necessary#:#Der er ingen indstillinger til denne betalingsmetode
 payment#:#paya_no_trustees#:#Ingen fuldmægtige/bestyrer oprettet.
@@ -6401,7 +6401,7 @@ payment#:#paya_no_valid_login#:#Brugernavnet er ugyldigt.
 payment#:#paya_no_vendor_selected#:#Du har ikke valgt en forhandler.
 payment#:#paya_not_assign_yourself#:#Det er ikke muligt at tilmelde dig selv.
 payment#:#paya_not_buyable#:#Ikke til salg
-payment#:#paya_object#:#Objekter
+payment#:#paya_object#:#Varer
 payment#:#paya_object_not_purchasable#:#Det er ikke muligt at sælge dette produkt.
 payment#:#paya_order_date#:#Ordredato
 payment#:#paya_pay_method#:#Betalingsmetode
@@ -6437,7 +6437,7 @@ payment#:#pays_added_vendor#:#Tilføjet ny forhandler
 payment#:#pays_address#:#Adresse til faktura
 payment#:#pays_already_assigned_vendors#:#Det følgende antal brugere er allerede tilknyttet:
 payment#:#pays_assigned_vendors#:#Det følgende antal brugere er blevet tilknyttet forhandler listen:
-payment#:#pays_auth_token#:#Unique token given by PayPal
+payment#:#pays_auth_token#:#Unik nøgle fra PayPal
 payment#:#pays_bank_data#:#Bankoplysninger til faktura
 payment#:#pays_bill#:#Faktura
 payment#:#pays_bmf#:#BMF###21 Apr 2005 new variable
@@ -8438,7 +8438,7 @@ common#:#il_crs_non_member#:#Kursus ikke-medlem
 common#:#il_grp_status_closed#:#Gruppen er lukket
 common#:#il_grp_status_open#:#Gruppen er åben
 payment#:#pay_abstract#:#Resume
-payment#:#pay_edit_abstract#:#Ret resume
+payment#:#pay_edit_abstract#:#Ret varebeskrivelse
 payment#:#pay_thumbnail#:#Miniature
 mcst#:#mcst_news_item_visibility_info#:#Offentlige nyheder kan tilgås uden login uden for ILIAS gennem RSS. Undlad derfor at skrive fortrolige informationer.
 mcst#:#mcst_default_visibility#:#Standardadgang
@@ -8771,19 +8771,19 @@ common#:#delete_parameter#:#Slet parameter
 common#:#confirm_delete_parameter#:#Do you really want to delete the parameter?###24 02 2009 new variable
 assessment#:#assFlashQuestion#:#Flash Question###24 02 2009 new variable
 content#:#cont_resource_size#:#Resource Size###24 02 2009 new variable
-content#:#cont_resize_img#:#Resize Image File###24 02 2009 new variable
+content#:#cont_resize_img#:#Skaler billedfil
 content#:#cont_autostart#:#Autostart###24 02 2009 new variable
-content#:#cont_default#:#Default###24 02 2009 new variable
+content#:#cont_default#:#Standard
 content#:#cont_custom#:#Custom###24 02 2009 new variable
 content#:#cont_no_parameters#:#No Parameters###24 02 2009 new variable
 content#:#cont_no_caption#:#No Caption###24 02 2009 new variable
 content#:#cont_custom_size#:#Custom Size###24 02 2009 new variable
 common#:#pos_top#:#Top###24 02 2009 new variable
-common#:#pos_right#:#Right###24 02 2009 new variable
-common#:#pos_bottom#:#Bottom###24 02 2009 new variable
-common#:#pos_left#:#Left###24 02 2009 new variable
+common#:#pos_right#:#Højre
+common#:#pos_bottom#:#Bund
+common#:#pos_left#:#Venstre
 common#:#msg_unit_is_required#:#This input requires a unit. Please enter a correct value.###24 02 2009 new variable
-payment#:#payment_no_topic#:#No Topic###24 02 2009 new variable
+payment#:#payment_no_topic#:#Intet emne
 assessment#:#error_cloze_not_numeric#:#Please enter a numeric value.###24 02 2009 new variable
 assessment#:#error_no_upper_limit#:#Please enter an upper bound.###24 02 2009 new variable
 assessment#:#error_no_lower_limit#:#Please enter a lower bound.###24 02 2009 new variable
@@ -9062,27 +9062,27 @@ common#:#save_customer_address#:#Gem faktureringsadresse
 common#:#save_customer_address_info#:#If enabled, the customers billing address will be stored###24 02 2009 new variable
 common#:#bookings#:#Bookings###24 02 2009 new variable
 forum#:#frm_sure_delete_threads#:#Er du sikker på du ønsker at slette disse tråde?
-trac#:#trac_title_description#:#Title / Description###30 04 2009 new variable
-common#:#file_locked_by#:#File locked by###30 04 2009 new variable
-common#:#lock_file#:#Lock file###30 04 2009 new variable
-common#:#permission_denied_filed_locked_by#:#Access denied. The file was locked by '%s'.###30 04 2009 new variable
-common#:#file_lock_unlock_file#:#Lock/Unlock file###30 04 2009 new variable
-search#:#lucene_more_hits_link#:#%s more hits...###30 04 2009 new variable
+trac#:#trac_title_description#:#Titel/beskrivelse
+common#:#file_locked_by#:#Filen er låst af
+common#:#lock_file#:#Lås fil
+common#:#permission_denied_filed_locked_by#:#Adgang blev nægtet. Filen er låst af '%s'.
+common#:#file_lock_unlock_file#:#Lås/låsop fil
+search#:#lucene_more_hits_link#:#%s flere matches...###30 04 2009 new variable
 dateplaner#:#cal_rec_err_limit#:#Please enter a valid number of appointments.###30 04 2009 new variable
-payment#:#payment_news#:#Shop News###30 04 2009 new variable
-payment#:#payment_news_add_news#:#Add Shop News ###30 04 2009 new variable
-payment#:#payment_news_created#:#Shop news added###30 04 2009 new variable
+payment#:#payment_news#:#Shop nyheder
+payment#:#payment_news_add_news#:#Opret shopnyhed
+payment#:#payment_news_created#:#Shop nyhed oprettet
 payment#:#payment_news_no_news_items#:#No news available###30 04 2009 new variable
 payment#:#payment_news_delete_sure#:#Are you sure, you want to delete this shop news?###30 04 2009 new variable
-payment#:#payment_news_deleted#:#Shop news deleted###30 04 2009 new variable
-payment#:#payment_news_updated#:#The news have been saved###30 04 2009 new variable
-payment#:#payment_news_settings#:#Shop News Settings###30 04 2009 new variable
-payment#:#payment_news_archive_period#:#Archive-Period###30 04 2009 new variable
+payment#:#payment_news_deleted#:#Shop nyhed slettet
+payment#:#payment_news_updated#:#Nyheden er gemt
+payment#:#payment_news_settings#:#Shoppens nyhedsindstillinger
+payment#:#payment_news_archive_period#:#Arkivperiode
 payment#:#payment_news_archive_period_info#:#Time period to define when news move to archive ###30 04 2009 new variable
-payment#:#payment_news_settings_saved#:#The settings have been saved###30 04 2009 new variable
-cntr#:#cntr_page_actions#:#Page Actions###30 04 2009 new variable
-cntr#:#cntr_enable_multi_commands#:#Enable Multi Commands###30 04 2009 new variable
-cntr#:#cntr_disable_multi_commands#:#Disable Multi Commands###30 04 2009 new variable
+payment#:#payment_news_settings_saved#:#Indstillingerne er gemt
+cntr#:#cntr_page_actions#:#Sidehandlinger
+cntr#:#cntr_enable_multi_commands#:#Brug fler-kommandoer
+cntr#:#cntr_disable_multi_commands#:#Stop fler-kommandoer
 cntr#:#cntr_add_new_item#:#Tilføj indhold
 search#:#lucene_settings_tab#:#Lucene###30 04 2009 new variable
 search#:#lucene_settings_title#:#Lucene Settings###30 04 2009 new variable
@@ -9103,7 +9103,7 @@ common#:#subtabs#:#SubTabs###30 04 2009 new variable
 search#:#lucene_relevance#:#Relevance of Search Results###30 04 2009 new variable
 search#:#lucene_show_relevance#:#Show Relevance###30 04 2009 new variable
 search#:#lucene_show_relevance_info#:#Search results are sorted by their relevance. If activated, the relevance is shown as additional information for each search result.###30 04 2009 new variable
-payment#:#pay_payed_bill#:#Rechnung bezahlt###30 04 2009 new variable
+payment#:#pay_payed_bill#:#Regning betalt
 payment#:#vat_title#:#Momstitel
 payment#:#vat_rate#:#Moms %
 payment#:#vat_unit#:#Vat-Unit###30 04 2009 new variable
@@ -9420,9 +9420,9 @@ content#:#cont_lm_default_layout#:#Default Layout of Learning Module###15 05 200
 content#:#cont_page_layout#:#Sidelayout
 content#:#cont_layout_per_page#:#Layout per Page###15 05 2009 new variable
 content#:#cont_layout_per_page_info#:#Allow to set individual layouts for each page. This automatically activates the "Synchronize Frames" setting, too.###15 05 2009 new variable
-payment#:#paya_vats_info#:#If you like to sell an object without a vat, please insert a vat-rate with 0 %###22 05 2009 new variable
+payment#:#paya_vats_info#:#Hvis du ønsker at sælge varer uden moms skal du oprette momssats med 0%
 payment#:#payment_tax_rates#:#Tax Rates###22 05 2009 new variable
-payment#:#payment_vat_already_created#:#A VAT with this rate is already created.###22 05 2009 new variable
+payment#:#payment_vat_already_created#:#En momssats med denne procent er allerede oprettet.
 payment#:#payment_cannot_save_existing_vat#:#Cannot save an existing VAT.###22 05 2009 new variable
 payment#:#payment_cannot_update_nonexisting_vat#:#Cannot update a nonexisting VAT.###22 05 2009 new variable
 payment#:#payment_cannot_find_vat#:#Cannot find VAT dataset for the passed id.###22 05 2009 new variable
@@ -9441,11 +9441,11 @@ payment#:#payment_no_price_type_selected#:#Please select a type for the price.##
 payment#:#payment_price_invalid_price#:#Indtast venligst en gyldig pris.
 payment#:#paya_updated_price#:#Prisen er gemt.
 payment#:#payment_already_bought_but_no_access#:#You already bought the object %s, but you do not have access yet or your license is expired.###22 05 2009 new variable
-cmps#:#cmps_plugin_activated#:#Plugin er blevet aktiveret.
-cmps#:#cmps_plugin_deactivated#:#Plugin er blevet deaktiveret.
+cmps#:#cmps_plugin_activated#:#Plugin blev aktiveret.
+cmps#:#cmps_plugin_deactivated#:#Plugin er deaktiveret.
 common#:#back_to_sess_content#:#Back to Session Content###26 06 2009 new variable
 common#:#crs_unsubscribe#:#Unsubscribe###26 06 2009 new variable
-dateplaner#:#cal_edit_milestone#:#Edit Milestone###26 06 2009 new variable
+dateplaner#:#cal_edit_milestone#:#Ret milesten
 common#:#grp_btn_unsubscribe#:#Unsubscribe From Group###26 06 2009 new variable
 dateplaner#:#cal_deadline#:#Deadline###26 06 2009 new variable
 dateplaner#:#cal_ms_users_responsible#:#Users Responsible###26 06 2009 new variable
@@ -9883,7 +9883,7 @@ administration#:#path_to_mkisofs#:#Path to mkisofs###18 08 2009 new variable
 common#:#obj_sty#:#Style###18 08 2009 new variable
 dateplaner#:#cal_created_milestone#:#Added milestone.###18 08 2009 new variable
 dateplaner#:#cal_created_milestone_resp_q#:#Added milestone. Please select users that are responsible to meet the milestone.###18 08 2009 new variable
-common#:#address#:#Address###18 08 2009 new variable
+common#:#address#:#Adresse
 common#:#contact#:#Kontakt
 tagging#:#tagging_enable_all_users#:#Vis alle brugeres tags
 tagging#:#tagging_enable_all_users_info#:#Adds a section "All Users" to the info screens that lists all tags of all users attached to a resource.###18 08 2009 new variable
