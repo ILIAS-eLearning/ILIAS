@@ -987,11 +987,19 @@ class ilObjiLincCourseGUI extends ilContainerGUI
 	
 	public function viewObject()
 	{
-		global $rbacsystem, $ilCtrl;
+		global $ilCtrl, $ilNavigationHistory, $ilAccess;
 
-		if(!$rbacsystem->checkAccess('read', $this->object->getRefId()))
+		if(!$ilAccess->checkAccess('read', '', $this->object->getRefId()))
 		{
 			$this->ilias->raiseError($this->lng->txt('msg_no_perm_read'), $this->ilias->error_obj->MESSAGE);
+		}
+		
+		// add entry to navigation history
+		if(!$this->getCreationMode() &&
+			$ilAccess->checkAccess('read', '', $this->object->getRefId()))
+		{
+			$ilNavigationHistory->addItem($this->object->getRefId(),
+				'repository.php?cmd=view&ref_id='.$this->object->getRefId(), 'icrs');
 		}
 		
 		if(strtolower($_GET['baseClass']) == 'iladministrationgui')
