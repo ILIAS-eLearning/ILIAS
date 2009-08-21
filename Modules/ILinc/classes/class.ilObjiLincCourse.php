@@ -148,6 +148,8 @@ class ilObjiLincCourse extends ilContainer
 			$this->error_msg = "database_error";
 			return false;
 		}
+		
+		$db_activated_value = is_bool($this->activated) ? ($this->activated ? 'y' : 'n') : $this->activated;
 
 		$r = $ilDB->manipulateF('
 			UPDATE ilinc_data 
@@ -156,7 +158,7 @@ class ilObjiLincCourse extends ilContainer
 				akclassvalue2 = %s
 			WHERE obj_id = %s',
 			array('text', 'text', 'text', 'integer'),
-			array($this->activated, $this->getAKClassValue1(), $this->getAKClassValue2(), $this->getId()));
+			array($db_activated_value, $this->getAKClassValue1(), $this->getAKClassValue2(), $this->getId()));
 		
 		return true;
 	}
