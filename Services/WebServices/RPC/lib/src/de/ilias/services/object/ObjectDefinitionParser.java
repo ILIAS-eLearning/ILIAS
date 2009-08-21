@@ -335,6 +335,7 @@ public class ObjectDefinitionParser {
 					((Element) field).getAttributeValue("index"),
 					((Element) field).getAttributeValue("name"),
 					((Element) field).getAttributeValue("column"),
+					((Element) field).getAttributeValue("type"),
 					((Element) field).getAttributeValue("global"),
 					((Element) field).getAttributeValue("dynamicName"));
 			
