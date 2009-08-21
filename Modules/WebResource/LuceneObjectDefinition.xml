@@ -12,11 +12,11 @@
 				WHERE webr_id IN (?)
 			</Query>
 			<Param format="list" type="int" value="objId" />
-			<Field global="YES" store="YES" index="ANALYZED" column="title" name="propertyHigh" />
-			<Field global="YES" store="YES" index="ANALYZED" column="description" name="propertyMedium" />
-			<Field global="YES" store="YES" index="NOT_ANALYZED" column="link_id" name="subItem" />
-			<Field global="NO" store="YES" index="NOT_ANALYZED" column="webr_id" name="objId"  />
-			<Field global="NO" store="YES" index="NOT_ANALYZED" column="type" name="type"  />
+			<Field global="YES" store="YES" index="ANALYZED" column="title" type="text" name="propertyHigh" />
+			<Field global="YES" store="YES" index="ANALYZED" column="description" type="text" name="propertyMedium" />
+			<Field global="YES" store="YES" index="NOT_ANALYZED" column="link_id" type="integer" name="subItem" />
+			<Field global="NO" store="YES" index="NOT_ANALYZED" column="webr_id" type="integer" name="objId"  />
+			<Field global="NO" store="YES" index="NOT_ANALYZED" column="type" type="text" name="type"  />
 		</DataSource>
 	</Document>
 </ObjectDefinition>

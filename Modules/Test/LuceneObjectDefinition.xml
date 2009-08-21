@@ -4,5 +4,13 @@
 		<xi:include href="../../Services/Object/LuceneDataSource.xml" />
 		<xi:include href="../../Services/Tagging/LuceneDataSource.xml" />
 		<xi:include href="../../Services/MetaData/LuceneDataSource.xml" />
+		<DataSource type="JDBC" action="append">
+			<Query>
+				SELECT introduction FROM tst_tests
+				WHERE obj_fi IN(?)
+			</Query>
+			<Param format="list" type="int" value="objId" />
+			<Field store="YES" index="ANALYZED" column="introduction" type="clob" name="propertyLow" />
+		</DataSource>
 	</Document>
 </ObjectDefinition>

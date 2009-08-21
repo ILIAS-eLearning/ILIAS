@@ -9,10 +9,10 @@
 				SELECT MAX(version) version, file_name
 				FROM file_data
 				WHERE file_id IN (?)
-				GROUP BY file_id
+				GROUP BY file_id,file_name
 			</Query>
 			<Param format="list" type="int" value="objId" />
-			<Field store="YES" index="ANALYZED" column="file_name" name="propertyHigh" />
+			<Field store="YES" index="ANALYZED" column="file_name" type="text" name="propertyHigh" />
 			<DataSource type="File" action="append">
 				<PathCreator name="FileObjectPathCreator" />
 				<Field store="YES" index="ANALYZED" name="content">

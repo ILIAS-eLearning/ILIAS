@@ -10,7 +10,7 @@
 				WHERE obj_id IN (?)
 			</Query>
 			<Param format="list" type="int" value="objId" />
-			<Field store="YES" index="ANALYZED" column="instruction" name="propertyLow" />
+			<Field store="YES" index="ANALYZED" column="instruction" type="clob" name="propertyLow" />
 		</DataSource>
 	</Document>
 </ObjectDefinition>

@@ -15,13 +15,13 @@
 				AND po.parent_type = 'gdf'
 			</Query>
 			<Param format="list" type="int" value="objId" />
-			<Field store="YES" index="ANALYZED" column="term" name="propertyHigh" />
-			<Field store="YES" index="ANALYZED" column="content" name="propertyMedium">
+			<Field store="YES" index="ANALYZED" column="term" type="text" name="propertyHigh" />
+			<Field store="YES" index="ANALYZED" column="content" type="clob" name="propertyMedium">
 				<Transformer name="ContentObjectTransformer" />
 			</Field>
-			<Field store="YES" index="NOT_ANALYZED" column="id" name="subItem" />
-			<Field global="NO" store="YES" index="NOT_ANALYZED" column="glo_id" name="objId"  />
-			<Field global="NO" store="YES" index="NOT_ANALYZED" column="type" name="type"  />
+			<Field store="YES" index="NOT_ANALYZED" column="id" type="integer" name="subItem" />
+			<Field global="NO" store="YES" index="NOT_ANALYZED" column="glo_id" type="integer" name="objId"  />
+			<Field global="NO" store="YES" index="NOT_ANALYZED" column="type" type="text" name="type"  />
 		</DataSource>
 	</Document>
 </ObjectDefinition>
