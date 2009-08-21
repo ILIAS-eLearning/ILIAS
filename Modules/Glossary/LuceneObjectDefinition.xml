@@ -12,7 +12,7 @@
 				FROM glossary_term gt
 				JOIN page_object po ON gt.id = page_id
 				WHERE glo_id IN (?)
-				AND po.parent_type = 'gdf';
+				AND po.parent_type = 'gdf'
 			</Query>
 			<Param format="list" type="int" value="objId" />
 			<Field store="YES" index="ANALYZED" column="term" name="propertyHigh" />
