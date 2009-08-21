@@ -33,8 +33,24 @@ bash$ cd <YOUR_ILIAS_DIR>/Services/WebServices/RPC/lib
 
 3) Start the server:
 
+MySQL backends:
 bash$ java -Dfile.encoding=UTF-8 -jar ilServer.jar <PATH_TO_SERVER_INI> start &
 
+Oracle Backends:
+The Oracle licence is very restrictive. Thus it is not possible to release an all-in-one package 
+including an Oracle-JDBC-Driver.
+
+Download an appropriate JDBC-Thin-Client from:
+   
+http://www.oracle.com/technology/software/tech/java/sqlj_jdbc/htdocs/jdbc_10201.html
+
+The following packages are required:
+ojdbc14.jar
+orai18n.jar
+
+Start the Java-Server including these packages to your CLASSPATH
+
+bash$java -Dfile.encoding=UTF-8 -cp "<PATH_TO_ojdbc.jar>:<PATH_TO_orai18n.jar>:ilServer.jar" de.ilias.ilServer <PATH_TO_SERVER_INI> start &
 
 To stop the server simply type:
 
