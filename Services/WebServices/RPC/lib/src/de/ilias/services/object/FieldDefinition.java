@@ -30,6 +30,7 @@ import org.apache.log4j.Logger;
 import org.apache.lucene.document.Field;
 import org.apache.lucene.document.Field.Store;
 
+import de.ilias.services.db.DBFactory;
 import de.ilias.services.lucene.index.DocumentHolder;
 import de.ilias.services.lucene.index.transform.ContentTransformer;
 import de.ilias.services.lucene.index.transform.TransformerFactory;
@@ -172,7 +173,8 @@ public class FieldDefinition {
 			return getName();
 		}
 		if(res != null) {
-			String value = res.getString(getName());
+			//String value = res.getString(getName().trim());
+			String value = DBFactory.getString(res, getName());
 			if(value != null) {
 				logger.debug("Dynamic name value: " + value);
 				logger.debug("Dynamic name:" + getName());

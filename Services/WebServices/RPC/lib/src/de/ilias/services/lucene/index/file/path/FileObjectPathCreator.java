@@ -26,6 +26,7 @@ import java.io.File;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 
+import de.ilias.services.db.DBFactory;
 import de.ilias.services.lucene.index.CommandQueueElement;
 import de.ilias.services.settings.ClientSettings;
 import de.ilias.services.settings.ConfigurationException;
@@ -71,7 +72,7 @@ public class FileObjectPathCreator implements PathCreator {
 			versionPath.append(fullPath);
 			versionPath.append(PathUtils.buildVersionDirectory(res.getInt("version")));
 			versionPath.append(System.getProperty("file.separator"));
-			versionPath.append(res.getString("file_name"));
+			versionPath.append(DBFactory.getString(res,"file_name"));
 
 			file = new File(versionPath.toString());
 			if(file.exists() && file.canRead()) {
@@ -79,7 +80,7 @@ public class FileObjectPathCreator implements PathCreator {
 			}
 
 			// Older versions do not store the files in version directories
-			fullPath.append(res.getString("file_name"));
+			fullPath.append(DBFactory.getString(res, "file_name"));
 			file = new File(fullPath.toString());
 			if(file.exists() && file.canRead()) {
 				return file;
