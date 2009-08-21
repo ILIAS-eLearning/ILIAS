@@ -5,7 +5,7 @@
 		WHERE obj_id IN (?)
 		AND obj_type IN (?)
 		AND sub_obj_id = 0
-		AND is_offline = 0;
+		AND is_offline = 0
 	</Query>
 	<Param format="list" type="int" value="objId" />
 	<Param format="list" type="string" value="objType" />

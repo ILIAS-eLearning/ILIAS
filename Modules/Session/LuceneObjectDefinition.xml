@@ -6,7 +6,7 @@
 		<DataSource type="JDBC" action="append">
 			<Query>
 				SELECT location, tutor_name, tutor_email, tutor_phone, details 
-				FROM event WHERE obj_id IN(?); 
+				FROM event WHERE obj_id IN(?)
 			</Query>
 			<Param format="list" type="int" value="objId" />
 			<Field store="YES" index="ANALYZED" column="location" name="propertyLow" />

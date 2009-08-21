@@ -9,7 +9,7 @@
 				SELECT MAX(version) version, file_name
 				FROM file_data
 				WHERE file_id IN (?)
-				GROUP BY file_id;
+				GROUP BY file_id
 			</Query>
 			<Param format="list" type="int" value="objId" />
 			<Field store="YES" index="ANALYZED" column="file_name" name="propertyHigh" />
