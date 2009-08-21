@@ -15,13 +15,13 @@
 				AND mep_id IN (?)
 			</Query>
 			<Param format="list" type="int" value="objId" />
-			<Field store="YES" index="ANALYZED" column="title" name="propertyHigh" />
-			<Field store="YES" index="ANALYZED" column="caption" name="propertyMedium" />
-			<Field store="YES" index="ANALYZED" column="description" name="propertyMedium" /> 
-			<Field store="YES" index="NOT_ANALYZED" column="owner" name="owner" /> 
-			<Field store="YES" index="NOT_ANALYZED" column="obj_id" name="subItem" />
-			<Field store="YES" index="NOT_ANALYZED" column="mep_id" name="objId" global="NO" /> 
-			<Field store="YES" index="NOT_ANALYZED" column="type" name="type" global="NO" />
+			<Field store="YES" index="ANALYZED" column="title" type="text" name="propertyHigh" />
+			<Field store="YES" index="ANALYZED" column="caption" type="text" name="propertyMedium" />
+			<Field store="YES" index="ANALYZED" column="description" type="text" name="propertyMedium" /> 
+			<Field store="YES" index="NOT_ANALYZED" column="owner" type="integer" name="owner" /> 
+			<Field store="YES" index="NOT_ANALYZED" column="obj_id" type="integer" name="subItem" />
+			<Field store="YES" index="NOT_ANALYZED" column="mep_id" type="integer" name="objId" global="NO" /> 
+			<Field store="YES" index="NOT_ANALYZED" column="type" type="text" name="type" global="NO" />
 		</DataSource>
 	</Document>
 </ObjectDefinition>

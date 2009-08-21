@@ -6,9 +6,9 @@
 		WHERE oda.obj_id IN (?)
 	</Query>
 	<Param format="list" type="int" value="objId" />
-	<Field store="YES" index="NOT_ANALYZED" column="obj_id" name="objId" />
-	<Field store="YES" index="NOT_ANALYZED" column="type" name="type" />
-	<Field store="YES" index="NOT_ANALYZED" column="owner" name="owner" />
-	<Field store="YES" index="ANALYZED" column="title" name="title" />
-	<Field store="YES" index="ANALYZED" column="description" name="description" />
+	<Field store="YES" index="NOT_ANALYZED" column="obj_id" type="integer" name="objId" />
+	<Field store="YES" index="NOT_ANALYZED" column="type" type="text" name="type" />
+	<Field store="YES" index="NOT_ANALYZED" column="owner" type="integer" name="owner" />
+	<Field store="YES" index="ANALYZED" column="title" type="text" name="title" />
+	<Field store="YES" index="ANALYZED" column="description" type="text" name="description" />
 </DataSource>

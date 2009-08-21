@@ -10,7 +10,7 @@
 				WHERE id IN(?)
 			</Query>
 			<Param format="list" type="int" value="objId" />
-			<Field store="YES" index="ANALYZED" column="introduction" name="propertyLow" />
+			<Field store="YES" index="ANALYZED" column="introduction" type="clob" name="propertyLow" />
 		</DataSource>
 	</Document>
 	<Document type="subItem">
@@ -23,14 +23,14 @@
 				AND parent_type = 'wpg'
 			</Query>
 			<Param format="list" type="int" value="objId" />
-			<Field store="YES" index="ANALYZED" column="title" name="propertyMedium" />
-			<Field store="YES" index="ANALYZED" column="content" name="content">
+			<Field store="YES" index="ANALYZED" column="title" type="text" name="propertyMedium" />
+			<Field store="YES" index="ANALYZED" column="content" type="clob" name="content">
 				<Transformer name="ContentObjectTransformer" />
 			</Field>
-			<Field store="YES" index="NOT_ANALYZED" column="create_user" name="owner" />
-			<Field store="YES" index="NOT_ANALYZED" column="id" name="subItem" />
-			<Field global="NO" store="YES" index="NOT_ANALYZED" column="wiki_id" name="objId" />
-			<Field global="NO" store="YES" index="NOT_ANALYZED" column="type" name="type" />
+			<Field store="YES" index="NOT_ANALYZED" column="create_user" type="integer" name="owner" />
+			<Field store="YES" index="NOT_ANALYZED" column="id" type="integer" name="subItem" />
+			<Field global="NO" store="YES" index="NOT_ANALYZED" column="wiki_id" type="integer" name="objId" />
+			<Field global="NO" store="YES" index="NOT_ANALYZED" column="type" type="text" name="type" />
 		</DataSource>
 	</Document>
 </ObjectDefinition>

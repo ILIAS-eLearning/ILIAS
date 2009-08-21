@@ -9,5 +9,5 @@
 	</Query>
 	<Param format="list" type="int" value="objId" />
 	<Param format="list" type="string" value="objType" />
-	<Field store="YES" index="ANALYZED" column="tag" name="tag" />
+	<Field store="YES" index="ANALYZED" column="tag" type="text" name="tag" />
 </DataSource>

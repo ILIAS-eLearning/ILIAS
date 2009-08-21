@@ -6,11 +6,12 @@
 		<xi:include href="../../Services/MetaData/LuceneDataSource.xml" />
 		<DataSource type="JDBC" action="append">
 			<Query>
-				SELECT introduction FROM svy_svy
+				SELECT introduction,outro FROM svy_svy
 				WHERE obj_fi IN(?)
 			</Query>
 			<Param format="list" type="int" value="objId" />
-			<Field store="YES" index="ANALYZED" column="introduction" name="propertyLow" />
+			<Field store="YES" index="ANALYZED" column="introduction" type="clob" name="propertyLow" />
+			<Field store="YES" index="ANALYZED" column="outro" type="clob" name="propertyLow" />
 		</DataSource>
 	</Document>
 </ObjectDefinition>

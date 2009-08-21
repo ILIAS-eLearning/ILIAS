@@ -16,27 +16,27 @@
 				AND lm_id IN (?)
 			</Query>
 			<Param format="list" type="int" value="objId" />
-			<Field store="YES" index="ANALYZED" column="content" name="content">
+			<Field store="YES" index="ANALYZED" column="content" type="clob" name="content">
 				<Transformer name="ContentObjectTransformer" />
 			</Field>
-			<Field store="YES" index="NOT_ANALYZED" column="lm_id" name="objId" global="NO" />
-			<Field store="YES" index="ANALYZED" column="title" name="propertyMedium" />
-			<Field store="YES" index="NOT_ANALYZED" column="metaObjId" name="subItem" />
-			<Field store="YES" index="NOT_ANALYZED" column="parent_type" name="type" global="NO"/>
+			<Field store="YES" index="NOT_ANALYZED" column="lm_id" type="integer" name="objId" global="NO" />
+			<Field store="YES" index="ANALYZED" column="title" type="text" name="propertyMedium" />
+			<Field store="YES" index="NOT_ANALYZED" column="metaObjId" type="integer" name="subItem" />
+			<Field store="YES" index="NOT_ANALYZED" column="parent_type" type="text" name="type" global="NO"/>
 			<xi:include href="../../Services/MetaData/LuceneDataSource.xml" />
 		</DataSource>
 		<DataSource type="JDBC" action="create">
 			<Query>
-				SELECT title, lm_id, obj_id, 'st' AS metaType, parent_type
+				SELECT title, lm_id, obj_id, 'st' AS metaType
 				FROM lm_data
 				WHERE type = 'st'
 				AND lm_id IN (?)
 			</Query>
 			<Param format="list" type="int" value="objId" />
-			<Field store="YES" index="NOT_ANALYZED" column="lm_id" name="objId" global="NO" />
-			<Field store="YES" index="ANALYZED" column="title" name="propertyMedium" />
-			<Field store="YES" index="NOT_ANALYZED" column="obj_id" name="subItem" />
-			<Field store="YES" index="NOT_ANALYZED" column="metaType" name="type" global="NO"/>
+			<Field store="YES" index="NOT_ANALYZED" column="lm_id" type="integer" name="objId" global="NO" />
+			<Field store="YES" index="ANALYZED" column="title" type="text" name="propertyMedium" />
+			<Field store="YES" index="NOT_ANALYZED" column="obj_id" type="interger" name="subItem" />
+			<Field store="YES" index="NOT_ANALYZED" column="metaType" type="text" name="type" global="NO"/>
 		</DataSource>
 	</Document>
 </ObjectDefinition>

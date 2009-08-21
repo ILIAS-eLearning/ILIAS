@@ -93,6 +93,7 @@ class ilCourseObjectiveResult
 	{
 		global $ilDB;
 
+		include_once './Modules/Course/classes/class.ilCourseObjective.php';
 		$objectives = ilCourseObjective::_getObjectiveIds($a_crs_id);
 
 		$finished = array();
@@ -129,6 +130,26 @@ class ilCourseObjectiveResult
 			}
 		}
 		return $suggested ? $suggested : array();
+	}
+	
+	/**
+	 * get suggested questions ids
+	 * @param object $a_usr_id
+	 * @param object $a_crs_id
+	 * @return 
+	 */
+	public static function getSuggestedQuestions($a_usr_id,$a_crs_id)
+	{
+		foreach(self::_getSuggested($a_usr_id,$a_crs_id) as $objective_id)
+		{
+			include_once './Modules/Course/classes/class.ilCourseObjectiveQuestion.php';
+			$obj = new ilCourseObjectiveQuestion($objective_id);
+			foreach($obj->getFinalTestQuestions() as $qst)
+			{
+				$qsts[] = $qst['question_id'];
+			}
+		}
+		return $qsts ? $qsts : array();
 	}
 
 	function reset($a_course_id)
