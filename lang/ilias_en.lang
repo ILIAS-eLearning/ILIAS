@@ -9875,7 +9875,6 @@ tagging#:#tagging_search_users#:#Search Users
 tagging#:#tagging_users_using_tag#:#Users Using Tag
 mail#:#mail_incoming_mail#:#Incoming mail
 mail#:#mail_settings_incoming_type_see_also#:#You can find a further possibility to modify the incoming type of e-mails for users <a href="%s">here</a>.
-mail#:#mail_settings_incoming_type_see_also#:#You can find a further possibility to modify the incoming type of e-mails for users <a href="%s">here</a>.
 payment#:#paya_deleted_selected_prices#:#Price(s) deleted
 search#:#lucene_tbl_create_ini#:#Create Java-Server Ini-File
 search#:#lucene_host#:#Host
