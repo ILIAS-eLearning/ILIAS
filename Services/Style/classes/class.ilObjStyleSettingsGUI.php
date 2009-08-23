@@ -1025,7 +1025,6 @@ class ilObjStyleSettingsGUI extends ilObjectGUI
    		
 		include_once("./Services/Style/classes/class.ilPageLayoutTableGUI.php");
 		$pglayout_table = new ilPageLayoutTableGUI($this, "viewPageLayouts");
-		
 		$oa_tpl->setVariable("PGLAYOUT_TABLE", $pglayout_table->getHTML());
 		$tpl->setContent($oa_tpl->get());
 		
