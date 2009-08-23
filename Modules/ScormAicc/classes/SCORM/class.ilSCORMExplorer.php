@@ -157,9 +157,9 @@ class ilSCORMExplorer extends ilExplorer
 			foreach ($objects as $key => $object)
 			{				
 				//ask for FILTER																
-				if ($this->filtered == false or $this->checkFilter($object["type"]) == false)
+				if ($this->filtered == false or $this->checkFilter($object["c_type"]) == false)
 				{
-					if ($this->isVisible($object["obj_id"], $object["type"]))
+					if ($this->isVisible($object["obj_id"], $object["c_type"]))
 					{
 						if ($object["child"] != $this->tree->getRootId())
 						{
@@ -168,9 +168,9 @@ class ilSCORMExplorer extends ilExplorer
 						$this->format_options["$counter"]["parent"]		= $object["parent"];
 						$this->format_options["$counter"]["child"]		= $object["child"];
 						$this->format_options["$counter"]["title"]		= $object["title"];
-						$this->format_options["$counter"]["type"]		= $object["type"];
+						$this->format_options["$counter"]["type"]		= $object["c_type"];
 						$this->format_options["$counter"]["obj_id"]		= $object["obj_id"];
-						$this->format_options["$counter"]["desc"] 		= "obj_".$object["type"];
+						$this->format_options["$counter"]["desc"] 		= "obj_".$object["c_type"];
 						$this->format_options["$counter"]["depth"]		= $tab;
 						$this->format_options["$counter"]["container"]	= false;
 						$this->format_options["$counter"]["visible"]	= true;
@@ -181,7 +181,7 @@ class ilSCORMExplorer extends ilExplorer
 							 $this->format_options["$counter"]["tab"][] = 'blank';
 						}												
 														
-						if ($object["type"]=="sos")
+						if ($object["c_type"]=="sos")
 							$this->setExpand($object["obj_id"]);
 
 						// fix explorer (sometimes explorer disappears)

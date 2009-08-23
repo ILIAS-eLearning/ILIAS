@@ -226,22 +226,22 @@ class ilSCORMPresentationGUI
 		{
 			$result = $ilDB->manipulateF('
 				UPDATE scorm_tracking
-				SET rvalue = %s
+				SET rvalue = %s, c_timestamp = %s
 				WHERE user_id =  %s
 				AND sco_id = %s
 				AND obj_id = %s
 				AND lvalue= %s',
-				array('text', 'integer', 'integer', 'integer', 'text'),
-				array($new_rec,$ilUser->getId(),0,$this->slm->getId(),'package_attempts')
+				array('text','timestamp', 'integer', 'integer', 'integer', 'text'),
+				array($new_rec,ilUtil::now(),$ilUser->getId(),0,$this->slm->getId(),'package_attempts')
 			);
 		}
 		else
 		{
 			$result = $ilDB->manipulateF('
-				INSERT INTO scorm_tracking (rvalue, user_id, sco_id, obj_id, lvalue) 
-				VALUES(%s,%s,%s,%s,%s)',
-				array('text', 'integer', 'integer', 'integer', 'text'),
-				array($new_rec,$ilUser->getId(),0,$this->slm->getId(),'package_attempts')
+				INSERT INTO scorm_tracking (rvalue, user_id, sco_id, obj_id, lvalue, c_timestamp) 
+				VALUES(%s,%s,%s,%s,%s,%s)',
+				array('text', 'integer', 'integer', 'integer', 'text','timestamp'),
+				array($new_rec,$ilUser->getId(),0,$this->slm->getId(),'package_attempts',ilUtil::now())
 			);
 		}
 		
@@ -269,22 +269,22 @@ class ilSCORMPresentationGUI
 		{
 			$result = $ilDB->manipulateF('
 				UPDATE scorm_tracking
-				SET rvalue = %s
+				SET rvalue = %s, c_timestamp = %s
 				WHERE user_id =  %s
 				AND sco_id = %s
 				AND obj_id = %s
 				AND lvalue= %s',
-				array('text', 'integer', 'integer', 'integer', 'text'),
-				array($new_rec,$ilUser->getId(),0,$this->slm->getId(),'module_version')
+				array('text','timestamp','integer', 'integer', 'integer', 'text'),
+				array($this->slm->getModuleVersion(),ilUtil::now(),$ilUser->getId(),0,$this->slm->getId(),'module_version')
 			);
 		}
 		else
 		{
 			$result = $ilDB->manipulateF('
-				INSERT INTO scorm_tracking (rvalue, user_id, sco_id, obj_id, lvalue) 
-				VALUES(%s,%s,%s,%s,%s)',
-				array('text', 'integer', 'integer', 'integer', 'text'),
-				array($new_rec,$ilUser->getId(),0,$this->slm->getId(),'module_version')
+				INSERT INTO scorm_tracking (rvalue, user_id, sco_id, obj_id, lvalue,c_timestamp) 
+				VALUES(%s,%s,%s,%s,%s,%s)',
+				array('text', 'integer', 'integer', 'integer', 'text','timestamp'),
+				array($this->slm->getModuleVersion(),$ilUser->getId(),0,$this->slm->getId(),'module_version',ilUtil::now())
 			);
 		}
 	}
