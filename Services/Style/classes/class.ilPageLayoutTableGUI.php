@@ -59,14 +59,14 @@ class ilPageLayoutTableGUI extends ilTable2GUI
 		$this->setTitle($lng->txt("page_layouts"));
 		
 		//build form
-		
+		/*
 		$opts = ilUtil::formSelect(12,"new_type",array($lng->txt("page_layout")));
 		$this->tpl->setCurrentBlock("add_object");
 		$this->tpl->setVariable("SELECT_OBJTYPE", $opts);
 		$this->tpl->setVariable("BTN_NAME", "createPgGUI");
 		$this->tpl->setVariable("TXT_ADD", $this->lng->txt("add"));
 		$this->tpl->parseCurrentBlock();
-		
+		*/
 	}
 	
 	/**
@@ -83,7 +83,6 @@ class ilPageLayoutTableGUI extends ilTable2GUI
 	protected function fillRow($a_set)
 	{
 		global $lng, $ilCtrl;
-		
 		if ($a_set['active']) {
 			$this->tpl->setVariable("IMG_ACTIVE",ilUtil::getImagePath("icon_led_on_s.png"));
 		}	else {
