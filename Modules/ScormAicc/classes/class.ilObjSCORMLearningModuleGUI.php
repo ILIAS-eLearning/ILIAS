@@ -932,10 +932,10 @@ class ilObjSCORMLearningModuleGUI extends ilObjSAHSLearningModuleGUI
 					$statement = $ilDB->manipulateF('
 					UPDATE scorm_tracking
 					SET rvalue = %s
-					WHERE 	user_id = %s,
-							sco_id = %s,
-							obj_id = %s,
-							lvalue = %s',
+					WHERE 	(user_id = %s AND
+							sco_id = %s AND
+							obj_id = %s AND
+							lvalue = %s)',
 					array('text','integer','integer','integer','text'), 
 					array($new_rec,$user,0,$this->object->getID(),'package_attempts'));
 				}

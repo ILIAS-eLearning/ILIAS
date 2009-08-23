@@ -304,16 +304,16 @@ class ilObjSCORMLearningModule extends ilObjSAHSLearningModule
 		global $ilUser, $ilDB, $ilUser;
 
 		$sco_set =  $ilDB->queryF('
-		SELECT user_id,c_timestamp last_access FROM scorm_tracking 
+		SELECT user_id,MAX(c_timestamp) last_access FROM scorm_tracking 
 		WHERE  obj_id = %s
-		GROUP BY user_id,c_timestamp',
+		GROUP BY user_id',
 		array('integer'), array($this->getId()));
 		
 		$items = array();
 		while($sco_rec = $ilDB->fetchAssoc($sco_set))
 		{	
 			if ($sco_rec['last_access'] != 0) {
-				$sco_rec['last_access'] = ilDatePresentation::formatDate(new ilDateTime($sco_rec['last_access'],IL_CAL_UNIX));
+				$sco_rec['last_access'] = ilDatePresentation::formatDate(new ilDateTime($sco_rec['last_access'],IL_CAL_DATETIME));
 			} else {
 				$sco_rec['last_access'] = "";
 			}	
@@ -396,8 +396,8 @@ class ilObjSCORMLearningModule extends ilObjSAHSLearningModule
 		AND sco_id = %s
 		AND obj_id = %s
 		ORDER BY lvalue',
-		array('integer','integer','text','integer'),
-		array($a_user_id,0,$this->getId()));
+		array('integer','integer','integer'),
+		array($a_user_id,$a_sco_id,$this->getId()));
 			
 		$data = array();
 		while($data_rec = $ilDB->fetchAssoc($data_set))	
@@ -624,7 +624,7 @@ class ilObjSCORMLearningModule extends ilObjSAHSLearningModule
 		WHERE(scorm_object.slm_id = %s 
 		AND scorm_object.obj_id = sc_item.obj_id 
 		AND sc_item.identifierref=sc_resource.import_id 
-		AND sc_resource.scormtype = %s
+		AND sc_resource.scormtype = %s)
 		GROUP BY scorm_object.obj_id, 
 		scorm_object.title, 
 		scorm_object.c_type, 
@@ -670,12 +670,12 @@ class ilObjSCORMLearningModule extends ilObjSAHSLearningModule
 				AND obj_id = %s 
 				AND sco_id = %s
 				AND (	(lvalue = %s AND rvalue= %s) 
-				OR (lvalue = %s AND rvalue = %s) ) ',
-				array('integer','integer','integer','text','text','text'),
+				OR (lvalue = %s AND rvalue = %s) ) )',
+				array('integer','integer','integer','text','text','text','text'),
 				array($user,$this->getID(),$scos[$i], 'cmi.core.lesson_status','completed','cmi.core.lesson_status','passed')
 				);
 				
-				if ($ilDB->numRows($val_se) > 0)
+				if ($ilDB->numRows($val_set) > 0)
 				{
 					//delete from array
 					$key = array_search($scos[$i], $scos_c); 
@@ -698,7 +698,7 @@ class ilObjSCORMLearningModule extends ilObjSAHSLearningModule
 				$department = $e_user->getDepartment();
 				//get the date for csv export
 				$val_set2 = $ilDB->queryF('
-				SELECT CONCAT(SUBSTR(c_timestamp, 9,2), '.', SUBSTR(c_timestamp, 6, 2), '.', SUBSTR(c_timestamp, 1, 4)) date 
+				SELECT CONCAT(SUBSTR(c_timestamp, 9,2), \'.\', SUBSTR(c_timestamp, 6, 2), \'.\', SUBSTR(c_timestamp, 1, 4)) AS date 
 				FROM scorm_tracking 
 				WHERE (user_id= %s
 				AND obj_id= %s )',
