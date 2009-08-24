@@ -627,7 +627,7 @@ common#:#condition_deleted#:#Tilstand slettet.
 common#:#condition_finished#:#Afsluttet
 common#:#condition_not_finished#:#Ikke afsluttet
 common#:#condition_passed#:#Bestået
-common#:#condition_precondition#:#Betingelser
+common#:#condition_precondition#:#Forudsætninger
 common#:#condition_select_object#:#Vælg venligst et objekt.
 common#:#condition_select_one#:#vælg venligst kun et objekt
 common#:#condition_update#:#Gem
@@ -1880,7 +1880,7 @@ common#:#no_bm_in_personal_list#:#Ingen foretrukne er defineret.
 common#:#no_chat_in_personal_list#:#Ingen chats i din personlige liste
 common#:#no_checkbox#:#Ingen box er krydset af!
 common#:#no_condition_selected#:#Vælg venligst en forudsætning
-common#:#no_conditions_found#:#Ingen forudgående betingelser fundet
+common#:#no_conditions_found#:#Der er ingen krævede forudsætninger for kurset.
 common#:#no_datasets#:#Tabellen er tom
 common#:#no_date#:#Ingen dato
 common#:#no_description#:#Ingen Beskrivelse
@@ -3812,9 +3812,9 @@ assessment#:#working_time_avg#:#Gns. arbejdstid
 assessment#:#you_received_a_of_b_points#:#Du fik %d af %d mulige point
 barometer#:#options#:#Options
 barometer#:#statistics#:#Statistik
-barometer#:#anonymous#:#Anonym
+barometer#:#anonymous#:#Anonymitet
 barometer#:#barometer_title#:#Feedback
-barometer#:#best#:#Best
+barometer#:#best#:#Bedste
 barometer#:#change_course#:#Ændre kursus
 barometer#:#chart_type#:#Diagram type
 barometer#:#chart_users#:#Diagram bruger
@@ -3822,14 +3822,14 @@ barometer#:#chart_votes#:#Diagram stemmer
 barometer#:#bar_create#:#Lav ny feedback
 barometer#:#day#:#Dag
 barometer#:#days#:#Dage
-barometer#:#delete#:#Delete
+barometer#:#delete#:#Slet
 barometer#:#duration#:#Periode
 barometer#:#edit#:#Rediger
 barometer#:#edit_barometer#:#Ret feedback
 barometer#:#every#:#every
 barometer#:#feedb_edit_feedback#:#Edit Feedback
 barometer#:#feedb_feedback_list#:#Feedback List
-barometer#:#feedb_feedback_settings#:#Feedback Settings
+barometer#:#feedb_feedback_settings#:#Feedbackindstillinger
 barometer#:#feedb_time#:#Time
 barometer#:#first_vote#:#1. stemme er
 barometer#:#from#:#Fra
@@ -3839,29 +3839,29 @@ barometer#:#login#:#Login
 barometer#:#missing_fields#:#Udfyld venligst al den krævede information.
 barometer#:#month#:#Måned
 barometer#:#months#:#Måneder
-barometer#:#new_vote#:#Ny afstemning
+barometer#:#new_vote#:#Ny svarmulighed
 barometer#:#note#:#Kommentar
-barometer#:#optional#:#Optional
-barometer#:#pie#:#Pie
-barometer#:#repeat#:#Repeat Every
-barometer#:#required#:#Required
-barometer#:#save#:#Save
-barometer#:#save_vote#:#Submit vote
+barometer#:#optional#:#Valgfri
+barometer#:#pie#:#Lagkage
+barometer#:#repeat#:#Gentag
+barometer#:#required#:#Krævet
+barometer#:#save#:#Gem
+barometer#:#save_vote#:#Afgiv stemme
 barometer#:#skip#:#Skip
 barometer#:#status#:#Status
 barometer#:#table#:#Table
-barometer#:#text#:#Text
-barometer#:#text_answer#:#Text answer
+barometer#:#text#:#Tekst
+barometer#:#text_answer#:#Tekstsvar
 barometer#:#time#:#Running
 barometer#:#title#:#Titel
 barometer#:#type#:#Type
-barometer#:#until#:#Until
-barometer#:#user#:#User
+barometer#:#until#:#Indtil
+barometer#:#user#:#Bruger
 barometer#:#vote#:#Vote
-barometer#:#votes#:#Votes
-barometer#:#weeks#:#Weeks
-barometer#:#worst#:#Worst
-barometer#:#year#:#Year
+barometer#:#votes#:#Stemmer
+barometer#:#weeks#:#Uger
+barometer#:#worst#:#Værst
+barometer#:#year#:#År
 barometer#:#barometer_add#:#Tilføj feedback
 barometer#:#barometer_conflict_anon_req#:#Anonymization can not be combined with type 'Required'. Please choose one of these options.###16 08 2007 new variable
 bibitem#:#bibitem_add#:#Tilføj
@@ -4764,7 +4764,7 @@ crs#:#crs_grp_deassigned_courses#:#Delete assignment###21 Apr 2005 new variable
 crs#:#crs_grp_enter_title#:#Angiv venligst en titel.
 crs#:#crs_grp_info_reg#:#Du kan kun tilmelde dig en af disse kurser:###21 Apr 2005 new variable
 crs#:#crs_grp_matriculation_required#:#This course grouping requires an unique matriculation number. <br />Please insert this value in your settings on the personal desktop.###21 Apr 2005 new variable
-crs#:#crs_grp_modified_grouping#:#Saved modifications.###21 Apr 2005 new variable
+crs#:#crs_grp_modified_grouping#:#Ændringerne blev gemt.
 crs#:#crs_grp_no_course_selected#:#Vælg venligst et kursus
 crs#:#crs_grp_no_courses_assigned#:#Ingen tildelte kurser.
 crs#:#crs_grp_table_assigned_courses#:#Assigned courses###21 Apr 2005 new variable
@@ -6326,7 +6326,7 @@ payment#:#pay_message_regards#:#Venlig hilsen
 payment#:#pay_message_subject#:#Din ILIAS bestilling
 payment#:#pay_message_thanks#:#Tak for din ILIAS bestilling.
 payment#:#pay_no_vendors_created#:#Ingen sælger oprettet.
-payment#:#pay_not_buyed_any_object#:#Du har ikke købt nogle objekter/moduler.
+payment#:#pay_not_buyed_any_object#:#Du har ikke købt varer i shoppen.
 payment#:#pay_order_date_from#:#Ordredato fra
 payment#:#pay_order_date_til#:#Ordredato til
 payment#:#pay_payed_credit_card#:#Ordren blev betalt med kreditkort.
@@ -6352,7 +6352,7 @@ payment#:#pay_step1#:#Din ordre - Trin 1/3: Indtast dine personlige oplysninger
 payment#:#pay_step2#:#Din ordre - Trin 2/3: Vælg betalingsform
 payment#:#pay_step3_credit_card#:#Din ordre - Trin 3/3: Indtast dine kreditkortdata og send din ordre
 payment#:#pay_step3_debit_entry#:#Din ordre - Trin 3/3: Indtast dine bankoplysninger og send din ordre
-payment#:#pay_update_view#:#Opdater vindue
+payment#:#pay_update_view#:#Opdater
 payment#:#paya_access#:#Adgang
 payment#:#paya_add_customer#:#Lav salgsforløb
 payment#:#paya_add_price#:#Tilføj ny pris
@@ -6365,7 +6365,7 @@ payment#:#paya_buyable#:#Til salg
 payment#:#paya_buyed_objects#:#Købte varer
 payment#:#paya_count_purchaser#:#Antal købere
 payment#:#paya_customer#:#Kunde
-payment#:#paya_customer_added_successfully#:#The selling process was added to the statistics sucessfully.
+payment#:#paya_customer_added_successfully#:#Salget blev gennemført
 payment#:#paya_delete_price#:#Slet pris
 payment#:#paya_delete_trustee_msg#:#Valgte fuldmægtige/bestyrer slettet.
 payment#:#paya_deleted_last_price#:#Sidste pris er blevet slettet.
@@ -6376,7 +6376,7 @@ payment#:#paya_edit_details#:#Rediger detaljer
 payment#:#paya_edit_pay_method#:#Rediger betalingsmetode
 payment#:#paya_edit_prices#:#Rediger priser
 payment#:#paya_edit_prices_first#:#Indtast venligst priser først.
-payment#:#paya_enabled#:#Enabled###21 Apr 2005 new variable
+payment#:#paya_enabled#:#Aktiveret
 payment#:#paya_enter_login#:#Indtast venligst et brugernavn.
 payment#:#paya_err_adding_object#:#Fejl ved tilføjning af objekt
 payment#:#paya_error_adding_customer#:#An error occured while adding the selling process to the statistics.
@@ -6386,7 +6386,7 @@ payment#:#paya_error_update_booking#:#Fejl under gemning af statistik data.
 payment#:#paya_expires#:#Udløbet betaling
 payment#:#paya_filter_reseted#:#Filter nulstillet.
 payment#:#paya_header#:#Betalingsadministration
-payment#:#paya_insert_only_numbers#:#Indsæt kun heltal(IKKE kommatal).
+payment#:#paya_insert_only_numbers#:#Indsæt kun heltal(ikke decimaltal).
 payment#:#paya_locator#:#Betalingsadministration
 payment#:#paya_months#:#Måned/måneder
 payment#:#paya_no_booking_id_given#:#Fejl: ingen 'booking id' givet
@@ -6412,7 +6412,7 @@ payment#:#paya_perm_obj#:#Rediger objekter
 payment#:#paya_perm_coupons#:#Edit coupons###16 08 2007 new variable
 payment#:#paya_perm_stat#:#Rediger statistikker
 payment#:#paya_price_not_valid#:#Denne pris er ugyldig. Indtast venligst kun numre(0-9)
-payment#:#paya_select_object_to_sell#:#Vælg venligst det objekt du vil sælge.
+payment#:#paya_select_object_to_sell#:#Vælg hvilken vare du ønsker at sælge.
 payment#:#paya_select_pay_method_first#:#Vælg venligst en betalingsmåde først.
 payment#:#paya_sell_object#:#Sælg objekt
 payment#:#paya_shopping_cart#:#Indkøbskurv
@@ -7293,7 +7293,7 @@ trac#:#trac_mode_test_finished#:#Test afsluttet
 trac#:#trac_mode_test_passed#:#Test bestået
 trac#:#trac_mode_tlt#:#Typical learning time###23 Dec 2005 new variable
 trac#:#trac_mode_visits#:#Antal besøg
-trac#:#trac_modifications_saved#:#Saved settings###23 Dec 2005 new variable
+trac#:#trac_modifications_saved#:#Indstillingerne blev gemt
 trac#:#trac_modus#:#Mode###23 Dec 2005 new variable
 trac#:#trac_no_attempted#:#Ikke forsøgt
 trac#:#trac_no_content#:#No informations about the learning progress available.###28 Feb 2006 new variable
@@ -7419,10 +7419,10 @@ ldap#:#ldap_tls_conflict#:#LDAPTLS can not be used in combination with LDAPv2. P
 ldap#:#ldap_role_group_assignments#:#Existing Role > Group Assignments###08 12 2006 new variable
 ldap#:#ldap_group_search_base#:#Group Search Base###10 05 2007 new variable
 ldap#:#ldap_deleted_role_mapping#:#Deleted assignment.###08 12 2006 new variable
-ldap#:#ldap_role_not_exists#:#A role with that name does not exist###08 12 2006 new variable
-ldap#:#ldap_group_membership#:#Group Membership###10 05 2007 new variable
-ldap#:#ldap_group_member_optional#:#Group Membership is Optional###10 05 2007 new variable
-ldap#:#ldap_group_user_filter#:#User Filter###10 05 2007 new variable
+ldap#:#ldap_role_not_exists#:#Der eksisterer ikke en rolle med det navn.
+ldap#:#ldap_group_membership#:#Gruppemedlemsskab
+ldap#:#ldap_group_member_optional#:#Gruppemedlemsskab er valgfrit
+ldap#:#ldap_group_user_filter#:#Brugerfilter
 ldap#:#ldap_group_optional_info#:#If enabled, the group membership is not required for a successful authentication. Please enter a user filter for the members of these groups:<br />(&(userattr=username)<strong>(userfilter)</strong>)###10 05 2007 new variable
 ldap#:#ldap_server_short#:#Server URL:###10 05 2007 new variable
 ldap#:#ldap_group_dn_short#:#Group DN:###10 05 2007 new variable
@@ -7831,9 +7831,9 @@ common#:#obj_cat_duplicate#:#Kopier kategori
 common#:#obj_cat_select#:#-- Vælg venligst en kategori --
 common#:#cat_wizard_page#:#Kopier kategori (Skridt 2/2)
 common#:#cat_copy_threads_info#:#Vælg hvilke kategori objekter der skal kopieres, linkes eller udelades
-payment#:#object_deleted#:#Objekt slettet
+payment#:#object_deleted#:#Varen slettet
 payment#:#user_deleted#:#Bruger slettet
-payment#:#statistics_filter_advice#:#Please choose your favoured filter settings and press the "Update View" button.###11 03 2008 new variable
+payment#:#statistics_filter_advice#:#Vælg de værdier du ønsker at filtrere på og tryk derefter 'Opdater' knappen.
 mail#:#advice_mail_body_secured#:#ILIAS har fjernet nogle elementer fra din besked af sikkerhedshensyn. Gennemgå den sikrede besked og send igen.
 payment#:#pay_crs_max_members_exceeded#:#You cannot buy this course because the maximum number of users is already exceeded.###11 03 2008 new variable
 common#:#webfolder#:#Webfolder
@@ -8974,7 +8974,7 @@ style#:#sty_type_sco_desc#:#SCO Description###24 02 2009 new variable
 style#:#sty_type_sco_title#:#SCO Title###24 02 2009 new variable
 style#:#sty_type_sco_obj#:#SCO Objective###24 02 2009 new variable
 style#:#sty_type_sco_keyw#:#SCO Keywords###24 02 2009 new variable
-common#:#im_jabber#:#Jabber###24 02 2009 new variable
+common#:#im_jabber#:#Jabber
 common#:#im_jabber_icon#:#Jabber Logo###24 02 2009 new variable
 common#:#im_voip#:#VoIP###24 02 2009 new variable
 common#:#im_voip_icon#:#VoIP Logo###24 02 2009 new variable
@@ -8986,8 +8986,8 @@ common#:#msg_no_perm_paste_object_in_folder#:#You have no permission to paste th
 common#:#msg_paste_object_not_in_itself#:#It's not possible to paste the object %s in itself.###24 02 2009 new variable
 common#:#mgs_objects_linked_to_the_following_folders#:#The object(s) was/were linked to the following folder(s): %s###24 02 2009 new variable
 common#:#session_reminder_alert#:#Your session expires in 5 minutes. Please choose OK to continue your Session###24 02 2009 new variable
-common#:#session_reminder#:#Session-Reminder###24 02 2009 new variable
-common#:#session_reminder_info#:#If enabled, you receive a reminder before your session expires.###24 02 2009 new variable
+common#:#session_reminder#:#Sessions påmindelse
+common#:#session_reminder_info#:#Hvis aktiveret sendes en påmindelse før sessionen udløber.
 ecs#:#ecs_no_owner#:#Please select one community name.###24 02 2009 new variable
 export#:#export_select_resources#:#Vælg resurser
 export#:#export_resource#:#Resurse
@@ -9054,12 +9054,12 @@ common#:#chat_enter_public_room#:#Chat
 common#:#chat_enter_public_room_tooltip#:#Gå til chat
 common#:#chat_invite_public_room_tooltip#:#Invitation til den offentlige chat
 assessment#:#assFileUpload#:#File Upload Question###24 02 2009 new variable
-assessment#:#allowedextensions#:#Allowed File Extensions###24 02 2009 new variable
+assessment#:#allowedextensions#:#Tilladte filendelser
 assessment#:#allowedextensions_info#:#Enter a comma separated list of allowed file extensions if you want to restrict the upload to a given set of file extensions (e.g. doc,xls,odt).###24 02 2009 new variable
 assessment#:#maxsize#:#Maksimal størrelse på uploadede filer
 assessment#:#maxsize_info#:#Enter the maximum size in bytes that should be allowed for file uploads. If you leave this field empty, the maximum size of this installation will be chosen instead.###24 02 2009 new variable
 common#:#save_customer_address#:#Gem faktureringsadresse
-common#:#save_customer_address_info#:#If enabled, the customers billing address will be stored###24 02 2009 new variable
+common#:#save_customer_address_info#:#Hvis aktiveret gennem kundens faktureringsadresse.
 common#:#bookings#:#Bookings###24 02 2009 new variable
 forum#:#frm_sure_delete_threads#:#Er du sikker på du ønsker at slette disse tråde?
 trac#:#trac_title_description#:#Titel/beskrivelse
@@ -9071,14 +9071,14 @@ search#:#lucene_more_hits_link#:#%s flere matches...###30 04 2009 new variable
 dateplaner#:#cal_rec_err_limit#:#Please enter a valid number of appointments.###30 04 2009 new variable
 payment#:#payment_news#:#Shop nyheder
 payment#:#payment_news_add_news#:#Opret shopnyhed
-payment#:#payment_news_created#:#Shop nyhed oprettet
+payment#:#payment_news_created#:#Shopnyheden er oprettet
 payment#:#payment_news_no_news_items#:#No news available###30 04 2009 new variable
 payment#:#payment_news_delete_sure#:#Are you sure, you want to delete this shop news?###30 04 2009 new variable
 payment#:#payment_news_deleted#:#Shop nyhed slettet
 payment#:#payment_news_updated#:#Nyheden er gemt
 payment#:#payment_news_settings#:#Shoppens nyhedsindstillinger
 payment#:#payment_news_archive_period#:#Arkivperiode
-payment#:#payment_news_archive_period_info#:#Time period to define when news move to archive ###30 04 2009 new variable
+payment#:#payment_news_archive_period_info#:#Periode hvorefter nyheden skal flyttes til nyhedsarkivet
 payment#:#payment_news_settings_saved#:#Indstillingerne er gemt
 cntr#:#cntr_page_actions#:#Sidehandlinger
 cntr#:#cntr_enable_multi_commands#:#Brug fler-kommandoer
@@ -9106,13 +9106,13 @@ search#:#lucene_show_relevance_info#:#Search results are sorted by their relevan
 payment#:#pay_payed_bill#:#Regning betalt
 payment#:#vat_title#:#Momstitel
 payment#:#vat_rate#:#Moms %
-payment#:#vat_unit#:#Vat-Unit###30 04 2009 new variable
+payment#:#vat_unit#:#Momssats
 payment#:#paya_insert_vats#:#Indsæt moms
 payment#:#paya_no_vats_assigned#:#No vats assigned###30 04 2009 new variable
-payment#:#paya_vat_not_valid#:#This vat is not valid###30 04 2009 new variable
-payment#:#paya_vat_already_exists#:#This vat rate already exists###30 04 2009 new variable
+payment#:#paya_vat_not_valid#:#Satsen er ugyldig
+payment#:#paya_vat_already_exists#:#Denne sats eksisterer i forvejen
 payment#:#paya_no_vat_id_given#:#There is no vat-id given###30 04 2009 new variable
-payment#:#paya_sure_delete_vat#:#Are you sure, you want to delete this vat?###30 04 2009 new variable
+payment#:#paya_sure_delete_vat#:#Er du sikker på du vil slette denne sats?
 payment#:#paya_vat_not_deleted#:#This vat rate is not deleted###30 04 2009 new variable
 payment#:#unlimited_duration#:#Unlimited duration###30 04 2009 new variable
 payment#:#vats#:#Moms
@@ -9143,8 +9143,8 @@ chat#:#chat_recent_postings#:#Recent Chat Postings###30 04 2009 new variable
 chat#:#chat_available_smilies#:#Available Smilies###30 04 2009 new variable
 chat#:#chat_smiley_image#:#Smiley Image###30 04 2009 new variable
 chat#:#chat_smiley_keyword#:#Smiley Keyword###30 04 2009 new variable
-chat#:#chat_add_smiley#:#Add Smiley###30 04 2009 new variable
-chat#:#chat_edit_smiley#:#Edit Smiley###30 04 2009 new variable
+chat#:#chat_add_smiley#:#Lav smiley
+chat#:#chat_edit_smiley#:#Ret smiley
 chat#:#chat_image_path#:#Image Path###30 04 2009 new variable
 chat#:#chat_current_image_path#:#Current Image Path###30 04 2009 new variable
 chat#:#chat_smiley_keywords#:#Smiley Keyword###30 04 2009 new variable
@@ -9167,7 +9167,7 @@ chat#:#chat_user_hidden#:#hidden###30 04 2009 new variable
 chat#:#chat_user_visible#:#visible###30 04 2009 new variable
 common#:#content_frame#:#Content Frame###30 04 2009 new variable
 common#:#side_frame#:#Side Frame###30 04 2009 new variable
-common#:#icon#:#Icon###30 04 2009 new variable
+common#:#icon#:#Ikon
 common#:#info_message#:#Information Message###30 04 2009 new variable
 common#:#failure_message#:#Failure Message###30 04 2009 new variable
 common#:#success_message#:#Success Message###30 04 2009 new variable
@@ -9440,7 +9440,7 @@ payment#:#payment_no_price_selected#:#Ingen pris valg.
 payment#:#payment_no_price_type_selected#:#Please select a type for the price.###22 05 2009 new variable
 payment#:#payment_price_invalid_price#:#Indtast venligst en gyldig pris.
 payment#:#paya_updated_price#:#Prisen er gemt.
-payment#:#payment_already_bought_but_no_access#:#You already bought the object %s, but you do not have access yet or your license is expired.###22 05 2009 new variable
+payment#:#payment_already_bought_but_no_access#:#Du har allerede købt varen %s, men du har ikke adgang endnu. Muligvis er din licens udløbet.
 cmps#:#cmps_plugin_activated#:#Plugin blev aktiveret.
 cmps#:#cmps_plugin_deactivated#:#Plugin er deaktiveret.
 common#:#back_to_sess_content#:#Back to Session Content###26 06 2009 new variable
@@ -9805,15 +9805,15 @@ assessment#:#points_wrong_info#:#Enter the points for all selections that are no
 content#:#import_sco_object#:#Import SCO###24 07 2009 new variable
 content#:#scorm_editable#:#Import editable###24 07 2009 new variable
 content#:#scorm_editable_comments#:#Works only SCORM 1.2/2004 package###24 07 2009 new variable
-common#:#preview_learner#:#Members View###24 07 2009 new variable
+common#:#preview_learner#:#Medlemsvisning
 common#:#preview_learner_info#:#If enabled, Course and Group administrators have the possibility to view the content form the perspective of a learner.###24 07 2009 new variable
-common#:#mem_view_activate#:#Activate Members View###24 07 2009 new variable
-common#:#mem_view_deactivate#:#Deactivate Members View###24 07 2009 new variable
+common#:#mem_view_activate#:#Aktiver medlemsvisning
+common#:#mem_view_deactivate#:#Deaktiver medlemsvisning
 mcst#:#mcst_automatic_detection#:#Automatic Detection###24 07 2009 new variable
-crs#:#sess_limit#:#Limit Number of Sessions###24 07 2009 new variable
-crs#:#sess_num_prev#:#Number of Past Sessions###24 07 2009 new variable
-crs#:#sess_num_next#:#Number of Following Sessions###24 07 2009 new variable
-crs#:#sess_limit_info#:#Choose this option for limiting the number of visible sessions###24 07 2009 new variable
+crs#:#sess_limit#:#Begræns antallet af sessioner
+crs#:#sess_num_prev#:#Antal tidligere sessioner
+crs#:#sess_num_next#:#Antal fremtidige sessioner
+crs#:#sess_limit_info#:#Vælg denne for at begrænse antallet af synlige sessioner.
 common#:#advanced_editing_rep_page_editing#:#Brug indholdsredigering i oversigten
 common#:#advanced_editing_rep_page_editing_desc#:#Dette aktiverer CMS funktionaliteten der gør det muligt at lave tekst/grafik i kategorier, kurser, grupper og mapper.
 common#:#adve_rep_settings#:#Repository Settings###06 08 2009 new variable
@@ -9881,8 +9881,8 @@ cmps#:#no_changes#:#Ingen ændringer
 cmps#:#database_is_uptodate#:#Databasen er opdateret
 administration#:#path_to_mkisofs#:#Path to mkisofs###18 08 2009 new variable
 common#:#obj_sty#:#Style###18 08 2009 new variable
-dateplaner#:#cal_created_milestone#:#Added milestone.###18 08 2009 new variable
-dateplaner#:#cal_created_milestone_resp_q#:#Added milestone. Please select users that are responsible to meet the milestone.###18 08 2009 new variable
+dateplaner#:#cal_created_milestone#:#Milepæl blev tilføjet
+dateplaner#:#cal_created_milestone_resp_q#:#Milepæl tilføjet. Vælg venligst de brugere som er ansvarlige for at nå milepæl.
 common#:#address#:#Adresse
 common#:#contact#:#Kontakt
 tagging#:#tagging_enable_all_users#:#Vis alle brugeres tags
