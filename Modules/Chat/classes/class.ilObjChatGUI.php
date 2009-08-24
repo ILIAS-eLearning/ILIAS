@@ -1657,9 +1657,9 @@ class ilObjChatGUI extends ilObjectGUI
 			$this->ilias->raiseError($this->lng->txt("msg_no_perm_read"),$this->ilias->error_obj->MESSAGE);
 		}
 		
-		if ($_GET['del_id'])
+		if (isset($_GET['del_id']))
 			$_POST['del_id'] = array($_GET['del_id']);
-		
+
 		if(!isset($_POST["del_id"]))
 		{
 			ilUtil::sendInfo($this->lng->txt("chat_select_one_room"));
