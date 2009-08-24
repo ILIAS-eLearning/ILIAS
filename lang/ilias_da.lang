@@ -628,7 +628,7 @@ common#:#condition_finished#:#Afsluttet
 common#:#condition_not_finished#:#Ikke afsluttet
 common#:#condition_passed#:#Bestået
 common#:#condition_precondition#:#Forudsætninger
-common#:#condition_select_object#:#Vælg venligst et objekt.
+common#:#condition_select_object#:#Vælg venligst en forudsætning
 common#:#condition_select_one#:#vælg venligst kun et objekt
 common#:#condition_update#:#Gem
 common#:#conditions_updated#:#Conditions er Gemt
@@ -678,7 +678,7 @@ common#:#crs_a#:#Et Kursus
 common#:#crs_activation_start_invalid#:#Start og sluttid er ikke gyldig.
 common#:#crs_add#:#Tilføj Kursus
 common#:#crs_added#:#Kursus TIlføjet
-common#:#crs_all_questions_answered_successfully#:#Du har nu med succes besvaret alle spørgsmål.
+common#:#crs_all_questions_answered_successfully#:#Du har besvaret alle spørgsmål.
 common#:#crs_archives#:#Arkiver
 common#:#crs_at_least_one_admin#:#Der skal være mindst en kursusadministrator
 common#:#crs_available#:#Tilgængelige Kurser
@@ -1282,7 +1282,7 @@ common#:#icla_new#:#New iLinc klasseværrelse
 common#:#icon_settings#:#Ikoner
 common#:#icons_in_header#:#Overskriftsrække
 common#:#icons_in_item_rows#:#Item rows
-common#:#icons_in_typed_lists#:#Icon position in item lists
+common#:#icons_in_typed_lists#:#Ikoners position in lister
 common#:#icons_in_typed_lists_info#:#Determines where to display icons in item lists that are ordered by type within the repository and on the personal desktop.
 common#:#icrs#:#iLinc kursus
 common#:#icrs_add#:#Tilføj iLinc kursus
@@ -1353,7 +1353,7 @@ common#:#ilinc_notset#:#Ikke angivet
 common#:#ilinc_remark#:#Bemærkning
 common#:#ilinc_server_not_active#:#iLinc server ikke aktiveret
 common#:#ilinc_student#:#Deltager
-common#:#ilinc_upload_pic_linktext#:#Upload###17 Aug 2005 new variable
+common#:#ilinc_upload_pic_linktext#:#Upload
 common#:#ilinc_upload_pic_text#:#For at vise dit billede i LearnLincseminarer - brug dette link
 common#:#image#:#billede
 common#:#image_gen_unsucc#:#Billeddannelse ikke successfuldt udført. Kontakt din systemadministrator og få bekræftet stien.
@@ -1620,7 +1620,7 @@ common#:#logout#:#Log af
 common#:#logout_text#:#Du er logget af ILIAS. Tak for besøget.
 common#:#logs#:#Log data
 common#:#los#:#Lærer objekter
-common#:#los_last_visited#:#Sidst besøgte lærer objekter
+common#:#los_last_visited#:#Sidst besøgte læreobjekter
 common#:#last_visited#:#Sidst besøgt
 common#:#lres#:#Læreresurser
 common#:#mail#:#Mail
@@ -9069,10 +9069,10 @@ common#:#permission_denied_filed_locked_by#:#Adgang blev nægtet. Filen er låst
 common#:#file_lock_unlock_file#:#Lås/låsop fil
 search#:#lucene_more_hits_link#:#%s flere matches...###30 04 2009 new variable
 dateplaner#:#cal_rec_err_limit#:#Please enter a valid number of appointments.###30 04 2009 new variable
-payment#:#payment_news#:#Shop nyheder
+payment#:#payment_news#:#Shopnyheder
 payment#:#payment_news_add_news#:#Opret shopnyhed
 payment#:#payment_news_created#:#Shopnyheden er oprettet
-payment#:#payment_news_no_news_items#:#No news available###30 04 2009 new variable
+payment#:#payment_news_no_news_items#:#Intet nyt
 payment#:#payment_news_delete_sure#:#Are you sure, you want to delete this shop news?###30 04 2009 new variable
 payment#:#payment_news_deleted#:#Shop nyhed slettet
 payment#:#payment_news_updated#:#Nyheden er gemt
