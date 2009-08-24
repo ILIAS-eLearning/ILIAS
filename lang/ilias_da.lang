@@ -2470,7 +2470,7 @@ common#:#st_add#:#Tilføj kapitel
 common#:#st_added#:#Kapitel Tilføjet
 common#:#st_edit#:#Rediger Kapitel
 common#:#st_new#:#Nyt kapitel
-common#:#standard_fields#:#Standard Fields
+common#:#standard_fields#:#Standardfelter
 common#:#startpage#:#Startside
 common#:#statistic#:#Statistik
 common#:#step#:#Skridt
@@ -9035,12 +9035,12 @@ assessment#:#ordertext#:#Ordering Text###24 02 2009 new variable
 assessment#:#ordertext_info#:#Please enter the text that should be ordered horizontally. The ordering text will be separated by the whitespace signs in the text. If you need a different separation, you may use the separator %s to separate your text units.###24 02 2009 new variable
 assessment#:#textsize#:#Tekststørrelse
 assessment#:#textsize_info#:#Enter the text size of the ordering text in percent if you want another size than 100 percent.###24 02 2009 new variable
-common#:#loginname_settings#:#Loginname-Settings###24 02 2009 new variable
-common#:#allow_change_loginname#:#Allow to change the login name###24 02 2009 new variable
-common#:#create_history_loginname#:#Create a history for changed login names###24 02 2009 new variable
-common#:#allow_history_loginname_again#:#It is allowed to use login names again, which are saved in the history###24 02 2009 new variable
+common#:#loginname_settings#:#Brugernavne
+common#:#allow_change_loginname#:#Tillad ændring af brugernavn
+common#:#create_history_loginname#:#Lav historik for ændringer af brugernavne
+common#:#allow_history_loginname_again#:#Tillad genbrug af brugernavne som er gemt i historikken
 common#:#loginname_already_exists#:#Det valgte brugernavn eksisterer i forvejen og kan derfor ikke anvendes.
-common#:#create_history_loginname_must_be_enabled#:#To reuse login names the history must be enabled.###24 02 2009 new variable
+common#:#create_history_loginname_must_be_enabled#:#For at genbruge brugernavne skal historik været aktiveret.
 ecs#:#ecs_unique_id#:#Deltager id
 ecs#:#ecs_new_category_mapping#:#New Assignment of Course-Links to Categories###24 02 2009 new variable
 ecs#:#ecs_attribute_name#:#Attributnavn
