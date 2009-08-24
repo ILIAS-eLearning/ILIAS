@@ -58,6 +58,8 @@ class ilSearchResult
 	// Stores info if MAX HITS is reached or not
 	var $limit_reached = false;
 	var $result;
+	
+	protected $preventOverwritingMaxhits = false;
 
 	/**
 	* Constructor
@@ -533,8 +535,8 @@ class ilSearchResult
 		include_once 'Services/Search/classes/class.ilSearchSettings.php';
 
 		$this->search_settings = new ilSearchSettings();
-		$this->setMaxHits($this->search_settings->getMaxHits());
-		#$this->setMaxHits(2);
+		if(!$this->preventOverwritingMaxhits())
+			$this->setMaxHits($this->search_settings->getMaxHits());
 	}
 	
 	/**
@@ -548,6 +550,27 @@ class ilSearchResult
 	 	include_once('Services/Search/classes/class.ilUserSearchCache.php');
 	 	$this->search_cache = ilUserSearchCache::_getInstance($this->getUserId());
 	 	$this->offset = $this->getMaxHits() * ($this->search_cache->getResultPageNumber() - 1) ;
+	}
+	
+	/**
+	 * If you call this function and pass "true" the maxhits setting will not be overwritten
+	 * in __initSearchSettingsObject()
+	 *
+	 * @access	public
+	 * @param	boolean	$a_flag	true or false to set the flag or leave blank to get the status of the flag
+	 * @returmn	boolean	if called without parameter the status of the flag will be returned, otherwise $this
+	 * 
+	 */
+	public function preventOverwritingMaxhits($a_flag = null)
+	{
+		if(null === $a_flag)
+		{
+			return $this->preventOverwritingMaxhits;
+		}
+		
+		$this->preventOverwritingMaxhits = $a_flag;
+		
+		return $this;
 	}
 
 	/**
