@@ -9827,7 +9827,6 @@ common#:#adve_rep_settings#:#Repository Settings###06 08 2009 new variable
 content#:#cont_please_enter_a_term#:#Please enter a term.###06 08 2009 new variable
 survey#:#no_user_invited#:#All invited users did not possess sufficient permissions to run the survey. No user was invited.###06 08 2009 new variable
 survey#:#users_invited#:#%s brugere blev inviteret
-survey#:#users_invited#:#%s brugere blev inviteret
 common#:#mem_view_long#:#Deltagervisning
 common#:#mem_view_close#:#Luk deltagervisning
 assessment#:#msg_question_count_too_low#:#Please enter a question count greater than 0###06 08 2009 new variable
