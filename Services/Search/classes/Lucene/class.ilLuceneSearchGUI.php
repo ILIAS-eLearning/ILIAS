@@ -187,8 +187,8 @@ class ilLuceneSearchGUI extends ilSearchBaseGUI
 		$ilBench->stop('Lucene','1200_hi');
 		
 		$ilBench->start('Lucene','1300_pr');
-		include_once './Services/Search/classes/Lucene/class.ilLuceneSearchResultPresentation.php';
-		$presentation = new ilLuceneSearchResultPresentation($this);
+		include_once './Services/Search/classes/class.ilSearchResultPresentation.php';
+		$presentation = new ilSearchResultPresentation($this);
 		$presentation->setResults($filter->getResultIds());
 		
 		$presentation->setSearcher($searcher);
@@ -276,8 +276,8 @@ class ilLuceneSearchGUI extends ilSearchBaseGUI
 		// Show results
 		$this->showSearchForm();
 
-		include_once './Services/Search/classes/Lucene/class.ilLuceneSearchResultPresentation.php';
-		$presentation = new ilLuceneSearchResultPresentation($this);
+		include_once './Services/Search/classes/class.ilSearchResultPresentation.php';
+		$presentation = new ilSearchResultPresentation($this);
 		$presentation->setResults($filter->getResultIds());
 		$presentation->setSearcher($searcher);
 		$presentation->setPreviousNext($this->prev_link, $this->next_link);

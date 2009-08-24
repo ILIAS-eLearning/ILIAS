@@ -30,7 +30,7 @@
 *
 * @ingroup ServicesSearch
 */
-class ilLuceneSearchResultPresentation
+class ilSearchResultPresentation
 {
 	const MODE_LUCENE = 1;
 	const MODE_STANDARD = 2;
