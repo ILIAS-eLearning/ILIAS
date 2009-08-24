@@ -297,7 +297,8 @@ class ilObjFileGUI extends ilObjectGUI
 				ilUtil::makeDir($newDir);
 
 				// Check if permission is granted for creation of object, if necessary
-				if (ilObject::_lookupType($_GET["ref_id"], TRUE) == "cat")
+				$type = ilObject::_lookupType((int) $_GET['ref_id'],true);
+				if($type == 'cat' or $type == 'root')
 				{
 					$permission = $rbacsystem->checkAccess("create", $_GET["ref_id"], "cat");
 					$containerType = "Category";
