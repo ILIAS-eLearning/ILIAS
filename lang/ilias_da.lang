@@ -7243,7 +7243,7 @@ trac#:#trac_active_lp_only#:#Læringsfremskridt aktiveret
 trac#:#trac_active_ut_only#:#Brugersporint aktiveret
 trac#:#trac_added_no_shown_list#:#The selected objects will be hidden.###28 Feb 2006 new variable
 trac#:#trac_anonymized#:#Anonymiseret
-trac#:#trac_anonymized_info#:#If enabled, all statistics will be anonymized.###23 Dec 2005 new variable
+trac#:#trac_anonymized_info#:#Hvis aktiveret bliver alle statistikker anonymiseret.
 trac#:#trac_assigned#:#Tildelt
 trac#:#trac_assignments#:#Tildelinger
 trac#:#trac_below#:#Nedenfor:
@@ -8239,8 +8239,8 @@ crs#:#crs_objective_self_assessment#:#Initial Test###23 07 2008 new variable
 crs#:#crs_objective_final_test#:#Final Test###23 07 2008 new variable
 crs#:#crs_objective_saved_sorting#:#Saved sorting.###23 07 2008 new variable
 crs#:#crs_no_title_given#:#Please insert a title for the objective.###23 07 2008 new variable
-common#:#chat_invite_public_room#:#Public Chat###23 07 2008 new variable
-common#:#chat_link_to_this_chat#:#Link to this chat###23 07 2008 new variable
+common#:#chat_invite_public_room#:#Fælleschat
+common#:#chat_link_to_this_chat#:#Link til denne chat
 crs#:#crs_objective_limit_err#:#The required points shouldn't be higher than the total points.###23 07 2008 new variable
 crs#:#crs_no_objective_lms_found#:#This course does not contain any materials.###23 07 2008 new variable
 ecs#:#ecs_server_settings#:#ECS Functionalities###23 07 2008 new variable
@@ -8356,7 +8356,7 @@ ps#:#ps_show_crs_access#:#Vis hvornår deltagere sidst besøgte kurset.
 assessment#:#assessment_eval_settings#:#Show the following fields in Evaluation for All Users###23 07 2008 new variable
 mail#:#mail_external_sender_noreply#:#noreply afsender
 mail#:#info_mail_external_sender_noreply#:#Afsenderadresse der bruges til email fra systemet som brugeren ikke kan svare direkte på.
-chat#:#chat_cannot_connect_to_server#:#ILIAS cannot build a socket connection to the chat server.###23 07 2008 new variable
+chat#:#chat_cannot_connect_to_server#:#ILIAS kunne ikke få en forbindelse gennem socket med chatserveren.
 crs#:#sess_gen_attendance_list#:#Generate Attendance List###23 07 2008 new variable
 crs#:#sess_date_time#:#Session Appointment###23 07 2008 new variable
 common#:#err_auth_mode_inactive#:#Din authentificeringsmetode er deaktiveret
@@ -8818,7 +8818,7 @@ certificate#:#certificate_ph_street#:#Street of the user's address###24 02 2009 
 certificate#:#certificate_ph_city#:#City of the user's address###24 02 2009 new variable
 certificate#:#certificate_ph_zipcode#:#ZIP code of the user's address###24 02 2009 new variable
 certificate#:#certificate_ph_country#:#Country of the user's address###24 02 2009 new variable
-certificate#:#certificate_settings#:#Certificate Settings###24 02 2009 new variable
+certificate#:#certificate_settings#:#Certifikatindstillinger
 certificate#:#default_background_info#:#This background image will be chosen as default background for all certificates. If you need another background image in a certficiate, you have to upload one in the certificate editor.###24 02 2009 new variable
 certificate#:#certificate_usage#:#Please note that the usage of certificates is only available if the ILIAS Java-Server is running. The configuration for Java-Server is available on the main page of the ILIAS administration in section Webservices.###24 02 2009 new variable
 certificate#:#download_certificate#:#Download Certificate###24 02 2009 new variable
@@ -8853,17 +8853,17 @@ content#:#cont_layout_3window#:#Three Windows###24 02 2009 new variable
 content#:#cont_layout_toc2windyn#:#Table of Contents Dynamic###24 02 2009 new variable
 content#:#cont_layout_presentation#:#Presentation###24 02 2009 new variable
 content#:#cont_layout_fullscreen#:#Full Screen###24 02 2009 new variable
-common#:#obj_lrss#:#Learning Resources###24 02 2009 new variable
-common#:#obj_lrss_desc#:#Configure all types of learning modules.###24 02 2009 new variable
-content#:#cont_lrs_settings#:#Settings###24 02 2009 new variable
-content#:#cont_enable_time_scheduled_page_activation#:#Time Scheduled Page Activation###24 02 2009 new variable
+common#:#obj_lrss#:#Læreresurser
+common#:#obj_lrss_desc#:#Opsætning af alle typer af læremoduler.
+content#:#cont_lrs_settings#:#Indstillinger
+content#:#cont_enable_time_scheduled_page_activation#:#Tidsplanlagt sideaktivering
 content#:#cont_enable_time_scheduled_page_activation_info#:#If enabled, an activation period (date/time) can be selected in the learning module editor for each page.###24 02 2009 new variable
 common#:#lrss_edit_permission#:#Change permission settings###24 02 2009 new variable
 common#:#lrss_visible#:#Learning Resources Settings are visible###24 02 2009 new variable
 common#:#lrss_read#:#Read access to Learning Resources Settings###24 02 2009 new variable
 common#:#lrss_write#:#Edit Learning Resources Settings###24 02 2009 new variable
-content#:#cont_edit_lrs_settings#:#Edit Settings###24 02 2009 new variable
-content#:#cont_activation#:#Activation###24 02 2009 new variable
+content#:#cont_edit_lrs_settings#:#Ret indstillinger
+content#:#cont_activation#:#Aktivering
 content#:#cont_page_activation#:#Page Activation###24 02 2009 new variable
 content#:#cont_activated#:#Activated###24 02 2009 new variable
 content#:#cont_deactivated#:#Deactivated###24 02 2009 new variable
@@ -9147,31 +9147,31 @@ chat#:#chat_default_bookmark_description#:#Link to Chat Room ' %s '###30 04 2009
 chat#:#chat_added_to_addressbook#:#The User ' %s ' has been added to your Contacts.###30 04 2009 new variable
 chat#:#chat_user_already_in_addressbook#:#The User is already in your Contacts.###30 04 2009 new variable
 chat#:#chat_recent_postings#:#Recent Chat Postings###30 04 2009 new variable
-chat#:#chat_available_smilies#:#Available Smilies###30 04 2009 new variable
-chat#:#chat_smiley_image#:#Smiley Image###30 04 2009 new variable
-chat#:#chat_smiley_keyword#:#Smiley Keyword###30 04 2009 new variable
+chat#:#chat_available_smilies#:#Smiley oversigt :-)
+chat#:#chat_smiley_image#:#Ikon
+chat#:#chat_smiley_keyword#:#Smily tekst
 chat#:#chat_add_smiley#:#Lav smiley
 chat#:#chat_edit_smiley#:#Ret smiley
-chat#:#chat_image_path#:#Image Path###30 04 2009 new variable
+chat#:#chat_image_path#:#Billede/ikon
 chat#:#chat_current_image_path#:#Current Image Path###30 04 2009 new variable
-chat#:#chat_smiley_keywords#:#Smiley Keyword###30 04 2009 new variable
-chat#:#chat_smiley_keywords_one_per_line_note#:#You can enter multiple Keywords for each Smiley. Each line will be used as a seperate Keyword.###30 04 2009 new variable
-chat#:#chat_upload_smiley#:#Upload Smiley###30 04 2009 new variable
+chat#:#chat_smiley_keywords#:#Smiley tekster
+chat#:#chat_smiley_keywords_one_per_line_note#:#Du kan indtaste flere tekster for hver smiley. Hver linje bruges som en seperart mulighed.
+chat#:#chat_upload_smiley#:#Upload smiley
 chat#:#chat_smiley_image_only_if_changed#:#Please enter a new Image only if you want to change the existing. If no new Image is given, the existing won't be changed.###30 04 2009 new variable
-chat#:#chat_delete_selected#:#Delete selected Smilies###30 04 2009 new variable
-chat#:#chat_new_message_sound_status#:#Play a sound if a new Message is received###30 04 2009 new variable
-chat#:#edit_smilies#:#Edit Smilies###30 04 2009 new variable
+chat#:#chat_delete_selected#:#Slet valgte smilies
+chat#:#chat_new_message_sound_status#:#Afspil en lyd når der kommer en ny besked
+chat#:#edit_smilies#:#Ret smilies
 chat#:#chat_message_notify#:#Message Notifier###30 04 2009 new variable
 chat#:#chat_message_notify_activate#:#Activate Message Notify###30 04 2009 new variable
 chat#:#chat_message_notify_deactivate#:#Deactivate Message Notify###30 04 2009 new variable
-chat#:#chat_smilies_status#:#Chat Smilies###30 04 2009 new variable
-chat#:#chat_smilies_activate#:#Activate Smilies###30 04 2009 new variable
-chat#:#chat_smilies_deactivate#:#Deactivate Smilies###30 04 2009 new variable
+chat#:#chat_smilies_status#:#Chat smilies
+chat#:#chat_smilies_activate#:#Aktiver smilies
+chat#:#chat_smilies_deactivate#:#Deaktiver smilies
 chat#:#chat_enable_autoscroll#:#Enable Autoscroll###30 04 2009 new variable
 chat#:#chat_chatviewer#:#Chat Viewer###30 04 2009 new variable
 chat#:#chat_room_does_not_exist#:#The Chat Room does not exist. Maybe it has been removed or you used an invalid link.###30 04 2009 new variable
-chat#:#chat_user_hidden#:#hidden###30 04 2009 new variable
-chat#:#chat_user_visible#:#visible###30 04 2009 new variable
+chat#:#chat_user_hidden#:#skjult
+chat#:#chat_user_visible#:#synlig
 common#:#content_frame#:#Content Frame###30 04 2009 new variable
 common#:#side_frame#:#Side Frame###30 04 2009 new variable
 common#:#icon#:#Ikon
@@ -9452,15 +9452,15 @@ cmps#:#cmps_plugin_activated#:#Plugin blev aktiveret.
 cmps#:#cmps_plugin_deactivated#:#Plugin er deaktiveret.
 common#:#back_to_sess_content#:#Back to Session Content###26 06 2009 new variable
 common#:#crs_unsubscribe#:#Unsubscribe###26 06 2009 new variable
-dateplaner#:#cal_edit_milestone#:#Ret milesten
+dateplaner#:#cal_edit_milestone#:#Ret milepæl
 common#:#grp_btn_unsubscribe#:#Unsubscribe From Group###26 06 2009 new variable
 dateplaner#:#cal_deadline#:#Deadline###26 06 2009 new variable
 dateplaner#:#cal_ms_users_responsible#:#Users Responsible###26 06 2009 new variable
 dateplaner#:#cal_save_responsible_users#:#Save Responsible Users###26 06 2009 new variable
 dateplaner#:#cal_change_responsible_users#:#Change Responsible Users###26 06 2009 new variable
 dateplaner#:#cal_ms_details#:#Milestone Details###26 06 2009 new variable
-dateplaner#:#cal_enable_group_milestones#:#Brug milesten
-dateplaner#:#cal_enable_group_milestones_desc#:#Slå planlægning med milesten i kalenderen til.
+dateplaner#:#cal_enable_group_milestones#:#Brug milepæle
+dateplaner#:#cal_enable_group_milestones_desc#:#Slå planlægning med milepæle i kalenderen til.
 dateplaner#:#cal_new_ms#:#New Milestone###26 06 2009 new variable
 dateplaner#:#cal_add_milestone#:#Add Milestone###26 06 2009 new variable
 dateplaner#:#cal_task_completion#:#Task Completion###26 06 2009 new variable
