@@ -166,7 +166,7 @@ class ilLPObjSettings
 		global $ilDB;
 
 		$query = "SELECT visits FROM ut_lp_settings ".
-			"WHERE obj_id = ".$ilDB->quote($this->getObjId() ,'integer');
+			"WHERE obj_id = ".$ilDB->quote($a_obj_id ,'integer');
 
 		$res = $ilDB->query($query);
 		while($row = $res->fetchRow(DB_FETCHMODE_OBJECT))
