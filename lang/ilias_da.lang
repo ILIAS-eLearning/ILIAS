@@ -2058,13 +2058,13 @@ common#:#offline#:#offline
 common#:#offline_version#:#Offline Version###21 Apr 2005 new variable
 common#:#ok#:#OK
 common#:#go#:#Go###08 12 2006 new variable
-common#:#hh_mm_ss#:#HH:MM:SS###25 02 2007 new variable
-common#:#hh_mm#:#HH:MM###25 02 2007 new variable
+common#:#hh_mm_ss#:#tt:mm:ss
+common#:#hh_mm#:#tt:mm
 common#:#old#:#Gammel
-common#:#online#:#Online###20 Jun 2005 new variable
+common#:#online#:#Online
 common#:#online_chapter#:#Online Kapitel
 common#:#online_time#:#Time online (DD:HH:MM:SS)
-common#:#online_version#:#Online Version###21 Apr 2005 new variable
+common#:#online_version#:#Online version
 common#:#open_views_inside_frameset#:#Åben liste i frame
 common#:#operation#:#Operation###21 Apr 2005 new variable
 common#:#optimize#:#Optimer
@@ -4846,7 +4846,7 @@ crs#:#crs_no_question_selected#:#Vær venlig at vælge et spørgsmål
 crs#:#crs_no_questions_assigned#:#Der er ingen spørgsmål knyttet
 crs#:#crs_no_results_found#:#Ingen resultater fundet
 crs#:#crs_no_roles_selected#:#Vælg venligst en rolle
-crs#:#crs_no_starter_created#:#Der er ikke valgt startobjekter til dette kursus.
+crs#:#crs_no_starter_created#:#Der er ikke valgt startmateriale til dette kursus.
 crs#:#crs_no_subscribers_selected#:#Vælg venligst en bruger
 crs#:#crs_no_tests_inside_crs#:#No tests inside this course, which can be assigned to this learning objective.###21 Apr 2005 new variable
 crs#:#crs_no_users_added#:#Ingen deltagere tilføjet
@@ -6463,6 +6463,13 @@ payment#:#pays_objects_paypal_exist#:#Betaling via 'PayPal' anvendes til nogle v
 payment#:#pays_offline#:#Offline###21 Apr 2005 new variable
 payment#:#pays_online#:#Online
 payment#:#pays_page_style#:#Page style
+payment#:#pays_epay#:#ePay
+payment#:#pays_epay_info#:#Konfiguration af <a href="http://www.epay.dk" target="_blank">www.epay.dk</a> som betalingsgateway, der gør det muligt at modtaget DanKort samt udenlandske kort.
+payment#:#pays_epay_settings#:#Opsætning af ePay
+payment#:#pays_epay_server_host#:#Server
+payment#:#pays_epay_server_path#:#Sti
+payment#:#pays_epay_merchant_number#:#Indløsningsnummer
+payment#:#pays_epay_auth_token#:#Hemmelighed
 payment#:#pays_pay_methods#:#Betalingsmetoder
 payment#:#pays_paypal#:#PayPal
 payment#:#pays_paypal_settings#:#Settings for PayPal
@@ -9104,10 +9111,10 @@ search#:#lucene_relevance#:#Relevance of Search Results###30 04 2009 new variabl
 search#:#lucene_show_relevance#:#Show Relevance###30 04 2009 new variable
 search#:#lucene_show_relevance_info#:#Search results are sorted by their relevance. If activated, the relevance is shown as additional information for each search result.###30 04 2009 new variable
 payment#:#pay_payed_bill#:#Regning betalt
-payment#:#vat_title#:#Momstitel
+payment#:#vat_title#:#Titel
 payment#:#vat_rate#:#Moms %
 payment#:#vat_unit#:#Momssats
-payment#:#paya_insert_vats#:#Indsæt moms
+payment#:#paya_insert_vats#:#Opret sats
 payment#:#paya_no_vats_assigned#:#No vats assigned###30 04 2009 new variable
 payment#:#paya_vat_not_valid#:#Satsen er ugyldig
 payment#:#paya_vat_already_exists#:#Denne sats eksisterer i forvejen
@@ -9421,7 +9428,7 @@ content#:#cont_page_layout#:#Sidelayout
 content#:#cont_layout_per_page#:#Layout per Page###15 05 2009 new variable
 content#:#cont_layout_per_page_info#:#Allow to set individual layouts for each page. This automatically activates the "Synchronize Frames" setting, too.###15 05 2009 new variable
 payment#:#paya_vats_info#:#Hvis du ønsker at sælge varer uden moms skal du oprette momssats med 0%
-payment#:#payment_tax_rates#:#Tax Rates###22 05 2009 new variable
+payment#:#payment_tax_rates#:#Momssatser
 payment#:#payment_vat_already_created#:#En momssats med denne procent er allerede oprettet.
 payment#:#payment_cannot_save_existing_vat#:#Cannot save an existing VAT.###22 05 2009 new variable
 payment#:#payment_cannot_update_nonexisting_vat#:#Cannot update a nonexisting VAT.###22 05 2009 new variable
@@ -9472,7 +9479,7 @@ common#:#grp_removed_from_waiting_list#:#You have been detached from the waiting
 common#:#crs_removed_from_waiting_list#:#You have been detached from the waiting list of course "%s".###26 06 2009 new variable
 common#:#membership_leave#:#Leave###26 06 2009 new variable
 crs#:#event_section_information#:#Session Information###26 06 2009 new variable
-crs#:#event_btn_add_edit#:#Add Session and Assign Materials###26 06 2009 new variable
+crs#:#event_btn_add_edit#:#Opret session og tildel materialer
 crs#:#crs_search_users#:#Search Users###26 06 2009 new variable
 crs#:#crs_user_login#:#User Login###26 06 2009 new variable
 grp#:#grp_search_users#:#Search User###26 06 2009 new variable
@@ -9491,15 +9498,15 @@ crs#:#crs_warn_no_max_set_on_waiting_list#:#The maximum number of course members
 crs#:#crs_warn_wl_set_on_waiting_list#:#Some users are already assigned to the waiting list. You can add your join request to the waiting list. You will receive a message from a course administrator when your request has been approved or rejected.###26 06 2009 new variable
 grp#:#grp_warn_no_max_set_on_waiting_list#:#The maximum number of group members is exceeded. You can add your join request to the waiting list. You will receive a message from a group administrator when your request has been approved or rejected.###26 06 2009 new variable
 grp#:#grp_warn_wl_set_on_waiting_list#:#Some users are already assigned to the waiting list. You can add your join request to the waiting list. You will receive a message from a group administrator when your request has been approved or rejected.###26 06 2009 new variable
-common#:#mem_add_to_wl#:#Add to Waiting List###26 06 2009 new variable
+common#:#mem_add_to_wl#:#Put på venteliste
 common#:#event_assign_files#:#File Assignment###26 06 2009 new variable
 assessment#:#qpl_browsercolumns#:#Customized question list###26 06 2009 new variable
 assessment#:#qpl_browsercolumns_description#:#Select the question data columns that are shown in the question list of a question pool. This setting will be applied for each available question pool.###26 06 2009 new variable
-chat#:#chat_export_status#:#Required export permissions###26 06 2009 new variable
-chat#:#chat_export_all#:#No restrictions (all users with access may export)###26 06 2009 new variable
-chat#:#chat_export_moderator#:#Moderators only###26 06 2009 new variable
-chat#:#chat_export_period#:#Export period###26 06 2009 new variable
-chat#:#chat_export_period_info#:#Export the given number of days###26 06 2009 new variable
+chat#:#chat_export_status#:#Krævede eksportrettigheder
+chat#:#chat_export_all#:#Ingen restriktioner (alle brugere med adgang må eksportere)
+chat#:#chat_export_moderator#:#Kun moderatorer
+chat#:#chat_export_period#:#Eksportperiode
+chat#:#chat_export_period_info#:#Eksporter antal dage
 chat#:#chat_export_info#:#Displays an export button for the current room. The messages will be exported to html.###26 06 2009 new variable
 chat#:#chat_textformat#:#Format text###26 06 2009 new variable
 chat#:#chat_show_textformat#:#Format text###26 06 2009 new variable
@@ -9526,21 +9533,21 @@ common#:#scorm_create_export_file_html#:#Create Export File (HTML)###26 06 2009 
 common#:#sahs_insert_page_from_clip#:#Paste Pages from Clipboard###26 06 2009 new variable
 common#:#sahs_insert_chap_from_clip#:#Paste Chapters from Clipboard###26 06 2009 new variable
 common#:#sahs_insert_sco_from_clip#:#Paste SCOs from Clipboard###26 06 2009 new variable
-sahs#:#sahs_insert_chapter#:#Insert Chapter###26 06 2009 new variable
+sahs#:#sahs_insert_chapter#:#Indsæt kapitel
 sahs#:#sahs_choose_pages_or_chapters_or_scos_only#:#Please select either pages, SCOs or chapters only.###26 06 2009 new variable
 sahs#:#sahs_insert_scenario#:#Insert Sequenced Chapter###26 06 2009 new variable
-sahs#:#sahs_insert_pagelayout#:#Insert Template Page###26 06 2009 new variable
+sahs#:#sahs_insert_pagelayout#:#Indsæt skabelonside
 sahs#:#sahs_properties#:#Properties###26 06 2009 new variable
-sahs#:#sahs_insert_page#:#Insert Page###26 06 2009 new variable
-sahs#:#sahs_insert_sco#:#Insert SCO###26 06 2009 new variable
-sahs#:#sahs_chapter#:#Chapter###26 06 2009 new variable
+sahs#:#sahs_insert_page#:#Indsæt side
+sahs#:#sahs_insert_sco#:#Indsæt SCO
+sahs#:#sahs_chapter#:#Kapitel
 sahs#:#sahs_unit#:#SCO###26 06 2009 new variable
-sahs#:#sahs_page#:#Page###26 06 2009 new variable
+sahs#:#sahs_page#:#Side
 sahs#:#sahs_objectives_alignment#:#Learning Objectives Alignment###26 06 2009 new variable
 sahs#:#sahs_learning_objectives#:#Learning Objectives###26 06 2009 new variable
 sahs#:#sahs_sco_objective#:#Objectives###26 06 2009 new variable
-sahs#:#sahs_questions#:#Questions###26 06 2009 new variable
-sahs#:#sahs_organization#:#Organization###26 06 2009 new variable
+sahs#:#sahs_questions#:#Spørgsmål
+sahs#:#sahs_organization#:#Organisation
 sahs#:#sahs_sequencing#:#Sequencing###26 06 2009 new variable
 sahs#:#sahs_objective_alignment#:#Objectives Alignment###26 06 2009 new variable
 content#:#cont_LocalFile#:#Local File###26 06 2009 new variable
@@ -9551,11 +9558,11 @@ content#:#cont_ed_paste#:#Paste###26 06 2009 new variable
 content#:#cont_ed_insert_pcqst#:#Insert Question###26 06 2009 new variable
 content#:#cont_ed_select_pctext#:#Select Text Item###26 06 2009 new variable
 content#:#cont_question_pool#:#Question Pool###26 06 2009 new variable
-content#:#cont_question_type#:#Question Type###26 06 2009 new variable
+content#:#cont_question_type#:#Spørgsmålstype
 content#:#cont_text_type#:#Text Item Type###26 06 2009 new variable
-content#:#cont_ed_par#:#Text###26 06 2009 new variable
-content#:#cont_ed_dtable#:#Data Table###26 06 2009 new variable
-content#:#cont_ed_atable#:#Advanced Table###26 06 2009 new variable
+content#:#cont_ed_par#:#Tekst
+content#:#cont_ed_dtable#:#Datatabel
+content#:#cont_ed_atable#:#Advanceret tabel
 content#:#cont_ed_list#:# Advanced List###26 06 2009 new variable
 content#:#cont_ed_textitem#:# Text Item###26 06 2009 new variable
 content#:#cont_mob_files#:#Object Files###26 06 2009 new variable
@@ -9568,16 +9575,16 @@ content#:#cont_question_placeh#:#Click and edit to insert question###26 06 2009 
 content#:#cont_text_placeh#:#Click and edit to insert text###26 06 2009 new variable
 content#:#cont_no_glossary#:#No glossary###26 06 2009 new variable
 common#:#obj_sco#:#SCO###26 06 2009 new variable
-common#:#obj_chap#:#Chapter###26 06 2009 new variable
-common#:#obj_page#:#Page###26 06 2009 new variable
+common#:#obj_chap#:#Kapitel
+common#:#obj_page#:#Side
 style#:#sty_characteristic_already_exists#:#A style class with this title already exists within this style.###26 06 2009 new variable
-content#:#cont_pc_flist#:#File List###26 06 2009 new variable
-content#:#cont_pc_par#:#Text###26 06 2009 new variable
-content#:#cont_pc_mob#:#Media###26 06 2009 new variable
+content#:#cont_pc_flist#:#Filliste
+content#:#cont_pc_par#:#Tekst
+content#:#cont_pc_mob#:#Medie
 content#:#cont_pc_qst#:#Spørgsmål
-content#:#cont_pc_sec#:#Section###26 06 2009 new variable
-content#:#cont_pc_dtab#:#Data Table###26 06 2009 new variable
-content#:#cont_pc_tab#:#Advanced Table###26 06 2009 new variable
+content#:#cont_pc_sec#:#Sektion
+content#:#cont_pc_dtab#:#Datatabel
+content#:#cont_pc_tab#:#Advanceret tabel
 content#:#cont_pc_code#:#Code###26 06 2009 new variable
 content#:#cont_pc_vacc#:#Accordion (Vertical)###26 06 2009 new variable
 content#:#cont_pc_hacc#:#Accordion (Horizontal)###26 06 2009 new variable
@@ -9589,7 +9596,7 @@ common#:#session_reminder_lead_time_info#:#Please specify, how much seconds befo
 rbac#:#rbac_delete_role#:#Delete Role###26 06 2009 new variable
 rbac#:#rbac_role_delete_qst#:#Are you sure you want to delete the following role?<br />All permissions granted by this role will be deleted permanently.###26 06 2009 new variable
 rbac#:#rbac_role_delete_self#:#<strong>Attention:</strong> You are assigned to this role. If you continue this delete operation, you may loose access to some ILIAS materials.  ###26 06 2009 new variable
-common#:#download_with_uploaded_filename#:#Download with uploaded filename###24 07 2009 new variable
+common#:#download_with_uploaded_filename#:#Hent med uploaded filnavn
 common#:#download_with_uploaded_filename_info#:#Select this option exclusively for backwards compatibility with ILIAS 3.9 and older versions: When this option is selected, the filename of a downloaded file is equal to the filename that was used for uploading the file into ILIAS. If this option is not selected, the filename of a downloaded file is equal to the title of the file object in ILIAS. This option does not affect WebDAV. For WebDAV the filename of a downloaded file is always equal to the title of the file object.###24 07 2009 new variable
 form#:#form_msg_wrong_date#:#Wrong date. Please enter a valid date.###24 07 2009 new variable
 form#:#form_msg_wrong_date_format#:#Wrong date format. Please enter the date as "%s"!###24 07 2009 new variable
@@ -9601,9 +9608,9 @@ common#:#lang_size_kb#:#KB###24 07 2009 new variable
 common#:#lang_size_bytes#:#bytes###24 07 2009 new variable
 common#:#webdav#:#WebDAV###24 07 2009 new variable
 common#:#downloading_settings#:#Downloading Settings###24 07 2009 new variable
-common#:#enable_disk_quota#:#Activate Disk Quota###24 07 2009 new variable
+common#:#enable_disk_quota#:#Brug diskkvoter
 common#:#enable_disk_quota_info#:#Allows to specify a disk quota for each user account and each global role. The disk usage of a user account is determined once every day using a cron job and listed in the user edit form and in the disk quota report.###24 07 2009 new variable
-common#:#enable_disk_quota_reminder_mail#:#Send disk quota reminder mails###24 07 2009 new variable
+common#:#enable_disk_quota_reminder_mail#:#Send advisering om overforbrug
 common#:#mail_attachment#:#Mail attachment###24 07 2009 new variable
 content#:#cont_change_object_reference#:#Change Object Reference###24 07 2009 new variable
 content#:#cont_select#:#Select###24 07 2009 new variable
@@ -9612,12 +9619,12 @@ survey#:#SurveySingleChoiceQuestion#:#Multiple Choice Question (Single Response)
 survey#:#invitation_off#:#No invitations###24 07 2009 new variable
 assessment#:#assErrorText#:#Error Text###24 07 2009 new variable
 assessment#:#textsize_errortext_info#:#Enter the text size of the error text in percent if you want another size than 100 percent.###24 07 2009 new variable
-common#:#disk_quota#:#Disk Quota###24 07 2009 new variable
-common#:#disk_usage#:#Disk Usage###24 07 2009 new variable
-common#:#disk_quota_report#:#Disk Quota Report###24 07 2009 new variable
-common#:#disk_usage_details#:#Disk Usage Details###24 07 2009 new variable
+common#:#disk_quota#:#Diskkvoter
+common#:#disk_usage#:#Diskforbrug
+common#:#disk_quota_report#:#Diskkvoterapport
+common#:#disk_usage_details#:#Detaljer for diskforbrug
 common#:#disk_quota_report_not_run_yet#:#No disk quota report available. The daily cron job which determines the disk usage needs to be executed first.###24 07 2009 new variable
-common#:#enter_in_mb_desc#:#Enter a value in MB.###24 07 2009 new variable
+common#:#enter_in_mb_desc#:#Indtast værdi i mb.
 common#:#disk_quota_on_role_desc#:#The disk quota specified on a role affects all user accounts which are assigned to this role.###24 07 2009 new variable
 common#:#disk_quota_is_1_by_2#:#The effective disk quota is %1$s due to membership in role "%2$s".###24 07 2009 new variable
 common#:#disk_quota_is_unlimited_by_1#:#The effective disk quota is unlimited due to membership in role "%1$s".###24 07 2009 new variable
@@ -9689,7 +9696,7 @@ mep#:#mep_new_folder#:#New Folder###24 07 2009 new variable
 mep#:#mep_edit_folder#:#Edit Folder###24 07 2009 new variable
 assessment#:#thumb_size#:#Thumbnail Size###24 07 2009 new variable
 forum#:#frm_purifier_not_implemented_for_type_x#:#Purifier for type %s not implemented yet.###24 07 2009 new variable
-common#:#adve_frm_post_settings#:#Forum Posts###24 07 2009 new variable
+common#:#adve_frm_post_settings#:#Forumindlæg
 common#:#advanced_editing_frm_post_settings#:#Indstillinger for indlæg i fora
 common#:#hint#:#Tip
 assessment#:#add_rect#:#Lav rektangulært område
@@ -9796,19 +9803,19 @@ common#:#advanced_editing_required_tags#:#The following HTML tags are required: 
 meta#:#md_general_settings#:#General Settings###24 07 2009 new variable
 meta#:#md_delimiter#:#Delimiter###24 07 2009 new variable
 meta#:#md_delimiter_info#:#The delimiter is used in the quick editing screen for keywords and authors separation. Default is ','.###24 07 2009 new variable
-meta#:#md_separated_by#:#Separated by %s###24 07 2009 new variable
+meta#:#md_separated_by#:#Separeret af '%s'
 content#:#cont_text_keyword#:#Keyword###24 07 2009 new variable
-search#:#search_hide_adv_search#:#Hide Advanced Search###24 07 2009 new variable
+search#:#search_hide_adv_search#:#Skjul avanceret søgning
 search#:#search_auto_complete_length#:#Number of Auto Complete List Entries###24 07 2009 new variable
-assessment#:#points_wrong#:#Wrong Selections###24 07 2009 new variable
+assessment#:#points_wrong#:#Forkerte valg
 assessment#:#points_wrong_info#:#Enter the points for all selections that are not in the list of the marked errors.###24 07 2009 new variable
-content#:#import_sco_object#:#Import SCO###24 07 2009 new variable
+content#:#import_sco_object#:#Importer SCO###24 07 2009 new variable
 content#:#scorm_editable#:#Import editable###24 07 2009 new variable
 content#:#scorm_editable_comments#:#Works only SCORM 1.2/2004 package###24 07 2009 new variable
-common#:#preview_learner#:#Medlemsvisning
-common#:#preview_learner_info#:#If enabled, Course and Group administrators have the possibility to view the content form the perspective of a learner.###24 07 2009 new variable
-common#:#mem_view_activate#:#Aktiver medlemsvisning
-common#:#mem_view_deactivate#:#Deaktiver medlemsvisning
+common#:#preview_learner#:#Deltagervisning
+common#:#preview_learner_info#:#Hvis aktiveret har ar kursus- og gruppeadministratorer mulighed for at se indholdet som almindelige deltagerne ser det.
+common#:#mem_view_activate#:#Aktiver deltagervisning
+common#:#mem_view_deactivate#:#Deaktiver deltagervisning
 mcst#:#mcst_automatic_detection#:#Automatic Detection###24 07 2009 new variable
 crs#:#sess_limit#:#Begræns antallet af sessioner
 crs#:#sess_num_prev#:#Antal tidligere sessioner
@@ -9819,9 +9826,10 @@ common#:#advanced_editing_rep_page_editing_desc#:#Dette aktiverer CMS funktional
 common#:#adve_rep_settings#:#Repository Settings###06 08 2009 new variable
 content#:#cont_please_enter_a_term#:#Please enter a term.###06 08 2009 new variable
 survey#:#no_user_invited#:#All invited users did not possess sufficient permissions to run the survey. No user was invited.###06 08 2009 new variable
-survey#:#users_invited#:#%s users have been invited###06 08 2009 new variable
-common#:#mem_view_long#:#Member View###06 08 2009 new variable
-common#:#mem_view_close#:#Close Member View###06 08 2009 new variable
+survey#:#users_invited#:#%s brugere blev inviteret
+survey#:#users_invited#:#%s brugere blev inviteret
+common#:#mem_view_long#:#Deltagervisning
+common#:#mem_view_close#:#Luk deltagervisning
 assessment#:#msg_question_count_too_low#:#Please enter a question count greater than 0###06 08 2009 new variable
 assessment#:#msg_total_questions_too_high#:#The number of questions is greater than the number of available questions in the selected questionpools###06 08 2009 new variable
 common#:#auth_ldap_migration#:#Account Migration###06 08 2009 new variable
