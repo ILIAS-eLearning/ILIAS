@@ -320,8 +320,8 @@ class ilSearchGUI extends ilSearchBaseGUI
 		{
 			$this->addPager($result_obj,'max_page');
 
-			include_once './Services/Search/classes/Lucene/class.ilLuceneSearchResultPresentation.php';
-			$presentation = new ilLuceneSearchResultPresentation($this, ilLuceneSearchResultPresentation::MODE_STANDARD);
+			include_once './Services/Search/classes/class.ilSearchResultPresentation.php';
+			$presentation = new ilSearchResultPresentation($this, ilSearchResultPresentation::MODE_STANDARD);
 			$presentation->setResults($result_obj->getResultsForPresentation());
 			$presentation->setPreviousNext($this->prev_link, $this->next_link);
 			#$presentation->setSearcher($searcher);
@@ -428,8 +428,8 @@ class ilSearchGUI extends ilSearchBaseGUI
 		// Step 6: show results
 		$this->addPager($result,'max_page');
 		
-		include_once './Services/Search/classes/Lucene/class.ilLuceneSearchResultPresentation.php';
-		$presentation = new ilLuceneSearchResultPresentation($this, ilLuceneSearchResultPresentation::MODE_STANDARD);
+		include_once './Services/Search/classes/class.ilSearchResultPresentation.php';
+		$presentation = new ilSearchResultPresentation($this, ilSearchResultPresentation::MODE_STANDARD);
 		$presentation->setResults($result->getResultsForPresentation());
 		$presentation->setPreviousNext($this->prev_link, $this->next_link);
 
