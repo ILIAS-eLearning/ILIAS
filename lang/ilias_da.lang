@@ -7615,10 +7615,10 @@ meta#:#md_adv_desc_show#:#Vis beskrivelse
 meta#:#md_adv_show#:#Vis
 common#:#udf_type_date#:#Datofelt
 common#:#sorting_header#:#Sortering
-common#:#sorting_title_header#:#Sorter efter titel.
-common#:#sorting_info_title#:#Vælg denne indstilling for at sortere emner automatisk efter titel.
-common#:#sorting_manual_header#:#Manuel sortering
-common#:#sorting_info_manual#:#Denne indstilling gør det muligt at sortere elementer manuelt.
+common#:#sorting_title_header#:#Efter titel
+common#:#sorting_info_title#:#Vælg denne indstilling for at sortere emner automatisk efter deres titeler.
+common#:#sorting_manual_header#:#Manuel
+common#:#sorting_info_manual#:#Denne indstilling gør det muligt at sortere elementerne manuelt
 common#:#sorting_save#:#Gem sortering
 common#:#frm_add_thread#:#Tilføj nyt emne
 news#:#news_x_files_created#:#%s filer er blevet tilføjet
@@ -7633,7 +7633,7 @@ forum#:#forums_post_and_children_were_deactivated#:#Dette indlæg og alle underi
 forum#:#forums_post_and_children_were_activated#:#The post and all its child posts were activated.###23 10 2007 new variable
 forum#:#forums_post_was_activated#:#Indlæget er aktiveret
 forum#:#forums_post_needs_to_be_activated#:#A new article has been created, but it needs to be activated by a moderator.###23 10 2007 new variable
-forum#:#forums_no_posts_available#:#This topic has no posts yet or the moderator deactivated the first post.###23 10 2007 new variable
+forum#:#forums_no_posts_available#:#Dette emne har ingen indlæg eller moderatoren har deaktiveret det første indlæg.
 common#:#bold#:#Fed
 common#:#newline#:#Ny linje
 common#:#ext_cat_settings#:#Rediger avancerede kategori indstillinger
@@ -9806,7 +9806,7 @@ meta#:#md_delimiter_info#:#The delimiter is used in the quick editing screen for
 meta#:#md_separated_by#:#Separeret af '%s'
 content#:#cont_text_keyword#:#Keyword###24 07 2009 new variable
 search#:#search_hide_adv_search#:#Skjul avanceret søgning
-search#:#search_auto_complete_length#:#Number of Auto Complete List Entries###24 07 2009 new variable
+search#:#search_auto_complete_length#:#Antal elementer ved autofuldførelse
 assessment#:#points_wrong#:#Forkerte valg
 assessment#:#points_wrong_info#:#Enter the points for all selections that are not in the list of the marked errors.###24 07 2009 new variable
 content#:#import_sco_object#:#Importer SCO###24 07 2009 new variable
@@ -9853,20 +9853,20 @@ assessment#:#term_image#:#Term Image###12 08 2009 new variable
 assessment#:#definition_text#:#Definition Text###12 08 2009 new variable
 assessment#:#definition_image#:#Definition Image###12 08 2009 new variable
 assessment#:#definitions#:#Definitions###12 08 2009 new variable
-content#:#cont_enter_a_dir_name#:#Please enter a directory name.###12 08 2009 new variable
-content#:#cont_enter_a_file#:#Please select a file.###12 08 2009 new variable
-content#:#cont_rename_dir#:#Rename Directory###12 08 2009 new variable
-content#:#mep_folder_created#:#Added new folder.###12 08 2009 new variable
+content#:#cont_enter_a_dir_name#:#Indtast mappenavn
+content#:#cont_enter_a_file#:#Vælg fil
+content#:#cont_rename_dir#:#Omdøb folder
+content#:#mep_folder_created#:#Mappe blev tilføjet
 assessment#:#available_terms#:#Available Terms###12 08 2009 new variable
 assessment#:#selection#:#Selection###12 08 2009 new variable
-mcst#:#mcst_set_playtime#:#Playtime has been set.###12 08 2009 new variable
+mcst#:#mcst_set_playtime#:#Afspilningstid sat.
 mcst#:#mcst_unable_to_determin_playtime#:#Unable to determine playtime. Please set it manually be clicking on Edit.###12 08 2009 new variable
 assessment#:#msg_number_of_terms_too_low#:#The number of terms must be greater or equal to the number of definitions.###12 08 2009 new variable
-grp#:#grp_missing_title#:#Please enter a group title. ###12 08 2009 new variable
-grp#:#grp_missing_grp_type#:#Please choose a group type.###12 08 2009 new variable
-grp#:#grp_missing_password#:#Please enter a group password.###12 08 2009 new variable
+grp#:#grp_missing_title#:#Indtast gruppens titel.
+grp#:#grp_missing_grp_type#:#Vælg gruppetype.
+grp#:#grp_missing_password#:#Indtast gruppepassword.
 grp#:#grp_wrong_reg_time_limit#:#Please check the registration start and end times.###12 08 2009 new variable
-user#:#user_field#:#Field###12 08 2009 new variable
+user#:#user_field#:#Felt
 user#:#user_visible_in_profile#:#Visible in Profile###12 08 2009 new variable
 grp#:#grp_already_assigned#:#You have already requested membership for this group.###12 08 2009 new variable
 common#:#sub_request_saved#:#Saved membership request###12 08 2009 new variable
