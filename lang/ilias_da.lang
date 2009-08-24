@@ -9205,12 +9205,12 @@ common#:#accs_edit_permission#:#Change permission settings###30 04 2009 new vari
 common#:#accs_visible#:#Accessibility Settings are visible###30 04 2009 new variable
 common#:#accs_read#:#Read access to Accessibility Settings###30 04 2009 new variable
 common#:#accs_write#:#Edit Accessibility Settings###30 04 2009 new variable
-common#:#obj_accs#:#Accessibility###30 04 2009 new variable
-common#:#obj_accs_desc#:#Settings for accessibility features.###30 04 2009 new variable
-acc#:#acc_access_keys#:#Access Keys###30 04 2009 new variable
-acc#:#acc_access_key#:#Access Key###30 04 2009 new variable
-acc#:#acc_component#:#Component###30 04 2009 new variable
-acc#:#acc_function#:#Function###30 04 2009 new variable
+common#:#obj_accs#:#Tilgængelighed
+common#:#obj_accs_desc#:#Indstillinger for tilgængelighed til gavn for brugere med handicap.
+acc#:#acc_access_keys#:#Genvejstaster
+acc#:#acc_access_key#:#Genvejstast
+acc#:#acc_component#:#Komponent
+acc#:#acc_function#:#Funktion
 acc#:#acc_next#:#Næste
 acc#:#acc_previous#:#Forrige
 acc#:#acc_delete#:#Slet
