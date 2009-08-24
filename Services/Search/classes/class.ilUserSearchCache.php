@@ -276,17 +276,39 @@ class ilUserSearchCache
 	public function deleteCachedEntries()
 	{
 		global $ilDB;
+		
+		$query = "SELECT COUNT(*) num FROM usr_search ".
+			"WHERE usr_id = ".$ilDB->quote($this->usr_id,'integer')." ".
+			"AND search_type = ".$ilDB->quote($this->search_type,'integer');
+		$res = $ilDB->query($query);
+		$row = $res->fetchRow(DB_FETCHMODE_OBJECT);
+		
+		if($row->num > 0)
+		{
+			$ilDB->update('usr_search',
+				array(
+					'search_result'	=> array('clob',serialize(array(0))),
+					'checked'		=> array('clob',serialize(array(0))),
+					'failed'		=> array('clob',serialize(array(0))),
+					'page'			=> array('integer',0)),
+				array(
+					'usr_id'		=> array('integer',(int) $this->usr_id),
+					'search_type'	=> array('integer',(int) $this->search_type)
+			));			
+		}
+		else
+		{
+			$ilDB->insert('usr_search',
+				array(
+					'search_result'	=> array('clob',serialize(array(0))),
+					'checked'		=> array('clob',serialize(array(0))),
+					'failed'		=> array('clob',serialize(array(0))),
+					'page'			=> array('integer',0),
+					'usr_id'		=> array('integer',(int) $this->usr_id),
+					'search_type'	=> array('integer',(int) $this->search_type)
+			));			
+		}		
 
-		$ilDB->update('usr_search',
-			array(
-				'search_result'	=> array('clob',serialize(array(0))),
-				'checked'		=> array('clob',serialize(array(0))),
-				'failed'		=> array('clob',serialize(array(0))),
-				'page'			=> array('integer',0)),
-			array(
-				'usr_id'		=> array('integer',(int) $this->usr_id),
-				'search_type'	=> array('integer',(int) $this->search_type)
-		));			
 		$this->setResultPageNumber(1);
 		$this->search_result = array();
 		$this->checked = array();
