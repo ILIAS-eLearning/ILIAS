@@ -84,7 +84,7 @@ class ilSearchResultTableGUI extends ilTable2GUI
 			$width2 = (int) ((50 - $width1));
 			
 			$this->tpl->setCurrentBlock('relev');
-			$this->tpl->setVariable('VAL_REL',sprintf("%.02f %%",$relevance));
+			$this->tpl->setVariable('VAL_REL',sprintf("%d %%",$relevance));
 			$this->tpl->setVariable('WIDTH_A',$width1);
 			$this->tpl->setVariable('WIDTH_B',$width2);
 			$this->tpl->setVariable('IMG_A',ilUtil::getImagePath("relevance_blue.gif"));
