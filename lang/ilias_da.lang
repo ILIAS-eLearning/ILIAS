@@ -444,7 +444,7 @@ common#:#back_to_fold_content#:#Tilbage til folderindhold
 common#:#back_to_grp_content#:#Tilbage til gruppeindhold
 common#:#basedn#:#BaseDN
 common#:#basic_data#:#Standard Data
-common#:#basic_settings#:#Basic Settings
+common#:#basic_settings#:#Almindelige indstillinger
 common#:#benchmark#:#Benchmark
 common#:#benchmark_settings#:#Benchmarkindstillinger
 common#:#benchmarks#:#Benchmark
@@ -4356,7 +4356,7 @@ content#:#cont_ed_width#:#Bredde
 content#:#cont_edit_area#:#Rediger Område
 content#:#cont_edit_file_list_properties#:#Rediger egenskaber for fil liste
 content#:#cont_edit_mob#:#Rediger Media Objekt
-content#:#cont_edit_mob_alias_prop#:#Rediger Media Objekt Vigtige Egenskaber
+content#:#cont_edit_mob_alias_prop#:#Ret egenskaber for medieobjektet
 content#:#cont_edit_mob_files#:#Objekt Filer
 content#:#cont_edit_mob_properties#:#Rediger Media Objekt Egenskaber
 content#:#cont_edit_par#:#Rediger Paragraf
@@ -4399,7 +4399,7 @@ content#:#cont_import_id#:#identifier###21 Apr 2005 new variable
 content#:#cont_insert_file_item#:#Indsæt Fil Item
 content#:#cont_insert_file_list#:#Indsæt filliste
 content#:#cont_insert_list#:#Indsæt liste
-content#:#cont_insert_mob#:#Indsæt Media Objekt
+content#:#cont_insert_mob#:#Indsæt medie
 content#:#cont_insert_new_footnote#:#indsæt ny fodnote
 content#:#cont_insert_par#:#Indsæt Paragraph
 content#:#cont_insert_search#:#Indsæt et søgeord
@@ -8532,7 +8532,7 @@ content#:#cont_Excursus#:#Excursus###15 09 2008 new variable
 content#:#cont_localfile#:#Lokal fil
 content#:#cont_Block#:#Blok
 content#:#cont_def_map_areas#:#Standard linkområder
-content#:#cont_inst_map_areas#:#Instance Link Areas###15 09 2008 new variable
+content#:#cont_inst_map_areas#:#Instansens linkområder
 content#:#cont_mob_def_prop#:#Standardegenskaber
 content#:#cont_current_page#:#Nuværende side
 content#:#cont_current_chapter#:#Nuværende kapitel
@@ -8774,19 +8774,19 @@ common#:#payment_demo#:#Demo
 payment#:#payment_back_to_shop#:#Tilbage til shoppen
 content#:#cont_adjust_size#:#Juster størrelse
 content#:#cont_use_same_resource_as_above#:#Use the same resource as above###24 02 2009 new variable
-content#:#cont_constrain_proportions#:#Constrain Proportions###24 02 2009 new variable
+content#:#cont_constrain_proportions#:#Bevar skaleringsforhold
 common#:#add_parameter#:#Nyt parameter
 common#:#delete_parameter#:#Slet parameter
 common#:#confirm_delete_parameter#:#Do you really want to delete the parameter?###24 02 2009 new variable
 assessment#:#assFlashQuestion#:#Flash Question###24 02 2009 new variable
-content#:#cont_resource_size#:#Resource Size###24 02 2009 new variable
+content#:#cont_resource_size#:#Resurse størrelse
 content#:#cont_resize_img#:#Skaler billedfil
 content#:#cont_autostart#:#Autostart###24 02 2009 new variable
 content#:#cont_default#:#Standard
 content#:#cont_custom#:#Custom###24 02 2009 new variable
 content#:#cont_no_parameters#:#No Parameters###24 02 2009 new variable
 content#:#cont_no_caption#:#No Caption###24 02 2009 new variable
-content#:#cont_custom_size#:#Custom Size###24 02 2009 new variable
+content#:#cont_custom_size#:#Bestem størrelse
 common#:#pos_top#:#Top###24 02 2009 new variable
 common#:#pos_right#:#Højre
 common#:#pos_bottom#:#Bund
@@ -9660,14 +9660,14 @@ ldap#:#ldap_role_selection_info#:#Your selection is ambiguous. Please choose one
 ldap#:#ldap_role_by_plugin#:#By Plugin###24 07 2009 new variable
 common#:#reg_mail_subject_confirmation#:#ILIAS eLearning - Your Confirmationlink###24 07 2009 new variable
 common#:#reg_mail_body_confirmation#:#to activate your account and confirm ownership of this email address, click the link below:###24 07 2009 new variable
-chat#:#chat_add_blocking#:#Block user###24 07 2009 new variable
+chat#:#chat_add_blocking#:#Bloker bruger
 chat#:#chat_confirm_delete#:#Are you sure that you want to delete this rooms?###24 07 2009 new variable
-style#:#sty_type_heading1#:#Heading 1###24 07 2009 new variable
-style#:#sty_type_heading2#:#Heading 2###24 07 2009 new variable
-content#:#saved_media_object#:#Saved media object.###24 07 2009 new variable
-content#:#text_repr#:#Text Representation###24 07 2009 new variable
-content#:#text_repr_info#:#Used for image "alt" attribute.###24 07 2009 new variable
-style#:#sty_type_heading3#:#Heading 3###24 07 2009 new variable
+style#:#sty_type_heading1#:#Overskrift 1
+style#:#sty_type_heading2#:#Overskrift 2
+content#:#saved_media_object#:#Medieobjekt blev gemt
+content#:#text_repr#:#Alternativ tekst
+content#:#text_repr_info#:#Bruges i billedets "alt" attribut.
+style#:#sty_type_heading3#:#Overskrift 3
 common#:#socialbm_extt_social_bookmarks#:#Sociale links
 common#:#bm_manage_social_bm#:#Administrer sociale links
 common#:#bm_add_to_ilias#:#Føj til ILIAS bogmærker
