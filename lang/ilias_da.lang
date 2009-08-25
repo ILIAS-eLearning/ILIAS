@@ -6464,12 +6464,14 @@ payment#:#pays_offline#:#Offline###21 Apr 2005 new variable
 payment#:#pays_online#:#Online
 payment#:#pays_page_style#:#Page style
 payment#:#pays_epay#:#ePay
-payment#:#pays_epay_info#:#Konfiguration af <a href="http://www.epay.dk" target="_blank">www.epay.dk</a> som betalingsgateway, der gør det muligt at modtaget DanKort samt udenlandske kort.
+payment#:#pays_epay_info#:#Konfiguration af <a href="http://www.epay.dk" target="_blank">www.epay.dk</a> som betalingsgateway, der gør det muligt at modtaget DanKort samt udenlandske kort, f.eks. VISA og MasterCard.
 payment#:#pays_epay_settings#:#Opsætning af ePay
 payment#:#pays_epay_server_host#:#Server
 payment#:#pays_epay_server_path#:#Sti
 payment#:#pays_epay_merchant_number#:#Indløsningsnummer
 payment#:#pays_epay_auth_token#:#Hemmelighed
+payment#:#pays_epay_auth_email#:#Email til information
+payment#:#pays_epay_instant_capture#:#Træk øjeblikkeligt
 payment#:#pays_pay_methods#:#Betalingsmetoder
 payment#:#pays_paypal#:#PayPal
 payment#:#pays_paypal_settings#:#Settings for PayPal
@@ -6731,7 +6733,7 @@ survey#:#no_questions_available#:#Der er endnu ingen spørgsmål in denne unders
 survey#:#no_target_selected_for_move#:#Du skal vælge en mål possition!
 survey#:#no_user_or_group_selected#:#Marker venligst hvilken mulighed du søger efter (brugere og/eller grupper)!
 survey#:#or#:#eller
-survey#:#please_select#:#-- vælg --
+survey#:#please_select#:#--  --
 survey#:#preview#:#prøvevisning
 survey#:#previous_question_rows#:#<< Spørgsmål %d - %d af %d
 survey#:#qpl_confirm_delete_questions#:#Er du sikker på du vil slette det følgende spørgsmål?
@@ -6768,7 +6770,7 @@ survey#:#add_limits_for_standard_numbers#:#Indtast venligst en nedre og øvre gr
 survey#:#add_phrase#:#Tilføj sætning
 survey#:#add_phrase_introduction#:#Vælg venligst en sætning:
 survey#:#add_standard_numbers#:#Tilføj standart numre
-survey#:#already_completed_survey#:#Du har allerede afsluttet undersøgelsen! Det er ikke muligt at åbne undersøgelsen igen.###28 Feb 2006 content changed
+survey#:#already_completed_survey#:#Du har allerede afsluttet undersøgelsen! Det er ikke muligt at gentage den.
 survey#:#anonymization#:#Anonymisering
 survey#:#anonymize_anonymous_introduction#:#This survey anonymizes all user data. To grant you access to the survey, you must use a 32-character survey code which you can receive from the creator/maintainer of this survey<br />Please enter it in the text field below.###21 Apr 2005 new variable
 survey#:#anonymize_key_introduction#:#This survey anonymizes all user data. To grant you access to the survey, a 32-character code was created by the system and will be sent to your ILIAS mail inbox when you start the survey (after answering the first question). Your survey access code is<br 
@@ -9067,7 +9069,7 @@ assessment#:#maxsize#:#Maksimal størrelse på uploadede filer
 assessment#:#maxsize_info#:#Enter the maximum size in bytes that should be allowed for file uploads. If you leave this field empty, the maximum size of this installation will be chosen instead.###24 02 2009 new variable
 common#:#save_customer_address#:#Gem faktureringsadresse
 common#:#save_customer_address_info#:#Hvis aktiveret gennem kundens faktureringsadresse.
-common#:#bookings#:#Bookings###24 02 2009 new variable
+common#:#bookings#:#Ordrer
 forum#:#frm_sure_delete_threads#:#Er du sikker på du ønsker at slette disse tråde?
 trac#:#trac_title_description#:#Titel/beskrivelse
 common#:#file_locked_by#:#Filen er låst af
