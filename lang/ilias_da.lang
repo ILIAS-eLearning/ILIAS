@@ -1794,18 +1794,18 @@ common#:#msg_no_search_result#:#Ingen stier fundet
 common#:#msg_no_search_string#:#Indtast din forespørgsel
 common#:#msg_no_sysadmin_sysrole_not_assignable#:#Kun en systemadministrator kan give brugere en systemadministratorrolle
 common#:#msg_no_title#:#Angiv en titel.
-common#:#msg_input_is_required#:#This input is required. Please enter a value.###18 12 2006 new variable
+common#:#msg_input_is_required#:#Indtastning i dette felt er krævet.
 common#:#msg_no_type_accessible#:#Sorry. You do not have the permissions to access any [type] of this list.
 common#:#msg_no_type_available#:#Der er desværre ingen [type] tilgængelig pt.
 common#:#msg_no_url#:#Du har ikke anført en URL
 common#:#msg_not_available_for_anon#:#Den side du har valgt er kun tilgængelig for registrerede brugere
 common#:#msg_not_in_itself#:#Det er ikke muligt at kopiere et object ind i sig selv
-common#:#msg_nothing_found#:#msg_nothing_found###21 Apr 2005 new variable
+common#:#msg_nothing_found#:#Intet blev fundet
 common#:#msg_obj_created#:#Objekt oprettet.
 common#:#msg_obj_exists#:#Objektet eksisterer allerede i denne mappe.
 common#:#msg_obj_modified#:#Ændringerne er gemt.
 common#:#msg_obj_no_link#:#er ikke tilladt at blive linket til
-common#:#msg_obj_not_deletable_sold#:#Payment is activated for the following objects. They can no be deleted.###21 Apr 2005 new variable
+common#:#msg_obj_not_deletable_sold#:#Betaling er tilknyttet de listede varer. De kan derfor ikke slettes.
 common#:#msg_perm_adopted_from1#:#rettigheder er arvet fra
 common#:#msg_perm_adopted_from2#:#(Indstillinger er blevet gemt!)
 common#:#msg_perm_adopted_from_itself#:#Du kan ikke arve rettighedsindstillinger med din nuværende rolle.
@@ -1830,7 +1830,7 @@ common#:#my_grps#:#Mine grupper
 common#:#my_los#:#Mine Lærer Objekter
 common#:#my_tsts#:#Mine tests
 common#:#name#:#Navn
-common#:#never#:#never###11 Mar 2005 new variable
+common#:#never#:#aldrig
 common#:#new#:#Ny
 common#:#new_appointment#:#Ny aftale
 common#:#new_folder#:#Ny mappe
@@ -2582,7 +2582,7 @@ common#:#tree_frame#:#Tree Frame
 common#:#tree_frame_info#:#Defines whether the tree frame (e.g. repository tree) should appear on the left or on the right.
 common#:#tree_left#:#Left
 common#:#tree_right#:#Right
-common#:#treeview#:#Træ oversigt
+common#:#treeview#:#Træoversigt
 common#:#tst#:#Test###21 Apr 2005 new variable
 common#:#tst_add#:#Tilføj tekst
 common#:#tst_anon_eval#:#Resultater
@@ -2596,15 +2596,15 @@ common#:#tst_run#:#Kør
 common#:#tst_tst_statistics#:#Adgang til teststatistiker
 common#:#tst_statistical_evaluation#:#Statistik
 common#:#tst_upload_file#:#Upload fil
-common#:#tst_user_not_invited#:#You are not supposed to take this exam.###17 Aug 2005 new variable
-common#:#tst_user_wrong_clientip#:#You don't have the right ip using this test###17 Aug 2005 new variable
+common#:#tst_user_not_invited#:#Du ikke en af de studerende der skal tage denne test
+common#:#tst_user_wrong_clientip#:#Du kan ikke tilgå testen med din nuværende ip-adresse
 common#:#tst_visible#:#Testen er synlig
-common#:#tst_warning_test_not_complete#:#Denne test er ikke afsluttet!###20 Jun 2005 new variable
+common#:#tst_warning_test_not_complete#:#Testen er endnu ikke færdiggjort
 common#:#tst_write#:#Rediger Test
 common#:#txt_add_object_instruction1#:#Gå til placeringen hvor du vil tilføje
 common#:#txt_add_object_instruction2#:#.###21 Apr 2005 new variable
-common#:#txt_registered#:#Du har succesfuldt registreret dig som medlem af ILIAS. Klik venligst på kanppen nedenunder for at logge ind på ILIAS med din nye brugerkonto.
-common#:#txt_registered_passw_gen#:#You successfully registered to ILIAS. You should receive an eMail including your generated password shortly.###13 06 2007 new variable
+common#:#txt_registered#:#Du har nu oprettet en konto på ILIAS. Klik på knappen nedenfor for at logge ind. 
+common#:#txt_registered_passw_gen#:#Du har nu oprettet en konto på ILIAS. I løbet af kort tid modtager du en email med det genererede password.
 common#:#txt_submitted#:#Du har succesfuldt sendt en ansøgning om en konto til ILIAS. Din forespørgsel vil set på af en system administrator, og vil blive aktiveret indenfor 48 timer, Du har ikke mulighed for at logge ind før din konto er aktiveret.
 common#:#typ#:#Objekt typedefinition
 common#:#type_your_message_here#:#Skriv din besked her
@@ -2640,18 +2640,18 @@ common#:#unlabeled#:#Generelt
 common#:#unread#:#Ulæste
 common#:#unread_lowercase#:#ulæst
 common#:#unselected#:#Uvalgt
-common#:#unsubscribe#:#Fjern fra skrivebord###Hed tidligere Afmeld
+common#:#unsubscribe#:#Fjern fra skrivebord
 common#:#unzip#:#Unzip
 common#:#up#:#Op
 common#:#update#:#Rediger
 common#:#update_applied#:#Opdatering gennemført
-common#:#update_language#:#Opdater Sprog
-common#:#update_on_conflict#:#Update on conflict###09 Mar 2005 new variable
+common#:#update_language#:#Opdater sprog
+common#:#update_on_conflict#:#Opdater ved konflikt
 common#:#upload#:#Upload###21 Apr 2005 new variable
 common#:#upload_error_file_not_found#:#Upload fejl: Fil ikke fundet.
 common#:#uploaded_and_checked#:#Filen er blevet uploadet og checket, Du kan nu importere filen.
 common#:#uri#:#URI
-common#:#url#:#URL###21 Apr 2005 new variable
+common#:#url#:#URL
 common#:#url_a#:#en URL###21 Apr 2005 new variable
 common#:#url_add#:#Tilføj URL
 common#:#url_added#:#URL tilføjet
@@ -2690,11 +2690,11 @@ common#:#user_send_new_account_mail#:#Send kontoinformation til ny bruger
 common#:#user_statistics#:#Statistiske Data
 common#:#userdata#:#Brugerdata
 common#:#userfolder_export_csv#:#Kommaseparerede værdier
-common#:#userfolder_export_excel_x86#:#Microsoft Excel###23 Mar 2006 content changed
+common#:#userfolder_export_excel_x86#:#Microsoft Excel
 common#:#userfolder_export_file#:#Fil
 common#:#userfolder_export_file_size#:#Filstørrelse
 common#:#userfolder_export_files#:#Filer
-common#:#userfolder_export_xml#:#XML###12 Jul 2005 new variable
+common#:#userfolder_export_xml#:#XML
 common#:#username#:#Brugernavn
 common#:#users#:#Brugere
 common#:#users_not_imported#:#Følgende brugere eksisterer ikke, Deres beskeder kan ikke importeres
@@ -2876,8 +2876,8 @@ common#:#crs_copy#:#Kopier kursus
 common#:#dbk_copy#:#Kopier Digilibbog
 common#:#exc_copy#:#Copy Exercise###02 04 2007 new variable
 common#:#file_copy#:#Kopier fil
-common#:#fold_copy#:#Copy Folder###02 04 2007 new variable
-common#:#frm_copy#:#Copy Forum###02 04 2007 new variable
+common#:#fold_copy#:#Kopier mappe
+common#:#frm_copy#:#Kopier forum
 common#:#glo_copy#:#Copy Glossary###02 04 2007 new variable
 common#:#grp_copy#:#Copy Group###02 04 2007 new variable
 common#:#htlm_copy#:#Copy HTML Learning Module###02 04 2007 new variable
@@ -2886,7 +2886,7 @@ common#:#lm_copy#:#Copy ILIAS Lernmodul###02 04 2007 new variable
 common#:#mcst_copy#:#Copy MediaCast###02 04 2007 new variable
 common#:#sahs_copy#:#Copy SCORM/AICC Learning Module###02 04 2007 new variable
 common#:#svy_copy#:#Copy Survey###02 04 2007 new variable
-common#:#tst_copy#:#Copy Test###02 04 2007 new variable
+common#:#tst_copy#:#Kopier test
 common#:#webr_copy#:#Copy Web Resource###02 04 2007 new variable
 common#:#missing_perm#:#Missing Permission###02 04 2007 new variable
 common#:#forums_anonymized#:#Forum anonymiseret
@@ -3198,11 +3198,11 @@ assessment#:#ects_use_fx_grade#:#Brug 'FX' karakteren, hvis dumpet deltagere nå
 assessment#:#ects_use_fx_grade_part2#:#procent af de totale point.
 assessment#:#edit_content#:#Rediger indhold
 assessment#:#edit_properties#:#Egenskaber
-assessment#:#edit_test_questions#:#Edit Test Questions###13 06 2007 new variable
-assessment#:#enable_javascript#:#Click to enable JavaScript support###29 05 2007 new variable
-assessment#:#disable_javascript#:#Click to disable JavaScript support###29 05 2007 new variable
+assessment#:#edit_test_questions#:#Ret test-spørgsmål
+assessment#:#enable_javascript#:#Klik for at aktivere JavaScript
+assessment#:#disable_javascript#:#Klik for at deaktivere JavaScript
 assessment#:#end_tag#:#Afslut
-assessment#:#ending_time_reached#:#Du har nået slut tidspunktet
+assessment#:#ending_time_reached#:#Tiden er udløbet
 assessment#:#enlarge#:#enlarge
 assessment#:#enter_anonymous_code#:#Angiv anononym adgangskode
 assessment#:#enter_enough_positive_points#:#Det maksimale pointtal for besvarelse skal være højere end 0. Indtast et positivt pointtal.
@@ -3233,8 +3233,8 @@ assessment#:#eval_search_userselection#:#Søg på brugere du vil tilføje i en b
 assessment#:#eval_selected_users#:#Evaluering for udvalgte brugere
 assessment#:#exp_eval_data#:#Eksporter evalueringsdata som
 assessment#:#exp_type_certificate#:#Certificate (PDF)###10 10 2006 new variable
-assessment#:#exp_type_excel#:#Microsoft Excel###21 Apr 2005 new variable
-assessment#:#exp_type_spss#:#komma separeret værdier (CSV)
+assessment#:#exp_type_excel#:#Microsoft Excel
+assessment#:#exp_type_spss#:#komma separerede værdier (CSV)
 assessment#:#export#:#Eksporter
 assessment#:#externalscript_additional_parameters#:#Script Parameters###25 02 2007 new variable
 assessment#:#externalscript_use_kvc#:#Please use keyvaluecoding for the script paramters!###25 02 2007 new variable
@@ -3260,7 +3260,7 @@ assessment#:#filter_show_question_types#:#Vis spørgsmåls typer
 assessment#:#filter_show_questionpools#:#Vis spørgsmålsgrupper
 assessment#:#filter_users#:#Filtrer brugere
 assessment#:#fixed_participants_hint#:#This test is only accessible for a fixed set of participants shown below. You can change this setting by deactivating the fixed participants checkbox in the %s subtab.###29 11 2006 new variable
-assessment#:#flashfile#:#Flash file###10 05 2007 new variable
+assessment#:#flashfile#:#Flash-fil
 assessment#:#gap#:#Hul
 assessment#:#gap_definition#:#Hul definition
 assessment#:#gap_selection#:#Hul valg
@@ -6616,7 +6616,7 @@ registration#:#reg_role_assignment#:#Rolletildeling
 registration#:#reg_role_info#:#Tildelte roller
 registration#:#reg_select_one#:#Please select one entry.
 registration#:#reg_selectable_roles#:#Selectable Roles
-registration#:#reg_settings_header#:#New Registration Settings
+registration#:#reg_settings_header#:#Indstillinger for nyoprettelser af brugere
 registration#:#reg_type#:#Tilmeldingsmetode
 registration#:#reg_unknown_recipients#:#The following logins are not valid:
 registration#:#registration_settings#:#Nyoprettelser
@@ -6731,7 +6731,7 @@ survey#:#no_questions_available#:#Der er endnu ingen spørgsmål in denne unders
 survey#:#no_target_selected_for_move#:#Du skal vælge en mål possition!
 survey#:#no_user_or_group_selected#:#Marker venligst hvilken mulighed du søger efter (brugere og/eller grupper)!
 survey#:#or#:#eller
-survey#:#please_select#:#-- please select --
+survey#:#please_select#:#-- vælg --
 survey#:#preview#:#prøvevisning
 survey#:#previous_question_rows#:#<< Spørgsmål %d - %d af %d
 survey#:#qpl_confirm_delete_questions#:#Er du sikker på du vil slette det følgende spørgsmål?
@@ -9115,13 +9115,13 @@ payment#:#vat_title#:#Titel
 payment#:#vat_rate#:#Moms %
 payment#:#vat_unit#:#Momssats
 payment#:#paya_insert_vats#:#Opret sats
-payment#:#paya_no_vats_assigned#:#No vats assigned###30 04 2009 new variable
+payment#:#paya_no_vats_assigned#:#Ingen satser oprettet
 payment#:#paya_vat_not_valid#:#Satsen er ugyldig
 payment#:#paya_vat_already_exists#:#Denne sats eksisterer i forvejen
 payment#:#paya_no_vat_id_given#:#There is no vat-id given###30 04 2009 new variable
 payment#:#paya_sure_delete_vat#:#Er du sikker på du vil slette denne sats?
 payment#:#paya_vat_not_deleted#:#This vat rate is not deleted###30 04 2009 new variable
-payment#:#unlimited_duration#:#Unlimited duration###30 04 2009 new variable
+payment#:#unlimited_duration#:#Ubegrænset varighed
 payment#:#vats#:#Moms
 mail#:#invite_to_chat#:#Inviter til chat
 mail#:#mail_invite_users_to_chat#:#Inviter brugere til chat
@@ -9134,12 +9134,12 @@ chat#:#chat_open#:#Enter Room###30 04 2009 new variable
 chat#:#chat_kick#:#Smid ud
 chat#:#chat_unkick#:#Vis nåde
 chat#:#chat_add_to_bookmark#:#Add to Bookmarks###30 04 2009 new variable
-chat#:#chat_add_to_addressbook#:#Add to Contacts###30 04 2009 new variable
-chat#:#chat_confirm_delete_private_room#:#Are you sure to delete this private room?###30 04 2009 new variable
-chat#:#chat_confirm_kick_user#:#Are you sure to kick this user?###30 04 2009 new variable
-chat#:#chat_user_unkicked#:#The user has been unkicked.###30 04 2009 new variable
+chat#:#chat_add_to_addressbook#:#Føj til kontakter
+chat#:#chat_confirm_delete_private_room#:#Bekræft at du vil slette dette private rum?
+chat#:#chat_confirm_kick_user#:#Bekræft at du vil smide brugeren ud?
+chat#:#chat_user_unkicked#:#Brugeren er taget til nåde
 chat#:#chat_invite#:#Inviter
-chat#:#chat_disinvite#:#Disinvite###30 04 2009 new variable
+chat#:#chat_disinvite#:#Ophæv invitation
 chat#:#chat_confirm_user_invite#:#The User will be invited to this Chat Room###30 04 2009 new variable
 chat#:#chat_added_to_bookmarks#:#The Room ' %s ' has been added to the top folder of your Bookmarks###30 04 2009 new variable
 chat#:#chat_default_bookmark_title#:#Chat Link: %s###30 04 2009 new variable
@@ -9511,7 +9511,7 @@ chat#:#chat_export_info#:#Displays an export button for the current room. The me
 chat#:#chat_textformat#:#Format text###26 06 2009 new variable
 chat#:#chat_show_textformat#:#Format text###26 06 2009 new variable
 registration#:#reg_type_confirmation#:#Registration with Email Confirmation###26 06 2009 new variable
-registration#:#reg_type_confirmation_info#:#This type allows self-registration of users but requires an email confirmation to activate the account. This avoids self-registration to ILIAS with wrong or non-existant email addresses.###26 06 2009 new variable
+registration#:#reg_type_confirmation_info#:#Dette tillader brugerne at oprette deres egen konto, men kræver at de bekræfter deres email. Således forhindres kontooprettelser med ugyldige emailadresser.
 registration#:#reg_confirmation_hash_life_time_info#:#Enter the lifetime (seconds) of confirmation links.###26 06 2009 new variable
 registration#:#reg_confirmation_hash_life_time_expired#:#The confirmation link is not valid anymore.###26 06 2009 new variable
 registration#:#reg_confirmation_hash_not_found#:#No user account could be matched to this confirmation link.###26 06 2009 new variable
@@ -9666,15 +9666,15 @@ content#:#saved_media_object#:#Saved media object.###24 07 2009 new variable
 content#:#text_repr#:#Text Representation###24 07 2009 new variable
 content#:#text_repr_info#:#Used for image "alt" attribute.###24 07 2009 new variable
 style#:#sty_type_heading3#:#Heading 3###24 07 2009 new variable
-common#:#socialbm_extt_social_bookmarks#:#Social Bookmarks###24 07 2009 new variable
-common#:#bm_manage_social_bm#:#Manage Social Bookmarks###24 07 2009 new variable
+common#:#socialbm_extt_social_bookmarks#:#Sociale links
+common#:#bm_manage_social_bm#:#Administrer sociale links
 common#:#bm_add_to_ilias#:#Føj til ILIAS bogmærker
-common#:#bm_add_to_social_bookmarks#:#Add to Social Bookmarks###24 07 2009 new variable
+common#:#bm_add_to_social_bookmarks#:#Føj til sociale links
 assessment#:#answer_types#:#Answer Types###24 07 2009 new variable
-assessment#:#answers_singleline#:#Single Line Answers###24 07 2009 new variable
-assessment#:#answers_multiline#:#Multi Line Answers###24 07 2009 new variable
+assessment#:#answers_singleline#:#Enkeltlinje svar
+assessment#:#answers_multiline#:#Flerlinjers svar
 assessment#:#allow_images#:#Image Support for Answers###24 07 2009 new variable
-content#:#cont_no_text#:#No Text###24 07 2009 new variable
+content#:#cont_no_text#:#Ingen tekst
 content#:#cont_print_selection#:#Print View Selection###24 07 2009 new variable
 dateplaner#:#cal_dstart_dend_warn#:#Please check your input. The start of a day should be before the end of the day.###24 07 2009 new variable
 dateplaner#:#ca_day_start#:#Day Start###24 07 2009 new variable
