@@ -174,7 +174,7 @@ class ilObjSearchSettingsGUI extends ilObjectGUI
 		$hits = new ilSelectInputGUI($this->lng->txt('seas_max_hits'),'max_hits');
 		$hits->setValue($settings->getMaxHits());
 		$hits->setRequired(true);
-		for($value = 10; $value <= 100; $value += 10)
+		for($value = 5; $value <= 15; $value += 5)
 		{
 			$values[$value] = $value;
 		}

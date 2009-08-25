@@ -218,13 +218,13 @@ class ilSearchSettings
 	// PRIVATE
 	function __read()
 	{
-		$this->setMaxHits($this->ilias->getSetting('search_max_hits',50));
+		$this->setMaxHits($this->ilias->getSetting('search_max_hits',10));
 		$this->enableIndex($this->ilias->getSetting('search_index',0));
 		$this->enableLucene($this->ilias->getSetting('search_lucene',0));
 		
 		// BEGIN PATCH Lucene search
 		$this->setDefaultOperator($this->ilias->getSetting('lucene_default_operator',self::OPERATOR_AND));
-		$this->setFragmentSize($this->ilias->getSetting('lucene_fragment_size',30));
+		$this->setFragmentSize($this->ilias->getSetting('lucene_fragment_size',50));
 		$this->setFragmentCount($this->ilias->getSetting('lucene_fragment_count',3));
 		$this->setMaxSubitems($this->ilias->getSetting('lucene_max_subitems',5));
 		$this->showRelevance($this->ilias->getSetting('lucene_show_relevance',true));
