@@ -108,7 +108,6 @@ class ilLuceneAdvancedSearchFields
 			);
 			
 		// Append all advanced meta data fields
-		/*
 		include_once './Services/AdvancedMetaData/classes/class.ilAdvancedMDRecord.php';
 		include_once './Services/AdvancedMetaData/classes/class.ilAdvancedMDFieldDefinition.php';
 		foreach(ilAdvancedMDRecord::_getRecords() as $record)
@@ -121,7 +120,6 @@ class ilLuceneAdvancedSearchFields
 				}
 			}	
 		}
-		*/
 		return $fields;
 	}
 	
@@ -148,6 +146,7 @@ class ilLuceneAdvancedSearchFields
 		{
 			case 'lom_content':
 				$text = new ilTextInputGUI($this->active_fields[$a_field_name],$a_post_name);
+				$text->setSubmitFormOnEnter(true);
 				$text->setValue($a_query['lom_content']);
 				$text->setSize(30);
 				$text->setMaxLength(255);
@@ -166,6 +165,7 @@ class ilLuceneAdvancedSearchFields
 							
 			case 'lom_keyword':
 				$text = new ilTextInputGUI($this->active_fields[$a_field_name],$a_post_name);
+				$text->setSubmitFormOnEnter(true);
 				$text->setValue($a_query['lom_keyword']);
 				$text->setSize(30);
 				$text->setMaxLength(255);
@@ -173,6 +173,7 @@ class ilLuceneAdvancedSearchFields
 
 			case 'lom_coverage':
 				$text = new ilTextInputGUI($this->active_fields[$a_field_name],$a_post_name);
+				$text->setSubmitFormOnEnter(true);
 				$text->setValue($a_query['lom_coverage']);
 				$text->setSize(30);
 				$text->setMaxLength(255);
@@ -201,6 +202,7 @@ class ilLuceneAdvancedSearchFields
 
 			case 'lom_version':
 				$text = new ilTextInputGUI($this->active_fields[$a_field_name],$a_post_name);
+				$text->setSubmitFormOnEnter(true);
 				$text->setValue($a_query['lom_version']);
 				$text->setSize(30);
 				$text->setMaxLength(255);
@@ -383,6 +385,7 @@ class ilLuceneAdvancedSearchFields
 
 			case 'lom_taxon':
 				$text = new ilTextInputGUI($this->active_fields[$a_field_name],$a_post_name);
+				$text->setSubmitFormOnEnter(true);
 				$text->setValue($a_query['lom_taxon']);
 				$text->setSize(30);
 				$text->setMaxLength(255);
@@ -401,10 +404,35 @@ class ilLuceneAdvancedSearchFields
 				{
 					case ilAdvancedMDFieldDefinition::TYPE_TEXT:
 						$text = new ilTextInputGUI($this->active_fields[$a_field_name],$a_post_name);
+						$text->setSubmitFormOnEnter(true);
 						$text->setValue($a_query[$a_field_name]);
 						$text->setSize(30);
 						$text->setMaxLength(255);
 						return $text;
+						
+					case ilAdvancedMDFieldDefinition::TYPE_SELECT:
+						$select = new ilSelectInputGUI($this->active_fields[$a_field_name],$a_post_name);
+						$select->setValue($a_query[$a_field_name]);
+						$select->setOptions($field->getFieldValuesForSearch());
+						return $select;
+						
+					case ilAdvancedMDFieldDefinition::TYPE_DATE:
+					case ilAdvancedMDFieldDefinition::TYPE_DATETIME:
+						
+	 					$check = new ilCheckboxInputGUI($this->active_fields[$a_field_name],$a_post_name);
+	 					$check->setValue(1);
+	 					$check->setChecked($a_query[$a_field_name]);
+	 				
+	 					$time = new ilDateTimeInputGUI($this->lng->txt('from'),$a_field_name.'_start');
+						$time->setShowTime($field->getFieldType() != ilAdvancedMDFieldDefinition::TYPE_DATE);
+						$time->setDate(new ilDateTime(mktime(8,0,0,date('m'),date('d'),date('Y')),IL_CAL_UNIX));
+	 					$check->addSubItem($time);
+
+	 					$time = new ilDateTimeInputGUI($this->lng->txt('until'),$a_field_name.'_end');
+						$time->setShowTime($field->getFieldType() != ilAdvancedMDFieldDefinition::TYPE_DATE);
+						$time->setDate(new ilDateTime(mktime(16,0,0,date('m'),date('d'),date('Y')),IL_CAL_UNIX));
+	 					$check->addSubItem($time);
+						return $check;
 				}
 		}
 		return null;
@@ -585,7 +613,56 @@ class ilLuceneAdvancedSearchFields
 					case ilAdvancedMDFieldDefinition::TYPE_TEXT:
 					case ilAdvancedMDFieldDefinition::TYPE_SELECT:
 						return 'advancedMetaData_'.$field_id.':'.$a_query;
-
+						
+					case ilAdvancedMDFieldDefinition::TYPE_DATE:
+						
+						$value = $_POST['adv_'.$field_id.'_start'];
+						$dt['year'] = (int) $value['date']['y'];
+						$dt['mon'] = (int) $value['date']['m'];
+						$dt['mday'] = (int) $value['date']['d'];
+						$dt['hours'] = (int) 0;
+						$dt['minutes'] = (int) 0;
+						$dt['seconds'] = (int) 0;
+						$date = new ilDate($dt,IL_CAL_FKT_GETDATE);
+						$ustart = $date->get(IL_CAL_UNIX);
+						
+						$value = $_POST['adv_'.$field_id.'_end'];
+						$dt['year'] = (int) $value['date']['y'];
+						$dt['mon'] = (int) $value['date']['m'];
+						$dt['mday'] = (int) $value['date']['d'];
+						$dt['hours'] = (int) 0;
+						$dt['minutes'] = (int) 0;
+						$dt['seconds'] = (int) 0;
+						$date = new ilDate($dt,IL_CAL_FKT_GETDATE);
+						$uend = $date->get(IL_CAL_UNIX);
+						
+						return 'advancedMetaData_'.$field_id.':{'.$ustart.' TO '.$uend.'}';
+						
+					case ilAdvancedMDFieldDefinition::TYPE_DATETIME:
+						
+						$value = $_POST['adv_'.$field_id.'_start'];
+						$dt['year'] = (int) $value['date']['y'];
+						$dt['mon'] = (int) $value['date']['m'];
+						$dt['mday'] = (int) $value['date']['d'];
+						$dt['hours'] = (int) $value['time']['h'];
+						$dt['minutes'] = (int) $value['time']['m'];
+						$dt['seconds'] = (int) 0;
+						$date = new ilDateTime($dt,IL_CAL_FKT_GETDATE);
+						$ustart = $date->get(IL_CAL_UNIX);
+						
+						$value = $_POST['adv_'.$field_id.'_end'];
+						$dt['year'] = (int) $value['date']['y'];
+						$dt['mon'] = (int) $value['date']['m'];
+						$dt['mday'] = (int) $value['date']['d'];
+						$dt['hours'] = (int) $value['time']['h'];
+						$dt['minutes'] = (int) $value['time']['m'];
+						$dt['seconds'] = (int) 0;
+						$date = new ilDateTime($dt,IL_CAL_FKT_GETDATE);
+						$uend = $date->get(IL_CAL_UNIX);
+						
+						return 'advancedMetaData_'.$field_id.':{'.$ustart.' TO '.$uend.'}';
+						
+	
 				}
 				break;
 		}
