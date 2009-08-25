@@ -214,8 +214,6 @@ class ilSearchResultPresentation
 			$ilBench->start('Lucene','2100_res');
 			foreach($this->getAllReferences($c_ref_id) as $ref_id)
 			{
-				$ilBench->start('Lucene','2110_ref');
-				
 				$ilBench->start('Lucene','2120_tree');
 				if(!$tree->isInTree($ref_id))
 				{
@@ -223,7 +221,6 @@ class ilSearchResultPresentation
 				}
 				$ilBench->stop('Lucene','2120_tree');
 				
-				$ilBench->start('Lucene','2130_lookup');
 				$set[] = array(
 					"ref_id"		=> $ref_id, 
 					"obj_id"		=> $res_data,
@@ -235,12 +232,12 @@ class ilSearchResultPresentation
 			}
 			$ilBench->stop('Lucene','2100_res');
 		}
-		/*
-		if(!count($item_html))
+
+		if(!count($set))
 		{
 			return false;
 		}
-		*/
+
 		$ilBench->start('Lucene','2900_tb');
 		include_once("./Services/Search/classes/class.ilSearchResultTableGUI.php");
 		$result_table = new ilSearchResultTableGUI($this->container, "showSavedResults", $this);
