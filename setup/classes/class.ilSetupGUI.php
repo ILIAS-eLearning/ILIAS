@@ -1428,7 +1428,7 @@ echo "<br>+".$client_id;
 			// try common directories
 			foreach($dirs as $dir)
 			{
-				if (is_file($dir."/".$tool))
+				if (@is_file($dir."/".$tool))
 				{
 					$a_tools[$k."_path"] = $dir."/".$tool;
 					continue;
