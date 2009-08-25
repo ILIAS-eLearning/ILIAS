@@ -52,7 +52,25 @@ interface ilAdministrationCommandHandling
 	 * Cut object
 	 */
 	public function cut();
-	 
+	
+	/**
+	 * Target selection link
+	 * @return 
+	 */
+	public function showLinkIntoMultipleObjectsTree();
+	
+	/**
+	 * Target selection cut
+	 * @return 
+	 */
+	public function showMoveIntoObjectTree();
+	
+	/**
+	 * Perform paste into multiple objects
+	 * @return 
+	 */
+	public function performPasteIntoMultipleObjects();
+	
 	 /**
 	  * Paste
 	  */
