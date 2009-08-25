@@ -1968,7 +1968,7 @@ common#:#obj_objf#:#Objekt definitation
 common#:#obj_objf_desc#:#Administrer ILIAS objekt typer og objekt rettigheder. (kun for avancerede brugere!)
 common#:#obj_owner#:#Dette objekt er ejet af
 common#:#obj_pays#:#Betalingsindstillinger
-common#:#obj_pays_desc#:#Konfigurer betalingsindstillinger og leverandører
+common#:#obj_pays_desc#:#Konfigurer betalingsindstillinger og sælgere
 common#:#obj_pg#:#Side
 common#:#obj_qpl#:#Spørgsmålsbibliotek
 common#:#obj_recf#:#Gendannede objekter
@@ -2752,9 +2752,9 @@ common#:#usrimport_no_update_ext_account_exists#:#Can't perform "Update" action.
 common#:#valid#:#Gyldig
 common#:#validate#:#Valider
 common#:#value#:#Værdi
-common#:#vcard#:#Visitkort###21 Apr 2005 new variable
+common#:#vcard#:#Visitkort
 common#:#vcard_download#:#Download visitkort
-common#:#vendors#:#Leverandører
+common#:#vendors#:#Sælgere
 common#:#verification_failed#:#Verifikation mislykkedes
 common#:#verification_failure_log#:#Verifikationsfejl i loggen
 common#:#verification_log#:#Autentifikationslog
@@ -6354,10 +6354,10 @@ payment#:#pay_step3_credit_card#:#Din ordre - Trin 3/3: Indtast dine kreditkortd
 payment#:#pay_step3_debit_entry#:#Din ordre - Trin 3/3: Indtast dine bankoplysninger og send din ordre
 payment#:#pay_update_view#:#Opdater
 payment#:#paya_access#:#Adgang
-payment#:#paya_add_customer#:#Lav salgsforløb
-payment#:#paya_add_price#:#Tilføj ny pris
+payment#:#paya_add_customer#:#Opret kunde
+payment#:#paya_add_price#:#Opret pris
 payment#:#paya_add_price_title#:#Ny pris
-payment#:#paya_added_new_object#:#Ny vare tilføjet. Vælg betalingsform og pris.
+payment#:#paya_added_new_object#:#Ny vare sat til salg. Vælg først pris(er) og derefter betalingsmetode.
 payment#:#paya_added_new_price#:#Oprettet ny pris
 payment#:#paya_added_trustee#:#Oprettet ny fuldmægtig/bestyrer.
 payment#:#paya_bookings_available#:#Dette objekt/modul er blevet solgt. Slet venligst alle statistik data.
@@ -6374,13 +6374,13 @@ payment#:#paya_details_updated#:#Detaljer opdateret.
 payment#:#paya_disabled#:#Disabled###21 Apr 2005 new variable
 payment#:#paya_edit_details#:#Rediger detaljer
 payment#:#paya_edit_pay_method#:#Rediger betalingsmetode
-payment#:#paya_edit_prices#:#Rediger priser
-payment#:#paya_edit_prices_first#:#Indtast venligst priser først.
+payment#:#paya_edit_prices#:#Ret priser
+payment#:#paya_edit_prices_first#:#Indtast først priser.
 payment#:#paya_enabled#:#Aktiveret
 payment#:#paya_enter_login#:#Indtast venligst et brugernavn.
 payment#:#paya_err_adding_object#:#Fejl ved tilføjning af objekt
 payment#:#paya_error_adding_customer#:#An error occured while adding the selling process to the statistics.
-payment#:#paya_error_mandatory_fields#:#Please fill in all mandatory fields (*).
+payment#:#paya_error_mandatory_fields#:#Du skal udfylde alle de krævede felter (*).
 payment#:#paya_error_no_object_id_given#:#Vælg venligst et objekt
 payment#:#paya_error_update_booking#:#Fejl under gemning af statistik data.
 payment#:#paya_expires#:#Udløbet betaling
@@ -6388,7 +6388,7 @@ payment#:#paya_filter_reseted#:#Filter nulstillet.
 payment#:#paya_header#:#Betalingsadministration
 payment#:#paya_insert_only_numbers#:#Indsæt kun heltal(ikke decimaltal).
 payment#:#paya_locator#:#Betalingsadministration
-payment#:#paya_months#:#Måned/måneder
+payment#:#paya_months#:#måned(er)
 payment#:#paya_no_booking_id_given#:#Fejl: ingen 'booking id' givet
 payment#:#paya_no_bookings#:#Ingen statistik til rådighed.
 payment#:#paya_no_object_selected#:#Vælg venligst et objekt.
@@ -6398,7 +6398,7 @@ payment#:#paya_no_prices_selected#:#Vælg venligst en pris
 payment#:#paya_no_settings_necessary#:#Der er ingen indstillinger til denne betalingsmetode
 payment#:#paya_no_trustees#:#Ingen fuldmægtige/bestyrer oprettet.
 payment#:#paya_no_valid_login#:#Brugernavnet er ugyldigt.
-payment#:#paya_no_vendor_selected#:#Du har ikke valgt en forhandler.
+payment#:#paya_no_vendor_selected#:#Du har ikke valgt en sælger.
 payment#:#paya_not_assign_yourself#:#Det er ikke muligt at tilmelde dig selv.
 payment#:#paya_not_buyable#:#Ikke til salg
 payment#:#paya_object#:#Varer
@@ -6409,53 +6409,53 @@ payment#:#paya_pay_method_not_specified#:#Ikke specificeret
 payment#:#paya_payed#:#Betalt
 payment#:#paya_payed_access#:#Betalt/Adgang
 payment#:#paya_perm_obj#:#Rediger objekter
-payment#:#paya_perm_coupons#:#Edit coupons###16 08 2007 new variable
+payment#:#paya_perm_coupons#:#Ret kuponner
 payment#:#paya_perm_stat#:#Rediger statistikker
 payment#:#paya_price_not_valid#:#Denne pris er ugyldig. Indtast venligst kun numre(0-9)
-payment#:#paya_select_object_to_sell#:#Vælg hvilken vare du ønsker at sælge.
+payment#:#paya_select_object_to_sell#:#Hvilken vare sælges.
 payment#:#paya_select_pay_method_first#:#Vælg venligst en betalingsmåde først.
-payment#:#paya_sell_object#:#Sælg objekt
+payment#:#paya_sell_object#:#Sæt til salg
 payment#:#paya_shopping_cart#:#Indkøbskurv
 payment#:#paya_statistic#:#Statistik
 payment#:#paya_sure_delete_object#:#Er du sikker på at du vil stoppe for betalingen af dette objekt? Alle indtastede data vil gå tabt.
 payment#:#paya_sure_delete_selected_prices#:#Er du sikker på at du vil slette de valgte priser?
-payment#:#paya_sure_delete_selected_trustees#:#Er du sikker på du vil slette de valgte fuldmægtige/bestyrere?
+payment#:#paya_sure_delete_selected_trustees#:#Er du sikker på du vil slette den/de valgte fuldmægtig(e)?
 payment#:#paya_sure_delete_stat#:#Er du sikker på at du vil slette de valgte statistikker?
-payment#:#paya_transaction#:#Overførsel
-payment#:#paya_trustee_table#:#Bestyrere
-payment#:#paya_trustees#:#Bestyrere
+payment#:#paya_transaction#:#Transaktion
+payment#:#paya_trustee_table#:#Fuldmagter
+payment#:#paya_trustees#:#Fuldmægtige
 payment#:#paya_update_price#:#Opdater priser
 payment#:#paya_updated_booking#:#Opdaterede statistikker.
 payment#:#paya_updated_prices#:#Opdaterede priser
 payment#:#paya_updated_trustees#:#Opdaterede tilladelser.
 payment#:#paya_user_already_assigned#:#Bruger allerede tilknyttet.
-payment#:#paya_vendor#:#Forhandler
-payment#:#pays_active_bookings#:#Der er aktive bestillinger til den valgte forhandler. Slet venligst dem først.
+payment#:#paya_vendor#:#Sælger
+payment#:#pays_active_bookings#:#Der er aktive bestillinger til den valgte sælger. Slet venligst dem først.
 payment#:#pays_add_info#:#Ekstra bemærkninger til faktura(valgfrit)
-payment#:#pays_add_vendor#:#Tilføj forhandler
-payment#:#pays_added_vendor#:#Tilføjet ny forhandler
+payment#:#pays_add_vendor#:#Tilføj sælger
+payment#:#pays_added_vendor#:#Tilføjet ny sælger
 payment#:#pays_address#:#Adresse til faktura
 payment#:#pays_already_assigned_vendors#:#Det følgende antal brugere er allerede tilknyttet:
-payment#:#pays_assigned_vendors#:#Det følgende antal brugere er blevet tilknyttet forhandler listen:
+payment#:#pays_assigned_vendors#:#Det følgende antal brugere er blevet tilknyttet listen over sælgere:
 payment#:#pays_auth_token#:#Unik nøgle fra PayPal
 payment#:#pays_bank_data#:#Bankoplysninger til faktura
 payment#:#pays_bill#:#Faktura
-payment#:#pays_bmf#:#BMF###21 Apr 2005 new variable
+payment#:#pays_bmf#:#BMF
 payment#:#pays_cost_center#:#Betalingscenter
 payment#:#pays_cost_center_not_valid#:#Skriv venligst et gyldigt betalingscenter.
-payment#:#pays_currency_subunit#:#Valuta (1/100) (eks. øre)
-payment#:#pays_currency_unit#:#Valuta (eks. EURO)
+payment#:#pays_currency_subunit#:#Valuta (1/100) (eks. ØRE)
+payment#:#pays_currency_unit#:#Valuta (eks. DKK)
 payment#:#pays_delete_vendor#:#Afmeld bruger
-payment#:#pays_deleted_number_vendors#:#Det følgende antal forhandler er blevet slettet:
+payment#:#pays_deleted_number_vendors#:#Det følgende antal sælgere er blevet slettet:
 payment#:#pays_edit_vendor#:#Rediger bruger
 payment#:#pays_email_vendor#:#E-Mail address of the vendor
 payment#:#pays_general#:#General
 payment#:#pays_general_settings#:#Indstillinger
 payment#:#pays_general_settings_not_valid#:#Dine generelle indstillinger er ugyldige. Check venligst om alle felter er udfyldt korrekt.
-payment#:#pays_header_select_vendor#:#Forhandler valg
+payment#:#pays_header_select_vendor#:#Sælgervalg
 payment#:#pays_no_username_given#:#Intet brugernavn indtastet
 payment#:#pays_no_valid_username_given#:#Ugyldigt brugernavn
-payment#:#pays_no_vendor_selected#:#Ingen forhandler valgt
+payment#:#pays_no_vendor_selected#:#Ingen sælger valgt
 payment#:#pays_number_bookings#:#Aktive ordrer
 payment#:#pays_objects_bill_exist#:#Betalingsmetoden 'regning' er aktiveret for nogen objekter. Derfor kan det ikke deaktiveres.
 payment#:#pays_objects_bmf_exist#:#Betalingsmetoden 'BMF' er aktiveret for nogen objekter. Derfor kan det ikke deaktiveres.
@@ -6471,7 +6471,7 @@ payment#:#pays_epay_server_path#:#Sti
 payment#:#pays_epay_merchant_number#:#Indløsningsnummer
 payment#:#pays_epay_auth_token#:#Hemmelighed
 payment#:#pays_epay_auth_email#:#Email til information
-payment#:#pays_epay_instant_capture#:#Træk øjeblikkeligt
+payment#:#pays_epay_instant_capture#:#Hæv øjeblikkeligt
 payment#:#pays_pay_methods#:#Betalingsmetoder
 payment#:#pays_paypal#:#PayPal
 payment#:#pays_paypal_settings#:#Settings for PayPal
@@ -6479,14 +6479,14 @@ payment#:#pays_paypal_settings_not_valid#:#Your settings for PayPal aren't valid
 payment#:#pays_pdf_path#:#Sti til generering af faktura som PDF fil
 payment#:#pays_server_host#:#Server host (f.eks. www.paypal.com)
 payment#:#pays_server_path#:#Sti til scripts (f.eks. /cgi-bin/webscr)
-payment#:#pays_sure_delete_selected_vendors#:#Er du sikker på at du gerne vil slette de/den valgte forhandler/forhandlere
+payment#:#pays_sure_delete_selected_vendors#:#Er du sikker på at du gerne vil slette de/den valgte sælger(e)
 payment#:#pays_too_many_vendors_selected#:#Vælg venligst kun 1 kunde til denne funktion.
 payment#:#pays_updated_general_settings#:#Generelle indstillinger opdateret.
 payment#:#pays_updated_pay_method#:#Betalingsmetode ændret.
 payment#:#pays_updated_paypal_settings#:#Dine PayPal indstillinger blev opdateret.
-payment#:#pays_user_already_assigned#:#Denne bruger er allerede tilføjet til forhandlerlisten
+payment#:#pays_user_already_assigned#:#Denne bruger er allerede tilføjet som sælger
 payment#:#pays_vat_rate#:#Moms i %(valgfrit)
-payment#:#pays_vendor#:#Forhandler
+payment#:#pays_vendor#:#Sælger
 payment#:#price_a#:#Pris
 payment#:#prices#:#Priser
 payment#:#paya_coupons_codes_import#:#Importer koder
@@ -6499,7 +6499,7 @@ payment#:#paya_coupons_fix#:#fix###16 08 2007 new variable
 payment#:#paya_coupons_percentaged#:#percentaged###16 08 2007 new variable
 payment#:#paya_coupons_title#:#Titel
 payment#:#paya_coupons_number_of_codes#:#Antal koder
-payment#:#paya_coupons_usage_of_codes#:#Usage of Codes###16 08 2007 new variable
+payment#:#paya_coupons_usage_of_codes#:#Forbrug
 payment#:#paya_coupons_objects#:#Varer
 payment#:#paya_coupons_from#:#Gyldig fra
 payment#:#paya_coupons_till#:#Gyldig til
@@ -6507,28 +6507,28 @@ payment#:#paya_coupons_not_available#:#Endnu ingen kuponner
 payment#:#paya_coupons_description#:#Beskrivelse
 payment#:#paya_coupons_value#:#Værdi
 payment#:#paya_coupons_edit_codes#:#Ret koder
-payment#:#paya_coupons_edit_objects#:#Ret var5er
+payment#:#paya_coupons_edit_objects#:#Ret varer
 payment#:#paya_coupons_codes#:#Koder
 payment#:#paya_coupons_code#:#Kode
 payment#:#paya_coupons_generate_codes#:#Lav koder
-payment#:#paya_coupons_availability#:#Maximum Number of Usage of one Code###16 08 2007 new variable
-payment#:#paya_coupons_code_deleted_successfully#:#Deleted Successfully###16 08 2007 new variable
+payment#:#paya_coupons_availability#:#Maksimalt antal genbrug
+payment#:#paya_coupons_code_deleted_successfully#:#Koderne blev slettet
 payment#:#paya_coupons_code_length#:#Kodelængde
-payment#:#paya_coupons_code_chars#:#Chars###16 08 2007 new variable
-payment#:#paya_coupons_code_generation#:#Code Generation###16 08 2007 new variable
-payment#:#paya_coupons_type_auto#:#Automatically###16 08 2007 new variable
-payment#:#paya_coupons_type_self#:#Manually###16 08 2007 new variable
-payment#:#paya_coupons_no_codes_selected#:#You did not select any code###16 08 2007 new variable
-payment#:#paya_coupons_sure_delete_selected_codes#:#Are you sure you want to delete the selected codes?###16 08 2007 new variable
-payment#:#paya_coupons_sure_delete_all_codes#:#Are you sure you want to delete all codes?###16 08 2007 new variable
-payment#:#paya_coupons_codes_not_available#:#No codes created yet.###16 08 2007 new variable
-payment#:#paya_coupons_assigned_objects#:#Assigned Objects###16 08 2007 new variable
-payment#:#paya_coupons_unassigned_objects#:#Unassigned Objects###16 08 2007 new variable
-payment#:#paya_coupons_not_found#:#Ingen kuponner fundet
+payment#:#paya_coupons_code_chars#:#karakterer
+payment#:#paya_coupons_code_generation#:#Generering af kuponkoder
+payment#:#paya_coupons_type_auto#:#Automatisk
+payment#:#paya_coupons_type_self#:#Manuelt
+payment#:#paya_coupons_no_codes_selected#:#Du valgte ikke koder
+payment#:#paya_coupons_sure_delete_selected_codes#:#Er du sikker på du vil slette de valgte koder?
+payment#:#paya_coupons_sure_delete_all_codes#:#Er du sikker på du vil slette ALLE koder?
+payment#:#paya_coupons_codes_not_available#:#Der er endnu ikke lavet kuponkoder
+payment#:#paya_coupons_assigned_objects#:#Varer med rabat
+payment#:#paya_coupons_unassigned_objects#:#Mulige varer til kuponrabat
+payment#:#paya_coupons_not_found#:#Ingen kuponner matcher de nuværende kriterier.
 payment#:#paya_coupons_not_valid#:#Kuponnen er ikke gyldig.
 payment#:#paya_coupons_no_object_assigned#:#Ingen vare til denne kupon.
-payment#:#paya_coupons_coupon_not_found#:#No coupon found for the code you typed in.###16 08 2007 new variable
-payment#:#paya_coupons_already_in_use#:#The code you typed in belongs to the same coupon as a code which is already in use.###16 08 2007 new variable
+payment#:#paya_coupons_coupon_not_found#:#Ingen kupon til den indtastede kode.
+payment#:#paya_coupons_already_in_use#:#Den indtastede kuponkode er allerede i brug.
 payment#:#paya_coupons_coupon_added#:#Kupon tilføjet
 payment#:#paya_coupons_fix_selected_objects#:#%s %s discount on the total amount of selected objects###16 08 2007 new variable
 payment#:#paya_coupons_fix_all_objects#:#%s %s discount on the total amount of all objects###16 08 2007 new variable
@@ -9123,7 +9123,7 @@ payment#:#paya_vat_already_exists#:#Denne sats eksisterer i forvejen
 payment#:#paya_no_vat_id_given#:#There is no vat-id given###30 04 2009 new variable
 payment#:#paya_sure_delete_vat#:#Er du sikker på du vil slette denne sats?
 payment#:#paya_vat_not_deleted#:#This vat rate is not deleted###30 04 2009 new variable
-payment#:#unlimited_duration#:#Ubegrænset varighed
+payment#:#unlimited_duration#:#ubegrænset
 payment#:#vats#:#Moms
 mail#:#invite_to_chat#:#Inviter til chat
 mail#:#mail_invite_users_to_chat#:#Inviter brugere til chat
