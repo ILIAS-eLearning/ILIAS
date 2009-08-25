@@ -79,7 +79,7 @@ class ilAdministrationCommandGUI
 			$to_delete = $_POST['id'];
 		}
 
-		if(!$_POST['id'])
+		if(!$to_delete)
 		{
 			$ilErr->raiseError($this->lng->txt('no_checkbox'),$ilErr->MESSAGE);
 		}
@@ -129,11 +129,62 @@ class ilAdministrationCommandGUI
 	 */
 	public function cut() 
 	{
+		global $tree;
+		
 		$this->ctrl->setReturnByClass(get_class($this->getContainer()), '');
+
+		$_GET['ref_id'] = $tree->getParentId((int) $_GET['item_ref_id']);
 
 		include_once './Services/Container/classes/class.ilContainerGUI.php';
 		$container = new ilContainerGUI(array (), 0, false, false);
 		$container->cutObject();
+		return true;
+	}
+	
+	/**
+	 * Show target selection
+	 * @return 
+	 */
+	public function showMoveIntoObjectTree()
+	{
+		global $objDefinition;
+
+		$this->ctrl->setReturnByClass(get_class($this->getContainer()), '');
+
+		$obj_id = ilObject :: _lookupObjId((int) $_GET['ref_id']);
+		$type = ilObject :: _lookupType($obj_id);
+
+		$location = $objDefinition->getLocation($type);
+		$class_name = "ilObj" . $objDefinition->getClassName($type) . 'GUI';
+
+		// create instance
+		include_once ($location . "/class." . $class_name . ".php");
+		$container = new $class_name (array (), (int) $_GET['ref_id'], true, false);
+		$container->showMoveIntoObjectTreeObject();
+		return true;
+		
+	}
+	
+	/**
+	 * Target selection
+	 * @return 
+	 */
+	public function showLinkIntoMultipleObjectsTree()
+	{
+		global $objDefinition;
+
+		$this->ctrl->setReturnByClass(get_class($this->getContainer()), '');
+
+		$obj_id = ilObject :: _lookupObjId((int) $_GET['ref_id']);
+		$type = ilObject :: _lookupType($obj_id);
+
+		$location = $objDefinition->getLocation($type);
+		$class_name = "ilObj" . $objDefinition->getClassName($type) . 'GUI';
+
+		// create instance
+		include_once ($location . "/class." . $class_name . ".php");
+		$container = new $class_name (array (), (int) $_GET['ref_id'], true, false);
+		$container->showLinkIntoMultipleObjectsTreeObject();
 		return true;
 	}
 
@@ -142,7 +193,11 @@ class ilAdministrationCommandGUI
 	 */
 	public function link() 
 	{
+		global $tree;
+		
 		$this->ctrl->setReturnByClass(get_class($this->getContainer()), '');
+
+		$_GET['ref_id'] = $tree->getParentId((int) $_GET['item_ref_id']);
 
 		include_once './Services/Container/classes/class.ilContainerGUI.php';
 		$container = new ilContainerGUI(array (), 0, false, false);
@@ -170,6 +225,25 @@ class ilAdministrationCommandGUI
 		include_once ($location . "/class." . $class_name . ".php");
 		$container = new $class_name (array (), (int) $_GET['item_ref_id'], true, false);
 		$container->pasteObject();
+		return true;
+	}
+	
+	public function performPasteIntoMultipleObjects()
+	{
+		global $objDefinition;
+
+		$this->ctrl->setReturnByClass(get_class($this->getContainer()), '');
+
+		$obj_id = ilObject :: _lookupObjId((int) $_GET['ref_id']);
+		$type = ilObject :: _lookupType($obj_id);
+
+		$location = $objDefinition->getLocation($type);
+		$class_name = "ilObj" . $objDefinition->getClassName($type) . 'GUI';
+
+		// create instance
+		include_once ($location . "/class." . $class_name . ".php");
+		$container = new $class_name (array (), (int) $_GET['ref_id'], true, false);
+		$container->performPasteIntoMultipleObjectsObject();
 		return true;
 	}
 }

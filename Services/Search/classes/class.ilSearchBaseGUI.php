@@ -78,72 +78,73 @@ class ilSearchBaseGUI implements ilDesktopItemHandling, ilAdministrationCommandH
 	/**
 	 * Interface methods
 	 */
-	 public function addToDeskObject()
-	 {
-	 	include_once './Services/PersonalDesktop/classes/class.ilDesktopItemGUI.php';
+	public function addToDeskObject()
+	{
+		include_once './Services/PersonalDesktop/classes/class.ilDesktopItemGUI.php';
 	 	ilDesktopItemGUI::addToDesktop();
 	 	$this->showSavedResults();
-	 }
+	}
 	 
-	 /**
-	  * Remove from dektop  
-	  */
-	 public function removeFromDeskObject()
-	 {
-	 	include_once './Services/PersonalDesktop/classes/class.ilDesktopItemGUI.php';
-	 	ilDesktopItemGUI::removeFromDesktop();
-	 	$this->showSavedResults();
-	 }
+	/**
+	 * Remove from dektop  
+	 */
+	public function removeFromDeskObject()
+	{
+		include_once './Services/PersonalDesktop/classes/class.ilDesktopItemGUI.php';
+		ilDesktopItemGUI::removeFromDesktop();
+		$this->showSavedResults();
+	}
 	 
-	 /**
-	  * Show deletion screen
-	  */
-	 public function delete()
-	 {
-	 	include_once './Services/Administration/classes/class.ilAdministrationCommandGUI.php';
-	 	$admin = new ilAdministrationCommandGUI($this);
-	 	$admin->delete();
-	 }
+	/**
+	 * Show deletion screen
+	 */
+	public function delete()
+	{
+		include_once './Services/Administration/classes/class.ilAdministrationCommandGUI.php';
+		$admin = new ilAdministrationCommandGUI($this);
+		$admin->delete();
+	}
 	 
-	 /**
-	  * Cancel delete
-	  */
-	 public function cancelDelete()
-	 {
-	 	$this->showSavedResults();
-	 }
-	 
-	 /**
-	  * Delete objects
-	  */
-	 public function performDelete()
-	 {
-	 	include_once './Services/Administration/classes/class.ilAdministrationCommandGUI.php';
-	 	$admin = new ilAdministrationCommandGUI($this);
-	 	$admin->performDelete();
-	 }
-	 
+	/**
+	 * Cancel delete
+	 */
+	public function cancelDelete()
+	{
+		$this->showSavedResults();
+	}
+	
+	/**
+	 * Delete objects
+	 */
+	public function performDelete()
+	{
+		include_once './Services/Administration/classes/class.ilAdministrationCommandGUI.php';
+		$admin = new ilAdministrationCommandGUI($this);
+		$admin->performDelete();
+	}
+	
 	/**
 	 * Interface ilAdministrationCommandHandler
 	 */
-	 public function cut()
-	 {
-	 	include_once './Services/Administration/classes/class.ilAdministrationCommandGUI.php';
-	 	$admin = new ilAdministrationCommandGUI($this);
-	 	$admin->cut();
-	 }
+	public function cut()
+	{
+	
+
+		include_once './Services/Administration/classes/class.ilAdministrationCommandGUI.php';
+		$admin = new ilAdministrationCommandGUI($this);
+		$admin->cut();
+	}
 	 
 	/**
 	 * Interface ilAdministrationCommandHandler
 	 */
 	public function link()
 	{
-	 	include_once './Services/Administration/classes/class.ilAdministrationCommandGUI.php';
-	 	$admin = new ilAdministrationCommandGUI($this);
-	 	$admin->link();
+		include_once './Services/Administration/classes/class.ilAdministrationCommandGUI.php';
+		$admin = new ilAdministrationCommandGUI($this);
+		$admin->link();
 	}
-	
-	 
+		 
 	public function paste()
 	{
 		include_once './Services/Administration/classes/class.ilAdministrationCommandGUI.php';
@@ -151,6 +152,27 @@ class ilSearchBaseGUI implements ilDesktopItemHandling, ilAdministrationCommandH
 		$admin->paste();
 	}
 	
+	public function showLinkIntoMultipleObjectsTree()
+	{
+		include_once './Services/Administration/classes/class.ilAdministrationCommandGUI.php';
+		$admin = new ilAdministrationCommandGUI($this);
+		$admin->showLinkIntoMultipleObjectsTree();
+	}
+
+	public function showMoveIntoObjectTree()
+	{
+		include_once './Services/Administration/classes/class.ilAdministrationCommandGUI.php';
+		$admin = new ilAdministrationCommandGUI($this);
+		$admin->showMoveIntoObjectTree();
+	}
+	
+	public function performPasteIntoMultipleObjects()
+	{
+		include_once './Services/Administration/classes/class.ilAdministrationCommandGUI.php';
+		$admin = new ilAdministrationCommandGUI($this);
+		$admin->performPasteIntoMultipleObjects();
+	}
+
 	public function clear()
 	{
 		unset($_SESSION['clipboard']);
