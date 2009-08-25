@@ -137,11 +137,10 @@ public	class IliasApiAdapterApplet
 		core.sysPut ("cmi.core.student_name", IliasStudentName);
 		core.sysPut (IliasScoCmi);
 		core.transBegin();
-		this.initEntry();
 		isLaunched  = true;
 	}
 
-	private final void initEntry () {
+	private final void modifyEntry () {
 		String l = "cmi.core.entry";
 		if (core.sysGet("cmi.core.exit").equals("suspend")) { 
 			core.sysPut(l, "resume");
@@ -153,6 +152,7 @@ public	class IliasApiAdapterApplet
 	
 	private	final void IliasFinish (boolean commit) {
 		if (!isLaunched) return;
+		this.modifyEntry();
 		if (commit) IliasCommit(); // Stupid "implicit commit"
 		isLaunched = false;
 		IliasLaunchContent (
