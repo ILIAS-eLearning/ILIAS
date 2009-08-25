@@ -15230,3 +15230,39 @@ $ilCtrlStructureReader->getStructure();
 	$setting = new ilSetting();
 	$setting->set("icon_position_in_lists", "item_rows");
 ?>
+
+<#2828>
+<?php
+	$query = "SELECT value FROM settings WHERE module = 'common' AND keyword = 'search_max_hits'"; 
+	$max = 10;
+	$res = $ilDB->query($query);
+	$has_entry = $res->numRows() ? true : false;
+	while($row = $res->fetchRow(DB_FETCHMODE_OBJECT))
+	{
+		if(in_array($row->value,array(5,10,15)))
+		{
+			$max = $row->value;
+		}
+	}
+	
+	if($has_entry)
+	{
+		$ilDB->update('settings',
+			array(
+				'value'		=> array('clob', $max)
+			),
+			array(
+				'module'	=> array('text', 'common'),
+				'keyword'	=> array('text', 'search_max_hits')
+			));
+	}
+	else
+	{
+		$ilDB->insert('settings',
+			array(
+				'value'		=> array('clob',$max),
+				'module'	=> array('text','common'),
+				'keyword'	=> array('text','search_max_hits')
+			));
+	}
+?>
