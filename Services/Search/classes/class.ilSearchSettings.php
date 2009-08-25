@@ -136,19 +136,19 @@ class ilSearchSettings
 		$this->fragmentCount = $a_count;
 	}
 
-	function getHideAdvancedSearch()
+	public function getHideAdvancedSearch()
 	{
 		return $this->hide_adv_search ? true : false;
 	}
-	function setHideAdvancedSearch($a_status)
+	public function setHideAdvancedSearch($a_status)
 	{
 		$this->hide_adv_search = $a_status;
 	}
-	function getAutoCompleteLength()
+	public function getAutoCompleteLength()
 	{
 		return $this->auto_complete_length;
 	}
-	function setAutoCompleteLength($auto_complete_length)
+	public function setAutoCompleteLength($auto_complete_length)
 	{
 		$this->auto_complete_length = $auto_complete_length;
 	}

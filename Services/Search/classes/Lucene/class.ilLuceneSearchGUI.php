@@ -436,6 +436,11 @@ class ilLuceneSearchGUI extends ilSearchBaseGUI
 	 */
 	protected function getTabs()
 	{
+		if(ilSearchSettings::getInstance()->getHideAdvancedSearch())
+		{
+			return false;
+		}
+
 		$this->tabs_gui->addTarget('search',$this->ctrl->getLinkTarget($this));
 		if($this->fields->getActiveFields())
 		{

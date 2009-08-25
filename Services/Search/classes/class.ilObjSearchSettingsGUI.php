@@ -273,8 +273,6 @@ class ilObjSearchSettingsGUI extends ilObjectGUI
 
 		$settings->update();
 
-
-
 		unset($_SESSION['search_last_class']);
 		
 		ilUtil::sendSuccess($this->lng->txt('settings_saved'));

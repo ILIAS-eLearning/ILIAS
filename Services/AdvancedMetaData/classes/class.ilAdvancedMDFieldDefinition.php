@@ -465,6 +465,24 @@ class ilAdvancedMDFieldDefinition
 	}
 	
 	/**
+	 * get field values for select
+	 *
+	 * @access public
+	 * 
+	 */
+	public function getFieldValuesForSearch()
+	{
+	 	global $lng;
+	 	
+	 	$values = array(0 => $lng->txt('search_any'));
+	 	foreach($this->field_values as $value)
+	 	{
+	 		$values[$value] = $value;
+	 	}
+	 	return $values;
+	}
+
+	/**
 	 * set title
 	 *
 	 * @access public
