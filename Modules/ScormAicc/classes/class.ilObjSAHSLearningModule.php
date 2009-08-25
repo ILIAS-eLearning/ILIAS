@@ -638,5 +638,31 @@ class ilObjSAHSLearningModule extends ilObject
 		parent::notify($a_event,$a_ref_id,$a_parent_non_rbac_id,$a_node_id,$a_params);
 	}
 
+	/**
+	* Returns the points in percent for the learning module
+	* This is called by the certificate generator if [SCORM_POINTS] is
+	* inserted.
+	*/
+	public function getPointsInPercent()
+	{
+		global $ilUser;
+		if (strcmp($this->getSubType(), "scorm2004") == 0)
+		{
+			$res = ilObjSCORM2004LearningModule::_getUniqueScaledScoreForUser($this->getId(), $ilUser->getId());
+			if (!is_null($res)) 
+			{
+				return $res * 100.0;
+			}
+			else
+			{
+				return $res;
+			}
+		}
+		else
+		{
+			return null;
+		}
+	}
+
 } // END class.ilObjSCORMLearningModule
 ?>

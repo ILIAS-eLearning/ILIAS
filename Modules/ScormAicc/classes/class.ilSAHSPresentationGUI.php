@@ -103,6 +103,12 @@ class ilSAHSPresentationGUI
 		$obj_id = ilObject::_lookupObjectId($_GET['ref_id']);
 		$type = ilObjSAHSLearningModule::_lookupSubType($obj_id);
 
+		if ($cmd == "downloadCertificate")
+		{
+			require_once "./Modules/ScormAicc/classes/SCORM/class.ilSCORMPresentationGUI.php";
+			$scorm_gui = new ilSCORMPresentationGUI();
+			$ret =& $this->ctrl->forwardCommand($scorm_gui);
+		}
 
 		switch($type)
 		{

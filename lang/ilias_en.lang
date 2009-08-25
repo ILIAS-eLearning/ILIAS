@@ -8786,10 +8786,12 @@ certificate#:#certificate_status_incomplete#:#The certificate is incomplete
 certificate#:#certificate_delete#:#Delete Certificate Data
 certificate#:#certificate_preview#:#Show Certificate Preview
 certificate#:#certificate_text#:#Certificate Text
+certificate#:#certificate_var_user_salutation#:#Mrs.
 certificate#:#certificate_var_user_fullname#:#Dr. Jane Doe
 certificate#:#certificate_var_user_firstname#:#Jane
 certificate#:#certificate_var_user_lastname#:#Doe
 certificate#:#certificate_var_user_title#:#Dr.
+certificate#:#certificate_var_user_birthday#:#1977-05-08
 certificate#:#certificate_var_user_institution#:#ILIAS Open Source
 certificate#:#certificate_var_user_department#:#Customer Support
 certificate#:#certificate_var_user_street#:#100 Main Street
@@ -8809,12 +8811,18 @@ certificate#:#certificate_pagewidth#:#Page Width
 certificate#:#certificate_wrong_unit#:#You have entered a wrong unit
 certificate#:#certificate_wrong_units#:#You have entered a wrong set of units
 certificate#:#certificate_confirm_deletion_text#:#Do you really want to delete the certificate and all its related data?
+certificate#:#certificate_points_notavailable#:#This value cannot be calculated
+certificate#:#certificate_short_name#:#Certificate file short title
+certificate#:#certificate_short_name_description#:#Please enter a short title for the certificate name. The short title will be part of the certificate name: YYMMDD_[surname]_[SHORT_TITLE]_certificate.pdf.
 certificate#:#certificate_enabled_scorm#:#Enabled
 certificate#:#certificate_enabled_scorm_introduction#:#If checked, the certificate will be offered for all users who finished the SCORM learning module.
 certificate#:#certificate_ph_lastaccess#:#Last access date and time of the user
 certificate#:#certificate_ph_scormtitle#:#Title of the SCORM learning module
+certificate#:#certificate_ph_scormpoints#:#Points of the SCORM learning module in percent
 certificate#:#certificate_ph_introduction#:#The following placeholders may be used
+certificate#:#certificate_ph_salutation#:#Salutation
 certificate#:#certificate_ph_fullname#:#Full name of the user (title, firstname and lastname)
+certificate#:#certificate_ph_birthday#:#Birthday of the user
 certificate#:#certificate_ph_firstname#:#First name of the user
 certificate#:#certificate_ph_lastname#:#Last name of the user
 certificate#:#certificate_ph_passed#:#"passed" or "failed", depending on the test results

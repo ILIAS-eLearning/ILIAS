@@ -1223,6 +1223,9 @@ certificate#:#certificate_page_format_info#:#Bitte wählen Sie das Standard-Seit
 certificate#:#certificate_pageheight#:#Seitenhöhe
 certificate#:#certificate_pagewidth#:#Seitenbreite
 certificate#:#certificate_passed#:#bestanden
+certificate#:#certificate_short_name#:#Kurztitel für die Dateibenennung
+certificate#:#certificate_short_name_description#:#Bitte geben Sie einen Kurztitel für die Dateibenennung ein. Der Kurztitel wird als Teil des Zertifikat-Dateinamens verwendet: JJMMTT_[Nachname]_[SHORT_TITLE]_Zertifikat.pdf.
+certificate#:#certificate_points_notavailable#:#Dieser Wert kann nicht ermittelt werden
 certificate#:#certificate_ph_city#:#Stadt der Adresse des Teilnehmers oder der Teilnehmerin
 certificate#:#certificate_ph_country#:#Land der Adresse des Teilnehmers oder der Teilnehmerin
 certificate#:#certificate_ph_date#:#Aktuelles Datum
@@ -1241,9 +1244,12 @@ certificate#:#certificate_ph_passed#:#"bestanden" oder "nicht bestanden", abhän
 certificate#:#certificate_ph_resultpercent#:#Erreichte Gesamtprozentzahl des Teilnehmers oder der Teilnehmerin
 certificate#:#certificate_ph_resultpoints#:#Erreichte Punkte des Teilnehmers oder der Teilnehmerin
 certificate#:#certificate_ph_scormtitle#:#Titel des SCORM Lernmoduls
+certificate#:#certificate_ph_scormpoints#:#Punkte des SCORM Lernmoduls in Prozent
 certificate#:#certificate_ph_street#:#Straße der Adresse des Teilnehmers oder der Teilnehmerin
 certificate#:#certificate_ph_testtitle#:#Titel des Tests
 certificate#:#certificate_ph_title#:#Titel des Teilnehmers oder der Teilnehmerin
+certificate#:#certificate_ph_birthday#:#Geburtstag des Teilnehmers oder der Teilnehmerin
+certificate#:#certificate_ph_salutation#:#Anrede
 certificate#:#certificate_ph_zipcode#:#Postleitzahl der Adresse des Teilnehmers oder der Teilnehmerin
 certificate#:#certificate_preview#:#Vorschau des Zertifikats anzeigen
 certificate#:#certificate_right#:#Rechts
@@ -1262,7 +1268,9 @@ certificate#:#certificate_var_result_mark_short#:#2
 certificate#:#certificate_var_result_passed#:#bestanden
 certificate#:#certificate_var_result_percent#:#83%
 certificate#:#certificate_var_result_points#:#38
+certificate#:#certificate_var_user_salutation#:#Frau
 certificate#:#certificate_var_user_city#:#Köln
+certificate#:#certificate_var_user_birthday#:#08.05.1977
 certificate#:#certificate_var_user_country#:#Deutschland
 certificate#:#certificate_var_user_department#:#Benutzerbetreuung
 certificate#:#certificate_var_user_firstname#:#Erika

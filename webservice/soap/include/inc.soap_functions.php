@@ -882,6 +882,16 @@ class ilSoapFunctions {
 		}
 		return ilUtil::removeTrailingPathSeparators($protocol.$host.$uri);	
 	}
+
+	public static function  getSCORMCompletionStatus($sid, $usr_id, $a_ref_id)
+	{
+		include_once './webservice/soap/classes/class.ilSoapSCORMAdministration.php';
+
+		$sua =& new ilSoapSCORMAdministration();
+
+		return $sua->getSCORMCompletionStatus($sid, $usr_id, $a_ref_id);
+	}
+
 }
 
 /*	function  ilClone($sid,$copy_identifier)
