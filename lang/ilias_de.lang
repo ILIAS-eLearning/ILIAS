@@ -9918,3 +9918,4 @@ search#:#lucene_host_info#:#Bitte tragen Sie hier den Rechnernamen bzw. die Ip-A
 search#:#lucene_log_info#:#Die Datei wird automatisch angelegt.
 search#:#lucene_download_ini#:#Konfigurationsdatei herunterladen
 search#:#lucene_create_ini#:#Konfigurationsdatei erstellen
+search#:#lucene_relevance_short#:#Relevanz

@@ -158,10 +158,7 @@ class ilSearchResultPresentation
 	 */
 	public function getHTML($a_new = false)
 	{
-		if ($a_new)
-			return $this->thtml;
-		else
-			return $this->html;
+		return $this->thtml;
 	}
 	
 	/**
@@ -205,7 +202,7 @@ class ilSearchResultPresentation
 		$this->html = '';
 		
 		$ilBench->start('Lucene','2000_pr');
-		$this->newBockTemplate();
+		#$this->newBockTemplate();
 		$item_html = array();
 		$this->parseResultReferences();
 		$ilBench->stop('Lucene','2000_pr');
@@ -227,58 +224,28 @@ class ilSearchResultPresentation
 				$ilBench->stop('Lucene','2120_tree');
 				
 				$ilBench->start('Lucene','2130_lookup');
-				$set[] = array("ref_id" => $ref_id, "obj_id" => $res_data);
-				$obj_id = $res_data;
-				#$obj_id = ilObject::_lookupObjId($res_data);
-				$type = ilObject::_lookupType($obj_id);
-				$title = ilObject::_lookupTitle($obj_id);
-				$title = $this->lookupTitle($obj_id,0);
-				$description = $this->lookupDescription($obj_id,0);
-				$ilBench->stop('Lucene','2130_lookup');
-				
-				if(!$type)
-				{
-					continue;
-				}
-				
-				$ilBench->start('Lucene','2140_fragments');
-				include_once './Services/Search/classes/Lucene/class.ilLuceneSearchObjectListGUIFactory.php';
-				$item_list_gui = ilLuceneSearchObjectListGUIFactory::factory($type);
-				
-				$item_list_gui->setContainerObject($this->getContainer());
-				$item_list_gui->setSearchFragment($this->lookupContent($obj_id,0));
-				$ilBench->stop('Lucene','2140_fragments');
-				
-				$ilBench->start('Lucene','2150_list_item');
-				if($html = $item_list_gui->getListItemHTML($ref_id,$obj_id,$title,$description))
-				{
-					$html .= $this->appendAdditionalInformation($item_list_gui,$ref_id,$obj_id,$type);				
-					$item_html[$ref_id]['html'] = $html;
-					$item_html[$ref_id]['type'] = $type;
-				}
-				$ilBench->stop('Lucene','2150_list_item');
-				
-				$ilBench->stop('Lucene','2110_ref');
+				$set[] = array(
+					"ref_id"		=> $ref_id, 
+					"obj_id"		=> $res_data,
+					"title"			=> $this->lookupTitle($res_data,0),
+					"description"	=> $this->lookupDescription($res_data,0),
+					"type"			=> ilObject::_lookupType($res_data),
+					"relevance"		=> $this->getRelevance($res_data)
+				);
 			}
 			$ilBench->stop('Lucene','2100_res');
 		}
-		
+		/*
 		if(!count($item_html))
 		{
 			return false;
 		}
-		$this->newBockTemplate();
-		foreach($item_html as $ref_id => $data)
-		{
-			$this->addStandardRow($ref_id,$data['type'],$data['html']);
-		}
-		$this->html = $this->tpl->get();
-
+		*/
 		$ilBench->start('Lucene','2900_tb');
-		// new table
 		include_once("./Services/Search/classes/class.ilSearchResultTableGUI.php");
 		$result_table = new ilSearchResultTableGUI($this->container, "showSavedResults", $this);
 		$result_table->setCustomPreviousNext($this->prev, $this->next);
+		
 		$result_table->setData($set);
 		$this->thtml = $result_table->getHTML();
 		$ilBench->stop('Lucene','2900_tb');
@@ -286,51 +253,6 @@ class ilSearchResultPresentation
 		return true;
 	}
 	
-	/**
-	 * Add block for search results
-	 * @return
-	 */
-	protected function newBockTemplate()
-	{
-		$this->tpl = new ilTemplate("tpl.lucene_search_list_block.html", true, true, "Services/Search");
-
-		// Header
-		$this->tpl->setCurrentBlock('container_header_row_image');
-		$this->tpl->setVariable('HEADER_IMG',ilUtil::getImagePath('icon_src.gif'));
-		$this->tpl->setVariable('HEADER_ALT',$this->lng->txt('search_results'));
-		$this->tpl->setVariable('BLOCK_HEADER_CONTENT',$this->lng->txt('search_results'));
-		$this->tpl->parseCurrentBlock();
-	}
-	
-	/**
-	 * Add object row 
-	 * @param int $a_ref_id reference id
-	 * @param string $a_obj_type object type
-	 * @param string $a_html HTML
-	 * @return
-	 */
-	protected function addStandardRow($a_ref_id,$a_type,$a_html)
-	{
-		$this->cur_row_type = ($this->cur_row_type == "row_type_1")
-			? "row_type_2"
-			: "row_type_1";
-
-		$this->tpl->touchBlock($this->cur_row_type);
-
-		// TODO: custom images, lm,sahs images
-		$this->tpl->setCurrentBlock('block_row_image');
-		$this->tpl->setVariable('ROW_IMG',ilUtil::getImagePath("icon_".$a_type.".gif"));
-		$this->tpl->setVariable('ROW_ALT',$this->lng->txt("obj_".$a_type));
-		$this->tpl->parseCurrentBlock();
-
-		$this->tpl->setCurrentBlock("container_standard_row");
-		$this->tpl->setVariable("BLOCK_ROW_CONTENT", $a_html);
-		#$this->tpl->setVariable("BLOCK_ROW_CHECK",ilUtil::formCheckbox(0,'result[]',$a_ref_id));
-		#$this->tpl->setVariable("ITEM_ID",$a_ref_id);
-		$this->tpl->parseCurrentBlock();
-		$this->tpl->touchBlock("container_row");
-		
-	}
 	
 	// searcher
 	/**
@@ -338,7 +260,7 @@ class ilSearchResultPresentation
 	 * @param
 	 * @return
 	 */
-	protected function getRelevance($a_obj_id)
+	public function getRelevance($a_obj_id)
 	{
 		if($this->getMode() == self::MODE_LUCENE)
 		{
@@ -405,7 +327,7 @@ class ilSearchResultPresentation
 		$sub = $this->appendSubItems($item_list_gui,$ref_id,$obj_id,$type);
 		$path = $this->appendPath($ref_id);
 		$more = $this->appendMorePathes($ref_id);
-		$rel = $this->appendRelevance($obj_id);
+		#$rel = $this->appendRelevance($obj_id);
 		
 		if(!strlen($sub) and 
 			!strlen($path) and
