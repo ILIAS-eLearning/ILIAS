@@ -147,5 +147,54 @@ class ilSoapSCORMAdministration extends ilSoapAdministration
 
 		return $result;
 	}
+
+	public function getSCORMCompletionStatus($sid, $a_usr_id, $a_ref_id)
+	{
+		if(!$this->__checkSession($sid))
+		{
+			return $this->__raiseError($this->sauth->getMessage(),$this->sauth->getMessageCode());
+		}
+		if(!strlen($a_ref_id))
+		{
+			return $this->__raiseError('No ref_id given. Aborting!', 'Client');
+		}
+		
+		include_once 'include/inc.header.php';
+		
+		// get obj_id
+		if(!$obj_id = ilObject::_lookupObjectId($a_ref_id))
+		{
+			return $this->__raiseError('No scorm module found for id: '.$a_ref_id,
+									   'Client');
+		}	
+		
+		include_once 'Services/Tracking/classes/class.ilLPStatusWrapper.php';		
+		include_once 'Services/Tracking/classes/class.ilObjUserTracking.php';
+		
+		if(!ilObjUserTracking::_enabledLearningProgress())
+		{
+			return $this->__raiseError('Learning progress not enabled in this installation. Aborting!', 'Server');
+		}	
+		
+		$completed = ilLPStatusWrapper::_getCompleted($obj_id);
+		$failed = ilLPStatusWrapper::_getFailed($obj_id);
+		$in_progress = ilLPStatusWrapper::_getInProgress($obj_id);
+		if(in_array($a_usr_id, $completed))
+		{
+			return 'completed';
+		}
+		else if(in_array($a_usr_id, $failed))
+		{
+			return 'failed';
+		}
+		else if(in_array($a_usr_id, $in_progress))
+		{
+			return 'in_progress';
+		}
+		else
+		{
+			return 'not_attempted';
+		}
+	}
 }
 ?>

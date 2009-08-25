@@ -1092,6 +1092,14 @@ $this->server->register('hasSCORMCertificate',
 	SERVICE_USE,
 	'ILIAS hasSCORMCertificate(): returns true if a certficate is available for a user referred by usr_id in a SCORM learning module referred by ref_id');
 
+$this->server->register('getSCORMCompletionStatus',
+						array('sid' => 'xsd:string', 'usr_id' => 'xsd:int', 'ref_id' => 'xsd:int'),
+						array('status' => 'xsd:string'),
+						SERVICE_NAMESPACE,
+						SERVICE_NAMESPACE.'#getSCORMCompletionStatus',
+						SERVICE_STYLE,
+						SERVICE_USE,
+						'ILIAS getSCORMCompletionStatus(): returns a completion status of a scorm module');
 
 		$this->server->register('copyObject',
 								array('sid' => 'xsd:string', 'xml' => 'xsd:string'),

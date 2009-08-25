@@ -877,6 +877,30 @@ class ilCertificate
 		return $this->getAdapter()->getCertificatePath() . $zipfile;
 	}
 	
+	/**
+	* Creates a redirect to a certificate download
+	*
+	* @param integer $ref_id Ref ID of the ILIAS object
+	*/
+	public static function _goto($ref_id)
+	{
+		global $ilCtrl;
+		include_once "./classes/class.ilObject.php";
+		$type = ilObject::_lookupType($ref_id, true);
+		switch ($type)
+		{
+			case 'sahs':
+				$cmd_link = "ilias.php?baseClass=ilSAHSPresentationGUI&ref_id=".$ref_id.
+					"&cmd=downloadCertificate";
+				ilUtil::redirect($cmd_link);
+				break;
+			case 'tst':
+			default:
+				include_once "./Services/Utilities/classes/class.ilUtil.php";
+				ilUtil::redirect("repository.php?cmd=frameset");
+				break;
+		}
+	}
 }
 
 ?>

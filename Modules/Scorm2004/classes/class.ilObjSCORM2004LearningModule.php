@@ -885,6 +885,48 @@ class ilObjSCORM2004LearningModule extends ilObjSCORMLearningModule
 	}
 	
 	/**
+	* Get the Unique Scaled Score of a course
+	* Conditions: Only one SCO may set cmi.score.scaled
+	* @param int $a_id Object id
+	* @param int $a_user User id
+	* @return float scaled score, -1 if not unique
+	*/
+	public static function _getUniqueScaledScoreForUser($a_id, $a_user) 
+	{
+		global $ilDB, $ilUser;		
+		$scos = array();
+		
+		$val_set = $ilDB->queryF("SELECT cp_node.cp_node_id FROM cp_node,cp_resource,cp_item WHERE".
+			" cp_item.cp_node_id=cp_node.cp_node_id AND cp_item.resourceId = cp_resource.id AND scormType='sco' AND nodeName='item' AND cp_node.slm_id = %s GROUP BY cp_node_id",
+			array('integer'),
+			array($a_id)
+		);
+		while ($val_rec = $ilDB->fetchAssoc($val_set)) 
+		{
+			array_push($scos,$val_rec['cp_node_id']);
+		}
+		$set = 0;   //numbers of SCO that set cmi.score.scaled
+		$scaled = null;
+		for ($i=0;$i<count($scos);$i++)
+		{
+			$val_set = $ilDB->queryF("SELECT scaled FROM cmi_node WHERE (user_id=%s AND cp_node_id=%s);",
+				array('integer', 'integer'),
+				array($a_user, $scos[$i])
+			);
+			if ($val_set->numRows()>0) 
+			{
+				$val_rec = $ilDB->fetchAssoc($val_set);
+				if ($val_rec['scaled']!=NULL) {
+					$set++;
+					$scaled = $val_rec['scaled'];
+				}
+			}
+		}	
+		$retVal = ($set == 1) ? $scaled : null ;
+		return $retVal;
+	}
+
+	/**
 	* get all tracking items of scorm object
 	*
 	* currently a for learning progress only

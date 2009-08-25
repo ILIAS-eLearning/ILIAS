@@ -69,6 +69,8 @@ class ilSCORMCertificateAdapter extends ilCertificateAdapter
 			"[USER_FIRSTNAME]" => ilUtil::prepareFormOutput($lng->txt("certificate_var_user_firstname")),
 			"[USER_LASTNAME]" => ilUtil::prepareFormOutput($lng->txt("certificate_var_user_lastname")),
 			"[USER_TITLE]" => ilUtil::prepareFormOutput($lng->txt("certificate_var_user_title")),
+			"[USER_SALUTATION]" => ilUtil::prepareFormOutput($lng->txt("certificate_var_user_salutation")),
+			"[USER_BIRTHDAY]" => ilUtil::prepareFormOutput($lng->txt("certificate_var_user_birthday")),
 			"[USER_INSTITUTION]" => ilUtil::prepareFormOutput($lng->txt("certificate_var_user_institution")),
 			"[USER_DEPARTMENT]" => ilUtil::prepareFormOutput($lng->txt("certificate_var_user_department")),
 			"[USER_STREET]" => ilUtil::prepareFormOutput($lng->txt("certificate_var_user_street")),
@@ -77,6 +79,7 @@ class ilSCORMCertificateAdapter extends ilCertificateAdapter
 			"[USER_COUNTRY]" => ilUtil::prepareFormOutput($lng->txt("certificate_var_user_country")),
 			"[USER_LASTACCESS]" => ilFormat::formatDate(ilFormat::unixtimestamp2datetime(time()-(24*60*60*5)), "datetime", TRUE, FALSE),
 			"[SCORM_TITLE]" => ilUtil::prepareFormOutput($this->object->getTitle()),
+			"[SCORM_POINTS]" => number_format(80.7, 1, $lng->txt("lang_sep_decimal"), $lng->txt("lang_sep_thousand")) . " %",
 			"[DATE]" => ilFormat::formatDate(ilFormat::unixtimestamp2datetime(time()), "date", FALSE, FALSE),
 			"[DATETIME]" => ilFormat::formatDate(ilFormat::unixtimestamp2datetime(time()), "datetime", TRUE, FALSE)
 		);
@@ -95,14 +98,38 @@ class ilSCORMCertificateAdapter extends ilCertificateAdapter
 	{
 		global $lng;
 		
+		$lng->loadLanguageModule('certificate');
 		$user_data = $params["user_data"];
-		
+		$points = $this->object->getPointsInPercent();
+		$txtPoints = "";
+		if (is_null($points))
+		{
+			$txtPoints = $lng->txt("certificate_points_notavailable");
+		}
+		else
+		{
+			$txtPoints = number_format($points, 1, $lng->txt("lang_sep_decimal"), $lng->txt("lang_sep_thousand")) . " %";
+		}
+		$salutation = "";
+		if (strlen($user_data["gender"]))
+		{
+			$salutation = $lng->txt("salutation_" . $user_data["gender"]);
+		}
+		$y = ""; $m = ""; $d = "";
+		if (preg_match("/(\\d{4})-(\\d{2})-(\\d{2})/", $user_data["birthday"], $matches))
+		{
+			$y = $matches[1];
+			$m = $matches[2];
+			$d = $matches[3];
+		}
 		include_once "./classes/class.ilFormat.php";
 		$insert_tags = array(
 			"[USER_FULLNAME]" => ilUtil::prepareFormOutput(trim($user_data["title"] . " " . $user_data["firstname"] . " " . $user_data["lastname"])),
 			"[USER_FIRSTNAME]" => ilUtil::prepareFormOutput($user_data["firstname"]),
 			"[USER_LASTNAME]" => ilUtil::prepareFormOutput($user_data["lastname"]),
 			"[USER_TITLE]" => ilUtil::prepareFormOutput($user_data["title"]),
+			"[USER_SALUTATION]" => ilUtil::prepareFormOutput($salutation),
+			"[USER_BIRTHDAY]" => ilUtil::prepareFormOutput((strlen($y.$m.$d)) ? str_replace("m", $m, str_replace("d", $d, str_replace("Y", $y, $lng->txt("lang_dateformat")))) : $lng->txt("not_available")),
 			"[USER_INSTITUTION]" => ilUtil::prepareFormOutput($user_data["institution"]),
 			"[USER_DEPARTMENT]" => ilUtil::prepareFormOutput($user_data["department"]),
 			"[USER_STREET]" => ilUtil::prepareFormOutput($user_data["street"]),
@@ -111,6 +138,7 @@ class ilSCORMCertificateAdapter extends ilCertificateAdapter
 			"[USER_COUNTRY]" => ilUtil::prepareFormOutput($user_data["country"]),
 			"[USER_LASTACCESS]" => ilFormat::formatDate(ilFormat::unixtimestamp2datetime($params["last_access"]), "datetime", FALSE, FALSE),
 			"[SCORM_TITLE]" => ilUtil::prepareFormOutput($this->object->getTitle()),
+			"[SCORM_POINTS]" => $txtPoints,
 			"[DATE]" => ilFormat::formatDate(ilFormat::unixtimestamp2datetime(time()), "date", FALSE, FALSE),
 			"[DATETIME]" => ilFormat::formatDate(ilFormat::unixtimestamp2datetime(time()), "datetime", TRUE, FALSE)
 		);
@@ -136,6 +164,8 @@ class ilSCORMCertificateAdapter extends ilCertificateAdapter
 		$template->setVariable("PH_RESULT_POINTS", $lng->txt("certificate_ph_resultpoints"));
 		$template->setVariable("PH_RESULT_PERCENT", $lng->txt("certificate_ph_resultpercent"));
 		$template->setVariable("PH_USER_TITLE", $lng->txt("certificate_ph_title"));
+		$template->setVariable("PH_USER_BIRTHDAY", $lng->txt("certificate_ph_birthday"));
+		$template->setVariable("PH_USER_SALUTATION", $lng->txt("certificate_ph_salutation"));
 		$template->setVariable("PH_USER_STREET", $lng->txt("certificate_ph_street"));
 		$template->setVariable("PH_USER_INSTITUTION", $lng->txt("certificate_ph_institution"));
 		$template->setVariable("PH_USER_DEPARTMENT", $lng->txt("certificate_ph_department"));
@@ -144,6 +174,7 @@ class ilSCORMCertificateAdapter extends ilCertificateAdapter
 		$template->setVariable("PH_USER_COUNTRY", $lng->txt("certificate_ph_country"));
 		$template->setVariable("PH_USER_LASTACCESS", $lng->txt("certificate_ph_lastaccess"));
 		$template->setVariable("PH_SCORM_TITLE", $lng->txt("certificate_ph_scormtitle"));
+		$template->setVariable("PH_SCORM_POINTS", $lng->txt("certificate_ph_scormpoints"));
 		$template->setVariable("PH_DATE", $lng->txt("certificate_ph_date"));
 		$template->setVariable("PH_DATETIME", $lng->txt("certificate_ph_datetime"));
 		return $template->get();
@@ -161,6 +192,19 @@ class ilSCORMCertificateAdapter extends ilCertificateAdapter
 	public function addAdditionalFormElements(&$form, $form_fields)
 	{
 		global $lng;
+		$short_name = new ilTextInputGUI($lng->txt("certificate_short_name"), "short_name");
+		$short_name->setRequired(TRUE);
+		require_once "./Services/Utilities/classes/class.ilStr.php";
+		$short_name->setValue(strlen($form_fields["short_name"]) ? $form_fields["short_name"] : ilStr::subStr($this->object->getTitle(), 0, 30));
+		$short_name->setSize(30);
+		if (strlen($form_fields["short_name"])) {
+			$short_name->setInfo(str_replace("[SHORT_TITLE]", $form_fields["short_name"], $lng->txt("certificate_short_name_description")));
+		} else {
+			$short_name->setInfo($lng->txt("certificate_short_name_description"));
+		}
+		if (count($_POST)) $short_name->checkInput();
+		$form->addItem($short_name);
+
 		$visibility = new ilCheckboxInputGUI($lng->txt("certificate_enabled_scorm"), "certificate_enabled_scorm");
 		$visibility->setInfo($lng->txt("certificate_enabled_scorm_introduction"));
 		$visibility->setValue(1);
@@ -183,6 +227,7 @@ class ilSCORMCertificateAdapter extends ilCertificateAdapter
 	public function addFormFieldsFromPOST(&$form_fields)
 	{
 		$form_fields["certificate_enabled_scorm"] = $_POST["certificate_enabled_scorm"];
+		$form_fields["short_name"] = $_POST["short_name"];
 	}
 
 	/**
@@ -198,6 +243,7 @@ class ilSCORMCertificateAdapter extends ilCertificateAdapter
 		global $ilSetting;
 		$scormSetting = new ilSetting("scorm");
 		$form_fields["certificate_enabled_scorm"] = $scormSetting->get("certificate_" . $this->object->getId());
+		$form_fields["short_name"] = $scormSetting->get("certificate_short_name_" . $this->object->getId());
 	}
 	
 	/**
@@ -212,6 +258,7 @@ class ilSCORMCertificateAdapter extends ilCertificateAdapter
 		global $ilSetting;
 		$scormSetting = new ilSetting("scorm");
 		$scormSetting->set("certificate_" . $this->object->getId(), $form_fields["certificate_enabled_scorm"]);
+		$scormSetting->set("certificate_short_name_" . $this->object->getId(), $form_fields["short_name"]);
 	}
 
 	/**
@@ -234,6 +281,30 @@ class ilSCORMCertificateAdapter extends ilCertificateAdapter
 	public function getCertificateID()
 	{
 		return $this->object->getId();
+	}
+
+	/**
+	* Set the name of the certificate file
+	* This method will be called when the certificate will be generated
+	*
+	* @return string The certificate file name
+	*/
+	public function getCertificateFilename($params = array())
+	{
+		global $lng;
+		
+		$user_data = $params["user_data"];
+		if (!is_array($user_data))
+		{
+			global $ilSetting;
+			$scormSetting = new ilSetting("scorm");
+			$short_title = $scormSetting->get("certificate_short_name_" . $this->object->getId());
+			return strftime("%y%m%d", time()) . "_" . $lng->txt("certificate_var_user_lastname") . "_" . $short_title . "_Zertifikat.pdf";
+		}
+		else
+		{
+			return strftime("%y%m%d", time()) . "_" . $user_data["lastname"] . "_" . $params["short_title"] . "_Zertifikat.pdf";
+		}
 	}
 
 	/**
