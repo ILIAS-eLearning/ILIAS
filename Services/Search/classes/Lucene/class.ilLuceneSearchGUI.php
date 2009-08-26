@@ -192,6 +192,12 @@ class ilLuceneSearchGUI extends ilSearchBaseGUI
 		$presentation->setResults($filter->getResultIds());
 		
 		$presentation->setSearcher($searcher);
+
+		// TODO: other handling required
+		$ilBench->start('Lucene','1500_fo');
+		$this->addPager($filter,'max_page');
+		$ilBench->stop('Lucene','1500_fo');
+
 		$presentation->setPreviousNext($this->prev_link, $this->next_link);
 		$ilBench->stop('Lucene','1300_pr');
 		
@@ -209,9 +215,6 @@ class ilLuceneSearchGUI extends ilSearchBaseGUI
 		}
 		$ilBench->stop('Lucene','1400_re');
 		
-		$ilBench->start('Lucene','1500_fo');
-		$this->addPager($filter,'max_page');
-		$ilBench->stop('Lucene','1500_fo');
 		$ilBench->stop('Lucene','1000_savedResults');
 	}
 	
@@ -280,6 +283,12 @@ class ilLuceneSearchGUI extends ilSearchBaseGUI
 		$presentation = new ilSearchResultPresentation($this);
 		$presentation->setResults($filter->getResultIds());
 		$presentation->setSearcher($searcher);
+
+		// TODO: other handling required
+		$ilBench->start('Lucene','1500_fo');
+		$this->addPager($filter,'max_page');
+		$ilBench->stop('Lucene','1500_fo');
+
 		$presentation->setPreviousNext($this->prev_link, $this->next_link);
 
 		if($presentation->render())
@@ -290,8 +299,6 @@ class ilLuceneSearchGUI extends ilSearchBaseGUI
 		{
 			ilUtil::sendInfo(sprintf($this->lng->txt('search_no_match_hint'),$this->search_cache->getQuery()));
 		}
-		
-		$this->addPager($filter,'max_page');
 		
 		if($filter->getResultIds())
 		{

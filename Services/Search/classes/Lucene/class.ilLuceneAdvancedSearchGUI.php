@@ -88,7 +88,7 @@ class ilLuceneAdvancedSearchGUI extends ilSearchBaseGUI
 	 */
 	public function showSavedResults()
 	{
-		global $ilUser;
+		global $ilUser,$ilBench;
 		
 		include_once './Services/Search/classes/Lucene/class.ilLuceneSearcher.php';
 		include_once './Services/Search/classes/Lucene/class.ilLuceneAdvancedQueryParser.php';
@@ -112,6 +112,12 @@ class ilLuceneAdvancedSearchGUI extends ilSearchBaseGUI
 		$presentation = new ilSearchResultPresentation($this);
 		$presentation->setResults($filter->getResultIds());
 		$presentation->setSearcher($searcher);
+
+
+		// TODO: other handling required
+		$ilBench->start('Lucene','1500_fo');
+		$this->addPager($filter,'max_page');
+		$ilBench->stop('Lucene','1500_fo');
 		$presentation->setPreviousNext($this->prev_link, $this->next_link);
 		
 		if($presentation->render())
@@ -126,7 +132,6 @@ class ilLuceneAdvancedSearchGUI extends ilSearchBaseGUI
 		// and finally add search form
 		$this->initFormSearch();
 		$this->tpl->setVariable('SEARCH_TABLE',$this->form->getHTML());
-		$this->addPager($filter,'max_page');
 		
 		if($filter->getResultIds())
 		{	
@@ -252,6 +257,11 @@ class ilLuceneAdvancedSearchGUI extends ilSearchBaseGUI
 		$presentation = new ilSearchResultPresentation($this);
 		$presentation->setResults($filter->getResultIds());
 		$presentation->setSearcher($searcher);
+
+		// TODO: other handling required
+		$ilBench->start('Lucene','1500_fo');
+		$this->addPager($filter,'max_page');
+		$ilBench->stop('Lucene','1500_fo');
 		$presentation->setPreviousNext($this->prev_link, $this->next_link);
 
 		if($presentation->render())
@@ -266,7 +276,6 @@ class ilLuceneAdvancedSearchGUI extends ilSearchBaseGUI
 		// and finally add search form
 		$this->initFormSearch();
 		$this->tpl->setVariable('SEARCH_TABLE',$this->form->getHTML());
-		$this->addPager($filter,'max_page');
 		
 		if($filter->getResultIds())
 		{
