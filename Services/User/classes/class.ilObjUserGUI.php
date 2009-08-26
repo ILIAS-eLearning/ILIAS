@@ -1085,7 +1085,7 @@ class ilObjUserGUI extends ilObjectGUI
 		
 		// we do not want to store this dates, they are only printed out
 		unset($_POST['approve_date']);
-		unset($_POST['agree_date']);
+		$_POST['agree_date'] = $this->object->getAgreeDate();
 		unset($_POST['last_login']);
 		
 		if ($this->form_gui->checkInput())
