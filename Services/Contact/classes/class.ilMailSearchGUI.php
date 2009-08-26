@@ -273,6 +273,8 @@ class ilMailSearchGUI
 			$result_obj = $user_search->performSearch();
 			$all_results->mergeEntries($result_obj);
 	
+			$all_results->setMaxHits(100000);
+			$all_results->preventOverwritingMaxhits(true);
 			$all_results->filter(ROOT_FOLDER_ID,QP_COMBINATION_OR);
 	
 			
