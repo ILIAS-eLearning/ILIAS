@@ -192,7 +192,7 @@ class ilObjSAHSLearningModule extends ilObject
 	*/
 	function getDiskUsage()
 	{
-	    require_once("./Modules/MediaCast/classes/class.ilObjSAHSLearningModuleAccess.php");
+	    require_once("./Modules/ScormAicc/classes/class.ilObjSAHSLearningModuleAccess.php");
 		return ilObjSAHSLearningModuleAccess::_lookupDiskUsage($this->id);
 	}
 
