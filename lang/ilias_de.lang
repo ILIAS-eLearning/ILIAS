@@ -2054,8 +2054,8 @@ common#:#cleaning_failed#:#Der Virus konnte nicht aus der Datei entfernt werden.
 common#:#clear#:#Abbrechen
 common#:#clear_clipboard#:#Zwischenablage leeren
 common#:#client#:#Client
-common#:#client_id#:#Mandanten ID
-common#:#client_ip#:#Client IP
+common#:#client_id#:#Mandanten-ID
+common#:#client_ip#:#Client-IP
 common#:#clipboard#:#Zwischenablage
 common#:#clone_existing_course#:#Vorhandenen Kurs kopieren
 common#:#clone_option_in_cat#:#In existierende Kategorie kopieren
@@ -3088,7 +3088,7 @@ common#:#inline_file_extensions_info#:#Dateien mit diesen Endungen werden direkt
 common#:#input_error#:#Eingabefehler
 common#:#insert#:#Einfügen
 common#:#insert_object_here#:#Objekt hier einfügen
-common#:#inst_id#:#Installations ID
+common#:#inst_id#:#NIC-ID
 common#:#inst_info#:#Installations-Info
 common#:#inst_name#:#Installationsname
 common#:#install#:#Installieren
@@ -3101,7 +3101,7 @@ common#:#internal_local_roles_only#:#Lokale Rollen (nur autom. erstellte)
 common#:#internal_system#:#Internes System
 common#:#invisible_block#:#Unsichtbarer Block
 common#:#invisible_block_mess#:#Sie haben nicht das Recht, diesen Block zu sehen.
-common#:#ip_address#:#IP Adresse
+common#:#ip_address#:#IP-Adresse
 common#:#is_already_your#:#ist bereits Ihre
 common#:#item#:#Begriff
 common#:#java_server#:#Java-Server
@@ -3290,7 +3290,7 @@ common#:#login_to_ilias#:#Bei ILIAS anmelden
 common#:#login_to_ilias_via_cas#:#Bei ILIAS über zentrales Authentifizierungssystem anmelden
 common#:#login_to_ilias_via_shibboleth#:#Bei ILIAS anmelden über
 common#:#loginname_already_exists#:#Dieser Login-Name existiert bereits.
-common#:#loginname_settings#:#Loginnamens-Einstellungen
+common#:#loginname_settings#:#Einstellungen Login-Name
 common#:#logout#:#Abmelden
 common#:#logout_text#:#Sie sind nun abgemeldet. Ihre Sitzung wurde geschlossen.
 common#:#logs#:#Log-Daten
@@ -3904,12 +3904,12 @@ common#:#pasteChapter#:#Einfügen
 common#:#pastePage#:#Einfügen
 common#:#path#:#Pfad
 common#:#path_not_set#:#Pfad nicht gesetzt
-common#:#path_to_babylon#:#BABYLON Befehlszeile
-common#:#path_to_convert#:#CONVERT Befehlszeile
-common#:#path_to_htmldoc#:#HTMLdoc Befehlszeile
-common#:#path_to_java#:#JAVA Befehlszeile
-common#:#path_to_unzip#:#UNZIP Befehlszeile
-common#:#path_to_zip#:#ZIP Befehszeile
+common#:#path_to_babylon#:#BABYLON-Befehlszeile
+common#:#path_to_convert#:#CONVERT-Befehlszeile
+common#:#path_to_htmldoc#:#HTMLdoc-Befehlszeile
+common#:#path_to_java#:#JAVA-Befehlszeile
+common#:#path_to_unzip#:#UNZIP-Befehlszeile
+common#:#path_to_zip#:#ZIP-Befelhszeile
 common#:#pathes#:#Pfade
 common#:#pay_methods#:#Bezahlarten
 common#:#payment_buyable#:#Kaufbar
@@ -6485,7 +6485,7 @@ ecs#:#ecs_cat_mapping_type#:#Art der Zuordnung
 ecs#:#ecs_cat_mapping_values#:#Attributwert
 ecs#:#ecs_category_mapping#:#Zuordnung zu Kategorien
 ecs#:#ecs_cert_key#:#Zertifikatschlüssel
-ecs#:#ecs_check_import_id#:#Bitte überprüfen Sie die Einstellung zur Import ID.
+ecs#:#ecs_check_import_id#:#Bitte überprüfen Sie die Einstellung zur Import-ID.
 ecs#:#ecs_client_cert#:#Clientzertifikat
 ecs#:#ecs_communities#:#Teilnehmer
 ecs#:#ecs_connection_settings#:#Verbindungsdaten
@@ -6524,7 +6524,7 @@ ecs#:#ecs_field_time#:#Uhrzeit
 ecs#:#ecs_global_role_info#:#Bitte wählen Sie eine globale Rolle aus, der neue ECS-Benutzer zugeordnet werden.
 ecs#:#ecs_ignore_field#:#Dieses Feld nicht aktualisieren
 ecs#:#ecs_import#:#Import
-ecs#:#ecs_import_id#:#Import ID
+ecs#:#ecs_import_id#:#Import-ID
 ecs#:#ecs_import_id_info#:#Bitte geben Sie die ID der Kategorie ein, in der neue ECS-Kurslinks angelegt werden sollen.
 ecs#:#ecs_imported_content#:#Importierte Materialien
 ecs#:#ecs_imported_from#:#Importiert von
@@ -6864,7 +6864,7 @@ ilinc#:#ilinc_connection_error#:#Fehler: Keine Verbindung zum iLinc Server!
 ilinc#:#ilinc_member_administration#:#Teilnehmerverwaltung
 ilinc#:#ilinc_no_account_yet#:#Noch kein iLinc-Konto vorhanden
 ilinc#:#ilinc_user_added#:#Benutzerkonto angelegt auf iLinc-Server
-ilinc#:#ilinc_user_id#:#iLinc UserID
+ilinc#:#ilinc_user_id#:#iLinc-User-ID
 ilinc#:#ilinc_user_settings#:#iLinc Benutzerdaten
 jscalendar#:#about_calendar#:#Über den Kalender
 jscalendar#:#about_calendar_long#:#DHTML Date/Time Selector\n(c) dynarch.com 2002-2003\nFor latest version visit: http://dynarch.com/mishoo/calendar.epl\nDistributed under GNU LGPL. See http://gnu.org/licenses/lgpl.html for details.\n\nAuswahl des Datums:\n- Verwenden Sie die «, » Schaltflächen, um das Jahr auszuwählen\n- Verwenden Sie die <, > Schaltflächen, um den Monat auszuwählen\n- Lassen Sie die Maustaste über jeder der oberen Schaltflächen gedrückt, um eine Schnellauswahl zu erhalten.
