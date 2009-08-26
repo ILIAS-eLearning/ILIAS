@@ -208,7 +208,7 @@ class ilQuestionExporter
 	}
 	
 	private function assImagemapQuestion() {
-		array_push(self::$media_files,$this->q_gui->object->getImagePath().$this->q_gui->object->get_image_filename());
+		array_push(self::$media_files,$this->q_gui->object->getImagePath().$this->q_gui->object->getImageFilename());
 		$this->tpl->setCurrentBlock("mapareas");
 		$areas = $this->json_decoded->answers;
 		//set areas in PHP cause of inteference between pure and highlighter
