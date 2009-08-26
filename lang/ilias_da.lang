@@ -372,7 +372,7 @@ common#:#auth_cas_auth_desc#:#CAS kræver PHP 4.3.1 eller senere med CURL suppor
 common#:#auth_cas_create_users_desc#:#Creates automatically an ILIAS user account, for users that successfully authenticated against CAS, without having an ILIAS account yet.
 common#:#auth_cas_port_desc#:#E.g. 443 if the full CAS server URI is https://auth.yourserver.com:443/cas/
 common#:#auth_cas_server_desc#:#F.eks. auth.yourserver.com hvis den fulde CAS server URI er https://auth.yourserver.com:443/cas/
-common#:#auth_cas_settings_saved#:#CAS settings saved
+common#:#auth_cas_settings_saved#:#CAS indstillinger gemt
 common#:#auth_cas_uri_desc#:#Local URI, e.g. cas if the full CAS server URI is https://auth.yourserver.com:443/cas/
 common#:#auth_cas_user_default_role_desc#:#Denne rolle tildeles automatisk CAS oprettede brugere.
 common#:#auth_configure#:#Konfigurer...
@@ -676,8 +676,8 @@ common#:#cron_lucene_index_info#:#Hvis aktiv vil lucenesøgeindekset blive opdat
 common#:#crs#:#Kursus
 common#:#crs_a#:#Et Kursus
 common#:#crs_activation_start_invalid#:#Start og sluttid er ikke gyldig.
-common#:#crs_add#:#Tilføj Kursus
-common#:#crs_added#:#Kursus TIlføjet
+common#:#crs_add#:#Tilføj kursus
+common#:#crs_added#:#Kursus tilføjet
 common#:#crs_all_questions_answered_successfully#:#Du har besvaret alle spørgsmål.
 common#:#crs_archives#:#Arkiver
 common#:#crs_at_least_one_admin#:#Der skal være mindst en kursusadministrator
@@ -1396,7 +1396,7 @@ common#:#info_assign_sure#:#Er du sikker på at du vil tildele følgende brugere
 common#:#info_assigned#:#tildelt
 common#:#info_available_roles#:#Mulige roller
 common#:#info_change_user_view#:#Rediger brugeradgang
-common#:#info_delete_sure#:#Er du sikker på at du vil slette følgende Objekter?
+common#:#info_delete_sure#:#Er du sikker på at du vil slette disse objekter?
 common#:#info_delete_warning_no_trash#:#(ADVARSEL: Valgte objekter bliver uigenkaldeligt fjernet fra systemet og kan ikke genskabes!)
 common#:#info_deleted#:#Objekt(er) slettet
 common#:#info_enter_login_or_id#:#Indsæt dit loginnavn eller bruger-ID
@@ -2106,9 +2106,9 @@ common#:#path_to_unzip#:#Sti til udpakning
 common#:#path_to_zip#:#Sti til pakning
 common#:#pathes#:#stier
 common#:#pay_methods#:#Betalingsmetoder
-common#:#payment_buyable#:#Buyable
-common#:#payment_in_sc#:#Already in shopping cart
-common#:#payment_payed_access#:#Payed/Access
+common#:#payment_buyable#:#Til salg
+common#:#payment_in_sc#:#Allerede i indkøbskurven
+common#:#payment_payed_access#:#Betalt/Adgang
 common#:#payment_system#:#Betalingssystem
 common#:#pays_edit#:#Rediger betalingsindstillinger
 common#:#pays_edit_permission#:#ændre rettighedsindstillinger
@@ -2226,7 +2226,7 @@ common#:#replace_file#:#Overskriv fil
 common#:#reply#:#Svar
 common#:#repository#:#Oversigt
 common#:#repository_admin#:#Overblik, skrald og rettigheder
-common#:#repository_admin_desc#:#Set permissions for repository items, restore or remove objects from system trash###23 Dec 2005 new variable
+common#:#repository_admin_desc#:#Sæt rettigheder for objekter i oversigten, genskab og fjern indholdet i skraldespanden.
 common#:#repository_frame#:#Repository Content###28 Feb 2006 new variable
 common#:#request_membership#:#Anmod om medlemsskab
 common#:#require_city#:#Kræver by
@@ -2394,7 +2394,7 @@ common#:#setUserLanguage#:#Sæt brugersprog
 common#:#set_offline#:#Sæt til Offline
 common#:#set_online#:#Sæt til Online
 common#:#settings#:#Indstillinger
-common#:#settings_saved#:#Saved settings###17 Aug 2005 new variable
+common#:#settings_saved#:#Indstillingerne blev gemt
 common#:#shib#:#Shibboleth###17 Aug 2005 new variable
 common#:#shib_active#:#Aktiver shibbolethsupport
 common#:#shib_city#:#Attribute for city###17 Aug 2005 new variable
@@ -2637,7 +2637,7 @@ common#:#uninstall#:#Afinstaller
 common#:#uninstalled#:#afinstalleret.
 common#:#unknown#:#Ukendt
 common#:#unlabeled#:#Generelt
-common#:#unread#:#Ulæste
+common#:#unread#:#ulæst
 common#:#unread_lowercase#:#ulæst
 common#:#unselected#:#Uvalgt
 common#:#unsubscribe#:#Fjern fra skrivebord
@@ -5130,7 +5130,7 @@ crs#:#crs_enable_map#:#Brug kortet
 crs#:#crs_map_location#:#Placering
 crs#:#crs_members_map#:#Kort over kursister
 crs#:#grouping_change_assignment#:#Change Assignment###05 10 2006 new variable
-crs#:#crs_reg_type_info#:#This setting is only relevant, if the registration is not 'Disabled'###29 11 2006 new variable
+crs#:#crs_reg_type_info#:#Denne indstilling er kun relevant hvis tilmeldingen ikke er lukket.
 crs#:#crs_subscriber#:#Tilmeldt
 crs#:#export_members#:#Eksporter kursister
 crs#:#crs_agreement_header#:#Brugeraftale
@@ -6302,7 +6302,7 @@ payment#:#pay_bmf_validity#:#gyldig indtil
 payment#:#pay_bmf_vat_included#:#Inkl. moms
 payment#:#pay_bmf_your_order#:#Din ordre
 payment#:#pay_change_price#:#Change price/duration combination
-payment#:#pay_click_to_buy#:#Køb nu
+payment#:#pay_click_to_buy#:#Betal
 payment#:#pay_confirm_order#:#Godkend venligst din ordre ved at indtaste dit personlige password.
 payment#:#pay_customer_no#:#Kundenummer.
 payment#:#pay_deleted_booking#:#Din vare er fjernet fra kurven.
@@ -6310,13 +6310,17 @@ payment#:#pay_deleted_items#:#Den valgte vare er blevet slettet.
 payment#:#pay_ending#:#ender på
 payment#:#pay_entitled_retrieve#:#Du har ret til at modtage data i
 payment#:#pay_expires_info#:#Din betalingsfrist er udløbet.
-payment#:#pay_filter#:#Filter###21 Apr 2005 new variable
+payment#:#pay_filter#:#Filter
 payment#:#pay_goto_buyed_objects#:#Gå til dine indkøb
 payment#:#pay_goto_shopping_cart#:#Gå til indkøbskurv
 payment#:#pay_header#:#Betaling
 payment#:#pay_hint_paypal#:#Tip til Paypal
+payment#:#pay_hint_epay#:#Tip til ePay
 payment#:#pay_info#:#Adgangen til materialet er ikke gratis. Hvis du ønsker adgang til materialet skal du vælge mellem prismulighederne herunder og tilføje det valgte til din indkøbskurv. Du vil få øjeblikkelig adgang til de valgte varer i den givne periode.
 payment#:#pay_info_paypal#:#To pay for those objects that are in your shopping cart you'll leave ILIAS temporary and head for the PayPal website. Please follow the steps that are shown to you there. After paying successfully you'll be directed back to ILIAS automatically. Don't close the window of your browser at any time whilst the selling process. Otherwise the objects you've bought can't be activated for you automatically.
+payment#:#pay_info_epay#:#Når du trykker på 'betal' åbnes ePay betalingsvindue hvor du skal gennemføre betalingen. Du vil herefter vende tilbage til ILIAS.
+payment#:#pay_epay_success#:#Betalingen blev gennemført via ePay. Der kan gå et par minutter før dit køb slår fuldt igennem.
+payment#:#pay_epay_canceled#:#Betalingen blev afbrudt
 payment#:#pay_item_already_in_sc#:#Du har allerede tilføjet dette objekt til din indkøbskurv.
 payment#:#pay_item_already_in_sc_choose_another#:#denne artikel kan bestilles som varekøb men der kan forekomme nye priser eller prisændringer.
 payment#:#pay_locator#:#Betaling
@@ -6325,7 +6329,7 @@ payment#:#pay_message_hello#:#Til
 payment#:#pay_message_regards#:#Venlig hilsen
 payment#:#pay_message_subject#:#Din ILIAS bestilling
 payment#:#pay_message_thanks#:#Tak for din ILIAS bestilling.
-payment#:#pay_no_vendors_created#:#Ingen sælger oprettet.
+payment#:#pay_no_vendors_created#:#Der er endnu ikke oprettet sælgere.
 payment#:#pay_not_buyed_any_object#:#Du har ikke købt varer i shoppen.
 payment#:#pay_order_date_from#:#Ordredato fra
 payment#:#pay_order_date_til#:#Ordredato til
@@ -6385,12 +6389,12 @@ payment#:#paya_error_no_object_id_given#:#Vælg venligst et objekt
 payment#:#paya_error_update_booking#:#Fejl under gemning af statistik data.
 payment#:#paya_expires#:#Udløbet betaling
 payment#:#paya_filter_reseted#:#Filter nulstillet.
-payment#:#paya_header#:#Betalingsadministration
+payment#:#paya_header#:#Shop indstillinger
 payment#:#paya_insert_only_numbers#:#Indsæt kun heltal(ikke decimaltal).
 payment#:#paya_locator#:#Betalingsadministration
 payment#:#paya_months#:#måned(er)
 payment#:#paya_no_booking_id_given#:#Fejl: ingen 'booking id' givet
-payment#:#paya_no_bookings#:#Ingen statistik til rådighed.
+payment#:#paya_no_bookings#:#Ingen ordrer.
 payment#:#paya_no_object_selected#:#Vælg venligst et objekt.
 payment#:#paya_no_objects_assigned#:#Der er ingen varer til salg
 payment#:#paya_no_price_available#:#Der er endnu ikke oprettet priser
@@ -6410,27 +6414,27 @@ payment#:#paya_payed#:#Betalt
 payment#:#paya_payed_access#:#Betalt/Adgang
 payment#:#paya_perm_obj#:#Rediger objekter
 payment#:#paya_perm_coupons#:#Ret kuponner
-payment#:#paya_perm_stat#:#Rediger statistikker
+payment#:#paya_perm_stat#:#Rediger ordrer
 payment#:#paya_price_not_valid#:#Denne pris er ugyldig. Indtast venligst kun numre(0-9)
 payment#:#paya_select_object_to_sell#:#Hvilken vare sælges.
 payment#:#paya_select_pay_method_first#:#Vælg venligst en betalingsmåde først.
 payment#:#paya_sell_object#:#Sæt til salg
 payment#:#paya_shopping_cart#:#Indkøbskurv
 payment#:#paya_statistic#:#Statistik
-payment#:#paya_sure_delete_object#:#Er du sikker på at du vil stoppe for betalingen af dette objekt? Alle indtastede data vil gå tabt.
+payment#:#paya_sure_delete_object#:#Er du sikker på du vil stoppe salget af dette objekt? Alle indtastede data vil gå tabt.
 payment#:#paya_sure_delete_selected_prices#:#Er du sikker på at du vil slette de valgte priser?
 payment#:#paya_sure_delete_selected_trustees#:#Er du sikker på du vil slette den/de valgte fuldmægtig(e)?
-payment#:#paya_sure_delete_stat#:#Er du sikker på at du vil slette de valgte statistikker?
+payment#:#paya_sure_delete_stat#:#Er du sikker på du ønsker at slette denne historik?
 payment#:#paya_transaction#:#Transaktion
 payment#:#paya_trustee_table#:#Fuldmagter
 payment#:#paya_trustees#:#Fuldmægtige
 payment#:#paya_update_price#:#Opdater priser
-payment#:#paya_updated_booking#:#Opdaterede statistikker.
+payment#:#paya_updated_booking#:#Opdaterede ordrer
 payment#:#paya_updated_prices#:#Opdaterede priser
 payment#:#paya_updated_trustees#:#Opdaterede tilladelser.
 payment#:#paya_user_already_assigned#:#Bruger allerede tilknyttet.
 payment#:#paya_vendor#:#Sælger
-payment#:#pays_active_bookings#:#Der er aktive bestillinger til den valgte sælger. Slet venligst dem først.
+payment#:#pays_active_bookings#:#Der er aktive ordrer til den valgte sælger. Disse skal slettes først.
 payment#:#pays_add_info#:#Ekstra bemærkninger til faktura(valgfrit)
 payment#:#pays_add_vendor#:#Tilføj sælger
 payment#:#pays_added_vendor#:#Tilføjet ny sælger
@@ -6445,7 +6449,7 @@ payment#:#pays_cost_center#:#Betalingscenter
 payment#:#pays_cost_center_not_valid#:#Skriv venligst et gyldigt betalingscenter.
 payment#:#pays_currency_subunit#:#Valuta (1/100) (eks. ØRE)
 payment#:#pays_currency_unit#:#Valuta (eks. DKK)
-payment#:#pays_delete_vendor#:#Afmeld bruger
+payment#:#pays_delete_vendor#:#Fjern sælger
 payment#:#pays_deleted_number_vendors#:#Det følgende antal sælgere er blevet slettet:
 payment#:#pays_edit_vendor#:#Rediger bruger
 payment#:#pays_email_vendor#:#E-Mail address of the vendor
@@ -7233,7 +7237,7 @@ trac#:#stats_sessions#:#Sessions
 trac#:#stats_sessions_statisics#:#Session Statistics
 trac#:#stats_start#:#Start
 trac#:#stats_summation#:#Summation
-trac#:#stats_tracked_user#:#Selected Users
+trac#:#stats_tracked_user#:#Valgte brugere
 trac#:#stats_until#:#until
 trac#:#stats_user#:#User(s)
 trac#:#stats_user_selected#:#User selected
@@ -7243,7 +7247,7 @@ trac#:#trac_activated#:#Sporing aktiveret
 trac#:#trac_active_both#:#Brugersporing og lærefremgang aktiveret
 trac#:#trac_active_lp_only#:#Læringsfremskridt aktiveret
 trac#:#trac_active_ut_only#:#Brugersporint aktiveret
-trac#:#trac_added_no_shown_list#:#The selected objects will be hidden.###28 Feb 2006 new variable
+trac#:#trac_added_no_shown_list#:#De valgte objekter bliver skjult.
 trac#:#trac_anonymized#:#Anonymiseret
 trac#:#trac_anonymized_info#:#Hvis aktiveret bliver alle statistikker anonymiseret.
 trac#:#trac_assigned#:#Tildelt
@@ -7328,7 +7332,7 @@ trac#:#trac_required_visits#:#Number of required visits###28 Feb 2006 new variab
 trac#:#trac_sahs_relevant_items#:#SCO's###23 Dec 2005 new variable
 trac#:#trac_select_one#:#Du foretog intet valg
 trac#:#trac_settings#:#Indstillinger
-trac#:#trac_settings_saved#:#Saved settings.###23 Dec 2005 new variable
+trac#:#trac_settings_saved#:#Indstillingerne blev gemt
 trac#:#trac_show#:#Vis læringsfremskridt
 trac#:#trac_show_hidden#:#Vis
 trac#:#trac_spent_time#:#Brugt tid
@@ -8239,7 +8243,7 @@ crs#:#crs_wiz_back#:#Tilbage
 crs#:#crs_objective_step#:#Skridt
 crs#:#crs_objective_self_assessment#:#Initial Test###23 07 2008 new variable
 crs#:#crs_objective_final_test#:#Final Test###23 07 2008 new variable
-crs#:#crs_objective_saved_sorting#:#Saved sorting.###23 07 2008 new variable
+crs#:#crs_objective_saved_sorting#:#Rækkefølgen gemt
 crs#:#crs_no_title_given#:#Please insert a title for the objective.###23 07 2008 new variable
 common#:#chat_invite_public_room#:#Fælleschat
 common#:#chat_link_to_this_chat#:#Link til denne chat
@@ -8770,7 +8774,7 @@ forum#:#frm_moderators_matches_in_no_results#:#Your search did not match any res
 payment#:#shop_info#:#Information om shop
 content#:#cont_tracking_byuser#:#Efter bruger
 content#:#cont_tracking_bysco#:#Efter kapitel
-common#:#payment_demo#:#Demo
+common#:#payment_demo#:#Produktbeskrivelse
 payment#:#payment_back_to_shop#:#Tilbage til shoppen
 content#:#cont_adjust_size#:#Juster størrelse
 content#:#cont_use_same_resource_as_above#:#Use the same resource as above###24 02 2009 new variable
@@ -9471,9 +9475,9 @@ common#:#preferences#:#User-defined Preferences###26 06 2009 new variable
 common#:#on_waiting_list#:#You are on the waiting list###26 06 2009 new variable
 common#:#leave_waiting_list#:#Leave Waiting List###26 06 2009 new variable
 cntr#:#cntr_manage#:#Ret
-cntr#:#cntr_ordering#:#Sorting###26 06 2009 new variable
+cntr#:#cntr_ordering#:#Sortering
 cntr#:#cntr_text_media_editor#:#Text/Media Editor###26 06 2009 new variable
-cntr#:#cntr_saved_sorting#:#Saved Sorting.###26 06 2009 new variable
+cntr#:#cntr_saved_sorting#:#Rækkefølgen blev gemt
 chat#:#chat_show_smilies#:#Show smilies###26 06 2009 new variable
 chat#:#chat_hide_smilies#:#Hide smilies###26 06 2009 new variable
 chat#:#chat_no_room_selected#:#No room has been selected.###26 06 2009 new variable
@@ -9623,16 +9627,16 @@ assessment#:#assErrorText#:#Error Text###24 07 2009 new variable
 assessment#:#textsize_errortext_info#:#Enter the text size of the error text in percent if you want another size than 100 percent.###24 07 2009 new variable
 common#:#disk_quota#:#Diskkvoter
 common#:#disk_usage#:#Diskforbrug
-common#:#disk_quota_report#:#Diskkvoterapport
+common#:#disk_quota_report#:#Kvoterapport
 common#:#disk_usage_details#:#Detaljer for diskforbrug
-common#:#disk_quota_report_not_run_yet#:#No disk quota report available. The daily cron job which determines the disk usage needs to be executed first.###24 07 2009 new variable
+common#:#disk_quota_report_not_run_yet#:#Der er ingen kvoterapport pt. Det daglige cron job som laver opgørelsen skal først køre.
 common#:#enter_in_mb_desc#:#Indtast værdi i mb.
 common#:#disk_quota_on_role_desc#:#The disk quota specified on a role affects all user accounts which are assigned to this role.###24 07 2009 new variable
 common#:#disk_quota_is_1_by_2#:#The effective disk quota is %1$s due to membership in role "%2$s".###24 07 2009 new variable
 common#:#disk_quota_is_unlimited_by_1#:#The effective disk quota is unlimited due to membership in role "%1$s".###24 07 2009 new variable
 common#:#disk_quota_is_1_instead_of_2_by_3#:#The effective disk quota is %1$s as defined in this user account. The disk quota by role membership would have been %2$s by role "%3$s".###24 07 2009 new variable
-common#:#disk_quota_reminder_mail#:#Reminder mail###24 07 2009 new variable
-common#:#disk_quota_reminder_mail_desc#:#The disk quota reminder mail is sent to active users who have exceeded their disk quota. This e-mail is sent once every day to the users when the daily ILIAS cron job is run. Users who already have received a reminder e-mail receive it again every 7 days as long as they exceed their disk quota.###24 07 2009 new variable
+common#:#disk_quota_reminder_mail#:#Påmindelsesmail
+common#:#disk_quota_reminder_mail_desc#:#Kvote påmindelsen sendes til brugere som har overskredet deres kvote. Mailen sendes en gang om dagen når ILIAS cron-jobbet kører. Brugere som allerede har modtaget en påmindelse får en ny efter 7 dage så længe de har overskredet grænsen.
 common#:#last_reminder#:#Last reminder###24 07 2009 new variable
 common#:#disk_quota_last_reminder_sent#:#Last quota reminder sent###24 07 2009 new variable
 common#:#disk_quota_last_reminder_sent_desc#:#Last date on which the user has received a reminder mail because of exceeding the disk quota.###24 07 2009 new variable
