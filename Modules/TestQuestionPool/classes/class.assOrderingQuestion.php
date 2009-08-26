@@ -1090,6 +1090,7 @@ class assOrderingQuestion extends assQuestion
 		$result['question'] =  (string) ilRTE::_replaceMediaObjectImageSrc($this->getQuestion(), 0);
 		$result['nr_of_tries'] = (int) $this->getNrOfTries();
 		$result['shuffle'] = (bool) $this->getShuffle();
+		$result['points'] = (bool) $this->getPoints();
 		$result['feedback'] = array(
 			"onenotcorrect" => ilRTE::_replaceMediaObjectImageSrc($this->getFeedbackGeneric(0), 0),
 			"allcorrect" => ilRTE::_replaceMediaObjectImageSrc($this->getFeedbackGeneric(1), 0)
@@ -1100,8 +1101,6 @@ class assOrderingQuestion extends assQuestion
 		{
 			array_push($answers, array(
 				"answertext" => (string) $answer_obj->getAnswertext(),
-				"points" => (float) $answer_obj->getPoints(),
-				"solutionorder" => (int) $counter,
 				"order" => (int) $answer_obj->getOrder()
 			));
 			$counter++;

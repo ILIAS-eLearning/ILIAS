@@ -1313,40 +1313,28 @@ class assMatchingQuestion extends assQuestion
 			"allcorrect" => ilRTE::_replaceMediaObjectImageSrc($this->getFeedbackGeneric(1), 0)
 			);
 		$terms = array();
-		foreach ($this->getTerms() as $key => $term)
+		foreach ($this->getMatchingPairs() as $pair)
 		{
 			array_push($terms, array(
-				"term" => $term,
-				"id" =>(int)$key
+				"term" => $pair->term->text,
+				"id" =>(int)$pair->term->identifier
 			));
 		}
+		$terms = $this->pcArrayShuffle($terms);
 		$pairs = array();
-		foreach ($this->getMatchingPairs() as $key => $pair)
+		foreach ($this->getMatchingPairs() as $pair)
 		{
-			if ($this->get_matching_type() == MT_TERMS_PICTURES)
-			{
-				array_push($pairs, array(
-					"term_id" => (int) $pair->getTermId(),
-					"points" => (float) $pair->getPoints(),
-					"picture" => $pair->getPicture(),
-					"picture_id" => (int) $pair->getPictureId(),
-					"terms" => $terms
-				));
-			}
-			else
-			{
-				array_push($pairs, array(
-					"term_id" => (int) $pair->getTermId(),
-					"points" => (float) $pair->getPoints(),
-					"definition" => (string) $pair->getDefinition(),
-					"def_id" => (int) $pair->getDefinitionId(),
-					"terms" => $terms
-				));
-			}
+			array_push($pairs, array(
+				"term_id" => (int) $pair->term->identifier,
+				"points" => (float) $pair->points,
+				"definition" => (string) $pair->definition->text,
+				"def_id" => (int) $pair->definition->identifier,
+				"terms" => $terms
+			));
 		}
 		$result['pairs'] = $pairs;
 		$mobs = ilObjMediaObject::_getMobsOfObject("qpl:html", $this->getId());
-		$result['mobs'] = $mobs;		
+		$result['mobs'] = $mobs;
 		return json_encode($result);
 	}
 

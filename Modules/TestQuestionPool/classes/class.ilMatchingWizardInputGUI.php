@@ -38,6 +38,7 @@ class ilMatchingWizardInputGUI extends ilTextInputGUI
 	protected $allowMove = false;
 	protected $qstObject = null;
 	protected $suffixes = array();
+	protected $hideImages = false;
 
 	/**
 	* Constructor
@@ -76,6 +77,16 @@ class ilMatchingWizardInputGUI extends ilTextInputGUI
 		return $this->suffixes;
 	}
 	
+	/**
+	* Set hide images.
+	*
+	* @param	array	$a_hide	Hide images
+	*/
+	function setHideImages($a_hide)
+	{
+		$this->hideImages = $a_hide;
+	}
+
 	/**
 	* Set Values
 	*
@@ -193,7 +204,7 @@ class ilMatchingWizardInputGUI extends ilTextInputGUI
 				}
 			}
 
-			if (is_array($_FILES))
+			if (is_array($_FILES) && (!$this->hideImages))
 			{
 				if (is_array($_FILES[$this->getPostVar()]['error']['image']))
 				{
@@ -323,31 +334,34 @@ class ilMatchingWizardInputGUI extends ilTextInputGUI
 		$i = 0;
 		foreach ($this->values as $value)
 		{
-			if (strlen($value->picture))
+			if (!$this->hideImages)
 			{
-				$imagename = $this->qstObject->getImagePathWeb() . $value->picture;
-				if ($this->qstObject->getThumbSize())
+				if (strlen($value->picture))
 				{
-					if (@file_exists($this->qstObject->getImagePath() . $this->qstObject->getThumbPrefix() . $value->picture))
+					$imagename = $this->qstObject->getImagePathWeb() . $value->picture;
+					if ($this->qstObject->getThumbSize())
 					{
-						$imagename = $this->qstObject->getImagePathWeb() . $this->qstObject->getThumbPrefix() . $value->picture;
+						if (@file_exists($this->qstObject->getImagePath() . $this->qstObject->getThumbPrefix() . $value->picture))
+						{
+							$imagename = $this->qstObject->getImagePathWeb() . $this->qstObject->getThumbPrefix() . $value->picture;
+						}
 					}
+					$tpl->setCurrentBlock('image');
+					$tpl->setVariable('SRC_IMAGE', $imagename);
+					$tpl->setVariable('IMAGE_NAME', $value->picture);
+					$tpl->setVariable('ALT_IMAGE', ilUtil::prepareFormOutput($value->text));
+					$tpl->setVariable("TXT_DELETE_EXISTING", $lng->txt("delete_existing_file"));
+					$tpl->setVariable("IMAGE_ROW_NUMBER", $i);
+					$tpl->setVariable("IMAGE_POST_VAR", $this->getPostVar());
+					$tpl->parseCurrentBlock();
 				}
-				$tpl->setCurrentBlock('image');
-				$tpl->setVariable('SRC_IMAGE', $imagename);
-				$tpl->setVariable('IMAGE_NAME', $value->picture);
-				$tpl->setVariable('ALT_IMAGE', ilUtil::prepareFormOutput($value->text));
-				$tpl->setVariable("TXT_DELETE_EXISTING", $lng->txt("delete_existing_file"));
+				$tpl->setCurrentBlock('addimage');
+				$tpl->setVariable("IMAGE_ID", $this->getPostVar() . "[image][$i]");
+				$tpl->setVariable("IMAGE_SUBMIT", $lng->txt("upload"));
 				$tpl->setVariable("IMAGE_ROW_NUMBER", $i);
 				$tpl->setVariable("IMAGE_POST_VAR", $this->getPostVar());
 				$tpl->parseCurrentBlock();
 			}
-			$tpl->setCurrentBlock('addimage');
-			$tpl->setVariable("IMAGE_ID", $this->getPostVar() . "[image][$i]");
-			$tpl->setVariable("IMAGE_SUBMIT", $lng->txt("upload"));
-			$tpl->setVariable("IMAGE_ROW_NUMBER", $i);
-			$tpl->setVariable("IMAGE_POST_VAR", $this->getPostVar());
-			$tpl->parseCurrentBlock();
 
 			if (is_object($value))
 			{
@@ -393,22 +407,25 @@ class ilMatchingWizardInputGUI extends ilTextInputGUI
 			$i++;
 		}
 
-		if (is_array($this->getSuffixes()))
+		if (!$this->hideImages)
 		{
-			$suff_str = $delim = "";
-			foreach($this->getSuffixes() as $suffix)
+			if (is_array($this->getSuffixes()))
 			{
-				$suff_str.= $delim.".".$suffix;
-				$delim = ", ";
+				$suff_str = $delim = "";
+				foreach($this->getSuffixes() as $suffix)
+				{
+					$suff_str.= $delim.".".$suffix;
+					$delim = ", ";
+				}
+				$tpl->setCurrentBlock('allowed_image_suffixes');
+				$tpl->setVariable("TXT_ALLOWED_SUFFIXES", $lng->txt("file_allowed_suffixes")." ".$suff_str);
+				$tpl->parseCurrentBlock();
 			}
-			$tpl->setCurrentBlock('allowed_image_suffixes');
-			$tpl->setVariable("TXT_ALLOWED_SUFFIXES", $lng->txt("file_allowed_suffixes")." ".$suff_str);
+			$tpl->setCurrentBlock("image_heading");
+			$tpl->setVariable("ANSWER_IMAGE", $this->image_name);
+			$tpl->setVariable("TXT_MAX_SIZE", ilUtil::getFileSizeInfo());
 			$tpl->parseCurrentBlock();
 		}
-		$tpl->setCurrentBlock("image_heading");
-		$tpl->setVariable("ANSWER_IMAGE", $this->image_name);
-		$tpl->setVariable("TXT_MAX_SIZE", ilUtil::getFileSizeInfo());
-		$tpl->parseCurrentBlock();
 
 		$tpl->setVariable("ELEMENT_ID", $this->getPostVar());
 		$tpl->setVariable("TEXT_YES", $lng->txt('yes'));
