@@ -261,8 +261,8 @@ class ilSCORM2004Item
 				"nocopy" => array("integer", $this->nocopy),
 				"nodelete" => array("integer", $this->nodelete),
 				"nomove" => array("integer", $this->nomove),
-				"seqxml" => array("clob", $this->dom->saveXML()),
-				"rootlevel" => array("integer", $ilDB->quote($this->rootLevel))
+				"seqxml" => array("text", $this->dom->saveXML()),
+				"rootlevel" => array("integer", $this->rootLevel)
 				));
 /*		$sql = "REPLACE INTO sahs_sc13_seq_item (`importid`,`seqnodeid`, `sahs_sc13_tree_node_id`".
 		 		", `sequencingid` ,`nocopy` ,`nodelete` ,`nomove`,`seqxml`,`rootlevel` )".
