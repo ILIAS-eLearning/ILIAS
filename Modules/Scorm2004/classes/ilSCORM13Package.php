@@ -647,13 +647,12 @@ class ilSCORM13Package
 						case 'minnormalizedmeasure': $names[] = 'minnormalmeasure';break;
 						case 'primary': $names[] = 'c_primary';break;
 						case 'minnormalizedmeasure': $names[] = 'minnormalmeasure';break;
-						case 'primary': $names[] = 'c_primary';break;						
 						case 'persistpreviousattempts': $names[] = 'persistprevattempts';break;						
 						case 'identifier': $names[] = 'c_identifier';break;
 						case 'settings': $names[] = 'c_settings';break;
 						case 'activityabsolutedurationlimit': $names[] = 'activityabsdurlimit';break;
 						case 'activityexperienceddurationlimit': $names[] = 'activityexpdurlimit';break;
-						case 'attemptabsolutedurationlimit': $names[] = 'c_primary';break;
+						case 'attemptabsolutedurationlimit': $names[] = 'attemptabsdurlimit';break;
 						case 'measuresatisfactionifactive': $names[] = 'measuresatisfactive';break;
 						case 'objectivemeasureweight': $names[] = 'objectivemeasweight';break;
 						case 'requiredforcompleted': $names[] = 'requiredcompleted';break;
