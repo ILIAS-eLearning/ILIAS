@@ -31,7 +31,9 @@ class ilSearchResultTableGUI extends ilTable2GUI
 		$this->addColumn($this->lng->txt("search_title_description"), "title");
 		if($this->enabledRelevance())
 		{
-			$this->addColumn($this->lng->txt('lucene_relevance_short'),'relevance','50px');
+			$this->addColumn($this->lng->txt('lucene_relevance_short'),'s_relevance','50px');
+			$this->setDefaultOrderField("s_relevance");
+			$this->setDefaultOrderDirection("desc");
 		}
 		$this->addColumn('', "", "10px");
 		

@@ -227,7 +227,8 @@ class ilSearchResultPresentation
 					"title"			=> $this->lookupTitle($res_data,0),
 					"description"	=> $this->lookupDescription($res_data,0),
 					"type"			=> ilObject::_lookupType($res_data),
-					"relevance"		=> $this->getRelevance($res_data)
+					"relevance"		=> $this->getRelevance($res_data),
+					"s_relevance"	=> sprintf("%03d",$this->getRelevance($res_data))
 				);
 			}
 			$ilBench->stop('Lucene','2100_res');
