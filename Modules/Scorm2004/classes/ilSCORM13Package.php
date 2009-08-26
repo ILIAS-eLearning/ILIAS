@@ -752,7 +752,7 @@ class ilSCORM13Package
 			AND cmi_node.cp_node_id = cp_node.cp_node_id)',
 		array('integer'),array($this->packageId, ));
 		
-		while ($data = $ilDb->fetcAssoc($set_cmi)) 
+		while ($data = $ilDB->fetchAssoc($set_cmi)) 
 		{
 		//	array_push($cmi_nodes,$data['cmi_node_id']);
 			$cmi_node_values[] = $data['cmi_node_id'];
