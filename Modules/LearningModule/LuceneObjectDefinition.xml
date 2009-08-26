@@ -35,7 +35,7 @@
 			<Param format="list" type="int" value="objId" />
 			<Field store="YES" index="NOT_ANALYZED" column="lm_id" type="integer" name="objId" global="NO" />
 			<Field store="YES" index="ANALYZED" column="title" type="text" name="propertyMedium" />
-			<Field store="YES" index="NOT_ANALYZED" column="obj_id" type="interger" name="subItem" />
+			<Field store="YES" index="NOT_ANALYZED" column="obj_id" type="integer" name="subItem" />
 			<Field store="YES" index="NOT_ANALYZED" column="metaType" type="text" name="type" global="NO"/>
 		</DataSource>
 	</Document>
