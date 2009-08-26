@@ -46,7 +46,7 @@ class ilSCORMOrganization extends ilSCORMObject
 	function ilSCORMOrganization($a_id = 0)
 	{
 		parent::ilSCORMObject($a_id);
-		$this->setType("sor");
+		$this->setType('sor');
 	}
 
 	function getImportId()
@@ -75,13 +75,16 @@ class ilSCORMOrganization extends ilSCORMObject
 		
 		parent::read();
 
+		$query = 'SELECT import_id, structure FROM sc_organization WHERE obj_id = %s';
+		$obj_set = $ilDB->queryF(
+			$query,
+			array('integer'),
+			array($this->getId())
+		);
+		$obj_rec = $ilDB->fetchAssoc($obj_set);
 
-		$obj_set = $ilDB->queryF('SELECT * FROM sc_organization WHERE obj_id = %s',
-		array('integer'),array($this->getId()));
-		$obj_rec = $ilDB->fetcAssoc($obj_set);
-
-		$this->setImportId($obj_rec["import_id"]);
-		$this->setStructure($obj_rec["structure"]);
+		$this->setImportId($obj_rec['import_id']);
+		$this->setStructure($obj_rec['structure']);
 	}
 
 	function create()
@@ -89,11 +92,13 @@ class ilSCORMOrganization extends ilSCORMObject
 		global $ilDB;
 		
 		parent::create();
-
-		$ilDB->manipulateF('
-		INSERT INTO sc_organization (obj_id, import_id, structure) VALUES(%s,%s,%s)',
-		array('integer','text','text'),
-		array($this->getId(),$this->getImportId(), $this->getStructure()));
+		
+		$query = 'INSERT INTO sc_organization (obj_id, import_id, structure) VALUES(%s, %s, %s)';
+		$ilDB->manipulateF(
+			$query,
+			array('integer', 'text', 'text'),
+			array($this->getId(), $this->getImportId(), $this->getStructure())
+		);
 	}
 
 	function update()
@@ -101,14 +106,13 @@ class ilSCORMOrganization extends ilSCORMObject
 		global $ilDB;
 		
 		parent::update();
-
-		$ilDB->manipulateF('
-		UPDATE sc_organization 
-		SET import_id = %s, 
-			structure = %s
-		WHERE obj_id = %s',
-		array('text','text','integer'),
-		array($this->getImportId(), $this->getStructure(),$this->getId()));
+		
+		$query = 'UPDATE sc_organization SET import_id = %s, structure = %s WHERE obj_id = %s';
+		$ilDB->manipulateF(
+			$query,
+			array('text', 'text', 'integer'),
+			array($this->getImportId(), $this->getStructure(), $this->getId())
+		);
 	}
 
 	function delete()
@@ -116,10 +120,13 @@ class ilSCORMOrganization extends ilSCORMObject
 		global $ilDB;
 
 		parent::delete();
-
-		$ilDB->manipulateF('DELETE FROM sc_organization WHERE obj_id = %s',
-		array('integer',array($this->getId())));
+		
+		$query = 'DELETE FROM sc_organization WHERE obj_id = %s';
+		$ilDB->manipulateF(
+			$query,
+			array('integer'),
+			array($this->getId())
+		);
 	}
-
 }
 ?>
