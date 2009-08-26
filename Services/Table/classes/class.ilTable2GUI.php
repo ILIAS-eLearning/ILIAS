@@ -1078,7 +1078,7 @@ class ilTable2GUI extends ilTableGUI
 	*/
 	private function renderFilter()
 	{
-		global $lng;
+		global $lng, $tpl, $ilUser;
 		
 		$filter = $this->getFilterItems();
 		$opt_filter = $this->getFilterItems(true);
@@ -1088,7 +1088,12 @@ class ilTable2GUI extends ilTableGUI
 			return;
 		}
 
-		// render standard filter (always shown)
+		include_once("./Services/YUI/classes/class.ilYuiUtil.php");
+		ilYuiUtil::initConnection();
+
+		$tpl->addJavascript("./Services/Table/js/ServiceTable.js");
+		
+		// render standard filter
 		if (count($filter) > 0)
 		{
 			$ccnt = 0;
@@ -1121,10 +1126,37 @@ class ilTable2GUI extends ilTableGUI
 			$this->tpl->parseCurrentBlock();
 			
 			$this->tpl->setVariable("TXT_FILTER", $lng->txt("filter"));
+			$this->tpl->setVariable("TXT_HIDE", $lng->txt("hide"));
 			$this->tpl->setVariable("CMD_APPLY", $this->filter_cmd);
 			$this->tpl->setVariable("TXT_APPLY", $lng->txt("apply_filter"));
 
 			$this->tpl->setCurrentBlock("filter_section");
+			$this->tpl->setVariable("FIL_ID", $this->getId());
+			if ($this->getId() != "")
+			{
+				$this->tpl->setVariable("SAVE_URL", "./ilias.php?baseClass=ilTablePropertiesStorage&table_id=".
+					$this->getId()."&cmd=hideFilter&user_id=".$ilUser->getId());
+			}
+			$this->tpl->parseCurrentBlock();
+			
+			// filter hidden?
+			include_once("./Services/Table/classes/class.ilTablePropertiesStorage.php");
+			$tprop = new ilTablePropertiesStorage();
+			if ($tprop->getProperty($this->getId(), $ilUser->getId(), "filter") != 1)
+			{
+				$this->tpl->setCurrentBlock("filter_hidden");
+				$this->tpl->setVariable("FI_ID", $this->getId());
+				$this->tpl->parseCurrentBlock();
+			}
+			
+			$this->tpl->setCurrentBlock("filter_activation");
+			$this->tpl->setVariable("TXT_ACTIVATE_FILTER", $lng->txt("show_filter"));
+			$this->tpl->setVariable("FILA_ID", $this->getId());
+			if ($this->getId() != "")
+			{
+				$this->tpl->setVariable("SAVE_URLA", "./ilias.php?baseClass=ilTablePropertiesStorage&table_id=".
+					$this->getId()."&cmd=showFilter&user_id=".$ilUser->getId());
+			}
 			$this->tpl->parseCurrentBlock();
 		}
 	}

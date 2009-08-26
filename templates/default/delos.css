@@ -2770,6 +2770,17 @@ span.ilTableFootLight
 	color: #909090;
 }
 
+a.ilTableFilterActivator {
+	font-size: 75%;
+	border-bottom: 1px dotted #2020C0;
+	margin: 0px 0px 0px 3px;
+}
+
+a.ilTableFilterDeactivator {
+	border-bottom: 1px dotted #2020C0;
+	margin: 0px 0px 0px 3px;
+}}
+
 div.ilTableFilter {
 	padding: 0px 0px 5px 0px;
 	margin: 0px;

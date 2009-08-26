@@ -15,10 +15,19 @@
 </div>
 <!-- END tbl_header_title --><!-- BEGIN tbl_header_description --><div class="subtitle" style="clear:left; margin: 0px 0px 10px 0px;">{TBL_DESCRIPTION}</div>
 <!-- END tbl_header_description -->
+<!-- BEGIN filter_activation -->
+<a class="ilTableFilterActivator" id = "atfil_{FILA_ID}" style="display:none;" href="#" onclick="return ilShowTableFilter('tfil_{FILA_ID}', '{SAVE_URLA}');">{TXT_ACTIVATE_FILTER}</a>
+<!-- BEGIN filter_hidden -->
+<script type="text/javascript">
+ilTableHideFilter['atfil_{FI_ID}'] = true;
+ilTableHideFilter['tfil_{FI_ID}'] = true;
+</script>
+<!-- END filter_hidden -->
+<!-- END filter_activation -->
 <!-- BEGIN filter_section -->
-<div class="ilTableFilter">
+<div class="ilTableFilterSec" id = "tfil_{FIL_ID}">
 <fieldset class="ilTableFilter">
-<legend class="ilTableFilter">{TXT_FILTER}</legend>
+<legend class="ilTableFilter">{TXT_FILTER} <a href="#" class="ilTableFilterDeactivator" onclick="return ilHideTableFilter('tfil_{FIL_ID}', '{SAVE_URL}');">{TXT_HIDE}</a></legend>
 <table border="0" class="ilTableFilter" datatable="0">
 <!-- BEGIN filter_row -->
 <tr>

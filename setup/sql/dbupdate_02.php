@@ -15271,3 +15271,7 @@ $ilCtrlStructureReader->getStructure();
 	$setting = new ilSetting();
 	$setting->set('reg_hash_life_time', 600);
 ?>
+<#2830>
+<?php
+$ilCtrlStructureReader->getStructure();
+?>
