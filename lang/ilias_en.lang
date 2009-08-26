@@ -9868,7 +9868,7 @@ common#:#reg_mail_body_2_confirmation#:#The link will only be good for %s, after
 common#:#reg_mail_body_3_confirmation#:#If this email means nothing to you, then it is possible that somebody else has entered your email address either deliberately or accidentally, so please ignore this email.
 common#:#reg_mail_body_forgot_password_info#:#To get your password, please use the function « Forgot password? » at the login screen to request a new password for this account.
 cmps#:#no_changes#:#Keine Änderungen
-cmps#:#database_is_uptodate#:#Die Datenbank ist aktuell.
+cmps#:#database_is_uptodate#:#The database is up to date.
 administration#:#path_to_mkisofs#:#Path to mkisofs
 common#:#obj_sty#:#Style
 dateplaner#:#cal_created_milestone#:#Added milestone.
@@ -9905,4 +9905,9 @@ payment#:#pays_epay_merchant_number#:#Merchant id
 payment#:#pays_epay_auth_token#:#Authentication Token
 payment#:#pays_epay_auth_email#:#Email Notification
 payment#:#pays_epay_instant_capture#:#Instant Capture
+payment#:#pay_hint_epay#:#Tip to ePay
+payment#:#pay_info_epay#:#When press 'pay' the ePay payment window opens. After you have completed the payment you will return to ILIAS.
+payment#:#pay_epay_success#:#The payment has been processed. Please be aware that it can take a few minutes before your purchase is fully registred.
+payment#:#pay_epay_canceled#:#The payment was canceled.
 search#:#lucene_relevance_short#:#Relevance
+
